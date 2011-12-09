@@ -28,7 +28,6 @@
 #include <string.h>
 #include <camel/camel.h>
 
-#include "mail/e-mail-local.h"
 #include "mail/em-utils.h"
 
 #define E_MAIL_SIDEBAR_GET_PRIVATE(obj) \
@@ -338,6 +337,8 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 	GtkTreeIter iter;
 	CamelStore *store;
 	gchar *full_name;
+	const gchar *uid;
+	gboolean store_is_local;
 	gboolean allows_children = TRUE;
 	gboolean can_delete = TRUE;
 	gboolean is_junk = FALSE;
@@ -360,11 +361,11 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		COL_BOOL_IS_STORE, &is_store,
 		COL_UINT_FLAGS, &folder_flags, -1);
 
-	if (!is_store && full_name != NULL) {
-		CamelStore *local_store;
-		guint32 folder_type;
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
 
-		local_store = e_mail_local_get_store ();
+	if (!is_store && full_name != NULL) {
+		guint32 folder_type;
 
 		/* Is this a virtual junk or trash folder? */
 		is_junk = (strcmp (full_name, CAMEL_VJUNK_NAME) == 0);
@@ -378,7 +379,7 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		allows_children = !(is_junk || is_trash);
 
 		/* Don't allow deletion of special local folders. */
-		if (store == local_store) {
+		if (store_is_local) {
 			can_delete =
 				(strcmp (full_name, "Drafts") != 0) &&
 				(strcmp (full_name, "Inbox") != 0) &&

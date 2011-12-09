@@ -36,14 +36,16 @@
 #include "e-util/e-account-utils.h"
 
 #include "e-mail-backend.h"
-#include "e-mail-local.h"
-#include "e-mail-store.h"
 #include "em-config.h"
 #include "em-account-editor.h"
 #include "em-utils.h"
 #include "mail-vfolder.h"
 #include "shell/e-shell.h"
 #include "capplet/settings/mail-capplet-shell.h"
+
+#define EM_ACCOUNT_PREFS_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsPrivate))
 
 struct _EMAccountPrefsPrivate {
 	EMailBackend *backend;
@@ -59,101 +61,23 @@ enum {
 G_DEFINE_TYPE (
 	EMAccountPrefs,
 	em_account_prefs,
-	E_TYPE_ACCOUNT_MANAGER)
-
-static gboolean
-account_prefs_toggle_enable_special (EMAccountPrefs *prefs,
-                                     EAccountTreeViewSelectedType type,
-                                     gboolean enabled)
-{
-	const gchar *prop = NULL;
-	EShell *shell;
-	EShellSettings *shell_settings;
-
-	g_return_val_if_fail (prefs != NULL, FALSE);
-	g_return_val_if_fail (prefs->priv != NULL, FALSE);
-
-	if (type == E_ACCOUNT_TREE_VIEW_SELECTED_LOCAL)
-		prop = "mail-enable-local-folders";
-	else if (type == E_ACCOUNT_TREE_VIEW_SELECTED_VFOLDER)
-		prop = "mail-enable-search-folders";
-
-	if (!prop)
-		return FALSE;
-
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (prefs->priv->backend));
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	e_shell_settings_set_boolean (shell_settings, prop, enabled);
-
-	/* make sure "Search Folders" are loaded when enabled */
-	if (enabled && type == E_ACCOUNT_TREE_VIEW_SELECTED_VFOLDER)
-		vfolder_load_storage (prefs->priv->backend);
-
-	return TRUE;
-}
+	E_TYPE_MAIL_ACCOUNT_MANAGER)
 
 static void
-account_prefs_enable_account_cb (EAccountTreeView *tree_view,
-                                 EMAccountPrefs *prefs)
-{
-	EAccount *account;
-	EMailSession *session;
-
-	account = e_account_tree_view_get_selected (tree_view);
-	if (!account) {
-		if (account_prefs_toggle_enable_special (prefs, e_account_tree_view_get_selected_type (tree_view), TRUE))
-			return;
-	}
-
-	g_return_if_fail (account != NULL);
-
-	session = e_mail_backend_get_session (prefs->priv->backend);
-	e_mail_store_add_by_account (session, account);
-}
-
-static void
-account_prefs_disable_account_cb (EAccountTreeView *tree_view,
+account_prefs_service_enabled_cb (EMailAccountStore *store,
+                                  CamelService *service,
                                   EMAccountPrefs *prefs)
 {
-	EAccountList *account_list;
-	EAccount *account;
-	EMailSession *session;
-	gpointer parent;
-	gint response;
+	EMailBackend *backend;
+	const gchar *uid;
 
-	account = e_account_tree_view_get_selected (tree_view);
-	if (!account) {
-		if (account_prefs_toggle_enable_special (prefs, e_account_tree_view_get_selected_type (tree_view), FALSE))
-			return;
-	}
+	uid = camel_service_get_uid (service);
+	backend = em_account_prefs_get_backend (prefs);
 
-	g_return_if_fail (account != NULL);
-
-	session = e_mail_backend_get_session (prefs->priv->backend);
-
-	account_list = e_account_tree_view_get_account_list (tree_view);
-	g_return_if_fail (account_list != NULL);
-
-	if (!e_account_list_account_has_proxies (account_list, account)) {
-		e_mail_store_remove_by_account (session, account);
-		return;
-	}
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (tree_view));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-	response = e_alert_run_dialog_for_args (
-		parent, "mail:ask-delete-proxy-accounts", NULL);
-
-	if (response != GTK_RESPONSE_YES) {
-		g_signal_stop_emission_by_name (tree_view, "disable-account");
-		return;
-	}
-
-	e_account_list_remove_account_proxies (account_list, account);
-
-	e_mail_store_remove_by_account (session, account);
+	/* FIXME Kind of a gross hack.  EMailSession doesn't have
+	 *       access to EMailBackend so it can't do this itself. */
+	if (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0)
+		vfolder_load_storage (backend);
 }
 
 static void
@@ -206,7 +130,7 @@ account_prefs_dispose (GObject *object)
 {
 	EMAccountPrefsPrivate *priv;
 
-	priv = EM_ACCOUNT_PREFS (object)->priv;
+	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (object);
 
 	if (priv->backend != NULL) {
 		g_object_unref (priv->backend);
@@ -230,13 +154,30 @@ account_prefs_dispose (GObject *object)
 }
 
 static void
-account_prefs_add_account (EAccountManager *manager)
+account_prefs_constructed (GObject *object)
+{
+	EMailAccountManager *manager;
+	EMailAccountStore *store;
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (em_account_prefs_parent_class)->constructed (object);
+
+	manager = E_MAIL_ACCOUNT_MANAGER (object);
+	store = e_mail_account_manager_get_store (manager);
+
+	g_signal_connect (
+		store, "service-enabled",
+		G_CALLBACK (account_prefs_service_enabled_cb), manager);
+}
+
+static void
+account_prefs_add_account (EMailAccountManager *manager)
 {
 	EMAccountPrefsPrivate *priv;
 	EMAccountEditor *emae;
 	gpointer parent;
 
-	priv = EM_ACCOUNT_PREFS (manager)->priv;
+	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (manager);
 
 	if (priv->assistant != NULL) {
 		gtk_window_present (GTK_WINDOW (priv->assistant));
@@ -275,24 +216,19 @@ account_prefs_add_account (EAccountManager *manager)
 }
 
 static void
-account_prefs_edit_account (EAccountManager *manager)
+account_prefs_edit_account (EMailAccountManager *manager,
+                            EAccount *account)
 {
 	EMAccountPrefsPrivate *priv;
 	EMAccountEditor *emae;
-	EAccountTreeView *tree_view;
-	EAccount *account;
 	gpointer parent;
 
-	priv = EM_ACCOUNT_PREFS (manager)->priv;
+	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (manager);
 
 	if (priv->editor != NULL) {
 		gtk_window_present (GTK_WINDOW (priv->editor));
 		return;
 	}
-
-	tree_view = e_account_manager_get_tree_view (manager);
-	account = e_account_tree_view_get_selected (tree_view);
-	g_return_if_fail (account != NULL);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
@@ -320,64 +256,10 @@ account_prefs_edit_account (EAccountManager *manager)
 }
 
 static void
-account_prefs_delete_account (EAccountManager *manager)
-{
-	EMAccountPrefsPrivate *priv;
-	EAccountTreeView *tree_view;
-	EAccountList *account_list;
-	EAccount *account;
-	EMailSession *session;
-	gboolean has_proxies;
-	gpointer parent;
-	gint response;
-
-	priv = EM_ACCOUNT_PREFS (manager)->priv;
-	session = e_mail_backend_get_session (priv->backend);
-
-	account_list = e_account_manager_get_account_list (manager);
-	tree_view = e_account_manager_get_tree_view (manager);
-	account = e_account_tree_view_get_selected (tree_view);
-	g_return_if_fail (account != NULL);
-
-	/* Make sure we aren't editing anything... */
-	if (priv->editor != NULL)
-		return;
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-	has_proxies =
-		e_account_list_account_has_proxies (account_list, account);
-
-	response = e_alert_run_dialog_for_args (
-		parent, has_proxies ?
-		"mail:ask-delete-account-with-proxies" :
-		"mail:ask-delete-account", NULL);
-
-	if (response != GTK_RESPONSE_YES) {
-		g_signal_stop_emission_by_name (manager, "delete-account");
-		return;
-	}
-
-	/* Remove the account from the folder tree. */
-	if (account->enabled)
-		e_mail_store_remove_by_account (session, account);
-
-	/* Remove all the proxies the account has created. */
-	if (has_proxies)
-		e_account_list_remove_account_proxies (account_list, account);
-
-	/* Remove it from the config file. */
-	e_account_list_remove (account_list, account);
-
-	e_account_list_save (account_list);
-}
-
-static void
 em_account_prefs_class_init (EMAccountPrefsClass *class)
 {
 	GObjectClass *object_class;
-	EAccountManagerClass *account_manager_class;
+	EMailAccountManagerClass *account_manager_class;
 
 	g_type_class_add_private (class, sizeof (EMAccountPrefsPrivate));
 
@@ -385,11 +267,11 @@ em_account_prefs_class_init (EMAccountPrefsClass *class)
 	object_class->set_property = account_prefs_set_property;
 	object_class->get_property = account_prefs_get_property;
 	object_class->dispose = account_prefs_dispose;
+	object_class->constructed = account_prefs_constructed;
 
-	account_manager_class = E_ACCOUNT_MANAGER_CLASS (class);
+	account_manager_class = E_MAIL_ACCOUNT_MANAGER_CLASS (class);
 	account_manager_class->add_account = account_prefs_add_account;
 	account_manager_class->edit_account = account_prefs_edit_account;
-	account_manager_class->delete_account = account_prefs_delete_account;
 
 	g_object_class_install_property (
 		object_class,
@@ -406,41 +288,7 @@ em_account_prefs_class_init (EMAccountPrefsClass *class)
 static void
 em_account_prefs_init (EMAccountPrefs *prefs)
 {
-	EAccountManager *manager;
-	EAccountTreeView *tree_view;
-
-	prefs->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		prefs, EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsPrivate);
-
-	manager = E_ACCOUNT_MANAGER (prefs);
-	tree_view = e_account_manager_get_tree_view (manager);
-
-	g_signal_connect (
-		tree_view, "enable-account",
-		G_CALLBACK (account_prefs_enable_account_cb), prefs);
-
-	g_signal_connect (
-		tree_view, "disable-account",
-		G_CALLBACK (account_prefs_disable_account_cb), prefs);
-}
-
-static void
-account_tree_view_sort_order_changed_cb (EAccountTreeView *tree_view,
-                                         EMailBackend *backend)
-{
-	GSList *account_uids;
-
-	g_return_if_fail (tree_view != NULL);
-	g_return_if_fail (backend != NULL);
-
-	account_uids = e_account_tree_view_get_sort_order (tree_view);
-	if (!account_uids)
-		return;
-
-	em_utils_save_accounts_sort_order (backend, account_uids);
-
-	g_slist_foreach (account_uids, (GFunc) g_free, NULL);
-	g_slist_free (account_uids);
+	prefs->priv = EM_ACCOUNT_PREFS_GET_PRIVATE (prefs);
 }
 
 GtkWidget *
@@ -448,60 +296,20 @@ em_account_prefs_new (EPreferencesWindow *window)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
-	EAccountList *account_list;
-	EAccountTreeView *tree_view;
+	EMailAccountStore *account_store;
 	EMailSession *session;
-	const gchar *data_dir;
-	GtkWidget *res;
-	GSList *account_uids;
-
-	account_list = e_get_account_list ();
-	g_return_val_if_fail (E_IS_ACCOUNT_LIST (account_list), NULL);
 
 	/* XXX Figure out a better way to get the mail backend. */
 	shell = e_preferences_window_get_shell (window);
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
 	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	account_store = e_mail_session_get_account_store (session);
 
-	/* Make sure the e-mail-local is initialized. */
-	e_mail_local_init (session, data_dir);
-
-	res = g_object_new (
+	return g_object_new (
 		EM_TYPE_ACCOUNT_PREFS,
-		"account-list", account_list,
+		"store", account_store,
 		"backend", shell_backend, NULL);
-
-	tree_view = e_account_manager_get_tree_view (E_ACCOUNT_MANAGER (res));
-	e_account_tree_view_set_express_mode (tree_view, e_shell_get_express_mode (shell));
-
-	g_object_bind_property (
-		e_shell_get_shell_settings (shell), "mail-sort-accounts-alpha",
-		tree_view, "sort-alpha",
-		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		e_shell_get_shell_settings (shell), "mail-enable-local-folders",
-		tree_view, "enable-local-folders",
-		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		e_shell_get_shell_settings (shell), "mail-enable-search-folders",
-		tree_view, "enable-search-folders",
-		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
-
-	account_uids = em_utils_load_accounts_sort_order (E_MAIL_BACKEND (shell_backend));
-	if (account_uids) {
-		e_account_tree_view_set_sort_order (tree_view, account_uids);
-		g_slist_foreach (account_uids, (GFunc) g_free, NULL);
-		g_slist_free (account_uids);
-	}
-
-	g_signal_connect (tree_view, "sort-order-changed",
-		G_CALLBACK (account_tree_view_sort_order_changed_cb), shell_backend);
-
-	return res;
 }
 
 EMailBackend *

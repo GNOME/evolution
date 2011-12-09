@@ -26,7 +26,6 @@
 #include <e-util/e-account-utils.h>
 
 #include <mail/em-utils.h>
-#include <mail/e-mail-local.h>
 #include <mail/e-mail-reader.h>
 #include <mail/mail-send-recv.h>
 #include <mail/em-composer-utils.h>
@@ -188,6 +187,7 @@ mdn_notify_sender (EAccount *account,
 	CamelFolder *out_folder;
 	CamelMessageInfo *receipt_info;
 	EMailBackend *backend;
+	EMailSession *session;
 	const gchar *message_id;
 	const gchar *message_date;
 	const gchar *message_subject;
@@ -202,6 +202,7 @@ mdn_notify_sender (EAccount *account,
 	gchar *ua;
 
 	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
 
 	/* Tag the message immediately even though we haven't actually sent
 	 * the read receipt yet.  Not a big deal if we fail to send it, and
@@ -361,7 +362,9 @@ mdn_notify_sender (EAccount *account,
 
 	/* Send the receipt. */
 	receipt_info = camel_message_info_new (NULL);
-	out_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+	out_folder =
+		e_mail_session_get_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_OUTBOX);
 	camel_message_info_set_flags (
 		receipt_info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 

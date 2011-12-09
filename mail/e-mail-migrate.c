@@ -64,8 +64,6 @@
 
 #include "e-mail-backend.h"
 #include "e-mail-folder-utils.h"
-#include "e-mail-local.h"
-#include "e-mail-store.h"
 #include "em-utils.h"
 
 #define d(x) x
@@ -277,7 +275,7 @@ emm_setup_initial (const gchar *data_dir)
 
 	d(printf("Setting up initial mail tree\n"));
 
-	base = g_build_filename(data_dir, "local", NULL);
+	base = g_build_filename (data_dir, "local", NULL);
 	if (g_mkdir_with_parents (base, 0700) == -1 && errno != EEXIST) {
 		g_free (base);
 		return FALSE;
@@ -671,7 +669,7 @@ create_mbox_account (EShellBackend *shell_backend,
 {
 	EMailBackend *mail_backend;
 	EMailSession *mail_session;
-	CamelStore *store;
+	CamelService *service;
 	CamelURL *url;
 	EAccountList *accounts;
 	EAccount *account;
@@ -681,9 +679,6 @@ create_mbox_account (EShellBackend *shell_backend,
 	mail_backend = E_MAIL_BACKEND (shell_backend);
 	mail_session = e_mail_backend_get_session (mail_backend);
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
-
-	/* Initialize the mail stores early so we can add a new one. */
-	e_mail_store_init (mail_session, data_dir);
 
 	account = e_account_new ();
 	account->enabled = TRUE;
@@ -716,15 +711,20 @@ create_mbox_account (EShellBackend *shell_backend,
 		goto exit;
 	}
 
+	/* This will also add it to the EMailSession. */
 	e_account_list_add (accounts, account);
-	store = e_mail_store_add_by_account (mail_session, account);
 
-	folder_uri = e_mail_folder_uri_build (store, "Sent");
+	service = camel_session_get_service (
+		CAMEL_SESSION (mail_session), account->uid);
+
+	folder_uri = e_mail_folder_uri_build (
+		CAMEL_STORE (service), "Sent");
 	e_account_set_string (
 		account, E_ACCOUNT_SENT_FOLDER_URI, folder_uri);
 	g_free (folder_uri);
 
-	folder_uri = e_mail_folder_uri_build (store, "Drafts");
+	folder_uri = e_mail_folder_uri_build (
+		CAMEL_STORE (service), "Drafts");
 	e_account_set_string (
 		account, E_ACCOUNT_DRAFTS_FOLDER_URI, folder_uri);
 	g_free (folder_uri);
@@ -743,6 +743,8 @@ exit:
 static void
 change_sent_and_drafts_local_folders (EShellBackend *shell_backend)
 {
+	EMailBackend *backend;
+	EMailSession *session;
 	EAccountList *accounts;
 	EIterator *iter;
 	const gchar *data_dir;
@@ -753,6 +755,9 @@ change_sent_and_drafts_local_folders (EShellBackend *shell_backend)
 	accounts = e_get_account_list ();
 	if (!accounts)
 		return;
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
 
@@ -797,8 +802,8 @@ change_sent_and_drafts_local_folders (EShellBackend *shell_backend)
 			changed = TRUE;
 			e_account_set_string (
 				account, E_ACCOUNT_DRAFTS_FOLDER_URI,
-				e_mail_local_get_folder_uri (
-				E_MAIL_LOCAL_FOLDER_DRAFTS));
+				e_mail_session_get_local_folder_uri (
+				session, E_MAIL_LOCAL_FOLDER_DRAFTS));
 		}
 
 		uri = e_account_get_string (account, E_ACCOUNT_SENT_FOLDER_URI);
@@ -806,8 +811,8 @@ change_sent_and_drafts_local_folders (EShellBackend *shell_backend)
 			changed = TRUE;
 			e_account_set_string (
 				account, E_ACCOUNT_SENT_FOLDER_URI,
-				e_mail_local_get_folder_uri (
-				E_MAIL_LOCAL_FOLDER_SENT));
+				e_mail_session_get_local_folder_uri (
+				session, E_MAIL_LOCAL_FOLDER_SENT));
 		}
 	}
 

@@ -26,7 +26,7 @@
 #include <table/e-table.h>
 #include <libedataserver/e-account-list.h>
 #include <mail/e-mail-backend.h>
-#include <misc/e-account-manager.h>
+#include <mail/e-mail-account-manager.h>
 #include <widgets/misc/e-preferences-window.h>
 
 /* Standard GObject macros */
@@ -55,12 +55,12 @@ typedef struct _EMAccountPrefsClass EMAccountPrefsClass;
 typedef struct _EMAccountPrefsPrivate EMAccountPrefsPrivate;
 
 struct _EMAccountPrefs {
-	EAccountManager parent;
+	EMailAccountManager parent;
 	EMAccountPrefsPrivate *priv;
 };
 
 struct _EMAccountPrefsClass {
-	EAccountManagerClass parent_class;
+	EMailAccountManagerClass parent_class;
 };
 
 GType		em_account_prefs_get_type	(void);

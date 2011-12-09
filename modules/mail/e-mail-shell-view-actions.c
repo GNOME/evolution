@@ -84,45 +84,31 @@ action_mail_account_disable_cb (GtkAction *action,
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EMailBackend *backend;
 	EMailSession *session;
+	EMailAccountStore *account_store;
 	EMFolderTree *folder_tree;
-	CamelService *service;
 	CamelStore *store;
-	EAccountList *account_list;
-	EAccount *account;
-	const gchar *uid;
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
+	account_store = e_mail_session_get_account_store (session);
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	store = em_folder_tree_get_selected_store (folder_tree);
 	g_return_if_fail (store != NULL);
 
-	service = CAMEL_SERVICE (store);
-	uid = camel_service_get_uid (service);
-	account = e_get_account_by_uid (uid);
-	g_return_if_fail (account != NULL);
-
-	account_list = e_get_account_list ();
-
-	if (e_account_list_account_has_proxies (account_list, account))
-		e_account_list_remove_account_proxies (account_list, account);
-
-	account->enabled = !account->enabled;
-	e_account_list_change (account_list, account);
-	e_mail_store_remove_by_account (session, account);
-
-	if (account->parent_uid != NULL)
-		e_account_list_remove (account_list, account);
-
-	e_account_list_save (account_list);
+	e_mail_account_store_disable_service (
+		account_store,
+		GTK_WINDOW (shell_window),
+		CAMEL_SERVICE (store));
 
 	e_shell_view_update_actions (shell_view);
 }
@@ -206,22 +192,6 @@ action_mail_download_finished_cb (CamelStore *store,
 }
 
 static void
-action_mail_download_foreach_cb (CamelStore *store,
-                                 EMailReader *reader)
-{
-	EActivity *activity;
-	GCancellable *cancellable;
-
-	activity = e_mail_reader_new_activity (reader);
-	cancellable = e_activity_get_cancellable (activity);
-
-	e_mail_store_prepare_for_offline (
-		store, G_PRIORITY_DEFAULT,
-		cancellable, (GAsyncReadyCallback)
-		action_mail_download_finished_cb, activity);
-}
-
-static void
 action_mail_download_cb (GtkAction *action,
                          EMailShellView *mail_shell_view)
 {
@@ -230,6 +200,7 @@ action_mail_download_cb (GtkAction *action,
 	EMailReader *reader;
 	EMailBackend *backend;
 	EMailSession *session;
+	GList *list, *link;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -238,8 +209,28 @@ action_mail_download_cb (GtkAction *action,
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
 
-	e_mail_store_foreach (
-		session, (GFunc) action_mail_download_foreach_cb, reader);
+	list = camel_session_list_services (CAMEL_SESSION (session));
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		EActivity *activity;
+		CamelService *service;
+		GCancellable *cancellable;
+
+		service = CAMEL_SERVICE (link->data);
+
+		if (!CAMEL_IS_STORE (service))
+			continue;
+
+		activity = e_mail_reader_new_activity (reader);
+		cancellable = e_activity_get_cancellable (activity);
+
+		e_mail_store_prepare_for_offline (
+			CAMEL_STORE (service), G_PRIORITY_DEFAULT,
+			cancellable, (GAsyncReadyCallback)
+			action_mail_download_finished_cb, activity);
+	}
+
+	g_list_free (list);
 }
 
 static void

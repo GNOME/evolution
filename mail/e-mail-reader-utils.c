@@ -40,7 +40,6 @@
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-browser.h"
 #include "mail/e-mail-folder-utils.h"
-#include "mail/e-mail-local.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-format-html-print.h"
 #include "mail/em-utils.h"
@@ -191,15 +190,16 @@ void
 e_mail_reader_delete_folder (EMailReader *reader,
                              CamelFolder *folder)
 {
-	CamelStore *local_store;
-	CamelStore *parent_store;
 	EMailBackend *backend;
 	EMailSession *session;
 	EAlertSink *alert_sink;
+	CamelStore *parent_store;
 	MailFolderCache *folder_cache;
 	GtkWindow *parent = e_shell_get_active_window (NULL);
 	GtkWidget *dialog;
+	gboolean store_is_local;
 	const gchar *full_name;
+	const gchar *uid;
 	CamelFolderInfoFlags flags = 0;
 	gboolean have_flags;
 
@@ -209,14 +209,16 @@ e_mail_reader_delete_folder (EMailReader *reader,
 	full_name = camel_folder_get_full_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
 
+	uid = camel_service_get_uid (CAMEL_SERVICE (parent_store));
+	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
+
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
 
-	local_store = e_mail_local_get_store ();
 	alert_sink = e_mail_reader_get_alert_sink (reader);
 	folder_cache = e_mail_session_get_folder_cache (session);
 
-	if (parent_store == local_store &&
+	if (store_is_local &&
 		mail_reader_is_special_local_folder (full_name)) {
 		e_mail_backend_submit_alert (
 			backend, "mail:no-delete-special-folder",

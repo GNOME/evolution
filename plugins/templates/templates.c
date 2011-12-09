@@ -33,7 +33,6 @@
 #include <e-util/e-config.h>
 
 #include <mail/e-mail-folder-utils.h>
-#include <mail/e-mail-local.h>
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-session.h>
 #include <mail/em-composer-utils.h>
@@ -764,6 +763,7 @@ create_new_message (CamelFolder *folder,
 	CamelDataWrapper *dw;
 	struct _camel_header_raw *header;
 	EMailBackend *backend;
+	EMailSession *session;
 	EShell *shell;
 	const gchar *message_uid;
 	gint i;
@@ -798,9 +798,11 @@ create_new_message (CamelFolder *folder,
 	message_uid = context->message_uid;
 
 	backend = e_mail_reader_get_backend (context->reader);
+	session = e_mail_backend_get_session (backend);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_TEMPLATES);
+	folder = e_mail_session_get_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_TEMPLATES);
 
 	new = camel_mime_message_new ();
 	new_multipart = camel_multipart_new ();
@@ -995,7 +997,8 @@ action_reply_with_template_cb (GtkAction *action,
 }
 
 static void
-build_template_menus_recurse (GtkUIManager *ui_manager,
+build_template_menus_recurse (CamelStore *local_store,
+                              GtkUIManager *ui_manager,
                               GtkActionGroup *action_group,
                               const gchar *menu_path,
                               guint *action_count,
@@ -1003,10 +1006,9 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
                               CamelFolderInfo *folder_info,
                               EShellView *shell_view)
 {
-	CamelStore *store;
-	EShellWindow *shell_window = e_shell_view_get_shell_window (shell_view);
+	EShellWindow *shell_window;
 
-	store = e_mail_local_get_store ();
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	while (folder_info != NULL) {
 		CamelFolder *folder;
@@ -1019,9 +1021,10 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 		guint ii;
 
 		display_name = folder_info->display_name;
+
 		/* FIXME Not passing a GCancellable or GError here. */
 		folder = camel_store_get_folder_sync (
-			store, folder_info->full_name, 0, NULL, NULL);
+			local_store, folder_info->full_name, 0, NULL, NULL);
 
 		action_name = g_strdup_printf (
 			"templates-menu-%d", *action_count);
@@ -1044,9 +1047,12 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 
 		/* Disconnect previous connection to avoid possible multiple calls because
 		 * folder is a persistent structure */
-		g_signal_handlers_disconnect_by_func (folder, G_CALLBACK (templates_folder_msg_changed_cb), shell_window);
-		g_signal_connect (folder, "changed",
-			G_CALLBACK (templates_folder_msg_changed_cb), shell_window);
+		g_signal_handlers_disconnect_by_func (
+			folder, G_CALLBACK (templates_folder_msg_changed_cb), shell_window);
+		g_signal_connect (
+			folder, "changed",
+			G_CALLBACK (templates_folder_msg_changed_cb),
+			shell_window);
 
 		path = g_strdup_printf ("%s/%s", menu_path, action_name);
 
@@ -1056,6 +1062,7 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 		/* Add submenus, if any. */
 		if (folder_info->child != NULL)
 			build_template_menus_recurse (
+				local_store,
 				ui_manager, action_group,
 				path, action_count, merge_id,
 				folder_info->child, shell_view);
@@ -1130,6 +1137,10 @@ static void
 got_message_draft_cb (EMsgComposer *composer,
                       GAsyncResult *result)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
 	CamelFolder *folder;
@@ -1157,8 +1168,15 @@ got_message_draft_cb (EMsgComposer *composer,
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
 	/* Get the templates folder and all UIDs of the messages there. */
-	folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_TEMPLATES);
+	folder = e_mail_session_get_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_TEMPLATES);
 
 	info = camel_message_info_new (NULL);
 
@@ -1201,8 +1219,11 @@ build_menu (EShellWindow *shell_window,
             GtkActionGroup *action_group)
 {
 	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
 	CamelFolder *folder;
-	CamelStore *store;
+	CamelStore *local_store;
 	CamelFolderInfo *folder_info;
 	GtkUIManager *ui_manager;
 	guint merge_id;
@@ -1211,28 +1232,32 @@ build_menu (EShellWindow *shell_window,
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	shell_view = e_shell_window_get_shell_view (shell_window, "mail");
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+	local_store = e_mail_session_get_local_store (session);
 
 	merge_id = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (action_group), "merge-id"));
 
 	/* Now recursively build template submenus in the pop-up menu. */
-	store = e_mail_local_get_store ();
-	folder = e_mail_local_get_folder (
-		E_MAIL_LOCAL_FOLDER_TEMPLATES);
+	folder = e_mail_session_get_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_TEMPLATES);
 	full_name = camel_folder_get_full_name (folder);
 
 	/* FIXME Not passing a GCancellable or GError here. */
 	folder_info = camel_store_get_folder_info_sync (
-		store, full_name,
+		local_store, full_name,
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
 		CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
 
 	build_template_menus_recurse (
-		ui_manager, action_group,
+		local_store, ui_manager, action_group,
 		"/mail-message-popup/mail-message-templates",
 		&action_count, merge_id, folder_info,
 		shell_view);
 
-	camel_store_free_folder_info (store, folder_info);
+	camel_store_free_folder_info (local_store, folder_info);
 }
 
 static void
@@ -1325,32 +1350,49 @@ static void
 mail_shell_view_created_cb (EShellWindow *shell_window,
                             EShellView *shell_view)
 {
+	EMailBackend *backend;
+	EMailSession *session;
+	EShellBackend *shell_backend;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	CamelFolder *folder;
-	CamelStore *store;
+	CamelStore *local_store;
 	guint merge_id;
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	e_shell_window_add_action_group (shell_window, "templates");
 	action_group = e_lookup_action_group (ui_manager, "templates");
+
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
-	g_object_set_data (G_OBJECT (action_group), "merge-id",
-			   GUINT_TO_POINTER (merge_id));
 
-	folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_TEMPLATES);
-	store = e_mail_local_get_store ();
+	g_object_set_data (
+		G_OBJECT (action_group), "merge-id",
+		GUINT_TO_POINTER (merge_id));
 
-	g_signal_connect (folder, "changed",
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+	local_store = e_mail_session_get_local_store (session);
+
+	folder = e_mail_session_get_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_TEMPLATES);
+
+	g_signal_connect (
+		folder, "changed",
 		G_CALLBACK (templates_folder_msg_changed_cb), shell_window);
-	g_signal_connect (store, "folder-created",
+	g_signal_connect (
+		local_store, "folder-created",
 		G_CALLBACK (templates_folder_changed_cb), shell_window);
-	g_signal_connect (store, "folder-deleted",
+	g_signal_connect (
+		local_store, "folder-deleted",
 		G_CALLBACK (templates_folder_changed_cb), shell_window);
-	g_signal_connect (store, "folder-renamed",
+	g_signal_connect (
+		local_store, "folder-renamed",
 		G_CALLBACK (templates_folder_renamed_cb), shell_window);
 
-	g_signal_connect (shell_view, "update-actions",
+	g_signal_connect (
+		shell_view, "update-actions",
 		G_CALLBACK (update_actions_cb), action_group);
 }
 

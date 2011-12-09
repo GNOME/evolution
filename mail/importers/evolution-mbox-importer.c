@@ -45,8 +45,6 @@
 #include "shell/e-shell-sidebar.h"
 
 #include "mail/e-mail-backend.h"
-#include "mail/e-mail-local.h"
-#include "mail/e-mail-store.h"
 #include "mail/em-folder-selection-button.h"
 #include "mail/em-folder-tree-model.h"
 #include "mail/em-folder-tree.h"
@@ -85,6 +83,8 @@ mbox_getwidget (EImport *ei,
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
 	GtkWindow *window;
 	GtkWidget *hbox, *w;
 	GtkLabel *label;
@@ -95,6 +95,9 @@ mbox_getwidget (EImport *ei,
 	 *     data, I don't see how else to get to it. */
 	shell = e_shell_get_default ();
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	/* preselect the folder selected in a mail view */
 	window = e_shell_get_active_window (shell);
@@ -129,7 +132,8 @@ mbox_getwidget (EImport *ei,
 
 	if (!select_uri) {
 		const gchar *uri;
-		uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_INBOX);
+		uri = e_mail_session_get_local_folder_uri (
+			session, E_MAIL_LOCAL_FOLDER_INBOX);
 		select_uri = g_strdup (uri);
 	}
 

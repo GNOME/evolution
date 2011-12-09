@@ -937,13 +937,14 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	EShellView *shell_view;
 	EMailReader *reader;
 	EMailView *mail_view;
-	CamelStore *local_store;
 	CamelStore *parent_store;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	GString *buffer;
+	gboolean store_is_local;
 	const gchar *display_name;
 	const gchar *folder_name;
+	const gchar *uid;
 	gchar *title;
 	guint32 num_deleted;
 	guint32 num_junked;
@@ -961,8 +962,6 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 
 	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
-
-	local_store = e_mail_local_get_store ();
 
 	/* If no folder is selected, reset the sidebar banners
 	 * to their default values and stop. */
@@ -1058,9 +1057,12 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 
 	em_utils_uids_free (uids);
 
+	uid = camel_service_get_uid (CAMEL_SERVICE (parent_store));
+	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
+
 	/* Choose a suitable folder name for displaying. */
 	display_name = folder_name;
-	if (parent_store == local_store) {
+	if (store_is_local) {
 		if (strcmp (folder_name, "Drafts") == 0)
 			display_name = _("Drafts");
 		else if (strcmp (folder_name, "Inbox") == 0)

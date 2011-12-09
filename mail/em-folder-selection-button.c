@@ -258,6 +258,7 @@ folder_selection_button_clicked (GtkButton *button)
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model = NULL;
+	EMailSession *session;
 	GtkWidget *dialog;
 	GtkTreeSelection *selection;
 	gpointer parent;
@@ -267,9 +268,11 @@ folder_selection_button_clicked (GtkButton *button)
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
+	session = e_mail_backend_get_session (priv->backend);
+
 	if (priv->store != NULL) {
 		model = em_folder_tree_model_new ();
-		em_folder_tree_model_set_backend (model, priv->backend);
+		em_folder_tree_model_set_session (model, session);
 		em_folder_tree_model_add_store (model, priv->store);
 	}
 

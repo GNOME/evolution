@@ -41,10 +41,8 @@
 #include "shell/e-shell.h"
 
 #include "mail/e-mail-folder-utils.h"
-#include "mail/e-mail-local.h"
 #include "mail/e-mail-migrate.h"
 #include "mail/e-mail-session.h"
-#include "mail/e-mail-store.h"
 #include "mail/e-mail-store-utils.h"
 #include "mail/em-event.h"
 #include "mail/em-folder-tree-model.h"
@@ -71,15 +69,8 @@ enum {
 	PROP_SESSION
 };
 
-enum {
-	ACCOUNT_SORT_ORDER_CHANGED,
-	LAST_SIGNAL
-};
-
 /* FIXME Kill this thing.  It's a horrible hack. */
 extern gint camel_application_is_exiting;
-
-static guint signals[LAST_SIGNAL];
 
 G_DEFINE_ABSTRACT_TYPE (
 	EMailBackend,
@@ -135,18 +126,6 @@ mail_backend_store_operation_done_cb (CamelStore *store,
 	g_object_unref (activity);
 }
 
-/* Helper for mail_backend_prepare_for_offline_cb() */
-static void
-mail_store_prepare_for_offline_cb (CamelService *service,
-                                   EActivity *activity)
-{
-	/* FIXME Not passing a GCancellable. */
-	e_mail_store_go_offline (
-		CAMEL_STORE (service), G_PRIORITY_DEFAULT, NULL,
-		(GAsyncReadyCallback) mail_backend_store_operation_done_cb,
-		g_object_ref (activity));
-}
-
 static void
 mail_backend_prepare_for_offline_cb (EShell *shell,
                                      EActivity *activity,
@@ -154,6 +133,7 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 {
 	GtkWindow *window;
 	EMailSession *session;
+	GList *list, *link;
 	gboolean synchronize = FALSE;
 
 	window = e_shell_get_active_window (shell);
@@ -170,20 +150,25 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 			CAMEL_SESSION (session), FALSE);
 	}
 
-	e_mail_store_foreach (
-		session, (GFunc) mail_store_prepare_for_offline_cb, activity);
-}
+	list = camel_session_list_services (CAMEL_SESSION (session));
 
-/* Helper for mail_backend_prepare_for_online_cb() */
-static void
-mail_store_prepare_for_online_cb (CamelService *service,
-                                  EActivity *activity)
-{
-	/* FIXME Not passing a GCancellable. */
-	e_mail_store_go_online (
-		CAMEL_STORE (service), G_PRIORITY_DEFAULT, NULL,
-		(GAsyncReadyCallback) mail_backend_store_operation_done_cb,
-		g_object_ref (activity));
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		CamelService *service;
+
+		service = CAMEL_SERVICE (link->data);
+
+		if (!CAMEL_IS_STORE (service))
+			continue;
+
+		/* FIXME Not passing a GCancellable. */
+		e_mail_store_go_offline (
+			CAMEL_STORE (service), G_PRIORITY_DEFAULT,
+			NULL, (GAsyncReadyCallback)
+			mail_backend_store_operation_done_cb,
+			g_object_ref (activity));
+	}
+
+	g_list_free (list);
 }
 
 static void
@@ -192,17 +177,35 @@ mail_backend_prepare_for_online_cb (EShell *shell,
                                     EMailBackend *backend)
 {
 	EMailSession *session;
+	GList *list, *link;
 
 	session = e_mail_backend_get_session (backend);
 	camel_session_set_online (CAMEL_SESSION (session), TRUE);
 
-	e_mail_store_foreach (
-		session, (GFunc) mail_store_prepare_for_online_cb, activity);
+	list = camel_session_list_services (CAMEL_SESSION (session));
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		CamelService *service;
+
+		service = CAMEL_SERVICE (link->data);
+
+		if (!CAMEL_IS_STORE (service))
+			continue;
+
+		/* FIXME Not passing a GCancellable. */
+		e_mail_store_go_online (
+			CAMEL_STORE (service), G_PRIORITY_DEFAULT,
+			NULL, (GAsyncReadyCallback)
+			mail_backend_store_operation_done_cb,
+			g_object_ref (activity));
+	}
+
+	g_list_free (link);
 }
 
 /* Helper for mail_backend_prepare_for_quit_cb() */
 static void
-mail_backend_delete_junk (CamelStore *store,
+mail_backend_delete_junk (CamelService *service,
                           EMailBackend *backend)
 {
 	CamelFolder *folder;
@@ -212,7 +215,8 @@ mail_backend_delete_junk (CamelStore *store,
 	guint ii;
 
 	/* FIXME camel_store_get_junk_folder_sync() may block. */
-	folder = camel_store_get_junk_folder_sync (store, NULL, NULL);
+	folder = camel_store_get_junk_folder_sync (
+		CAMEL_STORE (service), NULL, NULL);
 	if (folder == NULL)
 		return;
 
@@ -229,24 +233,6 @@ mail_backend_delete_junk (CamelStore *store,
 	camel_folder_thaw (folder);
 
 	camel_folder_free_uids (folder, uids);
-}
-
-/* Helper for mail_backend_prepare_for_quit_cb() */
-static void
-mail_backend_final_sync (CamelStore *store,
-                         gpointer user_data)
-{
-	struct {
-		EActivity *activity;
-		gboolean empty_trash;
-	} *sync_data = user_data;
-
-	/* FIXME Not passing a GCancellable. */
-	/* FIXME This operation should be queued. */
-	camel_store_synchronize (
-		store, sync_data->empty_trash, G_PRIORITY_DEFAULT, NULL,
-		(GAsyncReadyCallback) mail_backend_store_operation_done_cb,
-		g_object_ref (sync_data->activity));
 }
 
 /* Helper for mail_backend_prepare_for_quit_cb() */
@@ -273,13 +259,9 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 {
 	EAccountList *account_list;
 	EMailSession *session;
+	GList *list, *link;
 	gboolean delete_junk;
 	gboolean empty_trash;
-
-	struct {
-		EActivity *activity;
-		gboolean empty_trash;
-	} sync_data;
 
 	session = e_mail_backend_get_session (backend);
 
@@ -296,15 +278,40 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 	/* Cancel all pending activities. */
 	mail_cancel_all ();
 
-	if (delete_junk)
-		e_mail_store_foreach (
-			session, (GFunc) mail_backend_delete_junk, backend);
+	list = camel_session_list_services (CAMEL_SESSION (session));
 
-	sync_data.activity = activity;
-	sync_data.empty_trash = empty_trash;
+	if (delete_junk) {
+		for (link = list; link != NULL; link = g_list_next (link)) {
+			CamelService *service;
 
-	e_mail_store_foreach (
-		session, (GFunc) mail_backend_final_sync, &sync_data);
+			service = CAMEL_SERVICE (link->data);
+
+			if (!CAMEL_IS_STORE (service))
+				continue;
+
+			mail_backend_delete_junk (service, backend);
+		}
+	}
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		CamelService *service;
+
+		service = CAMEL_SERVICE (link->data);
+
+		if (!CAMEL_IS_STORE (service))
+			continue;
+
+		/* FIXME Not passing a GCancellable. */
+		/* FIXME This operation should be queued. */
+		camel_store_synchronize (
+			CAMEL_STORE (service),
+			empty_trash, G_PRIORITY_DEFAULT,
+			NULL, (GAsyncReadyCallback)
+			mail_backend_store_operation_done_cb,
+			g_object_ref (activity));
+	}
+
+	g_list_free (list);
 
 	/* Now we poll until all activities are actually cancelled or finished.
 	 * Reffing the activity delays quitting; the reference count
@@ -324,6 +331,8 @@ mail_backend_quit_requested_cb (EShell *shell,
                                 EShellQuitReason reason,
                                 EShellBackend *mail_shell_backend)
 {
+	EMailBackend *backend;
+	EMailSession *session;
 	CamelFolder *folder;
 	GtkWindow *window;
 	gint response;
@@ -348,7 +357,11 @@ mail_backend_quit_requested_cb (EShell *shell,
 
 	/* Check Outbox for any unsent messages. */
 
-	folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+	backend = E_MAIL_BACKEND (mail_shell_backend);
+	session = e_mail_backend_get_session (backend);
+
+	folder = e_mail_session_get_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_OUTBOX);
 	if (folder == NULL)
 		return;
 
@@ -373,6 +386,7 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 	CamelStoreClass *class;
 	EAccountList *account_list;
 	EIterator *iterator;
+	EMailSession *session;
 	const gchar *local_drafts_folder_uri;
 	const gchar *local_sent_folder_uri;
 	gboolean write_config = FALSE;
@@ -385,10 +399,15 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 	class = CAMEL_STORE_GET_CLASS (store);
 	g_return_if_fail (class->compare_folder_name != NULL);
 
+	session = e_mail_backend_get_session (backend);
+
 	local_drafts_folder_uri =
-		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
+		e_mail_session_get_local_folder_uri (
+		session, E_MAIL_LOCAL_FOLDER_DRAFTS);
+
 	local_sent_folder_uri =
-		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
+		e_mail_session_get_local_folder_uri (
+		session, E_MAIL_LOCAL_FOLDER_SENT);
 
 	uri = e_mail_folder_uri_build (store, folder_name);
 
@@ -744,7 +763,6 @@ mail_backend_constructed (GObject *object)
 	EMailBackendPrivate *priv;
 	EShell *shell;
 	EShellBackend *shell_backend;
-	EMFolderTreeModel *folder_tree_model;
 	MailFolderCache *folder_cache;
 
 	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
@@ -778,14 +796,6 @@ mail_backend_constructed (GObject *object)
 	/* FIXME This is an evil hack that needs to die.
 	 *       Give EAccountComboBox a CamelSession property. */
 	e_account_combo_box_set_session (CAMEL_SESSION (priv->session));
-
-	/* FIXME EMailBackend should own the default EMFolderTreeModel. */
-	folder_tree_model = em_folder_tree_model_get_default ();
-
-	/* FIXME This is creating a circular reference.  Perhaps the
-	 *       should only hold a weak pointer to EMailBackend? */
-	em_folder_tree_model_set_backend (
-		folder_tree_model, E_MAIL_BACKEND (object));
 
 	g_signal_connect (
 		shell, "prepare-for-offline",
@@ -856,15 +866,6 @@ e_mail_backend_class_init (EMailBackendClass *class)
 			NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READABLE));
-
-	signals[ACCOUNT_SORT_ORDER_CHANGED] = g_signal_new (
-		"account-sort-order-changed",
-		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (EMailBackendClass, account_sort_order_changed),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
 }
 
 static void
@@ -965,11 +966,3 @@ e_mail_backend_submit_alert (EMailBackend *backend,
 	va_end (va);
 }
 
-void
-e_mail_backend_account_sort_order_changed (EMailBackend *backend)
-{
-	g_return_if_fail (backend != NULL);
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
-
-	g_signal_emit (backend, signals[ACCOUNT_SORT_ORDER_CHANGED], 0);
-}

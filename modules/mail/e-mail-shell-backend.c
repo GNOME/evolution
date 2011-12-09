@@ -43,7 +43,6 @@
 #include "e-mail-folder-utils.h"
 #include "e-mail-reader.h"
 #include "e-mail-session.h"
-#include "e-mail-store.h"
 #include "em-account-editor.h"
 #include "em-account-prefs.h"
 #include "em-composer-prefs.h"
@@ -220,18 +219,6 @@ mail_shell_backend_sync_store_done_cb (CamelStore *store,
 	mail_shell_backend->priv->mail_sync_in_progress--;
 }
 
-static void
-mail_shell_backend_sync_store_cb (CamelStore *store,
-                                  EMailShellBackend *mail_shell_backend)
-{
-	mail_shell_backend->priv->mail_sync_in_progress++;
-
-	mail_sync_store (
-		store, FALSE,
-		mail_shell_backend_sync_store_done_cb,
-		mail_shell_backend);
-}
-
 static gboolean
 mail_shell_backend_mail_sync (EMailShellBackend *mail_shell_backend)
 {
@@ -239,6 +226,7 @@ mail_shell_backend_mail_sync (EMailShellBackend *mail_shell_backend)
 	EShellBackend *shell_backend;
 	EMailBackend *backend;
 	EMailSession *session;
+	GList *list, *link;
 
 	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -254,10 +242,25 @@ mail_shell_backend_mail_sync (EMailShellBackend *mail_shell_backend)
 	backend = E_MAIL_BACKEND (mail_shell_backend);
 	session = e_mail_backend_get_session (backend);
 
-	e_mail_store_foreach (
-		session, (GFunc)
-		mail_shell_backend_sync_store_cb,
-		mail_shell_backend);
+	list = camel_session_list_services (CAMEL_SESSION (session));
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		CamelService *service;
+
+		service = CAMEL_SERVICE (link->data);
+
+		if (!CAMEL_IS_STORE (service))
+			continue;
+
+		mail_shell_backend->priv->mail_sync_in_progress++;
+
+		mail_sync_store (
+			CAMEL_STORE (service), FALSE,
+			mail_shell_backend_sync_store_done_cb,
+			mail_shell_backend);
+	}
+
+	g_list_free (list);
 
 exit:
 	return TRUE;
@@ -309,7 +312,12 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
                                     EShellBackend *shell_backend)
 {
 	EShell *shell = E_SHELL (application);
+	EMailBackend *backend;
+	EMailSession *session;
 	const gchar *backend_name;
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	/* This applies to both the composer and signature editor. */
 	if (GTKHTML_IS_EDITOR (window)) {
@@ -339,7 +347,8 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 		e_shell_backend_start (shell_backend);
 
 		/* Integrate the new composer into the mail module. */
-		em_configure_new_composer (E_MSG_COMPOSER (window));
+		em_configure_new_composer (
+			E_MSG_COMPOSER (window), session);
 		return;
 	}
 
@@ -449,8 +458,9 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	EShellSettings *shell_settings;
 	EMailBackend *backend;
 	EMailSession *session;
+	EMailAccountStore *account_store;
 	gboolean enable_search_folders;
-	const gchar *data_dir;
+	GError *error = NULL;
 
 	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
 
@@ -459,14 +469,17 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
-
-	e_mail_store_init (session, data_dir);
+	account_store = e_mail_session_get_account_store (session);
 
 	enable_search_folders = e_shell_settings_get_boolean (
 		shell_settings, "mail-enable-search-folders");
 	if (enable_search_folders)
 		vfolder_load_storage (backend);
+
+	if (!e_mail_account_store_load_sort_order (account_store, &error)) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 
 	mail_autoreceive_init (backend);
 

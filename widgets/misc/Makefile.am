@@ -6,8 +6,6 @@ ui_DATA = e-send-options.ui
 
 widgetsinclude_HEADERS =			\
 	e-account-combo-box.h			\
-	e-account-manager.h			\
-	e-account-tree-view.h			\
 	e-action-combo-box.h			\
 	e-activity-bar.h			\
 	e-activity-proxy.h			\
@@ -91,8 +89,6 @@ libemiscwidgets_la_CPPFLAGS =						\
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
 	e-account-combo-box.c			\
-	e-account-manager.c			\
-	e-account-tree-view.c			\
 	e-action-combo-box.c			\
 	e-activity-bar.c			\
 	e-activity-proxy.c			\

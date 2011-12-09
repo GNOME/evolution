@@ -60,8 +60,6 @@
 #include "e-mail-backend.h"
 #include "e-mail-folder-utils.h"
 #include "e-mail-junk-options.h"
-#include "e-mail-local.h"
-#include "e-mail-store.h"
 #include "em-config.h"
 #include "em-folder-selection-button.h"
 #include "em-account-editor.h"
@@ -301,26 +299,10 @@ emae_set_original_account (EMAccountEditor *emae,
 		modified_account = e_account_new ();
 		modified_account->enabled = TRUE;
 		emae->priv->new_account = TRUE;
-
-		e_account_set_string (
-			modified_account, E_ACCOUNT_DRAFTS_FOLDER_URI,
-			e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS));
-
-		e_account_set_string (
-			modified_account, E_ACCOUNT_SENT_FOLDER_URI,
-			e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT));
-
-		/* encrypt to self by default */
-		e_account_set_bool (modified_account, E_ACCOUNT_PGP_ENCRYPT_TO_SELF, TRUE);
-		e_account_set_bool (modified_account, E_ACCOUNT_SMIME_ENCRYPT_TO_SELF, TRUE);
 	}
 
 	emae->priv->original_account = original_account;
 	emae->priv->modified_account = modified_account;
-
-	g_signal_connect_swapped (
-		emae->priv->modified_account, "changed",
-		G_CALLBACK (emae_config_target_changed_cb), emae);
 }
 
 static void
@@ -909,6 +891,52 @@ emae_finalize (GObject *object)
 }
 
 static void
+emae_constructed (GObject *object)
+{
+	EMAccountEditor *emae;
+
+	emae = EM_ACCOUNT_EDITOR (object);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (em_account_editor_parent_class)->constructed (object);
+
+	/* Set some defaults on the new account before we get started. */
+	if (emae->priv->new_account) {
+		EMailBackend *backend;
+		EMailSession *session;
+
+		backend = em_account_editor_get_backend (emae);
+		session = e_mail_backend_get_session (backend);
+
+		/* Pick local Drafts folder. */
+		e_account_set_string (
+			emae->priv->modified_account,
+			E_ACCOUNT_DRAFTS_FOLDER_URI,
+			e_mail_session_get_local_folder_uri (
+			session, E_MAIL_LOCAL_FOLDER_DRAFTS));
+
+		/* Pick local Sent folder. */
+		e_account_set_string (
+			emae->priv->modified_account,
+			E_ACCOUNT_SENT_FOLDER_URI,
+			e_mail_session_get_local_folder_uri (
+			session, E_MAIL_LOCAL_FOLDER_SENT));
+
+		/* Encrypt to self by default. */
+		e_account_set_bool (
+			emae->priv->modified_account,
+			E_ACCOUNT_PGP_ENCRYPT_TO_SELF, TRUE);
+		e_account_set_bool (
+			emae->priv->modified_account,
+			E_ACCOUNT_SMIME_ENCRYPT_TO_SELF, TRUE);
+	}
+
+	g_signal_connect_swapped (
+		emae->priv->modified_account, "changed",
+		G_CALLBACK (emae_config_target_changed_cb), emae);
+}
+
+static void
 em_account_editor_class_init (EMAccountEditorClass *class)
 {
 	GObjectClass *object_class;
@@ -920,6 +948,7 @@ em_account_editor_class_init (EMAccountEditorClass *class)
 	object_class->get_property = emae_get_property;
 	object_class->dispose = emae_dispose;
 	object_class->finalize = emae_finalize;
+	object_class->constructed = emae_constructed;
 
 	g_object_class_install_property (
 		object_class,
@@ -1295,15 +1324,29 @@ default_folders_clicked (GtkButton *button,
                          gpointer user_data)
 {
 	EMAccountEditor *emae = user_data;
-	const gchar *uri;
+	EMFolderSelectionButton *folder_button;
+	EMailBackend *backend;
+	EMailSession *session;
+	const gchar *folder_uri;
 
-	uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
-	em_folder_selection_button_set_folder_uri ((EMFolderSelectionButton *) emae->priv->drafts_folder_button, uri);
-	emae_account_folder_changed ((EMFolderSelectionButton *) emae->priv->drafts_folder_button, emae);
+	backend = em_account_editor_get_backend (emae);
+	session = e_mail_backend_get_session (backend);
 
-	uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
-	em_folder_selection_button_set_folder_uri ((EMFolderSelectionButton *) emae->priv->sent_folder_button, uri);
-	emae_account_folder_changed ((EMFolderSelectionButton *) emae->priv->sent_folder_button, emae);
+	folder_button =
+		EM_FOLDER_SELECTION_BUTTON (
+		emae->priv->drafts_folder_button);
+	folder_uri = e_mail_session_get_local_folder_uri (
+		session, E_MAIL_LOCAL_FOLDER_DRAFTS);
+	em_folder_selection_button_set_folder_uri (folder_button, folder_uri);
+	emae_account_folder_changed (folder_button, emae);
+
+	folder_button =
+		EM_FOLDER_SELECTION_BUTTON (
+		emae->priv->sent_folder_button);
+	folder_uri = e_mail_session_get_local_folder_uri (
+		session, E_MAIL_LOCAL_FOLDER_SENT);
+	em_folder_selection_button_set_folder_uri (folder_button, folder_uri);
+	emae_account_folder_changed (folder_button, emae);
 
 	gtk_toggle_button_set_active (emae->priv->trash_folder_check, FALSE);
 	gtk_toggle_button_set_active (emae->priv->junk_folder_check, FALSE);
@@ -1805,10 +1848,12 @@ emae_account_folder (EMAccountEditor *emae,
 	EAccount *account;
 	EMFolderSelectionButton *folder;
 	EMailBackend *backend;
+	EMailSession *session;
 	const gchar *uri;
 
 	account = em_account_editor_get_modified_account (emae);
 	backend = em_account_editor_get_backend (emae);
+	session = e_mail_backend_get_session (backend);
 
 	folder = (EMFolderSelectionButton *) e_builder_get_widget (builder, name);
 	em_folder_selection_button_set_backend (folder, backend);
@@ -1817,7 +1862,7 @@ emae_account_folder (EMAccountEditor *emae,
 	if (uri != NULL) {
 		em_folder_selection_button_set_folder_uri (folder, uri);
 	} else {
-		uri = e_mail_local_get_folder_uri (deffolder);
+		uri = e_mail_session_get_local_folder_uri (session, deffolder);
 		em_folder_selection_button_set_folder_uri (folder, uri);
 	}
 
@@ -5136,7 +5181,6 @@ emae_commit (EConfig *ec,
 	camel_url_free (url);
 
 	if (original_account != NULL) {
-		d (printf ("Committing account '%s'\n", e_account_get_string (modified_account, E_ACCOUNT_NAME)));
 		forget_password_if_needed (original_account, modified_account, E_ACCOUNT_SOURCE_SAVE_PASSWD, E_ACCOUNT_SOURCE_URL);
 		forget_password_if_needed (original_account, modified_account, E_ACCOUNT_TRANSPORT_SAVE_PASSWD, E_ACCOUNT_TRANSPORT_URL);
 
@@ -5144,30 +5188,25 @@ emae_commit (EConfig *ec,
 		account = original_account;
 		e_account_list_change (accounts, account);
 	} else {
-		CamelProvider *provider;
-
-		d (printf ("Adding new account '%s'\n", e_account_get_string (modified_account, E_ACCOUNT_NAME)));
 		e_account_list_add (accounts, modified_account);
 		account = modified_account;
-
-		provider = emae_get_store_provider (emae);
-
-		/* HACK: this will add the account to the folder tree.
-		 * We should just be listening to the account list directly for changed events */
-		if (account->enabled
-		    && provider != NULL
-		    && (provider->flags & CAMEL_PROVIDER_IS_STORAGE)) {
-			EMailBackend *backend;
-			EMailSession *session;
-
-			backend = em_account_editor_get_backend (emae);
-			session = e_mail_backend_get_session (backend);
-			e_mail_store_add_by_account (session, account);
-		}
 	}
 
-	if (gtk_toggle_button_get_active (emae->priv->default_account))
-		e_account_list_set_default (accounts, account);
+	if (gtk_toggle_button_get_active (emae->priv->default_account)) {
+		EMailBackend *backend;
+		EMailSession *session;
+		EMailAccountStore *store;
+		CamelService *service;
+
+		backend = em_account_editor_get_backend (emae);
+		session = e_mail_backend_get_session (backend);
+
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), account->uid);
+
+		store = e_mail_session_get_account_store (session);
+		e_mail_account_store_set_default_service (store, service);
+	}
 
 	e_account_list_save (accounts);
 }

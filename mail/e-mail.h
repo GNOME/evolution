@@ -32,7 +32,6 @@
 #include <mail/e-mail-label-list-store.h>
 #include <mail/e-mail-label-manager.h>
 #include <mail/e-mail-label-tree-view.h>
-#include <mail/e-mail-local.h>
 #include <mail/e-mail-message-pane.h>
 #include <mail/e-mail-migrate.h>
 #include <mail/e-mail-notebook-view.h>
@@ -42,7 +41,6 @@
 #include <mail/e-mail-session.h>
 #include <mail/e-mail-session-utils.h>
 #include <mail/e-mail-sidebar.h>
-#include <mail/e-mail-store.h>
 #include <mail/e-mail-store-utils.h>
 #include <mail/e-mail-tag-editor.h>
 #include <mail/e-mail-view.h>

@@ -62,9 +62,7 @@
 #include "em-event.h"
 
 #include "e-mail-folder-utils.h"
-#include "e-mail-local.h"
 #include "e-mail-session.h"
-#include "e-mail-store.h"
 
 #define d(x)
 
@@ -720,15 +718,17 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
                                  GtkTreeModel *model,
                                  GtkTreeIter *iter)
 {
+	CamelService *service;
 	PangoWeight weight;
 	gboolean is_store, bold, subdirs_unread = FALSE;
 	gboolean editable;
 	guint unread;
-	gchar *display;
 	gchar *name;
 
 	gtk_tree_model_get (
-		model, iter, COL_STRING_DISPLAY_NAME, &name,
+		model, iter,
+		COL_STRING_DISPLAY_NAME, &name,
+		COL_POINTER_CAMEL_STORE, &service,
 		COL_BOOL_IS_STORE, &is_store,
 		COL_UINT_UNREAD, &unread, -1);
 
@@ -747,8 +747,17 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
 
 	bold = !editable && (bold || subdirs_unread);
 	weight = bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL;
+	g_object_set (renderer, "weight", weight, NULL);
 
-	if (!is_store && !editable && unread) {
+	if (is_store) {
+		const gchar *display_name;
+
+		display_name = camel_service_get_display_name (service);
+		g_object_set (renderer, "text", display_name, NULL);
+
+	} else if (!editable && unread > 0) {
+		gchar *name_and_unread;
+
 		/* Translators: This is the string used for displaying the
 		 * folder names in folder trees. The first "%s" will be
 		 * replaced by the folder's name and "%u" will be replaced
@@ -767,16 +776,17 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
 		 * Do not translate the "folder-display|" part. Remove it
 		 * from your translation.
 		 */
-		display = g_strdup_printf (
+		name_and_unread = g_strdup_printf (
 			C_("folder-display", "%s (%u%s)"),
 			name, unread, subdirs_unread ? "+" : "");
-		g_free (name);
-	} else
-		display = name;
+		g_object_set (renderer, "text", name_and_unread, NULL);
+		g_free (name_and_unread);
 
-	g_object_set (renderer, "text", display, "weight", weight, NULL);
+	} else {
+		g_object_set (renderer, "text", name, NULL);
+	}
 
-	g_free (display);
+	g_free (name);
 }
 
 static void
@@ -1783,17 +1793,9 @@ em_folder_tree_new_with_model (EMailBackend *backend,
                                EAlertSink *alert_sink,
                                EMFolderTreeModel *model)
 {
-	EMailSession *session;
-	const gchar *data_dir;
-
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 	g_return_val_if_fail (E_IS_ALERT_SINK (alert_sink), NULL);
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
-
-	session = e_mail_backend_get_session (backend);
-	data_dir = e_shell_backend_get_data_dir (E_SHELL_BACKEND (backend));
-
-	e_mail_store_init (session, data_dir);
 
 	return g_object_new (
 		EM_TYPE_FOLDER_TREE,
@@ -2283,7 +2285,6 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 	EMFolderTreePrivate *p = folder_tree->priv;
 	gchar *dst_full_name = NULL;
 	gchar *src_full_name = NULL;
-	CamelStore *local;
 	CamelStore *dst_store;
 	CamelStore *src_store = NULL;
 	GdkAtom atom = GDK_NONE;
@@ -2292,6 +2293,7 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 	GtkTreeIter iter;
 	GList *targets;
 	const gchar *uid;
+	gboolean src_is_local;
 	gboolean src_is_vfolder;
 	gboolean dst_is_vfolder;
 	guint32 flags = 0;
@@ -2314,10 +2316,8 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 		COL_STRING_FULL_NAME, &dst_full_name,
 		COL_UINT_FLAGS, &flags, -1);
 
-	local = e_mail_local_get_store ();
-
 	uid = camel_service_get_uid (CAMEL_SERVICE (dst_store));
-	dst_is_vfolder = (g_strcmp0 (uid, "vfolder") == 0);
+	dst_is_vfolder = (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0);
 
 	targets = gdk_drag_context_list_targets (context);
 
@@ -2392,13 +2392,17 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 	if (src_store != NULL && src_full_name != NULL) {
 
 		uid = camel_service_get_uid (CAMEL_SERVICE (src_store));
-		src_is_vfolder = (g_strcmp0 (uid, "vfolder") == 0);
+
+		src_is_local =
+			(g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
+		src_is_vfolder =
+			(g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0);
 
 		/* FIXME: this is a total hack, but i think all we can do at present */
 		/* Check for dragging from special folders which can't be moved/copied */
 
 		/* Don't allow moving any of the the special local folders. */
-		if (src_store == local && is_special_local_folder (src_full_name)) {
+		if (src_is_local && is_special_local_folder (src_full_name)) {
 			GdkAtom xfolder;
 
 			/* force copy for special local folders */

@@ -54,7 +54,6 @@
 #include <libedataserverui/e-client-utils.h>
 
 #include <mail/e-mail-backend.h>
-#include <mail/e-mail-local.h>
 #include <mail/em-folder-selection-button.h>
 #include <mail/mail-mt.h>
 #include <mail/mail-tools.h>
@@ -228,6 +227,7 @@ get_suggested_foldername (EImportTargetURI *target)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
+	EMailBackend *backend;
 	EMailSession *session;
 	GtkWindow *window;
 	const gchar *inbox;
@@ -241,7 +241,9 @@ get_suggested_foldername (EImportTargetURI *target)
 	 *     data, I don't see how else to get to it. */
 	shell = e_shell_get_default ();
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
-	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	foldername = NULL;
 
@@ -284,7 +286,9 @@ get_suggested_foldername (EImportTargetURI *target)
 	if (!foldername) {
 		/* Suggest a folder that is in the same mail storage as the users' inbox,
 		 * with a name derived from the .PST file */
-		inbox = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_INBOX);
+		inbox =
+			e_mail_session_get_local_folder_uri (
+			session, E_MAIL_LOCAL_FOLDER_INBOX);
 
 		delim = g_strrstr (inbox, "#");
 		if (delim != NULL) {

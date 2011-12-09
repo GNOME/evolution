@@ -34,7 +34,6 @@
 
 #include "e-mail-backend.h"
 #include "e-mail-folder-utils.h"
-#include "e-mail-local.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
 #include "mail-vfolder.h"
@@ -249,25 +248,26 @@ emfp_dialog_run (AsyncContext *context)
 	EMConfigTargetFolder *target;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
-	CamelStore *local_store;
 	CamelStore *parent_store;
+	CamelFolderSummary *summary;
+	gboolean store_is_local;
 	gboolean hide_deleted;
 	GSettings *settings;
 	const gchar *name;
+	const gchar *uid;
 
 	shell_view = context->shell_view;
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	local_store = e_mail_local_get_store ();
 	parent_store = camel_folder_get_parent_store (context->folder);
 
 	/* Get number of VISIBLE and DELETED messages, instead of TOTAL
 	 * messages.  VISIBLE+DELETED gives the correct count that matches
 	 * the label below the Send & Receive button. */
-	name = camel_folder_get_display_name (context->folder);
-	context->total = camel_folder_summary_get_visible_count (context->folder->summary);
-	context->unread = camel_folder_summary_get_unread_count (context->folder->summary);
-	deleted = camel_folder_summary_get_deleted_count (context->folder->summary);
+	summary = context->folder->summary;
+	context->total = camel_folder_summary_get_visible_count (summary);
+	context->unread = camel_folder_summary_get_unread_count (summary);
+	deleted = camel_folder_summary_get_deleted_count (summary);
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 	hide_deleted = !g_settings_get_boolean (settings, "show-deleted");
@@ -290,7 +290,12 @@ emfp_dialog_run (AsyncContext *context)
 		context->total = camel_folder_summary_count (
 			context->folder->summary);
 
-	if (parent_store == local_store
+	name = camel_folder_get_display_name (context->folder);
+
+	uid = camel_service_get_uid (CAMEL_SERVICE (parent_store));
+	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
+
+	if (store_is_local
 	    && (!strcmp (name, "Drafts")
 		|| !strcmp (name, "Templates")
 		|| !strcmp (name, "Inbox")
@@ -474,7 +479,7 @@ em_folder_properties_show (EShellView *shell_view,
 
 	/* Show the Edit Rule dialog for Search Folders, but not "Unmatched".
 	 * "Unmatched" is a special Search Folder which can't be modified. */
-	if (g_strcmp0 (uid, "vfolder") == 0) {
+	if (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0) {
 		if (g_strcmp0 (folder_name, CAMEL_UNMATCHED_NAME) != 0) {
 			gchar *folder_uri;
 

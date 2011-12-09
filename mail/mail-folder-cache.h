@@ -49,6 +49,9 @@
 
 G_BEGIN_DECLS
 
+/* Avoid a circular dependency. */
+typedef struct _EMailSession EMailSession;
+
 typedef struct _MailFolderCache MailFolderCache;
 typedef struct _MailFolderCacheClass MailFolderCacheClass;
 typedef struct _MailFolderCachePrivate MailFolderCachePrivate;
@@ -107,34 +110,32 @@ struct _MailFolderCacheClass {
 
 GType		mail_folder_cache_get_type	(void) G_GNUC_CONST;
 MailFolderCache *
-		mail_folder_cache_new		(void);
-void		mail_folder_cache_note_store	(MailFolderCache *self,
+		mail_folder_cache_new		(EMailSession *session);
+EMailSession *	mail_folder_cache_get_session	(MailFolderCache *cache);
+void		mail_folder_cache_note_store	(MailFolderCache *cache,
 						 CamelStore *store,
 						 GCancellable *cancellable,
 						 NoteDoneFunc done,
 						 gpointer data);
-void		mail_folder_cache_note_store_remove
-						(MailFolderCache *self,
-						 CamelStore *store);
-void		mail_folder_cache_note_folder	(MailFolderCache *self,
+void		mail_folder_cache_note_folder	(MailFolderCache *cache,
 						 CamelFolder *folder);
 gboolean	mail_folder_cache_get_folder_from_uri
-						(MailFolderCache *self,
+						(MailFolderCache *cache,
 						 const gchar *uri,
 						 CamelFolder **folderp);
 gboolean	mail_folder_cache_get_folder_info_flags
-						(MailFolderCache *self,
+						(MailFolderCache *cache,
 						 CamelFolder *folder,
 						 CamelFolderInfoFlags *flags);
 gboolean	mail_folder_cache_get_folder_has_children
-						(MailFolderCache *self,
+						(MailFolderCache *cache,
 						 CamelFolder *folder,
 						 gboolean *found);
 void		mail_folder_cache_get_local_folder_uris
-						(MailFolderCache *self,
+						(MailFolderCache *cache,
 						 GQueue *out_queue);
 void		mail_folder_cache_get_remote_folder_uris
-						(MailFolderCache *self,
+						(MailFolderCache *cache,
 						 GQueue *out_queue);
 
 G_END_DECLS

@@ -79,7 +79,8 @@ EMsgComposer *	em_utils_reply_to_message	(EShell *shell,
 						 CamelInternetAddress *address);
 EDestination **	em_utils_camel_address_to_destination
 						(CamelInternetAddress *iaddr);
-void		em_configure_new_composer	(EMsgComposer *composer);
+void		em_configure_new_composer	(EMsgComposer *composer,
+						 EMailSession *session);
 
 G_END_DECLS
 

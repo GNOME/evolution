@@ -65,7 +65,6 @@
 #include <libedataserverui/e-source-selector-dialog.h>
 
 #include <mail/e-mail-backend.h>
-#include <mail/e-mail-local.h>
 #include <mail/em-folder-selection-button.h>
 #include <mail/mail-mt.h>
 #include <mail/mail-tools.h>
@@ -203,6 +202,8 @@ org_gnome_evolution_readdbx_getwidget (EImport *ei,
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
 	GtkWidget *hbox, *w;
 	GtkLabel *label;
 	gchar *select_uri = NULL;
@@ -238,10 +239,18 @@ org_gnome_evolution_readdbx_getwidget (EImport *ei,
 		}
 	}
 #endif
+
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
 	if (!select_uri) {
 		const gchar *local_inbox_uri;
-		local_inbox_uri = e_mail_local_get_folder_uri (
-			E_MAIL_LOCAL_FOLDER_INBOX);
+		local_inbox_uri =
+			e_mail_session_get_local_folder_uri (
+			session, E_MAIL_LOCAL_FOLDER_INBOX);
 		select_uri = g_strdup (local_inbox_uri);
 	}
 
@@ -251,9 +260,6 @@ org_gnome_evolution_readdbx_getwidget (EImport *ei,
 	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, TRUE, 6);
 
 	label = GTK_LABEL (w);
-
-	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
 	w = em_folder_selection_button_new (
 		E_MAIL_BACKEND (shell_backend),

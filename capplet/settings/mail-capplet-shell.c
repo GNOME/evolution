@@ -40,7 +40,6 @@
 #include <mail/em-composer-utils.h>
 #include <mail/mail-config.h>
 #include <mail/mail-mt.h>
-#include <mail/e-mail-store.h>
 
 #include <shell/e-shell.h>
 
@@ -208,7 +207,6 @@ mail_capplet_shell_construct (MailCappletShell *shell,
 	GtkStyle *style = gtk_widget_get_default_style ();
 	EShell *eshell;
 	EMailSession *session;
-	gchar *custom_dir;
 
 	gtk_window_set_icon_name ((GtkWindow *)shell, "evolution");
 	gtk_window_set_title ((GtkWindow *)shell, _("Evolution account assistant"));
@@ -277,9 +275,6 @@ mail_capplet_shell_construct (MailCappletShell *shell,
 
 	mail_config_init (session);
 	mail_msg_init ();
-	custom_dir = g_build_filename (e_get_user_data_dir (), "mail", NULL);
-	e_mail_store_init (session, custom_dir);
-	g_free (custom_dir);
 
 	if (just_druid) {
 		MailViewChild *mc;

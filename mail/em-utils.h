@@ -98,10 +98,6 @@ gboolean em_utils_is_local_delivery_mbox_file (CamelURL *url);
 gboolean em_utils_connect_service_sync (CamelService *service, GCancellable *cancellable, GError **error);
 gboolean em_utils_disconnect_service_sync (CamelService *service, gboolean clean, GCancellable *cancellable, GError **error);
 
-void	em_utils_save_accounts_sort_order (EMailBackend *backend, const GSList *account_uids);
-GSList *em_utils_load_accounts_sort_order (EMailBackend *backend);
-guint	em_utils_get_account_sort_order   (EMailBackend *backend, const gchar *account_uid);
-
 G_END_DECLS
 
 #endif /* __EM_UTILS_H__ */

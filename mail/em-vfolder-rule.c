@@ -33,7 +33,6 @@
 #include "em-vfolder-context.h"
 #include "em-vfolder-rule.h"
 #include "mail/e-mail-folder-utils.h"
-#include "mail/e-mail-store.h"
 #include "mail/em-utils.h"
 #include "mail/em-folder-tree.h"
 #include "mail/em-folder-selector.h"

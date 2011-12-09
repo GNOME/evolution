@@ -29,7 +29,6 @@
 #include <e-util/e-import.h>
 
 #include <mail/e-mail-backend.h>
-#include <mail/e-mail-local.h>
 #include <mail/em-account-editor.h>
 #include <capplet/settings/mail-capplet-shell.h>
 #include <calendar/gui/calendar-config.h>
@@ -433,22 +432,16 @@ startup_wizard_new_assistant (EStartupWizard *extension)
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMailBackend *backend;
-	EMailSession *session;
 	EMAccountEditor *emae;
 	EConfig *config;
 	EConfigItem *config_item;
 	GtkWidget *widget;
 	GSList *items = NULL;
-	const gchar *data_dir;
 
 	shell = startup_wizard_get_shell (extension);
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
 	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
-
-	e_mail_local_init (session, data_dir);
 
 	emae = em_account_editor_new (
 		NULL, EMAE_ASSISTANT, backend,

@@ -34,7 +34,6 @@
 #include "e-util/e-account-utils.h"
 #include "e-util/e-signature-utils.h"
 
-#include "e-mail-local.h"
 #include "e-mail-folder-utils.h"
 #include "mail-config.h"
 #include "mail-tools.h"

@@ -46,6 +46,9 @@ libevolution_mail_la_CPPFLAGS =				\
 
 mailinclude_HEADERS =					\
 	e-mail.h					\
+	e-mail-account-manager.h			\
+	e-mail-account-store.h				\
+	e-mail-account-tree-view.h			\
 	e-mail-attachment-bar.h				\
 	e-mail-backend.h				\
 	e-mail-browser.h				\
@@ -61,7 +64,6 @@ mailinclude_HEADERS =					\
 	e-mail-label-list-store.h			\
 	e-mail-label-manager.h				\
 	e-mail-label-tree-view.h			\
-	e-mail-local.h					\
 	e-mail-message-pane.h				\
 	e-mail-migrate.h				\
 	e-mail-notebook-view.h				\
@@ -72,7 +74,6 @@ mailinclude_HEADERS =					\
 	e-mail-session.h				\
 	e-mail-sidebar.h				\
 	e-mail-store-utils.h				\
-	e-mail-store.h					\
 	e-mail-tag-editor.h				\
 	e-mail-view.h					\
 	em-account-editor.h				\
@@ -121,6 +122,9 @@ mailinclude_HEADERS +=					\
 endif
 
 libevolution_mail_la_SOURCES =				\
+	e-mail-account-manager.c			\
+	e-mail-account-store.c				\
+	e-mail-account-tree-view.c			\
 	e-mail-attachment-bar.c				\
 	e-mail-backend.c				\
 	e-mail-browser.c				\
@@ -135,7 +139,6 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-label-list-store.c			\
 	e-mail-label-manager.c				\
 	e-mail-label-tree-view.c			\
-	e-mail-local.c					\
 	e-mail-message-pane.c				\
 	e-mail-migrate.c				\
 	e-mail-notebook-view.c				\
@@ -146,7 +149,6 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-session.c				\
 	e-mail-sidebar.c				\
 	e-mail-store-utils.c				\
-	e-mail-store.c					\
 	e-mail-tag-editor.c				\
 	e-mail-view.c					\
 	em-account-editor.c				\

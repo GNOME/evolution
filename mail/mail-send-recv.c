@@ -36,7 +36,6 @@
 #include "e-util/e-util.h"
 
 #include "e-mail-folder-utils.h"
-#include "e-mail-local.h"
 #include "e-mail-session.h"
 #include "em-event.h"
 #include "em-filter-rule.h"
@@ -164,9 +163,12 @@ free_send_info (struct _send_info *info)
 }
 
 static struct _send_data *
-setup_send_data (void)
+setup_send_data (EMailBackend *backend)
 {
+	EMailSession *session;
 	struct _send_data *data;
+
+	session = e_mail_backend_get_session (backend);
 
 	if (send_data == NULL) {
 		send_data = data = g_malloc0 (sizeof (*data));
@@ -175,8 +177,9 @@ setup_send_data (void)
 			g_str_hash, g_str_equal,
 			(GDestroyNotify) NULL,
 			(GDestroyNotify) free_folder_info);
-		data->inbox = e_mail_local_get_folder (
-			E_MAIL_LOCAL_FOLDER_LOCAL_INBOX);
+		data->inbox =
+			e_mail_session_get_local_folder (
+			session, E_MAIL_LOCAL_FOLDER_LOCAL_INBOX);
 		g_object_ref (data->inbox);
 		data->active = g_hash_table_new_full (
 			g_str_hash, g_str_equal,
@@ -520,7 +523,7 @@ build_dialog (GtkWindow *parent,
 	gtk_widget_show (scrolled_window);
 
 	/* must bet setup after send_recv_dialog as it may re-trigger send-recv button */
-	data = setup_send_data ();
+	data = setup_send_data (backend);
 
 	row = 0;
 	iter = e_list_get_iterator ((EList *) accounts);
@@ -810,8 +813,9 @@ receive_done (gpointer data)
 
 		session = e_mail_backend_get_session (info->backend);
 
-		local_outbox = e_mail_local_get_folder (
-			E_MAIL_LOCAL_FOLDER_OUTBOX);
+		local_outbox =
+			e_mail_session_get_local_folder (
+			session, E_MAIL_LOCAL_FOLDER_OUTBOX);
 
 		service = camel_session_get_service (
 			CAMEL_SESSION (session),
@@ -1126,7 +1130,10 @@ send_receive (GtkWindow *parent,
 
 	accounts = e_get_account_list ();
 
-	local_outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+	local_outbox =
+		e_mail_session_get_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_OUTBOX);
+
 	data = build_dialog (
 		parent, backend, accounts,
 		local_outbox, account, allow_send);
@@ -1280,11 +1287,12 @@ auto_account_changed (EAccountList *eal,
                       EAccount *ea,
                       gpointer dummy)
 {
-	struct _auto_data *info = g_object_get_data((GObject *)ea, "mail-autoreceive");
+	struct _auto_data *info;
 
-	g_return_if_fail (info != NULL);
+	info = g_object_get_data (G_OBJECT (ea), "mail-autoreceive");
 
-	auto_account_commit (info);
+	if (info != NULL)
+		auto_account_commit (info);
 }
 
 static void
@@ -1394,7 +1402,7 @@ mail_receive_account (EMailBackend *backend,
 	CamelURL *url;
 	send_info_t type = SEND_INVALID;
 
-	data = setup_send_data ();
+	data = setup_send_data (backend);
 	info = g_hash_table_lookup (data->active, account->uid);
 
 	if (info != NULL)
@@ -1450,8 +1458,9 @@ mail_receive_account (EMailBackend *backend,
 		break;
 	case SEND_SEND:
 		/* todo, store the folder in info? */
-		local_outbox = e_mail_local_get_folder (
-			E_MAIL_LOCAL_FOLDER_OUTBOX);
+		local_outbox =
+			e_mail_session_get_local_folder (
+			session, E_MAIL_LOCAL_FOLDER_OUTBOX);
 		mail_send_queue (
 			info->backend,
 			local_outbox,
@@ -1487,7 +1496,7 @@ mail_send (EMailBackend *backend)
 	if (account == NULL || account->transport->url == NULL)
 		return;
 
-	data = setup_send_data ();
+	data = setup_send_data (backend);
 	info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 	if (info != NULL) {
 		info->again++;
@@ -1525,10 +1534,12 @@ mail_send (EMailBackend *backend)
 
 	g_hash_table_insert (data->active, (gpointer) SEND_URI_KEY, info);
 
-	/* todo, store the folder in info? */
-	local_outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
-
 	session = e_mail_backend_get_session (backend);
+
+	/* todo, store the folder in info? */
+	local_outbox =
+		e_mail_session_get_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_OUTBOX);
 
 	service = camel_session_get_service (
 		CAMEL_SESSION (session), transport_uid);

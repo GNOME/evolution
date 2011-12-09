@@ -49,11 +49,6 @@
 #include "mail-tools.h"
 #include "mail-vfolder.h"
 
-#include "e-mail-local.h"
-#include "e-mail-store.h"
-
-#define VFOLDER_SERVICE_UID "vfolder"
-
 #define d(x)  /* (printf("%s:%s: ",  G_STRLOC, G_STRFUNC), (x))*/
 
 static EMVFolderContext *context;	/* context remains open all time */
@@ -720,7 +715,7 @@ rule_changed (EFilterRule *rule,
 	session = e_mail_backend_get_session (backend);
 
 	service = camel_session_get_service (
-		CAMEL_SESSION (session), VFOLDER_SERVICE_UID);
+		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	/* if the folder has changed name, then add it, then remove the old manually */
@@ -820,7 +815,7 @@ context_rule_added (ERuleContext *ctx,
 	session = e_mail_backend_get_session (backend);
 
 	service = camel_session_get_service (
-		CAMEL_SESSION (session), VFOLDER_SERVICE_UID);
+		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	/* this always runs quickly */
@@ -853,7 +848,7 @@ context_rule_removed (ERuleContext *ctx,
 	session = e_mail_backend_get_session (backend);
 
 	service = camel_session_get_service (
-		CAMEL_SESSION (session), VFOLDER_SERVICE_UID);
+		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	/* TODO: remove from folder info cache? */
@@ -1008,8 +1003,7 @@ vfolder_load_storage (EMailBackend *backend)
 	/* lock for loading storage, it is safe to call it more than once */
 	G_LOCK_DEFINE_STATIC (vfolder_hash);
 
-	CamelService *service;
-	const gchar *key;
+	CamelStore *vfolder_store;
 	const gchar *config_dir;
 	gchar *user;
 	EFilterRule *rule;
@@ -1034,27 +1028,14 @@ vfolder_load_storage (EMailBackend *backend)
 
 	config_dir = mail_session_get_config_dir ();
 	session = e_mail_backend_get_session (backend);
-
-	/* first, create the vfolder store, and set it up */
-	service = camel_session_add_service (
-		CAMEL_SESSION (session), "vfolder",
-		"vfolder", CAMEL_PROVIDER_STORE, NULL);
-	if (service != NULL) {
-		camel_service_set_display_name (service, _("Search Folders"));
-		em_utils_connect_service_sync (service, NULL, NULL);
-	} else {
-		g_warning("Cannot open vfolder store - no vfolders available");
-		return;
-	}
-
-	g_return_if_fail (CAMEL_IS_STORE (service));
+	vfolder_store = e_mail_session_get_vfolder_store (session);
 
 	g_signal_connect (
-		service, "folder-deleted",
+		vfolder_store, "folder-deleted",
 		G_CALLBACK (store_folder_deleted_cb), backend);
 
 	g_signal_connect (
-		service, "folder-renamed",
+		vfolder_store, "folder-renamed",
 		G_CALLBACK (store_folder_renamed_cb), NULL);
 
 	/* load our rules */
@@ -1076,9 +1057,6 @@ vfolder_load_storage (EMailBackend *backend)
 		context, "rule_removed",
 		G_CALLBACK (context_rule_removed), context);
 
-	/* load store to mail component */
-	e_mail_store_add (session, CAMEL_STORE (service));
-
 	/* and setup the rules we have */
 	rule = NULL;
 	while ((rule = e_rule_context_next_rule ((ERuleContext *) context, rule, NULL))) {
@@ -1092,9 +1070,7 @@ vfolder_load_storage (EMailBackend *backend)
 
 	/* reenable the feature if required */
 	settings = g_settings_new ("org.gnome.evolution.mail");
-	key = "enable-vfolders";
-	if (!g_settings_get_boolean (settings, key))
-		g_settings_set_boolean (settings, key, TRUE);
+	g_settings_set_boolean (settings, "enable-vfolders", TRUE);
 	g_object_unref (settings);
 
 	folder_cache = e_mail_session_get_folder_cache (session);

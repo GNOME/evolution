@@ -45,7 +45,6 @@
 #include "shell/e-shell.h"
 
 #include "e-mail-folder-utils.h"
-#include "e-mail-local.h"
 #include "e-mail-session.h"
 #include "e-mail-session-utils.h"
 #include "em-utils.h"
@@ -74,6 +73,7 @@ typedef struct _ForwardData ForwardData;
 
 struct _AsyncContext {
 	CamelMimeMessage *message;
+	EMailSession *session;
 	EMsgComposer *composer;
 	EActivity *activity;
 	EMailReader *reader;
@@ -97,6 +97,9 @@ async_context_free (AsyncContext *context)
 {
 	if (context->message != NULL)
 		g_object_unref (context->message);
+
+	if (context->session != NULL)
+		g_object_unref (context->session);
 
 	if (context->composer != NULL)
 		g_object_unref (context->composer);
@@ -206,7 +209,8 @@ is_group_definition (const gchar *str)
 }
 
 static gboolean
-composer_presend_check_recipients (EMsgComposer *composer)
+composer_presend_check_recipients (EMsgComposer *composer,
+                                   EMailSession *session)
 {
 	EDestination **recipients;
 	EDestination **recipients_bcc;
@@ -358,7 +362,8 @@ finished:
 }
 
 static gboolean
-composer_presend_check_account (EMsgComposer *composer)
+composer_presend_check_account (EMsgComposer *composer,
+                                EMailSession *session)
 {
 	EComposerHeaderTable *table;
 	EAccount *account;
@@ -377,7 +382,8 @@ composer_presend_check_account (EMsgComposer *composer)
 }
 
 static gboolean
-composer_presend_check_downloads (EMsgComposer *composer)
+composer_presend_check_downloads (EMsgComposer *composer,
+                                  EMailSession *session)
 {
 	EAttachmentView *view;
 	EAttachmentStore *store;
@@ -396,7 +402,8 @@ composer_presend_check_downloads (EMsgComposer *composer)
 }
 
 static gboolean
-composer_presend_check_plugins (EMsgComposer *composer)
+composer_presend_check_plugins (EMsgComposer *composer,
+                                EMailSession *session)
 {
 	EMEvent *eme;
 	EMEventTargetComposer *target;
@@ -428,7 +435,8 @@ composer_presend_check_plugins (EMsgComposer *composer)
 }
 
 static gboolean
-composer_presend_check_subject (EMsgComposer *composer)
+composer_presend_check_subject (EMsgComposer *composer,
+                                EMailSession *session)
 {
 	EComposerHeaderTable *table;
 	const gchar *subject;
@@ -446,7 +454,8 @@ composer_presend_check_subject (EMsgComposer *composer)
 }
 
 static gboolean
-composer_presend_check_unwanted_html (EMsgComposer *composer)
+composer_presend_check_unwanted_html (EMsgComposer *composer,
+                                      EMailSession *session)
 {
 	EDestination **recipients;
 	EComposerHeaderTable *table;
@@ -556,10 +565,10 @@ exit:
 static void
 em_utils_composer_send_cb (EMsgComposer *composer,
                            CamelMimeMessage *message,
-                           EActivity *activity)
+                           EActivity *activity,
+                           EMailSession *session)
 {
 	AsyncContext *context;
-	CamelSession *session;
 	GCancellable *cancellable;
 
 	context = g_slice_new0 (AsyncContext);
@@ -568,10 +577,9 @@ em_utils_composer_send_cb (EMsgComposer *composer,
 	context->activity = g_object_ref (activity);
 
 	cancellable = e_activity_get_cancellable (activity);
-	session = e_msg_composer_get_session (context->composer);
 
 	e_mail_session_send_to (
-		E_MAIL_SESSION (session), message,
+		session, message,
 		G_PRIORITY_DEFAULT, cancellable, NULL, NULL,
 		(GAsyncReadyCallback) composer_send_completed,
 		context);
@@ -593,6 +601,7 @@ composer_set_no_change (EMsgComposer *composer)
 /* delete original messages from Outbox folder */
 static void
 manage_x_evolution_replace_outbox (EMsgComposer *composer,
+                                   EMailSession *session,
                                    CamelMimeMessage *message,
                                    GCancellable *cancellable)
 {
@@ -610,7 +619,8 @@ manage_x_evolution_replace_outbox (EMsgComposer *composer,
 	if (!message_uid)
 		return;
 
-	outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+	outbox = e_mail_session_get_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_OUTBOX);
 	g_return_if_fail (outbox != NULL);
 
 	camel_folder_set_message_flags (
@@ -708,7 +718,8 @@ composer_save_to_drafts_append_mail (AsyncContext *context,
 	CamelMessageInfo *info;
 
 	local_drafts_folder =
-		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_DRAFTS);
+		e_mail_session_get_local_folder (
+		context->session, E_MAIL_LOCAL_FOLDER_DRAFTS);
 
 	if (drafts_folder == NULL)
 		drafts_folder = g_object_ref (local_drafts_folder);
@@ -778,24 +789,24 @@ composer_save_to_drafts_got_folder (EMailSession *session,
 static void
 em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
                                      CamelMimeMessage *message,
-                                     EActivity *activity)
+                                     EActivity *activity,
+                                     EMailSession *session)
 {
 	AsyncContext *context;
 	EComposerHeaderTable *table;
 	const gchar *drafts_folder_uri = NULL;
 	const gchar *local_drafts_folder_uri;
-	CamelSession *session;
 	EAccount *account;
 
 	context = g_slice_new0 (AsyncContext);
 	context->message = g_object_ref (message);
+	context->session = g_object_ref (session);
 	context->composer = g_object_ref (composer);
 	context->activity = g_object_ref (activity);
 
-	session = e_msg_composer_get_session (composer);
-
 	local_drafts_folder_uri =
-		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
+		e_mail_session_get_local_folder_uri (
+		session, E_MAIL_LOCAL_FOLDER_DRAFTS);
 
 	table = e_msg_composer_get_header_table (composer);
 	account = e_composer_header_table_get_account (table);
@@ -816,9 +827,9 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 		context->folder_uri = g_strdup (drafts_folder_uri);
 
 		e_mail_session_uri_to_folder (
-			E_MAIL_SESSION (session),
-			drafts_folder_uri, 0, G_PRIORITY_DEFAULT,
-			cancellable, (GAsyncReadyCallback)
+			session, drafts_folder_uri, 0,
+			G_PRIORITY_DEFAULT, cancellable,
+			(GAsyncReadyCallback)
 			composer_save_to_drafts_got_folder, context);
 	}
 }
@@ -851,7 +862,7 @@ composer_save_to_outbox_completed (CamelFolder *outbox_folder,
 
 	/* special processing for Outbox folder */
 	manage_x_evolution_replace_outbox (
-		context->composer, context->message,
+		context->composer, context->session, context->message,
 		e_activity_get_cancellable (context->activity));
 
 	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
@@ -869,7 +880,8 @@ exit:
 static void
 em_utils_composer_save_to_outbox_cb (EMsgComposer *composer,
                                      CamelMimeMessage *message,
-                                     EActivity *activity)
+                                     EActivity *activity,
+                                     EMailSession *session)
 {
 	AsyncContext *context;
 	CamelFolder *outbox_folder;
@@ -878,11 +890,15 @@ em_utils_composer_save_to_outbox_cb (EMsgComposer *composer,
 
 	context = g_slice_new0 (AsyncContext);
 	context->message = g_object_ref (message);
+	context->session = g_object_ref (session);
 	context->composer = g_object_ref (composer);
 	context->activity = g_object_ref (activity);
 
 	cancellable = e_activity_get_cancellable (activity);
-	outbox_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+
+	outbox_folder =
+		e_mail_session_get_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_OUTBOX);
 
 	info = camel_message_info_new (NULL);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
@@ -900,7 +916,8 @@ static void
 em_utils_composer_print_cb (EMsgComposer *composer,
                             GtkPrintOperationAction action,
                             CamelMimeMessage *message,
-                            EActivity *activity)
+                            EActivity *activity,
+                            EMailSession *session)
 {
 	EMFormatHTMLPrint *efhp;
 
@@ -2719,7 +2736,7 @@ em_utils_reply_to_message (EShell *shell,
 
 static void
 post_header_clicked_cb (EComposerPostHeader *header,
-                        EMsgComposer *composer)
+                        EMailSession *session)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
@@ -2731,14 +2748,14 @@ post_header_clicked_cb (EComposerPostHeader *header,
 	GList *list;
 
 	/* FIXME Figure out a way to pass the mail backend in. */
-	shell = e_msg_composer_get_shell (composer);
+	shell = e_shell_get_default ();
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
 	/* FIXME Limit the folder tree to the NNTP account? */
 	model = em_folder_tree_model_get_default ();
 
 	dialog = em_folder_selector_new (
-		GTK_WINDOW (composer),
+		/* FIXME GTK_WINDOW (composer) */ NULL,
 		E_MAIL_BACKEND (shell_backend),
 		model, EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Posting destination"),
@@ -2788,13 +2805,15 @@ exit:
  * things the #EMsgComposer instance can't do itself.
  **/
 void
-em_configure_new_composer (EMsgComposer *composer)
+em_configure_new_composer (EMsgComposer *composer,
+                           EMailSession *session)
 {
 	EComposerHeaderTable *table;
 	EComposerHeaderType header_type;
 	EComposerHeader *header;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	header_type = E_COMPOSER_HEADER_POST_TO;
 	table = e_msg_composer_get_header_table (composer);
@@ -2802,43 +2821,43 @@ em_configure_new_composer (EMsgComposer *composer)
 
 	g_signal_connect (
 		composer, "presend",
-		G_CALLBACK (composer_presend_check_recipients), NULL);
+		G_CALLBACK (composer_presend_check_recipients), session);
 
 	g_signal_connect (
 		composer, "presend",
-		G_CALLBACK (composer_presend_check_account), NULL);
+		G_CALLBACK (composer_presend_check_account), session);
 
 	g_signal_connect (
 		composer, "presend",
-		G_CALLBACK (composer_presend_check_downloads), NULL);
+		G_CALLBACK (composer_presend_check_downloads), session);
 
 	g_signal_connect (
 		composer, "presend",
-		G_CALLBACK (composer_presend_check_plugins), NULL);
+		G_CALLBACK (composer_presend_check_plugins), session);
 
 	g_signal_connect (
 		composer, "presend",
-		G_CALLBACK (composer_presend_check_subject), NULL);
+		G_CALLBACK (composer_presend_check_subject), session);
 
 	g_signal_connect (
 		composer, "presend",
-		G_CALLBACK (composer_presend_check_unwanted_html), NULL);
+		G_CALLBACK (composer_presend_check_unwanted_html), session);
 
 	g_signal_connect (
 		composer, "send",
-		G_CALLBACK (em_utils_composer_send_cb), NULL);
+		G_CALLBACK (em_utils_composer_send_cb), session);
 
 	g_signal_connect (
 		composer, "save-to-drafts",
-		G_CALLBACK (em_utils_composer_save_to_drafts_cb), NULL);
+		G_CALLBACK (em_utils_composer_save_to_drafts_cb), session);
 
 	g_signal_connect (
 		composer, "save-to-outbox",
-		G_CALLBACK (em_utils_composer_save_to_outbox_cb), NULL);
+		G_CALLBACK (em_utils_composer_save_to_outbox_cb), session);
 
 	g_signal_connect (
 		composer, "print",
-		G_CALLBACK (em_utils_composer_print_cb), NULL);
+		G_CALLBACK (em_utils_composer_print_cb), session);
 
 	/* Handle "Post To:" button clicks, which displays a folder tree
 	 * widget.  The composer doesn't know about folder tree widgets,
@@ -2849,5 +2868,5 @@ em_configure_new_composer (EMsgComposer *composer)
 	 *       the folder selector dialog.  See the handler function. */
 	g_signal_connect (
 		header, "clicked",
-		G_CALLBACK (post_header_clicked_cb), composer);
+		G_CALLBACK (post_header_clicked_cb), session);
 }

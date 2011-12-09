@@ -59,9 +59,7 @@
 #include "em-folder-properties.h"
 
 #include "e-mail-folder-utils.h"
-#include "e-mail-local.h"
 #include "e-mail-session.h"
-#include "e-mail-store.h"
 #include "e-mail-store-utils.h"
 
 #define d(x)
@@ -339,15 +337,15 @@ emfu_copy_folder_selected (EMailBackend *backend,
 	EMailSession *session;
 	struct _copy_folder_data *cfd = data;
 	CamelStore *tostore = NULL;
-	CamelStore *local_store;
 	CamelService *service;
+	gboolean store_is_local;
+	const gchar *uid;
 	gchar *tobase = NULL;
 	GError *local_error = NULL;
 
 	if (uri == NULL)
 		goto fail;
 
-	local_store = e_mail_local_get_store ();
 	session = e_mail_backend_get_session (backend);
 
 	service = CAMEL_SERVICE (cfd->source_store);
@@ -365,7 +363,10 @@ emfu_copy_folder_selected (EMailBackend *backend,
 
 	g_return_if_fail (CAMEL_IS_STORE (service));
 
-	if (cfd->delete && cfd->source_store == local_store &&
+	uid = camel_service_get_uid (CAMEL_SERVICE (cfd->source_store));
+	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
+
+	if (cfd->delete && store_is_local &&
 		emfu_is_special_local_folder (cfd->source_folder_name)) {
 		e_mail_backend_submit_alert (
 			backend, "mail:no-rename-special-folder",
@@ -426,7 +427,7 @@ emfu_copy_folder_exclude (EMFolderTree *tree,
 	/* handles moving to/from vfolders */
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (cfd->source_store));
-	fromvfolder = (g_strcmp0 (uid, "vfolder") == 0);
+	fromvfolder = (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0);
 
 	gtk_tree_model_get (
 		model, iter,
@@ -434,7 +435,7 @@ emfu_copy_folder_exclude (EMFolderTree *tree,
 		COL_POINTER_CAMEL_STORE, &store, -1);
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
-	tovfolder = (g_strcmp0 (uid, "vfolder") == 0);
+	tovfolder = (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0);
 
 	/* moving from vfolder to normal- not allowed */
 	if (fromvfolder && !tovfolder && cfd->delete)
@@ -566,9 +567,9 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	model = em_folder_tree_model_new ();
-	em_folder_tree_model_set_backend (model, backend);
-
 	session = e_mail_backend_get_session (backend);
+	em_folder_tree_model_set_session (model, session);
+
 	list = camel_session_list_services (CAMEL_SESSION (session));
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
@@ -587,9 +588,9 @@ em_folder_utils_create_folder (GtkWindow *parent,
 			continue;
 
 		uid = camel_service_get_uid (service);
-		if (g_strcmp0 (uid, "local") == 0)
+		if (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0)
 			prop = "mail-enable-local-folders";
-		else if (g_strcmp0 (uid, "vfolder") == 0)
+		else if (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0)
 			prop = "mail-enable-search-folders";
 
 		if (prop && !e_shell_settings_get_boolean (shell_settings, prop))
