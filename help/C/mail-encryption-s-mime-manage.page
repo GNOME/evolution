@@ -29,5 +29,5 @@
 
 <p><gui>Your Certificates</gui> displays a list of certificates that you own. To add a signing certificate, click <gui style="button">Import</gui>, select the file to import, then click <gui style="button">Open</gui> and enter a password.</p>
 <p><gui>Contact Certificates</gui> displays a list of certificates that you have for contacts. These certificates allow you to decrypt messages as well verify signed messages.</p>
-<p><gui>Authorities</gui> displays a list of trusted certificate authorities who verify that your own certificate is valid.</p>
+<p><gui>Authorities</gui> displays a list of trusted certificate authorities that verify that your own certificate is valid.</p>
 </page>
