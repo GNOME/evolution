@@ -2489,8 +2489,7 @@ emae_check_authtype_done (CamelService *camel_service,
 
 	/* drop the temporary CamelService */
 	camel_session_remove_service (
-		CAMEL_SESSION (session),
-		camel_service_get_uid (camel_service));
+		CAMEL_SESSION (session), camel_service);
 
 	g_object_unref (service->emae);
 }
