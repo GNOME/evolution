@@ -2094,6 +2094,36 @@ emae_file_chooser_changed (GtkFileChooser *file_chooser,
 }
 
 static void
+emae_ensure_auth_mechanism (CamelProvider *provider,
+                            CamelSettings *settings)
+{
+	CamelServiceAuthType *auth_type;
+	const gchar *auth_mechanism;
+
+	auth_mechanism =
+		camel_network_settings_get_auth_mechanism (
+		CAMEL_NETWORK_SETTINGS (settings));
+
+	/* If a mechanism name is already set, we're fine. */
+	if (auth_mechanism != NULL)
+		return;
+
+	/* Check that the CamelProvider defines some auth mechanisms.
+	 * If not, it's reasonable to leave the mechanism name unset. */
+	if (provider->authtypes == NULL)
+		return;
+
+	/* No authentication mechanism has been chosen, so we'll choose
+	 * one from the CamelProvider's list of available mechanisms. */
+
+	auth_type = provider->authtypes->data;
+	auth_mechanism = auth_type->authproto;
+
+	camel_network_settings_set_auth_mechanism (
+		CAMEL_NETWORK_SETTINGS (settings), auth_mechanism);
+}
+
+static void
 emae_setup_settings (EMAccountEditorService *service)
 {
 	CamelServiceClass *class;
@@ -2147,14 +2177,14 @@ emae_setup_settings (EMAccountEditorService *service)
 	}
 
 	if (CAMEL_IS_NETWORK_SETTINGS (settings)) {
-		const gchar *auth_mechanism;
-		gboolean service_requires_auth;
 
-		auth_mechanism =
-			camel_network_settings_get_auth_mechanism (
-			CAMEL_NETWORK_SETTINGS (settings));
-
-		service_requires_auth = (auth_mechanism != NULL);
+		/* Even if the service does not need to authenticate, we
+		 * still need to initialize the auth mechanism combo box.
+		 * So if CamelSettings does not already have a mechanism
+		 * name set, choose one from the CamelProvider's list of
+		 * available auth mechanisms.  Later in emae_commit(),
+		 * if need be, we'll revert the setting back to NULL. */
+		emae_ensure_auth_mechanism (provider, settings);
 
 		g_object_bind_property (
 			settings, "auth-mechanism",
@@ -2193,21 +2223,6 @@ emae_setup_settings (EMAccountEditorService *service)
 			service->username, "text",
 			G_BINDING_BIDIRECTIONAL |
 			G_BINDING_SYNC_CREATE);
-
-		switch (service->type) {
-			case CAMEL_PROVIDER_STORE:
-				emae_set_store_requires_auth (
-					service->emae, service_requires_auth);
-				break;
-
-			case CAMEL_PROVIDER_TRANSPORT:
-				emae_set_transport_requires_auth (
-					service->emae, service_requires_auth);
-				break;
-
-			default:
-				g_warn_if_reached ();
-		}
 	}
 
 	if (CAMEL_IS_LOCAL_SETTINGS (settings)) {
