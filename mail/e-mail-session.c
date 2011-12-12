@@ -1051,8 +1051,7 @@ mail_session_constructed (GObject *object)
 		/* XXX EIterator misuses const. */
 		account = (EAccount *) e_iterator_get (iter);
 
-		if (account->enabled)
-			mail_session_add_by_account (session, account);
+		mail_session_add_by_account (session, account);
 
 		e_iterator_next (iter);
 	}
