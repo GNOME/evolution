@@ -1031,15 +1031,6 @@ storeinfo_find_folder_info (CamelStore *store,
 }
 
 static void
-mail_folder_cache_service_added (EMailAccountStore *account_store,
-                                 CamelService *service,
-                                 MailFolderCache *cache)
-{
-	mail_folder_cache_note_store (
-		cache, CAMEL_STORE (service), NULL, NULL, NULL);
-}
-
-static void
 mail_folder_cache_service_removed (EMailAccountStore *account_store,
                                    CamelService *service,
                                    MailFolderCache *cache)
@@ -1067,6 +1058,26 @@ mail_folder_cache_service_removed (EMailAccountStore *account_store,
 	}
 
 	g_mutex_unlock (cache->priv->stores_mutex);
+}
+
+static void
+mail_folder_cache_service_enabled (EMailAccountStore *account_store,
+                                   CamelService *service,
+                                   MailFolderCache *cache)
+{
+	mail_folder_cache_note_store (
+		cache, CAMEL_STORE (service), NULL, NULL, NULL);
+}
+
+static void
+mail_folder_cache_service_disabled (EMailAccountStore *account_store,
+                                    CamelService *service,
+                                    MailFolderCache *cache)
+{
+	/* To the folder cache, disabling a service is the same as
+	 * removing it.  We keep a separate callback function only
+	 * to use as a breakpoint target in a debugger. */
+	mail_folder_cache_service_removed (account_store, service, cache);
 }
 
 static void
@@ -1190,13 +1201,22 @@ mail_folder_cache_constructed (GObject *object)
 
 	cache->priv->account_store = g_object_ref (account_store);
 
-	g_signal_connect (
-		account_store, "service-added",
-		G_CALLBACK (mail_folder_cache_service_added), cache);
+	/* No need to connect to "service-added" emissions since it's
+	 * always immediately followed by either "service-enabled" or
+	 * "service-disabled". */
 
 	g_signal_connect (
 		account_store, "service-removed",
 		G_CALLBACK (mail_folder_cache_service_removed), cache);
+
+	g_signal_connect (
+		account_store, "service-enabled",
+		G_CALLBACK (mail_folder_cache_service_enabled), cache);
+
+	g_signal_connect (
+		account_store, "service-disabled",
+		G_CALLBACK (mail_folder_cache_service_disabled), cache);
+
 }
 
 static void

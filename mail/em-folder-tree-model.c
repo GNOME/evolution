@@ -579,6 +579,10 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
 		g_warn_if_fail (model->priv->account_store == NULL);
 		model->priv->account_store = g_object_ref (account_store);
 
+		/* No need to connect to "service-added" emissions since it's
+		 * always immediately followed by either "service-enabled" or
+		 * "service-disabled". */
+
 		g_signal_connect (
 			account_store, "service-removed",
 			G_CALLBACK (folder_tree_model_service_removed),
