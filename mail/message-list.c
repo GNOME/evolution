@@ -4988,6 +4988,7 @@ mail_regen_list (MessageList *ml,
 	struct _regen_list_msg *m;
 	GSettings *settings;
 	gboolean thread_subject;
+	gboolean searching;
 
 	/* report empty search as NULL, not as one/two-space string */
 	if (search && (strcmp (search, " ") == 0 || strcmp (search, "  ") == 0))
@@ -5041,6 +5042,8 @@ mail_regen_list (MessageList *ml,
 		camel_folder_thread_messages_ref (m->tree);
 	}
 
+	searching = ml->search && *ml->search && !g_str_equal (ml->search, " ");
+
 	if (e_tree_row_count (E_TREE (ml)) <= 0) {
 		if (gtk_widget_get_visible (GTK_WIDGET (ml))) {
 			/* there is some info why the message list is empty, let it be something useful */
@@ -5050,11 +5053,11 @@ mail_regen_list (MessageList *ml,
 
 			g_free (txt);
 		}
-	} else if (ml->priv->any_row_changed && m->dotree && !ml->just_set_folder && (!ml->search || g_str_equal (ml->search, " "))) {
+	} else if (ml->priv->any_row_changed && m->dotree && !ml->just_set_folder && !searching) {
 		/* there has been some change on any row, if it was an expand state change,
 		 * then let it save; if not, then nothing happen. */
 		message_list_save_state (ml);
-	} else if (m->dotree && !ml->just_set_folder) {
+	} else if (m->dotree && !ml->just_set_folder && !searching) {
 		/* remember actual expand state and restore it after regen */
 		m->expand_state = e_tree_save_expanded_state_xml (E_TREE (ml));
 	}
