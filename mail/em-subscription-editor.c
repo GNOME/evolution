@@ -1365,6 +1365,7 @@ subscription_editor_add_store (EMSubscriptionEditor *editor,
 	widget = gtk_tree_view_new_with_model (GTK_TREE_MODEL (tree_store));
 	gtk_tree_view_set_enable_search (GTK_TREE_VIEW (widget), TRUE);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (widget), FALSE);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (widget), TRUE);
 	gtk_tree_view_set_search_column (
 		GTK_TREE_VIEW (widget), COL_FOLDER_NAME);
 	gtk_container_add (GTK_CONTAINER (container), widget);
