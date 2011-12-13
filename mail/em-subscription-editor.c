@@ -47,7 +47,7 @@
 	((obj), EM_TYPE_SUBSCRIPTION_EDITOR, EMSubscriptionEditorPrivate))
 
 typedef struct _AsyncContext AsyncContext;
-typedef struct _AsyncData AsyncData;
+typedef struct _TreeRowData TreeRowData;
 typedef struct _StoreData StoreData;
 
 struct _EMSubscriptionEditorPrivate {
@@ -78,14 +78,14 @@ struct _EMSubscriptionEditorPrivate {
 	guint timeout_id;
 };
 
-struct _AsyncData {
+struct _TreeRowData {
 	CamelFolderInfo *folder_info;
 	GtkTreeRowReference *reference;
 };
 
 struct _AsyncContext {
 	EMSubscriptionEditor *editor;
-	GSList *async_datas; /* newly allocated AsyncData structures */
+	GQueue *tree_rows;
 };
 
 struct _StoreData {
@@ -116,21 +116,38 @@ enum {
 G_DEFINE_TYPE (EMSubscriptionEditor, em_subscription_editor, GTK_TYPE_DIALOG)
 
 static void
-async_data_free (AsyncData *data)
+tree_row_data_free (TreeRowData *tree_row_data)
 {
-	g_return_if_fail (data != NULL);
+	g_return_if_fail (tree_row_data != NULL);
 
-	gtk_tree_row_reference_free (data->reference);
-	g_free (data);
+	gtk_tree_row_reference_free (tree_row_data->reference);
+	g_slice_free (TreeRowData, tree_row_data);
+}
+
+static AsyncContext *
+async_context_new (EMSubscriptionEditor *editor,
+                   GQueue *tree_rows)
+{
+	AsyncContext *context;
+
+	context = g_slice_new0 (AsyncContext);
+	context->editor = g_object_ref (editor);
+
+	/* Transfer GQueue contents. */
+	context->tree_rows = g_queue_copy (tree_rows);
+	g_queue_clear (tree_rows);
+
+	return context;
 }
 
 static void
 async_context_free (AsyncContext *context)
 {
-	g_object_unref (context->editor);
+	while (!g_queue_is_empty (context->tree_rows))
+		tree_row_data_free (g_queue_pop_head (context->tree_rows));
 
-	g_slist_foreach (context->async_datas, (GFunc) async_data_free, NULL);
-	g_slist_free (context->async_datas);
+	g_object_unref (context->editor);
+	g_queue_free (context->tree_rows);
 
 	g_slice_free (AsyncContext, context);
 }
@@ -164,7 +181,7 @@ static void
 subscription_editor_populate (EMSubscriptionEditor *editor,
                               CamelFolderInfo *folder_info,
                               GtkTreeIter *parent,
-                              GSList **expand_paths)
+                              GList **expand_paths)
 {
 	GtkListStore *list_store;
 	GtkTreeStore *tree_store;
@@ -205,7 +222,7 @@ subscription_editor_populate (EMSubscriptionEditor *editor,
 
 			path = gtk_tree_model_get_path (
 				GTK_TREE_MODEL (tree_store), &iter);
-			*expand_paths = g_slist_prepend (*expand_paths, path);
+			*expand_paths = g_list_prepend (*expand_paths, path);
 		}
 
 		g_free (casefolded);
@@ -238,7 +255,7 @@ subscription_editor_get_folder_info_done (CamelStore *store,
 	GtkTreeSelection *selection;
 	CamelFolderInfo *folder_info;
 	GdkWindow *window;
-	GSList *expand_paths = NULL;
+	GList *expand_paths = NULL;
 	GError *error = NULL;
 
 	folder_info = camel_store_get_folder_info_finish (
@@ -283,9 +300,9 @@ subscription_editor_get_folder_info_done (CamelStore *store,
 	subscription_editor_populate (editor, folder_info, NULL, &expand_paths);
 	gtk_tree_view_set_model (tree_view, model);
 
-	g_slist_foreach (expand_paths, expand_paths_cb, tree_view);
-	g_slist_foreach (expand_paths, (GFunc) gtk_tree_path_free, NULL);
-	g_slist_free (expand_paths);
+	g_list_foreach (expand_paths, expand_paths_cb, tree_view);
+	g_list_foreach (expand_paths, (GFunc) gtk_tree_path_free, NULL);
+	g_list_free (expand_paths);
 
 	path = gtk_tree_path_new_first ();
 	selection = gtk_tree_view_get_selection (tree_view);
@@ -310,7 +327,7 @@ subscription_editor_subscribe_folder_done (CamelSubscribable *subscribable,
 	GtkTreeIter iter;
 	GdkWindow *window;
 	GError *error = NULL;
-	AsyncData *async_data;
+	TreeRowData *tree_row_data;
 
 	camel_subscribable_subscribe_folder_finish (
 		subscribable, result, &error);
@@ -321,41 +338,44 @@ subscription_editor_subscribe_folder_done (CamelSubscribable *subscribable,
 		goto exit;
 	}
 
-	async_data = context->async_datas->data;
-	context->async_datas = g_slist_remove (context->async_datas, async_data);
+	tree_row_data = g_queue_pop_head (context->tree_rows);
 
 	/* XXX Do something smarter with errors. */
 	if (error == NULL)
-		async_data->folder_info->flags |= CAMEL_FOLDER_SUBSCRIBED;
+		tree_row_data->folder_info->flags |= CAMEL_FOLDER_SUBSCRIBED;
 	else {
 		g_warning ("%s", error->message);
 		g_error_free (error);
-		async_data_free (async_data);
+		tree_row_data_free (tree_row_data);
 		goto exit;
 	}
 
 	/* Update the toggle renderer in the selected row. */
-	tree_model = gtk_tree_row_reference_get_model (async_data->reference);
-	path = gtk_tree_row_reference_get_path (async_data->reference);
+	tree_model = gtk_tree_row_reference_get_model (tree_row_data->reference);
+	path = gtk_tree_row_reference_get_path (tree_row_data->reference);
 	gtk_tree_model_get_iter (tree_model, &iter, path);
 	gtk_tree_model_row_changed (tree_model, path, &iter);
 	gtk_tree_path_free (path);
 
-	async_data_free (async_data);
+	tree_row_data_free (tree_row_data);
 
-	if (context->async_datas) {
+	if (!g_queue_is_empty (context->tree_rows)) {
+		GCancellable *cancellable;
+
 		/* continue with the next to subscribe */
-		async_data = context->async_datas->data;
+		tree_row_data = g_queue_peek_head (context->tree_rows);
+		g_return_if_fail (tree_row_data != NULL);
+
+		cancellable = context->editor->priv->active->cancellable;
 
 		camel_subscribable_subscribe_folder (
-			subscribable,
-			async_data->folder_info->full_name, G_PRIORITY_DEFAULT,
-			context->editor->priv->active->cancellable, (GAsyncReadyCallback)
+			subscribable, tree_row_data->folder_info->full_name,
+			G_PRIORITY_DEFAULT, cancellable, (GAsyncReadyCallback)
 			subscription_editor_subscribe_folder_done, context);
 		return;
 	}
 
- exit:
+exit:
 	gtk_widget_set_sensitive (context->editor->priv->notebook, TRUE);
 	gtk_widget_set_sensitive (context->editor->priv->refresh_button, TRUE);
 	gtk_widget_set_sensitive (context->editor->priv->stop_button, FALSE);
@@ -375,21 +395,22 @@ subscription_editor_subscribe_folder_done (CamelSubscribable *subscribable,
 
 static void
 subscription_editor_subscribe_many (EMSubscriptionEditor *editor,
-                                    GSList *async_datas)
+                                    GQueue *tree_rows)
 {
-	AsyncData *async_data;
-	AsyncContext *context;
+	TreeRowData *tree_row_data;
+	GCancellable *cancellable;
 	CamelStore *active_store;
+	AsyncContext *context;
 	GdkCursor *cursor;
 	GdkWindow *window;
 
 	g_return_if_fail (editor != NULL);
 
-	if (!async_datas)
+	if (g_queue_is_empty (tree_rows))
 		return;
 
-	async_data = async_datas->data;
-	g_return_if_fail (async_data != NULL);
+	tree_row_data = g_queue_peek_head (tree_rows);
+	g_return_if_fail (tree_row_data != NULL);
 
 	/* Cancel any operation on this store still in progress. */
 	gtk_button_clicked (GTK_BUTTON (editor->priv->stop_button));
@@ -410,16 +431,15 @@ subscription_editor_subscribe_many (EMSubscriptionEditor *editor,
 	gdk_window_set_cursor (window, cursor);
 	g_object_unref (cursor);
 
-	context = g_slice_new0 (AsyncContext);
-	context->editor = g_object_ref (editor);
-	context->async_datas = async_datas; /* takes ownership of the pointer */
+	context = async_context_new (editor, tree_rows);
 
 	active_store = editor->priv->active->store;
+	cancellable = editor->priv->active->cancellable;
 
 	camel_subscribable_subscribe_folder (
 		CAMEL_SUBSCRIBABLE (active_store),
-		async_data->folder_info->full_name, G_PRIORITY_DEFAULT,
-		context->editor->priv->active->cancellable, (GAsyncReadyCallback)
+		tree_row_data->folder_info->full_name,
+		G_PRIORITY_DEFAULT, cancellable, (GAsyncReadyCallback)
 		subscription_editor_subscribe_folder_done, context);
 }
 
@@ -435,7 +455,7 @@ subscription_editor_unsubscribe_folder_done (CamelSubscribable *subscribable,
 	GtkTreeIter iter;
 	GdkWindow *window;
 	GError *error = NULL;
-	AsyncData *async_data;
+	TreeRowData *tree_row_data;
 
 	camel_subscribable_unsubscribe_folder_finish (
 		subscribable, result, &error);
@@ -446,40 +466,44 @@ subscription_editor_unsubscribe_folder_done (CamelSubscribable *subscribable,
 		goto exit;
 	}
 
-	async_data = context->async_datas->data;
-	context->async_datas = g_slist_remove (context->async_datas, async_data);
+	tree_row_data = g_queue_pop_head (context->tree_rows);
 
 	/* XXX Do something smarter with errors. */
 	if (error == NULL)
-		async_data->folder_info->flags &= ~CAMEL_FOLDER_SUBSCRIBED;
+		tree_row_data->folder_info->flags &= ~CAMEL_FOLDER_SUBSCRIBED;
 	else {
 		g_warning ("%s", error->message);
 		g_error_free (error);
-		async_data_free (async_data);
+		tree_row_data_free (tree_row_data);
 		goto exit;
 	}
 
 	/* Update the toggle renderer in the selected row. */
-	tree_model = gtk_tree_row_reference_get_model (async_data->reference);
-	path = gtk_tree_row_reference_get_path (async_data->reference);
+	tree_model = gtk_tree_row_reference_get_model (tree_row_data->reference);
+	path = gtk_tree_row_reference_get_path (tree_row_data->reference);
 	gtk_tree_model_get_iter (tree_model, &iter, path);
 	gtk_tree_model_row_changed (tree_model, path, &iter);
 	gtk_tree_path_free (path);
 
-	async_data_free (async_data);
+	tree_row_data_free (tree_row_data);
 
-	if (context->async_datas) {
+	if (!g_queue_is_empty (context->tree_rows)) {
+		GCancellable *cancellable;
+
 		/* continue with the next to unsubscribe */
-		async_data = context->async_datas->data;
+		tree_row_data = g_queue_peek_head (context->tree_rows);
+		g_return_if_fail (tree_row_data != NULL);
+
+		cancellable = context->editor->priv->active->cancellable;
 
 		camel_subscribable_unsubscribe_folder (
-			subscribable,
-			async_data->folder_info->full_name, G_PRIORITY_DEFAULT,
-			context->editor->priv->active->cancellable, (GAsyncReadyCallback)
+			subscribable, tree_row_data->folder_info->full_name,
+			G_PRIORITY_DEFAULT, cancellable, (GAsyncReadyCallback)
 			subscription_editor_unsubscribe_folder_done, context);
 		return;
 	}
- exit:
+
+exit:
 	gtk_widget_set_sensitive (context->editor->priv->notebook, TRUE);
 	gtk_widget_set_sensitive (context->editor->priv->refresh_button, TRUE);
 	gtk_widget_set_sensitive (context->editor->priv->stop_button, FALSE);
@@ -499,9 +523,9 @@ subscription_editor_unsubscribe_folder_done (CamelSubscribable *subscribable,
 
 static void
 subscription_editor_unsubscribe_many (EMSubscriptionEditor *editor,
-                                      GSList *async_datas)
+                                      GQueue *tree_rows)
 {
-	AsyncData *async_data;
+	TreeRowData *tree_row_data;
 	AsyncContext *context;
 	CamelStore *active_store;
 	GdkCursor *cursor;
@@ -509,11 +533,11 @@ subscription_editor_unsubscribe_many (EMSubscriptionEditor *editor,
 
 	g_return_if_fail (editor != NULL);
 
-	if (!async_datas)
+	if (g_queue_is_empty (tree_rows))
 		return;
 
-	async_data = async_datas->data;
-	g_return_if_fail (async_data != NULL);
+	tree_row_data = g_queue_peek_head (tree_rows);
+	g_return_if_fail (tree_row_data != NULL);
 
 	/* Cancel any operation on this store still in progress. */
 	gtk_button_clicked (GTK_BUTTON (editor->priv->stop_button));
@@ -534,15 +558,13 @@ subscription_editor_unsubscribe_many (EMSubscriptionEditor *editor,
 	gdk_window_set_cursor (window, cursor);
 	g_object_unref (cursor);
 
-	context = g_slice_new0 (AsyncContext);
-	context->editor = g_object_ref (editor);
-	context->async_datas = async_datas; /* takes ownership of the pointer */
+	context = async_context_new (editor, tree_rows);
 
 	active_store = editor->priv->active->store;
 
 	camel_subscribable_unsubscribe_folder (
 		CAMEL_SUBSCRIBABLE (active_store),
-		async_data->folder_info->full_name, G_PRIORITY_DEFAULT,
+		tree_row_data->folder_info->full_name, G_PRIORITY_DEFAULT,
 		editor->priv->active->cancellable, (GAsyncReadyCallback)
 		subscription_editor_unsubscribe_folder_done, context);
 }
@@ -606,20 +628,16 @@ position_below_widget_cb (GtkMenu *menu,
 	*push_in = FALSE;
 }
 
-static AsyncData *
-subscription_editor_async_data_from_iter (GtkTreeView *tree_view,
-                                          GtkTreeModel *model,
-                                          GtkTreeIter *iter,
-                                          gboolean *is_expanded)
+static TreeRowData *
+subscription_editor_tree_row_data_from_iter (GtkTreeView *tree_view,
+                                             GtkTreeModel *model,
+                                             GtkTreeIter *iter,
+                                             gboolean *is_expanded)
 {
-	AsyncData *data;
+	TreeRowData *tree_row_data;
 	CamelFolderInfo *folder_info = NULL;
 	GtkTreeRowReference *reference;
 	GtkTreePath *path;
-
-	g_return_val_if_fail (tree_view != NULL, NULL);
-	g_return_val_if_fail (model != NULL, NULL);
-	g_return_val_if_fail (iter != NULL, NULL);
 
 	gtk_tree_model_get (
 		model, iter, COL_FOLDER_INFO, &folder_info, -1);
@@ -633,11 +651,11 @@ subscription_editor_async_data_from_iter (GtkTreeView *tree_view,
 		*is_expanded = gtk_tree_view_row_expanded (tree_view, path);
 	gtk_tree_path_free (path);
 
-	data = g_new0 (AsyncData, 1);
-	data->folder_info = folder_info;
-	data->reference = reference;
+	tree_row_data = g_slice_new0 (TreeRowData);
+	tree_row_data->folder_info = folder_info;
+	tree_row_data->reference = reference;
 
-	return data;
+	return tree_row_data;
 }
 
 typedef enum {
@@ -663,7 +681,7 @@ struct PickAllData {
 	GtkTreeView *tree_view;
 	EPickMode mode;
 	GHashTable *skip_folder_infos;
-	GSList *async_datas;
+	GQueue *out_tree_rows;
 };
 
 static gboolean
@@ -673,22 +691,19 @@ pick_all_cb (GtkTreeModel *model,
              gpointer user_data)
 {
 	struct PickAllData *data = user_data;
-	AsyncData *async_data;
+	TreeRowData *tree_row_data;
 
-	g_return_val_if_fail (model != NULL, TRUE);
-	g_return_val_if_fail (data != NULL, TRUE);
-	g_return_val_if_fail (data->tree_view != NULL, TRUE);
-
-	async_data = subscription_editor_async_data_from_iter (data->tree_view, model, iter, NULL);
-	if (!async_data)
+	tree_row_data = subscription_editor_tree_row_data_from_iter (
+		data->tree_view, model, iter, NULL);
+	if (tree_row_data == NULL)
 		return FALSE;
 
-	if (can_pick_folder_info (async_data->folder_info, data->mode) &&
+	if (can_pick_folder_info (tree_row_data->folder_info, data->mode) &&
 	    (data->skip_folder_infos == NULL ||
-	    !g_hash_table_lookup_extended (data->skip_folder_infos, async_data->folder_info, NULL, NULL))) {
-		data->async_datas = g_slist_prepend (data->async_datas, async_data);
+	    !g_hash_table_lookup_extended (data->skip_folder_infos, tree_row_data->folder_info, NULL, NULL))) {
+		g_queue_push_tail (data->out_tree_rows, tree_row_data);
 	} else
-		async_data_free (async_data);
+		tree_row_data_free (tree_row_data);
 
 	return FALSE;
 }
@@ -697,10 +712,11 @@ pick_all_cb (GtkTreeModel *model,
  * these should come from the tree view; can be NULL
  * to include everything.
 */
-static GSList *
+static void
 subscription_editor_pick_all (EMSubscriptionEditor *editor,
                               EPickMode mode,
-                              GHashTable *skip_folder_infos)
+                              GHashTable *skip_folder_infos,
+                              GQueue *out_tree_rows)
 {
 	GtkTreeView *tree_view;
 	GtkTreeModel *tree_model;
@@ -712,41 +728,40 @@ subscription_editor_pick_all (EMSubscriptionEditor *editor,
 	data.tree_view = tree_view;
 	data.mode = mode;
 	data.skip_folder_infos = skip_folder_infos;
-	data.async_datas = NULL;
+	data.out_tree_rows = out_tree_rows;
 
 	gtk_tree_model_foreach (tree_model, pick_all_cb, &data);
-
-	return data.async_datas;
 }
 
-static GSList *
+static void
 subscription_editor_pick_shown (EMSubscriptionEditor *editor,
-                                EPickMode mode)
+                                EPickMode mode,
+                                GQueue *out_tree_rows)
 {
 	GtkTreeView *tree_view;
 	GtkTreeModel *tree_model;
 	GtkTreeIter iter, iter2;
-	GSList *async_datas = NULL;
-	gboolean found;
+	gboolean found = TRUE;
 
 	tree_view = editor->priv->active->tree_view;
 	tree_model = gtk_tree_view_get_model (tree_view);
 
 	if (!gtk_tree_model_get_iter_first (tree_model, &iter))
-		return NULL;
+		return;
 
-	found = TRUE;
 	while (found) {
-		AsyncData *async_data;
+		TreeRowData *tree_row_data;
 		gboolean is_expanded = FALSE;
 
 		found = FALSE;
-		async_data = subscription_editor_async_data_from_iter (tree_view, tree_model, &iter, &is_expanded);
+		tree_row_data = subscription_editor_tree_row_data_from_iter (
+			tree_view, tree_model, &iter, &is_expanded);
 
-		if (async_data && can_pick_folder_info (async_data->folder_info, mode)) {
-			async_datas = g_slist_prepend (async_datas, async_data);
-		} else if (async_data) {
-			async_data_free (async_data);
+		if (tree_row_data != NULL) {
+			if (can_pick_folder_info (tree_row_data->folder_info, mode))
+				g_queue_push_tail (out_tree_rows, tree_row_data);
+			else
+				tree_row_data_free (tree_row_data);
 		}
 
 		if (is_expanded && gtk_tree_model_iter_children (tree_model, &iter2, &iter)) {
@@ -768,8 +783,6 @@ subscription_editor_pick_shown (EMSubscriptionEditor *editor,
 			}
 		}
 	}
-
-	return async_datas;
 }
 
 static void
@@ -780,7 +793,8 @@ subscription_editor_subscribe (EMSubscriptionEditor *editor)
 	GtkTreeView *tree_view;
 	GtkTreeIter iter;
 	gboolean have_selection;
-	GSList *async_datas;
+	GQueue tree_rows = G_QUEUE_INIT;
+	TreeRowData *tree_row_data;
 
 	tree_view = editor->priv->active->tree_view;
 	selection = gtk_tree_view_get_selection (tree_view);
@@ -789,24 +803,32 @@ subscription_editor_subscribe (EMSubscriptionEditor *editor)
 		selection, &tree_model, &iter);
 	g_return_if_fail (have_selection);
 
-	async_datas = g_slist_append (NULL,
-		subscription_editor_async_data_from_iter (tree_view, tree_model, &iter, NULL));
+	tree_row_data = subscription_editor_tree_row_data_from_iter (
+		tree_view, tree_model, &iter, NULL);
 
-	subscription_editor_subscribe_many (editor, async_datas);
+	g_queue_push_tail (&tree_rows, tree_row_data);
+	subscription_editor_subscribe_many (editor, &tree_rows);
+	g_warn_if_fail (g_queue_is_empty (&tree_rows));
 }
 
 static void
 subscription_editor_subscribe_shown (EMSubscriptionEditor *editor)
 {
-	subscription_editor_subscribe_many (editor,
-		subscription_editor_pick_shown (editor, PICK_UNSUBSCRIBED));
+	GQueue tree_rows = G_QUEUE_INIT;
+
+	subscription_editor_pick_shown (
+		editor, PICK_UNSUBSCRIBED, &tree_rows);
+	subscription_editor_subscribe_many (editor, &tree_rows);
 }
 
 static void
 subscription_editor_subscribe_all (EMSubscriptionEditor *editor)
 {
-	subscription_editor_subscribe_many (editor,
-		subscription_editor_pick_all (editor, PICK_UNSUBSCRIBED, NULL));
+	GQueue tree_rows = G_QUEUE_INIT;
+
+	subscription_editor_pick_all (
+		editor, PICK_UNSUBSCRIBED, NULL, &tree_rows);
+	subscription_editor_subscribe_many (editor, &tree_rows);
 }
 
 static void
@@ -825,57 +847,68 @@ subscription_editor_subscribe_popup_cb (EMSubscriptionEditor *editor)
 
 	menu = gtk_menu_new ();
 
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+	gtk_menu_shell_append (
+		GTK_MENU_SHELL (menu),
 		subscription_editor_create_menu_item (
 			_("_Subscribe"),
-			gtk_widget_get_sensitive (editor->priv->subscribe_button),
+			gtk_widget_get_sensitive (
+				editor->priv->subscribe_button),
 			G_CALLBACK (subscription_editor_subscribe),
 			editor));
 
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+	gtk_menu_shell_append (
+		GTK_MENU_SHELL (menu),
 		subscription_editor_create_menu_item (
-			_("Su_bscribe to shown"),
+			_("Su_bscribe To Shown"),
 			tree_filled,
 			G_CALLBACK (subscription_editor_subscribe_shown),
 			editor));
 
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+	gtk_menu_shell_append (
+		GTK_MENU_SHELL (menu),
 		subscription_editor_create_menu_item (
-			_("Subscribe to _all"),
+			_("Subscribe To _All"),
 			tree_filled,
 			G_CALLBACK (subscription_editor_subscribe_all),
 			editor));
 
 	gtk_menu_popup (
-		GTK_MENU (menu), NULL, NULL, position_below_widget_cb, editor->priv->subscribe_button,
+		GTK_MENU (menu), NULL, NULL,
+		position_below_widget_cb,
+		editor->priv->subscribe_button,
 		0, gtk_get_current_event_time ());
 }
 
 static void
 subscription_editor_unsubscribe_hidden (EMSubscriptionEditor *editor)
 {
-	GSList *all_shown, *ll;
+	GQueue tree_rows = G_QUEUE_INIT;
 	GHashTable *skip_shown;
 
-	all_shown = subscription_editor_pick_shown (editor, PICK_ALL);
-	g_return_if_fail (all_shown != NULL);
+	subscription_editor_pick_shown (editor, PICK_ALL, &tree_rows);
+	g_return_if_fail (!g_queue_is_empty (&tree_rows));
 
 	skip_shown = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-	for (ll = all_shown; ll; ll = ll->next) {
-		AsyncData *data = ll->data;
+	while (!g_queue_is_empty (&tree_rows)) {
+		TreeRowData *tree_row_data;
 
-		if (!data)
+		tree_row_data = g_queue_pop_head (&tree_rows);
+
+		if (tree_row_data == NULL)
 			continue;
 
-		g_hash_table_insert (skip_shown, data->folder_info, GINT_TO_POINTER (1));
-		async_data_free (data);
+		g_hash_table_insert (
+			skip_shown,
+			tree_row_data->folder_info,
+			GINT_TO_POINTER (1));
+
+		tree_row_data_free (tree_row_data);
 	}
 
-	g_slist_free (all_shown);
-
-	subscription_editor_unsubscribe_many (editor,
-		subscription_editor_pick_all (editor, PICK_SUBSCRIBED, skip_shown));
+	subscription_editor_pick_all (
+		editor, PICK_SUBSCRIBED, skip_shown, &tree_rows);
+	subscription_editor_unsubscribe_many (editor, &tree_rows);
 
 	g_hash_table_destroy (skip_shown);
 }
@@ -883,8 +916,11 @@ subscription_editor_unsubscribe_hidden (EMSubscriptionEditor *editor)
 static void
 subscription_editor_unsubscribe_all (EMSubscriptionEditor *editor)
 {
-	subscription_editor_unsubscribe_many (editor,
-		subscription_editor_pick_all (editor, PICK_SUBSCRIBED, NULL));
+	GQueue tree_rows = G_QUEUE_INIT;
+
+	subscription_editor_pick_all (
+		editor, PICK_SUBSCRIBED, NULL, &tree_rows);
+	subscription_editor_unsubscribe_many (editor, &tree_rows);
 }
 
 static void
@@ -895,7 +931,8 @@ subscription_editor_unsubscribe (EMSubscriptionEditor *editor)
 	GtkTreeView *tree_view;
 	GtkTreeIter iter;
 	gboolean have_selection;
-	GSList *async_datas;
+	GQueue tree_rows = G_QUEUE_INIT;
+	TreeRowData *tree_row_data;
 
 	tree_view = editor->priv->active->tree_view;
 	selection = gtk_tree_view_get_selection (tree_view);
@@ -904,10 +941,11 @@ subscription_editor_unsubscribe (EMSubscriptionEditor *editor)
 		selection, &tree_model, &iter);
 	g_return_if_fail (have_selection);
 
-	async_datas = g_slist_append (NULL,
-		subscription_editor_async_data_from_iter (tree_view, tree_model, &iter, NULL));
+	tree_row_data = subscription_editor_tree_row_data_from_iter (
+		tree_view, tree_model, &iter, NULL);
 
-	subscription_editor_unsubscribe_many (editor, async_datas);
+	g_queue_push_tail (&tree_rows, tree_row_data);
+	subscription_editor_unsubscribe_many (editor, &tree_rows);
 }
 
 static void
@@ -926,29 +964,35 @@ subscription_editor_unsubscribe_popup_cb (EMSubscriptionEditor *editor)
 
 	menu = gtk_menu_new ();
 
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+	gtk_menu_shell_append (
+		GTK_MENU_SHELL (menu),
 		subscription_editor_create_menu_item (
 			_("_Unsubscribe"),
-			gtk_widget_get_sensitive (editor->priv->unsubscribe_button),
+			gtk_widget_get_sensitive (
+				editor->priv->unsubscribe_button),
 			G_CALLBACK (subscription_editor_unsubscribe),
 			editor));
 
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+	gtk_menu_shell_append (
+		GTK_MENU_SHELL (menu),
 		subscription_editor_create_menu_item (
-			_("Unsu_bscribe from hidden"),
+			_("Unsu_bscribe From Hidden"),
 			tree_filled,
 			G_CALLBACK (subscription_editor_unsubscribe_hidden),
 			editor));
 
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+	gtk_menu_shell_append (
+		GTK_MENU_SHELL (menu),
 		subscription_editor_create_menu_item (
-			_("Unsubscribe from _all"),
+			_("Unsubscribe From _All"),
 			tree_filled,
 			G_CALLBACK (subscription_editor_unsubscribe_all),
 			editor));
 
 	gtk_menu_popup (
-		GTK_MENU (menu), NULL, NULL, position_below_widget_cb, editor->priv->unsubscribe_button,
+		GTK_MENU (menu), NULL, NULL,
+		position_below_widget_cb,
+		editor->priv->unsubscribe_button,
 		0, gtk_get_current_event_time ());
 }
 
@@ -1743,7 +1787,9 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 		G_CALLBACK (subscription_editor_subscribe), editor);
 
 	widget = gtk_button_new ();
-	gtk_button_set_image (GTK_BUTTON (widget), gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE));
+	gtk_button_set_image (
+		GTK_BUTTON (widget),
+		gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE));
 	editor->priv->subscribe_arrow = widget;
 	gtk_widget_show (widget);
 
@@ -1752,11 +1798,19 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 		G_CALLBACK (subscription_editor_subscribe_popup_cb), editor);
 
 	if (gtk_widget_get_direction (container) == GTK_TEXT_DIR_LTR) {
-		gtk_box_pack_start (GTK_BOX (container), editor->priv->subscribe_button, TRUE, TRUE, 0);
-		gtk_box_pack_start (GTK_BOX (container), editor->priv->subscribe_arrow, FALSE, FALSE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (container),
+			editor->priv->subscribe_button, TRUE, TRUE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (container),
+			editor->priv->subscribe_arrow, FALSE, FALSE, 0);
 	} else {
-		gtk_box_pack_start (GTK_BOX (container), editor->priv->subscribe_arrow, FALSE, FALSE, 0);
-		gtk_box_pack_start (GTK_BOX (container), editor->priv->subscribe_button, TRUE, TRUE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (container),
+			editor->priv->subscribe_arrow, FALSE, FALSE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (container),
+			editor->priv->subscribe_button, TRUE, TRUE, 0);
 	}
 
 	container = box;
@@ -1779,7 +1833,9 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 		G_CALLBACK (subscription_editor_unsubscribe), editor);
 
 	widget = gtk_button_new ();
-	gtk_button_set_image (GTK_BUTTON (widget), gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE));
+	gtk_button_set_image (
+		GTK_BUTTON (widget),
+		gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE));
 	editor->priv->unsubscribe_arrow = widget;
 	gtk_widget_show (widget);
 
@@ -1788,11 +1844,19 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 		G_CALLBACK (subscription_editor_unsubscribe_popup_cb), editor);
 
 	if (gtk_widget_get_direction (container) == GTK_TEXT_DIR_LTR) {
-		gtk_box_pack_start (GTK_BOX (container), editor->priv->unsubscribe_button, TRUE, TRUE, 0);
-		gtk_box_pack_start (GTK_BOX (container), editor->priv->unsubscribe_arrow, FALSE, FALSE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (container),
+			editor->priv->unsubscribe_button, TRUE, TRUE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (container),
+			editor->priv->unsubscribe_arrow, FALSE, FALSE, 0);
 	} else {
-		gtk_box_pack_start (GTK_BOX (container), editor->priv->unsubscribe_arrow, FALSE, FALSE, 0);
-		gtk_box_pack_start (GTK_BOX (container), editor->priv->unsubscribe_button, TRUE, TRUE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (container),
+			editor->priv->unsubscribe_arrow, FALSE, FALSE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (container),
+			editor->priv->unsubscribe_button, TRUE, TRUE, 0);
 	}
 
 	container = box;
