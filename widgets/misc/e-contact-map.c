@@ -42,7 +42,7 @@
 #include <glib/gi18n.h>
 #include <math.h>
 
-G_DEFINE_TYPE (EContactMap, e_contact_map, GTK_TYPE_CHAMPLAIN_EMBED)
+G_DEFINE_TYPE (EContactMap, e_contact_map, GTK_CHAMPLAIN_TYPE_EMBED)
 
 struct _EContactMapPrivate {
 	GHashTable *markers; /* Hash table contact-name -> marker */

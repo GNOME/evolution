@@ -51,7 +51,7 @@ m4_define([libpst_minimum_version], [0.6.41])
 m4_define([libnotify_minimum_version], [0.5.1])
 
 dnl Optional Packages
-m4_define([champlain_minimum_version], [0.10])
+m4_define([champlain_minimum_version], [0.12])
 m4_define([clutter_gtk_minimum_version], [0.90])
 m4_define([geoclue_minimum_version], [0.11.1])
 m4_define([gladeui_minimum_version], [3.10.0])
@@ -1425,12 +1425,12 @@ if test "x$enable_contact_maps" = "xyes"; then
 		AC_MSG_ERROR([Clutter is required for maps in contacts. Use --with-clutter=yes to enable clutter.])
 	fi
 
-	PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.10 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
+	PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.12 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
 	AC_SUBST(CHAMPLAIN_CFLAGS)
 	AC_SUBST(CHAMPLAIN_LIBS)
 
 	if test "x$have_champlain" = "xno"; then
-		AC_MSG_ERROR([champlain-gtk-0.10 >= champlain_minimum_version is required for maps in contacts preview.])
+		AC_MSG_ERROR([champlain-gtk-0.12 >= champlain_minimum_version is required for maps in contacts preview.])
 	fi
 
 	PKG_CHECK_MODULES([GEOCLUE], [geoclue >= geoclue_minimum_version], [have_geoclue=yes], [have_geoclue=no])
