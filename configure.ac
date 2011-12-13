@@ -53,7 +53,7 @@ m4_define([libnotify_minimum_version], [0.5.1])
 dnl Optional Packages
 m4_define([champlain_minimum_version], [0.12])
 m4_define([clutter_gtk_minimum_version], [0.90])
-m4_define([geoclue_minimum_version], [0.11.1])
+m4_define([geoclue_minimum_version], [0.12.0])
 m4_define([gladeui_minimum_version], [3.10.0])
 m4_define([goa_minimum_version], [3.1.1])
 m4_define([gweather_minimum_version], [2.90.0])
