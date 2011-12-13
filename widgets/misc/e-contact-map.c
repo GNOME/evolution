@@ -75,6 +75,7 @@ contact_map_geocode_address (EContactAddress *address)
 	details = geoclue_address_details_new ();
 	g_hash_table_insert (details, g_strdup (GEOCLUE_ADDRESS_KEY_POSTALCODE), g_strdup (address->code));
 	g_hash_table_insert (details, g_strdup (GEOCLUE_ADDRESS_KEY_COUNTRY), g_strdup (address->country));
+	g_hash_table_insert (details, g_strdup (GEOCLUE_ADDRESS_KEY_REGION), g_strdup (address->region));
 	g_hash_table_insert (details, g_strdup (GEOCLUE_ADDRESS_KEY_LOCALITY), g_strdup (address->locality));
 	g_hash_table_insert (details, g_strdup (GEOCLUE_ADDRESS_KEY_STREET), g_strdup (address->street));
 
@@ -169,8 +170,9 @@ resolve_marker_position (EContactMap *map,
 		 * is resolved */
 		g_object_ref (map);
 
-		geocoder = geoclue_geocode_new ("org.freedesktop.Geoclue.Providers.Yahoo",
-				"/org/freedesktop/Geoclue/Providers/Yahoo");
+		geocoder = geoclue_geocode_new (
+			"org.freedesktop.Geoclue.Providers.Nominatim",
+			"/org/freedesktop/Geoclue/Providers/Nominatim");
 
 		geoclue_geocode_address_to_position_async (geocoder, details,
 			(GeoclueGeocodeCallback) contact_map_address_resolved_cb,
