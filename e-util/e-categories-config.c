@@ -130,8 +130,11 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 	result = gtk_dialog_run (dialog);
 
 	if (result == GTK_RESPONSE_OK) {
-		text = e_categories_dialog_get_categories (E_CATEGORIES_DIALOG (dialog));
-		gtk_entry_set_text (GTK_ENTRY (entry), text);
+		gchar *categories;
+
+		categories = e_categories_dialog_get_categories (E_CATEGORIES_DIALOG (dialog));
+		gtk_entry_set_text (GTK_ENTRY (entry), categories);
+		g_free (categories);
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));

@@ -3223,7 +3223,7 @@ categories_response (GtkDialog *dialog,
                      gint response,
                      EContactEditor *editor)
 {
-	const gchar *categories;
+	gchar *categories;
 	GtkWidget *entry;
 
 	entry = e_builder_get_widget (editor->builder, "entry-categories");
@@ -3238,7 +3238,8 @@ categories_response (GtkDialog *dialog,
 			e_contact_set (
 				editor->contact,
 				E_CONTACT_CATEGORIES,
-				(gchar *) categories);
+				categories);
+		g_free (categories);
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
