@@ -41,6 +41,10 @@
 #include "e-util/e-account-utils.h"
 #include "e-util/e-util-enumtypes.h"
 
+struct _ECalModelComponentPrivate {
+	GString *categories_str;
+};
+
 typedef struct {
 	ECalClient *client;
 	ECalClientView *view;
@@ -747,13 +751,25 @@ ecm_row_count (ETableModel *etm)
 static gpointer
 get_categories (ECalModelComponent *comp_data)
 {
-	icalproperty *prop;
+	if (!comp_data->priv->categories_str) {
+		icalproperty *prop;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
-	if (prop)
-		return (gpointer) icalproperty_get_categories (prop);
+		comp_data->priv->categories_str = g_string_new ("");
 
-	return (gpointer) "";
+		for (prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
+		     prop;
+		     prop = icalcomponent_get_next_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY)) {
+			const gchar *categories = icalproperty_get_categories (prop);
+			if (!categories)
+				continue;
+
+			if (comp_data->priv->categories_str->len)
+				g_string_append_c (comp_data->priv->categories_str, ',');
+			g_string_append (comp_data->priv->categories_str, categories);
+		}
+	}
+
+	return comp_data->priv->categories_str->str;
 }
 
 static gchar *
@@ -1023,18 +1039,26 @@ set_categories (ECalModelComponent *comp_data,
 {
 	icalproperty *prop;
 
+	/* remove all categories first */
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
-	if (!value || !(*value)) {
-		if (prop) {
-			icalcomponent_remove_property (comp_data->icalcomp, prop);
-			icalproperty_free (prop);
-		}
-	} else {
-		if (!prop) {
-			prop = icalproperty_new_categories (value);
-			icalcomponent_add_property (comp_data->icalcomp, prop);
-		} else
-			icalproperty_set_categories (prop, value);
+	while (prop) {
+		icalproperty *to_remove = prop;
+		prop = icalcomponent_get_next_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
+
+		icalcomponent_remove_property (comp_data->icalcomp, to_remove);
+		icalproperty_free (to_remove);
+	}
+
+	if (comp_data->priv->categories_str)
+		g_string_free (comp_data->priv->categories_str, TRUE);
+	comp_data->priv->categories_str = NULL;
+
+	/* then set a new value; no need to populate categories_str,
+	   it'll be populated on demand (in the get_categories() function)
+	*/
+	if (value && *value) {
+		prop = icalproperty_new_categories (value);
+		icalcomponent_add_property (comp_data->icalcomp, prop);
 	}
 }
 
@@ -3617,10 +3641,6 @@ copy_ecdv (ECellDateEditValue *ecdv)
 	return new_ecdv;
 } */
 
-struct _ECalModelComponentPrivate {
-	gchar nouse;
-};
-
 static void e_cal_model_component_finalize (GObject *object);
 
 static GObjectClass *component_parent_class;
@@ -3632,6 +3652,7 @@ e_cal_model_component_class_init (ECalModelComponentClass *class)
 	GObjectClass *object_class;
 
 	object_class = (GObjectClass *) class;
+	g_type_class_add_private (class, sizeof (ECalModelComponentPrivate));
 
 	component_parent_class = g_type_class_peek_parent (class);
 
@@ -3680,6 +3701,10 @@ e_cal_model_component_finalize (GObject *object)
 		comp_data->color = NULL;
 	}
 
+	if (comp_data->priv->categories_str)
+		g_string_free (comp_data->priv->categories_str, TRUE);
+	comp_data->priv->categories_str = NULL;
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (component_parent_class)->finalize (object);
 }
@@ -3688,6 +3713,9 @@ e_cal_model_component_finalize (GObject *object)
 static void
 e_cal_model_component_init (ECalModelComponent *comp)
 {
+	comp->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		comp, E_TYPE_CAL_MODEL_COMPONENT, ECalModelComponentPrivate);
+
 	comp->dtstart = NULL;
 	comp->dtend = NULL;
 	comp->due = NULL;
@@ -3695,6 +3723,7 @@ e_cal_model_component_init (ECalModelComponent *comp)
 	comp->created = NULL;
 	comp->lastmodified = NULL;
 	comp->color = NULL;
+	comp->priv->categories_str = NULL;
 }
 
 GType
