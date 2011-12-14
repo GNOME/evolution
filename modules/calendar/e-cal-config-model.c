@@ -111,8 +111,18 @@ cal_config_model_constructed (GObject *object)
 	if (E_IS_CAL_MODEL_TASKS (extensible)) {
 
 		g_object_bind_property (
+			shell_settings, "cal-tasks-highlight-due-today",
+			extensible, "highlight-due-today",
+			G_BINDING_SYNC_CREATE);
+
+		g_object_bind_property (
 			shell_settings, "cal-tasks-color-due-today",
 			extensible, "color-due-today",
+			G_BINDING_SYNC_CREATE);
+
+		g_object_bind_property (
+			shell_settings, "cal-tasks-highlight-overdue",
+			extensible, "highlight-overdue",
 			G_BINDING_SYNC_CREATE);
 
 		g_object_bind_property (

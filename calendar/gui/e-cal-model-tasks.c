@@ -38,7 +38,9 @@
 #include "misc.h"
 
 struct _ECalModelTasksPrivate {
+	gboolean highlight_due_today;
 	gchar *color_due_today;
+	gboolean highlight_overdue;
 	gchar *color_overdue;
 };
 
@@ -61,7 +63,9 @@ G_DEFINE_TYPE (ECalModelTasks, e_cal_model_tasks, E_TYPE_CAL_MODEL)
 
 enum {
 	PROP_0,
+	PROP_HIGHLIGHT_DUE_TODAY,
 	PROP_COLOR_DUE_TODAY,
+	PROP_HIGHLIGHT_OVERDUE,
 	PROP_COLOR_OVERDUE
 };
 
@@ -72,10 +76,22 @@ cal_model_tasks_set_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_HIGHLIGHT_DUE_TODAY:
+			e_cal_model_tasks_set_highlight_due_today (
+				E_CAL_MODEL_TASKS (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_COLOR_DUE_TODAY:
 			e_cal_model_tasks_set_color_due_today (
 				E_CAL_MODEL_TASKS (object),
 				g_value_get_string (value));
+			return;
+
+		case PROP_HIGHLIGHT_OVERDUE:
+			e_cal_model_tasks_set_highlight_overdue (
+				E_CAL_MODEL_TASKS (object),
+				g_value_get_boolean (value));
 			return;
 
 		case PROP_COLOR_OVERDUE:
@@ -95,10 +111,24 @@ cal_model_tasks_get_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_HIGHLIGHT_DUE_TODAY:
+			g_value_set_boolean (
+				value,
+				e_cal_model_tasks_get_highlight_due_today (
+				E_CAL_MODEL_TASKS (object)));
+			return;
+
 		case PROP_COLOR_DUE_TODAY:
 			g_value_set_string (
 				value,
 				e_cal_model_tasks_get_color_due_today (
+				E_CAL_MODEL_TASKS (object)));
+			return;
+
+		case PROP_HIGHLIGHT_OVERDUE:
+			g_value_set_boolean (
+				value,
+				e_cal_model_tasks_get_highlight_overdue (
 				E_CAL_MODEL_TASKS (object)));
 			return;
 
@@ -158,12 +188,32 @@ e_cal_model_tasks_class_init (ECalModelTasksClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_HIGHLIGHT_DUE_TODAY,
+		g_param_spec_boolean (
+			"highlight-due-today",
+			"Highlight Due Today",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_COLOR_DUE_TODAY,
 		g_param_spec_string (
 			"color-due-today",
 			"Color Due Today",
 			NULL,
 			"#1e90ff",
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_HIGHLIGHT_OVERDUE,
+		g_param_spec_boolean (
+			"highlight-overdue",
+			"Highlight Overdue",
+			NULL,
+			TRUE,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -182,6 +232,9 @@ e_cal_model_tasks_init (ECalModelTasks *model)
 {
 	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		model, E_TYPE_CAL_MODEL_TASKS, ECalModelTasksPrivate);
+
+	model->priv->highlight_due_today = TRUE;
+	model->priv->highlight_overdue = TRUE;
 
 	e_cal_model_set_component_kind (
 		E_CAL_MODEL (model), ICAL_VTODO_COMPONENT);
@@ -1104,19 +1157,25 @@ static const gchar *
 ecmt_get_color_for_component (ECalModel *model,
                               ECalModelComponent *comp_data)
 {
+	ECalModelTasks *tasks;
+
 	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), NULL);
 	g_return_val_if_fail (comp_data != NULL, NULL);
+
+	tasks = E_CAL_MODEL_TASKS (model);
 
 	/* XXX ECalModel's get_color_for_component() method should really
 	 *     get a GdkColor instead of a color specification string. */
 
-	switch (get_due_status ((ECalModelTasks *) model, comp_data)) {
+	switch (get_due_status (tasks, comp_data)) {
 	case E_CAL_MODEL_TASKS_DUE_TODAY:
-		return e_cal_model_tasks_get_color_due_today (
-			E_CAL_MODEL_TASKS (model));
+		if (!e_cal_model_tasks_get_highlight_due_today (tasks))
+			break;
+		return e_cal_model_tasks_get_color_due_today (tasks);
 	case E_CAL_MODEL_TASKS_DUE_OVERDUE:
-		return e_cal_model_tasks_get_color_overdue (
-			E_CAL_MODEL_TASKS (model));
+		if (!e_cal_model_tasks_get_highlight_overdue (tasks))
+			break;
+		return e_cal_model_tasks_get_color_overdue (tasks);
 	case E_CAL_MODEL_TASKS_DUE_NEVER:
 	case E_CAL_MODEL_TASKS_DUE_FUTURE:
 	case E_CAL_MODEL_TASKS_DUE_COMPLETE:
@@ -1167,6 +1226,28 @@ e_cal_model_tasks_new (void)
 	return g_object_new (E_TYPE_CAL_MODEL_TASKS, NULL);
 }
 
+gboolean
+e_cal_model_tasks_get_highlight_due_today (ECalModelTasks *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), FALSE);
+
+	return model->priv->highlight_due_today;
+}
+
+void
+e_cal_model_tasks_set_highlight_due_today (ECalModelTasks *model,
+					   gboolean highlight)
+{
+	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
+
+	if ((highlight ? 1 : 0) == (model->priv->highlight_due_today ? 1 : 0))
+		return;
+
+	model->priv->highlight_due_today = highlight;
+
+	g_object_notify (G_OBJECT (model), "highlight-due-today");
+}
+
 const gchar *
 e_cal_model_tasks_get_color_due_today (ECalModelTasks *model)
 {
@@ -1186,6 +1267,28 @@ e_cal_model_tasks_set_color_due_today (ECalModelTasks *model,
 	model->priv->color_due_today = g_strdup (color_due_today);
 
 	g_object_notify (G_OBJECT (model), "color-due-today");
+}
+
+gboolean
+e_cal_model_tasks_get_highlight_overdue (ECalModelTasks *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), FALSE);
+
+	return model->priv->highlight_overdue;
+}
+
+void
+e_cal_model_tasks_set_highlight_overdue (ECalModelTasks *model,
+					 gboolean highlight)
+{
+	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
+
+	if ((highlight ? 1 : 0) == (model->priv->highlight_overdue ? 1 : 0))
+		return;
+
+	model->priv->highlight_overdue = highlight;
+
+	g_object_notify (G_OBJECT (model), "highlight-overdue");
 }
 
 const gchar *

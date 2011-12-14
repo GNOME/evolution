@@ -797,6 +797,13 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
+	widget = e_builder_get_widget (prefs->builder, "tasks_due_today_highlight");
+	g_object_bind_property (
+		shell_settings, "cal-tasks-highlight-due-today",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
 	widget = e_builder_get_widget (prefs->builder, "tasks_due_today_color");
 	g_object_bind_property_full (
 		shell_settings, "cal-tasks-color-due-today",
@@ -806,6 +813,17 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		e_binding_transform_string_to_color,
 		e_binding_transform_color_to_string,
 		NULL, (GDestroyNotify) NULL);
+	g_object_bind_property (
+		shell_settings, "cal-tasks-highlight-due-today",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	widget = e_builder_get_widget (prefs->builder, "tasks_overdue_highlight");
+	g_object_bind_property (
+		shell_settings, "cal-tasks-highlight-overdue",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "tasks_overdue_color");
 	g_object_bind_property_full (
@@ -816,6 +834,10 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		e_binding_transform_string_to_color,
 		e_binding_transform_color_to_string,
 		(GDestroyNotify) NULL, NULL);
+	g_object_bind_property (
+		shell_settings, "cal-tasks-highlight-overdue",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "tasks_hide_completed");
 	g_object_bind_property (

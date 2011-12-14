@@ -1032,12 +1032,13 @@
                     <property name="visible">True</property>
                     <property name="spacing">12</property>
                     <child>
-                      <object class="GtkLabel" id="label21">
+                      <object class="GtkCheckButton" id="tasks_due_today_highlight">
+                        <property name="label" translatable="yes">Highlight t_asks due today</property>
                         <property name="visible">True</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">T_asks due today:</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">tasks_due_today_color</property>
+                        <property name="draw_indicator">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1071,12 +1072,13 @@
                     <property name="visible">True</property>
                     <property name="spacing">12</property>
                     <child>
-                      <object class="GtkLabel" id="label22">
+                      <object class="GtkCheckButton" id="tasks_overdue_highlight">
+                        <property name="label" translatable="yes">Highlight _overdue tasks</property>
                         <property name="visible">True</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">_Overdue tasks:</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">tasks_overdue_color</property>
+                        <property name="draw_indicator">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>

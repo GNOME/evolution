@@ -80,11 +80,21 @@ struct _ECalModelTasksClass {
 
 GType		e_cal_model_tasks_get_type	(void);
 ECalModel *	e_cal_model_tasks_new		(void);
+gboolean	e_cal_model_tasks_get_highlight_due_today
+						(ECalModelTasks *model);
+void		e_cal_model_tasks_set_highlight_due_today
+						(ECalModelTasks *model,
+						 gboolean highlight);
 const gchar *	e_cal_model_tasks_get_color_due_today
 						(ECalModelTasks *model);
 void		e_cal_model_tasks_set_color_due_today
 						(ECalModelTasks *model,
 						 const gchar *color_due_today);
+gboolean	e_cal_model_tasks_get_highlight_overdue
+						(ECalModelTasks *model);
+void		e_cal_model_tasks_set_highlight_overdue
+						(ECalModelTasks *model,
+						 gboolean highlight);
 const gchar *	e_cal_model_tasks_get_color_overdue
 						(ECalModelTasks *model);
 void		e_cal_model_tasks_set_color_overdue

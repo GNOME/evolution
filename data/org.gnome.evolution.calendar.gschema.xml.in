@@ -250,10 +250,15 @@
       <_summary>Vertical position for the tag pane</_summary>
       <_description>Vertical position for the tag pane</_description>
     </key>
+    <key name="task-due-today-highlight" type="b">
+      <default>true</default>
+      <_summary>Highlight tasks due today</_summary>
+      <_description>Whether highlight tasks due today with a special color (task-due-today-color)</_description>
+    </key>
     <key name="task-due-today-color" type="s">
       <default>'#1e90ff'</default>
       <_summary>Tasks due today color</_summary>
-      <_description>Background color of tasks that are due today, in "#rrggbb" format</_description>
+      <_description>Background color of tasks that are due today, in "#rrggbb" format. Used together with task-due-today-highlight</_description>
     </key>
     <key name="task-hpane-position" type="i">
       <default>200</default>
@@ -270,10 +275,15 @@
       <_summary>Task preview pane position (vertical)</_summary>
       <_description>Position of the task preview pane when oriented vertically</_description>
     </key>
+    <key name="task-overdue-highlight" type="b">
+      <default>true</default>
+      <_summary>Highlight overdue tasks</_summary>
+      <_description>Whether highlight overdue tasks with a special color (task-overdue-color)</_description>
+    </key>
     <key name="task-overdue-color" type="s">
       <default>'#ff0000'</default>
       <_summary>Overdue tasks color</_summary>
-      <_description>Background color of tasks that are overdue, in "#rrggbb" format</_description>
+      <_description>Background color of tasks that are overdue, in "#rrggbb" format. Used together with task-overdue-highlight.</_description>
     </key>
     <key name="time-divisions" type="i">
       <default>30</default>

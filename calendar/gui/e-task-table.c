@@ -288,6 +288,16 @@ delete_selected_components (ETaskTable *task_table)
 }
 
 static void
+task_table_queue_draw_cb (ECalModelTasks *tasks_model,
+			  GParamSpec *param,
+			  GtkWidget *task_table)
+{
+	g_return_if_fail (task_table != NULL);
+
+	gtk_widget_queue_draw (task_table);
+}
+
+static void
 task_table_set_model (ETaskTable *task_table,
                       ECalModel *model)
 {
@@ -304,6 +314,28 @@ task_table_set_model (ETaskTable *task_table,
 		model, "cal-view-complete",
 		G_CALLBACK (task_table_model_cal_view_complete_cb),
 		task_table);
+
+	/* redraw on drawing options change */
+	g_signal_connect (
+		model, "notify::highlight-due-today",
+		G_CALLBACK (task_table_queue_draw_cb),
+		task_table);
+
+	g_signal_connect (
+		model, "notify::color-due-today",
+		G_CALLBACK (task_table_queue_draw_cb),
+		task_table);
+
+	g_signal_connect (
+		model, "notify::highlight-overdue",
+		G_CALLBACK (task_table_queue_draw_cb),
+		task_table);
+
+	g_signal_connect (
+		model, "notify::color-overdue",
+		G_CALLBACK (task_table_queue_draw_cb),
+		task_table);
+
 }
 
 static void
@@ -397,6 +429,7 @@ task_table_dispose (GObject *object)
 	}
 
 	if (priv->model != NULL) {
+		g_signal_handlers_disconnect_by_func (priv->model, task_table_queue_draw_cb, object);
 		g_object_unref (priv->model);
 		priv->model = NULL;
 	}

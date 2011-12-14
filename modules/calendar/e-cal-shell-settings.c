@@ -633,9 +633,19 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		"show-week-numbers");
 
 	e_shell_settings_install_property_for_key (
+		"cal-tasks-highlight-due-today",
+		CALENDAR_SCHEMA,
+		"task-due-today-highlight");
+
+	e_shell_settings_install_property_for_key (
 		"cal-tasks-color-due-today",
 		CALENDAR_SCHEMA,
 		"task-due-today-color");
+
+	e_shell_settings_install_property_for_key (
+		"cal-tasks-highlight-overdue",
+		CALENDAR_SCHEMA,
+		"task-overdue-highlight");
 
 	e_shell_settings_install_property_for_key (
 		"cal-tasks-color-overdue",
