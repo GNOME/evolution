@@ -50,7 +50,7 @@
 G_BEGIN_DECLS
 
 /* Avoid a circular dependency. */
-typedef struct _EMailSession EMailSession;
+struct _EMailSession;
 
 typedef struct _MailFolderCache MailFolderCache;
 typedef struct _MailFolderCacheClass MailFolderCacheClass;
@@ -110,8 +110,9 @@ struct _MailFolderCacheClass {
 
 GType		mail_folder_cache_get_type	(void) G_GNUC_CONST;
 MailFolderCache *
-		mail_folder_cache_new		(EMailSession *session);
-EMailSession *	mail_folder_cache_get_session	(MailFolderCache *cache);
+		mail_folder_cache_new		(struct _EMailSession *session);
+struct _EMailSession *
+		mail_folder_cache_get_session	(MailFolderCache *cache);
 void		mail_folder_cache_note_store	(MailFolderCache *cache,
 						 CamelStore *store,
 						 GCancellable *cancellable,

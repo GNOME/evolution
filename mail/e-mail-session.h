@@ -55,9 +55,6 @@
 
 G_BEGIN_DECLS
 
-/* Avoids a circular dependency. */
-typedef struct _EMailAccountStore EMailAccountStore;
-
 typedef struct _EMailSession EMailSession;
 typedef struct _EMailSessionClass EMailSessionClass;
 typedef struct _EMailSessionPrivate EMailSessionPrivate;

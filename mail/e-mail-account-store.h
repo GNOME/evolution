@@ -44,7 +44,7 @@
 G_BEGIN_DECLS
 
 /* Avoid a circular dependency. */
-typedef struct _EMailSession EMailSession;
+struct _EMailSession;
 
 typedef enum {
 	E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE,
@@ -95,10 +95,11 @@ struct _EMailAccountStoreClass {
 
 GType		e_mail_account_store_get_type	(void) G_GNUC_CONST;
 EMailAccountStore *
-		e_mail_account_store_new	(EMailSession *session);
+		e_mail_account_store_new	(struct _EMailSession *session);
 void		e_mail_account_store_clear	(EMailAccountStore *store);
 gboolean	e_mail_account_store_get_busy	(EMailAccountStore *store);
-EMailSession *	e_mail_account_store_get_session
+struct _EMailSession *
+		e_mail_account_store_get_session
 						(EMailAccountStore *store);
 CamelService *	e_mail_account_store_get_default_service
 						(EMailAccountStore *store);
