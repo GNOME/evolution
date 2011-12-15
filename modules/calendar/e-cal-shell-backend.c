@@ -552,7 +552,7 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 
 		header = (gchar *) cp;
 		header[header_len] = '\0';
-		cp += header_len + 2;
+		cp += header_len + 1;
 
 		content_len = strcspn (cp, "&");
 
@@ -573,10 +573,10 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 			comp_rid = g_strdup (content);
 		g_free (content);
 
-		cp += content_len + 1;
+		cp += content_len;
 		if (*cp == '&') {
 			cp++;
-			if (strcmp (cp, "amp;") == 0)
+			if (strncmp (cp, "amp;", 4) == 0)
 				cp += 4;
 		}
 	}
