@@ -689,11 +689,12 @@ em_format_html_clone_sync (CamelFolder *folder,
 	struct _format_msg *m;
 
 	m = mail_msg_new (&efh_format_info);
-	m->format = efh;
-	m->format_source = source;
-	m->folder = folder;
+	m->format = g_object_ref (efh);
+	if (source)
+		m->format_source = g_object_ref (source);
+	m->folder = g_object_ref (folder);
 	m->uid = g_strdup (uid);
-	m->message = msg;
+	m->message = g_object_ref (msg);
 
 	efh_format_helper (m, FALSE);
 	efh_format_free (m);
