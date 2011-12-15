@@ -207,6 +207,8 @@ em_config_target_update_settings (EConfig *ep,
                                   const gchar *transport_protocol,
                                   CamelSettings *transport_settings)
 {
+	gchar *tmp;
+
 	g_return_if_fail (ep != NULL);
 	g_return_if_fail (target != NULL);
 
@@ -228,8 +230,10 @@ em_config_target_update_settings (EConfig *ep,
 	if (target->transport_settings != NULL)
 		g_object_unref (target->transport_settings);
 
+	/* the pointers can be same, thus avoid use-after-free */
+	tmp = g_strdup (email_address);
 	g_free (target->email_address);
-	target->email_address = g_strdup (email_address);
+	target->email_address = tmp;
 
 	target->storage_protocol = storage_protocol;
 	target->storage_settings = storage_settings;
