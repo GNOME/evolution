@@ -291,6 +291,12 @@ EMFormatHTMLJob *
 						 gpointer data);
 void		em_format_html_job_queue	(EMFormatHTML *efh,
 						 EMFormatHTMLJob *job);
+void		em_format_html_clone_sync	(CamelFolder *folder,
+						 const gchar *message_uid,
+						 CamelMimeMessage *message,
+						 EMFormatHTML *efh,
+						 EMFormat *source);
+
 gboolean	em_format_html_get_show_real_date
 						(EMFormatHTML *efh);
 void		em_format_html_set_show_real_date

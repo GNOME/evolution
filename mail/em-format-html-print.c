@@ -45,6 +45,8 @@ efhp_finalize (GObject *object)
 {
 	EMFormatHTMLPrint *efhp = (EMFormatHTMLPrint *) object;
 
+	g_free (efhp->export_filename);
+	efhp->export_filename = NULL;
 	gtk_widget_destroy (efhp->window);
 	if (efhp->source != NULL)
 		g_object_unref (efhp->source);
@@ -90,6 +92,9 @@ em_format_html_print_init (EMFormatHTMLPrint *efhp)
 	gtk_widget_realize (GTK_WIDGET (web_view));
 	efhp->parent.show_icon = FALSE;
 	((EMFormat *) efhp)->print = TRUE;
+
+	efhp->export_filename = NULL;
+	efhp->async = TRUE;
 }
 
 EMFormatHTMLPrint *
@@ -184,6 +189,9 @@ emfhp_complete (EMFormatHTMLPrint *efhp)
 
 	operation = e_print_operation_new ();
 
+	if (efhp->action == GTK_PRINT_OPERATION_ACTION_EXPORT)
+		gtk_print_operation_set_export_filename (operation, efhp->export_filename);
+
 	gtk_html_print_operation_run (
 		GTK_HTML (web_view),
 		operation, efhp->action, NULL,
@@ -213,12 +221,18 @@ em_format_html_print_message (EMFormatHTMLPrint *efhp,
 
 	em_format_html_load_images (EM_FORMAT_HTML (efhp));
 
-	g_signal_connect (
-		efhp, "complete", G_CALLBACK (emfhp_complete), efhp);
 
-	/* FIXME Not passing a GCancellable here. */
-	em_format_format_clone (
-		EM_FORMAT (efhp),
-		folder, message_uid, message,
-		EM_FORMAT (efhp->source), NULL);
+	if (efhp->async) {
+		g_signal_connect (
+			efhp, "complete", G_CALLBACK (emfhp_complete), efhp);
+		
+		/* FIXME Not passing a GCancellable here. */
+		em_format_format_clone (
+			(EMFormat *) efhp, 
+			folder, message_uid, message,
+			(EMFormat *) efhp->source, NULL);
+	} else {
+		em_format_html_clone_sync (folder, message_uid, message, (EMFormatHTML *)efhp, (EMFormat *)efhp->source);
+		emfhp_complete (efhp);
+	}
 }

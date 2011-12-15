@@ -1775,6 +1775,38 @@
       </locale>
     </schema>
 
+    <!-- email drag'n'drop settings -->
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/save_file_format</key>
+      <applyto>/apps/evolution/mail/save_file_format</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <default>mbox</default>
+      <locale name="C">
+         <short>Drag'n'drop export format</short>
+         <long>
+           Define the email export format when doing drag'n'drop.
+           Possible values are : mbox or pdf
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/save_name_format</key>
+      <applyto>/apps/evolution/mail/save_name_format</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+     <default>1</default>
+      <locale name="C">
+         <short>Format of the drag'n'drop export filename</short>
+         <long>
+           Exported file name will be : YYYmmDDHHMMSS_email_title
+           Possible values : 1 (: email sent date), 2 (: drag'n'drop date)
+         </long>
+      </locale>
+    </schema>
+
     <!-- Others -->
 
     <schema>

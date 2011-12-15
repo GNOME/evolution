@@ -70,6 +70,7 @@
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format-quote.h"
+#include "em-format-html-print.h"
 #include "e-mail-folder-utils.h"
 #include "e-mail-session.h"
 
@@ -80,6 +81,12 @@ extern const gchar *shell_builtin_backend;
 /* How many is too many? */
 /* Used in em_util_ask_open_many() */
 #define TOO_MANY 10
+
+/* drag and drop resulting file naming possibilities */
+enum {
+	DND_USE_SENT_DATE = 1, /* YYYYMMDDhhmmssms_<title> and use email sent date */
+	DND_USE_DND_DATE  = 2,  /*  YYYYMMDDhhmmssms_<title> and drag'drop date */
+};
 
 #define d(x)
 
@@ -603,6 +610,30 @@ em_utils_write_messages_to_stream (CamelFolder *folder,
 	return res;
 }
 
+static gboolean
+em_utils_print_messages_to_file	(CamelFolder *folder, 
+				 const gchar * uid, 
+				 const gchar *filename)
+{
+	EMFormatHTMLPrint *efhp;
+	CamelMimeMessage *message;
+
+	message = camel_folder_get_message_sync (folder, uid, NULL, NULL);
+	if (message == NULL)
+		return FALSE;
+
+	efhp = em_format_html_print_new (NULL, GTK_PRINT_OPERATION_ACTION_EXPORT);
+	efhp->export_filename = g_strdup (filename);
+	efhp->async = FALSE;
+
+	em_format_html_print_message (efhp, message, folder, uid);
+
+	g_object_unref (efhp);
+	g_object_unref (message);
+
+	return TRUE;
+}
+
 /* This kind of sucks, because for various reasons most callers need to run
  * synchronously in the gui thread, however this could take a long, blocking
  * time to run. */
@@ -846,6 +877,59 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 	em_utils_uids_free (uids);
 }
 
+static gchar *
+em_utils_build_export_filename	(CamelFolder *folder, 
+				 const gchar * uid, 
+				 const gchar * exporttype, 
+				 gint exportname, 
+				 const gchar * tmpdir)
+{
+	CamelMessageInfo *info;
+	gchar *file, *tmpfile;
+	struct tm  *ts;
+	gchar datetmp[15];
+
+	/* Try to get the drop filename from the message or folder */
+	info = camel_folder_get_message_info(folder, uid);
+	if (info) {
+		if (camel_message_info_subject (info)) {
+			time_t reftime;
+			reftime = camel_message_info_date_sent (info);
+			if (exportname==DND_USE_DND_DATE) {
+				reftime = time(NULL);
+			}
+
+			ts = localtime(&reftime);
+			strftime(datetmp, 15, "%Y%m%d%H%M%S", ts);
+
+			if (g_ascii_strcasecmp (exporttype, "pdf")==0)
+				file = g_strdup_printf ("%s_%s.pdf", datetmp, camel_message_info_subject (info));
+			else
+				file = g_strdup_printf ("%s_%s", datetmp, camel_message_info_subject(info));
+
+		}
+		camel_folder_free_message_info(folder, info);
+	} else {
+		time_t reftime;
+		reftime = time(NULL);
+		ts = localtime(&reftime);
+		strftime(datetmp, 15, "%Y%m%d%H%M%S", ts);
+		if (g_ascii_strcasecmp (exporttype, "pdf")==0)
+			file = g_strdup_printf ("%s_Untitled Message.pdf", datetmp);
+		else
+			file = g_strdup_printf ("%s_Untitled Message", datetmp);
+
+	}
+
+	e_filename_make_safe(file);
+
+	tmpfile = g_build_filename(tmpdir, file, NULL);
+
+	g_free(file);
+
+	return tmpfile;
+}
+
 /**
  * em_utils_selection_set_urilist:
  * @data:
@@ -861,69 +945,115 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
                                 CamelFolder *folder,
                                 GPtrArray *uids)
 {
-	gchar *tmpdir;
-	CamelStream *fstream;
-	gchar *uri, *file = NULL, *tmpfile;
-	gint fd;
-	CamelMessageInfo *info;
+ 	gchar *tmpdir;
+	gchar *uri;
+ 	gint fd;
+	GConfClient *client;
+	gchar *exporttype;
+	gint exportname;
+ 
+ 	tmpdir = e_mkdtemp("drag-n-drop-XXXXXX");
+ 	if (tmpdir == NULL)
+ 		return;
+ 
+	client = gconf_client_get_default ();
+	exporttype = gconf_client_get_string (
+		client, "/apps/evolution/mail/save_file_format", NULL);
+	if (exporttype == NULL)
+		exporttype = g_strdup ("mbox");
+	exportname = gconf_client_get_int (
+		client, "/apps/evolution/mail/save_name_format", NULL);
 
-	tmpdir = e_mkdtemp("drag-n-drop-XXXXXX");
-	if (tmpdir == NULL)
-		return;
+	if (g_ascii_strcasecmp (exporttype, "mbox")==0) {
+		gchar * file = NULL;
+		CamelStream *fstream;
 
-	/* Try to get the drop filename from the message or folder */
-	if (uids->len == 1) {
-		const gchar *message_uid;
+		if(uids->len>1) {
+			gchar * tmp = g_strdup_printf(_("Messages from %s"), camel_folder_get_display_name (folder));
+			e_filename_make_safe(tmp);
+			file = g_build_filename(tmpdir, tmp, NULL);
+			g_free(tmp);
+		} else {
+			file = em_utils_build_export_filename(folder, uids->pdata[0], exporttype, exportname, tmpdir);
+ 		}
+		
+		g_free(tmpdir);
+		fd = g_open(file, O_WRONLY | O_CREAT | O_EXCL | O_BINARY, 0666);
+		if (fd == -1) {
+			g_free(file);
+			g_free(exporttype);
+			return;
+ 		}
+ 
+		uri = g_filename_to_uri(file, NULL, NULL);
+		fstream = camel_stream_fs_new_with_fd(fd);
+		if (fstream) {
+			if (em_utils_write_messages_to_stream(folder, uids, fstream) == 0) {
+				GdkAtom type;
+				/* terminate with \r\n to be compliant with the spec */
+				gchar *uri_crlf = g_strconcat(uri, "\r\n", NULL);
 
-		message_uid = g_ptr_array_index (uids, 0);
-		info = camel_folder_get_message_info (folder, message_uid);
-		if (info) {
-			file = g_strdup (camel_message_info_subject (info));
-			camel_folder_free_message_info (folder, info);
+				type = gtk_selection_data_get_target (data);
+				gtk_selection_data_set(data, type, 8, (guchar *) uri_crlf, strlen(uri_crlf));
+				g_free(uri_crlf);
+			}
+			g_object_unref (fstream);
+		} else
+			close(fd);
+ 
+		g_free(exporttype);
+		g_free(file);
+		g_free(uri);
+	} else if(g_ascii_strcasecmp (exporttype, "pdf")==0) {
+		gchar ** filenames, **uris;
+		gint i, uris_count=0;
+
+		filenames = g_new(gchar *, uids->len);
+		uris = g_new(gchar *, uids->len + 1);
+		for(i=0; i<uids->len; i++) {
+			filenames[i] = em_utils_build_export_filename(folder, uids->pdata[i], exporttype, exportname, tmpdir);
+			/* validity test */
+			fd = g_open(filenames[i], O_WRONLY | O_CREAT | O_EXCL | O_BINARY, 0666);
+			if (fd == -1) {
+				gint j;
+				for(j=0; j<=i; j++) {
+					g_free(filenames[j]);
+				}
+				g_free(filenames);
+				g_free(uris);
+				g_free(tmpdir);
+				g_free(exporttype);
+				return;
+			}
+			close(fd);
+
+			/* export */
+			if (em_utils_print_messages_to_file (folder, uids->pdata[i], filenames[i])) {
+				/* terminate with \r\n to be compliant with the spec */
+				uri = g_filename_to_uri(filenames[i], NULL, NULL);
+				uris[uris_count++] = g_strconcat(uri, "\r\n", NULL);
+				g_free(uri);
+			}
+ 		}
+ 
+		uris[uris_count] = NULL;
+		gtk_selection_data_set_uris(data, uris);
+ 
+		g_free(tmpdir);
+		for(i=0; i<uids->len; i++) {
+			g_free(filenames[i]);
+ 		}
+		g_free(filenames);
+		for(i=0; i<uris_count; i++) {
+			g_free(uris[i]);
 		}
+		g_free(uris);
+		g_free(exporttype);
+ 
+	} else {
+		g_free(tmpdir);
+		g_free(exporttype);
 	}
-
-	/* TODO: Handle conflicts? */
-	if (file == NULL) {
-		/* Drop filename for messages from a mailbox */
-		file = g_strdup_printf (
-			_("Messages from %s"),
-			camel_folder_get_display_name (folder));
-	}
-
-	e_filename_make_safe (file);
-
-	tmpfile = g_build_filename (tmpdir, file, NULL);
-	g_free (tmpdir);
-	g_free (file);
-
-	fd = g_open (tmpfile, O_WRONLY | O_CREAT | O_EXCL | O_BINARY, 0666);
-	if (fd == -1) {
-		g_free (tmpfile);
-		return;
-	}
-
-	uri = g_filename_to_uri (tmpfile, NULL, NULL);
-	g_free (tmpfile);
-	fstream = camel_stream_fs_new_with_fd (fd);
-	if (fstream) {
-		if (em_utils_write_messages_to_stream (folder, uids, fstream) == 0) {
-			/* terminate with \r\n to be compliant with the spec */
-			gchar *uri_crlf = g_strconcat(uri, "\r\n", NULL);
-			GdkAtom target;
-
-			target = gtk_selection_data_get_target (data);
-			gtk_selection_data_set (
-				data, target, 8, (guchar *)
-				uri_crlf, strlen (uri_crlf));
-			g_free (uri_crlf);
-		}
-
-		g_object_unref (fstream);
-	} else
-		close (fd);
-
-	g_free (uri);
 }
 
 /**

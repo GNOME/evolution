@@ -56,6 +56,9 @@ struct _EMFormatHTMLPrint {
 	EMFormatHTML *source;
 
 	GtkPrintOperationAction action;
+	gchar *export_filename;
+
+	gboolean async;
 };
 
 struct _EMFormatHTMLPrintClass {

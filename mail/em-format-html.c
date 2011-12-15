@@ -329,7 +329,7 @@ static MailMsgInfo efh_format_info = {
 };
 
 static gboolean
-efh_format_timeout (struct _format_msg *m)
+efh_format_helper (struct _format_msg *m, gboolean async)
 {
 	GtkHTMLStream *hstream;
 	EMFormatHTML *efh = m->format;
@@ -343,10 +343,12 @@ efh_format_timeout (struct _format_msg *m)
 		return FALSE;
 	}
 
-	d(printf("timeout called ...\n"));
-	if (p->format_id != -1) {
-		d(printf(" still waiting for cancellation to take effect, waiting ...\n"));
-		return TRUE;
+	if (async) {
+		d(printf("timeout called ...\n"));
+		if (p->format_id != -1) {
+			d(printf(" still waiting for cancellation to take effect, waiting ...\n"));
+			return TRUE;
+		}
 	}
 
 	g_return_val_if_fail (g_queue_is_empty (&p->pending_jobs), FALSE);
@@ -400,7 +402,12 @@ efh_format_timeout (struct _format_msg *m)
 		}
 
 		efh->priv->format_id = m->base.seq;
-		mail_msg_unordered_push (m);
+
+		if (async) {
+			mail_msg_unordered_push (m);
+		} else {
+			efh_format_exec(m, NULL, NULL);
+		}
 	}
 
 	efh->priv->format_timeout_id = 0;
@@ -664,6 +671,32 @@ efh_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static gboolean
+efh_format_timeout (struct _format_msg *m)
+{
+	return efh_format_helper (m, TRUE);
+}
+
+void
+em_format_html_clone_sync (CamelFolder *folder,
+                           const gchar *uid,
+                           CamelMimeMessage *msg,
+                           EMFormatHTML *efh,
+                           EMFormat *source)
+{
+	struct _format_msg *m;
+
+	m = mail_msg_new (&efh_format_info);
+	m->format = efh;
+	m->format_source = source;
+	m->folder = folder;
+	m->uid = g_strdup (uid);
+	m->message = msg;
+
+	efh_format_helper (m, FALSE);
+	efh_format_free (m);
 }
 
 static void
@@ -3399,3 +3432,4 @@ em_format_html_get_cached_image (EMFormatHTML *efh,
 	return camel_data_cache_get (
 		emfh_http_cache, EMFH_HTTP_CACHE_PATH, image_uri, NULL);
 }
+
