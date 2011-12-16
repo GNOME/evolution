@@ -400,7 +400,6 @@ bbdb_do_it (EBookClient *client,
 
 		e_client_util_free_object_slist (contacts);
 		g_free (temp_name);
-		g_free (uid);
 		return;
 	}
 
