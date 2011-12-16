@@ -79,16 +79,17 @@ em_utils_folder_is_templates (CamelFolder *folder)
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
+	store = camel_folder_get_parent_store (folder);
+	session = camel_service_get_session (CAMEL_SERVICE (store));
+
 	local_templates_folder =
-		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_TEMPLATES);
+		e_mail_session_get_local_folder (
+		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_TEMPLATES);
 
 	if (folder == local_templates_folder)
 		return TRUE;
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
-
-	store = camel_folder_get_parent_store (folder);
-	session = camel_service_get_session (CAMEL_SERVICE (store));
 
 	account_list = e_get_account_list ();
 	iterator = e_list_get_iterator (E_LIST (account_list));
@@ -134,16 +135,17 @@ em_utils_folder_is_drafts (CamelFolder *folder)
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
+	store = camel_folder_get_parent_store (folder);
+	session = camel_service_get_session (CAMEL_SERVICE (store));
+
 	local_drafts_folder =
-		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_DRAFTS);
+		e_mail_session_get_local_folder (
+		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_DRAFTS);
 
 	if (folder == local_drafts_folder)
 		return TRUE;
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
-
-	store = camel_folder_get_parent_store (folder);
-	session = camel_service_get_session (CAMEL_SERVICE (store));
 
 	account_list = e_get_account_list ();
 	iterator = e_list_get_iterator (E_LIST (account_list));
@@ -189,16 +191,17 @@ em_utils_folder_is_sent (CamelFolder *folder)
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
+	store = camel_folder_get_parent_store (folder);
+	session = camel_service_get_session (CAMEL_SERVICE (store));
+
 	local_sent_folder =
-		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
+		e_mail_session_get_local_folder (
+		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_SENT);
 
 	if (folder == local_sent_folder)
 		return TRUE;
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
-
-	store = camel_folder_get_parent_store (folder);
-	session = camel_service_get_session (CAMEL_SERVICE (store));
 
 	account_list = e_get_account_list ();
 	iterator = e_list_get_iterator (E_LIST (account_list));
@@ -234,18 +237,24 @@ em_utils_folder_is_sent (CamelFolder *folder)
 gboolean
 em_utils_folder_is_outbox (CamelFolder *folder)
 {
+	CamelStore *store;
+	CamelSession *session;
 	CamelFolder *local_outbox_folder;
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
+	store = camel_folder_get_parent_store (folder);
+	session = camel_service_get_session (CAMEL_SERVICE (store));
+
 	local_outbox_folder =
-		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+		e_mail_session_get_local_folder (
+		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_OUTBOX);
 
 	return (folder == local_outbox_folder);
 }
 
-
 /* ********************************************************************** */
+
 
 /* runs sync, in main thread */
 static gpointer
@@ -359,6 +368,7 @@ try_open_book_client (EBookClient *book_client,
 
 	return data.result && (!error || !*error);
 }
+
 
 #define NOT_FOUND_BOOK (GINT_TO_POINTER (1))
 
@@ -765,6 +775,7 @@ emu_remove_from_mail_cache (const GSList *addresses)
 
 	g_object_unref (cia);
 }
+
 
 void
 emu_remove_from_mail_cache_1 (const gchar *address)

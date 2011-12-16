@@ -91,11 +91,6 @@ void emu_free_mail_account_sort_order_cache (void);
 
 void emu_restore_folder_tree_state (EMFolderTree *folder_tree);
 
-gboolean em_utils_is_local_delivery_mbox_file (CamelURL *url);
-
-gboolean em_utils_connect_service_sync (CamelService *service, GCancellable *cancellable, GError **error);
-gboolean em_utils_disconnect_service_sync (CamelService *service, gboolean clean, GCancellable *cancellable, GError **error);
-
 gboolean em_utils_is_re_in_subject (struct _EShell *shell,
 				    const gchar *subject,
 				    gint *skip_len);
