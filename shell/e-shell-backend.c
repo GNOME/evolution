@@ -69,7 +69,6 @@ enum {
 
 enum {
 	ACTIVITY_ADDED,
-	ACTIVITY_REMOVED,
 	LAST_SIGNAL
 };
 
