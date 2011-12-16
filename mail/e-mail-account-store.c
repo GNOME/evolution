@@ -1165,10 +1165,15 @@ e_mail_account_store_enable_service (EMailAccountStore *store,
                                      CamelService *service)
 {
 	GtkTreeIter iter;
-	gboolean proceed = TRUE;
+	gboolean proceed;
+	MailFolderCache *cache;
+	EMailSession *session;
 
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	session = e_mail_account_store_get_session (store);
+	cache = e_mail_session_get_folder_cache (session);
 
 	if (!mail_account_store_get_iter (store, service, &iter))
 		g_return_if_reached ();
@@ -1183,7 +1188,7 @@ e_mail_account_store_enable_service (EMailAccountStore *store,
 		gtk_list_store_set (
 			GTK_LIST_STORE (store), &iter,
 			E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED, TRUE, -1);
-
+		mail_folder_cache_service_enabled (cache, service);
 		g_signal_emit (store, signals[SERVICE_ENABLED], 0, service);
 	}
 }
