@@ -655,9 +655,8 @@ store_folder_unsubscribed_cb (CamelStore *store,
 	if (si) {
 		mfi = g_hash_table_lookup (si->folders, info->full_name);
 		if (mfi) {
-			g_hash_table_remove (si->folders, mfi->full_name);
 			unset_folder_info (self, mfi, TRUE, TRUE);
-			free_folder_info (mfi);
+			g_hash_table_remove (si->folders, mfi->full_name);
 		}
 	}
 	g_mutex_unlock (self->priv->stores_mutex);
