@@ -776,12 +776,18 @@ mail_backend_constructed (GObject *object)
 	camel_provider_init ();
 
 	priv->session = e_mail_session_new ();
-	folder_cache = e_mail_session_get_folder_cache (priv->session);
 
 	g_object_bind_property (
 		shell, "online",
 		priv->session, "online",
 		G_BINDING_SYNC_CREATE);
+
+	/* Propagate "activity-added" signals from
+	 * the mail session to the shell backend. */
+	g_signal_connect_swapped (
+		priv->session, "activity-added",
+		G_CALLBACK (e_shell_backend_add_activity),
+		shell_backend);
 
 	g_signal_connect (
 		priv->session, "job-started",
@@ -816,6 +822,8 @@ mail_backend_constructed (GObject *object)
 		shell, "quit-requested",
 		G_CALLBACK (mail_backend_quit_requested_cb),
 		shell_backend);
+
+	folder_cache = e_mail_session_get_folder_cache (priv->session);
 
 	g_signal_connect (
 		folder_cache, "folder-deleted",

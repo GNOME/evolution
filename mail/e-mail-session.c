@@ -117,6 +117,13 @@ enum {
 	PROP_VFOLDER_STORE
 };
 
+enum {
+	ACTIVITY_ADDED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
+
 static const gchar *local_folder_names[E_MAIL_NUM_LOCAL_FOLDERS] = {
 	N_("Inbox"),		/* E_MAIL_LOCAL_FOLDER_INBOX */
 	N_("Drafts"),		/* E_MAIL_LOCAL_FOLDER_DRAFTS */
@@ -1772,6 +1779,16 @@ e_mail_session_class_init (EMailSessionClass *class)
 			CAMEL_TYPE_STORE,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
+
+	signals[ACTIVITY_ADDED] = g_signal_new (
+		"activity-added",
+		G_OBJECT_CLASS_TYPE (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMailSessionClass, activity_added),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_ACTIVITY);
 }
 
 static void
@@ -1824,6 +1841,16 @@ e_mail_session_new (void)
 		"user-data-dir", user_data_dir,
 		"user-cache-dir", user_cache_dir,
 		NULL);
+}
+
+void
+e_mail_session_add_activity (EMailSession *session,
+                             EActivity *activity)
+{
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	g_signal_emit (session, signals[ACTIVITY_ADDED], 0, activity);
 }
 
 EMailAccountStore *
