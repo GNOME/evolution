@@ -237,8 +237,6 @@ em_format_html_print_message (EMFormatHTMLPrint *efhp,
 		EM_FORMAT_HTML_HEADER_CC |
 		EM_FORMAT_HTML_HEADER_BCC;
 
-	em_format_html_load_images (EM_FORMAT_HTML (efhp));
-
 	g_signal_connect (
 		efhp, "complete", G_CALLBACK (emfhp_complete), efhp);
 
