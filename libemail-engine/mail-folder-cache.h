@@ -77,6 +77,32 @@ struct _MailFolderCache {
 
 struct _MailFolderCacheClass {
 	GObjectClass parent_class;
+
+	/* Signals */
+	void		(*folder_available)	(MailFolderCache *cache,
+						 CamelStore *store,
+						 const gchar *folder_name);
+	void		(*folder_unavailable)	(MailFolderCache *cache,
+						 CamelStore *store,
+						 const gchar *folder_name);
+	void		(*folder_deleted)	(MailFolderCache *cache,
+						 CamelStore *store,
+						 const gchar *folder_name);
+	void		(*folder_renamed)	(MailFolderCache *cache,
+						 CamelStore *store,
+						 const gchar *old_folder_name,
+						 const gchar *new_folder_name);
+	void		(*folder_unread_updated)
+						(MailFolderCache *cache,
+						 CamelStore *store,
+						 const gchar *folder_name,
+						 gint unread);
+	void		(*folder_changed)	(MailFolderCache *cache,
+						 CamelStore *store,
+						 gint new_messages,
+						 const gchar *msg_uid,
+						 const gchar *msg_sender,
+						 const gchar *msg_subject);
 };
 
 GType		mail_folder_cache_get_type	(void) G_GNUC_CONST;
