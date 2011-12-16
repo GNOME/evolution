@@ -35,7 +35,6 @@
 #include "libemail-utils/e-signature-utils.h"
 #include "libemail-engine/e-mail-folder-utils.h"
 
-#include "e-mail-local.h"
 #include "mail-config.h"
 #include "mail-tools.h"
 

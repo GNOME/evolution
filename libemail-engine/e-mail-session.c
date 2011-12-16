@@ -66,13 +66,23 @@
 	((obj), E_TYPE_MAIL_SESSION, EMailSessionPrivate))
 
 typedef struct _AsyncContext AsyncContext;
+typedef struct _SourceContext SourceContext;
 
 struct _EMailSessionPrivate {
 	MailFolderCache *folder_cache;
 
+	EAccountList *account_list;
+	gulong account_added_handler_id;
+
+	CamelStore *local_store;
+
 	FILE *filter_logfile;
 	GHashTable *junk_filters;
 	EProxy *proxy;
+
+	/* Local folder cache. */
+	GPtrArray *local_folders;
+	GPtrArray *local_folder_uris;
 };
 
 struct _AsyncContext {
@@ -85,10 +95,25 @@ struct _AsyncContext {
 	CamelFolder *folder;
 };
 
+struct _SourceContext {
+	EMailSession *session;
+	CamelService *service;
+};
+
 enum {
 	PROP_0,
 	PROP_FOLDER_CACHE,
-	PROP_JUNK_FILTER_NAME
+	PROP_JUNK_FILTER_NAME,
+	PROP_LOCAL_STORE
+};
+
+static const gchar *local_folder_names[E_MAIL_NUM_LOCAL_FOLDERS] = {
+	N_("Inbox"),		/* E_MAIL_LOCAL_FOLDER_INBOX */
+	N_("Drafts"),		/* E_MAIL_LOCAL_FOLDER_DRAFTS */
+	N_("Outbox"),		/* E_MAIL_LOCAL_FOLDER_OUTBOX */
+	N_("Sent"),		/* E_MAIL_LOCAL_FOLDER_SENT */
+	N_("Templates"),	/* E_MAIL_LOCAL_FOLDER_TEMPLATES */
+	"Inbox"			/* E_MAIL_LOCAL_FOLDER_LOCAL_INBOX */
 };
 
 enum {
@@ -316,6 +341,18 @@ async_context_free (AsyncContext *context)
 	g_slice_free (AsyncContext, context);
 }
 
+static void
+source_context_free (SourceContext *context)
+{
+	if (context->session != NULL)
+		g_object_unref (context->session);
+
+	if (context->service != NULL)
+		g_object_unref (context->service);
+
+	g_slice_free (SourceContext, context);
+}
+
 static gchar *
 mail_session_make_key (CamelService *service,
                        const gchar *item)
@@ -406,6 +443,184 @@ mail_session_set_junk_filter_name (EMailSession *session,
 }
 
 static void
+mail_session_add_by_account (EMailSession *session,
+                             EAccount *account)
+{
+	CamelService *service = NULL;
+	CamelProvider *provider;
+	CamelURL *url;
+	gboolean transport_only;
+	GError *error = NULL;
+
+	/* check whether it's transport-only accounts */
+	transport_only =
+		(account->source == NULL) ||
+		(account->source->url == NULL) ||
+		(*account->source->url == '\0');
+	if (transport_only)
+		goto handle_transport;
+
+	/* Load the service, but don't connect.  Check its provider,
+	 * and if this belongs in the folder tree model, add it. */
+
+	url = camel_url_new (account->source->url, NULL);
+	if (url != NULL) {
+		provider = camel_provider_get (url->protocol, NULL);
+		camel_url_free (url);
+	} else {
+		provider = NULL;
+	}
+
+	if (provider == NULL) {
+		/* In case we do not have a provider here, we handle
+		 * the special case of having multiple mail identities
+		 * eg. a dummy account having just SMTP server defined */
+		goto handle_transport;
+	}
+
+	service = camel_session_add_service (
+		CAMEL_SESSION (session),
+		account->uid, provider->protocol,
+		CAMEL_PROVIDER_STORE, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"Failed to add service: %s: %s",
+			account->name, error->message);
+		g_error_free (error);
+		return;
+	}
+
+	camel_service_set_display_name (service, account->name);
+
+handle_transport:
+
+	/* While we're at it, add the account's transport (if it has one)
+	 * to the CamelSession.  The transport's UID is a kludge for now.
+	 * We take the EAccount's UID and tack on "-transport". */
+
+	if (account->transport) {
+		GError *transport_error = NULL;
+
+		url = camel_url_new (
+			account->transport->url,
+			&transport_error);
+
+		if (url != NULL) {
+			provider = camel_provider_get (
+				url->protocol, &transport_error);
+			camel_url_free (url);
+		} else
+			provider = NULL;
+
+		if (provider != NULL) {
+			gchar *transport_uid;
+
+			transport_uid = g_strconcat (
+				account->uid, "-transport", NULL);
+
+			camel_session_add_service (
+				CAMEL_SESSION (session),
+				transport_uid, provider->protocol,
+				CAMEL_PROVIDER_TRANSPORT, &transport_error);
+
+			g_free (transport_uid);
+		}
+
+		if (transport_error) {
+			g_warning (
+				"%s: Failed to add transport service: %s",
+				G_STRFUNC, transport_error->message);
+			g_error_free (transport_error);
+		}
+	}
+}
+
+static void
+mail_session_account_added_cb (EAccountList *account_list,
+                               EAccount *account,
+                               EMailSession *session)
+{
+	mail_session_add_by_account (session, account);
+}
+
+static void
+mail_session_add_local_store (EMailSession *session)
+{
+	CamelLocalSettings *local_settings;
+	CamelSession *camel_session;
+	CamelSettings *settings;
+	CamelService *service;
+	const gchar *data_dir;
+	gchar *path;
+	gint ii;
+	GError *error = NULL;
+
+	camel_session = CAMEL_SESSION (session);
+
+	service = camel_session_add_service (
+		camel_session, E_MAIL_SESSION_LOCAL_UID,
+		"maildir", CAMEL_PROVIDER_STORE, &error);
+
+	/* XXX One could argue this is a fatal error
+	 *     since we depend on it in so many places. */
+	if (error != NULL) {
+		g_critical ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	camel_service_set_display_name (service, _("On This Computer"));
+
+	settings = camel_service_get_settings (service);
+	local_settings = CAMEL_LOCAL_SETTINGS (settings);
+	data_dir = camel_session_get_user_data_dir (camel_session);
+
+	path = g_build_filename (data_dir, E_MAIL_SESSION_LOCAL_UID, NULL);
+	camel_local_settings_set_path (local_settings, path);
+	g_free (path);
+
+	/* Shouldn't need to worry about other mail applications
+	 * altering files in our local mail store. */
+	g_object_set (service, "need-summary-check", FALSE, NULL);
+
+	/* Populate the local folder cache. */
+	for (ii = 0; ii < E_MAIL_NUM_LOCAL_FOLDERS; ii++) {
+		CamelFolder *folder;
+		gchar *folder_uri;
+		const gchar *display_name;
+		GError *error = NULL;
+
+		display_name = local_folder_names[ii];
+
+		/* XXX This blocks but should be fast. */
+		if (ii == E_MAIL_LOCAL_FOLDER_LOCAL_INBOX)
+			folder = camel_store_get_inbox_folder_sync (
+				CAMEL_STORE (service), NULL, &error);
+		else
+			folder = camel_store_get_folder_sync (
+				CAMEL_STORE (service), display_name,
+				CAMEL_STORE_FOLDER_CREATE, NULL, &error);
+
+		folder_uri = e_mail_folder_uri_build (
+			CAMEL_STORE (service), display_name);
+
+		/* The arrays take ownership of the items added. */
+		g_ptr_array_add (session->priv->local_folders, folder);
+		g_ptr_array_add (session->priv->local_folder_uris, folder_uri);
+
+		if (error != NULL) {
+			g_critical ("%s: %s", G_STRFUNC, error->message);
+			g_error_free (error);
+		}
+	}
+
+	session->priv->local_store = g_object_ref (service);
+}
+
+static void
 mail_session_set_property (GObject *object,
                            guint property_id,
                            const GValue *value,
@@ -442,6 +657,13 @@ mail_session_get_property (GObject *object,
 				mail_session_get_junk_filter_name (
 				E_MAIL_SESSION (object)));
 			return;
+
+		case PROP_LOCAL_STORE:
+			g_value_set_object (
+				value,
+				e_mail_session_get_local_store (
+				E_MAIL_SESSION (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -459,6 +681,23 @@ mail_session_dispose (GObject *object)
 		priv->folder_cache = NULL;
 	}
 
+	if (priv->account_list != NULL) {
+		g_signal_handler_disconnect (
+			priv->account_list,
+			priv->account_added_handler_id);
+		g_object_unref (priv->account_list);
+		priv->account_list = NULL;
+	}
+
+	if (priv->local_store != NULL) {
+		g_object_unref (priv->local_store);
+		priv->local_store = NULL;
+	}
+
+
+	g_ptr_array_set_size (priv->local_folders, 0);
+	g_ptr_array_set_size (priv->local_folder_uris, 0);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_session_parent_class)->dispose (object);
 }
@@ -472,6 +711,9 @@ mail_session_finalize (GObject *object)
 
 	g_hash_table_destroy (priv->junk_filters);
 	g_object_unref (priv->proxy);
+
+	g_ptr_array_free (priv->local_folders, TRUE);
+	g_ptr_array_free (priv->local_folder_uris, TRUE);
 
 	g_free (mail_data_dir);
 	g_free (mail_config_dir);
@@ -495,16 +737,52 @@ mail_session_notify (GObject *object,
 static void
 mail_session_constructed (GObject *object)
 {
-	EMailSessionPrivate *priv;
+	EMailSession *session;
 	EExtensible *extensible;
 	GType extension_type;
-	GList *list, *iter;
+	GList *list, *link;
 	GSettings *settings;
+	EAccountList *account_list;
+	EIterator *iter;
+	EAccount *account;
+	gulong handler_id;
 
-	priv = E_MAIL_SESSION_GET_PRIVATE (object);
+	session = E_MAIL_SESSION (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_session_parent_class)->constructed (object);
+
+	account_list = e_get_account_list ();
+	session->priv->account_list = g_object_ref (account_list);
+
+	/* This must be created after the account store. */
+	session->priv->folder_cache = mail_folder_cache_new (session);
+
+
+	/* Add built-in CamelStores. */
+	mail_session_add_local_store (session);
+
+	/* Load user-defined mail accounts. */
+
+	iter = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iter)) {
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iter);
+
+		mail_session_add_by_account (session, account);
+
+		e_iterator_next (iter);
+	}
+
+	g_object_unref (iter);
+
+	/* Listen for account list updates. */
+
+	handler_id = g_signal_connect (
+		account_list, "account-added",
+		G_CALLBACK (mail_session_account_added_cb), session);
+	session->priv->account_added_handler_id = handler_id;
 
 	extensible = E_EXTENSIBLE (object);
 	e_extensible_load_extensions (extensible);
@@ -514,11 +792,11 @@ mail_session_constructed (GObject *object)
 	extension_type = E_TYPE_MAIL_JUNK_FILTER;
 	list = e_extensible_list_extensions (extensible, extension_type);
 
-	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+	for (link = list; link != NULL; link = g_list_next (link)) {
 		EMailJunkFilter *junk_filter;
 		EMailJunkFilterClass *class;
 
-		junk_filter = E_MAIL_JUNK_FILTER (iter->data);
+		junk_filter = E_MAIL_JUNK_FILTER (link->data);
 		class = E_MAIL_JUNK_FILTER_GET_CLASS (junk_filter);
 
 		if (!CAMEL_IS_JUNK_FILTER (junk_filter)) {
@@ -546,17 +824,21 @@ mail_session_constructed (GObject *object)
 		/* No need to reference the EMailJunkFilter since
 		 * EMailSession owns the reference to it already. */
 		g_hash_table_insert (
-			priv->junk_filters,
+			session->priv->junk_filters,
 			(gpointer) class->filter_name,
 			junk_filter);
 	}
 
 	g_list_free (list);
 
-	/* Bind the "junk-default-plugin" GSettings key to our "junk-filter-name" property. */
+	/* Bind the "junk-default-plugin" GSettings
+	 * key to our "junk-filter-name" property. */
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
-	g_settings_bind (settings, "junk-default-plugin", object, "junk-filter-name", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "junk-default-plugin",
+		object, "junk-filter-name",
+		G_SETTINGS_BIND_DEFAULT);
 	g_object_unref (settings);
 }
 
@@ -926,7 +1208,8 @@ mail_session_forward_to (CamelSession *session,
 
 	/* and send it */
 	info = camel_message_info_new (NULL);
-	out_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+	out_folder = e_mail_session_get_local_folder (
+		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_OUTBOX);
 	camel_message_info_set_flags (
 		info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 
@@ -1154,6 +1437,17 @@ e_mail_session_class_init (EMailSessionClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_LOCAL_STORE,
+		g_param_spec_object (
+			"local-store",
+			"Local Store",
+			"Built-in local store",
+			CAMEL_TYPE_STORE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
 	/**
 	 * EMailSession::flush-outbox
 	 * @session: the email session
@@ -1213,10 +1507,16 @@ e_mail_session_init (EMailSession *session)
 	GSettings *settings;
 
 	session->priv = E_MAIL_SESSION_GET_PRIVATE (session);
-	session->priv->folder_cache = mail_folder_cache_new ();
 	session->priv->junk_filters = g_hash_table_new (
 		(GHashFunc) g_str_hash, (GEqualFunc) g_str_equal);
 	session->priv->proxy = e_proxy_new ();
+
+	session->priv->local_folders =
+		g_ptr_array_new_with_free_func (
+		(GDestroyNotify) g_object_unref);
+	session->priv->local_folder_uris =
+		g_ptr_array_new_with_free_func (
+		(GDestroyNotify) g_free);
 
 	/* Initialize the EAccount setup. */
 	e_account_writable (NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD);
@@ -1253,12 +1553,57 @@ e_mail_session_new (void)
 		NULL);
 }
 
+
 MailFolderCache *
 e_mail_session_get_folder_cache (EMailSession *session)
 {
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
 	return session->priv->folder_cache;
+}
+
+CamelStore *
+e_mail_session_get_local_store (EMailSession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	return session->priv->local_store;
+}
+
+CamelFolder *
+e_mail_session_get_local_folder (EMailSession *session,
+                                 EMailLocalFolder type)
+{
+	GPtrArray *local_folders;
+	CamelFolder *folder;
+
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	local_folders = session->priv->local_folders;
+	g_return_val_if_fail (type < local_folders->len, NULL);
+
+	folder = g_ptr_array_index (local_folders, type);
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+
+	return folder;
+}
+
+const gchar *
+e_mail_session_get_local_folder_uri (EMailSession *session,
+                                     EMailLocalFolder type)
+{
+	GPtrArray *local_folder_uris;
+	const gchar *folder_uri;
+
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	local_folder_uris = session->priv->local_folder_uris;
+	g_return_val_if_fail (type < local_folder_uris->len, NULL);
+
+	folder_uri = g_ptr_array_index (local_folder_uris, type);
+	g_return_val_if_fail (folder_uri != NULL, NULL);
+
+	return folder_uri;
 }
 
 GList *

@@ -1036,9 +1036,14 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 	const gchar *uid;
 	gboolean builtin;
 	gboolean enabled;
+	MailFolderCache *cache;
+	EMailSession *session;
 
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	session = e_mail_account_store_get_session (store);
+	cache = e_mail_session_get_folder_cache (session);
 
 	/* Avoid duplicate services in the account store. */
 	if (mail_account_store_get_iter (store, service, &iter))
@@ -1096,6 +1101,7 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 	/* This populates the rest of the columns. */
 	mail_account_store_update_row (store, service, &iter);
 
+	mail_folder_cache_service_added (cache, service);
 	g_signal_emit (store, signals[SERVICE_ADDED], 0, service);
 
 	if (enabled)
@@ -1115,10 +1121,15 @@ e_mail_account_store_remove_service (EMailAccountStore *store,
                                      CamelService *service)
 {
 	GtkTreeIter iter;
-	gboolean proceed = TRUE;
+	gboolean proceed;
+	MailFolderCache *cache;
+	EMailSession *session;
 
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	session = e_mail_account_store_get_session (store);
+	cache = e_mail_session_get_folder_cache (session);
 
 	if (!mail_account_store_get_iter (store, service, &iter))
 		g_return_if_reached ();
@@ -1136,6 +1147,7 @@ e_mail_account_store_remove_service (EMailAccountStore *store,
 
 		mail_account_store_clean_index (store);
 
+		mail_folder_cache_service_removed (cache, service);
 		g_signal_emit (store, signals[SERVICE_REMOVED], 0, service);
 
 		g_object_unref (service);

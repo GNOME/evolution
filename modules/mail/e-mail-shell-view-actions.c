@@ -99,7 +99,7 @@ action_mail_account_disable_cb (GtkAction *action,
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	account_store = e_mail_session_get_account_store (session);
+	account_store = e_mail_ui_session_get_account_store (session);
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	store = em_folder_tree_get_selected_store (folder_tree);

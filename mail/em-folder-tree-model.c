@@ -49,6 +49,7 @@
 #include "em-utils.h"
 #include "em-folder-utils.h"
 #include "em-event.h"
+#include "e-mail-ui-session.h"
 
 #include "libemail-engine/e-mail-folder-utils.h"
 #include "libemail-engine/e-mail-utils.h"
@@ -574,7 +575,7 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
 		MailFolderCache *folder_cache;
 
 		folder_cache = e_mail_session_get_folder_cache (session);
-		account_store = e_mail_session_get_account_store (session);
+		account_store = e_mail_ui_session_get_account_store (session);
 
 		/* Keep our own reference since we connect to its signals. */
 		g_warn_if_fail (model->priv->account_store == NULL);

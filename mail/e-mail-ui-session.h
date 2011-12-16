@@ -30,6 +30,8 @@
 #include <camel/camel.h>
 #include <libemail-engine/e-mail-session.h>
 #include <libemail-engine/mail-folder-cache.h>
+#include <mail/e-mail-enums.h>
+#include <mail/e-mail-account-store.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_UI_SESSION \
@@ -67,6 +69,11 @@ struct _EMailUISessionClass {
 
 GType		e_mail_ui_session_get_type		(void);
 EMailSession *	e_mail_ui_session_new			(void);
+CamelStore *	e_mail_ui_session_get_vfolder_store
+						(EMailSession *session);
+EMailAccountStore *
+		e_mail_ui_session_get_account_store
+						(EMailSession *session);
 
 G_END_DECLS
 

@@ -43,6 +43,7 @@
 #include "mail-vfolder.h"
 #include "shell/e-shell.h"
 #include "capplet/settings/mail-capplet-shell.h"
+#include "e-mail-ui-session.h"
 
 #define EM_ACCOUNT_PREFS_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -65,72 +66,12 @@ G_DEFINE_DYNAMIC_TYPE (
 	E_TYPE_MAIL_ACCOUNT_MANAGER)
 
 static void
-<<<<<<< HEAD
 account_prefs_service_enabled_cb (EMailAccountStore *store,
                                   CamelService *service,
                                   EMAccountPrefs *prefs)
 {
 	EMailBackend *backend;
 	const gchar *uid;
-=======
-account_prefs_enable_account_cb (EAccountTreeView *tree_view,
-                                 EMAccountPrefs *prefs)
-{
-	EAccount *account;
-	EMailSession *session;
-
-	account = e_account_tree_view_get_selected (tree_view);
-	if (!account) {
-		if (account_prefs_toggle_enable_special (prefs, e_account_tree_view_get_selected_type (tree_view), TRUE))
-			return;
-	}
-
-	g_return_if_fail (account != NULL);
-	session = e_mail_backend_get_session (prefs->priv->backend);
-	e_mail_store_add_by_account (session, account);
-}
-
-static void
-account_prefs_disable_account_cb (EAccountTreeView *tree_view,
-                                  EMAccountPrefs *prefs)
-{
-	EMailSession *session;
-	EAccountList *account_list;
-	EAccount *account;
-	gpointer parent;
-	gint response;
-
-	session = e_mail_backend_get_session (prefs->priv->backend);
-
-	account = e_account_tree_view_get_selected (tree_view);
-	if (!account) {
-		if (account_prefs_toggle_enable_special (prefs, e_account_tree_view_get_selected_type (tree_view), FALSE))
-			return;
-	}
-
-	g_return_if_fail (account != NULL);
-
-	session = e_mail_backend_get_session (prefs->priv->backend);
-
-	account_list = e_account_tree_view_get_account_list (tree_view);
-	g_return_if_fail (account_list != NULL);
-
-	if (!e_account_list_account_has_proxies (account_list, account)) {
-		e_mail_store_remove_by_account (session, account);
-		return;
-	}
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (tree_view));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-	response = e_alert_run_dialog_for_args (
-		parent, "mail:ask-delete-proxy-accounts", NULL);
-
-	if (response != GTK_RESPONSE_YES) {
-		g_signal_stop_emission_by_name (tree_view, "disable-account");
-		return;
-	}
->>>>>>> Port Evolution to EDS's new mail library.
 
 	uid = camel_service_get_uid (service);
 	backend = em_account_prefs_get_backend (prefs);
@@ -317,64 +258,6 @@ account_prefs_edit_account (EMailAccountManager *manager,
 }
 
 static void
-<<<<<<< HEAD
-=======
-account_prefs_delete_account (EAccountManager *manager)
-{
-	EMAccountPrefsPrivate *priv;
-	EAccountTreeView *tree_view;
-	EAccountList *account_list;
-	EAccount *account;
-	EMailSession *session;
-	gboolean has_proxies;
-	gpointer parent;
-	gint response;
-
-	priv = EM_ACCOUNT_PREFS (manager)->priv;
-	session = e_mail_backend_get_session (priv->backend);
-
-	session = e_mail_backend_get_session (priv->backend);	
-	account_list = e_account_manager_get_account_list (manager);
-	tree_view = e_account_manager_get_tree_view (manager);
-	account = e_account_tree_view_get_selected (tree_view);
-	g_return_if_fail (account != NULL);
-
-	/* Make sure we aren't editing anything... */
-	if (priv->editor != NULL)
-		return;
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-	has_proxies =
-		e_account_list_account_has_proxies (account_list, account);
-
-	response = e_alert_run_dialog_for_args (
-		parent, has_proxies ?
-		"mail:ask-delete-account-with-proxies" :
-		"mail:ask-delete-account", NULL);
-
-	if (response != GTK_RESPONSE_YES) {
-		g_signal_stop_emission_by_name (manager, "delete-account");
-		return;
-	}
-
-	/* Remove the account from the folder tree. */
-	if (account->enabled)
-		e_mail_store_remove_by_account (session, account);
-
-	/* Remove all the proxies the account has created. */
-	if (has_proxies)
-		e_account_list_remove_account_proxies (account_list, account);
-
-	/* Remove it from the config file. */
-	e_account_list_remove (account_list, account);
-
-	e_account_list_save (account_list);
-}
-
-static void
->>>>>>> Port Evolution to EDS's new mail library.
 em_account_prefs_class_init (EMAccountPrefsClass *class)
 {
 	GObjectClass *object_class;

@@ -40,21 +40,12 @@
 #include "e-mail-label-action.h"
 #include "e-mail-label-dialog.h"
 #include "e-mail-label-list-store.h"
-<<<<<<< HEAD
-=======
-#include "libemail-engine/e-mail-local.h"
->>>>>>> Port Evolution to EDS's new mail library.
 #include "e-mail-reader.h"
 #include "e-mail-reader-utils.h"
 #include "libemail-engine/e-mail-session.h"
 #include "libemail-engine/e-mail-session-utils.h"
 #include "e-mail-sidebar.h"
-<<<<<<< HEAD
-#include "e-mail-store-utils.h"
-=======
-#include "libemail-engine/e-mail-store.h"
 #include "libemail-engine/e-mail-store-utils.h"
->>>>>>> Port Evolution to EDS's new mail library.
 #include "em-composer-utils.h"
 #include "em-folder-properties.h"
 #include "em-folder-selector.h"
@@ -69,6 +60,7 @@
 #include "libemail-engine/mail-tools.h"
 #include "mail-vfolder.h"
 #include "message-list.h"
+#include "e-mail-ui-session.h"
 
 #include "e-mail-shell-backend.h"
 #include "e-mail-shell-content.h"

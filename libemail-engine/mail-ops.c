@@ -42,7 +42,6 @@
 #include "mail-ops.h"
 #include "mail-tools.h"
 #include "e-mail-session-utils.h"
-#include "e-mail-local.h"
 
 #define w(x)
 #define d(x)
@@ -210,18 +209,24 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 {
 	struct _filter_mail_msg *fm = (struct _filter_mail_msg *) m;
 	CamelFolder *folder = NULL;
+	CamelService *service;
+	CamelSession *session;	
 	CamelURL *url;
 	gboolean is_local_delivery = FALSE;
 	const gchar *uid;
 	gint i;
 
-	fm->destination = e_mail_local_get_folder (
-		E_MAIL_LOCAL_FOLDER_LOCAL_INBOX);
+	service = CAMEL_SERVICE (m->store);
+	session = camel_service_get_session (service);
+
+	fm->destination = e_mail_session_get_local_folder (
+		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_LOCAL_INBOX);
+
 	if (fm->destination == NULL)
 		goto fail;
 	g_object_ref (fm->destination);
 
-	url = camel_service_new_camel_url (CAMEL_SERVICE (m->store));
+	url = camel_service_new_camel_url (service);
 	is_local_delivery = em_utils_is_local_delivery_mbox_file (url);
 
 	if (is_local_delivery) {
@@ -247,7 +252,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 		g_free (path);
 		g_free (url_string);
 	} else {
-		uid = camel_service_get_uid (CAMEL_SERVICE (m->store));
+		uid = camel_service_get_uid (service);
 
 		folder = fm->source_folder =
 			e_mail_session_get_inbox_sync (
@@ -341,7 +346,7 @@ fail:
 	 * there is no need to keep the connection alive forever */
 	if (!is_local_delivery)
 		em_utils_disconnect_service_sync (
-			CAMEL_SERVICE (m->store), TRUE, cancellable, NULL);
+			service, TRUE, cancellable, NULL);
 }
 
 static void
@@ -667,7 +672,8 @@ mail_send_message (struct _send_queue_msg *m,
 		}
 
 		if (!folder) {
-			folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
+			folder = e_mail_session_get_local_folder (
+				session, E_MAIL_LOCAL_FOLDER_SENT);
 			g_object_ref (folder);
 		}
 
@@ -680,7 +686,8 @@ mail_send_message (struct _send_queue_msg *m,
 			if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 				goto exit;
 
-			sent_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
+			sent_folder = e_mail_session_get_local_folder (
+				session, E_MAIL_LOCAL_FOLDER_SENT);
 
 			if (folder != sent_folder) {
 				const gchar *description;
@@ -798,6 +805,7 @@ send_queue_exec (struct _send_queue_msg *m,
                  GCancellable *cancellable,
                  GError **error)
 {
+	EMailSession *session;
 	CamelFolder *sent_folder;
 	GPtrArray *uids, *send_uids = NULL;
 	gint i, j;
@@ -805,7 +813,11 @@ send_queue_exec (struct _send_queue_msg *m,
 
 	d(printf("sending queue\n"));
 
-	sent_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
+	session = e_mail_backend_get_session (m->backend);
+
+	sent_folder =
+		e_mail_session_get_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_SENT);
 
 	if (!(uids = camel_folder_get_uids (m->queue)))
 		return;
@@ -1479,19 +1491,25 @@ expunge_folder_exec (struct _sync_folder_msg *m,
                      GCancellable *cancellable,
                      GError **error)
 {
+	EMailSession *session;
 	CamelFolder *local_inbox;
-	CamelStore *local_store;
 	CamelStore *parent_store;
 	gboolean is_local_inbox_or_trash;
+	gboolean store_is_local;
 	gboolean success = TRUE;
+	const gchar *uid;
 
-	local_inbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_INBOX);
+	session = e_mail_backend_get_session (m->backend);
+	parent_store = camel_folder_get_parent_store (m->folder);
+	uid = camel_service_get_uid (CAMEL_SERVICE (parent_store));
+	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
+
+	local_inbox =
+		e_mail_session_get_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_INBOX);
 	is_local_inbox_or_trash = (m->folder == local_inbox);
 
-	local_store = e_mail_local_get_store ();
-	parent_store = camel_folder_get_parent_store (m->folder);
-
-	if (!is_local_inbox_or_trash && local_store == parent_store) {
+	if (store_is_local && !is_local_inbox_or_trash) {
 		CamelFolder *trash;
 
 		trash = camel_store_get_trash_folder_sync (
@@ -1581,7 +1599,7 @@ empty_trash_exec (struct _empty_trash_msg *m,
 		return;
 
 	/* do this before expunge, to know which messages will be expunged */
-	if (g_strcmp0 (uid, "local") == 0)
+	if (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0)
 		success = expunge_pop3_stores (
 			trash, m->session, cancellable, error);
 

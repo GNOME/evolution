@@ -27,7 +27,6 @@
 #include <glib/gi18n-lib.h>
 
 #include "mail-tools.h"
-#include "e-mail-local.h"
 #include "e-mail-folder-utils.h"
 #include <libemail-utils/e-account-utils.h>
 
@@ -510,7 +509,9 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 
 	/* Append the sent message to a Sent folder. */
 
-	local_sent_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
+	local_sent_folder =
+		e_mail_session_get_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_SENT);
 
 	/* Try to extract a CamelFolder from the Sent folder URI. */
 	if (context->sent_folder_uri != NULL) {

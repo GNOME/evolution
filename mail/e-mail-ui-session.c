@@ -48,6 +48,8 @@
 #include <libebackend/e-extensible.h>
 #include <libedataserverui/e-passwords.h>
 
+#include "e-mail-account-store.h"
+
 #include "e-util/e-util.h"
 #include "libemail-utils/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
@@ -55,7 +57,6 @@
 
 #include "libemail-engine/e-mail-folder-utils.h"
 #include "libemail-engine/e-mail-junk-filter.h"
-#include "libemail-engine/e-mail-local.h"
 #include "libemail-engine/e-mail-session.h"
 #include "e-mail-ui-session.h"
 #include "em-composer-utils.h"
@@ -74,6 +75,17 @@
 
 struct _EMailUISessionPrivate {
 	FILE *filter_logfile;
+	CamelStore *vfolder_store;
+	EMailAccountStore *account_store;
+
+	EAccountList *account_list;
+	gulong account_changed_handler_id;
+};
+
+enum {
+	PROP_0,
+	PROP_ACCOUNT_STORE,
+	PROP_VFOLDER_STORE
 };
 
 G_DEFINE_TYPE_WITH_CODE (
@@ -384,6 +396,25 @@ mail_ui_session_dispose (GObject *object)
 
 	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
 
+	if (priv->account_store != NULL) {
+		e_mail_account_store_clear (priv->account_store);
+		g_object_unref (priv->account_store);
+		priv->account_store = NULL;
+	}
+
+	if (priv->vfolder_store != NULL) {
+		g_object_unref (priv->vfolder_store);
+		priv->vfolder_store = NULL;
+	}
+
+	if (priv->account_list != NULL) {
+		g_signal_handler_disconnect (
+			priv->account_list,
+			priv->account_changed_handler_id);
+		g_object_unref (priv->account_list);
+		priv->account_list = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->dispose (object);
 }
@@ -399,16 +430,134 @@ mail_ui_session_finalize (GObject *object)
 	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->finalize (object);
 }
 
+static void
+mail_session_add_vfolder_store (EMailUISession *uisession)
+{
+	CamelSession *camel_session;
+	CamelService *service;
+	GError *error = NULL;
+
+	camel_session = CAMEL_SESSION (session);
+
+	service = camel_session_add_service (
+		camel_session, E_MAIL_SESSION_VFOLDER_UID,
+		"vfolder", CAMEL_PROVIDER_STORE, &error);
+
+	if (error != NULL) {
+		g_critical ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	camel_service_set_display_name (service, _("Search Folders"));
+	em_utils_connect_service_sync (service, NULL, NULL);
+
+	/* XXX There's more configuration to do in vfolder_load_storage()
+	 *     but it requires an EMailBackend, which we don't have access
+	 *     to from here, so it has to be called from elsewhere.  Kinda
+	 *     thinking about reworking that... */
+
+	session->priv->vfolder_store = g_object_ref (service);
+}
+
+static void
+mail_ui_session_account_changed_cb (EAccountList *account_list,
+                                 EAccount *account,
+                                 EMailSession *session)
+{
+	EMFolderTreeModel *folder_tree_model;
+	CamelService *service;
+
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), account->uid);
+
+	if (!CAMEL_IS_STORE (service))
+		return;
+
+	/* Update the display name of the corresponding CamelStore.
+	 * EMailAccountStore listens for "notify" signals from each
+	 * service so it will detect this and update the model.
+	 *
+	 * XXX If EAccount defined GObject properties we could just
+	 *     bind EAccount:name to CamelService:display-name and
+	 *     be done with it.  Oh well.
+	 */
+
+	camel_service_set_display_name (service, account->name);
+
+	/* Remove the store from the folder tree model and, if the
+	 * account is still enabled, re-add it.  Easier than trying
+	 * to update the model with the store in place.
+	 *
+	 * em_folder_tree_model_add_store() already knows which types
+	 * of stores to disregard, so we don't have to deal with that
+	 * here. */
+
+	folder_tree_model = em_folder_tree_model_get_default ();
+
+	em_folder_tree_model_remove_store (
+		folder_tree_model, CAMEL_STORE (service));
+
+	if (account->enabled)
+		em_folder_tree_model_add_store (
+			folder_tree_model, CAMEL_STORE (service));
+}
 
 static void
 mail_ui_session_constructed (GObject *object)
 {
 	EMailUISessionPrivate *priv;
+	EMFolderTreeModel *folder_tree_model;
+	EMailSession *session;
+	EMailUISession *session;
+	EAccount *account;
+	EAccountList *account_list;
+	gulong handler_id;
 
+	session = E_MAIL_SESSION (object);
+	uisession = E_MAIL_UI_SESSION(object);
 	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
+
+	priv->account_store = e_mail_account_store_new (session);
+
+	account_list = e_get_account_list ();
+	session->priv->account_list = g_object_ref (account_list);
+
+	/* XXX Make sure the folder tree model is created before we
+	 *     add built-in CamelStores so it gets signals from the
+	 *     EMailAccountStore.
+	 *
+	 * XXX This is creating a circular reference.  Perhaps the
+	 *     model should only hold a weak pointer to EMailSession?
+	 *
+	 * FIXME EMailSession should just own the default instance.
+	 */
+	folder_tree_model = em_folder_tree_model_get_default ();
+	em_folder_tree_model_set_session (folder_tree_model, session);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->constructed (object);
+
+	mail_session_add_vfolder_store (session);
+
+	/* Initialize which account is default. */
+	account = e_get_default_account ();
+	if (account != NULL) {
+		CamelService *service;
+
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), account->uid);
+		e_mail_account_store_set_default_service (
+			priv->account_store, service);
+	}
+
+	handler_id = g_signal_connect (
+		account_list, "account-changed",
+		G_CALLBACK (mail_ui_session_account_changed_cb), session);
+	priv->account_changed_handler_id = handler_id;
+
 }
 
 static gint
@@ -463,6 +612,81 @@ mail_ui_session_get_filter_driver (CamelSession *session,
 }
 
 static void
+mail_ui_session_set_property (GObject *object,
+                           guint property_id,
+                           const GValue *value,
+                           GParamSpec *pspec)
+{
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);	
+}
+
+static void
+mail_session_get_property (GObject *object,
+                           guint property_id,
+                           GValue *value,
+                           GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_ACCOUNT_STORE:
+			g_value_set_object (
+				value,
+				e_mail_ui_session_get_account_store (
+				E_MAIL_SESSION (object)));
+			return;
+
+		case PROP_VFOLDER_STORE:
+			g_value_set_object (
+				value,
+				e_mail_session_get_vfolder_store (
+				E_MAIL_SESSION (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static gboolean
+mail_ui_session_add_service_cb (SourceContext *context)
+{
+	EMailAccountStore *store;
+
+	store = e_mail_ui_session_get_account_store (context->session);
+	e_mail_account_store_add_service (store, context->service);
+
+	return FALSE;
+}
+
+static CamelService *
+mail_session_add_service (CamelSession *session,
+                          const gchar *uid,
+                          const gchar *protocol,
+                          CamelProviderType type,
+                          GError **error)
+{
+	CamelService *service;
+
+	/* Chain up to parent's constructed() method. */
+	service = G_OBJECT_CLASS (e_mail_ui_session_parent_class)->add_service (object);
+
+	/* Inform the EMailAccountStore of the new CamelService
+	 * from an idle callback so the service has a chance to
+	 * fully initialize first. */
+	if (CAMEL_IS_STORE (service)) {
+		SourceContext *context;
+
+		context = g_slice_new0 (SourceContext);
+		context->session = g_object_ref (session);
+		context->service = g_object_ref (service);
+
+		g_idle_add_full (
+			G_PRIORITY_DEFAULT_IDLE,
+			(GSourceFunc) mail_session_add_service_cb,
+			context, (GDestroyNotify) source_context_free);
+	}
+
+}
+
+static void
 e_mail_ui_session_class_init (EMailUISessionClass *class)
 {
 	GObjectClass *object_class;
@@ -471,6 +695,8 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 	g_type_class_add_private (class, sizeof (EMailUISessionPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = mail_ui_session_set_property;
+	object_class->get_property = mail_ui_session_get_property;	
 	object_class->dispose = mail_ui_session_dispose;
 	object_class->finalize = mail_ui_session_finalize;
 	object_class->constructed = mail_ui_session_constructed;
@@ -478,6 +704,19 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 	session_class = CAMEL_SESSION_CLASS (class);
 	session_class->alert_user = mail_ui_session_alert_user;
 	session_class->get_filter_driver = mail_ui_session_get_filter_driver;
+	session_class->add_service = mail_ui_session_add_service;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_VFOLDER_STORE,
+		g_param_spec_object (
+			"vfolder-store",
+			"Search Folder Store",
+			"Built-in search folder store",
+			CAMEL_TYPE_STORE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+	
 }
 
 static void
@@ -502,3 +741,19 @@ e_mail_ui_session_new (void)
 		NULL);
 }
 
+
+EMailAccountStore *
+e_mail_ui_session_get_account_store (EMailUISession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), NULL);
+
+	return session->priv->account_store;
+}
+
+CamelStore *
+e_mail_ui_session_get_vfolder_store (EMailUISession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), NULL);
+
+	return session->priv->vfolder_store;
+}

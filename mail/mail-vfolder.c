@@ -46,6 +46,7 @@
 #include "libemail-engine/mail-ops.h"
 #include "libemail-engine/mail-tools.h"
 #include "mail-vfolder.h"
+#include "e-mail-ui-session.h"
 
 #define d(x)  /* (printf("%s:%s: ",  G_STRLOC, G_STRFUNC), (x))*/
 
@@ -1021,7 +1022,7 @@ vfolder_load_storage (EMailBackend *backend)
 
 	config_dir = mail_session_get_config_dir ();
 	session = e_mail_backend_get_session (backend);
-	vfolder_store = e_mail_session_get_vfolder_store (session);
+	vfolder_store = e_mail_ui_session_get_vfolder_store (E_MAIL_UI_SESSION(session));
 
 	g_signal_connect (
 		vfolder_store, "folder-deleted",

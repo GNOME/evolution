@@ -68,6 +68,7 @@
 #include "mail-guess-servers.h"
 #include "libemail-engine/mail-ops.h"
 #include "libemail-utils/mail-mt.h"
+#include "e-mail-ui-session.h"
 
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 #include "smime/gui/e-cert-selector.h"
@@ -5501,7 +5502,7 @@ emae_commit (EConfig *ec,
 		service = camel_session_get_service (
 			CAMEL_SESSION (session), account->uid);
 
-		store = e_mail_session_get_account_store (session);
+		store = e_mail_ui_session_get_account_store (session);
 		e_mail_account_store_set_default_service (store, service);
 	}
 

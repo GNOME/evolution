@@ -47,7 +47,14 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_MAIL_SESSION, EMailSessionClass))
 
+/* Built-in CamelServices */
+#define E_MAIL_SESSION_LOCAL_UID   "local"	/* "On This Computer" */
+#define E_MAIL_SESSION_VFOLDER_UID "vfolder"	/* "Search Folders" */
+
 G_BEGIN_DECLS
+
+/* Avoids a circular dependency. */
+typedef struct _EMailAccountStore EMailAccountStore;
 
 typedef struct _EMailSession EMailSession;
 typedef struct _EMailSessionClass EMailSessionClass;
@@ -66,6 +73,12 @@ GType		e_mail_session_get_type		(void);
 EMailSession *	e_mail_session_new		(void);
 MailFolderCache *
 		e_mail_session_get_folder_cache	(EMailSession *session);
+CamelStore *	e_mail_session_get_local_store	(EMailSession *session);
+CamelFolder *	e_mail_session_get_local_folder	(EMailSession *session,
+						 EMailLocalFolder type);
+const gchar *	e_mail_session_get_local_folder_uri
+						(EMailSession *session,
+						 EMailLocalFolder type);
 GList *		e_mail_session_get_available_junk_filters
 						(EMailSession *session);
 CamelFolder *	e_mail_session_get_inbox_sync	(EMailSession *session,
