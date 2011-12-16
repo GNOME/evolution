@@ -1189,15 +1189,78 @@ e_mail_account_store_disable_service (EMailAccountStore *store,
 }
 
 void
+e_mail_account_store_queue_services (EMailAccountStore *store,
+                                     GQueue *out_queue)
+{
+	GtkTreeModel *tree_model;
+	GtkTreeIter iter;
+	gboolean iter_set;
+	gint column;
+
+	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
+	g_return_if_fail (out_queue != NULL);
+
+	tree_model = GTK_TREE_MODEL (store);
+
+	iter_set = gtk_tree_model_get_iter_first (tree_model, &iter);
+
+	while (iter_set) {
+		GValue value = G_VALUE_INIT;
+
+		column = E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE;
+		gtk_tree_model_get_value (tree_model, &iter, column, &value);
+		g_queue_push_tail (out_queue, g_value_get_object (&value));
+		g_value_unset (&value);
+
+		iter_set = gtk_tree_model_iter_next (tree_model, &iter);
+	}
+}
+
+void
+e_mail_account_store_queue_enabled_services (EMailAccountStore *store,
+                                             GQueue *out_queue)
+{
+	GtkTreeModel *tree_model;
+	GtkTreeIter iter;
+	gboolean iter_set;
+	gint column;
+
+	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
+	g_return_if_fail (out_queue != NULL);
+
+	tree_model = GTK_TREE_MODEL (store);
+
+	iter_set = gtk_tree_model_get_iter_first (tree_model, &iter);
+
+	while (iter_set) {
+		GValue value = G_VALUE_INIT;
+		gboolean enabled;
+
+		column = E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED;
+		gtk_tree_model_get_value (tree_model, &iter, column, &value);
+		enabled = g_value_get_boolean (&value);
+		g_value_unset (&value);
+
+		if (!enabled)
+			continue;
+
+		column = E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE;
+		gtk_tree_model_get_value (tree_model, &iter, column, &value);
+		g_queue_push_tail (out_queue, g_value_get_object (&value));
+		g_value_unset (&value);
+
+		iter_set = gtk_tree_model_iter_next (tree_model, &iter);
+	}
+}
+
+void
 e_mail_account_store_reorder_services (EMailAccountStore *store,
                                        GQueue *ordered_services)
 {
 	GQueue *current_order = NULL;
 	GQueue *default_order = NULL;
 	GtkTreeModel *tree_model;
-	GtkTreeIter iter;
 	gboolean use_default_order;
-	gboolean iter_set;
 	GList *head, *link;
 	gint *new_order;
 	gint n_children;
@@ -1220,22 +1283,11 @@ e_mail_account_store_reorder_services (EMailAccountStore *store,
 		g_return_if_fail (length == n_children);
 	}
 
-	current_order = g_queue_new ();
-	iter_set = gtk_tree_model_get_iter_first (tree_model, &iter);
-
 	/* Build a queue of CamelServices in the order they appear in
 	 * the list store.  We'll use this to construct the mapping to
 	 * pass to gtk_list_store_reorder(). */
-	while (iter_set) {
-		GValue value = G_VALUE_INIT;
-		const gint column = E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE;
-
-		gtk_tree_model_get_value (tree_model, &iter, column, &value);
-		g_queue_push_tail (current_order, g_value_get_object (&value));
-		g_value_unset (&value);
-
-		iter_set = gtk_tree_model_iter_next (tree_model, &iter);
-	}
+	current_order = g_queue_new ();
+	e_mail_account_store_queue_services (store, current_order);
 
 	/* If a custom ordering was not given, revert to default. */
 	if (use_default_order) {

@@ -30,16 +30,16 @@
 
 G_BEGIN_DECLS
 
-/* send/receive all uri's */
+/* send/receive all CamelServices */
 GtkWidget *	mail_send_receive		(GtkWindow *parent,
 						 EMailBackend *backend);
 
 GtkWidget *	mail_receive			(GtkWindow *parent,
 						 EMailBackend *backend);
 
-/* receive a single account */
-void		mail_receive_account		(EMailBackend *backend,
-						 EAccount *account);
+/* receive a single CamelService */
+void		mail_receive_service		(EMailBackend *backend,
+						 CamelService *service);
 
 void		mail_send			(EMailBackend *backend);
 

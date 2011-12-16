@@ -1095,6 +1095,7 @@ e_mail_shell_view_send_receive (EMailShellView *mail_shell_view,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
+	EMailBackend *backend;
 
 	g_return_if_fail (mail_shell_view != NULL);
 
@@ -1102,34 +1103,41 @@ e_mail_shell_view_send_receive (EMailShellView *mail_shell_view,
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
+	backend = E_MAIL_BACKEND (shell_backend);
+
 	em_utils_clear_get_password_canceled_accounts_flag ();
 
 	if (!account_uid) {
 		switch (mode) {
 		case E_MAIL_SEND_RECEIVE_BOTH:
-			mail_send_receive (
-				GTK_WINDOW (shell_window),
-				E_MAIL_BACKEND (shell_backend));
+			mail_send_receive (GTK_WINDOW (shell_window), backend);
 			break;
 		case E_MAIL_SEND_RECEIVE_RECEIVE:
-			mail_receive (
-				GTK_WINDOW (shell_window),
-				E_MAIL_BACKEND (shell_backend));
+			mail_receive (GTK_WINDOW (shell_window), backend);
 			break;
 		case E_MAIL_SEND_RECEIVE_SEND:
-			mail_send (E_MAIL_BACKEND (shell_backend));
+			mail_send (backend);
 			break;
 		}
 	} else {
 		/* allow only receive on individual accounts */
 		EAccount *account;
+		EMailSession *session;
+		CamelService *service;
 
 		account = e_get_account_by_uid (account_uid);
 		g_return_if_fail (account != NULL);
 
-		if (account->enabled && account->source != NULL)
-			mail_receive_account (
-				E_MAIL_BACKEND (shell_backend), account);
+		if (!account->enabled)
+			return;
+
+		session = e_mail_backend_get_session (backend);
+
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), account->uid);
+
+		if (CAMEL_IS_SERVICE (service))
+			mail_receive_service (backend, service);
 	}
 }
 

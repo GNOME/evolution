@@ -126,6 +126,12 @@ void		e_mail_account_store_disable_service
 						(EMailAccountStore *store,
 						 GtkWindow *parent_window,
 						 CamelService *service);
+void		e_mail_account_store_queue_services
+						(EMailAccountStore *store,
+						 GQueue *out_queue);
+void		e_mail_account_store_queue_enabled_services
+						(EMailAccountStore *store,
+						 GQueue *out_queue);
 void		e_mail_account_store_reorder_services
 						(EMailAccountStore *store,
 						 GQueue *ordered_services);
