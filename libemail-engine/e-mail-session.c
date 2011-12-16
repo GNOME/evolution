@@ -53,7 +53,6 @@
 #include "libemail-utils/gconf-bridge.h"
 
 #include "e-mail-junk-filter.h"
-#include "e-mail-local.h"
 #include "e-mail-session.h"
 #include "e-mail-folder-utils.h"
 #include "e-mail-utils.h"
@@ -66,7 +65,6 @@
 	((obj), E_TYPE_MAIL_SESSION, EMailSessionPrivate))
 
 typedef struct _AsyncContext AsyncContext;
-typedef struct _SourceContext SourceContext;
 
 struct _EMailSessionPrivate {
 	MailFolderCache *folder_cache;
@@ -93,11 +91,6 @@ struct _AsyncContext {
 
 	/* results */
 	CamelFolder *folder;
-};
-
-struct _SourceContext {
-	EMailSession *session;
-	CamelService *service;
 };
 
 enum {
@@ -341,17 +334,6 @@ async_context_free (AsyncContext *context)
 	g_slice_free (AsyncContext, context);
 }
 
-static void
-source_context_free (SourceContext *context)
-{
-	if (context->session != NULL)
-		g_object_unref (context->session);
-
-	if (context->service != NULL)
-		g_object_unref (context->service);
-
-	g_slice_free (SourceContext, context);
-}
 
 static gchar *
 mail_session_make_key (CamelService *service,

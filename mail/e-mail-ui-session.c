@@ -645,6 +645,12 @@ mail_session_get_property (GObject *object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
+typedef struct _SourceContext SourceContext;
+struct _SourceContext {
+	EMailSession *session;
+	CamelService *service;
+};
+
 static gboolean
 mail_ui_session_add_service_cb (SourceContext *context)
 {
@@ -654,6 +660,18 @@ mail_ui_session_add_service_cb (SourceContext *context)
 	e_mail_account_store_add_service (store, context->service);
 
 	return FALSE;
+}
+
+static void
+source_context_free (SourceContext *context)
+{
+	if (context->session != NULL)
+		g_object_unref (context->session);
+
+	if (context->service != NULL)
+		g_object_unref (context->service);
+
+	g_slice_free (SourceContext, context);
 }
 
 static CamelService *

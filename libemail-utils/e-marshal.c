@@ -437,7 +437,48 @@ e_marshal_BOOLEAN__OBJECT (GClosure     *closure,
   g_value_set_boolean (return_value, v_return);
 }
 
-/* BOOLEAN:OBJECT,DOUBLE,DOUBLE,BOOLEAN (e-marshal.list:10) */
+/* BOOLEAN:OBJECT,OBJECT (e-marshal.list:10) */
+void
+e_marshal_BOOLEAN__OBJECT_OBJECT (GClosure     *closure,
+                                  GValue       *return_value G_GNUC_UNUSED,
+                                  guint         n_param_values,
+                                  const GValue *param_values,
+                                  gpointer      invocation_hint G_GNUC_UNUSED,
+                                  gpointer      marshal_data)
+{
+  typedef gboolean (*GMarshalFunc_BOOLEAN__OBJECT_OBJECT) (gpointer     data1,
+                                                           gpointer     arg_1,
+                                                           gpointer     arg_2,
+                                                           gpointer     data2);
+  register GMarshalFunc_BOOLEAN__OBJECT_OBJECT callback;
+  register GCClosure *cc = (GCClosure*) closure;
+  register gpointer data1, data2;
+  gboolean v_return;
+
+  g_return_if_fail (return_value != NULL);
+  g_return_if_fail (n_param_values == 3);
+
+  if (G_CCLOSURE_SWAP_DATA (closure))
+    {
+      data1 = closure->data;
+      data2 = g_value_peek_pointer (param_values + 0);
+    }
+  else
+    {
+      data1 = g_value_peek_pointer (param_values + 0);
+      data2 = closure->data;
+    }
+  callback = (GMarshalFunc_BOOLEAN__OBJECT_OBJECT) (marshal_data ? marshal_data : cc->callback);
+
+  v_return = callback (data1,
+                       g_marshal_value_peek_object (param_values + 1),
+                       g_marshal_value_peek_object (param_values + 2),
+                       data2);
+
+  g_value_set_boolean (return_value, v_return);
+}
+
+/* BOOLEAN:OBJECT,DOUBLE,DOUBLE,BOOLEAN (e-marshal.list:11) */
 void
 e_marshal_BOOLEAN__OBJECT_DOUBLE_DOUBLE_BOOLEAN (GClosure     *closure,
                                                  GValue       *return_value G_GNUC_UNUSED,
@@ -482,7 +523,7 @@ e_marshal_BOOLEAN__OBJECT_DOUBLE_DOUBLE_BOOLEAN (GClosure     *closure,
   g_value_set_boolean (return_value, v_return);
 }
 
-/* BOOLEAN:POINTER (e-marshal.list:11) */
+/* BOOLEAN:POINTER (e-marshal.list:12) */
 void
 e_marshal_BOOLEAN__POINTER (GClosure     *closure,
                             GValue       *return_value G_GNUC_UNUSED,
@@ -521,7 +562,7 @@ e_marshal_BOOLEAN__POINTER (GClosure     *closure,
   g_value_set_boolean (return_value, v_return);
 }
 
-/* BOOLEAN:POINTER,BOOLEAN,POINTER (e-marshal.list:12) */
+/* BOOLEAN:POINTER,BOOLEAN,POINTER (e-marshal.list:13) */
 void
 e_marshal_BOOLEAN__POINTER_BOOLEAN_POINTER (GClosure     *closure,
                                             GValue       *return_value G_GNUC_UNUSED,
@@ -564,7 +605,7 @@ e_marshal_BOOLEAN__POINTER_BOOLEAN_POINTER (GClosure     *closure,
   g_value_set_boolean (return_value, v_return);
 }
 
-/* BOOLEAN:POINTER,POINTER (e-marshal.list:13) */
+/* BOOLEAN:POINTER,POINTER (e-marshal.list:14) */
 void
 e_marshal_BOOLEAN__POINTER_POINTER (GClosure     *closure,
                                     GValue       *return_value G_GNUC_UNUSED,
@@ -605,7 +646,7 @@ e_marshal_BOOLEAN__POINTER_POINTER (GClosure     *closure,
   g_value_set_boolean (return_value, v_return);
 }
 
-/* BOOLEAN:POINTER,POINTER,POINTER,POINTER (e-marshal.list:14) */
+/* BOOLEAN:POINTER,POINTER,POINTER,POINTER (e-marshal.list:15) */
 void
 e_marshal_BOOLEAN__POINTER_POINTER_POINTER_POINTER (GClosure     *closure,
                                                     GValue       *return_value G_GNUC_UNUSED,
@@ -650,7 +691,7 @@ e_marshal_BOOLEAN__POINTER_POINTER_POINTER_POINTER (GClosure     *closure,
   g_value_set_boolean (return_value, v_return);
 }
 
-/* BOOLEAN:STRING (e-marshal.list:15) */
+/* BOOLEAN:STRING (e-marshal.list:16) */
 void
 e_marshal_BOOLEAN__STRING (GClosure     *closure,
                            GValue       *return_value G_GNUC_UNUSED,
@@ -689,7 +730,7 @@ e_marshal_BOOLEAN__STRING (GClosure     *closure,
   g_value_set_boolean (return_value, v_return);
 }
 
-/* BOOLEAN:STRING,INT (e-marshal.list:16) */
+/* BOOLEAN:STRING,INT (e-marshal.list:17) */
 void
 e_marshal_BOOLEAN__STRING_INT (GClosure     *closure,
                                GValue       *return_value G_GNUC_UNUSED,
@@ -730,7 +771,7 @@ e_marshal_BOOLEAN__STRING_INT (GClosure     *closure,
   g_value_set_boolean (return_value, v_return);
 }
 
-/* DOUBLE:OBJECT,DOUBLE,DOUBLE,BOOLEAN (e-marshal.list:17) */
+/* DOUBLE:OBJECT,DOUBLE,DOUBLE,BOOLEAN (e-marshal.list:18) */
 void
 e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOLEAN (GClosure     *closure,
                                                 GValue       *return_value G_GNUC_UNUSED,
@@ -775,7 +816,7 @@ e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOLEAN (GClosure     *closure,
   g_value_set_double (return_value, v_return);
 }
 
-/* INT:BOXED (e-marshal.list:18) */
+/* INT:BOXED (e-marshal.list:19) */
 void
 e_marshal_INT__BOXED (GClosure     *closure,
                       GValue       *return_value G_GNUC_UNUSED,
@@ -814,7 +855,7 @@ e_marshal_INT__BOXED (GClosure     *closure,
   g_value_set_int (return_value, v_return);
 }
 
-/* INT:INT (e-marshal.list:19) */
+/* INT:INT (e-marshal.list:20) */
 void
 e_marshal_INT__INT (GClosure     *closure,
                     GValue       *return_value G_GNUC_UNUSED,
@@ -853,7 +894,7 @@ e_marshal_INT__INT (GClosure     *closure,
   g_value_set_int (return_value, v_return);
 }
 
-/* INT:INT,INT,BOXED (e-marshal.list:20) */
+/* INT:INT,INT,BOXED (e-marshal.list:21) */
 void
 e_marshal_INT__INT_INT_BOXED (GClosure     *closure,
                               GValue       *return_value G_GNUC_UNUSED,
@@ -896,7 +937,7 @@ e_marshal_INT__INT_INT_BOXED (GClosure     *closure,
   g_value_set_int (return_value, v_return);
 }
 
-/* INT:INT,POINTER,INT,BOXED (e-marshal.list:21) */
+/* INT:INT,POINTER,INT,BOXED (e-marshal.list:22) */
 void
 e_marshal_INT__INT_POINTER_INT_BOXED (GClosure     *closure,
                                       GValue       *return_value G_GNUC_UNUSED,
@@ -941,7 +982,7 @@ e_marshal_INT__INT_POINTER_INT_BOXED (GClosure     *closure,
   g_value_set_int (return_value, v_return);
 }
 
-/* INT:OBJECT,BOXED (e-marshal.list:22) */
+/* INT:OBJECT,BOXED (e-marshal.list:23) */
 void
 e_marshal_INT__OBJECT_BOXED (GClosure     *closure,
                              GValue       *return_value G_GNUC_UNUSED,
@@ -982,7 +1023,7 @@ e_marshal_INT__OBJECT_BOXED (GClosure     *closure,
   g_value_set_int (return_value, v_return);
 }
 
-/* INT:POINTER (e-marshal.list:23) */
+/* INT:POINTER (e-marshal.list:24) */
 void
 e_marshal_INT__POINTER (GClosure     *closure,
                         GValue       *return_value G_GNUC_UNUSED,
@@ -1021,7 +1062,7 @@ e_marshal_INT__POINTER (GClosure     *closure,
   g_value_set_int (return_value, v_return);
 }
 
-/* NONE:BOXED,INT (e-marshal.list:24) */
+/* NONE:BOXED,INT (e-marshal.list:25) */
 void
 e_marshal_VOID__BOXED_INT (GClosure     *closure,
                            GValue       *return_value G_GNUC_UNUSED,
@@ -1058,7 +1099,7 @@ e_marshal_VOID__BOXED_INT (GClosure     *closure,
             data2);
 }
 
-/* NONE:ENUM,OBJECT,OBJECT (e-marshal.list:25) */
+/* NONE:ENUM,OBJECT,OBJECT (e-marshal.list:26) */
 void
 e_marshal_VOID__ENUM_OBJECT_OBJECT (GClosure     *closure,
                                     GValue       *return_value G_GNUC_UNUSED,
@@ -1097,7 +1138,7 @@ e_marshal_VOID__ENUM_OBJECT_OBJECT (GClosure     *closure,
             data2);
 }
 
-/* NONE:INT,INT (e-marshal.list:26) */
+/* NONE:INT,INT (e-marshal.list:27) */
 void
 e_marshal_VOID__INT_INT (GClosure     *closure,
                          GValue       *return_value G_GNUC_UNUSED,
@@ -1134,7 +1175,7 @@ e_marshal_VOID__INT_INT (GClosure     *closure,
             data2);
 }
 
-/* NONE:INT,INT,BOXED (e-marshal.list:27) */
+/* NONE:INT,INT,BOXED (e-marshal.list:28) */
 void
 e_marshal_VOID__INT_INT_BOXED (GClosure     *closure,
                                GValue       *return_value G_GNUC_UNUSED,
@@ -1173,7 +1214,7 @@ e_marshal_VOID__INT_INT_BOXED (GClosure     *closure,
             data2);
 }
 
-/* NONE:INT,INT,OBJECT (e-marshal.list:28) */
+/* NONE:INT,INT,OBJECT (e-marshal.list:29) */
 void
 e_marshal_VOID__INT_INT_OBJECT (GClosure     *closure,
                                 GValue       *return_value G_GNUC_UNUSED,
@@ -1212,7 +1253,7 @@ e_marshal_VOID__INT_INT_OBJECT (GClosure     *closure,
             data2);
 }
 
-/* NONE:INT,INT,OBJECT,BOXED,UINT,UINT (e-marshal.list:29) */
+/* NONE:INT,INT,OBJECT,BOXED,UINT,UINT (e-marshal.list:30) */
 void
 e_marshal_VOID__INT_INT_OBJECT_BOXED_UINT_UINT (GClosure     *closure,
                                                 GValue       *return_value G_GNUC_UNUSED,
@@ -1257,7 +1298,7 @@ e_marshal_VOID__INT_INT_OBJECT_BOXED_UINT_UINT (GClosure     *closure,
             data2);
 }
 
-/* NONE:INT,INT,OBJECT,INT,INT,BOXED,UINT,UINT (e-marshal.list:30) */
+/* NONE:INT,INT,OBJECT,INT,INT,BOXED,UINT,UINT (e-marshal.list:31) */
 void
 e_marshal_VOID__INT_INT_OBJECT_INT_INT_BOXED_UINT_UINT (GClosure     *closure,
                                                         GValue       *return_value G_GNUC_UNUSED,
@@ -1306,7 +1347,7 @@ e_marshal_VOID__INT_INT_OBJECT_INT_INT_BOXED_UINT_UINT (GClosure     *closure,
             data2);
 }
 
-/* NONE:INT,INT,OBJECT,UINT (e-marshal.list:31) */
+/* NONE:INT,INT,OBJECT,UINT (e-marshal.list:32) */
 void
 e_marshal_VOID__INT_INT_OBJECT_UINT (GClosure     *closure,
                                      GValue       *return_value G_GNUC_UNUSED,
@@ -1347,7 +1388,7 @@ e_marshal_VOID__INT_INT_OBJECT_UINT (GClosure     *closure,
             data2);
 }
 
-/* NONE:INT,OBJECT (e-marshal.list:32) */
+/* NONE:INT,OBJECT (e-marshal.list:33) */
 void
 e_marshal_VOID__INT_OBJECT (GClosure     *closure,
                             GValue       *return_value G_GNUC_UNUSED,
@@ -1384,7 +1425,7 @@ e_marshal_VOID__INT_OBJECT (GClosure     *closure,
             data2);
 }
 
-/* NONE:INT,POINTER (e-marshal.list:33) */
+/* NONE:INT,POINTER (e-marshal.list:34) */
 void
 e_marshal_VOID__INT_POINTER (GClosure     *closure,
                              GValue       *return_value G_GNUC_UNUSED,
@@ -1421,7 +1462,7 @@ e_marshal_VOID__INT_POINTER (GClosure     *closure,
             data2);
 }
 
-/* NONE:INT,POINTER,INT,BOXED (e-marshal.list:34) */
+/* NONE:INT,POINTER,INT,BOXED (e-marshal.list:35) */
 void
 e_marshal_VOID__INT_POINTER_INT_BOXED (GClosure     *closure,
                                        GValue       *return_value G_GNUC_UNUSED,
@@ -1462,7 +1503,7 @@ e_marshal_VOID__INT_POINTER_INT_BOXED (GClosure     *closure,
             data2);
 }
 
-/* NONE:INT,POINTER,INT,OBJECT (e-marshal.list:35) */
+/* NONE:INT,POINTER,INT,OBJECT (e-marshal.list:36) */
 void
 e_marshal_VOID__INT_POINTER_INT_OBJECT (GClosure     *closure,
                                         GValue       *return_value G_GNUC_UNUSED,
@@ -1503,7 +1544,7 @@ e_marshal_VOID__INT_POINTER_INT_OBJECT (GClosure     *closure,
             data2);
 }
 
-/* NONE:INT,POINTER,INT,OBJECT,BOXED,UINT,UINT (e-marshal.list:36) */
+/* NONE:INT,POINTER,INT,OBJECT,BOXED,UINT,UINT (e-marshal.list:37) */
 void
 e_marshal_VOID__INT_POINTER_INT_OBJECT_BOXED_UINT_UINT (GClosure     *closure,
                                                         GValue       *return_value G_GNUC_UNUSED,
@@ -1550,7 +1591,7 @@ e_marshal_VOID__INT_POINTER_INT_OBJECT_BOXED_UINT_UINT (GClosure     *closure,
             data2);
 }
 
-/* NONE:INT,POINTER,INT,OBJECT,INT,INT,BOXED,UINT,UINT (e-marshal.list:37) */
+/* NONE:INT,POINTER,INT,OBJECT,INT,INT,BOXED,UINT,UINT (e-marshal.list:38) */
 void
 e_marshal_VOID__INT_POINTER_INT_OBJECT_INT_INT_BOXED_UINT_UINT (GClosure     *closure,
                                                                 GValue       *return_value G_GNUC_UNUSED,
@@ -1601,7 +1642,7 @@ e_marshal_VOID__INT_POINTER_INT_OBJECT_INT_INT_BOXED_UINT_UINT (GClosure     *cl
             data2);
 }
 
-/* NONE:INT,POINTER,INT,OBJECT,UINT (e-marshal.list:38) */
+/* NONE:INT,POINTER,INT,OBJECT,UINT (e-marshal.list:39) */
 void
 e_marshal_VOID__INT_POINTER_INT_OBJECT_UINT (GClosure     *closure,
                                              GValue       *return_value G_GNUC_UNUSED,
@@ -1644,7 +1685,7 @@ e_marshal_VOID__INT_POINTER_INT_OBJECT_UINT (GClosure     *closure,
             data2);
 }
 
-/* NONE:LONG,LONG (e-marshal.list:39) */
+/* NONE:LONG,LONG (e-marshal.list:40) */
 void
 e_marshal_VOID__LONG_LONG (GClosure     *closure,
                            GValue       *return_value G_GNUC_UNUSED,
@@ -1681,7 +1722,7 @@ e_marshal_VOID__LONG_LONG (GClosure     *closure,
             data2);
 }
 
-/* NONE:OBJECT,BOOLEAN (e-marshal.list:40) */
+/* NONE:OBJECT,BOOLEAN (e-marshal.list:41) */
 void
 e_marshal_VOID__OBJECT_BOOLEAN (GClosure     *closure,
                                 GValue       *return_value G_GNUC_UNUSED,
@@ -1718,7 +1759,7 @@ e_marshal_VOID__OBJECT_BOOLEAN (GClosure     *closure,
             data2);
 }
 
-/* NONE:OBJECT,DOUBLE,DOUBLE,BOOLEAN (e-marshal.list:41) */
+/* NONE:OBJECT,DOUBLE,DOUBLE,BOOLEAN (e-marshal.list:42) */
 void
 e_marshal_VOID__OBJECT_DOUBLE_DOUBLE_BOOLEAN (GClosure     *closure,
                                               GValue       *return_value G_GNUC_UNUSED,
@@ -1759,7 +1800,7 @@ e_marshal_VOID__OBJECT_DOUBLE_DOUBLE_BOOLEAN (GClosure     *closure,
             data2);
 }
 
-/* NONE:OBJECT,OBJECT (e-marshal.list:42) */
+/* NONE:OBJECT,OBJECT (e-marshal.list:43) */
 void
 e_marshal_VOID__OBJECT_OBJECT (GClosure     *closure,
                                GValue       *return_value G_GNUC_UNUSED,
@@ -1796,7 +1837,7 @@ e_marshal_VOID__OBJECT_OBJECT (GClosure     *closure,
             data2);
 }
 
-/* NONE:OBJECT,STRING (e-marshal.list:43) */
+/* NONE:OBJECT,STRING (e-marshal.list:44) */
 void
 e_marshal_VOID__OBJECT_STRING (GClosure     *closure,
                                GValue       *return_value G_GNUC_UNUSED,
@@ -1833,7 +1874,7 @@ e_marshal_VOID__OBJECT_STRING (GClosure     *closure,
             data2);
 }
 
-/* NONE:OBJECT,STRING,INT (e-marshal.list:44) */
+/* NONE:OBJECT,STRING,INT (e-marshal.list:45) */
 void
 e_marshal_VOID__OBJECT_STRING_INT (GClosure     *closure,
                                    GValue       *return_value G_GNUC_UNUSED,
@@ -1872,7 +1913,7 @@ e_marshal_VOID__OBJECT_STRING_INT (GClosure     *closure,
             data2);
 }
 
-/* NONE:OBJECT,STRING,INT,STRING,STRING,STRING (e-marshal.list:45) */
+/* NONE:OBJECT,STRING,INT,STRING,STRING,STRING (e-marshal.list:46) */
 void
 e_marshal_VOID__OBJECT_STRING_INT_STRING_STRING_STRING (GClosure     *closure,
                                                         GValue       *return_value G_GNUC_UNUSED,
@@ -1917,7 +1958,7 @@ e_marshal_VOID__OBJECT_STRING_INT_STRING_STRING_STRING (GClosure     *closure,
             data2);
 }
 
-/* NONE:OBJECT,STRING,STRING (e-marshal.list:46) */
+/* NONE:OBJECT,STRING,STRING (e-marshal.list:47) */
 void
 e_marshal_VOID__OBJECT_STRING_STRING (GClosure     *closure,
                                       GValue       *return_value G_GNUC_UNUSED,
@@ -1956,7 +1997,7 @@ e_marshal_VOID__OBJECT_STRING_STRING (GClosure     *closure,
             data2);
 }
 
-/* NONE:OBJECT,STRING,UINT (e-marshal.list:47) */
+/* NONE:OBJECT,STRING,UINT (e-marshal.list:48) */
 void
 e_marshal_VOID__OBJECT_STRING_UINT (GClosure     *closure,
                                     GValue       *return_value G_GNUC_UNUSED,
@@ -1995,7 +2036,7 @@ e_marshal_VOID__OBJECT_STRING_UINT (GClosure     *closure,
             data2);
 }
 
-/* NONE:POINTER,INT (e-marshal.list:48) */
+/* NONE:POINTER,INT (e-marshal.list:49) */
 void
 e_marshal_VOID__POINTER_INT (GClosure     *closure,
                              GValue       *return_value G_GNUC_UNUSED,
@@ -2032,7 +2073,7 @@ e_marshal_VOID__POINTER_INT (GClosure     *closure,
             data2);
 }
 
-/* NONE:POINTER,INT,INT,INT,INT (e-marshal.list:49) */
+/* NONE:POINTER,INT,INT,INT,INT (e-marshal.list:50) */
 void
 e_marshal_VOID__POINTER_INT_INT_INT_INT (GClosure     *closure,
                                          GValue       *return_value G_GNUC_UNUSED,
@@ -2075,7 +2116,7 @@ e_marshal_VOID__POINTER_INT_INT_INT_INT (GClosure     *closure,
             data2);
 }
 
-/* NONE:POINTER,INT,OBJECT (e-marshal.list:50) */
+/* NONE:POINTER,INT,OBJECT (e-marshal.list:51) */
 void
 e_marshal_VOID__POINTER_INT_OBJECT (GClosure     *closure,
                                     GValue       *return_value G_GNUC_UNUSED,
@@ -2114,7 +2155,7 @@ e_marshal_VOID__POINTER_INT_OBJECT (GClosure     *closure,
             data2);
 }
 
-/* NONE:POINTER,OBJECT (e-marshal.list:51) */
+/* NONE:POINTER,OBJECT (e-marshal.list:52) */
 void
 e_marshal_VOID__POINTER_OBJECT (GClosure     *closure,
                                 GValue       *return_value G_GNUC_UNUSED,
@@ -2151,7 +2192,7 @@ e_marshal_VOID__POINTER_OBJECT (GClosure     *closure,
             data2);
 }
 
-/* NONE:POINTER,POINTER (e-marshal.list:52) */
+/* NONE:POINTER,POINTER (e-marshal.list:53) */
 void
 e_marshal_VOID__POINTER_POINTER (GClosure     *closure,
                                  GValue       *return_value G_GNUC_UNUSED,
@@ -2188,7 +2229,7 @@ e_marshal_VOID__POINTER_POINTER (GClosure     *closure,
             data2);
 }
 
-/* NONE:POINTER,POINTER,INT (e-marshal.list:53) */
+/* NONE:POINTER,POINTER,INT (e-marshal.list:54) */
 void
 e_marshal_VOID__POINTER_POINTER_INT (GClosure     *closure,
                                      GValue       *return_value G_GNUC_UNUSED,
@@ -2227,7 +2268,7 @@ e_marshal_VOID__POINTER_POINTER_INT (GClosure     *closure,
             data2);
 }
 
-/* NONE:STRING,DOUBLE (e-marshal.list:54) */
+/* NONE:STRING,DOUBLE (e-marshal.list:55) */
 void
 e_marshal_VOID__STRING_DOUBLE (GClosure     *closure,
                                GValue       *return_value G_GNUC_UNUSED,
@@ -2264,7 +2305,7 @@ e_marshal_VOID__STRING_DOUBLE (GClosure     *closure,
             data2);
 }
 
-/* NONE:STRING,INT (e-marshal.list:55) */
+/* NONE:STRING,INT (e-marshal.list:56) */
 void
 e_marshal_VOID__STRING_INT (GClosure     *closure,
                             GValue       *return_value G_GNUC_UNUSED,
@@ -2301,7 +2342,7 @@ e_marshal_VOID__STRING_INT (GClosure     *closure,
             data2);
 }
 
-/* NONE:STRING,INT,INT (e-marshal.list:56) */
+/* NONE:STRING,INT,INT (e-marshal.list:57) */
 void
 e_marshal_VOID__STRING_INT_INT (GClosure     *closure,
                                 GValue       *return_value G_GNUC_UNUSED,
@@ -2340,7 +2381,7 @@ e_marshal_VOID__STRING_INT_INT (GClosure     *closure,
             data2);
 }
 
-/* NONE:STRING,OBJECT (e-marshal.list:57) */
+/* NONE:STRING,OBJECT (e-marshal.list:58) */
 void
 e_marshal_VOID__STRING_OBJECT (GClosure     *closure,
                                GValue       *return_value G_GNUC_UNUSED,
@@ -2377,7 +2418,7 @@ e_marshal_VOID__STRING_OBJECT (GClosure     *closure,
             data2);
 }
 
-/* NONE:STRING,POINTER,POINTER (e-marshal.list:58) */
+/* NONE:STRING,POINTER,POINTER (e-marshal.list:59) */
 void
 e_marshal_VOID__STRING_POINTER_POINTER (GClosure     *closure,
                                         GValue       *return_value G_GNUC_UNUSED,
@@ -2416,7 +2457,7 @@ e_marshal_VOID__STRING_POINTER_POINTER (GClosure     *closure,
             data2);
 }
 
-/* NONE:STRING,STRING (e-marshal.list:59) */
+/* NONE:STRING,STRING (e-marshal.list:60) */
 void
 e_marshal_VOID__STRING_STRING (GClosure     *closure,
                                GValue       *return_value G_GNUC_UNUSED,
@@ -2453,7 +2494,7 @@ e_marshal_VOID__STRING_STRING (GClosure     *closure,
             data2);
 }
 
-/* NONE:UINT,STRING (e-marshal.list:60) */
+/* NONE:UINT,STRING (e-marshal.list:61) */
 void
 e_marshal_VOID__UINT_STRING (GClosure     *closure,
                              GValue       *return_value G_GNUC_UNUSED,
@@ -2490,7 +2531,7 @@ e_marshal_VOID__UINT_STRING (GClosure     *closure,
             data2);
 }
 
-/* STRING:NONE (e-marshal.list:61) */
+/* STRING:NONE (e-marshal.list:62) */
 void
 e_marshal_STRING__VOID (GClosure     *closure,
                         GValue       *return_value G_GNUC_UNUSED,

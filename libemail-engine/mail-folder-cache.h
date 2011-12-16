@@ -110,8 +110,8 @@ struct _MailFolderCacheClass {
 
 GType		mail_folder_cache_get_type	(void) G_GNUC_CONST;
 MailFolderCache *
-		mail_folder_cache_new		(EMailSession *session);
-struct _EMailSession
+		mail_folder_cache_new		(struct _EMailSession *session);
+struct _EMailSession *
 		mail_folder_cache_get_session	(MailFolderCache *cache);
 void		mail_folder_cache_note_store	(MailFolderCache *cache,
 						 CamelStore *store,
@@ -141,7 +141,7 @@ void		mail_folder_cache_get_remote_folder_uris
 void		mail_folder_cache_service_added (MailFolderCache *cache,
                                  		 CamelService *service);
 void		mail_folder_cache_service_removed 
-						(MailFolderCache *cache
+						(MailFolderCache *cache,
                                    		 CamelService *service);
 void		mail_folder_cache_service_enabled 
 						(MailFolderCache *cache,

@@ -1106,7 +1106,7 @@ mail_folder_cache_service_disabled (MailFolderCache *cache,
 	/* To the folder cache, disabling a service is the same as
 	 * removing it.  We keep a separate callback function only
 	 * to use as a breakpoint target in a debugger. */
-	mail_folder_cache_service_removed (account_store, service, cache);
+	mail_folder_cache_service_removed (cache, service);
 }
 
 static void
@@ -1163,7 +1163,8 @@ mail_folder_cache_dispose (GObject *object)
 {
 	MailFolderCachePrivate *priv;
 
-	priv = MAIL_FOLDER_CACHE_GET_PRIVATE (object);
+	priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		object, MAIL_TYPE_FOLDER_CACHE, MailFolderCachePrivate);
 
 	if (priv->session != NULL) {
 		g_object_remove_weak_pointer (
@@ -1180,7 +1181,8 @@ mail_folder_cache_finalize (GObject *object)
 {
 	MailFolderCachePrivate *priv;
 
-	priv = MAIL_FOLDER_CACHE_GET_PRIVATE (object);
+	priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		object, MAIL_TYPE_FOLDER_CACHE, MailFolderCachePrivate);
 
 	g_hash_table_destroy (priv->stores);
 	g_mutex_free (priv->stores_mutex);
@@ -1545,8 +1547,8 @@ mail_folder_cache_init (MailFolderCache *self)
 	self->priv->ping_id = g_timeout_add_seconds (
 		timeout, (GSourceFunc) ping_cb, self);
 
-	g_queue_init (&cache->priv->local_folder_uris);
-	g_queue_init (&cache->priv->remote_folder_uris);	
+	g_queue_init (&self->priv->local_folder_uris);
+	g_queue_init (&self->priv->remote_folder_uris);	
 }
 
 MailFolderCache *
@@ -1586,7 +1588,7 @@ mail_folder_cache_note_store (MailFolderCache *self,
 	struct _update_data *ud;
 	gint hook = 0;
 
-	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
+	g_return_if_fail (MAIL_IS_FOLDER_CACHE (self));
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
 	session = camel_service_get_session (CAMEL_SERVICE (store));
@@ -1691,7 +1693,7 @@ mail_folder_cache_note_folder (MailFolderCache *self,
 	struct _folder_info *mfi;
 	const gchar *full_name;
 
-	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
+	g_return_if_fail (MAIL_IS_FOLDER_CACHE (self));
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
 	full_name = camel_folder_get_full_name (folder);

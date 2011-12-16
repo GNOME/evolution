@@ -813,7 +813,7 @@ send_queue_exec (struct _send_queue_msg *m,
 
 	d(printf("sending queue\n"));
 
-	session = e_mail_backend_get_session (m->backend);
+	session = m->session;
 
 	sent_folder =
 		e_mail_session_get_local_folder (
@@ -1499,7 +1499,8 @@ expunge_folder_exec (struct _sync_folder_msg *m,
 	gboolean success = TRUE;
 	const gchar *uid;
 
-	session = e_mail_backend_get_session (m->backend);
+	session = m->session;
+
 	parent_store = camel_folder_get_parent_store (m->folder);
 	uid = camel_service_get_uid (CAMEL_SERVICE (parent_store));
 	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);

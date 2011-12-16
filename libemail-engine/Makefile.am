@@ -21,7 +21,6 @@ libemail_engine_la_LIBADD = 	\
 libemail_engine_la_LDFLAGS = 
 
 libemail_engine_la_SOURCES = 	\
-		e-mail-local.c		\
 		e-mail-folder-utils.c	\
 		e-mail-store-utils.c	\
 		mail-tools.c		\
@@ -31,8 +30,7 @@ libemail_engine_la_SOURCES = 	\
 		e-mail-session-utils.c	\
 		mail-ops.c		\
 		e-mail-junk-filter.c	\
-		e-mail-session.c	\
-		e-mail-store.c
+		e-mail-session.c	
 
 libmailengineincludedir = $(privincludedir)/libemail-engine
 libmailengineinclude_HEADERS = 	\
