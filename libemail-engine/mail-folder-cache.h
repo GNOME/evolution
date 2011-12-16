@@ -142,6 +142,13 @@ void		mail_folder_cache_service_added (MailFolderCache *cache,
 void		mail_folder_cache_service_removed 
 						(MailFolderCache *cache
                                    		 CamelService *service);
+void		mail_folder_cache_service_enabled 
+						(MailFolderCache *cache,
+                                   		 CamelService *service);
+void		mail_folder_cache_service_disabled 
+						(MailFolderCache *cache,
+                                    		 CamelService *service);
+
 
 G_END_DECLS
 

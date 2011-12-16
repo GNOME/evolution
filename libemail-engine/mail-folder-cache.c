@@ -1064,7 +1064,7 @@ mail_folder_cache_service_added (MailFolderCache *cache,
 }
 
 void
-mail_folder_cache_service_removed (MailFolderCache *cache
+mail_folder_cache_service_removed (MailFolderCache *cache,
                                    CamelService *service)
 {
 	StoreInfo *si;
@@ -1090,6 +1090,24 @@ mail_folder_cache_service_removed (MailFolderCache *cache
 	}
 
 	g_mutex_unlock (cache->priv->stores_mutex);
+}
+
+void
+mail_folder_cache_service_enabled (MailFolderCache *cache,
+                                   CamelService *service)
+{
+	mail_folder_cache_note_store (
+		cache, CAMEL_STORE (service), NULL, NULL, NULL);
+}
+
+void
+mail_folder_cache_service_disabled (MailFolderCache *cache,
+                                    CamelService *service)
+{
+	/* To the folder cache, disabling a service is the same as
+	 * removing it.  We keep a separate callback function only
+	 * to use as a breakpoint target in a debugger. */
+	mail_folder_cache_service_removed (account_store, service, cache);
 }
 
 static void

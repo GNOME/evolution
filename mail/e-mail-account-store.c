@@ -1101,14 +1101,19 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 	/* This populates the rest of the columns. */
 	mail_account_store_update_row (store, service, &iter);
 
-	mail_folder_cache_service_added (cache, service);
+	/* No need to connect to "service-added" emissions since it's
+	 * always immediately followed by either "service-enabled" or
+	 * "service-disabled" in MailFolderCache */
+
 	g_signal_emit (store, signals[SERVICE_ADDED], 0, service);
 
-	if (enabled)
+	if (enabled) {
+		mail_folder_cache_service_enabled (cache, service);
 		g_signal_emit (store, signals[SERVICE_ENABLED], 0, service);
-	else
+	} else {
+		mail_folder_cache_service_disabled (cache, service);		
 		g_signal_emit (store, signals[SERVICE_DISABLED], 0, service);
-
+	}
 	filename = store->priv->sort_order_filename;
 
 	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
@@ -1189,10 +1194,15 @@ e_mail_account_store_disable_service (EMailAccountStore *store,
                                       CamelService *service)
 {
 	GtkTreeIter iter;
-	gboolean proceed = TRUE;
+	gboolean proceed;
+	MailFolderCache *cache;
+	EMailSession *session;
 
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	session = e_mail_account_store_get_session (store);
+	cache = e_mail_session_get_folder_cache (session);
 
 	if (!mail_account_store_get_iter (store, service, &iter))
 		g_return_if_reached ();
@@ -1207,7 +1217,7 @@ e_mail_account_store_disable_service (EMailAccountStore *store,
 		gtk_list_store_set (
 			GTK_LIST_STORE (store), &iter,
 			E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED, FALSE, -1);
-
+		mail_folder_cache_service_disabled (cache, service);		
 		g_signal_emit (store, signals[SERVICE_DISABLED], 0, service);
 	}
 }
