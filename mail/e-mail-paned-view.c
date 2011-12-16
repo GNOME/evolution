@@ -619,6 +619,8 @@ mail_paned_view_constructed (GObject *object)
 	EShellSettings *shell_settings;
 	ESearchBar *search_bar;
 	EMailReader *reader;
+	EMailBackend *backend;
+	EMailSession *session;
 	EMailView *view;
 	GtkWidget *message_list;
 	GtkWidget *container;
@@ -634,6 +636,9 @@ mail_paned_view_constructed (GObject *object)
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	/* Make headers collapsable and store state of headers in config file */
 	em_format_html_set_headers_collapsable (
@@ -675,7 +680,7 @@ mail_paned_view_constructed (GObject *object)
 
 	container = widget;
 
-	widget = message_list_new (E_MAIL_BACKEND (shell_backend));
+	widget = message_list_new (session);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->message_list = g_object_ref (widget);
 	gtk_widget_show (widget);

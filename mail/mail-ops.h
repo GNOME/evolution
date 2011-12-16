@@ -50,11 +50,8 @@ void mail_refresh_folder (CamelFolder *folder,
 			  void (*done) (CamelFolder *folder, gpointer data),
 			  gpointer data);
 
-void		mail_expunge_folder		(EMailBackend *backend,
-						 CamelFolder *folder);
-
-void		mail_empty_trash		(EMailBackend *backend,
-						 CamelStore *store);
+void		mail_expunge_folder		(CamelFolder *folder);
+void		mail_empty_trash		(CamelStore *store);
 
 /* transfer (copy/move) a folder */
 void mail_xfer_folder (const gchar *src_uri, const gchar *dest_uri, gboolean remove_source,
@@ -63,7 +60,7 @@ void mail_xfer_folder (const gchar *src_uri, const gchar *dest_uri, gboolean rem
 		       gpointer data);
 
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
-void		mail_send_queue			(EMailBackend *backend,
+void		mail_send_queue			(EMailSession *session,
 						 CamelFolder *queue,
 						 CamelTransport *transport,
 						 const gchar *type,

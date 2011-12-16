@@ -330,11 +330,11 @@ struct _copy_folder_data {
 };
 
 static void
-emfu_copy_folder_selected (EMailBackend *backend,
+emfu_copy_folder_selected (EMailSession *session,
+                           EAlertSink *alert_sink,
                            const gchar *uri,
                            gpointer data)
 {
-	EMailSession *session;
 	struct _copy_folder_data *cfd = data;
 	CamelStore *tostore = NULL;
 	CamelService *service;
@@ -346,16 +346,14 @@ emfu_copy_folder_selected (EMailBackend *backend,
 	if (uri == NULL)
 		goto fail;
 
-	session = e_mail_backend_get_session (backend);
-
 	service = CAMEL_SERVICE (cfd->source_store);
 	em_utils_connect_service_sync (service, NULL, &local_error);
 
 	if (local_error != NULL) {
-		e_mail_backend_submit_alert (
-			backend, cfd->delete ?
-				"mail:no-move-folder-notexist" :
-				"mail:no-copy-folder-notexist",
+		e_alert_submit (
+			alert_sink, cfd->delete ?
+			"mail:no-move-folder-notexist" :
+			"mail:no-copy-folder-notexist",
 			cfd->source_folder_name, uri,
 			local_error->message, NULL);
 		goto fail;
@@ -368,8 +366,9 @@ emfu_copy_folder_selected (EMailBackend *backend,
 
 	if (cfd->delete && store_is_local &&
 		emfu_is_special_local_folder (cfd->source_folder_name)) {
-		e_mail_backend_submit_alert (
-			backend, "mail:no-rename-special-folder",
+		e_alert_submit (
+			alert_sink,
+			"mail:no-rename-special-folder",
 			cfd->source_folder_name, NULL);
 		goto fail;
 	}
@@ -384,10 +383,10 @@ emfu_copy_folder_selected (EMailBackend *backend,
 			CAMEL_SERVICE (tostore), NULL, &local_error);
 
 	if (local_error != NULL) {
-		e_mail_backend_submit_alert (
-			backend, cfd->delete ?
-				"mail:no-move-folder-to-notexist" :
-				"mail:no-copy-folder-to-notexist",
+		e_alert_submit (
+			alert_sink, cfd->delete ?
+			"mail:no-move-folder-to-notexist" :
+			"mail:no-copy-folder-to-notexist",
 			cfd->source_folder_name, uri,
 			local_error->message, NULL);
 		goto fail;
@@ -452,7 +451,8 @@ emfu_copy_folder_exclude (EMFolderTree *tree,
 
 void
 em_folder_utils_copy_folder (GtkWindow *parent,
-                             EMailBackend *backend,
+                             EMailSession *session,
+                             EAlertSink *alert_sink,
                              const gchar *folder_uri,
                              gint delete)
 {
@@ -460,16 +460,14 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model;
-	EMailSession *session;
 	const gchar *label;
 	const gchar *title;
 	struct _copy_folder_data *cfd;
 	GError *error = NULL;
 
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (E_IS_ALERT_SINK (alert_sink));
 	g_return_if_fail (folder_uri != NULL);
-
-	session = e_mail_backend_get_session (backend);
 
 	cfd = g_malloc (sizeof (*cfd));
 	cfd->delete = delete;
@@ -491,7 +489,7 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 	model = em_folder_tree_model_get_default ();
 
 	dialog = em_folder_selector_new (
-		parent, backend, model,
+		parent, model,
 		EM_FOLDER_SELECTOR_CAN_CREATE,
 		title, NULL, label);
 
@@ -505,7 +503,7 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 		const gchar *uri;
 
 		uri = em_folder_selector_get_selected_uri (selector);
-		emfu_copy_folder_selected (backend, uri, cfd);
+		emfu_copy_folder_selected (session, alert_sink, uri, cfd);
 	}
 
 	gtk_widget_destroy (dialog);
@@ -544,13 +542,12 @@ new_folder_created_cb (CamelStore *store,
 
 void
 em_folder_utils_create_folder (GtkWindow *parent,
-                               EMailBackend *backend,
+                               EMailSession *session,
                                EMFolderTree *emft,
                                const gchar *initial_uri)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
-	EMailSession *session;
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model;
@@ -561,13 +558,12 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	GError *error = NULL;
 
 	g_return_if_fail (GTK_IS_WINDOW (parent));
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	model = em_folder_tree_model_new ();
-	session = e_mail_backend_get_session (backend);
 	em_folder_tree_model_set_session (model, session);
 
 	list = camel_session_list_services (CAMEL_SESSION (session));
@@ -602,7 +598,7 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	g_list_free (list);
 
 	dialog = em_folder_selector_create_new (
-		parent, backend, model, 0,
+		parent, model, 0,
 		_("Create Folder"),
 		_("Specify where to create the folder:"));
 
@@ -660,7 +656,7 @@ em_folder_utils_create_folder (GtkWindow *parent,
 		else
 			skip_slash = folder_name;
 
-		rule = em_vfolder_rule_new (backend);
+		rule = em_vfolder_rule_new (session);
 		e_filter_rule_set_name (rule, skip_slash);
 		vfolder_gui_add_rule (EM_VFOLDER_RULE (rule));
 	} else {

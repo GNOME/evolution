@@ -79,19 +79,16 @@ enum {
 
 GType		em_folder_selector_get_type	(void);
 GtkWidget *	em_folder_selector_new		(GtkWindow *parent,
-						 EMailBackend *backend,
 						 EMFolderTreeModel *model,
 						 guint32 flags,
 						 const gchar *title,
 						 const gchar *text,
 						 const gchar *oklabel);
 GtkWidget *	em_folder_selector_create_new	(GtkWindow *parent,
-						 EMailBackend *backend,
 						 EMFolderTreeModel *model,
 						 guint32 flags,
 						 const gchar *title,
 						 const gchar *text);
-EMailBackend *	em_folder_selector_get_backend	(EMFolderSelector *emfs);
 EMFolderTreeModel *
 		em_folder_selector_get_model	(EMFolderSelector *emfs);
 EMFolderTree *	em_folder_selector_get_folder_tree

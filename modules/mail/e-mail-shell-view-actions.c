@@ -125,6 +125,7 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	EFilterRule *search_rule;
 	EMVFolderRule *vfolder_rule;
 	EMailBackend *backend;
+	EMailSession *session;
 	EMailView *mail_view;
 	CamelFolder *folder;
 	const gchar *search_text;
@@ -149,7 +150,9 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	folder = e_mail_reader_get_folder (reader);
 
 	backend = E_MAIL_BACKEND (shell_backend);
-	search_rule = vfolder_clone_rule (backend, search_rule);
+	session = e_mail_backend_get_session (backend);
+
+	search_rule = vfolder_clone_rule (session, search_rule);
 	g_return_if_fail (search_rule != NULL);
 
 	rule_name = g_strdup_printf ("%s %s", search_rule->name, search_text);
@@ -240,12 +243,15 @@ action_mail_flush_outbox_cb (GtkAction *action,
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EMailBackend *backend;
+	EMailSession *session;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	backend = E_MAIL_BACKEND (shell_backend);
 
-	mail_send (backend);
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
+	mail_send (session);
 }
 
 static void
@@ -253,24 +259,27 @@ action_mail_folder_copy_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellBackend *shell_backend;
+	EShellContent *shell_content;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EMFolderTree *folder_tree;
+	EMailSession *session;
 	gchar *selected_uri;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	selected_uri = em_folder_tree_get_selected_uri (folder_tree);
+	session = em_folder_tree_get_session (folder_tree);
 	g_return_if_fail (selected_uri != NULL);
 
 	em_folder_utils_copy_folder (
 		GTK_WINDOW (shell_window),
-		E_MAIL_BACKEND (shell_backend),
+		session,
+		E_ALERT_SINK (shell_content),
 		selected_uri, FALSE);
 
 	g_free (selected_uri);
@@ -303,10 +312,11 @@ action_mail_folder_expunge_cb (GtkAction *action,
 {
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
-	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	CamelFolder *folder;
+	const gchar *description;
+	gboolean proceed;
 
 	/* This handles both the "folder-expunge" and "account-expunge"
 	 * actions. */
@@ -325,11 +335,16 @@ action_mail_folder_expunge_cb (GtkAction *action,
 	folder = em_folder_tree_get_selected_folder (folder_tree);
 	g_return_if_fail (folder != NULL);
 
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	description = camel_folder_get_description (folder);
 
-	em_utils_expunge_folder (
-		GTK_WIDGET (shell_window),
-		E_MAIL_BACKEND (shell_backend), folder);
+	proceed = em_utils_prompt_user (
+		GTK_WINDOW (shell_window),
+		"prompt-on-expunge",
+		"mail:ask-expunge",
+		description, NULL);
+
+	if (proceed)
+		mail_expunge_folder (folder);
 }
 
 static void
@@ -399,24 +414,27 @@ action_mail_folder_move_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellBackend *shell_backend;
+	EShellContent *shell_content;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EMFolderTree *folder_tree;
+	EMailSession *session;
 	gchar *selected_uri;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	selected_uri = em_folder_tree_get_selected_uri (folder_tree);
+	session = em_folder_tree_get_session (folder_tree);
 	g_return_if_fail (selected_uri != NULL);
 
 	em_folder_utils_copy_folder (
 		GTK_WINDOW (shell_window),
-		E_MAIL_BACKEND (shell_backend),
+		session,
+		E_ALERT_SINK (shell_content),
 		selected_uri, TRUE);
 
 	g_free (selected_uri);
@@ -428,7 +446,7 @@ action_mail_folder_new_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EMailBackend *backend;
+	EMailSession *session;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
 	gchar *selected_uri;
@@ -439,12 +457,12 @@ action_mail_folder_new_cb (GtkAction *action,
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
-	backend = em_folder_tree_get_backend (folder_tree);
+	session = em_folder_tree_get_session (folder_tree);
 	selected_uri = em_folder_tree_get_selected_uri (folder_tree);
 
 	em_folder_utils_create_folder (
 		GTK_WINDOW (shell_window),
-		backend, folder_tree, selected_uri);
+		session, folder_tree, selected_uri);
 
 	g_free (selected_uri);
 }
@@ -454,19 +472,27 @@ action_mail_folder_properties_cb (GtkAction *action,
                                   EMailShellView *mail_shell_view)
 {
 	EMailShellSidebar *mail_shell_sidebar;
-	EMFolderTree *folder_tree;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	EMFolderTree *folder_tree;
 	CamelStore *store;
 	gchar *folder_name;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
 	if (!em_folder_tree_get_selected (folder_tree, &store, &folder_name))
 		g_return_if_reached ();
 
-	em_folder_properties_show (shell_view, store, folder_name);
+	em_folder_properties_show (
+		store, folder_name,
+		E_ALERT_SINK (shell_content),
+		GTK_WINDOW (shell_window));
 
 	g_object_unref (store);
 	g_free (folder_name);
@@ -592,14 +618,18 @@ action_mail_global_expunge_cb (GtkAction *action,
 	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EMailBackend *backend;
+	EMailSession *session;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
 	em_utils_empty_trash (
-		GTK_WIDGET (shell_window),
-		E_MAIL_BACKEND (shell_backend));
+		GTK_WIDGET (shell_window), session);
 }
 
 static void
@@ -1021,23 +1051,41 @@ action_mail_tools_filters_cb (GtkAction *action,
                               EMailShellView *mail_shell_view)
 {
 	EShellBackend *shell_backend;
+	EShellContent *shell_content;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EMailBackend *backend;
+	EMailSession *session;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	em_utils_edit_filters (
-		GTK_WIDGET (shell_window),
-		E_MAIL_BACKEND (shell_backend));
+		session,
+		E_ALERT_SINK (shell_content),
+		GTK_WINDOW (shell_window));
 }
 
 static void
 action_mail_tools_search_folders_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
 {
-	vfolder_edit (E_SHELL_VIEW (mail_shell_view));
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellBackend *shell_backend;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	vfolder_edit (
+		E_MAIL_BACKEND (shell_backend),
+		GTK_WINDOW (shell_window));
 }
 
 static void
@@ -1045,26 +1093,23 @@ action_mail_tools_subscriptions_cb (GtkAction *action,
                                     EMailShellView *mail_shell_view)
 {
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
-	EMailBackend *backend;
+	EMailSession *session;
 	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
 	CamelStore *store;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	store = em_folder_tree_get_selected_store (folder_tree);
-
-	backend = E_MAIL_BACKEND (shell_backend);
+	session = em_folder_tree_get_session (folder_tree);
 
 	dialog = em_subscription_editor_new (
-		GTK_WINDOW (shell_window), backend, store);
+		GTK_WINDOW (shell_window), session, store);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }

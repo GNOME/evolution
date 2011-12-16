@@ -126,6 +126,9 @@ mail_shell_sidebar_constructed (GObject *object)
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EShell *shell;
+	EMailBackend *backend;
+	EMailSession *session;
+	EAlertSink *alert_sink;
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
 	GtkWidget *container;
@@ -141,6 +144,11 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
+	alert_sink = E_ALERT_SINK (shell_sidebar);
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (object);
 
@@ -159,9 +167,7 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_mail_sidebar_new (
-		E_MAIL_BACKEND (shell_backend),
-		E_ALERT_SINK (shell_sidebar));
+	widget = e_mail_sidebar_new (session, alert_sink);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	mail_shell_sidebar->priv->folder_tree = g_object_ref (widget);
 	gtk_widget_show (widget);

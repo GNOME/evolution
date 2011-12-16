@@ -537,6 +537,7 @@ mail_browser_constructed (GObject *object)
 	EMFormatHTML *formatter;
 	EMailReader *reader;
 	EMailBackend *backend;
+	EMailSession *session;
 	EShellBackend *shell_backend;
 	EShell *shell;
 	EFocusTracker *focus_tracker;
@@ -560,6 +561,7 @@ mail_browser_constructed (GObject *object)
 
 	reader = E_MAIL_READER (object);
 	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
 
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -579,7 +581,7 @@ mail_browser_constructed (GObject *object)
 	/* The message list is a widget, but it is not shown in the browser.
 	 * Unfortunately, the widget is inseparable from its model, and the
 	 * model is all we need. */
-	browser->priv->message_list = message_list_new (backend);
+	browser->priv->message_list = message_list_new (session);
 	g_object_ref_sink (browser->priv->message_list);
 
 	g_signal_connect_swapped (

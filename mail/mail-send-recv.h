@@ -24,27 +24,24 @@
 #define MAIL_SEND_RECV_H
 
 #include <gtk/gtk.h>
-#include <camel/camel.h>
-#include <mail/e-mail-backend.h>
-#include <libedataserver/e-account.h>
+#include <mail/e-mail-session.h>
 
 G_BEGIN_DECLS
 
 /* send/receive all CamelServices */
 GtkWidget *	mail_send_receive		(GtkWindow *parent,
-						 EMailBackend *backend);
+						 EMailSession *session);
 
 GtkWidget *	mail_receive			(GtkWindow *parent,
-						 EMailBackend *backend);
+						 EMailSession *session);
 
 /* receive a single CamelService */
-void		mail_receive_service		(EMailBackend *backend,
-						 CamelService *service);
+void		mail_receive_service		(CamelService *service);
 
-void		mail_send			(EMailBackend *backend);
+void		mail_send			(EMailSession *session);
 
 /* setup auto receive stuff */
-void		mail_autoreceive_init		(EMailBackend *backend);
+void		mail_autoreceive_init		(EMailSession *session);
 
 G_END_DECLS
 

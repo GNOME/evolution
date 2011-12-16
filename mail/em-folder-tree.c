@@ -80,7 +80,7 @@ struct _selected_uri {
 };
 
 struct _EMFolderTreePrivate {
-	EMailBackend *backend;
+	EMailSession *session;
 	EAlertSink *alert_sink;
 
 	/* selected_uri structures of each path pending selection. */
@@ -131,11 +131,11 @@ struct _AsyncContext {
 enum {
 	PROP_0,
 	PROP_ALERT_SINK,
-	PROP_BACKEND,
 	PROP_COPY_TARGET_LIST,
 	PROP_ELLIPSIZE,
 	PROP_MODEL,
-	PROP_PASTE_TARGET_LIST
+	PROP_PASTE_TARGET_LIST,
+	PROP_SESSION
 };
 
 enum {
@@ -491,7 +491,6 @@ folder_tree_expand_node (const gchar *key,
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
 	GtkTreePath *path;
-	EMailBackend *backend;
 	EMailSession *session;
 	CamelService *service;
 	const gchar *p;
@@ -511,8 +510,7 @@ folder_tree_expand_node (const gchar *key,
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	model = gtk_tree_view_get_model (tree_view);
 
-	backend = em_folder_tree_get_backend (folder_tree);
-	session = e_mail_backend_get_session (backend);
+	session = em_folder_tree_get_session (folder_tree);
 
 	service = camel_session_get_service (CAMEL_SESSION (session), uid);
 
@@ -971,13 +969,13 @@ folder_tree_set_alert_sink (EMFolderTree *folder_tree,
 }
 
 static void
-folder_tree_set_backend (EMFolderTree *folder_tree,
-                         EMailBackend *backend)
+folder_tree_set_session (EMFolderTree *folder_tree,
+                         EMailSession *session)
 {
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
-	g_return_if_fail (folder_tree->priv->backend == NULL);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (folder_tree->priv->session == NULL);
 
-	folder_tree->priv->backend = g_object_ref (backend);
+	folder_tree->priv->session = g_object_ref (session);
 }
 
 static GtkTargetList *
@@ -1023,12 +1021,6 @@ folder_tree_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
-		case PROP_BACKEND:
-			folder_tree_set_backend (
-				EM_FOLDER_TREE (object),
-				g_value_get_object (value));
-			return;
-
 		case PROP_ELLIPSIZE:
 			em_folder_tree_set_ellipsize (
 				EM_FOLDER_TREE (object),
@@ -1038,6 +1030,12 @@ folder_tree_set_property (GObject *object,
 		case PROP_MODEL:
 			gtk_tree_view_set_model (
 				GTK_TREE_VIEW (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_SESSION:
+			folder_tree_set_session (
+				EM_FOLDER_TREE (object),
 				g_value_get_object (value));
 			return;
 	}
@@ -1056,13 +1054,6 @@ folder_tree_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				em_folder_tree_get_alert_sink (
-				EM_FOLDER_TREE (object)));
-			return;
-
-		case PROP_BACKEND:
-			g_value_set_object (
-				value,
-				em_folder_tree_get_backend (
 				EM_FOLDER_TREE (object)));
 			return;
 
@@ -1091,6 +1082,13 @@ folder_tree_get_property (GObject *object,
 			g_value_set_boxed (
 				value,
 				folder_tree_get_paste_target_list (
+				EM_FOLDER_TREE (object)));
+			return;
+
+		case PROP_SESSION:
+			g_value_set_object (
+				value,
+				em_folder_tree_get_session (
 				EM_FOLDER_TREE (object)));
 			return;
 	}
@@ -1130,9 +1128,9 @@ folder_tree_dispose (GObject *object)
 		priv->alert_sink = NULL;
 	}
 
-	if (priv->backend != NULL) {
-		g_object_unref (priv->backend);
-		priv->backend = NULL;
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
 	}
 
 	if (priv->text_renderer != NULL) {
@@ -1492,18 +1490,6 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
 
-	g_object_class_install_property (
-		object_class,
-		PROP_BACKEND,
-		g_param_spec_object (
-			"backend",
-			NULL,
-			NULL,
-			E_TYPE_MAIL_BACKEND,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
-
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (
 		object_class,
@@ -1540,6 +1526,18 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 		object_class,
 		PROP_PASTE_TARGET_LIST,
 		"paste-target-list");
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SESSION,
+		g_param_spec_object (
+			"session",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_SESSION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	signals[FOLDER_SELECTED] = g_signal_new (
 		"folder-selected",
@@ -1775,32 +1773,32 @@ em_folder_tree_selectable_init (ESelectableInterface *interface)
 }
 
 GtkWidget *
-em_folder_tree_new (EMailBackend *backend,
+em_folder_tree_new (EMailSession *session,
                     EAlertSink *alert_sink)
 {
 	EMFolderTreeModel *model;
 
-	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 	g_return_val_if_fail (E_IS_ALERT_SINK (alert_sink), NULL);
 
 	model = em_folder_tree_model_get_default ();
 
-	return em_folder_tree_new_with_model (backend, alert_sink, model);
+	return em_folder_tree_new_with_model (session, alert_sink, model);
 }
 
 GtkWidget *
-em_folder_tree_new_with_model (EMailBackend *backend,
+em_folder_tree_new_with_model (EMailSession *session,
                                EAlertSink *alert_sink,
                                EMFolderTreeModel *model)
 {
-	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 	g_return_val_if_fail (E_IS_ALERT_SINK (alert_sink), NULL);
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
 
 	return g_object_new (
 		EM_TYPE_FOLDER_TREE,
 		"alert-sink", alert_sink,
-		"backend", backend,
+		"session", session,
 		"model", model, NULL);
 }
 
@@ -1808,7 +1806,7 @@ EActivity *
 em_folder_tree_new_activity (EMFolderTree *folder_tree)
 {
 	EActivity *activity;
-	EMailBackend *backend;
+	EMailSession *session;
 	EAlertSink *alert_sink;
 	GCancellable *cancellable;
 
@@ -1823,8 +1821,8 @@ em_folder_tree_new_activity (EMFolderTree *folder_tree)
 	e_activity_set_cancellable (activity, cancellable);
 	g_object_unref (cancellable);
 
-	backend = em_folder_tree_get_backend (folder_tree);
-	e_shell_backend_add_activity (E_SHELL_BACKEND (backend), activity);
+	session = em_folder_tree_get_session (folder_tree);
+	e_mail_session_add_activity (session, activity);
 
 	return activity;
 }
@@ -1859,12 +1857,12 @@ em_folder_tree_get_alert_sink (EMFolderTree *folder_tree)
 	return folder_tree->priv->alert_sink;
 }
 
-EMailBackend *
-em_folder_tree_get_backend (EMFolderTree *folder_tree)
+EMailSession *
+em_folder_tree_get_session (EMFolderTree *folder_tree)
 {
 	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
 
-	return folder_tree->priv->backend;
+	return folder_tree->priv->session;
 }
 
 static void
@@ -2199,7 +2197,6 @@ tree_drag_data_received (GtkWidget *widget,
 	GtkTreeModel *model;
 	GtkTreeView *tree_view;
 	GtkTreePath *dest_path = NULL;
-	EMailBackend *backend;
 	EMailSession *session;
 	struct _DragDataReceivedAsync *m;
 	gboolean is_store;
@@ -2210,8 +2207,7 @@ tree_drag_data_received (GtkWidget *widget,
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	model = gtk_tree_view_get_model (tree_view);
 
-	backend = em_folder_tree_get_backend (folder_tree);
-	session = e_mail_backend_get_session (backend);
+	session = em_folder_tree_get_session (folder_tree);
 
 	if (!gtk_tree_view_get_dest_row_at_pos (tree_view, x, y, &dest_path, &pos))
 		return;
@@ -2890,11 +2886,9 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
                                   gboolean expand_only)
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
-	EMailBackend *backend;
 	EMailSession *session;
 
-	backend = em_folder_tree_get_backend (folder_tree);
-	session = e_mail_backend_get_session (backend);
+	session = em_folder_tree_get_session (folder_tree);
 
 	/* FIXME: need to remove any currently selected stuff? */
 	if (!expand_only)

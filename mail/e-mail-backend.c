@@ -387,6 +387,7 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 	EAccountList *account_list;
 	EIterator *iterator;
 	EMailSession *session;
+	EAlertSink *alert_sink;
 	const gchar *local_drafts_folder_uri;
 	const gchar *local_sent_folder_uri;
 	gboolean write_config = FALSE;
@@ -400,6 +401,7 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 	g_return_if_fail (class->compare_folder_name != NULL);
 
 	session = e_mail_backend_get_session (backend);
+	alert_sink = e_mail_backend_get_alert_sink (backend);
 
 	local_drafts_folder_uri =
 		e_mail_session_get_local_folder_uri (
@@ -459,7 +461,7 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 
 	/* This does something completely different.
 	 * XXX Make it a separate signal handler? */
-	mail_filter_delete_folder (backend, store, folder_name);
+	mail_filter_delete_folder (store, folder_name, alert_sink);
 }
 
 static void
@@ -553,7 +555,7 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 	/* This does something completely different.
 	 * XXX Make it a separate signal handler? */
 	mail_filter_rename_folder (
-		backend, store, old_folder_name, new_folder_name);
+		store, old_folder_name, new_folder_name);
 }
 
 static void
@@ -896,6 +898,47 @@ e_mail_backend_get_session (EMailBackend *backend)
 	return backend->priv->session;
 }
 
+EAlertSink *
+e_mail_backend_get_alert_sink (EMailBackend *backend)
+{
+	EShell *shell;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
+	EShellWindow *shell_window = NULL;
+	EShellBackendClass *class;
+	GtkApplication *application;
+	GList *list, *link;
+
+	/* XXX This is meant to be a convenient but temporary hack.
+	 *     It digs through the list of available EShellWindows
+	 *     to find a suitable EAlertSink. */
+
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+
+	shell_backend = E_SHELL_BACKEND (backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	application = GTK_APPLICATION (shell);
+	list = gtk_application_get_windows (application);
+
+	/* Find the most recently used EShellWindow. */
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		if (E_IS_SHELL_WINDOW (link->data)) {
+			shell_window = E_SHELL_WINDOW (link->data);
+			break;
+		}
+	}
+
+	g_return_val_if_fail (shell_window != NULL, NULL);
+
+	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	shell_view = e_shell_window_get_shell_view (shell_window, class->name);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	return E_ALERT_SINK (shell_content);
+}
+
 gboolean
 e_mail_backend_delete_junk_policy_decision (EMailBackend *backend)
 {
@@ -922,55 +965,5 @@ e_mail_backend_empty_trash_policy_decision (EMailBackend *backend)
 		return FALSE;
 
 	return class->empty_trash_policy_decision (backend);
-}
-
-void
-e_mail_backend_submit_alert (EMailBackend *backend,
-                             const gchar *tag,
-                             ...)
-{
-	EShell *shell;
-	EShellView *shell_view;
-	EShellBackend *shell_backend;
-	EShellContent *shell_content;
-	EShellWindow *shell_window = NULL;
-	EShellBackendClass *class;
-	GtkApplication *application;
-	GList *list, *iter;
-	va_list va;
-
-	/* XXX This is meant to be a convenient but temporary hack.
-	 *     Instead, pass alerts directly to an EShellContent.
-	 *     Perhaps even take an EAlert** instead of a GError**
-	 *     in some low-level functions. */
-
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
-	g_return_if_fail (tag != NULL);
-
-	shell_backend = E_SHELL_BACKEND (backend);
-	shell = e_shell_backend_get_shell (shell_backend);
-
-	application = GTK_APPLICATION (shell);
-	list = gtk_application_get_windows (application);
-
-	/* Find the most recently used EShellWindow. */
-	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
-		if (E_IS_SHELL_WINDOW (iter->data)) {
-			shell_window = E_SHELL_WINDOW (iter->data);
-			break;
-		}
-	}
-
-	/* If we can't find an EShellWindow then... well, screw it. */
-	if (shell_window == NULL)
-		return;
-
-	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
-	shell_view = e_shell_window_get_shell_view (shell_window, class->name);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	va_start (va, tag);
-	e_alert_submit_valist (E_ALERT_SINK (shell_content), tag, va);
-	va_end (va);
 }
 

@@ -262,8 +262,7 @@ org_gnome_evolution_readdbx_getwidget (EImport *ei,
 	label = GTK_LABEL (w);
 
 	w = em_folder_selection_button_new (
-		E_MAIL_BACKEND (shell_backend),
-		_("Select folder"),
+		session, _("Select folder"),
 		_("Select folder to import into"));
 
 	gtk_label_set_mnemonic_widget (label, w);

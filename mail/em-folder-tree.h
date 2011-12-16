@@ -26,7 +26,7 @@
 
 #include <gtk/gtk.h>
 #include <e-util/e-alert-sink.h>
-#include <mail/e-mail-backend.h>
+#include <mail/e-mail-session.h>
 #include <mail/em-folder-tree-model.h>
 
 /* Standard GObject macros */
@@ -90,9 +90,9 @@ struct _EMFolderTreeClass {
 };
 
 GType		em_folder_tree_get_type		(void);
-GtkWidget *	em_folder_tree_new		(EMailBackend *backend,
+GtkWidget *	em_folder_tree_new		(EMailSession *session,
 						 EAlertSink *alert_sink);
-GtkWidget *	em_folder_tree_new_with_model	(EMailBackend *backend,
+GtkWidget *	em_folder_tree_new_with_model	(EMailSession *session,
 						 EAlertSink *alert_sink,
 						 EMFolderTreeModel *model);
 EActivity *	em_folder_tree_new_activity	(EMFolderTree *folder_tree);
@@ -101,7 +101,7 @@ PangoEllipsizeMode
 void		em_folder_tree_set_ellipsize	(EMFolderTree *folder_tree,
 						 PangoEllipsizeMode ellipsize);
 EAlertSink *	em_folder_tree_get_alert_sink	(EMFolderTree *folder_tree);
-EMailBackend *	em_folder_tree_get_backend	(EMFolderTree *folder_tree);
+EMailSession *	em_folder_tree_get_session	(EMFolderTree *folder_tree);
 void		em_folder_tree_enable_drag_and_drop
 						(EMFolderTree *folder_tree);
 void		em_folder_tree_set_excluded	(EMFolderTree *folder_tree,

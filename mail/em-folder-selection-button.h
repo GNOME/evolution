@@ -25,7 +25,7 @@
 #define EM_FOLDER_SELECTION_BUTTON_H
 
 #include <gtk/gtk.h>
-#include <mail/e-mail-backend.h>
+#include <mail/e-mail-session.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FOLDER_SELECTION_BUTTON \
@@ -67,14 +67,14 @@ struct _EMFolderSelectionButtonClass {
 
 GType		em_folder_selection_button_get_type (void);
 GtkWidget *	em_folder_selection_button_new
-					(EMailBackend *backend,
+					(EMailSession *session,
 					 const gchar *title,
 					 const gchar *caption);
-EMailBackend *	em_folder_selection_button_get_backend
+EMailSession *	em_folder_selection_button_get_session
 					(EMFolderSelectionButton *button);
-void		em_folder_selection_button_set_backend
+void		em_folder_selection_button_set_session
 					(EMFolderSelectionButton *button,
-					 EMailBackend *backend);
+					 EMailSession *session);
 const gchar *	em_folder_selection_button_get_caption
 					(EMFolderSelectionButton *button);
 void		em_folder_selection_button_set_caption

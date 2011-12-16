@@ -45,15 +45,15 @@ static EFilterRule *
 vfolder_editor_create_rule (ERuleEditor *rule_editor)
 {
 	EMVFolderContext *context;
-	EMailBackend *backend;
+	EMailSession *session;
 	EFilterRule *rule;
 	EFilterPart *part;
 
 	context = EM_VFOLDER_CONTEXT (rule_editor->context);
-	backend = em_vfolder_context_get_backend (context);
+	session = em_vfolder_context_get_session (context);
 
 	/* create a rule with 1 part in it */
-	rule = em_vfolder_rule_new (backend);
+	rule = em_vfolder_rule_new (session);
 	part = e_rule_context_next_part (rule_editor->context, NULL);
 	e_filter_rule_add_part (rule, e_filter_part_clone (part));
 

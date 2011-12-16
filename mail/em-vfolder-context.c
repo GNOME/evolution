@@ -40,12 +40,12 @@
 	((obj), EM_TYPE_VFOLDER_CONTEXT, EMVFolderContextPrivate))
 
 struct _EMVFolderContextPrivate {
-	EMailBackend *backend;
+	EMailSession *session;
 };
 
 enum {
 	PROP_0,
-	PROP_BACKEND
+	PROP_SESSION
 };
 
 G_DEFINE_TYPE (
@@ -54,13 +54,13 @@ G_DEFINE_TYPE (
 	E_TYPE_RULE_CONTEXT)
 
 static void
-vfolder_context_set_backend (EMVFolderContext *context,
-                             EMailBackend *backend)
+vfolder_context_set_session (EMVFolderContext *context,
+                             EMailSession *session)
 {
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
-	g_return_if_fail (context->priv->backend == NULL);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (context->priv->session == NULL);
 
-	context->priv->backend = g_object_ref (backend);
+	context->priv->session = g_object_ref (session);
 }
 
 static void
@@ -70,8 +70,8 @@ vfolder_context_set_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKEND:
-			vfolder_context_set_backend (
+		case PROP_SESSION:
+			vfolder_context_set_session (
 				EM_VFOLDER_CONTEXT (object),
 				g_value_get_object (value));
 			return;
@@ -87,10 +87,10 @@ vfolder_context_get_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKEND:
+		case PROP_SESSION:
 			g_value_set_object (
 				value,
-				em_vfolder_context_get_backend (
+				em_vfolder_context_get_session (
 				EM_VFOLDER_CONTEXT (object)));
 			return;
 	}
@@ -105,9 +105,9 @@ vfolder_context_dispose (GObject *object)
 
 	priv = EM_VFOLDER_CONTEXT_GET_PRIVATE (object);
 
-	if (priv->backend != NULL) {
-		g_object_unref (priv->backend);
-		priv->backend = NULL;
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -129,11 +129,11 @@ vfolder_context_new_element (ERuleContext *context,
 		return e_filter_int_new_type("score", -3, 3);
 
 	if (strcmp (type, "folder") == 0)
-		return em_filter_folder_element_new (priv->backend);
+		return em_filter_folder_element_new (priv->session);
 
 	/* XXX Legacy type name.  Same as "folder" now. */
 	if (strcmp (type, "folder-curi") == 0)
-		return em_filter_folder_element_new (priv->backend);
+		return em_filter_folder_element_new (priv->session);
 
 	return E_RULE_CONTEXT_CLASS (em_vfolder_context_parent_class)->
 		new_element (context, type);
@@ -157,12 +157,12 @@ em_vfolder_context_class_init (EMVFolderContextClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_BACKEND,
+		PROP_SESSION,
 		g_param_spec_object (
-			"backend",
+			"session",
 			NULL,
 			NULL,
-			E_TYPE_MAIL_BACKEND,
+			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 }
@@ -187,18 +187,18 @@ em_vfolder_context_init (EMVFolderContext *context)
 }
 
 EMVFolderContext *
-em_vfolder_context_new (EMailBackend *backend)
+em_vfolder_context_new (EMailSession *session)
 {
-	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
 	return g_object_new (
-		EM_TYPE_VFOLDER_CONTEXT, "backend", backend, NULL);
+		EM_TYPE_VFOLDER_CONTEXT, "session", session, NULL);
 }
 
-EMailBackend *
-em_vfolder_context_get_backend (EMVFolderContext *context)
+EMailSession *
+em_vfolder_context_get_session (EMVFolderContext *context)
 {
 	g_return_val_if_fail (EM_IS_VFOLDER_CONTEXT (context), NULL);
 
-	return context->priv->backend;
+	return context->priv->session;
 }

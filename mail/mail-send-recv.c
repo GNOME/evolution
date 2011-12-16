@@ -106,8 +106,8 @@ typedef enum {
 
 struct _send_info {
 	send_info_t type;		/* 0 = fetch, 1 = send */
-	EMailBackend *backend;
 	GCancellable *cancellable;
+	CamelSession *session;
 	CamelService *service;
 	gboolean keep_on_server;
 	send_state_t state;
@@ -150,10 +150,10 @@ free_folder_info (struct _folder_info *info)
 static void
 free_send_info (struct _send_info *info)
 {
-	if (info->backend != NULL)
-		g_object_unref (info->backend);
 	if (info->cancellable != NULL)
 		g_object_unref (info->cancellable);
+	if (info->session != NULL)
+		g_object_unref (info->session);
 	if (info->service != NULL)
 		g_object_unref (info->service);
 	if (info->timeout_id != 0)
@@ -164,12 +164,9 @@ free_send_info (struct _send_info *info)
 }
 
 static struct _send_data *
-setup_send_data (EMailBackend *backend)
+setup_send_data (EMailSession *session)
 {
-	EMailSession *session;
 	struct _send_data *data;
-
-	session = e_mail_backend_get_session (backend);
 
 	if (send_data == NULL) {
 		send_data = data = g_malloc0 (sizeof (*data));
@@ -187,6 +184,7 @@ setup_send_data (EMailBackend *backend)
 			(GDestroyNotify) g_free,
 			(GDestroyNotify) free_send_info);
 	}
+
 	return send_data;
 }
 
@@ -335,15 +333,11 @@ static void
 set_transport_service (struct _send_info *info,
                        const gchar *transport_uid)
 {
-	EMailSession *session;
 	CamelService *service;
-
-	session = e_mail_backend_get_session (info->backend);
 
 	g_static_mutex_lock (&status_lock);
 
-	service = camel_session_get_service (
-		CAMEL_SESSION (session), transport_uid);
+	service = camel_session_get_service (info->session, transport_uid);
 
 	if (CAMEL_IS_TRANSPORT (service)) {
 		if (info->service != NULL)
@@ -474,7 +468,7 @@ get_keep_on_server (CamelService *service)
 
 static struct _send_data *
 build_dialog (GtkWindow *parent,
-              EMailBackend *backend,
+              EMailSession *session,
               CamelFolder *outbox,
               EAccount *outgoing_account,
               gboolean allow_send)
@@ -492,7 +486,6 @@ build_dialog (GtkWindow *parent,
 	GtkWidget *status_label;
 	GtkWidget *progress_bar;
 	GtkWidget *cancel_button;
-	EMailSession *session;
 	EMailAccountStore *account_store;
 	CamelService *transport = NULL;
 	struct _send_info *info;
@@ -500,7 +493,6 @@ build_dialog (GtkWindow *parent,
 	EMEventTargetSendReceive *target;
 	GQueue queue = G_QUEUE_INIT;
 
-	session = e_mail_backend_get_session (backend);
 	account_store = e_mail_session_get_account_store (session);
 
 	/* Convert the outgoing account to a CamelTransport. */
@@ -573,7 +565,7 @@ build_dialog (GtkWindow *parent,
 	gtk_widget_show (scrolled_window);
 
 	/* must bet setup after send_recv_dialog as it may re-trigger send-recv button */
-	data = setup_send_data (backend);
+	data = setup_send_data (session);
 
 	row = 0;
 	e_mail_account_store_queue_enabled_services (account_store, &queue);
@@ -596,7 +588,7 @@ build_dialog (GtkWindow *parent,
 
 			info = g_malloc0 (sizeof (*info));
 			info->type = type;
-			info->backend = g_object_ref (backend);
+			info->session = g_object_ref (session);
 			info->service = g_object_ref (service);
 			info->keep_on_server = get_keep_on_server (service);
 			info->cancellable = camel_operation_new ();
@@ -689,7 +681,7 @@ build_dialog (GtkWindow *parent,
 		if (info == NULL) {
 			info = g_malloc0 (sizeof (*info));
 			info->type = SEND_SEND;
-
+			info->session = g_object_ref (session);
 			info->service = g_object_ref (transport);
 			info->keep_on_server = FALSE;
 			info->cancellable = camel_operation_new ();
@@ -839,20 +831,18 @@ receive_done (gpointer data)
 
 	/* if we've been called to run again - run again */
 	if (info->type == SEND_SEND && info->state == SEND_ACTIVE && info->again) {
-		EMailSession *session;
 		CamelFolder *local_outbox;
-
-		session = e_mail_backend_get_session (info->backend);
 
 		local_outbox =
 			e_mail_session_get_local_folder (
-			session, E_MAIL_LOCAL_FOLDER_OUTBOX);
+			E_MAIL_SESSION (info->session),
+			E_MAIL_LOCAL_FOLDER_OUTBOX);
 
 		g_return_if_fail (CAMEL_IS_TRANSPORT (info->service));
 
 		info->again = 0;
 		mail_send_queue (
-			info->backend,
+			E_MAIL_SESSION (info->session),
 			local_outbox,
 			CAMEL_TRANSPORT (info->service),
 			E_FILTER_SOURCE_OUTGOING,
@@ -911,7 +901,6 @@ receive_get_folder (CamelFilterDriver *d,
 {
 	struct _send_info *info = data;
 	CamelFolder *folder;
-	EMailSession *session;
 	struct _folder_info *oldinfo;
 	gpointer oldkey, oldinfoptr;
 
@@ -924,11 +913,9 @@ receive_get_folder (CamelFilterDriver *d,
 		return oldinfo->folder;
 	}
 
-	session = e_mail_backend_get_session (info->backend);
-
 	/* FIXME Not passing a GCancellable here. */
 	folder = e_mail_session_uri_to_folder_sync (
-		session, uri, 0, NULL, error);
+		E_MAIL_SESSION (info->session), uri, 0, NULL, error);
 	if (!folder)
 		return NULL;
 
@@ -1006,7 +993,6 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
                       GError **error)
 {
 	CamelFolder *folder;
-	EMailSession *session;
 	gint i;
 	GError *local_error = NULL;
 	gulong handler_id = 0;
@@ -1020,11 +1006,9 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 
 	camel_operation_push_message (m->info->cancellable, _("Updating..."));
 
-	session = e_mail_backend_get_session (m->info->backend);
-
 	for (i = 0; i < m->folders->len; i++) {
 		folder = e_mail_session_uri_to_folder_sync (
-			session,
+			E_MAIL_SESSION (m->info->session),
 			m->folders->pdata[i], 0,
 			cancellable, &local_error);
 		if (folder) {
@@ -1112,11 +1096,10 @@ static void
 receive_update_got_store (CamelStore *store,
                           struct _send_info *info)
 {
-	EMailSession *session;
 	MailFolderCache *folder_cache;
 
-	session = e_mail_backend_get_session (info->backend);
-	folder_cache = e_mail_session_get_folder_cache (session);
+	folder_cache = e_mail_session_get_folder_cache (
+		E_MAIL_SESSION (info->session));
 
 	if (store) {
 		mail_folder_cache_note_store (
@@ -1129,12 +1112,11 @@ receive_update_got_store (CamelStore *store,
 
 static GtkWidget *
 send_receive (GtkWindow *parent,
-              EMailBackend *backend,
+              EMailSession *session,
               gboolean allow_send)
 {
 	CamelFolder *local_outbox;
 	struct _send_data *data;
-	EMailSession *session;
 	EAccount *account;
 	GList *scan;
 
@@ -1144,8 +1126,6 @@ send_receive (GtkWindow *parent,
 		}
 		return send_recv_dialog;
 	}
-
-	session = e_mail_backend_get_session (backend);
 
 	if (!camel_session_get_online (CAMEL_SESSION (session)))
 		return send_recv_dialog;
@@ -1159,7 +1139,7 @@ send_receive (GtkWindow *parent,
 		session, E_MAIL_LOCAL_FOLDER_OUTBOX);
 
 	data = build_dialog (
-		parent, backend, local_outbox, account, allow_send);
+		parent, session, local_outbox, account, allow_send);
 
 	for (scan = data->infos; scan != NULL; scan = scan->next) {
 		struct _send_info *info = scan->data;
@@ -1181,7 +1161,7 @@ send_receive (GtkWindow *parent,
 		case SEND_SEND:
 			/* todo, store the folder in info? */
 			mail_send_queue (
-				backend, local_outbox,
+				session, local_outbox,
 				CAMEL_TRANSPORT (info->service),
 				E_FILTER_SOURCE_OUTGOING,
 				info->cancellable,
@@ -1203,21 +1183,21 @@ send_receive (GtkWindow *parent,
 
 GtkWidget *
 mail_send_receive (GtkWindow *parent,
-                   EMailBackend *backend)
+                   EMailSession *session)
 {
-	return send_receive (parent, backend, TRUE);
+	return send_receive (parent, session, TRUE);
 }
 
 GtkWidget *
 mail_receive (GtkWindow *parent,
-              EMailBackend *backend)
+              EMailSession *session)
 {
-	return send_receive (parent, backend, FALSE);
+	return send_receive (parent, session, FALSE);
 }
 
 struct _auto_data {
 	EAccount *account;
-	EMailBackend *backend;
+	EMailSession *session;
 	gint period;		/* in seconds */
 	gint timeout_id;
 };
@@ -1227,18 +1207,18 @@ static GHashTable *auto_active;
 static gboolean
 auto_timeout (gpointer data)
 {
-	EMailSession *session;
 	CamelService *service;
+	CamelSession *session;
 	struct _auto_data *info = data;
 
-	session = e_mail_backend_get_session (info->backend);
+	session = CAMEL_SESSION (info->session);
 
 	service = camel_session_get_service (
-		CAMEL_SESSION (session), info->account->uid);
+		session, info->account->uid);
 	g_return_val_if_fail (CAMEL_IS_SERVICE (service), TRUE);
 
-	if (camel_session_get_online (CAMEL_SESSION (session)))
-		mail_receive_service (info->backend, service);
+	if (camel_session_get_online (session))
+		mail_receive_service (service);
 
 	return TRUE;
 }
@@ -1261,8 +1241,8 @@ auto_account_removed (EAccountList *eal,
 static void
 auto_account_finalized (struct _auto_data *info)
 {
-	if (info->backend != NULL)
-		g_object_unref (info->backend);
+	if (info->session != NULL)
+		g_object_unref (info->session);
 	if (info->timeout_id)
 		g_source_remove (info->timeout_id);
 	g_free (info);
@@ -1293,13 +1273,13 @@ auto_account_commit (struct _auto_data *info)
 static void
 auto_account_added (EAccountList *eal,
                     EAccount *ea,
-                    EMailBackend *backend)
+                    EMailSession *session)
 {
 	struct _auto_data *info;
 
 	info = g_malloc0 (sizeof (*info));
 	info->account = ea;
-	info->backend = g_object_ref (backend);
+	info->session = g_object_ref (session);
 	g_object_set_data_full (
 		G_OBJECT (ea), "mail-autoreceive", info,
 		(GDestroyNotify) auto_account_finalized);
@@ -1361,15 +1341,14 @@ auto_online (EShell *shell)
 /* call to setup initial, and after changes are made to the config */
 /* FIXME: Need a cleanup funciton for when object is deactivated */
 void
-mail_autoreceive_init (EMailBackend *backend)
+mail_autoreceive_init (EMailSession *session)
 {
-	EShellBackend *shell_backend;
+	EShell *shell;
 	EShellSettings *shell_settings;
 	EAccountList *accounts;
 	EIterator *iter;
-	EShell *shell;
 
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	if (auto_active)
 		return;
@@ -1379,7 +1358,7 @@ mail_autoreceive_init (EMailBackend *backend)
 
 	g_signal_connect (
 		accounts, "account-added",
-		G_CALLBACK (auto_account_added), backend);
+		G_CALLBACK (auto_account_added), session);
 	g_signal_connect (
 		accounts, "account-removed",
 		G_CALLBACK (auto_account_removed), NULL);
@@ -1392,10 +1371,9 @@ mail_autoreceive_init (EMailBackend *backend)
 	     e_iterator_next (iter))
 		auto_account_added (
 			accounts, (EAccount *)
-			e_iterator_get (iter), backend);
+			e_iterator_get (iter), session);
 
-	shell_backend = E_SHELL_BACKEND (backend);
-	shell = e_shell_backend_get_shell (shell_backend);
+	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	if (e_shell_settings_get_boolean (
@@ -1404,7 +1382,7 @@ mail_autoreceive_init (EMailBackend *backend)
 
 		/* also flush outbox on start */
 		if (e_shell_get_online (shell))
-			mail_send (backend);
+			mail_send (session);
 	}
 
 	g_signal_connect (
@@ -1415,22 +1393,21 @@ mail_autoreceive_init (EMailBackend *backend)
 /* We setup the download info's in a hashtable, if we later
  * need to build the gui, we insert them in to add them. */
 void
-mail_receive_service (EMailBackend *backend,
-                      CamelService *service)
+mail_receive_service (CamelService *service)
 {
 	struct _send_info *info;
 	struct _send_data *data;
-	EMailSession *session;
+	CamelSession *session;
 	CamelFolder *local_outbox;
 	const gchar *uid;
 	send_info_t type = SEND_INVALID;
 
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	uid = camel_service_get_uid (service);
+	session = camel_service_get_session (service);
 
-	data = setup_send_data (backend);
+	data = setup_send_data (E_MAIL_SESSION (session));
 	info = g_hash_table_lookup (data->active, uid);
 
 	if (info != NULL)
@@ -1443,9 +1420,9 @@ mail_receive_service (EMailBackend *backend,
 
 	info = g_malloc0 (sizeof (*info));
 	info->type = type;
-	info->backend = g_object_ref (backend);
 	info->progress_bar = NULL;
 	info->status_label = NULL;
+	info->session = g_object_ref (session);
 	info->service = g_object_ref (service);
 	info->keep_on_server = get_keep_on_server (service);
 	info->cancellable = camel_operation_new ();
@@ -1462,8 +1439,6 @@ mail_receive_service (EMailBackend *backend,
 
 	g_hash_table_insert (data->active, g_strdup (uid), info);
 
-	session = e_mail_backend_get_session (backend);
-
 	switch (info->type) {
 	case SEND_RECEIVE:
 		mail_fetch_mail (
@@ -1479,9 +1454,10 @@ mail_receive_service (EMailBackend *backend,
 		/* todo, store the folder in info? */
 		local_outbox =
 			e_mail_session_get_local_folder (
-			session, E_MAIL_LOCAL_FOLDER_OUTBOX);
+			E_MAIL_SESSION (session),
+			E_MAIL_LOCAL_FOLDER_OUTBOX);
 		mail_send_queue (
-			info->backend,
+			E_MAIL_SESSION (session),
 			local_outbox,
 			CAMEL_TRANSPORT (service),
 			E_FILTER_SOURCE_OUTGOING,
@@ -1499,26 +1475,23 @@ mail_receive_service (EMailBackend *backend,
 }
 
 void
-mail_send (EMailBackend *backend)
+mail_send (EMailSession *session)
 {
 	CamelFolder *local_outbox;
 	CamelService *service;
-	EMailSession *session;
 	EAccount *account;
 	struct _send_info *info;
 	struct _send_data *data;
 	send_info_t type = SEND_INVALID;
 	gchar *transport_uid;
 
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
-
-	session = e_mail_backend_get_session (backend);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	account = e_get_default_transport ();
 	if (account == NULL || account->transport->url == NULL)
 		return;
 
-	data = setup_send_data (backend);
+	data = setup_send_data (session);
 	info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 	if (info != NULL) {
 		info->again++;
@@ -1547,9 +1520,9 @@ mail_send (EMailBackend *backend)
 
 	info = g_malloc0 (sizeof (*info));
 	info->type = SEND_SEND;
-	info->backend = g_object_ref (backend);
 	info->progress_bar = NULL;
 	info->status_label = NULL;
+	info->session = g_object_ref (session);
 	info->service = g_object_ref (service);
 	info->keep_on_server = FALSE;
 	info->cancellable = NULL;
@@ -1562,8 +1535,6 @@ mail_send (EMailBackend *backend)
 
 	g_hash_table_insert (data->active, g_strdup (SEND_URI_KEY), info);
 
-	session = e_mail_backend_get_session (backend);
-
 	/* todo, store the folder in info? */
 	local_outbox =
 		e_mail_session_get_local_folder (
@@ -1574,7 +1545,7 @@ mail_send (EMailBackend *backend)
 	g_return_if_fail (CAMEL_IS_TRANSPORT (service));
 
 	mail_send_queue (
-		backend, local_outbox,
+		session, local_outbox,
 		CAMEL_TRANSPORT (service),
 		E_FILTER_SOURCE_OUTGOING,
 		info->cancellable,

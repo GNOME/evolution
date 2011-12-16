@@ -464,12 +464,12 @@ e_mail_sidebar_init (EMailSidebar *sidebar)
 }
 
 GtkWidget *
-e_mail_sidebar_new (EMailBackend *backend,
+e_mail_sidebar_new (EMailSession *session,
                     EAlertSink *alert_sink)
 {
 	EMFolderTreeModel *model;
 
-	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 	g_return_val_if_fail (E_IS_ALERT_SINK (alert_sink), NULL);
 
 	model = em_folder_tree_model_get_default ();
@@ -477,7 +477,7 @@ e_mail_sidebar_new (EMailBackend *backend,
 	return g_object_new (
 		E_TYPE_MAIL_SIDEBAR,
 		"alert-sink", alert_sink,
-		"backend", backend,
+		"session", session,
 		"model", model, NULL);
 }
 

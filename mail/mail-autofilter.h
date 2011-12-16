@@ -27,7 +27,7 @@
 #include <camel/camel.h>
 
 #include <filter/e-filter-rule.h>
-#include <mail/e-mail-backend.h>
+#include <mail/e-mail-session.h>
 #include <mail/em-filter-context.h>
 #include <mail/em-vfolder-context.h>
 
@@ -51,19 +51,18 @@ EFilterRule *	em_vfolder_rule_from_address	(EMVFolderContext *context,
 						 CamelFolder *folder);
 
 /* easiest place to put this */
-void		filter_gui_add_from_message	(EMailBackend *backend,
+void		filter_gui_add_from_message	(EMailSession *session,
 						 CamelMimeMessage *msg,
 						 const gchar *source,
 						 gint flags);
 
 /* Also easiest place for these, we should really
  * share a global rule context for this stuff ... */
-void		mail_filter_rename_folder	(EMailBackend *backend,
-						 CamelStore *store,
+void		mail_filter_rename_folder	(CamelStore *store,
 						 const gchar *old_folder_name,
 						 const gchar *new_folder_name);
-void		mail_filter_delete_folder	(EMailBackend *backend,
-						 CamelStore *store,
-						 const gchar *folder_name);
+void		mail_filter_delete_folder	(CamelStore *store,
+						 const gchar *folder_name,
+						 EAlertSink *alert_sink);
 
 #endif /* MAIL_AUTOFILTER_H */

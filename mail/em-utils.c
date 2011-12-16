@@ -258,22 +258,25 @@ static EMFilterSource em_filter_source_element_names[] = {
 
 /**
  * em_utils_edit_filters:
- * @parent: parent window
- * @backend: an #EMailBAckend
+ * @session: an #EMailSession
+ * @alert_sink: an #EAlertSink
+ * @parent_window: a parent #GtkWindow
  *
  * Opens or raises the filters editor dialog so that the user may edit
  * his/her filters. If @parent is non-NULL, then the dialog will be
  * created as a child window of @parent's toplevel window.
  **/
 void
-em_utils_edit_filters (GtkWidget *parent,
-                       EMailBackend *backend)
+em_utils_edit_filters (EMailSession *session,
+                       EAlertSink *alert_sink,
+                       GtkWindow *parent_window)
 {
 	const gchar *config_dir;
 	gchar *user, *system;
 	EMFilterContext *fc;
 
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (E_IS_ALERT_SINK (alert_sink));
 
 	if (filter_editor) {
 		gtk_window_present (GTK_WINDOW (filter_editor));
@@ -282,7 +285,7 @@ em_utils_edit_filters (GtkWidget *parent,
 
 	config_dir = mail_session_get_config_dir ();
 
-	fc = em_filter_context_new (backend);
+	fc = em_filter_context_new (session);
 	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	e_rule_context_load ((ERuleContext *) fc, system, user);
@@ -290,8 +293,9 @@ em_utils_edit_filters (GtkWidget *parent,
 	g_free (system);
 
 	if (((ERuleContext *) fc)->error) {
-		e_mail_backend_submit_alert (
-			backend, "mail:filter-load-error",
+		e_alert_submit (
+			alert_sink,
+			"mail:filter-load-error",
 			((ERuleContext *) fc)->error, NULL);
 		return;
 	}
@@ -303,10 +307,10 @@ em_utils_edit_filters (GtkWidget *parent,
 
 	filter_editor = (GtkWidget *) em_filter_editor_new (
 		fc, em_filter_source_element_names);
-	if (parent != NULL)
+
+	if (GTK_IS_WINDOW (parent_window))
 		gtk_window_set_transient_for (
-			GTK_WINDOW (filter_editor),
-			GTK_WINDOW (parent));
+			GTK_WINDOW (filter_editor), parent_window);
 
 	gtk_window_set_title (
 		GTK_WINDOW (filter_editor), _("Message Filters"));
@@ -1396,62 +1400,34 @@ em_utils_message_to_html (CamelMimeMessage *message,
 /* ********************************************************************** */
 
 /**
- * em_utils_expunge_folder:
- * @parent: parent window
- * @backend: #EMailBackend
- * @folder: folder to expunge
- *
- * Expunges @folder.
- **/
-void
-em_utils_expunge_folder (GtkWidget *parent,
-                         EMailBackend *backend,
-                         CamelFolder *folder)
-{
-	const gchar *description;
-
-	description = camel_folder_get_description (folder);
-
-	if (!em_utils_prompt_user (
-		GTK_WINDOW (parent),
-		"prompt-on-expunge",
-		"mail:ask-expunge", description, NULL))
-		return;
-
-	mail_expunge_folder (backend, folder);
-}
-
-/**
  * em_utils_empty_trash:
  * @parent: parent window
- * @backend: an #EMailBackend
+ * @session: an #EMailSession
  *
  * Empties all Trash folders.
  **/
 void
 em_utils_empty_trash (GtkWidget *parent,
-                      EMailBackend *backend)
+                      EMailSession *session)
 {
-	EMailSession *session;
-	GList *list, *iter;
+	GList *list, *link;
 
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	if (!em_utils_prompt_user ((GtkWindow *) parent,
 		"prompt-on-empty-trash",
 		"mail:ask-empty-trash", NULL))
 		return;
 
-	session = e_mail_backend_get_session (backend);
 	list = camel_session_list_services (CAMEL_SESSION (session));
 
-	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+	for (link = list; link != NULL; link = g_list_next (link)) {
 		EAccount *account;
 		CamelProvider *provider;
 		CamelService *service;
 		const gchar *uid;
 
-		service = CAMEL_SERVICE (iter->data);
+		service = CAMEL_SERVICE (link->data);
 		provider = camel_service_get_provider (service);
 		uid = camel_service_get_uid (service);
 
@@ -1470,7 +1446,7 @@ em_utils_empty_trash (GtkWidget *parent,
 				continue;
 		}
 
-		mail_empty_trash (backend, CAMEL_STORE (service));
+		mail_empty_trash (CAMEL_STORE (service));
 	}
 
 	g_list_free (list);

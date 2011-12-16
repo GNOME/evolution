@@ -107,7 +107,7 @@ struct _MLSelection {
 struct _MessageListPrivate {
 	GtkWidget *invisible;	/* 4 selection */
 
-	EMailBackend *backend;
+	EMailSession *session;
 
 	struct _MLSelection clipboard;
 	gboolean destroyed;
@@ -132,9 +132,9 @@ struct _MessageListPrivate {
 
 enum {
 	PROP_0,
-	PROP_BACKEND,
 	PROP_COPY_TARGET_LIST,
-	PROP_PASTE_TARGET_LIST
+	PROP_PASTE_TARGET_LIST,
+	PROP_SESSION
 };
 
 /* Forward Declarations */
@@ -1518,10 +1518,10 @@ ml_get_label_list_store (MessageList *message_list)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
-	EMailBackend *backend;
 
-	backend = message_list_get_backend (message_list);
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+	/* FIXME This should be a GObject property on MessageList. */
+
+	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	return e_shell_settings_get_object (
@@ -2237,7 +2237,6 @@ ml_selection_received (GtkWidget *widget,
                        guint time,
                        MessageList *message_list)
 {
-	EMailBackend *backend;
 	EMailSession *session;
 	GdkAtom target;
 
@@ -2248,8 +2247,7 @@ ml_selection_received (GtkWidget *widget,
 		return;
 	}
 
-	backend = message_list_get_backend (message_list);
-	session = e_mail_backend_get_session (backend);
+	session = message_list_get_session (message_list);
 
 	/* FIXME Not passing a GCancellable or GError here. */
 	em_utils_selection_get_uidlist (
@@ -2325,11 +2323,9 @@ ml_drop_async_exec (struct _drop_msg *m,
                     GCancellable *cancellable,
                     GError **error)
 {
-	EMailBackend *backend;
 	EMailSession *session;
 
-	backend = message_list_get_backend (m->message_list);
-	session = e_mail_backend_get_session (backend);
+	session = message_list_get_session (m->message_list);
 
 	switch (m->info) {
 	case DND_X_UID_LIST:
@@ -2541,18 +2537,14 @@ ml_tree_sorting_changed (ETreeTableAdapter *adapter,
 	return FALSE;
 }
 
-/*
- * GObject::init
- */
-
 static void
-message_list_set_backend (MessageList *message_list,
-                          EMailBackend *backend)
+message_list_set_session (MessageList *message_list,
+                          EMailSession *session)
 {
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
-	g_return_if_fail (message_list->priv->backend == NULL);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (message_list->priv->session == NULL);
 
-	message_list->priv->backend = g_object_ref (backend);
+	message_list->priv->session = g_object_ref (session);
 }
 
 static void
@@ -2615,8 +2607,8 @@ message_list_set_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKEND:
-			message_list_set_backend (
+		case PROP_SESSION:
+			message_list_set_session (
 				MESSAGE_LIST (object),
 				g_value_get_object (value));
 			return;
@@ -2632,12 +2624,6 @@ message_list_get_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKEND:
-			g_value_set_object (
-				value, message_list_get_backend (
-				MESSAGE_LIST (object)));
-			return;
-
 		case PROP_COPY_TARGET_LIST:
 			g_value_set_boxed (
 				value, message_list_get_copy_target_list (
@@ -2647,6 +2633,12 @@ message_list_get_property (GObject *object,
 		case PROP_PASTE_TARGET_LIST:
 			g_value_set_boxed (
 				value, message_list_get_paste_target_list (
+				MESSAGE_LIST (object)));
+			return;
+
+		case PROP_SESSION:
+			g_value_set_object (
+				value, message_list_get_session (
 				MESSAGE_LIST (object)));
 			return;
 	}
@@ -2662,9 +2654,9 @@ message_list_dispose (GObject *object)
 
 	priv = message_list->priv;
 
-	if (priv->backend != NULL) {
-		g_object_unref (priv->backend);
-		priv->backend = NULL;
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
 	}
 
 	if (priv->copy_target_list != NULL) {
@@ -2792,17 +2784,6 @@ message_list_class_init (MessageListClass *class)
 
 	class->message_list_built = NULL;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_BACKEND,
-		g_param_spec_object (
-			"backend",
-			"Mail Backend",
-			"The mail backend",
-			E_TYPE_MAIL_BACKEND,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
-
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (
 		object_class,
@@ -2814,6 +2795,17 @@ message_list_class_init (MessageListClass *class)
 		object_class,
 		PROP_PASTE_TARGET_LIST,
 		"paste-target-list");
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SESSION,
+		g_param_spec_object (
+			"session",
+			"Mail Session",
+			"The mail session",
+			E_TYPE_MAIL_SESSION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	message_list_signals[MESSAGE_SELECTED] =
 		g_signal_new ("message_selected",
@@ -2955,27 +2947,27 @@ message_list_construct (MessageList *message_list)
  * Returns a new message-list widget.
  **/
 GtkWidget *
-message_list_new (EMailBackend *backend)
+message_list_new (EMailSession *session)
 {
 	GtkWidget *message_list;
 
-	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
 	message_list = g_object_new (
 		message_list_get_type (),
-		"backend", backend, NULL);
+		"session", session, NULL);
 
 	message_list_construct (MESSAGE_LIST (message_list));
 
 	return message_list;
 }
 
-EMailBackend *
-message_list_get_backend (MessageList *message_list)
+EMailSession *
+message_list_get_session (MessageList *message_list)
 {
 	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
 
-	return message_list->priv->backend;
+	return message_list->priv->session;
 }
 
 static void

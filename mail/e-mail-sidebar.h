@@ -22,6 +22,7 @@
 #ifndef E_MAIL_SIDEBAR_H
 #define E_MAIL_SIDEBAR_H
 
+#include <mail/e-mail-session.h>
 #include <mail/em-folder-tree.h>
 
 /* Standard GObject macros */
@@ -76,7 +77,7 @@ struct _EMailSidebarClass {
 };
 
 GType		e_mail_sidebar_get_type		(void);
-GtkWidget *	e_mail_sidebar_new		(EMailBackend *backend,
+GtkWidget *	e_mail_sidebar_new		(EMailSession *session,
 						 EAlertSink *alert_sink);
 GKeyFile *	e_mail_sidebar_get_key_file	(EMailSidebar *sidebar);
 void		e_mail_sidebar_set_key_file	(EMailSidebar *sidebar,

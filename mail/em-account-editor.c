@@ -1856,7 +1856,7 @@ emae_account_folder (EMAccountEditor *emae,
 	session = e_mail_backend_get_session (backend);
 
 	folder = (EMFolderSelectionButton *) e_builder_get_widget (builder, name);
-	em_folder_selection_button_set_backend (folder, backend);
+	em_folder_selection_button_set_session (folder, session);
 
 	uri = e_account_get_string (account, item);
 	if (uri != NULL) {
@@ -3752,7 +3752,7 @@ update_real_folder_cb (GtkButton *folder_button,
 	if (folder_uri && *folder_uri) {
 		EMailSession *session;
 
-		session = e_mail_backend_get_session (em_folder_selection_button_get_backend (sel_button));
+		session = em_folder_selection_button_get_session (sel_button);
 		if (!e_mail_folder_uri_parse (CAMEL_SESSION (session), folder_uri, NULL, &path, NULL))
 			path = NULL;
 	}
@@ -3831,7 +3831,7 @@ emae_defaults_page (EConfig *ec,
 
 	widget = e_builder_get_widget (builder, "trash_folder_butt");
 	button = EM_FOLDER_SELECTION_BUTTON (widget);
-	em_folder_selection_button_set_backend (button, backend);
+	em_folder_selection_button_set_session (button, session);
 	em_folder_selection_button_set_store (button, store);
 	priv->trash_folder_button = GTK_BUTTON (button);
 
@@ -3889,7 +3889,7 @@ emae_defaults_page (EConfig *ec,
 
 	widget = e_builder_get_widget (builder, "junk_folder_butt");
 	button = EM_FOLDER_SELECTION_BUTTON (widget);
-	em_folder_selection_button_set_backend (button, backend);
+	em_folder_selection_button_set_session (button, session);
 	em_folder_selection_button_set_store (button, store);
 	priv->junk_folder_button = GTK_BUTTON (button);
 

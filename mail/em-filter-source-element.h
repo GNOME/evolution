@@ -24,7 +24,7 @@
 #ifndef EM_FILTER_SOURCE_ELEMENT_H
 #define EM_FILTER_SOURCE_ELEMENT_H
 
-#include <mail/e-mail-backend.h>
+#include <mail/e-mail-session.h>
 #include <filter/e-filter-element.h>
 
 /* Standard GObject macros */
@@ -63,8 +63,8 @@ struct _EMFilterSourceElementClass {
 
 GType		em_filter_source_element_get_type
 						(void) G_GNUC_CONST;
-EFilterElement *em_filter_source_element_new	(EMailBackend *backend);
-EMailBackend *	em_filter_source_element_get_backend
+EFilterElement *em_filter_source_element_new	(EMailSession *session);
+EMailSession *	em_filter_source_element_get_session
 						(EMFilterSourceElement *element);
 
 G_END_DECLS

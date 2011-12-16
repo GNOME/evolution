@@ -43,13 +43,13 @@
 	((obj), EM_TYPE_FILTER_FOLDER_ELEMENT, EMFilterFolderElementPrivate))
 
 struct _EMFilterFolderElementPrivate {
-	EMailBackend *backend;
+	EMailSession *session;
 	gchar *uri;
 };
 
 enum {
 	PROP_0,
-	PROP_BACKEND
+	PROP_SESSION
 };
 
 G_DEFINE_TYPE (
@@ -74,23 +74,26 @@ filter_folder_element_selected_cb (EMFolderSelectionButton *button,
 }
 
 static void
-filter_folder_element_set_backend (EMFilterFolderElement *element,
-                                   EMailBackend *backend)
+filter_folder_element_set_session (EMFilterFolderElement *element,
+                                   EMailSession *session)
 {
-	/* FIXME Dirty hack.  Backend should be passed in always. */
-	if (backend == NULL) {
-		EShellBackend *shell_backend;
+	/* FIXME Dirty hack.  Session should be passed in always. */
+	if (session == NULL) {
 		EShell *shell;
+		EShellBackend *shell_backend;
+		EMailBackend *backend;
 
 		shell = e_shell_get_default ();
 		shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
 		backend = E_MAIL_BACKEND (shell_backend);
+		session = e_mail_backend_get_session (backend);
 	}
 
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
-	g_return_if_fail (element->priv->backend == NULL);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (element->priv->session == NULL);
 
-	element->priv->backend = g_object_ref (backend);
+	element->priv->session = g_object_ref (session);
 }
 
 static void
@@ -100,8 +103,8 @@ filter_folder_element_set_property (GObject *object,
                                     GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKEND:
-			filter_folder_element_set_backend (
+		case PROP_SESSION:
+			filter_folder_element_set_session (
 				EM_FILTER_FOLDER_ELEMENT (object),
 				g_value_get_object (value));
 			return;
@@ -117,10 +120,10 @@ filter_folder_element_get_property (GObject *object,
                                     GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKEND:
+		case PROP_SESSION:
 			g_value_set_object (
 				value,
-				em_filter_folder_element_get_backend (
+				em_filter_folder_element_get_session (
 				EM_FILTER_FOLDER_ELEMENT (object)));
 			return;
 	}
@@ -135,9 +138,9 @@ filter_folder_element_dispose (GObject *object)
 
 	priv = EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE (object);
 
-	if (priv->backend != NULL) {
-		g_object_unref (priv->backend);
-		priv->backend = NULL;
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -231,13 +234,13 @@ static GtkWidget *
 filter_folder_element_get_widget (EFilterElement *fe)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *) fe;
-	EMailBackend *backend;
+	EMailSession *session;
 	GtkWidget *button;
 
-	backend = em_filter_folder_element_get_backend (ff);
+	session = em_filter_folder_element_get_session (ff);
 
 	button = em_folder_selection_button_new (
-		backend, _("Select Folder"), NULL);
+		session, _("Select Folder"), NULL);
 	em_folder_selection_button_set_folder_uri (
 		EM_FOLDER_SELECTION_BUTTON (button), ff->priv->uri);
 	gtk_widget_show (button);
@@ -305,12 +308,12 @@ em_filter_folder_element_class_init (EMFilterFolderElementClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_BACKEND,
+		PROP_SESSION,
 		g_param_spec_object (
-			"backend",
+			"session",
 			NULL,
 			NULL,
-			E_TYPE_MAIL_BACKEND,
+			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 }
@@ -322,21 +325,21 @@ em_filter_folder_element_init (EMFilterFolderElement *element)
 }
 
 EFilterElement *
-em_filter_folder_element_new (EMailBackend *backend)
+em_filter_folder_element_new (EMailSession *session)
 {
-	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
 	return g_object_new (
 		EM_TYPE_FILTER_FOLDER_ELEMENT,
-		"backend", backend, NULL);
+		"session", session, NULL);
 }
 
-EMailBackend *
-em_filter_folder_element_get_backend (EMFilterFolderElement *element)
+EMailSession *
+em_filter_folder_element_get_session (EMFilterFolderElement *element)
 {
 	g_return_val_if_fail (EM_IS_FILTER_FOLDER_ELEMENT (element), NULL);
 
-	return element->priv->backend;
+	return element->priv->session;
 }
 
 const gchar *

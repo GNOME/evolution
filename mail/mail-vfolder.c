@@ -189,7 +189,7 @@ vfolder_setup (EMailSession *session,
 struct _adduri_msg {
 	MailMsg base;
 
-	EMailBackend *backend;
+	EMailSession *session;
 	gchar *uri;
 	GList *folders;
 	gint remove;
@@ -200,16 +200,13 @@ vfolder_adduri_desc (struct _adduri_msg *m)
 {
 	CamelStore *store;
 	CamelService *service;
-	EMailSession *session;
 	const gchar *display_name;
 	gchar *folder_name;
 	gchar *description;
 	gboolean success;
 
-	session = e_mail_backend_get_session (m->backend);
-
 	success = e_mail_folder_uri_parse (
-		CAMEL_SESSION (session), m->uri,
+		CAMEL_SESSION (m->session), m->uri,
 		&store, &folder_name, NULL);
 
 	if (!success)
@@ -234,15 +231,13 @@ vfolder_adduri_exec (struct _adduri_msg *m,
                      GError **error)
 {
 	GList *l;
-	EMailSession *session;
 	CamelFolder *folder = NULL;
 	MailFolderCache *folder_cache;
 
 	if (vfolder_shutdown)
 		return;
 
-	session = e_mail_backend_get_session (m->backend);
-	folder_cache = e_mail_session_get_folder_cache (session);
+	folder_cache = e_mail_session_get_folder_cache (m->session);
 
 	/* we dont try lookup the cache if we are removing it, its no longer there */
 
@@ -256,7 +251,7 @@ vfolder_adduri_exec (struct _adduri_msg *m,
 
 	if (folder == NULL)
 		folder = e_mail_session_uri_to_folder_sync (
-			session, m->uri, 0, cancellable, error);
+			m->session, m->uri, 0, cancellable, error);
 
 	if (folder != NULL) {
 		l = m->folders;
@@ -280,7 +275,7 @@ vfolder_adduri_done (struct _adduri_msg *m)
 static void
 vfolder_adduri_free (struct _adduri_msg *m)
 {
-	g_object_unref (m->backend);
+	g_object_unref (m->session);
 	g_list_foreach (m->folders, (GFunc) g_object_unref, NULL);
 	g_list_free (m->folders);
 	g_free (m->uri);
@@ -296,7 +291,7 @@ static MailMsgInfo vfolder_adduri_info = {
 
 /* uri should be a camel uri */
 static gint
-vfolder_adduri (EMailBackend *backend,
+vfolder_adduri (EMailSession *session,
                 const gchar *uri,
                 GList *folders,
                 gint remove)
@@ -305,7 +300,7 @@ vfolder_adduri (EMailBackend *backend,
 	gint id;
 
 	m = mail_msg_new (&vfolder_adduri_info);
-	m->backend = g_object_ref (backend);
+	m->session = g_object_ref (session);
 	m->folders = folders;
 	m->uri = g_strdup (uri);
 	m->remove = remove;
@@ -339,7 +334,6 @@ folder_is_spethal (CamelStore *store,
 
 /**
  * mail_vfolder_add_folder:
- * @backend: an #EMailBackend
  * @store: a #CamelStore
  * @folder: a folder name
  * @remove: whether the folder should be removed or added
@@ -356,12 +350,12 @@ folder_is_spethal (CamelStore *store,
  * NOTE: This function must be called from the main thread.
  */
 static void
-mail_vfolder_add_folder (EMailBackend *backend,
-                         CamelStore *store,
+mail_vfolder_add_folder (CamelStore *store,
                          const gchar *folder_name,
                          gint remove)
 {
-	EMailSession *session;
+	CamelService *service;
+	CamelSession *session;
 	EFilterRule *rule;
 	const gchar *source;
 	CamelVeeFolder *vf;
@@ -370,9 +364,13 @@ mail_vfolder_add_folder (EMailBackend *backend,
 	gint remote;
 	gchar *uri;
 
-	session = e_mail_backend_get_session (backend);
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (folder_name != NULL);
 
-	provider = camel_service_get_provider (CAMEL_SERVICE (store));
+	service = CAMEL_SERVICE (store);
+	session = camel_service_get_session (service);
+	provider = camel_service_get_provider (service);
+
 	remote = (provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
 
 	if (folder_is_spethal (store, folder_name))
@@ -410,8 +408,7 @@ mail_vfolder_add_folder (EMailBackend *backend,
 		source = NULL;
 		while (!found && (source = em_vfolder_rule_next_source (
 				(EMVFolderRule *) rule, source))) {
-			found = e_mail_folder_uri_equal (
-				CAMEL_SESSION (session), uri, source);
+			found = e_mail_folder_uri_equal (session, uri, source);
 		}
 
 		if (found) {
@@ -429,7 +426,9 @@ done:
 	G_UNLOCK (vfolder);
 
 	if (folders != NULL)
-		vfolder_adduri (backend, uri, folders, remove);
+		vfolder_adduri (
+			E_MAIL_SESSION (session),
+			uri, folders, remove);
 
 	g_free (uri);
 }
@@ -459,7 +458,8 @@ mail_vfolder_delete_folder (EMailBackend *backend,
 {
 	ERuleContext *rule_context;
 	EFilterRule *rule;
-	EMailSession *session;
+	CamelService *service;
+	CamelSession *session;
 	const gchar *source;
 	CamelVeeFolder *vf;
 	GString *changed;
@@ -477,7 +477,9 @@ mail_vfolder_delete_folder (EMailBackend *backend,
 
 	g_return_if_fail (mail_in_main_thread ());
 
-	session = e_mail_backend_get_session (backend);
+	service = CAMEL_SERVICE (store);
+	session = camel_service_get_session (service);
+
 	uri = e_mail_folder_uri_build (store, folder_name);
 
 	changed_count = 0;
@@ -502,7 +504,7 @@ mail_vfolder_delete_folder (EMailBackend *backend,
 		while ((source = em_vfolder_rule_next_source (vf_rule, source))) {
 			/* Remove all sources that match, ignore changed events though
 			 * because the adduri call above does the work async */
-			if (e_mail_folder_uri_equal (CAMEL_SESSION (session), uri, source)) {
+			if (e_mail_folder_uri_equal (session, uri, source)) {
 				vf = g_hash_table_lookup (
 					vfolder_hash, rule->name);
 
@@ -544,8 +546,11 @@ done:
 	G_UNLOCK (vfolder);
 
 	if (changed_count > 0) {
+		EAlertSink *alert_sink;
 		const gchar *config_dir;
 		gchar *user, *info;
+
+		alert_sink = e_mail_backend_get_alert_sink (backend);
 
 		info = g_strdup_printf (ngettext (
 			/* Translators: The first %s is name of the affected
@@ -558,8 +563,8 @@ done:
 			"The following Search Folders\n%s have been modified "
 			"to account for the deleted folder\n\"%s\".",
 			changed_count), changed->str, uri);
-		e_mail_backend_submit_alert (
-			backend, "mail:vfolder-updated", info, NULL);
+		e_alert_submit (
+			alert_sink, "mail:vfolder-updated", info, NULL);
 		g_free (info);
 
 		config_dir = mail_session_get_config_dir ();
@@ -583,6 +588,7 @@ mail_vfolder_rename_folder (CamelStore *store,
 	EFilterRule *rule;
 	const gchar *source;
 	CamelVeeFolder *vf;
+	CamelService *service;
 	CamelSession *session;
 	gint changed = 0;
 	gchar *old_uri;
@@ -601,7 +607,8 @@ mail_vfolder_rename_folder (CamelStore *store,
 
 	g_return_if_fail (mail_in_main_thread ());
 
-	session = camel_service_get_session (CAMEL_SERVICE (store));
+	service = CAMEL_SERVICE (store);
+	session = camel_service_get_session (service);
 
 	old_uri = e_mail_folder_uri_build (store, old_folder_name);
 	new_uri = e_mail_folder_uri_build (store, new_folder_name);
@@ -702,7 +709,6 @@ static void
 rule_changed (EFilterRule *rule,
               CamelFolder *folder)
 {
-	EMailBackend *backend;
 	EMailSession *session;
 	CamelService *service;
 	GList *sources_uri = NULL;
@@ -711,8 +717,7 @@ rule_changed (EFilterRule *rule,
 	const gchar *full_name;
 
 	full_name = camel_folder_get_full_name (folder);
-	backend = em_vfolder_rule_get_backend (EM_VFOLDER_RULE (rule));
-	session = e_mail_backend_get_session (backend);
+	session = em_vfolder_rule_get_session (EM_VFOLDER_RULE (rule));
 
 	service = camel_session_get_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
@@ -804,15 +809,13 @@ static void
 context_rule_added (ERuleContext *ctx,
                     EFilterRule *rule)
 {
-	EMailBackend *backend;
 	EMailSession *session;
 	CamelFolder *folder;
 	CamelService *service;
 
 	d(printf("rule added: %s\n", rule->name));
 
-	backend = em_vfolder_rule_get_backend (EM_VFOLDER_RULE (rule));
-	session = e_mail_backend_get_session (backend);
+	session = em_vfolder_rule_get_session (EM_VFOLDER_RULE (rule));
 
 	service = camel_session_get_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
@@ -837,15 +840,13 @@ static void
 context_rule_removed (ERuleContext *ctx,
                       EFilterRule *rule)
 {
-	EMailBackend *backend;
 	EMailSession *session;
 	CamelService *service;
 	gpointer key, folder = NULL;
 
 	d(printf("rule removed; %s\n", rule->name));
 
-	backend = em_vfolder_rule_get_backend (EM_VFOLDER_RULE (rule));
-	session = e_mail_backend_get_session (backend);
+	session = em_vfolder_rule_get_session (EM_VFOLDER_RULE (rule));
 
 	service = camel_session_get_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
@@ -963,19 +964,17 @@ store_folder_renamed_cb (CamelStore *store,
 static void
 folder_available_cb (MailFolderCache *cache,
                      CamelStore *store,
-                     const gchar *folder_name,
-                     EMailBackend *backend)
+                     const gchar *folder_name)
 {
-	mail_vfolder_add_folder (backend, store, folder_name, FALSE);
+	mail_vfolder_add_folder (store, folder_name, FALSE);
 }
 
 static void
 folder_unavailable_cb (MailFolderCache *cache,
                        CamelStore *store,
-                       const gchar *folder_name,
-                       EMailBackend *backend)
+                       const gchar *folder_name)
 {
-	mail_vfolder_add_folder (backend, store, folder_name, TRUE);
+	mail_vfolder_add_folder (store, folder_name, TRUE);
 }
 
 static void
@@ -1032,7 +1031,7 @@ vfolder_load_storage (EMailBackend *backend)
 
 	g_signal_connect (
 		vfolder_store, "folder-deleted",
-		G_CALLBACK (store_folder_deleted_cb), backend);
+		G_CALLBACK (store_folder_deleted_cb), NULL);
 
 	g_signal_connect (
 		vfolder_store, "folder-renamed",
@@ -1040,7 +1039,7 @@ vfolder_load_storage (EMailBackend *backend)
 
 	/* load our rules */
 	user = g_build_filename (config_dir, "vfolders.xml", NULL);
-	context = em_vfolder_context_new (backend);
+	context = em_vfolder_context_new (session);
 
 	xmlfile = g_build_filename (EVOLUTION_PRIVDATADIR, "vfoldertypes.xml", NULL);
 	if (e_rule_context_load ((ERuleContext *) context,
@@ -1077,10 +1076,10 @@ vfolder_load_storage (EMailBackend *backend)
 
 	g_signal_connect (
 		folder_cache, "folder-available",
-		G_CALLBACK (folder_available_cb), backend);
+		G_CALLBACK (folder_available_cb), NULL);
 	g_signal_connect (
 		folder_cache, "folder-unavailable",
-		G_CALLBACK (folder_unavailable_cb), backend);
+		G_CALLBACK (folder_unavailable_cb), NULL);
 	g_signal_connect (
 		folder_cache, "folder-deleted",
 		G_CALLBACK (folder_deleted_cb), backend);
@@ -1090,24 +1089,20 @@ vfolder_load_storage (EMailBackend *backend)
 }
 
 void
-vfolder_edit (EShellView *shell_view)
+vfolder_edit (EMailBackend *backend,
+              GtkWindow *parent_window)
 {
 	EShellBackend *shell_backend;
-	EShellWindow *shell_window;
-	EMailBackend *backend;
 	GtkWidget *dialog;
 	const gchar *config_dir;
 	gchar *filename;
 
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (GTK_IS_WINDOW (parent_window));
 
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
+	shell_backend = E_SHELL_BACKEND (backend);
 	config_dir = e_shell_backend_get_config_dir (shell_backend);
 	filename = g_build_filename (config_dir, "vfolders.xml", NULL);
-
-	backend = E_MAIL_BACKEND (shell_backend);
 
 	vfolder_load_storage (backend);
 
@@ -1115,7 +1110,7 @@ vfolder_edit (EShellView *shell_view)
 	gtk_window_set_title (
 		GTK_WINDOW (dialog), _("Search Folders"));
 	gtk_window_set_transient_for (
-		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
+		GTK_WINDOW (dialog), parent_window);
 
 	switch (gtk_dialog_run (GTK_DIALOG (dialog))) {
 		case GTK_RESPONSE_OK:
@@ -1151,21 +1146,20 @@ vfolder_edit_response_cb (GtkWidget *dialog,
 }
 
 void
-vfolder_edit_rule (EMailBackend *backend,
-                   const gchar *folder_uri)
+vfolder_edit_rule (EMailSession *session,
+                   const gchar *folder_uri,
+                   EAlertSink *alert_sink)
 {
 	GtkWidget *dialog;
 	GtkWidget *widget;
 	GtkWidget *container;
 	EFilterRule *rule = NULL;
 	EFilterRule *newrule;
-	EMailSession *session;
 	gchar *folder_name = NULL;
 
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (folder_uri != NULL);
-
-	session = e_mail_backend_get_session (backend);
+	g_return_if_fail (E_IS_ALERT_SINK (alert_sink));
 
 	e_mail_folder_uri_parse (
 		CAMEL_SESSION (session), folder_uri,
@@ -1179,8 +1173,9 @@ vfolder_edit_rule (EMailBackend *backend,
 
 	if (rule == NULL) {
 		/* TODO: we should probably just create it ... */
-		e_mail_backend_submit_alert (
-			backend, "mail:vfolder-notexist", folder_uri, NULL);
+		e_alert_submit (
+			alert_sink, "mail:vfolder-notexist",
+			folder_uri, NULL);
 		return;
 	}
 
@@ -1265,13 +1260,15 @@ new_rule_changed_cb (EFilterRule *rule,
 /* clones a filter/search rule into a matching vfolder rule
  * (assuming the same system definitions) */
 EFilterRule *
-vfolder_clone_rule (EMailBackend *backend,
+vfolder_clone_rule (EMailSession *session,
                     EFilterRule *in)
 {
 	EFilterRule *rule;
 	xmlNodePtr xml;
 
-	rule = em_vfolder_rule_new (backend);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	rule = em_vfolder_rule_new (session);
 
 	xml = e_filter_rule_xml_encode (in);
 	e_filter_rule_xml_decode (rule, xml, (ERuleContext *) context);

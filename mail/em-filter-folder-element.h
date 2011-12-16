@@ -25,7 +25,7 @@
 #ifndef EM_FILTER_FOLDER_ELEMENT_H
 #define EM_FILTER_FOLDER_ELEMENT_H
 
-#include <mail/e-mail-backend.h>
+#include <mail/e-mail-session.h>
 #include <filter/e-filter-element.h>
 
 /* Standard GObject macros */
@@ -63,8 +63,8 @@ struct _EMFilterFolderElementClass {
 };
 
 GType		em_filter_folder_element_get_type (void);
-EFilterElement *em_filter_folder_element_new	(EMailBackend *backend);
-EMailBackend *	em_filter_folder_element_get_backend
+EFilterElement *em_filter_folder_element_new	(EMailSession *session);
+EMailSession *	em_filter_folder_element_get_session
 						(EMFilterFolderElement *element);
 const gchar *	em_filter_folder_element_get_uri
 						(EMFilterFolderElement *element);

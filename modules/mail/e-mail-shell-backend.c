@@ -115,7 +115,7 @@ action_mail_folder_new_cb (GtkAction *action,
 {
 	EMFolderTree *folder_tree = NULL;
 	EMailShellSidebar *mail_shell_sidebar;
-	EMailBackend *backend;
+	EMailSession *session;
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
 	const gchar *view_name;
@@ -123,8 +123,9 @@ action_mail_folder_new_cb (GtkAction *action,
 	/* Take care not to unnecessarily load the mail shell view. */
 	view_name = e_shell_window_get_active_view (shell_window);
 	if (g_strcmp0 (view_name, BACKEND_NAME) != 0) {
-		EShellBackend *shell_backend;
 		EShell *shell;
+		EShellBackend *shell_backend;
+		EMailBackend *backend;
 
 		shell = e_shell_window_get_shell (shell_window);
 
@@ -133,6 +134,7 @@ action_mail_folder_new_cb (GtkAction *action,
 		g_return_if_fail (E_IS_MAIL_BACKEND (shell_backend));
 
 		backend = E_MAIL_BACKEND (shell_backend);
+		session = e_mail_backend_get_session (backend);
 
 		goto exit;
 	}
@@ -142,11 +144,11 @@ action_mail_folder_new_cb (GtkAction *action,
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	backend = em_folder_tree_get_backend (folder_tree);
+	session = em_folder_tree_get_session (folder_tree);
 
 exit:
 	em_folder_utils_create_folder (
-		GTK_WINDOW (shell_window), backend, folder_tree, NULL);
+		GTK_WINDOW (shell_window), session, folder_tree, NULL);
 }
 
 static void
@@ -481,7 +483,7 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 		g_error_free (error);
 	}
 
-	mail_autoreceive_init (backend);
+	mail_autoreceive_init (session);
 
 	if (g_getenv ("CAMEL_FLUSH_CHANGES") != NULL)
 		priv->mail_sync_source_id = g_timeout_add_seconds (

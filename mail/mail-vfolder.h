@@ -31,10 +31,12 @@
 #include <shell/e-shell-view.h>
 
 void		vfolder_load_storage		(EMailBackend *backend);
-void		vfolder_edit			(EShellView *shell_view);
-void		vfolder_edit_rule		(EMailBackend *backend,
-						 const gchar *folder_uri);
-EFilterRule *	vfolder_clone_rule		(EMailBackend *backend,
+void		vfolder_edit			(EMailBackend *backend,
+						 GtkWindow *parent_window);
+void		vfolder_edit_rule		(EMailSession *session,
+						 const gchar *folder_uri,
+						 EAlertSink *alert_sink);
+EFilterRule *	vfolder_clone_rule		(EMailSession *session,
 						 EFilterRule *in);
 void		vfolder_gui_add_rule		(EMVFolderRule *rule);
 void		vfolder_gui_add_from_message	(EMailSession *session,

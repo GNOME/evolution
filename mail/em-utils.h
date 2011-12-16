@@ -42,7 +42,9 @@ gboolean em_utils_prompt_user (GtkWindow *parent, const gchar *promptkey, const 
 GPtrArray *em_utils_uids_copy (GPtrArray *uids);
 void em_utils_uids_free (GPtrArray *uids);
 
-void em_utils_edit_filters (GtkWidget *parent, EMailBackend *backend);
+void		em_utils_edit_filters		(EMailSession *session,
+						 EAlertSink *alert_sink,
+						 GtkWindow *parent_window);
 void em_filename_make_safe (gchar *string);
 void em_utils_edit_vfolders (GtkWidget *parent);
 
@@ -70,8 +72,8 @@ EProxy *	em_utils_get_proxy		(void);
 /* FIXME: should this have an override charset? */
 gchar *em_utils_message_to_html (CamelMimeMessage *msg, const gchar *credits, guint32 flags, struct _EMFormat *source, const gchar *append, guint32 *validity_found);
 
-void em_utils_expunge_folder (GtkWidget *parent, EMailBackend *backend, CamelFolder *folder);
-void em_utils_empty_trash (GtkWidget *parent, EMailBackend *backend);
+void		em_utils_empty_trash		(GtkWidget *parent,
+						 EMailSession *session);
 
 /* is this address in the addressbook?  caches results */
 gboolean em_utils_in_addressbook (CamelInternetAddress *addr, gboolean local_only);

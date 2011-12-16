@@ -25,13 +25,14 @@
 #define __EM_FOLDER_PROPERTIES_H__
 
 #include <camel/camel.h>
-#include <shell/e-shell-view.h>
+#include <mail/e-mail-session.h>
 
 G_BEGIN_DECLS
 
-void		em_folder_properties_show	(EShellView *shell_view,
-						 CamelStore *store,
-						 const gchar *folder_name);
+void		em_folder_properties_show	(CamelStore *store,
+						 const gchar *folder_name,
+						 EAlertSink *alert_sink,
+						 GtkWindow *parent_window);
 
 G_END_DECLS
 

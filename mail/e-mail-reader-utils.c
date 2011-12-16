@@ -198,6 +198,7 @@ e_mail_reader_delete_folder (EMailReader *reader,
 	GtkWindow *parent = e_shell_get_active_window (NULL);
 	GtkWidget *dialog;
 	gboolean store_is_local;
+	const gchar *display_name;
 	const gchar *full_name;
 	const gchar *uid;
 	CamelFolderInfoFlags flags = 0;
@@ -207,6 +208,7 @@ e_mail_reader_delete_folder (EMailReader *reader,
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
 	full_name = camel_folder_get_full_name (folder);
+	display_name = camel_folder_get_display_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (parent_store));
@@ -220,9 +222,9 @@ e_mail_reader_delete_folder (EMailReader *reader,
 
 	if (store_is_local &&
 		mail_reader_is_special_local_folder (full_name)) {
-		e_mail_backend_submit_alert (
-			backend, "mail:no-delete-special-folder",
-			full_name, NULL);
+		e_alert_submit (
+			alert_sink, "mail:no-delete-special-folder",
+			display_name, NULL);
 		return;
 	}
 
@@ -232,7 +234,7 @@ e_mail_reader_delete_folder (EMailReader *reader,
 	if (have_flags && (flags & CAMEL_FOLDER_SYSTEM)) {
 		e_alert_submit (
 			alert_sink, "mail:no-delete-special-folder",
-			camel_folder_get_display_name (folder), NULL);
+			display_name, NULL);
 		return;
 	}
 
@@ -240,20 +242,20 @@ e_mail_reader_delete_folder (EMailReader *reader,
 		if (CAMEL_IS_VEE_STORE (parent_store))
 			dialog = e_alert_dialog_new_for_args (
 				parent, "mail:ask-delete-vfolder",
-				full_name, NULL);
+				display_name, NULL);
 		else
 			dialog = e_alert_dialog_new_for_args (
 				parent, "mail:ask-delete-folder",
-				full_name, NULL);
+				display_name, NULL);
 	} else {
 		if (CAMEL_IS_VEE_STORE (parent_store))
 			dialog = e_alert_dialog_new_for_args (
 				parent, "mail:ask-delete-vfolder-nochild",
-				full_name, NULL);
+				display_name, NULL);
 		else
 			dialog = e_alert_dialog_new_for_args (
 				parent, "mail:ask-delete-folder-nochild",
-				full_name, NULL);
+				display_name, NULL);
 	}
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
@@ -1097,6 +1099,7 @@ mail_reader_create_filter_cb (CamelFolder *folder,
                               AsyncContext *context)
 {
 	EMailBackend *backend;
+	EMailSession *session;
 	EAlertSink *alert_sink;
 	CamelMimeMessage *message;
 	GError *error = NULL;
@@ -1130,9 +1133,10 @@ mail_reader_create_filter_cb (CamelFolder *folder,
 	context->activity = NULL;
 
 	backend = e_mail_reader_get_backend (context->reader);
+	session = e_mail_backend_get_session (backend);
 
 	filter_gui_add_from_message (
-		backend, message,
+		session, message,
 		context->filter_source,
 		context->filter_type);
 

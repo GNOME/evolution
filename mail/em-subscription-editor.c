@@ -51,7 +51,7 @@ typedef struct _TreeRowData TreeRowData;
 typedef struct _StoreData StoreData;
 
 struct _EMSubscriptionEditorPrivate {
-	EMailBackend *backend;
+	EMailSession *session;
 	CamelStore *initial_store;
 
 	GtkWidget *combo_box;		/* not referenced */
@@ -101,7 +101,7 @@ struct _StoreData {
 
 enum {
 	PROP_0,
-	PROP_BACKEND,
+	PROP_SESSION,
 	PROP_STORE
 };
 
@@ -1428,13 +1428,13 @@ subscription_editor_set_store (EMSubscriptionEditor *editor,
 }
 
 static void
-subscription_editor_set_backend (EMSubscriptionEditor *editor,
-                                 EMailBackend *backend)
+subscription_editor_set_session (EMSubscriptionEditor *editor,
+                                 EMailSession *session)
 {
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
-	g_return_if_fail (editor->priv->backend == NULL);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (editor->priv->session == NULL);
 
-	editor->priv->backend = g_object_ref (backend);
+	editor->priv->session = g_object_ref (session);
 }
 
 static void
@@ -1444,8 +1444,8 @@ subscription_editor_set_property (GObject *object,
                                   GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKEND:
-			subscription_editor_set_backend (
+		case PROP_SESSION:
+			subscription_editor_set_session (
 				EM_SUBSCRIPTION_EDITOR (object),
 				g_value_get_object (value));
 			return;
@@ -1467,10 +1467,10 @@ subscription_editor_get_property (GObject *object,
                                   GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKEND:
+		case PROP_SESSION:
 			g_value_set_object (
 				value,
-				em_subscription_editor_get_backend (
+				em_subscription_editor_get_session (
 				EM_SUBSCRIPTION_EDITOR (object)));
 			return;
 
@@ -1492,9 +1492,9 @@ subscription_editor_dispose (GObject *object)
 
 	priv = EM_SUBSCRIPTION_EDITOR_GET_PRIVATE (object);
 
-	if (priv->backend != NULL) {
-		g_object_unref (priv->backend);
-		priv->backend = NULL;
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
 	}
 
 	if (priv->initial_store != NULL) {
@@ -1540,17 +1540,14 @@ subscription_editor_constructed (GObject *object)
 	if (editor->priv->initial_store == NULL) {
 		EAccount *account;
 		CamelService *service;
-		EMailBackend *backend;
 		EMailSession *session;
 
 		account = e_get_default_account ();
 
-		backend = em_subscription_editor_get_backend (editor);
-		session = e_mail_backend_get_session (backend);
+		session = em_subscription_editor_get_session (editor);
 
 		service = camel_session_get_service (
-			CAMEL_SESSION (session),
-			account->uid);
+			CAMEL_SESSION (session), account->uid);
 
 		if (CAMEL_IS_SUBSCRIBABLE (service))
 			editor->priv->initial_store = g_object_ref (service);
@@ -1621,12 +1618,12 @@ em_subscription_editor_class_init (EMSubscriptionEditorClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_BACKEND,
+		PROP_SESSION,
 		g_param_spec_object (
-			"backend",
+			"session",
 			NULL,
 			NULL,
-			E_TYPE_MAIL_BACKEND,
+			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
@@ -1911,26 +1908,26 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 
 GtkWidget *
 em_subscription_editor_new (GtkWindow *parent,
-                            EMailBackend *backend,
+                            EMailSession *session,
                             CamelStore *initial_store)
 {
 	g_return_val_if_fail (GTK_IS_WINDOW (parent), NULL);
-	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
 	return g_object_new (
 		EM_TYPE_SUBSCRIPTION_EDITOR,
-		"backend", backend,
+		"session", session,
 		"store", initial_store,
 		"transient-for", parent,
 		NULL);
 }
 
-EMailBackend *
-em_subscription_editor_get_backend (EMSubscriptionEditor *editor)
+EMailSession *
+em_subscription_editor_get_session (EMSubscriptionEditor *editor)
 {
 	g_return_val_if_fail (EM_IS_SUBSCRIPTION_EDITOR (editor), NULL);
 
-	return editor->priv->backend;
+	return editor->priv->session;
 }
 
 CamelStore *

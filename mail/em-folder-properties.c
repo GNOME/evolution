@@ -42,8 +42,8 @@ typedef struct _AsyncContext AsyncContext;
 
 struct _AsyncContext {
 	EActivity *activity;
-	EShellView *shell_view;
 	CamelFolder *folder;
+	GtkWindow *parent_window;
 	CamelFolderQuotaInfo *quota_info;
 	gint total;
 	gint unread;
@@ -55,11 +55,11 @@ async_context_free (AsyncContext *context)
 	if (context->activity != NULL)
 		g_object_unref (context->activity);
 
-	if (context->shell_view != NULL)
-		g_object_unref (context->shell_view);
-
 	if (context->folder != NULL)
 		g_object_unref (context->folder);
+
+	if (context->parent_window != NULL)
+		g_object_unref (context->parent_window);
 
 	if (context->quota_info != NULL)
 		camel_folder_quota_info_free (context->quota_info);
@@ -246,8 +246,6 @@ emfp_dialog_run (AsyncContext *context)
 	gint32 i,deleted;
 	EMConfig *ec;
 	EMConfigTargetFolder *target;
-	EShellWindow *shell_window;
-	EShellView *shell_view;
 	CamelStore *parent_store;
 	CamelFolderSummary *summary;
 	gboolean store_is_local;
@@ -255,9 +253,6 @@ emfp_dialog_run (AsyncContext *context)
 	GSettings *settings;
 	const gchar *name;
 	const gchar *uid;
-
-	shell_view = context->shell_view;
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	parent_store = camel_folder_get_parent_store (context->folder);
 
@@ -315,7 +310,8 @@ emfp_dialog_run (AsyncContext *context)
 		emfp_items[EMFP_FOLDER_SECTION].label = (gchar *) name;
 
 	dialog = gtk_dialog_new_with_buttons (
-		_("Folder Properties"), GTK_WINDOW (shell_window),
+		_("Folder Properties"),
+		context->parent_window,
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_STOCK_CLOSE, GTK_RESPONSE_OK, NULL);
 	gtk_window_set_default_size ((GtkWindow *) dialog, 192, 160);
@@ -447,35 +443,33 @@ emfp_dialog_got_folder (CamelStore *store,
 
 /**
  * em_folder_properties_show:
- * @shell_view: an #EShellView
  * @store: a #CamelStore
  * @folder_name: a folder name
+ * @alert_sink: an #EAlertSink
+ * @parent_window: a parent #GtkWindow
  *
  * Show folder properties for @folder_name.
  **/
 void
-em_folder_properties_show (EShellView *shell_view,
-                           CamelStore *store,
-                           const gchar *folder_name)
+em_folder_properties_show (CamelStore *store,
+                           const gchar *folder_name,
+                           EAlertSink *alert_sink,
+                           GtkWindow *parent_window)
 {
-	EShellBackend *shell_backend;
-	EShellContent *shell_content;
-	EMailBackend *backend;
-	EAlertSink *alert_sink;
+	CamelService *service;
+	CamelSession *session;
 	GCancellable *cancellable;
 	AsyncContext *context;
 	const gchar *uid;
 
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (folder_name != NULL);
+	g_return_if_fail (E_IS_ALERT_SINK (alert_sink));
+	g_return_if_fail (GTK_IS_WINDOW (parent_window));
 
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	backend = E_MAIL_BACKEND (shell_backend);
-
-	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	service = CAMEL_SERVICE (store);
+	uid = camel_service_get_uid (service);
+	session = camel_service_get_session (service);
 
 	/* Show the Edit Rule dialog for Search Folders, but not "Unmatched".
 	 * "Unmatched" is a special Search Folder which can't be modified. */
@@ -485,7 +479,9 @@ em_folder_properties_show (EShellView *shell_view,
 
 			folder_uri = e_mail_folder_uri_build (
 				store, folder_name);
-			vfolder_edit_rule (backend, folder_uri);
+			vfolder_edit_rule (
+				E_MAIL_SESSION (session),
+				folder_uri, alert_sink);
 			g_free (folder_uri);
 			return;
 		}
@@ -495,15 +491,15 @@ em_folder_properties_show (EShellView *shell_view,
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_activity_new ();
-	context->shell_view = g_object_ref (shell_view);
+	context->parent_window = g_object_ref (parent_window);
 
-	alert_sink = E_ALERT_SINK (shell_content);
 	e_activity_set_alert_sink (context->activity, alert_sink);
 
 	cancellable = camel_operation_new ();
 	e_activity_set_cancellable (context->activity, cancellable);
 
-	e_shell_backend_add_activity (shell_backend, context->activity);
+	e_mail_session_add_activity (
+		E_MAIL_SESSION (session), context->activity);
 
 	camel_store_get_folder (
 		store, folder_name, 0, G_PRIORITY_DEFAULT, cancellable,

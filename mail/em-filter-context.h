@@ -25,7 +25,7 @@
 #ifndef EM_FILTER_CONTEXT_H
 #define EM_FILTER_CONTEXT_H
 
-#include <mail/e-mail-backend.h>
+#include <mail/e-mail-session.h>
 #include <filter/e-rule-context.h>
 
 /* Standard GObject macros */
@@ -64,8 +64,8 @@ struct _EMFilterContextClass {
 
 GType		em_filter_context_get_type	(void);
 EMFilterContext *
-		em_filter_context_new		(EMailBackend *backend);
-EMailBackend *	em_filter_context_get_backend	(EMFilterContext *context);
+		em_filter_context_new		(EMailSession *session);
+EMailSession *	em_filter_context_get_session	(EMFilterContext *context);
 void		em_filter_context_add_action	(EMFilterContext *context,
 						 EFilterPart *action);
 EFilterPart *	em_filter_context_find_action	(EMFilterContext *context,

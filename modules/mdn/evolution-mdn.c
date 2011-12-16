@@ -155,13 +155,13 @@ mdn_get_disposition (MdnActionMode action_mode,
 static void
 mdn_receipt_done (CamelFolder *folder,
                   GAsyncResult *result,
-                  EMailBackend *backend)
+                  EMailSession *session)
 {
 	/* FIXME Poor error handling. */
 	if (e_mail_folder_append_message_finish (folder, result, NULL, NULL))
-		mail_send (backend);
+		mail_send (session);
 
-	g_object_unref (backend);
+	g_object_unref (session);
 }
 
 static void
@@ -372,7 +372,7 @@ mdn_notify_sender (EAccount *account,
 	e_mail_folder_append_message (
 		out_folder, receipt, receipt_info, G_PRIORITY_DEFAULT,
 		NULL, (GAsyncReadyCallback) mdn_receipt_done,
-		g_object_ref (backend));
+		g_object_ref (session));
 
 	camel_message_info_free (receipt_info);
 }

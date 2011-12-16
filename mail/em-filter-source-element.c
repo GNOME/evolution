@@ -47,7 +47,7 @@ typedef struct _SourceInfo {
 } SourceInfo;
 
 struct _EMFilterSourceElementPrivate {
-	EMailBackend *backend;
+	EMailSession *session;
 	GList *sources;
 	gchar *active_id;
 };
@@ -59,7 +59,7 @@ G_DEFINE_TYPE (
 
 enum {
 	PROP_0,
-	PROP_BACKEND
+	PROP_SESSION
 };
 
 static void
@@ -131,13 +131,13 @@ filter_source_element_get_sources (EMFilterSourceElement *fs)
 }
 
 static void
-filter_source_element_set_backend (EMFilterSourceElement *element,
-                                   EMailBackend *backend)
+filter_source_element_set_session (EMFilterSourceElement *element,
+                                   EMailSession *session)
 {
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
-	g_return_if_fail (element->priv->backend == NULL);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (element->priv->session == NULL);
 
-	element->priv->backend = g_object_ref (backend);
+	element->priv->session = g_object_ref (session);
 }
 
 static void
@@ -147,8 +147,8 @@ filter_source_element_set_property (GObject *object,
                                     GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKEND:
-			filter_source_element_set_backend (
+		case PROP_SESSION:
+			filter_source_element_set_session (
 				EM_FILTER_SOURCE_ELEMENT (object),
 				g_value_get_object (value));
 			return;
@@ -164,10 +164,10 @@ filter_source_element_get_property (GObject *object,
                                     GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKEND:
+		case PROP_SESSION:
 			g_value_set_object (
 				value,
-				em_filter_source_element_get_backend (
+				em_filter_source_element_get_session (
 				EM_FILTER_SOURCE_ELEMENT (object)));
 			return;
 	}
@@ -182,9 +182,9 @@ filter_source_element_dispose (GObject *object)
 
 	priv = EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE (object);
 
-	if (priv->backend != NULL) {
-		g_object_unref (priv->backend);
-		priv->backend = NULL;
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -241,12 +241,10 @@ filter_source_element_xml_decode (EFilterElement *fe,
                                   xmlNodePtr node)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *) fe;
-	EMailBackend *backend;
 	EMailSession *session;
 	gchar *active_id = NULL;
 
-	backend = em_filter_source_element_get_backend (fs);
-	session = e_mail_backend_get_session (backend);
+	session = em_filter_source_element_get_session (fs);
 
 	node = node->children;
 	while (node != NULL) {
@@ -306,11 +304,11 @@ filter_source_element_clone (EFilterElement *fe)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *) fe;
 	EMFilterSourceElement *cpy;
-	EMailBackend *backend;
+	EMailSession *session;
 	GList *i;
 
-	backend = em_filter_source_element_get_backend (fs);
-	cpy = (EMFilterSourceElement *) em_filter_source_element_new (backend);
+	session = em_filter_source_element_get_session (fs);
+	cpy = (EMFilterSourceElement *) em_filter_source_element_new (session);
 	((EFilterElement *) cpy)->name = (gchar *) xmlStrdup ((guchar *) fe->name);
 
 	cpy->priv->active_id = g_strdup (fs->priv->active_id);
@@ -428,12 +426,12 @@ em_filter_source_element_class_init (EMFilterSourceElementClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_BACKEND,
+		PROP_SESSION,
 		g_param_spec_object (
-			"backend",
+			"session",
 			NULL,
 			NULL,
-			E_TYPE_MAIL_BACKEND,
+			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
@@ -446,19 +444,19 @@ em_filter_source_element_init (EMFilterSourceElement *element)
 }
 
 EFilterElement *
-em_filter_source_element_new (EMailBackend *backend)
+em_filter_source_element_new (EMailSession *session)
 {
-	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
 	return g_object_new (
 		EM_TYPE_FILTER_SOURCE_ELEMENT,
-		"backend", backend, NULL);
+		"session", session, NULL);
 }
 
-EMailBackend *
-em_filter_source_element_get_backend (EMFilterSourceElement *element)
+EMailSession *
+em_filter_source_element_get_session (EMFilterSourceElement *element)
 {
 	g_return_val_if_fail (EM_IS_FILTER_SOURCE_ELEMENT (element), NULL);
 
-	return element->priv->backend;
+	return element->priv->session;
 }

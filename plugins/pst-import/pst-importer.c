@@ -528,6 +528,8 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
 	GtkWidget *hbox, *framebox, *w, *check;
 	gchar *foldername;
 
@@ -545,9 +547,11 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 	shell = e_shell_get_default ();
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
 	w = em_folder_selection_button_new (
-		E_MAIL_BACKEND (shell_backend),
-		_("Select folder"),
+		session, _("Select folder"),
 		_("Select folder to import into"));
 	foldername = get_suggested_foldername ((EImportTargetURI *) target);
 	((EImportTargetURI *) target)->uri_dest = g_strdup (foldername);
