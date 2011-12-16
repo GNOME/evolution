@@ -431,13 +431,13 @@ mail_ui_session_finalize (GObject *object)
 }
 
 static void
-mail_session_add_vfolder_store (EMailUISession *uisession)
+mail_ui_session_add_vfolder_store (EMailUISession *uisession)
 {
 	CamelSession *camel_session;
 	CamelService *service;
 	GError *error = NULL;
 
-	camel_session = CAMEL_SESSION (session);
+	camel_session = CAMEL_SESSION (uisession);
 
 	service = camel_session_add_service (
 		camel_session, E_MAIL_SESSION_VFOLDER_UID,
@@ -459,7 +459,7 @@ mail_session_add_vfolder_store (EMailUISession *uisession)
 	 *     to from here, so it has to be called from elsewhere.  Kinda
 	 *     thinking about reworking that... */
 
-	session->priv->vfolder_store = g_object_ref (service);
+	uisession->priv->vfolder_store = g_object_ref (service);
 }
 
 static void
@@ -511,19 +511,19 @@ mail_ui_session_constructed (GObject *object)
 	EMailUISessionPrivate *priv;
 	EMFolderTreeModel *folder_tree_model;
 	EMailSession *session;
-	EMailUISession *session;
+	EMailUISession *uisession;
 	EAccount *account;
 	EAccountList *account_list;
 	gulong handler_id;
 
 	session = E_MAIL_SESSION (object);
 	uisession = E_MAIL_UI_SESSION(object);
-	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
+	uisession->priv = priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
 
 	priv->account_store = e_mail_account_store_new (session);
 
 	account_list = e_get_account_list ();
-	session->priv->account_list = g_object_ref (account_list);
+	uisession->priv->account_list = g_object_ref (account_list);
 
 	/* XXX Make sure the folder tree model is created before we
 	 *     add built-in CamelStores so it gets signals from the
@@ -535,12 +535,13 @@ mail_ui_session_constructed (GObject *object)
 	 * FIXME EMailSession should just own the default instance.
 	 */
 	folder_tree_model = em_folder_tree_model_get_default ();
-	em_folder_tree_model_set_session (folder_tree_model, session);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->constructed (object);
 
-	mail_session_add_vfolder_store (session);
+	em_folder_tree_model_set_session (folder_tree_model, session);
+
+	mail_ui_session_add_vfolder_store (uisession);
 
 	/* Initialize which account is default. */
 	account = e_get_default_account ();
@@ -621,7 +622,7 @@ mail_ui_session_set_property (GObject *object,
 }
 
 static void
-mail_session_get_property (GObject *object,
+mail_ui_session_get_property (GObject *object,
                            guint property_id,
                            GValue *value,
                            GParamSpec *pspec)
@@ -631,14 +632,14 @@ mail_session_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				e_mail_ui_session_get_account_store (
-				E_MAIL_SESSION (object)));
+				E_MAIL_UI_SESSION (object)));
 			return;
 
 		case PROP_VFOLDER_STORE:
 			g_value_set_object (
 				value,
-				e_mail_session_get_vfolder_store (
-				E_MAIL_SESSION (object)));
+				e_mail_ui_session_get_vfolder_store (
+				E_MAIL_UI_SESSION (object)));
 			return;
 	}
 
@@ -647,7 +648,7 @@ mail_session_get_property (GObject *object,
 
 typedef struct _SourceContext SourceContext;
 struct _SourceContext {
-	EMailSession *session;
+	EMailUISession *session;
 	CamelService *service;
 };
 
@@ -675,7 +676,7 @@ source_context_free (SourceContext *context)
 }
 
 static CamelService *
-mail_session_add_service (CamelSession *session,
+mail_ui_session_add_service (CamelSession *session,
                           const gchar *uid,
                           const gchar *protocol,
                           CamelProviderType type,
@@ -684,7 +685,7 @@ mail_session_add_service (CamelSession *session,
 	CamelService *service;
 
 	/* Chain up to parent's constructed() method. */
-	service = G_OBJECT_CLASS (e_mail_ui_session_parent_class)->add_service (object);
+	service = CAMEL_SESSION_CLASS (e_mail_ui_session_parent_class)->add_service (session, uid, protocol, type, error);
 
 	/* Inform the EMailAccountStore of the new CamelService
 	 * from an idle callback so the service has a chance to
@@ -698,10 +699,11 @@ mail_session_add_service (CamelSession *session,
 
 		g_idle_add_full (
 			G_PRIORITY_DEFAULT_IDLE,
-			(GSourceFunc) mail_session_add_service_cb,
+			(GSourceFunc) mail_ui_session_add_service_cb,
 			context, (GDestroyNotify) source_context_free);
 	}
 
+	return service;
 }
 
 static void

@@ -70,10 +70,10 @@ struct _EMailUISessionClass {
 GType		e_mail_ui_session_get_type		(void);
 EMailSession *	e_mail_ui_session_new			(void);
 CamelStore *	e_mail_ui_session_get_vfolder_store
-						(EMailSession *session);
+						(EMailUISession *session);
 EMailAccountStore *
 		e_mail_ui_session_get_account_store
-						(EMailSession *session);
+						(EMailUISession *session);
 
 G_END_DECLS
 

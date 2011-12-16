@@ -472,7 +472,7 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	account_store = e_mail_ui_session_get_account_store (session);
+	account_store = e_mail_ui_session_get_account_store ((EMailUISession *)session);
 
 	enable_search_folders = e_shell_settings_get_boolean (
 		shell_settings, "mail-enable-search-folders");
