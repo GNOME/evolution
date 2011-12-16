@@ -109,7 +109,6 @@ GType		mail_folder_cache_get_type	(void) G_GNUC_CONST;
 MailFolderCache *
 		mail_folder_cache_new		(void);
 void		mail_folder_cache_note_store	(MailFolderCache *self,
-						 CamelSession *session,
 						 CamelStore *store,
 						 GCancellable *cancellable,
 						 NoteDoneFunc done,
