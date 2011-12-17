@@ -164,7 +164,7 @@ msgid ""
 msgstr ""
 "Ez az LDAP-kiszolgáló az LDAP egy régebbi verzióját használja, ami nem "
 "támogatja ezt a működést vagy rosszul van beállítva. Kérdezze meg a "
-"rendszergazdát, mely keresési alapok támogatottak."
+"rendszergazdát, mely keresési kiindulópontok támogatottak."
 
 #: ../addressbook/addressbook.error.xml.h:28
 msgid "This address book could not be opened."
@@ -173,7 +173,7 @@ msgstr "Ez a címjegyzék nem nyitható meg."
 #: ../addressbook/addressbook.error.xml.h:29
 msgid "This address book server does not have any suggested search bases."
 msgstr ""
-"Ez a címjegyzék-kiszolgáló nem rendelkezik egyik javasolt keresési alappal "
+"Ez a címjegyzékkiszolgáló nem rendelkezik egyik javasolt keresési kiindulóponttal "
 "sem."
 
 #: ../addressbook/addressbook.error.xml.h:30
@@ -330,7 +330,7 @@ msgstr "E-mail"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:10
 msgid "Free/Busy:"
-msgstr "Szabad/elfoglalt:"
+msgstr "Időbeosztás:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:11
 msgid "Full _Name..."
@@ -463,7 +463,7 @@ msgstr "_Mentés mint:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:39
 msgid "_Free/Busy:"
-msgstr "Sza_bad/elfoglalt:"
+msgstr "I_dőbeosztás:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:40
 msgid "_Home Page:"
@@ -959,7 +959,7 @@ msgstr "3. e-mail"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Family Name"
-msgstr "Családi név"
+msgstr "Vezetéknév"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:15
 msgid "File As"
@@ -1238,7 +1238,7 @@ msgstr "Naptár"
 #: ../calendar/gui/dialogs/event-editor.c:350
 #: ../plugins/publish-calendar/publish-calendar.ui.h:6
 msgid "Free/Busy"
-msgstr "Szabad/elfoglalt"
+msgstr "Időbeosztás"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:689
 #: ../addressbook/gui/widgets/eab-contact-display.c:711
@@ -2400,7 +2400,7 @@ msgstr "értekezlet kezdete"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.c:245
 msgid "Action/Trigger"
-msgstr "Akció és ami kiváltja"
+msgstr "Művelet és ami kiváltja"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:1
 msgid "A_dd"
@@ -2431,17 +2431,17 @@ msgstr "_Név:"
 #: ../calendar/gui/dialogs/calendar-setup.c:300
 msgid "Cop_y calendar contents locally for offline operation"
 msgstr ""
-"A _mappa tartalmáról helyi másolat készítése kapcsolat nélküli munkához"
+"_Helyi másolat készítése a mappa tartalmáról kapcsolat nélküli munkához"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:302
 msgid "Cop_y task list contents locally for offline operation"
 msgstr ""
-"A _feladatlista elemeiről helyi másolat készítése kapcsolat nélküli munkához"
+"_Helyi másolat készítése a feladatlista elemeiről kapcsolat nélküli munkához"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:304
 msgid "Cop_y memo list contents locally for offline operation"
 msgstr ""
-"A felje_gyzéslista elemeiről helyi másolat készítése kapcsolat nélküli "
+"_Helyi másolat készítése a feljegyzéslista elemeiről kapcsolat nélküli "
 "munkához"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:350
@@ -2933,7 +2933,7 @@ msgstr "Átváltja az egész napos esemény-e megjelenítését"
 
 #: ../calendar/gui/dialogs/event-editor.c:261
 msgid "_Free/Busy"
-msgstr "Sza_bad/elfoglalt"
+msgstr "I_dőbeosztás"
 
 #: ../calendar/gui/dialogs/event-editor.c:263
 msgid "Query free / busy information for the attendees"
@@ -3412,7 +3412,7 @@ msgstr "csütörtök"
 #: ../calendar/gui/dialogs/recurrence-page.c:1195
 #: ../modules/calendar/e-calendar-preferences.ui.h:16
 msgid "Friday"
-msgstr "Péntek"
+msgstr "péntek"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1196
 #: ../modules/calendar/e-calendar-preferences.ui.h:26
@@ -4228,7 +4228,7 @@ msgstr "Folyamatban"
 #, c-format
 msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr ""
-"Adja meg a jelszavát a szabad/elfoglalt információk eléréséhez a(z) %s "
+"Adja meg a jelszavát az időbeosztás eléréséhez a(z) %s "
 "kiszolgálón %s felhasználóként."
 
 #: ../calendar/gui/e-meeting-store.c:1886
@@ -8227,7 +8227,7 @@ msgstr ""
 
 #: ../mail/em-account-editor.c:2843
 msgid "Check for _new messages every"
-msgstr "Az új _levelek automatikus lekérdezése"
+msgstr "Új _levelek automatikus lekérdezése"
 
 #: ../mail/em-account-editor.c:2851
 msgid "minu_tes"
@@ -8484,7 +8484,7 @@ msgstr "Válasszon egy mappát"
 
 #: ../mail/e-mail-reader.c:308 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
-msgstr "Mappába másolás"
+msgstr "Másolás mappába"
 
 #: ../mail/e-mail-reader.c:308 ../mail/em-folder-utils.c:487
 msgid "C_opy"
@@ -8599,7 +8599,7 @@ msgstr "A nyomon követés jelző eltávolítása a kijelölt üzenetről"
 
 #: ../mail/e-mail-reader.c:1852
 msgid "_Flag Completed"
-msgstr "Befejezve _jelölő"
+msgstr "Meg_jelölés befejezettként"
 
 #: ../mail/e-mail-reader.c:1854
 msgid "Set the follow-up flag to completed on the selected messages"
@@ -8627,7 +8627,7 @@ msgstr "_Továbbítás mellékletként"
 
 #: ../mail/e-mail-reader.c:1880
 msgid "_Inline"
-msgstr "Beág_yazott"
+msgstr "Beág_yazva"
 
 #: ../mail/e-mail-reader.c:1882 ../mail/e-mail-reader.c:1889
 msgid "Forward the selected message in the body of a new message"
@@ -8647,7 +8647,7 @@ msgstr "Az üzenet továbbítása idézetként, ahogy a válaszban szokás"
 
 #: ../mail/e-mail-reader.c:1901
 msgid "Forward As _Quoted"
-msgstr "Továbbítás i_dézettként"
+msgstr "Továbbítás i_dézetként"
 
 #: ../mail/e-mail-reader.c:1908
 msgid "_Load Images"
@@ -8851,7 +8851,7 @@ msgstr "A kijelölt üzenet átirányítása valakinek"
 
 #: ../mail/e-mail-reader.c:2090
 msgid "Remo_ve Attachments"
-msgstr "Melléklet _eltávolítása"
+msgstr "Mellékletek _eltávolítása"
 
 #: ../mail/e-mail-reader.c:2092
 msgid "Remove attachments"
@@ -9435,7 +9435,7 @@ msgstr "Átirányítás programhoz"
 
 #: ../mail/em-filter-i18n.h:53
 msgid "Play Sound"
-msgstr "Hangjelzés"
+msgstr "Hangfájl lejátszása"
 
 #. Past tense, as in "has been read".
 #: ../mail/em-filter-i18n.h:54 ../mail/mail-dialogs.ui.h:16
@@ -9452,7 +9452,7 @@ msgstr "Regex illeszkedés"
 
 #: ../mail/em-filter-i18n.h:57
 msgid "Replied to"
-msgstr "Válasz"
+msgstr "Megválaszolt"
 
 #: ../mail/em-filter-i18n.h:58
 msgid "returns"
@@ -9476,7 +9476,7 @@ msgstr "Pontszám"
 
 #: ../mail/em-filter-i18n.h:63 ../mail/message-list.etspec.h:14
 msgid "Sender"
-msgstr "Feladó"
+msgstr "Küldő"
 
 #: ../mail/em-filter-i18n.h:64
 msgid "Sender or Recipients"
@@ -10807,7 +10807,7 @@ msgstr "Mentési könyvtár"
 
 #: ../mail/evolution-mail.schemas.in.h:160
 msgid "Search for the sender photo in local address books"
-msgstr "A feladó fényképének keresése a helyi címjegyzékekben"
+msgstr "Feladó fényképének keresése a helyi címjegyzékekben"
 
 #: ../mail/evolution-mail.schemas.in.h:161
 msgid "Send HTML mail by default"
@@ -11530,7 +11530,7 @@ msgstr "Levélszemét törlése _kilépéskor"
 
 #: ../mail/mail-config.ui.h:38
 msgid "Digitally sign o_utgoing messages (by default)"
-msgstr "A kimenő üzenetek aláírása _digitálisan (alapértelmezett)"
+msgstr "Kimenő üzenetek aláírása _digitálisan (alapértelmezett)"
 
 #: ../mail/mail-config.ui.h:39
 msgid "Displayed Message Headers"
@@ -11682,7 +11682,7 @@ msgstr "_Jelszó:"
 #: ../mail/mail-config.ui.h:79
 #: ../modules/calendar/e-calendar-preferences.ui.h:21
 msgid "Pick a color"
-msgstr "Szín kiválasztása"
+msgstr "Válasszon színt"
 
 #: ../mail/mail-config.ui.h:80
 msgid "Port:"
@@ -11746,7 +11746,7 @@ msgstr "Ez az Evolution-változat nem támogatja az SSL-t"
 
 #: ../mail/mail-config.ui.h:96
 msgid "S_earch for sender photograph only in local address books"
-msgstr "A fela_dó fényképének keresése csak a helyi címjegyzékekben"
+msgstr "Fela_dó fényképének keresése csak a helyi címjegyzékekben"
 
 #: ../mail/mail-config.ui.h:97
 msgid "S_elect..."
@@ -11766,11 +11766,11 @@ msgstr "Biztonságos MIME (S/MIME)"
 
 #: ../mail/mail-config.ui.h:102
 msgid "Select HTML fixed width font"
-msgstr "Rögzített szélességű betűkészlet választása a HTML-hez"
+msgstr "Válasszon rögzített szélességű betűkészletet a HTML-hez"
 
 #: ../mail/mail-config.ui.h:103
 msgid "Select HTML variable width font"
-msgstr "Változó szélességű betűkészlet választása a HTML-hez"
+msgstr "Válasszon változó szélességű betűkészletet a HTML-hez"
 
 #: ../mail/mail-config.ui.h:104
 msgid "Sender Photograph"
@@ -12005,7 +12005,7 @@ msgstr "_Animált képek megjelenítése"
 
 #: ../mail/mail-config.ui.h:167
 msgid "_Show the photograph of sender in the message preview"
-msgstr "A feladó fé_nyképének megjelenítése az e-mail előnézetben"
+msgstr "Feladó fé_nyképének megjelenítése az e-mail előnézetben"
 
 #: ../mail/mail-config.ui.h:168
 msgid "_Trash Folder:"
@@ -12021,7 +12021,7 @@ msgstr "_Rendszer alapértelmezéseinek használata"
 
 #: ../mail/mail-config.ui.h:171
 msgid "_Use the same fonts as other applications"
-msgstr "_A többi alkalmazás által használt betűkészlet használata"
+msgstr "Más _alkalmazások által használt betűkészlet használata"
 
 #: ../mail/mail-config.ui.h:172 ../smime/gui/smime-ui.ui.h:48
 msgid "a"
@@ -12031,15 +12031,16 @@ msgstr "a"
 msgid "b"
 msgstr "b"
 
+# Fixme: ez a "Highlight _quotations with" <színgomb> után van, ugyanebből a fájlból! 
+# Újabb  előfordulás ctx-t fog igényelni!
 #: ../mail/mail-config.ui.h:174
 msgid "color"
-msgstr "szín"
+msgstr "színnel"
 
 #: ../mail/mail-config.ui.h:175
 msgid "description"
 msgstr "leírás"
 
-# fixme: megnézni ez hol jön elő
 #: ../mail/mail-dialogs.ui.h:1
 msgid "All active remote folders"
 msgstr "Az összes aktív távoli mappa"
@@ -13184,7 +13185,7 @@ msgstr "Méret"
 
 #: ../mail/message-list.etspec.h:19
 msgid "Subject - Trimmed"
-msgstr "Tárgy - Csonkítva"
+msgstr "Tárgy – Csonkítva"
 
 #: ../mail/searchtypes.xml.h:1
 #: ../modules/mail/e-mail-shell-view-actions.c:1562
@@ -13281,12 +13282,12 @@ msgid ""
 msgstr ""
 "A keresés hatóköre meghatározza, hogy milyen mélységben szeretne keresni "
 "lefelé a könyvtárszerkezetben. Egy „sub” keresési hatókör tartalmazza az "
-"összes bejegyzést a keresési alaptól lefelé. Egy „one” keresési hatókör csak "
-"egy szinttel fog a keresési alap alá menni."
+"összes bejegyzést a keresési kiindulóponttól lefelé. Egy „one” keresési hatókör csak "
+"egy szinttel fog a keresési kiindulópont alá menni."
 
 #: ../modules/addressbook/addressbook-config.c:1086
 msgid "Server Information"
-msgstr "Kiszolgáló-információk"
+msgstr "Kiszolgálóinformációk"
 
 #: ../modules/addressbook/addressbook-config.c:1091
 #: ../smime/gui/smime-ui.ui.h:13
@@ -13424,7 +13425,7 @@ msgstr "Automatikus kiegészítés"
 
 #: ../modules/addressbook/autocompletion-config.c:200
 msgid "Always _show address of the autocompleted contact"
-msgstr "Mindig megjelenjen az automatikusan kiegészített partner _címe"
+msgstr "Mindig jelenjen meg az automatikusan kiegészített partner _címe"
 
 #. Create the LDAP source group
 #: ../modules/addressbook/e-book-shell-backend.c:102
@@ -13831,7 +13832,7 @@ msgstr "_Letöltési korlát:"
 
 #: ../modules/addressbook/ldap-config.ui.h:24
 msgid "_Find Possible Search Bases"
-msgstr "_Lehetséges keresési alapok keresése"
+msgstr "_Lehetséges keresési kiindulópontok keresése"
 
 #: ../modules/addressbook/ldap-config.ui.h:25
 msgid "_Login method:"
@@ -13843,11 +13844,11 @@ msgstr "_Keresés hatóköre:"
 
 #: ../modules/addressbook/ldap-config.ui.h:30
 msgid "_Timeout:"
-msgstr "_Várakozási idő:"
+msgstr "_Időkorlát:"
 
 #: ../modules/addressbook/ldap-config.ui.h:32
 msgid "cards"
-msgstr "kártya"
+msgstr "névjegy"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:146
 #, c-format
@@ -14858,7 +14859,7 @@ msgstr "Esemény"
 #: ../modules/calendar/e-memo-shell-view-actions.c:525
 #: ../modules/calendar/e-task-shell-view-actions.c:642
 msgid "Save as iCalendar"
-msgstr "Mentés iCalendar-ként"
+msgstr "Mentés iCalendarként"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1335
 #: ../modules/calendar/e-memo-shell-view-actions.c:606
@@ -14970,7 +14971,7 @@ msgstr "Új egész napos esemény létrehozása"
 #: ../modules/calendar/e-memo-shell-view-actions.c:599
 #: ../modules/calendar/e-task-shell-view-actions.c:723
 msgid "_Forward as iCalendar..."
-msgstr "_Továbbítás iCalendar-ként…"
+msgstr "_Továbbítás iCalendarként…"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1468
 msgid "New _Meeting..."
@@ -15094,7 +15095,7 @@ msgstr "A nyomtatandó naptár nyomtatási képe"
 #: ../modules/calendar/e-memo-shell-view-actions.c:844
 #: ../modules/calendar/e-task-shell-view-actions.c:1043
 msgid "_Save as iCalendar..."
-msgstr "_Mentés iCalendar-ként…"
+msgstr "_Mentés iCalendarként…"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1859
 msgid "Go To"
@@ -15408,7 +15409,7 @@ msgstr "Kijelölt feladatlista törlése"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:744
 msgid "_New Task List"
-msgstr "Új feljegy_zéslista"
+msgstr "Új _feladatlista"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:760
 msgid "Refresh the selected task list"
@@ -16812,8 +16813,8 @@ msgid ""
 "custom header followed by \"=\" and the values separated by \";\""
 msgstr ""
 "A kulcs megadja a kimenő üzenethez adható egyéni fejlécek listáját. A fejléc "
-"és fejlécérték megadásának formátuma: Az egyéni fejléc neve=értékek ;-vel "
-"elválasztott listája"
+"és fejlécérték megadásának formátuma: egyéni fejléc neve=értékek ;-vel "
+"elválasztva"
 
 #: ../plugins/email-custom-header/email-custom-header.c:322
 msgctxt "email-custom-header-Security"
@@ -17040,7 +17041,7 @@ msgstr "Kiszolgáló"
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr ""
-"Adja meg %s felhasználó jelszavát a feliratkozott mappák listájának "
+"Adja meg %s felhasználó jelszavát a feliratkozott naptárak listájának "
 "eléréséhez."
 
 #: ../plugins/google-account-setup/google-source.c:576
@@ -17983,7 +17984,7 @@ msgstr "_Fájl lejátszása:"
 
 #: ../plugins/mail-notification/mail-notification.c:744
 msgid "Select sound file"
-msgstr "Hangfájl kiválasztása"
+msgstr "Válasszon hangfájlt"
 
 #: ../plugins/mail-notification/mail-notification.c:801
 msgid "Notify new messages for _Inbox only"
@@ -19331,7 +19332,7 @@ msgstr "_Keresés"
 
 #: ../shell/e-shell-window-actions.c:1644
 msgid "_Switcher Appearance"
-msgstr "Kapcsoló_gombok megjelenése"
+msgstr "Váltó_gombok megjelenése"
 
 #: ../shell/e-shell-window-actions.c:1658
 msgid "_Window"
@@ -19937,7 +19938,7 @@ msgstr "Közönséges név (CN)"
 
 #: ../smime/gui/smime-ui.ui.h:12
 msgid "Contact Certificates"
-msgstr "Névjegy tanúsítványai"
+msgstr "Partnertanúsítványok"
 
 #: ../smime/gui/smime-ui.ui.h:14
 msgid "Do not trust the authenticity of this certificate"
@@ -21238,7 +21239,7 @@ msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
-"Ha egy oszlopot szeretne hozzáadni a táblázatához,\n"
+"Ha egy oszlopot szeretne hozzáadni a táblázathoz,\n"
 "húzza arra a helyre, ahol szeretné, hogy megjelenjen."
 
 #. Translators: This text is used as a special row when an ETable
