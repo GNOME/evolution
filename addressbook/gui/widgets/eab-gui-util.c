@@ -305,23 +305,31 @@ eab_select_source (ESource *except_source,
 	if (!e_book_client_get_sources (&source_list, NULL))
 		return NULL;
 
-	dialog = gtk_dialog_new_with_buttons (_("Select Address Book"), parent,
-					      GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					      NULL);
+	dialog = gtk_dialog_new_with_buttons (
+		_("Select Address Book"), parent,
+		GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+		NULL);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 350, 300);
 
-	gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-	ok_button = gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT);
-	gtk_widget_set_sensitive (ok_button, FALSE);
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT, FALSE);
 
 	/* label = gtk_label_new (message); */
 
 	selector = e_source_selector_new (source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
+
+	ok_button = gtk_dialog_get_widget_for_response (
+		GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+
 	if (except_source)
 		g_object_set_data (
 			G_OBJECT (ok_button), "except-source",
-			e_source_list_peek_source_by_uid (source_list, e_source_peek_uid (except_source)));
+			e_source_list_peek_source_by_uid (
+			source_list, e_source_peek_uid (except_source)));
+
 	g_signal_connect (
 		selector, "primary_selection_changed",
 		G_CALLBACK (source_selection_changed_cb), ok_button);

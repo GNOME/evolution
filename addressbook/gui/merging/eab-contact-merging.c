@@ -307,7 +307,7 @@ mergeit (EContactMergingLookup *lookup)
 {
 	GtkWidget *scrolled_window, *label, *hbox, *dropdown;
 	GtkWidget *content_area;
-	GtkDialog *dialog;
+	GtkWidget *dialog;
 	GtkTable *table;
 	EContactField field;
 	gchar *str = NULL, *string = NULL, *string1 = NULL;
@@ -316,25 +316,27 @@ mergeit (EContactMergingLookup *lookup)
 	gint row = -1;
 	gint value = 0, result;
 
-	dialog = (GtkDialog *)(gtk_dialog_new_with_buttons (_("Merge Contact"), NULL, 0, NULL));
+	dialog = gtk_dialog_new ();
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Merge Contact"));
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
 
-	content_area = gtk_dialog_get_content_area (dialog);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (scrolled_window),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	table = (GtkTable *) gtk_table_new (20, 2, FALSE);
 	gtk_container_set_border_width ((GtkContainer *) table, 12);
 	gtk_table_set_row_spacings (table, 6);
 	gtk_table_set_col_spacings (table, 2);
 
-	gtk_dialog_add_buttons ((GtkDialog *) dialog,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				_("_Merge"), GTK_RESPONSE_OK,
-				NULL);
+	gtk_dialog_add_buttons (
+		GTK_DIALOG (dialog),
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		_("_Merge"), GTK_RESPONSE_OK,
+		NULL);
 
 	email_attr_list = e_contact_get_attributes (lookup->match, E_CONTACT_EMAIL);
 	num_of_email = g_list_length (email_attr_list);
@@ -464,21 +466,24 @@ mergeit (EContactMergingLookup *lookup)
 	gtk_widget_show (scrolled_window);
 	g_signal_connect (dialog, "map-event", G_CALLBACK (dialog_map), table);
 	gtk_widget_show_all ((GtkWidget *) table);
-	result = gtk_dialog_run (dialog);
+	result = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	switch (result) {
 	case GTK_RESPONSE_OK:
-		     g_object_unref (lookup->contact);
-		     lookup->contact = g_object_ref (lookup->match);
-		     e_book_client_remove_contact (lookup->book_client, lookup->match, NULL, remove_contact_ready_cb, lookup);
-		     value = 1;
-		     break;
+		g_object_unref (lookup->contact);
+		lookup->contact = g_object_ref (lookup->match);
+		e_book_client_remove_contact (
+			lookup->book_client,
+			lookup->match, NULL,
+			remove_contact_ready_cb, lookup);
+		value = 1;
+		break;
 	case GTK_RESPONSE_CANCEL:
 	default:
-		     value = 0;
-		     break;
+		value = 0;
+		break;
 	}
-	gtk_widget_destroy (GTK_WIDGET (dialog));
+	gtk_widget_destroy (dialog);
 	g_list_free (email_attr_list);
 	return value;
 }
