@@ -8207,7 +8207,7 @@ msgstr ""
 msgid ""
 "@@image: './figures/window-overview-layers.png'; "
 "md5=3156497ff1c51756838f9ddfbce9baee"
-msgstr ""
+msgstr "lokalisiert"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
