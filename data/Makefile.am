@@ -82,7 +82,7 @@ EXTRA_DIST =					\
 	$(autostart_in_files)			\
 	$(desktop_in_files)			\
 	$(convert_DATA)				\
-	$(gsettings_SCHEMAS:.xml=.xml.in.in)
+	$(gsettings_SCHEMAS:.xml=.xml.in)
 
 DISTCLEANFILES =		\
 	$(gsettings_SCHEMAS)
