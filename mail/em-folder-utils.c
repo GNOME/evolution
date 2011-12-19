@@ -42,6 +42,7 @@
 #include "e-util/e-mktemp.h"
 
 #include "e-util/e-alert-dialog.h"
+#include "e-util/e-account-utils.h"
 
 #include "em-vfolder-rule.h"
 
@@ -571,6 +572,7 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		CamelService *service;
 		CamelStore *store;
+		EAccount *account;
 		const gchar *uid, *prop = NULL;
 
 		service = CAMEL_SERVICE (link->data);
@@ -590,6 +592,10 @@ em_folder_utils_create_folder (GtkWindow *parent,
 			prop = "mail-enable-search-folders";
 
 		if (prop && !e_shell_settings_get_boolean (shell_settings, prop))
+			continue;
+
+		account = e_get_account_by_uid (uid);
+		if (account && !account->enabled)
 			continue;
 
 		em_folder_tree_model_add_store (model, store);
