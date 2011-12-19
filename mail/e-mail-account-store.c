@@ -1241,13 +1241,12 @@ e_mail_account_store_queue_enabled_services (EMailAccountStore *store,
 		enabled = g_value_get_boolean (&value);
 		g_value_unset (&value);
 
-		if (!enabled)
-			continue;
-
-		column = E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE;
-		gtk_tree_model_get_value (tree_model, &iter, column, &value);
-		g_queue_push_tail (out_queue, g_value_get_object (&value));
-		g_value_unset (&value);
+		if (enabled) {
+			column = E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE;
+			gtk_tree_model_get_value (tree_model, &iter, column, &value);
+			g_queue_push_tail (out_queue, g_value_get_object (&value));
+			g_value_unset (&value);
+		}
 
 		iter_set = gtk_tree_model_iter_next (tree_model, &iter);
 	}
