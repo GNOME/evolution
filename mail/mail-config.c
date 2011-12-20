@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 
 #include <libedataserver/e-data-server-util.h>
+
 #include <e-util/e-util.h>
 #include "e-util/e-account-utils.h"
 #include "e-util/e-signature-utils.h"

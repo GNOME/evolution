@@ -19,10 +19,11 @@
  *
  */
 
-/* XXX EAccountManager handles all the user interface stuff.  This subclass
- *     applies policies using mailer resources that EAccountManager does not
- *     have access to.  The desire is to someday move account management
- *     completely out of the mailer, perhaps to evolution-data-server. */
+/* XXX EMailAccountManager handles all the user interface stuff.
+ *     This subclass applies policies using mailer resources that
+ *     EMailAccountManager does not have access to.  The desire is
+ *     to someday move account management completely out of the mailer,
+ *     perhaps to evolution-data-server. */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -58,7 +59,7 @@ enum {
 	PROP_BACKEND
 };
 
-G_DEFINE_TYPE (
+G_DEFINE_DYNAMIC_TYPE (
 	EMAccountPrefs,
 	em_account_prefs,
 	E_TYPE_MAIL_ACCOUNT_MANAGER)
@@ -286,9 +287,23 @@ em_account_prefs_class_init (EMAccountPrefsClass *class)
 }
 
 static void
+em_account_prefs_class_finalize (EMAccountPrefsClass *class)
+{
+}
+
+static void
 em_account_prefs_init (EMAccountPrefs *prefs)
 {
 	prefs->priv = EM_ACCOUNT_PREFS_GET_PRIVATE (prefs);
+}
+
+void
+em_account_prefs_type_register (GTypeModule *type_module)
+{
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	em_account_prefs_register_type (type_module);
 }
 
 GtkWidget *
@@ -297,19 +312,21 @@ em_account_prefs_new (EPreferencesWindow *window)
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMailAccountStore *account_store;
+	EMailBackend *backend;
 	EMailSession *session;
 
 	/* XXX Figure out a better way to get the mail backend. */
 	shell = e_preferences_window_get_shell (window);
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
-	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 	account_store = e_mail_session_get_account_store (session);
 
 	return g_object_new (
 		EM_TYPE_ACCOUNT_PREFS,
 		"store", account_store,
-		"backend", shell_backend, NULL);
+		"backend", backend, NULL);
 }
 
 EMailBackend *

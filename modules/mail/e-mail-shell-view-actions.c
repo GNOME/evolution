@@ -82,9 +82,9 @@ action_mail_account_disable_cb (GtkAction *action,
                                 EMailShellView *mail_shell_view)
 {
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EShellBackend *shell_backend;
 	EMailBackend *backend;
 	EMailSession *session;
 	EMailAccountStore *account_store;

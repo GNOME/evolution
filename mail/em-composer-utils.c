@@ -28,9 +28,9 @@
 
 #include <string.h>
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include <glib/gi18n.h>
 
 #include "mail-mt.h"
 #include "mail-ops.h"

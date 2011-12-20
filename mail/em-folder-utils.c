@@ -42,7 +42,6 @@
 #include "e-util/e-mktemp.h"
 
 #include "e-util/e-alert-dialog.h"
-#include "e-util/e-account-utils.h"
 
 #include "em-vfolder-rule.h"
 
@@ -552,10 +551,11 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model;
+	EMailAccountStore *account_store;
 	CamelStore *store = NULL;
 	gchar *folder_name = NULL;
 	GtkWidget *dialog;
-	GList *list, *link;
+	GQueue queue = G_QUEUE_INIT;
 	GError *error = NULL;
 
 	g_return_if_fail (GTK_IS_WINDOW (parent));
@@ -567,22 +567,19 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	model = em_folder_tree_model_new ();
 	em_folder_tree_model_set_session (model, session);
 
-	list = camel_session_list_services (CAMEL_SESSION (session));
+	account_store = e_mail_session_get_account_store (session);
+	e_mail_account_store_queue_enabled_services (account_store, &queue);
 
-	for (link = list; link != NULL; link = g_list_next (link)) {
+	while (!g_queue_is_empty (&queue)) {
 		CamelService *service;
-		CamelStore *store;
-		EAccount *account;
+		CamelStoreFlags flags;
 		const gchar *uid, *prop = NULL;
 
-		service = CAMEL_SERVICE (link->data);
+		service = g_queue_pop_head (&queue);
+		g_warn_if_fail (CAMEL_IS_STORE (service));
 
-		if (!CAMEL_IS_STORE (service))
-			continue;
-
-		store = CAMEL_STORE (service);
-
-		if ((store->flags & CAMEL_STORE_CAN_EDIT_FOLDERS) == 0)
+		flags = CAMEL_STORE (service)->flags;
+		if ((flags & CAMEL_STORE_CAN_EDIT_FOLDERS) == 0)
 			continue;
 
 		uid = camel_service_get_uid (service);
@@ -594,14 +591,8 @@ em_folder_utils_create_folder (GtkWindow *parent,
 		if (prop && !e_shell_settings_get_boolean (shell_settings, prop))
 			continue;
 
-		account = e_get_account_by_uid (uid);
-		if (account && !account->enabled)
-			continue;
-
-		em_folder_tree_model_add_store (model, store);
+		em_folder_tree_model_add_store (model, CAMEL_STORE (service));
 	}
-
-	g_list_free (list);
 
 	dialog = em_folder_selector_create_new (
 		parent, model, 0,

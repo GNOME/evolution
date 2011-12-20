@@ -1429,6 +1429,8 @@ mail_session_forward_to (CamelSession *session,
 	CamelFolder *out_folder;
 	CamelMessageInfo *info;
 	CamelMedium *medium;
+	const gchar *from_address;
+	const gchar *from_name;
 	const gchar *header_name;
 	struct _camel_header_raw *xev;
 	gchar *subject;
@@ -1453,6 +1455,9 @@ mail_session_forward_to (CamelSession *session,
 			  "message has been cancelled."));
 		return FALSE;
 	}
+
+	from_address = account->id->address;
+	from_name = account->id->name;
 
 	forward = camel_mime_message_new ();
 
@@ -1496,8 +1501,7 @@ mail_session_forward_to (CamelSession *session,
 
 	/* from */
 	addr = camel_internet_address_new ();
-	camel_internet_address_add (
-		addr, account->id->name, account->id->address);
+	camel_internet_address_add (addr, from_name, from_address);
 	camel_mime_message_set_from (forward, addr);
 	g_object_unref (addr);
 
@@ -1781,10 +1785,14 @@ static void
 e_mail_session_init (EMailSession *session)
 {
 	GSettings *settings;
+	GHashTable *junk_filters;
+
+	junk_filters = g_hash_table_new (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal);
 
 	session->priv = E_MAIL_SESSION_GET_PRIVATE (session);
-	session->priv->junk_filters = g_hash_table_new (
-		(GHashFunc) g_str_hash, (GEqualFunc) g_str_equal);
+	session->priv->junk_filters = junk_filters;
 	session->priv->proxy = e_proxy_new ();
 
 	session->priv->local_folders =

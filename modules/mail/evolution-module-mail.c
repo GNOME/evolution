@@ -37,6 +37,8 @@
 #include "e-mail-config-reader.h"
 #include "e-mail-config-web-view.h"
 
+#include "em-account-prefs.h"
+
 /* Module Entry Points */
 void e_module_load (GTypeModule *type_module);
 void e_module_unload (GTypeModule *type_module);
@@ -60,6 +62,8 @@ e_module_load (GTypeModule *type_module)
 	e_mail_config_format_html_register_type (type_module);
 	e_mail_config_reader_register_type (type_module);
 	e_mail_config_web_view_register_type (type_module);
+
+	em_account_prefs_type_register (type_module);
 }
 
 G_MODULE_EXPORT void

@@ -28,11 +28,8 @@
 
 #include <glib/gi18n.h>
 
-#include <libedataserver/e-account-list.h>
-
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
-#include "e-util/e-account-utils.h"
 
 #include "e-mail-backend.h"
 #include "e-mail-session.h"

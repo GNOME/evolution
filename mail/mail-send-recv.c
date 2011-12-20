@@ -416,8 +416,8 @@ format_url (CamelService *service)
 static send_info_t
 get_receive_type (CamelService *service)
 {
-	CamelProvider *provider;
 	CamelURL *url;
+	CamelProvider *provider;
 	gboolean is_local_delivery;
 
 	url = camel_service_new_camel_url (service);
@@ -1102,7 +1102,7 @@ receive_update_got_store (CamelStore *store,
 	folder_cache = e_mail_session_get_folder_cache (
 		E_MAIL_SESSION (info->session));
 
-	if (store) {
+	if (store != NULL) {
 		mail_folder_cache_note_store (
 			folder_cache, store, info->cancellable,
 			receive_update_got_folderinfo, info);

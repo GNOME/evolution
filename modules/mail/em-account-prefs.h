@@ -24,7 +24,6 @@
 
 #include <gtk/gtk.h>
 #include <table/e-table.h>
-#include <libedataserver/e-account-list.h>
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-account-manager.h>
 #include <widgets/misc/e-preferences-window.h>
@@ -64,6 +63,7 @@ struct _EMAccountPrefsClass {
 };
 
 GType		em_account_prefs_get_type	(void);
+void		em_account_prefs_type_register	(GTypeModule *type_module);
 GtkWidget *	em_account_prefs_new		(EPreferencesWindow *window);
 EMailBackend *	em_account_prefs_get_backend	(EMAccountPrefs *prefs);
 

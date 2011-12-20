@@ -24,7 +24,6 @@
 #define EM_CONFIG_H
 
 #include <camel/camel.h>
-#include <libedataserver/e-account.h>
 
 #include "e-util/e-config.h"
 

@@ -399,8 +399,7 @@ mdn_notify_action_cb (GtkAction *action,
 static void
 mdn_message_loaded_cb (EMailReader *reader,
                        const gchar *message_uid,
-                       CamelMimeMessage *message,
-                       EMdn *extension)
+                       CamelMimeMessage *message)
 {
 	EAlert *alert;
 	EAccount *account;
@@ -477,8 +476,7 @@ exit:
 static void
 mdn_message_seen_cb (EMailReader *reader,
                      const gchar *message_uid,
-                     CamelMimeMessage *message,
-                     EMdn *extension)
+                     CamelMimeMessage *message)
 {
 	EAccount *account;
 	CamelFolder *folder;
@@ -526,11 +524,11 @@ mdn_constructed (GObject *object)
 
 	g_signal_connect (
 		extensible, "message-loaded",
-		G_CALLBACK (mdn_message_loaded_cb), extension);
+		G_CALLBACK (mdn_message_loaded_cb), NULL);
 
 	g_signal_connect (
 		extensible, "message-seen",
-		G_CALLBACK (mdn_message_seen_cb), extension);
+		G_CALLBACK (mdn_message_seen_cb), NULL);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mdn_parent_class)->constructed (object);

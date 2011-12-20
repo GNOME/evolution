@@ -1665,13 +1665,17 @@ search_address_in_addressbooks (const gchar *address,
 		EBookClient *book_client = NULL;
 		GHook *hook_stop;
 		gboolean cached_book = FALSE;
+		const gchar *display_name;
+		const gchar *uid;
 		GError *err = NULL;
 
+		uid = e_source_peek_uid (source);
+		display_name = e_source_peek_name (source);
+
 		/* failed to load this book last time, skip it now */
-		if (g_hash_table_lookup (emu_broken_books_hash,
-				e_source_peek_uid (source)) != NULL) {
+		if (g_hash_table_lookup (emu_broken_books_hash, uid) != NULL) {
 			d(printf ("%s: skipping broken book '%s'\n",
-				G_STRFUNC, e_source_peek_name (source)));
+				G_STRFUNC, display_name));
 			continue;
 		}
 
@@ -1679,7 +1683,7 @@ search_address_in_addressbooks (const gchar *address,
 
 		hook_stop = mail_cancel_hook_add (emu_addr_cancel_stop, &stop);
 
-		book_client = g_hash_table_lookup (emu_books_hash, e_source_peek_uid (source));
+		book_client = g_hash_table_lookup (emu_books_hash, uid);
 		if (!book_client) {
 			book_client = e_book_client_new (source, &err);
 
@@ -1690,8 +1694,7 @@ search_address_in_addressbooks (const gchar *address,
 				} else if (err) {
 					gchar *source_uid;
 
-					source_uid = g_strdup (
-						e_source_peek_uid (source));
+					source_uid = g_strdup (uid);
 
 					g_hash_table_insert (
 						emu_broken_books_hash,
@@ -1700,7 +1703,7 @@ search_address_in_addressbooks (const gchar *address,
 					g_warning (
 						"%s: Unable to create addressbook '%s': %s",
 						G_STRFUNC,
-						e_source_peek_name (source),
+						display_name,
 						err->message);
 				}
 				g_clear_error (&err);
@@ -1714,8 +1717,7 @@ search_address_in_addressbooks (const gchar *address,
 				} else if (err) {
 					gchar *source_uid;
 
-					source_uid = g_strdup (
-						e_source_peek_uid (source));
+					source_uid = g_strdup (uid);
 
 					g_hash_table_insert (
 						emu_broken_books_hash,
@@ -1724,7 +1726,7 @@ search_address_in_addressbooks (const gchar *address,
 					g_warning (
 						"%s: Unable to open addressbook '%s': %s",
 						G_STRFUNC,
-						e_source_peek_name (source),
+						display_name,
 						err->message);
 				}
 				g_clear_error (&err);
@@ -1760,13 +1762,14 @@ search_address_in_addressbooks (const gchar *address,
 			    (g_error_matches (err, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 			     g_error_matches (err, G_IO_ERROR, G_IO_ERROR_CANCELLED)));
 			if (err && !stop) {
-				gchar *source_uid = g_strdup (e_source_peek_uid (source));
+				gchar *source_uid = g_strdup (uid);
 
 				g_hash_table_insert (emu_broken_books_hash, source_uid, source_uid);
 
 				g_warning (
 					"%s: Can't get contacts from '%s': %s",
-					G_STRFUNC, e_source_peek_name (source),
+					G_STRFUNC,
+					display_name,
 					err->message);
 			}
 			g_clear_error (&err);
@@ -1778,16 +1781,14 @@ search_address_in_addressbooks (const gchar *address,
 			g_object_unref (book_client);
 		} else if (!stop && book_client && !cached_book) {
 			g_hash_table_insert (
-				emu_books_hash, g_strdup (
-				e_source_peek_uid (source)), book_client);
+				emu_books_hash, g_strdup (uid), book_client);
 		}
 	}
 
 	mail_cancel_hook_remove (hook_cancellable);
 	g_object_unref (cancellable);
 
-	g_slist_foreach (addr_sources, (GFunc) g_object_unref, NULL);
-	g_slist_free (addr_sources);
+	g_slist_free_full (addr_sources, (GDestroyNotify) g_object_unref);
 
 	g_free (query);
 

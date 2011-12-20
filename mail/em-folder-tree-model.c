@@ -154,9 +154,9 @@ folder_tree_model_sort (GtkTreeModel *model,
 
 	} else if (g_strcmp0 (store_uid, E_MAIL_SESSION_VFOLDER_UID) == 0) {
 		/* UNMATCHED is always last. */
-		if (aname && !strcmp (aname, _("UNMATCHED")))
+		if (g_strcmp0 (aname, _("UNMATCHED")) == 0)
 			rv = 1;
-		else if (bname && !strcmp (bname, _("UNMATCHED")))
+		else if (g_strcmp0 (bname, _("UNMATCHED")) == 0)
 			rv = -1;
 
 	} else {

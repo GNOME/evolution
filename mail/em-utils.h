@@ -27,6 +27,7 @@
 #include <sys/types.h>
 #include <camel/camel.h>
 #include <libedataserver/e-proxy.h>
+#include <libedataserver/e-account.h>
 
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-session.h>
@@ -85,9 +86,12 @@ void em_utils_clear_get_password_canceled_accounts_flag (void);
 /* Unescapes &amp; back to a real & in URIs */
 gchar *em_utils_url_unescape_amp (const gchar *url);
 
-GHashTable * em_utils_generate_account_hash (void);
-struct _EAccount *em_utils_guess_account (CamelMimeMessage *message, CamelFolder *folder);
-struct _EAccount *em_utils_guess_account_with_recipients (CamelMimeMessage *message, CamelFolder *folder);
+GHashTable *	em_utils_generate_account_hash	(void);
+EAccount *	em_utils_guess_account		(CamelMimeMessage *message,
+						 CamelFolder *folder);
+EAccount *	em_utils_guess_account_with_recipients
+						(CamelMimeMessage *message,
+						 CamelFolder *folder);
 
 void emu_remove_from_mail_cache (const GSList *addresses);
 void emu_remove_from_mail_cache_1 (const gchar *address);

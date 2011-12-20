@@ -1368,6 +1368,7 @@ e_shell_get_backend_by_scheme (EShell *shell,
 
 	return g_hash_table_lookup (hash_table, scheme);
 }
+
 /**
  * e_shell_get_shell_settings:
  * @shell: an #EShell

@@ -176,7 +176,7 @@ import_contact (EBookClient *book_client,
 static void
 import_contacts (void)
 {
-	ESource *primary;
+	ESource *source;
 	ESourceList *source_list;
 	EBookClient *book_client;
 	gchar *name;
@@ -203,28 +203,23 @@ import_contacts (void)
 	if (fp == NULL)
 		return;
 
-	primary = e_source_list_peek_source_any (source_list);
-	/* FIXME Better error handling */
-	if ((book_client = e_book_client_new (primary, &error)) == NULL) {
-		fclose (fp);
-		g_warning ("Could not create EBook: %s", error->message);
-		if (error)
-			g_error_free (error);
-		return;
-	}
+	source = e_source_list_peek_source_any (source_list);
 
-	if (!e_client_open_sync (E_CLIENT (book_client), TRUE, NULL, &error)) {
-		g_object_unref (source_list);
-		fclose (fp);
+	book_client = e_book_client_new (source, &error);
 
+	if (book_client != NULL)
+		e_client_open_sync (E_CLIENT (book_client), TRUE, NULL, &error);
+
+	g_object_unref (source_list);
+
+	if (error != NULL) {
 		g_warning (
 			"%s: Failed to open book client: %s",
 			G_STRFUNC, error->message);
-		if (error)
-			g_error_free (error);
+		g_error_free (error);
+		fclose (fp);
 		return;
 	}
-	g_object_unref (source_list);
 
 	line = g_string_new("");
 	g_string_set_size (line, 256);

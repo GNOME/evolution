@@ -1106,7 +1106,7 @@ e_mail_account_store_remove_service (EMailAccountStore *store,
                                      CamelService *service)
 {
 	GtkTreeIter iter;
-	gboolean proceed;
+	gboolean proceed = TRUE;
 
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
@@ -1114,10 +1114,11 @@ e_mail_account_store_remove_service (EMailAccountStore *store,
 	if (!mail_account_store_get_iter (store, service, &iter))
 		g_return_if_reached ();
 
-	/* Possibly request user confirmation. */
-	g_signal_emit (
-		store, signals[REMOVE_REQUESTED], 0,
-		parent_window, service, &proceed);
+	/* If no parent window was given, skip the request signal. */
+	if (GTK_IS_WINDOW (parent_window))
+		g_signal_emit (
+			store, signals[REMOVE_REQUESTED], 0,
+			parent_window, service, &proceed);
 
 	if (proceed) {
 		g_object_ref (service);
@@ -1138,7 +1139,7 @@ e_mail_account_store_enable_service (EMailAccountStore *store,
                                      CamelService *service)
 {
 	GtkTreeIter iter;
-	gboolean proceed;
+	gboolean proceed = TRUE;
 
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
@@ -1146,10 +1147,11 @@ e_mail_account_store_enable_service (EMailAccountStore *store,
 	if (!mail_account_store_get_iter (store, service, &iter))
 		g_return_if_reached ();
 
-	/* Possibly request user confirmation. */
-	g_signal_emit (
-		store, signals[ENABLE_REQUESTED], 0,
-		parent_window, service, &proceed);
+	/* If no parent window was given, skip the request signal. */
+	if (GTK_IS_WINDOW (parent_window))
+		g_signal_emit (
+			store, signals[ENABLE_REQUESTED], 0,
+			parent_window, service, &proceed);
 
 	if (proceed) {
 		gtk_list_store_set (
@@ -1166,7 +1168,7 @@ e_mail_account_store_disable_service (EMailAccountStore *store,
                                       CamelService *service)
 {
 	GtkTreeIter iter;
-	gboolean proceed;
+	gboolean proceed = TRUE;
 
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
@@ -1174,10 +1176,11 @@ e_mail_account_store_disable_service (EMailAccountStore *store,
 	if (!mail_account_store_get_iter (store, service, &iter))
 		g_return_if_reached ();
 
-	/* Possibly request user confirmation. */
-	g_signal_emit (
-		store, signals[DISABLE_REQUESTED], 0,
-		parent_window, service, &proceed);
+	/* If no parent window was given, skip the request signal. */
+	if (GTK_IS_WINDOW (parent_window))
+		g_signal_emit (
+			store, signals[DISABLE_REQUESTED], 0,
+			parent_window, service, &proceed);
 
 	if (proceed) {
 		gtk_list_store_set (

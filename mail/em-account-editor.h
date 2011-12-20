@@ -28,6 +28,8 @@
 #include <mail/em-config.h>
 #include <mail/e-mail-backend.h>
 
+#include <libedataserver/e-account.h>
+
 /* Standard GObject macros */
 #define EM_TYPE_ACCOUNT_EDITOR \
 	(em_account_editor_get_type ())
