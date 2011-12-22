@@ -25,6 +25,8 @@
 #include <config.h>
 #endif
 
+#include <glib/gi18n.h>
+
 #include "e-alert-dialog.h"
 
 #include "e-util.h"
@@ -150,6 +152,18 @@ alert_dialog_constructed (GObject *object)
 
 	/* Add buttons from actions. */
 	actions = e_alert_peek_actions (alert);
+	if (!actions) {
+		GtkAction *action;
+
+		/* Make sure there is at least one action, thus the dialog can be closed. */
+		action = gtk_action_new (
+			"alert-response-0", _("_Dismiss"), NULL, NULL);
+		e_alert_add_action (alert, action, GTK_RESPONSE_CLOSE);
+		g_object_unref (action);
+
+		actions = e_alert_peek_actions (alert);
+	}
+
 	while (actions != NULL) {
 		GtkWidget *button;
 		gpointer data;

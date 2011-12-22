@@ -157,6 +157,7 @@ em-format/em-format.c
 em-format/em-format-quote.c
 e-util/e-activity.c
 e-util/e-alert.c
+e-util/e-alert-dialog.c
 e-util/e-categories-config.c
 e-util/e-charset.c
 e-util/e-datetime-format.c
