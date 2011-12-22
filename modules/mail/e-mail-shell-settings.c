@@ -314,6 +314,11 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"composer-outlook-filenames");
 
 	e_shell_settings_install_property_for_key (
+		"composer-localized-re",
+		MAIL_SCHEMA,
+		"composer-localized-re");
+
+	e_shell_settings_install_property_for_key (
 		"composer-ignore-list-reply-to",
 		MAIL_SCHEMA,
 		"composer-ignore-list-reply-to");

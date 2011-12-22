@@ -1936,13 +1936,12 @@ reply_get_composer (EShell *shell,
 
 	/* Set the subject of the new message. */
 	if ((subject = (gchar *) camel_mime_message_get_subject (message))) {
-		if (g_ascii_strncasecmp (subject, "Re: ", 4) != 0 &&
-			g_ascii_strncasecmp (subject, "Re : ", 5) != 0)
-			subject = g_strdup_printf ("Re: %s", subject);
-		else if (g_ascii_strncasecmp (subject, "Re : ", 5) == 0)
-			subject = g_strdup_printf ("Re: %s", subject + 5);
-		else
-			subject = g_strdup (subject);
+		gboolean skip_len = -1;
+
+		if (em_utils_is_re_in_subject (shell, subject, &skip_len) && skip_len > 0)
+			subject = subject + skip_len;
+
+		subject = g_strdup_printf ("Re: %s", subject);
 	} else {
 		subject = g_strdup ("");
 	}

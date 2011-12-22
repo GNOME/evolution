@@ -125,6 +125,11 @@
       <_summary>Ignore list Reply-To:</_summary>
       <_description>Some mailing lists set a Reply-To: header to trick users into sending replies to the list, even when they ask Evolution to make a private reply. Setting this option to TRUE will attempt to ignore such Reply-To: headers, so that Evolution will do as you ask it. If you use the private reply action, it will reply privately, while if you use the 'Reply to List' action it will do that. It works by comparing the Reply-To: header with a List-Post: header, if there is one.</_description>
     </key>
+    <key name="composer-localized-re" type="s">
+      <default>''</default>
+      <_summary>List of localized 'Re'</_summary>
+      <_description>Comma-separated list of localized 'Re' abbreviations to skip in a subject text when replying to a message, as an addition to the standard "Re" prefix. An example is 'SV,AV'.</_description>
+    </key>
     <key name="show-animated-images" type="b">
       <default>false</default>
       <_summary>Show image animations</_summary>

@@ -499,20 +499,16 @@ get_normalised_string (MessageList *message_list,
 	}
 
 	if (col == COL_SUBJECT_NORM) {
+		EShell *shell = e_shell_get_default ();
+		gint skip_len;
 		const guchar *subject;
 		gboolean found_re = TRUE;
 
 		subject = (const guchar *) string;
 		while (found_re) {
-			found_re = FALSE;
-
-			if (g_ascii_strncasecmp ((gchar *) subject, "Re:", 3) == 0) {
-				found_re = TRUE;
-				subject += 3;
-			} else if (g_ascii_strncasecmp ((gchar *) subject, "Re :", 4) == 0) {
-				found_re = TRUE;
-				subject += 4;
-			}
+			found_re = em_utils_is_re_in_subject (shell, (const gchar *) subject, &skip_len) && skip_len > 0;
+			if (found_re)
+				subject += skip_len;
 
 			/* jump over any spaces */
 			while (*subject && isspace ((gint) *subject))
@@ -1553,6 +1549,8 @@ get_trimmed_subject (CamelMessageInfo *info)
 	}
 
 	do {
+		EShell *shell = e_shell_get_default ();
+		gint skip_len;
 		gboolean found_re = TRUE;
 
 		found_mlist = FALSE;
@@ -1560,13 +1558,9 @@ get_trimmed_subject (CamelMessageInfo *info)
 		while (found_re) {
 			found_re = FALSE;
 
-			if (g_ascii_strncasecmp ((gchar *) subject, "Re:", 3) == 0) {
-				found_re = TRUE;
-				subject += 3;
-			} else if (g_ascii_strncasecmp ((gchar *) subject, "Re :", 4) == 0) {
-				found_re = TRUE;
-				subject += 4;
-			}
+			found_re = em_utils_is_re_in_subject (shell, (const gchar *) subject, &skip_len) && skip_len > 0;
+			if (found_re)
+				subject += skip_len;
 
 			/* jump over any spaces */
 			while (*subject && isspace ((gint) *subject))

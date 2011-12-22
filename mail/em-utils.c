@@ -2380,3 +2380,80 @@ em_utils_disconnect_service_sync (CamelService *service,
 	return res;
 }
 
+static gboolean
+check_prefix (const gchar *subject,
+	      const gchar *prefix,
+	      gint *skip_len)
+{
+	gint plen;
+
+	g_return_val_if_fail (subject != NULL, FALSE);
+	g_return_val_if_fail (prefix != NULL, FALSE);
+	g_return_val_if_fail (*prefix, FALSE);
+	g_return_val_if_fail (skip_len != NULL, FALSE);
+
+	plen = strlen (prefix);
+	if (g_ascii_strncasecmp (subject, prefix, plen) != 0)
+		return FALSE;
+
+	if (g_ascii_strncasecmp (subject + plen, ": ", 2) == 0) {
+		*skip_len = plen + 2;
+		return TRUE;
+	}
+
+	if (g_ascii_strncasecmp (subject + plen, " : ", 3) == 0) {
+		*skip_len = plen + 3;
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+gboolean
+em_utils_is_re_in_subject (EShell *shell,
+			   const gchar *subject,
+			   gint *skip_len)
+{
+	EShellSettings *shell_settings;
+	gchar *prefixes, **prefixes_strv;
+	gboolean res;
+	gint ii;
+
+	g_return_val_if_fail (shell != NULL, FALSE);
+	g_return_val_if_fail (subject != NULL, FALSE);
+	g_return_val_if_fail (skip_len != NULL, FALSE);
+
+	*skip_len = -1;
+
+	if (strlen (subject) < 3)
+		return FALSE;
+
+	if (check_prefix (subject, "Re", skip_len))
+		return TRUE;
+
+	shell_settings = e_shell_get_shell_settings (shell);
+	prefixes = e_shell_settings_get_string (shell_settings, "composer-localized-re");
+	if (!prefixes || !*prefixes) {
+		g_free (prefixes);
+		return FALSE;
+	}
+
+	prefixes_strv = g_strsplit (prefixes, ",", -1);
+	g_free (prefixes);
+
+	if (!prefixes_strv)
+		return FALSE;
+
+	res = FALSE;
+
+	for (ii = 0; !res && prefixes_strv[ii]; ii++) {
+		const gchar *prefix = prefixes_strv[ii];
+
+		if (*prefix)
+			res = check_prefix (subject, prefix, skip_len);
+	}
+
+	g_strfreev (prefixes_strv);
+
+	return res;
+}
