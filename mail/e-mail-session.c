@@ -170,9 +170,10 @@ static void user_message_exec (struct _user_message_msg *m,
 
 static void
 user_message_response_free (GtkDialog *dialog,
-                            gint button,
-                            struct _user_message_msg *m)
+                            gint button)
 {
+	struct _user_message_msg *m = NULL;
+
 	gtk_widget_destroy ((GtkWidget *) dialog);
 
 	user_message_dialog = NULL;
@@ -194,13 +195,13 @@ user_message_response (GtkDialog *dialog,
                        gint button,
                        struct _user_message_msg *m)
 {
-	/* if !allow_cancel, then we've already replied */
-	if (m->button_captions) {
+	/* if !m or !button_captions, then we've already replied */
+	if (m && m->button_captions) {
 		m->result = button;
 		e_flag_set (m->done);
 	}
 
-	user_message_response_free (dialog, button, m);
+	user_message_response_free (dialog, button);
 }
 
 static void
@@ -269,7 +270,7 @@ user_message_exec (struct _user_message_msg *m,
 	} else {
 		g_signal_connect (
 			user_message_dialog, "response",
-			G_CALLBACK (user_message_response), m);
+			G_CALLBACK (user_message_response), NULL);
 		gtk_widget_show (user_message_dialog);
 	}
 }
