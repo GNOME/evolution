@@ -52,6 +52,11 @@
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
+#include "shell/e-shell.h"
+#include "shell/e-shell-view.h"
+#include "shell/e-shell-content.h"
+#include "shell/e-shell-window.h"
+
 #include "e-mail-account-store.h"
 #include "e-mail-folder-utils.h"
 #include "e-mail-junk-filter.h"
@@ -209,12 +214,16 @@ user_message_exec (struct _user_message_msg *m,
                    GCancellable *cancellable,
                    GError **error)
 {
+	gboolean info_only;
 	GtkWindow *parent;
+	EShell *shell;
 	const gchar *error_type;
 	gint index;
 	GSList *iter;
 
-	if (!m->ismain && user_message_dialog != NULL) {
+	info_only = g_slist_length (m->button_captions) <= 1;
+
+	if (!m->ismain && user_message_dialog != NULL && !info_only) {
 		g_queue_push_tail (&user_message_queue, mail_msg_ref (m));
 		return;
 	}
@@ -234,8 +243,56 @@ user_message_exec (struct _user_message_msg *m,
 			g_return_if_reached ();
 	}
 
+	shell = e_shell_get_default ();
+
+	/* try to find "mail" view to place the informational alert to */
+	if (info_only) {
+		GtkWindow *active_window;
+		EShellWindow *shell_window;
+		EShellView *shell_view;
+		EShellContent *shell_content = NULL;
+
+		/* check currently active window first, ... */
+		active_window = e_shell_get_active_window (shell);
+		if (active_window && E_IS_SHELL_WINDOW (active_window)) {
+			if (E_IS_SHELL_WINDOW (active_window)) {
+				shell_window = E_SHELL_WINDOW (active_window);
+				shell_view = e_shell_window_peek_shell_view (shell_window, "mail");
+				if (shell_view)
+					shell_content = e_shell_view_get_shell_content (shell_view);
+			}
+		}
+
+		if (!shell_content) {
+			GList *list, *iter;
+
+			list = gtk_application_get_windows (GTK_APPLICATION (shell));
+
+			/* ...then iterate through all opened windows and pick one which has it */
+			for (iter = list; iter != NULL && !shell_content; iter = g_list_next (iter)) {
+				if (E_IS_SHELL_WINDOW (iter->data)) {
+					shell_window = iter->data;
+					shell_view = e_shell_window_peek_shell_view (shell_window, "mail");
+					if (shell_view)
+						shell_content = e_shell_view_get_shell_content (shell_view);
+				}
+			}
+		}
+
+		/* when no shell-content found, which might not happen, but just in case,
+		   process the information alert like usual, through an EAlertDialog machinery
+		*/
+		if (shell_content) {
+			e_alert_submit (E_ALERT_SINK (shell_content), error_type, m->prompt, NULL);
+			return;
+		} else if (!m->ismain && user_message_dialog != NULL) {
+			g_queue_push_tail (&user_message_queue, mail_msg_ref (m));
+			return;
+		}
+	}
+
 	/* Pull in the active window from the shell to get a parent window */
-	parent = e_shell_get_active_window (e_shell_get_default ());
+	parent = e_shell_get_active_window (shell);
 	user_message_dialog = e_alert_dialog_new_for_args (
 		parent, error_type, m->prompt, NULL);
 	g_object_set (user_message_dialog, "resizable", TRUE, NULL);
