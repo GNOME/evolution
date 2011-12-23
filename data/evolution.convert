@@ -18,7 +18,7 @@ start-offline = /apps/evolution/shell/start_offline
 statusbar-visible = /apps/evolution/shell/view_defaults/statusbar_visible
 toolbar-visible = /apps/evolution/shell/view_defaults/toolbar_visible
 
-[org.gnome.evolution.shell:/org/gnome/evolution/mail/shell/window]
+[org.gnome.evolution.window:/org/gnome/evolution/mail/shell/window]
 height = /apps/evolution/shell/view_defaults/window_height
 maximized = /apps/evolution/shell/view_defaults/window_maximized
 width = /apps/evolution/shell/view_defaults/window_width
