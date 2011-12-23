@@ -27,8 +27,6 @@
 
 #include <gtk/gtk.h>
 
-gchar *e_dialog_editable_get (GtkWidget *widget);
-
 void e_dialog_combo_box_set (GtkWidget *widget, gint value, const gint *value_map);
 gint e_dialog_combo_box_get (GtkWidget *widget, const gint *value_map);
 

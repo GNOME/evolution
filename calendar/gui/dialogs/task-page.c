@@ -763,8 +763,8 @@ task_page_fill_component (CompEditorPage *page,
 
 	/* Summary. */
 
-	str = e_dialog_editable_get (priv->summary);
-	if (!str || strlen (str) == 0)
+	str = gtk_editable_get_chars (GTK_EDITABLE (priv->summary), 0, -1);
+	if (str == NULL || *str == '\0')
 		e_cal_component_set_summary (comp, NULL);
 	else {
 		ECalComponentText text;
@@ -775,8 +775,7 @@ task_page_fill_component (CompEditorPage *page,
 		e_cal_component_set_summary (comp, &text);
 	}
 
-	if (str)
-		g_free (str);
+	g_free (str);
 
 	/* Description */
 
@@ -798,8 +797,7 @@ task_page_fill_component (CompEditorPage *page,
 		e_cal_component_set_description_list (comp, &l);
 	}
 
-	if (str)
-		g_free (str);
+	g_free (str);
 
 	/* Dates */
 
@@ -857,10 +855,9 @@ task_page_fill_component (CompEditorPage *page,
 	}
 
 	/* Categories */
-	cat = e_dialog_editable_get (priv->categories);
+	cat = gtk_editable_get_chars (GTK_EDITABLE (priv->categories), 0, -1);
 	str = comp_editor_strip_categories (cat);
-	if (cat)
-		g_free (cat);
+	g_free (cat);
 
 	e_cal_component_set_categories (comp, str);
 
@@ -1521,19 +1518,18 @@ get_widgets (TaskPage *tpage)
 }
 
 static void
-summary_changed_cb (GtkEditable *editable,
+summary_changed_cb (GtkEntry *entry,
                     CompEditorPage *page)
 {
 	CompEditor *editor;
-	gchar *summary;
+	const gchar *text;
 
 	if (comp_editor_page_get_updating (page))
 		return;
 
 	editor = comp_editor_page_get_editor (page);
-	summary = e_dialog_editable_get (GTK_WIDGET (editable));
-	comp_editor_set_summary (editor, summary);
-	g_free (summary);
+	text = gtk_entry_get_text (entry);
+	comp_editor_set_summary (editor, text);
 }
 
 /* Callback used when the start or due date widgets change.  We notify the

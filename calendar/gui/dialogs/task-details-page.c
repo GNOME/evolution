@@ -315,7 +315,7 @@ task_details_page_fill_component (CompEditorPage *page,
 	TaskEditorPriority priority;
 	CompEditor *editor;
 	gint priority_value, percent;
-	gchar *url;
+	const gchar *text;
 	gboolean date_set;
 	icaltimezone *zone;
 
@@ -389,10 +389,8 @@ task_details_page_fill_component (CompEditorPage *page,
 	}
 
 	/* URL. */
-	url = e_dialog_editable_get (priv->url);
-	e_cal_component_set_url (comp, url);
-	if (url)
-		g_free (url);
+	text = gtk_entry_get_text (GTK_ENTRY (priv->url));
+	e_cal_component_set_url (comp, text);
 
 	return TRUE;
 }

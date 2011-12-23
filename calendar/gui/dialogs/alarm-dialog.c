@@ -576,28 +576,24 @@ static void
 palarm_widgets_to_alarm (Dialog *dialog,
                          ECalComponentAlarm *alarm)
 {
-	gchar *program;
 	icalattach *attach;
-	gchar *str;
 	ECalComponentText description;
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
+	const gchar *text;
 
-	program = e_dialog_editable_get (dialog->palarm_program);
-	attach = icalattach_new_from_url (program ? program : "");
-	g_free (program);
+	text = gtk_entry_get_text (GTK_ENTRY (dialog->palarm_program));
+	attach = icalattach_new_from_url ((text != NULL) ? text : "");
 
 	e_cal_component_alarm_set_attach (alarm, attach);
 	icalattach_unref (attach);
 
-	str = e_dialog_editable_get (dialog->palarm_args);
+	text = gtk_entry_get_text (GTK_ENTRY (dialog->palarm_args));
 
-		description.value = str;
-		description.altrep = NULL;
+	description.value = text;
+	description.altrep = NULL;
 
-		e_cal_component_alarm_set_description (alarm, &description);
-
-	g_free (str);
+	e_cal_component_alarm_set_description (alarm, &description);
 
 	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
 	 * we don't re-set the alarm's description */
@@ -1040,13 +1036,17 @@ dalarm_description_changed_cb (GtkWidget *widget,
 static void
 check_custom_program (Dialog *dialog)
 {
-	gchar *str;
-	gboolean sens;
+	GtkEntry *entry;
+	const gchar *text;
+	gboolean sensitive;
 
-	str = e_dialog_editable_get (dialog->palarm_program);
+	entry = GTK_ENTRY (dialog->palarm_program);
+	text = gtk_entry_get_text (entry);
+	sensitive = (text != NULL && *text != '\0');
 
-	sens = str && *str;
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, sens);
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (dialog->toplevel),
+		GTK_RESPONSE_OK, sensitive);
 }
 
 static void

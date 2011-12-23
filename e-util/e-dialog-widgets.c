@@ -70,24 +70,6 @@ index_to_value (const gint *value_map,
 }
 
 /**
- * e_dialog_editable_get:
- * @widget: A #GtkEditable widget.
- *
- * Queries the string value inside a #GtkEditable-derived widget.
- *
- * Return value: String value.  You should free it when you are done with it.
- * This function can return NULL if the string could not be converted from
- * GTK+'s encoding into UTF8.
- **/
-gchar *
-e_dialog_editable_get (GtkWidget *widget)
-{
-	g_return_val_if_fail (GTK_IS_EDITABLE (widget), NULL);
-
-	return gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
-}
-
-/**
  * e_dialog_combo_box_set:
  * @widget: A #GtkComboBox.
  * @value: Enumerated value.

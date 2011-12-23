@@ -1020,7 +1020,8 @@ event_page_save_locations_list (CompEditorPage *page,
 	GtkTreeIter iter;
 
 	const gchar *cache_dir;
-	gchar *file_name, *current_location;
+	const gchar *current_location;
+	gchar *file_name;
 	GString *contents;
 
 	priv = EVENT_PAGE (page)->priv;
@@ -1040,7 +1041,7 @@ event_page_save_locations_list (CompEditorPage *page,
 		}
 	}
 
-	current_location = e_dialog_editable_get (priv->location);
+	current_location = gtk_entry_get_text (GTK_ENTRY (priv->location));
 
 	/* Put current locatin on the very top of the list */
 	contents = g_string_new (current_location);
@@ -1074,7 +1075,6 @@ event_page_save_locations_list (CompEditorPage *page,
 
 	g_string_free (contents, TRUE);
 	g_free (file_name);
-	g_free (current_location);
 }
 
 static gboolean
@@ -1383,8 +1383,8 @@ event_page_fill_component (CompEditorPage *page,
 
 	/* Summary */
 
-	str = e_dialog_editable_get (priv->summary);
-	if (!str || !*str)
+	str = gtk_editable_get_chars (GTK_EDITABLE (priv->summary), 0, -1);
+	if (str == NULL || *str == '\0')
 		e_cal_component_set_summary (comp, NULL);
 	else {
 		ECalComponentText text;
@@ -1395,21 +1395,19 @@ event_page_fill_component (CompEditorPage *page,
 		e_cal_component_set_summary (comp, &text);
 	}
 
-	if (str)
-		g_free (str);
+	g_free (str);
 
 	/* Location */
 
-	str = e_dialog_editable_get (priv->location);
-	if (!str || !*str)
+	str = gtk_editable_get_chars (GTK_EDITABLE (priv->location), 0, -1);
+	if (str == NULL || *str == '\0')
 		e_cal_component_set_location (comp, NULL);
 	else {
 		e_cal_component_set_location (comp, str);
 		event_page_save_locations_list (page, comp);
 	}
 
-	if (str)
-		g_free (str);
+	g_free (str);
 
 	/* Description */
 
@@ -1417,7 +1415,7 @@ event_page_fill_component (CompEditorPage *page,
 	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
 	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
 
-	if (!str || !*str)
+	if (str == NULL || *str == '\0')
 		e_cal_component_set_description_list (comp, NULL);
 	else {
 		GSList l;
@@ -1431,8 +1429,7 @@ event_page_fill_component (CompEditorPage *page,
 		e_cal_component_set_description_list (comp, &l);
 	}
 
-	if (str)
-		g_free (str);
+	g_free (str);
 
 	/* Dates */
 
@@ -1501,15 +1498,13 @@ event_page_fill_component (CompEditorPage *page,
 
 	/* Categories */
 
-	cat = e_dialog_editable_get (priv->categories);
+	cat = gtk_editable_get_chars (GTK_EDITABLE (priv->categories), 0, -1);
 	str = comp_editor_strip_categories (cat);
-	if (cat)
-		g_free (cat);
+	g_free (cat);
 
 	e_cal_component_set_categories (comp, str);
 
-	if (str)
-		g_free (str);
+	g_free (str);
 
 	/* Classification */
 	classification = comp_editor_get_classification (editor);
@@ -2590,19 +2585,18 @@ get_widgets (EventPage *epage)
 }
 
 static void
-summary_changed_cb (GtkEditable *editable,
+summary_changed_cb (GtkEntry *entry,
                     CompEditorPage *page)
 {
 	CompEditor *editor;
-	gchar *summary;
+	const gchar *text;
 
 	if (comp_editor_page_get_updating (page))
 		return;
 
 	editor = comp_editor_page_get_editor (page);
-	summary = e_dialog_editable_get (GTK_WIDGET (editable));
-	comp_editor_set_summary (editor, summary);
-	g_free (summary);
+	text = gtk_entry_get_text (entry);
+	comp_editor_set_summary (editor, text);
 }
 
 /* Note that this assumes that the start_tt and end_tt passed to it are the
