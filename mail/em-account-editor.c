@@ -4632,7 +4632,8 @@ emae_check_complete (EConfig *ec,
 			gchar *template;
 			guint i = 0, len;
 			gchar *enc, *buff, *cal_name;
-			gchar *host, *protocol, *user;
+			gchar *host = NULL;
+			gchar *protocol = NULL, *user = NULL;
 			CamelNetworkSecurityMethod method;
 
 			if (!emae->priv->review_set) {
@@ -4666,12 +4667,16 @@ emae_check_complete (EConfig *ec,
 				gtk_label_set_text (emae->priv->receive_encryption, enc);
 				g_free (enc);
 				g_free (protocol);
-				g_free (host);
 				g_free (user);
 			}
+
 			if (emae->priv->transport.settings) {
+				gchar *transport_host = NULL;
+				protocol = NULL;
+				user = NULL;
+
 				protocol = g_strdup (emae->priv->transport.protocol);
-				g_object_get (emae->priv->transport.settings, "host", &host, NULL);
+				g_object_get (emae->priv->transport.settings, "host", &transport_host, NULL);
 				g_object_get (emae->priv->transport.settings, "user", &user, NULL);
 				g_object_get (emae->priv->transport.settings, "security-method", &method, NULL);
 				if (method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT)
@@ -4682,15 +4687,16 @@ emae_check_complete (EConfig *ec,
 					enc = g_strdup (_("Never"));
 
 				gtk_label_set_text (emae->priv->send_stype, protocol);
-				gtk_label_set_text (emae->priv->send_saddress, host);
+				gtk_label_set_text (emae->priv->send_saddress, transport_host);
 				gtk_label_set_text (emae->priv->send_name, user);
 				gtk_label_set_text (emae->priv->send_encryption, enc);
 				g_free (enc);
 				g_free (protocol);
 				g_free (user);
+				g_free (transport_host);
 			}
 
-			if (g_strrstr (host, "gmail") || g_strrstr (host, "googlemail")) {
+			if (e_util_utf8_strstrcase (host, "gmail") || e_util_utf8_strstrcase (host, "googlemail")) {
 				emae->priv->is_gmail = TRUE;
 
 				emae_destroy_widget (emae->priv->gcontacts);
@@ -4721,7 +4727,8 @@ emae_check_complete (EConfig *ec,
 				gtk_widget_show (emae->priv->gmail_link);
 				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->gmail_link, FALSE, FALSE, 0);
 
-			} else if ((g_strrstr(host, "yahoo.") || g_strrstr(host, "ymail.") || g_strrstr(host, "rocketmail."))) {
+			} else if ((e_util_utf8_strstrcase (host, "yahoo.") || e_util_utf8_strstrcase (host, "ymail.")
+						|| e_util_utf8_strstrcase (host, "rocketmail."))) {
 				emae->priv->is_yahoo = TRUE;
 
 				emae_destroy_widget (emae->priv->calendar);
