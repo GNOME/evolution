@@ -38,7 +38,6 @@
 #include <libedataserver/e-time-utils.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
-#include <e-util/e-dialog-widgets.h>
 #include <e-util/e-print.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>

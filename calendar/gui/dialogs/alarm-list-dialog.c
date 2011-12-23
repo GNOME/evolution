@@ -37,7 +37,6 @@
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
 #include "e-util/e-util.h"
-#include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
 #include "alarm-dialog.h"
 #include "alarm-list-dialog.h"
