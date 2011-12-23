@@ -4649,13 +4649,13 @@ emae_check_complete (EConfig *ec,
 				emae->priv->receive_opt_set = 1;
 			}
 		} else if (!strcmp (pageid, "50.review")) {
-			if (!emae->priv->review_set) {
-				gchar *template;
-				guint i = 0, len;
-				gchar *uri, *enc, *buff, *cal_name;
-				CamelURL *url;
-				CamelNetworkSecurityMethod method;
+			gchar *template;
+			guint i = 0, len;
+			gchar *uri, *enc, *buff, *cal_name;
+			CamelURL *url;
+			CamelNetworkSecurityMethod method;
 
+			if (!emae->priv->review_set) {
 				tmp = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
 				len = strlen (tmp);
 				template = g_alloca (len + 14);
@@ -4664,123 +4664,123 @@ emae_check_complete (EConfig *ec,
 					sprintf (template + len, " (%d)", i++);
 
 				gtk_entry_set_text (emae->priv->identity_entries[0], template);
+				emae->priv->review_set = TRUE;
+			}
+			gtk_label_set_text (emae->priv->review_name, e_account_get_string (account, E_ACCOUNT_ID_NAME));
+			gtk_label_set_text (emae->priv->review_email, e_account_get_string (account, E_ACCOUNT_ID_ADDRESS));
+			uri = (gchar * ) e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
+			if (uri  && (url = camel_url_new (uri, NULL))) {
+				gtk_label_set_text (emae->priv->receive_stype, url->protocol);
+				gtk_label_set_text (emae->priv->receive_saddress, url->host);
+				gtk_label_set_text (emae->priv->receive_name, url->user);
+				g_object_get (emae->priv->source.settings, "security-method", &method, NULL);
+				if (method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT)
+					enc = g_strdup (_("Always (SSL)"));
+				else if (method == CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT)
+					enc = g_strdup (_("When possible (TLS)"));
+				else
+					enc = g_strdup (_("Never"));
 
-				gtk_label_set_text (emae->priv->review_name, e_account_get_string (account, E_ACCOUNT_ID_NAME));
-				gtk_label_set_text (emae->priv->review_email, e_account_get_string (account, E_ACCOUNT_ID_ADDRESS));
-				uri = (gchar * ) e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
-				if (uri  && (url = camel_url_new (uri, NULL))) {
-					gtk_label_set_text (emae->priv->receive_stype, url->protocol);
-					gtk_label_set_text (emae->priv->receive_saddress, url->host);
-					gtk_label_set_text (emae->priv->receive_name, url->user);
-					g_object_get (emae->priv->source.settings, "security-method", &method, NULL);
-					if (method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT)
-						enc = g_strdup (_("Always (SSL)"));
-					else if (method == CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT)
-						enc = g_strdup (_("When possible (TLS)"));
-					else
-						enc = g_strdup (_("Never"));
+				gtk_label_set_text (emae->priv->receive_encryption, enc);
+				g_free (enc);
+			}
+			uri = (gchar * ) e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
+			if (uri  && (url = camel_url_new (uri, NULL))) {
+				gtk_label_set_text (emae->priv->send_stype, url->protocol);
+				gtk_label_set_text (emae->priv->send_saddress, url->host);
+				gtk_label_set_text (emae->priv->send_name, url->user);
+				g_object_get (emae->priv->transport.settings, "security-method", &method, NULL);
+				if (method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT)
+					enc = g_strdup (_("Always (SSL)"));
+				else if (method == CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT)
+					enc = g_strdup (_("When possible (TLS)"));
+				else
+					enc = g_strdup (_("Never"));
 
-					gtk_label_set_text (emae->priv->receive_encryption, enc);
-					g_free (enc);
-				}
-				uri = (gchar * ) e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
-				if (uri  && (url = camel_url_new (uri, NULL))) {
-					gtk_label_set_text (emae->priv->send_stype, url->protocol);
-					gtk_label_set_text (emae->priv->send_saddress, url->host);
-					gtk_label_set_text (emae->priv->send_name, url->user);
-					g_object_get (emae->priv->transport.settings, "security-method", &method, NULL);
-					if (method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT)
-						enc = g_strdup (_("Always (SSL)"));
-					else if (method == CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT)
-						enc = g_strdup (_("When possible (TLS)"));
-					else
-						enc = g_strdup (_("Never"));
+				gtk_label_set_text (emae->priv->send_encryption, enc);
+				g_free (enc);
+			}
 
-					gtk_label_set_text (emae->priv->send_encryption, enc);
-					g_free (enc);
-				}
+			if (g_strrstr (account->source->url, "gmail") || g_strrstr (account->source->url, "googlemail")) {
+				emae->priv->is_gmail = TRUE;
 
-				if (g_strrstr (account->source->url, "gmail") || g_strrstr (account->source->url, "googlemail")) {
-					emae->priv->is_gmail = TRUE;
+				emae_destroy_widget (emae->priv->gcontacts);
+				emae_destroy_widget (emae->priv->calendar);
+				emae_destroy_widget (emae->priv->account_label);
+				emae_destroy_widget (emae->priv->gmail_link);
 
-					emae_destroy_widget (emae->priv->gcontacts);
-					emae_destroy_widget (emae->priv->calendar);
-					emae_destroy_widget (emae->priv->account_label);
-					emae_destroy_widget (emae->priv->gmail_link);
+				emae->priv->gcontacts = gtk_check_button_new_with_mnemonic (_("Setup Google con_tacts with Evolution"));
+				emae->priv->calendar = gtk_check_button_new_with_mnemonic (_("Setup Google ca_lendar with Evolution"));
 
-					emae->priv->gcontacts = gtk_check_button_new_with_mnemonic (_("Setup Google con_tacts with Evolution"));
-					emae->priv->calendar = gtk_check_button_new_with_mnemonic (_("Setup Google ca_lendar with Evolution"));
+				gtk_toggle_button_set_active ((GtkToggleButton *) emae->priv->gcontacts, TRUE);
+				gtk_toggle_button_set_active ((GtkToggleButton *) emae->priv->calendar, TRUE);
 
-					gtk_toggle_button_set_active ((GtkToggleButton *) emae->priv->gcontacts, TRUE);
-					gtk_toggle_button_set_active ((GtkToggleButton *) emae->priv->calendar, TRUE);
+				gtk_widget_show (emae->priv->gcontacts);
+				gtk_widget_show (emae->priv->calendar);
 
-					gtk_widget_show (emae->priv->gcontacts);
-					gtk_widget_show (emae->priv->calendar);
+				emae->priv->account_label = gtk_label_new (NULL);
+				buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Google account settings:"));
+				gtk_label_set_markup ((GtkLabel *) emae->priv->account_label, buff);
+				g_free (buff);
+				gtk_widget_show (emae->priv->account_label);
 
-					emae->priv->account_label = gtk_label_new (NULL);
-					buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Google account settings:"));
-					gtk_label_set_markup ((GtkLabel *) emae->priv->account_label, buff);
-					g_free (buff);
-					gtk_widget_show (emae->priv->account_label);
+				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->account_label, FALSE, FALSE, 0);
+				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->gcontacts, FALSE, FALSE, 0);
+				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->calendar, FALSE, FALSE, 0);
 
-					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->account_label, FALSE, FALSE, 0);
-					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->gcontacts, FALSE, FALSE, 0);
-					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->calendar, FALSE, FALSE, 0);
+				emae->priv->gmail_link = gtk_link_button_new_with_label ("https://mail.google.com/mail/?ui=2&amp;shva=1#settings/fwdandpop", _("You may need to enable IMAP access."));
+				gtk_widget_show (emae->priv->gmail_link);
+				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->gmail_link, FALSE, FALSE, 0);
 
-					emae->priv->gmail_link = gtk_link_button_new_with_label ("https://mail.google.com/mail/?ui=2&amp;shva=1#settings/fwdandpop", _("You may need to enable IMAP access."));
-					gtk_widget_show (emae->priv->gmail_link);
-					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->gmail_link, FALSE, FALSE, 0);
+			}  else if ((g_strrstr(account->source->url, "yahoo.") || g_strrstr(account->source->url, "ymail.")
+					|| g_strrstr(account->source->url, "rocketmail."))) {
 
-				}  else if ((g_strrstr(account->source->url, "yahoo.") || g_strrstr(account->source->url, "ymail.")
-						|| g_strrstr(account->source->url, "rocketmail."))) {
+				emae->priv->is_yahoo = TRUE;
 
-					emae->priv->is_yahoo = TRUE;
+				emae_destroy_widget (emae->priv->calendar);
+				emae_destroy_widget (emae->priv->info_label);
+				emae_destroy_widget (emae->priv->yahoo_cal_entry);
+				emae_destroy_widget (emae->priv->account_label);
+				emae_destroy_widget (emae->priv->yahoo_cal_box);
 
-					emae_destroy_widget (emae->priv->calendar);
-					emae_destroy_widget (emae->priv->info_label);
-					emae_destroy_widget (emae->priv->yahoo_cal_entry);
-					emae_destroy_widget (emae->priv->account_label);
-					emae_destroy_widget (emae->priv->yahoo_cal_box);
+				emae->priv->calendar = gtk_check_button_new_with_mnemonic (_("Setup _Yahoo calendar with Evolution"));
 
-					emae->priv->calendar = gtk_check_button_new_with_mnemonic (_("Setup _Yahoo calendar with Evolution"));
+				gtk_toggle_button_set_active ((GtkToggleButton *) emae->priv->calendar, TRUE);
 
-					gtk_toggle_button_set_active ((GtkToggleButton *) emae->priv->calendar, TRUE);
+				emae->priv->info_label = gtk_label_new (_("Yahoo calendars are named as firstname_lastname. We have tried to form the calendar name. So please confirm and re-enter the calendar name if it is not correct."));
+				gtk_label_set_line_wrap ((GtkLabel *) emae->priv->info_label, TRUE);
+				gtk_label_set_line_wrap_mode ((GtkLabel *) emae->priv->info_label, PANGO_WRAP_WORD);
+				gtk_label_set_selectable ((GtkLabel *) emae->priv->info_label, TRUE);
 
-					emae->priv->info_label = gtk_label_new (_("Yahoo calendars are named as firstname_lastname. We have tried to form the calendar name. So please confirm and re-enter the calendar name if it is not correct."));
-					gtk_label_set_line_wrap ((GtkLabel *) emae->priv->info_label, TRUE);
-					gtk_label_set_line_wrap_mode ((GtkLabel *) emae->priv->info_label, PANGO_WRAP_WORD);
-					gtk_label_set_selectable ((GtkLabel *) emae->priv->info_label, TRUE);
+				gtk_widget_show (emae->priv->calendar);
+				gtk_widget_show (emae->priv->info_label);
 
-					gtk_widget_show (emae->priv->calendar);
-					gtk_widget_show (emae->priv->info_label);
-
-					emae->priv->account_label = gtk_label_new (NULL);
-					buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Yahoo account settings:"));
-					gtk_label_set_markup ((GtkLabel *) emae->priv->account_label, buff);
-					g_free (buff);
-					gtk_widget_show (emae->priv->account_label);
+				emae->priv->account_label = gtk_label_new (NULL);
+				buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Yahoo account settings:"));
+				gtk_label_set_markup ((GtkLabel *) emae->priv->account_label, buff);
+				g_free (buff);
+				gtk_widget_show (emae->priv->account_label);
 
 #define PACK_IN_BOX_AND_TEXT(txt,box,child,num) { GtkWidget *txtlbl = gtk_label_new_with_mnemonic (txt); gtk_label_set_mnemonic_widget ((GtkLabel*)txtlbl, child); box = gtk_hbox_new (FALSE, 12); gtk_box_pack_start ((GtkBox *)box, txtlbl, FALSE, FALSE, num); gtk_box_pack_start ((GtkBox *)box, child, FALSE, FALSE, num); gtk_widget_show_all (box);}
 
-					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->account_label, FALSE, FALSE, 0);
-					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->calendar, FALSE, FALSE, 0);
+				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->account_label, FALSE, FALSE, 0);
+				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->calendar, FALSE, FALSE, 0);
 
-					emae->priv->yahoo_cal_entry = gtk_entry_new ();
-					gtk_widget_show (emae->priv->yahoo_cal_entry);
-					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->info_label, FALSE, FALSE, 0);
-					PACK_IN_BOX_AND_TEXT(_("Yahoo Calen_dar name:"), emae->priv->yahoo_cal_box, emae->priv->yahoo_cal_entry, 0);
-					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->yahoo_cal_box, FALSE, FALSE, 0);
-					cal_name = g_strdup (e_account_get_string (account, E_ACCOUNT_ID_NAME));
-					cal_name = g_strdelimit(cal_name, " ", '_');
-					gtk_entry_set_text ((GtkEntry *) emae->priv->yahoo_cal_entry, cal_name);
-					g_free (cal_name);
+				emae->priv->yahoo_cal_entry = gtk_entry_new ();
+				gtk_widget_show (emae->priv->yahoo_cal_entry);
+				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->info_label, FALSE, FALSE, 0);
+				PACK_IN_BOX_AND_TEXT(_("Yahoo Calen_dar name:"), emae->priv->yahoo_cal_box, emae->priv->yahoo_cal_entry, 0);
+				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->yahoo_cal_box, FALSE, FALSE, 0);
+				cal_name = g_strdup (e_account_get_string (account, E_ACCOUNT_ID_NAME));
+				cal_name = g_strdelimit(cal_name, " ", '_');
+				gtk_entry_set_text ((GtkEntry *) emae->priv->yahoo_cal_entry, cal_name);
+				g_free (cal_name);
 #undef PACK_IN_BOX_AND_TEXT
-				} else {
-					emae->priv->is_gmail = FALSE;
-					emae->priv->is_yahoo = FALSE;
-				}
-
+			} else {
+				emae->priv->is_gmail = FALSE;
+				emae->priv->is_yahoo = FALSE;
 			}
+
 		}
 	}
 
