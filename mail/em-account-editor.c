@@ -4459,8 +4459,8 @@ emae_check_servers (const gchar *email)
 		sdata->send_security_method = method;
 	}
 
-	sdata->send_auth = provider->send_auth;
-	sdata->recv_auth = provider->recv_auth;
+	sdata->send_auth = g_ascii_strup (provider->send_auth, -1);
+	sdata->recv_auth = g_ascii_strup (provider->recv_auth, -1);
 	sdata->send_user = provider->send_username;
 	sdata->recv_user = provider->recv_username;
 
@@ -4519,7 +4519,6 @@ emae_check_complete (EConfig *ec,
 			if (!emae->priv->receive_set) {
 				ServerData *sdata;
 				gchar *user, *at;
-				CamelURL *url;
 
 				emae->priv->receive_set = 1;
 				tmp = (gchar *) e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
@@ -4530,15 +4529,12 @@ emae_check_complete (EConfig *ec,
 				at++;
 
 				sdata = emae->priv->selected_server = emae_check_servers (tmp);
-				if (new_account && (url = emae_account_url (emae, E_ACCOUNT_SOURCE_URL))) {
+				if (new_account) {
 					const gchar *use_user = user;
-					gchar *uri;
 
 					refresh = TRUE;
 					if (sdata && sdata->recv_user && *sdata->recv_user)
 						use_user = g_str_equal (sdata->recv_user, "@") ? tmp : sdata->recv_user;
-
-					camel_url_set_user (url, use_user);
 					gtk_entry_set_text (emae->priv->source.username, use_user);
 
 					if (sdata != NULL) {
@@ -4550,38 +4546,29 @@ emae_check_complete (EConfig *ec,
 							method = sdata->security_method;
 						g_object_set (emae->priv->source.settings, "security-method", method, NULL);
 
-						camel_url_set_protocol (url, sdata->proto);
 						emae->priv->source.protocol = sdata->proto;
-						camel_url_set_host (url, sdata->recv);
-						if (sdata->recv_port && *sdata->recv_port)
-							camel_url_set_port (url, atoi (sdata->recv_port));
-
-						e_account_set_bool (account, E_ACCOUNT_SOURCE_AUTO_CHECK, TRUE);
-						e_account_set_bool (account, E_ACCOUNT_SOURCE_SAVE_PASSWD, TRUE);
-						if (g_strcmp0 (url->protocol, "pop") == 0)
+						if (g_strcmp0 (sdata->proto, "pop") == 0)
 							e_account_set_bool (account, E_ACCOUNT_SOURCE_KEEP_ON_SERVER, TRUE);
+
+						if (sdata->recv_port && *sdata->recv_port)
+							e_port_entry_set_port (emae->priv->source.port, atoi (sdata->recv_port));
+
+						gtk_toggle_button_set_active (emae->priv->source.remember, TRUE);
 
 						gtk_entry_set_text (emae->priv->source.hostname, sdata->recv);
 						gtk_entry_set_text (emae->priv->transport.hostname, sdata->send);
-					} else {
-						camel_url_set_host (url, "");
 					}
-					uri = camel_url_to_string (url, 0);
-					e_account_set_string (account, E_ACCOUNT_SOURCE_URL, uri);
 					if (sdata != NULL && sdata->recv_auth && *sdata->recv_auth)
 						gtk_combo_box_set_active_id (
 							emae->priv->source.authtype,
 							sdata->recv_auth);
 
-					camel_url_free (url);
-					g_free (uri);
 				} else
 					gtk_entry_set_text (emae->priv->source.username, user);
 
 			}
 		} else if (!strcmp (pageid, "30.send")) {
 			if (!emae->priv->send_set) {
-				CamelURL *url;
 				gchar *at, *user;
 				ServerData *sdata;
 
@@ -4594,11 +4581,9 @@ emae_check_complete (EConfig *ec,
 				at++;
 
 				sdata = emae->priv->selected_server;
-				if (sdata != NULL && (url = emae_account_url (emae, E_ACCOUNT_TRANSPORT_URL))) {
+				if (sdata != NULL) {
 					CamelNetworkSecurityMethod method;
 					const gchar *use_user = user;
-					gchar *uri;
-
 					refresh = TRUE;
 
 					if (sdata->send_security_method != CAMEL_NETWORK_SECURITY_METHOD_NONE)
@@ -4607,23 +4592,18 @@ emae_check_complete (EConfig *ec,
 						method = sdata->security_method;
 					g_object_set (emae->priv->transport.settings, "security-method", method, NULL);
 
-					camel_url_set_protocol (url, "smtp");
-					camel_url_set_host (url, sdata->send);
+					emae->priv->transport.protocol = "smtp";
 					if (sdata->send_port && *sdata->send_port)
-						camel_url_set_port (url, atoi (sdata->send_port));
+						e_port_entry_set_port (emae->priv->transport.port, atoi (sdata->send_port));
 
 					if (sdata->send_user && *sdata->send_user)
 						use_user = g_str_equal (sdata->send_user, "@") ? tmp : sdata->send_user;
 
-					camel_url_set_user (url, use_user);
 					gtk_entry_set_text (emae->priv->transport.username, use_user);
-
-					uri = camel_url_to_string (url, 0);
-					e_account_set_string (account, E_ACCOUNT_TRANSPORT_URL, uri);
-					e_account_set_bool (account, E_ACCOUNT_TRANSPORT_SAVE_PASSWD, TRUE);
-					g_free (uri);
-					camel_url_free (url);
+					
+					gtk_toggle_button_set_active (emae->priv->transport.remember, TRUE);
 					gtk_toggle_button_set_active (emae->priv->transport.needs_auth, TRUE);
+
 					if (sdata->send_auth && *sdata->send_auth)
 						gtk_combo_box_set_active_id (
 							emae->priv->transport.authtype,
@@ -4651,8 +4631,8 @@ emae_check_complete (EConfig *ec,
 		} else if (!strcmp (pageid, "50.review")) {
 			gchar *template;
 			guint i = 0, len;
-			gchar *uri, *enc, *buff, *cal_name;
-			CamelURL *url;
+			gchar *enc, *buff, *cal_name;
+			gchar *host, *protocol, *user;
 			CamelNetworkSecurityMethod method;
 
 			if (!emae->priv->review_set) {
@@ -4668,11 +4648,10 @@ emae_check_complete (EConfig *ec,
 			}
 			gtk_label_set_text (emae->priv->review_name, e_account_get_string (account, E_ACCOUNT_ID_NAME));
 			gtk_label_set_text (emae->priv->review_email, e_account_get_string (account, E_ACCOUNT_ID_ADDRESS));
-			uri = (gchar * ) e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
-			if (uri  && (url = camel_url_new (uri, NULL))) {
-				gtk_label_set_text (emae->priv->receive_stype, url->protocol);
-				gtk_label_set_text (emae->priv->receive_saddress, url->host);
-				gtk_label_set_text (emae->priv->receive_name, url->user);
+			if (emae->priv->source.settings) {
+				protocol = g_strdup (emae->priv->source.protocol);
+				g_object_get (emae->priv->source.settings, "host", &host, NULL);
+				g_object_get (emae->priv->source.settings, "user", &user, NULL);
 				g_object_get (emae->priv->source.settings, "security-method", &method, NULL);
 				if (method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT)
 					enc = g_strdup (_("Always (SSL)"));
@@ -4681,14 +4660,19 @@ emae_check_complete (EConfig *ec,
 				else
 					enc = g_strdup (_("Never"));
 
+				gtk_label_set_text (emae->priv->receive_stype, protocol);
+				gtk_label_set_text (emae->priv->receive_saddress, host);
+				gtk_label_set_text (emae->priv->receive_name, user);
 				gtk_label_set_text (emae->priv->receive_encryption, enc);
 				g_free (enc);
+				g_free (protocol);
+				g_free (host);
+				g_free (user);
 			}
-			uri = (gchar * ) e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
-			if (uri  && (url = camel_url_new (uri, NULL))) {
-				gtk_label_set_text (emae->priv->send_stype, url->protocol);
-				gtk_label_set_text (emae->priv->send_saddress, url->host);
-				gtk_label_set_text (emae->priv->send_name, url->user);
+			if (emae->priv->transport.settings) {
+				protocol = g_strdup (emae->priv->transport.protocol);
+				g_object_get (emae->priv->transport.settings, "host", &host, NULL);
+				g_object_get (emae->priv->transport.settings, "user", &user, NULL);
 				g_object_get (emae->priv->transport.settings, "security-method", &method, NULL);
 				if (method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT)
 					enc = g_strdup (_("Always (SSL)"));
@@ -4697,11 +4681,16 @@ emae_check_complete (EConfig *ec,
 				else
 					enc = g_strdup (_("Never"));
 
+				gtk_label_set_text (emae->priv->send_stype, protocol);
+				gtk_label_set_text (emae->priv->send_saddress, host);
+				gtk_label_set_text (emae->priv->send_name, user);
 				gtk_label_set_text (emae->priv->send_encryption, enc);
 				g_free (enc);
+				g_free (protocol);
+				g_free (user);
 			}
 
-			if (g_strrstr (account->source->url, "gmail") || g_strrstr (account->source->url, "googlemail")) {
+			if (g_strrstr (host, "gmail") || g_strrstr (host, "googlemail")) {
 				emae->priv->is_gmail = TRUE;
 
 				emae_destroy_widget (emae->priv->gcontacts);
@@ -4732,9 +4721,7 @@ emae_check_complete (EConfig *ec,
 				gtk_widget_show (emae->priv->gmail_link);
 				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->gmail_link, FALSE, FALSE, 0);
 
-			}  else if ((g_strrstr(account->source->url, "yahoo.") || g_strrstr(account->source->url, "ymail.")
-					|| g_strrstr(account->source->url, "rocketmail."))) {
-
+			} else if ((g_strrstr(host, "yahoo.") || g_strrstr(host, "ymail.") || g_strrstr(host, "rocketmail."))) {
 				emae->priv->is_yahoo = TRUE;
 
 				emae_destroy_widget (emae->priv->calendar);
@@ -4780,7 +4767,7 @@ emae_check_complete (EConfig *ec,
 				emae->priv->is_gmail = FALSE;
 				emae->priv->is_yahoo = FALSE;
 			}
-
+			g_free (host);
 		}
 	}
 
