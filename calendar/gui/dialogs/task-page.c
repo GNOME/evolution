@@ -669,11 +669,19 @@ task_page_fill_widgets (CompEditorPage *page,
 				g_signal_handlers_block_by_func (gtk_bin_get_child (GTK_BIN (priv->organizer)), organizer_changed_cb, tpage);
 
 				if (!priv->user_org) {
-					GtkTreeModel *model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer));
+					GtkComboBox *combo_box;
+					GtkListStore *list_store;
+					GtkTreeModel *model;
+					GtkTreeIter iter;
 
-					gtk_list_store_clear (GTK_LIST_STORE (model));
-					e_dialog_append_list_store_text (model, 0, string);
-					gtk_combo_box_set_active (GTK_COMBO_BOX (priv->organizer), 0);
+					combo_box = GTK_COMBO_BOX (priv->organizer);
+					model = gtk_combo_box_get_model (combo_box);
+					list_store = GTK_LIST_STORE (model);
+
+					gtk_list_store_clear (list_store);
+					gtk_list_store_append (list_store, &iter);
+					gtk_list_store_set (list_store, &iter, 0, string, -1);
+					gtk_combo_box_set_active (combo_box, 0);
 					gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (priv->organizer))), FALSE);
 				} else {
 					gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer))), string);
@@ -2094,7 +2102,10 @@ task_page_construct (TaskPage *tpage,
                      ECalClient *client)
 {
 	TaskPagePrivate *priv;
+	GtkComboBox *combo_box;
+	GtkListStore *list_store;
 	GtkTreeModel *model;
+	GtkTreeIter iter;
 	gint ii;
 
 	priv = tpage->priv;
@@ -2116,16 +2127,22 @@ task_page_construct (TaskPage *tpage,
 		return NULL;
 	}
 
-	model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer));
+	combo_box = GTK_COMBO_BOX (priv->organizer);
+	model = gtk_combo_box_get_model (combo_box);
+	list_store = GTK_LIST_STORE (model);
 
 	priv->address_strings = itip_get_user_identities ();
 	priv->fallback_address = itip_get_fallback_identity ();
 
-	for (ii = 0; priv->address_strings[ii] != NULL; ii++)
-		e_dialog_append_list_store_text (
-			model, 0, priv->address_strings[ii]);
+	/* FIXME Could we just use a GtkComboBoxText? */
+	for (ii = 0; priv->address_strings[ii] != NULL; ii++) {
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (
+			list_store, &iter,
+			0, priv->address_strings[ii], -1);
+	}
 
-	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->organizer), 0);
+	gtk_combo_box_set_active (combo_box, 0);
 
 	g_signal_connect (
 		gtk_bin_get_child (GTK_BIN (priv->organizer)), "changed",

@@ -339,11 +339,19 @@ memo_page_fill_widgets (CompEditorPage *page,
 			if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) {
 				gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->org_combo))), string);
 			} else {
-				GtkTreeModel *model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->org_combo));
+				GtkComboBox *combo_box;
+				GtkListStore *list_store;
+				GtkTreeModel *model;
+				GtkTreeIter iter;
 
-				gtk_list_store_clear (GTK_LIST_STORE (model));
-				e_dialog_append_list_store_text (model, 0, string);
-				gtk_combo_box_set_active (GTK_COMBO_BOX (priv->org_combo), 0);
+				combo_box = GTK_COMBO_BOX (priv->org_combo);
+				model = gtk_combo_box_get_model (combo_box);
+				list_store = GTK_LIST_STORE (model);
+
+				gtk_list_store_clear (list_store);
+				gtk_list_store_append (list_store, &iter);
+				gtk_list_store_set (list_store, &iter, 0, string, -1);
+				gtk_combo_box_set_active (combo_box, 0);
 				gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (priv->org_combo))), FALSE);
 			}
 			g_free (string);
@@ -1227,18 +1235,28 @@ memo_page_construct (MemoPage *mpage)
 	}
 
 	if (flags & COMP_EDITOR_IS_SHARED) {
+		GtkComboBox *combo_box;
+		GtkListStore *list_store;
 		GtkTreeModel *model;
+		GtkTreeIter iter;
 		gint ii;
 
-		model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->org_combo));
+		combo_box = GTK_COMBO_BOX (priv->org_combo);
+		model = gtk_combo_box_get_model (combo_box);
+		list_store = GTK_LIST_STORE (model);
+
 		priv->address_strings = itip_get_user_identities ();
 		priv->fallback_address = itip_get_fallback_identity ();
 
-		for (ii = 0; priv->address_strings[ii] != NULL; ii++)
-			e_dialog_append_list_store_text (
-				model, 0, priv->address_strings[ii]);
+		/* FIXME Could we just use a GtkComboBoxText? */
+		for (ii = 0; priv->address_strings[ii] != NULL; ii++) {
+			gtk_list_store_append (list_store, &iter);
+			gtk_list_store_set (
+				list_store, &iter,
+				0, priv->address_strings[ii], -1);
+		}
 
-		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->org_combo), 0);
+		gtk_combo_box_set_active (combo_box, 0);
 
 		gtk_widget_show (priv->org_label);
 		gtk_widget_show (priv->org_combo);

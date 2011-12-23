@@ -30,6 +30,4 @@
 void e_dialog_combo_box_set (GtkWidget *widget, gint value, const gint *value_map);
 gint e_dialog_combo_box_get (GtkWidget *widget, const gint *value_map);
 
-void e_dialog_append_list_store_text (GtkTreeModel *list_store, gint text_column, const gchar *text_value);
-
 #endif
