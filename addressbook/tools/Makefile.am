@@ -1,6 +1,5 @@
 privlibexec_SCRIPTS =					\
-	csv2vcard					\
-	evolution-addressbook-clean
+	csv2vcard
 
 privlibexec_PROGRAMS = evolution-addressbook-export
 
@@ -31,16 +30,6 @@ if OS_WIN32
 evolution_addressbook_export_LDFLAGS = -mwindows
 endif
 
-EXTRA_DIST = $(privlibexec_SCRIPTS) \
-	evolution-addressbook-clean.in
-
-CLEANFILES= evolution-addressbook-clean
-
-evolution-addressbook-clean: evolution-addressbook-clean.in Makefile
-## Use sed and then mv to avoid problems if the user interrupts.
-	sed -e 's?\@EVOLUTION_TOOLSDIR\@?$(privlibexecdir)?g' \
-	    -e 's?\@PERL\@?@PERL@?g' \
-           < $(srcdir)/evolution-addressbook-clean.in > evolution-addressbook-clean.tmp \
-          && mv evolution-addressbook-clean.tmp evolution-addressbook-clean
+EXTRA_DIST = $(privlibexec_SCRIPTS)
 
 -include $(top_srcdir)/git.mk
