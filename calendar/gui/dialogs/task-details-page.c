@@ -140,7 +140,7 @@ clear_widgets (TaskDetailsPage *tdpage)
 	e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), -1);
 
 	/* URL */
-	e_dialog_editable_set (priv->url, NULL);
+	gtk_entry_set_text (GTK_ENTRY (priv->url), "");
 }
 
 static void
@@ -297,7 +297,7 @@ task_details_page_fill_widgets (CompEditorPage *page,
 
 	/* URL */
 	e_cal_component_get_url (comp, &url);
-	e_dialog_editable_set (priv->url, url);
+	gtk_entry_set_text (GTK_ENTRY (priv->url), url ? url : "");
 
 	sensitize_widgets (tdpage);
 

@@ -201,7 +201,7 @@ clear_widgets (TaskPage *tpage)
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 
 	/* Summary, description */
-	e_dialog_editable_set (priv->summary, NULL);
+	gtk_entry_set_text (GTK_ENTRY (priv->summary), "");
 	gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)), "", 0);
 	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (priv->description));
 
@@ -213,7 +213,7 @@ clear_widgets (TaskPage *tpage)
 	comp_editor_set_classification (editor, E_CAL_COMPONENT_CLASS_PUBLIC);
 
 	/* Categories */
-	e_dialog_editable_set (priv->categories, NULL);
+	gtk_entry_set_text (GTK_ENTRY (priv->categories), "");
 }
 
 static gboolean
@@ -521,7 +521,10 @@ task_page_fill_widgets (CompEditorPage *page,
 
         /* Summary, description(s) */
 	e_cal_component_get_summary (comp, &text);
-	e_dialog_editable_set (priv->summary, text.value);
+	if (text.value != NULL)
+		gtk_entry_set_text (GTK_ENTRY (priv->summary), text.value);
+	else
+		gtk_entry_set_text (GTK_ENTRY (priv->summary), "");
 
 	e_cal_component_get_description_list (comp, &l);
 	if (l && l->data) {
@@ -614,7 +617,10 @@ task_page_fill_widgets (CompEditorPage *page,
 
 	/* Categories */
 	e_cal_component_get_categories (comp, &categories);
-	e_dialog_editable_set (priv->categories, categories);
+	if (categories != NULL)
+		gtk_entry_set_text (GTK_ENTRY (priv->categories), categories);
+	else
+		gtk_entry_set_text (GTK_ENTRY (priv->categories), "");
 
 	/* Source */
 	e_source_combo_box_set_active (

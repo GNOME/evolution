@@ -32,7 +32,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>
-#include "e-util/e-dialog-widgets.h"
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
 #include "e-util/e-util.h"
@@ -553,6 +552,7 @@ alarm_to_palarm_widgets (Dialog *dialog,
                          ECalComponentAlarm *alarm)
 {
 	ECalComponentText description;
+	GtkEntry *entry;
 	const gchar *url;
 	icalattach *attach;
 
@@ -563,10 +563,12 @@ alarm_to_palarm_widgets (Dialog *dialog,
 	if (!(url && *url))
 		return;
 
-	e_dialog_editable_set (dialog->palarm_program, url);
-	e_cal_component_alarm_get_description (alarm, &description);
+	entry = GTK_ENTRY (dialog->palarm_program);
+	gtk_entry_set_text (entry, url);
 
-	e_dialog_editable_set (dialog->palarm_args, description.value);
+	entry = GTK_ENTRY (dialog->palarm_args);
+	e_cal_component_alarm_get_description (alarm, &description);
+	gtk_entry_set_text (entry, description.value);
 }
 
 /* Fills the procedure alarm data with the values from the widgets */

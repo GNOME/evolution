@@ -841,7 +841,6 @@ e_datetime_format_format_tm
 <FILE>e-dialog-utils</FILE>
 <TITLE>Dialog Utilities (Legacy)</TITLE>
 e_notice
-e_dialog_editable_set
 e_dialog_editable_get
 e_dialog_combo_box_set
 e_dialog_combo_box_get

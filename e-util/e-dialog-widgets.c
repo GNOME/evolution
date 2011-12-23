@@ -70,27 +70,6 @@ index_to_value (const gint *value_map,
 }
 
 /**
- * e_dialog_editable_set:
- * @widget: A #GtkEditable widget.
- * @value: String value.
- *
- * Sets the string value inside a #GtkEditable-derived widget.
- **/
-void
-e_dialog_editable_set (GtkWidget *widget,
-                       const gchar *value)
-{
-	gint pos = 0;
-
-	g_return_if_fail (GTK_IS_EDITABLE (widget));
-
-	gtk_editable_delete_text (GTK_EDITABLE (widget), 0, -1);
-
-	if (value)
-		gtk_editable_insert_text (GTK_EDITABLE (widget), value, strlen (value), &pos);
-}
-
-/**
  * e_dialog_editable_get:
  * @widget: A #GtkEditable widget.
  *

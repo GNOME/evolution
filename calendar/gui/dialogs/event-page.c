@@ -325,8 +325,8 @@ clear_widgets (EventPage *epage)
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 
 	/* Summary, description */
-	e_dialog_editable_set (priv->summary, NULL);
-	e_dialog_editable_set (priv->location, NULL);
+	gtk_entry_set_text (GTK_ENTRY (priv->summary), "");
+	gtk_entry_set_text (GTK_ENTRY (priv->location), "");
 	gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)), "", 0);
 	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (priv->description));
 
@@ -354,7 +354,7 @@ clear_widgets (EventPage *epage)
 	e_dialog_combo_box_set (priv->alarm_time_combo, ALARM_NONE, priv->alarm_map);
 
 	/* Categories */
-	e_dialog_editable_set (priv->categories, NULL);
+	gtk_entry_set_text (GTK_ENTRY (priv->categories), "");
 }
 
 static gboolean
@@ -1127,11 +1127,17 @@ event_page_fill_widgets (CompEditorPage *page,
 	comp_editor_copy_new_attendees (priv->comp, comp);
 
 	e_cal_component_get_summary (comp, &text);
-	e_dialog_editable_set (priv->summary, text.value);
+	if (text.value != NULL)
+		gtk_entry_set_text (GTK_ENTRY (priv->summary), text.value);
+	else
+		gtk_entry_set_text (GTK_ENTRY (priv->summary), "");
 	priv->old_summary = g_strdup (text.value);
 
 	e_cal_component_get_location (comp, &location);
-	e_dialog_editable_set (priv->location, location);
+	if (location != NULL)
+		gtk_entry_set_text (GTK_ENTRY (priv->location), location);
+	else
+		gtk_entry_set_text (GTK_ENTRY (priv->location), "");
 	event_page_load_locations_list (page, comp);
 
 	e_cal_component_get_description_list (comp, &l);
@@ -1326,7 +1332,10 @@ event_page_fill_widgets (CompEditorPage *page,
 
 	/* Categories */
 	e_cal_component_get_categories (comp, &categories);
-	e_dialog_editable_set (priv->categories, categories);
+	if (categories != NULL)
+		gtk_entry_set_text (GTK_ENTRY (priv->categories), categories);
+	else
+		gtk_entry_set_text (GTK_ENTRY (priv->categories), "");
 
 	/* Source */
 	e_source_combo_box_set_active (

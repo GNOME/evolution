@@ -167,7 +167,7 @@ clear_widgets (MemoPage *mpage)
 	CompEditor *editor;
 
 	/* Summary */
-	e_dialog_editable_set (mpage->priv->summary_entry, NULL);
+	gtk_entry_set_text (GTK_ENTRY (mpage->priv->summary_entry), "");
 
 	/* Description */
 	view = GTK_TEXT_VIEW (mpage->priv->memo_content);
@@ -180,7 +180,7 @@ clear_widgets (MemoPage *mpage)
 	comp_editor_set_classification (editor, E_CAL_COMPONENT_CLASS_PRIVATE);
 
 	/* Categories */
-	e_dialog_editable_set (mpage->priv->categories, NULL);
+	gtk_entry_set_text (GTK_ENTRY (mpage->priv->categories), "");
 }
 
 static void
@@ -279,7 +279,10 @@ memo_page_fill_widgets (CompEditorPage *page,
 
         /* Summary */
 	e_cal_component_get_summary (comp, &text);
-	e_dialog_editable_set (priv->summary_entry, text.value);
+	if (text.value != NULL)
+		gtk_entry_set_text (GTK_ENTRY (priv->summary_entry), text.value);
+	else
+		gtk_entry_set_text (GTK_ENTRY (priv->summary_entry), "");
 
 	e_cal_component_get_description_list (comp, &l);
 	if (l && l->data) {
@@ -312,7 +315,10 @@ memo_page_fill_widgets (CompEditorPage *page,
 
 	/* Categories */
 	e_cal_component_get_categories (comp, &categories);
-	e_dialog_editable_set (priv->categories, categories);
+	if (categories != NULL)
+		gtk_entry_set_text (GTK_ENTRY (priv->categories), categories);
+	else
+		gtk_entry_set_text (GTK_ENTRY (priv->categories), "");
 
 	e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 	set_subscriber_info_string (mpage, backend_addr);
