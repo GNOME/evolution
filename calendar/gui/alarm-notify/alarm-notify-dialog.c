@@ -68,6 +68,7 @@ typedef struct {
 	GtkWidget *snooze_time_hrs;
 	GtkWidget *snooze_time_days;
 	GtkWidget *snooze_btn;
+	GtkWidget *edit_btn;
 	GtkWidget *dismiss_btn;
 	GtkWidget *minutes_label;
 	GtkWidget *hrs_label;
@@ -256,8 +257,6 @@ AlarmNotificationsDialog *
 notified_alarms_dialog_new (void)
 {
 	GtkWidget *container;
-	GtkWidget *edit_btn;
-	GtkWidget *snooze_btn;
 	GtkWidget *image;
 	GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
 	AlarmNotificationsDialog *na = NULL;
@@ -290,14 +289,13 @@ notified_alarms_dialog_new (void)
 	an->description = e_builder_get_widget (an->builder, "description-label");
 	an->location = e_builder_get_widget (an->builder, "location-label");
 	an->treeview = e_builder_get_widget (an->builder, "appointments-treeview");
-	snooze_btn = e_builder_get_widget (an->builder, "snooze-button");
-	an->snooze_btn = snooze_btn;
+	an->snooze_btn = e_builder_get_widget (an->builder, "snooze-button");
+	an->edit_btn = e_builder_get_widget (an->builder, "edit-button");
 	an->dismiss_btn = e_builder_get_widget (an->builder, "dismiss-button");
-	edit_btn = e_builder_get_widget (an->builder, "edit-button");
 
 	if (!(an->dialog && an->treeview
 	      && an->snooze_time_min && an->snooze_time_hrs && an->snooze_time_days
-	      && an->description && an->location && edit_btn && snooze_btn && an->dismiss_btn)) {
+	      && an->description && an->location && an->edit_btn && an->snooze_btn && an->dismiss_btn)) {
 		g_warning ("alarm_notify_dialog(): Could not find all widgets in alarm-notify.ui file!");
 		g_object_unref (an->builder);
 		g_free (an);
@@ -323,6 +321,7 @@ notified_alarms_dialog_new (void)
 	g_signal_connect (
 		selection, "changed",
 		G_CALLBACK (tree_selection_changed_cb), an);
+	tree_selection_changed_cb (selection, an);
 
 	gtk_widget_realize (an->dialog);
 
@@ -336,8 +335,8 @@ notified_alarms_dialog_new (void)
 	gtk_image_set_from_icon_name (
 		GTK_IMAGE (image), "stock_alarm", GTK_ICON_SIZE_DIALOG);
 
-	g_signal_connect (edit_btn, "clicked", G_CALLBACK (edit_pressed_cb), an);
-	g_signal_connect (snooze_btn, "clicked", G_CALLBACK (snooze_pressed_cb), an);
+	g_signal_connect (an->edit_btn, "clicked", G_CALLBACK (edit_pressed_cb), an);
+	g_signal_connect (an->snooze_btn, "clicked", G_CALLBACK (snooze_pressed_cb), an);
 	g_signal_connect (an->dismiss_btn, "clicked", G_CALLBACK (dismiss_pressed_cb), an);
 	g_signal_connect (
 		an->dialog, "response",
@@ -431,7 +430,7 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na,
 	start = timet_to_str_with_zone (occur_start, current_zone);
 	end = timet_to_str_with_zone (occur_end, current_zone);
 	str_time = calculate_time (occur_start, occur_end);
-	to_display = g_strdup_printf ("<big><b>%s</b></big>\n%s %s",
+	to_display = g_markup_printf_escaped ("<big><b>%s</b></big>\n%s %s",
 		summary, start, str_time);
 	g_free (start);
 	g_free (end);
@@ -458,12 +457,13 @@ tree_selection_changed_cb (GtkTreeSelection *selection,
 	GtkTreeIter iter;
 	AlarmNotify *an = user_data;
 
-	if (gtk_tree_selection_get_selected (selection, &model, &iter))
-	{
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gchar *summary, *description, *location;
 		time_t occur_start, occur_end;
 
 		gtk_widget_set_sensitive (an->snooze_btn, TRUE);
+		gtk_widget_set_sensitive (an->edit_btn, TRUE);
+		gtk_widget_set_sensitive (an->dismiss_btn, TRUE);
 		gtk_tree_model_get (model, &iter, ALARM_SUMMARY_COLUMN, &summary, -1);
 		gtk_tree_model_get (model, &iter, ALARM_DESCRIPTION_COLUMN, &description, -1);
 		gtk_tree_model_get (model, &iter, ALARM_LOCATION_COLUMN, &location, -1);
@@ -474,6 +474,10 @@ tree_selection_changed_cb (GtkTreeSelection *selection,
 		fill_in_labels (an, summary, description, location, occur_start, occur_end);
 	} else {
 		gtk_widget_set_sensitive (an->snooze_btn, FALSE);
+		gtk_widget_set_sensitive (an->edit_btn, FALSE);
+		gtk_widget_set_sensitive (an->dismiss_btn, FALSE);
+
+		fill_in_labels (an, "", "", "", -1, -1);
 	}
 }
 
