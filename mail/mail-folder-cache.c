@@ -670,8 +670,10 @@ rename_folders (MailFolderCache *cache,
 	if (mfi) {
 		up->oldfull = mfi->full_name;
 
+		/* Be careful not to invoke the destroy function. */
+		g_hash_table_steal (si->folders, mfi->full_name);
+
 		/* Its a rename op */
-		g_hash_table_remove (si->folders, mfi->full_name);
 		mfi->full_name = g_strdup (fi->full_name);
 		mfi->flags = fi->flags;
 		mfi->has_children = fi->child != NULL;
