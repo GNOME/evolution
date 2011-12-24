@@ -28,7 +28,6 @@
 #include <gconf/gconf-client.h>
 
 #include <mail/e-mail-backend.h>
-#include <mail/e-mail-label-list-store.h>
 
 #include <shell/e-shell.h>
 
@@ -59,7 +58,6 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 	EShellSettings *shell_settings;
 	EMailBackend *backend;
 	EMailSession *session;
-	gpointer object;
 
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -68,19 +66,6 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 	session = e_mail_backend_get_session (backend);
 
 	/*** Global Objects ***/
-
-	e_shell_settings_install_property (
-		g_param_spec_object (
-			"mail-label-list-store",
-			NULL,
-			NULL,
-			E_TYPE_MAIL_LABEL_LIST_STORE,
-			G_PARAM_READWRITE));
-
-	object = e_mail_label_list_store_new ();
-	e_shell_settings_set_object (
-		shell_settings, "mail-label-list-store", object);
-	g_object_unref (object);
 
 	e_shell_settings_install_property (
 		g_param_spec_pointer (

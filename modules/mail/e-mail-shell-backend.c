@@ -627,33 +627,36 @@ e_mail_shell_backend_type_register (GTypeModule *type_module)
 
 #include "filter/e-filter-option.h"
 #include "shell/e-shell-settings.h"
-#include "mail/e-mail-label-list-store.h"
 
 GSList *
 e_mail_labels_get_filter_options (void)
 {
 	EShell *shell;
-	EShellSettings *shell_settings;
-	EMailLabelListStore *list_store;
+	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
+	EMailLabelListStore *label_store;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GSList *list = NULL;
 	gboolean valid;
 
 	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-	list_store = e_shell_settings_get_object (
-		shell_settings, "mail-label-list-store");
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
-	model = GTK_TREE_MODEL (list_store);
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+	label_store = e_mail_session_get_label_store (session);
+
+	model = GTK_TREE_MODEL (label_store);
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
 	while (valid) {
 		struct _filter_option *option;
 		gchar *name, *tag;
 
-		name = e_mail_label_list_store_get_name (list_store, &iter);
-		tag = e_mail_label_list_store_get_tag (list_store, &iter);
+		name = e_mail_label_list_store_get_name (label_store, &iter);
+		tag = e_mail_label_list_store_get_tag (label_store, &iter);
 
 		if (g_str_has_prefix (tag, "$Label")) {
 			gchar *tmp = tag;
@@ -672,8 +675,6 @@ e_mail_labels_get_filter_options (void)
 
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
-
-	g_object_unref (list_store);
 
 	return g_slist_reverse (list);
 }

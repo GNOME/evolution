@@ -81,6 +81,7 @@ typedef struct _SourceContext SourceContext;
 struct _EMailSessionPrivate {
 	EMailAccountStore *account_store;
 	MailFolderCache *folder_cache;
+	EMailLabelListStore *label_store;
 
 	EAccountList *account_list;
 	gulong account_added_handler_id;
@@ -118,6 +119,7 @@ enum {
 	PROP_ACCOUNT_STORE,
 	PROP_FOLDER_CACHE,
 	PROP_JUNK_FILTER_NAME,
+	PROP_LABEL_STORE,
 	PROP_LOCAL_STORE,
 	PROP_VFOLDER_STORE
 };
@@ -959,6 +961,13 @@ mail_session_get_property (GObject *object,
 				E_MAIL_SESSION (object)));
 			return;
 
+		case PROP_LABEL_STORE:
+			g_value_set_object (
+				value,
+				e_mail_session_get_label_store (
+				E_MAIL_SESSION (object)));
+			return;
+
 		case PROP_LOCAL_STORE:
 			g_value_set_object (
 				value,
@@ -993,6 +1002,11 @@ mail_session_dispose (GObject *object)
 	if (priv->folder_cache != NULL) {
 		g_object_unref (priv->folder_cache);
 		priv->folder_cache = NULL;
+	}
+
+	if (priv->label_store != NULL) {
+		g_object_unref (priv->label_store);
+		priv->label_store = NULL;
 	}
 
 	if (priv->account_list != NULL) {
@@ -1813,6 +1827,17 @@ e_mail_session_class_init (EMailSessionClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_LABEL_STORE,
+		g_param_spec_object (
+			"label-store",
+			"Label Store",
+			"Mail label store",
+			E_TYPE_MAIL_LABEL_LIST_STORE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_LOCAL_STORE,
 		g_param_spec_object (
 			"local-store",
@@ -1855,6 +1880,7 @@ e_mail_session_init (EMailSession *session)
 		(GEqualFunc) g_str_equal);
 
 	session->priv = E_MAIL_SESSION_GET_PRIVATE (session);
+	session->priv->label_store = e_mail_label_list_store_new ();
 	session->priv->junk_filters = junk_filters;
 	session->priv->proxy = e_proxy_new ();
 
@@ -1924,6 +1950,14 @@ e_mail_session_get_folder_cache (EMailSession *session)
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
 	return session->priv->folder_cache;
+}
+
+EMailLabelListStore *
+e_mail_session_get_label_store (EMailSession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	return session->priv->label_store;
 }
 
 CamelStore *

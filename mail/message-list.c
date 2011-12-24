@@ -1509,21 +1509,6 @@ add_all_labels_foreach (ETreeModel *etm,
 	return FALSE;
 }
 
-static EMailLabelListStore *
-ml_get_label_list_store (MessageList *message_list)
-{
-	EShell *shell;
-	EShellSettings *shell_settings;
-
-	/* FIXME This should be a GObject property on MessageList. */
-
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	return e_shell_settings_get_object (
-		shell_settings, "mail-label-list-store");
-}
-
 static const gchar *
 get_trimmed_subject (CamelMessageInfo *info)
 {
@@ -1594,8 +1579,11 @@ ml_tree_value_at_ex (ETreeModel *etm,
                      CamelMessageInfo *msg_info,
                      MessageList *message_list)
 {
+	EMailSession *session;
 	const gchar *str;
 	guint32 flags;
+
+	session = message_list_get_session (message_list);
 
 	g_return_val_if_fail (msg_info != NULL, NULL);
 
@@ -1721,7 +1709,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 			/* Get all applicable labels. */
 			struct LabelsData ld;
 
-			ld.store = ml_get_label_list_store (message_list);
+			ld.store = e_mail_session_get_label_store (session);
 			ld.labels_tag2iter = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) gtk_tree_iter_free);
 			for_node_and_subtree_if_collapsed (message_list, path, msg_info, add_all_labels_foreach, &ld);
 
@@ -1752,7 +1740,6 @@ ml_tree_value_at_ex (ETreeModel *etm,
 			}
 
 			g_hash_table_destroy (ld.labels_tag2iter);
-			g_object_unref (ld.store);
 		}
 
 		return (gpointer) colour;
@@ -1804,7 +1791,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		struct LabelsData ld;
 		GString *result = g_string_new ("");
 
-		ld.store = ml_get_label_list_store (message_list);
+		ld.store = e_mail_session_get_label_store (session);
 		ld.labels_tag2iter = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) gtk_tree_iter_free);
 		for_node_and_subtree_if_collapsed (message_list, path, msg_info, add_all_labels_foreach, &ld);
 
@@ -1830,7 +1817,6 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		}
 
 		g_hash_table_destroy (ld.labels_tag2iter);
-		g_object_unref (ld.store);
 		return (gpointer) g_string_free (result, FALSE);
 	}
 	default:

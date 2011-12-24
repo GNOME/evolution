@@ -910,9 +910,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	gtk_widget_show (widget);
 
 	g_object_bind_property (
-		shell_settings, "mail-label-list-store",
+		session, "label-store",
 		widget, "list-store",
-		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	/* headers */

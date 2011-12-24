@@ -29,6 +29,7 @@
 #include <e-util/e-activity.h>
 #include <mail/e-mail-enums.h>
 #include <mail/e-mail-account-store.h>
+#include <mail/e-mail-label-list-store.h>
 #include <mail/mail-folder-cache.h>
 
 /* Standard GObject macros */
@@ -81,6 +82,8 @@ EMailAccountStore *
 						(EMailSession *session);
 MailFolderCache *
 		e_mail_session_get_folder_cache	(EMailSession *session);
+EMailLabelListStore *
+		e_mail_session_get_label_store	(EMailSession *session);
 CamelStore *	e_mail_session_get_local_store	(EMailSession *session);
 CamelStore *	e_mail_session_get_vfolder_store
 						(EMailSession *session);

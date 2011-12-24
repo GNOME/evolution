@@ -612,7 +612,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
-	EShellSettings *shell_settings;
 	EShellSidebar *shell_sidebar;
 	EShellTaskbar *shell_taskbar;
 	EShellWindow *shell_window;
@@ -623,9 +622,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	ERuleContext *context;
 	EFilterRule *rule = NULL;
 	GtkTreeSelection *selection;
-	GtkTreeModel *tree_model;
 	GtkUIManager *ui_manager;
 	GtkWidget *message_list;
+	EMailLabelListStore *label_store;
+	EMailBackend *backend;
+	EMailSession *session;
 	EMailReader *reader;
 	EMailView *mail_view;
 	EWebView *web_view;
@@ -643,10 +644,10 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
 	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
 
-	tree_model = e_shell_settings_get_object (
-		shell_settings, "mail-label-list-store");
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+	label_store = e_mail_session_get_label_store (session);
 
 	e_shell_window_add_action_group (shell_window, "mail");
 	e_shell_window_add_action_group (shell_window, "mail-filter");
@@ -743,17 +744,17 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		tree_model, "row-changed",
+		label_store, "row-changed",
 		G_CALLBACK (e_mail_shell_view_update_search_filter),
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		tree_model, "row-deleted",
+		label_store, "row-deleted",
 		G_CALLBACK (e_mail_shell_view_update_search_filter),
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		tree_model, "row-inserted",
+		label_store, "row-inserted",
 		G_CALLBACK (e_mail_shell_view_update_search_filter),
 		mail_shell_view, G_CONNECT_SWAPPED);
 

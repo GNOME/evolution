@@ -214,12 +214,10 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	EMailShellViewPrivate *priv;
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
-	EShell *shell;
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	EShellSettings *shell_settings;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
 	EMailBackend *backend;
@@ -235,7 +233,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	CamelService *service;
 	CamelStore *store;
 	GtkAction *action;
-	GtkTreeModel *model;
+	EMailLabelListStore *label_store;
 	GtkTreePath *path;
 	GtkTreeIter tree_iter;
 	GString *string;
@@ -257,9 +255,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
-	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
-
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 
@@ -274,9 +269,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	folder = e_mail_reader_get_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	/* This returns a new object reference. */
-	model = e_shell_settings_get_object (
-		shell_settings, "mail-label-list-store");
+	label_store = e_mail_session_get_label_store (session);
 
 	action = ACTION (MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
 	value = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
@@ -362,11 +355,10 @@ filter:
 			g_string_append_printf (
 				string, "(and %s (and ", query);
 			valid = gtk_tree_model_get_iter_first (
-				model, &tree_iter);
+				GTK_TREE_MODEL (label_store), &tree_iter);
 			while (valid) {
 				tag = e_mail_label_list_store_get_tag (
-					E_MAIL_LABEL_LIST_STORE (model),
-					&tree_iter);
+					label_store, &tree_iter);
 				use_tag = tag;
 				if (g_str_has_prefix (use_tag, "$Label"))
 					use_tag += 6;
@@ -379,7 +371,8 @@ filter:
 				g_free (tag);
 
 				valid = gtk_tree_model_iter_next (
-					model, &tree_iter);
+					GTK_TREE_MODEL (label_store),
+					&tree_iter);
 			}
 			g_string_append_len (string, "))", 2);
 			g_free (query);
@@ -457,11 +450,13 @@ filter:
 			 * the label list store.  That's why we number
 			 * the label actions from zero. */
 			path = gtk_tree_path_new_from_indices (value, -1);
-			gtk_tree_model_get_iter (model, &tree_iter, path);
+			gtk_tree_model_get_iter (
+				GTK_TREE_MODEL (label_store),
+				&tree_iter, path);
 			gtk_tree_path_free (path);
 
 			tag = e_mail_label_list_store_get_tag (
-				E_MAIL_LABEL_LIST_STORE (model), &tree_iter);
+				label_store, &tree_iter);
 			use_tag = tag;
 			if (g_str_has_prefix (use_tag, "$Label"))
 				use_tag += 6;
@@ -751,7 +746,6 @@ execute:
 	g_slist_foreach (search_strings, (GFunc) g_free, NULL);
 	g_slist_free (search_strings);
 
-	g_object_unref (model);
 	g_free (query);
 }
 
