@@ -1267,7 +1267,6 @@ e_mail_account_store_reorder_services (EMailAccountStore *store,
 	gint *new_order;
 	gint n_children;
 	gint new_pos = 0;
-	guint length;
 
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 
@@ -1278,12 +1277,14 @@ e_mail_account_store_reorder_services (EMailAccountStore *store,
 	if (ordered_services != NULL && g_queue_is_empty (ordered_services))
 		ordered_services = NULL;
 
-	use_default_order = (ordered_services == NULL);
-
+	/* If the length of the custom ordering disagrees with the
+	 * number of rows in the store, revert to default ordering. */
 	if (ordered_services != NULL) {
-		length = g_queue_get_length (ordered_services);
-		g_return_if_fail (length == n_children);
+		if (g_queue_get_length (ordered_services) != n_children)
+			ordered_services = NULL;
 	}
+
+	use_default_order = (ordered_services == NULL);
 
 	/* Build a queue of CamelServices in the order they appear in
 	 * the list store.  We'll use this to construct the mapping to
