@@ -309,7 +309,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 		gtk_box_reorder_child (GTK_BOX (container), widget, 1);
 	else
 		gtk_box_reorder_child (GTK_BOX (container), widget, 2);
-
 	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 

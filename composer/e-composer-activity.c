@@ -22,6 +22,10 @@
 
 #include "e-composer-private.h"
 
+#define E_COMPOSER_ACTIVITY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_COMPOSER_ACTIVITY, EComposerActivityPrivate))
+
 struct _EComposerActivityPrivate {
 	EMsgComposer *composer;
 	gboolean saved_editable;
@@ -164,8 +168,7 @@ e_composer_activity_class_init (EComposerActivityClass *class)
 static void
 e_composer_activity_init (EComposerActivity *activity)
 {
-	activity->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		activity, E_TYPE_COMPOSER_ACTIVITY, EComposerActivityPrivate);
+	activity->priv = E_COMPOSER_ACTIVITY_GET_PRIVATE (activity);
 }
 
 EActivity *

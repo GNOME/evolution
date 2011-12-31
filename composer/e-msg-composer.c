@@ -2479,7 +2479,7 @@ msg_composer_submit_alert (EAlertSink *alert_sink,
 	GtkWidget *dialog;
 	GtkWindow *parent;
 
-	priv = E_MSG_COMPOSER (alert_sink)->priv;
+	priv = E_MSG_COMPOSER_GET_PRIVATE (alert_sink);
 
 	switch (e_alert_get_message_type (alert)) {
 		case GTK_MESSAGE_INFO:

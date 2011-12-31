@@ -44,6 +44,10 @@
 	  "carbon copy of the message without appearing " \
 	  "in the recipient list of the message")
 
+#define E_COMPOSER_HEADER_TABLE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_COMPOSER_HEADER_TABLE, EComposerHeaderTablePrivate))
+
 enum {
 	PROP_0,
 	PROP_ACCOUNT,
@@ -362,7 +366,10 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 		e_composer_header_set_visible (header, visible);
 
 		if (key != NULL)
-			g_settings_bind (settings, key, G_OBJECT (header), "visible", G_SETTINGS_BIND_DEFAULT);
+			g_settings_bind (
+				settings, key,
+				header, "visible",
+				G_SETTINGS_BIND_DEFAULT);
 	}
 
 	g_object_unref (settings);
@@ -415,7 +422,10 @@ composer_header_table_setup_post_headers (EComposerHeaderTable *table)
 		}
 
 		if (key != NULL)
-			g_settings_bind (settings, key, G_OBJECT (header), "visible", G_SETTINGS_BIND_DEFAULT);
+			g_settings_bind (
+				settings, key,
+				header, "visible",
+				G_SETTINGS_BIND_DEFAULT);
 	}
 
 	g_object_unref (settings);
@@ -523,7 +533,7 @@ composer_header_table_constructor (GType type,
 		e_composer_header_table_parent_class)->constructor (
 		type, n_construct_properties, construct_properties);
 
-	priv = E_COMPOSER_HEADER_TABLE (object)->priv;
+	priv = E_COMPOSER_HEADER_TABLE_GET_PRIVATE (object);
 
 	small_screen_mode = e_shell_get_small_screen_mode (priv->shell);
 
@@ -795,7 +805,7 @@ composer_header_table_dispose (GObject *object)
 	EComposerHeaderTablePrivate *priv;
 	gint ii;
 
-	priv = E_COMPOSER_HEADER_TABLE (object)->priv;
+	priv = E_COMPOSER_HEADER_TABLE_GET_PRIVATE (object);
 
 	for (ii = 0; ii < G_N_ELEMENTS (priv->headers); ii++) {
 		if (priv->headers[ii] != NULL) {
@@ -874,7 +884,8 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 		NULL,
 		NULL,
 		E_TYPE_DESTINATION,
-		G_PARAM_READWRITE);
+		G_PARAM_READWRITE |
+		G_PARAM_STATIC_STRINGS);
 
 	g_object_class_install_property (
 		object_class,
@@ -884,7 +895,8 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 			NULL,
 			NULL,
 			element_spec,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -894,7 +906,8 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 			NULL,
 			NULL,
 			element_spec,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -904,7 +917,8 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 			NULL,
 			NULL,
 			element_spec,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	/* floating reference */
 	element_spec = g_param_spec_string (
@@ -912,7 +926,8 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 		NULL,
 		NULL,
 		NULL,
-		G_PARAM_READWRITE);
+		G_PARAM_READWRITE |
+		G_PARAM_STATIC_STRINGS);
 
 	g_object_class_install_property (
 		object_class,
@@ -922,7 +937,8 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 			NULL,
 			NULL,
 			element_spec,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -932,7 +948,8 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 			NULL,
 			NULL,
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -943,7 +960,8 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 			NULL,
 			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -953,7 +971,8 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 			NULL,
 			NULL,
 			E_TYPE_SIGNATURE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -963,7 +982,8 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 			NULL,
 			NULL,
 			E_TYPE_SIGNATURE_LIST,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -973,7 +993,8 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 			NULL,
 			NULL,
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -996,9 +1017,7 @@ e_composer_header_table_init (EComposerHeaderTable *table)
 	GtkWidget *widget;
 	gint ii;
 
-	table->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		table, E_TYPE_COMPOSER_HEADER_TABLE,
-		EComposerHeaderTablePrivate);
+	table->priv = E_COMPOSER_HEADER_TABLE_GET_PRIVATE (table);
 
 	name_selector = e_name_selector_new ();
 	table->priv->name_selector = name_selector;
