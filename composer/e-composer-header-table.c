@@ -517,92 +517,6 @@ composer_header_table_set_shell (EComposerHeaderTable *table,
 	table->priv->shell = g_object_ref (shell);
 }
 
-static GObject *
-composer_header_table_constructor (GType type,
-                                   guint n_construct_properties,
-                                   GObjectConstructParam *construct_properties)
-{
-	GObject *object;
-	EComposerHeaderTablePrivate *priv;
-	guint rows, ii;
-	gint row_padding;
-	gboolean small_screen_mode;
-
-	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (
-		e_composer_header_table_parent_class)->constructor (
-		type, n_construct_properties, construct_properties);
-
-	priv = E_COMPOSER_HEADER_TABLE_GET_PRIVATE (object);
-
-	small_screen_mode = e_shell_get_small_screen_mode (priv->shell);
-
-	rows = G_N_ELEMENTS (priv->headers);
-	gtk_table_resize (GTK_TABLE (object), rows, 4);
-	gtk_table_set_row_spacings (GTK_TABLE (object), 0);
-	gtk_table_set_col_spacings (GTK_TABLE (object), 6);
-
-	/* Use "ypadding" instead of "row-spacing" because some rows may
-	 * be invisible and we don't want spacing around them. */
-
-	/* For small screens, pack the table's rows closely together. */
-	row_padding = small_screen_mode ? 0 : 3;
-
-	for (ii = 0; ii < rows; ii++) {
-		gtk_table_attach (
-			GTK_TABLE (object), priv->headers[ii]->title_widget,
-			0, 1, ii, ii + 1, GTK_FILL, GTK_FILL, 0, row_padding);
-		gtk_table_attach (
-			GTK_TABLE (object),
-			priv->headers[ii]->input_widget, 1, 4,
-			ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, row_padding);
-	}
-
-	ii = E_COMPOSER_HEADER_FROM;
-
-	/* Leave room in the "From" row for signature stuff. */
-	gtk_container_child_set (
-		GTK_CONTAINER (object),
-		priv->headers[ii]->input_widget,
-		"right-attach", 2, NULL);
-
-	g_object_bind_property (
-		priv->headers[ii]->input_widget, "visible",
-		priv->signature_label, "visible",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		priv->headers[ii]->input_widget, "visible",
-		priv->signature_combo_box, "visible",
-		G_BINDING_SYNC_CREATE);
-
-	/* Now add the signature stuff. */
-	if (!small_screen_mode) {
-		gtk_table_attach (
-			GTK_TABLE (object), priv->signature_label,
-			2, 3, ii, ii + 1, 0, 0, 0, row_padding);
-		gtk_table_attach (
-			GTK_TABLE (object), priv->signature_combo_box,
-			3, 4, ii, ii + 1, 0, 0, 0, row_padding);
-	} else {
-		GtkWidget *box = gtk_hbox_new (FALSE, 0);
-
-		gtk_box_pack_start (
-			GTK_BOX (box), priv->signature_label,
-			FALSE, FALSE, 4);
-		gtk_box_pack_end (
-			GTK_BOX (box), priv->signature_combo_box,
-			TRUE, TRUE, 0);
-		g_object_set_data (G_OBJECT (box), "pdata", object);
-		gtk_table_attach (
-			GTK_TABLE (object), box,
-			3, 4, ii, ii + 1, GTK_FILL, 0, 0, row_padding);
-		gtk_widget_hide (box);
-	}
-
-	return object;
-}
-
 static void
 composer_header_table_set_property (GObject *object,
                                     guint property_id,
@@ -835,6 +749,154 @@ composer_header_table_dispose (GObject *object)
 }
 
 static void
+composer_header_table_constructed (GObject *object)
+{
+	EComposerHeaderTable *table;
+	ENameSelector *name_selector;
+	EComposerHeader *header;
+	GtkWidget *widget;
+	EShell *shell;
+	guint ii;
+	gint row_padding;
+	gboolean small_screen_mode;
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_composer_header_table_parent_class)->
+		constructed (object);
+
+	table = E_COMPOSER_HEADER_TABLE (object);
+	shell = e_composer_header_table_get_shell (table);
+
+	small_screen_mode = e_shell_get_small_screen_mode (shell);
+
+	name_selector = e_name_selector_new ();
+	table->priv->name_selector = name_selector;
+
+	header = e_composer_from_header_new (_("Fr_om:"));
+	composer_header_table_bind_header ("account", "changed", header);
+	composer_header_table_bind_header ("account-list", "refreshed", header);
+	composer_header_table_bind_header ("account-name", "changed", header);
+	g_signal_connect_swapped (
+		header, "changed", G_CALLBACK (
+		composer_header_table_from_changed_cb), table);
+	table->priv->headers[E_COMPOSER_HEADER_FROM] = header;
+
+	header = e_composer_text_header_new_label (_("_Reply-To:"));
+	composer_header_table_bind_header ("reply-to", "changed", header);
+	table->priv->headers[E_COMPOSER_HEADER_REPLY_TO] = header;
+
+	header = e_composer_name_header_new (_("_To:"), name_selector);
+	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_TO);
+	composer_header_table_bind_header ("destinations-to", "changed", header);
+	table->priv->headers[E_COMPOSER_HEADER_TO] = header;
+
+	header = e_composer_name_header_new (_("_Cc:"), name_selector);
+	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_CC);
+	composer_header_table_bind_header ("destinations-cc", "changed", header);
+	table->priv->headers[E_COMPOSER_HEADER_CC] = header;
+
+	header = e_composer_name_header_new (_("_Bcc:"), name_selector);
+	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_BCC);
+	composer_header_table_bind_header ("destinations-bcc", "changed", header);
+	table->priv->headers[E_COMPOSER_HEADER_BCC] = header;
+
+	header = e_composer_post_header_new (_("_Post To:"));
+	composer_header_table_bind_header ("post-to", "changed", header);
+	table->priv->headers[E_COMPOSER_HEADER_POST_TO] = header;
+
+	header = e_composer_text_header_new_label (_("S_ubject:"));
+	composer_header_table_bind_header ("subject", "changed", header);
+	table->priv->headers[E_COMPOSER_HEADER_SUBJECT] = header;
+
+	widget = e_signature_combo_box_new ();
+	composer_header_table_bind_widget ("signature", "changed", widget);
+	composer_header_table_bind_widget ("signature-list", "refreshed", widget);
+	table->priv->signature_combo_box = g_object_ref_sink (widget);
+
+	widget = gtk_label_new_with_mnemonic (_("Si_gnature:"));
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (widget), table->priv->signature_combo_box);
+	table->priv->signature_label = g_object_ref_sink (widget);
+
+	/* XXX EComposerHeader ought to do this itself, but I need to
+	 *     make the title_widget and input_widget members private. */
+	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
+		header = table->priv->headers[ii];
+		g_object_bind_property (
+			header, "visible",
+			header->title_widget, "visible",
+			G_BINDING_SYNC_CREATE);
+		g_object_bind_property (
+			header, "visible",
+			header->input_widget, "visible",
+			G_BINDING_SYNC_CREATE);
+	}
+
+	/* Use "ypadding" instead of "row-spacing" because some rows may
+	 * be invisible and we don't want spacing around them. */
+
+	/* For small screens, pack the table's rows closely together. */
+	row_padding = small_screen_mode ? 0 : 3;
+
+	for (ii = 0; ii < G_N_ELEMENTS (table->priv->headers); ii++) {
+		gtk_table_attach (
+			GTK_TABLE (object),
+			table->priv->headers[ii]->title_widget, 0, 1,
+			ii, ii + 1, GTK_FILL, GTK_FILL, 0, row_padding);
+		gtk_table_attach (
+			GTK_TABLE (object),
+			table->priv->headers[ii]->input_widget, 1, 4,
+			ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, row_padding);
+	}
+
+	ii = E_COMPOSER_HEADER_FROM;
+
+	/* Leave room in the "From" row for signature stuff. */
+	gtk_container_child_set (
+		GTK_CONTAINER (object),
+		table->priv->headers[ii]->input_widget,
+		"right-attach", 2, NULL);
+
+	g_object_bind_property (
+		table->priv->headers[ii]->input_widget, "visible",
+		table->priv->signature_label, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		table->priv->headers[ii]->input_widget, "visible",
+		table->priv->signature_combo_box, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	/* Now add the signature stuff. */
+	if (!small_screen_mode) {
+		gtk_table_attach (
+			GTK_TABLE (object),
+			table->priv->signature_label,
+			2, 3, ii, ii + 1, 0, 0, 0, row_padding);
+		gtk_table_attach (
+			GTK_TABLE (object),
+			table->priv->signature_combo_box,
+			3, 4, ii, ii + 1, 0, 0, 0, row_padding);
+	} else {
+		GtkWidget *box = gtk_hbox_new (FALSE, 0);
+
+		gtk_box_pack_start (
+			GTK_BOX (box),
+			table->priv->signature_label,
+			FALSE, FALSE, 4);
+		gtk_box_pack_end (
+			GTK_BOX (box),
+			table->priv->signature_combo_box,
+			TRUE, TRUE, 0);
+		g_object_set_data (G_OBJECT (box), "pdata", object);
+		gtk_table_attach (
+			GTK_TABLE (object), box,
+			3, 4, ii, ii + 1, GTK_FILL, 0, 0, row_padding);
+		gtk_widget_hide (box);
+	}
+}
+
+static void
 e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 {
 	GObjectClass *object_class;
@@ -843,10 +905,10 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 	g_type_class_add_private (class, sizeof (EComposerHeaderTablePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructor = composer_header_table_constructor;
 	object_class->set_property = composer_header_table_set_property;
 	object_class->get_property = composer_header_table_get_property;
 	object_class->dispose = composer_header_table_dispose;
+	object_class->constructed = composer_header_table_constructed;
 
 	g_object_class_install_property (
 		object_class,
@@ -1012,75 +1074,14 @@ composer_header_table_realize_cb (EComposerHeaderTable *table)
 static void
 e_composer_header_table_init (EComposerHeaderTable *table)
 {
-	EComposerHeader *header;
-	ENameSelector *name_selector;
-	GtkWidget *widget;
-	gint ii;
+	gint rows;
 
 	table->priv = E_COMPOSER_HEADER_TABLE_GET_PRIVATE (table);
 
-	name_selector = e_name_selector_new ();
-	table->priv->name_selector = name_selector;
-
-	header = e_composer_from_header_new (_("Fr_om:"));
-	composer_header_table_bind_header ("account", "changed", header);
-	composer_header_table_bind_header ("account-list", "refreshed", header);
-	composer_header_table_bind_header ("account-name", "changed", header);
-	g_signal_connect_swapped (
-		header, "changed", G_CALLBACK (
-		composer_header_table_from_changed_cb), table);
-	table->priv->headers[E_COMPOSER_HEADER_FROM] = header;
-
-	header = e_composer_text_header_new_label (_("_Reply-To:"));
-	composer_header_table_bind_header ("reply-to", "changed", header);
-	table->priv->headers[E_COMPOSER_HEADER_REPLY_TO] = header;
-
-	header = e_composer_name_header_new (_("_To:"), name_selector);
-	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_TO);
-	composer_header_table_bind_header ("destinations-to", "changed", header);
-	table->priv->headers[E_COMPOSER_HEADER_TO] = header;
-
-	header = e_composer_name_header_new (_("_Cc:"), name_selector);
-	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_CC);
-	composer_header_table_bind_header ("destinations-cc", "changed", header);
-	table->priv->headers[E_COMPOSER_HEADER_CC] = header;
-
-	header = e_composer_name_header_new (_("_Bcc:"), name_selector);
-	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_BCC);
-	composer_header_table_bind_header ("destinations-bcc", "changed", header);
-	table->priv->headers[E_COMPOSER_HEADER_BCC] = header;
-
-	header = e_composer_post_header_new (_("_Post To:"));
-	composer_header_table_bind_header ("post-to", "changed", header);
-	table->priv->headers[E_COMPOSER_HEADER_POST_TO] = header;
-
-	header = e_composer_text_header_new_label (_("S_ubject:"));
-	composer_header_table_bind_header ("subject", "changed", header);
-	table->priv->headers[E_COMPOSER_HEADER_SUBJECT] = header;
-
-	widget = e_signature_combo_box_new ();
-	composer_header_table_bind_widget ("signature", "changed", widget);
-	composer_header_table_bind_widget ("signature-list", "refreshed", widget);
-	table->priv->signature_combo_box = g_object_ref_sink (widget);
-
-	widget = gtk_label_new_with_mnemonic (_("Si_gnature:"));
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (widget), table->priv->signature_combo_box);
-	table->priv->signature_label = g_object_ref_sink (widget);
-
-	/* XXX EComposerHeader ought to do this itself, but I need to
-	 *     make the title_widget and input_widget members private. */
-	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
-		header = table->priv->headers[ii];
-		g_object_bind_property (
-			header, "visible",
-			header->title_widget, "visible",
-			G_BINDING_SYNC_CREATE);
-		g_object_bind_property (
-			header, "visible",
-			header->input_widget, "visible",
-			G_BINDING_SYNC_CREATE);
-	}
+	rows = G_N_ELEMENTS (table->priv->headers);
+	gtk_table_resize (GTK_TABLE (table), rows, 4);
+	gtk_table_set_row_spacings (GTK_TABLE (table), 0);
+	gtk_table_set_col_spacings (GTK_TABLE (table), 6);
 
 	/* postpone name_selector loading, do that only when really needed */
 	g_signal_connect (
