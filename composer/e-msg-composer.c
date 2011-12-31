@@ -1389,99 +1389,6 @@ composer_build_message_finish (EMsgComposer *composer,
 
 /* Signatures */
 
-static gchar *
-encode_signature_uid (ESignature *signature)
-{
-	const gchar *uid;
-	const gchar *s;
-	gchar *ename, *e;
-	gint len = 0;
-
-	uid = e_signature_get_uid (signature);
-
-	s = uid;
-	while (*s) {
-		len++;
-		if (*s == '"' || *s == '.' || *s == '=')
-			len++;
-		s++;
-	}
-
-	ename = g_new (gchar, len + 1);
-
-	s = uid;
-	e = ename;
-	while (*s) {
-		if (*s == '"') {
-			*e = '.';
-			e++;
-			*e = '1';
-			e++;
-		} else if (*s == '=') {
-			*e = '.';
-			e++;
-			*e = '2';
-			e++;
-		} else {
-			*e = *s;
-			e++;
-		}
-		if (*s == '.') {
-			*e = '.';
-			e++;
-		}
-		s++;
-	}
-	*e = 0;
-
-	return ename;
-}
-
-static gchar *
-decode_signature_name (const gchar *name)
-{
-	const gchar *s;
-	gchar *dname, *d;
-	gint len = 0;
-
-	s = name;
-	while (*s) {
-		len++;
-		if (*s == '.') {
-			s++;
-			if (!*s || !(*s == '.' || *s == '1' || *s == '2'))
-				return NULL;
-		}
-		s++;
-	}
-
-	dname = g_new (char, len + 1);
-
-	s = name;
-	d = dname;
-	while (*s) {
-		if (*s == '.') {
-			s++;
-			if (!*s || !(*s == '.' || *s == '1' || *s == '2')) {
-				g_free (dname);
-				return NULL;
-			}
-			if (*s == '1')
-				*d = '"';
-			else if (*s == '2')
-				*d = '=';
-			else
-				*d = '.';
-		} else
-			*d = *s;
-		d++;
-		s++;
-	}
-	*d = 0;
-
-	return dname;
-}
-
 static gboolean
 is_top_signature (EMsgComposer *composer)
 {
@@ -1600,8 +1507,10 @@ get_signature_html (EMsgComposer *composer)
 		const gchar *sig_delim = format_html ? "-- \n<BR>" : "-- \n";
 		const gchar *sig_delim_ent = format_html ? "\n-- \n<BR>" : "\n-- \n";
 
-		if (signature)
-			encoded_uid = encode_signature_uid (signature);
+		if (signature != NULL) {
+			const gchar *uid = e_signature_get_uid (signature);
+			encoded_uid = e_composer_encode_clue_value (uid);
+		}
 
 		/* The signature dash convention ("-- \n") is specified
 		 * in the "Son of RFC 1036", section 4.3.2.
@@ -3113,11 +3022,11 @@ set_signature_gui (EMsgComposer *composer)
 
 	data = gtkhtml_editor_get_paragraph_data (editor, "signature_name");
 	if (g_str_has_prefix (data, "uid:")) {
-		decoded = decode_signature_name (data + 4);
+		decoded = e_composer_decode_clue_value (data + 4);
 		signature = e_get_signature_by_uid (decoded);
 		g_free (decoded);
 	} else if (g_str_has_prefix (data, "name:")) {
-		decoded = decode_signature_name (data + 5);
+		decoded = e_composer_decode_clue_value (data + 5);
 		signature = e_get_signature_by_name (decoded);
 		g_free (decoded);
 	}

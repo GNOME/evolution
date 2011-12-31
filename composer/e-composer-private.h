@@ -128,6 +128,8 @@ void		e_composer_private_finalize	(EMsgComposer *composer);
 void		e_composer_actions_init		(EMsgComposer *composer);
 gchar *		e_composer_find_data_file	(const gchar *basename);
 gchar *		e_composer_get_default_charset	(void);
+gchar *		e_composer_decode_clue_value	(const gchar *encoded_value);
+gchar *		e_composer_encode_clue_value	(const gchar *decoded_value);
 gboolean	e_composer_paste_html		(EMsgComposer *composer,
 						 GtkClipboard *clipboard);
 gboolean	e_composer_paste_image		(EMsgComposer *composer,

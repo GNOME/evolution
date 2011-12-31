@@ -639,6 +639,87 @@ e_composer_get_default_charset (void)
 	return charset;
 }
 
+gchar *
+e_composer_decode_clue_value (const gchar *encoded_value)
+{
+	GString *buffer;
+	const gchar *cp;
+
+	/* Decode a GtkHtml "ClueFlow" value. */
+
+	g_return_val_if_fail (encoded_value != NULL, NULL);
+
+	buffer = g_string_sized_new (strlen (encoded_value));
+
+	/* Copy the value, decoding escaped characters as we go. */
+	cp = encoded_value;
+	while (*cp != '\0') {
+		if (*cp == '.') {
+			cp++;
+			switch (*cp) {
+				case '.':
+					g_string_append_c (buffer, '.');
+					break;
+				case '1':
+					g_string_append_c (buffer, '"');
+					break;
+				case '2':
+					g_string_append_c (buffer, '=');
+					break;
+				default:
+					/* Invalid escape sequence. */
+					g_string_free (buffer, TRUE);
+					return NULL;
+			}
+		} else
+			g_string_append_c (buffer, *cp);
+		cp++;
+	}
+
+	return g_string_free (buffer, FALSE);
+}
+
+gchar *
+e_composer_encode_clue_value (const gchar *decoded_value)
+{
+	gchar *encoded_value;
+	gchar **strv;
+
+	/* Encode a GtkHtml "ClueFlow" value. */
+
+	g_return_val_if_fail (decoded_value != NULL, NULL);
+
+	/* XXX This is inefficient but easy to understand. */
+
+	encoded_value = g_strdup (decoded_value);
+
+	/* Substitution: '.' --> '..' (do this first) */
+	if (strchr (encoded_value, '.') != NULL) {
+		strv = g_strsplit (encoded_value, ".", 0);
+		g_free (encoded_value);
+		encoded_value = g_strjoinv ("..", strv);
+		g_strfreev (strv);
+	}
+
+	/* Substitution: '"' --> '.1' */
+	if (strchr (encoded_value, '"') != NULL) {
+		strv = g_strsplit (encoded_value, """", 0);
+		g_free (encoded_value);
+		encoded_value = g_strjoinv (".1", strv);
+		g_strfreev (strv);
+	}
+
+	/* Substitution: '=' --> '.2' */
+	if (strchr (encoded_value, '=') != NULL) {
+		strv = g_strsplit (encoded_value, "=", 0);
+		g_free (encoded_value);
+		encoded_value = g_strjoinv (".2", strv);
+		g_strfreev (strv);
+	}
+
+	return encoded_value;
+}
+
 gboolean
 e_composer_paste_html (EMsgComposer *composer,
                        GtkClipboard *clipboard)
