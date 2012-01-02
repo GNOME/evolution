@@ -391,10 +391,9 @@ contacts_added (EBookClientView *book_view,
                 EContactPrintContext *ctxt)
 {
 	while (contact_list != NULL) {
-		ctxt->contact_list = g_slist_insert_sorted (
+		ctxt->contact_list = g_slist_prepend (
 			ctxt->contact_list,
-			g_object_ref (contact_list->data),
-			(GCompareFunc) contact_compare);
+			g_object_ref (contact_list->data));
 		contact_list = contact_list->next;
 	}
 }
@@ -693,6 +692,9 @@ contact_begin_print (GtkPrintOperation *operation,
 	if (ctxt->contact_list != NULL) {
 		ctxt->page_nr = -1;
 		ctxt->pages = 1;
+		ctxt->contact_list = g_slist_sort (
+			ctxt->contact_list,
+			(GCompareFunc) contact_compare);
 		g_slist_foreach (ctxt->contact_list, (GFunc) contact_draw, ctxt);
 		gtk_print_operation_set_n_pages (operation, ctxt->pages);
 	}
