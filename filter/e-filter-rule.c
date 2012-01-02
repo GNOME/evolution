@@ -644,6 +644,15 @@ filter_rule_copy (EFilterRule *dest,
 	}
 }
 
+static void
+ensure_scrolled_width_cb (GtkAdjustment *adj,
+			  GParamSpec *param_spec,
+			  GtkScrolledWindow *scrolled_window)
+{
+	gtk_scrolled_window_set_min_content_width (scrolled_window,
+		gtk_adjustment_get_upper (adj));
+}
+
 static GtkWidget *
 filter_rule_get_widget (EFilterRule *rule,
                         ERuleContext *context)
@@ -816,9 +825,11 @@ filter_rule_get_widget (EFilterRule *rule,
 	vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 1.0, 1.0, 1.0, 1.0));
 	scrolledwindow = gtk_scrolled_window_new (hadj, vadj);
 
+	g_signal_connect (hadj, "notify::upper", G_CALLBACK (ensure_scrolled_width_cb), scrolledwindow);
+
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scrolledwindow),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
 	gtk_scrolled_window_add_with_viewport (
 		GTK_SCROLLED_WINDOW (scrolledwindow), parts);
