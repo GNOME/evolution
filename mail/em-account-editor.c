@@ -238,6 +238,22 @@ static ServerData * emae_check_servers (const gchar *email);
 static gpointer parent_class;
 
 static void
+emae_config_gone_cb (gpointer pemae, GObject *pconfig)
+{
+	EMAccountEditor *emae = pemae;
+	struct _EMConfig *config = (struct _EMConfig *) pconfig;
+
+	if (!emae)
+		return;
+
+	if (emae->config == config)
+		emae->config = NULL;
+
+	if (emae->priv && emae->priv->config == config)
+		emae->priv->config = NULL;
+}
+
+static void
 emae_set_original_account (EMAccountEditor *emae,
                            EAccount *original_account)
 {
@@ -386,6 +402,9 @@ emae_finalize (GObject *object)
 {
 	EMAccountEditor *emae = EM_ACCOUNT_EDITOR (object);
 	EMAccountEditorPrivate *priv = emae->priv;
+
+	if (priv->config)
+		g_object_weak_unref ((GObject *) priv->config, emae_config_gone_cb, emae);
 
 	if (priv->sig_added_id) {
 		ESignatureList *signatures;
@@ -2029,7 +2048,9 @@ emae_check_authtype_done (CamelService *camel_service,
 	auth_types = camel_service_query_auth_types_finish (
 		camel_service, result, &error);
 
-	editor = E_CONFIG (service->emae->config)->window;
+	editor = NULL;
+	if (service->emae && service->emae->config && E_IS_CONFIG (service->emae->config))
+		editor = E_CONFIG (service->emae->config)->window;
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_warn_if_fail (auth_types == NULL);
@@ -2037,10 +2058,11 @@ emae_check_authtype_done (CamelService *camel_service,
 
 	} else if (error != NULL) {
 		g_warn_if_fail (auth_types == NULL);
-		e_alert_run_dialog_for_args (
-			GTK_WINDOW (service->check_dialog),
-			"mail:checking-service-error",
-			error->message, NULL);
+		if (service->check_dialog)
+			e_alert_run_dialog_for_args (
+				GTK_WINDOW (service->check_dialog),
+				"mail:checking-service-error",
+				error->message, NULL);
 		g_error_free (error);
 
 	} else {
@@ -2049,7 +2071,10 @@ emae_check_authtype_done (CamelService *camel_service,
 		emae_refresh_authtype (service->emae, service);
 	}
 
-	gtk_widget_destroy (service->check_dialog);
+	if (service->check_dialog) {
+		g_object_weak_unref (G_OBJECT (service->check_dialog), (GWeakNotify) g_nullify_pointer, &service->check_dialog);
+		gtk_widget_destroy (service->check_dialog);
+	}
 	service->check_dialog = NULL;
 
 	if (editor != NULL)
@@ -2136,6 +2161,7 @@ emae_check_authtype (GtkWidget *w,
 
 	service->check_dialog = e_alert_dialog_new_for_args (
 		parent, "mail:checking-service", NULL);
+	g_object_weak_ref (G_OBJECT (service->check_dialog), (GWeakNotify) g_nullify_pointer, &service->check_dialog);
 
 	g_object_ref (service->emae);
 
@@ -4175,6 +4201,8 @@ em_account_editor_construct (EMAccountEditor *emae,
 	g_signal_connect_after (
 		ec, "commit",
 		G_CALLBACK (emae_commit), emae);
+
+	g_object_weak_ref (G_OBJECT (ec), emae_config_gone_cb, emae);
 
 	emae->config = priv->config = ec;
 	l = NULL;
