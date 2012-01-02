@@ -1636,9 +1636,9 @@ widgets/misc/Makefile
 widgets/text/Makefile
 widgets/table/Makefile
 calendar/Makefile
+calendar/alarm-notify/Makefile
 calendar/importers/Makefile
 calendar/gui/Makefile
-calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
 composer/Makefile
 m4/Makefile

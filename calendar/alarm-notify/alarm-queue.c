@@ -49,6 +49,8 @@
 #include "config-data.h"
 #include "util.h"
 
+#include "calendar/gui/print.h"
+
 /* The dialog with alarm nofications */
 static AlarmNotificationsDialog *alarm_notifications_dialog = NULL;
 
@@ -1050,6 +1052,17 @@ edit_component (ECalClient *cal_client,
 	g_free (command_line);
 }
 
+static void
+print_component (ECalClient *cal_client,
+		 ECalComponent *comp)
+{
+	print_comp (comp,
+		    cal_client,
+		    config_data_get_timezone (),
+		    config_data_get_24_hour_format (),
+		    GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+}
+
 typedef struct {
 	gchar *summary;
 	gchar *description;
@@ -1352,6 +1365,11 @@ notify_dialog_cb (AlarmNotifyResult result,
 
 	case ALARM_NOTIFY_EDIT:
 		edit_component (tray_data->cal_client, tray_data->comp);
+
+		break;
+
+	case ALARM_NOTIFY_PRINT:
+		print_component (tray_data->cal_client, tray_data->comp);
 
 		break;
 

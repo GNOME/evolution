@@ -1,4 +1,4 @@
-SUBDIRS = importers gui
+SUBDIRS = importers gui alarm-notify
 
 error_DATA = calendar.error
 errordir = $(privdatadir)/errors

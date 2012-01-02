@@ -69,6 +69,7 @@ typedef struct {
 	GtkWidget *snooze_time_days;
 	GtkWidget *snooze_btn;
 	GtkWidget *edit_btn;
+	GtkWidget *print_btn;
 	GtkWidget *dismiss_btn;
 	GtkWidget *minutes_label;
 	GtkWidget *hrs_label;
@@ -185,6 +186,24 @@ edit_pressed_cb (GtkButton *button,
 	(* funcinfo->func) (ALARM_NOTIFY_EDIT, -1, funcinfo->func_data);
 }
 
+static void
+print_pressed_cb (GtkButton *button,
+                 gpointer user_data)
+{
+	AlarmNotify *an = user_data;
+	AlarmFuncInfo *funcinfo = NULL;
+	GtkTreeIter iter;
+	GtkTreeModel *model = NULL;
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (an->treeview));
+
+	if (gtk_tree_selection_get_selected (selection, &model, &iter))
+		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
+
+	g_return_if_fail (funcinfo);
+
+	(* funcinfo->func) (ALARM_NOTIFY_PRINT, -1, funcinfo->func_data);
+}
+
 #define DEFAULT_SNOOZE_MINS 5
 
 static void
@@ -291,11 +310,12 @@ notified_alarms_dialog_new (void)
 	an->treeview = e_builder_get_widget (an->builder, "appointments-treeview");
 	an->snooze_btn = e_builder_get_widget (an->builder, "snooze-button");
 	an->edit_btn = e_builder_get_widget (an->builder, "edit-button");
+	an->print_btn = e_builder_get_widget (an->builder, "print-button");
 	an->dismiss_btn = e_builder_get_widget (an->builder, "dismiss-button");
 
 	if (!(an->dialog && an->treeview
 	      && an->snooze_time_min && an->snooze_time_hrs && an->snooze_time_days
-	      && an->description && an->location && an->edit_btn && an->snooze_btn && an->dismiss_btn)) {
+	      && an->description && an->location && an->edit_btn && an->print_btn && an->snooze_btn && an->dismiss_btn)) {
 		g_warning ("alarm_notify_dialog(): Could not find all widgets in alarm-notify.ui file!");
 		g_object_unref (an->builder);
 		g_free (an);
@@ -336,6 +356,7 @@ notified_alarms_dialog_new (void)
 		GTK_IMAGE (image), "stock_alarm", GTK_ICON_SIZE_DIALOG);
 
 	g_signal_connect (an->edit_btn, "clicked", G_CALLBACK (edit_pressed_cb), an);
+	g_signal_connect (an->print_btn, "clicked", G_CALLBACK (print_pressed_cb), an);
 	g_signal_connect (an->snooze_btn, "clicked", G_CALLBACK (snooze_pressed_cb), an);
 	g_signal_connect (an->dismiss_btn, "clicked", G_CALLBACK (dismiss_pressed_cb), an);
 	g_signal_connect (
@@ -463,6 +484,7 @@ tree_selection_changed_cb (GtkTreeSelection *selection,
 
 		gtk_widget_set_sensitive (an->snooze_btn, TRUE);
 		gtk_widget_set_sensitive (an->edit_btn, TRUE);
+		gtk_widget_set_sensitive (an->print_btn, TRUE);
 		gtk_widget_set_sensitive (an->dismiss_btn, TRUE);
 		gtk_tree_model_get (model, &iter, ALARM_SUMMARY_COLUMN, &summary, -1);
 		gtk_tree_model_get (model, &iter, ALARM_DESCRIPTION_COLUMN, &description, -1);
@@ -475,6 +497,7 @@ tree_selection_changed_cb (GtkTreeSelection *selection,
 	} else {
 		gtk_widget_set_sensitive (an->snooze_btn, FALSE);
 		gtk_widget_set_sensitive (an->edit_btn, FALSE);
+		gtk_widget_set_sensitive (an->print_btn, FALSE);
 		gtk_widget_set_sensitive (an->dismiss_btn, FALSE);
 
 		fill_in_labels (an, "", "", "", -1, -1);

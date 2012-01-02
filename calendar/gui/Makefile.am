@@ -1,4 +1,4 @@
-SUBDIRS = alarm-notify dialogs
+SUBDIRS = dialogs
 
 privsolib_LTLIBRARIES = libevolution-calendar.la
 
