@@ -418,6 +418,7 @@ get_receive_type (CamelService *service)
 {
 	CamelURL *url;
 	CamelProvider *provider;
+	const gchar *uid;
 	gboolean is_local_delivery;
 
 	url = camel_service_new_camel_url (service);
@@ -432,6 +433,13 @@ get_receive_type (CamelService *service)
 	provider = camel_service_get_provider (service);
 
 	if (provider == NULL)
+		return SEND_INVALID;
+
+	/* skip some well-known services */
+	uid = camel_service_get_uid (service);
+	if (!uid || !*uid ||
+	    g_ascii_strcasecmp (uid, "local") == 0 ||
+	    g_ascii_strcasecmp (uid, "vfolder") == 0)
 		return SEND_INVALID;
 
 	if (provider->object_types[CAMEL_PROVIDER_STORE]) {
