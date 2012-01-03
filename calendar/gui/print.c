@@ -115,6 +115,23 @@ get_font_size (PangoFontDescription *font)
 	return pango_units_to_double (pango_font_description_get_size (font));
 }
 
+static gint
+get_day_view_time_divisions (void)
+{
+	GSettings *settings;
+	gint time_divisions;
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	time_divisions = g_settings_get_int (settings, "time-divisions");
+	if (time_divisions < 5 || time_divisions > 30)
+		time_divisions = 30;
+
+	g_object_unref (settings);
+
+	return time_divisions;
+}
+
 /*
  * Note that most dimensions are in points (1/72 of an inch) since that is
  * what gnome-print uses.
@@ -152,10 +169,7 @@ get_font_size (PangoFontDescription *font)
 /* The row height for long events in the day view. */
 #define DAY_VIEW_ROW_HEIGHT		14
 
-/* The minutes per row in the day view printout. */
-#define DAY_VIEW_MINS_PER_ROW		30
-
-#define DAY_VIEW_ROWS			((60 / DAY_VIEW_MINS_PER_ROW) * 24)
+#define CALC_DAY_VIEW_ROWS(divis)		((60 / divis) * 24)
 
 /* The width of the column with all the times in it. */
 #define DAY_VIEW_TIME_COLUMN_WIDTH	36
@@ -193,7 +207,7 @@ struct pdinfo
 	gint end_minute_offset;
 	gint rows;
 	gint mins_per_row;
-	guint8 cols_per_row[DAY_VIEW_ROWS];
+	guint8 cols_per_row[CALC_DAY_VIEW_ROWS(1)];
 	gboolean use_24_hour_format;
 	icaltimezone *zone;
 };
@@ -1450,7 +1464,7 @@ print_day_details (GtkPrintContext *context,
 	PangoFontDescription *font;
 	time_t start, end;
 	struct pdinfo pdi = { 0 };
-	gint rows_in_top_display, i;
+	gint rows_in_top_display, i, rows_with_30_mins;
 	gdouble font_size, max_font_size;
 	cairo_t *cr;
 	GdkPixbuf *pixbuf = NULL;
@@ -1472,8 +1486,8 @@ print_day_details (GtkPrintContext *context,
 	pdi.end_hour = e_cal_model_get_work_day_end_hour (model);
 	if (e_cal_model_get_work_day_end_minute (model) != 0)
 		pdi.end_hour++;
-	pdi.rows = (pdi.end_hour - pdi.start_hour) * 2;
-	pdi.mins_per_row = 30;
+	pdi.mins_per_row = get_day_view_time_divisions ();
+	pdi.rows = (pdi.end_hour - pdi.start_hour) * (60 / pdi.mins_per_row);
 	pdi.start_minute_offset = pdi.start_hour * 60;
 	pdi.end_minute_offset = pdi.end_hour * 60;
 	pdi.use_24_hour_format = e_cal_model_get_use_24_hour_format (model);
@@ -1505,7 +1519,7 @@ print_day_details (GtkPrintContext *context,
 		}
 		pdi.end_minute_offset = pdi.end_hour * 60;
 
-		pdi.rows = (pdi.end_hour - pdi.start_hour) * 2;
+		pdi.rows = (pdi.end_hour - pdi.start_hour) * (60 / pdi.mins_per_row);
 	}
 
 	/* Lay them out the long events, across the top of the page. */
@@ -1590,14 +1604,17 @@ print_day_details (GtkPrintContext *context,
 	left += DAY_VIEW_TIME_COLUMN_WIDTH;
 
 	/* lay out the short events, within the day. */
-	e_day_view_layout_day_events (pdi.events[0], DAY_VIEW_ROWS,
-				      DAY_VIEW_MINS_PER_ROW, pdi.cols_per_row, -1);
+	e_day_view_layout_day_events (pdi.events[0], CALC_DAY_VIEW_ROWS (pdi.mins_per_row),
+				      pdi.mins_per_row, pdi.cols_per_row, -1);
+
+	/* use font like with 30 minutes time division */
+	rows_with_30_mins = (pdi.end_hour - pdi.start_hour) * (60 / 30);
 
 	/* print the short events. */
 	if (top > bottom )
-		max_font_size = ((top - bottom) / pdi.rows) - 4;
+		max_font_size = ((top - bottom) / rows_with_30_mins) - 4;
 	else
-		max_font_size = ((bottom - top ) / pdi.rows) - 4;
+		max_font_size = ((bottom - top ) / rows_with_30_mins) - 4;
 	font_size = MIN (DAY_NORMAL_FONT_SIZE, max_font_size);
 	font = get_font_for_size (font_size, PANGO_WEIGHT_NORMAL);
 
@@ -2580,7 +2597,7 @@ print_work_week_day_details (GtkPrintContext *context,
 	PangoFontDescription *font;
 	time_t start, end;
 	struct pdinfo pdi = { 0 };
-	gint rows_in_top_display, i;
+	gint rows_in_top_display, i, rows_with_30_mins;
 	gdouble font_size, max_font_size;
 	cairo_t *cr;
 	GdkPixbuf *pixbuf = NULL;
@@ -2602,8 +2619,8 @@ print_work_week_day_details (GtkPrintContext *context,
 	pdi.end_hour = e_cal_model_get_work_day_end_hour (model);
 	if (e_cal_model_get_work_day_end_minute (model) != 0)
 		pdi.end_hour++;
-	pdi.rows = (pdi.end_hour - pdi.start_hour) * 2;
-	pdi.mins_per_row = 30;
+	pdi.mins_per_row = get_day_view_time_divisions ();
+	pdi.rows = (pdi.end_hour - pdi.start_hour) * (60 / pdi.mins_per_row);
 	pdi.start_minute_offset = pdi.start_hour * 60;
 	pdi.end_minute_offset = pdi.end_hour * 60;
 	pdi.use_24_hour_format = e_cal_model_get_use_24_hour_format (model);
@@ -2639,7 +2656,7 @@ print_work_week_day_details (GtkPrintContext *context,
 		}
 		pdi.end_minute_offset = pdi.end_hour * 60;
 
-		pdi.rows = (pdi.end_hour - pdi.start_hour) * 2;
+		pdi.rows = (pdi.end_hour - pdi.start_hour) * (60 / pdi.mins_per_row);
 	}
 
 	/* Lay them out the long events, across the top of the page. */
@@ -2718,14 +2735,17 @@ print_work_week_day_details (GtkPrintContext *context,
 		+ LONG_DAY_EVENTS_BOTTOM_SPACING;
 
 	/* lay out the short events, within the day. */
-	e_day_view_layout_day_events (pdi.events[0], DAY_VIEW_ROWS,
-				      DAY_VIEW_MINS_PER_ROW, pdi.cols_per_row, -1);
+	e_day_view_layout_day_events (pdi.events[0], CALC_DAY_VIEW_ROWS (pdi.mins_per_row),
+				      pdi.mins_per_row, pdi.cols_per_row, -1);
+
+	/* use font like with 30 minutes time division */
+	rows_with_30_mins = (pdi.end_hour - pdi.start_hour) * (60 / 30);
 
 	/* print the short events. */
 	if (top > bottom )
-		max_font_size = ((top - bottom) / pdi.rows) - 4;
+		max_font_size = ((top - bottom) / rows_with_30_mins) - 4;
 	else
-		max_font_size = ((bottom - top ) / pdi.rows) - 4;
+		max_font_size = ((bottom - top ) / rows_with_30_mins) - 4;
 	font_size = MIN (DAY_NORMAL_FONT_SIZE, max_font_size);
 	font = get_font_for_size (font_size, PANGO_WEIGHT_NORMAL);
 
