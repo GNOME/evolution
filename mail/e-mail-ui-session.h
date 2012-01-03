@@ -77,6 +77,8 @@ EMailAccountStore *
 						(EMailUISession *session);
 void		e_mail_session_add_activity	(EMailSession *session,
 						 EActivity *activity);
+EMailLabelListStore *
+		e_mail_session_get_label_store	(EMailSession *session);
 
 G_END_DECLS
 

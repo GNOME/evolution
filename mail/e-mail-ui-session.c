@@ -82,6 +82,7 @@ struct _EMailUISessionPrivate {
 	FILE *filter_logfile;
 	CamelStore *vfolder_store;
 	EMailAccountStore *account_store;
+	EMailLabelListStore *label_store;
 
 	EAccountList *account_list;
 	gulong account_changed_handler_id;
@@ -90,6 +91,7 @@ struct _EMailUISessionPrivate {
 enum {
 	PROP_0,
 	PROP_ACCOUNT_STORE,
+	PROP_LABEL_STORE,	
 	PROP_VFOLDER_STORE
 };
 
@@ -466,6 +468,12 @@ mail_ui_session_dispose (GObject *object)
 		priv->account_store = NULL;
 	}
 
+	if (priv->label_store != NULL) {
+		g_object_unref (priv->label_store);
+		priv->label_store = NULL;
+	}
+
+
 	if (priv->vfolder_store != NULL) {
 		g_object_unref (priv->vfolder_store);
 		priv->vfolder_store = NULL;
@@ -699,6 +707,14 @@ mail_ui_session_get_property (GObject *object,
 				E_MAIL_UI_SESSION (object)));
 			return;
 
+		case PROP_LABEL_STORE:
+			g_value_set_object (
+				value,
+				e_mail_session_get_label_store (
+				E_MAIL_SESSION (object)));
+			return;
+
+
 		case PROP_VFOLDER_STORE:
 			g_value_set_object (
 				value,
@@ -800,7 +816,17 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 			CAMEL_TYPE_STORE,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
-	
+ 	g_object_class_install_property (
+ 		object_class,
+		PROP_LABEL_STORE,
+		g_param_spec_object (
+			"label-store",
+			"Label Store",
+			"Mail label store",
+			E_TYPE_MAIL_LABEL_LIST_STORE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
 	signals[ACTIVITY_ADDED] = g_signal_new (
 		"activity-added",
 		G_OBJECT_CLASS_TYPE (class),
@@ -816,6 +842,8 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 static void
 e_mail_ui_session_init (EMailUISession *session)
 {
+	session->priv = E_MAIL_UI_SESSION_GET_PRIVATE (session);
+	session->priv->label_store = e_mail_label_list_store_new ();
 
 }
 
@@ -861,4 +889,13 @@ e_mail_session_add_activity (EMailSession *session,
 
 	g_signal_emit (session, signals[ACTIVITY_ADDED], 0, activity);
 }
+
+EMailLabelListStore *
+e_mail_session_get_label_store (EMailSession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	return session->priv->label_store;
+}
+
 
