@@ -223,9 +223,14 @@ user_message_exec (struct _user_message_msg *m,
 		user_message_response (
 			user_message_dialog, response, m);
 	} else {
+		gpointer user_data = m;
+
+		if (g_slist_length (m->button_captions) <= 1)
+			user_data = NULL;
+		
 		g_signal_connect (
 			user_message_dialog, "response",
-			G_CALLBACK (user_message_response), NULL);
+			G_CALLBACK (user_message_response), user_data);
 		gtk_widget_show (user_message_dialog);
 	}
 }
