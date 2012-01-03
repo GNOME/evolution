@@ -416,28 +416,6 @@ mail_fetch_mail (CamelStore *store,
 	mail_msg_unordered_push (m);
 }
 
-static gchar *
-escape_percent_sign (const gchar *str)
-{
-	GString *res;
-
-	if (!str)
-		return NULL;
-
-	res = g_string_sized_new (strlen (str));
-	while (*str) {
-		if (*str == '%') {
-			g_string_append (res, "%%");
-		} else {
-			g_string_append_c (res, *str);
-		}
-
-		str++;
-	}
-
-	return g_string_free (res, FALSE);
-}
-
 /* ********************************************************************** */
 /* sending stuff */
 /* ** SEND MAIL *********************************************************** */
@@ -555,20 +533,11 @@ mail_send_message (struct _send_queue_msg *m,
 	}
 
 	if (transport != NULL) {
-		CamelURL *url;
-		gchar *url_string;
-		gchar *escaped;
+		const gchar *uid;
 
-		url = camel_service_new_camel_url (CAMEL_SERVICE (transport));
-		url_string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-		escaped = escape_percent_sign (url_string);
-		camel_url_free (url);
-
-		/* Let the dialog know the right account it is using. */
-		report_status (m, CAMEL_FILTER_STATUS_ACTION, 0, escaped);
-
-		g_free (escaped);
-		g_free (url_string);
+ 		/* Let the dialog know the right account it is using. */
+		uid = camel_service_get_uid (CAMEL_SERVICE (transport));
+		report_status (m, CAMEL_FILTER_STATUS_ACTION, 0, uid);
 	}
 
 	/* Check for email sending */
@@ -1543,13 +1512,19 @@ static MailMsgInfo expunge_folder_info = {
 };
 
 void
-mail_expunge_folder (EMailSession *session,
-                     CamelFolder *folder)
+mail_expunge_folder (CamelFolder *folder)
 {
 	struct _sync_folder_msg *m;
+	CamelSession *session;
+	CamelService *service;
+	CamelStore *parent_store;
+
+	parent_store = camel_folder_get_parent_store (m->folder);
+	service = CAMEL_SERVICE (parent_store);
+	session = camel_service_get_session (service);
 
 	m = mail_msg_new (&expunge_folder_info);
-	m->session = g_object_ref (session);
+	m->session = (EMailSession *) g_object_ref (session);
 	m->folder = g_object_ref (folder);
 
 	mail_msg_slow_ordered_push (m);
@@ -1633,15 +1608,21 @@ static MailMsgInfo empty_trash_info = {
 };
 
 void
-mail_empty_trash (EMailSession *session,
-                  CamelStore *store)
+mail_empty_trash (CamelStore *store)
 {
 	struct _empty_trash_msg *m;
+	CamelSession *session;
+	CamelService *service;
+	CamelStore *parent_store;
+
+	parent_store = camel_folder_get_parent_store (m->folder);
+	service = CAMEL_SERVICE (parent_store);
+	session = camel_service_get_session (service);
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
 	m = mail_msg_new (&empty_trash_info);
-	m->session = g_object_ref (session);
+	m->session = (EMailSession *)g_object_ref (session);
 	m->store = g_object_ref (store);
 
 	mail_msg_slow_ordered_push (m);

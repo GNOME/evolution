@@ -50,11 +50,8 @@ void mail_refresh_folder (CamelFolder *folder,
 			  void (*done) (CamelFolder *folder, gpointer data),
 			  gpointer data);
 
-void		mail_expunge_folder		(EMailSession *session,
-						 CamelFolder *folder);
-
-void		mail_empty_trash		(EMailSession *session,
-						 CamelStore *store);
+void		mail_expunge_folder		(CamelFolder *folder);
+void		mail_empty_trash		(CamelStore *store);
 
 /* transfer (copy/move) a folder */
 void mail_xfer_folder (const gchar *src_uri, const gchar *dest_uri, gboolean remove_source,
