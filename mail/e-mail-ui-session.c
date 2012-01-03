@@ -895,7 +895,7 @@ e_mail_session_get_label_store (EMailSession *session)
 {
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
-	return session->priv->label_store;
+	return ((EMailUISession *) session)->priv->label_store;
 }
 
 

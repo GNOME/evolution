@@ -27,7 +27,7 @@
 #include <camel/camel.h>
 
 #include <filter/e-filter-rule.h>
-#include <mail/e-mail-session.h>
+#include <libemail-engine/e-mail-session.h>
 #include <mail/em-filter-context.h>
 #include <mail/em-vfolder-context.h>
 

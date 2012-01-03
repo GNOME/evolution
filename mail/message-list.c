@@ -66,6 +66,7 @@
 #include "libemail-engine/mail-tools.h"
 #include "libemail-engine/e-mail-utils.h"
 #include "message-list.h"
+#include "mail/e-mail-ui-session.h"
 
 #if HAVE_CLUTTER
 #include <clutter/clutter.h>

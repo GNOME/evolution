@@ -24,7 +24,7 @@
 #define MAIL_SEND_RECV_H
 
 #include <gtk/gtk.h>
-#include <mail/e-mail-session.h>
+#include <libemail-engine/e-mail-session.h>
 
 G_BEGIN_DECLS
 

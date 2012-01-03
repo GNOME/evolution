@@ -33,6 +33,7 @@
 #include "em-config.h"
 
 #include "e-mail-backend.h"
+#include "e-mail-ui-session.h"
 #include "libemail-engine/e-mail-folder-utils.h"
 #include "libemail-engine/mail-ops.h"
 #include "libemail-utils/mail-mt.h"

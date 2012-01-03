@@ -5502,7 +5502,7 @@ emae_commit (EConfig *ec,
 		service = camel_session_get_service (
 			CAMEL_SESSION (session), account->uid);
 
-		store = e_mail_ui_session_get_account_store (session);
+		store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION(session));
 		e_mail_account_store_set_default_service (store, service);
 	}
 

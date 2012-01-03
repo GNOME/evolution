@@ -57,6 +57,7 @@
 #include "em-folder-utils.h"
 #include "em-folder-selector.h"
 #include "em-folder-properties.h"
+#include "e-mail-ui-session.h"
 
 #include "libemail-engine/e-mail-folder-utils.h"
 #include "libemail-engine/e-mail-session.h"
@@ -568,7 +569,7 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	model = em_folder_tree_model_new ();
 	em_folder_tree_model_set_session (model, session);
 
-	account_store = e_mail_session_get_account_store (session);
+	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION(session));
 	e_mail_account_store_queue_enabled_services (account_store, &queue);
 
 	while (!g_queue_is_empty (&queue)) {

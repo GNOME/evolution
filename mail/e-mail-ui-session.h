@@ -34,6 +34,9 @@
 #include <mail/e-mail-account-store.h>
 #include <e-util/e-activity.h>
 
+#include <mail/e-mail-account-store.h>
+#include <mail/e-mail-label-list-store.h>
+
 /* Standard GObject macros */
 #define E_TYPE_MAIL_UI_SESSION \
 	(e_mail_ui_session_get_type ())
@@ -66,6 +69,10 @@ struct _EMailUISession {
 
 struct _EMailUISessionClass {
 	EMailSessionClass parent_class;
+
+	void		(*activity_added)	(EMailUISession *session,
+						 EActivity *activity);
+
 };
 
 GType		e_mail_ui_session_get_type		(void);

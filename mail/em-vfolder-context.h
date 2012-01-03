@@ -25,7 +25,7 @@
 #ifndef EM_VFOLDER_CONTEXT_H
 #define EM_VFOLDER_CONTEXT_H
 
-#include <mail/e-mail-session.h>
+#include <libemail-engine/e-mail-session.h>
 #include <filter/e-rule-context.h>
 
 /* Standard GObject macros */

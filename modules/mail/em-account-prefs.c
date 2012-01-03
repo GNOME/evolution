@@ -322,7 +322,7 @@ em_account_prefs_new (EPreferencesWindow *window)
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	account_store = e_mail_session_get_account_store (session);
+	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION(session));
 
 	return g_object_new (
 		EM_TYPE_ACCOUNT_PREFS,

@@ -63,6 +63,7 @@
 
 #include "libemail-engine/e-mail-folder-utils.h"
 #include "libemail-engine/e-mail-session.h"
+#include "e-mail-ui-session.h"
 
 #define d(x)
 

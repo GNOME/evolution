@@ -27,7 +27,7 @@
 #include <camel/camel.h>
 
 #include <table/e-tree.h>
-#include <mail/e-mail-session.h>
+#include <libemail-engine/e-mail-session.h>
 
 /* Standard GObject macros */
 #define MESSAGE_LIST_TYPE \

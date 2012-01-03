@@ -22,7 +22,7 @@
 #ifndef E_MAIL_SIDEBAR_H
 #define E_MAIL_SIDEBAR_H
 
-#include <mail/e-mail-session.h>
+#include <libemail-engine/e-mail-session.h>
 #include <mail/em-folder-tree.h>
 
 /* Standard GObject macros */

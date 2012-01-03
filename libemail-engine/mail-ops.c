@@ -1519,7 +1519,7 @@ mail_expunge_folder (CamelFolder *folder)
 	CamelService *service;
 	CamelStore *parent_store;
 
-	parent_store = camel_folder_get_parent_store (m->folder);
+	parent_store = camel_folder_get_parent_store (folder);
 	service = CAMEL_SERVICE (parent_store);
 	session = camel_service_get_session (service);
 
@@ -1613,10 +1613,8 @@ mail_empty_trash (CamelStore *store)
 	struct _empty_trash_msg *m;
 	CamelSession *session;
 	CamelService *service;
-	CamelStore *parent_store;
 
-	parent_store = camel_folder_get_parent_store (m->folder);
-	service = CAMEL_SERVICE (parent_store);
+	service = CAMEL_SERVICE (store);
 	session = camel_service_get_session (service);
 
 	g_return_if_fail (CAMEL_IS_STORE (store));

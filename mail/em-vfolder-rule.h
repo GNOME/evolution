@@ -24,7 +24,7 @@
 #ifndef EM_VFOLDER_RULE_H
 #define EM_VFOLDER_RULE_H
 
-#include <mail/e-mail-session.h>
+#include <libemail-engine/e-mail-session.h>
 #include <filter/e-filter-rule.h>
 
 /* Standard GObject macros */

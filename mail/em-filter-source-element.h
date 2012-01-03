@@ -24,7 +24,7 @@
 #ifndef EM_FILTER_SOURCE_ELEMENT_H
 #define EM_FILTER_SOURCE_ELEMENT_H
 
-#include <mail/e-mail-session.h>
+#include <libemail-engine/e-mail-session.h>
 #include <filter/e-filter-element.h>
 
 /* Standard GObject macros */
