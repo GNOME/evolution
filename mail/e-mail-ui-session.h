@@ -32,6 +32,7 @@
 #include <libemail-engine/mail-folder-cache.h>
 #include <mail/e-mail-enums.h>
 #include <mail/e-mail-account-store.h>
+#include <e-util/e-activity.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_UI_SESSION \
@@ -74,6 +75,8 @@ CamelStore *	e_mail_ui_session_get_vfolder_store
 EMailAccountStore *
 		e_mail_ui_session_get_account_store
 						(EMailUISession *session);
+void		e_mail_session_add_activity	(EMailSession *session,
+						 EActivity *activity);
 
 G_END_DECLS
 

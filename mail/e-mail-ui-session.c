@@ -88,6 +88,13 @@ enum {
 	PROP_VFOLDER_STORE
 };
 
+enum {
+	ACTIVITY_ADDED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
+
 G_DEFINE_TYPE_WITH_CODE (
 	EMailUISession,
 	e_mail_ui_session,
@@ -737,6 +744,16 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
 	
+	signals[ACTIVITY_ADDED] = g_signal_new (
+		"activity-added",
+		G_OBJECT_CLASS_TYPE (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMailUISessionClass, activity_added),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_ACTIVITY);
+	
 }
 
 static void
@@ -777,3 +794,14 @@ e_mail_ui_session_get_vfolder_store (EMailUISession *session)
 
 	return session->priv->vfolder_store;
 }
+
+void
+e_mail_session_add_activity (EMailSession *session,
+                             EActivity *activity)
+{
+	g_return_if_fail (E_IS_MAIL_UI_SESSION (session));
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	g_signal_emit (session, signals[ACTIVITY_ADDED], 0, activity);
+}
+
