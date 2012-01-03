@@ -223,7 +223,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_LOCAL_INBOX);
 
 	if (fm->destination == NULL)
-		goto fail;
+		goto exit;
 	g_object_ref (fm->destination);
 
 	url = camel_service_new_camel_url (service);
@@ -333,7 +333,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 		fm->source_folder = NULL;
 	}
 
-fail:
+exit:
 	/* we unref this here as it may have more work to do (syncing
 	 * folders and whatnot) before we are really done */
 	/* should this be cancellable too? (i.e. above unregister above) */
