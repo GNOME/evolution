@@ -73,6 +73,12 @@ void		e_action_group_remove_all_actions
 						(GtkActionGroup *action_group);
 GtkRadioAction *e_radio_action_get_current_action
 						(GtkRadioAction *radio_action);
+void		e_action_group_add_actions_localized
+						(GtkActionGroup *action_group,
+						 const gchar *translation_domain,
+						 const GtkActionEntry *entries,
+						 guint n_entries,
+						 gpointer user_data);
 void		e_categories_add_change_hook	(GHookFunc func,
 						 gpointer object);
 

@@ -640,6 +640,67 @@ e_radio_action_get_current_action (GtkRadioAction *radio_action)
 	return NULL;
 }
 
+/**
+ * e_action_group_add_actions_localized:
+ * @action_group: a #GtkActionGroup to add @entries to
+ * @translation_domain: a translation domain to use
+ *    to translate label and tooltip strings in @entries
+ * @entries: (array length=n_entries): an array of action descriptions
+ * @n_entries: the number of entries
+ * @user_data: data to pass to the action callbacks
+ *
+ * Adds #GtkAction-s defined by @entries to @action_group, with action's
+ * label and tooltip localized in the given translation domain, instead
+ * of the domain set on the @action_group.
+ *
+ * Since: 3.4
+ **/
+void
+e_action_group_add_actions_localized (GtkActionGroup *action_group,
+				      const gchar *translation_domain,
+				      const GtkActionEntry *entries,
+				      guint n_entries,
+				      gpointer user_data)
+{
+	gint ii;
+	GtkAction *action;
+	GList *actions, *iter;
+	GtkActionGroup *tmp_group;
+
+	g_return_if_fail (action_group != NULL);
+	g_return_if_fail (entries != NULL);
+	g_return_if_fail (n_entries > 0);
+	g_return_if_fail (translation_domain != NULL);
+	g_return_if_fail (*translation_domain);
+
+	tmp_group = gtk_action_group_new ("temporary-group");
+	gtk_action_group_set_translation_domain (tmp_group, translation_domain);
+	gtk_action_group_add_actions (tmp_group, entries, n_entries, user_data);
+
+	actions = gtk_action_group_list_actions (tmp_group);
+	for (iter = actions; iter != NULL; iter = iter->next) {
+		action = iter->data;
+
+		if (!action)
+			continue;
+
+		g_object_ref (action);
+
+		for (ii = 0; ii < n_entries; ii++) {
+			if (g_strcmp0 (entries[ii].name, gtk_action_get_name (action)) == 0) {
+				gtk_action_group_remove_action (tmp_group, action);
+				gtk_action_group_add_action_with_accel (action_group, action, entries[ii].accelerator);
+				break;
+			}
+		}
+
+		g_object_unref (action);
+	}
+
+	g_list_free (actions);
+	g_object_unref (tmp_group);
+}
+
 /* Helper for e_categories_add_change_hook() */
 static void
 categories_changed_cb (GObject *useless_opaque_object,
