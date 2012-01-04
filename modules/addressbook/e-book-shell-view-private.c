@@ -95,6 +95,9 @@ book_shell_view_selection_change_foreach (gint row,
 
 	e_book_shell_content_set_preview_contact (book_shell_content, contact);
 	book_shell_view->priv->preview_index = row;
+
+	if (contact)
+		g_object_unref (contact);
 }
 
 static void

@@ -484,7 +484,7 @@ mergeit (EContactMergingLookup *lookup)
 		break;
 	}
 	gtk_widget_destroy (dialog);
-	g_list_free (email_attr_list);
+	g_list_free_full (email_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 	return value;
 }
 
@@ -496,10 +496,12 @@ check_if_same (EContact *contact,
 	GList *email_attr_list;
 	gint num_of_email;
 	gchar *str = NULL, *string = NULL, *string1 = NULL;
+	gboolean res = TRUE;
 
-	for (field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1); field++) {
-		email_attr_list = e_contact_get_attributes (match, E_CONTACT_EMAIL);
-		num_of_email = g_list_length (email_attr_list);
+	email_attr_list = e_contact_get_attributes (match, E_CONTACT_EMAIL);
+	num_of_email = g_list_length (email_attr_list);
+
+	for (field = E_CONTACT_FULL_NAME; res && field != (E_CONTACT_LAST_SIMPLE_STRING -1); field++) {
 
 		if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2
 		     || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email < 4)) {
@@ -507,33 +509,42 @@ check_if_same (EContact *contact,
 			switch (num_of_email)
 			{
 			case 0:
-				return FALSE;
+				res = FALSE;
+				break;
 			case 1:
 				if ((str && *str) && (g_ascii_strcasecmp (e_contact_get_const (match, E_CONTACT_EMAIL_1),str)))
-					return FALSE;
+					res = FALSE;
+				break;
 			case 2:
 				if ((str && *str) && (g_ascii_strcasecmp (str,e_contact_get_const (match, E_CONTACT_EMAIL_1))) &&
 						(g_ascii_strcasecmp (e_contact_get_const (match, E_CONTACT_EMAIL_2),str)))
-					return FALSE;
+					res = FALSE;
+				break;
 			case 3:
 				if ((str && *str) && (g_ascii_strcasecmp (e_contact_get_const (match, E_CONTACT_EMAIL_1),str)) &&
 						(g_ascii_strcasecmp (e_contact_get_const (match, E_CONTACT_EMAIL_2),str)) &&
 						(g_ascii_strcasecmp (e_contact_get_const (match, E_CONTACT_EMAIL_3),str)))
-					return FALSE;
+					res = FALSE;
+				break;
 			}
 		}
 		else {
 			string = (gchar *) e_contact_get_const (contact, field);
 			string1 = (gchar *) e_contact_get_const (match, field);
-			if ((string && *string) && (string1 && *string1) && (g_ascii_strcasecmp (string1,string)))
-				return FALSE;
+			if ((string && *string) && (string1 && *string1) && (g_ascii_strcasecmp (string1, string))) {
+				res = FALSE;
+				break;
 			/*if the field entry exist in either of the contacts,we'll have to give the choice and thus merge button should be sensitive*/
-			else if ((string && *string) && !(string1 && *string1))
-				return FALSE;
+			} else if ((string && *string) && !(string1 && *string1)) {
+				res = FALSE;
+				break;
+			}
 		}
 	}
-	g_list_free (email_attr_list);
-	return TRUE;
+
+	g_list_free_full (email_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+
+	return res;
 }
 
 static void

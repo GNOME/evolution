@@ -1119,6 +1119,8 @@ fill_in_email (EContactEditor *editor)
 
 		g_free (email_address);
 	}
+
+	g_list_free_full (email_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 }
 
 static void
@@ -1831,6 +1833,8 @@ fill_in_im (EContactEditor *editor)
 
 			g_free (im_name);
 		}
+
+		g_list_free_full (im_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 	}
 }
 

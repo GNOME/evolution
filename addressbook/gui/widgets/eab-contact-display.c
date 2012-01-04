@@ -203,13 +203,16 @@ render_address_link (GString *buffer,
 	adr = e_contact_get (contact, map_type);
 	if (adr &&
 	    (adr->street || adr->locality || adr->region || adr->country)) {
+		gchar *escaped;
 
 		if (adr->street && *adr->street) g_string_append_printf (link, "%s, ", adr->street);
 		if (adr->locality && *adr->locality) g_string_append_printf (link, "%s, ", adr->locality);
 		if (adr->region && *adr->region) g_string_append_printf (link, "%s, ", adr->region);
 		if (adr->country && *adr->country) g_string_append_printf (link, "%s", adr->country);
 
-		g_string_assign (link, g_uri_escape_string (link->str, NULL, TRUE));
+		escaped = g_uri_escape_string (link->str, NULL, TRUE);
+		g_string_assign (link, escaped);
+		g_free (escaped);
 
 		g_string_prepend (link, "<a href=\"http://maps.google.com?q=");
 		g_string_append_printf (link, "\">%s</a>", _("Open map"));

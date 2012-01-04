@@ -248,6 +248,18 @@ e_sorter_array_append (ESorterArray *esa,
 	}
 }
 
+static void
+esa_finalize (GObject *object)
+{
+	ESorterArray *esa = E_SORTER_ARRAY (object);
+
+	if (esa)
+		e_sorter_array_clean (esa);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_sorter_array_parent_class)->finalize (object);
+}
+
 ESorterArray *
 e_sorter_array_construct (ESorterArray *esa,
                           ECreateCmpCacheFunc create_cmp_cache,
@@ -273,7 +285,10 @@ e_sorter_array_new (ECreateCmpCacheFunc create_cmp_cache,
 static void
 e_sorter_array_class_init (ESorterArrayClass *klass)
 {
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	ESorterClass *sorter_class = E_SORTER_CLASS (klass);
+
+	object_class->finalize = esa_finalize;
 
 	sorter_class->model_to_sorted           = esa_model_to_sorted;
 	sorter_class->sorted_to_model           = esa_sorted_to_model;

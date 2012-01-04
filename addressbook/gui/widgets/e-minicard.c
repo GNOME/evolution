@@ -1017,7 +1017,7 @@ remodel (EMinicard *e_minicard)
 						count = 5;
 					else
 						count = count + g_list_length (email);
-					g_list_free (email);
+					g_list_free_full (email, (GDestroyNotify) e_vcard_attribute_free);
 				} else {
 					string = e_contact_get (e_minicard->contact, field);
 					if (string && *string) {
