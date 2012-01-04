@@ -437,9 +437,9 @@ get_receive_type (CamelService *service)
 
 	/* skip some well-known services */
 	uid = camel_service_get_uid (service);
-	if (!uid || !*uid ||
-	    g_ascii_strcasecmp (uid, "local") == 0 ||
-	    g_ascii_strcasecmp (uid, "vfolder") == 0)
+	if (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0)
+		return SEND_INVALID;
+	if (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0)
 		return SEND_INVALID;
 
 	if (provider->object_types[CAMEL_PROVIDER_STORE]) {
