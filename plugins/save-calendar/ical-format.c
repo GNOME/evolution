@@ -128,7 +128,7 @@ do_save_calendar_ical (FormatHandler *handler,
 		tdata.client = source_client;
 
 		for (iter = objects; iter; iter = iter->next) {
-			icalcomponent *icalcomp = iter->data;
+			icalcomponent *icalcomp = icalcomponent_new_clone (iter->data);
 
 			icalcomponent_foreach_tzid (icalcomp, insert_tz_comps, &tdata);
 			icalcomponent_add_component (top_level, icalcomp);

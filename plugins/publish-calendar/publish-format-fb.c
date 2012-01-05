@@ -116,8 +116,8 @@ write_calendar (const gchar *uid,
 		GSList *iter;
 
 		for (iter = objects; iter; iter = iter->next) {
-			ECalComponent *comp = objects->data;
-			icalcomponent *icalcomp = e_cal_component_get_icalcomponent (comp);
+			ECalComponent *comp = iter->data;
+			icalcomponent *icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
 			icalcomponent_add_component (top_level, icalcomp);
 		}
 
