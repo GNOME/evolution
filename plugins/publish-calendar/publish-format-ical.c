@@ -111,7 +111,7 @@ write_calendar (const gchar *uid,
 		tdata.client = client;
 
 		for (iter = objects; iter; iter = iter->next) {
-			icalcomponent *icalcomp = objects->data;
+			icalcomponent *icalcomp = icalcomponent_new_clone (iter->data);
 			icalcomponent_foreach_tzid (icalcomp, insert_tz_comps, &tdata);
 			icalcomponent_add_component (top_level, icalcomp);
 		}
