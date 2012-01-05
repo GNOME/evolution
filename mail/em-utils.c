@@ -2102,64 +2102,6 @@ guess_account_from_message (CamelMimeMessage *message)
 	return (uid != NULL) ? e_get_account_by_uid (uid) : NULL;
 }
 
-GHashTable *
-em_utils_generate_account_hash (void)
-{
-	GHashTable *account_hash;
-	EAccount *account, *def;
-	EAccountList *account_list;
-	EIterator *iterator;
-
-	account_list = e_get_account_list ();
-	account_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
-
-	def = e_get_default_account ();
-
-	iterator = e_list_get_iterator (E_LIST (account_list));
-
-	while (e_iterator_is_valid (iterator)) {
-		account = (EAccount *) e_iterator_get (iterator);
-
-		if (account->id->address) {
-			EAccount *acnt;
-
-			/* Accounts with identical email addresses that are
-			 * enabled take precedence over the accounts that
-			 * aren't. If all accounts with matching email
-			 * addresses are disabled, then the first one in
-			 * the list takes precedence. The default account
-			 * always takes precedence no matter what. */
-			acnt = g_hash_table_lookup (
-				account_hash, account->id->address);
-			if (acnt && acnt != def && !acnt->enabled && account->enabled) {
-				g_hash_table_remove (
-					account_hash, acnt->id->address);
-				acnt = NULL;
-			}
-
-			if (!acnt)
-				g_hash_table_insert (
-					account_hash, (gchar *)
-					account->id->address,
-					(gpointer) account);
-		}
-
-		e_iterator_next (iterator);
-	}
-
-	g_object_unref (iterator);
-
-	/* The default account has to be there if none
-	 * of the enabled accounts are present. */
-	if (g_hash_table_size (account_hash) == 0 && def && def->id->address)
-		g_hash_table_insert (
-			account_hash, (gchar *)
-			def->id->address,
-			(gpointer) def);
-
-	return account_hash;
-}
-
 EAccount *
 em_utils_guess_account (CamelMimeMessage *message,
                         CamelFolder *folder)

@@ -2227,6 +2227,64 @@ get_reply_recipient (CamelMimeMessage *message,
 
 }
 
+static GHashTable *
+generate_recipient_hash (void)
+{
+	GHashTable *rcpt_hash;
+	EAccount *account, *def;
+	EAccountList *account_list;
+	EIterator *iterator;
+
+	account_list = e_get_account_list ();
+	rcpt_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+
+	def = e_get_default_account ();
+
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		account = (EAccount *) e_iterator_get (iterator);
+
+		if (account->id->address) {
+			EAccount *acnt;
+
+			/* Accounts with identical email addresses that are
+			 * enabled take precedence over the accounts that
+			 * aren't. If all accounts with matching email
+			 * addresses are disabled, then the first one in
+			 * the list takes precedence. The default account
+			 * always takes precedence no matter what. */
+			acnt = g_hash_table_lookup (
+				rcpt_hash, account->id->address);
+			if (acnt && acnt != def && !acnt->enabled && account->enabled) {
+				g_hash_table_remove (
+					rcpt_hash, acnt->id->address);
+				acnt = NULL;
+			}
+
+			if (!acnt)
+				g_hash_table_insert (
+					rcpt_hash, (gchar *)
+					account->id->address,
+					(gpointer) account);
+		}
+
+		e_iterator_next (iterator);
+	}
+
+	g_object_unref (iterator);
+
+	/* The default account has to be there if none
+	 * of the enabled accounts are present. */
+	if (g_hash_table_size (rcpt_hash) == 0 && def && def->id->address)
+		g_hash_table_insert (
+			rcpt_hash, (gchar *)
+			def->id->address,
+			(gpointer) def);
+
+	return rcpt_hash;
+}
+
 static void
 concat_unique_addrs (CamelInternetAddress *dest,
                      CamelInternetAddress *src,
@@ -2273,7 +2331,7 @@ em_utils_get_reply_all (CamelMimeMessage *message,
 	if (postto != NULL && posthdr != NULL)
 		camel_address_decode (CAMEL_ADDRESS (postto), posthdr);
 
-	rcpt_hash = em_utils_generate_account_hash ();
+	rcpt_hash = generate_recipient_hash ();
 
 	reply_to = get_reply_to (message);
 	to_addrs = camel_mime_message_get_recipients (
