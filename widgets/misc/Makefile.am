@@ -157,6 +157,7 @@ libemiscwidgets_la_LIBADD =					\
 	$(top_builddir)/filter/libfilter.la			\
 	$(top_builddir)/a11y/libevolution-a11y.la		\
 	$(top_builddir)/libgnomecanvas/libgnomecanvas.la	\
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(MATH_LIB)						\

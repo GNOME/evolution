@@ -182,7 +182,7 @@ user_message_exec (struct _user_message_msg *m,
                    GError **error)
 {
 	const gchar *error_type;
-
+	(void)error_type;
 	if (!m->ismain) {
 		g_queue_push_tail (&user_message_queue, mail_msg_ref (m));
 		return;

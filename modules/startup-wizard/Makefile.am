@@ -19,6 +19,8 @@ libevolution_module_startup_wizard_la_LIBADD =			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/capplet/settings/libevolution-mail-settings.la \
+	$(top_builddir)/libemail-engine/libemail-engine.la \
+	$(top_builddir)/libemail-utils/libemail-utils.la  \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)
 

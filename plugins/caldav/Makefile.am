@@ -19,6 +19,7 @@ liborg_gnome_evolution_caldav_la_SOURCES =		\
 liborg_gnome_evolution_caldav_la_LIBADD = 		\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(top_builddir)/libemail-utils/libemail-utils.la  \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)
 
