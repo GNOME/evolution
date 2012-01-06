@@ -413,7 +413,8 @@ shell_ready_for_quit (EShell *shell,
 	g_list_foreach (list, (GFunc) gtk_widget_destroy, NULL);
 	g_list_free (list);
 
-	gtk_main_quit ();
+	if (gtk_main_level () > 0)
+		gtk_main_quit ();
 }
 
 static void
