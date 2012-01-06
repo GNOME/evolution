@@ -239,16 +239,17 @@ vfolder_adduri_exec (struct _adduri_msg *m,
 	/* we dont try lookup the cache if we are removing it, its no longer there */
 
 	if (!m->remove &&
-	    !mail_folder_cache_get_folder_from_uri (folder_cache, m->uri, &folder)) {
+	    !mail_folder_cache_get_folder_from_uri (folder_cache, m->uri, NULL)) {
 		g_warning (
 			"Folder '%s' disappeared while I was "
 			"adding/removing it to/from my vfolder", m->uri);
 		return;
 	}
 
-	if (folder == NULL)
-		folder = e_mail_session_uri_to_folder_sync (
-			m->session, m->uri, 0, cancellable, error);
+	/* always pick fresh folders - they are
+	   from CamelStore's folders bag anyway */
+	folder = e_mail_session_uri_to_folder_sync (
+		m->session, m->uri, 0, cancellable, error);
 
 	if (folder != NULL) {
 		l = m->folders;
@@ -678,7 +679,6 @@ rule_add_sources (EMailSession *session,
 	GList *sources_folder = *sources_folderp;
 	GList *sources_uri = *sources_urip;
 	MailFolderCache *folder_cache;
-	CamelFolder *newfolder;
 	GList *head, *link;
 
 	folder_cache = e_mail_session_get_folder_cache (session);
@@ -687,14 +687,10 @@ rule_add_sources (EMailSession *session,
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		const gchar *uri = link->data;
 
-		if (mail_folder_cache_get_folder_from_uri (
-			folder_cache, uri, &newfolder)) {
-			if (newfolder)
-				sources_folder = g_list_append (
-					sources_folder, newfolder);
-			else
-				sources_uri = g_list_append (
-					sources_uri, g_strdup (uri));
+		/* always pick fresh folders - they are
+		   from CamelStore's folders bag anyway */
+		if (mail_folder_cache_get_folder_from_uri (folder_cache, uri, NULL)) {
+			sources_uri = g_list_append (sources_uri, g_strdup (uri));
 		}
 	}
 
