@@ -47,7 +47,7 @@ m4_define([libgdata_minimum_version], [0.10])
 m4_define([libsoup_minimum_version], [2.31.2])
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
-m4_define([libpst_minimum_version], [0.6.41])
+m4_define([libpst_minimum_version], [0.6.54])
 m4_define([libnotify_minimum_version], [0.5.1])
 
 dnl Optional Packages
@@ -1479,7 +1479,7 @@ AC_ARG_ENABLE([pst-import],
 	[enable_pst="$enableval"], [enable_pst=yes])
 
 if test "x$enable_pst" = "xyes"; then
-	PKG_CHECK_MODULES(LIBPST, libpst, have_pst=yes, have_pst=no)
+	PKG_CHECK_MODULES(LIBPST, libpst >= libpst_minimum_version, have_pst=yes, have_pst=no)
 	AC_SUBST(LIBPST_CFLAGS)
 	AC_SUBST(LIBPST_LIBS)
 

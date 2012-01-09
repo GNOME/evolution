@@ -2219,7 +2219,7 @@ pst_init (pst_file *pst,
 	DEBUG_REGISTER_CLOSE ();
 #endif
 
-	if (pst_open (pst, filename) < 0) {
+	if (pst_open (pst, filename, NULL) < 0) {
 		pst_error_msg ("Error opening PST file %s", filename);
 		return -1;
 	}
