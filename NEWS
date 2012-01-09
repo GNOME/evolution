@@ -1,3 +1,41 @@
+Evolution 3.2.3 2012-01-09
+--------------------------
+
+Bug Fixes:
+	Bug 561696 - Invitation's "Open Calendar" button jumps to current day
+	             (Milan Crha)
+	Bug 578245 - View settings for threads getting lost (Milan Crha)
+	Bug 638810 - Crash in camel_folder_search_set_folder with IMAP account
+	             (Milan Crha)
+	Bug 641154 - Crash in emae_check_authtype_done (Milan Crha)
+	Bug 657374 - mailto: attachment parameter can lead to accidental data
+	             exfiltration (Matthew Barnes)
+	Bug 661043 - Printing causes email images to download (Milan Crha)
+	Bug 662789 - Can't create account with None receiving server type
+	             (Milan Crha)
+	Bug 663615 - Saving calendar duplicates the first event (Milan Crha)
+	Bug 664016 - [evolution-alarm-notify] Try reconnect offline calendars
+	             (Milan Crha)
+	Bug 664018 - Cannot create task/memo from a mail (Milan Crha)
+	Bug 664370 - Crash when putting same component into icalcomponent
+	             (Kai Juse)
+	Bug 664654 - Sanitize subjects before suggesting a save filename
+	             (Matthew Barnes)
+	Bug 665123 - Incorrect unref of ESource in pine-importer (Milan Crha)
+	Bug 666341 - [bbdb] Invalid free in bbdb_do_it (Milan Crha)
+	Bug 666490 - Crash in e-mail-session.c:user_message_response
+	             (Milan Crha)
+
+Other Changes:
+	* Remove almost all *_DISABLED_DEPRECATED_FLAGS. (Matthew Barnes)
+	* Add a hidden --version option. (Matthew Barnes)
+
+Translations:
+	Xandru Armesto (ast)
+	Christian Kirbach (de)
+	Gabor Kelemen (hu)
+
+
 Evolution 3.2.2 2011-11-14
 --------------------------
 
