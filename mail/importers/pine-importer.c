@@ -177,7 +177,7 @@ static void
 import_contacts (void)
 {
 	ESource *source;
-	ESourceList *source_list;
+	ESourceList *source_list = NULL;
 	EBookClient *book_client;
 	gchar *name;
 	GString *line;
@@ -200,10 +200,19 @@ import_contacts (void)
 	name = g_build_filename(g_get_home_dir(), ".addressbook", NULL);
 	fp = fopen(name, "r");
 	g_free (name);
-	if (fp == NULL)
+	if (fp == NULL) {
+		g_object_unref (source_list);
 		return;
+	}
 
 	source = e_source_list_peek_source_any (source_list);
+	if (!source) {
+		g_object_unref (source_list);
+		fclose (fp);
+
+		g_warning ("%s: No book source found, skipping.", G_STRFUNC);
+		return;
+	}
 
 	book_client = e_book_client_new (source, &error);
 
@@ -212,11 +221,11 @@ import_contacts (void)
 
 	g_object_unref (source_list);
 
-	if (error != NULL) {
+	if (error != NULL || !book_client) {
 		g_warning (
 			"%s: Failed to open book client: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
+			G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		fclose (fp);
 		return;
 	}
