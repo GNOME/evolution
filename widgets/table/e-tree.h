@@ -307,6 +307,8 @@ GdkDragContext *e_tree_drag_begin		(ETree *tree,
 						 gint button,
 						 GdkEvent *event);
 
+gboolean	e_tree_is_dragging		(ETree *tree);
+
 /* Adapter functions */
 gboolean	e_tree_node_is_expanded		(ETree *et,
 						 ETreePath path);

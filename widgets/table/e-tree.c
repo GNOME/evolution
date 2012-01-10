@@ -200,6 +200,8 @@ struct _ETreePrivate {
 
 	gboolean state_changed;
 	guint state_change_freeze;
+
+	gboolean is_dragging;
 };
 
 static guint et_signals[LAST_SIGNAL] = { 0, };
@@ -638,6 +640,8 @@ e_tree_init (ETree *e_tree)
 
 	e_tree->priv->state_changed = FALSE;
 	e_tree->priv->state_change_freeze = 0;
+
+	e_tree->priv->is_dragging = FALSE;
 }
 
 /* Grab_focus handler for the ETree */
@@ -2827,6 +2831,21 @@ e_tree_drag_begin (ETree *tree,
 }
 
 /**
+ * e_tree_is_dragging:
+ * @tree: An #ETree widget
+ *
+ * Returns whether is @tree in a drag&drop operation.
+ **/
+gboolean
+e_tree_is_dragging (ETree *tree)
+{
+	g_return_val_if_fail (tree != NULL, FALSE);
+	g_return_val_if_fail (tree->priv != NULL, FALSE);
+
+	return tree->priv->is_dragging;
+}
+
+/**
  * e_tree_get_cell_at:
  * @tree: An ETree widget
  * @x: X coordinate for the pixel
@@ -2928,6 +2947,8 @@ et_drag_begin (GtkWidget *widget,
                GdkDragContext *context,
                ETree *et)
 {
+	et->priv->is_dragging = TRUE;
+
 	g_signal_emit (et,
 		       et_signals[TREE_DRAG_BEGIN], 0,
 		       et->priv->drag_row,
@@ -2941,6 +2962,8 @@ et_drag_end (GtkWidget *widget,
              GdkDragContext *context,
              ETree *et)
 {
+	et->priv->is_dragging = FALSE;
+
 	g_signal_emit (et,
 		       et_signals[TREE_DRAG_END], 0,
 		       et->priv->drag_row,

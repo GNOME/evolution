@@ -2482,6 +2482,9 @@ mail_reader_message_seen_cb (EMailReaderClosure *closure)
 	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
+	if (e_tree_is_dragging (E_TREE (message_list)))
+		return FALSE;
+
 	current_uid = EM_FORMAT (formatter)->uid;
 	uid_is_current &= (g_strcmp0 (current_uid, message_uid) == 0);
 
@@ -2517,7 +2520,8 @@ schedule_timeout_mark_seen (EMailReader *reader)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	message_uid = message_list->cursor_uid;
-	if (message_uid == NULL)
+	if (message_uid == NULL ||
+	    e_tree_is_dragging (E_TREE (message_list)))
 		return FALSE;
 
 	schedule_timeout =
@@ -2548,6 +2552,24 @@ schedule_timeout_mark_seen (EMailReader *reader)
 	}
 
 	return schedule_timeout;
+}
+
+static gboolean
+discard_timeout_mark_seen_cb (EMailReader *reader)
+{
+	MessageList *message_list;
+
+	g_return_val_if_fail (reader != NULL, FALSE);
+
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	g_return_val_if_fail (message_list != NULL, FALSE);
+
+	if (message_list->seen_id > 0) {
+		g_source_remove (message_list->seen_id);
+		message_list->seen_id = 0;
+	}
+
+	return FALSE;
 }
 
 static void
@@ -3758,9 +3780,23 @@ connect_signals:
 		message_list, "message-selected",
 		G_CALLBACK (mail_reader_message_selected_cb), reader);
 
+	/* re-schedule mark-as-seen,... */
 	g_signal_connect_swapped (
 		message_list, "cursor-change",
 		G_CALLBACK (mail_reader_message_cursor_change_cb), reader);
+
+	/* but do not mark-as-seen if... */
+	g_signal_connect_swapped (
+		message_list, "tree-drag-begin",
+		G_CALLBACK (discard_timeout_mark_seen_cb), reader);
+
+	g_signal_connect_swapped (
+		message_list, "tree-drag-end",
+		G_CALLBACK (discard_timeout_mark_seen_cb), reader);
+
+	g_signal_connect_swapped (
+		message_list, "right-click",
+		G_CALLBACK (discard_timeout_mark_seen_cb), reader);
 
 	g_signal_connect_swapped (
 		message_list, "message-list-built",
