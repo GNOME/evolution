@@ -29,9 +29,7 @@ widgetsinclude_HEADERS =			\
 	e-canvas-background.h			\
 	e-canvas-utils.h			\
 	e-canvas-vbox.h				\
-	e-cell-renderer-combo.h			\
 	e-charset-combo-box.h			\
-	e-combo-cell-editable.h			\
 	e-contact-map.h				\
 	e-contact-map-window.h			\
 	e-contact-marker.h			\
@@ -112,9 +110,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-canvas-background.c			\
 	e-canvas-utils.c			\
 	e-canvas-vbox.c				\
-	e-cell-renderer-combo.c			\
 	e-charset-combo-box.c			\
-	e-combo-cell-editable.c			\
 	e-contact-map.c				\
 	e-contact-map-window.c			\
 	e-contact-marker.c			\

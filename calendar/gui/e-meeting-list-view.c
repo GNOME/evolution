@@ -37,7 +37,6 @@
 #include "calendar-config.h"
 #include "e-meeting-list-view.h"
 #include "itip-utils.h"
-#include <misc/e-cell-renderer-combo.h>
 #include <libebook/e-destination.h>
 #include "e-select-names-renderer.h"
 
@@ -557,6 +556,37 @@ editing_started_cb (GtkCellRenderer *renderer,
 		g_signal_connect (editable, "updated", G_CALLBACK(ense_update), NULL);
 }
 
+static GtkCellRenderer *
+create_combo_cell_renderer (GList *strings)
+{
+	GList *li;
+	GtkTreeIter iter;
+	GtkListStore *store;
+	GtkCellRenderer *renderer;
+
+	store = gtk_list_store_new (1, G_TYPE_STRING);
+	for (li = strings; li; li = li->next) {
+		const gchar *str = li->data;
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, str, -1);
+	}
+
+	renderer = gtk_cell_renderer_combo_new ();
+
+	g_object_set (G_OBJECT (renderer),
+		"has-entry", FALSE,
+		"editable", TRUE,
+		"model", GTK_TREE_MODEL (store),
+		"text-column", 0,
+		NULL);
+
+	g_object_unref (store);
+	g_list_free (strings);
+
+	return renderer;
+}
+
 static void
 build_table (EMeetingListView *lview)
 {
@@ -593,8 +623,7 @@ build_table (EMeetingListView *lview)
 
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ATTENDEE_COL), renderer);
 
-	renderer = e_cell_renderer_combo_new ();
-	g_object_set (G_OBJECT (renderer), "list", get_type_strings (), "editable", TRUE, NULL);
+	renderer = create_combo_cell_renderer (get_type_strings ());
 	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("Type"), renderer,
 						     "text", E_MEETING_STORE_TYPE_COL,
 						     NULL);
@@ -605,8 +634,7 @@ build_table (EMeetingListView *lview)
 	g_signal_connect (renderer, "edited", G_CALLBACK (type_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_TYPE_COL), renderer);
 
-	renderer = e_cell_renderer_combo_new ();
-	g_object_set (G_OBJECT (renderer), "list", get_role_strings (), "editable", TRUE, NULL);
+	renderer = create_combo_cell_renderer (get_role_strings ());
 	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("Role"), renderer,
 						     "text", E_MEETING_STORE_ROLE_COL,
 						     NULL);
@@ -617,8 +645,7 @@ build_table (EMeetingListView *lview)
 	g_signal_connect (renderer, "edited", G_CALLBACK (role_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ROLE_COL), renderer);
 
-	renderer = e_cell_renderer_combo_new ();
-	g_object_set (G_OBJECT (renderer), "list", get_rsvp_strings (), "editable", TRUE, NULL);
+	renderer = create_combo_cell_renderer (get_rsvp_strings ());
 	/* To translators: RSVP means "please reply" */
 	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("RSVP"), renderer,
 						     "text", E_MEETING_STORE_RSVP_COL,
@@ -630,8 +657,7 @@ build_table (EMeetingListView *lview)
 	g_signal_connect (renderer, "edited", G_CALLBACK (rsvp_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_RSVP_COL), renderer);
 
-	renderer = e_cell_renderer_combo_new ();
-	g_object_set (G_OBJECT (renderer), "list", get_status_strings (), "editable", TRUE, NULL);
+	renderer = create_combo_cell_renderer (get_status_strings ());
 	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("Status"), renderer,
 						     "text", E_MEETING_STORE_STATUS_COL,
 						     NULL);
