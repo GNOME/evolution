@@ -462,6 +462,7 @@ mail_account_store_service_removed (EMailAccountStore *store,
 
 	EAccountList *account_list;
 	EAccount *account;
+	CamelProvider *provider;
 	const gchar *uid;
 
 	account_list = e_get_account_list ();
@@ -469,15 +470,15 @@ mail_account_store_service_removed (EMailAccountStore *store,
 	account = e_get_account_by_uid (uid);
 	g_return_if_fail (account != NULL);
 
-	if (account->enabled) {
-		CamelProvider *provider;
+	/* no change */
+	if (!account->enabled)
+		return;
 
-		provider = camel_service_get_provider (service);
-		g_return_if_fail (provider != NULL);
+	provider = camel_service_get_provider (service);
+	g_return_if_fail (provider != NULL);
 
-		if (provider->flags & CAMEL_PROVIDER_IS_STORAGE)
-			mail_disconnect_store (CAMEL_STORE (service));
-	}
+	if (provider->flags & CAMEL_PROVIDER_IS_STORAGE)
+		mail_disconnect_store (CAMEL_STORE (service));
 
 	/* Remove all the proxies the account has created.
 	 * FIXME This proxy stuff belongs in evolution-groupwise. */
@@ -521,6 +522,10 @@ mail_account_store_service_enabled (EMailAccountStore *store,
 		account = e_get_account_by_uid (uid);
 		g_return_if_fail (account != NULL);
 
+		/* no change */
+		if (account->enabled)
+			return;
+
 		account->enabled = TRUE;
 
 		e_account_list_change (account_list, account);
@@ -561,6 +566,10 @@ mail_account_store_service_disabled (EMailAccountStore *store,
 		account_list = e_get_account_list ();
 		account = e_get_account_by_uid (uid);
 		g_return_if_fail (account != NULL);
+
+		/* no change */
+		if (!account->enabled)
+			return;
 
 		account->enabled = FALSE;
 
