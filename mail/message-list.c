@@ -4231,6 +4231,28 @@ message_list_count (MessageList *message_list)
 	return data.count;
 }
 
+static void
+ml_getselcount_cb (gint model_row,
+		   gpointer user_data)
+{
+	struct ml_count_data *data = user_data;
+
+	data->count++;
+}
+
+guint
+message_list_selected_count (MessageList *message_list)
+{
+	struct ml_count_data data = { message_list, 0 };
+
+	g_return_val_if_fail (message_list != NULL, 0);
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), 0);
+
+	e_tree_selected_row_foreach (E_TREE (message_list), ml_getselcount_cb, &data);
+
+	return data.count;
+}
+
 void
 message_list_freeze (MessageList *ml)
 {

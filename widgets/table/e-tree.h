@@ -231,7 +231,6 @@ void		e_tree_path_foreach		(ETree *e_tree,
 						 ETreeForeachFunc callback,
 						 gpointer closure);
 #endif
-gint		e_tree_selected_count		(ETree *e_tree);
 EPrintable *e_tree_get_printable		(ETree *e_tree);
 gint		e_tree_get_next_row		(ETree *e_tree,
 						 gint model_row);

@@ -590,6 +590,24 @@ mail_shell_view_notify_view_id_cb (EMailShellView *mail_shell_view)
 	gal_view_instance_set_current_view_id (view_instance, view_id);
 }
 
+static void
+mail_shell_view_search_filter_changed_cb (EMailShellView *mail_shell_view)
+{
+	EMailShellContent *mail_shell_content;
+	EMailView *mail_view;
+
+	g_return_if_fail (mail_shell_view != NULL);
+	g_return_if_fail (mail_shell_view->priv != NULL);
+
+	if (e_shell_view_is_execute_search_blocked (E_SHELL_VIEW (mail_shell_view)))
+		return;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	e_mail_reader_avoid_next_mark_as_seen (E_MAIL_READER (mail_view));
+}
+
 void
 e_mail_shell_view_private_init (EMailShellView *mail_shell_view,
                                 EShellViewClass *shell_view_class)
@@ -684,6 +702,12 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		combo_box, "sensitive",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
+
+	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+	g_signal_connect_object (
+		combo_box, "changed",
+		G_CALLBACK (mail_shell_view_search_filter_changed_cb),
+		mail_shell_view, G_CONNECT_SWAPPED);
 
 	web_view = em_format_html_get_web_view (formatter);
 

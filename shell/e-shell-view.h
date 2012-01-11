@@ -214,6 +214,8 @@ void		e_shell_view_block_execute_search
 						(EShellView *shell_view);
 void		e_shell_view_unblock_execute_search
 						(EShellView *shell_view);
+gboolean	e_shell_view_is_execute_search_blocked
+						(EShellView *shell_view);
 void		e_shell_view_update_actions	(EShellView *shell_view);
 void		e_shell_view_block_update_actions
 						(EShellView *shell_view);

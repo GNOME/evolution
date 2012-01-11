@@ -176,6 +176,8 @@ gboolean	e_mail_reader_get_enable_show_folder
 						(EMailReader *reader);
 void		e_mail_reader_enable_show_folder
 						(EMailReader *reader);
+void		e_mail_reader_avoid_next_mark_as_seen
+						(EMailReader *reader);
 
 G_END_DECLS
 

@@ -94,6 +94,7 @@ struct _EMailReaderPrivate {
 	 * happen when the -user- selects a message. */
 	guint folder_was_just_selected    : 1;
 	guint restoring_message_selection : 1;
+	guint avoid_next_mark_as_seen     : 1;
 
 	guint group_by_threads : 1;
 };
@@ -2758,21 +2759,36 @@ static void
 mail_reader_message_cursor_change_cb (EMailReader *reader)
 {
 	MessageList *message_list;
+	EMailReaderPrivate *priv;
 
 	g_return_if_fail (reader != NULL);
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+	g_return_if_fail (priv != NULL);
 
 	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 	g_return_if_fail (message_list != NULL);
 
 	if (message_list->seen_id == 0 &&
 	    E_IS_MAIL_VIEW (reader) &&
-	    e_mail_view_get_preview_visible (E_MAIL_VIEW (reader)))
+	    e_mail_view_get_preview_visible (E_MAIL_VIEW (reader)) &&
+	    !priv->avoid_next_mark_as_seen)
 		schedule_timeout_mark_seen (reader);
 }
 
 static void
 mail_reader_emit_folder_loaded (EMailReader *reader)
 {
+	EMailReaderPrivate *priv;
+	MessageList *message_list;
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+
+	if (priv && (message_list_count (message_list) <= 0 ||
+	    message_list_selected_count (message_list) <= 0))
+		priv->avoid_next_mark_as_seen = FALSE;
+
 	g_signal_emit (reader, signals[FOLDER_LOADED], 0);
 }
 
@@ -2939,6 +2955,7 @@ mail_reader_message_loaded (EMailReader *reader,
 	/* Determine whether to mark the message as read. */
 	if (message != NULL &&
 	    !priv->restoring_message_selection &&
+	    !priv->avoid_next_mark_as_seen &&
 	    schedule_timeout_mark_seen (reader)) {
 		g_clear_error (&error);
 	} else if (error != NULL) {
@@ -2948,6 +2965,8 @@ mail_reader_message_loaded (EMailReader *reader,
 			error->message, NULL);
 		g_error_free (error);
 	}
+
+	priv->avoid_next_mark_as_seen = FALSE;
 }
 
 static void
@@ -4418,4 +4437,21 @@ e_mail_reader_get_enable_show_folder (EMailReader *reader)
 	g_return_val_if_fail (interface->enable_show_folder != NULL, FALSE);
 
 	return interface->enable_show_folder (reader);
+}
+
+void
+e_mail_reader_avoid_next_mark_as_seen (EMailReader *reader)
+{
+	EMailReaderPrivate *priv;
+	MessageList *message_list;
+
+	g_return_if_fail (reader != NULL);
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+	g_return_if_fail (priv != NULL);
+
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	g_return_if_fail (message_list != NULL);
+
+	priv->avoid_next_mark_as_seen = TRUE;
 }

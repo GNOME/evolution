@@ -1676,7 +1676,7 @@ e_shell_view_execute_search (EShellView *shell_view)
 {
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
-	if (!shell_view->priv->execute_search_blocked)
+	if (!e_shell_view_is_execute_search_blocked (shell_view))
 		g_signal_emit (shell_view, signals[EXECUTE_SEARCH], 0);
 }
 
@@ -1710,6 +1710,20 @@ e_shell_view_unblock_execute_search (EShellView *shell_view)
 	g_return_if_fail (shell_view->priv->execute_search_blocked > 0);
 
 	shell_view->priv->execute_search_blocked--;
+}
+
+/**
+ * e_shell_view_is_execute_search_blocked:
+ * @shell_view: an #EShellView
+ *
+ * Returns whether e_shell_view_execute_search() is blocked.
+ **/
+gboolean
+e_shell_view_is_execute_search_blocked (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+
+	return shell_view->priv->execute_search_blocked > 0;
 }
 
 /**
