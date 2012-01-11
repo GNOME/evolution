@@ -293,7 +293,7 @@
     <key name="timezone" type="s">
       <default>'UTC'</default>
       <_summary>Timezone</_summary>
-      <_description>The default timezone to use for dates and times in the calendar, as an untranslated Olsen timezone database location like "America/New York"</_description>
+      <_description>The default timezone to use for dates and times in the calendar, as an untranslated Olson timezone database location like "America/New York"</_description>
     </key>
     <key name="use-24hour-format" type="b">
       <default>false</default>
