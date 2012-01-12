@@ -1,0 +1,30 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="offline">
+
+  <info>
+    <desc>Make Evolution be online again.</desc>
+    
+    <link type="guide" xref="index#common-other-problems"/>
+    <link type="seealso" xref="mail-working-offline" />
+
+    <revision pkgversion="3.2.1" version="0.1" date="2012-01-10" status="final"/>
+    <credit type="author">
+      <name>Brian Grohe</name>
+      <email>grohe43@gmail.com</email>
+    </credit>
+    <credit type="author">
+      <name>Patrick O'Callaghan</name>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+
+  </info>
+<title>Why is Evolution offline when my net connection is working?</title>
+<p>You may have started Evolution with the <code>--offline</code> commandline option.</p>
+
+<p>If this is not the case and Evolution normally works but has suddenly stopped connecting, you may have unintentionally clicked on the connection icon in the lower left corner. When connected, the icon resembles a pair of sockets joined together. If the sockets are open, there is no connection (and the <gui style="button">Send/Receive</gui> button is grayed out). Click on the icon to change its state.</p>
+
+<p>If the problem persists and you are sure you have not clicked the icon, but you can still reach the network from other apps on your system (browsers, FTP, SSH, ping etc.) it may be that NetworkManager (NM) is not properly configured. Many Linux distributions now use NM to manage their connections, and if it is installed Evolution will use it to detect if the network is up. However NM can be installed but not properly configured, leaving the network working but not detectable by Evolution. (Note that other GNOME-based applications may also fail for the same reason.) The solution is to configure NM to manage your network interface. This is usually easy to do but is outside the scope of this document. For more information seek help from your distribution support forums, mailing lists etc.</p>
+ 
+</page>
