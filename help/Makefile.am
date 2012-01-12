@@ -215,6 +215,7 @@ DOC_PAGES = \
 	memos-usage-edit-memo.page \
 	memos-usage.page \
 	minimize-to-system-tray.page \
+	offline.page \
 	organizing.page \
 	problems-debug-how-to.page \
 	problems-getting-help.page \
