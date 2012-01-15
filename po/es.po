@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-01-11 18:49+0000\n"
-"PO-Revision-Date: 2012-01-15 19:23+0100\n"
+"POT-Creation-Date: 2012-01-15 18:28+0000\n"
+"PO-Revision-Date: 2012-01-15 19:54+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -6758,13 +6758,13 @@ msgid "Please enter your password."
 msgstr "Introduzca su contraseña."
 
 #: ../capplet/settings/mail-account-view.c:280
-#: ../mail/em-account-editor.c:5085 ../plugins/caldav/caldav-source.c:67
+#: ../mail/em-account-editor.c:5321 ../plugins/caldav/caldav-source.c:67
 msgid "CalDAV"
 msgstr "CalDAV"
 
 #: ../capplet/settings/mail-account-view.c:374
 #: ../capplet/settings/mail-account-view.c:419
-#: ../mail/em-account-editor.c:4956 ../mail/em-account-editor.c:5013
+#: ../mail/em-account-editor.c:5192 ../mail/em-account-editor.c:5249
 #: ../modules/online-accounts/e-online-accounts-google.c:295
 #: ../modules/online-accounts/e-online-accounts-google.c:369
 #: ../plugins/google-account-setup/google-contacts-source.c:55
@@ -6944,12 +6944,12 @@ msgid "Setup Google calendar with Evolution"
 msgstr "Configurar el calendario de Google con Evolution"
 
 #: ../capplet/settings/mail-account-view.c:772
-#: ../mail/em-account-editor.c:4752
+#: ../mail/em-account-editor.c:4820
 msgid "You may need to enable IMAP access."
 msgstr "Puede que deba activar el acceso IMAP."
 
 #: ../capplet/settings/mail-account-view.c:780
-#: ../mail/em-account-editor.c:4743
+#: ../mail/em-account-editor.c:4797
 msgid "Google account settings:"
 msgstr "Configuración de la cuenta de Google:"
 
@@ -6958,7 +6958,7 @@ msgid "Setup Yahoo calendar with Evolution"
 msgstr "Configurar el calendario de Yahoo con Evolution"
 
 #: ../capplet/settings/mail-account-view.c:810
-#: ../mail/em-account-editor.c:4770
+#: ../mail/em-account-editor.c:4867
 msgid ""
 "Yahoo calendars are named as firstname_lastname. We have tried to form the "
 "calendar name. So please confirm and re-enter the calendar name if it is not "
@@ -6969,7 +6969,7 @@ msgstr ""
 "calendario si no es correcto."
 
 #: ../capplet/settings/mail-account-view.c:819
-#: ../mail/em-account-editor.c:4779
+#: ../mail/em-account-editor.c:4852
 msgid "Yahoo account settings:"
 msgstr "Configuración de la cuenta de Yahoo:"
 
@@ -8094,9 +8094,6 @@ msgstr ""
 "reemplaza por el dominio"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
-#| msgid ""
-#| "The default timezone to use for dates and times in the calendar, as an "
-#| "untranslated Olsen timezone database location like \"America/New York\""
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
@@ -8493,6 +8490,9 @@ msgid ""
 "text when replying to a message, as an addition to the standard \"Re\" "
 "prefix. An example is 'SV,AV'."
 msgstr ""
+"Lista separada por comas de abreviaturas «Re» traducidas que omitir en el "
+"texto del asunto al responder a un mensaje, añadidas al prefijo «Re» "
+"estándar. Por ejemplo, «SV,AV»"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
 msgid "Composer load/attach directory"
@@ -8985,7 +8985,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid "List of localized 'Re'"
-msgstr ""
+msgstr "Lista de «Re» traducidas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 #: ../mail/evolution-mail.schemas.in.h:121
@@ -11879,8 +11879,8 @@ msgctxt "mail-signature"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../mail/em-account-editor.c:1682 ../mail/em-account-editor.c:4688
-#: ../mail/em-account-editor.c:4713
+#: ../mail/em-account-editor.c:1682 ../mail/em-account-editor.c:4731
+#: ../mail/em-account-editor.c:4766
 msgid "Never"
 msgstr "Nunca"
 
@@ -12000,27 +12000,27 @@ msgstr "Opciones de recepción"
 msgid "Checking for New Messages"
 msgstr "Comprobando si hay mensajes nuevos"
 
-#: ../mail/em-account-editor.c:4684 ../mail/em-account-editor.c:4709
+#: ../mail/em-account-editor.c:4725 ../mail/em-account-editor.c:4760
 msgid "Always (SSL)"
 msgstr "Siempre (SSL)"
 
-#: ../mail/em-account-editor.c:4686 ../mail/em-account-editor.c:4711
+#: ../mail/em-account-editor.c:4728 ../mail/em-account-editor.c:4763
 msgid "When possible (TLS)"
 msgstr "Cuando sea posible (TLS)"
 
-#: ../mail/em-account-editor.c:4733
+#: ../mail/em-account-editor.c:4805
 msgid "Setup Google con_tacts with Evolution"
 msgstr "Configurar los con_tactos de Google con Evolution"
 
-#: ../mail/em-account-editor.c:4734
+#: ../mail/em-account-editor.c:4812
 msgid "Setup Google ca_lendar with Evolution"
 msgstr "Configurar el ca_lendario de Google con Evolution"
 
-#: ../mail/em-account-editor.c:4766
+#: ../mail/em-account-editor.c:4860
 msgid "Setup _Yahoo calendar with Evolution"
 msgstr "Configurar el calendario de _Yahoo con Evolution"
 
-#: ../mail/em-account-editor.c:4792
+#: ../mail/em-account-editor.c:4885
 msgid "Yahoo Calen_dar name:"
 msgstr "Nombre del calen_dario de Yahoo:"
 
