@@ -4347,8 +4347,8 @@ emae_free_auto (EConfig *ec,
 }
 
 static gboolean
-emae_service_complete (EMAccountEditor *emae,
-                       EMAccountEditorService *service)
+emae_check_service_complete (EMAccountEditor *emae,
+                             EMAccountEditorService *service)
 {
 	CamelProvider *provider = NULL;
 	const gchar *host = NULL;
@@ -4505,363 +4505,599 @@ emae_destroy_widget (GtkWidget *widget)
 }
 
 static gboolean
+emae_display_name_in_use (EMAccountEditor *emae,
+                          const gchar *display_name)
+{
+	EAccount *account;
+	EAccount *original_account;
+
+	/* XXX Trivial for now, less so when we dump EAccount. */
+
+	account = e_get_account_by_name (display_name);
+	original_account = em_account_editor_get_original_account (emae);
+
+	return (account != NULL && account != original_account);
+}
+
+static void
+emae_init_receive_page_for_new_account (EMAccountEditor *emae)
+{
+	EAccount *account;
+	const gchar *address;
+	gchar *user;
+
+	account = em_account_editor_get_modified_account (emae);
+	address = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
+
+	/* Extract an initial username from the email address. */
+	user = g_strdup (address);
+	if (user != NULL) {
+		gchar *cp = strchr (user, '@');
+		if (cp != NULL)
+			*cp = '\0';
+	}
+
+	gtk_entry_set_text (emae->priv->source.username, user);
+
+	g_free (user);
+}
+
+static void
+emae_init_receive_page_for_server_data (EMAccountEditor *emae)
+{
+	ServerData *sdata;
+	CamelNetworkSecurityMethod method;
+	gint port = 0;
+
+	sdata = emae->priv->selected_server;
+	g_return_if_fail (sdata != NULL);
+
+	if (sdata->recv_user == NULL) {
+		; /* do nothing */
+	} else if (*sdata->recv_user == '\0') {
+		; /* do nothing */
+	} else if (strcmp (sdata->recv_user, "@") == 0) {
+		; /* do nothing */
+	} else {
+		gtk_entry_set_text (
+			emae->priv->source.username,
+			sdata->recv_user);
+	}
+
+	if (sdata->recv_security_method != CAMEL_NETWORK_SECURITY_METHOD_NONE)
+		method = sdata->recv_security_method;
+	else
+		method = sdata->security_method;
+
+	g_object_set (
+		emae->priv->source.settings,
+		"security-method", method, NULL);
+
+	emae->priv->source.protocol = sdata->proto;
+
+	if (sdata->recv_port != NULL && *sdata->recv_port != '\0')
+		port = (gint) strtol (sdata->recv_port, NULL, 10);
+
+	if (port > 0)
+		e_port_entry_set_port (emae->priv->source.port, port);
+
+	gtk_toggle_button_set_active (emae->priv->source.remember, TRUE);
+	gtk_entry_set_text (emae->priv->source.hostname, sdata->recv);
+
+	if (sdata->recv_auth != NULL && *sdata->recv_auth != '\0')
+		gtk_combo_box_set_active_id (
+			emae->priv->source.authtype,
+			sdata->recv_auth);
+}
+
+static void
+emae_init_send_page_for_new_account (EMAccountEditor *emae)
+{
+	EAccount *account;
+	const gchar *address;
+	gchar *user;
+
+	account = em_account_editor_get_modified_account (emae);
+	address = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
+
+	/* Extract an initial username from the email address. */
+	user = g_strdup (address);
+	if (user != NULL) {
+		gchar *cp = strchr (user, '@');
+		if (cp != NULL)
+			*cp = '\0';
+	}
+
+	gtk_entry_set_text (emae->priv->transport.username, user);
+
+	g_free (user);
+}
+
+static void
+emae_init_send_page_for_server_data (EMAccountEditor *emae)
+{
+	ServerData *sdata;
+	CamelNetworkSecurityMethod method;
+	gint port = 0;
+
+	sdata = emae->priv->selected_server;
+	g_return_if_fail (sdata != NULL);
+
+	if (sdata->recv_user == NULL) {
+		; /* do nothing */
+	} else if (*sdata->recv_user == '\0') {
+		; /* do nothing */
+	} else if (strcmp (sdata->recv_user, "@") == 0) {
+		; /* do nothing */
+	} else {
+		gtk_entry_set_text (
+			emae->priv->transport.username,
+			sdata->send_user);
+	}
+
+	if (sdata->recv_security_method != CAMEL_NETWORK_SECURITY_METHOD_NONE)
+		method = sdata->recv_security_method;
+	else
+		method = sdata->security_method;
+
+	g_object_set (
+		emae->priv->transport.settings,
+		"security-method", method, NULL);
+
+	emae->priv->transport.protocol = "smtp";
+
+	if (sdata->recv_port != NULL && *sdata->recv_port != '\0')
+		port = (gint) strtol (sdata->recv_port, NULL, 10);
+
+	if (port > 0)
+		e_port_entry_set_port (emae->priv->source.port, port);
+
+	gtk_toggle_button_set_active (emae->priv->transport.remember, TRUE);
+	gtk_toggle_button_set_active (emae->priv->transport.needs_auth, TRUE);
+	gtk_entry_set_text (emae->priv->transport.hostname, sdata->send);
+
+	if (sdata->send_auth != NULL && *sdata->send_auth != '\0')
+		gtk_combo_box_set_active_id (
+			emae->priv->source.authtype,
+			sdata->send_auth);
+	else
+		emae_authtype_changed (
+			emae->priv->transport.authtype,
+			&emae->priv->transport);
+}
+
+static void
+emae_init_review_page (EMAccountEditor *emae)
+{
+	EAccount *account;
+	const gchar *address;
+	gchar *display_name;
+	gint ii = 1;
+
+	account = em_account_editor_get_modified_account (emae);
+	address = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
+
+	display_name = g_strdup (address);
+
+	/* Use the email address as the initial display name for the
+	 * mail account.  If necessary, append a number to the display
+	 * name to make it unique among other mail accounts. */
+	while (emae_display_name_in_use (emae, display_name)) {
+		g_free (display_name);
+		display_name = g_strdup_printf ("%s (%d)", address, ii++);
+	}
+
+	gtk_entry_set_text (emae->priv->identity_entries[0], display_name);
+
+	g_free (display_name);
+}
+
+static void
+emae_update_review_page (EMAccountEditor *emae)
+{
+	EAccount *account;
+	const gchar *name;
+	const gchar *address;
+
+	account = em_account_editor_get_modified_account (emae);
+	name = e_account_get_string (account, E_ACCOUNT_ID_NAME);
+	address = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
+
+	gtk_label_set_text (emae->priv->review_name, name);
+	gtk_label_set_text (emae->priv->review_email, address);
+
+	if (CAMEL_IS_NETWORK_SETTINGS (emae->priv->source.settings)) {
+		CamelNetworkSecurityMethod method;
+		const gchar *encryption;
+		const gchar *protocol;
+		gchar *host = NULL;
+		gchar *user = NULL;
+
+		protocol = emae->priv->source.protocol;
+
+		g_object_get (
+			emae->priv->source.settings,
+			"host", &host, "user", &user,
+			"security-method", &method, NULL);
+
+		switch (method) {
+			case CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT:
+				encryption = _("Always (SSL)");
+				break;
+			case CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT:
+				encryption = _("When possible (TLS)");
+				break;
+			default:
+				encryption = _("Never");
+				break;
+		}
+
+		gtk_label_set_text (emae->priv->receive_stype, protocol);
+		gtk_label_set_text (emae->priv->receive_saddress, host);
+		gtk_label_set_text (emae->priv->receive_name, user);
+		gtk_label_set_text (emae->priv->receive_encryption, encryption);
+
+		g_free (host);
+		g_free (user);
+	}
+
+	if (CAMEL_IS_NETWORK_SETTINGS (emae->priv->transport.settings)) {
+		CamelNetworkSecurityMethod method;
+		const gchar *encryption;
+		const gchar *protocol;
+		gchar *host = NULL;
+		gchar *user = NULL;
+
+		protocol = emae->priv->transport.protocol;
+
+		g_object_get (
+			emae->priv->transport.settings,
+			"host", &host, "user", &user,
+			"security-method", &method, NULL);
+
+		switch (method) {
+			case CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT:
+				encryption = _("Always (SSL)");
+				break;
+			case CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT:
+				encryption = _("When possible (TLS)");
+				break;
+			default:
+				encryption = _("Never");
+				break;
+		}
+
+		gtk_label_set_text (emae->priv->send_stype, protocol);
+		gtk_label_set_text (emae->priv->send_saddress, host);
+		gtk_label_set_text (emae->priv->send_name, user);
+		gtk_label_set_text (emae->priv->send_encryption, encryption);
+
+		g_free (host);
+		g_free (user);
+	}
+}
+
+static void
+emae_update_review_page_for_google (EMAccountEditor *emae)
+{
+	GtkWidget *container;
+	GtkWidget *widget;
+	gchar *markup;
+
+	emae_destroy_widget (emae->priv->gcontacts);
+	emae_destroy_widget (emae->priv->calendar);
+	emae_destroy_widget (emae->priv->account_label);
+	emae_destroy_widget (emae->priv->gmail_link);
+
+	container = emae->priv->review_box;
+
+	widget = gtk_label_new (NULL);
+	markup = g_markup_printf_escaped (
+		"<span size=\"large\" weight=\"bold\">%s</span>",
+		_("Google account settings:"));
+	gtk_label_set_markup (GTK_LABEL (widget), markup);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	emae->priv->account_label = widget;
+	gtk_widget_show (widget);
+	g_free (markup);
+
+	widget = gtk_check_button_new_with_mnemonic (
+		_("Setup Google con_tacts with Evolution"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	emae->priv->gcontacts = widget;
+	gtk_widget_show (widget);
+
+	widget = gtk_check_button_new_with_mnemonic (
+		_("Setup Google ca_lendar with Evolution"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	emae->priv->calendar = widget;
+	gtk_widget_show (widget);
+
+	widget = gtk_link_button_new_with_label (
+		"https://mail.google.com/mail/?ui=2&amp;shva=1#settings/fwdandpop",
+		_("You may need to enable IMAP access."));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	emae->priv->gmail_link = widget;
+	gtk_widget_show (widget);
+}
+
+static void
+emae_update_review_page_for_yahoo (EMAccountEditor *emae)
+{
+	EAccount *account;
+	GtkWidget *container;
+	GtkWidget *widget;
+	GtkWidget *label;
+	gchar *markup;
+	gchar *name;
+
+	account = em_account_editor_get_modified_account (emae);
+	name = g_strdup (e_account_get_string (account, E_ACCOUNT_ID_NAME));
+
+	g_strdelimit (name, " ", '_');
+
+	emae_destroy_widget (emae->priv->calendar);
+	emae_destroy_widget (emae->priv->info_label);
+	emae_destroy_widget (emae->priv->yahoo_cal_entry);
+	emae_destroy_widget (emae->priv->account_label);
+	emae_destroy_widget (emae->priv->yahoo_cal_box);
+
+	container = emae->priv->review_box;
+
+	widget = gtk_label_new (NULL);
+	markup = g_markup_printf_escaped (
+		"<span size=\"large\" weight=\"bold\">%s</span>",
+		_("Yahoo account settings:"));
+	gtk_label_set_markup (GTK_LABEL (widget), markup);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	emae->priv->account_label = widget;
+	gtk_widget_show (widget);
+	g_free (markup);
+
+	widget = gtk_check_button_new_with_mnemonic (
+		_("Setup _Yahoo calendar with Evolution"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	emae->priv->calendar = widget;
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new (
+		_("Yahoo calendars are named as firstname_lastname. We have "
+		  "tried to form the calendar name. So please confirm and "
+		  "re-enter the calendar name if it is not correct."));
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_line_wrap_mode (GTK_LABEL (widget), PANGO_WRAP_WORD);
+	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	emae->priv->info_label = widget;
+	gtk_widget_show (widget);
+
+	widget = gtk_hbox_new (FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	emae->priv->yahoo_cal_box = widget;
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_label_new_with_mnemonic (
+		_("Yahoo Calen_dar name:"));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	label = widget;
+
+	widget = gtk_entry_new ();
+	gtk_entry_set_text (GTK_ENTRY (widget), name);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	emae->priv->yahoo_cal_entry = widget;
+	gtk_widget_show (widget);
+
+	g_free (name);
+}
+
+static gboolean
+emae_check_identity_complete (EMAccountEditor *emae)
+{
+	EAccount *account;
+	const gchar *name;
+	const gchar *address;
+	const gchar *reply_to;
+
+	account = em_account_editor_get_modified_account (emae);
+
+	name = e_account_get_string (account, E_ACCOUNT_ID_NAME);
+	address = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
+	reply_to = e_account_get_string (account, E_ACCOUNT_ID_REPLY_TO);
+
+	if (name == NULL || *name == '\0')
+		return FALSE;
+
+	if (address == NULL || !is_email (address))
+		return FALSE;
+
+	/* An empty reply_to string is allowed. */
+	if (reply_to != NULL && *reply_to != '\0' && !is_email (reply_to))
+		return FALSE;
+
+	return TRUE;
+}
+
+static gboolean
+emae_check_review_complete (EMAccountEditor *emae)
+{
+	EAccount *account;
+	const gchar *display_name;
+
+	account = em_account_editor_get_modified_account (emae);
+	display_name = e_account_get_string (account, E_ACCOUNT_NAME);
+
+	if (display_name == NULL || *display_name == '\0')
+		return FALSE;
+
+	if (emae_display_name_in_use (emae, display_name))
+		return FALSE;
+
+	return TRUE;
+}
+
+static gboolean
 emae_check_complete (EConfig *ec,
                      const gchar *pageid,
                      gpointer data)
 {
 	EMAccountEditor *emae = data;
 	EAccount *account;
-	EAccount *original_account;
-	gint ok = TRUE;
-	const gchar *tmp;
-	EAccount *ea;
+	enum _e_config_t config_type;
 	gboolean refresh = FALSE;
 	gboolean new_account;
+	const gchar *address;
+	gchar *host = NULL;
+	gboolean ok = TRUE;
+
+	config_type = ((EConfig *) emae->priv->config)->type;
+	new_account = (em_account_editor_get_original_account (emae) == NULL);
 
 	account = em_account_editor_get_modified_account (emae);
-	original_account = em_account_editor_get_original_account (emae);
-	new_account = (original_account == NULL);
+	address = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
+
+	if (CAMEL_IS_NETWORK_SETTINGS (emae->priv->source.settings))
+		host = camel_network_settings_dup_host (
+			CAMEL_NETWORK_SETTINGS (emae->priv->source.settings));
 
 	/* We use the page-check of various pages to 'prepare' or
-	 * pre-load their values, only in the assistant */
-	if (pageid
-	    && ((EConfig *) emae->priv->config)->type == E_CONFIG_ASSISTANT) {
-		if (!strcmp (pageid, "00.identity")) {
-			if (!emae->priv->identity_set) {
-				gchar *uname;
+	 * pre-load their values, only in the assistant. */
 
-				emae->priv->identity_set = 1;
-#ifndef G_OS_WIN32
-				uname = g_locale_to_utf8 (g_get_real_name (), -1, NULL, NULL, NULL);
-#else
-				uname = g_strdup (g_get_real_name ());
-#endif
-				if (uname) {
-					gtk_entry_set_text (emae->priv->identity_entries[1], uname);
-					g_free (uname);
-				}
+	if (pageid == NULL || config_type != E_CONFIG_ASSISTANT)
+		goto skip_prepare;
+
+	if (strcmp (pageid, "10.receive") == 0) {
+		if (!emae->priv->receive_set) {
+
+			/* FIXME Do this asynchronously! */
+			emae->priv->selected_server =
+				emae_check_servers (address);
+
+			if (new_account) {
+				emae_init_receive_page_for_new_account (emae);
+				refresh = TRUE;
 			}
-		} else if (!strcmp (pageid, "10.receive")) {
-			if (!emae->priv->receive_set) {
-				ServerData *sdata;
-				gchar *user, *at;
+			if (emae->priv->selected_server != NULL)
+				emae_init_receive_page_for_server_data (emae);
 
-				emae->priv->receive_set = 1;
-				tmp = (gchar *) e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
-				at = strchr (tmp, '@');
-				user = g_alloca (at - tmp + 1);
-				memcpy (user, tmp, at - tmp);
-				user[at - tmp] = 0;
-				at++;
+			emae->priv->receive_set = TRUE;
+		}
 
-				sdata = emae->priv->selected_server = emae_check_servers (tmp);
-				if (new_account) {
-					const gchar *use_user = user;
-
-					refresh = TRUE;
-					if (sdata && sdata->recv_user && *sdata->recv_user)
-						use_user = g_str_equal (sdata->recv_user, "@") ? tmp : sdata->recv_user;
-					gtk_entry_set_text (emae->priv->source.username, use_user);
-
-					if (sdata != NULL) {
-						CamelNetworkSecurityMethod method;
-
-						if (sdata->recv_security_method != CAMEL_NETWORK_SECURITY_METHOD_NONE)
-							method = sdata->recv_security_method;
-						else
-							method = sdata->security_method;
-						g_object_set (emae->priv->source.settings, "security-method", method, NULL);
-
-						emae->priv->source.protocol = sdata->proto;
-						if (g_strcmp0 (sdata->proto, "pop") == 0)
-							e_account_set_bool (account, E_ACCOUNT_SOURCE_KEEP_ON_SERVER, TRUE);
-
-						if (sdata->recv_port && *sdata->recv_port)
-							e_port_entry_set_port (emae->priv->source.port, atoi (sdata->recv_port));
-
-						gtk_toggle_button_set_active (emae->priv->source.remember, TRUE);
-
-						gtk_entry_set_text (emae->priv->source.hostname, sdata->recv);
-						gtk_entry_set_text (emae->priv->transport.hostname, sdata->send);
-					}
-					if (sdata != NULL && sdata->recv_auth && *sdata->recv_auth)
-						gtk_combo_box_set_active_id (
-							emae->priv->source.authtype,
-							sdata->recv_auth);
-
-				} else
-					gtk_entry_set_text (emae->priv->source.username, user);
-
-			}
-		} else if (!strcmp (pageid, "30.send")) {
-			if (!emae->priv->send_set) {
-				gchar *at, *user;
-				ServerData *sdata;
-
-				emae->priv->send_set = 1;
-				tmp = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
-				at = strchr (tmp, '@');
-				user = g_alloca (at - tmp + 1);
-				memcpy (user, tmp, at - tmp);
-				user[at - tmp] = 0;
-				at++;
-
-				sdata = emae->priv->selected_server;
-				if (sdata != NULL) {
-					CamelNetworkSecurityMethod method;
-					const gchar *use_user = user;
-					refresh = TRUE;
-
-					if (sdata->send_security_method != CAMEL_NETWORK_SECURITY_METHOD_NONE)
-						method = sdata->send_security_method;
-					else
-						method = sdata->security_method;
-					g_object_set (emae->priv->transport.settings, "security-method", method, NULL);
-
-					emae->priv->transport.protocol = "smtp";
-					if (sdata->send_port && *sdata->send_port)
-						e_port_entry_set_port (emae->priv->transport.port, atoi (sdata->send_port));
-
-					if (sdata->send_user && *sdata->send_user)
-						use_user = g_str_equal (sdata->send_user, "@") ? tmp : sdata->send_user;
-
-					gtk_entry_set_text (emae->priv->transport.username, use_user);
-					
-					gtk_toggle_button_set_active (emae->priv->transport.remember, TRUE);
-					gtk_toggle_button_set_active (emae->priv->transport.needs_auth, TRUE);
-
-					if (sdata->send_auth && *sdata->send_auth)
-						gtk_combo_box_set_active_id (
-							emae->priv->transport.authtype,
-							sdata->send_auth);
-					else
-						emae_authtype_changed (emae->priv->transport.authtype, &emae->priv->transport);
-				} else
-					gtk_entry_set_text (emae->priv->transport.username, user);
+	} else if (strcmp (pageid, "30.send") == 0) {
+		if (!emae->priv->send_set) {
+			if (new_account)
+				emae_init_send_page_for_new_account (emae);
+			if (emae->priv->selected_server != NULL) {
+				emae_init_send_page_for_server_data (emae);
+				refresh = TRUE;
 			}
 
-		} else if (!strcmp (pageid, "20.receive_options")) {
-			if (!emae->priv->receive_opt_set) {
-				CamelProvider *provider;
+			emae->priv->send_set = TRUE;
+		}
 
-				provider = emae_get_store_provider (emae);
+	} else if (strcmp (pageid, "20.receive_options") == 0) {
+		if (!emae->priv->receive_opt_set) {
+			CamelProvider *provider;
 
-				if (provider != NULL
-				&& emae->priv->extra_provider != provider) {
-					emae->priv->extra_provider = provider;
-					emae_auto_detect (emae);
-				}
+			provider = emae_get_store_provider (emae);
 
-				emae->priv->receive_opt_set = 1;
-			}
-		} else if (!strcmp (pageid, "50.review")) {
-			gchar *template;
-			guint i = 0, len;
-			gchar *enc, *buff, *cal_name;
-			gchar *host = NULL;
-			gchar *protocol = NULL, *user = NULL;
-			CamelNetworkSecurityMethod method;
-
-			if (!emae->priv->review_set) {
-				tmp = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
-				len = strlen (tmp);
-				template = g_alloca (len + 14);
-				strcpy (template, tmp);
-				while (e_get_account_by_name (template))
-					sprintf (template + len, " (%d)", i++);
-
-				gtk_entry_set_text (emae->priv->identity_entries[0], template);
-				emae->priv->review_set = TRUE;
-			}
-			gtk_label_set_text (emae->priv->review_name, e_account_get_string (account, E_ACCOUNT_ID_NAME));
-			gtk_label_set_text (emae->priv->review_email, e_account_get_string (account, E_ACCOUNT_ID_ADDRESS));
-			if (emae->priv->source.settings) {
-				protocol = g_strdup (emae->priv->source.protocol);
-				g_object_get (emae->priv->source.settings, "host", &host, NULL);
-				g_object_get (emae->priv->source.settings, "user", &user, NULL);
-				g_object_get (emae->priv->source.settings, "security-method", &method, NULL);
-				if (method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT)
-					enc = g_strdup (_("Always (SSL)"));
-				else if (method == CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT)
-					enc = g_strdup (_("When possible (TLS)"));
-				else
-					enc = g_strdup (_("Never"));
-
-				gtk_label_set_text (emae->priv->receive_stype, protocol);
-				gtk_label_set_text (emae->priv->receive_saddress, host);
-				gtk_label_set_text (emae->priv->receive_name, user);
-				gtk_label_set_text (emae->priv->receive_encryption, enc);
-				g_free (enc);
-				g_free (protocol);
-				g_free (user);
+			if (provider != NULL
+			&& emae->priv->extra_provider != provider) {
+				emae->priv->extra_provider = provider;
+				emae_auto_detect (emae);
 			}
 
-			if (emae->priv->transport.settings) {
-				gchar *transport_host = NULL;
-				protocol = NULL;
-				user = NULL;
+			emae->priv->receive_opt_set = TRUE;
+		}
 
-				protocol = g_strdup (emae->priv->transport.protocol);
-				g_object_get (emae->priv->transport.settings, "host", &transport_host, NULL);
-				g_object_get (emae->priv->transport.settings, "user", &user, NULL);
-				g_object_get (emae->priv->transport.settings, "security-method", &method, NULL);
-				if (method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT)
-					enc = g_strdup (_("Always (SSL)"));
-				else if (method == CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT)
-					enc = g_strdup (_("When possible (TLS)"));
-				else
-					enc = g_strdup (_("Never"));
+	/* Review page is only shown in the assistant. */
+	} else if (strcmp (pageid, "50.review") == 0) {
+		if (!emae->priv->review_set) {
+			emae_init_review_page (emae);
+			emae->priv->review_set = TRUE;
+		}
 
-				gtk_label_set_text (emae->priv->send_stype, protocol);
-				gtk_label_set_text (emae->priv->send_saddress, transport_host);
-				gtk_label_set_text (emae->priv->send_name, user);
-				gtk_label_set_text (emae->priv->send_encryption, enc);
-				g_free (enc);
-				g_free (protocol);
-				g_free (user);
-				g_free (transport_host);
-			}
+		emae_update_review_page (emae);
 
-			if (e_util_utf8_strstrcase (host, "gmail") || e_util_utf8_strstrcase (host, "googlemail")) {
-				emae->priv->is_gmail = TRUE;
+		/* Google and Yahoo get special treatment. */
 
-				emae_destroy_widget (emae->priv->gcontacts);
-				emae_destroy_widget (emae->priv->calendar);
-				emae_destroy_widget (emae->priv->account_label);
-				emae_destroy_widget (emae->priv->gmail_link);
+		emae->priv->is_gmail = FALSE;
+		emae->priv->is_yahoo = FALSE;
 
-				emae->priv->gcontacts = gtk_check_button_new_with_mnemonic (_("Setup Google con_tacts with Evolution"));
-				emae->priv->calendar = gtk_check_button_new_with_mnemonic (_("Setup Google ca_lendar with Evolution"));
+		if (e_util_utf8_strstrcase (host, "gmail")) {
+			emae->priv->is_gmail = TRUE;
+			emae_update_review_page_for_google (emae);
 
-				gtk_toggle_button_set_active ((GtkToggleButton *) emae->priv->gcontacts, TRUE);
-				gtk_toggle_button_set_active ((GtkToggleButton *) emae->priv->calendar, TRUE);
+		} else if (e_util_utf8_strstrcase (host, "googlemail")) {
+			emae->priv->is_gmail = TRUE;
+			emae_update_review_page_for_google (emae);
 
-				gtk_widget_show (emae->priv->gcontacts);
-				gtk_widget_show (emae->priv->calendar);
+		} else if (e_util_utf8_strstrcase (host, "yahoo.")) {
+			emae->priv->is_yahoo = TRUE;
+			emae_update_review_page_for_yahoo (emae);
 
-				emae->priv->account_label = gtk_label_new (NULL);
-				buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Google account settings:"));
-				gtk_label_set_markup ((GtkLabel *) emae->priv->account_label, buff);
-				g_free (buff);
-				gtk_widget_show (emae->priv->account_label);
+		} else if (e_util_utf8_strstrcase (host, "ymail.")) {
+			emae->priv->is_yahoo = TRUE;
+			emae_update_review_page_for_yahoo (emae);
 
-				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->account_label, FALSE, FALSE, 0);
-				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->gcontacts, FALSE, FALSE, 0);
-				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->calendar, FALSE, FALSE, 0);
-
-				emae->priv->gmail_link = gtk_link_button_new_with_label ("https://mail.google.com/mail/?ui=2&amp;shva=1#settings/fwdandpop", _("You may need to enable IMAP access."));
-				gtk_widget_show (emae->priv->gmail_link);
-				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->gmail_link, FALSE, FALSE, 0);
-
-			} else if ((e_util_utf8_strstrcase (host, "yahoo.") || e_util_utf8_strstrcase (host, "ymail.")
-						|| e_util_utf8_strstrcase (host, "rocketmail."))) {
-				emae->priv->is_yahoo = TRUE;
-
-				emae_destroy_widget (emae->priv->calendar);
-				emae_destroy_widget (emae->priv->info_label);
-				emae_destroy_widget (emae->priv->yahoo_cal_entry);
-				emae_destroy_widget (emae->priv->account_label);
-				emae_destroy_widget (emae->priv->yahoo_cal_box);
-
-				emae->priv->calendar = gtk_check_button_new_with_mnemonic (_("Setup _Yahoo calendar with Evolution"));
-
-				gtk_toggle_button_set_active ((GtkToggleButton *) emae->priv->calendar, TRUE);
-
-				emae->priv->info_label = gtk_label_new (_("Yahoo calendars are named as firstname_lastname. We have tried to form the calendar name. So please confirm and re-enter the calendar name if it is not correct."));
-				gtk_label_set_line_wrap ((GtkLabel *) emae->priv->info_label, TRUE);
-				gtk_label_set_line_wrap_mode ((GtkLabel *) emae->priv->info_label, PANGO_WRAP_WORD);
-				gtk_label_set_selectable ((GtkLabel *) emae->priv->info_label, TRUE);
-
-				gtk_widget_show (emae->priv->calendar);
-				gtk_widget_show (emae->priv->info_label);
-
-				emae->priv->account_label = gtk_label_new (NULL);
-				buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Yahoo account settings:"));
-				gtk_label_set_markup ((GtkLabel *) emae->priv->account_label, buff);
-				g_free (buff);
-				gtk_widget_show (emae->priv->account_label);
-
-#define PACK_IN_BOX_AND_TEXT(txt,box,child,num) { GtkWidget *txtlbl = gtk_label_new_with_mnemonic (txt); gtk_label_set_mnemonic_widget ((GtkLabel*)txtlbl, child); box = gtk_hbox_new (FALSE, 12); gtk_box_pack_start ((GtkBox *)box, txtlbl, FALSE, FALSE, num); gtk_box_pack_start ((GtkBox *)box, child, FALSE, FALSE, num); gtk_widget_show_all (box);}
-
-				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->account_label, FALSE, FALSE, 0);
-				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->calendar, FALSE, FALSE, 0);
-
-				emae->priv->yahoo_cal_entry = gtk_entry_new ();
-				gtk_widget_show (emae->priv->yahoo_cal_entry);
-				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->info_label, FALSE, FALSE, 0);
-				PACK_IN_BOX_AND_TEXT(_("Yahoo Calen_dar name:"), emae->priv->yahoo_cal_box, emae->priv->yahoo_cal_entry, 0);
-				gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->yahoo_cal_box, FALSE, FALSE, 0);
-				cal_name = g_strdup (e_account_get_string (account, E_ACCOUNT_ID_NAME));
-				cal_name = g_strdelimit(cal_name, " ", '_');
-				gtk_entry_set_text ((GtkEntry *) emae->priv->yahoo_cal_entry, cal_name);
-				g_free (cal_name);
-#undef PACK_IN_BOX_AND_TEXT
-			} else {
-				emae->priv->is_gmail = FALSE;
-				emae->priv->is_yahoo = FALSE;
-			}
-			g_free (host);
+		} else if (e_util_utf8_strstrcase (host, "rocketmail.")) {
+			emae->priv->is_yahoo = TRUE;
+			emae_update_review_page_for_yahoo (emae);
 		}
 	}
 
+skip_prepare:
 	/*
-	 * Setting a flag on the Account if it is marked as default. It is done in this way instead of
-	 * using a temporary variable so as to keep track of which account is marked as default in case of
-	 * editing multiple accounts at a time
+	 * Setting a flag on the Account if it is marked as default. It is
+	 * done in this way instead of using a temporary variable so as to
+	 * keep track of which account is marked as default in case of
+	 * editing multiple accounts at a time.
 	 */
 	if (gtk_toggle_button_get_active (emae->priv->default_account))
 		g_object_set_data (G_OBJECT (account), "default_flagged", GINT_TO_POINTER(1));
 
-	if (pageid == NULL || !strcmp (pageid, "00.identity")) {
-		/* TODO: check the account name is set, and unique in the account list */
-		ok = (tmp = e_account_get_string (account, E_ACCOUNT_ID_NAME))
-			&& tmp[0]
-			&& (tmp = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS))
-			&& is_email (tmp)
-			&& ((tmp = e_account_get_string (account, E_ACCOUNT_ID_REPLY_TO)) == NULL
-			    || tmp[0] == 0
-			    || is_email (tmp));
-		if (!ok) {
-			d (printf ("identity incomplete\n"));
-		}
-	}
+	if (ok && (pageid == NULL || strcmp (pageid, "00.identity") == 0))
+		ok = emae_check_identity_complete (emae);
 
-	if (ok && (pageid == NULL || !strcmp (pageid, "10.receive"))) {
+	if (ok && (pageid == NULL || strcmp (pageid, "10.receive") == 0)) {
 		if (emae->type != EMAE_NOTEBOOK && refresh) {
-			emae_refresh_providers (emae, &emae->priv->source);
-			emae_provider_changed (emae->priv->source.providers, &emae->priv->source);
+			emae_refresh_providers (
+				emae, &emae->priv->source);
+			emae_provider_changed (
+				emae->priv->source.providers,
+				&emae->priv->source);
 		}
-		ok = emae_service_complete (emae, &emae->priv->source);
-		if (!ok) {
-			d (printf ("receive page incomplete\n"));
-		}
+		ok = emae_check_service_complete (emae, &emae->priv->source);
 	}
 
-	if (ok && (pageid == NULL || !strcmp (pageid, "30.send"))) {
+	if (ok && (pageid == NULL || strcmp (pageid, "30.send") == 0)) {
 		CamelProvider *provider;
 
 		provider = emae_get_store_provider (emae);
 		if (!provider || !CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
 			if (emae->type != EMAE_NOTEBOOK && refresh) {
-				emae_refresh_providers (emae, &emae->priv->transport);
-				emae_provider_changed (emae->priv->transport.providers, &emae->priv->transport);
+				emae_refresh_providers (
+					emae, &emae->priv->transport);
+				emae_provider_changed (
+					emae->priv->transport.providers,
+					&emae->priv->transport);
 			}
-			ok = emae_service_complete (emae, &emae->priv->transport);
-			if (!ok) {
-				d (printf ("send page incomplete\n"));
-			}
+			ok = emae_check_service_complete (
+				emae, &emae->priv->transport);
 		}
 	}
 
-	if (ok && (pageid == NULL || !strcmp (pageid, "50.review"))) {
-		ok = (tmp = e_account_get_string (account, E_ACCOUNT_NAME))
-			&& tmp[0]
-			&& ((ea = e_get_account_by_name (tmp)) == NULL
-			    || ea == original_account);
-		if (!ok) {
-			d (printf ("review page incomplete\n"));
-		}
-	}
+	if (ok && (pageid == NULL || strcmp (pageid, "50.review") == 0))
+		ok = emae_check_review_complete (emae);
+
+	g_free (host);
 
 	return ok;
 }
