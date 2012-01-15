@@ -290,6 +290,53 @@ emae_config_target_changed_cb (EMAccountEditor *emae)
 		E_CONFIG_TARGET_CHANGED_STATE);
 }
 
+static gint
+emae_provider_compare (const CamelProvider *p1,
+                       const CamelProvider *p2)
+{
+	/* sort providers based on "location" (ie. local or remote) */
+	if (p1->flags & CAMEL_PROVIDER_IS_REMOTE) {
+		if (p2->flags & CAMEL_PROVIDER_IS_REMOTE)
+			return 0;
+		return -1;
+	} else {
+		if (p2->flags & CAMEL_PROVIDER_IS_REMOTE)
+			return 1;
+		return 0;
+	}
+}
+
+static GList *
+emae_list_providers (void)
+{
+	GList *list, *link;
+	GQueue trash = G_QUEUE_INIT;
+
+	list = camel_provider_list (TRUE);
+	list = g_list_sort (list, (GCompareFunc) emae_provider_compare);
+
+	/* Keep only providers with a "mail" or "news" domain. */
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		CamelProvider *provider = link->data;
+		gboolean mail_or_news_domain;
+
+		mail_or_news_domain =
+			(g_strcmp0 (provider->domain, "mail") == 0) ||
+			(g_strcmp0 (provider->domain, "news") == 0);
+
+		if (mail_or_news_domain)
+			continue;
+
+		g_queue_push_tail (&trash, link);
+	}
+
+	while ((link = g_queue_pop_head (&trash)) != NULL)
+		list = g_list_remove_link (list, link);
+
+	return list;
+}
+
 static void
 emae_set_original_account (EMAccountEditor *emae,
                            EAccount *original_account)
@@ -919,6 +966,8 @@ emae_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (em_account_editor_parent_class)->constructed (object);
 
+	emae->priv->providers = emae_list_providers ();
+
 	/* Set some defaults on the new account before we get started. */
 	if (emae->priv->new_account) {
 		EMailBackend *backend;
@@ -1437,22 +1486,6 @@ emae_auto_detect (EMAccountEditor *emae)
 
 	g_hash_table_foreach (auto_detected, emae_auto_detect_free, NULL);
 	g_hash_table_destroy (auto_detected);
-}
-
-static gint
-provider_compare (const CamelProvider *p1,
-                  const CamelProvider *p2)
-{
-	/* sort providers based on "location" (ie. local or remote) */
-	if (p1->flags & CAMEL_PROVIDER_IS_REMOTE) {
-		if (p2->flags & CAMEL_PROVIDER_IS_REMOTE)
-			return 0;
-		return -1;
-	} else {
-		if (p2->flags & CAMEL_PROVIDER_IS_REMOTE)
-			return 1;
-		return 0;
-	}
 }
 
 static void
@@ -2427,15 +2460,9 @@ emae_refresh_providers (EMAccountEditor *emae,
 
 	for (link = emae->priv->providers; link != NULL; link = link->next) {
 		CamelProvider *provider = link->data;
-		gboolean mail_or_news_domain;
-
-		mail_or_news_domain =
-			(g_strcmp0 (provider->domain, "mail") == 0) ||
-			(g_strcmp0 (provider->domain, "news") == 0);
 
 		/* FIXME This expression is awesomely unreadable! */
-		if (!(mail_or_news_domain
-		      && provider->object_types[service->type]
+		if (!(provider->object_types[service->type]
 		      && (service->type != CAMEL_PROVIDER_STORE ||
 			 (provider->flags & CAMEL_PROVIDER_IS_SOURCE) != 0))
 		    /* hardcode not showing providers who's transport is done in the store */
@@ -5502,11 +5529,6 @@ em_account_editor_construct (EMAccountEditor *emae,
 	EConfigItem *items;
 
 	emae->type = type;
-
-	/* sort the providers, remote first */
-	priv->providers = g_list_sort (
-		camel_provider_list (TRUE),
-		(GCompareFunc) provider_compare);
 
 	if (type == EMAE_NOTEBOOK) {
 		ec = em_config_new (E_CONFIG_BOOK, id);
