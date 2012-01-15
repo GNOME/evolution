@@ -3,14 +3,14 @@
 # 
 # 
 # Jorge González <jorgegonz@svn.gnome.org>, 2011., 2011.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-11 13:02+0000\n"
-"PO-Revision-Date: 2011-12-11 18:47+0100\n"
+"POT-Creation-Date: 2012-01-15 14:39+0000\n"
+"PO-Revision-Date: 2012-01-15 19:50+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -143,7 +143,8 @@ msgstr "Usar y gestionar categorías para citas, contactos, notas y tareas."
 #: C/mail-account-manage-imap.page:11(name)
 #: C/mail-access-gmail-imap-account.page:13(name)
 #: C/intro-main-window.page:13(name) C/intro-first-run.page:11(name)
-#: C/index.page:14(name) C/import-supported-file-formats.page:11(name)
+#: C/intro-application.page:15(name) C/index.page:14(name)
+#: C/import-supported-file-formats.page:11(name)
 #: C/import-single-files.page:11(name) C/import-data.page:11(name)
 #: C/import-apps-outlook.page:11(name) C/import-apps-mozilla.page:11(name)
 #: C/groupwise-placeholder.page:11(name) C/google-services.page:9(name)
@@ -313,7 +314,8 @@ msgstr "Andre Klapper"
 #: C/mail-account-manage-imap.page:12(email)
 #: C/mail-access-gmail-imap-account.page:14(email)
 #: C/intro-main-window.page:14(email) C/intro-first-run.page:12(email)
-#: C/index.page:15(email) C/import-supported-file-formats.page:12(email)
+#: C/intro-application.page:16(email) C/index.page:15(email)
+#: C/import-supported-file-formats.page:12(email)
 #: C/import-single-files.page:12(email) C/import-data.page:12(email)
 #: C/import-apps-outlook.page:12(email) C/import-apps-mozilla.page:12(email)
 #: C/groupwise-placeholder.page:12(email) C/google-services.page:10(email)
@@ -446,14 +448,14 @@ msgstr "Novell, Inc"
 #: C/sync-with-other-devices.page:18(p) C/searching-items.page:13(p)
 #: C/problems-reporting-bugs.page:16(p) C/problems-getting-help.page:16(p)
 #: C/problems-debug-how-to.page:16(p) C/organizing.page:13(p)
-#: C/minimize-to-system-tray.page:19(p) C/memos-usage.page:15(p)
-#: C/memos-usage-edit-memo.page:15(p) C/memos-usage-delete-memo.page:15(p)
-#: C/memos-usage-add-memo.page:18(p) C/memos-searching.page:23(p)
-#: C/mail-wrong-fonts-in-3-0.page:16(p) C/mail-working-offline.page:18(p)
-#: C/mail-word-wrap.page:15(p) C/mail-vertical-view.page:17(p)
-#: C/mail-usenet-subscriptions.page:19(p) C/mail-two-trash-folders.page:15(p)
-#: C/mail-spam-settings.page:23(p) C/mail-spam.page:15(p)
-#: C/mail-spam-marking.page:22(p)
+#: C/offline.page:19(p) C/minimize-to-system-tray.page:19(p)
+#: C/memos-usage.page:15(p) C/memos-usage-edit-memo.page:15(p)
+#: C/memos-usage-delete-memo.page:15(p) C/memos-usage-add-memo.page:18(p)
+#: C/memos-searching.page:23(p) C/mail-wrong-fonts-in-3-0.page:16(p)
+#: C/mail-working-offline.page:18(p) C/mail-word-wrap.page:15(p)
+#: C/mail-vertical-view.page:17(p) C/mail-usenet-subscriptions.page:19(p)
+#: C/mail-two-trash-folders.page:15(p) C/mail-spam-settings.page:23(p)
+#: C/mail-spam.page:15(p) C/mail-spam-marking.page:22(p)
 #: C/mail-spam-groupwise-unmark-message.page:18(p)
 #: C/mail-spam-groupwise-remove-from-list.page:18(p)
 #: C/mail-spam-groupwise-mark-message.page:18(p)
@@ -543,14 +545,15 @@ msgstr "Novell, Inc"
 #: C/mail-account-manage-imap.page:15(p)
 #: C/mail-access-gmail-pop-account.page:17(p)
 #: C/mail-access-gmail-imap-account.page:17(p) C/intro-main-window.page:24(p)
-#: C/intro-first-run.page:15(p) C/index.page:18(p)
-#: C/import-supported-file-formats.page:18(p) C/import-single-files.page:15(p)
-#: C/import-data.page:15(p) C/import-apps-outlook.page:18(p)
-#: C/import-apps-mozilla.page:15(p) C/groupwise-placeholder.page:15(p)
-#: C/google-services.page:13(p) C/express-mode.page:15(p)
-#: C/exporting-data.page:15(p) C/exporting-data-mail.page:15(p)
-#: C/exporting-data-contacts.page:18(p) C/exporting-data-calendar.page:15(p)
-#: C/exchange-placeholder.page:15(p) C/exchange-connectors-overview.page:15(p)
+#: C/intro-first-run.page:15(p) C/intro-application.page:19(p)
+#: C/index.page:18(p) C/import-supported-file-formats.page:18(p)
+#: C/import-single-files.page:15(p) C/import-data.page:15(p)
+#: C/import-apps-outlook.page:18(p) C/import-apps-mozilla.page:15(p)
+#: C/groupwise-placeholder.page:15(p) C/google-services.page:13(p)
+#: C/express-mode.page:15(p) C/exporting-data.page:15(p)
+#: C/exporting-data-mail.page:15(p) C/exporting-data-contacts.page:18(p)
+#: C/exporting-data-calendar.page:15(p) C/exchange-placeholder.page:15(p)
+#: C/exchange-connectors-overview.page:15(p)
 #: C/deleting-to-free-disk-space.page:15(p) C/deleting-emails.page:20(p)
 #: C/deleting-appointments.page:15(p) C/default-browser.page:15(p)
 #: C/data-storage.page:15(p) C/credits.page:15(p)
@@ -1650,6 +1653,78 @@ msgstr "Acerca de organizar y buscar sus datos en Evolution."
 #: C/organizing.page:18(title)
 msgid "Sorting and organizing"
 msgstr "Ordenar y organizar"
+
+#: C/offline.page:5(desc)
+msgid "Make Evolution be online again."
+msgstr "Conectar Evolution otra vez."
+
+#: C/offline.page:12(name) C/intro-application.page:11(name)
+msgid "Brian Grohe"
+msgstr "Brian Grohe"
+
+#: C/offline.page:13(email) C/intro-application.page:12(email)
+#| msgid "loonycookie@gmail.com"
+msgid "grohe43@gmail.com"
+msgstr "grohe43@gmail.com"
+
+#: C/offline.page:16(name)
+msgid "Patrick O'Callaghan"
+msgstr "Patrick O'Callaghan"
+
+#: C/offline.page:23(title)
+msgid "Why is Evolution offline when my net connection is working?"
+msgstr "¿Por qué Evolution está desconectado si mi conexión está funcionando?"
+
+#: C/offline.page:24(p)
+msgid ""
+"You may have started Evolution with the <code>--offline</code> commandline "
+"option."
+msgstr ""
+"Puede que haya iniciado Evolution con la opción de línea de comandos <code>--"
+"offline</code>."
+
+#: C/offline.page:26(p)
+msgid ""
+"If this is not the case and Evolution normally works but has suddenly "
+"stopped connecting, you may have unintentionally clicked on the connection "
+"icon in the lower left corner. When connected, the icon resembles a pair of "
+"sockets joined together. If the sockets are open, there is no connection "
+"(and the <gui style=\"button\">Send/Receive</gui> button is grayed out). "
+"Click on the icon to change its state."
+msgstr ""
+"Si este no es el caso y Evolution normalmente funciona, pero se ha "
+"desconectado de repente, puede que haya pulsado sin querer en el icono de "
+"conexión en la esquina inferior izquierda. Cuando está conectado, el icono "
+"simula dos enchufes unidos. Si los enchufes están separados, no hay conexión "
+"(y el botón de <gui style=\"button\">Enviar/Recibir</gui> está sobreado). "
+"Pulse en el icono para cambiar su estado."
+
+#: C/offline.page:28(p)
+msgid ""
+"If the problem persists and you are sure you have not clicked the icon, but "
+"you can still reach the network from other apps on your system (browsers, "
+"FTP, SSH, ping etc.) it may be that NetworkManager (NM) is not properly "
+"configured. Many Linux distributions now use NM to manage their connections, "
+"and if it is installed Evolution will use it to detect if the network is up. "
+"However NM can be installed but not properly configured, leaving the network "
+"working but not detectable by Evolution. (Note that other GNOME-based "
+"applications may also fail for the same reason.) The solution is to "
+"configure NM to manage your network interface. This is usually easy to do "
+"but is outside the scope of this document. For more information seek help "
+"from your distribution support forums, mailing lists etc."
+msgstr ""
+"Si el problema persiste y está seguro de que no ha pulsado el icono, pero "
+"puede usar la red con otras aplicaciones de su sistema (navegadores, FTP, "
+"SSH, ping, etc) puede ser que NetworkManager (NM) no esté bien configurado. "
+"Muchas distribuciones de Linux usan NM para gestionar las conexiones y, si "
+"está instalado, Evolution lo usará para detectar si la red está activada. "
+"Sin embargo, NM puede estar instalado pero no bien configurado, haciendo que "
+"la red funcione pero que Evolution no pueda detectarla. (tenga en cuenta que "
+"otras aplicaciones de GNOME pueden fallar por el mismo motivo). La solución "
+"es configurar NM para gestionar la interfaz de red. Generalmente esto es "
+"fácil de hacer, pero no está fuera del alcance de este documento. Para "
+"obtener más información, busque ayuda en los foros de soporte de su "
+"distribución, listas de correo, etc."
 
 #: C/minimize-to-system-tray.page:5(desc)
 msgid "On minimizing Evolution to the notification area."
@@ -4417,10 +4492,6 @@ msgid "Navigating in a message"
 msgstr "Navegar en un correo"
 
 #: C/mail-reading-keyboard-shortcuts.page:33(p)
-#| msgid ""
-#| "To read mail with the keyboard, you can click the <key>Spacebar</key> to "
-#| "page down and press <key>Backspace</key> to page up while reading an "
-#| "email. Ensure that you use the keys when the message list is focused."
 msgid ""
 "To read mail with the keyboard, you can press the <key>Spacebar</key> to "
 "page down and press <key>Backspace</key> to page up while reading an email. "
@@ -5664,9 +5735,6 @@ msgstr ""
 "permiten descifrar mensajes así como verificar los mensajes firmados."
 
 #: C/mail-encryption-s-mime-manage.page:32(p)
-#| msgid ""
-#| "<gui>Authorities</gui> displays a list of trusted certificate authorities "
-#| "who verify that your own certificate is valid."
 msgid ""
 "<gui>Authorities</gui> displays a list of trusted certificate authorities "
 "that verify that your own certificate is valid."
@@ -9447,6 +9515,46 @@ msgstr ""
 "Continúe con <link xref=\"import-data\">Importa datos de otros programas</"
 "link>."
 
+#: C/intro-application.page:5(desc)
+#| msgid "Importing into Evolution"
+msgid "An Introduction to Evolution."
+msgstr "Una introducción a Evolution."
+
+#: C/intro-application.page:24(title) C/index.page:31(title)
+msgid "Getting Started"
+msgstr "Inicio"
+
+#: C/intro-application.page:25(p)
+msgid ""
+"Evolution is a stable and versatile personal information manager for the "
+"GNOME project. Evolution allows you to keep your calendar, email, address "
+"book and tasks in one place. Evolution has the ability to <link type=\"topic"
+"\" xref=\"mail-spam\">filter Junk/Spam Mail</link>, add your favorite web "
+"calenders, and <link type=\"topic\" xref=\"mail-encryption\">to keep your "
+"information safe and secure</link>."
+msgstr ""
+"Evolution es un gestor de información personal estable y versátil del "
+"proyecto GNOME. Evolution le permite mantener su calendario, correo-e "
+"libreta de direcciones y tareas en un único lugar. Evolution permite <link "
+"type=\"topic\" xref=\"mail-spam\">filtrar spam</link>, añadir sus "
+"calendarios web favoritos y <link type=\"topic\" xref=\"mail-encryption"
+"\">mantener su información segura</link>."
+
+#: C/intro-application.page:27(p)
+msgid ""
+"By default Evolution opens the mail client view. This is were you can view "
+"all your mail. You can change to other aspects of the program by going to "
+"the bottom of the left pane in the window (the so-called \"switcher\") and "
+"selecting the desired view. <link type=\"topic\" xref=\"intro-main-window"
+"\">Click here</link> for more information on the elements of the window."
+msgstr ""
+"De manera predeterminada, Evolution abre la vista de cliente de correo. Es "
+"donde puede ver su correo. Puede cambiar a otros aspectos del programa yendo "
+"a la parte inferior del panel izquierdo de la ventana (el denominado "
+"«selector») y seleccionando la vista que quiere. <link type=\"topic\" xref="
+"\"intro-main-window\">Pulse aquí</link> para obtener más información sobre "
+"los elementos de la ventana"
+
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/index.page:6(None) C/index.page:24(None)
@@ -9470,10 +9578,6 @@ msgid ""
 msgstr ""
 "<media type=\"image\" src=\"figures/evolutionlogo.png\">Logotipo de "
 "Evolution</media> Correo y calendario de Evolution"
-
-#: C/index.page:31(title)
-msgid "Getting Started"
-msgstr "Inicio"
 
 #: C/index.page:35(title)
 msgid "Mail Management"
@@ -11297,14 +11401,6 @@ msgid "Using several calendars"
 msgstr "Usar varios calendarios"
 
 #: C/calendar-using-several-calendars.page:25(p)
-#| msgid ""
-#| "You can have multiple calendars and overlay them one over the next. For "
-#| "example, you might have a schedule of events for work, one for home, and "
-#| "one for your favorite sports team. The side bar lists those calendars, "
-#| "and you can select or deselect the boxes next to them to show and hide "
-#| "the appointments in your calendar view. By hiding and showing different "
-#| "sets of appointments, you can be sure to avoid conflicts, while keeping a "
-#| "minimum of clutter in your view."
 msgid ""
 "You can have multiple calendars and overlay them one over the other. For "
 "example, you might have a schedule of events for work, one for home, and one "
@@ -11323,7 +11419,6 @@ msgstr ""
 "reduciendo la carga en la vista."
 
 #: C/calendar-using-several-calendars.page:27(p)
-#| msgid "Appointments for each calendar appear as a different color."
 msgid "Appointments for each calendar appear in different color."
 msgstr "Las citas para cada calendario aparecen con un color diferente."
 
@@ -14289,10 +14384,6 @@ msgstr ""
 
 #~ msgid "Customize"
 #~ msgstr "Personalizar"
-
-#, fuzzy
-#~ msgid "Back up Evolution Settings..."
-#~ msgstr "_Respaldar ajustes de Evolution…"
 
 #~ msgid "Yes"
 #~ msgstr "Sí"
