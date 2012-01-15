@@ -87,6 +87,7 @@ DOC_PAGES = \
 	import-single-files.page \
 	import-supported-file-formats.page \
 	index.page \
+	intro-application.page \
 	intro-first-run.page \
 	intro-main-window.page \
 	mail-access-gmail-imap-account.page \
