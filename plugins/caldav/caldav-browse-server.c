@@ -1444,6 +1444,8 @@ init_dialog (GtkDialog *dialog,
 	}
 
 	soup_uri = soup_uri_new (url);
+	g_return_if_fail (soup_uri != NULL);
+
 	soup_uri_set_scheme (soup_uri, "caldav");
 	soup_uri_set_user (soup_uri, username);
 
@@ -1576,16 +1578,24 @@ caldav_browse_server (GtkWindow *parent,
 {
 	GtkWidget *dialog, *new_url_entry, *new_usermail_combo, *new_autoschedule_check;
 	gchar *url, *new_url = NULL;
+	SoupURI *soup_uri = NULL;
+
 
 	g_return_val_if_fail (server_url != NULL, NULL);
 
 	url = prepare_url (server_url, use_ssl);
+	if (url && *url)
+		soup_uri = soup_uri_new (url);
 
-	if (!url || !*url) {
+	if (!url || !*url || !soup_uri) {
 		e_notice (parent, GTK_MESSAGE_ERROR, _("Server URL '%s' is not a valid URL"), server_url);
+		if (soup_uri)
+			soup_uri_free (soup_uri);
 		g_free (url);
 		return NULL;
 	}
+
+	soup_uri_free (soup_uri);
 
 	dialog = gtk_dialog_new_with_buttons (
 			_("Browse for a CalDAV calendar"),
