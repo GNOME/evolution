@@ -1,3 +1,72 @@
+Evolution 3.3.4 2012-01-16
+--------------------------
+
+Bug Fixes:
+	Bug 343499 - Contacts not sorted the right way on print out
+	             (Milan Crha)
+	Bug 353743 - Add Print button to meeting notification dialog
+	             (Milan Crha)
+	Bug 357175 - IMAP alerts still too intrusive (Milan Crha)
+	Bug 612257 - Sanitize widgets in alarm notification dialog (Milan Crha)
+	Bug 636214 - Use CamelSettings instead of CamelURL (Punit Jain)
+	Bug 638810 - Crash in camel_folder_search_set_folder with IMAP account
+	             (Milan Crha)
+	Bug 641154 - Crash in emae_check_authtype_done (Milan Crha)
+	Bug 661087 - Add ability to remove localized "Re:" prefixes in subject
+	             (Milan Crha)
+	Bug 661885 - Disable horizontal scrolling in filter rule editor
+	             (Milan Crha)
+	Bug 664003 - Cannot modify account name in account assistant
+	             (Punit Jain)
+	Bug 664370 - Crash when putting same component into icalcomponent
+	             (Kai Juse)
+	Bug 665036 - Memory leaks spot in Contacts view (Milan Crha)
+	Bug 666490 - Crash in e-mail-session.c:user_message_response
+	             (Milan Crha)
+	Bug 666675 - Remove evolution-addressbook-clean (Matthew Barnes)
+	Bug 666695 - Wrong schema for relocatable path in evolution.convert
+	             (Matthew Barnes)
+	Bug 666706 - MailFolderCache: Crash on visiting a renamed folder
+	             (Matthew Barnes)
+	Bug 666832 - Skip local/vfolder services from Send/Receive update
+	             (Milan Crha)
+	Bug 667119 - Hard to change Attendee role in meeting editor
+	             (Milan Crha)
+	Bug 667185 - Menu items from plugins not translated (Milan Crha)
+	Bug 667281 - Deadlock on evolution start (Milan Crha)
+	Bug 667346 - Fix build with libpst 0.6.54 and require this version
+	             (Vincent Untz)
+	Bug 667384 - Misspelling: "Olsen" timezone database (Matthew Barnes)
+	Bug 667398 - Automatic mark-as-seen too aggressive (Milan Crha)
+	Bug 667528 - Crash in pine-importer.c with no book source defined
+	             (Milan Crha)
+
+Miscellaneous Changes:
+	* Make sure EAlertDialog has at least one button, to be able to
+	  closed it (Milan Crha)
+	* Move EMailLabelListStore to EMailSession. (Matthew Barnes)
+	* Inherit smaller time division from preferences in day calendar
+	  printout (Milan Crha)
+	* Make em_utils_generate_account_hash() private. (Matthew Barnes)
+	* Do not call gtk_main_quit() on shell quit when none is running
+	  (Milan Crha)
+	* mail-folder-cache: Update folders only on stores whose support it
+	  (Milan Crha)
+	* Slow start due to instant saving of no change in an EAccountList
+	  (Milan Crha)
+	* EMailSession does not respect user settings on start (Milan Crha)
+	* Do not auto-mark-as-seen when changing filter type (Milan Crha)
+	* User documentation improvements (Brian Grohe and Andre Klapper)
+
+Translations:
+	Kristjan SCHMIDT (eo)
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Kjartan Maraas (nb)
+	Yuri Myasoedov (ru)
+	Muhammet Kara (tr)
+
+
 Evolution 3.3.3 2011-12-19
 --------------------------
 Bug Fixes:
