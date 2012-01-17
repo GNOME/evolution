@@ -577,6 +577,28 @@ mail_ui_session_account_changed_cb (EAccountList *account_list,
 			folder_tree_model, CAMEL_STORE (service));
 }
 
+static gboolean
+mail_ui_session_initialize_stores_idle (gpointer user_data)
+{
+	EMailSession *session = user_data;
+	EAccount *account;
+
+	g_return_val_if_fail (session != NULL, FALSE);
+
+	/* Initialize which account is default. */
+	account = e_get_default_account ();
+	if (account != NULL) {
+		CamelService *service;
+
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), account->uid);
+		e_mail_account_store_set_default_service (
+			priv->account_store, service);
+	}
+
+	return FALSE;
+}
+
 static void
 mail_ui_session_constructed (GObject *object)
 {
@@ -615,16 +637,7 @@ mail_ui_session_constructed (GObject *object)
 
 	mail_ui_session_add_vfolder_store (uisession);
 
-	/* Initialize which account is default. */
-	account = e_get_default_account ();
-	if (account != NULL) {
-		CamelService *service;
-
-		service = camel_session_get_service (
-			CAMEL_SESSION (session), account->uid);
-		e_mail_account_store_set_default_service (
-			priv->account_store, service);
-	}
+	g_idle_add (mail_ui_session_initialize_stores_idle, object);
 
 	handler_id = g_signal_connect (
 		account_list, "account-changed",

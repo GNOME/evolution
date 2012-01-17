@@ -741,16 +741,6 @@ mail_session_initialize_stores_idle (gpointer user_data)
 
 	g_object_unref (iter);
 
-	/* Initialize which account is default. */
-	account = e_get_default_account ();
-	if (account != NULL) {
-		CamelService *service;
-
-		service = camel_session_get_service (
-			CAMEL_SESSION (session), account->uid);
-		e_mail_account_store_set_default_service (
-			session->priv->account_store, service);
-	}
 	return FALSE;
 }
 
