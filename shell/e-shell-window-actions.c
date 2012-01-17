@@ -2317,13 +2317,15 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 	for (ii = 0; ii < count; ii++) {
 		GalViewCollectionItem *item;
 		gchar *action_name;
-		gchar *tooltip;
+		gchar *tooltip, *title;
 
 		item = gal_view_collection_get_view_item (view_collection, ii);
 
 		action_name = g_strdup_printf (
 			"gal-view-%s-%d", view_name, ii);
-		tooltip = g_strdup_printf (_("Select view: %s"), item->title);
+		title = e_str_without_underscores (item->title);
+		tooltip = g_strdup_printf (_("Select view: %s"), title);
+		g_free (title);
 
 		radio_action = gtk_radio_action_new (
 			action_name, item->title, tooltip, NULL, ii);
