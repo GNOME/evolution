@@ -36,11 +36,11 @@
 <steps>
 <item><p>Go to <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>.</p></item>
 <item><p>Select the Copy/Move filter and click <gui>Edit</gui>.</p></item>
-<item><p>Refer to the list of folders associated with that particular filter. Click on the button that allows you to modify the folders assigned for that filter. Set the folders again. </p></item>
+<item><p>Refer to the list of folders associated with that particular filter. Click on the button that allows you to modify the folders assigned for that filter. Set the folders again.</p></item>
 </steps>
 
 <note>
-<p>Advanced users may also be interested in this write up: <link href="https://thomas.apestaart.org/thomas/trac/wiki/Evolution">How to keep the Evolution filters in sync on multiple machines by Thomas Vander Stichele </link>
+<p>Advanced users may also be interested in this write up: <link href="https://thomas.apestaart.org/thomas/trac/wiki/Evolution">How to keep the Evolution filters in sync on multiple machines by Thomas Vander Stichele</link>
 </p>
 </note>
 

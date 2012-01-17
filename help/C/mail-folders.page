@@ -35,7 +35,7 @@
 <steps>
 <item><p>Click on <gui>Folder</gui> and select <gui>New</gui>. You can also right-click anywhere on the folder list and select the <gui>New Folder</gui> option.</p></item>
 <item><p>Specify the name and the location of the folder.</p></item>
-<item><p>Click on the <gui>Create</gui> button. </p></item>
+<item><p>Click on the <gui>Create</gui> button.</p></item>
 </steps>
 <p>The new folder will be shown in the folder view. You can then move messages into the folder.</p>
 
