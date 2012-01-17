@@ -78,15 +78,6 @@ void em_utils_clear_get_password_canceled_accounts_flag (void);
 /* Unescapes &amp; back to a real & in URIs */
 gchar *em_utils_url_unescape_amp (const gchar *url);
 
-EAccount *	em_utils_guess_account		(CamelMimeMessage *message,
-						 CamelFolder *folder);
-EAccount *	em_utils_guess_account_with_recipients
-						(CamelMimeMessage *message,
-						 CamelFolder *folder);
-
-void emu_remove_from_mail_cache (const GSList *addresses);
-void emu_remove_from_mail_cache_1 (const gchar *address);
-void emu_free_mail_cache (void);
 void emu_free_mail_account_sort_order_cache (void);
 
 void emu_restore_folder_tree_state (EMFolderTree *folder_tree);
