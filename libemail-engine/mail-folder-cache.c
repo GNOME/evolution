@@ -984,6 +984,19 @@ ping_cb (MailFolderCache *self)
 	return TRUE;
 }
 
+static gboolean
+store_has_folder_hierarchy (CamelStore *store)
+{
+	CamelProvider *provider;
+
+	g_return_val_if_fail (store != NULL, FALSE);
+
+	provider = camel_service_get_provider (CAMEL_SERVICE (store));
+	g_return_val_if_fail (provider != NULL, FALSE);
+
+	return (provider->flags & (CAMEL_PROVIDER_IS_STORAGE | CAMEL_PROVIDER_IS_EXTERNAL)) != 0;
+}
+
 static void
 store_go_online_cb (CamelStore *store,
                     GAsyncResult *result,
@@ -996,13 +1009,14 @@ store_go_online_cb (CamelStore *store,
 	if (g_hash_table_lookup (ud->cache->priv->stores, store) != NULL &&
 		!g_cancellable_is_cancelled (ud->cancellable)) {
 		/* We're already in the store update list. */
-		camel_store_get_folder_info (
-			store, NULL,
-			CAMEL_STORE_FOLDER_INFO_FAST |
-			CAMEL_STORE_FOLDER_INFO_RECURSIVE |
-			CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
-			G_PRIORITY_DEFAULT, ud->cancellable,
-			(GAsyncReadyCallback) update_folders, ud);
+		if (store_has_folder_hierarchy (store))
+			camel_store_get_folder_info (
+				store, NULL,
+				CAMEL_STORE_FOLDER_INFO_FAST |
+				CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+				CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
+				G_PRIORITY_DEFAULT, ud->cancellable,
+				(GAsyncReadyCallback) update_folders, ud);
 	} else {
 		/* The store vanished, that means we were probably cancelled,
 		 * or at any rate, need to clean ourselves up. */
@@ -1638,13 +1652,14 @@ mail_folder_cache_note_store (MailFolderCache *self,
 		}
 	} else {
 	normal_setup:
-		camel_store_get_folder_info (
-			store, NULL,
-			CAMEL_STORE_FOLDER_INFO_FAST |
-			CAMEL_STORE_FOLDER_INFO_RECURSIVE |
-			CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
-			G_PRIORITY_DEFAULT, cancellable,
-			(GAsyncReadyCallback) update_folders, ud);
+		if (store_has_folder_hierarchy (store))
+			camel_store_get_folder_info (
+				store, NULL,
+				CAMEL_STORE_FOLDER_INFO_FAST |
+				CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+				CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
+				G_PRIORITY_DEFAULT, cancellable,
+				(GAsyncReadyCallback) update_folders, ud);
 	}
 
 	g_queue_push_tail (&si->folderinfo_updates, ud);
