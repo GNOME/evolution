@@ -492,17 +492,6 @@ mail_ui_session_dispose (GObject *object)
 }
 
 static void
-mail_ui_session_finalize (GObject *object)
-{
-	EMailUISessionPrivate *priv;
-
-	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->finalize (object);
-}
-
-static void
 mail_ui_session_add_vfolder_store (EMailUISession *uisession)
 {
 	CamelSession *camel_session;
@@ -580,10 +569,13 @@ mail_ui_session_account_changed_cb (EAccountList *account_list,
 static gboolean
 mail_ui_session_initialize_stores_idle (gpointer user_data)
 {
-	EMailSession *session = user_data;
+	EMailUISession *session = user_data;
+	EMailAccountStore *account_store;
 	EAccount *account;
 
 	g_return_val_if_fail (session != NULL, FALSE);
+
+	account_store = e_mail_ui_session_get_account_store (session);
 
 	/* Initialize which account is default. */
 	account = e_get_default_account ();
@@ -593,7 +585,7 @@ mail_ui_session_initialize_stores_idle (gpointer user_data)
 		service = camel_session_get_service (
 			CAMEL_SESSION (session), account->uid);
 		e_mail_account_store_set_default_service (
-			priv->account_store, service);
+			account_store, service);
 	}
 
 	return FALSE;
@@ -606,7 +598,6 @@ mail_ui_session_constructed (GObject *object)
 	EMFolderTreeModel *folder_tree_model;
 	EMailSession *session;
 	EMailUISession *uisession;
-	EAccount *account;
 	EAccountList *account_list;
 	gulong handler_id;
 
@@ -811,7 +802,6 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 	object_class->set_property = mail_ui_session_set_property;
 	object_class->get_property = mail_ui_session_get_property;	
 	object_class->dispose = mail_ui_session_dispose;
-	object_class->finalize = mail_ui_session_finalize;
 	object_class->constructed = mail_ui_session_constructed;
 
 	session_class = CAMEL_SESSION_CLASS (class);

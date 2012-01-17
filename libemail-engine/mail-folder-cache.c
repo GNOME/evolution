@@ -1224,20 +1224,6 @@ mail_folder_cache_finalize (GObject *object)
 }
 
 static void
-mail_folder_cache_constructed (GObject *object)
-{
-	MailFolderCache *cache;
-	EMailSession *session;
-
-	cache = MAIL_FOLDER_CACHE (object);
-
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (mail_folder_cache_parent_class)->constructed (object);
-
-	session = mail_folder_cache_get_session (cache);
-}
-
-static void
 mail_folder_cache_folder_available (MailFolderCache *cache,
                                     CamelStore *store,
                                     const gchar *folder_name)
@@ -1399,7 +1385,6 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 	object_class->get_property = mail_folder_cache_get_property;
 	object_class->dispose = mail_folder_cache_dispose;
 	object_class->finalize = mail_folder_cache_finalize;
-	object_class->constructed = mail_folder_cache_constructed;
 
 	class->folder_available = mail_folder_cache_folder_available;
 	class->folder_unavailable = mail_folder_cache_folder_unavailable;
