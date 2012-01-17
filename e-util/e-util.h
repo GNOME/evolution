@@ -28,7 +28,7 @@
 #include <limits.h>
 #include <gconf/gconf-client.h>
 
-#include <libemail-utils/e-marshal.h>
+#include <e-util/e-marshal.h>
 #include <e-util/e-util-enums.h>
 #include <libedataserver/e-source-list.h>
 

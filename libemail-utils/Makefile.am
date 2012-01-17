@@ -4,10 +4,6 @@ lib_LTLIBRARIES = libemail-utils.la
 AM_CFLAGS = -I. -I$(top_builddir) @GNOME_PLATFORM_CFLAGS@ -Wall -Werror -g3 -O0 -ggdb -DPKGDATADIR="\"$(pkgdatadir)\""
 AM_LDFLAGS = @GNOME_PLATFORM_LIBS@ 
 
-include $(top_srcdir)/glib-gen.mak
-glib_enum_prefix=e
-MARSHAL_GENERATED = e-marshal.c e-marshal.h
-
 libemail_utils_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)	\
 	$(CAMEL_CFLAGS)		\
@@ -23,7 +19,6 @@ libemail_utils_la_LIBADD = 	\
 libemail_utils_la_LDFLAGS = 
 
 libemail_utils_la_SOURCES = 	\
-		e-marshal.c	\
 		e-account-utils.c	\
 		mail-mt.c	\
 		e-signature.c	\
@@ -33,7 +28,6 @@ libemail_utils_la_SOURCES = 	\
 
 libmailutilsincludedir = $(privincludedir)/libemail-utils
 libmailutilsinclude_HEADERS = 	\
-		e-marshal.h	\
 		e-account-utils.h	\
 		mail-mt.h	\
 		e-signature.h	\
@@ -44,12 +38,6 @@ libmailutilsinclude_HEADERS = 	\
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libemail-utils.pc
 
-BUILT_SOURCES = $(MARSHAL_GENERATED) 
-
-EXTRA_DIST = e-marshal.list
-CLEANFILES    = $(BUILT_SOURCES)
 DISTCLEANFILES = $(pkgconfig_DATA)
 
-dist-hook:
-	cd $(distdir); rm -f $(BUILT_SOURCES)
-
+-include $(top_srcdir)/git.mk

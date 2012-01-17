@@ -39,7 +39,6 @@
 #include <glib/gstdio.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include <libemail-utils/e-marshal.h>
 
 #include "libemail-utils/mail-mt.h"
 #include "mail-folder-cache.h"
@@ -1415,7 +1414,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (MailFolderCacheClass, folder_available),
 		NULL, NULL, /* accumulator */
-		e_marshal_VOID__OBJECT_STRING,
+		NULL,
 		G_TYPE_NONE, 2,
 		CAMEL_TYPE_STORE,
 		G_TYPE_STRING);
@@ -1435,7 +1434,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (MailFolderCacheClass, folder_unavailable),
 		NULL, NULL, /* accumulator */
-		e_marshal_VOID__OBJECT_STRING,
+		NULL,
 		G_TYPE_NONE, 2,
 		CAMEL_TYPE_STORE,
 		G_TYPE_STRING);
@@ -1453,7 +1452,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (MailFolderCacheClass, folder_deleted),
 		NULL, NULL, /* accumulator */
-		e_marshal_VOID__OBJECT_STRING,
+		NULL,
 		G_TYPE_NONE, 2,
 		CAMEL_TYPE_STORE,
 		G_TYPE_STRING);
@@ -1472,7 +1471,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (MailFolderCacheClass, folder_renamed),
 		NULL, NULL, /* accumulator */
-		e_marshal_VOID__OBJECT_STRING_STRING,
+		NULL,
 		G_TYPE_NONE, 3,
 		CAMEL_TYPE_STORE,
 		G_TYPE_STRING,
@@ -1492,7 +1491,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (MailFolderCacheClass, folder_unread_updated),
 		NULL, NULL, /* accumulator */
-		e_marshal_VOID__OBJECT_STRING_INT,
+		NULL,
 		G_TYPE_NONE, 3,
 		CAMEL_TYPE_STORE,
 		G_TYPE_STRING,
@@ -1516,7 +1515,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (MailFolderCacheClass, folder_changed),
 		NULL, NULL, /* accumulator */
-		e_marshal_VOID__OBJECT_STRING_INT_STRING_STRING_STRING,
+		NULL,
 		G_TYPE_NONE, 6,
 		CAMEL_TYPE_STORE,
 		G_TYPE_STRING,

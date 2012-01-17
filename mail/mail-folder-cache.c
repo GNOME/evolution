@@ -39,7 +39,7 @@
 #include <glib/gstdio.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include <libemail-utils/e-marshal.h>
+#include <e-util/e-marshal.h>
 #include <e-util/e-util.h>
 
 #include "libemail-utils/mail-mt.h"

@@ -37,7 +37,7 @@
 #include "e-composer-header-table.h"
 #include "e-util/e-alert-sink.h"
 #include "e-util/e-charset.h"
-#include "libemail-utils/e-marshal.h"
+#include "e-util/e-marshal.h"
 #include "e-util/e-mktemp.h"
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-selection.h"

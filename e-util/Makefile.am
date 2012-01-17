@@ -9,6 +9,7 @@ glib_enum_define=E
 glib_enum_prefix=e
 
 ENUM_GENERATED = e-util-enumtypes.h e-util-enumtypes.c
+MARSHAL_GENERATED = e-marshal.c e-marshal.h
 
 if OS_WIN32
 PLATFORM_SOURCES = e-win32-reloc.c e-win32-defaults.c e-win32-defaults.h
@@ -33,6 +34,7 @@ eutilinclude_HEADERS = 				\
 	e-html-utils.h				\
 	e-icon-factory.h			\
 	e-import.h				\
+	e-marshal.h				\
 	e-mktemp.h				\
 	e-poolv.h				\
 	e-print.h				\
@@ -100,6 +102,7 @@ libeutil_la_SOURCES =				\
 	e-html-utils.c				\
 	e-icon-factory.c			\
 	e-import.c				\
+	e-marshal.c				\
 	e-mktemp.c				\
 	e-poolv.c				\
 	e-plugin.c				\
@@ -134,9 +137,10 @@ errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
 EXTRA_DIST =				\
-	e-system.error.xml		
+	e-system.error.xml		\
+	e-marshal.list
 
-BUILT_SOURCES = $(ENUM_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(ENUM_GENERATED) $(MARSHAL_GENERATED) $(error_DATA)
 CLEANFILES    = $(BUILT_SOURCES)
 
 dist-hook:
