@@ -50,7 +50,6 @@
 
 #include "libemail-utils/e-account-utils.h"
 #include "libemail-utils/mail-mt.h"
-#include "libemail-utils/gconf-bridge.h"
 
 #include "e-mail-junk-filter.h"
 #include "e-mail-session.h"
