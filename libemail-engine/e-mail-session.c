@@ -716,6 +716,44 @@ mail_session_notify (GObject *object,
 		g_object_notify (object, "junk-filter-name");
 }
 
+static gboolean
+mail_session_initialize_stores_idle (gpointer user_data)
+{
+	EMailSession *session = user_data;
+	EAccountList *account_list;
+	EAccount *account;
+	EIterator *iter;
+
+	g_return_val_if_fail (session != NULL, FALSE);
+
+	account_list = e_get_account_list ();
+
+	iter = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iter)) {
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iter);
+
+		mail_session_add_by_account (session, account);
+
+		e_iterator_next (iter);
+	}
+
+	g_object_unref (iter);
+
+	/* Initialize which account is default. */
+	account = e_get_default_account ();
+	if (account != NULL) {
+		CamelService *service;
+
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), account->uid);
+		e_mail_account_store_set_default_service (
+			session->priv->account_store, service);
+	}
+	return FALSE;
+}
+
 static void
 mail_session_constructed (GObject *object)
 {
@@ -725,8 +763,6 @@ mail_session_constructed (GObject *object)
 	GList *list, *link;
 	GSettings *settings;
 	EAccountList *account_list;
-	EIterator *iter;
-	EAccount *account;
 	gulong handler_id;
 
 	session = E_MAIL_SESSION (object);
@@ -744,21 +780,14 @@ mail_session_constructed (GObject *object)
 	/* Add built-in CamelStores. */
 	mail_session_add_local_store (session);
 
-	/* Load user-defined mail accounts. */
-
-	iter = e_list_get_iterator (E_LIST (account_list));
-
-	while (e_iterator_is_valid (iter)) {
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iter);
-
-		mail_session_add_by_account (session, account);
-
-		e_iterator_next (iter);
-	}
-
-	g_object_unref (iter);
-
+	/* Give it a chance to load user settings, they are not loaded yet.
+	 *
+	 * XXX Is this the case where hiding such natural things like loading
+	 *     user setting into an EExtension strikes back and proves itself
+	 *     being suboptimal?
+	 */
+	g_idle_add (mail_session_initialize_stores_idle, object);
+	
 	/* Listen for account list updates. */
 
 	handler_id = g_signal_connect (
