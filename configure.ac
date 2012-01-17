@@ -1618,6 +1618,10 @@ help/quickref/pl/Makefile
 help/quickref/pt/Makefile
 help/quickref/sv/Makefile
 help/quickref/sq/Makefile
+libemail-utils/Makefile
+libemail-utils/libemail-utils.pc
+libemail-engine/Makefile
+libemail-engine/libemail-engine.pc
 libgnomecanvas/Makefile
 shell/Makefile
 shell/evolution-nognome

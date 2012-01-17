@@ -3,7 +3,6 @@ module_LTLIBRARIES = libevolution-module-mail.la
 libevolution_module_mail_la_CPPFLAGS =					\
 	$(AM_CPPFLAGS)							\
 	-I$(top_srcdir)							\
-	-I$(top_srcdir)/mail						\
 	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
@@ -51,6 +50,8 @@ libevolution_module_mail_la_SOURCES =					\
 	em-network-prefs.h
 
 libevolution_module_mail_la_LIBADD =					\
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
+	$(top_builddir)/libemail-engine/libemail-engine.la		\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/em-format/libemformat.la			\
 	$(top_builddir)/filter/libfilter.la				\

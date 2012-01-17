@@ -29,22 +29,26 @@
 
 #include <glib/gi18n.h>
 
-#include "libedataserver/e-account-list.h"
+#include <libedataserver/e-account-list.h>
 
-#include "shell/e-shell.h"
-#include "e-util/e-account-utils.h"
-#include "e-util/e-util.h"
+#include <shell/e-shell.h>
+#include <e-util/e-util.h>
 
-#include "e-mail-folder-utils.h"
-#include "e-mail-session.h"
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-utils/mail-mt.h>
+
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/mail-folder-cache.h>
+#include <libemail-engine/mail-ops.h>
+#include <libemail-engine/mail-tools.h>
+
+#include "e-mail-account-store.h"
+#include "e-mail-ui-session.h"
 #include "em-event.h"
 #include "em-filter-rule.h"
 #include "em-utils.h"
-#include "mail-folder-cache.h"
-#include "mail-mt.h"
-#include "mail-ops.h"
 #include "mail-send-recv.h"
-#include "mail-tools.h"
 
 #define d(x)
 
@@ -501,7 +505,7 @@ build_dialog (GtkWindow *parent,
 	EMEventTargetSendReceive *target;
 	GQueue queue = G_QUEUE_INIT;
 
-	account_store = e_mail_session_get_account_store (session);
+	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
 	/* Convert the outgoing account to a CamelTransport. */
 	if (outgoing_account != NULL) {

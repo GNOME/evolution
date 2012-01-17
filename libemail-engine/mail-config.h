@@ -23,7 +23,7 @@
 #ifndef MAIL_CONFIG_H
 #define MAIL_CONFIG_H
 
-#include <mail/e-mail-session.h>
+#include <libemail-engine/e-mail-session.h>
 
 G_BEGIN_DECLS
 

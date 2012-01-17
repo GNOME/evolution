@@ -28,21 +28,23 @@
 #include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>
 
-#include "e-util/e-util-private.h"
-#include "widgets/menus/gal-view-etable.h"
-#include "widgets/menus/gal-view-instance.h"
-#include "widgets/misc/e-paned.h"
-#include "widgets/misc/e-preview-pane.h"
-#include "widgets/misc/e-search-bar.h"
+#include <e-util/e-util-private.h>
 
-#include "em-utils.h"
-#include "mail-ops.h"
-#include "message-list.h"
+#include <widgets/menus/gal-view-etable.h>
+#include <widgets/menus/gal-view-instance.h>
+#include <widgets/misc/e-paned.h>
+#include <widgets/misc/e-preview-pane.h>
+#include <widgets/misc/e-search-bar.h>
 
-#include "e-mail-paned-view.h"
-#include "e-mail-notebook-view.h"
-#include "e-mail-reader.h"
-#include "e-mail-reader-utils.h"
+#include <libemail-engine/mail-ops.h>
+
+#include <mail/e-mail-paned-view.h>
+#include <mail/e-mail-notebook-view.h>
+#include <mail/e-mail-reader.h>
+#include <mail/e-mail-reader-utils.h>
+#include <mail/em-utils.h>
+#include <mail/message-list.h>
+
 #include "e-mail-shell-backend.h"
 #include "e-mail-shell-view-actions.h"
 

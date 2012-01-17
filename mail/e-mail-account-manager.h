@@ -20,8 +20,8 @@
 #define E_MAIL_ACCOUNT_MANAGER_H
 
 #include <gtk/gtk.h>
-#include <e-util/e-account-utils.h>
 #include <mail/e-mail-account-store.h>
+#include <libemail-utils/e-account-utils.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_ACCOUNT_MANAGER \

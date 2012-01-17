@@ -22,17 +22,18 @@
 
 #include "e-mail-session-utils.h"
 
-#include "em-utils.h"
-
 #include <glib/gi18n-lib.h>
 
-#include <mail/mail-tools.h>
-#include <mail/e-mail-folder-utils.h>
-#include <e-util/e-account-utils.h>
-#include <filter/e-filter-rule.h>
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-utils.h>
+#include <libemail-engine/mail-tools.h>
+#include <libemail-utils/e-account-utils.h>
 
 /* X-Mailer header value */
 #define X_MAILER ("Evolution " VERSION SUB_VERSION " " VERSION_COMMENT)
+
+/* FIXME: Temporary - remove this after we move filter/ to eds */
+#define E_FILTER_SOURCE_OUTGOING "outgoing"
 
 typedef struct _AsyncContext AsyncContext;
 

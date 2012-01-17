@@ -30,7 +30,8 @@
 #include <glib/gi18n.h>
 #include <e-util/e-plugin-ui.h>
 
-#include <mail/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-folder-utils.h>
+
 #include <mail/em-folder-tree.h>
 #include <mail/em-utils.h>
 

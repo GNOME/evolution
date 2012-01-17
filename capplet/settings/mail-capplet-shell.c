@@ -38,8 +38,8 @@
 
 #include <mail/em-utils.h>
 #include <mail/em-composer-utils.h>
-#include <mail/mail-config.h>
-#include <mail/mail-mt.h>
+#include <libemail-engine/mail-config.h>
+#include <libemail-utils/mail-mt.h>
 
 #include <shell/e-shell.h>
 

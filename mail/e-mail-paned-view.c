@@ -38,11 +38,13 @@
 
 #include <shell/e-shell-window-actions.h>
 
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-utils.h>
+#include <libemail-engine/mail-config.h>
+#include <libemail-engine/mail-ops.h>
+
 #include "em-utils.h"
-#include "mail-config.h"
-#include "mail-ops.h"
 #include "message-list.h"
-#include "e-mail-folder-utils.h"
 #include "e-mail-reader-utils.h"
 
 #define E_MAIL_PANED_VIEW_GET_PRIVATE(obj) \

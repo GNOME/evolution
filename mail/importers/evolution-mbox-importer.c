@@ -48,7 +48,7 @@
 #include "mail/em-folder-selection-button.h"
 #include "mail/em-folder-tree-model.h"
 #include "mail/em-folder-tree.h"
-#include "mail/mail-mt.h"
+#include "libemail-utils/mail-mt.h"
 
 #include "mail-importer.h"
 

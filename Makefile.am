@@ -53,6 +53,8 @@ SUBDIRS = 			\
 	data			\
 	smclient		\
 	libgnomecanvas		\
+	libemail-utils		\
+	libemail-engine		\
 	e-util			\
 	a11y			\
 	filter			\

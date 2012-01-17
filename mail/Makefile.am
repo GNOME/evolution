@@ -4,14 +4,6 @@ privsolib_LTLIBRARIES = libevolution-mail.la
 
 mailincludedir = $(privincludedir)/mail
 
-include $(top_srcdir)/glib-gen.mak
-glib_enum_headers=e-mail-enums.h
-glib_enum_output=e-mail-enumtypes
-glib_enum_define=E_MAIL
-glib_enum_prefix=e_mail
-
-ENUM_GENERATED = e-mail-enumtypes.h e-mail-enumtypes.c
-
 libevolution_mail_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)/widgets				\
@@ -53,11 +45,7 @@ mailinclude_HEADERS =					\
 	e-mail-backend.h				\
 	e-mail-browser.h				\
 	e-mail-display.h				\
-	e-mail-enums.h					\
-	e-mail-enumtypes.h				\
 	e-mail-folder-pane.h				\
-	e-mail-folder-utils.h				\
-	e-mail-junk-filter.h				\
 	e-mail-junk-options.h				\
 	e-mail-label-action.h				\
 	e-mail-label-dialog.h				\
@@ -70,10 +58,8 @@ mailinclude_HEADERS =					\
 	e-mail-paned-view.h				\
 	e-mail-reader-utils.h				\
 	e-mail-reader.h					\
-	e-mail-session-utils.h				\
-	e-mail-session.h				\
+	e-mail-ui-session.h				\
 	e-mail-sidebar.h				\
-	e-mail-store-utils.h				\
 	e-mail-tag-editor.h				\
 	e-mail-view.h					\
 	em-account-editor.h				\
@@ -104,13 +90,8 @@ mailinclude_HEADERS =					\
 	em-vfolder-editor.h				\
 	em-vfolder-rule.h				\
 	mail-autofilter.h				\
-	mail-config.h					\
-	mail-folder-cache.h				\
 	mail-guess-servers.h				\
-	mail-mt.h					\
-	mail-ops.h					\
 	mail-send-recv.h				\
-	mail-tools.h					\
 	mail-vfolder.h					\
 	message-list.h
 
@@ -129,10 +110,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-backend.c				\
 	e-mail-browser.c				\
 	e-mail-display.c				\
-	e-mail-enumtypes.c				\
 	e-mail-folder-pane.c				\
-	e-mail-folder-utils.c				\
-	e-mail-junk-filter.c				\
 	e-mail-junk-options.c				\
 	e-mail-label-action.c				\
 	e-mail-label-dialog.c				\
@@ -145,10 +123,8 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-paned-view.c				\
 	e-mail-reader-utils.c				\
 	e-mail-reader.c					\
-	e-mail-session-utils.c				\
-	e-mail-session.c				\
+	e-mail-ui-session.c				\
 	e-mail-sidebar.c				\
-	e-mail-store-utils.c				\
 	e-mail-tag-editor.c				\
 	e-mail-view.c					\
 	em-account-editor.c				\
@@ -179,13 +155,8 @@ libevolution_mail_la_SOURCES =				\
 	em-vfolder-editor.c				\
 	em-vfolder-rule.c				\
 	mail-autofilter.c				\
-	mail-config.c					\
-	mail-folder-cache.c				\
 	mail-guess-servers.c				\
-	mail-mt.c					\
-	mail-ops.c					\
 	mail-send-recv.c				\
-	mail-tools.c					\
 	mail-vfolder.c					\
 	message-list.c
 
@@ -202,6 +173,8 @@ SMIME_LIBS =						\
 endif
 
 libevolution_mail_la_LIBADD =				\
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
+	$(top_builddir)/libemail-engine/libemail-engine.la		\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/composer/libcomposer.la		\
@@ -307,7 +280,7 @@ endif
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(error_DATA) $(ENUM_GENERATED)
+BUILT_SOURCES = $(error_DATA)
 
 CLEANFILES = $(BUILT_SOURCES)
 

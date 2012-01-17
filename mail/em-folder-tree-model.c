@@ -36,22 +36,22 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/e-util.h"
-#include "e-util/e-account-utils.h"
+#include <e-util/e-util.h>
+#include <shell/e-shell.h>
 
-#include "mail-tools.h"
-#include "mail-mt.h"
-#include "mail-ops.h"
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-utils/mail-mt.h>
 
-/* sigh, these 2 only needed for outbox total count checking - a mess */
-#include "mail-folder-cache.h"
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/mail-folder-cache.h>
+#include <libemail-engine/mail-tools.h>
+#include <libemail-engine/mail-ops.h>
 
-#include "em-utils.h"
-#include "em-folder-utils.h"
-#include "em-event.h"
-
-#include "e-mail-folder-utils.h"
-#include "shell/e-shell.h"
+#include <e-mail-account-store.h>
+#include <e-mail-ui-session.h>
+#include <em-utils.h>
+#include <em-folder-utils.h>
+#include <em-event.h>
 
 #define EM_FOLDER_TREE_MODEL_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -573,7 +573,7 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
 		MailFolderCache *folder_cache;
 
 		folder_cache = e_mail_session_get_folder_cache (session);
-		account_store = e_mail_session_get_account_store (session);
+		account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
 		/* Keep our own reference since we connect to its signals. */
 		g_warn_if_fail (model->priv->account_store == NULL);

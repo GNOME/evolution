@@ -27,27 +27,36 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+
 #include <libecal/e-cal-client.h>
 #include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-account-list.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libedataserverui/e-client-utils.h>
 #include <gtkhtml/gtkhtml-embedded.h>
+
+#include <e-util/e-alert-dialog.h>
+#include <e-util/e-mktemp.h>
+
+#include <shell/e-shell.h>
+#include <shell/e-shell-utils.h>
+
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-utils/mail-mt.h>
+
+#include <libemail-engine/mail-folder-cache.h>
+#include <libemail-engine/mail-tools.h>
+
 #include <mail/em-format-hook.h>
 #include <mail/em-config.h>
 #include <mail/em-format-html.h>
 #include <mail/em-utils.h>
-#include <mail/mail-folder-cache.h>
-#include <mail/mail-tools.h>
-#include <mail/mail-mt.h>
-#include <libedataserver/e-account-list.h>
-#include <e-util/e-account-utils.h>
-#include <e-util/e-alert-dialog.h>
-#include <e-util/e-mktemp.h>
-#include <calendar/gui/itip-utils.h>
-#include <shell/e-shell.h>
-#include <shell/e-shell-utils.h>
-#include "itip-view.h"
+
 #include <misc/e-attachment.h>
+
+#include <calendar/gui/itip-utils.h>
+
+#include "itip-view.h"
 
 #define CLASSID "itip://"
 #define CONF_KEY_DELETE "delete-processed"

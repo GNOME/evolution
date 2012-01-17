@@ -23,13 +23,15 @@
 #include <libebackend/e-extension.h>
 
 #include <e-util/e-alert-dialog.h>
-#include <e-util/e-account-utils.h>
+
+#include <libemail-utils/e-account-utils.h>
+
+#include <libemail-engine/e-mail-folder-utils.h>
 
 #include <mail/em-utils.h>
 #include <mail/e-mail-reader.h>
 #include <mail/mail-send-recv.h>
 #include <mail/em-composer-utils.h>
-#include <mail/e-mail-folder-utils.h>
 
 #define MDN_USER_FLAG "receipt-handled"
 

@@ -28,9 +28,6 @@
 
 #include <libedataserver/e-flag.h>
 
-#include <e-util/e-alert-sink.h>
-#include <shell/e-shell-view.h>
-
 #include "mail-mt.h"
 
 /*#define MALLOC_CHECK*/
@@ -47,6 +44,29 @@ static GHashTable *mail_msg_active_table;
 static GMutex *mail_msg_lock;
 static GCond *mail_msg_cond;
 
+static MailMsgCreateActivityFunc create_activity = NULL;
+static MailMsgSubmitActivityFunc submit_acitivity = NULL;
+static MailMsgFreeActivityFunc free_activity = NULL;
+static MailMsgCompleteActivityFunc complete_activity = NULL;
+static MailMsgAlertErrorFunc alert_error = NULL;
+static MailMsgCancelActivityFunc cancel_activity = NULL;
+
+void mail_msg_register_activities (MailMsgCreateActivityFunc acreate,
+				   MailMsgSubmitActivityFunc asubmit,
+				   MailMsgFreeActivityFunc freeact,
+				   MailMsgCompleteActivityFunc comp_act,
+				   MailMsgCancelActivityFunc cancel_act,
+				   MailMsgAlertErrorFunc ealert)
+{
+	/* This is a utter hack to keep EActivity out of EDS and still let Evolution do EActivity */
+	create_activity = acreate;
+	submit_acitivity = asubmit;
+	free_activity = freeact;
+	complete_activity = comp_act;
+	cancel_activity = cancel_act;
+	alert_error = ealert;
+}
+
 static void
 mail_msg_cancelled (CamelOperation *operation,
                     gpointer user_data)
@@ -54,18 +74,13 @@ mail_msg_cancelled (CamelOperation *operation,
 	mail_msg_cancel (GPOINTER_TO_UINT (user_data));
 }
 
+
 static gboolean
-mail_msg_submit (EActivity *activity)
+mail_msg_submit (CamelOperation *cancellable)
 {
-	EShell *shell;
-	EShellBackend *shell_backend;
 
-	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (
-		shell, shell_builtin_backend);
-
-	e_shell_backend_add_activity (shell_backend, activity);
-
+	if (submit_acitivity)
+		submit_acitivity ((GCancellable *)cancellable);
 	return FALSE;
 }
 
@@ -73,7 +88,6 @@ gpointer
 mail_msg_new (MailMsgInfo *info)
 {
 	MailMsg *msg;
-	GCancellable *cancellable;
 
 	g_mutex_lock (mail_msg_lock);
 
@@ -81,19 +95,16 @@ mail_msg_new (MailMsgInfo *info)
 	msg->info = info;
 	msg->ref_count = 1;
 	msg->seq = mail_msg_seq++;
-	msg->activity = e_activity_new ();
 
-	cancellable = camel_operation_new ();
-
-	e_activity_set_percent (msg->activity, 0.0);
-	e_activity_set_cancellable (msg->activity, cancellable);
+	msg->cancellable = camel_operation_new ();
+	
+	if (create_activity)
+		create_activity (msg->cancellable);
 
 	g_signal_connect (
-		cancellable, "cancelled",
+		msg->cancellable, "cancelled",
 		G_CALLBACK (mail_msg_cancelled),
 		GINT_TO_POINTER (msg->seq));
-
-	g_object_unref (cancellable);
 
 	g_hash_table_insert (
 		mail_msg_active_table, GINT_TO_POINTER (msg->seq), msg);
@@ -134,8 +145,11 @@ mail_msg_free (MailMsg *mail_msg)
 {
 	/* This is an idle callback. */
 
-	if (mail_msg->activity != NULL)
-		g_object_unref (mail_msg->activity);
+	if (free_activity)
+		free_activity (mail_msg->cancellable);
+
+	if (mail_msg->cancellable != NULL)
+		g_object_unref (mail_msg->cancellable);
 
 	if (mail_msg->error != NULL)
 		g_error_free (mail_msg->error);
@@ -196,14 +210,7 @@ mail_msg_unref (gpointer msg)
 void
 mail_msg_check_error (gpointer msg)
 {
-	EShell *shell;
-	EShellView *shell_view;
-	EShellWindow *shell_window = NULL;
-	EShellContent *shell_content;
-	GtkApplication *application;
 	MailMsg *m = msg;
-	gchar *what;
-	GList *list, *iter;
 
 #ifdef MALLOC_CHECK
 	checkmem (m);
@@ -211,13 +218,17 @@ mail_msg_check_error (gpointer msg)
 	checkmem (m->priv);
 #endif
 
-	if (e_activity_handle_cancellation (m->activity, m->error))
-		return;
-
-	e_activity_set_state (m->activity, E_ACTIVITY_COMPLETED);
-
 	if (m->error == NULL)
 		return;
+
+	if (complete_activity)
+		complete_activity (m->cancellable);
+
+	if (g_error_matches (m->error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		if (cancel_activity)
+			cancel_activity (m->cancellable);
+		return;
+	}	
 
 	/* XXX Hmm, no explanation of why this is needed.  It looks like
 	 *     a lame hack and will be removed at some point, if only to
@@ -226,38 +237,17 @@ mail_msg_check_error (gpointer msg)
 	if (g_error_matches (m->error, CAMEL_FOLDER_ERROR, CAMEL_FOLDER_ERROR_INVALID_UID))
 		return;
 
-	shell = e_shell_get_default ();
-	application = GTK_APPLICATION (shell);
-	list = gtk_application_get_windows (application);
+	/* FIXME: Submit an error on the dbus */
+	if (alert_error) {
+		char *what;
 
-	/* Find the most recently used EShellWindow. */
-	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
-		if (E_IS_SHELL_WINDOW (iter->data)) {
-			shell_window = E_SHELL_WINDOW (iter->data);
-			break;
-		}
+		if (m->info->desc && (what = m->info->desc (m))) {
+			alert_error (m->cancellable, what, m->error->message);
+			g_free (what);
+		} else
+			alert_error (m->cancellable, NULL, m->error->message);
 	}
-
-	/* If we can't find an EShellWindow then... well, screw it. */
-	if (shell_window == NULL)
-		return;
-
-	shell_view = e_shell_window_get_shell_view (
-		shell_window, shell_builtin_backend);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	if (m->info->desc && (what = m->info->desc (m))) {
-		e_alert_submit (
-			E_ALERT_SINK (shell_content),
-			"mail:async-error", what,
-			m->error->message, NULL);
-		g_free (what);
-	} else
-		e_alert_submit (
-			E_ALERT_SINK (shell_content),
-			"mail:async-error-nodescribe",
-			m->error->message, NULL);
-}
+}	
 
 void
 mail_msg_cancel (guint msgid)
@@ -273,7 +263,7 @@ mail_msg_cancel (guint msgid)
 	/* Hold a reference to the GCancellable so it doesn't finalize
 	 * itself on us between unlocking the mutex and cancelling. */
 	if (msg != NULL) {
-		cancellable = e_activity_get_cancellable (msg->activity);
+		cancellable = msg->cancellable;
 		if (g_cancellable_is_cancelled (cancellable))
 			cancellable = NULL;
 		else
@@ -371,12 +361,12 @@ mail_msg_idle_cb (void)
 	while ((msg = g_async_queue_try_pop (main_loop_queue)) != NULL) {
 		GCancellable *cancellable;
 
-		cancellable = e_activity_get_cancellable (msg->activity);
+		cancellable = msg->cancellable;
 
 		g_idle_add_full (
 			G_PRIORITY_DEFAULT,
 			(GSourceFunc) mail_msg_submit,
-			g_object_ref (msg->activity),
+			g_object_ref (msg->cancellable),
 			(GDestroyNotify) g_object_unref);
 		if (msg->info->exec != NULL)
 			msg->info->exec (msg, cancellable, &msg->error);
@@ -400,7 +390,7 @@ mail_msg_proxy (MailMsg *msg)
 {
 	GCancellable *cancellable;
 
-	cancellable = e_activity_get_cancellable (msg->activity);
+	cancellable = msg->cancellable;
 
 	if (msg->info->desc != NULL) {
 		gchar *text = msg->info->desc (msg);
@@ -411,7 +401,7 @@ mail_msg_proxy (MailMsg *msg)
 	g_idle_add_full (
 		G_PRIORITY_DEFAULT,
 		(GSourceFunc) mail_msg_submit,
-		g_object_ref (msg->activity),
+		g_object_ref (msg->cancellable),
 		(GDestroyNotify) g_object_unref);
 
 	if (msg->info->exec != NULL)
@@ -584,10 +574,13 @@ do_call (struct _call_msg *m,
 		break;
 	}
 
-	e_activity_set_state (
-		m->base.activity,
-		g_cancellable_is_cancelled (cancellable) ?
-		E_ACTIVITY_CANCELLED : E_ACTIVITY_COMPLETED);
+	if (g_cancellable_is_cancelled (cancellable)) {
+		if (cancel_activity)
+			cancel_activity (cancellable);
+	} else {
+		if (complete_activity)
+			complete_activity (cancellable);
+	}
 
 	if (m->done != NULL)
 		e_flag_set (m->done);
@@ -618,7 +611,7 @@ mail_call_main (mail_call_t type,
 	m->func = func;
 	G_VA_COPY (m->ap, ap);
 
-	cancellable = e_activity_get_cancellable (m->base.activity);
+	cancellable = m->base.cancellable;
 
 	if (mail_in_main_thread ())
 		do_call (m, cancellable, &m->base.error);

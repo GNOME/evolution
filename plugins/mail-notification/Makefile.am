@@ -29,6 +29,7 @@ liborg_gnome_mail_notification_la_LIBADD = 		\
 	$(top_builddir)/e-util/libeutil.la 		\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/shell/libeshell.la		\
+	$(top_builddir)/libemail-utils/libemail-utils.la  \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(LIBNOTIFY_LIBS)				\

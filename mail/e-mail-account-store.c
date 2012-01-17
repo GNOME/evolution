@@ -25,9 +25,11 @@
 #include <libebackend/e-extensible.h>
 
 #include <e-util/e-marshal.h>
-#include <e-util/e-account-utils.h>
 #include <e-util/e-alert-dialog.h>
-#include <mail/mail-ops.h>
+
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-engine/mail-ops.h>
+
 #include <mail/mail-vfolder.h>
 
 #define E_MAIL_ACCOUNT_STORE_GET_PRIVATE(obj) \
@@ -462,8 +464,15 @@ mail_account_store_service_removed (EMailAccountStore *store,
 
 	EAccountList *account_list;
 	EAccount *account;
+	EMailSession *session;
+	MailFolderCache *cache;
 	CamelProvider *provider;
 	const gchar *uid;
+
+	session = e_mail_account_store_get_session (store);
+	cache = e_mail_session_get_folder_cache (session);
+
+	mail_folder_cache_service_removed (cache, service);
 
 	account_list = e_get_account_list ();
 	uid = camel_service_get_uid (service);
@@ -497,8 +506,15 @@ mail_account_store_service_enabled (EMailAccountStore *store,
 	 *     The 'busy_count' is bumped until changes are written back
 	 *     to the D-Bus service.  For now I guess we'll just block. */
 
+	EMailSession *session;
+	MailFolderCache *cache;
 	GSettings *settings;
 	const gchar *uid;
+
+	session = e_mail_account_store_get_session (store);
+	cache = e_mail_session_get_folder_cache (session);
+
+	mail_folder_cache_service_enabled (cache, service);
 
 	uid = camel_service_get_uid (service);
 
@@ -541,8 +557,15 @@ mail_account_store_service_disabled (EMailAccountStore *store,
 	 *     The 'busy_count' is bumped until changes are written back
 	 *     to the D-Bus service.  For now I guess we'll just block. */
 
+	EMailSession *session;
+	MailFolderCache *cache;
 	GSettings *settings;
 	const gchar *uid;
+
+	session = e_mail_account_store_get_session (store);
+	cache = e_mail_session_get_folder_cache (session);
+
+	mail_folder_cache_service_disabled (cache, service);
 
 	uid = camel_service_get_uid (service);
 
@@ -1096,6 +1119,10 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 	/* This populates the rest of the columns. */
 	mail_account_store_update_row (store, service, &iter);
 
+	/* No need to connect to "service-added" emissions since it's
+	 * always immediately followed by either "service-enabled" or
+	 * "service-disabled" in MailFolderCache */
+
 	g_signal_emit (store, signals[SERVICE_ADDED], 0, service);
 
 	if (enabled)
@@ -1115,7 +1142,7 @@ e_mail_account_store_remove_service (EMailAccountStore *store,
                                      CamelService *service)
 {
 	GtkTreeIter iter;
-	gboolean proceed = TRUE;
+	gboolean proceed;
 
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
@@ -1148,7 +1175,7 @@ e_mail_account_store_enable_service (EMailAccountStore *store,
                                      CamelService *service)
 {
 	GtkTreeIter iter;
-	gboolean proceed = TRUE;
+	gboolean proceed;
 
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
@@ -1166,7 +1193,6 @@ e_mail_account_store_enable_service (EMailAccountStore *store,
 		gtk_list_store_set (
 			GTK_LIST_STORE (store), &iter,
 			E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED, TRUE, -1);
-
 		g_signal_emit (store, signals[SERVICE_ENABLED], 0, service);
 	}
 }
@@ -1177,7 +1203,7 @@ e_mail_account_store_disable_service (EMailAccountStore *store,
                                       CamelService *service)
 {
 	GtkTreeIter iter;
-	gboolean proceed = TRUE;
+	gboolean proceed;
 
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
@@ -1195,7 +1221,6 @@ e_mail_account_store_disable_service (EMailAccountStore *store,
 		gtk_list_store_set (
 			GTK_LIST_STORE (store), &iter,
 			E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED, FALSE, -1);
-
 		g_signal_emit (store, signals[SERVICE_DISABLED], 0, service);
 	}
 }

@@ -24,7 +24,6 @@
 #define _MAIL_MT
 
 #include <camel/camel.h>
-#include <e-util/e-activity.h>
 
 typedef struct _MailMsg MailMsg;
 typedef struct _MailMsgInfo MailMsgInfo;
@@ -37,12 +36,20 @@ typedef void	(*MailMsgDoneFunc)		(MailMsg *msg);
 typedef void	(*MailMsgFreeFunc)		(MailMsg *msg);
 typedef void	(*MailMsgDispatchFunc)		(gpointer msg);
 
+
+typedef void    (*MailMsgCreateActivityFunc)	(GCancellable *cancellable);
+typedef void    (*MailMsgSubmitActivityFunc)	(GCancellable *cancellable);
+typedef void    (*MailMsgFreeActivityFunc)	(GCancellable *cancellable);
+typedef void    (*MailMsgCompleteActivityFunc)	(GCancellable *cancellable);
+typedef void    (*MailMsgCancelActivityFunc)	(GCancellable *cancellable);
+typedef void    (*MailMsgAlertErrorFunc)	(GCancellable *cancellable, const char *what, const char *message);
+
 struct _MailMsg {
 	MailMsgInfo *info;
 	volatile gint ref_count;
 	guint seq;			/* seq number for synchronisation */
 	gint priority;			/* priority (default = 0) */
-	EActivity *activity;
+	GCancellable *cancellable;
 	GError *error;			/* up to the caller to use this */
 };
 
@@ -56,6 +63,12 @@ struct _MailMsgInfo {
 
 /* setup ports */
 void mail_msg_init (void);
+void mail_msg_register_activities (MailMsgCreateActivityFunc,
+				   MailMsgSubmitActivityFunc,
+				   MailMsgFreeActivityFunc,
+				   MailMsgCompleteActivityFunc,
+				   MailMsgCancelActivityFunc,				   
+				   MailMsgAlertErrorFunc);
 
 gboolean mail_in_main_thread (void);
 

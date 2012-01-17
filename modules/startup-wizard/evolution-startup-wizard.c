@@ -24,13 +24,17 @@
 #include <libebackend/e-extension.h>
 
 #include <shell/e-shell.h>
-#include <e-util/e-account-utils.h>
+
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-import.h>
 
+#include <libemail-utils/e-account-utils.h>
+
 #include <mail/e-mail-backend.h>
 #include <mail/em-account-editor.h>
+
 #include <capplet/settings/mail-capplet-shell.h>
+
 #include <calendar/gui/calendar-config.h>
 
 /* Standard GObject macros */

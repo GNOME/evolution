@@ -39,9 +39,9 @@
 #include "e-util/e-util-private.h"
 #include "shell/e-shell-backend.h"
 
-#include "mail-mt.h"
-#include "mail-tools.h"
-#include "e-mail-session.h"
+#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/mail-tools.h"
+#include "libemail-engine/e-mail-session.h"
 
 #include "mail-importer.h"
 
@@ -277,9 +277,9 @@ mail_importer_import_mbox_sync (EMailSession *session,
 	m->path = g_strdup (path);
 	m->uri = g_strdup (folderuri);
 	if (cancellable)
-		e_activity_set_cancellable (m->base.activity, cancellable);
+		m->base.cancellable = cancellable;
 
-	cancellable = e_activity_get_cancellable (m->base.activity);
+	cancellable = m->base.cancellable;
 
 	import_mbox_exec (m, cancellable, &m->base.error);
 	import_mbox_done (m);

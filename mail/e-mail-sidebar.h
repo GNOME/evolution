@@ -22,8 +22,8 @@
 #ifndef E_MAIL_SIDEBAR_H
 #define E_MAIL_SIDEBAR_H
 
-#include <mail/e-mail-session.h>
 #include <mail/em-folder-tree.h>
+#include <libemail-engine/e-mail-session.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SIDEBAR \

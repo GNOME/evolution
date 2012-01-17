@@ -48,22 +48,25 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include <e-util/e-util.h>
 #include <libedataserver/e-xml-utils.h>
 #include <libedataserver/e-data-server-util.h>
+
+#include <shell/e-shell.h>
+#include <shell/e-shell-migrate.h>
+
+#include <e-util/e-util.h>
 #include <e-util/e-xml-utils.h>
 
-#include "e-util/e-account-utils.h"
-#include "e-util/e-alert-dialog.h"
-#include "e-util/e-util-private.h"
-#include "e-util/e-plugin.h"
-#include "e-util/e-signature-utils.h"
+#include <e-util/e-alert-dialog.h>
+#include <e-util/e-util-private.h>
+#include <e-util/e-plugin.h>
 
-#include "shell/e-shell.h"
-#include "shell/e-shell-migrate.h"
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-utils/e-signature-utils.h>
+
+#include <libemail-engine/e-mail-folder-utils.h>
 
 #include "e-mail-backend.h"
-#include "e-mail-folder-utils.h"
 #include "em-utils.h"
 
 #define d(x) x

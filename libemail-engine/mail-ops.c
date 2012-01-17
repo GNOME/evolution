@@ -35,11 +35,11 @@
 #include <glib/gi18n.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include "e-util/e-account-utils.h"
 
-#include "em-filter-rule.h"
-#include "em-utils.h"
-#include "mail-mt.h"
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-utils/mail-mt.h>
+
+#include "e-mail-utils.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
 
@@ -950,7 +950,7 @@ mail_send_queue (EMailSession *session,
 	m->queue = g_object_ref (queue);
 	m->transport = g_object_ref (transport);
 	if (G_IS_CANCELLABLE (cancellable))
-		e_activity_set_cancellable (m->base.activity, cancellable);
+		m->base.cancellable = cancellable;
 	m->status = status;
 	m->status_data = status_data;
 	m->done = done;
@@ -1383,10 +1383,11 @@ expunge_pop3_stores (CamelFolder *expunging,
 			CamelFolder *folder;
 			CamelService *service;
 			CamelSettings *settings;
-			gboolean any_found = FALSE, delete_expunged = FALSE, keep_on_server = FALSE;
+			gboolean any_found = FALSE;
+			gboolean delete_expunged = FALSE;
+			gboolean keep_on_server = FALSE;
 
-			service = camel_session_get_service (
-				session, account->uid);
+			service = camel_session_get_service (session, account->uid);
 
 			if (!CAMEL_IS_STORE (service))
 				continue;

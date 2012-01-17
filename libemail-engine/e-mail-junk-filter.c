@@ -18,7 +18,7 @@
 
 #include "e-mail-junk-filter.h"
 
-#include <mail/e-mail-session.h>
+#include <libemail-engine/e-mail-session.h>
 
 G_DEFINE_ABSTRACT_TYPE (
 	EMailJunkFilter,

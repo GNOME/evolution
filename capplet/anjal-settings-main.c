@@ -36,7 +36,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserverui/e-passwords.h>
-#include <mail/mail-mt.h>
+#include <libemail-utils/mail-mt.h>
 #include "settings/mail-capplet-shell.h"
 #include <libedataserver/e-categories.h>
 

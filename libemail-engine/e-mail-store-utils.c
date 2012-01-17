@@ -20,7 +20,7 @@
 #include <config.h>
 #endif
 
-#include "em-utils.h"
+#include "e-mail-utils.h"
 
 #include "e-mail-store-utils.h"
 

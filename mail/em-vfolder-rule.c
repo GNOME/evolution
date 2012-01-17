@@ -30,17 +30,19 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
+#include <shell/e-shell.h>
+
+#include <e-util/e-util.h>
+#include <e-util/e-alert.h>
+#include <e-util/e-util-private.h>
+
+#include <libemail-engine/e-mail-folder-utils.h>
+
+#include "em-folder-selector.h"
+#include "em-folder-tree.h"
+#include "em-utils.h"
 #include "em-vfolder-context.h"
 #include "em-vfolder-rule.h"
-#include "mail/e-mail-folder-utils.h"
-#include "mail/em-utils.h"
-#include "mail/em-folder-tree.h"
-#include "mail/em-folder-selector.h"
-#include "shell/e-shell.h"
-
-#include "e-util/e-util.h"
-#include "e-util/e-alert.h"
-#include "e-util/e-util-private.h"
 
 #define EM_VFOLDER_RULE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

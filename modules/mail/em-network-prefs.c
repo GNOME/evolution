@@ -24,25 +24,24 @@
 #include <config.h>
 #endif
 
+#include "em-network-prefs.h"
+
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
 
-#include "em-network-prefs.h"
-
+#include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 #include <gconf/gconf-client.h>
 
-#include <glib/gstdio.h>
+#include <e-util/e-util.h>
+#include <e-util/e-util-private.h>
 
-#include "e-util/e-util.h"
-#include "e-util/e-util-private.h"
-#include "mail/e-mail-junk-options.h"
-
-#include "em-config.h"
-#include "em-folder-selection-button.h"
+#include <mail/em-config.h>
+#include <mail/em-folder-selection-button.h>
+#include <mail/e-mail-junk-options.h>
 
 #define d(x)
 

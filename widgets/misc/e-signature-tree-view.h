@@ -23,8 +23,8 @@
 #define E_SIGNATURE_TREE_VIEW_H
 
 #include <gtk/gtk.h>
-#include <e-util/e-signature.h>
-#include <e-util/e-signature-list.h>
+#include <libemail-utils/e-signature.h>
+#include <libemail-utils/e-signature-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SIGNATURE_TREE_VIEW \

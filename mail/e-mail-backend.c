@@ -32,26 +32,29 @@
 #include <glib/gstdio.h>
 #include <libedataserver/e-data-server-util.h>
 
-#include "e-util/e-account-utils.h"
-#include "e-util/e-alert-dialog.h"
-#include "e-util/e-alert-sink.h"
+#include <shell/e-shell.h>
 
-#include "misc/e-account-combo-box.h"
+#include <e-util/e-alert-dialog.h>
+#include <e-util/e-alert-sink.h>
 
-#include "shell/e-shell.h"
+#include <misc/e-account-combo-box.h>
 
-#include "mail/e-mail-folder-utils.h"
-#include "mail/e-mail-migrate.h"
-#include "mail/e-mail-session.h"
-#include "mail/e-mail-store-utils.h"
-#include "mail/em-event.h"
-#include "mail/em-folder-tree-model.h"
-#include "mail/em-utils.h"
-#include "mail/mail-autofilter.h"
-#include "mail/mail-config.h"
-#include "mail/mail-folder-cache.h"
-#include "mail/mail-ops.h"
-#include "mail/mail-vfolder.h"
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/e-mail-store-utils.h>
+#include <libemail-engine/mail-config.h>
+#include <libemail-engine/mail-folder-cache.h>
+#include <libemail-engine/mail-ops.h>
+
+#include <mail/e-mail-migrate.h>
+#include <mail/e-mail-ui-session.h>
+#include <mail/em-event.h>
+#include <mail/em-folder-tree-model.h>
+#include <mail/em-utils.h>
+#include <mail/mail-autofilter.h>
+#include <mail/mail-send-recv.h>
+#include <mail/mail-vfolder.h>
 
 #define E_MAIL_BACKEND_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -760,6 +763,132 @@ mail_backend_finalize (GObject *object)
 }
 
 static void
+mail_backend_add_store (EMailSession *session,
+			CamelStore *store,
+			EMailBackend *backend)
+{
+	EMFolderTreeModel *model;
+
+	model = em_folder_tree_model_get_default ();
+	em_folder_tree_model_add_store (model, store);
+}
+
+static void
+mail_backend_remove_store (EMailSession *session,
+			   CamelStore *store,
+			   EMailBackend *backend)
+{
+	EMFolderTreeModel *model;
+
+	model = em_folder_tree_model_get_default ();
+	em_folder_tree_model_remove_store (model, store);
+}
+
+#define SET_ACITIVITY(cancellable, activity) \
+	g_object_set_data (G_OBJECT (cancellable), "e-activity", activity)
+#define GET_ACITIVITY(cancellable) \
+        g_object_get_data (G_OBJECT (cancellable), "e-activity")
+
+static void    
+mail_mt_create_activity (GCancellable *cancellable)
+{
+	EActivity *activity;
+
+	activity = e_activity_new ();
+	e_activity_set_percent (activity, 0.0);
+	e_activity_set_cancellable (activity, cancellable);
+	SET_ACITIVITY (cancellable, activity);
+}
+
+static void
+mail_mt_submit_activity (GCancellable *cancellable)
+{
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EActivity *activity;
+
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (
+		shell, "mail");
+
+	activity = GET_ACITIVITY (cancellable);
+	if (activity)
+		e_shell_backend_add_activity (shell_backend, activity);
+
+}
+
+static void    
+mail_mt_free_activity (GCancellable *cancellable)
+{
+	EActivity *activity = GET_ACITIVITY (cancellable);
+
+	if (activity)
+		g_object_unref (activity);
+}
+
+static void    
+mail_mt_complete_acitivity (GCancellable *cancellable)
+{
+	EActivity *activity = GET_ACITIVITY (cancellable);
+
+	if (activity)
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+}
+
+static void    
+mail_mt_cancel_activity (GCancellable *cancellable)
+{
+	EActivity *activity = GET_ACITIVITY (cancellable);
+
+	if (activity)
+		e_activity_set_state (activity, E_ACTIVITY_CANCELLED);	
+}
+
+static void    
+mail_mt_alert_error (GCancellable *cancellable,
+                     const char *what,
+                     const char *message)
+{
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window = NULL;
+	EShellContent *shell_content;
+	GList *list, *iter;
+	GtkApplication *application;
+
+	shell = e_shell_get_default ();
+	application = GTK_APPLICATION (shell);
+	list = gtk_application_get_windows (application);
+
+	/* Find the most recently used EShellWindow. */
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		if (E_IS_SHELL_WINDOW (iter->data)) {
+			shell_window = E_SHELL_WINDOW (iter->data);
+			break;
+		}
+	}
+
+	/* If we can't find an EShellWindow then... well, screw it. */
+	if (shell_window == NULL)
+		return;
+
+	shell_view = e_shell_window_get_shell_view (
+		shell_window, "mail");
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	if (what) {
+		e_alert_submit (
+			E_ALERT_SINK (shell_content),
+			"mail:async-error", what,
+			message, NULL);
+	} else
+		e_alert_submit (
+			E_ALERT_SINK (shell_content),
+			"mail:async-error-nodescribe",
+			message, NULL);
+}
+
+static void
 mail_backend_constructed (GObject *object)
 {
 	EMailBackendPrivate *priv;
@@ -777,7 +906,11 @@ mail_backend_constructed (GObject *object)
 
 	camel_provider_init ();
 
-	priv->session = e_mail_session_new ();
+	priv->session = e_mail_ui_session_new ();
+
+	g_signal_connect (
+		priv->session, "flush-outbox",
+		G_CALLBACK (mail_send), priv->session);	
 
 	g_object_bind_property (
 		shell, "online",
@@ -804,6 +937,16 @@ mail_backend_constructed (GObject *object)
 	/* FIXME This is an evil hack that needs to die.
 	 *       Give EAccountComboBox a CamelSession property. */
 	e_account_combo_box_set_session (CAMEL_SESSION (priv->session));
+
+	g_signal_connect (
+		priv->session, "store-added",
+		G_CALLBACK (mail_backend_add_store),
+		shell_backend);
+
+	g_signal_connect (
+		priv->session, "store-removed",
+		G_CALLBACK (mail_backend_remove_store),
+		shell_backend);
 
 	g_signal_connect (
 		shell, "prepare-for-offline",
@@ -843,6 +986,14 @@ mail_backend_constructed (GObject *object)
 
 	mail_config_init (priv->session);
 	mail_msg_init ();
+
+	mail_msg_register_activities (
+		mail_mt_create_activity,
+		mail_mt_submit_activity,
+		mail_mt_free_activity,
+		mail_mt_complete_acitivity,
+		mail_mt_cancel_activity,
+		mail_mt_alert_error);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_backend_parent_class)->constructed (object);

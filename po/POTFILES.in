@@ -166,7 +166,6 @@ e-util/e-file-utils.c
 e-util/e-plugin.c
 e-util/e-plugin-util.c
 e-util/e-print.c
-e-util/e-signature.c
 e-util/e-system.error.xml
 e-util/e-util.c
 filter/e-filter-datespec.c
@@ -179,12 +178,21 @@ filter/e-rule-context.c
 filter/e-rule-editor.c
 filter/filter.error.xml
 [type: gettext/glade]filter/filter.ui
+libemail-engine/e-mail-folder-utils.c
+libemail-engine/e-mail-session.c
+libemail-engine/e-mail-session-utils.c
+libemail-engine/e-mail-store-utils.c
+libemail-engine/mail-config.c
+libemail-engine/mail-folder-cache.c
+libemail-engine/mail-ops.c
+libemail-engine/mail-tools.c
+libemail-utils/e-signature.c
+libemail-utils/mail-mt.c
 mail/e-mail-account-manager.c
 mail/e-mail-account-tree-view.c
 mail/e-mail-attachment-bar.c
 mail/e-mail-browser.c
 mail/e-mail-display.c
-mail/e-mail-folder-utils.c
 mail/e-mail-junk-options.c
 mail/e-mail-label-dialog.c
 mail/e-mail-label-list-store.c
@@ -194,10 +202,8 @@ mail/e-mail-migrate.c
 mail/e-mail-notebook-view.c
 mail/e-mail-reader.c
 mail/e-mail-reader-utils.c
-mail/e-mail-session.c
-mail/e-mail-session-utils.c
-mail/e-mail-store-utils.c
 mail/e-mail-tag-editor.c
+mail/e-mail-ui-session.c
 mail/em-account-editor.c
 mail/em-composer-utils.c
 mail/em-filter-editor.c
@@ -225,15 +231,10 @@ mail/importers/evolution-mbox-importer.c
 mail/importers/mail-importer.c
 mail/importers/pine-importer.c
 mail/mail-autofilter.c
-mail/mail-config.c
 [type: gettext/glade]mail/mail-config.ui
 [type: gettext/glade]mail/mail-dialogs.ui
 mail/mail.error.xml
-mail/mail-folder-cache.c
-mail/mail-mt.c
-mail/mail-ops.c
 mail/mail-send-recv.c
-mail/mail-tools.c
 mail/mail-vfolder.c
 mail/message-list.c
 mail/message-list.etspec

@@ -1,0 +1,15 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+datarootdir=@datarootdir@
+datadir=@datadir@
+
+privincludedir=@privincludedir@
+
+Name: libemail-engine
+Description: Client library for evolution mail
+Version: @VERSION@
+Requires: libemail-utils
+Libs: -L${libdir} -lemail-engine
+Cflags: -I${privincludedir}

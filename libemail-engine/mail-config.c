@@ -31,9 +31,8 @@
 
 #include <libedataserver/e-data-server-util.h>
 
-#include <e-util/e-util.h>
-#include "e-util/e-account-utils.h"
-#include "e-util/e-signature-utils.h"
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-utils/e-signature-utils.h>
 
 #include "e-mail-folder-utils.h"
 #include "mail-config.h"

@@ -138,6 +138,18 @@ void		mail_folder_cache_get_local_folder_uris
 void		mail_folder_cache_get_remote_folder_uris
 						(MailFolderCache *cache,
 						 GQueue *out_queue);
+void		mail_folder_cache_service_added (MailFolderCache *cache,
+                                 		 CamelService *service);
+void		mail_folder_cache_service_removed 
+						(MailFolderCache *cache,
+                                   		 CamelService *service);
+void		mail_folder_cache_service_enabled 
+						(MailFolderCache *cache,
+                                   		 CamelService *service);
+void		mail_folder_cache_service_disabled 
+						(MailFolderCache *cache,
+                                    		 CamelService *service);
+
 
 G_END_DECLS
 

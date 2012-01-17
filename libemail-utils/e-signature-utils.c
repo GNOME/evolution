@@ -31,7 +31,7 @@
 #include <sys/wait.h>
 #endif
 
-#include "e-util/e-util.h"
+#include <libedataserver/e-data-server-util.h>
 
 static ESignatureList *global_signature_list;
 

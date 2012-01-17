@@ -29,7 +29,7 @@
 #include <libecal/e-cal.h>
 #include <libebook/e-book.h>
 
-#include <e-util/e-account-utils.h>
+#include <libemail-utils/e-account-utils.h>
 
 /* This is the property name or URL parameter under which we
  * embed the GoaAccount ID into an EAccount or ESource object. */

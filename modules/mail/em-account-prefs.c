@@ -33,16 +33,20 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/e-alert-dialog.h"
-#include "e-util/e-account-utils.h"
+#include <e-util/e-alert-dialog.h>
 
-#include "e-mail-backend.h"
-#include "em-config.h"
-#include "em-account-editor.h"
-#include "em-utils.h"
-#include "mail-vfolder.h"
-#include "shell/e-shell.h"
-#include "capplet/settings/mail-capplet-shell.h"
+#include <shell/e-shell.h>
+
+#include <libemail-utils/e-account-utils.h>
+
+#include <capplet/settings/mail-capplet-shell.h>
+
+#include <mail/e-mail-backend.h>
+#include <mail/e-mail-ui-session.h>
+#include <mail/em-config.h>
+#include <mail/em-account-editor.h>
+#include <mail/em-utils.h>
+#include <mail/mail-vfolder.h>
 
 #define EM_ACCOUNT_PREFS_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -321,7 +325,8 @@ em_account_prefs_new (EPreferencesWindow *window)
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	account_store = e_mail_session_get_account_store (session);
+	account_store = e_mail_ui_session_get_account_store (
+		E_MAIL_UI_SESSION (session));
 
 	return g_object_new (
 		EM_TYPE_ACCOUNT_PREFS,

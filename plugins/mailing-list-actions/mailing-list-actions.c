@@ -24,27 +24,32 @@
 #include <config.h>
 #endif
 
-#include <glib/gi18n-lib.h>
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
+#include <glib/gi18n-lib.h>
 
-#include "composer/e-msg-composer.h"
-#include "mail/e-mail-browser.h"
-#include "mail/e-mail-reader.h"
-#include "mail/em-composer-utils.h"
-#include "mail/em-format-hook.h"
-#include "mail/em-config.h"
-#include "mail/em-utils.h"
-#include "mail/mail-ops.h"
-#include "mail/mail-mt.h"
-#include "mail/message-list.h"
-#include "e-util/e-util.h"
-#include "e-util/e-account-utils.h"
-#include "e-util/e-alert-dialog.h"
-#include "shell/e-shell-view.h"
-#include "shell/e-shell-window.h"
-#include "shell/e-shell-window-actions.h"
+#include <e-util/e-util.h>
+#include <e-util/e-alert-dialog.h>
+
+#include <libemail-utils/e-account-utils.h>
+
+#include <shell/e-shell-view.h>
+#include <shell/e-shell-window.h>
+#include <shell/e-shell-window-actions.h>
+
+#include <composer/e-msg-composer.h>
+
+#include <libemail-utils/mail-mt.h>
+#include <libemail-engine/mail-ops.h>
+
+#include <mail/e-mail-browser.h>
+#include <mail/e-mail-reader.h>
+#include <mail/em-composer-utils.h>
+#include <mail/em-config.h>
+#include <mail/em-format-hook.h>
+#include <mail/em-utils.h>
+#include <mail/message-list.h>
 
 /* EAlert Message IDs */
 #define MESSAGE_PREFIX			"org.gnome.mailing-list-actions:"

@@ -24,17 +24,13 @@
 #include <config.h>
 #endif
 
+#include "em-composer-prefs.h"
+
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
-
-#include "e-util/e-signature-utils.h"
-
-#include "em-composer-prefs.h"
-#include "composer/e-msg-composer.h"
-#include "shell/e-shell-utils.h"
 
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
@@ -44,14 +40,21 @@
 
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
+
+#include <libemail-utils/e-signature-utils.h>
+
+#include <composer/e-msg-composer.h>
+
+#include <shell/e-shell-utils.h>
+
 #include <misc/e-charset-combo-box.h>
 #include <misc/e-signature-editor.h>
 #include <misc/e-signature-manager.h>
 #include <misc/e-signature-preview.h>
 
-#include "em-config.h"
-#include "em-folder-selection-button.h"
-#include "e-mail-junk-options.h"
+#include <mail/em-config.h>
+#include <mail/em-folder-selection-button.h>
+#include <mail/e-mail-junk-options.h>
 
 G_DEFINE_TYPE (
 	EMComposerPrefs,

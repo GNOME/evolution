@@ -31,20 +31,23 @@
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
+#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/mail-folder-cache.h"
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-session.h"
+#include "libemail-engine/e-mail-utils.h"
+#include "libemail-engine/mail-ops.h"
+#include "libemail-engine/mail-tools.h"
+
 #include "e-mail-backend.h"
-#include "e-mail-session.h"
-#include "e-mail-folder-utils.h"
 #include "em-folder-tree-model.h"
 #include "em-utils.h"
 #include "em-vfolder-context.h"
 #include "em-vfolder-editor.h"
 #include "em-vfolder-rule.h"
 #include "mail-autofilter.h"
-#include "mail-folder-cache.h"
-#include "mail-mt.h"
-#include "mail-ops.h"
-#include "mail-tools.h"
 #include "mail-vfolder.h"
+#include "e-mail-ui-session.h"
 
 #define d(x)  /* (printf("%s:%s: ",  G_STRLOC, G_STRFUNC), (x))*/
 
@@ -1020,7 +1023,7 @@ vfolder_load_storage (EMailBackend *backend)
 
 	config_dir = mail_session_get_config_dir ();
 	session = e_mail_backend_get_session (backend);
-	vfolder_store = e_mail_session_get_vfolder_store (session);
+	vfolder_store = e_mail_ui_session_get_vfolder_store (E_MAIL_UI_SESSION(session));
 
 	g_signal_connect (
 		vfolder_store, "folder-deleted",

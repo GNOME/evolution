@@ -30,10 +30,12 @@
 #include <gtk/gtk.h>
 #include <gtkhtml/gtkhtml.h>
 
-#include "mail-ops.h"
-#include "mail-mt.h"
-#include "em-format-html-print.h"
 #include <e-util/e-print.h>
+
+#include <libemail-utils/mail-mt.h>
+#include <libemail-engine/mail-ops.h>
+
+#include "em-format-html-print.h"
 
 G_DEFINE_TYPE (
 	EMFormatHTMLPrint,

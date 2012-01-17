@@ -32,32 +32,35 @@
 
 #include <libedataserver/e-data-server-util.h>
 
-#include "mail-mt.h"
-#include "mail-ops.h"
-#include "mail-tools.h"
-#include "mail-send-recv.h"
+#include <e-util/e-alert-dialog.h>
+#include <e-util/e-alert-sink.h>
+#include <e-util/e-util.h>
 
-#include "e-util/e-account-utils.h"
-#include "e-util/e-alert-dialog.h"
-#include "e-util/e-alert-sink.h"
-#include "e-util/e-util.h"
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-utils/mail-mt.h>
 
-#include "shell/e-shell.h"
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/e-mail-session-utils.h>
+#include <libemail-engine/mail-ops.h>
+#include <libemail-engine/mail-tools.h>
 
-#include "e-mail-folder-utils.h"
-#include "e-mail-session.h"
-#include "e-mail-session-utils.h"
+#include <shell/e-shell.h>
+
+#include <composer/e-msg-composer.h>
+#include <composer/e-composer-actions.h>
+#include <composer/e-composer-post-header.h>
+
 #include "em-utils.h"
 #include "em-composer-utils.h"
-#include "composer/e-msg-composer.h"
-#include "composer/e-composer-actions.h"
-#include "composer/e-composer-post-header.h"
 #include "em-folder-selector.h"
 #include "em-folder-tree.h"
 #include "em-format-html.h"
 #include "em-format-html-print.h"
 #include "em-format-quote.h"
 #include "em-event.h"
+#include "mail-send-recv.h"
+
 
 #ifdef G_OS_WIN32
 #ifdef gmtime_r

@@ -23,6 +23,7 @@ liborg_gnome_templates_la_LIBADD =	\
 	$(top_builddir)/composer/libcomposer.la		\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/libemail-engine/libemail-engine.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(GTKHTML_LIBS)

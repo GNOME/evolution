@@ -48,11 +48,11 @@
 
 #include "em-vfolder-rule.h"
 
-#include "mail-mt.h"
-#include "mail-ops.h"
-#include "mail-tools.h"
-#include "mail-send-recv.h"
-#include "mail-vfolder.h"
+#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-session.h"
+#include "libemail-engine/mail-ops.h"
+#include "libemail-engine/mail-tools.h"
 
 #include "em-utils.h"
 #include "em-folder-tree.h"
@@ -60,9 +60,10 @@
 #include "em-folder-selector.h"
 #include "em-folder-properties.h"
 #include "em-event.h"
+#include "mail-send-recv.h"
+#include "mail-vfolder.h"
 
-#include "e-mail-folder-utils.h"
-#include "e-mail-session.h"
+#include "e-mail-ui-session.h"
 
 #define d(x)
 
@@ -1822,7 +1823,8 @@ em_folder_tree_new_activity (EMFolderTree *folder_tree)
 	g_object_unref (cancellable);
 
 	session = em_folder_tree_get_session (folder_tree);
-	e_mail_session_add_activity (session, activity);
+	e_mail_ui_session_add_activity (
+		E_MAIL_UI_SESSION (session), activity);
 
 	return activity;
 }
@@ -2036,7 +2038,7 @@ folder_tree_drop_folder (struct _DragDataReceivedAsync *m)
 
 	d(printf(" * Drop folder '%s' onto '%s'\n", data, m->full_name));
 
-	cancellable = e_activity_get_cancellable (m->base.activity);
+	cancellable = m->base.cancellable;
 
 	folder = e_mail_session_uri_to_folder_sync (
 		m->session, (gchar *) data, 0,

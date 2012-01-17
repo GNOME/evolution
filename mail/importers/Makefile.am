@@ -28,6 +28,8 @@ libevolution_mail_importers_la_LIBADD =				\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
+	$(top_builddir)/libemail-engine/libemail-engine.la \
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(GTKHTML_LIBS)

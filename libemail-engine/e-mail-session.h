@@ -26,11 +26,8 @@
 #define E_MAIL_SESSION_H
 
 #include <camel/camel.h>
-#include <e-util/e-activity.h>
-#include <mail/e-mail-enums.h>
-#include <mail/e-mail-account-store.h>
-#include <mail/e-mail-label-list-store.h>
-#include <mail/mail-folder-cache.h>
+#include <libemail-engine/e-mail-enums.h>
+#include <libemail-engine/mail-folder-cache.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SESSION \
@@ -68,25 +65,13 @@ struct _EMailSession {
 
 struct _EMailSessionClass {
 	CamelSessionClass parent_class;
-
-	void		(*activity_added)	(EMailSession *session,
-						 EActivity *activity);
 };
 
 GType		e_mail_session_get_type		(void);
 EMailSession *	e_mail_session_new		(void);
-void		e_mail_session_add_activity	(EMailSession *session,
-						 EActivity *activity);
-EMailAccountStore *
-		e_mail_session_get_account_store
-						(EMailSession *session);
 MailFolderCache *
 		e_mail_session_get_folder_cache	(EMailSession *session);
-EMailLabelListStore *
-		e_mail_session_get_label_store	(EMailSession *session);
 CamelStore *	e_mail_session_get_local_store	(EMailSession *session);
-CamelStore *	e_mail_session_get_vfolder_store
-						(EMailSession *session);
 CamelFolder *	e_mail_session_get_local_folder	(EMailSession *session,
 						 EMailLocalFolder type);
 const gchar *	e_mail_session_get_local_folder_uri

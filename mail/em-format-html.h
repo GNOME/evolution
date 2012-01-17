@@ -29,9 +29,9 @@
 #define EM_FORMAT_HTML_H
 
 #include <em-format/em-format.h>
-#include <mail/e-mail-enums.h>
 #include <misc/e-web-view.h>
 #include <gtkhtml/gtkhtml-embedded.h>
+#include <libemail-engine/e-mail-enums.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FORMAT_HTML \

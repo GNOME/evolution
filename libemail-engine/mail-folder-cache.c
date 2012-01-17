@@ -39,18 +39,17 @@
 #include <glib/gstdio.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include <e-util/e-marshal.h>
-#include <e-util/e-util.h>
 
-#include "mail-mt.h"
+#include <libemail-utils/mail-mt.h>
+
 #include "mail-folder-cache.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
-
-#include "em-utils.h"
+#include "e-mail-utils.h"
 #include "e-mail-folder-utils.h"
 #include "e-mail-session.h"
 #include "e-mail-store-utils.h"
+#include "mail-config.h"
 
 #define w(x)
 #define d(x)
@@ -65,7 +64,6 @@ typedef struct _StoreInfo StoreInfo;
 
 struct _MailFolderCachePrivate {
 	gpointer session;  /* weak pointer */
-	EMailAccountStore *account_store;
 
 	/* source id for the ping timeout callback */
 	guint ping_id;
@@ -273,7 +271,7 @@ flush_updates_idle_cb (MailFolderCache *cache)
 
 		if (CAMEL_IS_VEE_STORE (up->store) && !up->remove) {
 			/* Normally the vfolder store takes care of the
-			 * folder_opened event itcache, but we add folder to
+			 * folder_opened event itself, but we add folder to
 			 * the noting system later, thus we do not know about
 			 * search folders to update them in a tree, thus
 			 * ensure their changes will be tracked correctly. */
@@ -1046,56 +1044,6 @@ storeinfo_find_folder_info (CamelStore *store,
 }
 
 static void
-mail_folder_cache_service_removed (EMailAccountStore *account_store,
-                                   CamelService *service,
-                                   MailFolderCache *cache)
-{
-	StoreInfo *si;
-
-	if (cache->priv->stores == NULL)
-		return;
-
-	g_mutex_lock (cache->priv->stores_mutex);
-
-	si = g_hash_table_lookup (cache->priv->stores, service);
-	if (si != NULL) {
-		g_hash_table_remove (cache->priv->stores, service);
-
-		g_signal_handlers_disconnect_matched (
-			service, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, cache);
-
-		g_hash_table_foreach (
-			si->folders, (GHFunc)
-			unset_folder_info_hash, cache);
-
-		store_info_free (si);
-	}
-
-	g_mutex_unlock (cache->priv->stores_mutex);
-}
-
-static void
-mail_folder_cache_service_enabled (EMailAccountStore *account_store,
-                                   CamelService *service,
-                                   MailFolderCache *cache)
-{
-	mail_folder_cache_note_store (
-		cache, CAMEL_STORE (service), NULL, NULL, NULL);
-}
-
-static void
-mail_folder_cache_service_disabled (EMailAccountStore *account_store,
-                                    CamelService *service,
-                                    MailFolderCache *cache)
-{
-	/* To the folder cache, disabling a service is the same as
-	 * removing it.  We keep a separate callback function only
-	 * to use as a breakpoint target in a debugger. */
-	mail_folder_cache_service_removed (account_store, service, cache);
-}
-
-static void
 mail_folder_cache_set_session (MailFolderCache *cache,
                                EMailSession *session)
 {
@@ -1157,14 +1105,6 @@ mail_folder_cache_dispose (GObject *object)
 		priv->session = NULL;
 	}
 
-	if (priv->account_store != NULL) {
-		g_signal_handlers_disconnect_matched (
-			priv->account_store, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, object);
-		g_object_unref (priv->account_store);
-		priv->account_store = NULL;
-	}
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (mail_folder_cache_parent_class)->dispose (object);
 }
@@ -1197,41 +1137,6 @@ mail_folder_cache_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (mail_folder_cache_parent_class)->finalize (object);
-}
-
-static void
-mail_folder_cache_constructed (GObject *object)
-{
-	MailFolderCache *cache;
-	EMailSession *session;
-	EMailAccountStore *account_store;
-
-	cache = MAIL_FOLDER_CACHE (object);
-
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (mail_folder_cache_parent_class)->constructed (object);
-
-	session = mail_folder_cache_get_session (cache);
-	account_store = e_mail_session_get_account_store (session);
-
-	cache->priv->account_store = g_object_ref (account_store);
-
-	/* No need to connect to "service-added" emissions since it's
-	 * always immediately followed by either "service-enabled" or
-	 * "service-disabled". */
-
-	g_signal_connect (
-		account_store, "service-removed",
-		G_CALLBACK (mail_folder_cache_service_removed), cache);
-
-	g_signal_connect (
-		account_store, "service-enabled",
-		G_CALLBACK (mail_folder_cache_service_enabled), cache);
-
-	g_signal_connect (
-		account_store, "service-disabled",
-		G_CALLBACK (mail_folder_cache_service_disabled), cache);
-
 }
 
 static void
@@ -1396,7 +1301,6 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 	object_class->get_property = mail_folder_cache_get_property;
 	object_class->dispose = mail_folder_cache_dispose;
 	object_class->finalize = mail_folder_cache_finalize;
-	object_class->constructed = mail_folder_cache_constructed;
 
 	class->folder_available = mail_folder_cache_folder_available;
 	class->folder_unavailable = mail_folder_cache_folder_unavailable;
@@ -1426,8 +1330,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (MailFolderCacheClass, folder_available),
-		NULL, NULL, /* accumulator */
-		e_marshal_VOID__OBJECT_STRING,
+		NULL, NULL, NULL,
 		G_TYPE_NONE, 2,
 		CAMEL_TYPE_STORE,
 		G_TYPE_STRING);
@@ -1446,8 +1349,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (MailFolderCacheClass, folder_unavailable),
-		NULL, NULL, /* accumulator */
-		e_marshal_VOID__OBJECT_STRING,
+		NULL, NULL, NULL,
 		G_TYPE_NONE, 2,
 		CAMEL_TYPE_STORE,
 		G_TYPE_STRING);
@@ -1465,7 +1367,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (MailFolderCacheClass, folder_deleted),
 		NULL, NULL, /* accumulator */
-		e_marshal_VOID__OBJECT_STRING,
+		NULL,
 		G_TYPE_NONE, 2,
 		CAMEL_TYPE_STORE,
 		G_TYPE_STRING);
@@ -1483,8 +1385,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (MailFolderCacheClass, folder_renamed),
-		NULL, NULL, /* accumulator */
-		e_marshal_VOID__OBJECT_STRING_STRING,
+		NULL, NULL, NULL,
 		G_TYPE_NONE, 3,
 		CAMEL_TYPE_STORE,
 		G_TYPE_STRING,
@@ -1503,8 +1404,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (MailFolderCacheClass, folder_unread_updated),
-		NULL, NULL, /* accumulator */
-		e_marshal_VOID__OBJECT_STRING_INT,
+		NULL, NULL, NULL,
 		G_TYPE_NONE, 3,
 		CAMEL_TYPE_STORE,
 		G_TYPE_STRING,
@@ -1527,8 +1427,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (MailFolderCacheClass, folder_changed),
-		NULL, NULL, /* accumulator */
-		e_marshal_VOID__OBJECT_STRING_INT_STRING_STRING_STRING,
+		NULL, NULL, NULL,
 		G_TYPE_NONE, 6,
 		CAMEL_TYPE_STORE,
 		G_TYPE_STRING,
@@ -1812,8 +1711,8 @@ mail_folder_cache_get_folder_has_children (MailFolderCache *cache,
 	struct _find_info fi = { NULL, NULL };
 	gchar *folder_uri;
 
-	g_return_val_if_fail (cache != NULL, FALSE);
-	g_return_val_if_fail (folder != NULL, FALSE);
+	g_return_val_if_fail (MAIL_IS_FOLDER_CACHE (cache), FALSE);
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
 	if (cache->priv->stores == NULL)
 		return FALSE;
@@ -1825,7 +1724,7 @@ mail_folder_cache_get_folder_has_children (MailFolderCache *cache,
 	g_hash_table_foreach (
 		cache->priv->stores, (GHFunc)
 		storeinfo_find_folder_info, &fi);
-	if (found)
+	if (found != NULL)
 		*found = fi.fi != NULL;
 	g_mutex_unlock (cache->priv->stores_mutex);
 
@@ -1872,4 +1771,71 @@ mail_folder_cache_get_remote_folder_uris (MailFolderCache *self,
 		g_queue_push_tail (out_queue, g_strdup (link->data));
 
 	g_mutex_unlock (self->priv->stores_mutex);
+}
+
+void
+mail_folder_cache_service_added (MailFolderCache *cache,
+                                 CamelService *service)
+{
+	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	mail_folder_cache_note_store (
+		cache, CAMEL_STORE (service), NULL, NULL, NULL);
+}
+
+void
+mail_folder_cache_service_removed (MailFolderCache *cache,
+                                   CamelService *service)
+{
+	StoreInfo *si;
+
+	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	if (cache->priv->stores == NULL)
+		return;
+
+	g_mutex_lock (cache->priv->stores_mutex);
+
+	si = g_hash_table_lookup (cache->priv->stores, service);
+	if (si != NULL) {
+		g_hash_table_remove (cache->priv->stores, service);
+
+		g_signal_handlers_disconnect_matched (
+			service, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, cache);
+
+		g_hash_table_foreach (
+			si->folders, (GHFunc)
+			unset_folder_info_hash, cache);
+
+		store_info_free (si);
+	}
+
+	g_mutex_unlock (cache->priv->stores_mutex);
+}
+
+void
+mail_folder_cache_service_enabled (MailFolderCache *cache,
+                                   CamelService *service)
+{
+	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	mail_folder_cache_note_store (
+		cache, CAMEL_STORE (service), NULL, NULL, NULL);
+}
+
+void
+mail_folder_cache_service_disabled (MailFolderCache *cache,
+                                    CamelService *service)
+{
+	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	/* To the folder cache, disabling a service is the same as
+	 * removing it.  We keep a separate callback function only
+	 * to use as a breakpoint target in a debugger. */
+	mail_folder_cache_service_removed (cache, service);
 }

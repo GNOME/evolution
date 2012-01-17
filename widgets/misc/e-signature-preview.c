@@ -29,7 +29,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <glib/gstdio.h>
-#include "e-util/e-signature-utils.h"
+
+#include <libemail-utils/e-signature-utils.h>
 
 enum {
 	PROP_0,

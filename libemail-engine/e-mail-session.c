@@ -46,29 +46,17 @@
 #include <libedataserver/e-proxy.h>
 #include <libebackend/e-extensible.h>
 #include <libedataserverui/e-passwords.h>
+#include <libedataserver/e-data-server-util.h>
 
-#include "e-util/e-util.h"
-#include "e-util/e-account-utils.h"
-#include "e-util/e-alert-dialog.h"
-#include "e-util/e-util-private.h"
+#include "libemail-utils/e-account-utils.h"
+#include "libemail-utils/mail-mt.h"
 
-#include "shell/e-shell.h"
-#include "shell/e-shell-view.h"
-#include "shell/e-shell-content.h"
-#include "shell/e-shell-window.h"
-
-#include "e-mail-account-store.h"
-#include "e-mail-folder-utils.h"
 #include "e-mail-junk-filter.h"
 #include "e-mail-session.h"
-#include "em-composer-utils.h"
-#include "em-filter-context.h"
-#include "em-filter-rule.h"
-#include "em-utils.h"
+#include "e-mail-folder-utils.h"
+#include "e-mail-utils.h"
 #include "mail-config.h"
-#include "mail-mt.h"
 #include "mail-ops.h"
-#include "mail-send-recv.h"
 #include "mail-tools.h"
 
 #define E_MAIL_SESSION_GET_PRIVATE(obj) \
@@ -76,19 +64,14 @@
 	((obj), E_TYPE_MAIL_SESSION, EMailSessionPrivate))
 
 typedef struct _AsyncContext AsyncContext;
-typedef struct _SourceContext SourceContext;
 
 struct _EMailSessionPrivate {
-	EMailAccountStore *account_store;
 	MailFolderCache *folder_cache;
-	EMailLabelListStore *label_store;
 
 	EAccountList *account_list;
 	gulong account_added_handler_id;
-	gulong account_changed_handler_id;
 
 	CamelStore *local_store;
-	CamelStore *vfolder_store;
 
 	FILE *filter_logfile;
 	GHashTable *junk_filters;
@@ -109,27 +92,12 @@ struct _AsyncContext {
 	CamelFolder *folder;
 };
 
-struct _SourceContext {
-	EMailSession *session;
-	CamelService *service;
-};
-
 enum {
 	PROP_0,
-	PROP_ACCOUNT_STORE,
 	PROP_FOLDER_CACHE,
 	PROP_JUNK_FILTER_NAME,
-	PROP_LABEL_STORE,
-	PROP_LOCAL_STORE,
-	PROP_VFOLDER_STORE
+	PROP_LOCAL_STORE
 };
-
-enum {
-	ACTIVITY_ADDED,
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL];
 
 static const gchar *local_folder_names[E_MAIL_NUM_LOCAL_FOLDERS] = {
 	N_("Inbox"),		/* E_MAIL_LOCAL_FOLDER_INBOX */
@@ -140,13 +108,18 @@ static const gchar *local_folder_names[E_MAIL_NUM_LOCAL_FOLDERS] = {
 	"Inbox"			/* E_MAIL_LOCAL_FOLDER_LOCAL_INBOX */
 };
 
+enum {
+	FLUSH_OUTBOX,
+	STORE_ADDED,
+	STORE_REMOVED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
+
 static gchar *mail_data_dir;
 static gchar *mail_cache_dir;
 static gchar *mail_config_dir;
-
-#if 0
-static MailMsgInfo ms_thread_info_dummy = { sizeof (MailMsg) };
-#endif
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailSession,
@@ -156,7 +129,6 @@ G_DEFINE_TYPE_WITH_CODE (
 
 /* Support for CamelSession.alert_user() *************************************/
 
-static gpointer user_message_dialog;
 static GQueue user_message_queue = { NULL, NULL, 0 };
 
 struct _user_message_msg {
@@ -176,21 +148,15 @@ static void user_message_exec (struct _user_message_msg *m,
                                GError **error);
 
 static void
-user_message_response_free (GtkDialog *dialog,
-                            gint button)
+user_message_response_free (struct _user_message_msg *m)
 {
-	struct _user_message_msg *m = NULL;
-
-	gtk_widget_destroy ((GtkWidget *) dialog);
-
-	user_message_dialog = NULL;
 
 	/* check for pendings */
 	if (!g_queue_is_empty (&user_message_queue)) {
 		GCancellable *cancellable;
 
 		m = g_queue_pop_head (&user_message_queue);
-		cancellable = e_activity_get_cancellable (m->base.activity);
+		cancellable = m->base.cancellable;
 		user_message_exec (m, cancellable, &m->base.error);
 		mail_msg_unref (m);
 	}
@@ -198,17 +164,15 @@ user_message_response_free (GtkDialog *dialog,
 
 /* clicked, send back the reply */
 static void
-user_message_response (GtkDialog *dialog,
-                       gint button,
-                       struct _user_message_msg *m)
+user_message_response (struct _user_message_msg *m)
 {
-	/* if !m or !button_captions, then we've already replied */
-	if (m && m->button_captions) {
-		m->result = button;
+	/* if !allow_cancel, then we've already replied */
+	if (m->button_captions) {
+		m->result = TRUE; //If Accepted
 		e_flag_set (m->done);
 	}
 
-	user_message_response_free (dialog, button);
+	user_message_response_free (m);
 }
 
 static void
@@ -216,127 +180,14 @@ user_message_exec (struct _user_message_msg *m,
                    GCancellable *cancellable,
                    GError **error)
 {
-	gboolean info_only;
-	GtkWindow *parent;
-	EShell *shell;
-	const gchar *error_type;
-	gint index;
-	GSList *iter;
-
-	info_only = g_slist_length (m->button_captions) <= 1;
-
-	if (!m->ismain && user_message_dialog != NULL && !info_only) {
-		g_queue_push_tail (&user_message_queue, mail_msg_ref (m));
-		return;
-	}
-
-	switch (m->type) {
-		case CAMEL_SESSION_ALERT_INFO:
-			error_type = "mail:session-message-info";
-			break;
-		case CAMEL_SESSION_ALERT_WARNING:
-			error_type = "mail:session-message-warning";
-			break;
-		case CAMEL_SESSION_ALERT_ERROR:
-			error_type = "mail:session-message-error";
-			break;
-		default:
-			error_type = NULL;
-			g_return_if_reached ();
-	}
-
-	shell = e_shell_get_default ();
-
-	/* try to find "mail" view to place the informational alert to */
-	if (info_only) {
-		GtkWindow *active_window;
-		EShellWindow *shell_window;
-		EShellView *shell_view;
-		EShellContent *shell_content = NULL;
-
-		/* check currently active window first, ... */
-		active_window = e_shell_get_active_window (shell);
-		if (active_window && E_IS_SHELL_WINDOW (active_window)) {
-			if (E_IS_SHELL_WINDOW (active_window)) {
-				shell_window = E_SHELL_WINDOW (active_window);
-				shell_view = e_shell_window_peek_shell_view (shell_window, "mail");
-				if (shell_view)
-					shell_content = e_shell_view_get_shell_content (shell_view);
-			}
-		}
-
-		if (!shell_content) {
-			GList *list, *iter;
-
-			list = gtk_application_get_windows (GTK_APPLICATION (shell));
-
-			/* ...then iterate through all opened windows and pick one which has it */
-			for (iter = list; iter != NULL && !shell_content; iter = g_list_next (iter)) {
-				if (E_IS_SHELL_WINDOW (iter->data)) {
-					shell_window = iter->data;
-					shell_view = e_shell_window_peek_shell_view (shell_window, "mail");
-					if (shell_view)
-						shell_content = e_shell_view_get_shell_content (shell_view);
-				}
-			}
-		}
-
-		/* when no shell-content found, which might not happen, but just in case,
-		   process the information alert like usual, through an EAlertDialog machinery
-		*/
-		if (shell_content) {
-			e_alert_submit (E_ALERT_SINK (shell_content), error_type, m->prompt, NULL);
-			return;
-		} else if (!m->ismain && user_message_dialog != NULL) {
-			g_queue_push_tail (&user_message_queue, mail_msg_ref (m));
-			return;
-		}
-	}
-
-	/* Pull in the active window from the shell to get a parent window */
-	parent = e_shell_get_active_window (shell);
-	user_message_dialog = e_alert_dialog_new_for_args (
-		parent, error_type, m->prompt, NULL);
-	g_object_set (user_message_dialog, "resizable", TRUE, NULL);
-
-	if (m->button_captions) {
-		GtkWidget *action_area;
-		GList *children, *child;
-
-		/* remove all default buttons and keep only those requested */
-		action_area = gtk_dialog_get_action_area (GTK_DIALOG (user_message_dialog));
-
-		children = gtk_container_get_children (GTK_CONTAINER (action_area));
-		for (child = children; child != NULL; child = child->next) {
-			gtk_container_remove (GTK_CONTAINER (action_area), child->data);
-		}
-
-		g_list_free (children);
-	}
-
-	for (index = 0, iter = m->button_captions; iter; index++, iter = iter->next) {
-		gtk_dialog_add_button (GTK_DIALOG (user_message_dialog), iter->data, index);
-	}
-
 	/* XXX This is a case where we need to be able to construct
 	 *     custom EAlerts without a predefined XML definition. */
 	if (m->ismain) {
-		gint response;
-
-		response = gtk_dialog_run (user_message_dialog);
-		user_message_response (
-			user_message_dialog, response, m);
-	} else {
-		gpointer user_data = m;
-
-		if (g_slist_length (m->button_captions) <= 1)
-			user_data = NULL;
-
-		g_signal_connect (
-			user_message_dialog, "response",
-			G_CALLBACK (user_message_response), user_data);
-		gtk_widget_show (user_message_dialog);
-	}
+		/* Use DBUS to raise dialogs in clients and reply back.
+		 * For now say accept all. */
+		user_message_response (m);
+	} else
+		g_queue_push_tail (&user_message_queue, mail_msg_ref (m));
 }
 
 static void
@@ -371,62 +222,16 @@ get_folder (CamelFilterDriver *d,
 		session, uri, 0, NULL, error);
 }
 
-static gboolean
-session_play_sound_cb (const gchar *filename)
-{
-#ifdef HAVE_CANBERRA
-	if (filename != NULL && *filename != '\0')
-		ca_context_play (
-			ca_gtk_context_get (), 0,
-			CA_PROP_MEDIA_FILENAME, filename,
-			NULL);
-	else
-#endif
-		gdk_beep ();
-
-	return FALSE;
-}
-
-static void
-session_play_sound (CamelFilterDriver *driver,
-                    const gchar *filename,
-                    gpointer user_data)
-{
-	g_idle_add_full (
-		G_PRIORITY_DEFAULT_IDLE,
-		(GSourceFunc) session_play_sound_cb,
-		g_strdup (filename), (GDestroyNotify) g_free);
-}
-
-static void
-session_system_beep (CamelFilterDriver *driver,
-                     gpointer user_data)
-{
-	g_idle_add ((GSourceFunc) session_play_sound_cb, NULL);
-}
-
 static CamelFilterDriver *
 main_get_filter_driver (CamelSession *session,
                         const gchar *type,
                         GError **error)
 {
-	EMailSession *ms = E_MAIL_SESSION (session);
 	CamelFilterDriver *driver;
-	EFilterRule *rule = NULL;
-	const gchar *config_dir;
-	gchar *user, *system;
+	EMailSession *ms = (EMailSession *)session;
 	GSettings *settings;
-	ERuleContext *fc;
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
-
-	config_dir = mail_session_get_config_dir ();
-	user = g_build_filename (config_dir, "filters.xml", NULL);
-	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
-	fc = (ERuleContext *) em_filter_context_new (ms);
-	e_rule_context_load (fc, system, user);
-	g_free (system);
-	g_free (user);
 
 	driver = camel_filter_driver_new (session);
 	camel_filter_driver_set_folder_func (driver, get_folder, session);
@@ -446,52 +251,6 @@ main_get_filter_driver (CamelSession *session,
 			camel_filter_driver_set_logfile (driver, ms->priv->filter_logfile);
 	}
 
-	camel_filter_driver_set_shell_func (driver, mail_execute_shell_command, NULL);
-	camel_filter_driver_set_play_sound_func (driver, session_play_sound, NULL);
-	camel_filter_driver_set_system_beep_func (driver, session_system_beep, NULL);
-
-	if ((!strcmp (type, E_FILTER_SOURCE_INCOMING) ||
-		!strcmp (type, E_FILTER_SOURCE_JUNKTEST))
-		&& camel_session_get_check_junk (session)) {
-
-		/* implicit junk check as 1st rule */
-		camel_filter_driver_add_rule (
-			driver, "Junk check", "(junk-test)",
-			"(begin (set-system-flag \"junk\"))");
-	}
-
-	if (strcmp (type, E_FILTER_SOURCE_JUNKTEST) != 0) {
-		GString *fsearch, *faction;
-
-		fsearch = g_string_new ("");
-		faction = g_string_new ("");
-
-		if (!strcmp (type, E_FILTER_SOURCE_DEMAND))
-			type = E_FILTER_SOURCE_INCOMING;
-
-		/* add the user-defined rules next */
-		while ((rule = e_rule_context_next_rule (fc, rule, type))) {
-			g_string_truncate (fsearch, 0);
-			g_string_truncate (faction, 0);
-
-			/* skip disabled rules */
-			if (!rule->enabled)
-				continue;
-
-			e_filter_rule_build_code (rule, fsearch);
-			em_filter_rule_build_action (
-				EM_FILTER_RULE (rule), faction);
-			camel_filter_driver_add_rule (
-				driver, rule->name,
-				fsearch->str, faction->str);
-		}
-
-		g_string_free (fsearch, TRUE);
-		g_string_free (faction, TRUE);
-	}
-
-	g_object_unref (fc);
-
 	g_object_unref (settings);
 
 	return driver;
@@ -504,10 +263,11 @@ static guint preparing_flush = 0;
 static gboolean
 forward_to_flush_outbox_cb (EMailSession *session)
 {
-	g_return_val_if_fail (preparing_flush != 0, FALSE);
 
 	preparing_flush = 0;
-	mail_send (session);
+
+	/* Connect to this and call mail_send in the main email client.*/
+	g_signal_emit (session, signals[FLUSH_OUTBOX], 0);
 
 	return FALSE;
 }
@@ -549,18 +309,6 @@ async_context_free (AsyncContext *context)
 	g_free (context->uri);
 
 	g_slice_free (AsyncContext, context);
-}
-
-static void
-source_context_free (SourceContext *context)
-{
-	if (context->session != NULL)
-		g_object_unref (context->session);
-
-	if (context->service != NULL)
-		g_object_unref (context->service);
-
-	g_slice_free (SourceContext, context);
 }
 
 static gchar *
@@ -755,60 +503,6 @@ mail_session_account_added_cb (EAccountList *account_list,
 }
 
 static void
-mail_session_account_changed_cb (EAccountList *account_list,
-                                 EAccount *account,
-                                 EMailSession *session)
-{
-	EMFolderTreeModel *folder_tree_model;
-	CamelService *service;
-
-	service = camel_session_get_service (
-		CAMEL_SESSION (session), account->uid);
-
-	if (!CAMEL_IS_STORE (service))
-		return;
-
-	/* Update the display name of the corresponding CamelStore.
-	 * EMailAccountStore listens for "notify" signals from each
-	 * service so it will detect this and update the model.
-	 *
-	 * XXX If EAccount defined GObject properties we could just
-	 *     bind EAccount:name to CamelService:display-name and
-	 *     be done with it.  Oh well.
-	 */
-
-	camel_service_set_display_name (service, account->name);
-
-	/* Remove the store from the folder tree model and, if the
-	 * account is still enabled, re-add it.  Easier than trying
-	 * to update the model with the store in place.
-	 *
-	 * em_folder_tree_model_add_store() already knows which types
-	 * of stores to disregard, so we don't have to deal with that
-	 * here. */
-
-	folder_tree_model = em_folder_tree_model_get_default ();
-
-	em_folder_tree_model_remove_store (
-		folder_tree_model, CAMEL_STORE (service));
-
-	if (account->enabled)
-		em_folder_tree_model_add_store (
-			folder_tree_model, CAMEL_STORE (service));
-}
-
-static gboolean
-mail_session_add_service_cb (SourceContext *context)
-{
-	EMailAccountStore *store;
-
-	store = e_mail_session_get_account_store (context->session);
-	e_mail_account_store_add_service (store, context->service);
-
-	return FALSE;
-}
-
-static void
 mail_session_add_local_store (EMailSession *session)
 {
 	CamelLocalSettings *local_settings;
@@ -885,38 +579,6 @@ mail_session_add_local_store (EMailSession *session)
 }
 
 static void
-mail_session_add_vfolder_store (EMailSession *session)
-{
-	CamelSession *camel_session;
-	CamelService *service;
-	GError *error = NULL;
-
-	camel_session = CAMEL_SESSION (session);
-
-	service = camel_session_add_service (
-		camel_session, E_MAIL_SESSION_VFOLDER_UID,
-		"vfolder", CAMEL_PROVIDER_STORE, &error);
-
-	if (error != NULL) {
-		g_critical ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-		return;
-	}
-
-	g_return_if_fail (CAMEL_IS_SERVICE (service));
-
-	camel_service_set_display_name (service, _("Search Folders"));
-	em_utils_connect_service_sync (service, NULL, NULL);
-
-	/* XXX There's more configuration to do in vfolder_load_storage()
-	 *     but it requires an EMailBackend, which we don't have access
-	 *     to from here, so it has to be called from elsewhere.  Kinda
-	 *     thinking about reworking that... */
-
-	session->priv->vfolder_store = g_object_ref (service);
-}
-
-static void
 mail_session_set_property (GObject *object,
                            guint property_id,
                            const GValue *value,
@@ -940,13 +602,6 @@ mail_session_get_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ACCOUNT_STORE:
-			g_value_set_object (
-				value,
-				e_mail_session_get_account_store (
-				E_MAIL_SESSION (object)));
-			return;
-
 		case PROP_FOLDER_CACHE:
 			g_value_set_object (
 				value,
@@ -961,24 +616,10 @@ mail_session_get_property (GObject *object,
 				E_MAIL_SESSION (object)));
 			return;
 
-		case PROP_LABEL_STORE:
-			g_value_set_object (
-				value,
-				e_mail_session_get_label_store (
-				E_MAIL_SESSION (object)));
-			return;
-
 		case PROP_LOCAL_STORE:
 			g_value_set_object (
 				value,
 				e_mail_session_get_local_store (
-				E_MAIL_SESSION (object)));
-			return;
-
-		case PROP_VFOLDER_STORE:
-			g_value_set_object (
-				value,
-				e_mail_session_get_vfolder_store (
 				E_MAIL_SESSION (object)));
 			return;
 	}
@@ -993,29 +634,15 @@ mail_session_dispose (GObject *object)
 
 	priv = E_MAIL_SESSION_GET_PRIVATE (object);
 
-	if (priv->account_store != NULL) {
-		e_mail_account_store_clear (priv->account_store);
-		g_object_unref (priv->account_store);
-		priv->account_store = NULL;
-	}
-
 	if (priv->folder_cache != NULL) {
 		g_object_unref (priv->folder_cache);
 		priv->folder_cache = NULL;
-	}
-
-	if (priv->label_store != NULL) {
-		g_object_unref (priv->label_store);
-		priv->label_store = NULL;
 	}
 
 	if (priv->account_list != NULL) {
 		g_signal_handler_disconnect (
 			priv->account_list,
 			priv->account_added_handler_id);
-		g_signal_handler_disconnect (
-			priv->account_list,
-			priv->account_changed_handler_id);
 		g_object_unref (priv->account_list);
 		priv->account_list = NULL;
 	}
@@ -1023,11 +650,6 @@ mail_session_dispose (GObject *object)
 	if (priv->local_store != NULL) {
 		g_object_unref (priv->local_store);
 		priv->local_store = NULL;
-	}
-
-	if (priv->vfolder_store != NULL) {
-		g_object_unref (priv->vfolder_store);
-		priv->vfolder_store = NULL;
 	}
 
 	g_ptr_array_set_size (priv->local_folders, 0);
@@ -1079,8 +701,7 @@ mail_session_initialize_stores_idle (gpointer user_data)
 
 	g_return_val_if_fail (session != NULL, FALSE);
 
-	/* Load user-defined mail accounts. */
-	account_list = session->priv->account_list;
+	account_list = e_get_account_list ();
 	iter = e_list_get_iterator (E_LIST (account_list));
 
 	while (e_iterator_is_valid (iter)) {
@@ -1094,25 +715,12 @@ mail_session_initialize_stores_idle (gpointer user_data)
 
 	g_object_unref (iter);
 
-	/* Initialize which account is default. */
-
-	account = e_get_default_account ();
-	if (account != NULL) {
-		CamelService *service;
-
-		service = camel_session_get_service (
-			CAMEL_SESSION (session), account->uid);
-		e_mail_account_store_set_default_service (
-			session->priv->account_store, service);
-	}
-
 	return FALSE;
 }
 
 static void
 mail_session_constructed (GObject *object)
 {
-	EMFolderTreeModel *folder_tree_model;
 	EMailSession *session;
 	EExtensible *extensible;
 	GType extension_type;
@@ -1129,27 +737,11 @@ mail_session_constructed (GObject *object)
 	account_list = e_get_account_list ();
 	session->priv->account_list = g_object_ref (account_list);
 
-	session->priv->account_store = e_mail_account_store_new (session);
-
 	/* This must be created after the account store. */
 	session->priv->folder_cache = mail_folder_cache_new (session);
 
-	/* XXX Make sure the folder tree model is created before we
-	 *     add built-in CamelStores so it gets signals from the
-	 *     EMailAccountStore.
-	 *
-	 * XXX This is creating a circular reference.  Perhaps the
-	 *     model should only hold a weak pointer to EMailSession?
-	 *
-	 * FIXME EMailSession should just own the default instance.
-	 */
-	folder_tree_model = em_folder_tree_model_get_default ();
-	em_folder_tree_model_set_session (folder_tree_model, session);
-
 	/* Add built-in CamelStores. */
-
 	mail_session_add_local_store (session);
-	mail_session_add_vfolder_store (session);
 
 	/* Give it a chance to load user settings, they are not loaded yet.
 	 *
@@ -1165,11 +757,6 @@ mail_session_constructed (GObject *object)
 		account_list, "account-added",
 		G_CALLBACK (mail_session_account_added_cb), session);
 	session->priv->account_added_handler_id = handler_id;
-
-	handler_id = g_signal_connect (
-		account_list, "account-changed",
-		G_CALLBACK (mail_session_account_changed_cb), session);
-	session->priv->account_changed_handler_id = handler_id;
 
 	extensible = E_EXTENSIBLE (object);
 	e_extensible_load_extensions (extensible);
@@ -1287,22 +874,6 @@ mail_session_add_service (CamelSession *session,
 			 * if necessary. */
 			camel_service_migrate_files (service);
 		}
-	}
-
-	/* Inform the EMailAccountStore of the new CamelService
-	 * from an idle callback so the service has a chance to
-	 * fully initialize first. */
-	if (CAMEL_IS_STORE (service)) {
-		SourceContext *context;
-
-		context = g_slice_new0 (SourceContext);
-		context->session = g_object_ref (session);
-		context->service = g_object_ref (service);
-
-		g_idle_add_full (
-			G_PRIORITY_DEFAULT_IDLE,
-			(GSourceFunc) mail_session_add_service_cb,
-			context, (GDestroyNotify) source_context_free);
 	}
 
 	return service;
@@ -1467,7 +1038,7 @@ mail_session_alert_user (CamelSession *session,
 	if (g_slist_length (button_captions) > 1)
 		mail_msg_ref (m);
 
-	cancellable = e_activity_get_cancellable (m->base.activity);
+	cancellable = m->base.cancellable;
 
 	if (m->ismain)
 		user_message_exec (m, cancellable, &m->base.error);
@@ -1848,17 +1419,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_LABEL_STORE,
-		g_param_spec_object (
-			"label-store",
-			"Label Store",
-			"Mail label store",
-			E_TYPE_MAIL_LABEL_LIST_STORE,
-			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_LOCAL_STORE,
 		g_param_spec_object (
 			"local-store",
@@ -1868,26 +1428,57 @@ e_mail_session_class_init (EMailSessionClass *class)
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
 
-	g_object_class_install_property (
-		object_class,
-		PROP_VFOLDER_STORE,
-		g_param_spec_object (
-			"vfolder-store",
-			"Search Folder Store",
-			"Built-in search folder store",
-			CAMEL_TYPE_STORE,
-			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+	/**
+	 * EMailSession::flush-outbox
+	 * @session: the email session
+	 *
+	 * Emitted if the send folder should be flushed.
+	 **/
+	signals[FLUSH_OUTBOX] = g_signal_new (
+		"flush-outbox",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		0, /* struct offset */
+		NULL, NULL, /* accumulator */
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[ACTIVITY_ADDED] = g_signal_new (
-		"activity-added",
-		G_OBJECT_CLASS_TYPE (class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (EMailSessionClass, activity_added),
-		NULL, NULL,
+	/**
+	 * EMailSession::store-added
+	 * @session: the email session
+	 * @store: the CamelStore
+	 *
+	 * Emitted when a store is added
+	 **/
+	signals[STORE_ADDED] = g_signal_new (
+		"store-added",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		0, /* struct offset */
+		NULL, NULL, /* accumulator */
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
-		E_TYPE_ACTIVITY);
+		CAMEL_TYPE_STORE);
+
+
+	/**
+	 * EMailSession::store-removed
+	 * @session: the email session
+	 * @store: the CamelStore
+	 *
+	 * Emitted when a store is removed 
+	 **/
+	signals[STORE_REMOVED] = g_signal_new (
+		"store-removed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		0, /* struct offset */
+		NULL, NULL, /* accumulator */
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		CAMEL_TYPE_STORE);
+
+
 }
 
 static void
@@ -1901,7 +1492,6 @@ e_mail_session_init (EMailSession *session)
 		(GEqualFunc) g_str_equal);
 
 	session->priv = E_MAIL_SESSION_GET_PRIVATE (session);
-	session->priv->label_store = e_mail_label_list_store_new ();
 	session->priv->junk_filters = junk_filters;
 	session->priv->proxy = e_proxy_new ();
 
@@ -1947,24 +1537,6 @@ e_mail_session_new (void)
 		NULL);
 }
 
-void
-e_mail_session_add_activity (EMailSession *session,
-                             EActivity *activity)
-{
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
-	g_return_if_fail (E_IS_ACTIVITY (activity));
-
-	g_signal_emit (session, signals[ACTIVITY_ADDED], 0, activity);
-}
-
-EMailAccountStore *
-e_mail_session_get_account_store (EMailSession *session)
-{
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
-
-	return session->priv->account_store;
-}
-
 MailFolderCache *
 e_mail_session_get_folder_cache (EMailSession *session)
 {
@@ -1973,28 +1545,12 @@ e_mail_session_get_folder_cache (EMailSession *session)
 	return session->priv->folder_cache;
 }
 
-EMailLabelListStore *
-e_mail_session_get_label_store (EMailSession *session)
-{
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
-
-	return session->priv->label_store;
-}
-
 CamelStore *
 e_mail_session_get_local_store (EMailSession *session)
 {
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
 	return session->priv->local_store;
-}
-
-CamelStore *
-e_mail_session_get_vfolder_store (EMailSession *session)
-{
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
-
-	return session->priv->vfolder_store;
 }
 
 CamelFolder *

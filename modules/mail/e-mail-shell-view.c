@@ -269,7 +269,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	folder = e_mail_reader_get_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	label_store = e_mail_session_get_label_store (session);
+	label_store = e_mail_ui_session_get_label_store (E_MAIL_UI_SESSION (session));
 
 	action = ACTION (MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
 	value = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));

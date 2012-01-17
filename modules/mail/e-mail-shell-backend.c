@@ -27,37 +27,42 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/e-import.h"
-#include "e-util/e-util.h"
-#include "shell/e-shell.h"
-#include "shell/e-shell-window.h"
-#include "composer/e-msg-composer.h"
-#include "widgets/misc/e-preferences-window.h"
-#include "widgets/misc/e-web-view.h"
+#include <e-util/e-import.h>
+#include <e-util/e-util.h>
+
+#include <shell/e-shell.h>
+#include <shell/e-shell-window.h>
+
+#include <composer/e-msg-composer.h>
+
+#include <widgets/misc/e-preferences-window.h>
+#include <widgets/misc/e-web-view.h>
+
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/mail-config.h>
+#include <libemail-engine/mail-ops.h>
+
+#include <mail/e-mail-browser.h>
+#include <mail/e-mail-reader.h>
+#include <mail/em-account-editor.h>
+#include <mail/em-composer-utils.h>
+#include <mail/em-folder-utils.h>
+#include <mail/em-format-hook.h>
+#include <mail/em-format-html-display.h>
+#include <mail/em-utils.h>
+#include <mail/mail-send-recv.h>
+#include <mail/mail-vfolder.h>
+#include <mail/importers/mail-importer.h>
+#include <mail/e-mail-ui-session.h>
 
 #include "e-mail-shell-settings.h"
 #include "e-mail-shell-sidebar.h"
 #include "e-mail-shell-view.h"
-
-#include "e-mail-browser.h"
-#include "e-mail-folder-utils.h"
-#include "e-mail-reader.h"
-#include "e-mail-session.h"
-#include "em-account-editor.h"
 #include "em-account-prefs.h"
 #include "em-composer-prefs.h"
-#include "em-composer-utils.h"
-#include "em-folder-utils.h"
-#include "em-format-hook.h"
-#include "em-format-html-display.h"
 #include "em-mailer-prefs.h"
 #include "em-network-prefs.h"
-#include "em-utils.h"
-#include "mail-config.h"
-#include "mail-ops.h"
-#include "mail-send-recv.h"
-#include "mail-vfolder.h"
-#include "importers/mail-importer.h"
 
 #define E_MAIL_SHELL_BACKEND_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -471,7 +476,7 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	account_store = e_mail_session_get_account_store (session);
+	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
 	enable_search_folders = e_shell_settings_get_boolean (
 		shell_settings, "mail-enable-search-folders");
@@ -646,7 +651,8 @@ e_mail_labels_get_filter_options (void)
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	label_store = e_mail_session_get_label_store (session);
+	label_store = e_mail_ui_session_get_label_store (
+		E_MAIL_UI_SESSION (session));
 
 	model = GTK_TREE_MODEL (label_store);
 	valid = gtk_tree_model_get_iter_first (model, &iter);

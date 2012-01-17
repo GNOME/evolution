@@ -24,18 +24,20 @@
 #include <config.h>
 #endif
 
+#include "em-folder-properties.h"
+
 #include <string.h>
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include "em-folder-properties.h"
-#include "em-config.h"
+#include <libemail-utils/mail-mt.h>
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/mail-ops.h>
 
 #include "e-mail-backend.h"
-#include "e-mail-folder-utils.h"
-#include "mail-ops.h"
-#include "mail-mt.h"
+#include "e-mail-ui-session.h"
+#include "em-config.h"
 #include "mail-vfolder.h"
 
 typedef struct _AsyncContext AsyncContext;
@@ -498,8 +500,8 @@ em_folder_properties_show (CamelStore *store,
 	cancellable = camel_operation_new ();
 	e_activity_set_cancellable (context->activity, cancellable);
 
-	e_mail_session_add_activity (
-		E_MAIL_SESSION (session), context->activity);
+	e_mail_ui_session_add_activity (
+		E_MAIL_UI_SESSION (session), context->activity);
 
 	camel_store_get_folder (
 		store, folder_name, 0, G_PRIORITY_DEFAULT, cancellable,

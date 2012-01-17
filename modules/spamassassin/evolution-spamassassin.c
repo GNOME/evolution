@@ -25,7 +25,7 @@
 
 #include <shell/e-shell.h>
 #include <e-util/e-mktemp.h>
-#include <mail/e-mail-junk-filter.h>
+#include <libemail-engine/e-mail-junk-filter.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SPAM_ASSASSIN \

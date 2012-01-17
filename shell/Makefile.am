@@ -90,6 +90,7 @@ libeshell_la_SOURCES =				\
 libeshell_la_LDFLAGS = $(NO_UNDEFINED)
 
 libeshell_la_LIBADD =					\
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/smclient/libeggsmclient.la	\
@@ -142,6 +143,7 @@ evolution_LDADD =							\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/filter/libfilter.la				\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
