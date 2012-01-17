@@ -875,6 +875,8 @@ mail_session_add_service (CamelSession *session,
 			camel_settings_load_from_url (settings, url);
 			camel_url_free (url);
 
+			g_object_notify (G_OBJECT (service), "settings");
+
 			/* Migrate files for this service from its old
 			 * URL-based directory to a UID-based directory
 			 * if necessary. */
