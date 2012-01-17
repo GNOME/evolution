@@ -1486,7 +1486,7 @@ if test "x$enable_pst" = "xyes"; then
 	if test "x$have_pst" = "xyes"; then
 		plugins_standard="$plugins_standard pst-import"
 	else
-		AC_MSG_ERROR([libpst is required for the pst-import plugin.  Use --disable-pst-import to exclude the plugin.])
+		AC_MSG_ERROR([libpst >= libpst_minimum_version is required for the pst-import plugin.  Use --disable-pst-import to exclude the plugin.])
 	fi
 fi
 
