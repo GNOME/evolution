@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-15 14:39+0000\n"
-"PO-Revision-Date: 2012-01-15 19:50+0100\n"
+"POT-Creation-Date: 2012-01-18 16:15+0000\n"
+"PO-Revision-Date: 2012-01-18 17:50+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1663,7 +1663,6 @@ msgid "Brian Grohe"
 msgstr "Brian Grohe"
 
 #: C/offline.page:13(email) C/intro-application.page:12(email)
-#| msgid "loonycookie@gmail.com"
 msgid "grohe43@gmail.com"
 msgstr "grohe43@gmail.com"
 
@@ -3608,10 +3607,10 @@ msgstr ""
 "es.wikipedia.org/wiki/Expresi%C3%B3n_regular\">expresiones regulares</link>, "
 "saque provecho aquí de su poderío, esta opción le permite hacer búsquedas de "
 "patrones complejos de letras de manera que, por ejemplo, podría encontrar "
-"todas las palabras que empiezan o acaban con «m» y tienen entre seis y "
-"quince letras de longitud, o distinguir todos los mensajes que tengan "
-"duplicada una determinada cabecera. Para saber cómo usar las expresiones "
-"regulares examine la página del manual del comando «grep»."
+"todas las palabras que empiezan o acaban con «m» y tienen entre seis y quince "
+"letras de longitud, o distinguir todos los mensajes que tengan duplicada una "
+"determinada cabecera. Para saber cómo usar las expresiones regulares examine "
+"la página del manual del comando «grep»."
 
 #: C/mail-search-folders-conditions.page:87(p)
 msgid "Message Location:"
@@ -6200,8 +6199,9 @@ msgstr ""
 "mostrar HTML) no soporta CSS."
 
 #: C/mail-displaying-no-css.page:24(p)
-msgid "This will likely be fixed in version 3.4."
-msgstr "Esto probablemente se solucione en la versión 3.4."
+#| msgid "This will likely be fixed in version 3.4."
+msgid "This will likely be fixed in version 3.6."
+msgstr "Esto probablemente se solucione en la versión 3.6."
 
 #: C/mail-displaying-no-css.page:25(p)
 msgid ""
@@ -6211,9 +6211,9 @@ msgid ""
 "Evolution's code repository to test."
 msgstr ""
 "Sólo para desarrolladores: en versiones futuras, Evolution usará WebKit en "
-"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href="
-"\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el "
-"repositorio de código de Evolution para pruebas."
+"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href=\"http://"
+"git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el repositorio "
+"de código de Evolution para pruebas."
 
 #: C/mail-displaying-no-css.page:27(p)
 msgid ""
@@ -8723,8 +8723,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access Gmail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695\">Gmail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
+"\">Gmail Help</link> for more information."
 msgstr ""
 "Para acceder a Gmail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -9516,7 +9516,6 @@ msgstr ""
 "link>."
 
 #: C/intro-application.page:5(desc)
-#| msgid "Importing into Evolution"
 msgid "An Introduction to Evolution."
 msgstr "Una introducción a Evolution."
 
