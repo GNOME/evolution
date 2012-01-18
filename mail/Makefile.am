@@ -91,7 +91,6 @@ mailinclude_HEADERS =					\
 	em-vfolder-rule.h				\
 	mail-autofilter.h				\
 	mail-guess-servers.h				\
-	mail-mt.h					\
 	mail-send-recv.h				\
 	mail-vfolder.h					\
 	message-list.h

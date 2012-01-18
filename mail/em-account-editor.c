@@ -55,6 +55,7 @@
 #include <libemail-utils/e-account-utils.h>
 #include <libemail-utils/e-signature-list.h>
 #include <libemail-utils/e-signature-utils.h>
+#include <libemail-utils/mail-mt.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/mail-ops.h>
@@ -72,7 +73,6 @@
 #include "em-folder-selection-button.h"
 #include "em-utils.h"
 #include "mail-guess-servers.h"
-#include "mail-mt.h"
 #include "mail-send-recv.h"
 
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)

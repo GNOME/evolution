@@ -37,6 +37,7 @@
 #include <e-util/e-util.h>
 
 #include <libemail-utils/e-account-utils.h>
+#include <libemail-utils/mail-mt.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/e-mail-session.h>
@@ -58,7 +59,6 @@
 #include "em-format-html-print.h"
 #include "em-format-quote.h"
 #include "em-event.h"
-#include "mail-mt.h"
 #include "mail-send-recv.h"
 
 
