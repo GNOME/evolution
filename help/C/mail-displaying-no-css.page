@@ -7,7 +7,7 @@
     <link type="guide" xref="index#common-mail-problems" />
     <link type="seealso" xref="mail-displaying-message" />
 
-    <revision pkgversion="3.2.0" version="0.2" date="2011-09-07" status="draft"/>
+    <revision pkgversion="3.3.5" version="0.2" date="2012-01-18" status="draft"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -21,7 +21,7 @@
 <title>HTML emails are not correctly displayed</title>
 
 <p>If an HTML message is not correctly displayed in Evolution it might be that the formatting of the message is specified as <link href="http://en.wikipedia.org/wiki/Cascading_Style_Sheets">CSS</link>. CSS is currently not supported by gtkhtml (the part that is used to display HTML).</p>
-<p>This will likely be fixed in version 3.4.</p>
+<p>This will likely be fixed in version 3.6.</p>
 <p>For developers only: In future versions, Evolution will use WebKit instead of gtkhtml for displaying HTML. There is a branch named "<link href="http://git.gnome.org/browse/evolution?h=webkit">webkit</link>" in Evolution's code repository to test.</p>
 
 <note style="tip"><p>For missing characters in emails, see <link xref="mail-displaying-character-encodings">Character Encodings and Sets</link>.</p></note>
