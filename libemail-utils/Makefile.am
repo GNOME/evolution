@@ -1,37 +1,40 @@
+NULL =
 
 lib_LTLIBRARIES = libemail-utils.la
 
-AM_CFLAGS = -I. -I$(top_builddir) @GNOME_PLATFORM_CFLAGS@ -Wall -Werror -g3 -O0 -ggdb -DPKGDATADIR="\"$(pkgdatadir)\""
-AM_LDFLAGS = @GNOME_PLATFORM_LIBS@ 
-
 libemail_utils_la_CPPFLAGS = \
-	$(AM_CPPFLAGS)	\
-	$(CAMEL_CFLAGS)		\
+	$(AM_CPPFLAGS) \
+	-I$(top_srcdir) \
+	-I$(top_builddir) \
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\" \
+	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
-	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	
-
-libemail_utils_la_LIBADD = 	\
-		$(CAMEL_LIBS)		\
-		$(GNOME_PLATFORM_LIBS)
-
-libemail_utils_la_LDFLAGS = 
-
-libemail_utils_la_SOURCES = 	\
-		e-account-utils.c	\
-		mail-mt.c	\
-		e-signature.c	\
-		e-signature-list.c	\
-		e-signature-utils.c
-
+	$(NULL)
 
 libmailutilsincludedir = $(privincludedir)/libemail-utils
-libmailutilsinclude_HEADERS = 	\
-		e-account-utils.h	\
-		mail-mt.h	\
-		e-signature.h	\
-		e-signature-list.h	\
-		e-signature-utils.h
+libmailutilsinclude_HEADERS = \
+	e-account-utils.h \
+	e-signature-list.h \
+	e-signature-utils.h \
+	e-signature.h \
+	mail-mt.h \
+	$(NULL)
 
+libemail_utils_la_SOURCES = \
+	$(libmailutilsinclude_HEADERS) \
+	e-account-utils.c \
+	e-signature-list.c \
+	e-signature-utils.c \
+	e-signature.c \
+	mail-mt.c \
+	$(NULL)
+
+libemail_utils_la_LDFLAGS = $(NO_UNDEFINED)
+
+libemail_utils_la_LIBADD = \
+	$(EVOLUTION_DATA_SERVER_LIBS) \
+	$(GNOME_PLATFORM_LIBS) \
+	$(NULL)
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libemail-utils.pc
