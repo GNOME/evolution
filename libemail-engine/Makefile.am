@@ -14,13 +14,11 @@ ENUM_GENERATED = e-mail-enumtypes.h e-mail-enumtypes.c
 
 libemail_engine_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)	\
-	$(EMAIL_ENGINE_CFLAGS)	\
 	$(CAMEL_CFLAGS)		\
 	$(GNOME_PLATFORM_CFLAGS)
 
 libemail_engine_la_LIBADD = 	\
 		$(CAMEL_LIBS)		\
-		$(EMAIL_ENGINE_LIBS)	\
 		$(GNOME_PLATFORM_LIBS)	\
 		$(top_builddir)/libemail-utils/libemail-utils.la
 		

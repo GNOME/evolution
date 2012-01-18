@@ -81,8 +81,7 @@ libeutil_la_CPPFLAGS =							\
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\"				\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
-	$(GNOME_PLATFORM_CFLAGS)					\
-	$(EMAIL_UTILS_CFLAGS)		
+	$(GNOME_PLATFORM_CFLAGS)
 
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
@@ -128,7 +127,6 @@ libeutil_la_LIBADD = 			\
 	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(ICONV_LIBS)			\
 	$(EVOLUTION_DATA_SERVER_LIBS)	\
-	$(EMAIL_UTILS_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)		\
 	$(INTLLIBS)
 

@@ -8,13 +8,11 @@ libemail_utils_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)	\
 	$(CAMEL_CFLAGS)		\
 	$(GNOME_PLATFORM_CFLAGS) \
-	$(EMAIL_UTILS_CFLAGS)	\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	
 
 libemail_utils_la_LIBADD = 	\
 		$(CAMEL_LIBS)		\
-		$(GNOME_PLATFORM_LIBS)	\
-		$(EMAIL_UTILS_LIBS)
+		$(GNOME_PLATFORM_LIBS)
 
 libemail_utils_la_LDFLAGS = 
 

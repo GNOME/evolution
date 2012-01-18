@@ -133,8 +133,7 @@ evolution_CPPFLAGS =						\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)					\
-	$(CLUTTER_CFLAGS)					\
-	$(EMAIL_UTILS_CFLAGS)					
+	$(CLUTTER_CFLAGS)
 
 evolution_SOURCES =				\
 	main.c

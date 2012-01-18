@@ -1222,20 +1222,6 @@ CERT_UI_LIBS="$MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS"
 AC_SUBST(CERT_UI_CFLAGS)
 AC_SUBST(CERT_UI_LIBS)
 
-dnl ************
-dnl EMAILS_UTILS Flags
-dnl ************
-EVO_SET_COMPILE_FLAGS(EMAIL_UTILS, camel-1.2  libedataserver-1.2)
-AC_SUBST(EMAIL_UTILS_CFLAGS)
-AC_SUBST(EMAIL_UTILS_LIBS)
-
-dnl ************
-dnl EMAIL_ENGINE Flags
-dnl ************
-EVO_SET_COMPILE_FLAGS(EMAIL_ENGINE, camel-1.2  libedataserverui-3.0 libebackend-1.2 libedataserver-1.2)
-AC_SUBST(EMAIL_ENGINE_CFLAGS)
-AC_SUBST(EMAIL_ENGINE_LIBS)
-
 dnl ***************
 dnl Libnotify Flags
 dnl ***************

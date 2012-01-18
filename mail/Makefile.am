@@ -23,8 +23,6 @@ libevolution_mail_la_CPPFLAGS =				\
 	$(CANBERRA_CFLAGS)				\
 	$(CLUTTER_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
-	$(EMAIL_UTILS_CFLAGS)				\
-	$(EMAIL_ENGINE_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
@@ -192,8 +190,6 @@ libevolution_mail_la_LIBADD =				\
 	$(top_builddir)/filter/libfilter.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(EMAIL_UTILS_LIBS)				\
-	$(EMAIL_ENGINE_LIBS)				\
 	$(CERT_UI_LIBS)					\
 	$(CANBERRA_LIBS)				\
 	$(CLUTTER_LIBS)					\
