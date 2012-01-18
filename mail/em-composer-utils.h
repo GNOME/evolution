@@ -26,9 +26,9 @@
 
 #include <em-format/em-format.h>
 #include <mail/e-mail-backend.h>
-#include <mail/e-mail-enums.h>
 #include <mail/e-mail-reader.h>
 #include <composer/e-msg-composer.h>
+#include <libemail-engine/e-mail-enums.h>
 
 G_BEGIN_DECLS
 

@@ -32,7 +32,6 @@
 #include <X11/XF86keysym.h>
 #endif
 
-#include "libemail-utils/e-account-utils.h"
 #include "e-util/e-charset.h"
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
@@ -40,10 +39,16 @@
 #include "widgets/misc/e-popup-action.h"
 #include "widgets/misc/e-menu-tool-action.h"
 
+#include "libemail-utils/e-account-utils.h"
+#include "libemail-utils/mail-mt.h"
+
+#include "libemail-engine/mail-ops.h"
+#include "libemail-engine/e-mail-utils.h"
+#include "libemail-engine/e-mail-enumtypes.h"
+
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-browser.h"
 #include "mail/e-mail-display.h"
-#include "mail/e-mail-enumtypes.h"
 #include "mail/e-mail-reader-utils.h"
 #include "mail/e-mail-view.h"
 #include "mail/em-composer-utils.h"
@@ -52,9 +57,6 @@
 #include "mail/em-folder-tree.h"
 #include "mail/em-utils.h"
 #include "mail/mail-autofilter.h"
-#include "libemail-engine/mail-ops.h"
-#include "libemail-engine/e-mail-utils.h"
-#include "libemail-utils/mail-mt.h"
 #include "mail/mail-vfolder.h"
 #include "mail/message-list.h"
 

@@ -41,7 +41,6 @@
 #include "shell/e-shell.h"
 
 #include "libemail-engine/e-mail-folder-utils.h"
-#include "libemail-engine/e-mail-local.h"
 #include "mail/e-mail-migrate.h"
 #include "libemail-engine/e-mail-session.h"
 #include "libemail-engine/e-mail-store-utils.h"

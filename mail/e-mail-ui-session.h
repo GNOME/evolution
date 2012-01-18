@@ -28,9 +28,9 @@
 #define E_MAIL_UI_SESSION_H
 
 #include <camel/camel.h>
+#include <libemail-engine/e-mail-enums.h>
 #include <libemail-engine/e-mail-session.h>
 #include <libemail-engine/mail-folder-cache.h>
-#include <mail/e-mail-enums.h>
 #include <mail/e-mail-account-store.h>
 #include <e-util/e-activity.h>
 

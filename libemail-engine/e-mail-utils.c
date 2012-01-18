@@ -44,16 +44,17 @@
 
 #include <gio/gio.h>
 
-#include "libemail-utils/mail-mt.h"
-#include "mail-tools.h"
-#include "e-mail-folder-utils.h"
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-flag.h>
 #include <libedataserver/e-proxy.h>
-#include "libemail-utils/e-account-utils.h"
 
+#include "libemail-utils/e-account-utils.h"
+#include "libemail-utils/mail-mt.h"
+
+#include "e-mail-folder-utils.h"
+#include "e-mail-session.h"
 #include "e-mail-utils.h"
-#include "e-mail-local.h"
+#include "mail-tools.h"
 
 #define d(x)
 

@@ -4,6 +4,13 @@ lib_LTLIBRARIES = libemail-engine.la
 AM_CFLAGS = -I$(top_builddir) @GNOME_PLATFORM_CFLAGS@ -Wall -Werror -g3 -O0 -ggdb -DPKGDATADIR="\"$(pkgdatadir)\""
 AM_LDFLAGS = @GNOME_PLATFORM_LIBS@ 
 
+include $(top_srcdir)/glib-gen.mak
+glib_enum_headers=e-mail-enums.h
+glib_enum_output=e-mail-enumtypes
+glib_enum_define=E_MAIL
+glib_enum_prefix=e_mail
+
+ENUM_GENERATED = e-mail-enumtypes.h e-mail-enumtypes.c
 
 libemail_engine_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)	\
@@ -21,6 +28,7 @@ libemail_engine_la_LIBADD = 	\
 libemail_engine_la_LDFLAGS = 
 
 libemail_engine_la_SOURCES = 	\
+		e-mail-enumtypes.c	\
 		e-mail-folder-utils.c	\
 		e-mail-store-utils.c	\
 		mail-tools.c		\
@@ -34,10 +42,11 @@ libemail_engine_la_SOURCES = 	\
 
 libmailengineincludedir = $(privincludedir)/libemail-engine
 libmailengineinclude_HEADERS = 	\
+		e-mail-enums.h		\
+		e-mail-enumtypes.h	\
 		e-mail-session.h	\
 		e-mail-enums.h		\
-		mail-folder-cache.h	\
-		e-mail-local.h		\
+		e-mail-session.c	\
 		e-mail-folder-utils.h	\
 		e-mail-store-utils.h	\
 		mail-tools.h		\
@@ -45,14 +54,13 @@ libmailengineinclude_HEADERS = 	\
 		mail-config.h		\
 		e-mail-session-utils.h	\
 		mail-ops.h		\
-		e-mail-junk-filter.h	\
-		e-mail-store.h
+		e-mail-junk-filter.h
 
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libemail-engine.pc
 
-BUILT_SOURCES = 
+BUILT_SOURCES = $(ENUM_GENERATED)
 
 EXTRA_DIST = 
 CLEANFILES    = $(BUILT_SOURCES)
