@@ -37,13 +37,13 @@
 #include <ctype.h>
 #include <fcntl.h>
 
-#include "libemail-utils/e-account-utils.h"
-#include "e-util/e-alert-dialog.h"
-#include "e-util/e-dialog-utils.h"
-#include "libemail-utils/e-signature-utils.h"
-#include "e-util/e-util-private.h"
-#include "em-format/em-format.h"
-#include "em-format/em-format-quote.h"
+#include <e-util/e-alert-dialog.h>
+#include <e-util/e-dialog-utils.h>
+#include <e-util/e-util-private.h>
+#include <em-format/em-format.h>
+#include <em-format/em-format-quote.h>
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-utils/e-signature-utils.h>
 
 #include "e-composer-private.h"
 

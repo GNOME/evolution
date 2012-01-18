@@ -23,8 +23,8 @@
 #define E_SIGNATURE_EDITOR_H
 
 #include <gtkhtml-editor.h>
-#include <libemail-utils/e-signature.h>
 #include <misc/e-focus-tracker.h>
+#include <libemail-utils/e-signature.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SIGNATURE_EDITOR \

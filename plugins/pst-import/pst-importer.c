@@ -53,10 +53,11 @@
 #include <libedataserverui/e-source-combo-box.h>
 #include <libedataserverui/e-client-utils.h>
 
-#include <mail/e-mail-backend.h>
-#include <mail/em-folder-selection-button.h>
 #include <libemail-utils/mail-mt.h>
 #include <libemail-engine/mail-tools.h>
+
+#include <mail/e-mail-backend.h>
+#include <mail/em-folder-selection-button.h>
 #include <mail/em-utils.h>
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>

@@ -26,8 +26,8 @@
 #ifndef E_MAIL_BACKEND_H
 #define E_MAIL_BACKEND_H
 
-#include <libemail-engine/e-mail-session.h>
 #include <shell/e-shell-backend.h>
+#include <libemail-engine/e-mail-session.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_BACKEND \

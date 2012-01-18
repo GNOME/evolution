@@ -25,9 +25,11 @@
 #include <libebackend/e-extensible.h>
 
 #include <e-util/e-marshal.h>
-#include <libemail-utils/e-account-utils.h>
 #include <e-util/e-alert-dialog.h>
+
+#include <libemail-utils/e-account-utils.h>
 #include <libemail-engine/mail-ops.h>
+
 #include <mail/mail-vfolder.h>
 
 #define E_MAIL_ACCOUNT_STORE_GET_PRIVATE(obj) \

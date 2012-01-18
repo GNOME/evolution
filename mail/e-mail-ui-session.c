@@ -714,8 +714,8 @@ mail_ui_session_get_property (GObject *object,
 		case PROP_LABEL_STORE:
 			g_value_set_object (
 				value,
-				e_mail_session_get_label_store (
-				E_MAIL_SESSION (object)));
+				e_mail_ui_session_get_label_store (
+				E_MAIL_UI_SESSION (object)));
 			return;
 
 
@@ -884,8 +884,8 @@ e_mail_ui_session_get_vfolder_store (EMailUISession *session)
 }
 
 void
-e_mail_session_add_activity (EMailSession *session,
-                             EActivity *activity)
+e_mail_ui_session_add_activity (EMailUISession *session,
+                                EActivity *activity)
 {
 	g_return_if_fail (E_IS_MAIL_UI_SESSION (session));
 	g_return_if_fail (E_IS_ACTIVITY (activity));
@@ -894,11 +894,11 @@ e_mail_session_add_activity (EMailSession *session,
 }
 
 EMailLabelListStore *
-e_mail_session_get_label_store (EMailSession *session)
+e_mail_ui_session_get_label_store (EMailUISession *session)
 {
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), NULL);
 
-	return ((EMailUISession *) session)->priv->label_store;
+	return session->priv->label_store;
 }
 
 

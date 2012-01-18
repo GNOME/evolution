@@ -26,7 +26,7 @@
 
 #include <gconf/gconf-client.h>
 #include <libedataserver/e-list.h>
-#include "libemail-utils/e-signature.h"
+#include <libemail-utils/e-signature.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SIGNATURE_LIST \

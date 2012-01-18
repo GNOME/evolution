@@ -26,7 +26,6 @@
 #include <mail/e-mail-enums.h>
 #include <mail/e-mail-enumtypes.h>
 #include <mail/e-mail-folder-pane.h>
-#include <libemail-engine/e-mail-folder-utils.h>
 #include <mail/e-mail-label-action.h>
 #include <mail/e-mail-label-dialog.h>
 #include <mail/e-mail-label-list-store.h>
@@ -38,10 +37,7 @@
 #include <mail/e-mail-paned-view.h>
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-reader-utils.h>
-#include <libemail-engine/e-mail-session.h>
-#include <libemail-engine/e-mail-session-utils.h>
 #include <mail/e-mail-sidebar.h>
-#include <libemail-engine/e-mail-store-utils.h>
 #include <mail/e-mail-tag-editor.h>
 #include <mail/e-mail-view.h>
 

@@ -64,10 +64,11 @@
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 
-#include <mail/e-mail-backend.h>
-#include <mail/em-folder-selection-button.h>
 #include <libemail-utils/mail-mt.h>
 #include <libemail-engine/mail-tools.h>
+
+#include <mail/e-mail-backend.h>
+#include <mail/em-folder-selection-button.h>
 #include <mail/em-utils.h>
 
 #define d(x)

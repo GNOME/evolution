@@ -29,10 +29,11 @@
 #include <libedataserver/e-proxy.h>
 #include <libedataserver/e-account.h>
 
-#include <mail/e-mail-reader.h>
 #include <libemail-engine/e-mail-session.h>
-#include <mail/em-folder-tree.h>
 #include <libemail-engine/e-mail-utils.h>
+
+#include <mail/e-mail-reader.h>
+#include <mail/em-folder-tree.h>
 
 G_BEGIN_DECLS
 

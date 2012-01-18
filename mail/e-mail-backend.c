@@ -32,29 +32,29 @@
 #include <glib/gstdio.h>
 #include <libedataserver/e-data-server-util.h>
 
-#include "libemail-utils/e-account-utils.h"
-#include "e-util/e-alert-dialog.h"
-#include "e-util/e-alert-sink.h"
+#include <shell/e-shell.h>
 
-#include "misc/e-account-combo-box.h"
+#include <e-util/e-alert-dialog.h>
+#include <e-util/e-alert-sink.h>
 
-#include "shell/e-shell.h"
+#include <misc/e-account-combo-box.h>
 
-#include "libemail-engine/e-mail-folder-utils.h"
-#include "mail/e-mail-migrate.h"
-#include "libemail-engine/e-mail-session.h"
-#include "libemail-engine/e-mail-store-utils.h"
-#include "libemail-engine/e-mail-utils.h"
-#include "mail/em-event.h"
-#include "mail/em-folder-tree-model.h"
-#include "mail/em-utils.h"
-#include "mail/mail-autofilter.h"
-#include "libemail-engine/mail-config.h"
-#include "libemail-engine/mail-folder-cache.h"
-#include "libemail-engine/mail-ops.h"
-#include "mail/mail-vfolder.h"
-#include "mail/mail-send-recv.h"
-#include "mail/e-mail-ui-session.h"
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/e-mail-store-utils.h>
+#include <libemail-engine/mail-config.h>
+#include <libemail-engine/mail-folder-cache.h>
+#include <libemail-engine/mail-ops.h>
+
+#include <mail/e-mail-migrate.h>
+#include <mail/e-mail-ui-session.h>
+#include <mail/em-event.h>
+#include <mail/em-folder-tree-model.h>
+#include <mail/em-utils.h>
+#include <mail/mail-autofilter.h>
+#include <mail/mail-send-recv.h>
+#include <mail/mail-vfolder.h>
 
 #define E_MAIL_BACKEND_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -797,6 +797,7 @@ mail_mt_create_activity (GCancellable *cancellable)
 	e_activity_set_cancellable (activity, cancellable);
 	SET_ACITIVITY (cancellable, activity);
 }
+
 static void
 mail_mt_submit_activity (GCancellable *cancellable)
 {
@@ -978,12 +979,13 @@ mail_backend_constructed (GObject *object)
 
 	mail_config_init (priv->session);
 	mail_msg_init ();
-	mail_msg_register_activities (mail_mt_create_activity,
-				   mail_mt_submit_activity,
-				   mail_mt_free_activity,
-				   mail_mt_complete_acitivity,
-				   mail_mt_cancel_activity,				   
-				   mail_mt_alert_error);
+	mail_msg_register_activities (
+		mail_mt_create_activity,
+		mail_mt_submit_activity,
+		mail_mt_free_activity,
+		mail_mt_complete_acitivity,
+		mail_mt_cancel_activity,
+		mail_mt_alert_error);
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_backend_parent_class)->constructed (object);
 }

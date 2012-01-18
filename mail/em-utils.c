@@ -41,39 +41,40 @@
 #undef interface
 #endif
 
-#include <libebook/e-book-client.h>
-#include <libebook/e-book-query.h>
-
 #include "em-filter-editor.h"
 
 #include <glib/gi18n.h>
 
 #include <gio/gio.h>
 
-#include "libemail-utils/mail-mt.h"
-#include "libemail-engine/mail-ops.h"
-#include "libemail-engine/e-mail-utils.h"
-#include "libemail-engine/mail-tools.h"
-#include "e-mail-tag-editor.h"
-
+#include <libebook/e-book-client.h>
+#include <libebook/e-book-query.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-flag.h>
 #include <libedataserver/e-proxy.h>
-#include "e-util/e-util.h"
-#include "e-util/e-util-private.h"
-#include "e-util/e-mktemp.h"
-#include "libemail-utils/e-account-utils.h"
-#include "e-util/e-dialog-utils.h"
-#include "e-util/e-alert-dialog.h"
-#include "shell/e-shell.h"
-#include "widgets/misc/e-attachment.h"
 
-#include "em-utils.h"
+#include <e-util/e-util.h>
+#include <e-util/e-util-private.h>
+#include <e-util/e-mktemp.h>
+#include <e-util/e-dialog-utils.h>
+#include <e-util/e-alert-dialog.h>
+
+#include <shell/e-shell.h>
+#include <widgets/misc/e-attachment.h>
+
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-utils/mail-mt.h>
+
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/mail-ops.h>
+#include <libemail-engine/mail-tools.h>
+
+#include "e-mail-tag-editor.h"
 #include "em-composer-utils.h"
 #include "em-format-quote.h"
 #include "em-format-html-print.h"
-#include "libemail-engine/e-mail-folder-utils.h"
-#include "libemail-engine/e-mail-session.h"
+#include "em-utils.h"
 
 /* XXX This is a dirty hack on a dirty hack.  We really need
  *     to rework or get rid of the functions that use this. */
@@ -1258,7 +1259,6 @@ em_utils_empty_trash (GtkWidget *parent,
 }
 
 /* ********************************************************************** */
-
 
 void
 em_utils_clear_get_password_canceled_accounts_flag (void)

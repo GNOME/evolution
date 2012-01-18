@@ -49,10 +49,10 @@
 #include "em-vfolder-rule.h"
 
 #include "libemail-utils/mail-mt.h"
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-session.h"
 #include "libemail-engine/mail-ops.h"
 #include "libemail-engine/mail-tools.h"
-#include "mail-send-recv.h"
-#include "mail-vfolder.h"
 
 #include "em-utils.h"
 #include "em-folder-tree.h"
@@ -60,9 +60,9 @@
 #include "em-folder-selector.h"
 #include "em-folder-properties.h"
 #include "em-event.h"
+#include "mail-send-recv.h"
+#include "mail-vfolder.h"
 
-#include "libemail-engine/e-mail-folder-utils.h"
-#include "libemail-engine/e-mail-session.h"
 #include "e-mail-ui-session.h"
 
 #define d(x)
@@ -1823,7 +1823,8 @@ em_folder_tree_new_activity (EMFolderTree *folder_tree)
 	g_object_unref (cancellable);
 
 	session = em_folder_tree_get_session (folder_tree);
-	e_mail_session_add_activity (session, activity);
+	e_mail_ui_session_add_activity (
+		E_MAIL_UI_SESSION (session), activity);
 
 	return activity;
 }

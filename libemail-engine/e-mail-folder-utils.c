@@ -24,7 +24,7 @@
 
 #include <glib/gi18n-lib.h>
 
-#include "mail-tools.h"
+#include <libemail-engine/mail-tools.h>
 
 /* X-Mailer header value */
 #define X_MAILER ("Evolution Mail Data Server" PACKAGE_VERSION)

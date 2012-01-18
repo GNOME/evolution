@@ -34,31 +34,35 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
+
+#include <libecal/e-cal-time-util.h>
 #include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-combo-box.h>
-#include "misc/e-dateedit.h"
-#include "misc/e-send-options.h"
-#include "misc/e-buffer-tagger.h"
-#include <libecal/e-cal-time-util.h>
+
+#include <e-util/e-util.h>
+#include <e-util/e-categories-config.h>
+#include <e-util/e-dialog-utils.h>
+#include <e-util/e-dialog-widgets.h>
+#include <e-util/e-util-private.h>
+
+#include <libemail-utils/e-account-utils.h>
+
+#include <misc/e-dateedit.h>
+#include <misc/e-send-options.h>
+#include <misc/e-buffer-tagger.h>
+
+#include "../e-alarm-list.h"
+#include "../e-meeting-attendee.h"
+#include "../e-meeting-list-view.h"
+#include "../e-meeting-store.h"
 #include "../e-timezone-entry.h"
 
-#include "e-util/e-util.h"
-#include "libemail-utils/e-account-utils.h"
-#include "e-util/e-categories-config.h"
-#include "e-util/e-dialog-utils.h"
-#include "e-util/e-dialog-widgets.h"
-#include "e-util/e-util-private.h"
-
-#include "../e-meeting-attendee.h"
-#include "../e-meeting-store.h"
-#include "../e-meeting-list-view.h"
-#include "comp-editor.h"
-#include "comp-editor-util.h"
-#include "../e-alarm-list.h"
 #include "alarm-list-dialog.h"
-#include "event-page.h"
+#include "comp-editor-util.h"
+#include "comp-editor.h"
 #include "e-send-options-utils.h"
+#include "event-page.h"
 
 #define EVENT_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

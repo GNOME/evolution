@@ -31,6 +31,7 @@
 #include <e-util/e-plugin-ui.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
+
 #include <mail/em-folder-tree.h>
 #include <mail/em-utils.h>
 

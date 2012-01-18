@@ -28,13 +28,14 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <camel/camel.h>
+
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-group.h>
 #include <libedataserver/e-source-list.h>
 
-#include "libemail-utils/e-account-utils.h"
-#include "calendar/gui/calendar-config-keys.h"
-#include "shell/e-shell.h"
+#include <shell/e-shell.h>
+#include <calendar/gui/calendar-config-keys.h>
+#include <libemail-utils/e-account-utils.h>
 
 #include "e-memo-shell-backend.h"
 

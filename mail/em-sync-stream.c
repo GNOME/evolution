@@ -32,7 +32,7 @@
 #include <glib/gi18n-lib.h>
 #include <libedataserver/e-flag.h>
 
-#include "libemail-utils/mail-mt.h"
+#include <libemail-utils/mail-mt.h>
 
 enum _write_msg_t {
 	EMSS_WRITE,

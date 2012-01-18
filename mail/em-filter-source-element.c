@@ -32,8 +32,8 @@
 #include <gtk/gtk.h>
 #include <camel/camel.h>
 
-#include <libemail-utils/e-account-utils.h>
 #include <filter/e-filter-part.h>
+#include <libemail-utils/e-account-utils.h>
 
 #define EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

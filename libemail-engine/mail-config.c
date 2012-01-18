@@ -30,11 +30,11 @@
 #include <gtk/gtk.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include "libemail-utils/e-account-utils.h"
-#include "libemail-utils/e-signature-list.h"
-#include "libemail-utils/e-signature-utils.h"
-#include "libemail-engine/e-mail-folder-utils.h"
 
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-utils/e-signature-utils.h>
+
+#include "e-mail-folder-utils.h"
 #include "mail-config.h"
 #include "mail-tools.h"
 

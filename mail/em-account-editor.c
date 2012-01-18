@@ -45,33 +45,38 @@
 
 #include <libedataserverui/e-passwords.h>
 
-#include "shell/e-shell.h"
-#include "e-util/e-util.h"
-#include "e-util/e-alert-dialog.h"
-#include "libemail-utils/e-account-utils.h"
-#include "e-util/e-dialog-utils.h"
-#include "libemail-utils/e-signature-list.h"
-#include "libemail-utils/e-signature-utils.h"
-#include "e-util/e-util-private.h"
-#include "widgets/misc/e-auth-combo-box.h"
-#include "widgets/misc/e-signature-editor.h"
-#include "widgets/misc/e-port-entry.h"
+#include <shell/e-shell.h>
 
+#include <e-util/e-util.h>
+#include <e-util/e-alert-dialog.h>
+#include <e-util/e-dialog-utils.h>
+#include <e-util/e-util-private.h>
+
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-utils/e-signature-list.h>
+#include <libemail-utils/e-signature-utils.h>
+
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/mail-ops.h>
+
+#include <widgets/misc/e-auth-combo-box.h>
+#include <widgets/misc/e-signature-editor.h>
+#include <widgets/misc/e-port-entry.h>
+
+#include "e-mail-account-store.h"
 #include "e-mail-backend.h"
-#include "libemail-engine/e-mail-folder-utils.h"
 #include "e-mail-junk-options.h"
+#include "e-mail-ui-session.h"
+#include "em-account-editor.h"
 #include "em-config.h"
 #include "em-folder-selection-button.h"
-#include "em-account-editor.h"
-#include "mail-send-recv.h"
 #include "em-utils.h"
 #include "mail-guess-servers.h"
-#include "libemail-engine/mail-ops.h"
-#include "libemail-utils/mail-mt.h"
-#include "e-mail-ui-session.h"
+#include "mail-mt.h"
+#include "mail-send-recv.h"
 
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
-#include "smime/gui/e-cert-selector.h"
+#include <smime/gui/e-cert-selector.h>
 #endif
 
 #define EM_ACCOUNT_EDITOR_GET_PRIVATE(obj) \

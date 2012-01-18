@@ -23,9 +23,9 @@
 #define E_SIGNATURE_MANAGER_H
 
 #include <gtk/gtk.h>
-#include <libemail-utils/e-signature-list.h>
 #include <misc/e-signature-editor.h>
 #include <misc/e-signature-tree-view.h>
+#include <libemail-utils/e-signature-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SIGNATURE_MANAGER \

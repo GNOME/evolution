@@ -28,9 +28,9 @@
 #include <config.h>
 #endif
 
-#include <glib/gi18n-lib.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
+#include <glib/gi18n-lib.h>
 
 #include <gtkhtml/gtkhtml.h>
 #include <libecal/e-cal-client.h>
@@ -41,20 +41,25 @@
 #include <libedataserverui/e-source-selector-dialog.h>
 #include <libedataserverui/e-client-utils.h>
 
+#include <e-util/e-dialog-utils.h>
+
+#include <libemail-utils/e-account-utils.h>
+
+#include <misc/e-popup-action.h>
+#include <misc/e-attachment-store.h>
+
+#include <shell/e-shell-view.h>
+#include <shell/e-shell-window-actions.h>
+
 #include <mail/e-mail-browser.h>
 #include <mail/em-utils.h>
 #include <mail/em-format-html.h>
 #include <mail/message-list.h>
-#include <libemail-utils/e-account-utils.h>
-#include <e-util/e-dialog-utils.h>
-#include <misc/e-popup-action.h>
-#include <shell/e-shell-view.h>
-#include <shell/e-shell-window-actions.h>
+
 #include <calendar/gui/dialogs/comp-editor.h>
 #include <calendar/gui/dialogs/event-editor.h>
-#include <calendar/gui/dialogs/task-editor.h>
 #include <calendar/gui/dialogs/memo-editor.h>
-#include <misc/e-attachment-store.h>
+#include <calendar/gui/dialogs/task-editor.h>
 
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_EVENT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-event")

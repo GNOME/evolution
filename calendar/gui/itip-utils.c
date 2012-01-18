@@ -24,20 +24,23 @@
 #include <config.h>
 #endif
 
+#include <time.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-time-utils.h>
-#include <gtk/gtk.h>
 #include <libical/ical.h>
-#include <libemail-utils/e-account-utils.h>
-#include <e-util/e-dialog-utils.h>
+#include <libsoup/soup.h>
+
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-util.h>
-#include <libsoup/soup.h>
-#include "itip-utils.h"
-#include <time.h>
-#include "dialogs/comp-editor-util.h"
+#include <libedataserver/e-time-utils.h>
+
+#include <e-util/e-dialog-utils.h>
+
+#include <libemail-utils/e-account-utils.h>
 
 #include <composer/e-msg-composer.h>
+
+#include "itip-utils.h"
+#include "dialogs/comp-editor-util.h"
 
 #define d(x)
 

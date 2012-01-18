@@ -30,19 +30,21 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <e-util/e-config.h>
-
-#include <libemail-engine/e-mail-folder-utils.h>
-#include <mail/e-mail-reader.h>
-#include <libemail-engine/e-mail-session.h>
-#include <mail/em-composer-utils.h>
-#include <mail/em-utils.h>
-#include <libemail-engine/mail-ops.h>
-#include <mail/message-list.h>
 #include <e-util/e-alert-dialog.h>
+#include <e-util/e-config.h>
 #include <e-util/e-plugin.h>
 #include <e-util/e-util.h>
+
 #include <shell/e-shell-view.h>
+
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/mail-ops.h>
+
+#include <mail/e-mail-reader.h>
+#include <mail/em-composer-utils.h>
+#include <mail/em-utils.h>
+#include <mail/message-list.h>
 
 #include <composer/e-msg-composer.h>
 

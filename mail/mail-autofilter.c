@@ -29,8 +29,9 @@
 
 #include <glib/gi18n.h>
 
-#include "libemail-engine/e-mail-folder-utils.h"
-#include "libemail-engine/e-mail-session.h"
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-session.h>
+
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 #include "em-utils.h"

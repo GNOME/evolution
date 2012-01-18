@@ -58,15 +58,16 @@
 #include "table/e-tree-memory-callbacks.h"
 #include "table/e-tree-memory.h"
 
-#include "e-mail-label-list-store.h"
-#include "em-utils.h"
-#include "libemail-engine/mail-config.h"
 #include "libemail-utils/mail-mt.h"
+#include "libemail-engine/e-mail-utils.h"
+#include "libemail-engine/mail-config.h"
 #include "libemail-engine/mail-ops.h"
 #include "libemail-engine/mail-tools.h"
-#include "libemail-engine/e-mail-utils.h"
-#include "message-list.h"
+
+#include "mail/e-mail-label-list-store.h"
 #include "mail/e-mail-ui-session.h"
+#include "mail/em-utils.h"
+#include "mail/message-list.h"
 
 #if HAVE_CLUTTER
 #include <clutter/clutter.h>
@@ -1711,7 +1712,8 @@ ml_tree_value_at_ex (ETreeModel *etm,
 			/* Get all applicable labels. */
 			struct LabelsData ld;
 
-			ld.store = e_mail_session_get_label_store (session);
+			ld.store = e_mail_ui_session_get_label_store (
+				E_MAIL_UI_SESSION (session));
 			ld.labels_tag2iter = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) gtk_tree_iter_free);
 			for_node_and_subtree_if_collapsed (message_list, path, msg_info, add_all_labels_foreach, &ld);
 
@@ -1793,7 +1795,8 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		struct LabelsData ld;
 		GString *result = g_string_new ("");
 
-		ld.store = e_mail_session_get_label_store (session);
+		ld.store = e_mail_ui_session_get_label_store (
+			E_MAIL_UI_SESSION (session));
 		ld.labels_tag2iter = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) gtk_tree_iter_free);
 		for_node_and_subtree_if_collapsed (message_list, path, msg_info, add_all_labels_foreach, &ld);
 

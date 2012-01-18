@@ -28,18 +28,22 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
+
 #include <libebackend/e-extensible.h>
 #include <libedataserver/e-flag.h>
 #include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-client-view.h>
 #include <libecal/e-cal-time-util.h>
+
+#include <e-util/e-util.h>
+#include <e-util/e-util-enumtypes.h>
+
+#include <libemail-utils/e-account-utils.h>
+
 #include "comp-util.h"
 #include "e-cal-model.h"
 #include "itip-utils.h"
 #include "misc.h"
-#include "e-util/e-util.h"
-#include "libemail-utils/e-account-utils.h"
-#include "e-util/e-util-enumtypes.h"
 
 struct _ECalModelComponentPrivate {
 	GString *categories_str;

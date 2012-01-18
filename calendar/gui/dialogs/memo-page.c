@@ -33,20 +33,23 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+
 #include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-combo-box.h>
 #include <libedataserverui/e-name-selector.h>
 #include <libedataserverui/e-name-selector-entry.h>
 #include <libedataserverui/e-name-selector-list.h>
-#include <widgets/misc/e-dateedit.h>
-#include "misc/e-buffer-tagger.h"
 
-#include "e-util/e-util.h"
-#include "libemail-utils/e-account-utils.h"
-#include "e-util/e-categories-config.h"
-#include "e-util/e-dialog-utils.h"
-#include "e-util/e-util-private.h"
+#include <e-util/e-util.h>
+#include <e-util/e-categories-config.h>
+#include <e-util/e-dialog-utils.h>
+#include <e-util/e-util-private.h>
+
+#include <misc/e-dateedit.h>
+#include <misc/e-buffer-tagger.h>
+
+#include <libemail-utils/e-account-utils.h>
 
 #include "../calendar-config.h"
 #include "comp-editor.h"

@@ -99,7 +99,7 @@ action_mail_account_disable_cb (GtkAction *action,
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	account_store = e_mail_ui_session_get_account_store ((EMailUISession *) session);
+	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	store = em_folder_tree_get_selected_store (folder_tree);
@@ -709,7 +709,8 @@ action_mail_label_new_cb (GtkAction *action,
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	label_store = e_mail_session_get_label_store (session);
+	label_store = e_mail_ui_session_get_label_store (
+		E_MAIL_UI_SESSION (session));
 
 	label_dialog = E_MAIL_LABEL_DIALOG (dialog);
 	label_name = e_mail_label_dialog_get_label_name (label_dialog);
@@ -770,7 +771,8 @@ action_mail_label_none_cb (GtkAction *action,
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	label_store = e_mail_session_get_label_store (session);
+	label_store = e_mail_ui_session_get_label_store (
+		E_MAIL_UI_SESSION (session));
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -1919,7 +1921,8 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	label_store = e_mail_session_get_label_store (session);
+	label_store = e_mail_ui_session_get_label_store (
+		E_MAIL_UI_SESSION (session));
 
 	action_group = ACTION_GROUP (MAIL_LABEL);
 	merge_id = mail_shell_view->priv->label_merge_id;
@@ -2021,7 +2024,8 @@ e_mail_shell_view_update_search_filter (EMailShellView *mail_shell_view)
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	label_store = e_mail_session_get_label_store (session);
+	label_store = e_mail_ui_session_get_label_store (
+		E_MAIL_UI_SESSION (session));
 
 	action_group = ACTION_GROUP (MAIL_FILTER);
 	e_action_group_remove_all_actions (action_group);

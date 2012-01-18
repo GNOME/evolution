@@ -46,23 +46,22 @@
 #include "em-vfolder-rule.h"
 
 #include "libemail-utils/mail-mt.h"
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-session.h"
+#include "libemail-engine/e-mail-store-utils.h"
+#include "libemail-engine/e-mail-utils.h"
 #include "libemail-engine/mail-ops.h"
 #include "libemail-engine/mail-tools.h"
-#include "mail-vfolder.h"
 #include "libemail-engine/mail-folder-cache.h"
 
+#include "e-mail-ui-session.h"
 #include "em-utils.h"
 #include "em-folder-tree.h"
 #include "em-folder-tree-model.h"
 #include "em-folder-utils.h"
 #include "em-folder-selector.h"
 #include "em-folder-properties.h"
-#include "e-mail-ui-session.h"
-
-#include "libemail-engine/e-mail-folder-utils.h"
-#include "libemail-engine/e-mail-session.h"
-#include "libemail-engine/e-mail-store-utils.h"
-#include "libemail-engine/e-mail-utils.h"
+#include "mail-vfolder.h"
 
 #define d(x)
 
@@ -569,7 +568,7 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	model = em_folder_tree_model_new ();
 	em_folder_tree_model_set_session (model, session);
 
-	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION(session));
+	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 	e_mail_account_store_queue_enabled_services (account_store, &queue);
 
 	while (!g_queue_is_empty (&queue)) {

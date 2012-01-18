@@ -35,12 +35,15 @@
 #include <glib/gi18n.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include "libemail-utils/e-account-utils.h"
+
+#include <libemail-utils/e-account-utils.h>
+#include <libemail-utils/mail-mt.h>
 
 #include "e-mail-utils.h"
-#include "libemail-utils/mail-mt.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
+
+#include "e-mail-session.h"
 #include "e-mail-session-utils.h"
 
 #define w(x)
@@ -210,7 +213,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	struct _filter_mail_msg *fm = (struct _filter_mail_msg *) m;
 	CamelFolder *folder = NULL;
 	CamelService *service;
-	CamelSession *session;	
+	CamelSession *session;
 	CamelURL *url;
 	gboolean is_local_delivery = FALSE;
 	const gchar *uid;
@@ -221,7 +224,6 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 	fm->destination = e_mail_session_get_local_folder (
 		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_LOCAL_INBOX);
-
 	if (fm->destination == NULL)
 		goto exit;
 	g_object_ref (fm->destination);
@@ -535,7 +537,7 @@ mail_send_message (struct _send_queue_msg *m,
 	if (transport != NULL) {
 		const gchar *uid;
 
- 		/* Let the dialog know the right account it is using. */
+		/* Let the dialog know the right account it is using. */
 		uid = camel_service_get_uid (CAMEL_SERVICE (transport));
 		report_status (m, CAMEL_FILTER_STATUS_ACTION, 0, uid);
 	}
@@ -947,6 +949,7 @@ mail_send_queue (EMailSession *session,
 {
 	struct _send_queue_msg *m;
 
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	m = mail_msg_new (&send_queue_info);
 	m->session = g_object_ref (session);
@@ -1756,11 +1759,11 @@ static MailMsgInfo multi_op_object = {
 };
 
 void
-mail_operate_on_object(GObject *object, 
-		       GCancellable *cancellable,
-		       gboolean (*do_op) (GObject *object, gpointer data, GError **error),
-		       void (*done) (gboolean ret, gpointer data, GError *error), 
-		       gpointer data)
+mail_operate_on_object (GObject *object, 
+		        GCancellable *cancellable,
+		        gboolean (*do_op) (GObject *object, gpointer data, GError **error),
+		        void (*done) (gboolean ret, gpointer data, GError *error), 
+		        gpointer data)
 {
 	struct _multi_op_object_msg *m;
 
@@ -1774,4 +1777,3 @@ mail_operate_on_object(GObject *object,
 		m->base.cancellable = cancellable;
 	mail_msg_unordered_push (m);
 }
-

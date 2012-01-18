@@ -82,10 +82,11 @@ CamelStore *	e_mail_ui_session_get_vfolder_store
 EMailAccountStore *
 		e_mail_ui_session_get_account_store
 						(EMailUISession *session);
-void		e_mail_session_add_activity	(EMailSession *session,
+void		e_mail_ui_session_add_activity	(EMailUISession *session,
 						 EActivity *activity);
 EMailLabelListStore *
-		e_mail_session_get_label_store	(EMailSession *session);
+		e_mail_ui_session_get_label_store
+						(EMailUISession *session);
 
 G_END_DECLS
 

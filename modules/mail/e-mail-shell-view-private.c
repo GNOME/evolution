@@ -665,7 +665,8 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	label_store = e_mail_session_get_label_store (session);
+	label_store = e_mail_ui_session_get_label_store (
+		E_MAIL_UI_SESSION (session));
 
 	e_shell_window_add_action_group (shell_window, "mail");
 	e_shell_window_add_action_group (shell_window, "mail-filter");

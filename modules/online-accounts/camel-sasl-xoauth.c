@@ -20,11 +20,11 @@
 #include <config.h>
 #endif
 
-#include <e-util/e-account-utils.h>
+#include <glib/gi18n-lib.h>
+
+#include <libemail-utils/e-account-utils.h>
 
 #include "camel-sasl-xoauth.h"
-
-#include <glib/gi18n-lib.h>
 
 #define GOA_API_IS_SUBJECT_TO_CHANGE
 #include <goa/goa.h>

@@ -3,7 +3,6 @@ module_LTLIBRARIES = libevolution-module-mail.la
 libevolution_module_mail_la_CPPFLAGS =					\
 	$(AM_CPPFLAGS)							\
 	-I$(top_srcdir)							\
-	-I$(top_srcdir)/mail						\
 	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\

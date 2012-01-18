@@ -29,10 +29,10 @@ libessmime_la_SOURCES = 	\
 	e-pkcs12.h
 
 libessmime_la_LIBADD =				\
+	$(top_builddir)/libemail-utils/libemail-utils.la	\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)			\
-	$(top_builddir)/libemail-utils/libemail-utils.la	\
 	$(CERT_UI_LIBS)
 
 libessmime_la_LDFLAGS = $(NO_UNDEFINED)

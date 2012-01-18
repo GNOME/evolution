@@ -25,10 +25,12 @@
 #endif
 
 #include <glib/gi18n.h>
-#include "mail-settings-view.h"
 #include <libedataserver/e-account-list.h>
-#include "mail-view.h"
+
 #include <libemail-utils/e-account-utils.h>
+
+#include "mail-settings-view.h"
+#include "mail-view.h"
 
 struct _MailSettingsViewPrivate {
 	GtkWidget *tab_str;

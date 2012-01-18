@@ -22,12 +22,11 @@
 
 #include "e-mail-session-utils.h"
 
-#include "e-mail-utils.h"
-
 #include <glib/gi18n-lib.h>
 
-#include "mail-tools.h"
-#include "e-mail-folder-utils.h"
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-utils.h>
+#include <libemail-engine/mail-tools.h>
 #include <libemail-utils/e-account-utils.h>
 
 /* X-Mailer header value */

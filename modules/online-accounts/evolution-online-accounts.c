@@ -30,6 +30,7 @@
 #include <libedataserver/e-account-list.h>
 
 #include <shell/e-shell.h>
+
 #include <libemail-utils/e-account-utils.h>
 
 #include "camel-sasl-xoauth.h"
