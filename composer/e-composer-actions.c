@@ -196,11 +196,6 @@ action_save_cb (GtkAction *action,
 	gtkhtml_editor_run_command (GTKHTML_EDITOR (composer), "saved");
 }
 
-int gtkhtml_editor_file_chooser_dialog_run (GtkhtmlEditor *e, GtkWidget *w)
-{
-	return 0;
-}
-
 static void
 action_save_as_cb (GtkAction *action,
                    EMsgComposer *composer)
