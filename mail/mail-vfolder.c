@@ -250,7 +250,7 @@ vfolder_adduri_exec (struct _adduri_msg *m,
 	}
 
 	/* always pick fresh folders - they are
-	   from CamelStore's folders bag anyway */
+	 * from CamelStore's folders bag anyway */
 	folder = e_mail_session_uri_to_folder_sync (
 		m->session, m->uri, 0, cancellable, error);
 
@@ -691,7 +691,7 @@ rule_add_sources (EMailSession *session,
 		const gchar *uri = link->data;
 
 		/* always pick fresh folders - they are
-		   from CamelStore's folders bag anyway */
+		 * from CamelStore's folders bag anyway */
 		if (mail_folder_cache_get_folder_from_uri (folder_cache, uri, NULL)) {
 			sources_uri = g_list_append (sources_uri, g_strdup (uri));
 		}
@@ -1023,7 +1023,7 @@ vfolder_load_storage (EMailBackend *backend)
 
 	config_dir = mail_session_get_config_dir ();
 	session = e_mail_backend_get_session (backend);
-	vfolder_store = e_mail_ui_session_get_vfolder_store (E_MAIL_UI_SESSION(session));
+	vfolder_store = e_mail_ui_session_get_vfolder_store (E_MAIL_UI_SESSION (session));
 
 	g_signal_connect (
 		vfolder_store, "folder-deleted",

@@ -4238,7 +4238,7 @@ message_list_count (MessageList *message_list)
 
 static void
 ml_getselcount_cb (gint model_row,
-		   gpointer user_data)
+                   gpointer user_data)
 {
 	struct ml_count_data *data = user_data;
 

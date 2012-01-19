@@ -1058,7 +1058,7 @@ set_categories (ECalModelComponent *comp_data,
 	comp_data->priv->categories_str = NULL;
 
 	/* then set a new value; no need to populate categories_str,
-	   it'll be populated on demand (in the get_categories() function)
+	 * it'll be populated on demand (in the get_categories() function)
 	*/
 	if (value && *value) {
 		prop = icalproperty_new_categories (value);

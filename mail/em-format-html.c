@@ -332,7 +332,8 @@ static MailMsgInfo efh_format_info = {
 };
 
 static gboolean
-efh_format_helper (struct _format_msg *m, gboolean async)
+efh_format_helper (struct _format_msg *m,
+                   gboolean async)
 {
 	GtkHTMLStream *hstream;
 	EMFormatHTML *efh = m->format;
@@ -409,7 +410,7 @@ efh_format_helper (struct _format_msg *m, gboolean async)
 		if (async) {
 			mail_msg_unordered_push (m);
 		} else {
-			efh_format_exec(m, NULL, NULL);
+			efh_format_exec (m, NULL, NULL);
 		}
 	}
 

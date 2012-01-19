@@ -1348,7 +1348,7 @@ get_uri_for_part (CamelMimePart *mime_part)
 
 static void
 update_item_progress_info (struct _itip_puri *pitip,
-			   const gchar *message)
+                           const gchar *message)
 {
 	if (pitip->update_item_progress_info_id) {
 		itip_view_remove_lower_info_item (ITIP_VIEW (pitip->view), pitip->update_item_progress_info_id);
@@ -1373,7 +1373,7 @@ update_item_progress_info (struct _itip_puri *pitip,
 
 static void
 finish_message_delete_with_rsvp (struct _itip_puri *pitip,
-				 ECalClient *client)
+                                 ECalClient *client)
 {
 	gboolean save_schedules = e_cal_client_check_save_schedules (client);
 
@@ -1465,8 +1465,8 @@ finish_message_delete_with_rsvp (struct _itip_puri *pitip,
 
 static void
 receive_objects_ready_cb (GObject *ecalclient,
-			  GAsyncResult *result,
-			  gpointer user_data)
+                          GAsyncResult *result,
+                          gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (ecalclient);
 	ESource *source = e_client_get_source (E_CLIENT (client));
@@ -1833,8 +1833,8 @@ update_x (ECalComponent *pitip_comp,
 
 static void
 modify_object_cb (GObject *ecalclient,
-		  GAsyncResult *result,
-		  gpointer user_data)
+                  GAsyncResult *result,
+                  gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (ecalclient);
 	struct _itip_puri *pitip = user_data;
@@ -1862,7 +1862,7 @@ modify_object_cb (GObject *ecalclient,
 
 static void
 update_attendee_status_icalcomp (struct _itip_puri *pitip,
-				 icalcomponent *icalcomp)
+                                 icalcomponent *icalcomp)
 {
 	ECalComponent *comp;
 	const gchar *uid = NULL;
@@ -1979,8 +1979,8 @@ update_attendee_status_icalcomp (struct _itip_puri *pitip,
 
 static void
 update_attendee_status_get_object_without_rid_cb (GObject *ecalclient,
-						  GAsyncResult *result,
-						  gpointer user_data)
+                                                  GAsyncResult *result,
+                                                  gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (ecalclient);
 	struct _itip_puri *pitip = user_data;
@@ -2008,8 +2008,8 @@ update_attendee_status_get_object_without_rid_cb (GObject *ecalclient,
 
 static void
 update_attendee_status_get_object_with_rid_cb (GObject *ecalclient,
-					       GAsyncResult *result,
-					       gpointer user_data)
+                                               GAsyncResult *result,
+                                               gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (ecalclient);
 	struct _itip_puri *pitip = user_data;

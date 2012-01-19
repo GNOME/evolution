@@ -273,7 +273,8 @@ static void emae_account_folder_changed (EMFolderSelectionButton *folder, EMAcco
 G_DEFINE_TYPE (EMAccountEditor, em_account_editor, G_TYPE_OBJECT)
 
 static void
-emae_config_gone_cb (gpointer pemae, GObject *pconfig)
+emae_config_gone_cb (gpointer pemae,
+                     GObject *pconfig)
 {
 	EMAccountEditor *emae = pemae;
 	struct _EMConfig *config = (struct _EMConfig *) pconfig;
@@ -5507,7 +5508,7 @@ emae_commit (EConfig *ec,
 		service = camel_session_get_service (
 			CAMEL_SESSION (session), account->uid);
 
-		store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION(session));
+		store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 		e_mail_account_store_set_default_service (store, service);
 	}
 

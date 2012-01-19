@@ -646,8 +646,8 @@ filter_rule_copy (EFilterRule *dest,
 
 static void
 ensure_scrolled_width_cb (GtkAdjustment *adj,
-			  GParamSpec *param_spec,
-			  GtkScrolledWindow *scrolled_window)
+                          GParamSpec *param_spec,
+                          GtkScrolledWindow *scrolled_window)
 {
 	gtk_scrolled_window_set_min_content_width (scrolled_window,
 		gtk_adjustment_get_upper (adj));

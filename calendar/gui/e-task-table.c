@@ -289,8 +289,8 @@ delete_selected_components (ETaskTable *task_table)
 
 static void
 task_table_queue_draw_cb (ECalModelTasks *tasks_model,
-			  GParamSpec *param,
-			  GtkWidget *task_table)
+                          GParamSpec *param,
+                          GtkWidget *task_table)
 {
 	g_return_if_fail (task_table != NULL);
 
@@ -1677,10 +1677,10 @@ e_task_table_get_paste_target_list (ETaskTable *task_table)
 
 static void
 task_table_get_object_list_async (GList *clients_list,
-				  const gchar *sexp,
-				  GCancellable *cancellable,
-				  GAsyncReadyCallback callback,
-				  gpointer callback_data)
+                                  const gchar *sexp,
+                                  GCancellable *cancellable,
+                                  GAsyncReadyCallback callback,
+                                  gpointer callback_data)
 {
 	GList *l;
 
@@ -1695,8 +1695,8 @@ task_table_get_object_list_async (GList *clients_list,
 
 static void
 hide_completed_rows_ready (GObject *source_object,
-			   GAsyncResult *result,
-			   gpointer user_data)
+                           GAsyncResult *result,
+                           gpointer user_data)
 {
 	ECalModel *model = user_data;
 	GSList *m, *objects;
@@ -1758,8 +1758,8 @@ hide_completed_rows_ready (GObject *source_object,
 
 static void
 show_completed_rows_ready (GObject *source_object,
-			   GAsyncResult *result,
-			   gpointer user_data)
+                           GAsyncResult *result,
+                           gpointer user_data)
 {
 	ECalClient *client;
 	ECalModel *model = user_data;

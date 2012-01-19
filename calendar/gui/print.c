@@ -207,7 +207,7 @@ struct pdinfo
 	gint end_minute_offset;
 	gint rows;
 	gint mins_per_row;
-	guint8 cols_per_row[CALC_DAY_VIEW_ROWS(1)];
+	guint8 cols_per_row[CALC_DAY_VIEW_ROWS (1)];
 	gboolean use_24_hour_format;
 	icaltimezone *zone;
 };

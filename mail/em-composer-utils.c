@@ -61,7 +61,6 @@
 #include "em-event.h"
 #include "mail-send-recv.h"
 
-
 #ifdef G_OS_WIN32
 #ifdef gmtime_r
 #undef gmtime_r

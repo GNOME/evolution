@@ -764,8 +764,8 @@ mail_backend_finalize (GObject *object)
 
 static void
 mail_backend_add_store (EMailSession *session,
-			CamelStore *store,
-			EMailBackend *backend)
+                        CamelStore *store,
+                        EMailBackend *backend)
 {
 	EMFolderTreeModel *model;
 
@@ -775,8 +775,8 @@ mail_backend_add_store (EMailSession *session,
 
 static void
 mail_backend_remove_store (EMailSession *session,
-			   CamelStore *store,
-			   EMailBackend *backend)
+                           CamelStore *store,
+                           EMailBackend *backend)
 {
 	EMFolderTreeModel *model;
 
@@ -789,7 +789,7 @@ mail_backend_remove_store (EMailSession *session,
 #define GET_ACITIVITY(cancellable) \
         g_object_get_data (G_OBJECT (cancellable), "e-activity")
 
-static void    
+static void
 mail_mt_create_activity (GCancellable *cancellable)
 {
 	EActivity *activity;
@@ -817,7 +817,7 @@ mail_mt_submit_activity (GCancellable *cancellable)
 
 }
 
-static void    
+static void
 mail_mt_free_activity (GCancellable *cancellable)
 {
 	EActivity *activity = GET_ACITIVITY (cancellable);
@@ -826,7 +826,7 @@ mail_mt_free_activity (GCancellable *cancellable)
 		g_object_unref (activity);
 }
 
-static void    
+static void
 mail_mt_complete_acitivity (GCancellable *cancellable)
 {
 	EActivity *activity = GET_ACITIVITY (cancellable);
@@ -835,19 +835,19 @@ mail_mt_complete_acitivity (GCancellable *cancellable)
 		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 }
 
-static void    
+static void
 mail_mt_cancel_activity (GCancellable *cancellable)
 {
 	EActivity *activity = GET_ACITIVITY (cancellable);
 
 	if (activity)
-		e_activity_set_state (activity, E_ACTIVITY_CANCELLED);	
+		e_activity_set_state (activity, E_ACTIVITY_CANCELLED);
 }
 
-static void    
+static void
 mail_mt_alert_error (GCancellable *cancellable,
-                     const char *what,
-                     const char *message)
+                     const gchar *what,
+                     const gchar *message)
 {
 	EShell *shell;
 	EShellView *shell_view;
@@ -910,7 +910,7 @@ mail_backend_constructed (GObject *object)
 
 	g_signal_connect (
 		priv->session, "flush-outbox",
-		G_CALLBACK (mail_send), priv->session);	
+		G_CALLBACK (mail_send), priv->session);
 
 	g_object_bind_property (
 		shell, "online",

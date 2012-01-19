@@ -1236,7 +1236,7 @@ e_cal_model_tasks_get_highlight_due_today (ECalModelTasks *model)
 
 void
 e_cal_model_tasks_set_highlight_due_today (ECalModelTasks *model,
-					   gboolean highlight)
+                                           gboolean highlight)
 {
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 
@@ -1279,7 +1279,7 @@ e_cal_model_tasks_get_highlight_overdue (ECalModelTasks *model)
 
 void
 e_cal_model_tasks_set_highlight_overdue (ECalModelTasks *model,
-					 gboolean highlight)
+                                         gboolean highlight)
 {
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 

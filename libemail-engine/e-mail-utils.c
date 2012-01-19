@@ -39,7 +39,6 @@
 #include <libebook/e-book-client.h>
 #include <libebook/e-book-query.h>
 
-
 #include <glib/gi18n.h>
 
 #include <gio/gio.h>
@@ -256,7 +255,6 @@ em_utils_folder_is_outbox (CamelFolder *folder)
 
 /* ********************************************************************** */
 
-
 /* runs sync, in main thread */
 static gpointer
 emu_addr_setup (gpointer user_data)
@@ -369,7 +367,6 @@ try_open_book_client (EBookClient *book_client,
 
 	return data.result && (!error || !*error);
 }
-
 
 #define NOT_FOUND_BOOK (GINT_TO_POINTER (1))
 
@@ -778,7 +775,6 @@ emu_remove_from_mail_cache (const GSList *addresses)
 	g_object_unref (cia);
 }
 
-
 void
 emu_remove_from_mail_cache_1 (const gchar *address)
 {
@@ -1052,11 +1048,11 @@ em_utils_uids_free (GPtrArray *uids)
 gboolean
 em_utils_is_local_delivery_mbox_file (CamelURL *url)
 {
-        g_return_val_if_fail (url != NULL, FALSE);
+	g_return_val_if_fail (url != NULL, FALSE);
 
         return g_str_equal (url->protocol, "mbox") &&
-                (url->path != NULL) &&
-                g_file_test (url->path, G_FILE_TEST_EXISTS) &&
-                !g_file_test (url->path, G_FILE_TEST_IS_DIR);
+		(url->path != NULL) &&
+		g_file_test (url->path, G_FILE_TEST_EXISTS) &&
+		!g_file_test (url->path, G_FILE_TEST_IS_DIR);
 }
 

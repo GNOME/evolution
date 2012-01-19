@@ -74,13 +74,12 @@ mail_msg_cancelled (CamelOperation *operation,
 	mail_msg_cancel (GPOINTER_TO_UINT (user_data));
 }
 
-
 static gboolean
 mail_msg_submit (CamelOperation *cancellable)
 {
 
 	if (submit_acitivity)
-		submit_acitivity ((GCancellable *)cancellable);
+		submit_acitivity ((GCancellable *) cancellable);
 	return FALSE;
 }
 
@@ -97,7 +96,7 @@ mail_msg_new (MailMsgInfo *info)
 	msg->seq = mail_msg_seq++;
 
 	msg->cancellable = camel_operation_new ();
-	
+
 	if (create_activity)
 		create_activity (msg->cancellable);
 
@@ -228,7 +227,7 @@ mail_msg_check_error (gpointer msg)
 		if (cancel_activity)
 			cancel_activity (m->cancellable);
 		return;
-	}	
+	}
 
 	/* XXX Hmm, no explanation of why this is needed.  It looks like
 	 *     a lame hack and will be removed at some point, if only to
@@ -239,7 +238,7 @@ mail_msg_check_error (gpointer msg)
 
 	/* FIXME: Submit an error on the dbus */
 	if (alert_error) {
-		char *what;
+		gchar *what;
 
 		if (m->info->desc && (what = m->info->desc (m))) {
 			alert_error (m->cancellable, what, m->error->message);
@@ -247,7 +246,7 @@ mail_msg_check_error (gpointer msg)
 		} else
 			alert_error (m->cancellable, NULL, m->error->message);
 	}
-}	
+}
 
 void
 mail_msg_cancel (guint msgid)

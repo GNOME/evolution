@@ -38,7 +38,6 @@
 
 #include <gtk/gtk.h>
 
-
 #ifdef HAVE_CANBERRA
 #include <canberra-gtk.h>
 #endif
@@ -93,7 +92,7 @@ struct _EMailUISessionPrivate {
 enum {
 	PROP_0,
 	PROP_ACCOUNT_STORE,
-	PROP_LABEL_STORE,	
+	PROP_LABEL_STORE,
 	PROP_VFOLDER_STORE
 };
 
@@ -128,7 +127,7 @@ struct _user_message_msg {
 	GSList *button_captions;
 	EFlag *done;
 
-	gint result;	
+	gint result;
 	guint ismain : 1;
 };
 
@@ -243,7 +242,7 @@ user_message_exec (struct _user_message_msg *m,
 		}
 
 		/* when no shell-content found, which might not happen, but just in case,
-		   process the information alert like usual, through an EAlertDialog machinery
+		 * process the information alert like usual, through an EAlertDialog machinery
 		*/
 		if (shell_content) {
 			e_alert_submit (E_ALERT_SINK (shell_content), error_type, m->prompt, NULL);
@@ -253,7 +252,7 @@ user_message_exec (struct _user_message_msg *m,
 			return;
 		}
 	}
-	
+
 	/* Pull in the active window from the shell to get a parent window */
 	parent = e_shell_get_active_window (shell);
 	user_message_dialog = e_alert_dialog_new_for_args (
@@ -279,7 +278,6 @@ user_message_exec (struct _user_message_msg *m,
 		gtk_dialog_add_button (GTK_DIALOG (user_message_dialog), iter->data, index);
 	}
 
-	
 	/* XXX This is a case where we need to be able to construct
 	 *     custom EAlerts without a predefined XML definition. */
 	if (m->ismain) {
@@ -293,7 +291,7 @@ user_message_exec (struct _user_message_msg *m,
 
 		if (g_slist_length (m->button_captions) <= 1)
 			user_data = NULL;
-		
+
 		g_signal_connect (
 			user_message_dialog, "response",
 			G_CALLBACK (user_message_response), user_data);
@@ -492,7 +490,6 @@ mail_ui_session_dispose (GObject *object)
 		priv->label_store = NULL;
 	}
 
-
 	if (priv->vfolder_store != NULL) {
 		g_object_unref (priv->vfolder_store);
 		priv->vfolder_store = NULL;
@@ -621,7 +618,7 @@ mail_ui_session_constructed (GObject *object)
 	gulong handler_id;
 
 	session = E_MAIL_SESSION (object);
-	uisession = E_MAIL_UI_SESSION(object);
+	uisession = E_MAIL_UI_SESSION (object);
 	uisession->priv = priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
 
 	priv->account_store = e_mail_account_store_new (session);
@@ -713,7 +710,7 @@ mail_ui_session_set_property (GObject *object,
                            const GValue *value,
                            GParamSpec *pspec)
 {
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);	
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
@@ -736,7 +733,6 @@ mail_ui_session_get_property (GObject *object,
 				e_mail_ui_session_get_label_store (
 				E_MAIL_UI_SESSION (object)));
 			return;
-
 
 		case PROP_VFOLDER_STORE:
 			g_value_set_object (
@@ -802,7 +798,7 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_ui_session_set_property;
-	object_class->get_property = mail_ui_session_get_property;	
+	object_class->get_property = mail_ui_session_get_property;
 	object_class->dispose = mail_ui_session_dispose;
 	object_class->constructed = mail_ui_session_constructed;
 
@@ -866,7 +862,6 @@ e_mail_ui_session_new (void)
 		"user-cache-dir", user_cache_dir,
 		NULL);
 }
-
 
 EMailAccountStore *
 e_mail_ui_session_get_account_store (EMailUISession *session)

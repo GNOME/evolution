@@ -228,7 +228,7 @@ main_get_filter_driver (CamelSession *session,
                         GError **error)
 {
 	CamelFilterDriver *driver;
-	EMailSession *ms = (EMailSession *)session;
+	EMailSession *ms = (EMailSession *) session;
 	GSettings *settings;
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
@@ -1460,7 +1460,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 		G_TYPE_NONE, 1,
 		CAMEL_TYPE_STORE);
 
-
 	/**
 	 * EMailSession::store-removed
 	 * @session: the email session
@@ -1477,7 +1476,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		CAMEL_TYPE_STORE);
-
 
 }
 

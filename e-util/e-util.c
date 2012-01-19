@@ -657,10 +657,10 @@ e_radio_action_get_current_action (GtkRadioAction *radio_action)
  **/
 void
 e_action_group_add_actions_localized (GtkActionGroup *action_group,
-				      const gchar *translation_domain,
-				      const GtkActionEntry *entries,
-				      guint n_entries,
-				      gpointer user_data)
+                                      const gchar *translation_domain,
+                                      const GtkActionEntry *entries,
+                                      guint n_entries,
+                                      gpointer user_data)
 {
 	gint ii;
 	GtkAction *action;

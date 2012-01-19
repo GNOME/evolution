@@ -1054,7 +1054,7 @@ edit_component (ECalClient *cal_client,
 
 static void
 print_component (ECalClient *cal_client,
-		 ECalComponent *comp)
+                 ECalComponent *comp)
 {
 	print_comp (comp,
 		    cal_client,

@@ -1581,7 +1581,6 @@ caldav_browse_server (GtkWindow *parent,
 	gchar *url, *new_url = NULL;
 	SoupURI *soup_uri = NULL;
 
-
 	g_return_val_if_fail (server_url != NULL, NULL);
 
 	url = prepare_url (server_url, use_ssl);
