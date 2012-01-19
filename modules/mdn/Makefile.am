@@ -13,6 +13,7 @@ libevolution_module_mdn_la_SOURCES =				\
 	evolution-mdn.c
 
 libevolution_module_mdn_la_LIBADD =				\
+	$(top_builddir)/libemail-engine/libemail-engine.la	\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\

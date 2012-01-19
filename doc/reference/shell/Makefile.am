@@ -54,6 +54,8 @@ GTKDOC_CFLAGS= \
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GTKHTML_CFLAGS)
 GTKDOC_LIBS=								\
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
+	$(top_builddir)/libemail-engine/libemail-engine.la		\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/filter/libfilter.la				\

@@ -25,15 +25,16 @@ liborg_gnome_mail_notification_la_SOURCES = mail-notification.c
 
 liborg_gnome_mail_notification_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
-liborg_gnome_mail_notification_la_LIBADD = 		\
-	$(top_builddir)/e-util/libeutil.la 		\
-	$(top_builddir)/mail/libevolution-mail.la	\
-	$(top_builddir)/shell/libeshell.la		\
-	$(top_builddir)/libemail-utils/libemail-utils.la  \
-	$(EVOLUTION_DATA_SERVER_LIBS)			\
-	$(GNOME_PLATFORM_LIBS)				\
-	$(LIBNOTIFY_LIBS)				\
-	$(CANBERRA_LIBS)				\
+liborg_gnome_mail_notification_la_LIBADD = 			\
+	$(top_builddir)/e-util/libeutil.la 			\
+	$(top_builddir)/mail/libevolution-mail.la		\
+	$(top_builddir)/shell/libeshell.la			\
+	$(top_builddir)/libemail-utils/libemail-utils.la	\
+	$(top_builddir)/libemail-engine/libemail-engine.la	\
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)					\
+	$(LIBNOTIFY_LIBS)					\
+	$(CANBERRA_LIBS)					\
 	$(GTKHTML_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
