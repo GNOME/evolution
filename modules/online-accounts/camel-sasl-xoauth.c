@@ -24,7 +24,9 @@
 
 #include <goa/goa.h>
 
-#include <libemail-utils/e-account-utils.h>
+#include <libedataserver/e-source-goa.h>
+
+#include <libemail-engine/e-mail-session.h>
 
 #include "camel-sasl-xoauth.h"
 
@@ -313,6 +315,39 @@ calculate_xoauth_param (const gchar *request_uri,
 
 /****************************************************************************/
 
+static gchar *
+sasl_xoauth_find_account_id (ESourceRegistry *registry,
+                             const gchar *uid)
+{
+	ESource *source;
+	const gchar *extension_name;
+
+	extension_name = E_SOURCE_EXTENSION_GOA;
+
+	while (uid != NULL) {
+		ESourceGoa *extension;
+		gchar *account_id;
+
+		source = e_source_registry_ref_source (registry, uid);
+		g_return_val_if_fail (source != NULL, NULL);
+
+		if (!e_source_has_extension (source, extension_name)) {
+			uid = e_source_get_parent (source);
+			g_object_unref (source);
+			continue;
+		}
+
+		extension = e_source_get_extension (source, extension_name);
+		account_id = e_source_goa_dup_account_id (extension);
+
+		g_object_unref (source);
+
+		return account_id;
+	}
+
+	return NULL;
+}
+
 static GoaObject *
 sasl_xoauth_get_account_by_id (GoaClient *client,
                                const gchar *account_id)
@@ -356,29 +391,26 @@ sasl_xoauth_challenge_sync (CamelSasl *sasl,
 	GoaAccount *goa_account;
 	GByteArray *parameters = NULL;
 	CamelService *service;
-	EAccount *account;
-	CamelURL *url;
-	const gchar *account_id;
+	CamelSession *session;
+	ESourceRegistry *registry;
 	const gchar *uid;
+	gchar *account_id;
 	gchar *xoauth_param = NULL;
 	gboolean success;
 
 	service = camel_sasl_get_service (sasl);
-	uid = camel_service_get_uid (service);
-	account = e_get_account_by_uid (uid);
-	g_return_val_if_fail (account != NULL, NULL);
+	session = camel_service_get_session (service);
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
 
 	goa_client = goa_client_new_sync (cancellable, error);
 	if (goa_client == NULL)
 		return NULL;
 
-	url = camel_url_new (account->source->url, error);
-	if (url == NULL)
-		return NULL;
-
-	account_id = camel_url_get_param (url, GOA_KEY);
+	uid = camel_service_get_uid (service);
+	account_id = sasl_xoauth_find_account_id (registry, uid);
 	goa_object = sasl_xoauth_get_account_by_id (goa_client, account_id);
-	camel_url_free (url);
+
+	g_free (account_id);
 
 	if (goa_object == NULL) {
 		g_set_error_literal (

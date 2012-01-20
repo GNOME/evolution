@@ -10,15 +10,14 @@ module_online_accounts_la_CPPFLAGS = \
 
 module_online_accounts_la_SOURCES = \
 	evolution-online-accounts.c				\
-	e-online-accounts-google.c				\
-	e-online-accounts-google.h				\
 	camel-sasl-xoauth.c					\
 	camel-sasl-xoauth.h
 
 module_online_accounts_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
-	$(top_builddir)/libemail-utils/libemail-utils.la  \
+	$(top_builddir)/libemail-engine/libemail-engine.la	\
+	$(top_builddir)/libemail-utils/libemail-utils.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(GOA_LIBS)
