@@ -191,6 +191,7 @@ libemail-utils/mail-mt.c
 mail/e-mail-account-manager.c
 mail/e-mail-account-tree-view.c
 mail/e-mail-attachment-bar.c
+mail/e-mail-backend.c
 mail/e-mail-browser.c
 mail/e-mail-display.c
 mail/e-mail-junk-options.c
