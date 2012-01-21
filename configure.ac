@@ -1165,25 +1165,6 @@ if test "$enable_sens" = yes; then
 	AC_SUBST(HAVE_SENS)
 	AC_SUBST(SENS_LIBS)
 fi
-AC_MSG_CHECKING([if Windows SENS support is enabled])
-AC_MSG_RESULT([$enable_sens])
-if test "$enable_sens" = yes; then
-	SENS_LIBS="-lole32 -loleaut32 -luuid -lrpcrt4"
-	AC_CHECK_HEADER([eventsys.h],
-		[AC_DEFINE([HAVE_EVENTSYS_H], 1, [Have <eventsys.h>])],,
-		[[	#if HAVE_EVENTSYS_H
-			#include <eventsys.h>
-			#endif
-		]])
-	AC_CHECK_HEADER([sensevts.h],
-		[AC_DEFINE([HAVE_SENSEVTS_H], 1, [Have <sensevts.h>])],,
-		[[	#if HAVE_SENSEVTS_H
-			#include <sensevts.h>
-			#endif
-		]])
-	AC_SUBST(HAVE_SENS)
-	AC_SUBST(SENS_LIBS)
-fi
 AM_CONDITIONAL([ENABLE_WINDOWS_SENS], [test "$enable_sens" = yes])
 
 dnl ******************************
