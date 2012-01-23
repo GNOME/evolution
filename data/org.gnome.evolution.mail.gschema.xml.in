@@ -523,12 +523,12 @@
     <key name="send-recv-on-start" type="b">
       <default>true</default>
       <_summary>Check for new messages on start</_summary>
-      <_description>Whether check for new messages when Evolution is started. This includes also sending messages from Outbox.</_description>
+      <_description>Whether to check for new messages when Evolution is started. This includes also sending messages from Outbox.</_description>
     </key>
     <key name="send-recv-all-on-start" type="b">
       <default>false</default>
       <_summary>Check for new messages in all active accounts</_summary>
-      <_description>Whether check for new messages in all active accounts regardless of the account "Check for new messages every X minutes" option when Evolution is started. This option is used only together with 'send_recv_on_start' option.</_description>
+      <_description>Whether to check for new messages in all active accounts regardless of the account "Check for new messages every X minutes" option when Evolution is started. This option is used only together with 'send_recv_on_start' option.</_description>
     </key>
     <key name="sync-interval" type="i">
       <default>600</default>
