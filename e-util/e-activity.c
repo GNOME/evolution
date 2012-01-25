@@ -40,6 +40,10 @@ struct _EActivityPrivate {
 	gchar *icon_name;
 	gchar *text;
 	gdouble percent;
+
+	/* Whether to emit a runtime warning if we
+	 * have to suppress a bogus percent value. */
+	gboolean warn_bogus_percent;
 };
 
 enum {
@@ -222,6 +226,19 @@ activity_describe (EActivity *activity)
 	percent = e_activity_get_percent (activity);
 	state = e_activity_get_state (activity);
 
+	/* Sanity check the percentage. */
+	if (percent > 100.0) {
+		if (activity->priv->warn_bogus_percent) {
+			g_warning (
+				"Nonsensical (%d%% complete) reported on "
+				"activity \"%s\"", (gint) (percent), text);
+			activity->priv->warn_bogus_percent = FALSE;
+		}
+		percent = -1.0;  /* suppress it */
+	} else {
+		activity->priv->warn_bogus_percent = TRUE;
+	}
+
 	if (state == E_ACTIVITY_CANCELLED) {
 		/* Translators: This is a cancelled activity. */
 		g_string_printf (string, _("%s (cancelled)"), text);
@@ -338,6 +355,8 @@ e_activity_init (EActivity *activity)
 {
 	activity->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		activity, E_TYPE_ACTIVITY, EActivityPrivate);
+
+	activity->priv->warn_bogus_percent = TRUE;
 }
 
 EActivity *
