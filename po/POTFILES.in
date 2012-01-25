@@ -178,6 +178,7 @@ filter/e-rule-context.c
 filter/e-rule-editor.c
 filter/filter.error.xml
 [type: gettext/glade]filter/filter.ui
+libemail-engine/camel-null-store.c
 libemail-engine/e-mail-folder-utils.c
 libemail-engine/e-mail-session.c
 libemail-engine/e-mail-session-utils.c
