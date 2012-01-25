@@ -758,10 +758,10 @@ mail_ui_session_add_service_cb (SourceContext *context)
 
 static CamelService *
 mail_ui_session_add_service (CamelSession *session,
-                          const gchar *uid,
-                          const gchar *protocol,
-                          CamelProviderType type,
-                          GError **error)
+                             const gchar *uid,
+                             const gchar *protocol,
+                             CamelProviderType type,
+                             GError **error)
 {
 	CamelService *service;
 
