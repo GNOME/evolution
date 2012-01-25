@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-01-21 16:23+0000\n"
-"PO-Revision-Date: 2012-01-22 20:48+0100\n"
+"POT-Creation-Date: 2012-01-25 03:40+0000\n"
+"PO-Revision-Date: 2012-01-25 11:50+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1769,8 +1769,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
 msgstr ""
-"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione "
-"un calendario diferente de la barra lateral en la vista del calendario."
+"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione un "
+"calendario diferente de la barra lateral en la vista del calendario."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:6
@@ -6758,13 +6758,13 @@ msgid "Please enter your password."
 msgstr "Introduzca su contraseña."
 
 #: ../capplet/settings/mail-account-view.c:280
-#: ../mail/em-account-editor.c:5355 ../plugins/caldav/caldav-source.c:67
+#: ../mail/em-account-editor.c:5352 ../plugins/caldav/caldav-source.c:67
 msgid "CalDAV"
 msgstr "CalDAV"
 
 #: ../capplet/settings/mail-account-view.c:374
 #: ../capplet/settings/mail-account-view.c:419
-#: ../mail/em-account-editor.c:5226 ../mail/em-account-editor.c:5283
+#: ../mail/em-account-editor.c:5223 ../mail/em-account-editor.c:5280
 #: ../modules/online-accounts/e-online-accounts-google.c:295
 #: ../modules/online-accounts/e-online-accounts-google.c:369
 #: ../plugins/google-account-setup/google-contacts-source.c:55
@@ -6863,7 +6863,7 @@ msgstr ""
 "obtener su correo."
 
 #: ../capplet/settings/mail-account-view.c:636
-#: ../mail/em-account-editor.c:2912 ../mail/em-account-editor.c:3048
+#: ../mail/em-account-editor.c:2915 ../mail/em-account-editor.c:3051
 msgid "Identity"
 msgstr "Identidad"
 
@@ -6915,7 +6915,7 @@ msgid "Back - Receiving options"
 msgstr "Atrás - Opciones de recepción"
 
 #: ../capplet/settings/mail-account-view.c:641
-#: ../mail/em-account-editor.c:4035
+#: ../mail/em-account-editor.c:4033
 msgid "Defaults"
 msgstr "Predeterminados"
 
@@ -6944,12 +6944,12 @@ msgid "Setup Google calendar with Evolution"
 msgstr "Configurar el calendario de Google con Evolution"
 
 #: ../capplet/settings/mail-account-view.c:772
-#: ../mail/em-account-editor.c:4854
+#: ../mail/em-account-editor.c:4851
 msgid "You may need to enable IMAP access."
 msgstr "Puede que deba activar el acceso IMAP."
 
 #: ../capplet/settings/mail-account-view.c:780
-#: ../mail/em-account-editor.c:4831
+#: ../mail/em-account-editor.c:4828
 msgid "Google account settings:"
 msgstr "Configuración de la cuenta de Google:"
 
@@ -6958,7 +6958,7 @@ msgid "Setup Yahoo calendar with Evolution"
 msgstr "Configurar el calendario de Yahoo con Evolution"
 
 #: ../capplet/settings/mail-account-view.c:810
-#: ../mail/em-account-editor.c:4901
+#: ../mail/em-account-editor.c:4898
 msgid ""
 "Yahoo calendars are named as firstname_lastname. We have tried to form the "
 "calendar name. So please confirm and re-enter the calendar name if it is not "
@@ -6969,7 +6969,7 @@ msgstr ""
 "calendario si no es correcto."
 
 #: ../capplet/settings/mail-account-view.c:819
-#: ../mail/em-account-editor.c:4886
+#: ../mail/em-account-editor.c:4883
 msgid "Yahoo account settings:"
 msgstr "Configuración de la cuenta de Yahoo:"
 
@@ -6996,7 +6996,7 @@ msgstr "Asistente de cuentas de Evolution"
 
 #. create the local source group
 #: ../capplet/settings/mail-capplet-shell.c:371
-#: ../libemail-engine/e-mail-session.c:533
+#: ../libemail-engine/e-mail-session.c:534
 #: ../modules/addressbook/e-book-shell-backend.c:106
 #: ../modules/addressbook/e-book-shell-migrate.c:136
 #: ../modules/calendar/e-cal-shell-backend.c:119
@@ -7969,8 +7969,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:67
 msgid "Show Role field in the event/task/meeting editor"
-msgstr ""
-"Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
+msgstr "Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:68
@@ -8073,8 +8072,8 @@ msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view"
 msgstr ""
-"El UID de la nota seleccionada (o «primaria») en la barra lateral de la "
-"vista de «Notas»"
+"El UID de la nota seleccionada (o «primaria») en la barra lateral de la vista "
+"de «Notas»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
 msgid ""
@@ -8111,8 +8110,8 @@ msgid ""
 msgstr ""
 "El estilo de la distribución determina dónde ubicar el panel de vista previa "
 "en relación con la lista de notas. «0» (vista clásica) ubica el panel de "
-"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el "
-"panel de vista previa junto a la lista de notas"
+"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el panel "
+"de vista previa junto a la lista de notas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid ""
@@ -8154,13 +8153,12 @@ msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\""
 msgstr ""
-"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», "
-"«hours» o «days»"
+"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», «hours» "
+"o «days»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\""
-msgstr ""
-"Unidades para el recordatorio predeterminado, «minutes», «hours» o «days»"
+msgstr "Unidades para el recordatorio predeterminado, «minutes», «hours» o «days»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid ""
@@ -8305,8 +8303,8 @@ msgstr ""
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:121
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
-"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/"
-"tareas/reuniones"
+"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/tareas/"
+"reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 msgid "Whether to show week numbers in various places in the Calendar"
@@ -8572,8 +8570,7 @@ msgid ""
 "expanded by default. \"0\" = expanded and \"1\" = collapsed"
 msgstr ""
 "Describe si las cabeceras del mensajes en la vista con paneles se deben "
-"contraer o expandir de manera predeterminada. «0» = expandidas «1» = "
-"contraídas"
+"contraer o expandir de manera predeterminada. «0» = expandidas «1» = contraídas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:28
 #: ../mail/evolution-mail.schemas.in.h:46
@@ -8626,8 +8623,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
 msgstr ""
-"Determina si se debe usar la misma tipografía para las líneas «De» y "
-"«Asunto» en la columna «Mensajes» de la vista vertical"
+"Determina si se debe usar la misma tipografía para las líneas «De» y «Asunto» "
+"en la columna «Mensajes» de la vista vertical"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:34
 #: ../mail/evolution-mail.schemas.in.h:51
@@ -8635,8 +8632,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
-"Determina si se debe usar la misma tipografía para las líneas «De» y "
-"«Asunto» en la columna «Mensajes» de la vista vertical."
+"Determina si se debe usar la misma tipografía para las líneas «De» y «Asunto» "
+"en la columna «Mensajes» de la vista vertical."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
 msgid "Digitally sign replies when the original message is signed"
@@ -9096,10 +9093,9 @@ msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
 msgstr ""
-"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana "
-"del examinador; «always» (siempre) para cerrar siempre la ventana del "
-"examinador o «ask» (preguntar) o cualquier otro valor, preguntarán al "
-"usuario."
+"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana del "
+"examinador; «always» (siempre) para cerrar siempre la ventana del examinador "
+"o «ask» (preguntar) o cualquier otro valor, preguntarán al usuario."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 #: ../mail/evolution-mail.schemas.in.h:144
@@ -9331,8 +9327,8 @@ msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
-"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla "
-"desde el menú Ver cuando se elige una cuenta de correo."
+"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla desde "
+"el menú Ver cuando se elige una cuenta de correo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 #: ../mail/evolution-mail.schemas.in.h:186
@@ -9407,8 +9403,8 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
-"Algunas listas de correo establecen una cabecera «Responder a:» para forzar "
-"a los usuarios a responder a la lista, incluso cuando los usuarios piden que "
+"Algunas listas de correo establecen una cabecera «Responder a:» para forzar a "
+"los usuarios a responder a la lista, incluso cuando los usuarios piden que "
 "Evolution envíe una respuesta privada. Establecer esta opción a cierta "
 "intentará ignorar tales cabeceras «Responder a:», de tal forma que Evolution "
 "haga lo que se le pide. Si usa la acción de respuesta privada, responderá de "
@@ -9532,8 +9528,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
-"«2» para mensajes de depuración."
+"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
+"para mensajes de depuración."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 #: ../mail/evolution-mail.schemas.in.h:211
@@ -9564,9 +9560,9 @@ msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
-"Esta clave es de una sola lectura y después de leerla se establece a "
-"«false». Esto deselecciona el correo en la lista y elimina la vista previa "
-"para esa carpeta."
+"Esta clave es de una sola lectura y después de leerla se establece a «false». "
+"Esto deselecciona el correo en la lista y elimina la vista previa para esa "
+"carpeta."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 #: ../mail/evolution-mail.schemas.in.h:214
@@ -9709,34 +9705,13 @@ msgstr ""
 "cada mensaje."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
-#: ../mail/evolution-mail.schemas.in.h:232
-msgid ""
-"Whether check for new messages in all active accounts regardless of the "
-"account \"Check for new messages every X minutes\" option when Evolution is "
-"started. This option is used only together with 'send_recv_on_start' option."
-msgstr ""
-"Indica si se debe comprobar si hay mensajes nuevos en todas las cuentas "
-"activas independientemente del conteo en la opción «Comprobar si hay "
-"mensajes nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se "
-"usa junto con la opción «send_recv_on_start»."
-
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
-#: ../mail/evolution-mail.schemas.in.h:233
-msgid ""
-"Whether check for new messages when Evolution is started. This includes also "
-"sending messages from Outbox."
-msgstr ""
-"Indica si se debe comprobar si hay mensajes nuevos al iniciar Evolution. "
-"Incluye también el envío de mensajes en la bandeja de salida."
-
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 #: ../mail/evolution-mail.schemas.in.h:234
 msgid "Whether disable ellipsizing feature of folder names in side bar."
 msgstr ""
 "Indica si se debe desactivar la característica de elipsis de los nombres de "
 "las carpetas en la barra lateral."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 #: ../mail/evolution-mail.schemas.in.h:235
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
@@ -9745,12 +9720,39 @@ msgstr ""
 "Indica si se debe o no volver al agrupado de conversaciones por asuntos "
 "cuando los mensajes no contienen cabeceras «In-Reply-To» o «References»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 #: ../mail/evolution-mail.schemas.in.h:236
 msgid "Whether sort threads based on latest message in that thread"
 msgstr ""
 "Indica si ordenar las conversaciones basándose en el último mensaje de esa "
 "conversación"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#| msgid ""
+#| "Whether check for new messages in all active accounts regardless of the "
+#| "account \"Check for new messages every X minutes\" option when Evolution "
+#| "is started. This option is used only together with 'send_recv_on_start' "
+#| "option."
+msgid ""
+"Whether to check for new messages in all active accounts regardless of the "
+"account \"Check for new messages every X minutes\" option when Evolution is "
+"started. This option is used only together with 'send_recv_on_start' option."
+msgstr ""
+"Indica si se debe comprobar si hay mensajes nuevos en todas las cuentas "
+"activas independientemente del conteo en la opción «Comprobar si hay mensajes "
+"nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se usa junto "
+"con la opción «send_recv_on_start»."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#| msgid ""
+#| "Whether check for new messages when Evolution is started. This includes "
+#| "also sending messages from Outbox."
+msgid ""
+"Whether to check for new messages when Evolution is started. This includes "
+"also sending messages from Outbox."
+msgstr ""
+"Indica si se debe comprobar si hay mensajes nuevos al iniciar Evolution. "
+"Incluye también el envío de mensajes en la bandeja de salida."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 #: ../mail/evolution-mail.schemas.in.h:237
@@ -10019,9 +10021,9 @@ msgid ""
 "and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
 "El modo usado para mostrar mensajes. «normal» hace que Evolution elija la "
-"mejor parte que mostrar, «prefer_plain» hace que se use la parte de texto, "
-"si existe, y «only_plain» fuerza a Evolution a mostrar sólo la parte de "
-"texto plano."
+"mejor parte que mostrar, «prefer_plain» hace que se use la parte de texto, si "
+"existe, y «only_plain» fuerza a Evolution a mostrar sólo la parte de texto "
+"plano."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
@@ -10923,7 +10925,7 @@ msgstr[1] "Guardando %d mensajes"
 msgid "Invalid folder URI '%s'"
 msgstr "URI « %s» de la carpeta no válida"
 
-#: ../libemail-engine/e-mail-session.c:103 ../mail/em-folder-properties.c:310
+#: ../libemail-engine/e-mail-session.c:106 ../mail/em-folder-properties.c:310
 #: ../mail/em-folder-tree-model.c:714
 #: ../modules/mail/e-mail-shell-view-private.c:1095
 #: ../modules/mail/e-mail-shell-view-private.c:1106
@@ -10931,25 +10933,25 @@ msgid "Inbox"
 msgstr "Bandeja de entrada"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../libemail-engine/e-mail-session.c:104 ../mail/em-folder-tree-model.c:707
+#: ../libemail-engine/e-mail-session.c:107 ../mail/em-folder-tree-model.c:707
 #: ../modules/mail/e-mail-shell-view-private.c:1093
 msgid "Drafts"
 msgstr "Borradores"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../libemail-engine/e-mail-session.c:105 ../mail/em-folder-tree-model.c:718
+#: ../libemail-engine/e-mail-session.c:108 ../mail/em-folder-tree-model.c:718
 #: ../modules/mail/e-mail-shell-view-private.c:1097
 msgid "Outbox"
 msgstr "Bandeja de salida"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../libemail-engine/e-mail-session.c:106 ../mail/em-folder-tree-model.c:722
+#: ../libemail-engine/e-mail-session.c:109 ../mail/em-folder-tree-model.c:722
 #: ../modules/mail/e-mail-shell-view-private.c:1099
 msgid "Sent"
 msgstr "Correo enviado"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../libemail-engine/e-mail-session.c:107 ../mail/em-folder-tree-model.c:710
+#: ../libemail-engine/e-mail-session.c:110 ../mail/em-folder-tree-model.c:710
 #: ../modules/mail/e-mail-shell-view-private.c:1101
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
 #: ../plugins/templates/templates.c:1037 ../plugins/templates/templates.c:1337
@@ -10957,30 +10959,30 @@ msgstr "Correo enviado"
 msgid "Templates"
 msgstr "Plantillas"
 
-#: ../libemail-engine/e-mail-session.c:932
+#: ../libemail-engine/e-mail-session.c:929
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Introduzca la contraseña para %s"
 
-#: ../libemail-engine/e-mail-session.c:936
+#: ../libemail-engine/e-mail-session.c:933
 msgid "Enter Passphrase"
 msgstr "Introduzca la contraseña"
 
-#: ../libemail-engine/e-mail-session.c:940
+#: ../libemail-engine/e-mail-session.c:937
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Introduzca su contraseña para %s"
 
-#: ../libemail-engine/e-mail-session.c:944
+#: ../libemail-engine/e-mail-session.c:941
 msgid "Enter Password"
 msgstr "Introduzca contraseña"
 
-#: ../libemail-engine/e-mail-session.c:995
+#: ../libemail-engine/e-mail-session.c:992
 #, c-format
 msgid "User canceled operation."
 msgstr "El usuario canceló la operación."
 
-#: ../libemail-engine/e-mail-session.c:1114
+#: ../libemail-engine/e-mail-session.c:1111
 #, c-format
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
@@ -10988,18 +10990,18 @@ msgstr ""
 "No se proporcionó ninguna dirección de destino, se canceló el reenvío del "
 "mensaje."
 
-#: ../libemail-engine/e-mail-session.c:1123
+#: ../libemail-engine/e-mail-session.c:1120
 #, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr ""
 "No se encontró ninguna cuenta que usar, se canceló el reenvío del mensaje."
 
-#: ../libemail-engine/e-mail-session.c:1277
+#: ../libemail-engine/e-mail-session.c:1274
 #, c-format
 msgid "%s authentication failed"
 msgstr "Falló en la autenticación %s"
 
-#: ../libemail-engine/e-mail-session.c:1351
+#: ../libemail-engine/e-mail-session.c:1348
 #, c-format
 msgid "No password was provided"
 msgstr "No se ha proporcionado ninguna contraseña"
@@ -11209,7 +11211,6 @@ msgid "List View"
 msgstr "Vista de lista"
 
 #: ../mail/e-mail-backend.c:640
-#| msgid "Unknown action to be performed"
 msgid "Unknown background operation"
 msgstr "Operación en segundo plano desconocida"
 
@@ -11978,42 +11979,37 @@ msgid "Search Folders"
 msgstr "Carpetas de búsqueda"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:1640 ../widgets/misc/e-signature-combo-box.c:75
+#: ../mail/em-account-editor.c:1652 ../widgets/misc/e-signature-combo-box.c:75
 msgctxt "mail-signature"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../mail/em-account-editor.c:1722 ../mail/em-account-editor.c:4765
-#: ../mail/em-account-editor.c:4800
+#: ../mail/em-account-editor.c:1734 ../mail/em-account-editor.c:4762
+#: ../mail/em-account-editor.c:4797
 msgid "Never"
 msgstr "Nunca"
 
-#: ../mail/em-account-editor.c:1723
+#: ../mail/em-account-editor.c:1735
 msgid "Always"
 msgstr "Siempre"
 
-#: ../mail/em-account-editor.c:1724
+#: ../mail/em-account-editor.c:1736
 msgid "Ask for each message"
 msgstr "Preguntar por cada mensaje"
 
-#: ../mail/em-account-editor.c:2466
-msgctxt "mail-receiving"
-msgid "None"
-msgstr "Ninguna"
-
-#: ../mail/em-account-editor.c:2869 ../mail/mail-config.ui.h:169
+#: ../mail/em-account-editor.c:2872 ../mail/mail-config.ui.h:169
 msgid "_Path:"
 msgstr "R_uta:"
 
-#: ../mail/em-account-editor.c:2872
+#: ../mail/em-account-editor.c:2875
 msgid "Fil_e:"
 msgstr "_Archivo:"
 
-#: ../mail/em-account-editor.c:2909
+#: ../mail/em-account-editor.c:2912
 msgid "Mail Configuration"
 msgstr "Configuración del correo"
 
-#: ../mail/em-account-editor.c:2910
+#: ../mail/em-account-editor.c:2913
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -12023,7 +12019,7 @@ msgstr ""
 "\n"
 "Para comenzar, pulse «Continuar»."
 
-#: ../mail/em-account-editor.c:2913
+#: ../mail/em-account-editor.c:2916
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -12033,19 +12029,19 @@ msgstr ""
 "hace falta que los rellene, a menos que quiera incluir esta información en "
 "el correo-e que envíe."
 
-#: ../mail/em-account-editor.c:2915 ../mail/em-account-editor.c:3107
+#: ../mail/em-account-editor.c:2918 ../mail/em-account-editor.c:3110
 msgid "Receiving Email"
 msgstr "Recepción de correo"
 
-#: ../mail/em-account-editor.c:2916
+#: ../mail/em-account-editor.c:2919
 msgid "Please configure the following account settings."
 msgstr "Configure las siguientes opciones de la cuenta."
 
-#: ../mail/em-account-editor.c:2918 ../mail/em-account-editor.c:3714
+#: ../mail/em-account-editor.c:2921 ../mail/em-account-editor.c:3712
 msgid "Sending Email"
 msgstr "Envío de correo"
 
-#: ../mail/em-account-editor.c:2919
+#: ../mail/em-account-editor.c:2922
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -12054,21 +12050,21 @@ msgstr ""
 "seguro, pregúntele a su administrador de sistemas o a su Proveedor de "
 "Servicios de Internet."
 
-#: ../mail/em-account-editor.c:2921
+#: ../mail/em-account-editor.c:2924
 msgid "Account Summary"
 msgstr "Resumen de la cuenta"
 
-#: ../mail/em-account-editor.c:2922
+#: ../mail/em-account-editor.c:2925
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
 msgstr ""
 "Esto es un resumen de la configuración que se usará para acceder a su correo."
 
-#: ../mail/em-account-editor.c:2926
+#: ../mail/em-account-editor.c:2929
 msgid "Done"
 msgstr "Hecho"
 
-#: ../mail/em-account-editor.c:2927
+#: ../mail/em-account-editor.c:2930
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -12082,49 +12078,49 @@ msgstr ""
 "\n"
 "Pulse «Aplicar» para guardar su configuración."
 
-#: ../mail/em-account-editor.c:3472
+#: ../mail/em-account-editor.c:3475
 msgid "Check for _new messages every"
 msgstr "Comprobar si hay mensajes _nuevos cada"
 
-#: ../mail/em-account-editor.c:3480
+#: ../mail/em-account-editor.c:3483
 msgid "minu_tes"
 msgstr "minuto_s"
 
-#: ../mail/em-account-editor.c:4177 ../mail/mail-config.ui.h:109
+#: ../mail/em-account-editor.c:4175 ../mail/mail-config.ui.h:109
 msgid "Security"
 msgstr "Seguridad"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:4232 ../mail/em-account-editor.c:4334
+#: ../mail/em-account-editor.c:4230 ../mail/em-account-editor.c:4332
 msgid "Receiving Options"
 msgstr "Opciones de recepción"
 
-#: ../mail/em-account-editor.c:4233 ../mail/em-account-editor.c:4335
+#: ../mail/em-account-editor.c:4231 ../mail/em-account-editor.c:4333
 msgid "Checking for New Messages"
 msgstr "Comprobando si hay mensajes nuevos"
 
-#: ../mail/em-account-editor.c:4759 ../mail/em-account-editor.c:4794
+#: ../mail/em-account-editor.c:4756 ../mail/em-account-editor.c:4791
 msgid "Always (SSL)"
 msgstr "Siempre (SSL)"
 
-#: ../mail/em-account-editor.c:4762 ../mail/em-account-editor.c:4797
+#: ../mail/em-account-editor.c:4759 ../mail/em-account-editor.c:4794
 msgid "When possible (TLS)"
 msgstr "Cuando sea posible (TLS)"
 
-#: ../mail/em-account-editor.c:4839
+#: ../mail/em-account-editor.c:4836
 msgid "Setup Google con_tacts with Evolution"
 msgstr "Configurar los con_tactos de Google con Evolution"
 
-#: ../mail/em-account-editor.c:4846
+#: ../mail/em-account-editor.c:4843
 msgid "Setup Google ca_lendar with Evolution"
 msgstr "Configurar el ca_lendario de Google con Evolution"
 
-#: ../mail/em-account-editor.c:4894
+#: ../mail/em-account-editor.c:4891
 msgid "Setup _Yahoo calendar with Evolution"
 msgstr "Configurar el calendario de _Yahoo con Evolution"
 
-#: ../mail/em-account-editor.c:4919
+#: ../mail/em-account-editor.c:4916
 msgid "Yahoo Calen_dar name:"
 msgstr "Nombre del calen_dario de Yahoo:"
 
@@ -12962,8 +12958,7 @@ msgid ""
 "expanded by default. \"0\" = expanded \"1\" = collapsed"
 msgstr ""
 "Describe si las cabeceras del mensajes en la vista con paneles se deben "
-"contraer o expandir de manera predeterminada. «0» = expandidas «1» = "
-"contraídas"
+"contraer o expandir de manera predeterminada. «0» = expandidas «1» = contraídas"
 
 #: ../mail/evolution-mail.schemas.in.h:52
 msgid "Digitally sign messages when original message signed (PGP or S/MIME)"
@@ -12997,8 +12992,8 @@ msgid ""
 "Initial height of the \"Filter Editor\" window. The value updates as the "
 "user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Editor de filtros». El valor se actualiza "
-"según el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Editor de filtros». El valor se actualiza según "
+"el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:91
 msgid ""
@@ -13021,8 +13016,8 @@ msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Enviar y recibir correo». El valor se "
-"actualiza según el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Enviar y recibir correo». El valor se actualiza "
+"según el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:94
 msgid ""
@@ -13043,11 +13038,11 @@ msgid ""
 "particular value is not used by Evolution since the \"Folder Subscriptions\" "
 "window cannot be maximized. This key exists only as an implementation detail."
 msgstr ""
-"Estado inicial maximizado de la ventana «Suscripciones de carpetas». El "
-"valor se actualiza cuando el usuario maximiza o reduce la ventana. Nota: "
-"Evolution no usa este valor en particular ya que la ventana «Suscripciones "
-"de carpetas» no se puede maximizar. Esta clave existe sólo como un detalle "
-"de implementación."
+"Estado inicial maximizado de la ventana «Suscripciones de carpetas». El valor "
+"se actualiza cuando el usuario maximiza o reduce la ventana. Nota: Evolution "
+"no usa este valor en particular ya que la ventana «Suscripciones de carpetas» "
+"no se puede maximizar. Esta clave existe sólo como un detalle de "
+"implementación."
 
 #: ../mail/evolution-mail.schemas.in.h:96
 msgid ""
@@ -13150,9 +13145,9 @@ msgid ""
 "Possible values are: never - to never close browser window always - to "
 "always close browser window ask - (or any other value) will ask user"
 msgstr ""
-"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana "
-"del examinador; «always» (siempre) para cerrar siempre la ventana del "
-"examinador; «ask» (preguntar) o cualquier otro valor, preguntarán al usuario"
+"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana del "
+"examinador; «always» (siempre) para cerrar siempre la ventana del examinador; "
+"«ask» (preguntar) o cualquier otro valor, preguntarán al usuario"
 
 #: ../mail/evolution-mail.schemas.in.h:199
 msgid ""
@@ -13208,6 +13203,25 @@ msgstr ""
 "Este valor puede ser una cadena vacía, lo que significa que usará la carpeta "
 "Imágenes del sistema, habitualmente ~/Imágenes. También se usará esta "
 "carpeta cuando la ruta configurada no apunte a la carpeta existente."
+
+#: ../mail/evolution-mail.schemas.in.h:232
+msgid ""
+"Whether check for new messages in all active accounts regardless of the "
+"account \"Check for new messages every X minutes\" option when Evolution is "
+"started. This option is used only together with 'send_recv_on_start' option."
+msgstr ""
+"Indica si se debe comprobar si hay mensajes nuevos en todas las cuentas "
+"activas independientemente del conteo en la opción «Comprobar si hay mensajes "
+"nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se usa junto "
+"con la opción «send_recv_on_start»."
+
+#: ../mail/evolution-mail.schemas.in.h:233
+msgid ""
+"Whether check for new messages when Evolution is started. This includes also "
+"sending messages from Outbox."
+msgstr ""
+"Indica si se debe comprobar si hay mensajes nuevos al iniciar Evolution. "
+"Incluye también el envío de mensajes en la bandeja de salida."
 
 #: ../mail/evolution-mail.schemas.in.h:238
 msgid "Whether to show local folders (On This Computer) in a folder tree."
@@ -15896,8 +15910,8 @@ msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view."
 msgstr ""
-"El UID de la nota seleccionada (o «primaria») en la barra lateral de la "
-"vista de «Notas»."
+"El UID de la nota seleccionada (o «primaria») en la barra lateral de la vista "
+"de «Notas»."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:85
 msgid ""
@@ -15934,8 +15948,8 @@ msgid ""
 msgstr ""
 "El estilo de la distribución determina dónde ubicar el panel de vista previa "
 "en relación con la lista de notas. «0» (vista clásica) ubica el panel de "
-"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el "
-"panel de vista previa junto a la lista de notas."
+"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el panel "
+"de vista previa junto a la lista de notas."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:90
 msgid ""
@@ -15953,8 +15967,8 @@ msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
 msgstr ""
-"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
-"«2» para mensajes de depuración."
+"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
+"para mensajes de depuración."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:94
 msgid "Time the last reminder ran, in time_t."
@@ -15965,8 +15979,8 @@ msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\"."
 msgstr ""
-"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», "
-"«hours» o «days»."
+"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», «hours» "
+"o «days»."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:98
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
@@ -19091,8 +19105,8 @@ msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr ""
-"%s desea recibir la última información de la siguiente reunión a través de "
-"%s:"
+"%s desea recibir la última información de la siguiente reunión a través de %"
+"s:"
 
 #: ../plugins/itip-formatter/itip-view.c:401
 #, c-format
@@ -19637,8 +19651,8 @@ msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
 msgstr ""
-"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere "
-"editar el acontecimiento antiguo?"
+"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere editar "
+"el acontecimiento antiguo?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:621
 #, c-format
@@ -22701,6 +22715,10 @@ msgstr "Seleccionar todo"
 msgid "Input Methods"
 msgstr "Métodos de entrada"
 
+#~ msgctxt "mail-receiving"
+#~ msgid "None"
+#~ msgstr "Ninguna"
+
 #~ msgid "Background color of tasks that are due today, in \"#rrggbb\" format"
 #~ msgstr "Color de fondo para las tareas que vencen hoy, en formato «#rrggbb»"
 
@@ -23420,8 +23438,8 @@ msgstr "Métodos de entrada"
 #~ "Folder '%s' contains %d duplicate messages. Are you sure you want to "
 #~ "delete them?"
 #~ msgstr ""
-#~ "La carpeta «%s» contiene %d correos duplicados. ¿Está seguro de que "
-#~ "quiere eliminarlos?"
+#~ "La carpeta «%s» contiene %d correos duplicados. ¿Está seguro de que quiere "
+#~ "eliminarlos?"
 
 #~ msgid ""
 #~ "Error on %s: %s\n"
@@ -23448,8 +23466,8 @@ msgstr "Métodos de entrada"
 
 #~ msgid "Count of default recurrence for a new event. -1 means forever."
 #~ msgstr ""
-#~ "Conteo de las repeticiones predeterminadas para un acontecimiento nuevo. "
-#~ "-1 significa para siempre."
+#~ "Conteo de las repeticiones predeterminadas para un acontecimiento nuevo. -"
+#~ "1 significa para siempre."
 
 #~ msgid "Default recurrence count"
 #~ msgstr "Conteo de repeticiones predeterminado"
@@ -24775,8 +24793,7 @@ msgstr "Métodos de entrada"
 
 #~ msgid "The content widget appears in a shell window's right pane"
 #~ msgstr ""
-#~ "El widget de contenido aparece en un panel derecho de la ventana de "
-#~ "«shell»"
+#~ "El widget de contenido aparece en un panel derecho de la ventana de «shell»"
 
 #~ msgid "Shell Sidebar Widget"
 #~ msgstr "Widget de barra lateral de «shell»"
@@ -25757,8 +25774,8 @@ msgstr "Métodos de entrada"
 #~ "This is the full name of your LDAP server. For example, \"ldap.mycompany."
 #~ "com\"."
 #~ msgstr ""
-#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap."
-#~ "miempresa.com»."
+#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap.miempresa."
+#~ "com»."
 
 #~ msgid ""
 #~ "This is the maximum number of entries to download. Setting this number to "
