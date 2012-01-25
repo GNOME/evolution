@@ -37,6 +37,9 @@
 #include <libemail-utils/e-account-utils.h>
 #include <libemail-utils/mail-mt.h>
 
+/* This is our hack, not part of libcamel. */
+#include <libemail-engine/camel-null-store.h>
+
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/e-mail-session.h>
 #include <libemail-engine/mail-folder-cache.h>
@@ -424,6 +427,10 @@ get_receive_type (CamelService *service)
 	CamelProvider *provider;
 	const gchar *uid;
 	gboolean is_local_delivery;
+
+	/* Disregard CamelNullStores. */
+	if (CAMEL_IS_NULL_STORE (service))
+		return SEND_INVALID;
 
 	url = camel_service_new_camel_url (service);
 	is_local_delivery = em_utils_is_local_delivery_mbox_file (url);
