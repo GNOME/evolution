@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.3.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-23 13:20+0100\n"
-"PO-Revision-Date: 2012-01-23 13:21+0100\n"
+"POT-Creation-Date: 2012-01-25 12:11+0100\n"
+"PO-Revision-Date: 2012-01-25 12:12+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -6718,13 +6718,13 @@ msgid "Please enter your password."
 msgstr "Vennligst oppgi ditt passord."
 
 #: ../capplet/settings/mail-account-view.c:280
-#: ../mail/em-account-editor.c:5355 ../plugins/caldav/caldav-source.c:67
+#: ../mail/em-account-editor.c:5352 ../plugins/caldav/caldav-source.c:67
 msgid "CalDAV"
 msgstr "CalDAV"
 
 #: ../capplet/settings/mail-account-view.c:374
 #: ../capplet/settings/mail-account-view.c:419
-#: ../mail/em-account-editor.c:5226 ../mail/em-account-editor.c:5283
+#: ../mail/em-account-editor.c:5223 ../mail/em-account-editor.c:5280
 #: ../modules/online-accounts/e-online-accounts-google.c:295
 #: ../modules/online-accounts/e-online-accounts-google.c:369
 #: ../plugins/google-account-setup/google-contacts-source.c:55
@@ -6822,7 +6822,7 @@ msgstr ""
 "posten din."
 
 #: ../capplet/settings/mail-account-view.c:636
-#: ../mail/em-account-editor.c:2912 ../mail/em-account-editor.c:3048
+#: ../mail/em-account-editor.c:2915 ../mail/em-account-editor.c:3051
 msgid "Identity"
 msgstr "Identitet"
 
@@ -6874,7 +6874,7 @@ msgid "Back - Receiving options"
 msgstr "Tilbake - Alternativer for mottak"
 
 #: ../capplet/settings/mail-account-view.c:641
-#: ../mail/em-account-editor.c:4035
+#: ../mail/em-account-editor.c:4033
 msgid "Defaults"
 msgstr "Forvalg"
 
@@ -6903,12 +6903,12 @@ msgid "Setup Google calendar with Evolution"
 msgstr "Sett opp Google-kalender i Evolution."
 
 #: ../capplet/settings/mail-account-view.c:772
-#: ../mail/em-account-editor.c:4854
+#: ../mail/em-account-editor.c:4851
 msgid "You may need to enable IMAP access."
 msgstr "Du må kanskje slå på IMAP-tilgang."
 
 #: ../capplet/settings/mail-account-view.c:780
-#: ../mail/em-account-editor.c:4831
+#: ../mail/em-account-editor.c:4828
 msgid "Google account settings:"
 msgstr "Innstillinger for Google-konto:"
 
@@ -6917,7 +6917,7 @@ msgid "Setup Yahoo calendar with Evolution"
 msgstr "Sett opp Yahoo-kalender i Evolution"
 
 #: ../capplet/settings/mail-account-view.c:810
-#: ../mail/em-account-editor.c:4901
+#: ../mail/em-account-editor.c:4898
 msgid ""
 "Yahoo calendars are named as firstname_lastname. We have tried to form the "
 "calendar name. So please confirm and re-enter the calendar name if it is not "
@@ -6928,7 +6928,7 @@ msgstr ""
 "ikke er korrekt."
 
 #: ../capplet/settings/mail-account-view.c:819
-#: ../mail/em-account-editor.c:4886
+#: ../mail/em-account-editor.c:4883
 msgid "Yahoo account settings:"
 msgstr "Innstillinger for Yahoo-konto:"
 
@@ -6955,7 +6955,7 @@ msgstr "Evolution kontoassistent"
 
 #. create the local source group
 #: ../capplet/settings/mail-capplet-shell.c:371
-#: ../libemail-engine/e-mail-session.c:533
+#: ../libemail-engine/e-mail-session.c:534
 #: ../modules/addressbook/e-book-shell-backend.c:106
 #: ../modules/addressbook/e-book-shell-migrate.c:136
 #: ../modules/calendar/e-cal-shell-backend.c:119
@@ -8160,7 +8160,9 @@ msgstr "Tidssone"
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
-msgstr "Forvalgt tidssone som brukes for datoer og tidspunkt i kalenderen som en uoversatt Olson tidssonedatabaseplassering som «America/New York»"
+msgstr ""
+"Forvalgt tidssone som brukes for datoer og tidspunkt i kalenderen som en "
+"uoversatt Olson tidssonedatabaseplassering som «America/New York»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:13
@@ -8864,7 +8866,8 @@ msgstr "Slå på lokale mapper"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Whether to show local folders (On This Computer) in a folder tree"
-msgstr "Hvorvidt lokale mapper (På denne datamaskinen) skal vises i et mappetre"
+msgstr ""
+"Hvorvidt lokale mapper (På denne datamaskinen) skal vises i et mappetre"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 #: ../mail/evolution-mail.schemas.in.h:94
@@ -10058,36 +10061,36 @@ msgid "-------- Forwarded Message --------"
 msgstr "---------Videresendt melding-------"
 
 #. Translators: This is a cancelled activity.
-#: ../e-util/e-activity.c:227
+#: ../e-util/e-activity.c:248
 #, c-format
 msgid "%s (cancelled)"
 msgstr "%s (avbrutt)"
 
 #. Translators: This is a completed activity.
-#: ../e-util/e-activity.c:230
+#: ../e-util/e-activity.c:251
 #, c-format
 msgid "%s (completed)"
 msgstr "%s (fullført)"
 
 #. Translators: This is an activity waiting to run.
-#: ../e-util/e-activity.c:233
+#: ../e-util/e-activity.c:254
 #, c-format
 msgid "%s (waiting)"
 msgstr "%s (venter)"
 
 #. Translators: This is a running activity which
 #. *              the user has requested to cancel.
-#: ../e-util/e-activity.c:237
+#: ../e-util/e-activity.c:258
 #, c-format
 msgid "%s (cancelling)"
 msgstr "%s (avbryter)"
 
-#: ../e-util/e-activity.c:239
+#: ../e-util/e-activity.c:260
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: ../e-util/e-activity.c:244
+#: ../e-util/e-activity.c:265
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% fullført)"
@@ -10463,7 +10466,9 @@ msgstr "_Finn oppføringer:"
 
 #. Translators: "None" for not including threads;
 #. * part of "Include threads: None"
-#: ../filter/e-filter-rule.c:763
+#. protocol:
+#. name:
+#: ../filter/e-filter-rule.c:763 ../libemail-engine/camel-null-store.c:28
 msgid "None"
 msgstr "Ingen"
 
@@ -10671,7 +10676,7 @@ msgstr[1] "Lagrer %d meldinger"
 msgid "Invalid folder URI '%s'"
 msgstr "Ugyldig URI for mappe «%s»"
 
-#: ../libemail-engine/e-mail-session.c:103 ../mail/em-folder-properties.c:310
+#: ../libemail-engine/e-mail-session.c:106 ../mail/em-folder-properties.c:310
 #: ../mail/em-folder-tree-model.c:714
 #: ../modules/mail/e-mail-shell-view-private.c:1095
 #: ../modules/mail/e-mail-shell-view-private.c:1106
@@ -10679,25 +10684,25 @@ msgid "Inbox"
 msgstr "Innboks"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../libemail-engine/e-mail-session.c:104 ../mail/em-folder-tree-model.c:707
+#: ../libemail-engine/e-mail-session.c:107 ../mail/em-folder-tree-model.c:707
 #: ../modules/mail/e-mail-shell-view-private.c:1093
 msgid "Drafts"
 msgstr "Skisser"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../libemail-engine/e-mail-session.c:105 ../mail/em-folder-tree-model.c:718
+#: ../libemail-engine/e-mail-session.c:108 ../mail/em-folder-tree-model.c:718
 #: ../modules/mail/e-mail-shell-view-private.c:1097
 msgid "Outbox"
 msgstr "Utboks"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../libemail-engine/e-mail-session.c:106 ../mail/em-folder-tree-model.c:722
+#: ../libemail-engine/e-mail-session.c:109 ../mail/em-folder-tree-model.c:722
 #: ../modules/mail/e-mail-shell-view-private.c:1099
 msgid "Sent"
 msgstr "Sendt"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../libemail-engine/e-mail-session.c:107 ../mail/em-folder-tree-model.c:710
+#: ../libemail-engine/e-mail-session.c:110 ../mail/em-folder-tree-model.c:710
 #: ../modules/mail/e-mail-shell-view-private.c:1101
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1037 ../plugins/templates/templates.c:1337
@@ -10705,46 +10710,46 @@ msgstr "Sendt"
 msgid "Templates"
 msgstr "Maler"
 
-#: ../libemail-engine/e-mail-session.c:932
+#: ../libemail-engine/e-mail-session.c:929
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Skriv inn passord for %s"
 
-#: ../libemail-engine/e-mail-session.c:936
+#: ../libemail-engine/e-mail-session.c:933
 msgid "Enter Passphrase"
 msgstr "Skriv inn passord"
 
-#: ../libemail-engine/e-mail-session.c:940
+#: ../libemail-engine/e-mail-session.c:937
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Skriv inn passord for %s"
 
-#: ../libemail-engine/e-mail-session.c:944
+#: ../libemail-engine/e-mail-session.c:941
 msgid "Enter Password"
 msgstr "Skriv inn passord"
 
-#: ../libemail-engine/e-mail-session.c:995
+#: ../libemail-engine/e-mail-session.c:992
 #, c-format
 msgid "User canceled operation."
 msgstr "Operasjon avbrutt av bruker."
 
-#: ../libemail-engine/e-mail-session.c:1114
+#: ../libemail-engine/e-mail-session.c:1111
 #, c-format
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
 msgstr "Ingen måladresse oppgitt. Videresending av meldingen ble avbrutt."
 
-#: ../libemail-engine/e-mail-session.c:1123
+#: ../libemail-engine/e-mail-session.c:1120
 #, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr "Fant ingen konto å bruke. Videresending av meldingen ble avbrutt."
 
-#: ../libemail-engine/e-mail-session.c:1277
+#: ../libemail-engine/e-mail-session.c:1274
 #, c-format
 msgid "%s authentication failed"
 msgstr "%s autentisering feilet"
 
-#: ../libemail-engine/e-mail-session.c:1351
+#: ../libemail-engine/e-mail-session.c:1348
 #, c-format
 msgid "No password was provided"
 msgstr "Passord ikke oppgitt"
@@ -10953,7 +10958,7 @@ msgstr "Ikonvisning"
 msgid "List View"
 msgstr "Listevisning"
 
-#: ../mail/e-mail-backend.c:640
+#: ../mail/e-mail-backend.c:648
 msgid "Unknown background operation"
 msgstr "Ukjent bakgrunnsoperasjon"
 
@@ -11721,42 +11726,37 @@ msgid "Search Folders"
 msgstr "Søkemapper"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:1640 ../widgets/misc/e-signature-combo-box.c:75
+#: ../mail/em-account-editor.c:1652 ../widgets/misc/e-signature-combo-box.c:75
 msgctxt "mail-signature"
 msgid "None"
 msgstr "Ingen"
 
-#: ../mail/em-account-editor.c:1722 ../mail/em-account-editor.c:4765
-#: ../mail/em-account-editor.c:4800
+#: ../mail/em-account-editor.c:1734 ../mail/em-account-editor.c:4762
+#: ../mail/em-account-editor.c:4797
 msgid "Never"
 msgstr "Aldri"
 
-#: ../mail/em-account-editor.c:1723
+#: ../mail/em-account-editor.c:1735
 msgid "Always"
 msgstr "Alltid"
 
-#: ../mail/em-account-editor.c:1724
+#: ../mail/em-account-editor.c:1736
 msgid "Ask for each message"
 msgstr "Spør for hver melding"
 
-#: ../mail/em-account-editor.c:2466
-msgctxt "mail-receiving"
-msgid "None"
-msgstr "Ingen"
-
-#: ../mail/em-account-editor.c:2869 ../mail/mail-config.ui.h:164
+#: ../mail/em-account-editor.c:2872 ../mail/mail-config.ui.h:164
 msgid "_Path:"
 msgstr "S_ti:"
 
-#: ../mail/em-account-editor.c:2872
+#: ../mail/em-account-editor.c:2875
 msgid "Fil_e:"
 msgstr "_Fil:"
 
-#: ../mail/em-account-editor.c:2909
+#: ../mail/em-account-editor.c:2912
 msgid "Mail Configuration"
 msgstr "E-post-konfigurasjon"
 
-#: ../mail/em-account-editor.c:2910
+#: ../mail/em-account-editor.c:2913
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -11766,7 +11766,7 @@ msgstr ""
 "\n"
 "Klikk «Fortsett» for å begynne."
 
-#: ../mail/em-account-editor.c:2913
+#: ../mail/em-account-editor.c:2916
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -11776,19 +11776,19 @@ msgstr ""
 "under må ikke nødvendigvis fylles ut, hvis du ikke ønsker å inkludere denne "
 "informasjonen i meldingene du sender."
 
-#: ../mail/em-account-editor.c:2915 ../mail/em-account-editor.c:3107
+#: ../mail/em-account-editor.c:2918 ../mail/em-account-editor.c:3110
 msgid "Receiving Email"
 msgstr "Innkommende e-post"
 
-#: ../mail/em-account-editor.c:2916
+#: ../mail/em-account-editor.c:2919
 msgid "Please configure the following account settings."
 msgstr "Vennligst konfigurer følgende kontoinnstillinger."
 
-#: ../mail/em-account-editor.c:2918 ../mail/em-account-editor.c:3714
+#: ../mail/em-account-editor.c:2921 ../mail/em-account-editor.c:3712
 msgid "Sending Email"
 msgstr "Utgående e-post"
 
-#: ../mail/em-account-editor.c:2919
+#: ../mail/em-account-editor.c:2922
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -11796,22 +11796,22 @@ msgstr ""
 "Vennligst skriv inn informasjon om måten du sender e-post. Hvis du ikke er "
 "sikker, kontakt din systemadministrator eller din Internett tjenestetilbyder."
 
-#: ../mail/em-account-editor.c:2921
+#: ../mail/em-account-editor.c:2924
 msgid "Account Summary"
 msgstr "Kontosammendrag"
 
-#: ../mail/em-account-editor.c:2922
+#: ../mail/em-account-editor.c:2925
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
 msgstr ""
 "Dette er et sammendrag av innstillingene som brukes for å aksessere dine "
 "meldinger."
 
-#: ../mail/em-account-editor.c:2926
+#: ../mail/em-account-editor.c:2929
 msgid "Done"
 msgstr "Ferdig"
 
-#: ../mail/em-account-editor.c:2927
+#: ../mail/em-account-editor.c:2930
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -11825,49 +11825,49 @@ msgstr ""
 "\n"
 "Klikk «Bruk» for å lagre dine innstillinger."
 
-#: ../mail/em-account-editor.c:3472
+#: ../mail/em-account-editor.c:3475
 msgid "Check for _new messages every"
 msgstr "Se etter _nye meldinger hver(t)"
 
-#: ../mail/em-account-editor.c:3480
+#: ../mail/em-account-editor.c:3483
 msgid "minu_tes"
 msgstr "minu_tter"
 
-#: ../mail/em-account-editor.c:4177 ../mail/mail-config.ui.h:166
+#: ../mail/em-account-editor.c:4175 ../mail/mail-config.ui.h:166
 msgid "Security"
 msgstr "Sikkerhet"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:4232 ../mail/em-account-editor.c:4334
+#: ../mail/em-account-editor.c:4230 ../mail/em-account-editor.c:4332
 msgid "Receiving Options"
 msgstr "Alternativer for mottak"
 
-#: ../mail/em-account-editor.c:4233 ../mail/em-account-editor.c:4335
+#: ../mail/em-account-editor.c:4231 ../mail/em-account-editor.c:4333
 msgid "Checking for New Messages"
 msgstr "Ser etter nye meldinger"
 
-#: ../mail/em-account-editor.c:4759 ../mail/em-account-editor.c:4794
+#: ../mail/em-account-editor.c:4756 ../mail/em-account-editor.c:4791
 msgid "Always (SSL)"
 msgstr "Alltid (SSL)"
 
-#: ../mail/em-account-editor.c:4762 ../mail/em-account-editor.c:4797
+#: ../mail/em-account-editor.c:4759 ../mail/em-account-editor.c:4794
 msgid "When possible (TLS)"
 msgstr "Når mulig (TLS)"
 
-#: ../mail/em-account-editor.c:4839
+#: ../mail/em-account-editor.c:4836
 msgid "Setup Google con_tacts with Evolution"
 msgstr "Sett opp Google-kon_takter i Evolution"
 
-#: ../mail/em-account-editor.c:4846
+#: ../mail/em-account-editor.c:4843
 msgid "Setup Google ca_lendar with Evolution"
 msgstr "Sett opp Google-ka_lender i Evolution"
 
-#: ../mail/em-account-editor.c:4894
+#: ../mail/em-account-editor.c:4891
 msgid "Setup _Yahoo calendar with Evolution"
 msgstr "Sett opp _Yahoo-kalender i Evolution"
 
-#: ../mail/em-account-editor.c:4919
+#: ../mail/em-account-editor.c:4916
 msgid "Yahoo Calen_dar name:"
 msgstr "Navn på Yahoo-kalen_der:"
 
@@ -16895,7 +16895,7 @@ msgid "Send queued items in all accounts"
 msgstr "Send kølagte oppføringer i alle kontoer"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1340
-#: ../widgets/misc/e-activity-proxy.c:310
+#: ../widgets/misc/e-activity-proxy.c:313
 msgid "Cancel"
 msgstr "Avbryt"
 
