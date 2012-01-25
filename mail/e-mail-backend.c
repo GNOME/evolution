@@ -190,10 +190,18 @@ mail_backend_prepare_for_online_cb (EShell *shell,
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		CamelService *service;
+		EAccount *account;
+		const gchar *uid;
 
 		service = CAMEL_SERVICE (link->data);
 
 		if (!CAMEL_IS_STORE (service))
+			continue;
+
+		uid = camel_service_get_uid (service);
+		account = e_get_account_by_uid (uid);
+
+		if (account != NULL && !account->enabled)
 			continue;
 
 		/* FIXME Not passing a GCancellable. */
