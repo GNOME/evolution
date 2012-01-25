@@ -51,6 +51,9 @@
 #include "libemail-utils/e-account-utils.h"
 #include "libemail-utils/mail-mt.h"
 
+/* This is our hack, not part of libcamel. */
+#include "camel-null-store.h"
+
 #include "e-mail-junk-filter.h"
 #include "e-mail-session.h"
 #include "e-mail-folder-utils.h"
@@ -406,35 +409,35 @@ mail_session_add_by_account (EMailSession *session,
 {
 	CamelService *service = NULL;
 	CamelProvider *provider;
-	CamelURL *url;
-	gboolean transport_only;
+	CamelURL *url = NULL;
+	const gchar *protocol = NULL;
+	gboolean have_source_url;
 	GError *error = NULL;
 
-	/* check whether it's transport-only accounts */
-	transport_only =
-		(account->source == NULL) ||
-		(account->source->url == NULL) ||
-		(*account->source->url == '\0');
-	if (transport_only)
-		goto handle_transport;
+	have_source_url =
+		(account->source != NULL) &&
+		(account->source->url != NULL);
+
+	if (have_source_url)
+		url = camel_url_new (account->source->url, NULL);
+
+	protocol = (url != NULL) ? url->protocol : "none";
+	provider = camel_provider_get (protocol, &error);
+
+	if (url != NULL)
+		camel_url_free (url);
+
+	if (error != NULL) {
+		g_warn_if_fail (provider == NULL);
+		g_warning ("%s", error->message);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (provider != NULL);
 
 	/* Load the service, but don't connect.  Check its provider,
 	 * and if this belongs in the folder tree model, add it. */
-
-	url = camel_url_new (account->source->url, NULL);
-	if (url != NULL) {
-		provider = camel_provider_get (url->protocol, NULL);
-		camel_url_free (url);
-	} else {
-		provider = NULL;
-	}
-
-	if (provider == NULL) {
-		/* In case we do not have a provider here, we handle
-		 * the special case of having multiple mail identities
-		 * eg. a dummy account having just SMTP server defined */
-		goto handle_transport;
-	}
 
 	service = camel_session_add_service (
 		CAMEL_SESSION (session),
@@ -450,8 +453,6 @@ mail_session_add_by_account (EMailSession *session,
 	}
 
 	camel_service_set_display_name (service, account->name);
-
-handle_transport:
 
 	/* While we're at it, add the account's transport (if it has one)
 	 * to the CamelSession.  The transport's UID is a kludge for now.
@@ -851,13 +852,9 @@ mail_session_add_service (CamelSession *session,
 					break;
 			}
 
-			if (url_string != NULL) {
-				url = camel_url_new (url_string, error);
-				if (url == NULL) {
-					g_object_unref (service);
-					service = NULL;
-				}
-			}
+			/* Be lenient about malformed URLs. */
+			if (url_string != NULL)
+				url = camel_url_new (url_string, NULL);
 		}
 
 		if (url != NULL) {
@@ -1477,6 +1474,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 		G_TYPE_NONE, 1,
 		CAMEL_TYPE_STORE);
 
+	camel_null_store_register_provider ();
 }
 
 static void

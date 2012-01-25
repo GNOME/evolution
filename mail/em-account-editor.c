@@ -301,7 +301,13 @@ static gint
 emae_provider_compare (const CamelProvider *p1,
                        const CamelProvider *p2)
 {
-	/* sort providers based on "location" (ie. local or remote) */
+	/* The "none" provider comes first. */
+	if (g_strcmp0 (p1->protocol, "none") == 0)
+		return -1;
+	if (g_strcmp0 (p2->protocol, "none") == 0)
+		return 1;
+
+	/* Then sort remote providers before local providers. */
 	if (p1->flags & CAMEL_PROVIDER_IS_REMOTE) {
 		if (p2->flags & CAMEL_PROVIDER_IS_REMOTE)
 			return 0;
@@ -1381,7 +1387,13 @@ emae_account_url (EMAccountEditor *emae,
 	account = em_account_editor_get_modified_account (emae);
 	uri = e_account_get_string (account, urlid);
 
-	if (uri && uri[0])
+	/* XXX Stupid hack for these stupid transport-only accounts.
+	 *     We've been saving these as invalid URI strings all this
+	 *     time; no protocol, just "//...".  Catch it and fix it. */
+	if (uri != NULL && g_str_has_prefix (uri, "//"))
+		return camel_url_new ("none:", NULL);
+
+	if (uri != NULL && *uri != '\0')
 		url = camel_url_new (uri, NULL);
 
 	if (url == NULL) {
@@ -2304,7 +2316,6 @@ emae_service_provider_changed (EMAccountEditorService *service)
 	CamelProvider *provider = NULL;
 	const gchar *description;
 
-	/* Protocol is NULL when server type is 'None'. */
 	if (service->protocol != NULL)
 		provider = camel_provider_get (service->protocol, NULL);
 
@@ -2389,7 +2400,6 @@ emae_service_provider_changed (EMAccountEditorService *service)
 		gtk_widget_hide (service->ssl_hbox);
 		gtk_widget_show (service->no_ssl);
 #endif
-
 	} else {
 		gtk_widget_hide (service->frame);
 		gtk_widget_hide (service->auth_frame);
@@ -2458,12 +2468,6 @@ emae_refresh_providers (EMAccountEditor *emae,
 		combo_box, emae_provider_changed, service);
 
 	gtk_combo_box_text_remove_all (combo_box);
-
-	/* We just special case each type here, its just easier */
-	if (service->type == CAMEL_PROVIDER_STORE)
-		gtk_combo_box_text_append (
-			combo_box, NULL,
-			C_("mail-receiving", "None"));
 
 	for (link = emae->priv->providers; link != NULL; link = link->next) {
 		CamelProvider *provider = link->data;
@@ -2665,7 +2669,6 @@ emae_setup_service (EMAccountEditor *emae,
 		service->protocol = g_intern_string (url->protocol);
 	camel_url_free (url);
 
-	/* Protocol is NULL when server type is 'None'. */
 	if (service->protocol != NULL)
 		provider = camel_provider_get (service->protocol, NULL);
 
@@ -4392,7 +4395,6 @@ emae_check_service_complete (EMAccountEditor *emae,
 	gboolean need_port;
 	gboolean need_user;
 
-	/* Protocol is NULL when server type is 'None'. */
 	if (service->protocol != NULL)
 		provider = camel_provider_get (service->protocol, NULL);
 

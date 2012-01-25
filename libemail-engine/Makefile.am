@@ -20,6 +20,7 @@ libemail_engine_la_CPPFLAGS = \
 
 libmailengineincludedir = $(privincludedir)/libemail-engine
 libmailengineinclude_HEADERS =  \
+	camel-null-store.h \
 	e-mail-enums.h \
 	e-mail-enumtypes.h \
 	e-mail-folder-utils.h \
@@ -36,6 +37,7 @@ libmailengineinclude_HEADERS =  \
 
 libemail_engine_la_SOURCES =  \
 	$(libmailengineinclude_HEADERS) \
+	camel-null-store.c \
 	e-mail-enumtypes.c \
 	e-mail-folder-utils.c \
 	e-mail-junk-filter.c \
