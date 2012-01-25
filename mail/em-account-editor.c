@@ -3507,7 +3507,6 @@ emae_receive_options_extra_item (EConfig *ec,
 	CamelProviderConfEntry *entries;
 	guint row;
 	GHashTable *extra;
-	CamelURL *url;
 	const gchar *section_name;
 	gint ii;
 
@@ -3544,8 +3543,6 @@ emae_receive_options_extra_item (EConfig *ec,
 section:
 	d (printf ("Building extra section '%s'\n", eitem->path));
 	widget = NULL;
-	url = emae_account_url (
-		emae, emae_service_info[service->type].account_uri_key);
 	item->extra_table = g_hash_table_new (g_str_hash, g_str_equal);
 	extra = g_hash_table_new (g_str_hash, g_str_equal);
 
@@ -3657,8 +3654,6 @@ section:
 			break;
 		}
 	}
-
-	camel_url_free (url);
 
 	if (widget != NULL)
 		gtk_widget_show (widget);
