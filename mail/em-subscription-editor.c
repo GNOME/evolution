@@ -30,6 +30,7 @@
 #include <libemail-engine/mail-tools.h>
 #include <libemail-engine/mail-ops.h>
 
+#include <e-util/e-dialog-utils.h>
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
 
@@ -278,7 +279,7 @@ subscription_editor_get_folder_info_done (CamelStore *store,
 	/* XXX Do something smarter with errors. */
 	if (error != NULL) {
 		g_warn_if_fail (folder_info == NULL);
-		g_warning ("%s", error->message);
+		e_notice (GTK_WINDOW (editor), GTK_MESSAGE_ERROR, "%s", error->message);
 		g_error_free (error);
 		goto exit;
 	}
@@ -344,7 +345,7 @@ subscription_editor_subscribe_folder_done (CamelSubscribable *subscribable,
 	if (error == NULL)
 		tree_row_data->folder_info->flags |= CAMEL_FOLDER_SUBSCRIBED;
 	else {
-		g_warning ("%s", error->message);
+		e_notice (GTK_WINDOW (context->editor), GTK_MESSAGE_ERROR, "%s", error->message);
 		g_error_free (error);
 		tree_row_data_free (tree_row_data);
 		goto exit;
@@ -472,7 +473,7 @@ subscription_editor_unsubscribe_folder_done (CamelSubscribable *subscribable,
 	if (error == NULL)
 		tree_row_data->folder_info->flags &= ~CAMEL_FOLDER_SUBSCRIBED;
 	else {
-		g_warning ("%s", error->message);
+		e_notice (GTK_WINDOW (context->editor), GTK_MESSAGE_ERROR, "%s", error->message);
 		g_error_free (error);
 		tree_row_data_free (tree_row_data);
 		goto exit;
