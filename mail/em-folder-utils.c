@@ -42,6 +42,7 @@
 #include "e-util/e-mktemp.h"
 
 #include "e-util/e-alert-dialog.h"
+#include "e-util/e-dialog-utils.h"
 
 #include "em-vfolder-rule.h"
 
@@ -478,7 +479,7 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 		&cfd->source_store, &cfd->source_folder_name, &error);
 
 	if (error != NULL) {
-		g_warning ("%s", error->message);
+		e_notice (parent, GTK_MESSAGE_ERROR, "%s", error->message);
 		g_error_free (error);
 		g_free (cfd);
 		return;
@@ -521,7 +522,7 @@ new_folder_created_cb (CamelStore *store,
 
 	/* FIXME Use an EActivity here. */
 	if (error != NULL) {
-		g_warning ("%s", error->message);
+		e_notice (NULL, GTK_MESSAGE_ERROR, "%s", error->message);
 		g_error_free (error);
 
 	} else if (context->folder_tree != NULL) {
@@ -639,7 +640,7 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	if (error != NULL) {
 		g_warn_if_fail (store == NULL);
 		g_warn_if_fail (folder_name == NULL);
-		g_warning ("%s", error->message);
+		e_notice (parent, GTK_MESSAGE_ERROR, "%s", error->message);
 		g_error_free (error);
 		goto exit;
 	}
