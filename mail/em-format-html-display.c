@@ -214,14 +214,19 @@ efhd_xpkcs7mime_viewcert_clicked (GtkWidget *button,
 
 static void
 efhd_xpkcs7mime_add_cert_table (GtkWidget *grid,
-                                CamelDList *certlist,
+                                GQueue *certlist,
                                 struct _smime_pobject *po)
 {
-	CamelCipherCertInfo *info = (CamelCipherCertInfo *) certlist->head;
-	GtkTable *table = (GtkTable *) gtk_table_new (camel_dlist_length (certlist), 2, FALSE);
+	GList *head, *link;
+	GtkTable *table;
 	gint n = 0;
 
-	while (info->next) {
+	table = (GtkTable *) gtk_table_new (certlist->length, 2, FALSE);
+
+	head = g_queue_peek_head_link (certlist);
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		CamelCipherCertInfo *info = link->data;
 		gchar *la = NULL;
 		const gchar *l = NULL;
 
@@ -263,8 +268,6 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *grid,
 #endif
 			n++;
 		}
-
-		info = info->next;
 	}
 
 	gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (table));
@@ -315,7 +318,7 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 		gtk_container_add (GTK_CONTAINER (grid), w);
 	}
 
-	if (!camel_dlist_empty (&po->valid->sign.signers))
+	if (!g_queue_is_empty (&po->valid->sign.signers))
 		efhd_xpkcs7mime_add_cert_table (grid, &po->valid->sign.signers, po);
 
 	gtk_widget_show_all (grid);
@@ -348,7 +351,7 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 		gtk_container_add (GTK_CONTAINER (grid), w);
 	}
 
-	if (!camel_dlist_empty (&po->valid->encrypt.encrypters))
+	if (!g_queue_is_empty (&po->valid->encrypt.encrypters))
 		efhd_xpkcs7mime_add_cert_table (grid, &po->valid->encrypt.encrypters, po);
 
 	gtk_widget_show_all (grid);
@@ -639,7 +642,6 @@ efhd_format_secure (EMFormat *emf,
 		g_free (classid);
 
 		if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
-			gchar *signers;
 			const gchar *desc;
 			gint status;
 
@@ -648,13 +650,8 @@ efhd_format_secure (EMFormat *emf,
 
 			g_string_append (buffer, gettext (desc));
 
-			signers = em_format_html_format_cert_infos (
-				(CamelCipherCertInfo *) valid->sign.signers.head);
-			if (signers && *signers) {
-				g_string_append_printf (
-					buffer, " (%s)", signers);
-			}
-			g_free (signers);
+			em_format_html_format_cert_infos (
+				&valid->sign.signers, buffer);
 		}
 
 		if (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {

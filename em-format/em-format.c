@@ -271,7 +271,7 @@ emf_format_secure (EMFormat *emf,
 	if (emf->valid == NULL) {
 		emf->valid = valid;
 	} else {
-		camel_dlist_addtail (&emf->valid_parent->children, (CamelDListNode *) valid);
+		g_queue_push_tail (&emf->valid_parent->children, valid);
 		camel_cipher_validity_envelope (emf->valid_parent, valid);
 	}
 

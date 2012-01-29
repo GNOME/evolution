@@ -1872,18 +1872,11 @@ efh_format_secure (EMFormat *emf,
 		g_free (classid);
 
 		if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
-			gchar *signers;
-
 			g_string_append (
 				buffer, _(smime_sign_table[valid->sign.status].shortdesc));
 
-			signers = em_format_html_format_cert_infos (
-				(CamelCipherCertInfo *) valid->sign.signers.head);
-			if (signers && *signers) {
-				g_string_append_printf (
-					buffer, " (%s)", signers);
-			}
-			g_free (signers);
+			em_format_html_format_cert_infos (
+				&valid->sign.signers, buffer);
 		}
 
 		if (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
@@ -3378,49 +3371,57 @@ efh_format_message (EMFormat *emf,
 	emf->valid_parent = save_parent;
 }
 
-gchar *
-em_format_html_format_cert_infos (CamelCipherCertInfo *first_cinfo)
+void
+em_format_html_format_cert_infos (GQueue *cert_infos,
+                                  GString *output_buffer)
 {
-	GString *res = NULL;
-	CamelCipherCertInfo *cinfo;
+	GQueue valid = G_QUEUE_INIT;
+	GList *head, *link;
 
-	if (!first_cinfo)
-		return NULL;
+	g_return_if_fail (cert_infos != NULL);
+	g_return_if_fail (output_buffer != NULL);
 
-	#define append(x) G_STMT_START {		\
-		if (!res) {				\
-			res = g_string_new (x);		\
-		} else {				\
-			g_string_append (res, x);	\
-		}					\
-	} G_STMT_END
+	head = g_queue_peek_head_link (cert_infos);
 
-	for (cinfo = first_cinfo; cinfo && cinfo->next; cinfo = cinfo->next) {
-		if (!cinfo->name && !cinfo->email)
-			continue;
+	/* Make sure we have a valid CamelCipherCertInfo before
+	 * appending anything to the output buffer, so we don't
+	 * end up with "()". */
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		CamelCipherCertInfo *cinfo = link->data;
 
-		if (res)
-			append (", ");
-
-		if (cinfo->name && *cinfo->name) {
-			append (cinfo->name);
-
-			if (cinfo->email && *cinfo->email) {
-				append (" &lt;");
-				append (cinfo->email);
-				append ("&gt;");
-			}
-		} else if (cinfo->email && *cinfo->email) {
-			append (cinfo->email);
-		}
+		if ((cinfo->name != NULL && *cinfo->name != '\0') ||
+		    (cinfo->email != NULL && *cinfo->email != '\0'))
+			g_queue_push_tail (&valid, cinfo);
 	}
 
-	#undef append
+	if (g_queue_is_empty (&valid))
+		return;
 
-	if (!res)
-		return NULL;
+	g_string_append (output_buffer, " (");
 
-	return g_string_free (res, FALSE);
+	while (!g_queue_is_empty (&valid)) {
+		CamelCipherCertInfo *cinfo;
+
+		cinfo = g_queue_pop_head (&valid);
+
+		if (cinfo->name != NULL && *cinfo->name != '\0') {
+			g_string_append (output_buffer, cinfo->name);
+
+			if (cinfo->email != NULL && *cinfo->email != '\0') {
+				g_string_append (output_buffer, " &lt;");
+				g_string_append (output_buffer, cinfo->email);
+				g_string_append (output_buffer, "&gt;");
+			}
+
+		} else if (cinfo->email != NULL && *cinfo->email != '\0') {
+			g_string_append (output_buffer, cinfo->email);
+		}
+
+		if (!g_queue_is_empty (&valid))
+			g_string_append (output_buffer, ", ");
+	}
+
+	g_string_append_c (output_buffer, ')');
 }
 
 /* unref returned pointer with g_object_unref(), if not NULL */

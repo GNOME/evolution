@@ -313,9 +313,9 @@ gboolean	em_format_html_get_headers_collapsable
 void		em_format_html_set_headers_collapsable
 						(EMFormatHTML *efh,
 						 gboolean collapsable);
-
-gchar *		em_format_html_format_cert_infos
-						(CamelCipherCertInfo *first_cinfo);
+void		em_format_html_format_cert_infos
+						(GQueue *cert_infos,
+						 GString *output_buffer);
 
 CamelStream *	em_format_html_get_cached_image	(EMFormatHTML *efh,
 						 const gchar *image_uri);
