@@ -370,6 +370,10 @@ emae_set_original_account (EMAccountEditor *emae,
 		if (emae->type != EMAE_PAGES)
 			emae->do_signature = TRUE;
 
+		/* thus the emae_setup_service() will pick protocols from the account */
+		emae->priv->source.protocol = NULL;
+		emae->priv->transport.protocol = NULL;
+
 	/* Creating a new account. */
 	} else {
 		modified_account = e_account_new ();
@@ -2662,12 +2666,17 @@ emae_setup_service (EMAccountEditor *emae,
 	CamelProvider *provider = NULL;
 	CamelURL *url;
 
-	/* GtkComboBox internalizes ID strings, which for the provider
-	 * combo box are protocol names.  So we'll do the same here. */
-	url = emae_account_url (emae, info->account_uri_key);
-	if (url != NULL && url->protocol != NULL)
-		service->protocol = g_intern_string (url->protocol);
-	camel_url_free (url);
+	if (!service->protocol) {
+		/* GtkComboBox internalizes ID strings, which for the provider
+		 * combo box are protocol names.  So we'll do the same here. */
+		url = emae_account_url (emae, info->account_uri_key);
+		if (url != NULL && url->protocol != NULL)
+			service->protocol = g_intern_string (url->protocol);
+		camel_url_free (url);
+
+		if (!service->protocol)
+			service->protocol = "none";
+	}
 
 	if (service->protocol != NULL)
 		provider = camel_provider_get (service->protocol, NULL);
@@ -3683,6 +3692,7 @@ emae_send_page (EConfig *ec,
 	/* no transport options page at all for these types of providers */
 	if (provider && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
 		memset (&priv->transport.frame, 0, ((gchar *) &priv->transport.check_dialog) - ((gchar *) &priv->transport.frame));
+		priv->transport.protocol = provider->protocol;
 		return NULL;
 	}
 
@@ -5408,6 +5418,7 @@ emae_commit (EConfig *ec,
 	EAccount *account;
 	EAccount *modified_account;
 	EAccount *original_account;
+	CamelProvider *provider;
 	CamelSettings *settings;
 	CamelURL *url;
 	const gchar *protocol;
@@ -5415,6 +5426,7 @@ emae_commit (EConfig *ec,
 
 	modified_account = em_account_editor_get_modified_account (emae);
 	original_account = em_account_editor_get_original_account (emae);
+	provider = emae_get_store_provider (emae);
 
 	/* check for google and yahoo specific settings */
 	if (!original_account && emae->priv->is_gmail) {
@@ -5447,27 +5459,34 @@ emae_commit (EConfig *ec,
 
 	/* Dump the storage service settings to a URL string. */
 
-	url = g_new0 (CamelURL, 1);
+	url = camel_url_new ("dummy://", NULL);
 
 	protocol = emae->priv->source.protocol;
 	settings = emae->priv->source.settings;
 
-	if (protocol != NULL)
-		camel_url_set_protocol (url, protocol);
+	if (g_strcmp0 (protocol, "none") == 0) {
+		g_free (modified_account->source->url);
+		modified_account->source->url = g_strdup ("");
+	} else {
+		if (protocol != NULL)
+			camel_url_set_protocol (url, protocol);
 
-	if (settings != NULL)
-		camel_settings_save_to_url (settings, url);
+		if (settings != NULL)
+			camel_settings_save_to_url (settings, url);
 
-	g_free (modified_account->source->url);
-	modified_account->source->url = camel_url_to_string (url, 0);
+		g_free (modified_account->source->url);
+		modified_account->source->url = camel_url_to_string (url, 0);
+	}
 
 	camel_url_free (url);
 
 	/* Dump the transport service settings to a URL string. */
 
-	url = g_new0 (CamelURL, 1);
+	url = camel_url_new ("dummy://", NULL);
 
-	protocol = emae->priv->transport.protocol;
+	if (!provider || !CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider))
+		protocol = emae->priv->transport.protocol;
+
 	settings = emae->priv->transport.settings;
 
 	if (protocol != NULL)
