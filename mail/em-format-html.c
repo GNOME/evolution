@@ -1595,7 +1595,6 @@ emfh_gethttp (struct _EMFormatHTMLJob *job,
 {
 	CamelStream *cistream = NULL, *costream = NULL, *instream = NULL;
 	CamelURL *url;
-	CamelContentType *content_type;
 	CamelHttpStream *tmp_stream;
 	gssize n, total = 0, pc_complete = 0, nread = 0;
 	gchar buffer[1500];
@@ -1636,12 +1635,16 @@ emfh_gethttp (struct _EMFormatHTMLJob *job,
 		camel_operation_push_message (
 			cancellable, _("Retrieving '%s'"), job->u.uri);
 		tmp_stream = (CamelHttpStream *) instream;
-		content_type = camel_http_stream_get_content_type (tmp_stream);
-		length = camel_header_raw_find(&tmp_stream->headers, "Content-Length", NULL);
-		d(printf("  Content-Length: %s\n", length));
-		if (length != NULL)
-			total = atoi (length);
-		camel_content_type_unref (content_type);
+		if (camel_stream_read (CAMEL_STREAM (instream), NULL, 0, cancellable, NULL) == 0) {
+			CamelContentType *content_type;
+
+			content_type = camel_http_stream_get_content_type (tmp_stream);
+			length = camel_header_raw_find(&tmp_stream->headers, "Content-Length", NULL);
+			d(printf("  Content-Length: %s\n", length));
+			if (length != NULL)
+				total = atoi (length);
+			camel_content_type_unref (content_type);
+		}
 	} else
 		camel_operation_push_message (
 			cancellable, _("Retrieving '%s'"), job->u.uri);
