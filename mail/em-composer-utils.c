@@ -1299,6 +1299,30 @@ em_utils_edit_message (EShell *shell,
 	}
 
 	composer = e_msg_composer_new_with_message (shell, message, NULL);
+	if (folder && !folder_is_templates) {
+		EComposerHeaderTable *table;
+		EAccount *account;
+		CamelStore *store;
+		const gchar *uid;
+		gchar *folder_uri;
+		GList *list;
+
+		table = e_msg_composer_get_header_table (composer);
+
+		store = camel_folder_get_parent_store (folder);
+		uid = camel_service_get_uid (CAMEL_SERVICE (store));
+		account = e_get_account_by_uid (uid);
+
+		folder_uri = e_mail_folder_uri_from_folder (folder);
+
+		list = g_list_prepend (NULL, folder_uri);
+		e_composer_header_table_set_post_to_list (table, list);
+		g_list_free (list);
+
+		g_free (folder_uri);
+
+		e_composer_header_table_set_account (table, account);
+	}
 
 	e_msg_composer_remove_header (
 		composer, "X-Evolution-Replace-Outbox-UID");
