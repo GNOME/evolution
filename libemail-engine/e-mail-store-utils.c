@@ -156,15 +156,17 @@ mail_store_go_offline_thread (GSimpleAsyncResult *simple,
                               GCancellable *cancellable)
 {
 	CamelService *service;
-	gchar *service_name;
+	const gchar *display_name;
 	GError *error = NULL;
 
 	service = CAMEL_SERVICE (store);
 
-	service_name = camel_service_get_name (service, TRUE);
+	display_name = camel_service_get_display_name (service);
+	if (display_name == NULL || *display_name == '\0')
+		display_name = G_OBJECT_TYPE_NAME (service);
+
 	camel_operation_push_message (
-		cancellable, _("Disconnecting from '%s'"), service_name);
-	g_free (service_name);
+		cancellable, _("Disconnecting from '%s'"), display_name);
 
 	if (CAMEL_IS_DISCO_STORE (store)) {
 		CamelDiscoStore *disco_store;
@@ -245,15 +247,17 @@ mail_store_go_online_thread (GSimpleAsyncResult *simple,
                              GCancellable *cancellable)
 {
 	CamelService *service;
-	gchar *service_name;
+	const gchar *display_name;
 	GError *error = NULL;
 
 	service = CAMEL_SERVICE (store);
 
-	service_name = camel_service_get_name (service, TRUE);
+	display_name = camel_service_get_display_name (service);
+	if (display_name == NULL || *display_name == '\0')
+		display_name = G_OBJECT_TYPE_NAME (service);
+
 	camel_operation_push_message (
-		cancellable, _("Reconnecting to '%s'"), service_name);
-	g_free (service_name);
+		cancellable, _("Reconnecting to '%s'"), display_name);
 
 	if (CAMEL_IS_DISCO_STORE (store))
 		camel_disco_store_set_status (
@@ -318,16 +322,18 @@ mail_store_prepare_for_offline_thread (GSimpleAsyncResult *simple,
                                        GCancellable *cancellable)
 {
 	CamelService *service;
-	gchar *service_name;
+	const gchar *display_name;
 	GError *error = NULL;
 
 	service = CAMEL_SERVICE (store);
 
-	service_name = camel_service_get_name (service, TRUE);
+	display_name = camel_service_get_display_name (service);
+	if (display_name == NULL || *display_name == '\0')
+		display_name = G_OBJECT_TYPE_NAME (service);
+
 	camel_operation_push_message (
 		cancellable, _("Preparing account '%s' for offline"),
-		service_name);
-	g_free (service_name);
+		display_name);
 
 	if (CAMEL_IS_DISCO_STORE (store))
 		camel_disco_store_prepare_for_offline (
