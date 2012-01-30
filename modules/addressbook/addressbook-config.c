@@ -1257,7 +1257,8 @@ addressbook_config_edit_source (GtkWidget *parent,
 		GConfClient *gconf;
 		GSList *l;
 
-		sdialog->source = e_source_new("", "");
+		sdialog->source = e_source_new ("", "");
+		e_source_set_property (sdialog->source, "completion", "true");
 		gconf = gconf_client_get_default ();
 		sdialog->source_list = e_source_list_new_for_gconf(gconf, "/apps/evolution/addressbook/sources");
 		l = e_source_list_peek_groups (sdialog->source_list);
