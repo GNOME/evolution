@@ -354,8 +354,8 @@ emfu_copy_folder_selected (EMailSession *session,
 	if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, cfd->delete ?
-			"mail:no-move-folder-notexist" :
-			"mail:no-copy-folder-notexist",
+			"mail:no-move-folder-nostore" :
+			"mail:no-copy-folder-nostore",
 			cfd->source_folder_name, uri,
 			local_error->message, NULL);
 		goto fail;
@@ -387,8 +387,8 @@ emfu_copy_folder_selected (EMailSession *session,
 	if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, cfd->delete ?
-			"mail:no-move-folder-to-notexist" :
-			"mail:no-copy-folder-to-notexist",
+			"mail:no-move-folder-to-nostore" :
+			"mail:no-copy-folder-to-nostore",
 			cfd->source_folder_name, uri,
 			local_error->message, NULL);
 		goto fail;
