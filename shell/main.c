@@ -114,7 +114,6 @@ static gboolean quit = FALSE;
 
 static gchar *geometry = NULL;
 static gchar *requested_view = NULL;
-static gchar *evolution_debug_log = NULL;
 static gchar **remaining_args;
 
 static void
@@ -325,8 +324,6 @@ static GOptionEntry entries[] = {
 	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &force_shutdown,
 	  N_("Forcibly shut down Evolution"), NULL },
 #endif
-	{ "debug", '\0', 0, G_OPTION_ARG_STRING, &evolution_debug_log,
-	  N_("Send the debugging output of all components to a file."), "FILE" },
 	{ "disable-eplugin", '\0', 0, G_OPTION_ARG_NONE, &disable_eplugin,
 	  N_("Disable loading of any plugins."), NULL },
 	{ "disable-preview", '\0', 0, G_OPTION_ARG_NONE, &disable_preview,
@@ -615,18 +612,6 @@ main (gint argc,
 		G_PRIORITY_DEFAULT, SIGTERM,
 		handle_term_signal, NULL, NULL);
 #endif
-
-	if (evolution_debug_log) {
-		gint fd;
-
-		fd = g_open (evolution_debug_log, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-		if (fd != -1) {
-			dup2 (fd, STDOUT_FILENO);
-			dup2 (fd, STDERR_FILENO);
-			close (fd);
-		} else
-			g_warning ("Could not set up debugging output file.");
-	}
 
 	e_passwords_init ();
 
