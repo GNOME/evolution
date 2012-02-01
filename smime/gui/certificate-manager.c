@@ -397,8 +397,8 @@ treeview_add_column (CertPage *cp,
 	cell = gtk_cell_renderer_text_new ();
 	g_object_set (cell, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	column = gtk_tree_view_column_new_with_attributes (
-			cp->columns[column_index].column_title, cell,
-			"text", column_index, NULL);
+		gettext (cp->columns[column_index].column_title),
+		cell, "text", column_index, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_column_set_reorderable (column, TRUE);
 	gtk_tree_view_column_set_sort_column_id (column, column_index);
@@ -415,7 +415,8 @@ treeview_add_column (CertPage *cp,
 		return;
 
 	/* Add item to header popup */
-	item = gtk_check_menu_item_new_with_label (cp->columns[column_index].column_title);
+	item = gtk_check_menu_item_new_with_label (
+		gettext (cp->columns[column_index].column_title));
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), cp->columns[column_index].visible);
 	gtk_menu_attach (cp->popup_menu, item, 0, 1, column_index - 1, column_index);
 	g_signal_connect (item, "toggled",
