@@ -380,8 +380,12 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 	wrapper = CAMEL_DATA_WRAPPER (multipart);
 	camel_medium_set_content (CAMEL_MEDIUM (mime_part), wrapper);
 
-	/* Translators: This is only for multiple messages. */
-	description = g_strdup_printf (_("%d attached messages"), uids->len);
+	description = g_strdup_printf (
+		ngettext (
+			"%d attached message",
+			"%d attached messages",
+			uids->len),
+		uids->len);
 	camel_mime_part_set_description (mime_part, description);
 	g_free (description);
 
