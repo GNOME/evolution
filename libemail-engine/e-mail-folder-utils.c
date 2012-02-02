@@ -1164,8 +1164,8 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
                                   GError **error)
 {
 	GFileOutputStream *file_output_stream;
+	CamelStream *base_stream = NULL;
 	GByteArray *byte_array;
-	CamelStream *base_stream;
 	gboolean success = TRUE;
 	guint ii;
 
@@ -1194,9 +1194,7 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 		return FALSE;
 	}
 
-	/* CamelStreamMem takes ownership of the GByteArray. */
 	byte_array = g_byte_array_new ();
-	base_stream = camel_stream_mem_new_with_byte_array (byte_array);
 
 	for (ii = 0; ii < message_uids->len; ii++) {
 		CamelMimeMessage *message;
@@ -1206,6 +1204,17 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 		gchar *from_line;
 		gint percent;
 		gint retval;
+
+		if (base_stream != NULL)
+			g_object_unref (base_stream);
+
+		/* CamelStreamMem does NOT take ownership of the byte
+		 * array when set with camel_stream_mem_set_byte_array().
+		 * This allows us to reuse the same memory slab for each
+		 * message, which is slightly more efficient. */
+		base_stream = camel_stream_mem_new ();
+		camel_stream_mem_set_byte_array (
+			CAMEL_STREAM_MEM (base_stream), byte_array);
 
 		uid = g_ptr_array_index (message_uids, ii);
 
@@ -1264,18 +1273,19 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 		percent = ((ii + 1) * 100) / message_uids->len;
 		camel_operation_progress (cancellable, percent);
 
-		/* Flush the buffer for the next message.
-		 * For memory streams this never fails. */
-		g_seekable_seek (
-			G_SEEKABLE (base_stream),
-			0, G_SEEK_SET, NULL, NULL);
+		/* Reset the byte array for the next message. */
+		g_byte_array_set_size (byte_array, 0);
 
 		g_object_unref (message);
 	}
 
 exit:
+	if (base_stream != NULL)
+		g_object_unref (base_stream);
+
+	g_byte_array_free (byte_array, TRUE);
+
 	g_object_unref (file_output_stream);
-	g_object_unref (base_stream);
 
 	camel_operation_pop_message (cancellable);
 
