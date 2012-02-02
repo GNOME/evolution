@@ -48,6 +48,7 @@ evolution_settings_LDADD = 				\
 	$(CANBERRA_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(SMIME_LIBS)					\
+	$(top_builddir)/libemail-engine/libemail-engine.la \
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
