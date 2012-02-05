@@ -1,3 +1,57 @@
+Evolution 3.3.5 2012-02-06
+--------------------------
+
+Bug Fixes:
+	Bug 636413 - Enable "Autocomplete with this addressbook" by default
+	             (Milan Crha)
+	Bug 646430 - New line character is a link separator too (Milan Crha)
+	Bug 651221 - "Edit as New Message" always uses default From: address
+	             (Milan Crha)
+	Bug 659395 - Missing plural handling for "%d attached messages"
+	             (David Morley)
+	Bug 661535 - "Current View" tooltip uses string with mnemonic
+	             underscore (Milan Crha)
+	Bug 664160 - Untranslated headers in certificates table (Gabor Kelemen)
+	Bug 667576 - Junk between messages after saving an mbox file
+	             (James Bottomley)
+	Bug 667741 - Crash when browse for CalDAV calendar (Milan Crha)
+	Bug 668479 - Missing transport-only accounts in Preferences
+	             (Matthew Barnes)
+	Bug 668480 - Going to online from offline connects disabled accounts
+	             (Matthew Barnes)
+	Bug 668595 - Suppress bogus percentage in status messages
+	             (Matthew Barnes)
+	Bug 668631 - Report Folder->Subscriptions errors to users (Milan Crha)
+	Bug 668634 - Warn user with folder create error (Milan Crha)
+	Bug 668714 - Editing account changes transport to SMTP (Milan Crha)
+	Bug 668805 - Copy to Folder uses incorrect error definition names
+	             (Milan Crha)
+	Bug 669005 - Partial hang with unresponsive HTML email image source
+	             (Milan Crha)
+	Bug 669006 - Clicking "Not Junk" button should not move to next email
+	             (Milan Crha)
+
+Other Changes:
+	* configure.ac: Mention libpst minimum version in error message.
+	  (Matthew Barnes)
+	* Introduce libemail-engine and libemail-utils. (Matthew Barnes)
+	* EMailBackend: Make sure all background jobs have descriptions.
+	  (Matthew Barnes)
+	* Remove duplicate Windows SENS checks (Priit Laes)
+	* e-mail-store-utils.c: Use the service's display name in status
+	  messages. (Matthew Barnes)
+	* Remove the --debug command-line option. (Matthew Barnes)
+	* Use _DAWATI to detect if its Tizen/MeeGo. (Srinivasa Ragavan)
+
+Translations:
+	Kasia Bondarava (be)
+	Christian Kirbach (de)
+	Daniel Mustieles (es)
+	Kjartan Maraas (nb)
+	Matej Urbančič (sl)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 3.3.4 2012-01-16
 --------------------------
 
