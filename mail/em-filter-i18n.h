@@ -72,4 +72,5 @@ gchar *s = N_("starts with");
 gchar *s = N_("Status");
 gchar *s = N_("Stop Processing");
 gchar *s = N_("Subject");
+gchar *s = N_("Unset Color");
 gchar *s = N_("Unset Status");

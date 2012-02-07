@@ -931,6 +931,10 @@
   <code>(set-color ${colour})</code>
   <input type="colour" name="colour"/>
  </part>
+ <part name="unset-color">
+  <title>Unset Color</title>
+  <code>(set-color "")</code>
+ </part>
  <part name="score">
   <title>Assign Score</title>
   <code>(set-score ${score})</code>

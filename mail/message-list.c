@@ -1704,7 +1704,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		/* To add to the woes, what color to show when the user choose multiple labels ?
 		Don't say that I need to have the new labels[with subject] column visible always */
 
-		colour = camel_message_info_user_tag(msg_info, "color");
+		colour = NULL;
 		due_by = camel_message_info_user_tag(msg_info, "due-by");
 		completed = camel_message_info_user_tag(msg_info, "completed-on");
 		followup = camel_message_info_user_tag(msg_info, "follow-up");
@@ -1745,6 +1745,9 @@ ml_tree_value_at_ex (ETreeModel *etm,
 
 			g_hash_table_destroy (ld.labels_tag2iter);
 		}
+
+		if (!colour)
+			colour = camel_message_info_user_tag (msg_info, "color");
 
 		return (gpointer) colour;
 	}
