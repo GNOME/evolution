@@ -126,6 +126,7 @@ emfp_get_folder_item (EConfig *ec,
 	AsyncContext *context = data;
 	guint ii, n_properties;
 	gint row = 0;
+	gboolean can_apply_filters = FALSE;
 
 	if (old)
 		return old;
@@ -188,6 +189,21 @@ emfp_get_folder_item (EConfig *ec,
 		}
 	}
 
+	if (context->folder) {
+		CamelStore *store;
+		CamelSession *session;
+		CamelFolderInfoFlags fi_flags = 0;
+		MailFolderCache *folder_cache;
+
+		store = camel_folder_get_parent_store (context->folder);
+		session = camel_service_get_session (CAMEL_SERVICE (store));
+		folder_cache = e_mail_session_get_folder_cache (E_MAIL_SESSION (session));
+
+		can_apply_filters = !CAMEL_IS_VEE_FOLDER (context->folder) &&
+			mail_folder_cache_get_folder_info_flags (folder_cache, context->folder, &fi_flags) &&
+			(fi_flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_INBOX;
+	}
+
 	class = G_OBJECT_GET_CLASS (context->folder);
 	properties = g_object_class_list_properties (class, &n_properties);
 
@@ -195,6 +211,10 @@ emfp_get_folder_item (EConfig *ec,
 		const gchar *blurb;
 
 		if ((properties[ii]->flags & CAMEL_PARAM_PERSISTENT) == 0)
+			continue;
+
+		if (!can_apply_filters &&
+		    g_strcmp0 (properties[ii]->name, "apply-filters") == 0)
 			continue;
 
 		blurb = g_param_spec_get_blurb (properties[ii]);

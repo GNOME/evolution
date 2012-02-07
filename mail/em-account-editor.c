@@ -3136,6 +3136,26 @@ emae_receive_page (EConfig *ec,
 	return w;
 }
 
+static void
+emae_set_option_dependency (EMAccountEditorService *service,
+			    CamelProviderConfEntry *conf,
+			    GtkWidget *widget)
+{
+	if (conf->depname != NULL) {
+		const gchar *depname = conf->depname;
+
+		if (*depname == '!')
+			depname++;
+
+		g_object_bind_property (
+			service->settings, depname,
+			widget, "sensitive",
+			G_BINDING_SYNC_CREATE |
+			(depname == conf->depname ? 0 : G_BINDING_INVERT_BOOLEAN));
+		gtk_widget_set_margin_left (widget, INDENT_MARGIN);
+	}
+}
+
 static GtkWidget *
 emae_option_toggle (EMAccountEditorService *service,
                     CamelProviderConfEntry *conf)
@@ -3150,13 +3170,7 @@ emae_option_toggle (EMAccountEditorService *service,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	if (conf->depname != NULL) {
-		g_object_bind_property (
-			service->settings, conf->depname,
-			widget, "sensitive",
-			G_BINDING_SYNC_CREATE);
-		gtk_widget_set_margin_left (widget, INDENT_MARGIN);
-	}
+	emae_set_option_dependency (service, conf, widget);
 
 	return widget;
 }
@@ -3177,14 +3191,7 @@ emae_option_entry (EMAccountEditorService *service,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	if (conf->depname != NULL) {
-		g_object_bind_property (
-			service->settings, conf->depname,
-			widget, "sensitive",
-			G_BINDING_SYNC_CREATE);
-		gtk_widget_set_margin_left (
-			GTK_WIDGET (label_for_mnemonic), INDENT_MARGIN);
-	}
+	emae_set_option_dependency (service, conf, widget);
 
 	g_object_bind_property (
 		widget, "sensitive",
@@ -3353,13 +3360,7 @@ emae_option_checkspin (EMAccountEditorService *service,
 		gtk_widget_show (label);
 	}
 
-	if (conf->depname != NULL) {
-		g_object_bind_property (
-			service->settings, conf->depname,
-			hbox, "sensitive",
-			G_BINDING_SYNC_CREATE);
-		gtk_widget_set_margin_left (hbox, INDENT_MARGIN);
-	}
+	emae_set_option_dependency (service, conf, hbox);
 
 	return hbox;
 }
