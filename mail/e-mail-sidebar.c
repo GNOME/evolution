@@ -345,6 +345,7 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 	gboolean is_outbox = FALSE;
 	gboolean is_store;
 	gboolean is_trash = FALSE;
+	gboolean is_virtual = FALSE;
 	guint32 folder_flags = 0;
 	guint32 state = 0;
 
@@ -376,6 +377,9 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		folder_type = (folder_flags & CAMEL_FOLDER_TYPE_MASK);
 		is_trash |= (folder_type == CAMEL_FOLDER_TYPE_TRASH);
 
+		/* Is this a virtual folder (junk/trash/search)? */
+		is_virtual |= (folder_flags & CAMEL_FOLDER_VIRTUAL);
+
 		allows_children = !(is_junk || is_trash);
 
 		/* Don't allow deletion of special local folders. */
@@ -405,6 +409,8 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		state |= E_MAIL_SIDEBAR_FOLDER_IS_STORE;
 	if (is_trash)
 		state |= E_MAIL_SIDEBAR_FOLDER_IS_TRASH;
+	if (is_virtual)
+		state |= E_MAIL_SIDEBAR_FOLDER_IS_VIRTUAL;
 	if (CAMEL_IS_SUBSCRIBABLE (store))
 		state |= E_MAIL_SIDEBAR_STORE_IS_SUBSCRIBABLE;
 
