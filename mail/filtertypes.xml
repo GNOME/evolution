@@ -401,6 +401,18 @@
 	(match-all (not (header-contains "Subject" ${subject})))
      </code>
     </option>
+    <option value="has-words">
+     <title>has words</title>
+     <code>
+	(match-all (header-has-words "Subject" ${subject}))
+     </code>
+    </option>
+    <option value="not has-words">
+     <title>does not have words</title>
+     <code>
+	(match-all (not (header-has-words "Subject" ${subject})))
+     </code>
+    </option>
     <option value="is">
      <title>is</title>
      <code>
@@ -467,6 +479,18 @@
      <title>does not contain</title>
      <code>
 	(match-all (not (header-contains ${header-field} ${word})))
+     </code>
+    </option>
+    <option value="has-words">
+     <title>has words</title>
+     <code>
+	(match-all (header-has-words ${header-field} ${word}))
+     </code>
+    </option>
+    <option value="not has-words">
+     <title>does not have words</title>
+     <code>
+	(match-all (not (header-has-words ${header-field} ${word})))
      </code>
     </option>
     <option value="is">
