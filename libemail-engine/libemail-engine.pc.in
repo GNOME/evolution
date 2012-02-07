@@ -5,11 +5,12 @@ includedir=@includedir@
 datarootdir=@datarootdir@
 datadir=@datadir@
 
+privlibdir=@privsolibdir@
 privincludedir=@privincludedir@
 
 Name: libemail-engine
 Description: Client library for evolution mail
 Version: @VERSION@
 Requires: libemail-utils
-Libs: -L${libdir} -lemail-engine
+Libs: -L${privlibdir} -lemail-engine
 Cflags: -I${privincludedir}

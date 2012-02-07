@@ -1,6 +1,6 @@
 NULL =
 
-lib_LTLIBRARIES = libemail-engine.la
+privsolib_LTLIBRARIES = libemail-engine.la
 
 include $(top_srcdir)/glib-gen.mak
 glib_enum_headers=e-mail-enums.h
