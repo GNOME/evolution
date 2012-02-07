@@ -5,11 +5,12 @@ includedir=@includedir@
 datarootdir=@datarootdir@
 datadir=@datadir@
 
+privlibdir=@privsolibdir@
 privincludedir=@privincludedir@
 
 Name: libemail-utils
 Description: Client library for evolution mail
 Version: @VERSION@
 Requires: camel-1.2 libedataserver-1.2 gio-2.0
-Libs: -L${libdir} -lemail-utils
+Libs: -L${privlibdir} -lemail-utils
 Cflags: -I${privincludedir}

@@ -1,6 +1,6 @@
 NULL =
 
-lib_LTLIBRARIES = libemail-utils.la
+privsolib_LTLIBRARIES = libemail-utils.la
 
 libemail_utils_la_CPPFLAGS = \
 	$(AM_CPPFLAGS) \
