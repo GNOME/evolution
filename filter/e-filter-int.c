@@ -168,7 +168,7 @@ filter_int_format_sexp (EFilterElement *element,
 
 	if (filter_int->val < 0)
 		/* See #364731 #457523 C6*/
-		g_string_append_printf (out, "(- %d)", (filter_int->val * -1));
+		g_string_append_printf (out, "(- 0 %d)", (filter_int->val * -1));
 	else
 		g_string_append_printf (out, "%d", filter_int->val);
 }
