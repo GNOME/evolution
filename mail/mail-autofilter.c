@@ -216,7 +216,7 @@ rule_from_address (EFilterRule *rule,
                    CamelInternetAddress *addr,
                    gint flags)
 {
-	rule->grouping = E_FILTER_GROUP_ANY;
+	rule->grouping = E_FILTER_GROUP_ALL;
 
 	if (flags & AUTO_FROM) {
 		const gchar *name, *address;
@@ -244,7 +244,7 @@ rule_from_message (EFilterRule *rule,
 {
 	CamelInternetAddress *addr;
 
-	rule->grouping = E_FILTER_GROUP_ANY;
+	rule->grouping = E_FILTER_GROUP_ALL;
 
 	if (flags & AUTO_SUBJECT) {
 		const gchar *subject = msg->subject ? msg->subject : "";
