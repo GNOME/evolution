@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#mail-composing" />
 
-    <revision pkgversion="3.1.5" version="0.4" date="2011-08-10" status="final"/>
+    <revision pkgversion="3.2.3" version="0.5" date="2012-02-09" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -51,7 +51,7 @@
 
 <section id="default-settings">
 <title>Default settings</title>
-<p>The default settings for replying and forwarding can be changed under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>General</gui><gui>Replies and Forwards</gui><gui>Forward style</gui></guiseq>.</p>
+<p>The default settings for replying and forwarding can be changed under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>General</gui><gui>Replies and Forwards</gui><gui>Reply style</gui></guiseq>.</p>
 </section>
 
 </page>
