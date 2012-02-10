@@ -254,7 +254,7 @@ plugin_webdav_contacts (EPlugin *epl,
 	spacer = gtk_label_new("   ");
 	gtk_box_pack_start (hbox, spacer, FALSE, FALSE, 0);
 
-	label = gtk_label_new(_("URL:"));
+	label = gtk_label_new_with_mnemonic(_("_URL:"));
 	gtk_box_pack_start (hbox, label, FALSE, FALSE, 0);
 
 	uidata->url_entry = GTK_ENTRY (gtk_entry_new ());
