@@ -17012,7 +17012,7 @@ msgstr "_Erinnerung aufbewahren"
 #. To Translators: This is a check box to inherit a reminder.
 #: ../plugins/itip-formatter/itip-view.c:1189
 msgid "_Inherit reminder"
-msgstr "Erinnerung übernehmen"
+msgstr "Erinnerung ü_bernehmen"
 
 #: ../plugins/itip-formatter/itip-view.c:1965
 msgid "_Tasks:"
