@@ -1165,6 +1165,85 @@ em_ensure_proxy_ignore_hosts_being_list (void)
 	g_object_unref (client);
 }
 
+static void
+em_rename_view_in_folder (gpointer data,
+			  gpointer user_data)
+{
+	const gchar *filename = data;
+	const gchar *views_dir = user_data;
+	gchar *folderpos, *dotpos;
+
+	g_return_if_fail (filename != NULL);
+	g_return_if_fail (views_dir != NULL);
+
+	folderpos = strstr (filename, "-folder:__");
+	if (!folderpos)
+		folderpos = strstr (filename, "-folder___");
+	if (!folderpos)
+		return;
+
+	/* points on 'f' from the "folder" word */
+	folderpos++;
+	dotpos = strrchr (filename, '.');
+	if (folderpos < dotpos && g_str_equal (dotpos, ".xml")) {
+		GChecksum *checksum;
+		gchar *oldname, *newname, *newfile;
+
+		*dotpos = 0;
+
+		/* use MD5 checksum of the folder URI, to not depend on its length */
+		checksum = g_checksum_new (G_CHECKSUM_MD5);
+		g_checksum_update (checksum, (const guchar *) folderpos, -1);
+
+		*folderpos = 0;
+		newfile = g_strconcat (filename, g_checksum_get_string (checksum), ".xml", NULL);
+		*folderpos = 'f';
+		*dotpos = '.';
+
+		oldname = g_build_filename (views_dir, filename, NULL);
+		newname = g_build_filename (views_dir, newfile, NULL);
+
+		g_rename (oldname, newname);
+
+		g_checksum_free (checksum);
+		g_free (oldname);
+		g_free (newname);
+		g_free (newfile);
+	}
+}
+
+static void
+em_rename_folder_views (EShellBackend *shell_backend)
+{
+	const gchar *config_dir;
+	gchar *views_dir;
+	GDir *dir;
+
+	g_return_if_fail (shell_backend != NULL);
+
+	config_dir = e_shell_backend_get_config_dir (shell_backend);
+	views_dir = g_build_filename (config_dir, "views", NULL);
+
+	dir = g_dir_open (views_dir, 0, NULL);
+	if (dir) {
+		GSList *to_rename = NULL;
+		const gchar *filename;
+
+		while (filename = g_dir_read_name (dir), filename) {
+			if (strstr (filename, "-folder:__") ||
+			    strstr (filename, "-folder___"))
+				to_rename = g_slist_prepend (to_rename, g_strdup (filename));
+		}
+
+		g_dir_close (dir);
+
+		g_slist_foreach (to_rename, em_rename_view_in_folder, views_dir);
+		g_slist_free_full (to_rename, g_free);
+	}
+
+	g_free (views_dir);
+}
+
 gboolean
 e_mail_migrate (EShellBackend *shell_backend,
                 gint major,
@@ -1218,6 +1297,9 @@ e_mail_migrate (EShellBackend *shell_backend,
 
 	if (!migrate_local_store (shell_backend))
 		return FALSE;
+
+	if (major <= 2 || (major == 3 && minor < 4))
+		em_rename_folder_views (shell_backend);
 
 	return TRUE;
 }

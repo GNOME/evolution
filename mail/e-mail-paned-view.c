@@ -778,6 +778,32 @@ mail_paned_view_get_view_instance (EMailView *view)
 	return paned_view->priv->view_instance;
 }
 
+static gchar *
+empv_create_view_id (CamelFolder *folder)
+{
+	GChecksum *checksum;
+	gchar *res, *folder_uri;
+
+	g_return_val_if_fail (folder != NULL, NULL);
+
+	folder_uri = e_mail_folder_uri_from_folder (folder);
+	g_return_val_if_fail (folder_uri != NULL, NULL);
+
+	/* to be able to migrate previously saved views */
+	e_filename_make_safe (folder_uri);
+
+	/* use MD5 checksum of the folder URI, to not depend on its length */
+	checksum = g_checksum_new (G_CHECKSUM_MD5);
+	g_checksum_update (checksum, (const guchar *) folder_uri, -1);
+
+	res = g_strdup (g_checksum_get_string (checksum));
+
+	g_checksum_free (checksum);
+	g_free (folder_uri);
+
+	return res;
+}
+
 static void
 mail_paned_view_update_view_instance (EMailView *view)
 {
@@ -819,7 +845,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 		priv->view_instance = NULL;
 	}
 
-	view_id = e_mail_folder_uri_from_folder (folder);
+	view_id = empv_create_view_id (folder);
 	e_filename_make_safe (view_id);
 
 	outgoing_folder =
