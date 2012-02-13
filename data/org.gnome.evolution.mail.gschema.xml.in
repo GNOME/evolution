@@ -222,8 +222,8 @@
     </key>
     <key name="mark-seen-timeout" type="i">
       <default>1500</default>
-      <_summary>Timeout for marking message as seen</_summary>
-      <_description>Timeout for marking message as seen.</_description>
+      <_summary>Timeout for marking messages as seen</_summary>
+      <_description>Timeout in milliseconds for marking messages as seen.</_description>
     </key>
     <key name="show-email" type="b">
       <default>false</default>

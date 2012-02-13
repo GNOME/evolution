@@ -657,9 +657,9 @@
       <type>int</type>
       <default>1500</default>
       <locale name="C">
-         <short>Timeout for marking message as seen</short>
+         <short>Timeout for marking messages as seen</short>
          <long>
-          Timeout for marking message as seen.
+          Timeout in milliseconds for marking messages as seen.
          </long>
       </locale>
     </schema>
