@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolut"
 "ion&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-02-07 17:44+0000\n"
-"PO-Revision-Date: 2012-02-10 21:50+0200\n"
+"POT-Creation-Date: 2012-02-13 14:41+0000\n"
+"PO-Revision-Date: 2012-02-14 10:37+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -2156,7 +2156,6 @@ msgstr ""
 "kalendar koji prihvata zakazivanje."
 
 #: ../calendar/calendar.error.xml.h:79
-#| msgid "Cannot save event"
 msgid "Cannot save task"
 msgstr "Ne mogu da sačuvam zadatak"
 
@@ -2333,7 +2332,6 @@ msgid "Occurs"
 msgstr "Dešavanja"
 
 #: ../calendar/gui/caltypes.xml.h:21
-#| msgid "is less than"
 msgid "Less Than"
 msgstr "Manje od"
 
@@ -2342,7 +2340,6 @@ msgid "Exactly"
 msgstr "Tačno"
 
 #: ../calendar/gui/caltypes.xml.h:23
-#| msgid "Korean"
 msgid "More Than"
 msgstr "Više od"
 
@@ -3755,7 +3752,6 @@ msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr "Zadatak nije moguće potpuno urediti, zato što niste organizator"
 
 #: ../calendar/gui/dialogs/task-page.c:297
-#| msgid "Task cannot be edited, because the selected task list is read only"
 msgid ""
 "Task cannot be edited, because the selected task list does not support "
 "assigned tasks"
@@ -7556,7 +7552,6 @@ msgstr "Podesite naloge e-pošte"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:21
-#| msgid "Calendar information"
 msgid "Enable address formatting"
 msgstr "Ukljčivanje oblikovanja adrese"
 
@@ -7648,7 +7643,6 @@ msgid "Show maps"
 msgstr "Prikaži mape"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:16
-#| msgid "Whether to show maps in preview pane."
 msgid "Whether to show maps in preview pane"
 msgstr "Da li da prikaže mape u površi za pregled"
 
@@ -7666,9 +7660,6 @@ msgid "Primary address book"
 msgstr "Primarni adresar"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:18
-#| msgid ""
-#| "The UID of the selected (or \"primary\") address book in the sidebar of "
-#| "the \"Contacts\" view."
 msgid ""
 "The UID of the selected (or \"primary\") address book in the sidebar of the "
 "\"Contacts\" view"
@@ -7716,7 +7707,6 @@ msgid "Birthday and anniversary reminder value"
 msgstr "Vrednosti podsetnika na rođendane i godišnjice"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:4
-#| msgid "Number of units for determining a birthday or anniversary reminder."
 msgid "Number of units for determining a birthday or anniversary reminder"
 msgstr "Broj jedinica za određivanje podsetnika na rođendane ili godišnjice"
 
@@ -7726,15 +7716,11 @@ msgid "Birthday and anniversary reminder units"
 msgstr "Jedinice podsetnika na rođendane i godišnjice"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:6
-#| msgid ""
-#| "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
-#| "\"days\"."
 msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\""
 msgstr ""
-"Jedinice za podsetnik na rođendane ili godišnjice, „minuti“, „sati“ ili "
-"„dani“"
+"Jedinice za podsetnik na rođendane ili godišnjice, „minuti“, „sati“ ili „dani“"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:63
@@ -7742,9 +7728,6 @@ msgid "Compress weekends in month view"
 msgstr "Sažmi vikende u mesečni pregled"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:8
-#| msgid ""
-#| "Whether to compress weekends in the month view, which puts Saturday and "
-#| "Sunday in the space of one weekday."
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday"
@@ -7758,8 +7741,6 @@ msgid "Ask for confirmation when deleting items"
 msgstr "Traži potvrdu za brisanje stavki"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:10
-#| msgid ""
-#| "Whether to ask for confirmation when deleting an appointment or task."
 msgid "Whether to ask for confirmation when deleting an appointment or task"
 msgstr "Da li da traži potvrdu za brisanje zakazivanja ili zadatka"
 
@@ -7769,8 +7750,6 @@ msgid "Confirm expunge"
 msgstr "Potvrdi pražnjenje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:12
-#| msgid ""
-#| "Whether to ask for confirmation when expunging appointments and tasks."
 msgid "Whether to ask for confirmation when expunging appointments and tasks"
 msgstr "Da li da traži potvrdu pri izbacivanjuzakazivanja ili zadatka"
 
@@ -7780,9 +7759,6 @@ msgid "Month view vertical pane position"
 msgstr "Pozicija uspravne površi Mesečnog pregleda"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:14
-#| msgid ""
-#| "Position of the vertical pane, between the calendar lists and the date "
-#| "navigator calendar."
 msgid ""
 "Position of the vertical pane, between the calendar lists and the date "
 "navigator calendar"
@@ -7796,7 +7772,6 @@ msgid "Workday end hour"
 msgstr "Čas kojim se završava radni dan"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:16
-#| msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
 msgstr ""
 "Sat kojim se završava radna nedelja, u dvadesetčetvoročasovnom obliku, od 0 "
@@ -7839,9 +7814,6 @@ msgid "The second timezone for a Day View"
 msgstr "Druga vremenska zona u Dnevnom pregledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
-#| msgid ""
-#| "Shows the second time zone in a Day View, if set. Value is similar to one "
-#| "used in a 'timezone' key."
 msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
 "used in a 'timezone' key"
@@ -7855,19 +7827,14 @@ msgid "Recently used second time zones in a Day View"
 msgstr "Nedavno korišćene druge vremenske zone u Dnevnom pregledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:26
-#| msgid "List of recently used second time zones in a Day View."
 msgid "List of recently used second time zones in a Day View"
 msgstr "Spisak nedavno korišćenih drugih vremenskih zona u Dnevnom pregledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
-#| msgid "Maximum number of recently used timezones to remember."
 msgid "Maximum number of recently used timezones to remember"
 msgstr "Najveći broj nedavno korišćenih vremenskih zona za pamćenje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
-#| msgid ""
-#| "Maximum number of recently used timezones to remember in a "
-#| "'day_second_zones' list."
 msgid ""
 "Maximum number of recently used timezones to remember in a 'day-second-"
 "zones' list"
@@ -7881,7 +7848,6 @@ msgid "Default reminder value"
 msgstr "Podrazumevana vrednost podsetnika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
-#| msgid "Number of units for determining a default reminder."
 msgid "Number of units for determining a default reminder"
 msgstr "Broj jedinica za određivanje podrazumevanog podsetnika"
 
@@ -7891,7 +7857,6 @@ msgid "Default reminder units"
 msgstr "Podrazumevane jedinice podsetnika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
-#| msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\""
 msgstr "Jedinice za podrazumevani podsetnik, „minuti“, „sati“ ili „dani“"
 
@@ -7964,7 +7929,6 @@ msgid "Hide completed tasks"
 msgstr "Sakrij završene zadatke"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
-#| msgid "Whether to hide completed tasks in the tasks view."
 msgid "Whether to hide completed tasks in the tasks view"
 msgstr "Da li da sakrije završene zadatke u pregledu zadataka"
 
@@ -7974,9 +7938,6 @@ msgid "Hide task units"
 msgstr "Sakrij jedinice zadataka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
-#| msgid ""
-#| "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days"
-#| "\"."
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\""
 msgstr ""
@@ -7988,7 +7949,6 @@ msgid "Hide task value"
 msgstr "Sakrij vrednost zadataka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
-#| msgid "Number of units for determining when to hide tasks."
 msgid "Number of units for determining when to hide tasks"
 msgstr "Broj jedinica za određivanje kada sakriti zadatke"
 
@@ -7998,9 +7958,6 @@ msgid "Horizontal pane position"
 msgstr "Pozicija položene površi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
-#| msgid ""
-#| "Position of the horizontal pane, between the date navigator calendar and "
-#| "the task list when not in the month view, in pixels."
 msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels"
@@ -8014,7 +7971,6 @@ msgid "Last reminder time"
 msgstr "Poslednje vreme podsetnika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
-#| msgid "Time the last reminder ran, in time_t."
 msgid "Time the last reminder ran, in time_t"
 msgstr "Vreme poslednjeg pokretanja podsetnika, u „time_t“"
 
@@ -8024,7 +7980,6 @@ msgid "Marcus Bains Line Color - Day View"
 msgstr "Boja Markus Bejns linije - Dnevni pregled"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
-#| msgid "Color to draw the Marcus Bains line in the Day View."
 msgid "Color to draw the Marcus Bains line in the Day View"
 msgstr "Boja za iscrtavanje Markus Bejns linije u Dnevnom pregledu"
 
@@ -8034,8 +7989,6 @@ msgid "Marcus Bains Line Color - Time bar"
 msgstr "Boja Markus Bejns linije - traka vremena"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
-#| msgid ""
-#| "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr ""
 "Boja za iscrtavanje Markus Bejns linije u traci vremena (podrazumevano je "
@@ -8047,9 +8000,6 @@ msgid "Marcus Bains Line"
 msgstr "Markus Bejns linija"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
-#| msgid ""
-#| "Whether to draw the Marcus Bains Line (line at current time) in the "
-#| "calendar."
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar"
 msgstr "Da li da u kalendaru iscrta Markus Bejns liniju (na trenutno vreme)"
@@ -8060,7 +8010,6 @@ msgid "Memo preview pane position (horizontal)"
 msgstr "Pozicija pregleda beleški (vertikalno)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
-#| msgid "Position of the task preview pane when oriented horizontally."
 msgid "Position of the task preview pane when oriented horizontally"
 msgstr "Pozicija pregleda zadataka kada je postavljeno horizontalno"
 
@@ -8070,19 +8019,14 @@ msgid "Memo layout style"
 msgstr "Stil razmeštaja beleške"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the memo list. \"0\" (Classic View) places the preview pane below the "
-#| "memo list. \"1\" (Vertical View) places the preview pane next to the memo "
-#| "list."
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list"
 msgstr ""
-"Stil razmeštaja utvrđuje položaj pregleda u odnosu na spisak beleški. „0“ "
-"(klasičan pregled) postavlja pregled ispod spiska beleški. „1“ (vertikalan "
-"pregled) postavlja pregled pored spiska beleški"
+"Stil razmeštaja utvrđuje položaj pregleda u odnosu na spisak beleški. "
+"„0“ (klasičan pregled) postavlja pregled ispod spiska beleški. "
+"„1“ (vertikalan pregled) postavlja pregled pored spiska beleški"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:54
@@ -8090,7 +8034,6 @@ msgid "Memo preview pane position (vertical)"
 msgstr "Pozicija pregleda beleške (vertikalno)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
-#| msgid "Position of the memo preview pane when oriented vertically."
 msgid "Position of the memo preview pane when oriented vertically"
 msgstr "Pozicija pregleda bečeški kada je postavljeno vertikalno"
 
@@ -8100,9 +8043,6 @@ msgid "Month view horizontal pane position"
 msgstr "Pozicija položene površi Mesečnog pregleda"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
-#| msgid ""
-#| "Position of the horizontal pane, between the view and the date navigator "
-#| "calendar and task list in the month view, in pixels."
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels"
@@ -8111,12 +8051,10 @@ msgstr ""
 "zadataka u mesečnom pregledu, u pikselima"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
-#| msgid "Whether to scroll a Month View by a week, not by a month."
 msgid "Scroll Month View by a week, not by a month"
 msgstr "Da li da prikaže Mesečni pregled po nedeljama, umesto mesecima"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
-#| msgid "Whether to scroll a Month View by a week, not by a month."
 msgid "Whether to scroll a Month View by a week, not by a month"
 msgstr "Da li da prikaže Mesečni pregled po nedeljama, umesto mesecima"
 
@@ -8126,7 +8064,6 @@ msgid "Reminder programs"
 msgstr "Programi podsetnika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
-#| msgid "Programs that are allowed to be run by reminders."
 msgid "Programs that are allowed to be run by reminders"
 msgstr "Programi koji mogu biti pokrenuti podsetnicima"
 
@@ -8136,7 +8073,6 @@ msgid "Show display reminders in notification tray"
 msgstr "Prikazuje podsetnike u obaveštajnoj zoni"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
-#| msgid "Whether or not to use the notification tray for display reminders."
 msgid "Whether or not to use the notification tray for display reminders"
 msgstr "Da li da koristi obaveštajnu zonu za prikazivanje podsetnika"
 
@@ -8146,9 +8082,6 @@ msgid "Primary calendar"
 msgstr "Primarni kalendar"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
-#| msgid ""
-#| "The UID of the selected (or \"primary\") calendar in the sidebar of the "
-#| "\"Calendar\" view."
 msgid ""
 "The UID of the selected (or \"primary\") calendar in the sidebar of the "
 "\"Calendar\" view"
@@ -8162,9 +8095,6 @@ msgid "Primary memo list"
 msgstr "Primarni spisak beleški"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
-#| msgid ""
-#| "The UID of the selected (or \"primary\") memo list in the sidebar of the "
-#| "\"Memos\" view."
 msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view"
@@ -8177,9 +8107,6 @@ msgid "Primary task list"
 msgstr "Primarni spisak zadataka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
-#| msgid ""
-#| "The UID of the selected (or \"primary\") task list in the sidebar of the "
-#| "\"Tasks\" view."
 msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view"
@@ -8193,9 +8120,6 @@ msgstr "Model adresa za slobodno/zauzeto vreme"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
 #, no-c-format
-#| msgid ""
-#| "The URL template to use as a free/busy data fallback, %u is replaced by "
-#| "the user part of the mail address and %d is replaced by the domain."
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain"
@@ -8209,25 +8133,20 @@ msgid "Recurrent Events in Italic"
 msgstr "Događaji ponavljanja iskošenim slovima"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
-#| msgid ""
-#| "Show days with recurrent events in italic font in bottom left calendar."
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr ""
 "Prikazuje dane sa događajima koji se ponavljaju iskošenim slovnim likom u "
 "donjem levom kalendaru"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
-#| msgid "Delete the selected calendar"
 msgid "List of selected calendars"
 msgstr "Obrišite izabrane kalendare"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
-#| msgid "List of available calendars:"
 msgid "List of calendars to load"
 msgstr "Spisak dostupnih kalendara"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
-#| msgid "Delete the selected memo list"
 msgid "List of selected memo lists"
 msgstr "Spisak izabranih spiskova beleški"
 
@@ -8236,7 +8155,6 @@ msgid "List of memo lists to load"
 msgstr "Spisak spiskova beleški za učitavanje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
-#| msgid "Delete the selected task list"
 msgid "List of selected task lists"
 msgstr "Spisak izabranih spiskova zadataka"
 
@@ -8250,8 +8168,6 @@ msgid "Show appointment end times in week and month views"
 msgstr "Prikazuje vremena zakazanog završetka u nedeljnim i mesečnim pregledima"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
-#| msgid ""
-#| "Whether to display the end time of events in the week and month views."
 msgid "Whether to display the end time of events in the week and month views"
 msgstr ""
 "Da li da prikaže vremena završetka događaja u nedeljnim i mesečnim pregledima"
@@ -8262,7 +8178,6 @@ msgid "Show the memo preview pane"
 msgstr "Prikazuje pregled beleški"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
-#| msgid "If \"true\", show the memo preview pane in the main window."
 msgid "If \"true\", show the memo preview pane in the main window"
 msgstr "Ukoliko je „tačno“, u glavnom prozoru prikazuje pregled beleški"
 
@@ -8272,7 +8187,6 @@ msgid "Show the task preview pane"
 msgstr "Prikazuje pregled zadataka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
-#| msgid "If \"true\", show the task preview pane in the main window."
 msgid "If \"true\", show the task preview pane in the main window"
 msgstr "Ukoliko je „tačno“, u glavnom prozoru prikazuje pregled zadataka"
 
@@ -8284,17 +8198,14 @@ msgstr ""
 "pretraživaču datuma"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
-#| msgid "Whether to show week numbers in various places in the Calendar."
 msgid "Whether to show week numbers in various places in the Calendar"
 msgstr "Da li da pokaže brojeve nedelja na raznim mestima u kalendaru"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
-#| msgid "Vertical pane position"
 msgid "Vertical position for the tag pane"
 msgstr "Uspravan položaj za površ oznake"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
-#| msgid "T_asks due today:"
 msgid "Highlight tasks due today"
 msgstr "Isticanje zadataka u toku dana"
 
@@ -8302,8 +8213,8 @@ msgstr "Isticanje zadataka u toku dana"
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
-"Da li će zadaci u toku dana biti istaknuti posebnom bojom "
-"(boja-zadatka-u-toku-dana)"
+"Da li će zadaci u toku dana biti istaknuti posebnom bojom (boja-zadatka-u-"
+"toku-dana)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:87
@@ -8311,7 +8222,6 @@ msgid "Tasks due today color"
 msgstr "Boja zadatka za danas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
-#| msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
@@ -8330,19 +8240,14 @@ msgid "Task layout style"
 msgstr "Stil razmeštaja"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the task list. \"0\" (Classic View) places the preview pane below the "
-#| "task list. \"1\" (Vertical View) places the preview pane next to the task "
-#| "list."
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list"
 msgstr ""
-"Stil razmeštaja utvrđuje položaj pregleda u odnosu na spisak zadataka. „0“ "
-"(klasičan pregled) postavlja pregled ispod spiska zadataka. „1“ (vertikalan "
-"pregled) postavlja pregled pored spiska zadataka"
+"Stil razmeštaja utvrđuje položaj pregleda u odnosu na spisak zadataka. "
+"„0“ (klasičan pregled) postavlja pregled ispod spiska zadataka. "
+"„1“ (vertikalan pregled) postavlja pregled pored spiska zadataka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:61
@@ -8350,12 +8255,10 @@ msgid "Task preview pane position (vertical)"
 msgstr "Pozicija pregleda zadataka (vertikalno)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
-#| msgid "Position of the task preview pane when oriented vertically."
 msgid "Position of the task preview pane when oriented vertically"
 msgstr "Pozicija pregleda zadataka kada je postavljeno vertikalno"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
-#| msgid "_Overdue tasks:"
 msgid "Highlight overdue tasks"
 msgstr "Isticanje neispunjenih zadataka"
 
@@ -8363,8 +8266,8 @@ msgstr "Isticanje neispunjenih zadataka"
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
-"Da li će neispunjeni zadaci biti istaknuti posebnom bojom "
-"(boja-neispunjenog-zadatka)"
+"Da li će neispunjeni zadaci biti istaknuti posebnom bojom (boja-neispunjenog-"
+"zadatka)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:89
@@ -8372,7 +8275,6 @@ msgid "Overdue tasks color"
 msgstr "Boja neispunjenih zadataka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
-#| msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
@@ -8386,7 +8288,6 @@ msgid "Time divisions"
 msgstr "Podela vremena"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
-#| msgid "Intervals shown in Day and Work Week views, in minutes."
 msgid "Intervals shown in Day and Work Week views, in minutes"
 msgstr "Intervali prikazani u dnevnim i nedeljnim pregledima, u minutima"
 
@@ -8396,9 +8297,6 @@ msgid "Timezone"
 msgstr "Vremenska zona"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
-#| msgid ""
-#| "The default timezone to use for dates and times in the calendar, as an "
-#| "untranslated Olsen timezone database location like \"America/New York\"."
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
@@ -8412,8 +8310,6 @@ msgid "Twenty four hour time format"
 msgstr "24-časovni oblik vremena"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
-#| msgid ""
-#| "Whether to show times in twenty four hour format instead of using am/pm."
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Da li da prikaže vreme u dvadesetočasovnom formatu, umesto am/pm"
 
@@ -8423,7 +8319,6 @@ msgid "Birthday and anniversary reminder"
 msgstr "Podsetnik na rođendane i godišnjice"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
-#| msgid "Whether to set a reminder for birthdays and anniversaries."
 msgid "Whether to set a reminder for birthdays and anniversaries"
 msgstr "Da li da postavi podsetnik na rođendane i godišnjice"
 
@@ -8433,7 +8328,6 @@ msgid "Default appointment reminder"
 msgstr "Podrazumevani podsetnik za zakazivanje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
-#| msgid "Whether to set a default reminder for appointments."
 msgid "Whether to set a default reminder for appointments"
 msgstr "Da li da postavi podrazumevani podsetnik za zakazivanja"
 
@@ -8443,8 +8337,6 @@ msgid "Use system timezone"
 msgstr "Koristi vremensku zonu sistema"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
-#| msgid ""
-#| "Use the system timezone instead of the timezone selected in Evolution."
 msgid "Use the system timezone instead of the timezone selected in Evolution"
 msgstr "Koristi vremensku zonu sistema umesto one koja je izabrana u Evoluciji"
 
@@ -8454,7 +8346,6 @@ msgid "Week start"
 msgstr "Početak nedelje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
-#| msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)"
 msgstr "Dan kojim počinje nedelja, od nedelje (0) do subote (6)"
 
@@ -8464,7 +8355,6 @@ msgid "Work days"
 msgstr "Radni dani"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
-#| msgid "Days on which the start and end of work hours should be indicated."
 msgid "Days on which the start and end of work hours should be indicated"
 msgstr "Potrebno je označiti dane kojima počinju i završavaju se radni časovi"
 
@@ -8497,7 +8387,6 @@ msgstr ""
 "nivoom podešavanja (na primer „2.6.0“)."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:5
-#| msgid "Enable and disable plugins"
 msgid "List of disabled plugins"
 msgstr "Spisak isključenih priključaka"
 
@@ -8506,12 +8395,10 @@ msgid "The list of disabled plugins in Evolution"
 msgstr "Spisak isključenih priključaka u Evoluciji"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
-#| msgid "Default window X coordinate"
 msgid "The window's X coordinate"
 msgstr "Vodoravna koordinata prozora"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
-#| msgid "Default window Y coordinate"
 msgid "The window's Y coordinate"
 msgstr "Uspravna koordinata prozora"
 
@@ -8520,12 +8407,10 @@ msgid "The window's width in pixels"
 msgstr "Širina prozora u tačkama"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:10
-#| msgid "Default window height"
 msgid "The window's height in pixels"
 msgstr "Visina prozora u tačkama"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:11
-#| msgid "Whether or not the window should be maximized."
 msgid "Whether the window is maximized"
 msgstr "Da li će prozor biti uvećan"
 
@@ -8574,10 +8459,6 @@ msgid "Path where picture gallery should search for its content"
 msgstr "Putanja u kojoj galerija slika treba da traži svoj sadržaj."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
-#| msgid ""
-#| "This value can be an empty string, which means it'll use the system "
-#| "Picture folder, usually set to ~/Pictures. This folder will be also used "
-#| "when the set path is not pointing to the existent folder."
 msgid ""
 "This value can be an empty string, which means it'll use the system Picture "
 "folder, usually set to ~/Pictures. This folder will be also used when the "
@@ -8618,14 +8499,10 @@ msgid "Recognize emoticons in text and replace them with images."
 msgstr "Prepoznaje smajliće u tekstu i zamenjuje ih slikama."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
-#| msgid "Attribute message."
 msgid "Attribute message"
 msgstr "Priložena poruka"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
-#| msgid ""
-#| "The text that is inserted when replying to a message, attributing the "
-#| "message to the original author."
 msgid ""
 "The text that is inserted when replying to a message, attributing the "
 "message to the original author"
@@ -8634,14 +8511,10 @@ msgstr ""
 "originalnom autoru"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
-#| msgid "Forward message."
 msgid "Forward message"
 msgstr "Prosleđuje poruku"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:16
-#| msgid ""
-#| "The text that is inserted when forwarding a message, saying that the "
-#| "forwarded message follows."
 msgid ""
 "The text that is inserted when forwarding a message, saying that the "
 "forwarded message follows"
@@ -8650,14 +8523,10 @@ msgstr ""
 "prosleđena poruka sledi"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:17
-#| msgid "Original message."
 msgid "Original message"
 msgstr "Originalna poruka"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:18
-#| msgid ""
-#| "The text that is inserted when replying to a message (top posting), "
-#| "saying that the original message follows."
 msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows"
@@ -8809,7 +8678,6 @@ msgstr ""
 "menija „Pregled“ nakon izbora naloga dopisne liste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
-#| msgid "_Keep signature above the original message on replying"
 msgid "Digitally sign replies when the original message is signed"
 msgstr "Digitalno potpisuje odgovore kada je potpisana originalna poruka"
 
@@ -9113,13 +8981,15 @@ msgstr "Označava poruku viđenom posle navedenog roka."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 #: ../mail/evolution-mail.schemas.in.h:90
-msgid "Timeout for marking message as seen"
-msgstr "Vreme za označavanje poruke kao viđene"
+#| msgid "Timeout for marking message as seen"
+msgid "Timeout for marking messages as seen"
+msgstr "Vreme za označavanje poruka kao viđenim"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 #: ../mail/evolution-mail.schemas.in.h:91
-msgid "Timeout for marking message as seen."
-msgstr "Vreme za koje će poruke bit označavanje kao viđene."
+#| msgid "Timeout for marking message as seen."
+msgid "Timeout in milliseconds for marking messages as seen."
+msgstr "Vreme u milisekundama za koje će poruke biti označene kao viđenim."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 #: ../mail/evolution-mail.schemas.in.h:87
@@ -9134,9 +9004,6 @@ msgid ""
 msgstr "Prikazuje e-adresu pošiljaoca u posebnoj koloni u spisku poruka."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
-#| msgid ""
-#| "Determines whether to use the same fonts for both \"From\" and \"Subject"
-#| "\" lines in the \"Messages\" column in vertical view."
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
@@ -9165,7 +9032,6 @@ msgstr "Prikazuje obrisane poruke (kao precrtane) u listi poruka."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 #: ../mail/evolution-mail.schemas.in.h:96
-#| msgid "All local folders"
 msgid "Enable local folders"
 msgstr "Uključuje lokalne fascikle"
 
@@ -9213,9 +9079,6 @@ msgid "State of message headers in paned view"
 msgstr "Stanje zaglavlja poruke u pregledu površi"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
-#| msgid ""
-#| "Describes whether message headers in paned view should be collapsed or "
-#| "expanded by default. \"0\" = expanded \"1\" = collapsed"
 msgid ""
 "Describes whether message headers in paned view should be collapsed or "
 "expanded by default. \"0\" = expanded and \"1\" = collapsed"
@@ -9360,9 +9223,6 @@ msgid "Default value for thread expand state"
 msgstr "Podrazumevana vrednost za raširenu raspravu"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
-#| msgid ""
-#| "This setting specifies whether the threads should be in expanded or "
-#| "collapsed state by default. Requires a restart to apply."
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -9462,12 +9322,10 @@ msgid ""
 msgstr "Postavlja upit korisniku kada pokuša da pošalje poruku bez naslova."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
-#| msgid "Prompt when replying to many recipients"
 msgid "Prompt when emptying the trash"
 msgstr "Postavlja upit prilikom pražnjenja smeća"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
-#| msgid "Prompt the user when he or she tries to expunge a folder."
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "Postavlja upit korisniku kada pokuša da isprazni smeće."
 
@@ -9612,9 +9470,6 @@ msgstr ""
 "odgovara na poruku prikazanu u prozoru."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
-#| msgid ""
-#| "Possible values are: never - to never close browser window always - to "
-#| "always close browser window ask - (or any other value) will ask user"
 msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
@@ -9864,9 +9719,6 @@ msgid "Check for new messages on start"
 msgstr "Vrši proveru za novim porukama prilikom pokretanja"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
-#| msgid ""
-#| "Whether check for new messages when Evolution is started. This includes "
-#| "also sending messages from Outbox."
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
@@ -9880,11 +9732,6 @@ msgid "Check for new messages in all active accounts"
 msgstr "Vrši proveru za novim porukama u svim aktivnim nalozima"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
-#| msgid ""
-#| "Whether check for new messages in all active accounts regardless of the "
-#| "account \"Check for new messages every X minutes\" option when Evolution "
-#| "is started. This option is used only together with 'send_recv_on_start' "
-#| "option."
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account \"Check for new messages every X minutes\" option when Evolution is "
@@ -9919,9 +9766,6 @@ msgstr ""
 "tragati u telu poruke"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:2
-#| msgid ""
-#| "List of clues for the attachment reminder plugin to look for in a message "
-#| "body"
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
@@ -9930,17 +9774,14 @@ msgstr ""
 "tragati u telu poruke."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
-#| msgid "Address Book Properties"
 msgid "Address book source"
 msgstr "Izvor adresara"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
-#| msgid "Select Address book for Automatic Contacts"
 msgid "Address book to use for storing automatically synced contacts"
 msgstr "Adresar koji će biti korišćen za samousaglašene kontakte"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
-#| msgid "Automatic Contacts"
 msgid "Auto sync GAIM contacts"
 msgstr "Samousklađivanje GAIM kontakata"
 
@@ -9949,7 +9790,6 @@ msgid "Whether GAIM contacts should be automaticall synced"
 msgstr "Da li će GAIM kontakti biti samostalno usklađeni"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
-#| msgid "Invalid contact."
 msgid "Enable autocontacts"
 msgstr "Uključuje samokontakte"
 
@@ -9959,7 +9799,6 @@ msgid ""
 msgstr "Da li će kontakti biti samostalno dodati u korisnički adresar"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
-#| msgid "Address Book Properties"
 msgid "GAIM address book source"
 msgstr "Izvor GAIM adresara"
 
@@ -10016,7 +9855,6 @@ msgid "Automatically launch when a new mail is edited"
 msgstr "Automatski pokreće pri uređivanju nove poruke"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:4
-#| msgid "Automatically launch editor when key is pressed in the mail composer"
 msgid "Automatically launch editor when key is pressed in the mail composer."
 msgstr ""
 "Automatski pokreće uređivač kada je pritisnut taster u sastavljaču poruke."
@@ -10036,7 +9874,6 @@ msgstr ""
 "postaviti sliku, inače se ništa neće desiti."
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
-#| msgid "_Delete Message"
 msgid "Delete processed"
 msgstr "Brisanje obrađenih"
 
@@ -10118,7 +9955,6 @@ msgstr ""
 "obaveštenje sirenom."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
-#| msgid "FILE"
 msgid "FIXME"
 msgstr "POPRAVIME"
 
@@ -10135,7 +9971,6 @@ msgstr ""
 "sirenom."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:1
-#| msgid "Use custom fonts for displaying mail."
 msgid "Mode to use when displaying mails"
 msgstr "Režim za korišćenje prilikom prikaza pošte"
 
@@ -10151,7 +9986,6 @@ msgstr ""
 "samo običan tekst"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
-#| msgid "Whether to show the preview pane."
 msgid "Whether to show suppressed HTML output"
 msgstr "Da li će biti prikazan potisnut HTML izlaz"
 
@@ -10210,13 +10044,10 @@ msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Da li će se Evolucija pokrenuti u režimu za rad van mreže."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
-#| msgid "Opening folder '%s'"
 msgid "Offline folder paths"
 msgstr "Putanje fascikli van mreže"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
-#| msgid ""
-#| "List of paths for the folders to be synchronized to disk for offline usage"
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage."
 msgstr "Spisak putanja fascikli za usklađivanje na disku za rad van mreže."
@@ -10313,7 +10144,6 @@ msgid "Use only the local spam tests (no DNS)."
 msgstr "Koristi samo lokalne provere spama (bez DNS-a)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
-#| msgid "Failed to read output from SpamAssassin: "
 msgid "Socket path for SpamAssassin"
 msgstr "Putanja priključnice za Ubicu spama"
 
@@ -10328,12 +10158,10 @@ msgid "Use SpamAssassin daemon and client (spamc/spamd)."
 msgstr "Koristi demona i klijenta Ubice spama (spamc/spamd)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
-#| msgid "SpamAssassin Options"
 msgid "SpamAssassin client binary"
 msgstr "Izvršni klijenta Ubice spama"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:7
-#| msgid "Use SpamAssassin daemon and client"
 msgid "SpamAssassin daemon binary"
 msgstr "Izvršni demona Ubice spama"
 
@@ -11165,7 +10993,6 @@ msgstr "Nije pronađen nalog za korišćenje, prosleđivanje poruke je otkazano.
 
 #: ../libemail-engine/e-mail-session.c:1274
 #, c-format
-#| msgid "Use Authe_ntication"
 msgid "%s authentication failed"
 msgstr "Nije uspelo %s potvrđivanje identiteta"
 
@@ -11328,7 +11155,6 @@ msgid "Autogenerated"
 msgstr "Automatski sastavljeno"
 
 #: ../mail/e-mail-account-manager.c:405
-#| msgid "Use _Default"
 msgid "_Restore Default"
 msgstr "Povrati _podrazumevano"
 
@@ -11384,7 +11210,6 @@ msgid "List View"
 msgstr "Pregled spiskom"
 
 #: ../mail/e-mail-backend.c:648
-#| msgid "Unknown action to be performed"
 msgid "Unknown background operation"
 msgstr "Nepoznata pozadinska radnja"
 
@@ -12240,7 +12065,6 @@ msgstr ""
 "pitajte administratora sistema ili dostavljača Internet usluga."
 
 #: ../mail/em-account-editor.c:2933
-#| msgid "Account Search"
 msgid "Account Summary"
 msgstr "Sažetak naloga"
 
@@ -12292,7 +12116,6 @@ msgid "Checking for New Messages"
 msgstr "Proveranje za nove poruke"
 
 #: ../mail/em-account-editor.c:4767 ../mail/em-account-editor.c:4802
-#| msgid "Always"
 msgid "Always (SSL)"
 msgstr "Uvek (SSL)"
 
@@ -12301,22 +12124,18 @@ msgid "When possible (TLS)"
 msgstr "Kada je moguće (TLS)"
 
 #: ../mail/em-account-editor.c:4847
-#| msgid "Setup Google contacts with Evolution"
 msgid "Setup Google con_tacts with Evolution"
 msgstr "Podesite Gugl ko_ntakte sa Evolucijom"
 
 #: ../mail/em-account-editor.c:4854
-#| msgid "Setup Google calendar with Evolution"
 msgid "Setup Google ca_lendar with Evolution"
 msgstr "Podesite Gugl ka_lendar sa Evolucijom"
 
 #: ../mail/em-account-editor.c:4902
-#| msgid "Setup Yahoo calendar with Evolution"
 msgid "Setup _Yahoo calendar with Evolution"
 msgstr "Podesite _Jahu kalendar sa Evolucijom"
 
 #: ../mail/em-account-editor.c:4927
-#| msgid "Yahoo Calendar name:"
 msgid "Yahoo Calen_dar name:"
 msgstr "Naziv Ja_hu kalendara:"
 
@@ -12404,7 +12223,6 @@ msgid "does not exist"
 msgstr "ne postoji"
 
 #: ../mail/em-filter-i18n.h:19
-#| msgid "does not end with"
 msgid "does not have words"
 msgstr "ne sadrži reči"
 
@@ -12445,7 +12263,6 @@ msgid "Forward to"
 msgstr "Prosledi"
 
 #: ../mail/em-filter-i18n.h:31
-#| msgid "Password:"
 msgid "has words"
 msgstr "sadrži reči"
 
@@ -12604,7 +12421,6 @@ msgid "Stop Processing"
 msgstr "Prekini obradu"
 
 #: ../mail/em-filter-i18n.h:77
-#| msgid "Color"
 msgid "Unset Color"
 msgstr "Nepostavljena boja"
 
@@ -12962,17 +12778,14 @@ msgid "No HTML stream available"
 msgstr "Nije dostupan HTML tok."
 
 #: ../mail/em-subscription-editor.c:854
-#| msgid "Su_bscribe"
 msgid "_Subscribe"
 msgstr "Prijavi _se"
 
 #: ../mail/em-subscription-editor.c:863
-#| msgid "Su_bscribe"
 msgid "Su_bscribe To Shown"
 msgstr "Prijavi se na _prikazane"
 
 #: ../mail/em-subscription-editor.c:871
-#| msgid "Subscribe to my _alarms"
 msgid "Subscribe To _All"
 msgstr "Prijavi se _na sve"
 
@@ -12982,12 +12795,10 @@ msgid "_Unsubscribe"
 msgstr "_Odjavi se"
 
 #: ../mail/em-subscription-editor.c:980
-#| msgid "_Unsubscribe from List"
 msgid "Unsu_bscribe From Hidden"
 msgstr "O_djavi se sa skrivenih"
 
 #: ../mail/em-subscription-editor.c:988
-#| msgid "_Unsubscribe from List"
 msgid "Unsubscribe From _All"
 msgstr "Odja_vi se sa svih"
 
@@ -13082,8 +12893,8 @@ msgstr "Dodaj fasciklu"
 #: ../mail/evolution-mail.schemas.in.h:11
 msgid "Digitally sign messages when original message signed (PGP or S/MIME)"
 msgstr ""
-"Digitalno potpisivanje poruka kada je originalna poruka potpisana (PGP ili "
-"S/MIME)"
+"Digitalno potpisivanje poruka kada je originalna poruka potpisana (PGP ili S/"
+"MIME)"
 
 #: ../mail/evolution-mail.schemas.in.h:39
 msgid "Composer Window default width"
@@ -13149,7 +12960,8 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:97
 msgid "Whether to show local folders (On This Computer) in a folder tree."
-msgstr "Da li da prikaže lokalne fascikle (Na ovom računaru) u stablu fascikle."
+msgstr ""
+"Da li da prikaže lokalne fascikle (Na ovom računaru) u stablu fascikle."
 
 #: ../mail/evolution-mail.schemas.in.h:123
 msgid ""
@@ -13437,8 +13249,8 @@ msgid ""
 "Exported file name will be : YYYmmDDHHMMSS_email_title Possible values : 1 "
 "(: email sent date), 2 (: drag'n'drop date)"
 msgstr ""
-"Izveženi naziv datoteke će biti : YYYmmDDHHMMSS_email_title Moguće vrednosti "
-": 1 (: datum slanja el. pošte), 2 (: datum prevlačenja i ubacivanja)"
+"Izveženi naziv datoteke će biti : YYYmmDDHHMMSS_email_title Moguće "
+"vrednosti : 1 (: datum slanja el. pošte), 2 (: datum prevlačenja i ubacivanja)"
 
 #: ../mail/importers/elm-importer.c:181
 msgid "Importing Elm data"
@@ -13669,8 +13481,8 @@ msgstr "Odgovor grupi ide samo na dopisnu listu, ako je moguće"
 #: ../mail/mail-config.ui.h:24
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
 msgstr ""
-"Digitalno _potpiši poruke kada je originalna poruka potpisana (PGP ili "
-"S/MIME)"
+"Digitalno _potpiši poruke kada je originalna poruka potpisana (PGP ili S/"
+"MIME)"
 
 #: ../mail/mail-config.ui.h:26
 msgid "Sig_natures"
@@ -13820,7 +13632,6 @@ msgid "_Secure HTTP Proxy:"
 msgstr "_Bezbedan HTTP posrednik:"
 
 #: ../mail/mail-config.ui.h:69
-#| msgid "SOCKS proxy port"
 msgid "SOC_KS Proxy:"
 msgstr "Posrednik SOCKS-a:"
 
@@ -14246,12 +14057,10 @@ msgstr "Zapa_mti lozinku"
 # Create the default Person task list
 # orange
 #: ../mail/mail-config.ui.h:178
-#| msgid "Personal details:"
 msgid "Personal Details:"
 msgstr "Lični podaci:"
 
 #: ../mail/mail-config.ui.h:187
-#| msgid "Encryption"
 msgid "Encryption:"
 msgstr "Šifrovanje:"
 
@@ -14261,12 +14070,10 @@ msgstr "Šifrovanje:"
 # Note that we don't show this here, since by default a 'None' date
 # is not permitted.
 #: ../mail/mail-config.ui.h:188
-#| msgid "None"
 msgid "none"
 msgstr "ništa"
 
 #: ../mail/mail-config.ui.h:189
-#| msgid "Label"
 msgid "label"
 msgstr "natpis"
 
@@ -15469,8 +15276,7 @@ msgid ""
 "Whether addresses should be formatted according to standard in their "
 "destination country."
 msgstr ""
-"Da li će adrese biti oblikovane prema standardu u državama njihovog "
-"odredišta."
+"Da li će adrese biti oblikovane prema standardu u državama njihovog odredišta."
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../modules/addressbook/autocompletion-config.c:194
@@ -15479,7 +15285,6 @@ msgid "_Table column:"
 msgstr "Kolona _tabele:"
 
 #: ../modules/addressbook/autocompletion-config.c:197
-#| msgid "Free/Busy information"
 msgid "Address formatting"
 msgstr "Oblikovanje adrese"
 
@@ -15856,12 +15661,10 @@ msgid "Supported Search Bases"
 msgstr "Podržane baze za pretragu"
 
 #: ../modules/addressbook/ldap-config.ui.h:14
-#| msgid "_Server:"
 msgid "Ser_ver:"
 msgstr "S_erver:"
 
 #: ../modules/addressbook/ldap-config.ui.h:15
-#| msgid "_Use secure connection:"
 msgid "Use secure _connection:"
 msgstr "_Koristi sigurnu vezu:"
 
@@ -15886,7 +15689,6 @@ msgid "_Find Possible Search Bases"
 msgstr "_Nađi moguće baze za pretragu"
 
 #: ../modules/addressbook/ldap-config.ui.h:21
-#| msgid "Search _filter:"
 msgid "S_earch filter:"
 msgstr "_Filter pretrage:"
 
@@ -16462,12 +16264,10 @@ msgid "Display"
 msgstr "Prikaz"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:57
-#| msgid "T_asks due today:"
 msgid "Highlight t_asks due today"
 msgstr "Istakni _zadatke u toku dana"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:59
-#| msgid "_Overdue tasks:"
 msgid "Highlight _overdue tasks"
 msgstr "Istakni _neispunjene zadatke"
 
@@ -17293,13 +17093,12 @@ msgstr "Uređivač naloga"
 
 #: ../modules/mail/e-mail-attachment-handler.c:385
 #, c-format
-#| msgid "%d attached messages"
 msgid "%d attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "%d priložena poruka"
 msgstr[1] "%d priložene poruke"
 msgstr[2] "%d priloženih poruka"
-msgstr[3] "priloženih poruka — %d"
+msgstr[3] "Jedna priložena poruka"
 
 #: ../modules/mail/e-mail-shell-backend.c:204
 msgctxt "New"
@@ -17652,10 +17451,10 @@ msgstr "_Odjava sa mrežnog posrednika"
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
-msgstr[0] "%d izabrana,"
-msgstr[1] "%d izabrane,"
-msgstr[2] "%d izabranih,"
-msgstr[3] "%d izabrana,"
+msgstr[0] "%d izabrana, "
+msgstr[1] "%d izabrane, "
+msgstr[2] "%d izabranih, "
+msgstr[3] "%d izabrana, "
 
 #: ../modules/mail/e-mail-shell-view-private.c:1034
 #, c-format
@@ -17707,10 +17506,10 @@ msgstr[3] "%d poslata"
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
-msgstr[0] "%d nepročitana,"
-msgstr[1] "%d nepročitane,"
-msgstr[2] "%d nepročitanih,"
-msgstr[3] "%d nepročitana,"
+msgstr[0] "%d nepročitana, "
+msgstr[1] "%d nepročitane, "
+msgstr[2] "%d nepročitanih, "
+msgstr[3] "%d nepročitana, "
 
 #: ../modules/mail/e-mail-shell-view-private.c:1080
 #, c-format
@@ -17785,19 +17584,16 @@ msgstr "Vaša poruka za %s na temu „%s“ na %s je pročitana."
 #. Translators: %s is the subject of the email message.
 #: ../modules/mdn/evolution-mdn.c:324
 #, c-format
-#| msgid "Delivery Notification for: \"%s\""
 msgid "Delivery Notification for \"%s\""
 msgstr "Obaveštenje o prijemu za „%s“"
 
 #: ../modules/mdn/evolution-mdn.c:449
 #, c-format
-#| msgid "S_end message receipts:"
 msgid "Send a read receipt to '%s'"
 msgstr "Pošalji povratnicu čitanja za „%s“"
 
 #. name doesn't matter
 #: ../modules/mdn/evolution-mdn.c:454
-#| msgid "Do _Not Send"
 msgid "_Notify Sender"
 msgstr "Obavesti _pošiljaoca"
 
@@ -17949,12 +17745,10 @@ msgid "Importing Files"
 msgstr "Uvozim datoteke"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:402
-#| msgid "%s (cancelled)"
 msgid "Import cancelled."
 msgstr "Uvoženje je otkazano."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:420
-#| msgid "Update complete\n"
 msgid "Import complete."
 msgstr "Uvoženje je završeno."
 
@@ -17967,12 +17761,6 @@ msgid "Welcome"
 msgstr "Dobrodošli"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:505
-#| msgid ""
-#| "Welcome to Evolution. The next few screens will allow Evolution to "
-#| "connect to your email accounts, and to import files from other "
-#| "applications. \n"
-#| "\n"
-#| "Please click the \"Forward\" button to continue. "
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications."
@@ -18104,7 +17892,6 @@ msgid "Ensuring local sources"
 msgstr "Nalazim lokalne izvore"
 
 #: ../plugins/backup-restore/backup.c:748
-#| msgid "Evolution Back up"
 msgid "Evolution Back Up"
 msgstr "Rezervni primerak Evolucije"
 
@@ -18212,12 +17999,10 @@ msgid "Back up and restore your Evolution data and settings."
 msgstr "Napravite rezervu i vratite podatke i postavke Evolucije."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
-#| msgid "Invalid Evolution back up file"
 msgid "Invalid Evolution backup file"
 msgstr "Neispravna datoteka rezervnog primerka Evolucije"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#| msgid "Please select a valid back up file to restore."
 msgid "Please select a valid backup file to restore."
 msgstr "Izaberite ispravnu datoteku rezerve za povraćaj."
 
@@ -18239,18 +18024,11 @@ msgid "Close and Back up Evolution"
 msgstr "Izaberite radnju:"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
-#| msgid ""
-#| "Are you sure you want to restore Evolution from the selected back up file?"
 msgid ""
 "Are you sure you want to restore Evolution from the selected backup file?"
 msgstr "Sigurno želite da povratite Evoluciju iz izabrane datoteke rezerve?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
-#| msgid ""
-#| "To restore your data and settings, you must first close Evolution. Please "
-#| "make sure that you save any unsaved data before proceeding. This will "
-#| "delete all your current Evolution data and settings and restore them from "
-#| "your back up."
 msgid ""
 "To restore your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding. This will delete "
@@ -18428,6 +18206,7 @@ msgstr "Traži KolDAV kalendar"
 
 #: ../plugins/caldav/caldav-source.c:240
 #: ../plugins/calendar-http/calendar-http.c:107
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:257
 msgid "_URL:"
 msgstr "_Adresa :"
 
@@ -18725,9 +18504,6 @@ msgid "Command to be executed to launch the editor: "
 msgstr "Naredba za izvršavanje radi pokretanja uređivača:"
 
 #: ../plugins/external-editor/external-editor.c:115
-#| msgid ""
-#| "For Emacs use \"xemacs\"\n"
-#| "For VI use \"gvim -f\""
 msgid ""
 "For XEmacs use \"xemacs\"\n"
 "For Vim use \"gvim -f\""
@@ -19004,7 +18780,6 @@ msgstr "Poslato kalendaru „%s“ kao otkazano"
 #: ../plugins/itip-formatter/itip-formatter.c:1579
 #: ../plugins/itip-formatter/itip-formatter.c:1972
 #: ../plugins/itip-formatter/itip-formatter.c:2063
-#| msgid "Opening the calendar. Please wait..."
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "Čuvam izmene u kalendar. Molim sačekajte..."
 
@@ -19035,7 +18810,6 @@ msgid "Attendee status updated"
 msgstr "Status učesnika je ažuriran"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1879
-#| msgid "Object is invalid and cannot be updated\n"
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Sastanak nije ispravan i ne može biti ažuriran"
 
@@ -19394,7 +19168,6 @@ msgstr "%s preko %s otkazuje sledeći sastanak:"
 
 #: ../plugins/itip-formatter/itip-view.c:413
 #, c-format
-#| msgid "%s has canceled the following meeting."
 msgid "%s has canceled the following meeting:"
 msgstr "%s otkazuje sledeći sastanak:"
 
@@ -19405,7 +19178,6 @@ msgstr "%s preko %s predlaže sledeće promene sastanka."
 
 #: ../plugins/itip-formatter/itip-view.c:419
 #, c-format
-#| msgid "%s has proposed the following meeting changes."
 msgid "%s has proposed the following meeting changes:"
 msgstr "%s predlaže sledeće izmene sastanka:"
 
@@ -19416,7 +19188,6 @@ msgstr "%s preko %s odbija sledeće promene sastanka:"
 
 #: ../plugins/itip-formatter/itip-view.c:425
 #, c-format
-#| msgid "%s has declined the following meeting changes."
 msgid "%s has declined the following meeting changes:"
 msgstr "%s odbija sledeće izmene sastanka:"
 
@@ -20254,7 +20025,6 @@ msgid "Manual (via Actions menu)"
 msgstr "Ručno (preko menija „Radnje“)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
-#| msgid "Secure FTP (SSH)"
 msgid "Secure FTP (SFTP)"
 msgstr "Bezbedni FTP (SFTP)"
 
@@ -20539,10 +20309,6 @@ msgstr "Dodajte VebDAV kontakte u Evoluciju."
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:68
 msgid "WebDAV"
 msgstr "VebDAV"
-
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:257
-msgid "URL:"
-msgstr "Adresa :"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:283
 msgid "_Avoid IfMatch (needed on Apache < 2.2.8)"
@@ -21063,7 +20829,6 @@ msgstr "Pređi na %s"
 
 #: ../shell/e-shell-window-actions.c:2327
 #, c-format
-#| msgid "Select A File"
 msgid "Select view: %s"
 msgstr "Izaberi pregled: %s"
 
@@ -21609,17 +21374,14 @@ msgid "Certificate Authority Trust"
 msgstr "Poverenje izdavaocu uverenja"
 
 #: ../smime/gui/smime-ui.ui.h:39
-#| msgid "Trust this CA to identify websites."
 msgid "Trust this CA to identify _websites."
 msgstr "Veruj ovom izdavaocu uverenja za prepoznavanje _veb stranica."
 
 #: ../smime/gui/smime-ui.ui.h:40
-#| msgid "Trust this CA to identify email users."
 msgid "Trust this CA to identify _email users."
 msgstr "Veruj ovom izdavaocu uverenja za prepoznavanje _el. adresa."
 
 #: ../smime/gui/smime-ui.ui.h:41
-#| msgid "Trust this CA to identify software developers."
 msgid "Trust this CA to identify _software developers."
 msgstr "Veruj ovom izdavaocu uverenja za prepoznavanje _programera."
 
@@ -22025,7 +21787,6 @@ msgid "evolution calendar item"
 msgstr "stavka kalendara evolucije"
 
 #: ../widgets/misc/e-alert-bar.c:116
-#| msgid "Send this message"
 msgid "Close this message"
 msgstr "Zatvorite ovu poruku"
 
@@ -22990,6 +22751,9 @@ msgstr "Izaberi sve"
 #: ../widgets/text/e-text.c:2340
 msgid "Input Methods"
 msgstr "Metodi unosa"
+
+#~ msgid "URL:"
+#~ msgstr "Adresa :"
 
 # %B = full month name, %d = month day, %Y = full year.
 #~ msgid "%A, %B %d, %Y"
