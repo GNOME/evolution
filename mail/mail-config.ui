@@ -456,7 +456,7 @@ for display purposes only. </property>
                     <property name="spacing">8</property>
                     <child>
                       <object class="GtkCheckButton" id="chkSendHTML">
-                        <property name="label" translatable="yes">Format messages in _HTML</property>
+                        <property name="label" translatable="yes">For_mat messages in HTML</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -504,7 +504,7 @@ for display purposes only. </property>
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="chkOutlookFilenames">
-                        <property name="label" translatable="yes">Encode file names in an Outlook/GMail way</property>
+                        <property name="label" translatable="yes">Encode file names in an _Outlook/GMail way</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -528,7 +528,7 @@ for display purposes only. </property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">1</property>
-                            <property name="label" translatable="yes">C_haracter set:</property>
+                            <property name="label" translatable="yes">Character _set:</property>
                             <property name="use_underline">True</property>
                             <property name="justify">center</property>
                           </object>
@@ -664,7 +664,7 @@ for display purposes only. </property>
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="chkIgnoreListReplyTo">
-                        <property name="label" translatable="yes">Ignore Reply-To: for mailing lists</property>
+                        <property name="label" translatable="yes">Ig_nore Reply-To: for mailing lists</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -681,7 +681,7 @@ for display purposes only. </property>
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="chkGroupReplyToList">
-                        <property name="label" translatable="yes">Group Reply goes only to mailing list, if possible</property>
+                        <property name="label" translatable="yes">Gro_up Reply goes only to mailing list, if possible</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
