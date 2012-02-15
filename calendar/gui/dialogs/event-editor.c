@@ -518,7 +518,7 @@ event_editor_class_init (EventEditorClass *class)
 	object_class->constructed = event_editor_constructed;
 
 	editor_class = COMP_EDITOR_CLASS (class);
-	editor_class->help_section = "usage-calendar-apts";
+	editor_class->help_section = "calendar-usage-add-appointment";
 	editor_class->edit_comp = event_editor_edit_comp;
 	editor_class->send_comp = event_editor_send_comp;
 	editor_class->show_categories = event_editor_show_categories;
