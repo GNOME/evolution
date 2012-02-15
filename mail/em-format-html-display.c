@@ -1392,7 +1392,8 @@ efhd_attachment_optional (EMFormatHTML *efh,
 	gtk_container_add (GTK_CONTAINER (button), GTK_WIDGET (hbox));
 
 	a11y = gtk_widget_get_accessible (button);
-	atk_object_set_name (a11y, _("Attachment"));
+	/* Translators: Name of an Attachment button for a11y object */
+	atk_object_set_name (a11y, C_("Button", "Attachment"));
 
 	gtk_box_pack_start (GTK_BOX (mainbox), button, FALSE, FALSE, 6);
 

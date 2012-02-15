@@ -1359,16 +1359,16 @@ for display purposes only. </property>
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">Attachment</col>
+        <col id="0" translatable="yes" context="ReplyForward">Attachment</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Inline (Outlook style)</col>
+        <col id="0" translatable="yes" context="ReplyForward">Inline (Outlook style)</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Quoted</col>
+        <col id="0" translatable="yes" context="ReplyForward">Quoted</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Do not quote</col>
+        <col id="0" translatable="yes" context="ReplyForward">Do not quote</col>
       </row>
     </data>
   </object>
@@ -1379,13 +1379,13 @@ for display purposes only. </property>
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">Attachment</col>
+        <col id="0" translatable="yes" context="ReplyForward">Attachment</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Inline</col>
+        <col id="0" translatable="yes" context="ReplyForward">Inline</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Quoted</col>
+        <col id="0" translatable="yes" context="ReplyForward">Quoted</col>
       </row>
     </data>
   </object>
