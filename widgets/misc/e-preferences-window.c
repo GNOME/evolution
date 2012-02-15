@@ -48,6 +48,7 @@ struct _EPreferencesWindowPrivate {
 enum {
 	COLUMN_ID,	/* G_TYPE_STRING */
 	COLUMN_TEXT,	/* G_TYPE_STRING */
+	COLUMN_HELP,	/* G_TYPE_STRING */
 	COLUMN_PIXBUF,	/* GDK_TYPE_PIXBUF */
 	COLUMN_PAGE,	/* G_TYPE_INT */
 	COLUMN_SORT	/* G_TYPE_INT */
@@ -132,7 +133,7 @@ preferences_window_help_clicked_cb (EPreferencesWindow *window)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GList *list;
-	gchar *page = NULL;
+	gchar *help = NULL;
 
 	g_return_if_fail (window != NULL);
 
@@ -140,7 +141,7 @@ preferences_window_help_clicked_cb (EPreferencesWindow *window)
 	list = gtk_icon_view_get_selected_items (GTK_ICON_VIEW (window->priv->icon_view));
 	if (list != NULL) {
 		gtk_tree_model_get_iter (model, &iter, list->data);
-		gtk_tree_model_get (model, &iter, COLUMN_ID, &page, -1);
+		gtk_tree_model_get (model, &iter, COLUMN_HELP, &help, -1);
 	} else if (gtk_tree_model_get_iter_first (model, &iter)) {
 		gint page_index, current_index;
 
@@ -149,15 +150,15 @@ preferences_window_help_clicked_cb (EPreferencesWindow *window)
 			gtk_tree_model_get (model, &iter, COLUMN_PAGE, &page_index, -1);
 
 			if (page_index == current_index) {
-				gtk_tree_model_get (model, &iter, COLUMN_ID, &page, -1);
+				gtk_tree_model_get (model, &iter, COLUMN_HELP, &help, -1);
 				break;
 			}
 		} while (gtk_tree_model_iter_next (model, &iter));
 	}
 
-	e_display_help (GTK_WINDOW (window), page ? page : "index");
+	e_display_help (GTK_WINDOW (window), help ? help : "index");
 
-	g_free (page);
+	g_free (help);
 }
 
 static void
@@ -292,7 +293,7 @@ e_preferences_window_init (EPreferencesWindow *window)
 	window->priv->filter_view = NULL;
 
 	store = gtk_list_store_new (
-		5, G_TYPE_STRING, G_TYPE_STRING,
+		6, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
 		GDK_TYPE_PIXBUF, G_TYPE_INT, G_TYPE_INT);
 	gtk_tree_sortable_set_sort_column_id (
 		GTK_TREE_SORTABLE (store), COLUMN_SORT, GTK_SORT_ASCENDING);
@@ -418,6 +419,7 @@ e_preferences_window_add_page (EPreferencesWindow *window,
                                const gchar *page_name,
                                const gchar *icon_name,
                                const gchar *caption,
+			       const gchar *help_target,
                                EPreferencesWindowCreatePageFn create_fn,
                                gint sort_order)
 {
@@ -450,8 +452,12 @@ e_preferences_window_add_page (EPreferencesWindow *window,
 	gtk_list_store_set (
 		GTK_LIST_STORE (model), &iter,
 		COLUMN_ID, page_name,
-		COLUMN_TEXT, caption, COLUMN_PIXBUF, pixbuf,
-		COLUMN_PAGE, page, COLUMN_SORT, sort_order, -1);
+		COLUMN_TEXT, caption,
+		COLUMN_HELP, help_target,
+		COLUMN_PIXBUF, pixbuf,
+		COLUMN_PAGE, page,
+		COLUMN_SORT, sort_order,
+		-1);
 
 	index = window->priv->index;
 	path = gtk_tree_model_get_path (model, &iter);

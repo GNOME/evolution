@@ -343,6 +343,7 @@ book_shell_backend_init_preferences (EShell *shell)
 		"contacts",
 		"preferences-autocompletion",
 		_("Contacts"),
+		"index#contacts",
 		autocompletion_config_new,
 		200);
 
@@ -353,6 +354,7 @@ book_shell_backend_init_preferences (EShell *shell)
 		"certificates",
 		"preferences-certificates",
 		_("Certificates"),
+		"mail-encryption-s-mime-manage",
 		e_cert_manager_config_new,
 		700);
 #endif

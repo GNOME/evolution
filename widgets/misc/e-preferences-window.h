@@ -70,6 +70,7 @@ void		e_preferences_window_add_page	(EPreferencesWindow *window,
 						 const gchar *page_name,
 						 const gchar *icon_name,
 						 const gchar *caption,
+						 const gchar *help_target,
 						 EPreferencesWindowCreatePageFn create_fn,
 						 gint sort_order);
 void		e_preferences_window_show_page	(EPreferencesWindow *window,

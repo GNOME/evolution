@@ -792,6 +792,7 @@ cal_shell_backend_constructed (GObject *object)
 		"calendar-and-tasks",
 		"preferences-calendar-and-tasks",
 		_("Calendar and Tasks"),
+		"index#calendar",
 		e_calendar_preferences_new,
 		600);
 

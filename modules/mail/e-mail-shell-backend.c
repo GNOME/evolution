@@ -429,6 +429,7 @@ mail_shell_backend_constructed (GObject *object)
 		"mail-accounts",
 		"preferences-mail-accounts",
 		_("Mail Accounts"),
+		"mail-account-management",
 		em_account_prefs_new,
 		100);
 
@@ -437,6 +438,7 @@ mail_shell_backend_constructed (GObject *object)
 		"mail",
 		"preferences-mail",
 		_("Mail Preferences"),
+		"index#mail-basic",
 		em_mailer_prefs_new,
 		300);
 
@@ -445,6 +447,7 @@ mail_shell_backend_constructed (GObject *object)
 		"composer",
 		"preferences-composer",
 		_("Composer Preferences"),
+		"index#mail-composing",
 		em_composer_prefs_new,
 		400);
 
@@ -453,6 +456,7 @@ mail_shell_backend_constructed (GObject *object)
 		"system-network-proxy",
 		"preferences-system-network-proxy",
 		_("Network Preferences"),
+		NULL,
 		em_network_prefs_new,
 		500);
 }
