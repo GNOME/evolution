@@ -544,7 +544,7 @@ setup_widgets (ESendOptionsDialog *sod,
 
 	switch (type) {
 		case E_ITEM_MAIL:
-			priv->help_section = g_strdup ("usage-mail");
+			priv->help_section = g_strdup ("groupwise-placeholder");
 			gtk_widget_hide (priv->accepted_label);
 			gtk_widget_hide (priv->when_accepted);
 			gtk_widget_hide (priv->completed_label);
@@ -552,11 +552,11 @@ setup_widgets (ESendOptionsDialog *sod,
 			gtk_label_set_text_with_mnemonic (GTK_LABEL (priv->declined_label), (_("When de_leted:")));
 			break;
 		case E_ITEM_CALENDAR:
-			priv->help_section = g_strdup ("usage-calendar");
+			priv->help_section = g_strdup ("groupwise-placeholder");
 			gtk_widget_hide (priv->completed_label);
 			gtk_widget_hide (priv->when_completed);
 		case E_ITEM_TASK:
-			priv->help_section = g_strdup ("usage-calendar-todo");
+			priv->help_section = g_strdup ("groupwise-placeholder");
 			gtk_widget_hide (priv->security_label);
 			gtk_widget_hide (priv->security);
 			gtk_widget_set_sensitive (priv->autodelete, FALSE);
