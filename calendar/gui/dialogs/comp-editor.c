@@ -1786,7 +1786,7 @@ comp_editor_class_init (CompEditorClass *class)
 	widget_class->drag_motion = comp_editor_drag_motion;
 	widget_class->drag_data_received = comp_editor_drag_data_received;
 
-	class->help_section = "usage-calendar";
+	class->help_section = "memos-usage";
 	class->edit_comp = real_edit_comp;
 	class->send_comp = real_send_comp;
 	class->object_created = NULL;
