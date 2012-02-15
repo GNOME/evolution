@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolut"
 "ion&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-02-13 14:41+0000\n"
-"PO-Revision-Date: 2012-02-14 10:37+0200\n"
+"POT-Creation-Date: 2012-02-14 14:48+0000\n"
+"PO-Revision-Date: 2012-02-15 10:23+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -8691,7 +8691,7 @@ msgstr ""
 "PGP ili S/MIME potpisane."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
-#: ../mail/evolution-mail.schemas.in.h:33 ../mail/mail-config.ui.h:15
+#: ../mail/evolution-mail.schemas.in.h:33
 msgid "Encode file names in an Outlook/GMail way"
 msgstr "Kodiranje naziva datoteka na način Autluka/Gpošte"
 
@@ -8981,13 +8981,11 @@ msgstr "Označava poruku viđenom posle navedenog roka."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 #: ../mail/evolution-mail.schemas.in.h:90
-#| msgid "Timeout for marking message as seen"
 msgid "Timeout for marking messages as seen"
 msgstr "Vreme za označavanje poruka kao viđenim"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 #: ../mail/evolution-mail.schemas.in.h:91
-#| msgid "Timeout for marking message as seen."
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr "Vreme u milisekundama za koje će poruke biti označene kao viđenim."
 
@@ -11313,7 +11311,7 @@ msgstr "Boja"
 msgid "Name"
 msgstr "Ime"
 
-#: ../mail/e-mail-migrate.c:1185
+#: ../mail/e-mail-migrate.c:1264
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "Ne mogu da napravim lokalne fascikle za poštu u „%s“: %s"
@@ -13435,7 +13433,8 @@ msgid "Default Behavior"
 msgstr "Podrazumevano ponašanje"
 
 #: ../mail/mail-config.ui.h:12
-msgid "Format messages in _HTML"
+#| msgid "Format messages in _HTML"
+msgid "For_mat messages in HTML"
 msgstr "Oblikuj poruke u HTM_L"
 
 #: ../mail/mail-config.ui.h:13
@@ -13444,11 +13443,17 @@ msgstr "Uvek umetni slike _smajlića"
 
 #: ../mail/mail-config.ui.h:14
 msgid "Always request rea_d receipt"
-msgstr "Uvek traži povratnicu"
+msgstr "Uvek traži _povratnicu"
+
+#: ../mail/mail-config.ui.h:15
+#| msgid "Encode file names in an Outlook/GMail way"
+msgid "Encode file names in an _Outlook/GMail way"
+msgstr "Kodiraj nazive datoteka na način _Autluka/Gpošte"
 
 #: ../mail/mail-config.ui.h:16
-msgid "C_haracter set:"
-msgstr "K_odna strana:"
+#| msgid "C_haracter set:"
+msgid "Character _set:"
+msgstr "Kodni _raspored:"
 
 #: ../mail/mail-config.ui.h:17
 msgid "Replies and Forwards"
@@ -13468,15 +13473,17 @@ msgstr "U odgovoru započni _kucanje pri dnu"
 
 #: ../mail/mail-config.ui.h:21
 msgid "_Keep signature above the original message on replying"
-msgstr "_Zadrži potpis iznad originalne poruke pri odgovoru"
+msgstr "Zadrži potpis _iznad originalne poruke pri odgovoru"
 
 #: ../mail/mail-config.ui.h:22
-msgid "Ignore Reply-To: for mailing lists"
-msgstr "Zanemari „Odgovor-za:“ za dopisne liste"
+#| msgid "Ignore Reply-To: for mailing lists"
+msgid "Ig_nore Reply-To: for mailing lists"
+msgstr "_Zanemari „Odgovor-za:“ za dopisne liste"
 
 #: ../mail/mail-config.ui.h:23
-msgid "Group Reply goes only to mailing list, if possible"
-msgstr "Odgovor grupi ide samo na dopisnu listu, ako je moguće"
+#| msgid "Group Reply goes only to mailing list, if possible"
+msgid "Gro_up Reply goes only to mailing list, if possible"
+msgstr "Odgovor _grupi ide samo na dopisnu listu, ako je moguće"
 
 #: ../mail/mail-config.ui.h:24
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
