@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-02-13 14:41+0000\n"
-"PO-Revision-Date: 2012-02-13 16:48+0100\n"
+"POT-Creation-Date: 2012-02-14 14:48+0000\n"
+"PO-Revision-Date: 2012-02-15 12:17+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -8679,7 +8679,7 @@ msgstr ""
 "firmado con PGP o S/MIME."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
-#: ../mail/evolution-mail.schemas.in.h:33 ../mail/mail-config.ui.h:15
+#: ../mail/evolution-mail.schemas.in.h:33
 msgid "Encode file names in an Outlook/GMail way"
 msgstr "Codificar nombres de archivo de la forma Outlook/GMail"
 
@@ -8979,13 +8979,11 @@ msgstr "Marcar como visto después del tiempo especificado."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 #: ../mail/evolution-mail.schemas.in.h:90
-#| msgid "Timeout for marking message as seen"
 msgid "Timeout for marking messages as seen"
 msgstr "Tiempo para marcar mensajes como vistos"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 #: ../mail/evolution-mail.schemas.in.h:91
-#| msgid "Timeout for marking message as seen."
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr "Tiempo en milisegundos para marcar mensajes como vistos."
 
@@ -11307,7 +11305,7 @@ msgstr "Color"
 msgid "Name"
 msgstr "Nombre"
 
-#: ../mail/e-mail-migrate.c:1185
+#: ../mail/e-mail-migrate.c:1264
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "No se pueden crear las carpetas de correo local en: «%s»: %s"
@@ -13414,8 +13412,9 @@ msgid "Default Behavior"
 msgstr "Comportamiento predeterminado"
 
 #: ../mail/mail-config.ui.h:12
-msgid "Format messages in _HTML"
-msgstr "Dar formato _HTML a los mensajes"
+#| msgid "Format messages in _HTML"
+msgid "For_mat messages in HTML"
+msgstr "Formatear _mensajes en HTML"
 
 #: ../mail/mail-config.ui.h:13
 msgid "Automatically insert _emoticon images"
@@ -13425,8 +13424,14 @@ msgstr "Insertar imágenes de _emoticonos automáticamente"
 msgid "Always request rea_d receipt"
 msgstr "Siempre _solicitar confirmación de lectura"
 
+#: ../mail/mail-config.ui.h:15
+#| msgid "Encode file names in an Outlook/GMail way"
+msgid "Encode file names in an _Outlook/GMail way"
+msgstr "Codificar nombres de archivo de la forma _Outlook/GMail"
+
 #: ../mail/mail-config.ui.h:16
-msgid "C_haracter set:"
+#| msgid "C_haracter set:"
+msgid "Character _set:"
 msgstr "Conjunto de carac_teres:"
 
 #: ../mail/mail-config.ui.h:17
@@ -13450,12 +13455,14 @@ msgid "_Keep signature above the original message on replying"
 msgstr "_Mantener la firma por encima del mensaje original al responder"
 
 #: ../mail/mail-config.ui.h:22
-msgid "Ignore Reply-To: for mailing lists"
-msgstr "Ignorar «Responder a:» para listas de correo"
+#| msgid "Ignore Reply-To: for mailing lists"
+msgid "Ig_nore Reply-To: for mailing lists"
+msgstr "Ig_norar «Responder a:» para listas de correo"
 
 #: ../mail/mail-config.ui.h:23
-msgid "Group Reply goes only to mailing list, if possible"
-msgstr "Responder al grupo sólo envía a la lista de correo, si es posible"
+#| msgid "Group Reply goes only to mailing list, if possible"
+msgid "Gro_up Reply goes only to mailing list, if possible"
+msgstr "Responder al gr_upo sólo envía a la lista de correo, si es posible"
 
 #: ../mail/mail-config.ui.h:24
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
