@@ -528,7 +528,7 @@ for display purposes only. </property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">1</property>
-                            <property name="label" translatable="yes">Character _set:</property>
+                            <property name="label" translatable="yes">Ch_aracter encoding:</property>
                             <property name="use_underline">True</property>
                             <property name="justify">center</property>
                           </object>

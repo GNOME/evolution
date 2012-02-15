@@ -488,6 +488,9 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
+	container = e_builder_get_widget (prefs->builder, "lblCharset");
+	gtk_label_set_mnemonic_widget (GTK_LABEL (container), widget);
+
 	/* Spell Checking */
 	widget = e_builder_get_widget (prefs->builder, "listSpellCheckLanguage");
 	view = GTK_TREE_VIEW (widget);
