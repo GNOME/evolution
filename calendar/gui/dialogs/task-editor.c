@@ -288,7 +288,7 @@ task_editor_class_init (TaskEditorClass *class)
 	object_class->constructed = task_editor_constructed;
 
 	editor_class = COMP_EDITOR_CLASS (class);
-	editor_class->help_section = "usage-calendar-todo";
+	editor_class->help_section = "tasks-usage";
 	editor_class->edit_comp = task_editor_edit_comp;
 	editor_class->send_comp = task_editor_send_comp;
 	editor_class->show_categories = task_editor_show_categories;
