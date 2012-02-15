@@ -18,7 +18,7 @@ libeabutil_la_SOURCES =					\
 	eab-book-util.c					\
 	eab-book-util.h
 
-libeabutil_la_LDFLAGS = $(NO_UNDEFINED)
+libeabutil_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libeabutil_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la \

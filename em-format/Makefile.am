@@ -22,7 +22,7 @@ libemformat_la_SOURCES =				\
 	em-inline-filter.c				\
 	em-stripsig-filter.c
 
-libemformat_la_LDFLAGS = $(NO_UNDEFINED)
+libemformat_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libemformat_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\

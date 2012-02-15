@@ -164,7 +164,7 @@ libetableinclude_HEADERS = 			\
 	gal-a11y-e-tree.h			\
 	gal-a11y-e-tree-factory.h
 
-libetable_la_LDFLAGS = $(NO_UNDEFINED)
+libetable_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libetable_la_LIBADD =						\
 	$(top_builddir)/a11y/libevolution-a11y.la		\

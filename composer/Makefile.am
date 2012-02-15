@@ -54,7 +54,7 @@ libcomposer_la_SOURCES = 			\
 	e-composer-text-header.c		\
 	e-msg-composer.c
 
-libcomposer_la_LDFLAGS = $(NO_UNDEFINED)
+libcomposer_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libcomposer_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\

@@ -121,7 +121,7 @@ libeutil_la_SOURCES =				\
 	e-xml-utils.c				\
 	$(PLATFORM_SOURCES)
 
-libeutil_la_LDFLAGS = $(NO_UNDEFINED)
+libeutil_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libeutil_la_LIBADD = 			\
 	$(ICONV_LIBS)			\

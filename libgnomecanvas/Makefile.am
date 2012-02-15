@@ -62,7 +62,7 @@ libgnomecanvas_la_LIBADD = \
 	$(GNOME_PLATFORM_LIBS) \
 	$(MATH_LIB)
 
-libgnomecanvas_la_LDFLAGS = $(NO_UNDEFINED)
+libgnomecanvas_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 

@@ -57,7 +57,7 @@ libemail_engine_la_LIBADD = \
 	$(GNOME_PLATFORM_LIBS) \
 	$(NULL)
 
-libemail_engine_la_LDFLAGS = $(NO_UNDEFINED)
+libemail_engine_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libemail-engine.pc

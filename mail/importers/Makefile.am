@@ -19,7 +19,7 @@ libevolution_mail_importers_la_SOURCES =	\
 	pine-importer.c				\
 	evolution-mbox-importer.c
 
-libevolution_mail_importers_la_LDFLAGS = $(NO_UNDEFINED)
+libevolution_mail_importers_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libevolution_mail_importers_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la			\

@@ -45,7 +45,7 @@ libevolution_smime_la_LIBADD =				\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(CERT_UI_LIBS)
 
-libevolution_smime_la_LDFLAGS = $(NO_UNDEFINED)
+libevolution_smime_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 ui_DATA = smime-ui.ui
 

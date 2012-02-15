@@ -18,7 +18,7 @@ libevolution_addressbook_importers_la_SOURCES = \
 	evolution-csv-importer.c	        \
 	evolution-addressbook-importers.h
 
-libevolution_addressbook_importers_la_LDFLAGS = $(NO_UNDEFINED)
+libevolution_addressbook_importers_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libevolution_addressbook_importers_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la 				\

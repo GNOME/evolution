@@ -150,7 +150,7 @@ libemiscwidgets_la_SOURCES =			\
 	ea-cell-table.c				\
 	ea-widgets.c
 
-libemiscwidgets_la_LDFLAGS = $(NO_UNDEFINED)
+libemiscwidgets_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libemiscwidgets_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la			\

@@ -87,7 +87,7 @@ libeshell_la_SOURCES =				\
 	e-shell-window-actions.c		\
 	es-event.c
 
-libeshell_la_LDFLAGS = $(NO_UNDEFINED)
+libeshell_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libeshell_la_LIBADD =					\
 	$(top_builddir)/libemail-utils/libemail-utils.la		\

@@ -29,7 +29,7 @@ libemail_utils_la_SOURCES = \
 	mail-mt.c \
 	$(NULL)
 
-libemail_utils_la_LDFLAGS = $(NO_UNDEFINED)
+libemail_utils_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libemail_utils_la_LIBADD = \
 	$(EVOLUTION_DATA_SERVER_LIBS) \

@@ -22,8 +22,7 @@ libeggsmclient_la_LIBADD = \
 	$(EGG_SMCLIENT_LIBS) \
 	$(platform_libs)
 
-libeggsmclient_la_LDFLAGS = \
-	$(platform_ldflags)
+libeggsmclient_la_LDFLAGS = -avoid-version $(platform_ldflags)
 
 libeggsmclient_la_SOURCES = \
 	eggsmclient.c \

@@ -63,5 +63,5 @@ libevolution_mail_settings_la_LIBADD = 				\
 	$(top_builddir)/libemail-engine/libemail-engine.la \
 	$(top_builddir)/e-util/libeutil.la
 
-libevolution_mail_settings_la_LDFLAGS =  $(NO_UNDEFINED)
+libevolution_mail_settings_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 

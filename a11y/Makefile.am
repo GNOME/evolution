@@ -14,7 +14,7 @@ libevolution_a11y_la_SOURCES =		\
 	gal-a11y-util.h			\
 	gal-a11y-factory.h
 
-libevolution_a11y_la_LDFLAGS = $(NO_UNDEFINED)
+libevolution_a11y_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libevolution_a11y_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la	\

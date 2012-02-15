@@ -195,7 +195,7 @@ libevolution_mail_la_LIBADD =				\
 	$(GTKHTML_LIBS)					\
 	$(SMIME_LIBS)
 
-libevolution_mail_la_LDFLAGS = $(NO_UNDEFINED)
+libevolution_mail_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
 

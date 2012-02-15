@@ -40,7 +40,7 @@ libmenusinclude_HEADERS =			\
 	gal-view-new-dialog.h			\
 	gal-view.h
 
-libmenus_la_LDFLAGS = $(NO_UNDEFINED)
+libmenus_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libmenus_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\

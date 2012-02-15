@@ -218,7 +218,7 @@ libevolution_calendar_la_LIBADD =					\
 	$(GTKHTML_LIBS)							\
 	$(LIBSOUP_LIBS)
 
-libevolution_calendar_la_LDFLAGS = $(NO_UNDEFINED)
+libevolution_calendar_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 EXTRA_DIST =	 			\
 	$(ui_DATA)			\

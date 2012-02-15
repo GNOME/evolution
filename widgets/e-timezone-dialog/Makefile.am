@@ -13,7 +13,7 @@ libetimezonedialog_la_SOURCES =	\
 	e-timezone-dialog.c	\
 	e-timezone-dialog.h
 
-libetimezonedialog_la_LDFLAGS = $(NO_UNDEFINED)
+libetimezonedialog_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libetimezonedialog_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la		\

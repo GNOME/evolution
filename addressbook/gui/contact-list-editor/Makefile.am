@@ -19,7 +19,7 @@ libecontactlisteditor_la_SOURCES = 		\
 	e-contact-list-model.c			\
 	e-contact-list-model.h
 
-libecontactlisteditor_la_LDFLAGS = $(NO_UNDEFINED)
+libecontactlisteditor_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libecontactlisteditor_la_LIBADD =				\
 	$(top_builddir)/addressbook/util/libeabutil.la		\

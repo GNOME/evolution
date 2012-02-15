@@ -53,7 +53,7 @@ libfilter_la_SOURCES =				\
 	e-rule-editor.c				\
 	e-rule-editor.h
 
-libfilter_la_LDFLAGS = $(NO_UNDEFINED)
+libfilter_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libfilter_la_LIBADD = 				\
 	$(top_builddir)/e-util/libeutil.la	\

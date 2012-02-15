@@ -35,6 +35,6 @@ libessmime_la_LIBADD =				\
 	$(GNOME_PLATFORM_LIBS)			\
 	$(CERT_UI_LIBS)
 
-libessmime_la_LDFLAGS = $(NO_UNDEFINED)
+libessmime_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 -include $(top_srcdir)/git.mk
