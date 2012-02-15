@@ -3874,7 +3874,7 @@ show_help_cb (GtkWidget *widget,
               gpointer data)
 {
 	/* FIXME Pass a proper parent window. */
-	e_display_help (NULL, "usage-contact-cards");
+	e_display_help (NULL, "contacts-usage-add-contact");
 }
 
 static GList *
