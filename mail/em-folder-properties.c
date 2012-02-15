@@ -221,7 +221,7 @@ emfp_get_folder_item (EConfig *ec,
 
 		switch (properties[ii]->value_type) {
 			case G_TYPE_BOOLEAN:
-				widget = gtk_check_button_new_with_label (blurb);
+				widget = gtk_check_button_new_with_mnemonic (blurb);
 				g_object_bind_property (
 					context->folder,
 					properties[ii]->name,
