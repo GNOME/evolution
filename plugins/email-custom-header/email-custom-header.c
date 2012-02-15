@@ -136,7 +136,7 @@ epech_fill_widgets_with_data (CustomHeaderOptionsDialog *mch)
 	gint set_index_column;
 
 	priv = mch->priv;
-	priv->help_section = g_strdup ("usage-mail");
+	priv->help_section = g_strdup ("mail-composer-custom-header-lines");
 
 	for (set_index_column = 0;
 		set_index_column < priv->email_custom_header_details->len; set_index_column++) {
