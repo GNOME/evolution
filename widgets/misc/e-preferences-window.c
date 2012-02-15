@@ -127,9 +127,37 @@ preferences_window_load_pixbuf (const gchar *icon_name)
 }
 
 static void
-preferences_window_help_clicked_cb (GtkWindow *window)
+preferences_window_help_clicked_cb (EPreferencesWindow *window)
 {
-	e_display_help (window, "config-prefs");
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GList *list;
+	gchar *page = NULL;
+
+	g_return_if_fail (window != NULL);
+
+	model = GTK_TREE_MODEL (window->priv->filter);
+	list = gtk_icon_view_get_selected_items (GTK_ICON_VIEW (window->priv->icon_view));
+	if (list != NULL) {
+		gtk_tree_model_get_iter (model, &iter, list->data);
+		gtk_tree_model_get (model, &iter, COLUMN_ID, &page, -1);
+	} else if (gtk_tree_model_get_iter_first (model, &iter)) {
+		gint page_index, current_index;
+
+		current_index = gtk_notebook_get_current_page (GTK_NOTEBOOK (window->priv->notebook));
+		do {
+			gtk_tree_model_get (model, &iter, COLUMN_PAGE, &page_index, -1);
+
+			if (page_index == current_index) {
+				gtk_tree_model_get (model, &iter, COLUMN_ID, &page, -1);
+				break;
+			}
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+
+	e_display_help (GTK_WINDOW (window), page ? page : "index");
+
+	g_free (page);
 }
 
 static void
