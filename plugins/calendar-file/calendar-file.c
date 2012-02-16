@@ -133,7 +133,7 @@ e_calendar_file_customs (EPlugin *epl,
 		1, 2, n_rows, n_rows + 1,
 		GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-	maincheck = gtk_check_button_new_with_mnemonic (_("_Customize options"));
+	maincheck = gtk_check_button_new_with_mnemonic (_("C_ustomize options"));
 	gtk_box_pack_start ((GtkBox *) mainbox, maincheck, TRUE, TRUE, 2);
 
 	box1 = gtk_hbox_new (FALSE, 2);
