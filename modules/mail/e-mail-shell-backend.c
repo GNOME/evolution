@@ -33,6 +33,8 @@
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
 
+#include <capplet/settings/mail-capplet-shell.h>
+
 #include <composer/e-msg-composer.h>
 
 #include <widgets/misc/e-preferences-window.h>
@@ -73,6 +75,7 @@
 struct _EMailShellBackendPrivate {
 	gint mail_sync_in_progress;
 	guint mail_sync_source_id;
+	gpointer assistant; /* weak pointer, when adding new mail account */
 };
 
 static void mbox_create_preview_cb (GObject *preview, GtkWidget **preview_widget);
@@ -157,6 +160,53 @@ exit:
 }
 
 static void
+action_mail_account_new_cb (GtkAction *action,
+                            EShellWindow *shell_window)
+{
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailShellBackend *backend;
+
+	g_return_if_fail (shell_window != NULL);
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_backend = e_shell_get_backend_by_name (shell, BACKEND_NAME);
+	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (shell_backend));
+
+	backend = E_MAIL_SHELL_BACKEND (shell_backend);
+	if (backend->priv->assistant) {
+		gtk_window_present (GTK_WINDOW (backend->priv->assistant));
+	} else {
+		EMAccountEditor *emae;
+		GtkWindow *parent = GTK_WINDOW (shell_window);
+
+		if (!e_shell_get_express_mode (shell)) {
+			/** @HookPoint-EMConfig: New Mail Account Assistant
+			 * @Id: org.gnome.evolution.mail.config.accountAssistant
+			 * @Type: E_CONFIG_ASSISTANT
+			 * @Class: org.gnome.evolution.mail.config:1.0
+			 * @Target: EMConfigTargetAccount
+			 *
+			 * The new mail account assistant.
+			 */
+			emae = em_account_editor_new (
+				NULL, EMAE_ASSISTANT, E_MAIL_BACKEND (backend),
+				"org.gnome.evolution.mail.config.accountAssistant");
+			e_config_create_window (
+				E_CONFIG (emae->config), NULL,
+				_("Evolution Account Assistant"));
+			backend->priv->assistant = E_CONFIG (emae->config)->window;
+		} else {
+			backend->priv->assistant = mail_capplet_shell_new (0, TRUE, FALSE);
+		}
+
+		g_object_add_weak_pointer (G_OBJECT (backend->priv->assistant), &backend->priv->assistant);
+		gtk_window_set_transient_for (GTK_WINDOW (backend->priv->assistant), parent);
+		gtk_widget_show (backend->priv->assistant);
+	}
+}
+
+static void
 action_mail_message_new_cb (GtkAction *action,
                             EShellWindow *shell_window)
 {
@@ -208,6 +258,13 @@ static GtkActionEntry item_entries[] = {
 };
 
 static GtkActionEntry source_entries[] = {
+
+	{ "mail-account-new",
+	  "evolution-mail",
+	  NC_("New", "Mail Acco_unt"),
+	  NULL,
+	  N_("Create a new mail account"),
+	  G_CALLBACK (action_mail_account_new_cb) },
 
 	{ "mail-folder-new",
 	  "folder-new",
