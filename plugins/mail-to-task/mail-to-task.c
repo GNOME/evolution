@@ -632,19 +632,29 @@ get_question_edit_old (ECalClientSourceType source_type)
 }
 
 static const gchar *
-get_question_add_all_mails (ECalClientSourceType source_type)
+get_question_add_all_mails (ECalClientSourceType source_type,
+			    gint count)
 {
 	const gchar *ask = NULL;
 
 	switch (source_type) {
 	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-		ask = _("You have selected %d mails to be converted to events. Do you really want to add them all?");
+		/* Translators: Note there are always more than 10 mails selected */
+		ask = ngettext ("You have selected %d mails to be converted to events. Do you really want to add them all?",
+				"You have selected %d mails to be converted to events. Do you really want to add them all?",
+				count);
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-		ask = _("You have selected %d mails to be converted to tasks. Do you really want to add them all?");
+		/* Translators: Note there are always more than 10 mails selected */
+		ask = ngettext ("You have selected %d mails to be converted to tasks. Do you really want to add them all?",
+				"You have selected %d mails to be converted to tasks. Do you really want to add them all?",
+				count);
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-		ask = _("You have selected %d mails to be converted to memos. Do you really want to add them all?");
+		/* Translators: Note there are always more than 10 mails selected */
+		ask = ngettext ("You have selected %d mails to be converted to memos. Do you really want to add them all?",
+				"You have selected %d mails to be converted to memos. Do you really want to add them all?",
+				count);
 		break;
 	default:
 		g_assert_not_reached ();
@@ -1098,7 +1108,7 @@ mail_to_event (ECalClientSourceType source_type,
 
 	/* Ask before converting 10 or more mails to events */
 	if (uids->len > 10) {
-		gchar *question = g_strdup_printf (get_question_add_all_mails (source_type), uids->len);
+		gchar *question = g_strdup_printf (get_question_add_all_mails (source_type, uids->len), uids->len);
 		if (do_ask (question, FALSE) == GTK_RESPONSE_NO) {
 			g_free (question);
 			g_object_unref (source_list);
