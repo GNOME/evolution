@@ -1787,7 +1787,7 @@
          <short>Drag'n'drop export format</short>
          <long>
            Define the email export format when doing drag'n'drop.
-           Possible values are : mbox or pdf
+           Possible values are mbox or pdf
          </long>
       </locale>
     </schema>
@@ -1801,8 +1801,8 @@
       <locale name="C">
          <short>Format of the drag'n'drop export filename</short>
          <long>
-           Exported file name will be : YYYmmDDHHMMSS_email_title
-           Possible values : 1 (: email sent date), 2 (: drag'n'drop date)
+           Exported file name will be YYYYmmDDHHMMSS_email_title
+           Possible values: 1 (: email sent date), 2 (: drag'n'drop date)
          </long>
       </locale>
     </schema>

@@ -216,7 +216,7 @@ vfolder_adduri_desc (struct _adduri_msg *m)
 	display_name = camel_service_get_display_name (service);
 
 	description = g_strdup_printf (
-		_("Updating Search Folders for '%s' : %s"),
+		_("Updating Search Folders for '%s' - %s"),
 		display_name, folder_name);
 
 	g_object_unref (store);
