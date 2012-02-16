@@ -866,7 +866,10 @@ send_queue_exec (struct _send_queue_msg *m,
 	if (j > 0)
 		report_status (
 			m, CAMEL_FILTER_STATUS_END, 100,
-			_("Failed to send %d of %d messages"),
+			/* Translators: The string is distinguished by total count of messages to be send. Failed messages is always more than zero. */
+			ngettext ("Failed to send a message",
+				  "Failed to send %d of %d messages",
+				  send_uids->len),
 			j, send_uids->len);
 	else if (g_error_matches (
 			m->base.error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
