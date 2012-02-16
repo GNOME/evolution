@@ -1,12 +1,11 @@
-SUBDIRS = settings
+privsolib_LTLIBRARIES = libevolution-mail-settings.la
 
-bin_PROGRAMS = evolution-settings
-
-evolution_settings_CPPFLAGS = \
+libevolution_mail_settings_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/e-util				\
 	-I$(top_srcdir)/em-format			\
 	-I$(top_srcdir)/mail				\
 	-I$(top_srcdir)/composer			\
@@ -19,12 +18,14 @@ evolution_settings_CPPFLAGS = \
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(CERT_UI_CFLAGS)				\
 	$(CANBERRA_CFLAGS)				\
+	$(GTKHTML_CFLAGS)				\
+	-DANJAL_SETTINGS				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"		\
-	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"		\
 	-DEVOLUTION_MODULEDIR=\""$(moduledir)"\"	\
+	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"		\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
 	-DEVOLUTION_BUTTONSDIR=\""$(buttonsdir)"\"	\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
@@ -35,26 +36,30 @@ evolution_settings_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\" 
 
-evolution_settings_SOURCES  = \
-	anjal-settings-main.c 
+libevolution_mail_settings_la_SOURCES = \
+	mail-settings-view.c \
+	mail-settings-view.h \
+	mail-account-view.c \
+	mail-account-view.h \
+	mail-view.c \
+	mail-view.h \
+	mail-capplet-shell.c \
+	mail-capplet-shell.h \
+	anjal-mail-view.h \
+	anjal-mail-view.c
 
-if OS_WIN32
-evolution_settings_LDFLAGS = -mwindows
-endif
-
-evolution_settings_LDADD = 				\
+libevolution_mail_settings_la_LIBADD = 				\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(CERT_UI_LIBS)					\
 	$(CANBERRA_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(SMIME_LIBS)					\
-	$(top_builddir)/libemail-engine/libemail-engine.la \
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
-	$(top_builddir)/capplet/settings/libevolution-mail-settings.la \
 	$(top_builddir)/shell/libeshell.la		\
-	$(top_builddir)/e-util/libeutil.la \
-	$(top_builddir)/em-format/libemformat.la
+	$(top_builddir)/e-util/libeutil.la
+
+libevolution_mail_settings_la_LDFLAGS =  $(NO_UNDEFINED)
 

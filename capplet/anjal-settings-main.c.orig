@@ -100,21 +100,21 @@ static EShell *
 create_default_shell (void)
 {
 	EShell *shell;
+	GConfClient *client;
 	const gchar *key;
 	gboolean is_meego = FALSE, small_screen = FALSE;
 	gboolean express_mode = TRUE;
-	GSettings *settings;
-	GError *error = NULL;
-	GApplicationFlags flags;
 
-	settings = g_settings_new ("org.gnome.evolution.shell");
-
+	client = gconf_client_get_default ();	
 	main_window = mail_capplet_shell_new (socket_id, FALSE, TRUE);
 	if (!socket_id)
 		gtk_widget_show (main_window);
 
+	/* Determine whether to run Evolution in "express" mode. */
+	key = "/apps/evolution/shell/express_mode";
+
 	if (!express_mode)
-		express_mode = g_settings_get_boolean (settings, "express-mode");
+		express_mode = gconf_client_get_bool (client, key, NULL);
 
 	if (express_mode)
 		e_shell_detect_meego (&is_meego, &small_screen);
@@ -134,7 +134,7 @@ create_default_shell (void)
 		"online", TRUE,
 		NULL);
 
-	g_object_unref (settings);
+	g_object_unref (client);
 
 	return shell;
 }

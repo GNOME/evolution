@@ -51,7 +51,6 @@ struct _MailAccountViewPrivate {
 	gboolean do_calendar;
 
 	gchar *username;
-	GList *providers;
 
 	GtkWidget *yahoo_cal_entry;
 };
@@ -97,7 +96,6 @@ mail_account_view_finalize (GObject *object)
 	MailAccountView *shell = (MailAccountView *) object;
 
 	g_free (shell->priv->username);
-	g_list_free (shell->priv->providers);
 
 	G_OBJECT_CLASS (mail_account_view_parent_class)->finalize (object);
 }
@@ -472,38 +470,14 @@ static GtkWidget *
 create_review (MailAccountView *view)
 {
 	GtkWidget *table, *box, *label, *entry;
+	gchar *uri;
+	gchar *enc;
+	CamelURL *url;
 	gchar *buff;
-	CamelNetworkSettings *source_settings = NULL;
-	CamelNetworkSettings *transport_settings = NULL;
-	const gchar *encryption;
-	const gchar *protocol;
-	gchar *host = NULL;
-	gchar *user = NULL;
-	CamelNetworkSecurityMethod method;
-	EMConfigTargetSettings *target;
-		
 
-	target = ((EConfig *)view->edit->config)->target;
-	g_object_get (view->edit, "store-settings", &source_settings, NULL);
-	g_object_get (view->edit, "transport-settings", &transport_settings, NULL);
-
-	protocol = target->storage_protocol;
-
-	g_object_get (
-		source_settings,
-		"host", &host, "user", &user,
-		"security-method", &method, NULL);
-	switch (method) {
-		case CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT:
-			encryption = _("Always (SSL)");
-			break;
-		case CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT:
-			encryption = _("When possible (TLS)");
-			break;
-		default:
-			encryption = _("Never");
-			break;
-	}
+	uri = (gchar *) e_account_get_string (em_account_editor_get_modified_account (view->edit), E_ACCOUNT_SOURCE_URL);
+	if (!uri  || (url = camel_url_new (uri, NULL)) == NULL)
+		return NULL;
 
 	table = gtk_table_new (4,2, FALSE);
 	gtk_table_set_row_spacings ((GtkTable *) table, 4);
@@ -554,7 +528,7 @@ create_review (MailAccountView *view)
 	gtk_widget_show (label);
 	PACK_BOX (label);
 	gtk_table_attach ((GtkTable *) table, box, 0, 1, 4, 5, GTK_EXPAND | GTK_FILL, GTK_SHRINK, INDENTATION, 0);
-	entry = gtk_label_new (protocol);
+	entry = gtk_label_new (url->protocol);
 	gtk_widget_show (entry);
 	PACK_BOX (entry)
 	gtk_table_attach ((GtkTable *) table, box, 1, 2, 4, 5, GTK_EXPAND | GTK_FILL, GTK_SHRINK, INDENTATION, 0);
@@ -563,7 +537,7 @@ create_review (MailAccountView *view)
 	gtk_widget_show (label);
 	PACK_BOX (label);
 	gtk_table_attach ((GtkTable *) table, box, 0, 1, 5, 6, GTK_EXPAND | GTK_FILL, GTK_SHRINK, INDENTATION, 0);
-	entry = gtk_label_new (host);
+	entry = gtk_label_new (url->host);
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
 	gtk_table_attach ((GtkTable *) table, box, 1, 2, 5, 6, GTK_EXPAND | GTK_FILL, GTK_SHRINK, INDENTATION, 0);
@@ -572,7 +546,7 @@ create_review (MailAccountView *view)
 	gtk_widget_show (label);
 	PACK_BOX (label);
 	gtk_table_attach ((GtkTable *) table, box, 0, 1, 6, 7, GTK_EXPAND | GTK_FILL, GTK_SHRINK, INDENTATION, 0);
-	entry = gtk_label_new (user);
+	entry = gtk_label_new (url->user);
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
 	gtk_table_attach ((GtkTable *) table, box, 1, 2, 6, 7, GTK_EXPAND | GTK_FILL, GTK_SHRINK, INDENTATION, 0);
@@ -581,34 +555,18 @@ create_review (MailAccountView *view)
 	gtk_widget_show (label);
 	PACK_BOX (label);
 	gtk_table_attach ((GtkTable *) table, box, 0, 1, 7, 8, GTK_EXPAND | GTK_FILL, GTK_SHRINK, INDENTATION, 0);
-	entry = gtk_label_new (encryption);
+	enc = (gchar *)camel_url_get_param(url, "security-method");
+	entry = gtk_label_new (enc ? enc : _("never"));
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
 	gtk_table_attach ((GtkTable *) table, box, 1, 2, 7, 8, GTK_EXPAND | GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
-	view->priv->username = g_strdup (user);
+	view->priv->username = g_strdup (url->user);
+	camel_url_free (url);
+	uri =(gchar *) e_account_get_string (em_account_editor_get_modified_account (view->edit), E_ACCOUNT_TRANSPORT_URL);
+	if (!uri  || (url = camel_url_new (uri, NULL)) == NULL)
+		return NULL;
 
-	g_free (host);
-	g_free (user);
-
-	g_object_get (
-		transport_settings,
-		"host", &host, "user", &user,
-		"security-method", &method, NULL);
-	protocol = target->transport_protocol;
-	
-	switch (method) {
-		case CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT:
-			encryption = _("Always (SSL)");
-			break;
-		case CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT:
-			encryption = _("When possible (TLS)");
-			break;
-		default:
-			encryption = _("Never");
-			break;
-	}
-	
 	label = gtk_label_new (NULL);
 	buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Sending"));
 	gtk_label_set_markup ((GtkLabel *) label, buff);
@@ -617,22 +575,23 @@ create_review (MailAccountView *view)
 	PACK_BOXF (label);
 	gtk_table_attach ((GtkTable *) table, box, 2, 3, 3, 4, GTK_EXPAND | GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
-	entry = gtk_label_new (protocol);
+	entry = gtk_label_new (url->protocol);
 	gtk_widget_show (entry);
 	PACK_BOX (entry)
 	gtk_table_attach ((GtkTable *) table, box, 2, 3, 4, 5, GTK_EXPAND | GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
-	entry = gtk_label_new (host);
+	entry = gtk_label_new (url->host);
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
 	gtk_table_attach ((GtkTable *) table, box, 2, 3, 5, 6, GTK_EXPAND | GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
-	entry = gtk_label_new (user);
+	entry = gtk_label_new (url->user);
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
 	gtk_table_attach ((GtkTable *) table, box, 2, 3, 6, 7, GTK_EXPAND | GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
-	entry = gtk_label_new (encryption);
+	enc = (gchar *)camel_url_get_param(url, "security-method");
+	entry = gtk_label_new (enc ? enc : _("never"));
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
 	gtk_table_attach ((GtkTable *) table, box, 2, 3, 7, 8, GTK_EXPAND | GTK_FILL, GTK_SHRINK, INDENTATION, 0);
@@ -647,8 +606,6 @@ create_review (MailAccountView *view)
 	*/
 
 	gtk_widget_show (table);
-	g_free (host);
-	g_free (user);
 
 	return table;
 }
@@ -685,44 +642,6 @@ struct _page_text {
 
 	{ MAV_REVIEW_PAGE, N_("Review account"), N_("Finish"), N_("Back - Sending"), N_("Finish"), N_("Back - Sending"), REVIEW_DETAIL, NULL, create_review, NULL, NULL},
 };
-
-static gboolean
-mav_check_same_source_transport (MailAccountView *mav)
-{
-	EAccount *account = em_account_editor_get_modified_account(mav->edit);
-	const gchar *uri;
-	gchar *current = NULL;
-	gboolean ret = FALSE;
-
-	uri = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
-	if (uri) {
-		const gchar *colon = strchr (uri, ':');
-		gint len;
-
-		if (colon) {
-			len = colon-uri;
-			current = g_alloca (len+1);
-			memcpy (current, uri, len);
-			current[len] = 0;
-		}
-	}
-
-	if (current) {
-		GList *l;
-		for (l=mav->priv->providers; l; l=l->next) {
-			CamelProvider *provider = l->data;
-			
-			if (strcmp (provider->protocol, current) == 0 &&
-				CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
-				ret = TRUE;
-				break;
-			}
-		}
-
-	}
-
-	return ret;
-}
 
 static void
 mav_next_pressed (GtkButton *button,
@@ -790,12 +709,8 @@ mav_next_pressed (GtkButton *button,
 
 	gtk_widget_hide (mav->pages[mav->current_page]->box);
 	mav->current_page++;
-
 	if (mav->current_page == MAV_RECV_OPT_PAGE && mav->original == NULL)
 		mav->current_page++; /* Skip recv options in new account creation. */
-	if (mav->current_page == MAV_SEND_PAGE && mav_check_same_source_transport (mav)) {
-		mav->current_page++; /* Skip send page if the provider does both source and transport*/
-	}
 	if (mav->current_page == MAV_DEFAULTS_PAGE && mav->original == NULL)
 		mav->current_page++; /* Skip defaults in new account creation. */
 
@@ -803,12 +718,7 @@ mav_next_pressed (GtkButton *button,
 		MAVPage *page = mav->pages[mav->current_page];
 		GtkWidget *tmp;
 		EAccount *account = em_account_editor_get_modified_account (mav->edit);
-		CamelNetworkSettings *settings = NULL;
-		const gchar *host = NULL;
-		
-		g_object_get (mav->edit, "store-settings", &settings, NULL);
-		host = camel_network_settings_get_host (settings);
-		
+
 		if (page->main)
 			gtk_widget_destroy (page->main);
 
@@ -847,8 +757,8 @@ mav_next_pressed (GtkButton *button,
 			}
 		}
 
-		if (mav->original == NULL && (g_strrstr(host, "gmail") ||
-				g_strrstr(host, "googlemail"))) {
+		if (mav->original == NULL && (g_strrstr(account->source->url, "gmail") ||
+				g_strrstr(account->source->url, "googlemail"))) {
 			/* Google accounts*/
 			gchar *buff;
 			mav->priv->is_gmail = TRUE;
@@ -884,9 +794,9 @@ mav_next_pressed (GtkButton *button,
 			PACK_IN_BOX (page->box,mav->priv->gmail_info_label,mav->priv->gmail_link, 24, 0);
 #undef PACK_IN_BOX
 		} else if (mav->original == NULL &&
-				(g_strrstr(host, "yahoo.") ||
-				 g_strrstr(host, "ymail.") ||
-				 g_strrstr(host, "rocketmail."))) {
+				(g_strrstr(account->source->url, "yahoo.") ||
+				 g_strrstr(account->source->url, "ymail.") ||
+				 g_strrstr(account->source->url, "rocketmail."))) {
 			/* Yahoo accounts*/
 			gchar *cal_name;
 			gchar *buff;
@@ -954,14 +864,10 @@ mav_prev_pressed (GtkButton *button,
 
 	gtk_widget_hide (mav->pages[mav->current_page]->box);
 	mav->current_page--;
-
-	if (mav->current_page == MAV_DEFAULTS_PAGE && mav->original == NULL)
-		mav->current_page--; /* Skip defaults in new account creation. */
-	if (mav->current_page == MAV_SEND_PAGE && mav_check_same_source_transport (mav)) {
-		mav->current_page--; /* Skip send page if the provider does both source and transport*/
-	}	
 	if (mav->current_page == MAV_RECV_OPT_PAGE && mav->original == NULL)
 		mav->current_page--; /* Skip recv options in new account creation. */
+	if (mav->current_page == MAV_DEFAULTS_PAGE && mav->original == NULL)
+		mav->current_page--; /* Skip defaults in new account creation. */
 	gtk_widget_show (mav->pages[mav->current_page]->box);
 
 }
@@ -1103,8 +1009,6 @@ mail_account_view_construct (MailAccountView *view,
 	}
 	em_account_editor_check (view->edit, mail_account_pages[0].path);
 	view->pages[0]->done = TRUE;
-
-	view->priv->providers = camel_provider_list (TRUE);
 
 	shell = e_shell_get_default ();
 	if (!shell || e_shell_get_express_mode (shell)) {

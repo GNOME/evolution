@@ -3043,7 +3043,10 @@ emae_identity_page (EConfig *ec,
 
 	w = e_builder_get_widget (builder, item->label);
 	if (emae->type == EMAE_PAGES) {
+		GtkWidget *page = emae_create_basic_assistant_page (emae, GTK_ASSISTANT (parent), "identity_page", position);
+
 		gtk_box_pack_start ((GtkBox *) emae->pages[0], w, TRUE, TRUE, 0);
+		w = page;
 	} else if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page;
 
@@ -3102,7 +3105,21 @@ emae_receive_page (EConfig *ec,
 
 	w = e_builder_get_widget (builder, item->label);
 	if (emae->type == EMAE_PAGES) {
-		gtk_box_pack_start ((GtkBox *) emae->pages[1], w, TRUE, TRUE, 0);
+		GtkWidget *page = emae_create_basic_assistant_page (emae, GTK_ASSISTANT (parent), "source_page", position);
+		GtkWidget *vbox, *child;
+
+		child = (GtkWidget *)g_object_get_data ((GObject *)emae->pages[1], "old-child");
+		if (child) 
+			gtk_container_remove ((GtkContainer *)emae->pages[1], child);
+
+		vbox = gtk_vbox_new (FALSE, 12);
+		gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+		gtk_widget_show (vbox);
+		gtk_box_pack_start ((GtkBox *)vbox, w, TRUE, TRUE, 0);
+		g_object_set_data ((GObject *)emae->pages[1], "old-child", vbox);
+		gtk_box_pack_start ((GtkBox *)emae->pages[1], vbox, TRUE, TRUE, 0);
+
+		w = page;
 	} else if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page;
 
@@ -3706,7 +3723,22 @@ emae_send_page (EConfig *ec,
 
 	w = e_builder_get_widget (builder, item->label);
 	if (emae->type == EMAE_PAGES) {
-		gtk_box_pack_start ((GtkBox *) emae->pages[3], w, TRUE, TRUE, 0);
+		GtkWidget *page = emae_create_basic_assistant_page (emae, GTK_ASSISTANT (parent), "transport_page", position);
+		GtkWidget *vbox, *child;
+
+		child = (GtkWidget *)g_object_get_data ((GObject *)emae->pages[3], "old-child");
+		if (child) 
+			gtk_container_remove ((GtkContainer *)emae->pages[3], child);
+
+		vbox = gtk_vbox_new (FALSE, 12);
+		gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+		gtk_widget_show (vbox);
+		gtk_box_pack_start ((GtkBox *)vbox, w, TRUE, TRUE, 0);
+		g_object_set_data ((GObject *)emae->pages[3], "old-child", vbox);
+
+		gtk_box_pack_start ((GtkBox *)emae->pages[3], vbox, TRUE, TRUE, 0);
+
+		w = page;		
 	} else if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page;
 

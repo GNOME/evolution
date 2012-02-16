@@ -1,0 +1,11 @@
+--- capplet/anjal-settings-main.c
++++ capplet/anjal-settings-main.c
+@@ -104,8 +104,6 @@
+ 	gboolean is_meego = FALSE, small_screen = FALSE;
+ 	gboolean express_mode = TRUE;
+ 	GSettings *settings;
+-	GError *error = NULL;
+-	GApplicationFlags flags;
+ 
+ 	settings = g_settings_new ("org.gnome.evolution.shell");
+ 

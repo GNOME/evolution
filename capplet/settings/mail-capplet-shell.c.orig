@@ -174,8 +174,10 @@ mail_capplet_shell_quit (MailCappletShell *shell)
 {
 	MailCappletShellPrivate *priv = shell->priv;
 
-	if (!priv->main_loop)
- 		gtk_widget_hide ((GtkWidget *)shell);	
+	if (priv->main_loop)
+		gtk_main_quit ();
+	else
+		gtk_widget_destroy ((GtkWidget *) shell);
 }
 
 static void
@@ -184,15 +186,13 @@ ms_delete_event (MailCappletShell *shell,
                  gpointer data G_GNUC_UNUSED)
 {
 	mail_capplet_shell_quit (shell);
-	gtk_main_quit();
 }
 
 static void
 ms_show_post_druid (MailViewChild *mfv G_GNUC_UNUSED,
                     MailCappletShell *shell)
 {
-	gtk_main_quit ();
-	g_timeout_add_seconds (5, (GSourceFunc) gtk_widget_destroy, shell);
+	gtk_widget_destroy (GTK_WIDGET (shell));
 }
 
 #define PACK_IN_TOOL(wid,icon)	{ GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, gtk_image_new_from_icon_name(icon, GTK_ICON_SIZE_BUTTON), FALSE, FALSE, 0); wid = (GtkWidget *)gtk_tool_button_new (tbox, NULL); }
@@ -250,7 +250,7 @@ mail_capplet_shell_construct (MailCappletShell *shell,
 		eshell = g_initable_new (
 			E_TYPE_SHELL, NULL, &error,
 			"application-id", "org.gnome.Evolution",
-			"flags", G_APPLICATION_HANDLES_OPEN | G_APPLICATION_HANDLES_COMMAND_LINE,
+			"flags", 0,
 			"geometry", NULL,
 			"module-directory", EVOLUTION_MODULEDIR,
 			"meego-mode", FALSE,

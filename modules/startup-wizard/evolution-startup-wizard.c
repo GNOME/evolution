@@ -521,9 +521,9 @@ startup_wizard_new_capplet (EStartupWizard *extension)
 
 	capplet = mail_capplet_shell_new (0, TRUE, TRUE);
 
-	g_signal_connect (
+	/* g_signal_connect (
 		capplet, "destroy",
-		G_CALLBACK (gtk_main_quit), NULL);
+		G_CALLBACK (gtk_main_quit), NULL); */
 
 	return capplet;
 }
@@ -553,16 +553,20 @@ startup_wizard_run (EStartupWizard *extension)
 
 	if (express_mode)
 		window = startup_wizard_new_capplet (extension);
-	else
+	else {
 		window = startup_wizard_new_assistant (extension);
-
-	g_signal_connect (
-		window, "delete-event",
-		G_CALLBACK (startup_wizard_terminate), NULL);
+		g_signal_connect (
+			window, "delete-event",
+			G_CALLBACK (startup_wizard_terminate), NULL);
+	}
 
 	gtk_widget_show (window);
 
 	gtk_main ();
+
+	if (e_list_length (E_LIST (account_list)) <= 0)
+		exit(0);
+
 }
 
 static void
