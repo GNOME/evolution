@@ -50,18 +50,23 @@
 G_BEGIN_DECLS
 
 typedef struct _EMenuToolButton EMenuToolButton;
+typedef struct _EMenuToolButtonPrivate EMenuToolButtonPrivate;
 typedef struct _EMenuToolButtonClass EMenuToolButtonClass;
 
 struct _EMenuToolButton {
 	GtkMenuToolButton parent;
+	EMenuToolButtonPrivate *priv;
 };
 
 struct _EMenuToolButtonClass {
 	GtkMenuToolButtonClass parent_class;
 };
 
-GType		e_menu_tool_button_get_type	(void);
-GtkToolItem *	e_menu_tool_button_new		(const gchar *label);
+GType		e_menu_tool_button_get_type		(void);
+GtkToolItem *	e_menu_tool_button_new			(const gchar *label);
+void		e_menu_tool_button_set_prefer_item	(EMenuToolButton *button,
+							 const gchar *prefer_item);
+const gchar *	e_menu_tool_button_get_prefer_item	(EMenuToolButton *button);
 
 G_END_DECLS
 

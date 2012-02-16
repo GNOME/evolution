@@ -50,6 +50,7 @@
 #include "dialogs/recur-comp.h"
 #include "dialogs/goto-dialog.h"
 #include "print.h"
+#include "calendar-config.h"
 #include "comp-util.h"
 #include "itip-utils.h"
 #include "e-cal-model-calendar.h"
@@ -3073,9 +3074,10 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 				dtend = day_view->before_click_dtend;
 				e_day_view_set_selected_time_range ((ECalendarView *) day_view, dtstart, dtend);
 			}
+
 			e_calendar_view_new_appointment_for (E_CALENDAR_VIEW (day_view),
 							dtstart, dtend,
-							TRUE, FALSE);
+							TRUE, calendar_config_get_prefer_meeting ());
 			return TRUE;
 		}
 
@@ -3214,7 +3216,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 			}
 			e_calendar_view_new_appointment_for (E_CALENDAR_VIEW (day_view),
 							dtstart, dtend,
-							FALSE, FALSE);
+							FALSE, calendar_config_get_prefer_meeting ());
 			return TRUE;
 		}
 

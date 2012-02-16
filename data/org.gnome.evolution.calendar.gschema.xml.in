@@ -185,6 +185,11 @@
       <_summary>Show display reminders in notification tray</_summary>
       <_description>Whether or not to use the notification tray for display reminders</_description>
     </key>
+    <key name="prefer-new-item" type="s">
+      <default>''</default>
+      <_summary>Preferred New button item</_summary>
+      <_description>Name of the preferred New toolbar button item</_description>
+    </key>
     <key name="primary-calendar" type="s">
       <default>''</default>
       <_summary>Primary calendar</_summary>

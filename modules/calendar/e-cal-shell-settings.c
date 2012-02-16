@@ -714,6 +714,11 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		CALENDAR_SCHEMA,
 		"working-days");
 
+	e_shell_settings_install_property_for_key (
+		"cal-prefer-new-item",
+		CALENDAR_SCHEMA,
+		"prefer-new-item");
+
 	/* These properties use transform functions to convert
 	 * GConf values to forms more useful to Evolution.  We
 	 * have to use separate properties because GConfBridge

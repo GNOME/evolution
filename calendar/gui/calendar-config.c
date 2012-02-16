@@ -434,3 +434,22 @@ calendar_config_add_notification_day_second_zone (CalendarConfigChangedFunc func
 	g_signal_connect (G_OBJECT (config), "changed::day-second-zone",
 			  G_CALLBACK (func), data);
 }
+
+gboolean
+calendar_config_get_prefer_meeting (void)
+{
+	EShell *shell;
+	EShellSettings *shell_settings;
+	gchar *prefer_new_item;
+	gboolean prefer_meeting;
+
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	prefer_new_item = e_shell_settings_get_string (shell_settings, "cal-prefer-new-item");
+	prefer_meeting = g_strcmp0 (prefer_new_item, "event-meeting-new") == 0;
+
+	g_free (prefer_new_item);
+
+	return prefer_meeting;
+}

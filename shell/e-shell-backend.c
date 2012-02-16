@@ -58,13 +58,15 @@ struct _EShellBackendPrivate {
 
 	gchar *config_dir;
 	gchar *data_dir;
+	gchar *prefer_new_item;
 
 	guint started	: 1;
 };
 
 enum {
 	PROP_0,
-	PROP_BUSY
+	PROP_BUSY,
+	PROP_PREFER_NEW_ITEM
 };
 
 enum {
@@ -164,6 +166,30 @@ shell_backend_get_property (GObject *object,
 				value, e_shell_backend_is_busy (
 				E_SHELL_BACKEND (object)));
 			return;
+
+		case PROP_PREFER_NEW_ITEM:
+			g_value_set_string (
+				value,
+				e_shell_backend_get_prefer_new_item (
+				E_SHELL_BACKEND (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+shell_backend_set_property (GObject *object,
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_PREFER_NEW_ITEM:
+			e_shell_backend_set_prefer_new_item (
+				E_SHELL_BACKEND (object),
+				g_value_get_string (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -179,6 +205,11 @@ shell_backend_dispose (GObject *object)
 	if (priv->shell_view_class != NULL) {
 		g_type_class_unref (priv->shell_view_class);
 		priv->shell_view_class = NULL;
+	}
+
+	if (priv->prefer_new_item) {
+		g_free (priv->prefer_new_item);
+		priv->prefer_new_item = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -253,6 +284,7 @@ e_shell_backend_class_init (EShellBackendClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructor = shell_backend_constructor;
 	object_class->get_property = shell_backend_get_property;
+	object_class->set_property = shell_backend_set_property;
 	object_class->dispose = shell_backend_dispose;
 	object_class->finalize = shell_backend_finalize;
 
@@ -276,6 +308,21 @@ e_shell_backend_class_init (EShellBackendClass *class)
 			"Whether any activities are still in progress",
 			FALSE,
 			G_PARAM_READABLE));
+
+	/**
+	 * EShellBackend:prefer-new-item
+	 *
+	 * Name of an item to prefer in New toolbar button; can be NULL
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_PREFER_NEW_ITEM,
+		g_param_spec_string (
+			"prefer-new-item",
+			"Prefer New Item",
+			"Name of an item to prefer in New toolbar button",
+			NULL,
+			G_PARAM_READWRITE));
 
 	/**
 	 * EShellBackend::activity-added
@@ -452,6 +499,50 @@ e_shell_backend_is_busy (EShellBackend *shell_backend)
 	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), FALSE);
 
 	return !g_queue_is_empty (shell_backend->priv->activities);
+}
+
+/**
+ * e_shell_backend_set_prefer_new_item:
+ * @shell_backend: an #EShellBackend
+ * @prefer_new_item: name of an item
+ *
+ * Sets name of a preferred item in New toolbar button. Use %NULL or
+ * an empty string for no preference.
+ *
+ * Since: 3.4
+ **/
+void
+e_shell_backend_set_prefer_new_item (EShellBackend *shell_backend,
+				     const gchar *prefer_new_item)
+{
+	g_return_if_fail (shell_backend != NULL);
+	g_return_if_fail (E_IS_SHELL_BACKEND (shell_backend));
+
+	if (g_strcmp0 (shell_backend->priv->prefer_new_item, prefer_new_item) == 0)
+		return;
+
+	g_free (shell_backend->priv->prefer_new_item);
+	shell_backend->priv->prefer_new_item = g_strdup (prefer_new_item);
+
+	g_object_notify (G_OBJECT (shell_backend), "prefer-new-item");
+}
+
+/**
+ * e_shell_backend_get_prefer_new_item:
+ * @shell_backend: an #EShellBackend
+ *
+ * Returns: Name of a preferred item in New toolbar button, %NULL or
+ * an empty string for no preference.
+ *
+ * Since: 3.4
+ **/
+const gchar *
+e_shell_backend_get_prefer_new_item (EShellBackend *shell_backend)
+{
+	g_return_val_if_fail (shell_backend != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), NULL);
+
+	return shell_backend->priv->prefer_new_item;
 }
 
 /**

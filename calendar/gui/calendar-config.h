@@ -90,4 +90,6 @@ void   calendar_config_add_notification_day_second_zone (CalendarConfigChangedFu
 gboolean calendar_config_get_month_scroll_by_week (void);
 void     calendar_config_add_notification_month_scroll_by_week (CalendarConfigChangedFunc func, gpointer data);
 
+gboolean calendar_config_get_prefer_meeting (void);
+
 #endif /* _CALENDAR_CONFIG_H_ */

@@ -135,6 +135,11 @@ gboolean	e_shell_window_get_toolbar_visible
 void		e_shell_window_set_toolbar_visible
 						(EShellWindow *shell_window,
 						 gboolean toolbar_visible);
+void		e_shell_window_set_toolbar_new_prefer_item
+						(EShellWindow *shell_window,
+						 const gchar *prefer_item);
+const gchar *	e_shell_window_get_toolbar_new_prefer_item
+						(EShellWindow *shell_window);
 
 /* These should be called from the shell backend's window_created() handler. */
 

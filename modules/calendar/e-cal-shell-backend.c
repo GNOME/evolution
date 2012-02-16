@@ -357,6 +357,8 @@ action_event_new_cb (GtkAction *action,
 	const gchar *action_name;
 	gchar *uid;
 
+	action_name = gtk_action_get_name (action);
+
 	/* With a 'calendar' active shell view pass the new appointment
 	 * request to it, thus the event will inherit selected time from
 	 * the view. */
@@ -367,6 +369,7 @@ action_event_new_cb (GtkAction *action,
 		GnomeCalendarViewType view_type;
 		ECalendarView *view;
 
+		shell_backend = e_shell_view_get_shell_backend (shell_view);
 		shell_content = e_shell_view_get_shell_content (shell_view);
 
 		gcal = e_cal_shell_content_get_calendar (
@@ -376,7 +379,7 @@ action_event_new_cb (GtkAction *action,
 		view = gnome_calendar_get_calendar_view (gcal, view_type);
 
 		if (view) {
-			action_name = gtk_action_get_name (action);
+			g_object_set (G_OBJECT (shell_backend), "prefer-new-item", action_name, NULL);
 
 			e_calendar_view_new_appointment_full (
 				view,
@@ -412,9 +415,10 @@ action_event_new_cb (GtkAction *action,
 
 	g_return_if_fail (E_IS_SOURCE (source));
 
+	g_object_set (G_OBJECT (shell_backend), "prefer-new-item", action_name, NULL);
+
 	/* Use a callback function appropriate for the action.
 	 * FIXME Need to obtain a better default time zone. */
-	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "event-all-day-new") == 0)
 		e_client_utils_open_new (source, source_type, FALSE, NULL,
 			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
@@ -795,6 +799,12 @@ cal_shell_backend_constructed (GObject *object)
 		"index#calendar",
 		e_calendar_preferences_new,
 		600);
+
+	g_object_bind_property (
+		e_shell_get_shell_settings (shell), "cal-prefer-new-item",
+		shell_backend, "prefer-new-item",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_cal_shell_backend_parent_class)->constructed (object);

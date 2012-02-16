@@ -126,6 +126,11 @@ struct _EShell *e_shell_backend_get_shell	(EShellBackend *shell_backend);
 void		e_shell_backend_add_activity	(EShellBackend *shell_backend,
 						 EActivity *activity);
 gboolean	e_shell_backend_is_busy		(EShellBackend *shell_backend);
+void		e_shell_backend_set_prefer_new_item
+						(EShellBackend *shell_backend,
+						 const gchar *prefer_new_item);
+const gchar *	e_shell_backend_get_prefer_new_item
+						(EShellBackend *shell_backend);
 void		e_shell_backend_cancel_all	(EShellBackend *shell_backend);
 void		e_shell_backend_start		(EShellBackend *shell_backend);
 gboolean	e_shell_backend_is_started	(EShellBackend *shell_backend);

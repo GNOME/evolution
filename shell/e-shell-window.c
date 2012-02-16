@@ -81,6 +81,10 @@ shell_window_menubar_update_new_menu (EShellWindow *shell_window)
 	gtk_widget_show (widget);
 }
 
+static void shell_window_backend_prefer_item_changed_cb (EShellBackend *backend,
+							 GParamSpec *pspec,
+							 EShellWindow *shell_window);
+
 static void
 shell_window_toolbar_update_new_menu (EShellWindow *shell_window,
                                       GParamSpec *pspec,
@@ -91,6 +95,44 @@ shell_window_toolbar_update_new_menu (EShellWindow *shell_window,
 	/* Update the "New" menu tool button submenu. */
 	menu = e_shell_window_create_new_menu (shell_window);
 	gtk_menu_tool_button_set_menu (menu_tool_button, menu);
+
+	if (pspec && g_strcmp0 (pspec->name, "active-view") == 0) {
+		EShellView *shell_view;
+		EShellBackend *shell_backend;
+
+		shell_view = e_shell_window_peek_shell_view (shell_window,
+			e_shell_window_get_active_view (shell_window));
+		g_return_if_fail (shell_view != NULL);
+
+		shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+		g_signal_handlers_disconnect_by_func (shell_backend,
+			shell_window_backend_prefer_item_changed_cb, shell_window);
+		g_signal_connect (shell_backend, "notify::prefer-new-item",
+			G_CALLBACK (shell_window_backend_prefer_item_changed_cb), shell_window);
+
+		shell_window_backend_prefer_item_changed_cb (shell_backend, NULL, shell_window);
+	}
+}
+
+static void
+shell_window_backend_prefer_item_changed_cb (EShellBackend *backend,
+					     GParamSpec *pspec,
+					     EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+
+	shell_view = e_shell_window_peek_shell_view (shell_window,
+		e_shell_window_get_active_view (shell_window));
+	g_return_if_fail (shell_view != NULL);
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	if (shell_backend != backend)
+		return;
+
+	e_shell_window_set_toolbar_new_prefer_item (shell_window,
+		e_shell_backend_get_prefer_new_item (shell_backend));
 }
 
 static void
@@ -455,6 +497,11 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 		shell_window, "notify::active-view",
 		G_CALLBACK (shell_window_toolbar_update_new_menu),
 		GTK_MENU_TOOL_BUTTON (item));
+
+	g_signal_connect_swapped (
+		item, "notify::prefer-item",
+		G_CALLBACK (shell_window_toolbar_update_new_menu),
+		shell_window);
 
 	gtk_box_pack_start (GTK_BOX (box), toolbar, TRUE, TRUE, 0);
 
@@ -1500,6 +1547,62 @@ e_shell_window_set_toolbar_visible (EShellWindow *shell_window,
 	shell_window->priv->toolbar_visible = toolbar_visible;
 
 	g_object_notify (G_OBJECT (shell_window), "toolbar-visible");
+}
+
+/**
+ * e_shell_window_set_toolbar_new_prefer_item:
+ * @shell_window: an #EShellWindow
+ * @prefer_item: prefer-item name to be set
+ *
+ * Sets prefer item on the New button for current view.
+ *
+ * Since: 3.4
+ **/
+void
+e_shell_window_set_toolbar_new_prefer_item (EShellWindow *shell_window,
+					    const gchar *prefer_item)
+{
+	GtkWidget *toolbar;
+	GtkToolItem *item;
+
+	g_return_if_fail (shell_window != NULL);
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	toolbar = e_shell_window_get_managed_widget (shell_window, "/main-toolbar");
+	g_return_if_fail (toolbar != NULL);
+
+	item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (toolbar), 0);
+	g_return_if_fail (item != NULL);
+	g_return_if_fail (E_IS_MENU_TOOL_BUTTON (item));
+
+	e_menu_tool_button_set_prefer_item (E_MENU_TOOL_BUTTON (item), prefer_item);
+}
+
+/**
+ * e_shell_window_get_toolbar_new_prefer_item:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns: name of preferred item on the New button for current view.
+ *
+ * Since: 3.4
+ **/
+const gchar *
+e_shell_window_get_toolbar_new_prefer_item (EShellWindow *shell_window)
+{
+	GtkWidget *toolbar;
+	GtkToolItem *item;
+
+	g_return_val_if_fail (shell_window != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
+
+	toolbar = e_shell_window_get_managed_widget (shell_window, "/main-toolbar");
+	g_return_val_if_fail (toolbar != NULL, NULL);
+
+	item = gtk_toolbar_get_nth_item (GTK_TOOLBAR (toolbar), 0);
+	g_return_val_if_fail (item != NULL, NULL);
+	g_return_val_if_fail (E_IS_MENU_TOOL_BUTTON (item), NULL);
+
+	return e_menu_tool_button_get_prefer_item (E_MENU_TOOL_BUTTON (item));
 }
 
 /**

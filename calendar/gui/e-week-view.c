@@ -48,6 +48,7 @@
 #include "dialogs/cancel-comp.h"
 #include "dialogs/recur-comp.h"
 #include "dialogs/goto-dialog.h"
+#include "calendar-config.h"
 #include "comp-util.h"
 #include "itip-utils.h"
 #include <libecal/e-cal-time-util.h>
@@ -2417,7 +2418,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 		if (dtstart < week_view->before_click_dtend && dtend > week_view->before_click_dtstart) {
 			e_week_view_set_selected_time_range ((ECalendarView *) week_view, week_view->before_click_dtstart, week_view->before_click_dtend);
 		}
-		e_calendar_view_new_appointment_full (E_CALENDAR_VIEW (week_view), FALSE, FALSE, FALSE);
+		e_calendar_view_new_appointment_full (E_CALENDAR_VIEW (week_view), FALSE, FALSE, calendar_config_get_prefer_meeting ());
 		return TRUE;
 	}
 
