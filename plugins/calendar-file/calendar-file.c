@@ -209,8 +209,11 @@ e_calendar_file_customs (EPlugin *epl,
 	gtk_box_pack_start ((GtkBox *) box2, w1, FALSE, TRUE, 2);
 
 	w2 = gtk_combo_box_text_new ();
+	/* Translators: This is one setting for when to refresh a memo/calendar/tasks list */
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w2), _("On open"));
+	/* Translators: This is one setting for when to refresh a memo/calendar/tasks list */
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w2), _("On file change"));
+	/* Translators: This is one setting for when to refresh a memo/calendar/tasks list */
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w2), _("Periodically"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w1), w2);
 	gtk_box_pack_start ((GtkBox *) box2, w2, FALSE, TRUE, 2);
