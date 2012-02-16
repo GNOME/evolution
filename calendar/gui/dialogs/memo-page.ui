@@ -256,7 +256,7 @@
                 </child>
                 <child>
                   <object class="GtkLabel" id="org-label">
-                    <property name="label" translatable="yes">Or_ganizer:</property>
+                    <property name="label" translatable="yes">Organi_zer:</property>
                     <property name="visible">False</property>
                     <property name="use_underline">True</property>
                     <property name="use_markup">False</property>
@@ -270,6 +270,7 @@
                     <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
                     <property name="single_line_mode">False</property>
                     <property name="angle">0</property>
+                    <property name="mnemonic_widget">org-combo</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
