@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-02-16 12:06+0000\n"
-"PO-Revision-Date: 2012-02-16 17:27+0100\n"
+"POT-Creation-Date: 2012-02-16 16:23+0000\n"
+"PO-Revision-Date: 2012-02-16 17:39+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3869,7 +3869,7 @@ msgstr "%A, %e de %b de %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../calendar/gui/ea-gnome-calendar.c:204 ../calendar/gui/e-day-view.c:1838
+#: ../calendar/gui/ea-gnome-calendar.c:204 ../calendar/gui/e-day-view.c:1839
 #: ../calendar/gui/e-day-view-top-item.c:852
 #: ../calendar/gui/e-week-view-main-item.c:224
 #: ../modules/calendar/e-cal-shell-view-private.c:1054
@@ -3901,7 +3901,7 @@ msgstr "%e de %B de %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/ea-gnome-calendar.c:234 ../calendar/gui/e-day-view.c:1854
+#: ../calendar/gui/ea-gnome-calendar.c:234 ../calendar/gui/e-day-view.c:1855
 #: ../calendar/gui/e-day-view-top-item.c:856
 #: ../calendar/gui/e-week-view-main-item.c:238
 #: ../modules/calendar/e-cal-shell-view-private.c:1090
@@ -4282,14 +4282,14 @@ msgstr ""
 "%s"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:1021 ../calendar/gui/e-week-view.c:773
+#: ../calendar/gui/e-day-view.c:1022 ../calendar/gui/e-week-view.c:774
 #: ../calendar/gui/print.c:988 ../calendar/gui/print.c:1007
 #: ../calendar/gui/print.c:2498 ../calendar/gui/print.c:2518
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:1024 ../calendar/gui/e-week-view.c:776
+#: ../calendar/gui/e-day-view.c:1025 ../calendar/gui/e-week-view.c:777
 #: ../calendar/gui/print.c:993 ../calendar/gui/print.c:1009
 #: ../calendar/gui/print.c:2503 ../calendar/gui/print.c:2520
 msgid "pm"
@@ -4301,13 +4301,13 @@ msgstr "pm"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../calendar/gui/e-day-view.c:1821 ../calendar/gui/e-day-view-top-item.c:848
+#: ../calendar/gui/e-day-view.c:1822 ../calendar/gui/e-day-view-top-item.c:848
 #: ../calendar/gui/e-week-view-main-item.c:215 ../calendar/gui/print.c:1982
 msgid "%A %d %B"
 msgstr "%A %e de %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:2638
+#: ../calendar/gui/e-day-view.c:2639
 #, c-format
 msgid "Week %d"
 msgstr "Semana %d"
@@ -6733,11 +6733,11 @@ msgid "Pacific/Yap"
 msgstr "Pacífico/Yap"
 
 #. TRANSLATORS: don't translate the terms in brackets
-#: ../capplet/anjal-settings-main.c:194
+#: ../capplet/anjal-settings-main.c:161
 msgid "ID of the socket to embed in"
 msgstr "El ID del socket en el que empotrarse"
 
-#: ../capplet/anjal-settings-main.c:195
+#: ../capplet/anjal-settings-main.c:162
 msgid "socket"
 msgstr "socket"
 
@@ -8044,11 +8044,19 @@ msgstr ""
 "recordatorios"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
+msgid "Preferred New button item"
+msgstr "Botón «Nuevo» preferido"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
+msgid "Name of the preferred New toolbar button item"
+msgstr "Nombre del botón «Nuevo» de la barra de herramientas"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:1
 msgid "Primary calendar"
 msgstr "Calendario primario"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
 msgid ""
 "The UID of the selected (or \"primary\") calendar in the sidebar of the "
 "\"Calendar\" view"
@@ -8056,12 +8064,12 @@ msgstr ""
 "El UID del calendario seleccionado (o «primario») en la barra lateral de la "
 "vista de «Calendario»"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:77
 msgid "Primary memo list"
 msgstr "Lista de notas primaria"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
 msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view"
@@ -8069,12 +8077,12 @@ msgstr ""
 "El UID de la nota seleccionada (o «primaria») en la barra lateral de la vista "
 "de «Notas»"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:79
 msgid "Primary task list"
 msgstr "Lista de tareas primaria"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
 msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view"
@@ -8082,12 +8090,12 @@ msgstr ""
 "El UID de la tarea seleccionada (o «primaria») en la barra lateral de la "
 "vista de «Tareas»"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:120
 msgid "Free/busy template URL"
 msgstr "URL de la plantilla de disponibilidad"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
 #, no-c-format
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
@@ -8097,110 +8105,110 @@ msgstr ""
 "reemplaza por la parte del usuario de la dirección de correo y %d se "
 "reemplaza por el dominio"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:84
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:75
 msgid "Recurrent Events in Italic"
 msgstr "Los acontecimientos que se repiten en cursiva"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr ""
 "Mostrar los días con acontecimientos que se repiten con una tipografía "
 "cursiva en la parte inferior izquierda del calendario"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
 msgid "List of selected calendars"
 msgstr "Lista de los calendarios seleccionados"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
 msgid "List of calendars to load"
 msgstr "Lista de calendarios disponibles"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "List of selected memo lists"
 msgstr "Lista de listas notas seleccionadas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid "List of memo lists to load"
 msgstr "El registro de lista de nota"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
 msgid "List of selected task lists"
 msgstr "Lista de listas de tareas seleccionadas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid "List of task lists to load"
 msgstr "Lista de listas de tareas para cargar"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:65
 msgid "Show appointment end times in week and month views"
 msgstr ""
 "Mostrar las horas de finalización de las citas en las vistas semanales y "
 "mensuales"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
 msgid "Whether to display the end time of events in the week and month views"
 msgstr ""
 "Indica si debe mostrar la hora de finalización de los acontecimientos en las "
 "vistas semanales y mensuales"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:50
 msgid "Show the memo preview pane"
 msgstr "Mostrar el panel de vista previa de las notas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
 msgid "If \"true\", show the memo preview pane in the main window"
 msgstr ""
 "Si es cierto mostrará el panel de vista previa de notas en la ventana "
 "principal"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:58
 msgid "Show the task preview pane"
 msgstr "Mostrar el panel de vista previa de las tareas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid "If \"true\", show the task preview pane in the main window"
 msgstr ""
 "Si es cierto mostrará el panel de vista previa de tareas en la ventana "
 "principal"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:107
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr ""
 "Mostrar los números de las semanas en la Vistas diaria, Vista de la semana "
 "laboral y el Navegador del calendario"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
 msgid "Whether to show week numbers in various places in the Calendar"
 msgstr ""
 "Indica si debe mostrar los números de la semana en varias partes del "
 "calendario"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
 msgid "Vertical position for the tag pane"
 msgstr "Posición vertical del panel de etiquetas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 msgid "Highlight tasks due today"
 msgstr "Resaltar tareas que vencen hoy"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
 "Indica si las tareas que vencen hoy se resaltan con un color especial (color "
 "para tareas que vencen hoy)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:87
 msgid "Tasks due today color"
 msgstr "Color para las tareas que vencen hoy"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
@@ -8208,17 +8216,17 @@ msgstr ""
 "Color de fondo para las tareas que vencen hoy, en formato «#rrggbb». Usado "
 "junto al resaltado de tareas que vencen hoy."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:60
 msgid "Task preview pane position (horizontal)"
 msgstr "Vista previa del panel de posición de las tareas (horizontal)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:56
 msgid "Task layout style"
 msgstr "Estilo de distribución de las tareas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
@@ -8229,34 +8237,34 @@ msgstr ""
 "vista previa debajo de la lista de tareas. «1» (vista vertical) ubica el "
 "panel de vista previa junto a la lista de tareas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:61
 msgid "Task preview pane position (vertical)"
 msgstr "Vista previa del panel de posición de las tareas (vertical)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid "Position of the task preview pane when oriented vertically"
 msgstr ""
 "Posición del panel de vista previa de tareas cuando está orientado "
 "verticalmente"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid "Highlight overdue tasks"
 msgstr "Resaltar tareas fuera de plazo"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
 "Indica si las tareas fuera de plazo se resaltan con un color especial (color "
 "para tareas fuera de plazo)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:89
 msgid "Overdue tasks color"
 msgstr "Color para las tareas fuera de plazo"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
@@ -8264,23 +8272,23 @@ msgstr ""
 "Color de fondo para las tareas que están fuera de plazo, en formato "
 "«#rrggbb». Usado junto al resaltado de tareas fuera de plazo."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:37
 msgid "Time divisions"
 msgstr "Divisiones de hora"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
 msgid "Intervals shown in Day and Work Week views, in minutes"
 msgstr ""
 "Los intervalos de tiempo mostrados en las vistas diarias y semanales, en "
 "minutos"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:3
 msgid "Timezone"
 msgstr "Zona horaria"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
@@ -8289,64 +8297,64 @@ msgstr ""
 "calendario, como una localización sin correspondencia en una base de datos "
 "de zonas horarias Olsen, como en «América/Nueva York»"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:13
 msgid "Twenty four hour time format"
 msgstr "Formato de hora de veinticuatro horas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr ""
 "Indica si debe mostrar las horas en formato de veinticuatro horas en vez de "
 "usar am/pm"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:101
 msgid "Birthday and anniversary reminder"
 msgstr "Recordatorio de cumpleaños y aniversarios"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 msgid "Whether to set a reminder for birthdays and anniversaries"
 msgstr ""
 "Indica si debe establecer un recordatorio para cumpleaños y aniversarios"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:95
 msgid "Default appointment reminder"
 msgstr "Recordatorio predeterminado de citas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 msgid "Whether to set a default reminder for appointments"
 msgstr ""
 "Indica si debe establecer un recordatorio predeterminado para las citas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:5
 msgid "Use system timezone"
 msgstr "Usar la hora del sistema"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid "Use the system timezone instead of the timezone selected in Evolution"
 msgstr ""
 "Usar la zona horaria del sistema en lugar de la zona horaria seleccionada en "
 "Evolution"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:27
 msgid "Week start"
 msgstr "Comienzo de la semana"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)"
 msgstr ""
 "El día en que empieza la semana, desde el domingo (0) hasta el sábado (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:67
 msgid "Work days"
 msgstr "Días laborables"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Days on which the start and end of work hours should be indicated"
 msgstr ""
 "Días en los cuales debe indicarse el inicio y fin de las horas de trabajo"
@@ -11092,7 +11100,7 @@ msgstr "Enviando mensaje %d de %d"
 #| msgid "Failed to send %d of %d messages"
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
-msgstr[0] "Falló al enviar un mensaje"
+msgstr[0] "Falló al enviar un mensaje"
 msgstr[1] "Falló al enviar %d de %d mensajes"
 
 #: ../libemail-engine/mail-ops.c:876 ../mail/mail-send-recv.c:883
@@ -13449,7 +13457,7 @@ msgstr "Codificar nombres de archivo de la forma _Outlook/GMail"
 #: ../mail/mail-config.ui.h:16
 #| msgid "Ch_aracter Encoding"
 msgid "Ch_aracter encoding:"
-msgstr "C_odificación de caracteres:"
+msgstr "C_odificación de caracteres:"
 
 #: ../mail/mail-config.ui.h:17
 msgid "Replies and Forwards"
@@ -13625,7 +13633,7 @@ msgstr "No entrecomillar"
 #| msgid "Inline"
 msgctxt "ReplyForward"
 msgid "Inline"
-msgstr "En línea"
+msgstr "En línea"
 
 #: ../mail/mail-config.ui.h:63
 msgid "Proxy Settings"
@@ -16392,45 +16400,45 @@ msgstr "Meteorología"
 msgid "Birthdays & Anniversaries"
 msgstr "Cumpleaños y aniversarios"
 
-#: ../modules/calendar/e-cal-shell-backend.c:445
+#: ../modules/calendar/e-cal-shell-backend.c:449
 msgctxt "New"
 msgid "_Appointment"
 msgstr "_Cita"
 
-#: ../modules/calendar/e-cal-shell-backend.c:447
+#: ../modules/calendar/e-cal-shell-backend.c:451
 #: ../modules/calendar/e-cal-shell-view-actions.c:1484
 msgid "Create a new appointment"
 msgstr "Crea una cita nueva"
 
-#: ../modules/calendar/e-cal-shell-backend.c:452
+#: ../modules/calendar/e-cal-shell-backend.c:456
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "Cita para todo el _día"
 
-#: ../modules/calendar/e-cal-shell-backend.c:454
+#: ../modules/calendar/e-cal-shell-backend.c:458
 msgid "Create a new all-day appointment"
 msgstr "Crea una cita nueva para todo el día"
 
-#: ../modules/calendar/e-cal-shell-backend.c:459
+#: ../modules/calendar/e-cal-shell-backend.c:463
 msgctxt "New"
 msgid "M_eeting"
 msgstr "_Reunión"
 
-#: ../modules/calendar/e-cal-shell-backend.c:461
+#: ../modules/calendar/e-cal-shell-backend.c:465
 msgid "Create a new meeting request"
 msgstr "Crea una solicitud de reunión nueva"
 
-#: ../modules/calendar/e-cal-shell-backend.c:469
+#: ../modules/calendar/e-cal-shell-backend.c:473
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "Cale_ndario"
 
-#: ../modules/calendar/e-cal-shell-backend.c:471
+#: ../modules/calendar/e-cal-shell-backend.c:475
 #: ../modules/calendar/e-cal-shell-view-actions.c:1379
 msgid "Create a new calendar"
 msgstr "Crea un calendario nuevo"
 
-#: ../modules/calendar/e-cal-shell-backend.c:794
+#: ../modules/calendar/e-cal-shell-backend.c:798
 msgid "Calendar and Tasks"
 msgstr "Calendario y tareas"
 
@@ -20911,7 +20919,7 @@ msgstr "Seleccionar vista: %s"
 msgid "Execute these search parameters"
 msgstr "Ejecutar estos parámetros de búsqueda"
 
-#: ../shell/e-shell-window.c:445
+#: ../shell/e-shell-window.c:487
 msgid "New"
 msgstr "Nuevo"
 
