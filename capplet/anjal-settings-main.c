@@ -99,44 +99,11 @@ categories_icon_theme_hack (void)
 static EShell *
 create_default_shell (void)
 {
-	EShell *shell;
-	const gchar *key;
-	gboolean is_meego = FALSE, small_screen = FALSE;
-	gboolean express_mode = TRUE;
-	GSettings *settings;
-	GError *error = NULL;
-	GApplicationFlags flags;
-
-	settings = g_settings_new ("org.gnome.evolution.shell");
-
 	main_window = mail_capplet_shell_new (socket_id, FALSE, TRUE);
 	if (!socket_id)
 		gtk_widget_show (main_window);
 
-	if (!express_mode)
-		express_mode = g_settings_get_boolean (settings, "express-mode");
-
-	if (express_mode)
-		e_shell_detect_meego (&is_meego, &small_screen);
-
-	flags = G_APPLICATION_HANDLES_OPEN |
-			G_APPLICATION_HANDLES_COMMAND_LINE;
-
-	shell = g_initable_new (
-		E_TYPE_SHELL, NULL, &error,
-		"application-id", "org.gnome.EvolutionSettings",
-		"flags", flags,
-		"geometry", "",
-		"module-directory", EVOLUTION_MODULEDIR,
-		"meego-mode", is_meego,
-		"express-mode", express_mode,
-		"small-screen-mode", small_screen,
-		"online", TRUE,
-		NULL);
-
-	g_object_unref (settings);
-
-	return shell;
+	return e_shell_get_default();
 }
 
 gint

@@ -253,10 +253,10 @@ mail_capplet_shell_construct (MailCappletShell *shell,
 			"flags", G_APPLICATION_HANDLES_OPEN | G_APPLICATION_HANDLES_COMMAND_LINE,
 			"geometry", NULL,
 			"module-directory", EVOLUTION_MODULEDIR,
-			"meego-mode", FALSE,
-			"express-mode", FALSE,
-			"small-screen-mode", FALSE,
-			"online", FALSE,
+			"meego-mode", TRUE,
+			"express-mode", TRUE,
+			"small-screen-mode", TRUE,
+			"online", TRUE,
 			NULL);
 
 		if (error != NULL)
