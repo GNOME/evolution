@@ -30,6 +30,7 @@
 #endif
 
 #include "em-account-prefs.h"
+#include "e-mail-shell-backend.h"
 
 #include <glib/gi18n.h>
 
@@ -54,8 +55,6 @@
 
 struct _EMAccountPrefsPrivate {
 	EMailBackend *backend;
-	gpointer assistant; /* weak pointer */
-	gpointer editor;    /* weak pointer */
 };
 
 enum {
@@ -142,18 +141,6 @@ account_prefs_dispose (GObject *object)
 		priv->backend = NULL;
 	}
 
-	if (priv->assistant != NULL) {
-		g_object_remove_weak_pointer (
-			G_OBJECT (priv->assistant), &priv->assistant);
-		priv->assistant = NULL;
-	}
-
-	if (priv->editor != NULL) {
-		g_object_remove_weak_pointer (
-			G_OBJECT (priv->editor), &priv->editor);
-		priv->editor = NULL;
-	}
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_account_prefs_parent_class)->dispose (object);
 }
@@ -179,45 +166,14 @@ static void
 account_prefs_add_account (EMailAccountManager *manager)
 {
 	EMAccountPrefsPrivate *priv;
-	EMAccountEditor *emae;
 	gpointer parent;
 
 	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (manager);
 
-	if (priv->assistant != NULL) {
-		gtk_window_present (GTK_WINDOW (priv->assistant));
-		return;
-	}
-
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	if (!e_shell_get_express_mode (e_shell_get_default ())) {
-		/** @HookPoint-EMConfig: New Mail Account Assistant
-		 * @Id: org.gnome.evolution.mail.config.accountAssistant
-		 * @Type: E_CONFIG_ASSISTANT
-		 * @Class: org.gnome.evolution.mail.config:1.0
-		 * @Target: EMConfigTargetAccount
-		 *
-		 * The new mail account assistant.
-		 */
-		emae = em_account_editor_new (
-			NULL, EMAE_ASSISTANT, priv->backend,
-			"org.gnome.evolution.mail.config.accountAssistant");
-		e_config_create_window (
-			E_CONFIG (emae->config), NULL,
-			_("Evolution Account Assistant"));
-		priv->assistant = E_CONFIG (emae->config)->window;
-		g_object_set_data_full (
-			G_OBJECT (priv->assistant), "AccountEditor",
-			emae, (GDestroyNotify) g_object_unref);
-	} else {
-		priv->assistant = mail_capplet_shell_new (0, TRUE, FALSE);
-	}
-
-	g_object_add_weak_pointer (G_OBJECT (priv->assistant), &priv->assistant);
-	gtk_window_set_transient_for (GTK_WINDOW (priv->assistant), parent);
-	gtk_widget_show (priv->assistant);
+	e_mail_shell_backend_new_account (E_MAIL_SHELL_BACKEND (priv->backend), parent);
 }
 
 static void
@@ -225,39 +181,14 @@ account_prefs_edit_account (EMailAccountManager *manager,
                             EAccount *account)
 {
 	EMAccountPrefsPrivate *priv;
-	EMAccountEditor *emae;
 	gpointer parent;
 
 	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (manager);
 
-	if (priv->editor != NULL) {
-		gtk_window_present (GTK_WINDOW (priv->editor));
-		return;
-	}
-
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	/** @HookPoint-EMConfig: Mail Account Editor
-	 * @Id: org.gnome.evolution.mail.config.accountEditor
-	 * @Type: E_CONFIG_BOOK
-	 * @Class: org.gnome.evolution.mail.config:1.0
-	 * @Target: EMConfigTargetAccount
-	 *
-	 * The account editor window.
-	 */
-	emae = em_account_editor_new (
-		account, EMAE_NOTEBOOK, priv->backend,
-		"org.gnome.evolution.mail.config.accountEditor");
-	e_config_create_window (
-		E_CONFIG (emae->config), parent, _("Account Editor"));
-	priv->editor = E_CONFIG (emae->config)->window;
-	g_object_set_data_full (
-		G_OBJECT (priv->editor), "AccountEditor",
-		emae, (GDestroyNotify) g_object_unref);
-
-	g_object_add_weak_pointer (G_OBJECT (priv->editor), &priv->editor);
-	gtk_widget_show (priv->editor);
+	e_mail_shell_backend_edit_account (E_MAIL_SHELL_BACKEND (priv->backend), parent, account);
 }
 
 static void

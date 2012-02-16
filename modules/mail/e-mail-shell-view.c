@@ -952,6 +952,10 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	sensitive = folder_is_trash;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (MAIL_ACCOUNT_PROPERTIES);
+	sensitive = account != NULL;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (MAIL_FLUSH_OUTBOX);
 	sensitive = folder_is_outbox;
 	gtk_action_set_sensitive (action, sensitive);

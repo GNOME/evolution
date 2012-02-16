@@ -99,6 +99,7 @@
     <separator/>
     <menuitem action='mail-popup-folder-unsubscribe'/>
     <separator/>
+    <menuitem action='mail-popup-account-properties'/>
     <menuitem action='mail-popup-folder-properties'/>
   </popup>
   <popup name='mail-message-popup'>

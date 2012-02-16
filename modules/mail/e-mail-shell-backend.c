@@ -76,6 +76,7 @@ struct _EMailShellBackendPrivate {
 	gint mail_sync_in_progress;
 	guint mail_sync_source_id;
 	gpointer assistant; /* weak pointer, when adding new mail account */
+	gpointer editor;    /* weak pointer, when editing a mail account */
 };
 
 static void mbox_create_preview_cb (GObject *preview, GtkWidget **preview_widget);
@@ -165,7 +166,6 @@ action_mail_account_new_cb (GtkAction *action,
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
-	EMailShellBackend *backend;
 
 	g_return_if_fail (shell_window != NULL);
 
@@ -173,37 +173,9 @@ action_mail_account_new_cb (GtkAction *action,
 	shell_backend = e_shell_get_backend_by_name (shell, BACKEND_NAME);
 	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (shell_backend));
 
-	backend = E_MAIL_SHELL_BACKEND (shell_backend);
-	if (backend->priv->assistant) {
-		gtk_window_present (GTK_WINDOW (backend->priv->assistant));
-	} else {
-		EMAccountEditor *emae;
-		GtkWindow *parent = GTK_WINDOW (shell_window);
-
-		if (!e_shell_get_express_mode (shell)) {
-			/** @HookPoint-EMConfig: New Mail Account Assistant
-			 * @Id: org.gnome.evolution.mail.config.accountAssistant
-			 * @Type: E_CONFIG_ASSISTANT
-			 * @Class: org.gnome.evolution.mail.config:1.0
-			 * @Target: EMConfigTargetAccount
-			 *
-			 * The new mail account assistant.
-			 */
-			emae = em_account_editor_new (
-				NULL, EMAE_ASSISTANT, E_MAIL_BACKEND (backend),
-				"org.gnome.evolution.mail.config.accountAssistant");
-			e_config_create_window (
-				E_CONFIG (emae->config), NULL,
-				_("Evolution Account Assistant"));
-			backend->priv->assistant = E_CONFIG (emae->config)->window;
-		} else {
-			backend->priv->assistant = mail_capplet_shell_new (0, TRUE, FALSE);
-		}
-
-		g_object_add_weak_pointer (G_OBJECT (backend->priv->assistant), &backend->priv->assistant);
-		gtk_window_set_transient_for (GTK_WINDOW (backend->priv->assistant), parent);
-		gtk_widget_show (backend->priv->assistant);
-	}
+	e_mail_shell_backend_new_account (
+		E_MAIL_SHELL_BACKEND (shell_backend),
+		GTK_WINDOW (shell_window));
 }
 
 static void
@@ -641,6 +613,29 @@ mail_shell_backend_empty_trash_policy_decision (EMailBackend *backend)
 }
 
 static void
+mail_shell_backend_dispose (GObject *object)
+{
+	EMailShellBackendPrivate *priv;
+
+	priv = E_MAIL_SHELL_BACKEND (object)->priv;
+
+	if (priv->assistant != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->assistant), &priv->assistant);
+		priv->assistant = NULL;
+	}
+
+	if (priv->editor != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->editor), &priv->editor);
+		priv->editor = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_shell_backend_parent_class)->dispose (object);
+}
+
+static void
 e_mail_shell_backend_class_init (EMailShellBackendClass *class)
 {
 	GObjectClass *object_class;
@@ -651,6 +646,7 @@ e_mail_shell_backend_class_init (EMailShellBackendClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_shell_backend_constructed;
+	object_class->dispose = mail_shell_backend_dispose;
 
 	shell_backend_class = E_SHELL_BACKEND_CLASS (class);
 	shell_backend_class->shell_view_type = E_TYPE_MAIL_SHELL_VIEW;
@@ -687,6 +683,95 @@ e_mail_shell_backend_type_register (GTypeModule *type_module)
 	 *     function, so we have to wrap it with a public function in
 	 *     order to register types from a separate compilation unit. */
 	e_mail_shell_backend_register_type (type_module);
+}
+
+void
+e_mail_shell_backend_new_account (EMailShellBackend *mail_shell_backend,
+				  GtkWindow *parent)
+{
+	EMailShellBackendPrivate *priv;
+
+	g_return_if_fail (mail_shell_backend != NULL);
+	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
+
+	priv = mail_shell_backend->priv;
+
+	if (priv->assistant) {
+		gtk_window_present (GTK_WINDOW (priv->assistant));
+	} else {
+		EMAccountEditor *emae;
+		EShell *shell;
+
+		shell = e_shell_backend_get_shell (E_SHELL_BACKEND (mail_shell_backend));
+
+		if (!e_shell_get_express_mode (shell)) {
+			/** @HookPoint-EMConfig: New Mail Account Assistant
+			 * @Id: org.gnome.evolution.mail.config.accountAssistant
+			 * @Type: E_CONFIG_ASSISTANT
+			 * @Class: org.gnome.evolution.mail.config:1.0
+			 * @Target: EMConfigTargetAccount
+			 *
+			 * The new mail account assistant.
+			 */
+			emae = em_account_editor_new (
+				NULL, EMAE_ASSISTANT, E_MAIL_BACKEND (mail_shell_backend),
+				"org.gnome.evolution.mail.config.accountAssistant");
+			e_config_create_window (
+				E_CONFIG (emae->config), NULL,
+				_("Evolution Account Assistant"));
+			priv->assistant = E_CONFIG (emae->config)->window;
+			g_object_set_data_full (
+				G_OBJECT (priv->assistant), "AccountEditor",
+				emae, (GDestroyNotify) g_object_unref);
+		} else {
+			priv->assistant = mail_capplet_shell_new (0, TRUE, FALSE);
+		}
+
+		g_object_add_weak_pointer (G_OBJECT (priv->assistant), &priv->assistant);
+		gtk_window_set_transient_for (GTK_WINDOW (priv->assistant), parent);
+		gtk_widget_show (priv->assistant);
+	}
+}
+
+void
+e_mail_shell_backend_edit_account (EMailShellBackend *mail_shell_backend,
+				   GtkWindow *parent,
+				   EAccount *account)
+{
+	EMailShellBackendPrivate *priv;
+	EMAccountEditor *emae;
+
+	g_return_if_fail (mail_shell_backend != NULL);
+	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
+	g_return_if_fail (account != NULL);
+
+	priv = mail_shell_backend->priv;
+
+	if (priv->editor != NULL) {
+		gtk_window_present (GTK_WINDOW (priv->editor));
+		return;
+	}
+
+	/** @HookPoint-EMConfig: Mail Account Editor
+	 * @Id: org.gnome.evolution.mail.config.accountEditor
+	 * @Type: E_CONFIG_BOOK
+	 * @Class: org.gnome.evolution.mail.config:1.0
+	 * @Target: EMConfigTargetAccount
+	 *
+	 * The account editor window.
+	 */
+	emae = em_account_editor_new (
+		account, EMAE_NOTEBOOK, E_MAIL_BACKEND (mail_shell_backend),
+		"org.gnome.evolution.mail.config.accountEditor");
+	e_config_create_window (
+		E_CONFIG (emae->config), parent, _("Account Editor"));
+	priv->editor = E_CONFIG (emae->config)->window;
+	g_object_set_data_full (
+		G_OBJECT (priv->editor), "AccountEditor",
+		emae, (GDestroyNotify) g_object_unref);
+
+	g_object_add_weak_pointer (G_OBJECT (priv->editor), &priv->editor);
+	gtk_widget_show (priv->editor);
 }
 
 /******************* Code below here belongs elsewhere. *******************/

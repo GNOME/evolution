@@ -114,6 +114,37 @@ action_mail_account_disable_cb (GtkAction *action,
 }
 
 static void
+action_mail_account_properties_cb (GtkAction *action,
+				   EMailShellView *mail_shell_view)
+{
+	EMailShellSidebar *mail_shell_sidebar;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellBackend *shell_backend;
+	EMFolderTree *folder_tree;
+	CamelService *service;
+	CamelStore *store;
+	const gchar *uid;
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	store = em_folder_tree_get_selected_store (folder_tree);
+	g_return_if_fail (store != NULL);
+
+	service = CAMEL_SERVICE (store);
+	uid = camel_service_get_uid (service);
+
+	e_mail_shell_backend_edit_account (E_MAIL_SHELL_BACKEND (shell_backend),
+		GTK_WINDOW (shell_window),
+		e_get_account_by_uid (uid));
+}
+
+static void
 action_mail_create_search_folder_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
 {
@@ -1158,6 +1189,13 @@ static GtkActionEntry mail_entries[] = {
 	  N_("Permanently remove all the deleted messages from all folders"),
 	  G_CALLBACK (action_mail_folder_expunge_cb) },
 
+	{ "mail-account-properties",
+	  GTK_STOCK_PROPERTIES,
+	  N_("_Properties"),
+	  NULL,
+	  N_("Edit properties of this account"),
+	  G_CALLBACK (action_mail_account_properties_cb) },
+
 	{ "mail-download",
 	  NULL,
 	  N_("_Download Messages for Offline Usage"),
@@ -1420,6 +1458,10 @@ static EPopupActionEntry mail_popup_entries[] = {
 	{ "mail-popup-account-expunge",
 	  NULL,
 	  "mail-account-expunge" },
+
+	{ "mail-popup-account-properties",
+	  NULL,
+	  "mail-account-properties" },
 
 	{ "mail-popup-flush-outbox",
 	  NULL,
