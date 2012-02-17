@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-02-16 16:23+0000\n"
-"PO-Revision-Date: 2012-02-16 17:39+0100\n"
+"POT-Creation-Date: 2012-02-17 14:34+0000\n"
+"PO-Revision-Date: 2012-02-17 16:06+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2590,101 +2590,101 @@ msgstr ""
 msgid "%s  You have made no changes, update the editor?"
 msgstr "%s  No ha realizado cambios, ¿quiere actualizar el editor?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:276
+#: ../calendar/gui/dialogs/comp-editor.c:275
 msgid "Could not save attachments"
 msgstr "No se pudieron guardar los adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:622
+#: ../calendar/gui/dialogs/comp-editor.c:621
 msgid "Could not update object"
 msgstr "No es posible actualizar el objeto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:750
+#: ../calendar/gui/dialogs/comp-editor.c:749
 msgid "Edit Appointment"
 msgstr "Editar cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:757
+#: ../calendar/gui/dialogs/comp-editor.c:756
 #, c-format
 msgid "Meeting - %s"
 msgstr "Reunión: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:759
+#: ../calendar/gui/dialogs/comp-editor.c:758
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:765
+#: ../calendar/gui/dialogs/comp-editor.c:764
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tarea asignada: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:767
+#: ../calendar/gui/dialogs/comp-editor.c:766
 #, c-format
 msgid "Task - %s"
 msgstr "Tarea: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:772
+#: ../calendar/gui/dialogs/comp-editor.c:771
 #, c-format
 msgid "Memo - %s"
 msgstr "Nota - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:788
+#: ../calendar/gui/dialogs/comp-editor.c:787
 msgid "No Summary"
 msgstr "Sin resumen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:909
+#: ../calendar/gui/dialogs/comp-editor.c:908
 msgid "Keep original item?"
 msgstr "¿Mantener el elemento original?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1122
+#: ../calendar/gui/dialogs/comp-editor.c:1121
 msgid "Close the current window"
 msgstr "Cerrar la ventana actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1129 ../mail/e-mail-browser.c:137
+#: ../calendar/gui/dialogs/comp-editor.c:1128 ../mail/e-mail-browser.c:137
 #: ../shell/e-shell-window-actions.c:1467
 #: ../widgets/misc/e-focus-tracker.c:117 ../widgets/misc/e-focus-tracker.c:555
 #: ../widgets/misc/e-web-view.c:459 ../widgets/misc/e-web-view.c:1306
 msgid "Copy the selection"
 msgstr "Copiar la selección"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1136 ../mail/e-mail-browser.c:144
+#: ../calendar/gui/dialogs/comp-editor.c:1135 ../mail/e-mail-browser.c:144
 #: ../shell/e-shell-window-actions.c:1474
 #: ../widgets/misc/e-focus-tracker.c:110 ../widgets/misc/e-focus-tracker.c:550
 #: ../widgets/misc/e-web-view.c:1300
 msgid "Cut the selection"
 msgstr "Cortar la selección"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1143
+#: ../calendar/gui/dialogs/comp-editor.c:1142
 #: ../shell/e-shell-window-actions.c:1481
 #: ../widgets/misc/e-focus-tracker.c:131 ../widgets/misc/e-focus-tracker.c:565
 msgid "Delete the selection"
 msgstr "Eliminar la selección"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1150
+#: ../calendar/gui/dialogs/comp-editor.c:1149
 msgid "View help"
 msgstr "Ver la ayuda"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1157 ../mail/e-mail-browser.c:151
+#: ../calendar/gui/dialogs/comp-editor.c:1156 ../mail/e-mail-browser.c:151
 #: ../shell/e-shell-window-actions.c:1509
 #: ../widgets/misc/e-focus-tracker.c:124 ../widgets/misc/e-focus-tracker.c:560
 #: ../widgets/misc/e-web-view.c:1312
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1178
+#: ../calendar/gui/dialogs/comp-editor.c:1177
 msgid "Save current changes"
 msgstr "Guardar los cambios actuales"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1185 ../mail/e-mail-browser.c:158
+#: ../calendar/gui/dialogs/comp-editor.c:1184 ../mail/e-mail-browser.c:158
 #: ../shell/e-shell-window-actions.c:1586
 #: ../widgets/misc/e-focus-tracker.c:138 ../widgets/misc/e-focus-tracker.c:570
 msgid "Select all text"
 msgstr "Selecciona todo el texto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1192
+#: ../calendar/gui/dialogs/comp-editor.c:1191
 msgid "_Classification"
 msgstr "_Clasificación"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1199
+#: ../calendar/gui/dialogs/comp-editor.c:1198
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:19 ../filter/filter.ui.h:16
 #: ../mail/e-mail-browser.c:172
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
@@ -2693,138 +2693,133 @@ msgstr "_Clasificación"
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1206 ../mail/e-mail-browser.c:165
+#: ../calendar/gui/dialogs/comp-editor.c:1205 ../mail/e-mail-browser.c:165
 #: ../shell/e-shell-window-actions.c:1621
 #: ../widgets/misc/e-signature-editor.c:221
 msgid "_File"
 msgstr "_Archivo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1213
+#: ../calendar/gui/dialogs/comp-editor.c:1212
 #: ../shell/e-shell-window-actions.c:1628
 msgid "_Help"
 msgstr "Ay_uda"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1220
+#: ../calendar/gui/dialogs/comp-editor.c:1219
 msgid "_Insert"
 msgstr "_Insertar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1227
+#: ../calendar/gui/dialogs/comp-editor.c:1226
 #: ../composer/e-composer-actions.c:339
 msgid "_Options"
 msgstr "_Opciones"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1234 ../mail/e-mail-browser.c:179
+#: ../calendar/gui/dialogs/comp-editor.c:1233 ../mail/e-mail-browser.c:179
 #: ../shell/e-shell-window-actions.c:1663 ../smime/gui/smime-ui.ui.h:28
 msgid "_View"
 msgstr "_Ver"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1244
+#: ../calendar/gui/dialogs/comp-editor.c:1243
 #: ../composer/e-composer-actions.c:288
 msgid "_Attachment..."
 msgstr "_Adjunto…"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1246
+#: ../calendar/gui/dialogs/comp-editor.c:1245
 #: ../composer/e-composer-actions.c:290
-#: ../widgets/misc/e-attachment-view.c:439
+#: ../widgets/misc/e-attachment-view.c:414
 msgid "Attach a file"
 msgstr "Adjuntar un archivo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1254
+#: ../calendar/gui/dialogs/comp-editor.c:1253
 msgid "_Categories"
 msgstr "_Categorías"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1256
+#: ../calendar/gui/dialogs/comp-editor.c:1255
 msgid "Toggles whether to display categories"
 msgstr "Conmuta cuando se muestran las categorías"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1262
+#: ../calendar/gui/dialogs/comp-editor.c:1261
 msgid "Time _Zone"
 msgstr "_Zona horaria"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1264
+#: ../calendar/gui/dialogs/comp-editor.c:1263
 msgid "Toggles whether the time zone is displayed"
 msgstr "Conmuta cuando se muestra la «Zona horaria»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1273
+#: ../calendar/gui/dialogs/comp-editor.c:1272
 msgid "Pu_blic"
 msgstr "Pú_blico"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1275
+#: ../calendar/gui/dialogs/comp-editor.c:1274
 msgid "Classify as public"
 msgstr "Clasificar como público"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1280
+#: ../calendar/gui/dialogs/comp-editor.c:1279
 msgid "_Private"
 msgstr "_Privado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1282
+#: ../calendar/gui/dialogs/comp-editor.c:1281
 msgid "Classify as private"
 msgstr "Clasificar como privado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1287
+#: ../calendar/gui/dialogs/comp-editor.c:1286
 msgid "_Confidential"
 msgstr "_Confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1289
+#: ../calendar/gui/dialogs/comp-editor.c:1288
 msgid "Classify as confidential"
 msgstr "Clasificar como confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1297
+#: ../calendar/gui/dialogs/comp-editor.c:1296
 msgid "R_ole Field"
 msgstr "Campo «_Rol»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1299
+#: ../calendar/gui/dialogs/comp-editor.c:1298
 msgid "Toggles whether the Role field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Rol»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1305
+#: ../calendar/gui/dialogs/comp-editor.c:1304
 msgid "_RSVP"
 msgstr "_Confirmar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1307
+#: ../calendar/gui/dialogs/comp-editor.c:1306
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Confirmar»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1313
+#: ../calendar/gui/dialogs/comp-editor.c:1312
 msgid "_Status Field"
 msgstr "Campo de _estado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1315
+#: ../calendar/gui/dialogs/comp-editor.c:1314
 msgid "Toggles whether the Status field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Estado»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1321
+#: ../calendar/gui/dialogs/comp-editor.c:1320
 msgid "_Type Field"
 msgstr "Campo de _tipo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1323
+#: ../calendar/gui/dialogs/comp-editor.c:1322
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Conmuta indicando si se muestra el campo «Tipo de participante»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1347
-#: ../composer/e-composer-private.c:77
-msgid "Recent _Documents"
-msgstr "_Documentos recientes"
-
-#: ../calendar/gui/dialogs/comp-editor.c:2079
+#: ../calendar/gui/dialogs/comp-editor.c:2044
 #: ../composer/e-composer-actions.c:507
 msgid "Attach"
 msgstr "Adjuntar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2427
-#: ../calendar/gui/dialogs/comp-editor.c:2590
-#: ../calendar/gui/dialogs/comp-editor.c:3582
+#: ../calendar/gui/dialogs/comp-editor.c:2390
+#: ../calendar/gui/dialogs/comp-editor.c:2553
+#: ../calendar/gui/dialogs/comp-editor.c:3545
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Los cambios efectuados a este elemento pueden descartarse si llega una "
 "actualización por correo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3546
+#: ../calendar/gui/dialogs/comp-editor.c:3509
 #: ../plugins/prefer-plain/prefer-plain.c:66
 msgid "attachment"
 msgstr "adjunto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3614
+#: ../calendar/gui/dialogs/comp-editor.c:3577
 msgid "Unable to use current version!"
 msgstr "Imposible usar la versión actual."
 
@@ -2837,15 +2832,15 @@ msgstr "Error de validación: %s"
 msgid "Could not open destination"
 msgstr "No se puede abrir el destino"
 
-#: ../calendar/gui/dialogs/copy-source-dialog.c:130
+#: ../calendar/gui/dialogs/copy-source-dialog.c:126
 msgid "Destination is read only"
 msgstr "El destino es de sólo lectura"
 
-#: ../calendar/gui/dialogs/copy-source-dialog.c:164
+#: ../calendar/gui/dialogs/copy-source-dialog.c:160
 msgid "Cannot create object"
 msgstr "No se puede crear el objeto"
 
-#: ../calendar/gui/dialogs/copy-source-dialog.c:193
+#: ../calendar/gui/dialogs/copy-source-dialog.c:189
 msgid "Could not open source"
 msgstr "No se puede abrir el origen"
 
@@ -6795,31 +6790,31 @@ msgstr "Nunca"
 msgid "Personal details:"
 msgstr "Detalles personales:"
 
-#: ../capplet/settings/mail-account-view.c:519 ../mail/mail-config.ui.h:179
+#: ../capplet/settings/mail-account-view.c:519 ../mail/mail-config.ui.h:180
 msgid "Name:"
 msgstr "Nombre:"
 
-#: ../capplet/settings/mail-account-view.c:528 ../mail/mail-config.ui.h:180
+#: ../capplet/settings/mail-account-view.c:528 ../mail/mail-config.ui.h:181
 msgid "Email address:"
 msgstr "Dirección de correo-e:"
 
-#: ../capplet/settings/mail-account-view.c:538 ../mail/mail-config.ui.h:181
+#: ../capplet/settings/mail-account-view.c:538 ../mail/mail-config.ui.h:182
 msgid "Details:"
 msgstr "Detalles:"
 
-#: ../capplet/settings/mail-account-view.c:546 ../mail/mail-config.ui.h:182
+#: ../capplet/settings/mail-account-view.c:546 ../mail/mail-config.ui.h:183
 msgid "Receiving"
 msgstr "Recepción de correo"
 
-#: ../capplet/settings/mail-account-view.c:553 ../mail/mail-config.ui.h:184
+#: ../capplet/settings/mail-account-view.c:553 ../mail/mail-config.ui.h:185
 msgid "Server type:"
 msgstr "Tipo de servidor:"
 
-#: ../capplet/settings/mail-account-view.c:562 ../mail/mail-config.ui.h:185
+#: ../capplet/settings/mail-account-view.c:562 ../mail/mail-config.ui.h:186
 msgid "Server address:"
 msgstr "Dirección del servidor:"
 
-#: ../capplet/settings/mail-account-view.c:571 ../mail/mail-config.ui.h:186
+#: ../capplet/settings/mail-account-view.c:571 ../mail/mail-config.ui.h:187
 msgid "Username:"
 msgstr "Nombre de usuario:"
 
@@ -6827,7 +6822,7 @@ msgstr "Nombre de usuario:"
 msgid "Use encryption:"
 msgstr "Usar cifrado:"
 
-#: ../capplet/settings/mail-account-view.c:613 ../mail/mail-config.ui.h:183
+#: ../capplet/settings/mail-account-view.c:613 ../mail/mail-config.ui.h:184
 msgid "Sending"
 msgstr "Opciones de envío"
 
@@ -7096,7 +7091,7 @@ msgstr "Guardar como _borrador"
 msgid "Save as draft"
 msgstr "Guardar como borrador"
 
-#: ../composer/e-composer-actions.c:370 ../composer/e-composer-private.c:349
+#: ../composer/e-composer-actions.c:370 ../composer/e-composer-private.c:317
 msgid "S_end"
 msgstr "_Enviar"
 
@@ -7244,23 +7239,23 @@ msgstr "Pulse aquí para la libreta de direcciones"
 msgid "Click here to select folders to post to"
 msgstr "Pulse aquí para seleccionar carpetas en las que publicar"
 
-#: ../composer/e-composer-private.c:247
+#: ../composer/e-composer-private.c:215
 msgid "Undo the last action"
 msgstr "Deshacer la última acción"
 
-#: ../composer/e-composer-private.c:251
+#: ../composer/e-composer-private.c:219
 msgid "Redo the last undone action"
 msgstr "Rehacer la última acción deshecha"
 
-#: ../composer/e-composer-private.c:255
+#: ../composer/e-composer-private.c:223
 msgid "Search for text"
 msgstr "Buscar texto"
 
-#: ../composer/e-composer-private.c:259
+#: ../composer/e-composer-private.c:227
 msgid "Search for and replace text"
 msgstr "Buscar y reemplazar texto"
 
-#: ../composer/e-composer-private.c:369
+#: ../composer/e-composer-private.c:337
 msgid "Save draft"
 msgstr "Guardar borrador"
 
@@ -8702,21 +8697,27 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 #: ../mail/evolution-mail.schemas.in.h:33
-msgid "Encode file names in an Outlook/GMail way"
+#| msgid "Encode file names in an Outlook/GMail way"
+msgid "Encode filenames in an Outlook/GMail way"
 msgstr "Codificar nombres de archivo de la forma Outlook/GMail"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
 #: ../mail/evolution-mail.schemas.in.h:34
+#| msgid ""
+#| "Encode file names in the mail headers same as Outlook or GMail do, to let "
+#| "them display correctly file names with UTF-8 letters sent by Evolution, "
+#| "because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
+#| "standard."
 msgid ""
-"Encode file names in the mail headers same as Outlook or GMail do, to let "
-"them display correctly file names with UTF-8 letters sent by Evolution, "
+"Encode filenames in the mail headers same as Outlook or GMail do, to let "
+"them display correctly filenames with UTF-8 letters sent by Evolution, "
 "because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
 "standard."
 msgstr ""
 "Codificar los nombres de archivo en las cabeceras del correo de la misma "
-"forma que Outlook y GMail, para hacerles entender los nombres de archivo "
-"localizados enviados por Evolution, ya que no siguen el RFC 2231, pero usan "
-"el estándar incorrecto RFC 2047."
+"forma que Outlook y GMail, para que muestren correctamente los nombres de "
+"archivo con caracteres UTF-8 enviados por Evolution, ya que no siguen el "
+"estándar RFC 2231, sino que usan el estándar incorrecto RFC 2047."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 #: ../mail/evolution-mail.schemas.in.h:35
@@ -9998,7 +9999,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:13
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-msgid "Sound file name to be played."
+#| msgid "Sound file name to be played."
+msgid "Sound filename to be played."
 msgstr "Nombre del archivo de sonido que reproducir."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
@@ -10555,16 +10557,20 @@ msgstr ""
 "error."
 
 #: ../e-util/e-system.error.xml.h:1
-msgid "File exists \"{0}\"."
-msgstr "El archivo existe «{0}»."
+#| msgid "A folder named \"{0}\" already exists. Please use a different name."
+msgid "A file named \"{0}\" already exists. Do you want to replace it?"
+msgstr "Ya existe una archivo llamado «{0}». ¿Quiere reemplazarlo?"
 
 #: ../e-util/e-system.error.xml.h:2
-msgid "Do you wish to overwrite it?"
-msgstr "¿Quiere sobreescribirlo?"
+msgid ""
+"The file already exists in \"{0}\". Replacing it will overwrite its contents."
+msgstr ""
+"El archivo ya existe en «{0}». Si lo reemplaza sobreescribirá su contenido."
 
-#: ../e-util/e-system.error.xml.h:3 ../mail/mail.error.xml.h:113
-msgid "_Overwrite"
-msgstr "_Sobreescribir"
+#: ../e-util/e-system.error.xml.h:3
+#| msgid "_Reply"
+msgid "_Replace"
+msgstr "_Reemplazar"
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Cannot save file \"{0}\"."
@@ -10787,11 +10793,13 @@ msgid "You must choose a date."
 msgstr "Debe elegir una fecha."
 
 #: ../filter/filter.error.xml.h:3
-msgid "Missing file name."
-msgstr "Falta el nombre de archivo."
+#| msgid "Missing file name."
+msgid "Missing filename."
+msgstr "Falta el nombre del archivo."
 
 #: ../filter/filter.error.xml.h:4
-msgid "You must specify a file name."
+#| msgid "You must specify a file name."
+msgid "You must specify a filename."
 msgstr "Debe especificar un nombre de archivo."
 
 #: ../filter/filter.error.xml.h:5
@@ -11097,7 +11105,6 @@ msgstr "Enviando mensaje %d de %d"
 #. Translators: The string is distinguished by total count of messages to be send. Failed messages is always more than zero.
 #: ../libemail-engine/mail-ops.c:870
 #, c-format
-#| msgid "Failed to send %d of %d messages"
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "Falló al enviar un mensaje"
@@ -12757,8 +12764,6 @@ msgstr "Abrir c_on"
 
 #. Translators: Name of an Attachment button for a11y object
 #: ../mail/em-format-html-display.c:1396
-#| msgid "Attachment"
-#| msgid_plural "Attachments"
 msgctxt "Button"
 msgid "Attachment"
 msgstr "Adjunto"
@@ -13236,9 +13241,6 @@ msgid "Drag'n'drop export format"
 msgstr "Formato de exportación al arrastrar y soltar"
 
 #: ../mail/evolution-mail.schemas.in.h:236
-#| msgid ""
-#| "Define the email export format when doing drag'n'drop. Possible values "
-#| "are : mbox or pdf"
 msgid ""
 "Define the email export format when doing drag'n'drop. Possible values are "
 "mbox or pdf"
@@ -13252,10 +13254,10 @@ msgstr "Formato del nombre del archivo al exportar arrastrando y soltando"
 
 #: ../mail/evolution-mail.schemas.in.h:238
 #| msgid ""
-#| "Exported file name will be : YYYmmDDHHMMSS_email_title Possible values : "
-#| "1 (: email sent date), 2 (: drag'n'drop date)"
+#| "Exported file name will be YYYYmmDDHHMMSS_email_title Possible values: 1 "
+#| "(: email sent date), 2 (: drag'n'drop date)"
 msgid ""
-"Exported file name will be YYYYmmDDHHMMSS_email_title Possible values: 1 (: "
+"Exported filename will be YYYYmmDDHHMMSS_email_title Possible values: 1 (: "
 "email sent date), 2 (: drag'n'drop date)"
 msgstr ""
 "El nombre del archivo exportado será: AAAmmDDHHMMSS_titulo_correo-e. Los "
@@ -13451,11 +13453,11 @@ msgid "Always request rea_d receipt"
 msgstr "Siempre _solicitar confirmación de lectura"
 
 #: ../mail/mail-config.ui.h:15
-msgid "Encode file names in an _Outlook/GMail way"
+#| msgid "Encode file names in an _Outlook/GMail way"
+msgid "Encode filenames in an _Outlook/GMail way"
 msgstr "Codificar nombres de archivo de la forma _Outlook/GMail"
 
 #: ../mail/mail-config.ui.h:16
-#| msgid "Ch_aracter Encoding"
 msgid "Ch_aracter encoding:"
 msgstr "C_odificación de caracteres:"
 
@@ -13605,32 +13607,26 @@ msgid "b"
 msgstr "por"
 
 #: ../mail/mail-config.ui.h:58
-#| msgid "Attachment"
-#| msgid_plural "Attachments"
 msgctxt "ReplyForward"
 msgid "Attachment"
 msgstr "Adjunto"
 
 #: ../mail/mail-config.ui.h:59
-#| msgid "Inline (Outlook style)"
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
 msgstr "En línea (estilo Outlook)"
 
 #: ../mail/mail-config.ui.h:60
-#| msgid "Quoted"
 msgctxt "ReplyForward"
 msgid "Quoted"
 msgstr "Citado"
 
 #: ../mail/mail-config.ui.h:61
-#| msgid "Do not quote"
 msgctxt "ReplyForward"
 msgid "Do not quote"
 msgstr "No entrecomillar"
 
 #: ../mail/mail-config.ui.h:62
-#| msgid "Inline"
 msgctxt "ReplyForward"
 msgid "Inline"
 msgstr "En línea"
@@ -14032,9 +14028,12 @@ msgstr "Configuración"
 msgid "_Server:"
 msgstr "_Servidor:"
 
-#: ../mail/mail-config.ui.h:163
-msgid "User _Name:"
-msgstr "_Nombre de usuario:"
+#: ../mail/mail-config.ui.h:163 ../plugins/caldav/caldav-source.c:249
+#: ../plugins/google-account-setup/google-contacts-source.c:337
+#: ../plugins/google-account-setup/google-source.c:660
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:269
+msgid "User_name:"
+msgstr "_Usuario:"
 
 #: ../mail/mail-config.ui.h:165
 msgid "Mailbox location"
@@ -14082,22 +14081,26 @@ msgid "T_ype:"
 msgstr "T_ipo:"
 
 #: ../mail/mail-config.ui.h:177
+msgid "User _Name:"
+msgstr "_Nombre de usuario:"
+
+#: ../mail/mail-config.ui.h:178
 msgid "Remember _password"
 msgstr "Recordar contrase_ña"
 
-#: ../mail/mail-config.ui.h:178
+#: ../mail/mail-config.ui.h:179
 msgid "Personal Details:"
 msgstr "Detalles personales:"
 
-#: ../mail/mail-config.ui.h:187
+#: ../mail/mail-config.ui.h:188
 msgid "Encryption:"
 msgstr "Cifrado:"
 
-#: ../mail/mail-config.ui.h:188
+#: ../mail/mail-config.ui.h:189
 msgid "none"
 msgstr "ninguna"
 
-#: ../mail/mail-config.ui.h:189
+#: ../mail/mail-config.ui.h:190
 msgid "label"
 msgstr "etiqueta"
 
@@ -14707,6 +14710,10 @@ msgstr ""
 msgid "Ignore"
 msgstr "Ignorar"
 
+#: ../mail/mail.error.xml.h:113
+msgid "_Overwrite"
+msgstr "_Sobreescribir"
+
 #: ../mail/mail.error.xml.h:114
 msgid "_Append"
 msgstr "_Agregar"
@@ -14983,7 +14990,6 @@ msgstr "Configurando carpeta de búsqueda: %s"
 
 #: ../mail/mail-vfolder.c:219
 #, c-format
-#| msgid "Updating Search Folders for '%s' : %s"
 msgid "Updating Search Folders for '%s' - %s"
 msgstr "Actualizando carpetas de búsqueda para «%s»: %s"
 
@@ -15738,8 +15744,6 @@ msgid "5"
 msgstr "5"
 
 #: ../modules/addressbook/ldap-config.ui.h:30
-#| msgid "contact"
-#| msgid_plural "contacts"
 msgid "contacts"
 msgstr "contactos"
 
@@ -17157,13 +17161,11 @@ msgid "Compose a new mail message"
 msgstr "Redacta un mensaje de correo nuevo"
 
 #: ../modules/mail/e-mail-shell-backend.c:236
-#| msgid "Mail Accounts"
 msgctxt "New"
 msgid "Mail Acco_unt"
 msgstr "C_uenta de correo"
 
 #: ../modules/mail/e-mail-shell-backend.c:238
-#| msgid "Create a new mail folder"
 msgid "Create a new mail account"
 msgstr "Crea una cuenta de correo nueva"
 
@@ -17215,7 +17217,6 @@ msgstr ""
 "Eliminar permanentemente todos los correos borrados de todas las carpetas"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1196
-#| msgid "Change the properties of this folder"
 msgid "Edit properties of this account"
 msgstr "Editar las propiedades de esta cuenta"
 
@@ -18273,13 +18274,6 @@ msgstr "_URL:"
 msgid "Use _secure connection"
 msgstr "Usar _conexión segura"
 
-#: ../plugins/caldav/caldav-source.c:249
-#: ../plugins/google-account-setup/google-contacts-source.c:337
-#: ../plugins/google-account-setup/google-source.c:660
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:269
-msgid "User_name:"
-msgstr "_Usuario:"
-
 #: ../plugins/caldav/caldav-source.c:264
 msgid "Brows_e server for a calendar"
 msgstr "_Examinar el servidor para un calendario"
@@ -18306,8 +18300,10 @@ msgid "_Customize options"
 msgstr "Opciones de personali_zación"
 
 #: ../plugins/calendar-file/calendar-file.c:153
-msgid "File _name:"
-msgstr "_Nombre del archivo:"
+#: ../widgets/misc/e-attachment-dialog.c:330
+#: ../widgets/misc/e-import-assistant.c:266
+msgid "F_ilename:"
+msgstr "Nombre del _archivo:"
 
 #: ../plugins/calendar-file/calendar-file.c:157
 msgid "Choose calendar file"
@@ -19750,9 +19746,6 @@ msgstr ""
 #. Translators: Note there are always more than 10 mails selected
 #: ../plugins/mail-to-task/mail-to-task.c:643
 #, c-format
-#| msgid ""
-#| "You have selected %d mails to be converted to events. Do you really want "
-#| "to add them all?"
 msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
 "add them all?"
@@ -19769,9 +19762,6 @@ msgstr[1] ""
 #. Translators: Note there are always more than 10 mails selected
 #: ../plugins/mail-to-task/mail-to-task.c:649
 #, c-format
-#| msgid ""
-#| "You have selected %d mails to be converted to tasks. Do you really want "
-#| "to add them all?"
 msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
 "add them all?"
@@ -19788,9 +19778,6 @@ msgstr[1] ""
 #. Translators: Note there are always more than 10 mails selected
 #: ../plugins/mail-to-task/mail-to-task.c:655
 #, c-format
-#| msgid ""
-#| "You have selected %d mails to be converted to memos. Do you really want "
-#| "to add them all?"
 msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
 "add them all?"
@@ -21017,7 +21004,8 @@ msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Desactivar la vista previa del correo, contactos y tareas."
 
 #: ../shell/main.c:334
-msgid "Import URIs or file names given as rest of arguments."
+#| msgid "Import URIs or file names given as rest of arguments."
+msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Importar URI o nombres de archivos proporcionados como argumentos."
 
 #: ../shell/main.c:336
@@ -21935,10 +21923,6 @@ msgstr "No se pudo guardar el adjunto"
 msgid "Attachment Properties"
 msgstr "Propiedades de adjuntos"
 
-#: ../widgets/misc/e-attachment-dialog.c:330
-msgid "_Filename:"
-msgstr "Nombre del _archivo:"
-
 #: ../widgets/misc/e-attachment-dialog.c:365
 msgid "MIME Type:"
 msgstr "Tipo MIME:"
@@ -22003,40 +21987,40 @@ msgid_plural "Save Attachments"
 msgstr[0] "Guarda el adjunto"
 msgstr[1] "Guardar los adjuntos"
 
-#: ../widgets/misc/e-attachment-view.c:404
+#: ../widgets/misc/e-attachment-view.c:379
 msgid "Open With Other Application..."
 msgstr "Abrir con otra aplicación…"
 
-#: ../widgets/misc/e-attachment-view.c:411
+#: ../widgets/misc/e-attachment-view.c:386
 msgid "S_ave All"
 msgstr "Guardar _todo"
 
-#: ../widgets/misc/e-attachment-view.c:437
+#: ../widgets/misc/e-attachment-view.c:412
 msgid "A_dd Attachment..."
 msgstr "_Añadir adjunto…"
 
-#: ../widgets/misc/e-attachment-view.c:461
+#: ../widgets/misc/e-attachment-view.c:436
 msgid "_Hide"
 msgstr "_Ocultar"
 
-#: ../widgets/misc/e-attachment-view.c:468
+#: ../widgets/misc/e-attachment-view.c:443
 msgid "Hid_e All"
 msgstr "_Ocular todo"
 
-#: ../widgets/misc/e-attachment-view.c:475
+#: ../widgets/misc/e-attachment-view.c:450
 msgid "_View Inline"
 msgstr "_Ver incluido"
 
-#: ../widgets/misc/e-attachment-view.c:482
+#: ../widgets/misc/e-attachment-view.c:457
 msgid "Vie_w All Inline"
 msgstr "_Ver tolo en línea"
 
-#: ../widgets/misc/e-attachment-view.c:803
+#: ../widgets/misc/e-attachment-view.c:778
 #, c-format
 msgid "Open With \"%s\""
 msgstr "Abrir con «%s»"
 
-#: ../widgets/misc/e-attachment-view.c:806
+#: ../widgets/misc/e-attachment-view.c:781
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Abrir este adjunto en %s"
@@ -22123,10 +22107,6 @@ msgid ""
 msgstr ""
 "Elija el archivo que quiere importar en Evolution y seleccione de la lista "
 "el tipo de archivo que es."
-
-#: ../widgets/misc/e-import-assistant.c:266
-msgid "F_ilename:"
-msgstr "Nombre del _archivo:"
 
 #: ../widgets/misc/e-import-assistant.c:276
 msgid "Select a file"
@@ -22811,6 +22791,21 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2340
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "Recent _Documents"
+#~ msgstr "_Documentos recientes"
+
+#~ msgid "File exists \"{0}\"."
+#~ msgstr "El archivo existe «{0}»."
+
+#~ msgid "Do you wish to overwrite it?"
+#~ msgstr "¿Quiere sobreescribirlo?"
+
+#~ msgid "File _name:"
+#~ msgstr "_Nombre del archivo:"
+
+#~ msgid "_Filename:"
+#~ msgstr "Nombre del _archivo:"
 
 #~ msgid "never"
 #~ msgstr "nunca"
