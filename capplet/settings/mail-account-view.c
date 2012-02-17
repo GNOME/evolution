@@ -483,7 +483,7 @@ create_review (MailAccountView *view)
 	EMConfigTargetSettings *target;
 		
 
-	target = ((EConfig *)view->edit->config)->target;
+	target = (EMConfigTargetSettings *) ((EConfig *)view->edit->config)->target;
 	g_object_get (view->edit, "store-settings", &source_settings, NULL);
 	g_object_get (view->edit, "transport-settings", &transport_settings, NULL);
 
