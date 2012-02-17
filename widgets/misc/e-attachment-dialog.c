@@ -327,7 +327,7 @@ e_attachment_dialog_init (EAttachmentDialog *dialog)
 	dialog->priv->display_name_entry = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = gtk_label_new_with_mnemonic (_("_Filename:"));
+	widget = gtk_label_new_with_mnemonic (_("F_ilename:"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->display_name_entry);

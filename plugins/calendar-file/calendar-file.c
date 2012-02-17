@@ -150,7 +150,7 @@ e_calendar_file_customs (EPlugin *epl,
 	box2 = gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_start ((GtkBox *) box1, box2, TRUE, TRUE, 2);
 
-	w1 = gtk_label_new_with_mnemonic (_("File _name:"));
+	w1 = gtk_label_new_with_mnemonic (_("F_ilename:"));
 	gtk_misc_set_alignment (GTK_MISC (w1), 0.0, 0.5);
 	gtk_box_pack_start ((GtkBox *) box2, w1, FALSE, TRUE, 2);
 
