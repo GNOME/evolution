@@ -173,7 +173,6 @@ static const gchar *ui =
 "    <menu action='view-menu'/>"
 "    <menu action='insert-menu'>"
 "      <menuitem action='attach'/>"
-"      <placeholder name='recent-placeholder'/>"
 "    </menu>"
 "    <menu action='options-menu'/>"
 "    <menu action='help-menu'>"
@@ -1326,40 +1325,6 @@ static GtkToggleActionEntry coordinated_toggle_entries[] = {
 };
 
 static void
-comp_editor_setup_recent_menu (CompEditor *editor)
-{
-	EAttachmentView *view;
-	GtkUIManager *ui_manager;
-	GtkAction *action;
-	GtkActionGroup *action_group;
-	const gchar *action_name;
-	const gchar *path;
-	guint merge_id;
-
-	ui_manager = editor->priv->ui_manager;
-	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
-	action_group = comp_editor_get_action_group (editor, "individual");
-	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
-	path = "/main-menu/insert-menu/recent-placeholder";
-	action_name = "recent-menu";
-
-	action = e_attachment_view_recent_action_new (
-		view, action_name, _("Recent _Documents"));
-
-	if (action != NULL) {
-		gtk_action_group_add_action (action_group, action);
-		g_object_unref (action);
-
-		gtk_ui_manager_add_ui (
-			ui_manager, merge_id, path,
-			action_name, action_name,
-			GTK_UI_MANAGER_AUTO, FALSE);
-	}
-
-	gtk_ui_manager_ensure_update (ui_manager);
-}
-
-static void
 comp_editor_set_shell (CompEditor *editor,
                        EShell *shell)
 {
@@ -2151,8 +2116,6 @@ comp_editor_init (CompEditor *editor)
 			GTK_SCROLLED_WINDOW (container), widget);
 	priv->notebook = GTK_NOTEBOOK (widget);
 	gtk_widget_show (widget);
-
-	comp_editor_setup_recent_menu (editor);
 
 	/* Drag-and-Drop Support */
 

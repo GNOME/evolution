@@ -58,38 +58,6 @@ composer_setup_charset_menu (EMsgComposer *composer)
 }
 
 static void
-composer_setup_recent_menu (EMsgComposer *composer)
-{
-	EAttachmentView *view;
-	GtkUIManager *ui_manager;
-	GtkAction *action;
-	const gchar *action_name;
-	const gchar *path;
-	guint merge_id;
-
-	view = e_msg_composer_get_attachment_view (composer);
-	ui_manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
-	path = "/main-menu/insert-menu/insert-menu-top/recent-placeholder";
-	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
-	action_name = "recent-menu";
-
-	action = e_attachment_view_recent_action_new (
-		view, action_name, _("Recent _Documents"));
-
-	if (action != NULL) {
-		gtk_action_group_add_action (
-			composer->priv->composer_actions, action);
-
-		gtk_ui_manager_add_ui (
-			ui_manager, merge_id, path,
-			action_name, action_name,
-			GTK_UI_MANAGER_AUTO, FALSE);
-	}
-
-	gtk_ui_manager_ensure_update (ui_manager);
-}
-
-static void
 msg_composer_url_requested_cb (GtkHTML *html,
                                const gchar *uri,
                                GtkHTMLStream *stream,
@@ -433,8 +401,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	/* XXX What is this for? */
 	g_object_set_data (G_OBJECT (composer), "vbox", editor->vbox);
-
-	composer_setup_recent_menu (composer);
 
 	/* Bind headers to their corresponding actions. */
 

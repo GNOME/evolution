@@ -244,31 +244,6 @@ action_properties_cb (GtkAction *action,
 }
 
 static void
-action_recent_cb (GtkAction *action,
-                  EAttachmentView *view)
-{
-	GtkRecentChooser *chooser;
-	EAttachmentStore *store;
-	EAttachment *attachment;
-	gpointer parent;
-	gchar *uri;
-
-	chooser = GTK_RECENT_CHOOSER (action);
-	store = e_attachment_view_get_store (view);
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-	uri = gtk_recent_chooser_get_current_uri (chooser);
-	attachment = e_attachment_new_for_uri (uri);
-	e_attachment_store_add_attachment (store, attachment);
-	e_attachment_load_async (
-		attachment, (GAsyncReadyCallback)
-		e_attachment_load_handle_error, parent);
-	g_free (uri);
-}
-
-static void
 action_remove_cb (GtkAction *action,
                   EAttachmentView *view)
 {
@@ -1897,35 +1872,6 @@ e_attachment_view_get_ui_manager (EAttachmentView *view)
 	priv = e_attachment_view_get_private (view);
 
 	return priv->ui_manager;
-}
-
-GtkAction *
-e_attachment_view_recent_action_new (EAttachmentView *view,
-                                     const gchar *action_name,
-                                     const gchar *action_label)
-{
-	GtkAction *action;
-	GtkRecentChooser *chooser;
-
-	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
-	g_return_val_if_fail (action_name != NULL, NULL);
-
-	action = gtk_recent_action_new (
-		action_name, action_label, NULL, NULL);
-	gtk_recent_action_set_show_numbers (GTK_RECENT_ACTION (action), TRUE);
-
-	chooser = GTK_RECENT_CHOOSER (action);
-	gtk_recent_chooser_set_show_icons (chooser, TRUE);
-	gtk_recent_chooser_set_show_not_found (chooser, FALSE);
-	gtk_recent_chooser_set_show_private (chooser, FALSE);
-	gtk_recent_chooser_set_show_tips (chooser, TRUE);
-	gtk_recent_chooser_set_sort_type (chooser, GTK_RECENT_SORT_MRU);
-
-	g_signal_connect (
-		action, "item-activated",
-		G_CALLBACK (action_recent_cb), view);
-
-	return action;
 }
 
 void

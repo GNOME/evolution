@@ -227,10 +227,6 @@ GtkWidget *	e_attachment_view_get_popup_menu
 						(EAttachmentView *view);
 GtkUIManager *	e_attachment_view_get_ui_manager
 						(EAttachmentView *view);
-GtkAction *	e_attachment_view_recent_action_new
-						(EAttachmentView *view,
-						 const gchar *action_name,
-						 const gchar *action_label);
 void		e_attachment_view_show_popup_menu
 						(EAttachmentView *view,
 						 GdkEventButton *event,
