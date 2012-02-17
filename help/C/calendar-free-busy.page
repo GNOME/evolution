@@ -36,7 +36,7 @@
 
 <list>
 <item><p>Attendee List:</p><p>The Attendee List shows the people who have been invited to the appointment.</p></item>
-<item><p>Schedule Grid:</p><p>The Schedule Grid shows the published Free/Busy information for the people you have invited. This is where you compare schedules to find free time to schedule the appointment. Individuals have visible scheduling information only if they use the same Novell GroupWise or Microsoft Exchange server you do (that is, if they are in the same organization as you), or if they publish free/busy information at a URL you can reach and you have entered that URL into their contact cards using the contact editor.</p></item>
+<item><p>Schedule Grid:</p><p>The Schedule Grid shows the published Free/Busy information for the people you have invited. This is where you compare schedules to find free time to schedule the appointment. Individuals have visible scheduling information only if they use the same Novell GroupWise or Microsoft Exchange server you do (that is, if they are in the same organization as you), or if they publish free/busy information at a web address (URL) that you can reach and you have entered that web address for the specific contact in the <link xref="contacts-usage-edit-contact">Contact Editor</link> under <guiseq><gui>Personal information</gui><gui>Web Addresses</gui><gui>Free/Busy</gui></guiseq>.</p></item>
 </list>
 
 <p>You can publish Calendar and Free/Busy information to a WebDAV server, FTP server, a remote machine through SSH or to any other web server with HTTP PUT support.</p>
