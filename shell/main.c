@@ -392,8 +392,11 @@ create_default_shell (void)
 	if (!express_mode)
 		express_mode = g_settings_get_boolean (settings, "express-mode");
 
-	if (express_mode)
+	if (!express_mode)
 		e_shell_detect_meego (&is_meego, &small_screen);
+
+	if (is_meego)
+		express_mode = TRUE;
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);
