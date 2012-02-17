@@ -132,7 +132,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="categories-button">
-                    <property name="label" translatable="yes">Categor_ies...</property>
+                    <property name="label" translatable="yes">Ca_tegories...</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
