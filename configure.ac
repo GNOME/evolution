@@ -599,7 +599,7 @@ AC_ARG_WITH([clutter],
 AC_MSG_RESULT($with_clutter)
 
 if test "x$with_clutter" = "xyes"; then
-   PKG_CHECK_MODULES(CLUTTER, [mx-1.0 clutter-gtk-1.0 >= clutter_gtk_minimum_version clutter-1.0 >= 1.0.0])
+   PKG_CHECK_MODULES(CLUTTER, [clutter-gtk-1.0 >= clutter_gtk_minimum_version mx-1.0 clutter-1.0 >= 1.0.0])
 
    AC_DEFINE(HAVE_CLUTTER, 1, [Clutter available])
    AM_CONDITIONAL(ENABLE_CLUTTER, true)
