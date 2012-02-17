@@ -34,7 +34,6 @@
 
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
-#include <gconf/gconf-client.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
@@ -45,20 +44,8 @@
 
 #define d(x)
 
-#define GCONF_E_SHELL_NETWORK_CONFIG_PATH "/apps/evolution/shell/network_config/"
-#define GCONF_E_HTTP_HOST_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "http_host"
-#define GCONF_E_HTTP_PORT_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "http_port"
-#define GCONF_E_HTTPS_HOST_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "secure_host"
-#define GCONF_E_HTTPS_PORT_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "secure_port"
-#define GCONF_E_SOCKS_HOST_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "socks_host"
-#define GCONF_E_SOCKS_PORT_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "socks_port"
-#define GCONF_E_IGNORE_HOSTS_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "ignore_hosts"
-#define GCONF_E_USE_AUTH_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "use_authentication"
-#define GCONF_E_PROXY_TYPE_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "proxy_type"
-#define GCONF_E_AUTH_USER_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "authentication_user"
-#define GCONF_E_AUTH_PWD_KEY  GCONF_E_SHELL_NETWORK_CONFIG_PATH "authentication_password"
-#define GCONF_E_USE_PROXY_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "use_http_proxy"
-#define GCONF_E_AUTOCONFIG_URL_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "autoconfig_url"
+#define SETTINGS_KEY_NAME "evo-proxy-settings-key-name"
+#define SET_KEY_NAME(_widget, _key) g_object_set_data_full (G_OBJECT (_widget), SETTINGS_KEY_NAME, g_strdup (_key), g_free)
 
 G_DEFINE_TYPE (
 	EMNetworkPrefs,
@@ -81,8 +68,8 @@ toggle_button_toggled (GtkToggleButton *toggle,
 {
 	const gchar *key;
 
-	key = g_object_get_data ((GObject *) toggle, "key");
-	gconf_client_set_bool (prefs->gconf, key, gtk_toggle_button_get_active (toggle), NULL);
+	key = g_object_get_data ((GObject *) toggle, SETTINGS_KEY_NAME);
+	g_settings_set_boolean (prefs->proxy_settings, key, gtk_toggle_button_get_active (toggle));
 	if (toggle == prefs->use_auth) {
 		gboolean sensitivity = gtk_toggle_button_get_active (prefs->use_auth);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->lbl_auth_user, sensitivity);
@@ -97,15 +84,15 @@ toggle_button_init (EMNetworkPrefs *prefs,
                     GtkToggleButton *toggle,
                     const gchar *key)
 {
-	gboolean bool;
+	gboolean bval;
 
-	bool = gconf_client_get_bool (prefs->gconf, key, NULL);
-	gtk_toggle_button_set_active (toggle, bool);
+	bval = g_settings_get_boolean (prefs->proxy_settings, key);
+	gtk_toggle_button_set_active (toggle, bval);
 
-	g_object_set_data ((GObject *) toggle, "key", (gpointer) key);
+	SET_KEY_NAME (toggle, key);
 	g_signal_connect (toggle, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
 
-	if (!gconf_client_key_is_writable (prefs->gconf, key, NULL))
+	if (!g_settings_is_writable (prefs->proxy_settings, key))
 		gtk_widget_set_sensitive ((GtkWidget *) toggle, FALSE);
 }
 
@@ -181,7 +168,7 @@ notify_proxy_type_changed (GtkWidget *widget,
 		type = NETWORK_PROXY_SYS_SETTINGS;
 #endif
 
-	gconf_client_set_int (prefs->gconf, "/apps/evolution/shell/network_config/proxy_type", type, NULL);
+	g_settings_set_int (prefs->proxy_settings, "proxy-type", type);
 
 	if (type == NETWORK_PROXY_DIRECT_CONNECTION ||
 	    type == NETWORK_PROXY_SYS_SETTINGS) {
@@ -196,21 +183,24 @@ notify_proxy_type_changed (GtkWidget *widget,
 	}
 
 	if (type != NETWORK_PROXY_DIRECT_CONNECTION)
-		gconf_client_set_bool (prefs->gconf, GCONF_E_USE_PROXY_KEY, TRUE, NULL);
+		g_settings_set_boolean (prefs->proxy_settings, "use-http-proxy", TRUE);
 	else if (type != NETWORK_PROXY_SYS_SETTINGS)
-		gconf_client_set_bool (prefs->gconf, GCONF_E_USE_PROXY_KEY, FALSE, NULL);
-
+		g_settings_set_boolean (prefs->proxy_settings, "use-http-proxy", FALSE);
 }
 
 static void
 widget_entry_changed_cb (GtkWidget *widget,
-                         gpointer data)
+                         gpointer user_data)
 {
+	const gchar *key;
 	const gchar *value;
 	gint port = -1;
-	GConfClient *client;
+	GSettings *proxy_settings = user_data;
 
-	client = gconf_client_get_default ();
+	g_return_if_fail (proxy_settings != NULL);
+
+	key = g_object_get_data (G_OBJECT (widget), SETTINGS_KEY_NAME);
+	g_return_if_fail (key != NULL);
 
 	/*
 	 * Do not change the order of comparison -
@@ -218,64 +208,62 @@ widget_entry_changed_cb (GtkWidget *widget,
 	*/
 	if (GTK_IS_SPIN_BUTTON (widget)) {
 		port = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
-		gconf_client_set_int (client, (const gchar *) data, port, NULL);
-		d(g_print ("%s:%s: %s is SpinButton: value = [%d]\n", G_STRLOC, G_STRFUNC, (const gchar *)data, port));
+		g_settings_set_int (proxy_settings, key, port);
+		d(g_print ("%s:%s: %s is SpinButton: value = [%d]\n", G_STRLOC, G_STRFUNC, key, port));
 	} else if (GTK_IS_ENTRY (widget)) {
 		value = gtk_entry_get_text (GTK_ENTRY (widget));
-		gconf_client_set_string (client, (const gchar *) data, value, NULL);
-		d(g_print ("%s:%s: %s is Entry: value = [%s]\n", G_STRLOC, G_STRFUNC, (const gchar *)data, value));
+		g_settings_set_string (proxy_settings, key, value);
+		d(g_print ("%s:%s: %s is Entry: value = [%s]\n", G_STRLOC, G_STRFUNC, key, value));
 	}
-
-	g_object_unref (client);
 }
 
 static void
 ignore_hosts_entry_changed_cb (GtkWidget *widget,
-                               const gchar *key)
+                               gpointer user_data)
 {
+	const gchar *key;
 	const gchar *value;
-	GSList *lst = NULL;
-	GConfClient *client;
+	gchar **split;
+	GPtrArray *ptrs;
+	GSettings *proxy_settings = user_data;
 
 	g_return_if_fail (widget != NULL);
-	g_return_if_fail (key != NULL);
 	g_return_if_fail (GTK_IS_ENTRY (widget));
+	g_return_if_fail (proxy_settings != NULL);
+
+	key = g_object_get_data (G_OBJECT (widget), SETTINGS_KEY_NAME);
+	g_return_if_fail (key != NULL);
+
+	ptrs = g_ptr_array_new_with_free_func (g_free);
 
 	/* transform comma-separated list of ignore_hosts to a string-list */
 	value = gtk_entry_get_text (GTK_ENTRY (widget));
-	if (value && *value) {
-		gchar **split = g_strsplit (value, ",", -1);
+	split = g_strsplit (value ? value : "", ",", -1);
+	if (split) {
+		gint ii;
 
-		if (split) {
-			gint ii;
+		for (ii = 0; split[ii]; ii++) {
+			const gchar *tmp = split[ii];
 
-			for (ii = 0; split[ii]; ii++) {
-				const gchar *tmp = split[ii];
+			if (tmp && *tmp) {
+				gchar *val = g_strstrip (g_strdup (tmp));
 
-				if (tmp && *tmp) {
-					gchar *val = g_strstrip (g_strdup (tmp));
-
-					if (val && *val)
-						lst = g_slist_append (lst, val);
-					else
-						g_free (val);
-				}
+				if (val && *val)
+					g_ptr_array_add (ptrs, val);
+				else
+					g_free (val);
 			}
 		}
 
 		g_strfreev (split);
 	}
 
-	client = gconf_client_get_default ();
-	if (!gconf_client_set_list (client, key, GCONF_VALUE_STRING, lst, NULL)) {
-		/* for cases where migration didn't happen, get rid of the old GConf key and "re-type" it */
-		gconf_client_unset (client, key, NULL);
-		gconf_client_set_list (client, key, GCONF_VALUE_STRING, lst, NULL);
-	}
-	g_object_unref (client);
+	/* NULL-terminated array of strings */
+	g_ptr_array_add (ptrs, NULL);
 
-	g_slist_foreach (lst, (GFunc) g_free, NULL);
-	g_slist_free (lst);
+	g_settings_set_strv (proxy_settings, key, (const gchar * const *) ptrs->pdata);
+
+	g_ptr_array_free (ptrs, TRUE);
 }
 
 /* plugin meta-data */
@@ -314,14 +302,16 @@ static void
 em_network_prefs_construct (EMNetworkPrefs *prefs)
 {
 	GtkWidget *toplevel;
-	GSList *l, *ignore;
+	GSList *l;
+	gchar **ignore;
 	gchar *buf;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
 	gboolean locked;
 	gint i, val, port;
 
-	prefs->gconf = gconf_client_get_default ();
+	prefs->proxy_settings = g_settings_new ("org.gnome.evolution.shell.network-config");
+	g_object_set_data_full (G_OBJECT (prefs), "proxy-settings-obj", prefs->proxy_settings, g_object_unref);
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
@@ -348,9 +338,9 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	/* Proxy tab */
 
 	/* Default Behavior */
-	locked = !gconf_client_key_is_writable (prefs->gconf, GCONF_E_PROXY_TYPE_KEY, NULL);
+	locked = !g_settings_is_writable (prefs->proxy_settings, "proxy-type");
 
-	val = gconf_client_get_int (prefs->gconf, GCONF_E_PROXY_TYPE_KEY, NULL);
+	val = g_settings_get_int (prefs->proxy_settings, "proxy-type");
 
 	/* no auto-proxy at the moment */
 	if (val == NETWORK_PROXY_AUTOCONFIG)
@@ -377,7 +367,8 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	gtk_toggle_button_set_active (prefs->auto_proxy, val == NETWORK_PROXY_AUTOCONFIG);
 
-	g_signal_connect (prefs->auto_proxy_url, "changed", G_CALLBACK(widget_entry_changed_cb), GCONF_E_AUTOCONFIG_URL_KEY);
+	SET_KEY_NAME (prefs->auto_proxy_url, "autoconfig-url");
+	g_signal_connect (prefs->auto_proxy_url, "changed", G_CALLBACK(widget_entry_changed_cb), prefs->proxy_settings);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->auto_proxy, FALSE);
 #endif
@@ -400,40 +391,49 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	prefs->lbl_socks_port = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblSocksPort"));
 	prefs->lbl_ignore_hosts = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblIgnoreHosts"));
 	prefs->use_auth = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "chkUseAuth"));
-	toggle_button_init (prefs, prefs->use_auth, GCONF_E_USE_AUTH_KEY);
+	toggle_button_init (prefs, prefs->use_auth, "use-authentication");
 	prefs->lbl_auth_user = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblAuthUser"));
 	prefs->lbl_auth_pwd = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblAuthPwd"));
 	prefs->auth_user = GTK_ENTRY (e_builder_get_widget (prefs->builder, "txtAuthUser"));
 	prefs->auth_pwd = GTK_ENTRY (e_builder_get_widget (prefs->builder, "txtAuthPwd"));
 
 	/* Manual proxy options */
+	SET_KEY_NAME (prefs->http_host, "http-host");
 	g_signal_connect (prefs->http_host, "changed",
 			  G_CALLBACK (widget_entry_changed_cb),
-			  (gpointer) GCONF_E_HTTP_HOST_KEY);
+			  prefs->proxy_settings);
+	SET_KEY_NAME (prefs->https_host, "secure-host");
 	g_signal_connect (prefs->https_host, "changed",
 			  G_CALLBACK (widget_entry_changed_cb),
-			  (gpointer) GCONF_E_HTTPS_HOST_KEY);
+			  prefs->proxy_settings);
+	SET_KEY_NAME (prefs->ignore_hosts, "ignore-hosts");
 	g_signal_connect (prefs->ignore_hosts, "changed",
 			  G_CALLBACK (ignore_hosts_entry_changed_cb),
-			  (gpointer) GCONF_E_IGNORE_HOSTS_KEY);
+			  prefs->proxy_settings);
+	SET_KEY_NAME (prefs->http_port, "http-port");
 	g_signal_connect (prefs->http_port, "value_changed",
 			  G_CALLBACK (widget_entry_changed_cb),
-			  (gpointer) GCONF_E_HTTP_PORT_KEY);
+			  prefs->proxy_settings);
+	SET_KEY_NAME (prefs->https_port, "secure-port");
 	g_signal_connect (prefs->https_port, "value_changed",
 			  G_CALLBACK (widget_entry_changed_cb),
-			  (gpointer) GCONF_E_HTTPS_PORT_KEY);
+			  prefs->proxy_settings);
+	SET_KEY_NAME (prefs->socks_host, "socks-host");
 	g_signal_connect (prefs->socks_host, "changed",
 			  G_CALLBACK (widget_entry_changed_cb),
-			  (gpointer) GCONF_E_SOCKS_HOST_KEY);
+			  prefs->proxy_settings);
+	SET_KEY_NAME (prefs->socks_port, "socks-port");
 	g_signal_connect (prefs->socks_port, "value_changed",
 			  G_CALLBACK (widget_entry_changed_cb),
-			  (gpointer) GCONF_E_SOCKS_PORT_KEY);
+			  prefs->proxy_settings);
+	SET_KEY_NAME (prefs->auth_user, "authentication-user");
 	g_signal_connect (prefs->auth_user, "changed",
 			  G_CALLBACK (widget_entry_changed_cb),
-			  (gpointer) GCONF_E_AUTH_USER_KEY);
+			  prefs->proxy_settings);
+	SET_KEY_NAME (prefs->auth_pwd, "authentication-password");
 	g_signal_connect (prefs->auth_pwd, "changed",
 			  G_CALLBACK (widget_entry_changed_cb),
-			  (gpointer) GCONF_E_AUTH_PWD_KEY);
+			  prefs->proxy_settings);
 
 	gtk_toggle_button_set_active (prefs->manual_proxy, val == NETWORK_PROXY_MANUAL);
 	g_signal_connect (prefs->sys_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
@@ -447,63 +447,44 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->manual_proxy, FALSE);
 	d(g_print ("Manual settings ----!!! \n"));
 
-	buf = gconf_client_get_string (prefs->gconf, GCONF_E_HTTP_HOST_KEY, NULL);
+	buf = g_settings_get_string (prefs->proxy_settings, "http-host");
 	gtk_entry_set_text (prefs->http_host, buf ? buf : "");
 	g_free (buf);
 
-	buf = gconf_client_get_string (prefs->gconf, GCONF_E_HTTPS_HOST_KEY, NULL);
+	buf = g_settings_get_string (prefs->proxy_settings, "secure-host");
 	gtk_entry_set_text (prefs->https_host, buf ? buf : "");
 	g_free (buf);
 
-	buf = gconf_client_get_string (prefs->gconf, GCONF_E_SOCKS_HOST_KEY, NULL);
+	buf = g_settings_get_string (prefs->proxy_settings, "socks-host");
 	gtk_entry_set_text (prefs->socks_host, buf ? buf : "");
 	g_free (buf);
 
 	buf = NULL;
-	ignore = gconf_client_get_list (prefs->gconf, GCONF_E_IGNORE_HOSTS_KEY, GCONF_VALUE_STRING, NULL);
+	ignore = g_settings_get_strv (prefs->proxy_settings, "ignore-hosts");
 	if (ignore) {
 		/* reconstruct comma-separated list */
-		GSList *sl;
-		GString *str = NULL;
-
-		for (sl = ignore; sl; sl = sl->next) {
-			const gchar *value = sl->data;
-
-			if (value && *value) {
-				if (!str) {
-					str = g_string_new (value);
-				} else {
-					g_string_append (str, ",");
-					g_string_append (str, value);
-				}
-			}
-		}
-
-		g_slist_foreach (ignore, (GFunc) g_free, NULL);
-		g_slist_free (ignore);
-
-		if (str)
-			buf = g_string_free (str, FALSE);
+		buf = g_strjoinv (",", ignore);
+		g_strfreev (ignore);
 	}
 
 	gtk_entry_set_text (prefs->ignore_hosts, buf ? buf : "");
 	g_free (buf);
 
-	buf = gconf_client_get_string (prefs->gconf, GCONF_E_AUTH_USER_KEY, NULL);
+	buf = g_settings_get_string (prefs->proxy_settings, "authentication-user");
 	gtk_entry_set_text (prefs->auth_user, buf ? buf : "");
 	g_free (buf);
 
-	buf = gconf_client_get_string (prefs->gconf, GCONF_E_AUTH_PWD_KEY, NULL);
+	buf = g_settings_get_string (prefs->proxy_settings, "authentication-password");
 	gtk_entry_set_text (prefs->auth_pwd, buf ? buf : "");
 	g_free (buf);
 
-	port = gconf_client_get_int (prefs->gconf, GCONF_E_HTTP_PORT_KEY, NULL);
+	port = g_settings_get_int (prefs->proxy_settings, "http-port");
 	gtk_spin_button_set_value (prefs->http_port, (gdouble) port);
 
-	port = gconf_client_get_int (prefs->gconf, GCONF_E_HTTPS_PORT_KEY, NULL);
+	port = g_settings_get_int (prefs->proxy_settings, "secure-port");
 	gtk_spin_button_set_value (prefs->https_port, (gdouble) port);
 
-	port = gconf_client_get_int (prefs->gconf, GCONF_E_SOCKS_PORT_KEY, NULL);
+	port = g_settings_get_int (prefs->proxy_settings, "socks-port");
 	gtk_spin_button_set_value (prefs->socks_port, (gdouble) port);
 
 	emnp_set_markups (prefs);

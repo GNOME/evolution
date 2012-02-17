@@ -24,7 +24,6 @@
 #define EM_NETWORK_PREFS_H
 
 #include <gtk/gtk.h>
-#include <gconf/gconf-client.h>
 #include <widgets/misc/e-preferences-window.h>
 
 /* Standard GObject macros */
@@ -61,7 +60,7 @@ typedef enum {
 struct _EMNetworkPrefs {
 	GtkVBox parent_object;
 
-	GConfClient *gconf;
+	GSettings *proxy_settings;
 
 	GtkBuilder *builder;
 
