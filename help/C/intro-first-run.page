@@ -72,9 +72,9 @@
 <list>
 <item><p>Local delivery: If you want to move email from the spool (the location where mail waits for delivery) and store it in your home directory. You need to provide the path to the mail spool you want to use. If you want to leave email in your system's spool files, choose the <gui>Standard Unix Mbox Spool</gui> option instead.</p><p>Continue <link xref="mail-receiving-options-local-delivery">here</link> for configuration.</p></item>
 
-<item><p>MH-Format Mail Directories: For downloading email using MH or another MH-style program.</p><p>You need to provide the path to the directory you want to use.</p><p>Continue <link xref="mail-receiving-options-mh-format-directories">here</link> for configuration.</p></item>
+<item><p>MH-Format Mail Directories: For downloading email using MH or another MH-style application.</p><p>You need to provide the path to the directory you want to use.</p><p>Continue <link xref="mail-receiving-options-mh-format-directories">here</link> for configuration.</p></item>
 
-<item><p>Maildir-Format Mail Directories: For downloading your email using Qmail or another Maildir-style program.</p><p>You need to provide the path to the directory you want to use.</p><p>Continue <link xref="mail-receiving-options-maildir-format-directories">here</link> for configuration.</p></item>
+<item><p>Maildir-Format Mail Directories: For downloading your email using Qmail or another Maildir-style application.</p><p>You need to provide the path to the directory you want to use.</p><p>Continue <link xref="mail-receiving-options-maildir-format-directories">here</link> for configuration.</p></item>
 
 <item><p>Standard Unix mbox spool file: For reading and storing email in the mail spool file on your local system.</p><p>You need to provide the path to the mail spool file you want to use.</p><p>Continue <link xref="mail-receiving-options-unix-mbox-spool-file">here</link> for configuration.</p></item>
 
@@ -91,7 +91,7 @@
 <p>Available server types are:</p>
 <list>
 <item><p>SMTP: Sends mail using an outbound mail server. This is the most common choice for sending mail.</p><p>Continue <link xref="mail-sending-options-smtp">here</link> for configuration.</p></item>
-<item><p>Sendmail: Uses the Sendmail program to send mail from your system. It is not easy to configure, so you should select this option only if you know how to set up a Sendmail service.</p></item>
+<item><p>Sendmail: Uses the Sendmail application to send mail from your system. It is not easy to configure, so you should select this option only if you know how to set up a Sendmail service.</p></item>
 </list>
 </section>
 

@@ -20,7 +20,7 @@
 
 <title>Using HTML format to enhance emails</title>
 
-<p>Normally, you cannot set text styles or insert pictures in email. However, most newer email programs can display images and text styles in addition to basic alignment and paragraph formatting. They do this with HTML, just like web pages do.</p>
+<p>Normally, you cannot set text styles or insert pictures in email. However, most newer email applications can display images and text styles in addition to basic alignment and paragraph formatting. They do this with HTML, just like web pages do.</p>
 
 <p>Some people do not have HTML-capable mail clients, or prefer not to receive HTML-enhanced mail because it is slower to download and display. Because of this, Evolution sends plain text unless you explicitly ask for HTML.</p>
 

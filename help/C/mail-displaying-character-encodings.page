@@ -21,7 +21,7 @@
 
 <!-- TODO: Recheck once https://bugzilla.gnome.org/show_bug.cgi?id=655021 is fixed -->
 
-<p>If the email program of the sender is broken or misconfigured, plain text emails might not include information about the character encoding used. If you receive such messages, choose <guiseq><gui>View</gui><gui>Character Encoding</gui></guiseq> from the main menu and change the currently chosen character encoding to an appropriate one that might be the encoding used by the sender. You have to make this change every time you view the message.</p>
+<p>If the email application of the sender is broken or misconfigured, plain text emails might not include information about the character encoding used. If you receive such messages, choose <guiseq><gui>View</gui><gui>Character Encoding</gui></guiseq> from the main menu and change the currently chosen character encoding to an appropriate one that might be the encoding used by the sender. You have to make this change every time you view the message.</p>
 <p>To make this the default setting, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</gui><gui>Message Display</gui><gui>Default character encoding</gui></guiseq>.</p>
 
 </page>

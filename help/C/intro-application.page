@@ -24,7 +24,7 @@
 <title>Getting Started</title>
 <p>Evolution is a stable and versatile personal information manager for the GNOME project. Evolution allows you to keep your calendar, email, address book and tasks in one place. Evolution has the ability to <link type="topic" xref="mail-spam">filter Junk/Spam Mail</link>, add your favorite web calenders, and <link type="topic" xref="mail-encryption">to keep your information safe and secure</link>.</p>
 
-<p>By default Evolution opens the mail client view. This is were you can view all your mail. You can change to other aspects of the program by going to the bottom of the left pane in the window (the so-called "switcher") and selecting the desired view. <link type="topic" xref="intro-main-window">Click here</link> for more information on the elements of the window.</p>
+<p>By default Evolution opens the mail client view. This is were you can view all your mail. You can change to other aspects of the application by going to the bottom of the left pane in the window (the so-called "switcher") and selecting the desired view. <link type="topic" xref="intro-main-window">Click here</link> for more information on the elements of the window.</p>
 
 </page>
 
