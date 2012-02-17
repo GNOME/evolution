@@ -1072,8 +1072,8 @@ static EImportImporter csv_evolution_importer = {
 EImportImporter *
 evolution_csv_outlook_importer_peek (void)
 {
-	csv_outlook_importer.name = _("Outlook CSV or Tab (.csv, .tab)");
-	csv_outlook_importer.description = _("Outlook CSV and Tab Importer");
+	csv_outlook_importer.name = _("Outlook Contacts CSV or Tab (.csv, .tab)");
+	csv_outlook_importer.description = _("Outlook Contacts CSV and Tab Importer");
 
 	return &csv_outlook_importer;
 }
@@ -1081,8 +1081,8 @@ evolution_csv_outlook_importer_peek (void)
 EImportImporter *
 evolution_csv_mozilla_importer_peek (void)
 {
-	csv_mozilla_importer.name = _("Mozilla CSV or Tab (.csv, .tab)");
-	csv_mozilla_importer.description = _("Mozilla CSV and Tab Importer");
+	csv_mozilla_importer.name = _("Mozilla Contacts CSV or Tab (.csv, .tab)");
+	csv_mozilla_importer.description = _("Mozilla Contacts CSV and Tab Importer");
 
 	return &csv_mozilla_importer;
 }
@@ -1090,8 +1090,8 @@ evolution_csv_mozilla_importer_peek (void)
 EImportImporter *
 evolution_csv_evolution_importer_peek (void)
 {
-	csv_evolution_importer.name = _("Evolution CSV or Tab (.csv, .tab)");
-	csv_evolution_importer.description = _("Evolution CSV and Tab Importer");
+	csv_evolution_importer.name = _("Evolution Contacts CSV or Tab (.csv, .tab)");
+	csv_evolution_importer.description = _("Evolution Contacts CSV and Tab Importer");
 
 	return &csv_evolution_importer;
 }
