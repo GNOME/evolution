@@ -36,6 +36,7 @@ SUBDIRS = \
 	cal-config-webcal \
 	composer-autosave \
 	imap-features \
+	mail-config \
 	mailto-handler \
 	mdn \
 	offline-alert \

@@ -1644,6 +1644,7 @@ modules/cal-config-weather/Makefile
 modules/cal-config-webcal/Makefile
 modules/composer-autosave/Makefile
 modules/imap-features/Makefile
+modules/mail-config/Makefile
 modules/mailto-handler/Makefile
 modules/mdn/Makefile
 modules/online-accounts/Makefile

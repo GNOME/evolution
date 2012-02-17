@@ -253,7 +253,7 @@ mail_config_yahoo_summary_constructed (GObject *object)
 	gtk_widget_show (widget);
 	g_free (markup);
 
-	text = _("Add Yahoo! Ca_lendar to this account");
+	text = _("Add Yahoo! Ca_lendar and Tasks to this account");
 	widget = gtk_check_button_new_with_mnemonic (text);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
 	gtk_widget_set_margin_left (widget, 12);
