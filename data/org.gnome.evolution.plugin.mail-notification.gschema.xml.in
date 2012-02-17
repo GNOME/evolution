@@ -32,7 +32,7 @@
     </key>
     <key name="notify-sound-file" type="s">
       <default>''</default>
-      <_summary>Sound file name to be played.</_summary>
+      <_summary>Sound filename to be played.</_summary>
       <_description>Sound file to be played when new messages arrive, if not in beep mode.</_description>
     </key>
     <key name="notify-sound-play-file" type="b">

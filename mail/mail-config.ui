@@ -504,7 +504,7 @@ for display purposes only. </property>
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="chkOutlookFilenames">
-                        <property name="label" translatable="yes">Encode file names in an _Outlook/GMail way</property>
+                        <property name="label" translatable="yes">Encode filenames in an _Outlook/GMail way</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>

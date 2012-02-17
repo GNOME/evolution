@@ -331,7 +331,7 @@ static GOptionEntry entries[] = {
 	{ "setup-only", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE,
 	  &setup_only, NULL, NULL },
 	{ "import", 'i', 0, G_OPTION_ARG_NONE, &import_uris,
-	  N_("Import URIs or file names given as rest of arguments."), NULL },
+	  N_("Import URIs or filenames given as rest of arguments."), NULL },
 	{ "quit", 'q', 0, G_OPTION_ARG_NONE, &quit,
 	  N_("Request a running Evolution process to quit"), NULL },
 	{ "version", 'v', G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_NO_ARG,

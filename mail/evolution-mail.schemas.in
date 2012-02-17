@@ -244,9 +244,9 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-         <short>Encode file names in an Outlook/GMail way</short>
+         <short>Encode filenames in an Outlook/GMail way</short>
          <long>
-          Encode file names in the mail headers same as Outlook or GMail do, to let them display correctly file names with UTF-8 letters sent by Evolution, because they do not follow the RFC 2231, but use the incorrect RFC 2047 standard.
+          Encode filenames in the mail headers same as Outlook or GMail do, to let them display correctly filenames with UTF-8 letters sent by Evolution, because they do not follow the RFC 2231, but use the incorrect RFC 2047 standard.
          </long>
       </locale>
     </schema>
@@ -1801,7 +1801,7 @@
       <locale name="C">
          <short>Format of the drag'n'drop export filename</short>
          <long>
-           Exported file name will be YYYYmmDDHHMMSS_email_title
+           Exported filename will be YYYYmmDDHHMMSS_email_title
            Possible values: 1 (: email sent date), 2 (: drag'n'drop date)
          </long>
       </locale>

@@ -7,13 +7,13 @@
  </error>
 
  <error id="no-file" type="error">
-  <_primary>Missing file name.</_primary>
-  <_secondary>You must specify a file name.</_secondary>
+  <_primary>Missing filename.</_primary>
+  <_secondary>You must specify a filename.</_secondary>
  </error>
 
  <error id="bad-file" type="error">
   <_primary>File &quot;{0}&quot; does not exist or is not a regular file.</_primary>
-  <_secondary>You must specify a file name.</_secondary>
+  <_secondary>You must specify a filename.</_secondary>
  </error>
 
  <error id="bad-regexp" type="error">

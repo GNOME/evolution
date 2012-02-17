@@ -53,7 +53,7 @@
       <type>string</type>
       <default></default>
       <locale name="C">
-        <short>Sound file name to be played.</short>
+        <short>Sound filename to be played.</short>
         <long>Sound file to be played when new messages arrive, if not in beep mode.</long>
       </locale>
     </schema>
