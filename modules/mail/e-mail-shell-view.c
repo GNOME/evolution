@@ -554,9 +554,13 @@ all_accounts:
 
 	list = NULL;  /* list of CamelFolders */
 
+	/* enable search folders, in case they were disabled, because it's needed for this */
+	vfolder_load_storage (backend);
+
 	/* FIXME Complete lack of error checking here. */
 	service = camel_session_get_service (
 		CAMEL_SESSION (session), "vfolder");
+	g_return_if_fail (service != NULL);
 	em_utils_connect_service_sync (service, NULL, NULL);
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
@@ -727,9 +731,13 @@ current_account:
 
 	list = g_list_reverse (list);
 
+	/* enable search folders, in case they were disabled, because it's needed for this */
+	vfolder_load_storage (backend);
+
 	/* FIXME Complete lack of error checking here. */
 	service = camel_session_get_service (
 		CAMEL_SESSION (session), "vfolder");
+	g_return_if_fail (service != NULL);
 	em_utils_connect_service_sync (service, NULL, NULL);
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
