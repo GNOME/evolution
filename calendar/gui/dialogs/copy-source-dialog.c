@@ -121,10 +121,6 @@ dest_source_opened_cb (GObject *source_object,
 
 	csdd->dest_client = E_CAL_CLIENT (client);
 
-	e_client_utils_open_new (csdd->selected_source, csdd->obj_type, FALSE, NULL,
-		e_client_utils_authenticate_handler, csdd->parent,
-		dest_source_opened_cb, csdd);
-
 	/* check if the destination is read only */
 	if (e_client_is_readonly (E_CLIENT (csdd->dest_client))) {
 		show_error (csdd, _("Destination is read only"), NULL);
