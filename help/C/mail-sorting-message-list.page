@@ -38,8 +38,8 @@
 <p>When a new message arrives, it will be added below the parent message. Threads are sorted and displayed based on the date of the most recent message received.</p>
 <note style="tip"><p>For Advanced Users: There is a GSettings key that allows you to toggle between the collapsed and expanded state of the email threads. The collapsed state is enabled by default. It can be changed by starting the <app>Terminal</app> application and running the command <command>gsettings set org.gnome.evolution.mail thread-expand true</command></p>
 
-+<item><p>Open the <app>Terminal</app> application.</p></item>
-+<item><p>Run the command <command>gsettings set org.gnome.desktop.interface can-change-accels true</command></p></item>
+<item><p>Open the <app>Terminal</app> application.</p></item>
+<item><p>Run the command <command>gsettings set org.gnome.desktop.interface can-change-accels true</command></p></item>
 
 </note>
 </section>
