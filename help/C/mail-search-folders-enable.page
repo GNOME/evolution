@@ -6,7 +6,7 @@
     
     <link type="guide" xref="mail-search-folders" />
 
-    <revision pkgversion="3.3.91" version="0.1" date="2012-02-18" status="draft"/>
+    <revision pkgversion="3.3.91" version="0.2" date="2012-02-18" status="draft"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -19,7 +19,7 @@
 
 <title>Enable the Search Folders Functionality</title>
 
-<p>In the unlikely case that there is no <gui>Search folders</gui> top-level node displayed at the bottom of the <link xref="intro-main-window#e-mail"> mail folder list</xref> you have to enable the search folders functionality yourself.</p>
+<p>In the unlikely case that there is no <gui>Search folders</gui> top-level node displayed at the bottom of the <link xref="intro-main-window#e-mail"> mail folder list</link> you have to enable the search folders functionality yourself.</p>
 
 <list>
 <item><p>Open the <app>Terminal</app> application.</p></item>
