@@ -32,8 +32,9 @@
 <steps>
 <item><p>Click on the search icon <media type="image" mime="image/png" src="figures/search-icon.png"/> to expand the drop-down list.</p></item>
 <item><p>Select the search condition from the list.</p></item>
-<item><p>Select the scope from the drop-down list right to the text box.</p></item>
+<item><p>Select the scope from the drop-down list right to the text box.</p>
 <note style="tip"><p>For the <gui>Current Account</gui> scope, the term "account" refers to top-level nodes in the mail folder pane, like "On this computer" and remote mail accounts.</p></note>
+</item>
 <item><p>Enter the text you want to search for and press <key>Enter</key>.</p></item>
 <item><p>Evolution displays the search results.</p></item>
 </steps>
