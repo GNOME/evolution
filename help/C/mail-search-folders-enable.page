@@ -23,7 +23,7 @@
 
 <list>
 <item><p>Open the <app>Terminal</app> application.</p></item>
-<item><p>Run the command <command>gsettings set org.gnome.evolution.mail enable-vfolders true</command></p></item>
+<item><p>Run the command <cmd>gsettings set org.gnome.evolution.mail enable-vfolders true</cmd></p></item>
 </list>
 
 <p>You can also use the <app>dconf-editor</app> application to do this.</p>

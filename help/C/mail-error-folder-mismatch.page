@@ -28,7 +28,7 @@
 <note><p>These steps apply to the versions 3.0 and 3.2. Note that Evolution's file locations in 2.30 and 2.32 are different (<file>~/.evolution/mail/local/</file> instead of <file>~/.local/share/evolution/mail/local/</file>).</p></note>
 
 <list>
-<item><p>Open the <app>Terminal</app> application (category <gui>System Tools</gui>) and type in the command <code>evolution --force-shutdown</code>. This command stops Evolution and all the processes related to it.</p></item>
+<item><p>Open the <app>Terminal</app> application (category <gui>System Tools</gui>) and type in the command <cmd>evolution --force-shutdown</cmd>. This command stops Evolution and all the processes related to it.</p></item>
 <item><p>Remove the files ending in:</p>
  <list>
   <item><p><file>.ev-summary</file></p></item>

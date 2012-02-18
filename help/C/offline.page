@@ -7,7 +7,7 @@
     <link type="guide" xref="index#common-other-problems"/>
     <link type="seealso" xref="mail-working-offline" />
 
-    <revision pkgversion="3.2.1" version="0.1" date="2012-01-10" status="final"/>
+    <revision pkgversion="3.2.1" version="0.2" date="2012-02-18" status="final"/>
     <credit type="author">
       <name>Brian Grohe</name>
       <email>grohe43@gmail.com</email>
@@ -21,7 +21,7 @@
 
   </info>
 <title>Why is Evolution offline when my net connection is working?</title>
-<p>You may have started Evolution with the <code>--offline</code> commandline option.</p>
+<p>You may have started Evolution with the <cmd>--offline</cmd> commandline option.</p>
 
 <p>If this is not the case and Evolution normally works but has suddenly stopped connecting, you may have unintentionally clicked on the connection icon in the lower left corner. When connected, the icon resembles a pair of sockets joined together. If the sockets are open, there is no connection (and the <gui style="button">Send/Receive</gui> button is grayed out). Click on the icon to change its state.</p>
 
