@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-encryption#gpg"/>
 
-    <revision pkgversion="2.32.1" version="0.2" date="2011-07-27" status="final"/>
+    <revision pkgversion="2.32.1" version="0.3" date="2012-02-18" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -35,6 +35,6 @@
 <item><p>Click <gui style="button">OK</gui>.</p></item>
 <item><p>Click <gui style="button">Close</gui>.</p></item>
 </steps>
-<p>Evolution requires that you know your key ID. If you do not remember it, you can find it by typing <code>gpg --list-keys</code> in a terminal window. Your key ID is an eight-character string with random numbers and letters.</p>
+<p>Evolution requires that you know your key ID. If you do not remember it, you can find it by typing <cmd>gpg --list-keys</cmd> in a terminal window. Your key ID is an eight-character string with random numbers and letters.</p>
 
 </page>

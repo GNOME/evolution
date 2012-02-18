@@ -6,7 +6,7 @@
 
     <link type="guide" xref="index#data-migration-and-sync"/>
 
-    <revision pkgversion="3.1.5" version="0.1" date="2011-09-03" status="draft"/>
+    <revision pkgversion="3.1.5" version="0.2" date="2012-02-18" status="draft"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -27,7 +27,7 @@
 <item><p>Choose an addressbook and click <gui style="button">Define</gui>.</p></item>
 <item><p>In case it is not listed already, click <gui style="button">Browse...</gui>. A file chooser dialog opens.</p></item>
 <item><p>As Evolution stores its data in a hidden directory, press <keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar displayed.</p></item>
-<item><p>Go to <code>/home/username/.local/share/evolution/addressbook/system/addressbook.db</code> and click <gui style="button">Open</gui>.</p></item>
+<item><p>Go to <file>/home/username/.local/share/evolution/addressbook/system/addressbook.db</file> and click <gui style="button">Open</gui>.</p></item>
 </steps>
 
 <p>This makes the Evolution address book the default data source for LibreOffice. You can now select a field to insert into an LibreOffice document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></guiseq>.</p>
