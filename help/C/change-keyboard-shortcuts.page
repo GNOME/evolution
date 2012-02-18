@@ -18,14 +18,15 @@
   <title>Changing keyboard shortcuts</title>
 
 <list>
-<item><p>Open the <gui>dconf-editor</gui> application.</p></item>
-<item><p>Navigate to <code>/org/gnome/desktop/interface</code>.</p></item>
-<item><p>Enable <gui>can-change-accels</gui>.</p></item>
+<item><p>Open the <app>Terminal</app> application.</p></item>
+<item><p>Run the command <command>gsettings set org.gnome.desktop.interface can-change-accels true</command></p></item>
 <item><p>Start Evolution.</p></item>
 <item><p>Hover your mouse cursor over the menu bar item for which you want to add or change the keyboard shortcut.</p></item>
 <item><p>Type the shortcut that you want on the keyboard.</p></item>
 </list>
 
-<p>Note that this setting is desktop-wide and that you can disable it again in <gui>dconf-editor</gui> after your changes.</p>
+<p>Note that this setting is desktop-wide and that you can disable it again after your changes by using the command <command>gsettings set org.gnome.desktop.interface can-change-accels false</command></p>
+
+<p>You can also use the <app>dconf-editor</app> application to do this.</p>
 
 </page>
