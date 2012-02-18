@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#memos-and-tasks" />
 
-    <revision pkgversion="2.32.1" version="0.1" date="2010-10-12" status="stub"/>
+    <revision pkgversion="3.3.91" version="0.2" date="2012-02-18" status="stub"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -19,7 +19,7 @@
 
 <title>Add, Edit and Delete Memos</title>
 
-<note style="tip"><p>Currently there is no support for syncing memos with the Tomboy or Gnote applications.</p></note>
+<note style="tip"><p>Currently there is no support for syncing memos with the <app>Tomboy</app> or <app>Gnote</app> applications.</p></note>
 <!-- TODO:POST-3-2: Periodically recheck status of https://bugzilla.gnome.org/show_bug.cgi?id=469217 -->
 
 </page>

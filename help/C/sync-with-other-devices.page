@@ -6,7 +6,7 @@
 
     <link type="guide" xref="index#data-migration-and-sync"/>
 
-    <revision pkgversion="2.30.2" version="0.2" date="2010-12-11" status="draft"/>
+    <revision pkgversion="2.30.2" version="0.3" date="2012-02-18" status="draft"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -24,7 +24,7 @@
 
 <p>There are currently no "recommended instructions" for users.</p>
 
-<p>Many distributions provide the application <link href="http://syncevolution.org/">SyncEvolution</link> that can be used in combination with devices that support <link href="https://secure.wikimedia.org/wikipedia/en/wiki/SyncML">SyncML</link>.<!-- Buteo development seems to have slowed down, hence commenting this section - AndreKlapper, 2011/05/14: Also <link href="http://wiki.meego.com/Buteo">Buteo</link> aims to provide that functionality. A technical comparison of Buteo with SyncEvolution can be found <link href="http://meego.com/sites/all/files/meego-sync-linuxcon-2010.pdf">here on slide #18</link>. --></p>
+<p>Many distributions provide the application <app><link href="http://syncevolution.org/">SyncEvolution</link></app> that can be used in combination with devices that support <link href="https://secure.wikimedia.org/wikipedia/en/wiki/SyncML">SyncML</link>.<!-- Buteo development seems to have slowed down, hence commenting this section - AndreKlapper, 2011/05/14: Also <link href="http://wiki.meego.com/Buteo">Buteo</link> aims to provide that functionality. A technical comparison of Buteo with SyncEvolution can be found <link href="http://meego.com/sites/all/files/meego-sync-linuxcon-2010.pdf">here on slide #18</link>. --></p>
 
 <p>Another option might be to use applications and devices that both support the <link href="https://secure.wikimedia.org/wikipedia/en/wiki/ActiveSync">ActiveSync protocol</link>. A <link href="https://secure.wikimedia.org/wikipedia/en/wiki/List_of_collaborative_software">list of collaborative software</link> is available on Wikipedia.</p>
 

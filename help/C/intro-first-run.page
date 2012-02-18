@@ -6,7 +6,7 @@
 
     <link type="guide" xref="index#getting-started"/>
 
-    <revision pkgversion="2.30.2" version="0.2" date="2011-09-11" status="stub"/>
+    <revision pkgversion="3.3.91" version="0.3" date="2012-02-18" status="stub"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -17,7 +17,7 @@
 
   </info>
 
-  <title>Starting <em>Evolution</em> for the first time</title>
+  <title>Starting <app>Evolution</app> for the first time</title>
 
 <p>The first time you run Evolution, it opens the First-Run Assistant to help you set up email accounts and <link xref="import-data">import data from other applications.</link></p>
 
@@ -91,7 +91,7 @@
 <p>Available server types are:</p>
 <list>
 <item><p>SMTP: Sends mail using an outbound mail server. This is the most common choice for sending mail.</p><p>Continue <link xref="mail-sending-options-smtp">here</link> for configuration.</p></item>
-<item><p>Sendmail: Uses the Sendmail application to send mail from your system. It is not easy to configure, so you should select this option only if you know how to set up a Sendmail service.</p></item>
+<item><p>Sendmail: Uses the <app>Sendmail</app> application to send mail from your system. It is not easy to configure, so you should select this option only if you know how to set up a Sendmail service.</p></item>
 </list>
 </section>
 

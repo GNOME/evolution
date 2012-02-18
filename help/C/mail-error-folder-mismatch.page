@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#common-mail-problems" />
 
-    <revision pkgversion="3.1.5" version="0.4" date="2011-07-28" status="final"/>
+    <revision pkgversion="3.1.5" version="0.5" date="2012-02-18" status="final"/>
     <credit type="author">
       <name>April Gonzales</name>
       <email>loonycookie@gmail.com</email>
@@ -28,7 +28,7 @@
 <note><p>These steps apply to the versions 3.0 and 3.2. Note that Evolution's file locations in 2.30 and 2.32 are different (<file>~/.evolution/mail/local/</file> instead of <file>~/.local/share/evolution/mail/local/</file>).</p></note>
 
 <list>
-<item><p>Open the Terminal application (category <gui>System Tools</gui>) and type in the command <code>evolution --force-shutdown</code>. This command stops Evolution and all the processes related to it.</p></item>
+<item><p>Open the <app>Terminal</app> application (category <gui>System Tools</gui>) and type in the command <code>evolution --force-shutdown</code>. This command stops Evolution and all the processes related to it.</p></item>
 <item><p>Remove the files ending in:</p>
  <list>
   <item><p><file>.ev-summary</file></p></item>
