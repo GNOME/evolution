@@ -8,7 +8,7 @@
     <link type="seealso" xref="mail-composer-reply" />
     <link type="seealso" xref="mail-composer-forward" />
 
-    <revision pkgversion="2.32.1" version="0.2" date="2010-12-15" status="draft"/>
+    <revision pkgversion="3.3.91" version="0.3" date="2012-02-18" status="draft"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -21,7 +21,15 @@
 
 <title>Changing the "On date, person wrote:" string when replying</title>
 
-<p>Advanced users can change this string by editing the gconf key <file>/apps/evolution/mail/composer/message_attribution</file> via gconf-editor.<!-- Codebase: evolution/mail/em-composer-utils.c --></p>
-<!-- TODO: Outdated once Evolution switches to GSettings -->
+<p>Advanced users can change this string.</p>
+
+<list>
+<item><p>Open the <app>dconf-editor</app> application.</p></item>
+<item><p>Navigate to <code>org.gnome.evolution.mail</code>.</p></item>
+<item><p>Enter the prefered quotation string as the value for the key <gui>composer-message-attribution</gui>.</p></item>
+</list>
+
+<note><p>You might need to <link action="install:dconf-editor" href="http://ftp.gnome.org/pub/gnome/sources/dconf-editor/">install dconf-editor</link> to perform these steps.</p></note>
+
 </page>
 
