@@ -2,11 +2,11 @@
       type="topic" id="exporting-data-calendar">
 
   <info>
-    <desc>How to export calendar data from <em>Evolution</em>.</desc>
+    <desc>How to export calendar data from <app>Evolution</app>.</desc>
 
     <link type="guide" xref="exporting-data" />
 
-    <revision pkgversion="3.1.5" version="0.2" date="2011-07-27" status="final"/>
+    <revision pkgversion="3.1.5" version="0.3" date="2012-02-18" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>

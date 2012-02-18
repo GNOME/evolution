@@ -2,9 +2,9 @@
       type="guide" id="searching-items">
 
   <info>
-    <desc>Searching content and data within <em>Evolution</em>.</desc>
+    <desc>Searching content and data within <app>Evolution</app>.</desc>
 
-    <revision pkgversion="2.32.1" version="0.1" date="2010-12-12" status="stub"/>
+    <revision pkgversion="3.3.91" version="0.2" date="2012-02-18" status="stub"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>

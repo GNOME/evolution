@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#mail-composing" />
 
-    <revision pkgversion="3.0.2" version="0.3" date="2011-07-29" status="final"/>
+    <revision pkgversion="3.0.2" version="0.4" date="2012-02-18" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -23,7 +23,7 @@
 
 <section id="required-packages">
 <title>Prerequirements</title>
-<p>To use spell checking for the emails that you write you first need to make sure that the <em>hunspell</em> package for your specific language and the <em>enchant</em> package are installed via the software management tool of your distribution.</p>
+<p>To use spell checking for the emails that you write you first need to make sure that the <app>hunspell</app> package for your specific language and the <app>enchant</app> package are installed via the software management tool of your distribution.</p>
 <p><link action="install:hunspell" href="http://hunspell.sourceforge.net/">Install hunspell now.</link></p>
 <p><link action="install:enchant" href="http://www.abisource.com/projects/enchant/">Install enchant now.</link></p>
 </section>

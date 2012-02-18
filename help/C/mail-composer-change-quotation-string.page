@@ -19,7 +19,7 @@
 
   </info>
 
-<title>Changing the "On <em>date, person</em> wrote:" string when replying</title>
+<title>Changing the "On date, person wrote:" string when replying</title>
 
 <p>Advanced users can change this string by editing the gconf key <file>/apps/evolution/mail/composer/message_attribution</file> via gconf-editor.<!-- Codebase: evolution/mail/em-composer-utils.c --></p>
 <!-- TODO: Outdated once Evolution switches to GSettings -->
