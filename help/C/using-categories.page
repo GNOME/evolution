@@ -8,7 +8,7 @@
     <link type="guide" xref="tasks-organizing" />
     <link type="guide" xref="calendar-organizing" />
 
-    <revision pkgversion="3.1.5" version="0.5" date="2011-08-01" status="final"/>
+    <revision pkgversion="3.3.91" version="0.6" date="2012-02-19" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -45,7 +45,7 @@
 
 <p>If the default list of categories does not suit your needs, you can add your own categories either directly via <guiseq><gui>Edit</gui><gui>Available Categories</gui></guiseq>, or indirectly when editing an object:</p>
 <steps>
-<item><p>Double-click any object to bring up th corresponding editor.</p></item>
+<item><p>Double-click any object to bring up the corresponding editor.</p></item>
 <item><p>Click <gui style="button">Categories...</gui>. (If this button is not available, select <guiseq><gui>View</gui><gui>Categories</gui></guiseq>.)</p></item>
 <item><p>Enter the new category in the entry box at the top.</p></item>
 <item><p>Click <gui style="button">OK</gui>.</p></item>

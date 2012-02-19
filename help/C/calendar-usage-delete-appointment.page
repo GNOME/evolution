@@ -2,11 +2,11 @@
       type="topic" id="calendar-usage-delete-appointment">
 
   <info>
-    <desc>Deleting in appointment in your calendar.</desc>
+    <desc>Deleting an appointment in your calendar.</desc>
     
     <link type="guide" xref="calendar-usage" />
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-08-01" status="final"/>
+    <revision pkgversion="3.3.91" version="0.3" date="2012-02-19" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>

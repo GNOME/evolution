@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-spam" />
     <link type="seealso" xref="mail-spam-marking"/>
 
-    <revision pkgversion="3.0.2" version="0.3" date="2011-09-04" status="final"/>
+    <revision pkgversion="3.3.91" version="0.4" date="2012-02-19" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -27,16 +27,9 @@
 
 <title>Junk Mail Settings</title>
 
-<p>Evolution lets you check for unwanted junk or spam emails by using the Bogofilter or SpamAssassin tools. To use these tools, you need to make sure that they are installed via the software management tool of your distribution and you need enable their respective plugins.</p>
+<p>Evolution lets you check for unwanted junk or spam emails by using the Bogofilter or SpamAssassin tools. To use these tools, you need to make sure that they are installed via the software management tool of your distribution.</p>
 <p><link action="install:bogofilter" href="http://bogofilter.sourceforge.net/">Install bogofilter now.</link></p>
 <p><link action="install:spamassassin" href="http://spamassassin.apache.org/">Install spamassassin now.</link></p>
-
-<p>To enable the plugins:</p>
-<steps>
-<item><p>Click <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>.</p></item>
-<item><p>Select the plugins you wish to enable. You can select either Bogofilter or SpamAssassin, or both.</p></item>
-<item><p>Click <gui>Close</gui>.</p></item>
-</steps>
 
 <note style="tip"><p>The junk mail options discussed in this page refer only to POP and Local Delivery. For handling junk mails on IMAP, see the Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>.</p></note>
 
@@ -53,7 +46,7 @@
 <item><p>Checking custom headers for junk.</p></item>
 <item><p>Marking messages as not junk if the sender is in the address book.</p></item>
 <item><p>The default junk filter.</p></item>
-<item><p>Bogofilter and SpamAssassin options. These options are available only if the plugins are enabled.</p></item>
+<item><p>Bogofilter and SpamAssassin options.</p></item>
 </list>
 </item>
 </steps>

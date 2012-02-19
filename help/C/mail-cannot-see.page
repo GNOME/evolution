@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#common-mail-problems" />
 
-    <revision pkgversion="2.28.3" version="0.1" date="2010-10-09" status="candidate"/>
+    <revision pkgversion="3.3.91" version="0.2" date="2012-02-19" status="candidate"/>
     <credit type="author">
       <name>Phil Bull</name>
       <email>philbull@gmail.com</email>
@@ -35,7 +35,7 @@
  </item>
  <!-- Does the following option still exist? -->
  <item>
-  <p>Click <guiseq><gui>Edit</gui><gui>Show Hidden Messages</gui></guiseq> to make sure all messages are visible.</p>
+  <p>Click <guiseq><gui>Edit</gui><gui>Show Deleted Messages</gui></guiseq> to make sure all messages are visible.</p>
  </item>
  <item>
   <p>Check your default folder under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Email Accounts</gui><gui>Edit</gui><gui>Defaults</gui></guiseq>. Perhaps it is set to some other folder than the folder you thought of.</p>

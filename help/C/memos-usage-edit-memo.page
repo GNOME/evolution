@@ -6,7 +6,7 @@
     
     <link type="guide" xref="memos-usage" />
 
-    <revision pkgversion="3.0.2" version="0.1" date="2011-08-01" status="final"/>
+    <revision pkgversion="3.0.2" version="0.2" date="2012-02-19" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -22,7 +22,7 @@
 <p>If you want to change a memo that already exists in your memo lists,</p>
 
 <steps>
-<item><p>Double-click on the memo that you want to edit in the list of contacts, or right-click on the memo and click <key>Open Memo</key>.</p></item>
+<item><p>Double-click on the memo that you want to edit in the list of contacts, or right-click on the memo and click <gui>Open Memo</gui>.</p></item>
 <item><p>Edit the memo information.</p></item>
 <item><p>Click the <gui style="button">Save</gui> button, or <guiseq><gui>File</gui><gui>Save</gui></guiseq>.</p></item>
 </steps>
