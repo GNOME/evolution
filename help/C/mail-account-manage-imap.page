@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-account-management#mail-common-account-types"/>
 
-    <revision pkgversion="3.1.5" version="0.3" date="2011-07-29" status="draft"/>
+    <revision pkgversion="3.4" version="0.4" date="2012-02-19" status="candidate"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -21,8 +21,9 @@
 
 <section id="account-editor">
 <title>Account Editor</title>
-<p>Mail accounts can be added via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Add</gui></guiseq>. The steps are mostly the same as for the <link xref="intro-first-run">First-Run Assistant</link>, except for not getting asked whether to import data from other applications or to restore from a backup file.</p>
-<p>Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui></guiseq>. The following settings are available when editing an existing account:</p>
+<p>Mail accounts can be added by choosing <guiseq><gui>File</gui><gui>New</gui><gui>Mail Account</gui></guiseq> or via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Add</gui></guiseq>. The steps are mostly the same as for the <link xref="intro-first-run">First-Run Assistant</link>, except for not getting asked whether to import data from other applications or to restore from a backup file.</p>
+<p>Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui></guiseq> or by right-clicking on the respective top-level node in the folder list and choosing <gui>Properties</gui>.</p>
+<p>The following settings are available when editing an existing account:</p>
 
 <section id="identity">
 <title>Identity</title>
