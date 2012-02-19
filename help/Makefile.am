@@ -152,6 +152,8 @@ DOC_PAGES = \
 	mail-encryption.page \
 	mail-encryption-s-mime-manage.page \
 	mail-encryption-s-mime-signing-encrypting.page \
+	mail-error-failed-to-append-to-sent-folder \
+	mail-error-no-provider-available.page \ 
 	mail-filters-actions.page \
 	mail-filters-conditions.page \
 	mail-filters-not-working.page \
@@ -209,7 +211,6 @@ DOC_PAGES = \
 	mail-vertical-view.page \
 	mail-word-wrap.page \
 	mail-working-offline.page \
-	mail-wrong-fonts-in-3-0.page \
 	memos-searching.page \
 	memos-usage-add-memo.page \
 	memos-usage-delete-memo.page \
