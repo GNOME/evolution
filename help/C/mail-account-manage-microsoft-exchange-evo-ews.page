@@ -4,9 +4,9 @@
   <info>
     <desc>Add and edit a Microsoft Exchange 2010 account in Evolution.</desc>
 
-  <link type="guide" xref="mail-account-manage-microsoft-exchange"/>
+  <link type="guide" xref="mail-account-manage-microsoft-exchange" group="#first"/>
 
-    <revision pkgversion="3.1.91" version="0.2" date="2011-09-06" status="draft"/>
+    <revision pkgversion="3.1.91" version="0.3" date="2012-02-19" status="draft"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
