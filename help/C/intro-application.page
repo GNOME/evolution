@@ -2,8 +2,8 @@
       type="topic" id="intro-application">
 
   <info>
-    <desc>An Introduction to Evolution.</desc>
-    
+    <desc>An introduction to Evolution.</desc>
+
      <link type="guide" xref="index#getting-started"/>
 
     <revision pkgversion="3.2.1" version="0.1" date="2012-01-12" status="draft"/>
@@ -27,4 +27,3 @@
 <p>By default Evolution opens the mail client view. This is were you can view all your mail. You can change to other aspects of the application by going to the bottom of the left pane in the window (the so-called "switcher") and selecting the desired view. <link type="topic" xref="intro-main-window">Click here</link> for more information on the elements of the window.</p>
 
 </page>
-
