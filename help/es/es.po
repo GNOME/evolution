@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-17 15:26+0000\n"
-"PO-Revision-Date: 2012-02-17 17:35+0100\n"
+"POT-Creation-Date: 2012-02-19 13:57+0000\n"
+"PO-Revision-Date: 2012-02-19 21:04+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,7 @@ msgstr "Usar y gestionar categorías para citas, contactos, notas y tareas."
 #: C/mail-displaying-message.page:11(name)
 #: C/mail-displaying-images-in-html.page:12(name)
 #: C/mail-displaying-collapsible-headers.page:11(name)
-#: C/mail-displaying-character-encodings.page:11(name)
+#: C/mail-displaying-character-encodings.page:12(name)
 #: C/mail-delete-and-undelete.page:13(name)
 #: C/mail-default-folder-locations.page:23(name)
 #: C/mail-default-CC-and-BCC.page:23(name)
@@ -269,7 +269,7 @@ msgstr "Andre Klapper"
 #: C/mail-displaying-message.page:12(email)
 #: C/mail-displaying-images-in-html.page:13(email)
 #: C/mail-displaying-collapsible-headers.page:12(email)
-#: C/mail-displaying-character-encodings.page:12(email)
+#: C/mail-displaying-character-encodings.page:13(email)
 #: C/mail-delete-and-undelete.page:14(email)
 #: C/mail-default-folder-locations.page:24(email)
 #: C/mail-default-CC-and-BCC.page:24(email)
@@ -503,7 +503,7 @@ msgstr "Novell, Inc"
 #: C/mail-displaying-no-css.page:16(p) C/mail-displaying-message.page:15(p)
 #: C/mail-displaying-images-in-html.page:23(p)
 #: C/mail-displaying-collapsible-headers.page:18(p)
-#: C/mail-displaying-character-encodings.page:15(p)
+#: C/mail-displaying-character-encodings.page:16(p)
 #: C/mail-delete-and-undelete.page:20(p)
 #: C/mail-default-folder-locations.page:27(p)
 #: C/mail-default-CC-and-BCC.page:27(p)
@@ -664,7 +664,8 @@ msgstr ""
 "un objeto:"
 
 #: C/using-categories.page:48(p)
-msgid "Double-click any object to bring up th corresponding editor."
+#| msgid "Double-click any object to bring up th corresponding editor."
+msgid "Double-click any object to bring up the corresponding editor."
 msgstr ""
 "Pulse dos veces sobre cualquier objeto para que aparezca la ventana del "
 "editor correspondiente."
@@ -1042,14 +1043,14 @@ msgid "Select the search condition from the list."
 msgstr "Seleccione el criterio de búsqueda de la lista."
 
 #: C/tasks-searching.page:36(p) C/memos-searching.page:36(p)
-#: C/mail-searching.page:36(p) C/contacts-searching.page:36(p)
+#: C/mail-searching.page:38(p) C/contacts-searching.page:36(p)
 #: C/calendar-searching.page:36(p)
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr "Escriba el texto que quiere buscar y pulse <key>Intro</key>."
 
 #: C/tasks-searching.page:37(p) C/tasks-searching.page:43(p)
 #: C/memos-searching.page:37(p) C/memos-searching.page:43(p)
-#: C/mail-searching.page:37(p) C/contacts-searching.page:37(p)
+#: C/mail-searching.page:39(p) C/contacts-searching.page:37(p)
 #: C/contacts-searching.page:43(p) C/calendar-searching.page:37(p)
 #: C/calendar-searching.page:43(p)
 msgid "Evolution displays the search results."
@@ -1071,7 +1072,7 @@ msgid "Select the category from the list."
 msgstr "Seleccione la categoría de la lista."
 
 #: C/tasks-searching.page:45(p) C/memos-searching.page:45(p)
-#: C/mail-searching.page:41(p) C/contacts-searching.page:45(p)
+#: C/mail-searching.page:43(p) C/contacts-searching.page:45(p)
 #: C/calendar-searching.page:45(p)
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
@@ -1086,7 +1087,7 @@ msgid "Advanced Search"
 msgstr "Búsqueda avanzada"
 
 #: C/tasks-searching.page:51(p) C/memos-searching.page:51(p)
-#: C/mail-searching.page:47(p) C/contacts-searching.page:51(p)
+#: C/mail-searching.page:49(p) C/contacts-searching.page:51(p)
 #: C/calendar-searching.page:51(p)
 msgid ""
 "Select the <guiseq><gui>Search</gui><gui>Advanced Search</gui></guiseq> menu "
@@ -1096,7 +1097,7 @@ msgstr ""
 "guiseq> para abrir el cuadro de diálogo."
 
 #: C/tasks-searching.page:52(p) C/memos-searching.page:52(p)
-#: C/mail-searching.page:48(p) C/contacts-searching.page:52(p)
+#: C/mail-searching.page:50(p) C/contacts-searching.page:52(p)
 #: C/calendar-searching.page:52(p)
 msgid ""
 "Click <gui style=\"button\">Add Condition</gui> to add any number of rules."
@@ -1105,7 +1106,7 @@ msgstr ""
 "número de reglas."
 
 #: C/tasks-searching.page:53(p) C/memos-searching.page:53(p)
-#: C/mail-searching.page:49(p) C/contacts-searching.page:53(p)
+#: C/mail-searching.page:51(p) C/contacts-searching.page:53(p)
 #: C/calendar-searching.page:53(p)
 msgid ""
 "Select the condition from the dropdown list, and then type a search entry in "
@@ -1115,7 +1116,7 @@ msgstr ""
 "de búsqueda en el campo."
 
 #: C/tasks-searching.page:54(p) C/memos-searching.page:54(p)
-#: C/mail-searching.page:50(p) C/contacts-searching.page:54(p)
+#: C/mail-searching.page:52(p) C/contacts-searching.page:54(p)
 #: C/calendar-searching.page:54(p)
 msgid ""
 "Click <gui style=\"button\">OK</gui> to get the search results displayed."
@@ -1124,13 +1125,13 @@ msgstr ""
 "búsqueda."
 
 #: C/tasks-searching.page:60(title) C/memos-searching.page:60(title)
-#: C/mail-searching.page:56(title) C/contacts-searching.page:60(title)
+#: C/mail-searching.page:58(title) C/contacts-searching.page:60(title)
 #: C/calendar-searching.page:60(title)
 msgid "Clearing the Search results"
 msgstr "Limpiar los resultados de la búsqueda"
 
 #: C/tasks-searching.page:61(p) C/memos-searching.page:61(p)
-#: C/mail-searching.page:57(p) C/contacts-searching.page:61(p)
+#: C/mail-searching.page:59(p) C/contacts-searching.page:61(p)
 #: C/calendar-searching.page:61(p)
 msgid ""
 "To clear your search view and get back to the default view, click the "
@@ -1146,13 +1147,13 @@ msgstr ""
 "key><key>Q</key></keyseq> para limpiar la búsqueda."
 
 #: C/tasks-searching.page:65(title) C/memos-searching.page:65(title)
-#: C/mail-searching.page:61(title) C/contacts-searching.page:65(title)
+#: C/mail-searching.page:63(title) C/contacts-searching.page:65(title)
 #: C/calendar-searching.page:65(title)
 msgid "Saved Searches"
 msgstr "Búsquedas guardadas"
 
 #: C/tasks-searching.page:66(p) C/memos-searching.page:66(p)
-#: C/mail-searching.page:62(p) C/contacts-searching.page:66(p)
+#: C/mail-searching.page:64(p) C/contacts-searching.page:66(p)
 #: C/calendar-searching.page:66(p)
 msgid ""
 "If you search for something rather often, you will prefer not to type it "
@@ -1162,7 +1163,7 @@ msgstr ""
 "tantas veces. En ese caso puede usar las búsquedas guardadas."
 
 #: C/tasks-searching.page:67(p) C/memos-searching.page:67(p)
-#: C/mail-searching.page:63(p) C/contacts-searching.page:67(p)
+#: C/mail-searching.page:65(p) C/contacts-searching.page:67(p)
 #: C/calendar-searching.page:67(p)
 msgid ""
 "To save your search results, either click <gui>Save</gui> instead of "
@@ -1178,13 +1179,13 @@ msgstr ""
 "directamente disponible desde el menú <gui>Buscar</gui>."
 
 #: C/tasks-searching.page:71(title) C/memos-searching.page:71(title)
-#: C/mail-searching.page:67(title) C/contacts-searching.page:71(title)
+#: C/mail-searching.page:69(title) C/contacts-searching.page:71(title)
 #: C/calendar-searching.page:71(title)
 msgid "Editing a Saved Search"
 msgstr "Editar una búsqueda guardada"
 
 #: C/tasks-searching.page:73(p) C/memos-searching.page:73(p)
-#: C/mail-searching.page:69(p) C/contacts-searching.page:73(p)
+#: C/mail-searching.page:71(p) C/contacts-searching.page:73(p)
 #: C/calendar-searching.page:73(p)
 msgid ""
 "Select <guiseq><gui>Search</gui><gui>Edit Saved Searches</gui></guiseq> from "
@@ -1194,7 +1195,7 @@ msgstr ""
 "búsquedas guardadas</gui></guiseq> de la barra de menú."
 
 #: C/tasks-searching.page:74(p) C/memos-searching.page:74(p)
-#: C/mail-searching.page:70(p) C/contacts-searching.page:74(p)
+#: C/mail-searching.page:72(p) C/contacts-searching.page:74(p)
 #: C/calendar-searching.page:74(p)
 msgid ""
 "Click the <gui style=\"button\">Edit</gui> button to open the <gui>Edit "
@@ -1204,13 +1205,13 @@ msgstr ""
 "<gui>Editar regla</gui>."
 
 #: C/tasks-searching.page:75(p) C/memos-searching.page:75(p)
-#: C/mail-searching.page:71(p) C/contacts-searching.page:75(p)
+#: C/mail-searching.page:73(p) C/contacts-searching.page:75(p)
 #: C/calendar-searching.page:75(p)
 msgid "Edit the title or search conditions from the dialog box."
 msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo."
 
 #: C/tasks-searching.page:76(p) C/memos-searching.page:76(p)
-#: C/mail-searching.page:72(p) C/contacts-searching.page:76(p)
+#: C/mail-searching.page:74(p) C/contacts-searching.page:76(p)
 #: C/calendar-searching.page:76(p)
 msgid "Click <gui>OK</gui>."
 msgstr "Pulse <gui>Aceptar</gui>."
@@ -1316,19 +1317,25 @@ msgstr ""
 "móviles."
 
 #: C/sync-with-other-devices.page:23(title)
-msgid "Synchronize <em>Evolution</em> with other devices"
-msgstr "Sincornizar <em>Evolution</em> con otros dispositivos"
+#| msgid "Synchronize <em>Evolution</em> with other devices"
+msgid "Synchronize <app>Evolution</app> with other devices"
+msgstr "Sincronizar <app>Evolution</app> con otros dispositivos"
 
 #: C/sync-with-other-devices.page:25(p)
 msgid "There are currently no \"recommended instructions\" for users."
 msgstr "Actualmente no hay unas «instrucciones recomendadas» para usuarios."
 
 #: C/sync-with-other-devices.page:27(p)
+#| msgid ""
+#| "Many distributions provide the application <link href=\"http://"
+#| "syncevolution.org/\">SyncEvolution</link> that can be used in combination "
+#| "with devices that support <link href=\"https://secure.wikimedia.org/"
+#| "wikipedia/en/wiki/SyncML\">SyncML</link>."
 msgid ""
-"Many distributions provide the application <link href=\"http://syncevolution."
-"org/\">SyncEvolution</link> that can be used in combination with devices "
-"that support <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
-"SyncML\">SyncML</link>."
+"Many distributions provide the application <app><link href=\"http://"
+"syncevolution.org/\">SyncEvolution</link></app> that can be used in "
+"combination with devices that support <link href=\"https://secure.wikimedia."
+"org/wikipedia/en/wiki/SyncML\">SyncML</link>."
 msgstr ""
 "Muchas distribuciones proporcionan la aplicación <link href=\"http://"
 "syncevolution.org/\">SyncEvolution</link>, que se puede usar con "
@@ -1523,8 +1530,9 @@ msgstr ""
 "Evolution."
 
 #: C/searching-items.page:5(desc)
-msgid "Searching content and data within <em>Evolution</em>."
-msgstr "Buscar contenido y datos en <em>Evolution</em>."
+#| msgid "Searching content and data within <em>Evolution</em>."
+msgid "Searching content and data within <app>Evolution</app>."
+msgstr "Buscar contenido y datos en <app>Evolution</app>."
 
 #: C/searching-items.page:18(title)
 msgid "Searching items"
@@ -1599,18 +1607,24 @@ msgid "How to get help"
 msgstr "Cómo obtener ayuda"
 
 #: C/problems-getting-help.page:24(p)
+#| msgid ""
+#| "To receive help on problems you can send an email to the <link href="
+#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
+#| "mailing list</link> or talk to developers and other users in the IRC chat "
+#| "channel #evolution on the server irc.gimp.net. To connect to an IRC "
+#| "server you can for example use the internet messenger application Empathy."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
 "link> or talk to developers and other users in the IRC chat channel "
 "#evolution on the server irc.gimp.net. To connect to an IRC server you can "
-"for example use the internet messenger application Empathy."
+"for example use the internet messenger application <app>Empathy</app>."
 msgstr ""
 "Para recibir ayuda sobre problemas puede enviar un correo a la <link href="
 "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">lista de correo de "
 "Evolution</link> o enviar un mensaje en el canal de chat de IRC #evolution "
 "en el servidor irc.gimp.net. Para conectarse a un servidor IRC puede usar la "
-"aplicación de mensajería instantánea Empathy."
+"aplicación de mensajería instantánea <app>Empathy</app>."
 
 #: C/problems-debug-how-to.page:5(desc)
 msgid "How to provide good information when tracking down a problem."
@@ -1675,12 +1689,15 @@ msgid "Why is Evolution offline when my net connection is working?"
 msgstr "¿Por qué Evolution está desconectado si mi conexión está funcionando?"
 
 #: C/offline.page:24(p)
+#| msgid ""
+#| "You may have started Evolution with the <code>--offline</code> "
+#| "commandline option."
 msgid ""
-"You may have started Evolution with the <code>--offline</code> commandline "
+"You may have started Evolution with the <cmd>--offline</cmd> commandline "
 "option."
 msgstr ""
-"Puede que haya iniciado Evolution con la opción de línea de comandos <code>--"
-"offline</code>."
+"Puede que haya iniciado Evolution con la opción de línea de comandos <cmd>--"
+"offline</cmd>."
 
 #: C/offline.page:26(p)
 msgid ""
@@ -1804,12 +1821,15 @@ msgid "Add, Edit and Delete Memos"
 msgstr "Añadir, editar y eliminar notas"
 
 #: C/memos-usage.page:22(p)
+#| msgid ""
+#| "Currently there is no support for syncing memos with the Tomboy or Gnote "
+#| "applications."
 msgid ""
-"Currently there is no support for syncing memos with the Tomboy or Gnote "
-"applications."
+"Currently there is no support for syncing memos with the <app>Tomboy</app> "
+"or <app>Gnote</app> applications."
 msgstr ""
 "Actualmente no existe soporte para sincronizar notas con las aplicaciones "
-"Tomboy o Gnote."
+"<app>Tomboy</app> o <app>Gnote</app>."
 
 #: C/memos-usage-edit-memo.page:5(desc)
 msgid "Editing a memo in your memo list."
@@ -1824,12 +1844,15 @@ msgid "If you want to change a memo that already exists in your memo lists,"
 msgstr "Si quiere modificar una nota que ya existe en su lista de notas,"
 
 #: C/memos-usage-edit-memo.page:25(p)
+#| msgid ""
+#| "Double-click on the memo that you want to edit in the list of contacts, "
+#| "or right-click on the memo and click <key>Open Memo</key>."
 msgid ""
 "Double-click on the memo that you want to edit in the list of contacts, or "
-"right-click on the memo and click <key>Open Memo</key>."
+"right-click on the memo and click <gui>Open Memo</gui>."
 msgstr ""
 "Pulse dos veces en la nota que quiera editar en la lista de contactos, o "
-"pulse con el botón derecho sobre la nota y pulse <key>Abrir nota</key>."
+"pulse con el botón derecho sobre la nota y pulse <gui>Abrir nota</gui>."
 
 #: C/memos-usage-edit-memo.page:26(p)
 msgid "Edit the memo information."
@@ -2299,16 +2322,21 @@ msgid "Junk Mail Settings"
 msgstr "Configuración de SPAM"
 
 #: C/mail-spam-settings.page:30(p)
+#| msgid ""
+#| "Evolution lets you check for unwanted junk or spam emails by using the "
+#| "Bogofilter or SpamAssassin tools. To use these tools, you need to make "
+#| "sure that they are installed via the software management tool of your "
+#| "distribution and you need enable their respective plugins."
 msgid ""
 "Evolution lets you check for unwanted junk or spam emails by using the "
 "Bogofilter or SpamAssassin tools. To use these tools, you need to make sure "
 "that they are installed via the software management tool of your "
-"distribution and you need enable their respective plugins."
+"distribution."
 msgstr ""
 "Evolution le permite comprobar si hay mensajes SPAM usando las herramientas "
 "Bogofilter o SpamAssasin. Para usar estas herramientas debe asegurarse de "
 "que están instaladas a través de la herramienta de gestión de software de su "
-"distribución y necesita tener instalados sus correspondientes complementos."
+"distribución."
 
 #: C/mail-spam-settings.page:31(link)
 msgid "Install bogofilter now."
@@ -2319,27 +2347,6 @@ msgid "Install spamassassin now."
 msgstr "Instalar «spamassassin» ahora."
 
 #: C/mail-spam-settings.page:34(p)
-msgid "To enable the plugins:"
-msgstr "Para activar los complementos:"
-
-#: C/mail-spam-settings.page:36(p)
-msgid "Click <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
-msgstr "Pulse <guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq>."
-
-#: C/mail-spam-settings.page:37(p)
-msgid ""
-"Select the plugins you wish to enable. You can select either Bogofilter or "
-"SpamAssassin, or both."
-msgstr ""
-"Seleccione los complementos que quiere activar. Puede seleccionar tanto "
-"Bogofilter como SpamAssasin, o puede seleccionar los dos."
-
-#: C/mail-spam-settings.page:38(p) C/mail-composer-html-table.page:29(p)
-#: C/mail-composer-html-rule.page:28(p) C/mail-composer-html-link.page:29(p)
-msgid "Click <gui>Close</gui>."
-msgstr "Pulse <gui>Cerrar</gui>."
-
-#: C/mail-spam-settings.page:41(p)
 msgid ""
 "The junk mail options discussed in this page refer only to POP and Local "
 "Delivery. For handling junk mails on IMAP, see the Evolution settings under "
@@ -2352,11 +2359,11 @@ msgstr ""
 "gui><gui>Cuentas de correo</gui><gui style=\"button\">Editar</"
 "gui><gui>Opciones de recepción</gui></guiseq>."
 
-#: C/mail-spam-settings.page:44(title)
+#: C/mail-spam-settings.page:37(title)
 msgid "Junk Mail Preferences"
 msgstr "Opciones de correo spam"
 
-#: C/mail-spam-settings.page:45(p)
+#: C/mail-spam-settings.page:38(p)
 msgid ""
 "You can modify how Evolution handles junk mail by changing the Junk Mail "
 "Preferences:"
@@ -2364,7 +2371,7 @@ msgstr ""
 "Puede modificar cómo Evolution gestiona el SPAM cambiando las Opciones de "
 "SPAM:"
 
-#: C/mail-spam-settings.page:47(p)
+#: C/mail-spam-settings.page:40(p)
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Preferences</gui></guiseq> or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>."
@@ -2372,20 +2379,20 @@ msgstr ""
 "Pulse <guiseq><gui>Editar</gui><gui>Preferencias</gui></guiseq> o pulse "
 "<keyseq><key>Mayús</key><key>Ctrl</key><key>S</key></keyseq>."
 
-#: C/mail-spam-settings.page:48(p)
+#: C/mail-spam-settings.page:41(p)
 msgid "Select <gui>Mail Preferences</gui>."
 msgstr "Seleccione <gui>Opciones de correo</gui>."
 
-#: C/mail-spam-settings.page:49(p)
+#: C/mail-spam-settings.page:42(p)
 msgid "Click on the <gui>Junk</gui> tab. Here, you can specify the following:"
 msgstr ""
 "Pulse en la pestaña <gui>SPAM</gui>. Aquí podrá especificar lo siguiente:"
 
-#: C/mail-spam-settings.page:51(p)
+#: C/mail-spam-settings.page:44(p)
 msgid "Checking incoming mail for junk messages."
 msgstr "Comprobar si el correo entrante es SPAM."
 
-#: C/mail-spam-settings.page:52(p)
+#: C/mail-spam-settings.page:45(p)
 msgid ""
 "Deleting junk messages upon exit, and how often junk messages are to be "
 "deleted."
@@ -2393,27 +2400,23 @@ msgstr ""
 "Eliminar correo basura al salir y con qué frecuencia se eliminan los correos "
 "basura."
 
-#: C/mail-spam-settings.page:53(p)
+#: C/mail-spam-settings.page:46(p)
 msgid "Checking custom headers for junk."
 msgstr "Comprobar las cabeceras personalizadas contra SPAM."
 
-#: C/mail-spam-settings.page:54(p)
+#: C/mail-spam-settings.page:47(p)
 msgid "Marking messages as not junk if the sender is in the address book."
 msgstr ""
 "Marcar mensajes como no SPAM si el remitente está en la libreta de "
 "direcciones."
 
-#: C/mail-spam-settings.page:55(p)
+#: C/mail-spam-settings.page:48(p)
 msgid "The default junk filter."
 msgstr "El filtro predeterminado para SPAM."
 
-#: C/mail-spam-settings.page:56(p)
-msgid ""
-"Bogofilter and SpamAssassin options. These options are available only if the "
-"plugins are enabled."
-msgstr ""
-"Opciones de Bogofilter y SpamAssassin. Estas opciones están disponibles solo "
-"si los complementos están activados."
+#: C/mail-spam-settings.page:49(p)
+msgid "Bogofilter and SpamAssassin options."
+msgstr "Opciones de Bogofilter y de SpamAssassin."
 
 #: C/mail-spam.page:5(desc)
 msgid "How to automatically handle unwanted mail."
@@ -2496,14 +2499,19 @@ msgstr ""
 "tiempo."
 
 #: C/mail-spam-marking.page:31(p)
+#| msgid ""
+#| "You can also flag mail as junk by selecting it and clicking the Junk icon "
+#| "in the menu bar; you can flag mail in the junk folder as \"Not Junk\" by "
+#| "selecting it and clicking the <gui>Not Junk</gui> icon."
 msgid ""
-"You can also flag mail as junk by selecting it and clicking the Junk icon in "
-"the menu bar; you can flag mail in the junk folder as \"Not Junk\" by "
-"selecting it and clicking the <gui>Not Junk</gui> icon."
+"You can also flag mail as junk by selecting it and clicking the <gui>Junk</"
+"gui> button in the tool bar; you can flag mail in the junk folder as \"Not "
+"Junk\" by selecting it and clicking the <gui>Not Junk</gui> button."
 msgstr ""
 "También puede marcar correo como SPAM seleccionándolo y pulsando el icono de "
-"SPAM en la barra de menú; puede marcar correo en la carpeta de SPAM como «No "
-"es SPAM» seleccionándolo y pulsando el icono <gui>No es SPAM</gui>."
+"<gui>SPAM</gui> en la barra de menú; puede marcar correo en la carpeta de "
+"SPAM como «No es SPAM» seleccionándolo y pulsando el botón <gui>No es SPAM</"
+"gui>."
 
 #: C/mail-spam-marking.page:32(p)
 msgid ""
@@ -2726,22 +2734,44 @@ msgstr ""
 "recientemente recibido."
 
 #: C/mail-sorting-message-list.page:39(p)
+#| msgid ""
+#| "For Advanced Users: There is a GConf key that allows you to toggle "
+#| "between the collapsed and expanded state of the email threads. The "
+#| "collapsed state is enabled by default and may be modified at /apps/"
+#| "evolution/mail/display/thread_expand."
 msgid ""
-"For Advanced Users: There is a GConf key that allows you to toggle between "
-"the collapsed and expanded state of the email threads. The collapsed state "
-"is enabled by default and may be modified at /apps/evolution/mail/display/"
-"thread_expand."
+"For Advanced Users: There is a GSettings key that allows you to toggle "
+"between the collapsed and expanded state of the email threads. The collapsed "
+"state is enabled by default. It can be changed by starting the "
+"<app>Terminal</app> application and running the command <command>gsettings "
+"set org.gnome.evolution.mail thread-expand true</command>"
 msgstr ""
-"Para usuarios avanzados: existe una clave de GConf que le permite cambiar el "
-"estado de las conversaciones de correo electrónico entre contraídas y "
-"expandidas. El estado contraído está activado de forma predeterminada y se "
-"puede modificar en «/apps/evolution/mail/display/thread_expand»."
+"Para usuarios avanzados: existe una clave de GSettings que le permite "
+"cambiar el estado de las conversaciones de correo electrónico entre "
+"contraídas y expandidas. El estado contraído está activado de forma "
+"predeterminada. Se puede cambiar iniciando la aplicación <app>Terminal</app> "
+"y ejecutando el comando <command>gsettings set org.gnome.evolution.mail "
+"thread-expand true</command>"
 
-#: C/mail-sorting-message-list.page:44(title)
+#: C/mail-sorting-message-list.page:41(p)
+#: C/change-keyboard-shortcuts.page:21(p)
+#| msgid "Open the <gui>dconf-editor</gui> application."
+msgid "Open the <app>Terminal</app> application."
+msgstr "Abra la aplicación <app>Terminal</app>."
+
+#: C/mail-sorting-message-list.page:42(p)
+msgid ""
+"Run the command <command>gsettings set org.gnome.desktop.interface can-"
+"change-accels true</command>"
+msgstr ""
+"Ejecute el comando <command>gsettings set org.gnome.desktop.interface can-"
+"change-accels true</command>"
+
+#: C/mail-sorting-message-list.page:48(title)
 msgid "Sorting Mail with Column Headers"
 msgstr "Uso de cabeceras para ordenar los mensajes"
 
-#: C/mail-sorting-message-list.page:45(p)
+#: C/mail-sorting-message-list.page:49(p)
 msgid ""
 "The message list displays columns that indicate whether a message has been "
 "read, whether it has attachments, how important the message is, the sender, "
@@ -2753,22 +2783,22 @@ msgstr ""
 "cambiar las columnas usadas en la lista de mensajes puede hacer una de las "
 "siguientes:"
 
-#: C/mail-sorting-message-list.page:47(p)
+#: C/mail-sorting-message-list.page:51(p)
 msgid "Drag and drop the column header bars"
 msgstr "Arrastre y suelte las barras de cabeceras de columnas"
 
-#: C/mail-sorting-message-list.page:48(p)
+#: C/mail-sorting-message-list.page:52(p)
 msgid "Right-click on the header."
 msgstr "Pulse con el botón derecho en el la cabecera."
 
-#: C/mail-sorting-message-list.page:49(p)
+#: C/mail-sorting-message-list.page:53(p)
 msgid ""
 "Select the <gui>Remove This Column</gui> or <gui>Add a Column</gui> option."
 msgstr ""
 "Seleccione la opción <gui>Quitar esta columna</gui> o <gui>Añadir una "
 "columna</gui>."
 
-#: C/mail-sorting-message-list.page:52(p)
+#: C/mail-sorting-message-list.page:56(p)
 msgid ""
 "Evolution allows you to sort your messages using these columns. Just click "
 "on the column label to sort the emails. The direction of the arrow next to "
@@ -2778,11 +2808,11 @@ msgstr ""
 "pulse en la etiqueta de la columna para ordenar los mensajes. La dirección "
 "de la flecha junto a la etiqueta indica la dirección de la ordenación."
 
-#: C/mail-sorting-message-list.page:56(title)
+#: C/mail-sorting-message-list.page:60(title)
 msgid "Using Other Sorting Options"
 msgstr "Usar otras opciones de ordenación"
 
-#: C/mail-sorting-message-list.page:57(p)
+#: C/mail-sorting-message-list.page:61(p)
 msgid ""
 "Evolution provides other ways for sorting email messages. You can use Sort "
 "By, Sort Ascending, Sort Descending, or Unsort."
@@ -2791,148 +2821,148 @@ msgstr ""
 "electrónico. Puede usar Ordenar por, Ordenar ascendentemente, Ordenar "
 "descendentemente o Desordenar."
 
-#: C/mail-sorting-message-list.page:59(title)
+#: C/mail-sorting-message-list.page:63(title)
 msgid "Sort By"
 msgstr "Ordenar por"
 
-#: C/mail-sorting-message-list.page:60(p)
+#: C/mail-sorting-message-list.page:64(p)
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr ""
 "También puede ordenar correos electrónicos usando la lista <gui>Ordenar por</"
 "gui>."
 
-#: C/mail-sorting-message-list.page:62(p)
-#: C/mail-sorting-message-list.page:92(p)
-#: C/mail-sorting-message-list.page:101(p)
-#: C/mail-sorting-message-list.page:110(p)
+#: C/mail-sorting-message-list.page:66(p)
+#: C/mail-sorting-message-list.page:96(p)
+#: C/mail-sorting-message-list.page:105(p)
+#: C/mail-sorting-message-list.page:114(p)
 msgid "Right-click on the message list column headers."
 msgstr ""
 "Pulse con el botón derecho del ratón sobre las cabeceras de las columnas de "
 "la lista de correos."
 
-#: C/mail-sorting-message-list.page:63(p)
+#: C/mail-sorting-message-list.page:67(p)
 msgid "Select the <gui>Sort By</gui> option."
 msgstr "Seleccione la opción <gui>Ordenar por</gui>."
 
-#: C/mail-sorting-message-list.page:63(p)
+#: C/mail-sorting-message-list.page:67(p)
 msgid "This brings up this list of criteria for sorting email messages:"
 msgstr ""
 "Esto muestra la lista de criterios para ordenar los mensajes de correo "
 "electrónico:"
 
-#: C/mail-sorting-message-list.page:65(p)
+#: C/mail-sorting-message-list.page:69(p)
 msgid "Subject - Trimmed"
 msgstr "Asunto recortado"
 
-#: C/mail-sorting-message-list.page:66(p)
+#: C/mail-sorting-message-list.page:70(p)
 msgid "Labels"
 msgstr "Etiquetas"
 
-#: C/mail-sorting-message-list.page:67(p)
+#: C/mail-sorting-message-list.page:71(p)
 msgid "Recipients"
 msgstr "Destinatarios"
 
-#: C/mail-sorting-message-list.page:68(p)
+#: C/mail-sorting-message-list.page:72(p)
 msgid "Sender"
 msgstr "Remitente"
 
-#: C/mail-sorting-message-list.page:69(p)
+#: C/mail-sorting-message-list.page:73(p)
 msgid "Location"
 msgstr "Lugar"
 
-#: C/mail-sorting-message-list.page:70(p)
+#: C/mail-sorting-message-list.page:74(p)
 msgid "Due By"
 msgstr "Vence en"
 
-#: C/mail-sorting-message-list.page:71(link)
+#: C/mail-sorting-message-list.page:75(link)
 msgid "Follow Up Flag"
 msgstr "Marca de seguimiento"
 
-#: C/mail-sorting-message-list.page:72(p)
+#: C/mail-sorting-message-list.page:76(p)
 msgid "Flag Status"
 msgstr "Marca de estado"
 
-#: C/mail-sorting-message-list.page:73(p)
+#: C/mail-sorting-message-list.page:77(p)
 msgid "Size"
 msgstr "Tamaño"
 
-#: C/mail-sorting-message-list.page:74(p)
+#: C/mail-sorting-message-list.page:78(p)
 msgid "To"
 msgstr "Para"
 
-#: C/mail-sorting-message-list.page:75(p)
+#: C/mail-sorting-message-list.page:79(p)
 msgid "Received"
 msgstr "Recibido"
 
-#: C/mail-sorting-message-list.page:76(p)
+#: C/mail-sorting-message-list.page:80(p)
 msgid "Date"
 msgstr "Fecha"
 
-#: C/mail-sorting-message-list.page:77(p)
+#: C/mail-sorting-message-list.page:81(p)
 msgid "Subject"
 msgstr "Asunto"
 
-#: C/mail-sorting-message-list.page:78(p)
+#: C/mail-sorting-message-list.page:82(p)
 msgid "From"
 msgstr "De"
 
-#: C/mail-sorting-message-list.page:79(p)
+#: C/mail-sorting-message-list.page:83(p)
 msgid "Attachment"
 msgstr "Adjunto"
 
-#: C/mail-sorting-message-list.page:80(p)
+#: C/mail-sorting-message-list.page:84(p)
 msgid "Flagged"
 msgstr "Marcado"
 
-#: C/mail-sorting-message-list.page:81(p)
+#: C/mail-sorting-message-list.page:85(p)
 msgid "Status"
 msgstr "Estado"
 
-#: C/mail-sorting-message-list.page:82(p)
+#: C/mail-sorting-message-list.page:86(p)
 msgid "Custom"
 msgstr "Personalizado"
 
-#: C/mail-sorting-message-list.page:85(p)
+#: C/mail-sorting-message-list.page:89(p)
 msgid "Select the option you wish to use in sorting email messages."
 msgstr ""
 "Seleccione la opción que quiere usar para ordenar los mensajes de correo "
 "electrónico."
 
-#: C/mail-sorting-message-list.page:90(title)
+#: C/mail-sorting-message-list.page:94(title)
 msgid "Sort Ascending"
 msgstr "Orden ascendente"
 
-#: C/mail-sorting-message-list.page:93(p)
+#: C/mail-sorting-message-list.page:97(p)
 msgid "Select the <gui>Sort Ascending</gui> option."
 msgstr "Seleccione la opción <gui>Ordenar ascendentemente</gui>."
 
-#: C/mail-sorting-message-list.page:95(p)
+#: C/mail-sorting-message-list.page:99(p)
 msgid "The messages will be displayed with the most recent at the bottom."
 msgstr ""
 "Los mensajes se mostrarán con el correo más reciente en la parte inferior."
 
-#: C/mail-sorting-message-list.page:99(title)
+#: C/mail-sorting-message-list.page:103(title)
 msgid "Sort Descending"
 msgstr "Orden descendente"
 
-#: C/mail-sorting-message-list.page:102(p)
+#: C/mail-sorting-message-list.page:106(p)
 msgid "Select the <gui>Sort Descending</gui> option."
 msgstr "Seleccione la opción <gui>Ordenar descendentemente</gui>."
 
-#: C/mail-sorting-message-list.page:104(p)
+#: C/mail-sorting-message-list.page:108(p)
 msgid "The messages will be displayed with the most recent at the top."
 msgstr ""
 "Los mensajes se mostrarán con el correo más reciente en la parte superior."
 
-#: C/mail-sorting-message-list.page:108(title)
+#: C/mail-sorting-message-list.page:112(title)
 msgid "Unsort"
 msgstr "Desordenar"
 
-#: C/mail-sorting-message-list.page:111(p)
+#: C/mail-sorting-message-list.page:115(p)
 msgid "Select the <gui>Unsort</gui> option."
 msgstr "Seleccione la opción <gui>Desordenar</gui>."
 
-#: C/mail-sorting-message-list.page:113(p)
+#: C/mail-sorting-message-list.page:117(p)
 msgid ""
 "This removes sorting from the column, reverting to the order of messages as "
 "they were added to the folder."
@@ -3159,7 +3189,18 @@ msgstr ""
 "Seleccione el rango desde la lista desplegable a la derecha de la caja de "
 "texto."
 
-#: C/mail-searching.page:39(p)
+#: C/mail-searching.page:36(p)
+msgid ""
+"For the <gui>Current Account</gui> scope, the term \"account\" refers to top-"
+"level nodes in the <link xref=\"intro-main-window#e-mail\"> mail folder "
+"list</link>, like \"On this computer\" and remote mail accounts."
+msgstr ""
+"Para el rango de la <gui>Cuenta actual</gui>, el término «cuenta» hace "
+"referencia a los nodos de nivel superior de la <link xref=\"intro-main-"
+"window#e-mail\">lista de carpetas de correo</link>, similar a \"En este "
+"equipo\" y las cuentas de correo remotas."
+
+#: C/mail-searching.page:41(p)
 msgid ""
 "If you start directly from the fourth step, text will be searched in mail's "
 "subjects and addresses and scope will be \"Current folder\"."
@@ -3167,7 +3208,7 @@ msgstr ""
 "Si comienza directamente desde el cuarto paso, se buscará el texto en el "
 "asunto y direcciones de los correos y el rango será la «Carpeta actual»."
 
-#: C/mail-searching.page:40(p)
+#: C/mail-searching.page:42(p)
 msgid ""
 "If you search for messages that are not in the same folder rather often you "
 "might want to create a search folder instead; see <link xref=\"mail-search-"
@@ -3177,7 +3218,7 @@ msgstr ""
 "crear una carpeta de búsqueda en su lugar; para obtener más detalles "
 "consulte <link xref=\"mail-search-folders\">Usar carpetas de búsqueda</link>."
 
-#: C/mail-searching.page:45(title)
+#: C/mail-searching.page:47(title)
 msgid "Advanced Search:"
 msgstr "Búsqueda avanzada:"
 
@@ -3594,6 +3635,15 @@ msgstr "Coincide con la expresión regular:"
 
 #: C/mail-search-folders-conditions.page:85(p)
 #: C/mail-filters-conditions.page:85(p)
+#| msgid ""
+#| "(For programmers only) If you know your way around a <link href=\"https://"
+#| "secure.wikimedia.org/wikipedia/en/wiki/Regular_expression\">regex</link>, "
+#| "or regular expression, this option allows you to search for complex "
+#| "patterns of letters, so that you can find, for example, all words that "
+#| "start with a and end with m, and are between six and fifteen letters "
+#| "long, or all messages that declare a particular header twice. For "
+#| "information about how to use regular expressions, check the man page for "
+#| "the grep command."
 msgid ""
 "(For programmers only) If you know your way around a <link href=\"https://"
 "secure.wikimedia.org/wikipedia/en/wiki/Regular_expression\">regex</link>, or "
@@ -3601,16 +3651,16 @@ msgid ""
 "letters, so that you can find, for example, all words that start with a and "
 "end with m, and are between six and fifteen letters long, or all messages "
 "that declare a particular header twice. For information about how to use "
-"regular expressions, check the man page for the grep command."
+"regular expressions, check the man page for the <cmd>grep</cmd> command."
 msgstr ""
 "(Sólo para programadores) Si sabe lo que se hace con las <link href=\"http://"
 "es.wikipedia.org/wiki/Expresi%C3%B3n_regular\">expresiones regulares</link>, "
-"saque provecho aquí de su poderío, esta opción le permite hacer búsquedas de "
-"patrones complejos de letras de manera que, por ejemplo, podría encontrar "
-"todas las palabras que empiezan o acaban con «m» y tienen entre seis y quince "
-"letras de longitud, o distinguir todos los mensajes que tengan duplicada una "
-"determinada cabecera. Para saber cómo usar las expresiones regulares examine "
-"la página del manual del comando «grep»."
+"esta opción le permite hacer búsquedas de patrones complejos de letras de "
+"manera que, por ejemplo, podría encontrar todas las palabras que empiezan o "
+"acaban con «m» y tienen entre seis y quince letras de longitud, o distinguir "
+"todos los mensajes que tengan duplicada una determinada cabecera. Para saber "
+"cómo usar las expresiones regulares examine la página del manual del comando "
+"<cmd>grep</cmd>."
 
 #: C/mail-search-folders-conditions.page:87(p)
 msgid "Message Location:"
@@ -5587,11 +5637,6 @@ msgid "Evolution runs an application."
 msgstr "Evolution ejecutar una aplicación."
 
 #: C/mail-filters-actions.page:66(p)
-#| msgid ""
-#| "Sends the message to a program of your choice. No return value is "
-#| "expected. This feature can be used to create automatic Web postings from "
-#| "email messages or to perform additional message post processing not "
-#| "supported by Evolution."
 msgid ""
 "Sends the message to an application of your choice. No return value is "
 "expected. This feature can be used to create automatic Web postings from "
@@ -5842,14 +5887,19 @@ msgstr ""
 "salientes al usar esta cuenta y otras opciones."
 
 #: C/mail-encryption-gpg-set-up.page:38(p)
+#| msgid ""
+#| "Evolution requires that you know your key ID. If you do not remember it, "
+#| "you can find it by typing <code>gpg --list-keys</code> in a terminal "
+#| "window. Your key ID is an eight-character string with random numbers and "
+#| "letters."
 msgid ""
 "Evolution requires that you know your key ID. If you do not remember it, you "
-"can find it by typing <code>gpg --list-keys</code> in a terminal window. "
-"Your key ID is an eight-character string with random numbers and letters."
+"can find it by typing <cmd>gpg --list-keys</cmd> in a terminal window. Your "
+"key ID is an eight-character string with random numbers and letters."
 msgstr ""
 "Evolution necesita que usted sepa su identificador (ID) de clave. Si no lo "
-"recuerda puede encontrarlo con el comando <code>gpg --list-keys</code> en "
-"una terminal. El identificador de su clave es una cadena de 8 caracteres con "
+"recuerda puede encontrarlo con el comando <cmd>gpg --list-keys</cmd> en una "
+"terminal. El identificador de su clave es una cadena de 8 caracteres con "
 "números y letras aleatorios."
 
 #: C/mail-encryption-gpg-getting-keys.page:5(desc)
@@ -5872,26 +5922,34 @@ msgstr ""
 "necesitará obtener su clave y añadirla a su depósito de claves."
 
 #: C/mail-encryption-gpg-getting-keys.page:28(p)
+#| msgid ""
+#| "To get public keys from a public key server, enter the command <code>gpg "
+#| "--recv-keys --keyserver wwwkeys.pgp.net keyid</code>, substituting "
+#| "<code>keyid</code> by your recipient's ID. You need to enter your "
+#| "password, and the ID is automatically added to your keyring."
 msgid ""
-"To get public keys from a public key server, enter the command <code>gpg --"
-"recv-keys --keyserver wwwkeys.pgp.net keyid</code>, substituting "
-"<code>keyid</code> by your recipient's ID. You need to enter your password, "
-"and the ID is automatically added to your keyring."
+"To get public keys from a public key server, enter the command <cmd>gpg --"
+"recv-keys --keyserver wwwkeys.pgp.net keyid</cmd>, substituting <code>keyid</"
+"code> by your recipient's ID. You need to enter your password, and the ID is "
+"automatically added to your keyring."
 msgstr ""
 "Para obtener claves públicas desde un servidor de claves públicas escriba el "
-"comando <code> gpg --recv-keys --keyserver wwwkeys.pgp.net keyid</code>, "
+"comando <cmd> gpg --recv-keys --keyserver wwwkeys.pgp.net keyid</cmd>, "
 "sustituyendo <code>keyid</code> por el identificador del destinatario. "
 "Necesitará escribir su contraseña y se añadirá automáticamente su "
 "identificador a su depósito de claves."
 
 #: C/mail-encryption-gpg-getting-keys.page:30(p)
+#| msgid ""
+#| "If someone sends you a public key directly, save it as a plain text file "
+#| "and enter the command <code>gpg --import</code> to add it to your keyring."
 msgid ""
 "If someone sends you a public key directly, save it as a plain text file and "
-"enter the command <code>gpg --import</code> to add it to your keyring."
+"enter the command <cmd>gpg --import</cmd> to add it to your keyring."
 msgstr ""
 "Si alguien le envía directamente su clave pública, guárdela como un archivo "
-"de texto plano e introduzca el comando <code>gpg --import</code> para "
-"añadirla a su depósito de claves."
+"de texto plano e introduzca el comando <cmd>gpg --import</cmd> para añadirla "
+"a su depósito de claves."
 
 #: C/mail-encryption-gpg-decrypting.page:5(desc)
 msgid "Decrypting and checking the signature of received GPG messages."
@@ -5965,8 +6023,9 @@ msgstr ""
 "claves pública y privada con GPG."
 
 #: C/mail-encryption-gpg-create-key.page:30(p)
-msgid "Open a terminal window and enter <code>gpg --gen-key</code>."
-msgstr "Abra una terminal e introduzca <command>gpg --gen-key</command>."
+#| msgid "Open a terminal window and enter <code>gpg --gen-key</code>."
+msgid "Open a terminal window and enter <cmd>gpg --gen-key</cmd>."
+msgstr "Abra una terminal e introduzca <cmd>gpg --gen-key</cmd>."
 
 #: C/mail-encryption-gpg-create-key.page:31(p)
 msgid "Select an algorithm, then press Enter."
@@ -6006,14 +6065,21 @@ msgid "Move your mouse randomly to generate the keys."
 msgstr "Mueva su ratón aleatoriamente para generar las claves."
 
 #: C/mail-encryption-gpg-create-key.page:42(p)
+#| msgid ""
+#| "After the keys are generated, you can view your key information by "
+#| "entering <code>gpg --list-keys</code>. You should see something similar "
+#| "to this: <code> /home/you/.gnupg/pubring.gpg "
+#| "----------------------------  pub 1024D/32j38dk2 2001-06-20 you &lt;"
+#| "you@example.com&gt;  sub 1024g/289sklj3 2011-06-20 [expires: 2012-11-14]</"
+#| "code>"
 msgid ""
 "After the keys are generated, you can view your key information by entering "
-"<code>gpg --list-keys</code>. You should see something similar to this: "
+"<cmd>gpg --list-keys</cmd>. You should see something similar to this: "
 "<code> /home/you/.gnupg/pubring.gpg ----------------------------  pub "
 "1024D/32j38dk2 2001-06-20 you &lt;you@example.com&gt;  sub 1024g/289sklj3 "
 "2011-06-20 [expires: 2012-11-14]</code>"
 msgstr ""
-"Después de que se hayan generado estas claves, puede ver su información "
+"Después de que se hayan generado las claves, puede ver su información "
 "introduciendo <command>gpg --list-keys</command>. Debería ver algo similar a "
 "esto: <code> /home/usuario/.gnupg/pubring.gpg ----------------------------  "
 "pub 1024D/32j38dk2 2001-06-20 usuario &lt;usuario@ejemplo.com&gt;  sub "
@@ -6046,13 +6112,17 @@ msgstr ""
 "empieza con <code>pub</code>. En este ejemplo es <code>32j38dk2</code>."
 
 #: C/mail-encryption-gpg-create-key.page:47(p)
+#| msgid ""
+#| "Enter the command <code>gpg --send-keys --keyserver wwwkeys.pgp.net "
+#| "32j38dk2</code>. Substitute your key ID for <code>32j38dk2</code>. You "
+#| "need your password to do this."
 msgid ""
-"Enter the command <code>gpg --send-keys --keyserver wwwkeys.pgp.net "
-"32j38dk2</code>. Substitute your key ID for <code>32j38dk2</code>. You need "
-"your password to do this."
+"Enter the command <cmd>gpg --send-keys --keyserver wwwkeys.pgp.net 32j38dk2</"
+"cmd>. Substitute your key ID for <code>32j38dk2</code>. You need your "
+"password to do this."
 msgstr ""
-"Escriba el comando <code>gpg --send-keys --keyserver wwwkeys.pgp.net "
-"32j38dk2</code>. Sustituya el identificador de su clave por <code>32j38dk2</"
+"Introduzca el comando <cmd>gpg --send-keys --keyserver wwwkeys.pgp.net "
+"32j38dk2</cmd>. Sustituya el identificador de su clave por <code>32j38dk2</"
 "code>. Necesitará su contraseña para poder hacerlo."
 
 #: C/mail-encryption-gpg-create-key.page:50(p)
@@ -6215,9 +6285,9 @@ msgid ""
 "Evolution's code repository to test."
 msgstr ""
 "Sólo para desarrolladores: en versiones futuras, Evolution usará WebKit en "
-"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href=\"http://"
-"git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el repositorio "
-"de código de Evolution para pruebas."
+"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href="
+"\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el "
+"repositorio de código de Evolution para pruebas."
 
 #: C/mail-displaying-no-css.page:27(p)
 msgid ""
@@ -6392,25 +6462,23 @@ msgstr ""
 "pequeñas."
 
 #: C/mail-displaying-character-encodings.page:5(desc)
-msgid "When characters in an email are not shown correctly or missing."
+#| msgid "When characters in an email are not shown correctly or missing."
+msgid "When letters in an email are not shown correctly or missing."
 msgstr ""
 "Cuando existen caracteres en un correo que no se muestran correctamente o "
 "que faltan."
 
-#: C/mail-displaying-character-encodings.page:20(title)
-msgid "Character Encodings and Sets"
-msgstr "Codificación y conjuntos de caracteres"
+#: C/mail-displaying-character-encodings.page:21(title)
+#| msgid "Character Encoding"
+msgid "Character Encodings"
+msgstr "Codificación de caracteres"
 
-#. TODO: Recheck once https://bugzilla.gnome.org/show_bug.cgi?id=655021 is fixed
-#: C/mail-displaying-character-encodings.page:24(p)
-#| msgid ""
-#| "If the email program of the sender is broken or misconfigured, plain text "
-#| "emails might not include information about the character encoding used. "
-#| "If you receive such messages, choose <guiseq><gui>View</"
-#| "gui><gui>Character Encoding</gui></guiseq> from the main menu and change "
-#| "the currently chosen character encoding to an appropriate one that might "
-#| "be the encoding used by the sender. You have to make this change every "
-#| "time you view the message."
+#: C/mail-displaying-character-encodings.page:24(title)
+#| msgid "Receiving Email"
+msgid "Received mail"
+msgstr "Correo recibido"
+
+#: C/mail-displaying-character-encodings.page:26(p)
 msgid ""
 "If the email application of the sender is broken or misconfigured, plain "
 "text emails might not include information about the character encoding used. "
@@ -6427,7 +6495,7 @@ msgstr ""
 "que el remitente pueda haber usado. Debe hacer este cambio cada vez que "
 "quiera ver el correo."
 
-#: C/mail-displaying-character-encodings.page:25(p)
+#: C/mail-displaying-character-encodings.page:27(p)
 msgid ""
 "To make this the default setting, go to <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
@@ -6437,6 +6505,38 @@ msgstr ""
 "gui><gui>Preferencias</gui><gui>Opciones de correo</gui><gui>General</"
 "gui><gui>Mostrado de mensajes</gui><gui>Codificación de caracteres "
 "predeterminada</gui></guiseq>."
+
+#. Do not rename, we link to it from the subpages
+#: C/mail-displaying-character-encodings.page:32(title)
+#: C/intro-first-run.page:90(title)
+msgid "Sending mail"
+msgstr "Envío de correo"
+
+#: C/mail-displaying-character-encodings.page:34(p)
+#| msgid ""
+#| "To send all your mail as HTML by default, enable <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Default "
+#| "Behavior</gui><gui>Format messages in HTML</gui></guiseq>."
+msgid ""
+"In the unlikely event that you would like to change the default character "
+"encoding for messages that you send, go to <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Default "
+"Behavior</gui><gui>Character encoding</gui></guiseq>."
+msgstr ""
+"En el poco probable caso de que quiera cambiar la codificación de caracteres "
+"predeterminada para los mensajes que envíe, vaya a <guiseq><gui>Editar</"
+"gui><gui>Preferencias</gui><gui>Preferencias del editor</"
+"gui><gui>Comportamiento predeterminado</gui><gui>Codificación de caracteres</"
+"gui></guiseq>."
+
+#: C/mail-displaying-character-encodings.page:35(p)
+msgid ""
+"This setting only refers to Plain Text messages as <link xref=\"mail-"
+"composer-html\">HTML messages</link> always use UTF-8 encoding."
+msgstr ""
+"Esta configuración se refiere solo a los mensajes de texto plano, como los "
+"<link xref=\"mail-composer-html\">mensajes HTML</link> que usan siempre la "
+"codificación UTF-8."
 
 #: C/mail-delete-and-undelete.page:5(desc)
 msgid "Deleting, expunging, and undeleting mail."
@@ -6620,16 +6720,21 @@ msgid "Prerequirements"
 msgstr "Prerrequisitos"
 
 #: C/mail-composer-spellcheck.page:26(p)
+#| msgid ""
+#| "To use spell checking for the emails that you write you first need to "
+#| "make sure that the <em>hunspell</em> package for your specific language "
+#| "and the <em>enchant</em> package are installed via the software "
+#| "management tool of your distribution."
 msgid ""
 "To use spell checking for the emails that you write you first need to make "
-"sure that the <em>hunspell</em> package for your specific language and the "
-"<em>enchant</em> package are installed via the software management tool of "
+"sure that the <app>hunspell</app> package for your specific language and the "
+"<app>enchant</app> package are installed via the software management tool of "
 "your distribution."
 msgstr ""
 "Para usar corrección ortográfica para los correos que escribe primero debe "
 "asegurarse de que tiene instalados, a través de la herramienta de gestión de "
-"software de su distribución, los paquetes <em>hunspell</em> y <em>enchant</"
-"em> específicos para su idioma."
+"software de su distribución, los paquetes <app>hunspell</app> y "
+"<app>enchant</app> específicos para su idioma."
 
 #: C/mail-composer-spellcheck.page:27(link)
 msgid "Install hunspell now."
@@ -6849,25 +6954,37 @@ msgid "Replying to Email Messages"
 msgstr "Responder a mensajes de correo-e"
 
 #: C/mail-composer-reply.page:27(p)
+#| msgid ""
+#| "To reply to a message, select the message to reply to in the message list "
+#| "and click the Reply button in the toolbar, or right-click within the "
+#| "message and select Reply to Sender. This opens the message composer. The "
+#| "<gui>To:</gui> and <gui>Subject:</gui> fields are already filled, "
+#| "although you can alter them if you prefer. In addition, the full text of "
+#| "the old message is inserted into the new message, either in grey with a "
+#| "blue line on one side (for HTML display) or with the &gt; character "
+#| "before each line (in plain text mode), to indicate that it is part of the "
+#| "previous message."
 msgid ""
 "To reply to a message, select the message to reply to in the message list "
-"and click the Reply button in the toolbar, or right-click within the message "
-"and select Reply to Sender. This opens the message composer. The <gui>To:</"
-"gui> and <gui>Subject:</gui> fields are already filled, although you can "
-"alter them if you prefer. In addition, the full text of the old message is "
-"inserted into the new message, either in grey with a blue line on one side "
-"(for HTML display) or with the &gt; character before each line (in plain "
-"text mode), to indicate that it is part of the previous message."
+"and click the <gui>Reply</gui> button in the toolbar, or right-click within "
+"the message and select <gui>Reply to Sender</gui>. This opens the message "
+"composer. The <gui>To:</gui> and <gui>Subject:</gui> fields are already "
+"filled, although you can alter them if you prefer. In addition, the full "
+"text of the old message is inserted into the new message, either in grey "
+"with a blue line on one side (for HTML display) or with the &gt; character "
+"before each line (in plain text mode), to indicate that it is part of the "
+"previous message."
 msgstr ""
 "Para responder a un mensaje, seleccione el mensaje al que responder en la "
-"lista de mensajes y pulse el botón Responder en la barra de tareas, o pulse "
-"con el botón derecho en el mensaje y seleccione Responder al remitente. Esto "
-"abrirá el editor de mensajes. Los campos <gui>Para:</gui> y <gui>Asunto:</"
-"gui> ya estarán rellenados, aunque puede cambiarlos si quiere. Además se "
-"insertará el texto completo del mensaje antiguo en el nuevo mensaje, en gris "
-"o bien con una línea azul a un lado (sólo para correos en HTML) o con el "
-"carácter &gt; antes de cada línea (para el modo texto plano), para indicar "
-"que es parte del mensaje anterior."
+"lista de mensajes y pulse el botón <gui>Responder</gui> en la barra de "
+"tareas, o pulse con el botón derecho en el mensaje y "
+"seleccione<gui>Responder al remitente</gui>. Esto abrirá el editor de "
+"mensajes. Los campos <gui>Para:</gui> y <gui>Asunto:</gui> ya estarán "
+"rellenados, aunque puede cambiarlos si quiere. Además se insertará el texto "
+"completo del mensaje antiguo en el nuevo mensaje, en gris o bien con una "
+"línea azul a un lado (sólo para correos en HTML) o con el carácter &gt; "
+"antes de cada línea (para el modo texto plano), para indicar que es parte "
+"del mensaje anterior."
 
 #: C/mail-composer-reply.page:28(p)
 msgid ""
@@ -6979,14 +7096,18 @@ msgid "Prioritizing outgoing messages"
 msgstr "Priorizar mensajes salientes"
 
 #: C/mail-composer-priority.page:25(p)
+#| msgid ""
+#| "You can prioritize a message to be sent, so that the recipient sees its "
+#| "relative importance. To prioritize a message, click <guiseq><gui>Insert</"
+#| "gui><gui>Prioritize Message</gui></guiseq> in the composer window."
 msgid ""
 "You can prioritize a message to be sent, so that the recipient sees its "
-"relative importance. To prioritize a message, click <guiseq><gui>Insert</"
+"relative importance. To prioritize a message, click <guiseq><gui>Options</"
 "gui><gui>Prioritize Message</gui></guiseq> in the composer window."
 msgstr ""
 "Puede priorizar un mensaje que enviar, para que el destinatario vea su "
 "importancia relativa. Para priorizar un mensaje, pulse "
-"<guiseq><gui>Insertar</gui><gui>Priorizar mensaje</gui></guiseq> en la "
+"<guiseq><gui>Opciones</gui><gui>Priorizar mensaje</gui></guiseq> en la "
 "ventana del editor."
 
 #: C/mail-composer-priority.page:27(p)
@@ -7512,6 +7633,11 @@ msgstr "Defina el tipo de distribución de la tabla."
 msgid "Optionally: Select a background color or image for the table."
 msgstr "Opcional: seleccione un color de fondo o una imagen para la tabla."
 
+#: C/mail-composer-html-table.page:29(p) C/mail-composer-html-rule.page:28(p)
+#: C/mail-composer-html-link.page:29(p)
+msgid "Click <gui>Close</gui>."
+msgstr "Pulse <gui>Cerrar</gui>."
+
 #: C/mail-composer-html-rule.page:5(desc)
 msgid "Insert a horizontal line in the mail composer."
 msgstr "Insertar una línea horizontal en el editor de correo."
@@ -7552,11 +7678,6 @@ msgid "Using HTML format to enhance emails"
 msgstr "Usar HTML para mejorar el formato de los correos"
 
 #: C/mail-composer-html.page:23(p)
-#| msgid ""
-#| "Normally, you cannot set text styles or insert pictures in email. "
-#| "However, most newer email programs can display images and text styles in "
-#| "addition to basic alignment and paragraph formatting. They do this with "
-#| "HTML, just like web pages do."
 msgid ""
 "Normally, you cannot set text styles or insert pictures in email. However, "
 "most newer email applications can display images and text styles in addition "
@@ -7581,9 +7702,14 @@ msgstr ""
 "texto plano a menos que le pida explícitamenteque los componga con HTML."
 
 #: C/mail-composer-html.page:27(p)
+#| msgid ""
+#| "You can change the format of an email message from plain text to HTML by "
+#| "choosing <guiseq><gui>Format</gui><gui>HTML</gui></guiseq> from the menu "
+#| "bar."
 msgid ""
-"You can change the format of an email message from plain text to HTML by "
-"choosing <guiseq><gui>Format</gui><gui>HTML</gui></guiseq> from the menu bar."
+"You can change the format of an email message from plain text to HTML in the "
+"email composer by choosing <guiseq><gui>Format</gui><gui>HTML</gui></guiseq> "
+"from the menu bar."
 msgstr ""
 "Puede cambiar el formato de un mensaje de correo electrónico de texto plano "
 "a HTML eligiendo <guiseq><gui>Formato</gui><gui>HTML</gui></guiseq> desde la "
@@ -7891,17 +8017,46 @@ msgid ""
 msgstr "No es posible cambiar la cita introducida al responder un correo."
 
 #: C/mail-composer-change-quotation-string.page:22(title)
-msgid "Changing the \"On <em>date, person</em> wrote:\" string when replying"
-msgstr "Cambiar la cadena «El <em>fecha, persona</em> escribió:» al responder"
+#| msgid ""
+#| "Changing the \"On <em>date, person</em> wrote:\" string when replying"
+msgid "Changing the \"On date, person wrote:\" string when replying"
+msgstr "Cambiar la cadena «El fecha, persona escribió:» al responder"
 
 #: C/mail-composer-change-quotation-string.page:24(p)
+msgid "Advanced users can change this string."
+msgstr "Los usuarios avanzados puede cambiar esta cadena."
+
+#: C/mail-composer-change-quotation-string.page:27(p)
+#| msgid "Open the <gui>dconf-editor</gui> application."
+msgid "Open the <app>dconf-editor</app> application."
+msgstr "Abra la aplicación <app>dconf-editor</app>."
+
+#: C/mail-composer-change-quotation-string.page:28(p)
+#| msgid "Navigate to <code>/org/gnome/desktop/interface</code>."
+msgid "Navigate to <code>org.gnome.evolution.mail</code>."
+msgstr "Vaya a <code>org.gnome.evolution.mail</code>."
+
+#: C/mail-composer-change-quotation-string.page:29(p)
 msgid ""
-"Advanced users can change this string by editing the gconf key <file>/apps/"
-"evolution/mail/composer/message_attribution</file> via gconf-editor."
+"Enter the prefered quotation string as the value for the key <gui>composer-"
+"message-attribution</gui>."
 msgstr ""
-"Los usuarios avanzados pueden cambiar esta cadena editando la clave de gconf "
-"<file>/apps/evolution/mail/composer/message_attribution</file> a través de "
-"gconf-editor."
+"Introduzca la cadena preferida como el valor de la clave <gui>composer-"
+"message-attribution</gui>."
+
+#: C/mail-composer-change-quotation-string.page:32(p)
+#| msgid ""
+#| "This requires having the evolution-mapi package installed. <link action="
+#| "\"install:evolution-mapi\" href=\"http://ftp.gnome.org/pub/gnome/sources/"
+#| "evolution-mapi/\">Install evolution-mapi now.</link>"
+msgid ""
+"You might need to <link action=\"install:dconf-editor\" href=\"http://ftp."
+"gnome.org/pub/gnome/sources/dconf-editor/\">install dconf-editor</link> to "
+"perform these steps."
+msgstr ""
+"Puede querer <link action=\"install:dconf-editor\" href=\"http://ftp.gnome."
+"org/pub/gnome/sources/dconf-editor/\">instalar dconf-editor</link> para "
+"realizar estos pasos."
 
 #: C/mail-change-time-format.page:5(desc)
 msgid "Changing the date and time format in the message list."
@@ -7925,14 +8080,18 @@ msgstr ""
 
 #: C/mail-change-time-format.page:21(p)
 #: C/calendar-layout-appointment-display.page:50(p)
+#| msgid ""
+#| "The placeholders in the format expression are strftime formats. For a "
+#| "complete list of available strftime formats, run <code>date --help</code> "
+#| "in a terminal window."
 msgid ""
 "The placeholders in the format expression are strftime formats. For a "
-"complete list of available strftime formats, run <code>date --help</code> in "
-"a terminal window."
+"complete list of available strftime formats, run <cmd>date --help</cmd> in a "
+"terminal window."
 msgstr ""
 "Los marcadores de posición en la expresión de formato son formatos de "
 "strftime. Para obtener una lista completa de formatos de strftime, ejecute "
-"<code>date --help</code> en una ventana de la terminal."
+"<cmd>date --help</cmd> en una ventana de la terminal."
 
 #: C/mail-change-columns-in-message-list.page:5(desc)
 msgid "Editing the columns displayed in the list of messages."
@@ -8024,12 +8183,15 @@ msgstr ""
 "desaparecen de la carpeta original y se mueven a la carpeta de SPAM."
 
 #: C/mail-cannot-see.page:38(p)
+#| msgid ""
+#| "Click <guiseq><gui>Edit</gui><gui>Show Hidden Messages</gui></guiseq> to "
+#| "make sure all messages are visible."
 msgid ""
-"Click <guiseq><gui>Edit</gui><gui>Show Hidden Messages</gui></guiseq> to "
+"Click <guiseq><gui>Edit</gui><gui>Show Deleted Messages</gui></guiseq> to "
 "make sure all messages are visible."
 msgstr ""
-"Pulse <guiseq><gui>Editar</gui><gui>Mostrar mensajes ocultos</gui></guiseq> "
-"para asegurarse de que se muestran todos los mensajes."
+"Pulse <guiseq><gui>Editar</gui><gui>Mostrar mensajes eliminados</gui></"
+"guiseq> para asegurarse de que se muestran todos los mensajes."
 
 #: C/mail-cannot-see.page:41(p)
 msgid ""
@@ -8752,8 +8914,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access Gmail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">Gmail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">Gmail Help</link> for more information."
 msgstr ""
 "Para acceder a Gmail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -8849,8 +9011,9 @@ msgid "Barbara M. Tobias"
 msgstr "Barbara M. Tobias"
 
 #: C/intro-main-window.page:29(title)
-msgid "The <em>Evolution</em> main window"
-msgstr "La ventana principal de <em>Evolution</em>"
+#| msgid "The <em>Evolution</em> main window"
+msgid "The <app>Evolution</app> main window"
+msgstr "La ventana principal de <app>Evolution</app>"
 
 #. This section fixes https://bugzilla.gnome.org/show_bug.cgi?id=657028
 #: C/intro-main-window.page:32(p)
@@ -9192,8 +9355,9 @@ msgid "Running Evolution for the very first time."
 msgstr "Inicio de Evolution por primera vez."
 
 #: C/intro-first-run.page:20(title)
-msgid "Starting <em>Evolution</em> for the first time"
-msgstr "Inicio de <em>Evolution</em> por primera vez"
+#| msgid "Starting <em>Evolution</em> for the first time"
+msgid "Starting <app>Evolution</app> for the first time"
+msgstr "Iniciar <app>Evolution</app> por primera vez"
 
 #: C/intro-first-run.page:22(p)
 msgid ""
@@ -9402,9 +9566,6 @@ msgstr ""
 "para la configuración."
 
 #: C/intro-first-run.page:75(p)
-#| msgid ""
-#| "MH-Format Mail Directories: For downloading email using MH or another MH-"
-#| "style program."
 msgid ""
 "MH-Format Mail Directories: For downloading email using MH or another MH-"
 "style application."
@@ -9426,9 +9587,6 @@ msgstr ""
 "link> para la configuración."
 
 #: C/intro-first-run.page:77(p)
-#| msgid ""
-#| "Maildir-Format Mail Directories: For downloading your email using Qmail "
-#| "or another Maildir-style program."
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style application."
@@ -9495,11 +9653,6 @@ msgstr ""
 "\"button\">Editar</gui>. Alternativamente, añada una cuenta nueva pulsando "
 "<gui style=\"button\">Añadir</gui>."
 
-#. Do not rename, we link to it from the subpages
-#: C/intro-first-run.page:90(title)
-msgid "Sending mail"
-msgstr "Envío de correo"
-
 #: C/intro-first-run.page:91(p)
 msgid "Available server types are:"
 msgstr "Los tipos de servidor disponibles son:"
@@ -9522,17 +9675,17 @@ msgstr ""
 
 #: C/intro-first-run.page:94(p)
 #| msgid ""
-#| "Sendmail: Uses the Sendmail program to send mail from your system. It is "
-#| "not easy to configure, so you should select this option only if you know "
-#| "how to set up a Sendmail service."
+#| "Sendmail: Uses the Sendmail application to send mail from your system. It "
+#| "is not easy to configure, so you should select this option only if you "
+#| "know how to set up a Sendmail service."
 msgid ""
-"Sendmail: Uses the Sendmail application to send mail from your system. It is "
-"not easy to configure, so you should select this option only if you know how "
-"to set up a Sendmail service."
+"Sendmail: Uses the <app>Sendmail</app> application to send mail from your "
+"system. It is not easy to configure, so you should select this option only "
+"if you know how to set up a Sendmail service."
 msgstr ""
-"Sendmail: utiliza el programa Sendmail para enviar el correo desde su "
-"sistema. No es fácil de configurar por lo que sólo debería elegir esta "
-"opción si sabe cómo poner en marcha un servicio Sendmail."
+"Sendmail: utiliza el programa <app>Sendmail</app> para enviar el correo "
+"desde su sistema. No es fácil de configurar por lo que sólo debería elegir "
+"esta opción si sabe cómo poner en marcha un servicio Sendmail."
 
 #: C/intro-first-run.page:99(title)
 msgid "Account Information"
@@ -9555,7 +9708,8 @@ msgstr ""
 "link>."
 
 #: C/intro-application.page:5(desc)
-msgid "An Introduction to Evolution."
+#| msgid "An Introduction to Evolution."
+msgid "An introduction to Evolution."
 msgstr "Una introducción a Evolution."
 
 #: C/intro-application.page:24(title) C/index.page:31(title)
@@ -9579,13 +9733,6 @@ msgstr ""
 "\">mantener su información segura</link>."
 
 #: C/intro-application.page:27(p)
-#| msgid ""
-#| "By default Evolution opens the mail client view. This is were you can "
-#| "view all your mail. You can change to other aspects of the program by "
-#| "going to the bottom of the left pane in the window (the so-called "
-#| "\"switcher\") and selecting the desired view. <link type=\"topic\" xref="
-#| "\"intro-main-window\">Click here</link> for more information on the "
-#| "elements of the window."
 msgid ""
 "By default Evolution opens the mail client view. This is were you can view "
 "all your mail. You can change to other aspects of the application by going "
@@ -10009,7 +10156,7 @@ msgstr ""
 "Copie todos los archivos de correo en su carpeta personal o cualquier otro "
 "lugar conveniente."
 
-#: C/import-apps-outlook.page:57(p) C/change-keyboard-shortcuts.page:24(p)
+#: C/import-apps-outlook.page:57(p) C/change-keyboard-shortcuts.page:23(p)
 msgid "Start Evolution."
 msgstr "Inicie Evolution."
 
@@ -10110,25 +10257,29 @@ msgstr ""
 "de la terminal."
 
 #: C/express-mode.page:25(p)
+#| msgid ""
+#| "You can also explicitly open Evolution in a specific component. For the "
+#| "calendar, use <code>evolution --express --component=calendar</code>."
 msgid ""
 "You can also explicitly open Evolution in a specific component. For the "
-"calendar, use <code>evolution --express --component=calendar</code>."
+"calendar, use <cmd>evolution --express --component=calendar</cmd>."
 msgstr ""
 "También puede abrir explícitamente un componente específico de Evolution. "
-"Para el calendario, use <code>evolution --express --component=calendar</"
-"code>."
+"Para el calendario, use <cmd>evolution --express --component=calendar</cmd>."
 
 #: C/exporting-data.page:5(desc)
-msgid "How to export data from <em>Evolution</em>."
-msgstr "Cómo exportar datos de <em>Evolution</em>."
+#| msgid "How to export data from <em>Evolution</em>."
+msgid "How to export data from <app>Evolution</app>."
+msgstr "Cómo exportar datos de <app>Evolution</app>."
 
 #: C/exporting-data.page:20(title)
 msgid "Exporting data from <em>Evolution</em>"
 msgstr "Exportar datos de <em>Evolution</em>"
 
 #: C/exporting-data-mail.page:5(desc)
-msgid "How to export mail data from <em>Evolution</em>."
-msgstr "Cómo exportar datos del correo de <em>Evolution</em>."
+#| msgid "How to export mail data from <em>Evolution</em>."
+msgid "How to export mail data from <app>Evolution</app>."
+msgstr "Cómo exportar datos del correo de <app>Evolution</app>."
 
 #: C/exporting-data-mail.page:20(title)
 msgid "Exporting mail data"
@@ -10156,8 +10307,9 @@ msgstr ""
 "antes debe marcar todos los correos en ella."
 
 #: C/exporting-data-contacts.page:5(desc)
-msgid "How to export contacts data from <em>Evolution</em>."
-msgstr "Cómo exportar los datos de contactos de <em>Evolution</em>."
+#| msgid "How to export contacts data from <em>Evolution</em>."
+msgid "How to export contacts data from <app>Evolution</app>."
+msgstr "Cómo exportar los datos de contactos de <app>Evolution</app>."
 
 #: C/exporting-data-contacts.page:23(title)
 msgid "Exporting contacts data"
@@ -10190,8 +10342,9 @@ msgstr ""
 "ratón sobre el contacto y pulse <gui>Guardar como vCard</gui>."
 
 #: C/exporting-data-calendar.page:5(desc)
-msgid "How to export calendar data from <em>Evolution</em>."
-msgstr "Cómo exportar los datos del calendario de <em>Evolution</em>."
+#| msgid "How to export calendar data from <em>Evolution</em>."
+msgid "How to export calendar data from <app>Evolution</app>."
+msgstr "Cómo exportar los datos del calendario de <app>Evolution</app>."
 
 #: C/exporting-data-calendar.page:20(title)
 msgid "Exporting calendar data"
@@ -10426,10 +10579,14 @@ msgstr ""
 "share/applications/mimeapps.list</file>."
 
 #: C/default-browser.page:29(p)
+#| msgid ""
+#| "If the error message \"Could not open the link: Operation not supported\" "
+#| "is shown, you need to install <link action=\"install:gvfs\" href=\"http://"
+#| "ftp.gnome.org/pub/gnome/sources/gvfs/\">Install gvfs now.</link>."
 msgid ""
 "If the error message \"Could not open the link: Operation not supported\" is "
-"shown, you need to install <link action=\"install:gvfs\" href=\"http://ftp."
-"gnome.org/pub/gnome/sources/gvfs/\">Install gvfs now.</link>."
+"shown, you need to <link action=\"install:gvfs\" href=\"http://ftp.gnome.org/"
+"pub/gnome/sources/gvfs/\">install gvfs</link>."
 msgstr ""
 "Si se muestra el error «No se pudo abrir el enlace: no se soporta la "
 "operación», debe <link action=\"install:gvfs\" href=\"http://ftp.gnome.org/"
@@ -10450,15 +10607,18 @@ msgstr ""
 "problemas."
 
 #: C/data-storage.page:26(p)
+#| msgid ""
+#| "If you run Evolution 2.32.0 or later, data will be stored according to "
+#| "the <link href=\"http://www.freedesktop.org/wiki/Specifications/basedir-"
+#| "spec\">XDG Base Directory Specification</link>. By default this means:"
 msgid ""
-"If you run Evolution 2.32.0 or later, data will be stored according to the "
-"<link href=\"http://www.freedesktop.org/wiki/Specifications/basedir-spec"
-"\">XDG Base Directory Specification</link>. By default this means:"
+"Evolution 3.4 and later stores its data according to the <link href=\"http://"
+"www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG Base Directory "
+"Specification</link>. By default this means:"
 msgstr ""
-"Si ejecuta Evolution 2.32.0 o posterior se almacenarán sus datos según la "
-"<link href=\"http://www.freedesktop.org/wiki/Specifications/basedir-spec"
-"\">Especificación de directorios base XDG</link>. De forma predeterminada "
-"significa que:"
+"Evolution 3.4 y posterior se almacena sus datos según la <link href=\"http://"
+"www.freedesktop.org/wiki/Specifications/basedir-spec\">Especificación de "
+"directorios base XDG</link>. De forma predeterminada significa que:"
 
 #: C/data-storage.page:30(title)
 msgid "The user's data files"
@@ -10485,12 +10645,14 @@ msgid "$HOME/.cache/evolution"
 msgstr "$HOME/.cache/evolution"
 
 #: C/data-storage.page:42(title)
-msgid "Configuration settings in GConf"
-msgstr "Ajustes de configuración en GConf"
+#| msgid "Configuration settings in GConf"
+msgid "Configuration settings in GSettings"
+msgstr "Ajustes de configuración en GSettings"
 
 #: C/data-storage.page:43(file)
-msgid "$HOME/.gconf/apps/evolution"
-msgstr "$HOME/.gconf/apps/evolution"
+#| msgid "$HOME/.config/evolution"
+msgid "$HOME/.config/dconf"
+msgstr "$HOME/.config/dconf"
 
 #: C/credits.page:5(desc)
 msgid "Credits and Acknowledgment."
@@ -10842,12 +11004,15 @@ msgid "Searching Contacts"
 msgstr "Buscar contactos"
 
 #: C/contacts-searching.page:31(p)
+#| msgid ""
+#| "In the Calendar view, you can quickly search for contacts either by "
+#| "category or by contact's info."
 msgid ""
-"In the Calendar view, you can quickly search for contacts either by category "
+"In the Contacts view, you can quickly search for contacts either by category "
 "or by contact's info."
 msgstr ""
-"En la vista de Calendario puede buscar rápidamente los contactos tanto por "
-"categoría o por la información del contacto."
+"En la vista de Contactos puede buscar rápidamente los contactos tanto por "
+"categoría como por la información del contacto."
 
 #: C/contacts-searching.page:32(p)
 msgid "Searching by contact's info:"
@@ -10963,11 +11128,14 @@ msgstr ""
 "direcciones."
 
 #: C/contacts-libreoffice.page:30(p)
+#| msgid ""
+#| "Go to <code>/home/username/.local/share/evolution/addressbook/system/"
+#| "addressbook.db</code> and click <gui style=\"button\">Open</gui>."
 msgid ""
-"Go to <code>/home/username/.local/share/evolution/addressbook/system/"
-"addressbook.db</code> and click <gui style=\"button\">Open</gui>."
+"Go to <file>/home/username/.local/share/evolution/addressbook/system/"
+"addressbook.db</file> and click <gui style=\"button\">Open</gui>."
 msgstr ""
-"Vaya a <code>/home/nomre_de_usuario/.local/share/evolution/addressbook/"
+"Vaya a <code>/home/nombre_de_usuario/.local/share/evolution/addressbook/"
 "system/addressbook.db</code> y pulse <gui style=\"button\">Abrir</gui>."
 
 #: C/contacts-libreoffice.page:33(p)
@@ -11349,19 +11517,15 @@ msgstr "Cambiar los atajos de teclado."
 msgid "Changing keyboard shortcuts"
 msgstr "Cambiar los atajos de teclado"
 
-#: C/change-keyboard-shortcuts.page:21(p)
-msgid "Open the <gui>dconf-editor</gui> application."
-msgstr "Abra la aplicación <gui>dconf-editor</gui>."
-
 #: C/change-keyboard-shortcuts.page:22(p)
-msgid "Navigate to <code>/org/gnome/desktop/interface</code>."
-msgstr "Vaya a <code>/org/gnome/desktop/interface</code>."
+msgid ""
+"Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
+"accels true</cmd>"
+msgstr ""
+"Ejecute el comando <cmd>gsettings set org.gnome.desktop.interface can-change-"
+"accels true</cmd>"
 
-#: C/change-keyboard-shortcuts.page:23(p)
-msgid "Enable <gui>can-change-accels</gui>."
-msgstr "Actíve <gui>can-change-accels</gui>."
-
-#: C/change-keyboard-shortcuts.page:25(p)
+#: C/change-keyboard-shortcuts.page:24(p)
 msgid ""
 "Hover your mouse cursor over the menu bar item for which you want to add or "
 "change the keyboard shortcut."
@@ -11369,17 +11533,29 @@ msgstr ""
 "Pónga el cursor de su ratón se mueve sobre el elemento de la barra de menú "
 "para el que quiere añadir o cambiar la distribución de teclado."
 
-#: C/change-keyboard-shortcuts.page:26(p)
+#: C/change-keyboard-shortcuts.page:25(p)
 msgid "Type the shortcut that you want on the keyboard."
 msgstr "Escriba el atajo que quiere en el teclado."
 
-#: C/change-keyboard-shortcuts.page:29(p)
+#: C/change-keyboard-shortcuts.page:28(p)
+#| msgid ""
+#| "Note that this setting is desktop-wide and that you can disable it again "
+#| "in <gui>dconf-editor</gui> after your changes."
 msgid ""
-"Note that this setting is desktop-wide and that you can disable it again in "
-"<gui>dconf-editor</gui> after your changes."
+"Note that this setting is desktop-wide and that you can disable it again "
+"after your changes by using the command <command>gsettings set org.gnome."
+"desktop.interface can-change-accels false</command>"
 msgstr ""
-"Note que este ajuste es para todo el escritorio y que puede desactivarlo de "
-"nuevo en <gui>dconf-editor</gui> después de cambiarlo."
+"Tenga en cuenta que este ajuste es para todo el escritorio y que puede "
+"desactivarlo de nuevo después de cambiarlo usando el comando "
+"<command>gsettings set org.gnome.desktop.interface can-change-accels false</"
+"command>"
+
+#: C/change-keyboard-shortcuts.page:30(p)
+#| msgid "Open the <gui>dconf-editor</gui> application."
+msgid "You can also use the <app>dconf-editor</app> application to do this."
+msgstr ""
+"También puede usar la aplicación <gui>dconf-editor</gui> para hacer esto."
 
 #: C/calendar-webdav.page:5(desc)
 msgid "Using an online Webcal/WebDAV calendar."
@@ -11521,7 +11697,8 @@ msgstr ""
 "una cita</link> para la lista de opciones disponibles)."
 
 #: C/calendar-usage-delete-appointment.page:5(desc)
-msgid "Deleting in appointment in your calendar."
+#| msgid "Deleting in appointment in your calendar."
+msgid "Deleting an appointment in your calendar."
 msgstr "Eliminar una cita de su calendario."
 
 #: C/calendar-usage-delete-appointment.page:20(title)
@@ -12418,15 +12595,6 @@ msgid "Schedule Grid:"
 msgstr "Cuadrícula de planificación:"
 
 #: C/calendar-free-busy.page:39(p)
-#| msgid ""
-#| "The Schedule Grid shows the published Free/Busy information for the "
-#| "people you have invited. This is where you compare schedules to find free "
-#| "time to schedule the appointment. Individuals have visible scheduling "
-#| "information only if they use the same Novell GroupWise or Microsoft "
-#| "Exchange server you do (that is, if they are in the same organization as "
-#| "you), or if they publish free/busy information at a URL you can reach and "
-#| "you have entered that URL into their contact cards using the contact "
-#| "editor."
 msgid ""
 "The Schedule Grid shows the published Free/Busy information for the people "
 "you have invited. This is where you compare schedules to find free time to "
@@ -12691,6 +12859,43 @@ msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2011\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
+
+#~ msgid "To enable the plugins:"
+#~ msgstr "Para activar los complementos:"
+
+#~ msgid "Click <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
+#~ msgstr "Pulse <guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq>."
+
+#~ msgid ""
+#~ "Select the plugins you wish to enable. You can select either Bogofilter "
+#~ "or SpamAssassin, or both."
+#~ msgstr ""
+#~ "Seleccione los complementos que quiere activar. Puede seleccionar tanto "
+#~ "Bogofilter como SpamAssasin, o puede seleccionar los dos."
+
+#~ msgid ""
+#~ "Bogofilter and SpamAssassin options. These options are available only if "
+#~ "the plugins are enabled."
+#~ msgstr ""
+#~ "Opciones de Bogofilter y SpamAssassin. Estas opciones están disponibles "
+#~ "solo si los complementos están activados."
+
+#~ msgid "Character Encodings and Sets"
+#~ msgstr "Codificación y conjuntos de caracteres"
+
+#~ msgid ""
+#~ "Advanced users can change this string by editing the gconf key <file>/"
+#~ "apps/evolution/mail/composer/message_attribution</file> via gconf-editor."
+#~ msgstr ""
+#~ "Los usuarios avanzados pueden cambiar esta cadena editando la clave de "
+#~ "gconf <file>/apps/evolution/mail/composer/message_attribution</file> a "
+#~ "través de gconf-editor."
+
+#~ msgid "$HOME/.gconf/apps/evolution"
+#~ msgstr "$HOME/.gconf/apps/evolution"
+
+#~ msgid "Enable <gui>can-change-accels</gui>."
+#~ msgstr "Actíve <gui>can-change-accels</gui>."
 
 #~ msgid "Personal Storage Table (.pst):"
 #~ msgstr "Tabla de almacenamiento personal (.pst):"
@@ -13821,9 +14026,6 @@ msgstr ""
 
 #~ msgid "From:"
 #~ msgstr "De:"
-
-#~ msgid "Character Encoding"
-#~ msgstr "Codificación de caracteres"
 
 #~ msgid "Message Display"
 #~ msgstr "Mostrado de mensajes"
