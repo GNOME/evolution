@@ -2,54 +2,82 @@ Evolution 3.3.5 2012-02-06
 --------------------------
 
 Bug Fixes:
-	Bug 636413 - Enable "Autocomplete with this addressbook" by default
-	             (Milan Crha)
-	Bug 646430 - New line character is a link separator too (Milan Crha)
-	Bug 651221 - "Edit as New Message" always uses default From: address
-	             (Milan Crha)
-	Bug 659395 - Missing plural handling for "%d attached messages"
-	             (David Morley)
-	Bug 661535 - "Current View" tooltip uses string with mnemonic
-	             underscore (Milan Crha)
-	Bug 664160 - Untranslated headers in certificates table (Gabor Kelemen)
-	Bug 667576 - Junk between messages after saving an mbox file
-	             (James Bottomley)
-	Bug 667741 - Crash when browse for CalDAV calendar (Milan Crha)
-	Bug 668479 - Missing transport-only accounts in Preferences
-	             (Matthew Barnes)
-	Bug 668480 - Going to online from offline connects disabled accounts
-	             (Matthew Barnes)
-	Bug 668595 - Suppress bogus percentage in status messages
-	             (Matthew Barnes)
-	Bug 668631 - Report Folder->Subscriptions errors to users (Milan Crha)
-	Bug 668634 - Warn user with folder create error (Milan Crha)
-	Bug 668714 - Editing account changes transport to SMTP (Milan Crha)
-	Bug 668805 - Copy to Folder uses incorrect error definition names
-	             (Milan Crha)
-	Bug 669005 - Partial hang with unresponsive HTML email image source
-	             (Milan Crha)
-	Bug 669006 - Clicking "Not Junk" button should not move to next email
-	             (Milan Crha)
+	Bug 670414 - Whitespace following backslash in Makefile.am (Jiro Matsuzawa)
+	Bug 670301 - User Docs: Document improved ways to add/edit mail accounts. (Andre Klapper)
+	Bug 670389 - User Docs: Add sorting for available Exchange providers. Fixes bug #670389 (Andre Klapper)
+	Bug 668620 - User Docs: Explain how to enable Search Folders. Fixes bug #668620 (Andre Klapper)
+	Bug 670252 - User Docs: Clarify the 'Account' term in mail quick search scope. Fixes bug #670252. (Andre Klapper)
+	Bug 552873 - User Docs: Also cover mail composer in 'Character Encodings' page. See bug 552873. (Andre Klapper)
+	Bug 471795 - Clarify CSV importers as being for contact info only (Matthew Barnes)
+	Bug 670278 - Poorly worded "confirm overwrite" alert (Matthew Barnes)
+	Bug 670280 - Remove "Recent Documents" attachment feature (Matthew Barnes)
+	Bug 663110 - Crash on copy events between calendars (Milan Crha)
+	Bug 663077 - Reorder mx-1.0 and clutter-gtk-1.0 in PKG_CHECK_MODULES (Alexandre Rostovtsev)
+	Bug 320976 - Remember last New button choice in Calendar view (Milan Crha)
+	Bug 332043 - Free/Busy Colors Causing User Confusion (Milan Crha)
+	Bug 668482 - Edit account properties from menu on folder store (Milan Crha)
+	Bug 669113 - Add "File > New > Mail Account" (Milan Crha)
+	Bug 668848 - Whitespaces in front of colons (Milan Crha)
+	Bug 659396 - Missing plural handling for "You have selected %d mails to..." (Milan Crha)
+	Bug 659394 - Missing plural handling for "Failed to send %d of %d messages" (Milan Crha)
+	Bug 655955 - Harmonize mnemonic for New > Shared Memo > Organizer (Milan Crha)
+	Bug 670014 - Remove-duplicates reads all messages into memory (Milan Crha)
+	Bug 655485 - Change "cards" to "contacts" in LDAP Address Book dialog (Milan Crha)
+	Bug 655021 - "Character set" vs "Character encoding" (Milan Crha)
+	Bug 637200 - Add mnemonics to Folder Properties dialog checkboxes (Gabor Kelemen)
+	Bug 662743 - Translation context needed for "Attachment" (Milan Crha)
+	Bug 670073 - Non-working help button in Preferences dialog (Milan Crha)
+	Bug 591436 - Add -avoid-version to LDFLAGS (H. Habighorst)
+	Bug 637354 - Add missing mnemonics and make existing ones unique. (Andre Klapper)
+	Bug 669097 - Cannot save column setup: File name too long (Milan Crha)
+	Bug 669433 - Add missing linker flags to pst-import (Dominique Leuenberger)
+	Bug 210105 - Error assigning negative scores in filtering (Milan Crha)
+	Bug 384838 - Filter editor should default to "AND" instead of "OR" (Milan Crha)
+	Bug 391472 - Add ability to match headers by words (Milan Crha)
+	Bug 418520 - Disable Folder -> Expunge in virtual folders (Matthew Barnes)
+	Bug 553796 - Unable to Reset Message Color (Milan Crha)
+	Bug 309945 - Ability to filter folders other than INBOX too (Milan Crha)
 
-Other Changes:
-	* configure.ac: Mention libpst minimum version in error message.
-	  (Matthew Barnes)
-	* Introduce libemail-engine and libemail-utils. (Matthew Barnes)
-	* EMailBackend: Make sure all background jobs have descriptions.
-	  (Matthew Barnes)
-	* Remove duplicate Windows SENS checks (Priit Laes)
-	* e-mail-store-utils.c: Use the service's display name in status
-	  messages. (Matthew Barnes)
-	* Remove the --debug command-line option. (Matthew Barnes)
-	* Use _DAWATI to detect if its Tizen/MeeGo. (Srinivasa Ragavan)
+Miscellaneous Fixes:
+	User Docs: Add missing markup (Andre Klapper)
+	User Docs: Update list of files in Makefile.am (Andre Klapper)
+	User Docs: Remove outdated info about version specific common errors (Andre Klapper)
+	User Docs: Update gconf locations to GSettings/dconf (Andre Klapper)
+	User docs: Fix broken sentence (Andre Klapper)
+	User Docs: Fix inappropriate usage of <em> tags (Andre Klapper)
+	User Docs: Fix broken markup (Andre Klapper)
+	User Docs: Fix inappropriate usage of <code> tag (Andre Klapper)
+	User Docs: Use <cmd> tag consistently (Andre Klapper)
+	User Docs: Use <app> tag consistently (Andre Klapper)
+	User Docs: Fix dconf path; recommend using terminal command instead of dconf-editor (Andre Klapper)
+	User Docs: Use consistent terminology (folder pane vs folder list) (Andre Klapper)
+	User Docs: Fix position of <note> so it is actually displayed (Andre Klapper)
+	Use same mnemonic for 'Categories' button in Task editor as in all other dialogs as it does not collide with other mnemonics (Andre Klapper)
+	Use GSettings for EProxy (Milan Crha)
+	User docs: Actually describe how to set up the Free/Busy querying URL (Andre Klapper)
+	Change 'file name' to 'filename' according to the GDP Style Guide (Andre Klapper)
+	Use i as mnemonic for Filename string everywhere. This does not conflict with other mnemonics in the affected dialogs. (Andre Klapper)
+	Correct spelling of the word 'Username' (Andre Klapper)
+	User help: Replace the term program by application, as recommended by the GDP style guide (Andre Klapper)
+	Fix a crash in capplet. (Srinivasa Ragavan)
+	Make Capplet work again with new CamelSettings and other stuffs. Also add EPlugin support to capplet so that exchange and other accoutns can be configured via this. now. (Srinivasa Ragavan)
+	Be able to define help target for Preferences pages (Milan Crha)
+	Fix broken Help menu entries after Mallard transition. (Andre Klapper)
+	Fix broken Help button link for 'Insert > Custom Header' dialog after Mallard transition. (Andre Klapper)
+	Clarify that value for mark-seen-timeout is in milliseconds (Andre Klapper)
+	Make alarm daemon start in Dawat/Tizen. (Srinivasa Ragavan)
+	Add missing mnemonics; change some mnemonics to avoid conflicts (Andre Klapper)
+	Add missing mnemonic to string (Andre Klapper)
 
 Translations:
-	Kasia Bondarava (be)
-	Christian Kirbach (de)
 	Daniel Mustieles (es)
-	Kjartan Maraas (nb)
-	Matej Urbančič (sl)
-	Chao-Hsiung Liao (zh_HK)
+	Мирослав Николић (sr)
+	Christian Kirbach (de)
+	Chao-Hsiung Liao  (zh_HK)
+	Fran Diéguez (gl)
+	Ihar Hrachyshka (be)
+	Kjartan Maraas (nn)
+	Gabor Kelemen (hu)
 
 
 Evolution 3.3.4 2012-01-16
