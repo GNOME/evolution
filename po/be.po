@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-11 22:11+0300\n"
-"PO-Revision-Date: 2012-02-11 22:12+0300\n"
+"POT-Creation-Date: 2012-02-14 21:45+0300\n"
+"PO-Revision-Date: 2012-02-14 21:47+0300\n"
 "Last-Translator: Kasia Bondarava <kasia.bondarava@gmail.com>\n"
 "Language-Team: Belarusian <i18n-bel-gnome@googlegroups.com>\n"
 "Language: be\n"
@@ -1108,7 +1108,7 @@ msgstr "Скапіраваць вылучаныя кантакты ў буфер
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:636
 msgid "Paste contacts from the clipboard"
-msgstr "Уклеіць кантакты з буфера абмену"
+msgstr "Уставіць кантакты з буфера абмену"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:642
 #: ../modules/addressbook/e-book-shell-view-actions.c:881
@@ -2640,7 +2640,7 @@ msgstr "Праглядзець дапамогу"
 #: ../widgets/misc/e-focus-tracker.c:124 ../widgets/misc/e-focus-tracker.c:560
 #: ../widgets/misc/e-web-view.c:1312
 msgid "Paste the clipboard"
-msgstr "Уклеіць з буфера абмену"
+msgstr "Уставіць з буфера абмену"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1178
 msgid "Save current changes"
@@ -4091,7 +4091,7 @@ msgstr "Скапіраваць вылучаныя падзеі ў буфер а�
 
 #: ../calendar/gui/e-calendar-view.c:435
 msgid "Paste events from the clipboard"
-msgstr "Уклеіць падзеі з буфера абмену"
+msgstr "Уставіць падзеі з буфера абмену"
 
 #: ../calendar/gui/e-calendar-view.c:441
 msgid "Delete selected events"
@@ -4541,7 +4541,7 @@ msgstr "Скапіраваць вылучаныя нататкі ў буфер �
 
 #: ../calendar/gui/e-memo-table.c:738
 msgid "Paste memos from the clipboard"
-msgstr "Уклеіць нататкі з буфера абмену"
+msgstr "Уставіць нататкі з буфера абмену"
 
 #: ../calendar/gui/e-memo-table.c:744
 #: ../modules/calendar/e-memo-shell-view-actions.c:586
@@ -4587,7 +4587,7 @@ msgstr "Скапіраваць вылучаныя заданні ў буфер �
 
 #: ../calendar/gui/e-task-table.c:1021
 msgid "Paste tasks from the clipboard"
-msgstr "Уклеіць заданні з буфера абмену"
+msgstr "Уставіць заданні з буфера абмену"
 
 #: ../calendar/gui/e-task-table.c:1027
 #: ../modules/calendar/e-task-shell-view-actions.c:710
@@ -8591,7 +8591,7 @@ msgstr ""
 "падпісаныя PGP ці S/MIME."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
-#: ../mail/evolution-mail.schemas.in.h:33 ../mail/mail-config.ui.h:15
+#: ../mail/evolution-mail.schemas.in.h:33
 msgid "Encode file names in an Outlook/GMail way"
 msgstr "Кадаваць назвы файлаў у стылі Outlook/GMail"
 
@@ -8881,15 +8881,15 @@ msgstr "Пазначыць як прачытанае пасля вызначан
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 #: ../mail/evolution-mail.schemas.in.h:90
-msgid "Timeout for marking message as seen"
+msgid "Timeout for marking messages as seen"
 msgstr ""
 "Тэрмін чакання, пасля якога паведамленне будзе пазначана як прагледжанае"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 #: ../mail/evolution-mail.schemas.in.h:91
-msgid "Timeout for marking message as seen."
+msgid "Timeout in milliseconds for marking messages as seen."
 msgstr ""
-"Тэрмін чакання, пасля якога паведамленне будзе пазначана як прагледжанае."
+"Тэрмін чакання ў мілісекундах, пасля якога паведамленне будзе пазначана як прагледжанае."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 #: ../mail/evolution-mail.schemas.in.h:87
@@ -11186,7 +11186,7 @@ msgstr "Колер:"
 msgid "Name"
 msgstr "Назва"
 
-#: ../mail/e-mail-migrate.c:1185
+#: ../mail/e-mail-migrate.c:1264
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "Немагчыма стварыць мясцовыя паштовыя папкі ў \"%s\": %s"
@@ -13280,8 +13280,8 @@ msgid "Default Behavior"
 msgstr "Прадвызначаныя паводзіны"
 
 #: ../mail/mail-config.ui.h:12
-msgid "Format messages in _HTML"
-msgstr "Фарматаваць паведамленні ў _HTML"
+msgid "For_mat messages in HTML"
+msgstr "_Фарматаваць паведамленні ў HTML"
 
 #: ../mail/mail-config.ui.h:13
 msgid "Automatically insert _emoticon images"
@@ -13291,8 +13291,12 @@ msgstr "Аўтаматычна ўстаўляць выявы значкоў _э�
 msgid "Always request rea_d receipt"
 msgstr "Заўсёды патрабаваць пацверджанне аб _прачытанні"
 
+#: ../mail/mail-config.ui.h:15
+msgid "Encode file names in an _Outlook/GMail way"
+msgstr "_Кадаваць назвы файлаў у стылі Outlook/GMail"
+
 #: ../mail/mail-config.ui.h:16
-msgid "C_haracter set:"
+msgid "Character _set:"
 msgstr "З_наказбор:"
 
 #: ../mail/mail-config.ui.h:17
@@ -13316,13 +13320,13 @@ msgid "_Keep signature above the original message on replying"
 msgstr "_Змяшчаць подпіс у адказах пад арыгінальным паведамленнем"
 
 #: ../mail/mail-config.ui.h:22
-msgid "Ignore Reply-To: for mailing lists"
-msgstr "Ігнараваць зваротны адрас для рассылак"
+msgid "Ig_nore Reply-To: for mailing lists"
+msgstr "І_гнараваць зваротны адрас для рассылак"
 
 #: ../mail/mail-config.ui.h:23
-msgid "Group Reply goes only to mailing list, if possible"
+msgid "Gro_up Reply goes only to mailing list, if possible"
 msgstr ""
-"Параметр \"Адказ групе\" прызначаны для адказу ў рассылку, калі магчыма"
+"_Адказ групе скіроўваецца толькі ў рассылку, калі гэта магчыма"
 
 #: ../mail/mail-config.ui.h:24
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
@@ -17948,7 +17952,7 @@ msgstr "Пошук календароў карыстальніка..."
 
 #: ../plugins/caldav/caldav-browse-server.c:801
 msgid "Could not find any user calendar."
-msgstr "Не знойдзена ніводнага клендара карыстальніка."
+msgstr "Не знойдзена ніводнага календара карыстальніка."
 
 #: ../plugins/caldav/caldav-browse-server.c:939
 #, c-format
