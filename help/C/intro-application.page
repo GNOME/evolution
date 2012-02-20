@@ -8,12 +8,12 @@
 
     <revision pkgversion="3.2.1" version="0.1" date="2012-01-12" status="draft"/>
     <credit type="author">
-      <name>Brian Grohe</name>
-      <email>grohe43@gmail.com</email>
+      <name its:translate="no">Brian Grohe</name>
+      <email its:translate="no">grohe43@gmail.com</email>
     </credit>
     <credit type="author">
-      <name>Andre Klapper</name>
-      <email>ak-47@gmx.net</email>
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
     </credit>
     <license>
       <p>Creative Commons Share Alike 3.0</p>

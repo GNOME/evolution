@@ -9,11 +9,11 @@
 
     <revision pkgversion="3.2.1" version="0.2" date="2012-02-18" status="final"/>
     <credit type="author">
-      <name>Brian Grohe</name>
-      <email>grohe43@gmail.com</email>
+      <name its:translate="no">Brian Grohe</name>
+      <email its:translate="no">grohe43@gmail.com</email>
     </credit>
     <credit type="author">
-      <name>Patrick O'Callaghan</name>
+      <name its:translate="no">Patrick O'Callaghan</name>
     </credit>
     <license>
       <p>Creative Commons Share Alike 3.0</p>

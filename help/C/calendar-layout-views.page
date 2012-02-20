@@ -8,11 +8,11 @@
 
     <revision pkgversion="3.1.5" version="0.2" date="2011-07-27" status="final"/>
     <credit type="author">
-      <name>Andre Klapper</name>
-      <email>ak-47@gmx.net</email>
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
     </credit>
  <credit type="author">
-   <name>Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-calendar-view.html.en -->
+   <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-calendar-view.html.en -->
  </credit>
     <license>
       <p>Creative Commons Share Alike 3.0</p>

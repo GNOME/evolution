@@ -7,12 +7,12 @@
     <title type='text'>Evolution Mail and Calendar</title>
     <revision pkgversion="3.2.0" version="0.5" date="2011-08-24" status="final"/>
     <credit type="author">
-      <name>Phil Bull</name>
-      <email>philbull@gmail.com</email>
+      <name its:translate="no">Phil Bull</name>
+      <email its:translate="no">philbull@gmail.com</email>
     </credit>
     <credit type="author">
-      <name>Andre Klapper</name>
-      <email>ak-47@gmx.net</email>
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
     </credit>
     <license>
       <p>Creative Commons Share Alike 3.0</p>

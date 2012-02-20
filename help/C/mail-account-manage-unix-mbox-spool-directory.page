@@ -8,8 +8,8 @@
 
     <revision pkgversion="3.4" version="0.3" date="2012-02-19" status="candidate"/>
     <credit type="author">
-      <name>Andre Klapper</name>
-      <email>ak-47@gmx.net</email>
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
     </credit>
     <license>
       <p>Creative Commons Share Alike 3.0</p>

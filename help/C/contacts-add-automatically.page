@@ -8,12 +8,12 @@
 
     <revision pkgversion="3.1.5" version="0.3" date="2011-08-19" status="final"/>
     <credit type="author">
-      <name>Andre Klapper</name>
-      <email>ak-47@gmx.net</email>
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
     </credit>
     <credit type="author">
-      <name>Barbara Tobias</name>
-      <email>barbtobias09@gmail.com</email>
+      <name its:translate="no">Barbara Tobias</name>
+      <email its:translate="no">barbtobias09@gmail.com</email>
     </credit>
     <license>
       <p>Creative Commons Share Alike 3.0</p>
