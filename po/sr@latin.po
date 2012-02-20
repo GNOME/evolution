@@ -1,18 +1,18 @@
 # Serbian translation of evolution
-# Courtesy of Prevod.org team (http://prevod.org/) -- 2003, 2004, 2005, 2006.
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2003—2012.
 # This file is distributed under the same license as the evolution package.
 # Maintainer: Igor Nestorović <jung@one.ekof.bg.ac.yu>
 # Reviewed on 2005-08-22 by Igor Nestorović <igor@prevod.org>
 # Miloš Popović <gpopac@gmail.com>, 2010.
 # Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2011, 2012.
-#: ../shell/main.c:567
+#: ../shell/main.c:570
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolut"
 "ion&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-02-14 14:48+0000\n"
-"PO-Revision-Date: 2012-02-15 10:23+0200\n"
+"POT-Creation-Date: 2012-02-19 02:09+0000\n"
+"PO-Revision-Date: 2012-02-19 14:19+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -294,6 +294,7 @@ msgstr "_Gde:"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:6
 #: ../calendar/gui/dialogs/event-page.ui.h:16
 #: ../calendar/gui/dialogs/memo-page.ui.h:1
+#: ../calendar/gui/dialogs/task-page.ui.h:5
 msgid "Ca_tegories..."
 msgstr "Ka_tegorije..."
 
@@ -438,7 +439,7 @@ msgstr "_Godišnjica:"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-display.c:719
-#: ../calendar/gui/e-calendar-view.c:2067 ../capplet/anjal-settings-main.c:78
+#: ../calendar/gui/e-calendar-view.c:2067 ../capplet/anjal-settings-main.c:83
 #: ../shell/main.c:133
 msgid "Birthday"
 msgstr "_Rođendan:"
@@ -1446,28 +1447,34 @@ msgid "Importing..."
 msgstr "Uvozim..."
 
 #: ../addressbook/importers/evolution-csv-importer.c:1075
-msgid "Outlook CSV or Tab (.csv, .tab)"
-msgstr "Autluk CSV ili Tab (.csv, .tab)"
+#| msgid "Outlook CSV or Tab (.csv, .tab)"
+msgid "Outlook Contacts CSV or Tab (.csv, .tab)"
+msgstr "Autluk kontakti CSV ili Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1076
-msgid "Outlook CSV and Tab Importer"
-msgstr "Autluk CSV i Tab uvoznik"
+#| msgid "Outlook CSV and Tab Importer"
+msgid "Outlook Contacts CSV and Tab Importer"
+msgstr "Autlukov uvoznik CSV i Tab kontakata"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1084
-msgid "Mozilla CSV or Tab (.csv, .tab)"
-msgstr "Mozila CSV ili Tab (.csv, .tab)"
+#| msgid "Mozilla CSV or Tab (.csv, .tab)"
+msgid "Mozilla Contacts CSV or Tab (.csv, .tab)"
+msgstr "Mozila kontakti CSV ili Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1085
-msgid "Mozilla CSV and Tab Importer"
-msgstr "Mozila CSV i Tab uvoznik"
+#| msgid "Mozilla CSV and Tab Importer"
+msgid "Mozilla Contacts CSV and Tab Importer"
+msgstr "Mozilin uvoznik CSV i Tab kontakata"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1093
-msgid "Evolution CSV or Tab (.csv, .tab)"
-msgstr "Evolucija CSV ili Tab (.csv, .tab)"
+#| msgid "Evolution CSV or Tab (.csv, .tab)"
+msgid "Evolution Contacts CSV or Tab (.csv, .tab)"
+msgstr "Evolucija kontakti CSV ili Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1094
-msgid "Evolution CSV and Tab Importer"
-msgstr "Evolucijin CSV i Tab uvoznik"
+#| msgid "Evolution CSV and Tab Importer"
+msgid "Evolution Contacts CSV and Tab Importer"
+msgstr "Evolucijin uvoznik CSV i Tab kontakata"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:796
 msgid "LDAP Data Interchange Format (.ldif)"
@@ -1475,7 +1482,7 @@ msgstr "LDAP oblik razmene podataka (.ldif)"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:797
 msgid "Evolution LDIF importer"
-msgstr "Evolucija LDIF uvoznik"
+msgstr "Evolucijin LDIF uvoznik"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:657
 msgid "vCard (.vcf, .gcrd)"
@@ -2605,101 +2612,101 @@ msgstr "%s  Načinili ste izmene. Da zanemarim te izmene i da osvežim uređiva�
 msgid "%s  You have made no changes, update the editor?"
 msgstr "%s  Niste načinili izmene, da osvežim uređivač?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:276
+#: ../calendar/gui/dialogs/comp-editor.c:275
 msgid "Could not save attachments"
 msgstr "Ne mogu da sačuvam priloge"
 
-#: ../calendar/gui/dialogs/comp-editor.c:622
+#: ../calendar/gui/dialogs/comp-editor.c:621
 msgid "Could not update object"
 msgstr "Ne mogu da osvežim objekat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:750
+#: ../calendar/gui/dialogs/comp-editor.c:749
 msgid "Edit Appointment"
 msgstr "Uredi zakazivanje"
 
-#: ../calendar/gui/dialogs/comp-editor.c:757
+#: ../calendar/gui/dialogs/comp-editor.c:756
 #, c-format
 msgid "Meeting - %s"
 msgstr "Sastanak — %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:759
+#: ../calendar/gui/dialogs/comp-editor.c:758
 #, c-format
 msgid "Appointment - %s"
 msgstr "Zakazivanje — %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:765
+#: ../calendar/gui/dialogs/comp-editor.c:764
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Dodeljen zadatak — %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:767
+#: ../calendar/gui/dialogs/comp-editor.c:766
 #, c-format
 msgid "Task - %s"
 msgstr "Zadatak — %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:772
+#: ../calendar/gui/dialogs/comp-editor.c:771
 #, c-format
 msgid "Memo - %s"
 msgstr "Beleška — %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:788
+#: ../calendar/gui/dialogs/comp-editor.c:787
 msgid "No Summary"
 msgstr "Bez sažetka"
 
-#: ../calendar/gui/dialogs/comp-editor.c:909
+#: ../calendar/gui/dialogs/comp-editor.c:908
 msgid "Keep original item?"
 msgstr "Zadržati originalnu stavku?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1122
+#: ../calendar/gui/dialogs/comp-editor.c:1121
 msgid "Close the current window"
 msgstr "Zatvorite trenutni prozor"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1129 ../mail/e-mail-browser.c:137
+#: ../calendar/gui/dialogs/comp-editor.c:1128 ../mail/e-mail-browser.c:137
 #: ../shell/e-shell-window-actions.c:1467
 #: ../widgets/misc/e-focus-tracker.c:117 ../widgets/misc/e-focus-tracker.c:555
 #: ../widgets/misc/e-web-view.c:459 ../widgets/misc/e-web-view.c:1306
 msgid "Copy the selection"
 msgstr "Umnožite izabrano"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1136 ../mail/e-mail-browser.c:144
+#: ../calendar/gui/dialogs/comp-editor.c:1135 ../mail/e-mail-browser.c:144
 #: ../shell/e-shell-window-actions.c:1474
 #: ../widgets/misc/e-focus-tracker.c:110 ../widgets/misc/e-focus-tracker.c:550
 #: ../widgets/misc/e-web-view.c:1300
 msgid "Cut the selection"
 msgstr "Isecite izabrano"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1143
+#: ../calendar/gui/dialogs/comp-editor.c:1142
 #: ../shell/e-shell-window-actions.c:1481
 #: ../widgets/misc/e-focus-tracker.c:131 ../widgets/misc/e-focus-tracker.c:565
 msgid "Delete the selection"
 msgstr "Obrišite izbor"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1150
+#: ../calendar/gui/dialogs/comp-editor.c:1149
 msgid "View help"
 msgstr "Pogledaj pomoć"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1157 ../mail/e-mail-browser.c:151
+#: ../calendar/gui/dialogs/comp-editor.c:1156 ../mail/e-mail-browser.c:151
 #: ../shell/e-shell-window-actions.c:1509
 #: ../widgets/misc/e-focus-tracker.c:124 ../widgets/misc/e-focus-tracker.c:560
 #: ../widgets/misc/e-web-view.c:1312
 msgid "Paste the clipboard"
 msgstr "Ubacite iz spiska isečaka"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1178
+#: ../calendar/gui/dialogs/comp-editor.c:1177
 msgid "Save current changes"
 msgstr "Sačuvajte tekuće izmene"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1185 ../mail/e-mail-browser.c:158
+#: ../calendar/gui/dialogs/comp-editor.c:1184 ../mail/e-mail-browser.c:158
 #: ../shell/e-shell-window-actions.c:1586
 #: ../widgets/misc/e-focus-tracker.c:138 ../widgets/misc/e-focus-tracker.c:570
 msgid "Select all text"
 msgstr "Izaberite sav tekst"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1192
+#: ../calendar/gui/dialogs/comp-editor.c:1191
 msgid "_Classification"
 msgstr "Ozna_ka"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1199
+#: ../calendar/gui/dialogs/comp-editor.c:1198
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:19 ../filter/filter.ui.h:16
 #: ../mail/e-mail-browser.c:172
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
@@ -2708,137 +2715,132 @@ msgstr "Ozna_ka"
 msgid "_Edit"
 msgstr "_Uređivanje"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1206 ../mail/e-mail-browser.c:165
+#: ../calendar/gui/dialogs/comp-editor.c:1205 ../mail/e-mail-browser.c:165
 #: ../shell/e-shell-window-actions.c:1621
 #: ../widgets/misc/e-signature-editor.c:221
 msgid "_File"
 msgstr "Dato_teka"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1213
+#: ../calendar/gui/dialogs/comp-editor.c:1212
 #: ../shell/e-shell-window-actions.c:1628
 msgid "_Help"
 msgstr "_Pomoć"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1220
+#: ../calendar/gui/dialogs/comp-editor.c:1219
 msgid "_Insert"
 msgstr "_Umetni"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1227
+#: ../calendar/gui/dialogs/comp-editor.c:1226
 #: ../composer/e-composer-actions.c:339
 msgid "_Options"
 msgstr "_Opcije"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1234 ../mail/e-mail-browser.c:179
+#: ../calendar/gui/dialogs/comp-editor.c:1233 ../mail/e-mail-browser.c:179
 #: ../shell/e-shell-window-actions.c:1663 ../smime/gui/smime-ui.ui.h:28
 msgid "_View"
 msgstr "P_regled"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1244
+#: ../calendar/gui/dialogs/comp-editor.c:1243
 #: ../composer/e-composer-actions.c:288
 msgid "_Attachment..."
 msgstr "_Prilog..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1246
+#: ../calendar/gui/dialogs/comp-editor.c:1245
 #: ../composer/e-composer-actions.c:290
-#: ../widgets/misc/e-attachment-view.c:439
+#: ../widgets/misc/e-attachment-view.c:414
 msgid "Attach a file"
 msgstr "Priložite datoteku"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1254
+#: ../calendar/gui/dialogs/comp-editor.c:1253
 msgid "_Categories"
 msgstr "Ka_tegorije"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1256
+#: ../calendar/gui/dialogs/comp-editor.c:1255
 msgid "Toggles whether to display categories"
 msgstr "Prebacuje prikazivanje kategorija"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1262
+#: ../calendar/gui/dialogs/comp-editor.c:1261
 msgid "Time _Zone"
 msgstr "Vremenska _zona"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1264
+#: ../calendar/gui/dialogs/comp-editor.c:1263
 msgid "Toggles whether the time zone is displayed"
 msgstr "Prebacuje prikazivanje vremenske zone"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1273
+#: ../calendar/gui/dialogs/comp-editor.c:1272
 msgid "Pu_blic"
 msgstr "_Javno"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1275
+#: ../calendar/gui/dialogs/comp-editor.c:1274
 msgid "Classify as public"
 msgstr "Označite kao javno"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1280
+#: ../calendar/gui/dialogs/comp-editor.c:1279
 msgid "_Private"
 msgstr "L_ično"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1282
+#: ../calendar/gui/dialogs/comp-editor.c:1281
 msgid "Classify as private"
 msgstr "Označite kao lično"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1287
+#: ../calendar/gui/dialogs/comp-editor.c:1286
 msgid "_Confidential"
 msgstr "Pove_rljivo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1289
+#: ../calendar/gui/dialogs/comp-editor.c:1288
 msgid "Classify as confidential"
 msgstr "Označite kao poverljivo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1297
+#: ../calendar/gui/dialogs/comp-editor.c:1296
 msgid "R_ole Field"
 msgstr "Polje _uloge"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1299
+#: ../calendar/gui/dialogs/comp-editor.c:1298
 msgid "Toggles whether the Role field is displayed"
 msgstr "Prebacuje prikazivanje polja Uloga"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1305
+#: ../calendar/gui/dialogs/comp-editor.c:1304
 msgid "_RSVP"
 msgstr "_Molim odgovorite"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1307
+#: ../calendar/gui/dialogs/comp-editor.c:1306
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Prebacuje prikazivanje polja Molim odgovorite"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1313
+#: ../calendar/gui/dialogs/comp-editor.c:1312
 msgid "_Status Field"
 msgstr "Polje _stanja"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1315
+#: ../calendar/gui/dialogs/comp-editor.c:1314
 msgid "Toggles whether the Status field is displayed"
 msgstr "Prebacuje prikazivanje polja Stanja"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1321
+#: ../calendar/gui/dialogs/comp-editor.c:1320
 msgid "_Type Field"
 msgstr "Polje _tipa"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1323
+#: ../calendar/gui/dialogs/comp-editor.c:1322
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Prebacuje prikazivanje polja Tipa"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1347
-#: ../composer/e-composer-private.c:77
-msgid "Recent _Documents"
-msgstr "Skorašnji _dokumenti"
-
-#: ../calendar/gui/dialogs/comp-editor.c:2079
+#: ../calendar/gui/dialogs/comp-editor.c:2044
 #: ../composer/e-composer-actions.c:507
 msgid "Attach"
 msgstr "Priloži"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2427
-#: ../calendar/gui/dialogs/comp-editor.c:2590
-#: ../calendar/gui/dialogs/comp-editor.c:3582
+#: ../calendar/gui/dialogs/comp-editor.c:2390
+#: ../calendar/gui/dialogs/comp-editor.c:2553
+#: ../calendar/gui/dialogs/comp-editor.c:3545
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Promene načinjene na ovoj stavki mogu biti zanemarene ako bude ažurirano"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3546
+#: ../calendar/gui/dialogs/comp-editor.c:3509
 #: ../plugins/prefer-plain/prefer-plain.c:66
 msgid "attachment"
 msgstr "prilog"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3614
+#: ../calendar/gui/dialogs/comp-editor.c:3577
 msgid "Unable to use current version!"
 msgstr "Ne mogu da koristim trenutno izdanje!"
 
@@ -2851,15 +2853,15 @@ msgstr "Greška provere: %s"
 msgid "Could not open destination"
 msgstr "Ne mogu da otvorim odredište"
 
-#: ../calendar/gui/dialogs/copy-source-dialog.c:130
+#: ../calendar/gui/dialogs/copy-source-dialog.c:126
 msgid "Destination is read only"
 msgstr "Odredište je samo za čitanje"
 
-#: ../calendar/gui/dialogs/copy-source-dialog.c:164
+#: ../calendar/gui/dialogs/copy-source-dialog.c:160
 msgid "Cannot create object"
 msgstr "Ne mogu da napravim objekat"
 
-#: ../calendar/gui/dialogs/copy-source-dialog.c:193
+#: ../calendar/gui/dialogs/copy-source-dialog.c:189
 msgid "Could not open source"
 msgstr "Ne mogu da otvorim izvor"
 
@@ -3032,7 +3034,6 @@ msgstr "Ovaj događaj ima podsetnike"
 
 #: ../calendar/gui/dialogs/event-page.c:722
 #: ../calendar/gui/dialogs/event-page.ui.h:13
-#: ../calendar/gui/dialogs/memo-page.ui.h:4
 msgid "Or_ganizer:"
 msgstr "Or_ganizator:"
 
@@ -3309,6 +3310,12 @@ msgstr "Prima"
 #: ../calendar/gui/dialogs/task-page.ui.h:9
 msgid "_List:"
 msgstr "_Spisak:"
+
+#: ../calendar/gui/dialogs/memo-page.ui.h:4
+#: ../calendar/gui/dialogs/task-page.c:350
+#: ../calendar/gui/dialogs/task-page.ui.h:2
+msgid "Organi_zer:"
+msgstr "Organi_zator:"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:5
 msgid "T_o:"
@@ -3759,11 +3766,6 @@ msgstr ""
 "Zadatak nije moguće uređivati, zato što izabrani spisak zadataka ne podržava "
 "dodeljene zadatke"
 
-#: ../calendar/gui/dialogs/task-page.c:350
-#: ../calendar/gui/dialogs/task-page.ui.h:2
-msgid "Organi_zer:"
-msgstr "Organi_zator:"
-
 #: ../calendar/gui/dialogs/task-page.c:822
 msgid "Due date is wrong"
 msgstr "Krajnji rok je pogrešan"
@@ -3776,10 +3778,6 @@ msgstr "Ne mogu da otvorim zadatke u „%s“ : %s"
 #: ../calendar/gui/dialogs/task-page.ui.h:3
 msgid "D_ue date:"
 msgstr "Kra_jnji rok:"
-
-#: ../calendar/gui/dialogs/task-page.ui.h:5
-msgid "Categor_ies..."
-msgstr "Ka_tegorije..."
 
 #: ../calendar/gui/dialogs/task-page.ui.h:6
 msgid "Time zone:"
@@ -3900,7 +3898,7 @@ msgstr "%A, %d. %b %Y."
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../calendar/gui/ea-gnome-calendar.c:204 ../calendar/gui/e-day-view.c:1838
+#: ../calendar/gui/ea-gnome-calendar.c:204 ../calendar/gui/e-day-view.c:1839
 #: ../calendar/gui/e-day-view-top-item.c:852
 #: ../calendar/gui/e-week-view-main-item.c:224
 #: ../modules/calendar/e-cal-shell-view-private.c:1054
@@ -3936,7 +3934,7 @@ msgstr "%d. %b %Y."
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/ea-gnome-calendar.c:234 ../calendar/gui/e-day-view.c:1854
+#: ../calendar/gui/ea-gnome-calendar.c:234 ../calendar/gui/e-day-view.c:1855
 #: ../calendar/gui/e-day-view-top-item.c:856
 #: ../calendar/gui/e-week-view-main-item.c:238
 #: ../modules/calendar/e-cal-shell-view-private.c:1090
@@ -4334,14 +4332,14 @@ msgstr ""
 "%s"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:1021 ../calendar/gui/e-week-view.c:773
+#: ../calendar/gui/e-day-view.c:1022 ../calendar/gui/e-week-view.c:774
 #: ../calendar/gui/print.c:988 ../calendar/gui/print.c:1007
 #: ../calendar/gui/print.c:2498 ../calendar/gui/print.c:2518
 msgid "am"
 msgstr "prp"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:1024 ../calendar/gui/e-week-view.c:776
+#: ../calendar/gui/e-day-view.c:1025 ../calendar/gui/e-week-view.c:777
 #: ../calendar/gui/print.c:993 ../calendar/gui/print.c:1009
 #: ../calendar/gui/print.c:2503 ../calendar/gui/print.c:2520
 msgid "pm"
@@ -4358,13 +4356,13 @@ msgstr "pop"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../calendar/gui/e-day-view.c:1821 ../calendar/gui/e-day-view-top-item.c:848
+#: ../calendar/gui/e-day-view.c:1822 ../calendar/gui/e-day-view-top-item.c:848
 #: ../calendar/gui/e-week-view-main-item.c:215 ../calendar/gui/print.c:1982
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:2638
+#: ../calendar/gui/e-day-view.c:2639
 #, c-format
 msgid "Week %d"
 msgstr "%d° nedelja"
@@ -6802,38 +6800,38 @@ msgid "Pacific/Yap"
 msgstr "Pacifik/Jap"
 
 #. TRANSLATORS: don't translate the terms in brackets
-#: ../capplet/anjal-settings-main.c:153
+#: ../capplet/anjal-settings-main.c:161
 msgid "ID of the socket to embed in"
 msgstr "IB priključka za umetanje"
 
-#: ../capplet/anjal-settings-main.c:154
+#: ../capplet/anjal-settings-main.c:162
 msgid "socket"
 msgstr "priključak"
 
-#: ../capplet/settings/mail-account-view.c:76
+#: ../capplet/settings/mail-account-view.c:77
 msgid "Please enter your full name."
 msgstr "Unesite vaše puno ime."
 
-#: ../capplet/settings/mail-account-view.c:77
+#: ../capplet/settings/mail-account-view.c:78
 msgid "Please enter your email address."
 msgstr "Unesite adresu e-pošte."
 
-#: ../capplet/settings/mail-account-view.c:78
+#: ../capplet/settings/mail-account-view.c:79
 msgid "The email address you have entered is invalid."
 msgstr "Uneta adresa e-pošte nije ispravna."
 
-#: ../capplet/settings/mail-account-view.c:79
+#: ../capplet/settings/mail-account-view.c:80
 msgid "Please enter your password."
 msgstr "Unesite vašu lozinku."
 
-#: ../capplet/settings/mail-account-view.c:280
-#: ../mail/em-account-editor.c:5363 ../plugins/caldav/caldav-source.c:67
+#: ../capplet/settings/mail-account-view.c:282
+#: ../mail/em-account-editor.c:5395 ../plugins/caldav/caldav-source.c:67
 msgid "CalDAV"
 msgstr "KolDAV"
 
-#: ../capplet/settings/mail-account-view.c:374
-#: ../capplet/settings/mail-account-view.c:419
-#: ../mail/em-account-editor.c:5234 ../mail/em-account-editor.c:5291
+#: ../capplet/settings/mail-account-view.c:376
+#: ../capplet/settings/mail-account-view.c:421
+#: ../mail/em-account-editor.c:5266 ../mail/em-account-editor.c:5323
 #: ../modules/online-accounts/e-online-accounts-google.c:295
 #: ../modules/online-accounts/e-online-accounts-google.c:369
 #: ../plugins/google-account-setup/google-contacts-source.c:55
@@ -6841,55 +6839,69 @@ msgstr "KolDAV"
 msgid "Google"
 msgstr "Gugl"
 
+#: ../capplet/settings/mail-account-view.c:498
+#: ../capplet/settings/mail-account-view.c:602
+#: ../mail/em-account-editor.c:4799 ../mail/em-account-editor.c:4834
+msgid "Always (SSL)"
+msgstr "Uvek (SSL)"
+
+#: ../capplet/settings/mail-account-view.c:501
+#: ../capplet/settings/mail-account-view.c:605
+#: ../mail/em-account-editor.c:4802 ../mail/em-account-editor.c:4837
+msgid "When possible (TLS)"
+msgstr "Kada je moguće (TLS)"
+
+#: ../capplet/settings/mail-account-view.c:504
+#: ../capplet/settings/mail-account-view.c:608
+#: ../mail/em-account-editor.c:1738 ../mail/em-account-editor.c:4805
+#: ../mail/em-account-editor.c:4840
+msgid "Never"
+msgstr "Nikada"
+
 # Create the default Person calendar
 # Create the default Person task list
 # orange
-#: ../capplet/settings/mail-account-view.c:486
+#: ../capplet/settings/mail-account-view.c:512
 msgid "Personal details:"
 msgstr "Lični podaci:"
 
-#: ../capplet/settings/mail-account-view.c:493 ../mail/mail-config.ui.h:179
+#: ../capplet/settings/mail-account-view.c:519 ../mail/mail-config.ui.h:180
 msgid "Name:"
 msgstr "Ime:"
 
-#: ../capplet/settings/mail-account-view.c:502 ../mail/mail-config.ui.h:180
+#: ../capplet/settings/mail-account-view.c:528 ../mail/mail-config.ui.h:181
 msgid "Email address:"
 msgstr "Adresa e-pošte:"
 
-#: ../capplet/settings/mail-account-view.c:512 ../mail/mail-config.ui.h:181
+#: ../capplet/settings/mail-account-view.c:538 ../mail/mail-config.ui.h:182
 msgid "Details:"
 msgstr "Detalji:"
 
-#: ../capplet/settings/mail-account-view.c:520 ../mail/mail-config.ui.h:182
+#: ../capplet/settings/mail-account-view.c:546 ../mail/mail-config.ui.h:183
 msgid "Receiving"
 msgstr "Primanje"
 
-#: ../capplet/settings/mail-account-view.c:527 ../mail/mail-config.ui.h:184
+#: ../capplet/settings/mail-account-view.c:553 ../mail/mail-config.ui.h:185
 msgid "Server type:"
 msgstr "Tip servera: "
 
-#: ../capplet/settings/mail-account-view.c:536 ../mail/mail-config.ui.h:185
+#: ../capplet/settings/mail-account-view.c:562 ../mail/mail-config.ui.h:186
 msgid "Server address:"
 msgstr "Adresa servera:"
 
-#: ../capplet/settings/mail-account-view.c:545 ../mail/mail-config.ui.h:186
+#: ../capplet/settings/mail-account-view.c:571 ../mail/mail-config.ui.h:187
 msgid "Username:"
 msgstr "Korisničkoime:"
 
-#: ../capplet/settings/mail-account-view.c:554
+#: ../capplet/settings/mail-account-view.c:580
 msgid "Use encryption:"
 msgstr "Koristi šifrovanje:"
 
-#: ../capplet/settings/mail-account-view.c:559
-#: ../capplet/settings/mail-account-view.c:594
-msgid "never"
-msgstr "nikada"
-
-#: ../capplet/settings/mail-account-view.c:571 ../mail/mail-config.ui.h:183
+#: ../capplet/settings/mail-account-view.c:613 ../mail/mail-config.ui.h:184
 msgid "Sending"
 msgstr "Slanje"
 
-#: ../capplet/settings/mail-account-view.c:613
+#: ../capplet/settings/mail-account-view.c:656
 msgid ""
 "To use the email application you'll need to setup an account. Put your email "
 "address and password in below and we'll try and work out all the settings. "
@@ -6899,7 +6911,7 @@ msgstr ""
 "e-pošte i lozinku da pokušamo da prepoznamo postavke. Ukoliko to nije moguće "
 "automatski, moraćete da dodate i podatke o serveru."
 
-#: ../capplet/settings/mail-account-view.c:615
+#: ../capplet/settings/mail-account-view.c:658
 msgid ""
 "Sorry, we can't work out the settings to get your mail automatically. Please "
 "enter them below. We've tried to make a start with the details you just "
@@ -6909,11 +6921,11 @@ msgstr ""
 "Pokušali smo da sa podacima koje ste uneli započnemo podešavanje, ali možda "
 "će biti potrebno da ih izmenite."
 
-#: ../capplet/settings/mail-account-view.c:617
+#: ../capplet/settings/mail-account-view.c:660
 msgid "You can specify more options to configure the account."
 msgstr "Možete da navedete još opcija za podešavanje naloga."
 
-#: ../capplet/settings/mail-account-view.c:619
+#: ../capplet/settings/mail-account-view.c:662
 msgid ""
 "Now we need your settings for sending mail. We've tried to make some guesses "
 "but you should check them over to make sure."
@@ -6921,11 +6933,11 @@ msgstr ""
 "Sada su nam potrebne postavke za slanje pošte. Pokušali smo da pogodimo "
 "postavke, ali je potrebno da ih proverite."
 
-#: ../capplet/settings/mail-account-view.c:620
+#: ../capplet/settings/mail-account-view.c:663
 msgid "You can specify your default settings for your account."
 msgstr "Možete odrediti podrazumevane postavke naloga."
 
-#: ../capplet/settings/mail-account-view.c:621
+#: ../capplet/settings/mail-account-view.c:664
 msgid ""
 "Time to check things over before we try and connect to the server and fetch "
 "your mail."
@@ -6933,103 +6945,103 @@ msgstr ""
 "Vreme je da proverimo postavke pre nego što pokušamo da se povežemo na "
 "server da bismo dobavili vašu poštu."
 
-#: ../capplet/settings/mail-account-view.c:636
-#: ../mail/em-account-editor.c:2924 ../mail/em-account-editor.c:3060
+#: ../capplet/settings/mail-account-view.c:679
+#: ../mail/em-account-editor.c:2924 ../mail/em-account-editor.c:3063
 msgid "Identity"
 msgstr "Identitet"
 
-#: ../capplet/settings/mail-account-view.c:636
+#: ../capplet/settings/mail-account-view.c:679
 msgid "Next - Receiving mail"
 msgstr "Napred — Primanje pošte"
 
-#: ../capplet/settings/mail-account-view.c:637
+#: ../capplet/settings/mail-account-view.c:680
 msgid "Receiving mail"
 msgstr "Primanje pošte"
 
-#: ../capplet/settings/mail-account-view.c:637
-#: ../capplet/settings/mail-account-view.c:638
+#: ../capplet/settings/mail-account-view.c:680
+#: ../capplet/settings/mail-account-view.c:681
 msgid "Next - Sending mail"
 msgstr "Napred — Slanje pošte"
 
-#: ../capplet/settings/mail-account-view.c:637
+#: ../capplet/settings/mail-account-view.c:680
 msgid "Back - Identity"
 msgstr "Nazad — Identitet"
 
-#: ../capplet/settings/mail-account-view.c:637
+#: ../capplet/settings/mail-account-view.c:680
 msgid "Next - Receiving options"
 msgstr "Napred — Opcije za primanje"
 
-#: ../capplet/settings/mail-account-view.c:638
+#: ../capplet/settings/mail-account-view.c:681
 msgid "Receiving options"
 msgstr "Opcije za primanje"
 
-#: ../capplet/settings/mail-account-view.c:638
-#: ../capplet/settings/mail-account-view.c:640
+#: ../capplet/settings/mail-account-view.c:681
+#: ../capplet/settings/mail-account-view.c:683
 msgid "Back - Receiving mail"
 msgstr "Nazad — Primanje pošte"
 
-#: ../capplet/settings/mail-account-view.c:640
+#: ../capplet/settings/mail-account-view.c:683
 msgid "Sending mail"
 msgstr "Slanje pošte"
 
-#: ../capplet/settings/mail-account-view.c:640
-#: ../capplet/settings/mail-account-view.c:641
+#: ../capplet/settings/mail-account-view.c:683
+#: ../capplet/settings/mail-account-view.c:684
 msgid "Next - Review account"
 msgstr "Napred — Pregled postavki naloga"
 
-#: ../capplet/settings/mail-account-view.c:640
+#: ../capplet/settings/mail-account-view.c:683
 msgid "Next - Defaults"
 msgstr "Napred — Podrazumevano"
 
-#: ../capplet/settings/mail-account-view.c:640
+#: ../capplet/settings/mail-account-view.c:683
 msgid "Back - Receiving options"
 msgstr "Nazad — Opcije za primanje"
 
-#: ../capplet/settings/mail-account-view.c:641
-#: ../mail/em-account-editor.c:4044
+#: ../capplet/settings/mail-account-view.c:684
+#: ../mail/em-account-editor.c:4076
 msgid "Defaults"
 msgstr "Podrazumevano"
 
-#: ../capplet/settings/mail-account-view.c:641
+#: ../capplet/settings/mail-account-view.c:684
 msgid "Back - Sending mail"
 msgstr "Nazad — Slanje pošte"
 
-#: ../capplet/settings/mail-account-view.c:643
+#: ../capplet/settings/mail-account-view.c:686
 msgid "Review account"
 msgstr "Pregled postavki naloga"
 
-#: ../capplet/settings/mail-account-view.c:643
+#: ../capplet/settings/mail-account-view.c:686
 msgid "Finish"
 msgstr "Završetak"
 
-#: ../capplet/settings/mail-account-view.c:643
+#: ../capplet/settings/mail-account-view.c:686
 msgid "Back - Sending"
 msgstr "Nazad — Slanje"
 
-#: ../capplet/settings/mail-account-view.c:766
+#: ../capplet/settings/mail-account-view.c:856
 msgid "Setup Google contacts with Evolution"
 msgstr "Podesite Gugl kontakte sa Evolucijom"
 
-#: ../capplet/settings/mail-account-view.c:767
+#: ../capplet/settings/mail-account-view.c:857
 msgid "Setup Google calendar with Evolution"
 msgstr "Podesite Gugl kalendar sa Evolucijom"
 
-#: ../capplet/settings/mail-account-view.c:772
-#: ../mail/em-account-editor.c:4862
+#: ../capplet/settings/mail-account-view.c:862
+#: ../mail/em-account-editor.c:4894
 msgid "You may need to enable IMAP access."
 msgstr "Možda ćete morati da omogućite IMAP pristup."
 
-#: ../capplet/settings/mail-account-view.c:780
-#: ../mail/em-account-editor.c:4839
+#: ../capplet/settings/mail-account-view.c:870
+#: ../mail/em-account-editor.c:4871
 msgid "Google account settings:"
 msgstr "Podešavanja Gugl naloga:"
 
-#: ../capplet/settings/mail-account-view.c:806
+#: ../capplet/settings/mail-account-view.c:896
 msgid "Setup Yahoo calendar with Evolution"
 msgstr "Podesite Jahu kalendar sa Evolucijom"
 
-#: ../capplet/settings/mail-account-view.c:810
-#: ../mail/em-account-editor.c:4909
+#: ../capplet/settings/mail-account-view.c:900
+#: ../mail/em-account-editor.c:4941
 msgid ""
 "Yahoo calendars are named as firstname_lastname. We have tried to form the "
 "calendar name. So please confirm and re-enter the calendar name if it is not "
@@ -7039,25 +7051,25 @@ msgstr ""
 "formiramo ime kalendara. Potvrdite ili unesite drugo ukoliko predloženo nije "
 "ispravno."
 
-#: ../capplet/settings/mail-account-view.c:819
-#: ../mail/em-account-editor.c:4894
+#: ../capplet/settings/mail-account-view.c:909
+#: ../mail/em-account-editor.c:4926
 msgid "Yahoo account settings:"
 msgstr "Podešavanja Jahu naloga:"
 
-#: ../capplet/settings/mail-account-view.c:833
+#: ../capplet/settings/mail-account-view.c:923
 msgid "Yahoo Calendar name:"
 msgstr "Ime Jahu kalendara:"
 
-#: ../capplet/settings/mail-account-view.c:1020
+#: ../capplet/settings/mail-account-view.c:1116
 msgid "Password:"
 msgstr "Lozinka:"
 
-#: ../capplet/settings/mail-account-view.c:1072
+#: ../capplet/settings/mail-account-view.c:1168
 #: ../capplet/settings/mail-settings-view.c:256
 msgid "Close Tab"
 msgstr "Zatvori jezičak"
 
-#: ../capplet/settings/mail-account-view.c:1082
+#: ../capplet/settings/mail-account-view.c:1178
 msgid "Account Wizard"
 msgstr "Čarobnjak naloga"
 
@@ -7154,7 +7166,7 @@ msgstr "Sačuvaj kao _nacrt"
 msgid "Save as draft"
 msgstr "Sačuvajte kao nacrt"
 
-#: ../composer/e-composer-actions.c:370 ../composer/e-composer-private.c:349
+#: ../composer/e-composer-actions.c:370 ../composer/e-composer-private.c:317
 msgid "S_end"
 msgstr "Poš_alji"
 
@@ -7306,23 +7318,23 @@ msgstr "Kliknite ovde za adresar."
 msgid "Click here to select folders to post to"
 msgstr "Kliknite ovde da izaberete fascikle za slanje"
 
-#: ../composer/e-composer-private.c:247
+#: ../composer/e-composer-private.c:215
 msgid "Undo the last action"
 msgstr "Opoziva poslednju radnju"
 
-#: ../composer/e-composer-private.c:251
+#: ../composer/e-composer-private.c:219
 msgid "Redo the last undone action"
 msgstr "Ponovo vrši opozvanu radnju"
 
-#: ../composer/e-composer-private.c:255
+#: ../composer/e-composer-private.c:223
 msgid "Search for text"
 msgstr "Pretražuje tekst"
 
-#: ../composer/e-composer-private.c:259
+#: ../composer/e-composer-private.c:227
 msgid "Search for and replace text"
 msgstr "Pretražuje i zamenjuje tekst"
 
-#: ../composer/e-composer-private.c:369
+#: ../composer/e-composer-private.c:337
 msgid "Save draft"
 msgstr "Sačuvajte nacrt"
 
@@ -8077,11 +8089,19 @@ msgid "Whether or not to use the notification tray for display reminders"
 msgstr "Da li da koristi obaveštajnu zonu za prikazivanje podsetnika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
+msgid "Preferred New button item"
+msgstr "Željena stavka novog dugmeta"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
+msgid "Name of the preferred New toolbar button item"
+msgstr "Naziv željene stavke novog dugmeta linije alata"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:1
 msgid "Primary calendar"
 msgstr "Primarni kalendar"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
 msgid ""
 "The UID of the selected (or \"primary\") calendar in the sidebar of the "
 "\"Calendar\" view"
@@ -8089,36 +8109,36 @@ msgstr ""
 "JIB izabranog (ili „primarnog“) kalendara u bočnoj površi u pregledu "
 "„Kalendar“"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:77
 msgid "Primary memo list"
 msgstr "Primarni spisak beleški"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
 msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view"
 msgstr ""
 "JIB izabrane (ili „primarne“) beleške u bočnoj površi u pregledu „Beleške“"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:79
 msgid "Primary task list"
 msgstr "Primarni spisak zadataka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
 msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view"
 msgstr ""
 "JIB izabranog (ili „primarnog“) zadatka u bočnoj površi u pregledu „Zadaci“"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:120
 msgid "Free/busy template URL"
 msgstr "Model adresa za slobodno/zauzeto vreme"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
 #, no-c-format
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
@@ -8127,101 +8147,101 @@ msgstr ""
 "Model adrese za korišćenje u povraćaju vremena slobodno/zauzeto, %u se "
 "zamenjuje korisničkim delom elektronske adrese, a %d domenom"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:84
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:75
 msgid "Recurrent Events in Italic"
 msgstr "Događaji ponavljanja iskošenim slovima"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr ""
 "Prikazuje dane sa događajima koji se ponavljaju iskošenim slovnim likom u "
 "donjem levom kalendaru"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
 msgid "List of selected calendars"
 msgstr "Obrišite izabrane kalendare"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
 msgid "List of calendars to load"
 msgstr "Spisak dostupnih kalendara"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "List of selected memo lists"
 msgstr "Spisak izabranih spiskova beleški"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid "List of memo lists to load"
 msgstr "Spisak spiskova beleški za učitavanje"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
 msgid "List of selected task lists"
 msgstr "Spisak izabranih spiskova zadataka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid "List of task lists to load"
 msgstr "Spisak spiskova zaduženja za učitavanje"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:65
 msgid "Show appointment end times in week and month views"
 msgstr "Prikazuje vremena zakazanog završetka u nedeljnim i mesečnim pregledima"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
 msgid "Whether to display the end time of events in the week and month views"
 msgstr ""
 "Da li da prikaže vremena završetka događaja u nedeljnim i mesečnim pregledima"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:50
 msgid "Show the memo preview pane"
 msgstr "Prikazuje pregled beleški"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
 msgid "If \"true\", show the memo preview pane in the main window"
 msgstr "Ukoliko je „tačno“, u glavnom prozoru prikazuje pregled beleški"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:58
 msgid "Show the task preview pane"
 msgstr "Prikazuje pregled zadataka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid "If \"true\", show the task preview pane in the main window"
 msgstr "Ukoliko je „tačno“, u glavnom prozoru prikazuje pregled zadataka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:107
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr ""
 "Prikazuje broj nedelje u dnevnom pregledu, u pregledu radne nedelje i "
 "pretraživaču datuma"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
 msgid "Whether to show week numbers in various places in the Calendar"
 msgstr "Da li da pokaže brojeve nedelja na raznim mestima u kalendaru"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
 msgid "Vertical position for the tag pane"
 msgstr "Uspravan položaj za površ oznake"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 msgid "Highlight tasks due today"
 msgstr "Isticanje zadataka u toku dana"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
 "Da li će zadaci u toku dana biti istaknuti posebnom bojom (boja-zadatka-u-"
 "toku-dana)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:87
 msgid "Tasks due today color"
 msgstr "Boja zadatka za danas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
@@ -8229,17 +8249,17 @@ msgstr ""
 "Boja pozadine zaduženja za danas, u obliku „#rrggbb“. Koristi se zajedno sa "
 "isticanjem-zadatka-u-toku-dana"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:60
 msgid "Task preview pane position (horizontal)"
 msgstr "Pozicija pregleda zadataka (horizontalno)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:56
 msgid "Task layout style"
 msgstr "Stil razmeštaja"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
@@ -8249,32 +8269,32 @@ msgstr ""
 "„0“ (klasičan pregled) postavlja pregled ispod spiska zadataka. "
 "„1“ (vertikalan pregled) postavlja pregled pored spiska zadataka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:61
 msgid "Task preview pane position (vertical)"
 msgstr "Pozicija pregleda zadataka (vertikalno)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid "Position of the task preview pane when oriented vertically"
 msgstr "Pozicija pregleda zadataka kada je postavljeno vertikalno"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid "Highlight overdue tasks"
 msgstr "Isticanje neispunjenih zadataka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
 "Da li će neispunjeni zadaci biti istaknuti posebnom bojom (boja-neispunjenog-"
 "zadatka)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:89
 msgid "Overdue tasks color"
 msgstr "Boja neispunjenih zadataka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
@@ -8282,21 +8302,21 @@ msgstr ""
 "Boja pozadine neispunjenih zadataka, u obliku „#rrggbb“. Koristi se zajedno "
 "sa isticanjem-neispunjenih-zadatka."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:37
 msgid "Time divisions"
 msgstr "Podela vremena"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
 msgid "Intervals shown in Day and Work Week views, in minutes"
 msgstr "Intervali prikazani u dnevnim i nedeljnim pregledima, u minutima"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:3
 msgid "Timezone"
 msgstr "Vremenska zona"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
@@ -8304,57 +8324,57 @@ msgstr ""
 "Podrazumevana vremenska zona koju kalendar koristi za datum i vreme, kao "
 "neprevedeno mesto baze vremenske zone Olsen, kao „Amerika/Njujork“"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:13
 msgid "Twenty four hour time format"
 msgstr "24-časovni oblik vremena"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Da li da prikaže vreme u dvadesetočasovnom formatu, umesto am/pm"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:101
 msgid "Birthday and anniversary reminder"
 msgstr "Podsetnik na rođendane i godišnjice"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 msgid "Whether to set a reminder for birthdays and anniversaries"
 msgstr "Da li da postavi podsetnik na rođendane i godišnjice"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:95
 msgid "Default appointment reminder"
 msgstr "Podrazumevani podsetnik za zakazivanje"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 msgid "Whether to set a default reminder for appointments"
 msgstr "Da li da postavi podrazumevani podsetnik za zakazivanja"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:5
 msgid "Use system timezone"
 msgstr "Koristi vremensku zonu sistema"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid "Use the system timezone instead of the timezone selected in Evolution"
 msgstr "Koristi vremensku zonu sistema umesto one koja je izabrana u Evoluciji"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:27
 msgid "Week start"
 msgstr "Početak nedelje"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)"
 msgstr "Dan kojim počinje nedelja, od nedelje (0) do subote (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:67
 msgid "Work days"
 msgstr "Radni dani"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Days on which the start and end of work hours should be indicated"
 msgstr "Potrebno je označiti dane kojima počinju i završavaju se radni časovi"
 
@@ -8692,14 +8712,20 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 #: ../mail/evolution-mail.schemas.in.h:33
-msgid "Encode file names in an Outlook/GMail way"
+#| msgid "Encode file names in an Outlook/GMail way"
+msgid "Encode filenames in an Outlook/GMail way"
 msgstr "Kodiranje naziva datoteka na način Autluka/Gpošte"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
 #: ../mail/evolution-mail.schemas.in.h:34
+#| msgid ""
+#| "Encode file names in the mail headers same as Outlook or GMail do, to let "
+#| "them display correctly file names with UTF-8 letters sent by Evolution, "
+#| "because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
+#| "standard."
 msgid ""
-"Encode file names in the mail headers same as Outlook or GMail do, to let "
-"them display correctly file names with UTF-8 letters sent by Evolution, "
+"Encode filenames in the mail headers same as Outlook or GMail do, to let "
+"them display correctly filenames with UTF-8 letters sent by Evolution, "
 "because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
 "standard."
 msgstr ""
@@ -9942,8 +9968,9 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:13
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-msgid "Sound file name to be played."
-msgstr "Ime datoteke za puštanje."
+#| msgid "Sound file name to be played."
+msgid "Sound filename to be played."
+msgstr "Naziv datoteke za puštanje."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
@@ -10491,16 +10518,20 @@ msgid ""
 msgstr "Sistem za štampanje nije ponudio nikakve dodatne detalje o grešci."
 
 #: ../e-util/e-system.error.xml.h:1
-msgid "File exists \"{0}\"."
-msgstr "Datoteka postoji „{0}“."
+#| msgid "A folder named \"{0}\" already exists. Please use a different name."
+msgid "A file named \"{0}\" already exists. Do you want to replace it?"
+msgstr "Datoteka pod nazivom „{0}“ već postoji. Da li želite da je zamenite?"
 
 #: ../e-util/e-system.error.xml.h:2
-msgid "Do you wish to overwrite it?"
-msgstr "Želite li da je prepišete?"
+msgid ""
+"The file already exists in \"{0}\". Replacing it will overwrite its contents."
+msgstr ""
+"Već postoji datoteka u „{0}“.  Ukoliko je zamenite prepisaćete njen sadržaj."
 
-#: ../e-util/e-system.error.xml.h:3 ../mail/mail.error.xml.h:113
-msgid "_Overwrite"
-msgstr "_Prepiši"
+#: ../e-util/e-system.error.xml.h:3
+#| msgid "_Reply"
+msgid "_Replace"
+msgstr "_Zameni"
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Cannot save file \"{0}\"."
@@ -10760,13 +10791,15 @@ msgid "You must choose a date."
 msgstr "Morate da izaberete datum."
 
 #: ../filter/filter.error.xml.h:3
-msgid "Missing file name."
-msgstr "Nedostaje ime datoteke."
+#| msgid "Missing file name."
+msgid "Missing filename."
+msgstr "Nedostaje naziv datoteke."
 
 # filter:bad-file secondary
 #: ../filter/filter.error.xml.h:4
-msgid "You must specify a file name."
-msgstr "Morate dati ime datoteci."
+#| msgid "You must specify a file name."
+msgid "You must specify a filename."
+msgstr "Morate dati naziv datoteci."
 
 #: ../filter/filter.error.xml.h:5
 msgid "File &quot;{0}&quot; does not exist or is not a regular file."
@@ -10876,11 +10909,8 @@ msgstr "Čuvanje poruke u fasciklu „%s“"
 msgid "Forwarded messages"
 msgstr "Prosleđene poruke"
 
-#: ../libemail-engine/e-mail-folder-utils.c:385
-msgid "Scanning messages for duplicates"
-msgstr "Tražim duplikate u porukama"
-
-#: ../libemail-engine/e-mail-folder-utils.c:576
+#: ../libemail-engine/e-mail-folder-utils.c:378
+#: ../libemail-engine/e-mail-folder-utils.c:627
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
@@ -10889,25 +10919,29 @@ msgstr[1] "Dovlačim %d poruke"
 msgstr[2] "Dovlačim %d poruka"
 msgstr[3] "Dovlačim jednu poruku"
 
-#: ../libemail-engine/e-mail-folder-utils.c:824
+#: ../libemail-engine/e-mail-folder-utils.c:472
+msgid "Scanning messages for duplicates"
+msgstr "Tražim duplikate u porukama"
+
+#: ../libemail-engine/e-mail-folder-utils.c:875
 #, c-format
 msgid "Removing folder '%s'"
 msgstr "Uklanjam fasciklu „%s“"
 
-#: ../libemail-engine/e-mail-folder-utils.c:956
+#: ../libemail-engine/e-mail-folder-utils.c:1007
 #, c-format
 msgid "File \"%s\" has been removed."
 msgstr "Datoteka „%s“ je uklonjena."
 
-#: ../libemail-engine/e-mail-folder-utils.c:960
+#: ../libemail-engine/e-mail-folder-utils.c:1011
 msgid "File has been removed."
 msgstr "Datoteka je uklonjena."
 
-#: ../libemail-engine/e-mail-folder-utils.c:1019
+#: ../libemail-engine/e-mail-folder-utils.c:1070
 msgid "Removing attachments"
 msgstr "Uklanjam priloge"
 
-#: ../libemail-engine/e-mail-folder-utils.c:1181
+#: ../libemail-engine/e-mail-folder-utils.c:1232
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
@@ -10916,7 +10950,7 @@ msgstr[1] "Čuvam %d poruke"
 msgstr[2] "Čuvam %d poruka"
 msgstr[3] "Čuvam jednu poruku"
 
-#: ../libemail-engine/e-mail-folder-utils.c:1535 ../mail/em-folder-utils.c:624
+#: ../libemail-engine/e-mail-folder-utils.c:1586 ../mail/em-folder-utils.c:624
 #, c-format
 msgid "Invalid folder URI '%s'"
 msgstr "Neispravna adresa fascikle „%s“"
@@ -11028,7 +11062,7 @@ msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Nisam uspeo da prikačim u lokalnu fasciklu „Poslato“: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:790
-#: ../libemail-engine/mail-ops.c:810 ../libemail-engine/mail-ops.c:906
+#: ../libemail-engine/mail-ops.c:810 ../libemail-engine/mail-ops.c:909
 msgid "Sending message"
 msgstr "Slanje poruke"
 
@@ -11071,60 +11105,66 @@ msgid "Sending message %d of %d"
 msgstr "Šaljem poruku %d od %d"
 
 # bug: plural-forms
-#: ../libemail-engine/mail-ops.c:869
+#. Translators: The string is distinguished by total count of messages to be send. Failed messages is always more than zero.
+#: ../libemail-engine/mail-ops.c:870
 #, c-format
-msgid "Failed to send %d of %d messages"
-msgstr "Nisam uspeo da pošaljem %d od %d poruka"
+#| msgid "Failed to send %d of %d messages"
+msgid "Failed to send a message"
+msgid_plural "Failed to send %d of %d messages"
+msgstr[0] "Nisam uspeo da pošaljem %d od %d poruke"
+msgstr[1] "Nisam uspeo da pošaljem %d od %d poruka"
+msgstr[2] "Nisam uspeo da pošaljem %d od %d poruka"
+msgstr[3] "Nisam uspeo da pošaljem %d od %d poruke"
 
-#: ../libemail-engine/mail-ops.c:873 ../mail/mail-send-recv.c:883
+#: ../libemail-engine/mail-ops.c:876 ../mail/mail-send-recv.c:883
 msgid "Canceled."
 msgstr "Otkazano."
 
-#: ../libemail-engine/mail-ops.c:875 ../mail/mail-send-recv.c:885
+#: ../libemail-engine/mail-ops.c:878 ../mail/mail-send-recv.c:885
 msgid "Complete."
 msgstr "Završeno."
 
-#: ../libemail-engine/mail-ops.c:987
+#: ../libemail-engine/mail-ops.c:990
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Premeštam poruke u „%s“"
 
-#: ../libemail-engine/mail-ops.c:988
+#: ../libemail-engine/mail-ops.c:991
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Umnožavam poruke u „%s“"
 
-#: ../libemail-engine/mail-ops.c:1105
+#: ../libemail-engine/mail-ops.c:1108
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Smeštam fasciklu „%s“"
 
-#: ../libemail-engine/mail-ops.c:1178
+#: ../libemail-engine/mail-ops.c:1181
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Praznim i smeštam nalog „%s“"
 
-#: ../libemail-engine/mail-ops.c:1179
+#: ../libemail-engine/mail-ops.c:1182
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Smeštam nalog „%s“"
 
-#: ../libemail-engine/mail-ops.c:1241
+#: ../libemail-engine/mail-ops.c:1244
 #, c-format
 msgid "Refreshing folder '%s'"
 msgstr "Osvežavam fasciklu „%s“"
 
-#: ../libemail-engine/mail-ops.c:1458
+#: ../libemail-engine/mail-ops.c:1461
 #, c-format
 msgid "Expunging folder '%s'"
 msgstr "Praznim fasciklu „%s“"
 
-#: ../libemail-engine/mail-ops.c:1551
+#: ../libemail-engine/mail-ops.c:1554
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Izbacujem smeće u „%s“"
 
-#: ../libemail-engine/mail-ops.c:1647
+#: ../libemail-engine/mail-ops.c:1650
 #, c-format
 msgid "Disconnecting %s"
 msgstr "Prekidam vezu sa „%s“"
@@ -11166,7 +11206,7 @@ msgstr "Pod_razumevano"
 
 # has "activatable" set.
 #: ../mail/e-mail-account-tree-view.c:85
-#: ../modules/mail/em-composer-prefs.c:506
+#: ../modules/mail/em-composer-prefs.c:509
 #: ../modules/plugin-manager/evolution-plugin-manager.c:360
 #: ../plugins/publish-calendar/publish-calendar.c:849
 msgid "Enabled"
@@ -11187,7 +11227,6 @@ msgid "Default"
 msgstr "Podrazumevano"
 
 #: ../mail/e-mail-attachment-bar.c:102 ../mail/e-mail-attachment-bar.c:107
-#: ../mail/em-format-html-display.c:1395 ../mail/mail-config.ui.h:58
 #: ../mail/message-list.etspec.h:4 ../widgets/misc/e-attachment-paned.c:172
 #: ../widgets/misc/e-attachment-paned.c:177
 msgid "Attachment"
@@ -11283,7 +11322,7 @@ msgid "_Later"
 msgstr "Kasni_je"
 
 #: ../mail/e-mail-label-manager.c:170
-#: ../modules/mail/e-mail-shell-view-actions.c:705
+#: ../modules/mail/e-mail-shell-view-actions.c:736
 msgid "Add Label"
 msgstr "Dodaj oznaku"
 
@@ -11998,11 +12037,6 @@ msgctxt "mail-signature"
 msgid "None"
 msgstr "Ništa"
 
-#: ../mail/em-account-editor.c:1738 ../mail/em-account-editor.c:4773
-#: ../mail/em-account-editor.c:4808
-msgid "Never"
-msgstr "Nikada"
-
 #: ../mail/em-account-editor.c:1739
 msgid "Always"
 msgstr "Uvek"
@@ -12042,7 +12076,7 @@ msgstr ""
 "Unesite ime i elektronsku adresu. „Neobavezna“ polja ne moraju biti popunjena, "
 "osim ako ne želite da ove podatke uključite u poruke koje šaljete."
 
-#: ../mail/em-account-editor.c:2927 ../mail/em-account-editor.c:3119
+#: ../mail/em-account-editor.c:2927 ../mail/em-account-editor.c:3136
 msgid "Receiving Email"
 msgstr "Primanje pošte"
 
@@ -12050,7 +12084,7 @@ msgstr "Primanje pošte"
 msgid "Please configure the following account settings."
 msgstr "Podesite sledeće postavke naloga."
 
-#: ../mail/em-account-editor.c:2930 ../mail/em-account-editor.c:3723
+#: ../mail/em-account-editor.c:2930 ../mail/em-account-editor.c:3755
 msgid "Sending Email"
 msgstr "Slanje pošte"
 
@@ -12090,50 +12124,42 @@ msgstr ""
 "\n"
 "Kliknite „Primeni“ da sačuvate postavke."
 
-#: ../mail/em-account-editor.c:3485
+#: ../mail/em-account-editor.c:3502
 msgid "Check for _new messages every"
 msgstr "Proveri za _novu poštu svakih"
 
 # bug: plural-forms
-#: ../mail/em-account-editor.c:3493
+#: ../mail/em-account-editor.c:3510
 msgid "minu_tes"
 msgstr "minu_ta"
 
-#: ../mail/em-account-editor.c:4186 ../mail/mail-config.ui.h:166
+#: ../mail/em-account-editor.c:4218 ../mail/mail-config.ui.h:166
 msgid "Security"
 msgstr "Bezbednost"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:4241 ../mail/em-account-editor.c:4343
+#: ../mail/em-account-editor.c:4273 ../mail/em-account-editor.c:4375
 msgid "Receiving Options"
 msgstr "Opcije za primanje"
 
-#: ../mail/em-account-editor.c:4242 ../mail/em-account-editor.c:4344
+#: ../mail/em-account-editor.c:4274 ../mail/em-account-editor.c:4376
 msgid "Checking for New Messages"
 msgstr "Proveranje za nove poruke"
 
-#: ../mail/em-account-editor.c:4767 ../mail/em-account-editor.c:4802
-msgid "Always (SSL)"
-msgstr "Uvek (SSL)"
-
-#: ../mail/em-account-editor.c:4770 ../mail/em-account-editor.c:4805
-msgid "When possible (TLS)"
-msgstr "Kada je moguće (TLS)"
-
-#: ../mail/em-account-editor.c:4847
+#: ../mail/em-account-editor.c:4879
 msgid "Setup Google con_tacts with Evolution"
 msgstr "Podesite Gugl ko_ntakte sa Evolucijom"
 
-#: ../mail/em-account-editor.c:4854
+#: ../mail/em-account-editor.c:4886
 msgid "Setup Google ca_lendar with Evolution"
 msgstr "Podesite Gugl ka_lendar sa Evolucijom"
 
-#: ../mail/em-account-editor.c:4902
+#: ../mail/em-account-editor.c:4934
 msgid "Setup _Yahoo calendar with Evolution"
 msgstr "Podesite _Jahu kalendar sa Evolucijom"
 
-#: ../mail/em-account-editor.c:4927
+#: ../mail/em-account-editor.c:4959
 msgid "Yahoo Calen_dar name:"
 msgstr "Naziv Ja_hu kalendara:"
 
@@ -12764,6 +12790,14 @@ msgstr "Sakrij _neformatirano"
 msgid "O_pen With"
 msgstr "O_tvori pomoću"
 
+#. Translators: Name of an Attachment button for a11y object
+#: ../mail/em-format-html-display.c:1396
+#| msgid "Attachment"
+#| msgid_plural "Attachments"
+msgctxt "Button"
+msgid "Attachment"
+msgstr "Prilog"
+
 #: ../mail/em-format-html-print.c:157
 #, c-format
 msgid "Page %d of %d"
@@ -12788,7 +12822,7 @@ msgid "Subscribe To _All"
 msgstr "Prijavi se _na sve"
 
 #: ../mail/em-subscription-editor.c:971 ../mail/em-subscription-editor.c:1824
-#: ../modules/mail/e-mail-shell-view-actions.c:1254
+#: ../modules/mail/e-mail-shell-view-actions.c:1292
 msgid "_Unsubscribe"
 msgstr "_Odjavi se"
 
@@ -12825,7 +12859,7 @@ msgid "Su_bscribe"
 msgstr "P_rijavi se"
 
 #: ../mail/em-subscription-editor.c:1823
-#: ../modules/mail/e-mail-shell-view-actions.c:1256
+#: ../modules/mail/e-mail-shell-view-actions.c:1294
 msgid "Unsubscribe from the selected folder"
 msgstr "Odjavite se sa izabrane fascikle"
 
@@ -13231,24 +13265,30 @@ msgid "Drag'n'drop export format"
 msgstr "Oblik izvoženja „prevuci i ubaci“"
 
 #: ../mail/evolution-mail.schemas.in.h:236
+#| msgid ""
+#| "Define the email export format when doing drag'n'drop. Possible values "
+#| "are : mbox or pdf"
 msgid ""
-"Define the email export format when doing drag'n'drop. Possible values are : "
+"Define the email export format when doing drag'n'drop. Possible values are "
 "mbox or pdf"
 msgstr ""
 "Određuje oblik izvoženja el. pošte prilikom obavljanja prevlačenja i ubacanja. "
-"Moguće vrednosti su : „mbox“ ili „pdf“"
+"Moguće vrednosti su „mbox“ ili „pdf“"
 
 #: ../mail/evolution-mail.schemas.in.h:237
 msgid "Format of the drag'n'drop export filename"
 msgstr "Oblik naziva datoteke izvoženja „prevuci i ubaci“"
 
 #: ../mail/evolution-mail.schemas.in.h:238
+#| msgid ""
+#| "Exported file name will be : YYYmmDDHHMMSS_email_title Possible values : "
+#| "1 (: email sent date), 2 (: drag'n'drop date)"
 msgid ""
-"Exported file name will be : YYYmmDDHHMMSS_email_title Possible values : 1 "
-"(: email sent date), 2 (: drag'n'drop date)"
+"Exported filename will be YYYYmmDDHHMMSS_email_title Possible values: 1 (: "
+"email sent date), 2 (: drag'n'drop date)"
 msgstr ""
-"Izveženi naziv datoteke će biti : YYYmmDDHHMMSS_email_title Moguće "
-"vrednosti : 1 (: datum slanja el. pošte), 2 (: datum prevlačenja i ubacivanja)"
+"Izveženi naziv datoteke će biti YYYmmDDHHMMSS_email_title Moguće vrednosti "
+"su: 1 (: datum slanja el. pošte), 2 (: datum prevlačenja i ubacivanja)"
 
 #: ../mail/importers/elm-importer.c:181
 msgid "Importing Elm data"
@@ -13256,7 +13296,7 @@ msgstr "Uvoženje Elm podataka"
 
 # 48x48/emblems/emblem-mail.icon.in.h:1
 #: ../mail/importers/elm-importer.c:351 ../mail/importers/pine-importer.c:460
-#: ../modules/mail/e-mail-shell-view.c:1038
+#: ../modules/mail/e-mail-shell-view.c:1042
 #: ../widgets/misc/e-send-options.c:520
 msgid "Mail"
 msgstr "Pošta"
@@ -13433,7 +13473,6 @@ msgid "Default Behavior"
 msgstr "Podrazumevano ponašanje"
 
 #: ../mail/mail-config.ui.h:12
-#| msgid "Format messages in _HTML"
 msgid "For_mat messages in HTML"
 msgstr "Oblikuj poruke u HTM_L"
 
@@ -13446,14 +13485,14 @@ msgid "Always request rea_d receipt"
 msgstr "Uvek traži _povratnicu"
 
 #: ../mail/mail-config.ui.h:15
-#| msgid "Encode file names in an Outlook/GMail way"
-msgid "Encode file names in an _Outlook/GMail way"
+#| msgid "Encode file names in an _Outlook/GMail way"
+msgid "Encode filenames in an _Outlook/GMail way"
 msgstr "Kodiraj nazive datoteka na način _Autluka/Gpošte"
 
 #: ../mail/mail-config.ui.h:16
-#| msgid "C_haracter set:"
-msgid "Character _set:"
-msgstr "Kodni _raspored:"
+#| msgid "Ch_aracter Encoding"
+msgid "Ch_aracter encoding:"
+msgstr "Kodna st_rana:"
 
 #: ../mail/mail-config.ui.h:17
 msgid "Replies and Forwards"
@@ -13476,12 +13515,10 @@ msgid "_Keep signature above the original message on replying"
 msgstr "Zadrži potpis _iznad originalne poruke pri odgovoru"
 
 #: ../mail/mail-config.ui.h:22
-#| msgid "Ignore Reply-To: for mailing lists"
 msgid "Ig_nore Reply-To: for mailing lists"
 msgstr "_Zanemari „Odgovor-za:“ za dopisne liste"
 
 #: ../mail/mail-config.ui.h:23
-#| msgid "Group Reply goes only to mailing list, if possible"
 msgid "Gro_up Reply goes only to mailing list, if possible"
 msgstr "Odgovor _grupi ide samo na dopisnu listu, ako je moguće"
 
@@ -13598,19 +13635,34 @@ msgstr "a"
 msgid "b"
 msgstr "b"
 
+#: ../mail/mail-config.ui.h:58
+#| msgid "Attachment"
+#| msgid_plural "Attachments"
+msgctxt "ReplyForward"
+msgid "Attachment"
+msgstr "Priloži"
+
 #: ../mail/mail-config.ui.h:59
+#| msgid "Inline (Outlook style)"
+msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
 msgstr "Unutar (Autluk stil)"
 
 #: ../mail/mail-config.ui.h:60
+#| msgid "Quoted"
+msgctxt "ReplyForward"
 msgid "Quoted"
 msgstr "Citirano"
 
 #: ../mail/mail-config.ui.h:61
+#| msgid "Do not quote"
+msgctxt "ReplyForward"
 msgid "Do not quote"
 msgstr "Ne citiraj"
 
 #: ../mail/mail-config.ui.h:62
+#| msgid "Inline"
+msgctxt "ReplyForward"
 msgid "Inline"
 msgstr "Unutar"
 
@@ -14007,9 +14059,12 @@ msgstr "Podešavanje"
 msgid "_Server:"
 msgstr "S_erver:"
 
-#: ../mail/mail-config.ui.h:163
-msgid "User _Name:"
-msgstr "Korisničko _ime:"
+#: ../mail/mail-config.ui.h:163 ../plugins/caldav/caldav-source.c:249
+#: ../plugins/google-account-setup/google-contacts-source.c:337
+#: ../plugins/google-account-setup/google-source.c:660
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:269
+msgid "User_name:"
+msgstr "Korisničko_ime:"
 
 #: ../mail/mail-config.ui.h:165
 msgid "Mailbox location"
@@ -14057,17 +14112,21 @@ msgid "T_ype:"
 msgstr "T_ip:"
 
 #: ../mail/mail-config.ui.h:177
+msgid "User _Name:"
+msgstr "Korisničko _ime:"
+
+#: ../mail/mail-config.ui.h:178
 msgid "Remember _password"
 msgstr "Zapa_mti lozinku"
 
 # Create the default Person calendar
 # Create the default Person task list
 # orange
-#: ../mail/mail-config.ui.h:178
+#: ../mail/mail-config.ui.h:179
 msgid "Personal Details:"
 msgstr "Lični podaci:"
 
-#: ../mail/mail-config.ui.h:187
+#: ../mail/mail-config.ui.h:188
 msgid "Encryption:"
 msgstr "Šifrovanje:"
 
@@ -14076,11 +14135,11 @@ msgstr "Šifrovanje:"
 # When "None" is selected we want the field to be cleared.
 # Note that we don't show this here, since by default a 'None' date
 # is not permitted.
-#: ../mail/mail-config.ui.h:188
+#: ../mail/mail-config.ui.h:189
 msgid "none"
 msgstr "ništa"
 
-#: ../mail/mail-config.ui.h:189
+#: ../mail/mail-config.ui.h:190
 msgid "label"
 msgstr "natpis"
 
@@ -14383,7 +14442,7 @@ msgstr ""
 "Sigurno želite trajno da uklonite sve obrisane poruke iz svih fascikli?"
 
 #: ../mail/mail.error.xml.h:39
-#: ../modules/mail/e-mail-shell-view-actions.c:1156
+#: ../modules/mail/e-mail-shell-view-actions.c:1187
 msgid "_Empty Trash"
 msgstr "Isprazni _Smeće"
 
@@ -14696,6 +14755,10 @@ msgstr ""
 msgid "Ignore"
 msgstr "Zanemari"
 
+#: ../mail/mail.error.xml.h:113
+msgid "_Overwrite"
+msgstr "_Prepiši"
+
 #: ../mail/mail.error.xml.h:114
 msgid "_Append"
 msgstr "_Prikači"
@@ -14969,8 +15032,9 @@ msgstr "Podešavanje fascikle pretrage: %s"
 
 #: ../mail/mail-vfolder.c:219
 #, c-format
-msgid "Updating Search Folders for '%s' : %s"
-msgstr "Ažuriranje fascikla pretrage za „%s : %s“"
+#| msgid "Updating Search Folders for '%s' : %s"
+msgid "Updating Search Folders for '%s' - %s"
+msgstr "Ažuriranje fascikla pretrage za „%s — %s“"
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
@@ -15142,27 +15206,27 @@ msgid "Subject or Addresses contains"
 msgstr "Naslov ili adrese sadrže"
 
 #: ../mail/searchtypes.xml.h:2
-#: ../modules/mail/e-mail-shell-view-actions.c:1610
+#: ../modules/mail/e-mail-shell-view-actions.c:1652
 msgid "Recipients contain"
 msgstr "Primaoci sadrže"
 
 #: ../mail/searchtypes.xml.h:3
-#: ../modules/mail/e-mail-shell-view-actions.c:1603
+#: ../modules/mail/e-mail-shell-view-actions.c:1645
 msgid "Message contains"
 msgstr "Poruka sadrži"
 
 #: ../mail/searchtypes.xml.h:4
-#: ../modules/mail/e-mail-shell-view-actions.c:1624
+#: ../modules/mail/e-mail-shell-view-actions.c:1666
 msgid "Subject contains"
 msgstr "Naslov sadrži"
 
 #: ../mail/searchtypes.xml.h:5
-#: ../modules/mail/e-mail-shell-view-actions.c:1617
+#: ../modules/mail/e-mail-shell-view-actions.c:1659
 msgid "Sender contains"
 msgstr "Pošiljalac sadrži"
 
 #: ../mail/searchtypes.xml.h:6
-#: ../modules/mail/e-mail-shell-view-actions.c:1596
+#: ../modules/mail/e-mail-shell-view-actions.c:1638
 msgid "Body contains"
 msgstr "Telo sadrži"
 
@@ -15372,7 +15436,7 @@ msgstr "Napravite novi adresar"
 msgid "Contacts"
 msgstr "Kontakti"
 
-#: ../modules/addressbook/e-book-shell-backend.c:355
+#: ../modules/addressbook/e-book-shell-backend.c:356
 msgid "Certificates"
 msgstr "Uverenja"
 
@@ -15430,7 +15494,7 @@ msgstr "Prikazuje mapu sa svim kontaktima iz izabranih adresara"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1405
 #: ../modules/calendar/e-memo-shell-view-actions.c:640
 #: ../modules/calendar/e-task-shell-view-actions.c:764
-#: ../modules/mail/e-mail-shell-view-actions.c:1233
+#: ../modules/mail/e-mail-shell-view-actions.c:1271
 msgid "_Rename..."
 msgstr "_Preimenuj..."
 
@@ -15511,7 +15575,7 @@ msgstr "_Radnje"
 #: ../modules/addressbook/e-book-shell-view-actions.c:944
 #: ../modules/calendar/e-memo-shell-view-actions.c:677
 #: ../modules/calendar/e-task-shell-view-actions.c:829
-#: ../modules/mail/e-mail-shell-view-actions.c:1391
+#: ../modules/mail/e-mail-shell-view-actions.c:1429
 msgid "_Preview"
 msgstr "_Pregled"
 
@@ -15523,6 +15587,7 @@ msgid "_Delete"
 msgstr "_Obriši"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:957
+#: ../modules/mail/e-mail-shell-view-actions.c:1194
 msgid "_Properties"
 msgstr "O_sobine"
 
@@ -15549,7 +15614,7 @@ msgstr "Prikažite mape u prozoru za pregled kontakata"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1022
 #: ../modules/calendar/e-memo-shell-view-actions.c:747
 #: ../modules/calendar/e-task-shell-view-actions.c:911
-#: ../modules/mail/e-mail-shell-view-actions.c:1506
+#: ../modules/mail/e-mail-shell-view-actions.c:1548
 msgid "_Classic View"
 msgstr "_Klasični prikaz"
 
@@ -15560,7 +15625,7 @@ msgstr "Prikažite pregled kontakta ispod kontakt liste"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1029
 #: ../modules/calendar/e-memo-shell-view-actions.c:754
 #: ../modules/calendar/e-task-shell-view-actions.c:918
-#: ../modules/mail/e-mail-shell-view-actions.c:1513
+#: ../modules/mail/e-mail-shell-view-actions.c:1555
 msgid "_Vertical View"
 msgstr "_Uspravni pregled"
 
@@ -15586,7 +15651,7 @@ msgstr "Ne odgovara"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1727
 #: ../modules/calendar/e-memo-shell-view-actions.c:781
 #: ../modules/calendar/e-task-shell-view-actions.c:980
-#: ../modules/mail/e-mail-shell-view-actions.c:1589
+#: ../modules/mail/e-mail-shell-view-actions.c:1631
 #: ../shell/e-shell-content.c:664
 msgid "Advanced Search"
 msgstr "Napredna pretraga"
@@ -15722,8 +15787,9 @@ msgid "5"
 msgstr "5"
 
 #: ../modules/addressbook/ldap-config.ui.h:30
-msgid "cards"
-msgstr "karte"
+#| msgid "Contacts"
+msgid "contacts"
+msgstr "kontakti"
 
 #: ../modules/addressbook/ldap-config.ui.h:31
 msgid "_Timeout:"
@@ -16347,45 +16413,45 @@ msgstr "Vreme"
 msgid "Birthdays & Anniversaries"
 msgstr "Rođendani i godišnjice"
 
-#: ../modules/calendar/e-cal-shell-backend.c:445
+#: ../modules/calendar/e-cal-shell-backend.c:449
 msgctxt "New"
 msgid "_Appointment"
 msgstr "_Zakazivanje"
 
-#: ../modules/calendar/e-cal-shell-backend.c:447
+#: ../modules/calendar/e-cal-shell-backend.c:451
 #: ../modules/calendar/e-cal-shell-view-actions.c:1484
 msgid "Create a new appointment"
 msgstr "Pravi novo zakazivanje"
 
-#: ../modules/calendar/e-cal-shell-backend.c:452
+#: ../modules/calendar/e-cal-shell-backend.c:456
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "Celodnevno za_kazivanje"
 
-#: ../modules/calendar/e-cal-shell-backend.c:454
+#: ../modules/calendar/e-cal-shell-backend.c:458
 msgid "Create a new all-day appointment"
 msgstr "Pravi novo celodnevno zakazivanje"
 
-#: ../modules/calendar/e-cal-shell-backend.c:459
+#: ../modules/calendar/e-cal-shell-backend.c:463
 msgctxt "New"
 msgid "M_eeting"
 msgstr "S_astanak"
 
-#: ../modules/calendar/e-cal-shell-backend.c:461
+#: ../modules/calendar/e-cal-shell-backend.c:465
 msgid "Create a new meeting request"
 msgstr "Pravi novi zahtev za sastankom"
 
-#: ../modules/calendar/e-cal-shell-backend.c:469
+#: ../modules/calendar/e-cal-shell-backend.c:473
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "Kale_ndar"
 
-#: ../modules/calendar/e-cal-shell-backend.c:471
+#: ../modules/calendar/e-cal-shell-backend.c:475
 #: ../modules/calendar/e-cal-shell-view-actions.c:1379
 msgid "Create a new calendar"
 msgstr "Pravi novi kalendar"
 
-#: ../modules/calendar/e-cal-shell-backend.c:794
+#: ../modules/calendar/e-cal-shell-backend.c:798
 msgid "Calendar and Tasks"
 msgstr "Kalendar i zadaci"
 
@@ -17090,14 +17156,6 @@ msgstr[1] "%d zadataka"
 msgstr[2] "%d zadataka"
 msgstr[3] "%d zadatak"
 
-#: ../modules/mail/em-account-prefs.c:209
-msgid "Evolution Account Assistant"
-msgstr "Pomoćnik naloga Evolucije"
-
-#: ../modules/mail/em-account-prefs.c:253
-msgid "Account Editor"
-msgstr "Uređivač naloga"
-
 #: ../modules/mail/e-mail-attachment-handler.c:385
 #, c-format
 msgid "%d attached message"
@@ -17107,147 +17165,171 @@ msgstr[1] "%d priložene poruke"
 msgstr[2] "%d priloženih poruka"
 msgstr[3] "Jedna priložena poruka"
 
-#: ../modules/mail/e-mail-shell-backend.c:204
+#: ../modules/mail/e-mail-shell-backend.c:226
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "_Poruka"
 
-#: ../modules/mail/e-mail-shell-backend.c:206
+#: ../modules/mail/e-mail-shell-backend.c:228
 msgid "Compose a new mail message"
 msgstr "Sastavite novu poruku"
 
-#: ../modules/mail/e-mail-shell-backend.c:214
+#: ../modules/mail/e-mail-shell-backend.c:236
+#| msgid "Mail Accounts"
+msgctxt "New"
+msgid "Mail Acco_unt"
+msgstr "Poštanski _nalog"
+
+#: ../modules/mail/e-mail-shell-backend.c:238
+#| msgid "Create a new mail folder"
+msgid "Create a new mail account"
+msgstr "Napravite novi nalog za poštu"
+
+#: ../modules/mail/e-mail-shell-backend.c:243
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "_Fascikla za poštu"
 
-#: ../modules/mail/e-mail-shell-backend.c:216
+#: ../modules/mail/e-mail-shell-backend.c:245
 msgid "Create a new mail folder"
 msgstr "Napravite novu fasciklu za poštu"
 
-#: ../modules/mail/e-mail-shell-backend.c:431
+#: ../modules/mail/e-mail-shell-backend.c:460
 msgid "Mail Accounts"
 msgstr "Poštanski nalozi"
 
-#: ../modules/mail/e-mail-shell-backend.c:439
+#: ../modules/mail/e-mail-shell-backend.c:469
 msgid "Mail Preferences"
 msgstr "Postavke pošte"
 
-#: ../modules/mail/e-mail-shell-backend.c:447
+#: ../modules/mail/e-mail-shell-backend.c:478
 msgid "Composer Preferences"
 msgstr "Postavke sastavljača"
 
-#: ../modules/mail/e-mail-shell-backend.c:455
+#: ../modules/mail/e-mail-shell-backend.c:487
 msgid "Network Preferences"
 msgstr "Postavke mreže"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1149
+#: ../modules/mail/e-mail-shell-backend.c:721
+msgid "Evolution Account Assistant"
+msgstr "Pomoćnik naloga Evolucije"
+
+#: ../modules/mail/e-mail-shell-backend.c:767
+msgid "Account Editor"
+msgstr "Uređivač naloga"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1180
 #: ../modules/mail/e-mail-shell-view.c:947
 msgid "_Disable Account"
 msgstr "_Onemogući nalog"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1151
+#: ../modules/mail/e-mail-shell-view-actions.c:1182
 msgid "Disable this account"
 msgstr "Onemogućite ovaj nalog"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1158
+#: ../modules/mail/e-mail-shell-view-actions.c:1189
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Trajno uklonite sve obrisane poruke iz svih fascikli"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1163
+#: ../modules/mail/e-mail-shell-view-actions.c:1196
+#| msgid "Change the properties of this folder"
+msgid "Edit properties of this account"
+msgstr "Izmenite osobine ovog naloga"
+
+#: ../modules/mail/e-mail-shell-view-actions.c:1201
 msgid "_Download Messages for Offline Usage"
 msgstr "_Preuzmi poruke za rad van mreže"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1165
+#: ../modules/mail/e-mail-shell-view-actions.c:1203
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr ""
 "Preuzmite poruke za naloge i fascikle koje su označene za rad van mreže"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1170
+#: ../modules/mail/e-mail-shell-view-actions.c:1208
 msgid "Fl_ush Outbox"
 msgstr "Is_prazni „Za slanje“"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1177
+#: ../modules/mail/e-mail-shell-view-actions.c:1215
 msgid "_Copy Folder To..."
 msgstr "_Umnoži fasciklu u..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1179
+#: ../modules/mail/e-mail-shell-view-actions.c:1217
 msgid "Copy the selected folder into another folder"
 msgstr "Umnožite izabranu fasciklu u drugu fasciklu"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1186
+#: ../modules/mail/e-mail-shell-view-actions.c:1224
 msgid "Permanently remove this folder"
 msgstr "Trajno uklonite ovu fasciklu"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1191
+#: ../modules/mail/e-mail-shell-view-actions.c:1229
 msgid "E_xpunge"
 msgstr "Izba_ci"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1193
+#: ../modules/mail/e-mail-shell-view-actions.c:1231
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Trajno uklonite sve obrisane poruke iz ove fascikle"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1198
+#: ../modules/mail/e-mail-shell-view-actions.c:1236
 msgid "Mar_k All Messages as Read"
 msgstr "Označi sve po_ruke kao pročitane"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1200
+#: ../modules/mail/e-mail-shell-view-actions.c:1238
 msgid "Mark all messages in the folder as read"
 msgstr "Označite sve poruke u fascikli kao pročitane"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1205
+#: ../modules/mail/e-mail-shell-view-actions.c:1243
 msgid "_Move Folder To..."
 msgstr "_Premesti fasciklu u..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1207
+#: ../modules/mail/e-mail-shell-view-actions.c:1245
 msgid "Move the selected folder into another folder"
 msgstr "Premestite izabranu fasciklu u drugu fasciklu"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1212
+#: ../modules/mail/e-mail-shell-view-actions.c:1250
 msgid "_New..."
 msgstr "_Novo..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1214
+#: ../modules/mail/e-mail-shell-view-actions.c:1252
 msgid "Create a new folder for storing mail"
 msgstr "Napravite novu fasciklu za smeštaj pošte"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1221
+#: ../modules/mail/e-mail-shell-view-actions.c:1259
 msgid "Change the properties of this folder"
 msgstr "Izmenite osobine ove fascikle"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1228
+#: ../modules/mail/e-mail-shell-view-actions.c:1266
 msgid "Refresh the folder"
 msgstr "Osvežite fasciklu"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1235
+#: ../modules/mail/e-mail-shell-view-actions.c:1273
 msgid "Change the name of this folder"
 msgstr "Promenite ime ove fascikle"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1240
+#: ../modules/mail/e-mail-shell-view-actions.c:1278
 msgid "Select Message _Thread"
 msgstr "Izaberi raspravu"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1242
+#: ../modules/mail/e-mail-shell-view-actions.c:1280
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Označite sve poruke iste rasprave kao izabranu poruku"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1247
+#: ../modules/mail/e-mail-shell-view-actions.c:1285
 msgid "Select Message S_ubthread"
 msgstr "Izaberi p_odniz poruke"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1249
+#: ../modules/mail/e-mail-shell-view-actions.c:1287
 msgid "Select all replies to the currently selected message"
 msgstr "Izaberite sve odgovore na trenutno izabranu poruku"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1261
+#: ../modules/mail/e-mail-shell-view-actions.c:1299
 msgid "Empty _Trash"
 msgstr "Izbaci _smeće"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1263
+#: ../modules/mail/e-mail-shell-view-actions.c:1301
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr "Trajno ukloni sve obrisane poruke sa svih naloga"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1268
+#: ../modules/mail/e-mail-shell-view-actions.c:1306
 msgid "_New Label"
 msgstr "_Nova oznaka"
 
@@ -17256,189 +17338,189 @@ msgstr "_Nova oznaka"
 # When "None" is selected we want the field to be cleared.
 # Note that we don't show this here, since by default a 'None' date
 # is not permitted.
-#: ../modules/mail/e-mail-shell-view-actions.c:1277
+#: ../modules/mail/e-mail-shell-view-actions.c:1315
 msgid "N_one"
 msgstr "N_išta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1291
+#: ../modules/mail/e-mail-shell-view-actions.c:1329
 msgid "_Manage Subscriptions"
 msgstr "_Upravljaj prijavama"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1293
-#: ../modules/mail/e-mail-shell-view-actions.c:1370
+#: ../modules/mail/e-mail-shell-view-actions.c:1331
+#: ../modules/mail/e-mail-shell-view-actions.c:1408
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Prijavi se ili odjavi na fascikle na mrežnim serverima"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1298
-#: ../modules/mail/e-mail-shell-view-actions.c:1319
+#: ../modules/mail/e-mail-shell-view-actions.c:1336
+#: ../modules/mail/e-mail-shell-view-actions.c:1357
 msgid "Send / _Receive"
 msgstr "Slanje / p_rimanje"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1300
+#: ../modules/mail/e-mail-shell-view-actions.c:1338
 msgid "Send queued items and retrieve new items"
 msgstr "Šalje pripremljene i dovlači nove stavke"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1305
+#: ../modules/mail/e-mail-shell-view-actions.c:1343
 msgid "R_eceive All"
 msgstr "P_rimi sve"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1307
+#: ../modules/mail/e-mail-shell-view-actions.c:1345
 msgid "Receive new items from all accounts"
 msgstr "Primite nove stavke sa svih naloga"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1312
+#: ../modules/mail/e-mail-shell-view-actions.c:1350
 msgid "_Send All"
 msgstr "P_ošalji sve"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1314
+#: ../modules/mail/e-mail-shell-view-actions.c:1352
 msgid "Send queued items in all accounts"
 msgstr "Pošaljite stavke na čekanju u svim nalozima"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1340
+#: ../modules/mail/e-mail-shell-view-actions.c:1378
 #: ../widgets/misc/e-activity-proxy.c:313
 msgid "Cancel"
 msgstr "Otkaži"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1342
+#: ../modules/mail/e-mail-shell-view-actions.c:1380
 msgid "Cancel the current mail operation"
 msgstr "Otkažite trenutnu operaciju sa poštom"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1347
+#: ../modules/mail/e-mail-shell-view-actions.c:1385
 msgid "Collapse All _Threads"
 msgstr "Skupi sve _rasprave"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1349
+#: ../modules/mail/e-mail-shell-view-actions.c:1387
 msgid "Collapse all message threads"
 msgstr "Skupite celokupno grananje rasprava"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1354
+#: ../modules/mail/e-mail-shell-view-actions.c:1392
 msgid "E_xpand All Threads"
 msgstr "Razgranaj sve ra_sprave"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1356
+#: ../modules/mail/e-mail-shell-view-actions.c:1394
 msgid "Expand all message threads"
 msgstr "Razgranajte sve poruke u raspravama"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1361
+#: ../modules/mail/e-mail-shell-view-actions.c:1399
 msgid "_Message Filters"
 msgstr "F_ilteri poruke"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1363
+#: ../modules/mail/e-mail-shell-view-actions.c:1401
 msgid "Create or edit rules for filtering new mail"
 msgstr "Napravite ili uredite pravila za filtriranje nove pošte"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1368
+#: ../modules/mail/e-mail-shell-view-actions.c:1406
 msgid "_Subscriptions..."
 msgstr "_Prijave..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1377
+#: ../modules/mail/e-mail-shell-view-actions.c:1415
 msgid "F_older"
 msgstr "Fas_cikla"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1384
+#: ../modules/mail/e-mail-shell-view-actions.c:1422
 msgid "_Label"
 msgstr "_Oznaka"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1401
+#: ../modules/mail/e-mail-shell-view-actions.c:1439
 msgid "C_reate Search Folder From Search..."
 msgstr "Napravi Fasciklu pretrage iz pretrage..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1408
+#: ../modules/mail/e-mail-shell-view-actions.c:1446
 msgid "Search F_olders"
 msgstr "Fas_cikle pretrage"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1410
+#: ../modules/mail/e-mail-shell-view-actions.c:1448
 msgid "Create or edit search folder definitions"
 msgstr "Napravite ili uredite definicije fascikle pretrage"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1441
+#: ../modules/mail/e-mail-shell-view-actions.c:1483
 msgid "_New Folder..."
 msgstr "_Nova fascikla..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1469
+#: ../modules/mail/e-mail-shell-view-actions.c:1511
 msgid "Show Message _Preview"
 msgstr "Prika_ži pregled poruke"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1471
+#: ../modules/mail/e-mail-shell-view-actions.c:1513
 msgid "Show message preview pane"
 msgstr "Prikažite pregled poruke"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1477
+#: ../modules/mail/e-mail-shell-view-actions.c:1519
 msgid "Show _Deleted Messages"
 msgstr "Prikaži o_brisane poruke"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1479
+#: ../modules/mail/e-mail-shell-view-actions.c:1521
 msgid "Show deleted messages with a line through them"
 msgstr "Prikažite obrisane poruke (kao precrtane)"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1485
+#: ../modules/mail/e-mail-shell-view-actions.c:1527
 msgid "_Group By Threads"
 msgstr "Grupiši po _raspravama"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1487
+#: ../modules/mail/e-mail-shell-view-actions.c:1529
 msgid "Threaded message list"
 msgstr "Spisak poruka po temama"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1508
+#: ../modules/mail/e-mail-shell-view-actions.c:1550
 msgid "Show message preview below the message list"
 msgstr "Prikažite pregled poruke ispod liste poruka"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1515
+#: ../modules/mail/e-mail-shell-view-actions.c:1557
 msgid "Show message preview alongside the message list"
 msgstr "Prikažite pregled poruke pored spiska poruka"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1523
+#: ../modules/mail/e-mail-shell-view-actions.c:1565
 msgid "All Messages"
 msgstr "Sve poruke"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1530
+#: ../modules/mail/e-mail-shell-view-actions.c:1572
 msgid "Important Messages"
 msgstr "Važne poruke"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1537
+#: ../modules/mail/e-mail-shell-view-actions.c:1579
 msgid "Last 5 Days' Messages"
 msgstr "Poruke u zadnjih 5 dana"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1544
+#: ../modules/mail/e-mail-shell-view-actions.c:1586
 msgid "Messages Not Junk"
 msgstr "Poruke nisu đubre"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1551
+#: ../modules/mail/e-mail-shell-view-actions.c:1593
 msgid "Messages with Attachments"
 msgstr "Poruke sa prilozima"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1558
+#: ../modules/mail/e-mail-shell-view-actions.c:1600
 msgid "No Label"
 msgstr "Bez oznake"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1565
+#: ../modules/mail/e-mail-shell-view-actions.c:1607
 msgid "Read Messages"
 msgstr "Pročitane poruke"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1572
+#: ../modules/mail/e-mail-shell-view-actions.c:1614
 msgid "Recent Messages"
 msgstr "Skorašnje poruke"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1579
+#: ../modules/mail/e-mail-shell-view-actions.c:1621
 msgid "Unread Messages"
 msgstr "Nepročitane poruke"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1631
+#: ../modules/mail/e-mail-shell-view-actions.c:1673
 msgid "Subject or Addresses contain"
 msgstr "Naslov ili adrese sadrže"
 
 # bug: requires a comment on usage
-#: ../modules/mail/e-mail-shell-view-actions.c:1641
+#: ../modules/mail/e-mail-shell-view-actions.c:1683
 msgid "All Accounts"
 msgstr "svim nalozima"
 
 # bug: requires a comment on usage
-#: ../modules/mail/e-mail-shell-view-actions.c:1648
+#: ../modules/mail/e-mail-shell-view-actions.c:1690
 msgid "Current Account"
 msgstr "tekućem nalogu"
 
 # bug: requires a comment on usage
-#: ../modules/mail/e-mail-shell-view-actions.c:1655
+#: ../modules/mail/e-mail-shell-view-actions.c:1697
 msgid "Current Folder"
 msgstr "tekućoj fascikli"
 
@@ -17535,7 +17617,7 @@ msgstr "Smeće"
 msgid "Send / Receive"
 msgstr "Pošalji / Primi"
 
-#: ../modules/mail/em-composer-prefs.c:510
+#: ../modules/mail/em-composer-prefs.c:513
 msgid "Language(s)"
 msgstr "Jezik(ci)"
 
@@ -17775,7 +17857,7 @@ msgstr ""
 "Dobrodošli u Evoluciju. Nekoliko narednih ekrana će omogućiti Evoluciji da "
 "se poveže na vaše naloge el. pošte i da uveze datoteke iz drugih programa."
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:609
+#: ../modules/startup-wizard/evolution-startup-wizard.c:613
 msgid "Loading accounts..."
 msgstr "Učitavam naloge..."
 
@@ -18223,13 +18305,6 @@ msgstr "_Adresa :"
 msgid "Use _secure connection"
 msgstr "_Koristi sigurnu vezu"
 
-#: ../plugins/caldav/caldav-source.c:249
-#: ../plugins/google-account-setup/google-contacts-source.c:337
-#: ../plugins/google-account-setup/google-source.c:660
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:269
-msgid "User_name:"
-msgstr "Korisničko_ime:"
-
 #: ../plugins/caldav/caldav-source.c:264
 msgid "Brows_e server for a calendar"
 msgstr "Po_traži kalendar na serveru"
@@ -18256,7 +18331,9 @@ msgid "_Customize options"
 msgstr "_Prilagodi opcije"
 
 #: ../plugins/calendar-file/calendar-file.c:153
-msgid "File _name:"
+#: ../widgets/misc/e-attachment-dialog.c:330
+#: ../widgets/misc/e-import-assistant.c:266
+msgid "F_ilename:"
 msgstr "_Ime datoteke:"
 
 #: ../plugins/calendar-file/calendar-file.c:157
@@ -18637,8 +18714,8 @@ msgstr ""
 "%s"
 
 #: ../plugins/google-account-setup/google-source.c:569
-#: ../plugins/mail-to-task/mail-to-task.c:828
-#: ../plugins/mail-to-task/mail-to-task.c:1091
+#: ../plugins/mail-to-task/mail-to-task.c:838
+#: ../plugins/mail-to-task/mail-to-task.c:1101
 msgid "Unknown error."
 msgstr "Nepoznata greška."
 
@@ -19709,56 +19786,104 @@ msgid ""
 msgstr ""
 "Izabrani spisak već sadrži belešku „%s“. Želite li da uredite staru belešku?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:641
+#. Translators: Note there are always more than 10 mails selected
+#: ../plugins/mail-to-task/mail-to-task.c:643
 #, c-format
+#| msgid ""
+#| "You have selected %d mails to be converted to events. Do you really want "
+#| "to add them all?"
 msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
 "add them all?"
-msgstr ""
+msgid_plural ""
+"You have selected %d mails to be converted to events. Do you really want to "
+"add them all?"
+msgstr[0] ""
+"Izabrali ste %d poruku da prevedete u događaje. Da li zaista želite sve da "
+"ih dodate?"
+msgstr[1] ""
+"Izabrali ste %d poruke da prevedete u događaje. Da li zaista želite sve da "
+"ih dodate?"
+msgstr[2] ""
+"Izabrali ste %d poruka da prevedete u događaje. Da li zaista želite sve da "
+"ih dodate?"
+msgstr[3] ""
 "Izabrali ste %d pošta da prevedete u događaje. Da li zaista želite sve da ih "
 "dodate?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:644
+#. Translators: Note there are always more than 10 mails selected
+#: ../plugins/mail-to-task/mail-to-task.c:649
 #, c-format
+#| msgid ""
+#| "You have selected %d mails to be converted to tasks. Do you really want "
+#| "to add them all?"
 msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
 "add them all?"
-msgstr ""
+msgid_plural ""
+"You have selected %d mails to be converted to tasks. Do you really want to "
+"add them all?"
+msgstr[0] ""
+"Izabrali ste %d poruku da prevedete u zadatke. Da li zaista želite sve da ih "
+"dodate?"
+msgstr[1] ""
+"Izabrali ste %d poruke da prevedete u zadatke. Da li zaista želite sve da ih "
+"dodate?"
+msgstr[2] ""
+"Izabrali ste %d poruka da prevedete u zadatke. Da li zaista želite sve da ih "
+"dodate?"
+msgstr[3] ""
 "Izabrali ste %d pošta da prevedete u zadatke. Da li zaista želite sve da ih "
 "dodate?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:647
+#. Translators: Note there are always more than 10 mails selected
+#: ../plugins/mail-to-task/mail-to-task.c:655
 #, c-format
+#| msgid ""
+#| "You have selected %d mails to be converted to memos. Do you really want "
+#| "to add them all?"
 msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
 "add them all?"
-msgstr ""
+msgid_plural ""
+"You have selected %d mails to be converted to memos. Do you really want to "
+"add them all?"
+msgstr[0] ""
+"Izabrali ste %d poruku da prevedete u beleške. Da li zaista želite sve da ih "
+"dodate?"
+msgstr[1] ""
+"Izabrali ste %d poruke da prevedete u beleške. Da li zaista želite sve da ih "
+"dodate?"
+msgstr[2] ""
+"Izabrali ste %d poruka da prevedete u beleške. Da li zaista želite sve da ih "
+"dodate?"
+msgstr[3] ""
 "Izabrali ste %d pošta da prevedete u beleške. Da li zaista želite sve da ih "
 "dodate?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:666
+#: ../plugins/mail-to-task/mail-to-task.c:676
 msgid "Do you wish to continue converting remaining mails?"
 msgstr "Da li želite da nastavite sa prevođenjem preostalih pošta?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:741
+#: ../plugins/mail-to-task/mail-to-task.c:751
 msgid "[No Summary]"
 msgstr "[Bez sažetka]"
 
-#: ../plugins/mail-to-task/mail-to-task.c:753
+#: ../plugins/mail-to-task/mail-to-task.c:763
 msgid "Invalid object returned from a server"
 msgstr "Neispravan objekat vraćen sa servera"
 
-#: ../plugins/mail-to-task/mail-to-task.c:803
+#: ../plugins/mail-to-task/mail-to-task.c:813
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "Došlo je do greške u obradi: %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:828
+#: ../plugins/mail-to-task/mail-to-task.c:838
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Ne mogu da otvorim kalendar. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:835
+#: ../plugins/mail-to-task/mail-to-task.c:845
 msgid ""
 "Selected source is read only, thus cannot create event there. Select other "
 "source, please."
@@ -19766,7 +19891,7 @@ msgstr ""
 "Izabrani izvor je samo za čitanje, stoga ne možete napraviti događaj. "
 "Izaberite drugi izvor."
 
-#: ../plugins/mail-to-task/mail-to-task.c:838
+#: ../plugins/mail-to-task/mail-to-task.c:848
 msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
@@ -19774,7 +19899,7 @@ msgstr ""
 "Izabrani izvor je samo za čitanje, stoga ne možete napraviti zadatak. "
 "Izaberite drugi izvor."
 
-#: ../plugins/mail-to-task/mail-to-task.c:841
+#: ../plugins/mail-to-task/mail-to-task.c:851
 msgid ""
 "Selected source is read only, thus cannot create memo there. Select other "
 "source, please."
@@ -19783,44 +19908,44 @@ msgstr ""
 "Izaberite drugi izvor."
 
 # mail:no-copy-folder-nostore secondary
-#: ../plugins/mail-to-task/mail-to-task.c:1091
+#: ../plugins/mail-to-task/mail-to-task.c:1101
 #, c-format
 msgid "Cannot get source list. %s"
 msgstr "Ne mogu da dobavim spisak izvora. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1152
+#: ../plugins/mail-to-task/mail-to-task.c:1162
 msgid "No writable calendar is available."
 msgstr "Nema dostupnog kalendara za upisivanje"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1244
+#: ../plugins/mail-to-task/mail-to-task.c:1254
 msgid "Create an _Event"
 msgstr "Napravi _događaj"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1246
+#: ../plugins/mail-to-task/mail-to-task.c:1256
 msgid "Create a new event from the selected message"
 msgstr "Pravi novi događaj od izabrane poruke"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1251
+#: ../plugins/mail-to-task/mail-to-task.c:1261
 msgid "Create a Mem_o"
 msgstr "Napravi belešk_u"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1253
+#: ../plugins/mail-to-task/mail-to-task.c:1263
 msgid "Create a new memo from the selected message"
 msgstr "Pravi novu belešku od izabrane poruke"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1258
+#: ../plugins/mail-to-task/mail-to-task.c:1268
 msgid "Create a _Task"
 msgstr "Napravi _zadatak"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1260
+#: ../plugins/mail-to-task/mail-to-task.c:1270
 msgid "Create a new task from the selected message"
 msgstr "Pravi novi zadatak od izabrane poruke"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1268
+#: ../plugins/mail-to-task/mail-to-task.c:1278
 msgid "Create a _Meeting"
 msgstr "Napravi _sastanak"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1270
+#: ../plugins/mail-to-task/mail-to-task.c:1280
 msgid "Create a new meeting from the selected message"
 msgstr "Pravi novi sastanak od izabrane poruke"
 
@@ -20843,7 +20968,7 @@ msgstr "Izaberi pregled: %s"
 msgid "Execute these search parameters"
 msgstr "Izvršite ove parametre pretrage"
 
-#: ../shell/e-shell-window.c:445
+#: ../shell/e-shell-window.c:487
 msgid "New"
 msgstr "Novo"
 
@@ -20940,19 +21065,20 @@ msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Isključi okno za pregled pošte, kontakta i zadataka."
 
 #: ../shell/main.c:334
-msgid "Import URIs or file names given as rest of arguments."
-msgstr "Uvezi adrese datoteka datih kao ostatak argumenata."
+#| msgid "Import URIs or file names given as rest of arguments."
+msgid "Import URIs or filenames given as rest of arguments."
+msgstr "Uvozi adrese datoteka datih kao ostatak argumenata."
 
 # shell:noshell-reason title
 #: ../shell/main.c:336
 msgid "Request a running Evolution process to quit"
 msgstr "Zahteva kraj pokrenutog procesa Evolucije"
 
-#: ../shell/main.c:507 ../shell/main.c:515
+#: ../shell/main.c:510 ../shell/main.c:518
 msgid "- The Evolution PIM and Email Client"
 msgstr "— Evolucija rukovodilac ličnim podatacima i klijent e-pošte"
 
-#: ../shell/main.c:580
+#: ../shell/main.c:583
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -20961,7 +21087,7 @@ msgstr ""
 "%s: „--online“ i „--offline“ se ne mogu koristiti zajedno.\n"
 "  Pokrenite „%s --help“ za više podataka.\n"
 
-#: ../shell/main.c:586
+#: ../shell/main.c:589
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -21858,10 +21984,6 @@ msgstr "Ne mogu da sačuvam prilog"
 msgid "Attachment Properties"
 msgstr "Osobine priloga"
 
-#: ../widgets/misc/e-attachment-dialog.c:330
-msgid "_Filename:"
-msgstr "_Ime datoteke:"
-
 #: ../widgets/misc/e-attachment-dialog.c:365
 msgid "MIME Type:"
 msgstr "MIME tip:"
@@ -21930,40 +22052,40 @@ msgstr[1] "Sačuvaj priloge"
 msgstr[2] "Sačuvaj priloge"
 msgstr[3] "Sačuvaj prilog"
 
-#: ../widgets/misc/e-attachment-view.c:404
+#: ../widgets/misc/e-attachment-view.c:379
 msgid "Open With Other Application..."
 msgstr "Otvori drugim programom..."
 
-#: ../widgets/misc/e-attachment-view.c:411
+#: ../widgets/misc/e-attachment-view.c:386
 msgid "S_ave All"
 msgstr "Sač_uvaj sve"
 
-#: ../widgets/misc/e-attachment-view.c:437
+#: ../widgets/misc/e-attachment-view.c:412
 msgid "A_dd Attachment..."
 msgstr "Do_daj prilog..."
 
-#: ../widgets/misc/e-attachment-view.c:461
+#: ../widgets/misc/e-attachment-view.c:436
 msgid "_Hide"
 msgstr "_Sakrij"
 
-#: ../widgets/misc/e-attachment-view.c:468
+#: ../widgets/misc/e-attachment-view.c:443
 msgid "Hid_e All"
 msgstr "Sak_rij sve"
 
-#: ../widgets/misc/e-attachment-view.c:475
+#: ../widgets/misc/e-attachment-view.c:450
 msgid "_View Inline"
 msgstr "Pre_gledaj unutar"
 
-#: ../widgets/misc/e-attachment-view.c:482
+#: ../widgets/misc/e-attachment-view.c:457
 msgid "Vie_w All Inline"
 msgstr "Pre_gledaj sve unutar"
 
-#: ../widgets/misc/e-attachment-view.c:803
+#: ../widgets/misc/e-attachment-view.c:778
 #, c-format
 msgid "Open With \"%s\""
 msgstr "Otvori programom „%s“"
 
-#: ../widgets/misc/e-attachment-view.c:806
+#: ../widgets/misc/e-attachment-view.c:781
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Otvori ovaj prilog u „%s“"
@@ -22060,10 +22182,6 @@ msgid ""
 msgstr ""
 "Izaberite datoteku koju želite da uvezete u Evoluciju i iz liste izaberite "
 "kojeg je tipa ta datoteka."
-
-#: ../widgets/misc/e-import-assistant.c:266
-msgid "F_ilename:"
-msgstr "_Ime datoteke:"
 
 #: ../widgets/misc/e-import-assistant.c:276
 msgid "Select a file"
@@ -22184,7 +22302,7 @@ msgstr ""
 msgid "Evolution is currently offline because the network is unavailable."
 msgstr "Evolucija trenutno nije na mreži jer mreža nije dostupna."
 
-#: ../widgets/misc/e-preferences-window.c:279
+#: ../widgets/misc/e-preferences-window.c:308
 msgid "Evolution Preferences"
 msgstr "Podešavanja Evolucije"
 
@@ -22758,6 +22876,34 @@ msgstr "Izaberi sve"
 #: ../widgets/text/e-text.c:2340
 msgid "Input Methods"
 msgstr "Metodi unosa"
+
+#~ msgid "Recent _Documents"
+#~ msgstr "Skorašnji _dokumenti"
+
+#~ msgid "Categor_ies..."
+#~ msgstr "Ka_tegorije..."
+
+#~ msgid "never"
+#~ msgstr "nikada"
+
+#~ msgid "File exists \"{0}\"."
+#~ msgstr "Datoteka postoji „{0}“."
+
+#~ msgid "Do you wish to overwrite it?"
+#~ msgstr "Želite li da je prepišete?"
+
+#~| msgid "C_haracter set:"
+#~ msgid "Character _set:"
+#~ msgstr "Kodni _raspored:"
+
+#~ msgid "cards"
+#~ msgstr "karte"
+
+#~ msgid "File _name:"
+#~ msgstr "_Ime datoteke:"
+
+#~ msgid "_Filename:"
+#~ msgstr "_Ime datoteke:"
 
 #~ msgid "URL:"
 #~ msgstr "Adresa :"
