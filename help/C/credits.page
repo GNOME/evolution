@@ -6,7 +6,7 @@
 
     <link type="guide" xref="index#further-reading" />
 
-    <revision pkgversion="2.32.1" version="0.1" date="2010-12-12" status="stub"/>
+    <revision pkgversion="3.4" version="0.2" date="2012-02-20" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -20,7 +20,7 @@
 <title>Credits and Acknowledgment</title>
 
 <section id="current">
-<title>Authors of the Evolution User Documentation</title>
+<title>Authors of the <app>Evolution</app> User Documentation</title>
 <list>
 <item><p>
 André Klapper
@@ -35,6 +35,12 @@ Barbara M. Tobias
 Phil Bull
 </p></item>
 </list>
+</section>
+
+<section id="previous">
+<title>Translators of the <app>Evolution</app> User Documentation</title>
+<!-- TO TRANSLATORS: This is shown in the "Translators of the User Documentation" section. Please REPLACE this string by adding your own names here so you get some fame on the interwebs! Thanks for all your hard work! -Andre -->
+<p>(Not applicable to the English version)</p>
 </section>
 
 <section id="previous">
