@@ -152,7 +152,7 @@ DOC_PAGES = \
 	mail-encryption.page \
 	mail-encryption-s-mime-manage.page \
 	mail-encryption-s-mime-signing-encrypting.page \
-	mail-error-failed-to-append-to-sent-folder \
+	mail-error-failed-to-append-to-sent-folder.page \
 	mail-error-no-provider-available.page \
 	mail-filters-actions.page \
 	mail-filters-conditions.page \
