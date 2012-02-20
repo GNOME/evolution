@@ -1251,9 +1251,9 @@ dnl *****************
 dnl EggSMClient Flags
 dnl *****************
 if test "x$os_win32" = "xyes"; then
-	EVO_SET_COMPILE_FLAGS(EGG_SMCLIENT, gtk+-3.0)
+	PKG_CHECK_MODULES([EGG_SMCLIENT], [gtk+-3.0])
 else
-	EVO_SET_COMPILE_FLAGS(EGG_SMCLIENT, gtk+-3.0,, -lSM -lICE)
+	PKG_CHECK_MODULES([EGG_SMCLIENT], [gtk+-3.0 ice sm])
 fi
 AC_SUBST(EGG_SMCLIENT_CFLAGS)
 AC_SUBST(EGG_SMCLIENT_LIBS)
