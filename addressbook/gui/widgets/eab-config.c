@@ -30,8 +30,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), EAB_TYPE_CONFIG, EABConfigPrivate))
 
-static GObjectClass *ecp_parent_class;
-
 struct _EABConfigPrivate {
 	guint source_changed_id;
 };
@@ -80,7 +78,7 @@ ecp_target_free (EConfig *ec,
 		break; }
 	}
 
-	((EConfigClass *) ecp_parent_class)->target_free (ec, t);
+	((EConfigClass *) eab_config_parent_class)->target_free (ec, t);
 }
 
 static void
@@ -96,7 +94,7 @@ ecp_set_target (EConfig *ec,
 {
 	struct _EABConfigPrivate *p = EAB_CONFIG_GET_PRIVATE (ec);
 
-	((EConfigClass *) ecp_parent_class)->set_target (ec, t);
+	((EConfigClass *) eab_config_parent_class)->set_target (ec, t);
 
 	if (t) {
 		switch (t->type) {
