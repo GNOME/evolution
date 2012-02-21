@@ -76,17 +76,9 @@ select_source_dialog (GtkWindow *parent,
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		selected_source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));
-		if (selected_source) {
-			gchar *absolute_uri;
 
-			/* set the absolute URI on the source we keep around, since the group
-			 * will be unrefed */
-			absolute_uri = e_source_build_absolute_uri (selected_source);
-			e_source_set_absolute_uri (selected_source, (const gchar *) absolute_uri);
-
+		if (selected_source)
 			g_object_ref (selected_source);
-			g_free (absolute_uri);
-		}
 	} else
 		selected_source = NULL;
 
