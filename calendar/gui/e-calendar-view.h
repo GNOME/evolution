@@ -217,7 +217,7 @@ CompEditor *	e_calendar_view_open_event_with_flags
 void		e_calendar_view_popup_event	(ECalendarView *cal_view,
 						 GdkEventButton *event);
 
-void		e_calendar_view_add_event	(ECalendarView *cal_view,
+gboolean	e_calendar_view_add_event	(ECalendarView *cal_view,
 						 ECalClient *client,
 						 time_t dtstart,
 						 icaltimezone *default_zone,
