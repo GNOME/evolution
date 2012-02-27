@@ -1927,6 +1927,8 @@ efh_text_plain (EMFormat *emf,
 	flags = efh->text_html_flags;
 
 	dw = camel_medium_get_content ((CamelMedium *) part);
+	if (!dw)
+		return;
 
 	/* Check for RFC 2646 flowed text. */
 	if (camel_content_type_is(dw->mime_type, "text", "plain")
