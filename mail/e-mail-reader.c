@@ -2625,7 +2625,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	/* If the user picked a different message in the time it took
 	 * to fetch this message, then don't bother rendering it. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_error_free (error);
+		g_clear_error (&error);
 		goto exit;
 	}
 
@@ -2644,6 +2644,20 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 
 exit:
 	priv->restoring_message_selection = FALSE;
+	if (error) {
+		EPreviewPane *preview_pane;
+		EWebView *web_view;
+
+		preview_pane = e_mail_reader_get_preview_pane (reader);
+		web_view = e_preview_pane_get_web_view (preview_pane);
+
+		e_alert_submit (
+			E_ALERT_SINK (web_view),
+			"mail:no-retrieve-message",
+			error->message, NULL);
+	}
+
+	g_clear_error (&error);
 
 	mail_reader_closure_free (closure);
 
