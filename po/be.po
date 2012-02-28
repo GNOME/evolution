@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-26 13:01+0300\n"
-"PO-Revision-Date: 2012-02-26 13:01+0300\n"
+"POT-Creation-Date: 2012-02-28 22:16+0300\n"
+"PO-Revision-Date: 2012-02-28 22:16+0300\n"
 "Last-Translator: Kasia Bondarava <kasia.bondarava@gmail.com>\n"
 "Language-Team: Belarusian <i18n-bel-gnome@googlegroups.com>\n"
 "Language: be\n"
@@ -3243,8 +3243,8 @@ msgid "Unable to open memos in '%s': %s"
 msgstr "Немагчыма адкрыць нататкі ў \"%s\": %s"
 
 #: ../calendar/gui/dialogs/memo-page.c:1156 ../em-format/em-format.c:1065
-#: ../em-format/em-format-quote.c:318 ../mail/em-format-html.c:2667
-#: ../mail/em-format-html.c:2732 ../mail/em-format-html.c:2756
+#: ../em-format/em-format-quote.c:318 ../mail/em-format-html.c:2669
+#: ../mail/em-format-html.c:2734 ../mail/em-format-html.c:2758
 #: ../mail/message-list.etspec.h:9 ../modules/mail/em-mailer-prefs.c:72
 msgid "To"
 msgstr "Каму"
@@ -6730,13 +6730,13 @@ msgid "Please enter your password."
 msgstr "Увесці пароль."
 
 #: ../capplet/settings/mail-account-view.c:282
-#: ../mail/em-account-editor.c:5429 ../plugins/caldav/caldav-source.c:67
+#: ../mail/em-account-editor.c:5436 ../plugins/caldav/caldav-source.c:67
 msgid "CalDAV"
 msgstr "CalDAV"
 
 #: ../capplet/settings/mail-account-view.c:376
 #: ../capplet/settings/mail-account-view.c:421
-#: ../mail/em-account-editor.c:5300 ../mail/em-account-editor.c:5357
+#: ../mail/em-account-editor.c:5307 ../mail/em-account-editor.c:5364
 #: ../modules/online-accounts/e-online-accounts-google.c:295
 #: ../modules/online-accounts/e-online-accounts-google.c:369
 #: ../plugins/google-account-setup/google-contacts-source.c:55
@@ -6746,20 +6746,20 @@ msgstr "Google"
 
 #: ../capplet/settings/mail-account-view.c:497
 #: ../capplet/settings/mail-account-view.c:601
-#: ../mail/em-account-editor.c:4833 ../mail/em-account-editor.c:4868
+#: ../mail/em-account-editor.c:4840 ../mail/em-account-editor.c:4875
 msgid "Always (SSL)"
 msgstr "Заўсёды (SSL)"
 
 #: ../capplet/settings/mail-account-view.c:500
 #: ../capplet/settings/mail-account-view.c:604
-#: ../mail/em-account-editor.c:4836 ../mail/em-account-editor.c:4871
+#: ../mail/em-account-editor.c:4843 ../mail/em-account-editor.c:4878
 msgid "When possible (TLS)"
 msgstr "Калі магчыма (TLS)"
 
 #: ../capplet/settings/mail-account-view.c:503
 #: ../capplet/settings/mail-account-view.c:607
-#: ../mail/em-account-editor.c:1752 ../mail/em-account-editor.c:4839
-#: ../mail/em-account-editor.c:4874
+#: ../mail/em-account-editor.c:1752 ../mail/em-account-editor.c:4846
+#: ../mail/em-account-editor.c:4881
 msgid "Never"
 msgstr "Ніколі"
 
@@ -6848,7 +6848,7 @@ msgstr ""
 "Час праверыць даныя перад спробай злучэння з серверам і атрыманнем пошты."
 
 #: ../capplet/settings/mail-account-view.c:678
-#: ../mail/em-account-editor.c:2948 ../mail/em-account-editor.c:3087
+#: ../mail/em-account-editor.c:2955 ../mail/em-account-editor.c:3094
 msgid "Identity"
 msgstr "Ідэнтычнасць"
 
@@ -6900,7 +6900,7 @@ msgid "Back - Receiving options"
 msgstr "Назад - Атрыманне параметраў"
 
 #: ../capplet/settings/mail-account-view.c:683
-#: ../mail/em-account-editor.c:4100
+#: ../mail/em-account-editor.c:4107
 msgid "Defaults"
 msgstr "Прадвызначаныя"
 
@@ -6929,12 +6929,12 @@ msgid "Setup Google calendar with Evolution"
 msgstr "Наладзіць каляндар Google у Evolution"
 
 #: ../capplet/settings/mail-account-view.c:861
-#: ../mail/em-account-editor.c:4928
+#: ../mail/em-account-editor.c:4935
 msgid "You may need to enable IMAP access."
 msgstr "Магчыма, спатрэбіцца ўключыць доступ IMAP."
 
 #: ../capplet/settings/mail-account-view.c:869
-#: ../mail/em-account-editor.c:4905
+#: ../mail/em-account-editor.c:4912
 msgid "Google account settings:"
 msgstr "Настройка конта Google:"
 
@@ -6943,7 +6943,7 @@ msgid "Setup Yahoo calendar with Evolution"
 msgstr "Наладзіць каляндар Yahoo у Evolution"
 
 #: ../capplet/settings/mail-account-view.c:899
-#: ../mail/em-account-editor.c:4975
+#: ../mail/em-account-editor.c:4982
 msgid ""
 "Yahoo calendars are named as firstname_lastname. We have tried to form the "
 "calendar name. So please confirm and re-enter the calendar name if it is not "
@@ -6953,7 +6953,7 @@ msgstr ""
 "календара. Падцвердзіце і ўвядзіце назву яшчэ раз, калі яна памылковая."
 
 #: ../capplet/settings/mail-account-view.c:908
-#: ../mail/em-account-editor.c:4960
+#: ../mail/em-account-editor.c:4967
 msgid "Yahoo account settings:"
 msgstr "Настройка конта Yahoo:"
 
@@ -10104,14 +10104,14 @@ msgid "Reply-To"
 msgstr "Зваротны адрас"
 
 #: ../em-format/em-format.c:1066 ../em-format/em-format-quote.c:318
-#: ../mail/em-format-html.c:2668 ../mail/em-format-html.c:2736
-#: ../mail/em-format-html.c:2759 ../modules/mail/em-mailer-prefs.c:73
+#: ../mail/em-format-html.c:2670 ../mail/em-format-html.c:2738
+#: ../mail/em-format-html.c:2761 ../modules/mail/em-mailer-prefs.c:73
 msgid "Cc"
 msgstr "Копія"
 
 #: ../em-format/em-format.c:1067 ../em-format/em-format-quote.c:318
-#: ../mail/em-format-html.c:2669 ../mail/em-format-html.c:2740
-#: ../mail/em-format-html.c:2762 ../modules/mail/em-mailer-prefs.c:74
+#: ../mail/em-format-html.c:2671 ../mail/em-format-html.c:2742
+#: ../mail/em-format-html.c:2764 ../modules/mail/em-mailer-prefs.c:74
 msgid "Bcc"
 msgstr "Схаваная копія"
 
@@ -10181,7 +10181,7 @@ msgid "Could not parse PGP message: "
 msgstr "Немагчыма разабраць паведамленне PGP:"
 
 #. pseudo-header
-#: ../em-format/em-format-quote.c:476 ../mail/em-format-html.c:2861
+#: ../em-format/em-format-quote.c:476 ../mail/em-format-html.c:2863
 #: ../modules/mail/em-mailer-prefs.c:1046
 msgid "Mailer"
 msgstr "Паштовая праграма"
@@ -11086,7 +11086,7 @@ msgstr "Назва конта"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. * other user means other calendars subscribed
-#: ../mail/e-mail-account-tree-view.c:116 ../mail/e-mail-reader.c:3425
+#: ../mail/e-mail-account-tree-view.c:116 ../mail/e-mail-reader.c:3439
 #: ../mail/mail-config.ui.h:51
 #: ../plugins/google-account-setup/google-source.c:316
 #: ../plugins/google-account-setup/google-source.c:558
@@ -11789,49 +11789,49 @@ msgstr "Усе _загалоўкі паведамленняў"
 msgid "Show messages with all email headers"
 msgstr "Паказваць паведамленні з усімі загалоўкамі"
 
-#: ../mail/e-mail-reader.c:2698
+#: ../mail/e-mail-reader.c:2712
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "Атрыманне паведамлення \"%s\""
 
-#: ../mail/e-mail-reader.c:3618
+#: ../mail/e-mail-reader.c:3632
 #: ../modules/mail/e-mail-attachment-handler.c:174
 msgid "_Forward"
 msgstr "_Пераслаць"
 
-#: ../mail/e-mail-reader.c:3619
+#: ../mail/e-mail-reader.c:3633
 msgid "Forward the selected message to someone"
 msgstr "Пераслаць абранае паведамленне іншай асобе"
 
-#: ../mail/e-mail-reader.c:3638
+#: ../mail/e-mail-reader.c:3652
 msgid "Group Reply"
 msgstr "Адказ у групу"
 
-#: ../mail/e-mail-reader.c:3639
+#: ../mail/e-mail-reader.c:3653
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Адказаць у рассылку ці ўсім атрымальнікам"
 
-#: ../mail/e-mail-reader.c:3696 ../mail/em-filter-i18n.h:14
+#: ../mail/e-mail-reader.c:3710 ../mail/em-filter-i18n.h:14
 msgid "Delete"
 msgstr "Выдаліць"
 
-#: ../mail/e-mail-reader.c:3729
+#: ../mail/e-mail-reader.c:3743
 #: ../modules/calendar/e-cal-shell-view-actions.c:1356
 #: ../widgets/misc/e-calendar.c:202
 msgid "Next"
 msgstr "Наперад"
 
-#: ../mail/e-mail-reader.c:3733
+#: ../mail/e-mail-reader.c:3747
 #: ../modules/calendar/e-cal-shell-view-actions.c:1349
 #: ../widgets/misc/e-calendar.c:178
 msgid "Previous"
 msgstr "Назад"
 
-#: ../mail/e-mail-reader.c:3742 ../mail/mail-dialogs.ui.h:20
+#: ../mail/e-mail-reader.c:3756 ../mail/mail-dialogs.ui.h:20
 msgid "Reply"
 msgstr "Адказаць"
 
-#: ../mail/e-mail-reader.c:4443
+#: ../mail/e-mail-reader.c:4457
 #, c-format
 msgid "Folder '%s'"
 msgstr "Папка \"%s\""
@@ -11895,19 +11895,19 @@ msgstr "Заўсёды"
 msgid "Ask for each message"
 msgstr "Пытаць для кожнага паведамлення"
 
-#: ../mail/em-account-editor.c:2905 ../mail/mail-config.ui.h:164
+#: ../mail/em-account-editor.c:2912 ../mail/mail-config.ui.h:164
 msgid "_Path:"
 msgstr "_Сцежка:"
 
-#: ../mail/em-account-editor.c:2908
+#: ../mail/em-account-editor.c:2915
 msgid "Fil_e:"
 msgstr "Фай_л:"
 
-#: ../mail/em-account-editor.c:2945
+#: ../mail/em-account-editor.c:2952
 msgid "Mail Configuration"
 msgstr "Настройка пошты"
 
-#: ../mail/em-account-editor.c:2946
+#: ../mail/em-account-editor.c:2953
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -11917,7 +11917,7 @@ msgstr ""
 "\n"
 "Пстрыкніце \"Працягнуць\", каб пачаць."
 
-#: ../mail/em-account-editor.c:2949
+#: ../mail/em-account-editor.c:2956
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -11927,19 +11927,19 @@ msgstr ""
 "не мусяць быць запоўненыя, калі толькі вы не жадаеце ўключаць гэтую "
 "інфармацыю ў паведамленні, якія вы пасылаеце."
 
-#: ../mail/em-account-editor.c:2951 ../mail/em-account-editor.c:3160
+#: ../mail/em-account-editor.c:2958 ../mail/em-account-editor.c:3167
 msgid "Receiving Email"
 msgstr "Атрыманне пошты"
 
-#: ../mail/em-account-editor.c:2952
+#: ../mail/em-account-editor.c:2959
 msgid "Please configure the following account settings."
 msgstr "Настройка канфігурацыі наступнага конта."
 
-#: ../mail/em-account-editor.c:2954 ../mail/em-account-editor.c:3779
+#: ../mail/em-account-editor.c:2961 ../mail/em-account-editor.c:3786
 msgid "Sending Email"
 msgstr "Пасылка пошты"
 
-#: ../mail/em-account-editor.c:2955
+#: ../mail/em-account-editor.c:2962
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -11947,21 +11947,21 @@ msgstr ""
 "Пазначце інфармацыю пра шлях адпраўкі паведамленняў. У выпадку сумневаў, "
 "звярніцеся да свайго сістэмнага адміністратара альбо правайдара."
 
-#: ../mail/em-account-editor.c:2957
+#: ../mail/em-account-editor.c:2964
 msgid "Account Summary"
 msgstr "Рахунак рэзюмэ"
 
-#: ../mail/em-account-editor.c:2958
+#: ../mail/em-account-editor.c:2965
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
 msgstr ""
 "Гэта рэзюмэ аб настройках, якія будуць выкарыстоўвацца для доступа да пошты."
 
-#: ../mail/em-account-editor.c:2962
+#: ../mail/em-account-editor.c:2969
 msgid "Done"
 msgstr "Канец"
 
-#: ../mail/em-account-editor.c:2963
+#: ../mail/em-account-editor.c:2970
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -11976,41 +11976,41 @@ msgstr ""
 "\n"
 "Пстрыкніце \"Ужыць\", каб захаваць вашы настройкі."
 
-#: ../mail/em-account-editor.c:3526
+#: ../mail/em-account-editor.c:3533
 msgid "Check for _new messages every"
 msgstr "Правяраць _новыя паведамленні кожныя"
 
-#: ../mail/em-account-editor.c:3534
+#: ../mail/em-account-editor.c:3541
 msgid "minu_tes"
 msgstr "хвілі_н"
 
-#: ../mail/em-account-editor.c:4252 ../mail/mail-config.ui.h:166
+#: ../mail/em-account-editor.c:4259 ../mail/mail-config.ui.h:166
 msgid "Security"
 msgstr "Бяспека"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:4307 ../mail/em-account-editor.c:4409
+#: ../mail/em-account-editor.c:4314 ../mail/em-account-editor.c:4416
 msgid "Receiving Options"
 msgstr "Атрыманне параметраў"
 
-#: ../mail/em-account-editor.c:4308 ../mail/em-account-editor.c:4410
+#: ../mail/em-account-editor.c:4315 ../mail/em-account-editor.c:4417
 msgid "Checking for New Messages"
 msgstr "Праверка новых паведамленняў"
 
-#: ../mail/em-account-editor.c:4913
+#: ../mail/em-account-editor.c:4920
 msgid "Setup Google con_tacts with Evolution"
 msgstr "Наладзіць кан_такты Google у Evolution"
 
-#: ../mail/em-account-editor.c:4920
+#: ../mail/em-account-editor.c:4927
 msgid "Setup Google ca_lendar with Evolution"
 msgstr "Наладзіць ка_ляндар Google у Evolution"
 
-#: ../mail/em-account-editor.c:4968
+#: ../mail/em-account-editor.c:4975
 msgid "Setup _Yahoo calendar with Evolution"
 msgstr "Наладзіць каляндар _Yahoo у Evolution"
 
-#: ../mail/em-account-editor.c:4993
+#: ../mail/em-account-editor.c:5000
 msgid "Yahoo Calen_dar name:"
 msgstr "Назва кален_дара Yahoo:"
 
@@ -12462,52 +12462,52 @@ msgstr "Зашыфраваны"
 msgid "Encrypted, strong"
 msgstr "Зашыфраваны, моцна"
 
-#: ../mail/em-format-html.c:2211
+#: ../mail/em-format-html.c:2213
 msgid "Unknown external-body part."
 msgstr "Невядомая частка external-body."
 
-#: ../mail/em-format-html.c:2221
+#: ../mail/em-format-html.c:2223
 msgid "Malformed external-body part."
 msgstr "Няправільна сфармаваная частка external-body."
 
-#: ../mail/em-format-html.c:2252
+#: ../mail/em-format-html.c:2254
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Паказальнік на FTP-пляцоўку (%s)"
 
-#: ../mail/em-format-html.c:2263
+#: ../mail/em-format-html.c:2265
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Правільны паказальнік на мясцовы файл (%s) на пляцоўцы \"%s\""
 
-#: ../mail/em-format-html.c:2265
+#: ../mail/em-format-html.c:2267
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Паказальнік на мясцовы файл (%s)"
 
-#: ../mail/em-format-html.c:2286
+#: ../mail/em-format-html.c:2288
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Паказальнік на аддаленыя даныя (%s)"
 
-#: ../mail/em-format-html.c:2301
+#: ../mail/em-format-html.c:2303
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Паказальнік на невядомыя вонкавыя даныя (тыпу \"%s\")"
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../mail/em-format-html.c:3009
+#: ../mail/em-format-html.c:3011
 #: ../plugins/mail-notification/mail-notification.c:395
 #, c-format
 msgid "From: %s"
 msgstr "Ад: %s"
 
-#: ../mail/em-format-html.c:3031
+#: ../mail/em-format-html.c:3033
 msgid "(no subject)"
 msgstr "(без тэмы)"
 
-#: ../mail/em-format-html.c:3107
+#: ../mail/em-format-html.c:3109
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Паведамленне даслана %s ад імя %s"
@@ -18100,7 +18100,7 @@ msgid "Add CalDAV support to Evolution."
 msgstr "Дадаць падтрымку CalDAV у Evolution."
 
 #: ../plugins/calendar-file/calendar-file.c:136
-msgid "_Customize options"
+msgid "C_ustomize options"
 msgstr "_Прыстасаваць параметры"
 
 #: ../plugins/calendar-file/calendar-file.c:155
@@ -18113,19 +18113,22 @@ msgstr "Назва ф_айла:"
 msgid "Choose calendar file"
 msgstr "Абраць файл календара"
 
-#: ../plugins/calendar-file/calendar-file.c:212
+#. Translators: This is one setting for when to refresh a memo/calendar/tasks list
+#: ../plugins/calendar-file/calendar-file.c:213
 msgid "On open"
 msgstr "Падчас адкрыцця"
 
-#: ../plugins/calendar-file/calendar-file.c:213
+#. Translators: This is one setting for when to refresh a memo/calendar/tasks list
+#: ../plugins/calendar-file/calendar-file.c:215
 msgid "On file change"
 msgstr "Падчас змены файла"
 
-#: ../plugins/calendar-file/calendar-file.c:214
+#. Translators: This is one setting for when to refresh a memo/calendar/tasks list
+#: ../plugins/calendar-file/calendar-file.c:217
 msgid "Periodically"
 msgstr "Перыядычна"
 
-#: ../plugins/calendar-file/calendar-file.c:235
+#: ../plugins/calendar-file/calendar-file.c:238
 msgid "Force read _only"
 msgstr "Толькі для_чытання"
 
