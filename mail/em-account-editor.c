@@ -2687,20 +2687,25 @@ emae_setup_service (EMAccountEditor *emae,
                     GtkBuilder *builder)
 {
 	struct _service_info *info = &emae_service_info[service->type];
+	gboolean requires_auth;
 	CamelProvider *provider = NULL;
 	CamelURL *url;
+
+	url = emae_account_url (emae, info->account_uri_key);
 
 	if (!service->protocol) {
 		/* GtkComboBox internalizes ID strings, which for the provider
 		 * combo box are protocol names.  So we'll do the same here. */
-		url = emae_account_url (emae, info->account_uri_key);
 		if (url != NULL && url->protocol != NULL)
 			service->protocol = g_intern_string (url->protocol);
-		camel_url_free (url);
 
 		if (!service->protocol)
 			service->protocol = "none";
 	}
+
+	requires_auth = url && url->authmech != NULL;
+
+	camel_url_free (url);
 
 	if (service->protocol != NULL)
 		provider = camel_provider_get (service->protocol, NULL);
@@ -2774,6 +2779,7 @@ emae_setup_service (EMAccountEditor *emae,
 				G_BINDING_SYNC_CREATE);
 
 			if (service->needs_auth != NULL) {
+				g_object_set (emae, "store-requires-auth", requires_auth, NULL);
 				g_object_bind_property (
 					emae, "store-requires-auth",
 					service->needs_auth, "active",
@@ -2839,6 +2845,7 @@ emae_setup_service (EMAccountEditor *emae,
 				G_BINDING_SYNC_CREATE);
 
 			if (service->needs_auth != NULL) {
+				g_object_set (emae, "transport-requires-auth", requires_auth, NULL);
 				g_object_bind_property (
 					emae, "transport-requires-auth",
 					service->needs_auth, "active",
