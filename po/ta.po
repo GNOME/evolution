@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: evolution.gnome-2-28\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-23 14:24+0530\n"
-"PO-Revision-Date: 2012-02-24 16:04+0530\n"
+"PO-Revision-Date: 2012-02-28 14:35+0530\n"
 "Last-Translator: Dr.T.Vasudevan <agnihot3@gmail.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -1761,8 +1761,7 @@ msgstr ""
 msgid ""
 "Adding a meaningful summary to your appointment will give you an idea of "
 "what your appointment is about."
-msgstr ""
-"அர்த்தமுள்ள சுருக்கம் ஒன்றை உங்கள் சந்திப்புக்கு தருவது சந்திப்பு குறித்த ஒரு ஊகத்தை தரும்."
+msgstr "அர்த்தமுள்ள சுருக்கம் ஒன்றை உங்கள் சந்திப்புக்கு தருவது சந்திப்பு குறித்த ஒரு ஊகத்தை தரும்."
 
 #: ../calendar/calendar.error.xml.h:8
 msgid ""
@@ -7177,7 +7176,7 @@ msgstr "கடைசி செயலை ரத்து செய்க"
 
 #: ../composer/e-composer-private.c:219
 msgid "Redo the last undone action"
-msgstr "கடைசியாக ரத்து செய்த செயலை திரும்ப செய்க"
+msgstr "கடைசியாக ரத்து செய்த செயலை மீட்டமை"
 
 #: ../composer/e-composer-private.c:223
 msgid "Search for text"
@@ -8053,8 +8052,7 @@ msgstr "கணினி இயல்பான நேர மண்டலத்த
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 msgid "Use the system timezone instead of the timezone selected in Evolution"
-msgstr ""
-"எவல்யூஷனில் தேர்ந்தெடுக்கப்பட்ட நேர மண்டலத்திற்குப் பதில் கணினி நேர மண்டலத்தைப் பயன்படுத்தவும்"
+msgstr "எவல்யூஷனில் தேர்ந்தெடுக்கப்பட்ட நேர மண்டலத்திற்குப் பதில் கணினி நேர மண்டலத்தைப் பயன்படுத்தவும்"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid "Vertical position for the tag pane"
@@ -9245,7 +9243,8 @@ msgid ""
 "true accounts are sorted alphabetically, with an exception of On This "
 "Computer and Search folders, otherwise accounts are sorted based on an order "
 "given by a user"
-msgstr "ஒரு அஞ்சல் காட்சியில் பயனாகும் அடைவு மரத்தில் எப்படி கணக்குகளை வகை பிரிப்பது என விளக்குகிறது. "
+msgstr ""
+"ஒரு அஞ்சல் காட்சியில் பயனாகும் அடைவு மரத்தில் எப்படி கணக்குகளை வகை பிரிப்பது என விளக்குகிறது. "
 "அமைத்தால் உண்மையான கணக்குகள் அகர வரிசையில் அடுக்கப்படும் - இந்த கணினி மற்று தேடல் அடைவுகள் "
 "தவிர்த்து. இல்லையானால் கணக்குகள் ஒரு பயனர் தரும் வரிசையில் அடுக்கப்படும்."
 
@@ -13189,8 +13188,7 @@ msgstr "வெளியேறும் போது எரிதங்களை 
 
 #: ../mail/mail-config.ui.h:38
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
-msgstr ""
-"_s மூல செய்தி கையொப்பமிடப்பட்டு இருப்பின் செய்திகளில் இரும கையொப்பமிடவும். (PGP அல்லது S/MIME)"
+msgstr "_s மூல செய்தி கையொப்பமிடப்பட்டு இருப்பின் செய்திகளில் இரும கையொப்பமிடவும். (PGP அல்லது S/MIME)"
 
 #: ../mail/mail-config.ui.h:39
 msgid "Digitally sign o_utgoing messages (by default)"
@@ -14144,8 +14142,7 @@ msgstr "தொடந்தால், உங்களால் செய்தி
 msgid ""
 "If you delete the folder, all of its contents and its subfolders' contents "
 "will be deleted permanently."
-msgstr ""
-"இந்த அடைவை நீக்கினால் இதில் உள்ள அனைத்து கோப்புகளும் உப அடைவுகளும் நிரந்தரமாக நீக்கப்படும்."
+msgstr "இந்த அடைவை நீக்கினால் இதில் உள்ள அனைத்து கோப்புகளும் உப அடைவுகளும் நிரந்தரமாக நீக்கப்படும்."
 
 #: ../mail/mail.error.xml.h:76
 msgid "If you delete the folder, all of its contents will be deleted permanently."
@@ -21920,7 +21917,7 @@ msgstr "URLக்கு செல்ல இங்கு சொடுக்கவ
 
 #: ../widgets/misc/e-web-view.c:410
 msgid "_Copy Link Location"
-msgstr "இணைப்பை நகலெடு (_C)"
+msgstr "இணைப்பு இடத்தை நகலெடு (_C)"
 
 #: ../widgets/misc/e-web-view.c:412
 msgid "Copy the link to the clipboard"
