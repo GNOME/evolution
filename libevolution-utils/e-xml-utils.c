@@ -41,7 +41,7 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include "e-util.h"
+#include "evolution-util.h"
 #include "e-xml-utils.h"
 
 /* Returns the first child with the name child_name and the "lang"

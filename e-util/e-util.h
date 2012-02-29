@@ -123,19 +123,6 @@ const gchar *	e_get_month_name		(GDateMonth month,
 const gchar *	e_get_weekday_name		(GDateWeekday weekday,
 						 gboolean abbreviated);
 
-/* String to/from double conversion functions */
-gdouble		e_flexible_strtod		(const gchar *nptr,
-						 gchar **endptr);
-
-/* 29 bytes should enough for all possible values that
- * g_ascii_dtostr can produce with the %.17g format.
- * Then add 10 for good measure */
-#define E_ASCII_DTOSTR_BUF_SIZE (DBL_DIG + 12 + 10)
-gchar *		e_ascii_dtostr			(gchar *buffer,
-						 gint buf_len,
-						 const gchar *format,
-						 gdouble d);
-
 gboolean	e_file_lock_create		(void);
 void		e_file_lock_destroy		(void);
 gboolean	e_file_lock_exists		(void);

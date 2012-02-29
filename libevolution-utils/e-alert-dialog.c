@@ -29,7 +29,6 @@
 
 #include "e-alert-dialog.h"
 
-#include "e-util.h"
 
 #define E_ALERT_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
