@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-23 14:24+0530\n"
-"PO-Revision-Date: 2012-02-28 14:35+0530\n"
+"POT-Creation-Date: 2012-02-29 17:23+0530\n"
+"PO-Revision-Date: 2012-02-29 17:24+0530\n"
 "Last-Translator: Dr.T.Vasudevan <agnihot3@gmail.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -1737,7 +1737,9 @@ msgstr[1] "%d வினாடிகள்"
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:2
 msgid "'{0}' does not support assigned tasks, please select a different task list."
-msgstr "'{0}' பணிக்கப்பட்ட வேலைகளை ஆதரிக்கவில்லை. தயை செய்து வேறு பணிப்பட்டியலை தேர்ந்தெடுக்கவும்."
+msgstr ""
+"'{0}' பணிக்கப்பட்ட வேலைகளை ஆதரிக்கவில்லை. தயை செய்து வேறு பணிப்பட்டியலை "
+"தேர்ந்தெடுக்கவும்."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -1761,7 +1763,8 @@ msgstr ""
 msgid ""
 "Adding a meaningful summary to your appointment will give you an idea of "
 "what your appointment is about."
-msgstr "அர்த்தமுள்ள சுருக்கம் ஒன்றை உங்கள் சந்திப்புக்கு தருவது சந்திப்பு குறித்த ஒரு ஊகத்தை தரும்."
+msgstr ""
+"அர்த்தமுள்ள சுருக்கம் ஒன்றை உங்கள் சந்திப்புக்கு தருவது சந்திப்பு குறித்த ஒரு ஊகத்தை தரும்."
 
 #: ../calendar/calendar.error.xml.h:8
 msgid ""
@@ -3209,8 +3212,8 @@ msgid "Unable to open memos in '%s': %s"
 msgstr "'%s' இல் குறிப்புகளை திறக்க முடியவில்லை: %s"
 
 #: ../calendar/gui/dialogs/memo-page.c:1156 ../em-format/em-format.c:1065
-#: ../em-format/em-format-quote.c:318 ../mail/em-format-html.c:2667
-#: ../mail/em-format-html.c:2732 ../mail/em-format-html.c:2756
+#: ../em-format/em-format-quote.c:318 ../mail/em-format-html.c:2669
+#: ../mail/em-format-html.c:2734 ../mail/em-format-html.c:2758
 #: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:72
 msgid "To"
 msgstr "பெறுநர்"
@@ -6689,13 +6692,13 @@ msgid "Please enter your password."
 msgstr "தயவு செய்து உங்கள் கடவுச்சொல்லை உள்ளிடவும்:"
 
 #: ../capplet/settings/mail-account-view.c:282
-#: ../mail/em-account-editor.c:5429 ../plugins/caldav/caldav-source.c:67
+#: ../mail/em-account-editor.c:5436 ../plugins/caldav/caldav-source.c:67
 msgid "CalDAV"
 msgstr "CalDAV"
 
 #: ../capplet/settings/mail-account-view.c:376
 #: ../capplet/settings/mail-account-view.c:421
-#: ../mail/em-account-editor.c:5300 ../mail/em-account-editor.c:5357
+#: ../mail/em-account-editor.c:5307 ../mail/em-account-editor.c:5364
 #: ../modules/online-accounts/e-online-accounts-google.c:295
 #: ../modules/online-accounts/e-online-accounts-google.c:369
 #: ../plugins/google-account-setup/google-contacts-source.c:55
@@ -6705,20 +6708,20 @@ msgstr "கூகுள்"
 
 #: ../capplet/settings/mail-account-view.c:497
 #: ../capplet/settings/mail-account-view.c:601
-#: ../mail/em-account-editor.c:4833 ../mail/em-account-editor.c:4868
+#: ../mail/em-account-editor.c:4840 ../mail/em-account-editor.c:4875
 msgid "Always (SSL)"
 msgstr "எப்போதும் (SSL)"
 
 #: ../capplet/settings/mail-account-view.c:500
 #: ../capplet/settings/mail-account-view.c:604
-#: ../mail/em-account-editor.c:4836 ../mail/em-account-editor.c:4871
+#: ../mail/em-account-editor.c:4843 ../mail/em-account-editor.c:4878
 msgid "When possible (TLS)"
 msgstr "இயன்றபோது (TLS)"
 
 #: ../capplet/settings/mail-account-view.c:503
 #: ../capplet/settings/mail-account-view.c:607
-#: ../mail/em-account-editor.c:1752 ../mail/em-account-editor.c:4839
-#: ../mail/em-account-editor.c:4874
+#: ../mail/em-account-editor.c:1752 ../mail/em-account-editor.c:4846
+#: ../mail/em-account-editor.c:4881
 msgid "Never"
 msgstr "எப்போதுமில்லை"
 
@@ -6805,7 +6808,7 @@ msgid ""
 msgstr "நாங்கள் சேவ்வையகத்துக்கு இணத்து அஞ்சல்களை பெறுமுன் ஒரு முறை அமைப்புகளை  சோதித்து விடலாம்."
 
 #: ../capplet/settings/mail-account-view.c:678
-#: ../mail/em-account-editor.c:2948 ../mail/em-account-editor.c:3087
+#: ../mail/em-account-editor.c:2955 ../mail/em-account-editor.c:3094
 msgid "Identity"
 msgstr "அடையாளம்"
 
@@ -6857,7 +6860,7 @@ msgid "Back - Receiving options"
 msgstr "பின்செல் - பெறும் தேர்வுகள்"
 
 #: ../capplet/settings/mail-account-view.c:683
-#: ../mail/em-account-editor.c:4100
+#: ../mail/em-account-editor.c:4107
 msgid "Defaults"
 msgstr "இயல்பானவைகள்"
 
@@ -6886,12 +6889,12 @@ msgid "Setup Google calendar with Evolution"
 msgstr "எவல்யூஷன் க்கு கூகுள் நாள்காட்டி சேர்."
 
 #: ../capplet/settings/mail-account-view.c:861
-#: ../mail/em-account-editor.c:4928
+#: ../mail/em-account-editor.c:4935
 msgid "You may need to enable IMAP access."
 msgstr "நீங்கள் ஐமாப் அணுகலை செயலாக்க வேண்டி இருக்கலாம்."
 
 #: ../capplet/settings/mail-account-view.c:869
-#: ../mail/em-account-editor.c:4905
+#: ../mail/em-account-editor.c:4912
 msgid "Google account settings:"
 msgstr "கூகுள் கணக்கு அமைப்புகள் :"
 
@@ -6900,7 +6903,7 @@ msgid "Setup Yahoo calendar with Evolution"
 msgstr "எவல்யூஷன் உடன் யாஹூ நாள்காட்டி அமை"
 
 #: ../capplet/settings/mail-account-view.c:899
-#: ../mail/em-account-editor.c:4975
+#: ../mail/em-account-editor.c:4982
 msgid ""
 "Yahoo calendars are named as firstname_lastname. We have tried to form the "
 "calendar name. So please confirm and re-enter the calendar name if it is not "
@@ -6911,7 +6914,7 @@ msgstr ""
 "உள்ளிடவும்."
 
 #: ../capplet/settings/mail-account-view.c:908
-#: ../mail/em-account-editor.c:4960
+#: ../mail/em-account-editor.c:4967
 msgid "Yahoo account settings:"
 msgstr "யாஹூ கணக்கு அமைப்புகள்: "
 
@@ -7540,16 +7543,16 @@ msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
 msgstr ""
-"\"#rrggbb\" வடிவத்தில் பணியின் பின்னணி நிறம் இன்றைய இலக்கை குறிப்பதாகும். வேலைக்கு இன்று கடைசி "
-"நாள் சிறப்பு சுட்டலுக்கு பயன்படுத்துவது"
+"\"#rrggbb\" வடிவத்தில் பணியின் பின்னணி நிறம் இன்றைய இலக்கை குறிப்பதாகும். வேலைக்கு "
+"இன்று கடைசி நாள் சிறப்பு சுட்டலுக்கு பயன்படுத்துவது"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:3
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
 msgstr ""
-"\"#rrggbb\" வடிவத்தில் பணியின் பின்னணி நிறம் கெடு முடிந்ததைக் குறிப்பதாகும். கெடு-முடிந்தது- "
-"சிறப்பு சுட்டலுக்கு பயன்படுத்துவது"
+"\"#rrggbb\" வடிவத்தில் பணியின் பின்னணி நிறம் கெடு முடிந்ததைக் குறிப்பதாகும். கெடு-"
+"முடிந்தது- சிறப்பு சுட்டலுக்கு பயன்படுத்துவது"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:4
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:5
@@ -8052,7 +8055,8 @@ msgstr "கணினி இயல்பான நேர மண்டலத்த
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 msgid "Use the system timezone instead of the timezone selected in Evolution"
-msgstr "எவல்யூஷனில் தேர்ந்தெடுக்கப்பட்ட நேர மண்டலத்திற்குப் பதில் கணினி நேர மண்டலத்தைப் பயன்படுத்தவும்"
+msgstr ""
+"எவல்யூஷனில் தேர்ந்தெடுக்கப்பட்ட நேர மண்டலத்திற்குப் பதில் கணினி நேர மண்டலத்தைப் பயன்படுத்தவும்"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid "Vertical position for the tag pane"
@@ -8074,8 +8078,8 @@ msgstr "கெடு முடிந்த பணிகளை சிறப்ப
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 msgid "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
-"இன்று முடிக்க வேண்டும் எனும் பணிகளை சிறப்பு நிறத்தில் காட்டி சிறப்புச்சுட்டவா "
-"(இன்று-முடிக்க-வேண்டும்-நிறம் )"
+"இன்று முடிக்க வேண்டும் எனும் பணிகளை சிறப்பு நிறத்தில் காட்டி சிறப்புச்சுட்டவா (இன்று-"
+"முடிக்க-வேண்டும்-நிறம் )"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
 msgid "Whether or not to use the notification tray for display reminders"
@@ -8296,8 +8300,8 @@ msgid ""
 "Automatically enable PGP or S/MIME signatures when replying to a message "
 "which is also PGP or S/MIME signed."
 msgstr ""
-"PGP அல்லது S/MIME கையெழுத்துள்ள செய்திகளுக்கு பதில் தரும்போது தானியங்கியாக PGP அல்லது S/MIME "
-"கையெழுத்துகளை செயலாக்கு. "
+"PGP அல்லது S/MIME கையெழுத்துள்ள செய்திகளுக்கு பதில் தரும்போது தானியங்கியாக PGP அல்லது "
+"S/MIME கையெழுத்துகளை செயலாக்கு. "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:8
 #: ../mail/evolution-mail.schemas.in.h:20
@@ -8335,8 +8339,9 @@ msgid ""
 "text when replying to a message, as an addition to the standard \"Re\" "
 "prefix. An example is 'SV,AV'."
 msgstr ""
-"ஒரு செய்திக்கு பதில் அளிக்கும்போது பொருள் உரையில் வழக்கமாக முன்னொட்டி உள்ள \"Re\" ஐ மீண்டும் "
-"எழுதுவதை தவிர்க்க உள்ளமை 'Re' சுருக்கங்களின் கமாவால் பிரித்த பட்டியல். எ-கா 'SV,AV'."
+"ஒரு செய்திக்கு பதில் அளிக்கும்போது பொருள் உரையில் வழக்கமாக முன்னொட்டி உள்ள \"Re\" ஐ "
+"மீண்டும் எழுதுவதை தவிர்க்க உள்ளமை 'Re' சுருக்கங்களின் கமாவால் பிரித்த பட்டியல். எ-கா 'SV,"
+"AV'."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
 msgid "Composer load/attach directory"
@@ -8463,8 +8468,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
 msgstr ""
-"செங்குத்து பார்வையில் \"Messages\" நிரலில் \"From\" மற்றும் \"Subject\" வரிகளில் "
-"ஒரே எழுத்துருவை பயன்படுத்த வேன்டுமா  என்பதை நிர்ணயிக்கிறது"
+"செங்குத்து பார்வையில் \"Messages\" நிரலில் \"From\" மற்றும் \"Subject\" வரிகளில் ஒரே "
+"எழுத்துருவை பயன்படுத்த வேன்டுமா  என்பதை நிர்ணயிக்கிறது"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:34
 #: ../mail/evolution-mail.schemas.in.h:51
@@ -8907,8 +8912,9 @@ msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
 msgstr ""
-"வாய்ப்புள்ள மதிப்புகள்: 'எப்போதுமில்லை' - எப்போதும் உலாவி சாளரத்தை மூடாமலிருக்க; 'எப்போதும்' - "
-"எப்போதும் உலாவி சாளரத்தை மூட; 'கேள்' - (அல்லது மற்ற எந்த மதிப்பும் ) பயனரை கேட்கும்."
+"வாய்ப்புள்ள மதிப்புகள்: 'எப்போதுமில்லை' - எப்போதும் உலாவி சாளரத்தை மூடாமலிருக்க; "
+"'எப்போதும்' - எப்போதும் உலாவி சாளரத்தை மூட; 'கேள்' - (அல்லது மற்ற எந்த மதிப்பும் ) "
+"பயனரை கேட்கும்."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 #: ../mail/evolution-mail.schemas.in.h:144
@@ -9244,9 +9250,10 @@ msgid ""
 "Computer and Search folders, otherwise accounts are sorted based on an order "
 "given by a user"
 msgstr ""
-"ஒரு அஞ்சல் காட்சியில் பயனாகும் அடைவு மரத்தில் எப்படி கணக்குகளை வகை பிரிப்பது என விளக்குகிறது. "
-"அமைத்தால் உண்மையான கணக்குகள் அகர வரிசையில் அடுக்கப்படும் - இந்த கணினி மற்று தேடல் அடைவுகள் "
-"தவிர்த்து. இல்லையானால் கணக்குகள் ஒரு பயனர் தரும் வரிசையில் அடுக்கப்படும்."
+"ஒரு அஞ்சல் காட்சியில் பயனாகும் அடைவு மரத்தில் எப்படி கணக்குகளை வகை பிரிப்பது என "
+"விளக்குகிறது. அமைத்தால் உண்மையான கணக்குகள் அகர வரிசையில் அடுக்கப்படும் - இந்த கணினி "
+"மற்று தேடல் அடைவுகள் தவிர்த்து. இல்லையானால் கணக்குகள் ஒரு பயனர் தரும் வரிசையில் "
+"அடுக்கப்படும்."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 #: ../mail/evolution-mail.schemas.in.h:200
@@ -9512,8 +9519,8 @@ msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
 msgstr ""
-"எவலூஷன் துவக்கப்படும்போது புதிய அஞ்சலுக்கு சோதிக்க வேண்டுமா என அமைக்கிறது. இந்த "
-"தேர்வில் வெளிச்செல்  பெட்டியில் உள்ள அஞ்சல்களை அனுப்புவதும்  அடங்கும்."
+"எவலூஷன் துவக்கப்படும்போது புதிய அஞ்சலுக்கு சோதிக்க வேண்டுமா என அமைக்கிறது. இந்த தேர்வில் "
+"வெளிச்செல்  பெட்டியில் உள்ள அஞ்சல்களை அனுப்புவதும்  அடங்கும்."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 #: ../mail/evolution-mail.schemas.in.h:237
@@ -9938,14 +9945,14 @@ msgid "Reply-To"
 msgstr "பதில்-பெறுநர்"
 
 #: ../em-format/em-format.c:1066 ../em-format/em-format-quote.c:318
-#: ../mail/em-format-html.c:2668 ../mail/em-format-html.c:2736
-#: ../mail/em-format-html.c:2759 ../modules/mail/em-mailer-prefs.c:73
+#: ../mail/em-format-html.c:2670 ../mail/em-format-html.c:2738
+#: ../mail/em-format-html.c:2761 ../modules/mail/em-mailer-prefs.c:73
 msgid "Cc"
 msgstr "கரிநகல்"
 
 #: ../em-format/em-format.c:1067 ../em-format/em-format-quote.c:318
-#: ../mail/em-format-html.c:2669 ../mail/em-format-html.c:2740
-#: ../mail/em-format-html.c:2762 ../modules/mail/em-mailer-prefs.c:74
+#: ../mail/em-format-html.c:2671 ../mail/em-format-html.c:2742
+#: ../mail/em-format-html.c:2764 ../modules/mail/em-mailer-prefs.c:74
 msgid "Bcc"
 msgstr "மறைநகல்"
 
@@ -10014,7 +10021,7 @@ msgid "Could not parse PGP message: "
 msgstr "PGP செய்தியை பகுக்க இயலவில்லை:"
 
 #. pseudo-header
-#: ../em-format/em-format-quote.c:476 ../mail/em-format-html.c:2861
+#: ../em-format/em-format-quote.c:476 ../mail/em-format-html.c:2863
 #: ../modules/mail/em-mailer-prefs.c:1046
 msgid "Mailer"
 msgstr "மின்னஞ்சல்"
@@ -10898,7 +10905,7 @@ msgstr "கணக்கின் பெயர்"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. * other user means other calendars subscribed
-#: ../mail/e-mail-account-tree-view.c:116 ../mail/e-mail-reader.c:3425
+#: ../mail/e-mail-account-tree-view.c:116 ../mail/e-mail-reader.c:3439
 #: ../mail/mail-config.ui.h:31
 #: ../plugins/google-account-setup/google-source.c:316
 #: ../plugins/google-account-setup/google-source.c:558
@@ -11598,49 +11605,49 @@ msgstr "அனைத்து செய்தி தலைப்புகள் 
 msgid "Show messages with all email headers"
 msgstr "எல்லா மின்னஞ்சல் தலைப்புகளோடும் செய்திகளை காட்டு"
 
-#: ../mail/e-mail-reader.c:2698
+#: ../mail/e-mail-reader.c:2712
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "'%s' செய்தியை மீட்கிறது"
 
-#: ../mail/e-mail-reader.c:3618
+#: ../mail/e-mail-reader.c:3632
 #: ../modules/mail/e-mail-attachment-handler.c:174
 msgid "_Forward"
 msgstr "முன்னனுப்பு (_F)"
 
-#: ../mail/e-mail-reader.c:3619
+#: ../mail/e-mail-reader.c:3633
 msgid "Forward the selected message to someone"
 msgstr "தேர்வு செய்த செய்தியை மற்றவருக்கு அனுப்பு"
 
-#: ../mail/e-mail-reader.c:3638
+#: ../mail/e-mail-reader.c:3652
 msgid "Group Reply"
 msgstr "குழு பதில்"
 
-#: ../mail/e-mail-reader.c:3639
+#: ../mail/e-mail-reader.c:3653
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "மின்னஞ்சல் பட்டியல் அல்லது எல்லா பெறுனர்களுக்கும் பதில் எழுது"
 
-#: ../mail/e-mail-reader.c:3696 ../mail/em-filter-i18n.h:14
+#: ../mail/e-mail-reader.c:3710 ../mail/em-filter-i18n.h:14
 msgid "Delete"
 msgstr "நீக்கு"
 
-#: ../mail/e-mail-reader.c:3729
+#: ../mail/e-mail-reader.c:3743
 #: ../modules/calendar/e-cal-shell-view-actions.c:1356
 #: ../widgets/misc/e-calendar.c:202
 msgid "Next"
 msgstr "அடுத்து"
 
-#: ../mail/e-mail-reader.c:3733
+#: ../mail/e-mail-reader.c:3747
 #: ../modules/calendar/e-cal-shell-view-actions.c:1349
 #: ../widgets/misc/e-calendar.c:178
 msgid "Previous"
 msgstr "முந்தைய"
 
-#: ../mail/e-mail-reader.c:3742 ../mail/mail-dialogs.ui.h:17
+#: ../mail/e-mail-reader.c:3756 ../mail/mail-dialogs.ui.h:17
 msgid "Reply"
 msgstr "பதில்"
 
-#: ../mail/e-mail-reader.c:4443
+#: ../mail/e-mail-reader.c:4457
 #, c-format
 msgid "Folder '%s'"
 msgstr "அடைவு '%s'"
@@ -11705,19 +11712,19 @@ msgstr "எப்போதும்"
 msgid "Ask for each message"
 msgstr "ஒவ்வொரு செய்திக்கும் கேட்கவும்"
 
-#: ../mail/em-account-editor.c:2905 ../mail/mail-config.ui.h:170
+#: ../mail/em-account-editor.c:2912 ../mail/mail-config.ui.h:170
 msgid "_Path:"
 msgstr "பாதை (_P):"
 
-#: ../mail/em-account-editor.c:2908
+#: ../mail/em-account-editor.c:2915
 msgid "Fil_e:"
 msgstr "_e கோப்பு:"
 
-#: ../mail/em-account-editor.c:2945
+#: ../mail/em-account-editor.c:2952
 msgid "Mail Configuration"
 msgstr "மின்னஞ்சல் அமைப்பு"
 
-#: ../mail/em-account-editor.c:2946
+#: ../mail/em-account-editor.c:2953
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -11727,7 +11734,7 @@ msgstr ""
 "\n"
 " துவங்க \"தொடர்\" என்பதை சொடுக்கவும்."
 
-#: ../mail/em-account-editor.c:2949
+#: ../mail/em-account-editor.c:2956
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -11737,19 +11744,19 @@ msgstr ""
 "செய்ய தேவையில்லை.விருப்பப்பட்டால் உங்கள் மின்னஞ்சலோடு செல்லவேண்டிய தகவல்களை பூர்த்தி "
 "செய்யவும்."
 
-#: ../mail/em-account-editor.c:2951 ../mail/em-account-editor.c:3160
+#: ../mail/em-account-editor.c:2958 ../mail/em-account-editor.c:3167
 msgid "Receiving Email"
 msgstr "மின்னஞ்சல் பெறப்படுகிறது"
 
-#: ../mail/em-account-editor.c:2952
+#: ../mail/em-account-editor.c:2959
 msgid "Please configure the following account settings."
 msgstr "பின்வரும் கணக்கு அமைவுகளை கட்டமை செய்யவும்."
 
-#: ../mail/em-account-editor.c:2954 ../mail/em-account-editor.c:3779
+#: ../mail/em-account-editor.c:2961 ../mail/em-account-editor.c:3786
 msgid "Sending Email"
 msgstr "மின்னஞ்சல் அனுப்பப்படுகிறது"
 
-#: ../mail/em-account-editor.c:2955
+#: ../mail/em-account-editor.c:2962
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -11757,19 +11764,19 @@ msgstr ""
 "நீங்கள் மின்னஞ்சல் அனுப்ப விரும்பும் முறையை உள்ளிடவும்தெரியவில்லை என்றால் உங்கள் கணினி "
 "மேலாளரை கேட்கவும்."
 
-#: ../mail/em-account-editor.c:2957
+#: ../mail/em-account-editor.c:2964
 msgid "Account Summary"
 msgstr "கணக்கின் சுருக்கம்"
 
-#: ../mail/em-account-editor.c:2958
+#: ../mail/em-account-editor.c:2965
 msgid "This is a summary of the settings which will be used to access your mail."
 msgstr "இது உங்கள் அஞ்சலை அணுக பயன்படுத்தப்படும் அமைப்புகளின் சுருக்கம்"
 
-#: ../mail/em-account-editor.c:2962
+#: ../mail/em-account-editor.c:2969
 msgid "Done"
 msgstr "முடிந்தது"
 
-#: ../mail/em-account-editor.c:2963
+#: ../mail/em-account-editor.c:2970
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -11784,41 +11791,41 @@ msgstr ""
 "\n"
 "\"Apply\" என்பதை க்ளிக் செய்து சேமிக்கவும்"
 
-#: ../mail/em-account-editor.c:3526
+#: ../mail/em-account-editor.c:3533
 msgid "Check for _new messages every"
 msgstr "புதிய மின்னஞ்சல்களை கால இடைவெளிக்குள் தானாக சோதி"
 
-#: ../mail/em-account-editor.c:3534
+#: ../mail/em-account-editor.c:3541
 msgid "minu_tes"
 msgstr "நிமிடங்கள் (_t)"
 
-#: ../mail/em-account-editor.c:4252 ../mail/mail-config.ui.h:109
+#: ../mail/em-account-editor.c:4259 ../mail/mail-config.ui.h:109
 msgid "Security"
 msgstr "பாதுகாப்பு"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:4307 ../mail/em-account-editor.c:4409
+#: ../mail/em-account-editor.c:4314 ../mail/em-account-editor.c:4416
 msgid "Receiving Options"
 msgstr "பெறும் தேர்வுகள்"
 
-#: ../mail/em-account-editor.c:4308 ../mail/em-account-editor.c:4410
+#: ../mail/em-account-editor.c:4315 ../mail/em-account-editor.c:4417
 msgid "Checking for New Messages"
 msgstr "புதிய மின்னஞ்சலுக்காக சோதிக்கிறது"
 
-#: ../mail/em-account-editor.c:4913
+#: ../mail/em-account-editor.c:4920
 msgid "Setup Google con_tacts with Evolution"
 msgstr "_t கூகுள் தொடர்புகள் ஐ எவலூஷனுக்கு சேர்."
 
-#: ../mail/em-account-editor.c:4920
+#: ../mail/em-account-editor.c:4927
 msgid "Setup Google ca_lendar with Evolution"
 msgstr "_l எவல்யூஷன் க்கு கூகுள் நாள்காட்டி சேர்."
 
-#: ../mail/em-account-editor.c:4968
+#: ../mail/em-account-editor.c:4975
 msgid "Setup _Yahoo calendar with Evolution"
 msgstr "_Y எவல்யூஷன் உடன் யாஹூ நாள்காட்டி அமை"
 
-#: ../mail/em-account-editor.c:4993
+#: ../mail/em-account-editor.c:5000
 msgid "Yahoo Calen_dar name:"
 msgstr "_d யாஹூ நாள்காட்டி பெயர்: "
 
@@ -12268,52 +12275,52 @@ msgstr "குறிமுறையாக்கப்பட்ட"
 msgid "Encrypted, strong"
 msgstr "சரியாக குறிமுறையாக்கப்பட்ட"
 
-#: ../mail/em-format-html.c:2211
+#: ../mail/em-format-html.c:2213
 msgid "Unknown external-body part."
 msgstr "தெரியாத வெளி உடல் பகுதி"
 
-#: ../mail/em-format-html.c:2221
+#: ../mail/em-format-html.c:2223
 msgid "Malformed external-body part."
 msgstr "தவறான வெளி உடல் பகுதி"
 
-#: ../mail/em-format-html.c:2252
+#: ../mail/em-format-html.c:2254
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "FTP வலைமனைக்கான (%s) குறி"
 
-#: ../mail/em-format-html.c:2263
+#: ../mail/em-format-html.c:2265
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "உள்கோப்பின் சுட்டிக்காட்டி (%s) \"%s\" இணயதளத்தில் செல்லும்"
 
-#: ../mail/em-format-html.c:2265
+#: ../mail/em-format-html.c:2267
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "உள்கோப்பின் சுட்டிக்காட்டி (%s) "
 
-#: ../mail/em-format-html.c:2286
+#: ../mail/em-format-html.c:2288
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "தொலை தகவலுக்கான சுட்டிக்காட்டி (%s) "
 
-#: ../mail/em-format-html.c:2301
+#: ../mail/em-format-html.c:2303
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "வெளி தகவலுக்கான சுட்டிக்காட்டி (%s)"
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../mail/em-format-html.c:3009
+#: ../mail/em-format-html.c:3011
 #: ../plugins/mail-notification/mail-notification.c:395
 #, c-format
 msgid "From: %s"
 msgstr "அனுப்புனர்: %s"
 
-#: ../mail/em-format-html.c:3031
+#: ../mail/em-format-html.c:3033
 msgid "(no subject)"
 msgstr "(பொருள் இல்லை)"
 
-#: ../mail/em-format-html.c:3107
+#: ../mail/em-format-html.c:3109
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "செய்தி %s ஆல் அனுப்பப்பட்டது %s சார்பாக"
@@ -12650,8 +12657,8 @@ msgid ""
 "Define the email export format when doing drag'n'drop. Possible values are "
 "mbox or pdf"
 msgstr ""
-"இழுத்துவிடும் போது மின்னஞ்சலின் ஏற்றுமதி ஒழுங்கை அறுதி செய்க. இருக்கக்கூடிய மதிப்புகள் எம்பாக்ஸ் "
-"அல்லது பிடிஎஃப்"
+"இழுத்துவிடும் போது மின்னஞ்சலின் ஏற்றுமதி ஒழுங்கை அறுதி செய்க. இருக்கக்கூடிய மதிப்புகள் "
+"எம்பாக்ஸ் அல்லது பிடிஎஃப்"
 
 #: ../mail/evolution-mail.schemas.in.h:45
 msgid ""
@@ -12674,8 +12681,8 @@ msgid ""
 "Exported filename will be YYYYmmDDHHMMSS_email_title Possible values: 1 (: "
 "email sent date), 2 (: drag'n'drop date)"
 msgstr ""
-"ஏற்றுமதி செய்யும் கோப்புப்பெயர்  YYYYmmDDHHMMSS_email_title இருக்கக்கூடிய மதிப்புகள்: 1 (: "
-"மின்னஞ்சல் அனுப்பிய தேதி), 2 (: இழுத்துவிட்ட தேதி)"
+"ஏற்றுமதி செய்யும் கோப்புப்பெயர்  YYYYmmDDHHMMSS_email_title இருக்கக்கூடிய மதிப்புகள்: "
+"1 (: மின்னஞ்சல் அனுப்பிய தேதி), 2 (: இழுத்துவிட்ட தேதி)"
 
 #: ../mail/evolution-mail.schemas.in.h:81
 msgid "Format of the drag'n'drop export filename"
@@ -12849,9 +12856,10 @@ msgid ""
 "Computer and Search folders, otherwise accounts are sorted based on an order "
 "given by a user."
 msgstr ""
-"ஒரு அஞ்சல் காட்சியில் பயனாகும் அடைவு மரத்தில் எப்படி கணக்குகளை வகை பிரிப்பது என விளக்குகிறது. "
-"அமைத்தால் உண்மையான கணக்குகள் அகர வரிசையில் அடுக்கப்படும் - இந்த கணினி மற்று தேடல் அடைவுகள் "
-"தவிர்த்து. இல்லையானால் கணக்குகள் ஒரு பயனர் தரும் வரிசையில் அடுக்கப்படும்."
+"ஒரு அஞ்சல் காட்சியில் பயனாகும் அடைவு மரத்தில் எப்படி கணக்குகளை வகை பிரிப்பது என "
+"விளக்குகிறது. அமைத்தால் உண்மையான கணக்குகள் அகர வரிசையில் அடுக்கப்படும் - இந்த கணினி "
+"மற்று தேடல் அடைவுகள் தவிர்த்து. இல்லையானால் கணக்குகள் ஒரு பயனர் தரும் வரிசையில் "
+"அடுக்கப்படும்."
 
 #: ../mail/evolution-mail.schemas.in.h:206
 msgid ""
@@ -13188,7 +13196,9 @@ msgstr "வெளியேறும் போது எரிதங்களை 
 
 #: ../mail/mail-config.ui.h:38
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
-msgstr "_s மூல செய்தி கையொப்பமிடப்பட்டு இருப்பின் செய்திகளில் இரும கையொப்பமிடவும். (PGP அல்லது S/MIME)"
+msgstr ""
+"_s மூல செய்தி கையொப்பமிடப்பட்டு இருப்பின் செய்திகளில் இரும கையொப்பமிடவும். (PGP அல்லது "
+"S/MIME)"
 
 #: ../mail/mail-config.ui.h:39
 msgid "Digitally sign o_utgoing messages (by default)"
@@ -14142,7 +14152,8 @@ msgstr "தொடந்தால், உங்களால் செய்தி
 msgid ""
 "If you delete the folder, all of its contents and its subfolders' contents "
 "will be deleted permanently."
-msgstr "இந்த அடைவை நீக்கினால் இதில் உள்ள அனைத்து கோப்புகளும் உப அடைவுகளும் நிரந்தரமாக நீக்கப்படும்."
+msgstr ""
+"இந்த அடைவை நீக்கினால் இதில் உள்ள அனைத்து கோப்புகளும் உப அடைவுகளும் நிரந்தரமாக நீக்கப்படும்."
 
 #: ../mail/mail.error.xml.h:76
 msgid "If you delete the folder, all of its contents will be deleted permanently."
@@ -14318,8 +14329,8 @@ msgid ""
 "The attachment named {0} is a hidden file and may contain sensitive data. "
 "Please review it before sending."
 msgstr ""
-"{0} என்று பெயரிட்ட இணைப்பு ஒரு மறை கோப்பு; அதில் அந்தரங்க தரவு இருக்கலாம். அனுப்பும் முன் மறு "
-"ஆய்வு செய்யவும்."
+"{0} என்று பெயரிட்ட இணைப்பு ஒரு மறை கோப்பு; அதில் அந்தரங்க தரவு இருக்கலாம். அனுப்பும் "
+"முன் மறு ஆய்வு செய்யவும்."
 
 #: ../mail/mail.error.xml.h:116
 msgid ""
@@ -17802,8 +17813,8 @@ msgid "CalDAV Support"
 msgstr "CalDAV ஆதரவு"
 
 #: ../plugins/calendar-file/calendar-file.c:136
-msgid "_Customize options"
-msgstr "தனிபயன் விருப்பங்கள் (_C)"
+msgid "C_ustomize options"
+msgstr "தனிபயன் விருப்பங்கள் (_u)"
 
 #: ../plugins/calendar-file/calendar-file.c:155
 #: ../widgets/misc/e-attachment-dialog.c:333
@@ -17815,19 +17826,22 @@ msgstr "கோப்பின் பெயர் (_i):"
 msgid "Choose calendar file"
 msgstr "நாள்காட்டி கோப்பினை தேர்வு செய்யவும்"
 
-#: ../plugins/calendar-file/calendar-file.c:212
+#. Translators: This is one setting for when to refresh a memo/calendar/tasks list
+#: ../plugins/calendar-file/calendar-file.c:213
 msgid "On open"
 msgstr "திறக்கையில்"
 
-#: ../plugins/calendar-file/calendar-file.c:213
+#. Translators: This is one setting for when to refresh a memo/calendar/tasks list
+#: ../plugins/calendar-file/calendar-file.c:215
 msgid "On file change"
 msgstr "கோப்பு மாற்றத்தில்"
 
-#: ../plugins/calendar-file/calendar-file.c:214
+#. Translators: This is one setting for when to refresh a memo/calendar/tasks list
+#: ../plugins/calendar-file/calendar-file.c:217
 msgid "Periodically"
 msgstr "கால இடைவெளியில்"
 
-#: ../plugins/calendar-file/calendar-file.c:235
+#: ../plugins/calendar-file/calendar-file.c:238
 msgid "Force read _only"
 msgstr "வாசிப்புக்கும் மட்டும் வலியுறுத்து (_o)"
 
