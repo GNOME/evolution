@@ -13,10 +13,20 @@ libevolution_utils_la_CPPFLAGS = \
 
 libevolutionutilsincludedir = $(privincludedir)/libevolution-utils
 libevolutionutilsinclude_HEADERS = \
+	e-alert.h			\
+	e-alert-dialog.h		\
+	e-alert-sink.h			\
+	e-xml-utils.h			\
+	evolution-util.h		\
 	$(NULL)
 
 libevolution_utils_la_SOURCES = \
-	$(libevolutionutilsinclude_HEADERS) \
+	$(libevolutionutilsinclude_HEADERS) 	\
+	e-alert.c				\
+	e-alert-dialog.c			\
+	e-alert-sink.c				\
+	e-xml-utils.c				\
+	evolution-util.c			\
 	$(NULL)
 
 libevolution_utils_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)

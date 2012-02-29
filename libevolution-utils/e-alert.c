@@ -37,8 +37,6 @@
 
 #include <libedataserver/e-xml-utils.h>
 
-#include "e-util.h"
-#include "e-util-private.h"
 #include "e-alert.h"
 #include "e-alert-sink.h"
 

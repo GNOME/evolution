@@ -25,7 +25,7 @@
 #define E_ALERT_DIALOG_H
 
 #include <gtk/gtk.h>
-#include <e-util/e-alert.h>
+#include <libevolution-utils/e-alert.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ALERT_DIALOG \
