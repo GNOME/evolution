@@ -25,7 +25,7 @@
 
 #include <sys/types.h>
 #include <glib.h>
-
+#include <gtk/gtk.h>
 /* String to/from double conversion functions */
 gdouble		e_flexible_strtod		(const gchar *nptr,
 						 gchar **endptr);
@@ -38,5 +38,11 @@ gchar *		e_ascii_dtostr			(gchar *buffer,
 						 gint buf_len,
 						 const gchar *format,
 						 gdouble d);
+
+GtkWidget *	e_builder_get_widget		(GtkBuilder *builder,
+						 const gchar *widget_name);
+void		e_load_ui_builder_definition	(GtkBuilder *builder,
+						 const gchar *basename);
+
 
 #endif /* EVOLUTION_UTIL_H */

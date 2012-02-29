@@ -7,6 +7,7 @@ libevolution_utils_la_CPPFLAGS = \
 	-I$(top_srcdir) \
 	-I$(top_builddir) \
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\" \
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
 	$(NULL)
