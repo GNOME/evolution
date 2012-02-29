@@ -57,7 +57,7 @@
 #include <e-util/e-util-private.h>
 #include <e-util/e-mktemp.h>
 #include <e-util/e-dialog-utils.h>
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-dialog.h>
 
 #include <shell/e-shell.h>
 #include <widgets/misc/e-attachment.h>

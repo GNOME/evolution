@@ -26,7 +26,7 @@
 
 #include <gtk/gtk.h>
 #include <e-util/e-activity.h>
-#include <e-util/e-alert-sink.h>
+#include <libevolution-utils/e-alert-sink.h>
 #include <mail/em-folder-tree-model.h>
 #include <libemail-engine/e-mail-session.h>
 

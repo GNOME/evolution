@@ -30,7 +30,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 
 #include "e-filter-rule.h"
 #include "e-rule-context.h"

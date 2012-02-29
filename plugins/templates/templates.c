@@ -30,7 +30,7 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-dialog.h>
 #include <e-util/e-config.h>
 #include <e-util/e-plugin.h>
 #include <e-util/e-util.h>

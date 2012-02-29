@@ -24,7 +24,7 @@
 
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window-actions.h>
-#include <e-util/e-alert-sink.h>
+#include <libevolution-utils/e-alert-sink.h>
 
 /* Standard GObject macros */
 #define E_TYPE_OFFLINE_ALERT \

@@ -23,7 +23,7 @@
 #include <config.h>
 #endif
 
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 #include "e-task-shell-view-private.h"
 
 static void

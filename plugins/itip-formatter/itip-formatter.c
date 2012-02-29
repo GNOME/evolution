@@ -35,7 +35,7 @@
 #include <libedataserverui/e-client-utils.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-dialog.h>
 #include <e-util/e-mktemp.h>
 
 #include <shell/e-shell.h>

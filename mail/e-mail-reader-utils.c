@@ -32,7 +32,7 @@
 #include <gtkhtml/gtkhtml.h>
 #include <camel/camel.h>
 
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 #include "filter/e-filter-rule.h"
 #include "misc/e-web-view.h"
 #include "shell/e-shell-utils.h"

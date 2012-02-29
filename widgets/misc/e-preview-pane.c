@@ -27,8 +27,8 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include <e-util/e-alert-sink.h>
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-sink.h>
+#include <libevolution-utils/e-alert-dialog.h>
 
 #include "e-alert-bar.h"
 

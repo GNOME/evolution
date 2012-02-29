@@ -34,7 +34,7 @@
 #include <libedataserver/e-xml-utils.h>
 
 #include "e-util/e-util.h"
-#include "e-util/e-xml-utils.h"
+#include "libevolution-utils/e-xml-utils.h"
 
 #include "e-table-specification.h"
 

@@ -29,7 +29,7 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
-#include <e-util/e-alert-sink.h>
+#include <libevolution-utils/e-alert-sink.h>
 #include <mail/e-mail-backend.h>
 #include <mail/em-format-html.h>
 #include <misc/e-preview-pane.h>

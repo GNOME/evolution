@@ -30,7 +30,7 @@
 #include <libecal/e-cal-client.h>
 #include <libedataserverui/e-client-utils.h>
 
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-util.h"
 #include "calendar/gui/e-memo-list-selector.h"
 #include "calendar/gui/misc.h"

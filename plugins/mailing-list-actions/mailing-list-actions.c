@@ -30,7 +30,7 @@
 #include <glib/gi18n-lib.h>
 
 #include <e-util/e-util.h>
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-dialog.h>
 
 #include <libemail-utils/e-account-utils.h>
 

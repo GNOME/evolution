@@ -25,7 +25,7 @@
 
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-dialog.h>
 #include <composer/e-msg-composer.h>
 
 #include "e-autosave-utils.h"

@@ -51,7 +51,7 @@
 
 #include "e-util/e-util.h"
 #include "libemail-utils/e-account-utils.h"
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
 #include "shell/e-shell.h"

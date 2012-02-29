@@ -23,7 +23,7 @@
 #define E_SHELL_H
 
 #include <e-util/e-activity.h>
-#include <e-util/e-alert.h>
+#include <libevolution-utils/e-alert.h>
 
 #include <shell/e-shell-common.h>
 #include <shell/e-shell-backend.h>

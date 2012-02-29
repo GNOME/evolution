@@ -35,7 +35,7 @@
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 #include "em-utils.h"
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
 #include "em-vfolder-context.h"

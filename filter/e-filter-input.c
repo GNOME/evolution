@@ -32,7 +32,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-alert.h"
+#include "libevolution-utils/e-alert.h"
 
 #include "e-filter-input.h"
 

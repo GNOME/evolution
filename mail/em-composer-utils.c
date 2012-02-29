@@ -32,8 +32,8 @@
 
 #include <libedataserver/e-data-server-util.h>
 
-#include <e-util/e-alert-dialog.h>
-#include <e-util/e-alert-sink.h>
+#include <libevolution-utils/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-sink.h>
 #include <e-util/e-util.h>
 
 #include <libemail-utils/e-account-utils.h>

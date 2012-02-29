@@ -41,7 +41,7 @@
 #include <e-util/e-util.h>
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-html-utils.h"
 #include "shell/e-shell.h"
 #include "misc/e-image-chooser.h"

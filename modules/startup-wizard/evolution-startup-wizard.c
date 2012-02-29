@@ -25,7 +25,7 @@
 
 #include <shell/e-shell.h>
 
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-dialog.h>
 #include <e-util/e-import.h>
 
 #include <libemail-utils/e-account-utils.h>

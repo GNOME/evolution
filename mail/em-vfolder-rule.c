@@ -33,7 +33,7 @@
 #include <shell/e-shell.h>
 
 #include <e-util/e-util.h>
-#include <e-util/e-alert.h>
+#include <libevolution-utils/e-alert.h>
 #include <e-util/e-util-private.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>

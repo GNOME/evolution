@@ -34,7 +34,7 @@
 #include <libedataserver/e-time-utils.h>
 #include <libedataserverui/e-client-utils.h>
 #include <e-util/e-util.h>
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-dialog.h>
 #include <e-util/e-selection.h>
 #include <e-util/e-datetime-format.h>
 #include <e-util/e-dialog-utils.h>
