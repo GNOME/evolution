@@ -53,11 +53,12 @@ SUBDIRS = 			\
 	data			\
 	smclient		\
 	libgnomecanvas		\
+	libevolution-utils	\
+	filter			\
 	libemail-utils		\
 	libemail-engine		\
 	e-util			\
 	a11y			\
-	filter			\
 	widgets			\
 	shell			\
 	$(SMIME_SUBDIR)		\

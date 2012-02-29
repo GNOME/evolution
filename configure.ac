@@ -1599,6 +1599,8 @@ help/quickref/pl/Makefile
 help/quickref/pt/Makefile
 help/quickref/sv/Makefile
 help/quickref/sq/Makefile
+libevolution-utils/Makefile
+libevolution-utils/libevolution-utils.pc
 libemail-utils/Makefile
 libemail-utils/libemail-utils.pc
 libemail-engine/Makefile
