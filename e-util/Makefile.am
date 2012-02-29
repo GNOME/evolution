@@ -19,9 +19,6 @@ privsolib_LTLIBRARIES = libeutil.la
 
 eutilinclude_HEADERS = 				\
 	e-activity.h				\
-	e-alert.h				\
-	e-alert-dialog.h			\
-	e-alert-sink.h				\
 	e-bit-array.h				\
 	e-categories-config.h			\
 	e-charset.h				\
@@ -51,8 +48,7 @@ eutilinclude_HEADERS = 				\
 	e-util.h				\
 	e-util-enums.h				\
 	e-util-enumtypes.h			\
-	e-unicode.h				\
-	e-xml-utils.h
+	e-unicode.h				
 
 libeutil_la_CPPFLAGS =							\
 	$(AM_CPPFLAGS)							\
@@ -86,9 +82,6 @@ libeutil_la_CPPFLAGS =							\
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
 	e-activity.c				\
-	e-alert.c				\
-	e-alert-dialog.c			\
-	e-alert-sink.c				\
 	e-bit-array.c				\
 	e-categories-config.c			\
 	e-charset.c				\
@@ -118,7 +111,6 @@ libeutil_la_SOURCES =				\
 	e-unicode.c				\
 	e-util-enumtypes.c			\
 	e-util-private.h			\
-	e-xml-utils.c				\
 	$(PLATFORM_SOURCES)
 
 libeutil_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
