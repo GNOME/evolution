@@ -64,10 +64,6 @@ GtkAction *	e_lookup_action			(GtkUIManager *ui_manager,
 						 const gchar *action_name);
 GtkActionGroup *e_lookup_action_group		(GtkUIManager *ui_manager,
 						 const gchar *group_name);
-GtkWidget *	e_builder_get_widget		(GtkBuilder *builder,
-						 const gchar *widget_name);
-void		e_load_ui_builder_definition	(GtkBuilder *builder,
-						 const gchar *basename);
 gint		e_action_compare_by_label	(GtkAction *action1,
 						 GtkAction *action2);
 void		e_action_group_remove_all_actions

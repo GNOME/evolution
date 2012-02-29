@@ -116,6 +116,7 @@ libeutil_la_SOURCES =				\
 libeutil_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libeutil_la_LIBADD = 			\
+	$(top_builddir)/libevolution-utils/libevolution-utils.la	\
 	$(ICONV_LIBS)			\
 	$(EVOLUTION_DATA_SERVER_LIBS)	\
 	$(GNOME_PLATFORM_LIBS)		\

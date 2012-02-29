@@ -56,7 +56,7 @@ libfilter_la_SOURCES =				\
 libfilter_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libfilter_la_LIBADD = 				\
-	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/libevolution-utils/libevolution-utils.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)			\
 	$(REGEX_LIBS)
