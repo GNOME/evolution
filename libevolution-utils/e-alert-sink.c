@@ -19,7 +19,7 @@
 /**
  * SECTION: e-alert-sink
  * @short_description: an interface to handle alerts
- * @include: e-util/e-alert-sink.h
+ * @include: libevolution-utils/e-alert-sink.h
  *
  * A widget that implements #EAlertSink means it can handle #EAlerts,
  * usually by displaying them to the user.

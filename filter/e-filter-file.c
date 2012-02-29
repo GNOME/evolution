@@ -31,7 +31,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include "e-util/e-alert.h"
+#include "libevolution-utils/e-alert.h"
 
 #include "e-filter-file.h"
 #include "e-filter-part.h"

@@ -33,7 +33,7 @@
 #include <glib/gstdio.h>
 #include "mail/em-config.h"
 #include "mail/em-account-editor.h"
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-util.h"
 #include "e-util/e-dialog-utils.h"
 #include "shell/e-shell-utils.h"

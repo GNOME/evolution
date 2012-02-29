@@ -46,7 +46,7 @@
 #include "addressbook-config.h"
 
 #include "e-util/e-util.h"
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
 #include "addressbook/gui/widgets/eab-config.h"

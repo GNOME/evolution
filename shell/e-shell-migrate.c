@@ -32,7 +32,7 @@
 #include <glib/gstdio.h>
 #include <libedataserver/e-xml-utils.h>
 
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-file-utils.h"
 #include "e-util/e-util.h"
 

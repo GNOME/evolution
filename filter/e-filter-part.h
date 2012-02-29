@@ -27,7 +27,7 @@
 #include <gtk/gtk.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
-#include "e-util/e-alert.h"
+#include "libevolution-utils/e-alert.h"
 #include "e-filter-element.h"
 
 /* Standard GObject macros */

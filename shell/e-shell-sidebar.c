@@ -33,7 +33,7 @@
 
 #include <libebackend/e-extensible.h>
 
-#include <e-util/e-alert-sink.h>
+#include <libevolution-utils/e-alert-sink.h>
 #include <e-util/e-unicode.h>
 #include <shell/e-shell-view.h>
 

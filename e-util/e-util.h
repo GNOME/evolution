@@ -28,7 +28,7 @@
 #include <limits.h>
 #include <gconf/gconf-client.h>
 
-#include <libevolution-util/evolution-util.h>
+#include <libevolution-utils/evolution-util.h>
 #include <e-util/e-marshal.h>
 #include <e-util/e-util-enums.h>
 

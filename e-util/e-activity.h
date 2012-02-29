@@ -23,7 +23,7 @@
 #define E_ACTIVITY_H
 
 #include <gtk/gtk.h>
-#include <e-util/e-alert-sink.h>
+#include <libevolution-utils/e-alert-sink.h>
 #include <e-util/e-util-enums.h>
 
 /* Standard GObject macros */

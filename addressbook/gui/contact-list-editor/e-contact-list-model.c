@@ -26,7 +26,7 @@
 #include <string.h>
 
 #include "e-contact-list-model.h"
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 #include "shell/e-shell.h"
 
 #define E_CONTACT_LIST_MODEL_GET_PRIVATE(obj) \

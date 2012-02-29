@@ -26,7 +26,7 @@
 
 #include "e-contact-list-editor.h"
 #include <e-util/e-util-private.h>
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-dialog.h>
 #include <e-util/e-selection.h>
 #include "shell/e-shell.h"
 

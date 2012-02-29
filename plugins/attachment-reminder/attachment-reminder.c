@@ -33,7 +33,7 @@
 #include <mail/em-config.h>
 #include <mail/em-event.h>
 
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-dialog.h>
 #include <e-util/e-plugin.h>
 
 #include <mail/em-utils.h>

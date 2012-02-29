@@ -25,7 +25,7 @@
 #define __EM_FOLDER_PROPERTIES_H__
 
 #include <camel/camel.h>
-#include <e-util/e-alert-sink.h>
+#include <libevolution-utils/e-alert-sink.h>
 #include <libemail-engine/e-mail-session.h>
 
 G_BEGIN_DECLS

@@ -34,7 +34,7 @@
 
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"
-#include "e-util/e-xml-utils.h"
+#include "libevolution-utils/e-xml-utils.h"
 #include "misc/e-canvas.h"
 
 #include "e-popup-menu.h"

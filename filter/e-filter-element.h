@@ -28,7 +28,7 @@
 #include <camel/camel.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
-#include <e-util/e-alert.h>
+#include <libevolution-utils/e-alert.h>
 
 #define E_TYPE_FILTER_ELEMENT \
 	(e_filter_element_get_type ())

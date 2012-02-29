@@ -28,8 +28,8 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <e-util/e-alert-dialog.h>
-#include <e-util/e-alert-sink.h>
+#include <libevolution-utils/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-sink.h>
 #include <libemail-utils/e-signature-utils.h>
 #include <misc/e-web-view.h>
 

@@ -35,8 +35,8 @@
 
 #include <shell/e-shell.h>
 
-#include <e-util/e-alert-dialog.h>
-#include <e-util/e-alert-sink.h>
+#include <libevolution-utils/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-sink.h>
 
 #include <misc/e-account-combo-box.h>
 

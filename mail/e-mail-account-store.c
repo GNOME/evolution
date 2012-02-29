@@ -25,7 +25,7 @@
 #include <libebackend/e-extensible.h>
 
 #include <e-util/e-marshal.h>
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-dialog.h>
 
 #include <libemail-utils/e-account-utils.h>
 #include <libemail-engine/mail-ops.h>

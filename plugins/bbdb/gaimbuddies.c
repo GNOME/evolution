@@ -36,7 +36,7 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
-#include <e-util/e-xml-utils.h>
+#include <libevolution-utils/e-xml-utils.h>
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>

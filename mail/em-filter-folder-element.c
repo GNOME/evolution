@@ -36,7 +36,7 @@
 #include "mail/em-utils.h"
 #include "shell/e-shell.h"
 #include "filter/e-filter-part.h"
-#include "e-util/e-alert.h"
+#include "libevolution-utils/e-alert.h"
 
 #define EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

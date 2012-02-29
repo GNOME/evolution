@@ -38,7 +38,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <libebackend/e-extensible.h>
 #include <e-util/e-util.h>
-#include <e-util/e-alert-sink.h>
+#include <libevolution-utils/e-alert-sink.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <shell/e-shell.h>
@@ -61,7 +61,7 @@
 #include "widgets/misc/e-attachment-view.h"
 #include "widgets/misc/e-attachment-paned.h"
 
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-ui-manager.h"
 
 #define COMP_EDITOR_GET_PRIVATE(obj) \

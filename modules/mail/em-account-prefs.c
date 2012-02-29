@@ -34,7 +34,7 @@
 
 #include <glib/gi18n.h>
 
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-dialog.h>
 
 #include <shell/e-shell.h>
 

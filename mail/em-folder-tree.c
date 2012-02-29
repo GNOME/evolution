@@ -41,7 +41,7 @@
 
 #include "e-util/e-mktemp.h"
 #include "e-util/e-icon-factory.h"
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-util.h"
 
 #include "misc/e-selectable.h"

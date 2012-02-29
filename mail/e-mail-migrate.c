@@ -55,9 +55,9 @@
 #include <shell/e-shell-migrate.h>
 
 #include <e-util/e-util.h>
-#include <e-util/e-xml-utils.h>
+#include <libevolution-utils/e-xml-utils.h>
 
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-dialog.h>
 #include <e-util/e-util-private.h>
 #include <e-util/e-plugin.h>
 

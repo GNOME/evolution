@@ -25,7 +25,7 @@
 
 #include <errno.h>
 #include <fcntl.h>
-#include <e-util/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-dialog.h>
 
 static void
 action_attach_cb (GtkAction *action,

@@ -31,8 +31,8 @@
 
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
-#include <e-util/e-alert-dialog.h>
-#include <e-util/e-alert-sink.h>
+#include <libevolution-utils/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-sink.h>
 #include <e-util/e-plugin-ui.h>
 #include <widgets/misc/e-alert-bar.h>
 #include <widgets/misc/e-import-assistant.h>

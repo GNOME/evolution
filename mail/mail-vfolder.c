@@ -28,7 +28,7 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/e-alert-dialog.h"
+#include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
 #include "libemail-utils/mail-mt.h"

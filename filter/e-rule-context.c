@@ -41,8 +41,8 @@
 
 #include <libedataserver/e-xml-utils.h>
 
-#include "e-util/e-alert-dialog.h"
-#include "e-util/e-xml-utils.h"
+#include "libevolution-utils/e-alert-dialog.h"
+#include "libevolution-utils/e-xml-utils.h"
 
 #include "e-filter-code.h"
 #include "e-filter-color.h"

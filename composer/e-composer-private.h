@@ -35,7 +35,7 @@
 #include "e-composer-actions.h"
 #include "e-composer-activity.h"
 #include "e-composer-header-table.h"
-#include "e-util/e-alert-sink.h"
+#include "libevolution-utils/e-alert-sink.h"
 #include "e-util/e-charset.h"
 #include "e-util/e-marshal.h"
 #include "e-util/e-mktemp.h"
