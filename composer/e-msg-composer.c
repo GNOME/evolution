@@ -3518,6 +3518,10 @@ msg_composer_send_cb (EMsgComposer *composer,
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
+	/* The callback can set editor 'changed' if anything failed. */
+	editor = GTKHTML_EDITOR (composer);
+	gtkhtml_editor_set_changed (editor, FALSE);
+
 	g_signal_emit (
 		composer, signals[SEND], 0,
 		message, context->activity);
@@ -3525,10 +3529,6 @@ msg_composer_send_cb (EMsgComposer *composer,
 	g_object_unref (message);
 
 	async_context_free (context);
-
-	/* XXX This should be elsewhere. */
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, FALSE);
 }
 
 /**
@@ -3610,6 +3610,10 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
+	/* The callback can set editor 'changed' if anything failed. */
+	editor = GTKHTML_EDITOR (composer);
+	gtkhtml_editor_set_changed (editor, FALSE);
+
 	g_signal_emit (
 		composer, signals[SAVE_TO_DRAFTS],
 		0, message, context->activity);
@@ -3617,10 +3621,6 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 	g_object_unref (message);
 
 	async_context_free (context);
-
-	/* XXX This should be elsewhere. */
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, FALSE);
 }
 
 /**

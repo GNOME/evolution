@@ -510,11 +510,13 @@ composer_send_completed (EMailSession *session,
                          AsyncContext *context)
 {
 	GError *error = NULL;
+	gboolean set_changed = FALSE;
 
 	e_mail_session_send_to_finish (session, result, &error);
 
 	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_error_free (error);
+		set_changed = TRUE;
 		goto exit;
 	}
 
@@ -549,6 +551,7 @@ composer_send_completed (EMailSession *session,
 		if (response == GTK_RESPONSE_ACCEPT)  /* Save to Outbox */
 			e_msg_composer_save_to_outbox (context->composer);
 		g_error_free (error);
+		set_changed = TRUE;
 		goto exit;
 	}
 
@@ -561,6 +564,9 @@ composer_send_completed (EMailSession *session,
 		gtk_widget_destroy, context->composer);
 
 exit:
+	if (set_changed)
+		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
+
 	async_context_free (context);
 }
 
@@ -649,9 +655,11 @@ composer_save_to_drafts_complete (EMailSession *session,
 	e_mail_session_handle_draft_headers_finish (session, result, &error);
 
 	if (e_activity_handle_cancellation (context->activity, error)) {
+		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
 		g_error_free (error);
 
 	} else if (error != NULL) {
+		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
 		g_warning ("%s", error->message);
 		g_error_free (error);
 
@@ -688,6 +696,7 @@ composer_save_to_drafts_cleanup (CamelFolder *drafts_folder,
 
 	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_warn_if_fail (context->message_uid == NULL);
+		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
 		async_context_free (context);
 		g_error_free (error);
 		return;
@@ -698,6 +707,7 @@ composer_save_to_drafts_cleanup (CamelFolder *drafts_folder,
 			alert_sink,
 			"mail-composer:save-to-drafts-error",
 			error->message, NULL);
+		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
 		async_context_free (context);
 		g_error_free (error);
 		return;
@@ -761,6 +771,7 @@ composer_save_to_drafts_got_folder (EMailSession *session,
 
 	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_warn_if_fail (drafts_folder == NULL);
+		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
 		async_context_free (context);
 		g_error_free (error);
 		return;
@@ -780,6 +791,7 @@ composer_save_to_drafts_got_folder (EMailSession *session,
 			GTK_WINDOW (context->composer),
 			"mail:ask-default-drafts", NULL);
 		if (response != GTK_RESPONSE_YES) {
+			gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
 			async_context_free (context);
 			return;
 		}
