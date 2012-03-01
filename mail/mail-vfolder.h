@@ -27,7 +27,7 @@
 #include <filter/e-filter-part.h>
 #include <filter/e-filter-rule.h>
 #include <mail/e-mail-backend.h>
-#include <mail/em-vfolder-rule.h>
+#include <libemail-utils/em-vfolder-rule.h>
 #include <shell/e-shell-view.h>
 
 void		vfolder_load_storage		(EMailBackend *backend);

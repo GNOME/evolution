@@ -25,7 +25,6 @@
 #define EM_VFOLDER_RULE_H
 
 #include <filter/e-filter-rule.h>
-#include <libemail-engine/e-mail-session.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_VFOLDER_RULE \
@@ -75,8 +74,7 @@ struct _EMVFolderRuleClass {
 };
 
 GType		em_vfolder_rule_get_type	(void);
-EFilterRule *	em_vfolder_rule_new		(EMailSession *session);
-EMailSession *	em_vfolder_rule_get_session	(EMVFolderRule *rule);
+EFilterRule *	em_vfolder_rule_new		();
 void		em_vfolder_rule_add_source	(EMVFolderRule *rule,
 						 const gchar *uri);
 void		em_vfolder_rule_remove_source	(EMVFolderRule *rule,

@@ -42,9 +42,9 @@
 #include "e-mail-backend.h"
 #include "em-folder-tree-model.h"
 #include "em-utils.h"
-#include "em-vfolder-context.h"
+#include "em-vfolder-editor-context.h"
 #include "em-vfolder-editor.h"
-#include "em-vfolder-rule.h"
+#include "em-vfolder-editor-rule.h"
 #include "mail-autofilter.h"
 #include "mail-vfolder.h"
 #include "e-mail-ui-session.h"
@@ -713,7 +713,7 @@ rule_changed (EFilterRule *rule,
 	const gchar *full_name;
 
 	full_name = camel_folder_get_full_name (folder);
-	session = em_vfolder_rule_get_session (EM_VFOLDER_RULE (rule));
+	session = em_vfolder_editor_rule_get_session (EM_VFOLDER_EDITOR_RULE (rule));
 
 	service = camel_session_get_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
@@ -815,7 +815,7 @@ context_rule_added (ERuleContext *ctx,
 
 	d(printf("rule added: %s\n", rule->name));
 
-	session = em_vfolder_rule_get_session (EM_VFOLDER_RULE (rule));
+	session = em_vfolder_editor_rule_get_session (EM_VFOLDER_EDITOR_RULE (rule));
 
 	service = camel_session_get_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
@@ -848,7 +848,7 @@ context_rule_removed (ERuleContext *ctx,
 
 	d(printf("rule removed; %s\n", rule->name));
 
-	session = em_vfolder_rule_get_session (EM_VFOLDER_RULE (rule));
+	session = em_vfolder_editor_rule_get_session (EM_VFOLDER_EDITOR_RULE (rule));
 
 	service = camel_session_get_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
@@ -1043,7 +1043,7 @@ vfolder_load_storage (EMailBackend *backend)
 
 	/* load our rules */
 	user = g_build_filename (config_dir, "vfolders.xml", NULL);
-	context = em_vfolder_context_new (session);
+	context = (EMVFolderContext *) em_vfolder_editor_context_new (session);
 
 	xmlfile = g_build_filename (EVOLUTION_PRIVDATADIR, "vfoldertypes.xml", NULL);
 	if (e_rule_context_load ((ERuleContext *) context,
@@ -1283,7 +1283,7 @@ vfolder_clone_rule (EMailSession *session,
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
-	rule = em_vfolder_rule_new (session);
+	rule = em_vfolder_editor_rule_new (session);
 
 	xml = e_filter_rule_xml_encode (in);
 	e_filter_rule_xml_decode (rule, xml, (ERuleContext *) context);

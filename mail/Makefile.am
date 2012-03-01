@@ -68,7 +68,7 @@ mailinclude_HEADERS =					\
 	em-event.h					\
 	em-filter-context.h				\
 	em-filter-editor.h				\
-	em-filter-folder-element.h			\
+	em-filter-editor-folder-element.h		\
 	em-filter-rule.h				\
 	em-filter-source-element.h			\
 	em-folder-properties.h				\
@@ -86,9 +86,9 @@ mailinclude_HEADERS =					\
 	em-subscription-editor.h			\
 	em-sync-stream.h				\
 	em-utils.h					\
-	em-vfolder-context.h				\
+	em-vfolder-editor-context.h			\
+	em-vfolder-editor-rule.h			\
 	em-vfolder-editor.h				\
-	em-vfolder-rule.h				\
 	mail-autofilter.h				\
 	mail-guess-servers.h				\
 	mail-send-recv.h				\
@@ -133,7 +133,7 @@ libevolution_mail_la_SOURCES =				\
 	em-event.c					\
 	em-filter-context.c				\
 	em-filter-editor.c				\
-	em-filter-folder-element.c			\
+	em-filter-editor-folder-element.c		\
 	em-filter-rule.c				\
 	em-filter-source-element.c			\
 	em-folder-properties.c				\
@@ -151,9 +151,9 @@ libevolution_mail_la_SOURCES =				\
 	em-subscription-editor.c			\
 	em-sync-stream.c				\
 	em-utils.c					\
-	em-vfolder-context.c				\
+	em-vfolder-editor-context.c				\
+	em-vfolder-editor-rule.c				\
 	em-vfolder-editor.c				\
-	em-vfolder-rule.c				\
 	mail-autofilter.c				\
 	mail-guess-servers.c				\
 	mail-send-recv.c				\

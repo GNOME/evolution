@@ -34,7 +34,7 @@
 #include "e-util/e-util-private.h"
 
 #include "em-vfolder-editor.h"
-#include "em-vfolder-rule.h"
+#include "em-vfolder-editor-rule.h"
 
 G_DEFINE_TYPE (
 	EMVFolderEditor,
@@ -44,16 +44,16 @@ G_DEFINE_TYPE (
 static EFilterRule *
 vfolder_editor_create_rule (ERuleEditor *rule_editor)
 {
-	EMVFolderContext *context;
+	EMVFolderEditorContext *context;
 	EMailSession *session;
 	EFilterRule *rule;
 	EFilterPart *part;
 
-	context = EM_VFOLDER_CONTEXT (rule_editor->context);
-	session = em_vfolder_context_get_session (context);
+	context = EM_VFOLDER_EDITOR_CONTEXT (rule_editor->context);
+	session = em_vfolder_editor_context_get_session (context);
 
 	/* create a rule with 1 part in it */
-	rule = em_vfolder_rule_new (session);
+	rule = em_vfolder_editor_rule_new (session);
 	part = e_rule_context_next_part (rule_editor->context, NULL);
 	e_filter_rule_add_part (rule, e_filter_part_clone (part));
 

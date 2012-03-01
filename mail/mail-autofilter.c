@@ -38,8 +38,8 @@
 #include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
-#include "em-vfolder-context.h"
-#include "em-vfolder-rule.h"
+#include "em-vfolder-editor-context.h"
+#include "em-vfolder-editor-rule.h"
 #include "em-vfolder-editor.h"
 
 #include "em-filter-context.h"
@@ -317,9 +317,9 @@ em_vfolder_rule_from_message (EMVFolderContext *context,
 
 	uri = e_mail_folder_uri_from_folder (folder);
 
-	session = em_vfolder_context_get_session (context);
+	session = em_vfolder_editor_context_get_session ((EMVFolderEditorContext *) context);
 
-	rule = em_vfolder_rule_new (session);
+	rule = em_vfolder_editor_rule_new (session);
 	em_vfolder_rule_add_source (EM_VFOLDER_RULE (rule), uri);
 	rule_from_message (rule, E_RULE_CONTEXT (context), msg, flags);
 
@@ -344,9 +344,9 @@ em_vfolder_rule_from_address (EMVFolderContext *context,
 
 	uri = e_mail_folder_uri_from_folder (folder);
 
-	session = em_vfolder_context_get_session (context);
+	session = em_vfolder_editor_context_get_session ((EMVFolderEditorContext *) context);
 
-	rule = em_vfolder_rule_new (session);
+	rule = em_vfolder_editor_rule_new (session);
 	em_vfolder_rule_add_source (EM_VFOLDER_RULE (rule), uri);
 	rule_from_address (rule, E_RULE_CONTEXT (context), addr, flags);
 

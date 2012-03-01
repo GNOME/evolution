@@ -26,7 +26,6 @@
 #define EM_FILTER_FOLDER_ELEMENT_H
 
 #include <filter/e-filter-element.h>
-#include <libemail-engine/e-mail-session.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FILTER_FOLDER_ELEMENT \
@@ -63,9 +62,7 @@ struct _EMFilterFolderElementClass {
 };
 
 GType		em_filter_folder_element_get_type (void);
-EFilterElement *em_filter_folder_element_new	(EMailSession *session);
-EMailSession *	em_filter_folder_element_get_session
-						(EMFilterFolderElement *element);
+EFilterElement *em_filter_folder_element_new	(void);
 const gchar *	em_filter_folder_element_get_uri
 						(EMFilterFolderElement *element);
 void		em_filter_folder_element_set_uri

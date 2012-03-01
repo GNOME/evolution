@@ -34,7 +34,7 @@
 #include "em-filter-source-element.h"
 
 /* For poking into filter-folder guts */
-#include "em-filter-folder-element.h"
+#include "em-filter-editor-folder-element.h"
 
 #define EM_FILTER_CONTEXT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -236,7 +236,7 @@ filter_context_new_element (ERuleContext *context,
 	priv = EM_FILTER_CONTEXT_GET_PRIVATE (context);
 
 	if (strcmp (type, "folder") == 0)
-		return em_filter_folder_element_new (priv->session);
+		return em_filter_editor_folder_element_new (priv->session);
 
 	if (strcmp (type, "system-flag") == 0)
 		return e_filter_option_new ();

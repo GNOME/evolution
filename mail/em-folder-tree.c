@@ -46,7 +46,7 @@
 
 #include "misc/e-selectable.h"
 
-#include "em-vfolder-rule.h"
+#include "em-vfolder-editor-rule.h"
 
 #include "libemail-utils/mail-mt.h"
 #include "libemail-engine/e-mail-folder-utils.h"
