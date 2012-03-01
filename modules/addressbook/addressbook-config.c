@@ -1335,7 +1335,7 @@ addressbook_config_edit_source (GtkWidget *parent,
 
 	e_config_add_items ((EConfig *) ec, items, eabc_free, sdialog);
 	e_config_add_page_check ((EConfig *) ec, NULL, eabc_check_complete, sdialog);
-	g_signal_connect (
+	g_signal_connect_after (
 		ec, "commit",
 		G_CALLBACK (eabc_commit), sdialog);
 

@@ -573,7 +573,7 @@ calendar_setup_edit_calendar (GtkWindow *parent,
 		items = g_slist_prepend (items, &eccp_items[i]);
 	e_config_add_items ((EConfig *) ec, items, eccp_free, sdialog);
 	e_config_add_page_check ((EConfig *) ec, NULL, eccp_check_complete, sdialog);
-	g_signal_connect (
+	g_signal_connect_after (
 		ec, "commit",
 		G_CALLBACK (eccp_commit), sdialog);
 
@@ -633,7 +633,7 @@ calendar_setup_edit_task_list (GtkWindow *parent,
 		items = g_slist_prepend (items, &ectp_items[i]);
 	e_config_add_items ((EConfig *) ec, items, eccp_free, sdialog);
 	e_config_add_page_check ((EConfig *) ec, NULL, eccp_check_complete, sdialog);
-	g_signal_connect (
+	g_signal_connect_after (
 		ec, "commit",
 		G_CALLBACK (eccp_commit), sdialog);
 
@@ -693,7 +693,7 @@ calendar_setup_edit_memo_list (GtkWindow *parent,
 		items = g_slist_prepend (items, &ecmp_items[i]);
 	e_config_add_items ((EConfig *) ec, items, eccp_free, sdialog);
 	e_config_add_page_check ((EConfig *) ec, NULL, eccp_check_complete, sdialog);
-	g_signal_connect (
+	g_signal_connect_after (
 		ec, "commit",
 		G_CALLBACK (eccp_commit), sdialog);
 
