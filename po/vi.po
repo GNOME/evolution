@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
 "POT-Creation-Date: 2011-09-25 16:23+0000\n"
-"PO-Revision-Date: 2011-10-07 22:46+1100\n"
+"PO-Revision-Date: 2012-03-01 09:18+0700\n"
 "Last-Translator: Nguyễn Thái Ngọc Duy <pclouds@gmail.com>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -17534,61 +17534,61 @@ msgstr "%A %l:%M:%S %p"
 #. * without a year.
 #: ../plugins/itip-formatter/itip-view.c:283
 msgid "%A, %B %e"
-msgstr "%A, %B %e"
+msgstr "%A, %e %B"
 
 #. strftime format of a weekday, a date
 #. * without a year and a time,
 #. * in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:289
 msgid "%A, %B %e %H:%M"
-msgstr "%A, %B %e %H:%M"
+msgstr "%A, %e %B %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:293
 msgid "%A, %B %e %H:%M:%S"
-msgstr "%A, %B %e %H:%M:%S"
+msgstr "%A, %e %B %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:298
 msgid "%A, %B %e %l:%M %p"
-msgstr "%A, %B %e %l:%M %p"
+msgstr "%A, %e %B %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:302
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%A, %B %e %l:%M:%S %p"
+msgstr "%A, %e %B %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:308
 msgid "%A, %B %e, %Y"
-msgstr "%A, %B %e, %Y"
+msgstr "%A, %e %B, %Y"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:313
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%A, %B %e, %Y %H:%M"
+msgstr "%A, %e %B, %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:317
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%A, %B %e, %Y %H:%M:%S"
+msgstr "%A, %e %B, %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:322
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "%A, %B %e, %Y %l:%M %p"
+msgstr "%A, %e %B, %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:326
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "%A, %B %e, %Y %l:%M:%S %p"
+msgstr "%A, %e %B, %Y %l:%M:%S %p"
 
 #: ../plugins/itip-formatter/itip-view.c:364
 #: ../plugins/itip-formatter/itip-view.c:365
