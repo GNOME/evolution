@@ -25,7 +25,7 @@
 #define EM_VFOLDER_EDITOR_H
 
 #include "filter/e-rule-editor.h"
-#include "em-vfolder-context.h"
+#include "em-vfolder-editor-context.h"
 
 /* Standard GObject macros */
 #define EM_TYPE_VFOLDER_EDITOR \

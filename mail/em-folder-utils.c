@@ -44,7 +44,7 @@
 #include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-dialog-utils.h"
 
-#include "em-vfolder-rule.h"
+#include "em-vfolder-editor-rule.h"
 
 #include "libemail-utils/mail-mt.h"
 #include "libemail-engine/e-mail-folder-utils.h"
@@ -655,7 +655,7 @@ em_folder_utils_create_folder (GtkWindow *parent,
 		else
 			skip_slash = folder_name;
 
-		rule = em_vfolder_rule_new (session);
+		rule = em_vfolder_editor_rule_new (session);
 		e_filter_rule_set_name (rule, skip_slash);
 		vfolder_gui_add_rule (EM_VFOLDER_RULE (rule));
 	} else {

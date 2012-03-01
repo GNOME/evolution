@@ -208,6 +208,7 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/widgets/table/libetable.la			\
