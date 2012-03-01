@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
 "POT-Creation-Date: 2011-09-25 16:23+0000\n"
-"PO-Revision-Date: 2012-03-01 09:18+0700\n"
+"PO-Revision-Date: 2012-03-01 14:42+0700\n"
 "Last-Translator: Nguyễn Thái Ngọc Duy <pclouds@gmail.com>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -8760,7 +8760,7 @@ msgstr "Chuyển sang thẻ trước đó"
 
 #: ../mail/e-mail-reader.c:2006
 msgid "Cl_ose current tab"
-msgstr "Đóng tập tin hiện thời"
+msgstr "Đón_g tập tin hiện thời"
 
 #: ../mail/e-mail-reader.c:2008
 msgid "Close current tab"
@@ -8856,7 +8856,7 @@ msgstr "Lưu đính kèm"
 
 #: ../mail/e-mail-reader.c:2097
 msgid "Remove Du_plicate Messages"
-msgstr "Xoá các thư trùng lắp"
+msgstr "Xoá các thư _trùng lắp"
 
 #: ../mail/e-mail-reader.c:2099
 msgid "Checks selected messages for duplicates"
@@ -9914,7 +9914,7 @@ msgstr "_Thu gọn hết"
 
 #: ../mail/em-subscription-editor.c:1308
 msgid "Expand all folders"
-msgstr "_Mở mọi thư mục"
+msgstr "Mở mọi thư mục"
 
 #: ../mail/em-subscription-editor.c:1309
 msgid "E_xpand All"
@@ -11579,7 +11579,7 @@ msgstr "Trở _về tạo nhánh thư theo chủ đề"
 
 #: ../mail/mail-config.ui.h:49
 msgid "Fix_ed Width Font:"
-msgstr "Phông độ rộng cố định:"
+msgstr "Phông độ rộng _cố định:"
 
 #: ../mail/mail-config.ui.h:50
 msgid "Format messages in _HTML"
@@ -13272,7 +13272,7 @@ msgstr "Dùng _lịch Sinh nhật và Kỷ niệm"
 
 #: ../modules/addressbook/addressbook-config.c:683
 msgid "Copy _book content locally for offline operation"
-msgstr "Sao chép cục bộ nội dung sổ để thao tác ngoại tuyến"
+msgstr "Sao chép cục bộ nội dung _sổ để thao tác ngoại tuyến"
 
 #: ../modules/addressbook/addressbook-config.c:798
 msgid ""
@@ -14880,7 +14880,7 @@ msgstr "sự kiện"
 #: ../modules/calendar/e-memo-shell-view-actions.c:524
 #: ../modules/calendar/e-task-shell-view-actions.c:641
 msgid "Save as iCalendar"
-msgstr "_Lưu dạng iCalendar"
+msgstr "Lưu dạng iCalendar"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1335
 #: ../modules/calendar/e-memo-shell-view-actions.c:605
@@ -16230,7 +16230,7 @@ msgstr "Thư không có đồ đính kèm"
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
 #| msgid "_Add attachment..."
 msgid "_Add Attachment..."
-msgstr "Đính kèm trong thư..."
+msgstr "Đính _kèm..."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Edit Message"
@@ -16819,7 +16819,7 @@ msgstr "Không"
 
 #: ../plugins/calendar-weather/calendar-weather.c:477
 msgid "_Units:"
-msgstr "Đơn _vị"
+msgstr "Đơn _vị:"
 
 #: ../plugins/calendar-weather/calendar-weather.c:486
 msgid "Metric (Celsius, cm, etc)"
@@ -18914,7 +18914,7 @@ msgstr "Không tên"
 
 #: ../plugins/templates/templates.c:1195
 msgid "Save as _Template"
-msgstr "Lưu dạng _mẫu"
+msgstr "Lưu làm _mẫu"
 
 #: ../plugins/templates/templates.c:1197
 msgid "Save as Template"
