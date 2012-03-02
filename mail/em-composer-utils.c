@@ -564,8 +564,10 @@ composer_send_completed (EMailSession *session,
 		gtk_widget_destroy, context->composer);
 
 exit:
-	if (set_changed)
+	if (set_changed) {
 		gtkhtml_editor_set_changed (GTKHTML_EDITOR (context->composer), TRUE);
+		gtk_window_present (GTK_WINDOW (context->composer));
+	}
 
 	async_context_free (context);
 }
