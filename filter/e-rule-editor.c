@@ -32,8 +32,7 @@
 #include <glib/gi18n.h>
 
 #include "libevolution-utils/e-alert-dialog.h"
-#include "e-util/e-util-private.h"
-#include "e-util/e-util.h"
+#include "libevolution-utils/evolution-util.h"
 
 #include "e-rule-editor.h"
 

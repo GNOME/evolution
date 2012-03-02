@@ -34,8 +34,7 @@
 #include <glib/gi18n.h>
 
 #include "libevolution-utils/e-alert.h"
-#include "e-util/e-util.h"
-#include "e-util/e-util-private.h"
+#include "libevolution-utils/evolution-util.h"
 
 #include "e-filter-datespec.h"
 #include "e-filter-part.h"
