@@ -65,6 +65,7 @@
 #include "e-mail-ui-session.h"
 #include "em-composer-utils.h"
 #include "em-filter-context.h"
+#include "em-vfolder-editor-context.h"
 #include "em-filter-rule.h"
 #include "em-utils.h"
 #include "libemail-engine/mail-config.h"
@@ -81,7 +82,6 @@ typedef struct _SourceContext SourceContext;
 
 struct _EMailUISessionPrivate {
 	FILE *filter_logfile;
-	CamelStore *vfolder_store;
 	EMailAccountStore *account_store;
 	EMailLabelListStore *label_store;
 
@@ -92,8 +92,7 @@ struct _EMailUISessionPrivate {
 enum {
 	PROP_0,
 	PROP_ACCOUNT_STORE,
-	PROP_LABEL_STORE,
-	PROP_VFOLDER_STORE
+	PROP_LABEL_STORE
 };
 
 enum {
@@ -493,11 +492,6 @@ mail_ui_session_dispose (GObject *object)
 		priv->label_store = NULL;
 	}
 
-	if (priv->vfolder_store != NULL) {
-		g_object_unref (priv->vfolder_store);
-		priv->vfolder_store = NULL;
-	}
-
 	if (priv->account_list != NULL) {
 		g_signal_handler_disconnect (
 			priv->account_list,
@@ -508,38 +502,6 @@ mail_ui_session_dispose (GObject *object)
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->dispose (object);
-}
-
-static void
-mail_ui_session_add_vfolder_store (EMailUISession *uisession)
-{
-	CamelSession *camel_session;
-	CamelService *service;
-	GError *error = NULL;
-
-	camel_session = CAMEL_SESSION (uisession);
-
-	service = camel_session_add_service (
-		camel_session, E_MAIL_SESSION_VFOLDER_UID,
-		"vfolder", CAMEL_PROVIDER_STORE, &error);
-
-	if (error != NULL) {
-		g_critical ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-		return;
-	}
-
-	g_return_if_fail (CAMEL_IS_SERVICE (service));
-
-	camel_service_set_display_name (service, _("Search Folders"));
-	em_utils_connect_service_sync (service, NULL, NULL);
-
-	/* XXX There's more configuration to do in vfolder_load_storage()
-	 *     but it requires an EMailBackend, which we don't have access
-	 *     to from here, so it has to be called from elsewhere.  Kinda
-	 *     thinking about reworking that... */
-
-	uisession->priv->vfolder_store = g_object_ref (service);
 }
 
 static void
@@ -645,8 +607,6 @@ mail_ui_session_constructed (GObject *object)
 
 	em_folder_tree_model_set_session (folder_tree_model, session);
 
-	mail_ui_session_add_vfolder_store (uisession);
-
 	g_idle_add (mail_ui_session_initialize_stores_idle, object);
 
 	handler_id = g_signal_connect (
@@ -736,13 +696,6 @@ mail_ui_session_get_property (GObject *object,
 				e_mail_ui_session_get_label_store (
 				E_MAIL_UI_SESSION (object)));
 			return;
-
-		case PROP_VFOLDER_STORE:
-			g_value_set_object (
-				value,
-				e_mail_ui_session_get_vfolder_store (
-				E_MAIL_UI_SESSION (object)));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -791,11 +744,18 @@ mail_ui_session_add_service (CamelSession *session,
 	return service;
 }
 
+static EMVFolderContext *
+mail_ui_session_create_vfolder_context (EMailSession *session)
+{
+	return (EMVFolderContext *) em_vfolder_editor_context_new (session);
+}
+
 static void
 e_mail_ui_session_class_init (EMailUISessionClass *class)
 {
 	GObjectClass *object_class;
 	CamelSessionClass *session_class;
+	EMailSessionClass *emailsession_class;
 
 	g_type_class_add_private (class, sizeof (EMailUISessionPrivate));
 
@@ -810,16 +770,8 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 	session_class->get_filter_driver = mail_ui_session_get_filter_driver;
 	session_class->add_service = mail_ui_session_add_service;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_VFOLDER_STORE,
-		g_param_spec_object (
-			"vfolder-store",
-			"Search Folder Store",
-			"Built-in search folder store",
-			CAMEL_TYPE_STORE,
-			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+	emailsession_class = E_MAIL_SESSION_CLASS (class);
+	emailsession_class->create_vfolder_context = mail_ui_session_create_vfolder_context;
 
 	g_object_class_install_property (
 		object_class,
@@ -872,14 +824,6 @@ e_mail_ui_session_get_account_store (EMailUISession *session)
 	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), NULL);
 
 	return session->priv->account_store;
-}
-
-CamelStore *
-e_mail_ui_session_get_vfolder_store (EMailUISession *session)
-{
-	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), NULL);
-
-	return session->priv->vfolder_store;
 }
 
 void

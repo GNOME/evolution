@@ -50,6 +50,7 @@ static MailMsgFreeActivityFunc free_activity = NULL;
 static MailMsgCompleteActivityFunc complete_activity = NULL;
 static MailMsgAlertErrorFunc alert_error = NULL;
 static MailMsgCancelActivityFunc cancel_activity = NULL;
+static MailMsgGetAlertSinkFunc get_alert_sink = NULL;
 
 void
 mail_msg_register_activities (MailMsgCreateActivityFunc acreate,
@@ -57,7 +58,8 @@ mail_msg_register_activities (MailMsgCreateActivityFunc acreate,
                               MailMsgFreeActivityFunc freeact,
                               MailMsgCompleteActivityFunc comp_act,
                               MailMsgCancelActivityFunc cancel_act,
-                              MailMsgAlertErrorFunc ealert)
+                              MailMsgAlertErrorFunc ealert,
+			      MailMsgGetAlertSinkFunc ealertsink)
 {
 	/* XXX This is an utter hack to keep EActivity out
 	 *     of EDS and still let Evolution do EActivity. */
@@ -67,6 +69,16 @@ mail_msg_register_activities (MailMsgCreateActivityFunc acreate,
 	complete_activity = comp_act;
 	cancel_activity = cancel_act;
 	alert_error = ealert;
+	get_alert_sink = ealertsink;
+}
+
+EAlertSink *
+mail_msg_get_alert_sink ()
+{
+	if (get_alert_sink)
+		return get_alert_sink ();
+
+	return NULL;
 }
 
 static void

@@ -75,6 +75,7 @@ struct _EMailSessionPrivate {
 	gulong account_added_handler_id;
 
 	CamelStore *local_store;
+	CamelStore *vfolder_store;
 
 	FILE *filter_logfile;
 	GHashTable *junk_filters;
@@ -99,7 +100,8 @@ enum {
 	PROP_0,
 	PROP_FOLDER_CACHE,
 	PROP_JUNK_FILTER_NAME,
-	PROP_LOCAL_STORE
+	PROP_LOCAL_STORE,
+	PROP_VFOLDER_STORE	
 };
 
 static const gchar *local_folder_names[E_MAIL_NUM_LOCAL_FOLDERS] = {
@@ -623,6 +625,13 @@ mail_session_get_property (GObject *object,
 				e_mail_session_get_local_store (
 				E_MAIL_SESSION (object)));
 			return;
+
+		case PROP_VFOLDER_STORE:
+			g_value_set_object (
+				value,
+				e_mail_session_get_vfolder_store (
+				E_MAIL_SESSION (object)));
+			return;			
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -653,11 +662,47 @@ mail_session_dispose (GObject *object)
 		priv->local_store = NULL;
 	}
 
+	if (priv->vfolder_store != NULL) {
+		g_object_unref (priv->vfolder_store);
+		priv->vfolder_store = NULL;
+	}
 	g_ptr_array_set_size (priv->local_folders, 0);
 	g_ptr_array_set_size (priv->local_folder_uris, 0);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_session_parent_class)->dispose (object);
+}
+
+static void
+mail_session_add_vfolder_store (EMailSession *session)
+{
+	CamelSession *camel_session;
+	CamelService *service;
+	GError *error = NULL;
+
+	camel_session = CAMEL_SESSION (session);
+
+	service = camel_session_add_service (
+		camel_session, E_MAIL_SESSION_VFOLDER_UID,
+		"vfolder", CAMEL_PROVIDER_STORE, &error);
+
+	if (error != NULL) {
+		g_critical ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	camel_service_set_display_name (service, _("Search Folders"));
+	em_utils_connect_service_sync (service, NULL, NULL);
+
+	/* XXX There's more configuration to do in vfolder_load_storage()
+	 *     but it requires an EMailBackend, which we don't have access
+	 *     to from here, so it has to be called from elsewhere.  Kinda
+	 *     thinking about reworking that... */
+
+	session->priv->vfolder_store = g_object_ref (service);
 }
 
 static void
@@ -743,6 +788,7 @@ mail_session_constructed (GObject *object)
 
 	/* Add built-in CamelStores. */
 	mail_session_add_local_store (session);
+	mail_session_add_vfolder_store (session);
 
 	/* Give it a chance to load user settings, they are not loaded yet.
 	 *
@@ -1362,12 +1408,18 @@ retry:
 	return (result == CAMEL_AUTHENTICATION_ACCEPTED);
 }
 
+static EMVFolderContext *
+mail_session_create_vfolder_context (EMailSession *session)
+{
+	return em_vfolder_context_new ();
+}
+
 static void
 e_mail_session_class_init (EMailSessionClass *class)
 {
 	GObjectClass *object_class;
 	CamelSessionClass *session_class;
-
+	
 	g_type_class_add_private (class, sizeof (EMailSessionPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -1388,6 +1440,8 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->forward_to = mail_session_forward_to;
 	session_class->get_socks_proxy = mail_session_get_socks_proxy;
 	session_class->authenticate_sync = mail_session_authenticate_sync;
+
+	class->create_vfolder_context = mail_session_create_vfolder_context;
 
 	g_object_class_install_property (
 		object_class,
@@ -1424,6 +1478,17 @@ e_mail_session_class_init (EMailSessionClass *class)
 			CAMEL_TYPE_STORE,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_VFOLDER_STORE,
+		g_param_spec_object (
+			"vfolder-store",
+			"Search Folder Store",
+			"Built-in search folder store",
+			CAMEL_TYPE_STORE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));	
 
 	/**
 	 * EMailSession::flush-outbox
@@ -1961,5 +2026,26 @@ mail_session_get_config_dir (void)
 			e_get_user_config_dir (), "mail", NULL);
 
 	return mail_config_dir;
+}
+
+CamelStore *
+e_mail_session_get_vfolder_store (EMailSession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	return session->priv->vfolder_store;
+}
+
+EMVFolderContext *
+e_mail_session_create_vfolder_context (EMailSession *session)
+{
+	EMailSessionClass *class;
+
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	class = E_MAIL_SESSION_GET_CLASS (session);
+	g_return_val_if_fail (class->create_vfolder_context != NULL, NULL);
+
+	return class->create_vfolder_context (session);
 }
 

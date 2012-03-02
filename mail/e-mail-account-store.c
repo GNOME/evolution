@@ -30,7 +30,7 @@
 #include <libemail-utils/e-account-utils.h>
 #include <libemail-engine/mail-ops.h>
 
-#include <mail/mail-vfolder.h>
+#include <mail/mail-vfolder-ui.h>
 
 #define E_MAIL_ACCOUNT_STORE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

@@ -32,7 +32,7 @@
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/e-mail-session.h>
 
-#include "mail-vfolder.h"
+#include "mail-vfolder-ui.h"
 #include "mail-autofilter.h"
 #include "em-utils.h"
 #include "libevolution-utils/e-alert-dialog.h"

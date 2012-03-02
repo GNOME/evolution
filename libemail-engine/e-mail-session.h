@@ -28,6 +28,7 @@
 #include <camel/camel.h>
 #include <libemail-engine/e-mail-enums.h>
 #include <libemail-engine/mail-folder-cache.h>
+#include <libemail-utils/em-vfolder-context.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SESSION \
@@ -65,6 +66,9 @@ struct _EMailSession {
 
 struct _EMailSessionClass {
 	CamelSessionClass parent_class;
+
+	EMVFolderContext *	(*create_vfolder_context)		(EMailSession *session);
+
 };
 
 GType		e_mail_session_get_type		(void);
@@ -72,6 +76,8 @@ EMailSession *	e_mail_session_new		(void);
 MailFolderCache *
 		e_mail_session_get_folder_cache	(EMailSession *session);
 CamelStore *	e_mail_session_get_local_store	(EMailSession *session);
+CamelStore *	e_mail_session_get_vfolder_store
+						(EMailSession *session);
 CamelFolder *	e_mail_session_get_local_folder	(EMailSession *session,
 						 EMailLocalFolder type);
 const gchar *	e_mail_session_get_local_folder_uri
@@ -122,7 +128,9 @@ CamelFolder *	e_mail_session_uri_to_folder_finish
 						(EMailSession *session,
 						 GAsyncResult *result,
 						 GError **error);
-
+EMVFolderContext *
+		e_mail_session_create_vfolder_context
+						(EMailSession *session);
 /*** Legacy API ***/
 
 void		mail_session_flush_filter_log	(EMailSession *session);
