@@ -53,25 +53,10 @@ G_DEFINE_TYPE (
 	em_vfolder_context,
 	E_TYPE_RULE_CONTEXT)
 
-static void
-vfolder_context_dispose (GObject *object)
-{
-	EMVFolderContextPrivate *priv;
-
-	priv = EM_VFOLDER_CONTEXT_GET_PRIVATE (object);
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (em_vfolder_context_parent_class)->dispose (object);
-}
-
 static EFilterElement *
 vfolder_context_new_element (ERuleContext *context,
                              const gchar *type)
 {
-	EMVFolderContextPrivate *priv;
-
-	priv = EM_VFOLDER_CONTEXT_GET_PRIVATE (context);
-
 	if (strcmp (type, "system-flag") == 0)
 		return e_filter_option_new ();
 
@@ -92,13 +77,9 @@ vfolder_context_new_element (ERuleContext *context,
 static void
 em_vfolder_context_class_init (EMVFolderContextClass *class)
 {
-	GObjectClass *object_class;
 	ERuleContextClass *rule_context_class;
 
 	g_type_class_add_private (class, sizeof (EMVFolderContextPrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = vfolder_context_dispose;
 
 	rule_context_class = E_RULE_CONTEXT_CLASS (class);
 	rule_context_class->new_element = vfolder_context_new_element;

@@ -71,17 +71,6 @@ G_DEFINE_TYPE (
 
 
 static void
-vfolder_rule_dispose (GObject *object)
-{
-	EMVFolderRulePrivate *priv;
-
-	priv = EM_VFOLDER_RULE_GET_PRIVATE (object);
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (em_vfolder_rule_parent_class)->dispose (object);
-}
-
-static void
 vfolder_rule_finalize (GObject *object)
 {
 	EMVFolderRule *rule = EM_VFOLDER_RULE (object);
@@ -103,7 +92,6 @@ em_vfolder_rule_class_init (EMVFolderRuleClass *class)
 	g_type_class_add_private (class, sizeof (EMVFolderRulePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = vfolder_rule_dispose;
 	object_class->finalize = vfolder_rule_finalize;
 
 	filter_rule_class = E_FILTER_RULE_CLASS (class);

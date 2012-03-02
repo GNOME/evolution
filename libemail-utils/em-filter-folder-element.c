@@ -50,17 +50,6 @@ G_DEFINE_TYPE (
 
 
 static void
-filter_folder_element_dispose (GObject *object)
-{
-	EMFilterFolderElementPrivate *priv;
-
-	priv = EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE (object);
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (em_filter_folder_element_parent_class)->dispose (object);
-}
-
-static void
 filter_folder_element_finalize (GObject *object)
 {
 	EMFilterFolderElementPrivate *priv;
@@ -193,7 +182,6 @@ em_filter_folder_element_class_init (EMFilterFolderElementClass *class)
 	g_type_class_add_private (class, sizeof (EMFilterFolderElementPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = filter_folder_element_dispose;
 	object_class->finalize = filter_folder_element_finalize;
 
 	filter_element_class = E_FILTER_ELEMENT_CLASS (class);

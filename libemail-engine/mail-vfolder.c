@@ -875,11 +875,10 @@ store_folder_deleted_cb (CamelStore *store,
 {
 	EFilterRule *rule;
 	gchar *user;
-	EMailSession *session;
 
 	d(printf("Folder deleted: %s\n", info->name));
 	store = store;
-	session = (EMailSession *) camel_service_get_session ((CamelService *) store);
+
 	/* Warning not thread safe, but might be enough */
 
 	G_LOCK (vfolder);
