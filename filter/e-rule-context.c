@@ -582,8 +582,10 @@ e_rule_context_add_part_set (ERuleContext *context,
 	g_return_if_fail (append != NULL);
 	g_return_if_fail (next != NULL);
 
-	if ((map = g_hash_table_lookup (context->part_set_map, setname)) != NULL) {
+	map = g_hash_table_lookup (context->part_set_map, setname);
+	if (map != NULL) {
 		g_hash_table_remove (context->part_set_map, setname);
+		context->part_set_list = g_list_remove (context->part_set_list, map);
 		free_part_set (map);
 		map = NULL;
 	}
@@ -611,8 +613,10 @@ e_rule_context_add_rule_set (ERuleContext *context,
 	g_return_if_fail (append != NULL);
 	g_return_if_fail (next != NULL);
 
-	if ((map = g_hash_table_lookup (context->rule_set_map, setname)) != NULL) {
+	map = g_hash_table_lookup (context->rule_set_map, setname);
+	if (map != NULL) {
 		g_hash_table_remove (context->rule_set_map, setname);
+		context->rule_set_list = g_list_remove (context->rule_set_list, map);
 		free_rule_set (map);
 		map = NULL;
 	}
