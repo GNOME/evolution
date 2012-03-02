@@ -92,7 +92,7 @@ mailinclude_HEADERS =					\
 	mail-autofilter.h				\
 	mail-guess-servers.h				\
 	mail-send-recv.h				\
-	mail-vfolder.h					\
+	mail-vfolder-ui.h				\
 	message-list.h
 
 if ENABLE_CLUTTER
@@ -151,13 +151,13 @@ libevolution_mail_la_SOURCES =				\
 	em-subscription-editor.c			\
 	em-sync-stream.c				\
 	em-utils.c					\
-	em-vfolder-editor-context.c				\
-	em-vfolder-editor-rule.c				\
+	em-vfolder-editor-context.c			\
+	em-vfolder-editor-rule.c			\
 	em-vfolder-editor.c				\
 	mail-autofilter.c				\
 	mail-guess-servers.c				\
 	mail-send-recv.c				\
-	mail-vfolder.c					\
+	mail-vfolder-ui.c				\
 	message-list.c
 
 if ENABLE_CLUTTER

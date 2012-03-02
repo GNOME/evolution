@@ -24,6 +24,7 @@
 #define _MAIL_MT
 
 #include <camel/camel.h>
+#include <libevolution-utils/e-alert-sink.h>
 
 typedef struct _MailMsg MailMsg;
 typedef struct _MailMsgInfo MailMsgInfo;
@@ -44,6 +45,8 @@ typedef void    (*MailMsgCancelActivityFunc)	(GCancellable *cancellable);
 typedef void    (*MailMsgAlertErrorFunc)	(GCancellable *cancellable,
 						 const gchar *what,
 						 const gchar *message);
+typedef EAlertSink *
+		(*MailMsgGetAlertSinkFunc)	(void);
 
 struct _MailMsg {
 	MailMsgInfo *info;
@@ -62,6 +65,9 @@ struct _MailMsgInfo {
 	MailMsgFreeFunc free;
 };
 
+/* Just till we move this out to EDS */
+EAlertSink *	mail_msg_get_alert_sink (void);
+
 /* setup ports */
 void mail_msg_init (void);
 void mail_msg_register_activities (MailMsgCreateActivityFunc,
@@ -69,7 +75,8 @@ void mail_msg_register_activities (MailMsgCreateActivityFunc,
 				   MailMsgFreeActivityFunc,
 				   MailMsgCompleteActivityFunc,
 				   MailMsgCancelActivityFunc,
-				   MailMsgAlertErrorFunc);
+				   MailMsgAlertErrorFunc,
+				   MailMsgGetAlertSinkFunc);
 
 gboolean mail_in_main_thread (void);
 

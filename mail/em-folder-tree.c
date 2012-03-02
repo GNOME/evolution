@@ -61,7 +61,7 @@
 #include "em-folder-properties.h"
 #include "em-event.h"
 #include "mail-send-recv.h"
-#include "mail-vfolder.h"
+#include "mail-vfolder-ui.h"
 
 #include "e-mail-ui-session.h"
 

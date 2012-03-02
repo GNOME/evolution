@@ -63,7 +63,7 @@
 #include <mail/em-utils.h>
 #include <mail/mail-autofilter.h>
 #include <mail/mail-send-recv.h>
-#include <mail/mail-vfolder.h>
+#include <mail/mail-vfolder-ui.h>
 #include <mail/message-list.h>
 
 #include "e-mail-shell-backend.h"

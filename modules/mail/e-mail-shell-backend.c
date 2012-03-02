@@ -54,7 +54,7 @@
 #include <mail/em-format-html-display.h>
 #include <mail/em-utils.h>
 #include <mail/mail-send-recv.h>
-#include <mail/mail-vfolder.h>
+#include <mail/mail-vfolder-ui.h>
 #include <mail/importers/mail-importer.h>
 #include <mail/e-mail-ui-session.h>
 
@@ -518,7 +518,7 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	enable_search_folders = e_shell_settings_get_boolean (
 		shell_settings, "mail-enable-search-folders");
 	if (enable_search_folders)
-		vfolder_load_storage (backend);
+		vfolder_load_storage (session);
 
 	if (!e_mail_account_store_load_sort_order (account_store, &error)) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);

@@ -55,7 +55,7 @@
 #include <mail/em-utils.h>
 #include <mail/mail-autofilter.h>
 #include <mail/mail-send-recv.h>
-#include <mail/mail-vfolder.h>
+#include <mail/mail-vfolder-ui.h>
 
 #define E_MAIL_BACKEND_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -919,6 +919,19 @@ mail_mt_alert_error (GCancellable *cancellable,
 			message, NULL);
 }
 
+static EAlertSink *
+mail_mt_get_alert_sink ()
+{
+	EShell *shell;
+	EShellBackend *shell_backend;
+
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (
+		shell, "mail");
+
+	return e_mail_backend_get_alert_sink (E_MAIL_BACKEND(shell_backend));
+}
+
 static void
 mail_backend_constructed (GObject *object)
 {
@@ -1024,7 +1037,8 @@ mail_backend_constructed (GObject *object)
 		mail_mt_free_activity,
 		mail_mt_complete_acitivity,
 		mail_mt_cancel_activity,
-		mail_mt_alert_error);
+		mail_mt_alert_error,
+		mail_mt_get_alert_sink);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_backend_parent_class)->constructed (object);

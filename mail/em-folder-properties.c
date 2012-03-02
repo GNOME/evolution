@@ -38,7 +38,7 @@
 #include "e-mail-backend.h"
 #include "e-mail-ui-session.h"
 #include "em-config.h"
-#include "mail-vfolder.h"
+#include "mail-vfolder-ui.h"
 
 typedef struct _AsyncContext AsyncContext;
 

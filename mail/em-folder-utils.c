@@ -62,7 +62,7 @@
 #include "em-folder-utils.h"
 #include "em-folder-selector.h"
 #include "em-folder-properties.h"
-#include "mail-vfolder.h"
+#include "mail-vfolder-ui.h"
 
 #define d(x)
 

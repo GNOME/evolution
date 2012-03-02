@@ -16,6 +16,7 @@ libemail_engine_la_CPPFLAGS = \
 	-I$(top_builddir) \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(NULL)
 
 libmailengineincludedir = $(privincludedir)/libemail-engine
@@ -33,6 +34,7 @@ libmailengineinclude_HEADERS =  \
 	mail-folder-cache.h \
 	mail-ops.h \
 	mail-tools.h \
+	mail-vfolder.h	\
 	$(NULL)
 
 libemail_engine_la_SOURCES =  \
@@ -49,6 +51,7 @@ libemail_engine_la_SOURCES =  \
 	mail-folder-cache.c \
 	mail-ops.c \
 	mail-tools.c \
+	mail-vfolder.c	\
 	$(NULL)
 
 libemail_engine_la_LIBADD = \

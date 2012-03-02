@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef _MAIL_VFOLDER_H
-#define _MAIL_VFOLDER_H
+#ifndef _MAIL_VFOLDER_UI_H
+#define _MAIL_VFOLDER_UI_H
 
 #include <camel/camel.h>
 
@@ -29,8 +29,8 @@
 #include <mail/e-mail-backend.h>
 #include <libemail-utils/em-vfolder-rule.h>
 #include <shell/e-shell-view.h>
+#include <libemail-engine/mail-vfolder.h>
 
-void		vfolder_load_storage		(EMailBackend *backend);
 void		vfolder_edit			(EMailBackend *backend,
 						 GtkWindow *parent_window);
 void		vfolder_edit_rule		(EMailSession *session,
@@ -47,8 +47,4 @@ void		vfolder_gui_add_from_address	(EMailSession *session,
 						 CamelInternetAddress *addr,
 						 gint flags,
 						 CamelFolder *folder);
-
-/* close up, clean up */
-void		mail_vfolder_shutdown		(void);
-
 #endif

@@ -47,7 +47,7 @@
 #include <mail/em-config.h>
 #include <mail/em-account-editor.h>
 #include <mail/em-utils.h>
-#include <mail/mail-vfolder.h>
+#include <mail/mail-vfolder-ui.h>
 
 #define EM_ACCOUNT_PREFS_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -78,14 +78,16 @@ account_prefs_service_enabled_cb (EMailAccountStore *store,
 {
 	EMailBackend *backend;
 	const gchar *uid;
+	EMailSession *session;
 
 	uid = camel_service_get_uid (service);
 	backend = em_account_prefs_get_backend (prefs);
+	session = e_mail_backend_get_session (backend);
 
 	/* FIXME Kind of a gross hack.  EMailSession doesn't have
 	 *       access to EMailBackend so it can't do this itself. */
 	if (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0)
-		vfolder_load_storage (backend);
+		vfolder_load_storage (session);
 }
 
 static void
