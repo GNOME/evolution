@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
 "POT-Creation-Date: 2011-09-25 16:23+0000\n"
-"PO-Revision-Date: 2012-03-01 14:42+0700\n"
+"PO-Revision-Date: 2012-03-02 15:22+0700\n"
 "Last-Translator: Nguyễn Thái Ngọc Duy <pclouds@gmail.com>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -2779,7 +2779,7 @@ msgstr "Đính kèm"
 #: ../calendar/gui/dialogs/comp-editor.c:2560
 #: ../calendar/gui/dialogs/comp-editor.c:3549
 msgid "Changes made to this item may be discarded if an update arrives"
-msgstr "Thay đổi trên mục này có thể bị hủy nếu bản cập nhật đến vào."
+msgstr "Thay đổi trên mục này có thể bị mất khi nhận bản cập nhật mới"
 
 #: ../calendar/gui/dialogs/comp-editor.c:3513
 #: ../plugins/prefer-plain/prefer-plain.c:67
@@ -2788,15 +2788,15 @@ msgstr "đính kèm"
 
 #: ../calendar/gui/dialogs/comp-editor.c:3581
 msgid "Unable to use current version!"
-msgstr "Không thể dùng phiên bản hiện thời."
+msgstr "Không thể dùng phiên bản hiện thời!"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:114
 msgid "Could not open destination"
-msgstr "Không thể mở đích."
+msgstr "Không thể mở đích"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:130
 msgid "Destination is read only"
-msgstr "Đích chỉ cho phép đọc thôi."
+msgstr "Đích chỉ cho phép đọc thôi"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:164
 #| msgid "Cannot create a new event"
@@ -2805,7 +2805,7 @@ msgstr "Không thể tạo đối tượng"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:193
 msgid "Could not open source"
-msgstr "Không thể mở nguồn."
+msgstr "Không thể mở nguồn"
 
 #: ../calendar/gui/dialogs/delete-comp.c:214
 msgid "_Delete this item from all other recipient's mailboxes?"
@@ -2841,19 +2841,19 @@ msgstr "Không thể xoá mục vì gặp lỗi dbus: %s"
 
 #: ../calendar/gui/dialogs/delete-error.c:76
 msgid "The event could not be deleted because permission was denied"
-msgstr "Không thể xoá sự kiện vì không đủ quyền."
+msgstr "Không thể xoá sự kiện vì không đủ quyền"
 
 #: ../calendar/gui/dialogs/delete-error.c:79
 msgid "The task could not be deleted because permission was denied"
-msgstr "Không thể xoá tác vụ vì không đủ quyền."
+msgstr "Không thể xoá tác vụ vì không đủ quyền"
 
 #: ../calendar/gui/dialogs/delete-error.c:82
 msgid "The memo could not be deleted because permission was denied"
-msgstr "Không thể xoá bản ghi nhớ vì không đủ quyền."
+msgstr "Không thể xoá bản ghi nhớ vì không đủ quyền"
 
 #: ../calendar/gui/dialogs/delete-error.c:85
 msgid "The item could not be deleted because permission was denied"
-msgstr "Không thể xoá mục vì không đủ quyền."
+msgstr "Không thể xoá mục vì không đủ quyền"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:93
