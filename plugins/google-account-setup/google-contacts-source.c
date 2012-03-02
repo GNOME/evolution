@@ -30,6 +30,7 @@
 
 #include <e-util/e-config.h>
 #include <e-util/e-plugin.h>
+#include <shell/e-shell.h>
 #include <addressbook/gui/widgets/eab-config.h>
 
 #include <libedataserver/e-source.h>
@@ -42,17 +43,16 @@
 void
 ensure_google_contacts_source_group (void)
 {
-	ESourceList  *source_list;
-	const gchar *key;
+	EShellBackend *backend;
+	ESourceList *source_list = NULL;
 
-	key = "/apps/evolution/addressbook/sources";
-	source_list = e_source_list_new_for_gconf_default (key);
+	backend = e_shell_get_backend_by_name (e_shell_get_default (), "contacts");
+	g_return_if_fail (backend != NULL);
 
-	if (source_list == NULL)
-		return;
+	g_object_get (G_OBJECT (backend), "source-list", &source_list, NULL);
+	g_return_if_fail (source_list != NULL);
 
-	e_source_list_ensure_group (
-		source_list, _("Google"), "google://", FALSE);
+	e_source_list_ensure_group (source_list, _("Google"), "google://", FALSE);
 	g_object_unref (source_list);
 }
 

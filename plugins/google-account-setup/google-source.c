@@ -35,6 +35,7 @@
 #include <e-util/e-config.h>
 #include <e-util/e-plugin.h>
 #include <e-util/e-plugin-util.h>
+#include <shell/e-shell.h>
 
 #include <calendar/gui/e-cal-config.h>
 #include <calendar/gui/e-cal-event.h>
@@ -70,29 +71,23 @@ void e_calendar_google_migrate (EPlugin *epl, ECalEventTargetBackend *data);
 static void
 ensure_google_source_group (void)
 {
-	ESourceList  *slist;
-	GError *error = NULL;
+	EShellBackend *backend;
+	ESourceList *source_list = NULL;
 
-	e_cal_client_get_sources (
-		&slist, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, &error);
+	backend = e_shell_get_backend_by_name (e_shell_get_default (), "calendar");
+	g_return_if_fail (backend != NULL);
 
-	if (error != NULL) {
-		g_warning (
-			"%s: Could not get calendar source list: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
-		return;
-	}
+	g_object_get (G_OBJECT (backend), "source-list", &source_list, NULL);
+	g_return_if_fail (source_list != NULL);
 
-	e_source_list_ensure_group (slist, _("Google"), GOOGLE_BASE_URI, FALSE);
-	g_object_unref (slist);
+	e_source_list_ensure_group (source_list, _("Google"), GOOGLE_BASE_URI, FALSE);
+	g_object_unref (source_list);
 }
 
 gint
 e_plugin_lib_enable (EPlugin *ep,
                      gint enable)
 {
-
 	if (enable) {
 		d(printf ("\n Google Eplugin starting up ...\n"));
 		ensure_google_source_group ();

@@ -31,6 +31,7 @@
 #include <e-util/e-config.h>
 #include <e-util/e-plugin.h>
 #include <e-util/e-plugin-util.h>
+#include <shell/e-shell.h>
 #include <addressbook/gui/widgets/eab-config.h>
 
 #include <libedataserver/e-source.h>
@@ -57,14 +58,14 @@ e_plugin_lib_enable (EPlugin *ep,
 static void
 ensure_webdav_contacts_source_group (void)
 {
-	ESourceList  *source_list;
+	EShellBackend *backend;
+	ESourceList *source_list = NULL;
 
-	source_list = e_source_list_new_for_gconf_default (
-		"/apps/evolution/addressbook/sources");
+	backend = e_shell_get_backend_by_name (e_shell_get_default (), "contacts");
+	g_return_if_fail (backend != NULL);
 
-	if (source_list == NULL) {
-		return;
-	}
+	g_object_get (G_OBJECT (backend), "source-list", &source_list, NULL);
+	g_return_if_fail (source_list != NULL);
 
 	e_source_list_ensure_group (source_list, _("WebDAV"), BASE_URI, FALSE);
 	g_object_unref (source_list);

@@ -31,6 +31,7 @@
 #include <e-util/e-config.h>
 #include <e-util/e-plugin.h>
 #include <e-util/e-plugin-util.h>
+#include <shell/e-shell.h>
 #include <calendar/gui/e-cal-config.h>
 #include <libedataserver/e-account-list.h>
 #include <libecal/e-cal-client.h>
@@ -53,19 +54,19 @@ GtkWidget *      oge_caldav               (EPlugin                    *epl,
 /* plugin intialization */
 
 static void
-ensure_caldav_source_group (ECalClientSourceType source_type)
+ensure_caldav_source_group (const gchar *backend_name)
 {
-	ESourceList *slist;
-	GError *error = NULL;
+	EShellBackend *backend;
+	ESourceList *source_list = NULL;
 
-	if (!e_cal_client_get_sources (&slist, source_type, &error)) {
-		g_warning ("Could not get calendar sources: %s", error->message);
-		g_error_free (error);
-		return;
-	}
+	backend = e_shell_get_backend_by_name (e_shell_get_default (), backend_name);
+	g_return_if_fail (backend != NULL);
 
-	e_source_list_ensure_group (slist, _("CalDAV"), "caldav://", FALSE);
-	g_object_unref (slist);
+	g_object_get (G_OBJECT (backend), "source-list", &source_list, NULL);
+	g_return_if_fail (source_list != NULL);
+
+	e_source_list_ensure_group (source_list, _("CalDAV"), "caldav://", FALSE);
+	g_object_unref (source_list);
 }
 
 gint
@@ -75,9 +76,9 @@ e_plugin_lib_enable (EPlugin *ep,
 
 	if (enable) {
 		d(g_print ("CalDAV Eplugin starting up ...\n"));
-		ensure_caldav_source_group (E_CAL_CLIENT_SOURCE_TYPE_EVENTS);
-		ensure_caldav_source_group (E_CAL_CLIENT_SOURCE_TYPE_TASKS);
-		ensure_caldav_source_group (E_CAL_CLIENT_SOURCE_TYPE_MEMOS);
+		ensure_caldav_source_group ("calendar");
+		ensure_caldav_source_group ("tasks");
+		ensure_caldav_source_group ("memos");
 	}
 
 	return 0;
