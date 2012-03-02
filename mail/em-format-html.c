@@ -1105,11 +1105,7 @@ efh_init (EMFormatHTML *efh,
 	efh->show_icon = TRUE;
 	efh->state = EM_FORMAT_HTML_STATE_NONE;
 
-	g_signal_connect_swapped (
-		efh, "notify::mark-citations",
-		G_CALLBACK (em_format_queue_redraw), NULL);
-
-	e_extensible_load_extensions (E_EXTENSIBLE (efh));
+        e_extensible_load_extensions (E_EXTENSIBLE (efh));
 }
 
 GType
@@ -1278,6 +1274,7 @@ em_format_html_set_mark_citations (EMFormatHTML *efh,
 	if (mark_citations)
 		efh->text_html_flags |=
 			CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
+        else
 		efh->text_html_flags &=
 			~CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 
