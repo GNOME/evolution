@@ -219,7 +219,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	CamelService *service;
 	CamelSession *session;
 	CamelURL *url;
-	gboolean is_local_delivery;
+	gboolean is_local_delivery = FALSE;
 	const gchar *uid;
 	gint i;
 

@@ -891,7 +891,8 @@ em_utils_build_export_filename (CamelFolder *folder,
                                 const gchar *tmpdir)
 {
 	CamelMessageInfo *info;
-	gchar *file, *tmpfile;
+	gchar *file = NULL;
+	gchar *tmpfile = NULL;
 	struct tm  *ts;
 	gchar datetmp[15];
 
@@ -927,11 +928,11 @@ em_utils_build_export_filename (CamelFolder *folder,
 
 	}
 
-	e_filename_make_safe (file);
-
-	tmpfile = g_build_filename (tmpdir, file, NULL);
-
-	g_free (file);
+	if (file != NULL) {
+		e_filename_make_safe (file);
+		tmpfile = g_build_filename (tmpdir, file, NULL);
+		g_free (file);
+	}
 
 	return tmpfile;
 }

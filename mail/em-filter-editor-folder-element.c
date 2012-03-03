@@ -143,17 +143,6 @@ filter_editor_folder_element_dispose (GObject *object)
 	G_OBJECT_CLASS (em_filter_editor_folder_element_parent_class)->dispose (object);
 }
 
-static void
-filter_editor_folder_element_finalize (GObject *object)
-{
-	EMFilterEditorFolderElementPrivate *priv;
-
-	priv = EM_FILTER_EDITOR_FOLDER_ELEMENT_GET_PRIVATE (object);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (em_filter_editor_folder_element_parent_class)->finalize (object);
-}
-
 static GtkWidget *
 filter_editor_folder_element_get_widget (EFilterElement *fe)
 {
@@ -188,7 +177,6 @@ em_filter_editor_folder_element_class_init (EMFilterEditorFolderElementClass *cl
 	object_class->set_property = filter_editor_folder_element_set_property;
 	object_class->get_property = filter_editor_folder_element_get_property;
 	object_class->dispose = filter_editor_folder_element_dispose;
-	object_class->finalize = filter_editor_folder_element_finalize;
 
 	filter_element_class = E_FILTER_ELEMENT_CLASS (class);
 	filter_element_class->get_widget = filter_editor_folder_element_get_widget;
