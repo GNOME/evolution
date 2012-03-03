@@ -172,7 +172,8 @@ libetable_la_LIBADD =						\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/widgets/text/libetext.la		\
 	$(top_builddir)/libgnomecanvas/libgnomecanvas.la	\
-	$(top_builddir)/libemail-utils/libemail-utils.la		\
+	$(top_builddir)/libemail-utils/libemail-utils.la	\
+	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(MATH_LIB)

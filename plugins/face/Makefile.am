@@ -23,6 +23,7 @@ liborg_gnome_face_la_LIBADD = 					\
 	$(top_builddir)/composer/libcomposer.la 		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/mail/libevolution-mail.la 		\
+	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(GTKHTML_LIBS)

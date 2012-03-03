@@ -56,6 +56,8 @@ libemail_engine_la_SOURCES =  \
 
 libemail_engine_la_LIBADD = \
 	$(top_builddir)/libemail-utils/libemail-utils.la \
+	$(top_builddir)/filter/libfilter.la \
+	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS) \
 	$(GNOME_PLATFORM_LIBS) \
 	$(NULL)

@@ -22,6 +22,7 @@ liborg_gnome_imap_features_la_SOURCES = imap-headers.c
 liborg_gnome_imap_features_la_LIBADD=			\
 	$(top_builddir)/e-util/libeutil.la 		\
 	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)
 

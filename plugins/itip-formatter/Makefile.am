@@ -22,8 +22,9 @@ liborg_gnome_itip_formatter_la_LIBADD =				\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/em-format/libemformat.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
-	$(top_builddir)/libemail-utils/libemail-utils.la  \
-	$(top_builddir)/libemail-engine/libemail-engine.la \
+	$(top_builddir)/libemail-utils/libemail-utils.la	\
+	$(top_builddir)/libemail-engine/libemail-engine.la	\
+	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(GTKHTML_LIBS)

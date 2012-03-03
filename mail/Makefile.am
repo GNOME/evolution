@@ -187,6 +187,7 @@ libevolution_mail_la_LIBADD =				\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(top_builddir)/em-format/libemformat.la	\
 	$(top_builddir)/filter/libfilter.la		\
+	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(CERT_UI_LIBS)					\

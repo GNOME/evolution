@@ -29,6 +29,7 @@ liborg_gnome_evolution_bbdb_la_LIBADD =		\
 	$(top_builddir)/composer/libcomposer.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
+	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)			\
 	$(GTKHTML_LIBS)

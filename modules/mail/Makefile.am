@@ -67,6 +67,7 @@ libevolution_module_mail_la_LIBADD =					\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/capplet/settings/libevolution-mail-settings.la	\
+	$(top_builddir)/libevolution-utils/libevolution-utils.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(GTKHTML_LIBS)

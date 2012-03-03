@@ -46,6 +46,7 @@ libmenus_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/widgets/table/libetable.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)
 
