@@ -11,6 +11,6 @@ privincludedir=@privincludedir@
 Name: libevolution-utils
 Description: Client library for evolution
 Version: @VERSION@
-Requires: libxml-2.0 gtk+-2.0
+Requires: libxml-2.0 gtk+-3.0
 Libs: -L${privlibdir} -levolution-utils
 Cflags: -I${privincludedir}
