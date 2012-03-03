@@ -40,7 +40,7 @@
 	((obj), EM_TYPE_VFOLDER_CONTEXT, EMVFolderContextPrivate))
 
 struct _EMVFolderContextPrivate {
-	int foo;
+	gint placeholder;
 };
 
 enum {

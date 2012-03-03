@@ -929,7 +929,7 @@ mail_mt_get_alert_sink ()
 	shell_backend = e_shell_get_backend_by_name (
 		shell, "mail");
 
-	return e_mail_backend_get_alert_sink (E_MAIL_BACKEND(shell_backend));
+	return e_mail_backend_get_alert_sink (E_MAIL_BACKEND (shell_backend));
 }
 
 static void

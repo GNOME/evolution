@@ -101,7 +101,7 @@ enum {
 	PROP_FOLDER_CACHE,
 	PROP_JUNK_FILTER_NAME,
 	PROP_LOCAL_STORE,
-	PROP_VFOLDER_STORE	
+	PROP_VFOLDER_STORE
 };
 
 static const gchar *local_folder_names[E_MAIL_NUM_LOCAL_FOLDERS] = {
@@ -631,7 +631,7 @@ mail_session_get_property (GObject *object,
 				value,
 				e_mail_session_get_vfolder_store (
 				E_MAIL_SESSION (object)));
-			return;			
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1419,7 +1419,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 {
 	GObjectClass *object_class;
 	CamelSessionClass *session_class;
-	
+
 	g_type_class_add_private (class, sizeof (EMailSessionPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -1488,7 +1488,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 			"Built-in search folder store",
 			CAMEL_TYPE_STORE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));	
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EMailSession::flush-outbox

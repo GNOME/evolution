@@ -41,7 +41,7 @@
 	((obj), EM_TYPE_VFOLDER_EDITOR_CONTEXT, EMVFolderEditorContextPrivate))
 
 struct _EMVFolderEditorContextPrivate {
-	EMailSession *session;	
+	EMailSession *session;
 };
 
 enum {
@@ -161,7 +161,7 @@ em_vfolder_editor_context_class_init (EMVFolderEditorContextClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = vfolder_editor_context_set_property;
-	object_class->get_property = vfolder_editor_context_get_property;	
+	object_class->get_property = vfolder_editor_context_get_property;
 	object_class->dispose = vfolder_editor_context_dispose;
 
 	rule_context_class = E_RULE_CONTEXT_CLASS (class);
@@ -176,7 +176,7 @@ em_vfolder_editor_context_class_init (EMVFolderEditorContextClass *class)
 			NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));	
+			G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void

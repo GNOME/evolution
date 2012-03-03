@@ -14,7 +14,7 @@
  *
  *
  * Authors:
- 		Srinivasa Ragavan <sragavan@gnome.org>
+ *		Srinivasa Ragavan <sragavan@gnome.org>
  *
  * Copyright (C) 2012 Intel Corporation (www.intel.com)
  *

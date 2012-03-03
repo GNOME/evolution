@@ -186,7 +186,7 @@ em_filter_editor_folder_element_class_init (EMFilterEditorFolderElementClass *cl
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = filter_editor_folder_element_set_property;
-	object_class->get_property = filter_editor_folder_element_get_property;	
+	object_class->get_property = filter_editor_folder_element_get_property;
 	object_class->dispose = filter_editor_folder_element_dispose;
 	object_class->finalize = filter_editor_folder_element_finalize;
 

@@ -51,10 +51,10 @@ mail_config_format_html_constructed (GObject *object)
 		e_binding_transform_string_to_color,
 		NULL, NULL, (GDestroyNotify) NULL);
 
-        g_object_bind_property (
-                shell_settings, "mail-mark-citations",
-                extensible, "mark-citations",
-                G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		shell_settings, "mail-mark-citations",
+		extensible, "mark-citations",
+		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
 		shell_settings, "mail-image-loading-policy",

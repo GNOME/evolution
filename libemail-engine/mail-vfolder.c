@@ -697,7 +697,7 @@ static EMailSession *
 get_session (CamelFolder *folder)
 {
 	CamelStore *store;
-	
+
 	store = camel_folder_get_parent_store (folder);
 
 	return (EMailSession *) camel_service_get_session (CAMEL_SERVICE (store));
@@ -713,7 +713,7 @@ rule_changed (EFilterRule *rule,
 	GList *sources_folder = NULL;
 	GString *query;
 	const gchar *full_name;
-	
+
 	full_name = camel_folder_get_full_name (folder);
 	session = get_session (folder);
 
@@ -810,7 +810,7 @@ rule_changed (EFilterRule *rule,
 static void
 context_rule_added (ERuleContext *ctx,
                     EFilterRule *rule,
-		    EMailSession *session)
+                    EMailSession *session)
 {
 	CamelFolder *folder;
 	CamelService *service;
@@ -841,7 +841,7 @@ context_rule_added (ERuleContext *ctx,
 static void
 context_rule_removed (ERuleContext *ctx,
                       EFilterRule *rule,
-		      EMailSession *session)
+                      EMailSession *session)
 {
 	CamelService *service;
 	gpointer key, folder = NULL;

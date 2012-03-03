@@ -14,7 +14,7 @@
  *
  *
  * Authors:
- 		Srinivasa Ragavan <sragavan@gnome.org>
+ *		Srinivasa Ragavan <sragavan@gnome.org>
  *
  * Copyright (C) 2012 Intel Corporation (www.intel.com)
  *
@@ -43,6 +43,5 @@ GtkWidget *	e_builder_get_widget		(GtkBuilder *builder,
 						 const gchar *widget_name);
 void		e_load_ui_builder_definition	(GtkBuilder *builder,
 						 const gchar *basename);
-
 
 #endif /* EVOLUTION_UTIL_H */

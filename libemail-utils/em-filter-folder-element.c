@@ -48,7 +48,6 @@ G_DEFINE_TYPE (
 	em_filter_folder_element,
 	E_TYPE_FILTER_ELEMENT)
 
-
 static void
 filter_folder_element_finalize (GObject *object)
 {

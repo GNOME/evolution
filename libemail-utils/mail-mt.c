@@ -59,7 +59,7 @@ mail_msg_register_activities (MailMsgCreateActivityFunc acreate,
                               MailMsgCompleteActivityFunc comp_act,
                               MailMsgCancelActivityFunc cancel_act,
                               MailMsgAlertErrorFunc ealert,
-			      MailMsgGetAlertSinkFunc ealertsink)
+                              MailMsgGetAlertSinkFunc ealertsink)
 {
 	/* XXX This is an utter hack to keep EActivity out
 	 *     of EDS and still let Evolution do EActivity. */

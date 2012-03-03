@@ -53,7 +53,7 @@
 	((obj), EM_TYPE_VFOLDER_EDITOR_RULE, EMVFolderEditorRulePrivate))
 
 struct _EMVFolderEditorRulePrivate {
-	EMailSession *session;	
+	EMailSession *session;
 };
 
 enum {
@@ -159,7 +159,7 @@ em_vfolder_editor_rule_class_init (EMVFolderEditorRuleClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = vfolder_editor_rule_set_property;
-	object_class->get_property = vfolder_editor_rule_get_property;	
+	object_class->get_property = vfolder_editor_rule_get_property;
 	object_class->dispose = vfolder_editor_rule_dispose;
 	object_class->finalize = vfolder_editor_rule_finalize;
 

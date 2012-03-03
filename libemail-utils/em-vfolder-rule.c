@@ -46,7 +46,7 @@
 	((obj), EM_TYPE_VFOLDER_RULE, EMVFolderRulePrivate))
 
 struct _EMVFolderRulePrivate {
-	int foo;
+	gint placeholder;
 };
 
 static gint validate (EFilterRule *, EAlert **alert);
@@ -68,7 +68,6 @@ G_DEFINE_TYPE (
 	EMVFolderRule,
 	em_vfolder_rule,
 	E_TYPE_FILTER_RULE)
-
 
 static void
 vfolder_rule_finalize (GObject *object)

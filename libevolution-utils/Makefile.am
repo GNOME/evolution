@@ -7,27 +7,27 @@ libevolution_utils_la_CPPFLAGS = \
 	-I$(top_srcdir) \
 	-I$(top_builddir) \
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\" \
-	-DEVOLUTION_UIDIR=\""$(uidir)"\"	\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\" \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
 	$(NULL)
 
 libevolutionutilsincludedir = $(privincludedir)/libevolution-utils
 libevolutionutilsinclude_HEADERS = \
-	e-alert.h			\
-	e-alert-dialog.h		\
-	e-alert-sink.h			\
-	e-xml-utils.h			\
-	evolution-util.h		\
+	e-alert.h \
+	e-alert-dialog.h \
+	e-alert-sink.h \
+	e-xml-utils.h \
+	evolution-util.h \
 	$(NULL)
 
 libevolution_utils_la_SOURCES = \
-	$(libevolutionutilsinclude_HEADERS) 	\
-	e-alert.c				\
-	e-alert-dialog.c			\
-	e-alert-sink.c				\
-	e-xml-utils.c				\
-	evolution-util.c			\
+	$(libevolutionutilsinclude_HEADERS) \
+	e-alert.c \
+	e-alert-dialog.c \
+	e-alert-sink.c \
+	e-xml-utils.c \
+	evolution-util.c \
 	$(NULL)
 
 libevolution_utils_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
