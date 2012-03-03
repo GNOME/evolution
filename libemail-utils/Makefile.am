@@ -17,9 +17,9 @@ libmailutilsinclude_HEADERS = \
 	e-signature-list.h \
 	e-signature-utils.h \
 	e-signature.h \
-	em-filter-folder-element.h	\
-	em-vfolder-context.h	\
-	em-vfolder-rule.h	\
+	em-filter-folder-element.h \
+	em-vfolder-context.h \
+	em-vfolder-rule.h \
 	mail-mt.h \
 	$(NULL)
 
@@ -29,17 +29,17 @@ libemail_utils_la_SOURCES = \
 	e-signature-list.c \
 	e-signature-utils.c \
 	e-signature.c \
-	em-filter-folder-element.c	\
-	em-vfolder-context.c	\
-	em-vfolder-rule.c	\
+	em-filter-folder-element.c \
+	em-vfolder-context.c \
+	em-vfolder-rule.c \
 	mail-mt.c \
 	$(NULL)
 
 libemail_utils_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libemail_utils_la_LIBADD = \
-	$(top_builddir)/filter/libfilter.la		\
-	$(top_builddir)/libevolution-utils/libevolution-utils.la	\
+	$(top_builddir)/filter/libfilter.la \
+	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS) \
 	$(GNOME_PLATFORM_LIBS) \
 	$(NULL)
