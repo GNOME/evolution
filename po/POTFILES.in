@@ -156,8 +156,6 @@ data/org.gnome.evolution.spamassassin.gschema.xml.in
 em-format/em-format.c
 em-format/em-format-quote.c
 e-util/e-activity.c
-e-util/e-alert.c
-e-util/e-alert-dialog.c
 e-util/e-categories-config.c
 e-util/e-charset.c
 e-util/e-datetime-format.c
@@ -187,8 +185,11 @@ libemail-engine/mail-config.c
 libemail-engine/mail-folder-cache.c
 libemail-engine/mail-ops.c
 libemail-engine/mail-tools.c
+libemail-engine/mail-vfolder.c
 libemail-utils/e-signature.c
 libemail-utils/mail-mt.c
+libevolution-utils/e-alert-dialog.c
+mail/em-account-editor.c
 mail/e-mail-account-manager.c
 mail/e-mail-account-tree-view.c
 mail/e-mail-attachment-bar.c
@@ -206,10 +207,9 @@ mail/e-mail-reader.c
 mail/e-mail-reader-utils.c
 mail/e-mail-tag-editor.c
 mail/e-mail-ui-session.c
-mail/em-account-editor.c
 mail/em-composer-utils.c
 mail/em-filter-editor.c
-mail/em-filter-folder-element.c
+mail/em-filter-editor-folder-element.c
 mail/em-filter-i18n.h
 mail/em-filter-rule.c
 mail/em-folder-properties.c
@@ -226,7 +226,7 @@ mail/em-subscription-editor.c
 mail/em-sync-stream.c
 mail/em-utils.c
 mail/em-vfolder-editor.c
-mail/em-vfolder-rule.c
+mail/em-vfolder-editor-rule.c
 mail/evolution-mail.schemas.in
 mail/importers/elm-importer.c
 mail/importers/evolution-mbox-importer.c
@@ -237,7 +237,7 @@ mail/mail-autofilter.c
 [type: gettext/glade]mail/mail-dialogs.ui
 mail/mail.error.xml
 mail/mail-send-recv.c
-mail/mail-vfolder.c
+mail/mail-vfolder-ui.c
 mail/message-list.c
 mail/message-list.etspec
 mail/searchtypes.xml
