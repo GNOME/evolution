@@ -1,3 +1,44 @@
+Evolution 3.3.90 2012-03-05
+---------------------------
+
+Bug Fixes:
+	Bug 670432 - Check for EggSMClient dependencies with pkg-config
+	             (Matthew Barnes)
+	Bug 670512 - Crash in ecp_set_target at e-cal-config.c:93 (Milan Crha)
+	Bug 661265 - Move to Calendar breaks google:// URI (Milan Crha)
+	Bug 669294 - Settings of 'sending email' tab is not remembered
+	             (Milan Crha)
+	Bug 617557 - Can lost message after send failed (Milan Crha)
+	Bug 670934 - Was saving ESourceList first, rather than last (Milan Crha)
+	Bug 663745 - Option to create Google Calendar not available (Milan Crha)
+	Bug 671211 - 'Mark Citations' preferences not applied (Dan Vrátil)
+
+Other Changes:
+	* Further staging of mailer code to be moved to evolution-data-server.
+	  New libevolution-utils introduced as a temporary bridge during the
+	  staging phase. (Srinivasa Ragavan)
+	* Various user documentation improvements. (Andre Klapper)
+	* Show account properties on remote folders. (Milan Crha)
+	* Show errors on message load. (Milan Crha)
+	* Avoid crash when formatting broken message. (Milan Crha)
+	* Show composer window on "Continue editing". (Milan Crha)
+	* Handle cut-paste appointments better. (Chenthill Palanisamy)
+
+Translations:
+	Ihar Hrachyshka (be)
+	Alexander Shopov (bg)
+	Krasimir Chonov (bg)
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Aurimas Černius (lt)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+	Мирослав Николић (sr)
+	Dr.T.Vasudevan (ta)
+	Nguyễn Thái Ngọc Duy (vi)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 3.3.5 2012-02-06
 --------------------------
 
