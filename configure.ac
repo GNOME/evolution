@@ -76,6 +76,7 @@ AS_COMPILER_FLAGS(WARNING_FLAGS,
 	-Wno-missing-field-initializers
 	-Wno-sign-compare
 	-Wno-unused-parameter
+	-Wno-deprecated-declarations
 	-Wdeclaration-after-statement
 	-Werror-implicit-function-declaration
 	-Wformat-security -Winit-self
