@@ -114,9 +114,9 @@ port_entry_method_changed (EPortEntry *port_entry)
 {
 	CamelNetworkSecurityMethod method;
 	gboolean standard_port = FALSE;
-	gboolean valid;
+	gboolean valid, have_ssl = FALSE, have_nossl = FALSE;
 	gint port = 0;
-	gint ii = 0;
+	gint ii;
 
 	method = e_port_entry_get_security_method (port_entry);
 	valid = port_entry_get_numeric_port (port_entry, &port);
@@ -126,12 +126,23 @@ port_entry_method_changed (EPortEntry *port_entry)
 	 * leave custom port numbers alone. */
 
 	if (valid && port_entry->priv->entries != NULL) {
-		while (port_entry->priv->entries[ii].port > 0) {
+		for (ii = 0; port_entry->priv->entries[ii].port > 0 && (!have_ssl || !have_nossl); ii++) {
+			/* Use only the first SSL/no-SSL port as a default in the list
+			   and skip the others */
+			if (port_entry->priv->entries[ii].is_ssl) {
+				if (have_ssl)
+					continue;
+				have_ssl = TRUE;
+			} else {
+				if (have_nossl)
+					continue;
+				have_nossl = TRUE;
+			}
+
 			if (port == port_entry->priv->entries[ii].port) {
 				standard_port = TRUE;
 				break;
 			}
-			ii++;
 		}
 	}
 
