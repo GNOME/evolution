@@ -9,10 +9,16 @@
     <link type="guide" xref="mail-spam" />
     <link type="seealso" xref="mail-spam-marking"/>
 
-    <revision pkgversion="3.3.91" version="0.5" date="2012-03-07" status="final"/>
+    <revision pkgversion="3.3.91" version="0.6" date="2012-03-07" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
+    </credit>
+    <credit type="author">
+      <name its:translate="no">Patrick O'Callaghan</name>
+    </credit>
+    <credit type="author">
+      <name its:translate="no">Pete Biggs</name>
     </credit>
     <credit type="author">
       <name its:translate="no">April Gonzales</name>
@@ -41,6 +47,8 @@
   </if:choose>
 </note>
 
+<p>SpamAssassin works through a set of predefined rules, hence it can determine spam straight away. Bogofilter does not come with a default set of spam criteria so it will not automatically filter anything after installing it. You must <link xref="mail-spam-marking">train it</link> first to make it work. You can modify the actions of SpamAssassin by training it as well.</p>
+
 <note style="tip"><p>The junk mail options discussed in this page refer only to POP and Local Delivery. For handling junk mails on IMAP, see the Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>.</p></note>
 
 <section id="preferences">
@@ -60,6 +68,9 @@
 </list>
 </item>
 </steps>
+
+<note style="tip"><p>For more information and specific Bogofilter or SpamAssassin configuration questions it is recommended to check out the Frequently Asked Questions for <link href="http://bogofilter.sourceforge.net/faq.shtml">Bogofilter</link> resp. 
+<link href="http://wiki.apache.org/spamassassin/FrequentlyAskedQuestions">SpamAssassin</link>.</p></note>
 </section>
 
 </page>
