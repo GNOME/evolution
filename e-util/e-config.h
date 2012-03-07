@@ -283,6 +283,10 @@ void		e_config_add_page_check		(EConfig *config,
 void		e_config_set_page_is_finish	(EConfig *config,
 						 const gchar *pageid,
 						 gboolean is_finish);
+void		e_config_add_skip_check		(EConfig *config,
+						 const gchar *pageid,
+						 EConfigCheckFunc func,
+						 gpointer data);
 
 void		e_config_set_target		(EConfig *config,
 						 EConfigTarget *target);

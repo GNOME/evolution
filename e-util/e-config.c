@@ -91,6 +91,7 @@ struct _EConfigPrivate {
 	GList *widgets;
 	GList *checks;
 	GList *finish_pages;
+	GHashTable *skip_checks;
 };
 
 static GtkWidget *
@@ -174,6 +175,8 @@ config_finalize (GObject *object)
 		link = g_list_delete_link (link, link);
 	}
 
+	g_hash_table_destroy (priv->skip_checks);
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_config_parent_class)->finalize (object);
 }
@@ -232,6 +235,12 @@ static void
 e_config_init (EConfig *config)
 {
 	config->priv = E_CONFIG_GET_PRIVATE (config);
+
+	config->priv->skip_checks = g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) check_node_free);
 }
 
 /**
@@ -320,6 +329,39 @@ e_config_add_page_check (EConfig *ec,
 	cn->data = data;
 
 	ec->priv->checks = g_list_append (ec->priv->checks, cn);
+}
+
+/**
+ * e_config_add_skip_check:
+ * @config: an #EConfig
+ * @pageid: the page ID for the skip page callback
+ * @func: the skip page callback function
+ * @data: data to pass to the callback function
+ *
+ * Adds a callback function to decide whether to skip the page in a
+ * GtkAssistant, useful if the page is blank in certain conditions.
+ *
+ * The callback function should return %TRUE if the page should be
+ * skipped, or %FALSE if the page should be visited.
+ **/
+void
+e_config_add_skip_check (EConfig *config,
+                         const gchar *pageid,
+                         EConfigCheckFunc func,
+                         gpointer data)
+{
+	struct _check_node *cn;
+
+	g_return_if_fail (E_IS_CONFIG (config));
+	g_return_if_fail (pageid != NULL);
+	g_return_if_fail (func != NULL);
+
+	cn = g_slice_new0 (struct _check_node);
+	cn->pageid = g_strdup (pageid);
+	cn->func = func;
+	cn->data = data;
+
+	g_hash_table_insert (config->priv->skip_checks, cn->pageid, cn);
 }
 
 static struct _finish_page_node *
@@ -507,6 +549,24 @@ ec_assistant_check_current (EConfig *ec)
 	gtk_assistant_update_buttons_state (assistant);
 }
 
+static gboolean
+ec_assistant_skip_page (EConfig *config,
+                        struct _widget_node *wn)
+{
+	struct _check_node *cn;
+	gboolean skip_page = FALSE;
+
+	g_return_val_if_fail (wn->item->path != NULL, FALSE);
+	cn = g_hash_table_lookup (config->priv->skip_checks, wn->item->path);
+
+	if (cn != NULL) {
+		g_return_val_if_fail (cn->func != NULL, FALSE);
+		skip_page = cn->func (config, wn->item->path, cn->data);
+	}
+
+	return skip_page;
+}
+
 static gint
 ec_assistant_forward (gint current_page,
                       gpointer user_data)
@@ -554,7 +614,7 @@ ec_assistant_forward (gint current_page,
 				break;
 		}
 
-		if (node_is_page)
+		if (node_is_page && !ec_assistant_skip_page (ec, node))
 			break;
 	}
 
