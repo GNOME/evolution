@@ -127,6 +127,20 @@ startup_wizard_import_complete (EImport *import,
 	e_config_target_changed (config, E_CONFIG_TARGET_CHANGED_STATE);
 }
 
+static void
+startup_wizard_tweak_welcome_label (GtkWidget *child)
+{
+	const gchar *welcome_text;
+
+	welcome_text =
+		_("Welcome to Evolution. The next few screens will "
+		  "allow Evolution to connect to your email accounts, "
+		  "and to import files from other applications.");
+
+	if (GTK_IS_LABEL (child))
+		gtk_label_set_text (GTK_LABEL (child), welcome_text);
+}
+
 static gboolean
 startup_wizard_check_progress (EConfig *config,
                                const gchar *page_id,
@@ -499,12 +513,11 @@ startup_wizard_new_assistant (EStartupWizard *extension)
 	gtk_assistant_set_page_title (
 		GTK_ASSISTANT (config->widget), widget, _("Welcome"));
 
-	widget = em_account_editor_get_widget (emae, "start_page_label");
-	gtk_label_set_text (
-		GTK_LABEL (widget),
-		_("Welcome to Evolution. The next few screens will "
-		  "allow Evolution to connect to your email accounts, "
-		  "and to import files from other applications."));
+	/* The welcome page should be a GtkBox with a GtkLabel
+	 * packed inside.  We need to alter the GtkLabel text. */
+	gtk_container_foreach (
+		GTK_CONTAINER (widget),
+		(GtkCallback) startup_wizard_tweak_welcome_label, NULL);
 
 	/* Finalize the EMAccountEditor along with the GtkAssistant. */
 	g_object_set_data_full (
