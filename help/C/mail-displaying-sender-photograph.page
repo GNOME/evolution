@@ -4,9 +4,9 @@
   <info>
     <desc>Display a picture of the sender in the message header area.</desc>
 
-    <link type="guide" xref="mail-displaying-message" />
+    <link type="guide" xref="mail-displaying-message#advanced" />
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <revision pkgversion="3.0.2" version="0.3" date="2012-03-07" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
