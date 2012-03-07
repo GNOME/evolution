@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-organizing"/>
 
 
-    <revision pkgversion="3.3.91" version="0.4" date="2012-03-07" status="final"/>
+    <revision pkgversion="3.3.91" version="0.5" date="2012-03-07" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -36,10 +36,10 @@
 <p>You can use a threaded message view to sort emails. To enable this feature, click on <guiseq><gui>View</gui><gui>Group By Threads</gui></guiseq> or press <keyseq><key>Ctrl</key><key>T</key></keyseq>.</p>
 <p>This feature, when enabled, groups replies with the original email and allows you to follow the flow of the conversation from one message to the next.</p>
 <p>When a new message arrives, it will be added below the parent message. Threads are sorted and displayed based on the date of the most recent message received.</p>
-<note style="tip"><p>For Advanced Users: There is a GSettings key that allows you to toggle between the collapsed and expanded state of the email threads. The collapsed state is enabled by default. It can be changed by starting the <app>Terminal</app> application and running the command <command>gsettings set org.gnome.evolution.mail thread-expand true</command></p>
+<note style="tip"><p>For Advanced Users: There is a GSettings key that allows you to toggle between the collapsed and expanded state of the email threads. The collapsed state is enabled by default. It can be changed by starting the <app>Terminal</app> application and running the command <cmd>gsettings set org.gnome.evolution.mail thread-expand true</cmd></p>
 <list>
 <item><p>Open the <app>Terminal</app> application.</p></item>
-<item><p>Run the command <command>gsettings set org.gnome.desktop.interface can-change-accels true</command></p></item>
+<item><p>Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-accels true</cmd></p></item>
 </list>
 </note>
 </section>

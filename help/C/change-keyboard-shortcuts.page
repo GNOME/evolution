@@ -4,7 +4,7 @@
   <info>
     <desc>Changing keyboard shortcuts.</desc>
     <link type="guide" xref="index#common-other-problems" />
-    <revision pkgversion="3.1.91" version="0.2" date="2012-02-18" status="draft"/>
+    <revision pkgversion="3.1.91" version="0.3" date="2012-03-07" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -25,7 +25,7 @@
 <item><p>Type the shortcut that you want on the keyboard.</p></item>
 </list>
 
-<p>Note that this setting is desktop-wide and that you can disable it again after your changes by using the command <command>gsettings set org.gnome.desktop.interface can-change-accels false</command></p>
+<p>Note that this setting is desktop-wide and that you can disable it again after your changes by using the command <cmd>gsettings set org.gnome.desktop.interface can-change-accels false</cmd></p>
 
 <p>You can also use the <app>dconf-editor</app> application to do this.</p>
 
