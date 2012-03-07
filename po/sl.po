@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-02-29 11:56+0000\n"
-"PO-Revision-Date: 2012-02-29 14:53+0100\n"
+"PO-Revision-Date: 2012-03-07 19:26+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -7957,34 +7957,28 @@ msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr "Pokaži dneve s ponavljajočimi se dogodki v ležeči pisavi v spodnjem levem koledarju."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
-#, fuzzy
 msgid "List of selected calendars"
-msgstr "Seznam razpoložljivih koledarjev:"
+msgstr "Seznam izbranih koledarjev"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
-#, fuzzy
 msgid "List of calendars to load"
-msgstr "Nalaganje cilja za zagon"
+msgstr "Seznam koledarjev za nalaganje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
-#, fuzzy
 msgid "List of selected memo lists"
-msgstr "Izbriši izbran seznam opomnikov"
+msgstr "Seznam izbranih opomnikov"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
-#, fuzzy
 msgid "List of memo lists to load"
-msgstr "Ustvarjanje seznama opomnikov '%s' je spodletelo: %s"
+msgstr "Seznam opomnikov za nalaganje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
-#, fuzzy
 msgid "List of selected task lists"
-msgstr "Izbriši izbrani seznam opravil"
+msgstr "Seznam izbranih nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
-#, fuzzy
 msgid "List of task lists to load"
-msgstr "Ustvarjanje seznama nalog '%s' je spodletelo: %s"
+msgstr "Seznam nalog za nalaganje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:65
@@ -7992,9 +7986,8 @@ msgid "Show appointment end times in week and month views"
 msgstr "Pokaži čase koncev sestankov v tedenskih in mesečnih pogledih"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
-#, fuzzy
 msgid "Whether to display the end time of events in the week and month views"
-msgstr "Ali naj se prikažejo časi koncev dogodkov v tedenskih in mesečnih pogledih."
+msgstr "Ali naj se prikažejo časi konca dogodkov v tedenskih in mesečnih pogledih"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:50
@@ -9298,27 +9291,24 @@ msgid "Whether GAIM contacts should be automaticall synced"
 msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
-#, fuzzy
 msgid "Enable autocontacts"
-msgstr "Omogoči _vse"
+msgstr "Omogoči samodejne stike"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
 msgid "Whether contacts should be automatically added to the user's addressbook"
 msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
-#, fuzzy
 msgid "GAIM address book source"
-msgstr "Vir imenika ne obstaja."
+msgstr "Vir imenika GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid "Address book to use for storing automatically synced contacts from GAIM"
 msgstr "Imenik uporabljen za shranjevanje samodejno usklajenih stikov programa GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
-#, fuzzy
 msgid "GAIM check interval"
-msgstr "Časovni razmik večkratnega klika"
+msgstr "Časovni razmik preverjanja GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
 msgid "Check interval for GAIM syncing of contacts"
