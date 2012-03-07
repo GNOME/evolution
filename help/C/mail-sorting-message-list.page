@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-organizing"/>
     <link type="guide" xref="mail-layout-changing"/>
 
-    <revision pkgversion="3.3.91" version="0.6" date="2012-03-07" status="final"/>
+    <revision pkgversion="3.3.91" version="0.7" date="2012-03-07" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -27,9 +27,7 @@
 
   <title>Sorting the message list</title>
   
-<p>Evolution lets you organize your emails by letting you sort messages.</p>
-<note><p>To view the complete headers for a message, click <guiseq><gui>View</gui><gui>All Message Headers</gui></guiseq>. This will display the complete header data on the viewing pane.</p> 
-<p>To view the message data, click on <guiseq><gui>View</gui><gui>Message Source</gui></guiseq> or press <keyseq><key>Ctrl</key><key>U</key></keyseq>. This will display the message data in a pop-up window.</p></note>
+<p>Evolution lets you organize your emails by letting you sort messages in the <link xref="intro-main-window#e-mail">message list</link>.</p>
 
 <section id="email-threads">
 <title>Sorting Mail in Email Threads</title>
