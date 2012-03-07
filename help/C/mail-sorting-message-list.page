@@ -5,9 +5,9 @@
     <desc>Sorting the message list of a mail folder.</desc>
 
     <link type="guide" xref="mail-organizing"/>
+    <link type="guide" xref="mail-layout-changing"/>
 
-
-    <revision pkgversion="3.3.91" version="0.5" date="2012-03-07" status="final"/>
+    <revision pkgversion="3.3.91" version="0.6" date="2012-03-07" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
