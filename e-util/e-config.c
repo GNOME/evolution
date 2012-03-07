@@ -76,7 +76,7 @@ struct _widget_node {
 
 struct _check_node {
 	gchar *pageid;
-	EConfigCheckFunc check;
+	EConfigCheckFunc func;
 	gpointer data;
 };
 
@@ -116,29 +116,38 @@ G_DEFINE_TYPE (
 	G_TYPE_OBJECT)
 
 static void
+check_node_free (struct _check_node *node)
+{
+	g_free (node->pageid);
+
+	g_slice_free (struct _check_node, node);
+}
+
+static void
 config_finalize (GObject *object)
 {
-	EConfig *emp = (EConfig *) object;
-	EConfigPrivate *p = emp->priv;
+	EConfigPrivate *priv;
 	GList *link;
+
+	priv = E_CONFIG_GET_PRIVATE (object);
 
 	d(printf("finalising EConfig %p\n", object));
 
-	g_free (emp->id);
+	g_free (E_CONFIG (object)->id);
 
-	link = p->menus;
+	link = priv->menus;
 	while (link != NULL) {
 		struct _menu_node *node = link->data;
 
 		if (node->free)
-			node->free (emp, node->menu, node->data);
+			node->free (E_CONFIG (object), node->menu, node->data);
 
 		g_free (node);
 
 		link = g_list_delete_link (link, link);
 	}
 
-	link = p->widgets;
+	link = priv->widgets;
 	while (link != NULL) {
 		struct _widget_node *node = link->data;
 
@@ -153,17 +162,9 @@ config_finalize (GObject *object)
 		link = g_list_delete_link (link, link);
 	}
 
-	link = p->checks;
-	while (link != NULL) {
-		struct _check_node *node = link->data;
+	g_list_free_full (priv->checks, (GDestroyNotify) check_node_free);
 
-		g_free (node->pageid);
-		g_free (node);
-
-		link = g_list_delete_link (link, link);
-	}
-
-	link = p->finish_pages;
+	link = priv->finish_pages;
 	while (link != NULL) {
 		struct _finish_page_node *node = link->data;
 
@@ -291,7 +292,7 @@ e_config_add_items (EConfig *ec,
  * e_config_add_page_check:
  * @ec: Initialised implemeting instance of EConfig.
  * @pageid: pageid to check.
- * @check: checking callback.
+ * @func: checking callback.
  * @data: user-data for the callback.
  *
  * Add a page-checking function callback.  It will be called to validate the
@@ -308,14 +309,14 @@ e_config_add_items (EConfig *ec,
 void
 e_config_add_page_check (EConfig *ec,
                          const gchar *pageid,
-                         EConfigCheckFunc check,
+                         EConfigCheckFunc func,
                          gpointer data)
 {
 	struct _check_node *cn;
 
-	cn = g_malloc0 (sizeof (*cn));
+	cn = g_slice_new0 (struct _check_node);
 	cn->pageid = g_strdup (pageid);
-	cn->check = check;
+	cn->func = func;
 	cn->data = data;
 
 	ec->priv->checks = g_list_append (ec->priv->checks, cn);
@@ -534,21 +535,26 @@ ec_assistant_forward (gint current_page,
 
 	/* Find the next E_CONFIG_PAGE* type node. */
 	for (link = link->next; link != NULL; link = link->next) {
+		gboolean node_is_page;
+
 		node = (struct _widget_node *) link->data;
 
 		if (node->empty || node->frame == NULL)
 			continue;
 
-		if (node->item->type == E_CONFIG_PAGE)
-			break;
+		switch (node->item->type) {
+			case E_CONFIG_PAGE:
+			case E_CONFIG_PAGE_START:
+			case E_CONFIG_PAGE_FINISH:
+			case E_CONFIG_PAGE_PROGRESS:
+				node_is_page = TRUE;
+				break;
+			default:
+				node_is_page = FALSE;
+				break;
+		}
 
-		if (node->item->type == E_CONFIG_PAGE_START)
-			break;
-
-		if (node->item->type == E_CONFIG_PAGE_FINISH)
-			break;
-
-		if (node->item->type == E_CONFIG_PAGE_PROGRESS)
+		if (node_is_page)
 			break;
 	}
 
@@ -1364,7 +1370,7 @@ e_config_page_check (EConfig *config,
 		if ((pageid == NULL
 		     || node->pageid == NULL
 		     || strcmp (node->pageid, pageid) == 0)
-		    && !node->check (config, pageid, node->data)) {
+		    && !node->func (config, pageid, node->data)) {
 			return FALSE;
 		}
 
