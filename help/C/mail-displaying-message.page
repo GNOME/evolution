@@ -6,7 +6,7 @@
 
     <link type="guide" xref="index#mail-basic" />
 
-    <revision pkgversion="2.32.2" version="0.1" date="2011-07-21" status="draft"/>
+    <revision pkgversion="3.4.0" version="0.2" date="2012-03-07" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -18,5 +18,9 @@
   </info>
 
 <title>Display of a message</title>
+
+  <section id="advanced">
+    <title>Advanced</title>
+  </section>
 
 </page>
