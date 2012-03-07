@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-02-20 18:29+0000\n"
-"PO-Revision-Date: 2012-02-26 15:05+0300\n"
+"POT-Creation-Date: 2012-02-27 11:22+0000\n"
+"PO-Revision-Date: 2012-03-07 19:06+0300\n"
 "Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -7800,11 +7800,6 @@ msgid "Memo layout style"
 msgstr "Стиль заметок"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the memo list. \"0\" (Classic View) places the preview pane below the "
-#| "memo list. \"1\" (Vertical View) places the preview pane next to the memo "
-#| "list."
 msgid "The layout style determines where to place the preview pane in relation to the memo list. \"0\" (Classic View) places the preview pane below the memo list. \"1\" (Vertical View) places the preview pane next to the memo list"
 msgstr "Стиль расположения определяет место для панели предварительного просмотра относительно списка заметок. «0» (классический вид) помещает панель предварительного просмотра под списком заметок. «1» (вертикальный вид) помещает панель рядом со списком заметок"
 
@@ -7998,11 +7993,6 @@ msgid "Task layout style"
 msgstr "Стиль размещения задач"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the task list. \"0\" (Classic View) places the preview pane below the "
-#| "task list. \"1\" (Vertical View) places the preview pane next to the task "
-#| "list."
 msgid "The layout style determines where to place the preview pane in relation to the task list. \"0\" (Classic View) places the preview pane below the task list. \"1\" (Vertical View) places the preview pane next to the task list"
 msgstr "Стиль расположения определяет место для панели предварительного просмотра относительно списка задач. «0» (классический вид) помещает панель предварительного просмотра под списком задач. «1» (вертикальный вид) помещает панель рядом со списком задач"
 
@@ -8047,9 +8037,6 @@ msgid "Timezone"
 msgstr "Часовой пояс"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
-#| msgid ""
-#| "The default timezone to use for dates and times in the calendar, as an "
-#| "untranslated Olsen timezone database location like \"America/New York\""
 msgid "The default timezone to use for dates and times in the calendar, as an untranslated Olson timezone database location like \"America/New York\""
 msgstr "Часовой пояс по умолчанию, используемый для дат и времени в календаре, в виде непереведённого имени из базы часовых поясов Олсона, например «America/New York»"
 
@@ -8197,10 +8184,6 @@ msgid "Path where picture gallery should search for its content"
 msgstr "Путь, по которому происходит поиск содержимого для галереи изображений"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
-#| msgid ""
-#| "This value can be an empty string, which means it'll use the system "
-#| "Picture folder, usually set to ~/Pictures. This folder will be also used "
-#| "when the set path is not pointing to the existent folder."
 msgid "This value can be an empty string, which means it'll use the system Picture folder, usually set to ~/Pictures. This folder will be also used when the set path is not pointing to the existent folder"
 msgstr "Это значение может быть пустой строки, что будет означать, что будет использоваться системная папка для хранения изображений (как правило, ~/Изображения). Эта папка также будет использоваться, если в качестве пути будет указана несуществующая папка"
 
@@ -9191,9 +9174,6 @@ msgid "List of clues for the attachment reminder plugin to look for in a message
 msgstr "Список ключей для модуля уведомления о забытых вложениях для поиска в теле письма"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:2
-#| msgid ""
-#| "List of clues for the attachment reminder plugin to look for in a message "
-#| "body"
 msgid "List of clues for the attachment reminder plugin to look for in a message body."
 msgstr "Список ключей для модуля напоминания о вложениях в теле письма."
 
@@ -10580,7 +10560,7 @@ msgstr "Имя учётной записи"
 #. we changed user, thus reset the chosen calendar combo too, because
 #. * other user means other calendars subscribed
 #: ../mail/e-mail-account-tree-view.c:116
-#: ../mail/e-mail-reader.c:3425
+#: ../mail/e-mail-reader.c:3439
 #: ../mail/mail-config.ui.h:51
 #: ../plugins/google-account-setup/google-source.c:316
 #: ../plugins/google-account-setup/google-source.c:558
@@ -11294,51 +11274,51 @@ msgstr "Все _заголовки сообщения"
 msgid "Show messages with all email headers"
 msgstr "Отображать сообщения со всеми заголовками"
 
-#: ../mail/e-mail-reader.c:2698
+#: ../mail/e-mail-reader.c:2712
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "Получение сообщения «%s»"
 
-#: ../mail/e-mail-reader.c:3618
+#: ../mail/e-mail-reader.c:3632
 #: ../modules/mail/e-mail-attachment-handler.c:174
 msgid "_Forward"
 msgstr "Пе_реслать"
 
-#: ../mail/e-mail-reader.c:3619
+#: ../mail/e-mail-reader.c:3633
 msgid "Forward the selected message to someone"
 msgstr "Перенаправить выбранное сообщение кому-либо"
 
-#: ../mail/e-mail-reader.c:3638
+#: ../mail/e-mail-reader.c:3652
 msgid "Group Reply"
 msgstr "Ответить всем"
 
-#: ../mail/e-mail-reader.c:3639
+#: ../mail/e-mail-reader.c:3653
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Ответить в список рассылки или всем получателям"
 
-#: ../mail/e-mail-reader.c:3696
+#: ../mail/e-mail-reader.c:3710
 #: ../mail/em-filter-i18n.h:14
 msgid "Delete"
 msgstr "Удалить"
 
-#: ../mail/e-mail-reader.c:3729
+#: ../mail/e-mail-reader.c:3743
 #: ../modules/calendar/e-cal-shell-view-actions.c:1356
 #: ../widgets/misc/e-calendar.c:202
 msgid "Next"
 msgstr "Вперёд"
 
-#: ../mail/e-mail-reader.c:3733
+#: ../mail/e-mail-reader.c:3747
 #: ../modules/calendar/e-cal-shell-view-actions.c:1349
 #: ../widgets/misc/e-calendar.c:178
 msgid "Previous"
 msgstr "Назад"
 
-#: ../mail/e-mail-reader.c:3742
+#: ../mail/e-mail-reader.c:3756
 #: ../mail/mail-dialogs.ui.h:20
 msgid "Reply"
 msgstr "Ответить"
 
-#: ../mail/e-mail-reader.c:4443
+#: ../mail/e-mail-reader.c:4457
 #, c-format
 msgid "Folder '%s'"
 msgstr "Папка «%s»"
@@ -12656,7 +12636,6 @@ msgid "Default Behavior"
 msgstr "Поведение по умолчанию"
 
 #: ../mail/mail-config.ui.h:12
-#| msgid "Format messages in _HTML"
 msgid "For_mat messages in HTML"
 msgstr "Форматировать сообщения в _HTML"
 
@@ -12669,12 +12648,10 @@ msgid "Always request rea_d receipt"
 msgstr "Всегда запрашивать _отчёт о прочтении"
 
 #: ../mail/mail-config.ui.h:15
-#| msgid "Encode file names in an Outlook/GMail way"
 msgid "Encode filenames in an _Outlook/GMail way"
 msgstr "Кодировать имена файлов в стиле _Outlook/GMail"
 
 #: ../mail/mail-config.ui.h:16
-#| msgid "Ch_aracter Encoding"
 msgid "Ch_aracter encoding:"
 msgstr "Ко_дировка символов:"
 
@@ -12699,12 +12676,10 @@ msgid "_Keep signature above the original message on replying"
 msgstr "Помещать подпись _над исходным сообщением при ответе"
 
 #: ../mail/mail-config.ui.h:22
-#| msgid "Ignore Reply-To: for mailing lists"
 msgid "Ig_nore Reply-To: for mailing lists"
 msgstr "_Игнорировать «Обратный адрес» для списков рассылки"
 
 #: ../mail/mail-config.ui.h:23
-#| msgid "Group Reply goes only to mailing list, if possible"
 msgid "Gro_up Reply goes only to mailing list, if possible"
 msgstr "«Ответить _всем» отправляет по возможности письма только в список рассылки"
 
@@ -12819,7 +12794,6 @@ msgid "Attachment"
 msgstr "Вложение"
 
 #: ../mail/mail-config.ui.h:59
-#| msgid "Inline (Outlook style)"
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
 msgstr "Встроенный (в стиле Outlook)"
@@ -12864,7 +12838,6 @@ msgid "_Secure HTTP Proxy:"
 msgstr "Прокси HTTP_S:"
 
 #: ../mail/mail-config.ui.h:69
-#| msgid "SOCKS proxy port"
 msgid "SOC_KS Proxy:"
 msgstr "Прокси _SOCKS:"
 
@@ -16065,7 +16038,6 @@ msgid "Compose a new mail message"
 msgstr "Создать новое почтовое сообщение"
 
 #: ../modules/mail/e-mail-shell-backend.c:240
-#| msgid "Mail Accounts"
 msgctxt "New"
 msgid "Mail Acco_unt"
 msgstr "_Учётная запись почты"
@@ -17153,7 +17125,8 @@ msgid "Add CalDAV support to Evolution."
 msgstr "Добавляет поддержку CalDAV."
 
 #: ../plugins/calendar-file/calendar-file.c:136
-msgid "_Customize options"
+#| msgid "_Customize options"
+msgid "C_ustomize options"
 msgstr "Из_менить параметры"
 
 #: ../plugins/calendar-file/calendar-file.c:155
@@ -17166,19 +17139,22 @@ msgstr "_Имя файла:"
 msgid "Choose calendar file"
 msgstr "Выберите файл календаря"
 
-#: ../plugins/calendar-file/calendar-file.c:212
+#. Translators: This is one setting for when to refresh a memo/calendar/tasks list
+#: ../plugins/calendar-file/calendar-file.c:213
 msgid "On open"
 msgstr "При открытии"
 
-#: ../plugins/calendar-file/calendar-file.c:213
+#. Translators: This is one setting for when to refresh a memo/calendar/tasks list
+#: ../plugins/calendar-file/calendar-file.c:215
 msgid "On file change"
 msgstr "При изменении файла"
 
-#: ../plugins/calendar-file/calendar-file.c:214
+#. Translators: This is one setting for when to refresh a memo/calendar/tasks list
+#: ../plugins/calendar-file/calendar-file.c:217
 msgid "Periodically"
 msgstr "Периодически"
 
-#: ../plugins/calendar-file/calendar-file.c:235
+#: ../plugins/calendar-file/calendar-file.c:238
 msgid "Force read _only"
 msgstr "То_лько для чтения"
 
@@ -19681,7 +19657,6 @@ msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Выключить область просмотра почты, контактов и задач."
 
 #: ../shell/main.c:334
-#| msgid "Import URIs or file names given as rest of arguments."
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Импортировать URI или имена файлов, указанные в качестве аргументов."
 
