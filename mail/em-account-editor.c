@@ -2521,6 +2521,14 @@ emae_refresh_providers (EMAccountEditor *emae,
 
 	gtk_combo_box_set_active_id (
 		GTK_COMBO_BOX (combo_box), service->protocol);
+
+	/* make sure at least something is selected;
+	   this applies for cases when user changed from provider which was
+	   store and transport together, to a store provider only (like from
+	   exchange to imap provider), which left unselected transport type
+	*/
+	if (gtk_combo_box_get_active (GTK_COMBO_BOX (combo_box)) == -1)
+		gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 0);
 }
 
 static void
@@ -2927,9 +2935,17 @@ emae_setup_service (EMAccountEditor *emae,
 	/* old authtype will be destroyed when we exit */
 	emae_refresh_providers (emae, service);
 
-	if (provider != NULL && provider->port_entries)
+	if (provider != NULL && provider->port_entries) {
 		e_port_entry_set_camel_entries (
 			service->port, provider->port_entries);
+
+		/* update also port in settings, because it's not bind yet */
+		if (service->settings && CAMEL_IS_NETWORK_SETTINGS (service->settings)) {
+			camel_network_settings_set_port (
+				CAMEL_NETWORK_SETTINGS (service->settings),
+				e_port_entry_get_port (service->port));
+		}
+	}
 
 	emae_service_provider_changed (service);
 }

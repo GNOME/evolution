@@ -362,10 +362,6 @@ e_port_entry_init (EPortEntry *port_entry)
 	gtk_cell_layout_add_attribute (
 		GTK_CELL_LAYOUT (port_entry),
 		renderer, "text", PORT_DESC_COLUMN);
-
-	g_signal_connect (
-		port_entry, "notify::security-method",
-		G_CALLBACK (port_entry_method_changed), NULL);
 }
 
 GtkWidget *
@@ -473,6 +469,8 @@ e_port_entry_set_security_method (EPortEntry *port_entry,
 	g_return_if_fail (E_IS_PORT_ENTRY (port_entry));
 
 	port_entry->priv->method = method;
+
+	port_entry_method_changed (port_entry);
 
 	g_object_notify (G_OBJECT (port_entry), "security-method");
 }
