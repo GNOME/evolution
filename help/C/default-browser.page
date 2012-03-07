@@ -1,4 +1,6 @@
 <page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      xmlns:e="http://projectmallard.org/experimental/"
+      xmlns:if="http://projectmallard.org/experimental/if/"
       type="topic" id="default-browser">
 
   <info>
@@ -6,7 +8,7 @@
     
     <link type="guide" xref="index#common-other-problems" />
 
-    <revision pkgversion="3.0.2" version="0.4" date="2012-02-18" status="final"/>
+    <revision pkgversion="3.0.2" version="0.5" date="2012-03-07" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -26,5 +28,12 @@
 
 <note><p>GNOME 3 users with a technical background can tweak these settings by defining scheme-handlers in <file>$HOME/.local/share/applications/mimeapps.list</file>.</p></note>
 
-<note><p>If the error message "Could not open the link: Operation not supported" is shown, you need to <link action="install:gvfs" href="http://ftp.gnome.org/pub/gnome/sources/gvfs/">install gvfs</link>.</p></note>
+<note style="info package">
+  <p>If the error message "Could not open the link: Operation not supported" is shown, you need to install the package <sys>gvfs</sys>.</p>
+  <if:choose>
+    <if:when test="if:supports('action:install')">
+      <p><link action="install:gvfs" href="http://ftp.gnome.org/pub/gnome/sources/gvfs/" style="button">Install gvfs</link></p>
+    </if:when>
+  </if:choose>
+</note>
 </page>

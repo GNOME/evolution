@@ -1,4 +1,6 @@
 <page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      xmlns:e="http://projectmallard.org/experimental/"
+      xmlns:if="http://projectmallard.org/experimental/if/"
       type="topic" id="mail-composer-change-quotation-string">
 
   <info>
@@ -8,7 +10,7 @@
     <link type="seealso" xref="mail-composer-reply" />
     <link type="seealso" xref="mail-composer-forward" />
 
-    <revision pkgversion="3.3.91" version="0.3" date="2012-02-18" status="draft"/>
+    <revision pkgversion="3.3.91" version="0.4" date="2012-03-07" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -29,7 +31,14 @@
 <item><p>Enter the prefered quotation string as the value for the key <gui>composer-message-attribution</gui>.</p></item>
 </list>
 
-<note><p>You might need to <link action="install:dconf-editor" href="http://ftp.gnome.org/pub/gnome/sources/dconf-editor/">install dconf-editor</link> to perform these steps.</p></note>
+<note style="info package">
+  <p>You might need to install the <sys>dconf-editor</sys> package to perform these steps.</p>
+  <if:choose>
+    <if:when test="if:supports('action:install')">
+      <p><link action="install:dconf-editor" href="http://ftp.gnome.org/pub/gnome/sources/dconf-editor/" style="button">Install dconf-editor</link></p>
+    </if:when>
+  </if:choose>
+</note>
 
 </page>
 
