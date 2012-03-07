@@ -2329,8 +2329,9 @@ emae_setup_settings (EMAccountEditorService *service)
 
 		path = camel_local_settings_get_path (
 			CAMEL_LOCAL_SETTINGS (settings));
-		gtk_file_chooser_set_filename (
-			GTK_FILE_CHOOSER (service->pathentry), path);
+		if (path != NULL && *path != '\0')
+			gtk_file_chooser_set_filename (
+				GTK_FILE_CHOOSER (service->pathentry), path);
 	}
 
 	g_object_unref (settings);
