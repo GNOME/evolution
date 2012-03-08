@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-02-29 11:56+0000\n"
-"PO-Revision-Date: 2012-03-07 19:26+0100\n"
+"PO-Revision-Date: 2012-03-08 21:59+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -7426,7 +7426,7 @@ msgstr "Uporabi oblikovanje po meri"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:2
 msgid "Whether addresses should be formatted according to standard in their destination country"
-msgstr ""
+msgstr "Ali naj bodo naslovi oblikovani glede na standard ciljne države"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:3
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:3
@@ -8030,7 +8030,7 @@ msgstr "Poudari naloge, ki zakasnijo danes"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid "Whether highlight tasks due today with a special color (task-due-today-color)"
-msgstr ""
+msgstr "Ali naj se naloge, ki zakasnijo danes, poudarijo s posebno barvo"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:87
@@ -8073,7 +8073,7 @@ msgstr "Poudari zakasnele naloge"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Whether highlight overdue tasks with a special color (task-overdue-color)"
-msgstr ""
+msgstr "Ali naj se zakasnjene naloge poudarijo s posebno barvo"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:89
@@ -8231,7 +8231,7 @@ msgstr "Gnome Calendar's tasks import done"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:4
 msgid "Whether tasks from Gnome Calendar have been imported or not"
-msgstr ""
+msgstr "Ali so bile naloge iz programa Gnome koledar uvožene ali ne"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:1
 #: ../modules/mailto-handler/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
@@ -8439,7 +8439,7 @@ msgstr "_Ohrani podpis nad izvirnim sporočilom ob odgovoru"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
 #: ../mail/evolution-mail.schemas.in.h:12
 msgid "Automatically enable PGP or S/MIME signatures when replying to a message which is also PGP or S/MIME signed."
-msgstr ""
+msgstr "Samodejno omogoči podpise PGP ali S/MIME pri odgovarjanju na sporočilo, ki je bilo prav tako podpisano S PGP ali S/MIME"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 #: ../mail/evolution-mail.schemas.in.h:33
@@ -8490,7 +8490,7 @@ msgstr "Od_strani vse"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
 msgid "Comma-separated list of localized 'Re' abbreviations to skip in a subject text when replying to a message, as an addition to the standard \"Re\" prefix. An example is 'SV,AV'."
-msgstr ""
+msgstr "Z vejico ločen seznam, krajevno prilagojenih okrajšav, za odgovor na sporočilo v vrstici zadeve, ki se izpiše med odgovarjanjem na sporočilo, kot prevod standardne predpone  \"Re:\". Primer je 'Odg.: ali Odgovor:'."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 #: ../mail/evolution-mail.schemas.in.h:53
@@ -8711,7 +8711,7 @@ msgstr "Omogoči krajevne mape"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Whether to show local folders (On This Computer) in a folder tree"
-msgstr ""
+msgstr "Ali naj se pokažejo krajevne mape (na tem računalniku) v drevesu map"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 #: ../mail/evolution-mail.schemas.in.h:94
@@ -9288,7 +9288,7 @@ msgstr "Preveri časovni razmik za usklajevanje stikov GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
 msgid "Whether GAIM contacts should be automaticall synced"
-msgstr ""
+msgstr "Ali naj se stiki GAIM samodejno posodobijo"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
 msgid "Enable autocontacts"
@@ -9296,7 +9296,7 @@ msgstr "Omogoči samodejne stike"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
 msgid "Whether contacts should be automatically added to the user's addressbook"
-msgstr ""
+msgstr "Ali naj bodo stiki samodejno dodani v uporabnikov imenik"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
 msgid "GAIM address book source"
@@ -10581,10 +10581,10 @@ msgstr "Pošiljanje sporočila %d od %d"
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Pošiljanje sporočil je spodletelo."
+msgstr[1] "Pošiljanje sporočila je spodletelo."
+msgstr[2] "Pošiljanje sporočil je spodletelo."
+msgstr[3] "Pošiljanje sporočil je spodletelo."
 
 #: ../libemail-engine/mail-ops.c:889
 #: ../mail/mail-send-recv.c:885
@@ -16680,9 +16680,9 @@ msgstr "Sporočilo za %s z zadevo \"%s\" poslano dne %s je prebrano."
 
 #. Translators: %s is the subject of the email message.
 #: ../modules/mdn/evolution-mdn.c:324
-#, fuzzy, c-format
+#, c-format
 msgid "Delivery Notification for \"%s\""
-msgstr "Tovarna obvestilnega območja pulta"
+msgstr "Obvestilo o prejemu za \"%s\""
 
 #: ../modules/mdn/evolution-mdn.c:449
 #, fuzzy, c-format
@@ -16691,9 +16691,8 @@ msgstr "Nauči se brati"
 
 #. name doesn't matter
 #: ../modules/mdn/evolution-mdn.c:454
-#, fuzzy
 msgid "_Notify Sender"
-msgstr "(ni pošiljatelja)"
+msgstr "_Pošlji povratnico"
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:1
 msgid "Sender wants to be notified when you have read this message."
@@ -16847,12 +16846,8 @@ msgid "Welcome"
 msgstr "Dobrodošli"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:505
-#, fuzzy
 msgid "Welcome to Evolution. The next few screens will allow Evolution to connect to your email accounts, and to import files from other applications."
-msgstr ""
-"Dobrodošli v programu Evolution. Naslednjih nekaj korakov bo omogočilo povezavo programa z vašimi elektronskimi poštnimi računi in uvoz datotek drugih programov.\n"
-"\n"
-"Za nadaljevanje kliknite gumb \"Naprej\". "
+msgstr "Dobrodošli v programu Evolution. Naslednjih nekaj korakov bo omogočilo povezavo programa z vašimi elektronskimi poštnimi računi in uvoz datotek drugih programov."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:613
 msgid "Loading accounts..."
@@ -17295,9 +17290,8 @@ msgid "Add CalDAV support to Evolution."
 msgstr "Dodaj podporo CalDAV v Evolution."
 
 #: ../plugins/calendar-file/calendar-file.c:136
-#, fuzzy
 msgid "C_ustomize options"
-msgstr "Možnosti nastavitev:"
+msgstr "Prilagodi _možnosti"
 
 #: ../plugins/calendar-file/calendar-file.c:155
 #: ../widgets/misc/e-attachment-dialog.c:333
@@ -17543,13 +17537,12 @@ msgid "Command to be executed to launch the editor: "
 msgstr "Ukaz za zagon urejevalnika:"
 
 #: ../plugins/external-editor/external-editor.c:115
-#, fuzzy
 msgid ""
 "For XEmacs use \"xemacs\"\n"
 "For Vim use \"gvim -f\""
 msgstr ""
-"Za Emacs uporabite \"xemacs\"\n"
-"Za VI uporabite \"gvim -f\""
+"Za XEmacs uporabite \"xemacs\"\n"
+"Za Vim uporabite \"gvim -f\""
 
 #: ../plugins/external-editor/external-editor.c:396
 #: ../plugins/external-editor/external-editor.c:398
@@ -17804,9 +17797,8 @@ msgstr "Poslano koledarju '%s' kot preklicano"
 #: ../plugins/itip-formatter/itip-formatter.c:1581
 #: ../plugins/itip-formatter/itip-formatter.c:1974
 #: ../plugins/itip-formatter/itip-formatter.c:2065
-#, fuzzy
 msgid "Saving changes to the calendar. Please wait..."
-msgstr "Odpiranje koledarja. Počakajte ..."
+msgstr "Shranjujejo se spremembe v koledar. Počakajte ..."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1620
 msgid "Unable to parse item"
@@ -19834,7 +19826,6 @@ msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Onemogoči pladenj predogleda za pošto, stike in naloge."
 
 #: ../shell/main.c:334
-#, fuzzy
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Uvozi naslove URI ali imena datotek podana kot argumenti."
 
@@ -20265,19 +20256,16 @@ msgid "Certificate Authority Trust"
 msgstr "Zaupanje pooblastitelju potrdil"
 
 #: ../smime/gui/smime-ui.ui.h:39
-#, fuzzy
 msgid "Trust this CA to identify _websites."
-msgstr "Zaupaj tej CA za ugotovitev istovetnosti spletnih strani."
+msgstr "Zaupaj overitelju potrdil CA pri ugotavljanju istovetnosti _spletnih strani."
 
 #: ../smime/gui/smime-ui.ui.h:40
-#, fuzzy
 msgid "Trust this CA to identify _email users."
-msgstr "Zaupaj tej CA za ugotovitev istovetnosti uporabnikov elektronske pošte."
+msgstr "Zaupaj overitelju potrdil CA pri ugotavljanju istovetnosti _uporabnikov elektronske pošte."
 
 #: ../smime/gui/smime-ui.ui.h:41
-#, fuzzy
 msgid "Trust this CA to identify _software developers."
-msgstr "Zaupaj tej CA za ugotovitev istovetnosti razvijalcev programske opreme."
+msgstr "Zaupaj overitelju potrdil CA pri ugotavljanju istovetnosti _razvijalcev programske opreme."
 
 #: ../smime/gui/smime-ui.ui.h:42
 msgid "Before trusting this CA for any purpose, you should examine its certificate and its policy and procedures (if available)."
