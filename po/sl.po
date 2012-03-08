@@ -10581,10 +10581,10 @@ msgstr "Pošiljanje sporočila %d od %d"
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
-msgstr[0] "Pošiljanje sporočil je spodletelo."
-msgstr[1] "Pošiljanje sporočila je spodletelo."
-msgstr[2] "Pošiljanje sporočil je spodletelo."
-msgstr[3] "Pošiljanje sporočil je spodletelo."
+msgstr[0] "Pošiljanje %d od %d sporočil je spodletelo."
+msgstr[1] "Pošiljanje %d od %d sporočila je spodletelo."
+msgstr[2] "Pošiljanje %d od %d sporočil je spodletelo."
+msgstr[3] "Pošiljanje %d od %d sporočil je spodletelo."
 
 #: ../libemail-engine/mail-ops.c:889
 #: ../mail/mail-send-recv.c:885
