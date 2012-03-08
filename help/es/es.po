@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-07 17:09+0000\n"
-"PO-Revision-Date: 2012-03-07 18:28+0100\n"
+"POT-Creation-Date: 2012-03-07 17:37+0000\n"
+"PO-Revision-Date: 2012-03-08 14:03+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2272,12 +2272,10 @@ msgid "Junk Mail Settings"
 msgstr "Configuración de SPAM"
 
 #: C/mail-spam-settings.page:39(title)
-#| msgid "ETodo"
 msgid "Tools"
 msgstr "Herramientas"
 
 #: C/mail-spam-settings.page:40(p)
-#, fuzzy
 #| msgid ""
 #| "Evolution lets you check for unwanted junk or spam emails by using the "
 #| "Bogofilter or SpamAssassin tools. To use these tools, you need to make "
@@ -2289,22 +2287,20 @@ msgid ""
 "these tools, you need to make sure that they are installed via the software "
 "management tool of your distribution."
 msgstr ""
-"Evolution le permite comprobar si hay mensajes SPAM usando las herramientas "
-"Bogofilter o SpamAssasin. Para usar estas herramientas debe asegurarse de "
-"que están instaladas a través de la herramienta de gestión de software de su "
-"distribución."
+"<app>Evolution</app> le permite comprobar si hay mensajes spam usando las "
+"herramientas <app>Bogofilter</app> o <app>SpamAssassin</app>. Para usar "
+"estas herramientas debe asegurarse de que están instaladas a través de la "
+"herramienta de gestión de software de su distribución."
 
 #: C/mail-spam-settings.page:43(p) C/mail-composer-spellcheck.page:31(p)
 msgid "You might need to install one of these packages to perform these steps."
 msgstr ""
 
 #: C/mail-spam-settings.page:46(link)
-#| msgid "Install bogofilter now."
 msgid "Install bogofilter"
 msgstr "Instalar «bogofilter»"
 
 #: C/mail-spam-settings.page:47(link)
-#| msgid "Install spamassassin now."
 msgid "Install spamassassin"
 msgstr "Instalar «spamassassin»"
 
@@ -2318,9 +2314,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-spam-settings.page:56(title)
-#, fuzzy
 msgid "Junk Mail Folder"
-msgstr "_Carpeta de correo"
+msgstr "Carpeta de spam"
 
 #: C/mail-spam-settings.page:57(p)
 msgid ""
@@ -2440,10 +2435,9 @@ msgid "barbtobias09@gmail.com"
 msgstr "barbtobias09@gmail.com"
 
 #: C/mail-spam-marking.page:30(title)
-#, fuzzy
 #| msgid "Marking a Message As Junk Mail"
 msgid "Marking Mail as Junk"
-msgstr "Marcar un mensaje como spam"
+msgstr "Marcar un correo como spam"
 
 #: C/mail-spam-marking.page:32(p)
 msgid ""
@@ -2458,10 +2452,9 @@ msgid ""
 msgstr ""
 
 #: C/mail-spam-marking.page:35(title)
-#, fuzzy
 #| msgid "Marking Junk Mail"
 msgid "Manually Marking Junk Mail"
-msgstr "Marcar correo como SPAM"
+msgstr "Marcar correo manualmente como SPAM"
 
 #: C/mail-spam-marking.page:36(p)
 #, fuzzy
@@ -2490,7 +2483,6 @@ msgstr ""
 "tiempo."
 
 #: C/mail-spam-marking.page:37(p)
-#, fuzzy
 #| msgid ""
 #| "If legitimate mail is incorrectly flagged, remove it from the Junk folder "
 #| "by right-clicking it and selecting <gui>Mark as Not Junk</gui> or "
@@ -2505,14 +2497,10 @@ msgid ""
 "or pressing <keyseq><key>Shift</key><key>Ctrl</key><key>J</key></keyseq>, or "
 "mark the message and click the <gui>Not Junk</gui> button."
 msgstr ""
-"Si el correo legítimo se marca incorrectamente, quítelo de la carpeta SPAM "
-"pulsando con el botón derecho y seleccionando <gui>Marcar como no SPAM</gui> "
-"o pulsando <keyseq><key>Mayús</key><key>Ctrl</key><key>J</key></keyseq>. Si "
-"Evolution no detetca algún correo basura, pulse con el botón derecho sobre "
-"el mensaje, después pulse <gui>Marcar como SPAM</gui> o <keyseq><key>Ctrl</"
-"key><key>J</key></keyseq>. Cuando lo corrija, el filtro puede reconocer "
-"mensajes similares para el futuro y se hace más preciso a medida que pasa el "
-"tiempo."
+"Si el correo legítimo se marca incorrectamente, quítelo de la carpeta "
+"<gui>Spam</gui> pulsando con el botón derecho y seleccionando <gui>Marcar "
+"como no SPAM</gui> o pulsando <keyseq><key>Mayús</key><key>Ctrl</key><key>J</"
+"key></keyseq>, o marque el mensaje y pulse el botón <gui>No es Spam</gui>"
 
 #: C/mail-spam-groupwise-unmark-message.page:5(desc)
 msgid "How to mark a message in Novell Groupwise as not junk."
@@ -2663,8 +2651,6 @@ msgid "Sorting the message list"
 msgstr "Ordenar la lista de mensajes"
 
 #: C/mail-sorting-message-list.page:30(p)
-#| msgid ""
-#| "Evolution lets you organize your emails by letting you sort messages."
 msgid ""
 "Evolution lets you organize your emails by letting you sort messages in the "
 "<link xref=\"intro-main-window#e-mail\">message list</link>."
@@ -2709,13 +2695,6 @@ msgstr ""
 "recientemente recibido."
 
 #: C/mail-sorting-message-list.page:37(p)
-#| msgid ""
-#| "For Advanced Users: There is a GSettings key that allows you to toggle "
-#| "between the collapsed and expanded state of the email threads. The "
-#| "collapsed state is enabled by default. It can be changed by starting the "
-#| "<app>Terminal</app> application and running the command "
-#| "<command>gsettings set org.gnome.evolution.mail thread-expand true</"
-#| "command>"
 msgid ""
 "For Advanced Users: There is a GSettings key that allows you to toggle "
 "between the collapsed and expanded state of the email threads. The collapsed "
@@ -6374,7 +6353,6 @@ msgid "Display of a message"
 msgstr "Mostrar un correo"
 
 #: C/mail-displaying-message.page:23(title)
-#| msgid "Advanced Search"
 msgid "Advanced"
 msgstr "Avanzado"
 
@@ -6785,7 +6763,6 @@ msgid "Prerequirements"
 msgstr "Prerrequisitos"
 
 #: C/mail-composer-spellcheck.page:28(p)
-#, fuzzy
 #| msgid ""
 #| "To use spell checking for the emails that you write you first need to "
 #| "make sure that the <app>hunspell</app> package for your specific language "
@@ -6803,12 +6780,10 @@ msgstr ""
 "<app>enchant</app> específicos para su idioma."
 
 #: C/mail-composer-spellcheck.page:34(link)
-#| msgid "Install hunspell now."
 msgid "Install hunspell"
 msgstr "Instalar «hunspell»"
 
 #: C/mail-composer-spellcheck.page:35(link)
-#| msgid "Install enchant now."
 msgid "Install enchant"
 msgstr "Instalar «enchant»"
 
@@ -8097,7 +8072,6 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-change-quotation-string.page:38(link)
-#| msgid "Install bogofilter now."
 msgid "Install dconf-editor"
 msgstr "Instalar «dconf-editor»"
 
@@ -9554,9 +9528,6 @@ msgid ""
 msgstr ""
 
 #: C/intro-first-run.page:60(p)
-#| msgid ""
-#| "Continue <link xref=\"mail-receiving-options-exchange-mapi\">here</link> "
-#| "for configuration."
 msgid ""
 "Continue <link xref=\"mail-receiving-options-exchange-ews\">here</link> for "
 "configuration."
@@ -9570,7 +9541,6 @@ msgstr "Esto requiere tener instalado el paquete <sys>evolution-ews</sys>."
 
 #: C/intro-first-run.page:65(link)
 #: C/exchange-connectors-overview.page:48(link)
-#| msgid "evolution --express"
 msgid "Install evolution-ews"
 msgstr "Instalar «evolution-ews»"
 
@@ -9623,7 +9593,6 @@ msgstr ""
 
 #: C/intro-first-run.page:86(link)
 #: C/exchange-connectors-overview.page:30(link)
-#| msgid "Install enchant now."
 msgid "Install evolution-exchange"
 msgstr "Instalar «evolution-exchange»"
 
@@ -10495,7 +10464,6 @@ msgstr ""
 "proporciona esta funcionalidad."
 
 #: C/exchange-connectors-overview.page:26(p)
-#, fuzzy
 #| msgid ""
 #| "For Microsoft Exchange 2000 and 2003 (and possibly earlier versions of "
 #| "Exchange that use Outlook Web Access) it is recommended to use the "
@@ -10509,12 +10477,9 @@ msgid ""
 msgstr ""
 "Para Microsoft Exchange 2000 y 2003 (y, posiblemente, versiones anteriores "
 "de Exchange que usan Acceso web a Outlook) se recomienda usar el paquete "
-"evolution-exchange. <link action=\"install:evolution-exchange\" href="
-"\"http://projects.gnome.org/evolution/download\">Instalar evolution-exchange "
-"ahora.</link>"
+"<sys>evolution-exchange</sys>."
 
 #: C/exchange-connectors-overview.page:35(p)
-#, fuzzy
 #| msgid ""
 #| "For Microsoft Exchange 2007 and 2010 (and possibly earlier versions that "
 #| "support MAPI) it is recommended to use the package evolution-mapi. <link "
@@ -10525,12 +10490,9 @@ msgid ""
 "support MAPI) it is recommended to use the package <sys>evolution-mapi</sys>."
 msgstr ""
 "Para Microsoft Exchange 2007 y 2010 (y, posiblemente, versiones anteriores "
-"que soporten MAPI) se recomienda usar el paquete evolution-mapi. <link "
-"action=\"install:evolution-mapi\" href=\"http://projects.gnome.org/evolution/"
-"download\">Instalar evolution-mapi ahora</link>."
+"que soporten MAPI) se recomienda usar el paquete <sys>evolution-mapi</sys>."
 
 #: C/exchange-connectors-overview.page:44(p)
-#, fuzzy
 #| msgid ""
 #| "For Microsoft Exchange 2007 and 2010 the package evolution-ews is "
 #| "currently under development and will replace evolution-mapi in the "
@@ -10542,11 +10504,9 @@ msgid ""
 "currently under development and will replace <sys>evolution-mapi</sys> in "
 "the future. It might not be available yet for your distribution."
 msgstr ""
-"Para Microsoft Exchange 2007 y 2010 el paquete «evolution-ews» está "
-"actualmente en desarrollo, y sustituirá a  «evolution-mapi» en el futuro. "
-"Puede que todavía no esté disponible para su distribución. <link action="
-"\"install:evolution-ews\" href=\"http://projects.gnome.org/evolution/download"
-"\">Instalar evolution-ews ahora</link>."
+"Para Microsoft Exchange 2007 y 2010 el paquete «<sys>evolution-ews</sys> está "
+"actualmente en desarrollo, y sustituirá a  <sys>evolution-mapi</sys> en el "
+"futuro. Puede que todavía no esté disponible para su distribución."
 
 #: C/exchange-connectors-overview.page:53(p)
 msgid ""
@@ -10682,7 +10642,6 @@ msgstr ""
 "share/applications/mimeapps.list</file>."
 
 #: C/default-browser.page:32(p)
-#, fuzzy
 #| msgid ""
 #| "If the error message \"Could not open the link: Operation not supported\" "
 #| "is shown, you need to <link action=\"install:gvfs\" href=\"http://ftp."
@@ -10691,9 +10650,8 @@ msgid ""
 "If the error message \"Could not open the link: Operation not supported\" is "
 "shown, you need to install the package <sys>gvfs</sys>."
 msgstr ""
-"Si se muestra el error «No se pudo abrir el enlace: no se soporta la "
-"operación», debe <link action=\"install:gvfs\" href=\"http://ftp.gnome.org/"
-"pub/gnome/sources/gvfs/\">instalar gvfs ahora</link>."
+"Si se muestra el error «No se pudo abrir el enlace: operación no soportada», "
+"debe instalar el paquete <sys>gvfs</sys>."
 
 #: C/default-browser.page:35(link)
 msgid "Install gvfs"
@@ -11636,10 +11594,6 @@ msgid "Type the shortcut that you want on the keyboard."
 msgstr "Escriba el atajo que quiere en el teclado."
 
 #: C/change-keyboard-shortcuts.page:28(p)
-#| msgid ""
-#| "Note that this setting is desktop-wide and that you can disable it again "
-#| "after your changes by using the command <command>gsettings set org.gnome."
-#| "desktop.interface can-change-accels false</command>"
 msgid ""
 "Note that this setting is desktop-wide and that you can disable it again "
 "after your changes by using the command <cmd>gsettings set org.gnome.desktop."
