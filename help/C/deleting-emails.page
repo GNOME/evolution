@@ -6,8 +6,9 @@
     
     <link type="guide" xref="deleting-to-free-disk-space" />
     <link type="seealso" xref="mail-moving-emails" />
+    <link type="guide" xref="mail-attachments" />
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-08-01" status="final"/>
+    <revision pkgversion="3.0.2" version="0.3" date="2012-03-08" status="final"/>
     <credit type="author">
       <name its:translate="no">April Gonzales</name>
       <email its:translate="no">loonycookie@gmail.com</email>
