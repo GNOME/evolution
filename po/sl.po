@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-02-29 11:56+0000\n"
-"PO-Revision-Date: 2012-03-08 21:59+0100\n"
+"PO-Revision-Date: 2012-03-09 21:01+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -9351,9 +9351,8 @@ msgid "Automatically launch when a new mail is edited"
 msgstr "Samodejno zaženi med urejanjem nove pošte"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:4
-#, fuzzy
 msgid "Automatically launch editor when key is pressed in the mail composer."
-msgstr "Samodejno zaženi urejevalnik, ko je pritisnjena tipka v sestavljalniku pošte"
+msgstr "Samodejno zaženi urejevalnik, ko je pritisnjena tipka v sestavljalniku pošte."
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:1
 #: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:1
@@ -9389,9 +9388,8 @@ msgid "Enable D-Bus messages."
 msgstr "Omogoči sporočila vodila D-Bus."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:4
-#, fuzzy
 msgid "Generates a D-Bus message when new mail messages arrive."
-msgstr "Ob prejemu novega sporočila se prikaže obvestilo."
+msgstr "Ob prejemu novih sporočil ustvari sporočilo D-Bus."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:5
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
@@ -9408,9 +9406,8 @@ msgid "Popup message together with the icon."
 msgstr "Pokaži pojavno sporočilo skupaj z ikono."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:8
-#, fuzzy
 msgid "Whether show message over the icon when new messages arrive."
-msgstr "Ali naj se predvaja zvok ali pisk ob prejemu novega sporočila."
+msgstr "Ali naj se prikaže sporočilo nad ikono ob prejemu novega sporočila."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:9
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
@@ -9434,7 +9431,6 @@ msgstr "Izbrana možnost omogoča pisk ob prihodu novega sporočila namesto pred
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:13
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-#, fuzzy
 msgid "Sound filename to be played."
 msgstr "Ime zvočne datoteke za predvajanje."
 
@@ -9458,18 +9454,16 @@ msgid "Play themed sound when new messages arrive, if not in beep mode."
 msgstr "Predvajaj zvok teme ob prejetju novega sporočila, če ni določen le pisk."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:1
-#, fuzzy
 msgid "Mode to use when displaying mails"
-msgstr "Za prikaz pošte uporabi pisave po meri."
+msgstr "Način za prikaz elektronske pošte"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
 msgid "The mode to use for displaying mails. \"normal\" makes Evolution choose the best part to show, \"prefer_plain\" makes it use the text part, if present, and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
-#, fuzzy
 msgid "Whether to show suppressed HTML output"
-msgstr "Ali naj bo prikazan pladenj predogleda."
+msgstr "Ali naj bo prikazan zavrt odvod HTML"
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 #: ../plugins/templates/apps-evolution-template-placeholders.schemas.in.h:1
@@ -9611,9 +9605,8 @@ msgid "Use only the local spam tests (no DNS)."
 msgstr "Uporabi le krajevno preskušanje neželene pošte (brez DNS)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
-#, fuzzy
 msgid "Socket path for SpamAssassin"
-msgstr "Zastavica za zaprto pot"
+msgstr "Pot do vtiča programa SpamAssassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
 #: ../modules/spamassassin/evolution-spamassassin.schemas.in.h:3
@@ -9626,14 +9619,12 @@ msgid "Use SpamAssassin daemon and client (spamc/spamd)."
 msgstr "Uporabi SpamAssassin ozadnji program in odjemalca (spamc/spamd)"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
-#, fuzzy
 msgid "SpamAssassin client binary"
-msgstr "Uporabi SpamAssassin ozadnji program in odjemalca"
+msgstr "Dvojiška datoteka uporabniškega programa SpamAssassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:7
-#, fuzzy
 msgid "SpamAssassin daemon binary"
-msgstr "Uporabi SpamAssassin ozadnji program in odjemalca"
+msgstr "Dvojiška datoteka ozadnjega programa SpamAssassin"
 
 #: ../em-format/em-format.c:1063
 #: ../em-format/em-format-quote.c:318
@@ -9990,14 +9981,12 @@ msgid "The printing system did not report any additional details about the error
 msgstr "Ni dodatnih podrobnosti o napaki sistema tiskanja."
 
 #: ../e-util/e-system.error.xml.h:1
-#, fuzzy
 msgid "A file named \"{0}\" already exists. Do you want to replace it?"
-msgstr "Datoteka z imenom \"%s\" že obstaja. Ali jo želite zamenjati?"
+msgstr "Datoteka z imenom \"{0}\" že obstaja. Ali jo želite zamenjati?"
 
 #: ../e-util/e-system.error.xml.h:2
-#, fuzzy
 msgid "The file already exists in \"{0}\". Replacing it will overwrite its contents."
-msgstr "Datoteka že obstaja v mapi \"%s\". S prepisom bo izgubljena njena vsebina."
+msgstr "Datoteka že obstaja v mapi \"{0}\". S prepisom bo izgubljena njena vsebina."
 
 #: ../e-util/e-system.error.xml.h:3
 msgid "_Replace"
@@ -12780,9 +12769,8 @@ msgid "Default Behavior"
 msgstr "Privzeto obnašanje"
 
 #: ../mail/mail-config.ui.h:12
-#, fuzzy
 msgid "For_mat messages in HTML"
-msgstr "Preiskovanje spremenjenih sporočil v %s"
+msgstr "Oblikuj sporočila v HTML"
 
 #: ../mail/mail-config.ui.h:13
 msgid "Automatically insert _emoticon images"
@@ -12793,9 +12781,8 @@ msgid "Always request rea_d receipt"
 msgstr "Vedno zaht_evaj povratnico"
 
 #: ../mail/mail-config.ui.h:15
-#, fuzzy
 msgid "Encode filenames in an _Outlook/GMail way"
-msgstr "Kodiraj imena datotek v načinu Otlook/GMail"
+msgstr "Kodiraj imena datotek v načinu MS _Outlook/GMail"
 
 #: ../mail/mail-config.ui.h:16
 msgid "Ch_aracter encoding:"
@@ -12822,9 +12809,8 @@ msgid "_Keep signature above the original message on replying"
 msgstr "_Ohrani podpis nad izvirnim sporočilom ob odgovoru"
 
 #: ../mail/mail-config.ui.h:22
-#, fuzzy
 msgid "Ig_nore Reply-To: for mailing lists"
-msgstr "_Vedno prezri dogovore-na: za dopisne sezname"
+msgstr "_Prezri dogovor-na: za dopisne sezname"
 
 #: ../mail/mail-config.ui.h:23
 #, fuzzy
@@ -12942,7 +12928,6 @@ msgid "Attachment"
 msgstr "Priloga"
 
 #: ../mail/mail-config.ui.h:59
-#, fuzzy
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
 msgstr "Medvrtično (slog Outlook)"
@@ -14192,9 +14177,9 @@ msgid "Setting up Search Folder: %s"
 msgstr "Nastavljanje iskalne mape: %s"
 
 #: ../mail/mail-vfolder.c:219
-#, fuzzy, c-format
+#, c-format
 msgid "Updating Search Folders for '%s' - %s"
-msgstr "Posodabljanje iskalne mape za '%s': %s"
+msgstr "Posodabljanje iskalne mape za '%s' - %s"
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
@@ -14477,9 +14462,8 @@ msgid "_Table column:"
 msgstr "_Stolpec razpredelnice:"
 
 #: ../modules/addressbook/autocompletion-config.c:197
-#, fuzzy
 msgid "Address formatting"
-msgstr "Formatiranje diska"
+msgstr "Oblikovanje naslova"
 
 #: ../modules/addressbook/autocompletion-config.c:200
 msgid "_Format address according to standard of its destination country"
@@ -14859,7 +14843,6 @@ msgid "Ser_ver:"
 msgstr "_Strežnik:"
 
 #: ../modules/addressbook/ldap-config.ui.h:15
-#, fuzzy
 msgid "Use secure _connection:"
 msgstr "_Uporabi varno povezavo:"
 
@@ -15364,14 +15347,12 @@ msgid "Display"
 msgstr "Pokaži"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:57
-#, fuzzy
 msgid "Highlight t_asks due today"
-msgstr "Barva nalog, ki zakasnijo danes"
+msgstr "Poudari naloge, ki zakasnijo danes"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:59
-#, fuzzy
 msgid "Highlight _overdue tasks"
-msgstr "Barva zakasnelih nalog"
+msgstr "Poudari zakasnele naloge"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:60
 msgid "_Hide completed tasks after"
@@ -15748,9 +15729,8 @@ msgid "Next 7 Days' Appointments"
 msgstr "Sestanki naslednjih 7 dni"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1710
-#, fuzzy
 msgid "Occurs Less Than 5 Times"
-msgstr "Indeks matrike je manj kot 1"
+msgstr "Ponovi se manj kot petkrat"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1741
 #: ../modules/calendar/e-memo-shell-view-actions.c:795
@@ -16180,13 +16160,13 @@ msgstr[2] "%d nalogi"
 msgstr[3] "%d naloge"
 
 #: ../modules/mail/e-mail-attachment-handler.c:389
-#, fuzzy, c-format
+#, c-format
 msgid "%d attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "Priloženo sporočilo"
-msgstr[1] "%d priloženih sporočil"
-msgstr[2] "%d priloženih sporočil"
-msgstr[3] "%d priloženih sporočil"
+msgstr[0] "%d priloženih sporočil"
+msgstr[1] "%d priloženo sporočilo"
+msgstr[2] "%d priloženi sporočili"
+msgstr[3] "%d priložena sporočila"
 
 #: ../modules/mail/e-mail-shell-backend.c:230
 msgctxt "New"
@@ -16203,9 +16183,8 @@ msgid "Mail Acco_unt"
 msgstr "Poštni _račun"
 
 #: ../modules/mail/e-mail-shell-backend.c:242
-#, fuzzy
 msgid "Create a new mail account"
-msgstr "Ustvari _nov račun ICQ"
+msgstr "Ustvari nov poštni račun"
 
 #: ../modules/mail/e-mail-shell-backend.c:247
 msgctxt "New"
@@ -16254,9 +16233,8 @@ msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Trajno odstrani vsa izbrisana sporočila iz vseh map"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1196
-#, fuzzy
 msgid "Edit properties of this account"
-msgstr "Uporabi račun za"
+msgstr "Uredi lastnosti računa"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1201
 msgid "_Download Messages for Offline Usage"
@@ -17069,9 +17047,8 @@ msgid "Invalid Evolution backup file"
 msgstr "Neveljavna kopija varnostne datoteke programa Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#, fuzzy
 msgid "Please select a valid backup file to restore."
-msgstr "Izberite ime varnostne kopije za obnovitev"
+msgstr "Izberite veljavno datoteko varnostne kopije za obnovitev."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid "Are you sure you want to close Evolution?"
@@ -17086,14 +17063,12 @@ msgid "Close and Back up Evolution"
 msgstr "Zapri in ustvari varnostno kopijo podatkov programa Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
-#, fuzzy
 msgid "Are you sure you want to restore Evolution from the selected backup file?"
-msgstr "Ali ste prepričani, da želite obnoviti program Evolution iz izbrane datoteke varnostne kopije?"
+msgstr "Ali ste prepričani, da želite obnoviti nastavitve programa Evolution iz izbrane datoteke varnostne kopije?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
-#, fuzzy
 msgid "To restore your data and settings, you must first close Evolution. Please make sure that you save any unsaved data before proceeding. This will delete all your current Evolution data and settings and restore them from your backup."
-msgstr "Za obnovitev podatkov in nastavitev morate najprej zapreti program Evolution. Najprej seveda shranite vse podatke. To dejanje bo najprej izbrisalo vaše trenutne podatke in nastavitve Evolution, potem pa bodo obnovljene iz varnostne kopije."
+msgstr "Za obnovitev podatkov in nastavitev je treba najprej zapreti program Evolution. Najprej seveda shranite vse podatke. To dejanje bo izbrisalo vaše trenutne podatke in nastavitve programa, te pa bodo potem obnovljene iz varnostne kopije."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid "Close and Restore Evolution"
@@ -18667,33 +18642,33 @@ msgstr "Izbran koledar že vsebuje opomnik '%s'. Ali želite urejati star opomni
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../plugins/mail-to-task/mail-to-task.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "You have selected %d mails to be converted to events. Do you really want to add them all?"
 msgid_plural "You have selected %d mails to be converted to events. Do you really want to add them all?"
 msgstr[0] "Izbranih je %d elektronskih sporočil za pretvarjanje v dogodke koledarja. Ali zares želite pretvoriti vse?"
-msgstr[1] "Izbranih je %d elektronskih sporočil za pretvarjanje v dogodke koledarja. Ali zares želite pretvoriti vse?"
-msgstr[2] "Izbranih je %d elektronskih sporočil za pretvarjanje v dogodke koledarja. Ali zares želite pretvoriti vse?"
-msgstr[3] "Izbranih je %d elektronskih sporočil za pretvarjanje v dogodke koledarja. Ali zares želite pretvoriti vse?"
+msgstr[1] "Izbrano je %d elektronsko sporočilo za pretvarjanje v dogodke koledarja. Ali zares želite nadaljevati?"
+msgstr[2] "Izbrani sta %d elektronski sporočili za pretvarjanje v dogodke koledarja. Ali zares želite nadaljevati?"
+msgstr[3] "Izbrana so %d elektronska sporočila za pretvarjanje v dogodke koledarja. Ali zares želite nadaljevati?"
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../plugins/mail-to-task/mail-to-task.c:649
-#, fuzzy, c-format
+#, c-format
 msgid "You have selected %d mails to be converted to tasks. Do you really want to add them all?"
 msgid_plural "You have selected %d mails to be converted to tasks. Do you really want to add them all?"
-msgstr[0] "Izbranih je %d elektronskih sporočil za pretvarjanje v naloge. Ali zares želite pretvoriti vse?"
-msgstr[1] "Izbranih je %d elektronskih sporočil za pretvarjanje v naloge. Ali zares želite pretvoriti vse?"
-msgstr[2] "Izbranih je %d elektronskih sporočil za pretvarjanje v naloge. Ali zares želite pretvoriti vse?"
-msgstr[3] "Izbranih je %d elektronskih sporočil za pretvarjanje v naloge. Ali zares želite pretvoriti vse?"
+msgstr[0] "Izbranih je %d elektronskih sporočil za pretvarjanje v naloge. Ali zares želite nadaljevati?"
+msgstr[1] "Izbrano je %d elektronsko sporočilo za pretvarjanje v nalogo. Ali zares želite nadaljevati?"
+msgstr[2] "Izbrani sta %d elektronski sporočili za pretvarjanje v naloge. Ali zares želite nadaljevati?"
+msgstr[3] "Izbrana so %d elektronska sporočila za pretvarjanje v naloge. Ali zares želite nadaljevati?"
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../plugins/mail-to-task/mail-to-task.c:655
-#, fuzzy, c-format
+#, c-format
 msgid "You have selected %d mails to be converted to memos. Do you really want to add them all?"
 msgid_plural "You have selected %d mails to be converted to memos. Do you really want to add them all?"
 msgstr[0] "Izbranih je %d elektronskih sporočil za pretvarjanje v opomnike. Ali zares želite pretvoriti vse?"
-msgstr[1] "Izbranih je %d elektronskih sporočil za pretvarjanje v opomnike. Ali zares želite pretvoriti vse?"
-msgstr[2] "Izbranih je %d elektronskih sporočil za pretvarjanje v opomnike. Ali zares želite pretvoriti vse?"
-msgstr[3] "Izbranih je %d elektronskih sporočil za pretvarjanje v opomnike. Ali zares želite pretvoriti vse?"
+msgstr[1] "Izbrano je %d elektronsko sporočilo za pretvarjanje v opomnik. Ali zares želite nadaljevati?"
+msgstr[2] "Izbrani sta %d elektronski sporočili za pretvarjanje v opomnike. Ali zares želite nadaljevati?"
+msgstr[3] "Izbrana so %d elektronska sporočila za pretvarjanje v opomnike. Ali zares želite nadaljevati?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:676
 msgid "Do you wish to continue converting remaining mails?"
