@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-07 17:37+0000\n"
-"PO-Revision-Date: 2012-03-08 14:03+0100\n"
+"POT-Creation-Date: 2012-03-09 10:25+0000\n"
+"PO-Revision-Date: 2012-03-09 17:46+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -153,7 +153,7 @@ msgstr "Usar y gestionar categorías para citas, contactos, notas y tareas."
 #: C/exporting-data-calendar.page:11(name)
 #: C/exchange-placeholder.page:11(name)
 #: C/exchange-connectors-overview.page:13(name)
-#: C/deleting-to-free-disk-space.page:11(name) C/deleting-emails.page:16(name)
+#: C/deleting-to-free-disk-space.page:11(name) C/deleting-emails.page:17(name)
 #: C/deleting-appointments.page:11(name) C/default-browser.page:13(name)
 #: C/data-storage.page:11(name) C/credits.page:11(name)
 #: C/contacts-using-several-addressbooks.page:11(name)
@@ -326,7 +326,7 @@ msgstr "Andre Klapper"
 #: C/exchange-placeholder.page:12(email)
 #: C/exchange-connectors-overview.page:14(email)
 #: C/deleting-to-free-disk-space.page:12(email)
-#: C/deleting-emails.page:17(email) C/deleting-appointments.page:12(email)
+#: C/deleting-emails.page:18(email) C/deleting-appointments.page:12(email)
 #: C/default-browser.page:14(email) C/data-storage.page:12(email)
 #: C/credits.page:12(email)
 #: C/contacts-using-several-addressbooks.page:12(email)
@@ -556,7 +556,7 @@ msgstr "Novell, Inc"
 #: C/exporting-data-mail.page:15(p) C/exporting-data-contacts.page:18(p)
 #: C/exporting-data-calendar.page:15(p) C/exchange-placeholder.page:15(p)
 #: C/exchange-connectors-overview.page:17(p)
-#: C/deleting-to-free-disk-space.page:15(p) C/deleting-emails.page:20(p)
+#: C/deleting-to-free-disk-space.page:15(p) C/deleting-emails.page:21(p)
 #: C/deleting-appointments.page:15(p) C/default-browser.page:17(p)
 #: C/data-storage.page:15(p) C/credits.page:15(p)
 #: C/contacts-using-several-addressbooks.page:15(p)
@@ -1749,7 +1749,7 @@ msgstr "Acerca de minimizar Evolution al área de notificación."
 #: C/mail-duplicates.page:11(name)
 #: C/mail-displaying-images-in-html.page:16(name)
 #: C/mail-access-gmail-pop-account.page:13(name)
-#: C/deleting-emails.page:12(name)
+#: C/deleting-emails.page:13(name)
 msgid "April Gonzales"
 msgstr "April Gonzales"
 
@@ -1769,7 +1769,7 @@ msgstr "April Gonzales"
 #: C/mail-duplicates.page:12(email)
 #: C/mail-displaying-images-in-html.page:17(email)
 #: C/mail-access-gmail-pop-account.page:14(email)
-#: C/deleting-emails.page:13(email)
+#: C/deleting-emails.page:14(email)
 msgid "loonycookie@gmail.com"
 msgstr "loonycookie@gmail.com"
 
@@ -2276,11 +2276,6 @@ msgid "Tools"
 msgstr "Herramientas"
 
 #: C/mail-spam-settings.page:40(p)
-#| msgid ""
-#| "Evolution lets you check for unwanted junk or spam emails by using the "
-#| "Bogofilter or SpamAssassin tools. To use these tools, you need to make "
-#| "sure that they are installed via the software management tool of your "
-#| "distribution."
 msgid ""
 "<app>Evolution</app> lets you check for unwanted junk or spam emails by "
 "using the <app>Bogofilter</app> or <app>SpamAssassin</app> tools. To use "
@@ -2294,7 +2289,7 @@ msgstr ""
 
 #: C/mail-spam-settings.page:43(p) C/mail-composer-spellcheck.page:31(p)
 msgid "You might need to install one of these packages to perform these steps."
-msgstr ""
+msgstr "Puede querer instalar uno de estos paquetes para realizar estos pasos."
 
 #: C/mail-spam-settings.page:46(link)
 msgid "Install bogofilter"
@@ -2312,6 +2307,12 @@ msgid ""
 "You must <link xref=\"mail-spam-marking\">train it</link> first to make it "
 "work. You can modify the actions of SpamAssassin by training it as well."
 msgstr ""
+"SpamAssassin trabaja mediante un conjunto de reglas predefinidas, por lo que "
+"puede detectar el spam inmediatamente. Bogofilter no incluye un conjunto "
+"predeterminado de criterios de spam, por lo que no filtrará nada "
+"automáticamente después de instalarlo. Debe <link xref=\"mail-spam-marking"
+"\">entrenarlo</link> primero para que funcione. También puede modificar las "
+"acciones de SpamAssassin entrenándolo."
 
 #: C/mail-spam-settings.page:56(title)
 msgid "Junk Mail Folder"
@@ -2323,6 +2324,8 @@ msgid ""
 "automatically via SpamAssassin or Bogofilter) will be moved to the "
 "<gui>Junk</gui> mail folder."
 msgstr ""
+"Los mensajes marcados como spam (manual o automáticamente mediante "
+"SpamAssassin o Bogofilter) se moverán a la carpeta de correo <gui>Spam</gui>."
 
 #: C/mail-spam-settings.page:61(title)
 msgid "Junk Mail Preferences"
@@ -2404,6 +2407,11 @@ msgid ""
 "resp. <link href=\"http://wiki.apache.org/spamassassin/"
 "FrequentlyAskedQuestions\">SpamAssassin</link>."
 msgstr ""
+"Para obtener más información y configuraciones específicas de Bogofilter o "
+"SpamAssassin,  se recomienda leer las preguntas frecuentes <link href="
+"\"http://bogofilter.sourceforge.net/faq.shtml\">Bogofilter</link> y de <link "
+"href=\"http://wiki.apache.org/spamassassin/FrequentlyAskedQuestions"
+"\">SpamAssassin</link>."
 
 #: C/mail-spam.page:5(desc)
 msgid "How to automatically handle unwanted mail."
@@ -2435,7 +2443,6 @@ msgid "barbtobias09@gmail.com"
 msgstr "barbtobias09@gmail.com"
 
 #: C/mail-spam-marking.page:30(title)
-#| msgid "Marking a Message As Junk Mail"
 msgid "Marking Mail as Junk"
 msgstr "Marcar un correo como spam"
 
@@ -2450,14 +2457,20 @@ msgid ""
 "gui> mail folder frequently to be sure that legitimate mail doesn't get "
 "flagged as junk mail."
 msgstr ""
+"SpamAssassin incluye un conjunto de reglas predefinidas, mientras que "
+"Bogofilter necesita aprender primero antes de filtrar el spam "
+"automáticamente. Si sólo entrena a Bogofilter con spam, asumirá que todo el "
+"correo es spam (ya que no sabrá la diferencia) y, por lo tanto, no tomará "
+"ninguna decisión hasta que la base de datos sea lo suficientemente grande "
+"como para determinar qué es y qué no es spam. En cualquier caso, cuando use "
+"un filtro de spam por primera vez, compruebe la carpeta <gui>Spam</gui> a "
+"menudo para asegurarse de que no se han marcado como spam mensajes legítimos."
 
 #: C/mail-spam-marking.page:35(title)
-#| msgid "Marking Junk Mail"
 msgid "Manually Marking Junk Mail"
 msgstr "Marcar correo manualmente como SPAM"
 
 #: C/mail-spam-marking.page:36(p)
-#, fuzzy
 #| msgid ""
 #| "If legitimate mail is incorrectly flagged, remove it from the Junk folder "
 #| "by right-clicking it and selecting <gui>Mark as Not Junk</gui> or "
@@ -2473,24 +2486,14 @@ msgid ""
 "correct it, the filter can recognize similar messages in the future, and "
 "becomes more accurate as time goes on."
 msgstr ""
-"Si el correo legítimo se marca incorrectamente, quítelo de la carpeta SPAM "
-"pulsando con el botón derecho y seleccionando <gui>Marcar como no SPAM</gui> "
-"o pulsando <keyseq><key>Mayús</key><key>Ctrl</key><key>J</key></keyseq>. Si "
-"Evolution no detetca algún correo basura, pulse con el botón derecho sobre "
-"el mensaje, después pulse <gui>Marcar como SPAM</gui> o <keyseq><key>Ctrl</"
-"key><key>J</key></keyseq>. Cuando lo corrija, el filtro puede reconocer "
-"mensajes similares para el futuro y se hace más preciso a medida que pasa el "
-"tiempo."
+"Si Evolution deja pasar spam, pulse con el botón derecho sobre el mensaje y "
+"elija <gui>Marcar como spam</gui>, o marque el mensaje y pulse "
+"<keyseq><key>Ctrl</key><key>J</key></keyseq> o pulse el botón <gui>Spam</"
+"gui> en la barra de herramientas. Cuando le corrige, el filtro es capaz de "
+"reconocer mensajes similares en el futuro, por lo que se hace más preciso "
+"con el paso del tiempo."
 
 #: C/mail-spam-marking.page:37(p)
-#| msgid ""
-#| "If legitimate mail is incorrectly flagged, remove it from the Junk folder "
-#| "by right-clicking it and selecting <gui>Mark as Not Junk</gui> or "
-#| "pressing <keyseq><key>Shift</key><key>Ctrl</key><key>J</key></keyseq>. If "
-#| "Evolution misses junk mail, right-click the message, then click <gui>Mark "
-#| "as Junk</gui> or press <keyseq><key>Ctrl</key><key>J</key></keyseq>. When "
-#| "you correct it, the filter can recognize similar messages in the future, "
-#| "and becomes more accurate as time goes on."
 msgid ""
 "If legitimate mail is incorrectly flagged, remove it from the <gui>Junk</"
 "gui> folder by right-clicking it and selecting <gui>Mark as Not Junk</gui> "
@@ -6763,11 +6766,6 @@ msgid "Prerequirements"
 msgstr "Prerrequisitos"
 
 #: C/mail-composer-spellcheck.page:28(p)
-#| msgid ""
-#| "To use spell checking for the emails that you write you first need to "
-#| "make sure that the <app>hunspell</app> package for your specific language "
-#| "and the <app>enchant</app> package are installed via the software "
-#| "management tool of your distribution."
 msgid ""
 "To use spell checking for the emails that you write you first need to make "
 "sure that the <sys>hunspell</sys> package for your specific language and the "
@@ -8070,6 +8068,8 @@ msgid ""
 "You might need to install the <sys>dconf-editor</sys> package to perform "
 "these steps."
 msgstr ""
+"Es posible que necesite instalar el paquete <sys>dconf-editor</sys> para "
+"realizar estos pasos."
 
 #: C/mail-composer-change-quotation-string.page:38(link)
 msgid "Install dconf-editor"
@@ -8139,7 +8139,6 @@ msgstr ""
 "el nombre del remitente."
 
 #: C/mail-change-columns-in-message-list.page:25(p)
-#, fuzzy
 #| msgid ""
 #| "You can change the format of the <gui>Date</gui> column by setting your "
 #| "preferred format under <guiseq><gui>Edit</gui><gui>Preferences</"
@@ -8151,10 +8150,11 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
 "gui><gui>Apply the same view settings to all folders</gui></guiseq>."
 msgstr ""
-"Puede cambiar el formato de la columna <gui>Fecha</gui> estableciendo su "
-"formato preferido en <guiseq><gui>Editar</gui><gui>Preferencias</"
-"gui><gui>Opciones de correo</gui><gui>Cabeceras</gui><gui>Formato de la "
-"fecha y hora</gui></guiseq>."
+"Si quiere tener la misma distribución de columnas en todas las carpetas de "
+"correos excepto en la carpeta <gui>Enviados</gui>, puede activar "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Opciones de correo</"
+"gui><gui>General</gui><gui>Aplicar los mismos ajustes de vista a todas las "
+"carpetas</gui></guiseq>."
 
 #: C/mail-cannot-see.page:5(desc)
 msgid "If you received or sent an email, but you cannot find it anywhere."
@@ -9526,6 +9526,10 @@ msgid ""
 "<gui>Exchange MAPI</gui> account type in the future. It might not be "
 "available yet for your distribution."
 msgstr ""
+"Exchange EWS: para conectarse a un servidor de Microsoft Exchange 2007/2010 "
+"u OpenChange server. Tenga en cuenta que esto está en desarrollo y que "
+"reemplazará al tipo de cuenta <gui>Exchange MAPI</gui> en el futuro. Es "
+"posible que todavía no esté disponible para su distribución."
 
 #: C/intro-first-run.page:60(p)
 msgid ""
@@ -10464,12 +10468,6 @@ msgstr ""
 "proporciona esta funcionalidad."
 
 #: C/exchange-connectors-overview.page:26(p)
-#| msgid ""
-#| "For Microsoft Exchange 2000 and 2003 (and possibly earlier versions of "
-#| "Exchange that use Outlook Web Access) it is recommended to use the "
-#| "package evolution-exchange. <link action=\"install:evolution-exchange\" "
-#| "href=\"http://projects.gnome.org/evolution/download\">Install evolution-"
-#| "exchange now.</link>"
 msgid ""
 "For Microsoft Exchange 2000 and 2003 (and possibly earlier versions of "
 "Exchange that use Outlook Web Access) it is recommended to use the package "
@@ -10480,11 +10478,6 @@ msgstr ""
 "<sys>evolution-exchange</sys>."
 
 #: C/exchange-connectors-overview.page:35(p)
-#| msgid ""
-#| "For Microsoft Exchange 2007 and 2010 (and possibly earlier versions that "
-#| "support MAPI) it is recommended to use the package evolution-mapi. <link "
-#| "action=\"install:evolution-mapi\" href=\"http://projects.gnome.org/"
-#| "evolution/download\">Install evolution-mapi now.</link>"
 msgid ""
 "For Microsoft Exchange 2007 and 2010 (and possibly earlier versions that "
 "support MAPI) it is recommended to use the package <sys>evolution-mapi</sys>."
@@ -10493,12 +10486,6 @@ msgstr ""
 "que soporten MAPI) se recomienda usar el paquete <sys>evolution-mapi</sys>."
 
 #: C/exchange-connectors-overview.page:44(p)
-#| msgid ""
-#| "For Microsoft Exchange 2007 and 2010 the package evolution-ews is "
-#| "currently under development and will replace evolution-mapi in the "
-#| "future. It might not be available yet for your distribution. <link action="
-#| "\"install:evolution-ews\" href=\"http://projects.gnome.org/evolution/"
-#| "download\">Install evolution-ews now.</link>"
 msgid ""
 "For Microsoft Exchange 2007 and 2010 the package <sys>evolution-ews</sys> is "
 "currently under development and will replace <sys>evolution-mapi</sys> in "
@@ -10534,15 +10521,15 @@ msgid "Deleting emails or attachments to reduce the size of the mailbox."
 msgstr ""
 "Eliminando correos o adjuntos para reducir el tamaño del buzón de correo."
 
-#: C/deleting-emails.page:25(title)
+#: C/deleting-emails.page:26(title)
 msgid "Deleting emails or attachments permanently"
 msgstr "Eliminar permanentemente correos o adjuntos"
 
-#: C/deleting-emails.page:28(title)
+#: C/deleting-emails.page:29(title)
 msgid "Emails"
 msgstr "Correos-e"
 
-#: C/deleting-emails.page:29(p)
+#: C/deleting-emails.page:30(p)
 msgid ""
 "Evolution deletes emails on IMAP servers by <em>marking</em> the messages "
 "for deletion; space is not freed until you <em>expunge</em> the marked "
@@ -10552,7 +10539,7 @@ msgstr ""
 "em> para su eliminación; el espacio no se libera hasta que <em>purga</em> "
 "los correos marcados."
 
-#: C/deleting-emails.page:31(p)
+#: C/deleting-emails.page:32(p)
 msgid ""
 "To Expunge a specific folder, go to <guiseq><gui>Folder</gui><gui>Expunge</"
 "gui></guiseq> or press <keyseq><key>Ctrl</key><key>E</key></keyseq>. To "
@@ -10565,11 +10552,11 @@ msgstr ""
 "gui><gui>Vaciar papelera</gui></guiseq>. Esto también se aplica a otros "
 "tipos de cuentas."
 
-#: C/deleting-emails.page:35(title)
+#: C/deleting-emails.page:36(title)
 msgid "Attachments"
 msgstr "Adjuntos"
 
-#: C/deleting-emails.page:36(p)
+#: C/deleting-emails.page:37(p)
 msgid ""
 "To delete the attachments of an email, select the message and click "
 "<guiseq><gui>Message</gui><gui>Remove Attachments</gui></guiseq>."
@@ -10642,10 +10629,6 @@ msgstr ""
 "share/applications/mimeapps.list</file>."
 
 #: C/default-browser.page:32(p)
-#| msgid ""
-#| "If the error message \"Could not open the link: Operation not supported\" "
-#| "is shown, you need to <link action=\"install:gvfs\" href=\"http://ftp."
-#| "gnome.org/pub/gnome/sources/gvfs/\">install gvfs</link>."
 msgid ""
 "If the error message \"Could not open the link: Operation not supported\" is "
 "shown, you need to install the package <sys>gvfs</sys>."
