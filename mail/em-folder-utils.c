@@ -532,7 +532,7 @@ new_folder_created_cb (CamelStore *store,
 		/* XXX What in the hell kind of lazy hack is this? */
 		data = g_object_get_data (
 			G_OBJECT (context->folder_tree), "select");
-		expand_only = GPOINTER_TO_INT (data) ? TRUE : FALSE;
+		expand_only = GPOINTER_TO_INT (data) ? FALSE : TRUE;
 
 		em_folder_tree_set_selected (
 			context->folder_tree,

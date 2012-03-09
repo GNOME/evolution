@@ -189,7 +189,8 @@ emfs_response (GtkWidget *dialog,
 	session = em_folder_tree_get_session (folder_tree);
 
 	em_folder_utils_create_folder (
-		GTK_WINDOW (dialog), session, folder_tree, NULL);
+		GTK_WINDOW (dialog), session, folder_tree,
+		em_folder_selector_get_selected_uri (emfs));
 
 	g_signal_stop_emission_by_name (emfs, "response");
 }
