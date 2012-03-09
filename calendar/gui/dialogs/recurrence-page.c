@@ -615,7 +615,7 @@ update_with_readonly (RecurrencePage *rpage,
 		gtk_widget_set_sensitive (priv->params, FALSE);
 
 	gtk_widget_set_sensitive (priv->recurs, !read_only && sensitize);
-	gtk_widget_set_sensitive (priv->exception_add, !read_only && e_cal_component_has_recurrences (priv->comp) && sensitize);
+	gtk_widget_set_sensitive (priv->exception_add, !read_only && sensitize && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->recurs)));
 	gtk_widget_set_sensitive (priv->exception_modify, !read_only && selected_rows > 0 && sensitize);
 	gtk_widget_set_sensitive (priv->exception_delete, !read_only && selected_rows > 0 && sensitize);
 }
