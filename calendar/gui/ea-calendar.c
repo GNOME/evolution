@@ -63,6 +63,12 @@ gnome_calendar_a11y_init (void)
 	/* we only add focus watcher when accessibility is enabled
 	 */
 	if (atk_get_root ()) {
+		GtkWidget *gnome_canvas;
+
+		/* first initialize ATK support in gnome-canvas and also gail-canvas */
+		gnome_canvas = gnome_canvas_new ();
+		gtk_widget_destroy (gnome_canvas);
+
 		EA_SET_FACTORY (gnome_calendar_get_type (), ea_gnome_calendar);
 
 		/* force loading some types */
