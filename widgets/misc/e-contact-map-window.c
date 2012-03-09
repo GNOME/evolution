@@ -39,6 +39,10 @@
 #include <glib/gi18n.h>
 #include <glib-object.h>
 
+#define E_CONTACT_MAP_WINDOW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CONTACT_MAP, EContactMapWindowPrivate))
+
 G_DEFINE_TYPE (EContactMapWindow, e_contact_map_window, GTK_TYPE_WINDOW)
 
 struct _EContactMapWindowPrivate {
