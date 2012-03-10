@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-03-10 14:26+0000\n"
-"PO-Revision-Date: 2012-03-10 21:17+0100\n"
+"PO-Revision-Date: 2012-03-10 21:43+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -7420,9 +7420,8 @@ msgstr "Nastavitve elektronskih računov"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:21
-#, fuzzy
 msgid "Enable address formatting"
-msgstr "Uporabi oblikovanje po meri"
+msgstr "Uporabi oblikovanje naslovov"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:2
 msgid "Whether addresses should be formatted according to standard in their destination country"
@@ -7494,9 +7493,8 @@ msgid "Show maps"
 msgstr "Pokaži zemljevide"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:16
-#, fuzzy
 msgid "Whether to show maps in preview pane"
-msgstr "Ali naj bodo prikazani zemljevidi na pladnju predogleda."
+msgstr "Ali naj bodo prikazani zemljevidi na pladnju predogleda"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:17
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:11
@@ -7552,7 +7550,6 @@ msgid "Birthday and anniversary reminder units"
 msgstr "Enote opomnika rojstnih dni in obletnic"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:6
-#, fuzzy
 msgid "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or \"days\""
 msgstr "Enote opomnika za rojstni dan ali obletnico: \"minute\", \"ure\" ali \"dnevi\"."
 
@@ -7562,7 +7559,6 @@ msgid "Compress weekends in month view"
 msgstr "Stisni vikende v mesečnem pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:8
-#, fuzzy
 msgid "Whether to compress weekends in the month view, which puts Saturday and Sunday in the space of one weekday"
 msgstr "Ali naj bodo vikendi v mesečnem pogledu stisnjeni tako, da bosta sobota in nedelja zavzemala prostor enega dneva."
 
@@ -7572,7 +7568,6 @@ msgid "Ask for confirmation when deleting items"
 msgstr "Vprašaj za potrditev ob brisanju predmetov"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:10
-#, fuzzy
 msgid "Whether to ask for confirmation when deleting an appointment or task"
 msgstr "Ali naj se zahteva potrditev ob brisanju sestankov in nalog."
 
@@ -7582,7 +7577,6 @@ msgid "Confirm expunge"
 msgstr "Potrdi uničenje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:12
-#, fuzzy
 msgid "Whether to ask for confirmation when expunging appointments and tasks"
 msgstr "Ali naj se zahteva potrditev ob uničevanju sestankov in nalog."
 
@@ -7592,7 +7586,6 @@ msgid "Month view vertical pane position"
 msgstr "Položaj navpičnega pladnja v mesečnem pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:14
-#, fuzzy
 msgid "Position of the vertical pane, between the calendar lists and the date navigator calendar"
 msgstr "Položaj navpičnega pladnja med seznami koledarjev in krmarjem datumov koledarja."
 
@@ -7602,7 +7595,6 @@ msgid "Workday end hour"
 msgstr "Ura konca delovnega dne"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:16
-#, fuzzy
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
 msgstr "Ura, ko se konča delovni dan (od 0 do 23)."
 
@@ -7642,7 +7634,6 @@ msgid "The second timezone for a Day View"
 msgstr "Drug časovni pas v dnevnem pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
-#, fuzzy
 msgid "Shows the second time zone in a Day View, if set. Value is similar to one used in a 'timezone' key"
 msgstr "V dnevnem pogledu prikaže drug časovni pas, če je nastavljen. Vrednost je podobna vrednosti ključa 'timezone'."
 
@@ -7652,19 +7643,16 @@ msgid "Recently used second time zones in a Day View"
 msgstr "Nedavno uporabljeni drugi časovni pasovi v dnevnem pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:26
-#, fuzzy
 msgid "List of recently used second time zones in a Day View"
 msgstr "Seznam nedavno uporabljenih drugih časovnih pasov v dnevnem pogledu."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
-#, fuzzy
 msgid "Maximum number of recently used timezones to remember"
 msgstr "Največje število nedavno uporabljenih časovnih pasov za pomnjenje."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
-#, fuzzy
 msgid "Maximum number of recently used timezones to remember in a 'day-second-zones' list"
-msgstr "Največje število nedavno uporabljenih časovnih pasov na seznamu 'day_second_zones' za pomnjenje"
+msgstr "Največje število nedavno uporabljenih časovnih pasov na seznamu drugotnih časovnih pasov za pomnjenje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:97
@@ -7672,7 +7660,6 @@ msgid "Default reminder value"
 msgstr "Privzeta vrednost opomnika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
-#, fuzzy
 msgid "Number of units for determining a default reminder"
 msgstr "Število enot za določanje privzetega opomnika."
 
@@ -7682,7 +7669,6 @@ msgid "Default reminder units"
 msgstr "Privzete enote opomnika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
-#, fuzzy
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\""
 msgstr "Enote privzetega opomnika: \"minute\", \"ure\" ali \"dnevi\"."
 
@@ -7752,9 +7738,8 @@ msgid "Hide completed tasks"
 msgstr "Skrij končane naloge"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
-#, fuzzy
 msgid "Whether to hide completed tasks in the tasks view"
-msgstr "Ali naj se dokončane naloge skrijejo v pogledu nalog."
+msgstr "Ali naj bodo dokončane naloge skrite v pogledu nalog."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:83
@@ -7762,7 +7747,6 @@ msgid "Hide task units"
 msgstr "Skrij enote nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
-#, fuzzy
 msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\""
 msgstr "Enote za določanje skrivanja nalog \"minute\", \"ure\" ali \"dnevi\"."
 
@@ -7772,7 +7756,6 @@ msgid "Hide task value"
 msgstr "Skrij vrednost nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
-#, fuzzy
 msgid "Number of units for determining when to hide tasks"
 msgstr "Število enot za določanje, kdaj so naloge skrite."
 
@@ -7782,7 +7765,6 @@ msgid "Horizontal pane position"
 msgstr "Položaj vodoravnega pladnja"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
-#, fuzzy
 msgid "Position of the horizontal pane, between the date navigator calendar and the task list when not in the month view, in pixels"
 msgstr "Položaj vodoravnega pladnja med krmarjem datumov koledarja in seznamom nalog, kadar ni v mesečnem pogledu v točkah."
 
@@ -7792,7 +7774,6 @@ msgid "Last reminder time"
 msgstr "Zadnji čas opomnika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
-#, fuzzy
 msgid "Time the last reminder ran, in time_t"
 msgstr "Čas, ko je tekel zadnji opomnik, v time_t."
 
@@ -7802,7 +7783,6 @@ msgid "Marcus Bains Line Color - Day View"
 msgstr "Barva črte Marcusa Baina - dnevni pogled"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
-#, fuzzy
 msgid "Color to draw the Marcus Bains line in the Day View"
 msgstr "Barva črt Marcusa Baina v dnevnem pogledu."
 
@@ -7812,7 +7792,6 @@ msgid "Marcus Bains Line Color - Time bar"
 msgstr "Barva črte Marcusa Baina - vrstica časa"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
-#, fuzzy
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr "Barva črt Marcusa Baina v vrstici časa (prazno za privzeto vrednost)."
 
@@ -7822,7 +7801,6 @@ msgid "Marcus Bains Line"
 msgstr "Črta Marcusa Baina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
-#, fuzzy
 msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar"
 msgstr "Ali naj se v koledarju izrišejo črte Marcusa Baina (črta ob trenutnem času)."
 
@@ -7832,7 +7810,6 @@ msgid "Memo preview pane position (horizontal)"
 msgstr "Položaj pladnja predogleda opomnikov (vodoravno)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
-#, fuzzy
 msgid "Position of the task preview pane when oriented horizontally"
 msgstr "Položaj pladnja nalog, kadar je ta usmerjen vodoravno."
 
@@ -7842,7 +7819,6 @@ msgid "Memo layout style"
 msgstr "Slog razporeditve opomnikov"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
-#, fuzzy
 msgid "The layout style determines where to place the preview pane in relation to the memo list. \"0\" (Classic View) places the preview pane below the memo list. \"1\" (Vertical View) places the preview pane next to the memo list"
 msgstr "Slog razporeditve določa kje sta postavljena pladenj predogleda in seznam opomnikov. Vrednost \"0\" predstavlja običajni pogled s pladnjem predogleda pod seznamom opomnikov, \"1\" pa predstavlja navpični slog, kjer sta okni eno ob drugem."
 
@@ -7852,7 +7828,6 @@ msgid "Memo preview pane position (vertical)"
 msgstr "Položaj okna predogleda opomnikov (navpično)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
-#, fuzzy
 msgid "Position of the memo preview pane when oriented vertically"
 msgstr "Položaj pladnja predogleda opomnikov, kadar je ta usmerjen navpično."
 
@@ -7862,17 +7837,14 @@ msgid "Month view horizontal pane position"
 msgstr "Položaj vodoravnega pladnja v mesečnem pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
-#, fuzzy
 msgid "Position of the horizontal pane, between the view and the date navigator calendar and task list in the month view, in pixels"
 msgstr "Položaj vodoravnega pladnja med pogledom in krmarjem datumov koledarja ter seznamom nalog v mesečnemu pogledu v točkah."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
-#, fuzzy
 msgid "Scroll Month View by a week, not by a month"
 msgstr "Ali naj drsenje v mesečnem pogledu poteka po tednu namesto po mesecu."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
-#, fuzzy
 msgid "Whether to scroll a Month View by a week, not by a month"
 msgstr "Ali naj drsenje v mesečnem pogledu poteka po tednu namesto po mesecu."
 
@@ -7882,7 +7854,6 @@ msgid "Reminder programs"
 msgstr "Programi za opomnike"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
-#, fuzzy
 msgid "Programs that are allowed to be run by reminders"
 msgstr "Programi, ki jih lahko zaženejo opomniki."
 
@@ -7892,12 +7863,10 @@ msgid "Show display reminders in notification tray"
 msgstr "Pokaži zaslonske opomnike v obvestilni vrstici"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
-#, fuzzy
 msgid "Whether or not to use the notification tray for display reminders"
 msgstr "Ali naj bo za zaslonske opomnike uporabljena obvestilna vrstica."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
-#, fuzzy
 msgid "Preferred New button item"
 msgstr "Ustvari nov preizkusni predmet"
 
@@ -7911,7 +7880,6 @@ msgid "Primary calendar"
 msgstr "Osnovni koledar"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
-#, fuzzy
 msgid "The UID of the selected (or \"primary\") calendar in the sidebar of the \"Calendar\" view"
 msgstr "UID izbranega (ali \"glavnega\") seznama koledarjev v stranski vrstici pogleda \"Koledar\"."
 
@@ -7921,7 +7889,6 @@ msgid "Primary memo list"
 msgstr "Osnovni seznam opomnikov"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
-#, fuzzy
 msgid "The UID of the selected (or \"primary\") memo list in the sidebar of the \"Memos\" view"
 msgstr "UID izbranega (ali \"glavnega\") seznama opomnikov v stranski vrstici pogleda \"Opomniki\"."
 
@@ -7931,7 +7898,6 @@ msgid "Primary task list"
 msgstr "Osnovni seznam nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
-#, fuzzy
 msgid "The UID of the selected (or \"primary\") task list in the sidebar of the \"Tasks\" view"
 msgstr "UID izbranega (ali \"glavnega\") seznama nalog v stranski vrstici pogleda \"Naloge\"."
 
@@ -7941,7 +7907,7 @@ msgid "Free/busy template URL"
 msgstr "URL predloge zasedenosti"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The URL template to use as a free/busy data fallback, %u is replaced by the user part of the mail address and %d is replaced by the domain"
 msgstr "Predloga URL za določanje stanja zasedenosti. Niz %u se nadomesti z uporabnikovim delom naslova elektronske pošte, %d pa z domeno."
 
@@ -7951,7 +7917,6 @@ msgid "Recurrent Events in Italic"
 msgstr "Ponavljajoči se dogodki so zapisani v ležeči pisavi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
-#, fuzzy
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr "Pokaži dneve s ponavljajočimi se dogodki v ležeči pisavi v spodnjem levem koledarju."
 
@@ -7994,7 +7959,6 @@ msgid "Show the memo preview pane"
 msgstr "Pokaži pladenj predogleda opomnikov"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
-#, fuzzy
 msgid "If \"true\", show the memo preview pane in the main window"
 msgstr "Izbrana možnost omogoča prikaz pladnja predogleda opomnikov v glavnem oknu."
 
@@ -8004,7 +7968,6 @@ msgid "Show the task preview pane"
 msgstr "Pokaži pladenj predogleda nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
-#, fuzzy
 msgid "If \"true\", show the task preview pane in the main window"
 msgstr "Izbrana možnost omogoča prikaz pladnja predogleda nalog v glavnem oknu."
 
@@ -8014,12 +7977,10 @@ msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr "Pokaži številke tednov v dnevnem pogledu, pogledu delovnega tedna in krmarju koledarja"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
-#, fuzzy
 msgid "Whether to show week numbers in various places in the Calendar"
 msgstr "Ali naj bodo številke tednov prikazane na različnih mestih koledarja."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
-#, fuzzy
 msgid "Vertical position for the tag pane"
 msgstr "Položaj pladnja predogleda stikov (navpično)"
 
@@ -8051,7 +8012,6 @@ msgid "Task layout style"
 msgstr "Slog razporeditve nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
-#, fuzzy
 msgid "The layout style determines where to place the preview pane in relation to the task list. \"0\" (Classic View) places the preview pane below the task list. \"1\" (Vertical View) places the preview pane next to the task list"
 msgstr "Slog razporeditve določa kje sta postavljena pladenj predogleda in seznam nalog. Vrednost \"0\" predstavlja običajni pogled s pladnjem predogleda pod seznamom nalog, \"1\" pa predstavlja navpični slog, kjer sta okni eno ob drugem."
 
@@ -8061,7 +8021,6 @@ msgid "Task preview pane position (vertical)"
 msgstr "Položaj pladnja predogleda nalog (navpično)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
-#, fuzzy
 msgid "Position of the task preview pane when oriented vertically"
 msgstr "Položaj pladnja predogleda nalog, kadar je ta usmerjen navpično."
 
@@ -8079,7 +8038,6 @@ msgid "Overdue tasks color"
 msgstr "Barva zakasnelih nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
-#, fuzzy
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format. Used together with task-overdue-highlight."
 msgstr "Barva ozadja zakasnjenih nalog v obliki \"#rrggbb\". Uporabljeno skupaj z možnostjo poudarjanja zakasnjenih nalog."
 
@@ -8089,9 +8047,8 @@ msgid "Time divisions"
 msgstr "Delitve časa"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
-#, fuzzy
 msgid "Intervals shown in Day and Work Week views, in minutes"
-msgstr "Intervali prikazani v dnevnemu pogledu in pogledu delovnega tedna v minutah."
+msgstr "Časovni razmiki prikazani v dnevnemu pogledu in pogledu delovnega tedna v minutah."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:3
@@ -8099,7 +8056,6 @@ msgid "Timezone"
 msgstr "Časovni pas "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
-#, fuzzy
 msgid "The default timezone to use for dates and times in the calendar, as an untranslated Olson timezone database location like \"America/New York\""
 msgstr "Privzet časovni pas za uporabo časov in datumov v koledarju kot neprevedena podatkovna zbirka časovnih pasov Olsen, kot npr. \"America/New York\"."
 
@@ -8109,7 +8065,6 @@ msgid "Twenty four hour time format"
 msgstr "24-urna oblika časa"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
-#, fuzzy
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Ali naj bo čas prikazan v 24-urni obliki namesto DOP/POP."
 
@@ -8119,7 +8074,6 @@ msgid "Birthday and anniversary reminder"
 msgstr "Opomnik rojstnih dni in obletnic"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
-#, fuzzy
 msgid "Whether to set a reminder for birthdays and anniversaries"
 msgstr "Ali naj se nastavi  opomnik za rojstne dneve in obletnice."
 
@@ -8129,7 +8083,6 @@ msgid "Default appointment reminder"
 msgstr "Privzet opomnik za sestanke"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
-#, fuzzy
 msgid "Whether to set a default reminder for appointments"
 msgstr "Ali naj se nastavi privzet opomnik za sestanke."
 
@@ -8139,7 +8092,6 @@ msgid "Use system timezone"
 msgstr "Uporabi sistemski časovni pas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
-#, fuzzy
 msgid "Use the system timezone instead of the timezone selected in Evolution"
 msgstr "Uporabi sistemski časovni pas namesto območja določenega v programu Evolution."
 
@@ -8149,7 +8101,6 @@ msgid "Week start"
 msgstr "Začetek tedna"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
-#, fuzzy
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)"
 msgstr "Začetni dan tedna, od nedelje (0) do sobote (6)."
 
@@ -8159,7 +8110,6 @@ msgid "Work days"
 msgstr "Delovni dnevi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
-#, fuzzy
 msgid "Days on which the start and end of work hours should be indicated"
 msgstr "Dnevi, ko naj bosta označena začetek in konec delovnih ur."
 
@@ -8287,12 +8237,10 @@ msgid "Recognize emoticons in text and replace them with images."
 msgstr "Prepoznaj izrazne ikone v besedilu in jih zamenjaj s slikami."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
-#, fuzzy
 msgid "Attribute message"
 msgstr "Sporočilo pripisa."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
-#, fuzzy
 msgid "The text that is inserted when replying to a message, attributing the message to the original author"
 msgstr "Besedilo, ki je vstavljeno pri odgovoru na sporočilo, ki pripisuje sporočilo izvirnemu avtorju."
 
@@ -8301,7 +8249,6 @@ msgid "Forward message"
 msgstr "Posreduj sporočilo"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:16
-#, fuzzy
 msgid "The text that is inserted when forwarding a message, saying that the forwarded message follows"
 msgstr "Besedilo, ki je vstavljeno ob posredovanju sporočila, ki pravi, da sledi posredovano sporočilo."
 
@@ -8310,7 +8257,6 @@ msgid "Original message"
 msgstr "Izvirno sporočilo"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:18
-#, fuzzy
 msgid "The text that is inserted when replying to a message (top posting), saying that the original message follows"
 msgstr "Besedilo, ki je vstavljeno pri odgovarjanju na sporočilo (vrhnje pošiljanje), ki pravi da sledi izvirno sporočilo."
 
@@ -8425,9 +8371,8 @@ msgid "Show the \"Reply To\" field when posting to a newsgroup. This is controll
 msgstr "Pokaži polje \"Odgovori\" pri objavi na novičarski skupini. Možnost je mogoče nastaviti v meniju Pogled, ko je izbran poštni račun."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
-#, fuzzy
 msgid "Digitally sign replies when the original message is signed"
-msgstr "Digitalno podpiši sporočila, kadar je podpisano tudi originalno sporočilo (PGP ali S/MIME)"
+msgstr "Digitalno podpiši odgovore sporočil, kadar je podpisano tudi originalno sporočilo"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
 #: ../mail/evolution-mail.schemas.in.h:12
@@ -9235,12 +9180,12 @@ msgstr "Ali naj program preveri za nova sporočila v vseh dejavnih računih ob z
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 #: ../mail/evolution-mail.schemas.in.h:239
 msgid "Server synchronization interval"
-msgstr "Interval usklajevanja strežnika"
+msgstr "časovni razmik usklajevanja strežnika"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 #: ../mail/evolution-mail.schemas.in.h:240
 msgid "Controls how frequently local changes are synchronized with the remote mail server. The interval must be at least 30 seconds."
-msgstr "Nadzira kako pogosto se krajevne spremembe uskladijo z oddaljenim poštnim strežnikom. Interval mora biti vsaj 30 sekund."
+msgstr "Nadzira kako pogosto se krajevne spremembe uskladijo z oddaljenim poštnim strežnikom. Časovni razmik mora biti vsaj 30 sekund."
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:1
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:1
@@ -12579,12 +12524,10 @@ msgid "Initial width of the \"Search Folder Editor\" window. The value updates a
 msgstr "Začetna širina okna \"Urejevalnik iskalnih map\". Vrednost se posodobi, ko uporabnik spremeni vodoravno velikost okna."
 
 #: ../mail/evolution-mail.schemas.in.h:235
-#, fuzzy
 msgid "Drag'n'drop export format"
-msgstr "Izvozi sejo v zapisu"
+msgstr "Zapis ob izvozu s povleci in spusti"
 
 #: ../mail/evolution-mail.schemas.in.h:236
-#, fuzzy
 msgid "Define the email export format when doing drag'n'drop. Possible values are mbox or pdf"
 msgstr "Določite zapis izvoza elektronskih sporočila pri uporabi povleci-in-spusti. Možni vrednosti sta mbox ali pdf."
 
@@ -12827,9 +12770,8 @@ msgid "Gro_up Reply goes only to mailing list, if possible"
 msgstr "Skupinski _odgovor vrne sporočilo le na dopisni seznam, če je to mogoče"
 
 #: ../mail/mail-config.ui.h:24
-#, fuzzy
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
-msgstr "Digitalno podpiši sporočila, kadar je podpisano tudi originalno sporočilo (PGP ali S/MIME)"
+msgstr "Digitalno _podpiši sporočila, kadar je podpisano tudi originalno sporočilo (PGP ali S/MIME)"
 
 #: ../mail/mail-config.ui.h:26
 msgid "Sig_natures"
@@ -14422,7 +14364,6 @@ msgid "Whether to show maps in preview pane."
 msgstr "Ali naj bodo prikazani zemljevidi na pladnju predogleda."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:22
-#, fuzzy
 msgid "Whether addresses should be formatted according to standard in their destination country."
 msgstr "Ali naj bodo naslovi oblikovani glede na standard ciljne države"
 
@@ -14943,7 +14884,7 @@ msgstr "Ura, ko se konča delovni dan (od 0 do 23)."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:38
 msgid "Intervals shown in Day and Work Week views, in minutes."
-msgstr "Intervali prikazani v dnevnemu pogledu in pogledu delovnega tedna v minutah."
+msgstr "Časovni razmiki prikazani v dnevnemu pogledu in pogledu delovnega tedna v minutah."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:40
 msgid "Position of the horizontal pane, between the date navigator calendar and the task list when not in the month view, in pixels."
@@ -21540,3 +21481,4 @@ msgstr "Izberi vse"
 #: ../widgets/text/e-text.c:2351
 msgid "Input Methods"
 msgstr "Načini vnosa"
+
