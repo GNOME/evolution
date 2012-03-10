@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-02-29 11:56+0000\n"
-"PO-Revision-Date: 2012-03-09 21:01+0100\n"
+"PO-Revision-Date: 2012-03-10 10:13+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -8190,9 +8190,8 @@ msgid "List of disabled plugins"
 msgstr "Seznam onemogočenih vstavkov."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:6
-#, fuzzy
 msgid "The list of disabled plugins in Evolution"
-msgstr "Seznam vstavkov, ki so privzeto onemogočeni"
+msgstr "Seznam privzeto onemogočenih vstavkov"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
 msgid "The window's X coordinate"
@@ -8215,19 +8214,16 @@ msgid "Whether the window is maximized"
 msgstr "Ali je okno razpeto."
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
-#, fuzzy
 msgid "Gnome Calendar's calendar import done"
-msgstr "Urnik Gnome: uvozi naloge"
+msgstr "Uvoz koledarja Gnome je uspešno končan"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:2
-#, fuzzy
 msgid "Whether calendar from Gnome Calendar has been imported or not"
-msgstr "Whether calendar from Gnome Calendar has been imported or not"
+msgstr "Ali je koledar Gnome uvožen ali ne"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:3
-#, fuzzy
 msgid "Gnome Calendar's tasks import done"
-msgstr "Gnome Calendar's tasks import done"
+msgstr "Uvoz nalog koledarja Gnome je uspešno končan"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:4
 msgid "Whether tasks from Gnome Calendar have been imported or not"
@@ -8259,7 +8255,6 @@ msgid "Path where picture gallery should search for its content"
 msgstr "Pot za iskanje vsebine galerije slik"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
-#, fuzzy
 msgid "This value can be an empty string, which means it'll use the system Picture folder, usually set to ~/Pictures. This folder will be also used when the set path is not pointing to the existent folder"
 msgstr "Ta vrednost je lahko prazen niz. To pomeni da bo uporabljena sistemska mapa slik, običajno ~/Slike. Ta mapa bo uporabljena tudi, ko nastavljena pot ne kaže na obstoječo mapo."
 
@@ -8344,12 +8339,12 @@ msgstr "Uporabniki so različnih mnenj glede mesta kazalca pri odgovorih na spor
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:23
 #: ../mail/evolution-mail.schemas.in.h:15
 msgid "Always request read receipt"
-msgstr "Vedno zahtevaj povratnico branja"
+msgstr "Vedno zahtevaj povratnico"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:24
 #: ../mail/evolution-mail.schemas.in.h:16
 msgid "Whether a read receipt request gets added to every message by default."
-msgstr "Ali se povratnica  privzeto samodejno doda k vsakemu sporočilu."
+msgstr "Ali se povratnica privzeto samodejno doda k vsakemu sporočilu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:25
 #: ../mail/evolution-mail.schemas.in.h:17
@@ -8443,15 +8438,13 @@ msgstr "Samodejno omogoči podpise PGP ali S/MIME pri odgovarjanju na sporočilo
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 #: ../mail/evolution-mail.schemas.in.h:33
-#, fuzzy
 msgid "Encode filenames in an Outlook/GMail way"
-msgstr "Kodiraj imena datotek v načinu Otlook/GMail"
+msgstr "Kodiraj imena datotek v načinu MS Outlook/GMail"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
 #: ../mail/evolution-mail.schemas.in.h:34
-#, fuzzy
 msgid "Encode filenames in the mail headers same as Outlook or GMail do, to let them display correctly filenames with UTF-8 letters sent by Evolution, because they do not follow the RFC 2231, but use the incorrect RFC 2047 standard."
-msgstr "Možnost omogoča kodiranje imen datotek v glavi sporočila na enak način kot v Outlooku in Gmailu. To Outlooku in GMailu omogoča pravilen prikaz imen s črkami v kodiranju UTF-8. Odjemalca namesto določila RFC 2231 uporabljata nepravilen standard RFC 2047."
+msgstr "Možnost omogoča kodiranje imen datotek v glavi sporočila na enak način kot v MS Outlooku in Gmailu. To MS Outlooku in GMailu omogoča pravilen prikaz imen z znaki v naboru UTF-8, ki jih pošilja program Evolution. Odjemalca uporabljata namesto RFC 2231 neveljaven standard RFC 2047."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 #: ../mail/evolution-mail.schemas.in.h:35
@@ -8484,13 +8477,12 @@ msgid "Some mailing lists set a Reply-To: header to trick users into sending rep
 msgstr "Nekateri dopisni seznami določajo možnost odgovori-na: s katerim se sporočila pošiljajo na seznam tudi, če je izbrana možnost zasebnega sporočila pošiljatelju. Izbrana možnost poskuša prezreti odgovarjanje na naslov dopisnega seznama. Program Evolution bo zahteval potrdilo za pošiljanje na zasebni naslov ali na dopisni seznam.."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
-#, fuzzy
 msgid "List of localized 'Re'"
-msgstr "Od_strani vse"
+msgstr "Seznam krajevno prilagojenih okrajšanih predpon 'Re:'"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
 msgid "Comma-separated list of localized 'Re' abbreviations to skip in a subject text when replying to a message, as an addition to the standard \"Re\" prefix. An example is 'SV,AV'."
-msgstr "Z vejico ločen seznam, krajevno prilagojenih okrajšav, za odgovor na sporočilo v vrstici zadeve, ki se izpiše med odgovarjanjem na sporočilo, kot prevod standardne predpone  \"Re:\". Primer je 'Odg.: ali Odgovor:'."
+msgstr "Z vejico ločen seznam, krajevno prilagojenih okrajšanih predpon, za odgovor na sporočilo v vrstici zadeve, ki se izpiše med odgovarjanjem na sporočilo, kot prevod standardne predpone  \"Re:\". Primer je 'Odg.: ali Odgovor:'."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 #: ../mail/evolution-mail.schemas.in.h:53
@@ -8664,15 +8656,13 @@ msgstr "Označi kot Videno po navedeni zakasnitvi."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 #: ../mail/evolution-mail.schemas.in.h:90
-#, fuzzy
 msgid "Timeout for marking messages as seen"
-msgstr "Zakasnitev, po kateri se sporočilo označi kot videno"
+msgstr "Čas po katerem se sporočilo označi kot videno"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 #: ../mail/evolution-mail.schemas.in.h:91
-#, fuzzy
 msgid "Timeout in milliseconds for marking messages as seen."
-msgstr "Zakasnitev po kateri se sporočilo označi kot videno."
+msgstr "Čas v milisekundah po katerem se sporočilo označi kot videno."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 #: ../mail/evolution-mail.schemas.in.h:87
@@ -8685,7 +8675,6 @@ msgid "Show the email-address of the sender in a separate column in the message 
 msgstr "Pokaži elektronski naslov pošiljatelja v ločenem stolpcu na seznamu sporočil."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
-#, fuzzy
 msgid "Determines whether to use the same fonts for both \"From\" and \"Subject\" lines in the \"Messages\" column in vertical view"
 msgstr "Določa ali sta v navpičnem pogledu v stolpcu \"Sporočila\" za vrstici \"Od\" in \"Zadeva\" uporabljeni isti pisavi."
 
@@ -8749,7 +8738,6 @@ msgid "State of message headers in paned view"
 msgstr "Stanje glav sporočil na seznamu pladnja"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
-#, fuzzy
 msgid "Describes whether message headers in paned view should be collapsed or expanded by default. \"0\" = expanded and \"1\" = collapsed"
 msgstr "Določa, ali naj bodo glave sporočila na seznamu pladnja privzeto zložene ali razširjene. Vrednost \"0\" določa razširjen, \"1\" pa zložen pogled."
 
@@ -8859,7 +8847,6 @@ msgid "Default value for thread expand state"
 msgstr "Privzeta vrednost stanja razširitve niti sporočil"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
-#, fuzzy
 msgid "This setting specifies whether the threads should be in expanded or collapsed state by default. Evolution requires a restart."
 msgstr "Nastavitev določa ali naj niti sporočil ostanejo privzeto razširjene ali zložene. Spreminjanje nastavitve zahteva ponoven zagon programa."
 
@@ -8933,14 +8920,12 @@ msgid "Prompt the user when he or she tries to send a message without a Subject.
 msgstr "Opozori uporabnika, ko želi poslati sporočilo brez Zadeve."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
-#, fuzzy
 msgid "Prompt when emptying the trash"
-msgstr "Opozori ob uničenju"
+msgstr "Opozori ob praznjenju smeti"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
-#, fuzzy
 msgid "Prompt the user when he or she tries to empty the trash."
-msgstr "Opozori uporabnika, ko želi uničiti mapo."
+msgstr "Opozori uporabnika, ko želi izprazniti smeti."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 #: ../mail/evolution-mail.schemas.in.h:153
@@ -9048,9 +9033,8 @@ msgid "Asks whether to close the message window when the user forwards or replie
 msgstr "Vpraša ali naj se okno sporočil zapre, ko uporabnik posreduje ali odgovori na sporočilo prikazano v oknu"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
-#, fuzzy
 msgid "Possible values are: 'never' - to never close browser window, 'always' - to always close browser window or 'ask' - (or any other value) will ask user."
-msgstr "Mogoče vrednosti so: nikoli - nikoli ne zapre okna brskalnika, vedno - vedno zapre okno brskalnika, vprašaj (ali katerakoli druga vrednost) - vpraša uporabnika"
+msgstr "Mogoče vrednosti so: 'nikoli' - nikoli ne zapre okna brskalnika, 'vedno' - vedno zapre okno brskalnika in 'vprašaj' (ali katerakoli druga vrednost) - zahteva potrditev uporabnika."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 #: ../mail/evolution-mail.schemas.in.h:175
@@ -9238,9 +9222,8 @@ msgid "Check for new messages on start"
 msgstr "Preveri za nova sporočila ob zagonu"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
-#, fuzzy
 msgid "Whether to check for new messages when Evolution is started. This includes also sending messages from Outbox."
-msgstr "Ali naj program preveri za nova sporočilu ob zagonu. To vključuje pošiljanje sporočil iz odhodne mape."
+msgstr "Ali naj program preveri za nova sporočilu ob zagonu programa. To dejanje vključuje tudi pošiljanje sporočil iz odhodne mape."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 #: ../mail/evolution-mail.schemas.in.h:221
@@ -9248,9 +9231,8 @@ msgid "Check for new messages in all active accounts"
 msgstr "Preveri za nova sporočila v vseh dejavnih računih"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
-#, fuzzy
 msgid "Whether to check for new messages in all active accounts regardless of the account \"Check for new messages every X minutes\" option when Evolution is started. This option is used only together with 'send_recv_on_start' option."
-msgstr "Ali naj program preveri za nova sporočila v vseh dejavnih računih ob zagonu Evolution ne glede na možnost \"Preveri za nova sporočila vsakih X minut\". Ta možnost se uporablja le skupaj z možnostjo 'send_recv_on_start'."
+msgstr "Ali naj program preveri za nova sporočila v vseh dejavnih računih ob zagonu programa Evolution ne glede na možnost \"Preveri za nova sporočila vsakih X minut\". Ta možnost se uporablja le skupaj z možnostjo 'send_recv_on_start'."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 #: ../mail/evolution-mail.schemas.in.h:239
@@ -9268,23 +9250,20 @@ msgid "List of clues for the attachment reminder plugin to look for in a message
 msgstr "Seznam namigov, ki naj jih vstavek opomnik prilog išče v telesu sporočila"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:2
-#, fuzzy
 msgid "List of clues for the attachment reminder plugin to look for in a message body."
-msgstr "Seznam namigov, ki naj jih vstavek opomnik prilog išče v telesu sporočila"
+msgstr "Seznam namigov, ki naj jih vstavek opomnika prilog išče v telesu sporočila"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
 msgid "Address book source"
 msgstr "Vir imenika"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
-#, fuzzy
 msgid "Address book to use for storing automatically synced contacts"
-msgstr "Imenik uporabljen za shranjevanje samodejno usklajenih stikov programa GAIM"
+msgstr "Imenik, uporabljen za shranjevanje samodejno usklajenih stikov"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
-#, fuzzy
 msgid "Auto sync GAIM contacts"
-msgstr "Preveri časovni razmik za usklajevanje stikov GAIM"
+msgstr "Samodejno uskladi stike GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
 msgid "Whether GAIM contacts should be automaticall synced"
@@ -9315,14 +9294,12 @@ msgid "Check interval for GAIM syncing of contacts"
 msgstr "Preveri časovni razmik za usklajevanje stikov GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
-#, fuzzy
 msgid "GAIM last sync MD5"
-msgstr "%s nespremenjenih od zadnje uskladitve"
+msgstr "Zadnje razpršilo MD5 usklajevanja GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:12
-#, fuzzy
 msgid "GAIM last sync time"
-msgstr "Pokaži ča_s zadnjega dostopa"
+msgstr "Zadnji čas usklajevanja GAIM"
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:1
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:1
@@ -9365,9 +9342,8 @@ msgid "Whether insert Face picture to outgoing messages by default. The picture 
 msgstr "Ali naj se odhajajočemu sporočilu privzeto pripne sličica obraza. Sliko je treba izbrati pred izbiro te možnosti."
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
-#, fuzzy
 msgid "Delete processed"
-msgstr "Izbriši veje"
+msgstr "Opravilo brisanja"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
 msgid "Whether to delete processed iTip objects"
@@ -9510,14 +9486,12 @@ msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Ali naj se Evolution zažene v načinu brez povezave namesto v načinu s povezavo."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
-#, fuzzy
 msgid "Offline folder paths"
-msgstr "Pripravljanje mape '%s' na stanje brez povezave"
+msgstr "Poti map stanja brez povezave"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
-#, fuzzy
 msgid "List of paths for the folders to be synchronized to disk for offline usage."
-msgstr "Seznam poti map, ki naj se uskladijo z diskom za delo brez povezave"
+msgstr "Seznam poti map, ki naj se krajevno uskladijo na disk za delo brez povezave"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
 #: ../shell/apps_evolution_shell.schemas.in.h:61
@@ -11554,7 +11528,7 @@ msgstr "Povzetek računa"
 
 #: ../mail/em-account-editor.c:2965
 msgid "This is a summary of the settings which will be used to access your mail."
-msgstr ""
+msgstr "To je povzetek nastavitev, ko bodo uporabljene za dostop do elektronske pošte."
 
 #: ../mail/em-account-editor.c:2969
 msgid "Done"
@@ -11600,19 +11574,16 @@ msgid "Checking for New Messages"
 msgstr "Preverjanje za nova sporočila"
 
 #: ../mail/em-account-editor.c:4920
-#, fuzzy
 msgid "Setup Google con_tacts with Evolution"
-msgstr "Nastavite stike Google z Evolution"
+msgstr "Nastavi _stike Google s programom Evolution"
 
 #: ../mail/em-account-editor.c:4927
-#, fuzzy
 msgid "Setup Google ca_lendar with Evolution"
-msgstr "Nastaviteve koledar Google z evolution"
+msgstr "Nastavi koledar Google  s programom Evolution"
 
 #: ../mail/em-account-editor.c:4975
-#, fuzzy
 msgid "Setup _Yahoo calendar with Evolution"
-msgstr "Nastavite koledar Yahoo z Evolution"
+msgstr "Nastavi koledar _Yahoo s programom Evolution"
 
 #: ../mail/em-account-editor.c:5000
 msgid "Yahoo Calen_dar name:"
@@ -12355,7 +12326,7 @@ msgstr "Dodaj mapo"
 
 #: ../mail/evolution-mail.schemas.in.h:11
 msgid "Digitally sign messages when original message signed (PGP or S/MIME)"
-msgstr ""
+msgstr "Digitalno podpiši sporočila, kadar je podpisano tudi originalno sporočilo (PGP ali S/MIME)"
 
 #: ../mail/evolution-mail.schemas.in.h:39
 msgid "Composer Window default width"
@@ -12403,7 +12374,7 @@ msgstr "Ta vrednost je lahko prazen niz. To pomeni da bo uporabljena sistemska m
 
 #: ../mail/evolution-mail.schemas.in.h:97
 msgid "Whether to show local folders (On This Computer) in a folder tree."
-msgstr ""
+msgstr "Ali naj bodo prikazane krajevne mape (tega računalnika) v drevesu map."
 
 #: ../mail/evolution-mail.schemas.in.h:123
 msgid "This setting specifies whether the threads should be in expanded or collapsed state by default. Requires a restart to apply."
@@ -12575,8 +12546,9 @@ msgid "Drag'n'drop export format"
 msgstr "Izvozi sejo v zapisu"
 
 #: ../mail/evolution-mail.schemas.in.h:236
+#, fuzzy
 msgid "Define the email export format when doing drag'n'drop. Possible values are mbox or pdf"
-msgstr ""
+msgstr "Določitev zapisa izvoza elektronske pošte "
 
 #: ../mail/evolution-mail.schemas.in.h:237
 msgid "Format of the drag'n'drop export filename"
@@ -12813,9 +12785,8 @@ msgid "Ig_nore Reply-To: for mailing lists"
 msgstr "_Prezri dogovor-na: za dopisne sezname"
 
 #: ../mail/mail-config.ui.h:23
-#, fuzzy
 msgid "Gro_up Reply goes only to mailing list, if possible"
-msgstr "Skupinski odgovor vrne sporočilo le na dopisni seznam, če je to mogoče"
+msgstr "Skupinski _odgovor vrne sporočilo le na dopisni seznam, če je to mogoče"
 
 #: ../mail/mail-config.ui.h:24
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
@@ -13200,7 +13171,7 @@ msgstr "Vedno pošlji _kopije (Kp) na:"
 
 #: ../mail/mail-config.ui.h:126
 msgid "Message Receipts"
-msgstr "Prejemniki sporočila"
+msgstr "Povratnice sporočil"
 
 #: ../mail/mail-config.ui.h:127
 msgid "S_end message receipts:"
@@ -14142,7 +14113,7 @@ msgstr "Priložena je skrita datoteka."
 
 #: ../mail/mail.error.xml.h:167
 msgid "The attachment named {0} is a hidden file and may contain sensitive data. Please review it before sending."
-msgstr ""
+msgstr "Priloga z imenom {0} je skrita datoteka, ki morda vsebuje občutljive podatke. Preglejte in preverite vsebino pred pošiljanjem sporočila."
 
 #: ../mail/mail-send-recv.c:207
 msgid "Canceling..."
@@ -16663,9 +16634,9 @@ msgid "Delivery Notification for \"%s\""
 msgstr "Obvestilo o prejemu za \"%s\""
 
 #: ../modules/mdn/evolution-mdn.c:449
-#, fuzzy, c-format
+#, c-format
 msgid "Send a read receipt to '%s'"
-msgstr "Nauči se brati"
+msgstr "Pošlji povratnico za '%s'"
 
 #. name doesn't matter
 #: ../modules/mdn/evolution-mdn.c:454
