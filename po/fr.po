@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-03-09 18:40+0000\n"
+"POT-Creation-Date: 2012-03-09 21:59+0000\n"
 "PO-Revision-Date: 2012-03-07 23:03+0100\n"
 "Last-Translator: Bruno Brouard <annoa.b@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -16957,7 +16957,7 @@ msgstr "Crée une nouvelle tâche"
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:354
 #: ../modules/calendar/e-task-shell-view-actions.c:799
 msgid "_Open Task"
-msgstr "_Ouvrir une tâche"
+msgstr "_Ouvrir la tâche"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:356
 #: ../modules/calendar/e-task-shell-view-actions.c:801
@@ -17548,7 +17548,7 @@ msgstr "Affiche le panneau de prévisualisation des messages"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1519
 msgid "Show _Deleted Messages"
-msgstr "Affiche les messages _supprimés"
+msgstr "Afficher les messages _supprimés"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1521
 msgid "Show deleted messages with a line through them"
