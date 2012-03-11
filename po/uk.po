@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-09 16:06+0200\n"
-"PO-Revision-Date: 2012-03-11 13:59+0300\n"
+"PO-Revision-Date: 2012-03-11 21:23+0300\n"
 "Last-Translator: Korostil Daniel <ted.korostiled@gmail.com>\n"
 "Language-Team: translation@linux.org.ua\n"
 "Language: uk\n"
@@ -8609,18 +8609,16 @@ msgstr "Кодувати назви файлів відповідно до Outlo
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
 #: ../mail/evolution-mail.schemas.in.h:34
-#, fuzzy
 msgid ""
 "Encode filenames in the mail headers same as Outlook or GMail do, to let "
 "them display correctly filenames with UTF-8 letters sent by Evolution, "
 "because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
 "standard."
 msgstr ""
-"Кодувати імена файлів у заголовках пошти так само, як це роблять Outlook або "
-"GMail, що дозволить їм правильно показувати імена файлів у UTF-8, які "
-"надсилаються Evolution. Це пов'язано з тим, що ці програми/послуги не "
-"дотримуються RFC2231, а використовують натомість неправильний стандарт RFC "
-"2047."
+"Кодувати назви файлів у заголовках пошти так само, як це роблять Outlook або "
+"GMail, що дозволить їм правильно показувати назви файлів у UTF-8, які "
+"надсилаються через Evolution. Це пов'язано з тим, що вони не дотримуються "
+"RFC 2231, а використовують натомість неправильний стандарт RFC 2047."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 #: ../mail/evolution-mail.schemas.in.h:35
@@ -8678,7 +8676,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
 msgid "List of localized 'Re'"
-msgstr ""
+msgstr "Список знайдених «Re»"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
 msgid ""
@@ -8686,6 +8684,9 @@ msgid ""
 "text when replying to a message, as an addition to the standard \"Re\" "
 "prefix. An example is 'SV,AV'."
 msgstr ""
+"Відокремлений комою список знайдених абревіатур «Re» для пропущення тексту "
+"теми, коли відповідаєте на лист, як додатковий стандарт префіксу «Re». "
+"Приклад — «SV,AV»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 #: ../mail/evolution-mail.schemas.in.h:53
@@ -8896,15 +8897,13 @@ msgstr "Позначати повідомлення як прочитані пі
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 #: ../mail/evolution-mail.schemas.in.h:90
-#, fuzzy
 msgid "Timeout for marking messages as seen"
-msgstr "Затримка перед позначенням повідомлення як прочитане"
+msgstr "Затримка перед позначенням листів побаченими"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 #: ../mail/evolution-mail.schemas.in.h:91
-#, fuzzy
 msgid "Timeout in milliseconds for marking messages as seen."
-msgstr "Затримка перед позначенням повідомлення як прочитане."
+msgstr "Час очікування в мілісекундах для позначення листів побаченими."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 #: ../mail/evolution-mail.schemas.in.h:87
@@ -8921,13 +8920,12 @@ msgstr ""
 "списку повідомлень."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
-#, fuzzy
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
 msgstr ""
-"Визначає чи використовувати однакові шрифти для рядків \"Від\" та \"Тема\" у "
-"стовпчику \"Повідомлення\" у вертикальному режимі перегляду."
+"Визначає чи використовувати однакові шрифти для рядків «Від» та «Тема» у "
+"стовпчику «Листи» у вертикальному режимі перегляду"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 #: ../mail/evolution-mail.schemas.in.h:89
@@ -8951,13 +8949,12 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 #: ../mail/evolution-mail.schemas.in.h:96
-#, fuzzy
 msgid "Enable local folders"
-msgstr "Усі локальні теки"
+msgstr "Увімкнути локальні теки"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Whether to show local folders (On This Computer) in a folder tree"
-msgstr ""
+msgstr "Чи показувати локальні теки (на цьому комп'ютері) у дереві тек"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 #: ../mail/evolution-mail.schemas.in.h:94
@@ -8997,13 +8994,15 @@ msgstr "Висота панелі списку повідомлень."
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 #: ../mail/evolution-mail.schemas.in.h:126
 msgid "State of message headers in paned view"
-msgstr ""
+msgstr "Стан заголовків листа в панелі перегляду"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
 msgid ""
 "Describes whether message headers in paned view should be collapsed or "
 "expanded by default. \"0\" = expanded and \"1\" = collapsed"
 msgstr ""
+"Описує, чи слід заголовкам листа в панельному перегляді типово згортатись, "
+"чи розгортатись. «0» — розгортати, «1» — згортати."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 #: ../mail/evolution-mail.schemas.in.h:102
@@ -9097,15 +9096,15 @@ msgstr "Обмеження показу на текст повідомлення
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 #: ../mail/evolution-mail.schemas.in.h:117
-#, fuzzy
 msgid ""
 "This decides the max size of the message text that will be displayed under "
 "Evolution, specified in terms of KB. The default is 4096 (4MB). This value "
 "is used only when 'force_message_limit' key is activated."
 msgstr ""
 "Визначає максимальний розмір текстового долучення, яке може бути "
-"відформатовано у програмі Evolution. Типовий розмір 4MB / 4096 KB та "
-"вказується у КБ."
+"відформатовано у програмі Evolution, що вказано в кілобайтах. Типовий розмір "
+"— 4096 КБ (4МБ). Це значення використовується лише в увімкнутому ключі "
+"«force_message_limit»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 #: ../mail/evolution-mail.schemas.in.h:118
@@ -9141,7 +9140,6 @@ msgid "Default value for thread expand state"
 msgstr "Типовий стан гілки"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -9168,7 +9166,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Sort accounts alphabetically in a folder tree"
-msgstr ""
+msgstr "Впорядкувати облікові записи в алфавітному порядку в дереві тек"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid ""
@@ -9177,6 +9175,10 @@ msgid ""
 "Computer and Search folders, otherwise accounts are sorted based on an order "
 "given by a user"
 msgstr ""
+"Пояснює, як впорядковувати облікові записи в дереві тек у перегляді пошти. "
+"Коли зазначено, облікові записи будуть упорядковуватись у алфавітному "
+"порядку, за винятком «На цьому комп'ютері» і тек пошуку, інакше облікові "
+"записи буде впорядковано ґрунтуючись на порядку заданому користувачем. "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 #: ../mail/evolution-mail.schemas.in.h:142
@@ -9210,6 +9212,9 @@ msgid ""
 "only when there was used any 'Forward to' filter action and approximately "
 "one minute after the last action invocation."
 msgstr ""
+"Чи очищувати вихідні після завершення фільтрування. Очищення вихідних "
+"відбудеться лише, коли буде використано дію фільтра «Переслано до» і "
+"приблизно через хвилину після останнього виклику."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 #: ../mail/evolution-mail.schemas.in.h:148
@@ -9237,14 +9242,12 @@ msgstr ""
 "повідомлення без теми."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
-#, fuzzy
 msgid "Prompt when emptying the trash"
-msgstr "Запитувати, коли відповідається кільком одержувачам"
+msgstr "Спонукати під час очищення смітника"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
-#, fuzzy
 msgid "Prompt the user when he or she tries to empty the trash."
-msgstr "Запитувати підтвердження у користувача при очищенні теки."
+msgstr "Спонукати користувача, коли він або вона намагається очистити смітник."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 #: ../mail/evolution-mail.schemas.in.h:153
@@ -9392,14 +9395,13 @@ msgstr ""
 "відповідає на показане у вікні повідомлення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
-#, fuzzy
 msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
 msgstr ""
-"Допустимі значення: never — ніколи не закривати вікно переглядача always — "
-"завжди закривати вікно переглядача  ask — (або будь-яке інше значення) "
-"запитає користувача"
+"Допустимі значення: «ever» — ніколи не закривати вікно переглядача, «always» "
+"— завжди закривати вікно переглядача,  «ask» — (або будь-яке інше значення) "
+"запитувати користувача."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 #: ../mail/evolution-mail.schemas.in.h:175
@@ -9430,11 +9432,11 @@ msgstr "Час останнього очищення смітника"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 #: ../mail/evolution-mail.schemas.in.h:180
-#, fuzzy
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
-"Останній раз, коли виконувалось очищення смітника, у днях з початку епохи."
+"Останній раз, коли очищувався смітник, у днях з початку епохи, починаючи з "
+"першого січня 1970 року."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 #: ../mail/evolution-mail.schemas.in.h:181
@@ -9527,15 +9529,14 @@ msgstr "Час останнього очищення спаму"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 #: ../mail/evolution-mail.schemas.in.h:195
-#, fuzzy
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
-msgstr "Час останньої чистки спаму, у днях з початку епохи."
+msgstr "Час останньої чистки спаму, в днях з початку епохи (1 січня 1970). "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 #: ../mail/evolution-mail.schemas.in.h:196
 msgid "The default plugin for Junk hook"
-msgstr "Типовий модуль обробки спаму"
+msgstr "Типовий додаток для виловлювання спаму"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 #: ../mail/evolution-mail.schemas.in.h:197
@@ -9544,14 +9545,14 @@ msgid ""
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
 msgstr ""
-"Це - типовий модуль обробки спаму, навіть якщо декілька модулів обробки "
-"спаму увімкнені одночасно. Якщо типовий модуль вимкнений, доступні модулі "
-"обробки спаму не будуть використовуватись."
+"Це — типовий додаток виловлювання спаму, навіть якщо декілька додатків "
+"виловлювання спаму увімкнено одночасно. Якщо типовий додаток вимкнено, "
+"доступні додатки виловлювання спаму не будуть використовуватись."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 #: ../mail/evolution-mail.schemas.in.h:198
 msgid "Determines whether to lookup in address book for sender email"
-msgstr "Визначає чи шукати відправника у адресній книзі"
+msgstr "Визначає, чи шукати адресу відправника у адресній книзі"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 #: ../mail/evolution-mail.schemas.in.h:199
@@ -9561,10 +9562,11 @@ msgid ""
 "can be slow, if remote address books (like LDAP) are marked for "
 "autocompletion."
 msgstr ""
-"Визначає чи шукати адресу відправника у адресній книзі. Якщо адресу "
-"відправника знайдено, пошта не повинна бути спамом. Пошук ведеться у "
-"адресних книгах, позначених для автодоповнення. Пошук можу бути повільний, "
-"якщо для автодоповнення позначено віддалену адресну книгу (наприклад, ldap)."
+"Визначає чи шукати електронну адресу відправника у адресній книзі. Якщо "
+"адресу відправника знайдено, пошта не повинна бути спамом. Пошук ведеться у "
+"адресних книгах, позначених для автоматичного доповнення. Пошук може бути "
+"повільним, якщо для автоматичного доповнення позначено віддалену адресну "
+"книгу (наприклад, ldap)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 #: ../mail/evolution-mail.schemas.in.h:200
@@ -9572,7 +9574,7 @@ msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
 msgstr ""
-"Визначає чи шукати адресу для фільтрації спаму лише у локальній адресній "
+"Визначає, чи шукати адресу для фільтрування спаму лише у локальній адресній "
 "книзі"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
@@ -9582,14 +9584,14 @@ msgid ""
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
 msgstr ""
-"Цей параметр відноситься до ключа lookup_addressbook та визначає, чи "
-"використовувати лише локальні адресні книги при виключенні відомих контактів "
-"при фільтрації спаму."
+"Цей параметр пов'язаний з ключем lookup_addressbook і визначає, чи шукати "
+"лише локальні адресні книги під час відкидання відомих контактів у "
+"фільтруванні спаму."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 #: ../mail/evolution-mail.schemas.in.h:202
 msgid "Determines whether to use custom headers to check for junk"
-msgstr "Визначає, чи використовувати інші заголовки для пошуку спаму"
+msgstr "Визначає, чи використовувати власні заголовки для перевіряння на спам"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 #: ../mail/evolution-mail.schemas.in.h:203
@@ -9598,14 +9600,14 @@ msgid ""
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
-"Визначає чи перевіряти на спам інші заголовки. Якщо цей параметр увімкнено, "
-"та відповідні заголовки вказані, це призведе до пришвидшення перевірки на "
-"спам."
+"Визначає чи перевіряти на спам власні заголовки. Якщо цей параметр "
+"увімкнено, та відповідні заголовки вказано, це призведе до пришвидшення "
+"перевіряння на спам."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 #: ../mail/evolution-mail.schemas.in.h:204
 msgid "Custom headers to use while checking for junk."
-msgstr "Вказані користувачем заголовки для виявлення спаму."
+msgstr "Власні заголовки для виявлення спаму."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 #: ../mail/evolution-mail.schemas.in.h:205
@@ -9613,18 +9615,18 @@ msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
 msgstr ""
-"Вказані користувачем заголовки для перевірки спаму. Формат у вигляді "
-"заголовок=значення у gconf."
+"Вказані користувачем заголовки для перевіряння спаму. Перелік елементів — "
+"рядки у форматі «headername=value»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 #: ../mail/evolution-mail.schemas.in.h:206
 msgid "UID string of the default account."
-msgstr "Рядок UID основного облікового запису."
+msgstr "Рядок UID типового облікового запису."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 #: ../mail/evolution-mail.schemas.in.h:211
 msgid "Save directory"
-msgstr "Зберегти каталог"
+msgstr "Каталог зберігання"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 #: ../mail/evolution-mail.schemas.in.h:212
@@ -9633,28 +9635,29 @@ msgstr "Каталог для збереження файлів компонен
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "Composer load/attach directory"
-msgstr "Каталог для завантаження/долучення компоненту написання листів"
+msgstr "Редактор каталогу для завантаження/долучення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Directory for loading/attaching files to composer."
-msgstr "Каталог для збереження файлів компонентів пошти."
+msgstr "Каталог редактора для файлів завантаження/ долучення."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 #: ../mail/evolution-mail.schemas.in.h:219
-#, fuzzy
 msgid "Check for new messages on start"
-msgstr "Перевіряти на нові повідомлення при запуску"
+msgstr "Перевіряти на нові листи під час запуску"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
 msgstr ""
+"Чи перевіряти на нові листи, коли Evolution щойно запущено. Це також "
+"ураховує надсилання вихідних листів. "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 #: ../mail/evolution-mail.schemas.in.h:221
 msgid "Check for new messages in all active accounts"
-msgstr "Перевіряти на нові повідомлення в усіх активних облікових записах"
+msgstr "Перевіряти на нові листи в усіх активних облікових записах"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid ""
@@ -9662,11 +9665,14 @@ msgid ""
 "account \"Check for new messages every X minutes\" option when Evolution is "
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
+"Чи перевіряти на нові листи в усіх активних облікових записах незалежно від "
+"параметра «Перевіряти на нові листи кожних X хвилин», коли програму "
+"запущено. Цей параметр використовується лише разом з «send_recv_on_start»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 #: ../mail/evolution-mail.schemas.in.h:239
 msgid "Server synchronization interval"
-msgstr "Інтервал синхронізації з сервером"
+msgstr "Проміжок синхронізування із сервером"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 #: ../mail/evolution-mail.schemas.in.h:240
@@ -9675,7 +9681,7 @@ msgid ""
 "server. The interval must be at least 30 seconds."
 msgstr ""
 "Визначає, як часто локальні зміни синхронізуються з віддаленим поштовим "
-"сервером. Інтервал має бути принаймні 30 секунд."
+"сервером. Проміжок має бути принаймні 30 секунд."
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:1
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:1
@@ -9695,58 +9701,54 @@ msgstr ""
 "листа."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
-#, fuzzy
 msgid "Address book source"
-msgstr "Властивості адресної книги"
+msgstr "Джерело даних адресної книжки"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
-#, fuzzy
 msgid "Address book to use for storing automatically synced contacts"
-msgstr "Вибрати адресну книгу для автоматичних контактів"
+msgstr "Адресна книга для зберігання автоматично синхронізованих контактів"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
-#, fuzzy
 msgid "Auto sync GAIM contacts"
-msgstr "Автоматичні контакти"
+msgstr "Автоматичні синхронізовані контакти GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
 msgid "Whether GAIM contacts should be automaticall synced"
-msgstr ""
+msgstr "Чи слід контактам GAIM автоматично синхронізуватись"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
-#, fuzzy
 msgid "Enable autocontacts"
-msgstr "Мапа для контактів"
+msgstr "Увімкнути автоматичні контакти"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
 msgid ""
 "Whether contacts should be automatically added to the user's addressbook"
-msgstr ""
+msgstr "Чи слід контакти автоматично  додавати до адресної книги користувача"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
-#, fuzzy
 msgid "GAIM address book source"
-msgstr "Властивості адресної книги"
+msgstr "Джерело даних адресної книжки GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid "Address book to use for storing automatically synced contacts from GAIM"
 msgstr ""
+"Адресна книга для зберігання автоматично синхронізованих  контактів з GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "GAIM check interval"
-msgstr ""
+msgstr "Проміжок перевіряння GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
 msgid "Check interval for GAIM syncing of contacts"
-msgstr ""
+msgstr "Проміжок перевіряння на синхронізування контактів GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
 msgid "GAIM last sync MD5"
-msgstr ""
+msgstr "MD5 останнього синхронізування GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:12
 msgid "GAIM last sync time"
-msgstr ""
+msgstr "Час останнього синхронізування GAIM"
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:1
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:1
@@ -9781,11 +9783,10 @@ msgid "Automatically launch when a new mail is edited"
 msgstr "Автоматично запускати при редагуванні нової пошти"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:4
-#, fuzzy
 msgid "Automatically launch editor when key is pressed in the mail composer."
 msgstr ""
-"Автоматично запускати редактор, якщо у поштовому редакторі натискається "
-"клавіша"
+"Автоматично запускати редактор, якщо у поштовому редакторі натиснуто "
+"клавішу."
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:1
 #: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:1
@@ -9802,13 +9803,12 @@ msgstr ""
 "встановити зображення, інакше нічого не відбуватиметься."
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
-#, fuzzy
 msgid "Delete processed"
-msgstr "В_илучити повідомлення"
+msgstr "Вилучити оброблене"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
 msgid "Whether to delete processed iTip objects"
-msgstr ""
+msgstr "Чи вилучати оброблені об'єкти iTip"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
@@ -9875,9 +9875,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:13
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-#, fuzzy
 msgid "Sound filename to be played."
-msgstr "Звуковий файл, що відтворюється."
+msgstr "Звуковий файл для програвання."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
@@ -9888,7 +9887,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
 msgid "FIXME"
-msgstr ""
+msgstr "FIXME"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:16
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
@@ -9902,9 +9901,8 @@ msgstr ""
 "Відтворювати звук при отриманні нової пошти, якщо не увімкнено режим гудка."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:1
-#, fuzzy
 msgid "Mode to use when displaying mails"
-msgstr "Використовувати інші шрифти для відображення пошти."
+msgstr "Режим під час показування пошти"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
 msgid ""
