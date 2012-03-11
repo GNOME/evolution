@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-09 16:06+0200\n"
-"PO-Revision-Date: 2012-03-10 16:18+0300\n"
+"PO-Revision-Date: 2012-03-11 13:59+0300\n"
 "Last-Translator: Korostil Daniel <ted.korostiled@gmail.com>\n"
 "Language-Team: translation@linux.org.ua\n"
 "Language: uk\n"
@@ -7735,13 +7735,12 @@ msgid "Maximum number of recently used timezones to remember"
 msgstr "Максимальна кількість останніх використаних зон, які треба пам'ятати"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
-#, fuzzy
 msgid ""
 "Maximum number of recently used timezones to remember in a 'day-second-"
 "zones' list"
 msgstr ""
-"Максимальна кількість останніх використаних другорядних зон, які треба "
-"зберігати у списку 'day_second_zones'."
+"Максимальна кількість останніх використаних зон, які треба запам'ятовувати у "
+"списку «day_second_zones»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:97
@@ -7749,9 +7748,8 @@ msgid "Default reminder value"
 msgstr "Типове значення нагадування"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
-#, fuzzy
 msgid "Number of units for determining a default reminder"
-msgstr "Кількість одиниць для типового нагадування."
+msgstr "Кількість одиниць для визначення типового нагадування"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:31
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:99
@@ -7759,9 +7757,8 @@ msgid "Default reminder units"
 msgstr "Типові одиниці нагадування"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
-#, fuzzy
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\""
-msgstr "Типові одиниці нагадування, \"minutes\", \"hours\" чи \"days\"."
+msgstr "Одиниці типового нагадування, «minutes», «hours» або «days»."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:25
@@ -7831,9 +7828,8 @@ msgid "Hide completed tasks"
 msgstr "Приховувати виконані завдання"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
-#, fuzzy
 msgid "Whether to hide completed tasks in the tasks view"
-msgstr "Чи приховувати виконані завдання при перегляді завдань."
+msgstr "Чи приховувати виконані завдання під час переглядання завдань"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:83
@@ -7841,12 +7837,11 @@ msgid "Hide task units"
 msgstr "Приховувати одиниці завдань"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
-#, fuzzy
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\""
 msgstr ""
-"Одиниці визначення моменту приховувати завдання, \"minutes\", \"hours\" чи "
-"\"days\"."
+"Одиниці визначення моменту приховування завдань, «minutes», «hours» або "
+"«days»."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:85
@@ -7854,9 +7849,8 @@ msgid "Hide task value"
 msgstr "Приховувати значення завдань"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
-#, fuzzy
 msgid "Number of units for determining when to hide tasks"
-msgstr "Кількість одиниць для визначення часу приховування завдання."
+msgstr "Кількість одиниць для визначення, коли ховати завдання"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:39
@@ -7864,24 +7858,21 @@ msgid "Horizontal pane position"
 msgstr "Позиція горизонтальної панелі"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
-#, fuzzy
 msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels"
 msgstr ""
-"Положення горизонтальної панелі між навігатором огляду дати та списком "
-"завдань коли не у режимі огляду місяця, у точках."
+"Положення горизонтальної панелі між календарем навігатора дати та списком "
+"завдань, коли поза режимом перегляду місяця, у точках"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:111
-#, fuzzy
 msgid "Last reminder time"
-msgstr "Час останнього сигналу"
+msgstr "Час останнього нагадування"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
-#, fuzzy
 msgid "Time the last reminder ran, in time_t"
-msgstr "Час останнього нагадування, у форматі time_t."
+msgstr "Час останнього нагадування, у форматі time_t"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:71
@@ -7889,9 +7880,8 @@ msgid "Marcus Bains Line Color - Day View"
 msgstr "Колір лінії Маркуса Байнса - режим \"День\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
-#, fuzzy
 msgid "Color to draw the Marcus Bains line in the Day View"
-msgstr "Колір для лінії Маркуса\t Байнса у розкладі на день."
+msgstr "Колір для лінії Маркуса Байнса під час переглядання дня."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:73
@@ -7899,11 +7889,10 @@ msgid "Marcus Bains Line Color - Time bar"
 msgstr "Колір лінії Маркуса Байнса - поле часу"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
-#, fuzzy
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr ""
 "Колір для лінії Маркуса Байнса у розкладі (для типового значення залиште "
-"порожнім)."
+"порожнім)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:69
@@ -7911,10 +7900,9 @@ msgid "Marcus Bains Line"
 msgstr "Лінія Маркуса Байнса"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
-#, fuzzy
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar"
-msgstr "Чи малювати лінію Маркуса Байнса (поточний час) в календарі."
+msgstr "Чи малювати лінію Маркуса Байнса (поточний час) в календарі"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:52
@@ -7922,11 +7910,8 @@ msgid "Memo preview pane position (horizontal)"
 msgstr "Положення панелі попереднього перегляду приміток (горизонтально)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
-#, fuzzy
 msgid "Position of the task preview pane when oriented horizontally"
-msgstr ""
-"Положення панелі попереднього перегляду позначок при горизонтальній "
-"орієнтації."
+msgstr "Позиція панелі перегляду завдань у горизонтальному положенні"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:48
@@ -7934,16 +7919,15 @@ msgid "Memo layout style"
 msgstr "Стиль приміток"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
-#, fuzzy
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list"
 msgstr ""
-"Стиль розташування визначає місце для панелі попереднього перегляду відносно "
-"списку приміток. «0» (класичний вид) розміщує панель попереднього перегляду "
-"під списком приміток. «1» (вертикальний вигляд) розташовує панель поруч із "
-"списком приміток."
+"Стиль компонування визначає місце для панелі попереднього перегляду відносно "
+"списку приміток. «0» (класичний перегляд) розміщує панель попереднього "
+"перегляду під списком приміток. «1» (вертикальний перегляд) розташовує "
+"панель поруч із списком приміток"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:54
@@ -7951,10 +7935,8 @@ msgid "Memo preview pane position (vertical)"
 msgstr "Положення панелі попереднього перегляду приміток (вертикально)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
-#, fuzzy
 msgid "Position of the memo preview pane when oriented vertically"
-msgstr ""
-"Положення панелі попереднього перегляду позначок при вертикальній орієнтації."
+msgstr "Позиція панелі перегляду приміток у вертикальному положенні"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:43
@@ -7962,53 +7944,46 @@ msgid "Month view horizontal pane position"
 msgstr "Позиція горизонтальної панелі при огляді місяця"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
-#, fuzzy
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels"
 msgstr ""
-"Положення горизонтальної панелі між навігатором огляду дати та списком "
-"завдань коли у режимі огляду місяця, у точках."
+"Позиція горизонтальної панелі між переглядом, календарем навігатора дат і "
+"списком завдань у перегляді місяця, в точках"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
-#, fuzzy
 msgid "Scroll Month View by a week, not by a month"
-msgstr "Гортати режим \"Тиждень\" потижнево а не помісячно."
+msgstr "Гортати перегляд місяця потижнево, а не помісячно."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
-#, fuzzy
 msgid "Whether to scroll a Month View by a week, not by a month"
-msgstr "Гортати режим \"Тиждень\" потижнево а не помісячно."
+msgstr "чи гортати перегляд місяця потижнево, а не помісячно"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:114
-#, fuzzy
 msgid "Reminder programs"
-msgstr "Примітки для нагадування"
+msgstr "Програми нагадування"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
-#, fuzzy
 msgid "Programs that are allowed to be run by reminders"
-msgstr "Програми, які дозволено використовувати як частину сигналів."
+msgstr "Програми, які дозволено запускати через нагадування"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:73
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:116
-#, fuzzy
 msgid "Show display reminders in notification tray"
-msgstr "Показувати екранні сигнали у області сповіщення"
+msgstr "Показувати нагадування в лотку сповіщень"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
-#, fuzzy
 msgid "Whether or not to use the notification tray for display reminders"
-msgstr "Чи використовувати область сповіщення для відображення сигналів."
+msgstr "Чи використовувати лоток сповіщень для показу нагадувань"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
 msgid "Preferred New button item"
-msgstr ""
+msgstr "Бажаний об'єкт нової кнопки"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
 msgid "Name of the preferred New toolbar button item"
-msgstr ""
+msgstr "Назва бажаного об'єкта нової кнопки на панелі"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:1
@@ -8020,6 +7995,7 @@ msgid ""
 "The UID of the selected (or \"primary\") calendar in the sidebar of the "
 "\"Calendar\" view"
 msgstr ""
+"UID вибраного (або основного) календарю в бічній панелі перегляду календаря"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:77
@@ -8031,6 +8007,8 @@ msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view"
 msgstr ""
+"UID вибраного (або основного) списку приміток у бічній панелі у перегляді "
+"приміток"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:79
@@ -8042,6 +8020,8 @@ msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view"
 msgstr ""
+"UID вибраного (або основного) списку завдань у бічній панелі перегляду "
+"завдань"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:120
@@ -8049,53 +8029,48 @@ msgid "Free/busy template URL"
 msgstr "URL шаблону вільний/зайнятий"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain"
 msgstr ""
-"Шаблон URL для відправки даних про зайнятість. %u замінюється на ліву "
-"частину поштової адреси (ім'я користувача), %d - домен."
+"Шаблон URL для надсилання даних про зайнятість. %u замінюється на ліву "
+"частину поштової адреси, %d — домен."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:75
-#, fuzzy
 msgid "Recurrent Events in Italic"
-msgstr "Неправильна дата повторення"
+msgstr "Періодичні події в курсиві"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr ""
+"Показувати дні з періодичними подіями курсивним шрифтом у кнопці зліва від "
+"календаря"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
-#, fuzzy
 msgid "List of selected calendars"
-msgstr "Вилучити вибраний календар"
+msgstr "Список вибраних календарів"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
-#, fuzzy
 msgid "List of calendars to load"
-msgstr "Список доступних календарів:"
+msgstr "Список календарів для завантаження"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
-#, fuzzy
 msgid "List of selected memo lists"
-msgstr "Вилучити список вибраних приміток"
+msgstr "Перелік списків вибраних приміток"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
-#, fuzzy
 msgid "List of memo lists to load"
-msgstr "Реєстр списків приміток"
+msgstr "Перелік списків приміток для завантаження"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
-#, fuzzy
 msgid "List of selected task lists"
-msgstr "Вилучити вибраний список задач"
+msgstr "Перелік списків вибраних завдань"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
-#, fuzzy
 msgid "List of task lists to load"
-msgstr "Реєстр списків завдань"
+msgstr "Перелік списків завдань для завантаження"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:65
@@ -8103,9 +8078,8 @@ msgid "Show appointment end times in week and month views"
 msgstr "Показувати час завершення зустрічей при перегляді тижню та місяцю"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
-#, fuzzy
 msgid "Whether to display the end time of events in the week and month views"
-msgstr "Показувати час завершення зустрічей при перегляді тижня та місяця."
+msgstr "Чи показувати час завершення подій у переглядах тижня і місяця"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:50
@@ -8113,11 +8087,10 @@ msgid "Show the memo preview pane"
 msgstr "Показувати панель попереднього перегляду приміток"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
-#, fuzzy
 msgid "If \"true\", show the memo preview pane in the main window"
 msgstr ""
-"Якщо встановлено, показувати панель попереднього перегляду позначок у "
-"головному вікні."
+"Якщо зазначено, показувати панель попереднього перегляду приміток у "
+"головному вікні"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:58
@@ -8125,37 +8098,35 @@ msgid "Show the task preview pane"
 msgstr "Показувати панель попереднього перегляду задач"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
-#, fuzzy
 msgid "If \"true\", show the task preview pane in the main window"
 msgstr ""
-"Якщо встановлено, показувати панель попереднього перегляду задач у головному "
-"вікні."
+"Якщо зазначено, показувати панель попереднього перегляду завдань у головному "
+"вікні"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:107
-#, fuzzy
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
-msgstr "Показати номери тижнів у режимах \"День\" та \"Робочий тиждень\""
+msgstr ""
+"Показати кількість тижнів у перегляді дня, робочого тижня, і навігатора дат"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
-#, fuzzy
 msgid "Whether to show week numbers in various places in the Calendar"
-msgstr "Чи показати номери тижнів у навігаторі по датам."
+msgstr "Чи показувати кількість тижнів у різних місцях у календарі"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
-#, fuzzy
 msgid "Vertical position for the tag pane"
-msgstr "Вертикальне положення"
+msgstr "Вертикальна позиція для панелі міток"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
-#, fuzzy
 msgid "Highlight tasks due today"
-msgstr "Завдання на _сьогодні:"
+msgstr "Підсвітити завдання на сьогодні"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
+"Чи підсвічувати завдання на сьогодні особливим кольором (task-due-today-"
+"color)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:87
@@ -8163,11 +8134,12 @@ msgid "Tasks due today color"
 msgstr "Завдання на сьогодні"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
-#, fuzzy
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
-msgstr "Колір для сьогоднішніх завдань, у форматі \"#rrggbb\"."
+msgstr ""
+"Колір тла завдань на сьогодні, в форматі «#rrggbb». Застосовується разом із "
+"task-due-today-highlight"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:60
@@ -8180,16 +8152,15 @@ msgid "Task layout style"
 msgstr "Стиль розташування задач"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
-#, fuzzy
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list"
 msgstr ""
-"Стиль розташування визначає місце для панелі попереднього перегляду відносно "
-"списку задач. «0» (класичний вигляд) розташовує панель попереднього "
-"перегляду під списком задач. «1» (вертикальний вигляд) розташовує панель "
-"поруч із списком задач."
+"Стиль компонування визначає місце для панелі попереднього перегляду відносно "
+"списку задач. «0» (класичний перегляд) розташовує панель попереднього "
+"перегляду під списком задач. «1» (вертикальний перегляд) розташовує панель "
+"поруч із списком завдань"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:61
@@ -8197,20 +8168,18 @@ msgid "Task preview pane position (vertical)"
 msgstr "Розташування панелі попереднього перегляду задач (вертикально)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
-#, fuzzy
 msgid "Position of the task preview pane when oriented vertically"
-msgstr ""
-"Положення панелі попереднього перегляду задач при вертикальній орієнтації."
+msgstr "Позиція панелі попереднього перегляду завдань у вертикальному положенні"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
-#, fuzzy
 msgid "Highlight overdue tasks"
-msgstr "П_рострочені завдання:"
+msgstr "Підсвітити згаяні завдання"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
+"Чи підсвічувати згаяні завдання з особливим кольором (task-overdue-color)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:89
@@ -8218,11 +8187,12 @@ msgid "Overdue tasks color"
 msgstr "Колір прострочених завдань"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
-#, fuzzy
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
-msgstr "Колір для прострочених завдань, у форматі \"#rrggbb\"."
+msgstr ""
+"Колір тла згаяних завдань, в форматі «#rrggbb». Застосовується разом із "
+"overdue-highlight."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:37
@@ -8230,11 +8200,8 @@ msgid "Time divisions"
 msgstr "Розділювачі часу"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
-#, fuzzy
 msgid "Intervals shown in Day and Work Week views, in minutes"
-msgstr ""
-"Інтервали, що виводяться у режимах \"День\" та \"Робочий тиждень\", у "
-"хвилинах."
+msgstr "Інтервали, показані в перегляді дня і робочого тижня, в хвилинах "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:3
@@ -8242,14 +8209,13 @@ msgid "Timezone"
 msgstr "Часовий пояс"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
-#, fuzzy
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
 msgstr ""
-"Типовий часовий пояс, що використовується для дат та часу календаря, "
-"наприклад неперекладена назва часового поясу Olsen у базі даних часових "
-"поясів \"America/New York\"."
+"Типовий часовий пояс, що використовується для дат і часу календаря, "
+"наприклад, неперекладена назва часового поясу Olson у базі даних часових "
+"поясів «America/New York»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:13
@@ -8257,20 +8223,17 @@ msgid "Twenty four hour time format"
 msgstr "24-годинний формат часу"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
-#, fuzzy
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
-msgstr "Чи показувати час у 24-годинному форматі замість am/pm"
+msgstr "Чи показувати час у 24-ох годинному форматі замість am/pm"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:101
-#, fuzzy
 msgid "Birthday and anniversary reminder"
-msgstr "Дні народження та річниці"
+msgstr "Нагадування про дні народження та річниці"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
-#, fuzzy
 msgid "Whether to set a reminder for birthdays and anniversaries"
-msgstr "Чи встановлювати типове нагадування для подій."
+msgstr "Чи встановлювати нагадування для днів народжень і річниць"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:95
@@ -8278,9 +8241,8 @@ msgid "Default appointment reminder"
 msgstr "Типове нагадування про зустріч"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
-#, fuzzy
 msgid "Whether to set a default reminder for appointments"
-msgstr "Чи встановлювати типове нагадування для подій."
+msgstr "Чи встановлювати типове нагадування для зустрічей"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:5
@@ -8288,9 +8250,8 @@ msgid "Use system timezone"
 msgstr "Використовувати системний часовий пояс"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
-#, fuzzy
 msgid "Use the system timezone instead of the timezone selected in Evolution"
-msgstr "Використовувати системний часовий пояс замість вказаного у Evolution."
+msgstr "Використовувати системний часовий пояс замість вказаного у Evolution"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:27
@@ -8298,9 +8259,8 @@ msgid "Week start"
 msgstr "Початок тижня"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
-#, fuzzy
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)"
-msgstr "День, з якого починається тиждень, з неділі (0) до суботи (6)."
+msgstr "День, з якого починається тиждень, від неділі (0) до суботи (6)."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:67
@@ -8308,9 +8268,8 @@ msgid "Work days"
 msgstr "Робочі дні"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
-#, fuzzy
 msgid "Days on which the start and end of work hours should be indicated"
-msgstr "Дні, коли повинні виводитись початок та кінець робочих годин."
+msgstr "Дні, коли повинні виводитись початок та кінець робочих годин"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
 #: ../shell/apps_evolution_shell.schemas.in.h:1
@@ -8341,54 +8300,48 @@ msgstr ""
 "configuration (наприклад \"2.6.0\")."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:5
-#, fuzzy
 msgid "List of disabled plugins"
-msgstr "Вмикає та вимикає модулі"
+msgstr "Перелік вимкнутих додатків"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:6
 msgid "The list of disabled plugins in Evolution"
-msgstr ""
+msgstr "Перелік вимкнутих додатків у Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
-#, fuzzy
 msgid "The window's X coordinate"
-msgstr "Типова координата X"
+msgstr "Координата X вікна"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
-#, fuzzy
 msgid "The window's Y coordinate"
-msgstr "Типова координата Y"
+msgstr "Координата Y вікна"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:9
-#, fuzzy
 msgid "The window's width in pixels"
-msgstr "Вікно, якому належить вигляд оболонки"
+msgstr "Ширина вікна у точках"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:10
-#, fuzzy
 msgid "The window's height in pixels"
-msgstr "Типова висота вікна"
+msgstr "Висота вікна у точках"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:11
-#, fuzzy
 msgid "Whether the window is maximized"
-msgstr "Чи вікна мають бути видимими."
+msgstr "Чи розгортати вікно"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
 msgid "Gnome Calendar's calendar import done"
-msgstr ""
+msgstr "Імпортування з Gnome Calendar завершено"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:2
 msgid "Whether calendar from Gnome Calendar has been imported or not"
-msgstr ""
+msgstr "Чи календар з Gnome Calendar імпортовано, чи ні"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:3
 msgid "Gnome Calendar's tasks import done"
-msgstr ""
+msgstr "Імпортування завдань Gnome Calendar завершено"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:4
 msgid "Whether tasks from Gnome Calendar have been imported or not"
-msgstr ""
+msgstr "Чи завдання з Gnome Calendar імпортовано, чи ні"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:1
 #: ../modules/mailto-handler/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
@@ -8422,6 +8375,10 @@ msgid ""
 "folder, usually set to ~/Pictures. This folder will be also used when the "
 "set path is not pointing to the existent folder"
 msgstr ""
+"Це значення може містити порожній рядок, що означає, що "
+"використовуватиметься системна тека малюнків, це зазвичай ~/Pictures. Ця "
+"тека буде також використовуватись, коли вказаний шлях не належить до наявної "
+"теки."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
 #: ../mail/evolution-mail.schemas.in.h:3
@@ -8454,37 +8411,40 @@ msgid "Recognize emoticons in text and replace them with images."
 msgstr "Розпізнавати емоції у тексті та замінювати їх на зображення."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
-#, fuzzy
 msgid "Attribute message"
-msgstr "Атрибутне повідомлення."
+msgstr "Приписати лист"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
 msgid ""
 "The text that is inserted when replying to a message, attributing the "
 "message to the original author"
 msgstr ""
+"Текст, який вставлено під час відповіді на лист, приписування листа до його "
+"автора"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
-#, fuzzy
 msgid "Forward message"
-msgstr "Переслати повідомлення."
+msgstr "Переслати лист"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:16
 msgid ""
 "The text that is inserted when forwarding a message, saying that the "
 "forwarded message follows"
 msgstr ""
+"Текст, який вставлено під час  пересилання листа, заявивши, що пересланий "
+"лист відповідний"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:17
-#, fuzzy
 msgid "Original message"
-msgstr "Первісне повідомлення."
+msgstr "Первісний лист"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:18
 msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows"
 msgstr ""
+"Текст, який вставлено під час  відповіді на лист (верхнє дописування), "
+"заявивши, що первісний лист відповідний"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:19
 #: ../mail/evolution-mail.schemas.in.h:9
@@ -8630,9 +8590,8 @@ msgstr ""
 "контролюється з меню Вигляд, коли обрано рахунок новин."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
-#, fuzzy
 msgid "Digitally sign replies when the original message is signed"
-msgstr "При відповіді розміщувати підпис _над повідомленням"
+msgstr "Цифровий підпис відповідей, коли первісний лист підписано"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
 #: ../mail/evolution-mail.schemas.in.h:12
@@ -8640,12 +8599,13 @@ msgid ""
 "Automatically enable PGP or S/MIME signatures when replying to a message "
 "which is also PGP or S/MIME signed."
 msgstr ""
+"Автоматично вмикати підписування PGP або S/MIME під час відповіді на лист, "
+"який також підписано через PGP або S/MIME"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 #: ../mail/evolution-mail.schemas.in.h:33
-#, fuzzy
 msgid "Encode filenames in an Outlook/GMail way"
-msgstr "Кодувати імена файлів аналогічно до Outlook/GMail"
+msgstr "Кодувати назви файлів відповідно до Outlook/GMail"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
 #: ../mail/evolution-mail.schemas.in.h:34
