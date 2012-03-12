@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-09 16:06+0200\n"
-"PO-Revision-Date: 2012-03-11 21:23+0300\n"
+"PO-Revision-Date: 2012-03-12 08:54+0300\n"
 "Last-Translator: Korostil Daniel <ted.korostiled@gmail.com>\n"
 "Language-Team: translation@linux.org.ua\n"
 "Language: uk\n"
@@ -9910,11 +9910,13 @@ msgid ""
 "best part to show, \"prefer_plain\" makes it use the text part, if present, "
 "and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
+"Режим для показування пошти. «normal» буде найкраще за все, « prefer_plain» "
+"довзоляє використовувати текстову частину, якщо така є, й «only_plain» "
+"змушує показувати лише звичайний текст"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
-#, fuzzy
 msgid "Whether to show suppressed HTML output"
-msgstr "Показувати панель попереднього перегляду."
+msgstr "Чи показувати заборонений вивід HTML"
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 #: ../plugins/templates/apps-evolution-template-placeholders.schemas.in.h:1
@@ -9973,16 +9975,14 @@ msgstr ""
 "мережного режиму."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
-#, fuzzy
 msgid "Offline folder paths"
-msgstr "Відкривання теки \"%s\""
+msgstr "Шлях до теки автономної роботи"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
-#, fuzzy
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage."
 msgstr ""
-"Перелік шляхів для тек, які будуть синхронізуватись на диск для автономного "
+"Перелік шляхів для тек, які будуть синхронізуватись з диском для автономного "
 "використання"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
@@ -10080,7 +10080,7 @@ msgstr "Використовувати лише локальні спам-тес
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
 msgid "Socket path for SpamAssassin"
-msgstr ""
+msgstr "Шлях гнізда для SpamAssassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
 #: ../modules/spamassassin/evolution-spamassassin.schemas.in.h:3
@@ -10093,14 +10093,12 @@ msgid "Use SpamAssassin daemon and client (spamc/spamd)."
 msgstr "Використовувати клієнт та службу SpamAssassin (spamc/spamd)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
-#, fuzzy
 msgid "SpamAssassin client binary"
-msgstr "Параметри SpamAssassin"
+msgstr "Бінарниий клієнт SpamAssassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:7
-#, fuzzy
 msgid "SpamAssassin daemon binary"
-msgstr "Використовувати клієнт та службу SpamAssassin"
+msgstr "Бінарна служба SpamAssassin"
 
 #: ../em-format/em-format.c:1063 ../em-format/em-format-quote.c:318
 #: ../mail/e-mail-tag-editor.c:327 ../mail/message-list.etspec.h:5
@@ -10430,19 +10428,17 @@ msgid ""
 msgstr "Система друку не надала подробиць через помилку."
 
 #: ../e-util/e-system.error.xml.h:1
-#, fuzzy
 msgid "A file named \"{0}\" already exists. Do you want to replace it?"
-msgstr "Тека з назвою «{0}» вже існує. Вкажіть іншу назву."
+msgstr "Тека з назвою «{0}» вже існує. Замінити її?"
 
 #: ../e-util/e-system.error.xml.h:2
 msgid ""
 "The file already exists in \"{0}\". Replacing it will overwrite its contents."
-msgstr ""
+msgstr "Файл вже існує в «{0}». Замінювання призведе до втрати вмісту."
 
 #: ../e-util/e-system.error.xml.h:3
-#, fuzzy
 msgid "_Replace"
-msgstr "_Відповісти"
+msgstr "За_мінити"
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Cannot save file \"{0}\"."
@@ -10645,9 +10641,8 @@ msgid "No reply or parent"
 msgstr "Не є відповіддю чи батьківським"
 
 #: ../filter/e-filter-rule.c:783
-#, fuzzy
 msgid "I_nclude threads:"
-msgstr "Вкл_ючно з гілками"
+msgstr "_Ураховуючи гілки:"
 
 #: ../filter/e-filter-rule.c:808
 msgid "A_dd Condition"
@@ -10679,14 +10674,12 @@ msgid "You must choose a date."
 msgstr "Необхідно вибрати дату."
 
 #: ../filter/filter.error.xml.h:3
-#, fuzzy
 msgid "Missing filename."
-msgstr "Відсутня назва файлу."
+msgstr "Без назви файла."
 
 #: ../filter/filter.error.xml.h:4
-#, fuzzy
 msgid "You must specify a filename."
-msgstr "Необхідно вказати назву файлу."
+msgstr "Потрібно вказати назву файла."
 
 #: ../filter/filter.error.xml.h:5
 msgid "File &quot;{0}&quot; does not exist or is not a regular file."
@@ -10804,9 +10797,8 @@ msgstr[1] "Отримання %d повідомлень"
 msgstr[2] "Отримання %d повідомлень"
 
 #: ../libemail-engine/e-mail-folder-utils.c:472
-#, fuzzy
 msgid "Scanning messages for duplicates"
-msgstr "Перевіряє, чи не повторювались вибрані повідомлення"
+msgstr "Сканування листів на повторення"
 
 #: ../libemail-engine/e-mail-folder-utils.c:875
 #, c-format
@@ -10814,17 +10806,15 @@ msgid "Removing folder '%s'"
 msgstr "Вилучення теки «%s»"
 
 #: ../libemail-engine/e-mail-folder-utils.c:1009
-#, fuzzy, c-format
+#, c-format
 msgid "File \"%s\" has been removed."
-msgstr "Всі облікові записи вилучено."
+msgstr "Файл «%s» вилучено."
 
 #: ../libemail-engine/e-mail-folder-utils.c:1013
-#, fuzzy
 msgid "File has been removed."
-msgstr "Всі облікові записи вилучено."
+msgstr "Файл вилучено."
 
 #: ../libemail-engine/e-mail-folder-utils.c:1072
-#, fuzzy
 msgid "Removing attachments"
 msgstr "Вилучення долучень"
 
@@ -10837,9 +10827,9 @@ msgstr[1] "Збереження %d повідомлень"
 msgstr[2] "Збереження %d повідомлень"
 
 #: ../libemail-engine/e-mail-folder-utils.c:1588 ../mail/em-folder-utils.c:624
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid folder URI '%s'"
-msgstr "Неправильна тека: %s"
+msgstr "Неправильна URI теки «%s»"
 
 #: ../libemail-engine/e-mail-session.c:108 ../mail/em-folder-properties.c:333
 #: ../mail/em-folder-tree-model.c:719
@@ -10916,19 +10906,19 @@ msgstr ""
 "використовується."
 
 #: ../libemail-engine/e-mail-session.c:1320
-#, fuzzy, c-format
+#, c-format
 msgid "%s authentication failed"
-msgstr "Збій автентифікації."
+msgstr "Не вдалось аутентифікувати %s"
 
 #: ../libemail-engine/e-mail-session.c:1394
 #, c-format
 msgid "No password was provided"
-msgstr ""
+msgstr "Немає паролю"
 
 #: ../libemail-engine/e-mail-session-utils.c:416
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get transport for account '%s'"
-msgstr "Очищення та збереження облікового рахунку '%s'"
+msgstr "Неможливо перемістити обліковий запис «%s»"
 
 #: ../libemail-engine/e-mail-session-utils.c:505
 #: ../libemail-engine/mail-ops.c:616
@@ -11000,12 +10990,12 @@ msgstr "Відсилання повідомлення %d з %d"
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
 #: ../libemail-engine/mail-ops.c:883
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
-msgstr[0] "Не вдається надіслати %d з %d повідомлень."
-msgstr[1] "Не вдається надіслати %d з %d повідомлень."
-msgstr[2] "Не вдається надіслати %d з %d повідомлень."
+msgstr[0] "Не вдалось надіслати %d лист"
+msgstr[1] "Не вдалось надіслати %d з %d листів"
+msgstr[2] "Не вдалось надіслати %d з %d листів"
 
 #: ../libemail-engine/mail-ops.c:889 ../mail/mail-send-recv.c:885
 msgid "Canceled."
@@ -11056,19 +11046,19 @@ msgid "Emptying trash in '%s'"
 msgstr "Очищення смітника у \"%s\""
 
 #: ../libemail-engine/mail-ops.c:1664
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting %s"
-msgstr "Відключення від «%s»"
+msgstr "Від'єднання від %s"
 
 #: ../libemail-engine/mail-tools.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create spool directory '%s': %s"
-msgstr "Не вдається створити буферний каталог \"%s\": %s"
+msgstr "Неможливо створити розвантажувальний каталог «%s»: %s"
 
 #: ../libemail-engine/mail-tools.c:112
-#, fuzzy, c-format
+#, c-format
 msgid "Trying to movemail a non-mbox source '%s'"
-msgstr "Спроба перемістити пошту з не-mbox джерела \"%s\""
+msgstr "Спроба перемістити пошту з джерела «%s», яке не є mbox"
 
 #: ../libemail-engine/mail-tools.c:224
 #, c-format
@@ -11085,9 +11075,9 @@ msgid "Setting up Search Folder: %s"
 msgstr "Налаштовування віртуальної теки: %s"
 
 #: ../libemail-engine/mail-vfolder.c:214
-#, fuzzy, c-format
+#, c-format
 msgid "Updating Search Folders for '%s' - %s"
-msgstr "Оновлення віртуальних тек для '%s'"
+msgstr "Оновлення пошукових тек для «%s» — %s"
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
@@ -11105,8 +11095,16 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
+"Пошукову теку «%s» змінено в обліковому записі для вилучення теки\n"
+"«%s»."
 msgstr[1] ""
+"Такі пошукові теки\n"
+"%s змінено в обліковому записі для вилучення теки\n"
+"«%s»."
 msgstr[2] ""
+"Такі пошукові теки\n"
+"%s змінено в обліковому записі для вилучення теки\n"
+"«%s»."
 
 #: ../libemail-utils/e-signature.c:710
 msgid "Autogenerated"
@@ -11132,22 +11130,21 @@ msgstr "_Шлях:"
 
 #: ../mail/em-account-editor.c:2924
 msgid "Fil_e:"
-msgstr ""
+msgstr "_Файл:"
 
 #: ../mail/em-account-editor.c:2969
 msgid "Mail Configuration"
 msgstr "Налаштовування пошти"
 
 #: ../mail/em-account-editor.c:2970
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
 "Click \"Continue\" to begin."
 msgstr ""
-"Ласкаво просимо до помічника налаштовування пошти Evolution.\n"
+"Ласкаво просимо до помічника налаштування пошти Evolution.\n"
 "\n"
-"Натисніть \"Вперед\" для продовження"
+"Натисніть «Продовжити», щоб почати."
 
 #: ../mail/em-account-editor.c:2973
 msgid ""
@@ -11181,14 +11178,13 @@ msgstr ""
 "Інтернет."
 
 #: ../mail/em-account-editor.c:2981
-#, fuzzy
 msgid "Account Summary"
-msgstr "Поточний обліковий запис"
+msgstr "Підсумок облікового запису"
 
 #: ../mail/em-account-editor.c:2982
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
-msgstr ""
+msgstr "Це підсумок усіх налаштувань, які потрібні для доступу до пошти."
 
 #: ../mail/em-account-editor.c:2986
 msgid "Done"
@@ -11232,33 +11228,28 @@ msgid "Checking for New Messages"
 msgstr "Перевірка нової пошти"
 
 #: ../mail/em-account-editor.c:4937
-#, fuzzy
 msgid "Setup Google con_tacts with Evolution"
-msgstr "Налаштувати контакти Google з Evolution"
+msgstr "Налаштувати _контакти Google з Evolution"
 
 #: ../mail/em-account-editor.c:4944
-#, fuzzy
 msgid "Setup Google ca_lendar with Evolution"
-msgstr "Налаштувати календар Google з Evolution"
+msgstr "Налаштувати ка_лендар Google з Evolution"
 
 #: ../mail/em-account-editor.c:4992
-#, fuzzy
 msgid "Setup _Yahoo calendar with Evolution"
-msgstr "Налаштувати календар Yahoo з Evolution"
+msgstr "Налаштувати кале_ндар Yahoo з Evolution"
 
 #: ../mail/em-account-editor.c:5017
-#, fuzzy
 msgid "Yahoo Calen_dar name:"
-msgstr "Назва календаря Yahoo:"
+msgstr "Назва кале_ндаря Yahoo:"
 
 #: ../mail/e-mail-account-manager.c:405
-#, fuzzy
 msgid "_Restore Default"
-msgstr "_Типову"
+msgstr "_Типові значення"
 
 #: ../mail/e-mail-account-manager.c:418
 msgid "You can drag and drop account names to reorder them."
-msgstr ""
+msgstr "Можете перетягувати назви облікових записів, щоб перевпорядкувати їх."
 
 #: ../mail/e-mail-account-manager.c:463
 msgid "De_fault"
@@ -11305,9 +11296,8 @@ msgid "List View"
 msgstr "Перегляд списків"
 
 #: ../mail/e-mail-backend.c:661
-#, fuzzy
 msgid "Unknown background operation"
-msgstr "Невідома дія для виконання"
+msgstr "Невідома фонова дія"
 
 #: ../mail/e-mail-browser.c:130 ../shell/e-shell-window-actions.c:1439
 #: ../shell/e-shell-window-actions.c:1446
@@ -11332,14 +11322,12 @@ msgid "_From This Address"
 msgstr "_З цієї адреси"
 
 #: ../mail/e-mail-display.c:89
-#, fuzzy
 msgid "Send _Reply To..."
-msgstr "_Надіслати до:"
+msgstr "Надіслати _відповідь до…"
 
 #: ../mail/e-mail-display.c:91
-#, fuzzy
 msgid "Send a reply message to this address"
-msgstr "Перетворити виділене повідомлення на завдання"
+msgstr "Надіслати відповідь на лист до цієї адреси"
 
 #: ../mail/e-mail-display.c:98
 msgid "Create Search _Folder"
@@ -11349,7 +11337,7 @@ msgstr "Створити теку _пошуку"
 #. * aligned with the junk mail options above it.
 #: ../mail/e-mail-junk-options.c:252
 msgid "Junk filtering software:"
-msgstr ""
+msgstr "Програма фільтрування спаму:"
 
 #: ../mail/e-mail-label-dialog.c:225
 msgid "_Label name:"
@@ -12029,23 +12017,22 @@ msgid "Folder '%s'"
 msgstr "Тека «%s»"
 
 #: ../mail/e-mail-reader-utils.c:146
-#, fuzzy
 msgid "Do not warn me again"
-msgstr "Не питати знову"
+msgstr "Більше не попереджати"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
 #: ../mail/e-mail-reader-utils.c:641
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Folder '%s' contains %u duplicate message. Are you sure you want to delete "
 "it?"
 msgid_plural ""
 "Folder '%s' contains %u duplicate messages. Are you sure you want to delete "
 "them?"
-msgstr[0] "Тека «%s» містить %d дубльоване повідомлення. Вилучити його?"
-msgstr[1] "Тека «%s» містить %d дубльовані повідомлення. Вилучити їх?"
-msgstr[2] "Тека «%s» містить %d дубльованих повідомлень. Вилучити їх?"
+msgstr[0] "Тека «%s» містить %u повторений лист. Вилучити його?"
+msgstr[1] "Тека «%s» містить %u повторених листа. Вилучити їх?"
+msgstr[2] "Тека «%s» містить %u повторених листів. Вилучити їх?"
 
 #: ../mail/e-mail-reader-utils.c:1020
 msgid "Save Message"
@@ -12152,9 +12139,8 @@ msgid "does not exist"
 msgstr "не існує"
 
 #: ../mail/em-filter-i18n.h:19
-#, fuzzy
 msgid "does not have words"
-msgstr "не закінчується на"
+msgstr "Немає слів"
 
 #: ../mail/em-filter-i18n.h:20
 msgid "does not return"
@@ -12193,9 +12179,8 @@ msgid "Forward to"
 msgstr "Переслати"
 
 #: ../mail/em-filter-i18n.h:31
-#, fuzzy
 msgid "has words"
-msgstr "Пароль:"
+msgstr "має слова"
 
 #: ../mail/em-filter-i18n.h:32
 msgid "Important"
@@ -12351,9 +12336,8 @@ msgid "Stop Processing"
 msgstr "Зупинити обробку"
 
 #: ../mail/em-filter-i18n.h:77
-#, fuzzy
 msgid "Unset Color"
-msgstr "Невиділений стовпчик"
+msgstr "Невказаний колір"
 
 #: ../mail/em-filter-i18n.h:78
 msgid "Unset Status"
@@ -12563,9 +12547,8 @@ msgid "From: %s"
 msgstr "Від: %s"
 
 #: ../mail/em-format-html.c:3030
-#, fuzzy
 msgid "(no subject)"
-msgstr "(Немає теми)"
+msgstr "(без теми)"
 
 #: ../mail/em-format-html.c:3106
 #, c-format
@@ -12665,19 +12648,16 @@ msgstr ""
 "використовувати зовнішній текстовий редактор."
 
 #: ../mail/em-format-html-display.c:773
-#, fuzzy
 msgid "Save Image"
-msgstr "Зберегти повідомлення"
+msgstr "Зберегти зображення"
 
 #: ../mail/em-format-html-display.c:821
-#, fuzzy
 msgid "Save _Image..."
-msgstr "Зберегти як..."
+msgstr "Зберегти _зображення…"
 
 #: ../mail/em-format-html-display.c:823
-#, fuzzy
 msgid "Save the image to a file"
-msgstr "Зберегти поточний файл"
+msgstr "Зберегти зображення у файл"
 
 #: ../mail/em-format-html-display.c:1024
 msgid "Completed on"
@@ -12705,7 +12685,6 @@ msgstr "В_ідкрити у програмі"
 
 #. Translators: Name of an Attachment button for a11y object
 #: ../mail/em-format-html-display.c:1407
-#, fuzzy
 msgctxt "Button"
 msgid "Attachment"
 msgstr "Долучення"
@@ -12722,38 +12701,33 @@ msgid "No HTML stream available"
 msgstr "Немає доступного потоку HTML"
 
 #: ../mail/em-subscription-editor.c:870
-#, fuzzy
 msgid "_Subscribe"
-msgstr "П_ідписатись"
+msgstr "_Підписатись"
 
 #: ../mail/em-subscription-editor.c:879
-#, fuzzy
 msgid "Su_bscribe To Shown"
-msgstr "П_ідписатись"
+msgstr "П_ідписатись на показане"
 
 #: ../mail/em-subscription-editor.c:887
-#, fuzzy
 msgid "Subscribe To _All"
-msgstr "Підписатись на мої _сигнали"
+msgstr "Підписатись на _все"
 
 #: ../mail/em-subscription-editor.c:987 ../mail/em-subscription-editor.c:1840
 #: ../modules/mail/e-mail-shell-view-actions.c:1292
 msgid "_Unsubscribe"
-msgstr "_Відмовитись від підписки"
+msgstr "_Відписатись"
 
 #: ../mail/em-subscription-editor.c:996
-#, fuzzy
 msgid "Unsu_bscribe From Hidden"
-msgstr "_Відписатись від списку"
+msgstr "_Відписатись від схованого"
 
 #: ../mail/em-subscription-editor.c:1004
-#, fuzzy
 msgid "Unsubscribe From _All"
-msgstr "_Відписатись від списку"
+msgstr "_Відписатись від _усього"
 
 #: ../mail/em-subscription-editor.c:1675
 msgid "Folder Subscriptions"
-msgstr "Керування підпискою"
+msgstr "Тека підписок"
 
 #: ../mail/em-subscription-editor.c:1715
 msgid "_Account:"
@@ -12840,7 +12814,7 @@ msgstr "Додати теку"
 
 #: ../mail/evolution-mail.schemas.in.h:11
 msgid "Digitally sign messages when original message signed (PGP or S/MIME)"
-msgstr ""
+msgstr "Цифровий підпис листів, коли первісний лист підписано (PGP або S/MIME)"
 
 #: ../mail/evolution-mail.schemas.in.h:39
 msgid "Composer Window default width"
@@ -12867,6 +12841,8 @@ msgid ""
 "The text that is inserted when replying to a message, attributing the "
 "message to the original author."
 msgstr ""
+"Текст, який вставлено під час відповіді на лист, приписує лист до його "
+"автора."
 
 #: ../mail/evolution-mail.schemas.in.h:47
 msgid "Forward message."
@@ -12877,6 +12853,8 @@ msgid ""
 "The text that is inserted when forwarding a message, saying that the "
 "forwarded message follows."
 msgstr ""
+"Текст, який вставлено під час пересилання листа, заявивши, що пересланий "
+"лист відповідний."
 
 #: ../mail/evolution-mail.schemas.in.h:49
 msgid "Original message."
@@ -12887,6 +12865,8 @@ msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows."
 msgstr ""
+"Текст, який вставлено під час відповіді на лист (верхнє дописування), "
+"заявивши, що первісний лист відповідний."
 
 #: ../mail/evolution-mail.schemas.in.h:52
 msgid ""
@@ -12894,19 +12874,22 @@ msgid ""
 "folder, usually set to ~/Pictures. This folder will be also used when the "
 "set path is not pointing to the existent folder."
 msgstr ""
+"Це значення може містити порожній рядок, що означає, що "
+"використовуватиметься системна тека малюнків, це зазвичай ~/Pictures. Ця "
+"тека буде також використовуватись, коли вказаний шлях не належить до наявної "
+"теки."
 
 #: ../mail/evolution-mail.schemas.in.h:97
 msgid "Whether to show local folders (On This Computer) in a folder tree."
-msgstr ""
+msgstr "Чи показувати локальні теки (на цьому комп'ютері) у дереві тек."
 
 #: ../mail/evolution-mail.schemas.in.h:123
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Requires a restart to apply."
 msgstr ""
-"Цей параметр вказує стан типової гілки. Чи повинна вона розкриватися або "
-"з'являтися згорнутою. Треба перезапустити Evolution, що зміни набрали сили."
+"Цей параметр визначає, чи повинні гілки розкриватися або з'являтися "
+"згорнутими. Потрібно перезапустити програму, щоб це застосувати."
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid ""
