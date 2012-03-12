@@ -10993,7 +10993,7 @@ msgstr "Відсилання повідомлення %d з %d"
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
-msgstr[0] "Не вдалось надіслати %d лист"
+msgstr[0] "Не вдалось надіслати %d з %d листа"
 msgstr[1] "Не вдалось надіслати %d з %d листів"
 msgstr[2] "Не вдалось надіслати %d з %d листів"
 
@@ -12723,7 +12723,7 @@ msgstr "_Відписатись від схованого"
 
 #: ../mail/em-subscription-editor.c:1004
 msgid "Unsubscribe From _All"
-msgstr "_Відписатись від _усього"
+msgstr "Відписатись від _усього"
 
 #: ../mail/em-subscription-editor.c:1675
 msgid "Folder Subscriptions"
