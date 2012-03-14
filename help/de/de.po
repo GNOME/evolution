@@ -21,21 +21,21 @@
 # ##
 #
 # Andre Klapper <ak-47@gmx.net>, 2007-2009.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2009, 2010, 2011.
-# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010, 2011.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2012.
 # Gabor Karsay <gabor.karsay@gmx.at>, 2011, 2012.
+# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-17 10:44+0000\n"
-"PO-Revision-Date: 2012-02-17 20:00+0100\n"
-"Last-Translator: Gabor Karsay <gabor.karsay@gmx.at>\n"
-"Language-Team: Deutsch <>\n"
+"POT-Creation-Date: 2012-02-19 02:09+0000\n"
+"PO-Revision-Date: 2012-03-14 22:04+0100\n"
+"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bits\n"
 "Language: \n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Lokalize 0.3\n"
@@ -622,11 +622,12 @@ msgid ""
 "category because he is a friend."
 msgstr ""
 "Eine andere Methode, wie Sie Kontakte, Termine, Aufgaben und Notizen (im "
-"Folgenden unter dem Begriff »Objekte« zusammengefasst) ordnen können, besteht "
-"darin, ihnen verschiedene Kategorien zuzuweisen. Sie können einem Objekt "
-"mehrere oder gar keine Kategorien zuordnen. Sie können zum Beispiel in Ihrem "
-"Adressbuch einen Freund in der Kategorie »Geschäftlich« einordnen, da er mit "
-"Ihnen arbeitet, und in die Kategorie »Freunde«, da er ein Freund ist."
+"Folgenden unter dem Begriff »Objekte« zusammengefasst) ordnen können, "
+"besteht darin, ihnen verschiedene Kategorien zuzuweisen. Sie können einem "
+"Objekt mehrere oder gar keine Kategorien zuordnen. Sie können zum Beispiel "
+"in Ihrem Adressbuch einen Freund in der Kategorie »Geschäftlich« einordnen, "
+"da er mit Ihnen arbeitet, und in die Kategorie »Freunde«, da er ein Freund "
+"ist."
 
 #: C/using-categories.page:29(p)
 msgid ""
@@ -1934,15 +1935,16 @@ msgstr ""
 
 #: C/memos-usage-add-memo.page:47(p)
 msgid "Enter a brief summary in the Summary field."
-msgstr "Geben Sie eine kurze Zusammenfassung in das »Zusammenfassung«-Feld ein."
+msgstr ""
+"Geben Sie eine kurze Zusammenfassung in das »Zusammenfassung«-Feld ein."
 
 #: C/memos-usage-add-memo.page:48(p)
 msgid ""
 "In the Start Date field, type the date this shared memo should appear in the "
 "recipients' calendars."
 msgstr ""
-"Geben Sie in das Feld »Startdatum« ein, an welchem Datum die gemeinsame Notiz "
-"im Kalender des Empfängers angezeigt werden soll."
+"Geben Sie in das Feld »Startdatum« ein, an welchem Datum die gemeinsame "
+"Notiz im Kalender des Empfängers angezeigt werden soll."
 
 #: C/memos-searching.page:5(desc)
 msgid "Searching memos."
@@ -2783,8 +2785,8 @@ msgid ""
 "By, Sort Ascending, Sort Descending, or Unsort."
 msgstr ""
 "Evolution bietet auch andere Möglichkeiten zur Sortierung von E-Mails. "
-"Möglich sind »Sortieren nach«, »Aufsteigend sortieren«, »Absteigend sortieren« "
-"und »Unsortiert«."
+"Möglich sind »Sortieren nach«, »Aufsteigend sortieren«, »Absteigend "
+"sortieren« und »Unsortiert«."
 
 #: C/mail-sorting-message-list.page:59(title)
 msgid "Sort By"
@@ -3393,10 +3395,10 @@ msgstr ""
 "Falls eine Nachricht die gleiche Kopfzeile mehr als einmal benutzt, so "
 "wertet Evolution nur ihr erstes Auftreten aus, selbst wenn die Nachricht die "
 "Kopfzeile beim zweiten Mal anders definiert. Wenn zum Beispiel eine "
-"Nachricht die Kopfzeile »Resent-From:« als »engineering@example.com« und dann "
-"nochmals als »marketing@example.com« definiert, so filtert Evolution, als ob "
-"der zweite Wert nicht existierte. Verwenden Sie reguläre Ausdrücke, um "
-"Nachrichten zu filtern, welche die gleichen Kopfzeilen mehr als einmal "
+"Nachricht die Kopfzeile »Resent-From:« als »engineering@example.com« und "
+"dann nochmals als »marketing@example.com« definiert, so filtert Evolution, "
+"als ob der zweite Wert nicht existierte. Verwenden Sie reguläre Ausdrücke, "
+"um Nachrichten zu filtern, welche die gleichen Kopfzeilen mehr als einmal "
 "definieren."
 
 #: C/mail-search-folders-conditions.page:48(p)
@@ -5721,8 +5723,8 @@ msgstr ""
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
-"\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+"id=550414\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 "Dieses Problem sollte mit Version 3.0 behoben sein laut <link href=\"https://"
 "bugzilla.gnome.org/show_bug.cgi?id=550414\">Fehlerbericht</link>. Bitte "
@@ -5731,7 +5733,8 @@ msgstr ""
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
 msgid "Error message \"Failed to append to...\" after sending message"
 msgstr ""
-"Fehlermeldung »Anhängen an … gescheitert« nach dem Verschicken einer Nachricht"
+"Fehlermeldung »Anhängen an … gescheitert« nach dem Verschicken einer "
+"Nachricht"
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:26(p)
 msgid ""
@@ -6177,9 +6180,9 @@ msgstr ""
 "Nachdem Ihre Schlüssel erstellt wurden, können Sie Ihre "
 "Schlüsselinformationen betrachten, indem Sie <code>gpg --list-keys</code> "
 "eingeben. Sie sollten etwas ähnliches wie dieses erhalten: <code> /home/you/."
-"gnupg/pubring.gpg ----------------------------  pub 1024D/32j38dk2 2001-06-"
-"20 you &lt;you@example.com&gt;  sub 1024g/289sklj3 2001-06-20 [expires: 2002-"
-"11-14]  </code>"
+"gnupg/pubring.gpg ----------------------------  pub 1024D/32j38dk2 "
+"2001-06-20 you &lt;you@example.com&gt;  sub 1024g/289sklj3 2001-06-20 "
+"[expires: 2002-11-14]  </code>"
 
 #: C/mail-encryption-gpg-create-key.page:43(p)
 msgid ""
@@ -6550,6 +6553,10 @@ msgid ""
 "minus-icon.png\"/> next to the <gui>From:</gui> line. This is helpful on "
 "small screens."
 msgstr ""
+"Um alle Nachrichtenköpfe einzuklappen und nur Betreff und Absender in einer "
+"Zeile anzuzeigen, klicken Sie auf das Symbol <media type=\"image\" src=\"./"
+"figures/minus-icon.png\"/> neben der <gui>Von:</gui>-Zeile. Dies ist für "
+"kleine Bildschirme nützlich."
 
 #: C/mail-displaying-character-encodings.page:5(desc)
 msgid "When characters in an email are not shown correctly or missing."
@@ -6570,6 +6577,13 @@ msgid ""
 "character encoding to an appropriate one that might be the encoding used by "
 "the sender. You have to make this change every time you view the message."
 msgstr ""
+"Wenn das E-Mail-Programm des Absenders defekt oder falsch konfiguriert ist, "
+"so könnten Klartext-Nachrichten keine Informationen über den verwendeten "
+"Zeichensatz enthalten. Wenn Sie eine solche Nachricht erhalten, wählen Sie "
+"<guiseq><gui>Ansicht</gui><gui>Zeichenkodierung</gui></guiseq> im Hauptmenü "
+"und ändern Sie den aktuell gewählten Zeichensatz in einen anderen, welcher "
+"dem Zeichensatz des Absenders entspricht. Sie müssen diese Anpassung jedes "
+"Mal beim Öffnen der Nachricht anwenden."
 
 #: C/mail-displaying-character-encodings.page:25(p)
 msgid ""
@@ -6577,6 +6591,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
 "gui><gui>Message Display</gui><gui>Default character encoding</gui></guiseq>."
 msgstr ""
+"Um diese Einstellung dauerhaft zu ändern, öffnen Sie "
+"<guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-"
+"Einstellungen</gui><gui>Allgemein</gui><gui>Nachrichtenanzeige</"
+"gui><gui>Voreingestellte Zeichenkodierung</gui></guiseq>."
 
 #: C/mail-delete-and-undelete.page:5(desc)
 msgid "Deleting, expunging, and undeleting mail."
@@ -6673,6 +6691,10 @@ msgid ""
 "editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
 "gui><gui style=\"button\">Edit</gui><gui>Defaults</gui></guiseq>)."
 msgstr ""
+"Legen Sie einen anderen Ort fest, wo Ihre Entwürfe und verschickten Elemente "
+"gespeichert werden, im Abschnitt <gui>Vorgaben</gui> der E-Mail-Konten "
+"(<guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-Konten</"
+"gui><gui style=\"button\">Bearbeiten</gui><gui>Vorgaben</gui></guiseq>)."
 
 #: C/mail-default-folder-locations.page:35(p)
 msgid ""
@@ -6680,6 +6702,10 @@ msgid ""
 "folder and Junk folder on the mail server so Evolution's local virtual "
 "folders will not be used for it, but folders on the mail server."
 msgstr ""
+"Für entfernte Kontentypen (wie beispielsweise IMAP) können Sie auch Ordner "
+"für Müll und unerwünschte Nachrichten auf dem Mailserver einrichten, so dass "
+"nicht die lokalen virtuellen Ordner verwendet werden, sondern die Ordner auf "
+"dem Mailserver."
 
 #: C/mail-default-CC-and-BCC.page:5(desc)
 msgid "Make somebody always receive copies of your sent mail."
@@ -6697,6 +6723,13 @@ msgid ""
 "(<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui "
 "style=\"button\">Edit</gui><gui>Defaults</gui></guiseq>)."
 msgstr ""
+"Sie können E-Mail-Adressen festlegen, an die immer Kopien Ihrer gesendeten "
+"Nachrichten geschickt werden sollen, entweder als für alle Empfänger "
+"sichtbare Kopie, oder als Blindkopie, die nicht für die anderen Empfänger "
+"sichtbar ist. Sie können dies im Abschnitt <gui>Defaults</gui> des "
+"Nachrichtenkonteneditors einstellen, erreichbar unter "
+"<guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-Konten</"
+"gui><gui style=\"button\">Bearbeiten</gui><gui>Vorgaben</gui></guiseq>."
 
 #: C/mail-composer-write-new-message.page:5(desc)
 msgid "Writing a new email to send to a recipient."
@@ -6726,12 +6759,19 @@ msgid ""
 "several-recipients\"/> for more information on sending messages to more than "
 "one person."
 msgstr ""
+"Geben Sie eine E-Mail-Adresse in das Feld <gui>An:</gui> ein. Falls Sie "
+"mehrere Adressen eingeben wollen, trennen Sie diese durch Kommata. In <link "
+"xref=\"mail-composer-several-recipients\"/> finden Sie weitere Informationen "
+"über das Senden von Nachrichten an mehrere Personen."
 
 #: C/mail-composer-write-new-message.page:29(p)
 msgid ""
 "After you have written your message, click <gui>Send</gui> or press "
 "<keyseq><key>Ctrl</key><key>Return</key></keyseq>."
 msgstr ""
+"Nachdem Sie Ihre Nachricht geschrieben haben, klicken Sie auf <gui>Senden</"
+"gui> oder drücken Sie <keyseq><key>Strg</key><key>Eingabetaste</key></"
+"keyseq>."
 
 #: C/mail-composer-spellcheck.page:5(desc)
 msgid "On spell checking your mail in the composer."
@@ -6752,6 +6792,10 @@ msgid ""
 "<em>enchant</em> package are installed via the software management tool of "
 "your distribution."
 msgstr ""
+"Um für die zu schreibenden Nachrichten eine Rechtschreibprüfung zu "
+"verwenden, müssen sie zunächst sicher stellen, dass die Pakete <em>hunspell</"
+"em> für Ihre Sprache sowie <em>enchant</em> installiert sind. Verwenden Sie "
+"hierzu das Paketverwaltungswerkzeug Ihrer Distribution."
 
 #: C/mail-composer-spellcheck.page:27(link)
 msgid "Install hunspell now."
@@ -6795,7 +6839,7 @@ msgstr ""
 
 #: C/mail-composer-several-recipients.page:5(desc)
 msgid "Sending to more than one person and using CC or BCC."
-msgstr ""
+msgstr "An mehr als eine Person verschicken und (Blind)kopie verwenden."
 
 #: C/mail-composer-several-recipients.page:26(title)
 msgid "Sending a message to several recipients"
@@ -6806,6 +6850,8 @@ msgid ""
 "To send a message to more than one person, enter the addresses in the "
 "composer by separating them with commas or semicolons."
 msgstr ""
+"Um eine Nachricht an mehrere Personen zu verschicken, geben Sie die Adressen "
+"durch Kommata oder Semikola getrennt in den E-Mail-Editor ein."
 
 #: C/mail-composer-several-recipients.page:30(p)
 msgid ""
@@ -7140,6 +7186,8 @@ msgstr ""
 msgid ""
 "Select the <gui>Templates</gui> folder under <gui>On This Computer</gui>."
 msgstr ""
+"Wählen Sie den Ordner <gui>Vorlagen</gui> unter <gui>Auf diesem Rechner</"
+"gui>."
 
 #: C/mail-composer-message-templates.page:37(p)
 msgid "You can also edit an existing message and save it as a template:"
@@ -7172,6 +7220,8 @@ msgid ""
 "Click <gui>New</gui> and enter in the composer window what you need for the "
 "template."
 msgstr ""
+"Klicken Sie auf <gui>Neu</gui> und geben Sie im E-Mail-Editor ein, was Sie "
+"für die Vorlage benötigen."
 
 #: C/mail-composer-message-templates.page:58(title)
 msgid "Using a Message Template as a Reply"
@@ -7288,8 +7338,8 @@ msgid ""
 "$key is replaced by the value set for it in the Configuration tab of the "
 "Templates plugin."
 msgstr ""
-"$key wird durch den Wert ersetzt, der in dem Karteireiter »Konfiguration« des "
-"Vorlagen-Plugins festgelegt ist."
+"$key wird durch den Wert ersetzt, der in dem Karteireiter »Konfiguration« "
+"des Vorlagen-Plugins festgelegt ist."
 
 #: C/mail-composer-message-templates.page:91(p)
 msgid ""
@@ -7323,6 +7373,11 @@ msgid ""
 "gui><gui>Edit</gui><gui>Identity</gui><gui>Optional Information</gui></"
 "guiseq>."
 msgstr ""
+"Sie können eine Vorgabe-<link xref=\"mail-composer-mail-signatures"
+"\">Signatur</link> für jedes Ihrer E-Mail-Konten festlegen. Diese wird "
+"jeweils unter <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-"
+"Mail-Konten</gui><gui>Bearbeiten</gui><gui>Identität</gui><gui>Zusätzliche "
+"Informationen</gui></guiseq> bearbeitet."
 
 #: C/mail-composer-mail-signatures-per-account.page:36(p)
 msgid ""
@@ -7334,7 +7389,7 @@ msgstr ""
 
 #: C/mail-composer-mail-signatures.page:5(desc)
 msgid "Using email signatures at the bottom of a message you send."
-msgstr ""
+msgstr "Verwenden Sie E-Mail-Signaturen am Ende einer verschickten Nachricht."
 
 #: C/mail-composer-mail-signatures.page:21(title)
 msgid "Working with email signatures"
@@ -8040,6 +8095,9 @@ msgid ""
 "Look in the <gui>Junk</gui> folder. Messages that are marked as Junk "
 "disappear from the original folder and are moved to the Junk folder."
 msgstr ""
+"Schauen Sie in den <gui>Unerwünscht</gui>-Ordner. Als unerwünscht markierte "
+"Nachrichten verschwinden aus dem Originalordner und werden in den "
+"Unerwünscht-Ordner verschoben."
 
 #: C/mail-cannot-see.page:38(p)
 msgid ""
@@ -8737,8 +8795,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">GMail Help</link> for more information."
 msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
@@ -9850,13 +9908,16 @@ msgstr "Outlook 2010"
 #: C/import-apps-outlook.page:38(file)
 #, fuzzy
 msgid "C:\\Users\\username\\My Documents\\Outlook Files"
-msgstr "C:\\Users\\Benutzername\\My Documents\\Outlook Files"
+msgstr ""
+"C:\\Dokumente und Einstellungen\\Benutzername\\Lokale Einstellungen"
+"\\Anwendungsdaten\\Microsoft\\Outlook"
 
 #: C/import-apps-outlook.page:38(file)
 #, fuzzy
 msgid "C:\\Documents and Settings\\username\\My Documents\\Outlook Files"
 msgstr ""
-"C:\\Dokumente und Einstellungen\\Benutzername\\My Documents\\Outlook Files"
+"C:\\Dokumente und Einstellungen\\Benutzername\\Lokale Einstellungen"
+"\\Anwendungsdaten\\Microsoft\\Outlook"
 
 #: C/import-apps-outlook.page:41(p)
 msgid "Outlook 2007 and earlier"
@@ -9865,7 +9926,9 @@ msgstr "Outlook 2007 und früher"
 #: C/import-apps-outlook.page:41(file)
 #, fuzzy
 msgid "C:\\Users\\username\\AppData\\Local\\Microsoft\\Outlook"
-msgstr "C:\\Users\\Benutzername\\AppData\\Local\\Microsoft\\Outlook"
+msgstr ""
+"C:\\Dokumente und Einstellungen\\Benutzername\\Lokale Einstellungen"
+"\\Anwendungsdaten\\Microsoft\\Outlook"
 
 #: C/import-apps-outlook.page:41(file)
 msgid ""
@@ -10449,9 +10512,9 @@ msgid ""
 msgstr ""
 "Sie können zum Beispiel in Evolution einen Kontakt für jedes "
 "Familienmitglied erstellen und dann all diese Kontakte zu einer Kontaktliste "
-"hinzufügen, die Sie »Familie« nennen. Danach können Sie, anstelle jede E-Mail-"
-"Adresse der Familienmitglieder einzeln einzugeben, einfach eine E-Mail an "
-"»Familie« schreiben und die E-Mail wird automatisch an alle einzelnen "
+"hinzufügen, die Sie »Familie« nennen. Danach können Sie, anstelle jede E-"
+"Mail-Adresse der Familienmitglieder einzeln einzugeben, einfach eine E-Mail "
+"an »Familie« schreiben und die E-Mail wird automatisch an alle einzelnen "
 "Familienmitglieder versendet."
 
 #: C/contacts-using-contact-lists.page:30(title)
@@ -11791,7 +11854,7 @@ msgstr "Wählen Sie zwischen 12-Stunden (AM/PM)- und 24-Stunden-Format."
 
 #: C/calendar-layout-general-formatting.page:33(p)
 msgid "<link xref=\"calendar-timezones\">Time zone</link> and Second zone:"
-msgstr ""
+msgstr "<link xref=\"calendar-timezones\">Zeitzonen</link> und zweite Zone:"
 
 #: C/calendar-layout-general-formatting.page:34(p)
 msgid "The city you are located in, and optionally a second city."
@@ -12243,7 +12306,7 @@ msgstr ""
 msgid "translator-credits"
 msgstr ""
 "Andre Klapper <ak-47@gmx.net>, 2007, 2008, 2009\n"
-"Mario Blättermann <mario.blaettermann@gmail.com>, 2009, 2010, 2011\n"
+"Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2012\n"
 "Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010, 2011, "
 "2012\n"
 "Gabor Karsay <gabor.karsay@gmx.at>, 2011, 2012."
