@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-09 16:06+0200\n"
-"PO-Revision-Date: 2012-03-12 08:54+0300\n"
+"PO-Revision-Date: 2012-03-14 12:08+0300\n"
 "Last-Translator: Korostil Daniel <ted.korostiled@gmail.com>\n"
 "Language-Team: translation@linux.org.ua\n"
 "Language: uk\n"
@@ -12896,6 +12896,8 @@ msgid ""
 "Describes whether message headers in paned view should be collapsed or "
 "expanded by default. \"0\" = expanded \"1\" = collapsed"
 msgstr ""
+"Описує, чи типово слід заголовки листів у панельному перегляді згортати, чи "
+"розгортати. «0» — розгортати, «1» — згортати"
 
 #: ../mail/evolution-mail.schemas.in.h:129
 msgid ""
@@ -12904,6 +12906,10 @@ msgid ""
 "Computer and Search folders, otherwise accounts are sorted based on an order "
 "given by a user."
 msgstr ""
+"Пояснює, як впорядковувати облікові записи в дереві тек у перегляді пошти. "
+"Коли зазначено, облікові записи будуть упорядковуватись у алфавітному "
+"порядку, за винятком «На цьому комп'ютері» і тек пошуку, інакше облікові "
+"записи буде впорядковано ґрунтуючись на порядку заданому користувачем."
 
 #: ../mail/evolution-mail.schemas.in.h:130
 msgid "Mail browser width"
@@ -13048,6 +13054,8 @@ msgid ""
 "Whether check for new messages when Evolution is started. This includes also "
 "sending messages from Outbox."
 msgstr ""
+"Чи перевіряти на нові листи, коли програму запущено. Це також ураховує "
+"надсилання листів з вихідних."
 
 #: ../mail/evolution-mail.schemas.in.h:222
 msgid ""
@@ -13055,6 +13063,9 @@ msgid ""
 "account \"Check for new messages every X minutes\" option when Evolution is "
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
+"Чи перевіряти на нові листи в усіх активних облікових записах незалежно від "
+"параметра «Перевіряти на нові листи кожних X хвилин», коли програму "
+"запущено. Цей параметр використовується лише разом з «send_recv_on_start»."
 
 #: ../mail/evolution-mail.schemas.in.h:223
 msgid "\"Send and Receive Mail\" window height"
@@ -13141,23 +13152,27 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:235
 msgid "Drag'n'drop export format"
-msgstr ""
+msgstr "Формат перетягувального експортування"
 
 #: ../mail/evolution-mail.schemas.in.h:236
 msgid ""
 "Define the email export format when doing drag'n'drop. Possible values are "
 "mbox or pdf"
 msgstr ""
+"Визначити формат експортування пошти, коли перетягуєте її. Доступні значення "
+"— mbox або pdf"
 
 #: ../mail/evolution-mail.schemas.in.h:237
 msgid "Format of the drag'n'drop export filename"
-msgstr ""
+msgstr "Формат назви файла перетягувального експортування"
 
 #: ../mail/evolution-mail.schemas.in.h:238
 msgid ""
 "Exported filename will be YYYYmmDDHHMMSS_email_title Possible values: 1 (: "
 "email sent date), 2 (: drag'n'drop date)"
 msgstr ""
+"Експортована назва файла буде РРРРммДДГГХХСС_пошта_заголовок. Доступні "
+"значення: 1 (: дата надсилання пошти), 2 (: дата перетягування)"
 
 #: ../mail/importers/elm-importer.c:181
 msgid "Importing Elm data"
@@ -13179,9 +13194,8 @@ msgstr "Імпорт пошти з програми Elm."
 
 #: ../mail/importers/evolution-mbox-importer.c:142
 #: ../plugins/dbx-import/dbx-importer.c:260
-#, fuzzy
 msgid "_Destination folder:"
-msgstr "Тека призначення:"
+msgstr "_Цільова тека:"
 
 #: ../mail/importers/evolution-mbox-importer.c:148
 #: ../plugins/dbx-import/dbx-importer.c:266
@@ -13196,13 +13210,11 @@ msgid "Select folder to import into"
 msgstr "Виберіть теку у яку імпортувати"
 
 #: ../mail/importers/evolution-mbox-importer.c:438
-#, fuzzy
 msgctxt "mboxImp"
 msgid "Subject"
 msgstr "Тема"
 
 #: ../mail/importers/evolution-mbox-importer.c:443
-#, fuzzy
 msgctxt "mboxImp"
 msgid "From"
 msgstr "Від"
@@ -13224,9 +13236,9 @@ msgstr "Імпортується поштова скринька"
 #: ../mail/importers/mail-importer.c:153
 #: ../plugins/dbx-import/dbx-importer.c:621
 #: ../plugins/pst-import/pst-importer.c:770
-#, fuzzy, c-format
+#, c-format
 msgid "Importing '%s'"
-msgstr "Імпортується `%s'"
+msgstr "Імпортування «%s»"
 
 #: ../mail/importers/mail-importer.c:316
 #, c-format
@@ -13289,29 +13301,36 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
+"Правило фільтрування «%s» змінено в обліковому записі для вилученої теки\n"
+"«%s»."
 msgstr[1] ""
+"Такі правила фільтрування\n"
+"%s змінено в обліковому записі для вилучення теки\n"
+"«%s»."
 msgstr[2] ""
+"Такі правила фільтрування\n"
+"%s змінено в обліковому записі для вилучення теки\n"
+"«%s»."
 
 #: ../mail/mail-config.ui.h:1
-#, fuzzy
 msgid "Set custom junk header"
-msgstr "Додати інший заголовок для спаму"
+msgstr "Вказати власний заголовок спаму"
 
 #: ../mail/mail-config.ui.h:2
 msgid ""
 "All new emails with header that matches given content will be automatically "
 "filtered as junk"
 msgstr ""
+"Усі нові листи із заголовком, який збігається із заданим вмістом, буде "
+"автоматично відсіяно як спам"
 
 #: ../mail/mail-config.ui.h:3
-#, fuzzy
 msgid "Header name"
-msgstr "Назва заголовку:"
+msgstr "Назва заголовку"
 
 #: ../mail/mail-config.ui.h:4
-#, fuzzy
 msgid "Header content"
-msgstr "Відправник містить"
+msgstr "Вміст заголовка"
 
 #: ../mail/mail-config.ui.h:5
 msgid "_Add Signature"
@@ -13336,9 +13355,8 @@ msgid "Default Behavior"
 msgstr "Типова поведінка"
 
 #: ../mail/mail-config.ui.h:12
-#, fuzzy
 msgid "For_mat messages in HTML"
-msgstr "Фор_матувати повідомлення у HTML"
+msgstr "_Форматувати лист у HTML"
 
 #: ../mail/mail-config.ui.h:13
 msgid "Automatically insert _emoticon images"
@@ -13349,19 +13367,16 @@ msgid "Always request rea_d receipt"
 msgstr "_Запитувати підтвердження про прочитання"
 
 #: ../mail/mail-config.ui.h:15
-#, fuzzy
 msgid "Encode filenames in an _Outlook/GMail way"
-msgstr "Кодувати імена файлів аналогічно до Outlook/GMail"
+msgstr "Кодувати назви файлів відповідно до _Outlook/GMail"
 
 #: ../mail/mail-config.ui.h:16
-#, fuzzy
 msgid "Ch_aracter encoding:"
-msgstr "Набір си_мволів"
+msgstr "_Кодування символів:"
 
 #: ../mail/mail-config.ui.h:17
-#, fuzzy
 msgid "Replies and Forwards"
-msgstr "Відповіді та батьківські"
+msgstr "Відповіді та переслані"
 
 #: ../mail/mail-config.ui.h:18
 msgid "_Reply style:"
@@ -13376,22 +13391,20 @@ msgid "Start _typing at the bottom on replying"
 msgstr "При відповіді починати _ввід після цитати"
 
 #: ../mail/mail-config.ui.h:21
-#, fuzzy
 msgid "_Keep signature above the original message on replying"
-msgstr "При відповіді розміщувати підпис _над повідомленням"
+msgstr "_Зберігати підпис вище від первісного листа, коли відповідаєте"
 
 #: ../mail/mail-config.ui.h:22
-#, fuzzy
 msgid "Ig_nore Reply-To: for mailing lists"
-msgstr "_Завжди ігнорувати відповісти на: для списків листування."
+msgstr "_Ігнорувати відповісти на: для списків листування."
 
 #: ../mail/mail-config.ui.h:23
 msgid "Gro_up Reply goes only to mailing list, if possible"
-msgstr ""
+msgstr "_Групові відповіді йдуть лише до списку листування, якщо це можливо"
 
 #: ../mail/mail-config.ui.h:24
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
-msgstr ""
+msgstr "Цифровий _підпис листів, коли первісний лист підписано (PGP або S/MIME)"
 
 #: ../mail/mail-config.ui.h:26
 msgid "Sig_natures"
@@ -13437,65 +13450,59 @@ msgid ""
 "To help avoid email accidents and embarrassments, ask for confirmation "
 "before taking the following checkmarked actions:"
 msgstr ""
+"Щоб уникнути нещасних випадків і дрібних неприємностей, запитуйте про "
+"підтвердження перед виконанням таких дій checkmarked:"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:39
-#, fuzzy
 msgid "Sending a message with an _empty subject line"
-msgstr "Поперед_жати при надсиланні повідомлень з порожньою темою"
+msgstr "Надсилання листа з _порожнім рядком теми"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:41
-#, fuzzy
 msgid "Sending a message with only _Bcc recipients defined"
-msgstr ""
-"Попе_реджати при надсиланні повідомлень, у яких визначені лише отримувачі "
-"прихованої копії"
+msgstr "Надсилання листа лише з вказаним  п_рихованими одержувачами"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:43
-#, fuzzy
 msgid "Sending a _private reply to a mailing list message"
-msgstr "Відповісти у список розсилки цього повідомлення"
+msgstr "Надсилання _особистої відповіді на лист списку листування"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:45
 msgid "Sending a reply to a large _number of recipients"
-msgstr ""
+msgstr "Надсилання відповіді до великої _кількості одержувачі"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:47
 msgid "Allowing a _mailing list to redirect a private reply to the list"
 msgstr ""
+"Дозволення списку _листування перенаправляти особисті відповіді в список"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:49
-#, fuzzy
 msgid "Sending a message with _recipients not entered as mail addresses"
-msgstr ""
-"Адреси електронної пошти наступних отримувача нерозпізнано як коректні:\n"
-"{0}"
+msgstr "Надсилання листа з о_держувачем, адресу якого не введено"
 
 #: ../mail/mail-config.ui.h:50
-#, fuzzy
 msgid "Confirmations"
-msgstr "Налаштування"
+msgstr "Підтвердження"
 
 #: ../mail/mail-config.ui.h:52
 msgid "SHA1"
-msgstr ""
+msgstr "SHA1"
 
 #: ../mail/mail-config.ui.h:53
 msgid "SHA256"
-msgstr ""
+msgstr "SHA256"
 
 #: ../mail/mail-config.ui.h:54
 msgid "SHA384"
-msgstr ""
+msgstr "SHA384"
 
 #: ../mail/mail-config.ui.h:55
 msgid "SHA512"
-msgstr ""
+msgstr "SHA512"
 
 #: ../mail/mail-config.ui.h:56 ../smime/gui/smime-ui.ui.h:1
 msgid "a"
@@ -13506,34 +13513,29 @@ msgid "b"
 msgstr "b"
 
 #: ../mail/mail-config.ui.h:58
-#, fuzzy
 msgctxt "ReplyForward"
 msgid "Attachment"
 msgstr "Долучення"
 
 #: ../mail/mail-config.ui.h:59
-#, fuzzy
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
 msgstr "Вбудовувати (у стилі Outlook)"
 
 #: ../mail/mail-config.ui.h:60
-#, fuzzy
 msgctxt "ReplyForward"
 msgid "Quoted"
 msgstr "Цитувати"
 
 #: ../mail/mail-config.ui.h:61
-#, fuzzy
 msgctxt "ReplyForward"
 msgid "Do not quote"
 msgstr "Не цитувати"
 
 #: ../mail/mail-config.ui.h:62
-#, fuzzy
 msgctxt "ReplyForward"
 msgid "Inline"
-msgstr "У вмісті"
+msgstr "Вбудувати"
 
 #: ../mail/mail-config.ui.h:63
 msgid "Proxy Settings"
@@ -13560,9 +13562,8 @@ msgid "_Secure HTTP Proxy:"
 msgstr "Проксі HTTP_S:"
 
 #: ../mail/mail-config.ui.h:69
-#, fuzzy
 msgid "SOC_KS Proxy:"
-msgstr "Порт проксі SOCKS"
+msgstr "Про_ксі SOCKS:"
 
 #: ../mail/mail-config.ui.h:70
 msgid "No _Proxy for:"
@@ -13585,19 +13586,16 @@ msgid "Pass_word:"
 msgstr "_Пароль:"
 
 #: ../mail/mail-config.ui.h:75
-#, fuzzy
 msgid "Start up"
-msgstr "Починається:"
+msgstr "Запуск"
 
 #: ../mail/mail-config.ui.h:76
-#, fuzzy
 msgid "Check for new _messages on start"
-msgstr "Перевіряти _нову пошту кожні"
+msgstr "Перевіряти на нові _листи під часу запуску"
 
 #: ../mail/mail-config.ui.h:77
-#, fuzzy
 msgid "Check for new messa_ges in all active accounts"
-msgstr "Перевіряти _нову пошту кожні"
+msgstr "Перевіряти на нові _листи в усіх активних облікових записах"
 
 #: ../mail/mail-config.ui.h:78
 msgid "Message Display"
@@ -13620,9 +13618,8 @@ msgid "Select HTML variable width font"
 msgstr "Виберіть шрифт HTML змінної ширини"
 
 #: ../mail/mail-config.ui.h:83
-#, fuzzy
 msgid "Fix_ed Width Font:"
-msgstr "_Моноширинний шрифт:"
+msgstr "Шрифт не_змінної ширини:"
 
 #: ../mail/mail-config.ui.h:84
 msgid "Highlight _quotations with"
@@ -13638,7 +13635,7 @@ msgstr "Типовий _набір символів:"
 
 #: ../mail/mail-config.ui.h:87
 msgid "Apply the same _view settings to all folders"
-msgstr ""
+msgstr "Застосувати однаковий _перегляд налаштувань для всіх тек"
 
 #: ../mail/mail-config.ui.h:88
 msgid "F_all back to threading messages by subject"
@@ -13658,9 +13655,8 @@ msgstr "_Питати підтвердження при очищенні вил�
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.ui.h:93
-#, fuzzy
 msgid "_Show animated images"
-msgstr "Показувати анімаційні зображення як анімацію."
+msgstr "_Показувати рухомі зображення"
 
 #: ../mail/mail-config.ui.h:94
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
@@ -13675,10 +13671,8 @@ msgid "_Never load images from the Internet"
 msgstr "_Ніколи не завантажувати зображення з Інтернет"
 
 #: ../mail/mail-config.ui.h:97
-#, fuzzy
 msgid "_Load images only in messages from contacts"
-msgstr ""
-"_Завантажувати зображення у повідомленні, якщо відправник є у контактах"
+msgstr "_Завантажувати зображення лише в листах від контактів"
 
 #: ../mail/mail-config.ui.h:98
 msgid "_Always load images from the Internet"
@@ -13705,9 +13699,8 @@ msgid "S_earch for sender photograph only in local address books"
 msgstr "З_найти фотографію відправника у локальних адресних книгах"
 
 #: ../mail/mail-config.ui.h:104
-#, fuzzy
 msgid "Displayed Message Headers"
-msgstr "_Відображені заголовки повідомлень"
+msgstr "Показані заголовки листів"
 
 #: ../mail/mail-config.ui.h:105
 msgid "Mail Headers Table"
@@ -13763,9 +13756,8 @@ msgid "SSL encryption"
 msgstr "Шифрування SSL"
 
 #: ../mail/mail-config.ui.h:118
-#, fuzzy
 msgid "Special Folders"
-msgstr "Локальні теки"
+msgstr "Особливі теки"
 
 #: ../mail/mail-config.ui.h:119
 msgid "Drafts _Folder:"
@@ -13776,14 +13768,12 @@ msgid "Sent _Messages Folder:"
 msgstr "Тека _надісланих повідомлень:"
 
 #: ../mail/mail-config.ui.h:121
-#, fuzzy
 msgid "_Trash Folder:"
-msgstr "Тека _чернеток:"
+msgstr "Тека _смітника:"
 
 #: ../mail/mail-config.ui.h:122
-#, fuzzy
 msgid "_Junk Folder:"
-msgstr "Поточна тека"
+msgstr "Тека зі _спамом:"
 
 #: ../mail/mail-config.ui.h:123
 msgid "Composing Messages"
@@ -13867,9 +13857,8 @@ msgid "PGP/GPG _Key ID:"
 msgstr "Ідентифікатор _ключа PGP/GPG:"
 
 #: ../mail/mail-config.ui.h:143
-#, fuzzy
 msgid "Si_gning algorithm:"
-msgstr "Сертифікат _підпису:"
+msgstr "Алгоритм підп_исування:"
 
 #: ../mail/mail-config.ui.h:144
 msgid "Al_ways sign outgoing messages when using this account"
@@ -13917,9 +13906,8 @@ msgid "Clea_r"
 msgstr "О_чистити"
 
 #: ../mail/mail-config.ui.h:155
-#, fuzzy
 msgid "Signing _algorithm:"
-msgstr "Сертифікат _підпису:"
+msgstr "_Алгоритм підписування:"
 
 #: ../mail/mail-config.ui.h:157
 msgid "Cle_ar"
@@ -13996,32 +13984,28 @@ msgid "T_ype:"
 msgstr "Т_ип:"
 
 #: ../mail/mail-config.ui.h:177
-#, fuzzy
 msgid "User _Name:"
-msgstr "_Назва запису:"
+msgstr "_Користувач:"
 
 #: ../mail/mail-config.ui.h:178
 msgid "Remember _password"
 msgstr "Запам'ятати _пароль"
 
 #: ../mail/mail-config.ui.h:179
-#, fuzzy
 msgid "Personal Details:"
 msgstr "Особисті дані:"
 
 #: ../mail/mail-config.ui.h:188
-#, fuzzy
 msgid "Encryption:"
-msgstr "Шифрування"
+msgstr "Шифрування:"
 
 #: ../mail/mail-config.ui.h:189
 msgid "none"
-msgstr ""
+msgstr "немає"
 
 #: ../mail/mail-config.ui.h:190
-#, fuzzy
 msgid "label"
-msgstr "Позначка"
+msgstr "мітка"
 
 #: ../mail/mail-dialogs.ui.h:1
 msgid "Search Folder Sources"
@@ -14228,7 +14212,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:22
 msgid "Send private reply?"
-msgstr ""
+msgstr "Надіслати особисту відповідь?"
 
 #: ../mail/mail.error.xml.h:23
 msgid ""
@@ -14236,11 +14220,13 @@ msgid ""
 "but the list is trying to redirect your reply to go back to the list. Are "
 "you sure you want to proceed?"
 msgstr ""
+"Ви відповідаєте особисто на лист, який прийшов через список листування, "
+"однак список намагається перенаправити вашу відповідь назад у список. "
+"Продовжити?"
 
 #: ../mail/mail.error.xml.h:24
-#, fuzzy
 msgid "Reply _Privately"
-msgstr "_Приватне"
+msgstr "Відповісти _особисто"
 
 #: ../mail/mail.error.xml.h:26
 msgid ""
@@ -14248,20 +14234,20 @@ msgid ""
 "replying privately to the sender; not to the list. Are you sure you want to "
 "proceed?"
 msgstr ""
+"Ви відповідаєте на лист, який прийшов через список листування, однак ви "
+"відповідаєте особисто відправнику; не у список. Продовжити?"
 
 #: ../mail/mail.error.xml.h:28
-#, fuzzy
 msgid "Send reply to all recipients?"
-msgstr "Відправник або отримувачі"
+msgstr "Надіслати відповідь усім одержувачам?"
 
 #: ../mail/mail.error.xml.h:29
-#, fuzzy
 msgid ""
 "You are replying to a message which was sent to many recipients. Are you "
 "sure you want to reply to ALL of them?"
 msgstr ""
-"Відповідь на повідомлення може спричинити його вилучення з поштової скриньки "
-"отримувача. Відкликати повідомлення?"
+"Ви відповідаєте на лист, який надіслано кільком одержувачам. Відповісти їм "
+"усім?"
 
 #: ../mail/mail.error.xml.h:30
 msgid ""
