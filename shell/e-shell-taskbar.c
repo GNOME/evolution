@@ -274,9 +274,6 @@ shell_taskbar_constructed (GObject *object)
 		shell_backend, "activity-added",
 		G_CALLBACK (shell_taskbar_activity_add), shell_taskbar);
 
-	/* Do not enlarge window width on new activities. */
-	gtk_widget_set_size_request (GTK_WIDGET (shell_taskbar), 0, -1);
-
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	/* Chain up to parent's constructed() method. */
@@ -319,6 +316,20 @@ shell_taskbar_get_preferred_height (GtkWidget *widget,
 }
 
 static void
+shell_taskbar_get_preferred_width (GtkWidget *widget,
+                                   gint *minimum_width,
+                                   gint *natural_width)
+{
+	/* to never get larger than allocated size (which changes window width) */
+
+	if (minimum_width != NULL)
+		*minimum_width = 1;
+
+	if (natural_width != NULL)
+		*natural_width = 1;
+}
+
+static void
 e_shell_taskbar_class_init (EShellTaskbarClass *class)
 {
 	GObjectClass *object_class;
@@ -336,6 +347,7 @@ e_shell_taskbar_class_init (EShellTaskbarClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->size_allocate = shell_taskbar_size_allocate;
 	widget_class->get_preferred_height = shell_taskbar_get_preferred_height;
+	widget_class->get_preferred_width = shell_taskbar_get_preferred_width;
 
 	/**
 	 * EShellTaskbar:message
