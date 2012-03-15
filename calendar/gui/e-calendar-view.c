@@ -614,7 +614,7 @@ clipboard_get_calendar_data (ECalendarView *cal_view,
 	time_t selected_time_start, selected_time_end;
 	icaltimezone *default_zone;
 	ECalClient *client;
-	gboolean in_top_canvas, ret;
+	gboolean in_top_canvas, ret = FALSE;
 
 	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), FALSE);
 
