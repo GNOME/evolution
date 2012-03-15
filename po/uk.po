@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-09 16:06+0200\n"
-"PO-Revision-Date: 2012-03-14 12:08+0300\n"
+"PO-Revision-Date: 2012-03-15 10:49+0300\n"
 "Last-Translator: Korostil Daniel <ted.korostiled@gmail.com>\n"
 "Language-Team: translation@linux.org.ua\n"
 "Language: uk\n"
@@ -14394,7 +14394,6 @@ msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "Вилучити теку «{0}» та всі її підтеки?"
 
 #: ../mail/mail.error.xml.h:62
-#, fuzzy
 msgid ""
 "If you delete the folder, all of its contents and its subfolders' contents "
 "will be deleted permanently."
@@ -14414,20 +14413,18 @@ msgstr ""
 "вилучено."
 
 #: ../mail/mail.error.xml.h:66
-#, fuzzy
 msgid "These messages are not copies."
-msgstr "Обмеження розміру текстового вкладення"
+msgstr "Ті листи не є копіями."
 
 #: ../mail/mail.error.xml.h:67
-#, fuzzy
 msgid ""
 "Messages shown in Search Folders are not copies. Deleting them from a Search "
 "Folder will delete the actual messages from the folder or folders in which "
 "they physically reside. Do you really want to delete these messages?"
 msgstr ""
-"Попередження: вилучення повідомлення з теки пошуку призведе до фактичного "
-"вилучення повідомлення з відповідної локальної чи віддаленої теки.\n"
-"Зробити це?"
+"Листи показані в теках пошуку не є копіями. Вилучення їх з теки пошуку "
+"вилучить справжні листи з теки або тек, у яких вони фізично перебувають. "
+"Вилучити ті листи?"
 
 #: ../mail/mail.error.xml.h:68
 msgid "Cannot rename \"{0}\" to \"{1}\"."
@@ -14458,9 +14455,8 @@ msgid "Cannot create folder \"{0}\"."
 msgstr "Не вдається створити теку «{0}»."
 
 #: ../mail/mail.error.xml.h:75
-#, fuzzy
 msgid "Cannot open source \"{1}\"."
-msgstr "Не вдалось відкрити джерело «{1}»"
+msgstr "Неможливо відкрити джерело «{1}»."
 
 #: ../mail/mail.error.xml.h:76
 msgid "Cannot save changes to account."
@@ -14505,9 +14501,8 @@ msgstr ""
 "Якщо ви продовжите, відомості про обліковий запис будуть остаточно вилучено."
 
 #: ../mail/mail.error.xml.h:86
-#, fuzzy
 msgid "Do _Not Disable"
-msgstr "Не вимикати"
+msgstr "_Не вимикати"
 
 #: ../mail/mail.error.xml.h:87
 #: ../plugins/publish-calendar/publish-calendar.c:617
@@ -14621,7 +14616,7 @@ msgstr "_Додати"
 
 #: ../mail/mail.error.xml.h:115
 msgid "Evolution's local mail format has changed."
-msgstr ""
+msgstr "Формат локальної пошти Evolution змінено."
 
 #: ../mail/mail.error.xml.h:116
 msgid ""
@@ -14633,16 +14628,21 @@ msgid ""
 "delete the account after ensuring the data is safely migrated. Please make "
 "sure there is enough disk space if you choose to migrate now."
 msgstr ""
+"Формат локальної пошти Evolution змінено з mbox на Maildir. Вашу локальну "
+"пошту потрібно перенести на новий формат, поки її зможе обробити Evolution. "
+"Перенести зараз же?\n"
+"\n"
+"Обліковий запис mbox буде створено, щоб зберегти старі теки mbox. Можете "
+"вилучити обліковий запис, коли переконаєтесь, що дані безпечно перенесено. "
+"Будь ласка, переконайтесь, що достатньо місця на диску, коли переноситимете."
 
 #: ../mail/mail.error.xml.h:119
-#, fuzzy
 msgid "_Exit Evolution"
-msgstr "Evolution"
+msgstr "_Вийти з Evolution"
 
 #: ../mail/mail.error.xml.h:120
-#, fuzzy
 msgid "_Migrate Now"
-msgstr "Перенесення..."
+msgstr "_Перенести зараз же"
 
 #: ../mail/mail.error.xml.h:121
 msgid "Unable to read license file."
@@ -14666,10 +14666,11 @@ msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "Для запитаного механізму автентифікації вимагається шифрування."
 
 #: ../mail/mail.error.xml.h:125
-#, fuzzy
 msgid ""
 "Failed to query server for a list of supported authentication mechanisms."
-msgstr "Для запитаного механізму автентифікації вимагається шифрування."
+msgstr ""
+"Не вдалось одержати інформацію про перелік підтримуваних механізмів "
+"автентифікації сервера."
 
 #: ../mail/mail.error.xml.h:126
 msgid "Unable to connect to the GroupWise server."
@@ -14692,25 +14693,20 @@ msgstr ""
 "комп'ютером?"
 
 #: ../mail/mail.error.xml.h:130
-#, fuzzy
 msgid "Do _Not Synchronize"
 msgstr "_Не синхронізувати"
 
 #: ../mail/mail.error.xml.h:131
-#, fuzzy
 msgid "_Synchronize"
-msgstr "Синхронізувати"
+msgstr "_Синхронізувати"
 
 #: ../mail/mail.error.xml.h:132
 msgid "Do you want to mark all messages as read?"
 msgstr "Позначити всі повідомлення як прочитані?"
 
 #: ../mail/mail.error.xml.h:133
-#, fuzzy
 msgid "This will mark all messages as read in the selected folder."
-msgstr ""
-"Усі повідомлення у вибраній теці та її підтеках будуть позначені як "
-"прочитані."
+msgstr "Усі листи у вибраній теці буде призначено як прочитані."
 
 #: ../mail/mail.error.xml.h:134
 msgid ""
@@ -14721,33 +14717,28 @@ msgstr ""
 "прочитані."
 
 #: ../mail/mail.error.xml.h:135
-#, fuzzy
 msgid "Close message window."
-msgstr "Закрити це вікно"
+msgstr "Закрити вікно листа."
 
 #: ../mail/mail.error.xml.h:136
-#, fuzzy
 msgid "Would you like to close the message window?"
-msgstr "Зберегти?"
+msgstr "Закрити вікно листа?"
 
 #: ../mail/mail.error.xml.h:137
 msgid "_Yes"
-msgstr ""
+msgstr "_Так"
 
 #: ../mail/mail.error.xml.h:138
-#, fuzzy
 msgid "_No"
-msgstr "Ні"
+msgstr "_Ні"
 
 #: ../mail/mail.error.xml.h:139
-#, fuzzy
 msgid "_Always"
-msgstr "Завжди"
+msgstr "_Завжди"
 
 #: ../mail/mail.error.xml.h:140
-#, fuzzy
 msgid "N_ever"
-msgstr "Ніколи"
+msgstr "Н_іколи"
 
 #: ../mail/mail.error.xml.h:141
 msgid "Signature Already Exists"
@@ -14788,88 +14779,77 @@ msgid "You do not have sufficient permissions to delete this mail."
 msgstr "Недостатньо прав для вилучення цього листа."
 
 #: ../mail/mail.error.xml.h:149
-#, fuzzy
 msgid "\"Check Junk\" Failed"
-msgstr "Помилка при перевірці на спам"
+msgstr "Не вдалося перевірити на спам"
 
 #: ../mail/mail.error.xml.h:150
-#, fuzzy
 msgid "\"Report Junk\" Failed"
-msgstr "Помилка звіту про помилки"
+msgstr "Не вдалось звітувати про спам"
 
 #: ../mail/mail.error.xml.h:151
-#, fuzzy
 msgid "\"Report Not Junk\" Failed"
-msgstr "Помилка звіту про не спам"
+msgstr "Не вдалось звітувати про неспам"
 
 #: ../mail/mail.error.xml.h:152
 msgid "Remove duplicate messages?"
-msgstr ""
+msgstr "Вилучити листи, які повторюються?"
 
 #: ../mail/mail.error.xml.h:153
-#, fuzzy
 msgid "No duplicate messages found."
-msgstr "Не вдається створити повідомлення."
+msgstr "Не знайдено повторів листів."
 
 #. Translators: {0} is replaced with a folder name
 #: ../mail/mail.error.xml.h:155
-#, fuzzy
 msgid "Folder '{0}' doesn't contain any duplicate message."
-msgstr "Долучення не містить правильно сформованого повідомлення"
+msgstr "Тека «{0}» не містить повторні листи."
 
 #: ../mail/mail.error.xml.h:156
-#, fuzzy
 msgid "Failed to unsubscribe from folder."
-msgstr "Скасування підписки на теку \"%s\""
+msgstr "Не вдалось відписатись від теки."
 
 #: ../mail/mail.error.xml.h:158
-#, fuzzy
 msgid "Unable to retrieve message."
-msgstr "Не вдається отримати повідомлення"
+msgstr "Неможливо одержати лист."
 
 #: ../mail/mail.error.xml.h:159
 msgid "{0}"
 msgstr "{0}"
 
 #: ../mail/mail.error.xml.h:160
-#, fuzzy
 msgid "Failed to open folder."
-msgstr "Не вдається відкрити адресну книгу"
+msgstr "Не вдалось відкрити теку."
 
 #: ../mail/mail.error.xml.h:161
-#, fuzzy
 msgid "Failed to find duplicate messages."
-msgstr "Не вдається надіслати %d з %d повідомлень."
+msgstr "Не вдалося знайти повторюваних листів."
 
 #: ../mail/mail.error.xml.h:162
-#, fuzzy
 msgid "Failed to retrieve messages."
-msgstr "Не вдається отримати повідомлення"
+msgstr "Не вдається одержати листи."
 
 #: ../mail/mail.error.xml.h:163
-#, fuzzy
 msgid "Failed to remove attachments from messages."
-msgstr "Показувати долучені зображення безпосередньо у поштовому повідомленні"
+msgstr "Не вдалося вилучити долучення з листів."
 
 #: ../mail/mail.error.xml.h:164
-#, fuzzy
 msgid "Failed to download messages for offline viewing."
-msgstr "_Завантажити повідомлення для автономної роботи"
+msgstr "Не вдалося звантажити листи для автономного переглядання."
 
 #: ../mail/mail.error.xml.h:165
-#, fuzzy
 msgid "Failed to save messages to disk."
-msgstr "Не вдається надіслати %d з %d повідомлень."
+msgstr "Не вдалося зберегти листи на диску."
 
 #: ../mail/mail.error.xml.h:166
 msgid "Hidden file is attached."
-msgstr ""
+msgstr "Прихований файл долучено."
 
 #: ../mail/mail.error.xml.h:167
 msgid ""
 "The attachment named {0} is a hidden file and may contain sensitive data. "
 "Please review it before sending."
 msgstr ""
+"Долучення з назвою {0} — прихований файл і може містити конфіденційні дані. "
+"Перегляньте їх перед надсиланням."
 
 #: ../mail/mail-send-recv.c:207
 msgid "Canceling..."
@@ -14980,9 +14960,8 @@ msgstr "Повідомлення"
 
 #. default follow-up flag name to use when clicked in the message list column
 #: ../mail/message-list.c:4101
-#, fuzzy
 msgid "Follow-up"
-msgstr "До виконання"
+msgstr "Відповісти"
 
 #. there is some info why the message list is empty, let it be something useful
 #: ../mail/message-list.c:4638 ../mail/message-list.c:5058
@@ -15090,7 +15069,6 @@ msgstr ""
 "атак."
 
 #: ../modules/addressbook/addressbook-config.c:649
-#, fuzzy
 msgid "U_se in Birthday & Anniversaries calendar"
 msgstr "_Використовувати у календарі днів народжень та річниць"
 
@@ -15170,17 +15148,20 @@ msgid ""
 "The UID of the selected (or \"primary\") address book in the sidebar of the "
 "\"Contacts\" view."
 msgstr ""
+"UID вибраної (або основної) адресної книги у бічній панелі перегляду "
+"контактів."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:20
-#, fuzzy
 msgid "Whether to show maps in preview pane."
-msgstr "Показувати панель попереднього перегляду."
+msgstr "чи показувати карти в панелі перегляду."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:22
 msgid ""
 "Whether addresses should be formatted according to standard in their "
 "destination country."
 msgstr ""
+"Чи слід форматувати адреси відповідно до стандарту їхньої країни "
+"призначення."
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../modules/addressbook/autocompletion-config.c:194
@@ -15189,13 +15170,12 @@ msgid "_Table column:"
 msgstr "Стовпчик _таблиці:"
 
 #: ../modules/addressbook/autocompletion-config.c:197
-#, fuzzy
 msgid "Address formatting"
-msgstr "Інформація про зайнятість"
+msgstr "Форматування адреси"
 
 #: ../modules/addressbook/autocompletion-config.c:200
 msgid "_Format address according to standard of its destination country"
-msgstr ""
+msgstr "_Форматувати адресу відповідно до стандарту їхньої країни призначення"
 
 #: ../modules/addressbook/autocompletion-config.c:209
 msgid "Autocompletion"
@@ -15317,14 +15297,12 @@ msgid "Show properties of the selected address book"
 msgstr "Показати властивості вибраної адресної книги"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:851
-#, fuzzy
 msgid "Address Book _Map"
-msgstr "Адресна книга"
+msgstr "_Карта адресної книги"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:853
-#, fuzzy
 msgid "Show map with all contacts from selected address book"
-msgstr "Копіювати контакти з виділеної адресної книги у іншу книгу"
+msgstr "Показати карту з усіма контактами з вибраної адресної книги"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:858
 #: ../modules/calendar/e-cal-shell-view-actions.c:1405
@@ -15428,9 +15406,8 @@ msgid "_Properties"
 msgstr "В_ластивості"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:961
-#, fuzzy
 msgid "Address Book Map"
-msgstr "Адресна книга"
+msgstr "Карта адресної книги"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:993
 msgid "Contact _Preview"
@@ -15441,14 +15418,12 @@ msgid "Show contact preview window"
 msgstr "Показати вікно перегляду контакту"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1001
-#, fuzzy
 msgid "Show _Maps"
-msgstr "Показувати як список"
+msgstr "Показати карти"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1003
-#, fuzzy
 msgid "Show maps in contact preview window"
-msgstr "Показати вікно перегляду контакту"
+msgstr "Показати карти у вікні перегляду контактів"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1022
 #: ../modules/calendar/e-memo-shell-view-actions.c:747
@@ -15572,14 +15547,12 @@ msgid "Supported Search Bases"
 msgstr "Підтримувані бази пошуку"
 
 #: ../modules/addressbook/ldap-config.ui.h:14
-#, fuzzy
 msgid "Ser_ver:"
 msgstr "_Сервер:"
 
 #: ../modules/addressbook/ldap-config.ui.h:15
-#, fuzzy
 msgid "Use secure _connection:"
-msgstr "_Використовувати захищене з'єднання:"
+msgstr "Використовувати захищене _з'єднання:"
 
 #: ../modules/addressbook/ldap-config.ui.h:16
 msgid "_Login method:"
@@ -15602,9 +15575,8 @@ msgid "_Find Possible Search Bases"
 msgstr "З_найти можливі бази пошуку"
 
 #: ../modules/addressbook/ldap-config.ui.h:21
-#, fuzzy
 msgid "S_earch filter:"
-msgstr "_Фільтр пошуку:"
+msgstr "Фільтр по_шуку:"
 
 #: ../modules/addressbook/ldap-config.ui.h:22
 msgid "Search Filter"
@@ -15629,9 +15601,8 @@ msgid "5"
 msgstr "5"
 
 #: ../modules/addressbook/ldap-config.ui.h:30
-#, fuzzy
 msgid "contacts"
-msgstr "Контакти"
+msgstr "контакти"
 
 #: ../modules/addressbook/ldap-config.ui.h:31
 msgid "_Timeout:"
@@ -15647,17 +15618,17 @@ msgid "B_rowse this book until limit reached"
 msgstr "Пере_глядати книгу до досягнення ліміту часу"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to spawn Bogofilter (%s): "
-msgstr "Не вдається застосувати фільтри на виході: %s"
+msgstr "Не вдається породити Bogofilter (%s): "
 
 #: ../modules/bogofilter/evolution-bogofilter.c:163
 msgid "Failed to stream mail message content to Bogofilter: "
-msgstr ""
+msgstr "Не вдалося створити потік вмісту листів до Bogofilter:"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:212
 msgid "Bogofilter either crashed or failed to process a mail message"
-msgstr ""
+msgstr "Bogofilter зазнав краху або не спромігся обробити листа"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:311
 msgid "Bogofilter Options"
@@ -15668,15 +15639,15 @@ msgid "Convert message text to _Unicode"
 msgstr "Перетворити текст листа на _Unicode"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:476
-#, fuzzy
 msgid "Bogofilter"
-msgstr "Параметри Bogofilter"
+msgstr "Bogofilter"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:2
 msgid ""
 "The UID of the selected (or \"primary\") calendar in the sidebar of the "
 "\"Calendar\" view."
 msgstr ""
+"UID вибраного (або основного) календарю в бічній панелі перегляду календаря."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:4
 msgid ""
@@ -15865,18 +15836,24 @@ msgstr ""
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:76
 msgid "Show days with recurrent events in italic font in bottom left calendar."
 msgstr ""
+"Показувати дні з періодичними подіями курсивним шрифтом у кнопці зліва від "
+"календаря."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:78
 msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view."
 msgstr ""
+"UID вибраного (або основного) списку приміток у бічній панелі у перегляді "
+"приміток."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:80
 msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view."
 msgstr ""
+"UID вибраного (або основного) списку завдань у бічній панелі перегляду "
+"завдань."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:82
 msgid "Whether to hide completed tasks in the tasks view."
@@ -15922,26 +15899,23 @@ msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr "Типові одиниці нагадування, \"minutes\", \"hours\" чи \"days\"."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:102
-#, fuzzy
 msgid "Whether to set a reminder for birthdays and anniversaries."
-msgstr "Чи встановлювати типове нагадування для подій."
+msgstr "Чи встановлювати типове нагадування для днів народжень і річниць."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:104
-#, fuzzy
 msgid "Number of units for determining a birthday or anniversary reminder."
-msgstr "Кількість одиниць для типового нагадування."
+msgstr ""
+"Кількість одиниць для визначення нагадування про дні народження і річниці."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:106
-#, fuzzy
 msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\"."
-msgstr "Типові одиниці нагадування, \"minutes\", \"hours\" чи \"days\"."
+msgstr "Типові одиниці нагадування, «minutes», «hours» або «days»."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:108
-#, fuzzy
 msgid "Whether to show week numbers in various places in the Calendar."
-msgstr "Чи показати номери тижнів у навігаторі по датам."
+msgstr "Чи показувати кількість тижнів у різних місцях у календарі."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:109
 msgid "Scroll Month View by a week"
@@ -15952,24 +15926,20 @@ msgid "Whether to scroll a Month View by a week, not by a month."
 msgstr "Гортати режим \"Тиждень\" потижнево а не помісячно."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:112
-#, fuzzy
 msgid "Time the last reminder ran, in time_t."
 msgstr "Час останнього нагадування, у форматі time_t."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:113
-#, fuzzy
 msgid "Calendars to run reminders for"
 msgstr "Календарі для запуску нагадування"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:115
-#, fuzzy
 msgid "Programs that are allowed to be run by reminders."
-msgstr "Програми, які дозволено використовувати як частину сигналів."
+msgstr "Програми, які дозволено використовувати як нагадування."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:117
-#, fuzzy
 msgid "Whether or not to use the notification tray for display reminders."
-msgstr "Чи використовувати область сповіщення для відображення сигналів."
+msgstr "Чи використовувати лоток сповіщень для показу нагадувань."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:118
 msgid "Free/busy server URLs"
@@ -16018,19 +15988,16 @@ msgid "I_mport to Tasks"
 msgstr "_Імпорт у завдання"
 
 #: ../modules/calendar/e-calendar-preferences.c:467
-#, fuzzy
 msgid "Selected Calendars for Reminders"
-msgstr "Календарі - джерело сигналів"
+msgstr "Вибрані календарі для нагадування"
 
 #: ../modules/calendar/e-calendar-preferences.c:891
-#, fuzzy
 msgid "Ti_me and date:"
-msgstr "Дата та час:"
+msgstr "Дата й _час:"
 
 #: ../modules/calendar/e-calendar-preferences.c:892
-#, fuzzy
 msgid "_Date only:"
-msgstr "Лише дата:"
+msgstr "Лише _дата:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:8
 msgid "Minutes"
@@ -16171,13 +16138,12 @@ msgid "_Compress weekends in month view"
 msgstr "С_тискати вихідні дні при перегляді місяцю"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:51
-#, fuzzy
 msgid "Show week _numbers"
-msgstr "Показувати _номери тижнів у навігаторі по датам"
+msgstr "Показувати _кількість тижнів"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:52
 msgid "Show r_ecurring events in italic in bottom left calendar"
-msgstr ""
+msgstr "Показувати пер_іодичні події курсивом у кнопці зліва від календарю"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:53
 msgid "Sc_roll Month View by a week"
@@ -16188,23 +16154,20 @@ msgid "Display"
 msgstr "Відображення"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:57
-#, fuzzy
 msgid "Highlight t_asks due today"
-msgstr "Завдання на _сьогодні:"
+msgstr "Підсвітити _завдання на сьогодні"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:59
-#, fuzzy
 msgid "Highlight _overdue tasks"
-msgstr "П_рострочені завдання:"
+msgstr "Підсвітити з_гаяні завдання"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:60
 msgid "_Hide completed tasks after"
 msgstr "При_ховувати виконані завдання через"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:63
-#, fuzzy
 msgid "Display reminders in _notification area only"
-msgstr "Показувати сигнали попередження у _області сповіщення"
+msgstr "Показувати нагадування лише в ділянці _сповіщень"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
 #: ../modules/calendar/e-calendar-preferences.ui.h:65
@@ -16227,9 +16190,8 @@ msgid "before every anniversary/birthday"
 msgstr "до кожної річниці/дня народження"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:72
-#, fuzzy
 msgid "Select the calendars for reminder notification"
-msgstr "Виберіть календарі для сигналів"
+msgstr "Виберіть календарі для сповіщень про нагадування"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:73
 msgid "Default Free/Busy Server"
@@ -16246,9 +16208,8 @@ msgstr ""
 "%u и %d будуть замінені на користувача та домен з адреси електронної пошти."
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:77
-#, fuzzy
 msgid "Publishing Information"
-msgstr "Адреса для публікації"
+msgstr "Оприлюднення інформації"
 
 #. Create the Webcal source group
 #: ../modules/calendar/e-cal-shell-backend.c:123
@@ -16317,9 +16278,8 @@ msgid "Loading calendars"
 msgstr "Завантаження календарів"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:761
-#, fuzzy
 msgid "_New Calendar..."
-msgstr "_Створити календар"
+msgstr "_Створити календар…"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:778
 msgid "Calendar Selector"
@@ -16583,7 +16543,7 @@ msgstr "Зустрічі на наступний тиждень"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1710
 msgid "Occurs Less Than 5 Times"
-msgstr ""
+msgstr "Трапилось менше за 5 разів"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1741
 #: ../modules/calendar/e-memo-shell-view-actions.c:795
@@ -17013,12 +16973,12 @@ msgstr[1] "%d завдання"
 msgstr[2] "%d завдань"
 
 #: ../modules/mail/e-mail-attachment-handler.c:389
-#, fuzzy, c-format
+#, c-format
 msgid "%d attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "%d долучених повідомлень"
-msgstr[1] "%d долучених повідомлень"
-msgstr[2] "%d долучених повідомлень"
+msgstr[0] "%d долучений лист"
+msgstr[1] "%d долучених листа"
+msgstr[2] "%d долучених листів"
 
 #: ../modules/mail/e-mail-shell-backend.c:230
 msgctxt "New"
@@ -17030,15 +16990,13 @@ msgid "Compose a new mail message"
 msgstr "Створити нове поштове повідомлення"
 
 #: ../modules/mail/e-mail-shell-backend.c:240
-#, fuzzy
 msgctxt "New"
 msgid "Mail Acco_unt"
-msgstr "Облікові записи"
+msgstr "_Облікові записи пошти"
 
 #: ../modules/mail/e-mail-shell-backend.c:242
-#, fuzzy
 msgid "Create a new mail account"
-msgstr "Створити нову поштову теку"
+msgstr "Створити новий обліковий запис"
 
 #: ../modules/mail/e-mail-shell-backend.c:247
 msgctxt "New"
@@ -17087,9 +17045,8 @@ msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Остаточно знищити з усіх тек всі повідомлення, що позначені вилученими"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1196
-#, fuzzy
 msgid "Edit properties of this account"
-msgstr "Змінити властивості цієї теки"
+msgstr "Редагувати властивості цього облікового запису"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1201
 msgid "_Download Messages for Offline Usage"
@@ -17193,9 +17150,8 @@ msgid "N_one"
 msgstr "_Немає"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1329
-#, fuzzy
 msgid "_Manage Subscriptions"
-msgstr "_Підписка..."
+msgstr "_Організувати підписки"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1331
 #: ../modules/mail/e-mail-shell-view-actions.c:1408
@@ -17212,24 +17168,20 @@ msgid "Send queued items and retrieve new items"
 msgstr "Відіслати повідомлення з черги та отримати нові"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1343
-#, fuzzy
 msgid "R_eceive All"
-msgstr "Отримано"
+msgstr "_Одержати все"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1345
-#, fuzzy
 msgid "Receive new items from all accounts"
-msgstr "Стерти в усіх облікових записах повідомлення, що позначені вилученими"
+msgstr "Одержати нові об'єкти з усіх облікових записів"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1350
-#, fuzzy
 msgid "_Send All"
-msgstr "_Надіслати"
+msgstr "_Надіслати все"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1352
-#, fuzzy
 msgid "Send queued items in all accounts"
-msgstr "Відіслати повідомлення з черги та отримати нові"
+msgstr "Надіслати об'єкти в черзі з усіх облікових записів"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1378
 #: ../widgets/misc/e-activity-proxy.c:313
@@ -17301,15 +17253,12 @@ msgid "Show message preview pane"
 msgstr "Показати вікно попереднього перегляду повідомлень"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1519
-#, fuzzy
 msgid "Show _Deleted Messages"
-msgstr "Показати вилучені повідомлення"
+msgstr "Показати _вилучені листи"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1521
-#, fuzzy
 msgid "Show deleted messages with a line through them"
-msgstr ""
-"Показувати вилучені повідомлення (як перекреслені) у списку повідомлень."
+msgstr "Показувати вилучені листи з лінією, що проходить повз них"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1527
 msgid "_Group By Threads"
@@ -17459,12 +17408,11 @@ msgstr[2] "%d всього"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1103
 msgid "Trash"
-msgstr ""
+msgstr "Смітник"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1579
-#, fuzzy
 msgid "Send / Receive"
-msgstr "Відіслати / _отримати"
+msgstr "Надіслати / Одержати"
 
 #: ../modules/mail/em-composer-prefs.c:513
 msgid "Language(s)"
@@ -17504,9 +17452,8 @@ msgid "Show _original header value"
 msgstr "Показувати _первинне значення заголовку"
 
 #: ../modules/mailto-handler/evolution-mailto-handler.c:146
-#, fuzzy
 msgid "Do you want to make Evolution your default email client?"
-msgstr "Бажаєте зробити Evolution типовою поштовою програмою?"
+msgstr "Зробити Evolution типовою поштовою програмою?"
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
@@ -17517,9 +17464,9 @@ msgstr "Повідомлення для %s о «%s» було прочитано
 
 #. Translators: %s is the subject of the email message.
 #: ../modules/mdn/evolution-mdn.c:324
-#, fuzzy, c-format
+#, c-format
 msgid "Delivery Notification for \"%s\""
-msgstr "Доставка сповіщення для: «%s»"
+msgstr "Сповіщення про доставлення для «%s»"
 
 #: ../modules/mdn/evolution-mdn.c:449
 #, fuzzy, c-format
