@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
 "cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-03-12 22:18+0000\n"
-"PO-Revision-Date: 2012-03-15 18:10+0530\n"
+"PO-Revision-Date: 2012-03-16 21:04+0530\n"
 "Last-Translator: Nilamdyuti Goswami <ngoswami@redhat.com>\n"
 "Language-Team: as_IN <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -8135,10 +8135,9 @@ msgid "Hide task value"
 msgstr "কৰ্মেৰ মান আড়াল কৰা হ'ব"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
-#, fuzzy
 #| msgid "Number of units for determining when to hide tasks."
 msgid "Number of units for determining when to hide tasks"
-msgstr "কৰ্ম আড়াল কৰাৰ সময় নিৰ্ধাৰণ কৰিবলৈ ব্যৱহৃত ইউনিটেৰ সংখ্যা।"
+msgstr "কাৰ্য্যসমূহ কেতিয়া লুকুৱা হব নিৰ্ধাৰণ কৰিবলে এককসমূহৰ সংখ্যা"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:39
@@ -8255,7 +8254,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
 msgid "Scroll Month View by a week, not by a month"
-msgstr ""
+msgstr "মাহ দৰ্শনক এটা সপ্তাহৰে স্ক্ৰল কৰক, এটা মাহৰে নহয়"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
 msgid "Whether to scroll a Month View by a week, not by a month"
@@ -8285,11 +8284,11 @@ msgstr "প্ৰদৰ্শন ৰিমাইন্ডাৰসমূহৰ �
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
 msgid "Preferred New button item"
-msgstr ""
+msgstr "পছন্দৰ নতুন বুটাম বস্তু"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
 msgid "Name of the preferred New toolbar button item"
-msgstr ""
+msgstr "পছন্দৰ নতুন টুলবাৰ বুটাম বস্তুৰ নাম"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:1
@@ -8353,37 +8352,32 @@ msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr "বাৰংবাৰ ঘটনাসমূহ থকা দিনবোৰক ইতালীয় ফন্টত তল বাঁও কেলেন্ডাৰত দেখুৱাওক"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
-#, fuzzy
 #| msgid "List of accepted licenses"
 msgid "List of selected calendars"
-msgstr "গৃহীত অনুমতিৰ তালিকা"
+msgstr "নিৰ্বাচিত কেলেন্ডাৰসমূহৰ তালিকা"
 
-#
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
-#, fuzzy
 #| msgid "List local address book folders"
 msgid "List of calendars to load"
-msgstr "ঠিকনা বহিয়ের স্থানীয় ফোল্ডারগুলির তালিকা প্রদর্শন করা হবে"
+msgstr "ল'ড কৰিবলে কেলেন্ডাৰসমূহৰ তালিকা"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
-#, fuzzy
 #| msgid "Cut selected memo"
 msgid "List of selected memo lists"
-msgstr "নিৰ্বাচিত কৰ্মসূচী কাট কৰক"
+msgstr "নিৰ্বাচিত মেমো তালিকাসমূহৰ তালিকা"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid "List of memo lists to load"
-msgstr ""
+msgstr "ল'ড কৰিবলে মোমো তালিকাসমূহৰ তালিকা"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
-#, fuzzy
 #| msgid "Cut selected tasks"
 msgid "List of selected task lists"
-msgstr "নিৰ্বাচিত কৰ্ম কাট কৰক"
+msgstr "নিৰ্বাচিত কাৰ্য তালিকাসমূহৰ তালিকা"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid "List of task lists to load"
-msgstr ""
+msgstr "ল'ড কৰিবলে কাৰ্য্য তালিকাসমূহৰ তালিকা"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:65
@@ -8429,10 +8423,9 @@ msgid "Whether to show week numbers in various places in the Calendar"
 msgstr "কেলেন্ডাৰৰ বিভিন্ন স্থানত সপ্তাহ নম্বৰসমূহ দেখুৱা হব নে"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
-#, fuzzy
 #| msgid "Vertical pane position"
 msgid "Vertical position for the tag pane"
-msgstr "উলম্ভ পেইনৰ অৱস্থান"
+msgstr "টেগ পেইনৰ উলম্ব অৱস্থান"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 #, fuzzy
@@ -8552,16 +8545,14 @@ msgstr "সময় পূৰ্বাহ্ণ/অপৰাহ্ণ ফৰমা
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:101
-#, fuzzy
 #| msgid "Birthdays & Anniversaries"
 msgid "Birthday and anniversary reminder"
-msgstr "জন্মদিন আৰু বাৰ্ষিকী"
+msgstr "জন্মদিন আৰু বাৰ্ষিকী ৰিমাইণ্ডাৰ"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
-#, fuzzy
 #| msgid "Whether to set a default reminder for appointments."
 msgid "Whether to set a reminder for birthdays and anniversaries"
-msgstr "সাক্ষাৎ‌কাৰেৰ জন্য একটি ডিফল্ট তাগাদা নিৰ্ধাৰণ কৰা হ'ব কি না।"
+msgstr "জন্মদিন আৰু বাৰ্ষিকিসমূহৰ বাবে এটা ৰিমাইন্ডাৰ সংহতি কৰা হব নে নহয়"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:95
@@ -8574,13 +8565,11 @@ msgstr "ডিফল্ট সাক্ষাৎ‌কাৰ তাগাদা�
 msgid "Whether to set a default reminder for appointments"
 msgstr "সাক্ষাৎ‌কাৰেৰ জন্য একটি ডিফল্ট তাগাদা নিৰ্ধাৰণ কৰা হ'ব কি না।"
 
-#
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:5
-#, fuzzy
 #| msgid "_Use system defaults"
 msgid "Use system timezone"
-msgstr "ডিফল্ট মান ব্যবহার করা হবে (_U)"
+msgstr "চিস্টেম সময়অঞ্চল ব্যৱহাৰ কৰক"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid "Use the system timezone instead of the timezone selected in Evolution"
@@ -8637,38 +8626,35 @@ msgstr ""
 "সহ (উদাহৰণস্বৰূপ \"2.6.0\")"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:5
-#, fuzzy
 #| msgid "Enable and disable plugins"
 msgid "List of disabled plugins"
-msgstr "প্লাগ-ইন সক্ৰিয় অথবা নিষ্ক্ৰিয় কৰক"
+msgstr "অসামৰ্থবান প্লাগিনসমূহৰ তালিকা"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:6
 msgid "The list of disabled plugins in Evolution"
-msgstr ""
+msgstr "Evolution ত অসামৰ্থবান প্লাগিনসমূহ তালিকা"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
 msgid "The window's X coordinate"
-msgstr ""
+msgstr "উইন্ডোৰ X অক্ষ"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
 msgid "The window's Y coordinate"
-msgstr ""
+msgstr "উইন্ডোৰ Y অক্ষ"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:9
 msgid "The window's width in pixels"
-msgstr ""
+msgstr "পিক্সেলসমূহত উইন্ডোৰ প্ৰস্থ"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:10
-#, fuzzy
 #| msgid "Default window height"
 msgid "The window's height in pixels"
-msgstr "উইন্ডোৰ ডিফল্ট উচ্চতা"
+msgstr "পিক্সেলসমূহত উইন্ডোৰ উচ্চতা"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:11
-#, fuzzy
 #| msgid "Whether or not the window should be maximized."
 msgid "Whether the window is maximized"
-msgstr "উইন্ডোৰ সৰ্বোচ্চ মাপে প্ৰদৰ্শন কৰা হ'ব কি না।"
+msgstr "উইন্ডো বৃদ্ধিত হয় নে"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
 msgid "Gnome Calendar's calendar import done"
@@ -8711,7 +8697,7 @@ msgstr "যে ডিফল্ট অক্ষৰমালা (charset) ব্�
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
 #: ../mail/evolution-mail.schemas.in.h:51
 msgid "Path where picture gallery should search for its content"
-msgstr ""
+msgstr "পথ যত ছবি গেলাৰিয়ে তাৰ সমলৰ বাবে সন্ধান কৰিব"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
 msgid ""
@@ -8719,6 +8705,9 @@ msgid ""
 "folder, usually set to ~/Pictures. This folder will be also used when the "
 "set path is not pointing to the existent folder"
 msgstr ""
+"এই মান এটা ৰিক্ত স্ট্ৰিং হব পাৰে, যি বুজায় ই চিস্টেম ছবি ফোল্ডাৰ ব্যৱহাৰ কৰিব, সাধাৰণত "
+"‌‌~/ছবিসমূহ লে "
+"সংহত। এই ফোল্ডাৰ লগতে ব্যৱহাৰ কৰা হব যেতিয়া সংহত পথ অস্তিত্ববান ফোল্ডাৰলে চিহ্ন কৰি থকা নাই"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
 #: ../mail/evolution-mail.schemas.in.h:3
@@ -9295,10 +9284,9 @@ msgstr "আঁতৰুৱা বাৰ্তাসমূহকে বাৰ্�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 #: ../mail/evolution-mail.schemas.in.h:96
-#, fuzzy
 #| msgid "All local folders"
 msgid "Enable local folders"
-msgstr "সকলো স্থানীয় ফোল্ডাৰ"
+msgstr "স্থানীয় ফোল্ডাৰ সামৰ্থবান কৰক"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Whether to show local folders (On This Computer) in a folder tree"
@@ -9348,6 +9336,9 @@ msgid ""
 "Describes whether message headers in paned view should be collapsed or "
 "expanded by default. \"0\" = expanded and \"1\" = collapsed"
 msgstr ""
+"পেইন্ড দৰ্শনত বাৰ্তা হেডাৰসমূহ স্খলন কৰা হব নে অবিকল্পিতভাৱে প্ৰসাৰিত কৰা হব তাৰে বিৱৰণ "
+"দিয়ে। "
+"\"0\" = প্ৰসাৰিত \"1\" = স্খলিত"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 #: ../mail/evolution-mail.schemas.in.h:102
@@ -9503,7 +9494,7 @@ msgstr "উপৰ বাৰ্তা বাৰ্তা Evolution."
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Sort accounts alphabetically in a folder tree"
-msgstr ""
+msgstr "এটা ফোল্ডাৰ ট্ৰিত একাওন্টসমূহ বৰ্ণমালাভাৱে সজাওক"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid ""
@@ -9569,10 +9560,9 @@ msgid "Prompt the user when he or she tries to send a message without a Subject.
 msgstr "বিষয়হীন বাৰ্তা প্ৰেৰণ কৰাৰ চেষ্টা কৰলে ব্যৱহাৰকাৰীকে সতৰ্কবাণী প্ৰদৰ্শন কৰবে।"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
-#, fuzzy
 #| msgid "Prompt when user expunges"
 msgid "Prompt when emptying the trash"
-msgstr "ব্যৱহাৰকাৰী এক্সপাঞ্জ কৰলে সতৰ্কবাণী প্ৰদৰ্শন কৰবে"
+msgstr "আবৰ্জনা খালি কৰোতে প্ৰমপ্ট কৰিব"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 #, fuzzy
@@ -9992,6 +9982,9 @@ msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
 msgstr ""
+"Evolution আৰম্ভ হওতে নতুন বাৰ্তাসমূহৰ বাবে নীৰিক্ষণ কৰা হব নে। ই লগতে আউটবক্সৰ পৰা "
+"বাৰ্তাসমূহ "
+"পঠোৱাও অন্তৰ্ভুক্ত কৰে।"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 #: ../mail/evolution-mail.schemas.in.h:221
@@ -10036,10 +10029,9 @@ msgid ""
 msgstr "তালিকা উল্লেখিত সময় অবধি সংযুক্ত বস্তু উল্লেখিত সময় অবধি বাৰ্তা"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
-#, fuzzy
 #| msgid "Address Book Properties"
 msgid "Address book source"
-msgstr "ঠিকনা বহিৰ বৈশিষ্ট্যাবলী"
+msgstr "ঠিকনা বহিৰ উৎস"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
 #, fuzzy
@@ -10048,10 +10040,9 @@ msgid "Address book to use for storing automatically synced contacts"
 msgstr "স্বয়ংক্ৰিয় পৰিচয়ৰ জন্য ঠিকনা বহি নিৰ্বাচন কৰক"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
-#, fuzzy
 #| msgid "Automatic Contacts"
 msgid "Auto sync GAIM contacts"
-msgstr "স্বয়ংক্ৰিয় পৰিচয়"
+msgstr "GAIM পৰিচয়সমূহ স্বচালিতভাৱে সংমিহলি কৰক"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
 msgid "Whether GAIM contacts should be automaticall synced"
@@ -10224,7 +10215,7 @@ msgstr "নতুন মেইল এলে যে শব্ৰ নথিপত�
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
 msgid "FIXME"
-msgstr ""
+msgstr "FIXME"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:16
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
