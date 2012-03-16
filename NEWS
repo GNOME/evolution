@@ -1,3 +1,12 @@
+Evolution 3.3.92 2012-03-19
+---------------------------
+
+* The dbus-glib dependency has temporarily returned.  GConf now uses
+  dbus-glib instead of libbonobo but it does not initialize threading
+  support, so we have to initialize it to avoid thread-safety issues.
+  When we're ready to drop GConf we will drop dbus-glib along with it.
+
+
 Evolution 3.3.91 2012-03-05
 ---------------------------
 
