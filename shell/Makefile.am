@@ -62,6 +62,7 @@ libeshell_la_CPPFLAGS =						\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(EGG_SMCLIENT_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
+	$(DBUS_GLIB_CFLAGS)					\
 	$(CLUTTER_CFLAGS)
 
 libeshell_la_SOURCES =				\
@@ -100,6 +101,7 @@ libeshell_la_LIBADD =					\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(EGG_SMCLIENT_LIBS)				\
+	$(DBUS_GLIB_LIBS)				\
 	$(CLUTTER_LIBS)
 
 # Evolution executable

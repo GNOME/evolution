@@ -266,6 +266,15 @@ AC_SUBST(EVOLUTION_DATA_SERVER_CFLAGS)
 AC_SUBST(EVOLUTION_DATA_SERVER_LIBS)
 
 dnl ******************************
+dnl DBus-glib stuff, to initialize thread for GConf, which is using it
+dnl this is returned back only temporarily and wil lbe removed as soon
+dnl as eds will stop using GConf completely
+dnl ******************************
+PKG_CHECK_MODULES(DBUS_GLIB, dbus-glib-1 >= 0.6)
+AC_SUBST(DBUS_GLIB_CFLAGS)
+AC_SUBST(DBUS_GLIB_LIBS)
+
+dnl ******************************
 dnl Canberra / Canberra-GTK Sound
 dnl ******************************
 AC_ARG_ENABLE([canberra],
