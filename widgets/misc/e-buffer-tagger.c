@@ -75,6 +75,8 @@ init_magic_links (void)
 	if (done)
 		return;
 
+	done = TRUE;
+
 	for (i = 0; i < G_N_ELEMENTS (mim); i++) {
 		mim[i].preg = g_new0 (regex_t, 1);
 		if (regcomp (mim[i].preg, mim[i].regex, REG_EXTENDED | REG_ICASE)) {
