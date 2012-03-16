@@ -2662,7 +2662,16 @@ extract_simple_field (EContactEditor *editor,
 		e_contact_set (contact, field_id, (gchar *) text);
 
 	} else if (GTK_IS_COMBO_BOX_TEXT (widget)) {
-		gchar *text = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (widget));
+		gchar *text = NULL;
+
+		if (gtk_combo_box_get_has_entry (GTK_COMBO_BOX (widget))) {
+			GtkWidget *entry = gtk_bin_get_child (GTK_BIN (widget));
+
+			text = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+		}
+
+		if (!text)
+			text = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (widget));
 
 		e_contact_set (contact, field_id, text);
 
@@ -2671,7 +2680,13 @@ extract_simple_field (EContactEditor *editor,
 		GtkTreeIter iter;
 		gchar *text = NULL;
 
-		if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (widget), &iter)) {
+		if (gtk_combo_box_get_has_entry (GTK_COMBO_BOX (widget))) {
+			GtkWidget *entry = gtk_bin_get_child (GTK_BIN (widget));
+
+			text = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+		}
+
+		if (!text && gtk_combo_box_get_active_iter (GTK_COMBO_BOX (widget), &iter)) {
 			GtkListStore *store;
 
 			store = GTK_LIST_STORE (
