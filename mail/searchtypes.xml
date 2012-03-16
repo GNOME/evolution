@@ -55,8 +55,7 @@
      <title>contains</title>
      <code>
        (match-all (or (header-contains "To" ${recipient})
-                   	(header-contains "Cc" ${recipient})
-   		   	(header-contains "Bcc" ${recipient})))
+                      (header-contains "Cc" ${recipient})))
      </code>
     </option>
     <option value="not contains">
@@ -64,16 +63,14 @@
      <code>
        (match-all (not (or
                           (header-contains "To" ${recipient})
-                   	 (header-contains "Cc" ${recipient})
-                         (header-contains "Bcc" ${recipient}))))
+                         (header-contains "Cc" ${recipient}))))
      </code>
     </option>
     <option value="is">
      <title>is</title>
      <code>
        (match-all (or (header-matches "To" ${recipient})
-                   	 (header-contains "Cc" ${recipient})
-                         (header-matches "Bcc" ${recipient})))
+                         (header-matches "Cc" ${recipient})))
      </code>
     </option>
     <option value="is not">
@@ -81,16 +78,14 @@
      <code>
        (match-all (not (or
                (header-matches "To" ${recipient})
-               (header-contains "Cc" ${recipient})
-              (header-matches "Bcc" ${recipient}))))
+              (header-matches "Cc" ${recipient}))))
      </code>
     </option>
     <option value="starts with">
      <title>starts with</title>
      <code>
         (match-all (or (header-starts-with "To" ${recipient})
-                	(header-contains "Cc" ${recipient})
-                         (header-starts-with "Bcc" ${recipient})))
+                         (header-starts-with "Cc" ${recipient})))
      </code>
     </option>
     <option value="not starts with">
@@ -98,16 +93,14 @@
      <code>
         (match-all (not (or
                (header-starts-with "To" ${recipient})
-               (header-contains "Cc" ${recipient})
-              (header-starts-with "Bcc" ${recipient}))))
+              (header-starts-with "Cc" ${recipient}))))
      </code>
     </option>
     <option value="ends with">
      <title>ends with</title>
      <code>
         (match-all (or (header-ends-with "To" ${recipient})
-                   	 (header-contains "Cc" ${recipient})
-                         (header-ends-with "Bcc" ${recipient})))
+                         (header-ends-with "Cc" ${recipient})))
      </code>
     </option>
     <option value="not ends with">
@@ -115,8 +108,7 @@
      <code>
         (match-all (not (or
                (header-ends-with "To" ${recipient})
-               (header-contains "Cc" ${recipient})
-              (header-ends-with "Bcc" ${recipient}))))
+              (header-ends-with "Cc" ${recipient}))))
      </code>
     </option>
    </input>
