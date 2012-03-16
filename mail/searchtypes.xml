@@ -48,6 +48,10 @@
    <input type="string" name="sender"/>
  </part>
 
+ <!-- NOTE: Do not include Bcc addresses in this search until Camel
+            includes Bcc addresses in its summary database.  Otherwise
+            it kills our search performance by forcing entire messages
+            to be downloaded just to examine their Bcc headers. -->
  <part name="to">
    <title>Recipients</title>
    <input type="optionlist" name="recipient-type">
