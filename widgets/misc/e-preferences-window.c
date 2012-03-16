@@ -556,6 +556,10 @@ e_preferences_window_setup (EPreferencesWindow *window)
 	g_return_if_fail (E_IS_PREFERENCES_WINDOW (window));
 
 	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (window);
+
+	if (priv->setup)
+		return;
+
 	notebook = GTK_NOTEBOOK (priv->notebook);
 	num = gtk_notebook_get_n_pages (notebook);
 
