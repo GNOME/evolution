@@ -1298,7 +1298,7 @@ AC_ARG_ENABLE([plugins],
 	[enable_plugins="$enableval"],[enable_plugins=all])
 
 dnl Add any new plugins here
-plugins_base_always="itip-formatter default-source mark-all-read publish-calendar imap-features"
+plugins_base_always="itip-formatter default-source mark-all-read publish-calendar"
 
 plugins_base="$plugins_base_always"
 dist_plugins_base="$plugins_base_always"
@@ -1643,6 +1643,7 @@ modules/cal-config-local/Makefile
 modules/cal-config-weather/Makefile
 modules/cal-config-webcal/Makefile
 modules/composer-autosave/Makefile
+modules/imap-features/Makefile
 modules/mailto-handler/Makefile
 modules/mdn/Makefile
 modules/online-accounts/Makefile
@@ -1664,7 +1665,6 @@ plugins/email-custom-header/Makefile
 plugins/external-editor/Makefile
 plugins/face/Makefile
 plugins/image-inline/Makefile
-plugins/imap-features/Makefile
 plugins/itip-formatter/Makefile
 plugins/mail-notification/Makefile
 plugins/mail-to-task/Makefile

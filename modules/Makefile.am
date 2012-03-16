@@ -35,6 +35,7 @@ SUBDIRS = \
 	$(CONFIG_WEATHER_DIR) \
 	cal-config-webcal \
 	composer-autosave \
+	imap-features \
 	mailto-handler \
 	mdn \
 	offline-alert \
