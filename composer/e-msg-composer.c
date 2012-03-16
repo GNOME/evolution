@@ -4954,9 +4954,9 @@ e_load_spell_languages (void)
 		if (language != NULL)
 			spell_languages = g_list_prepend (
 				spell_languages, (gpointer) language);
-
-		g_free (language_code);
 	}
+
+	g_strfreev (strv);
 
 	spell_languages = g_list_reverse (spell_languages);
 
