@@ -136,6 +136,7 @@ evolution_CPPFLAGS =						\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)					\
+	$(DBUS_GLIB_CFLAGS)					\
 	$(CLUTTER_CFLAGS)
 
 evolution_SOURCES =				\
@@ -151,6 +152,7 @@ evolution_LDADD =							\
 	$(top_builddir)/filter/libfilter.la				\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
+	$(DBUS_GLIB_LIBS)						\
 	$(CLUTTER_LIBS)							\
 	$(EVOLUTIONICON)
 
