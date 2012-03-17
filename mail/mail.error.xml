@@ -144,7 +144,7 @@ Many email systems add an Apparently-To header to messages that only have BCC re
     <secondary>{0}</secondary>
   </error>
 
-  <error id="session-message-error" type="info">
+  <error id="session-message-error" type="error">
     <secondary>{0}</secondary>
   </error>
 
