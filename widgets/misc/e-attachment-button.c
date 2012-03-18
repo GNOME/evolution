@@ -579,6 +579,7 @@ e_attachment_button_init (EAttachmentButton *button)
 	GtkTargetList *list;
 	GtkWidget *container;
 	GtkWidget *widget;
+	GtkStyleContext *context;
 	gint n_targets;
 
 	button->priv = E_ATTACHMENT_BUTTON_GET_PRIVATE (button);
@@ -586,6 +587,8 @@ e_attachment_button_init (EAttachmentButton *button)
 	/* Configure Widgets */
 
 	container = GTK_WIDGET (button);
+	context = gtk_widget_get_style_context (container);
+	gtk_style_context_add_class (context, "linked");
 
 	widget = gtk_button_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
