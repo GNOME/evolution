@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-09 16:06+0200\n"
-"PO-Revision-Date: 2012-03-15 10:49+0300\n"
+"PO-Revision-Date: 2012-03-18 13:00+0300\n"
 "Last-Translator: Korostil Daniel <ted.korostiled@gmail.com>\n"
 "Language-Team: translation@linux.org.ua\n"
 "Language: uk\n"
@@ -15419,7 +15419,7 @@ msgstr "Показати вікно перегляду контакту"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1001
 msgid "Show _Maps"
-msgstr "Показати карти"
+msgstr "Показати _карти"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1003
 msgid "Show maps in contact preview window"
@@ -17469,62 +17469,62 @@ msgid "Delivery Notification for \"%s\""
 msgstr "Сповіщення про доставлення для «%s»"
 
 #: ../modules/mdn/evolution-mdn.c:449
-#, fuzzy, c-format
+#, c-format
 msgid "Send a read receipt to '%s'"
-msgstr "_Надіслати сповіщення про отримання:"
+msgstr "Надіслати квитанцію про прочитання до «%s»"
 
 #. name doesn't matter
 #: ../modules/mdn/evolution-mdn.c:454
-#, fuzzy
 msgid "_Notify Sender"
-msgstr "_Не надсилати"
+msgstr "_Сповістити відправника"
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:1
 msgid "Sender wants to be notified when you have read this message."
-msgstr ""
+msgstr "Відправник бажає сповістити його, коли ви прочитаєте цей лист."
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:2
 msgid "Sender has been notified that you have read this message."
-msgstr ""
+msgstr "Відправника сповіщено, що ви прочитали цього листа."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:1
-#, fuzzy
 msgid "Evolution is currently offline."
-msgstr "Перевести Evolution у автономний режим"
+msgstr "Evolution наразі працює автономно."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:2
 msgid "Click 'Work Online' to return to online mode."
-msgstr ""
+msgstr "Натисніть «Працювати в мережі», щоб повернутись до відповідного режиму."
 
 #
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:3
-#, fuzzy
 msgid "Evolution is currently offline due to a network outage."
-msgstr "Evolution у автономному режимі, оскільки мережа недоступна."
+msgstr "Evolution у автономному режимі, бо не працює мережа."
 
 #
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:4
-#, fuzzy
 msgid ""
 "Evolution will return to online mode once a network connection is "
 "established."
-msgstr "Evolution у автономному режимі, оскільки мережа недоступна."
+msgstr "Evolution повернеться до мережі, коли буде встановлено з'єднання."
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:388
 msgid ""
 "Cannot find a corresponding account in the org.gnome.OnlineAccounts service "
 "from which to obtain an authentication token."
 msgstr ""
+"Неможливо знайти відповідного облікового запису в службі "
+"org.gnome.OnlineAccounts, з котрої одержано ключ розпізнавання."
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:475
 msgid "OAuth"
-msgstr ""
+msgstr "OAuth"
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:477
 msgid ""
 "This option will connect to the server by way of the GNOME Online Accounts "
 "service"
 msgstr ""
+"Цей параметр з'єднається із сервером через службу мережевих облікових "
+"записів GNOME"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:69
 msgid "Author(s)"
@@ -17574,25 +17574,24 @@ msgstr "Hello Python"
 #: ../modules/spamassassin/evolution-spamassassin.c:190
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
-msgstr ""
+msgstr "Не вдалось породити SpamAssassin (%s): "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:213
-#, fuzzy
 msgid "Failed to stream mail message content to SpamAssassin: "
-msgstr "Фільтрує спам використовуючи SpamAssasin."
+msgstr "Не вдалось утворити потік вмісту листів у SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:232
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to write '%s' to SpamAssassin: "
-msgstr "Не вдається надіслати %d з %d повідомлень."
+msgstr "Не вдалося записати «%s» у SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:260
 msgid "Failed to read output from SpamAssassin: "
-msgstr ""
+msgstr "Не вдалося прочитати вивід з SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:315
 msgid "SpamAssassin either crashed or failed to process a mail message"
-msgstr ""
+msgstr "SpamAssassin або зазнав краху, або не вдалось обробити листа"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:834
 msgid "SpamAssassin Options"
@@ -17603,26 +17602,21 @@ msgid "I_nclude remote tests"
 msgstr "_Включити віддалені тести"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:863
-#, fuzzy
 msgid "This will make SpamAssassin more reliable, but slower."
-msgstr "Це зробить SpamAssassin надійнішим, проте повільнішим"
+msgstr "Це зробить SpamAssassin надійнішим, проте повільнішим."
 
 #: ../modules/spamassassin/evolution-spamassassin.c:1072
-#, fuzzy
 msgid "SpamAssassin"
-msgstr "Параметри SpamAssassin"
+msgstr "SpamAssassin"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:136
-#, fuzzy
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications."
 msgstr ""
 "Ласкаво просимо до Evolution. Декілька наступних екранів допоможуть "
 "Evolution налаштувати ваші поштові облікові записи та імпортувати файли з "
-"інших програм.\n"
-"\n"
-"Натисніть клавішу \"Вперед\" для продовження."
+"інших програм."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:297
 #: ../widgets/misc/e-import-assistant.c:403
@@ -17637,19 +17631,16 @@ msgstr "Від %s:"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:340
 #: ../modules/startup-wizard/evolution-startup-wizard.c:438
-#, fuzzy
 msgid "Importing Files"
-msgstr "Імпорт файлів"
+msgstr "Імпортування файлів"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:416
-#, fuzzy
 msgid "Import cancelled."
-msgstr "%s (скасовано)"
+msgstr "Імпортування скасовано."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:434
-#, fuzzy
 msgid "Import complete."
-msgstr "Оновлення виконано\n"
+msgstr "Імпортування завершено."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:508
 msgid "Evolution Setup Assistant"
@@ -17660,9 +17651,8 @@ msgid "Welcome"
 msgstr "Ласкаво просимо"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:626
-#, fuzzy
 msgid "Loading accounts..."
-msgstr "Завантаження…"
+msgstr "Завантаження облікових записів…"
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
 msgid "Local Address Books"
@@ -17694,9 +17684,8 @@ msgstr ""
 "долучення. Але його не знайдено."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
-#, fuzzy
 msgid "_Add Attachment..."
-msgstr "_Додати долучення..."
+msgstr "_Додати долучення…"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Edit Message"
@@ -17719,7 +17708,6 @@ msgid "Play audio attachments directly in mail messages."
 msgstr "Відтворювати звукові долучення прямо у повідомленнях."
 
 #: ../plugins/backup-restore/backup.c:77
-#, fuzzy
 msgid "Back up Evolution directory"
 msgstr "Зберегти каталог Evolution"
 
@@ -17728,7 +17716,6 @@ msgid "Restore Evolution directory"
 msgstr "Відновити каталог Evolution"
 
 #: ../plugins/backup-restore/backup.c:81
-#, fuzzy
 msgid "Check Evolution Back up"
 msgstr "Перевірити архів Evolution"
 
@@ -17756,7 +17743,6 @@ msgstr ""
 "Збереження даних Evolution (листів, контактів, календарів, задач, приміток)"
 
 #: ../plugins/backup-restore/backup.c:345
-#, fuzzy
 msgid "Back up complete"
 msgstr "Архів створено"
 
@@ -17766,21 +17752,18 @@ msgid "Restarting Evolution"
 msgstr "Перезапуск Evolutuion"
 
 #: ../plugins/backup-restore/backup.c:438
-#, fuzzy
 msgid "Back up current Evolution data"
-msgstr "Збереження поточних даних Evolution"
+msgstr "Зберегти поточні дані Evolution"
 
 #: ../plugins/backup-restore/backup.c:446
-#, fuzzy
 msgid "Extracting files from back up"
-msgstr "Відновлення з архіву"
+msgstr "Розпакування файлів з архіву"
 
 #: ../plugins/backup-restore/backup.c:515
 msgid "Loading Evolution settings"
 msgstr "Завантаження параметрів Evolutuion"
 
 #: ../plugins/backup-restore/backup.c:551
-#, fuzzy
 msgid "Removing temporary back up files"
 msgstr "Вилучення тимчасових резервних файлів"
 
@@ -17789,7 +17772,6 @@ msgid "Ensuring local sources"
 msgstr "Перевірка локальних джерел"
 
 #: ../plugins/backup-restore/backup.c:767
-#, fuzzy
 msgid "Evolution Back Up"
 msgstr "Архів Evolution"
 
@@ -17872,19 +17854,16 @@ msgid "Restore from backup"
 msgstr "Відновити з архіву"
 
 #: ../plugins/backup-restore/backup-restore.c:470
-#, fuzzy
 msgid "_Back up Evolution Data..."
-msgstr "Резервне копіювання даних Evolution"
+msgstr "_Резервне копіювання даних Evolution…"
 
 #: ../plugins/backup-restore/backup-restore.c:472
-#, fuzzy
 msgid "Back up Evolution data and settings to an archive file"
-msgstr "Зберегти дані та параметри Evolution у архівний файл"
+msgstr "Зберегти дані й параметри Evolution у архівний файл"
 
 #: ../plugins/backup-restore/backup-restore.c:477
-#, fuzzy
 msgid "R_estore Evolution Data..."
-msgstr "Відновлення даних Evolutuion"
+msgstr "_Відновлення даних Evolutuion…"
 
 #: ../plugins/backup-restore/backup-restore.c:479
 msgid "Restore Evolution data and settings from an archive file"
@@ -17892,24 +17871,20 @@ msgstr "Відновити дані та параметри Evolution з арх�
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
-#, fuzzy
 msgid "Back up and Restore"
-msgstr "Збереження та відновлення параметрів"
+msgstr "Зберегти та відновити"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
-#, fuzzy
 msgid "Back up and restore your Evolution data and settings."
-msgstr "Збереження та відновлення даних та параметрів."
+msgstr "Зберегти та відновити ваші дані та параметри Evolution."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
-#, fuzzy
 msgid "Invalid Evolution backup file"
 msgstr "Некоректний файл архіву Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#, fuzzy
 msgid "Please select a valid backup file to restore."
-msgstr "Виберіть архів Evolution для відновлення"
+msgstr "Виберіть коректний файл архіву Evolution для відновлення."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid "Are you sure you want to close Evolution?"
@@ -17920,17 +17895,17 @@ msgid ""
 "To back up your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding."
 msgstr ""
+"Щоб зберегти ваші дані та параметри, потрібно закрити Evolution. Насамперед "
+"переконайтесь, що ви зберегли незбережені дані."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
-#, fuzzy
 msgid "Close and Back up Evolution"
-msgstr "Резервне копіювання даних Evolution"
+msgstr "Закрити і зберегти Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
-#, fuzzy
 msgid ""
 "Are you sure you want to restore Evolution from the selected backup file?"
-msgstr "Ви дійсно хочете відновити Evolution з обраного файлу архіву?"
+msgstr "Відновити Evolution з вибраного файла архіву?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
 msgid ""
@@ -17939,11 +17914,13 @@ msgid ""
 "all your current Evolution data and settings and restore them from your "
 "backup."
 msgstr ""
+"Щоб відновити ваші дані та параметри, потрібно спочатку закрити Evolution. "
+"Насамперед переконайтесь, що ви зберегли незбережені дані. Це вилучить всі "
+"поточні дані та параметри Evolution і відновить їх з архіву."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
-#, fuzzy
 msgid "Close and Restore Evolution"
-msgstr "Перезапустити Evolutuion"
+msgstr "Закрити і відновити Evolutuion"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:9
 msgid "Insufficient Permissions"
@@ -17974,10 +17951,8 @@ msgstr "Контакти миттєвих повідомлень"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:732
-#, fuzzy
 msgid "_Synchronize contact info and images from Pidgin buddy list"
-msgstr ""
-"Періодично синхронізує інформацію та зображення зі списку контактів Pidgin"
+msgstr "_Синхронізувати інформацію та зображення зі списку контактів Pidgin"
 
 #: ../plugins/bbdb/bbdb.c:740
 msgid "Select Address book for Pidgin buddy list"
@@ -18063,9 +18038,9 @@ msgid "Previous attempt failed with code %d"
 msgstr "Попередня спроба завершилась помилкою з кодом %d"
 
 #: ../plugins/caldav/caldav-browse-server.c:946
-#, fuzzy, c-format
+#, c-format
 msgid "Enter password for user %s on server %s"
-msgstr "Введіть пароль користувача <b>%s</b> на сервері <b>%s</b>"
+msgstr "Введіть пароль користувача %s на сервері %s"
 
 #: ../plugins/caldav/caldav-browse-server.c:1009
 #, c-format
@@ -18080,7 +18055,7 @@ msgstr "Пошук змісту теки…"
 #: ../plugins/caldav/caldav-browse-server.c:1326
 #: ../plugins/caldav/caldav-source.c:262
 msgid "Server _handles meeting invitations"
-msgstr ""
+msgstr "Сервер _обробляє запрошення на засідання"
 
 #: ../plugins/caldav/caldav-browse-server.c:1333
 msgid "List of available calendars:"
@@ -18092,9 +18067,8 @@ msgstr "Підтримки"
 
 #: ../plugins/caldav/caldav-browse-server.c:1402
 #: ../plugins/caldav/caldav-source.c:260
-#, fuzzy
 msgid "User e_mail:"
-msgstr "Новий лист"
+msgstr "По_шта користувача:"
 
 #: ../plugins/caldav/caldav-browse-server.c:1478
 #, c-format
@@ -18119,9 +18093,8 @@ msgstr "_URL:"
 #: ../plugins/caldav/caldav-source.c:248
 #: ../plugins/calendar-http/calendar-http.c:149
 #: ../plugins/google-account-setup/google-contacts-source.c:359
-#, fuzzy
 msgid "Use _secure connection"
-msgstr "_Використовувати захищене з'єднання:"
+msgstr "Використовувати _безпечне з'єднання"
 
 #: ../plugins/caldav/caldav-source.c:265
 msgid "Brows_e server for a calendar"
@@ -18145,7 +18118,6 @@ msgid "Add CalDAV support to Evolution."
 msgstr "Додає підтримку CalDAV до Evolution."
 
 #: ../plugins/calendar-file/calendar-file.c:136
-#, fuzzy
 msgid "C_ustomize options"
 msgstr "З_мінити параметри"
 
@@ -18266,24 +18238,20 @@ msgid "Add weather calendars to Evolution."
 msgstr "Додати календарі погоди до Evolution."
 
 #: ../plugins/dbx-import/dbx-importer.c:292
-#, fuzzy
 msgid "Importing Outlook Express data"
-msgstr "Імпортування даних Outlook"
+msgstr "Імпортування даних Outlook Express"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:1
-#, fuzzy
 msgid "Outlook DBX import"
-msgstr "Імпорту Outlook PST"
+msgstr "Імпортування Outlook DBX"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:2
-#, fuzzy
 msgid "Outlook Express 5/6 personal folders (.dbx)"
-msgstr "Особисті теки Outlook (.pst)"
+msgstr "Особисті теки Outlook Express 5/6 (.dbx)"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:3
-#, fuzzy
 msgid "Import Outlook Express messages from DBX file"
-msgstr "Імпорт повідомлень Outlook з PST файлу"
+msgstr "Імпортування листів Outlook Express з файла DBX"
 
 #: ../plugins/default-source/default-source.c:169
 msgid "Mark as _default address book"
@@ -18316,46 +18284,39 @@ msgstr ""
 "первинні."
 
 #: ../plugins/email-custom-header/email-custom-header.c:301
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Security:"
 msgstr "Безпека:"
 
 #: ../plugins/email-custom-header/email-custom-header.c:305
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Personal"
 msgstr "Особисте"
 
 #: ../plugins/email-custom-header/email-custom-header.c:306
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Unclassified"
 msgstr "Не класифіковано"
 
 #: ../plugins/email-custom-header/email-custom-header.c:307
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Protected"
 msgstr "Захищено"
 
 #: ../plugins/email-custom-header/email-custom-header.c:308
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Confidential"
-msgstr "Конфіденційне"
+msgstr "Конфіденційно"
 
 #: ../plugins/email-custom-header/email-custom-header.c:309
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Secret"
-msgstr "Приватно"
+msgstr "Таємно"
 
 #: ../plugins/email-custom-header/email-custom-header.c:310
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Top secret"
-msgstr "Дуже приватно"
+msgstr "Цілком таємно"
 
 #: ../plugins/email-custom-header/email-custom-header.c:367
 msgctxt "email-custom-header"
@@ -18408,13 +18369,12 @@ msgid "Command to be executed to launch the editor: "
 msgstr "Команда для запуску редактора: "
 
 #: ../plugins/external-editor/external-editor.c:115
-#, fuzzy
 msgid ""
 "For XEmacs use \"xemacs\"\n"
 "For Vim use \"gvim -f\""
 msgstr ""
-"Для Emacs використовуйте \"xemacs\"\n"
-"Для VI використовувати \"gvim -f\""
+"Для XEmacs використовуйте «xemacs»\n"
+"Для Vim використовувати «gvim -f»"
 
 #: ../plugins/external-editor/external-editor.c:396
 #: ../plugins/external-editor/external-editor.c:398
@@ -18468,9 +18428,8 @@ msgstr ""
 "допоки редактор активний."
 
 #: ../plugins/face/face.c:292
-#, fuzzy
 msgid "Select a Face Picture"
-msgstr "Вибір файлу"
+msgstr "Вибір малюнка з лицем"
 
 #: ../plugins/face/face.c:302
 msgid "Image files"
@@ -18519,9 +18478,8 @@ msgstr "Обраний файл не схожий на коректне зобр
 
 #: ../plugins/google-account-setup/google-contacts-source.c:325
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:249
-#, fuzzy
 msgid "Server"
-msgstr "_Сервер:"
+msgstr "Сервер"
 
 #: ../plugins/google-account-setup/google-source.c:452
 #, c-format
@@ -18548,9 +18506,8 @@ msgid "Cal_endar:"
 msgstr "_Календар:"
 
 #: ../plugins/google-account-setup/google-source.c:702
-#, fuzzy
 msgid "Retrieve _List"
-msgstr "Отримати _список"
+msgstr "Одержати _список"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "Google Calendars"
@@ -18592,13 +18549,12 @@ msgid "_Fetch All Headers"
 msgstr "Розбирати _всі заголовки"
 
 #: ../plugins/imap-features/imap-headers.ui.h:4
-#, fuzzy
 msgid ""
 "_Basic Headers (Fastest) \n"
 "Use this if you do not have filters based on mailing lists"
 msgstr ""
 "_Основні заголовки (найшвидший) \n"
-"Використовуйте, якщо у вас немає фільтрів на основі списків розсилок"
+"Використовуйте, якщо у вас немає фільтрів на основі списків листування"
 
 #: ../plugins/imap-features/imap-headers.ui.h:6
 msgid "Basic and _Mailing List Headers (Default)"
@@ -18625,9 +18581,9 @@ msgstr "Налаштувати облікові записи IMAP."
 #. Translators: The first '%s' is replaced with a calendar name,
 #. * the second '%s' with an error message
 #: ../plugins/itip-formatter/itip-formatter.c:505
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load the calendar '%s' (%s)"
-msgstr "Не вдається завантажити календар '%s'"
+msgstr "Не вдалося завантажити календар «%s» (%s)"
 
 #: ../plugins/itip-formatter/itip-formatter.c:665
 #, c-format
@@ -18656,9 +18612,8 @@ msgid "Unable to find this memo in any memo list"
 msgstr "Не вдається знайти цю примітку у жодному списку приміток"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1119
-#, fuzzy
 msgid "Opening the calendar. Please wait..."
-msgstr "Відкриваю календар. Зачекайте, будь-ласка..."
+msgstr "Відкривання календарю. Заждіть…"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1122
 msgid "Searching for an existing version of this appointment"
@@ -18692,9 +18647,8 @@ msgstr "Надіслано у календар '%s' як скасований"
 #: ../plugins/itip-formatter/itip-formatter.c:1581
 #: ../plugins/itip-formatter/itip-formatter.c:1974
 #: ../plugins/itip-formatter/itip-formatter.c:2065
-#, fuzzy
 msgid "Saving changes to the calendar. Please wait..."
-msgstr "Відкриваю календар. Зачекайте, будь-ласка..."
+msgstr "Збереження змін у календар. Заждіть…"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1620
 msgid "Unable to parse item"
@@ -18723,9 +18677,8 @@ msgid "Attendee status updated"
 msgstr "Стан учасника оновлено!"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1881
-#, fuzzy
 msgid "The meeting is invalid and cannot be updated"
-msgstr "Об'єкт є некоректним та не може бути оновлений\n"
+msgstr "Засідання неправильне і його неможливо оновити"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1947
 msgid "Attendee status could not be updated because the status is invalid"
@@ -18832,9 +18785,8 @@ msgid "This memo recurs"
 msgstr "Ця примітка повторюється"
 
 #: ../plugins/itip-formatter/itip-formatter.c:3231
-#, fuzzy
 msgid "Meeting Invitations"
-msgstr "Інформація про засідання"
+msgstr "Запрошення на засідання"
 
 #: ../plugins/itip-formatter/itip-formatter.c:3257
 msgid "_Delete message after acting"
@@ -18993,225 +18945,222 @@ msgstr "Невідома особа"
 #: ../plugins/itip-formatter/itip-view.c:372
 #: ../plugins/itip-formatter/itip-view.c:460
 #: ../plugins/itip-formatter/itip-view.c:547
-#, fuzzy, c-format
+#, c-format
 msgid "Please respond on behalf of %s"
-msgstr "Дайте відповідь від імені <b>%s</b>"
+msgstr "Дайте відповідь від імені %s"
 
 #: ../plugins/itip-formatter/itip-view.c:374
 #: ../plugins/itip-formatter/itip-view.c:462
 #: ../plugins/itip-formatter/itip-view.c:549
-#, fuzzy, c-format
+#, c-format
 msgid "Received on behalf of %s"
-msgstr "Отримано від імені <b>%s</b>"
+msgstr "Одержано від імені %s"
 
 #: ../plugins/itip-formatter/itip-view.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has published the following meeting information:"
-msgstr "<b>%s</b> через %s опублікував відомості про засідання:"
+msgstr "%s через %s оприлюднив інформацію про засідання:"
 
 #: ../plugins/itip-formatter/itip-view.c:381
-#, fuzzy, c-format
+#, c-format
 msgid "%s has published the following meeting information:"
-msgstr "<b>%s</b> опублікував наступні відомості про засідання:"
+msgstr "%s оприлюднив таку інформацію про засідання:"
 
 #: ../plugins/itip-formatter/itip-view.c:386
-#, fuzzy, c-format
+#, c-format
 msgid "%s has delegated the following meeting to you:"
-msgstr "<b>%s</b> запитує про наступне засідання для вас:"
+msgstr "%s доручає таке засідання вам:"
 
 #: ../plugins/itip-formatter/itip-view.c:389
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> через %s запитує вашу присутність на наступному засіданні:"
+msgstr "%s через %s запитує про вашу присутність на такому засіданні:"
 
 #: ../plugins/itip-formatter/itip-view.c:391
-#, fuzzy, c-format
+#, c-format
 msgid "%s requests your presence at the following meeting:"
-msgstr "<b>%s</b> запитує вашу присутність на наступному засіданні:"
+msgstr "%s запитує про вашу присутність на такому засіданні:"
 
 #: ../plugins/itip-formatter/itip-view.c:397
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> через %s бажає додати до наступного засідання:"
+msgstr "%s через %s бажає додати до наявного засідання:"
 
 #: ../plugins/itip-formatter/itip-view.c:399
-#, fuzzy, c-format
+#, c-format
 msgid "%s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> бажає додати до існуючого засідання:"
+msgstr "%s бажає додати до наявного засідання:"
 
 #: ../plugins/itip-formatter/itip-view.c:403
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
-msgstr ""
-"<b>%s</b> через %s бажає отримати останню інформацію про наступне завдання:"
+msgstr "%s через %s бажає одержати останню інформацію про таке засідання:"
 
 #: ../plugins/itip-formatter/itip-view.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "%s wishes to receive the latest information for the following meeting:"
-msgstr "<b>%s</b> бажає отримати останню інформацію про наступне завдання:"
+msgstr "%s бажає одержати останню інформацію про таке засідання:"
 
 #: ../plugins/itip-formatter/itip-view.c:409
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has sent back the following meeting response:"
-msgstr "<b>%s</b> через %s надіслав наступну відповідь про засідання:"
+msgstr "%s через %s надіслав такий відгук про засідання:"
 
 #: ../plugins/itip-formatter/itip-view.c:411
-#, fuzzy, c-format
+#, c-format
 msgid "%s has sent back the following meeting response:"
-msgstr "<b>%s</b> надіслав наступну відповідь про засідання:"
+msgstr "%s надіслав такий відгук про засідання:"
 
 #: ../plugins/itip-formatter/itip-view.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has canceled the following meeting:"
-msgstr "<b>%s</b> через %s скасував наступне засідання:"
+msgstr "%s через %s скасував таке засідання:"
 
 #: ../plugins/itip-formatter/itip-view.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "%s has canceled the following meeting:"
-msgstr "<b>%s</b> скасував наступне засідання."
+msgstr "%s скасував таке засідання:"
 
 #: ../plugins/itip-formatter/itip-view.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has proposed the following meeting changes."
-msgstr "<b>%s</b> через %s запропонував наступні зміни засідання."
+msgstr "%s> через %s запропонував такі зміни у засіданні."
 
 #: ../plugins/itip-formatter/itip-view.c:423
-#, fuzzy, c-format
+#, c-format
 msgid "%s has proposed the following meeting changes:"
-msgstr "<b>%s</b> запропонував наступні зміни засідання."
+msgstr "%s запропонував такі зміни у засіданні:"
 
 #: ../plugins/itip-formatter/itip-view.c:427
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> через %s скасував наступні зміни у засіданні:"
+msgstr "%s через %s відхилив такі зміни у засіданні:"
 
 #: ../plugins/itip-formatter/itip-view.c:429
-#, fuzzy, c-format
+#, c-format
 msgid "%s has declined the following meeting changes:"
-msgstr "<b>%s</b> відхилив наступні зміни у засіданні."
+msgstr "%s відхилив такі зміни у засіданні:"
 
 #: ../plugins/itip-formatter/itip-view.c:467
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has published the following task:"
-msgstr "<b>%s</b> через %s опублікував наступне завдання:"
+msgstr "%s через %s оприлюднив таке завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:469
-#, fuzzy, c-format
+#, c-format
 msgid "%s has published the following task:"
-msgstr "<b>%s</b> опублікував наступне завдання:"
+msgstr "%s оприлюднив таке завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:474
-#, fuzzy, c-format
+#, c-format
 msgid "%s requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> запитує призначення %s наступного завдання:"
+msgstr "%s запитує про призначення %s на таке завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:477
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has assigned you a task:"
-msgstr "<b>%s</b> через %s призначив вам завдання:"
+msgstr "%s через %s призначив вам завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "%s has assigned you a task:"
-msgstr "<b>%s</b> призначив вам завдання:"
+msgstr "%s призначив вам завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:485
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s wishes to add to an existing task:"
-msgstr "<b>%s</b> через %s бажає додати до наступного завдання:"
+msgstr "%s через %s бажає додати до наявного завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "%s wishes to add to an existing task:"
-msgstr "<b>%s</b> бажає додати до існуючого завдання:"
+msgstr "%s бажає додати до наявного завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:491
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "assigned task:"
 msgstr ""
-"<b>%s</b> через %s бажає отримати останню інформацію про наступне призначене "
-"завдання:"
+"%s через %s бажає одержати останню інформацію про таке призначене завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:493
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
-msgstr ""
-"<b>%s</b> бажає отримати останню інформацію про наступне призначене завдання:"
+msgstr "%s бажає одержати останню інформацію про таке призначене завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has sent back the following assigned task response:"
-msgstr "<b>%s</b> через %s надіслав наступну відповідь на призначене завдання:"
+msgstr "%s через %s надіслав назад таку відповідь на призначене завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:499
-#, fuzzy, c-format
+#, c-format
 msgid "%s has sent back the following assigned task response:"
-msgstr "<b>%s</b> надіслав наступну відповідь на призначене завдання:"
+msgstr "%s надіслав назад таку відповідь на призначене завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:503
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has canceled the following assigned task:"
-msgstr "<b>%s</b> через %s скасував наступне призначене завдання:"
+msgstr "%s через %s скасував таке призначене завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:505
-#, fuzzy, c-format
+#, c-format
 msgid "%s has canceled the following assigned task:"
-msgstr "<b>%s</b> скасував наступне призначене завдання:"
+msgstr "%s скасував таке призначене завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:509
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
-msgstr "<b>%s</b> через %s запропонував наступні зміни назначеного завдання:"
+msgstr "%s через %s запропонував такі зміни у призначенні завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:511
-#, fuzzy, c-format
+#, c-format
 msgid "%s has proposed the following task assignment changes:"
-msgstr "<b>%s</b> запропонував наступні зміни назначеного завдання:"
+msgstr "%s запропонував такі зміни у призначенні завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:515
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has declined the following assigned task:"
-msgstr "<b>%s</b> через %s відхилив наступне призначене завдання:"
+msgstr "%s через %s відхилив таке призначене завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "%s has declined the following assigned task:"
-msgstr "<b>%s</b> скасував наступні призначені завдання:"
+msgstr "%s відхилив таке призначене завдання:"
 
 #: ../plugins/itip-formatter/itip-view.c:554
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has published the following memo:"
-msgstr "<b>%s</b> через %s опублікував наступну примітку:"
+msgstr "%s через %s оприлюднив таку примітку:"
 
 #: ../plugins/itip-formatter/itip-view.c:556
-#, fuzzy, c-format
+#, c-format
 msgid "%s has published the following memo:"
-msgstr "<b>%s</b> опублікував наступну примітку:"
+msgstr "%s оприлюднив таку примітку:"
 
 #: ../plugins/itip-formatter/itip-view.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s wishes to add to an existing memo:"
-msgstr "<b>%s</b> через %s бажає додати до існуючої примітки:"
+msgstr "%s через %s бажає додати до наявної примітки:"
 
 #: ../plugins/itip-formatter/itip-view.c:563
-#, fuzzy, c-format
+#, c-format
 msgid "%s wishes to add to an existing memo:"
-msgstr "<b>%s</b> бажає додати до існуючої примітки:"
+msgstr "%s бажає додати до наявної примітки:"
 
 #: ../plugins/itip-formatter/itip-view.c:567
-#, fuzzy, c-format
+#, c-format
 msgid "%s through %s has canceled the following shared memo:"
-msgstr "<b>%s</b> через %s скасував наступну спільну примітку:"
+msgstr "%s через %s скасував таку спільну примітку:"
 
 #: ../plugins/itip-formatter/itip-view.c:569
-#, fuzzy, c-format
+#, c-format
 msgid "%s has canceled the following shared memo:"
-msgstr "<b>%s</b> скасував наступну спільну примітку:"
+msgstr "%s скасував таку спільну примітку:"
 
 #: ../plugins/itip-formatter/itip-view.c:693
 msgid "All day:"
@@ -19256,9 +19205,8 @@ msgstr "Від_хилити"
 #: ../plugins/itip-formatter/itip-view.c:870
 #: ../plugins/itip-formatter/itip-view.c:886
 #: ../plugins/itip-formatter/itip-view.c:891
-#, fuzzy
 msgid "A_ccept"
-msgstr "Прийнято"
+msgstr "_Ухвалити"
 
 #: ../plugins/itip-formatter/itip-view.c:861
 msgid "_Decline all"
@@ -19276,9 +19224,8 @@ msgid "_Tentative"
 msgstr "_Невизначені"
 
 #: ../plugins/itip-formatter/itip-view.c:863
-#, fuzzy
 msgid "A_ccept all"
-msgstr "_Прийняти все"
+msgstr "У_хвалити все"
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:874
@@ -19351,11 +19298,8 @@ msgid "This meeting has been delegated"
 msgstr "Цю зустріч було направлено"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-#, fuzzy
 msgid "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
-msgstr ""
-"&quot;{0}&quot; направлений на засідання. Додати уповноваженого &quot;{1}"
-"&quot; ?"
+msgstr "«{0}» заявив про засідання. Додати заяву «{1}»?"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:350
 msgid "Get List _Archive"
@@ -19535,14 +19479,13 @@ msgstr "Новий лист"
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
 #: ../plugins/mail-notification/mail-notification.c:461
-#, fuzzy, c-format
+#, c-format
 msgid "Show %s"
-msgstr "_Показати:"
+msgstr "Показати %s"
 
 #: ../plugins/mail-notification/mail-notification.c:661
-#, fuzzy
 msgid "_Play sound when a new message arrives"
-msgstr "П_рогравати звуковий файл при отриманні нової пошти"
+msgstr "П_рогравати звук, коли приходить новий лист"
 
 #: ../plugins/mail-notification/mail-notification.c:693
 msgid "_Beep"
@@ -19565,10 +19508,8 @@ msgid "Notify new messages for _Inbox only"
 msgstr "Сповідати про нові повідомлення лише у теці _Inbox"
 
 #: ../plugins/mail-notification/mail-notification.c:800
-#, fuzzy
 msgid "Show _notification when a new message arrives"
-msgstr ""
-"Сповіщає користувача значком на панелі сповіщень про появу нової пошти."
+msgstr "Показує _сповіщення, коли приходить новий лист"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
@@ -19615,9 +19556,9 @@ msgid ""
 msgid_plural ""
 "You have selected %d mails to be converted to events. Do you really want to "
 "add them all?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Вибрано %d лист для перетворення на подію. Додати його?"
+msgstr[1] "Вибрано %d листи для перетворення на події. Додати їх усіх?"
+msgstr[2] "Вибрано %d листів для перетворення на події. Додати їх усіх?"
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../plugins/mail-to-task/mail-to-task.c:649
@@ -19628,9 +19569,9 @@ msgid ""
 msgid_plural ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
 "add them all?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Вибрано %d лист для перетворення на завдання. Додати його?"
+msgstr[1] "Вибрано %d листа для перетворення на завдання. Додати їх усіх?"
+msgstr[2] "Вибрано %d листів для перетворення на завдання. Додати їх усіх?"
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../plugins/mail-to-task/mail-to-task.c:655
@@ -19641,14 +19582,13 @@ msgid ""
 msgid_plural ""
 "You have selected %d mails to be converted to memos. Do you really want to "
 "add them all?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Вибрано %d лист для перетворення на примітку. Додати його?"
+msgstr[1] "Вибрано %d листа для перетворення на примітки. Додати їх усіх?"
+msgstr[2] "Вибрано %d листів для перетворення на примітки. Додати їх усіх?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:676
-#, fuzzy
 msgid "Do you wish to continue converting remaining mails?"
-msgstr "Бажаєте переписати?"
+msgstr "Продовжити перетворення залишкових листів?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:751
 msgid "[No Summary]"
@@ -19698,9 +19638,8 @@ msgid "Cannot get source list. %s"
 msgstr "Не вдається отримати список джерела. %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1164
-#, fuzzy
 msgid "No writable calendar is available."
-msgstr "Немає опису."
+msgstr "Немає календаря, у який можна записати."
 
 #: ../plugins/mail-to-task/mail-to-task.c:1258
 msgid "Create an _Event"
@@ -19943,9 +19882,8 @@ msgid "Manual (via Actions menu)"
 msgstr "Вручну (з меню Дії)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
-#, fuzzy
 msgid "Secure FTP (SFTP)"
-msgstr "Безпечний FTP (SSH)"
+msgstr "Безпечний FTP (SFTP)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:10
 msgid "Public FTP"
@@ -20105,7 +20043,6 @@ msgid "_Encapsulate values with:"
 msgstr "_Інкапсулювати значення у:"
 
 #: ../plugins/save-calendar/csv-format.c:638
-#, fuzzy
 msgid "Comma separated values (.csv)"
 msgstr "Значення, розділені комами (.csv)"
 
@@ -20131,9 +20068,8 @@ msgid "%FT%T"
 msgstr "%FT%T"
 
 #: ../plugins/save-calendar/rdf-format.c:387
-#, fuzzy
 msgid "RDF (.rdf)"
-msgstr "Формат RDF (.rdf)"
+msgstr "RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:127
 msgid "_Format:"
@@ -20385,9 +20321,8 @@ msgid "HTTP proxy username"
 msgstr "Ім'я користувача проксі HTTP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:54
-#, fuzzy
 msgid "Username to pass as authentication when doing HTTP proxying."
-msgstr "Ім'я користувача для автентифікації при підключенні до проксі HTTP."
+msgstr "Користувач для автентифікації, коли з'єднується з проксі через HTTP."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:55
 msgid "HTTP proxy password"
@@ -20471,7 +20406,7 @@ msgstr "Усі файли (*)"
 
 #: ../shell/e-shell-view.c:303
 msgid "Saving user interface state"
-msgstr ""
+msgstr "Збереження стану інтерфейсу"
 
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
@@ -20482,16 +20417,16 @@ msgstr ""
 "Юрій Сирота <rasta@renome.rovno.ua>\n"
 "Максим Дзюманенко <dziumanenko@gmail.com>\n"
 "Андрій Самойлов <sav@bcs.zp.ua>\n"
-"Максим Дубовий <max@mylinux.com.ua>"
+"Максим Дубовий <max@mylinux.com.ua>\n"
+"Daniel Korostil <ted.korostiled@gmail.com>"
 
 #: ../shell/e-shell-window-actions.c:656
 msgid "Evolution Website"
 msgstr "Веб-сайт Evolution"
 
 #: ../shell/e-shell-window-actions.c:914
-#, fuzzy
 msgid "Categories Editor"
-msgstr "Список категорій"
+msgstr "Редактор категорій"
 
 #: ../shell/e-shell-window-actions.c:1249
 msgid "Bug Buddy is not installed."
@@ -20543,9 +20478,8 @@ msgid "Create a new window displaying this view"
 msgstr "Створити нове вікно з цим оглядом"
 
 #: ../shell/e-shell-window-actions.c:1514
-#, fuzzy
 msgid "Available Cate_gories"
-msgstr "Доступні поля"
+msgstr "Доступні _категорії"
 
 #: ../shell/e-shell-window-actions.c:1516
 msgid "Manage available categories"
