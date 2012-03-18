@@ -131,6 +131,7 @@ e_table_header_draw_button (cairo_t *cr,
 	gint inner_x, inner_y;
 	gint inner_width, inner_height;
 	gint arrow_width = 0, arrow_height = 0;
+	PangoContext *pango_context;
 	PangoLayout *layout;
 	GtkStyleContext *context;
 	GtkBorder padding;
@@ -200,7 +201,11 @@ e_table_header_draw_button (cairo_t *cr,
 		return; /* nothing else fits */
 	}
 
-	layout = gtk_widget_create_pango_layout (widget, ecol->text);
+	pango_context = gtk_widget_create_pango_context (widget);
+	layout = pango_layout_new (pango_context);
+	g_object_unref (pango_context);
+
+	pango_layout_set_text (layout, ecol->text, -1);
 	pango_layout_set_ellipsize (layout, PANGO_ELLIPSIZE_END);
 
 	/* Pixbuf or label */
