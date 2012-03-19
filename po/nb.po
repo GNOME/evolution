@@ -4,13 +4,13 @@
 # Kjartan Maraas <kmaraas@gnome.org>, 1998-2012.
 # Terance Edward Sola <terance@lyse.net>, 2005.
 # Torstein Adolf Winterseth <kvikende@fsfe.org>, 2010.
-#: ../shell/main.c:570
+#: ../shell/main.c:575
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.3.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-12 19:07+0100\n"
-"PO-Revision-Date: 2012-03-12 19:08+0100\n"
+"POT-Creation-Date: 2012-03-19 19:30+0100\n"
+"PO-Revision-Date: 2012-03-19 19:31+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -266,7 +266,7 @@ msgstr ""
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:628
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:650
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2911
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2926
 msgid "Contact Editor"
 msgstr "Kontaktredigering"
 
@@ -436,7 +436,7 @@ msgstr "Bryllupsdag"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-display.c:728
 #: ../calendar/gui/e-calendar-view.c:2130 ../capplet/anjal-settings-main.c:83
-#: ../shell/main.c:133
+#: ../shell/main.c:135
 msgid "Birthday"
 msgstr "Fødselsdag"
 
@@ -560,20 +560,20 @@ msgid "Error removing contact"
 msgstr "Feil under fjerning av kontakt"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:644
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2905
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2920
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Kontaktredigering - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3386
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3401
 msgid "Please select an image for this contact"
 msgstr "Vennligst velg et bilde for denne kontakten"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3387
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3402
 msgid "_No image"
 msgstr "_Uten bilde"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3714
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3729
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -581,28 +581,28 @@ msgstr ""
 "Kontaktdata er ugyldig:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3720
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3735
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "«%s» har ugyldig format"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3727
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3742
 #, c-format
 msgid "'%s' cannot be a future date"
 msgstr "«%s» kan ikke være en dato i fremtiden"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3735
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3750
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s«%s» har ugyldig format"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3748
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3762
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3763
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3777
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s«%s» er tom"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3777
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3792
 msgid "Invalid contact."
 msgstr "Ugyldig kontakt."
 
@@ -8620,7 +8620,7 @@ msgid ""
 "Comma-separated list of localized 'Re' abbreviations to skip in a subject "
 "text when replying to a message, as an addition to the standard \"Re\" "
 "prefix. An example is 'SV,AV'."
-msgstr ""
+msgstr "SV"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 #: ../mail/evolution-mail.schemas.in.h:53
@@ -9846,7 +9846,7 @@ msgid "Initial folder for GtkFileChooser dialogs."
 msgstr "Startmappe for GtkFileChooser dialoger."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7
-#: ../shell/apps_evolution_shell.schemas.in.h:9 ../shell/main.c:316
+#: ../shell/apps_evolution_shell.schemas.in.h:9 ../shell/main.c:318
 msgid "Start in offline mode"
 msgstr "Start i frakoblet modus"
 
@@ -12499,9 +12499,7 @@ msgstr "Dette sertifikatet kan ikke vises"
 msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
-msgstr ""
-"Evolution kan ikke rendre denne e-posten da den er for stor. Du kan vise den "
-"uformattert eller åpne den i et eksternt redigeringsprogram."
+msgstr "Evolution kan ikke vise denne e-posten da den er for stor. Du kan vise den uformattert eller åpne den i et eksternt redigeringsprogram."
 
 #: ../mail/em-format-html-display.c:773
 msgid "Save Image"
@@ -20471,7 +20469,7 @@ msgid "%s - Evolution"
 msgstr "%s - Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:188
+#: ../shell/main.c:190
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -20506,7 +20504,7 @@ msgstr ""
 "Vi håper at du nyter resultatene av vårt harde arbeid, og vi venter i\n"
 "spenning på at du tilbyr din hjelp!\n"
 
-#: ../shell/main.c:212
+#: ../shell/main.c:214
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -20514,13 +20512,13 @@ msgstr ""
 "Takk\n"
 "Evolution utviklerene\n"
 
-#: ../shell/main.c:219
+#: ../shell/main.c:221
 msgid "Do not tell me again"
 msgstr "Ikke gi beskjed igjen"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../shell/main.c:310
+#: ../shell/main.c:312
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
@@ -20528,47 +20526,47 @@ msgstr ""
 "Start Evolution med oppgitt komponent. Tilgjengelige valg er «mail», "
 "«calendar», «contacts», «tasks» og «memos»"
 
-#: ../shell/main.c:314
+#: ../shell/main.c:316
 msgid "Apply the given geometry to the main window"
 msgstr "Bruk oppgitt geometri på hovedvinduet"
 
-#: ../shell/main.c:318
+#: ../shell/main.c:320
 msgid "Start in online mode"
 msgstr "Start i tilkoblet modus"
 
-#: ../shell/main.c:320
+#: ../shell/main.c:322
 msgid "Ignore network availability"
 msgstr "Ignorer nettverkstilgjengelighet"
 
-#: ../shell/main.c:322
+#: ../shell/main.c:324
 msgid "Start in \"express\" mode"
 msgstr "Start i «ekspress»-modus"
 
-#: ../shell/main.c:325
+#: ../shell/main.c:327
 msgid "Forcibly shut down Evolution"
 msgstr "Tvungen nedstenging av Evolution"
 
-#: ../shell/main.c:328
+#: ../shell/main.c:330
 msgid "Disable loading of any plugins."
 msgstr "Slå av lasting av tillegg."
 
-#: ../shell/main.c:330
+#: ../shell/main.c:332
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Deaktiver forhåndsvisningsområdet for e-post, kontakter og oppgaver."
 
-#: ../shell/main.c:334
+#: ../shell/main.c:336
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Importer URIer eller filnavn gitt som argumenter."
 
-#: ../shell/main.c:336
+#: ../shell/main.c:338
 msgid "Request a running Evolution process to quit"
 msgstr "Be en kjørende Evolution-prosess om å stenge ned"
 
-#: ../shell/main.c:510 ../shell/main.c:518
+#: ../shell/main.c:515 ../shell/main.c:523
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Evolution personlig informasjonshåndterer og e-postklient"
 
-#: ../shell/main.c:583
+#: ../shell/main.c:588
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -20577,7 +20575,7 @@ msgstr ""
 "%s: --online og --offline kan ikke brukes samtidig.\n"
 "  Bruk «%s --help» for mer informasjon.\n"
 
-#: ../shell/main.c:589
+#: ../shell/main.c:594
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -21582,7 +21580,7 @@ msgid "Open this attachment in %s"
 msgstr "Åpne dette vedlegget i %s"
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
-#: ../widgets/misc/e-buffer-tagger.c:387
+#: ../widgets/misc/e-buffer-tagger.c:389
 msgid "Ctrl-click to open a link"
 msgstr "Ctrl-klikk for å åpne en lenke"
 
