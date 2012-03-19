@@ -1,6 +1,67 @@
 Evolution 3.3.92 2012-03-19
 ---------------------------
 
+Bug Fixes:
+	Bug 671509 (2/2) - Some small UI/theming improvements (Cosimo Cecchi)
+	Bug 671509 (1/2) - Some small UI/theming improvements (Cosimo Cecchi)
+	Bug 665399 - Cannot change File Under to custom value (Milan Crha)
+	Bug 659756 - Initialize dbus-glib threading for GConf (Milan Crha)
+	Bug 665130 - Memory leaks in Preferences and ETable (Milan Crha)
+	Bug 665129 - Memory leak in EBufferTagger (Milan Crha)
+	Bug 665106 - Memory leak from composer setup when opening Preferences (Milan Crha)
+	Bug 669490 - Window resizes with many activities (gtk 3.3.14+) (Milan Crha)
+	Bug 671716 - Fails to build with --enable-contact-maps (Matthew Barnes)
+	Bug 664326 - Buttons to handle exceptions in event is always disabled (Milan Crha)
+	Bug 664323 - Too late initialization of Gnome/GailCanvas ATK support (Milan Crha)
+	Bug 664205 - Improve UX when creating a new mail folder (Milan Crha)
+	Bug 664169 - Default port is not selected by default (Milan Crha)
+	Bug 671233 - Unable to choose port 587 for SMTP (Milan Crha)
+	User Docs: Link 'Deleting attachments' into Attachments overview page. See bug #671633 (Andre Klapper)
+	User Docs: Clarify Bogofilter usage again. Fixes bug #665008 (Andre Klapper)
+	User Docs: Rewrite Spam Marking. Fixes bug #665008 (Andre Klapper)
+	User Docs: Explain how Bogofilter and SpamAssassin work and link to their FAQs. See bug #665008 (Andre Klapper)
+	User Docs: Explain order in mail folder list pane and how to change. Fixes bug #661654 (Andre Klapper)
+	User Docs: Mention 'Apply the same view settings to all folders' mail setting. Fixes bug #669246 (Andre Klapper)
+	User Docs: Use conditional processing for package install links; Add EWS to first start page. Fixes bug #671068. (Andre Klapper)
+
+Miscellaneous Fixes:
+	Add dbus-glib flags to evolution binary. (Matthew Barnes)
+	Add a comment about Bcc headers to searchtypes.xml. (Matthew Barnes)
+	Revert "Include searching Bcc header while looking for recipients" (Matthew Barnes)
+	Mention the return of dbus-glib in a NEWS blurb. (Matthew Barnes)
+	Fix too large allocation for alert-bar in shell-content (Milan Crha)
+	EConfig: Support custom page skip callbacks. (Matthew Barnes)
+	User Docs: Move page to Advanced section (Andre Klapper)
+	User Docs: Add page about message source and all mail headers view (Andre Klapper)
+	User Docs: Add 'Advanced' section for Message Displaying to dump all the Headers/Source stuff (Andre Klapper)
+	User Docs: Remove Source and Headers stuff from 'Message list sorting' section. Wrong place. (Andre Klapper)
+	User Docs: Link also into mail-layout-changing (Andre Klapper)
+	User Docs: Fix wrong syntax (Andre Klapper)
+	User Docs: Add missing markup (Andre Klapper)
+	startup-wizard: Avoid em_account_editor_get_widget(). (Matthew Barnes)
+
+Translations:
+	Changwoo Ryu (ko)
+	Bruce Cowan (en_GB)
+	Nilamdyuti Goswami (as)
+	Daniel Mustieles (es)
+	Daniel Korostil (uk)
+	Christian Kirbach (de)
+	Martin Srebotnjak (sl)
+	Timo Jyrinki (fi)
+	Pavol Klačanský ()
+	Bruno Brouard (fr)
+	Piotr Drąg (pl)
+	Matej Urbančič (sl)
+	Yuri Myasoedov (ru)
+	Kjartan Maraas (nn)
+	A S Alam (pa)
+	Praveen Arimbrathodiyil ()
+	Gabor Kelemen (hu)
+	Rudolfs Mazurs (lv)
+	Chao-Hsiung Liao (zh_HK)	
+
+
 * The dbus-glib dependency has temporarily returned.  GConf now uses
   dbus-glib instead of libbonobo but it does not initialize threading
   support, so we have to initialize it to avoid thread-safety issues.
