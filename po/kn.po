@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-02-27 11:22+0000\n"
-"PO-Revision-Date: 2012-03-20 12:08+0530\n"
+"PO-Revision-Date: 2012-03-20 13:09+0530\n"
 "Last-Translator: s\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -19185,10 +19185,9 @@ msgstr ""
 
 #: ../plugins/google-account-setup/google-contacts-source.c:325
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:248
-#, fuzzy
 #| msgid "_Server:"
 msgid "Server"
-msgstr "ಪರಿಚಾರಕ (_S):"
+msgstr "ಪೂರೈಕೆಗಣಕ:"
 
 #: ../plugins/google-account-setup/google-source.c:457
 #, c-format
@@ -19230,14 +19229,12 @@ msgid "Add Google Calendars to Evolution."
 msgstr "Evolution ಗೆ ಗೂಗಲ್ ಕ್ಯಾಲೆಂಡರುಗಳನ್ನು ಸೇರಿಸಿ."
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:1
-#, fuzzy
 msgid "Inline Image"
-msgstr "ಸಾಲಿನೊಳಗಿನ ವಿಕಾರ್ಡುಗಳು"
+msgstr "ಸಾಲಿನೊಳಗಿನ ಚಿತ್ರ"
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:2
-#, fuzzy
 msgid "View image attachments directly in mail messages."
-msgstr "ಮೈಲ್ ಸಂದೇಶಗಳಲ್ಲಿ ನೇರವಾಗಿ ವಿಕಾರ್ಡುಗಳನ್ನು ಅನ್ನು ತೋರಿಸು."
+msgstr "ಮೈಲ್ ಸಂದೇಶಗಳಲ್ಲಿ ನೇರವಾಗಿ ಚಿತ್ರ ಲಗತ್ತುಗಳನ್ನು ತೋರಿಸು."
 
 #: ../plugins/imap-features/imap-headers.c:334
 #: ../plugins/imap-features/imap-headers.ui.h:10
@@ -19263,7 +19260,6 @@ msgid "_Fetch All Headers"
 msgstr "ಎಲ್ಲಾ ಹೆಡರುಗಳನ್ನು ಪಡೆದುಕೋ (_F)"
 
 #: ../plugins/imap-features/imap-headers.ui.h:4
-#, fuzzy
 #| msgid ""
 #| "_Basic Headers - (Fastest) \n"
 #| "Use this if you do not have filters based on mailing lists"
@@ -19271,7 +19267,7 @@ msgid ""
 "_Basic Headers (Fastest) \n"
 "Use this if you do not have filters based on mailing lists"
 msgstr ""
-"ಮೂಲ ಹೆಡರುಗಳು (_B) - (ವೇಗವಾದ) \n"
+"ಮೂಲ ತಲೆಬರಹಗಳು (ವೇಗವಾದ) (_B) \n"
 "ಮೈಲಿಂಗ್ ಲಿಸ್ಟುಗಳ ಆಧರಿತವಾದ ಫಿಲ್ಟರುಗಳು ನಿಮ್ಮಲ್ಲಿರದೆ ಹೋದಲ್ಲಿ ಇದನ್ನು ಬಳಸಿ"
 
 #: ../plugins/imap-features/imap-headers.ui.h:6
@@ -19298,10 +19294,10 @@ msgstr "ನಿಮ್ಮ IMAP ಖಾತೆಗಳನ್ನು ಸರಿಪಡಿ�
 #. Translators: The first '%s' is replaced with a calendar name,
 #. * the second '%s' with an error message
 #: ../plugins/itip-formatter/itip-formatter.c:505
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to load the calendar '%s'"
 msgid "Failed to load the calendar '%s' (%s)"
-msgstr "'%s' ಕ್ಯಾಲೆಂಡರನ್ನು ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ವಿಫಲವಾಗಿದೆ"
+msgstr "'%s' ಕ್ಯಾಲೆಂಡರನ್ನು ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ವಿಫಲವಾಗಿದೆ (%s)"
 
 #: ../plugins/itip-formatter/itip-formatter.c:665
 #, c-format
@@ -19330,7 +19326,6 @@ msgid "Unable to find this memo in any memo list"
 msgstr "ಈ ಮೆಮೊ ಯಾವುದೆ ಮೆಮೊ ಪಟ್ಟಿಯಲ್ಲಿ ಕಂಡುಬಂದಿಲ್ಲ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1119
-#, fuzzy
 #| msgid "Opening the calendar. Please wait.."
 msgid "Opening the calendar. Please wait..."
 msgstr "ಕ್ಯಾಲೆಂಡರನ್ನು ತೆರೆಯಲಾಗುತ್ತಿದೆ. ದಯವಿಟ್ಟು ಕಾಯಿರಿ.."
