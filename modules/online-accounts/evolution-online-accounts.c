@@ -156,13 +156,16 @@ online_accounts_account_removed_cb (GoaClient *goa_client,
 	account_list = e_get_account_list ();
 	account = e_get_account_by_uid (evo_id);
 
-	if (account != NULL)
+	if (account != NULL) {
 		e_account_list_remove (account_list, account);
+		e_account_list_save (account_list);
+	}
 
 	/* Remove the address book. */
 
 	if (e_book_get_addressbooks (&source_list, NULL)) {
 		e_source_list_remove_source_by_uid (source_list, evo_id);
+		e_source_list_sync (source_list, NULL);
 		g_object_unref (source_list);
 	}
 
@@ -172,6 +175,7 @@ online_accounts_account_removed_cb (GoaClient *goa_client,
 		if (e_cal_get_sources (&source_list, type, NULL)) {
 			e_source_list_remove_source_by_uid (
 				source_list, evo_id);
+			e_source_list_sync (source_list, NULL);
 			g_object_unref (source_list);
 		}
 	}
@@ -268,6 +272,8 @@ online_accounts_search_source_list (EOnlineAccounts *extension,
 			e_source_group_remove_source (source_group, source);
 		}
 	}
+
+	e_source_list_sync (source_list, NULL);
 }
 
 static void
@@ -337,6 +343,8 @@ online_accounts_populate_accounts_table (EOnlineAccounts *extension,
 		EAccount *account = g_queue_pop_head (&trash);
 		e_account_list_remove (account_list, account);
 	}
+
+	e_account_list_save (account_list);
 
 	/* Search address book sources. */
 

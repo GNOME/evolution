@@ -335,6 +335,8 @@ online_accounts_google_sync_calendar (GoaObject *goa_object,
 		g_object_unref (source);
 	}
 
+	e_source_list_sync (source_list, NULL);
+
 	g_object_unref (source_group);
 	g_object_unref (source_list);
 	g_object_unref (goa_account);
@@ -396,6 +398,8 @@ online_accounts_google_sync_contacts (GoaObject *goa_object,
 		g_object_unref (source);
 	}
 
+	e_source_list_sync (source_list, NULL);
+
 	g_object_unref (source_group);
 	g_object_unref (source_list);
 	g_object_unref (goa_account);
@@ -425,8 +429,10 @@ e_online_accounts_google_sync (GoaObject *goa_object,
 		account_list = e_get_account_list ();
 		account = e_get_account_by_uid (evo_id);
 
-		if (account != NULL)
+		if (account != NULL) {
 			e_account_list_remove (account_list, account);
+			e_account_list_save (account_list);
+		}
 	}
 
 	/*** Google Calendar ***/
@@ -444,6 +450,7 @@ e_online_accounts_google_sync (GoaObject *goa_object,
 		if (e_cal_get_sources (&source_list, source_type, &error)) {
 			e_source_list_remove_source_by_uid (
 				source_list, evo_id);
+			e_source_list_sync (source_list, NULL);
 			g_object_unref (source_list);
 		} else {
 			g_warn_if_fail (source_list == NULL);
@@ -468,6 +475,7 @@ e_online_accounts_google_sync (GoaObject *goa_object,
 		if (e_book_get_addressbooks (&source_list, &error)) {
 			e_source_list_remove_source_by_uid (
 				source_list, evo_id);
+			e_source_list_sync (source_list, NULL);
 			g_object_unref (source_list);
 		} else {
 			g_warn_if_fail (source_list == NULL);
