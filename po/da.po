@@ -69,7 +69,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-20 09:55+0100\n"
-"PO-Revision-Date: 2012-03-19 13:21+0100\n"
+"PO-Revision-Date: 2012-03-20 09:56+0100\n"
 "Last-Translator: flemming christensen <fc@stromata.dk>\n"
 "Language-Team: Dansk <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -18198,7 +18198,6 @@ msgid "Add CalDAV support to Evolution."
 msgstr "Tilføj CalDAV-understøttelse til Evolution."
 
 #: ../plugins/calendar-file/calendar-file.c:136
-#, fuzzy
 msgid "C_ustomize options"
 msgstr "_Ændr indstillinger"
 
