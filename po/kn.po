@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-02-27 11:22+0000\n"
-"PO-Revision-Date: 2012-03-21 12:45+0530\n"
+"PO-Revision-Date: 2012-03-21 12:46+0530\n"
 "Last-Translator: s\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -23152,9 +23152,8 @@ msgid "_Open Link in Browser"
 msgstr "ಕೊಂಡಿಯನ್ನ್ನು ವೀಕ್ಷಕದಲ್ಲಿ ತೆರೆ (_O)"
 
 #: ../widgets/misc/e-web-view.c:422
-#, fuzzy
 msgid "Open the link in a web browser"
-msgstr "ಕೊಂಡಿಯನ್ನ್ನು ವೀಕ್ಷಕದಲ್ಲಿ ತೆರೆ (_O)"
+msgstr "ಕೊಂಡಿಯನ್ನ್ನು ವೀಕ್ಷಕದಲ್ಲಿ ತೆರೆ"
 
 #: ../widgets/misc/e-web-view.c:430
 msgid "_Copy Email Address"
