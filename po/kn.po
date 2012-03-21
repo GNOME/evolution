@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-02-27 11:22+0000\n"
-"PO-Revision-Date: 2012-03-20 13:09+0530\n"
+"PO-Revision-Date: 2012-03-21 12:44+0530\n"
 "Last-Translator: s\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -19362,10 +19362,9 @@ msgstr "'%s' ಕ್ಯಾಲೆಂಡರಿಗೆ ಕಳುಹಿಸಿದ್ದ
 #: ../plugins/itip-formatter/itip-formatter.c:1581
 #: ../plugins/itip-formatter/itip-formatter.c:1974
 #: ../plugins/itip-formatter/itip-formatter.c:2065
-#, fuzzy
 #| msgid "Opening the calendar. Please wait.."
 msgid "Saving changes to the calendar. Please wait..."
-msgstr "ಕ್ಯಾಲೆಂಡರನ್ನು ತೆರೆಯಲಾಗುತ್ತಿದೆ. ದಯವಿಟ್ಟು ಕಾಯಿರಿ.."
+msgstr "ಬದಲಾವಣೆಗಳನ್ನು ಕ್ಯಾಲೆಂಡರಿಗೆ ಉಳಿಸಲಾಗುತ್ತಿದೆ. ದಯವಿಟ್ಟು ಕಾಯಿರಿ.."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1620
 msgid "Unable to parse item"
@@ -19394,10 +19393,9 @@ msgid "Attendee status updated"
 msgstr "ಪಾಲ್ಗೊಳ್ಳುವವರ ಸ್ಥಿತಿಯನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಲಾಗಿದೆ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1881
-#, fuzzy
 #| msgid "Object is invalid and cannot be updated\n"
 msgid "The meeting is invalid and cannot be updated"
-msgstr "ಆಬ್ಜೆಕ್ಟ್ ಅಮಾನ್ಯವಾಗಿದೆ ಹಾಗು ಅದನ್ನು ಅಪ್ಡೇಟ್‌ ಮಾಡಲಾಗುವುದಿಲ್ಲ\n"
+msgstr "ಮೀಟಿಂಗ್ ಅಮಾನ್ಯವಾಗಿದೆ ಹಾಗು ಅದನ್ನು ಅಪ್ಡೇಟ್‌ ಮಾಡಲಾಗುವುದಿಲ್ಲ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1947
 msgid "Attendee status could not be updated because the status is invalid"
@@ -19437,14 +19435,12 @@ msgstr "ಮೆಮೊ ಮಾಹಿತಿಯನ್ನು ಕಳುಹಿಸಲಾ�
 
 #. Translators: This is a default filename for a calendar.
 #: ../plugins/itip-formatter/itip-formatter.c:2173
-#, fuzzy
 msgid "calendar.ics"
-msgstr "ಕ್ಯಾಲೆಂಡರುಗಳು"
+msgstr "calendar.ics"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2178
-#, fuzzy
 msgid "Save Calendar"
-msgstr "ಹೊಸ ಕ್ಯಾಲೆಂಡರ್"
+msgstr "ಕ್ಯಾಲೆಂಡರನ್ನು ಉಳಿಸು"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2241
 #: ../plugins/itip-formatter/itip-formatter.c:2252
@@ -19508,10 +19504,9 @@ msgid "This memo recurs"
 msgstr "ಈ ಮೆಮೊ ಪುನರಾವರ್ತಿತಗೊಳ್ಳುತ್ತದೆ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:3231
-#, fuzzy
 #| msgid "Meeting Information"
 msgid "Meeting Invitations"
-msgstr "ಮೀಟಿಂಗ್ ಮಾಹಿತಿ"
+msgstr "ಮೀಟಿಂಗ್ ಆಹ್ವಾನಗಳು"
 
 #: ../plugins/itip-formatter/itip-formatter.c:3257
 msgid "_Delete message after acting"
@@ -19670,66 +19665,65 @@ msgstr "ಒಬ್ಬ ಅಜ್ಞಾತ ವ್ಯಕ್ತಿ"
 #: ../plugins/itip-formatter/itip-view.c:372
 #: ../plugins/itip-formatter/itip-view.c:460
 #: ../plugins/itip-formatter/itip-view.c:547
-#, fuzzy, c-format
+#, c-format
 #| msgid "Please respond on behalf of <b>%s</b>"
 msgid "Please respond on behalf of %s"
-msgstr "ದಯವಿಟ್ಟು <b>%s</b> ಪರವಾಗಿ ಮಾರುತ್ತರಿಸು"
+msgstr "ದಯವಿಟ್ಟು %s ಪರವಾಗಿ ಉತ್ತರಿಸು"
 
 #: ../plugins/itip-formatter/itip-view.c:374
 #: ../plugins/itip-formatter/itip-view.c:462
 #: ../plugins/itip-formatter/itip-view.c:549
-#, fuzzy, c-format
+#, c-format
 #| msgid "Received on behalf of <b>%s</b>"
 msgid "Received on behalf of %s"
-msgstr "<b>%s</b> ನ ಪರವಾಗಿ ಸ್ವೀಕರಿಸಲಾಗಿದೆ"
+msgstr "%s ರವರ ಪರವಾಗಿ ಸ್ವೀಕರಿಸಲಾಗಿದೆ"
 
 #: ../plugins/itip-formatter/itip-view.c:379
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "<b>%s</b> through %s has published the following meeting information:"
 msgid "%s through %s has published the following meeting information:"
-msgstr "ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಮಾಹಿತಿಯನ್ನು <b>%s</b> %s ಮೂಲಕ ಪ್ರಕಟಿಸಿದ್ದಾರೆ:"
+msgstr "ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಮಾಹಿತಿಯನ್ನು %s %s ಮೂಲಕ ಪ್ರಕಟಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:381
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has published the following meeting information:"
 msgid "%s has published the following meeting information:"
-msgstr "ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಮಾಹಿತಿಯನ್ನು <b>%s</b> ಪ್ರಕಟಿಸಿದ್ದಾರೆ:"
+msgstr "ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಮಾಹಿತಿಯನ್ನು %s ಪ್ರಕಟಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:386
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has delegated the following meeting to you:"
 msgid "%s has delegated the following meeting to you:"
-msgstr "<b>%s</b> ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಅನ್ನು ನಿಮಗೆ ನಿಯೋಜಿಸಿದ್ದಾರೆ:"
+msgstr "%s ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಅನ್ನು ನಿಮಗೆ ನಿಯೋಜಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:389
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "<b>%s</b> through %s requests your presence at the following meeting:"
 msgid "%s through %s requests your presence at the following meeting:"
-msgstr ""
-"ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್‌ನಲ್ಲಿ ನೀವು ಇರಬೇಕೆಂದು <b>%s</b> %s ಮೂಲಕ ಮನವಿ ಮಾಡಿದ್ದಾರೆ:"
+msgstr "ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್‌ನಲ್ಲಿ ನೀವು ಇರಬೇಕೆಂದು %s ರವರು %s ಮೂಲಕ ಮನವಿ ಮಾಡಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:391
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> requests your presence at the following meeting:"
 msgid "%s requests your presence at the following meeting:"
-msgstr "ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್‌ನಲ್ಲಿ ನೀವು ಇರಬೇಕೆಂದು <b>%s</b> ಮನವಿ ಮಾಡಿದ್ದಾರೆ:"
+msgstr "ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್‌ನಲ್ಲಿ ನೀವು ಇರಬೇಕೆಂದು %s ಮನವಿ ಮಾಡಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:397
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
 msgid "%s through %s wishes to add to an existing meeting:"
-msgstr "ಈಗಿರುವ ಒಂದು ಮೀಟಿಂಗ್‌ಗೆ <b>%s</b> %s ಮೂಲಕ ಸೇರಿಸಲು ಬಯಸಿದ್ದಾರೆ:"
+msgstr "ಈಗಿರುವ ಒಂದು ಮೀಟಿಂಗ್‌ಗೆ %s ರವರು %s ಮೂಲಕ ಸೇರಿಸಲು ಬಯಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:399
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgid "%s wishes to add to an existing meeting:"
-msgstr "ಈಗಿರುವ ಒಂದು ಮೀಟಿಂಗ್‌ಗೆ <b>%s</b> ಸೇರಿಸಲು ಬಯಸಿದ್ದಾರೆ:"
+msgstr "ಈಗಿರುವ ಒಂದು ಮೀಟಿಂಗ್‌ಗೆ %s ಸೇರಿಸಲು ಬಯಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:403
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "<b>%s</b> through %s wishes to receive the latest information for the "
 #| "following meeting:"
@@ -19737,113 +19731,111 @@ msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr ""
-"ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್‌ನ ಬಗ್ಗೆ <b>%s</b> %s ಮೂಲಕ ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು ಪಡೆದುಕೊಳ್ಳಲು "
+"ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್‌ನ ಬಗ್ಗೆ %s ರವರು %s ಮೂಲಕ ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು ಪಡೆದುಕೊಳ್ಳಲು "
 "ಬಯಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:405
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "<b>%s</b> wishes to receive the latest information for the following "
 #| "meeting:"
 msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr ""
-"ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್‌ನ ಬಗ್ಗೆ <b>%s</b> ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು ಪಡೆದುಕೊಳ್ಳಲು "
+"ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್‌ನ ಬಗ್ಗೆ %s ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು ಪಡೆದುಕೊಳ್ಳಲು "
 "ಬಯಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:409
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has sent back the following meeting response:"
 msgid "%s through %s has sent back the following meeting response:"
-msgstr ""
-"<b>%s</b> %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಮಾರುತ್ತರವನ್ನು ಹಿಂದಕ್ಕೆ ಕಳುಹಿಸಿದ್ದಾರೆ:"
+msgstr "%s ರವರು %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಮಾರುತ್ತರವನ್ನು ಹಿಂದಕ್ಕೆ ಕಳುಹಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:411
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has sent back the following meeting response:"
 msgid "%s has sent back the following meeting response:"
-msgstr "<b>%s</b> ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಮಾರುತ್ತರವನ್ನು ಹಿಂದಕ್ಕೆ ಕಳುಹಿಸಿದ್ದಾರೆ:"
+msgstr "%s ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಮಾರುತ್ತರವನ್ನು ಹಿಂದಕ್ಕೆ ಕಳುಹಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:415
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has canceled the following meeting:"
 msgid "%s through %s has canceled the following meeting:"
-msgstr "<b>%s</b> %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗನ್ನು ರದ್ದು ಮಾಡಿದ್ದಾರೆ:"
+msgstr "%s ರವರು %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗನ್ನು ರದ್ದು ಮಾಡಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:417
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has canceled the following meeting."
 msgid "%s has canceled the following meeting:"
-msgstr "<b>%s</b> ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗನ್ನು ರದ್ದು ಮಾಡಿದ್ದಾರೆ."
+msgstr "%s ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗನ್ನು ರದ್ದು ಮಾಡಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:421
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has proposed the following meeting changes."
 msgid "%s through %s has proposed the following meeting changes."
-msgstr ""
-"<b>%s</b> ವು %s ನ ಮೂಲಕ ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಬದಲಾವಣೆಗಳನ್ನು ಪ್ರಸ್ತಾಪಿಸಿದ್ದಾರೆ."
+msgstr "%s ರವರು %s ನ ಮೂಲಕ ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಬದಲಾವಣೆಗಳನ್ನು ಪ್ರಸ್ತಾಪಿಸಿದ್ದಾರೆ."
 
 #: ../plugins/itip-formatter/itip-view.c:423
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has proposed the following meeting changes."
 msgid "%s has proposed the following meeting changes:"
-msgstr "<b>%s</b> ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಬದಲಾವಣೆಗಳನ್ನು ಪ್ರಸ್ತಾಪಿಸಿದ್ದಾರೆ."
+msgstr "%s ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಬದಲಾವಣೆಗಳನ್ನು ಪ್ರಸ್ತಾಪಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:427
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgid "%s through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> ವು %s ನ ಮೂಲಕ ಈ ಕೆಳಗಿನ ಬದಲಾವಣೆಗಳನ್ನು ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ:"
+msgstr "%s ರವರು %s ನ ಮೂಲಕ ಈ ಕೆಳಗಿನ ಬದಲಾವಣೆಗಳನ್ನು ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:429
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has declined the following meeting changes."
 msgid "%s has declined the following meeting changes:"
-msgstr "<b>%s</b> ವು ಈ ಕೆಳಗಿನ ಬದಲಾವಣೆಗಳನ್ನು ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ."
+msgstr "%s ವು ಈ ಕೆಳಗಿನ ಬದಲಾವಣೆಗಳನ್ನು ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:467
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has published the following task:"
 msgid "%s through %s has published the following task:"
-msgstr "<b>%s</b> %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಕಾರ್ಯವನ್ನು ಪ್ರಕಟಿಸಿದ್ದಾರೆ:"
+msgstr "%s ರವರು %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಕಾರ್ಯವನ್ನು ಪ್ರಕಟಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:469
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has published the following task:"
 msgid "%s has published the following task:"
-msgstr "<b>%s</b> ಈ ಕೆಳಗಿನ ಕಾರ್ಯವನ್ನು ಪ್ರಕಟಿಸಿದ್ದಾರೆ:"
+msgstr "%s ಈ ಕೆಳಗಿನ ಕಾರ್ಯವನ್ನು ಪ್ರಕಟಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:474
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> requests the assignment of %s to the following task:"
 msgid "%s requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> ಈ ಕೆಳಗಿನವರಿಗೆ %s ಕಾರ್ಯವನ್ನು ನಿಯೋಜಿಸಲು ಮನವಿ ಮಾಡಿದ್ದಾರೆ:"
+msgstr "%s ಈ ಕೆಳಗಿನವರಿಗೆ %s ಕಾರ್ಯವನ್ನು ನಿಯೋಜಿಸಲು ಮನವಿ ಮಾಡಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:477
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has assigned you a task:"
 msgid "%s through %s has assigned you a task:"
-msgstr "ನಿಮಗೆ <b>%s</b> %s ಮೂಲಕ ಒಂದು ಕಾರ್ಯವನ್ನು ನಿಯೋಜಿಸಿದ್ದಾರೆ:"
+msgstr "ನಿಮಗೆ %s ರವರು %s ಮೂಲಕ ಒಂದು ಕಾರ್ಯವನ್ನು ನಿಯೋಜಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:479
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has assigned you a task:"
 msgid "%s has assigned you a task:"
-msgstr "<b>%s</b> ನಿಮಗೆ ಒಂದು ಕಾರ್ಯವನ್ನು ಸೂಚಿಸಿದ್ದಾರೆ:"
+msgstr "%s ನಿಮಗೆ ಒಂದು ಕಾರ್ಯವನ್ನು ಸೂಚಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:485
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s wishes to add to an existing task:"
 msgid "%s through %s wishes to add to an existing task:"
-msgstr "ಈಗಿರುವ ಒಂದು ಕಾರ್ಯಕ್ಕೆ <b>%s</b> %s ಮೂಲಕ ಸೇರಿಸಲು ಬಯಸಿದ್ದಾರೆ:"
+msgstr "ಈಗಿರುವ ಒಂದು ಕಾರ್ಯಕ್ಕೆ %s ರವರು %s ಮೂಲಕ ಸೇರಿಸಲು ಬಯಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:487
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> wishes to add to an existing task:"
 msgid "%s wishes to add to an existing task:"
-msgstr "<b>%s</b> ಈಗಿರುವ ಒಂದು ಕಾರ್ಯಕ್ಕೆ ಸೇರಿಸಲು ಬಯಸಿದ್ದಾರೆ:"
+msgstr "%s ಈಗಿರುವ ಒಂದು ಕಾರ್ಯಕ್ಕೆ ಸೇರಿಸಲು ಬಯಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:491
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "<b>%s</b> through %s wishes to receive the latest information for the "
 #| "following assigned task:"
@@ -19851,116 +19843,115 @@ msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "assigned task:"
 msgstr ""
-"ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯದ ಬಗ್ಗೆ <b>%s</b> %s ಮೂಲಕ ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು "
+"ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯದ ಬಗ್ಗೆ %s ರವರು %s ಮೂಲಕ ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು "
 "ಪಡೆದುಕೊಳ್ಳಲು ಬಯಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:493
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "<b>%s</b> wishes to receive the latest information for the following "
 #| "assigned task:"
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
 msgstr ""
-"ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯದ ಬಗ್ಗೆ <b>%s</b> ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು ಪಡೆದುಕೊಳ್ಳಲು "
+"ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯದ ಬಗ್ಗೆ %s ಇತ್ತೀಚಿನ ಮಾಹಿತಿಯನ್ನು ಪಡೆದುಕೊಳ್ಳಲು "
 "ಬಯಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:497
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "<b>%s</b> through %s has sent back the following assigned task response:"
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr ""
-"<b>%s</b> %s ಮೂಲಕ ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯಗಳ ಮಾರುತ್ತರವನ್ನು ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ:"
+"%s ರವರು %s ಮೂಲಕ ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯಗಳ ಮಾರುತ್ತರವನ್ನು ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:499
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has sent back the following assigned task response:"
 msgid "%s has sent back the following assigned task response:"
-msgstr "<b>%s</b> ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯಗಳ ಮಾರುತ್ತರವನ್ನು ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ:"
+msgstr "%s ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯಗಳ ಮಾರುತ್ತರವನ್ನು ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:503
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has canceled the following assigned task:"
 msgid "%s through %s has canceled the following assigned task:"
-msgstr "ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯವನ್ನು <b>%s</b> %s ಮೂಲಕ ರದ್ದು ಮಾಡಿದ್ದಾರೆ:"
+msgstr "ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯವನ್ನು %s ರವರು %s ಮೂಲಕ ರದ್ದು ಮಾಡಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:505
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has canceled the following assigned task:"
 msgid "%s has canceled the following assigned task:"
-msgstr "ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯವನ್ನು <b>%s</b> ರದ್ದು ಮಾಡಿದ್ದಾರೆ:"
+msgstr "ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯವನ್ನು %s ರದ್ದು ಮಾಡಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:509
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "<b>%s</b> through %s has proposed the following task assignment changes:"
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr ""
-"<b>%s</b> %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಕಾರ್ಯ ಕಾರ್ಯ ನಿಯೋಜನೆಯ ಬದಲಾವಣೆಗಳನ್ನು ಮುಂದಿಟ್ಟಿದ್ದಾರೆ:"
+"%s ರವರು %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಕಾರ್ಯ ಕಾರ್ಯ ನಿಯೋಜನೆಯ ಬದಲಾವಣೆಗಳನ್ನು ಮುಂದಿಟ್ಟಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:511
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgid "%s has proposed the following task assignment changes:"
-msgstr "<b>%s</b> ಈ ಕೆಳಗಿನ ಕಾರ್ಯ ಕಾರ್ಯ ನಿಯೋಜನೆಯ ಬದಲಾವಣೆಗಳನ್ನು ಮುಂದಿಟ್ಟಿದ್ದಾರೆ:"
+msgstr "%s ಈ ಕೆಳಗಿನ ಕಾರ್ಯ ಕಾರ್ಯ ನಿಯೋಜನೆಯ ಬದಲಾವಣೆಗಳನ್ನು ಮುಂದಿಟ್ಟಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:515
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has declined the following assigned task:"
 msgid "%s through %s has declined the following assigned task:"
-msgstr "ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯವನ್ನು <b>%s</b> %s ಮೂಲಕ ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ:"
+msgstr "ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯವನ್ನು %s ರವರು %s ಮೂಲಕ ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:517
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has declined the following assigned task:"
 msgid "%s has declined the following assigned task:"
-msgstr "ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯವನ್ನು <b>%s</b> ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ:"
+msgstr "ನಿಯೋಜಿಸಲಾದ ಈ ಕೆಳಗಿನ ಕಾರ್ಯವನ್ನು %s ತಿರಸ್ಕರಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:554
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has published the following memo:"
 msgid "%s through %s has published the following memo:"
-msgstr "<b>%s</b> %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಮೆಮೊವನ್ನು ಪ್ರಕಟಿಸಿದ್ದಾರೆ:"
+msgstr "%s ರವರು %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಮೆಮೊವನ್ನು ಪ್ರಕಟಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:556
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has published the following memo:"
 msgid "%s has published the following memo:"
-msgstr "<b>%s</b> ಈ ಕೆಳಗಿನ ಮೆಮೊವನ್ನು ಪ್ರಕಟಿಸಿದ್ದಾರೆ:"
+msgstr "%s ರವರು ಈ ಕೆಳಗಿನ ಮೆಮೊವನ್ನು ಪ್ರಕಟಿಸಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:561
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s wishes to add to an existing memo:"
 msgid "%s through %s wishes to add to an existing memo:"
-msgstr "<b>%s</b> %s ಮೂಲಕ ಈಗಿರುವ ಒಂದು ಮೆಮೊಗೆ ಸೇರಿಸಲು ಬಯಸುತ್ತಿದ್ದಾರೆ:"
+msgstr "%s ರವರು %s ಮೂಲಕ ಈಗಿರುವ ಒಂದು ಮೆಮೊಗೆ ಸೇರಿಸಲು ಬಯಸುತ್ತಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:563
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> wishes to add to an existing memo:"
 msgid "%s wishes to add to an existing memo:"
-msgstr "<b>%s</b> ಈಗಿರುವ ಒಂದು ಮೆಮೊಗೆ ಸೇರಿಸಲು ಬಯಸುತ್ತಿದ್ದಾರೆ:"
+msgstr "%s ಈಗಿರುವ ಒಂದು ಮೆಮೊಗೆ ಸೇರಿಸಲು ಬಯಸುತ್ತಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:567
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> through %s has canceled the following shared memo:"
 msgid "%s through %s has canceled the following shared memo:"
-msgstr "<b>%s</b> %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಹಂಚಲಾದ ಮೆಮೊವನ್ನು ರದ್ದು ಮಾಡಿದ್ದಾರೆ:"
+msgstr "%s ರವರು %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಹಂಚಲಾದ ಮೆಮೊವನ್ನು ರದ್ದು ಮಾಡಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:569
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has canceled the following shared memo:"
 msgid "%s has canceled the following shared memo:"
-msgstr "<b>%s</b> ಈ ಕೆಳಗಿನ ಹಂಚಲಾದ ಮೆಮೊವನ್ನು ರದ್ದು ಮಾಡಿದ್ದಾರೆ:"
+msgstr "%s ಈ ಕೆಳಗಿನ ಹಂಚಲಾದ ಮೆಮೊವನ್ನು ರದ್ದು ಮಾಡಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:693
 msgid "All day:"
 msgstr "ದಿನ ಪೂರ್ತಿ:"
 
 #: ../plugins/itip-formatter/itip-view.c:703
-#, fuzzy
 msgid "Start day:"
-msgstr "ಆರಂಭದ ದಿನಾಂಕ (_r):"
+msgstr "ಆರಂಭದ ದಿನ:"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:703
@@ -19969,15 +19960,14 @@ msgid "Start time:"
 msgstr "ಆರಂಭದ ಸಮಯ:"
 
 #: ../plugins/itip-formatter/itip-view.c:715
-#, fuzzy
 msgid "End day:"
-msgstr "%d ದಿನ"
+msgstr "ಅಂತ್ಯದ ದಿನ:"
 
 #. End time
 #: ../plugins/itip-formatter/itip-view.c:715
 #: ../plugins/itip-formatter/itip-view.c:1072
 msgid "End time:"
-msgstr "ಮುಗಿಯುವ ಸಮಯ:"
+msgstr "ಅಂತ್ಯದ ಸಮಯ:"
 
 #. Everything gets the open button
 #: ../plugins/itip-formatter/itip-view.c:851
@@ -19997,9 +19987,8 @@ msgstr "ತಿರಸ್ಕರಿಸು (_D)"
 #: ../plugins/itip-formatter/itip-view.c:870
 #: ../plugins/itip-formatter/itip-view.c:886
 #: ../plugins/itip-formatter/itip-view.c:891
-#, fuzzy
 msgid "A_ccept"
-msgstr "ಅಂಗೀಕರಿಸು"
+msgstr "ಅಂಗೀಕರಿಸು (_c)"
 
 #: ../plugins/itip-formatter/itip-view.c:861
 msgid "_Decline all"
@@ -20017,9 +20006,8 @@ msgid "_Tentative"
 msgstr "ತಾತ್ಕಾಲಿಕ (_T)"
 
 #: ../plugins/itip-formatter/itip-view.c:863
-#, fuzzy
 msgid "A_ccept all"
-msgstr "ಎಲ್ಲವನ್ನೂ ಅಂಗೀಕರಿಸು (_A)"
+msgstr "ಎಲ್ಲವನ್ನೂ ಅಂಗೀಕರಿಸು (_c)"
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:874
@@ -20094,14 +20082,13 @@ msgid "This meeting has been delegated"
 msgstr "ಈ ಮೀಟಿಂಗ್ ಅನ್ನು ಡೆಲಿಗೇಟ್ ಮಾಡಲಾಗಿದೆ"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-#, fuzzy
 #| msgid ""
 #| "&quot;{0}&quot; has delegated the meeting. Do you want to add the "
 #| "delegate &quot;{1}&quot;?"
 msgid "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
 msgstr ""
-"&quot;{0}&quot; ಯು ಈ ಮೀಟಿಂಗ್ ಅನ್ನು ಡೆಲಿಗೇಟ್ ಮಾಡಿದ್ದಾರೆ. ನೀವು ಡೆಲಿಗೇಟ್&quot;{1}"
-"&quot; ಅನ್ನು ಸೇರಿಸಲು ಬಯಸುತ್ತೀರೆ?"
+"'{0}' ಯು ಈ ಮೀಟಿಂಗ್ ಅನ್ನು ಡೆಲಿಗೇಟ್ ಮಾಡಿದ್ದಾರೆ. ನೀವು ಡೆಲಿಗೇಟ್ '{1}' ಅನ್ನು "
+"ಸೇರಿಸಲು ಬಯಸುತ್ತೀರೆ?"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:350
 msgid "Get List _Archive"
@@ -20148,10 +20135,8 @@ msgid "_Unsubscribe from List"
 msgstr "ಲಿಸ್ಟಿಂದ ಚಂದಾದಾರಿಕೆಯನ್ನು ತ್ಯಜಿಸು (_U)"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:387
-#, fuzzy
 msgid "Unsubscribe from the mailing list this message belongs to"
-msgstr ""
-"ಈ ಸಂದೇಶವು ಯಾವ ಮೈಲಿಂಗ್ ಲಿಸ್ಟಿಗೆ ಸಂಬಂಧಿಸಿದೆಯೊ ಅದರ ಚಂದಾದಾರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸು"
+msgstr "ಈ ಸಂದೇಶಕ್ಕೆ ಸಂಬಂಧಿಸಿದ ಮೈಲಿಂಗ್ ಲಿಸ್ಟಿನ ಚಂದಾದಾರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸು"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:394
 msgid "Mailing _List"
@@ -20266,9 +20251,9 @@ msgstr[1] ""
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
 #: ../plugins/mail-notification/mail-notification.c:409
-#, fuzzy, c-format
+#, c-format
 msgid "Subject: %s"
-msgstr "ವಿಷಯ:"
+msgstr "ವಿಷಯ: %s"
 
 #: ../plugins/mail-notification/mail-notification.c:420
 #, c-format
@@ -20286,16 +20271,15 @@ msgstr "ಹೊಸ ಇಮೇಲ್"
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
 #: ../plugins/mail-notification/mail-notification.c:461
-#, fuzzy, c-format
+#, c-format
 #| msgid "Show"
 msgid "Show %s"
-msgstr "ತೋರಿಸು"
+msgstr "%s ಅನ್ನು ತೋರಿಸು"
 
 #: ../plugins/mail-notification/mail-notification.c:661
-#, fuzzy
 #| msgid "_Play sound when new messages arrive"
 msgid "_Play sound when a new message arrives"
-msgstr "ಹೊಸ ಸಂದೇಶವು ಬಂದಾಗ ಶಬ್ಧವನ್ನು ಪ್ಲೇ ಮಾಡು (_P)"
+msgstr "ಹೊಸ ಸಂದೇಶವು ಬಂದಾಗ ಶಬ್ಧವನ್ನು ಚಾಲನೆ ಮಾಡು (_P)"
 
 #: ../plugins/mail-notification/mail-notification.c:693
 msgid "_Beep"
@@ -20306,9 +20290,8 @@ msgid "Use sound _theme"
 msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:725
-#, fuzzy
 msgid "Play _file:"
-msgstr "ಶಬ್ಧ ಕಡತವನ್ನು ಪ್ಲೇ ಮಾಡು (_s)"
+msgstr "ಕಡತವನ್ನು ಚಾಲನೆ ಮಾಡು (_f):"
 
 #: ../plugins/mail-notification/mail-notification.c:734
 msgid "Select sound file"
@@ -20319,10 +20302,9 @@ msgid "Notify new messages for _Inbox only"
 msgstr "ಹೊಸ ಸಂದೇಶಗಳು ಇನ್‌ಬಾಕ್ಸಿಗೆ ಬಂದಾಗ ಮಾತ್ರ ಸೂಚಿಸು (_I)"
 
 #: ../plugins/mail-notification/mail-notification.c:800
-#, fuzzy
 #| msgid "Show new mail icon in notification area when new messages arrive."
 msgid "Show _notification when a new message arrives"
-msgstr "ಹೊಸ ಸಂದೇಶಗಳು ಬಂದಾಗ ಸೂಚನಾ ಸ್ಥಳದಲ್ಲಿ ಹೊಸ ಮೈಲ್‌ನ ಚಿಹ್ನೆಯನ್ನು ತೋರಿಸು."
+msgstr "ಹೊಸ ಸಂದೇಶಗಳು ಬಂದಾಗ ಸೂಚನಾ ಸ್ಥಳದಲ್ಲಿ ಹೊಸ ಮೈಲ್‌ನ ಚಿಹ್ನೆಯನ್ನು ತೋರಿಸು (_n)."
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
@@ -20336,7 +20318,7 @@ msgstr "ಹೊಸ ಸಂದೇಶಗಳು ಬಂದಾಗ ನಿಮಗೆ ಸ�
 #: ../plugins/mail-to-task/mail-to-task.c:243
 #, c-format
 msgid "Created from a mail by %s"
-msgstr ""
+msgstr "%s ರವರ ಮೈಲ್‌ನಿಂದ ರಚಿಸಲಾಗಿದೆ"
 
 #: ../plugins/mail-to-task/mail-to-task.c:618
 #, c-format
@@ -20381,7 +20363,11 @@ msgid_plural ""
 "You have selected %d mails to be converted to events. Do you really want to "
 "add them all?"
 msgstr[0] ""
+"ಕಾರ್ಯಕ್ರಮಗಳಾಗಿ ಪರಿವರ್ತಿಸಲು %d ಮೈಲ್‌ಗಳನ್ನು ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ್ದೀರಿ. ನೀವು "
+"ಅವುಗಳನ್ನು ನಿಜವಾಗಿಯೂ ಸೇರಿಸಲು ಬಯಸುವಿರಾ?"
 msgstr[1] ""
+"ಕಾರ್ಯಕ್ರಮಗಳಾಗಿ ಪರಿವರ್ತಿಸಲು %d ಮೈಲ್‌ಗಳನ್ನು ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ್ದೀರಿ. ನೀವು "
+"ಅವುಗಳನ್ನು ನಿಜವಾಗಿಯೂ ಸೇರಿಸಲು ಬಯಸುವಿರಾ?"
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../plugins/mail-to-task/mail-to-task.c:649
@@ -20396,7 +20382,11 @@ msgid_plural ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
 "add them all?"
 msgstr[0] ""
+"ಕಾರ್ಯಗಳಾಗಿ ಪರಿವರ್ತಿಸಲು %d ಮೈಲ್‌ಗಳನ್ನು ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ್ದೀರಿ. ನೀವು ಅವುಗಳನ್ನು "
+"ನಿಜವಾಗಿಯೂ ಸೇರಿಸಲು ಬಯಸುವಿರಾ?"
 msgstr[1] ""
+"ಕಾರ್ಯಗಳಾಗಿ ಪರಿವರ್ತಿಸಲು %d ಮೈಲ್‌ಗಳನ್ನು ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ್ದೀರಿ. ನೀವು ಅವುಗಳನ್ನು "
+"ನಿಜವಾಗಿಯೂ ಸೇರಿಸಲು ಬಯಸುವಿರಾ?"
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../plugins/mail-to-task/mail-to-task.c:655
@@ -20411,13 +20401,16 @@ msgid_plural ""
 "You have selected %d mails to be converted to memos. Do you really want to "
 "add them all?"
 msgstr[0] ""
+"ಮೆಮೊಗಳಾಗಿ ಪರಿವರ್ತಿಸಲು %d ಮೈಲ್‌ಗಳನ್ನು ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ್ದೀರಿ ನೀವು ಅವುಗಳನ್ನು "
+"ನಿಜವಾಗಿಯೂ ಸೇರಿಸಲು ಬಯಸುವಿರಾ?"
 msgstr[1] ""
+"ಮೆಮೊಗಳಾಗಿ ಪರಿವರ್ತಿಸಲು %d ಮೈಲ್‌ಗಳನ್ನು ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ್ದೀರಿ ನೀವು ಅವುಗಳನ್ನು "
+"ನಿಜವಾಗಿಯೂ ಸೇರಿಸಲು ಬಯಸುವಿರಾ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:676
-#, fuzzy
 #| msgid "Do you wish to overwrite it?"
 msgid "Do you wish to continue converting remaining mails?"
-msgstr "ನೀವದನ್ನು ತಿದ್ದಿಬರೆಯಲು ಬಯಸುತ್ತೀರೆ?"
+msgstr "ಮಿಕ್ಕುಳಿದ ಮೈಲುಗಳನ್ನು ಪರಿವರ್ತಿಸುವುದನ್ನು ಮುಂದುವರೆಸಲು ಬಯಸುತ್ತೀರೆ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:751
 msgid "[No Summary]"
@@ -20468,10 +20461,9 @@ msgid "Cannot get source list. %s"
 msgstr "ಆಕರ ಪಟ್ಟಿಯನ್ನು ರಚಿಸಲಾಗಿಲ್ಲ. %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1164
-#, fuzzy
 #| msgid "No description available."
 msgid "No writable calendar is available."
-msgstr "ಯಾವುದೆ ವಿವರಣೆ ಲಭ್ಯವಿಲ್ಲ."
+msgstr "ಯಾವುದೆ ಬರೆಯಬಹುದಾದ ಕ್ಯಾಲೆಂಡರು ಲಭ್ಯವಿಲ್ಲ."
 
 #: ../plugins/mail-to-task/mail-to-task.c:1258
 msgid "Create an _Event"
@@ -20562,18 +20554,19 @@ msgstr "HTML ಇದ್ದಲ್ಲಿ ಅದನ್ನು ತೋರಿಸು"
 
 #: ../plugins/prefer-plain/prefer-plain.c:251
 msgid "Let Evolution choose the best part to show."
-msgstr ""
+msgstr "ತೋರಿಸಲು ಉತ್ತಮವಾದ ಭಾಗವನ್ನು Evolution ಆರಿಸಿಕೊಳ್ಳಲು ಬಿಡು."
 
 #: ../plugins/prefer-plain/prefer-plain.c:254
-#, fuzzy
 msgid "Show plain text if present"
-msgstr "HTML ಇದ್ದಲ್ಲಿ ಅದನ್ನು ತೋರಿಸು"
+msgstr "ಸರಳ ಪಠ್ಯ ಇದ್ದಲ್ಲಿ ಅದನ್ನು ತೋರಿಸು"
 
 #: ../plugins/prefer-plain/prefer-plain.c:255
 msgid ""
 "Show plain text part, if present, otherwise let Evolution choose the best "
 "part to show."
 msgstr ""
+"ಸರಳ ಪಠ್ಯದ ಭಾಗವು ಇದ್ದಲ್ಲಿ, ಅದನ್ನು ತೋರಿಸು, ಇಲ್ಲದೆ ಹೋದಲ್ಲಿ ಉತ್ತಮವಾದ ಭಾಗವನ್ನು "
+"Evolution ಆರಿಸಿಕೊಳ್ಳಲು ಬಿಡು."
 
 #: ../plugins/prefer-plain/prefer-plain.c:259
 #, fuzzy
@@ -20696,9 +20689,8 @@ msgid "_Publish Calendar Information"
 msgstr "ಕ್ಯಾಲೆಂಡರ್ ಮಾಹಿತಿಯನ್ನು ಪ್ರಕಟಪಡಿಸು (_P)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:1
-#, fuzzy
 msgid "iCal"
-msgstr "ಕರೆ ಮಾಡು"
+msgstr "iCal"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:3
 msgid "Daily"
@@ -20709,18 +20701,13 @@ msgid "Weekly"
 msgstr "ವಾರಕ್ಕೊಮ್ಮೆ"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:5
-#, fuzzy
 msgid "Manual (via Actions menu)"
-msgstr ""
-"ಪ್ರತಿದಿನ\n"
-"ಪ್ರತಿವಾರ\n"
-"ಕೈಯಾರೆ (ಕ್ರಿಯೆಗಳ ಮೆನ್ಯುಗಳ ಮೂಲಕ)"
+msgstr "ಕೈಯಾರೆ (ಕ್ರಿಯೆಗಳ ಪರಿವಿಡಿಗಳ ಮೂಲಕ)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
-#, fuzzy
 #| msgid "Secure WebDAV (HTTPS)"
 msgid "Secure FTP (SFTP)"
-msgstr "ಸುರಕ್ಷಿತ WebDAV (HTTPS)"
+msgstr "ಸುರಕ್ಷಿತ FTP (SFTP)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:10
 msgid "Public FTP"
@@ -20881,15 +20868,13 @@ msgid "_Encapsulate values with:"
 msgstr "ಮೌಲ್ಯಗಳನ್ನು ಇದರಿಂದ ಆವರಿಕೆ ಮಾಡು(ಎನ್‌ಕ್ಯಾಪ್ಸುಲೇಟ್) (_E):"
 
 #: ../plugins/save-calendar/csv-format.c:638
-#, fuzzy
 #| msgid "Comma separated value format (.csv)"
 msgid "Comma separated values (.csv)"
-msgstr "ವಿರಾಮ ಚಿಹ್ನೆಗಳಿಂದ ಕೂಡಿದ ಮೌಲ್ಯ ವಿನ್ಯಾಸ (.csv)"
+msgstr "ವಿರಾಮ ಚಿಹ್ನೆಗಳಿಂದ ಕೂಡಿದ ಮೌಲ್ಯಗಳು (.csv)"
 
 #: ../plugins/save-calendar/ical-format.c:175 ../shell/e-shell-utils.c:199
-#, fuzzy
 msgid "iCalendar (.ics)"
-msgstr "ಐಕ್ಯಾಲೆಂಡರ್ ಕಡತಗಳು (.ics)"
+msgstr "iCalendar (.ics)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
 msgid "Save Selected"
@@ -20909,10 +20894,9 @@ msgid "%FT%T"
 msgstr "%FT%T"
 
 #: ../plugins/save-calendar/rdf-format.c:387
-#, fuzzy
 #| msgid "RDF format (.rdf)"
 msgid "RDF (.rdf)"
-msgstr "RDF ವಿನ್ಯಾಸ (.rdf)"
+msgstr "RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:127
 msgid "_Format:"
@@ -20923,19 +20907,16 @@ msgid "Select destination file"
 msgstr "ಉದ್ದೇಶಿತ ಕಡತವನ್ನು ಆರಿಸು"
 
 #: ../plugins/save-calendar/save-calendar.c:344
-#, fuzzy
 msgid "Save the selected calendar to disk"
-msgstr "ಆರಿಸಲಾದ ಸಂದೇಶಗಳನ್ನು ಒಂದು ಪಠ್ಯ ಕಡತವಾಗಿ ಉಳಿಸು"
+msgstr "ಆರಿಸಲಾದ ಕ್ಯಾಲೆಂಡರನ್ನು ಡಿಸ್ಕಿಗೆ ಉಳಿಸು"
 
 #: ../plugins/save-calendar/save-calendar.c:375
-#, fuzzy
 msgid "Save the selected memo list to disk"
-msgstr "ಆರಿಸಲಾದ ಸಂದೇಶಗಳನ್ನು ಒಂದು ಪಠ್ಯ ಕಡತವಾಗಿ ಉಳಿಸು"
+msgstr "ಆರಿಸಲಾದ ಮೆಮೊ ಪಟ್ಟಿಯನ್ನು ಡಿಸ್ಕಿಗೆ ಉಳಿಸು"
 
 #: ../plugins/save-calendar/save-calendar.c:406
-#, fuzzy
 msgid "Save the selected task list to disk"
-msgstr "ಆಯ್ದ ಕ್ಯಾಲೆಂಡರ್ ಅಥವ ಕಾರ್ಯ ಪಟ್ಟಿಯನ್ನು ಡಿಸ್ಕ್‍ಗೆ ಉಳಿಸಿ."
+msgstr "ಆರಿಸಲಾದ ಕಾರ್ಯದ ಪಟ್ಟಿಯನ್ನು ಡಿಸ್ಕಿಗೆ ಉಳಿಸು"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
 msgid ""
@@ -21018,24 +20999,20 @@ msgid ""
 msgstr "ಆಫ್‌ಲೈನ್ ಬಳಕೆಗಾಗಿ ಡಿಸ್ಕಿಗೆ ಮೇಳೈಸಬೇಕಿರುವ ಫೋಲ್ಡರುಗಳ ಮಾರ್ಗಗಳ ಪಟ್ಟಿ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:12
-#, fuzzy
 msgid "Default window Y coordinate"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಆದ ವಿಂಡೋ ಸ್ಥಿತಿ"
+msgstr "ಪೂರ್ವನಿಯೋಜಿತವಾದ ಕಿಟಕಿಯ Y ನಿರ್ದೇಶಾಂಕ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
-#, fuzzy
 msgid "The default Y coordinate for the main window."
-msgstr "ಮುಖ್ಯ ವಿಂಡೋದ ಪೂರ್ವನಿಯೋಜಿತ ಅಗಲ (ಪಿಕ್ಸೆಲ್‍ಗಳಲ್ಲಿ)."
+msgstr "ಮುಖ್ಯ ಕಿಟಕಿಯ ಪೂರ್ವನಿಯೋಜಿತ Y ನಿರ್ದೇಶಾಂಕ."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14
-#, fuzzy
 msgid "Default window X coordinate"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಆದ ವಿಂಡೋ ಸ್ಥಿತಿ"
+msgstr "ಪೂರ್ವನಿಯೋಜಿತವಾದ ಕಿಟಕಿಯ X ನಿರ್ದೇಶಾಂಕ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
-#, fuzzy
 msgid "The default X coordinate for the main window."
-msgstr "ಮುಖ್ಯ ವಿಂಡೋದ ಪೂರ್ವನಿಯೋಜಿತ ಅಗಲ (ಪಿಕ್ಸೆಲ್‍ಗಳಲ್ಲಿ)."
+msgstr "ಮುಖ್ಯ ಕಿಟಕಿಯ ಪೂರ್ವನಿಯೋಜಿತ X ನಿರ್ದೇಶಾಂಕ."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:16
 msgid "Default window width"
@@ -21214,18 +21191,16 @@ msgid "URL that provides proxy configuration values."
 msgstr "ಪ್ರಾಕ್ಸಿ ಸಂರಚನಾ ಮೌಲ್ಯಗಳನ್ನು ಒದಗಿಸುವ ಯುಆರ್ಎಲ್."
 
 #: ../shell/e-shell.c:312
-#, fuzzy
 msgid "Preparing to go offline..."
-msgstr "ಜಾಲದಿಂದ ಹೊರಗೆ ಬಳಸಲು '%s' ಖಾತೆಯನ್ನು ತಯಾರು ಮಾಡಲಾಗುತ್ತಿದೆ"
+msgstr "ಆಫ್‌ಲೈನಿಗೆ ತೆರಳಲು ಅಣಿಗೊಳಿಸಲಾಗುತ್ತಿದೆ..."
 
 #: ../shell/e-shell.c:365
-#, fuzzy
 msgid "Preparing to go online..."
-msgstr "ಜಾಲದಿಂದ ಹೊರಗೆ ಬಳಸಲು '%s' ಖಾತೆಯನ್ನು ತಯಾರು ಮಾಡಲಾಗುತ್ತಿದೆ"
+msgstr "ಆನ್‌ಲೈನಿಗೆ ತೆರಳಲು ಅಣಿಗೊಳಿಸಲಾಗುತ್ತಿದೆ..."
 
 #: ../shell/e-shell.c:436
 msgid "Preparing to quit..."
-msgstr ""
+msgstr "ನಿರ್ಗಮಿಸಲು ಅಣಿಗೊಳಿಸಲಾಗುತ್ತಿದೆ..."
 
 #: ../shell/e-shell-content.c:727 ../shell/e-shell-content.c:728
 msgid "Searches"
@@ -21256,9 +21231,8 @@ msgid "i_n"
 msgstr "ಇದರೊಳಗೆ (_n)"
 
 #: ../shell/e-shell-utils.c:197
-#, fuzzy
 msgid "vCard (.vcf)"
-msgstr "ವಿಕಾರ್ಡ್ (.vcf, .gcrd)"
+msgstr "vCard (.vcf)"
 
 #: ../shell/e-shell-utils.c:220
 msgid "All Files (*)"
@@ -21266,7 +21240,7 @@ msgstr "ಎಲ್ಲಾ ಕಡತಗಳು (*)"
 
 #: ../shell/e-shell-view.c:303
 msgid "Saving user interface state"
-msgstr ""
+msgstr "ಬಳಕೆದಾರ ಸಂಪರ್ಕಸಾಧನ ಸ್ಥಿತಿಯನ್ನು ಉಳಿಸಲಾಗುತ್ತಿದೆ"
 
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
@@ -21280,10 +21254,9 @@ msgid "Evolution Website"
 msgstr "Evolution ಜಾಲತಾಣ"
 
 #: ../shell/e-shell-window-actions.c:914
-#, fuzzy
 #| msgid "Categories List"
 msgid "Categories Editor"
-msgstr "ವರ್ಗಗಳ ಪಟ್ಟಿ"
+msgstr "ವರ್ಗಗಳ ಸಂಪಾದಕ"
 
 #: ../shell/e-shell-window-actions.c:1249
 msgid "Bug Buddy is not installed."
@@ -21303,9 +21276,8 @@ msgid "_Close Window"
 msgstr "ವಿಂಡೋವನ್ನು ಮುಚ್ಚು (_C)"
 
 #: ../shell/e-shell-window-actions.c:1458
-#, fuzzy
 msgid "_Contents"
-msgstr "ಅಪಾಯಿಂಟ್‍ಮೆಂಟ್‍ಗಳು (_A)"
+msgstr "ವಿಷಯಗಳು (_C)"
 
 #: ../shell/e-shell-window-actions.c:1460
 #, fuzzy
@@ -21317,9 +21289,8 @@ msgid "_Forget Passwords"
 msgstr "ಗುಪ್ತಪದಗಳನ್ನು ಮರೆತುಬಿಡು (_F)"
 
 #: ../shell/e-shell-window-actions.c:1488
-#, fuzzy
 msgid "Forget all remembered passwords"
-msgstr "ನೆನಪಿಟ್ಟುಕೊಂಡ ಎಲ್ಲಾ ಗುಪ್ತಪದಗಳನ್ನು ನೀವು ಖಚಿತವಾಗಿಯೂ ಮರೆಯಲು ಬಯಸುತ್ತೀರೇ?"
+msgstr "ನೆನಪಿಟ್ಟುಕೊಂಡ ಎಲ್ಲಾ ಗುಪ್ತಪದಗಳನ್ನು ಮರೆತುಬಿಡು"
 
 #: ../shell/e-shell-window-actions.c:1493
 msgid "I_mport..."
@@ -21334,15 +21305,13 @@ msgid "New _Window"
 msgstr "ಹೊಸ ವಿಂಡೋ (_W)"
 
 #: ../shell/e-shell-window-actions.c:1502
-#, fuzzy
 msgid "Create a new window displaying this view"
-msgstr "ಈ ಫೋಲ್ಡರನ್ನು ತೋರಿಸುವ ಒಂದು ಹೊಸ ವಿಂಡೋ ಅನ್ನು ತೋರಿಸು"
+msgstr "ಈ ನೋಟವನ್ನು ತೋರಿಸುವ ಒಂದು ಹೊಸ ಕಿಟಕಿಯನ್ನು ರಚಿಸು"
 
 #: ../shell/e-shell-window-actions.c:1514
-#, fuzzy
 #| msgid "Available Fields"
 msgid "Available Cate_gories"
-msgstr "ಲಭ್ಯ ಕ್ಷೇತ್ರಗಳು"
+msgstr "ಲಭ್ಯವಿರುವ ವರ್ಗಗಳು (_g)"
 
 #: ../shell/e-shell-window-actions.c:1516
 #, fuzzy
@@ -21372,18 +21341,16 @@ msgid "Construct a more advanced search"
 msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1551
-#, fuzzy
 msgid "Clear the current search parameters"
-msgstr "ಹುಡುಕನ್ನು ತೆರವುಗೊಳಿಸು"
+msgstr "ಪ್ರಸಕ್ತ ಹುಡುಕ ನಿಯತಾಂಕಗಳನ್ನು ತೆರವುಗೊಳಿಸು"
 
 #: ../shell/e-shell-window-actions.c:1556
 msgid "_Edit Saved Searches..."
 msgstr "ಉಳಿಸಲಾದ ಹುಡುಕಾಟಗಳನ್ನು ಸಂಪಾದಿಸು (_E)..."
 
 #: ../shell/e-shell-window-actions.c:1558
-#, fuzzy
 msgid "Manage your saved searches"
-msgstr "ನಿಮ್ಮ ಇಮೈಲ್‌, ಸಂಪರ್ಕ ವಿಳಾಸಗಳನ್ನು ಹಾಗು ಕಾರ್ಯಕ್ರಮಗಳನ್ನು ನಿರ್ವಹಿಸು"
+msgstr "ಉಳಿಸಲಾದ ನಿಮ್ಮ ಹುಡುಕಾಟಗಳನ್ನು ನಿರ್ವಹಿಸು"
 
 #: ../shell/e-shell-window-actions.c:1565
 msgid "Click here to change the search type"
@@ -21395,18 +21362,16 @@ msgstr "ಈಗಲೆ ಹುಡುಕು (_F)"
 
 #. Block the default Ctrl+F.
 #: ../shell/e-shell-window-actions.c:1572
-#, fuzzy
 msgid "Execute the current search parameters"
-msgstr "ಪ್ರಸಕ್ತ ಮೈಲ್ ಕಾರ್ಯವನ್ನು ರದ್ದು ಮಾಡು"
+msgstr "ಪ್ರಸಕ್ತ ಹುಡುಕ ನಿಯತಾಂಕಗಳನ್ನು ಕಾರ್ಯಗತಗೊಳಿಸು"
 
 #: ../shell/e-shell-window-actions.c:1577
 msgid "_Save Search..."
 msgstr "ಹುಡುಕಿದ್ದನ್ನು ಉಳಿಸು (_S)..."
 
 #: ../shell/e-shell-window-actions.c:1579
-#, fuzzy
 msgid "Save the current search parameters"
-msgstr "ಸಕ್ತ ಕಡತವನ್ನು ಉಳಿಸು"
+msgstr "ಪ್ರಸಕ್ತ ಹುಡುಕ ನಿಯತಾಂಕಗಳನ್ನು ಉಳಿಸು"
 
 #: ../shell/e-shell-window-actions.c:1591
 msgid "Submit _Bug Report..."
@@ -21421,18 +21386,16 @@ msgid "_Work Offline"
 msgstr "ಜಾಲದ ಹೊರಗೆ ಕೆಲಸ ಮಾಡು (_W)"
 
 #: ../shell/e-shell-window-actions.c:1600
-#, fuzzy
 msgid "Put Evolution into offline mode"
-msgstr "ಆಫ್‌ಲೈನ್‌ ವಿಧಾನದಲ್ಲಿ ಆರಂಭಿಸು"
+msgstr "Evolution ಅನ್ನು ಆಫ್‌ಲೈನ್‌ ವಿಧಾನದಲ್ಲಿ ಇರಿಸು"
 
 #: ../shell/e-shell-window-actions.c:1605
 msgid "_Work Online"
 msgstr "ಜಾಲದ ಒಳಗೆ ಕೆಲಸ ಮಾಡು (_W)"
 
 #: ../shell/e-shell-window-actions.c:1607
-#, fuzzy
 msgid "Put Evolution into online mode"
-msgstr "ಆನ್‌ಲೈನ್‌ ವಿಧಾನದಲ್ಲಿ ಆರಂಭಿಸು"
+msgstr "Evolution ಅನ್ನು ಆನ್‌ಲೈನ್‌ ವಿಧಾನದಲ್ಲಿ ಇರಿಸು"
 
 #: ../shell/e-shell-window-actions.c:1635
 msgid "Lay_out"
@@ -21459,14 +21422,12 @@ msgid "Show Side _Bar"
 msgstr "ಬದಿಯ ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು (_B)"
 
 #: ../shell/e-shell-window-actions.c:1701
-#, fuzzy
 msgid "Show the side bar"
-msgstr "ಬದಿಯ ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು (_B)"
+msgstr "ಬದಿಯ ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು "
 
 #: ../shell/e-shell-window-actions.c:1707
-#, fuzzy
 msgid "Show _Buttons"
-msgstr "ಸಜೀವನಗಳನ್ನು(ಎನಿಮೇಶನ್‌) ತೋರಿಸು"
+msgstr "ಒತ್ತು ಗುಂಡಿಗಳನ್ನು ತೋರಿಸು (_B)"
 
 #: ../shell/e-shell-window-actions.c:1709
 #, fuzzy
@@ -21478,19 +21439,16 @@ msgid "Show _Status Bar"
 msgstr "ಸ್ಥಿತಿ ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು (_S)"
 
 #: ../shell/e-shell-window-actions.c:1717
-#, fuzzy
 msgid "Show the status bar"
-msgstr "ಸ್ಥಿತಿ ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು (_S)"
+msgstr "ಸ್ಥಿತಿ ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು"
 
 #: ../shell/e-shell-window-actions.c:1723
-#, fuzzy
 msgid "Show _Tool Bar"
-msgstr "ಉಪಕರಣಪಟ್ಟಿಯನ್ನು ತೋರಿಸು (_T)"
+msgstr "ಉಪಕರಣ ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು (_T)"
 
 #: ../shell/e-shell-window-actions.c:1725
-#, fuzzy
 msgid "Show the tool bar"
-msgstr "ಉಪಕರಣಪಟ್ಟಿಯನ್ನು ತೋರಿಸು (_T)"
+msgstr "ಉಪಕರಣ ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು"
 
 #: ../shell/e-shell-window-actions.c:1747
 msgid "_Icons Only"
@@ -21553,9 +21511,8 @@ msgid "Current view is a customized view"
 msgstr "ಪ್ರಸಕ್ತ ನೋಟವು ಕಸ್ಟಮ್ ನೋಟವಾಗಿದೆ"
 
 #: ../shell/e-shell-window-actions.c:1816
-#, fuzzy
 msgid "Change the page settings for your current printer"
-msgstr "ನಿಮ್ಮ ಪ್ರಸಕ್ತ ಮುದ್ರಕಕ್ಕೆ ಪುಟ ಸಿದ್ಧತೆಗಳನ್ನು ಹೊಂದಿಸು"
+msgstr "ನಿಮ್ಮ ಪ್ರಸಕ್ತ ಮುದ್ರಕಕ್ಕೆ ಪುಟ ಸಿದ್ಧತೆಗಳನ್ನು ಬದಲಾಯಿಸಿ"
 
 #: ../shell/e-shell-window-actions.c:2206
 #, c-format
@@ -21563,14 +21520,14 @@ msgid "Switch to %s"
 msgstr "%s ಗೆ ಬದಲಾಯಿಸು"
 
 #: ../shell/e-shell-window-actions.c:2327
-#, fuzzy, c-format
+#, c-format
 #| msgid "Select View: %s"
 msgid "Select view: %s"
 msgstr "ನೋಟವನ್ನು ಆರಿಸು: %s"
 
 #: ../shell/e-shell-window-actions.c:2428
 msgid "Execute these search parameters"
-msgstr ""
+msgstr "ಈ ಹುಡುಕ ನಿಯತಾಂಕಗಳನ್ನು ಕಾರ್ಯಗತಗೊಳಿಸು"
 
 #: ../shell/e-shell-window.c:494
 msgid "New"
@@ -21646,7 +21603,7 @@ msgstr ""
 
 #: ../shell/main.c:314
 msgid "Apply the given geometry to the main window"
-msgstr ""
+msgstr "ಒದಗಿಸಲಾದ ಜ್ಯಾಮಿತಿಯನ್ನು ಮುಖ್ಯ ಕಿಟಕಿಗೆ ಅನ್ವಯಿಸು"
 
 #: ../shell/main.c:318
 msgid "Start in online mode"
@@ -21654,7 +21611,7 @@ msgstr "ಆನ್‌ಲೈನ್‌ ವಿಧಾನದಲ್ಲಿ ಆರಂಭ�
 
 #: ../shell/main.c:320
 msgid "Ignore network availability"
-msgstr ""
+msgstr "ಜಾಲಬಂಧ ಲಭ್ಯತೆಯನ್ನು ಕಡೆಗಣಿಸು"
 
 #: ../shell/main.c:322
 #, fuzzy
@@ -21662,9 +21619,8 @@ msgid "Start in \"express\" mode"
 msgstr "ಆನ್‌ಲೈನ್‌ ವಿಧಾನದಲ್ಲಿ ಆರಂಭಿಸು"
 
 #: ../shell/main.c:325
-#, fuzzy
 msgid "Forcibly shut down Evolution"
-msgstr "ಎಲ್ಲಾ Evolution ಘಟಕಗಳನ್ನು ಬಲವಂತವಾಗಿ ಮುಚ್ಚು"
+msgstr "Evolution ಘಟಕಗಳನ್ನು ಬಲವಂತವಾಗಿ ಮುಚ್ಚು"
 
 #: ../shell/main.c:328
 msgid "Disable loading of any plugins."
@@ -21679,16 +21635,15 @@ msgid "Import URIs or filenames given as rest of arguments."
 msgstr ""
 
 #: ../shell/main.c:336
-#, fuzzy
 msgid "Request a running Evolution process to quit"
-msgstr "Evolution ಅನ್ನು ಮರಳಿಸ್ಥಾಪಿಸಲಾಗುತ್ತಿದೆ"
+msgstr "ಚಾಲನೆಯಲ್ಲಿರುವ Evolution ಅನ್ನು ನಿರ್ಗಮಿಸಲು ಮನವಿ ಮಾಡು"
 
 #: ../shell/main.c:510 ../shell/main.c:518
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Evolution PIM ಹಾಗು ಇಮೈಲ್ ಕ್ಲೈಂಟ್"
 
 #: ../shell/main.c:583
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "%s: --online and --offline cannot be used together.\n"
 #| "  Use %s --help for more information.\n"
@@ -21697,10 +21652,10 @@ msgid ""
 "  Run '%s --help' for more information.\n"
 msgstr ""
 "%s: --online ಹಾಗು --offline ಅನ್ನು ಒಂದೇ ಬಾರಿಗೆ ಬಳಸಲಾಗುವುದಿಲ್ಲ.\n"
-"  ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ %s --help ಅನ್ನು ಬಳಸಿ.\n"
+"  ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ %s --help ಅನ್ನು ಚಲಾಯಿಸಿ.\n"
 
 #: ../shell/main.c:589
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "%s: --online and --offline cannot be used together.\n"
 #| "  Use %s --help for more information.\n"
@@ -21708,8 +21663,8 @@ msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
 msgstr ""
-"%s: --online ಹಾಗು --offline ಅನ್ನು ಒಂದೇ ಬಾರಿಗೆ ಬಳಸಲಾಗುವುದಿಲ್ಲ.\n"
-"  ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ %s --help ಅನ್ನು ಬಳಸಿ.\n"
+"%s: --force-online ಹಾಗು --offline ಅನ್ನು ಒಂದೇ ಬಾರಿಗೆ ಬಳಸಲಾಗುವುದಿಲ್ಲ.\n"
+"  ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ %s --help ಅನ್ನು ಚಲಾಯಿಸಿ.\n"
 
 #: ../shell/shell.error.xml.h:2
 msgid "Upgrade from previous version failed:"
@@ -21728,19 +21683,16 @@ msgstr ""
 "ಸಾಧ್ಯವಿರುವುದಿಲ್ಲ.\n"
 
 #: ../shell/shell.error.xml.h:7
-#, fuzzy
 msgid "Continue Anyway"
-msgstr "ಮುಂದುವರೆ"
+msgstr "ಪರವಾಗಿಲ್ಲ ಮುಂದುವರೆ"
 
 #: ../shell/shell.error.xml.h:8
-#, fuzzy
 msgid "Quit Now"
-msgstr "ನಿರ್ಗಮಿಸು (_Q)"
+msgstr "ಈಗಲೆ ನಿರ್ಗಮಿಸು"
 
 #: ../shell/shell.error.xml.h:9
-#, fuzzy
 msgid "Cannot upgrade directly from version {0}"
-msgstr "ಆವೃತ್ತಿ {0} ಇಂದ ಹಳೆಯ ದತ್ತಾಂಶವನ್ನು ಅಳಿಸಬೇಕೆ?"
+msgstr "ಆವೃತ್ತಿ {0} ಇಂದ ನೇರವಾಗಿ ನವೀಕರಿಸಲು ಸಾಧ್ಯವಿರುವುದಿಲ್ಲ"
 
 #: ../shell/shell.error.xml.h:10
 msgid ""
@@ -21827,9 +21779,8 @@ msgid "Disable connection to session manager"
 msgstr "ಅಧಿವೇಶನ ನಿರ್ವಾಹಕನೊಂದಿಗ ಸಂಪರ್ಕವನ್ನು ಕಡಿದುಹಾಕು"
 
 #: ../smclient/eggsmclient.c:232
-#, fuzzy
 msgid "Specify file containing saved configuration"
-msgstr "ಪೈಲಟ್ ಸಂರಚನೆಯನ್ನು ತಯಾರುಗೊಳಿಸಿ"
+msgstr "ಉಳಿಸಲಾದ ಸಂರಚನೆಯನ್ನು ಹೊಂದಿರುವ ಕಡತವನ್ನು ಸೂಚಿಸಿ"
 
 #: ../smclient/eggsmclient.c:232
 msgid "FILE"
@@ -21868,16 +21819,14 @@ msgid "Certificate Name"
 msgstr "ಪ್ರಮಾಣಪತ್ರದ ಹೆಸರು"
 
 #: ../smime/gui/certificate-manager.c:78 ../smime/gui/certificate-manager.c:98
-#, fuzzy
 #| msgid "Or_ganization:"
 msgid "Issued To Organization"
-msgstr "ಸಂಸ್ಥೆ (_g):"
+msgstr "ಸಂಸ್ಥೆಗೆ ಒದಗಿಸಲಾಗಿದೆ"
 
 #: ../smime/gui/certificate-manager.c:79 ../smime/gui/certificate-manager.c:99
-#, fuzzy
 #| msgid "Organizational Unit (OU)"
 msgid "Issued To Organizational Unit"
-msgstr "ಸಂಸ್ಥೆಯ ಘಟಕ (OU)"
+msgstr "ಸಂಸ್ಥೆಯ ಘಟಕಕ್ಕೆ ಒದಗಿಸಲಾಗಿದೆ"
 
 #: ../smime/gui/certificate-manager.c:80
 #: ../smime/gui/certificate-manager.c:100
@@ -21901,26 +21850,23 @@ msgstr "ಒದಗಿಸಿದವರು"
 #: ../smime/gui/certificate-manager.c:83
 #: ../smime/gui/certificate-manager.c:103
 #: ../smime/gui/certificate-manager.c:121
-#, fuzzy
 #| msgid "Or_ganization:"
 msgid "Issued By Organization"
-msgstr "ಸಂಸ್ಥೆ (_g):"
+msgstr "ಸಂಸ್ಥೆಯಿಂದ ಒದಗಿಸಲಾಗಿದೆ"
 
 #: ../smime/gui/certificate-manager.c:84
 #: ../smime/gui/certificate-manager.c:104
 #: ../smime/gui/certificate-manager.c:122
-#, fuzzy
 #| msgid "Organizational Unit (OU)"
 msgid "Issued By Organizational Unit"
-msgstr "ಸಂಸ್ಥೆಯ ಘಟಕ (OU)"
+msgstr "ಸಂಸ್ಥೆಯ ಘಟಕದಿಂದ ಒದಗಿಸಲಾಗಿದೆ"
 
 #: ../smime/gui/certificate-manager.c:85
 #: ../smime/gui/certificate-manager.c:105
 #: ../smime/gui/certificate-manager.c:123
-#, fuzzy
 #| msgid "Issuer"
 msgid "Issued"
-msgstr "ಒದಗಿಸಿದವರು"
+msgstr "ಒದಗಿಸಲಾಗಿದೆ"
 
 #: ../smime/gui/certificate-manager.c:86
 #: ../smime/gui/certificate-manager.c:106
@@ -21942,10 +21888,9 @@ msgstr "MD5 ಫಿಂಗರ್-ಪ್ರಿಂಟ್"
 
 #: ../smime/gui/certificate-manager.c:97
 #: ../smime/gui/certificate-manager.c:117
-#, fuzzy
 #| msgid "Email _Address:"
 msgid "Email Address"
-msgstr "ಇಮೈಲ್ ವಿಳಾಸ  (_A):"
+msgstr "ಇಮೈಲ್ ವಿಳಾಸ"
 
 #: ../smime/gui/certificate-manager.c:584
 msgid "Select a certificate to import..."
@@ -21956,10 +21901,9 @@ msgid "All files"
 msgstr "ಎಲ್ಲಾ ಕಡತಗಳು"
 
 #: ../smime/gui/certificate-manager.c:632
-#, fuzzy
 #| msgid "Failed to authenticate.\n"
 msgid "Failed to import certificate"
-msgstr "ದೃಢೀಕರಿಸುವಲ್ಲಿ ವಿಫಲವಾಗಿದೆ.\n"
+msgstr "ಪ್ರಮಾಣಪತ್ರವನ್ನು ಆಮದು ಮಾಡುವಲ್ಲಿ ವಿಫಲವಾಗಿದೆ"
 
 #: ../smime/gui/certificate-manager.c:1006
 msgid "All PKCS12 files"
@@ -22113,14 +22057,12 @@ msgstr "ಪ್ರಮಾಣಪತ್ರ ಟೇಬಲ್"
 
 #. This is a verb, as in "make a backup".
 #: ../smime/gui/smime-ui.ui.h:30
-#, fuzzy
 msgid "_Backup"
-msgstr "ಬ್ಯಾಕ್ಅಪ್"
+msgstr "ಬ್ಯಾಕ್ಅಪ್ (_B)"
 
 #: ../smime/gui/smime-ui.ui.h:31
-#, fuzzy
 msgid "Backup _All"
-msgstr "ಎಲ್ಲವನ್ನೂ ಬ್ಯಾಕ್ಅಪ್ ಮಾಡು"
+msgstr "ಎಲ್ಲವನ್ನೂ ಬ್ಯಾಕ್ಅಪ್ ಮಾಡು (_A)"
 
 #: ../smime/gui/smime-ui.ui.h:33
 msgid "Your Certificates"
@@ -22149,21 +22091,18 @@ msgid "Certificate Authority Trust"
 msgstr "ಪ್ರಮಾಣಪತ್ರ ಅಥಾರಿಟಿ ನಂಬಿಕೆ"
 
 #: ../smime/gui/smime-ui.ui.h:39
-#, fuzzy
 msgid "Trust this CA to identify _websites."
-msgstr "ಈ CA ಅನ್ನು ಜಾಲತಾಣಗಳನ್ನು ಪತ್ತೆಹಚ್ಚಲು ನಂಬು."
+msgstr "ಜಾಲತಾಣಗಳನ್ನು ಪತ್ತೆಹಚ್ಚಲು ಈ CA ಅನ್ನು ನಂಬು (_w)."
 
 #: ../smime/gui/smime-ui.ui.h:40
-#, fuzzy
 #| msgid "Trust this CA to identify email users."
 msgid "Trust this CA to identify _email users."
-msgstr "ಈ CA ಅನ್ನು ಇಮೈಲ್ ಬಳಕೆದಾರರನ್ನು ಗುರುತುಹಚ್ಚಲು ನಂಬು."
+msgstr "ಇಮೈಲ್ ಬಳಕೆದಾರರನ್ನು ಪತ್ತೆಹಚ್ಚಲು ಈ CA ಅನ್ನು ನಂಬು (_e)."
 
 #: ../smime/gui/smime-ui.ui.h:41
-#, fuzzy
 #| msgid "Trust this CA to identify software developers."
 msgid "Trust this CA to identify _software developers."
-msgstr "ಈ CA ಅನ್ನು ತಂತ್ರಾಂಶ ಅಭಿವೃದ್ಧಿಗಾರರನ್ನು ಗುರುತುಹಚ್ಚಲು ನಂಬು."
+msgstr "ತಂತ್ರಾಂಶ ವಿಕಸನೆಗಳನ್ನು ಪತ್ತೆಹಚ್ಚಲು ಈ CA ಅನ್ನು ನಂಬು (_s)."
 
 #: ../smime/gui/smime-ui.ui.h:42
 msgid ""
@@ -22239,22 +22178,19 @@ msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgstr "PKCS #1 SHA-1 ಗೂಢಲಿಪೀಕರಣ RSA ನೊಂದಿಗೆ"
 
 #: ../smime/lib/e-cert.c:617
-#, fuzzy
 #| msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgid "PKCS #1 SHA-256 With RSA Encryption"
-msgstr "PKCS #1 SHA-1 ಗೂಢಲಿಪೀಕರಣ RSA ನೊಂದಿಗೆ"
+msgstr "RSA ಗೂಢಲಿಪೀಕರಣದೊಂದಿಗೆ PKCS #1 SHA-256"
 
 #: ../smime/lib/e-cert.c:620
-#, fuzzy
 #| msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgid "PKCS #1 SHA-384 With RSA Encryption"
-msgstr "PKCS #1 SHA-1 ಗೂಢಲಿಪೀಕರಣ RSA ನೊಂದಿಗೆ"
+msgstr "RSA ಗೂಢಲಿಪೀಕರಣದೊಂದಿಗೆ PKCS #1 SHA-384"
 
 #: ../smime/lib/e-cert.c:623
-#, fuzzy
 #| msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgid "PKCS #1 SHA-512 With RSA Encryption"
-msgstr "PKCS #1 SHA-1 ಗೂಢಲಿಪೀಕರಣ RSA ನೊಂದಿಗೆ"
+msgstr "RSA ಗೂಢಲಿಪೀಕರಣದೊಂದಿಗೆ PKCS #1 SHA-512"
 
 #: ../smime/lib/e-cert.c:650
 msgid "PKCS #1 RSA Encryption"
@@ -22573,10 +22509,9 @@ msgid "evolution calendar item"
 msgstr "Evolution ಕ್ಯಾಲೆಂಡರ್ ಅಂಶ"
 
 #: ../widgets/misc/e-alert-bar.c:120
-#, fuzzy
 #| msgid "Send this message"
 msgid "Close this message"
-msgstr "ಈ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸು"
+msgstr "ಈ ಸಂದೇಶವನ್ನು ಮುಚ್ಚು"
 
 #. To Translators: This text is set as a description of an attached
 #. * message when, for example, attaching it to a composer. When the
@@ -22704,7 +22639,7 @@ msgstr[1] "ಲಗತ್ತುಗಳನ್ನು ಉಳಿಸು"
 
 #: ../widgets/misc/e-attachment-view.c:379
 msgid "Open With Other Application..."
-msgstr ""
+msgstr "ಇತರೆ ಅನ್ವಯದೊಂದಿಗೆ ತೆರೆ..."
 
 #: ../widgets/misc/e-attachment-view.c:386
 msgid "S_ave All"
@@ -22719,23 +22654,21 @@ msgid "_Hide"
 msgstr "ಅಡಗಿಸು (_H)"
 
 #: ../widgets/misc/e-attachment-view.c:443
-#, fuzzy
 #| msgid "S_ave All"
 msgid "Hid_e All"
-msgstr "ಎಲ್ಲವನ್ನೂ ಉಳಿಸು (_a)"
+msgstr "ಎಲ್ಲವನ್ನೂ ಅಡಗಿಸು (_e)"
 
 #: ../widgets/misc/e-attachment-view.c:450
 msgid "_View Inline"
 msgstr "ಸಾಲಿನೊಳಗೆ ನೋಡು (_V)"
 
 #: ../widgets/misc/e-attachment-view.c:457
-#, fuzzy
 #| msgid "_View Inline"
 msgid "Vie_w All Inline"
-msgstr "ಸಾಲಿನೊಳಗೆ ನೋಡು (_V)"
+msgstr "ಸಾಲಿನೊಳಗೆ ನೋಡು (_w)"
 
 #: ../widgets/misc/e-attachment-view.c:778
-#, fuzzy, c-format
+#, c-format
 #| msgid "Open with \"%s\""
 msgid "Open With \"%s\""
 msgstr "\"%s\" ನೊಂದಿಗೆ ತೆರೆ"
@@ -22747,9 +22680,8 @@ msgstr "ಈ ಲಗತ್ತುಗಳನ್ನು %s ನಲ್ಲಿ ತೆರೆ
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
 #: ../widgets/misc/e-buffer-tagger.c:387
-#, fuzzy
 msgid "Ctrl-click to open a link"
-msgstr "%s ಅನ್ನು ತೆರೆಯಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
+msgstr "ಕೊಂಡಿಯನ್ನು ತೆರೆಯಲು Ctrl-ಕ್ಲಿಕ್ ಮಾಡಿ"
 
 #: ../widgets/misc/e-calendar.c:226
 msgid "Month Calendar"
@@ -22773,9 +22705,8 @@ msgid "Other..."
 msgstr "ಇತರೆ..."
 
 #: ../widgets/misc/e-contact-map-window.c:355
-#, fuzzy
 msgid "Contacts Map"
-msgstr "ಸಂಪರ್ಕವಿಳಾಸಗಳು: "
+msgstr "ಸಂಪರ್ಕವಿಳಾಸ ನಕ್ಷೆ "
 
 #: ../widgets/misc/e-dateedit.c:504
 msgid "Date and Time"
@@ -22872,29 +22803,27 @@ msgstr ""
 
 #. Install a custom "Cancel Import" button.
 #: ../widgets/misc/e-import-assistant.c:775
-#, fuzzy
 #| msgid "_Import"
 msgid "_Cancel Import"
-msgstr "ಆಮದು ಮಾಡಿಕೊ(_I)"
+msgstr "ಆಮದನ್ನು ರದ್ದು ಮಾಡು (_C)"
 
 #: ../widgets/misc/e-import-assistant.c:919
-#, fuzzy
 #| msgid "Preview the message to be printed"
 msgid "Preview data to be imported"
-msgstr "ಮುದ್ರಿಸಬೇಕಿರುವ ಸಂದೇಶವನ್ನು ಅವಲೋಕಿಸು"
+msgstr "ಆಮದು ಮಾಡಬೇಕಿರುವ ದತ್ತಾಂಶವನ್ನು ಅವಲೋಕಿಸು"
 
 #: ../widgets/misc/e-import-assistant.c:925
 #: ../widgets/misc/e-import-assistant.c:938
 #: ../widgets/misc/e-import-assistant.c:1291
 #: ../widgets/misc/e-import-assistant.c:1367
 #: ../widgets/misc/e-import-assistant.c:1376
-#, fuzzy
 msgid "Import Data"
-msgstr "ಪ್ರಮುಖ"
+msgstr "ದತ್ತಾಂಶವನ್ನು ಆಮದು ಮಾಡು"
 
 #: ../widgets/misc/e-import-assistant.c:933
 msgid "Select what type of file you want to import from the list."
 msgstr ""
+"ಪಟ್ಟಿಯಿಂದ ಯಾವ ಬಗೆಯ ದತ್ತಾಂಶವನ್ನು ನೀವು ಆಮದು ಮಾಡಲು ಬಯಸುವಿರಿ ಎಂದು ಆಯ್ಕೆ ಮಾಡಿ."
 
 #: ../widgets/misc/e-import-assistant.c:1281
 #: ../widgets/misc/e-import-assistant.c:1316
@@ -22930,10 +22859,9 @@ msgid "Select a File"
 msgstr "ಒಂದು ಕಡತವನ್ನು ಆರಿಸು"
 
 #: ../widgets/misc/e-import-assistant.c:1362
-#, fuzzy
 msgid "Click \"Apply\" to begin importing the file into Evolution."
 msgstr ""
-"Evolutionಗೆ ಕಡತವನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳುವುದನ್ನು ಆರಂಭಿಸಲು \"ಆಮದು ಮಾಡಿಕೊ\"ಅನ್ನು "
+"Evolutionಗೆ ಕಡತವನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳುವುದನ್ನು ಆರಂಭಿಸಲು \"ಅನ್ವಯಿಸು\" ಅನ್ನು "
 "ಕ್ಲಿಕ್ಕಿಸಿ. "
 
 #: ../widgets/misc/e-map.c:886
@@ -22950,25 +22878,20 @@ msgstr ""
 "ಬದಲಿಗೆ ಕೆಳಗಿರುವ ಡ್ರಾಪ್-ಡೌನ್ ಕಾಂಬಿನೇಶನ್ ಬಾಕ್ಸಿನಿಂದ ಕಾಲವಲಯವನ್ನು ಆರಿಸಬೇಕು."
 
 #: ../widgets/misc/e-online-button.c:31
-#, fuzzy
 msgid "Evolution is currently online.  Click this button to work offline."
 msgstr ""
 "Evolution ಈಗ ಆನ್‌ಲೈನ್‌ನಲ್ಲಿದೆ.\n"
 "ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಕೆಲಸ ಮಾಡಲು ಈ ಗುಂಡಿಯ ಮೇಲೆ ಕ್ಲಿಕ್ಕಿಸಿ."
 
 #: ../widgets/misc/e-online-button.c:34
-#, fuzzy
 msgid "Evolution is currently offline.  Click this button to work online."
 msgstr ""
 "Evolution ಈಗ ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿದೆ.\n"
 "ಆನ್‌ಲೈನ್‌ನಲ್ಲಿ ಕೆಲಸ ಮಾಡಲು ಈ ಗುಂಡಿಯ ಮೇಲೆ ಕ್ಲಿಕ್ಕಿಸಿ."
 
 #: ../widgets/misc/e-online-button.c:37
-#, fuzzy
 msgid "Evolution is currently offline because the network is unavailable."
-msgstr ""
-"Evolution ಈಗ ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿದೆ.\n"
-"ಆನ್‌ಲೈನ್‌ನಲ್ಲಿ ಕೆಲಸ ಮಾಡಲು ಈ ಗುಂಡಿಯ ಮೇಲೆ ಕ್ಲಿಕ್ಕಿಸಿ."
+msgstr "ಜಾಲಬಂಧವು ಲಭ್ಯವಿರದಿರುವ ಕಾರಣ Evolution ಈಗ ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿದೆ."
 
 #: ../widgets/misc/e-preferences-window.c:317
 msgid "Evolution Preferences"
@@ -23042,36 +22965,30 @@ msgstr "ಉನ್ನತ ರಹಸ್ಯ"
 
 #: ../widgets/misc/e-send-options.ui.h:10
 msgid "For Your Eyes Only"
-msgstr ""
+msgstr "ನಿಮ್ಮ ಕಣ್ಣುಗಳಿಗೆ ಮಾತ್ರ"
 
 #. Translators: Used in send options dialog
 #: ../widgets/misc/e-send-options.ui.h:12
-#, fuzzy
 #| msgid "None"
 msgctxt "send-options"
 msgid "None"
 msgstr "ಯಾವುದೂ ಇಲ್ಲ"
 
 #: ../widgets/misc/e-send-options.ui.h:13
-#, fuzzy
 msgid "Mail Receipt"
-msgstr ""
-"ಯಾವುದೂ ಇಲ್ಲ\n"
-"ಮೈಲ್ ರಸೀತಿ"
+msgstr "ಮೈಲ್ ರಸೀತಿ"
 
 #: ../widgets/misc/e-send-options.ui.h:15
 msgid "R_eply requested"
 msgstr "ಮಾರುತ್ತರವನ್ನು ಕೋರಲಾಗಿದೆ (_e)"
 
 #: ../widgets/misc/e-send-options.ui.h:16
-#, fuzzy
 #| msgid "Wi_thin"
 msgctxt "ESendOptionsWithin"
 msgid "Wi_thin"
 msgstr "ಇದರ ಒಳಗೆ (_t)"
 
 #: ../widgets/misc/e-send-options.ui.h:17
-#, fuzzy
 #| msgid "days"
 msgctxt "ESendOptionsWithin"
 msgid "days"
@@ -23086,14 +23003,12 @@ msgid "_Delay message delivery"
 msgstr "ಸಂದೇಶ ತಲುಪಿಸುವುದನ್ನು ವಿಳಂಬಗೊಳಿಸು (_D)"
 
 #: ../widgets/misc/e-send-options.ui.h:21
-#, fuzzy
 #| msgid "_After"
 msgctxt "ESendOptionsAfter"
 msgid "_After"
 msgstr "ನಂತರ (_A)"
 
 #: ../widgets/misc/e-send-options.ui.h:22
-#, fuzzy
 #| msgid "days"
 msgctxt "ESendOptionsAfter"
 msgid "days"
@@ -23104,7 +23019,6 @@ msgid "_Set expiration date"
 msgstr "ಅವಧಿ ಅಂತ್ಯಗೊಳ್ಳುವ ದಿನಾಂಕವನ್ನು ಹೊಂದಿಸಿ (_S)"
 
 #: ../widgets/misc/e-send-options.ui.h:24
-#, fuzzy
 #| msgid "_Until"
 msgctxt "ESendOptions"
 msgid "_Until"
@@ -23194,9 +23108,8 @@ msgid "Add Signature Script"
 msgstr "ಸಹಿಯ ಸ್ಕ್ರಿಪ್ಟನ್ನು ಸೇರಿಸಿ"
 
 #: ../widgets/misc/e-signature-manager.c:386
-#, fuzzy
 msgid "Edit Signature Script"
-msgstr "ಸಹಿಯನ್ನು ಸಂಪಾದಿಸು"
+msgstr "ಸಹಿ ಆದೇಶಗುಚ್ಛವನ್ನು ಸಂಪಾದಿಸು"
 
 #: ../widgets/misc/e-signature-manager.c:605
 msgid "Add _Script"
@@ -23213,9 +23126,8 @@ msgstr ""
 "ಬಳಸಲಾಗುವುದು."
 
 #: ../widgets/misc/e-signature-script-dialog.c:315
-#, fuzzy
 msgid "S_cript:"
-msgstr "ಸ್ಕ್ರಿಪ್ಟ್‍ (_S):"
+msgstr "ಆದೇಶಗುಚ್ಛ (_S):"
 
 #: ../widgets/misc/e-signature-script-dialog.c:346
 #, fuzzy
@@ -23249,10 +23161,9 @@ msgid "_Copy Email Address"
 msgstr "ಇಮೇಲ್ ವಿಳಾಸವನ್ನು ನಕಲಿಸು (_C)"
 
 #: ../widgets/misc/e-web-view.c:447
-#, fuzzy
 #| msgid "_No image"
 msgid "_Copy Image"
-msgstr "ಯಾವುದೆ ಚಿತ್ರವಿಲ್ಲ (_N)"
+msgstr "ಚಿತ್ರವನ್ನು ಪ್ರತಿ ಮಾಡು (_C)"
 
 #: ../widgets/misc/e-web-view.c:449
 #, fuzzy
