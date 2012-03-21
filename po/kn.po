@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-02-27 11:22+0000\n"
-"PO-Revision-Date: 2012-03-21 12:44+0530\n"
+"PO-Revision-Date: 2012-03-21 12:45+0530\n"
 "Last-Translator: s\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -23171,9 +23171,8 @@ msgid "Copy the image to the clipboard"
 msgstr "ವಿಷಯಗಳನ್ನು ಕ್ಲಿಪ್‍ಬೋರ್ಡ್‍ಗೆ  ಅಂಟಿಸು."
 
 #: ../widgets/misc/e-web-view.c:469 ../widgets/misc/e-web-view.c:1318
-#, fuzzy
 msgid "Select all text and images"
-msgstr "ಒಂದು ಸಂದೇಶದಲ್ಲಿನ ಎಲ್ಲಾ ಪಠ್ಯವನ್ನು ಆರಿಸು"
+msgstr "ಎಲ್ಲಾ ಪಠ್ಯ ಮತ್ತು ಚಿತ್ರಗಳನ್ನು ಆರಿಸು"
 
 #: ../widgets/misc/e-web-view.c:982 ../widgets/misc/e-web-view.c:984
 #: ../widgets/misc/e-web-view.c:986
