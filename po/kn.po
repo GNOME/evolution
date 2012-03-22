@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-02-27 11:22+0000\n"
-"PO-Revision-Date: 2012-03-22 09:53+0530\n"
+"PO-Revision-Date: 2012-03-22 16:03+0530\n"
 "Last-Translator: s\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -15535,7 +15535,6 @@ msgstr "ಸಂದೇಶಗಳು"
 
 #. default follow-up flag name to use when clicked in the message list column
 #: ../mail/message-list.c:4101
-#, fuzzy
 #| msgid "Follow-Up"
 msgid "Follow-up"
 msgstr "ಗಮನವಿರಿಸು"
@@ -15732,10 +15731,9 @@ msgid ""
 msgstr ""
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:20
-#, fuzzy
 #| msgid "Whether to show the preview pane."
 msgid "Whether to show maps in preview pane."
-msgstr "ಮುನ್ನೋಟ ಫಲಕವನ್ನು ತೋರಿಸಬೇಕೆ."
+msgstr "ಮುನ್ನೋಟ ಫಲಕದಲ್ಲಿ ನಕ್ಷೆಗಳನ್ನು ತೋರಿಸಬೇಕೆ."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:22
 msgid ""
@@ -15750,10 +15748,9 @@ msgid "_Table column:"
 msgstr "ಟೇಬಲ್ ಕಾಲಂ (_T):"
 
 #: ../modules/addressbook/autocompletion-config.c:197
-#, fuzzy
 #| msgid "Free/Busy information"
 msgid "Address formatting"
-msgstr "ಬಿಡುವು/ಕಾರ್ಯನಿರತ ಮಾಹಿತಿ"
+msgstr "ವಿಳಾಸದ ವಿನ್ಯಾಸ"
 
 #: ../modules/addressbook/autocompletion-config.c:200
 msgid "_Format address according to standard of its destination country"
@@ -15880,16 +15877,14 @@ msgid "Show properties of the selected address book"
 msgstr "ಆರಿಸಲಾದ ವಿಳಾಸಪುಸ್ತಕದ ಗುಣಲಕ್ಷಣಗಳನ್ನು ಬದಲಾಯಿಸಿ"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:851
-#, fuzzy
 #| msgid "Address Book"
 msgid "Address Book _Map"
-msgstr "ವಿಳಾಸ ಪುಸ್ತಕ"
+msgstr "ವಿಳಾಸ ಪುಸ್ತಕ ನಕ್ಷೆ (_M)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:853
-#, fuzzy
 #| msgid "Copy the contacts of the selected address book to another"
 msgid "Show map with all contacts from selected address book"
-msgstr "ಆಯ್ದ ವಿಳಾಸ ಪುಸ್ತಕದಲ್ಲಿನ ಸಂಪರ್ಕವಿಳಾಸಗಳನ್ನು ಇನ್ನೊಂದು ಫೋಲ್ಡರಿಗೆ ಕಾಪಿ ಮಾಡಿ"
+msgstr "ಆಯ್ದ ವಿಳಾಸ ಪುಸ್ತಕದಲ್ಲಿನ ಎಲ್ಲಾ ಸಂಪರ್ಕವಿಳಾಸಗಳೊಂದಿಗೆ ನಕ್ಷೆಯನ್ನು ತೋರಿಸು"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:858
 #: ../modules/calendar/e-cal-shell-view-actions.c:1405
@@ -15993,10 +15988,9 @@ msgid "_Properties"
 msgstr "ಗುಣಲಕ್ಷಣಗಳು (_P)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:961
-#, fuzzy
 #| msgid "Address Book"
 msgid "Address Book Map"
-msgstr "ವಿಳಾಸ ಪುಸ್ತಕ"
+msgstr "ವಿಳಾಸ ಪುಸ್ತಕದ ನಕ್ಷೆ"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:993
 msgid "Contact _Preview"
@@ -16007,16 +16001,14 @@ msgid "Show contact preview window"
 msgstr "ಸಂಪರ್ಕವಿಳಾಸದ ಮುನ್ನೋಟ ವಿಂಡೋವನ್ನು ತೋರಿಸು"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1001
-#, fuzzy
 #| msgid "Show as list"
 msgid "Show _Maps"
-msgstr "ಪಟ್ಟಿಯಾಗಿ ತೋರಿಸು"
+msgstr "ನಕ್ಷೆಗಳನ್ನು ತೋರಿಸು (_M)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1003
-#, fuzzy
 #| msgid "Show contact preview window"
 msgid "Show maps in contact preview window"
-msgstr "ಸಂಪರ್ಕವಿಳಾಸದ ಮುನ್ನೋಟ ವಿಂಡೋವನ್ನು ತೋರಿಸು"
+msgstr "ಸಂಪರ್ಕವಿಳಾಸದ ಮುನ್ನೋಟ ಕಿಟಕಿಯಲ್ಲಿ ನಕ್ಷೆಗಳನ್ನು ತೋರಿಸು"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1022
 #: ../modules/calendar/e-memo-shell-view-actions.c:747
@@ -16140,16 +16132,14 @@ msgid "Supported Search Bases"
 msgstr "ಬೆಂಬಲಿತವಾಗಿರು ಹುಡುಕು ಮೂಲಗಳು"
 
 #: ../modules/addressbook/ldap-config.ui.h:14
-#, fuzzy
 #| msgid "_Server:"
 msgid "Ser_ver:"
-msgstr "ಪರಿಚಾರಕ (_S):"
+msgstr "ಪೂರೈಕೆಗಣಕ (_v):"
 
 #: ../modules/addressbook/ldap-config.ui.h:15
-#, fuzzy
 #| msgid "_Use secure connection:"
 msgid "Use secure _connection:"
-msgstr "ಸುರಕ್ಷಾ ಸಂಪರ್ಕವನ್ನು ಬಳಸು (_U):"
+msgstr "ಸುರಕ್ಷಿತ ಸಂಪರ್ಕವನ್ನು ಬಳಸು (_c):"
 
 #: ../modules/addressbook/ldap-config.ui.h:16
 msgid "_Login method:"
@@ -16172,10 +16162,9 @@ msgid "_Find Possible Search Bases"
 msgstr "ಸಾಧ್ಯವಿರುವ ಹುಡುಕು ಮೂಲಗಳನ್ನು ಪತ್ತೆಮಾಡು (_F)"
 
 #: ../modules/addressbook/ldap-config.ui.h:21
-#, fuzzy
 #| msgid "Search _filter:"
 msgid "S_earch filter:"
-msgstr "ಹುಡುಕು ಫಿಲ್ಟರ್ (_f):"
+msgstr "ಹುಡುಕು ಫಿಲ್ಟರ್ (_e):"
 
 #: ../modules/addressbook/ldap-config.ui.h:22
 msgid "Search Filter"
@@ -16203,11 +16192,10 @@ msgid "5"
 msgstr "5"
 
 #: ../modules/addressbook/ldap-config.ui.h:30
-#, fuzzy
 #| msgid "contact"
 #| msgid_plural "contacts"
 msgid "contacts"
-msgstr "ಸಂಪರ್ಕವಿಳಾಸ"
+msgstr "ಸಂಪರ್ಕವಿಳಾಸಗಳು"
 
 #: ../modules/addressbook/ldap-config.ui.h:31
 msgid "_Timeout:"
@@ -16230,25 +16218,25 @@ msgstr "ಹೊರಹೋಗುವ ಫೀಲ್ಟರುಗಳಿಗೆ ಅನ್�
 
 #: ../modules/bogofilter/evolution-bogofilter.c:163
 msgid "Failed to stream mail message content to Bogofilter: "
-msgstr ""
+msgstr "ಬೋಗೊಫಿಲ್ಟರಿಗೆ ಮೈಲ್ ಸಂದೇಶದ ವಿಷಯವನ್ನು ಸ್ಟ್ರೀಮ್ ಮಾಡುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ."
 
 #: ../modules/bogofilter/evolution-bogofilter.c:212
 msgid "Bogofilter either crashed or failed to process a mail message"
 msgstr ""
+"ಬೋಗೊಫಿಲ್ಟರ್ ಕುಸಿತಗೊಂಡಿದೆ ಅಥವ ಒಂದು ಮೈಲ್ ಸಂದೇಶವನ್ನು ಸಂಸ್ಕರಿಸುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:311
 msgid "Bogofilter Options"
-msgstr "Bogofilter ಆದ್ಯತೆಗಳು"
+msgstr "ಬೊಗೊಫಿಲ್ಟರ್ ಆದ್ಯತೆಗಳು"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:320
 msgid "Convert message text to _Unicode"
 msgstr "ಸಂದೇಶ ಪಠ್ಯವನ್ನು ಯುನಿಕೋಡ್‍ಗೆ ಬದಲಾಯಿಸು (_U)"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:476
-#, fuzzy
 #| msgid "Bogofilter Options"
 msgid "Bogofilter"
-msgstr "Bogofilter ಆದ್ಯತೆಗಳು"
+msgstr "ಬೊಗೊಫಿಲ್ಟರ್"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:2
 msgid ""
@@ -16372,15 +16360,15 @@ msgstr ""
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:51
 msgid "If \"true\", show the memo preview pane in the main window."
-msgstr ""
+msgstr "\"true\" ಆದಲ್ಲಿ, ಮೆಮೊ ಮುನ್ನೋಟ ಪಟ್ಟಿಯನ್ನು ಮುಖ್ಯ ಕಿಟಕಿಯಲ್ಲಿ ತೋರಿಸು."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:53
 msgid "Position of the task preview pane when oriented horizontally."
-msgstr ""
+msgstr "ಕಾರ್ಯದ ಮುನ್ನೋಟ ಪಟ್ಟಿಯನ್ನು ಅಡ್ಡಲಾಗಿ ಹೊಂದಿಸಿದಾಗ ಅದರ ಸ್ಥಳ."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:55
 msgid "Position of the memo preview pane when oriented vertically."
-msgstr ""
+msgstr "ಮೆಮೊ ಮುನ್ನೋಟ ಪಟ್ಟಿಯನ್ನು ಲಂಬವಾಗಿ ಹೊಂದಿಸಿದಾಗ ಅದರ ಸ್ಥಳ."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:57
 msgid ""
@@ -16391,11 +16379,11 @@ msgstr ""
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:59
 msgid "If \"true\", show the task preview pane in the main window."
-msgstr ""
+msgstr "\"true\" ಆದಲ್ಲಿ, ಕಾರ್ಯದ ಮುನ್ನೋಟ ಪಟ್ಟಿಯನ್ನು ಮುಖ್ಯ ಕಿಟಕಿಯಲ್ಲಿ ತೋರಿಸು."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:62
 msgid "Position of the task preview pane when oriented vertically."
-msgstr ""
+msgstr "ಕಾರ್ಯದ ಮುನ್ನೋಟ ಪಟ್ಟಿಯನ್ನು ಲಂಬವಾಗಿ ಹೊಂದಿಸಿದಾಗ ಅದರ ಸ್ಥಳ."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:64
 msgid ""
@@ -16434,6 +16422,8 @@ msgstr ""
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:76
 msgid "Show days with recurrent events in italic font in bottom left calendar."
 msgstr ""
+"ಕೆಳ ಎಡಭಾಗದಲ್ಲಿನ ಕ್ಯಾಲೆಂಡರಿನಲ್ಲಿ ಪುನರಾವರ್ತನೆಗೊಳ್ಳುವ ಕಾರ್ಯಕ್ರಮಗಳನ್ನು ಹೊಂದಿರುವ "
+"ದಿನಗಳನ್ನು ಇಟ್ಯಾಲಿಕ್‌ನಲ್ಲಿ ತೋರಿಸು."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:78
 msgid ""
@@ -16495,32 +16485,28 @@ msgstr ""
 "\"."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:102
-#, fuzzy
 #| msgid "Whether to set a default reminder for appointments."
 msgid "Whether to set a reminder for birthdays and anniversaries."
-msgstr "ಅಪಾಯಿಂಟ್‌ಮೆಂಟುಗಳಿಗೆ ಪೂರ್ವನಿಯೋಜಿತ ಜ್ಞಾಪನೆಯನ್ನು ಇರಿಸಬೇಕೆ."
+msgstr "ಜನ್ಮದಿನಗಳಿಗೆ ಮತ್ತು ವಾರ್ಷಿಕೋತ್ಸವಗಳನ್ನು ಜ್ಞಾಪಿಸುವಂತೆ ಸೂಚಿಸಬೇಕೆ."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:104
-#, fuzzy
 #| msgid "Number of units for determining a default reminder."
 msgid "Number of units for determining a birthday or anniversary reminder."
-msgstr "ಒಂದು ಪೂರ್ವನಿಯೋಜಿತ ಜ್ಞಾಪನೆಯನ್ನು ನಿರ್ಧರಿಸುವ ಘಟಕಗಳ ಸಂಖ್ಯೆ."
+msgstr "ಜನ್ಮದಿನ ಅಥವ ವಾರ್ಷಿಕೋತ್ಸವದ ಜ್ಞಾಪನೆಯನ್ನು ನಿರ್ಧರಿಸಲು ಘಟಕಗಳ ಸಂಖ್ಯೆ."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:106
-#, fuzzy
 #| msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\"."
 msgstr ""
-"ಒಂದು ಪೂರ್ವನಿಯೋಜಿತ ಜ್ಞಾಪನೆಗಾಗಿನ ಘಟಕಗಳು, \"ನಿಮಿಷಗಳು\", \"ಗಂಟೆಗಳು\" ಅಥವ \"ದಿನಗಳು"
-"\"."
+"ಜನ್ಮದಿನ ಅಥವ ವಾರ್ಷಿಕೋತ್ಸವದ ಜ್ಞಾಪನೆಗಾಗಿನ ಘಟಕಗಳು, \"ನಿಮಿಷಗಳು\", \"ಗಂಟೆಗಳು\" ಅಥವ "
+"\"ದಿನಗಳು\"."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:108
-#, fuzzy
 #| msgid "Whether to show week numbers in the date navigator."
 msgid "Whether to show week numbers in various places in the Calendar."
-msgstr "ದಿನಾಂಕ ನ್ಯಾವಿಗೇಟರಿನಲ್ಲಿ ವಾರದ ಸಂಖ್ಯೆಯನ್ನು ತೋರಿಸಬೇಕೆ."
+msgstr "ಕ್ಯಾಲೆಂಡರಿನ ಹಲವಾರು ಜಾಗಗಳಲ್ಲಿ ವಾರದ ಸಂಖ್ಯೆಯನ್ನು ತೋರಿಸಬೇಕೆ."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:109
 msgid "Scroll Month View by a week"
@@ -16532,28 +16518,24 @@ msgstr ""
 "ತಿಂಗಳು ನೋಟವನ್ನು ಒಂದು ತಿಂಗಳ ಅಳತೆಯಲ್ಲಿ ಜರುಗಿಸದೆ, ಒಂದು ವಾರದಲ್ಲಿ ಜರುಗಿಸಬೇಕೆ."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:112
-#, fuzzy
 #| msgid "Time the last alarm ran, in time_t."
 msgid "Time the last reminder ran, in time_t."
-msgstr "ಕೊನೆಯ ಬಾರಿಗೆ ಅಲಾರಂ ಚಲಾಯಿತಗೊಂಡ ಸಮಯ, time_t ಯಲ್ಲಿ."
+msgstr "ಕೊನೆಯ ಬಾರಿಗೆ ಜ್ಞಾಪನೆ ಚಲಾಯಿತಗೊಂಡ ಸಮಯ, time_t ಯಲ್ಲಿ."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:113
-#, fuzzy
 #| msgid "Calendars to run alarms for"
 msgid "Calendars to run reminders for"
-msgstr "ಅಲಾರಂಗಳನ್ನು ಚಲಾಯಿಸಬೇಕಿರುವ ಕ್ಯಾಲೆಂಡರುಗಳು"
+msgstr "ಜ್ಞಾಪನೆಗಳಿಗಾಗಿ ಚಲಾಯಿಸಬೇಕಿರುವ ಕ್ಯಾಲೆಂಡರುಗಳು"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:115
-#, fuzzy
 #| msgid "Programs that are allowed to be run by alarms."
 msgid "Programs that are allowed to be run by reminders."
-msgstr "ಅಲಾರಂಗಳಿಂದ ಚಲಾಯಿಸಲ್ಪಡಬೇಕಿರುವ ಪ್ರೊಗ್ರಾಂಗಳು."
+msgstr "ಜ್ಞಾಪನೆಗಳಿಂದ ಚಲಾಯಿಸಲ್ಪಡಬೇಕಿರುವ ಪ್ರೊಗ್ರಾಂಗಳು."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:117
-#, fuzzy
 #| msgid "Whether or not to use the notification tray for display alarms."
 msgid "Whether or not to use the notification tray for display reminders."
-msgstr "ಅಲಾರಂಗಳನ್ನು ತೋರಿಸಲು ಸೂಚನಾ ಫಲಕವನ್ನು ಬಳಸಬೇಕೆ ಅಥವ ಬೇಡವೆ."
+msgstr "ಜ್ಞಾಪನೆಗಳನ್ನು ತೋರಿಸಲು ಸೂಚನಾ ಫಲಕವನ್ನು ಬಳಸಬೇಕೆ ಅಥವ ಬೇಡವೆ."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:118
 msgid "Free/busy server URLs"
@@ -16603,10 +16585,9 @@ msgid "I_mport to Tasks"
 msgstr "ಕಾರ್ಯಕ್ಕೆ ಆಮದು ಮಾಡಿಕೊ (_m)"
 
 #: ../modules/calendar/e-calendar-preferences.c:467
-#, fuzzy
 #| msgid "Selected Calendars for Alarms"
 msgid "Selected Calendars for Reminders"
-msgstr "ಅಲಾರಂಗಳಿಗಾಗಿ ಆರಿಸಲಾದ ಕ್ಯಾಲೆಂಡರುಗಳು"
+msgstr "ಜ್ಞಾಪನೆಗಳಿಗಾಗಿ ಆರಿಸಲಾದ ಕ್ಯಾಲೆಂಡರುಗಳು"
 
 #: ../modules/calendar/e-calendar-preferences.c:891
 msgid "Ti_me and date:"
@@ -16756,14 +16737,14 @@ msgid "_Compress weekends in month view"
 msgstr "ತಿಂಗಳ ನೋಟದಲ್ಲಿ ವಾರದಕೊನೆಯನ್ನು ಕುಗ್ಗಿಸು (_C)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:51
-#, fuzzy
 #| msgid "Show week _numbers in date navigator"
 msgid "Show week _numbers"
-msgstr "ದಿನಾಂಕ ನ್ಯಾವಿಗೇಟರಿನಲ್ಲಿ ವಾರದ ಸಂಖ್ಯೆಯನ್ನು ತೋರಿಸು (_n)"
+msgstr "ವಾರದ ಸಂಖ್ಯೆಗಳನ್ನು ತೋರಿಸು (_n)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:52
 msgid "Show r_ecurring events in italic in bottom left calendar"
 msgstr ""
+"ಕೆಳ ಎಡಭಾಗದಲ್ಲಿನ ಕ್ಯಾಲೆಂಡರಿನಲ್ಲಿ ಪುನರಾವರ್ತನೆಗೊಳ್ಳುವ ಕಾರ್ಯಕ್ರಮಗಳನ್ನು ತೋರಿಸು (_e)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:53
 msgid "Sc_roll Month View by a week"
@@ -16774,26 +16755,23 @@ msgid "Display"
 msgstr "ತೋರಿಸು"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:57
-#, fuzzy
 #| msgid "T_asks due today:"
 msgid "Highlight t_asks due today"
-msgstr "ಇಂದಿಗೆ ಬಾಕಿ ಇರುವ ಕಾರ್ಯಗಳು (_a):"
+msgstr "ಇಂದಿಗೆ ಬಾಕಿ ಇರುವ ಕಾರ್ಯಗಳನ್ನು ಎತ್ತಿ ತೋರಿಸು (_a)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:59
-#, fuzzy
 #| msgid "_Overdue tasks:"
 msgid "Highlight _overdue tasks"
-msgstr "ಅವಧಿ ಮೀರಿದ ಕಾರ್ಯಗಳು (_O):"
+msgstr "ಬಾಕಿ ಇರುವ ಕಾರ್ಯಗಳನ್ನು ಎತ್ತಿತೋರಿಸು (_o)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:60
 msgid "_Hide completed tasks after"
 msgstr "ಮುಗಿದ ಕಾರ್ಯಗಳನ್ನು ಅಡಗಿಸು (_H)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:63
-#, fuzzy
 #| msgid "Display alarms in _notification area only"
 msgid "Display reminders in _notification area only"
-msgstr "ಸೂಚನಾ ಸ್ಥಳದಲ್ಲಿ ಮಾತ್ರ ಅಲಾರಂಗಳನ್ನು ತೋರಿಸು (_n)"
+msgstr "ಸೂಚನಾ ಸ್ಥಳದಲ್ಲಿ ಮಾತ್ರ ಜ್ಞಾಪನೆಗಳನ್ನು ತೋರಿಸು (_n)"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
 #: ../modules/calendar/e-calendar-preferences.ui.h:65
