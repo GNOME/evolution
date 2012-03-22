@@ -8,7 +8,7 @@
 # భరత్ కుమార్ <bharatfsf@gmail.com>, 2007.
 # Krishna Babu K <kkrothap@redhat.com>, 2008, 2009, 2010.
 # Krishnababu Krothapalli <kkrothap@redhat.com>, 2011, 2012.
-# Sasi Bhushan Boddepalli <sasi@swecha.net>, 2012
+# Sasi Bhushan Boddepalli <sasi@swecha.net>, 2012, 2012.
 #: ../shell/main.c:570
 msgid ""
 msgstr ""
@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-03-14 21:13+0000\n"
-"PO-Revision-Date: 2012-03-20 14:19+0530\n"
+"PO-Revision-Date: 2012-03-21 19:18+0530\n"
 "Last-Translator: Sasi Bhushan Boddepalli <sasi@swecha.net>\n"
 "Language-Team: Telugu <indlinux-telugu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1429,40 +1429,34 @@ msgid "Importing..."
 msgstr "ఎగుమతిచేస్తున్నది..."
 
 #: ../addressbook/importers/evolution-csv-importer.c:1075
-#, fuzzy
 #| msgid "Outlook CSV or Tab (.csv, .tab)"
 msgid "Outlook Contacts CSV or Tab (.csv, .tab)"
-msgstr "అవుట్‌లుక్ CSV లేదా టాబ్ (.csv, .tab)"
+msgstr "అవుట్‌లుక్ సంపర్కాలు  CSV లేదా టాబ్ (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1076
-#, fuzzy
 #| msgid "Outlook CSV and Tab Importer"
 msgid "Outlook Contacts CSV and Tab Importer"
-msgstr "అవుట్‌లుక్ CSV మరియు టాబ్ దిగుమతికారి"
+msgstr "అవుట్‌లుక్ సంపర్కాలు  CSV మరియు టాబ్ దిగుమతికారి"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1084
-#, fuzzy
 #| msgid "Mozilla CSV or Tab (.csv, .tab)"
 msgid "Mozilla Contacts CSV or Tab (.csv, .tab)"
-msgstr "మొజిల్లా CSV లేదా టాబ్ (.csv, .tab)"
+msgstr "మొజిల్లా సంపర్కాలు  CSV లేదా టాబ్ (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1085
-#, fuzzy
 #| msgid "Mozilla CSV and Tab Importer"
 msgid "Mozilla Contacts CSV and Tab Importer"
-msgstr "మొజిల్లా CSV మరియు టాబ్ దిగుమతికారి"
+msgstr "మొజిల్లా  సంపర్కాలు  CSV మరియు టాబ్ దిగుమతికారి"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1093
-#, fuzzy
 #| msgid "Evolution CSV or Tab (.csv, .tab)"
 msgid "Evolution Contacts CSV or Tab (.csv, .tab)"
-msgstr "ఎవాల్యూషన్ CSV లేదా టాబ్ (.csv, .tab)"
+msgstr "ఎవాల్యూషన్  సంపర్కాలు  CSV లేదా టాబ్ (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1094
-#, fuzzy
 #| msgid "Evolution CSV and Tab Importer"
 msgid "Evolution Contacts CSV and Tab Importer"
-msgstr "ఎవాల్యూషన్ CSV మరియు టాబ్ దిగుమతికారి"
+msgstr "ఎవాల్యూషన్  సంపర్కాలు CSV మరియు టాబ్ దిగుమతికారి"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:796
 msgid "LDAP Data Interchange Format (.ldif)"
@@ -2099,10 +2093,9 @@ msgstr ""
 "యెంచుకొనుము."
 
 #: ../calendar/calendar.error.xml.h:79
-#, fuzzy
 #| msgid "Cannot save event"
 msgid "Cannot save task"
-msgstr "ఘటనను భద్రపరచలేము"
+msgstr "ఘటనను భద్రపరచలేము "
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:81
@@ -2275,20 +2268,18 @@ msgid "Occurs"
 msgstr "సంభవిస్తుంది "
 
 #: ../calendar/gui/caltypes.xml.h:21
-#, fuzzy
 #| msgid "is less than"
 msgid "Less Than"
-msgstr "దీని కన్నా చిన్నది"
+msgstr "దీని కన్నా చిన్నది "
 
 #: ../calendar/gui/caltypes.xml.h:22
 msgid "Exactly"
 msgstr "సరిగ్గా "
 
 #: ../calendar/gui/caltypes.xml.h:23
-#, fuzzy
 #| msgid "Korean"
 msgid "More Than"
-msgstr "కొరియన్"
+msgstr "దీని కన్నా పెద్దది "
 
 #: ../calendar/gui/caltypes.xml.h:24 ../calendar/gui/memotypes.xml.h:17
 #: ../calendar/gui/tasktypes.xml.h:28
@@ -3682,12 +3673,11 @@ msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr "కర్తవ్యము పూర్తిగా సరికూర్చబడలేదు, యెంచేతంటే మీరు నిర్వాహకులు కాదు"
 
 #: ../calendar/gui/dialogs/task-page.c:297
-#, fuzzy
 #| msgid "Task cannot be edited, because the selected task list is read only"
 msgid ""
 "Task cannot be edited, because the selected task list does not support "
 "assigned tasks"
-msgstr "కర్తవ్యం సరికూర్చబడలేదు, యెంచేతంటే యెంపికైన కర్తవ్యపు జాబితా చదువుటకు మాత్రమే"
+msgstr "ఎంపిక కార్యం జాబితా కేటాయించిన పనులుకు  మద్దతు ఇవ్వదు ఎందుకంటే టాస్క్, సవరించబడదు "
 
 #: ../calendar/gui/dialogs/task-page.c:822
 msgid "Due date is wrong"
@@ -5003,10 +4993,9 @@ msgstr "కర్తవ్యం"
 
 #: ../calendar/importers/icalendar-importer.c:1159
 #: ../calendar/importers/icalendar-importer.c:1473
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Memo"
-msgstr "మెమో"
+msgstr "మెమో "
 
 #: ../calendar/importers/icalendar-importer.c:1168
 msgctxt "iCalImp"
@@ -5019,134 +5008,116 @@ msgid "is an instance"
 msgstr "ఒక యిన్‌స్టాన్స్"
 
 #: ../calendar/importers/icalendar-importer.c:1178
-#, fuzzy
 #| msgid "Sh_ow a reminder"
 msgctxt "iCalImp"
 msgid "has reminders"
-msgstr "గుర్తిచుదానిని చూపుము(_o)"
+msgstr "గుర్తించుకొన్నవి కలిగి ఉన్నవి "
 
 #: ../calendar/importers/icalendar-importer.c:1183
-#, fuzzy
 msgctxt "iCalImp"
 msgid "has attachments"
-msgstr "%s అనుభందము"
+msgstr "అటాచ్మెంట్లను కలిగి ఉంది "
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:1196
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Public"
-msgstr "ప్రజా"
+msgstr "ప్రజలు "
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:1199
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Private"
-msgstr "స్వంత"
+msgstr "వ్యక్తిగతమైన "
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:1202
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Confidential"
-msgstr "గోప్యమైన"
+msgstr "గోప్యమైన "
 
 #. Translators: Appointment's classification section name
 #: ../calendar/importers/icalendar-importer.c:1206
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Classification"
-msgstr "వర్గీకరణ"
+msgstr "వర్గీకరణ "
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
 #: ../calendar/importers/icalendar-importer.c:1211
 #: ../calendar/importers/icalendar-importer.c:1512
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Summary"
-msgstr "తాత్పర్యం"
+msgstr "తాత్పర్యం "
 
 #. Translators: Appointment's location
 #: ../calendar/importers/icalendar-importer.c:1217
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Location"
-msgstr "స్థానము"
+msgstr "స్థానము "
 
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
 #: ../calendar/importers/icalendar-importer.c:1225
 #: ../calendar/importers/icalendar-importer.c:1508
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Start"
-msgstr "ప్రారంభమౌతుంది"
+msgstr "ప్రారంభం "
 
 #. Translators: 'Due' like the time due a task should be finished
 #: ../calendar/importers/icalendar-importer.c:1236
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Due"
-msgstr "పూర్వనిర్ణిత"
+msgstr "తిరిగి చెల్లించవలసిన "
 
 #. Translators: Appointment's end time
 #: ../calendar/importers/icalendar-importer.c:1248
-#, fuzzy
 msgctxt "iCalImp"
 msgid "End"
-msgstr "ముగుస్తుంది"
+msgstr "ముగింపు "
 
 #. Translators: Appointment's categories
 #: ../calendar/importers/icalendar-importer.c:1258
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Categories"
-msgstr "విభాగాలు"
+msgstr "విభాగాలు "
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
 #: ../calendar/importers/icalendar-importer.c:1282
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Completed"
-msgstr "పూర్తిచేయబడిన"
+msgstr "పూర్తియినది "
 
 #. Translators: Appointment's URL
 #: ../calendar/importers/icalendar-importer.c:1290
-#, fuzzy
 msgctxt "iCalImp"
 msgid "URL"
-msgstr "URL"
+msgstr "URL "
 
 #. Translators: Appointment's organizer
 #: ../calendar/importers/icalendar-importer.c:1301
 #: ../calendar/importers/icalendar-importer.c:1304
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Organizer"
-msgstr "నిర్వాహకుడు"
+msgstr "నిర్వాహకి "
 
 #. Translators: Appointment's attendees
 #: ../calendar/importers/icalendar-importer.c:1324
 #: ../calendar/importers/icalendar-importer.c:1327
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Attendees"
-msgstr "హాజరైనవారు"
+msgstr "హాజరైనవారు "
 
 #: ../calendar/importers/icalendar-importer.c:1341
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Description"
-msgstr "విశదీకరణ"
+msgstr "వివరం "
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
 #: ../calendar/importers/icalendar-importer.c:1504
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Type"
-msgstr "రకం"
+msgstr "రకం "
 
 #.
 #. *
@@ -6702,14 +6673,12 @@ msgid "ID of the socket to embed in"
 msgstr "పొందుపర్చేందుకు సాకెట్ యొక్క ID "
 
 #: ../capplet/anjal-settings-main.c:162
-#, fuzzy
 msgid "socket"
-msgstr " చక్కదిద్దు"
+msgstr "సాకెట్ "
 
 #: ../capplet/settings/mail-account-view.c:77
-#, fuzzy
 msgid "Please enter your full name."
-msgstr "దయచేసి వేరే నామాన్ని ఎంచుకొనుము."
+msgstr "దయచేసి మీ పూర్తి పేరును నమోదు చేయండి "
 
 #: ../capplet/settings/mail-account-view.c:78
 msgid "Please enter your email address."
@@ -6720,9 +6689,8 @@ msgid "The email address you have entered is invalid."
 msgstr "మీరు ఎంటర్ చేసిన ఇమెయిల్ చిరునామా చెల్లదు."
 
 #: ../capplet/settings/mail-account-view.c:80
-#, fuzzy
 msgid "Please enter your password."
-msgstr "సంకేతపదంను ప్రవేశపెట్టండి."
+msgstr "దయచేసి మీ సంకేతపదంను ప్రవేశపెట్టండి."
 
 #: ../capplet/settings/mail-account-view.c:282
 #: ../mail/em-account-editor.c:5453 ../plugins/caldav/caldav-source.c:68
@@ -6742,10 +6710,9 @@ msgstr "Google"
 #: ../capplet/settings/mail-account-view.c:497
 #: ../capplet/settings/mail-account-view.c:601
 #: ../mail/em-account-editor.c:4857 ../mail/em-account-editor.c:4892
-#, fuzzy
 #| msgid "Always"
 msgid "Always (SSL)"
-msgstr "యెల్లప్పుడు"
+msgstr "యెల్లప్పుడు (SSL) "
 
 #: ../capplet/settings/mail-account-view.c:500
 #: ../capplet/settings/mail-account-view.c:604
@@ -6761,56 +6728,46 @@ msgid "Never"
 msgstr "ఎప్పటికివద్దు"
 
 #: ../capplet/settings/mail-account-view.c:511
-#, fuzzy
 msgid "Personal details:"
-msgstr "వ్యక్తిగత"
+msgstr "వ్యక్తిగత వివరాలు "
 
 #: ../capplet/settings/mail-account-view.c:518 ../mail/mail-config.ui.h:180
-#, fuzzy
 msgid "Name:"
-msgstr "పేరు(_N):"
+msgstr "పేరు: "
 
 #: ../capplet/settings/mail-account-view.c:527 ../mail/mail-config.ui.h:181
-#, fuzzy
 msgid "Email address:"
-msgstr "ఈ మెయిల్ చిరునామ(_A):"
+msgstr "ఈ మెయిల్ చిరునామ: "
 
 #: ../capplet/settings/mail-account-view.c:537 ../mail/mail-config.ui.h:182
-#, fuzzy
 #| msgid "Details"
 msgid "Details:"
-msgstr "వివరాలు"
+msgstr "వివరాలు: "
 
 #: ../capplet/settings/mail-account-view.c:545 ../mail/mail-config.ui.h:183
-#, fuzzy
 msgid "Receiving"
-msgstr "మెయిల్ ను తీసుకుంటోంది"
+msgstr "తీసుకుంటోంది "
 
 #: ../capplet/settings/mail-account-view.c:552 ../mail/mail-config.ui.h:185
-#, fuzzy
 msgid "Server type:"
-msgstr "సేవిక రకం (_T):"
+msgstr "సేవిక రకం  "
 
 #: ../capplet/settings/mail-account-view.c:561 ../mail/mail-config.ui.h:186
-#, fuzzy
 msgid "Server address:"
-msgstr "సేవిక సందేశం:"
+msgstr "సేవిక చిరునామా:‌"
 
 #: ../capplet/settings/mail-account-view.c:570 ../mail/mail-config.ui.h:187
-#, fuzzy
 msgid "Username:"
-msgstr "(_e) వినియోగదారి పేరు:"
+msgstr "వినియోగదారుని పేరు:"
 
 #: ../capplet/settings/mail-account-view.c:579
-#, fuzzy
 msgid "Use encryption:"
-msgstr "ఎన్క్రిప్షన్ లేదు"
+msgstr "ఎన్క్రిప్షన్ ను ఉపయోగించండి: "
 
 #: ../capplet/settings/mail-account-view.c:612 ../mail/mail-config.ui.h:184
-#, fuzzy
 #| msgid "Ascending"
 msgid "Sending"
-msgstr "ఆరోహణాక్రమం"
+msgstr "పంపుతున్నది "
 
 #: ../capplet/settings/mail-account-view.c:655
 msgid ""
@@ -6833,9 +6790,8 @@ msgstr ""
 "అవసరం కావచ్చు. "
 
 #: ../capplet/settings/mail-account-view.c:659
-#, fuzzy
 msgid "You can specify more options to configure the account."
-msgstr "మీరు ఒక ఎక్సేంజ్ ఖాతా మాత్రమే ఆకృతీకరించ గలరు."
+msgstr "మీరు ఖాతా ఆకృతీకరించుటకు మరిన్ని ఎంపికలు పేర్కొనవచ్చు."
 
 #: ../capplet/settings/mail-account-view.c:661
 msgid ""
@@ -6863,62 +6819,51 @@ msgid "Identity"
 msgstr "గుర్తింపు"
 
 #: ../capplet/settings/mail-account-view.c:678
-#, fuzzy
 msgid "Next - Receiving mail"
-msgstr "మెయిల్ ను తీసుకుంటోంది"
+msgstr "తరవాతి మెయిల్ ను- తీసుకుంటోంది"
 
 #: ../capplet/settings/mail-account-view.c:679
-#, fuzzy
 msgid "Receiving mail"
-msgstr "మెయిల్ ను తీసుకుంటోంది"
+msgstr "మెయిల్ ను తీసుకుంటోంది "
 
 #: ../capplet/settings/mail-account-view.c:679
 #: ../capplet/settings/mail-account-view.c:680
-#, fuzzy
 msgid "Next - Sending mail"
-msgstr "ఈమెయిల్ పంపిస్తున్నది"
+msgstr "తరువాతి  మెయిల్ పంపిస్తున్నది"
 
 #: ../capplet/settings/mail-account-view.c:679
-#, fuzzy
 msgid "Back - Identity"
-msgstr "గుర్తింపు"
+msgstr "వెనుకటి - గుర్తింపు"
 
 #: ../capplet/settings/mail-account-view.c:679
-#, fuzzy
 msgid "Next - Receiving options"
-msgstr "ఐచ్చికాలను తిరిగిపొందుతుంది"
+msgstr "తరువాతి ఐచ్చికాలను  - పొందుతున్నది "
 
 #: ../capplet/settings/mail-account-view.c:680
-#, fuzzy
 msgid "Receiving options"
-msgstr "ఐచ్చికాలను తిరిగిపొందుతుంది"
+msgstr "ఐచ్చికాలను పొందుతున్నది "
 
 #: ../capplet/settings/mail-account-view.c:680
 #: ../capplet/settings/mail-account-view.c:682
-#, fuzzy
 msgid "Back - Receiving mail"
-msgstr "మెయిల్ ను తీసుకుంటోంది"
+msgstr "వెనుకటి - మెయిల్ ను తీసుకుంటోంది"
 
 #: ../capplet/settings/mail-account-view.c:682
-#, fuzzy
 msgid "Sending mail"
-msgstr "ఈమెయిల్ పంపిస్తున్నది"
+msgstr "ఈమెయిల్ పంపిస్తున్నది "
 
 #: ../capplet/settings/mail-account-view.c:682
 #: ../capplet/settings/mail-account-view.c:683
-#, fuzzy
 msgid "Next - Review account"
-msgstr "ఖాతా తొలగించాలా?"
+msgstr "తదుపరి - రివ్యూ ఖాతా "
 
 #: ../capplet/settings/mail-account-view.c:682
-#, fuzzy
 msgid "Next - Defaults"
-msgstr "అప్రమేయాలు"
+msgstr "తరువాతి -  అప్రమేయాలు"
 
 #: ../capplet/settings/mail-account-view.c:682
-#, fuzzy
 msgid "Back - Receiving options"
-msgstr "ఐచ్చికాలను తిరిగిపొందుతుంది"
+msgstr "వెనుకటి  - ఐచ్చికాలను పొందుతుంది "
 
 #: ../capplet/settings/mail-account-view.c:683
 #: ../mail/em-account-editor.c:4124
@@ -6926,33 +6871,28 @@ msgid "Defaults"
 msgstr "అప్రమేయాలు"
 
 #: ../capplet/settings/mail-account-view.c:683
-#, fuzzy
 msgid "Back - Sending mail"
-msgstr "ఈమెయిల్ పంపిస్తున్నది"
+msgstr "వెనుకటి - మెయిల్ పంపిస్తున్నది"
 
 #: ../capplet/settings/mail-account-view.c:685
-#, fuzzy
 msgid "Review account"
-msgstr "ఖాతా తొలగించాలా?"
+msgstr "ఖాతా సమీక్ష "
 
 #: ../capplet/settings/mail-account-view.c:685
 msgid "Finish"
 msgstr "ముగించు "
 
 #: ../capplet/settings/mail-account-view.c:685
-#, fuzzy
 msgid "Back - Sending"
-msgstr "ఆరోహణాక్రమం"
+msgstr "తిరిగి - పంపుతున్నది "
 
 #: ../capplet/settings/mail-account-view.c:855
-#, fuzzy
 msgid "Setup Google contacts with Evolution"
-msgstr "WebDAV పరిచయాలను ఎవాల్యూషన్‌కు జతచేయుము."
+msgstr "ఎవల్యూషన్ తో  గూగుల్  పరిచయాలు సెటప్ "
 
 #: ../capplet/settings/mail-account-view.c:856
-#, fuzzy
 msgid "Setup Google calendar with Evolution"
-msgstr "ఎవాల్యూషన్‌కు గూగుల్ కాలెండర్లను జతచేయుము."
+msgstr "ఎవాల్యూషన్‌కు గూగుల్ కాలెండర్లు సెటప్ చేయుము."
 
 #: ../capplet/settings/mail-account-view.c:861
 #: ../mail/em-account-editor.c:4952
@@ -6961,15 +6901,13 @@ msgstr "మీరు IMAP అనుమ తి ఎనేబుల్ చెయ్
 
 #: ../capplet/settings/mail-account-view.c:869
 #: ../mail/em-account-editor.c:4929
-#, fuzzy
 #| msgid "Backing Evolution accounts and settings"
 msgid "Google account settings:"
-msgstr "ఎవాల్యూషన్ ఖాతాలను మరియు అమరికలను వెనుకకుతెస్తోంది"
+msgstr "గూగుల్ ఖాతా సెట్టింగులు:‌"
 
 #: ../capplet/settings/mail-account-view.c:895
-#, fuzzy
 msgid "Setup Yahoo calendar with Evolution"
-msgstr "ఎవాల్యూషన్‌కు వాతావరణ కాలెండర్లను జతచేయి."
+msgstr "ఎవల్యూషన్ తో  యాహూ  క్యాలెండర్ సెటప్ చేయుము "
 
 #: ../capplet/settings/mail-account-view.c:899
 #: ../mail/em-account-editor.c:4999
@@ -6983,36 +6921,30 @@ msgstr ""
 
 #: ../capplet/settings/mail-account-view.c:908
 #: ../mail/em-account-editor.c:4984
-#, fuzzy
 #| msgid "Backing Evolution accounts and settings"
 msgid "Yahoo account settings:"
-msgstr "ఎవాల్యూషన్ ఖాతాలను మరియు అమరికలను వెనుకకుతెస్తోంది"
+msgstr "యాహూ ఖాతా సెట్టింగులు:‌"
 
 #: ../capplet/settings/mail-account-view.c:922
-#, fuzzy
 msgid "Yahoo Calendar name:"
-msgstr "కాలెండర్ దస్త్రమును యెంచుకొనుము"
+msgstr "యాహూ  క్యాలెండర్ పేరు:"
 
 #: ../capplet/settings/mail-account-view.c:1119
-#, fuzzy
 msgid "Password:"
-msgstr "సంకేతపదం (_w):"
+msgstr "సంకేతపదం :"
 
 #: ../capplet/settings/mail-account-view.c:1173
 #: ../capplet/settings/mail-settings-view.c:262
-#, fuzzy
 msgid "Close Tab"
-msgstr "మూయుము"
+msgstr "టాబ్ మూయుము"
 
 #: ../capplet/settings/mail-account-view.c:1185
-#, fuzzy
 msgid "Account Wizard"
-msgstr "ఖాతా కూర్పరి"
+msgstr "ఖాతా కూర్పరి "
 
 #: ../capplet/settings/mail-capplet-shell.c:212
-#, fuzzy
 msgid "Evolution account assistant"
-msgstr "ఎవాల్యూషన్ ఖాతా సహాయకుడు"
+msgstr "ఎవాల్యూషన్ ఖాతా సహాయకుడు "
 
 #. create the local source group
 #: ../capplet/settings/mail-capplet-shell.c:377
@@ -7029,25 +6961,22 @@ msgid "On This Computer"
 msgstr "ఈ కంప్యూటర్ పైన"
 
 #: ../capplet/settings/mail-settings-view.c:152
-#, fuzzy, c-format
+#, c-format
 #| msgid "Modify"
 msgid "Modify %s..."
-msgstr "సవరించు"
+msgstr "%s... సవరించు"
 
 #: ../capplet/settings/mail-settings-view.c:154
-#, fuzzy
 msgid "Add a new account"
-msgstr "నిలువు పట్టీని జతచేయు..."
+msgstr "ఒక కొత్త ఖాతాను జోడించండి "
 
 #: ../capplet/settings/mail-settings-view.c:194
-#, fuzzy
 msgid "Account management"
-msgstr "ఖాతా నిర్వహణ"
+msgstr "ఖాతా నిర్వహణ "
 
 #: ../capplet/settings/mail-settings-view.c:274
-#, fuzzy
 msgid "Settings"
-msgstr "నిరర్ధకంకు అమరికలు"
+msgstr "ఏర్పాట్లు "
 
 #: ../composer/e-composer-actions.c:208
 msgid "Save as..."
@@ -7071,9 +7000,8 @@ msgid "Open New Message window"
 msgstr "కొత్త సందేశం విండోను తెరువుము"
 
 #: ../composer/e-composer-actions.c:311 ../shell/e-shell-window-actions.c:1523
-#, fuzzy
 msgid "Configure Evolution"
-msgstr "ఆకృతీకరణ"
+msgstr "ఎవల్యూషన్  ఆకృతీకరించు "
 
 #: ../composer/e-composer-actions.c:318
 msgid "Save the current file"
@@ -7255,27 +7183,20 @@ msgid "Click here to select folders to post to"
 msgstr "పోస్టుచేయుటకు సంచయాలను ఎంచుకొనుటకు ఇక్కడ నొక్కండి"
 
 #: ../composer/e-composer-private.c:215
-#, fuzzy
 msgid "Undo the last action"
-msgstr "ఎంపికను నకలు తీయుము"
+msgstr "చివరి చర్యను రద్దు "
 
 #: ../composer/e-composer-private.c:219
-#, fuzzy
 msgid "Redo the last undone action"
-msgstr "తాజా సమాచారాన్ని పంపు"
+msgstr "పూర్తి చేయని చివరి కార్యాన్ని పునరుధ్దరించు "
 
 #: ../composer/e-composer-private.c:223
-#, fuzzy
 msgid "Search for text"
-msgstr ""
-"\n"
-"\n"
-"చిరునామా కొరకు వెతుకుము."
+msgstr "పాఠం  కొరకు వెతుకుము."
 
 #: ../composer/e-composer-private.c:227
-#, fuzzy
 msgid "Search for and replace text"
-msgstr "iPod కొరకు అన్వేషణ విఫలమైంది"
+msgstr "శోధన కోసం మరియు టెక్స్ట్ భర్తీ చేయండి "
 
 #: ../composer/e-composer-private.c:337
 msgid "Save draft"
@@ -7301,23 +7222,20 @@ msgid "Compose Message"
 msgstr "సందేశాన్ని కూర్చుము"
 
 #: ../composer/e-msg-composer.c:4163
-#, fuzzy
 msgid "The composer contains a non-text message body, which cannot be edited."
-msgstr "<b>(కూర్పరి పాఠ్యము-కాని సందేశం బాడీని కలిగిఉంది, ఏదైతే సరికూర్చబడలేదో.)</b>"
+msgstr "కూర్పరి పాఠ్యము కాని సందేశం బాడీని కలిగిఉంది, అది సవరించబడదు "
 
 #: ../composer/e-msg-composer.c:4867
 msgid "Untitled Message"
 msgstr "శీర్షికలేని సందేశం"
 
 #: ../composer/mail-composer.error.xml.h:1
-#, fuzzy
 msgid "You cannot attach the file &quot;{0}&quot; to this message."
-msgstr "మీరు ఫైలు `{0}' ను ఈ సందేశంకు అనుభందించలేరు."
+msgstr "మీరు ఈ సందేశానికి దస్త్రమును &quot;{0}&quot అటాచ్ చేయలేరు "
 
 #: ../composer/mail-composer.error.xml.h:2
-#, fuzzy
 msgid "The file '{0}' is not a regular file and cannot be sent in a message."
-msgstr "ఫైలు `{0} సాదారణ ఫైలు కాదు మరియు సందేశంలో పంపబడలేదు."
+msgstr "ఫైలు '{0}' సాధారణ ఫైలు కాదు మరియు సందేశంలో పంపబడలేదు."
 
 #: ../composer/mail-composer.error.xml.h:3
 msgid "Could not retrieve messages to attach from {0}."
@@ -7412,20 +7330,18 @@ msgid "You need to configure an account before you can compose mail."
 msgstr " తపాలా ను రచించుటకు ముందు మీరు ఒక ఖాతా ను సరిచేయవలెను."
 
 #: ../composer/mail-composer.error.xml.h:25
-#, fuzzy
 #| msgid "An error occurred while printing"
 msgid "An error occurred while saving to your Outbox folder."
-msgstr "ముద్రించుచున్నప్పుడు ఒక దోషం ఎదురైంది"
+msgstr "మీ అవుట్బాక్స్ ఫోల్డర్కు సేవ్ చేసేటప్పుడు ఒక దోషం ఏర్పడింది. "
 
 #: ../composer/mail-composer.error.xml.h:26
 msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
 msgstr "నివేదించిన దోషం &quot;{0}&quot;. సందేశం పంపించలేదు."
 
 #: ../composer/mail-composer.error.xml.h:27
-#, fuzzy
 #| msgid "Error occurred while spawning %s: %s."
 msgid "An error occurred while saving to your Drafts folder."
-msgstr "%s స్పానింగ్‌లో వొకదోషము సంభవించింది: %s"
+msgstr "మీ చిత్తుప్రతులలో ఫోల్డర్కు సేవ్ చేసేటప్పుడు ఒక దోషం ఏర్పడింది. "
 
 #: ../composer/mail-composer.error.xml.h:28
 msgid ""
@@ -7434,36 +7350,31 @@ msgid ""
 msgstr "నివేదించిన దోషం &quot;{0}&quot;. సందేశం చాలా మటుకు సేవ్ కాలేదు."
 
 #: ../composer/mail-composer.error.xml.h:29
-#, fuzzy
 #| msgid "An error occurred while printing"
 msgid "An error occurred while sending. How do you want to proceed?"
-msgstr "ముద్రించుచున్నప్పుడు ఒక దోషం ఎదురైంది"
+msgstr "పంపడం ఒక లోపం ఏర్పడింది. ఎలా మీరు కొనసాగాలని అనుకుంటున్నారు?"
 
 #: ../composer/mail-composer.error.xml.h:30 ../mail/mail.error.xml.h:157
-#, fuzzy
 #| msgid "Bad regular expression &quot;{0}&quot;."
 msgid "The reported error was &quot;{0}&quot;."
-msgstr "సరికాని రెగ్యులర్ ఎక్సప్రెషన్ &quot;{0}&quot;."
+msgstr "నివేదించిన దోషం &quot;{0}&quot;."
 
 #: ../composer/mail-composer.error.xml.h:31
-#, fuzzy
 msgid "_Save to Outbox"
-msgstr "ఇలా దాయు..."
+msgstr "అవుట్బాక్స్ లో‌సేవ్ చేయు (_S) "
 
 #: ../composer/mail-composer.error.xml.h:32
 msgid "_Try Again"
 msgstr "పునః  ప్రయత్నించండి(_T)"
 
 #: ../composer/mail-composer.error.xml.h:33
-#, fuzzy
 #| msgid "An error occurred during processing: %s"
 msgid "Your message was sent, but an error occurred during post-processing."
-msgstr "ప్రోసెసింగ్‌నందు వొక దోషము యెదురైంది: %s"
+msgstr "మీ సందేశం పంపబడింది, అయితే ఒక లోపం పోస్ట్-ప్రాసెసింగ్  జరిగినపుడు ఏర్పడింది."
 
 #: ../composer/mail-composer.error.xml.h:34
-#, fuzzy
 msgid "Saving message to Outbox."
-msgstr "సందేశాన్ని సంచయంకు దాయుచున్నది"
+msgstr "అవుట్బాక్స్ కు సందేశం సేవ్ చేయబడుతుంది."
 
 #: ../composer/mail-composer.error.xml.h:35
 msgid ""
@@ -7476,14 +7387,12 @@ msgstr ""
 "పంపగలరు."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
-#, fuzzy
 msgid "Evolution Alarm Notify"
-msgstr "ఎవాల్యూషన్ Elm దిగుమతిదారి"
+msgstr "ఎవల్యూషన్ అలారం తెలియజేయి "
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:2
-#, fuzzy
 msgid "Calendar event notifications"
-msgstr "క్యాలెండర్ సమాచారం"
+msgstr "కేలెండర్ ఈవెంట్ నోటిఫికేషన్లు "
 
 #: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:941
 #: ../modules/mailto-handler/evolution-mailto-handler.c:215
@@ -7504,21 +7413,18 @@ msgid "Manage your email, contacts and schedule"
 msgstr "మీ ఈమెయిల్ ను నిర్వహించుము, పరిచయాలు మరియు ప్రణాళిక"
 
 #: ../data/evolution-settings.desktop.in.in.h:1
-#, fuzzy
 msgid "Email Settings"
-msgstr "నిరర్దక మెయిల్ అమరికలు"
+msgstr "ఇమెయిల్ సెట్టింగులు "
 
 #: ../data/evolution-settings.desktop.in.in.h:2
-#, fuzzy
 msgid "Configure email accounts"
-msgstr "మీ ఈమెయిల్ ఖాతాలను ఇక్కడ ఆకృతీకరించుము"
+msgstr "ఇమెయిల్ ఖాతాలు నిర్మించు "
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:21
-#, fuzzy
 #| msgid "Calendar information"
 msgid "Enable address formatting"
-msgstr "క్యాలెండర్ సమాచారం"
+msgstr "చిరునామా ఫార్మాటింగ్ ప్రారంభించు "
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:2
 msgid ""
@@ -7562,9 +7468,8 @@ msgstr "ఎంచుకున్న పేరుల డైలాగ్ నంద
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:9
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:9
-#, fuzzy
 msgid "Contact layout style"
-msgstr "పరిచయముల జాబితా"
+msgstr "సంపర్కాల  లేఅవుట్ శైలి "
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:10
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:10
@@ -7590,9 +7495,8 @@ msgstr "క్షితిజ సమాంతర  ఆధారిత ఉన్�
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:13
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:15
-#, fuzzy
 msgid "Contact preview pane position (vertical)"
-msgstr "నిలువ పలక స్థానములో నెల దర్శనాన్ని చూపుము"
+msgstr "మునుజూపు పలకను స్థానం సంప్రదించండి (నిలువు) "
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:14
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:16
@@ -7601,23 +7505,20 @@ msgstr "క్షితిజ లంబంగా  ఆధారిత ఉన్�
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:15
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:19
-#, fuzzy
 #| msgid "Show Animations"
 msgid "Show maps"
-msgstr "యానిమేషన్లను చూపుము"
+msgstr "పటాలు చూపించు "
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:16
-#, fuzzy
 #| msgid "Whether to show the preview pane."
 msgid "Whether to show maps in preview pane"
-msgstr "ఉపదర్శనం తలంను చూపించవలెనా."
+msgstr "ఉపదర్శనం తలంను చూపించవలెనా. "
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:17
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:11
-#, fuzzy
 #| msgid "evolution address book"
 msgid "Primary address book"
-msgstr "ఎవల్యూషన్ చిరునామా పుస్తకం"
+msgstr "ప్రాథమిక చిరునామా పుస్తకం "
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:18
 msgid ""
@@ -7662,31 +7563,28 @@ msgstr "అలారం ఆడియో ఫైళ్ళను దాయుటక
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:3
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:103
-#, fuzzy
 #| msgid "Birthdays & Anniversaries"
 msgid "Birthday and anniversary reminder value"
-msgstr "పుట్టినరోజులు & వార్షికోత్సవాలు"
+msgstr "పుట్టినరోజు మరియు వార్షికోత్సవం రిమైండర్ విలువ "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:4
-#, fuzzy
 #| msgid "Number of units for determining a default reminder."
 msgid "Number of units for determining a birthday or anniversary reminder"
-msgstr "అప్రమేయంగా గర్తుచేయుదానిని నిర్దారించుట కొరకు యూనిట్ల సంఖ్య."
+msgstr "ఒక పుట్టినరోజు లేదా వార్షికోత్సవం రిమైండర్ గుర్తించడానికి యూనిట్లు సంఖ్య "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:5
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:105
-#, fuzzy
 #| msgid "Birthdays & Anniversaries"
 msgid "Birthday and anniversary reminder units"
-msgstr "పుట్టినరోజులు & వార్షికోత్సవాలు"
+msgstr "పుట్టినరోజు మరియు వార్షికోత్సవం రిమైండర్ యూనిట్లు "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:6
-#, fuzzy
 #| msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\""
-msgstr "అప్రమేయంగా గుర్తించుదాని యొక్క ప్రమాణంలు, \"నిముషాలు\", \"గంటలు\" లేదా \"రోజులు\"."
+msgstr ""
+"ఒక పుట్టినరోజు లేదా వార్షికోత్సవం రిమైండర్, \"నిమిషాలు\", \"గంటలు\" లేదా \"రోజులు\" కోసం యూనిట్లు "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:63
@@ -7694,7 +7592,6 @@ msgid "Compress weekends in month view"
 msgstr "వారాంతం లను నెల దర్శనం లో కుచింపుము"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:8
-#, fuzzy
 #| msgid ""
 #| "Whether to compress weekends in the month view, which puts Saturday and "
 #| "Sunday in the space of one weekday."
@@ -7702,8 +7599,7 @@ msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday"
 msgstr ""
-"నెల దర్శని లో వారాంతములను కుచించ వలెనా, ఏదైతే శనివారము మరియు ఆదివారములను ఒక వారమురోజు స్థలములో "
-"ఉంచుతుందో."
+"ఒక వారం రోజుల యొక్క స్పేస్ లో శనివారం మరియు ఆదివారం ఉంచుతుంది, నెల దృష్టిలో వారాంతాల్లో కుదించి  చెయ్యాలా"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:9
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:91
@@ -7711,11 +7607,10 @@ msgid "Ask for confirmation when deleting items"
 msgstr "అంశములను తొలగించుతున్నప్పుడు నిర్ధారణకొరకు అడుగుము"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:10
-#, fuzzy
 #| msgid ""
 #| "Whether to ask for confirmation when deleting an appointment or task."
 msgid "Whether to ask for confirmation when deleting an appointment or task"
-msgstr "ఒక నియామకాన్ని లేదా కర్తవ్యాన్ని తొలగిస్తున్నప్పడు నిర్దారణ కొరకు అడగవలెనా."
+msgstr "ఒక అపాయింట్మెంట్ లేదా పని తొలగించడంలో ఉన్నప్పుడు నిర్ధారణ కోసం అడగవలెనా "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:11
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:93
@@ -7723,11 +7618,10 @@ msgid "Confirm expunge"
 msgstr "కొట్టివేతను నిర్ధరించుము"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:12
-#, fuzzy
 #| msgid ""
 #| "Whether to ask for confirmation when expunging appointments and tasks."
 msgid "Whether to ask for confirmation when expunging appointments and tasks"
-msgstr "కర్తవ్యాలను మరియు నియామకాలను కొట్టివేయుచున్నప్పడు నిర్దారణ కొరకు అడగవలెనా."
+msgstr "కర్తవ్యాలను మరియు నియామకాలను కొట్టివేయుచున్నప్పడు నిర్దారణ కొరకు అడగవలెనా. "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:13
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:45
@@ -7735,14 +7629,13 @@ msgid "Month view vertical pane position"
 msgstr "నిలువ పలక స్థానములో నెల దర్శనాన్ని చూపుము"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:14
-#, fuzzy
 #| msgid ""
 #| "Position of the vertical pane, between the calendar lists and the date "
 #| "navigator calendar."
 msgid ""
 "Position of the vertical pane, between the calendar lists and the date "
 "navigator calendar"
-msgstr "నిలువు తలం యొక్క స్థానము, క్యాలెండర్ జాబితా మరియు తేదీ మార్చు క్యాలెండర్ మధ్య."
+msgstr "నిలువు తలం యొక్క స్థానము, క్యాలెండర్ జాబితా మరియు తేదీ మార్చు క్యాలెండర్ మధ్య. "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:15
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:33
@@ -7750,10 +7643,9 @@ msgid "Workday end hour"
 msgstr "పనిరోజులో చివరి గంట"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:16
-#, fuzzy
 #| msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
-msgstr "పనిరోజు పూర్తగు గంట, ఇరవై నాలుగు గంటల రూపంలో, 0 నుండి 23"
+msgstr "పనిరోజు పూర్తగు గంట, ఇరవై నాలుగు గంటల రూపంలో, 0 నుండి 23 "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:17
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:35
@@ -7791,7 +7683,6 @@ msgid "The second timezone for a Day View"
 msgstr "రోజు దర్శనంకు రెండవ సమయక్షేత్రము"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
-#, fuzzy
 #| msgid ""
 #| "Shows the second time zone in a Day View, if set. Value is similar to one "
 #| "used in a 'timezone' key."
@@ -7800,7 +7691,7 @@ msgid ""
 "used in a 'timezone' key"
 msgstr ""
 "అమర్చివున్నట్లైతే, రోజులో రెండవ సమయ క్షేత్రమును చూపము. విలువ 'సమయక్షేత్రము' కీనందు వుపయోగించిన "
-"దానికి సరిపోలుతుంది."
+"దానికి సరిపోలుతుంది. "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:25
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:9
@@ -7808,19 +7699,16 @@ msgid "Recently used second time zones in a Day View"
 msgstr "రోజు దర్శనమునందు యిటీవలవుపయోగించిన రెండవ సమయ క్షేత్రములు"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:26
-#, fuzzy
 #| msgid "List of recently used second time zones in a Day View."
 msgid "List of recently used second time zones in a Day View"
-msgstr "రోజు దర్శనంలో యిటీవల వుపయోగించిన సమయక్షేత్రాల యొక్క జాబితా."
+msgstr "రోజు దర్శనంలో యిటీవల వుపయోగించిన  రెండవ సమయక్షేత్రాల యొక్క జాబితా."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
-#, fuzzy
 #| msgid "Maximum number of recently used timezones to remember."
 msgid "Maximum number of recently used timezones to remember"
-msgstr "గుర్తుంచుకొనవలసిన యిటీవలవుపయోగించిన సమయక్షేత్రముల గరిష్ట సంఖ్య."
+msgstr "గుర్తుంచుకొనవలసిన యిటీవలవుపయోగించిన సమయక్షేత్రముల గరిష్ట సంఖ్య. "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
-#, fuzzy
 #| msgid ""
 #| "Maximum number of recently used timezones to remember in a "
 #| "'day_second_zones' list."
@@ -7828,7 +7716,7 @@ msgid ""
 "Maximum number of recently used timezones to remember in a 'day-second-"
 "zones' list"
 msgstr ""
-"'day_second_zones' జాబితానందు గుర్తుంచుకొనుటకు యిటీవల వుపయోగించిన సమయక్షేత్రములయొక్క గరిష్ట "
+"'రోజు-రెండవ-క్షేత్రములు' జాబితానందు గుర్తుంచుకొనుటకు యిటీవల వుపయోగించిన సమయక్షేత్రములయొక్క గరిష్ట "
 "సంఖ్య."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
@@ -8168,38 +8056,33 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:75
-#, fuzzy
 #| msgid "Recurrence date is invalid"
 msgid "Recurrent Events in Italic"
-msgstr "పునరావృతి తారీఖు నిస్సారం"
+msgstr "ఇటాలిక్ ఖతి లో పునః ఈవెంట్స్ పునరావృతి "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr "క్రింద ఎడమ వైపు క్యాలెండర్ లోని ఇటాలిక్ ఖతులతో  మళ్లీ మళ్లీ ఈవెంట్స్ తో రోజులను చూపించు  "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
-#, fuzzy
 msgid "List of selected calendars"
-msgstr "ఎంచుకున్న సంచయాన్ని తొలగించుము"
+msgstr "ఎంచుకున్న క్యాలెండర్లు జాబితా "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
-#, fuzzy
 msgid "List of calendars to load"
-msgstr "స్థానిక క్యాలెండర్‌లు"
+msgstr "లోడ్ చేయడానికి  క్యాలెండర్లు జాబితా"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
-#, fuzzy
 msgid "List of selected memo lists"
-msgstr "ఎంపికచేసిన మెమోను తొలగించుము"
+msgstr "ఎంచుకున్న మెమో జాబితాల జాబితా "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid "List of memo lists to load"
 msgstr "మెమో జాబితా లోడు  చేయడానికి జాబితా "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
-#, fuzzy
 msgid "List of selected task lists"
-msgstr "ఎంచుకున్న కర్తవ్యాలను తొలగించుము"
+msgstr "ఎంచుకున్న పని జాబితాల జాబితా "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid "List of task lists to load"
@@ -8219,20 +8102,17 @@ msgstr "వారము మరియు నెల దర్శనములలో
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:50
-#, fuzzy
 msgid "Show the memo preview pane"
-msgstr "\"ఉపదర్శన\" పలకాన్ని చూపుము"
+msgstr "మెమో ఉపదర్శనం  పలకను చూపించు"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
-#, fuzzy
 msgid "If \"true\", show the memo preview pane in the main window"
-msgstr "\"ఉపదర్శన\" పలకాన్ని చూపుము"
+msgstr "\"నిజమైన\" ఉంటే, ప్రధాన విండో లో మెమో ఉపదర్శన  పలకను చూపించు"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:58
-#, fuzzy
 msgid "Show the task preview pane"
-msgstr "\"ఉపదర్శన\" పలకాన్ని చూపుము"
+msgstr "పని  ఉపదర్శన  పలకాన్ని చూపుము"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 #, fuzzy
@@ -8257,10 +8137,9 @@ msgid "Vertical position for the tag pane"
 msgstr "నిలువుగావున్న పలక స్థానం"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
-#, fuzzy
 #| msgid "T_asks due today:"
 msgid "Highlight tasks due today"
-msgstr "ఈ రోజుకు మిగిలిన కర్తవ్యాలు(_a):"
+msgstr "ఈ రోజుకు మిగిలిన కర్తవ్యాలను హైలైట్ చేయు "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid ""
@@ -8461,34 +8340,30 @@ msgstr ""
 "చివిరగా నవీకరించిన ఎవాల్యూషన్ యొక్క ఆకృతీకరణ, పెద్ద/చిన్న/ఆకృతీకరణ స్థాయి తో (ఉదాహరణకు \"2.6.0\")."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:5
-#, fuzzy
 #| msgid "Enable and disable plugins"
 msgid "List of disabled plugins"
-msgstr "ప్లగ్ఇన్స్ ను చేతనం మరియు అచేతనం చేయుము"
+msgstr "అచేతనమైన ప్లగ్ఇన్ల జాబితా "
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:6
 msgid "The list of disabled plugins in Evolution"
 msgstr "ఎవల్యూషన్ లో ఆపివేయబడిన ప్లగ్ఇన్ల జాబితా"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
-#, fuzzy
 msgid "The window's X coordinate"
-msgstr "అప్రమేయ విండో స్థితి"
+msgstr "విండో యొక్క X నిరూపకం‌"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
-#, fuzzy
 msgid "The window's Y coordinate"
-msgstr "అప్రమేయ విండో స్థితి"
+msgstr "విండో యొక్క Y నిరూపకం "
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:9
 msgid "The window's width in pixels"
 msgstr "పిక్సెల్స్ లో విండో యొక్క వెడల్పు "
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:10
-#, fuzzy
 #| msgid "Default window height"
 msgid "The window's height in pixels"
-msgstr "అప్రమేయ విండో ఎత్తు"
+msgstr "పిక్సెల్స్ లో విండో యొక్క ఎత్తు "
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:11
 #, fuzzy
@@ -8579,10 +8454,9 @@ msgid "Recognize emoticons in text and replace them with images."
 msgstr "పాఠ్యములోని emoticons ను గుర్తించి మరియు వాటిని చిత్రములతో పునఃస్థాపించుము."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
-#, fuzzy
 #| msgid "Attached message"
 msgid "Attribute message"
-msgstr "అనుభందించిన సందేశము"
+msgstr "గుణ  సందేశము"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
 msgid ""
@@ -8592,10 +8466,9 @@ msgstr ""
 "ఒక సందేశాన్ని సందేహాలకు చేసినప్పుడు ఆ టెక్స్ట్ అసలు రచయిత సందేశాన్ని ఆపాదించబడుతుంది, చేర్చబడుతుంది "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
-#, fuzzy
 #| msgid "Forwarded message"
 msgid "Forward message"
-msgstr "ముందుకుపంపుతున్న సందేశం"
+msgstr "ఫార్వర్డ్ సందేశం "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:16
 msgid ""
@@ -9550,6 +9423,9 @@ msgid ""
 "a private reply to a message which arrived via a mailing list, but the list "
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr ""
+"ఒక సందేశానికి  ప్రైవేట్ సమాధానం మెయిలింగ్ లిస్ట్ ద్వారా వచ్చినపుడు మళ్ళీ మళ్ళీ  హెచ్చరించడానికి  ఇది డిసేబుల్/"
+"ఎనేబుల్ చేస్తుంది. కాని  జాబితా ఒక తిరుగు టపా అమర్చుతుంది: జాబితా తిరిగి మీ సమాధానం దారిమార్పులకు ఇది "
+"శీర్షిక "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 #: ../mail/evolution-mail.schemas.in.h:169
@@ -9637,7 +9513,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 #: ../mail/evolution-mail.schemas.in.h:184
 msgid "Show original \"Date\" header value."
-msgstr ""
+msgstr "అసలు \"తేది\" శీర్షిక విలువ చూపించు."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 #: ../mail/evolution-mail.schemas.in.h:185
@@ -9905,7 +9781,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "GAIM check interval"
-msgstr ""
+msgstr "GAIM విరామాన్ని  తనిఖీ చేస్తుంది "
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
 msgid "Check interval for GAIM syncing of contacts"
@@ -9913,11 +9789,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
 msgid "GAIM last sync MD5"
-msgstr ""
+msgstr "GAIM MD5 తో‌చివరి కలయిక "
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:12
 msgid "GAIM last sync time"
-msgstr ""
+msgstr "GAIM చివరి కలయిక సమయం "
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:1
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:1
@@ -9960,7 +9836,7 @@ msgstr "మెయిల్ కూర్పరినందు కీ వత్త
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:1
 #: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:1
 msgid "Insert Face picture by default"
-msgstr ""
+msgstr "అప్రమేయంగా ఫేస్ చిత్రాన్ని అమర్చు "
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:2
 #: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:2
@@ -9977,7 +9853,7 @@ msgstr "సందేశాన్ని తొలగించుము(_D)"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
 msgid "Whether to delete processed iTip objects"
-msgstr ""
+msgstr "ప్రాసెస్ iTip వస్తువులు తొలగిం పు  చెయ్యాలా"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
@@ -10051,12 +9927,12 @@ msgstr "కొత్త సందేశం వచ్చినప్పుడు 
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
 msgid "FIXME"
-msgstr ""
+msgstr "FIXME"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:16
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Use sound theme"
-msgstr ""
+msgstr "ధ్వని థీమ్ ఉపయోగించండి "
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:17
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
@@ -10377,7 +10253,7 @@ msgstr "%s (%d%% పూర్తి అయినది)"
 #: ../e-util/e-activity.c:254
 #, c-format
 msgid "%s (waiting)"
-msgstr ""
+msgstr "%s (వేచి ఉంటున్నది)"
 
 #. Translators: This is a running activity which
 #. *              the user has requested to cancel.
@@ -10389,7 +10265,7 @@ msgstr "రద్దుచేయబడినది"
 #: ../e-util/e-activity.c:260
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s "
 
 #: ../e-util/e-activity.c:265
 #, c-format
@@ -10579,7 +10455,7 @@ msgstr "పింగింగ్ %s"
 #: ../e-util/e-file-utils.c:159
 #, c-format
 msgid "Writing \"%s\" to %s"
-msgstr ""
+msgstr "\"%s\" నుండి  %s కు వ్రాయు చున్నది "
 
 #: ../e-util/e-plugin-util.c:455 ../filter/filter.ui.h:9
 #: ../plugins/google-account-setup/google-contacts-source.c:392
@@ -10886,7 +10762,7 @@ msgstr "ప్రస్తుత ఫైలును దాయుము"
 
 #: ../filter/filter.ui.h:3
 msgid "the time you specify"
-msgstr ""
+msgstr "మీరు పేర్కొన్న సమయం"
 
 #: ../filter/filter.ui.h:4
 #, fuzzy
@@ -11282,8 +11158,8 @@ msgid_plural ""
 "The following Search Folders\n"
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ఖాతాకు  తొలగించిన ఫోల్డర్ \"% s\" కోసం  శోధన ఫోల్డర్ \"% s\" మార్పు చెయ్యబడింది "
+msgstr[1] "ఖాతాకు  తొలగించిన ఫోల్డర్లు  \"% s\" కోసం  శోధన ఫోల్డర్ \"% s\" మార్పు చెయ్యబడింది "
 
 #: ../libemail-utils/e-signature.c:710
 msgid "Autogenerated"
@@ -11541,7 +11417,7 @@ msgstr "అన్వేషణ సంచయాన్ని సృష్టిం�
 #. * aligned with the junk mail options above it.
 #: ../mail/e-mail-junk-options.c:252
 msgid "Junk filtering software:"
-msgstr ""
+msgstr "వ్యర్థ సాఫ్ట్వేర్ వడపోత: "
 
 #: ../mail/e-mail-label-dialog.c:225
 #, fuzzy
@@ -11635,7 +11511,7 @@ msgstr "నన్ను మళ్ళీ అడగొద్దు."
 
 #: ../mail/e-mail-reader.c:1430
 msgid "_Always ignore Reply-To: for mailing lists."
-msgstr ""
+msgstr "ఎప్పుడూ ప్రత్యుత్తరం విస్మరించండి: మెయిలింగ్ జాబితాలు కోసం."
 
 #: ../mail/e-mail-reader.c:1795
 msgid "A_dd Sender to Address Book"
@@ -11892,7 +11768,7 @@ msgstr "%s కు మారుము"
 
 #: ../mail/e-mail-reader.c:2014
 msgid "Switch to the next tab"
-msgstr ""
+msgstr "తదుపరి టాబ్ను మారండి "
 
 #: ../mail/e-mail-reader.c:2019
 #, fuzzy
@@ -11902,7 +11778,7 @@ msgstr "%s కు మారుము"
 
 #: ../mail/e-mail-reader.c:2021
 msgid "Switch to the previous tab"
-msgstr ""
+msgstr "మునుపటి టాబ్ మారండి "
 
 #: ../mail/e-mail-reader.c:2026
 #, fuzzy
@@ -13209,7 +13085,7 @@ msgstr "కూర్పరి విండో యొక్క అప్రమే
 
 #: ../mail/evolution-mail.schemas.in.h:134
 msgid "Mail browser maximized"
-msgstr ""
+msgstr "మెయిల్ బ్రౌజర్ గరిష్టం చేయబడినది "
 
 #: ../mail/evolution-mail.schemas.in.h:135
 #, fuzzy
@@ -13436,7 +13312,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:235
 msgid "Drag'n'drop export format"
-msgstr ""
+msgstr "డ్రాగ్ మరియు డ్రాప్ ఎగుమతి ఫార్మాట్"
 
 #: ../mail/evolution-mail.schemas.in.h:236
 msgid ""
@@ -13446,7 +13322,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:237
 msgid "Format of the drag'n'drop export filename"
-msgstr ""
+msgstr "డ్రాగ్ మరియు డ్రాప్ ఎగుమతి ఫైల్ పేరు యొక్క ఫార్మాట్ "
 
 #: ../mail/evolution-mail.schemas.in.h:238
 msgid ""
