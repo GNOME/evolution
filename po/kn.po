@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-02-27 11:22+0000\n"
-"PO-Revision-Date: 2012-03-21 12:47+0530\n"
+"PO-Revision-Date: 2012-03-22 09:53+0530\n"
 "Last-Translator: s\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -17174,7 +17174,7 @@ msgstr "ಮುಂದಿನ ಏಳು ದಿನಗಳ ಅಪಾಯಿಂಟ್‍
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1710
 msgid "Occurs Less Than 5 Times"
-msgstr ""
+msgstr "5 ಬಾರಿಗಿಂತ ಕಡಿಮೆ ಸಂಭವಿಸುತ್ತದೆ"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1741
 #: ../modules/calendar/e-memo-shell-view-actions.c:795
@@ -17407,7 +17407,6 @@ msgid "Print the list of memos"
 msgstr "ಮೆಮೋಗಳ ಪಟ್ಟಿಯನ್ನು ಮುದ್ರಿಸು"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:821
-#, fuzzy
 msgid "Preview the list of memos to be printed"
 msgstr "ಮುದ್ರಿಸಬೇಕಿರುವ ಮೆಮೊಗಳ ಪಟ್ಟಿಯನ್ನು ಅವಲೋಕಿಸುತ್ತದೆ"
 
@@ -18137,13 +18136,10 @@ msgid "Evolution is currently offline due to a network outage."
 msgstr "ಜಾಲಬಂಧ ಕೆಲಸ ಮಾಡದಿರುವ ಕಾರಣ Evolution ಈಗ ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿದೆ."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:4
-#, fuzzy
 msgid ""
 "Evolution will return to online mode once a network connection is "
 "established."
-msgstr ""
-"Evolution ಈಗ ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿದೆ.\n"
-"ಆನ್‌ಲೈನ್‌ನಲ್ಲಿ ಕೆಲಸ ಮಾಡಲು ಈ ಗುಂಡಿಯ ಮೇಲೆ ಕ್ಲಿಕ್ಕಿಸಿ."
+msgstr "ಜಾಲಬಂಧ ಸಂಪರ್ಕವು ಮರಳಿ ಸಾಧಿಸಿದ ನಂತರ Evolution ಈಗ ಆನ್‌ಲೈನ್‌ಗೆ ಬರುತ್ತದೆ."
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:388
 msgid ""
@@ -18213,24 +18209,26 @@ msgid "Failed to spawn SpamAssassin (%s): "
 msgstr ""
 
 #: ../modules/spamassassin/evolution-spamassassin.c:213
-#, fuzzy
 #| msgid "Filter junk messages using SpamAssassin."
 msgid "Failed to stream mail message content to SpamAssassin: "
-msgstr "ಸ್ಪಾಮ್‌ಅಸಾಸಿನ್ ಅನ್ನು ಬಳಸಿಕೊಂಡು ರದ್ದಿ ಸಂದೇಶಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡಿ."
+msgstr ""
+"ಸ್ಪಾಮ್‌ಅಸಾಸಿನ್‌ಗೆ ಮೈಲ್ ಸಂದೇಶದ ವಿಷಯವನ್ನು ಸ್ಟ್ರೀಮ್ ಮಾಡುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ."
 
 #: ../modules/spamassassin/evolution-spamassassin.c:232
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to send %d of %d messages"
 msgid "Failed to write '%s' to SpamAssassin: "
-msgstr "%d (%d ರಲ್ಲಿ) ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸುವಲ್ಲಿ ವಿಫಲತೆ ಉಂಟಾಗಿದೆ"
+msgstr "ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಗೆ '%s' ಅನ್ನು ಬರೆಯುವಲ್ಲಿ ವಿಫಲತೆ ಉಂಟಾಗಿದೆ: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:260
 msgid "Failed to read output from SpamAssassin: "
-msgstr ""
+msgstr "ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಇಂದ ಔಟ್‌ಪುಟ್ ಅನ್ನು ಓದುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:315
 msgid "SpamAssassin either crashed or failed to process a mail message"
 msgstr ""
+"ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಕುಸಿತಗೊಂಡಿದೆ ಅಥವ ಒಂದು ಮೈಲ್ ಸಂದೇಶವನ್ನು ಸಂಸ್ಕರಿಸುವಲ್ಲಿ "
+"ವಿಫಲಗೊಂಡಿದೆ"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:834
 msgid "SpamAssassin Options"
@@ -18241,11 +18239,11 @@ msgid "I_nclude remote tests"
 msgstr "ದೂರಸ್ಥ ಪರೀಕ್ಷೆಗಳನ್ನು ಒಳಗೊಳ್ಳಿಸು (_n)"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:863
-#, fuzzy
 #| msgid "This will make SpamAssassin more reliable, but slower"
 msgid "This will make SpamAssassin more reliable, but slower."
 msgstr ""
-"ಇದು ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಅನ್ನು ಇನ್ನಷ್ಟು ನಂಬುವಂತೆ ಮಾಡುತ್ತದೆ, ಆದರೆ ವೇಗವು ತಗ್ಗುತ್ತದೆ"
+"ಇದು ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಅನ್ನು ಇನ್ನಷ್ಟು ನಂಬಿಕಾರ್ಹವಾಗಿಸುತ್ತದೆ, ಆದರೆ ವೇಗವು "
+"ತಗ್ಗುತ್ತದೆ."
 
 #: ../modules/spamassassin/evolution-spamassassin.c:1072
 #| msgid "SpamAssassin Options"
@@ -18288,7 +18286,6 @@ msgid "Welcome"
 msgstr "ಸುಸ್ವಾಗತ"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:505
-#, fuzzy
 #| msgid ""
 #| "Welcome to Evolution. The next few screens will allow Evolution to "
 #| "connect to your email accounts, and to import files from other "
@@ -18300,11 +18297,9 @@ msgid ""
 "to your email accounts, and to import files from other applications."
 msgstr ""
 "Evolution‍ಗೆ ಸುಸ್ವಾಗತ. ಮುಂದಿನ ಕೆಲವು ತೆರೆಗಳು Evolution‍ಗೆ ನಿಮ್ಮ ಇಮೈಲ್ "
-"ಖಾತೆಯೊಂದಿಗೆ "
-"ಸಂಪರ್ಕಹೊಂದಲು ಅನುವು ಮಾಡಿಕೊಡುತ್ತವೆ, ಹಾಗು ಇತರೆ ಅನ್ವಯಗಳಿಂದ ಕಡತಗಳನ್ನು ಆಮದು "
-"ಮಾಡಿಕೊಳ್ಳುತ್ತವೆ. \n"
-"\n"
-"ಮುಂದುವರೆಯಲು ದಯವಿಟ್ಟು \"ಮುಂದಕ್ಕೆ\" ಗುಂಡಿಯನ್ನು ಒತ್ತಿ. "
+"ಖಾತೆಯೊಂದಿಗೆ ಸಂಪರ್ಕಹೊಂದಲು ಅನುವು ಮಾಡಿಕೊಡುತ್ತವೆ, ಹಾಗು ಇತರೆ ಅನ್ವಯಗಳಿಂದ ಕಡತಗಳನ್ನು "
+"ಆಮದು "
+"ಮಾಡಿಕೊಳ್ಳುತ್ತವೆ."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:613
 #| msgid "Loading..."
@@ -18537,9 +18532,8 @@ msgid "R_estore Evolution Data..."
 msgstr "Evolution ಮಾಹಿತಿಯನ್ನು ಮರಳಿ ಸ್ಥಾಪಿಸಲಾಗುತ್ತಿದೆ (_e)..."
 
 #: ../plugins/backup-restore/backup-restore.c:479
-#, fuzzy
 msgid "Restore Evolution data and settings from an archive file"
-msgstr "Evolution ಮಾಹಿತಿ ಹಾಗು ಸಿದ್ಧತೆಗಳನ್ನು ಬ್ಯಾಕ್ಅಪ್ ಮಾಡು ಹಾಗು ಮರಳಿ ಸ್ಥಾಪಿಸು"
+msgstr "Evolution ಮಾಹಿತಿ ಹಾಗು ಸಿದ್ಧತೆಗಳನ್ನು ಆರ್ಕೈವ್ ಕಡತದಿಂದ ಮರಳಿ ಸ್ಥಾಪಿಸು"
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
@@ -18735,7 +18729,7 @@ msgstr "ಫೋಲ್ಡರ್ ವಿಷಯಕ್ಕಾಗಿ ಹುಡುಕಲ�
 #: ../plugins/caldav/caldav-browse-server.c:1326
 #: ../plugins/caldav/caldav-source.c:261
 msgid "Server _handles meeting invitations"
-msgstr ""
+msgstr "ಪೂರೈಕೆಗಣಕವು ಮೀಟಿಂಗ್ ಆಹ್ವಾನಗಳನ್ನು ನಿಭಾಯಿಸುತ್ತದೆ (_h)"
 
 #: ../plugins/caldav/caldav-browse-server.c:1333
 msgid "List of available calendars:"
@@ -18936,19 +18930,17 @@ msgid "Outlook Express 5/6 personal folders (.dbx)"
 msgstr "ಔಟ್‌ಲುಕ್ ಎಕ್ಸ್‍ಪ್ರೆಸ್ 5/6 ವೈಯಕ್ತಿಕ ಕಡತಕೋಶಗಳು (.dbx)"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:3
-#, fuzzy
 #| msgid "Import Outlook messages from PST file"
 msgid "Import Outlook Express messages from DBX file"
-msgstr "PST ಕಡತವನ್ನು Outlook ಸಂದೇಶಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊ"
+msgstr "DBX ಕಡತವನ್ನು Outlook ಎಕ್ಸ್‍ಪ್ರೆಸ್ ಸಂದೇಶಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊ"
 
 #: ../plugins/default-source/default-source.c:169
 msgid "Mark as _default address book"
 msgstr "ಪೂರ್ವನಿಯೋಜಿತ ವಿಳಾಸ ಪುಸ್ತಕ ಎಂದು ಗುರುತು ಹಾಕು (_d)"
 
 #: ../plugins/default-source/default-source.c:183
-#, fuzzy
 msgid "A_utocomplete with this address book"
-msgstr "ಒಂದು ವಿಳಾಸದೊಂದಿಗೆ ಸ್ವಯಂಪೂರ್ಣಗೊಂಡ ಹೆಸರನ್ನು ತೋರಿಸು"
+msgstr "ಈ ವಿಳಾಸ ಪುಸ್ತಕದೊಂದಿಗೆ ಸ್ವಯಂಪೂರ್ಣಗೊಳಿಸು (_u)"
 
 #: ../plugins/default-source/default-source.c:192
 msgid "Mark as _default calendar"
@@ -19063,7 +19055,6 @@ msgid "Command to be executed to launch the editor: "
 msgstr "ಸಂಪಾದಕವನ್ನು ಆರಂಭಿಸಲು ಕಾರ್ಯಗತಗೊಳಿಸಬೇಕಿರುವ ಆಜ್ಞೆ: "
 
 #: ../plugins/external-editor/external-editor.c:115
-#, fuzzy
 #| msgid ""
 #| "For Emacs use \"xemacs\"\n"
 #| "For VI use \"gvim -f\""
@@ -19071,8 +19062,8 @@ msgid ""
 "For XEmacs use \"xemacs\"\n"
 "For Vim use \"gvim -f\""
 msgstr ""
-"ಎಮಾಕ್ಸಿಗಾಗಿ \"xemacs\" ಅನ್ನು ಬಳಸಿ\n"
-"VI ಗೆ \"gvim -f\" ಅನ್ನು ಬಳಸಿ"
+"XEmacs ಗಾಗಿ \"xemacs\" ಅನ್ನು ಬಳಸಿ\n"
+"Vim ಗೆ \"gvim -f\" ಅನ್ನು ಬಳಸಿ"
 
 #: ../plugins/external-editor/external-editor.c:396
 #: ../plugins/external-editor/external-editor.c:398
@@ -19127,32 +19118,29 @@ msgstr ""
 "ವಿಂಡೊವನ್ನು ಮುಚ್ಚಲು ಸಾಧ್ಯವಿಲ್ಲ."
 
 #: ../plugins/face/face.c:292
-#, fuzzy
 #| msgid "Select a File"
 msgid "Select a Face Picture"
-msgstr "ಒಂದು ಕಡತವನ್ನು ಆರಿಸು"
+msgstr "ಒಂದು ಮುಖದ ಚಿತ್ರವನ್ನು ಆರಿಸು"
 
 #: ../plugins/face/face.c:302
-#, fuzzy
 msgid "Image files"
-msgstr "ಕಡತವನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗುತ್ತಿದೆ"
+msgstr "ಚಿತ್ರ ಕಡತಗಳು"
 
 #: ../plugins/face/face.c:361
 msgid "_Insert Face picture by default"
-msgstr ""
+msgstr "ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ ಮುಖದ ಚಿತ್ರವನ್ನು ಸೇರಿಸು (_I)"
 
 #: ../plugins/face/face.c:374
 msgid "Load new _Face picture"
-msgstr ""
+msgstr "ಹೊಸ ಮುಖದ ಚಿತ್ರವನ್ನು ಲೋಡ್ ಮಾಡು (_F)"
 
 #: ../plugins/face/face.c:435
-#, fuzzy
 msgid "Include _Face"
-msgstr "ತ್ರೆಡ್‌ಗಳನ್ನು ಸೇರಿಸು (_n)"
+msgstr "ಮುಖಗಳನ್ನು ಸೇರಿಸು (_F)"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Attach a small picture of your face to outgoing messages."
-msgstr ""
+msgstr "ಹೊರಹೋಗುವ ಸಂದೇಶಗಳಿಗೆ ನಿಮ್ಮ ಸಣ್ಣ ಚಿತ್ರವೊಂದನ್ನು ಲಗತ್ತಿಸಿ."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:1
 #, fuzzy
@@ -19160,28 +19148,25 @@ msgid "Failed Read"
 msgstr "ಟೇಬಲ್ ಹೆಡರ್"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:2
-#, fuzzy
 msgid "The file cannot be read"
-msgstr "ವಿಷಯವನ್ನು ಕಳುಹಿಸಲಾಗಿಲ್ಲ!\n"
+msgstr "ಕಡತವನ್ನು ಓದಲಾಗಿಲ್ಲ"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:3
-#, fuzzy
 msgid "Invalid Image Size"
-msgstr "ಅಮಾನ್ಯವಾದ ದಿನಾಂಕದ ಮೌಲ್ಯ"
+msgstr "ಅಮಾನ್ಯವಾದ ಚಿತ್ರ ಗಾತ್ರ"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:4
-#, fuzzy
 msgid "Please select an image of size 48 * 48"
-msgstr "ಈ ಸಂಪರ್ಕ ವಿಳಾಸಕ್ಕಾಗಿ ದಯವಿಟ್ಟು ಒಂದು ಚಿತ್ರವನ್ನು ಆರಿಸಿ"
+msgstr "48 * 48 ಗಾತ್ರದ ಒಂದು ಚಿತ್ರವನ್ನು ಆರಿಸಿ"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:5
-#, fuzzy
 msgid "Not an image"
-msgstr "ಯಾವುದೆ ಚಿತ್ರವಿಲ್ಲ (_N)"
+msgstr "ಒಂದು ಚಿತ್ರವಲ್ಲ"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:6
 msgid "The file you selected does not look like a valid .png image. Error: {0}"
 msgstr ""
+"ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ ಕಡತವು ಮಾನ್ಯವಾದ ಒಂದು .png ಚಿತ್ರದಂತೆ ಕಾಣಿಸುತ್ತಿಲ್ಲ. ದೋಷ: {0}"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:325
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:248
@@ -20569,9 +20554,8 @@ msgstr ""
 "Evolution ಆರಿಸಿಕೊಳ್ಳಲು ಬಿಡು."
 
 #: ../plugins/prefer-plain/prefer-plain.c:259
-#, fuzzy
 msgid "Only ever show plain text"
-msgstr "ಯಾವಗಲೂ PLAIN ಅನ್ನು ಮಾತ್ರ ತೋರಿಸು"
+msgstr "ಯಾವಾಗಲೂ ಸರಳ ಪಠ್ಯವನ್ನು ಮಾತ್ರ ತೋರಿಸು"
 
 #: ../plugins/prefer-plain/prefer-plain.c:260
 msgid ""
@@ -21149,7 +21133,6 @@ msgid "HTTP proxy username"
 msgstr "HTTP ಪ್ರಾಕ್ಸಿ ಬಳಕೆದಾರಹೆಸರು"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:54
-#, fuzzy
 #| msgid "User name to pass as authentication when doing HTTP proxying."
 msgid "Username to pass as authentication when doing HTTP proxying."
 msgstr "HTTP ಪ್ರಾಕ್ಸಿ ಕಾರ್ಯವು ನಡೆಸುವಾಗ ದೃಢೀಕರಿಸಲು ಬಳಸಬೇಕಿರುವ ಬಳಕೆದಾರ ಹೆಸರು."
@@ -21314,19 +21297,17 @@ msgid "Available Cate_gories"
 msgstr "ಲಭ್ಯವಿರುವ ವರ್ಗಗಳು (_g)"
 
 #: ../shell/e-shell-window-actions.c:1516
-#, fuzzy
 #| msgid "_Make available for offline use"
 msgid "Manage available categories"
-msgstr "ಆಫ್‌ಲೈನ್‌ ಬಳಕೆಗಾಗಿ ಇರಿಸಿಕೊ (_M)"
+msgstr "ಲಭ್ಯವಿರುವ ವರ್ಗಗಳನ್ನು ವ್ಯವಸ್ಥಾಪಿಸು"
 
 #: ../shell/e-shell-window-actions.c:1528
 msgid "_Quick Reference"
 msgstr "ಕ್ಷಿಪ್ರ ಉಲ್ಲೇಖ (_Q)"
 
 #: ../shell/e-shell-window-actions.c:1530
-#, fuzzy
 msgid "Show Evolution's shortcut keys"
-msgstr "Evolution‍ನ ಸಿದ್ಧತೆಗಳನ್ನು ಬದಲಾಯಿಸು"
+msgstr "Evolution‍ನ ಸುಲಭಆಯ್ಕೆಗಳನ್ನು ತೋರಿಸು"
 
 #: ../shell/e-shell-window-actions.c:1537
 msgid "Exit the program"
@@ -21338,7 +21319,7 @@ msgstr "ಸುಧಾರಿತ ಹುಡುಕಾಟ (_A)..."
 
 #: ../shell/e-shell-window-actions.c:1544
 msgid "Construct a more advanced search"
-msgstr ""
+msgstr "ಹೆಚ್ಚು ಸುಧಾರಿತ ಹುಡುಕಾಟವನ್ನು ರಚಿಸಿ"
 
 #: ../shell/e-shell-window-actions.c:1551
 msgid "Clear the current search parameters"
@@ -21430,9 +21411,8 @@ msgid "Show _Buttons"
 msgstr "ಒತ್ತು ಗುಂಡಿಗಳನ್ನು ತೋರಿಸು (_B)"
 
 #: ../shell/e-shell-window-actions.c:1709
-#, fuzzy
 msgid "Show the switcher buttons"
-msgstr "ಎರಡನೆ ಕಾಲವಲಯವನ್ನು ತೋರಿಸು"
+msgstr "ಸ್ವಿಚರ್ ಗುಂಡಿಗಳನ್ನು ತೋರಿಸು"
 
 #: ../shell/e-shell-window-actions.c:1715
 msgid "Show _Status Bar"
@@ -21614,9 +21594,8 @@ msgid "Ignore network availability"
 msgstr "ಜಾಲಬಂಧ ಲಭ್ಯತೆಯನ್ನು ಕಡೆಗಣಿಸು"
 
 #: ../shell/main.c:322
-#, fuzzy
 msgid "Start in \"express\" mode"
-msgstr "ಆನ್‌ಲೈನ್‌ ವಿಧಾನದಲ್ಲಿ ಆರಂಭಿಸು"
+msgstr "\"ಎಕ್ಸ್‍ಪ್ರೆಸ್\" ವಿಧಾನದಲ್ಲಿ ಆರಂಭಿಸು"
 
 #: ../shell/main.c:325
 msgid "Forcibly shut down Evolution"
@@ -21719,25 +21698,22 @@ msgid "_Forget"
 msgstr "ಮರೆತುಬಿಡು (_F)"
 
 #: ../shell/test/e-test-shell-backend.c:52
-#, fuzzy
 msgctxt "New"
 msgid "_Test Item"
-msgstr "ಪರೀಕ್ಷೆ (_T)"
+msgstr "ಪರೀಕ್ಷಾ ಅಂಶ (_T)"
 
 #: ../shell/test/e-test-shell-backend.c:54
 msgid "Create a new test item"
 msgstr "ಒಂದು ಹೊಸ ಪರೀಕ್ಷಾ ಅಂಶವನ್ನು ನಿರ್ಮಿಸು"
 
 #: ../shell/test/e-test-shell-backend.c:62
-#, fuzzy
 msgctxt "New"
 msgid "Test _Source"
-msgstr "ಸಂಪನ್ಮೂಲ"
+msgstr "ಪರೀಕ್ಷಾ ಆಕರ (_S)"
 
 #: ../shell/test/e-test-shell-backend.c:64
-#, fuzzy
 msgid "Create a new test source"
-msgstr "ಒಂದು ಹೊಸ ಪರೀಕ್ಷಾ ಅಂಶವನ್ನು ನಿರ್ಮಿಸು"
+msgstr "ಒಂದು ಹೊಸ ಪರೀಕ್ಷಾ ಆಕರವನ್ನು ನಿರ್ಮಿಸು"
 
 #: ../smclient/eggdesktopfile.c:166
 #, c-format
@@ -22789,17 +22765,15 @@ msgid "Import a _single file"
 msgstr "ಒಂದು ಕಡತವನ್ನು ಆಮದು ಮಾಡಿಕೊ (_s)"
 
 #: ../widgets/misc/e-import-assistant.c:533
-#, fuzzy
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
 "like to try again, please click the \"Back\" button."
 msgstr ""
-"Evolution ಸಿದ್ಧತೆಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲು ಈ ಕೆಳಗಿನ ಅನ್ವಯಗಳನ್ನು \n"
-"ಪರಿಶೀಲಿಸಿದೆ: ಪೈನ್, ನೆಟ್‌ಸ್ಕೇಪ್, Elm, ಐಕ್ಯಾಲೆಂಡರ್. ಆಮದು ಮಾಡಿಕೊಳ್ಳಬಹುದಾದ "
-"ಯಾವುದೆ\n"
-"ಸಿದ್ಧತೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ. ನೀವು ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಲು ಬಯಸಿದಲ್ಲಿ\n"
-" ದಯವಿಟ್ಟು\"ಹಿಂದಕ್ಕೆ\" ಗುಂಡಿಯನ್ನು ಒತ್ತಿ.\n"
+"Evolution ಸಿದ್ಧತೆಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲು ಈ ಕೆಳಗಿನ ಅನ್ವಯಗಳನ್ನು ಪರಿಶೀಲಿಸಿದೆ: "
+"ಪೈನ್, ನೆಟ್‌ಸ್ಕೇಪ್, Elm, ಐಕ್ಯಾಲೆಂಡರ್. ಆಮದು ಮಾಡಿಕೊಳ್ಳಬಹುದಾದ ಯಾವುದೆ ಸಿದ್ಧತೆಗಳು "
+"ಕಂಡುಬಂದಿಲ್ಲ. ನೀವು ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಲು ಬಯಸಿದಲ್ಲಿ ದಯವಿಟ್ಟು\"ಹಿಂದಕ್ಕೆ\" "
+"ಗುಂಡಿಯನ್ನು ಒತ್ತಿ."
 
 #. Install a custom "Cancel Import" button.
 #: ../widgets/misc/e-import-assistant.c:775
@@ -22836,14 +22810,13 @@ msgid "Import Location"
 msgstr "ಸ್ಥಳವನ್ನು ಆಮದು ಮಾಡಿಕೊ"
 
 #: ../widgets/misc/e-import-assistant.c:1309
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of importing "
 "external files into Evolution."
 msgstr ""
 "Evolution ಆಮದು ಸಹಾಯಕಕ್ಕೆ ನಿಮಗೆ ಸ್ವಾಗತ.\n"
-"Evolutionಗೆ ಹೊರಗಿನಿಂದ ಕಡತಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳುವ ಪ್ರಕ್ರಿಯೆಯ ಬಗ್ಗೆ ಈ ಸಹಾಯಕದ \n"
+"Evolutionಗೆ ಹೊರಗಿನಿಂದ ಕಡತಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳುವ ಪ್ರಕ್ರಿಯೆಯ ಬಗ್ಗೆ ಈ ಸಹಾಯಕದ "
 "ಮೂಲಕ ನಿಮಗೆ ಮಾರ್ಗದರ್ಶನ ನೀಡಲಾಗುವುದು."
 
 #: ../widgets/misc/e-import-assistant.c:1326
@@ -23121,7 +23094,7 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only."
 msgstr ""
-"ಈ ಸ್ಕ್ರಿಪ್ಟಿನ ಔಟ್‌ಪುಟ್ ಅನ್ನು ನಿಮ್ಮ ಸಹಿಯಾಗಿ ಬಳಸಲಾಗುವುದು.\n"
+"ಈ ಆದೇಶಗುಚ್ಛದ (ಸ್ಕ್ರಿಪ್ಟ್‍) ಔಟ್‌ಪುಟ್ ಅನ್ನು ನಿಮ್ಮ ಸಹಿಯಾಗಿ ಬಳಸಲಾಗುವುದು.\n"
 "ನೀವು ಸೂಚಿಸುವ ಹೆಸರನ್ನು ಕೇವಲ ತೋರಿಸುವ ಉದ್ದೇಶಕ್ಕೆ ಮಾತ್ರವೆ\n"
 "ಬಳಸಲಾಗುವುದು."
 
@@ -23130,9 +23103,8 @@ msgid "S_cript:"
 msgstr "ಆದೇಶಗುಚ್ಛ (_S):"
 
 #: ../widgets/misc/e-signature-script-dialog.c:346
-#, fuzzy
 msgid "Script file must be executable."
-msgstr "ಸ್ಕ್ರಿಪ್ಟ್‍ ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲಿರಬೇಕು ಹಾಗು ಕಾರ್ಯಗತಗೊಳಿಸುವಂತಿರಬೇಕು."
+msgstr "ಆದೇಶಗುಚ್ಛದ ಕಡತವು ಕಾರ್ಯಗತಗೊಳಿಸುವಂತಿರಬೇಕು."
 
 #: ../widgets/misc/e-url-entry.c:78
 msgid "Click here to go to URL"
@@ -23164,9 +23136,8 @@ msgid "_Copy Image"
 msgstr "ಚಿತ್ರವನ್ನು ಪ್ರತಿ ಮಾಡು (_C)"
 
 #: ../widgets/misc/e-web-view.c:449
-#, fuzzy
 msgid "Copy the image to the clipboard"
-msgstr "ವಿಷಯಗಳನ್ನು ಕ್ಲಿಪ್‍ಬೋರ್ಡ್‍ಗೆ  ಅಂಟಿಸು."
+msgstr "ಚಿತ್ರಗಳನ್ನು ಕ್ಲಿಪ್‍ಬೋರ್ಡ್‍ಗೆ   ಪ್ರತಿಮಾಡು."
 
 #: ../widgets/misc/e-web-view.c:469 ../widgets/misc/e-web-view.c:1318
 msgid "Select all text and images"
