@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-02-27 11:22+0000\n"
-"PO-Revision-Date: 2012-03-22 16:03+0530\n"
+"PO-Revision-Date: 2012-03-22 23:30+0530\n"
 "Last-Translator: s\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -8662,10 +8662,9 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:17
-#, fuzzy
 #| msgid "-----Original Message-----"
 msgid "Original message"
-msgstr "-----ಮೂಲ ಸಂದೇಶ-----"
+msgstr "ಮೂಲ ಸಂದೇಶ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:18
 msgid ""
@@ -10165,10 +10164,9 @@ msgstr ""
 "ಹೊಸ ಸಂದೇಶಗಳು ಬಂದಾಗ, ಬೀಪ್ ಕ್ರಮದಲ್ಲಿ ಇರದೆ ಹೋದಲ್ಲಿ ಪ್ಲೇ ಮಾಡಬೇಕಿರುವ ಶಬ್ಧದ ಕಡತ."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
-#, fuzzy
 #| msgid "FILE"
 msgid "FIXME"
-msgstr "FILE"
+msgstr "FIXME"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:16
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
@@ -12997,10 +12995,9 @@ msgid "Save _Image..."
 msgstr "ಹೀಗೆ ಉಳಿಸು..."
 
 #: ../mail/em-format-html-display.c:823
-#, fuzzy
 #| msgid "Save the current file"
 msgid "Save the image to a file"
-msgstr "ಸಕ್ತ ಕಡತವನ್ನು ಉಳಿಸು"
+msgstr "ಚಿತ್ರವನ್ನು ಕಡತವನ್ನು ಉಳಿಸು"
 
 #: ../mail/em-format-html-display.c:1024
 msgid "Completed on"
@@ -13028,7 +13025,6 @@ msgstr "ಇದರೊಂದಿಗೆ ತೆರೆ (_p)"
 
 #. Translators: Name of an Attachment button for a11y object
 #: ../mail/em-format-html-display.c:1407
-#, fuzzy
 #| msgid "Attachment"
 #| msgid_plural "Attachments"
 msgctxt "Button"
@@ -13237,10 +13233,9 @@ msgid ""
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:49
-#, fuzzy
 #| msgid "-----Original Message-----"
 msgid "Original message."
-msgstr "-----ಮೂಲ ಸಂದೇಶ-----"
+msgstr "ಮೂಲ ಸಂದೇಶ."
 
 #: ../mail/evolution-mail.schemas.in.h:50
 msgid ""
@@ -13608,18 +13603,16 @@ msgid "Select folder to import into"
 msgstr "ಯಾವ ಫೋಲ್ಡರಿಗೆ ಆಮದು ಮಾಡಬೇಕು ಎಂದು ಸೂಚಿಸಿ"
 
 #: ../mail/importers/evolution-mbox-importer.c:438
-#, fuzzy
 #| msgid "Subject"
 msgctxt "mboxImp"
 msgid "Subject"
 msgstr "ವಿಷಯ"
 
 #: ../mail/importers/evolution-mbox-importer.c:443
-#, fuzzy
 #| msgid "From"
 msgctxt "mboxImp"
 msgid "From"
-msgstr "ಯಿಂದ"
+msgstr "ಇಂದ"
 
 #: ../mail/importers/evolution-mbox-importer.c:487
 #: ../shell/e-shell-utils.c:195
@@ -13718,16 +13711,14 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail-config.ui.h:3
-#, fuzzy
 #| msgid "Header Name:"
 msgid "Header name"
-msgstr "ಹೆಡರ್ ಹೆಸರು:"
+msgstr "ತಲೆಬರಹದ ಹೆಸರು"
 
 #: ../mail/mail-config.ui.h:4
-#, fuzzy
 #| msgid "Sender contains"
 msgid "Header content"
-msgstr "'ಕಳುಹಿಸಿದವರು' ಇದನ್ನು ಹೊಂದಿದೆ"
+msgstr "ತಲೆಬರಹದ ವಿಷಯ"
 
 #: ../mail/mail-config.ui.h:5
 msgid "_Add Signature"
@@ -13752,10 +13743,9 @@ msgid "Default Behavior"
 msgstr "ಪೂರ್ವನಿಯೋಜಿತ ವರ್ತನೆ"
 
 #: ../mail/mail-config.ui.h:12
-#, fuzzy
 #| msgid "Format messages in _HTML"
 msgid "For_mat messages in HTML"
-msgstr "ಸಂದೇಶಗಳನ್ನು _HTML ನಲ್ಲಿ ಫಾರ್ಮ್ಯಾಟ್ ಮಾಡು"
+msgstr "ಸಂದೇಶಗಳನ್ನು HTML ನಲ್ಲಿ ಫಾರ್ಮ್ಯಾಟ್ ಮಾಡು (_m)"
 
 #: ../mail/mail-config.ui.h:13
 msgid "Automatically insert _emoticon images"
@@ -13766,22 +13756,19 @@ msgid "Always request rea_d receipt"
 msgstr "ಯಾವಗಲೂ ಓದಿದ್ದರ ರಸೀತಿಗಾಗಿ ಮನವಿ ಸಲ್ಲಿಸು (_d)"
 
 #: ../mail/mail-config.ui.h:15
-#, fuzzy
 #| msgid "Encode file names in an Outlook/GMail way"
 msgid "Encode filenames in an _Outlook/GMail way"
-msgstr "ಕಡತದ ಹೆಸರುಗಳನ್ನು Outlook/GMail ರೀತಿಯಲ್ಲಿ ಎನ್‌ಕೋಡ್ ಮಾಡು"
+msgstr "ಕಡತದ ಹೆಸರುಗಳನ್ನು _Outlook/GMail ರೀತಿಯಲ್ಲಿ ಎನ್‌ಕೋಡ್ ಮಾಡು"
 
 #: ../mail/mail-config.ui.h:16
-#, fuzzy
 #| msgid "Ch_aracter Encoding"
 msgid "Ch_aracter encoding:"
-msgstr "ಕ್ಯಾರೆಕ್ಟರ್ ಎನ್ಕೋಡಿಂಗ್ (_a)"
+msgstr "ಕ್ಯಾರೆಕ್ಟರ್ ಎನ್ಕೋಡಿಂಗ್ (_a):"
 
 #: ../mail/mail-config.ui.h:17
-#, fuzzy
 #| msgid "Replies and parents"
 msgid "Replies and Forwards"
-msgstr "ಮಾರುತ್ತರ ಹಾಗು ಮೂಲ"
+msgstr "ಮಾರುತ್ತರಗಳು ಹಾಗು ಮುಂದಕ್ಕೆ ಕಳುಹಿಸುವಿಕೆಗಳು"
 
 #: ../mail/mail-config.ui.h:18
 msgid "_Reply style:"
@@ -13899,26 +13886,25 @@ msgid "Sending a message with _recipients not entered as mail addresses"
 msgstr ""
 
 #: ../mail/mail-config.ui.h:50
-#, fuzzy
 #| msgid "Configuration"
 msgid "Confirmations"
-msgstr "ಸಂರಚನೆ"
+msgstr "ಖಚಿತಪಡಿಕೆಗಳು"
 
 #: ../mail/mail-config.ui.h:52
 msgid "SHA1"
-msgstr ""
+msgstr "SHA1"
 
 #: ../mail/mail-config.ui.h:53
 msgid "SHA256"
-msgstr ""
+msgstr "SHA256"
 
 #: ../mail/mail-config.ui.h:54
 msgid "SHA384"
-msgstr ""
+msgstr "SHA384"
 
 #: ../mail/mail-config.ui.h:55
 msgid "SHA512"
-msgstr ""
+msgstr "SHA512"
 
 #: ../mail/mail-config.ui.h:56 ../smime/gui/smime-ui.ui.h:1
 msgid "a"
@@ -13929,7 +13915,6 @@ msgid "b"
 msgstr "b"
 
 #: ../mail/mail-config.ui.h:58
-#, fuzzy
 #| msgid "Attachment"
 #| msgid_plural "Attachments"
 msgctxt "ReplyForward"
@@ -13937,32 +13922,28 @@ msgid "Attachment"
 msgstr "ಲಗತ್ತು"
 
 #: ../mail/mail-config.ui.h:59
-#, fuzzy
 #| msgid "Inline (Outlook style)"
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
-msgstr "ಇನ್‌ಲೈನ್ (ಔಟ್‌ಲುಕ್ ಶೈಲಿ)"
+msgstr "ಸಾಲಿನೊಳಗೆ (ಔಟ್‌ಲುಕ್ ಶೈಲಿ)"
 
 #: ../mail/mail-config.ui.h:60
-#, fuzzy
 #| msgid "Quoted"
 msgctxt "ReplyForward"
 msgid "Quoted"
 msgstr "ಕೋಟ್‌ ಮಾಡಲಾದ"
 
 #: ../mail/mail-config.ui.h:61
-#, fuzzy
 #| msgid "Do not quote"
 msgctxt "ReplyForward"
 msgid "Do not quote"
 msgstr "ಕೋಟ್ ಮಾಡಬೇಡ"
 
 #: ../mail/mail-config.ui.h:62
-#, fuzzy
 #| msgid "Inline"
 msgctxt "ReplyForward"
 msgid "Inline"
-msgstr "ಇನ್‌ಲೈನ್"
+msgstr "ಸಾಲಿನೊಳಗೆ"
 
 #: ../mail/mail-config.ui.h:63
 msgid "Proxy Settings"
@@ -13989,10 +13970,9 @@ msgid "_Secure HTTP Proxy:"
 msgstr "ಸುರಕ್ಷಿತ HTTP ಪ್ರಾಕ್ಸಿ (_S):"
 
 #: ../mail/mail-config.ui.h:69
-#, fuzzy
 #| msgid "SOCKS proxy port"
 msgid "SOC_KS Proxy:"
-msgstr "SOCKS ಪ್ರಾಕ್ಸಿ ಸಂಪರ್ಕಸ್ಥಾನ"
+msgstr "SOC_KS ಪ್ರಾಕ್ಸಿ:"
 
 #: ../mail/mail-config.ui.h:70
 msgid "No _Proxy for:"
@@ -14012,25 +13992,22 @@ msgstr "ಬಳಕೆದಾರ ಹೆಸರು (_e):"
 
 #: ../mail/mail-config.ui.h:74
 msgid "Pass_word:"
-msgstr "ಗುಪ್ತಪದ (_w):"
+msgstr "ದಾಟುಪದ (_w):"
 
 #: ../mail/mail-config.ui.h:75
-#, fuzzy
 #| msgid "Start: "
 msgid "Start up"
-msgstr "ಆರಂಭ: "
+msgstr "ಆರಂಭ"
 
 #: ../mail/mail-config.ui.h:76
-#, fuzzy
 #| msgid "Check for _new messages every"
 msgid "Check for new _messages on start"
-msgstr "ಪ್ರತಿ ಹೊಸ ಸಂದೇಶಗಳಿಗೂ ಪರೀಕ್ಷಿಸಿ (_n)"
+msgstr "ಆರಂಭದಲ್ಲಿ ಹೊಸ ಸಂದೇಶಗಳಿಗಾಗಿ ಪರೀಕ್ಷಿಸು (_m)"
 
 #: ../mail/mail-config.ui.h:77
-#, fuzzy
 #| msgid "Check for _new messages every"
 msgid "Check for new messa_ges in all active accounts"
-msgstr "ಪ್ರತಿ ಹೊಸ ಸಂದೇಶಗಳಿಗೂ ಪರೀಕ್ಷಿಸಿ (_n)"
+msgstr "ಎಲ್ಲಾ ಸಕ್ರಿಯ ಖಾತೆಗಳಲ್ಲಿ ಹೊಸ ಸಂದೇಶಗಳಿಗೂ ಪರೀಕ್ಷಿಸಿ (_g)"
 
 #: ../mail/mail-config.ui.h:78
 msgid "Message Display"
@@ -14053,7 +14030,6 @@ msgid "Select HTML variable width font"
 msgstr "HTML ವೇರಿಯೇಬಲ್ ಅಗಲ ಅಕ್ಷರಶೈಲಿಯನ್ನು ಆರಿಸಿ"
 
 #: ../mail/mail-config.ui.h:83
-#, fuzzy
 #| msgid "Fix_ed width Font:"
 msgid "Fix_ed Width Font:"
 msgstr "ನಿಗದಿತ ಅಗಲದ ಅಕ್ಷರಶೈಲಿ (_e):"
@@ -14072,7 +14048,7 @@ msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಕ್ಯಾರೆಕ್ಟರ್ �
 
 #: ../mail/mail-config.ui.h:87
 msgid "Apply the same _view settings to all folders"
-msgstr ""
+msgstr "ಎಲ್ಲಾ ಕಡತಕೋಶಗಳಿಗೆ ಒಂದೇ ರೀತಿಯ ನೋಟದ ಸಿದ್ಧತೆಗಳನ್ನು ಮಾತ್ರ ಅನ್ವಯಿಸು (_v)"
 
 #: ../mail/mail-config.ui.h:88
 msgid "F_all back to threading messages by subject"
@@ -14092,10 +14068,9 @@ msgstr "ಒಂದು ಕಡತಕೋಶವನ್ನು ತೆಗೆದು ಹಾ
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.ui.h:93
-#, fuzzy
 #| msgid "Show animated images as animations."
 msgid "_Show animated images"
-msgstr "ಸಜೀವನ(ಎನಿಮೇಶನ್‌)ಗಳಲ್ಲಿ ಸಜೀವ ಚಿತ್ರಗಳನ್ನು ತೋರಿಸು."
+msgstr "ಸಂಚಲನ (ಎನಿಮೇಶನ್‌) ಚಿತ್ರಗಳನ್ನು ಮಾತ್ರ ತೋರಿಸು (_S)."
 
 #: ../mail/mail-config.ui.h:94
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
@@ -14111,10 +14086,9 @@ msgid "_Never load images from the Internet"
 msgstr "ಅಂತರ್ಜಾಲದಿಂದ ಎಂದಿಗೂ ಚಿತ್ರಗಳನ್ನು ಲೋಡ್ ಮಾಡಬೇಡ (_N)"
 
 #: ../mail/mail-config.ui.h:97
-#, fuzzy
 #| msgid "_Load images in messages from contacts"
 msgid "_Load images only in messages from contacts"
-msgstr "ಸಂಪರ್ಕವಿಳಾಸಗಳಿಂದ ಸಂದೇಶಗಳಲ್ಲಿ ಚಿತ್ರಗಳನ್ನು ಲೋಡ್ ಮಾಡು (_L)"
+msgstr "ಸಂಪರ್ಕವಿಳಾಸಗಳಿಂದ ಬಂದ ಸಂದೇಶಗಳ ಚಿತ್ರಗಳನ್ನು ಮಾತ್ರ ಲೋಡ್ ಮಾಡು (_L)"
 
 #: ../mail/mail-config.ui.h:98
 msgid "_Always load images from the Internet"
@@ -14200,10 +14174,9 @@ msgid "SSL encryption"
 msgstr "SSL ಗೂಢಲಿಪೀಕರಣ"
 
 #: ../mail/mail-config.ui.h:118
-#, fuzzy
 #| msgid "Local Folders"
 msgid "Special Folders"
-msgstr "ಸ್ಥಳೀಯ ಫೋಲ್ಡರ್"
+msgstr "ವಿಶೇಷ ಕಡತಕೋಶಗಳು"
 
 #: ../mail/mail-config.ui.h:119
 msgid "Drafts _Folder:"
@@ -14214,16 +14187,14 @@ msgid "Sent _Messages Folder:"
 msgstr "ಕಳುಹಿಸಲಾದ ಸಂದೇಶಗಳ ಫೋಲ್ಡರ್ (_M):"
 
 #: ../mail/mail-config.ui.h:121
-#, fuzzy
 #| msgid "Drafts _Folder:"
 msgid "_Trash Folder:"
-msgstr "ಡ್ರಾಫ್ಟ್‍ ಫೋಲ್ಡರ್ (_F):"
+msgstr "ಕಸದ ಬುಟ್ಟಿ ಕಡತಕೋಶ (_F):"
 
 #: ../mail/mail-config.ui.h:122
-#, fuzzy
 #| msgid "Current Folder"
 msgid "_Junk Folder:"
-msgstr "ಪ್ರಸ್ತುತ ಫೋಲ್ಡರ್"
+msgstr "ರದ್ದಿ ಕಡತಕೋಶ (_J):"
 
 #: ../mail/mail-config.ui.h:123
 msgid "Composing Messages"
@@ -14307,10 +14278,9 @@ msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG ಕೀಲಿ ID (_K):"
 
 #: ../mail/mail-config.ui.h:143
-#, fuzzy
 #| msgid "Sig_ning certificate:"
 msgid "Si_gning algorithm:"
-msgstr "ಸಹಿ ಮಾಡುವ ಪ್ರಮಾಣಪತ್ರ (_n):"
+msgstr "ಸಹಿ ಮಾಡುವ ಅಲ್ಗಾರಿತಮ್ (_g):"
 
 #: ../mail/mail-config.ui.h:144
 msgid "Al_ways sign outgoing messages when using this account"
@@ -14357,10 +14327,9 @@ msgid "Clea_r"
 msgstr "ಅಳಿಸು (_r)"
 
 #: ../mail/mail-config.ui.h:155
-#, fuzzy
 #| msgid "Sig_ning certificate:"
 msgid "Signing _algorithm:"
-msgstr "ಸಹಿ ಮಾಡುವ ಪ್ರಮಾಣಪತ್ರ (_n):"
+msgstr "ಸಹಿ ಮಾಡುವ ಅಲ್ಗಾರಿತಮ್ (_a):"
 
 #: ../mail/mail-config.ui.h:157
 msgid "Cle_ar"
@@ -14437,35 +14406,30 @@ msgid "T_ype:"
 msgstr "ಬಗೆ (_y):"
 
 #: ../mail/mail-config.ui.h:177
-#, fuzzy
 #| msgid "User_name:"
 msgid "User _Name:"
-msgstr "ಬಳಕೆದಾರ ಹೆಸರು (_n):"
+msgstr "ಬಳಕೆದಾರ ಹೆಸರು (_N):"
 
 #: ../mail/mail-config.ui.h:178
 msgid "Remember _password"
 msgstr "ಗುಪ್ತಪದವನ್ನು ನೆನಪಿಟ್ಟುಕೊ (_p)"
 
 #: ../mail/mail-config.ui.h:179
-#, fuzzy
 #| msgid "Personal details:"
 msgid "Personal Details:"
 msgstr "ವೈಯಕ್ತಿಕ ವಿವರಗಳು:"
 
 #: ../mail/mail-config.ui.h:188
-#, fuzzy
 #| msgid "Encryption"
 msgid "Encryption:"
-msgstr "ಗೂಢಲಿಪೀಕರಣ"
+msgstr "ಗೂಢಲಿಪೀಕರಣ:"
 
 #: ../mail/mail-config.ui.h:189
-#, fuzzy
 #| msgid "None"
 msgid "none"
 msgstr "ಯಾವುದೂ ಇಲ್ಲ"
 
 #: ../mail/mail-config.ui.h:190
-#, fuzzy
 #| msgid "Label"
 msgid "label"
 msgstr "ಲೇಬಲ್"
@@ -14682,7 +14646,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:22
 msgid "Send private reply?"
-msgstr ""
+msgstr "ಖಾಸಗಿ ಉತ್ತರವನ್ನು ಕಳುಹಿಸಬೇಕೆ?"
 
 #: ../mail/mail.error.xml.h:23
 msgid ""
@@ -14692,10 +14656,9 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:24
-#, fuzzy
 #| msgid "_Private"
 msgid "Reply _Privately"
-msgstr "ಖಾಸಗಿ (_P)"
+msgstr "ಖಾಸಗಿಯಾಗಿ ಉತ್ತರಿಸು (_P)"
 
 #: ../mail/mail.error.xml.h:26
 msgid ""
@@ -14705,13 +14668,11 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:28
-#, fuzzy
 #| msgid "Sender or Recipients"
 msgid "Send reply to all recipients?"
-msgstr "ಕಳುಹಿಸಿದವರು ಅಥವ ಸ್ವೀಕರಿಸಿದವರು"
+msgstr "ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲರಿಗೂ ಉತ್ತರವನ್ನು ಕಳುಹಿಸಬೇಕೆ?"
 
 #: ../mail/mail.error.xml.h:29
-#, fuzzy
 #| msgid ""
 #| "Retracting a message may remove it from the recipient's mailbox. Are you "
 #| "sure you want to do this?"
@@ -14719,8 +14680,8 @@ msgid ""
 "You are replying to a message which was sent to many recipients. Are you "
 "sure you want to reply to ALL of them?"
 msgstr ""
-"ಸಂದೇಶವನ್ನು ಹಿಂದಕ್ಕೆ ಪಡೆದಾಗ ಅದನ್ನು ಕಳುಹಿಸಲಾದವರ ಅಂಚೆಪೆಟ್ಟಿಗೆಯಿಂದ ತೆಗೆದು "
-"ಹಾಕಲ್ಪಡಬಹುದು. ಹೀಗೆ ಮಾಡಬೇಕೆಂದು ನೀವು ಖಚಿತವೆ?"
+"ಹಲವಾರು ಸ್ವೀಕರಿಸುವವರಿಗಾಗಿ ಕಳುಹಿಸಲಾದ ಸಂದೇಶಕ್ಕೆ ನೀವು ಪ್ರತಿಕ್ರಿಯಿಸುತ್ತಿದ್ದೀರಿ. "
+"ನೀವು 'ಅವರೆಲ್ಲರಿಗೂ' ಖಚಿತವಾಗಿ ಉತ್ತರಿಸಲು ಬಯಸುತ್ತೀರಾ?"
 
 #: ../mail/mail.error.xml.h:30
 msgid ""
@@ -14895,10 +14856,9 @@ msgstr ""
 "ಅಳಿಸಿಹಾಕಲಾಗುತ್ತದೆ."
 
 #: ../mail/mail.error.xml.h:66
-#, fuzzy
 #| msgid "Text message part limit"
 msgid "These messages are not copies."
-msgstr "ಪಠ್ಯ ಸಂದೇಶದ ಭಾಗದ ಮಿತಿ"
+msgstr "ಈ ಸಂದೇಶಗಳು ನಕಲು ಪ್ರತಿಗಳಲ್ಲ."
 
 #: ../mail/mail.error.xml.h:67
 #, fuzzy
@@ -14995,10 +14955,9 @@ msgstr ""
 "ನೀವು ಮುಂದುವರೆದರೆ, ಎಲ್ಲಾ ಪ್ರಾಕ್ಸಿ ಖಾತೆಗಳು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಿಹಾಕಲ್ಪಡುತ್ತದೆ."
 
 #: ../mail/mail.error.xml.h:86
-#, fuzzy
 #| msgid "Do not disable"
 msgid "Do _Not Disable"
-msgstr "ಅಶಕ್ತಗೊಳಿಸಬೇಡ"
+msgstr "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಬೇಡ (_N)"
 
 #: ../mail/mail.error.xml.h:87
 #: ../plugins/publish-calendar/publish-calendar.c:617
@@ -15119,7 +15078,7 @@ msgstr "ಸೇರಿಸು (_A)"
 
 #: ../mail/mail.error.xml.h:115
 msgid "Evolution's local mail format has changed."
-msgstr ""
+msgstr "Evolution ನ ಸ್ಥಳೀಯ ಮೈಲ್ ವಿನ್ಯಾಸವನ್ನು ಬದಲಾಯಿಸಲಾಗಿದೆ."
 
 #: ../mail/mail.error.xml.h:116
 msgid ""
@@ -15133,16 +15092,14 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:119
-#, fuzzy
 #| msgid "Evolution"
 msgid "_Exit Evolution"
-msgstr "Evolution"
+msgstr "Evolution ಇಂದ ನಿರ್ಗಮಿಸು (_E)"
 
 #: ../mail/mail.error.xml.h:120
-#, fuzzy
 #| msgid "Migration"
 msgid "_Migrate Now"
-msgstr "ರವಾನಿಸಲಾಗುತ್ತಿದೆ"
+msgstr "ಈಗಲೆ ರವಾನಿಸು (_M)"
 
 #: ../mail/mail.error.xml.h:121
 msgid "Unable to read license file."
@@ -15167,12 +15124,12 @@ msgstr ""
 "ಬೆಂಬಲವಿರುವ ದೃಢೀಕರಣ ರಚನೆಗಳ ಒಂದು ಪಟ್ಟಿಗಾಗಿ ಪರಿಚಾರಕಕ್ಕೆ ಮನವಿ ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ."
 
 #: ../mail/mail.error.xml.h:125
-#, fuzzy
 #| msgid "Querying server for a list of supported authentication mechanisms."
 msgid ""
 "Failed to query server for a list of supported authentication mechanisms."
 msgstr ""
-"ಬೆಂಬಲವಿರುವ ದೃಢೀಕರಣ ರಚನೆಗಳ ಒಂದು ಪಟ್ಟಿಗಾಗಿ ಪರಿಚಾರಕಕ್ಕೆ ಮನವಿ ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ."
+"ಬೆಂಬಲವಿರುವ ದೃಢೀಕರಣ ರಚನೆಗಳ ಒಂದು ಪಟ್ಟಿಗಾಗಿ ಪೂರೈಕೆ ಗಣಕಕ್ಕೆ ಮನವಿ ಸಲ್ಲಿಸಲು "
+"ವಿಫಲಗೊಂಡಿದೆ."
 
 #: ../mail/mail.error.xml.h:126
 msgid "Unable to connect to the GroupWise server."
@@ -15193,31 +15150,26 @@ msgid ""
 msgstr "ಆಫ್‌ಲೈನ್ ಬಳಕೆ ಎಂದು ಗುರುತು ಹಾಕಲಾದ ಫೋಲ್ಡರುಗಳನ್ನು ಸ್ಥಳೀಯವಾಗಿ ಮೇಳೈಸಬೇಕೆ?"
 
 #: ../mail/mail.error.xml.h:130
-#, fuzzy
 #| msgid "_Do not Synchronize"
 msgid "Do _Not Synchronize"
-msgstr "ಮೇಳೈಸಬೇಡ (_D)"
+msgstr "ಮೇಳೈಸಬೇಡ (_N)"
 
 #: ../mail/mail.error.xml.h:131
-#, fuzzy
 #| msgid "Synchronize"
 msgid "_Synchronize"
-msgstr "ಮೇಳೈಸು"
+msgstr "ಮೇಳೈಸು (_S)"
 
 #: ../mail/mail.error.xml.h:132
 msgid "Do you want to mark all messages as read?"
 msgstr "ಎಲ್ಲಾ ಸಂದೇಶಗಳನ್ನು ಓದಲಾಗಿದೆ ಎಂದು ಗುರುತು ಹಾಕಲು ನೀವು ಬಯಸುತ್ತೀರೆ?"
 
 #: ../mail/mail.error.xml.h:133
-#, fuzzy
 #| msgid ""
 #| "This will mark all messages as read in the selected folder and its "
 #| "subfolders."
 msgid "This will mark all messages as read in the selected folder."
 msgstr ""
-"ಇದು ಆರಿಸಲಾದ ಫೋಲ್ಡರಿನಲ್ಲಿ ಹಾಗು ಅದರ ಉಪ ಫೋಲ್ಡರಿನಲ್ಲಿನ ಎಲ್ಲಾ ಸಂದೇಶಗಳನ್ನು ಓದಲಾಗಿದೆ "
-"ಎಂದು "
-"ಗುರುತು ಹಾಕುತ್ತದೆ."
+"ಇದು ಆರಿಸಲಾದ ಫೋಲ್ಡರಿನಲ್ಲಿನ ಎಲ್ಲಾ ಸಂದೇಶಗಳನ್ನು ಓದಲಾಗಿದೆ ಎಂದು ಗುರುತುಹಾಕುತ್ತದೆ."
 
 #: ../mail/mail.error.xml.h:134
 msgid ""
@@ -15229,40 +15181,34 @@ msgstr ""
 "ಗುರುತು ಹಾಕುತ್ತದೆ."
 
 #: ../mail/mail.error.xml.h:135
-#, fuzzy
 #| msgid "Close this window"
 msgid "Close message window."
-msgstr "ಈ ವಿಂಡೋವನ್ನು ಮುಚ್ಚು"
+msgstr "ಸಂದೇಶ ಕಿಟಕಿಯನ್ನು ಮುಚ್ಚು."
 
 #: ../mail/mail.error.xml.h:136
-#, fuzzy
 #| msgid "Would you like to accept it?"
 msgid "Would you like to close the message window?"
-msgstr "ನೀವಿದನ್ನು ಒಪ್ಪಿಕೊಳ್ಳಲು ಬಯಸುತ್ತೀರಾ?"
+msgstr "ಸಂದೇಶ ಕಿಟಕಿಯನ್ನು ಮುಚ್ಚಲು ಬಯಸುತ್ತೀರಾ?"
 
 #: ../mail/mail.error.xml.h:137
-#, fuzzy
 #| msgid "Yes"
 msgid "_Yes"
-msgstr "ಹೌದು"
+msgstr "ಹೌದು (_Y)"
 
 #: ../mail/mail.error.xml.h:138
-#, fuzzy
 #| msgid "No"
 msgid "_No"
-msgstr "ಇಲ್ಲ"
+msgstr "ಇಲ್ಲ (_N)"
 
 #: ../mail/mail.error.xml.h:139
-#, fuzzy
 #| msgid "Always"
 msgid "_Always"
-msgstr "ಯಾವಾಗಲೂ"
+msgstr "ಯಾವಾಗಲೂ (_A)"
 
 #: ../mail/mail.error.xml.h:140
-#, fuzzy
 #| msgid "Never"
 msgid "N_ever"
-msgstr "ಎಂದೂ ಬೇಡ"
+msgstr "ಎಂದೂ ಬೇಡ (_e)"
 
 #: ../mail/mail.error.xml.h:141
 msgid "Signature Already Exists"
@@ -15318,78 +15264,67 @@ msgid "\"Report Not Junk\" Failed"
 msgstr "\"ರದ್ದಿ ಅಲ್ಲ ಎಂದು ವರದಿ ಮಾಡುವುದು\" ವಿಫಲಗೊಂಡಿದೆ"
 
 #: ../mail/mail.error.xml.h:152
-#, fuzzy
 #| msgid "Remove the delegate %s?"
 msgid "Remove duplicate messages?"
-msgstr "ಡೆಲಿಗೇಟ್‌ %s ಅನ್ನು ತೆಗೆದು ಹಾಕಬೇಕೆ?"
+msgstr "ಸಂದೇಶಗಳ ನಕಲುಪ್ರತಿ ಇದ್ದಲ್ಲಿ ಅದನ್ನು ತೆಗೆದುಹಾಕಬೇಕೆ?"
 
 #: ../mail/mail.error.xml.h:153
-#, fuzzy
 #| msgid "Unfinished messages found"
 msgid "No duplicate messages found."
-msgstr "ಅಪೂರ್ಣಗೊಂಡ ಸಂದೇಶಗಳು ಕಂಡುಬಂದಿವೆ"
+msgstr "ಸಂದೇಶಗಳ ಯಾವುದೆ ನಕಲುಪ್ರತಿಯು ಕಂಡುಬಂದಿಲ್ಲ."
 
 #. Translators: {0} is replaced with a folder name
 #: ../mail/mail.error.xml.h:155
-#, fuzzy
 #| msgid "The attachment does not contain a valid calendar message"
 msgid "Folder '{0}' doesn't contain any duplicate message."
-msgstr "ಲಗತ್ತಿಸಲಾಗಿದ್ದು ಒಂದು ಮಾನ್ಯವಾದ ಕ್ಯಾಲೆಂಡರ್ ಮಾಹಿತಿಯನ್ನು ಹೊಂದಿಲ್ಲ"
+msgstr "'{0}' ಎಂಬ ಕಡತಕೋಶವು ಸಂದೇಶದ ಯಾವುದೆ ನಕಲುಪ್ರತಿಯನ್ನು ಹೊಂದಿಲ್ಲ."
 
 #: ../mail/mail.error.xml.h:156
-#, fuzzy
 #| msgid "Really unsubscribe from folder \"%s\"?"
 msgid "Failed to unsubscribe from folder."
-msgstr "\"%s\" ಕ್ಕೆ ಚಂದಾದಾರನಾಗಿಸಿರುವುದನ್ನು ನಿಜವಾಗಲು ತೆಗೆದು ಹಾಕಬೇಕೆ?"
+msgstr "ಕಡತಕೋಶದ ಚಂದಾದಾರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸುವಲ್ಲಿ ವಿಫಲತೆ ಉಂಟಾಗಿದೆ."
 
 #: ../mail/mail.error.xml.h:158
-#, fuzzy
 #| msgid "Unable to retrieve message"
 msgid "Unable to retrieve message."
-msgstr "ಸಂದೇಶವನ್ನು ಮರಳಿಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ"
+msgstr "ಸಂದೇಶವನ್ನು ಮರಳಿಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ."
 
 #: ../mail/mail.error.xml.h:159
 msgid "{0}"
 msgstr "{0}"
 
 #: ../mail/mail.error.xml.h:160
-#, fuzzy
 #| msgid "failed to open book"
 msgid "Failed to open folder."
-msgstr "ಪುಸ್ತಕವನ್ನು ತೆರೆಯುವಲ್ಲಿ ವಿಫಲತೆ"
+msgstr "ಕಡತಕೋಶವನ್ನು ತೆರೆಯುವಲ್ಲಿ ವಿಫಲತೆ ಉಂಟಾಗಿದೆ."
 
 #: ../mail/mail.error.xml.h:161
-#, fuzzy
 #| msgid "Failed to send %d of %d messages"
 msgid "Failed to find duplicate messages."
-msgstr "%d (%d ರಲ್ಲಿ) ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸುವಲ್ಲಿ ವಿಫಲತೆ ಉಂಟಾಗಿದೆ"
+msgstr "ಸಂದೇಶಗಳ ನಕಲುಪ್ರತಿಯನ್ನು ಹುಡುಕುವಲ್ಲಿ ವಿಫಲತೆ ಉಂಟಾಗಿದೆ."
 
 #: ../mail/mail.error.xml.h:162
-#, fuzzy
 #| msgid "Unable to retrieve message"
 msgid "Failed to retrieve messages."
-msgstr "ಸಂದೇಶವನ್ನು ಮರಳಿಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ"
+msgstr "ಸಂದೇಶವನ್ನು ಮರಳಿಪಡೆಯಲು ವಿಫಲಗೊಂಡಿದೆ."
 
 #: ../mail/mail.error.xml.h:163
-#, fuzzy
 msgid "Failed to remove attachments from messages."
-msgstr "ಮೈಲ್ ಸಂದೇಶಗಳಲ್ಲಿ ನೇರವಾಗಿ ವಿಕಾರ್ಡುಗಳನ್ನು ಅನ್ನು ತೋರಿಸು."
+msgstr "ಸಂದೇಶಗಳಿಂದ ಲಗತ್ತುಗಳನ್ನು ತೆಗೆದುಹಾಕುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ."
 
 #: ../mail/mail.error.xml.h:164
-#, fuzzy
 #| msgid "_Download Messages for Offline Usage"
 msgid "Failed to download messages for offline viewing."
-msgstr "ಜಾಲದ ಹೊರಗೆ ಬಳಸಲು ಸಂದೇಶಗಳನ್ನು ಡೌನ್‍ಲೋಡ್ ಮಾಡು (_D)"
+msgstr "ಆಫ್‌ಲೈನ್ ವೀಕ್ಷಣೆಗಾಗಿ ಸಂದೇಶಗಳನ್ನು ಡೌನ್‍ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ವಿಫಲತೆ ಉಂಟಾಗಿದೆ."
 
 #: ../mail/mail.error.xml.h:165
-#, fuzzy
 #| msgid "Failed to send %d of %d messages"
 msgid "Failed to save messages to disk."
-msgstr "%d (%d ರಲ್ಲಿ) ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸುವಲ್ಲಿ ವಿಫಲತೆ ಉಂಟಾಗಿದೆ"
+msgstr "ಸಂದೇಶಗಳನ್ನು ಡಿಸ್ಕಿಗೆ ಉಳಿಸುವಲ್ಲಿ ವಿಫಲತೆ ಉಂಟಾಗಿದೆ."
 
 #: ../mail/mail.error.xml.h:166
 msgid "Hidden file is attached."
-msgstr ""
+msgstr "ಅಡಗಿಸಲಾದ ಕಡತವನ್ನು ಲಗತ್ತಿಸಲಾಗಿದೆ."
 
 #: ../mail/mail.error.xml.h:167
 msgid ""
@@ -15428,10 +15363,10 @@ msgid "Setting up Search Folder: %s"
 msgstr "ಹುಡುಕು ಕಡತಕೋಶವನ್ನು ಅಣಿಗೊಳಿಸಲಾಗುತ್ತಿದೆ: %s"
 
 #: ../mail/mail-vfolder.c:219
-#, fuzzy, c-format
+#, c-format
 #| msgid "Updating Search Folders for '%s:%s'"
 msgid "Updating Search Folders for '%s' - %s"
-msgstr "%s:%s' ಗಾಗಿನ ಹುಡುಕು ಕಡತಕೋಶವನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲಾಗುತ್ತಿದೆ"
+msgstr "'%s'-%s ಗಾಗಿನ ಹುಡುಕು ಕಡತಕೋಶಗಳನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲಾಗುತ್ತಿದೆ"
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
@@ -15449,7 +15384,11 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
+"\"%s\" ಎಂಬ ಹುಡುಕು ಕಡತಕೋಶವನ್ನು \"%s\" ಎಂಬ ಅಳಿಸಲಾದ ಕೋಶಕ್ಕಾಗಿ ಖಾತೆಯನ್ನು\n"
+"ಮಾರ್ಪಡಿಸಲಾಗಿದೆ."
 msgstr[1] ""
+"\"%s\" ಎಂಬ ಹುಡುಕು ಕಡತಕೋಶಗಳನ್ನು \"%s\" ಎಂಬ ಅಳಿಸಲಾದ ಕೋಶಕ್ಕಾಗಿ ಖಾತೆಯನ್ನು\n"
+"ಮಾರ್ಪಡಿಸಲಾಗಿದೆ."
 
 #: ../mail/mail-vfolder.c:1195
 msgid "Edit Search Folder"
