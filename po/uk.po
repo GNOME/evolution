@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-09 16:06+0200\n"
-"PO-Revision-Date: 2012-03-18 13:00+0300\n"
+"PO-Revision-Date: 2012-03-24 12:43+0300\n"
 "Last-Translator: Korostil Daniel <ted.korostiled@gmail.com>\n"
 "Language-Team: translation@linux.org.ua\n"
 "Language: uk\n"
@@ -20097,6 +20097,9 @@ msgid ""
 "$ORIG[from], $ORIG[to] or $ORIG[body], which will be replaced by values from "
 "an email you are replying to."
 msgstr ""
+"Додаток шаблонів, які ґрунтуються на чернетках. Можете використовувати такі "
+"змінні, як $ORIG[subject], $ORIG[from], $ORIG[to] або $ORIG[body], які буде "
+"замінено значеннями з пошти, на яку ви відповідаєте."
 
 #: ../plugins/templates/templates.c:1105
 msgid "No Title"
@@ -20483,7 +20486,7 @@ msgstr "Доступні _категорії"
 
 #: ../shell/e-shell-window-actions.c:1516
 msgid "Manage available categories"
-msgstr ""
+msgstr "Керувати доступними категоріями"
 
 #: ../shell/e-shell-window-actions.c:1528
 msgid "_Quick Reference"
@@ -20684,9 +20687,9 @@ msgid "Switch to %s"
 msgstr "Перемикнутись на %s"
 
 #: ../shell/e-shell-window-actions.c:2327
-#, fuzzy, c-format
+#, c-format
 msgid "Select view: %s"
-msgstr "Виберіть файлу"
+msgstr "Виберіть перегляд: %s"
 
 #: ../shell/e-shell-window-actions.c:2428
 msgid "Execute these search parameters"
@@ -20757,6 +20760,8 @@ msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
 msgstr ""
+"Запустити Evolution показавши вказані компоненти. Доступні параметри — "
+"«mail», «calendar», «contacts», «tasks» і «memos»"
 
 #: ../shell/main.c:314
 msgid "Apply the given geometry to the main window"
@@ -20767,9 +20772,8 @@ msgid "Start in online mode"
 msgstr "Запуск у режимі підключення до мережі"
 
 #: ../shell/main.c:320
-#, fuzzy
 msgid "Ignore network availability"
-msgstr "Чи доступна мережа"
+msgstr "Ігнорувати доступність до мережі"
 
 #: ../shell/main.c:322
 msgid "Start in \"express\" mode"
@@ -20788,9 +20792,8 @@ msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Вимкнути область перегляду пошити, контактів та задач."
 
 #: ../shell/main.c:334
-#, fuzzy
 msgid "Import URIs or filenames given as rest of arguments."
-msgstr "Імпортувати URI чи імена файлів вказані у решті аргументів."
+msgstr "Імпортувати URI чи назви файлів, задані в решті аргументів."
 
 #: ../shell/main.c:336
 msgid "Request a running Evolution process to quit"
@@ -20801,22 +20804,22 @@ msgid "- The Evolution PIM and Email Client"
 msgstr "- клієнт миттєвих повідомлень та пошти Evolutuion"
 
 #: ../shell/main.c:583
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
 msgstr ""
 "%s: --online та --offline не можуть використовуватись разом.\n"
-"  Use %s --help для більш докладної інформації.\n"
+"  Виконайте «%s --help» для докладної інформації.\n"
 
 #: ../shell/main.c:589
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
 msgstr ""
-"%s: --online та --offline не можуть використовуватись разом.\n"
-"  Use %s --help для більш докладної інформації.\n"
+"%s: --force-online та --offline не можуть використовуватись разом.\n"
+"  Виконайте «%s --help» для докладної інформації.\n"
 
 #: ../shell/shell.error.xml.h:2
 msgid "Upgrade from previous version failed:"
@@ -20835,19 +20838,16 @@ msgstr ""
 "даних.\n"
 
 #: ../shell/shell.error.xml.h:7
-#, fuzzy
 msgid "Continue Anyway"
-msgstr "Продовжити"
+msgstr "Однаково продовжити"
 
 #: ../shell/shell.error.xml.h:8
-#, fuzzy
 msgid "Quit Now"
-msgstr "Вийти"
+msgstr "Вийти зараз же"
 
 #: ../shell/shell.error.xml.h:9
-#, fuzzy
 msgid "Cannot upgrade directly from version {0}"
-msgstr "Вилучити старі дані з версії {0}?"
+msgstr "Неможливо оновити напряму з версії {0}"
 
 #: ../shell/shell.error.xml.h:10
 msgid ""
@@ -20855,6 +20855,8 @@ msgid ""
 "a workaround you might try first upgrading to Evolution 2, and then "
 "upgrading to Evolution 3."
 msgstr ""
+"Evolution більше не підтримує оновлення напряму з версії {0}. Однак, ви "
+"можете обійти це оновивши спочатку до Evolution 2, а потім до Evolution 3."
 
 #: ../shell/shell.error.xml.h:11
 msgid "Are you sure you want to forget all remembered passwords?"
@@ -20971,14 +20973,12 @@ msgid "Certificate Name"
 msgstr "Назва сертифіката"
 
 #: ../smime/gui/certificate-manager.c:78 ../smime/gui/certificate-manager.c:98
-#, fuzzy
 msgid "Issued To Organization"
-msgstr "_Організація:"
+msgstr "Видано організації"
 
 #: ../smime/gui/certificate-manager.c:79 ../smime/gui/certificate-manager.c:99
-#, fuzzy
 msgid "Issued To Organizational Unit"
-msgstr "Відділ організації (OU)"
+msgstr "Видано одиниці організації"
 
 #: ../smime/gui/certificate-manager.c:80
 #: ../smime/gui/certificate-manager.c:100
@@ -21002,23 +21002,20 @@ msgstr "Виданий ким"
 #: ../smime/gui/certificate-manager.c:83
 #: ../smime/gui/certificate-manager.c:103
 #: ../smime/gui/certificate-manager.c:121
-#, fuzzy
 msgid "Issued By Organization"
-msgstr "_Організація:"
+msgstr "Видано організацію"
 
 #: ../smime/gui/certificate-manager.c:84
 #: ../smime/gui/certificate-manager.c:104
 #: ../smime/gui/certificate-manager.c:122
-#, fuzzy
 msgid "Issued By Organizational Unit"
-msgstr "Відділ організації (OU)"
+msgstr "Видано одиницею організації"
 
 #: ../smime/gui/certificate-manager.c:85
 #: ../smime/gui/certificate-manager.c:105
 #: ../smime/gui/certificate-manager.c:123
-#, fuzzy
 msgid "Issued"
-msgstr "Постачальник"
+msgstr "Видано"
 
 #: ../smime/gui/certificate-manager.c:86
 #: ../smime/gui/certificate-manager.c:106
@@ -21040,9 +21037,8 @@ msgstr "Відбитки MD5"
 
 #: ../smime/gui/certificate-manager.c:97
 #: ../smime/gui/certificate-manager.c:117
-#, fuzzy
 msgid "Email Address"
-msgstr "_Електронна адреса:"
+msgstr "Адреса пошти"
 
 #: ../smime/gui/certificate-manager.c:584
 msgid "Select a certificate to import..."
@@ -21053,9 +21049,8 @@ msgid "All files"
 msgstr "Усі файли"
 
 #: ../smime/gui/certificate-manager.c:632
-#, fuzzy
 msgid "Failed to import certificate"
-msgstr "Імпортований сертифікат"
+msgstr "Не вдалось імпортувати сертифікат"
 
 #: ../smime/gui/certificate-manager.c:1006
 msgid "All PKCS12 files"
@@ -21093,9 +21088,9 @@ msgstr ""
 "не довіряєте автентичності цього сертифіката, якщо тут не буде вказано інше"
 
 #: ../smime/gui/component.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "Enter the password for '%s'"
-msgstr "Введіть пароль для \"%s\""
+msgstr "Введіть пароль для «%s»"
 
 #. we're setting the password initially
 #: ../smime/gui/component.c:76
@@ -21207,14 +21202,12 @@ msgstr "Таблиця сертифікатів"
 
 #. This is a verb, as in "make a backup".
 #: ../smime/gui/smime-ui.ui.h:30
-#, fuzzy
 msgid "_Backup"
-msgstr "Зберегти"
+msgstr "_Зберегти"
 
 #: ../smime/gui/smime-ui.ui.h:31
-#, fuzzy
 msgid "Backup _All"
-msgstr "Зберегти все"
+msgstr "Зберегти _все"
 
 #: ../smime/gui/smime-ui.ui.h:33
 msgid "Your Certificates"
@@ -21243,19 +21236,16 @@ msgid "Certificate Authority Trust"
 msgstr "Довіра постачальнику сертифіката"
 
 #: ../smime/gui/smime-ui.ui.h:39
-#, fuzzy
 msgid "Trust this CA to identify _websites."
-msgstr "Довіряти цій CA для ідентифікації веб-сайтів."
+msgstr "Довіряти цій CA для ідентифікації _сайтів."
 
 #: ../smime/gui/smime-ui.ui.h:40
-#, fuzzy
 msgid "Trust this CA to identify _email users."
-msgstr "Довіряти цій CA для ідентифікації поштових користувачів."
+msgstr "Довіряти цій CA для ідентифікації по_штових користувачів."
 
 #: ../smime/gui/smime-ui.ui.h:41
-#, fuzzy
 msgid "Trust this CA to identify _software developers."
-msgstr "Довіряти цій CA для ідентифікації розробників програми."
+msgstr "Довіряти цій CA для ідентифікації розробників _програми."
 
 #: ../smime/gui/smime-ui.ui.h:42
 msgid ""
@@ -21331,19 +21321,16 @@ msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgstr "PKCS #1 SHA-1 з шифруванням RSA"
 
 #: ../smime/lib/e-cert.c:617
-#, fuzzy
 msgid "PKCS #1 SHA-256 With RSA Encryption"
-msgstr "PKCS #1 SHA-1 з шифруванням RSA"
+msgstr "PKCS #1 SHA-256 з шифруванням RSA"
 
 #: ../smime/lib/e-cert.c:620
-#, fuzzy
 msgid "PKCS #1 SHA-384 With RSA Encryption"
-msgstr "PKCS #1 SHA-1 з шифруванням RSA"
+msgstr "PKCS #1 SHA-384 з шифруванням RSA"
 
 #: ../smime/lib/e-cert.c:623
-#, fuzzy
 msgid "PKCS #1 SHA-512 With RSA Encryption"
-msgstr "PKCS #1 SHA-1 з шифруванням RSA"
+msgstr "PKCS #1 SHA-512 з шифруванням RSA"
 
 #: ../smime/lib/e-cert.c:650
 msgid "PKCS #1 RSA Encryption"
@@ -21660,9 +21647,8 @@ msgid "evolution calendar item"
 msgstr "елемент календаря Evolution"
 
 #: ../widgets/misc/e-alert-bar.c:120
-#, fuzzy
 msgid "Close this message"
-msgstr "Відіслати це повідомлення"
+msgstr "Закрити цей лист"
 
 #. To Translators: This text is set as a description of an attached
 #. * message when, for example, attaching it to a composer. When the
@@ -21792,7 +21778,7 @@ msgstr[2] "Зберегти долучення"
 
 #: ../widgets/misc/e-attachment-view.c:379
 msgid "Open With Other Application..."
-msgstr ""
+msgstr "Відкрити через інакшу програму…"
 
 #: ../widgets/misc/e-attachment-view.c:386
 msgid "S_ave All"
@@ -21807,23 +21793,21 @@ msgid "_Hide"
 msgstr "С_ховати"
 
 #: ../widgets/misc/e-attachment-view.c:443
-#, fuzzy
 msgid "Hid_e All"
-msgstr "Зберегти _як"
+msgstr "С_ховати все"
 
 #: ../widgets/misc/e-attachment-view.c:450
 msgid "_View Inline"
 msgstr "_Вбудований перегляд"
 
 #: ../widgets/misc/e-attachment-view.c:457
-#, fuzzy
 msgid "Vie_w All Inline"
-msgstr "_Вбудований перегляд"
+msgstr "Пере_глянути всі вбудовані"
 
 #: ../widgets/misc/e-attachment-view.c:778
-#, fuzzy, c-format
+#, c-format
 msgid "Open With \"%s\""
-msgstr "Відкрити за допомогою \"%s\""
+msgstr "Відкрити через «%s»"
 
 #: ../widgets/misc/e-attachment-view.c:781
 #, c-format
@@ -21857,9 +21841,8 @@ msgid "Other..."
 msgstr "Інший..."
 
 #: ../widgets/misc/e-contact-map-window.c:355
-#, fuzzy
 msgid "Contacts Map"
-msgstr "Мапа контактів:"
+msgstr "Мапа контактів"
 
 #: ../widgets/misc/e-dateedit.c:504
 msgid "Date and Time"
@@ -21952,14 +21935,12 @@ msgstr ""
 
 #. Install a custom "Cancel Import" button.
 #: ../widgets/misc/e-import-assistant.c:775
-#, fuzzy
 msgid "_Cancel Import"
-msgstr "Скасувати"
+msgstr "С_касувати імпортування"
 
 #: ../widgets/misc/e-import-assistant.c:919
-#, fuzzy
 msgid "Preview data to be imported"
-msgstr "Переглянути вигляд повідомлення при друку"
+msgstr "Переглянути дані, які буде імпортовано"
 
 #: ../widgets/misc/e-import-assistant.c:925
 #: ../widgets/misc/e-import-assistant.c:938
@@ -22113,7 +22094,6 @@ msgstr "Лише для ваших глаз"
 
 #. Translators: Used in send options dialog
 #: ../widgets/misc/e-send-options.ui.h:12
-#, fuzzy
 msgctxt "send-options"
 msgid "None"
 msgstr "Немає"
@@ -22127,13 +22107,11 @@ msgid "R_eply requested"
 msgstr "_Відповідь запитується"
 
 #: ../widgets/misc/e-send-options.ui.h:16
-#, fuzzy
 msgctxt "ESendOptionsWithin"
 msgid "Wi_thin"
 msgstr "П_ротягом"
 
 #: ../widgets/misc/e-send-options.ui.h:17
-#, fuzzy
 msgctxt "ESendOptionsWithin"
 msgid "days"
 msgstr "діб"
@@ -22147,13 +22125,11 @@ msgid "_Delay message delivery"
 msgstr "_Відкласти доставку повідомлення"
 
 #: ../widgets/misc/e-send-options.ui.h:21
-#, fuzzy
 msgctxt "ESendOptionsAfter"
 msgid "_After"
-msgstr "_після:"
+msgstr "_Після"
 
 #: ../widgets/misc/e-send-options.ui.h:22
-#, fuzzy
 msgctxt "ESendOptionsAfter"
 msgid "days"
 msgstr "діб"
@@ -22163,10 +22139,9 @@ msgid "_Set expiration date"
 msgstr "_Встановити дату закінчення"
 
 #: ../widgets/misc/e-send-options.ui.h:24
-#, fuzzy
 msgctxt "ESendOptions"
 msgid "_Until"
-msgstr "_До:"
+msgstr "_До"
 
 #: ../widgets/misc/e-send-options.ui.h:25
 msgid "Delivery Options"
@@ -22302,14 +22277,12 @@ msgid "_Copy Email Address"
 msgstr "_Копіювати адресу ел.пошти"
 
 #: ../widgets/misc/e-web-view.c:447
-#, fuzzy
 msgid "_Copy Image"
-msgstr "_Немає зображення"
+msgstr "_копіювати зображення"
 
 #: ../widgets/misc/e-web-view.c:449
-#, fuzzy
 msgid "Copy the image to the clipboard"
-msgstr "Копіювати посилання у буфер обміну"
+msgstr "Копіювати зображення в буфер"
 
 #: ../widgets/misc/e-web-view.c:469 ../widgets/misc/e-web-view.c:1318
 msgid "Select all text and images"
@@ -22491,12 +22464,12 @@ msgstr "Додати стовпчик"
 #. * Example: "Family name: Smith (13 items)"
 #.
 #: ../widgets/table/e-table-group-container.c:361
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (%d item)"
 msgid_plural "%s: %s (%d items)"
-msgstr[0] "%s : %s (%d елемент)"
-msgstr[1] "%s : %s (%d елемент)"
-msgstr[2] "%s : %s (%d елемент)"
+msgstr[0] "%s : %s (%d об'єкт)"
+msgstr[1] "%s : %s (%d об'єкти)"
+msgstr[2] "%s : %s (%d об'єктів)"
 
 #. Translators: This text is used as a special row when an ETable
 #. * has turned on grouping on a column, which doesn't have set a title.
