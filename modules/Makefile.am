@@ -15,6 +15,7 @@ SUBDIRS = \
 	bogofilter \
 	calendar \
 	mail \
+	backup-restore \
 	composer-autosave \
 	mailto-handler \
 	mdn \

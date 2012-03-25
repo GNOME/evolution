@@ -1303,7 +1303,7 @@ plugins_base_always="calendar-file calendar-http itip-formatter default-source a
 plugins_base="$plugins_base_always"
 dist_plugins_base="$plugins_base_always calendar-weather"
 
-plugins_standard_always="bbdb save-calendar mail-to-task mailing-list-actions prefer-plain mail-notification attachment-reminder backup-restore email-custom-header face templates vcard-inline dbx-import external-editor"
+plugins_standard_always="bbdb save-calendar mail-to-task mailing-list-actions prefer-plain mail-notification attachment-reminder email-custom-header face templates vcard-inline dbx-import external-editor"
 
 plugins_standard="$plugins_standard_always"
 dist_plugins_standard="$plugins_standard audio-inline image-inline pst-import"
@@ -1632,6 +1632,7 @@ modules/addressbook/Makefile
 modules/bogofilter/Makefile
 modules/calendar/Makefile
 modules/mail/Makefile
+modules/backup-restore/Makefile
 modules/composer-autosave/Makefile
 modules/mailto-handler/Makefile
 modules/mdn/Makefile
@@ -1648,7 +1649,6 @@ plugins/Makefile
 plugins/addressbook-file/Makefile
 plugins/attachment-reminder/Makefile
 plugins/audio-inline/Makefile
-plugins/backup-restore/Makefile
 plugins/bbdb/Makefile
 plugins/caldav/Makefile
 plugins/calendar-file/Makefile

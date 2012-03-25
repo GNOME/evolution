@@ -1,4 +1,5 @@
 /*
+ * evolution-backup-tool.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -12,9 +13,6 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
- *
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
@@ -560,7 +558,18 @@ restore (const gchar *filename,
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
 
-	txt = _("Ensuring local sources");
+	txt = _("Reloading registry service");
+
+	/* This runs migration routines on the newly-restored data.
+	 *
+	 * XXX Hard-coding the whole command like this is not ideal
+	 *     because the "SourcesX" interface name will occasionally
+	 *     change and I guarantee we'll forget to update this. */
+	run_cmd (
+		"gdbus call --session "
+		"--dest org.gnome.evolution.dataserver.Sources0 "
+		"--object-path /org/gnome/evolution/dataserver/SourceManager "
+		"--method org.gnome.evolution.dataserver.SourceManager.Reload");
 
 end:
 	if (restart_arg) {

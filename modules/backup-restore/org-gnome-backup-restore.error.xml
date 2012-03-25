@@ -18,7 +18,7 @@
     <button _label="Close and Restore Evolution" response="GTK_RESPONSE_YES"/>
   </error>  
    <error id="insufficient-permissions" type="error">
-   	<_primary>Insufficient Permissions</_primary>
-	<_secondary>The selected folder is not writable.</_secondary>
+        <_primary>Insufficient Permissions</_primary>
+        <_secondary>The selected folder is not writable.</_secondary>
    </error>
 </error-list>
