@@ -186,7 +186,8 @@ PKG_PROG_PKG_CONFIG
 dnl ********************************************
 dnl User / Developer Documentation
 dnl ********************************************
-GNOME_DOC_INIT
+dnl gnome-doc-utils-0.20.10 fixes bug 67826
+GNOME_DOC_INIT(0.20.10)
 GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
 
 dnl ******************************
