@@ -1401,6 +1401,11 @@ if test "x$enable_weather" = "xyes"; then
 	else
 		AC_MSG_ERROR([gweather-3.0 >= gweather_minimum_version is required for the calendar-weather plugin.  Use --disable-weather to exclude the plugin.])
 	fi
+
+	dnl gweather-3.5 introduces API changes we do not yet support.
+	if `$PKG_CONFIG --atleast-version=3.5 gweather-3.0`; then
+		AC_MSG_ERROR([gweather-3.5 is not yet supported.  Install gweather-3.4 or specify --disable-weather as a configure option to exclude the calendar-weather plugin.])
+	fi
 fi
 
 dnl ********************************************************************
