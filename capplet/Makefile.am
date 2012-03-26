@@ -51,6 +51,7 @@ evolution_settings_LDADD = 				\
 	$(SMIME_LIBS)					\
 	$(top_builddir)/libemail-engine/libemail-engine.la \
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(top_builddir)/widgets/table/libetable.la	\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/capplet/settings/libevolution-mail-settings.la \
