@@ -22,7 +22,7 @@
 <p>If you want to change a memo that already exists in your memo lists,</p>
 
 <steps>
-<item><p>Double-click on the memo that you want to edit in the list of contacts, or right-click on the memo and click <gui>Open Memo</gui>.</p></item>
+<item><p>Double-click on the memo that you want to edit in the list of memos, or right-click on the memo and click <gui>Open Memo</gui>.</p></item>
 <item><p>Edit the memo information.</p></item>
 <item><p>Click the <gui style="button">Save</gui> button, or <guiseq><gui>File</gui><gui>Save</gui></guiseq>.</p></item>
 </steps>
