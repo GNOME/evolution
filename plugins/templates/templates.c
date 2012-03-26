@@ -411,11 +411,11 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 	UIData *ui = g_new0 (UIData, 1);
 
-	templates_configuration_box = gtk_vbox_new (FALSE, 5);
+	templates_configuration_box = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (templates_configuration_box);
 	gtk_widget_set_size_request (templates_configuration_box, 385, 189);
 
-	clue_container = gtk_hbox_new (FALSE, 6);
+	clue_container = gtk_hbox_new (FALSE, 12);
 	gtk_widget_show (clue_container);
 	gtk_box_pack_start (GTK_BOX (templates_configuration_box), clue_container, TRUE, TRUE, 0);
 
