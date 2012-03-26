@@ -792,7 +792,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	GtkWidget *header_edit;
 	GtkWidget *header_remove;
 
-	ech_configuration_box = gtk_vbox_new (FALSE, 0);
+	ech_configuration_box = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (ech_configuration_box);
 
 	vbox2 = gtk_vbox_new (FALSE, 0);
@@ -806,11 +806,11 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_CENTER);
 	gtk_label_set_line_wrap (GTK_LABEL (label1), TRUE);
 
-	header_configuration_box = gtk_vbox_new (FALSE, 5);
+	header_configuration_box = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (header_configuration_box);
 	gtk_box_pack_start (GTK_BOX (ech_configuration_box), header_configuration_box, TRUE, TRUE, 0);
 
-	header_container = gtk_hbox_new (FALSE, 6);
+	header_container = gtk_hbox_new (FALSE, 12);
 	gtk_widget_show (header_container);
 	gtk_box_pack_start (GTK_BOX (header_configuration_box), header_container, TRUE, TRUE, 0);
 
