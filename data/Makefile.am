@@ -36,9 +36,6 @@ gsettings_SCHEMAS =							\
 convertdir = $(datadir)/GConf/gsettings
 convert_DATA = evolution.convert
 
-mimedir = $(datadir)/mime-info
-dist_mime_DATA = evolution.mime
-
 themedir = $(privdatadir)/theme
 dist_theme_DATA =	\
 	default.css	\
