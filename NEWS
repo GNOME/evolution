@@ -1,3 +1,30 @@
+Evolution 3.4.0 2012-03-26
+--------------------------
+
+Bug Fixes:
+	Bug 672474 - Flaw in GOA synchronization logic (Matthew Barnes)
+	Bug 672593 - Typos in evolution.convert (Dimitri)
+
+Translations:
+	Ibrahim Saed (ar)
+	David Planella (ca)
+	Carles Ferrando (ca@valencia)
+	Jiri Eischmann (cs)
+	Flemming Christensen (da)
+	Kenneth Nielsen (da)
+	Mattias Põldaru (et)
+	Bruno Brouard (fr)
+	Chandan Kumar (hi)
+	Gabor Kelemen (hu)
+	Shankar Prasad (kn)
+	Aurimas Černius (lt)
+	Kjartan Maraas (nb)
+	Duarte Loreto (pt)
+	Djavan Fagundes (pt_BR)
+	Sasi Bhushan Boddepalli (te)
+	Daniel Korostil (uk)
+
+
 Evolution 3.3.92 2012-03-19
 ---------------------------
 
