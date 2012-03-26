@@ -426,11 +426,11 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 
 	UIData *ui = g_new0 (UIData, 1);
 
-	reminder_configuration_box = gtk_vbox_new (FALSE, 5);
+	reminder_configuration_box = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (reminder_configuration_box);
 	gtk_widget_set_size_request (reminder_configuration_box, 385, 189);
 
-	clue_container = gtk_hbox_new (FALSE, 6);
+	clue_container = gtk_hbox_new (FALSE, 12);
 	gtk_widget_show (clue_container);
 	gtk_box_pack_start (
 		GTK_BOX (reminder_configuration_box),
