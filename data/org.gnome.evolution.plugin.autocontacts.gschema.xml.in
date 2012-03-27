@@ -3,37 +3,37 @@
     <key name="addressbook-source" type="s">
       <default>''</default>
       <_summary>Address book source</_summary>
-      <_description>Address book to use for storing automatically synced contacts</_description>
+      <_description>Address book to use for storing automatically synced contacts.</_description>
     </key>
     <key name="auto-sync-gaim" type="b">
       <default>false</default>
       <_summary>Auto sync Pidgin contacts</_summary>
-      <_description>Whether Pidgin contacts should be automaticall synced</_description>
+      <_description>Whether Pidgin contacts should be automatically synced.</_description>
     </key>
     <key name="enable" type="b">
       <default>false</default>
       <_summary>Enable autocontacts</_summary>
-      <_description>Whether contacts should be automatically added to the user's addressbook</_description>
+      <_description>Whether contacts should be automatically added to the user's address book.</_description>
     </key>
     <key name="gaim-addressbook-source" type="s">
       <default>''</default>
       <_summary>Pidgin address book source</_summary>
-      <_description>Address book to use for storing automatically synced contacts from Pidgin</_description>
+      <_description>Address book to use for storing automatically synced contacts from Pidgin.</_description>
     </key>
     <key name="gaim-check-interval" type="i">
       <default>10</default>
       <_summary>Pidgin check interval</_summary>
-      <_description>Check interval for Pidgin syncing of contacts</_description>
+      <_description>Check interval for Pidgin syncing of contacts.</_description>
     </key>
     <key name="gaim-last-sync-md5" type="s">
       <default>''</default>
       <_summary>Pidgin last sync MD5</_summary>
-      <_description>Pidgin last sync MD5</_description>
+      <_description>Pidgin last sync MD5.</_description>
     </key>
     <key name="gaim-last-sync-time" type="s">
       <default>''</default>
       <_summary>Pidgin last sync time</_summary>
-      <_description>Pidgin last sync time</_description>
+      <_description>Pidgin last sync time.</_description>
     </key>
   </schema>
 </schemalist>

@@ -51,7 +51,7 @@ struct _EMFormatPrivate {
 /* Used to cache various data/info for redraws
  * The validity stuff could be cached at a higher level but this is easier
  * This absolutely relies on the partid being _globally unique_
- * This is still kind of yucky, we should maintian a full tree of all this data,
+ * This is still kind of yucky, we should maintain a full tree of all this data,
  * along with/as part of the puri tree */
 struct _EMFormatCache {
 	CamelCipherValidity *valid; /* validity copy */
@@ -420,7 +420,7 @@ em_format_get_type (void)
  *
  * Add a mime type handler to this class.  This is only used by
  * implementing classes.  The @info.old pointer will automatically be
- * setup to point to the old hanlder if one was already set.  This can
+ * setup to point to the old handler if one was already set.  This can
  * be used for overrides a fallback.
  *
  * When a mime type described by @info is encountered, the callback will
@@ -664,10 +664,10 @@ em_format_add_puri (EMFormat *emf,
  * em_format_push_level:
  * @emf:
  *
- * This is used to build a heirarchy of visible PURI objects based on
+ * This is used to build a hierarchy of visible PURI objects based on
  * the structure of the message.  Used by multipart/alternative formatter.
  *
- * FIXME: This could probably also take a uri so it can automaticall update
+ * FIXME: This could probably also take a uri so it can automatically update
  * the base location.
  **/
 void
@@ -2492,6 +2492,6 @@ em_format_snoop_type (CamelMimePart *part)
 
 	return res;
 
-	/* We used to load parts to check their type, we dont anymore,
+	/* We used to load parts to check their type, we don't anymore,
 	 * see bug #11778 for some discussion */
 }
