@@ -1,3 +1,11 @@
+Evolution 3.4.0.1 2012-03-27
+----------------------------
+
+* This release includes a new gnome-doc-utils.make from the newly-released
+  gnome-doc-utils-0.20.10 to avoid an "Argument list too long" error while
+  building Evolution's mammoth user documentation.
+
+
 Evolution 3.4.0 2012-03-26
 --------------------------
 
