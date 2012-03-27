@@ -4695,7 +4695,7 @@ regen_list_exec (struct _regen_list_msg *m,
 		gboolean store_has_vjunk = folder_store_supports_vjunk_folder (m->folder);
 
 		searchuids = uids = camel_folder_search_by_expression (
-			m->folder, expr, &local_error);
+			m->folder, expr, cancellable, &local_error);
 		/* If m->changes is not NULL, then it means we are called from folder_changed event,
 		 * thus we will keep the selected message to be sure it doesn't disappear because
 		 * it no longer belong to our search filter. */
