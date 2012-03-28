@@ -15,6 +15,7 @@ addressbook/gui/merging/eab-contact-merging.c
 addressbook/gui/widgets/addresstypes.xml
 addressbook/gui/widgets/ea-addressbook-view.c
 addressbook/gui/widgets/eab-contact-display.c
+addressbook/gui/widgets/eab-contact-formatter.c
 addressbook/gui/widgets/eab-gui-util.c
 addressbook/gui/widgets/e-addressbook-model.c
 addressbook/gui/widgets/e-addressbook-reflow-adapter.c
@@ -203,8 +204,10 @@ mail/e-mail-label-manager.c
 mail/e-mail-label-tree-view.c
 mail/e-mail-migrate.c
 mail/e-mail-notebook-view.c
+mail/e-mail-printer.c
 mail/e-mail-reader.c
 mail/e-mail-reader-utils.c
+mail/e-mail-request.c
 mail/e-mail-tag-editor.c
 mail/e-mail-ui-session.c
 mail/em-composer-utils.c
@@ -221,7 +224,6 @@ mail/em-folder-utils.c
 mail/em-format-html.c
 mail/em-format-html-display.c
 mail/em-format-html-print.c
-mail/em-html-stream.c
 mail/em-subscription-editor.c
 mail/em-sync-stream.c
 mail/em-utils.c
@@ -303,6 +305,7 @@ modules/plugin-python/example/org-gnome-hello-python-ui.xml
 modules/spamassassin/evolution-spamassassin.c
 modules/spamassassin/evolution-spamassassin.schemas.in
 modules/startup-wizard/evolution-startup-wizard.c
+modules/web-inspector/evolution-web-inspector.c
 plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml
 plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in
 plugins/attachment-reminder/attachment-reminder.c
@@ -468,6 +471,7 @@ widgets/misc/e-signature-manager.c
 widgets/misc/e-signature-script-dialog.c
 widgets/misc/e-url-entry.c
 widgets/misc/e-web-view.c
+widgets/misc/e-web-view-gtkhtml.c
 widgets/table/e-cell-combo.c
 widgets/table/e-cell-date.c
 widgets/table/e-cell-date-edit.c
