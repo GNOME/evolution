@@ -12,7 +12,7 @@ Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
 From: "The Evolution Team" <evolution@novell.com>
 To: Evolution Users <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution 2.10.0
+X-Mailer: Evolution 2.24.0
 Date: 14 March 2007 12:00:00 +0000
 Message-ID: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
@@ -87,7 +87,9 @@ Content-Type: text/html; charset=utf-8
 <TD></TD><TD>
 <FONT COLOR="#f8fcf8"><FONT SIZE="4">
 
+
 <B>Zespół programistów Evolution</B> wita w programie <B>Evolution</B>, kompletnym systemie zarządzania pocztą i informacjami osobistymi.
+
 
 </FONT SIZE="4"></FONT>
 </TD><TD></TD><TD>
@@ -99,6 +101,7 @@ Content-Type: text/html; charset=utf-8
 <IMG SRC="cid:1001417929.27019.9.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8">
 </div></TD></TR></TABLE>
 
+
 <h2>
 Zaczynamy
 </h2>
@@ -108,11 +111,12 @@ Zaczynamy
 	W lewej części okna Evolution znajduje się pasek boczny ze skrótami
 	do wszystkich katalogów poczty. Poniżej umieszczono przyciski
 	otwierające kalendarz oraz listy kontaktów, zadań i notatek.
+
 <br><br>
 
-	Pełny podręcznik po Evolution (w języku angielskim) można znaleźć
-	wybierając pozycję "Spis treści" z menu "Pomoc" lub naciskając
-	klawisz F1 na klawiaturze.
+	Pełny podręcznik programu Evolution (w języku angielskim) można znaleźć
+	wybierając pozycję <b>Spis treści</b> z menu <b>Pomoc</b> lub naciskając
+	klawisz <b>F1</b> na klawiaturze.
 
 <br><br>
 </blockquote>
@@ -121,7 +125,7 @@ Zaczynamy
 Zgłaszanie błędów
 </h2>
 <blockquote>
-	Napotkane błędy prosimy zgłaszać pod adresem <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+	Napotkane błędy prosimy zgłaszać pod adresem <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a> (w języku angielskim).
 <br><br>
 </blockquote> 
 
@@ -132,7 +136,7 @@ Więcej informacji
 <blockquote>
 	Pod adresem
 	<a href="http://lists.gnome.org/mailman/listinfo/evolution-list">http://lists.gnome.org/mailman/listinfo/evolution-list</a>.
-	można zapisać się na listę pocztową użytkowników Evolution (w języku angielskim).
+	można zapisać się na listę pocztową użytkowników programu Evolution (w języku angielskim).
 
 	Informacje na temat projektu Evolution można znaleźć pod adresem
 	<a href="http://projects.gnome.org/evolution">http://projects.gnome.org/evolution</a>.
@@ -145,7 +149,7 @@ Więcej informacji
 
 Z poważaniem,
 <br>
-Zespół Evolution
+Zespół programu Evolution
 
 </BODY>
 </HTML>
