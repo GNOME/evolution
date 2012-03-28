@@ -10,6 +10,7 @@ libeabwidgets_la_CPPFLAGS =				\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\"		\
 	-DEVOLUTION_IMAGESDIR=\"${imagesdir}\"		\
+	-DEVOLUTION_PRIVDATADIR=\"${privdatadir}\"	\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/filter				\
 	-I$(top_srcdir)/widgets				\
@@ -32,6 +33,8 @@ libeabwidgets_la_SOURCES =			\
 	eab-config.c				\
 	eab-contact-display.c			\
 	eab-contact-display.h			\
+	eab-contact-formatter.c			\
+	eab-contact-formatter.h			\
 	eab-gui-util.c				\
 	eab-gui-util.h				\
 	e-minicard.c				\

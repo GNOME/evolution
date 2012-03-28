@@ -56,6 +56,14 @@ struct _ECalComponentPreviewPrivate {
 	gint comp_sequence;
 };
 
+#define HTML_HEADER "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n"  \
+                    "<head>\n<meta name=\"generator\" content=\"Evolution Calendar Component\">\n" \
+		    "<link type=\"text/css\" rel=\"stylesheet\" href=\"file://" EVOLUTION_PRIVDATADIR "/theme/webview.css\">\n" \
+		    "<style>\n" \
+		    ".description { font-family: monospace; font-size: 1em; }\n" \
+		    "</style>\n" \
+		    "</head>"
+
 static void
 clear_comp_info (ECalComponentPreview *preview)
 {
@@ -191,20 +199,21 @@ cal_component_preview_write_html (GString *buffer,
 	/* write document header */
 	e_cal_component_get_summary (comp, &text);
 
+	g_string_append (buffer, HTML_HEADER);
+	g_string_append (buffer, "<body>");
+
 	if (text.value)
-		g_string_append_printf (
-			buffer, "<HTML><BODY><H1>%s</H1>",
-			text.value);
+		g_string_append_printf (buffer, "<h2>%s</h2>", text.value);
 	else
-		g_string_append_printf (
-			buffer, "<HTML><BODY><H1><I>%s</I></H1>",
-			_("Untitled"));
+		g_string_append_printf (buffer, "<h2><i>%s</i></h2>",_("Untitled"));
+
+	g_string_append (buffer, "<table border=\"0\" cellspacing=\"5\">");
 
 	/* write icons for the categories */
 	string = g_string_new (NULL);
 	e_cal_component_get_categories_list (comp, &list);
 	if (list != NULL)
-		g_string_append_printf (buffer, "<H3>%s ", _("Categories:"));
+		g_string_append_printf (buffer, "<tr><th>%s</th><td>", _("Categories:"));
 	for (iter = list; iter != NULL; iter = iter->next) {
 		const gchar *category = iter->data;
 		const gchar *icon_file;
@@ -215,7 +224,7 @@ cal_component_preview_write_html (GString *buffer,
 
 			uri = g_filename_to_uri (icon_file, NULL, NULL);
 			g_string_append_printf (
-				buffer, "<IMG ALT=\"%s\" SRC=\"%s\">",
+				buffer, "<img alt=\"%s\" src=\"%s\">",
 				category, uri);
 			g_free (uri);
 		} else {
@@ -227,22 +236,14 @@ cal_component_preview_write_html (GString *buffer,
 	if (string->len > 0)
 		g_string_append_printf (buffer, "%s", string->str);
 	if (list != NULL)
-		g_string_append (buffer, "</H3>");
+		g_string_append (buffer, "</td></tr>");
 	e_cal_component_free_categories_list (list);
 	g_string_free (string, TRUE);
-
-	/* Start table */
-	g_string_append (
-		buffer, "<TABLE BORDER=\"0\" WIDTH=\"80%%\">"
-		"<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\" WIDTH=\"15%%\">"
-		"</TD></TR>");
 
 	/* write location */
 	e_cal_component_get_location (comp, &location);
 	if (location)
-		g_string_append_printf (
-			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\" "
-			"WIDTH=\"15%%\"><B>%s</B></TD><TD>%s</TD></TR>",
+		g_string_append_printf (buffer, "<tr><th>%s</th><td>%s</td></tr>",
 			_("Summary:"), text.value);
 
 	/* write start date */
@@ -250,11 +251,8 @@ cal_component_preview_write_html (GString *buffer,
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (
 			&dt, client, default_zone, use_24_hour_format);
-		g_string_append_printf (
-			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
-			"<B>%s</B></TD><TD>%s</TD></TR>",
+		g_string_append_printf (buffer, "<tr><th>%s</th><td>%s</td></tr>",
 			_("Start Date:"), str);
-
 		g_free (str);
 	}
 	e_cal_component_free_datetime (&dt);
@@ -264,11 +262,8 @@ cal_component_preview_write_html (GString *buffer,
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (
 			&dt, client, default_zone, use_24_hour_format);
-		g_string_append_printf (
-			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
-			"<B>%s</B></TD><TD>%s</TD></TR>",
-			_("Start Date:"), str);
-
+		g_string_append_printf (buffer,"<tr><th>%s</th><td>%s</td></tr>",
+			_("End Date:"), str);
 		g_free (str);
 	}
 	e_cal_component_free_datetime (&dt);
@@ -278,11 +273,8 @@ cal_component_preview_write_html (GString *buffer,
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (
 			&dt, client, default_zone, use_24_hour_format);
-		g_string_append_printf (
-			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
-			"<B>%s</B></TD><TD>%s</TD></TR>",
+		g_string_append_printf (buffer, "<tr><th>%s</th><td>%s</td></tr>",
 			_("Due Date:"), str);
-
 		g_free (str);
 	}
 	e_cal_component_free_datetime (&dt);
@@ -292,9 +284,8 @@ cal_component_preview_write_html (GString *buffer,
 	icalprop = icalcomponent_get_first_property (
 		icalcomp, ICAL_STATUS_PROPERTY);
 	if (icalprop != NULL) {
-		g_string_append_printf (
-			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
-			"<B>%s</B></TD>", _("Status:"));
+		g_string_append_printf (buffer, "<tr><th>%s</th>",
+			_("Status:"));
 		e_cal_component_get_status (comp, &status);
 		switch (status) {
 		case ICAL_STATUS_INPROCESS :
@@ -312,16 +303,15 @@ cal_component_preview_write_html (GString *buffer,
 			break;
 		}
 
-		g_string_append_printf (buffer, "<TD>%s</TD></TR>", str);
+		g_string_append_printf (buffer, "<td>%s</td></tr>", str);
 		g_free (str);
 	}
 
 	/* write priority */
 	e_cal_component_get_priority (comp, &priority_value);
 	if (priority_value && *priority_value != 0) {
-		g_string_append_printf (
-			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
-			"<B>%s</B></TD>", _("Priority:"));
+		g_string_append_printf (buffer, "<tr><th>%s</th>",
+			_("Priority:"));
 		if (*priority_value <= 4)
 			str = g_strdup (_("High"));
 		else if (*priority_value == 5)
@@ -329,7 +319,7 @@ cal_component_preview_write_html (GString *buffer,
 		else
 			str = g_strdup (_("Low"));
 
-		g_string_append_printf (buffer, "<TD>%s</TD></TR>", str);
+		g_string_append_printf (buffer, "<td>%s</td></tr>", str);
 
 		g_free (str);
 	}
@@ -338,17 +328,16 @@ cal_component_preview_write_html (GString *buffer,
 		e_cal_component_free_priority (priority_value);
 
 	/* write description and URL */
-	g_string_append (buffer, "<TR><TD COLSPAN=\"2\"><HR></TD></TR>");
+	g_string_append (buffer, "<tr><td colspan=\"2\"><hr></td></tr>");
 
 	e_cal_component_get_description_list (comp, &list);
 	if (list) {
 		GSList *node;
 
-		g_string_append_printf (
-			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
-			"<B>%s</B></TD>", _("Description:"));
+		g_string_append_printf (buffer, "<tr><th>%s</th>",
+			_("Description:"));
 
-		g_string_append (buffer, "<TD><TT>");
+		g_string_append (buffer, "<td class=\"description\">");
 
 		for (node = list; node != NULL; node = node->next) {
 			gchar *html;
@@ -367,7 +356,7 @@ cal_component_preview_write_html (GString *buffer,
 			g_free (html);
 		}
 
-		g_string_append (buffer, "</TT></TD></TR>");
+		g_string_append (buffer, "</td></tr>");
 
 		e_cal_component_free_text_list (list);
 	}
@@ -375,18 +364,14 @@ cal_component_preview_write_html (GString *buffer,
 	/* URL */
 	e_cal_component_get_url (comp, (const gchar **) &str);
 	if (str) {
-		g_string_append_printf (
-			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
-			"<B>%s</B></TD>", _("Web Page:"));
-		g_string_append_printf (
-			buffer, "<TD><A HREF=\"%s\">%s</A></TD></TR>",
-			str, str);
+		g_string_append_printf (buffer, "<tr><th>%s</th><td><a href=\"%s\">%s</a></td></tr>",
+			_("Web Page:"), str, str);
 	}
 
-	g_string_append (buffer, "</TABLE>");
+	g_string_append (buffer, "</table>");
 
 	/* close document */
-	g_string_append (buffer, "</BODY></HTML>");
+	g_string_append (buffer, "</body></html>");
 }
 
 static void

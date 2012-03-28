@@ -462,7 +462,7 @@ e_composer_actions_init (EMsgComposer *composer)
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
 	GtkhtmlEditor *editor;
-	EWebView *web_view;
+	EWebViewGtkHTML *web_view;
 	gboolean visible;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));

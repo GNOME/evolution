@@ -46,14 +46,14 @@ composer_activity_lock_interface (EComposerActivity *activity)
 {
 	GtkActionGroup *action_group;
 	EMsgComposer *composer;
-	EWebView *web_view;
+	EWebViewGtkHTML *web_view;
 	gboolean editable;
 
 	composer = e_composer_activity_get_composer (activity);
 
 	web_view = e_msg_composer_get_web_view (composer);
-	editable = e_web_view_get_editable (web_view);
-	e_web_view_set_editable (web_view, FALSE);
+	editable = e_web_view_gtkhtml_get_editable (web_view);
+	e_web_view_gtkhtml_set_editable (web_view, FALSE);
 	activity->priv->saved_editable = editable;
 
 	action_group = composer->priv->async_actions;
@@ -65,14 +65,14 @@ composer_activity_unlock_interface (EComposerActivity *activity)
 {
 	GtkActionGroup *action_group;
 	EMsgComposer *composer;
-	EWebView *web_view;
+	EWebViewGtkHTML *web_view;
 	gboolean editable;
 
 	composer = e_composer_activity_get_composer (activity);
 
 	editable = activity->priv->saved_editable;
 	web_view = e_msg_composer_get_web_view (composer);
-	e_web_view_set_editable (web_view, editable);
+	e_web_view_gtkhtml_set_editable (web_view, editable);
 
 	action_group = composer->priv->async_actions;
 	gtk_action_group_set_sensitive (action_group, TRUE);

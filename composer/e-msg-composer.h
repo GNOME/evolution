@@ -30,7 +30,7 @@
 #include <gtkhtml-editor.h>
 #include <misc/e-attachment-view.h>
 #include <misc/e-focus-tracker.h>
-#include <misc/e-web-view.h>
+#include <misc/e-web-view-gtkhtml.h>
 #include <shell/e-shell.h>
 
 #include <composer/e-composer-header-table.h>
@@ -100,7 +100,8 @@ EFocusTracker *	e_msg_composer_get_focus_tracker
 						(EMsgComposer *composer);
 CamelSession *	e_msg_composer_get_session	(EMsgComposer *composer);
 EShell *	e_msg_composer_get_shell	(EMsgComposer *composer);
-EWebView *	e_msg_composer_get_web_view	(EMsgComposer *composer);
+EWebViewGtkHTML *
+		e_msg_composer_get_web_view	(EMsgComposer *composer);
 
 void		e_msg_composer_send		(EMsgComposer *composer);
 void		e_msg_composer_save_to_drafts	(EMsgComposer *composer);

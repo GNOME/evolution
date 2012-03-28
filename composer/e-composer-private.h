@@ -51,7 +51,7 @@
 #include "widgets/misc/e-picture-gallery.h"
 #include "widgets/misc/e-preferences-window.h"
 #include "widgets/misc/e-signature-combo-box.h"
-#include "widgets/misc/e-web-view.h"
+#include "widgets/misc/e-web-view-gtkhtml.h"
 #include "shell/e-shell.h"
 
 #ifdef HAVE_XFREE

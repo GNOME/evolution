@@ -129,7 +129,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	EFocusTracker *focus_tracker;
 	EShell *shell;
 	EShellSettings *shell_settings;
-	EWebView *web_view;
+	EWebViewGtkHTML *web_view;
 	GtkhtmlEditor *editor;
 	GtkUIManager *ui_manager;
 	GtkAction *action;
