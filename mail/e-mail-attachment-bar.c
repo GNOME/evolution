@@ -392,6 +392,12 @@ mail_attachment_bar_get_path_at_pos (EAttachmentView *view,
 	return e_attachment_view_get_path_at_pos (view, x, y);
 }
 
+static EAttachmentStore *
+mail_attachment_bar_get_store (EAttachmentView *view)
+{
+	return e_mail_attachment_bar_get_store (E_MAIL_ATTACHMENT_BAR (view));
+}
+
 static GList *
 mail_attachment_bar_get_selected_paths (EAttachmentView *view)
 {
@@ -531,7 +537,7 @@ static void
 e_mail_attachment_bar_interface_init (EAttachmentViewInterface *interface)
 {
 	interface->get_private = mail_attachment_bar_get_private;
-	interface->get_store = e_mail_attachment_bar_get_store;
+	interface->get_store = mail_attachment_bar_get_store;
 	interface->get_path_at_pos = mail_attachment_bar_get_path_at_pos;
 	interface->get_selected_paths = mail_attachment_bar_get_selected_paths;
 	interface->path_is_selected = mail_attachment_bar_path_is_selected;
