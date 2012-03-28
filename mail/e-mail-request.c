@@ -83,6 +83,8 @@ handle_mail_request (GSimpleAsyncResult *res,
 
 		g_free (part_id);
 	} else {
+		if (info.mode == 0)
+			info.mode = EM_FORMAT_WRITE_MODE_NORMAL;
 
 		em_format_write (emf, request->priv->output_stream, &info, NULL);
 	}
