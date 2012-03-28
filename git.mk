@@ -54,6 +54,7 @@
 #
 # ChangeLog
 #
+# - 2012-03-28 Use temporary file for docs to avoid hitting ARG_MAX
 # - 2010-12-06 Add support for Mallard docs
 # - 2010-12-06 Start this change log
 
@@ -85,7 +86,13 @@ git-mk-install:
 
 ### .gitignore generation
 
+
 $(srcdir)/.gitignore: Makefile.am $(top_srcdir)/git.mk
+	@echo $(_DOC_C_DOCS) > $@.docs.tmp
+	@echo $(_DOC_LC_DOCS) >> $@.docs.tmp
+	@echo $(_DOC_OMF_ALL) >> $@.docs.tmp
+	@echo $(_DOC_DSK_ALL) >> $@.docs.tmp
+	@echo $(_DOC_HTML_ALL) >> $@.docs.tmp
 	$(AM_V_GEN) \
 	{ \
 		if test "x$(DOC_MODULE)" = x -o "x$(DOC_MAIN_SGML_FILE)" = x; then :; else \
@@ -99,11 +106,7 @@ $(srcdir)/.gitignore: Makefile.am $(top_srcdir)/git.mk
 		fi; \
 		if test "x$(DOC_MODULE)$(DOC_ID)" = x -o "x$(DOC_LINGUAS)" = x; then :; else \
 			for x in \
-				$(_DOC_C_DOCS) \
-				$(_DOC_LC_DOCS) \
-				$(_DOC_OMF_ALL) \
-				$(_DOC_DSK_ALL) \
-				$(_DOC_HTML_ALL) \
+				$$(cat $@.docs.tmp) \
 				$(_DOC_MOFILES) \
 				$(_DOC_POFILES) \
 				$(DOC_H_FILE) \
@@ -178,6 +181,7 @@ $(srcdir)/.gitignore: Makefile.am $(top_srcdir)/git.mk
 	sed 's@/[.]/@/@g' | \
 	LC_ALL=C sort | uniq > $@.tmp && \
 	mv $@.tmp $@;
+	@rm -f $@.docs.tmp
 
 all: $(srcdir)/.gitignore gitignore-recurse-maybe
 gitignore-recurse-maybe:
