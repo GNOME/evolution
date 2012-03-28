@@ -7,9 +7,9 @@ liborg_gnome_itip_formatter_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
-	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)
 
 liborg_gnome_itip_formatter_la_SOURCES = itip-formatter.c itip-view.c itip-view.h
 
@@ -26,8 +26,7 @@ liborg_gnome_itip_formatter_la_LIBADD =				\
 	$(top_builddir)/libemail-engine/libemail-engine.la	\
 	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)					\
-	$(GTKHTML_LIBS)
+	$(GNOME_PLATFORM_LIBS)
 
 error_DATA = org-gnome-itip-formatter.error
 errordir = $(privdatadir)/errors

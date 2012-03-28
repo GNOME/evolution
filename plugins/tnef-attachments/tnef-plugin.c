@@ -92,6 +92,7 @@ org_gnome_format_tnef (gpointer ep,
 	CamelMultipart *mp;
 	CamelMimePart *mainpart;
 	CamelDataWrapper *content;
+	const EMFormatHandler *handler;
 	gint len;
 	TNEFStruct tnef;
 
@@ -102,15 +103,21 @@ org_gnome_format_tnef (gpointer ep,
 	name = g_build_filename(tmpdir, ".evo-attachment.tnef", NULL);
 
 	out = camel_stream_fs_new_with_name (name, O_RDWR | O_CREAT, 0666, NULL);
-	if (out == NULL)
-	    goto fail;
+	if (out == NULL) {
+	    g_free (name);
+	    return;
+	}
 	content = camel_medium_get_content ((CamelMedium *) t->part);
-	if (content == NULL)
-		goto fail;
+	if (content == NULL) {
+		g_free (name);
+		g_object_unref (out);
+		return;
+	}
 	if (camel_data_wrapper_decode_to_stream_sync (content, out, NULL, NULL) == -1
 	    || camel_stream_close (out, NULL, NULL) == -1) {
 		g_object_unref (out);
-		goto fail;
+		g_free (name);
+		return;
 	}
 	g_object_unref (out);
 
@@ -126,8 +133,11 @@ org_gnome_format_tnef (gpointer ep,
 	/* Extraction done */
 
 	dir = opendir (tmpdir);
-	if (dir == NULL)
-	    goto fail;
+	if (dir == NULL) {
+	    g_object_unref (out);
+	    g_free (name);
+	    return;
+	}
 
 	mainpart = camel_mime_part_new ();
 
@@ -177,33 +187,26 @@ org_gnome_format_tnef (gpointer ep,
 
 	closedir (dir);
 
-	len = t->format->part_id->len;
-	g_string_append_printf(t->format->part_id, ".tnef");
+	len = t->part_id->len;
+	g_string_append_printf(t->part_id, ".tnef");
 
-	if (camel_multipart_get_number (mp) > 0)
-		/* FIXME Not passing a GCancellable here. */
-		em_format_part_as (
-			t->format, t->stream, mainpart,
-			"multipart/mixed", NULL);
-	else if (t->item->handler.old)
-		/* FIXME Not passing a GCancellable here. */
-		t->item->handler.old->handler (
-			t->format, t->stream, t->part,
-			t->item->handler.old, NULL, FALSE);
+	if (camel_multipart_get_number (mp) > 0) {
+                handler = em_format_find_handler (t->format, "multiplart/mixed");
+                /* FIXME Not passing a GCancellable here. */
+		if (handler && handler->parse_func) {
+			CamelMimePart *part = camel_mime_part_new ();
+			camel_medium_set_content ((CamelMedium *) part,
+				CAMEL_DATA_WRAPPER (mp));
+			handler->parse_func (t->format, part, t->part_id, t->info, NULL);
+			g_object_unref (part);
+		}
+	}
 
-	g_string_truncate (t->format->part_id, len);
+	g_string_truncate (t->part_id, len);
 
 	g_object_unref (mp);
 	g_object_unref (mainpart);
 
-	goto ok;
- fail:
-	if (t->item->handler.old)
-		/* FIXME Not passing a GCancellable here. */
-		t->item->handler.old->handler (
-			t->format, t->stream, t->part,
-			t->item->handler.old, NULL, FALSE);
- ok:
 	g_free (name);
 	g_free (tmpdir);
 }

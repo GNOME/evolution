@@ -29,7 +29,6 @@
 #include "e-util/e-mktemp.h"
 #include "mail/em-format-hook.h"
 #include "mail/em-format-html.h"
-#include "gtkhtml/gtkhtml-embedded.h"
 #include "gst/gst.h"
 
 #define d(x)
@@ -45,12 +44,11 @@ e_plugin_lib_enable (EPlugin *ep,
 
 void org_gnome_audio_inline_format (gpointer ep, EMFormatHookTarget *t);
 
-static volatile gint org_gnome_audio_class_id_counter = 0;
+typedef struct _EMFormatInlineAudioPURI EMFormatInlineAudioPURI;
 
-struct _org_gnome_audio_inline_pobject {
-	EMFormatHTMLPObject object;
+struct _EMFormatInlineAudioPURI {
+	EMFormatPURI puri;
 
-	CamelMimePart *part;
 	gchar *filename;
 	GstElement *playbin;
 	gulong      bus_id;
@@ -61,9 +59,9 @@ struct _org_gnome_audio_inline_pobject {
 };
 
 static void
-org_gnome_audio_inline_pobject_free (EMFormatHTMLPObject *o)
+org_gnome_audio_inline_pobject_free (EMFormatPURI *o)
 {
-	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) o;
+	EMFormatInlineAudioPURI *po = (EMFormatInlineAudioPURI *) o;
 
 	d(printf ("audio inline formatter: pobject free\n"));
 
@@ -82,10 +80,6 @@ org_gnome_audio_inline_pobject_free (EMFormatHTMLPObject *o)
 		po->stop_button = NULL;
 	}
 
-	if (po->part) {
-		g_object_unref (po->part);
-		po->part = NULL;
-	}
 	if (po->filename) {
 		g_unlink (po->filename);
 		g_free (po->filename);
@@ -106,9 +100,9 @@ org_gnome_audio_inline_pobject_free (EMFormatHTMLPObject *o)
 
 static void
 org_gnome_audio_inline_pause_clicked (GtkWidget *button,
-                                      EMFormatHTMLPObject *pobject)
+                                                                          EMFormatPURI *puri)
 {
-	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) pobject;
+	EMFormatInlineAudioPURI *po = (EMFormatInlineAudioPURI *) puri;
 
 	if (po->playbin) {
 		/* pause playing */
@@ -118,9 +112,9 @@ org_gnome_audio_inline_pause_clicked (GtkWidget *button,
 
 static void
 org_gnome_audio_inline_stop_clicked (GtkWidget *button,
-                                     EMFormatHTMLPObject *pobject)
+                                                                         EMFormatPURI *puri)
 {
-	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) pobject;
+	EMFormatInlineAudioPURI *po = (EMFormatInlineAudioPURI *) puri;
 
 	if (po->playbin) {
 		/* ready to play */
@@ -150,7 +144,7 @@ org_gnome_audio_inline_gst_callback (GstBus *bus,
                                      GstMessage *message,
                                      gpointer data)
 {
-	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) data;
+	EMFormatInlineAudioPURI *po = (EMFormatInlineAudioPURI *) data;
 	GstMessageType msg_type;
 
 	g_return_val_if_fail (po != NULL, TRUE);
@@ -195,9 +189,9 @@ org_gnome_audio_inline_gst_callback (GstBus *bus,
 
 static void
 org_gnome_audio_inline_play_clicked (GtkWidget *button,
-                                     EMFormatHTMLPObject *pobject)
+                                                                         EMFormatPURI *puri)
 {
-	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) pobject;
+	EMFormatInlineAudioPURI *po = (EMFormatInlineAudioPURI *) puri;
 	GstState cur_state;
 
 	d(printf ("audio inline formatter: play\n"));
@@ -215,7 +209,7 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button,
 		d(printf ("audio inline formatter: write to temp file %s\n", po->filename));
 
 		stream = camel_stream_fs_new_with_name (po->filename, O_RDWR | O_CREAT | O_TRUNC, 0600, NULL);
-		data = camel_medium_get_content (CAMEL_MEDIUM (po->part));
+		data = camel_medium_get_content (CAMEL_MEDIUM (po->puri.part));
 		camel_data_wrapper_decode_to_stream_sync (
 			data, stream, NULL, NULL);
 		camel_stream_flush (stream, NULL, NULL);
@@ -281,13 +275,31 @@ org_gnome_audio_inline_add_button (GtkWidget *box,
 	return button;
 }
 
-static gboolean
-org_gnome_audio_inline_button_panel (EMFormatHTML *efh,
-                                     GtkHTMLEmbedded *eb,
-                                     EMFormatHTMLPObject *pobject)
+static void
+write_button_panel (EMFormat *emf,
+                    EMFormatPURI *puri,
+                    CamelStream *stream,
+                    EMFormatWriterInfo *info,
+                    GCancellable *cancellable)
+{
+	gchar *str;
+
+	str = g_strdup_printf (
+		"<object type=\"application/x-org-gnome-audio-inline-button-panel\" "
+			"width=\"100%%\" height=\"auto\" data=\"%s\" id=\"%s\"></object>",
+		puri->uri, puri->uri);
+	camel_stream_write_string (stream, str, cancellable, NULL);
+
+	g_free (str);
+}
+
+static GtkWidget *
+org_gnome_audio_inline_button_panel (EMFormat *emf,
+                                     EMFormatPURI *puri,
+                                     GCancellable *cancellable)
 {
 	GtkWidget *box;
-	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) pobject;
+	EMFormatInlineAudioPURI *po = (EMFormatInlineAudioPURI *) puri;
 
 	/* it is OK to call UI functions here, since we are called from UI thread */
 
@@ -297,42 +309,39 @@ org_gnome_audio_inline_button_panel (EMFormatHTML *efh,
 	po->stop_button = g_object_ref (org_gnome_audio_inline_add_button (box, GTK_STOCK_MEDIA_STOP, G_CALLBACK (org_gnome_audio_inline_stop_clicked), po, FALSE));
 
 	gtk_widget_show (box);
-	gtk_container_add ((GtkContainer *) eb, box);
 
-	return TRUE;
+	return box;
 }
 
 void
 org_gnome_audio_inline_format (gpointer ep,
                                EMFormatHookTarget *t)
 {
-	struct _org_gnome_audio_inline_pobject *pobj;
-	gchar *classid;
-	gchar *content;
+	EMFormatInlineAudioPURI *pobj;
+	gint len;
 
-	classid = g_strdup_printf (
-		"org-gnome-audio-inline-button-panel-%d",
-		org_gnome_audio_class_id_counter);
+	len = t->part_id->len;
+	g_string_append (t->part_id, ".org-gnome-audio-inline-button-panel");
 
-	org_gnome_audio_class_id_counter++;
+	d(printf ("audio inline formatter: format classid %s\n", t->part_id->str));
 
-	d(printf ("audio inline formatter: format classid %s\n", classid));
-
-	pobj = (struct _org_gnome_audio_inline_pobject *)
-		em_format_html_add_pobject (
-			(EMFormatHTML *) t->format, sizeof (*pobj), classid,
-			t->part, org_gnome_audio_inline_button_panel);
-	pobj->part = g_object_ref (t->part);
+	pobj = (EMFormatInlineAudioPURI *) em_format_puri_new (
+			t->format, sizeof (EMFormatInlineAudioPURI),
+			t->part, t->part_id->str);
+	pobj->puri.widget_func = org_gnome_audio_inline_button_panel;
+	pobj->puri.write_func = write_button_panel;
+	pobj->puri.part = g_object_ref (t->part);
+	pobj->puri.is_attachment = TRUE;
 	pobj->filename = NULL;
 	pobj->playbin = NULL;
 	pobj->play_button = NULL;
 	pobj->stop_button = NULL;
 	pobj->pause_button = NULL;
 	pobj->bus_id = 0;
-	pobj->object.free = org_gnome_audio_inline_pobject_free;
+	pobj->puri.free = org_gnome_audio_inline_pobject_free;
 	pobj->target_state = GST_STATE_NULL;
 
-	content = g_strdup_printf ("<object classid=%s></object>\n", classid);
-	camel_stream_write_string (t->stream, content, NULL, NULL);
-	g_free (content);
+	em_format_add_puri (t->format, (EMFormatPURI *) pobj);
+
+	g_string_truncate (t->part_id, len);
 }

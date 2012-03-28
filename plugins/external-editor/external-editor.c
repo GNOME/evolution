@@ -469,7 +469,7 @@ e_plugin_ui_init (GtkUIManager *manager,
                   EMsgComposer *composer)
 {
 	GtkhtmlEditor *editor;
-	EWebView *web_view;
+	EWebViewGtkHTML *web_view;
 
 	editor = GTKHTML_EDITOR (composer);
 

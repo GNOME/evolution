@@ -16,7 +16,6 @@ liborg_gnome_tnef_attachments_la_CPPFLAGS =		\
 	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)				\
 	$(TNEF_CFLAGS)
 
 liborg_gnome_tnef_attachments_la_SOURCES = tnef-plugin.c
@@ -28,7 +27,6 @@ liborg_gnome_tnef_attachments_la_LIBADD = 		\
 	$(top_builddir)/em-format/libemformat.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(GTKHTML_LIBS)					\
 	-lytnef
 
 EXTRA_DIST = org-gnome-tnef-attachments.eplug.xml

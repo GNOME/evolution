@@ -9,8 +9,7 @@ liborg_gnome_mark_all_read_la_CPPFLAGS =		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
-	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)
 
 liborg_gnome_mark_all_read_la_SOURCES = mark-all-read.c  
 
@@ -22,8 +21,7 @@ liborg_gnome_mark_all_read_la_LIBADD = 			\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
-	$(GNOME_PLATFORM_LIBS)				\
-	$(GTKHTML_LIBS)
+	$(GNOME_PLATFORM_LIBS)
 
 EXTRA_DIST = org-gnome-mark-all-read.eplug.xml
 

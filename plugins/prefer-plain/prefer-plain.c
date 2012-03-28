@@ -49,14 +49,12 @@ static gboolean epp_show_suppressed = TRUE;
 
 static void
 make_part_attachment (EMFormat *format,
-                      CamelStream *stream,
-                      CamelMimePart *part,
-                      gint i)
+                                      CamelMimePart *part,
+                                      GString *part_id,
+                                      gboolean force_html,
+                                      GCancellable *cancellable)
 {
-	gint partidlen = format->part_id->len;
-
-	if (i != -1)
-		g_string_append_printf (format->part_id, ".alternative-prefer-plain.%d", i);
+	EMFormatParserInfo info = {0};
 
 	if (camel_content_type_is (camel_mime_part_get_content_type (part), "text", "html")) {
 		/* always show HTML as attachments and not inline */
@@ -68,11 +66,9 @@ make_part_attachment (EMFormat *format,
 			g_free (str);
 		}
 
-		/* FIXME Not passing a GCancellable here. */
-		em_format_part_as (
-			format, stream, part,
-			"application/octet-stream", NULL);
-	} else if (i == -1 && CAMEL_IS_MIME_MESSAGE (part)) {
+		em_format_parse_part_as (
+			format, part, part_id, &info, "application/octet-stream", cancellable);
+	} else if (force_html && CAMEL_IS_MIME_MESSAGE (part)) {
 		/* message was asked to be formatted as text/html;
 		 * might be for cases where message itself is a text/html part */
 		CamelMimePart *new_part;
@@ -84,15 +80,12 @@ make_part_attachment (EMFormat *format,
 		new_part = camel_mime_part_new ();
 		camel_medium_set_content (CAMEL_MEDIUM (new_part), content);
 
-		em_format_part (format, stream, new_part, NULL);
+		em_format_parse_part (format, new_part, part_id, &info, cancellable);
 
 		g_object_unref (new_part);
 	} else {
-		/* FIXME Not passing a GCancellable here. */
-		em_format_part (format, stream, part, NULL);
+		em_format_parse_part (format, part, part_id, &info, cancellable);
 	}
-
-	g_string_truncate (format->part_id, partidlen);
 }
 
 void
@@ -101,28 +94,30 @@ org_gnome_prefer_plain_text_html (gpointer ep,
 {
 	/* In text-only mode, all html output is suppressed for the first processing */
 	if (epp_mode != EPP_TEXT
-	    || strstr (t->format->part_id->str, ".alternative-prefer-plain.") != NULL
-	    || em_format_is_inline (t->format, t->format->part_id->str, t->part, &(t->item->handler)))
+	    || strstr (t->part_id->str, ".alternative-prefer-plain.") != NULL
+	    || em_format_is_inline (t->format, t->part_id->str, t->part, t->info->handler)) {
 		/* FIXME Not passing a GCancellable here. */
-		t->item->handler.old->handler (
-			t->format, t->stream, t->part,
-			t->item->handler.old, NULL, FALSE);
-	else if (epp_show_suppressed)
-		make_part_attachment (t->format, t->stream, t->part, -1);
+		t->info->handler->old->parse_func (
+			t->format, t->part, t->part_id,
+			t->info, NULL);
+	} else if (epp_show_suppressed)
+		make_part_attachment (t->format, t->part, t->part_id, TRUE, NULL);
 }
 
 static void
 export_as_attachments (CamelMultipart *mp,
-                       EMFormat *format,
-                       CamelStream *stream,
-                       CamelMimePart *except)
+                                           EMFormat *format,
+                                           CamelMimePart *except,
+                                           GString *part_id)
 {
 	gint i, nparts;
 	CamelMimePart *part;
+	gint len;
 
 	if (!mp || !CAMEL_IS_MULTIPART (mp))
 		return;
 
+	len = part_id->len;
 	nparts = camel_multipart_get_number (mp);
 	for (i = 0; i < nparts; i++) {
 		part = camel_multipart_get_part (mp, i);
@@ -130,11 +125,13 @@ export_as_attachments (CamelMultipart *mp,
 		if (part != except) {
 			CamelMultipart *multipart = (CamelMultipart *) camel_medium_get_content ((CamelMedium *) part);
 
+			g_string_append_printf (part_id, ".aleternative-prefer-plain.%d", i);
 			if (CAMEL_IS_MULTIPART (multipart)) {
-				export_as_attachments (multipart, format, stream, except);
+				export_as_attachments (multipart, format, except, part_id);
 			} else {
-				make_part_attachment (format, stream, part, i);
+				make_part_attachment (format, part, part_id, FALSE, NULL);
 			}
+			g_string_truncate (part_id, len);
 		}
 	}
 }
@@ -147,8 +144,7 @@ org_gnome_prefer_plain_multipart_alternative (gpointer ep,
 	CamelMimePart *part, *display_part = NULL, *calendar_part = NULL;
 	gint i, nparts, partidlen, displayid = 0, calendarid = 0;
 
-	/* FIXME: this part-id stuff is poking private data, needs api */
-	partidlen = t->format->part_id->len;
+	partidlen = t->part_id->len;
 
 	if (epp_mode == EPP_NORMAL) {
 		gboolean have_plain = FALSE;
@@ -185,21 +181,20 @@ org_gnome_prefer_plain_multipart_alternative (gpointer ep,
 		}
 
 		if (display_part && have_plain && nparts == 2) {
-			g_string_append_printf (t->format->part_id, ".alternative-prefer-plain.%d", displayid);
+			g_string_append_printf (t->part_id, ".alternative-prefer-plain.%d", displayid);
 			/* FIXME Not passing a GCancellable here. */
-			em_format_part_as (
-				t->format, t->stream,
-				display_part, "text/html", NULL);
-			g_string_truncate (t->format->part_id, partidlen);
+			em_format_parse_part_as (
+				t->format, display_part, t->part_id, t->info, "text/html", NULL);
+			g_string_truncate (t->part_id, partidlen);
 		} else {
 			/* FIXME Not passing a GCancellable here. */
-			t->item->handler.old->handler (
-				t->format, t->stream, t->part,
-				t->item->handler.old, NULL, FALSE);
+			t->info->handler->old->parse_func (
+				t->format, t->part, t->part_id, t->info, NULL);
 		}
 		return;
 	} else if (!CAMEL_IS_MULTIPART (mp)) {
-		em_format_format_source (t->format, t->stream, t->part, NULL);
+		/* FIXME Not passing GCancellable here. */
+		em_format_parse_part_as (t->format, t->part, t->part_id, t->info, "x-evolution/message/source", NULL);
 		return;
 	}
 
@@ -224,21 +219,22 @@ org_gnome_prefer_plain_multipart_alternative (gpointer ep,
 
 	/* if we found a text part, show it */
 	if (display_part) {
-		g_string_append_printf(t->format->part_id, ".alternative-prefer-plain.%d", displayid);
+		g_string_append_printf(t->part_id, ".alternative-prefer-plain.%d", displayid);
 		/* FIXME Not passing a GCancellable here. */
-		em_format_part_as (
-			t->format, t->stream,
-			display_part, "text/plain", NULL);
-		g_string_truncate (t->format->part_id, partidlen);
+		em_format_parse_part_as (
+			t->format, display_part, t->part_id, t->info, "text/plain", NULL);
+		g_string_truncate (t->part_id, partidlen);
 	}
 
 	/* all other parts are attachments */
 	if (epp_show_suppressed)
-		export_as_attachments (mp, t->format, t->stream, display_part);
-	else if (calendar_part)
-		make_part_attachment (t->format, t->stream, calendar_part, calendarid);
+		export_as_attachments (mp, t->format, display_part, t->part_id);
+	else if (calendar_part) {
+		g_string_append_printf(t->part_id, ".alternative-prefer-plain.%d", calendarid);
+		make_part_attachment (t->format, calendar_part, t->part_id, FALSE, NULL);
+	}
 
-	g_string_truncate (t->format->part_id, partidlen);
+	g_string_truncate (t->part_id, partidlen);
 }
 
 static struct {

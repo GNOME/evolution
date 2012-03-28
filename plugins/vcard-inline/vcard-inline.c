@@ -24,30 +24,33 @@
 #include <glib/gi18n-lib.h>
 #include <libebook/e-book-client.h>
 #include <libebook/e-contact.h>
-#include <gtkhtml/gtkhtml-embedded.h>
 #include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 
 #include "addressbook/gui/merging/eab-contact-merging.h"
-#include "addressbook/gui/widgets/eab-contact-display.h"
+#include "addressbook/gui/widgets/eab-contact-formatter.h"
 #include "addressbook/util/eab-book-util.h"
 #include "mail/em-format-hook.h"
 #include "mail/em-format-html.h"
+#include "mail/e-mail-display.h"
 
 #define d(x)
 
-typedef struct _VCardInlinePObject VCardInlinePObject;
+typedef struct _VCardInlinePURI VCardInlinePURI;
 
-struct _VCardInlinePObject {
-	EMFormatHTMLPObject object;
+struct _VCardInlinePURI {
+	EMFormatPURI puri;
 
 	GSList *contact_list;
 	ESourceList *source_list;
 	GtkWidget *contact_display;
 	GtkWidget *message_label;
-};
 
-static gint org_gnome_vcard_inline_classid;
+	EABContactFormatter *formatter;
+	WebKitDOMElement *iframe;
+	WebKitDOMElement *toggle_button;
+	WebKitDOMElement *save_button;
+};
 
 /* Forward Declarations */
 void org_gnome_vcard_inline_format (gpointer ep, EMFormatHookTarget *target);
@@ -61,11 +64,11 @@ e_plugin_lib_enable (EPlugin *ep,
 }
 
 static void
-org_gnome_vcard_inline_pobject_free (EMFormatHTMLPObject *object)
+org_gnome_vcard_inline_pobject_free (EMFormatPURI *object)
 {
-	VCardInlinePObject *vcard_object;
+	VCardInlinePURI *vcard_object;
 
-	vcard_object = (VCardInlinePObject *) object;
+	vcard_object = (VCardInlinePURI *) object;
 
 	e_client_util_free_object_slist (vcard_object->contact_list);
 	vcard_object->contact_list = NULL;
@@ -84,10 +87,30 @@ org_gnome_vcard_inline_pobject_free (EMFormatHTMLPObject *object)
 		g_object_unref (vcard_object->message_label);
 		vcard_object->message_label = NULL;
 	}
+
+	if (vcard_object->formatter != NULL) {
+		g_object_unref (vcard_object->formatter);
+		vcard_object->formatter = NULL;
+	}
+
+	if (vcard_object->iframe != NULL) {
+		g_object_unref (vcard_object->iframe);
+		vcard_object->iframe = NULL;
+	}
+
+	if (vcard_object->toggle_button != NULL) {
+		g_object_unref (vcard_object->toggle_button);
+		vcard_object->toggle_button = NULL;
+	}
+
+	if (vcard_object->save_button != NULL) {
+		g_object_unref (vcard_object->save_button);
+		vcard_object->save_button = NULL;
+	}
 }
 
 static void
-org_gnome_vcard_inline_decode (VCardInlinePObject *vcard_object,
+org_gnome_vcard_inline_decode (VCardInlinePURI *vcard_object,
                                CamelMimePart *mime_part)
 {
 	CamelDataWrapper *data_wrapper;
@@ -157,7 +180,9 @@ org_gnome_vcard_inline_client_loaded_cb (ESource *source,
 }
 
 static void
-org_gnome_vcard_inline_save_cb (VCardInlinePObject *vcard_object)
+org_gnome_vcard_inline_save_cb (WebKitDOMEventTarget *button,
+                                WebKitDOMEvent *event,
+                                VCardInlinePURI *vcard_object)
 {
 	ESource *source;
 	GSList *contact_list;
@@ -192,159 +217,223 @@ org_gnome_vcard_inline_save_cb (VCardInlinePObject *vcard_object)
 }
 
 static void
-org_gnome_vcard_inline_toggle_cb (VCardInlinePObject *vcard_object,
-                                  GtkButton *button)
+org_gnome_vcard_inline_toggle_cb (WebKitDOMEventTarget *button,
+                                  WebKitDOMEvent *event,
+                                  EMFormatPURI *puri)
 {
-	EABContactDisplay *contact_display;
+	VCardInlinePURI *vcard_object;
 	EABContactDisplayMode mode;
-	const gchar *label;
+	gchar *uri;
 
-	contact_display = EAB_CONTACT_DISPLAY (vcard_object->contact_display);
-	mode = eab_contact_display_get_mode (contact_display);
+	vcard_object = (VCardInlinePURI *) puri;
 
-	/* Toggle between "full" and "compact" modes. */
+	mode = eab_contact_formatter_get_display_mode (vcard_object->formatter);
 	if (mode == EAB_CONTACT_DISPLAY_RENDER_NORMAL) {
 		mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
-		label = _("Show Full vCard");
+
+		webkit_dom_html_element_set_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (button),
+			_("Show Full vCard"), NULL);
+
 	} else {
 		mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
-		label = _("Show Compact vCard");
+
+		webkit_dom_html_element_set_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (button),
+			_("Show Compact vCard"), NULL);
 	}
 
-	eab_contact_display_set_mode (contact_display, mode);
-	gtk_button_set_label (button, label);
+	eab_contact_formatter_set_display_mode (vcard_object->formatter, mode);
+
+	uri = em_format_build_mail_uri (
+		puri->emf->folder, puri->emf->message_uid,
+		"part_id", G_TYPE_STRING, puri->uri,
+		"mode", G_TYPE_INT, EM_FORMAT_WRITE_MODE_RAW, NULL);
+
+	webkit_dom_html_iframe_element_set_src (
+		WEBKIT_DOM_HTML_IFRAME_ELEMENT (vcard_object->iframe), uri);
+
+	g_free (uri);
 }
 
-static gboolean
-org_gnome_vcard_inline_embed (EMFormatHTML *format,
-                              GtkHTMLEmbedded *embedded,
-                              EMFormatHTMLPObject *object)
+static void
+org_gnome_vcard_inline_bind_dom (WebKitDOMElement *attachment,
+                                 EMFormatPURI *puri)
 {
-	VCardInlinePObject *vcard_object;
-	GtkWidget *button_box;
-	GtkWidget *container;
-	GtkWidget *widget;
-	EContact *contact;
-	guint length;
+	WebKitDOMNodeList *list;
+	WebKitDOMElement *iframe, *toggle_button, *save_button;
+	VCardInlinePURI *vcard_object;
 
-	vcard_object = (VCardInlinePObject *) object;
-	length = g_slist_length (vcard_object->contact_list);
+	vcard_object = (VCardInlinePURI *) puri;
 
-	if (vcard_object->contact_list != NULL)
-		contact = E_CONTACT (vcard_object->contact_list->data);
-	else
-		contact = NULL;
+        /* IFRAME */
+	list = webkit_dom_element_get_elements_by_tag_name (attachment, "iframe");
+	if (webkit_dom_node_list_get_length (list) != 1)
+		return;
+	iframe = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, 0));
+	if (vcard_object->iframe)
+		g_object_unref (vcard_object->iframe);
+	vcard_object->iframe = g_object_ref (iframe);
 
-	container = GTK_WIDGET (embedded);
+	/* TOGGLE DISPLAY MODE BUTTON */
+	list = webkit_dom_element_get_elements_by_class_name (
+		attachment, "org-gnome-vcard-inline-display-mode-button");
+	if (webkit_dom_node_list_get_length (list) != 1)
+		return;
+	toggle_button = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, 0));
+	if (vcard_object->toggle_button)
+		g_object_unref (vcard_object->toggle_button);
+	vcard_object->toggle_button = g_object_ref (toggle_button);
 
-	widget = gtk_vbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
+	/* SAVE TO ADDRESSBOOK BUTTON */
+	list = webkit_dom_element_get_elements_by_class_name (
+		attachment, "org-gnome-vcard-inline-save-button");
+	if (webkit_dom_node_list_get_length (list) != 1)
+		return;
+	save_button = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, 0));
+	if (vcard_object->save_button)
+		g_object_unref (vcard_object->save_button);
+	vcard_object->save_button = g_object_ref (save_button);
 
-	container = widget;
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (toggle_button),
+		"click", G_CALLBACK (org_gnome_vcard_inline_toggle_cb),
+		FALSE, puri);
 
-	widget = gtk_hbutton_box_new ();
-	gtk_button_box_set_layout (
-		GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_START);
-	gtk_box_set_spacing (GTK_BOX (widget), 12);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
-	gtk_widget_show (widget);
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (save_button),
+		"click", G_CALLBACK (org_gnome_vcard_inline_save_cb),
+		FALSE, puri);
+}
 
-	button_box = widget;
+static void
+org_gnome_vcard_inline_write (EMFormat *emf,
+                              EMFormatPURI *puri,
+                              CamelStream *stream,
+                              EMFormatWriterInfo *info,
+                              GCancellable *cancellable)
+{
+	VCardInlinePURI *vpuri;
 
-	widget = eab_contact_display_new ();
-	eab_contact_display_set_contact (
-		EAB_CONTACT_DISPLAY (widget), contact);
-	eab_contact_display_set_mode (
-		EAB_CONTACT_DISPLAY (widget),
-		EAB_CONTACT_DISPLAY_RENDER_COMPACT);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	vcard_object->contact_display = g_object_ref (widget);
-	gtk_widget_show (widget);
+	vpuri = (VCardInlinePURI *) puri;
 
-	widget = gtk_label_new (NULL);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	vcard_object->message_label = g_object_ref (widget);
+	if (info->mode == EM_FORMAT_WRITE_MODE_RAW)  {
 
-	if (length == 2) {
-		const gchar *text;
+		EContact *contact;
 
-		text = _("There is one other contact.");
-		gtk_label_set_text (GTK_LABEL (widget), text);
-		gtk_widget_show (widget);
+		if (vpuri->contact_list != NULL)
+			contact = E_CONTACT (vpuri->contact_list->data);
+		else
+			contact = NULL;
 
-	} else if (length > 2) {
-		gchar *text;
+		eab_contact_formatter_format_contact_sync (
+			vpuri->formatter, contact, stream, cancellable);
 
-		/* Translators: This will always be two or more. */
-		text = g_strdup_printf (ngettext (
-			"There is %d other contact.",
-			"There are %d other contacts.",
-			length - 1), length - 1);
-		gtk_label_set_text (GTK_LABEL (widget), text);
-		gtk_widget_show (widget);
-		g_free (text);
+	} else {
+		gchar *str, *uri;
+		gint length;
+		const gchar *label = NULL;
+		EABContactDisplayMode mode;
+		const gchar *info = NULL;
 
-	} else
-		gtk_widget_hide (widget);
+		length = g_slist_length (vpuri->contact_list);
+		if (length < 1)
+			return;
 
-	container = button_box;
+		uri = em_format_build_mail_uri (
+			emf->folder, emf->message_uid,
+			"part_id", G_TYPE_STRING, puri->uri,
+			"mode", G_TYPE_INT, EM_FORMAT_WRITE_MODE_RAW, NULL);
 
-	widget = gtk_button_new_with_label (_("Show Full vCard"));
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
+		mode = eab_contact_formatter_get_display_mode (vpuri->formatter);
+		if (mode == EAB_CONTACT_DISPLAY_RENDER_COMPACT) {
+			mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
+			label =_("Show Full vCard");
+		} else {
+			mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
+			label = _("Show Compact vCard");
+		}
 
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (org_gnome_vcard_inline_toggle_cb),
-		vcard_object);
+		str = g_strdup_printf (
+			"<div id=\"%s\">"
+			"<button type=\"button\" "
+				"name=\"set-display-mode\" "
+				"class=\"org-gnome-vcard-inline-display-mode-button\" "
+				"value=\"%d\">%s</button>"
+			"<button type=\"button\" "
+				"name=\"save-to-addressbook\" "
+				"class=\"org-gnome-vcard-inline-save-button\" "
+				"value=\"%s\">%s</button><br/>"
+			"<iframe width=\"100%%\" height=\"auto\" frameborder=\"0\""
+				"src=\"%s\" name=\"%s\"></iframe>"
+			"</div>",
+			 puri->uri,
+			 mode, label,
+			 puri->uri, _("Save To Addressbook"),
+			 uri, puri->uri);
 
-	widget = gtk_button_new_with_label (_("Save in Address Book"));
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+		camel_stream_write_string (stream, str, cancellable, NULL);
 
-	/* This depends on having a source list. */
-	if (vcard_object->source_list != NULL)
-		gtk_widget_show (widget);
-	else
-		gtk_widget_hide (widget);
+		g_free (str);
 
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (org_gnome_vcard_inline_save_cb),
-		vcard_object);
+		if (length == 2) {
 
-	return TRUE;
+			info = _("There is one other contact.");
+
+		} else if (length > 2) {
+
+			/* Translators: This will always be two or more. */
+			info = g_strdup_printf (ngettext (
+				"There is %d other contact.",
+				"There are %d other contacts.",
+				length - 1), length - 1);
+		}
+
+		if (info) {
+
+			str = g_strdup_printf (
+				"<div class=\"attachment-info\">%s</div>",
+				info);
+
+			camel_stream_write_string (stream, str, cancellable, NULL);
+
+			g_free (str);
+		}
+
+		g_free (uri);
+	}
 }
 
 void
 org_gnome_vcard_inline_format (gpointer ep,
                                EMFormatHookTarget *target)
 {
-	VCardInlinePObject *vcard_object;
-	gchar *classid;
-	gchar *content;
+	VCardInlinePURI *vcard_object;
+	gint len;
 
-	classid = g_strdup_printf (
-		"org-gnome-vcard-inline-display-%d",
-		org_gnome_vcard_inline_classid++);
+	len = target->part_id->len;
+	g_string_append (target->part_id, ".org-gnome-vcard-inline-display");
 
-	vcard_object = (VCardInlinePObject *)
-		em_format_html_add_pobject (
-			EM_FORMAT_HTML (target->format),
-			sizeof (VCardInlinePObject),
-			classid, target->part,
-			org_gnome_vcard_inline_embed);
+	vcard_object = (VCardInlinePURI *) em_format_puri_new (
+			target->format, sizeof (VCardInlinePURI),
+			target->part, target->part_id->str);
+	vcard_object->puri.mime_type = g_strdup("text/html");
+	vcard_object->puri.write_func = org_gnome_vcard_inline_write;
+	vcard_object->puri.bind_func = org_gnome_vcard_inline_bind_dom;
+	vcard_object->puri.free = org_gnome_vcard_inline_pobject_free;
+	vcard_object->puri.is_attachment = true;
+	vcard_object->formatter
+		= g_object_new (
+			EAB_TYPE_CONTACT_FORMATTER,
+			"display-mode", EAB_CONTACT_DISPLAY_RENDER_COMPACT,
+			"render-maps", FALSE, NULL);
+
+	em_format_add_puri (target->format, (EMFormatPURI *) vcard_object);
 
 	g_object_ref (target->part);
 
-	vcard_object->object.free = org_gnome_vcard_inline_pobject_free;
 	org_gnome_vcard_inline_decode (vcard_object, target->part);
-
 	e_book_client_get_sources (&vcard_object->source_list, NULL);
 
-	content = g_strdup_printf ("<object classid=%s></object>", classid);
-	camel_stream_write_string (target->stream, content, NULL, NULL);
-	g_free (content);
-
-	g_free (classid);
+	g_string_truncate (target->part_id, len);
 }
