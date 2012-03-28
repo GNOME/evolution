@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
 "cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-02-27 11:22+0000\n"
-"PO-Revision-Date: 2012-03-27 16:29+0530\n"
+"PO-Revision-Date: 2012-03-28 18:02+0530\n"
 "Last-Translator: \n"
 "Language-Team: gu_IN <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -517,7 +517,6 @@ msgstr "જન્મદિવસ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:39
 #: ../calendar/gui/dialogs/task-details-page.ui.h:22
-#, fuzzy
 msgid "Miscellaneous"
 msgstr "મિશ્રિત"
 
@@ -910,17 +909,15 @@ msgid "Send a mail message to this address"
 msgstr "આ સરનામા માં મેઇલ સંદેશો મોકલો"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:227
-#, fuzzy
 #| msgid "Open"
 msgid "Open map"
-msgstr "ખોલો"
+msgstr "નક્ષો ખોલો"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:542
 #: ../addressbook/gui/widgets/eab-contact-display.c:570
-#, fuzzy
 #| msgid "List Members"
 msgid "List Members:"
-msgstr "સભ્યોની યાદી"
+msgstr "સભ્યોની યાદી:"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:662
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:5
@@ -1627,10 +1624,10 @@ msgid "Can not open file"
 msgstr "ફાઈલ ખોલી શકાસે નહિં"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:45
-#, fuzzy, c-format
+#, c-format
 #| msgid "Couldn't get list of address books"
 msgid "Couldn't get list of address books: %s"
-msgstr "સરનામાપોથીઓની યાદી મેળવી શકાઈ નહિં"
+msgstr "સરનામાં પુસ્તકોની યાદીને મેળવી શક્યા નહિં: %s"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:45
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
@@ -1645,9 +1642,9 @@ msgid "Unknown error"
 msgstr "અજ્ઞાત ભૂલ"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to open client '%s': %s"
-msgstr "કેલેન્ડર '%s' લાવવામાં નિષ્ફળ"
+msgstr "ક્લાયન્ટ '%s' ને ખોલવામાં નિષ્ફળતા: %s"
 
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:109
 msgid "minute"
@@ -1666,12 +1663,11 @@ msgstr[1] "કલાકો"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:135
 #: ../calendar/gui/dialogs/recurrence-page.c:1191
-#, fuzzy
 #| msgid "day"
 msgid "day"
 msgid_plural "days"
 msgstr[0] "દિવસ"
-msgstr[1] "દિવસ"
+msgstr[1] "દિવસો"
 
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:331
 msgid "Start time"
@@ -2357,20 +2353,18 @@ msgid "Occurs"
 msgstr "થાય છે"
 
 #: ../calendar/gui/caltypes.xml.h:21
-#, fuzzy
 #| msgid "is less than"
 msgid "Less Than"
-msgstr "ના કરતાં નાનું છે"
+msgstr "ના કરતાં ઓછુ"
 
 #: ../calendar/gui/caltypes.xml.h:22
 msgid "Exactly"
 msgstr "બરાબર"
 
 #: ../calendar/gui/caltypes.xml.h:23
-#, fuzzy
 #| msgid "Korean"
 msgid "More Than"
-msgstr "કોરિયાઈ"
+msgstr "ના કરતા વધારે"
 
 #: ../calendar/gui/caltypes.xml.h:24 ../calendar/gui/memotypes.xml.h:17
 #: ../calendar/gui/tasktypes.xml.h:28
@@ -2383,10 +2377,9 @@ msgid "Description Contains"
 msgstr "વર્ણન સમાવે છે"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:632
-#, fuzzy
 #| msgid "Reminder!"
 msgid "Edit Reminder"
-msgstr "યાદ અપાવનાર!"
+msgstr "યાદ અપાવનાર માં ફેરફાર કરો"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:823
 #: ../calendar/gui/e-alarm-list.c:413
@@ -2437,17 +2430,15 @@ msgid "end of appointment"
 msgstr "મુલાકાતનો અંત"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:11
-#, fuzzy
 #| msgid "Reminder!"
 msgid "Add Reminder"
-msgstr "યાદ અપાવનાર!"
+msgstr "યાદ અપાવનાર ને ઉમેરો"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:12
 #: ../calendar/gui/dialogs/event-editor.c:364
-#, fuzzy
 #| msgid "Reminder!"
 msgid "Reminder"
-msgstr "યાદ અપાવનાર!"
+msgstr "યાદ અપાવનાર"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:13
 msgid "Repeat"
@@ -2692,10 +2683,9 @@ msgid "Keep original item?"
 msgstr "મૂળભૂત વસ્તુ ને રાખો?"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1125
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Close the current window"
-msgstr "વર્તમાન ફાઈલ બંધ કરો"
+msgstr "હાલની વિન્ડોને બંધ કરો"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1132 ../mail/e-mail-browser.c:137
 #: ../shell/e-shell-window-actions.c:1467
@@ -2729,10 +2719,9 @@ msgid "Paste the clipboard"
 msgstr "ક્લિપબોર્ડમાં ચોંટાડો"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1181
-#, fuzzy
 #| msgid "Save Current View"
 msgid "Save current changes"
-msgstr "વર્તમાન દેખાવ સંગ્રહો"
+msgstr "વર્તમાન ફેરફારોને સંગ્રહો"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1188 ../mail/e-mail-browser.c:158
 #: ../shell/e-shell-window-actions.c:1586
@@ -2895,10 +2884,9 @@ msgid "Destination is read only"
 msgstr "અંતિમ મુકામ માત્ર વાંચી શકાય તેવું છે"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:160
-#, fuzzy
 #| msgid "Cannot create a new event"
 msgid "Cannot create object"
-msgstr "નવી ઘટના બનાવી શકતા નથી"
+msgstr "ઑબ્જેક્ટને બનાવી શક્યા નહિં"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:189
 msgid "Could not open source"
@@ -2967,15 +2955,15 @@ msgstr "ભૂલને કારણે બાબત કાઢી શકાઈ �
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "The memo could not be deleted due to an error: %s"
-msgstr "ભૂલને કારણે મેમો કાઢી શક્યા નહિં"
+msgstr "ભૂલને કારણે મેમો કાઢી શક્યા નહિં: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "The item could not be deleted due to an error: %s"
-msgstr "ભૂલને કારણે વસ્તુ કાઢી શકાઈ નહિં"
+msgstr "ભૂલને કારણે વસ્તુ કાઢી શકાઈ નહિં: %s"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:1
 msgid "Enter Delegate"
@@ -3127,10 +3115,10 @@ msgid "Atte_ndees"
 msgstr "સભાજનો (_n)"
 
 #: ../calendar/gui/dialogs/event-page.c:2941
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unable to open the calendar '%s'."
 msgid "Unable to open the calendar '%s': %s"
-msgstr "કેલેન્ડર '%s' ખોલી શકાય એમ નથી."
+msgstr "કેલેન્ડર '%s' ખોલવામાં અસમર્થ: %s"
 
 #. Translators: This string is used when we are creating an Event
 #. * (meeting or appointment)  on behalf of some other user
@@ -3172,7 +3160,6 @@ msgstr "વૈવિધ્યપૂર્ણ બનાવો"
 
 #. Translators: "None" for "No reminder set"
 #: ../calendar/gui/dialogs/event-page.c:3398
-#, fuzzy
 #| msgid "None"
 msgctxt "cal-reminders"
 msgid "None"
@@ -3244,10 +3231,9 @@ msgid "Atte_ndees..."
 msgstr "સભાજનો (_n)..."
 
 #: ../calendar/gui/dialogs/event-page.ui.h:26
-#, fuzzy
 #| msgid "Reminder!"
 msgid "_Reminder"
-msgstr "યાદ અપાવનાર!"
+msgstr "યાદ અપાવનાર (_R)"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:27
 #, fuzzy
@@ -3333,10 +3319,10 @@ msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "મેમોને સંપૂર્ણપણે ફેરફાર કરી શકાતુ નથી, કારણ કે તમે સંચાલક નથી"
 
 #: ../calendar/gui/dialogs/memo-page.c:949
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unable to open memos in '%s'."
 msgid "Unable to open memos in '%s': %s"
-msgstr "'%s' માં મેમો ખોલવામાં અસમર્થ."
+msgstr "'%s' માં મેમો ખોલવામાં અસમર્થ: %s"
 
 #: ../calendar/gui/dialogs/memo-page.c:1156 ../em-format/em-format.c:1065
 #: ../em-format/em-format-quote.c:318 ../mail/em-format-html.c:2667
@@ -3348,10 +3334,9 @@ msgstr "પ્રતિ"
 #: ../calendar/gui/dialogs/memo-page.ui.h:3
 #: ../calendar/gui/dialogs/task-page.c:342
 #: ../calendar/gui/dialogs/task-page.ui.h:9
-#, fuzzy
 #| msgid "_Last:"
 msgid "_List:"
-msgstr "છેલ્લુ (_L):"
+msgstr "યાદી (_L):"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:4
 #: ../calendar/gui/dialogs/task-page.c:350
@@ -3802,22 +3787,21 @@ msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr "કાર્યનો સંપૂર્ણપણે ફેરફાર કરી શકાતો નથી, કારણ કે તમે સંચાલક નથી"
 
 #: ../calendar/gui/dialogs/task-page.c:297
-#, fuzzy
 #| msgid "Task cannot be edited, because the selected task list is read only"
 msgid ""
 "Task cannot be edited, because the selected task list does not support "
 "assigned tasks"
-msgstr "કાર્ય ને ફેરફાર કરી શકાતુ નથી, કારણ કે પસંદ થયેલ કાર્ય યાદી ફક્ત વાંચી શકાય છે"
+msgstr "કાર્ય ને ફેરફાર કરી શકાતુ નથી, કારણ કે પસંદ થયેલ કાર્ય યાદી સોંપેલ કાર્યોને આધાર આપતુ નથી"
 
 #: ../calendar/gui/dialogs/task-page.c:822
 msgid "Due date is wrong"
 msgstr "નક્કી થયેલ તારીખ ખોટી છે"
 
 #: ../calendar/gui/dialogs/task-page.c:1777
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unable to open tasks in '%s'."
 msgid "Unable to open tasks in '%s': %s"
-msgstr "'%s' માં બાબતો ખોલવા સમર્થ નથી."
+msgstr "'%s' માં કાર્ય ખોલવા સમર્થ નથી: %s"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:3
 msgid "D_ue date:"
@@ -6846,16 +6830,15 @@ msgstr "Google"
 #: ../capplet/settings/mail-account-view.c:497
 #: ../capplet/settings/mail-account-view.c:601
 #: ../mail/em-account-editor.c:4833 ../mail/em-account-editor.c:4868
-#, fuzzy
 #| msgid "Always"
 msgid "Always (SSL)"
-msgstr "હંમેશા"
+msgstr "હંમેશા (SSL)"
 
 #: ../capplet/settings/mail-account-view.c:500
 #: ../capplet/settings/mail-account-view.c:604
 #: ../mail/em-account-editor.c:4836 ../mail/em-account-editor.c:4871
 msgid "When possible (TLS)"
-msgstr ""
+msgstr "જ્યારે શક્ય હોય (TLS)"
 
 #: ../capplet/settings/mail-account-view.c:503
 #: ../capplet/settings/mail-account-view.c:607
@@ -7454,9 +7437,8 @@ msgid "You need to configure an account before you can compose mail."
 msgstr "તમે મેઈલ કમ્પોઝ કરો તે પહેલા ખાતુ રુપરેખાંકિત કરવાની જરુર છે."
 
 #: ../composer/mail-composer.error.xml.h:25
-#, fuzzy
 msgid "An error occurred while saving to your Outbox folder."
-msgstr "છાપતી વખતે ભૂલ ઉદ્ભવી"
+msgstr "ભૂલ ઉદ્ભવી જ્યારે તમારાં આઉટબોક્સ ફોલ્ડરમાં સંગ્રહી રહ્યા હોય."
 
 #: ../composer/mail-composer.error.xml.h:26
 msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
@@ -7545,10 +7527,9 @@ msgstr "ઇમેલ ખાતાઓને રૂપરેખાંકિત ક
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:21
-#, fuzzy
 #| msgid "Calendar information"
 msgid "Enable address formatting"
-msgstr "કેલેન્ડર જાણકારી"
+msgstr "સરનામા બંધારણને સક્રિય કરો"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:2
 msgid ""
@@ -7592,9 +7573,8 @@ msgstr "નામ પસંદ કરો સંવાદમાં છેલ્�
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:9
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:9
-#, fuzzy
 msgid "Contact layout style"
-msgstr "સંપર્ક યાદી"
+msgstr "સંપર્ક લેઆઉટ શૈલી"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:10
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:10
@@ -7628,10 +7608,9 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:15
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:19
-#, fuzzy
 #| msgid "Show Animations"
 msgid "Show maps"
-msgstr "એનિમેશન બતાવો"
+msgstr "નક્ષો બતાવો"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:16
 #, fuzzy
@@ -8190,32 +8169,28 @@ msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
-#, fuzzy
 #| msgid "Delete the selected calendar"
 msgid "List of selected calendars"
-msgstr "પસંદ થયેલ કૅલેન્ડરને કાઢી નાંખો"
+msgstr "પસંદ થયેલ કૅલેન્ડરની યાદી"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
-#, fuzzy
 #| msgid "List of available calendars:"
 msgid "List of calendars to load"
-msgstr "ઉપલબ્ધ કૅલેન્ડરોની યાદી:"
+msgstr "લાવવા માટે કૅલેન્ડરોની યાદી"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
-#, fuzzy
 #| msgid "Delete the selected memo list"
 msgid "List of selected memo lists"
-msgstr "પસંદ થયેલ મેમો યાદીને કાઢી નાંખો"
+msgstr "પસંદ થયેલ મેમો યાદીઓની યાદી"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid "List of memo lists to load"
 msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
-#, fuzzy
 #| msgid "Delete the selected task list"
 msgid "List of selected task lists"
-msgstr "પસંદ થયેલ કાર્ય યાદીને કાઢી નાંખો"
+msgstr "પસંદ થયેલ કાર્ય યાદીઓની યાદી"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid "List of task lists to load"
@@ -8389,9 +8364,8 @@ msgstr "શું સમયને am/pm ની જગ્યાએ ચોવી�
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:101
-#, fuzzy
 msgid "Birthday and anniversary reminder"
-msgstr "જન્મદિવસો અને સાલગીરીઓ"
+msgstr "જન્મદિવસો અને સાલગીરીઓ યાદ અપાવનાર"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 #, fuzzy
@@ -8401,7 +8375,7 @@ msgstr "શું મુલાકાતો માટે મૂળભુત ય�
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:95
 msgid "Default appointment reminder"
-msgstr "મુલાકાત યાદ અપાવનાર મૂળભુત"
+msgstr "યાદ અપાવનાર મૂળભૂત મુલાકાત"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 #, fuzzy
@@ -8415,7 +8389,6 @@ msgid "Use system timezone"
 msgstr "સિસ્ટમ ટાઇમઝોન ને વાપરો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
-#, fuzzy
 #| msgid ""
 #| "Use the system timezone instead of the timezone selected in Evolution."
 msgid "Use the system timezone instead of the timezone selected in Evolution"
@@ -8438,10 +8411,9 @@ msgid "Work days"
 msgstr "કામ કરવાના દિવસો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
-#, fuzzy
 #| msgid "Days on which the start and end of work hours should be indicated."
 msgid "Days on which the start and end of work hours should be indicated"
-msgstr "દિવસો કે જેના પર કામ કરવાના કલાકોના શરૂ અને અંતના કલાકો સૂચિત થવા જોઈએ."
+msgstr "દિવસો કે જેના પર કામ કરવાના કલાકોના શરૂ અને અંતના કલાકો સૂચિત થવા જોઈએ"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
 #: ../shell/apps_evolution_shell.schemas.in.h:1
@@ -8470,14 +8442,13 @@ msgstr ""
 "તરીકે \"2.6.0\")."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:5
-#, fuzzy
 #| msgid "Enable and disable plugins"
 msgid "List of disabled plugins"
-msgstr "પ્લગઈનો સક્રિય અને નિષ્ક્રિય કરો"
+msgstr "નિષ્ક્રિય થયેલ પ્લગઇનોની યાદી"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:6
 msgid "The list of disabled plugins in Evolution"
-msgstr ""
+msgstr "Evolution માં નિષ્ક્રિય થયેલ પ્લગઇનોની યાદી"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
 #, fuzzy
@@ -8584,9 +8555,8 @@ msgid "Recognize emoticons in text and replace them with images."
 msgstr "લખાણમાં ચિહ્નો ઓળખો અને તેમને ચિત્રો સાથે બદલો."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
-#, fuzzy
 msgid "Attribute message"
-msgstr "જોડાયેલ સંદેશ"
+msgstr "ગુણધર્મ સંદેશો"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
 msgid ""
@@ -8989,9 +8959,8 @@ msgstr "બધા સંદેશા હેડરોને બતાવો"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 #: ../mail/evolution-mail.schemas.in.h:76
-#, fuzzy
 msgid "Show all the headers when viewing a messages."
-msgstr "જ્યારે સંદેશને મોકલી રહ્યા હોય ત્યારે \"Reply To\" ક્ષેત્રને બતાવો"
+msgstr "બધા હેડરોને બતાવો જ્યારે સંદેશાને દેખી રહ્યા હોય છે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 #: ../mail/evolution-mail.schemas.in.h:77
@@ -9387,9 +9356,8 @@ msgid "Prompt the user when he or she tries to send a message without a Subject.
 msgstr "જ્યારે તે અથવા તેણી વિષય વગર સંદેશો મોકલવાનો પ્રયત્ન કરે છે ત્યારે વપરાશકર્તાને પૂછે છે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
-#, fuzzy
 msgid "Prompt when emptying the trash"
-msgstr "જ્યારે સંદેશાઓ આને પણ ખબર વિના દ્વારા મોકલો ત્યારે પૂછો"
+msgstr "જ્યારે કચરાપેટીને ખાલી કરી રહ્યા હોય ત્યારે પૂછો"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 #, fuzzy
@@ -9777,9 +9745,8 @@ msgstr "કમ્પોઝરમાં ફાઈલો લાવવા/જોડ
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 #: ../mail/evolution-mail.schemas.in.h:219
-#, fuzzy
 msgid "Check for new messages on start"
-msgstr "આ દરે નવા સંદેશાઓ માટે ચકાસો (_n)"
+msgstr "શરૂઆતે નવા સંદેશા માટે ચકાસો"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid ""
@@ -9789,9 +9756,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 #: ../mail/evolution-mail.schemas.in.h:221
-#, fuzzy
 msgid "Check for new messages in all active accounts"
-msgstr "આ દરે નવા સંદેશાઓ માટે ચકાસો (_n)"
+msgstr "બધા સક્રિય ખાતામાં નવા સંદેશા માટે ચકાસો"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid ""
@@ -10011,10 +9977,9 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:13
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-#, fuzzy
 #| msgid "Sound file name to be played."
 msgid "Sound filename to be played."
-msgstr "વગાડવા માટેની ધ્વનિ ફાઈલનું નામ."
+msgstr "વગાડવા માટે સાઉન્ડ ફાઇલનામ."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
@@ -10022,10 +9987,9 @@ msgid "Sound file to be played when new messages arrive, if not in beep mode."
 msgstr "જ્યારે નવા સંદેશાઓ આવે ત્યારે વગાડવાની ધ્વનિ ફાઈલ, જો બીપ સ્થિતિમાં નહિં હોય."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
-#, fuzzy
 #| msgid "FILE"
 msgid "FIXME"
-msgstr "FILE"
+msgstr "FIXME"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:16
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
@@ -10105,10 +10069,9 @@ msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "શું Evolution ઓનલાઈન સ્થિતિની જગ્યાઓ ઓફલાઈન સ્થિતિમાં શરૂ થશે."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
-#, fuzzy
 #| msgid "Opening folder '%s'"
 msgid "Offline folder paths"
-msgstr "ફોલ્ડર '%s' ને ખોલી રહ્યા છે"
+msgstr "ઓફલાઇન ફોલ્ડર પાથ"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
 #, fuzzy
@@ -10210,10 +10173,9 @@ msgid "Use only the local spam tests (no DNS)."
 msgstr "માત્ર સ્થાનિક ચકાસણીઓ વાપરો (DNS નહિં)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
-#, fuzzy
 #| msgid "Failed to read output from SpamAssassin: "
 msgid "Socket path for SpamAssassin"
-msgstr "SpamAssassin માંથી આઉટપુટને વાંચવાનુ નિષ્ફળ:"
+msgstr "SpamAssassin માટે સોકેટ પાથ"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
 #: ../modules/spamassassin/evolution-spamassassin.schemas.in.h:3
@@ -10226,16 +10188,14 @@ msgid "Use SpamAssassin daemon and client (spamc/spamd)."
 msgstr "SpamAssassin ડિમન અને ક્લાઈન્ટ વાપરો (spamc/spamd)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
-#, fuzzy
 #| msgid "SpamAssassin Options"
 msgid "SpamAssassin client binary"
-msgstr "Spamassassin વિકલ્પો"
+msgstr "SpamAssassin ક્લાયન્ટ લાઇબ્રેરી"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:7
-#, fuzzy
 #| msgid "Use SpamAssassin daemon and client"
 msgid "SpamAssassin daemon binary"
-msgstr "SpamAssassin ડિમન અને ક્લાઈન્ટ વાપરો"
+msgstr "SpamAssassin ડિમન બાઇનરી"
 
 #: ../em-format/em-format.c:1063 ../em-format/em-format-quote.c:318
 #: ../mail/e-mail-tag-editor.c:327 ../mail/message-list.etspec.h:5
@@ -10574,20 +10534,18 @@ msgid "The printing system did not report any additional details about the error
 msgstr "છાપન સિસ્ટમ ભૂલ વિશે કોઈપણ વધારાની વિગતોનો અહેવાલ આપ્યો નથી."
 
 #: ../e-util/e-system.error.xml.h:1
-#, fuzzy
 #| msgid "A folder named \"{0}\" already exists. Please use a different name."
 msgid "A file named \"{0}\" already exists. Do you want to replace it?"
-msgstr "\"{0}\" નામવાળું ફોલ્ડર પહેલાથી જ હાજર છે. મહેરબાની કરીને અલગ નામ વાપરો."
+msgstr "\"{0}\" નામવાળું ફોલ્ડર પહેલાથી જ હાજર છે. શું તેને તમે બદલવા માંગો છો?"
 
 #: ../e-util/e-system.error.xml.h:2
 msgid "The file already exists in \"{0}\". Replacing it will overwrite its contents."
 msgstr ""
 
 #: ../e-util/e-system.error.xml.h:3
-#, fuzzy
 #| msgid "_Reply"
 msgid "_Replace"
-msgstr "પ્રત્યુત્તર (_R)"
+msgstr "બદલો (_R)"
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Cannot save file \"{0}\"."
@@ -10811,16 +10769,14 @@ msgid "You must choose a date."
 msgstr "તમારે તારીખ પસંદ કરવી જ જોઈએ."
 
 #: ../filter/filter.error.xml.h:3
-#, fuzzy
 #| msgid "Missing file name."
 msgid "Missing filename."
-msgstr "ફાઈલ નામ ખોવાયેલ છે."
+msgstr "ગુમ થયેલ ફાઇલનામ."
 
 #: ../filter/filter.error.xml.h:4
-#, fuzzy
 #| msgid "You must specify a file name."
 msgid "You must specify a filename."
-msgstr "તમારે ફાઈલ નામ સ્પષ્ટ કરવું જ જોઈએ."
+msgstr "તમારે ફાઈલનામ સ્પષ્ટ કરવું જ જોઈએ."
 
 #: ../filter/filter.error.xml.h:5
 msgid "File &quot;{0}&quot; does not exist or is not a regular file."
@@ -10947,14 +10903,13 @@ msgid "Removing folder '%s'"
 msgstr "ફોલ્ડર '%s' ને દૂર કરી રહ્યા છે"
 
 #: ../libemail-engine/e-mail-folder-utils.c:1009
-#, fuzzy, c-format
+#, c-format
 msgid "File \"%s\" has been removed."
-msgstr "બધા ખાતાઓ કાઢી નંખાયેલ છે."
+msgstr "ફાઇલ \"%s\" ને દૂર કરી દેવામાં આવી છે."
 
 #: ../libemail-engine/e-mail-folder-utils.c:1013
-#, fuzzy
 msgid "File has been removed."
-msgstr "બધા ખાતાઓ કાઢી નંખાયેલ છે."
+msgstr "ફાઇલને દૂર કરી દેવામાં આવી છે."
 
 #: ../libemail-engine/e-mail-folder-utils.c:1072
 msgid "Removing attachments"
@@ -10968,10 +10923,10 @@ msgstr[0] "%d સંદેશાનો સંગ્રહ કરી રહ્ય
 msgstr[1] "%d સંદેશાઓ સંગ્રહી રહ્યા છીએ"
 
 #: ../libemail-engine/e-mail-folder-utils.c:1588 ../mail/em-folder-utils.c:624
-#, fuzzy, c-format
+#, c-format
 #| msgid "Invalid folder: %s"
 msgid "Invalid folder URI '%s'"
-msgstr "અયોગ્ય ફોલ્ડર: %s"
+msgstr "અમાન્ય ફોલ્ડર URI '%s'"
 
 #: ../libemail-engine/e-mail-session.c:106 ../mail/em-folder-properties.c:333
 #: ../mail/em-folder-tree-model.c:719
@@ -11041,10 +10996,10 @@ msgid "No account found to use, forward of the message has been cancelled."
 msgstr "વાપરવા માટે કોઈ ખાતું મળ્યું નહિં, સંદેશાને આગળ ધપાવવાનું રદ કરવામાં આવેલ છે."
 
 #: ../libemail-engine/e-mail-session.c:1274
-#, fuzzy, c-format
+#, c-format
 #| msgid "Use Authe_ntication"
 msgid "%s authentication failed"
-msgstr "સત્તાધિકરણ વાપરો (_n)"
+msgstr "%s સત્તાધિકરણ નિષ્ફળ"
 
 #: ../libemail-engine/e-mail-session.c:1348
 #, c-format
@@ -11127,12 +11082,12 @@ msgstr "%d માંના %d સંદેશાને મોકલી રહ્
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
 #: ../libemail-engine/mail-ops.c:883
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to send %d of %d messages"
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
-msgstr[0] "%d માંના %d સંદેશાઓને મોકલવામાં નિષ્ફળ"
-msgstr[1] "%d માંના %d સંદેશાઓને મોકલવામાં નિષ્ફળ"
+msgstr[0] "સંદેશો મોકલવામાં નિષ્ફળતા"
+msgstr[1] "%d સંદેશાને %d મોકલવામાં નિષ્ફળતા"
 
 #: ../libemail-engine/mail-ops.c:889 ../mail/mail-send-recv.c:885
 msgid "Canceled."
@@ -11188,9 +11143,9 @@ msgid "Disconnecting %s"
 msgstr "%s માંથી સંપર્ક તોડી રહ્યા છીએ"
 
 #: ../libemail-engine/mail-tools.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create spool directory '%s': %s"
-msgstr "સ્પુલ ડિરેક્ટરી `%s' બનાવી શક્યા નહિં: %s"
+msgstr "સ્પુલ ડિરેક્ટરી '%s' બનાવી શક્યા નહિં: %s"
 
 #: ../libemail-engine/mail-tools.c:112
 #, fuzzy, c-format
@@ -11211,10 +11166,9 @@ msgid "Autogenerated"
 msgstr "આપોઆપ બનતુ"
 
 #: ../mail/e-mail-account-manager.c:405
-#, fuzzy
 #| msgid "Use _Default"
 msgid "_Restore Default"
-msgstr "મૂળભુત વાપરો (_D)"
+msgstr "મૂળભૂત પુન:સંગ્રહો (_R)"
 
 #: ../mail/e-mail-account-manager.c:418
 msgid "You can drag and drop account names to reorder them."
@@ -11264,10 +11218,9 @@ msgid "List View"
 msgstr "યાદી દૃશ્ય"
 
 #: ../mail/e-mail-backend.c:661
-#, fuzzy
 #| msgid "Unknown action to be performed"
 msgid "Unknown background operation"
-msgstr "અજ્ઞાત ક્રિયા થઈ ગઈ છે"
+msgstr "અજ્ઞાત પાશ્ર્વભાગ ક્રિયા"
 
 #: ../mail/e-mail-browser.c:130 ../shell/e-shell-window-actions.c:1439
 #: ../shell/e-shell-window-actions.c:1446
@@ -11638,27 +11591,24 @@ msgid "Move selected messages to another folder"
 msgstr "બીજા ફોલ્ડરમાં પસંદ થયેલ સંદેશાઓને ખસેડો"
 
 #: ../mail/e-mail-reader.c:2005
-#, fuzzy
 msgid "_Switch to Folder"
-msgstr "%s માં બદલો"
+msgstr "ફોલ્ડરમાં ખસેડો (_S)"
 
 #: ../mail/e-mail-reader.c:2007
 msgid "Display the parent folder"
 msgstr "મુખ્ય ફોલ્ડરને દર્શાવો"
 
 #: ../mail/e-mail-reader.c:2012
-#, fuzzy
 msgid "Switch to _next tab"
-msgstr "%s માં બદલો"
+msgstr "આગળનાં ટૅબમાં ખસેડો (_n)"
 
 #: ../mail/e-mail-reader.c:2014
 msgid "Switch to the next tab"
 msgstr "આગળનાં ટૅબમાં ખસેડો"
 
 #: ../mail/e-mail-reader.c:2019
-#, fuzzy
 msgid "Switch to _previous tab"
-msgstr "%s માં બદલો"
+msgstr "પહેલાનાં ટૅબમાં ખસેડો (_p)"
 
 #: ../mail/e-mail-reader.c:2021
 msgid "Switch to the previous tab"
@@ -11907,9 +11857,8 @@ msgid "Search Folder from S_ubject..."
 msgstr "વિષયમાંથી શોધ ફોલ્ડર (_u)..."
 
 #: ../mail/e-mail-reader.c:2278
-#, fuzzy
 msgid "Create a search folder for this subject"
-msgstr "આ વિષય માટે શોધ ફોલ્ડર બનાવો"
+msgstr "આ વિષય માટે શોધ ફોલ્ડરને બનાવો"
 
 #: ../mail/e-mail-reader.c:2301
 msgid "Mark for Follo_w Up..."
@@ -12068,10 +12017,9 @@ msgid "_Path:"
 msgstr "પથ (_P):"
 
 #: ../mail/em-account-editor.c:2908
-#, fuzzy
 #| msgid "_File:"
 msgid "Fil_e:"
-msgstr "ફાઈલ (_F):"
+msgstr "ફાઈલ (_e):"
 
 #: ../mail/em-account-editor.c:2945
 msgid "Mail Configuration"
@@ -12122,10 +12070,9 @@ msgstr ""
 "હોય, તો તમારા સિસ્ટમ સંચાલક અથવા ઈન્ટરનેટ સેવા પૂરી પાડનારને પૂછો."
 
 #: ../mail/em-account-editor.c:2957
-#, fuzzy
 #| msgid "Account Search"
 msgid "Account Summary"
-msgstr "ખાતા શોધ"
+msgstr "ખાતા સારાંશ"
 
 #: ../mail/em-account-editor.c:2958
 msgid "This is a summary of the settings which will be used to access your mail."
@@ -12192,10 +12139,9 @@ msgid "Setup _Yahoo calendar with Evolution"
 msgstr "Evolution સાથે Yahoo કૅલેન્ડરને સુયોજિત કરો"
 
 #: ../mail/em-account-editor.c:4993
-#, fuzzy
 #| msgid "Yahoo Calendar name:"
 msgid "Yahoo Calen_dar name:"
-msgstr "Yahoo કૅલેન્ડર નામ:"
+msgstr "Yahoo કૅલેન્ડર નામ (_d):"
 
 #. Note to translators: this is the attribution string used
 #. * when quoting messages.  Each ${Variable} gets replaced
@@ -12279,10 +12225,9 @@ msgid "does not exist"
 msgstr "અસ્તિત્વમાં નથી"
 
 #: ../mail/em-filter-i18n.h:19
-#, fuzzy
 #| msgid "does not end with"
 msgid "does not have words"
-msgstr "આની સાથે અંત થતો નથી"
+msgstr "તમારી પાસે શબ્દો નથી"
 
 #: ../mail/em-filter-i18n.h:20
 msgid "does not return"
@@ -12321,10 +12266,9 @@ msgid "Forward to"
 msgstr "આગળ ધપાવો"
 
 #: ../mail/em-filter-i18n.h:31
-#, fuzzy
 #| msgid "Password:"
 msgid "has words"
-msgstr "પાસવર્ડ:"
+msgstr "તમારી પાસે શબ્દો છે"
 
 #: ../mail/em-filter-i18n.h:32
 msgid "Important"
@@ -12691,7 +12635,6 @@ msgid "From: %s"
 msgstr "માંથી: %s"
 
 #: ../mail/em-format-html.c:3031
-#, fuzzy
 #| msgid "(No Subject)"
 msgid "(no subject)"
 msgstr "(વિષય નથી)"
@@ -12779,23 +12722,20 @@ msgstr ""
 "અબંધારણીય અથવા બાહ્ય લખાણ સંપાદક સાથે જોઈ શકો છો."
 
 #: ../mail/em-format-html-display.c:773
-#, fuzzy
 #| msgid "Save Message"
 #| msgid_plural "Save Messages"
 msgid "Save Image"
-msgstr "સંદેશો સંગ્રહો"
+msgstr "ઇમેજ સંગ્રહો"
 
 #: ../mail/em-format-html-display.c:821
-#, fuzzy
 #| msgid "Save as..."
 msgid "Save _Image..."
-msgstr "આ રીતે સંગ્રહો..."
+msgstr "ઇમેજને આ રીતે સંગ્રહો ( _I)..."
 
 #: ../mail/em-format-html-display.c:823
-#, fuzzy
 #| msgid "Save the current file"
 msgid "Save the image to a file"
-msgstr "વર્તમાન ફાઈલ સંગ્રહો"
+msgstr "ફાઇલમાં ઇમેજને સંગ્રહો"
 
 #: ../mail/em-format-html-display.c:1024
 msgid "Completed on"
@@ -12823,7 +12763,6 @@ msgstr "ની સાથે ખોલો (_p)"
 
 #. Translators: Name of an Attachment button for a11y object
 #: ../mail/em-format-html-display.c:1407
-#, fuzzy
 #| msgid "Attachment"
 #| msgid_plural "Attachments"
 msgctxt "Button"
@@ -12842,10 +12781,9 @@ msgid "No HTML stream available"
 msgstr "HTML સ્ટ્રીમ ઉપલબ્ધ નથી"
 
 #: ../mail/em-subscription-editor.c:870
-#, fuzzy
 #| msgid "Su_bscribe"
 msgid "_Subscribe"
-msgstr "ઉમેદવારી કરો (_b)"
+msgstr "ઉમેદવારી નોંધાવો (_S)"
 
 #: ../mail/em-subscription-editor.c:879
 #, fuzzy
@@ -12854,10 +12792,9 @@ msgid "Su_bscribe To Shown"
 msgstr "ઉમેદવારી કરો (_b)"
 
 #: ../mail/em-subscription-editor.c:887
-#, fuzzy
 #| msgid "Subscribe to my _alarms"
 msgid "Subscribe To _All"
-msgstr "મારા એલાર્મોમાં ઉમેદવારી નોંધાવો (_a)"
+msgstr "બધાની ઉમેદવારી નોંધાવો (_A)"
 
 #: ../mail/em-subscription-editor.c:987 ../mail/em-subscription-editor.c:1840
 #: ../modules/mail/e-mail-shell-view-actions.c:1292
@@ -13056,18 +12993,16 @@ msgid "Mail browser width"
 msgstr "મેઇલ બ્રાઉઝર પહોળાઇ"
 
 #: ../mail/evolution-mail.schemas.in.h:131
-#, fuzzy
 msgid "Default width of the mail browser window."
-msgstr "કમ્પોઝર વિન્ડોની મૂળભૂત પહોળાઈ."
+msgstr "મેઇલ બ્રાઉઝર વિન્ડોની મૂળભૂત પહોળાઇ."
 
 #: ../mail/evolution-mail.schemas.in.h:132
 msgid "Mail browser height"
 msgstr "મેઇલ બ્રાઉઝર ઊંચાઇ"
 
 #: ../mail/evolution-mail.schemas.in.h:133
-#, fuzzy
 msgid "Default height of the mail browser window."
-msgstr "કમ્પોઝર વિન્ડોની મૂળભૂત ઊંચાઈ."
+msgstr "મેઇલ બ્રાઉઝર વિન્ડોની મૂળભૂત ઊંચાઇ."
 
 #: ../mail/evolution-mail.schemas.in.h:134
 msgid "Mail browser maximized"
@@ -14533,24 +14468,20 @@ msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "શું ખરેખર ફોલ્ડર \"{0}\" અને તેની બધી ઉપડિરેક્ટરીઓ કાઢી નાંખવી છે?"
 
 #: ../mail/mail.error.xml.h:62
-#, fuzzy
 msgid ""
 "If you delete the folder, all of its contents and its subfolders' contents "
 "will be deleted permanently."
 msgstr ""
-"જો તમે ફોલ્ડર કાઢી નાંખો, તો તેના બધા સમાવિષ્ટો અને તેના ઉપફોલ્ડરના સમાવિષ્ટો કાયમી "
-"રીતે કાઢી નંખાશે."
+"જો તમે ફોલ્ડર કાઢી નાંખો, તો તેના બધા સમાવિષ્ટો અને તેના ઉપફોલ્ડરના સમાવિષ્ટો કાયમી રીતે કાઢી "
+"નંખાશે."
 
 #: ../mail/mail.error.xml.h:64
 msgid "Really delete folder \"{0}\"?"
 msgstr "શું ફોલ્ડર \"{0}\" ને ખરેખર કાઢવુ છે?"
 
 #: ../mail/mail.error.xml.h:65
-#, fuzzy
 msgid "If you delete the folder, all of its contents will be deleted permanently."
-msgstr ""
-"જો તમે ફોલ્ડર કાઢી નાંખો, તો તેના બધા સમાવિષ્ટો અને તેના ઉપફોલ્ડરના સમાવિષ્ટો કાયમી "
-"રીતે કાઢી નંખાશે."
+msgstr "જો તમે ફોલ્ડર કાઢી નાંખો, તો તેના બધા સમાવિષ્ટો અને કાયમી રીતે કાઢી નંખાશે."
 
 #: ../mail/mail.error.xml.h:66
 msgid "These messages are not copies."
@@ -15130,7 +15061,6 @@ msgstr "સંદેશાઓ"
 
 #. default follow-up flag name to use when clicked in the message list column
 #: ../mail/message-list.c:4101
-#, fuzzy
 #| msgid "Follow-Up"
 msgid "Follow-up"
 msgstr "ને અનુસરો"
@@ -15241,9 +15171,8 @@ msgstr ""
 "હશો."
 
 #: ../modules/addressbook/addressbook-config.c:649
-#, fuzzy
 msgid "U_se in Birthday & Anniversaries calendar"
-msgstr "જન્મદિવસો અને સાલગીરીઓ"
+msgstr "જન્મદિવસો અને સાલગીરીઓ કૅલેન્ડરમાં વાપરો (_s)"
 
 #: ../modules/addressbook/addressbook-config.c:693
 msgid "Copy _book content locally for offline operation"
@@ -15320,10 +15249,9 @@ msgid ""
 msgstr ""
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:20
-#, fuzzy
 #| msgid "Whether to show the preview pane."
 msgid "Whether to show maps in preview pane."
-msgstr "શું પૂર્વદર્શન તકતી બતાવવી."
+msgstr "શું પૂર્વદર્શન તકતીમાં નક્ષાને બતાવવુ."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:22
 msgid ""
@@ -15338,10 +15266,9 @@ msgid "_Table column:"
 msgstr "કોષ્ટક સ્તંભ (_T):"
 
 #: ../modules/addressbook/autocompletion-config.c:197
-#, fuzzy
 #| msgid "Free/Busy information"
 msgid "Address formatting"
-msgstr "મુક્ત/વ્યસ્ત જાણકારી"
+msgstr "સરનામાં બંધારણ"
 
 #: ../modules/addressbook/autocompletion-config.c:200
 msgid "_Format address according to standard of its destination country"
@@ -15497,9 +15424,8 @@ msgid "Stop loading"
 msgstr "લાવવાનું અટકાવો"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:872
-#, fuzzy
 msgid "_Copy Contact To..."
-msgstr "સંપર્કની નકલ અંહિ કરો (_C)..."
+msgstr "માં સંપર્કની નકલ કરો (_C)..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:874
 #, fuzzy
@@ -15527,9 +15453,8 @@ msgid "Send selected contacts to another person"
 msgstr "બીજી વ્યક્તિમાં પસંદ થયેલ સંપર્કોને મોકલો"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:900
-#, fuzzy
 msgid "_Move Contact To..."
-msgstr "સંપર્કોને આમાં ખસેડો (_M)..."
+msgstr "માં સંપર્કને ખસેડો (_M)..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:902
 msgid "Move selected contacts to another address book"
@@ -15599,10 +15524,9 @@ msgid "Show contact preview window"
 msgstr "સંપર્ક પૂર્વદર્શન વિન્ડો બતાવો"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1001
-#, fuzzy
 #| msgid "Show as list"
 msgid "Show _Maps"
-msgstr "યાદી તરીકે બતાવો"
+msgstr "નક્ષો બતાવો (_M)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1003
 #, fuzzy
@@ -15736,10 +15660,9 @@ msgid "Supported Search Bases"
 msgstr "આધારભૂત શોધના આધારો"
 
 #: ../modules/addressbook/ldap-config.ui.h:14
-#, fuzzy
 #| msgid "_Server:"
 msgid "Ser_ver:"
-msgstr "સર્વર (_S):"
+msgstr "સર્વર (_v):"
 
 #: ../modules/addressbook/ldap-config.ui.h:15
 #, fuzzy
@@ -17169,10 +17092,9 @@ msgid "Mail Acco_unt"
 msgstr "મેઈલ ખાતુ (_u)"
 
 #: ../modules/mail/e-mail-shell-backend.c:242
-#, fuzzy
 #| msgid "Create a new mail folder"
 msgid "Create a new mail account"
-msgstr "નવું મેઈલ ફોલ્ડર બનાવો"
+msgstr "નવું મેઈલ ખાતુ બનાવો"
 
 #: ../modules/mail/e-mail-shell-backend.c:247
 msgctxt "New"
@@ -17221,10 +17143,9 @@ msgid "Permanently remove all the deleted messages from all folders"
 msgstr "બધા ફોલ્ડરોમાંથી બધા કાઢી નંખાયેલા સંદેશાઓ કાયમી રીતે કાઢી નાંખો"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1196
-#, fuzzy
 #| msgid "Change the properties of this folder"
 msgid "Edit properties of this account"
-msgstr "આ ફોલ્ડરના ગુણધર્મો બદલો"
+msgstr "આ ખાતાના ગુણધર્મો બદલો"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1201
 msgid "_Download Messages for Offline Usage"
