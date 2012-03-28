@@ -355,27 +355,6 @@ attachment_button_toggle_button_press_event_cb (EAttachmentButton *button,
 }
 
 static void
-attachment_button_set_view (EAttachmentButton *button,
-                            EAttachmentView *view)
-{
-	GtkWidget *popup_menu;
-
-	g_return_if_fail (button->priv->view == NULL);
-
-	button->priv->view = g_object_ref (view);
-
-	popup_menu = e_attachment_view_get_popup_menu (view);
-
-	g_signal_connect_swapped (
-		popup_menu, "deactivate",
-		G_CALLBACK (attachment_button_menu_deactivate_cb), button);
-
-	/* Keep a reference to the popup menu so we can
-	 * disconnect the signal handler in dispose(). */
-	button->priv->popup_menu = g_object_ref (popup_menu);
-}
-
-static void
 attachment_button_set_property (GObject *object,
                                 guint property_id,
                                 const GValue *value,
@@ -401,7 +380,7 @@ attachment_button_set_property (GObject *object,
 			return;
 
 		case PROP_VIEW:
-			attachment_button_set_view (
+			e_attachment_button_set_view (
 				E_ATTACHMENT_BUTTON (object),
 				g_value_get_object (value));
 			return;
@@ -566,8 +545,7 @@ e_attachment_button_class_init (EAttachmentButtonClass *class)
 			"View",
 			NULL,
 			E_TYPE_ATTACHMENT_VIEW,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -701,13 +679,10 @@ e_attachment_button_init (EAttachmentButton *button)
 }
 
 GtkWidget *
-e_attachment_button_new (EAttachmentView *view)
+e_attachment_button_new ()
 {
-	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
-
 	return g_object_new (
-		E_TYPE_ATTACHMENT_BUTTON,
-		"view", view, NULL);
+		E_TYPE_ATTACHMENT_BUTTON, NULL);
 }
 
 EAttachmentView *
@@ -716,6 +691,31 @@ e_attachment_button_get_view (EAttachmentButton *button)
 	g_return_val_if_fail (E_IS_ATTACHMENT_BUTTON (button), NULL);
 
 	return button->priv->view;
+}
+
+void
+e_attachment_button_set_view (EAttachmentButton *button,
+                              EAttachmentView *view)
+{
+	GtkWidget *popup_menu;
+
+	g_return_if_fail (button->priv->view == NULL);
+
+	if (button->priv->view)
+		g_object_unref (button->priv->view);
+	button->priv->view = g_object_ref (view);
+
+	popup_menu = e_attachment_view_get_popup_menu (view);
+
+	g_signal_connect_swapped (
+		popup_menu, "deactivate",
+		G_CALLBACK (attachment_button_menu_deactivate_cb), button);
+
+	/* Keep a reference to the popup menu so we can
+	 * disconnect the signal handler in dispose(). */
+	if (button->priv->popup_menu)
+		g_object_unref (button->priv->popup_menu);
+	button->priv->popup_menu = g_object_ref (popup_menu);
 }
 
 EAttachment *

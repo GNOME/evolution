@@ -27,7 +27,8 @@
 #ifndef E_WEB_VIEW_H
 #define E_WEB_VIEW_H
 
-#include <gtkhtml/gtkhtml.h>
+#include <webkit/webkit.h>
+#include <JavaScriptCore/JavaScript.h>
 
 /* Standard GObject macros */
 #define E_TYPE_WEB_VIEW \
@@ -55,17 +56,25 @@ typedef struct _EWebViewClass EWebViewClass;
 typedef struct _EWebViewPrivate EWebViewPrivate;
 
 struct _EWebView {
-	GtkHTML parent;
+	WebKitWebView parent;
 	EWebViewPrivate *priv;
 };
 
+typedef void (*EWebViewJSFunctionCallback)	(EWebView *web_view,
+						 size_t arg_count,
+						 const JSValueRef args[],
+						 gpointer user_data);
+
 struct _EWebViewClass {
-	GtkHTMLClass parent_class;
+	WebKitWebViewClass parent_class;
 
 	/* Methods */
+	GtkWidget *	(*create_plugin_widget)	(EWebView *web_view,
+						 const gchar *mime_type,
+						 const gchar *uri,
+						 GHashTable *param);
 	gchar *		(*extract_uri)		(EWebView *web_view,
-						 GdkEventButton *event,
-						 GtkHTML *frame);
+						 GdkEventButton *event);
 	void		(*hovering_over_link)	(EWebView *web_view,
 						 const gchar *title,
 						 const gchar *uri);
@@ -73,11 +82,15 @@ struct _EWebViewClass {
 						 const gchar *uri);
 	void		(*load_string)		(EWebView *web_view,
 						 const gchar *load_string);
-
+	void		(*load_uri)		(EWebView *web_view,
+						 const gchar *load_uri);
+	void		(*frame_load_string)	(EWebView *web_view,
+						 const gchar *frame_name,
+						 const gchar *string);
+	void		(*frame_load_uri)	(EWebView *web_view,
+						 const gchar *frame_name,
+						 const gchar *uri);
 	/* Signals */
-	void		(*copy_clipboard)	(EWebView *web_view);
-	void		(*cut_clipboard)	(EWebView *web_view);
-	void		(*paste_clipboard)	(EWebView *web_view);
 	gboolean	(*popup_event)		(EWebView *web_view,
 						 GdkEventButton *event,
 						 const gchar *uri);
@@ -94,9 +107,32 @@ GtkWidget *	e_web_view_new			(void);
 void		e_web_view_clear		(EWebView *web_view);
 void		e_web_view_load_string		(EWebView *web_view,
 						 const gchar *string);
-gboolean	e_web_view_get_animate		(EWebView *web_view);
-void		e_web_view_set_animate		(EWebView *web_view,
-						 gboolean animate);
+void		e_web_view_load_uri		(EWebView *web_view,
+						 const gchar *uri);
+const gchar *	e_web_view_get_uri		(EWebView *web_view);
+void		e_web_view_reload		(EWebView *web_view);
+void		e_web_view_frame_load_string	(EWebView *web_view,
+						 const gchar *frame_name,
+						 const gchar *string);
+void		e_web_view_frame_load_uri	(EWebView *web_view,
+						 const gchar *frame_name,
+						 const gchar *uri);
+const gchar *	e_web_view_frame_get_uri	(EWebView *web_view,
+						 const gchar *frame_name);
+JSGlobalContextRef
+		e_web_view_get_global_context	(EWebView *web_view);
+GType		e_web_view_exec_script		(EWebView *web_view,
+						 const gchar *script,
+						 GValue *value);
+GType		e_web_view_frame_exec_script	(EWebView *web_view,
+						 const gchar *frame_name,
+						 const gchar *script,
+						 GValue *value);
+void		e_web_view_install_js_callback  (EWebView *web_view,
+						 const gchar *fnc_name,
+						 EWebViewJSFunctionCallback callback,
+						 gpointer user_data);
+gchar *		e_web_view_get_html		(EWebView *web_view);
 gboolean	e_web_view_get_caret_mode	(EWebView *web_view);
 void		e_web_view_set_caret_mode	(EWebView *web_view,
 						 gboolean caret_mode);
@@ -109,6 +145,11 @@ gboolean	e_web_view_get_disable_save_to_disk
 void		e_web_view_set_disable_save_to_disk
 						(EWebView *web_view,
 						 gboolean disable_save_to_disk);
+gboolean        e_web_view_get_enable_frame_flattening
+                                                (EWebView *web_view);
+void            e_web_view_set_enable_frame_flattening
+                                                (EWebView *web_view,
+                                                 gboolean enable_frame_flattening);
 gboolean	e_web_view_get_editable		(EWebView *web_view);
 void		e_web_view_set_editable		(EWebView *web_view,
 						 gboolean editable);
@@ -142,13 +183,16 @@ void		e_web_view_set_print_proxy	(EWebView *web_view,
 GtkAction *	e_web_view_get_save_as_proxy	(EWebView *web_view);
 void		e_web_view_set_save_as_proxy	(EWebView *web_view,
 						 GtkAction *save_as_proxy);
+GSList *         e_web_view_get_highlights       (EWebView *web_view);
+void            e_web_view_add_highlight        (EWebView *web_view,
+                                                 const gchar *highlight);
+void            e_web_view_clear_highlights     (EWebView *web_view);
 GtkAction *	e_web_view_get_action		(EWebView *web_view,
 						 const gchar *action_name);
 GtkActionGroup *e_web_view_get_action_group	(EWebView *web_view,
 						 const gchar *group_name);
 gchar *		e_web_view_extract_uri		(EWebView *web_view,
-						 GdkEventButton *event,
-						 GtkHTML *frame);
+						 GdkEventButton *event);
 void		e_web_view_copy_clipboard	(EWebView *web_view);
 void		e_web_view_cut_clipboard	(EWebView *web_view);
 gboolean	e_web_view_is_selection_active	(EWebView *web_view);
@@ -170,6 +214,13 @@ void		e_web_view_status_message	(EWebView *web_view,
 						 const gchar *status_message);
 void		e_web_view_stop_loading		(EWebView *web_view);
 void		e_web_view_update_actions	(EWebView *web_view);
+
+gchar *          e_web_view_get_selection_html   (EWebView *web_view);
+
+void		e_web_view_set_settings		(EWebView *web_view,
+						 WebKitWebSettings *settings);
+WebKitWebSettings *
+		e_web_view_get_default_settings ();
 
 G_END_DECLS
 

@@ -130,3 +130,4 @@ gchar **	e_attachment_store_save_finish	(EAttachmentStore *store,
 G_END_DECLS
 
 #endif /* E_ATTACHMENT_STORE_H */
+

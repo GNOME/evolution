@@ -49,7 +49,6 @@ widgetsinclude_HEADERS =			\
 	e-preview-pane.h			\
 	e-printable.h				\
 	e-search-bar.h				\
-	e-searching-tokenizer.h			\
 	e-selectable.h				\
 	e-selection-model.h			\
 	e-selection-model-array.h		\
@@ -63,6 +62,7 @@ widgetsinclude_HEADERS =			\
 	e-signature-tree-view.h			\
 	e-url-entry.h				\
 	e-web-view.h				\
+	e-web-view-gtkhtml.h			\
 	e-web-view-preview.h			\
 	ea-calendar-cell.h			\
 	ea-calendar-item.h			\
@@ -76,13 +76,14 @@ libemiscwidgets_la_CPPFLAGS =						\
 	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"    		\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
+	$(GTKHTML_CFLAGS)						\
 	$(CHAMPLAIN_CFLAGS)						\
 	$(GEOCLUE_CFLAGS)						\
-	$(CLUTTER_CFLAGS)						\
-	$(GTKHTML_CFLAGS)
+	$(CLUTTER_CFLAGS)
 
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
@@ -130,7 +131,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-preview-pane.c			\
 	e-printable.c				\
 	e-search-bar.c				\
-	e-searching-tokenizer.c			\
 	e-selectable.c				\
 	e-selection-model.c			\
 	e-selection-model-array.c		\
@@ -144,6 +144,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-signature-tree-view.c			\
 	e-url-entry.c				\
 	e-web-view.c				\
+	e-web-view-gtkhtml.c			\
 	e-web-view-preview.c			\
 	ea-calendar-cell.c			\
 	ea-calendar-item.c			\

@@ -39,8 +39,8 @@
 #include <string.h>
 
 #define E_CONTACT_MARKER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CONTACT_MARKER, EContactMarkerPrivate))
+        (G_TYPE_INSTANCE_GET_PRIVATE \
+        ((obj), E_TYPE_CONTACT_MARKER, EContactMarkerPrivate))
 
 G_DEFINE_TYPE (EContactMarker, e_contact_marker, CHAMPLAIN_TYPE_LABEL);
 

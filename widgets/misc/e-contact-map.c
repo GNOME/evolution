@@ -43,8 +43,8 @@
 #include <math.h>
 
 #define E_CONTACT_MAP_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CONTACT_MAP, EContactMapPrivate))
+        (G_TYPE_INSTANCE_GET_PRIVATE \
+        ((obj), E_TYPE_CONTACT_MAP, EContactMapPrivate))
 
 G_DEFINE_TYPE (EContactMap, e_contact_map, GTK_CHAMPLAIN_TYPE_EMBED)
 

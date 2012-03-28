@@ -128,7 +128,7 @@ port_entry_method_changed (EPortEntry *port_entry)
 	if (valid && port_entry->priv->entries != NULL) {
 		for (ii = 0; port_entry->priv->entries[ii].port > 0 && (!have_ssl || !have_nossl); ii++) {
 			/* Use only the first SSL/no-SSL port as a default in the list
-			   and skip the others */
+			 * and skip the others */
 			if (port_entry->priv->entries[ii].is_ssl) {
 				if (have_ssl)
 					continue;

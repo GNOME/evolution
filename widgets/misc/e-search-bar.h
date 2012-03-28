@@ -23,7 +23,6 @@
 #define E_SEARCH_BAR_H
 
 #include <gtk/gtk.h>
-#include <misc/e-searching-tokenizer.h>
 #include <misc/e-web-view.h>
 
 /* Standard GObject macros */
@@ -69,8 +68,6 @@ GtkWidget *	e_search_bar_new		(EWebView *web_view);
 void		e_search_bar_clear		(ESearchBar *search_bar);
 void		e_search_bar_changed		(ESearchBar *search_bar);
 EWebView *	e_search_bar_get_web_view	(ESearchBar *search_bar);
-ESearchingTokenizer *
-		e_search_bar_get_tokenizer	(ESearchBar *search_bar);
 gboolean	e_search_bar_get_active_search
 						(ESearchBar *search_bar);
 gboolean	e_search_bar_get_case_sensitive

@@ -27,7 +27,6 @@
 
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtkhtml/gtkhtml-search.h>
 
 #define E_SEARCH_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -41,7 +40,6 @@ struct _ESearchBarPrivate {
 	GtkWidget *wrapped_prev_box;
 	GtkWidget *matches_label;
 
-	ESearchingTokenizer *tokenizer;
 	gchar *active_search;
 
 	guint rerun_search : 1;
@@ -69,46 +67,33 @@ G_DEFINE_TYPE (
 	GTK_TYPE_HBOX)
 
 static void
-search_bar_update_matches (ESearchBar *search_bar)
+search_bar_update_matches (ESearchBar *search_bar,
+                           guint matches)
 {
-	ESearchingTokenizer *tokenizer;
 	GtkWidget *matches_label;
-	gint matches;
 	gchar *text;
 
 	search_bar->priv->rerun_search = FALSE;
-
-	tokenizer = e_search_bar_get_tokenizer (search_bar);
 	matches_label = search_bar->priv->matches_label;
 
-	matches = e_searching_tokenizer_match_count (tokenizer);
-	text = g_strdup_printf (_("Matches: %d"), matches);
-
+	text = g_strdup_printf (_("Matches: %u"), matches);
 	gtk_label_set_text (GTK_LABEL (matches_label), text);
 	gtk_widget_show (matches_label);
-
 	g_free (text);
 }
 
 static void
-search_bar_update_tokenizer (ESearchBar *search_bar)
+search_bar_update_highlights (ESearchBar *search_bar)
 {
-	ESearchingTokenizer *tokenizer;
-	gboolean case_sensitive;
-	gchar *active_search;
+	EWebView *web_view;
+	gboolean visible;
 
-	tokenizer = e_search_bar_get_tokenizer (search_bar);
-	case_sensitive = e_search_bar_get_case_sensitive (search_bar);
+	web_view = e_search_bar_get_web_view (search_bar);
 
-	if (gtk_widget_get_visible (GTK_WIDGET (search_bar)))
-		active_search = search_bar->priv->active_search;
-	else
-		active_search = NULL;
+	visible = gtk_widget_get_visible (GTK_WIDGET (search_bar));
 
-	e_searching_tokenizer_set_primary_case_sensitivity (
-		tokenizer, case_sensitive);
-	e_searching_tokenizer_set_primary_search_string (
-		tokenizer, active_search);
+	webkit_web_view_set_highlight_text_matches (
+		WEBKIT_WEB_VIEW (web_view), visible);
 
 	e_search_bar_changed (search_bar);
 }
@@ -122,6 +107,7 @@ search_bar_find (ESearchBar *search_bar,
 	gboolean case_sensitive;
 	gboolean new_search;
 	gboolean wrapped = FALSE;
+	gboolean success;
 	gchar *text;
 
 	web_view = e_search_bar_get_web_view (search_bar);
@@ -138,44 +124,30 @@ search_bar_find (ESearchBar *search_bar,
 		(search_bar->priv->active_search == NULL) ||
 		(g_strcmp0 (text, search_bar->priv->active_search) != 0);
 
-	/* XXX On a new search, the HTMLEngine's search state gets
-	 *     destroyed when we redraw the message with highlighted
-	 *     matches (EMHTMLStream's write() method triggers this,
-	 *     but it's really GtkHtml's fault).  That's why the first
-	 *     match isn't selected automatically.  It also causes
-	 *     gtk_html_engine_search_next() to return FALSE, which we
-	 *     assume to mean the search wrapped.
-	 *
-	 *     So to avoid mistakenly thinking the search wrapped when
-	 *     it hasn't, we have to trap the first button click after a
-	 *     search and re-run the search to recreate the HTMLEngine's
-	 *     search state, so that gtk_html_engine_search_next() will
-	 *     succeed. */
 	if (new_search) {
-		g_free (search_bar->priv->active_search);
-		search_bar->priv->active_search = text;
-		search_bar->priv->rerun_search = TRUE;
-		search_bar_update_tokenizer (search_bar);
-	} else if (search_bar->priv->rerun_search) {
-		gtk_html_engine_search (
-			GTK_HTML (web_view),
-			search_bar->priv->active_search,
-			case_sensitive, search_forward, FALSE);
-		search_bar->priv->rerun_search = FALSE;
-		g_free (text);
-	} else {
-		gtk_html_engine_search_set_forward (
-			GTK_HTML (web_view), search_forward);
-		if (!gtk_html_engine_search_next (GTK_HTML (web_view)))
-			wrapped = TRUE;
-		g_free (text);
+		guint matches;
+
+		webkit_web_view_unmark_text_matches (
+			WEBKIT_WEB_VIEW (web_view));
+		matches = webkit_web_view_mark_text_matches (
+			WEBKIT_WEB_VIEW (web_view),
+			text, case_sensitive, 0);
+		webkit_web_view_set_highlight_text_matches (
+			WEBKIT_WEB_VIEW (web_view), TRUE);
+		search_bar_update_matches (search_bar, matches);
 	}
 
-	if (new_search || wrapped)
-		gtk_html_engine_search (
-			GTK_HTML (web_view),
-			search_bar->priv->active_search,
-			case_sensitive, search_forward, FALSE);
+	success = webkit_web_view_search_text (
+		WEBKIT_WEB_VIEW (web_view),
+		text, case_sensitive, search_forward, FALSE);
+
+	if (!success)
+		wrapped = webkit_web_view_search_text (
+			WEBKIT_WEB_VIEW (web_view),
+			text, case_sensitive, search_forward, TRUE);
+
+	g_free (search_bar->priv->active_search);
+	search_bar->priv->active_search = text;
 
 	g_object_notify (G_OBJECT (search_bar), "active-search");
 
@@ -239,16 +211,10 @@ static void
 search_bar_set_web_view (ESearchBar *search_bar,
                          EWebView *web_view)
 {
-	GtkHTML *html;
-	ESearchingTokenizer *tokenizer;
-
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (search_bar->priv->web_view == NULL);
 
 	search_bar->priv->web_view = g_object_ref (web_view);
-
-	html = GTK_HTML (web_view);
-	tokenizer = e_search_bar_get_tokenizer (search_bar);
-	gtk_html_set_tokenizer (html, HTML_TOKENIZER (tokenizer));
 }
 
 static void
@@ -352,11 +318,6 @@ search_bar_dispose (GObject *object)
 		priv->matches_label = NULL;
 	}
 
-	if (priv->tokenizer != NULL) {
-		g_object_unref (priv->tokenizer);
-		priv->tokenizer = NULL;
-	}
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_search_bar_parent_class)->dispose (object);
 }
@@ -403,7 +364,7 @@ search_bar_show (GtkWidget *widget)
 
 	gtk_widget_grab_focus (search_bar->priv->entry);
 
-	search_bar_update_tokenizer (search_bar);
+	search_bar_update_highlights (search_bar);
 }
 
 static void
@@ -416,7 +377,7 @@ search_bar_hide (GtkWidget *widget)
 	/* Chain up to parent's hide() method. */
 	GTK_WIDGET_CLASS (e_search_bar_parent_class)->hide (widget);
 
-	search_bar_update_tokenizer (search_bar);
+	search_bar_update_highlights (search_bar);
 }
 
 static gboolean
@@ -438,6 +399,8 @@ search_bar_key_press_event (GtkWidget *widget,
 static void
 search_bar_clear (ESearchBar *search_bar)
 {
+	WebKitWebView *web_view;
+
 	g_free (search_bar->priv->active_search);
 	search_bar->priv->active_search = NULL;
 
@@ -447,7 +410,10 @@ search_bar_clear (ESearchBar *search_bar)
 	gtk_widget_hide (search_bar->priv->wrapped_prev_box);
 	gtk_widget_hide (search_bar->priv->matches_label);
 
-	search_bar_update_tokenizer (search_bar);
+	search_bar_update_highlights (search_bar);
+
+	web_view = WEBKIT_WEB_VIEW (search_bar->priv->web_view);
+	webkit_web_view_unmark_text_matches (web_view);
 
 	g_object_notify (G_OBJECT (search_bar), "active-search");
 }
@@ -542,11 +508,6 @@ e_search_bar_init (ESearchBar *search_bar)
 	GtkWidget *container;
 
 	search_bar->priv = E_SEARCH_BAR_GET_PRIVATE (search_bar);
-	search_bar->priv->tokenizer = e_searching_tokenizer_new ();
-
-	g_signal_connect_swapped (
-		search_bar->priv->tokenizer, "match",
-		G_CALLBACK (search_bar_update_matches), search_bar);
 
 	gtk_box_set_spacing (GTK_BOX (search_bar), 12);
 
@@ -741,14 +702,6 @@ e_search_bar_get_web_view (ESearchBar *search_bar)
 	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), NULL);
 
 	return search_bar->priv->web_view;
-}
-
-ESearchingTokenizer *
-e_search_bar_get_tokenizer (ESearchBar *search_bar)
-{
-	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), NULL);
-
-	return search_bar->priv->tokenizer;
 }
 
 gboolean
