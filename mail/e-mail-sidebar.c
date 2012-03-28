@@ -223,6 +223,24 @@ mail_sidebar_constructed (GObject *object)
 }
 
 static void
+mail_sidebar_dispose (GObject *object)
+{
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+
+	tree_view = GTK_TREE_VIEW (object);
+	model = gtk_tree_view_get_model (tree_view);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	g_signal_handlers_disconnect_by_func (model, mail_sidebar_model_loaded_row_cb, object);
+	g_signal_handlers_disconnect_by_func (selection, mail_sidebar_selection_changed_cb, object);
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_sidebar_parent_class)->dispose (object);
+}
+
+static void
 mail_sidebar_row_expanded (GtkTreeView *tree_view,
                            GtkTreeIter *unused,
                            GtkTreePath *path)
@@ -431,6 +449,7 @@ e_mail_sidebar_class_init (EMailSidebarClass *class)
 	object_class->set_property = mail_sidebar_set_property;
 	object_class->get_property = mail_sidebar_get_property;
 	object_class->constructed = mail_sidebar_constructed;
+	object_class->dispose = mail_sidebar_dispose;
 
 	tree_view_class = GTK_TREE_VIEW_CLASS (class);
 	tree_view_class->row_expanded = mail_sidebar_row_expanded;
