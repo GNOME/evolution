@@ -30,7 +30,6 @@
 
 #include <em-format/em-format.h>
 #include <misc/e-web-view.h>
-#include <gtkhtml/gtkhtml-embedded.h>
 #include <libemail-engine/e-mail-enums.h>
 
 /* Standard GObject macros */
@@ -57,22 +56,13 @@ G_BEGIN_DECLS
 typedef struct _EMFormatHTML EMFormatHTML;
 typedef struct _EMFormatHTMLClass EMFormatHTMLClass;
 typedef struct _EMFormatHTMLPrivate EMFormatHTMLPrivate;
+typedef struct _EMFormatWidgetPURI EMFormatWidgetPURI;
 
 enum _em_format_html_header_flags {
 	EM_FORMAT_HTML_HEADER_TO = 1 << 0,
 	EM_FORMAT_HTML_HEADER_CC = 1 << 1,
 	EM_FORMAT_HTML_HEADER_BCC = 1 << 2
 };
-
-typedef enum {
-	EM_FORMAT_HTML_STATE_NONE = 0,
-	EM_FORMAT_HTML_STATE_RENDERING
-} EMFormatHTMLState;
-
-typedef enum {
-	EM_FORMAT_HTML_HEADERS_STATE_EXPANDED = 0, /* Default value */
-	EM_FORMAT_HTML_HEADERS_STATE_COLLAPSED
-} EMFormatHTMLHeadersState;
 
 typedef enum {
 	EM_FORMAT_HTML_COLOR_BODY,	/* header area background */
@@ -84,94 +74,13 @@ typedef enum {
 	EM_FORMAT_HTML_NUM_COLOR_TYPES
 } EMFormatHTMLColorType;
 
-/* A HTMLJob will be executed in another thread, in sequence.
- * It's job is to write to its stream, close it if successful,
- * then exit. */
-
-typedef struct _EMFormatHTMLJob EMFormatHTMLJob;
-
-typedef void	(*EMFormatHTMLJobCallback)	(EMFormatHTMLJob *job,
-						 GCancellable *cancellable);
-
-/**
- * struct _EMFormatHTMLJob - A formatting job.
- *
- * @format: Set by allocation function.
- * @stream: Free for use by caller.
- * @puri_level: Set by allocation function.
- * @base: Set by allocation function, used to save state.
- * @callback: This callback will always be invoked, only once, even if the user
- * cancelled the display.  So the callback should free any extra data
- * it allocated every time it is called.
- * @u: Union data, free for caller to use.
- *
- * This object is used to queue a long-running-task which cannot be
- * processed in the primary thread.  When its turn comes, the job will
- * be de-queued and the @callback invoked to perform its processing,
- * restoring various state to match the original state.  This is used
- * for image loading and other internal tasks.
- *
- * This object is struct-subclassable.  Only em_format_html_job_new()
- * may be used to allocate these.
- **/
-struct _EMFormatHTMLJob {
-	EMFormatHTML *format;
-	CamelStream *stream;
-
-	/* We need to track the state of the visibility tree at
-	 * the point this uri was generated */
-	GNode *puri_level;
-	CamelURL *base;
-
-	EMFormatHTMLJobCallback callback;
-	union {
-		gchar *uri;
-		CamelMedium *msg;
-		EMFormatPURI *puri;
-		GNode *puri_level;
-		gpointer data;
-	} u;
-};
-
-/* Pending object (classid: url) */
-typedef struct _EMFormatHTMLPObject EMFormatHTMLPObject;
-
-typedef gboolean
-		(*EMFormatHTMLPObjectFunc)	(EMFormatHTML *md,
-						 GtkHTMLEmbedded *eb,
-						 EMFormatHTMLPObject *pobject);
-
-/**
- * struct _EMFormatHTMLPObject - Pending object.
- *
- * @free: Invoked when the object is no longer needed.
- * @format: The parent formatter.
- * @classid: The assigned class id as passed to add_pobject().
- * @func: Callback function.
- * @part: The part as passed to add_pobject().
- *
- * This structure is used to track OBJECT tags which have been
- * inserted into the HTML stream.  When GtkHTML requests them the
- * @func will be invoked to create the embedded widget.
- *
- * This object is struct-subclassable.  Only
- * em_format_html_add_pobject() may be used to allocate these.
- **/
-struct _EMFormatHTMLPObject {
-	void (*free)(EMFormatHTMLPObject *);
-	EMFormatHTML *format;
-
-	gchar *classid;
-
-	EMFormatHTMLPObjectFunc func;
-	CamelMimePart *part;
-};
-
 #define EM_FORMAT_HTML_HEADER_NOCOLUMNS (EM_FORMAT_HEADER_LAST)
 
 /* header already in html format */
 #define EM_FORMAT_HTML_HEADER_HTML (EM_FORMAT_HEADER_LAST<<1)
 #define EM_FORMAT_HTML_HEADER_NODEC (EM_FORMAT_HEADER_LAST<<2)
+#define EM_FORMAT_HTML_HEADER_NOLINKS (EM_FORMAT_HEADER_LAST<<3)
+#define EM_FORMAT_HTML_HEADER_HIDDEN (EM_FORMAT_HEADER_LAST<<4)
 
 #define EM_FORMAT_HTML_HEADER_LAST (EM_FORMAT_HEADER_LAST<<8)
 
@@ -197,14 +106,13 @@ struct _EMFormatHTMLPObject {
  * @load_http:2:
  * @load_http_now:1:
  * @mark_citations:1:
- * @simple_headers:1:
  * @hide_headers:1:
  * @show_icon:1:
  *
  * Most of these fields are private or read-only.
  *
  * The base HTML formatter object.  This object drives HTML generation
- * into a GtkHTML parser.  It also handles text to HTML conversion,
+ * into a WebKit parser.  It also handles text to HTML conversion,
  * multipart/related objects and inline images.
  **/
 struct _EMFormatHTML {
@@ -216,12 +124,9 @@ struct _EMFormatHTML {
 	GSList *headers;
 
 	guint32 text_html_flags; /* default flags for text to html conversion */
-	guint simple_headers:1; /* simple header format, no box/table */
 	guint hide_headers:1; /* no headers at all */
 	guint show_icon:1; /* show an icon when the sender used Evo */
 	guint32 header_wrap_flags;
-
-	EMFormatHTMLState state; /* actual state of the object */
 };
 
 struct _EMFormatHTMLClass {
@@ -231,8 +136,6 @@ struct _EMFormatHTMLClass {
 };
 
 GType		em_format_html_get_type		(void);
-EWebView *	em_format_html_get_web_view	(EMFormatHTML *efh);
-void		em_format_html_load_images	(EMFormatHTML *efh);
 void		em_format_html_get_color	(EMFormatHTML *efh,
 						 EMFormatHTMLColorType type,
 						 GdkColor *color);
@@ -260,6 +163,21 @@ gboolean	em_format_html_get_show_sender_photo
 void		em_format_html_set_show_sender_photo
 						(EMFormatHTML *efh,
 						 gboolean show_sender_photo);
+gboolean        em_format_html_get_animate_images
+                                                (EMFormatHTML *efh);
+void            em_format_html_set_animate_images
+                                                (EMFormatHTML *efh,
+                                                 gboolean animate_images);
+void		em_format_html_clone_sync	(CamelFolder *folder,
+						 const gchar *message_uid,
+						 CamelMimeMessage *message,
+						 EMFormatHTML *efh,
+						 EMFormat *source);
+gboolean	em_format_html_get_show_real_date
+						(EMFormatHTML *efh);
+void		em_format_html_set_show_real_date
+						(EMFormatHTML *efh,
+						 gboolean show_real_date);
 
 /* retrieves a pseudo-part icon wrapper for a file */
 CamelMimePart *	em_format_html_file_part	(EMFormatHTML *efh,
@@ -267,58 +185,39 @@ CamelMimePart *	em_format_html_file_part	(EMFormatHTML *efh,
 						 const gchar *filename,
 						 GCancellable *cancellable);
 
-/* for implementers */
-EMFormatHTMLPObject *
-		em_format_html_add_pobject	(EMFormatHTML *efh,
-						 gsize size,
-						 const gchar *classid,
-						 CamelMimePart *part,
-						 EMFormatHTMLPObjectFunc func);
-EMFormatHTMLPObject *
-		em_format_html_find_pobject	(EMFormatHTML *efh,
-						 const gchar *classid);
-EMFormatHTMLPObject *
-		em_format_html_find_pobject_func
-						(EMFormatHTML *efh,
-						 CamelMimePart *part,
-						 EMFormatHTMLPObjectFunc func);
-void		em_format_html_remove_pobject	(EMFormatHTML *efh,
-						 EMFormatHTMLPObject *pobject);
-void		em_format_html_clear_pobject	(EMFormatHTML *efh);
-EMFormatHTMLJob *
-		em_format_html_job_new		(EMFormatHTML *efh,
-						 EMFormatHTMLJobCallback callback,
-						 gpointer data);
-void		em_format_html_job_queue	(EMFormatHTML *efh,
-						 EMFormatHTMLJob *job);
-void		em_format_html_clone_sync	(CamelFolder *folder,
-						 const gchar *message_uid,
-						 CamelMimeMessage *message,
-						 EMFormatHTML *efh,
-						 EMFormat *source);
-
-gboolean	em_format_html_get_show_real_date
-						(EMFormatHTML *efh);
-void		em_format_html_set_show_real_date
-						(EMFormatHTML *efh,
-						 gboolean show_real_date);
-EMFormatHTMLHeadersState
-		em_format_html_get_headers_state
-						(EMFormatHTML *efh);
-void		em_format_html_set_headers_state
-						(EMFormatHTML *efh,
-						 EMFormatHTMLHeadersState state);
-gboolean	em_format_html_get_headers_collapsable
-						(EMFormatHTML *efh);
-void		em_format_html_set_headers_collapsable
-						(EMFormatHTML *efh,
-						 gboolean collapsable);
 void		em_format_html_format_cert_infos
 						(GQueue *cert_infos,
 						 GString *output_buffer);
 
-CamelStream *	em_format_html_get_cached_image	(EMFormatHTML *efh,
-						 const gchar *image_uri);
+void		em_format_html_format_message	(EMFormatHTML *efh,
+						 CamelStream *stream,
+						 GCancellable *cancellable);
+
+void		em_format_html_format_message_part
+						(EMFormatHTML *efh,
+						 const gchar *part_id,
+						 CamelStream *stream,
+						 GCancellable *cancellable);
+
+void		em_format_html_format_headers	(EMFormatHTML *efh,
+						 CamelStream *stream,
+						 CamelMedium *part,
+						 gboolean all_headers,
+						 GCancellable *cancellable);
+void		em_format_html_format_header	(EMFormat *emf,
+						 GString *buffer,
+						 CamelMedium *part,
+						 struct _camel_header_raw *header,
+						 guint32 flags,
+						 const gchar *charset);
+
+gboolean        em_format_html_can_load_images  (EMFormatHTML *efh);
+
+void            em_format_html_animation_extract_frame
+                                                (const GByteArray *anim,
+                                                 gchar **frame,
+                                                 gsize *len);
+
 G_END_DECLS
 
 #endif /* EM_FORMAT_HTML_H */

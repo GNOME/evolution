@@ -151,12 +151,6 @@ mail_config_web_view_realize (GtkWidget *widget,
 {
 	g_object_bind_property (
 		extension->shell_settings,
-		"mail-show-animated-images",
-		widget, "animate",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		extension->shell_settings,
 		"composer-inline-spelling",
 		widget, "inline-spelling",
 		G_BINDING_SYNC_CREATE);

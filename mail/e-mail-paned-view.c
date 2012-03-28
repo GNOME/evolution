@@ -59,8 +59,9 @@ struct _EMailPanedViewPrivate {
 	GtkWidget *scrolled_window;
 	GtkWidget *message_list;
 	GtkWidget *preview_pane;
+	GtkWidget *search_bar;
 
-	EMFormatHTMLDisplay *formatter;
+	EMailDisplay *display;
 	GalViewInstance *view_instance;
 
 	/* ETable scrolling hack */
@@ -358,11 +359,6 @@ mail_paned_view_dispose (GObject *object)
 		priv->preview_pane = NULL;
 	}
 
-	if (priv->formatter != NULL) {
-		g_object_unref (priv->formatter);
-		priv->formatter = NULL;
-	}
-
 	if (priv->view_instance != NULL) {
 		g_object_unref (priv->view_instance);
 		priv->view_instance = NULL;
@@ -427,14 +423,14 @@ mail_paned_view_get_backend (EMailReader *reader)
 	return E_MAIL_BACKEND (shell_backend);
 }
 
-static EMFormatHTML *
-mail_paned_view_get_formatter (EMailReader *reader)
+static EMailDisplay *
+mail_paned_view_get_mail_display (EMailReader *reader)
 {
-	EMailPanedView *paned_view;
+	EMailPanedViewPrivate *priv;
 
-	paned_view = E_MAIL_PANED_VIEW (reader);
+	priv = E_MAIL_PANED_VIEW (reader)->priv;
 
-	return EM_FORMAT_HTML (paned_view->priv->formatter);
+	return priv->display;
 }
 
 static gboolean
@@ -622,7 +618,6 @@ mail_paned_view_constructed (GObject *object)
 	EShellView *shell_view;
 	EShell *shell;
 	EShellSettings *shell_settings;
-	ESearchBar *search_bar;
 	EMailReader *reader;
 	EMailBackend *backend;
 	EMailSession *session;
@@ -630,10 +625,11 @@ mail_paned_view_constructed (GObject *object)
 	GtkWidget *message_list;
 	GtkWidget *container;
 	GtkWidget *widget;
-	EWebView *web_view;
 
 	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (object);
-	priv->formatter = em_format_html_display_new ();
+
+	priv->display = g_object_new (E_TYPE_MAIL_DISPLAY,
+		"headers-collapsable", TRUE, NULL);
 
 	view = E_MAIL_VIEW (object);
 	shell_view = e_mail_view_get_shell_view (view);
@@ -645,17 +641,9 @@ mail_paned_view_constructed (GObject *object)
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 
-	/* Make headers collapsable and store state of headers in config file */
-	em_format_html_set_headers_collapsable (
-		EM_FORMAT_HTML (priv->formatter), TRUE);
-	g_object_bind_property (
-		shell_settings, "paned-view-headers-state",
-		priv->formatter, "headers-state",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	web_view = em_format_html_get_web_view (
-		EM_FORMAT_HTML (priv->formatter));
+	g_object_bind_property (shell_settings, "paned-view-headers-state",
+				priv->display, "headers-collapsed",
+				G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
 	/* Build content widgets. */
 
@@ -692,23 +680,16 @@ mail_paned_view_constructed (GObject *object)
 
 	container = priv->paned;
 
-	gtk_widget_show (GTK_WIDGET (web_view));
-
-	widget = e_preview_pane_new (web_view);
+	widget = e_preview_pane_new (E_WEB_VIEW (priv->display));
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	priv->preview_pane = g_object_ref (widget);
+	gtk_widget_show (GTK_WIDGET (priv->display));
 	gtk_widget_show (widget);
 
 	g_object_bind_property (
 		object, "preview-visible",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
-
-	search_bar = e_preview_pane_get_search_bar (E_PREVIEW_PANE (widget));
-
-	g_signal_connect_swapped (
-		search_bar, "changed",
-		G_CALLBACK (em_format_queue_redraw), priv->formatter);
 
 	/* Load the view instance. */
 
@@ -733,8 +714,6 @@ mail_paned_view_constructed (GObject *object)
 		G_CALLBACK (mail_paned_view_restore_state_cb),
 		object);
 
-	e_mail_reader_connect_headers (reader);
-
 	/* Do this after creating the message list.  Our
 	 * set_preview_visible() method relies on it. */
 	e_mail_view_set_preview_visible (view, TRUE);
@@ -749,26 +728,23 @@ static void
 mail_paned_view_set_search_strings (EMailView *view,
                                     GSList *search_strings)
 {
+	EMailDisplay *display;
+	EWebView *web_view;
 	EMailReader *reader;
-	EPreviewPane *preview_pane;
-	ESearchBar *search_bar;
-	ESearchingTokenizer *tokenizer;
 
 	reader = E_MAIL_READER (view);
-	preview_pane = e_mail_reader_get_preview_pane (reader);
-	search_bar = e_preview_pane_get_search_bar (preview_pane);
-	tokenizer = e_search_bar_get_tokenizer (search_bar);
+	display = e_mail_reader_get_mail_display (reader);
+	if (!display)
+		return;
 
-	e_searching_tokenizer_set_secondary_case_sensitivity (tokenizer, FALSE);
-	e_searching_tokenizer_set_secondary_search_string (tokenizer, NULL);
+	web_view = E_WEB_VIEW (display);
+
+	e_web_view_clear_highlights (web_view);
 
 	while (search_strings != NULL) {
-		e_searching_tokenizer_add_secondary_search_string (
-			tokenizer, search_strings->data);
+		e_web_view_add_highlight (web_view, search_strings->data);
 		search_strings = g_slist_next (search_strings);
 	}
-
-	e_search_bar_changed (search_bar);
 }
 
 static GalViewInstance *
@@ -1047,7 +1023,7 @@ e_mail_paned_view_reader_init (EMailReaderInterface *interface)
 	interface->get_action_group = mail_paned_view_get_action_group;
 	interface->get_alert_sink = mail_paned_view_get_alert_sink;
 	interface->get_backend = mail_paned_view_get_backend;
-	interface->get_formatter = mail_paned_view_get_formatter;
+	interface->get_mail_display = mail_paned_view_get_mail_display;
 	interface->get_hide_deleted = mail_paned_view_get_hide_deleted;
 	interface->get_message_list = mail_paned_view_get_message_list;
 	interface->get_popup_menu = mail_paned_view_get_popup_menu;
@@ -1090,6 +1066,14 @@ e_mail_paned_view_hide_message_list_pane (EMailPanedView *view,
 		gtk_widget_show (view->priv->scrolled_window);
 	else
 		gtk_widget_hide (view->priv->scrolled_window);
+}
+
+GtkWidget *
+e_mail_paned_view_get_preview (EMailPanedView *view)
+{
+	g_return_val_if_fail (E_IS_MAIL_PANED_VIEW (view), NULL);
+
+	return GTK_WIDGET (mail_paned_view_get_mail_display (E_MAIL_READER (view)));
 }
 
 void

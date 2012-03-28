@@ -286,18 +286,9 @@ book_shell_content_constructed (GObject *object)
 		EAB_CONTACT_DISPLAY (widget),
 		EAB_CONTACT_DISPLAY_RENDER_NORMAL);
 
-	eab_contact_display_set_orientation (
-		EAB_CONTACT_DISPLAY (widget),
-		priv->orientation);
-
 	eab_contact_display_set_show_maps (
 		EAB_CONTACT_DISPLAY (widget),
 		priv->preview_show_maps);
-
-	g_object_bind_property (
-		object, "orientation",
-		widget, "orientation",
-		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
 		object, "preview-show-maps",

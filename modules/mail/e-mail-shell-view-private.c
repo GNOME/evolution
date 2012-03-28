@@ -331,11 +331,10 @@ mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
                                 const gchar *uri)
 {
 	EMailShellContent *mail_shell_content;
-	EMFormatHTML *formatter;
+	EMailDisplay *display;
 	EShellView *shell_view;
 	EMailReader *reader;
 	EMailView *mail_view;
-	EWebView *web_view;
 	GtkMenu *menu;
 
 	if (uri != NULL)
@@ -345,10 +344,9 @@ mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	reader = E_MAIL_READER (mail_view);
-	formatter = e_mail_reader_get_formatter (reader);
-	web_view = em_format_html_get_web_view (formatter);
+	display = e_mail_reader_get_mail_display (reader);
 
-	if (e_web_view_get_cursor_image (web_view) != NULL)
+	if (e_web_view_get_cursor_image (E_WEB_VIEW (display)) != NULL)
 		return FALSE;
 
 	menu = e_mail_reader_get_popup_menu (reader);
@@ -368,76 +366,19 @@ mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
 }
 
 static void
-mail_shell_view_scroll_cb (EMailShellView *mail_shell_view,
-                           GtkOrientation orientation,
-                           GtkScrollType scroll_type,
-                           gfloat position,
-                           GtkHTML *html)
-{
-	EShell *shell;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	EShellSettings *shell_settings;
-	EMailShellContent *mail_shell_content;
-	EMailReader *reader;
-	EMailView *mail_view;
-	EWebView *web_view;
-	GtkWidget *message_list;
-	gboolean magic_spacebar;
-
-	web_view = E_WEB_VIEW (html);
-
-	if (html->binding_handled || e_web_view_get_caret_mode (web_view))
-		return;
-
-	if (orientation != GTK_ORIENTATION_VERTICAL)
-		return;
-
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	magic_spacebar = e_shell_settings_get_boolean (
-		shell_settings, "mail-magic-spacebar");
-
-	if (!magic_spacebar)
-		return;
-
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
-
-	reader = E_MAIL_READER (mail_view);
-	message_list = e_mail_reader_get_message_list (reader);
-
-	if (scroll_type == GTK_SCROLL_PAGE_FORWARD)
-		message_list_select (
-			MESSAGE_LIST (message_list),
-			MESSAGE_LIST_SELECT_NEXT,
-			0, CAMEL_MESSAGE_SEEN);
-	else
-		message_list_select (
-			MESSAGE_LIST (message_list),
-			MESSAGE_LIST_SELECT_PREVIOUS,
-			0, CAMEL_MESSAGE_SEEN);
-}
-
-static void
 mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
                                    EMailReader *reader)
 {
 	GtkWidget *message_list;
-	EMFormatHTML *formatter;
-	EWebView *web_view;
+	EMailDisplay *display;
 	EShellView *shell_view;
 	EShellTaskbar *shell_taskbar;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
 
-	formatter = e_mail_reader_get_formatter (reader);
+	display = e_mail_reader_get_mail_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
-	web_view = em_format_html_get_web_view (formatter);
 
 	e_shell_view_update_actions (E_SHELL_VIEW (mail_shell_view));
 	e_mail_shell_view_update_sidebar (mail_shell_view);
@@ -464,23 +405,17 @@ mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		web_view, "key-press-event",
+		display, "key-press-event",
 		G_CALLBACK (mail_shell_view_key_press_event_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		web_view, "popup-event",
+		display, "popup-event",
 		G_CALLBACK (mail_shell_view_popup_event_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		web_view, "scroll",
-		G_CALLBACK (mail_shell_view_scroll_cb),
-		mail_shell_view,
-		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
-		web_view, "status-message",
+		display, "status-message",
 		G_CALLBACK (e_shell_taskbar_set_message),
 		shell_taskbar, G_CONNECT_SWAPPED);
 }
@@ -634,7 +569,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EShellTaskbar *shell_taskbar;
 	EShellWindow *shell_window;
 	EShellSearchbar *searchbar;
-	EMFormatHTML *formatter;
 	EMFolderTree *folder_tree;
 	EActionComboBox *combo_box;
 	ERuleContext *context;
@@ -647,7 +581,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EMailSession *session;
 	EMailReader *reader;
 	EMailView *mail_view;
-	EWebView *web_view;
+	EMailDisplay *display;
 	const gchar *source;
 	guint merge_id;
 	gint ii = 0;
@@ -691,7 +625,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
 
 	reader = E_MAIL_READER (shell_content);
-	formatter = e_mail_reader_get_formatter (reader);
+	display = e_mail_reader_get_mail_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	em_folder_tree_set_selectable_widget (folder_tree, message_list);
@@ -709,8 +643,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		combo_box, "changed",
 		G_CALLBACK (mail_shell_view_search_filter_changed_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
-
-	web_view = em_format_html_get_web_view (formatter);
 
 	g_signal_connect_object (
 		folder_tree, "folder-selected",
@@ -784,23 +716,17 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		web_view, "key-press-event",
+		display, "key-press-event",
 		G_CALLBACK (mail_shell_view_key_press_event_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		web_view, "popup-event",
+		display, "popup-event",
 		G_CALLBACK (mail_shell_view_popup_event_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		web_view, "scroll",
-		G_CALLBACK (mail_shell_view_scroll_cb),
-		mail_shell_view,
-		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
-		web_view, "status-message",
+		display, "status-message",
 		G_CALLBACK (e_shell_taskbar_set_message),
 		shell_taskbar, G_CONNECT_SWAPPED);
 

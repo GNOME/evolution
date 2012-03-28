@@ -72,9 +72,11 @@
 
 #include "e-mail-tag-editor.h"
 #include "em-composer-utils.h"
-#include "em-format-quote.h"
+#include "em-format-html-display.h"
 #include "em-format-html-print.h"
 #include "em-utils.h"
+#include "e-mail-printer.h"
+#include "em-format/em-format-quote.h"
 
 /* XXX This is a dirty hack on a dirty hack.  We really need
  *     to rework or get rid of the functions that use this. */
@@ -380,7 +382,7 @@ em_utils_flag_for_followup (EMailReader *reader,
 	EMailBackend *backend;
 	EShellSettings *shell_settings;
 	EShellBackend *shell_backend;
-	EMFormatHTML *formatter;
+	EMailDisplay *display;
 	GtkWidget *editor;
 	GtkWindow *window;
 	CamelTag *tags;
@@ -470,8 +472,8 @@ em_utils_flag_for_followup (EMailReader *reader,
 	camel_folder_thaw (folder);
 	camel_tag_list_free (&tags);
 
-	formatter = e_mail_reader_get_formatter (reader);
-	em_format_queue_redraw (EM_FORMAT (formatter));
+	display = e_mail_reader_get_mail_display (reader);
+	e_mail_display_reload (display);
 
 exit:
 	/* XXX We shouldn't be freeing this. */
@@ -616,26 +618,44 @@ em_utils_write_messages_to_stream (CamelFolder *folder,
 	return res;
 }
 
+static void
+do_print_msg_to_file (GObject *source,
+                      GAsyncResult *result,
+                      gpointer user_data)
+{
+
+	EMFormatHTML *efh = EM_FORMAT_HTML (source);
+	gchar *filename = user_data;
+
+	EMailPrinter *printer;
+
+	printer = e_mail_printer_new (efh);
+	e_mail_printer_set_export_filename (printer, filename);
+	g_signal_connect_swapped (printer, "done",
+		G_CALLBACK (g_object_unref), printer);
+
+	e_mail_printer_print (printer, TRUE, NULL);
+
+	g_object_unref (efh);
+}
+
 static gboolean
 em_utils_print_messages_to_file (CamelFolder *folder,
                                  const gchar *uid,
                                  const gchar *filename)
 {
-	EMFormatHTMLPrint *efhp;
+	EMFormatHTMLDisplay *efhd;
 	CamelMimeMessage *message;
 
 	message = camel_folder_get_message_sync (folder, uid, NULL, NULL);
 	if (message == NULL)
 		return FALSE;
 
-	efhp = em_format_html_print_new (NULL, GTK_PRINT_OPERATION_ACTION_EXPORT);
-	efhp->export_filename = g_strdup (filename);
-	efhp->async = FALSE;
+	efhd = em_format_html_display_new ();
+	((EMFormat *) efhd)->message_uid = g_strdup (uid);
 
-	em_format_html_print_message (efhp, message, folder, uid);
-
-	g_object_unref (efhp);
-	g_object_unref (message);
+	em_format_parse_async ((EMFormat *) efhd, message, folder, NULL,
+		(GAsyncReadyCallback) do_print_msg_to_file, g_strdup (filename));
 
 	return TRUE;
 }
@@ -1173,7 +1193,7 @@ em_utils_message_to_html (CamelMimeMessage *message,
 	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (mem), buf);
 
 	emfq = em_format_quote_new (credits, mem, flags);
-	((EMFormat *) emfq)->composer = TRUE;
+	em_format_set_composer ((EMFormat *) emfq, TRUE);
 
 	if (!source) {
 		GSettings *settings;
@@ -1189,10 +1209,30 @@ em_utils_message_to_html (CamelMimeMessage *message,
 	}
 
 	/* FIXME Not passing a GCancellable here. */
-	em_format_format_clone (
-		EM_FORMAT (emfq), NULL, NULL, message, source, NULL);
-	if (validity_found)
-		*validity_found = ((EMFormat *)emfq)->validity_found;
+	em_format_parse (EM_FORMAT (emfq), message, NULL, NULL);
+
+	if (validity_found) {
+		GList *iter;
+		EMFormat *emf = (EMFormat *) emfq;
+
+		if (validity_found)
+			*validity_found = 0;
+
+		/* Return all found validities */
+		for (iter = emf->mail_part_list; iter; iter = iter->next) {
+
+			EMFormatPURI *puri = iter->data;
+			if (!puri)
+				continue;
+
+			if (*validity_found && puri->validity_type)
+				*validity_found |= puri->validity_type;
+		}
+
+	}
+
+	em_format_quote_write (emfq, mem, NULL);
+
 	g_object_unref (emfq);
 
 	if (append && *append)

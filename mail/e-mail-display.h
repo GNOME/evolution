@@ -22,8 +22,9 @@
 #ifndef E_MAIL_DISPLAY_H
 #define E_MAIL_DISPLAY_H
 
-#include <mail/em-format-html.h>
-#include <misc/e-web-view.h>
+#include <widgets/misc/e-web-view.h>
+#include <widgets/misc/e-search-bar.h>
+#include "em-format-html.h"
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_DISPLAY \
@@ -51,18 +52,53 @@ typedef struct _EMailDisplayClass EMailDisplayClass;
 typedef struct _EMailDisplayPrivate EMailDisplayPrivate;
 
 struct _EMailDisplay {
-	EWebView parent;
+	EWebView web_view;
 	EMailDisplayPrivate *priv;
 };
 
 struct _EMailDisplayClass {
 	EWebViewClass parent_class;
+
 };
 
-GType		e_mail_display_get_type		(void);
-EMFormatHTML *	e_mail_display_get_formatter	(EMailDisplay *display);
-void		e_mail_display_set_formatter	(EMailDisplay *display,
-						 EMFormatHTML *formatter);
+GType			e_mail_display_get_type		(void);
+EMFormatHTML *		e_mail_display_get_formatter	(EMailDisplay *display);
+void			e_mail_display_set_formatter	(EMailDisplay *display,
+							 EMFormatHTML *formatter);
+
+void			e_mail_display_set_mode		(EMailDisplay *display,
+							 EMFormatWriteMode mode);
+EMFormatWriteMode	e_mail_display_get_mode		(EMailDisplay *display);
+void			e_mail_display_set_headers_collapsable
+							(EMailDisplay *display,
+							 gboolean collapsable);
+gboolean		e_mail_display_get_headers_collapsable
+							(EMailDisplay *display);
+void			e_mail_display_set_headers_collapsed
+							(EMailDisplay *display,
+							 gboolean collapsed);
+gboolean		e_mail_display_get_headers_collapsed
+							(EMailDisplay *display);
+
+void			e_mail_display_load		(EMailDisplay *display,
+							 const gchar *msg_uri);
+void			e_mail_display_reload		(EMailDisplay *display);
+
+GtkAction *		e_mail_display_get_action	(EMailDisplay *display,
+							 const gchar *action_name);
+
+void			e_mail_display_set_status	(EMailDisplay *display,
+							 const gchar *status);
+
+gchar *			e_mail_display_get_selection_plain_text
+							(EMailDisplay *display,
+							 gint *len);
+
+void                    e_mail_display_load_images      (EMailDisplay *display);
+
+void                    e_mail_display_set_force_load_images
+                                                        (EMailDisplay *display,
+                                                         gboolean force_load_images);
 
 G_END_DECLS
 

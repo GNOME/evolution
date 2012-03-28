@@ -51,12 +51,14 @@
 #include <composer/e-composer-actions.h>
 #include <composer/e-composer-post-header.h>
 
+#include "e-mail-printer.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-folder-selector.h"
 #include "em-folder-tree.h"
 #include "em-format-html.h"
 #include "em-format-html-print.h"
+#include "em-format-html-display.h"
 #include "em-format-quote.h"
 #include "em-event.h"
 #include "mail-send-recv.h"
@@ -929,17 +931,38 @@ em_utils_composer_save_to_outbox_cb (EMsgComposer *composer,
 }
 
 static void
+composer_print_done_cb (EMailPrinter *emp,
+                        GtkPrintOperation *operation,
+                        GtkPrintOperationResult result,
+                        gpointer user_data)
+{
+	EMFormat *emf = user_data;
+	g_object_unref (emf);
+	g_object_unref (emp);
+}
+
+static void
 em_utils_composer_print_cb (EMsgComposer *composer,
                             GtkPrintOperationAction action,
                             CamelMimeMessage *message,
                             EActivity *activity,
                             EMailSession *session)
 {
-	EMFormatHTMLPrint *efhp;
+	EMailPrinter *emp;
+	EMFormatHTMLDisplay *efhd;
 
-	efhp = em_format_html_print_new (NULL, action);
-	em_format_html_print_message (efhp, message, NULL, NULL);
-	g_object_unref (efhp);
+	efhd = em_format_html_display_new ();
+	((EMFormat *) efhd)->message_uid = g_strdup (camel_mime_message_get_message_id (message));
+
+        /* Parse the message */
+	em_format_parse ((EMFormat *) efhd, message, NULL, NULL);
+
+        /* Use EMailPrinter and WebKit to print the message */
+	emp = e_mail_printer_new ((EMFormatHTML *) efhd);
+        g_signal_connect (emp, "done",
+		G_CALLBACK (composer_print_done_cb), efhd);
+
+	e_mail_printer_print (emp, FALSE, NULL);
 }
 
 /* Composing messages... */

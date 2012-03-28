@@ -835,37 +835,70 @@ e_mail_labels_get_filter_options (void)
 	return g_slist_reverse (list);
 }
 
+static void
+message_parsed_cb (GObject *source_object,
+                   GAsyncResult *res,
+                   gpointer user_data)
+{
+	EMFormatHTML *formatter = EM_FORMAT_HTML (source_object);
+	GObject *preview = user_data;
+	EMailDisplay *display;
+
+        display = g_object_get_data (preview, "mbox-imp-display");
+	e_mail_display_set_formatter (display, formatter);
+	e_mail_display_load (display, EM_FORMAT (formatter)->uri_base);
+}
+
 /* utility functions for mbox importer */
 static void
 mbox_create_preview_cb (GObject *preview,
                         GtkWidget **preview_widget)
 {
-	EMFormatHTMLDisplay *format;
-	EWebView *web_view;
+	EMailDisplay *display;
 
 	g_return_if_fail (preview != NULL);
 	g_return_if_fail (preview_widget != NULL);
 
-	format = em_format_html_display_new ();
-	g_object_set_data_full (
-		preview, "mbox-imp-formatter", format, g_object_unref);
-	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (format));
+	display = g_object_new (E_TYPE_MAIL_DISPLAY, NULL);
+        g_object_set_data_full (preview, "mbox-imp-display",
+				g_object_ref (display), g_object_unref);
 
-	*preview_widget = GTK_WIDGET (web_view);
+        *preview_widget = GTK_WIDGET (display);
 }
 
 static void
 mbox_fill_preview_cb (GObject *preview,
                       CamelMimeMessage *msg)
 {
-	EMFormatHTMLDisplay *format;
+	EMailDisplay *display;
+	EMFormat *formatter;
+	GHashTable *formatters;
+	SoupSession *session;
+	gchar *mail_uri;
 
 	g_return_if_fail (preview != NULL);
 	g_return_if_fail (msg != NULL);
 
-	format = g_object_get_data (preview, "mbox-imp-formatter");
-	g_return_if_fail (format != NULL);
+	display = g_object_get_data (preview, "mbox-imp-display");
+	g_return_if_fail (display != NULL);
 
-	/* FIXME Not passing a GCancellable here. */
-	em_format_format (EM_FORMAT (format), NULL, NULL, msg, NULL);
+	session = webkit_get_default_session ();
+        formatters = g_object_get_data (G_OBJECT (session), "formatters");
+	if (!formatters) {
+		formatters = g_hash_table_new_full (g_str_hash, g_str_equal,
+			(GDestroyNotify) g_free, NULL);
+                g_object_set_data (G_OBJECT (session), "formatters", formatters);
+	}
+
+	mail_uri = em_format_build_mail_uri (NULL, msg->message_id, NULL, NULL);
+
+	formatter = EM_FORMAT (em_format_html_display_new ());
+	formatter->message_uid = g_strdup (msg->message_id);
+	formatter->uri_base = g_strdup (mail_uri);
+
+        /* Don't free the mail_uri!! */
+	g_hash_table_insert (formatters, mail_uri, formatter);
+
+	em_format_parse_async (formatter, msg, NULL, NULL,
+			       message_parsed_cb, preview);
 }

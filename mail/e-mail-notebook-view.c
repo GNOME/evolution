@@ -900,21 +900,17 @@ mail_notebook_view_get_backend (EMailReader *reader)
 	return E_MAIL_BACKEND (shell_backend);
 }
 
-static EMFormatHTML *
-mail_notebook_view_get_formatter (EMailReader *reader)
+static EMailDisplay *
+mail_notebook_view_get_mail_display (EMailReader *reader)
 {
-	EMailNotebookView *notebook_view;
-	EMailView *current_view;
+	EMailNotebookViewPrivate *priv;
 
-	notebook_view = E_MAIL_NOTEBOOK_VIEW (reader);
-	current_view = notebook_view->priv->current_view;
+	priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
 
-	if (current_view == NULL)
+	if (priv->current_view == NULL)
 		return NULL;
 
-	reader = E_MAIL_READER (current_view);
-
-	return e_mail_reader_get_formatter (reader);
+	return e_mail_reader_get_mail_display (E_MAIL_READER (priv->current_view));
 }
 
 static gboolean
@@ -1458,7 +1454,7 @@ e_mail_notebook_view_reader_init (EMailReaderInterface *interface)
 	interface->get_action_group = mail_notebook_view_get_action_group;
 	interface->get_alert_sink = mail_notebook_view_get_alert_sink;
 	interface->get_backend = mail_notebook_view_get_backend;
-	interface->get_formatter = mail_notebook_view_get_formatter;
+	interface->get_mail_display = mail_notebook_view_get_mail_display;
 	interface->get_hide_deleted = mail_notebook_view_get_hide_deleted;
 	interface->get_message_list = mail_notebook_view_get_message_list;
 	interface->get_popup_menu = mail_notebook_view_get_popup_menu;

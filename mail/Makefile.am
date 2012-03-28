@@ -22,7 +22,9 @@ libevolution_mail_la_CPPFLAGS =				\
 	$(CERT_UI_CFLAGS)				\
 	$(CANBERRA_CFLAGS)				\
 	$(CLUTTER_CFLAGS)				\
-	$(GTKHTML_CFLAGS)				\
+	$(GTKHTML_CFLAGS)                               \
+	$(JAVASCRIPTCORE_CFLAGS)			\
+	$(LIBSOUP_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
@@ -56,11 +58,13 @@ mailinclude_HEADERS =					\
 	e-mail-migrate.h				\
 	e-mail-notebook-view.h				\
 	e-mail-paned-view.h				\
+	e-mail-printer.h				\
 	e-mail-reader-utils.h				\
 	e-mail-reader.h					\
-	e-mail-ui-session.h				\
+	e-mail-request.h				\
 	e-mail-sidebar.h				\
 	e-mail-tag-editor.h				\
+	e-mail-ui-session.h				\
 	e-mail-view.h					\
 	em-account-editor.h				\
 	em-composer-utils.h				\
@@ -81,7 +85,6 @@ mailinclude_HEADERS =					\
 	em-format-html-display.h			\
 	em-format-html-print.h				\
 	em-format-html.h				\
-	em-html-stream.h				\
 	em-search-context.h				\
 	em-subscription-editor.h			\
 	em-sync-stream.h				\
@@ -121,11 +124,13 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-migrate.c				\
 	e-mail-notebook-view.c				\
 	e-mail-paned-view.c				\
+	e-mail-printer.c				\
 	e-mail-reader-utils.c				\
 	e-mail-reader.c					\
-	e-mail-ui-session.c				\
+	e-mail-request.c				\
 	e-mail-sidebar.c				\
 	e-mail-tag-editor.c				\
+	e-mail-ui-session.c				\
 	e-mail-view.c					\
 	em-account-editor.c				\
 	em-composer-utils.c				\
@@ -146,7 +151,6 @@ libevolution_mail_la_SOURCES =				\
 	em-format-html-display.c			\
 	em-format-html-print.c				\
 	em-format-html.c				\
-	em-html-stream.c				\
 	em-search-context.c				\
 	em-subscription-editor.c			\
 	em-sync-stream.c				\
@@ -194,7 +198,11 @@ libevolution_mail_la_LIBADD =				\
 	$(CANBERRA_LIBS)				\
 	$(CLUTTER_LIBS)					\
 	$(GTKHTML_LIBS)					\
-	$(SMIME_LIBS)
+	$(JAVASCRIPTCORE_CFLAGS)			\
+	$(E_WIDGETS_LIBS)				\
+	$(SMIME_LIBS)					\
+	$(LIBSOUP_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)
 
 libevolution_mail_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 

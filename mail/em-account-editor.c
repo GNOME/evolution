@@ -2523,9 +2523,9 @@ emae_refresh_providers (EMAccountEditor *emae,
 		GTK_COMBO_BOX (combo_box), service->protocol);
 
 	/* make sure at least something is selected;
-	   this applies for cases when user changed from provider which was
-	   store and transport together, to a store provider only (like from
-	   exchange to imap provider), which left unselected transport type
+	 * this applies for cases when user changed from provider which was
+	 * store and transport together, to a store provider only (like from
+	 * exchange to imap provider), which left unselected transport type
 	*/
 	if (gtk_combo_box_get_active (GTK_COMBO_BOX (combo_box)) == -1)
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 0);

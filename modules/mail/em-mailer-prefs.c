@@ -529,10 +529,10 @@ toggle_button_init (EMMailerPrefs *prefs,
                     const gchar *key,
                     GCallback toggled)
 {
-	gboolean bool;
+	gboolean v_bool;
 
-	bool = g_settings_get_boolean (prefs->settings, key);
-	gtk_toggle_button_set_active (toggle, not ? !bool : bool);
+	v_bool = g_settings_get_boolean (prefs->settings, key);
+	gtk_toggle_button_set_active (toggle, not ? !v_bool : v_bool);
 
 	if (toggled) {
 		g_object_set_data ((GObject *) toggle, "key", (gpointer) key);

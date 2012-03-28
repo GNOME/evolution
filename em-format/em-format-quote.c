@@ -39,27 +39,327 @@
 
 struct _EMFormatQuotePrivate {
 	gchar *credits;
-	CamelStream *stream;
 	EMFormatQuoteFlags flags;
 	guint32 text_html_flags;
 };
 
 static void emfq_builtin_init (EMFormatQuoteClass *efhc);
 
+static CamelMimePart * decode_inline_parts (CamelMimePart *part, GCancellable *cancellable);
+
+static void emfq_parse_text_plain       (EMFormat *emf, CamelMimePart *part, GString *part_id, EMFormatParserInfo *info, GCancellable *cancellable);
+static void emfq_parse_text_enriched    (EMFormat *emf, CamelMimePart *part, GString *part_id, EMFormatParserInfo *info, GCancellable *cancellable);
+static void emfq_parse_text_html        (EMFormat *emf, CamelMimePart *part, GString *part_id, EMFormatParserInfo *info, GCancellable *cancellable);
+static void emfq_parse_attachment       (EMFormat *emf, CamelMimePart *part, GString *part_id, EMFormatParserInfo *info, GCancellable *cancellable);
+
+static void emfq_write_text_plain	(EMFormat *emf, EMFormatPURI *puri, CamelStream *stream, EMFormatWriterInfo *info, GCancellable *cancellable);
+static void emfq_write_text_enriched	(EMFormat *emf, EMFormatPURI *puri, CamelStream *stream, EMFormatWriterInfo *info, GCancellable *cancellable);
+static void emfq_write_text_html	(EMFormat *emf, EMFormatPURI *puri, CamelStream *stream, EMFormatWriterInfo *info, GCancellable *cancellable);
+
 static gpointer parent_class;
+
+/* Decodes inline encoded parts of 'part'. The returned pointer,
+ * if not NULL, should be unreffed with g_object_unref(). */
+static CamelMimePart *
+decode_inline_parts (CamelMimePart *part,
+                     GCancellable *cancellable)
+{
+	CamelMultipart *mp;
+	CamelStream *null;
+	CamelStream *filtered_stream;
+	EMInlineFilter *inline_filter;
+
+	g_return_val_if_fail (part != NULL, NULL);
+
+	null = camel_stream_null_new ();
+	filtered_stream = camel_stream_filter_new (null);
+	g_object_unref (null);
+
+	inline_filter = em_inline_filter_new (
+		camel_mime_part_get_encoding (part),
+		camel_mime_part_get_content_type (part));
+	camel_stream_filter_add (
+		CAMEL_STREAM_FILTER (filtered_stream),
+		CAMEL_MIME_FILTER (inline_filter));
+	camel_data_wrapper_decode_to_stream_sync (
+		camel_medium_get_content (CAMEL_MEDIUM (part)),
+		filtered_stream, cancellable, NULL);
+	camel_stream_close (filtered_stream, cancellable, NULL);
+	g_object_unref (filtered_stream);
+
+	if (!em_inline_filter_found_any (inline_filter)) {
+		g_object_unref (inline_filter);
+		return NULL;
+	}
+
+	mp = em_inline_filter_get_multipart (inline_filter);
+
+	g_object_unref (inline_filter);
+
+	if (mp) {
+		part = camel_mime_part_new ();
+		camel_medium_set_content (
+			CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER (mp));
+		g_object_unref (mp);
+	} else {
+		g_object_ref (part);
+	}
+
+	return part;
+}
+
+static void
+emfq_format_text_header (EMFormatQuote *emfq,
+                         GString *buffer,
+                         const gchar *label,
+                         const gchar *value,
+                         guint32 flags,
+                         gint is_html)
+{
+	const gchar *html;
+	gchar *mhtml = NULL;
+
+	if (value == NULL)
+		return;
+
+	while (*value == ' ')
+		value++;
+
+	if (!is_html)
+		html = mhtml = camel_text_to_html (value, 0, 0);
+	else
+		html = value;
+
+	if (flags & EM_FORMAT_HEADER_BOLD)
+		g_string_append_printf (
+                        buffer, "<b>%s</b>: %s<br>", label, html);
+	else
+		g_string_append_printf (
+                        buffer, "%s: %s<br>", label, html);
+
+	g_free (mhtml);
+}
+
+static const gchar *addrspec_hdrs[] = {
+        "Sender", "From", "Reply-To", "To", "Cc", "Bcc",
+        "Resent-Sender", "Resent-from", "Resent-Reply-To",
+        "Resent-To", "Resent-cc", "Resent-Bcc", NULL
+};
+
+#if 0
+/* FIXME: include Sender and Resent-* headers too? */
+/* For Translators only: The following strings are
+ * used in the header table in the preview pane. */
+static gchar *i18n_hdrs[] = {
+        N_("From"), N_("Reply-To"), N_("To"), N_("Cc"), N_("Bcc")
+};
+#endif
+
+static void
+emfq_format_address (GString *out,
+                     struct _camel_header_address *a)
+{
+	guint32 flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
+	gchar *name, *mailto, *addr;
+
+	while (a) {
+		if (a->name)
+			name = camel_text_to_html (a->name, flags, 0);
+		else
+			name = NULL;
+
+		switch (a->type) {
+		case CAMEL_HEADER_ADDRESS_NAME:
+			if (name && *name) {
+				gchar *real, *mailaddr;
+
+                                g_string_append_printf (out, "%s &lt;", name);
+                                /* rfc2368 for mailto syntax and url encoding extras */
+				if ((real = camel_header_encode_phrase ((guchar *) a->name))) {
+                                        mailaddr = g_strdup_printf ("%s <%s>", real, a->v.addr);
+					g_free (real);
+                                        mailto = camel_url_encode (mailaddr, "?=&()");
+					g_free (mailaddr);
+				} else {
+                                        mailto = camel_url_encode (a->v.addr, "?=&()");
+				}
+			} else {
+                                mailto = camel_url_encode (a->v.addr, "?=&()");
+			}
+			addr = camel_text_to_html (a->v.addr, flags, 0);
+			g_string_append_printf (
+				out, "<a href=\"mailto:%s\">%s</a>",
+				mailto, addr);
+			g_free (mailto);
+			g_free (addr);
+
+			if (name && *name)
+                                g_string_append (out, "&gt;");
+			break;
+		case CAMEL_HEADER_ADDRESS_GROUP:
+                        g_string_append_printf (out, "%s: ", name);
+			emfq_format_address (out, a->v.members);
+                        g_string_append_printf (out, ";");
+			break;
+		default:
+                        g_warning ("Invalid address type");
+			break;
+		}
+
+		g_free (name);
+
+		a = a->next;
+		if (a)
+                        g_string_append (out, ", ");
+	}
+}
+
+static void
+canon_header_name (gchar *name)
+{
+	gchar *inptr = name;
+
+        /* canonicalise the header name... first letter is
+         * capitalised and any letter following a '-' also gets
+         * capitalised */
+
+	if (g_ascii_islower (*inptr))
+                *inptr = g_ascii_toupper (*inptr);
+
+	inptr++;
+
+	while (*inptr) {
+		if (inptr[-1] == '-' && g_ascii_islower (*inptr))
+                        *inptr = g_ascii_toupper (*inptr);
+		else if (g_ascii_isupper (*inptr))
+                        *inptr = g_ascii_tolower (*inptr);
+
+		inptr++;
+	}
+}
+
+static void
+emfq_format_header (EMFormat *emf,
+                    GString *buffer,
+                    CamelMedium *part,
+                    const gchar *namein,
+                    guint32 flags,
+                    const gchar *charset)
+{
+	CamelMimeMessage *msg = (CamelMimeMessage *) part;
+	EMFormatQuote *emfq = (EMFormatQuote *) emf;
+	gchar *name, *buf, *value = NULL;
+	const gchar *txt, *label;
+	gboolean addrspec = FALSE;
+	gint is_html = FALSE;
+	gint i;
+
+	name = g_alloca (strlen (namein) + 1);
+	strcpy (name, namein);
+	canon_header_name (name);
+
+        /* Never quote Bcc headers */
+        if (g_str_equal (name, "Bcc") || g_str_equal (name, "Resent-Bcc"))
+		return;
+
+	for (i = 0; addrspec_hdrs[i]; i++) {
+		if (!strcmp (name, addrspec_hdrs[i])) {
+			addrspec = TRUE;
+			break;
+		}
+	}
+
+	label = _(name);
+
+	if (addrspec) {
+		struct _camel_header_address *addrs;
+		GString *html;
+
+		if (!(txt = camel_medium_get_header (part, name)))
+			return;
+
+		buf = camel_header_unfold (txt);
+		addrs = camel_header_address_decode (
+			txt, em_format_get_charset (emf) ?
+			em_format_get_charset (emf) : em_format_get_default_charset (emf));
+		if (addrs == NULL) {
+			g_free (buf);
+			return;
+		}
+
+		g_free (buf);
+
+                html = g_string_new ("");
+		emfq_format_address (html, addrs);
+		camel_header_address_unref (addrs);
+		txt = value = html->str;
+		g_string_free (html, FALSE);
+		flags |= EM_FORMAT_HEADER_BOLD;
+		is_html = TRUE;
+        } else if (!strcmp (name, "Subject")) {
+		txt = camel_mime_message_get_subject (msg);
+                label = _("Subject");
+		flags |= EM_FORMAT_HEADER_BOLD;
+        } else if (!strcmp (name, "X-Evolution-Mailer")) { /* pseudo-header */
+                if (!(txt = camel_medium_get_header (part, "x-mailer")))
+                        if (!(txt = camel_medium_get_header (part, "user-agent")))
+                                if (!(txt = camel_medium_get_header (part, "x-newsreader")))
+                                        if (!(txt = camel_medium_get_header (part, "x-mimeole")))
+						return;
+
+		txt = value = camel_header_format_ctext (txt, charset);
+
+                label = _("Mailer");
+		flags |= EM_FORMAT_HEADER_BOLD;
+        } else if (!strcmp (name, "Date") || !strcmp (name, "Resent-Date")) {
+		if (!(txt = camel_medium_get_header (part, name)))
+			return;
+
+		flags |= EM_FORMAT_HEADER_BOLD;
+	} else {
+		txt = camel_medium_get_header (part, name);
+		buf = camel_header_unfold (txt);
+		txt = value = camel_header_decode_string (txt, charset);
+		g_free (buf);
+	}
+
+	emfq_format_text_header (emfq, buffer, label, txt, flags, is_html);
+
+	g_free (value);
+}
+
+static void
+emfq_format_headers (EMFormatQuote *emfq,
+                     GString *buffer,
+                     CamelMedium *part)
+{
+	EMFormat *emf = (EMFormat *) emfq;
+	CamelContentType *ct;
+	const gchar *charset;
+	GList *link;
+
+	if (!part)
+		return;
+
+	ct = camel_mime_part_get_content_type ((CamelMimePart *) part);
+        charset = camel_content_type_param (ct, "charset");
+	charset = camel_iconv_charset_name (charset);
+
+        /* dump selected headers */
+	link = g_queue_peek_head_link (&emf->header_list);
+	while (link != NULL) {
+		EMFormatHeader *h = link->data;
+		emfq_format_header (
+			emf, buffer, part, h->name, h->flags, charset);
+		link = g_list_next (link);
+	}
+
+        g_string_append (buffer, "<br>\n");
+}
 
 static void
 emfq_dispose (GObject *object)
 {
-	EMFormatQuotePrivate *priv;
-
-	priv = EM_FORMAT_QUOTE_GET_PRIVATE (object);
-
-	if (priv->stream != NULL) {
-		g_object_unref (priv->stream);
-		priv->stream = NULL;
-	}
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -77,95 +377,129 @@ emfq_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
+/******************************************************************************/
 static void
-emfq_format_clone (EMFormat *emf,
-                   CamelFolder *folder,
-                   const gchar *uid,
-                   CamelMimeMessage *msg,
-                   EMFormat *src,
-                   GCancellable *cancellable)
+emfq_parse_text_plain (EMFormat * emf,
+                       CamelMimePart * part,
+                       GString * part_id,
+                       EMFormatParserInfo * info,
+                       GCancellable * cancellable)
 {
-	EMFormatQuote *emfq = (EMFormatQuote *) emf;
-	const EMFormatHandler *handle;
-	GSettings *settings;
+	EMFormatPURI *puri;
+		CamelMimePart *mp;
+	gint len;
 
-	/* Chain up to parent's format_clone() method. */
-	EM_FORMAT_CLASS (parent_class)->format_clone (
-		emf, folder, uid, msg, src, cancellable);
+	len = part_id->len;
+        g_string_append (part_id, ".text_plain");
 
-	g_seekable_seek (
-		G_SEEKABLE (emfq->priv->stream),
-		0, G_SEEK_SET, NULL, NULL);
+		mp = decode_inline_parts (part, cancellable);
+		if (mp) {
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	if (g_settings_get_boolean (
-		settings, "composer-top-signature"))
-		camel_stream_write_string (
-			emfq->priv->stream, "<br>\n", cancellable, NULL);
-	g_object_unref (settings);
-	handle = em_format_find_handler(emf, "x-evolution/message/prefix");
-	if (handle)
-		handle->handler (
-			emf, emfq->priv->stream,
-			CAMEL_MIME_PART (msg),
-			handle, cancellable, FALSE);
-	handle = em_format_find_handler(emf, "x-evolution/message/rfc822");
-	if (handle)
-		handle->handler (
-			emf, emfq->priv->stream,
-			CAMEL_MIME_PART (msg),
-			handle, cancellable, FALSE);
+			if (CAMEL_IS_MULTIPART (camel_medium_get_content (CAMEL_MEDIUM (mp)))) {
+				em_format_parse_part (emf, mp, part_id, info, cancellable);
+			}
 
-	camel_stream_flush (emfq->priv->stream, cancellable, NULL);
+			g_object_unref (mp);
+		}
 
-	g_signal_emit_by_name(emf, "complete");
+	puri = em_format_puri_new (emf, sizeof (EMFormatPURI), part, part_id->str);
+	puri->write_func = emfq_write_text_plain;
+        puri->mime_type = g_strdup ("text/html");
+	em_format_add_puri (emf, puri);
+
+	g_string_truncate (part_id, len);
 }
 
 static void
-emfq_format_error (EMFormat *emf,
-                   CamelStream *stream,
-                   const gchar *errmsg)
+emfq_parse_text_html (EMFormat * emf,
+                      CamelMimePart * part,
+                      GString * part_id,
+                      EMFormatParserInfo * info,
+                      GCancellable * cancellable)
 {
-	/* Nothing to do. */
+	EMFormatPURI *puri;
+	gint len;
+
+	len = part_id->len;
+        g_string_append (part_id, ".text_html");
+
+	puri = em_format_puri_new (emf, sizeof (EMFormatPURI), part, part_id->str);
+	puri->write_func = emfq_write_text_html;
+        puri->mime_type = g_strdup ("text/html");
+	em_format_add_puri (emf, puri);
+
+	g_string_truncate (part_id, len);
 }
 
 static void
-emfq_format_source (EMFormat *emf,
-                    CamelStream *stream,
-                    CamelMimePart *part,
-                    GCancellable *cancellable)
+emfq_parse_text_enriched (EMFormat * emf,
+                          CamelMimePart * part,
+                          GString * part_id,
+                          EMFormatParserInfo * info,
+                          GCancellable * cancellable)
 {
-	CamelStream *filtered_stream;
-	CamelMimeFilter *html_filter;
+	EMFormatPURI *puri;
+	gint len;
 
-	filtered_stream = camel_stream_filter_new (stream);
-	html_filter = camel_mime_filter_tohtml_new (
-		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
-		CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
-		CAMEL_MIME_FILTER_TOHTML_ESCAPE_8BIT, 0);
-	camel_stream_filter_add (
-		CAMEL_STREAM_FILTER (filtered_stream), html_filter);
-	g_object_unref (html_filter);
+	len = part_id->len;
+        g_string_append (part_id, ".text_enriched");
 
-	em_format_format_text (
-		emf, filtered_stream,
-		CAMEL_DATA_WRAPPER (part), cancellable);
+	puri = em_format_puri_new (emf, sizeof (EMFormatPURI), part, part_id->str);
+	puri->write_func = emfq_write_text_enriched;
+        puri->mime_type = g_strdup ("text/html");
+	em_format_add_puri (emf, puri);
 
-	g_object_unref (filtered_stream);
+	g_string_truncate (part_id, len);
 }
 
 static void
-emfq_format_attachment (EMFormat *emf,
-                        CamelStream *stream,
-                        CamelMimePart *part,
-                        const gchar *mime_type,
-                        const EMFormatHandler *handle,
-                        GCancellable *cancellable)
+emfq_parse_attachment (EMFormat * emf,
+                       CamelMimePart * part,
+                       GString * part_id,
+                       EMFormatParserInfo * info,
+                       GCancellable * cancellable)
+{
+	EMFormatPURI *puri;
+	gint len;
+
+	len = part_id->len;
+        g_string_append (part_id, ".attachment");
+
+	puri = em_format_puri_new (emf, sizeof (EMFormatPURI), part, part_id->str);
+	puri->write_func = emfq_write_text_html;
+        puri->mime_type = g_strdup ("text/html");
+	puri->is_attachment = TRUE;
+	em_format_add_puri (emf, puri);
+
+	g_string_truncate (part_id, len);
+}
+
+/******************************************************************************/
+
+static void
+emfq_write_attachment (EMFormat *emf,
+                       EMFormatPURI *puri,
+                       CamelStream *stream,
+                       EMFormatWriterInfo *info,
+                       GCancellable *cancellable)
 {
 	EMFormatQuote *emfq = EM_FORMAT_QUOTE (emf);
+	const EMFormatHandler *handler;
 	gchar *text, *html;
+	CamelContentType *ct;
+	const gchar *mime_type;
 
-	if (!em_format_is_inline (emf, emf->part_id->str, part, handle))
+	ct = camel_mime_part_get_content_type (puri->part);
+	if (ct) {
+		mime_type = camel_content_type_simple (ct);
+		camel_content_type_unref (ct);
+	} else {
+		mime_type = "application/octet-stream";
+	}
+
+	handler = em_format_find_handler (emf, mime_type);
+
+	if (!em_format_is_inline (emf, puri->uri, puri->part, handler))
 		return;
 
 	camel_stream_write_string (
@@ -173,7 +507,7 @@ emfq_format_attachment (EMFormat *emf,
 		"<tr><td><font size=-1>\n", cancellable, NULL);
 
 	/* output some info about it */
-	text = em_format_describe_part (part, mime_type);
+	text = em_format_describe_part (puri->part, mime_type);
 	html = camel_text_to_html (
 		text, emfq->priv->text_html_flags &
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
@@ -184,33 +518,27 @@ emfq_format_attachment (EMFormat *emf,
 	camel_stream_write_string (
 		stream, "</font></td></tr></table>", cancellable, NULL);
 
-	handle->handler (emf, stream, part, handle, cancellable, FALSE);
+	if (handler && handler->write_func)
+		handler->write_func (emf, puri, stream, info, cancellable);
 }
 
 static void
-emfq_base_init (EMFormatQuoteClass *class)
+emfq_base_init (EMFormatQuoteClass *klass)
 {
-	emfq_builtin_init (class);
+	emfq_builtin_init (klass);
 }
 
 static void
-emfq_class_init (EMFormatQuoteClass *class)
+emfq_class_init (EMFormatQuoteClass *klass)
 {
 	GObjectClass *object_class;
-	EMFormatClass *format_class;
 
-	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (EMFormatQuotePrivate));
+	parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (EMFormatQuotePrivate));
 
-	object_class = G_OBJECT_CLASS (class);
+	object_class = G_OBJECT_CLASS (klass);
 	object_class->dispose = emfq_dispose;
 	object_class->finalize = emfq_finalize;
-
-	format_class = EM_FORMAT_CLASS (class);
-	format_class->format_clone = emfq_format_clone;
-	format_class->format_error = emfq_format_error;
-	format_class->format_source = emfq_format_source;
-	format_class->format_attachment = emfq_format_attachment;
 }
 
 static void
@@ -266,406 +594,95 @@ em_format_quote_new (const gchar *credits,
 	emfq = g_object_new (EM_TYPE_FORMAT_QUOTE, NULL);
 
 	emfq->priv->credits = g_strdup (credits);
-	emfq->priv->stream = g_object_ref (stream);
 	emfq->priv->flags = flags;
 
 	return emfq;
 }
 
-static void
-emfq_format_text_header (EMFormatQuote *emfq,
-                         GString *buffer,
-                         const gchar *label,
-                         const gchar *value,
-                         guint32 flags,
-                         gint is_html)
+void
+em_format_quote_write (EMFormatQuote * emfq,
+                       CamelStream * stream,
+                       GCancellable * cancellable)
 {
-	const gchar *html;
-	gchar *mhtml = NULL;
+	EMFormat *emf;
+	GSettings *settings;
+	GList *iter;
+	EMFormatWriterInfo info = { 0 };
 
-	if (value == NULL)
-		return;
+	emf = (EMFormat *) emfq;
 
-	while (*value == ' ')
-		value++;
+	g_seekable_seek (
+		G_SEEKABLE (stream),
+		0, G_SEEK_SET, NULL, NULL);
 
-	if (!is_html)
-		html = mhtml = camel_text_to_html (value, 0, 0);
-	else
-		html = value;
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	if (g_settings_get_boolean (
+		settings, "composer-top-signature"))
+		camel_stream_write_string (
+			stream, "<br>\n", cancellable, NULL);
+	g_object_unref (settings);
 
-	if (flags & EM_FORMAT_HEADER_BOLD)
-		g_string_append_printf (
-			buffer, "<b>%s</b>: %s<br>", label, html);
-	else
-		g_string_append_printf (
-			buffer, "%s: %s<br>", label, html);
-
-	g_free (mhtml);
-}
-
-static const gchar *addrspec_hdrs[] = {
-	"Sender", "From", "Reply-To", "To", "Cc", "Bcc",
-	"Resent-Sender", "Resent-from", "Resent-Reply-To",
-	"Resent-To", "Resent-cc", "Resent-Bcc", NULL
-};
-
-#if 0
-/* FIXME: include Sender and Resent-* headers too? */
-/* For Translators only: The following strings are
- * used in the header table in the preview pane. */
-static gchar *i18n_hdrs[] = {
-	N_("From"), N_("Reply-To"), N_("To"), N_("Cc"), N_("Bcc")
-};
-#endif
-
-static void
-emfq_format_address (GString *out,
-                     struct _camel_header_address *a)
-{
-	guint32 flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
-	gchar *name, *mailto, *addr;
-
-	while (a) {
-		if (a->name)
-			name = camel_text_to_html (a->name, flags, 0);
-		else
-			name = NULL;
-
-		switch (a->type) {
-		case CAMEL_HEADER_ADDRESS_NAME:
-			if (name && *name) {
-				gchar *real, *mailaddr;
-
-				g_string_append_printf (out, "%s &lt;", name);
-				/* rfc2368 for mailto syntax and url encoding extras */
-				if ((real = camel_header_encode_phrase ((guchar *) a->name))) {
-					mailaddr = g_strdup_printf ("%s <%s>", real, a->v.addr);
-					g_free (real);
-					mailto = camel_url_encode (mailaddr, "?=&()");
-					g_free (mailaddr);
-				} else {
-					mailto = camel_url_encode (a->v.addr, "?=&()");
-				}
-			} else {
-				mailto = camel_url_encode (a->v.addr, "?=&()");
-			}
-			addr = camel_text_to_html (a->v.addr, flags, 0);
-			g_string_append_printf (
-				out, "<a href=\"mailto:%s\">%s</a>",
-				mailto, addr);
-			g_free (mailto);
-			g_free (addr);
-
-			if (name && *name)
-				g_string_append (out, "&gt;");
-			break;
-		case CAMEL_HEADER_ADDRESS_GROUP:
-			g_string_append_printf (out, "%s: ", name);
-			emfq_format_address (out, a->v.members);
-			g_string_append_printf (out, ";");
-			break;
-		default:
-			g_warning ("Invalid address type");
-			break;
-		}
-
-		g_free (name);
-
-		a = a->next;
-		if (a)
-			g_string_append (out, ", ");
-	}
-}
-
-static void
-canon_header_name (gchar *name)
-{
-	gchar *inptr = name;
-
-	/* canonicalise the header name... first letter is
-	 * capitalised and any letter following a '-' also gets
-	 * capitalised */
-
-	if (g_ascii_islower (*inptr))
-		*inptr = g_ascii_toupper (*inptr);
-
-	inptr++;
-
-	while (*inptr) {
-		if (inptr[-1] == '-' && g_ascii_islower (*inptr))
-			*inptr = g_ascii_toupper (*inptr);
-		else if (g_ascii_isupper (*inptr))
-			*inptr = g_ascii_tolower (*inptr);
-
-		inptr++;
-	}
-}
-
-static void
-emfq_format_header (EMFormat *emf,
-                    GString *buffer,
-                    CamelMedium *part,
-                    const gchar *namein,
-                    guint32 flags,
-                    const gchar *charset)
-{
-	CamelMimeMessage *msg = (CamelMimeMessage *) part;
-	EMFormatQuote *emfq = (EMFormatQuote *) emf;
-	gchar *name, *buf, *value = NULL;
-	const gchar *txt, *label;
-	gboolean addrspec = FALSE;
-	gint is_html = FALSE;
-	gint i;
-
-	name = g_alloca (strlen (namein) + 1);
-	strcpy (name, namein);
-	canon_header_name (name);
-
-	/* Never quote Bcc headers */
-	if (g_str_equal (name, "Bcc") || g_str_equal (name, "Resent-Bcc"))
-		return;
-
-	for (i = 0; addrspec_hdrs[i]; i++) {
-		if (!strcmp (name, addrspec_hdrs[i])) {
-			addrspec = TRUE;
-			break;
-		}
-	}
-
-	label = _(name);
-
-	if (addrspec) {
-		struct _camel_header_address *addrs;
-		GString *html;
-
-		if (!(txt = camel_medium_get_header (part, name)))
-			return;
-
-		buf = camel_header_unfold (txt);
-		addrs = camel_header_address_decode (
-			txt, emf->charset ?
-			emf->charset : emf->default_charset);
-		if (addrs == NULL) {
-			g_free (buf);
-			return;
-		}
-
-		g_free (buf);
-
-		html = g_string_new ("");
-		emfq_format_address (html, addrs);
-		camel_header_address_unref (addrs);
-		txt = value = html->str;
-		g_string_free (html, FALSE);
-		flags |= EM_FORMAT_HEADER_BOLD;
-		is_html = TRUE;
-	} else if (!strcmp (name, "Subject")) {
-		txt = camel_mime_message_get_subject (msg);
-		label = _("Subject");
-		flags |= EM_FORMAT_HEADER_BOLD;
-	} else if (!strcmp (name, "X-Evolution-Mailer")) { /* pseudo-header */
-		if (!(txt = camel_medium_get_header (part, "x-mailer")))
-			if (!(txt = camel_medium_get_header (part, "user-agent")))
-				if (!(txt = camel_medium_get_header (part, "x-newsreader")))
-					if (!(txt = camel_medium_get_header (part, "x-mimeole")))
-						return;
-
-		txt = value = camel_header_format_ctext (txt, charset);
-
-		label = _("Mailer");
-		flags |= EM_FORMAT_HEADER_BOLD;
-	} else if (!strcmp (name, "Date") || !strcmp (name, "Resent-Date")) {
-		if (!(txt = camel_medium_get_header (part, name)))
-			return;
-
-		flags |= EM_FORMAT_HEADER_BOLD;
+	if (emfq->priv->credits && *emfq->priv->credits) {
+                gchar *credits = g_strdup_printf ("%s<br/>", emfq->priv->credits);
+		camel_stream_write_string (stream, credits, cancellable, NULL);
+		g_free (credits);
 	} else {
-		txt = camel_medium_get_header (part, name);
-		buf = camel_header_unfold (txt);
-		txt = value = camel_header_decode_string (txt, charset);
-		g_free (buf);
+                camel_stream_write_string (stream, "<br/>", cancellable, NULL);
 	}
-
-	emfq_format_text_header (emfq, buffer, label, txt, flags, is_html);
-
-	g_free (value);
-}
-
-static void
-emfq_format_headers (EMFormatQuote *emfq,
-                     GString *buffer,
-                     CamelMedium *part)
-{
-	EMFormat *emf = (EMFormat *) emfq;
-	CamelContentType *ct;
-	const gchar *charset;
-	GList *link;
-
-	if (!part)
-		return;
-
-	ct = camel_mime_part_get_content_type ((CamelMimePart *) part);
-	charset = camel_content_type_param (ct, "charset");
-	charset = camel_iconv_charset_name (charset);
-
-	/* dump selected headers */
-	link = g_queue_peek_head_link (&emf->header_list);
-	while (link != NULL) {
-		EMFormatHeader *h = link->data;
-		emfq_format_header (
-			emf, buffer, part, h->name, h->flags, charset);
-		link = g_list_next (link);
-	}
-
-	g_string_append (buffer, "<br>\n");
-}
-
-static void
-emfq_format_message_prefix (EMFormat *emf,
-                            CamelStream *stream,
-                            CamelMimePart *part,
-                            const EMFormatHandler *info,
-                            GCancellable *cancellable,
-                            gboolean is_fallback)
-{
-	EMFormatQuote *emfq = (EMFormatQuote *) emf;
-
-	if (emfq->priv->credits != NULL) {
-		camel_stream_write_string (
-			stream, emfq->priv->credits, NULL, NULL);
-		camel_stream_write_string (
-			stream, "<br>\n", NULL, NULL);
-	}
-}
-
-static void
-emfq_format_message (EMFormat *emf,
-                     CamelStream *stream,
-                     CamelMimePart *part,
-                     const EMFormatHandler *info,
-                     GCancellable *cancellable,
-                     gboolean is_fallback)
-{
-	EMFormatQuote *emfq = (EMFormatQuote *) emf;
-	GString *buffer;
-
-	buffer = g_string_sized_new (1024);
 
 	if (emfq->priv->flags & EM_FORMAT_QUOTE_CITE)
-		g_string_append (
-			buffer,
-			"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
-			"key=\"orig\" value=\"1\">-->\n"
-			"<blockquote type=cite>\n");
+		camel_stream_write_string (stream,
+                        "<!--+GtkHTML:<DATA class=\"ClueFlow\" "
+                        "key=\"orig\" value=\"1\">-->\n"
+                        "<blockquote type=cite>\n", cancellable, NULL);
 
-	if (((CamelMimePart *) emf->message) != part) {
-		g_string_append_printf (
-			buffer,
-			"%s</br>\n",
-			_("-------- Forwarded Message --------"));
-		emfq_format_headers (emfq, buffer, (CamelMedium *) part);
-	} else if (emfq->priv->flags & EM_FORMAT_QUOTE_HEADERS)
-		emfq_format_headers (emfq, buffer, (CamelMedium *) part);
+	for (iter = emf->mail_part_list; iter; iter = iter->next) {
+		EMFormatPURI *puri = iter->data;
 
-	camel_stream_write (
-		stream, buffer->str, buffer->len, cancellable, NULL);
+		if (puri->is_attachment || !puri->write_func)
+			continue;
 
-	em_format_part (emf, stream, part, cancellable);
+		puri = iter->data;
+
+		if (emfq->priv->flags & EM_FORMAT_QUOTE_HEADERS) {
+                        GString *buffer = g_string_new ("");
+			emfq_format_headers (emfq, buffer, (CamelMedium *) puri->part);
+			camel_stream_write_string (stream, buffer->str, cancellable, NULL);
+			g_string_free (buffer, TRUE);
+		}
+
+		puri->write_func (emf, puri, stream, &info, cancellable);
+	}
 
 	if (emfq->priv->flags & EM_FORMAT_QUOTE_CITE)
 		camel_stream_write_string (
-			stream, "</blockquote><!--+GtkHTML:"
-			"<DATA class=\"ClueFlow\" clear=\"orig\">-->",
+                        stream, "</blockquote><!--+GtkHTML:"
+                        "<DATA class=\"ClueFlow\" clear=\"orig\">-->",
 			cancellable, NULL);
 }
 
-/* Decodes inline encoded parts of 'part'. The returned pointer,
- * if not NULL, should be unreffed with g_object_unref(). */
-static CamelMimePart *
-decode_inline_parts (CamelMimePart *part,
-                     GCancellable *cancellable)
-{
-	CamelMultipart *mp;
-	CamelStream *null;
-	CamelStream *filtered_stream;
-	EMInlineFilter *inline_filter;
-
-	g_return_val_if_fail (part != NULL, NULL);
-
-	null = camel_stream_null_new ();
-	filtered_stream = camel_stream_filter_new (null);
-	g_object_unref (null);
-
-	inline_filter = em_inline_filter_new (
-		camel_mime_part_get_encoding (part),
-		camel_mime_part_get_content_type (part));
-	camel_stream_filter_add (
-		CAMEL_STREAM_FILTER (filtered_stream),
-		CAMEL_MIME_FILTER (inline_filter));
-	camel_data_wrapper_decode_to_stream_sync (
-		camel_medium_get_content (CAMEL_MEDIUM (part)),
-		filtered_stream, cancellable, NULL);
-	camel_stream_close (filtered_stream, cancellable, NULL);
-	g_object_unref (filtered_stream);
-
-	if (!em_inline_filter_found_any (inline_filter)) {
-		g_object_unref (inline_filter);
-		return NULL;
-	}
-
-	mp = em_inline_filter_get_multipart (inline_filter);
-
-	g_object_unref (inline_filter);
-
-	if (mp) {
-		part = camel_mime_part_new ();
-		camel_medium_set_content (
-			CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER (mp));
-		g_object_unref (mp);
-	} else {
-		g_object_ref (part);
-	}
-
-	return part;
-}
-
 static void
-emfq_text_plain (EMFormat *emf,
-                 CamelStream *stream,
-                 CamelMimePart *part,
-                 const EMFormatHandler *info,
-                 GCancellable *cancellable,
-                 gboolean is_fallback)
+emfq_write_text_plain (EMFormat *emf,
+                       EMFormatPURI *puri,
+                       CamelStream *stream,
+                       EMFormatWriterInfo *info,
+                       GCancellable *cancellable)
 {
 	EMFormatQuote *emfq = EM_FORMAT_QUOTE (emf);
 	CamelStream *filtered_stream;
 	CamelMimeFilter *html_filter;
 	CamelMimeFilter *sig_strip;
-	CamelMimePart *mp;
 	CamelContentType *type;
 	const gchar *format;
 	guint32 rgb = 0x737373, flags;
 
-	if (!part)
+	if (!puri->part)
 		return;
-
-	mp = decode_inline_parts (part, cancellable);
-	if (mp) {
-		if (CAMEL_IS_MULTIPART (camel_medium_get_content (CAMEL_MEDIUM (mp)))) {
-			em_format_part (emf, stream, mp, cancellable);
-			g_object_unref (mp);
-
-			return;
-		}
-
-		g_object_unref (mp);
-	}
 
 	flags = emfq->priv->text_html_flags;
 
 	/* Check for RFC 2646 flowed text. */
-	type = camel_mime_part_get_content_type (part);
+	type = camel_mime_part_get_content_type (puri->part);
 	if (camel_content_type_is(type, "text", "plain")
 	    && (format = camel_content_type_param(type, "format"))
 	    && !g_ascii_strcasecmp(format, "flowed"))
@@ -687,25 +704,32 @@ emfq_text_plain (EMFormat *emf,
 
 	em_format_format_text (
 		EM_FORMAT (emfq), filtered_stream,
-		CAMEL_DATA_WRAPPER (part), cancellable);
+		CAMEL_DATA_WRAPPER (puri->part), cancellable);
 
 	camel_stream_flush (filtered_stream, cancellable, NULL);
 	g_object_unref (filtered_stream);
 }
 
 static void
-emfq_text_enriched (EMFormat *emf,
-                    CamelStream *stream,
-                    CamelMimePart *part,
-                    const EMFormatHandler *info,
-                    GCancellable *cancellable,
-                    gboolean is_fallback)
+emfq_write_text_enriched (EMFormat *emf,
+                          EMFormatPURI *puri,
+                              CamelStream *stream,
+                              EMFormatWriterInfo *info,
+                              GCancellable *cancellable)
 {
 	CamelStream *filtered_stream;
 	CamelMimeFilter *enriched;
 	guint32 flags = 0;
+	CamelContentType *ct;
+	const gchar *mime_type = NULL;
 
-	if (g_strcmp0 (info->mime_type, "text/richtext") == 0) {
+	ct = camel_mime_part_get_content_type (puri->part);
+	if (ct) {
+		mime_type = camel_content_type_simple (ct);
+		camel_content_type_unref (ct);
+	}
+
+	if (g_strcmp0 (mime_type, "text/richtext") == 0) {
 		flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;
 		camel_stream_write_string (
 			stream, "\n<!-- text/richtext -->\n",
@@ -724,18 +748,17 @@ emfq_text_enriched (EMFormat *emf,
 
 	camel_stream_write_string (stream, "<br><hr><br>", cancellable, NULL);
 	em_format_format_text (
-		emf, filtered_stream, CAMEL_DATA_WRAPPER (part), cancellable);
+		emf, filtered_stream, CAMEL_DATA_WRAPPER (puri->part), cancellable);
 	camel_stream_flush (filtered_stream, cancellable, NULL);
 	g_object_unref (filtered_stream);
 }
 
 static void
-emfq_text_html (EMFormat *emf,
-                CamelStream *stream,
-                CamelMimePart *part,
-                const EMFormatHandler *info,
-                GCancellable *cancellable,
-                gboolean is_fallback)
+emfq_write_text_html (EMFormat *emf,
+                      EMFormatPURI *puri,
+                      CamelStream *stream,
+                      EMFormatWriterInfo *info,
+                      GCancellable *cancellable)
 {
 	EMFormatQuotePrivate *priv;
 
@@ -757,40 +780,29 @@ emfq_text_html (EMFormat *emf,
 
 		em_format_format_text (
 			emf, filtered_stream,
-			(CamelDataWrapper *) part, cancellable);
+			(CamelDataWrapper *) puri->part, cancellable);
 		camel_stream_flush (filtered_stream, cancellable, NULL);
 		g_object_unref (filtered_stream);
 	} else {
 		em_format_format_text (
 			emf, stream,
-			(CamelDataWrapper *) part, cancellable);
+			(CamelDataWrapper *) puri->part, cancellable);
 	}
 }
 
-static void
-emfq_ignore (EMFormat *emf,
-             CamelStream *stream,
-             CamelMimePart *part,
-             const EMFormatHandler *info,
-             GCancellable *cancellable,
-             gboolean is_fallback)
-{
-	/* NOOP */
-}
-
+/****************************************************************************/
 static EMFormatHandler type_builtin_table[] = {
-	{ (gchar *) "text/plain", emfq_text_plain },
-	{ (gchar *) "text/enriched", emfq_text_enriched },
-	{ (gchar *) "text/richtext", emfq_text_enriched },
-	{ (gchar *) "text/html", emfq_text_html },
-	{ (gchar *) "text/*", emfq_text_plain },
-	{ (gchar *) "message/external-body", emfq_ignore },
-	{ (gchar *) "multipart/appledouble", emfq_ignore },
+	{ (gchar *) "text/plain", emfq_parse_text_plain, emfq_write_text_plain, },
+	{ (gchar *) "text/enriched", emfq_parse_text_enriched, emfq_write_text_enriched, },
+	{ (gchar *) "text/richtext", emfq_parse_text_enriched, emfq_write_text_enriched, },
+	{ (gchar *) "text/html", emfq_parse_text_html, emfq_write_text_html, },
+	{ (gchar *) "text/*", emfq_parse_text_plain, emfq_write_text_plain, },
+	{ (gchar *) "message/external-body", em_format_empty_parser, em_format_empty_writer, },
+	{ (gchar *) "multipart/appledouble", em_format_empty_parser, em_format_empty_writer, },
 
 	/* internal evolution types */
-	{ (gchar *) "x-evolution/evolution-rss-feed", emfq_text_html },
-	{ (gchar *) "x-evolution/message/rfc822", emfq_format_message },
-	{ (gchar *) "x-evolution/message/prefix", emfq_format_message_prefix },
+	{ (gchar *) "x-evolution/evolution-rss-feed", 0, emfq_write_text_html, },
+	{ (gchar *) "x-evolution/message/attachment", emfq_parse_attachment, emfq_write_attachment, },
 };
 
 static void
@@ -798,7 +810,9 @@ emfq_builtin_init (EMFormatQuoteClass *efhc)
 {
 	gint ii;
 
+	EMFormatClass *emfc = (EMFormatClass *) efhc;
+
 	for (ii = 0; ii < G_N_ELEMENTS (type_builtin_table); ii++)
 		em_format_class_add_handler (
-			EM_FORMAT_CLASS (efhc), &type_builtin_table[ii]);
+			emfc, &type_builtin_table[ii]);
 }

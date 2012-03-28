@@ -38,9 +38,6 @@
 #undef interface
 #endif
 
-#include <gtkhtml/gtkhtml.h>
-#include <gtkhtml/gtkhtml-embedded.h>
-
 #include <glib/gi18n.h>
 
 #include <e-util/e-util.h>
@@ -52,6 +49,8 @@
 
 #include <shell/e-shell.h>
 #include <shell/e-shell-utils.h>
+
+#include <libedataserver/e-flag.h>
 
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 #include "certificate-viewer.h"
@@ -65,6 +64,8 @@
 #include "widgets/misc/e-attachment.h"
 #include "widgets/misc/e-attachment-button.h"
 #include "widgets/misc/e-attachment-view.h"
+#include "shell/e-shell.h"
+#include "shell/e-shell-window.h"
 
 #define EM_FORMAT_HTML_DISPLAY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -77,16 +78,9 @@
 	((obj), EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayPrivate))
 
 struct _EMFormatHTMLDisplayPrivate {
-	GHashTable *attachment_views;  /* weak reference; message_part_id->EAttachmentView */
-	gboolean attachment_expanded;
-};
 
-struct _smime_pobject {
-	EMFormatHTMLPObject object;
+        EAttachmentView *last_view;
 
-	gint signature;
-	CamelCipherValidity *valid;
-	GtkWidget *widget;
 };
 
 /* TODO: move the dialogue elsehwere */
@@ -111,78 +105,100 @@ static const struct {
 	{ "stock_lock-ok", N_("Encrypted, strong"), N_("This message is encrypted, with a strong encryption algorithm. It would be very difficult for an outsider to view the content of this message in a practical amount of time.") },
 };
 
-static const gchar *smime_sign_colour[5] = {
-	"", " bgcolor=\"#88bb88\"", " bgcolor=\"#bb8888\"", " bgcolor=\"#e8d122\"",""
+static const GdkRGBA smime_sign_colour[5] = {
+	{ 0 }, { 0.53, 0.73, 0.53, 1 }, { 0.73, 0.53, 0.53, 1 }, { 0.91, 0.82, 0.13, 1 }, { 0 },
 };
 
-static void efhd_attachment_frame (EMFormat *emf, CamelStream *stream, EMFormatPURI *puri, GCancellable *cancellable);
-static void efhd_message_add_bar (EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
-static gboolean efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
-static gboolean efhd_attachment_optional (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *object);
+static void efhd_message_prefix	(EMFormat *emf, CamelMimePart *part, GString *part_id, EMFormatParserInfo *info, GCancellable *cancellable);
+static void efhd_message_add_bar	(EMFormat *emf, CamelMimePart *part, GString *part_id, EMFormatParserInfo *info, GCancellable *cancellable);
+static void efhd_parse_attachment	(EMFormat *emf, CamelMimePart *part, GString *part_id, EMFormatParserInfo *info, GCancellable *cancellable);
+static void efhd_parse_secure		(EMFormat *emf, CamelMimePart *part, GString *part_id, EMFormatParserInfo *info, GCancellable *cancellable);
+static void efhd_parse_optional		(EMFormat *emf, CamelMimePart *part, GString *part_id, EMFormatParserInfo *info, GCancellable *cancellable);
+
+static GtkWidget * efhd_attachment_bar		(EMFormat *emf, EMFormatPURI *puri, GCancellable *cancellable);
+static GtkWidget * efhd_attachment_button	(EMFormat *emf, EMFormatPURI *puri, GCancellable *cancellable);
+static GtkWidget * efhd_attachment_optional	(EMFormat *emf, EMFormatPURI *puri, GCancellable *cancellable);
+
+static void efhd_write_attachment_bar   (EMFormat *emf, EMFormatPURI *emp, CamelStream *stream, EMFormatWriterInfo *info, GCancellable *cancellable);
+static void efhd_write_attachment       (EMFormat *emf, EMFormatPURI *emp, CamelStream *stream, EMFormatWriterInfo *info, GCancellable *cancellable);
+static void efhd_write_secure_button    (EMFormat *emf, EMFormatPURI *emp, CamelStream *stream, EMFormatWriterInfo *info, GCancellable *cancellable);
+
 static void efhd_free_attach_puri_data (EMFormatPURI *puri);
-
-struct _attach_puri {
-	EMFormatPURI puri;
-
-	const EMFormatHandler *handle;
-
-	const gchar *snoop_mime_type;
-
-	/* for the > and V buttons */
-	GtkWidget *forward, *down;
-	/* currently no way to correlate this data to the frame :( */
-	GtkHTML *frame;
-	guint shown : 1;
-
-	/* Embedded Frame */
-	GtkHTMLEmbedded *html;
-
-	/* Attachment */
-	EAttachment *attachment;
-	gchar *attachment_view_part_id;
-
-	/* image stuff */
-	gint fit_width;
-	gint fit_height;
-	GtkImage *image;
-	GtkWidget *event_box;
-
-	/* Optional Text Mem Stream */
-	CamelStreamMem *mstream;
-
-	/* Signed / Encrypted */
-        camel_cipher_validity_sign_t sign;
-        camel_cipher_validity_encrypt_t encrypt;
-};
-
-static void	efhd_message_prefix		(EMFormat *emf,
-						 CamelStream *stream,
-						 CamelMimePart *part,
-						 const EMFormatHandler *info,
-						 GCancellable *cancellable,
-						 gboolean is_fallback);
 
 static void efhd_builtin_init (EMFormatHTMLDisplayClass *efhc);
 
-G_DEFINE_TYPE (
-	EMFormatHTMLDisplay,
-	em_format_html_display,
-	EM_TYPE_FORMAT_HTML)
+static gpointer parent_class;
+
+static EAttachmentStore *
+find_parent_attachment_store (EMFormatHTMLDisplay *efhd,
+                              const gchar *part_id)
+{
+	EMFormat *emf = (EMFormat *) efhd;
+	EMFormatAttachmentBarPURI *abp;
+	gchar *tmp, *pos;
+	GList *item;
+
+	tmp = g_strdup (part_id);
+
+	do {
+		gchar *id;
+
+		pos = g_strrstr (tmp, ".");
+		if (!pos)
+			break;
+
+		g_free (tmp);
+		tmp = g_strndup (part_id, pos - tmp);
+		id = g_strdup_printf ("%s.attachment-bar", tmp);
+
+		item = g_hash_table_lookup (emf->mail_part_table, id);
+
+		g_free (id);
+
+	} while (pos && !item);
+
+	g_free (tmp);
+
+	abp = (EMFormatAttachmentBarPURI *) item->data;
+
+	if (abp)
+		return abp->store;
+	else
+		return NULL;
+}
 
 static void
-efhd_xpkcs7mime_free (EMFormatHTMLPObject *o)
+efhd_attachment_bar_puri_free (EMFormatPURI *puri)
 {
-	struct _smime_pobject *po = (struct _smime_pobject *) o;
+	EMFormatAttachmentBarPURI *abp;
 
-	if (po->widget)
-		gtk_widget_destroy (po->widget);
-	camel_cipher_validity_free (po->valid);
+	abp = (EMFormatAttachmentBarPURI *) puri;
+
+	if (abp->store) {
+		g_object_unref (abp->store);
+		abp->store = NULL;
+	}
+}
+
+static void
+efhd_xpkcs7mime_free (EMFormatPURI *puri)
+{
+	EMFormatSMIMEPURI *sp = (EMFormatSMIMEPURI *) puri;
+
+	if (sp->widget)
+		gtk_widget_destroy (sp->widget);
+
+	if (sp->description)
+		g_free (sp->description);
+
+	if (sp->valid)
+		camel_cipher_validity_free (sp->valid);
 }
 
 static void
 efhd_xpkcs7mime_info_response (GtkWidget *widget,
                                guint button,
-                               struct _smime_pobject *po)
+                               EMFormatSMIMEPURI *po)
 {
 	gtk_widget_destroy (widget);
 	po->widget = NULL;
@@ -191,7 +207,7 @@ efhd_xpkcs7mime_info_response (GtkWidget *widget,
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 static void
 efhd_xpkcs7mime_viewcert_clicked (GtkWidget *button,
-                                  struct _smime_pobject *po)
+                                  EMFormatSMIMEPURI *po)
 {
 	CamelCipherCertInfo *info = g_object_get_data((GObject *)button, "e-cert-info");
 	ECert *ec = NULL;
@@ -221,7 +237,7 @@ efhd_xpkcs7mime_viewcert_clicked (GtkWidget *button,
 static void
 efhd_xpkcs7mime_add_cert_table (GtkWidget *grid,
                                 GQueue *certlist,
-                                struct _smime_pobject *po)
+                                EMFormatSMIMEPURI *po)
 {
 	GList *head, *link;
 	GtkTable *table;
@@ -283,9 +299,9 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *grid,
 
 static void
 efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
-                                  EMFormatHTMLPObject *pobject)
+                                  EMFormatPURI *puri)
 {
-	struct _smime_pobject *po = (struct _smime_pobject *) pobject;
+	EMFormatSMIMEPURI *po = (EMFormatSMIMEPURI *) puri;
 	GtkBuilder *builder;
 	GtkWidget *grid, *w;
 
@@ -367,20 +383,19 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 	g_object_unref (builder);
 
 	g_signal_connect (
-		po->widget, "response",
+	        po->widget, "response",
 		G_CALLBACK (efhd_xpkcs7mime_info_response), po);
 
 	gtk_widget_show (po->widget);
 }
 
-static gboolean
-efhd_xpkcs7mime_button (EMFormatHTML *efh,
-                        GtkHTMLEmbedded *eb,
-                        EMFormatHTMLPObject *pobject)
+static GtkWidget *
+efhd_xpkcs7mime_button (EMFormat *emf,
+                        EMFormatPURI *puri,
+                        GCancellable *cancellable)
 {
-	GtkWidget *container;
-	GtkWidget *widget;
-	struct _smime_pobject *po = (struct _smime_pobject *) pobject;
+	GtkWidget *box, *button, *layout, *widget;
+	EMFormatSMIMEPURI *po = (EMFormatSMIMEPURI *) puri;
 	const gchar *icon_name;
 
 	/* FIXME: need to have it based on encryption and signing too */
@@ -389,449 +404,435 @@ efhd_xpkcs7mime_button (EMFormatHTML *efh,
 	else
 		icon_name = smime_encrypt_table[po->valid->encrypt.status].icon;
 
-	container = GTK_WIDGET (eb);
+	box = gtk_event_box_new ();
+	if (po->valid->sign.status != 0)
+		gtk_widget_override_background_color (box, GTK_STATE_FLAG_NORMAL,
+			&smime_sign_colour[po->valid->sign.status]);
 
-	widget = gtk_button_new ();
-	g_signal_connect (
-		widget, "clicked",
-		G_CALLBACK (efhd_xpkcs7mime_validity_clicked), pobject);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
+	layout = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
+	gtk_container_add (GTK_CONTAINER (box), layout);
 
-	container = widget;
+	button = gtk_button_new ();
+	gtk_box_pack_start (GTK_BOX (layout), button, FALSE, FALSE, 0);
+	g_signal_connect (button, "clicked",
+		G_CALLBACK (efhd_xpkcs7mime_validity_clicked), puri);
 
 	widget = gtk_image_new_from_icon_name (
-		icon_name, GTK_ICON_SIZE_LARGE_TOOLBAR);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
+			icon_name, GTK_ICON_SIZE_LARGE_TOOLBAR);
+	gtk_button_set_image (GTK_BUTTON (button), widget);
 
-	return TRUE;
+	widget = gtk_label_new (po->description);
+	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, FALSE, 0);
+
+	gtk_widget_show_all (box);
+
+	return box;
 }
 
+struct attachment_load_data {
+	EAttachment *attachment;
+	EFlag *flag;
+};
+
+static void
+attachment_loaded (EAttachment *attachment,
+                   GAsyncResult *res,
+                   gpointer user_data)
+{
+	struct attachment_load_data *data = user_data;
+	EShell *shell;
+	GtkWindow *window;
+
+	shell = e_shell_get_default ();
+	window = e_shell_get_active_window (shell);
+	if (!E_IS_SHELL_WINDOW (window))
+		window = NULL;
+
+	e_attachment_load_handle_error (data->attachment, res, window);
+
+	e_flag_set (data->flag);
+}
+
+/* Idle callback */
 static gboolean
-remove_attachment_view_cb (gpointer message_part_id,
-                           gpointer attachment_view,
-                           gpointer gone_attachment_view)
+load_attachment_idle (struct attachment_load_data *data)
 {
-	return attachment_view == gone_attachment_view;
+	e_attachment_load_async (data->attachment,
+		(GAsyncReadyCallback) attachment_loaded, data);
+
+	return FALSE;
 }
 
 static void
-efhd_attachment_view_gone_cb (gpointer efh,
-                              GObject *gone_attachment_view)
+efhd_parse_attachment (EMFormat *emf,
+                       CamelMimePart *part,
+                       GString *part_id,
+                       EMFormatParserInfo *info,
+                       GCancellable *cancellable)
 {
-	EMFormatHTMLDisplay *efhd = EM_FORMAT_HTML_DISPLAY (efh);
+	gchar *text, *html;
+	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) emf;
+	EMFormatAttachmentPURI *puri;
+	EAttachmentStore *store;
+	const EMFormatHandler *handler;
+	CamelContentType *ct;
+	gchar *mime_type;
+	gint len;
+	const gchar *cid;
+	guint32 size;
+	struct attachment_load_data *load_data;
+	gboolean can_show = FALSE;
 
-	g_return_if_fail (efhd != NULL);
+	if (g_cancellable_is_cancelled (cancellable))
+		return;
 
-	g_hash_table_foreach_remove (
-		efhd->priv->attachment_views,
-		remove_attachment_view_cb,
-		gone_attachment_view);
-}
+	len = part_id->len;
+	g_string_append (part_id, ".attachment");
 
-static void
-weak_unref_attachment_view_cb (gpointer message_part_id,
-                               gpointer attachment_view,
-                               gpointer efh)
-{
-	g_object_weak_unref (
-		G_OBJECT (attachment_view),
-		efhd_attachment_view_gone_cb, efh);
-}
-
-static void
-efhd_format_clone (EMFormat *emf,
-                   CamelFolder *folder,
-                   const gchar *uid,
-                   CamelMimeMessage *msg,
-                   EMFormat *src,
-                   GCancellable *cancellable)
-{
-	EMFormatHTMLDisplay *efhd;
-
-	efhd = EM_FORMAT_HTML_DISPLAY (emf);
-	g_return_if_fail (efhd != NULL);
-
-	g_hash_table_foreach (efhd->priv->attachment_views, weak_unref_attachment_view_cb, efhd);
-	g_hash_table_remove_all (efhd->priv->attachment_views);
-
-	if (emf != src)
-		EM_FORMAT_HTML (emf)->header_wrap_flags = 0;
-
-	/* Chain up to parent's format_clone() method. */
-	EM_FORMAT_CLASS (em_format_html_display_parent_class)->
-		format_clone (emf, folder, uid, msg, src, cancellable);
-}
-
-static void
-efhd_format_attachment (EMFormat *emf,
-                        CamelStream *stream,
-                        CamelMimePart *part,
-                        const gchar *mime_type,
-                        const EMFormatHandler *handle,
-                        GCancellable *cancellable)
-{
-	GString *buffer;
-	gchar *classid, *text, *html;
-	struct _attach_puri *info;
-
-	classid = g_strdup_printf ("attachment%s", emf->part_id->str);
-	info = (struct _attach_puri *) em_format_add_puri (
-		emf, sizeof (*info), classid, part, efhd_attachment_frame);
-	info->puri.free = efhd_free_attach_puri_data;
-	info->attachment_view_part_id = g_strdup (emf->current_message_part_id);
-	em_format_html_add_pobject (
-		EM_FORMAT_HTML (emf), sizeof (EMFormatHTMLPObject),
-		classid, part, efhd_attachment_button);
-	info->handle = handle;
-	info->shown = em_format_is_inline (
-		emf, info->puri.part_id, info->puri.part, handle);
-	info->snoop_mime_type = emf->snoop_mime_type;
-	info->attachment = e_attachment_new ();
-	e_attachment_set_mime_part (info->attachment, info->puri.part);
-
-	if (emf->valid) {
-		info->sign = emf->valid->sign.status;
-		info->encrypt = emf->valid->encrypt.status;
+        /* Try to find handler for the mime part */
+	ct = camel_mime_part_get_content_type (part);
+	if (ct) {
+		mime_type = camel_content_type_simple (ct);
+		handler = em_format_find_handler (emf, mime_type);
 	}
 
-	buffer = g_string_sized_new (1024);
-
-	g_string_append_printf (
-		buffer, EM_FORMAT_HTML_VPAD
-		"<table cellspacing=0 cellpadding=0>"
-		"<tr><td>"
-		"<table width=10 cellspacing=0 cellpadding=0>"
-		"<tr><td></td><tr>"
-		"</table>"
-		"</td>"
-		"<td><object classid=\"%s\"></object></td>"
-		"<td><table width=3 cellspacing=0 cellpadding=0>"
-		"<tr><td></td></tr>"
-		"</table></td>"
-		"<td><font size=-1>",
-		classid);
-
-	/* output some info about it */
 	/* FIXME: should we look up mime_type from object again? */
 	text = em_format_describe_part (part, mime_type);
 	html = camel_text_to_html (
 		text, EM_FORMAT_HTML (emf)->text_html_flags &
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	g_string_append (buffer, html);
-	g_free (html);
 	g_free (text);
+	g_free (mime_type);
 
-	g_string_append (
-		buffer,
-		"</font></td>"
-		"</tr><tr></table>\n"
-		EM_FORMAT_HTML_VPAD);
+	puri = (EMFormatAttachmentPURI *) em_format_puri_new (
+			emf, sizeof (EMFormatAttachmentPURI), part, part_id->str);
+	puri->puri.free = efhd_free_attach_puri_data;
+	puri->puri.write_func = efhd_write_attachment;
+	puri->puri.widget_func = efhd_attachment_button;
+	puri->shown = (handler && em_format_is_inline (emf, part_id->str, part, handler));
+	puri->snoop_mime_type = em_format_snoop_type (part);
+	puri->attachment = e_attachment_new ();
+	puri->attachment_view_part_id = NULL;
+	puri->description = html;
+	puri->handle = handler;
+	if (info->validity)
+		puri->puri.validity = camel_cipher_validity_clone (info->validity);
 
-	camel_stream_write (
-		stream, buffer->str, buffer->len, cancellable, NULL);
+	cid = camel_mime_part_get_content_id (part);
+	if (cid)
+		puri->puri.cid = g_strdup_printf ("cid:%s", cid);
 
-	g_string_free (buffer, TRUE);
+	if (handler) {
+		CamelContentType *ct;
 
-	if (handle && info->shown)
-		handle->handler (
-			emf, stream, part, handle, cancellable, FALSE);
-
-	g_free (classid);
-}
-
-static void
-efhd_format_optional (EMFormat *emf,
-                      CamelStream *fstream,
-                      CamelMimePart *part,
-                      CamelStream *mstream,
-                      GCancellable *cancellable)
-{
-	gchar *classid, *html;
-	struct _attach_puri *info;
-	CamelStream *stream = NULL;
-	GString *buffer;
-
-	if (CAMEL_IS_STREAM_FILTER (fstream))
-		stream = camel_stream_filter_get_source (
-			CAMEL_STREAM_FILTER (fstream));
-	if (stream == NULL)
-		stream = fstream;
-
-	classid = g_strdup_printf ("optional%s", emf->part_id->str);
-	info = (struct _attach_puri *) em_format_add_puri (
-		emf, sizeof (*info), classid, part, efhd_attachment_frame);
-	info->puri.free = efhd_free_attach_puri_data;
-	info->attachment_view_part_id = g_strdup (emf->current_message_part_id);
-	em_format_html_add_pobject (
-		EM_FORMAT_HTML (emf), sizeof (EMFormatHTMLPObject),
-		classid, part, efhd_attachment_optional);
-	info->handle = em_format_find_handler (emf, "text/plain");
-	info->shown = FALSE;
-	info->snoop_mime_type = "text/plain";
-	info->attachment = e_attachment_new ();
-	e_attachment_set_mime_part (info->attachment, info->puri.part);
-	info->mstream = (CamelStreamMem *) g_object_ref (mstream);
-	if (emf->valid) {
-		info->sign = emf->valid->sign.status;
-		info->encrypt = emf->valid->encrypt.status;
+                /* This mime_type is important for WebKit to determine content type.
+                 * We have converted text/ * to text/html, other (binary) formats remained
+                 * untouched. */
+		ct = camel_content_type_decode (handler->mime_type);
+                if (g_strcmp0 (ct->type, "text") == 0)
+                        puri->puri.mime_type = g_strdup ("text/html");
+		else
+			puri->puri.mime_type = camel_content_type_simple (ct);
+		camel_content_type_unref (ct);
 	}
 
-	buffer = g_string_sized_new (1024);
+	em_format_add_puri (emf, (EMFormatPURI *) puri);
 
-	g_string_append (
-		buffer, EM_FORMAT_HTML_VPAD
-		"<table cellspacing=0 cellpadding=0><tr><td>"
-		"<h3><font size=-1 color=red>");
+        /* Though it is an attachment, we still might be able to parse it and
+         * so discover some parts that we might be even able to display. */
+	if (handler && handler->parse_func && (handler->parse_func != efhd_parse_attachment) &&
+	    ((handler->flags & EM_FORMAT_HANDLER_COMPOUND_TYPE) ||
+	     (handler->flags & EM_FORMAT_HANDLER_INLINE_DISPOSITION))) {
+		GList *i;
+		EMFormatParserInfo attachment_info = { .handler = handler,
+						       .is_attachment = TRUE };
+		handler->parse_func (emf, puri->puri.part, part_id, &attachment_info, cancellable);
 
-	html = camel_text_to_html (
-		_("Evolution cannot render this email as it is too "
-		  "large to process. You can view it unformatted or "
-		  "with an external text editor."),
-		EM_FORMAT_HTML (emf)->text_html_flags &
-		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	g_string_append (buffer, html);
-	g_free (html);
+		i = g_hash_table_lookup (emf->mail_part_table, part_id->str);
+		if (i->next && i->next->data) {
+			EMFormatPURI *p = i->next->data;
+			puri->attachment_view_part_id = g_strdup (p->uri);
+			can_show = TRUE;
+		}
+	}
 
-	g_string_append_printf (
-		buffer,
-		"</font></h3></td></tr></table>\n"
-		"<table cellspacing=0 cellpadding=0><tr>"
-		"<td><object classid=\"%s\"></object>"
-		"</td></tr></table>" EM_FORMAT_HTML_VPAD,
-		classid);
+	e_attachment_set_mime_part (puri->attachment, part);
+	e_attachment_set_shown (puri->attachment, puri->shown);
+	if (puri->puri.validity) {
+		e_attachment_set_signed (puri->attachment, puri->puri.validity->sign.status);
+		e_attachment_set_encrypted (puri->attachment, puri->puri.validity->encrypt.status);
+	}
+	e_attachment_set_can_show (puri->attachment,
+		can_show || (puri->handle && puri->handle->write_func));
 
-	camel_stream_write (
-		stream, buffer->str, buffer->len, cancellable, NULL);
+	store = find_parent_attachment_store (efhd, part_id->str);
+	e_attachment_store_add_attachment (store, puri->attachment);
 
-	g_string_free (buffer, TRUE);
+	if (emf->folder && emf->folder->summary && emf->message_uid) {
+		CamelDataWrapper *dw = camel_medium_get_content (CAMEL_MEDIUM (puri->puri.part));
+		GByteArray *ba;
+		ba = camel_data_wrapper_get_byte_array (dw);
+		if (ba) {
+			size = ba->len;
 
-	g_free (classid);
+			if (camel_mime_part_get_encoding (puri->puri.part) == CAMEL_TRANSFER_ENCODING_BASE64)
+				size = size / 1.37;
+		}
+	}
+
+	load_data = g_new0 (struct attachment_load_data, 1);
+	load_data->attachment = g_object_ref (puri->attachment);
+	load_data->flag = e_flag_new ();
+
+	e_flag_clear (load_data->flag);
+
+	/* e_attachment_load_async must be called from main thread */
+	g_idle_add ((GSourceFunc) load_attachment_idle, load_data);
+
+	e_flag_wait (load_data->flag);
+
+	e_flag_free (load_data->flag);
+	g_object_unref (load_data->attachment);
+	g_free (load_data);
+
+	if (size != 0) {
+		GFileInfo *fileinfo;
+
+		fileinfo = e_attachment_get_file_info (puri->attachment);
+		g_file_info_set_size (fileinfo, size);
+		e_attachment_set_file_info (puri->attachment, fileinfo);
+	}
+
+	g_string_truncate (part_id, len);
 }
 
 static void
-efhd_format_secure (EMFormat *emf,
-                    CamelStream *stream,
-                    CamelMimePart *part,
-                    CamelCipherValidity *valid,
-                    GCancellable *cancellable)
+efhd_parse_optional (EMFormat *emf,
+                     CamelMimePart *part,
+                     GString *part_id,
+                     EMFormatParserInfo *info,
+                     GCancellable *cancellable)
 {
-	EMFormatClass *format_class;
+	EMFormatAttachmentPURI *puri;
+	gint len;
 
-	format_class = g_type_class_peek (EM_TYPE_FORMAT);
-	format_class->format_secure (emf, stream, part, valid, cancellable);
+	len = part_id->len;
+        g_string_append (part_id, ".optional");
 
-	if (emf->valid == valid
-	    && (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
-		|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
+	puri = (EMFormatAttachmentPURI *) em_format_puri_new (
+			emf, sizeof (EMFormatAttachmentPURI), part, part_id->str);
+	puri->puri.free = efhd_free_attach_puri_data;
+	puri->puri.write_func = efhd_write_attachment;
+	puri->puri.widget_func = efhd_attachment_optional;
+	puri->attachment_view_part_id = g_strdup (part_id->str);
+	puri->handle = em_format_find_handler (emf, "text/plain");
+	puri->shown = FALSE;
+	puri->snoop_mime_type = "text/plain";
+	puri->attachment = e_attachment_new ();
+	e_attachment_set_mime_part (puri->attachment, puri->puri.part);
+	puri->description = g_strdup(_("Evolution cannot render this email as it is too "
+				       "large to process. You can view it unformatted or "
+				       "with an external text editor."));
+
+	puri->mstream = CAMEL_STREAM_MEM (camel_stream_mem_new ());
+	camel_data_wrapper_decode_to_stream_sync ((CamelDataWrapper *) part,
+		(CamelStream *) puri->mstream, cancellable, NULL);
+
+	if (info->validity) {
+		puri->puri.validity = camel_cipher_validity_clone (info->validity);
+	}
+
+	em_format_add_puri (emf, (EMFormatPURI *) puri);
+
+	g_string_truncate (part_id, len);
+}
+
+static void
+efhd_parse_secure (EMFormat *emf,
+                   CamelMimePart *part,
+                   GString *part_id,
+                   EMFormatParserInfo *info,
+                   GCancellable *cancellable)
+{
+	if (info->validity
+	    && (info->validity->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
+		|| info->validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
 		GString *buffer;
-		gchar *classid;
-		struct _smime_pobject *pobj;
+		EMFormatSMIMEPURI *pobj;
 
-		buffer = g_string_sized_new (1024);
+		pobj = (EMFormatSMIMEPURI *) em_format_puri_new (
+				emf, sizeof (EMFormatSMIMEPURI), part, part_id->str);
+		pobj->puri.free = efhd_xpkcs7mime_free;
+		pobj->valid = camel_cipher_validity_clone (info->validity);
+		pobj->puri.widget_func = efhd_xpkcs7mime_button;
+		pobj->puri.write_func = efhd_write_secure_button;
 
-		g_string_append_printf (
-			buffer,
-			"<table border=0 width=\"100%%\" "
-			"cellpadding=3 cellspacing=0%s><tr>",
-			smime_sign_colour[valid->sign.status]);
+		em_format_add_puri (emf, (EMFormatPURI *) pobj);
 
-		classid = g_strdup_printf (
-			"smime:///em-format-html/%s/icon/signed",
-			emf->part_id->str);
-		pobj = (struct _smime_pobject *) em_format_html_add_pobject (
-			EM_FORMAT_HTML (emf), sizeof (*pobj),
-			classid, part, efhd_xpkcs7mime_button);
-		pobj->valid = camel_cipher_validity_clone (valid);
-		pobj->object.free = efhd_xpkcs7mime_free;
-		g_string_append_printf (
-			buffer,
-			"<td valign=center><object classid=\"%s\">"
-			"</object></td><td width=100%% valign=center>",
-			classid);
-		g_free (classid);
+		buffer = g_string_new ("");
 
-		if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
+		if (info->validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
 			const gchar *desc;
 			gint status;
 
-			status = valid->sign.status;
+			status = info->validity->sign.status;
 			desc = smime_sign_table[status].shortdesc;
 
 			g_string_append (buffer, gettext (desc));
 
 			em_format_html_format_cert_infos (
-				&valid->sign.signers, buffer);
+				&info->validity->sign.signers, buffer);
 		}
 
-		if (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
+		if (info->validity->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
 			const gchar *desc;
 			gint status;
 
-			if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
-				g_string_append (buffer, "<br>");
+			if (info->validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
+				g_string_append (buffer, "\n");
 
-			status = valid->encrypt.status;
+			status = info->validity->encrypt.status;
 			desc = smime_encrypt_table[status].shortdesc;
 			g_string_append (buffer, gettext (desc));
 		}
 
-		g_string_append (buffer, "</td></tr></table>");
-
-		camel_stream_write (
-			stream, buffer->str, buffer->len, cancellable, NULL);
-
-		g_string_free (buffer, TRUE);
+		pobj->description = g_string_free (buffer, FALSE);
 	}
 }
 
+/******************************************************************************/
 static void
-attachment_load_finish (EAttachment *attachment,
-                        GAsyncResult *result,
-                        GFile *file)
+efhd_write_attachment_bar (EMFormat *emf,
+                           EMFormatPURI *puri,
+                           CamelStream *stream,
+                           EMFormatWriterInfo *info,
+                           GCancellable *cancellable)
 {
-	EShell *shell;
-	GtkWindow *parent;
+	EMFormatAttachmentBarPURI *efab = (EMFormatAttachmentBarPURI *) puri;
+	gchar *str;
 
-	e_attachment_load_finish (attachment, result, NULL);
-
-	shell = e_shell_get_default ();
-	parent = e_shell_get_active_window (shell);
-
-	e_attachment_save_async (
-		attachment, file, (GAsyncReadyCallback)
-		e_attachment_save_handle_error, parent);
-
-	g_object_unref (file);
-}
-
-static void
-action_image_save_cb (GtkAction *action,
-                      EMFormatHTMLDisplay *efhd)
-{
-	EWebView *web_view;
-	EMFormat *emf;
-	const gchar *image_src;
-	CamelMimePart *part;
-	EAttachment *attachment;
-	GFile *file;
-
-	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhd));
-	g_return_if_fail (web_view != NULL);
-
-	image_src = e_web_view_get_cursor_image_src (web_view);
-	if (!image_src)
+	if (info->mode == EM_FORMAT_WRITE_MODE_PRINTING)
 		return;
 
-	emf = EM_FORMAT (efhd);
-	g_return_if_fail (emf != NULL);
-	g_return_if_fail (emf->message != NULL);
+	if (e_attachment_store_get_num_attachments (efab->store) == 0)
+		return;
 
-	if (g_str_has_prefix (image_src, "cid:")) {
-		part = camel_mime_message_get_part_by_content_id (
-			emf->message, image_src + 4);
-		g_return_if_fail (part != NULL);
+	str = g_strdup_printf (
+                "<object type=\"application/x-attachment-bar\" "
+			"height=\"20\" width=\"100%%\" "
+                        "id=\"%s\"data=\"%s\"></object>", puri->uri, puri->uri);
 
-		g_object_ref (part);
-	} else {
-		CamelStream *image_stream;
-		CamelDataWrapper *dw;
-		const gchar *filename;
+	camel_stream_write_string (stream, str, cancellable, NULL);
 
-		image_stream = em_format_html_get_cached_image (
-			EM_FORMAT_HTML (efhd), image_src);
-		if (!image_stream)
-			return;
+	g_free (str);
+}
 
-		filename = strrchr (image_src, '/');
-		if (filename && strchr (filename, '?'))
-			filename = NULL;
-		else if (filename)
-			filename = filename + 1;
+static void
+efhd_write_attachment (EMFormat *emf,
+                       EMFormatPURI *puri,
+                       CamelStream *stream,
+                       EMFormatWriterInfo *info,
+                       GCancellable *cancellable)
+{
+	gchar *str, *desc;
+	const gchar *mime_type;
+	gchar *button_id;
 
-		part = camel_mime_part_new ();
-		if (filename)
-			camel_mime_part_set_filename (part, filename);
+	EMFormatAttachmentPURI *efa = (EMFormatAttachmentPURI *) puri;
 
-		dw = camel_data_wrapper_new ();
-		camel_data_wrapper_set_mime_type (
-			dw, "application/octet-stream");
-		camel_data_wrapper_construct_from_stream_sync (
-			dw, image_stream, NULL, NULL);
-		camel_medium_set_content (CAMEL_MEDIUM (part), dw);
-		g_object_unref (dw);
+        /* If the attachment is requested as RAW, then call the handler directly
+         * and do not append any other code. */
+	if ((info->mode == EM_FORMAT_WRITE_MODE_RAW) &&
+	    efa->handle && efa->handle->write_func) {
 
-		camel_mime_part_set_encoding (
-			part, CAMEL_TRANSFER_ENCODING_BASE64);
-
-		g_object_unref (image_stream);
-	}
-
-	file = e_shell_run_save_dialog (
-		e_shell_get_default (),
-		_("Save Image"), camel_mime_part_get_filename (part),
-		NULL, NULL, NULL);
-	if (file == NULL) {
-		g_object_unref (part);
+		efa->handle->write_func (emf, puri, stream, info, cancellable);
 		return;
 	}
 
-	attachment = e_attachment_new ();
-	e_attachment_set_mime_part (attachment, part);
+	if (info->mode == EM_FORMAT_WRITE_MODE_PRINTING) {
 
-	e_attachment_load_async (
-		attachment, (GAsyncReadyCallback)
-		attachment_load_finish, file);
+		if (efa->handle && efa->handle->write_func)
+			efa->handle->write_func (emf, puri, stream, info, cancellable);
 
-	g_object_unref (part);
+		return;
+	}
+
+	if (efa->handle)
+		mime_type = efa->handle->mime_type;
+	else
+		mime_type = efa->snoop_mime_type;
+
+        button_id = g_strconcat (puri->uri, ".attachment_button", NULL);
+
+	desc = em_format_describe_part (puri->part, mime_type);
+	str = g_strdup_printf (
+                "<div class=\"attachment\">"
+                "<table width=\"100%%\" border=\"0\">"
+                "<tr valign=\"middle\">"
+                "<td align=\"left\" width=\"100\">"
+                "<object type=\"application/x-attachment-button\" "
+		"height=\"20\" width=\"100\" data=\"%s\" id=\"%s\"></object>"
+                "</td>"
+                "<td align=\"left\">%s</td>"
+                "</tr>", puri->uri, button_id, desc);
+
+	camel_stream_write_string (stream, str, cancellable, NULL);
+	g_free (desc);
+	g_free (button_id);
+	g_free (str);
+
+        /* If we know how to write the attachment, then do it */
+	if ((efa->handle && efa->handle->write_func) ||
+	    (efa->attachment_view_part_id)) {
+
+		str = g_strdup_printf (
+                        "<tr><td colspan=\"2\">"
+                        "<div class=\"attachment-wrapper\" id=\"%s\">",
+			puri->uri);
+
+		camel_stream_write_string (stream, str, cancellable, NULL);
+		g_free (str);
+
+		if (efa->handle->write_func) {
+			efa->handle->write_func (
+				emf, puri, stream, info, cancellable);
+		} else if (efa->attachment_view_part_id) {
+			EMFormatPURI *p;
+
+			p = em_format_find_puri (
+				emf, efa->attachment_view_part_id);
+			if (p && p->write_func)
+				p->write_func (emf, p, stream, info, cancellable);
+		}
+
+                camel_stream_write_string (stream, "</div></td></tr>", cancellable, NULL);
+	}
+
+        camel_stream_write_string (stream, "</table></div>", cancellable, NULL);
 }
 
 static void
-efhd_web_view_update_actions_cb (EWebView *web_view,
-                                 EMFormatHTMLDisplay *efhd)
+efhd_write_secure_button (EMFormat *emf,
+                          EMFormatPURI *puri,
+                          CamelStream *stream,
+                          EMFormatWriterInfo *info,
+                          GCancellable *cancellable)
 {
-	const gchar *image_src;
-	gboolean visible;
-	GtkAction *action;
+	gchar *str;
 
-	g_return_if_fail (web_view != NULL);
+	if ((info->mode != EM_FORMAT_WRITE_MODE_NORMAL) &&
+	    (info->mode != EM_FORMAT_WRITE_MODE_RAW))
+		return;
 
-	image_src = e_web_view_get_cursor_image_src (web_view);
-	visible = image_src && g_str_has_prefix (image_src, "cid:");
-	if (!visible && image_src) {
-		CamelStream *image_stream;
+	str = g_strdup_printf (
+                "<object type=\"application/x-secure-button\" "
+                "height=\"20\" width=\"100%%\" "
+                "data=\"%s\" id=\"%s\"></object>", puri->uri, puri->uri);
 
-		image_stream = em_format_html_get_cached_image (
-			EM_FORMAT_HTML (efhd), image_src);
-		visible = image_stream != NULL;
+	camel_stream_write_string (stream, str, cancellable, NULL);
 
-		if (image_stream)
-			g_object_unref (image_stream);
-	}
-
-	action = e_web_view_get_action (web_view, "efhd-image-save");
-	if (action)
-		gtk_action_set_visible (action, visible);
+	g_free (str);
 }
-
-static GtkActionEntry image_entries[] = {
-	{ "efhd-image-save",
-	  GTK_STOCK_SAVE,
-	  N_("Save _Image..."),
-	  NULL,
-	  N_("Save the image to a file"),
-	  G_CALLBACK (action_image_save_cb) }
-};
-
-static const gchar *image_ui =
-	"<ui>"
-	"  <popup name='context'>"
-	"    <placeholder name='custom-actions-2'>"
-	"      <menuitem action='efhd-image-save'/>"
-	"    </placeholder>"
-	"  </popup>"
-	"</ui>";
 
 static void
 efhd_finalize (GObject *object)
@@ -841,84 +842,77 @@ efhd_finalize (GObject *object)
 	efhd = EM_FORMAT_HTML_DISPLAY (object);
 	g_return_if_fail (efhd != NULL);
 
-	if (efhd->priv->attachment_views) {
-		g_hash_table_foreach (
-			efhd->priv->attachment_views,
-			weak_unref_attachment_view_cb, efhd);
-		g_hash_table_destroy (efhd->priv->attachment_views);
-		efhd->priv->attachment_views = NULL;
-	}
-
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (em_format_html_display_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
-em_format_html_display_class_init (EMFormatHTMLDisplayClass *class)
+efhd_preparse (EMFormat *emf)
+{
+	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) emf;
+
+	efhd->priv->last_view = NULL;
+}
+
+static void
+efhd_class_init (EMFormatHTMLDisplayClass *class)
 {
 	GObjectClass *object_class;
-	EMFormatClass *format_class;
 	EMFormatHTMLClass *format_html_class;
+	EMFormatClass *format_class;
 
+	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMFormatHTMLDisplayPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = efhd_finalize;
 
-	format_class = EM_FORMAT_CLASS (class);
-	format_class->format_clone = efhd_format_clone;
-	format_class->format_attachment = efhd_format_attachment;
-	format_class->format_optional = efhd_format_optional;
-	format_class->format_secure = efhd_format_secure;
-
 	format_html_class = EM_FORMAT_HTML_CLASS (class);
 	format_html_class->html_widget_type = E_TYPE_MAIL_DISPLAY;
+
+	format_class = EM_FORMAT_CLASS (class);
+	format_class->preparse = efhd_preparse;
 
 	efhd_builtin_init (class);
 }
 
 static void
-em_format_html_display_init (EMFormatHTMLDisplay *efhd)
+efhd_init (EMFormatHTMLDisplay *efhd)
 {
-	EWebView *web_view;
-	GtkActionGroup *image_actions;
-	GtkUIManager *ui_manager;
-	GError *error = NULL;
-
-	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhd));
-
 	efhd->priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efhd);
-	efhd->priv->attachment_views = g_hash_table_new_full (
-		g_str_hash, g_str_equal, g_free, NULL);
-	efhd->priv->attachment_expanded = FALSE;
 
-	e_mail_display_set_formatter (
-		E_MAIL_DISPLAY (web_view), EM_FORMAT_HTML (efhd));
-
-	/* we want to convert url's etc */
+        /* we want to convert url's etc */
 	EM_FORMAT_HTML (efhd)->text_html_flags |=
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
 
-	image_actions = e_web_view_get_action_group (web_view, "image");
-	g_return_if_fail (image_actions != NULL);
+}
 
-	gtk_action_group_add_actions (
-		image_actions, image_entries,
-		G_N_ELEMENTS (image_entries), efhd);
+GType
+em_format_html_display_get_type (void)
+{
+	static GType type = 0;
 
-	/* Because we are loading from a hard-coded string, there is
-	 * no chance of I/O errors.  Failure here implies a malformed
-	 * UI definition.  Full stop. */
-	ui_manager = e_web_view_get_ui_manager (web_view);
-	gtk_ui_manager_add_ui_from_string (ui_manager, image_ui, -1, &error);
-	if (error != NULL)
-		g_error ("%s", error->message);
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EMFormatHTMLDisplayClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) efhd_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMFormatHTMLDisplay),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) efhd_init,
+			NULL   /* value_table */
+		};
 
-	g_signal_connect (
-		web_view, "update-actions",
-		G_CALLBACK (efhd_web_view_update_actions_cb), efhd);
+		type = g_type_register_static (
+			EM_TYPE_FORMAT_HTML, "EMFormatHTMLDisplay",
+			&type_info, 0);
+	}
+
+	return type;
 }
 
 EMFormatHTMLDisplay *
@@ -930,8 +924,11 @@ em_format_html_display_new (void)
 /* ********************************************************************** */
 
 static EMFormatHandler type_builtin_table[] = {
-	{ (gchar *) "x-evolution/message/prefix", efhd_message_prefix },
-	{ (gchar *) "x-evolution/message/post-header", (EMFormatFunc)efhd_message_add_bar }
+	{ (gchar *) "x-evolution/message/prefix", efhd_message_prefix, },
+	{ (gchar *) "x-evolution/message/attachment-bar", (EMFormatParseFunc) efhd_message_add_bar, efhd_write_attachment_bar, },
+	{ (gchar *) "x-evolution/message/attachment", efhd_parse_attachment, efhd_write_attachment, },
+	{ (gchar *) "x-evolution/message/x-secure-button", efhd_parse_secure, efhd_write_secure_button, },
+	{ (gchar *) "x-evolution/message/optional", efhd_parse_optional, },
 };
 
 static void
@@ -939,81 +936,51 @@ efhd_builtin_init (EMFormatHTMLDisplayClass *efhc)
 {
 	gint i;
 
+	EMFormatClass *emfc = (EMFormatClass *) efhc;
+
 	for (i = 0; i < G_N_ELEMENTS (type_builtin_table); i++)
-		em_format_class_add_handler ((EMFormatClass *) efhc, &type_builtin_table[i]);
-}
-
-static void
-efhd_write_image (EMFormat *emf,
-                  CamelStream *stream,
-                  EMFormatPURI *puri,
-                  GCancellable *cancellable)
-{
-	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *) puri->part);
-
-	/* TODO: identical to efh_write_image */
-	d(printf("writing image '%s'\n", puri->cid));
-	camel_data_wrapper_decode_to_stream_sync (
-		dw, stream, cancellable, NULL);
-	camel_stream_close (stream, cancellable, NULL);
+		em_format_class_add_handler (emfc, &type_builtin_table[i]);
 }
 
 static void
 efhd_message_prefix (EMFormat *emf,
-                     CamelStream *stream,
                      CamelMimePart *part,
-                     const EMFormatHandler *info,
-                     GCancellable *cancellable,
-                     gboolean is_fallback)
+                     GString *part_id,
+                     EMFormatParserInfo *info,
+                     GCancellable *cancellable)
 {
 	const gchar *flag, *comp, *due;
 	time_t date;
 	gchar *iconpath, *due_date_str;
 	GString *buffer;
+	EMFormatAttachmentPURI *puri;
 
-	if (emf->folder == NULL || emf->uid == NULL
-	    || (flag = camel_folder_get_message_user_tag(emf->folder, emf->uid, "follow-up")) == NULL
+	if (emf->folder == NULL || emf->message_uid == NULL
+	    || (flag = camel_folder_get_message_user_tag(emf->folder, emf->message_uid, "follow-up")) == NULL
 	    || flag[0] == 0)
 		return;
 
-	buffer = g_string_sized_new (1024);
+	puri = (EMFormatAttachmentPURI *) em_format_puri_new (
+			emf, sizeof (EMFormatAttachmentPURI), part, ".message_prefix");
 
-	/* header displayed for message-flags in mail display */
-	g_string_append (
-		buffer,
-		"<table border=1 width=\"100%%\" "
-		"cellspacing=2 cellpadding=2><tr>");
+	puri->attachment_view_part_id = g_strdup (part_id->str);
 
-	comp = camel_folder_get_message_user_tag(emf->folder, emf->uid, "completed-on");
+	comp = camel_folder_get_message_user_tag(emf->folder, emf->message_uid, "completed-on");
 	iconpath = e_icon_factory_get_icon_filename (comp && comp[0] ? "stock_mail-flag-for-followup-done" : "stock_mail-flag-for-followup", GTK_ICON_SIZE_MENU);
 	if (iconpath) {
-		CamelMimePart *iconpart;
+		gchar *classid;
 
-		iconpart = em_format_html_file_part (
-			(EMFormatHTML *)emf, "image/png",
-			iconpath, cancellable);
-		g_free (iconpath);
-		if (iconpart) {
-			gchar *classid;
+		classid = g_strdup_printf (
+			"icon:///em-format-html-display/%s/%s",
+			part_id->str,
+			comp && comp[0] ? "comp" : "uncomp");
 
-			classid = g_strdup_printf (
-				"icon:///em-format-html-display/%s/%s",
-				emf->part_id->str,
-				comp && comp[0] ? "comp" : "uncomp");
-			g_string_append_printf (
-				buffer,
-				"<td align=\"left\">"
-				"<img src=\"%s\"></td>",
-				classid);
-			(void) em_format_add_puri (
-				emf, sizeof (EMFormatPURI),
-				classid, iconpart, efhd_write_image);
-			g_free (classid);
-			g_object_unref (iconpart);
-		}
+		puri->puri.uri = classid;
+
+		g_free (classid);
 	}
 
-	g_string_append (buffer, "<td align=\"left\" width=\"100%%\">");
+	buffer = g_string_new ("");
 
 	if (comp && comp[0]) {
 		date = camel_header_decode_date (comp, NULL);
@@ -1024,7 +991,7 @@ efhd_message_prefix (EMFormat *emf,
 			flag, _("Completed on"),
 			due_date_str ? due_date_str : "???");
 		g_free (due_date_str);
-	} else if ((due = camel_folder_get_message_user_tag(emf->folder, emf->uid, "due-by")) != NULL && due[0]) {
+	} else if ((due = camel_folder_get_message_user_tag(emf->folder, emf->message_uid, "due-by")) != NULL && due[0]) {
 		time_t now;
 
 		date = camel_header_decode_date (due, NULL);
@@ -1032,7 +999,7 @@ efhd_message_prefix (EMFormat *emf,
 		if (now > date)
 			g_string_append_printf (
 				buffer,
-				"<b>%s</b>&nbsp;",
+				"<b>%s</b> ",
 				_("Overdue:"));
 
 		due_date_str = e_datetime_format_format (
@@ -1048,270 +1015,84 @@ efhd_message_prefix (EMFormat *emf,
 		g_string_append (buffer, flag);
 	}
 
-	g_string_append (buffer, "</td></tr></table>");
-
-	camel_stream_write (
-		stream, buffer->str, buffer->len, cancellable, NULL);
-
-	g_string_free (buffer, TRUE);
-}
-
-/* ********************************************************************** */
-
-static void
-efhd_attachment_button_expanded (EAttachmentButton *button,
-                                 GParamSpec *pspec,
-                                 struct _attach_puri *info)
-{
-	EMFormatHTML *efh;
-	EMFormatHTMLDisplay *efhd;
-
-	/* FIXME The PURI struct seems to have some lifecycle issues,
-	 *       because casting info->puri.format to an EMFormatHTML
-	 *       can lead to crashes.  So we hack around it. */
-	efh = g_object_get_data (G_OBJECT (button), "efh");
-	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
-
-	if (efh->state == EM_FORMAT_HTML_STATE_RENDERING)
-		return;
-
-	info->shown = e_attachment_button_get_expanded (button);
-
-	em_format_set_inline (
-		info->puri.format, info->puri.part_id, info->shown);
-
-	efhd = (EMFormatHTMLDisplay *) efh;
-	g_return_if_fail (EM_IS_FORMAT_HTML_DISPLAY (efhd));
-
-	efhd->priv->attachment_expanded = TRUE;
-}
-
-/* ********************************************************************** */
-
-static void
-attachment_button_realized (GtkWidget *widget)
-{
-	EMFormatHTML *efh = g_object_get_data (G_OBJECT (widget), "efh");
-	EMFormatHTMLDisplay *efhd;
-	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
-
-	efhd = (EMFormatHTMLDisplay *) efh;
-	g_return_if_fail (EM_IS_FORMAT_HTML_DISPLAY (efhd));
-
-	gtk_widget_grab_focus (widget);
-	efhd->priv->attachment_expanded = FALSE;
+	puri->description = g_string_free (buffer, FALSE);
 }
 
 /* ********************************************************************** */
 
 /* attachment button callback */
-static gboolean
-efhd_attachment_button (EMFormatHTML *efh,
-                        GtkHTMLEmbedded *eb,
-                        EMFormatHTMLPObject *pobject)
+static GtkWidget *
+efhd_attachment_button (EMFormat *emf,
+                        EMFormatPURI *puri,
+                        GCancellable *cancellable)
 {
-	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) efh;
-	struct _attach_puri *info;
-	EAttachmentView *view;
-	EAttachmentStore *store;
-	EAttachment *attachment;
-	EWebView *web_view;
+	EMFormatAttachmentPURI *info = (EMFormatAttachmentPURI *) puri;
 	GtkWidget *widget;
-	gpointer parent;
-	EMFormat *emf = (EMFormat *) efh;
-	guint32 size = 0;
 
 	/* FIXME: handle default shown case */
 	d(printf("adding attachment button/content\n"));
 
-	if (emf->folder && emf->folder->summary && emf->uid) {
-		CamelMessageInfo *mi;
-
-		mi = camel_folder_summary_get (emf->folder->summary, emf->uid);
-		if (mi) {
-			const CamelMessageContentInfo *ci;
-
-			ci = camel_folder_summary_guess_content_info (mi, camel_mime_part_get_content_type (pobject->part));
-			if (ci) {
-				size = ci->size;
-				/* what if its not encoded in base64 ? is it a case to consider? */
-				if (ci->encoding && !g_ascii_strcasecmp (ci->encoding, "base64"))
-					size = size / 1.37;
-			}
-			camel_message_info_free (mi);
-		}
-	}
-
-	info = (struct _attach_puri *) em_format_find_puri ((EMFormat *) efh, pobject->classid);
+	if (g_cancellable_is_cancelled (cancellable))
+		return NULL;
 
 	if (!info || info->forward) {
 		g_warning ("unable to expand the attachment\n");
-		return TRUE;
+		return NULL;
 	}
 
-	attachment = info->attachment;
-	e_attachment_set_shown (attachment, info->shown);
-	e_attachment_set_signed (attachment, info->sign);
-	e_attachment_set_encrypted (attachment, info->encrypt);
-	e_attachment_set_can_show (attachment, info->handle != NULL);
-
-	web_view = em_format_html_get_web_view (efh);
-	g_return_val_if_fail (web_view != NULL, TRUE);
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-	view = em_format_html_display_get_attachment_view (efhd, info->attachment_view_part_id);
-	g_return_val_if_fail (view != NULL, TRUE);
-	gtk_widget_show (GTK_WIDGET (view));
-
-	store = e_attachment_view_get_store (view);
-	e_attachment_store_add_attachment (store, info->attachment);
-
-	e_attachment_load_async (
-		info->attachment, (GAsyncReadyCallback)
-		e_attachment_load_handle_error, parent);
-	if (size != 0) {
-		GFileInfo *fileinfo;
-
-		fileinfo = e_attachment_get_file_info (info->attachment);
-		g_file_info_set_size (fileinfo, size);
-		e_attachment_set_file_info (info->attachment, fileinfo);
-	}
-
-	widget = e_attachment_button_new (view);
+	widget = e_attachment_button_new ();
+        g_object_set_data (G_OBJECT (widget), "uri", puri->uri);
 	e_attachment_button_set_attachment (
-		E_ATTACHMENT_BUTTON (widget), attachment);
+		E_ATTACHMENT_BUTTON (widget), info->attachment);
+	e_attachment_button_set_view (
+		E_ATTACHMENT_BUTTON (widget),
+		EM_FORMAT_HTML_DISPLAY (emf)->priv->last_view);
+
 	gtk_widget_set_can_focus (widget, TRUE);
-	gtk_container_add (GTK_CONTAINER (eb), widget);
 	gtk_widget_show (widget);
 
-	/* FIXME Not sure why the expanded callback can't just use
-	 *       info->puri.format, but there seems to be lifecycle
-	 *       issues with the PURI struct.  Maybe it should have
-	 *       a reference count? */
-	g_object_set_data (G_OBJECT (widget), "efh", efh);
-
-	g_signal_connect (
-		widget, "notify::expanded",
-		G_CALLBACK (efhd_attachment_button_expanded), info);
-
-	/* If the button is created, then give it focus after
-	 * it is realized, so that user can use arrow keys to scroll
-	 * message */
-	if (efhd->priv->attachment_expanded) {
-		g_signal_connect (
-			widget, "realize",
-			G_CALLBACK (attachment_button_realized), NULL);
-	}
-
-	return TRUE;
+	return widget;
 }
 
-static void
-efhd_attachment_frame (EMFormat *emf,
-                       CamelStream *stream,
-                       EMFormatPURI *puri,
-                       GCancellable *cancellable)
+static GtkWidget *
+efhd_attachment_bar (EMFormat *emf,
+                     EMFormatPURI *puri,
+                     GCancellable *cancellable)
 {
-	struct _attach_puri *info = (struct _attach_puri *) puri;
-
-	if (info->shown)
-		info->handle->handler (
-			emf, stream, info->puri.part,
-			info->handle, cancellable, FALSE);
-
-	camel_stream_close (stream, cancellable, NULL);
-}
-
-static void
-set_size_request_cb (gpointer message_part_id,
-                     gpointer widget,
-                     gpointer width)
-{
-	gtk_widget_set_size_request (widget, GPOINTER_TO_INT (width), -1);
-}
-
-static void
-efhd_bar_resize (EMFormatHTML *efh,
-                 GtkAllocation *event)
-{
-	EMFormatHTMLDisplayPrivate *priv;
-	GtkAllocation allocation;
-	EWebView *web_view;
-	GtkWidget *widget;
-	gint width;
-
-	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efh);
-
-	web_view = em_format_html_get_web_view (efh);
-
-	widget = GTK_WIDGET (web_view);
-	gtk_widget_get_allocation (widget, &allocation);
-	width = allocation.width - 12;
-
-	if (width > 0) {
-		g_hash_table_foreach (priv->attachment_views, set_size_request_cb, GINT_TO_POINTER (width));
-	}
-}
-
-static gboolean
-efhd_add_bar (EMFormatHTML *efh,
-              GtkHTMLEmbedded *eb,
-              EMFormatHTMLPObject *pobject)
-{
-	EMFormatHTMLDisplayPrivate *priv;
+	EMFormatAttachmentBarPURI *abp = (EMFormatAttachmentBarPURI *) puri;
 	GtkWidget *widget;
 
-	/* XXX See note in efhd_message_add_bar(). */
-	if (!EM_IS_FORMAT_HTML_DISPLAY (efh))
-		return FALSE;
+	widget = e_mail_attachment_bar_new (abp->store);
+	EM_FORMAT_HTML_DISPLAY (emf)->priv->last_view = (EAttachmentView *) widget;
 
-	g_return_val_if_fail (pobject != NULL && pobject->classid != NULL, FALSE);
-	g_return_val_if_fail (g_str_has_prefix (pobject->classid, "attachment-bar:"), FALSE);
-
-	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efh);
-
-	widget = e_mail_attachment_bar_new ();
-	gtk_container_add (GTK_CONTAINER (eb), widget);
-
-	g_hash_table_insert (priv->attachment_views, g_strdup (strchr (pobject->classid, ':') + 1), widget);
-	g_object_weak_ref (G_OBJECT (widget), efhd_attachment_view_gone_cb, efh);
-	gtk_widget_hide (widget);
-
-	g_signal_connect_swapped (
-		eb, "size-allocate",
-		G_CALLBACK (efhd_bar_resize), efh);
-
-	return TRUE;
+	return widget;
 }
 
 static void
 efhd_message_add_bar (EMFormat *emf,
-                      CamelStream *stream,
                       CamelMimePart *part,
-                      const EMFormatHandler *info)
+                      GString *part_id,
+                      EMFormatParserInfo *info,
+                      GCancellable *cancellable)
 {
-	gchar *classid;
-	gchar *content;
+	EMFormatAttachmentBarPURI *puri;
+	gint len;
 
-	classid = g_strdup_printf (
-		"attachment-bar:%s", emf->current_message_part_id);
+	if (g_cancellable_is_cancelled (cancellable))
+		return;
 
-	/* XXX Apparently this installs the callback for -all-
-	 *     EMFormatHTML subclasses, not just this subclass.
-	 *     Bad idea.  So we have to filter out other types
-	 *     in the callback. */
-	em_format_html_add_pobject (
-		EM_FORMAT_HTML (emf),
-		sizeof (EMFormatHTMLPObject),
-		classid, part, efhd_add_bar);
+	len = part_id->len;
+	g_string_append (part_id, ".attachment-bar");
+	puri = (EMFormatAttachmentBarPURI *) em_format_puri_new (
+			emf, sizeof (EMFormatAttachmentBarPURI), part, part_id->str);
+	puri->puri.write_func = efhd_write_attachment_bar;
+	puri->puri.widget_func = efhd_attachment_bar;
+	puri->puri.free = efhd_attachment_bar_puri_free;
+	puri->store = E_ATTACHMENT_STORE (e_attachment_store_new ());
 
-	content = g_strdup_printf (
-		"<td><object classid=\"%s\"></object></td>", classid);
-	camel_stream_write_string (stream, content, NULL, NULL);
-	g_free (content);
+	em_format_add_puri (emf, (EMFormatPURI *) puri);
 
-	g_free (classid);
+	g_string_truncate (part_id, len);
 }
 
 static void
@@ -1329,41 +1110,28 @@ efhd_optional_button_show (GtkWidget *widget,
 	}
 }
 
-static void
-efhd_resize (GtkWidget *w,
-             GtkAllocation *event,
-             EMFormatHTML *efh)
-{
-	EWebView *web_view;
-	GtkAllocation allocation;
-
-	web_view = em_format_html_get_web_view (efh);
-	gtk_widget_get_allocation (GTK_WIDGET (web_view), &allocation);
-	gtk_widget_set_size_request (w, allocation.width - 48, 250);
-}
-
 /* optional render attachment button callback */
-static gboolean
-efhd_attachment_optional (EMFormatHTML *efh,
-                          GtkHTMLEmbedded *eb,
-                          EMFormatHTMLPObject *pobject)
+static GtkWidget *
+efhd_attachment_optional (EMFormat *efh,
+                          EMFormatPURI *puri,
+                          GCancellable *cancellable)
 {
-	struct _attach_puri *info;
 	GtkWidget *hbox, *vbox, *button, *mainbox, *scroll, *label, *img;
 	AtkObject *a11y;
 	GtkWidget *view;
-	GtkAllocation allocation;
 	GtkTextBuffer *buffer;
 	GByteArray *byte_array;
-	EWebView *web_view;
+	EMFormatAttachmentPURI *info = (EMFormatAttachmentPURI *) puri;
+
+	if (g_cancellable_is_cancelled (cancellable))
+		return NULL;
 
 	/* FIXME: handle default shown case */
 	d(printf("adding attachment button/content for optional rendering\n"));
 
-	info = (struct _attach_puri *) em_format_find_puri ((EMFormat *) efh, pobject->classid);
 	if (!info || info->forward) {
 		g_warning ("unable to expand the attachment\n");
-		return TRUE;
+		return NULL;
 	}
 
 	scroll = gtk_scrolled_window_new (NULL, NULL);
@@ -1428,28 +1196,19 @@ efhd_attachment_optional (EMFormatHTML *efh,
 	gtk_box_pack_start (GTK_BOX (vbox), scroll, TRUE, TRUE, 6);
 	gtk_widget_show (GTK_WIDGET (view));
 
-	web_view = em_format_html_get_web_view (efh);
-	gtk_widget_get_allocation (GTK_WIDGET (web_view), &allocation);
-	gtk_widget_set_size_request (scroll, allocation.width - 48, 250);
-	g_signal_connect (
-		scroll, "size_allocate",
-		G_CALLBACK (efhd_resize), efh);
-	gtk_widget_show (scroll);
-
 	if (!info->shown)
 		gtk_widget_hide (scroll);
 
 	gtk_widget_show (vbox);
-	gtk_container_add (GTK_CONTAINER (eb), vbox);
 	info->handle = NULL;
 
-	return TRUE;
+	return view;
 }
 
 static void
 efhd_free_attach_puri_data (EMFormatPURI *puri)
 {
-	struct _attach_puri *info = (struct _attach_puri *) puri;
+	EMFormatAttachmentPURI *info = (EMFormatAttachmentPURI *) puri;
 
 	g_return_if_fail (puri != NULL);
 
@@ -1458,23 +1217,18 @@ efhd_free_attach_puri_data (EMFormatPURI *puri)
 		info->attachment = NULL;
 	}
 
-	g_free (info->attachment_view_part_id);
-	info->attachment_view_part_id = NULL;
-}
+	if (info->description) {
+		g_free (info->description);
+		info->description = NULL;
+	}
 
-/* returned object owned by html_display, thus do not unref it */
-EAttachmentView *
-em_format_html_display_get_attachment_view (EMFormatHTMLDisplay *html_display,
-                                            const gchar *message_part_id)
-{
-	gpointer aview;
+	if (info->attachment_view_part_id) {
+		g_free (info->attachment_view_part_id);
+		info->attachment_view_part_id = NULL;
+	}
 
-	g_return_val_if_fail (EM_IS_FORMAT_HTML_DISPLAY (html_display), NULL);
-	g_return_val_if_fail (message_part_id != NULL, NULL);
-
-	/* it should be added in efhd_add_bar() with this message_part_id */
-	aview = g_hash_table_lookup (html_display->priv->attachment_views, message_part_id);
-	g_return_val_if_fail (aview != NULL, NULL);
-
-	return E_ATTACHMENT_VIEW (aview);
+	if (info->mstream) {
+		g_object_unref (info->mstream);
+		info->mstream = NULL;
+	}
 }

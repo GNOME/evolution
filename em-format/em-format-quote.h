@@ -69,6 +69,9 @@ GType		em_format_quote_get_type	(void);
 EMFormatQuote *	em_format_quote_new		(const gchar *credits,
 						 CamelStream *stream,
 						 EMFormatQuoteFlags flags);
+void            em_format_quote_write           (EMFormatQuote *emfq,
+                                                 CamelStream *stream,
+                                                 GCancellable *cancellable);
 
 G_END_DECLS
 

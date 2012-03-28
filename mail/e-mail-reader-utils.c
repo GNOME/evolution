@@ -44,6 +44,7 @@
 
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-browser.h"
+#include "mail/e-mail-printer.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-format-html-print.h"
 #include "mail/em-utils.h"
@@ -412,7 +413,8 @@ e_mail_reader_open_selected (EMailReader *reader)
 		const gchar *uid = views->pdata[ii];
 		GtkWidget *browser;
 
-		browser = e_mail_browser_new (backend);
+		browser = e_mail_browser_new (backend, folder, uid,
+				EM_FORMAT_WRITE_MODE_NORMAL);
 		e_mail_reader_set_folder (E_MAIL_READER (browser), folder);
 		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
 		copy_tree_state (reader, E_MAIL_READER (browser));
@@ -430,93 +432,74 @@ e_mail_reader_open_selected (EMailReader *reader)
 	return ii;
 }
 
-/* Helper for e_mail_reader_print() */
-static void
-mail_reader_print_cb (CamelFolder *folder,
-                      GAsyncResult *result,
-                      AsyncContext *context)
+static gboolean
+destroy_printing_activity (EActivity *activity)
 {
-	EAlertSink *alert_sink;
-	CamelMimeMessage *message;
-	EMFormatHTML *formatter;
-	EMFormatHTMLPrint *html_print;
-	GError *error = NULL;
+	g_object_unref (activity);
 
-	alert_sink = e_activity_get_alert_sink (context->activity);
+	return FALSE;
+}
 
-	message = camel_folder_get_message_finish (folder, result, &error);
+static void
+printing_done_cb (EMailPrinter *printer,
+                  GtkPrintOperation *operation,
+                  GtkPrintOperationResult result,
+                  gpointer user_data)
+{
+	EActivity *activity = user_data;
 
-	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (message == NULL);
-		async_context_free (context);
-		g_error_free (error);
-		return;
+	if (result == GTK_PRINT_OPERATION_RESULT_ERROR) {
 
-	} else if (error != NULL) {
-		g_warn_if_fail (message == NULL);
-		e_alert_submit (
-			alert_sink, "mail:no-retrieve-message",
-			error->message, NULL);
-		async_context_free (context);
-		g_error_free (error);
+		EAlertSink *alert_sink;
+		GError *error = NULL;
+
+		alert_sink = e_activity_get_alert_sink (activity);
+		gtk_print_operation_get_error (operation, &error);
+
+		if (error != NULL) {
+			e_alert_submit (alert_sink, "mail:printing-failed",
+				error->message, NULL);
+			g_error_free (error);
+		}
+
+		g_object_unref (activity);
+		g_object_unref (printer);
 		return;
 	}
 
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+	/* Set activity as completed, and keep it displayed for a few seconds
+	 * so that user can actually see the the printing was sucesfully finished. */
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	g_timeout_add_seconds_full (G_PRIORITY_DEFAULT, 3,
+		(GSourceFunc) destroy_printing_activity, activity, NULL);
 
-	formatter = e_mail_reader_get_formatter (context->reader);
-
-	html_print = em_format_html_print_new (
-		formatter, context->print_action);
-	em_format_merge_handler (
-		EM_FORMAT (html_print), EM_FORMAT (formatter));
-	em_format_html_print_message (
-		html_print, message, folder, context->message_uid);
-	g_object_unref (html_print);
-
-	g_object_unref (message);
-
-	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
-
-	async_context_free (context);
+	g_object_unref (printer);
 }
 
 void
 e_mail_reader_print (EMailReader *reader,
                      GtkPrintOperationAction action)
 {
+	EMailDisplay *display;
+	EMailPrinter *printer;
+	EMFormatHTML *formatter;
 	EActivity *activity;
-	AsyncContext *context;
 	GCancellable *cancellable;
-	CamelFolder *folder;
-	GPtrArray *uids;
-	const gchar *message_uid;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	folder = e_mail_reader_get_folder (reader);
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-
-	/* XXX Learn to handle len > 1. */
-	uids = e_mail_reader_get_selected_uids (reader);
-	g_return_if_fail (uids != NULL && uids->len == 1);
-	message_uid = g_ptr_array_index (uids, 0);
+	display = e_mail_reader_get_mail_display (reader);
+	formatter = e_mail_display_get_formatter (display);
 
 	activity = e_mail_reader_new_activity (reader);
+	e_activity_set_text (activity, _("Printing"));
+	e_activity_set_state (activity, E_ACTIVITY_RUNNING);
 	cancellable = e_activity_get_cancellable (activity);
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = activity;
-	context->reader = g_object_ref (reader);
-	context->message_uid = g_strdup (message_uid);
-	context->print_action = action;
-
-	camel_folder_get_message (
-		folder, message_uid, G_PRIORITY_DEFAULT,
-		cancellable, (GAsyncReadyCallback)
-		mail_reader_print_cb, context);
-
-	em_utils_uids_free (uids);
+	printer = e_mail_printer_new (formatter);
+	g_signal_connect (printer, "done",
+		G_CALLBACK (printing_done_cb), activity);
+	e_mail_printer_print (printer, FALSE, cancellable);
 }
 
 static void
@@ -763,6 +746,7 @@ mail_reader_get_message_ready_cb (CamelFolder *folder,
 	EMailBackend *backend;
 	EAlertSink *alert_sink;
 	EMFormatHTML *formatter;
+	EMailDisplay *display;
 	CamelMimeMessage *message;
 	GError *error = NULL;
 
@@ -790,8 +774,8 @@ mail_reader_get_message_ready_cb (CamelFolder *folder,
 
 	backend = e_mail_reader_get_backend (context->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
-
-	formatter = e_mail_reader_get_formatter (context->reader);
+	display = e_mail_reader_get_mail_display (context->reader);
+	formatter = e_mail_display_get_formatter (display);
 
 	em_utils_reply_to_message (
 		shell, message,
@@ -814,6 +798,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	EShell *shell;
 	EMailBackend *backend;
 	EShellBackend *shell_backend;
+	EMailDisplay *display;
 	EMFormatHTML *formatter;
 	GtkWidget *message_list;
 	CamelMimeMessage *new_message;
@@ -834,14 +819,15 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_get_folder (reader);
-	formatter = e_mail_reader_get_formatter (reader);
+	display = e_mail_reader_get_mail_display (reader);
+	formatter = e_mail_display_get_formatter (display);
 	message_list = e_mail_reader_get_message_list (reader);
 	reply_style = e_mail_reader_get_reply_style (reader);
 
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	web_view = em_format_html_get_web_view (formatter);
+	web_view = E_WEB_VIEW (display);
 
 	if (reply_type == E_MAIL_REPLY_TO_RECIPIENT) {
 		const gchar *uri;
@@ -885,7 +871,8 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	if (!e_web_view_is_selection_active (web_view))
 		goto whole_message;
 
-	selection = gtk_html_get_selection_html (GTK_HTML (web_view), &length);
+	selection = e_web_view_get_selection_html (web_view);
+	length = strlen (selection);
 	if (selection == NULL || *selection == '\0')
 		goto whole_message;
 
@@ -1397,20 +1384,18 @@ static void
 headers_changed_cb (GConfClient *client,
                     guint cnxn_id,
                     GConfEntry *entry,
-                    EMailReader *reader)
+                    EMFormat *emf)
 {
-	EMFormatHTML *formatter;
 	GSList *header_config_list, *p;
 
 	g_return_if_fail (client != NULL);
-	g_return_if_fail (reader != NULL);
-
-	formatter = e_mail_reader_get_formatter (reader);
+	g_return_if_fail (EM_IS_FORMAT (emf));
 
 	header_config_list = gconf_client_get_list (
 		client, "/apps/evolution/mail/display/headers",
 		GCONF_VALUE_STRING, NULL);
-	em_format_clear_headers (EM_FORMAT (formatter));
+
+	em_format_clear_headers (emf);
 	for (p = header_config_list; p; p = g_slist_next (p)) {
 		EMailReaderHeader *h;
 		gchar *xml = (gchar *) p->data;
@@ -1418,21 +1403,20 @@ headers_changed_cb (GConfClient *client,
 		h = e_mail_reader_header_from_xml (xml);
 		if (h && h->enabled)
 			em_format_add_header (
-				EM_FORMAT (formatter),
-				h->name, EM_FORMAT_HEADER_BOLD);
+				emf, h->name, NULL, EM_FORMAT_HEADER_BOLD);
 
 		e_mail_reader_header_free (h);
 	}
 
 	if (!header_config_list)
-		em_format_default_headers (EM_FORMAT (formatter));
+		em_format_default_headers (emf);
 
 	g_slist_foreach (header_config_list, (GFunc) g_free, NULL);
 	g_slist_free (header_config_list);
 
 	/* force a redraw */
-	if (EM_FORMAT (formatter)->message)
-		em_format_queue_redraw (EM_FORMAT (formatter));
+	if (emf->message)
+		em_format_redraw (emf);
 }
 
 static void
@@ -1458,7 +1442,8 @@ remove_header_notify_cb (gpointer data)
  * updates the EMFormat whenever it changes and on this call too.
  **/
 void
-e_mail_reader_connect_headers (EMailReader *reader)
+e_mail_reader_connect_headers (EMailReader *reader,
+                               EMFormat *emf)
 {
 	GConfClient *client;
 	guint notify_id;
@@ -1471,13 +1456,13 @@ e_mail_reader_connect_headers (EMailReader *reader)
 	notify_id = gconf_client_notify_add (
 		client, "/apps/evolution/mail/display/headers",
 		(GConfClientNotifyFunc) headers_changed_cb,
-		reader, NULL, NULL);
+		emf, NULL, NULL);
 
 	g_object_set_data_full (
-		G_OBJECT (reader), "reader-header-notify-id",
+		G_OBJECT (emf), "reader-header-notify-id",
 		GINT_TO_POINTER (notify_id), remove_header_notify_cb);
 
-	headers_changed_cb (client, 0, NULL, reader);
+	headers_changed_cb (client, 0, NULL, emf);
 
 	g_object_unref (client);
 }

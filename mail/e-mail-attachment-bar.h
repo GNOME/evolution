@@ -60,7 +60,7 @@ struct _EMailAttachmentBarClass {
 };
 
 GType		e_mail_attachment_bar_get_type	(void);
-GtkWidget *	e_mail_attachment_bar_new	(void);
+GtkWidget *	e_mail_attachment_bar_new	(EAttachmentStore *store);
 gint		e_mail_attachment_bar_get_active_view
 						(EMailAttachmentBar *bar);
 void		e_mail_attachment_bar_set_active_view
@@ -71,6 +71,8 @@ gboolean	e_mail_attachment_bar_get_expanded
 void		e_mail_attachment_bar_set_expanded
 						(EMailAttachmentBar *bar,
 						 gboolean expanded);
+EAttachmentStore *
+		e_mail_attachment_bar_get_store	(EMailAttachmentBar *bar);
 
 G_END_DECLS
 

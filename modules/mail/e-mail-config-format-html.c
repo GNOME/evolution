@@ -76,6 +76,11 @@ mail_config_format_html_constructed (GObject *object)
 		extensible, "show-real-date",
 		G_BINDING_SYNC_CREATE);
 
+	g_object_bind_property (
+		shell_settings, "mail-show-animated-images",
+		extensible, "animate-images",
+		G_BINDING_SYNC_CREATE);
+
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 }

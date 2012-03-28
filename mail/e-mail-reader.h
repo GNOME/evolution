@@ -31,7 +31,7 @@
 #include <camel/camel.h>
 #include <libevolution-utils/e-alert-sink.h>
 #include <mail/e-mail-backend.h>
-#include <mail/em-format-html.h>
+#include <mail/e-mail-display.h>
 #include <misc/e-preview-pane.h>
 
 /* Standard GObject macros */
@@ -96,7 +96,7 @@ struct _EMailReaderInterface {
 						 EMailReaderActionGroup group);
 	EAlertSink *	(*get_alert_sink)	(EMailReader *reader);
 	EMailBackend *	(*get_backend)		(EMailReader *reader);
-	EMFormatHTML *	(*get_formatter)	(EMailReader *reader);
+	EMailDisplay *	(*get_mail_display)	(EMailReader *reader);
 	gboolean	(*get_hide_deleted)	(EMailReader *reader);
 	GtkWidget *	(*get_message_list)	(EMailReader *reader);
 	GtkMenu *	(*get_popup_menu)	(EMailReader *reader);
@@ -141,7 +141,7 @@ GtkActionGroup *
 						 EMailReaderActionGroup group);
 EAlertSink *	e_mail_reader_get_alert_sink	(EMailReader *reader);
 EMailBackend *	e_mail_reader_get_backend	(EMailReader *reader);
-EMFormatHTML *	e_mail_reader_get_formatter	(EMailReader *reader);
+EMailDisplay *	e_mail_reader_get_mail_display	(EMailReader *reader);
 gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
 GtkWidget *	e_mail_reader_get_message_list	(EMailReader *reader);
 guint		e_mail_reader_open_selected_mail

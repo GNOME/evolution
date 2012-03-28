@@ -1,0 +1,62 @@
+html, body {
+        padding: 0;
+        margin: 0;
+}
+
+body {
+        /* Use margin so that children can safely use width=100% */
+        margin: 10px;
+}
+
+h1,h2,h3 {
+        color: #7f7f7f;
+}
+
+th {
+        color: #7f7f7f;
+        text-align: left;
+        font-weight: normal;
+        vertical-align: top;
+}
+
+.header {
+        color: #7f7f7f;
+}
+
+.pre {
+        font-family: monospace;
+}
+
+.part-container {
+        width: 100%;
+        background: #FFF;
+        margin-top: 2px;
+        margin-bottom: 3px;
+        border-width: 0px;
+        border-style: none;
+}
+
+.part-container-inner-margin {
+        margin: 8px;
+}
+
+/***** PRINTING *******/
+
+.printing-header {
+        margin-bottom: 20px;
+}
+
+.printing-header h1,
+.attachments-list h1 {
+        font-size: 20px;
+}
+
+.printing-header th {
+        text-align: right;
+        font-weight: bold;
+}
+
+.attachments-list th {
+        font-weight: bold;
+}
+

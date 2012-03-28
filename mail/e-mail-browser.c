@@ -55,7 +55,8 @@ struct _EMailBrowserPrivate {
 	EMailBackend *backend;
 	GtkUIManager *ui_manager;
 	EFocusTracker *focus_tracker;
-	EMFormatHTMLDisplay *formatter;
+
+	EMFormatWriteMode mode;
 
 	GtkWidget *main_menu;
 	GtkWidget *main_toolbar;
@@ -74,7 +75,8 @@ enum {
 	PROP_GROUP_BY_THREADS,
 	PROP_SHOW_DELETED,
 	PROP_REPLY_STYLE,
-	PROP_UI_MANAGER
+	PROP_UI_MANAGER,
+	PROP_DISPLAY_MODE,
 };
 
 static gpointer parent_class;
@@ -260,11 +262,10 @@ static void
 mail_browser_message_selected_cb (EMailBrowser *browser,
                                   const gchar *uid)
 {
-	EMFormatHTML *formatter;
 	CamelMessageInfo *info;
 	CamelFolder *folder;
 	EMailReader *reader;
-	EWebView *web_view;
+	EMailDisplay *display;
 	const gchar *title;
 	guint32 state;
 
@@ -276,8 +277,7 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 		return;
 
 	folder = e_mail_reader_get_folder (reader);
-	formatter = e_mail_reader_get_formatter (reader);
-	web_view = em_format_html_get_web_view (formatter);
+	display = e_mail_reader_get_mail_display (reader);
 
 	info = camel_folder_get_message_info (folder, uid);
 
@@ -289,7 +289,7 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 		title = _("(No Subject)");
 
 	gtk_window_set_title (GTK_WINDOW (browser), title);
-	gtk_widget_grab_focus (GTK_WIDGET (web_view));
+	gtk_widget_grab_focus (GTK_WIDGET (display));
 
 	camel_message_info_set_flags (
 		info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
@@ -319,7 +319,6 @@ mail_browser_popup_event_cb (EMailBrowser *browser,
                              GdkEventButton *event,
                              const gchar *uri)
 {
-	EMFormatHTML *formatter;
 	EMailReader *reader;
 	EWebView *web_view;
 	GtkMenu *menu;
@@ -329,8 +328,7 @@ mail_browser_popup_event_cb (EMailBrowser *browser,
 		return FALSE;
 
 	reader = E_MAIL_READER (browser);
-	formatter = e_mail_reader_get_formatter (reader);
-	web_view = em_format_html_get_web_view (formatter);
+	web_view = E_WEB_VIEW (e_mail_reader_get_mail_display (reader));
 
 	if (e_web_view_get_cursor_image (web_view) != NULL)
 		return FALSE;
@@ -415,6 +413,11 @@ mail_browser_set_property (GObject *object,
 				E_MAIL_BROWSER (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_DISPLAY_MODE:
+			E_MAIL_BROWSER (object)->priv->mode =
+				g_value_get_int (value);
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -468,6 +471,11 @@ mail_browser_get_property (GObject *object,
 				value, e_mail_browser_get_ui_manager (
 				E_MAIL_BROWSER (object)));
 			return;
+
+		case PROP_DISPLAY_MODE:
+			g_value_set_int (
+				value, E_MAIL_BROWSER (object)->priv->mode);
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -493,11 +501,6 @@ mail_browser_dispose (GObject *object)
 	if (priv->focus_tracker != NULL) {
 		g_object_unref (priv->focus_tracker);
 		priv->focus_tracker = NULL;
-	}
-
-	if (priv->formatter != NULL) {
-		g_object_unref (priv->formatter);
-		priv->formatter = NULL;
 	}
 
 	if (priv->main_menu != NULL) {
@@ -534,14 +537,13 @@ static void
 mail_browser_constructed (GObject *object)
 {
 	EMailBrowser *browser;
-	EMFormatHTML *formatter;
 	EMailReader *reader;
 	EMailBackend *backend;
 	EMailSession *session;
+	EMailDisplay *display;
 	EShellBackend *shell_backend;
 	EShell *shell;
 	EFocusTracker *focus_tracker;
-	ESearchBar *search_bar;
 	GSettings *settings;
 	GtkAccelGroup *accel_group;
 	GtkActionGroup *action_group;
@@ -549,7 +551,6 @@ mail_browser_constructed (GObject *object)
 	GtkUIManager *ui_manager;
 	GtkWidget *container;
 	GtkWidget *widget;
-	EWebView *web_view;
 	const gchar *domain;
 	const gchar *id;
 	guint merge_id;
@@ -558,7 +559,6 @@ mail_browser_constructed (GObject *object)
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 
 	browser = E_MAIL_BROWSER (object);
-
 	reader = E_MAIL_READER (object);
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
@@ -575,9 +575,6 @@ mail_browser_constructed (GObject *object)
 	gtk_application_add_window (
 		GTK_APPLICATION (shell), GTK_WINDOW (object));
 
-	formatter = e_mail_reader_get_formatter (reader);
-	web_view = em_format_html_get_web_view (formatter);
-
 	/* The message list is a widget, but it is not shown in the browser.
 	 * Unfortunately, the widget is inseparable from its model, and the
 	 * model is all we need. */
@@ -592,15 +589,20 @@ mail_browser_constructed (GObject *object)
 		browser->priv->message_list, "message-list-built",
 		G_CALLBACK (mail_browser_message_list_built_cb), object);
 
+	display = g_object_new (E_TYPE_MAIL_DISPLAY,
+			"mode", E_MAIL_BROWSER (object)->priv->mode, NULL);
+
 	g_signal_connect_swapped (
-		web_view, "popup-event",
+		display, "popup-event",
 		G_CALLBACK (mail_browser_popup_event_cb), object);
 
 	g_signal_connect_swapped (
-		web_view, "status-message",
+		display, "status-message",
 		G_CALLBACK (mail_browser_status_message_cb), object);
 
-	/* Add action groups before initializing the reader interface. */
+	widget = e_preview_pane_new (E_WEB_VIEW (display));
+	browser->priv->preview_pane = g_object_ref (widget);
+	gtk_widget_show (widget);
 
 	action_group = gtk_action_group_new (ACTION_GROUP_STANDARD);
 	gtk_action_group_set_translation_domain (action_group, domain);
@@ -613,6 +615,7 @@ mail_browser_constructed (GObject *object)
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* For easy access.  Takes ownership of the reference. */
+
 	g_object_set_data_full (
 		object, ACTION_GROUP_STANDARD,
 		action_group, (GDestroyNotify) g_object_unref);
@@ -664,7 +667,6 @@ mail_browser_constructed (GObject *object)
 
 	container = widget;
 
-	/* Create the status bar before connecting proxy widgets. */
 	widget = gtk_statusbar_new ();
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	browser->priv->statusbar = g_object_ref (widget);
@@ -682,21 +684,9 @@ mail_browser_constructed (GObject *object)
 
 	gtk_style_context_add_class (
 		gtk_widget_get_style_context (widget),
-		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
+				     GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
 
-	gtk_widget_show (GTK_WIDGET (web_view));
-
-	widget = e_preview_pane_new (web_view);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	browser->priv->preview_pane = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	search_bar = e_preview_pane_get_search_bar (E_PREVIEW_PANE (widget));
-
-	g_signal_connect_swapped (
-		search_bar, "changed",
-		G_CALLBACK (em_format_queue_redraw),
-		browser->priv->formatter);
+	gtk_container_add (GTK_CONTAINER (container), browser->priv->preview_pane);
 
 	/* Bind GObject properties to GSettings keys. */
 
@@ -712,8 +702,6 @@ mail_browser_constructed (GObject *object)
 	id = "org.gnome.evolution.mail.browser";
 	e_plugin_ui_register_manager (ui_manager, id, object);
 	e_plugin_ui_enable_manager (ui_manager, id);
-
-	e_mail_reader_connect_headers (E_MAIL_READER (reader));
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
@@ -772,14 +760,15 @@ mail_browser_get_hide_deleted (EMailReader *reader)
 	return !e_mail_browser_get_show_deleted (browser);
 }
 
-static EMFormatHTML *
-mail_browser_get_formatter (EMailReader *reader)
+static EMailDisplay *
+mail_browser_get_mail_display (EMailReader *reader)
 {
-	EMailBrowser *browser;
+	EMailBrowserPrivate *priv;
 
-	browser = E_MAIL_BROWSER (reader);
+	priv = E_MAIL_BROWSER_GET_PRIVATE (E_MAIL_BROWSER (reader));
 
-	return EM_FORMAT_HTML (browser->priv->formatter);
+	return E_MAIL_DISPLAY (e_preview_pane_get_web_view (
+					E_PREVIEW_PANE (priv->preview_pane)));
 }
 
 static GtkWidget *
@@ -916,6 +905,18 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 			"Show deleted messages",
 			FALSE,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DISPLAY_MODE,
+		g_param_spec_int (
+			"display-mode",
+			"Display Mode",
+			NULL,
+			0,
+			G_MAXINT,
+			EM_FORMAT_WRITE_MODE_NORMAL,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
@@ -923,7 +924,7 @@ e_mail_browser_reader_init (EMailReaderInterface *interface)
 {
 	interface->get_action_group = mail_browser_get_action_group;
 	interface->get_backend = mail_browser_get_backend;
-	interface->get_formatter = mail_browser_get_formatter;
+	interface->get_mail_display = mail_browser_get_mail_display;
 	interface->get_hide_deleted = mail_browser_get_hide_deleted;
 	interface->get_message_list = mail_browser_get_message_list;
 	interface->get_popup_menu = mail_browser_get_popup_menu;
@@ -936,7 +937,6 @@ static void
 e_mail_browser_init (EMailBrowser *browser)
 {
 	browser->priv = E_MAIL_BROWSER_GET_PRIVATE (browser);
-	browser->priv->formatter = em_format_html_display_new ();
 
 	gtk_window_set_title (GTK_WINDOW (browser), _("Evolution"));
 	gtk_window_set_default_size (GTK_WINDOW (browser), 600, 400);
@@ -948,13 +948,22 @@ e_mail_browser_init (EMailBrowser *browser)
 }
 
 GtkWidget *
-e_mail_browser_new (EMailBackend *backend)
+e_mail_browser_new (EMailBackend *backend,
+                    CamelFolder *folder,
+                    const gchar *msg_uid,
+                    EMFormatWriteMode mode)
 {
+	GtkWidget *widget;
+
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
-	return g_object_new (
+	widget= g_object_new (
 		E_TYPE_MAIL_BROWSER,
-		"backend", backend, NULL);
+		"backend", backend,
+		"display-mode", mode,
+		NULL);
+
+	return widget;
 }
 
 void

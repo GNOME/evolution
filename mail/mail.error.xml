@@ -520,5 +520,10 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <_secondary xml:space="preserve">The attachment named {0} is a hidden file and may contain sensitive data. Please review it before sending.</_secondary>
   </error>
 
+  <error id="printing-failed" type="error">
+    <_primary>Printing failed.</_primary>
+    <_secondary>The printer replied &quot;{0}&quot;.</_secondary>
+  </error>
+
 </error-list>
 

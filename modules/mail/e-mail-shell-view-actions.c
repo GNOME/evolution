@@ -891,14 +891,16 @@ action_mail_smart_backward_cb (GtkAction *action,
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
-	EMFormatHTML *formatter;
 	EMailReader *reader;
 	EMailView *mail_view;
 	GtkWidget *message_list;
 	GtkToggleAction *toggle_action;
-	EWebView *web_view;
+	GtkWidget *window;
+	GtkAdjustment *adj;
+	EMailDisplay *display;
 	gboolean caret_mode;
 	gboolean magic_spacebar;
+	gdouble value;
 
 	/* This implements the so-called "Magic Backspace". */
 
@@ -914,7 +916,7 @@ action_mail_smart_backward_cb (GtkAction *action,
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
 	reader = E_MAIL_READER (mail_view);
-	formatter = e_mail_reader_get_formatter (reader);
+	display = e_mail_reader_get_mail_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	magic_spacebar = e_shell_settings_get_boolean (
@@ -923,32 +925,43 @@ action_mail_smart_backward_cb (GtkAction *action,
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (MAIL_CARET_MODE));
 	caret_mode = gtk_toggle_action_get_active (toggle_action);
 
-	web_view = em_format_html_get_web_view (formatter);
-
-	if (e_web_view_scroll_backward (web_view))
+	window = gtk_widget_get_parent (GTK_WIDGET (display));
+	if (!GTK_IS_SCROLLED_WINDOW (window))
 		return;
 
-	if (caret_mode || !magic_spacebar)
+	adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (window));
+	value = gtk_adjustment_get_value (adj);
+	if (value == 0) {
+
+		if (caret_mode || !magic_spacebar)
+			return;
+
+                /* XXX Are two separate calls really necessary? */
+
+		if (message_list_select (
+		    MESSAGE_LIST (message_list),
+		    MESSAGE_LIST_SELECT_PREVIOUS,
+		    0, CAMEL_MESSAGE_SEEN))
+			return;
+
+		if (message_list_select (
+		    MESSAGE_LIST (message_list),
+		    MESSAGE_LIST_SELECT_PREVIOUS |
+		    MESSAGE_LIST_SELECT_WRAP,
+		    0, CAMEL_MESSAGE_SEEN))
+			return;
+
+		em_folder_tree_select_next_path (folder_tree, TRUE);
+
+		gtk_widget_grab_focus (message_list);
+
+	} else {
+
+		gtk_adjustment_set_value (adj,
+			value - gtk_adjustment_get_page_increment (adj));
+
 		return;
-
-	/* XXX Are two separate calls really necessary? */
-
-	if (message_list_select (
-		MESSAGE_LIST (message_list),
-		MESSAGE_LIST_SELECT_PREVIOUS,
-		0, CAMEL_MESSAGE_SEEN))
-		return;
-
-	if (message_list_select (
-		MESSAGE_LIST (message_list),
-		MESSAGE_LIST_SELECT_PREVIOUS |
-		MESSAGE_LIST_SELECT_WRAP, 0,
-		CAMEL_MESSAGE_SEEN))
-		return;
-
-	em_folder_tree_select_prev_path (folder_tree, TRUE);
-
-	gtk_widget_grab_focus (message_list);
+	}
 }
 
 static void
@@ -962,14 +975,17 @@ action_mail_smart_forward_cb (GtkAction *action,
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
-	EMFormatHTML *formatter;
 	EMailReader *reader;
 	EMailView *mail_view;
 	GtkWidget *message_list;
+	GtkWidget *window;
+	GtkAdjustment *adj;
 	GtkToggleAction *toggle_action;
-	EWebView *web_view;
+	EMailDisplay *display;
 	gboolean caret_mode;
 	gboolean magic_spacebar;
+	gdouble value;
+	gdouble upper;
 
 	/* This implements the so-called "Magic Spacebar". */
 
@@ -985,7 +1001,7 @@ action_mail_smart_forward_cb (GtkAction *action,
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
 	reader = E_MAIL_READER (mail_view);
-	formatter = e_mail_reader_get_formatter (reader);
+	display = e_mail_reader_get_mail_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	magic_spacebar = e_shell_settings_get_boolean (
@@ -994,32 +1010,44 @@ action_mail_smart_forward_cb (GtkAction *action,
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (MAIL_CARET_MODE));
 	caret_mode = gtk_toggle_action_get_active (toggle_action);
 
-	web_view = em_format_html_get_web_view (formatter);
-
-	if (e_web_view_scroll_forward (web_view))
+	window = gtk_widget_get_parent (GTK_WIDGET (display));
+	if (!GTK_IS_SCROLLED_WINDOW (window))
 		return;
 
-	if (caret_mode || !magic_spacebar)
+	adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (window));
+	value = gtk_adjustment_get_value (adj);
+	upper = gtk_adjustment_get_upper (adj);
+	if (value + gtk_adjustment_get_page_size (adj) >= upper) {
+
+		if (caret_mode || !magic_spacebar)
+			return;
+
+                /* XXX Are two separate calls really necessary? */
+
+		if (message_list_select (
+		    MESSAGE_LIST (message_list),
+		    MESSAGE_LIST_SELECT_NEXT,
+		    0, CAMEL_MESSAGE_SEEN))
+			return;
+
+		if (message_list_select (
+		    MESSAGE_LIST (message_list),
+		    MESSAGE_LIST_SELECT_NEXT |
+		    MESSAGE_LIST_SELECT_WRAP,
+		    0, CAMEL_MESSAGE_SEEN))
+			return;
+
+		em_folder_tree_select_next_path (folder_tree, TRUE);
+
+		gtk_widget_grab_focus (message_list);
+
+	} else {
+
+		gtk_adjustment_set_value (adj,
+			value + gtk_adjustment_get_page_increment (adj));
+
 		return;
-
-	/* XXX Are two separate calls really necessary? */
-
-	if (message_list_select (
-		MESSAGE_LIST (message_list),
-		MESSAGE_LIST_SELECT_NEXT,
-		0, CAMEL_MESSAGE_SEEN))
-		return;
-
-	if (message_list_select (
-		MESSAGE_LIST (message_list),
-		MESSAGE_LIST_SELECT_NEXT |
-		MESSAGE_LIST_SELECT_WRAP,
-		0, CAMEL_MESSAGE_SEEN))
-		return;
-
-	em_folder_tree_select_next_path (folder_tree, TRUE);
-
-	gtk_widget_grab_focus (message_list);
+	}
 }
 
 static void

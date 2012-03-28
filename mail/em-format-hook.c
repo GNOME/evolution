@@ -61,24 +61,23 @@ static const EPluginHookTargetKey emfh_flag_map[] = {
 G_DEFINE_TYPE (EMFormatHook, em_format_hook, E_TYPE_PLUGIN_HOOK)
 
 static void
-emfh_format_format (EMFormat *md,
-                    CamelStream *stream,
-                    CamelMimePart *part,
-                    const EMFormatHandler *info,
-                    GCancellable *cancellable,
-                    gboolean is_fallback)
+emfh_parse_part (EMFormat *emf,
+                 CamelMimePart *part,
+                 GString *part_id,
+                 EMFormatParserInfo *info,
+                 GCancellable *cancellable)
 {
-	struct _EMFormatHookItem *item = (EMFormatHookItem *) info;
+	struct _EMFormatHookItem *item = (EMFormatHookItem *) info->handler;
 
 	if (item->hook->hook.plugin->enabled) {
 		EMFormatHookTarget target = {
-			md, stream, part, item
+			emf, part, part_id, info
 		};
 
 		e_plugin_invoke (item->hook->hook.plugin, item->format, &target);
-	} else if (info->old) {
-		info->old->handler (
-			md, stream, part, info->old, cancellable, FALSE);
+	} else if (info->handler->old) {
+		info->handler->old->parse_func (
+			emf, part, part_id, info, cancellable);
 	}
 }
 
@@ -116,7 +115,7 @@ emfh_construct_item (EPluginHook *eph,
 	item->handler.flags = e_plugin_hook_mask(root, emfh_flag_map, "flags");
 	item->format = e_plugin_xml_prop(root, "format");
 
-	item->handler.handler = emfh_format_format;
+	item->handler.parse_func = emfh_parse_part;
 	item->hook = emfh;
 
 	if (item->handler.mime_type == NULL || item->format == NULL)

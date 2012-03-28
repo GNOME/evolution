@@ -13,7 +13,8 @@ libemformat_la_CPPFLAGS =				\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)			\
+	$(LIBSOUP_CFLAGS)
 
 libemformat_la_SOURCES =				\
 	$(emformatinclude_HEADERS)			\
@@ -28,6 +29,7 @@ libemformat_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)				\
+	$(LIBSOUP_LIBS)
 
 -include $(top_srcdir)/git.mk
