@@ -140,6 +140,7 @@ static CamelFolder *
 						 const gchar *uri,
 						 gpointer data,
 						 GError **error);
+static void	send_done (gpointer data);
 
 static struct _send_data *send_data = NULL;
 static GtkWidget *send_recv_dialog = NULL;
@@ -843,7 +844,7 @@ receive_status (CamelFilterDriver *driver,
 
 /* when receive/send is complete */
 static void
-receive_done (gpointer data)
+receive_done (int still_more, gpointer data)
 {
 	struct _send_info *info = data;
 	const gchar *uid;
@@ -871,7 +872,7 @@ receive_done (gpointer data)
 			info->cancellable,
 			receive_get_folder, info,
 			receive_status, info,
-			receive_done, info);
+			send_done, info);
 		return;
 	}
 
@@ -911,6 +912,11 @@ receive_done (gpointer data)
 	free_send_info (info);
 }
 
+static void
+send_done (gpointer data)
+{
+	receive_done (-1, data);
+}
 /* although we dont do anythign smart here yet, there is no need for this interface to
  * be available to anyone else.
  * This can also be used to hook into which folders are being updated, and occasionally
@@ -1061,7 +1067,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 static void
 refresh_folders_done (struct _refresh_folders_msg *m)
 {
-	receive_done (m->info);
+	receive_done (-1, m->info);
 }
 
 static void
@@ -1108,7 +1114,7 @@ receive_update_got_folderinfo (MailFolderCache *folder_cache,
 		/* do not free folder info, we will free it later */
 		return FALSE;
 	} else {
-		receive_done (data);
+		receive_done (-1, data);
 	}
 
 	return TRUE;
@@ -1128,7 +1134,7 @@ receive_update_got_store (CamelStore *store,
 			folder_cache, store, info->cancellable,
 			receive_update_got_folderinfo, info);
 	} else {
-		receive_done (info);
+		receive_done (-1, info);
 	}
 }
 
@@ -1173,8 +1179,9 @@ send_receive (GtkWindow *parent,
 		case SEND_RECEIVE:
 			mail_fetch_mail (
 				CAMEL_STORE (info->service),
-				info->keep_on_server,
+				info->keep_on_server, 0, -1,
 				E_FILTER_SOURCE_INCOMING,
+				NULL, NULL, NULL,
 				info->cancellable,
 				receive_get_folder, info,
 				receive_status, info,
@@ -1189,7 +1196,7 @@ send_receive (GtkWindow *parent,
 				info->cancellable,
 				receive_get_folder, info,
 				receive_status, info,
-				receive_done, info);
+				send_done, info);
 			break;
 		case SEND_UPDATE:
 			receive_update_got_store (
@@ -1465,8 +1472,9 @@ mail_receive_service (CamelService *service)
 	case SEND_RECEIVE:
 		mail_fetch_mail (
 			CAMEL_STORE (service),
-			info->keep_on_server,
+			info->keep_on_server, 0, -1, 
 			E_FILTER_SOURCE_INCOMING,
+			NULL, NULL, NULL,
 			info->cancellable,
 			receive_get_folder, info,
 			receive_status, info,
@@ -1486,7 +1494,7 @@ mail_receive_service (CamelService *service)
 			info->cancellable,
 			receive_get_folder, info,
 			receive_status, info,
-			receive_done, info);
+			send_done, info);
 		break;
 	case SEND_UPDATE:
 		receive_update_got_store (CAMEL_STORE (service), info);
@@ -1573,5 +1581,5 @@ mail_send (EMailSession *session)
 		info->cancellable,
 		receive_get_folder, info,
 		receive_status, info,
-		receive_done, info);
+		send_done, info);
 }

@@ -76,8 +76,15 @@ struct _fetch_mail_msg {
 	GCancellable *cancellable;	/* we have our own cancellation
 					 * struct, the other should be empty */
 	gint keep;			/* keep on server? */
+	gint fetch_count;
+	CamelFetchType fetch_type;
+	gint still_more;
 
-	void (*done)(gpointer data);
+	MailProviderFetchLockFunc provider_lock;
+	MailProviderFetchUnlockFunc provider_unlock;
+	MailProviderFetchInboxFunc provider_fetch_inbox;
+	
+	void (*done)(gint still_more, gpointer data);
 	gpointer data;
 };
 
@@ -220,7 +227,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	CamelSession *session;
 	CamelURL *url;
 	gboolean is_local_delivery = FALSE;
-	const gchar *uid;
+	const gchar *uid = NULL;
 	gint i;
 
 	service = CAMEL_SERVICE (m->store);
@@ -259,6 +266,8 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 		g_free (url_string);
 	} else {
 		uid = camel_service_get_uid (service);
+		if (m->provider_lock)
+			m->provider_lock (uid);
 
 		folder = fm->source_folder =
 			e_mail_session_get_inbox_sync (
@@ -279,6 +288,12 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 		parent_store = camel_folder_get_parent_store (folder);
 
+		if (m->fetch_count > 0) {
+			/* We probably should fetch some old messages first. */
+			printf("Fetching %d %s messages\n", m->fetch_count, (m->fetch_type == CAMEL_FETCH_NEW_MESSAGES) ? "new" : "old");
+			m->still_more = camel_folder_fetch_messages_sync (folder, m->fetch_type, 
+					m->fetch_count, cancellable, error) ? 1 : 0 ;
+		}
 		service = CAMEL_SERVICE (parent_store);
 		data_dir = camel_service_get_user_data_dir (service);
 
@@ -289,14 +304,27 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 		if (cache) {
 			GPtrArray *folder_uids, *cache_uids, *uids;
 
+			if (m->provider_fetch_inbox) {
+				g_object_unref (fm->destination);
+				fm->destination = m->provider_fetch_inbox (uid, cancellable, error);
+				if (fm->destination == NULL)
+					goto exit;
+				g_object_ref (fm->destination);
+			}
+
 			folder_uids = camel_folder_get_uids (folder);
 			cache_uids = camel_uid_cache_get_new_uids (cache, folder_uids);
+			printf("Gonna cache uids: %d\n", cache_uids->len);
+
 			if (cache_uids) {
 				/* need to copy this, sigh */
 				fm->source_uids = uids = g_ptr_array_new ();
 				g_ptr_array_set_size (uids, cache_uids->len);
+
+				/* Reverse it so that we fetch the latest as first, while fetching POP  */
 				for (i = 0; i < cache_uids->len; i++)
-					uids->pdata[i] = g_strdup (cache_uids->pdata[i]);
+					uids->pdata[cache_uids->len-i-1] = g_strdup (cache_uids->pdata[i]);
+
 				camel_uid_cache_free_uids (cache_uids);
 
 				fm->cache = cache;
@@ -340,6 +368,9 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	}
 
 exit:
+	if (!is_local_delivery && m->provider_unlock)
+		m->provider_unlock (uid);
+
 	/* we unref this here as it may have more work to do (syncing
 	 * folders and whatnot) before we are really done */
 	/* should this be cancellable too? (i.e. above unregister above) */
@@ -359,7 +390,7 @@ static void
 fetch_mail_done (struct _fetch_mail_msg *m)
 {
 	if (m->done)
-		m->done (m->data);
+		m->done (m->still_more, m->data);
 }
 
 static void
@@ -386,13 +417,18 @@ static MailMsgInfo fetch_mail_info = {
 void
 mail_fetch_mail (CamelStore *store,
                  gint keep,
+		 CamelFetchType fetch_type, 
+		 gint fetch_count,
                  const gchar *type,
+		 MailProviderFetchLockFunc lock_func,
+		 MailProviderFetchUnlockFunc unlock_func,
+		 MailProviderFetchInboxFunc fetch_inbox_func,
                  GCancellable *cancellable,
                  CamelFilterGetFolderFunc get_folder,
                  gpointer get_data,
                  CamelFilterStatusFunc *status,
                  gpointer status_data,
-                 void (*done)(gpointer data),
+                 void (*done)(int still_more, gpointer data),
                  gpointer data)
 {
 	struct _fetch_mail_msg *m;
@@ -413,6 +449,14 @@ mail_fetch_mail (CamelStore *store,
 		m->cancellable = g_object_ref (cancellable);
 	m->done = done;
 	m->data = data;
+
+	m->fetch_count = fetch_count;
+	m->fetch_type = fetch_type;
+	m->still_more = -1;
+
+	m->provider_lock = lock_func;
+	m->provider_unlock = unlock_func;
+	m->provider_fetch_inbox = fetch_inbox_func;
 
 	fm->driver = camel_session_get_filter_driver (session, type, NULL);
 	camel_filter_driver_set_folder_func (fm->driver, get_folder, get_data);
