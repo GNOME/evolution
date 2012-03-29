@@ -2961,8 +2961,20 @@ init_itip_view (ItipPURI *info,
 		if (list) {
 			ECalComponentText *text = list->data;
 
-			if (text->value)
-				itip_view_set_comment (view, text->value);
+			if (text->value) {
+				gchar *html;
+
+				html = camel_text_to_html (
+					text->value,
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES,
+					0);
+
+				itip_view_set_comment (view, html);
+
+				g_free (html);
+			}
 		}
 		e_cal_component_free_text_list (list);
 	}
@@ -2980,8 +2992,20 @@ init_itip_view (ItipPURI *info,
 	e_cal_component_free_text_list (list);
 
 	if (gstring) {
-		itip_view_set_description (view, gstring->str);
+		gchar *html;
+
+		html = camel_text_to_html (
+			gstring->str,
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+			CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES,
+			0);
+
+		itip_view_set_description (view, html);
 		g_string_free (gstring, TRUE);
+		g_free (html);
 	}
 
         to_zone = e_shell_settings_get_pointer (shell_settings, "cal-timezone");
