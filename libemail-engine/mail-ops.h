@@ -71,15 +71,27 @@ void		mail_send_queue			(EMailSession *session,
 						 void (*done)(gpointer data),
 						 gpointer data);
 
+typedef void	(*MailProviderFetchLockFunc)	(const char *source);
+typedef void	(*MailProviderFetchUnlockFunc)	(const char *source);
+typedef CamelFolder *
+		(*MailProviderFetchInboxFunc)	(const char *source,
+						 GCancellable *cancellable,
+						 GError **error);
+
 void		mail_fetch_mail			(CamelStore *store,
 						 gint keep,
+						 CamelFetchType fetch_type,
+						 gint fetch_count,
 						 const gchar *type,
+						 MailProviderFetchLockFunc lock_func,
+						 MailProviderFetchUnlockFunc unlock_func,
+						 MailProviderFetchInboxFunc fetch_inbox_func,
 						 GCancellable *cancellable,
 						 CamelFilterGetFolderFunc get_folder,
 						 gpointer get_data,
 						 CamelFilterStatusFunc *status,
 						 gpointer status_data,
-						 void (*done)(gpointer data),
+						 void (*done)(int still_more, gpointer data),
 						 gpointer data);
 
 void		mail_filter_folder		(EMailSession *session,
