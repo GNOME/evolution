@@ -22,8 +22,8 @@
 #ifndef E_MAIL_DISPLAY_H
 #define E_MAIL_DISPLAY_H
 
-#include <widgets/misc/e-web-view.h>
-#include <widgets/misc/e-search-bar.h>
+#include <misc/e-web-view.h>
+#include <misc/e-search-bar.h>
 #include "em-format-html.h"
 
 /* Standard GObject macros */

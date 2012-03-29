@@ -15,6 +15,6 @@ errordir=@privdatadir@/errors
 Name: evolution-plugin
 Description: libraries needed for Evolution plugin development
 Version: @VERSION@
-Requires: camel-1.2 libxml-2.0 libgtkhtml-4.0 gtkhtml-editor-4.0
+Requires: camel-1.2 libxml-2.0 libgtkhtml-4.0 gtkhtml-editor-4.0 webkitgtk-3.0
 Libs: -L${privlibdir} -leutil -Wl,-R${privlibdir}
 Cflags: -I${privincludedir}
