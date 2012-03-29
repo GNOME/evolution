@@ -1021,7 +1021,7 @@ efh_write_source (EMFormat *emf,
 	buffer = g_string_new ("");
 
 	g_string_append_printf (
-		buffer, "<div class=\"part-container\" style=\"background: #%06x; color: #%06x;\" >",
+		buffer, "<div class=\"part-container\" style=\"border: 0; background: #%06x; color: #%06x;\" >",
 		e_color_to_value (
 			&efh->priv->colors[
 			EM_FORMAT_HTML_COLOR_BODY]),
