@@ -525,5 +525,10 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <_secondary>The printer replied &quot;{0}&quot;.</_secondary>
   </error>
 
+  <error id="online-operation" type="error">
+    <_primary>Could not perform this operation on {0}.</_primary>
+    <_secondary xml:space="preserve">You must be working online to complete this operation.</_secondary>
+  </error>
+
 </error-list>
 

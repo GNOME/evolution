@@ -195,6 +195,7 @@ e_mail_reader_delete_folder (EMailReader *reader,
 {
 	EMailBackend *backend;
 	EMailSession *session;
+	EShell *shell;
 	EAlertSink *alert_sink;
 	CamelStore *parent_store;
 	MailFolderCache *folder_cache;
@@ -230,6 +231,17 @@ e_mail_reader_delete_folder (EMailReader *reader,
 			display_name, NULL);
 		return;
 	}
+
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+
+	if(!store_is_local && !e_shell_get_online (shell))
+	{
+		e_alert_submit (
+			alert_sink, "mail:online-operation",
+			display_name, NULL);
+		return;
+	}
+
 
 	have_flags = mail_folder_cache_get_folder_info_flags (
 		folder_cache, folder, &flags);
