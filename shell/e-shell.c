@@ -766,11 +766,22 @@ shell_finalize (GObject *object)
 static void
 shell_constructed (GObject *object)
 {
+	GNetworkMonitor *monitor;
+
 	/* The first EShell instance is the default. */
 	if (default_shell == NULL) {
 		default_shell = object;
 		g_object_add_weak_pointer (object, &default_shell);
 	}
+
+	/* Synchronize network monitoring. */
+
+	monitor = g_network_monitor_get_default ();
+
+	g_object_bind_property (
+		monitor, "network-available",
+		object, "network-available",
+		G_BINDING_SYNC_CREATE);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_shell_parent_class)->constructed (object);
@@ -972,8 +983,7 @@ e_shell_class_init (EShellClass *class)
 			"Network Available",
 			"Whether the network is available",
 			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_READWRITE));
 
 	/**
 	 * EShell:online
