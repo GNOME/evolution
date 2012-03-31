@@ -47,6 +47,7 @@ void		em_utils_edit_messages		(EMailReader *reader,
 						 GPtrArray *uids,
 						 gboolean replace);
 EMsgComposer *	em_utils_forward_message	(EShell *shell,
+						 CamelSession *session,
 						 CamelMimeMessage *msg,
 						 EMailForwardStyle style,
 						 CamelFolder *folder,
@@ -59,7 +60,8 @@ void		em_utils_forward_messages	(EMailReader *reader,
 void		em_utils_redirect_message	(EShell *shell,
 						 CamelMimeMessage *message);
 gchar *		em_utils_construct_composer_text
-						(CamelMimeMessage *message,
+						(CamelSession *session,
+						 CamelMimeMessage *message,
 						 EMFormat *source_formatter);
 gboolean	em_utils_is_munged_list_message	(CamelMimeMessage *message);
 void		em_utils_get_reply_sender	(CamelMimeMessage *message,

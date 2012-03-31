@@ -57,10 +57,11 @@ struct _EMFormatPrivate {
 
 enum {
 	PROP_0,
+	PROP_BASE_URL,
 	PROP_CHARSET,
-	PROP_DEFAULT_CHARSET,
 	PROP_COMPOSER,
-	PROP_BASE_URL
+	PROP_DEFAULT_CHARSET,
+	PROP_SESSION
 };
 
 enum {
@@ -1233,33 +1234,13 @@ static const struct {
 };
 
 static void
-em_format_get_property (GObject *object,
-                        guint property_id,
-                        GValue *value,
-                        GParamSpec *pspec)
+em_format_set_session (EMFormat *emf,
+                       CamelSession *session)
 {
-	EMFormat *emf = EM_FORMAT (object);
+	g_return_if_fail (CAMEL_IS_SESSION (session));
+	g_return_if_fail (emf->priv->session == NULL);
 
-	switch (property_id) {
-		case PROP_CHARSET:
-			g_value_set_string (
-					value, em_format_get_charset (emf));
-			return;
-		case PROP_DEFAULT_CHARSET:
-			g_value_set_string (
-					value, em_format_get_default_charset (emf));
-			return;
-		case PROP_COMPOSER:
-			g_value_set_boolean (
-					value, em_format_get_composer (emf));
-			return;
-		case PROP_BASE_URL:
-			g_value_set_object (
-					value, em_format_get_base_url (emf));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+	emf->priv->session = g_object_ref (session);
 }
 
 static void
@@ -1268,29 +1249,81 @@ em_format_set_property (GObject *object,
                         const GValue *value,
                         GParamSpec *pspec)
 {
-	EMFormat *emf = EM_FORMAT (object);
-
 	switch (property_id) {
-		case PROP_CHARSET:
-			em_format_set_charset (emf,
-					g_value_get_string (value));
-			return;
-		case PROP_DEFAULT_CHARSET:
-			em_format_set_default_charset (emf,
-					g_value_get_string (value));
-			return;
-		case PROP_COMPOSER:
-			em_format_set_composer (emf,
-					g_value_get_boolean (value));
-			return;
 		case PROP_BASE_URL:
-			em_format_set_base_url (emf,
-					g_value_get_object (value));
+			em_format_set_base_url (
+				EM_FORMAT (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_CHARSET:
+			em_format_set_charset (
+				EM_FORMAT (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_COMPOSER:
+			em_format_set_composer (
+				EM_FORMAT (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_DEFAULT_CHARSET:
+			em_format_set_default_charset (
+				EM_FORMAT (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_SESSION:
+			em_format_set_session (
+				EM_FORMAT (object),
+				g_value_get_object (value));
 			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 
+}
+
+static void
+em_format_get_property (GObject *object,
+                        guint property_id,
+                        GValue *value,
+                        GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_BASE_URL:
+			g_value_set_object (
+				value, em_format_get_base_url (
+				EM_FORMAT (object)));
+			return;
+
+		case PROP_CHARSET:
+			g_value_set_string (
+				value, em_format_get_charset (
+				EM_FORMAT (object)));
+			return;
+
+		case PROP_COMPOSER:
+			g_value_set_boolean (
+				value, em_format_get_composer (
+				EM_FORMAT (object)));
+			return;
+
+		case PROP_DEFAULT_CHARSET:
+			g_value_set_string (
+				value, em_format_get_default_charset (
+				EM_FORMAT (object)));
+			return;
+
+		case PROP_SESSION:
+			g_value_set_object (
+				value, em_format_get_session (
+				EM_FORMAT (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
@@ -1352,69 +1385,88 @@ em_format_finalize (GObject *object)
 }
 
 static void
-em_format_base_init (EMFormatClass *klass)
+em_format_base_init (EMFormatClass *class)
 {
 	gint i;
 
-	klass->type_handlers = g_hash_table_new (g_str_hash, g_str_equal);
+	class->type_handlers = g_hash_table_new (g_str_hash, g_str_equal);
 
 	for (i = 0; i < G_N_ELEMENTS (type_handlers); i++) {
-		g_hash_table_insert (klass->type_handlers,
+		g_hash_table_insert (class->type_handlers,
 				type_handlers[i].mime_type,
 				&type_handlers[i]);
 	}
 }
 
 static void
-em_format_class_init (EMFormatClass *klass)
+em_format_class_init (EMFormatClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
+	parent_class = g_type_class_peek_parent (class);
 
-	g_type_class_add_private (klass, sizeof (EMFormatPrivate));
+	g_type_class_add_private (class, sizeof (EMFormatPrivate));
 
-	klass->is_inline = emf_is_inline;
+	class->is_inline = emf_is_inline;
 
-	object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = em_format_finalize;
-	object_class->get_property = em_format_get_property;
+	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = em_format_set_property;
+	object_class->get_property = em_format_get_property;
+	object_class->finalize = em_format_finalize;
 
-	g_object_class_install_property (object_class,
-			PROP_CHARSET,
-			g_param_spec_string ("charset",
-					NULL,
-					NULL,
-					NULL,
-					G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_BASE_URL,
+		g_param_spec_pointer (
+			"base-url",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class,
-			PROP_DEFAULT_CHARSET,
-			g_param_spec_string ("default-charset",
-					NULL,
-					NULL,
-					NULL,
-					G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_CHARSET,
+		g_param_spec_string (
+			"charset",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class,
-			PROP_COMPOSER,
-			g_param_spec_boolean ("composer",
-					NULL,
-					NULL,
-					FALSE,
-					G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_COMPOSER,
+		g_param_spec_boolean (
+			"composer",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class,
-			PROP_BASE_URL,
-			g_param_spec_pointer ("base-url",
-					NULL,
-					NULL,
-					G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_DEFAULT_CHARSET,
+		g_param_spec_string (
+			"default-charset",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SESSION,
+		g_param_spec_object (
+			"session",
+			"Session",
+			"A CamelSession",
+			CAMEL_TYPE_SESSION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	signals[REDRAW_REQUESTED] = g_signal_new (
 		"redraw-requested",
-		G_TYPE_FROM_CLASS (klass),
+		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EMFormatClass, redraw_requested),
 		NULL, NULL,
@@ -1434,11 +1486,7 @@ mail_part_table_item_free (gpointer data)
 static void
 em_format_init (EMFormat *emf)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
-
-	emf->priv = G_TYPE_INSTANCE_GET_PRIVATE (emf,
-			EM_TYPE_FORMAT, EMFormatPrivate);
+	emf->priv = EM_FORMAT_GET_PRIVATE (emf);
 
 	emf->message = NULL;
 	emf->folder = NULL;
@@ -1447,15 +1495,7 @@ em_format_init (EMFormat *emf)
 			NULL, (GDestroyNotify) mail_part_table_item_free);
 	/* No need to free the key, because it's owned and free'd by the PURI */
 
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-
 	emf->priv->last_error = 0;
-
-	emf->priv->session = e_shell_settings_get_pointer (shell_settings, "mail-session");
-	g_return_if_fail (emf->priv->session);
-
-	g_object_ref (emf->priv->session);
 
 	em_format_default_headers (emf);
 }
@@ -1558,6 +1598,14 @@ em_format_get_composer (EMFormat *emf)
 	g_return_val_if_fail (EM_IS_FORMAT (emf), FALSE);
 
 	return emf->priv->composer;
+}
+
+CamelSession *
+em_format_get_session (EMFormat *emf)
+{
+	g_return_val_if_fail (EM_IS_FORMAT (emf), NULL);
+
+	return emf->priv->session;
 }
 
 void
@@ -2051,17 +2099,17 @@ em_format_is_inline (EMFormat *emf,
                      CamelMimePart *part,
                      const EMFormatHandler *handler)
 {
-	EMFormatClass *klass;
+	EMFormatClass *class;
 
 	g_return_val_if_fail (EM_IS_FORMAT (emf), FALSE);
 	g_return_val_if_fail (part_id && *part_id, FALSE);
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), FALSE);
 	g_return_val_if_fail (handler, FALSE);
 
-	klass = EM_FORMAT_GET_CLASS (emf);
-	g_return_val_if_fail (klass->is_inline != NULL, FALSE);
+	class = EM_FORMAT_GET_CLASS (emf);
+	g_return_val_if_fail (class->is_inline != NULL, FALSE);
 
-	return klass->is_inline (emf, part_id, part, handler);
+	return class->is_inline (emf, part_id, part, handler);
 
 }
 

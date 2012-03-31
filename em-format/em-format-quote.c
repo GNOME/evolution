@@ -580,18 +580,22 @@ em_format_quote_get_type (void)
 }
 
 EMFormatQuote *
-em_format_quote_new (const gchar *credits,
+em_format_quote_new (CamelSession *session,
+                     const gchar *credits,
                      CamelStream *stream,
                      EMFormatQuoteFlags flags)
 {
 	EMFormatQuote *emfq;
 
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), NULL);
 
 	/* Steam must also be seekable so we can reset its position. */
 	g_return_val_if_fail (G_IS_SEEKABLE (stream), NULL);
 
-	emfq = g_object_new (EM_TYPE_FORMAT_QUOTE, NULL);
+	emfq = g_object_new (
+		EM_TYPE_FORMAT_QUOTE,
+		"session", session, NULL);
 
 	emfq->priv->credits = g_strdup (credits);
 	emfq->priv->flags = flags;

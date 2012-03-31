@@ -916,9 +916,13 @@ em_format_html_display_get_type (void)
 }
 
 EMFormatHTMLDisplay *
-em_format_html_display_new (void)
+em_format_html_display_new (CamelSession *session)
 {
-	return g_object_new (EM_TYPE_FORMAT_HTML_DISPLAY, NULL);
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+
+	return g_object_new (
+		EM_TYPE_FORMAT_HTML_DISPLAY,
+		"session", session, NULL);
 }
 
 /* ********************************************************************** */

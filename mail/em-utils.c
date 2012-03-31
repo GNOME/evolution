@@ -646,12 +646,17 @@ em_utils_print_messages_to_file (CamelFolder *folder,
 {
 	EMFormatHTMLDisplay *efhd;
 	CamelMimeMessage *message;
+	CamelStore *parent_store;
+	CamelSession *session;
 
 	message = camel_folder_get_message_sync (folder, uid, NULL, NULL);
 	if (message == NULL)
 		return FALSE;
 
-	efhd = em_format_html_display_new ();
+	parent_store = camel_folder_get_parent_store (folder);
+	session = camel_service_get_session (CAMEL_SERVICE (parent_store));
+
+	efhd = em_format_html_display_new (session);
 	((EMFormat *) efhd)->message_uid = g_strdup (uid);
 
 	em_format_parse_async ((EMFormat *) efhd, message, folder, NULL,
@@ -1162,6 +1167,7 @@ em_utils_get_proxy (void)
 
 /**
  * em_utils_message_to_html:
+ * @session: a #CamelSession
  * @message:
  * @credits:
  * @flags: EMFormatQuote flags
@@ -1177,7 +1183,8 @@ em_utils_get_proxy (void)
  * Return value: The html version as a NULL terminated string.
  **/
 gchar *
-em_utils_message_to_html (CamelMimeMessage *message,
+em_utils_message_to_html (CamelSession *session,
+                          CamelMimeMessage *message,
                           const gchar *credits,
                           guint32 flags,
                           EMFormat *source,
@@ -1188,11 +1195,13 @@ em_utils_message_to_html (CamelMimeMessage *message,
 	CamelStream *mem;
 	GByteArray *buf;
 
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+
 	buf = g_byte_array_new ();
 	mem = camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (mem), buf);
 
-	emfq = em_format_quote_new (credits, mem, flags);
+	emfq = em_format_quote_new (session, credits, mem, flags);
 	em_format_set_composer ((EMFormat *) emfq, TRUE);
 
 	if (!source) {

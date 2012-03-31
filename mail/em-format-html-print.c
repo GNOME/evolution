@@ -618,8 +618,15 @@ EMFormatHTMLPrint *
 em_format_html_print_new (EMFormatHTML *source)
 {
 	EMFormatHTMLPrint *efhp;
+	CamelSession *session;
 
-	efhp = g_object_new (EM_TYPE_FORMAT_HTML_PRINT,
+	g_return_val_if_fail (EM_IS_FORMAT_HTML (source), NULL);
+
+	session = em_format_get_session (EM_FORMAT (source));
+
+	efhp = g_object_new (
+		EM_TYPE_FORMAT_HTML_PRINT,
+		"session", session,
 		"original-formatter", source,
 		NULL);
 

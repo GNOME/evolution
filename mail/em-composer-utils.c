@@ -950,9 +950,12 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 {
 	EMailPrinter *emp;
 	EMFormatHTMLDisplay *efhd;
+	const gchar *message_id;
 
-	efhd = em_format_html_display_new ();
-	((EMFormat *) efhd)->message_uid = g_strdup (camel_mime_message_get_message_id (message));
+	efhd = em_format_html_display_new (CAMEL_SESSION (session));
+
+	message_id = camel_mime_message_get_message_id (message);
+	((EMFormat *) efhd)->message_uid = g_strdup (message_id);
 
         /* Parse the message */
 	em_format_parse ((EMFormat *) efhd, message, NULL, NULL);
@@ -1651,6 +1654,7 @@ forward_attached_cb (CamelFolder *folder,
 
 static EMsgComposer *
 forward_non_attached (EShell *shell,
+                      CamelSession *session,
                       CamelFolder *folder,
                       const gchar *uid,
                       CamelMimeMessage *message,
@@ -1667,7 +1671,7 @@ forward_non_attached (EShell *shell,
 
 	forward = quoting_text (QUOTING_FORWARD);
 	text = em_utils_message_to_html (
-		message, forward, flags, NULL, NULL, &validity_found);
+		session, message, forward, flags, NULL, NULL, &validity_found);
 
 	if (text != NULL) {
 		CamelDataWrapper *content;
@@ -1713,6 +1717,7 @@ forward_non_attached (EShell *shell,
 /**
  * em_utils_forward_message:
  * @shell: an #EShell
+ * @session: a #CamelSession
  * @message: a #CamelMimeMessage to forward
  * @style: the forward style to use
  * @folder: a #CamelFolder, or %NULL
@@ -1723,6 +1728,7 @@ forward_non_attached (EShell *shell,
  **/
 EMsgComposer *
 em_utils_forward_message (EShell *shell,
+                          CamelSession *session,
                           CamelMimeMessage *message,
                           EMailForwardStyle style,
                           CamelFolder *folder,
@@ -1733,6 +1739,7 @@ em_utils_forward_message (EShell *shell,
 	EMsgComposer *composer = NULL;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	switch (style) {
@@ -1751,7 +1758,7 @@ em_utils_forward_message (EShell *shell,
 		case E_MAIL_FORWARD_STYLE_INLINE:
 		case E_MAIL_FORWARD_STYLE_QUOTED:
 			composer = forward_non_attached (
-				shell, folder, uid, message, style);
+				shell, session, folder, uid, message, style);
 			break;
 	}
 
@@ -1765,6 +1772,7 @@ forward_got_messages_cb (CamelFolder *folder,
 {
 	EShell *shell;
 	EMailBackend *backend;
+	EMailSession *session;
 	EAlertSink *alert_sink;
 	GHashTable *hash_table;
 	GHashTableIter iter;
@@ -1798,6 +1806,7 @@ forward_got_messages_cb (CamelFolder *folder,
 	g_return_if_fail (hash_table != NULL);
 
 	backend = e_mail_reader_get_backend (context->reader);
+	session = e_mail_backend_get_session (backend);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
 	/* Create a new composer window for each message. */
@@ -1806,7 +1815,8 @@ forward_got_messages_cb (CamelFolder *folder,
 
 	while (g_hash_table_iter_next (&iter, &key, &value))
 		em_utils_forward_message (
-			shell, value, context->style, folder, key);
+			shell, CAMEL_SESSION (session),
+			value, context->style, folder, key);
 
 	g_hash_table_unref (hash_table);
 
@@ -2674,9 +2684,12 @@ composer_set_body (EMsgComposer *composer,
 {
 	gchar *text, *credits, *original;
 	CamelMimePart *part;
+	CamelSession *session;
 	GSettings *settings;
 	gboolean start_bottom, has_body_text = FALSE;
 	guint32 validity_found = 0;
+
+	session = e_msg_composer_get_session (composer);
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
@@ -2695,8 +2708,8 @@ composer_set_body (EMsgComposer *composer,
 	case E_MAIL_REPLY_STYLE_OUTLOOK:
 		original = quoting_text (QUOTING_ORIGINAL);
 		text = em_utils_message_to_html (
-			message, original, EM_FORMAT_QUOTE_HEADERS, source,
-			start_bottom ? "<BR>" : NULL, &validity_found);
+			session, message, original, EM_FORMAT_QUOTE_HEADERS,
+			source, start_bottom ? "<BR>" : NULL, &validity_found);
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		has_body_text = text && *text;
 		g_free (text);
@@ -2709,8 +2722,8 @@ composer_set_body (EMsgComposer *composer,
 		/* do what any sane user would want when replying... */
 		credits = attribution_format (message);
 		text = em_utils_message_to_html (
-			message, credits, EM_FORMAT_QUOTE_CITE, source,
-			start_bottom ? "<BR>" : NULL, &validity_found);
+			session, message, credits, EM_FORMAT_QUOTE_CITE,
+			source, start_bottom ? "<BR>" : NULL, &validity_found);
 		g_free (credits);
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		has_body_text = text && *text;
@@ -2747,18 +2760,21 @@ composer_set_body (EMsgComposer *composer,
 }
 
 gchar *
-em_utils_construct_composer_text (CamelMimeMessage *message,
+em_utils_construct_composer_text (CamelSession *session,
+                                  CamelMimeMessage *message,
                                   EMFormat *source)
 {
 	gchar *text, *credits;
 	gboolean start_bottom = 0;
 
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+
 	credits = attribution_format (message);
 	text = em_utils_message_to_html (
-		message, credits, EM_FORMAT_QUOTE_CITE, source,
-		start_bottom ? "<BR>" : NULL, NULL);
-
+		session, message, credits, EM_FORMAT_QUOTE_CITE,
+		source, start_bottom ? "<BR>" : NULL, NULL);
 	g_free (credits);
+
 	return text;
 }
 

@@ -222,6 +222,8 @@ void			em_format_set_composer		(EMFormat *emf,
 							 gboolean composer);
 gboolean		em_format_get_composer		(EMFormat *emf);
 
+CamelSession *		em_format_get_session		(EMFormat *emf);
+
 void			em_format_set_base_url		(EMFormat *emf,
 							 CamelURL *url);
 void			em_format_set_base_url_string	(EMFormat *emf,

@@ -3099,6 +3099,8 @@ mail_reader_set_display_formatter_for_message (EMailReader *reader,
 	}
 
 	if ((formatter = g_hash_table_lookup (formatters, mail_uri)) == NULL) {
+		EMailBackend *mail_backend;
+		EMailSession *mail_session;
 		struct _formatter_weak_ref_closure *formatter_data =
 				g_new0 (struct _formatter_weak_ref_closure, 1);
 
@@ -3107,7 +3109,12 @@ mail_reader_set_display_formatter_for_message (EMailReader *reader,
 		formatter_data->formatters = g_hash_table_ref (formatters);
 		formatter_data->mail_uri = g_strdup (mail_uri);
 
-		formatter = EM_FORMAT (em_format_html_display_new ());
+		mail_backend = e_mail_reader_get_backend (reader);
+		mail_session = e_mail_backend_get_session (mail_backend);
+
+		formatter = EM_FORMAT (
+			em_format_html_display_new (
+			CAMEL_SESSION (mail_session)));
 
 		/* When no EMailDisplay holds reference to the formatter, then
 		 * the formatter can be destroyed. */

@@ -89,7 +89,8 @@ mail_attachment_handler_forward (GtkAction *action,
 	style = e_shell_settings_get_int (shell_settings, property_name);
 
 	em_utils_forward_message (
-		priv->shell, CAMEL_MIME_MESSAGE (wrapper), style, NULL, NULL);
+		priv->shell, CAMEL_SESSION (priv->session),
+		CAMEL_MIME_MESSAGE (wrapper), style, NULL, NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);

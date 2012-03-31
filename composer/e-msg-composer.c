@@ -178,7 +178,8 @@ async_context_free (AsyncContext *context)
  * Return Value: The part in displayable html format.
  **/
 static gchar *
-emcu_part_to_html (CamelMimePart *part,
+emcu_part_to_html (CamelSession *session,
+                   CamelMimePart *part,
                    gssize *len,
                    EMFormat *source,
                    GCancellable *cancellable)
@@ -192,7 +193,9 @@ emcu_part_to_html (CamelMimePart *part,
 	mem = (CamelStreamMem *) camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (mem, buf);
 
-	emfq = em_format_quote_new (NULL, (CamelStream *) mem, EM_FORMAT_QUOTE_KEEP_SIG);
+	emfq = em_format_quote_new (
+		session, NULL, (CamelStream *) mem,
+		EM_FORMAT_QUOTE_KEEP_SIG);
 	em_format_set_composer ((EMFormat *) emfq, TRUE);
 	if (source) {
 		/* Copy over things we can, other things are internal.
@@ -2698,8 +2701,11 @@ handle_multipart_signed (EMsgComposer *composer,
 	CamelContentType *content_type;
 	CamelDataWrapper *content;
 	CamelMimePart *mime_part;
+	CamelSession *session;
 	GtkToggleAction *action = NULL;
 	const gchar *protocol;
+
+	session = e_msg_composer_get_session (composer);
 
 	content = CAMEL_DATA_WRAPPER (multipart);
 	content_type = camel_data_wrapper_get_mime_type_field (content);
@@ -2760,7 +2766,8 @@ handle_multipart_signed (EMsgComposer *composer,
 		gchar *html;
 		gssize length;
 
-		html = emcu_part_to_html (mime_part, &length, NULL, cancellable);
+		html = emcu_part_to_html (
+			session, mime_part, &length, NULL, cancellable);
 		e_msg_composer_set_pending_body (composer, html, length);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -2847,7 +2854,8 @@ handle_multipart_encrypted (EMsgComposer *composer,
 		gchar *html;
 		gssize length;
 
-		html = emcu_part_to_html (mime_part, &length, NULL, cancellable);
+		html = emcu_part_to_html (
+			session, mime_part, &length, NULL, cancellable);
 		e_msg_composer_set_pending_body (composer, html, length);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -2864,7 +2872,10 @@ handle_multipart_alternative (EMsgComposer *composer,
 {
 	/* Find the text/html part and set the composer body to it's contents */
 	CamelMimePart *text_part = NULL;
+	CamelSession *session;
 	gint i, nparts;
+
+	session = e_msg_composer_get_session (composer);
 
 	nparts = camel_multipart_get_number (multipart);
 
@@ -2924,7 +2935,8 @@ handle_multipart_alternative (EMsgComposer *composer,
 		gchar *html;
 		gssize length;
 
-		html = emcu_part_to_html (text_part, &length, NULL, cancellable);
+		html = emcu_part_to_html (
+			session, text_part, &length, NULL, cancellable);
 		e_msg_composer_set_pending_body (composer, html, length);
 	}
 }
@@ -2935,7 +2947,10 @@ handle_multipart (EMsgComposer *composer,
                   GCancellable *cancellable,
                   gint depth)
 {
+	CamelSession *session;
 	gint i, nparts;
+
+	session = e_msg_composer_get_session (composer);
 
 	nparts = camel_multipart_get_number (multipart);
 
@@ -2989,7 +3004,7 @@ handle_multipart (EMsgComposer *composer,
 			/* Since the first part is not multipart/alternative,
 			 * this must be the body. */
 			html = emcu_part_to_html (
-				mime_part, &length, NULL, cancellable);
+				session, mime_part, &length, NULL, cancellable);
 			e_msg_composer_set_pending_body (composer, html, length);
 		} else if (camel_mime_part_get_content_id (mime_part) ||
 			   camel_mime_part_get_content_location (mime_part)) {
@@ -3056,6 +3071,7 @@ e_msg_composer_new_with_message (EShell *shell,
 	CamelContentType *content_type;
 	struct _camel_header_raw *headers;
 	CamelDataWrapper *content;
+	CamelSession *session;
 	EAccount *account = NULL;
 	gchar *account_name;
 	EMsgComposer *composer;
@@ -3081,6 +3097,7 @@ e_msg_composer_new_with_message (EShell *shell,
 
 	composer = e_msg_composer_new (shell);
 	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
+	session = e_msg_composer_get_session (composer);
 	table = e_msg_composer_get_header_table (composer);
 
 	if (postto) {
@@ -3356,7 +3373,7 @@ e_msg_composer_new_with_message (EShell *shell,
 				ACTION (SMIME_ENCRYPT)), TRUE);
 
 		html = emcu_part_to_html (
-			CAMEL_MIME_PART (message),
+			session, CAMEL_MIME_PART (message),
 			&length, NULL, cancellable);
 		e_msg_composer_set_pending_body (composer, html, length);
 	}
