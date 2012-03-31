@@ -1129,71 +1129,6 @@ if test "x$enable_goa" = xyes; then
 fi
 AM_CONDITIONAL([ENABLE_ONLINE_ACCOUNTS], [test "x$enable_goa" = xyes])
 
-dnl ******************************
-dnl Check for NetworkManager
-dnl ******************************
-AC_ARG_ENABLE([nm],
-	[AS_HELP_STRING([--enable-nm],
-	[enable NetworkManager support (default=yes)])],
-	[enable_nm=$enableval],[enable_nm=yes])
-AC_MSG_CHECKING([if NetworkManager support is enabled])
-AC_MSG_RESULT([$enable_nm])
-if test "$enable_nm" = yes; then
-	PKG_CHECK_MODULES([NM], [NetworkManager >= nm_minimum_version],,
-	[AC_MSG_ERROR([NetworkManager not found (or version < nm_minimum_version).
-	If you want to disable NetworkManager, please append --disable-nm to configure.])])
-	AC_SUBST(HAVE_NM)
-	AC_SUBST(NM_CFLAGS)
-fi
-AM_CONDITIONAL([ENABLE_NETWORK_MANAGER], [test "$enable_nm" = yes])
-
-dnl ******************************
-dnl Check for Windows SENS API
-dnl ******************************
-AC_ARG_ENABLE([sens],
-	[AS_HELP_STRING([--enable-sens],
-	[enable Windows SENS support (default=yes)])],
-	[enable_sens=$enableval],[enable_sens=yes])
-if test "x$os_win32" = xyes; then
-	if test "x$enable_sens" = xyes; then
-		AC_CHECK_HEADER([rpc.h],[ enable_sens="yes" ],[ enable_sens="no" ])
-	fi
-else
-	enable_sens="no"
-fi
-AC_MSG_CHECKING([if Windows SENS support is enabled])
-AC_MSG_RESULT([$enable_sens])
-if test "$enable_sens" = yes; then
-	SENS_LIBS="-lole32 -loleaut32 -luuid -lrpcrt4"
-	AC_CHECK_HEADER([eventsys.h],
-		[AC_DEFINE([HAVE_EVENTSYS_H], 1, [Have <eventsys.h>])],,
-		[[	#if HAVE_EVENTSYS_H
-			#include <eventsys.h>
-			#endif
-		]])
-	AC_CHECK_HEADER([sensevts.h],
-		[AC_DEFINE([HAVE_SENSEVTS_H], 1, [Have <sensevts.h>])],,
-		[[	#if HAVE_SENSEVTS_H
-			#include <sensevts.h>
-			#endif
-		]])
-	AC_SUBST(HAVE_SENS)
-	AC_SUBST(SENS_LIBS)
-fi
-AM_CONDITIONAL([ENABLE_WINDOWS_SENS], [test "$enable_sens" = yes])
-
-dnl ******************************
-dnl Enable ConnMan support ?
-dnl ******************************
-AC_ARG_ENABLE([connman],
-	[AS_HELP_STRING([--enable-connman],
-	[enable ConnMan support (default=no)])],
-	[enable_connman=$enableval],[enable_connman=no])
-if test "x$enable_nm$enable_connman" = "xyesyes"; then
-	AC_MSG_ERROR([It is not possible to enable both ConnMan and NetworkManager])
-fi
-AM_CONDITIONAL([ENABLE_CONNMAN], [test "$enable_connman" = yes])
-
 if test "x$mozilla_nss" != "x"; then
 	EVO_SET_COMPILE_FLAGS(MOZILLA_NSS, $mozilla_nss)
 	MOZILLA_L_DIR=`${PKG_CONFIG} --libs-only-L $mozilla_nss`
@@ -1682,10 +1617,8 @@ modules/bogofilter/Makefile
 modules/calendar/Makefile
 modules/mail/Makefile
 modules/composer-autosave/Makefile
-modules/connman/Makefile
 modules/mailto-handler/Makefile
 modules/mdn/Makefile
-modules/network-manager/Makefile
 modules/online-accounts/Makefile
 modules/offline-alert/Makefile
 modules/plugin-lib/Makefile
@@ -1695,7 +1628,6 @@ modules/plugin-python/Makefile
 modules/spamassassin/Makefile
 modules/startup-wizard/Makefile
 modules/web-inspector/Makefile
-modules/windows-sens/Makefile
 plugins/Makefile
 plugins/addressbook-file/Makefile
 plugins/attachment-reminder/Makefile
@@ -1754,9 +1686,6 @@ fi
 echo "
 	LDAP support:		$msg_ldap
 	Clutter support:	$with_clutter
-	NetworkManager:		$enable_nm
-	Windows SENS:		$enable_sens
-	ConnMan:		$enable_connman
 	Contact Maps:		$enable_contact_maps
 	GNOME Online Accounts:	$enable_goa
 	Libnotify:		$HAVE_LIBNOTIFY
