@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution doc fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-11 15:55+0000\n"
+"POT-Creation-Date: 2012-03-26 09:56+0000\n"
 "PO-Revision-Date: 2012-03-11 15:46+0100\n"
 "Last-Translator: Bruno Brouard <annoa.b@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -1875,7 +1875,7 @@ msgstr "Si vous souhaitez modifier un mémo existant de votre liste de mémos,"
 
 #: C/memos-usage-edit-memo.page:25(p)
 msgid ""
-"Double-click on the memo that you want to edit in the list of contacts, or "
+"Double-click on the memo that you want to edit in the list of memos, or "
 "right-click on the memo and click <gui>Open Memo</gui>."
 msgstr ""
 "faites un double-clic sur le mémo que vous voulez modifier dans la liste des "
@@ -10872,7 +10872,14 @@ msgstr "Traducteurs du manuel d'utilisation d'<app>Evolution</app>"
 #. TO TRANSLATORS: This is shown in the 'Translators of the User Documentation' section. Please REPLACE this string by adding your own names here so you get some well-deserved fame on the interwebs! Thanks for all your hard work! andre
 #: C/credits.page:43(p)
 msgid "(Not applicable to the English version)"
-msgstr "(ne s'applique pas à la version anglaise)"
+msgstr ""
+"Novell, 2004\n"
+"Marc Lorber <Linux-Lorber@club-internet.fr>, 2006\n"
+"Jonathan Ernst <jonathan@ernstfamily.ch>, 2007\n"
+"Claude Paroz <claude@2xlibre.net>, 2007-2009\n"
+"Alexandre Franke <alexandre.franke@gmail.com>, 2009\n"
+"Bruno Brouard <annoa.b@gmail.com>, 2010-2012\n"
+"Alexandre Daubois <alex.daubois@gmail.com>, 2011"
 
 #: C/credits.page:47(title)
 msgid "Authors of the previous version"
