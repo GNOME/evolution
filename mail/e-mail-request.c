@@ -639,9 +639,13 @@ mail_request_send_async (SoupRequest *request,
 	/* Get HTML content of given PURI part */
 	if (g_strcmp0 (uri->scheme, "mail") == 0) {
 		gchar *uri_str;
+		gchar *decoded_uri;
 
-		uri_str = g_strdup_printf ("%s://%s%s", uri->scheme, uri->host, uri->path);
-		emr->priv->efh = g_hash_table_lookup (formatters, uri_str);
+		uri_str = g_strdup_printf (
+			"%s://%s%s", uri->scheme, uri->host, uri->path);
+		decoded_uri = soup_uri_decode (uri_str);
+		emr->priv->efh = g_hash_table_lookup (formatters, decoded_uri);
+		g_free (decoded_uri);
 		g_free (uri_str);
 
 		g_return_if_fail (emr->priv->efh);
