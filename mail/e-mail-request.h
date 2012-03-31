@@ -24,14 +24,26 @@
 #include <libsoup/soup.h>
 #include <libsoup/soup-request.h>
 
-G_BEGIN_DECLS
+/* Standard GObject macros */
+#define E_TYPE_MAIL_REQUEST \
+	(e_mail_request_get_type ())
+#define E_MAIL_REQUEST(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MAIL_REQUEST, EMailRequest))
+#define E_MAIL_REQUEST_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MAIL_REQUEST, EMailRequestClass))
+#define E_IS_MAIL_REQUEST(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MAIL_REQUEST))
+#define E_IS_MAIL_REQUEST_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_MAIL_REQUEST))
+#define E_MAIL_REQUEST_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MAIL_REQUEST, EMailRequestClass))
 
-#define E_TYPE_MAIL_REQUEST            (e_mail_request_get_type ())
-#define E_MAIL_REQUEST(object)         (G_TYPE_CHECK_INSTANCE_CAST ((object), E_TYPE_MAIL_REQUEST, EMailRequest))
-#define E_MAIL_REQUEST_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MAIL_REQUEST, EMailRequestClass))
-#define E_IS_MAIL_REQUEST(object)      (G_TYPE_CHECK_INSTANCE_TYPE ((object), E_TYPE_MAIL_REQUEST))
-#define E_IS_MAIL_REQUEST_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_MAIL_REQUEST))
-#define E_MAIL_REQUEST_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TYPE_MAIL_REQUEST, EMailRequestClass))
+G_BEGIN_DECLS
 
 typedef struct _EMailRequest EMailRequest;
 typedef struct _EMailRequestClass EMailRequestClass;
@@ -39,7 +51,6 @@ typedef struct _EMailRequestPrivate EMailRequestPrivate;
 
 struct _EMailRequest {
 	SoupRequest parent;
-
 	EMailRequestPrivate *priv;
 };
 
@@ -47,7 +58,7 @@ struct _EMailRequestClass {
 	SoupRequestClass parent;
 };
 
-GType e_mail_request_get_type (void);
+GType		e_mail_request_get_type		(void) G_GNUC_CONST;
 
 G_END_DECLS
 
