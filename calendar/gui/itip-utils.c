@@ -928,13 +928,13 @@ comp_description (ECalComponent *comp,
 
 	switch (e_cal_component_get_vtype (comp)) {
 	case E_CAL_COMPONENT_EVENT:
-                description = g_strdup (_("Event information"));
+		description = g_strdup (_("Event information"));
 		break;
 	case E_CAL_COMPONENT_TODO:
-                description = g_strdup (_("Task information"));
+		description = g_strdup (_("Task information"));
 		break;
 	case E_CAL_COMPONENT_JOURNAL:
-                description = g_strdup (_("Memo information"));
+		description = g_strdup (_("Memo information"));
 		break;
 	case E_CAL_COMPONENT_FREEBUSY:
 		e_cal_component_get_dtstart (comp, &dt);
@@ -957,7 +957,7 @@ comp_description (ECalComponent *comp,
 		g_free (end);
 		break;
 	default:
-                description = g_strdup (_("iCalendar information"));
+		description = g_strdup (_("iCalendar information"));
 		break;
 	}
 

@@ -4047,7 +4047,7 @@ handle_mailto (EMsgComposer *composer,
 				if (file_is_blacklisted (content))
 					e_alert_submit (
 						E_ALERT_SINK (composer),
-                				"mail:blacklisted-file",
+						"mail:blacklisted-file",
 						content, NULL);
 				if (g_ascii_strncasecmp (content, "file:", 5) == 0)
 					attachment = e_attachment_new_for_uri (content);

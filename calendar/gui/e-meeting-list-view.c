@@ -176,10 +176,10 @@ get_type_strings (void)
 	GList *strings = NULL;
 
 	strings = g_list_append (strings, (gchar *) _("Individual"));
-        strings = g_list_append (strings, (gchar *) _("Group"));
-        strings = g_list_append (strings, (gchar *) _("Resource"));
-        strings = g_list_append (strings, (gchar *) _("Room"));
-        strings = g_list_append (strings, (gchar *) _("Unknown"));
+	strings = g_list_append (strings, (gchar *) _("Group"));
+	strings = g_list_append (strings, (gchar *) _("Resource"));
+	strings = g_list_append (strings, (gchar *) _("Room"));
+	strings = g_list_append (strings, (gchar *) _("Unknown"));
 
 	return strings;
 }

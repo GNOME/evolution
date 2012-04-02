@@ -1040,8 +1040,8 @@ array_putenv (GPtrArray *env,
 	  const gchar *value;
 
 	  value = g_getenv (envp[i]);
-          g_ptr_array_add (env, g_strdup_printf ("%s=%s", envp[i],
-                                                 value ? value : ""));
+	  g_ptr_array_add (env, g_strdup_printf ("%s=%s", envp[i],
+						 value ? value : ""));
 	}
       g_strfreev (envp);
     }

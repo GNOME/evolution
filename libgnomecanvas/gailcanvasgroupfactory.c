@@ -53,7 +53,7 @@ gail_canvas_group_factory_get_type (void)
     };
     type = g_type_register_static (
 			   ATK_TYPE_OBJECT_FACTORY,
-                           "GailCanvasGroupFactory" , &tinfo, 0);
+			   "GailCanvasGroupFactory" , &tinfo, 0);
   }
 
   return type;

@@ -1107,11 +1107,11 @@ em_format_empty_writer (EMFormat *emf,
 }
 
 static void
-emf_write_error (EMFormat * emf,
-                 EMFormatPURI * puri,
-                 CamelStream * stream,
-                 EMFormatWriterInfo * info,
-                 GCancellable * cancellable)
+emf_write_error (EMFormat *emf,
+                 EMFormatPURI *puri,
+                 CamelStream *stream,
+                 EMFormatWriterInfo *info,
+                 GCancellable *cancellable)
 {
 	camel_data_wrapper_decode_to_stream_sync ((CamelDataWrapper *) puri->part,
 		stream, cancellable, NULL);
@@ -1720,7 +1720,7 @@ em_format_add_header_struct (EMFormat *emf,
 }
 
 void
-em_format_remove_header (EMFormat * emf,
+em_format_remove_header (EMFormat *emf,
                          const gchar *name,
                          const gchar *value)
 {
@@ -1761,8 +1761,8 @@ em_format_remove_header (EMFormat * emf,
 }
 
 void
-em_format_remove_header_struct (EMFormat * emf,
-                                const EMFormatHeader * header)
+em_format_remove_header_struct (EMFormat *emf,
+                                const EMFormatHeader *header)
 {
 	g_return_if_fail (header);
 
@@ -1784,7 +1784,7 @@ em_format_add_puri (EMFormat *emf,
 	g_hash_table_insert (emf->mail_part_table,
 			puri->uri, item);
 
-        d(printf("Added PURI %s\n", puri->uri));
+	d(printf("Added PURI %s\n", puri->uri));
 }
 
 EMFormatPURI *
@@ -2045,9 +2045,9 @@ em_format_parse_part_as (EMFormat *emf,
          * as an attachment. The parser will decide how to display it. */
 	disposition = camel_mime_part_get_content_disposition (part);
 	if (!info->force_handler && disposition &&
-            (g_strcmp0 (disposition->disposition, "attachment") == 0)) {
+	    (g_strcmp0 (disposition->disposition, "attachment") == 0)) {
 		ninfo.is_attachment = TRUE;
-                handler = em_format_find_handler (emf, "x-evolution/message/attachment");
+		handler = em_format_find_handler (emf, "x-evolution/message/attachment");
 		ninfo.handler = handler;
 
 		if (handler && handler->parse_func)
@@ -2478,15 +2478,15 @@ em_format_build_mail_uri (CamelFolder *folder,
 	g_return_val_if_fail (message_uid && *message_uid, NULL);
 
 	if (!folder) {
-                folder_name = "generic";
-                service_uid = "generic";
+		folder_name = "generic";
+		service_uid = "generic";
 	} else {
 		folder_name = camel_folder_get_full_name (folder);
 		store = camel_folder_get_parent_store (folder);
 		if (store)
 			service_uid = camel_service_get_uid (CAMEL_SERVICE (store));
 		else
-                        service_uid = "generic";
+			service_uid = "generic";
 	}
 
 	tmp = g_strdup_printf ("mail://%s/%s/%s",
@@ -2667,7 +2667,7 @@ em_format_header_new (const gchar *name,
 }
 
 void
-em_format_header_free (EMFormatHeader * header)
+em_format_header_free (EMFormatHeader *header)
 {
 	g_return_if_fail (header != NULL);
 

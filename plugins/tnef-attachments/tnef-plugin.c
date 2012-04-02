@@ -125,7 +125,7 @@ org_gnome_format_tnef (gpointer ep,
 	TNEFInitialize (&tnef);
 	tnef.Debug = verbose;
 	if (TNEFParseFile (name, &tnef) == -1) {
-            printf("ERROR processing file\n");
+	    printf("ERROR processing file\n");
 	}
 	processTnef (&tnef, tmpdir);
 
@@ -191,7 +191,7 @@ org_gnome_format_tnef (gpointer ep,
 	g_string_append_printf(t->part_id, ".tnef");
 
 	if (camel_multipart_get_number (mp) > 0) {
-                handler = em_format_find_handler (t->format, "multiplart/mixed");
+		handler = em_format_find_handler (t->format, "multiplart/mixed");
                 /* FIXME Not passing a GCancellable here. */
 		if (handler && handler->parse_func) {
 			CamelMimePart *part = camel_mime_part_new ();
@@ -244,13 +244,13 @@ processTnef (TNEFStruct *tnef,
     /* First see if this requires special processing. */
     /* ie: it's a Contact Card, Task, or Meeting request (vCal/vCard) */
     if (tnef->messageClass[0] != 0)  {
-        if (strcmp(tnef->messageClass, "IPM.Contact") == 0) {
+	if (strcmp(tnef->messageClass, "IPM.Contact") == 0) {
 	    saveVCard (tnef, tmpdir);
 	}
-        if (strcmp(tnef->messageClass, "IPM.Task") == 0) {
+	if (strcmp(tnef->messageClass, "IPM.Task") == 0) {
 	    saveVTask (tnef, tmpdir);
 	}
-        if (strcmp(tnef->messageClass, "IPM.Appointment") == 0) {
+	if (strcmp(tnef->messageClass, "IPM.Appointment") == 0) {
 	    saveVCalendar (tnef, tmpdir);
 	    foundCal = 1;
 	}
@@ -258,7 +258,7 @@ processTnef (TNEFStruct *tnef,
 
     if ((filename = MAPIFindUserProp (&(tnef->MapiProperties),
 			PROP_TAG (PT_STRING8,0x24))) != MAPI_UNDEFINED) {
-        if (strcmp(filename->data, "IPM.Appointment") == 0) {
+	if (strcmp(filename->data, "IPM.Appointment") == 0) {
              /* If it's "indicated" twice, we don't want to save 2 calendar entries. */
 	    if (foundCal == 0) {
 		saveVCalendar (tnef, tmpdir);
@@ -277,13 +277,13 @@ processTnef (TNEFStruct *tnef,
 		    file = sanitize_filename (tnef->subject.data);
 		    if (!file)
 			    return;
-                    absfilename = g_strconcat (file, ".rtf", NULL);
+		    absfilename = g_strconcat (file, ".rtf", NULL);
 		    ifilename = g_build_filename (tmpdir, file, NULL);
 		    g_free (absfilename);
 		    g_free (file);
 
-                    if ((fptr = fopen(ifilename, "wb"))==NULL) {
-                        printf("ERROR: Error writing file to disk!");
+		    if ((fptr = fopen(ifilename, "wb"))==NULL) {
+			printf("ERROR: Error writing file to disk!");
 		    } else {
 			fwrite (buf.data,
 				sizeof (BYTE),
@@ -369,7 +369,7 @@ processTnef (TNEFStruct *tnef,
 		}
 		if (filename->size == 1) {
 		    filename->size = 20;
-                    g_sprintf(tmpname, "file_%03i.dat", count);
+		    g_sprintf(tmpname, "file_%03i.dat", count);
 		    filename->data = tmpname;
 		}
 		absfilename = sanitize_filename (filename->data);
@@ -421,7 +421,7 @@ saveVCard (TNEFStruct *tnef,
 		    return;
 		absfilename = g_strconcat (file, ".vcard", NULL);
 	    } else
-                absfilename = g_strdup ("unknown.vcard");       
+		absfilename = g_strdup ("unknown.vcard");       
      } else {
 	    file = sanitize_filename (vl->data);
 	    if (!file)
@@ -440,41 +440,41 @@ saveVCard (TNEFStruct *tnef,
     g_free (absfilename);
 
     if ((fptr = fopen(ifilename, "wb"))==NULL) {
-            printf("Error writing file to disk!");
+	    printf("Error writing file to disk!");
     } else {
-        fprintf(fptr, "BEGIN:VCARD\n");
-        fprintf(fptr, "VERSION:2.1\n");
+	fprintf(fptr, "BEGIN:VCARD\n");
+	fprintf(fptr, "VERSION:2.1\n");
 	if (vl != MAPI_UNDEFINED) {
-            fprintf(fptr, "FN:%s\n", vl->data);
+	    fprintf(fptr, "FN:%s\n", vl->data);
 	}
-        fprintProperty(tnef, fptr, PT_STRING8, PR_NICKNAME, "NICKNAME:%s\n");
-        fprintUserProp(tnef, fptr, PT_STRING8, 0x8554, "MAILER:Microsoft Outlook %s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_SPOUSE_NAME, "X-EVOLUTION-SPOUSE:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_MANAGER_NAME, "X-EVOLUTION-MANAGER:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_ASSISTANT, "X-EVOLUTION-ASSISTANT:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_NICKNAME, "NICKNAME:%s\n");
+	fprintUserProp(tnef, fptr, PT_STRING8, 0x8554, "MAILER:Microsoft Outlook %s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_SPOUSE_NAME, "X-EVOLUTION-SPOUSE:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_MANAGER_NAME, "X-EVOLUTION-MANAGER:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_ASSISTANT, "X-EVOLUTION-ASSISTANT:%s\n");
 
         /* Organizational */
 	if ((vl = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, PR_COMPANY_NAME))) != MAPI_UNDEFINED) {
 	    if (vl->size > 0) {
 		if ((vl->size == 1) && (vl->data[0] == 0)) {
 		} else {
-                    fprintf(fptr,"ORG:%s", vl->data);
+		    fprintf(fptr,"ORG:%s", vl->data);
 		    if ((vl = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, PR_DEPARTMENT_NAME))) != MAPI_UNDEFINED) {
-                        fprintf(fptr,";%s", vl->data);
+			fprintf(fptr,";%s", vl->data);
 		    }
-                    fprintf(fptr, "\n");
+		    fprintf(fptr, "\n");
 		}
 	    }
 	}
 
-        fprintProperty(tnef, fptr, PT_STRING8, PR_OFFICE_LOCATION, "X-EVOLUTION-OFFICE:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_TITLE, "TITLE:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_PROFESSION, "ROLE:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_BODY, "NOTE:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_OFFICE_LOCATION, "X-EVOLUTION-OFFICE:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_TITLE, "TITLE:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_PROFESSION, "ROLE:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_BODY, "NOTE:%s\n");
 	if (tnef->body.size > 0) {
-            fprintf(fptr, "NOTE;QUOTED-PRINTABLE:");
+	    fprintf(fptr, "NOTE;QUOTED-PRINTABLE:");
 	    quotedfprint (fptr, &(tnef->body));
-            fprintf(fptr,"\n");
+	    fprintf(fptr,"\n");
 	}
 
         /* Business Address */
@@ -498,35 +498,35 @@ saveVCard (TNEFStruct *tnef,
 	    boolean = 1;
 	}
 	if (boolean == 1) {
-            fprintf(fptr, "ADR;QUOTED-PRINTABLE;WORK:");
+	    fprintf(fptr, "ADR;QUOTED-PRINTABLE;WORK:");
 	    if (pobox != MAPI_UNDEFINED) {
 		quotedfprint (fptr, pobox);
 	    }
-            fprintf(fptr, ";;");
+	    fprintf(fptr, ";;");
 	    if (street != MAPI_UNDEFINED) {
 		quotedfprint (fptr, street);
 	    }
-            fprintf(fptr, ";");
+	    fprintf(fptr, ";");
 	    if (city != MAPI_UNDEFINED) {
 		quotedfprint (fptr, city);
 	    }
-            fprintf(fptr, ";");
+	    fprintf(fptr, ";");
 	    if (state != MAPI_UNDEFINED) {
 		quotedfprint (fptr, state);
 	    }
-            fprintf(fptr, ";");
+	    fprintf(fptr, ";");
 	    if (zip != MAPI_UNDEFINED) {
 		quotedfprint (fptr, zip);
 	    }
-            fprintf(fptr, ";");
+	    fprintf(fptr, ";");
 	    if (country != MAPI_UNDEFINED) {
 		quotedfprint (fptr, country);
 	    }
-            fprintf(fptr,"\n");
+	    fprintf(fptr,"\n");
 	    if ((vl = MAPIFindUserProp (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, 0x801b))) != MAPI_UNDEFINED) {
-                fprintf(fptr, "LABEL;QUOTED-PRINTABLE;WORK:");
+		fprintf(fptr, "LABEL;QUOTED-PRINTABLE;WORK:");
 		quotedfprint (fptr, vl);
-                fprintf(fptr,"\n");
+		fprintf(fptr,"\n");
 	    }
 	}
 
@@ -551,35 +551,35 @@ saveVCard (TNEFStruct *tnef,
 	    boolean = 1;
 	}
 	if (boolean == 1) {
-            fprintf(fptr, "ADR;QUOTED-PRINTABLE;HOME:");
+	    fprintf(fptr, "ADR;QUOTED-PRINTABLE;HOME:");
 	    if (pobox != MAPI_UNDEFINED) {
 		quotedfprint (fptr, pobox);
 	    }
-            fprintf(fptr, ";;");
+	    fprintf(fptr, ";;");
 	    if (street != MAPI_UNDEFINED) {
 		quotedfprint (fptr, street);
 	    }
-            fprintf(fptr, ";");
+	    fprintf(fptr, ";");
 	    if (city != MAPI_UNDEFINED) {
 		quotedfprint (fptr, city);
 	    }
-            fprintf(fptr, ";");
+	    fprintf(fptr, ";");
 	    if (state != MAPI_UNDEFINED) {
 		quotedfprint (fptr, state);
 	    }
-            fprintf(fptr, ";");
+	    fprintf(fptr, ";");
 	    if (zip != MAPI_UNDEFINED) {
 		quotedfprint (fptr, zip);
 	    }
-            fprintf(fptr, ";");
+	    fprintf(fptr, ";");
 	    if (country != MAPI_UNDEFINED) {
 		quotedfprint (fptr, country);
 	    }
-            fprintf(fptr,"\n");
+	    fprintf(fptr,"\n");
 	    if ((vl = MAPIFindUserProp (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, 0x801a))) != MAPI_UNDEFINED) {
-                fprintf(fptr, "LABEL;QUOTED-PRINTABLE;WORK:");
+		fprintf(fptr, "LABEL;QUOTED-PRINTABLE;WORK:");
 		quotedfprint (fptr, vl);
-                fprintf(fptr,"\n");
+		fprintf(fptr,"\n");
 	    }
 	}
 
@@ -604,52 +604,52 @@ saveVCard (TNEFStruct *tnef,
 	    boolean = 1;
 	}
 	if (boolean == 1) {
-            fprintf(fptr, "ADR;QUOTED-PRINTABLE;OTHER:");
+	    fprintf(fptr, "ADR;QUOTED-PRINTABLE;OTHER:");
 	    if (pobox != MAPI_UNDEFINED) {
 		quotedfprint (fptr, pobox);
 	    }
-            fprintf(fptr, ";;");
+	    fprintf(fptr, ";;");
 	    if (street != MAPI_UNDEFINED) {
 		quotedfprint (fptr, street);
 	    }
-            fprintf(fptr, ";");
+	    fprintf(fptr, ";");
 	    if (city != MAPI_UNDEFINED) {
 		quotedfprint (fptr, city);
 	    }
-            fprintf(fptr, ";");
+	    fprintf(fptr, ";");
 	    if (state != MAPI_UNDEFINED) {
 		quotedfprint (fptr, state);
 	    }
-            fprintf(fptr, ";");
+	    fprintf(fptr, ";");
 	    if (zip != MAPI_UNDEFINED) {
 		quotedfprint (fptr, zip);
 	    }
-            fprintf(fptr, ";");
+	    fprintf(fptr, ";");
 	    if (country != MAPI_UNDEFINED) {
 		quotedfprint (fptr, country);
 	    }
-            fprintf(fptr,"\n");
+	    fprintf(fptr,"\n");
 	}
 
-        fprintProperty(tnef, fptr, PT_STRING8, PR_CALLBACK_TELEPHONE_NUMBER, "TEL;X-EVOLUTION-CALLBACK:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_PRIMARY_TELEPHONE_NUMBER, "TEL;PREF:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_MOBILE_TELEPHONE_NUMBER, "TEL;CELL:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_RADIO_TELEPHONE_NUMBER, "TEL;X-EVOLUTION-RADIO:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_CAR_TELEPHONE_NUMBER, "TEL;CAR:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_OTHER_TELEPHONE_NUMBER, "TEL;VOICE:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_PAGER_TELEPHONE_NUMBER, "TEL;PAGER:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_TELEX_NUMBER, "TEL;X-EVOLUTION-TELEX:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_ISDN_NUMBER, "TEL;ISDN:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_HOME2_TELEPHONE_NUMBER, "TEL;HOME:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_TTYTDD_PHONE_NUMBER, "TEL;X-EVOLUTION-TTYTDD:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_HOME_TELEPHONE_NUMBER, "TEL;HOME;VOICE:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_ASSISTANT_TELEPHONE_NUMBER, "TEL;X-EVOLUTION-ASSISTANT:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_COMPANY_MAIN_PHONE_NUMBER, "TEL;WORK:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_BUSINESS_TELEPHONE_NUMBER, "TEL;WORK:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_BUSINESS2_TELEPHONE_NUMBER, "TEL;WORK;VOICE:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_PRIMARY_FAX_NUMBER, "TEL;PREF;FAX:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_BUSINESS_FAX_NUMBER, "TEL;WORK;FAX:%s\n");
-        fprintProperty(tnef, fptr, PT_STRING8, PR_HOME_FAX_NUMBER, "TEL;HOME;FAX:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_CALLBACK_TELEPHONE_NUMBER, "TEL;X-EVOLUTION-CALLBACK:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_PRIMARY_TELEPHONE_NUMBER, "TEL;PREF:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_MOBILE_TELEPHONE_NUMBER, "TEL;CELL:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_RADIO_TELEPHONE_NUMBER, "TEL;X-EVOLUTION-RADIO:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_CAR_TELEPHONE_NUMBER, "TEL;CAR:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_OTHER_TELEPHONE_NUMBER, "TEL;VOICE:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_PAGER_TELEPHONE_NUMBER, "TEL;PAGER:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_TELEX_NUMBER, "TEL;X-EVOLUTION-TELEX:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_ISDN_NUMBER, "TEL;ISDN:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_HOME2_TELEPHONE_NUMBER, "TEL;HOME:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_TTYTDD_PHONE_NUMBER, "TEL;X-EVOLUTION-TTYTDD:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_HOME_TELEPHONE_NUMBER, "TEL;HOME;VOICE:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_ASSISTANT_TELEPHONE_NUMBER, "TEL;X-EVOLUTION-ASSISTANT:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_COMPANY_MAIN_PHONE_NUMBER, "TEL;WORK:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_BUSINESS_TELEPHONE_NUMBER, "TEL;WORK:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_BUSINESS2_TELEPHONE_NUMBER, "TEL;WORK;VOICE:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_PRIMARY_FAX_NUMBER, "TEL;PREF;FAX:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_BUSINESS_FAX_NUMBER, "TEL;WORK;FAX:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_HOME_FAX_NUMBER, "TEL;HOME;FAX:%s\n");
 
         /* Email addresses */
 	if ((vl = MAPIFindUserProp (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, 0x8083))) == MAPI_UNDEFINED) {
@@ -657,40 +657,40 @@ saveVCard (TNEFStruct *tnef,
 	}
 	if (vl != MAPI_UNDEFINED) {
 	    if (vl->size > 0)
-                fprintf(fptr, "EMAIL:%s\n", vl->data);
+		fprintf(fptr, "EMAIL:%s\n", vl->data);
 	}
 	if ((vl = MAPIFindUserProp (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, 0x8093))) == MAPI_UNDEFINED) {
 	    vl = MAPIFindUserProp (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, 0x8094));
 	}
 	if (vl != MAPI_UNDEFINED) {
 	    if (vl->size > 0)
-                fprintf(fptr, "EMAIL:%s\n", vl->data);
+		fprintf(fptr, "EMAIL:%s\n", vl->data);
 	}
 	if ((vl = MAPIFindUserProp (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, 0x80a3))) == MAPI_UNDEFINED) {
 	    vl = MAPIFindUserProp (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, 0x80a4));
 	}
 	if (vl != MAPI_UNDEFINED) {
 	    if (vl->size > 0)
-                fprintf(fptr, "EMAIL:%s\n", vl->data);
+		fprintf(fptr, "EMAIL:%s\n", vl->data);
 	}
 
-        fprintProperty(tnef, fptr, PT_STRING8, PR_BUSINESS_HOME_PAGE, "URL:%s\n");
-        fprintUserProp(tnef, fptr, PT_STRING8, 0x80d8, "FBURL:%s\n");
+	fprintProperty(tnef, fptr, PT_STRING8, PR_BUSINESS_HOME_PAGE, "URL:%s\n");
+	fprintUserProp(tnef, fptr, PT_STRING8, 0x80d8, "FBURL:%s\n");
 
         /* Birthday */
 	if ((vl = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_SYSTIME, PR_BIRTHDAY))) != MAPI_UNDEFINED) {
-            fprintf(fptr, "BDAY:");
+	    fprintf(fptr, "BDAY:");
 	    MAPISysTimetoDTR ((guchar *) vl->data, &thedate);
-            fprintf(fptr, "%i-%02i-%02i\n", thedate.wYear, thedate.wMonth, thedate.wDay);
+	    fprintf(fptr, "%i-%02i-%02i\n", thedate.wYear, thedate.wMonth, thedate.wDay);
 	}
 
         /* Anniversary */
 	if ((vl = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_SYSTIME, PR_WEDDING_ANNIVERSARY))) != MAPI_UNDEFINED) {
-            fprintf(fptr, "X-EVOLUTION-ANNIVERSARY:");
+	    fprintf(fptr, "X-EVOLUTION-ANNIVERSARY:");
 	    MAPISysTimetoDTR ((guchar *) vl->data, &thedate);
-            fprintf(fptr, "%i-%02i-%02i\n", thedate.wYear, thedate.wMonth, thedate.wDay);
+	    fprintf(fptr, "%i-%02i-%02i\n", thedate.wYear, thedate.wMonth, thedate.wDay);
 	}
-        fprintf(fptr, "END:VCARD\n");
+	fprintf(fptr, "END:VCARD\n");
 	fclose (fptr);
     }
     g_free (ifilename);
@@ -815,63 +815,63 @@ void printRrule (FILE *fptr, gchar *recur_data, gint size, TNEFStruct *tnef)
     fprintf(fptr, "RRULE:FREQ=");
 
     if (recur_data[0x04] == 0x0A) {
-        fprintf(fptr, "DAILY");
+	fprintf(fptr, "DAILY");
 
 	if (recur_data[0x16] == 0x23 || recur_data[0x16] == 0x22 ||
 		recur_data[0x16] == 0x21) {
 	    if ((filename = MAPIFindUserProp (&(tnef->MapiProperties),
 		    PROP_TAG (PT_I2, 0x0011))) != MAPI_UNDEFINED) {
-                fprintf(fptr, ";INTERVAL=%d", *(filename->data));
+		fprintf(fptr, ";INTERVAL=%d", *(filename->data));
 	    }
 	    if (recur_data[0x16] == 0x22 || recur_data[0x16] == 0x21) {
-                fprintf(fptr, ";COUNT=%d",
+		fprintf(fptr, ";COUNT=%d",
 		    getRruleCount (recur_data[0x1B], recur_data[0x1A]));
 	    }
 	} else if (recur_data[0x16] == 0x3E) {
-            fprintf(fptr, ";BYDAY=MO,TU,WE,TH,FR");
+	    fprintf(fptr, ";BYDAY=MO,TU,WE,TH,FR");
 	    if (recur_data[0x1A] == 0x22 || recur_data[0x1A] == 0x21) {
-                fprintf(fptr, ";COUNT=%d",
+		fprintf(fptr, ";COUNT=%d",
 		    getRruleCount (recur_data[0x1F], recur_data[0x1E]));
 	    }
 	}
     } else if (recur_data[0x04] == 0x0B) {
-        fprintf(fptr, "WEEKLY;INTERVAL=%d;BYDAY=%s",
+	fprintf(fptr, "WEEKLY;INTERVAL=%d;BYDAY=%s",
 	    recur_data[0x0E], getRruleDayname (recur_data[0x16]));
 	if (recur_data[0x1A] == 0x22 || recur_data[0x1A] == 0x21) {
-            fprintf(fptr, ";COUNT=%d",
+	    fprintf(fptr, ";COUNT=%d",
 		getRruleCount (recur_data[0x1F], recur_data[0x1E]));
 	}
     } else if (recur_data[0x04] == 0x0C) {
-        fprintf(fptr, "MONTHLY");
+	fprintf(fptr, "MONTHLY");
 	if (recur_data[0x06] == 0x02) {
-            fprintf(fptr, ";INTERVAL=%d;BYMONTHDAY=%d", recur_data[0x0E],
+	    fprintf(fptr, ";INTERVAL=%d;BYMONTHDAY=%d", recur_data[0x0E],
 		recur_data[0x16]);
 	    if (recur_data[0x1A] == 0x22 || recur_data[0x1A] == 0x21) {
-                fprintf(fptr, ";COUNT=%d", getRruleCount(recur_data[0x1F],
+		fprintf(fptr, ";COUNT=%d", getRruleCount(recur_data[0x1F],
 		    recur_data[0x1E]));
 	    }
 	} else if (recur_data[0x06] == 0x03) {
-            fprintf(fptr, ";BYDAY=%s;BYSETPOS=%d;INTERVAL=%d",
+	    fprintf(fptr, ";BYDAY=%s;BYSETPOS=%d;INTERVAL=%d",
 		getRruleDayname (recur_data[0x16]),
 		recur_data[0x1A] == 0x05 ? -1 : recur_data[0x1A],
 		recur_data[0x0E]);
 	    if (recur_data[0x1E] == 0x22 || recur_data[0x1E] == 0x21) {
-                fprintf(fptr, ";COUNT=%d", getRruleCount(recur_data[0x23],
+		fprintf(fptr, ";COUNT=%d", getRruleCount(recur_data[0x23],
 		    recur_data[0x22]));
 	    }
 	}
     } else if (recur_data[0x04] == 0x0D) {
-        fprintf(fptr, "YEARLY;BYMONTH=%d",
+	fprintf(fptr, "YEARLY;BYMONTH=%d",
 		getRruleMonthNum (recur_data[0x0A], recur_data[0x0B]));
 	if (recur_data[0x06] == 0x02) {
-            fprintf(fptr, ";BYMONTHDAY=%d", recur_data[0x16]);
+	    fprintf(fptr, ";BYMONTHDAY=%d", recur_data[0x16]);
 	} else if (recur_data[0x06] == 0x03) {
-            fprintf(fptr, ";BYDAY=%s;BYSETPOS=%d",
+	    fprintf(fptr, ";BYDAY=%s;BYSETPOS=%d",
 		getRruleDayname (recur_data[0x16]),
 		recur_data[0x1A] == 0x05 ? -1 : recur_data[0x1A]);
 	}
 	if (recur_data[0x1E] == 0x22 || recur_data[0x1E] == 0x21) {
-            fprintf(fptr, ";COUNT=%d", getRruleCount(recur_data[0x23],
+	    fprintf(fptr, ";COUNT=%d", getRruleCount(recur_data[0x23],
 		recur_data[0x22]));
 	}
     }

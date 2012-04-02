@@ -83,7 +83,7 @@ struct _fetch_mail_msg {
 	MailProviderFetchLockFunc provider_lock;
 	MailProviderFetchUnlockFunc provider_unlock;
 	MailProviderFetchInboxFunc provider_fetch_inbox;
-	
+
 	void (*done)(gint still_more, gpointer data);
 	gpointer data;
 };
@@ -291,8 +291,8 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 		if (m->fetch_count > 0) {
 			/* We probably should fetch some old messages first. */
 			printf("Fetching %d %s messages\n", m->fetch_count, (m->fetch_type == CAMEL_FETCH_NEW_MESSAGES) ? "new" : "old");
-			m->still_more = camel_folder_fetch_messages_sync (folder, m->fetch_type, 
-					m->fetch_count, cancellable, error) ? 1 : 0 ;
+			m->still_more = camel_folder_fetch_messages_sync (folder, m->fetch_type,
+					m->fetch_count, cancellable, error) ? 1 : 0;
 		}
 		service = CAMEL_SERVICE (parent_store);
 		data_dir = camel_service_get_user_data_dir (service);
@@ -323,7 +323,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 				/* Reverse it so that we fetch the latest as first, while fetching POP  */
 				for (i = 0; i < cache_uids->len; i++)
-					uids->pdata[cache_uids->len-i-1] = g_strdup (cache_uids->pdata[i]);
+					uids->pdata[cache_uids->len - i - 1] = g_strdup (cache_uids->pdata[i]);
 
 				camel_uid_cache_free_uids (cache_uids);
 
@@ -417,18 +417,19 @@ static MailMsgInfo fetch_mail_info = {
 void
 mail_fetch_mail (CamelStore *store,
                  gint keep,
-		 CamelFetchType fetch_type, 
-		 gint fetch_count,
+                 CamelFetchType fetch_type,
+                 gint fetch_count,
                  const gchar *type,
-		 MailProviderFetchLockFunc lock_func,
-		 MailProviderFetchUnlockFunc unlock_func,
-		 MailProviderFetchInboxFunc fetch_inbox_func,
+                 MailProviderFetchLockFunc lock_func,
+                 MailProviderFetchUnlockFunc unlock_func,
+                 MailProviderFetchInboxFunc fetch_inbox_func,
                  GCancellable *cancellable,
                  CamelFilterGetFolderFunc get_folder,
                  gpointer get_data,
                  CamelFilterStatusFunc *status,
                  gpointer status_data,
-                 void (*done)(int still_more, gpointer data),
+                 void (*done)(gint still_more,
+                 gpointer data),
                  gpointer data)
 {
 	struct _fetch_mail_msg *m;

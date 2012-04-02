@@ -111,7 +111,7 @@ gail_canvas_get_type (void)
 
       /* use the size obtained from the parent type factory */
       type = g_type_register_static (atkobject_parent_type,
-                                     "GailCanvas", &tinfo, 0);
+				     "GailCanvas", &tinfo, 0);
     }
 
   return type;

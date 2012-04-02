@@ -1037,14 +1037,14 @@ parse_address_template_section (const gchar *format,
 				if (ret && (pos >= format + 2) &&		/* If there's something before %, */
 				    (g_ascii_strcasecmp (pos - 2, "\n") != 0) &&  /* And if it is not a newline */
 				    (g_ascii_strcasecmp (pos - 2, "%w") != 0))    /* Nor whitespace */
-				    	g_string_append (res, ", ");
+					g_string_append (res, ", ");
 				pos += 2;
 				break;
 			case 'w':
 				if (ret && (pos >= format + 2) &&
 				    (g_ascii_strcasecmp (pos - 2, "\n") != 0) &&
 				    (g_ascii_strcasecmp (pos - 1, " ") != 0))
-				    	g_string_append (res, " ");
+					g_string_append (res, " ");
 				pos += 2;
 				break;
 			case '0': {

@@ -455,7 +455,7 @@ epech_custom_header_options_commit (EMsgComposer *comp,
 	if (!user_data || !EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG (user_data))
 		return;
 
-        new_email_custom_header_window = g_object_get_data ((GObject *) composer, "compowindow");
+	new_email_custom_header_window = g_object_get_data ((GObject *) composer, "compowindow");
 
 	if (new_email_custom_header_window) {
 		current_dialog = new_email_custom_header_window->epech_dialog;
@@ -520,7 +520,7 @@ static void action_email_custom_header_cb (GtkAction *action, EMsgComposer *comp
 			new_email_custom_header_window = g_new0 (EmailCustomHeaderWindow, 1);
 			new_email_custom_header_window->epech_window = window;
 			new_email_custom_header_window->epech_dialog = dialog;
-                        g_object_set_data_full ((GObject *) composer, "compowindow", new_email_custom_header_window, destroy_compo_data);
+			g_object_set_data_full ((GObject *) composer, "compowindow", new_email_custom_header_window, destroy_compo_data);
 		}
 	}
 
@@ -581,7 +581,7 @@ commit_changes (ConfigData *cd)
                 /* Check if the keyword is not empty */
 		if ((keyword) && (g_utf8_strlen (g_strstrip (keyword), -1) > 0)) {
 			if ((value) && (g_utf8_strlen (g_strstrip (value), -1) > 0)) {
-                                keyword = g_strconcat (keyword, "=", value, NULL);
+				keyword = g_strconcat (keyword, "=", value, NULL);
 			}
 			header_config_list = g_slist_append (header_config_list, g_strdup (keyword));
 		}

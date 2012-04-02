@@ -74,7 +74,7 @@ gal_a11y_e_cell_toggle_get_type (void)
       };
 
       type = g_type_register_static (GAL_A11Y_TYPE_E_CELL,
-                                     "GalA11yECellToggle", &tinfo, 0);
+				     "GalA11yECellToggle", &tinfo, 0);
       gal_a11y_e_cell_type_add_action_interface (type);
 
     }

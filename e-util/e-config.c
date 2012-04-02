@@ -844,7 +844,7 @@ ec_rebuild (EConfig *emp)
 				if (page) {
 					const gchar *empty_xpm_img[] = {
 						"75 1 2 1",
-						" 	c None",
+						"	c None",
 						".	c #FFFFFF",
 						"                                                                           "};
 

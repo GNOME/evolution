@@ -149,7 +149,7 @@ efh_parse_image (EMFormat *emf,
 	tmp = camel_mime_part_get_content_id (part);
 	if (!tmp) {
 		em_format_parse_part_as (emf, part, part_id, info,
-                                "x-evolution/message/attachment", cancellable);
+				"x-evolution/message/attachment", cancellable);
 		return;
 	}
 
@@ -522,7 +522,7 @@ efh_parse_message_rfc822 (EMFormat *emf,
         /* Create an empty PURI that will represent start of the RFC message */
 	puri = em_format_puri_new (emf, sizeof (EMFormatPURI), part, part_id->str);
 	puri->write_func = efh_write_message_rfc822;
-        puri->mime_type = g_strdup ("text/html");
+	puri->mime_type = g_strdup ("text/html");
 	puri->is_attachment = info->is_attachment;
 	em_format_add_puri (emf, puri);
 
@@ -544,7 +544,7 @@ efh_parse_message_rfc822 (EMFormat *emf,
         /* Add another generic PURI that represents end of the RFC message.
          * The em_format_write() function will skip all PURIs between the ".rfc822" 
          * PURI and ".rfc822.end" PURI as they will be rendered in an <iframe> */
-        g_string_append (part_id, ".end");
+	g_string_append (part_id, ".end");
 	puri = em_format_puri_new (emf, sizeof (EMFormatPURI), NULL, part_id->str);
 	em_format_add_puri (emf, puri);
 
@@ -901,11 +901,11 @@ efh_write_text_html (EMFormat *emf,
 			} else if (g_ascii_strncasecmp (tag, "script", 6) == 0) {
 				tags = g_list_append (
 					tags,
-                                        get_tag ("script", opening, closing));
+					get_tag ("script", opening, closing));
 			} else if (g_ascii_strncasecmp (tag, "link", 4) == 0) {
 				tags = g_list_append (
 					tags,
-                                        get_tag ("link", opening, closing));
+					get_tag ("link", opening, closing));
 			} else if (g_ascii_strncasecmp (tag, "body", 4) == 0) {
 				valid = TRUE;
 				break;
@@ -983,7 +983,7 @@ efh_write_text_html (EMFormat *emf,
 			"<div class=\"part-container-inner-margin\">\n"
 			"<iframe width=\"100%%\" height=\"auto\""
 			" frameborder=\"0\" src=\"%s\"></iframe>"
-                        "</div></div>",
+			"</div></div>",
 			e_color_to_value (&efh->priv->colors[EM_FORMAT_HTML_COLOR_FRAME]),
 			e_color_to_value (&efh->priv->colors[EM_FORMAT_HTML_COLOR_CONTENT]),
 			uri);
@@ -1077,7 +1077,7 @@ efh_write_headers (EMFormat *emf,
 		g_string_append_printf (buffer,
 			"<img src=\"evo-file://%s/%s\" class=\"navigable\" "
 			     "id=\"__evo-collapse-headers-img\" />"
-                        "</td><td>",
+			"</td><td>",
 			EVOLUTION_IMAGESDIR,
 			(info->headers_collapsed) ? "plus.png" : "minus.png");
 
@@ -1151,7 +1151,7 @@ efh_write_message_rfc822 (EMFormat *emf,
 			EMFormatPURI *p;
 			p = iter->data;
 
-                        if (g_str_has_suffix (p->uri, ".rfc822.end"))
+			if (g_str_has_suffix (p->uri, ".rfc822.end"))
 				break;
 
 			puris = g_list_append (puris, p);
@@ -1180,12 +1180,12 @@ efh_write_message_rfc822 (EMFormat *emf,
 
                         /* EMFormatHTMLPrint has registered a special writer
                          * for headers, try to find it and use it. */
-                        if (g_str_has_suffix (p->uri, ".headers")) {
+			if (g_str_has_suffix (p->uri, ".headers")) {
 
 				const EMFormatHandler *handler;
 
 				handler = em_format_find_handler (
-                                        emf, "x-evolution/message/headers");
+					emf, "x-evolution/message/headers");
 				if (handler && handler->write_func)
 					handler->write_func (emf, p, stream, info, cancellable);
 
@@ -1193,10 +1193,10 @@ efh_write_message_rfc822 (EMFormat *emf,
 				continue;
 			}
 
-                        if (g_str_has_suffix (p->uri, ".rfc822.end"))
+			if (g_str_has_suffix (p->uri, ".rfc822.end"))
 				break;
 
-                        if (g_str_has_suffix (p->uri, ".attachment-bar"))
+			if (g_str_has_suffix (p->uri, ".attachment-bar"))
 				can_write = TRUE;
 
 			if (can_write && p->write_func) {
@@ -1223,17 +1223,17 @@ efh_write_message_rfc822 (EMFormat *emf,
 		p = iter->data;
 
 		uri = em_format_build_mail_uri (emf->folder, emf->message_uid,
-                        "part_id", G_TYPE_STRING, p->uri,
-                        "mode", G_TYPE_INT, EM_FORMAT_WRITE_MODE_RAW,
+			"part_id", G_TYPE_STRING, p->uri,
+			"mode", G_TYPE_INT, EM_FORMAT_WRITE_MODE_RAW,
 			NULL);
 
 		str = g_strdup_printf (
-                        "<div class=\"part-container\" style=\"border-color: #%06x; "
-                        "background-color: #%06x;\">"
-                        "<div class=\"part-container-inner-margin\">\n"
-                        "<iframe width=\"100%%\" height=\"auto\""
-                        " frameborder=\"0\" src=\"%s\" name=\"%s\"></iframe>"
-                        "</div></div>",
+			"<div class=\"part-container\" style=\"border-color: #%06x; "
+			"background-color: #%06x;\">"
+			"<div class=\"part-container-inner-margin\">\n"
+			"<iframe width=\"100%%\" height=\"auto\""
+			" frameborder=\"0\" src=\"%s\" name=\"%s\"></iframe>"
+			"</div></div>",
 			e_color_to_value (&efh->priv->colors[EM_FORMAT_HTML_COLOR_FRAME]),
 			e_color_to_value (&efh->priv->colors[EM_FORMAT_HTML_COLOR_CONTENT]),
 			uri, puri->uri);
@@ -1582,14 +1582,14 @@ efh_write_message (EMFormat *emf,
 	efh = (EMFormatHTML *) emf;
 
 	header = g_strdup_printf (
-                "<!DOCTYPE HTML>\n<html>\n"
-                "<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\" />\n"
-                "<title>Evolution Mail Display</title>\n"
-                "<link type=\"text/css\" rel=\"stylesheet\" href=\"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview.css\" />\n"
-                "<style type=\"text/css\">\n"
-                "  table th { color: #000; font-weight: bold; }\n"
-                "</style>\n"
-                "</head><body bgcolor=\"#%06x\">",
+		"<!DOCTYPE HTML>\n<html>\n"
+		"<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\" />\n"
+		"<title>Evolution Mail Display</title>\n"
+		"<link type=\"text/css\" rel=\"stylesheet\" href=\"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview.css\" />\n"
+		"<style type=\"text/css\">\n"
+		"  table th { color: #000; font-weight: bold; }\n"
+		"</style>\n"
+		"</head><body bgcolor=\"#%06x\">",
 		e_color_to_value (&efh->priv->colors[
 		EM_FORMAT_HTML_COLOR_BODY]));
 
@@ -1601,7 +1601,7 @@ efh_write_message (EMFormat *emf,
 		efh_write_source (emf, emf->mail_part_list->data,
 				  stream, info, cancellable);
 
-                camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
+		camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
 		return;
 	}
 
@@ -1617,7 +1617,7 @@ efh_write_message (EMFormat *emf,
                  * These skipped PURIs contain entire RFC message which will
                  * be written in <iframe> as attachment.
                  */
-                if (g_str_has_suffix (puri->uri, ".rfc822")) {
+		if (g_str_has_suffix (puri->uri, ".rfc822")) {
 
                         /* If the PURI is not an attachment, then we must
                          * inline it here otherwise it would not be displayed. */
@@ -1632,13 +1632,13 @@ efh_write_message (EMFormat *emf,
 				puri->write_func (emf, p, stream, info, cancellable);
 			}
 
-                        while (iter && !g_str_has_suffix (puri->uri, ".rfc822.end")) {
+			while (iter && !g_str_has_suffix (puri->uri, ".rfc822.end")) {
 
 				iter = iter->next;
 				if (iter)
 					puri = iter->data;
 
-                                d(printf(".rfc822 - skipping %s\n", puri->uri));
+				d(printf(".rfc822 - skipping %s\n", puri->uri));
 			}
 
                         /* Skip the .rfc822.end PURI as well. */
@@ -1656,7 +1656,7 @@ efh_write_message (EMFormat *emf,
 		}
 	}
 
-        camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
+	camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
 }
 
 static void
@@ -1811,8 +1811,8 @@ efh_class_init (EMFormatHTMLClass *klass)
 		object_class,
 		PROP_ANIMATE_IMAGES,
 		g_param_spec_boolean (
-                        "animate-images",
-                        "Animate images",
+			"animate-images",
+			"Animate images",
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE));
@@ -2077,7 +2077,7 @@ em_format_html_set_animate_images (EMFormatHTML *efh,
 
 	efh->priv->animate_images = animate_images;
 
-        g_object_notify (G_OBJECT (efh), "animate-images");
+	g_object_notify (G_OBJECT (efh), "animate-images");
 }
 
 CamelMimePart *
@@ -2193,29 +2193,29 @@ efh_format_text_header (EMFormatHTML *emfh,
 		if (flags & EM_FORMAT_HEADER_BOLD) {
 			fmt = "<tr class=\"header-item\" style=\"display: %s\"><td><b>%s:</b> %s</td></tr>";
 		} else {
-                        fmt = "<tr class=\"header-item\" style=\"display: %s\"><td>%s: %s</td></tr>";
+			fmt = "<tr class=\"header-item\" style=\"display: %s\"><td>%s: %s</td></tr>";
 		}
 	} else if (flags & EM_FORMAT_HTML_HEADER_NODEC) {
 		if (is_rtl)
-                        fmt = "<tr class=\"header-item rtl\" style=\"display: %s\"><td align=\"right\" valign=\"top\" width=\"100%%\">%2$s</td><th valign=top align=\"left\" nowrap>%1$s<b>&nbsp;</b></th></tr>";
+			fmt = "<tr class=\"header-item rtl\" style=\"display: %s\"><td align=\"right\" valign=\"top\" width=\"100%%\">%2$s</td><th valign=top align=\"left\" nowrap>%1$s<b>&nbsp;</b></th></tr>";
 		else
-                        fmt = "<tr class=\"header-item\" style=\"display: %s\"><th align=\"right\" valign=\"top\" nowrap>%s<b>&nbsp;</b></th><td valign=top>%s</td></tr>";
+			fmt = "<tr class=\"header-item\" style=\"display: %s\"><th align=\"right\" valign=\"top\" nowrap>%s<b>&nbsp;</b></th><td valign=top>%s</td></tr>";
 	} else {
 		if (flags & EM_FORMAT_HEADER_BOLD) {
 			if (is_rtl)
-                                fmt = "<tr class=\"header-item rtl\" style=\"display: %s\"><td align=\"right\" valign=\"top\" width=\"100%%\">%2$s</td><th align=\"left\" nowrap>%1$s:<b>&nbsp;</b></th></tr>";
+				fmt = "<tr class=\"header-item rtl\" style=\"display: %s\"><td align=\"right\" valign=\"top\" width=\"100%%\">%2$s</td><th align=\"left\" nowrap>%1$s:<b>&nbsp;</b></th></tr>";
 			else
-                                fmt = "<tr class=\"header-item\" style=\"display: %s\"><th align=\"right\" valign=\"top\" nowrap>%s:<b>&nbsp;</b></th><td>%s</td></tr>";
+				fmt = "<tr class=\"header-item\" style=\"display: %s\"><th align=\"right\" valign=\"top\" nowrap>%s:<b>&nbsp;</b></th><td>%s</td></tr>";
 		} else {
 			if (is_rtl)
-                                fmt = "<tr class=\"header-item rtl\" style=\"display: %s\"><td align=\"right\" valign=\"top\" width=\"100%\">%2$s</td><td align=\"left\" nowrap>%1$s:<b>&nbsp;</b></td></tr>";
+				fmt = "<tr class=\"header-item rtl\" style=\"display: %s\"><td align=\"right\" valign=\"top\" width=\"100%\">%2$s</td><td align=\"left\" nowrap>%1$s:<b>&nbsp;</b></td></tr>";
 			else
-                                fmt = "<tr class=\"header-item\" style=\"display: %s\"><td align=\"right\" valign=\"top\" nowrap>%s:<b>&nbsp;</b></td><td>%s</td></tr>";
+				fmt = "<tr class=\"header-item\" style=\"display: %s\"><td align=\"right\" valign=\"top\" nowrap>%s:<b>&nbsp;</b></td><td>%s</td></tr>";
 		}
 	}
 
 	g_string_append_printf (buffer, fmt,
-                (flags & EM_FORMAT_HTML_HEADER_HIDDEN ? "none" : "table-row"), label, html);
+		(flags & EM_FORMAT_HTML_HEADER_HIDDEN ? "none" : "table-row"), label, html);
 
 	g_free (mhtml);
 }
@@ -2562,8 +2562,8 @@ efh_format_short_headers (EMFormatHTML *efh,
 	from = g_string_new ("");
 
 	g_string_append_printf (buffer,
-                "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" "
-                       "id=\"__evo-short-headers\" style=\"display: %s\">",
+		"<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" "
+		       "id=\"__evo-short-headers\" style=\"display: %s\">",
 		visible ? "block" : "none");
 
 	header = ((CamelMimePart *) part)->headers;
@@ -2596,15 +2596,15 @@ efh_format_short_headers (EMFormatHTML *efh,
 	if (is_rtl) {
 		g_string_append_printf (
 			buffer,
-                        "<tr><td width=\"100%%\" align=\"right\">%s%s%s <strong>%s</strong></td></tr>",
-                        from->len ? "(" : "", from->str, from->len ? ")" : "",
-                        subject ? subject : _("(no subject)"));
+			"<tr><td width=\"100%%\" align=\"right\">%s%s%s <strong>%s</strong></td></tr>",
+			from->len ? "(" : "", from->str, from->len ? ")" : "",
+			subject ? subject : _("(no subject)"));
 	} else {
 		g_string_append_printf (
 			buffer,
-                        "<tr><td><strong>%s</strong> %s%s%s</td></tr>",
-                        subject ? subject : _("(no subject)"),
-                        from->len ? "(" : "", from->str, from->len ? ")" : "");
+			"<tr><td><strong>%s</strong> %s%s%s</td></tr>",
+			subject ? subject : _("(no subject)"),
+			from->len ? "(" : "", from->str, from->len ? ")" : "");
 	}
 
 	g_string_append (buffer, "</table>");
@@ -2652,8 +2652,8 @@ efh_format_full_headers (EMFormatHTML *efh,
 	evolution_imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
 
 	g_string_append_printf (buffer,
-                "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" "
-                       "id=\"__evo-full-headers\" style=\"display: %s\" width=\"100%%\">",
+		"<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" "
+		       "id=\"__evo-full-headers\" style=\"display: %s\" width=\"100%%\">",
 		visible ? "block" : "none");
 
 	header = ((CamelMimePart *) part)->headers;
@@ -2970,7 +2970,7 @@ em_format_html_animation_extract_frame (const GByteArray *anim,
         /* Unforunatelly, GdkPixbuf cannot save to GIF, but WebKit does not
          * have any trouble displaying PNG image despite the part having
          * image/gif mime-type */
-        gdk_pixbuf_save_to_buffer (frame_buf, frame, len, "png", NULL, NULL);
+	gdk_pixbuf_save_to_buffer (frame_buf, frame, len, "png", NULL, NULL);
 
 	g_object_unref (loader);
 }

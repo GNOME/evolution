@@ -143,7 +143,7 @@ render_address_link (GString *buffer,
                      gint map_type)
 {
 	EContactAddress *adr;
-        GString *link = g_string_new ("");
+	GString *link = g_string_new ("");
 
 	adr = e_contact_get (contact, map_type);
 	if (adr &&
@@ -166,8 +166,8 @@ render_address_link (GString *buffer,
 		g_string_assign (link, escaped);
 		g_free (escaped);
 
-        	g_string_prepend (link, "<a href=\"http://maps.google.com?q=");
-        	g_string_append_printf (link, "\">%s</a>", _("Open map"));
+		g_string_prepend (link, "<a href=\"http://maps.google.com?q=");
+		g_string_append_printf (link, "\">%s</a>", _("Open map"));
 	}
 
 	if (adr)
@@ -186,7 +186,7 @@ accum_address (GString *buffer,
 {
 	EContactAddress *adr;
 	const gchar *label;
-        GString *map_link = g_string_new ("<br>");
+	GString *map_link = g_string_new ("<br>");
 
 	render_address_link (map_link, contact, adr_field);
 
@@ -265,7 +265,7 @@ accum_address (GString *buffer,
 				"<td width=\"" IMAGE_COL_WIDTH "\"></td>"
 				"</tr>", html_label, map_link->str);
 		} else {
-                	g_string_append_printf (buffer, "</td></tr>");
+			g_string_append_printf (buffer, "</td></tr>");
 		}
 
 	}
@@ -293,27 +293,27 @@ render_table_row (GString *buffer,
 
 	if (icon) {
 		gchar *icon_uri = get_icon_uri (icon);
-                icon_html = g_strdup_printf ("<img src=\"%s\" width=\"16\" height=\"16\" />", icon_uri);
+		icon_html = g_strdup_printf ("<img src=\"%s\" width=\"16\" height=\"16\" />", icon_uri);
 		g_free (icon_uri);
 	} else {
-                icon_html = "";
+		icon_html = "";
 	}
 
 	if (TEXT_IS_RIGHT_TO_LEFT) {
 		g_string_append_printf (
-                        buffer, "<tr>"
-                        "<td valign=\"top\" align=\"right\">%s</td>"
-                        "<th align=\"right\" valign=\"top\" width=\"100\" nowrap>:%s</th>"
-                        "<td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">%s</td>"
-                        "</tr>",
+			buffer, "<tr>"
+			"<td valign=\"top\" align=\"right\">%s</td>"
+			"<th align=\"right\" valign=\"top\" width=\"100\" nowrap>:%s</th>"
+			"<td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">%s</td>"
+			"</tr>",
 			value, label, icon_html);
 	} else {
 		g_string_append_printf (
-                        buffer, "<tr>"
-                        "<td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">%s</td>"
-                        "<th valign=\"top\" width=\"100\" nowrap>%s:</th>"
-                        "<td valign=\"top\">%s</td>"
-                        "</tr>",
+			buffer, "<tr>"
+			"<td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">%s</td>"
+			"<th valign=\"top\" width=\"100\" nowrap>%s:</th>"
+			"<td valign=\"top\">%s</td>"
+			"</tr>",
 			icon_html, label, value);
 	}
 
@@ -354,7 +354,7 @@ accum_time_attribute (GString *buffer,
 		gdate = g_date_new_dmy ( date->day,
 					 date->month,
 					 date->year );
-                g_date_strftime (sdate, 100, "%x", gdate);
+		g_date_strftime (sdate, 100, "%x", gdate);
 		g_date_free (gdate);
 		render_table_row (buffer, html_label, sdate, icon, html_flags);
 		e_contact_date_free (date);
@@ -370,13 +370,13 @@ accum_attribute_multival (GString *buffer,
                           guint html_flags)
 {
 	GList *val_list, *l;
-        GString *val = g_string_new ("");
+	GString *val = g_string_new ("");
 
 	val_list = e_contact_get (contact, field);
 
 	for (l = val_list; l; l = l->next) {
 		if (l != val_list)
-                        g_string_append (val, "<br>");
+			g_string_append (val, "<br>");
 
 		g_string_append (val, l->data);
 	}
@@ -399,7 +399,7 @@ get_email_location (EVCardAttribute *attr)
 			return _(common_location[i].pretty_name);
 	}
 
-        return _("Other");
+	return _("Other");
 }
 
 static void
@@ -416,8 +416,8 @@ render_title_block (EABContactFormatter *formatter,
 	g_string_append_printf (
 		buffer,
 		"<table border=\"0\"><tr>"
-                "<td %s valign=\"middle\">", TEXT_IS_RIGHT_TO_LEFT ?
-                "align=\"right\"" : "");
+		"<td %s valign=\"middle\">", TEXT_IS_RIGHT_TO_LEFT ?
+		"align=\"right\"" : "");
 
 	photo = e_contact_get (contact, E_CONTACT_PHOTO);
 	if (!photo)
@@ -442,14 +442,14 @@ render_title_block (EABContactFormatter *formatter,
 
 	if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
 		gchar *icon = get_icon_uri (CONTACT_LIST_ICON);
-                g_string_append_printf (buffer, "<img src=\"%s\">", icon);
+		g_string_append_printf (buffer, "<img src=\"%s\">", icon);
 		g_free (icon);
 	}
 
 	g_string_append_printf (
 		buffer,
 		"</td><td width=\"20\"></td><td %s valign=\"top\">\n",
-                TEXT_IS_RIGHT_TO_LEFT ? "align=\"right\"" : "");
+		TEXT_IS_RIGHT_TO_LEFT ? "align=\"right\"" : "");
 
 	str = e_contact_get_const (contact, E_CONTACT_FILE_AS);
 	if (!str)
@@ -463,12 +463,12 @@ render_title_block (EABContactFormatter *formatter,
 				"<h2><a href=\"internal-mailto:0\">%s</a></h2>",
 				html);
 		} else {
-                        g_string_append_printf (buffer, "<h2>%s</h2>", html);
+			g_string_append_printf (buffer, "<h2>%s</h2>", html);
 		}
 		g_free (html);
 	}
 
-        g_string_append (buffer, "</td></tr></table>");
+	g_string_append (buffer, "</td></tr></table>");
 }
 
 static void
@@ -487,11 +487,11 @@ render_contact_list_row (EABContactFormatter *formatter,
 	if (!eab_parse_qp_email (textrep, &name, &email_addr))
 		email_addr = g_strdup (textrep);
 
-        g_string_append (buffer, "<tr>");
+	g_string_append (buffer, "<tr>");
 	if (e_destination_is_evolution_list (destination)) {
 		g_string_append_printf (
 			buffer,
-                        "<td width=" IMAGE_COL_WIDTH " valign=\"top\">"
+			"<td width=" IMAGE_COL_WIDTH " valign=\"top\">"
 			"<img src=\"%s/minus.png\" "
 			     "onClick=\"collapse_list(this, %s);\" "
 			     "class=\"navigable\">"
@@ -513,10 +513,10 @@ render_contact_list_row (EABContactFormatter *formatter,
 					formatter, dest->data, buffer);
 			}
 
-                        g_string_append (buffer, "</table>");
+			g_string_append (buffer, "</table>");
 		}
 
-                g_string_append (buffer, "</td>");
+		g_string_append (buffer, "</td>");
 
 	} else {
 		if (name && *name) {
@@ -536,7 +536,7 @@ render_contact_list_row (EABContactFormatter *formatter,
 		}
 	}
 
-        g_string_append (buffer, "</tr>");
+	g_string_append (buffer, "</tr>");
 
 	g_free (evolution_imagesdir);
 	g_free (name);
@@ -564,13 +564,13 @@ render_contact_list (EABContactFormatter *formatter,
 		"<table border=\"0\"><tr><th colspan=\"2\">%s</th></tr>"
 		"<tr><td with=" IMAGE_COL_WIDTH "></td><td>", _("List Members:"));
 
-        g_string_append (buffer, "<table border=\"0\" cellspacing=\"1\">");
+	g_string_append (buffer, "<table border=\"0\" cellspacing=\"1\">");
 
 	for (dest = dests; dest; dest = dest->next)
 		render_contact_list_row (formatter, dest->data, buffer);
 
-        g_string_append (buffer, "</table>");
-        g_string_append (buffer, "</td></tr></table>");
+	g_string_append (buffer, "</table>");
+	g_string_append (buffer, "</td></tr></table>");
 
 	g_object_unref (destination);
 }
@@ -586,8 +586,8 @@ render_contact_column (EABContactFormatter *formatter,
 	const gchar *nl;
 
 	contact = formatter->priv->contact;
-        email = g_string_new ("");
-        nl = "";
+	email = g_string_new ("");
+	nl = "";
 
 	email_list = e_contact_get (contact, E_CONTACT_EMAIL);
 	email_attr_list = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
@@ -604,14 +604,14 @@ render_contact_column (EABContactFormatter *formatter,
 			"%s%s%s<a href=\"internal-mailto:%d\">%s</a>%s "
 			"<span class=\"header\">(%s)</span>",
 			nl,
-                        name ? name : "",
-                        name ? " &lt;" : "",
+			name ? name : "",
+			name ? " &lt;" : "",
 			email_num,
 			mail,
-                        name ? "&gt;" : "",
-                        attr_str ? attr_str : "");
+			name ? "&gt;" : "",
+			attr_str ? attr_str : "");
 		email_num++;
-                nl = "<br>";
+		nl = "<br>";
 
 		g_free (name);
 		g_free (mail);
@@ -621,27 +621,27 @@ render_contact_column (EABContactFormatter *formatter,
 	g_list_free (email_list);
 	g_list_free (email_attr_list);
 
-        accum = g_string_new ("");
+	accum = g_string_new ("");
 
 	if (email->len)
-                render_table_row (accum, _("Email"), email->str, NULL, 0);
+		render_table_row (accum, _("Email"), email->str, NULL, 0);
 
-        accum_attribute (accum, contact, _("Nickname"), E_CONTACT_NICKNAME, NULL, 0);
-        accum_attribute_multival (accum, contact, _("AIM"), E_CONTACT_IM_AIM, AIM_ICON, 0);
-        accum_attribute_multival (accum, contact, _("GroupWise"), E_CONTACT_IM_GROUPWISE, GROUPWISE_ICON, 0);
-        accum_attribute_multival (accum, contact, _("ICQ"), E_CONTACT_IM_ICQ, ICQ_ICON, 0);
-        accum_attribute_multival (accum, contact, _("Jabber"), E_CONTACT_IM_JABBER, JABBER_ICON, 0);
-        accum_attribute_multival (accum, contact, _("MSN"), E_CONTACT_IM_MSN, MSN_ICON, 0);
-        accum_attribute_multival (accum, contact, _("Yahoo"), E_CONTACT_IM_YAHOO, YAHOO_ICON, 0);
-        accum_attribute_multival (accum, contact, _("Gadu-Gadu"), E_CONTACT_IM_GADUGADU, GADUGADU_ICON, 0);
-        accum_attribute_multival (accum, contact, _("Skype"), E_CONTACT_IM_SKYPE, SKYPE_ICON, 0);
+	accum_attribute (accum, contact, _("Nickname"), E_CONTACT_NICKNAME, NULL, 0);
+	accum_attribute_multival (accum, contact, _("AIM"), E_CONTACT_IM_AIM, AIM_ICON, 0);
+	accum_attribute_multival (accum, contact, _("GroupWise"), E_CONTACT_IM_GROUPWISE, GROUPWISE_ICON, 0);
+	accum_attribute_multival (accum, contact, _("ICQ"), E_CONTACT_IM_ICQ, ICQ_ICON, 0);
+	accum_attribute_multival (accum, contact, _("Jabber"), E_CONTACT_IM_JABBER, JABBER_ICON, 0);
+	accum_attribute_multival (accum, contact, _("MSN"), E_CONTACT_IM_MSN, MSN_ICON, 0);
+	accum_attribute_multival (accum, contact, _("Yahoo"), E_CONTACT_IM_YAHOO, YAHOO_ICON, 0);
+	accum_attribute_multival (accum, contact, _("Gadu-Gadu"), E_CONTACT_IM_GADUGADU, GADUGADU_ICON, 0);
+	accum_attribute_multival (accum, contact, _("Skype"), E_CONTACT_IM_SKYPE, SKYPE_ICON, 0);
 
 	if (accum->len)
 		g_string_append_printf (
 			buffer,
-                        "<div class=\"column\" id=\"contact-internet\">"
-                        "<table border=\"0\" cellspacing=\"5\">%s</table>"
-                        "</div>", accum->str);
+			"<div class=\"column\" id=\"contact-internet\">"
+			"<table border=\"0\" cellspacing=\"5\">%s</table>"
+			"</div>", accum->str);
 
 	g_string_free (accum, TRUE);
 	g_string_free (email, TRUE);
@@ -654,19 +654,19 @@ accum_address_map (GString *buffer,
 {
         #ifdef WITH_CONTACT_MAPS
 
-        g_string_append (buffer, "<tr><td colspan=\"3\">");
+	g_string_append (buffer, "<tr><td colspan=\"3\">");
 
 	if (map_type == E_CONTACT_ADDRESS_WORK) {
 		g_string_append (buffer,
-                                 "<object type=\"application/x-work-map-widget\" "
-                                 "width=\"250\" height=\"250\"></object>");
+				 "<object type=\"application/x-work-map-widget\" "
+				 "width=\"250\" height=\"250\"></object>");
 	} else {
 		g_string_append (buffer,
-                                 "<object type=\"application/x-home-map-widget\" "
-                                 "width=\"250\" height=\"250\"></object>");
+				 "<object type=\"application/x-home-map-widget\" "
+				 "width=\"250\" height=\"250\"></object>");
 	}
 
-        g_string_append (buffer, "</td></tr>");
+	g_string_append (buffer, "</td></tr>");
 
         #endif
 }
@@ -676,30 +676,30 @@ render_work_column (EABContactFormatter *formatter,
                     GString *buffer)
 {
 	EContact *contact = formatter->priv->contact;
-        GString *accum = g_string_new ("");
+	GString *accum = g_string_new ("");
 
-        accum_attribute (accum, contact, _("Company"), E_CONTACT_ORG, NULL, 0);
-        accum_attribute (accum, contact, _("Department"), E_CONTACT_ORG_UNIT, NULL, 0);
-        accum_attribute (accum, contact, _("Profession"), E_CONTACT_ROLE, NULL, 0);
-        accum_attribute (accum, contact, _("Position"), E_CONTACT_TITLE, NULL, 0);
-        accum_attribute (accum, contact, _("Manager"), E_CONTACT_MANAGER, NULL, 0);
-        accum_attribute (accum, contact, _("Assistant"), E_CONTACT_ASSISTANT, NULL, 0);
-        accum_attribute (accum, contact, _("Video Chat"), E_CONTACT_VIDEO_URL, VIDEOCONF_ICON, E_TEXT_TO_HTML_CONVERT_URLS);
-        accum_attribute (accum, contact, _("Calendar"), E_CONTACT_CALENDAR_URI, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
-        accum_attribute (accum, contact, _("Free/Busy"), E_CONTACT_FREEBUSY_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
-        accum_attribute (accum, contact, _("Phone"), E_CONTACT_PHONE_BUSINESS, NULL, 0);
-        accum_attribute (accum, contact, _("Fax"), E_CONTACT_PHONE_BUSINESS_FAX, NULL, 0);
-        accum_address   (accum, contact, _("Address"), E_CONTACT_ADDRESS_WORK, E_CONTACT_ADDRESS_LABEL_WORK);
+	accum_attribute (accum, contact, _("Company"), E_CONTACT_ORG, NULL, 0);
+	accum_attribute (accum, contact, _("Department"), E_CONTACT_ORG_UNIT, NULL, 0);
+	accum_attribute (accum, contact, _("Profession"), E_CONTACT_ROLE, NULL, 0);
+	accum_attribute (accum, contact, _("Position"), E_CONTACT_TITLE, NULL, 0);
+	accum_attribute (accum, contact, _("Manager"), E_CONTACT_MANAGER, NULL, 0);
+	accum_attribute (accum, contact, _("Assistant"), E_CONTACT_ASSISTANT, NULL, 0);
+	accum_attribute (accum, contact, _("Video Chat"), E_CONTACT_VIDEO_URL, VIDEOCONF_ICON, E_TEXT_TO_HTML_CONVERT_URLS);
+	accum_attribute (accum, contact, _("Calendar"), E_CONTACT_CALENDAR_URI, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
+	accum_attribute (accum, contact, _("Free/Busy"), E_CONTACT_FREEBUSY_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
+	accum_attribute (accum, contact, _("Phone"), E_CONTACT_PHONE_BUSINESS, NULL, 0);
+	accum_attribute (accum, contact, _("Fax"), E_CONTACT_PHONE_BUSINESS_FAX, NULL, 0);
+	accum_address   (accum, contact, _("Address"), E_CONTACT_ADDRESS_WORK, E_CONTACT_ADDRESS_LABEL_WORK);
 	if (formatter->priv->render_maps)
 		accum_address_map (accum, contact, E_CONTACT_ADDRESS_WORK);
 
 	if (accum->len > 0) {
 		g_string_append_printf (
 			buffer,
-                        "<div class=\"column\" id=\"contact-work\">"
-                        "<h3>%s</h3>"
-                        "<table border=\"0\" cellspacing=\"5\">%s</table>"
-                        "</div>", _("Work"), accum->str);
+			"<div class=\"column\" id=\"contact-work\">"
+			"<h3>%s</h3>"
+			"<table border=\"0\" cellspacing=\"5\">%s</table>"
+			"</div>", _("Work"), accum->str);
 	}
 
 	g_string_free (accum, TRUE);
@@ -710,26 +710,26 @@ render_personal_column (EABContactFormatter *formatter,
                         GString *buffer)
 {
 	EContact *contact = formatter->priv->contact;
-        GString *accum = g_string_new ("");
+	GString *accum = g_string_new ("");
 
-        accum_attribute (accum, contact, _("Home Page"), E_CONTACT_HOMEPAGE_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
-        accum_attribute (accum, contact, _("Web Log"), E_CONTACT_BLOG_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
-        accum_attribute (accum, contact, _("Phone"), E_CONTACT_PHONE_HOME, NULL, 0);
-        accum_attribute (accum, contact, _("Mobile Phone"), E_CONTACT_PHONE_MOBILE, NULL, 0);
-        accum_address   (accum, contact, _("Address"), E_CONTACT_ADDRESS_HOME, E_CONTACT_ADDRESS_LABEL_HOME);
-        accum_time_attribute (accum, contact, _("Birthday"), E_CONTACT_BIRTH_DATE, NULL, 0);
-        accum_time_attribute (accum, contact, _("Anniversary"), E_CONTACT_ANNIVERSARY, NULL, 0);
-        accum_attribute (accum, contact, _("Spouse"), E_CONTACT_SPOUSE, NULL, 0);
+	accum_attribute (accum, contact, _("Home Page"), E_CONTACT_HOMEPAGE_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
+	accum_attribute (accum, contact, _("Web Log"), E_CONTACT_BLOG_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
+	accum_attribute (accum, contact, _("Phone"), E_CONTACT_PHONE_HOME, NULL, 0);
+	accum_attribute (accum, contact, _("Mobile Phone"), E_CONTACT_PHONE_MOBILE, NULL, 0);
+	accum_address   (accum, contact, _("Address"), E_CONTACT_ADDRESS_HOME, E_CONTACT_ADDRESS_LABEL_HOME);
+	accum_time_attribute (accum, contact, _("Birthday"), E_CONTACT_BIRTH_DATE, NULL, 0);
+	accum_time_attribute (accum, contact, _("Anniversary"), E_CONTACT_ANNIVERSARY, NULL, 0);
+	accum_attribute (accum, contact, _("Spouse"), E_CONTACT_SPOUSE, NULL, 0);
 	if (formatter->priv->render_maps)
 		accum_address_map (accum, contact, E_CONTACT_ADDRESS_HOME);
 
 	if (accum->len > 0) {
 		g_string_append_printf (
 			buffer,
-                        "<div class=\"column\" id=\"contact-personal\">"
-                        "<h3>%s</h3>"
-                        "<table border=\"0\" cellspacing=\"5\">%s</table>"
-                        "</div>", _("Personal"), accum->str);
+			"<div class=\"column\" id=\"contact-personal\">"
+			"<h3>%s</h3>"
+			"<table border=\"0\" cellspacing=\"5\">%s</table>"
+			"</div>", _("Personal"), accum->str);
 	}
 
 	g_string_free (accum, TRUE);
@@ -760,7 +760,7 @@ render_footer (EABContactFormatter *formatter,
 		E_TEXT_TO_HTML_CONVERT_URLS |
 		E_TEXT_TO_HTML_CONVERT_NL);
 
-        g_string_append (buffer, "</table></div>");
+	g_string_append (buffer, "</table></div>");
 }
 
 static void
@@ -769,11 +769,11 @@ render_contact (EABContactFormatter *formatter,
 {
 	render_title_block (formatter, buffer);
 
-        g_string_append (buffer, "<div id=\"columns\">");
+	g_string_append (buffer, "<div id=\"columns\">");
 	render_contact_column (formatter, buffer);
 	render_work_column (formatter, buffer);
 	render_personal_column (formatter, buffer);
-        g_string_append (buffer, "</div>");
+	g_string_append (buffer, "</div>");
 
 	render_footer (formatter, buffer);
 }
@@ -783,7 +783,7 @@ render_normal (EABContactFormatter *formatter,
                GString *buffer)
 {
 	g_string_append (buffer, HTML_HEADER);
-        g_string_append (buffer, "<body>");
+	g_string_append (buffer, "<body>");
 
 	if (formatter->priv->contact) {
 
@@ -799,7 +799,7 @@ render_normal (EABContactFormatter *formatter,
 
 	}
 
-        g_string_append (buffer, "</body></html>\n");
+	g_string_append (buffer, "</body></html>\n");
 }
 
 static void
@@ -1137,9 +1137,9 @@ eab_contact_formatter_class_init (EABContactFormatterClass *klass)
 		object_class,
 		PROP_DISPLAY_MODE,
 		g_param_spec_int (
-                        "display-mode",
-                        "",
-                        "",
+			"display-mode",
+			"",
+			"",
 			EAB_CONTACT_DISPLAY_RENDER_NORMAL,
 			EAB_CONTACT_DISPLAY_RENDER_COMPACT,
 			EAB_CONTACT_DISPLAY_RENDER_NORMAL,
@@ -1149,9 +1149,9 @@ eab_contact_formatter_class_init (EABContactFormatterClass *klass)
 		object_class,
 		PROP_RENDER_MAPS,
 		g_param_spec_boolean (
-                        "render-maps",
-                        "",
-                        "",
+			"render-maps",
+			"",
+			"",
 			FALSE,
 			G_PARAM_READWRITE));
 }
@@ -1177,7 +1177,7 @@ eab_contact_formatter_set_display_mode (EABContactFormatter *formatter,
 
 	formatter->priv->mode = mode;
 
-        g_object_notify (G_OBJECT (formatter), "display-mode");
+	g_object_notify (G_OBJECT (formatter), "display-mode");
 }
 
 EABContactDisplayMode
@@ -1200,7 +1200,7 @@ eab_contact_formatter_set_render_maps (EABContactFormatter *formatter,
 
 	formatter->priv->render_maps = render_maps;
 
-        g_object_notify (G_OBJECT (formatter), "render-maps");
+	g_object_notify (G_OBJECT (formatter), "render-maps");
 }
 
 gboolean

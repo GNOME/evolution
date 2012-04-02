@@ -962,7 +962,7 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 
         /* Use EMailPrinter and WebKit to print the message */
 	emp = e_mail_printer_new ((EMFormatHTML *) efhd);
-        g_signal_connect (emp, "done",
+	g_signal_connect (emp, "done",
 		G_CALLBACK (composer_print_done_cb), efhd);
 
 	e_mail_printer_print (emp, FALSE, NULL);

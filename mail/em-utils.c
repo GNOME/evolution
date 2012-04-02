@@ -984,7 +984,7 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 	gchar *exporttype;
 	gint exportname;
 
- 	tmpdir = e_mkdtemp("drag-n-drop-XXXXXX");
+	tmpdir = e_mkdtemp("drag-n-drop-XXXXXX");
 	if (tmpdir == NULL)
 		return;
 

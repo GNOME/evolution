@@ -197,9 +197,9 @@ show_development_warning (void)
 		  "this version, and install version %s instead.\n"
 		  "\n"
 		  "If you find bugs, please report them to us at bugzilla.gnome.org.\n"
-                  "This product comes with no warranty and is not intended for\n"
+		  "This product comes with no warranty and is not intended for\n"
 		  "individuals prone to violent fits of anger.\n"
-                  "\n"
+		  "\n"
 		  "We hope that you enjoy the results of our hard work, and we\n"
 		  "eagerly await your contributions!\n"),
 		STABLE_VERSION);

@@ -345,7 +345,7 @@ calendar_view_dispose (GObject *object)
 		gtk_target_list_unref (priv->paste_target_list);
 		priv->paste_target_list = NULL;
 	}
-		
+
 	if (priv->selected_cut_list) {
 		g_slist_foreach (priv->selected_cut_list, (GFunc) g_object_unref, NULL);
 		g_slist_free (priv->selected_cut_list);
@@ -473,13 +473,13 @@ calendar_view_cut_clipboard (ESelectable *selectable)
 #endif
 
 	e_selectable_copy_clipboard (selectable);
-	
+
 	for (l = selected; l != NULL; l = g_list_next (l)) {
 		ECalendarViewEvent *event = (ECalendarViewEvent *) l->data;
 
 		priv->selected_cut_list = g_slist_prepend (priv->selected_cut_list, g_object_ref (event->comp_data));
 	}
-	
+
 #if 0  /* KILL-BONOBO */
 	e_calendar_view_set_status_message (cal_view, NULL, -1);
 #endif
@@ -553,7 +553,7 @@ calendar_view_copy_clipboard (ESelectable *selectable)
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
 		return;
-	
+
 	if (priv->selected_cut_list) {
 		g_slist_foreach (priv->selected_cut_list, (GFunc) g_object_unref, NULL);
 		g_slist_free (priv->selected_cut_list);
@@ -607,7 +607,7 @@ calendar_view_copy_clipboard (ESelectable *selectable)
 static gboolean
 clipboard_get_calendar_data (ECalendarView *cal_view,
                              const gchar *text,
-			     GSList **copied_list)
+                             GSList **copied_list)
 {
 	icalcomponent *icalcomp;
 	icalcomponent_kind kind;
@@ -725,12 +725,12 @@ calendar_view_paste_clipboard (ESelectable *selectable)
 		GSList *copied_list = NULL, *l;
 
 		calendar_source = e_clipboard_wait_for_calendar (clipboard);
-		
+
 		if (priv->selected_cut_list)
 			clipboard_get_calendar_data (cal_view, calendar_source, &copied_list);
 		else
 			clipboard_get_calendar_data (cal_view, calendar_source, NULL);
-		
+
 		if (copied_list && priv->selected_cut_list) {
 			for (l = priv->selected_cut_list; l != NULL; l = l->next) {
 				ECalComponent *comp;
@@ -780,13 +780,13 @@ calendar_view_paste_clipboard (ESelectable *selectable)
 				g_object_unref (comp);
 			}
 		}
-		
+
 		if (priv->selected_cut_list) {
 			g_slist_foreach (priv->selected_cut_list, (GFunc) g_object_unref, NULL);
 			g_slist_free (priv->selected_cut_list);
 		}
 		priv->selected_cut_list = NULL;
-		
+
 		g_free (calendar_source);
 
 	}

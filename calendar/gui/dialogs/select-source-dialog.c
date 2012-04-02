@@ -51,7 +51,7 @@ select_source_dialog (GtkWindow *parent,
 	else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
 		gconf_key = "/apps/evolution/tasks/sources";
 	else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
-                gconf_key = "/apps/evolution/memos/sources";
+		gconf_key = "/apps/evolution/memos/sources";
 	else
 		return NULL;
 
@@ -66,7 +66,7 @@ select_source_dialog (GtkWindow *parent,
 	else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
 		icon_name = "stock_todo";
 	else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
-                icon_name = "stock_journal";
+		icon_name = "stock_journal";
 
 	if (icon_name)
 		gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);

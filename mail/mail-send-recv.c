@@ -844,7 +844,8 @@ receive_status (CamelFilterDriver *driver,
 
 /* when receive/send is complete */
 static void
-receive_done (int still_more, gpointer data)
+receive_done (gint still_more,
+              gpointer data)
 {
 	struct _send_info *info = data;
 	const gchar *uid;
@@ -1472,7 +1473,7 @@ mail_receive_service (CamelService *service)
 	case SEND_RECEIVE:
 		mail_fetch_mail (
 			CAMEL_STORE (service),
-			info->keep_on_server, 0, -1, 
+			info->keep_on_server, 0, -1,
 			E_FILTER_SOURCE_INCOMING,
 			NULL, NULL, NULL,
 			info->cancellable,

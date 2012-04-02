@@ -687,7 +687,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 
 		/* FIXME Check read only state of calendar? */
 		itip_view_add_lower_info_item_printf (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-                        _("Found the appointment in the calendar '%s'"), e_source_peek_name (source));
+			_("Found the appointment in the calendar '%s'"), e_source_peek_name (source));
 
 		set_buttons_sensitive (pitip, view);
 	} else if (!pitip->current_client)
@@ -1499,7 +1499,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 			pitip->update_item_error_info_id =
 				itip_view_add_lower_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-                                        _("Unable to send item to calendar '%s'.  %s"),
+					_("Unable to send item to calendar '%s'.  %s"),
 					e_source_peek_name (source), error ? error->message : _("Unknown error"));
 		}
 		g_clear_error (&error);
@@ -1531,7 +1531,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 		/* FIXME some calendars just might not save it at all, is this accurate? */
 		itip_view_add_lower_info_item_printf (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-                        _("Sent to calendar '%s' as canceled"), e_source_peek_name (source));
+			_("Sent to calendar '%s' as canceled"), e_source_peek_name (source));
 		break;
 	default:
 		g_assert_not_reached ();
@@ -1839,11 +1839,11 @@ remove_delegate (ItipPURI *pitip,
 	if (status) {
 		itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-                        _("Sent a cancelation notice to the delegate"));
+			_("Sent a cancelation notice to the delegate"));
 	} else
 		itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-                        _("Could not send the cancelation notice to the delegate"));
+			_("Could not send the cancelation notice to the delegate"));
 
 	g_free (comment);
 
@@ -1892,8 +1892,8 @@ modify_object_cb (GObject *ecalclient,
 			itip_view_add_lower_info_item_printf (
 				view,
 				ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
-			        _("Unable to update attendee. %s"),
-                                error ? error->message : _("Unknown error"));
+				_("Unable to update attendee. %s"),
+				error ? error->message : _("Unknown error"));
 
 		g_clear_error (&error);
 	} else {
@@ -1922,7 +1922,7 @@ update_attendee_status_icalcomp (ItipPURI *pitip,
 
 		itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
-                        _("The meeting is invalid and cannot be updated"));
+			_("The meeting is invalid and cannot be updated"));
 	} else {
 		icalcomponent *org_icalcomp;
 		const gchar *delegate;
@@ -2154,17 +2154,17 @@ send_item (ItipPURI *pitip,
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 			itip_view_add_lower_info_item (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-                                _("Meeting information sent"));
+				_("Meeting information sent"));
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			itip_view_add_lower_info_item (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-                                _("Task information sent"));
+				_("Task information sent"));
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			itip_view_add_lower_info_item (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-                                _("Memo information sent"));
+				_("Memo information sent"));
 			break;
 		default:
 			g_assert_not_reached ();
@@ -2175,17 +2175,17 @@ send_item (ItipPURI *pitip,
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 			itip_view_add_lower_info_item (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
-                                _("Unable to send meeting information, the meeting does not exist"));
+				_("Unable to send meeting information, the meeting does not exist"));
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			itip_view_add_lower_info_item (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
-                                _("Unable to send task information, the task does not exist"));
+				_("Unable to send task information, the task does not exist"));
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			itip_view_add_lower_info_item (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
-                                _("Unable to send memo information, the memo does not exist"));
+				_("Unable to send memo information, the memo does not exist"));
 			break;
 		default:
 			g_assert_not_reached ();
@@ -2276,9 +2276,9 @@ set_itip_error (ItipView *view,
 	gchar *error;
 
 	error = g_strdup_printf (
-                "<div class=\"error\">"
-                "<p><b>%s</b></p>"
-                "<p>%s</p>",
+		"<div class=\"error\">"
+		"<p><b>%s</b></p>"
+		"<p>%s</p>",
 		primary, secondary);
 
 	itip_view_set_error (view, error, save_btn);
@@ -2307,7 +2307,7 @@ extract_itip_data (ItipPURI *pitip,
 
 	if (!pitip->vcalendar) {
 		set_itip_error (view,
-                        _("The calendar attached is not valid"),
+			_("The calendar attached is not valid"),
 			_("The message claims to contain a calendar, but the calendar is not a valid iCalendar."),
 			FALSE);
 
@@ -2319,7 +2319,7 @@ extract_itip_data (ItipPURI *pitip,
 	pitip->main_comp = icalparser_parse_string (pitip->vcalendar);
 	if (pitip->main_comp == NULL || !is_icalcomp_valid (pitip->main_comp)) {
 		set_itip_error (view,
-                        _("The calendar attached is not valid"),
+			_("The calendar attached is not valid"),
 			_("The message claims to contain a calendar, but the calendar is not a valid iCalendar."),
 			FALSE);
 
@@ -2361,7 +2361,7 @@ extract_itip_data (ItipPURI *pitip,
 
 	if (pitip->ical_comp == NULL) {
 		set_itip_error (view,
-                        _("The item in the calendar is not valid"),
+			_("The item in the calendar is not valid"),
 			_("The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"),
 			FALSE);
 
@@ -2390,7 +2390,7 @@ extract_itip_data (ItipPURI *pitip,
 		break;
 	default:
 		set_itip_error (view,
-                        _("The item in the calendar is not valid"),
+			_("The item in the calendar is not valid"),
 			_("The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"),
 			FALSE);
 
@@ -2405,7 +2405,7 @@ extract_itip_data (ItipPURI *pitip,
 	if (pitip->total > 1) {
 
 		set_itip_error (view,
-                        _("The calendar attached contains multiple items"),
+			_("The calendar attached contains multiple items"),
 			_("To process all of these items, the file should be saved and the calendar imported"),
 			TRUE);
 
@@ -2488,7 +2488,7 @@ extract_itip_data (ItipPURI *pitip,
 		pitip->comp = NULL;
 
 		set_itip_error (view,
-                        _("The item in the calendar is not valid"),
+			_("The item in the calendar is not valid"),
 			_("The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"),
 			FALSE);
 
@@ -2921,7 +2921,7 @@ init_itip_view (ItipPURI *info,
 	}
 
 	e_cal_component_get_summary (info->comp, &text);
-        itip_view_set_summary (view, text.value ? text.value : C_("cal-itip", "None"));
+	itip_view_set_summary (view, text.value ? text.value : C_("cal-itip", "None"));
 
 	e_cal_component_get_location (info->comp, &string);
 	itip_view_set_location (view, string);
@@ -2934,19 +2934,19 @@ init_itip_view (ItipPURI *info,
 
 			switch (a->status) {
 				case ICAL_PARTSTAT_ACCEPTED:
-                                        itip_view_set_status (view, _("Accepted"));
+					itip_view_set_status (view, _("Accepted"));
 					break;
 				case ICAL_PARTSTAT_TENTATIVE:
-                                        itip_view_set_status (view, _("Tentatively Accepted"));
+					itip_view_set_status (view, _("Tentatively Accepted"));
 					break;
 				case ICAL_PARTSTAT_DECLINED:
-                                        itip_view_set_status (view, _("Declined"));
+					itip_view_set_status (view, _("Declined"));
 					break;
 				case ICAL_PARTSTAT_DELEGATED:
-                                        itip_view_set_status (view, _("Delegated"));
+					itip_view_set_status (view, _("Delegated"));
 					break;
 				default:
-                                        itip_view_set_status (view, _("Unknown"));
+					itip_view_set_status (view, _("Unknown"));
 			}
 		}
 		e_cal_component_free_attendee_list (list);
@@ -2986,7 +2986,7 @@ init_itip_view (ItipPURI *info,
 		if (!gstring && text->value)
 			gstring = g_string_new (text->value);
 		else if (text->value)
-                        g_string_append_printf (gstring, "\n\n%s", text->value);
+			g_string_append_printf (gstring, "\n\n%s", text->value);
 	}
 
 	e_cal_component_free_text_list (list);
@@ -3008,7 +3008,7 @@ init_itip_view (ItipPURI *info,
 		g_free (html);
 	}
 
-        to_zone = e_shell_settings_get_pointer (shell_settings, "cal-timezone");
+	to_zone = e_shell_settings_get_pointer (shell_settings, "cal-timezone");
 
 	e_cal_component_get_dtstart (info->comp, &datetime);
 	info->start_time = 0;
@@ -3080,13 +3080,13 @@ init_itip_view (ItipPURI *info,
                 /* FIXME Tell the user we don't support recurring tasks */
 		switch (info->type) {
 			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-                                itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This meeting recurs"));
+				itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This meeting recurs"));
 				break;
 			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-                                itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This task recurs"));
+				itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This task recurs"));
 				break;
 			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-                                itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This memo recurs"));
+				itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This memo recurs"));
 				break;
 			default:
 				g_assert_not_reached ();
@@ -3096,7 +3096,7 @@ init_itip_view (ItipPURI *info,
 
 	if (response_enabled) {
 		g_signal_connect (
-                        view, "response",
+			view, "response",
 			G_CALLBACK (view_response_cb), info);
 
 		itip_view_set_show_free_time_check (view, info->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS && (info->method == ICAL_METHOD_PUBLISH || info->method ==  ICAL_METHOD_REQUEST));
@@ -3202,17 +3202,17 @@ write_itip_view (EMFormat *emf,
 
 		uri = em_format_build_mail_uri (
 			emf->folder, emf->message_uid,
-                        "part_id", G_TYPE_STRING, puri->uri,
-                        "mode", G_TYPE_INT, EM_FORMAT_WRITE_MODE_RAW,
+			"part_id", G_TYPE_STRING, puri->uri,
+			"mode", G_TYPE_INT, EM_FORMAT_WRITE_MODE_RAW,
 			NULL);
 
 		buffer = g_string_sized_new (256);
 		g_string_append_printf (buffer,
-                        "<div class=\"part-container\" "
-                             "style=\"border: none; background: none;\">"
-                        "<iframe width=\"100%%\" height=\"auto\""
-                        " frameborder=\"0\" src=\"%s\" name=\"%s\" id=\"%s\"></iframe>"
-                        "</div>",
+			"<div class=\"part-container\" "
+			     "style=\"border: none; background: none;\">"
+			"<iframe width=\"100%%\" height=\"auto\""
+			" frameborder=\"0\" src=\"%s\" name=\"%s\" id=\"%s\"></iframe>"
+			"</div>",
 			uri, puri->uri, puri->uri);
 
 		g_free (uri);
@@ -3228,7 +3228,7 @@ bind_itip_view (WebKitDOMElement *element,
                 EMFormatPURI *puri)
 {
 	if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
-                GString *buffer = g_string_new ("");
+		GString *buffer = g_string_new ("");
 		WebKitDOMDocument *document;
 		ItipView *view;
 
@@ -3236,7 +3236,7 @@ bind_itip_view (WebKitDOMElement *element,
 				WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
 
 		view = itip_view_new ((ItipPURI *) puri);
-                g_object_set_data_full (G_OBJECT (element), "view", view,
+		g_object_set_data_full (G_OBJECT (element), "view", view,
 					(GDestroyNotify) g_object_unref);
 
 		itip_view_create_dom_bindings (view,
@@ -3275,7 +3275,7 @@ format_itip (EPlugin *ep,
 	puri->puri.bind_func = bind_itip_view;
 	puri->puri.free = puri_free;
 	puri->puri.is_attachment = target->info->is_attachment;
-        puri->puri.mime_type = g_strdup ("text/html");
+	puri->puri.mime_type = g_strdup ("text/html");
 	puri->delete_message = g_settings_get_boolean (settings, CONF_KEY_DELETE);
 	puri->has_organizer = FALSE;
 	puri->no_reply_wanted = FALSE;

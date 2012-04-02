@@ -301,7 +301,7 @@ action_mail_image_save_cb (GtkAction *action,
 	g_return_if_fail (emf != NULL);
 	g_return_if_fail (emf->message != NULL);
 
-        if (g_str_has_prefix (image_src, "cid:")) {
+	if (g_str_has_prefix (image_src, "cid:")) {
 		part = camel_mime_message_get_part_by_content_id (
 			emf->message, image_src + 4);
 		g_return_if_fail (part != NULL);
@@ -317,7 +317,7 @@ action_mail_image_save_cb (GtkAction *action,
                 /* Open cache and find the file there */
 		user_cache_dir = e_get_user_cache_dir ();
 		cache = camel_data_cache_new (user_cache_dir, NULL);
-                image_stream = camel_data_cache_get (cache, "http", image_src, NULL);
+		image_stream = camel_data_cache_get (cache, "http", image_src, NULL);
 		if (!image_stream) {
 			g_object_unref (cache);
 			return;
@@ -335,7 +335,7 @@ action_mail_image_save_cb (GtkAction *action,
 
 		dw = camel_data_wrapper_new ();
 		camel_data_wrapper_set_mime_type (
-                        dw, "application/octet-stream");
+			dw, "application/octet-stream");
 		camel_data_wrapper_construct_from_stream_sync (
 			dw, image_stream, NULL, NULL);
 		camel_medium_set_content (CAMEL_MEDIUM (part), dw);
@@ -350,7 +350,7 @@ action_mail_image_save_cb (GtkAction *action,
 
 	file = e_shell_run_save_dialog (
 		e_shell_get_default (),
-                _("Save Image"), camel_mime_part_get_filename (part),
+		_("Save Image"), camel_mime_part_get_filename (part),
 		NULL, NULL, NULL);
 	if (file == NULL) {
 		g_object_unref (part);
@@ -2817,7 +2817,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 			g_free (string);
 
 			activity = e_mail_reader_new_activity (reader);
-                        e_activity_set_text (activity, _("Retrieving message"));
+			e_activity_set_text (activity, _("Retrieving message"));
 			cancellable = e_activity_get_cancellable (activity);
 
 			closure = g_slice_new0 (EMailReaderClosure);
@@ -3040,7 +3040,7 @@ formatter_weak_ref_cb (struct _formatter_weak_ref_closure *data,
 	g_hash_table_remove (data->formatters,
 		data->mail_uri);
 
-        d(printf("Destroying formatter %p (%s)\n", formatter, data->mail_uri));
+	d(printf("Destroying formatter %p (%s)\n", formatter, data->mail_uri));
 
 	/* Destroying the formatter will prevent this callback
 	 * being called, so we can remove the closure data as well */
@@ -3985,10 +3985,10 @@ e_mail_reader_init (EMailReader *reader,
 		action, "activate",
 		G_CALLBACK (action_search_folder_sender_cb), reader);
 
-        action_name = "image-save";
+	action_name = "image-save";
 	action = e_mail_display_get_action (display, action_name);
 	g_signal_connect (
-                action, "activate",
+		action, "activate",
 		G_CALLBACK (action_mail_image_save_cb), reader);
 
 #ifndef G_OS_WIN32

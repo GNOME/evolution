@@ -155,7 +155,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_TEXT,
-                 g_param_spec_string ("text",
+		 g_param_spec_string ("text",
 				      "Text",
 				      "Text to render",
 				      NULL,
@@ -164,7 +164,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_MARKUP,
-                 g_param_spec_string ("markup",
+		 g_param_spec_string ("markup",
 				      "Markup",
 				      "Marked up text to render",
 				      NULL,
@@ -174,14 +174,14 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_X,
-                 g_param_spec_double ("x", NULL, NULL,
+		 g_param_spec_double ("x", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_Y,
-                 g_param_spec_double ("y", NULL, NULL,
+		 g_param_spec_double ("y", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
@@ -189,7 +189,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_FONT,
-                 g_param_spec_string ("font",
+		 g_param_spec_string ("font",
 				      "Font",
 				      "Font description as a string",
 				      NULL,
@@ -218,7 +218,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_ATTRIBUTES,
-                 g_param_spec_boxed ("attributes", NULL, NULL,
+		 g_param_spec_boxed ("attributes", NULL, NULL,
 				     PANGO_TYPE_ATTR_LIST,
 				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
@@ -331,44 +331,44 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_JUSTIFICATION,
-                 g_param_spec_enum ("justification", NULL, NULL,
+		 g_param_spec_enum ("justification", NULL, NULL,
 				    GTK_TYPE_JUSTIFICATION,
 				    GTK_JUSTIFY_LEFT,
 				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_CLIP_WIDTH,
-                 g_param_spec_double ("clip_width", NULL, NULL,
+		 g_param_spec_double ("clip_width", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_CLIP_HEIGHT,
-                 g_param_spec_double ("clip_height", NULL, NULL,
+		 g_param_spec_double ("clip_height", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_CLIP,
-                 g_param_spec_boolean ("clip", NULL, NULL,
+		 g_param_spec_boolean ("clip", NULL, NULL,
 				       FALSE,
 				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_X_OFFSET,
-                 g_param_spec_double ("x_offset", NULL, NULL,
+		 g_param_spec_double ("x_offset", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_Y_OFFSET,
-                 g_param_spec_double ("y_offset", NULL, NULL,
+		 g_param_spec_double ("y_offset", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_FILL_COLOR,
-                 g_param_spec_string ("fill_color",
+		 g_param_spec_string ("fill_color",
 				      "Color",
 				      "Text color, as string",
 				      NULL,
@@ -376,7 +376,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_FILL_COLOR_GDK,
-                 g_param_spec_boxed ("fill_color_gdk",
+		 g_param_spec_boxed ("fill_color_gdk",
 				     "Color",
 				     "Text color, as a GdkColor",
 				     GDK_TYPE_COLOR,
@@ -384,7 +384,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_FILL_COLOR_RGBA,
-                 g_param_spec_uint ("fill_color_rgba",
+		 g_param_spec_uint ("fill_color_rgba",
 				    "Color",
 				    "Text color, as an R/G/B/A combined integer",
 				    0, G_MAXUINT, 0,
@@ -392,7 +392,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_TEXT_WIDTH,
-                 g_param_spec_double ("text_width",
+		 g_param_spec_double ("text_width",
 				      "Text width",
 				      "Width of the rendered text",
 				      0.0, G_MAXDOUBLE, 0.0,
@@ -400,7 +400,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_TEXT_HEIGHT,
-                 g_param_spec_double ("text_height",
+		 g_param_spec_double ("text_height",
 				      "Text height",
 				      "Height of the rendered text",
 				      0.0, G_MAXDOUBLE, 0.0,

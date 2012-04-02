@@ -87,7 +87,7 @@ gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_PIXBUF,
-                 g_param_spec_object ("pixbuf", NULL, NULL,
+		 g_param_spec_object ("pixbuf", NULL, NULL,
 				      GDK_TYPE_PIXBUF,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 

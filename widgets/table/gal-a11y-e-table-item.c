@@ -1187,7 +1187,7 @@ gal_a11y_e_table_item_ref_selection (GalA11yETableItem *a11y,
 	    G_OBJECT(selection), "selection_changed",
 	    G_CALLBACK (eti_a11y_selection_changed_cb), a11y);
 	priv->cursor_change_id = g_signal_connect (
-            G_OBJECT(selection), "cursor_changed",
+	    G_OBJECT(selection), "cursor_changed",
 	    G_CALLBACK (eti_a11y_cursor_changed_cb), a11y);
 
 	priv->selection = selection;

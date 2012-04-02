@@ -461,9 +461,9 @@ web_view_update_document_highlights (EWebView *web_view)
 		WebKitDOMDocumentFragment *frag;
 		WebKitDOMElement *span;
 
-                span = webkit_dom_document_create_element (document, "span", NULL);
+		span = webkit_dom_document_create_element (document, "span", NULL);
 		webkit_dom_html_element_set_class_name (
-                        WEBKIT_DOM_HTML_ELEMENT (span), "__evo-highlight");
+			WEBKIT_DOM_HTML_ELEMENT (span), "__evo-highlight");
 		webkit_dom_html_element_set_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (span), iter->data, NULL);
 
@@ -868,13 +868,13 @@ web_view_button_press_event (GtkWidget *widget,
 		if (!test)
 			goto chainup;
 
-                g_object_get (G_OBJECT (test), "context", &context, NULL);
+		g_object_get (G_OBJECT (test), "context", &context, NULL);
 		if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE) {
 			WebKitWebDataSource *data_source;
 			WebKitWebFrame *frame;
 			GList *subresources, *res;
 
-                        g_object_get (G_OBJECT (test), "image-uri", &uri, NULL);
+			g_object_get (G_OBJECT (test), "image-uri", &uri, NULL);
 
 			if (!uri)
 				goto chainup;
@@ -1679,7 +1679,7 @@ e_web_view_init (EWebView *web_view)
 		NULL);
 
 	g_signal_connect (
-                web_view, "notify::load-status",
+		web_view, "notify::load-status",
 		G_CALLBACK (web_view_load_status_changed_cb), NULL);
 
 	ui_manager = gtk_ui_manager_new ();
@@ -2197,7 +2197,7 @@ e_web_view_set_disable_save_to_disk (EWebView *web_view,
 }
 
 gboolean
-e_web_view_get_enable_frame_flattening (EWebView * web_view)
+e_web_view_get_enable_frame_flattening (EWebView *web_view)
 {
 	WebKitWebSettings *settings;
 	gboolean flattening;
@@ -2208,13 +2208,13 @@ e_web_view_get_enable_frame_flattening (EWebView * web_view)
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (web_view));
 	g_return_val_if_fail (settings != NULL, TRUE);
 
-        g_object_get (G_OBJECT (settings), "enable-frame-flattening", &flattening, NULL);
+	g_object_get (G_OBJECT (settings), "enable-frame-flattening", &flattening, NULL);
 
 	return flattening;
 }
 
 void
-e_web_view_set_enable_frame_flattening (EWebView * web_view,
+e_web_view_set_enable_frame_flattening (EWebView *web_view,
                                         gboolean enable_frame_flattening)
 {
 	WebKitWebSettings *settings;
@@ -2224,7 +2224,7 @@ e_web_view_set_enable_frame_flattening (EWebView * web_view,
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (web_view));
 	g_return_if_fail (settings != NULL);
 
-        g_object_set (G_OBJECT (settings), "enable-frame-flattening",
+	g_object_set (G_OBJECT (settings), "enable-frame-flattening",
 		enable_frame_flattening, NULL);
 }
 
@@ -2769,7 +2769,7 @@ e_web_view_get_selection_html (EWebView *web_view)
 	if (!fragment)
 		return NULL;
 
-        element = WEBKIT_DOM_HTML_ELEMENT (webkit_dom_document_create_element (document, "div", NULL));
+	element = WEBKIT_DOM_HTML_ELEMENT (webkit_dom_document_create_element (document, "div", NULL));
 	webkit_dom_node_append_child (WEBKIT_DOM_NODE (element),
 		WEBKIT_DOM_NODE (fragment), NULL);
 
@@ -2807,15 +2807,15 @@ e_web_view_get_default_settings (GtkWidget *parent_widget)
 	font = gtk_style_context_get_font (context, GTK_STATE_FLAG_NORMAL);
 
 	g_object_set (G_OBJECT (settings),
-                "default-font-size", (pango_font_description_get_size (font) / PANGO_SCALE),
-                "default-monospace-font-size", (pango_font_description_get_size (font) / PANGO_SCALE),
-                "enable-frame-flattening", TRUE, 
-                "enable-java-applet", FALSE,
-                "enable-html5-database", FALSE,
-                "enable-html5-local-storage", FALSE,
-                "enable-offline-web-application-cache", FALSE,
-                "enable-site-specific-quirks", TRUE,
-                "enable-scripts", FALSE,
+		"default-font-size", (pango_font_description_get_size (font) / PANGO_SCALE),
+		"default-monospace-font-size", (pango_font_description_get_size (font) / PANGO_SCALE),
+		"enable-frame-flattening", TRUE, 
+		"enable-java-applet", FALSE,
+		"enable-html5-database", FALSE,
+		"enable-html5-local-storage", FALSE,
+		"enable-offline-web-application-cache", FALSE,
+		"enable-site-specific-quirks", TRUE,
+		"enable-scripts", FALSE,
 		NULL);
 
 	return settings;

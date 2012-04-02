@@ -332,7 +332,7 @@ notified_alarms_dialog_new (void)
 					renderer, "text", ALARM_DISPLAY_COLUMN, NULL);
 
 	gtk_tree_view_column_set_attributes (column, renderer,
-                                       "markup", ALARM_DISPLAY_COLUMN, NULL);
+				       "markup", ALARM_DISPLAY_COLUMN, NULL);
 
 	gtk_tree_view_append_column (GTK_TREE_VIEW (an->treeview), column);
 

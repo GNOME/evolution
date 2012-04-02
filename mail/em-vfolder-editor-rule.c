@@ -433,7 +433,7 @@ get_widget (EFilterRule *fr,
 	builder = gtk_builder_new ();
 	e_load_ui_builder_definition (builder, "mail-dialogs.ui");
 
-        frame = e_builder_get_widget(builder, "vfolder_source_frame");
+	frame = e_builder_get_widget(builder, "vfolder_source_frame");
 
 	g_object_set_data_full((GObject *)frame, "data", data, g_free);
 

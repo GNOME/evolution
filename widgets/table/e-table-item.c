@@ -1430,7 +1430,7 @@ eti_add_selection_model (ETableItem *eti,
 
 	eti_selection_change (selection, eti);
 	g_signal_emit_by_name (G_OBJECT (eti),
-                               "selection_model_added", eti->selection);
+			       "selection_model_added", eti->selection);
 }
 
 static void

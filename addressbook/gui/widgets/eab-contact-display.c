@@ -501,8 +501,8 @@ eab_contact_display_init (EABContactDisplay *display)
 
 	display->priv->formatter = g_object_new (
 		EAB_TYPE_CONTACT_FORMATTER,
-                "display-mode", EAB_CONTACT_DISPLAY_RENDER_NORMAL,
-                "render-maps", FALSE, NULL);
+		"display-mode", EAB_CONTACT_DISPLAY_RENDER_NORMAL,
+		"render-maps", FALSE, NULL);
 
 	web_view = E_WEB_VIEW (display);
 	ui_manager = e_web_view_get_ui_manager (web_view);

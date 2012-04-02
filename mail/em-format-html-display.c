@@ -383,7 +383,7 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 	g_object_unref (builder);
 
 	g_signal_connect (
-	        po->widget, "response",
+		po->widget, "response",
 		G_CALLBACK (efhd_xpkcs7mime_info_response), po);
 
 	gtk_widget_show (po->widget);
@@ -529,8 +529,8 @@ efhd_parse_attachment (EMFormat *emf,
                  * We have converted text/ * to text/html, other (binary) formats remained
                  * untouched. */
 		ct = camel_content_type_decode (handler->mime_type);
-                if (g_strcmp0 (ct->type, "text") == 0)
-                        puri->puri.mime_type = g_strdup ("text/html");
+		if (g_strcmp0 (ct->type, "text") == 0)
+			puri->puri.mime_type = g_strdup ("text/html");
 		else
 			puri->puri.mime_type = camel_content_type_simple (ct);
 		camel_content_type_unref (ct);
@@ -617,7 +617,7 @@ efhd_parse_optional (EMFormat *emf,
 	gint len;
 
 	len = part_id->len;
-        g_string_append (part_id, ".optional");
+	g_string_append (part_id, ".optional");
 
 	puri = (EMFormatAttachmentPURI *) em_format_puri_new (
 			emf, sizeof (EMFormatAttachmentPURI), part, part_id->str);
@@ -718,9 +718,9 @@ efhd_write_attachment_bar (EMFormat *emf,
 		return;
 
 	str = g_strdup_printf (
-                "<object type=\"application/x-attachment-bar\" "
+		"<object type=\"application/x-attachment-bar\" "
 			"height=\"20\" width=\"100%%\" "
-                        "id=\"%s\"data=\"%s\"></object>", puri->uri, puri->uri);
+			"id=\"%s\"data=\"%s\"></object>", puri->uri, puri->uri);
 
 	camel_stream_write_string (stream, str, cancellable, NULL);
 
@@ -762,19 +762,19 @@ efhd_write_attachment (EMFormat *emf,
 	else
 		mime_type = efa->snoop_mime_type;
 
-        button_id = g_strconcat (puri->uri, ".attachment_button", NULL);
+	button_id = g_strconcat (puri->uri, ".attachment_button", NULL);
 
 	desc = em_format_describe_part (puri->part, mime_type);
 	str = g_strdup_printf (
-                "<div class=\"attachment\">"
-                "<table width=\"100%%\" border=\"0\">"
-                "<tr valign=\"middle\">"
-                "<td align=\"left\" width=\"100\">"
-                "<object type=\"application/x-attachment-button\" "
+		"<div class=\"attachment\">"
+		"<table width=\"100%%\" border=\"0\">"
+		"<tr valign=\"middle\">"
+		"<td align=\"left\" width=\"100\">"
+		"<object type=\"application/x-attachment-button\" "
 		"height=\"20\" width=\"100\" data=\"%s\" id=\"%s\"></object>"
-                "</td>"
-                "<td align=\"left\">%s</td>"
-                "</tr>", puri->uri, button_id, desc);
+		"</td>"
+		"<td align=\"left\">%s</td>"
+		"</tr>", puri->uri, button_id, desc);
 
 	camel_stream_write_string (stream, str, cancellable, NULL);
 	g_free (desc);
@@ -786,8 +786,8 @@ efhd_write_attachment (EMFormat *emf,
 	    (efa->attachment_view_part_id)) {
 
 		str = g_strdup_printf (
-                        "<tr><td colspan=\"2\">"
-                        "<div class=\"attachment-wrapper\" id=\"%s\">",
+			"<tr><td colspan=\"2\">"
+			"<div class=\"attachment-wrapper\" id=\"%s\">",
 			puri->uri);
 
 		camel_stream_write_string (stream, str, cancellable, NULL);
@@ -805,10 +805,10 @@ efhd_write_attachment (EMFormat *emf,
 				p->write_func (emf, p, stream, info, cancellable);
 		}
 
-                camel_stream_write_string (stream, "</div></td></tr>", cancellable, NULL);
+		camel_stream_write_string (stream, "</div></td></tr>", cancellable, NULL);
 	}
 
-        camel_stream_write_string (stream, "</table></div>", cancellable, NULL);
+	camel_stream_write_string (stream, "</table></div>", cancellable, NULL);
 }
 
 static void
@@ -825,9 +825,9 @@ efhd_write_secure_button (EMFormat *emf,
 		return;
 
 	str = g_strdup_printf (
-                "<object type=\"application/x-secure-button\" "
-                "height=\"20\" width=\"100%%\" "
-                "data=\"%s\" id=\"%s\"></object>", puri->uri, puri->uri);
+		"<object type=\"application/x-secure-button\" "
+		"height=\"20\" width=\"100%%\" "
+		"data=\"%s\" id=\"%s\"></object>", puri->uri, puri->uri);
 
 	camel_stream_write_string (stream, str, cancellable, NULL);
 
@@ -1045,7 +1045,7 @@ efhd_attachment_button (EMFormat *emf,
 	}
 
 	widget = e_attachment_button_new ();
-        g_object_set_data (G_OBJECT (widget), "uri", puri->uri);
+	g_object_set_data (G_OBJECT (widget), "uri", puri->uri);
 	e_attachment_button_set_attachment (
 		E_ATTACHMENT_BUTTON (widget), info->attachment);
 	e_attachment_button_set_view (
