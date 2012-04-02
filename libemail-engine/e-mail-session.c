@@ -860,6 +860,18 @@ mail_session_constructed (GObject *object)
 		settings, "junk-default-plugin",
 		object, "junk-filter-name",
 		G_SETTINGS_BIND_DEFAULT);
+
+	camel_session_set_check_junk (
+		CAMEL_SESSION (session), g_settings_get_boolean (
+		settings, "junk-check-incoming"));
+	g_signal_connect (
+		settings, "changed",
+		G_CALLBACK (mail_session_check_junk_notify), session);
+
+	mail_config_reload_junk_headers (session);
+
+	e_proxy_setup_proxy (session->priv->proxy);
+
 	g_object_unref (settings);
 }
 
@@ -1545,7 +1557,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 static void
 e_mail_session_init (EMailSession *session)
 {
-	GSettings *settings;
 	GHashTable *junk_filters;
 
 	junk_filters = g_hash_table_new (
@@ -1565,21 +1576,6 @@ e_mail_session_init (EMailSession *session)
 
 	/* Initialize the EAccount setup. */
 	e_account_writable (NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD);
-
-	settings = g_settings_new ("org.gnome.evolution.mail");
-
-	camel_session_set_check_junk (
-		CAMEL_SESSION (session), g_settings_get_boolean (
-		settings, "junk-check-incoming"));
-	g_signal_connect (
-		settings, "changed",
-		G_CALLBACK (mail_session_check_junk_notify), session);
-
-	mail_config_reload_junk_headers (session);
-
-	e_proxy_setup_proxy (session->priv->proxy);
-
-	g_object_unref (settings);
 }
 
 EMailSession *
