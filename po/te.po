@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-03-22 12:54+0000\n"
-"PO-Revision-Date: 2012-03-24 16:46+0530\n"
+"PO-Revision-Date: 2012-03-26 16:34+0530\n"
 "Last-Translator: Sasi Bhushan Boddepalli <sasi@swecha.net>\n"
 "Language-Team: Telugu <indlinux-telugu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -8052,15 +8052,13 @@ msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr "వారపు సంఖ్యను తేదీ మరియు పని వారపు దర్శనములో చూపుము "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
-#, fuzzy
 msgid "Whether to show week numbers in various places in the Calendar"
-msgstr "వారపు సంఖ్యలను తేదీ మార్చుదానిలో చూపాలా."
+msgstr "క్యాలెండర్ లో వివిధ ప్రదేశాల్లో వారం సంఖ్యలు చూపించాలా "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
-#, fuzzy
 #| msgid "Vertical pane position"
 msgid "Vertical position for the tag pane"
-msgstr "నిలువుగావున్న పలక స్థానం"
+msgstr "ట్యాగ్ పలక కోసం నిలువు స్థానం "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 msgid "Highlight tasks due today"
@@ -8077,18 +8075,18 @@ msgid "Tasks due today color"
 msgstr "ఈ రోజుతో అయిపోవు కర్తవ్యముల వర్ణము"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
-#, fuzzy
 #| msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
-msgstr "ఈ రోజుకు మిగిలి ఉన్న బ్యాక్‌గ్రౌండ్ వర్ణపు కర్తవ్యం, \"#rrggbb\" రూపంలో."
+msgstr ""
+"ఈ రోజుకు మిగిలి ఉన్న బ్యాక్‌గ్రౌండ్ వర్ణపు కర్తవ్యం, \"#rrggbb\" రూపంలో.  విధిని-కారణంగా-నేడు-హైలైట్ "
+"కలిసి వాడిబడినది "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:60
-#, fuzzy
 msgid "Task preview pane position (horizontal)"
-msgstr "నిలువు పలక స్థానం యొక్క కర్తవ్యాలు"
+msgstr "టాస్క్ మునుజూపు పలకను స్థానం (సమతల) "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:56
@@ -8107,20 +8105,17 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:61
-#, fuzzy
 msgid "Task preview pane position (vertical)"
-msgstr "నిలువు పలక స్థానం యొక్క కర్తవ్యాలు"
+msgstr "టాస్క్ మునుజూపు పలకను స్థానం (నిలువు) "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
-#, fuzzy
 msgid "Position of the task preview pane when oriented vertically"
-msgstr "నిలువ పలక స్థానములో నెల దర్శనాన్ని చూపుము"
+msgstr "ఆధారిత నిలువుగా  విధిని మునుజూపు పలకను యొక్క స్థానం ఉన్నప్పుడు "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
-#, fuzzy
 #| msgid "_Overdue tasks:"
 msgid "Highlight overdue tasks"
-msgstr "సమయంమించిన కర్తవ్యములు(_O):"
+msgstr "సమయంమించిన కర్తవ్యములు "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid ""
@@ -8133,12 +8128,13 @@ msgid "Overdue tasks color"
 msgstr "అతక్రమించు కర్తవ్యం వర్ణము"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
-#, fuzzy
 #| msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
-msgstr "ఇంకా సమయంఉన్న బ్యాక్‌గ్రౌండ్ వర్ణపు కర్తవ్యములు, \"#rrggbb\" రూపంలో."
+msgstr ""
+"ఇంకా సమయంఉన్న బ్యాక్‌గ్రౌండ్ వర్ణపు కర్తవ్యములు, \"#rrggbb\" రూపంలో , విధిని-మీరిన-హైలైట్ కలిసి "
+"వాడబడినది "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:37
@@ -8146,10 +8142,9 @@ msgid "Time divisions"
 msgstr "సమయ విభాగములు"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
-#, fuzzy
 #| msgid "Intervals shown in Day and Work Week views, in minutes."
 msgid "Intervals shown in Day and Work Week views, in minutes"
-msgstr "రోజు లో చూపబడు విరామాలు మరియు పనివారాల దర్శనంలు, నిమషాలలో."
+msgstr "అంతరాలు నిమిషాల్లో, రోజు మరియుపని వారపు  వీక్షణలు చూపిబడినవి "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:3
@@ -8157,7 +8152,6 @@ msgid "Timezone"
 msgstr "సమయక్షేత్రం"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
-#, fuzzy
 #| msgid ""
 #| "The default timezone to use for dates and times in the calendar, as an "
 #| "untranslated Olsen timezone database location like \"America/New York\"."
@@ -8165,8 +8159,8 @@ msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
 msgstr ""
-"క్యాలెండర్ నందలి తేదీలు మరియు సమయాలకు ఉపయోగించుటకు అప్రమేయ సమయక్షేత్రం, \"America/New York\" "
-"లాంటి అనువాదించలేని ఓల్సన్ సమయక్షేత్ర డాటాబేస్ స్థానము."
+"క్యాలెండర్ నందలి తేదీలు మరియు సమయాలకు ఉపయోగించుటకు అప్రమేయ సమయక్షేత్రం, \"అమెరికా/న్యూయార్క్\" లాంటి "
+"అనువాదించలేని ఓల్సన్ సమయక్షేత్ర డాటాబేస్ స్థానము."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:13
@@ -8174,24 +8168,21 @@ msgid "Twenty four hour time format"
 msgstr "ఇరవైనాలుగు గంటల సమయ రూపలావణ్యము"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
-#, fuzzy
 #| msgid ""
 #| "Whether to show times in twenty four hour format instead of using am/pm."
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
-msgstr "సమయాన్ని am/pm విధానం బదులుగా ఇరవై నాలుగు గంటల రూపంలో చూపించాలా."
+msgstr "సమయాన్ని am/pm విధానం బదులుగా ఇరవై నాలుగు గంటల రూపంలో చూపించాలా "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:101
-#, fuzzy
 #| msgid "Birthdays & Anniversaries"
 msgid "Birthday and anniversary reminder"
-msgstr "పుట్టినరోజులు & వార్షికోత్సవాలు"
+msgstr "పుట్టినరోజులు  మరియు  వార్షికోత్సవాల సూచన "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
-#, fuzzy
 #| msgid "Whether to set a default reminder for appointments."
 msgid "Whether to set a reminder for birthdays and anniversaries"
-msgstr "నియామకాలకు అప్రమేయంగా గుర్తించుదానిని అమర్చాలా."
+msgstr "పుట్టినరోజులు మరియు వార్షికోత్సవాలు ఒక రిమైండర్ సెట్ చెయ్యాలా "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:95
@@ -8199,10 +8190,9 @@ msgid "Default appointment reminder"
 msgstr "అప్రమేయ నియామకాన్ని గుర్తించునది"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
-#, fuzzy
 #| msgid "Whether to set a default reminder for appointments."
 msgid "Whether to set a default reminder for appointments"
-msgstr "నియామకాలకు అప్రమేయంగా గుర్తించుదానిని అమర్చాలా."
+msgstr "అపాయింట్మెంట్లు కోసం ఒక అప్రమేయ రిమైండర్ సెట్ చెయ్యాలా"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:5
@@ -8210,11 +8200,10 @@ msgid "Use system timezone"
 msgstr "సిస్టమ్ సమయక్షేత్రమును వుపయోగించుము"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
-#, fuzzy
 #| msgid ""
 #| "Use the system timezone instead of the timezone selected in Evolution."
 msgid "Use the system timezone instead of the timezone selected in Evolution"
-msgstr "ఎవాల్యూషన్ నందు యెంపికచేసిన సమయక్షేత్రమునకు బదులుగా సిస్టమ్ సమయక్షేత్రమును వుపయోగించుము."
+msgstr "ఎవాల్యూషన్ నందు యెంపికచేసిన సమయక్షేత్రమునకు బదులుగా వ్యవస్థ సమయక్షేత్రమును వుపయోగించుము "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:27
@@ -8222,10 +8211,9 @@ msgid "Week start"
 msgstr "ప్రారంభ వారం"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
-#, fuzzy
 #| msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)"
-msgstr "వారము ప్రారంభంలో వారమురోజు, ఆదివారం (0) నుండి శనివారం (6) వరకు."
+msgstr "వారము ప్రారంభంలో వారమురోజు, ఆదివారం (0) నుండి శనివారం (6) వరకు "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:67
@@ -8233,10 +8221,9 @@ msgid "Work days"
 msgstr "పనిరోజులు"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
-#, fuzzy
 #| msgid "Days on which the start and end of work hours should be indicated."
 msgid "Days on which the start and end of work hours should be indicated"
-msgstr "ప్రారంభ మరియు ముగింపు పని గంటలను సూచించవలిసిన రోజులు."
+msgstr "ప్రారంభ మరియు ముగింపు పని గంటలను సూచించవలిసిన రోజులు "
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
 #: ../shell/apps_evolution_shell.schemas.in.h:1
@@ -8289,10 +8276,9 @@ msgid "The window's height in pixels"
 msgstr "పిక్సెల్స్ లో విండో యొక్క ఎత్తు "
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:11
-#, fuzzy
 #| msgid "Whether or not the window should be maximized."
 msgid "Whether the window is maximized"
-msgstr "విండో పెద్దదిగా ఉండుట జరగాలా వద్దా."
+msgstr "విండో పెద్దదిగా అయిందా "
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
 msgid "Gnome Calendar's calendar import done"
@@ -8398,10 +8384,9 @@ msgid ""
 msgstr "ఒక సందేశాన్ని ఫార్వార్డ్ చేసినప్పుడు ఆ టెక్స్ట్ ఫార్వార్డ్ సందేశం ఈ కింది పేర్కొంది చేర్చబడుతుంది "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:17
-#, fuzzy
 #| msgid "-----Original Message-----"
 msgid "Original message"
-msgstr "-----వాస్తన సందేశం-----"
+msgstr "వాస్తవ  సందేశం "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:18
 msgid ""
@@ -8554,10 +8539,9 @@ msgstr ""
 "యెంచుకొనబడినప్పుడు దర్శన మెనూనుండి యిది నియంత్రించబడుతుంది."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
-#, fuzzy
 #| msgid "_Keep Signature above the original message on replying"
 msgid "Digitally sign replies when the original message is signed"
-msgstr "ప్రత్యుత్తరము ఇచ్చునప్పుడు సంతకాన్ని వాస్తవ సందేశంపైన ఉంచుము(_K)"
+msgstr "ప్రత్యుత్తరము ఇచ్చునప్పుడు డిజిటల్  సంతకాన్ని వాస్తవ సందేశంపైన ఉంచుము"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
 #: ../mail/evolution-mail.schemas.in.h:12
@@ -8570,14 +8554,12 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 #: ../mail/evolution-mail.schemas.in.h:33
-#, fuzzy
 #| msgid "Encode file names in an Outlook/GMail way"
 msgid "Encode filenames in an Outlook/GMail way"
-msgstr "Outlook/GMail తరహాలో దస్త్ర పేరులను ఎన్కోడ్ చేయుము"
+msgstr "అవుట్ లుక్/జి మెయిల్ తరహాలో దస్త్ర పేరులను ఎన్కోడ్ చేయుము"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
 #: ../mail/evolution-mail.schemas.in.h:34
-#, fuzzy
 #| msgid ""
 #| "Encode file names in the mail headers same as Outlook or GMail do, to let "
 #| "them display correctly file names with UTF-8 letters sent by Evolution, "
@@ -8589,9 +8571,9 @@ msgid ""
 "because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
 "standard."
 msgstr ""
-"ఎవాల్యూషన్ ద్వారా పంపిన UTF-8 అక్షరముల దస్త్రపేరులను వారు సరిగా ప్రదర్శించుటకు,Outlook లేదా "
-"GMail చేయునట్లు మెయిల్ పీఠికలనందు దస్త్ర పేరులను ఎన్కోడ్ చేయుము, యెందుచేతనంటే అవి RFC 2231 "
-"అనుసరించవు, అయితే సరికాని RFC 2047 ప్రమాణంను వుపయోగిస్తాయి."
+"ఎవాల్యూషన్ ద్వారా పంపిన UTF-8 అక్షరముల దస్త్రపేరులను వారు సరిగా ప్రదర్శించుటకు,అవుట్ లుక్ లేదా జి "
+"మెయిల్ చేయునట్లు మెయిల్ పీఠికలనందు దస్త్ర పేరులను ఎన్కోడ్ చేయుము, యెందుచేతనంటే అవి RFC 2231 "
+"అనుసరించవు, అయితే సరికాని RFC 2047 ప్రమాణంను వుపయోగిస్తాయి "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 #: ../mail/evolution-mail.schemas.in.h:35
@@ -8610,9 +8592,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
 #: ../mail/evolution-mail.schemas.in.h:37
-#, fuzzy
 msgid "Do not add signature delimiter"
-msgstr "సంతకం ఫైలును దాయలేకపోయింది."
+msgstr "సంతకం డీలిమిటర్ జోడించవద్దు "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
 #: ../mail/evolution-mail.schemas.in.h:38
@@ -8716,11 +8697,8 @@ msgstr "అన్ని ఫోల్డర్లను కోసం ఇదే �
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
 #: ../mail/evolution-mail.schemas.in.h:62
-#, fuzzy
 msgid "Enable to use a similar message list view settings for all folders."
-msgstr ""
-"సందేశం ఉపదర్శనం నందు స్పేస్ బార్ కీని స్క్రాల్ చేయుటకు ఉపయోగించుటకు దీనిని చేతనంచేయుము, సందేశం జాబితా "
-"మరియు సంచయాలు."
+msgstr "అన్ని ఫోల్డర్లను కోసం ఇదే సందేశం జాబితా వీక్షణ అమర్పులను ఉపయోగించడానికి ప్రారంభించు."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 #: ../mail/evolution-mail.schemas.in.h:63
@@ -8790,15 +8768,13 @@ msgstr "యానిమేషన్లలాగా యానిమేటెడ�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 #: ../mail/evolution-mail.schemas.in.h:75
-#, fuzzy
 msgid "Show all message headers"
-msgstr "అన్ని సందేశ తంతులను కూల్చుతుంది"
+msgstr "అన్ని సందేశ శీర్షికలను చూపుము "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 #: ../mail/evolution-mail.schemas.in.h:76
-#, fuzzy
 msgid "Show all the headers when viewing a messages."
-msgstr "మెయిల్ సందేశమును పంపునప్పుడు \"దీనికి ప్రత్యుత్తరము\" క్షేత్రమును చూపుము"
+msgstr "ఒక సందేశాలను వీక్షించేందుకు ఉన్నప్పుడు అన్ని శీర్షికలను చూపించు."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 #: ../mail/evolution-mail.schemas.in.h:77
@@ -8865,17 +8841,15 @@ msgstr "తెలుపబడిన సమయనియమితి తరువ�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 #: ../mail/evolution-mail.schemas.in.h:90
-#, fuzzy
 #| msgid "Timeout for marking message as seen"
 msgid "Timeout for marking messages as seen"
-msgstr "సందేశాన్ని చూసినదానిలా గుర్తుంచుటకు సమయంమించినది"
+msgstr "సందేశాన్ని చూసినదానిలా గుర్తుంచుటకు సమయంమించినది "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 #: ../mail/evolution-mail.schemas.in.h:91
-#, fuzzy
 #| msgid "Timeout for marking message as seen."
 msgid "Timeout in milliseconds for marking messages as seen."
-msgstr "చూచినట్లుగా సందేశాన్ని గుర్తుంచుటకు సమయం మించిపోయింది."
+msgstr "చూసిన విధంగా సందేశాలను మార్కింగ్ కోసం మిల్లిసెకన్లు లో సమయం ముగిసింది."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 #: ../mail/evolution-mail.schemas.in.h:87
@@ -8890,7 +8864,6 @@ msgid ""
 msgstr "సందేశ జాబితాలో ప్రత్యేక కాలమ్‌నందు పంపినవానియొక్క ఈమెయిల్-చిరునామాను చూపుము."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
-#, fuzzy
 #| msgid ""
 #| "Determines whether to use the same fonts for both \"From\" and \"Subject"
 #| "\" lines in the \"Messages\" column in vertical view."
@@ -8898,8 +8871,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
 msgstr ""
-"వర్టికల్ దర్శనంలో \"సందేశాలు\" నిలువువరుసనందలి \"నుండి\" మరియు \"సంగతి\" రెండువరుసలకు వొకే "
-"ఫాంట్లను వాడవలెనేమో నిర్ణయిస్తుంది."
+"నిలువు వీక్షణలో \"సందేశాలు\" నిలువువరుస \"నుండి\" మరియు \"సంగతి\" రెండువరుసలకు ఒకే "
+"ఖతులను వాడవలెనేమో నిర్ణయిస్తుంది "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 #: ../mail/evolution-mail.schemas.in.h:89
@@ -8922,10 +8895,9 @@ msgstr "సందేశ-జాబితా నందు తొలగించి
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 #: ../mail/evolution-mail.schemas.in.h:96
-#, fuzzy
 #| msgid "All local folders"
 msgid "Enable local folders"
-msgstr "అన్ని స్థానిక సంచయాలు"
+msgstr "స్థానిక ఫోల్డర్లను ప్రారంభించు"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Whether to show local folders (On This Computer) in a folder tree"
@@ -8990,9 +8962,8 @@ msgstr "సందేశ-జాబితా తలం యొక్క వెడ�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 #: ../mail/evolution-mail.schemas.in.h:104
-#, fuzzy
 msgid "Layout style"
-msgstr "కూర్పు(_o)"
+msgstr "లేఅవుట్ శైలి "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 #: ../mail/evolution-mail.schemas.in.h:105
@@ -9069,14 +9040,13 @@ msgstr "ప్రదర్శన కోసం సందేశ టెక్స్
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 #: ../mail/evolution-mail.schemas.in.h:117
-#, fuzzy
 msgid ""
 "This decides the max size of the message text that will be displayed under "
 "Evolution, specified in terms of KB. The default is 4096 (4MB). This value "
 "is used only when 'force_message_limit' key is activated."
 msgstr ""
-"ఎవాల్యూషన్ క్రింది రూపీకరించబడే పాఠ్యము యొక్క గరిష్ట పరిమాణంను ఇది నిర్ధారిస్తుంది. అప్రమేయ 4MB / 4096 "
-"KB మరియు KB ల రూపంలో తెలుపబడింది."
+"ఎవాల్యూషన్ క్రింది రూపీకరించబడే పాఠ్యము యొక్క గరిష్ట పరిమాణంను ఇది నిర్ధారిస్తుంది. అప్రమేయంగా 4096 "
+"(4MB) ఉంది. 'బలంగా_సందేశం(_m)_పరిమితి(_l)' కీ యాక్టివేట్ ఉన్నప్పుడు ఈ విలువ మాత్రమే ఉపయోగిస్తారు."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 #: ../mail/evolution-mail.schemas.in.h:118
@@ -9112,7 +9082,6 @@ msgid "Default value for thread expand state"
 msgstr "తంతి విస్తరింపు స్థితి కొరకు అప్రమేయ విలువ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
-#, fuzzy
 #| msgid ""
 #| "This setting specifies whether the threads should be in expanded or "
 #| "collapsed state by default. Evolution requires a restart."
@@ -9121,7 +9090,7 @@ msgid ""
 "collapsed state by default. Evolution requires a restart."
 msgstr ""
 "తంతులు అప్రమేయంగా విస్తరింపులో వుండాలో లేదా కూల్చిన స్థితినందు వుండాలో ఈ అమరిక తెలుపుతుంది. "
-"ఎవాల్యూషన్‌కు పునఃప్రారంభం అవసరం."
+"ఎవాల్యూషన్‌కు పునఃప్రారంభం అవసరం. "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 #: ../mail/evolution-mail.schemas.in.h:124
@@ -9214,15 +9183,13 @@ msgid ""
 msgstr "వినియోగదారిని అడుగుము ఎప్పుడైతే అతడు లేక ఆమె సందేశాన్ని సంగతి లేకుండా పంపుటకు ప్రయత్నిస్తాడో."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
-#, fuzzy
 msgid "Prompt when emptying the trash"
-msgstr "సందేశాలను Bcc స్వీకరణదారులను ఉద్దేశించి పంపుతున్నప్పడు అడుగుము(_o)"
+msgstr "చెత్త బుట్ట ఖాళీ అవుతున్నపుడు  ప్రాంప్ట్ "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
-#, fuzzy
 #| msgid "Prompt the user when he or she tries to expunge a folder."
 msgid "Prompt the user when he or she tries to empty the trash."
-msgstr "వినియోగదారిని అడుగుము ఎప్పుడైతే అతడు లేక ఆమె సంచయంను కొట్టివేయుటకు ప్రయత్నిస్తారో."
+msgstr "వినియోగదారుని ప్రాంప్ట్ , అతను లేదా ఆమె చెత్తబుట్టను  ఖాళీ ప్రయత్నిస్తున్నప్పుడు "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 #: ../mail/evolution-mail.schemas.in.h:153
@@ -9236,19 +9203,17 @@ msgstr "వినియోగదారిని అడుగుము ఎప్�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 #: ../mail/evolution-mail.schemas.in.h:173
-#, fuzzy
 msgid "Prompt before sending to recipients not entered as mail addresses"
-msgstr "బహుళ సందేశాలను గర్తిస్తున్నప్పుడు అడుగుము"
+msgstr "స్వీకర్తలకు పంపే ముందు ప్రాంప్ట్ మెయిల్ చిరునామాలు గా ప్రవేశించ లేదు"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 #: ../mail/evolution-mail.schemas.in.h:174
-#, fuzzy
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
 msgstr ""
 "అన్వేషణ సంచయంనుండి సందేశాలను శాశ్వతంగా తోలగించునప్పుడు పర్యాయ హెచ్చరికలను ఇది చేతనం/అచేతనం "
-"చేస్తుంది, అన్వేషణ ఫలితాలనుండి సాదారణంగా తొలగిస్తున్నప్పడుకాదు."
+"చేస్తుంది, అన్వేషణ ఫలితాలనుండి సాదారణంగా తొలగిస్తున్నప్పడుకాదు "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 #: ../mail/evolution-mail.schemas.in.h:155
@@ -9317,25 +9282,22 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 #: ../mail/evolution-mail.schemas.in.h:165
-#, fuzzy
 msgid "Prompt when replying privately to list messages"
-msgstr "బహుళ సందేశాలను గర్తిస్తున్నప్పుడు అడుగుము"
+msgstr "జాబితా సందేశాలకు ప్రైవేటు బదులుపెట్టడాన్ని ఉన్నప్పుడు ప్రాంప్ట్ "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 #: ../mail/evolution-mail.schemas.in.h:166
-#, fuzzy
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
 msgstr ""
 "అన్వేషణ సంచయంనుండి సందేశాలను శాశ్వతంగా తోలగించునప్పుడు పర్యాయ హెచ్చరికలను ఇది చేతనం/అచేతనం "
-"చేస్తుంది, అన్వేషణ ఫలితాలనుండి సాదారణంగా తొలగిస్తున్నప్పడుకాదు."
+"చేస్తుంది, అన్వేషణ ఫలితాలనుండి సాధారణంగా తొలగిస్తున్నప్పడుకాదు."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 #: ../mail/evolution-mail.schemas.in.h:167
-#, fuzzy
 msgid "Prompt when mailing list hijacks private replies"
-msgstr "బహుళ సందేశాలను గర్తిస్తున్నప్పుడు అడుగుము"
+msgstr "మెయిలింగ్ జాబితా ప్రైవేట్ ప్రత్యుత్తరాలను హైజాక్  ఉన్నప్పుడు ప్రాంప్ట్"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 #: ../mail/evolution-mail.schemas.in.h:168
@@ -9350,19 +9312,17 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 #: ../mail/evolution-mail.schemas.in.h:169
-#, fuzzy
 msgid "Prompt when replying to many recipients"
-msgstr "సందేశాలను Bcc స్వీకరణదారులను ఉద్దేశించి పంపుతున్నప్పడు అడుగుము(_o)"
+msgstr "అనేక గ్రహీతలకు బదులుపెడుతున్నప్పుడు ప్రాంప్ట్  "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 #: ../mail/evolution-mail.schemas.in.h:170
-#, fuzzy
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
 msgstr ""
-"ఆఫ్‌లైన్ రీతికి వెళ్ళుటకు మునుపు ఆఫ్‌లైన్ సింక్ అవసరమేమో అడుగుటకు పునరావృత ప్రాంప్టులను చేతనం/"
-"అచేతనం చేస్తుంది."
+"  పదేపదే మీరు చాలా మంది ప్రజలు ఒక సమాధానం పంపుతున్న పుడు హెచ్చరించడానికి ఇది చేతనం/అచేతనం "
+"చేస్తుంది "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 #: ../mail/evolution-mail.schemas.in.h:171
@@ -9399,16 +9359,14 @@ msgstr "బయటకువచ్చిన తర్వాత చెత్తక�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 #: ../mail/evolution-mail.schemas.in.h:179
-#, fuzzy
 msgid "Last time Empty Trash was run"
-msgstr "చివరిసారి ఖాళీ చెత్తకుండి నడుపబడింది"
+msgstr "చివరిసారి ఖాళీ చెత్తకుండి నడుపబడింది "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 #: ../mail/evolution-mail.schemas.in.h:180
-#, fuzzy
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
-msgstr "గతసారి ఖాళీ చెత్తకుండి నడుస్తున్నది, రోజులలో epoch నుండి."
+msgstr "ఖాళీ చెత్తబుట్ట , చివరిసారి జనవరి 1, 1970 (ఎపోచ్) నుండి , అమలు జరిగినది."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 #: ../mail/evolution-mail.schemas.in.h:181
@@ -9490,16 +9448,14 @@ msgstr "బయటకువచ్చిన తర్వాత నిరర్ధ�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 #: ../mail/evolution-mail.schemas.in.h:194
-#, fuzzy
 msgid "Last time Empty Junk was run"
-msgstr "గతసారి ఖాళీ నిరర్ధకం నడుపబడింది"
+msgstr "గతసారి ఖాళీ నిరర్ధకం నడుపబడింది "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 #: ../mail/evolution-mail.schemas.in.h:195
-#, fuzzy
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
-msgstr "గతసారి ఖాళీ నిరర్ధకం నడుస్తున్నది, రోజులలో epoch నుండి."
+msgstr "చివరిసారి ఖాళీ వ్యర్థము  జనవరి 1, 1970 (ఎపోచ్) న, అమలు జరిగినది."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 #: ../mail/evolution-mail.schemas.in.h:196
@@ -9605,10 +9561,9 @@ msgstr "కూర్పరికి దస్త్రాలను నింప�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 #: ../mail/evolution-mail.schemas.in.h:219
-#, fuzzy
 #| msgid "Check for _new messages every"
 msgid "Check for new messages on start"
-msgstr "కొత్త సందేశాల కొరకు వెతుకుము (_n)"
+msgstr "మొదలు పెట్టేటపుడు  కొత్త సందేశాల కొరకు వెతుకుము "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid ""
@@ -9618,10 +9573,9 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 #: ../mail/evolution-mail.schemas.in.h:221
-#, fuzzy
 #| msgid "Check for _new messages every"
 msgid "Check for new messages in all active accounts"
-msgstr "కొత్త సందేశాల కొరకు వెతుకుము (_n)"
+msgstr "అన్ని చేతన అకౌంట్లలో‌కొత్త సందేశాల కొరకు వెతుకుము "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid ""
@@ -9658,16 +9612,14 @@ msgid ""
 msgstr "ఆనుభందంను గుర్తుచేయు ప్లగ్ఇన్ సందేశం బాడీ నందు చూడుటకు అనవాళ్ళ జాబితా."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
-#, fuzzy
 #| msgid "Address Book Properties"
 msgid "Address book source"
-msgstr "చిరునామ పుస్తకం లక్షణాలు"
+msgstr "చిరునామాల  పుస్తక వనరు "
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
-#, fuzzy
 #| msgid "Select Address book for Automatic Contacts"
 msgid "Address book to use for storing automatically synced contacts"
-msgstr "స్వయంచాలక పరిచయాల కొరకు చిరునామా పుస్తంకంను ఎంపికచేయుము"
+msgstr "స్వయంచాలక పరిచయాల కొరకు చిరునామా పుస్తంకంను ఎంపికచేయుము "
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
 #, fuzzy
