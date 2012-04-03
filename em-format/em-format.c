@@ -2481,7 +2481,8 @@ em_format_build_mail_uri (CamelFolder *folder,
 		folder_name = "generic";
 		service_uid = "generic";
 	} else {
-		folder_name = camel_folder_get_full_name (folder);
+		tmp = (gchar *) camel_folder_get_full_name (folder);
+		folder_name = (const gchar *) soup_uri_encode (tmp, NULL);
 		store = camel_folder_get_parent_store (folder);
 		if (store)
 			service_uid = camel_service_get_uid (CAMEL_SERVICE (store));
@@ -2493,6 +2494,10 @@ em_format_build_mail_uri (CamelFolder *folder,
 			service_uid,
 			folder_name,
 			message_uid);
+
+	if (folder) {
+		g_free ((gchar *) folder_name);
+	}
 
 	va_start (ap, first_param_name);
 	name = first_param_name;
@@ -2539,14 +2544,15 @@ em_format_build_mail_uri (CamelFolder *folder,
 	va_end (ap);
 
 	uri = tmp;
+	if (uri == NULL)
+		return NULL;
 
 	/* For some reason, webkit won't accept URL with username, but
 	 * without password (mail://store@host/folder/mail), so we
 	 * will replace the '@' symbol by '/' to get URL like
 	 * mail://store/host/folder/mail which is OK
 	 */
-	tmp = strchr (tmp, '@');
-	if (tmp) {
+	while ((tmp = strchr (uri, '@')) != NULL) {
 		tmp[0] = '/';
 	}
 

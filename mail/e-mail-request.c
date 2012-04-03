@@ -643,9 +643,7 @@ mail_request_send_async (SoupRequest *request,
 
 		uri_str = g_strdup_printf (
 			"%s://%s%s", uri->scheme, uri->host, uri->path);
-		decoded_uri = soup_uri_decode (uri_str);
-		emr->priv->efh = g_hash_table_lookup (formatters, decoded_uri);
-		g_free (decoded_uri);
+		emr->priv->efh = g_hash_table_lookup (formatters, uri_str);
 		g_free (uri_str);
 
 		g_return_if_fail (emr->priv->efh);
