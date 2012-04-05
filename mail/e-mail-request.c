@@ -639,7 +639,6 @@ mail_request_send_async (SoupRequest *request,
 	/* Get HTML content of given PURI part */
 	if (g_strcmp0 (uri->scheme, "mail") == 0) {
 		gchar *uri_str;
-		gchar *decoded_uri;
 
 		uri_str = g_strdup_printf (
 			"%s://%s%s", uri->scheme, uri->host, uri->path);
