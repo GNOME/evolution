@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-04-02 10:44+0000\n"
-"PO-Revision-Date: 2012-04-02 18:26+0530\n"
+"PO-Revision-Date: 2012-04-05 19:07+0530\n"
 "Last-Translator: Sasi Bhushan Boddepalli <sasi@swecha.net>\n"
 "Language-Team: Telugu <indlinux-telugu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -10331,10 +10331,9 @@ msgid ""
 msgstr ""
 
 #: ../e-util/e-system.error.xml.h:3
-#, fuzzy
 #| msgid "_Reply"
 msgid "_Replace"
-msgstr "ప్రత్యుత్తరము(_R):"
+msgstr "పునఃస్థాపించుము(_R) "
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Cannot save file \"{0}\"."
@@ -10475,9 +10474,8 @@ msgid "Select a time to compare against"
 msgstr "సరిపోల్చుటకు ఒక సమయాన్ని ఎంచుకొనుము"
 
 #: ../filter/e-filter-file.c:188
-#, fuzzy
 msgid "Choose a File"
-msgstr "ఫైలును ఎంచుకొనుము"
+msgstr "ఒక దస్త్రమును ఎంచుకొనుము"
 
 #: ../filter/e-filter-rule.c:686
 msgid "R_ule name:"
@@ -10524,10 +10522,9 @@ msgid "No reply or parent"
 msgstr "ఏ ప్రత్యుతరము లేదా మాత్రుక లేదు"
 
 #: ../filter/e-filter-rule.c:783
-#, fuzzy
 #| msgid "I_nclude threads"
 msgid "I_nclude threads:"
-msgstr "తంతులను చేర్చుము(_n)"
+msgstr "తంతులను చేర్చుము(_n):‌ "
 
 #: ../filter/e-filter-rule.c:808
 msgid "A_dd Condition"
@@ -10559,16 +10556,14 @@ msgid "You must choose a date."
 msgstr "మీరు తప్పకుండా ఒక తేదీని ఎంచుకొనవలెను."
 
 #: ../filter/filter.error.xml.h:3
-#, fuzzy
 #| msgid "Missing file name."
 msgid "Missing filename."
-msgstr "తప్పిపోయిన ఫైలు పేరు."
+msgstr "తప్పిపోయిన దస్త్రము  పేరు. "
 
 #: ../filter/filter.error.xml.h:4
-#, fuzzy
 #| msgid "You must specify a file name."
 msgid "You must specify a filename."
-msgstr "మీరు ఒక దస్త్రపేరును తెలుపవలెను."
+msgstr "మీరు ఒక దస్త్రపేరును తప్పని సరిగా తెలుపవలెను."
 
 #: ../filter/filter.error.xml.h:5
 msgid "File &quot;{0}&quot; does not exist or is not a regular file."
@@ -10599,21 +10594,16 @@ msgid "Please choose another name."
 msgstr "దయచేసి వేరే నామాన్ని ఎంచుకొనుము."
 
 #: ../filter/filter.ui.h:2
-#, fuzzy
 msgid "the current time"
-msgstr "ప్రస్తుత ఫైలును దాయుము"
+msgstr "ప్రస్తుత సమయం "
 
 #: ../filter/filter.ui.h:3
 msgid "the time you specify"
 msgstr "మీరు పేర్కొన్న సమయం"
 
 #: ../filter/filter.ui.h:4
-#, fuzzy
 msgid "a time relative to the current time"
-msgstr ""
-"ప్రస్తుత సమయం\n"
-"మీరు తెలిపిన సమయం\n"
-"ప్రస్తుత సమయానికి సారూప్యంగా వున్న సమయం"
+msgstr "ప్రస్తుత సమయానికి సంబంధించి ఉన్న సమయం "
 
 #: ../filter/filter.ui.h:5
 msgid "seconds"
@@ -10621,26 +10611,20 @@ msgstr "సెకనులు"
 
 #: ../filter/filter.ui.h:10
 #: ../plugins/publish-calendar/publish-calendar.ui.h:8
-#, fuzzy
 msgid "months"
-msgstr "నెల"
+msgstr "నెలలు "
 
 #: ../filter/filter.ui.h:11
-#, fuzzy
 msgid "years"
-msgstr "పీఠికలు"
+msgstr "సంవత్సరాలు "
 
 #: ../filter/filter.ui.h:12
-#, fuzzy
 msgid "ago"
-msgstr "టాగ్"
+msgstr "కిందట "
 
 #: ../filter/filter.ui.h:13
-#, fuzzy
 msgid "in the future"
-msgstr ""
-"క్రితం\n"
-"భవిష్యత్తులో"
+msgstr "భవిష్యత్తులో"
 
 #: ../filter/filter.ui.h:14
 msgid "Show filters for mail:"
@@ -10679,9 +10663,9 @@ msgstr ""
 "దానికి సారూప్య సమయం తో పోల్చబడుతుంది."
 
 #: ../libemail-engine/e-mail-folder-utils.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "Saving message to folder '%s'"
-msgstr "సందేశాన్ని సంచయంకు దాయుచున్నది"
+msgstr "సందేశాన్ని సంచయం '%s' కు దాయుచున్నది"
 
 #: ../libemail-engine/e-mail-folder-utils.c:270
 msgid "Forwarded messages"
@@ -10696,32 +10680,29 @@ msgstr[0] "%d సందేశాన్ని వెలికితీస్త�
 msgstr[1] "%d సందేశాలను వెలికితీస్తుంది"
 
 #: ../libemail-engine/e-mail-folder-utils.c:472
-#, fuzzy
 msgid "Scanning messages for duplicates"
-msgstr "సందేశాన్ని సంచయంకు దాయుచున్నది"
+msgstr "నకిలీల కోసం స్కానింగ్ సందేశాలు "
 
 #: ../libemail-engine/e-mail-folder-utils.c:875
-#, fuzzy, c-format
+#, c-format
 msgid "Removing folder '%s'"
-msgstr "%s సంచయాన్ని తొలగిస్తున్నది"
+msgstr "'%s' సంచయాన్ని తొలగిస్తున్నది  "
 
 #: ../libemail-engine/e-mail-folder-utils.c:1009
-#, fuzzy, c-format
+#, c-format
 #| msgid "All accounts have been removed."
 msgid "File \"%s\" has been removed."
-msgstr "అన్ని ఖాతాలు తొలగించబడినవి."
+msgstr "ఫైలు \"%s\"తొలగించబడింది. "
 
 #: ../libemail-engine/e-mail-folder-utils.c:1013
-#, fuzzy
 #| msgid "All accounts have been removed."
 msgid "File has been removed."
-msgstr "అన్ని ఖాతాలు తొలగించబడినవి."
+msgstr "ఫైలు తొలగించబడింది "
 
 #: ../libemail-engine/e-mail-folder-utils.c:1072
-#, fuzzy
 #| msgid "Saving attachment"
 msgid "Removing attachments"
-msgstr "అనుబంధాన్ని దాస్తున్నది"
+msgstr "అటాచ్మెంట్లను తొలగిస్తున్నది "
 
 #: ../libemail-engine/e-mail-folder-utils.c:1234
 #, c-format
@@ -10731,9 +10712,9 @@ msgstr[0] "%d సందేశాన్ని దాస్తుంది"
 msgstr[1] "%d సందేశాన్ని దాస్తుంది"
 
 #: ../libemail-engine/e-mail-folder-utils.c:1588 ../mail/em-folder-utils.c:624
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid folder URI '%s'"
-msgstr "చెల్లని సంచయం: `%s'"
+msgstr "చెల్లని ఫోల్డర్ URI '%s'"
 
 #: ../libemail-engine/e-mail-session.c:108 ../mail/em-folder-properties.c:333
 #: ../mail/em-folder-tree-model.c:719
@@ -10808,22 +10789,22 @@ msgid "No account found to use, forward of the message has been cancelled."
 msgstr "ఉపయోగించుటకు ఏ ఖాతా కనబడలేదు, సందేశముయొక్క కొనసాగింపు రద్దైనది."
 
 #: ../libemail-engine/e-mail-session.c:1332
-#, fuzzy, c-format
+#, c-format
 #| msgid "Authentication Failed"
 msgid "%s authentication failed"
-msgstr "ప్రామాణీకరణ విఫలం చెందింది"
+msgstr "%s ప్రామాణీకరణ విఫలం చెందింది"
 
 #: ../libemail-engine/e-mail-session.c:1406
-#, fuzzy, c-format
+#, c-format
 #| msgid "Your password has expired."
 msgid "No password was provided"
-msgstr "మీ సంకేతపదం కాలముతీరినది."
+msgstr "మీ సంకేతపదం ఇవ్వబడలేదు "
 
 #: ../libemail-engine/e-mail-session-utils.c:416
-#, fuzzy, c-format
+#, c-format
 #| msgid "Expunging and storing account '%s'"
 msgid "Cannot get transport for account '%s'"
-msgstr "ఖాతా '%s' ను కొట్టివేయుచున్నది మరియు నిల్వచేయుచున్నది"
+msgstr "'%s' ఖాతా కోసం రవాణా పొందలేము"
 
 #: ../libemail-engine/e-mail-session-utils.c:505
 #: ../libemail-engine/mail-ops.c:660
@@ -10834,19 +10815,19 @@ msgstr "బయటకువెళ్ళు వడపోతలను ఆపాద�
 #: ../libemail-engine/e-mail-session-utils.c:531
 #: ../libemail-engine/e-mail-session-utils.c:565
 #: ../libemail-engine/mail-ops.c:679 ../libemail-engine/mail-ops.c:715
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local 'Sent' folder instead."
 msgstr ""
 "%s కు కలుపుటలో విఫలమైంది: %s\n"
-"బదులుగా స్థానిక `పంపినవాటి' సంచయం కు కలుపుము."
+"బదులుగా స్థానిక `పంపినవాటి' సంచయం కు కలుపుము. "
 
 #: ../libemail-engine/e-mail-session-utils.c:585
 #: ../libemail-engine/mail-ops.c:737
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
-msgstr "స్థానిక `పంపినవాటి' సంచయంకు కలుపుటలో వైఫల్యం: %s"
+msgstr "స్థానిక `పంపినవాటి' సంచయంకు కలుపుటలో వైఫల్యం: %s "
 
 #: ../libemail-engine/e-mail-session-utils.c:795
 #: ../libemail-engine/mail-ops.c:865 ../libemail-engine/mail-ops.c:966
@@ -10854,20 +10835,20 @@ msgid "Sending message"
 msgstr "సందేశాన్ని పంపుతున్నది"
 
 #: ../libemail-engine/e-mail-session-utils.c:869
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unsubscribing from folder \"%s\""
 msgid "Unsubscribing from folder '%s'"
-msgstr "సంచయం \"%s\" నుండి చందాదారుగా విరమించుకొనుము"
+msgstr "సంచయం '%s' నుండి చందాదారుగా విరమించుకొనుము  "
 
 #: ../libemail-engine/e-mail-store-utils.c:169
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting from '%s'"
-msgstr "%s నుండి అననుసంధానిస్తోంది"
+msgstr "%s నుండి అననుసంధానం‌ వేరు అవుతున్నది "
 
 #: ../libemail-engine/e-mail-store-utils.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to '%s'"
-msgstr "%s కు తిరిగిఅనుసంధానించబడుతోంది"
+msgstr "'%s' కు తిరిగి అనుసంధానించబడుతోంది"
 
 #: ../libemail-engine/e-mail-store-utils.c:335
 #, c-format
@@ -10896,12 +10877,12 @@ msgstr "%2$d యొక్క %1$d సందేశాన్ని పంపుత
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
 #: ../libemail-engine/mail-ops.c:927
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to send %d of %d messages"
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
-msgstr[0] "%2$d యొక్క %1$d సందేశాలను పంపుటలో విఫలమైంది"
-msgstr[1] "%2$d యొక్క %1$d సందేశాలను పంపుటలో విఫలమైంది"
+msgstr[0] "ఒక సందేశాన్ని పంపడం విఫలమైంది  "
+msgstr[1] "%2$d యొక్క %1$d సందేశాలను పంపుటలో విఫలమైంది "
 
 #: ../libemail-engine/mail-ops.c:933 ../mail/mail-send-recv.c:886
 msgid "Canceled."
@@ -10912,14 +10893,14 @@ msgid "Complete."
 msgstr "పూర్తయినది."
 
 #: ../libemail-engine/mail-ops.c:1047
-#, fuzzy, c-format
+#, c-format
 msgid "Moving messages to '%s'"
-msgstr "సందేశాలను %s కు కదుపుచున్నది"
+msgstr "సందేశాలను '%s' కు కదుపుచున్నది"
 
 #: ../libemail-engine/mail-ops.c:1048
-#, fuzzy, c-format
+#, c-format
 msgid "Copying messages to '%s'"
-msgstr "%s కు సందేశాలను నకలుతీస్తున్నది"
+msgstr "'%s' కు సందేశాలను నకలుతీస్తున్నది"
 
 #: ../libemail-engine/mail-ops.c:1165
 #, c-format
@@ -10937,14 +10918,14 @@ msgid "Storing account '%s'"
 msgstr "'%s' ఖాతాని దాస్తుంది"
 
 #: ../libemail-engine/mail-ops.c:1301
-#, fuzzy, c-format
+#, c-format
 msgid "Refreshing folder '%s'"
-msgstr "సంచయాన్ని పునర్వికాసపరుస్తుంది"
+msgstr "'%s' సంచయాన్ని పునర్వికాసపరుస్తుంది "
 
 #: ../libemail-engine/mail-ops.c:1519
-#, fuzzy, c-format
+#, c-format
 msgid "Expunging folder '%s'"
-msgstr "సంచయాన్ని కొట్టివేయుచున్నది"
+msgstr "'%s' సంచయాన్ని కొట్టివేయుచున్నది"
 
 #: ../libemail-engine/mail-ops.c:1612
 #, c-format
@@ -10952,19 +10933,19 @@ msgid "Emptying trash in '%s'"
 msgstr "'%s' నందలి చెత్తను ఖాళీచేస్తోంది"
 
 #: ../libemail-engine/mail-ops.c:1708
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting %s"
-msgstr "%s నుండి అననుసంధానిస్తోంది"
+msgstr "%s అననుసంధానం విఫలమౌతున్నది "
 
 #: ../libemail-engine/mail-tools.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create spool directory '%s': %s"
-msgstr "స్పూల్ సంచయం `%s' ను సృష్టించలేకపోయింది: %s"
+msgstr "స్పూల్ సంచయం '%s' ను సృష్టించలేకపోయింది: %s"
 
 #: ../libemail-engine/mail-tools.c:112
-#, fuzzy, c-format
+#, c-format
 msgid "Trying to movemail a non-mbox source '%s'"
-msgstr "non-mbox మూలం `%s' కు మెయిల్ ను కదుపుటకు ప్రయత్నిస్తోంది"
+msgstr "non-mbox మూలం '%s' కు మెయిల్ ను కదుపుటకు ప్రయత్నిస్తోంది  "
 
 #: ../libemail-engine/mail-tools.c:224
 #, c-format
@@ -10981,10 +10962,10 @@ msgid "Setting up Search Folder: %s"
 msgstr "అన్వేషణ సంచయాన్ని అమర్చుతోంది: %s"
 
 #: ../libemail-engine/mail-vfolder.c:214
-#, fuzzy, c-format
+#, c-format
 #| msgid "Updating Search Folders for '%s:%s'"
 msgid "Updating Search Folders for '%s' - %s"
-msgstr "అన్వేషణ సంచయాలను '%s:%s' కొరకు నవీకరిస్తోంది"
+msgstr "శోధన ఫోల్డర్లు నవీకరిస్తోంది '%s' - %s"
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
@@ -11010,10 +10991,9 @@ msgstr "స్వయంచాలకంగాఉద్భవించిన"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
 #: ../mail/em-account-editor.c:1660 ../widgets/misc/e-signature-combo-box.c:79
-#, fuzzy
 msgctxt "mail-signature"
 msgid "None"
-msgstr "ఏదికాదు"
+msgstr "ఏదికాదు "
 
 #: ../mail/em-account-editor.c:1753
 msgid "Always"
@@ -11028,17 +11008,15 @@ msgid "_Path:"
 msgstr "పాత్(_P):"
 
 #: ../mail/em-account-editor.c:2924
-#, fuzzy
 #| msgid "_File:"
 msgid "Fil_e:"
-msgstr "ఫైలు(_F):"
+msgstr "ఫైలు(_e):"
 
 #: ../mail/em-account-editor.c:2969
 msgid "Mail Configuration"
 msgstr "మెయిల్ ఆకృతీకరణ"
 
 #: ../mail/em-account-editor.c:2970
-#, fuzzy
 #| msgid ""
 #| "Welcome to the Evolution Mail Configuration Assistant.\n"
 #| "\n"
@@ -11050,7 +11028,7 @@ msgid ""
 msgstr ""
 "ఎవాల్యూషన్ మెయిల్ ఆకృతీకరణ సహాయకికు స్వాగతం.\n"
 "\n"
-"ప్రారంభించుటకు \"ముందుకుపంపు\"ను నొక్కుము. "
+"ప్రారంభించుటకు \"ముందుకుపంపు\"ను నొక్కుము.  "
 
 #: ../mail/em-account-editor.c:2973
 msgid ""
@@ -11082,10 +11060,9 @@ msgstr ""
 "నిర్వాహకుని గాని లేక ఇంటర్నెట్ సేవా దారునిగాని అడగండి."
 
 #: ../mail/em-account-editor.c:2981
-#, fuzzy
 #| msgid "Account Search"
 msgid "Account Summary"
-msgstr "ఖాతా అన్వేషణ"
+msgstr "ఖాతా సారాంశం "
 
 #: ../mail/em-account-editor.c:2982
 msgid ""
@@ -11097,7 +11074,6 @@ msgid "Done"
 msgstr "అయినది"
 
 #: ../mail/em-account-editor.c:2987
-#, fuzzy
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -11108,7 +11084,7 @@ msgstr ""
 "ధన్యవాదములు, మీ మెయిల్ ఆకృతీకరణ పూర్తైనది.\n"
 "\n"
 "మీరు ఎవాల్యూషన్ ఉపయోగించి మెయిల్స్ ను పంపుటకు మరియు\n"
-"స్వీకరించుటకు ఇప్పుడు సిద్దంగా ఉన్నారు.\n"
+"స్వీకరించుటకు ఇప్పుడు సిధ్దంగా ఉన్నారు.\n"
 "\n"
 "మీ అమరికలను దాయుటకు \"ఆపాదించు\" ను నొక్కండి."
 
@@ -11176,9 +11152,8 @@ msgid "Enabled"
 msgstr "క్రియాశీలీకరించిన"
 
 #: ../mail/e-mail-account-tree-view.c:105
-#, fuzzy
 msgid "Account Name"
-msgstr "ఖాతా పేరు"
+msgstr "ఖాతా పేరు "
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. * other user means other calendars subscribed
@@ -11209,10 +11184,9 @@ msgid "List View"
 msgstr "జాబితా దర్శనం"
 
 #: ../mail/e-mail-backend.c:661
-#, fuzzy
 #| msgid "Unknown action to be performed"
 msgid "Unknown background operation"
-msgstr "అపరిచిత కార్యాన్ని చెయ్యాలి"
+msgstr "తెలియని నేపధ్యం ఆపరేషన్"
 
 #: ../mail/e-mail-browser.c:130 ../shell/e-shell-window-actions.c:1439
 #: ../shell/e-shell-window-actions.c:1446
@@ -11221,40 +11195,33 @@ msgid "Close this window"
 msgstr "ఈ గవాక్షాన్ని మూయుము"
 
 #: ../mail/e-mail-browser.c:289
-#, fuzzy
 msgid "(No Subject)"
-msgstr "సంగతి"
+msgstr "(విషయం లేదు) "
 
 #: ../mail/e-mail-display.c:68
-#, fuzzy
 msgid "_Add to Address Book..."
-msgstr "చిరునామా పుస్తకంకు కలుపుము(_A)"
+msgstr "చిరునామా పుస్తకంకు కలుపుము...(_A)"
 
 #: ../mail/e-mail-display.c:75
-#, fuzzy
 msgid "_To This Address"
-msgstr "ఈ చిరునామాకు(_T)"
+msgstr "ఈ చిరునామాకు(_T) "
 
 #: ../mail/e-mail-display.c:82
-#, fuzzy
 msgid "_From This Address"
-msgstr "ఈ చిరునామా నుండి(_F)"
+msgstr "ఈ చిరునామా నుండి(_F) "
 
 #: ../mail/e-mail-display.c:89
-#, fuzzy
 #| msgid "_Send To..."
 msgid "Send _Reply To..."
-msgstr "దీనికి పంపించు... (_S)"
+msgstr "దీనికి పంపించు... (_R) "
 
 #: ../mail/e-mail-display.c:91
-#, fuzzy
 msgid "Send a reply message to this address"
-msgstr "మెయిల్ సందేశాన్ని కర్తవ్యానికి మార్చుము."
+msgstr "ఈ చిరునామాకు ఒక జవాబు సందేశాన్ని పంపు "
 
 #: ../mail/e-mail-display.c:98
-#, fuzzy
 msgid "Create Search _Folder"
-msgstr "అన్వేషణ సంచయాన్ని సృష్టించుము(_S)"
+msgstr "అన్వేషణ సంచయాన్ని సృష్టించుము(_F) "
 
 #. Label + combo box has a 12px left margin so it's
 #. * aligned with the junk mail options above it.
@@ -11263,9 +11230,8 @@ msgid "Junk filtering software:"
 msgstr "వ్యర్థ సాఫ్ట్వేర్ వడపోత: "
 
 #: ../mail/e-mail-label-dialog.c:225
-#, fuzzy
 msgid "_Label name:"
-msgstr "లేబుల్ పేరు(_N):"
+msgstr "లేబుల్ పేరు(_L): "
 
 #: ../mail/e-mail-label-list-store.c:49
 msgid "I_mportant"
@@ -11301,11 +11267,12 @@ msgid "Edit Label"
 msgstr "లేబుల్ పేరు"
 
 #: ../mail/e-mail-label-manager.c:353
-#, fuzzy
 msgid ""
 "Note: Underscore in the label name is used\n"
 "as mnemonic identifier in menu."
-msgstr "గమనిక: లేబుల్ పేరునందు ఉన్న క్రిందిగీత మెనూ నందు సంభందిత గుర్తింపుదారి గా ఉపయోగపడుతుంది."
+msgstr ""
+"గమనిక: లేబుల్ పేరునందు ఉన్న క్రిందిగీత మెనూ నందు సంబంధిత\n"
+" గుర్తింపుదారి గా ఉపయోగపడుతుంది."
 
 #: ../mail/e-mail-label-tree-view.c:89
 msgid "Color"
@@ -11320,15 +11287,14 @@ msgid "Name"
 msgstr "పేరు"
 
 #: ../mail/e-mail-migrate.c:1269
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create local mail folders at '%s': %s"
-msgstr "స్థానిక మెయిల్ సంచయాలను `%s' వద్ద సృష్టించలేక పోయింది: %s"
+msgstr "స్థానిక మెయిల్ సంచయాలను '%s' వద్ద సృష్టించలేక పోయింది: %s"
 
 #: ../mail/e-mail-notebook-view.c:627
-#, fuzzy
 #| msgid "Please select a user."
 msgid "Please select a folder"
-msgstr "దయచేసి వినియోగదారిని ఎంపికచేసుకొనుము."
+msgstr "దయచేసి సంచయాన్ని ఎంపికచేసుకొనుము."
 
 #: ../mail/e-mail-reader.c:314 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
@@ -11348,9 +11314,8 @@ msgstr "జరుపు(_M)"
 
 #: ../mail/e-mail-reader.c:1202 ../mail/e-mail-reader.c:1384
 #: ../mail/e-mail-reader.c:1424
-#, fuzzy
 msgid "_Do not ask me again."
-msgstr "నన్ను మళ్ళీ అడగొద్దు."
+msgstr "నన్ను మళ్ళీ అడగొద్దు(_D)."
 
 #: ../mail/e-mail-reader.c:1430
 msgid "_Always ignore Reply-To: for mailing lists."
@@ -11361,9 +11326,8 @@ msgid "A_dd Sender to Address Book"
 msgstr "చిరునామా పుస్తకానికి మెయిల్ పంపించువాన్ని జతపర్చు(_d)"
 
 #: ../mail/e-mail-reader.c:1797
-#, fuzzy
 msgid "Add sender to address book"
-msgstr "చిరునామా పుస్తకానికి మెయిల్ పంపించువాన్ని జతపర్చు"
+msgstr "చిరునామా పుస్తకానికి మెయిల్ పంపించువాన్ని జతపర్చు "
 
 #: ../mail/e-mail-reader.c:1802
 msgid "Check for _Junk"
@@ -11442,27 +11406,24 @@ msgid "_Clear Flag"
 msgstr "ప్లాగ్ శుబ్రంచేయుము(_C)"
 
 #: ../mail/e-mail-reader.c:1867
-#, fuzzy
 msgid "Remove the follow-up flag from the selected messages"
-msgstr "ఎంపికచేసన సందేశం నుండి కొత్త కర్తవ్యాన్ని సృష్టించండి"
+msgstr "ఎంచుకున్న సందేశాలకు నుండి ఫాలో అప్ జెండా తొలగించు "
 
 #: ../mail/e-mail-reader.c:1872
 msgid "_Flag Completed"
 msgstr "ఫ్లాగ్ పూర్తయినది(_F)"
 
 #: ../mail/e-mail-reader.c:1874
-#, fuzzy
 msgid "Set the follow-up flag to completed on the selected messages"
-msgstr "ఎంపికచేసిన సందేశం లాగా అదే తంతిలోని అన్ని సందేశాలను ఎంపికచేయుము"
+msgstr "ఎంపిక సందేశాలను న పూర్తి కు ఫాలో అప్ జెండా సెట్ చేయుము "
 
 #: ../mail/e-mail-reader.c:1879
 msgid "Follow _Up..."
 msgstr "అనుసరించు(_U)..."
 
 #: ../mail/e-mail-reader.c:1881
-#, fuzzy
 msgid "Flag the selected messages for follow-up"
-msgstr "అనుసరించుటకు ఎంపికచేసిన సందేశాలను ప్లాగ్ చేయుము"
+msgstr "అనుసరించుటకు ఎంపికచేసిన సందేశాలను ప్లాగ్ చేయుము "
 
 #: ../mail/e-mail-reader.c:1886
 msgid "_Attached"
@@ -11473,9 +11434,8 @@ msgid "Forward the selected message to someone as an attachment"
 msgstr "ఎంచుకున్న సందేశాన్ని అనుబంధముగా ఒకరికి ముందుకు పంపుము"
 
 #: ../mail/e-mail-reader.c:1893
-#, fuzzy
 msgid "Forward As _Attached"
-msgstr "iక్యాలెండర్ గా ముందుకు పంపించు(_F)"
+msgstr "అటాచ్ అయినట్టుగా ఫార్వార్డ్ చేయు(_A)"
 
 #: ../mail/e-mail-reader.c:1900
 msgid "_Inline"
@@ -11486,9 +11446,8 @@ msgid "Forward the selected message in the body of a new message"
 msgstr "ఎంచుకున్న సందేశాన్ని కొత్త సందేశములో ముఖ్యభాగములో ముందుకు పంపుము"
 
 #: ../mail/e-mail-reader.c:1907
-#, fuzzy
 msgid "Forward As _Inline"
-msgstr "ముందుకుపంపు శైలి(_F):"
+msgstr "ముందుకుపంపు శైలి(_l)"
 
 #: ../mail/e-mail-reader.c:1914
 msgid "_Quoted"
@@ -11499,9 +11458,8 @@ msgid "Forward the selected message quoted like a reply"
 msgstr "ప్రత్యుత్రరంగా కోట్ చేసి ఎంపికచేసిన సందేశాన్ని ముందుకుపంపు"
 
 #: ../mail/e-mail-reader.c:1921
-#, fuzzy
 msgid "Forward As _Quoted"
-msgstr "ముందుకుపంపు శైలి(_F):"
+msgstr "గమనికి వలె ముందుకుపంపు (_Q)"
 
 #: ../mail/e-mail-reader.c:1928
 msgid "_Load Images"
@@ -11592,10 +11550,9 @@ msgid "Move selected messages to another folder"
 msgstr "ఎంచుకున్న సందేశాలను వేరొక సంచయానికి జరుపుము"
 
 #: ../mail/e-mail-reader.c:2005
-#, fuzzy
 #| msgid "Switch to %s"
 msgid "_Switch to Folder"
-msgstr "%s కు మారుము"
+msgstr "సంచయానికి  మారుము (_S)"
 
 #: ../mail/e-mail-reader.c:2007
 #, fuzzy
