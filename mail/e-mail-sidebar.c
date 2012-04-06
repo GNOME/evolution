@@ -36,6 +36,8 @@
 
 struct _EMailSidebarPrivate {
 	GKeyFile *key_file;  /* not owned */
+	GtkTreeModel *model;
+	GtkTreeSelection *selection;
 };
 
 enum {
@@ -199,9 +201,12 @@ mail_sidebar_get_property (GObject *object,
 static void
 mail_sidebar_constructed (GObject *object)
 {
+	EMailSidebarPrivate *priv;
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
+
+	priv = E_MAIL_SIDEBAR_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() property. */
 	G_OBJECT_CLASS (e_mail_sidebar_parent_class)->constructed (object);
@@ -212,6 +217,12 @@ mail_sidebar_constructed (GObject *object)
 
 	em_folder_tree_model_set_selection (
 		EM_FOLDER_TREE_MODEL (model), selection);
+
+	/* Keep an internal reference to these since we're connecting
+	 * signal handlers to them.  Retrieving them during dispose()
+	 * does not guarantee we get the same instances back. */
+	priv->model = g_object_ref (model);
+	priv->selection = g_object_ref (selection);
 
 	g_signal_connect (
 		model, "loaded-row",
@@ -225,16 +236,25 @@ mail_sidebar_constructed (GObject *object)
 static void
 mail_sidebar_dispose (GObject *object)
 {
-	GtkTreeSelection *selection;
-	GtkTreeView *tree_view;
-	GtkTreeModel *model;
+	EMailSidebarPrivate *priv;
 
-	tree_view = GTK_TREE_VIEW (object);
-	model = gtk_tree_view_get_model (tree_view);
-	selection = gtk_tree_view_get_selection (tree_view);
+	priv = E_MAIL_SIDEBAR_GET_PRIVATE (object);
 
-	g_signal_handlers_disconnect_by_func (model, mail_sidebar_model_loaded_row_cb, object);
-	g_signal_handlers_disconnect_by_func (selection, mail_sidebar_selection_changed_cb, object);
+	if (priv->model != NULL) {
+		g_signal_handlers_disconnect_by_func (
+			priv->model,
+			mail_sidebar_model_loaded_row_cb, object);
+		g_object_unref (priv->model);
+		priv->model = NULL;
+	}
+
+	if (priv->selection != NULL) {
+		g_signal_handlers_disconnect_by_func (
+			priv->selection,
+			mail_sidebar_selection_changed_cb, object);
+		g_object_unref (priv->selection);
+		priv->selection = NULL;
+	}
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_sidebar_parent_class)->dispose (object);
