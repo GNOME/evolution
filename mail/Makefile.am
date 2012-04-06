@@ -87,7 +87,6 @@ mailinclude_HEADERS =					\
 	em-format-html.h				\
 	em-search-context.h				\
 	em-subscription-editor.h			\
-	em-sync-stream.h				\
 	em-utils.h					\
 	em-vfolder-editor-context.h			\
 	em-vfolder-editor-rule.h			\
@@ -153,7 +152,6 @@ libevolution_mail_la_SOURCES =				\
 	em-format-html.c				\
 	em-search-context.c				\
 	em-subscription-editor.c			\
-	em-sync-stream.c				\
 	em-utils.c					\
 	em-vfolder-editor-context.c			\
 	em-vfolder-editor-rule.c			\
