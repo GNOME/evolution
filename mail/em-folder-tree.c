@@ -1899,48 +1899,6 @@ tree_drag_begin (GtkWidget *widget,
 }
 
 static void
-tree_drag_data_delete (GtkWidget *widget,
-                       GdkDragContext *context,
-                       EMFolderTree *folder_tree)
-{
-	EMFolderTreePrivate *priv = folder_tree->priv;
-	gchar *full_name = NULL;
-	GtkTreeModel *model;
-	GtkTreePath *src_path;
-	gboolean is_store;
-	CamelStore *store;
-	GtkTreeIter iter;
-
-	if (!priv->drag_row)
-		return;
-
-	src_path = gtk_tree_row_reference_get_path (priv->drag_row);
-	if (src_path == NULL)
-		return;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree));
-
-	if (!gtk_tree_model_get_iter (model, &iter, src_path))
-		goto fail;
-
-	gtk_tree_model_get (
-		model, &iter,
-		COL_POINTER_CAMEL_STORE, &store,
-		COL_STRING_FULL_NAME, &full_name,
-		COL_BOOL_IS_STORE, &is_store, -1);
-
-	if (is_store)
-		goto fail;
-
-	/* FIXME camel_store_delete_folder_sync() may block. */
-	camel_store_delete_folder_sync (store, full_name, NULL, NULL);
-
-fail:
-	gtk_tree_path_free (src_path);
-	g_free (full_name);
-}
-
-static void
 tree_drag_data_get (GtkWidget *widget,
                     GdkDragContext *context,
                     GtkSelectionData *selection,
@@ -2003,6 +1961,80 @@ fail:
 	gtk_tree_path_free (src_path);
 	g_free (full_name);
 	g_free (uri);
+}
+
+static gboolean
+ask_drop_folder (EMFolderTree *folder_tree,
+		 const gchar *src_folder_uri,
+		 const gchar *des_full_name,
+		 CamelStore *des_store,
+		 gboolean is_move)
+{
+	const gchar *key = is_move ? "prompt-on-folder-drop-move" : "prompt-on-folder-drop-copy";
+	EMailSession *session;
+	GSettings *settings;
+	gchar *set_value, *src_folder_name = NULL;
+	GError *error = NULL;
+	GtkWidget *widget;
+	GtkWindow *parent;
+	gint response;
+
+	g_return_val_if_fail (folder_tree != NULL, FALSE);
+	g_return_val_if_fail (src_folder_uri != NULL, FALSE);
+	g_return_val_if_fail (des_full_name != NULL || des_store != NULL, FALSE);
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	set_value = g_settings_get_string (settings, key);
+
+	if (g_strcmp0 (set_value, "never") == 0) {
+		g_object_unref (settings);
+		g_free (set_value);
+
+		return FALSE;
+	} else if (g_strcmp0 (set_value, "always") == 0) {
+		g_object_unref (settings);
+		g_free (set_value);
+
+		return TRUE;
+	}
+
+	g_free (set_value);
+
+	session = em_folder_tree_get_session (folder_tree);
+	if (!e_mail_folder_uri_parse (CAMEL_SESSION (session),
+				      src_folder_uri, NULL, &src_folder_name, &error)) {
+		g_debug ("%s: Failed to convert '%s' to folder name: %s",
+			G_STRFUNC, src_folder_uri, error ? error->message : "Unknown error");
+		g_clear_error (&error);
+		g_object_unref (settings);
+
+		return FALSE;
+	}
+
+	parent = NULL;
+	widget = gtk_widget_get_toplevel (GTK_WIDGET (folder_tree));
+	if (widget && gtk_widget_is_toplevel (widget) && GTK_IS_WINDOW (widget))
+		parent = GTK_WINDOW (widget);
+
+	widget = e_alert_dialog_new_for_args (
+		parent,
+		is_move ? "mail:ask-folder-drop-move" : "mail:ask-folder-drop-copy",
+		src_folder_name,
+		des_full_name && *des_full_name ? des_full_name :
+			camel_service_get_display_name (CAMEL_SERVICE (des_store)),
+		NULL);
+	response = gtk_dialog_run (GTK_DIALOG (widget));
+	gtk_widget_destroy (widget);
+
+	if (response == GTK_RESPONSE_OK)
+		g_settings_set_string (settings, key, "always");
+	else if (response == GTK_RESPONSE_CANCEL)
+		g_settings_set_string (settings, key, "never");
+
+	g_free (src_folder_name);
+	g_object_unref (settings);
+
+	return response == GTK_RESPONSE_YES || response == GTK_RESPONSE_OK;
 }
 
 /* Drop handling */
@@ -2245,6 +2277,16 @@ tree_drag_data_received (GtkWidget *widget,
 
 	/* make sure user isn't try to drop on a placeholder row */
 	if (full_name == NULL && !is_store) {
+		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
+		gtk_tree_path_free (dest_path);
+		return;
+	}
+
+	if (info == DND_DROP_TYPE_FOLDER &&
+	    !ask_drop_folder (folder_tree,
+			      (const gchar *) gtk_selection_data_get_data (selection),
+			      full_name, store,
+			      gdk_drag_context_get_selected_action (context) == GDK_ACTION_MOVE)) {
 		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
 		gtk_tree_path_free (dest_path);
 		return;
@@ -2780,9 +2822,6 @@ em_folder_tree_enable_drag_and_drop (EMFolderTree *folder_tree)
 	g_signal_connect (
 		tree_view, "drag-begin",
 		G_CALLBACK (tree_drag_begin), folder_tree);
-	g_signal_connect (
-		tree_view, "drag-data-delete",
-		G_CALLBACK (tree_drag_data_delete), folder_tree);
 	g_signal_connect (
 		tree_view, "drag-data-get",
 		G_CALLBACK (tree_drag_data_get), folder_tree);
