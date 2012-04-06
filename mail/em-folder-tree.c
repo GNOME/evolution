@@ -1899,48 +1899,6 @@ tree_drag_begin (GtkWidget *widget,
 }
 
 static void
-tree_drag_data_delete (GtkWidget *widget,
-                       GdkDragContext *context,
-                       EMFolderTree *folder_tree)
-{
-	EMFolderTreePrivate *priv = folder_tree->priv;
-	gchar *full_name = NULL;
-	GtkTreeModel *model;
-	GtkTreePath *src_path;
-	gboolean is_store;
-	CamelStore *store;
-	GtkTreeIter iter;
-
-	if (!priv->drag_row)
-		return;
-
-	src_path = gtk_tree_row_reference_get_path (priv->drag_row);
-	if (src_path == NULL)
-		return;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree));
-
-	if (!gtk_tree_model_get_iter (model, &iter, src_path))
-		goto fail;
-
-	gtk_tree_model_get (
-		model, &iter,
-		COL_POINTER_CAMEL_STORE, &store,
-		COL_STRING_FULL_NAME, &full_name,
-		COL_BOOL_IS_STORE, &is_store, -1);
-
-	if (is_store)
-		goto fail;
-
-	/* FIXME camel_store_delete_folder_sync() may block. */
-	camel_store_delete_folder_sync (store, full_name, NULL, NULL);
-
-fail:
-	gtk_tree_path_free (src_path);
-	g_free (full_name);
-}
-
-static void
 tree_drag_data_get (GtkWidget *widget,
                     GdkDragContext *context,
                     GtkSelectionData *selection,
@@ -2780,9 +2738,6 @@ em_folder_tree_enable_drag_and_drop (EMFolderTree *folder_tree)
 	g_signal_connect (
 		tree_view, "drag-begin",
 		G_CALLBACK (tree_drag_begin), folder_tree);
-	g_signal_connect (
-		tree_view, "drag-data-delete",
-		G_CALLBACK (tree_drag_data_delete), folder_tree);
 	g_signal_connect (
 		tree_view, "drag-data-get",
 		G_CALLBACK (tree_drag_data_get), folder_tree);
