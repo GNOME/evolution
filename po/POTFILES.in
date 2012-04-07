@@ -225,7 +225,6 @@ mail/em-format-html.c
 mail/em-format-html-display.c
 mail/em-format-html-print.c
 mail/em-subscription-editor.c
-mail/em-sync-stream.c
 mail/em-utils.c
 mail/em-vfolder-editor.c
 mail/em-vfolder-editor-rule.c
