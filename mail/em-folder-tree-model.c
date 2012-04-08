@@ -74,9 +74,6 @@ struct _EMFolderTreeModelPrivate {
 
 	/* CamelStore -> EMFolderTreeStoreInfo */
 	GHashTable *store_index;
-
-	/* URI -> GtkTreeRowReference */
-	GHashTable *uri_index;
 };
 
 enum {
@@ -321,7 +318,6 @@ folder_tree_model_finalize (GObject *object)
 	priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->store_index);
-	g_hash_table_destroy (priv->uri_index);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -477,21 +473,14 @@ static void
 em_folder_tree_model_init (EMFolderTreeModel *model)
 {
 	GHashTable *store_index;
-	GHashTable *uri_index;
 
 	store_index = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) store_info_free);
 
-	uri_index = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) gtk_tree_row_reference_free);
-
 	model->priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (model);
 	model->priv->store_index = store_index;
-	model->priv->uri_index = uri_index;
 }
 
 EMFolderTreeModel *
@@ -624,7 +613,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
                                       CamelFolderInfo *fi,
                                       gint fully_loaded)
 {
-	GtkTreeRowReference *uri_row, *path_row;
+	GtkTreeRowReference *path_row;
 	GtkTreeStore *tree_store;
 	MailFolderCache *folder_cache;
 	EMailSession *session;
@@ -664,15 +653,11 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 			(CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
 
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), iter);
-	uri_row = gtk_tree_row_reference_new (GTK_TREE_MODEL (model), path);
-	path_row = gtk_tree_row_reference_copy (uri_row);
+	path_row = gtk_tree_row_reference_new (GTK_TREE_MODEL (model), path);
 	gtk_tree_path_free (path);
 
 	uri = e_mail_folder_uri_build (si->store, fi->full_name);
 
-	/* Hash table takes ownership of the URI string. */
-	g_hash_table_insert (
-		model->priv->uri_index, uri, uri_row);
 	g_hash_table_insert (
 		si->full_hash, g_strdup (fi->full_name), path_row);
 
@@ -768,6 +753,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		COL_UINT_UNREAD_LAST_SEL, 0,
 		COL_BOOL_IS_DRAFT, folder_is_drafts,
 		-1);
+
+	g_free (uri);
+	uri = NULL;
 
 	target = em_event_target_new_custom_icon (
 		em_event_peek (), tree_store, iter,
@@ -1053,20 +1041,19 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 		COL_STRING_URI, uri,
 		-1);
 
+	g_free (uri);
+
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
 	reference = gtk_tree_row_reference_new (GTK_TREE_MODEL (model), path);
 
 	si = g_new0 (EMFolderTreeModelStoreInfo, 1);
 	si->store = g_object_ref (store);
-	si->row = gtk_tree_row_reference_copy (reference);
+	si->row = reference;  /* takes ownership */
 	si->full_hash = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 	g_hash_table_insert (model->priv->store_index, store, si);
-
-	/* Transfer ownership of the URI and GtkTreeRowReference. */
-	g_hash_table_insert (model->priv->uri_index, uri, reference);
 
 	/* Each store has folders, but we don't load them until
 	 * the user demands them. */
@@ -1145,7 +1132,7 @@ em_folder_tree_model_remove_folders (EMFolderTreeModel *model,
                                      EMFolderTreeModelStoreInfo *si,
                                      GtkTreeIter *toplevel)
 {
-	gchar *uri, *full_name;
+	gchar *full_name;
 	gboolean is_store, go;
 	GtkTreeIter iter;
 
@@ -1161,15 +1148,11 @@ em_folder_tree_model_remove_folders (EMFolderTreeModel *model,
 
 	gtk_tree_model_get (
 		GTK_TREE_MODEL (model), toplevel,
-		COL_STRING_URI, &uri,
 		COL_STRING_FULL_NAME, &full_name,
 		COL_BOOL_IS_STORE, &is_store, -1);
 
 	if (full_name != NULL)
 		g_hash_table_remove (si->full_hash, full_name);
-
-	if (uri != NULL)
-		g_hash_table_remove (model->priv->uri_index, uri);
 
 	gtk_tree_store_remove ((GtkTreeStore *) model, toplevel);
 
@@ -1183,7 +1166,6 @@ em_folder_tree_model_remove_folders (EMFolderTreeModel *model,
 	}
 
 	g_free (full_name);
-	g_free (uri);
 }
 
 gboolean
