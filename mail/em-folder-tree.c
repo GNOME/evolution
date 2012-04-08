@@ -1907,12 +1907,13 @@ tree_drag_data_get (GtkWidget *widget,
                     EMFolderTree *folder_tree)
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
-	gchar *full_name = NULL, *uri = NULL;
 	GtkTreeModel *model;
 	GtkTreePath *src_path;
 	CamelFolder *folder;
 	CamelStore *store;
 	GtkTreeIter iter;
+	gchar *folder_name;
+	gchar *folder_uri;
 
 	if (!priv->drag_row || !(src_path =
 		gtk_tree_row_reference_get_path (priv->drag_row)))
@@ -1926,25 +1927,26 @@ tree_drag_data_get (GtkWidget *widget,
 	gtk_tree_model_get (
 		model, &iter,
 		COL_POINTER_CAMEL_STORE, &store,
-		COL_STRING_FULL_NAME, &full_name,
-		COL_STRING_URI, &uri, -1);
+		COL_STRING_FULL_NAME, &folder_name, -1);
 
 	/* make sure user isn't trying to drag on a placeholder row */
-	if (full_name == NULL)
+	if (folder_name == NULL)
 		goto fail;
+
+	folder_uri = e_mail_folder_uri_build (store, folder_name);
 
 	switch (info) {
 	case DND_DRAG_TYPE_FOLDER:
 		/* dragging to a new location in the folder tree */
 		gtk_selection_data_set (
 			selection, drag_atoms[info], 8,
-			(guchar *) uri, strlen (uri) + 1);
+			(guchar *) folder_uri, strlen (folder_uri) + 1);
 		break;
 	case DND_DRAG_TYPE_TEXT_URI_LIST:
 		/* dragging to nautilus or something, probably */
 		/* FIXME camel_store_get_folder_sync() may block. */
 		if ((folder = camel_store_get_folder_sync (
-			store, full_name, 0, NULL, NULL))) {
+			store, folder_name, 0, NULL, NULL))) {
 
 			GPtrArray *uids = camel_folder_get_uids (folder);
 
@@ -1957,10 +1959,11 @@ tree_drag_data_get (GtkWidget *widget,
 		abort ();
 	}
 
+	g_free (folder_uri);
+
 fail:
 	gtk_tree_path_free (src_path);
-	g_free (full_name);
-	g_free (uri);
+	g_free (folder_name);
 }
 
 static gboolean
@@ -2888,10 +2891,23 @@ em_folder_tree_get_selected_uris (EMFolderTree *folder_tree)
 		GtkTreePath *path = l->data;
 
 		if (gtk_tree_model_get_iter (model, &iter, path)) {
-			gchar *uri;
+			CamelStore *store;
+			gchar *folder_name;
 
-			gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, -1);
-			list = g_list_prepend (list, uri);
+			gtk_tree_model_get (
+				model, &iter,
+				COL_POINTER_CAMEL_STORE, &store,
+				COL_STRING_FULL_NAME, &folder_name, -1);
+
+			if (CAMEL_IS_STORE (store) && folder_name != NULL) {
+				gchar *folder_uri;
+
+				folder_uri = e_mail_folder_uri_build (
+					store, folder_name);
+				list = g_list_prepend (list, folder_uri);
+			}
+
+			g_free (folder_name);
 		}
 		gtk_tree_path_free (path);
 	}
@@ -3340,7 +3356,9 @@ em_folder_tree_get_selected_uri (EMFolderTree *folder_tree)
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	gchar *uri = NULL;
+	CamelStore *store;
+	gchar *folder_name;
+	gchar *folder_uri = NULL;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
 
@@ -3350,9 +3368,17 @@ em_folder_tree_get_selected_uri (EMFolderTree *folder_tree)
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return NULL;
 
-	gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, -1);
+	gtk_tree_model_get (
+		model, &iter,
+		COL_POINTER_CAMEL_STORE, &store,
+		COL_STRING_FULL_NAME, &folder_name, -1);
 
-	return uri;
+	if (CAMEL_IS_STORE (store) && folder_name != NULL)
+		folder_uri = e_mail_folder_uri_build (store, folder_name);
+
+	g_free (folder_name);
+
+	return folder_uri;
 }
 
 CamelFolder *
