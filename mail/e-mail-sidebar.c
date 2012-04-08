@@ -28,6 +28,8 @@
 #include <string.h>
 #include <camel/camel.h>
 
+#include <libemail-engine/e-mail-folder-utils.h>
+
 #include "mail/em-utils.h"
 
 #define E_MAIL_SIDEBAR_GET_PRIVATE(obj) \
@@ -91,13 +93,14 @@ mail_sidebar_model_loaded_row_cb (GtkTreeModel *model,
                                   EMailSidebar *sidebar)
 {
 	GtkTreeView *tree_view;
+	CamelStore *store;
 	GKeyFile *key_file;
 	gboolean expanded;
 	gboolean is_folder;
 	gboolean is_store;
-	const gchar *key;
+	gchar *folder_name;
 	gchar *group_name;
-	gchar *uri;
+	const gchar *key;
 
 	tree_view = GTK_TREE_VIEW (sidebar);
 	key_file = e_mail_sidebar_get_key_file (sidebar);
@@ -108,7 +111,8 @@ mail_sidebar_model_loaded_row_cb (GtkTreeModel *model,
 
 	gtk_tree_model_get (
 		model, iter,
-		COL_STRING_URI, &uri,
+		COL_POINTER_CAMEL_STORE, &store,
+		COL_STRING_FULL_NAME, &folder_name,
 		COL_BOOL_IS_STORE, &is_store,
 		COL_BOOL_IS_FOLDER, &is_folder, -1);
 
@@ -116,10 +120,17 @@ mail_sidebar_model_loaded_row_cb (GtkTreeModel *model,
 
 	key = STATE_KEY_EXPANDED;
 	if (is_store) {
-		group_name = g_strdup_printf ("Store %s", uri);
+		const gchar *uid;
+
+		uid = camel_service_get_uid (CAMEL_SERVICE (store));
+		group_name = g_strdup_printf ("Store %s", uid);
 		expanded = TRUE;
 	} else {
+		gchar *uri;
+
+		uri = e_mail_folder_uri_build (store, folder_name);
 		group_name = g_strdup_printf ("Folder %s", uri);
+		g_free (uri);
 		expanded = FALSE;
 	}
 
@@ -131,7 +142,7 @@ mail_sidebar_model_loaded_row_cb (GtkTreeModel *model,
 		gtk_tree_view_expand_row (tree_view, path, FALSE);
 
 	g_free (group_name);
-	g_free (uri);
+	g_free (folder_name);
 }
 
 static void
@@ -149,8 +160,18 @@ mail_sidebar_selection_changed_cb (GtkTreeSelection *selection,
 	if (key_file == NULL)
 		return;
 
-	if (gtk_tree_selection_get_selected (selection, &model, &iter))
-		gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, -1);
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		CamelStore *store;
+		gchar *folder_name;
+
+		gtk_tree_model_get (
+			model, &iter,
+			COL_POINTER_CAMEL_STORE, &store,
+			COL_STRING_FULL_NAME, &folder_name, -1);
+
+		if (CAMEL_IS_STORE (store) && folder_name != NULL)
+			uri = e_mail_folder_uri_build (store, folder_name);
+	}
 
 	if (uri != NULL)
 		g_key_file_set_string (
@@ -273,7 +294,6 @@ mail_sidebar_row_expanded (GtkTreeView *tree_view,
 	gboolean is_folder;
 	gboolean is_store;
 	gchar *group_name;
-	gchar *uri;
 
 	/* Chain up to parent's row_expanded() method.  Do this first
 	 * because we stomp on the path argument a few lines down. */
@@ -292,29 +312,40 @@ mail_sidebar_row_expanded (GtkTreeView *tree_view,
 
 	/* Expand the node and all ancestors. */
 	while (gtk_tree_path_get_depth (path) > 0) {
+		CamelStore *store;
 		GtkTreeIter iter;
+		gchar *folder_name;
 
 		gtk_tree_model_get_iter (model, &iter, path);
 
 		gtk_tree_model_get (
 			model, &iter,
-			COL_STRING_URI, &uri,
+			COL_POINTER_CAMEL_STORE, &store,
+			COL_STRING_FULL_NAME, &folder_name,
 			COL_BOOL_IS_STORE, &is_store,
 			COL_BOOL_IS_FOLDER, &is_folder, -1);
 
 		g_return_if_fail (is_store || is_folder);
 
 		key = STATE_KEY_EXPANDED;
-		if (is_store)
-			group_name = g_strdup_printf ("Store %s", uri);
-		else
+		if (is_store) {
+			const gchar *uid;
+
+			uid = camel_service_get_uid (CAMEL_SERVICE (store));
+			group_name = g_strdup_printf ("Store %s", uid);
+		} else {
+			gchar *uri;
+
+			uri = e_mail_folder_uri_build (store, folder_name);
 			group_name = g_strdup_printf ("Folder %s", uri);
+			g_free (uri);
+		}
 
 		g_key_file_set_boolean (key_file, group_name, key, TRUE);
 		e_mail_sidebar_key_file_changed (sidebar);
 
 		g_free (group_name);
-		g_free (uri);
+		g_free (folder_name);
 
 		gtk_tree_path_up (path);
 	}
@@ -330,11 +361,12 @@ mail_sidebar_row_collapsed (GtkTreeView *tree_view,
 	EMailSidebar *sidebar;
 	GtkTreeModel *model;
 	GKeyFile *key_file;
+	CamelStore *store;
 	const gchar *key;
 	gboolean is_folder;
 	gboolean is_store;
+	gchar *folder_name;
 	gchar *group_name;
-	gchar *uri;
 
 	sidebar = E_MAIL_SIDEBAR (tree_view);
 	key_file = e_mail_sidebar_get_key_file (sidebar);
@@ -347,23 +379,32 @@ mail_sidebar_row_collapsed (GtkTreeView *tree_view,
 
 	gtk_tree_model_get (
 		model, iter,
-		COL_STRING_URI, &uri,
+		COL_POINTER_CAMEL_STORE, &store,
+		COL_STRING_FULL_NAME, &folder_name,
 		COL_BOOL_IS_STORE, &is_store,
 		COL_BOOL_IS_FOLDER, &is_folder, -1);
 
 	g_return_if_fail (is_store || is_folder);
 
 	key = STATE_KEY_EXPANDED;
-	if (is_store)
-		group_name = g_strdup_printf ("Store %s", uri);
-	else
+	if (is_store) {
+		const gchar *uid;
+
+		uid = camel_service_get_uid (CAMEL_SERVICE (store));
+		group_name = g_strdup_printf ("Store %s", uid);
+	} else {
+		gchar *uri;
+
+		uri = e_mail_folder_uri_build (store, folder_name);
 		group_name = g_strdup_printf ("Folder %s", uri);
+		g_free (uri);
+	}
 
 	g_key_file_set_boolean (key_file, group_name, key, FALSE);
 	e_mail_sidebar_key_file_changed (sidebar);
 
 	g_free (group_name);
-	g_free (uri);
+	g_free (folder_name);
 }
 
 static guint32

@@ -3440,12 +3440,15 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
                               GKeyFile *key_file)
 {
 	EShell *shell;
+	EMFolderTreeModel *folder_tree_model;
+	EMailSession *session;
 	GtkTreeModel *tree_model;
 	GtkTreeView *tree_view;
 	GtkTreeIter iter;
 	gboolean valid;
 	gchar **groups_arr;
 	GSList *groups, *group;
+	gboolean express_mode;
 	gint ii;
 
 	/* Make sure we have a key file to restore state from. */
@@ -3454,9 +3457,14 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 
 	/* XXX Pass this in. */
 	shell = e_shell_get_default ();
+	express_mode = e_shell_get_express_mode (shell);
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	tree_model = gtk_tree_view_get_model (tree_view);
+
+	folder_tree_model = EM_FOLDER_TREE_MODEL (tree_model);
+	session = em_folder_tree_model_get_session (folder_tree_model);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	/* Set the initial folder tree expanded state in two stages:
 	 *
@@ -3484,39 +3492,66 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 	groups = g_slist_sort (groups, sort_by_store_and_uri);
 
 	for (group = groups; group != NULL; group = group->next) {
-		GtkTreeRowReference *reference;
-		GtkTreePath *path;
-		GtkTreeIter iter;
+		GtkTreeRowReference *reference = NULL;
+		CamelStore *store = NULL;
 		const gchar *group_name = group->data;
 		const gchar *key = STATE_KEY_EXPANDED;
-		const gchar *uri;
+		gchar *folder_name = NULL;
 		gboolean expanded;
+		gboolean success = FALSE;
 
 		if (g_str_has_prefix (group_name, "Store ")) {
-			uri = group_name + 6;
+			CamelService *service;
+			const gchar *uid = group_name + 6;
+
+			service = camel_session_get_service (
+				CAMEL_SESSION (session), uid);
+			if (CAMEL_IS_STORE (service)) {
+				store = g_object_ref (service);
+				success = TRUE;
+			}
 			expanded = TRUE;
+
 		} else if (g_str_has_prefix (group_name, "Folder ")) {
-			uri = group_name + 7;
+			const gchar *uri = group_name + 7;
+
+			success = e_mail_folder_uri_parse (
+				CAMEL_SESSION (session), uri,
+				&store, &folder_name, NULL);
 			expanded = FALSE;
-		} else
-			continue;
+		}
 
 		if (g_key_file_has_key (key_file, group_name, key, NULL))
 			expanded = g_key_file_get_boolean (
 				key_file, group_name, key, NULL);
 
-		if (!expanded)
-			continue;
+		if (expanded && success) {
+			EMFolderTreeModelStoreInfo *si;
 
-		reference = em_folder_tree_model_lookup_uri (
-			EM_FOLDER_TREE_MODEL (tree_model), uri);
-		if (reference == NULL)
-			continue;
+			si = em_folder_tree_model_lookup_store_info (
+				folder_tree_model, store);
+			if (si != NULL) {
+				if (folder_name != NULL)
+					reference = g_hash_table_lookup (
+						si->full_hash, folder_name);
+				else
+					reference = si->row;
+			}
+		}
 
-		path = gtk_tree_row_reference_get_path (reference);
-		gtk_tree_model_get_iter (tree_model, &iter, path);
-		gtk_tree_view_expand_row (tree_view, path, FALSE);
-		gtk_tree_path_free (path);
+		if (gtk_tree_row_reference_valid (reference)) {
+			GtkTreePath *path;
+			GtkTreeIter iter;
+
+			path = gtk_tree_row_reference_get_path (reference);
+			gtk_tree_model_get_iter (tree_model, &iter, path);
+			gtk_tree_view_expand_row (tree_view, path, FALSE);
+			gtk_tree_path_free (path);
+		}
+
+		if (store != NULL)
+			g_object_unref (store);
+		g_free (folder_name);
 	}
 
 	g_slist_free (groups);
@@ -3527,28 +3562,35 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
 
 	while (valid) {
+		CamelStore *store;
+		CamelService *service;
 		const gchar *key = STATE_KEY_EXPANDED;
+		const gchar *uid;
 		gboolean expand_row;
+		gboolean built_in_store;
 		gchar *group_name;
-		gchar *uri;
 
 		gtk_tree_model_get (
-			tree_model, &iter, COL_STRING_URI, &uri, -1);
+			tree_model, &iter,
+			COL_POINTER_CAMEL_STORE, &store, -1);
 
-		if (uri == NULL)
+		if (!CAMEL_IS_STORE (store))
 			goto next;
 
-		group_name = g_strdup_printf ("Store %s", uri);
+		service = CAMEL_SERVICE (store);
+		uid = camel_service_get_uid (service);
+		group_name = g_strdup_printf ("Store %s", uid);
 
 		/* Expand stores that have no "Expanded" key. */
 		expand_row = !g_key_file_has_key (
 			key_file, group_name, key, NULL);
 
-		/* Do not expand local stores in Express mode. */
-		if (e_shell_get_express_mode (shell)) {
-			expand_row &= (strncmp (uri, "vfolder", 7) != 0);
-			expand_row &= (strncmp (uri, "maildir", 7) != 0);
-		}
+		built_in_store =
+			(g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0) ||
+			(g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0);
+
+		if (express_mode && built_in_store)
+			expand_row = FALSE;
 
 		if (expand_row) {
 			GtkTreePath *path;
@@ -3559,7 +3601,6 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 		}
 
 		g_free (group_name);
-		g_free (uri);
 
 	next:
 		valid = gtk_tree_model_iter_next (tree_model, &iter);
