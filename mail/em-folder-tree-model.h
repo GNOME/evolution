@@ -60,8 +60,6 @@ enum {
 	COL_STRING_FULL_NAME,		/* if node is a folder, the full path
 					 * name of the folder, no leading / */
 	COL_STRING_ICON_NAME,		/* icon name for the folder */
-	COL_STRING_URI,			/* the uri to get the store or
-					 * folder object */
 	COL_UINT_UNREAD,		/* unread count */
 	COL_UINT_FLAGS,			/* FolderInfo.flags */
 

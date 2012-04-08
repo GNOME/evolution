@@ -331,7 +331,6 @@ folder_tree_model_constructed (GObject *object)
 		G_TYPE_POINTER,  /* store object */
 		G_TYPE_STRING,   /* full name */
 		G_TYPE_STRING,   /* icon name */
-		G_TYPE_STRING,   /* uri */
 		G_TYPE_UINT,     /* unread count */
 		G_TYPE_UINT,     /* flags */
 		G_TYPE_BOOLEAN,  /* is a store node */
@@ -745,7 +744,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		COL_POINTER_CAMEL_STORE, si->store,
 		COL_STRING_FULL_NAME, fi->full_name,
 		COL_STRING_ICON_NAME, icon_name,
-		COL_STRING_URI, uri,
 		COL_UINT_FLAGS, flags,
 		COL_BOOL_IS_STORE, FALSE,
 		COL_BOOL_IS_FOLDER, TRUE,
@@ -781,7 +779,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 			COL_BOOL_LOAD_SUBDIRS, FALSE,
 			COL_BOOL_IS_STORE, FALSE,
 			COL_BOOL_IS_FOLDER, FALSE,
-			COL_STRING_URI, NULL,
 			COL_UINT_UNREAD, 0,
 			COL_UINT_UNREAD_LAST_SEL, 0,
 			COL_BOOL_IS_DRAFT, FALSE,
@@ -1038,7 +1035,6 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 		COL_STRING_FULL_NAME, NULL,
 		COL_BOOL_LOAD_SUBDIRS, TRUE,
 		COL_BOOL_IS_STORE, TRUE,
-		COL_STRING_URI, uri,
 		-1);
 
 	g_free (uri);
@@ -1067,7 +1063,6 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 		COL_BOOL_LOAD_SUBDIRS, FALSE,
 		COL_BOOL_IS_STORE, FALSE,
 		COL_BOOL_IS_FOLDER, FALSE,
-		COL_STRING_URI, NULL,
 		COL_UINT_UNREAD, 0,
 		COL_UINT_UNREAD_LAST_SEL, 0,
 		COL_BOOL_IS_DRAFT, FALSE,
