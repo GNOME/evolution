@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-04-02 10:44+0000\n"
-"PO-Revision-Date: 2012-04-05 19:07+0530\n"
+"PO-Revision-Date: 2012-04-10 12:09+0530\n"
 "Last-Translator: Sasi Bhushan Boddepalli <sasi@swecha.net>\n"
 "Language-Team: Telugu <indlinux-telugu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -9266,9 +9266,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 #: ../mail/evolution-mail.schemas.in.h:167
-#, fuzzy
 msgid "Prompt when mailing list hijacks private replies"
-msgstr "బహుళ సందేశాలను గర్తిస్తున్నప్పుడు అడుగుము"
+msgstr "మెయిలింగ్ జాబితా ప్రైవేట్ ప్రత్యుత్తరాలను హైజాక్ అవుతున్నప్పుడు ప్రాంప్ట్"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 #: ../mail/evolution-mail.schemas.in.h:168
@@ -9283,19 +9282,17 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 #: ../mail/evolution-mail.schemas.in.h:169
-#, fuzzy
 msgid "Prompt when replying to many recipients"
-msgstr "సందేశాలను Bcc స్వీకరణదారులను ఉద్దేశించి పంపుతున్నప్పడు అడుగుము(_o)"
+msgstr "అనేక గ్రహీతలకు బదులుపెట్టడాన్ని ఉన్నప్పుడు ప్రాంప్ట్"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 #: ../mail/evolution-mail.schemas.in.h:170
-#, fuzzy
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
 msgstr ""
-"ఆఫ్‌లైన్ రీతికి వెళ్ళుటకు మునుపు ఆఫ్‌లైన్ సింక్ అవసరమేమో అడుగుటకు పునరావృత ప్రాంప్టులను చేతనం/"
-"అచేతనం చేస్తుంది."
+"పదేపదే మీరు చాలా మంది ప్రజలకు  ఒక సమాధానం పంపుతున్నపుడు హెచ్చరించడానికి ప్రాంప్టులను అనేక సార్లు  "
+"చేతనం/అచేతనం చేస్తుంది."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 #: ../mail/evolution-mail.schemas.in.h:171
@@ -9332,16 +9329,14 @@ msgstr "బయటకువచ్చిన తర్వాత చెత్తక�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 #: ../mail/evolution-mail.schemas.in.h:179
-#, fuzzy
 msgid "Last time Empty Trash was run"
-msgstr "చివరిసారి ఖాళీ చెత్తకుండి నడుపబడింది"
+msgstr "చివరిసారి ఖాళీ చెత్తకుండి నడుపబడింది "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 #: ../mail/evolution-mail.schemas.in.h:180
-#, fuzzy
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
-msgstr "గతసారి ఖాళీ చెత్తకుండి నడుస్తున్నది, రోజులలో epoch నుండి."
+msgstr "ఖాళీ ట్రాష్ చివరిసారి జనవరి 1st, 1970 (ఎపోచ్) నుండి రోజుల్లో, అమలు జరిగినది."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 #: ../mail/evolution-mail.schemas.in.h:181
@@ -9423,16 +9418,14 @@ msgstr "బయటకువచ్చిన తర్వాత నిరర్ధ�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 #: ../mail/evolution-mail.schemas.in.h:194
-#, fuzzy
 msgid "Last time Empty Junk was run"
-msgstr "గతసారి ఖాళీ నిరర్ధకం నడుపబడింది"
+msgstr "గతసారి ఖాళీ నిరర్ధకం నడుపబడింది "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 #: ../mail/evolution-mail.schemas.in.h:195
-#, fuzzy
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
-msgstr "గతసారి ఖాళీ నిరర్ధకం నడుస్తున్నది, రోజులలో epoch నుండి."
+msgstr "చివరిసారి ఖాళీ వ్యర్థ జనవరి 1st, 1970 (ఎపోచ్) నుండి రోజుల్లో, అమలు జరిగినది. "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 #: ../mail/evolution-mail.schemas.in.h:196
@@ -9538,10 +9531,9 @@ msgstr "కూర్పరికి దస్త్రాలను నింప�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 #: ../mail/evolution-mail.schemas.in.h:219
-#, fuzzy
 #| msgid "Check for _new messages every"
 msgid "Check for new messages on start"
-msgstr "కొత్త సందేశాల కొరకు వెతుకుము (_n)"
+msgstr "ప్రారంభం నుండి  కొత్త సందేశాల కోసం తనిఖీ చెయ్యండి"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid ""
@@ -9551,10 +9543,9 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 #: ../mail/evolution-mail.schemas.in.h:221
-#, fuzzy
 #| msgid "Check for _new messages every"
 msgid "Check for new messages in all active accounts"
-msgstr "కొత్త సందేశాల కొరకు వెతుకుము (_n)"
+msgstr "అన్ని ఆక్టివ్ ఖాతాలు లో కొత్త సందేశాల కోసం తనిఖీ చెయ్యండి "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid ""
@@ -9591,32 +9582,28 @@ msgid ""
 msgstr "ఆనుభందంను గుర్తుచేయు ప్లగ్ఇన్ సందేశం బాడీ నందు చూడుటకు అనవాళ్ళ జాబితా."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
-#, fuzzy
 #| msgid "Address Book Properties"
 msgid "Address book source"
-msgstr "చిరునామ పుస్తకం లక్షణాలు"
+msgstr "చిరునామా పుస్తకం మూలం "
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
-#, fuzzy
 #| msgid "Select Address book for Automatic Contacts"
 msgid "Address book to use for storing automatically synced contacts"
-msgstr "స్వయంచాలక పరిచయాల కొరకు చిరునామా పుస్తంకంను ఎంపికచేయుము"
+msgstr "స్వయంచాలకంగా  పరిచయాలను నిల్వ కోసం ఉపయోగించే చిరునామా పుస్తకం"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
-#, fuzzy
 #| msgid "Automatic Contacts"
 msgid "Auto sync GAIM contacts"
-msgstr "స్వయంచాలక పరిచయాలు"
+msgstr "స్వయంచాలకంగా కలిసే GAIM పరిచయాలు"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
 msgid "Whether GAIM contacts should be automaticall synced"
 msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
-#, fuzzy
 #| msgid "Invalid contact."
 msgid "Enable autocontacts"
-msgstr "నిస్సారమైన పరిచయం"
+msgstr "స్వయంచాలక పరిచయాలను ప్రారంభించు "
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
 msgid ""
@@ -9624,10 +9611,9 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
-#, fuzzy
 #| msgid "Address Book Properties"
 msgid "GAIM address book source"
-msgstr "చిరునామ పుస్తకం లక్షణాలు"
+msgstr "GAIM చిరునామా పుస్తకం మూలం "
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid "Address book to use for storing automatically synced contacts from GAIM"
@@ -9682,10 +9668,9 @@ msgid "Automatically launch when a new mail is edited"
 msgstr "కొత్త మెయిల్ సరికూర్చినప్పుడు స్వయంచాలకంగా ఆరంభించుము"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:4
-#, fuzzy
 #| msgid "Automatically launch editor when key is pressed in the mail composer"
 msgid "Automatically launch editor when key is pressed in the mail composer."
-msgstr "మెయిల్ కూర్పరినందు కీ వత్తబడినప్పుడు సరికూర్పరిని స్వయంచాలకంగా ఆరంభిస్తుంది"
+msgstr "కీ మెయిల్ స్వరకర్త లో నొక్కినప్పుడు ఆటోమేటిక్గా ఎడిటర్ లాంచ్."
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:1
 #: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:1
@@ -9700,10 +9685,9 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
-#, fuzzy
 #| msgid "_Delete Message"
 msgid "Delete processed"
-msgstr "సందేశాన్ని తొలగించుము(_D)"
+msgstr "ప్రాసెస్ తొలగించు "
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
 msgid "Whether to delete processed iTip objects"
@@ -9769,10 +9753,9 @@ msgstr "నిజమైతే, బీప్ చేయాలి, లేకపో�
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:13
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-#, fuzzy
 #| msgid "Sound file name to be played."
 msgid "Sound filename to be played."
-msgstr "ప్లే చేయుటకు శబ్దపు ఫైలు పేరు."
+msgstr "ప్లే చేయుటకు ధ్యని  ఫైలు పేరు."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
@@ -9790,15 +9773,13 @@ msgstr "ధ్వని థీమ్ ఉపయోగించండి "
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:17
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
-#, fuzzy
 msgid "Play themed sound when new messages arrive, if not in beep mode."
-msgstr "కొత్త సందేశం వచ్చినప్పుడు శబ్దపు ఫైలు ప్లేకావాలి, బీప్ రీతి నందు లేకపోతే."
+msgstr "కొత్త సందేశం వచ్చినప్పుడు శబ్దపు ఫైలు ప్లేకావాలి, బీప్ రీతి నందు లేకపోతే. "
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:1
-#, fuzzy
 #| msgid "Use custom fonts for displaying mail."
 msgid "Mode to use when displaying mails"
-msgstr "మెయిల్‌ను ప్రదర్శించుటకు మలుచుకున్న ఫాంటులను వుపయోగించు."
+msgstr "మెయిల్లు ప్రదర్శించేటప్పుడు ఉపయోగించడానికి మోడ్ "
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
 msgid ""
@@ -9808,10 +9789,9 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
-#, fuzzy
 #| msgid "Whether to show the preview pane."
 msgid "Whether to show suppressed HTML output"
-msgstr "ఉపదర్శనం తలంను చూపించవలెనా."
+msgstr "తగ్గించబడిన HTML అవుట్పుట్ చూపించాలా"
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 #: ../plugins/templates/apps-evolution-template-placeholders.schemas.in.h:1
@@ -9862,23 +9842,20 @@ msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "ఆన్‌లైన్ రీతి కి బదులుగా ఎవాల్యూషన్ ఆఫ్‌లైన్ రీతినందు ప్రారంభించబడాలా."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
-#, fuzzy
 msgid "Offline folder paths"
-msgstr "%s సంచయాన్ని తెరుస్తుంది"
+msgstr "ఆఫ్లైన్ ఫోల్డర్ మార్గాలు "
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
-#, fuzzy
 #| msgid ""
 #| "List of paths for the folders to be synchronized to disk for offline usage"
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage."
-msgstr "ఆఫ్‌లైన్ ఉపయోగం కొరకు డిస్కు కు ఏకకాలం చేయబడు సంచయాల కొరకు పాత్ ల జాబితా"
+msgstr "ఆఫ్‌లైన్ ఉపయోగం కొరకు డిస్కు కు ఏకకాలం చేయబడు సంచయాల కొరకు పాత్ ల జాబితా "
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
 #: ../shell/apps_evolution_shell.schemas.in.h:61
-#, fuzzy
 msgid "Enable express mode"
-msgstr "అన్వేషణ సంచయాలను చేతనం చేయుము"
+msgstr "ఎక్స్ప్రెస్ మోడ్ ప్రారంభించు "
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
 #: ../shell/apps_evolution_shell.schemas.in.h:62
@@ -9966,10 +9943,9 @@ msgid "Use only the local spam tests (no DNS)."
 msgstr "స్థానిక స్పామ్ పరిశీలనలను మాత్రమే పరిశీలించుము (DNS కాదు)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
-#, fuzzy
 #| msgid "SpamAssassin Options"
 msgid "Socket path for SpamAssassin"
-msgstr "SpamAssassin ఐచ్చికాలు"
+msgstr "స్పాం ను చంపుట కోసం సాకెట్ మార్గం"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
 #: ../modules/spamassassin/evolution-spamassassin.schemas.in.h:3
@@ -9982,16 +9958,14 @@ msgid "Use SpamAssassin daemon and client (spamc/spamd)."
 msgstr "స్పామ్ఎస్సైన్ డెమోన్ మరియు కక్షిదారు (spamc/spamd)ను వుపయోగించుము."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
-#, fuzzy
 #| msgid "SpamAssassin Options"
 msgid "SpamAssassin client binary"
-msgstr "SpamAssassin ఐచ్చికాలు"
+msgstr "SpamAssassin క్లయింట్ బైనరీ "
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:7
-#, fuzzy
 #| msgid "Use SpamAssassin daemon and client"
 msgid "SpamAssassin daemon binary"
-msgstr "స్పామ్ఎస్సైన్ డెమోన్ మరియు కక్షిదారును ఉపయోగించుము"
+msgstr "SpamAssassin డెమోన్ బైనరీ "
 
 #: ../em-format/em-format.c:1063 ../em-format/em-format-quote.c:318
 #: ../mail/e-mail-tag-editor.c:327 ../mail/message-list.etspec.h:5
@@ -10077,9 +10051,8 @@ msgid "Unknown error verifying signature"
 msgstr "సంతకాన్ని నిర్దారించుటలో తెలియని దోషం"
 
 #: ../em-format/em-format.c:2324
-#, fuzzy
 msgid "Could not parse PGP message: "
-msgstr "PGP సందేశాన్ని పార్శ్ చేయలేకపోయింది"
+msgstr "PGP సందేశాన్ని పార్శ్ చేయలేకపోయింది:‌"
 
 #. pseudo-header
 #: ../em-format/em-format-quote.c:476 ../mail/em-format-html.c:2860
@@ -11111,30 +11084,25 @@ msgid "Checking for New Messages"
 msgstr "కొత్త సందేశాల కొరకు పరిశీలిస్తున్నది"
 
 #: ../mail/em-account-editor.c:4937
-#, fuzzy
 msgid "Setup Google con_tacts with Evolution"
-msgstr "WebDAV పరిచయాలను ఎవాల్యూషన్‌కు జతచేయుము."
+msgstr "గూగుల్ పరిచయాలను ఎవాల్యూషన్‌కు జతచేయుము(_t)"
 
 #: ../mail/em-account-editor.c:4944
-#, fuzzy
 msgid "Setup Google ca_lendar with Evolution"
-msgstr "ఎవాల్యూషన్‌కు గూగుల్ కాలెండర్లను జతచేయుము."
+msgstr "ఎవాల్యూషన్‌కు గూగుల్ కాలెండర్లను జతచేయుము(_l)"
 
 #: ../mail/em-account-editor.c:4992
-#, fuzzy
 msgid "Setup _Yahoo calendar with Evolution"
-msgstr "ఎవాల్యూషన్‌కు వాతావరణ కాలెండర్లను జతచేయి."
+msgstr "ఎవాల్యూషన్‌కు  యాహూ కాలెండర్లను జతచేయి.(_Y)"
 
 #: ../mail/em-account-editor.c:5017
-#, fuzzy
 msgid "Yahoo Calen_dar name:"
-msgstr "కాలెండర్ దస్త్రమును యెంచుకొనుము"
+msgstr "యాహూ క్యాలెండర్ పేరు(_d):"
 
 #: ../mail/e-mail-account-manager.c:405
-#, fuzzy
 #| msgid "Use _Default"
 msgid "_Restore Default"
-msgstr "అప్రమేయాన్న ఉపయోగించు(_D)"
+msgstr "అప్రమేయాన్ని పునరుద్ధరించు(_R)"
 
 #: ../mail/e-mail-account-manager.c:418
 msgid "You can drag and drop account names to reorder them."
@@ -11555,42 +11523,37 @@ msgid "_Switch to Folder"
 msgstr "సంచయానికి  మారుము (_S)"
 
 #: ../mail/e-mail-reader.c:2007
-#, fuzzy
 #| msgid "Install the shared folder"
 msgid "Display the parent folder"
-msgstr "భాగస్వామ్య సంచయంను సంస్థాపించుము"
+msgstr "భాగస్వామ్య సంచయంను చూపుము "
 
 #: ../mail/e-mail-reader.c:2012
-#, fuzzy
 #| msgid "Switch to %s"
 msgid "Switch to _next tab"
-msgstr "%s కు మారుము"
+msgstr "తరువాతి టాబ్ కు మారుము(_n)"
 
 #: ../mail/e-mail-reader.c:2014
 msgid "Switch to the next tab"
 msgstr "తదుపరి టాబ్ను మారండి "
 
 #: ../mail/e-mail-reader.c:2019
-#, fuzzy
 #| msgid "Switch to %s"
 msgid "Switch to _previous tab"
-msgstr "%s కు మారుము"
+msgstr "ముందు టాబ్ కు మారుము(_p)"
 
 #: ../mail/e-mail-reader.c:2021
 msgid "Switch to the previous tab"
 msgstr "మునుపటి టాబ్ మారండి "
 
 #: ../mail/e-mail-reader.c:2026
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Cl_ose current tab"
-msgstr "ప్రస్తుత ఫైలును మూయుము"
+msgstr "ప్రస్తుత టాబ్ ను మూయుము(_o)"
 
 #: ../mail/e-mail-reader.c:2028
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Close current tab"
-msgstr "ప్రస్తుత ఫైలును మూయుము"
+msgstr "ప్రస్తుత టాబ్ ను మూయుము"
 
 #: ../mail/e-mail-reader.c:2033
 msgid "_Next Message"
@@ -11641,16 +11604,14 @@ msgid "Display the previous important message"
 msgstr "పూర్వపు ముఖ్య సందేశాన్ని ప్రదర్శించుము"
 
 #: ../mail/e-mail-reader.c:2075
-#, fuzzy
 #| msgid "_Previous Message"
 msgid "Previous T_hread"
-msgstr "పూర్వపు సందేశం(_P)"
+msgstr "ఇదివరకటిది దారము(_h)"
 
 #: ../mail/e-mail-reader.c:2077
-#, fuzzy
 #| msgid "Display the previous message"
 msgid "Display the previous thread"
-msgstr "పూర్వపు సందేశాన్ని ప్రదర్శించుము"
+msgstr "ఇదివరకటిది సందేశాల దారాన్ని  ప్రదర్శించుము"
 
 #: ../mail/e-mail-reader.c:2082
 msgid "P_revious Unread Message"
@@ -11677,30 +11638,26 @@ msgid "Redirect (bounce) the selected message to someone"
 msgstr "ఎంపికచేసిన సందేశంను ఎవరోఒకిరికి తిరిగినిర్దేశించుము(bounce)"
 
 #: ../mail/e-mail-reader.c:2110
-#, fuzzy
 #| msgid "Save Attachment"
 #| msgid_plural "Save Attachments"
 msgid "Remo_ve Attachments"
-msgstr "అనుభందమును దాయి"
+msgstr "అటాచ్మెంట్లు తొలగించు(_v)"
 
 #: ../mail/e-mail-reader.c:2112
-#, fuzzy
 #| msgid "Save Attachment"
 #| msgid_plural "Save Attachments"
 msgid "Remove attachments"
-msgstr "అనుభందమును దాయి"
+msgstr "అటాచ్మెంట్లు తొలగించు "
 
 #: ../mail/e-mail-reader.c:2117
-#, fuzzy
 #| msgid "Hide S_elected Messages"
 msgid "Remove Du_plicate Messages"
-msgstr "ఎంచుకున్న సందేశాలను అదృశ్యపర్చుము(_e)"
+msgstr "నకిలీ సందేశాలు  తొలగించు(_p)"
 
 #: ../mail/e-mail-reader.c:2119
-#, fuzzy
 #| msgid "Mark the selected messages for deletion"
 msgid "Checks selected messages for duplicates"
-msgstr "ఎంచుకున్న సందేశాలను తొలగించుటకు గుర్తుపెట్టుము"
+msgstr "నకిలీల కోసం ఎంచుకున్న సందేశాలకు  గుర్తుపెట్టుము "
 
 #: ../mail/e-mail-reader.c:2124 ../mail/mail.error.xml.h:27
 #: ../modules/calendar/e-cal-shell-view-actions.c:1510
@@ -11709,9 +11666,8 @@ msgid "Reply to _All"
 msgstr "అందరికి ప్రత్యుత్తరముఇవ్వు(_A)"
 
 #: ../mail/e-mail-reader.c:2126
-#, fuzzy
 msgid "Compose a reply to all the recipients of the selected message"
-msgstr "ఎంపికచేసిన సందేశం యొక్క స్వీకరణదారుల కు ఒక ప్రత్యుత్తరము కూర్చుము"
+msgstr "ఎంపికచేసిన సందేశం యొక్క స్వీకరణదారుల కు ఒక ప్రత్యుత్తరము కూర్చుము "
 
 #: ../mail/e-mail-reader.c:2131 ../mail/mail.error.xml.h:25
 msgid "Reply to _List"
@@ -11731,14 +11687,12 @@ msgid "Compose a reply to the sender of the selected message"
 msgstr "ఎంపికచేసన సందేశం పంపినవానికి ప్రత్యుత్తరం కూర్చుము"
 
 #: ../mail/e-mail-reader.c:2145
-#, fuzzy
 msgid "_Save as mbox..."
-msgstr "ఇలా దాయు..."
+msgstr "mbox వలె దాయు(_S)..."
 
 #: ../mail/e-mail-reader.c:2147
-#, fuzzy
 msgid "Save selected messages as an mbox file"
-msgstr "ఎంచుకున్న సందేశాలను పాఠ్య దస్త్రముగా దాయుము"
+msgstr "ఒక mbox ఫైల్ గా ఎంచుకున్న సందేశాలను దాయు "
 
 #: ../mail/e-mail-reader.c:2152
 msgid "_Message Source"
@@ -11789,23 +11743,20 @@ msgid "Ch_aracter Encoding"
 msgstr "అక్షర సంకేతరచన(_a)"
 
 #: ../mail/e-mail-reader.c:2210
-#, fuzzy
 msgid "F_orward As"
-msgstr "ఇలా పంపుము(_o)..."
+msgstr "ఇలా ఫార్వార్డ్ చేయు(_o)"
 
 #: ../mail/e-mail-reader.c:2217
-#, fuzzy
 msgid "_Group Reply"
-msgstr "ప్రత్యుత్తరము(_R):"
+msgstr "గుంపుకు ప్రత్యుత్తరము(_G)"
 
 #: ../mail/e-mail-reader.c:2224
 msgid "_Go To"
 msgstr "వెళ్ళు(_G)"
 
 #: ../mail/e-mail-reader.c:2231
-#, fuzzy
 msgid "Mar_k As"
-msgstr "ఇలా గుర్తుపెట్టు(_k)"
+msgstr "ఇలా గుర్తుపెట్టు(_k) "
 
 #: ../mail/e-mail-reader.c:2238
 msgid "_Message"
@@ -11820,36 +11771,32 @@ msgid "Search Folder from Mailing _List..."
 msgstr "మెయిలింగ్ జాబితా నుండి సంచయాన్ని వెతుకుము..."
 
 #: ../mail/e-mail-reader.c:2257
-#, fuzzy
 msgid "Create a search folder for this mailing list"
-msgstr "మెయిల్ జాబితాలో వెతుకు సంచయాన్ని సృష్టించుము"
+msgstr "మెయిల్ జాబితాలో వెతుకు సంచయాన్ని సృష్టించుము "
 
 #: ../mail/e-mail-reader.c:2262
 msgid "Search Folder from Recipien_ts..."
 msgstr "తీసుకున్నవాటి నుండి సంచయాన్ని వెతుకుము(_t).."
 
 #: ../mail/e-mail-reader.c:2264
-#, fuzzy
 msgid "Create a search folder for these recipients"
-msgstr "మెయిల్ స్వీకరించువారికి వెతుకు సంచయాన్ని సృష్టించుము"
+msgstr "మెయిల్ స్వీకరించువారికి వెతుకు సంచయాన్ని సృష్టించుము "
 
 #: ../mail/e-mail-reader.c:2269
 msgid "Search Folder from Sen_der..."
 msgstr "పంపినదాన్ని నుండి సంచయాన్ని వెతుకుము..."
 
 #: ../mail/e-mail-reader.c:2271
-#, fuzzy
 msgid "Create a search folder for this sender"
-msgstr "మెయిల్ పంపించుదానికి వెతుకు సంచయాన్ని సృష్టించుము"
+msgstr "మెయిల్ పంపించుదానికి వెతుకు సంచయాన్ని సృష్టించుము "
 
 #: ../mail/e-mail-reader.c:2276
 msgid "Search Folder from S_ubject..."
 msgstr "సంగతి నుండి సంచయాన్ని వెతుకుము(_u)..."
 
 #: ../mail/e-mail-reader.c:2278
-#, fuzzy
 msgid "Create a search folder for this subject"
-msgstr "ఈ విషయానికి వెతుకు సంచయాన్ని సృష్టించుము"
+msgstr "ఈ విషయానికి వెతుకు సంచయాన్ని సృష్టించుము "
 
 #: ../mail/e-mail-reader.c:2301
 msgid "Mark for Follo_w Up..."
@@ -11872,9 +11819,8 @@ msgid "Mar_k as Read"
 msgstr "చదివినదానివలె గుర్తించుము(_k)"
 
 #: ../mail/e-mail-reader.c:2325
-#, fuzzy
 msgid "Mark as Uni_mportant"
-msgstr "అముఖ్యమైన దానివలె గుర్తించుము(_i)"
+msgstr "అముఖ్యమైన దానివలె గుర్తించుము(_m)"
 
 #: ../mail/e-mail-reader.c:2329
 msgid "Mark as _Unread"
@@ -11897,9 +11843,9 @@ msgid "Show messages with all email headers"
 msgstr "ఈ మెయిల్ పీఠికలతో సందేశాలను చూపుము"
 
 #: ../mail/e-mail-reader.c:2712
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving message '%s'"
-msgstr "%s సందేశాన్ని వెలికితీస్తుంది"
+msgstr "'%s' సందేశాన్ని వెలికితీస్తుంది "
 
 #: ../mail/e-mail-reader.c:3632
 #: ../modules/mail/e-mail-attachment-handler.c:174
@@ -11911,14 +11857,12 @@ msgid "Forward the selected message to someone"
 msgstr "ఎంచుకున్న సందేశాన్ని ఒకరికి ముందుకు పంపుము"
 
 #: ../mail/e-mail-reader.c:3652
-#, fuzzy
 msgid "Group Reply"
-msgstr "అంశాలను దీని ద్వారా సమూహంచేయుము"
+msgstr "గుంపు ప్రత్యుత్తరము "
 
 #: ../mail/e-mail-reader.c:3653
-#, fuzzy
 msgid "Reply to the mailing list, or to all recipients"
-msgstr "ఎంపికచేసిన సందేశం యొక్క మెయిలింగ్ జాబితా కు ప్రత్యుత్తరము కూర్చుము"
+msgstr "ప్రత్యుత్తరము మెయిలింగ్ జాబితా కు పంపండి, లేదా అన్ని గ్రహీతలకు పంపండి "
 
 #: ../mail/e-mail-reader.c:3710 ../mail/em-filter-i18n.h:14
 msgid "Delete"
@@ -11941,15 +11885,14 @@ msgid "Reply"
 msgstr "సమాధానం"
 
 #: ../mail/e-mail-reader.c:4457
-#, fuzzy, c-format
+#, c-format
 #| msgid "Folder"
 msgid "Folder '%s'"
-msgstr "సంచయం"
+msgstr "'%s' సంచయం"
 
 #: ../mail/e-mail-reader-utils.c:146
-#, fuzzy
 msgid "Do not warn me again"
-msgstr "నన్ను మళ్ళీ అడగొద్దు."
+msgstr "నన్ను మళ్ళీ హెచ్చరించ వద్దు "
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
@@ -11965,11 +11908,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../mail/e-mail-reader-utils.c:1020
-#, fuzzy
 msgid "Save Message"
 msgid_plural "Save Messages"
-msgstr[0] "సందేశంను దాయుము..."
-msgstr[1] "సందేశంను దాయుము..."
+msgstr[0] "సందేశంను దాయుము"
+msgstr[1] "సందేశాలను దాయుము"
 
 #. Translators: This is part of a suggested file name
 #. * used when saving a message or multiple messages to
@@ -11977,11 +11919,10 @@ msgstr[1] "సందేశంను దాయుము..."
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
 #: ../mail/e-mail-reader-utils.c:1041
-#, fuzzy
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "సందేశం"
-msgstr[1] "సందేశం"
+msgstr[1] "సందేశాలు "
 
 #: ../mail/e-mail-tag-editor.c:293
 msgid "Flag to Follow Up"
@@ -12069,10 +12010,9 @@ msgid "does not exist"
 msgstr "ఉనికిలేదు"
 
 #: ../mail/em-filter-i18n.h:19
-#, fuzzy
 #| msgid "does not end with"
 msgid "does not have words"
-msgstr "తో ముగియదు"
+msgstr "పదాలను కలిగి లేదు "
 
 #: ../mail/em-filter-i18n.h:20
 msgid "does not return"
@@ -12111,9 +12051,8 @@ msgid "Forward to"
 msgstr "దీనికి ఫార్వార్డుచేయి"
 
 #: ../mail/em-filter-i18n.h:31
-#, fuzzy
 msgid "has words"
-msgstr "సంకేతపదం (_w):"
+msgstr "పదాలను కలిగి ఉంది "
 
 #: ../mail/em-filter-i18n.h:32
 msgid "Important"
@@ -12269,10 +12208,9 @@ msgid "Stop Processing"
 msgstr "కార్యక్రమాన్ని ఆపుము"
 
 #: ../mail/em-filter-i18n.h:77
-#, fuzzy
 #| msgid "Unselected Column"
 msgid "Unset Color"
-msgstr "ఎంపికకాని నిలువుపట్టీ"
+msgstr "సెట్ కాని రంగు "
 
 #: ../mail/em-filter-i18n.h:78
 msgid "Unset Status"
@@ -12374,19 +12312,16 @@ msgid "Loading..."
 msgstr "నింపబడుతున్న..."
 
 #: ../mail/em-folder-utils.c:489
-#, fuzzy
 msgid "Move Folder To"
-msgstr "సంచయం ను ఇక్కడికి జరుపుము(_M)..."
+msgstr "సంచయం ను ఇక్కడికి జరుపుము"
 
 #: ../mail/em-folder-utils.c:489
-#, fuzzy
 msgid "Copy Folder To"
-msgstr "సంచయాన్ని ఇక్కడికి నకలు తీయుము(_C)"
+msgstr "సంచయాన్ని ఇక్కడికి నకలు తీయుము"
 
 #: ../mail/em-folder-utils.c:601
-#, fuzzy
 msgid "Create Folder"
-msgstr "సంచయంను సృష్టించుట"
+msgstr "సంచయంను సృష్టించు "
 
 #: ../mail/em-folder-utils.c:602
 msgid "Specify where to create the folder:"
@@ -12401,9 +12336,9 @@ msgid "Formatting Message..."
 msgstr "రూపీకరిస్తున్న సందేశం..."
 
 #: ../mail/em-format-html.c:1637 ../mail/em-format-html.c:1651
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving '%s'"
-msgstr "`%s' వెలికితీస్తోంది"
+msgstr "'%s' వెలికితీస్తోంది"
 
 #: ../mail/em-format-html.c:1802 ../mail/em-format-html-display.c:97
 msgid "Unsigned"
@@ -12478,19 +12413,18 @@ msgstr "తెలియని బహిర్గత డాటా కు సూ�
 #. * sender address, like "From: user@example.com"
 #: ../mail/em-format-html.c:3008
 #: ../plugins/mail-notification/mail-notification.c:395
-#, fuzzy, c-format
+#, c-format
 msgid "From: %s"
-msgstr "%s నుండి:"
+msgstr "%s నుండి: "
 
 #: ../mail/em-format-html.c:3030
-#, fuzzy
 msgid "(no subject)"
-msgstr "సంగతి"
+msgstr "(విషయము లేదు)"
 
 #: ../mail/em-format-html.c:3106
-#, fuzzy, c-format
+#, c-format
 msgid "This message was sent by %s on behalf of %s"
-msgstr "సందేశం <b>%2$s</b> తరుపున <b>%1$s</b> ద్వారా పంపబడింది "
+msgstr "సందేశం <b>%2$s</b> తరుపున <b>%1$s</b> ద్వారా పంపబడింది  "
 
 #: ../mail/em-format-html-display.c:97
 msgid ""
@@ -12571,21 +12505,18 @@ msgstr ""
 "రూపీకరించనివిధంగా లేదా బాహ్య పాఠ్యకూర్పరి ద్వారా దర్శించవచ్చు."
 
 #: ../mail/em-format-html-display.c:773
-#, fuzzy
 msgid "Save Image"
-msgstr "సందేశంను దాయుము..."
+msgstr "చిత్రమును దాయుము"
 
 #: ../mail/em-format-html-display.c:821
-#, fuzzy
 #| msgid "Save as..."
 msgid "Save _Image..."
-msgstr "ఇలా దాయు..."
+msgstr "చిత్రమును దాయు (_I)..."
 
 #: ../mail/em-format-html-display.c:823
-#, fuzzy
 #| msgid "Save the current file"
 msgid "Save the image to a file"
-msgstr "ప్రస్తుత ఫైలును దాయుము"
+msgstr "చిత్రాన్ని ఒక సంచయములో‌  దాయుము "
 
 #: ../mail/em-format-html-display.c:1024
 msgid "Completed on"
@@ -12613,12 +12544,11 @@ msgstr "దీనితో తెరువుము(_p)"
 
 #. Translators: Name of an Attachment button for a11y object
 #: ../mail/em-format-html-display.c:1407
-#, fuzzy
 #| msgid "Attachment"
 #| msgid_plural "Attachments"
 msgctxt "Button"
 msgid "Attachment"
-msgstr "అనుభందము"
+msgstr "అనుభందము "
 
 #: ../mail/em-format-html-print.c:157
 #, c-format
@@ -12627,27 +12557,24 @@ msgstr "%2$d యొక్క పుట %1$d"
 
 #: ../mail/em-html-stream.c:82 ../mail/em-html-stream.c:104
 #: ../mail/em-html-stream.c:122
-#, fuzzy, c-format
+#, c-format
 msgid "No HTML stream available"
-msgstr "సంక్షిప్తము అందుబాటులో లేదు."
+msgstr "HTML ప్రవాహం  అందుబాటులో లేదు "
 
 #: ../mail/em-subscription-editor.c:870
-#, fuzzy
 #| msgid "Subscribed"
 msgid "_Subscribe"
-msgstr "చందాకాబడిన"
+msgstr "చందాకాబడిన(_S)"
 
 #: ../mail/em-subscription-editor.c:879
-#, fuzzy
 #| msgid "Subscribed"
 msgid "Su_bscribe To Shown"
-msgstr "చందాకాబడిన"
+msgstr "చూపడానికి చందాకాబడిన(_b)"
 
 #: ../mail/em-subscription-editor.c:887
-#, fuzzy
 #| msgid "_Subscribe to list"
 msgid "Subscribe To _All"
-msgstr "జాబితాకు చందాదారు కమ్ము(_S)"
+msgstr "అన్నింటికీ చందాదారు కమ్ము(_A)"
 
 #: ../mail/em-subscription-editor.c:987 ../mail/em-subscription-editor.c:1840
 #: ../modules/mail/e-mail-shell-view-actions.c:1292
@@ -12655,16 +12582,14 @@ msgid "_Unsubscribe"
 msgstr "చందావిరమించుము(_U)"
 
 #: ../mail/em-subscription-editor.c:996
-#, fuzzy
 #| msgid "Unsubscribe Folders"
 msgid "Unsu_bscribe From Hidden"
-msgstr "సంచయాలకు చందావిరమించుము"
+msgstr "దాగి ఉన్న వాటి నుండి  చందావిరమించుము"
 
 #: ../mail/em-subscription-editor.c:1004
-#, fuzzy
 #| msgid "Unsubscribe from \"%s\""
 msgid "Unsubscribe From _All"
-msgstr "\"%s\" నుండి చందాదారుగా తొలగుము"
+msgstr "అన్నింటినుండి చందాదారుగా తొలగుము(_A)"
 
 #: ../mail/em-subscription-editor.c:1675
 msgid "Folder Subscriptions"
@@ -12675,16 +12600,14 @@ msgid "_Account:"
 msgstr "ఖాతా(_A):"
 
 #: ../mail/em-subscription-editor.c:1730
-#, fuzzy
 #| msgid "Clear the search"
 msgid "Clear Search"
-msgstr "అన్వేషణను శుభ్రపరచుము"
+msgstr "అన్వేషణను శుభ్రపరచుము "
 
 #: ../mail/em-subscription-editor.c:1748
-#, fuzzy
 #| msgid "does not contain"
 msgid "Sho_w items that contain:"
-msgstr "కలిగిలేదు"
+msgstr "అది కలిగి న  అంశాలను చూపు(_w):"
 
 #: ../mail/em-subscription-editor.c:1793
 #, fuzzy
