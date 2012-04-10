@@ -71,8 +71,7 @@ dnl ******************************
 dnl Compiler Warning Flags
 dnl ******************************
 AS_COMPILER_FLAGS(WARNING_FLAGS,
-	"-DEDS_DISABLE_DEPRECATED
-	-DE_BOOK_DISABLE_DEPRECATED
+	"-DE_BOOK_DISABLE_DEPRECATED
 	-DE_CAL_DISABLE_DEPRECATED
 	-Wall -Wextra
 	-Wno-missing-field-initializers
@@ -86,6 +85,9 @@ AS_COMPILER_FLAGS(WARNING_FLAGS,
 	-Wmissing-noreturn -Wnested-externs -Wpointer-arith
 	-Wredundant-decls -Wundef -Wwrite-strings")
 AC_SUBST(WARNING_FLAGS)
+
+dnl Need to stop using e-passwords.h before we can restore
+dnl -DEDS_DISABLE_DEPRECATED
 
 dnl Other useful compiler warnings for test builds only.
 dnl These may produce warnings we have no control over,
