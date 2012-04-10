@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-04-02 10:44+0000\n"
-"PO-Revision-Date: 2012-04-10 16:43+0530\n"
+"PO-Revision-Date: 2012-04-10 17:43+0530\n"
 "Last-Translator: Sasi Bhushan Boddepalli <sasi@swecha.net>\n"
 "Language-Team: Telugu <indlinux-telugu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -15983,10 +15983,9 @@ msgid "_Hide completed tasks after"
 msgstr "పూర్తయిన కర్తవ్యాలను తరువాత అదృశ్యపర్చుము(_H)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:63
-#, fuzzy
 #| msgid "Display alarms in _notification area only"
 msgid "Display reminders in _notification area only"
-msgstr "ప్రకటన ప్రాంతములో మాత్రమే ఆలారములను ప్రదర్శించుము (_n)"
+msgstr "ప్రకటన ప్రాంతములో మాత్రమే రిమైండర్లను  ప్రదర్శించుము (_n)"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
 #: ../modules/calendar/e-calendar-preferences.ui.h:65
@@ -16013,26 +16012,23 @@ msgid "Select the calendars for reminder notification"
 msgstr "అలారం తాఖీదు ఇచ్చుటకు క్యాలెండర్లను ఎంచుకొనుము"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:73
-#, fuzzy
 msgid "Default Free/Busy Server"
-msgstr "<span weight=\"bold\">అప్రమేయ ఖాళి/తీరకలేని సేవిక</span>"
+msgstr "అప్రమేయ ఖాళీ/తీరకలేని సేవిక"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:74
 msgid "Template:"
 msgstr "మాదిది:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:76
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr ""
-"<i>%u మరియు %d ఈ మెయిల్ చిరునామా నుండి వినియోగదారుడు మరియు అధికారక్షేత్రము చేత పునఃస్థాపించబడతాయి.</"
-"i>"
+"%u మరియు %d ఈ మెయిల్ చిరునామా నుండి వినియోగదారుడు మరియు అధికారక్షేత్రము చేత పునఃస్థాపించబడతాయి. "
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:77
-#, fuzzy
 #| msgid "Publishing Location"
 msgid "Publishing Information"
-msgstr "స్థానాన్ని ప్రచురిస్తోంది"
+msgstr "సమాచారాన్ని ప్రచురిస్తోంది"
 
 #. Create the Webcal source group
 #: ../modules/calendar/e-cal-shell-backend.c:123
@@ -16097,25 +16093,22 @@ msgid "Calendar and Tasks"
 msgstr "క్యాలెండర్ మరియు కర్తవ్యాలు"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:190
-#, fuzzy
 msgid "Loading calendars"
-msgstr "క్యాలెండర్ ను నింపుతుంది"
+msgstr "క్యాలెండర్ ను నింపుతుంది "
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:761
-#, fuzzy
 msgid "_New Calendar..."
-msgstr "కొత్త క్యాలెండర్(_N)"
+msgstr "కొత్త క్యాలెండర్(_N)..."
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:778
-#, fuzzy
 msgid "Calendar Selector"
-msgstr "క్యాలెండర్ వనరు ఎంపికచేసేది"
+msgstr "క్యాలెండర్ వనరు ఎంపికచేసేది "
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-cal-shell-sidebar.c:1114
-#, fuzzy, c-format
+#, c-format
 msgid "Opening calendar at %s"
-msgstr "క్యాలెండర్‌ను తెరుచుచున్నది"
+msgstr "%s వద్ద క్యాలెండర్‌ను తెరుచుచున్నది"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:232
 #: ../modules/calendar/e-cal-shell-view-actions.c:261
@@ -16138,30 +16131,26 @@ msgid "Purge events older than"
 msgstr "దీనికన్నా పాతవైన ఘటనలను కొట్టివేయుము"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:564
-#, fuzzy
 msgid "Copying Items"
-msgstr "అంశాల నకలుతీస్తుంది"
+msgstr "అంశాల నకలుతీస్తుంది "
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:848
-#, fuzzy
 msgid "Moving Items"
-msgstr "అంశాలను జరుపుతుంది"
+msgstr "అంశాలను జరుపుతుంది "
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../modules/calendar/e-cal-shell-view-actions.c:1175
-#, fuzzy
 msgid "event"
-msgstr "పంపిన"
+msgstr "సంఘటన"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1177
 #: ../modules/calendar/e-cal-shell-view-memopad.c:219
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:286
 #: ../modules/calendar/e-memo-shell-view-actions.c:524
 #: ../modules/calendar/e-task-shell-view-actions.c:641
-#, fuzzy
 msgid "Save as iCalendar"
-msgstr "క్యాలెండర్‌ను ఎంపికచేయుము"
+msgstr "ఐ క్యాలెండర్‌ వలె దాయుము "
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1335
 #: ../modules/calendar/e-memo-shell-view-actions.c:605
@@ -16169,24 +16158,20 @@ msgid "_Copy..."
 msgstr "నకలుతీయు(_C)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1342
-#, fuzzy
 msgid "D_elete Calendar"
-msgstr "క్యాలెండర్‌ను ఎంపికచేయుము"
+msgstr "క్యాలెండర్‌ను తొలగించుము(_e)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1344
-#, fuzzy
 msgid "Delete the selected calendar"
-msgstr "ఎంచుకున్న సంచయాన్ని తొలగించుము"
+msgstr "ఎంచుకున్న సంచయాన్ని తొలగించుము "
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1351
-#, fuzzy
 msgid "Go Back"
-msgstr "వెనక్కి వెళ్ళు"
+msgstr "వెనక్కి వెళ్ళు "
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1358
-#, fuzzy
 msgid "Go Forward"
-msgstr "ముందుకు వెళ్ళు"
+msgstr "ముందుకు వెళ్ళు "
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1365
 msgid "Select today"
@@ -16220,19 +16205,16 @@ msgid "Re_fresh"
 msgstr "రీఫ్రెష్(_f)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1400
-#, fuzzy
 msgid "Refresh the selected calendar"
-msgstr "ఎంచుకున్న సంచయాన్ని పున:నామకరణం చేయు"
+msgstr "ఎంచుకున్న  క్యాలండరును రిఫ్రెష్ చేయు"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1407
-#, fuzzy
 msgid "Rename the selected calendar"
-msgstr "ఎంచుకున్న సంచయాన్ని పున:నామకరణం చేయు"
+msgstr "ఎంచుకున్న  క్యాలండరును పున:నామకరణం చేయు"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1412
-#, fuzzy
 msgid "Show _Only This Calendar"
-msgstr "ఈ క్యాలెండర్ మాత్రమే చూపుము(_o)"
+msgstr "ఈ క్యాలెండర్ మాత్రమే చూపుము(_O)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1419
 msgid "Cop_y to Calendar..."
@@ -16243,42 +16225,36 @@ msgid "_Delegate Meeting..."
 msgstr "సమావేశాల కాలాన్ని నియమించు(_D)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1433
-#, fuzzy
 msgid "_Delete Appointment"
-msgstr "నియామకాన్ని తొలగించు"
+msgstr "నియామకాన్ని తొలగించు(_D)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1435
-#, fuzzy
 msgid "Delete selected appointments"
-msgstr "నియామకాన్ని తొలగించు"
+msgstr "ఎంచుకున్న నియామకాన్ని తొలగించు"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1440
-#, fuzzy
 msgid "Delete This _Occurrence"
-msgstr "ఈ సంభవాన్ని తీసివేయు(_O)"
+msgstr "ఈ సంభవాన్ని తీసివేయు(_O) "
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1442
 msgid "Delete this occurrence"
 msgstr "ఈ సంభవాన్ని తొలగించు"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1447
-#, fuzzy
 msgid "Delete All Occ_urrences"
-msgstr "సంభవాలన్నింటి తీసివేయు(_A)"
+msgstr "సంభవాలన్నింటి తీసివేయు(_u) "
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1449
 msgid "Delete all occurrences"
 msgstr "సంభవాలన్నింటి తొలగించుము"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1454
-#, fuzzy
 msgid "New All Day _Event..."
-msgstr "కొత్త రోజు ఘటన(_E)"
+msgstr "సరి కొత్త పూర్తి రోజు ఘటన(_E)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1456
-#, fuzzy
 msgid "Create a new all day event"
-msgstr "కొత్త పూర్తిరోజు నియామకాన్ని సృష్టించు"
+msgstr "కొత్త పూర్తిరోజు నియామకాన్ని సృష్టించు "
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1461
 #: ../modules/calendar/e-cal-shell-view-memopad.c:253
@@ -16289,14 +16265,12 @@ msgid "_Forward as iCalendar..."
 msgstr "iక్యాలెండర్ గా ముందుకు పంపు(_F)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1468
-#, fuzzy
 msgid "New _Meeting..."
-msgstr "కొత్త సమావేశం(_M)"
+msgstr "కొత్త సమావేశం(_M)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1470
-#, fuzzy
 msgid "Create a new meeting"
-msgstr "కొత్త సమావేశ అభ్యర్థన ను సృష్టించు"
+msgstr "కొత్త సమావేశమును సృష్టించు"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1475
 msgid "Mo_ve to Calendar..."
@@ -16328,24 +16302,20 @@ msgid "_Schedule Meeting..."
 msgstr "సమావేశాల కాలాన్ని నియమించు(_S)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1519
-#, fuzzy
 msgid "Converts an appointment to a meeting"
-msgstr "పాత నియామకాలను మరియు సమావేశాలను కొట్టివేయుము"
+msgstr "సమావేశంలో ఒక నియామకం మారుస్తుంది"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1524
-#, fuzzy
 msgid "Conv_ert to Appointment..."
-msgstr "కొత్త నియామకం(_A)..."
+msgstr "నియామకం మార్చు (_e)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1526
-#, fuzzy
 msgid "Converts a meeting to an appointment"
-msgstr "%s నియామకం పూర్తయినప్పుడు"
+msgstr "ఒక నియామకం ఒక సమావేశంలో మారుస్తుంది "
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1531
-#, fuzzy
 msgid "Quit"
-msgstr "త్యజించు(_Q)"
+msgstr "త్యజించు"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1651
 msgid "Day"
@@ -16380,9 +16350,8 @@ msgid "Show one week"
 msgstr "ఒక వారాన్ని చూపుము"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1681
-#, fuzzy
 msgid "Show one work week"
-msgstr "ఒక వారాన్ని చూపుము"
+msgstr "ఒక పని వారాన్ని చూపుము"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1689
 msgid "Active Appointments"
@@ -16413,18 +16382,16 @@ msgid "Print this calendar"
 msgstr "ఈ క్యాలెండర్ ను ముద్రించు"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1767
-#, fuzzy
 msgid "Preview the calendar to be printed"
-msgstr "ముద్రించాల్సిన క్యాలెండర్ ను ఉపదర్శనమిస్తుంది"
+msgstr "ముద్రించాల్సిన క్యాలెండర్ ను ఉపదర్శనమిస్తుంది "
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1789
 #: ../modules/calendar/e-cal-shell-view-memopad.c:294
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:381
 #: ../modules/calendar/e-memo-shell-view-actions.c:843
 #: ../modules/calendar/e-task-shell-view-actions.c:1042
-#, fuzzy
 msgid "_Save as iCalendar..."
-msgstr "iక్యాలెండర్ గా ముందుకు పంపు(_F)"
+msgstr "ఐ క్యాలెండర్ గా దాయు(_S)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1866
 msgid "Go To"
@@ -16434,15 +16401,13 @@ msgstr "వెళ్ళుము"
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../modules/calendar/e-cal-shell-view-memopad.c:217
 #: ../modules/calendar/e-memo-shell-view-actions.c:522
-#, fuzzy
 msgid "memo"
-msgstr "మెమో"
+msgstr "మెమో "
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:260
 #: ../modules/calendar/e-memo-shell-view-actions.c:654
-#, fuzzy
 msgid "New _Memo"
-msgstr "కొత్త మెమో"
+msgstr "కొత్త మెమో(_M)"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:262
 #: ../modules/calendar/e-memo-shell-backend.c:310
@@ -16469,9 +16434,8 @@ msgstr "మహాతల పుటను తెరువు(_W)"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:286
 #: ../modules/calendar/e-memo-shell-view-actions.c:828
-#, fuzzy
 msgid "Print the selected memo"
-msgstr "ఎంపికచేసిన మెమోలను దర్శించు"
+msgstr "ఎంచుకున్న మెమో ముద్రించు"
 
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
@@ -16479,9 +16443,8 @@ msgstr "ఎంపికచేసిన మెమోలను దర్శిం�
 #. * no summary is filed, the '.ics' extension is concatenated to it
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:284
 #: ../modules/calendar/e-task-shell-view-actions.c:639
-#, fuzzy
 msgid "task"
-msgstr "కార్యం"
+msgstr "కార్యం "
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:319
 #: ../modules/calendar/e-task-shell-view-actions.c:701
@@ -16504,9 +16467,8 @@ msgstr "అసంపూర్తిగా గుర్తుపెట్టు(_
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:342
 #: ../modules/calendar/e-task-shell-view-actions.c:787
-#, fuzzy
 msgid "Mark selected tasks as incomplete"
-msgstr "పూర్తయినట్టు ఎంచుకున్న కర్తవ్యాలను గుర్తు పెట్టుము"
+msgstr "అసంపూర్తిగా గా ఎంచుకున్న పనులు గుర్తు పెట్టు "
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:347
 #: ../modules/calendar/e-task-shell-view-actions.c:792
@@ -16531,9 +16493,8 @@ msgstr "ఎంచుకున్న కర్తవ్యాన్ని చూ�
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:373
 #: ../modules/calendar/e-task-shell-view-actions.c:1027
-#, fuzzy
 msgid "Print the selected task"
-msgstr "ఎంచుకున్న కర్తవ్యాన్ని చూడుము"
+msgstr "ఎంచుకున్న కర్తవ్యాన్ని ముద్రించు "
 
 #: ../modules/calendar/e-memo-shell-backend.c:308
 msgctxt "New"
@@ -16541,21 +16502,18 @@ msgid "Mem_o"
 msgstr "మెమో (_o)"
 
 #: ../modules/calendar/e-memo-shell-backend.c:315
-#, fuzzy
 msgctxt "New"
 msgid "_Shared Memo"
 msgstr "భాగస్వామ్య మెమో (_S)"
 
 #: ../modules/calendar/e-memo-shell-backend.c:317
-#, fuzzy
 msgid "Create a new shared memo"
-msgstr "కొత్త భాగస్వామ్య మెమోను సృష్టించు"
+msgstr "కొత్త భాగస్వామ్య మెమోను సృష్టించు "
 
 #: ../modules/calendar/e-memo-shell-backend.c:325
-#, fuzzy
 msgctxt "New"
 msgid "Memo Li_st"
-msgstr "మెమో జాబితా"
+msgstr "మెమో జాబితా(_s)"
 
 #: ../modules/calendar/e-memo-shell-backend.c:327
 #: ../modules/calendar/e-memo-shell-view-actions.c:621
@@ -16567,9 +16525,8 @@ msgid "Loading memos"
 msgstr "మెమోలను నింపుతుంది"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:703
-#, fuzzy
 msgid "Memo List Selector"
-msgstr "మెమో మూలంను ఎంపికచేయునది"
+msgstr "మెమో మూలంను ఎంపికచేయునది "
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-memo-shell-sidebar.c:1001
@@ -16583,87 +16540,72 @@ msgid "Print Memos"
 msgstr "మెమోలను ముద్రించు"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:584
-#, fuzzy
 msgid "_Delete Memo"
-msgstr "సందేశాన్ని తొలగించుము(_D)"
+msgstr "మెమొను  తొలగించుము(_D)"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:591
-#, fuzzy
 msgid "_Find in Memo..."
-msgstr "సందేశంలో కనుగొనుము(_F)..."
+msgstr "మెమొను కనుగొనుము(_F)..."
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:593
-#, fuzzy
 msgid "Search for text in the displayed memo"
-msgstr "ప్రదర్శించబడిన సందేశం ముఖ్యభాగములో పాఠ్యమును వెతుకుము"
+msgstr "ప్రదర్శించబడిన సందేశం ముఖ్యభాగములో పాఠ్యమును వెతుకుము "
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:612
-#, fuzzy
 msgid "D_elete Memo List"
-msgstr "కొత్త సంపర్క జాబితా(_N)"
+msgstr "మెమొ జాబితా తొలగించు(_e)"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:614
-#, fuzzy
 msgid "Delete the selected memo list"
-msgstr "ఎంపికచేసిన మెమోను తొలగించుము"
+msgstr "ఎంపికచేసిన మెమోను తొలగించుము "
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:619
 msgid "_New Memo List"
 msgstr "కొత్త సంపర్క జాబితా(_N)"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:635
-#, fuzzy
 msgid "Refresh the selected memo list"
-msgstr "ఎంపికచేసిన మెమోను తొలగించుము"
+msgstr "ఎంచుకున్న మెమో జాబితా రిఫ్రెష్ చేయు "
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:642
-#, fuzzy
 msgid "Rename the selected memo list"
-msgstr "ఎంచుకున్న సంచయాన్ని పున:నామకరణం చేయు"
+msgstr "ఎంచుకున్న సంచయాన్ని పున:నామకరణం చేయు "
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:647
-#, fuzzy
 msgid "Show _Only This Memo List"
-msgstr "ఈ మెమో జాబితా మాత్రమే చూపుము(_o)"
+msgstr "ఈ మెమో జాబితా మాత్రమే చూపుము(_O)"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:726
-#, fuzzy
 msgid "Memo _Preview"
-msgstr "ఉపదర్శనం(_P)"
+msgstr "మెమొ ఉపదర్శనం(_P)"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:728
-#, fuzzy
 msgid "Show memo preview pane"
-msgstr "ఉపదర్శన పలకాన్ని చూపించుము"
+msgstr "మెమొ ఉపదర్శన పలకాన్ని చూపించుము"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:749
-#, fuzzy
 msgid "Show memo preview below the memo list"
-msgstr "సందేశ జాబితా కింద సందేశ ఉపదర్శనాన్ని చూపుము"
+msgstr "మెమొ జాబితా కింద మెమొ ఉపదర్శనాన్ని చూపుము"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:756
-#, fuzzy
 msgid "Show memo preview alongside the memo list"
-msgstr "సందేశ జాబితా కింద సందేశ ఉపదర్శనాన్ని చూపుము"
+msgstr "మెమొ జాబితా కింద మెమొ ఉపదర్శనాన్ని చూపుము"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:814
 msgid "Print the list of memos"
 msgstr "మెమోల జాబితాను ముద్రిస్తుంది"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:821
-#, fuzzy
 msgid "Preview the list of memos to be printed"
-msgstr "ముద్రించవలిసిన మెమోలజాబితాను ఉపదర్శనంచేస్తుంది"
+msgstr "ముద్రించవలిసిన మెమోలజాబితాను ఉపదర్శనంచేస్తుంది "
 
 #: ../modules/calendar/e-memo-shell-view.c:227
-#, fuzzy
 msgid "Delete Memos"
-msgstr "సందేశాన్ని తొలగించుము(_D)"
+msgstr "మెమొలను తొలగించుము"
 
 #: ../modules/calendar/e-memo-shell-view.c:229
-#, fuzzy
 msgid "Delete Memo"
-msgstr "కు ప్రతినిదిగా"
+msgstr "మెమొను తొలగించు "
 
 #: ../modules/calendar/e-memo-shell-view-private.c:424
 #, c-format
@@ -16674,9 +16616,9 @@ msgstr[1] "%d మెమోలు"
 
 #: ../modules/calendar/e-memo-shell-view-private.c:428
 #: ../modules/calendar/e-task-shell-view-private.c:609
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected"
-msgstr ", %d ఎంపికచేయబడెను"
+msgstr "%d ఎంపికచేయబడెను"
 
 #: ../modules/calendar/e-task-shell-backend.c:303
 msgctxt "New"
@@ -16693,10 +16635,9 @@ msgid "Create a new assigned task"
 msgstr "కొత్తగా స్థానం ఇవ్వబడ్డ కార్యాన్ని సృష్టించు"
 
 #: ../modules/calendar/e-task-shell-backend.c:320
-#, fuzzy
 msgctxt "New"
 msgid "Tas_k List"
-msgstr "కర్తవ్యం జాబితా"
+msgstr "కర్తవ్యాల  జాబితా(_k)"
 
 #: ../modules/calendar/e-task-shell-backend.c:322
 #: ../modules/calendar/e-task-shell-view-actions.c:745
@@ -16708,9 +16649,8 @@ msgid "Loading tasks"
 msgstr "కార్తవ్యాలను నింపుతుంది"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:703
-#, fuzzy
 msgid "Task List Selector"
-msgstr "కర్తవ్యం మూల ఎంపికదారి"
+msgstr "కర్తవ్యాల జాబితా ఎంపిక చేయునది "
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-task-shell-sidebar.c:1002
@@ -16736,63 +16676,52 @@ msgstr ""
 "ఈ కర్తవ్యాలన్ని నింజంగా తొలిగించాలా?"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:590
-#, fuzzy
 msgid "Do not ask me again"
-msgstr "నన్ను మళ్ళీ అడగొద్దు."
+msgstr "నన్ను మళ్ళీ అడగొద్దు. "
 
 #: ../modules/calendar/e-task-shell-view-actions.c:708
-#, fuzzy
 msgid "_Delete Task"
-msgstr "తొలగించు(_D)"
+msgstr "కార్యాన్ని తొలగించు(_D)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:715
-#, fuzzy
 msgid "_Find in Task..."
-msgstr "సందేశంలో కనుగొనుము(_F)..."
+msgstr "కార్యములో కనుగొనుము(_F)..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:717
-#, fuzzy
 msgid "Search for text in the displayed task"
-msgstr "ప్రదర్శించబడిన సందేశం ముఖ్యభాగములో పాఠ్యమును వెతుకుము"
+msgstr "ప్రదర్శించబడిన సందేశం ముఖ్యభాగములో పాఠ్యమును వెతుకుము "
 
 #: ../modules/calendar/e-task-shell-view-actions.c:729
-#, fuzzy
 msgid "Copy..."
-msgstr "నకలుతీయు(_C)..."
+msgstr "నకలుతీయు..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:736
-#, fuzzy
 msgid "D_elete Task List"
-msgstr "కర్తవ్యం జాబితాను ఎంపికచేయుము"
+msgstr "కర్తవ్యం జాబితాను తొలగించు (_e)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:738
-#, fuzzy
 msgid "Delete the selected task list"
-msgstr "ఎంచుకున్న కర్తవ్యాలను తొలగించుము"
+msgstr "ఎంచుకున్న కర్తవ్యాలను తొలగించుము "
 
 #: ../modules/calendar/e-task-shell-view-actions.c:743
 msgid "_New Task List"
 msgstr "కొత్త కర్తవ్యంజాబితా(_N)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:759
-#, fuzzy
 msgid "Refresh the selected task list"
-msgstr "ఎంచుకున్న కర్తవ్యాలను తొలగించుము"
+msgstr "ఎంచుకున్న కర్తవ్యాలను రిఫ్రెష్ చేయు "
 
 #: ../modules/calendar/e-task-shell-view-actions.c:766
-#, fuzzy
 msgid "Rename the selected task list"
-msgstr "ఎంచుకున్న సంచయాన్ని పున:నామకరణం చేయు"
+msgstr "ఎంచుకున్న కార్యాల జాబితాను  పున:నామకరణం చేయు "
 
 #: ../modules/calendar/e-task-shell-view-actions.c:771
-#, fuzzy
 msgid "Show _Only This Task List"
-msgstr "ఈ కర్తవ్య జాబితా మాత్రమే చూపుము(_o)"
+msgstr "ఈ కర్తవ్య జాబితా మాత్రమే చూపుము(_O)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:785
-#, fuzzy
 msgid "Mar_k as Incomplete"
-msgstr "అసంపూర్తిగా గుర్తుపెట్టు(_M)"
+msgstr "అసంపూర్తిగా గుర్తుపెట్టు(_k)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:815
 msgid "Delete completed tasks"
@@ -16803,19 +16732,16 @@ msgid "Task _Preview"
 msgstr "కర్తవ్య ఉపదర్శనం(_P)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:892
-#, fuzzy
 msgid "Show task preview pane"
-msgstr "ఉపదర్శన పలకాన్ని చూపించుము"
+msgstr "కార్యం యొక్క ఉపదర్శన పలకాన్ని చూపించుము"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:913
-#, fuzzy
 msgid "Show task preview below the task list"
-msgstr "సందేశ జాబితా కింద సందేశ ఉపదర్శనాన్ని చూపుము"
+msgstr "కార్యాల జాబితా కింద సందేశ ఉపదర్శనాన్ని చూపుము "
 
 #: ../modules/calendar/e-task-shell-view-actions.c:920
-#, fuzzy
 msgid "Show task preview alongside the task list"
-msgstr "సందేశ జాబితా కింద సందేశ ఉపదర్శనాన్ని చూపుము"
+msgstr "కార్యాల జాబితా కింద సందేశ ఉపదర్శనాన్ని చూపుము"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:928
 msgid "Active Tasks"
@@ -16842,19 +16768,16 @@ msgid "Print the list of tasks"
 msgstr "కర్తవ్యాల జాబితాను ముద్రించుము"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:1020
-#, fuzzy
 msgid "Preview the list of tasks to be printed"
-msgstr "ముద్రించాల్సిన కర్తవ్యాల జాబితాను ఉపదర్శనమిస్తుంది "
+msgstr "ముద్రించాల్సిన కర్తవ్యాల జాబితాను ఉపదర్శనమిస్తుంది  "
 
 #: ../modules/calendar/e-task-shell-view.c:362
-#, fuzzy
 msgid "Delete Tasks"
-msgstr "పూర్తయిన కర్తవ్యాలు"
+msgstr "కర్తవ్యాలు తొలగింపు "
 
 #: ../modules/calendar/e-task-shell-view.c:364
-#, fuzzy
 msgid "Delete Task"
-msgstr "కు ప్రతినిదిగా"
+msgstr "కర్తవ్యాల తొలగింపు "
 
 #: ../modules/calendar/e-task-shell-view-private.c:498
 msgid "Expunging"
@@ -16868,12 +16791,12 @@ msgstr[0] "%d కర్తవ్యం"
 msgstr[1] "%d కర్తవ్యాలు"
 
 #: ../modules/mail/e-mail-attachment-handler.c:389
-#, fuzzy, c-format
+#, c-format
 #| msgid "%d attached messages"
 msgid "%d attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "%d అనుభందించిన సందేశములు"
-msgstr[1] "%d అనుభందించిన సందేశములు"
+msgstr[0] "%d అనుబంధ  సందేశము"
+msgstr[1] "%d అనుబంధ  సందేశములు"
 
 #: ../modules/mail/e-mail-shell-backend.c:230
 msgctxt "New"
@@ -16885,17 +16808,15 @@ msgid "Compose a new mail message"
 msgstr "కొత్త మెయిల్ సందేశం ను కూర్చుము"
 
 #: ../modules/mail/e-mail-shell-backend.c:240
-#, fuzzy
 #| msgid "Mail Accounts"
 msgctxt "New"
 msgid "Mail Acco_unt"
-msgstr "మెయిల్ ఖాతాలు"
+msgstr "మెయిల్ ఖాతా(_u)"
 
 #: ../modules/mail/e-mail-shell-backend.c:242
-#, fuzzy
 #| msgid "Create a new mail folder"
 msgid "Create a new mail account"
-msgstr "కొత్త మెయిల్ సంచయంను సృష్టించుము"
+msgstr "కొత్త మెయిల్ ఖాతాను సృష్టించుము"
 
 #: ../modules/mail/e-mail-shell-backend.c:247
 msgctxt "New"
@@ -16932,34 +16853,29 @@ msgstr "ఖాతా కూర్పరి"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1180
 #: ../modules/mail/e-mail-shell-view.c:947
-#, fuzzy
 msgid "_Disable Account"
-msgstr "ఖాతాను అచేతనంచేయుము"
+msgstr "ఖాతాను అచేతనంచేయుము (_D)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1182
-#, fuzzy
 msgid "Disable this account"
-msgstr "ఖాతాను అచేతనంచేయుము"
+msgstr "ఈ ఖాతాను అచేతనంచేయుము "
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1189
-#, fuzzy
 msgid "Permanently remove all the deleted messages from all folders"
-msgstr "తొలగించిన సందేశాలని అన్ని సంచయాల నుండి శాశ్వతంగా తీసివేయుము"
+msgstr "తొలగించిన సందేశాలని అన్ని సంచయాల నుండి శాశ్వతంగా తీసివేయుము "
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1196
-#, fuzzy
 #| msgid "Change the properties of this folder"
 msgid "Edit properties of this account"
-msgstr "ఈ సంచయ లక్షణాలను మార్చుము"
+msgstr "ఈ ఖాతా సంచయ లక్షణాలను ఎడిట్ చేయుము "
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1201
 msgid "_Download Messages for Offline Usage"
 msgstr "ఆఫ్‌లైన్ వుపయోగముల కొరకు సందేశాల ను దిగుమతిచేయుము (_D)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1203
-#, fuzzy
 msgid "Download messages of accounts and folders marked for offline usage"
-msgstr "ఆఫ్‌లైన్ కొరకు గుర్తుంచిన ఖాతాల/సంచయాల యొక్క సందేశాలను దిగుమతి చేయుము"
+msgstr "ఆఫ్‌లైన్ కొరకు గుర్తుంచిన ఖాతాల మరియు సంచయాల యొక్క సందేశాలను దిగుమతి చేయుము"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1208
 msgid "Fl_ush Outbox"
@@ -17042,24 +16958,21 @@ msgid "Empty _Trash"
 msgstr "చెత్తను ఖాళీ చేయు(_T)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1301
-#, fuzzy
 msgid "Permanently remove all the deleted messages from all accounts"
-msgstr "తొలగించిన సందేశాలని అన్ని సంచయాల నుండి శాశ్వతంగా తీసివేయుము"
+msgstr "తొలగించిన సందేశాలని అన్ని సంచయాల నుండి శాశ్వతంగా తీసివేయుము "
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1306
 msgid "_New Label"
 msgstr "కొత్త లేబుల్(_N)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1315
-#, fuzzy
 msgid "N_one"
-msgstr "ఏదికాదు"
+msgstr "ఏదికాదు(_o)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1329
-#, fuzzy
 #| msgid "_Subscriptions..."
 msgid "_Manage Subscriptions"
-msgstr "చందాలు... (_S)"
+msgstr "చందాలు నిర్వహణ (_M)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1331
 #: ../modules/mail/e-mail-shell-view-actions.c:1408
@@ -17076,27 +16989,23 @@ msgid "Send queued items and retrieve new items"
 msgstr "వరుసపర్చిన అంశాలను పంపు మరియు కొత్త అంశాలను వెలికితీయుము"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1343
-#, fuzzy
 #| msgid "Received"
 msgid "R_eceive All"
-msgstr "తీసుకోబడిం"
+msgstr "అన్ని స్వీకరించు(_e)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1345
-#, fuzzy
 msgid "Receive new items from all accounts"
-msgstr "తొలగించిన సందేశాలని అన్ని సంచయాల నుండి శాశ్వతంగా తీసివేయుము"
+msgstr "అన్ని ఖాతాల నుంచి కొత్త అంశాలు స్వీకరించు "
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1350
-#, fuzzy
 #| msgid "_Send"
 msgid "_Send All"
-msgstr "పంపుము(_S)"
+msgstr "అన్నింటినీ పంపుము(_S)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1352
-#, fuzzy
 #| msgid "Send queued items and retrieve new items"
 msgid "Send queued items in all accounts"
-msgstr "వరుసపర్చిన అంశాలను పంపు మరియు కొత్త అంశాలను వెలికితీయుము"
+msgstr "అన్ని ఖాతాలను లో క్యూలో ఉన్న అంశాలను పంపండి"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1378
 #: ../widgets/misc/e-activity-proxy.c:313
@@ -17152,9 +17061,8 @@ msgid "Search F_olders"
 msgstr "సంచయాలను వెతుకుము(_o)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1448
-#, fuzzy
 msgid "Create or edit search folder definitions"
-msgstr "వెతుకు సంచయం నిర్వచనాలను సృష్టించు లేదా సరిచేయుము"
+msgstr "వెతుకు సంచయం నిర్వచనాలను సృష్టించు లేదా సరిచేయుము "
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1483
 msgid "_New Folder..."
@@ -17165,37 +17073,32 @@ msgid "Show Message _Preview"
 msgstr "సందేశ ఉపదర్శనాన్ని చూపుము(_P)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1513
-#, fuzzy
 msgid "Show message preview pane"
-msgstr "సందేశ ఉపదర్శన గవాక్షాన్ని చూపుము"
+msgstr "సందేశ ఉపదర్శన గవాక్షాన్ని చూపుము  "
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1519
-#, fuzzy
 msgid "Show _Deleted Messages"
-msgstr "తొలగించిన సందేశాలను అదృశ్యపర్చుము(_D)"
+msgstr "తొలగించిన సందేశాలను ప్రదర్శించుము(_D)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1521
-#, fuzzy
 msgid "Show deleted messages with a line through them"
-msgstr "సందేశ-జాబితా నందు తొలగించిన సందేశాలను (కొట్టివేత తో) చూపుము."
+msgstr "సందేశ-జాబితా నందు తొలగించిన సందేశాలను  కొట్టివేత తో చూపుము."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1527
 msgid "_Group By Threads"
 msgstr "సమూహం ద్వారా తంతులు(_G)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1529
-#, fuzzy
 msgid "Threaded message list"
-msgstr "తంతీకరణ సందేశ జాబితా"
+msgstr "తంతీకరణ సందేశ జాబితా "
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1550
 msgid "Show message preview below the message list"
 msgstr "సందేశ జాబితా కింద సందేశ ఉపదర్శనాన్ని చూపుము"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1557
-#, fuzzy
 msgid "Show message preview alongside the message list"
-msgstr "సందేశ జాబితా కింద సందేశ ఉపదర్శనాన్ని చూపుము"
+msgstr "సందేశం జాబితా కలిసి సందేశం ప్రివ్యూను చూపించు"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1565
 msgid "All Messages"
@@ -17234,9 +17137,8 @@ msgid "Unread Messages"
 msgstr "చదువని సందేశాలు"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1673
-#, fuzzy
 msgid "Subject or Addresses contain"
-msgstr "ఇది కలిగివున్న సంగతి లేదా చిరునామాలు"
+msgstr "విషయం లేదా చిరునామాలు కలిగిన "
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1683
 msgid "All Accounts"
@@ -17320,10 +17222,9 @@ msgstr[0] "%d మొత్తం"
 msgstr[1] "%d మొత్తం"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1103
-#, fuzzy
 #| msgid "Task"
 msgid "Trash"
-msgstr "కార్యం"
+msgstr "చెత్త "
 
 #: ../modules/mail/e-mail-shell-view-private.c:1579
 msgid "Send / Receive"
@@ -17359,19 +17260,16 @@ msgstr "కలిగిఉండు విలువ"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
 #: ../modules/mail/em-mailer-prefs.c:1069
-#, fuzzy
 msgid "_Date header:"
-msgstr "తేదీ పీఠిక:"
+msgstr "తేదీ శీర్షిక(_D):"
 
 #: ../modules/mail/em-mailer-prefs.c:1070
-#, fuzzy
 msgid "Show _original header value"
-msgstr "వాస్తవ పరిమాణంను చూపుము(_O)"
+msgstr "అసలు శీర్షిక విలువ చూపించు(_o)"
 
 #: ../modules/mailto-handler/evolution-mailto-handler.c:146
-#, fuzzy
 msgid "Do you want to make Evolution your default email client?"
-msgstr "మీరు ఎవాల్యూషన్ ను మీ అప్రమేయ ఇ-మెయిల్ కక్షిదారిగా చేద్దామనుకుంటున్నారా?"
+msgstr "మీరు ఎవాల్యూషన్ ను మీ అప్రమేయ ఇ-మెయిల్ కక్షిదారిగా చేద్దామనుకుంటున్నారా? "
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
@@ -17382,21 +17280,20 @@ msgstr ""
 
 #. Translators: %s is the subject of the email message.
 #: ../modules/mdn/evolution-mdn.c:324
-#, fuzzy, c-format
+#, c-format
 msgid "Delivery Notification for \"%s\""
-msgstr "మెయిల్ ప్రకటన లక్షణాలు"
+msgstr "\"%s\" కోసం డెలివరీ నోటిఫికేషన్"
 
 #: ../modules/mdn/evolution-mdn.c:449
-#, fuzzy, c-format
+#, c-format
 #| msgid "S_end message receipts:"
 msgid "Send a read receipt to '%s'"
-msgstr "సందేశ రశీదులను పంపుము(_e):"
+msgstr "'%s' కు చదివిన  రశీదులను పంపుము(_e):"
 
 #. name doesn't matter
 #: ../modules/mdn/evolution-mdn.c:454
-#, fuzzy
 msgid "_Notify Sender"
-msgstr "పంపించ వద్దు(_n)"
+msgstr "పంపినవారి నితెలియజేయి(_N)"
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:1
 msgid "Sender wants to be notified when you have read this message."
@@ -17407,29 +17304,22 @@ msgid "Sender has been notified that you have read this message."
 msgstr ""
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:1
-#, fuzzy
 msgid "Evolution is currently offline."
-msgstr "ఆఫ్‌లైన్ రీతినందు ప్రారంభించుము"
+msgstr "ఎవల్యూషన్ ప్రస్తుతం ఆఫ్లైన్లో ఉంది."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:2
 msgid "Click 'Work Online' to return to online mode."
 msgstr ""
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:3
-#, fuzzy
 msgid "Evolution is currently offline due to a network outage."
-msgstr ""
-"ఎవల్యూషన్ ప్రస్తుతం ఆఫ్‌లైనులో వుంది.\n"
-"ఆన్‌లైనులో పనిచేయడానికి ఈ బొత్తమును నొక్కండి."
+msgstr "నెట్వర్కు లేకపోవడం వలన ఎవల్యూషన్ ప్రస్తుతం ఆఫ్‌లైనులో వుంది."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:4
-#, fuzzy
 msgid ""
 "Evolution will return to online mode once a network connection is "
 "established."
-msgstr ""
-"ఎవల్యూషన్ ప్రస్తుతం ఆఫ్‌లైనులో వుంది.\n"
-"ఆన్‌లైనులో పనిచేయడానికి ఈ బొత్తమును నొక్కండి."
+msgstr "ఒక నెట్వర్క్ కనెక్షన్ ఏర్పాటు ఒకసారి ఎవల్యూషన్ ఆన్లైన్ మోడ్కు చూపిస్తుంది."
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:388
 msgid ""
@@ -17438,10 +17328,9 @@ msgid ""
 msgstr ""
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:475
-#, fuzzy
 #| msgid "Other"
 msgid "OAuth"
-msgstr "ఇతరములు"
+msgstr "OAuth"
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:477
 msgid ""
@@ -17500,16 +17389,15 @@ msgid "Failed to spawn SpamAssassin (%s): "
 msgstr ""
 
 #: ../modules/spamassassin/evolution-spamassassin.c:213
-#, fuzzy
 #| msgid "Filter junk messages using SpamAssassin."
 msgid "Failed to stream mail message content to SpamAssassin: "
-msgstr "SpamAssassin వుపయోగించి నిరర్దక సందేశములను వడపోయును."
+msgstr "SpamAssassin కు మెయిల్ సందేశాన్ని కంటెంట్ స్ట్రీమ్ విఫలమైంది:"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:232
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to send %d of %d messages"
 msgid "Failed to write '%s' to SpamAssassin: "
-msgstr "%2$d యొక్క %1$d సందేశాలను పంపుటలో విఫలమైంది"
+msgstr "SpamAssassin కు '%s' వ్రాయడం విఫలమైంది:"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:260
 msgid "Failed to read output from SpamAssassin: "
@@ -17528,19 +17416,16 @@ msgid "I_nclude remote tests"
 msgstr "దురస్థ పరిశీలనలను చేర్చుతుంది(_n)"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:863
-#, fuzzy
 #| msgid "This will make SpamAssassin more reliable, but slower"
 msgid "This will make SpamAssassin more reliable, but slower."
-msgstr "ఇది స్పామ్‌యెస్సాసిన్‌ను నమ్మదగినదిగా చేస్తుంది, అయితే నిదానమైనది"
+msgstr "ఇది స్పామ్‌యెస్సాసిన్‌ను నమ్మదగినదిగా చేస్తుంది, అయితే నిదానమైనది "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:1072
-#, fuzzy
 #| msgid "SpamAssassin Options"
 msgid "SpamAssassin"
-msgstr "SpamAssassin ఐచ్చికాలు"
+msgstr "SpamAssassin "
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:136
-#, fuzzy
 #| msgid ""
 #| "Welcome to Evolution. The next few screens will allow Evolution to "
 #| "connect to your email accounts, and to import files from other "
@@ -17552,9 +17437,8 @@ msgid ""
 "to your email accounts, and to import files from other applications."
 msgstr ""
 "ఎవాల్యూషన్ కు స్వాగతం. తర్వాతి కొన్ని తెరలు ఎవాల్యూషన్ ను మీ ఈమెయిల్ ఖాతాలకు అనుసందానించుటకు "
-"అనుమతిస్తాయి, మరియు ఇతర అనువర్తనంల నుండి దస్త్రాలను దిగుమతికి.\n"
-"\n"
-"దయచేసి \"ముందుకుపంపు\" బటన్ ను కొనసాగించుటకు నొక్కుము. "
+"అనుమతిస్తాయి, మరియు ఇతర అనువర్తనంల నుండి దస్త్రాలను దిగుమతికి దయచేసి \"ముందుకుపంపు\" బటన్ ను "
+"కొనసాగించుటకు నొక్కుము. "
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:297
 #: ../widgets/misc/e-import-assistant.c:403
@@ -17569,21 +17453,18 @@ msgstr "%s నుండి:"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:340
 #: ../modules/startup-wizard/evolution-startup-wizard.c:438
-#, fuzzy
 msgid "Importing Files"
-msgstr "దస్త్రాలను దిగుమతిచేస్తోంది"
+msgstr "దస్త్రాలను దిగుమతిచేస్తోంది "
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:416
-#, fuzzy
 #| msgid "I_mportance: "
 msgid "Import cancelled."
-msgstr "ప్రాముఖ్యత(_m)..."
+msgstr "దిగుమతి రద్దు అయినది "
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:434
-#, fuzzy
 #| msgid "Update complete\n"
 msgid "Import complete."
-msgstr "తాజాపరుచుట పూర్తియింది\n"
+msgstr "దిగుమతి పూర్తయినది "
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:508
 msgid "Evolution Setup Assistant"
@@ -17594,10 +17475,9 @@ msgid "Welcome"
 msgstr "స్వాగతం"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:626
-#, fuzzy
 #| msgid "Loading..."
 msgid "Loading accounts..."
-msgstr "నింపబడుతున్న..."
+msgstr "నింపబడుతున్న ఖాతాలు..."
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
 msgid "Local Address Books"
@@ -17629,10 +17509,9 @@ msgstr ""
 "కనుగొనలేకపోయింది."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
-#, fuzzy
 #| msgid "_Add attachment..."
 msgid "_Add Attachment..."
-msgstr "అనుభందంను జతపర్చుము(_A)..."
+msgstr "అనుబంధంను జతపర్చుము(_A)..."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Edit Message"
@@ -17647,30 +17526,26 @@ msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr "మెయిల్ సందేశమునకు అనుభందమును జతచేయుట మీరు మరచినప్పుడు మీకు గర్తుచేస్తుంది."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
-#, fuzzy
 msgid "Inline Audio"
-msgstr "ఇన్‌లైన్ vకార్డులు"
+msgstr "ఇన్‌లైన్  ఆడియో"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
-#, fuzzy
 msgid "Play audio attachments directly in mail messages."
-msgstr "ఆడియో అనుభందములను నేరుగా ఎవాల్యూషన్ నుండి ప్లే చేయుము."
+msgstr "ఆడియో అనుభందములను నేరుగా ఎవాల్యూషన్ నుండి ప్లే చేయుము. "
 
 #: ../plugins/backup-restore/backup.c:77
-#, fuzzy
 #| msgid "Backup Evolution directory"
 msgid "Back up Evolution directory"
-msgstr "ఎవాల్యూషన్ సంచయాన్ని బ్యాక్అప్ తీయుము"
+msgstr "ఎవాల్యూషన్ సంచయాన్ని బ్యాక్అప్ తీయుము "
 
 #: ../plugins/backup-restore/backup.c:79
 msgid "Restore Evolution directory"
 msgstr "ఎవాల్యూషన్ సంచయాన్ని తిరిగినిల్వఉంచుము"
 
 #: ../plugins/backup-restore/backup.c:81
-#, fuzzy
 #| msgid "Check Evolution Backup"
 msgid "Check Evolution Back up"
-msgstr "ఎవాల్యూషన్ బ్యాక్అప్‌ను పరిశీలించుము"
+msgstr "ఎవాల్యూషన్ బ్యాక్అప్‌ను పరిశీలించుము "
 
 #: ../plugins/backup-restore/backup.c:83
 msgid "Restart Evolution"
@@ -17695,10 +17570,9 @@ msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr "ఎవాల్యూషన్ డాటాను వెనుకకు తెస్తోంది (మెయిల్సు, పరిచయాలు, క్యాలెండర్, కర్తవ్యాలు, మెమోస్)"
 
 #: ../plugins/backup-restore/backup.c:345
-#, fuzzy
 #| msgid "Backup complete"
 msgid "Back up complete"
-msgstr "బ్యాక్అప్ పూర్తిఅయినది"
+msgstr "బ్యాక్అప్ పూర్తిఅయినది "
 
 #: ../plugins/backup-restore/backup.c:352
 #: ../plugins/backup-restore/backup.c:570
@@ -17706,35 +17580,31 @@ msgid "Restarting Evolution"
 msgstr "ఎవాల్యూషన్ ను పునఃప్రారంభిస్తున్నది"
 
 #: ../plugins/backup-restore/backup.c:438
-#, fuzzy
 msgid "Back up current Evolution data"
-msgstr "ప్రస్తుత ఎవాల్యూషన్ డాటాను బ్యాక్అప్ తీస్తోంది"
+msgstr "ప్రస్తుత ఎవాల్యూషన్ డాటాను బ్యాక్అప్ తీస్తోంది "
 
 #: ../plugins/backup-restore/backup.c:446
-#, fuzzy
 #| msgid "Extracting files from backup"
 msgid "Extracting files from back up"
-msgstr "దస్త్రాలను బ్యాక్అప్ నుండి బయటకుతీస్తోంది"
+msgstr "దస్త్రాలను బ్యాక్అప్ నుండి బయటకుతీస్తోంది "
 
 #: ../plugins/backup-restore/backup.c:515
 msgid "Loading Evolution settings"
 msgstr "ఎవాల్యూషన్ అమరికలను నింపుతోంది"
 
 #: ../plugins/backup-restore/backup.c:551
-#, fuzzy
 #| msgid "Removing temporary backup files"
 msgid "Removing temporary back up files"
-msgstr "తాత్కాలికంగా దాయబడిన దస్త్రాలను తొలగిస్తున్నది"
+msgstr "తాత్కాలికంగా దాయబడిన దస్త్రాలను తొలగిస్తున్నది "
 
 #: ../plugins/backup-restore/backup.c:563
 msgid "Ensuring local sources"
 msgstr "స్థానిక మూలాలను ఖచ్చితపరుస్తుంది"
 
 #: ../plugins/backup-restore/backup.c:767
-#, fuzzy
 #| msgid "Evolution Backup"
 msgid "Evolution Back Up"
-msgstr "ఎవాల్యూషన్ బ్యాక్అప్"
+msgstr "ఎవాల్యూషన్ బ్యాక్అప్ "
 
 #: ../plugins/backup-restore/backup.c:768
 #, c-format
@@ -17813,51 +17683,43 @@ msgid "Restore from backup"
 msgstr "బ్యాక్అప్ నుండి తిరిగినిల్వఉంచుము"
 
 #: ../plugins/backup-restore/backup-restore.c:470
-#, fuzzy
 #| msgid "Backing up Evolution Data"
 msgid "_Back up Evolution Data..."
-msgstr "ఎవాల్యూషన్ డాటాను బ్యాక్అప్ తీస్తుంది"
+msgstr "ఎవాల్యూషన్ డాటాను బ్యాక్అప్ తీస్తుంది(_B)..."
 
 #: ../plugins/backup-restore/backup-restore.c:472
-#, fuzzy
 msgid "Back up Evolution data and settings to an archive file"
-msgstr "ఎవాల్యూషన్ డాటా మరియు అమరికలను బ్యాక్అప్ మరియు తిరిగినిల్వఉంచుము"
+msgstr "ఎవాల్యూషన్ డాటా మరియు అమరికలను బ్యాక్అప్ మరియు తిరిగినిల్వఉంచుము  "
 
 #: ../plugins/backup-restore/backup-restore.c:477
-#, fuzzy
 #| msgid "Restoring Evolution Data"
 msgid "R_estore Evolution Data..."
-msgstr "ఎవాల్యూషన్ డాటాను తిరిగివుంచుతోంది"
+msgstr "ఎవాల్యూషన్ డాటాను తిరిగివుంచుతోంది(_e)..."
 
 #: ../plugins/backup-restore/backup-restore.c:479
-#, fuzzy
 msgid "Restore Evolution data and settings from an archive file"
-msgstr "ఎవాల్యూషన్ డాటా మరియు అమరికలను బ్యాక్అప్ మరియు తిరిగినిల్వఉంచుము"
+msgstr "ఎవాల్యూషన్ డాటా మరియు అమరికలను బ్యాక్అప్ మరియు తిరిగినిల్వఉంచుము "
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
-#, fuzzy
 #| msgid "Backup and Restore"
 msgid "Back up and Restore"
-msgstr "బ్యాకప్‌తీయి మరియు తిరిగినిల్వవుంచు"
+msgstr "బ్యాకప్‌తీయి మరియు తిరిగినిల్వవుంచు "
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
-#, fuzzy
 #| msgid "Backup and restore your Evolution data and settings."
 msgid "Back up and restore your Evolution data and settings."
-msgstr "మీ ఎవాల్యూషన్ డాటా మరియు అమరికలను బ్యాకప్‌తీచి మరియు తిరిగినిల్వవుంచుతుంది."
+msgstr "మీ ఎవాల్యూషన్ డాటా మరియు అమరికలను బ్యాకప్‌తీచి మరియు తిరిగినిల్వవుంచుతుంది. "
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
-#, fuzzy
 #| msgid "Invalid Evolution backup file"
 msgid "Invalid Evolution backup file"
-msgstr "సరికాని ఎవాల్యూషన్ బ్యాక్అప్ ఫైలు"
+msgstr "సరికాని ఎవాల్యూషన్ బ్యాక్అప్ ఫైలు  "
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#, fuzzy
 #| msgid "Please select a valid backup file to restore."
 msgid "Please select a valid backup file to restore."
-msgstr "తిరిగినిల్వ చేయుటకు దయచేసి విలువైన బ్యాక్అప్ ఫైలును ఎంపికచేయుము"
+msgstr "తిరిగినిల్వ చేయుటకు దయచేసి విలువైన బ్యాక్అప్ ఫైలును ఎంపికచేయుము "
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid "Are you sure you want to close Evolution?"
@@ -17870,18 +17732,16 @@ msgid ""
 msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
-#, fuzzy
 #| msgid "Backing up Evolution Data"
 msgid "Close and Back up Evolution"
-msgstr "ఎవాల్యూషన్ డాటాను బ్యాక్అప్ తీస్తుంది"
+msgstr "ఎవాల్యూషన్ డాటాను బ్యాక్అప్ తీస్తుంది  మరియు మూసి వేస్తోంది "
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
-#, fuzzy
 #| msgid ""
 #| "Are you sure you want to restore Evolution from the selected backup file?"
 msgid ""
 "Are you sure you want to restore Evolution from the selected backup file?"
-msgstr "మీరు ఎంపికచేసిన బ్యాక్అప్ ఫైలునుండి ఎవాల్యూషన్ ను తిరిగినిల్వ ఉంచుదామని అనుకుంటున్నారా?"
+msgstr "మీరు ఎంపికచేసిన బ్యాక్అప్ ఫైలునుండి ఎవాల్యూషన్ ను తిరిగినిల్వ ఉంచుదామని అనుకుంటున్నారా? "
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
 msgid ""
@@ -17892,10 +17752,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
-#, fuzzy
 #| msgid "Cannot start Evolution"
 msgid "Close and Restore Evolution"
-msgstr "ఎవల్యూషన్‌ను ప్రారంభించలేదు"
+msgstr "ఎవల్యూషన్‌ను మూసి మరియు పున:ప్రారంభించు "
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:9
 msgid "Insufficient Permissions"
@@ -17925,9 +17784,8 @@ msgstr "త్వరిత సందేశ పరిచయాలు"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:732
-#, fuzzy
 msgid "_Synchronize contact info and images from Pidgin buddy list"
-msgstr "పిడిగిన్ మిత్ర జాబితానుండి పరిచయాల మరియు చిత్రాల సమాచారాన్ని క్రమంగా కాలనియమత చేయుము"
+msgstr "పిడిగిన్ మిత్ర జాబితానుండి పరిచయాల మరియు చిత్రాల సమాచారాన్ని క్రమంగా కాలనియమత చేయుము(_S)"
 
 #: ../plugins/bbdb/bbdb.c:740
 msgid "Select Address book for Pidgin buddy list"
@@ -17974,19 +17832,16 @@ msgstr ""
 
 #: ../plugins/caldav/caldav-browse-server.c:361
 #: ../plugins/caldav/caldav-browse-server.c:695
-#, fuzzy
 msgid "Failed to parse server response."
-msgstr "ప్రతినిధులను నవీకరించుట లో విఫలమైంది:"
+msgstr "సర్వర్ ప్రతిస్పందన అన్వయించడం విఫలమైంది."
 
 #: ../plugins/caldav/caldav-browse-server.c:455
-#, fuzzy
 msgid "Events"
-msgstr "అంతమౌతుంది"
+msgstr "కార్యక్రమాలు "
 
 #: ../plugins/caldav/caldav-browse-server.c:477
-#, fuzzy
 msgid "User's calendars"
-msgstr "కొత్త క్యాలెండర్"
+msgstr "వినియోగదారుని క్యాలెండర్"
 
 #: ../plugins/caldav/caldav-browse-server.c:589
 #: ../plugins/caldav/caldav-browse-server.c:764
