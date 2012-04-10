@@ -44,8 +44,11 @@ evolution_alarm_notify_SOURCES =	\
 
 evolution_alarm_notify_LDADD =						\
 	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/composer/libcomposer.la				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la		\
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
+	$(top_builddir)/addressbook/util/libeabutil.la			\
 	$(top_builddir)/libevolution-utils/libevolution-utils.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\

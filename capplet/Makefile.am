@@ -55,8 +55,11 @@ evolution_settings_LDADD = 				\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/capplet/settings/libevolution-mail-settings.la \
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
+	$(top_builddir)/addressbook/util/libeabutil.la	\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/e-util/libeutil.la \
+	$(top_builddir)/composer/libcomposer.la \
 	$(top_builddir)/em-format/libemformat.la \
 	$(top_builddir)/libemail-utils/libemail-utils.la
 
