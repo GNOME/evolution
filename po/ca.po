@@ -10,6 +10,7 @@
 # Enric Balletbò i Serra <eballetbo@km103.com>, 2004
 # Gil Forcada <gilforcada@guifi.net>, 2006, 2011.
 # David Planella Molas <david.planella@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012.
+# Jordi Serratosa <jordis@softcatala.cat>, 2012.
 #
 #: ../shell/main.c:575
 msgid ""
@@ -17,14 +18,14 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-03-20 15:46+0000\n"
+"POT-Creation-Date: 2012-03-26 16:22+0000\n"
 "PO-Revision-Date: 2012-03-18 13:14+0100\n"
 "Last-Translator: David Planella <david.planella@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
-"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bits\n"
+"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
@@ -684,7 +685,7 @@ msgstr "II"
 msgid "III"
 msgstr "III"
 
-# "Esq."="Esquire", títol posat darrera del cognom a les cartes;
+# "Esq."="Esquire", títol posat darrere del cognom a les cartes;
 #                   equival a Sr. o En.
 #: ../addressbook/gui/contact-editor/fullname.ui.h:11
 msgid "Esq."
@@ -3648,7 +3649,7 @@ msgstr "No s'ha iniciat"
 #: ../calendar/gui/e-task-table.c:247 ../calendar/gui/e-task-table.c:660
 #: ../calendar/gui/print.c:3411
 msgid "In Progress"
-msgstr "En procés"
+msgstr "En curs"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-details-page.ui.h:14
@@ -5000,7 +5001,7 @@ msgstr "Contactes: "
 
 #: ../calendar/gui/tasktypes.xml.h:12
 msgid "In progress"
-msgstr "En procés"
+msgstr "En curs"
 
 #: ../calendar/gui/tasktypes.xml.h:14
 msgid "Cancelled"
@@ -5900,7 +5901,7 @@ msgstr "Amèrica/Whitehorse"
 
 #: ../calendar/zones.h:194
 msgid "America/Winnipeg"
-msgstr "Amèric/Winnipeg"
+msgstr "Amèrica/Winnipeg"
 
 #: ../calendar/zones.h:195
 msgid "America/Yakutat"
@@ -6200,7 +6201,7 @@ msgstr "Àsia/Seül"
 
 #: ../calendar/zones.h:269
 msgid "Asia/Shanghai"
-msgstr "Àsia/Shangai"
+msgstr "Àsia/Xangai"
 
 #: ../calendar/zones.h:270
 msgid "Asia/Singapore"
@@ -6276,7 +6277,7 @@ msgstr "Atlàntic/Canàries"
 
 #: ../calendar/zones.h:288
 msgid "Atlantic/Cape_Verde"
-msgstr "Atlàntic/Cap_Verde"
+msgstr "Atlàntic/Cap_Verd"
 
 #: ../calendar/zones.h:289
 msgid "Atlantic/Faeroe"
@@ -6348,7 +6349,7 @@ msgstr "Austràlia/Sidney"
 
 #: ../calendar/zones.h:306
 msgid "Europe/Amsterdam"
-msgstr "Europa/Àmsterdam"
+msgstr "Europa/Amsterdam"
 
 #: ../calendar/zones.h:307
 msgid "Europe/Andorra"
@@ -7151,7 +7152,7 @@ msgstr "Galeria d'_imatges"
 #: ../composer/e-composer-actions.c:398
 msgid "Show a collection of pictures that you can drag to your message"
 msgstr ""
-"Mostra una coŀlecció d'imatges que podreu arrossegar i deixar anar en un "
+"Mostra una col·lecció d'imatges que podreu arrossegar i deixar anar en un "
 "missatge"
 
 #: ../composer/e-composer-actions.c:404
@@ -8134,7 +8135,7 @@ msgid ""
 "user part of the mail address and %d is replaced by the domain"
 msgstr ""
 "La plantilla d'URL per utilitzar per defecte de dades de lliure/ocupat, %u "
-"es reemplaça amb la part d'usuari de l'adreça de correu i %d es reemplaça "
+"es reemplaça amb la part d'usuari de l'adreça electrònica i %d es reemplaça "
 "amb el domini"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
@@ -9415,7 +9416,7 @@ msgstr "Pregunta l'usuari quan intenti buidar una carpeta."
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
 "Demana confirmació abans d'enviar correus a destinataris que no s'han "
-"introduït com a adreça de correu"
+"introduït com a adreça electrònica"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 #: ../mail/evolution-mail.schemas.in.h:174
@@ -9425,7 +9426,7 @@ msgid ""
 msgstr ""
 "Habilita o inhabilita la mostra de confirmacions múltiples per advertir que "
 "esteu intentant enviar un missatge a destinataris que no s'han introduït com "
-"a adreces de correu"
+"a adreces electròniques"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 #: ../mail/evolution-mail.schemas.in.h:155
@@ -11404,7 +11405,7 @@ msgstr "Restaura els pre_determinats"
 
 #: ../mail/e-mail-account-manager.c:418
 msgid "You can drag and drop account names to reorder them."
-msgstr "Podeu arrossegar i deixar anar els noms dels compte per reordenar-los."
+msgstr "Podeu arrossegar i deixar anar els noms de compte per reordenar-los."
 
 #: ../mail/e-mail-account-manager.c:463
 msgid "De_fault"
@@ -11686,7 +11687,7 @@ msgstr ""
 
 #: ../mail/e-mail-reader.c:1879
 msgid "Follow _Up..."
-msgstr "Res_pon..."
+msgstr "Seg_uiment..."
 
 #: ../mail/e-mail-reader.c:1881
 msgid "Flag the selected messages for follow-up"
@@ -11694,7 +11695,7 @@ msgstr "Senyala els missatges seleccionats per fer-ne un seguiment"
 
 #: ../mail/e-mail-reader.c:1886
 msgid "_Attached"
-msgstr "_Adjuntat"
+msgstr "_Adjunt"
 
 #: ../mail/e-mail-reader.c:1888 ../mail/e-mail-reader.c:1895
 msgid "Forward the selected message to someone as an attachment"
@@ -12216,7 +12217,7 @@ msgstr[1] "Missatges"
 
 #: ../mail/e-mail-tag-editor.c:293
 msgid "Flag to Follow Up"
-msgstr "Senyala per respondre"
+msgstr "Senyala per al seguiment"
 
 #. Note to translators: this is the attribution string used
 #. * when quoting messages.  Each ${Variable} gets replaced
@@ -12333,7 +12334,7 @@ msgstr "Expressió"
 
 #: ../mail/em-filter-i18n.h:29
 msgid "Follow Up"
-msgstr "Respondre"
+msgstr "Seguiment"
 
 #: ../mail/em-filter-i18n.h:30
 msgid "Forward to"
@@ -13660,7 +13661,7 @@ msgstr ""
 msgid "Sending a message with _recipients not entered as mail addresses"
 msgstr ""
 "Enviament d'un missatge amb _destinataris que no s'han introduït com a "
-"adreces de correu"
+"adreces electròniques"
 
 #: ../mail/mail-config.ui.h:50
 msgid "Confirmations"
@@ -14191,7 +14192,7 @@ msgstr "etiqueta"
 
 #: ../mail/mail-dialogs.ui.h:1
 msgid "Search Folder Sources"
-msgstr "Origens de la carpeta de cerca"
+msgstr "Orígens de la carpeta de cerca"
 
 #: ../mail/mail-dialogs.ui.h:2
 msgid "All local folders"
@@ -14214,8 +14215,8 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
-"Els missatges que heu seleccionat per respondre es llisten a sota.\n"
-"Seleccioneu una acció per respondre-hi al menú «Senyalador»."
+"Els missatges que heu seleccionat per fer-ne el seguiment es llisten a sota.\n"
+"Seleccioneu una acció de seguiment al menú «Senyalador»."
 
 #: ../mail/mail-dialogs.ui.h:8
 msgid "_Flag:"
@@ -14240,7 +14241,7 @@ msgstr "No ho reenviïs"
 
 #: ../mail/mail-dialogs.ui.h:14
 msgid "Follow-Up"
-msgstr "Respondre"
+msgstr "Seguiment"
 
 #: ../mail/mail-dialogs.ui.h:15
 msgid "For Your Information"
@@ -14380,7 +14381,7 @@ msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
 msgstr ""
-"No s'ha reconegut el destinatari següent com a una adreça de correu vàlida:\n"
+"No s'ha reconegut el destinatari següent com a una adreça electrònica vàlida:\n"
 "{0}"
 
 #: ../mail/mail.error.xml.h:19
@@ -14392,7 +14393,7 @@ msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
 msgstr ""
-"No s'han reconegut els destinataris següents com a adreces de correu "
+"No s'han reconegut els destinataris següents com a adreces electròniques "
 "vàlides:\n"
 "{0}"
 
@@ -15194,7 +15195,7 @@ msgstr "Estat del senyalador"
 
 #: ../mail/message-list.etspec.h:12
 msgid "Follow Up Flag"
-msgstr "Senyalador per respondre"
+msgstr "Senyalador de seguiment"
 
 #: ../mail/message-list.etspec.h:13
 msgid "Due By"
@@ -16187,7 +16188,7 @@ msgid ""
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
 "La plantilla d'URL per utilitzar per defecte de dades de lliure/ocupat, %u "
-"es reemplaça amb la part d'usuari de l'adreça de correu i %d es reemplaça "
+"es reemplaça amb la part d'usuari de l'adreça electrònica i %d es reemplaça "
 "amb el domini."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:127
@@ -20401,7 +20402,7 @@ msgid ""
 msgstr ""
 "Connector de plantilles basat en esborranys. Podeu utilitzar variables com "
 "$ORIG[subject] ($origen[assumpte]), $ORIG[to] ($origen[per]) o $ORIG[body] "
-"($origen[cos]), que es reemplaçaran per els valors del correu que estigueu "
+"($origen[cos]), que es reemplaçaran pels valors del correu que estigueu "
 "responent."
 
 #: ../plugins/templates/templates.c:1105
@@ -21301,11 +21302,11 @@ msgstr "Nom del certificat"
 
 #: ../smime/gui/certificate-manager.c:78 ../smime/gui/certificate-manager.c:98
 msgid "Issued To Organization"
-msgstr "Emès per l'ús de la organització"
+msgstr "Emès per a l'ús de l'organització"
 
 #: ../smime/gui/certificate-manager.c:79 ../smime/gui/certificate-manager.c:99
 msgid "Issued To Organizational Unit"
-msgstr "Emès per l'ús de la unitat organitzacional"
+msgstr "Emès per a l'ús de la unitat organitzacional"
 
 #: ../smime/gui/certificate-manager.c:80
 #: ../smime/gui/certificate-manager.c:100
@@ -21330,7 +21331,7 @@ msgstr "Emès per"
 #: ../smime/gui/certificate-manager.c:103
 #: ../smime/gui/certificate-manager.c:121
 msgid "Issued By Organization"
-msgstr "Emès per la organització"
+msgstr "Emès per l'organització"
 
 #: ../smime/gui/certificate-manager.c:84
 #: ../smime/gui/certificate-manager.c:104
@@ -21866,7 +21867,7 @@ msgstr "Per l'es_tat"
 
 #: ../views/mail/galview.xml.h:6
 msgid "By _Follow Up Flag"
-msgstr "Pel sen_yalador de respondre"
+msgstr "Pel sen_yalador de seguiment"
 
 #: ../views/mail/galview.xml.h:7
 msgid "For _Wide View"
@@ -25539,7 +25540,7 @@ msgstr "Mètodes d'entrada"
 #~ "Sra.\n"
 #~ "Dr."
 
-# "Esq."="Esquire", títol posat darrera del cognom a les cartes;
+# "Esq."="Esquire", títol posat darrere del cognom a les cartes;
 #                   equival a Sr. o En.
 #~ msgid ""
 #~ "\n"
@@ -25989,7 +25990,7 @@ msgstr "Mètodes d'entrada"
 #~ "Using distinguished name (DN)"
 #~ msgstr ""
 #~ "De manera anònima\n"
-#~ "Utilitza l'adreça de correu\n"
+#~ "Utilitza l'adreça electrònica\n"
 #~ "Utilitza el nom distingit (DN)"
 
 #~ msgid ""
@@ -26112,7 +26113,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "<span weight=\"bold\">Ubicació</span>"
 
 #~ msgid "<span weight=\"bold\">Sources</span>"
-#~ msgstr "<span weight=\"bold\">Origens</span>"
+#~ msgstr "<span weight=\"bold\">Orígens</span>"
 
 #~ msgid ""
 #~ "Secure FTP (SSH)\n"
@@ -26884,10 +26885,10 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "Heu obtingut els permisos següents sobre les meves carpetes:"
 
 #~ msgid "You are also permitted to see my private items."
-#~ msgstr "També teniu permís per a veure els meus elements privats."
+#~ msgstr "També teniu permís per veure els meus elements privats."
 
 #~ msgid "However you are not permitted to see my private items."
-#~ msgstr "Tot i això, no teniu permís per a veure els meus elements privats."
+#~ msgstr "Tot i això, no teniu permís per veure els meus elements privats."
 
 #~ msgid "You have been designated as a delegate for %s"
 #~ msgstr "Heu estat designat delegat per a %s"
@@ -27175,7 +27176,7 @@ msgstr "Mètodes d'entrada"
 #~ "No s'han pogut determinar els permisos de les carpetes per als delegats."
 
 #~ msgid "Could not find Exchange Web Storage System."
-#~ msgstr "No s'ha trobat el sistema d'emmagatzemament web de l'Exchange."
+#~ msgstr "No s'ha trobat el sistema d'emmagatzematge web de l'Exchange."
 
 #~ msgid "Could not locate server {0}."
 #~ msgstr "No s'ha pogut localitzar el servidor {0}."
@@ -29454,10 +29455,10 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "Afegeix una adreça electrònica"
 
 #~ msgid "Insert email addresses from Address Book"
-#~ msgstr "Insereix adreces de correu de la llibreta d'adreces"
+#~ msgstr "Insereix adreces electròniques de la llibreta d'adreces"
 
 #~ msgid "Remove an email address from the List"
-#~ msgstr "Suprimeix una adreça de correu de la llista"
+#~ msgstr "Suprimeix una adreça electrònica de la llista"
 
 #~ msgid "Or_ganiser:"
 #~ msgstr "Or_ganitzador:"
