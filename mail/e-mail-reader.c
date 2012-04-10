@@ -3095,7 +3095,9 @@ mail_reader_set_display_formatter_for_message (EMailReader *reader,
 	if (!formatters) {
 		formatters = g_hash_table_new_full (g_str_hash, g_str_equal,
 				(GDestroyNotify) g_free, NULL);
-		g_object_set_data (G_OBJECT (session), "formatters", formatters);
+		g_object_set_data_full (
+			G_OBJECT (session), "formatters", formatters,
+			(GDestroyNotify) g_hash_table_destroy);
 	}
 
 	if ((formatter = g_hash_table_lookup (formatters, mail_uri)) == NULL) {
