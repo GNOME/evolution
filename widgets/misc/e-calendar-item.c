@@ -1943,6 +1943,7 @@ e_calendar_item_event (GnomeCanvasItem *item,
 		return e_calendar_item_motion (calitem, event);
 	case GDK_FOCUS_CHANGE:
 		gnome_canvas_item_request_update (item);
+		return FALSE;
 	case GDK_KEY_PRESS:
 		return e_calendar_item_key_press_event (calitem, event);
 	default:
