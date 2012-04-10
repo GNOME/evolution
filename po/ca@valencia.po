@@ -10,13 +10,14 @@
 # Enric Balletbò i Serra <eballetbo@km103.com>, 2004
 # Gil Forcada <gilforcada@guifi.net>, 2006, 2011.
 # David Planella Molas <david.planella@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012.
+# Jordi Serratosa <jordis@softcatala.cat>, 2012.
 #
 #: ../shell/main.c:575
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-24 17:02+0100\n"
+"POT-Creation-Date: 2012-04-10 23:58+0200\n"
 "PO-Revision-Date: 2012-03-18 13:14+0100\n"
 "Last-Translator: David Planella <david.planella@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -682,7 +683,7 @@ msgstr "II"
 msgid "III"
 msgstr "III"
 
-# "Esq."="Esquire", títol posat darrera del cognom a les cartes;
+# "Esq."="Esquire", títol posat darrere del cognom a les cartes;
 #                   equival a Sr. o En.
 #: ../addressbook/gui/contact-editor/fullname.ui.h:11
 msgid "Esq."
@@ -1567,7 +1568,7 @@ msgstr "No s'ha pogut obtindre la llista de llibretes d'adreces: %s"
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:45
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
 #: ../calendar/gui/dialogs/memo-page.c:951 ../em-format/em-format.c:2330
-#: ../libemail-engine/mail-ops.c:640 ../mail/em-folder-tree.c:678
+#: ../libemail-engine/mail-ops.c:684 ../mail/em-folder-tree.c:678
 #: ../plugins/caldav/caldav-browse-server.c:221
 #: ../plugins/caldav/caldav-browse-server.c:1478 ../plugins/face/face.c:174
 #: ../plugins/itip-formatter/itip-formatter.c:1485
@@ -3639,7 +3640,7 @@ msgstr "No s'ha iniciat"
 #: ../calendar/gui/e-task-table.c:247 ../calendar/gui/e-task-table.c:660
 #: ../calendar/gui/print.c:3411
 msgid "In Progress"
-msgstr "En procés"
+msgstr "En curs"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-details-page.ui.h:14
@@ -4991,7 +4992,7 @@ msgstr "Contactes: "
 
 #: ../calendar/gui/tasktypes.xml.h:12
 msgid "In progress"
-msgstr "En procés"
+msgstr "En curs"
 
 #: ../calendar/gui/tasktypes.xml.h:14
 msgid "Cancelled"
@@ -5891,7 +5892,7 @@ msgstr "Amèrica/Whitehorse"
 
 #: ../calendar/zones.h:194
 msgid "America/Winnipeg"
-msgstr "Amèric/Winnipeg"
+msgstr "Amèrica/Winnipeg"
 
 #: ../calendar/zones.h:195
 msgid "America/Yakutat"
@@ -6191,7 +6192,7 @@ msgstr "Àsia/Seül"
 
 #: ../calendar/zones.h:269
 msgid "Asia/Shanghai"
-msgstr "Àsia/Shangai"
+msgstr "Àsia/Xangai"
 
 #: ../calendar/zones.h:270
 msgid "Asia/Singapore"
@@ -6267,7 +6268,7 @@ msgstr "Atlàntic/Canàries"
 
 #: ../calendar/zones.h:288
 msgid "Atlantic/Cape_Verde"
-msgstr "Atlàntic/Cap_Verde"
+msgstr "Atlàntic/Cap_Verd"
 
 #: ../calendar/zones.h:289
 msgid "Atlantic/Faeroe"
@@ -6339,7 +6340,7 @@ msgstr "Austràlia/Sidney"
 
 #: ../calendar/zones.h:306
 msgid "Europe/Amsterdam"
-msgstr "Europa/Àmsterdam"
+msgstr "Europa/Amsterdam"
 
 #: ../calendar/zones.h:307
 msgid "Europe/Andorra"
@@ -7142,7 +7143,7 @@ msgstr "Galeria d'_imatges"
 #: ../composer/e-composer-actions.c:398
 msgid "Show a collection of pictures that you can drag to your message"
 msgstr ""
-"Mostra una coŀlecció d'imatges que podreu arrossegar i deixar anar en un "
+"Mostra una col·lecció d'imatges que podreu arrossegar i deixar anar en un "
 "missatge"
 
 #: ../composer/e-composer-actions.c:404
@@ -8124,7 +8125,7 @@ msgid ""
 "user part of the mail address and %d is replaced by the domain"
 msgstr ""
 "La plantilla d'URL per utilitzar per defecte de dades de lliure/ocupat, %u "
-"es reemplaça amb la part d'usuari de l'adreça de correu i %d es reemplaça "
+"es reemplaça amb la part d'usuari de l'adreça electrònica i %d es reemplaça "
 "amb el domini"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
@@ -9406,7 +9407,7 @@ msgstr "Pregunta l'usuari quan intente buidar una carpeta."
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
 "Demana confirmació abans d'enviar correus a destinataris que no s'han "
-"introduït com a adreça de correu"
+"introduït com a adreça electrònica"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 #: ../mail/evolution-mail.schemas.in.h:174
@@ -9416,7 +9417,7 @@ msgid ""
 msgstr ""
 "Habilita o inhabilita la mostra de confirmacions múltiples per advertir que "
 "esteu intentant enviar un missatge a destinataris que no s'han introduït com "
-"a adreces de correu"
+"a adreces electròniques"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 #: ../mail/evolution-mail.schemas.in.h:155
@@ -11018,30 +11019,30 @@ msgstr "Plantilles"
 msgid "Search Folders"
 msgstr "Carpetes de cerca"
 
-#: ../libemail-engine/e-mail-session.c:975
+#: ../libemail-engine/e-mail-session.c:987
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Introduïu la contrasenya per a %s"
 
-#: ../libemail-engine/e-mail-session.c:979
+#: ../libemail-engine/e-mail-session.c:991
 msgid "Enter Passphrase"
 msgstr "Introduïu la contrasenya"
 
-#: ../libemail-engine/e-mail-session.c:983
+#: ../libemail-engine/e-mail-session.c:995
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Introduïu la contrasenya per a %s"
 
-#: ../libemail-engine/e-mail-session.c:987
+#: ../libemail-engine/e-mail-session.c:999
 msgid "Enter Password"
 msgstr "Introduïu la contrasenya"
 
-#: ../libemail-engine/e-mail-session.c:1038
+#: ../libemail-engine/e-mail-session.c:1050
 #, c-format
 msgid "User canceled operation."
 msgstr "L'usuari ha cancel·lat l'operació."
 
-#: ../libemail-engine/e-mail-session.c:1157
+#: ../libemail-engine/e-mail-session.c:1169
 #, c-format
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
@@ -11049,19 +11050,19 @@ msgstr ""
 "No s'ha especificat cap adreça de destinació, de manera que s'ha cancel·lat "
 "el reenviament del missatge."
 
-#: ../libemail-engine/e-mail-session.c:1166
+#: ../libemail-engine/e-mail-session.c:1178
 #, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr ""
 "No s'ha trobat cap compte a utilitzar, de manera que s'ha cancel·lat el "
 "reenviament del missatge."
 
-#: ../libemail-engine/e-mail-session.c:1320
+#: ../libemail-engine/e-mail-session.c:1332
 #, c-format
 msgid "%s authentication failed"
 msgstr "Ha fallat l'autenticació a %s"
 
-#: ../libemail-engine/e-mail-session.c:1394
+#: ../libemail-engine/e-mail-session.c:1406
 #, c-format
 msgid "No password was provided"
 msgstr "No s'ha proporcionat cap contrasenya"
@@ -11072,14 +11073,14 @@ msgid "Cannot get transport for account '%s'"
 msgstr "No es pot obtindre el transport pel compte «%s»"
 
 #: ../libemail-engine/e-mail-session-utils.c:505
-#: ../libemail-engine/mail-ops.c:616
+#: ../libemail-engine/mail-ops.c:660
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "No s'han pogut aplicar els filtres d'eixida: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:531
 #: ../libemail-engine/e-mail-session-utils.c:565
-#: ../libemail-engine/mail-ops.c:635 ../libemail-engine/mail-ops.c:671
+#: ../libemail-engine/mail-ops.c:679 ../libemail-engine/mail-ops.c:715
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -11089,13 +11090,13 @@ msgstr ""
 "S'afegirà a la carpeta local «Enviat» en lloc d'això."
 
 #: ../libemail-engine/e-mail-session-utils.c:585
-#: ../libemail-engine/mail-ops.c:693
+#: ../libemail-engine/mail-ops.c:737
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "No s'han pogut afegir a la carpeta local «Enviat»: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:795
-#: ../libemail-engine/mail-ops.c:821 ../libemail-engine/mail-ops.c:922
+#: ../libemail-engine/mail-ops.c:865 ../libemail-engine/mail-ops.c:966
 msgid "Sending message"
 msgstr "S'està enviant el missatge"
 
@@ -11124,15 +11125,15 @@ msgstr "S'està preparant el compte «%s» per treballar fora de línia"
 msgid "Pinging %s"
 msgstr "S'està enviant un ping a %s"
 
-#: ../libemail-engine/mail-ops.c:87
+#: ../libemail-engine/mail-ops.c:94
 msgid "Filtering Selected Messages"
 msgstr "S'estan filtrant els missatges seleccionats"
 
-#: ../libemail-engine/mail-ops.c:209
+#: ../libemail-engine/mail-ops.c:216
 msgid "Fetching Mail"
 msgstr "S'està recollint el correu electrònic"
 
-#: ../libemail-engine/mail-ops.c:832
+#: ../libemail-engine/mail-ops.c:876
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "S'està enviant el missatge %d de %d"
@@ -11140,62 +11141,62 @@ msgstr "S'està enviant el missatge %d de %d"
 #. Translators: The string is distinguished by total
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
-#: ../libemail-engine/mail-ops.c:883
+#: ../libemail-engine/mail-ops.c:927
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "No s'ha pogut enviar el missatge"
 msgstr[1] "No s'han pogut enviar %d de %d missatges"
 
-#: ../libemail-engine/mail-ops.c:889 ../mail/mail-send-recv.c:885
+#: ../libemail-engine/mail-ops.c:933 ../mail/mail-send-recv.c:886
 msgid "Canceled."
 msgstr "S'ha cancel·lat."
 
-#: ../libemail-engine/mail-ops.c:891 ../mail/mail-send-recv.c:887
+#: ../libemail-engine/mail-ops.c:935 ../mail/mail-send-recv.c:888
 msgid "Complete."
 msgstr "Completat."
 
-#: ../libemail-engine/mail-ops.c:1003
+#: ../libemail-engine/mail-ops.c:1047
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "S'estan movent els missatges a «%s»"
 
-#: ../libemail-engine/mail-ops.c:1004
+#: ../libemail-engine/mail-ops.c:1048
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "S'estan copiant els missatges a «%s»"
 
-#: ../libemail-engine/mail-ops.c:1121
+#: ../libemail-engine/mail-ops.c:1165
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "S'està emmagatzemant la carpeta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1194
+#: ../libemail-engine/mail-ops.c:1238
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "S'està buidant i emmagatzemant el compte «%s»"
 
-#: ../libemail-engine/mail-ops.c:1195
+#: ../libemail-engine/mail-ops.c:1239
 #, c-format
 msgid "Storing account '%s'"
 msgstr "S'està emmagatzemant el compte «%s»"
 
-#: ../libemail-engine/mail-ops.c:1257
+#: ../libemail-engine/mail-ops.c:1301
 #, c-format
 msgid "Refreshing folder '%s'"
 msgstr "S'està refrescant la carpeta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1475
+#: ../libemail-engine/mail-ops.c:1519
 #, c-format
 msgid "Expunging folder '%s'"
 msgstr "S'està suprimint la carpeta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1568
+#: ../libemail-engine/mail-ops.c:1612
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "S'està buidant la paperera a «%s»"
 
-#: ../libemail-engine/mail-ops.c:1664
+#: ../libemail-engine/mail-ops.c:1708
 #, c-format
 msgid "Disconnecting %s"
 msgstr "S'està desconnectant de %s"
@@ -11396,7 +11397,7 @@ msgstr "Restaura els pre_determinats"
 
 #: ../mail/e-mail-account-manager.c:418
 msgid "You can drag and drop account names to reorder them."
-msgstr "Podeu arrossegar i deixar anar els noms dels compte per reordenar-los."
+msgstr "Podeu arrossegar i deixar anar els noms de compte per reordenar-los."
 
 #: ../mail/e-mail-account-manager.c:463
 msgid "De_fault"
@@ -11677,7 +11678,7 @@ msgstr ""
 
 #: ../mail/e-mail-reader.c:1879
 msgid "Follow _Up..."
-msgstr "Res_pon..."
+msgstr "Seg_uiment..."
 
 #: ../mail/e-mail-reader.c:1881
 msgid "Flag the selected messages for follow-up"
@@ -11685,7 +11686,7 @@ msgstr "Senyala els missatges seleccionats per fer-ne un seguiment"
 
 #: ../mail/e-mail-reader.c:1886
 msgid "_Attached"
-msgstr "_Adjuntat"
+msgstr "_Adjunt"
 
 #: ../mail/e-mail-reader.c:1888 ../mail/e-mail-reader.c:1895
 msgid "Forward the selected message to someone as an attachment"
@@ -12207,7 +12208,7 @@ msgstr[1] "Missatges"
 
 #: ../mail/e-mail-tag-editor.c:293
 msgid "Flag to Follow Up"
-msgstr "Senyala per respondre"
+msgstr "Senyala per al seguiment"
 
 #. Note to translators: this is the attribution string used
 #. * when quoting messages.  Each ${Variable} gets replaced
@@ -12324,7 +12325,7 @@ msgstr "Expressió"
 
 #: ../mail/em-filter-i18n.h:29
 msgid "Follow Up"
-msgstr "Respondre"
+msgstr "Seguiment"
 
 #: ../mail/em-filter-i18n.h:30
 msgid "Forward to"
@@ -12560,27 +12561,27 @@ msgstr "%s (%u%s)"
 msgid "Mail Folder Tree"
 msgstr "Arbre de carpetes de correu"
 
-#: ../mail/em-folder-tree.c:2097 ../mail/em-folder-utils.c:115
+#: ../mail/em-folder-tree.c:2055 ../mail/em-folder-utils.c:115
 #, c-format
 msgid "Moving folder %s"
 msgstr "S'està movent la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2100 ../mail/em-folder-utils.c:117
+#: ../mail/em-folder-tree.c:2058 ../mail/em-folder-utils.c:117
 #, c-format
 msgid "Copying folder %s"
 msgstr "S'està copiant la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2107 ../mail/message-list.c:2304
+#: ../mail/em-folder-tree.c:2065 ../mail/message-list.c:2304
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "S'estan movent els missatges a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2111 ../mail/message-list.c:2306
+#: ../mail/em-folder-tree.c:2069 ../mail/message-list.c:2306
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "S'estan copiant els missatges a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2130
+#: ../mail/em-folder-tree.c:2088
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No es poden deixar anar els missatges al magatzem del nivell superior"
@@ -13650,7 +13651,7 @@ msgstr ""
 msgid "Sending a message with _recipients not entered as mail addresses"
 msgstr ""
 "Enviament d'un missatge amb _destinataris que no s'han introduït com a "
-"adreces de correu"
+"adreces electròniques"
 
 #: ../mail/mail-config.ui.h:50
 msgid "Confirmations"
@@ -14181,7 +14182,7 @@ msgstr "etiqueta"
 
 #: ../mail/mail-dialogs.ui.h:1
 msgid "Search Folder Sources"
-msgstr "Origens de la carpeta de cerca"
+msgstr "Orígens de la carpeta de cerca"
 
 #: ../mail/mail-dialogs.ui.h:2
 msgid "All local folders"
@@ -14204,8 +14205,9 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
-"Els missatges que heu seleccionat per respondre es llisten a sota.\n"
-"Seleccioneu una acció per respondre-hi al menú «Senyalador»."
+"Els missatges que heu seleccionat per fer-ne el seguiment es llisten a "
+"sota.\n"
+"Seleccioneu una acció de seguiment al menú «Senyalador»."
 
 #: ../mail/mail-dialogs.ui.h:8
 msgid "_Flag:"
@@ -14230,7 +14232,7 @@ msgstr "No ho reenvies"
 
 #: ../mail/mail-dialogs.ui.h:14
 msgid "Follow-Up"
-msgstr "Respondre"
+msgstr "Seguiment"
 
 #: ../mail/mail-dialogs.ui.h:15
 msgid "For Your Information"
@@ -14369,7 +14371,8 @@ msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
 msgstr ""
-"No s'ha reconegut el destinatari següent com a una adreça de correu vàlida:\n"
+"No s'ha reconegut el destinatari següent com a una adreça electrònica "
+"vàlida:\n"
 "{0}"
 
 #: ../mail/mail.error.xml.h:19
@@ -14381,7 +14384,7 @@ msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
 msgstr ""
-"No s'han reconegut els destinataris següents com a adreces de correu "
+"No s'han reconegut els destinataris següents com a adreces electròniques "
 "vàlides:\n"
 "{0}"
 
@@ -15034,27 +15037,27 @@ msgstr ""
 "L'adjunció anomenada {0} és un fitxer ocult que pot contindre dades "
 "privades. Hauríeu de revisar-lo abans d'enviar-lo."
 
-#: ../mail/mail-send-recv.c:207
+#: ../mail/mail-send-recv.c:208
 msgid "Canceling..."
 msgstr "S'està cancel·lant..."
 
-#: ../mail/mail-send-recv.c:534
+#: ../mail/mail-send-recv.c:535
 msgid "Send & Receive Mail"
 msgstr "Envia i rep el correu"
 
-#: ../mail/mail-send-recv.c:550
+#: ../mail/mail-send-recv.c:551
 msgid "Cancel _All"
 msgstr "C_ancel·la-ho tot"
 
-#: ../mail/mail-send-recv.c:650 ../mail/mail-send-recv.c:1029
+#: ../mail/mail-send-recv.c:651 ../mail/mail-send-recv.c:1035
 msgid "Updating..."
 msgstr "S'està actualitzant..."
 
-#: ../mail/mail-send-recv.c:650 ../mail/mail-send-recv.c:736
+#: ../mail/mail-send-recv.c:651 ../mail/mail-send-recv.c:737
 msgid "Waiting..."
 msgstr "S'està esperant..."
 
-#: ../mail/mail-send-recv.c:1009
+#: ../mail/mail-send-recv.c:1015
 #, c-format
 msgid "Checking for new mail"
 msgstr "Comprovació de correu nou"
@@ -15182,7 +15185,7 @@ msgstr "Estat del senyalador"
 
 #: ../mail/message-list.etspec.h:12
 msgid "Follow Up Flag"
-msgstr "Senyalador per respondre"
+msgstr "Senyalador de seguiment"
 
 #: ../mail/message-list.etspec.h:13
 msgid "Due By"
@@ -16175,7 +16178,7 @@ msgid ""
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
 "La plantilla d'URL per utilitzar per defecte de dades de lliure/ocupat, %u "
-"es reemplaça amb la part d'usuari de l'adreça de correu i %d es reemplaça "
+"es reemplaça amb la part d'usuari de l'adreça electrònica i %d es reemplaça "
 "amb el domini."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:127
@@ -20386,7 +20389,7 @@ msgid ""
 msgstr ""
 "Connector de plantilles basat en esborranys. Podeu utilitzar variables com "
 "$ORIG[subject] ($origen[assumpte]), $ORIG[to] ($origen[per]) o $ORIG[body] "
-"($origen[cos]), que es reemplaçaran per els valors del correu que estigueu "
+"($origen[cos]), que es reemplaçaran pels valors del correu que estigueu "
 "responent."
 
 #: ../plugins/templates/templates.c:1105
@@ -21285,11 +21288,11 @@ msgstr "Nom del certificat"
 
 #: ../smime/gui/certificate-manager.c:78 ../smime/gui/certificate-manager.c:98
 msgid "Issued To Organization"
-msgstr "Emés per l'ús de la organització"
+msgstr "Emés per a l'ús de l'organització"
 
 #: ../smime/gui/certificate-manager.c:79 ../smime/gui/certificate-manager.c:99
 msgid "Issued To Organizational Unit"
-msgstr "Emés per l'ús de la unitat organitzacional"
+msgstr "Emés per a l'ús de la unitat organitzacional"
 
 #: ../smime/gui/certificate-manager.c:80
 #: ../smime/gui/certificate-manager.c:100
@@ -21314,7 +21317,7 @@ msgstr "Emés per"
 #: ../smime/gui/certificate-manager.c:103
 #: ../smime/gui/certificate-manager.c:121
 msgid "Issued By Organization"
-msgstr "Emés per la organització"
+msgstr "Emés per l'organització"
 
 #: ../smime/gui/certificate-manager.c:84
 #: ../smime/gui/certificate-manager.c:104
@@ -21850,7 +21853,7 @@ msgstr "Per l'es_tat"
 
 #: ../views/mail/galview.xml.h:6
 msgid "By _Follow Up Flag"
-msgstr "Pel sen_yalador de respondre"
+msgstr "Pel sen_yalador de seguiment"
 
 #: ../views/mail/galview.xml.h:7
 msgid "For _Wide View"
@@ -25522,7 +25525,7 @@ msgstr "Mètodes d'entrada"
 #~ "Sra.\n"
 #~ "Dr."
 
-# "Esq."="Esquire", títol posat darrera del cognom a les cartes;
+# "Esq."="Esquire", títol posat darrere del cognom a les cartes;
 #                   equival a Sr. o En.
 #~ msgid ""
 #~ "\n"
@@ -25972,7 +25975,7 @@ msgstr "Mètodes d'entrada"
 #~ "Using distinguished name (DN)"
 #~ msgstr ""
 #~ "De manera anònima\n"
-#~ "Utilitza l'adreça de correu\n"
+#~ "Utilitza l'adreça electrònica\n"
 #~ "Utilitza el nom distingit (DN)"
 
 #~ msgid ""
@@ -26095,7 +26098,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "<span weight=\"bold\">Ubicació</span>"
 
 #~ msgid "<span weight=\"bold\">Sources</span>"
-#~ msgstr "<span weight=\"bold\">Origens</span>"
+#~ msgstr "<span weight=\"bold\">Orígens</span>"
 
 #~ msgid ""
 #~ "Secure FTP (SSH)\n"
@@ -26867,10 +26870,10 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "Heu obtingut els permisos següents sobre les meves carpetes:"
 
 #~ msgid "You are also permitted to see my private items."
-#~ msgstr "També teniu permís per a veure els meus elements privats."
+#~ msgstr "També teniu permís per veure els meus elements privats."
 
 #~ msgid "However you are not permitted to see my private items."
-#~ msgstr "Tot i això, no teniu permís per a veure els meus elements privats."
+#~ msgstr "Tot i això, no teniu permís per veure els meus elements privats."
 
 #~ msgid "You have been designated as a delegate for %s"
 #~ msgstr "Heu estat designat delegat per a %s"
@@ -27158,7 +27161,7 @@ msgstr "Mètodes d'entrada"
 #~ "No s'han pogut determinar els permisos de les carpetes per als delegats."
 
 #~ msgid "Could not find Exchange Web Storage System."
-#~ msgstr "No s'ha trobat el sistema d'emmagatzemament web de l'Exchange."
+#~ msgstr "No s'ha trobat el sistema d'emmagatzematge web de l'Exchange."
 
 #~ msgid "Could not locate server {0}."
 #~ msgstr "No s'ha pogut localitzar el servidor {0}."
@@ -29437,10 +29440,10 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "Afegeix una adreça electrònica"
 
 #~ msgid "Insert email addresses from Address Book"
-#~ msgstr "Insereix adreces de correu de la llibreta d'adreces"
+#~ msgstr "Insereix adreces electròniques de la llibreta d'adreces"
 
 #~ msgid "Remove an email address from the List"
-#~ msgstr "Suprimeix una adreça de correu de la llista"
+#~ msgstr "Suprimeix una adreça electrònica de la llista"
 
 #~ msgid "Or_ganiser:"
 #~ msgstr "Or_ganitzador:"
