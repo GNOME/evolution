@@ -3910,11 +3910,22 @@ merge_always_cc_and_bcc (EComposerHeaderTable *table,
 static const gchar *blacklist[] = { ".", "etc", ".." };
 
 static gboolean
-file_is_blacklisted (gchar *filename)
+file_is_blacklisted (const gchar *argument)
 {
+	GFile *file;
 	gboolean blacklisted = FALSE;
 	guint ii, jj, n_parts;
+	gchar *filename;
 	gchar **parts;
+
+	/* The "attach" argument may be a URI or local path.  Normalize
+	 * it to a local path if we can.  We only blacklist local files. */
+	file = g_file_new_for_commandline_arg (argument);
+	filename = g_file_get_path (file);
+	g_object_unref (file);
+
+	if (filename == NULL)
+		return FALSE;
 
 	parts = g_strsplit (filename, G_DIR_SEPARATOR_S, -1);
 	n_parts = g_strv_length (parts);
@@ -3928,7 +3939,18 @@ file_is_blacklisted (gchar *filename)
 		}
 	}
 
+	if (blacklisted) {
+		/* Don't blacklist files in trusted base directories. */
+		if (g_str_has_prefix (filename, g_get_user_data_dir ()))
+			blacklisted = FALSE;
+		if (g_str_has_prefix (filename, g_get_user_cache_dir ()))
+			blacklisted = FALSE;
+		if (g_str_has_prefix (filename, g_get_user_config_dir ()))
+			blacklisted = FALSE;
+	}
+
 	g_strfreev (parts);
+	g_free (filename);
 
 	return blacklisted;
 }
