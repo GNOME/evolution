@@ -408,10 +408,15 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	settings = g_settings_new ("org.gnome.evolution.shell");
 
+	/* Use G_SETTINGS_BIND_GET_NO_CHANGES so shell windows
+	 * are initialized to the most recently used shell view,
+	 * but still allows different windows to show different
+	 * views at once. */
 	g_settings_bind (
 		settings, "default-component-id",
 		shell_window, "active-view",
-		G_SETTINGS_BIND_DEFAULT);
+		G_SETTINGS_BIND_DEFAULT |
+		G_SETTINGS_BIND_GET_NO_CHANGES);
 
 	g_settings_bind (
 		settings, "folder-bar-width",
