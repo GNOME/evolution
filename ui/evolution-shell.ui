@@ -70,6 +70,7 @@
     <menu action='search-menu'>
       <menuitem action='search-quick'/>
       <menuitem action='search-clear'/>
+      <placeholder name='search-extra-actions'/>
       <menuitem action='search-advanced'/>
       <separator/>
       <menuitem action='search-save'/>

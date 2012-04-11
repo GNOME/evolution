@@ -122,6 +122,15 @@ struct _ECalShellViewPrivate {
 	EActivity *memopad_activity;
 	EActivity *taskpad_activity;
 
+	/* Time-range searching */
+	EActivity *searching_activity;
+	gpointer search_alert; /* weak pointer to EAlert * */
+	gint search_pending_count; /* how many clients are pending */
+	time_t search_time; /* current search time from */
+	time_t search_min_time, search_max_time; /* time boundary for searching */
+	gint search_direction; /* negative value is backward, positive is forward, zero is error; in days */
+	GSList *search_hit_cache; /* pointers on time_t for matched events */
+
         GFileMonitor *monitors[CHECK_NB];
 };
 
@@ -158,6 +167,11 @@ void		e_cal_shell_view_update_sidebar
 void		e_cal_shell_view_update_search_filter
 					(ECalShellView *cal_shell_view);
 void		e_cal_shell_view_update_timezone
+					(ECalShellView *cal_shell_view);
+void		e_cal_shell_view_search_events
+					(ECalShellView *cal_shell_view,
+					 gboolean search_forward);
+void		e_cal_shell_view_search_stop
 					(ECalShellView *cal_shell_view);
 
 /* Memo Pad Utilities */

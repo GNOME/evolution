@@ -687,6 +687,8 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
 	gint i;
 
+	e_cal_shell_view_search_stop (cal_shell_view);
+
 	/* Calling calendar's save state from here,
 	 * because it is too late in its dispose. */
 	if (priv->cal_shell_content != NULL)
@@ -1158,4 +1160,464 @@ e_cal_shell_view_update_timezone (ECalShellView *cal_shell_view)
 	}
 
 	g_list_free (clients);
+}
+
+static gint
+cal_searching_get_search_range_years (ECalShellView *cal_shell_view)
+{
+	EShellBackend *backend;
+	EShellSettings *shell_settings;
+	gint value;
+
+	backend = e_shell_view_get_shell_backend (E_SHELL_VIEW (cal_shell_view));
+	shell_settings = e_shell_get_shell_settings (e_shell_backend_get_shell (backend));
+
+	value = e_shell_settings_get_int (shell_settings, "cal-search-range-years");
+	if (value <= 0)
+		value = 10;
+
+	return value;
+}
+
+static gint
+cal_time_t_ptr_compare (gconstpointer a,
+			gconstpointer b)
+{
+	const time_t *ta = a, *tb = b;
+
+	return (ta ? *ta : 0) - (tb ? *tb : 0);
+}
+
+static void cal_iterate_searching (ECalShellView *cal_shell_view);
+
+struct GenerateInstancesData
+{
+	ECalClient *client;
+	ECalShellView *cal_shell_view;
+	GCancellable *cancellable;
+};
+
+static void
+cal_searching_instances_done_cb (gpointer user_data)
+{
+	struct GenerateInstancesData *gid = user_data;
+
+	g_return_if_fail (gid != NULL);
+	g_return_if_fail (gid->cal_shell_view != NULL);
+
+	if (!g_cancellable_is_cancelled (gid->cancellable)) {
+		gid->cal_shell_view->priv->search_pending_count--;
+		if (!gid->cal_shell_view->priv->search_pending_count) {
+			gid->cal_shell_view->priv->search_hit_cache =
+				g_slist_sort (gid->cal_shell_view->priv->search_hit_cache, cal_time_t_ptr_compare);
+			cal_iterate_searching (gid->cal_shell_view);
+		}
+	}
+
+	g_object_unref (gid->cancellable);
+	g_free (gid);
+}
+
+static gboolean
+cal_searching_got_instance_cb (ECalComponent *comp,
+			       time_t instance_start,
+			       time_t instance_end,
+			       gpointer user_data)
+{
+	struct GenerateInstancesData *gid = user_data;
+	ECalShellViewPrivate *priv;
+	ECalComponentDateTime dt;
+	time_t *value;
+
+	g_return_val_if_fail (gid != NULL, FALSE);
+
+	if (g_cancellable_is_cancelled (gid->cancellable))
+		return FALSE;
+
+	g_return_val_if_fail (gid->cal_shell_view != NULL, FALSE);
+	g_return_val_if_fail (gid->cal_shell_view->priv != NULL, FALSE);
+
+	e_cal_component_get_dtstart (comp, &dt);
+
+	if (dt.tzid && dt.value) {
+		icaltimezone *zone = NULL;
+		if (!e_cal_client_get_timezone_sync (gid->client, dt.tzid, &zone, gid->cancellable, NULL)) {
+			zone = NULL;
+		}
+
+		if (g_cancellable_is_cancelled (gid->cancellable))
+			return FALSE;
+
+		if (zone)
+			instance_start = icaltime_as_timet_with_zone (*dt.value, zone);
+	}
+
+	e_cal_component_free_datetime (&dt);
+
+	priv = gid->cal_shell_view->priv;
+	value = g_new (time_t, 1);
+	*value = instance_start;
+	if (!g_slist_find_custom (priv->search_hit_cache, value, cal_time_t_ptr_compare))
+		priv->search_hit_cache = g_slist_append (priv->search_hit_cache, value);
+	else
+		g_free (value);
+
+	return TRUE;
+}
+
+static void
+cal_search_get_object_list_cb (GObject *source,
+			       GAsyncResult *result,
+			       gpointer user_data)
+{
+	ECalClient *client = E_CAL_CLIENT (source);
+	ECalShellView *cal_shell_view = user_data;
+	GSList *icalcomps = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (client != NULL);
+	g_return_if_fail (result != NULL);
+	g_return_if_fail (cal_shell_view != NULL);
+
+	if (!e_cal_client_get_object_list_finish (client, result, &icalcomps, &error) || !icalcomps) {
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			g_clear_error (&error);
+			return;
+		}
+
+		g_clear_error (&error);
+		cal_shell_view->priv->search_pending_count--;
+		if (!cal_shell_view->priv->search_pending_count) {
+			cal_shell_view->priv->search_hit_cache =
+				g_slist_sort (cal_shell_view->priv->search_hit_cache, cal_time_t_ptr_compare);
+			cal_iterate_searching (cal_shell_view);
+		}
+	} else {
+		GSList *iter;
+		GCancellable *cancellable;
+		time_t start, end;
+
+		cancellable = e_activity_get_cancellable (cal_shell_view->priv->searching_activity);
+		start = time_add_day (cal_shell_view->priv->search_time, (-1) * cal_shell_view->priv->search_direction);
+		end = cal_shell_view->priv->search_time;
+		if (start > end) {
+			time_t tmp = start;
+			start = end;
+			end = tmp;
+		}
+
+		for (iter = icalcomps; iter; iter = iter->next) {
+			icalcomponent *icalcomp = iter->data;
+			struct GenerateInstancesData *gid = g_new0 (struct GenerateInstancesData, 1);
+
+			gid->client = client;
+			gid->cal_shell_view = cal_shell_view;
+			gid->cancellable = g_object_ref (cancellable);
+
+			e_cal_client_generate_instances_for_object (client, icalcomp, start, end, cancellable,
+				cal_searching_got_instance_cb, gid, cal_searching_instances_done_cb);
+		}
+
+		e_cal_client_free_icalcomp_slist (icalcomps);
+	}
+}
+
+static gboolean
+cal_searching_check_candidates (ECalShellView *cal_shell_view)
+{
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
+	GnomeCalendar *calendar;
+	GSList *iter;
+	time_t value, candidate = -1;
+
+	g_return_val_if_fail (cal_shell_view != NULL, FALSE);
+	g_return_val_if_fail (cal_shell_view->priv != NULL, FALSE);
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	if (!e_calendar_view_get_selected_time_range (calendar_view, &value, NULL))
+		return FALSE;
+
+	if (cal_shell_view->priv->search_direction > 0 && (view_type == GNOME_CAL_WEEK_VIEW || view_type == GNOME_CAL_MONTH_VIEW))
+		value = time_add_day (value, 1);
+
+	for (iter = cal_shell_view->priv->search_hit_cache; iter; iter = iter->next) {
+		time_t cache = *((time_t *) iter->data);
+
+		/* list is sorted, once the search iteration is complete */
+		if (cache > value) {
+			if (cal_shell_view->priv->search_direction > 0)
+				candidate = cache;
+			break;
+		} else if (cal_shell_view->priv->search_direction < 0 && cache != value)
+			candidate = cache;
+	}
+
+	if (candidate > 0) {
+		gnome_calendar_goto (calendar, candidate);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void
+cal_searching_update_alert (ECalShellView *cal_shell_view,
+			    const gchar *message)
+{
+	ECalShellViewPrivate *priv;
+	EShellContent *shell_content;
+	EAlert *alert;
+
+	g_return_if_fail (cal_shell_view != NULL);
+	g_return_if_fail (cal_shell_view->priv != NULL);
+
+	priv = cal_shell_view->priv;
+
+	if (priv->search_alert) {
+		e_alert_response (priv->search_alert, e_alert_get_default_response (priv->search_alert));
+		priv->search_alert = NULL;
+	}
+
+	if (!message)
+		return;
+
+	alert = e_alert_new ("calendar:search-error-generic", message, NULL);
+	g_return_if_fail (alert != NULL);
+
+	priv->search_alert = alert;
+	g_object_add_weak_pointer (G_OBJECT (alert), &priv->search_alert);
+	e_alert_start_timer (priv->search_alert, 5);
+
+	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (cal_shell_view));
+	e_alert_sink_submit_alert (E_ALERT_SINK (shell_content), priv->search_alert);
+	g_object_unref (priv->search_alert);
+}
+
+static void
+cal_iterate_searching (ECalShellView *cal_shell_view)
+{
+	ECalShellViewPrivate *priv;
+	GList *clients, *iter;
+	ECalModel *model;
+	time_t new_time, range1, range2;
+	icaltimezone *timezone;
+	const gchar *default_tzloc = NULL;
+	GCancellable *cancellable;
+	gchar *sexp, *start, *end;
+
+	g_return_if_fail (cal_shell_view != NULL);
+	g_return_if_fail (cal_shell_view->priv != NULL);
+
+	priv = cal_shell_view->priv;
+	g_return_if_fail (priv->search_direction != 0);
+	g_return_if_fail (priv->search_pending_count == 0);
+
+	cal_searching_update_alert (cal_shell_view, NULL);
+
+	if (cal_searching_check_candidates (cal_shell_view)) {
+		if (priv->searching_activity) {
+			e_activity_set_state (priv->searching_activity, E_ACTIVITY_COMPLETED);
+			g_object_unref (priv->searching_activity);
+			priv->searching_activity = NULL;
+		}
+
+		return;
+	}
+
+	if (!priv->searching_activity) {
+		EShellBackend *shell_backend = e_shell_view_get_shell_backend (E_SHELL_VIEW (cal_shell_view));
+
+		cancellable = g_cancellable_new ();
+		priv->searching_activity = e_activity_new ();
+		e_activity_set_cancellable (priv->searching_activity, cancellable);
+		e_activity_set_state (priv->searching_activity, E_ACTIVITY_RUNNING);
+		e_activity_set_text (priv->searching_activity,
+			priv->search_direction > 0 ?
+			_("Searching next matching event") :
+			_("Searching previous matching event"));
+
+		e_shell_backend_add_activity (shell_backend, priv->searching_activity);
+	}
+
+	new_time = time_add_day (priv->search_time, priv->search_direction);
+	if (new_time > priv->search_max_time || new_time < priv->search_min_time) {
+		gchar *alert_msg;
+		gint range_years;
+
+		/* would get out of bounds, stop searching */
+		e_activity_set_state (priv->searching_activity, E_ACTIVITY_COMPLETED);
+		g_object_unref (priv->searching_activity);
+		priv->searching_activity = NULL;
+
+		range_years = cal_searching_get_search_range_years (cal_shell_view);
+		alert_msg = g_strdup_printf (
+			priv->search_direction > 0 ?
+			ngettext ("Cannot find matching event in the next %d year",
+				  "Cannot find matching event in the next %d years",
+				  range_years) :
+			ngettext ("Cannot find matching event in the previous %d year",
+				  "Cannot find matching event in the previous %d years",
+				  range_years),
+			range_years);
+		cal_searching_update_alert (cal_shell_view, alert_msg);
+		g_free (alert_msg);
+
+		e_shell_view_update_actions (E_SHELL_VIEW (cal_shell_view));
+
+		return;
+	}
+
+	model = gnome_calendar_get_model (
+		e_cal_shell_content_get_calendar (cal_shell_view->priv->cal_shell_content));
+	clients = e_cal_model_get_client_list (model);
+
+	if (!clients) {
+		e_activity_set_state (priv->searching_activity, E_ACTIVITY_COMPLETED);
+		g_object_unref (priv->searching_activity);
+		priv->searching_activity = NULL;
+
+		cal_searching_update_alert (cal_shell_view, _("Cannot search with no active calendar"));
+
+		e_shell_view_update_actions (E_SHELL_VIEW (cal_shell_view));
+
+		return;
+	}
+
+	timezone = e_cal_model_get_timezone (model);
+	range1 = priv->search_time;
+	range2 = time_add_day (range1, priv->search_direction);
+	if (range1 < range2) {
+		start = isodate_from_time_t (time_day_begin (range1));
+		end = isodate_from_time_t (time_day_end (range2));
+	} else {
+		start = isodate_from_time_t (time_day_begin (range2));
+		end = isodate_from_time_t (time_day_end (range1));
+	}
+
+	if (timezone && timezone != icaltimezone_get_utc_timezone ())
+		default_tzloc = icaltimezone_get_location (timezone);
+	if (!default_tzloc)
+		default_tzloc = "";
+
+	sexp = g_strdup_printf (
+		"(and %s (occur-in-time-range? "
+		"(make-time \"%s\") "
+		"(make-time \"%s\") \"%s\"))",
+		e_cal_model_get_search_query (model), start, end, default_tzloc);
+
+	g_free (start);
+	g_free (end);
+
+	cancellable = e_activity_get_cancellable (priv->searching_activity);
+	g_list_foreach (clients, (GFunc) g_object_ref, NULL);
+	priv->search_pending_count = g_list_length (clients);
+	priv->search_time = new_time;
+
+	for (iter = clients; iter; iter = iter->next) {
+		ECalClient *client = iter->data;
+
+		e_cal_client_get_object_list (client, sexp, cancellable, cal_search_get_object_list_cb, cal_shell_view);
+	}
+
+	g_list_free_full (clients, g_object_unref);
+	g_free (sexp);
+}
+
+void
+e_cal_shell_view_search_events (ECalShellView *cal_shell_view,
+				gboolean search_forward)
+{
+	ECalShellViewPrivate *priv = cal_shell_view->priv;
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
+	GnomeCalendar *calendar;
+	time_t start_time = 0;
+	gint range_years;
+
+	if (priv->searching_activity || !priv->search_direction)
+		e_cal_shell_view_search_stop (cal_shell_view);
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	if (!e_calendar_view_get_selected_time_range (calendar_view, &start_time, NULL)) {
+		e_shell_view_update_actions (E_SHELL_VIEW (cal_shell_view));
+		return;
+	}
+
+	start_time = time_day_begin (start_time);
+	if (priv->search_direction) {
+		time_t cached_start, cached_end, tmp;
+
+		cached_start = priv->search_time;
+		cached_end = time_add_day (cached_start, (-1) * priv->search_direction);
+
+		if (priv->search_direction > 0) {
+			tmp = cached_start;
+			cached_start = cached_end;
+			cached_end = tmp;
+		}
+
+		/* clear cached results if searching out of cached bounds */
+		if (start_time < cached_start || start_time > cached_end)
+			e_cal_shell_view_search_stop (cal_shell_view);
+	}
+
+	priv->search_direction = search_forward ? +30 : -30;
+
+	if (cal_searching_check_candidates (cal_shell_view))
+		return;
+
+	range_years = cal_searching_get_search_range_years (cal_shell_view);
+
+	priv->search_pending_count = 0;
+	priv->search_time = start_time;
+	priv->search_min_time = start_time - (range_years * 365 * 24 * 60 * 60);
+	priv->search_max_time = start_time + (range_years * 365 * 24 * 60 * 60);
+
+	if (priv->search_min_time < 0)
+		priv->search_min_time = 0;
+	if (priv->search_hit_cache) {
+		g_slist_free_full (priv->search_hit_cache, g_free);
+		priv->search_hit_cache = NULL;
+	}
+
+	cal_iterate_searching (cal_shell_view);
+}
+
+void
+e_cal_shell_view_search_stop (ECalShellView *cal_shell_view)
+{
+	ECalShellViewPrivate *priv;
+
+	g_return_if_fail (cal_shell_view != NULL);
+	g_return_if_fail (cal_shell_view->priv != NULL);
+
+	priv = cal_shell_view->priv;
+
+	cal_searching_update_alert (cal_shell_view, NULL);
+
+	if (priv->searching_activity) {
+		g_cancellable_cancel (e_activity_get_cancellable (priv->searching_activity));
+		e_activity_set_state (priv->searching_activity, E_ACTIVITY_CANCELLED);
+		g_object_unref (priv->searching_activity);
+		priv->searching_activity = NULL;
+	}
+
+	if (priv->search_hit_cache) {
+		g_slist_free_full (priv->search_hit_cache, g_free);
+		priv->search_hit_cache = NULL;
+	}
+
+	priv->search_direction = 0;
 }

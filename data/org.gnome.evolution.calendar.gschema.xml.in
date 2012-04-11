@@ -215,6 +215,11 @@
       <_summary>Recurrent Events in Italic</_summary>
       <_description>Show days with recurrent events in italic font in bottom left calendar</_description>
     </key>
+    <key name="search-range-years" type="i">
+      <default>10</default>
+      <_summary>Search range for time-based searching in years</_summary>
+      <_description>How many years can the time-based search go forward or backward from currently selected day when searching for another occurrence; default is ten years</_description>
+    </key>
     <key name="selected-calendars" type="as">
       <default>[]</default>
       <_summary>List of selected calendars</_summary>

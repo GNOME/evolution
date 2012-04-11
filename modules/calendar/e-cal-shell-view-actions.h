@@ -51,6 +51,12 @@
 	E_SHELL_WINDOW_ACTION ((window), "calendar-refresh")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_RENAME(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-rename")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_PREV(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-search-prev")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_NEXT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-search-next")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_STOP(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-search-stop")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SELECT_ONE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-select-one")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_VIEW_DAY(window) \

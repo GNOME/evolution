@@ -314,4 +314,8 @@
  <_secondary>You must be working online to complete this operation.</_secondary>
  </error>
 
+ <error id="search-error-generic" type="error">
+  <secondary>{0}</secondary>
+ </error>
+
 </error-list>

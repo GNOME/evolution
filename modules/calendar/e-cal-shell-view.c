@@ -81,6 +81,8 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	gchar *temp;
 	gint value;
 
+	e_cal_shell_view_search_stop (E_CAL_SHELL_VIEW (shell_view));
+
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
@@ -239,6 +241,9 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	gnome_calendar_set_search_query (
 		calendar, query, range_search, start_range, end_range);
 	g_free (query);
+
+	/* update also actions, thus Find Prev/Next/Stop will be sensitive as expected */
+	e_shell_view_update_actions (shell_view);
 }
 
 static icalproperty *
@@ -318,9 +323,12 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	EShell *shell;
 	GnomeCalendarViewType view_type;
 	GnomeCalendar *calendar;
+	ECalModel *model;
 	ECalendarView *view;
 	GtkAction *action;
 	GList *list, *iter;
+	const gchar *model_sexp;
+	gboolean is_searching;
 	gboolean sensitive;
 	gboolean visible;
 	guint32 state;
@@ -364,6 +372,11 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 	view_type = gnome_calendar_get_view (calendar);
 	view = gnome_calendar_get_calendar_view (calendar, view_type);
+	model = gnome_calendar_get_model (calendar);
+	model_sexp = e_cal_model_get_search_query (model);
+	is_searching = model_sexp && *model_sexp &&
+		g_strcmp0 (model_sexp, "#t") != 0 &&
+		g_strcmp0 (model_sexp, "(contains? \"summary\"  \"\")") != 0;
 
 	list = e_calendar_view_get_selected_events (view);
 	n_selected = g_list_length (list);
@@ -452,6 +465,15 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	sensitive = can_delete_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (CALENDAR_SEARCH_PREV);
+	gtk_action_set_sensitive (action, is_searching);
+
+	action = ACTION (CALENDAR_SEARCH_NEXT);
+	gtk_action_set_sensitive (action, is_searching);
+
+	action = ACTION (CALENDAR_SEARCH_STOP);
+	gtk_action_set_sensitive (action, is_searching && priv->searching_activity != NULL);
+
 	action = ACTION (EVENT_DELEGATE);
 	sensitive =
 		(n_selected == 1) && editable &&
@@ -511,7 +533,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 static void
 cal_shell_view_class_init (ECalShellViewClass *class,
-                            GTypeModule *type_module)
+                           GTypeModule *type_module)
 {
 	GObjectClass *object_class;
 	EShellViewClass *shell_view_class;

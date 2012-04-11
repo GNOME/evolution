@@ -2515,6 +2515,9 @@ e_day_view_set_selected_time_range (ECalendarView *cal_view,
 	work_day_start_hour = e_cal_model_get_work_day_start_hour (model);
 	work_day_start_minute = e_cal_model_get_work_day_start_minute (model);
 
+	if (start_time == end_time)
+		end_time += e_calendar_view_get_time_divisions (cal_view) * 60;
+
 	/* Set the selection. */
 	start_in_grid = e_day_view_convert_time_to_grid_position (day_view,
 								  start_time,

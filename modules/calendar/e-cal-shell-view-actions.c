@@ -421,6 +421,27 @@ action_calendar_rename_cb (GtkAction *action,
 }
 
 static void
+action_calendar_search_next_cb (GtkAction *action,
+				ECalShellView *cal_shell_view)
+{
+	e_cal_shell_view_search_events (cal_shell_view, TRUE);
+}
+
+static void
+action_calendar_search_prev_cb (GtkAction *action,
+				ECalShellView *cal_shell_view)
+{
+	e_cal_shell_view_search_events (cal_shell_view, FALSE);
+}
+
+static void
+action_calendar_search_stop_cb (GtkAction *action,
+				ECalShellView *cal_shell_view)
+{
+	e_cal_shell_view_search_stop (cal_shell_view);
+}
+
+static void
 action_calendar_select_one_cb (GtkAction *action,
                                ECalShellView *cal_shell_view)
 {
@@ -1406,6 +1427,27 @@ static GtkActionEntry calendar_entries[] = {
 	  "F2",
 	  N_("Rename the selected calendar"),
 	  G_CALLBACK (action_calendar_rename_cb) },
+
+	{ "calendar-search-next",
+	  GTK_STOCK_GO_FORWARD,
+	  N_("Find _next"),
+	  "<Control><Shift>n",
+	  N_("Find next occurrence of the current search string"),
+	  G_CALLBACK (action_calendar_search_next_cb) },
+
+	{ "calendar-search-prev",
+	  GTK_STOCK_GO_BACK,
+	  N_("Find _previous"),
+	  "<Control><Shift>p",
+	  N_("Find previous occurrence of the current search string"),
+	  G_CALLBACK (action_calendar_search_prev_cb) },
+
+	{ "calendar-search-stop",
+	  GTK_STOCK_STOP,
+	  N_("Stop _running search"),
+	  NULL,
+	  N_("Stop currently running search"),
+	  G_CALLBACK (action_calendar_search_stop_cb) },
 
 	{ "calendar-select-one",
 	  "stock_check-filled",

@@ -624,6 +624,11 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		"recur-events-italic");
 
 	e_shell_settings_install_property_for_key (
+		"cal-search-range-years",
+		CALENDAR_SCHEMA,
+		"search-range-years");
+
+	e_shell_settings_install_property_for_key (
 		"cal-show-event-end-times",
 		CALENDAR_SCHEMA,
 		"show-event-end");

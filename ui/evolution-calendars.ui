@@ -31,6 +31,15 @@
         <menuitem action='calendar-purge'/>
       </menu>
     </placeholder>
+    <menu action='search-menu'>
+      <placeholder name='search-extra-actions'>
+        <separator/>
+        <menuitem action='calendar-search-prev'/>
+        <menuitem action='calendar-search-next'/>
+        <menuitem action='calendar-search-stop'/>
+        <separator/>
+      </placeholder>
+    </menu>
   </menubar>
   <toolbar name='main-toolbar'>
 #if !EXPRESS
