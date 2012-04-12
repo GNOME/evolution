@@ -28,6 +28,7 @@
 
 #include <string.h>
 #include <glib/gi18n-lib.h>
+#include <pango/pango.h>
 
 #include <camel/camel.h>
 #include <libebackend/e-extensible.h>
@@ -69,6 +70,9 @@ struct _EWebViewPrivate {
 	guint disable_save_to_disk : 1;
 
 	guint caret_mode : 1;
+
+	GSettings *font_settings;
+	GSettings *aliasing_settings;
 };
 
 enum {
@@ -658,7 +662,6 @@ web_view_set_property (GObject *object,
 				g_value_get_string (value));
 			return;
 	}
-
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
@@ -740,6 +743,7 @@ web_view_get_property (GObject *object,
 				value, e_web_view_get_selected_uri (
 				E_WEB_VIEW (object)));
 			return;
+
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -790,6 +794,16 @@ web_view_dispose (GObject *object)
 	if (priv->highlights != NULL) {
 		g_slist_free_full (priv->highlights, g_free);
 		priv->highlights = NULL;
+	}
+
+	if (priv->aliasing_settings != NULL) {
+		g_object_unref (priv->aliasing_settings);
+		priv->aliasing_settings = NULL;
+	}
+
+	if (priv->font_settings != NULL) {
+		g_object_unref (priv->font_settings);
+		priv->font_settings = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -1692,9 +1706,21 @@ e_web_view_init (EWebView *web_view)
 		ui_manager, "connect-proxy",
 		G_CALLBACK (web_view_connect_proxy_cb), web_view);
 
-	web_settings = e_web_view_get_default_settings (GTK_WIDGET (web_view));
+	web_settings = e_web_view_get_default_settings ();
 	e_web_view_set_settings (web_view, web_settings);
 	g_object_unref (web_settings);
+
+	web_view->priv->font_settings = g_settings_new ("org.gnome.desktop.interface");
+	g_signal_connect_swapped (web_view->priv->font_settings, "changed::font-name",
+		G_CALLBACK (e_web_view_update_fonts), web_view);
+	g_signal_connect_swapped (web_view->priv->font_settings, "changed::monospace-font-name",
+		G_CALLBACK (e_web_view_update_fonts), web_view);
+
+	web_view->priv->aliasing_settings = g_settings_new ("org.gnome.settings-daemon.plugins.xsettings");
+	g_signal_connect_swapped (web_view->priv->aliasing_settings, "changed::antialiasing",
+		G_CALLBACK (e_web_view_update_fonts), web_view);
+
+	e_web_view_update_fonts (web_view);
 
 	action_group = gtk_action_group_new ("uri");
 	gtk_action_group_set_translation_domain (action_group, domain);
@@ -2792,23 +2818,13 @@ e_web_view_set_settings (EWebView *web_view,
 }
 
 WebKitWebSettings *
-e_web_view_get_default_settings (GtkWidget *parent_widget)
+e_web_view_get_default_settings (void)
 {
-	GtkStyleContext *context;
-	const PangoFontDescription *font;
 	WebKitWebSettings *settings;
-
-	g_return_val_if_fail (GTK_IS_WIDGET (parent_widget), NULL);
 
 	settings = webkit_web_settings_new ();
 
-	/* Use same font-size as rest of Evolution */
-	context = gtk_widget_get_style_context (parent_widget);
-	font = gtk_style_context_get_font (context, GTK_STATE_FLAG_NORMAL);
-
 	g_object_set (G_OBJECT (settings),
-		"default-font-size", (pango_font_description_get_size (font) / PANGO_SCALE),
-		"default-monospace-font-size", (pango_font_description_get_size (font) / PANGO_SCALE),
 		"enable-frame-flattening", TRUE, 
 		"enable-java-applet", FALSE,
 		"enable-html5-database", FALSE,
@@ -2819,4 +2835,121 @@ e_web_view_get_default_settings (GtkWidget *parent_widget)
 		NULL);
 
 	return settings;
+}
+
+void
+e_web_view_update_fonts(EWebView *web_view)
+{
+	GString *stylesheet;
+	gchar *aa, *base64;
+	WebKitWebSettings *settings;
+	PangoFontDescription *min_size, *ms, *vw;
+	const gchar *styles[] = { "normal", "oblique", "italic" };
+
+	ms = NULL;
+	vw = NULL;
+
+	if (E_WEB_VIEW_GET_CLASS (web_view)->set_fonts)
+		E_WEB_VIEW_GET_CLASS (web_view)->set_fonts (web_view, &ms, &vw);
+
+	if (ms == NULL) {
+		gchar *font;
+
+		font = g_settings_get_string (
+				web_view->priv->font_settings,
+				"monospace-font-name");
+
+		ms = pango_font_description_from_string (
+				font ? font : "monospace 10");
+
+		g_free (font);
+	}
+
+	if (vw == NULL) {
+		gchar *font;
+
+		font = g_settings_get_string (
+				web_view->priv->font_settings,
+				"font-name");
+
+		vw = pango_font_description_from_string (
+				font ? font : "serif 10");
+
+		g_free (font);
+	}
+
+	if (pango_font_description_get_size (ms) < pango_font_description_get_size (vw)) {
+		min_size = ms;
+	} else {
+		min_size = vw;
+	}
+
+	stylesheet = g_string_new ("");
+	g_string_append_printf (stylesheet,
+		"body {\n"
+		"  font-family: %s;\n"
+		"  font-size: %dpt;\n"
+		"  font-weight: %d;\n"
+		"  font-style: %s;\n",
+		pango_font_description_get_family (vw),
+		pango_font_description_get_size (vw) / PANGO_SCALE,
+		pango_font_description_get_weight (vw),
+		styles[pango_font_description_get_style (vw)]);
+
+	aa = g_settings_get_string (web_view->priv->aliasing_settings, "antialiasing");
+	if (aa) {
+		const gchar *smoothing = NULL;
+
+		if (g_strcmp0 (aa, "none") == 0) {
+			smoothing = "none";
+		} else if (g_strcmp0 (aa, "grayscale") == 0) {
+			smoothing = "antialiased";
+		} else if (g_strcmp0 (aa, "rgba") == 0) {
+			smoothing = "subpixel-antialiased";
+		}
+
+		if (smoothing) {
+			g_string_append_printf (stylesheet,
+				" -webkit-font-smoothing: %s;\n",
+				smoothing);
+		}
+
+		g_free (aa);
+	}
+
+	g_string_append (stylesheet, "}\n");
+
+	g_string_append_printf (stylesheet,
+		"pre,code,.pre {\n"
+		"  font-family: %s;\n"
+		"  font-size: %dpt;\n"
+		"  font-weight: %d;\n"
+		"  font-style: %s;\n"
+		"}",
+		pango_font_description_get_family (ms),
+		pango_font_description_get_size (ms) / PANGO_SCALE,
+		pango_font_description_get_weight (ms),
+		styles[pango_font_description_get_style (ms)]);
+
+	base64 = g_base64_encode ((guchar *) stylesheet->str, stylesheet->len);
+	g_string_free (stylesheet, TRUE);
+
+	stylesheet = g_string_new ("data:text/css;charset=utf-8;base64,");
+	g_string_append (stylesheet, base64);
+	g_free (base64);
+
+	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (web_view));
+	g_object_set (G_OBJECT (settings),
+		"default-font-size", pango_font_description_get_size (vw) / PANGO_SCALE,
+		"default-font-family", pango_font_description_get_family (vw),
+		"monospace-font-family", pango_font_description_get_family (ms),
+		"default-monospace-font-size", (pango_font_description_get_size (ms) / PANGO_SCALE),
+		"minimum-font-size", (pango_font_description_get_size (min_size) / PANGO_SCALE),
+		"user-stylesheet-uri", stylesheet->str,
+		NULL);
+
+	g_string_free (stylesheet, TRUE);
+
+	pango_font_description_free (ms);
+	pango_font_description_free (vw);
 }

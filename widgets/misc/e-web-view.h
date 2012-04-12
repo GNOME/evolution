@@ -54,6 +54,7 @@ G_BEGIN_DECLS
 typedef struct _EWebView EWebView;
 typedef struct _EWebViewClass EWebViewClass;
 typedef struct _EWebViewPrivate EWebViewPrivate;
+struct PangoFontDescription;
 
 struct _EWebView {
 	WebKitWebView parent;
@@ -90,6 +91,10 @@ struct _EWebViewClass {
 	void		(*frame_load_uri)	(EWebView *web_view,
 						 const gchar *frame_name,
 						 const gchar *uri);
+	void		(*set_fonts)		(EWebView *web_view,
+						 PangoFontDescription **monospace,
+						 PangoFontDescription **variable_width);
+
 	/* Signals */
 	gboolean	(*popup_event)		(EWebView *web_view,
 						 GdkEventButton *event,
@@ -219,8 +224,11 @@ gchar *          e_web_view_get_selection_html   (EWebView *web_view);
 
 void		e_web_view_set_settings		(EWebView *web_view,
 						 WebKitWebSettings *settings);
+
+void		e_web_view_update_fonts		(EWebView *web_view);
+
 WebKitWebSettings *
-		e_web_view_get_default_settings ();
+		e_web_view_get_default_settings (void);
 
 G_END_DECLS
 

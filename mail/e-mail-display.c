@@ -66,6 +66,8 @@ struct _EMailDisplayPrivate {
         GtkActionGroup *images_actions;
 
         gint force_image_load: 1;
+
+	GSettings *settings;
 };
 
 enum {
@@ -312,6 +314,11 @@ mail_display_dispose (GObject *object)
 	if (priv->formatter) {
 		g_object_unref (priv->formatter);
 		priv->formatter = NULL;
+	}
+
+	if (priv->settings) {
+		g_object_unref (priv->settings);
+		priv->settings = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -1180,9 +1187,42 @@ mail_display_frame_created (WebKitWebView *web_view,
 }
 
 static void
+mail_display_set_fonts (EWebView *web_view,
+			PangoFontDescription **monospace,
+			PangoFontDescription **variable)
+{
+	EMailDisplay *display = E_MAIL_DISPLAY (web_view);
+	gboolean use_custom_font;
+	gchar *monospace_font, *variable_font;
+
+	use_custom_font = g_settings_get_boolean (display->priv->settings, "use-custom-font");
+	if (!use_custom_font) {
+		*monospace = NULL;
+		*variable = NULL;
+		return;
+	}
+
+	monospace_font = g_settings_get_string (
+				display->priv->settings,
+				"monospace-font");
+	variable_font = g_settings_get_string (
+				display->priv->settings,
+				"variable-width-font");
+
+	*monospace = monospace_font ? pango_font_description_from_string (monospace_font) : NULL;
+	*variable = variable_font ? pango_font_description_from_string (variable_font) : NULL;
+
+	if (monospace_font)
+		g_free (monospace_font);
+	if (variable_font)
+		g_free (variable_font);
+}
+
+static void
 e_mail_display_class_init (EMailDisplayClass *class)
 {
 	GObjectClass *object_class;
+	EWebViewClass *web_view_class;
 	GtkWidgetClass *widget_class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -1192,6 +1232,9 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	object_class->set_property = mail_display_set_property;
 	object_class->get_property = mail_display_get_property;
 	object_class->dispose = mail_display_dispose;
+
+	web_view_class = E_WEB_VIEW_CLASS (class);
+	web_view_class->set_fonts = mail_display_set_fonts;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = mail_display_realize;
@@ -1279,6 +1322,19 @@ e_mail_display_init (EMailDisplay *display)
 			  G_CALLBACK (mail_display_plugin_widget_requested), NULL);
 	g_signal_connect (display, "frame-created",
 			  G_CALLBACK (mail_display_frame_created), NULL);
+
+	display->priv->settings = g_settings_new ("org.gnome.evolution.mail");
+	g_signal_connect_swapped (
+		display->priv->settings , "changed::monospace-font",
+		G_CALLBACK (e_web_view_update_fonts), display);
+	g_signal_connect_swapped (
+		display->priv->settings , "changed::variable-width-font",
+		G_CALLBACK (e_web_view_update_fonts), display);
+	g_signal_connect_swapped (
+		display->priv->settings , "changed::use-custom-font",
+		G_CALLBACK (e_web_view_update_fonts), display);
+
+	e_web_view_update_fonts (E_WEB_VIEW (display));
 
 	main_frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (display));
 	g_signal_connect (main_frame, "notify::load-status",

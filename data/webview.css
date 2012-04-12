@@ -23,10 +23,6 @@ th {
   color: #7f7f7f;
 }
 
-.pre {
-  font-family: monospace;
-}
-
 span.navigable, div.navigable, p.navigable {
   cursor: pointer;
   text-decoration: underline;
