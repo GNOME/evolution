@@ -1137,6 +1137,8 @@ efh_write_message_rfc822 (EMFormat *emf,
 
 		GList *puris;
 		GList *iter;
+		EMFormatWriterInfo msgInfo = *info;
+		msgInfo.mode = EM_FORMAT_WRITE_MODE_NORMAL;
 
                 /* Create a new fake list of PURIs which will contain only
                  * PURIs from this message. */
@@ -1159,7 +1161,7 @@ efh_write_message_rfc822 (EMFormat *emf,
 
 		};
 
-		efh_write_message (emf, puris, stream, info, cancellable);
+		efh_write_message (emf, puris, stream, &msgInfo, cancellable);
 
 		g_list_free (puris);
 
