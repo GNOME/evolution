@@ -1671,6 +1671,8 @@ e_web_view_init (EWebView *web_view)
 	GtkActionGroup *action_group;
 	EPopupAction *popup_action;
 	WebKitWebSettings *web_settings;
+	GSettingsSchema *settings_schema;
+	GSettings *settings;
 	const gchar *domain = GETTEXT_PACKAGE;
 	const gchar *id;
 	GError *error = NULL;
@@ -1710,15 +1712,26 @@ e_web_view_init (EWebView *web_view)
 	e_web_view_set_settings (web_view, web_settings);
 	g_object_unref (web_settings);
 
-	web_view->priv->font_settings = g_settings_new ("org.gnome.desktop.interface");
-	g_signal_connect_swapped (web_view->priv->font_settings, "changed::font-name",
+	settings = g_settings_new ("org.gnome.desktop.interface");
+	g_signal_connect_swapped (
+		settings, "changed::font-name",
 		G_CALLBACK (e_web_view_update_fonts), web_view);
-	g_signal_connect_swapped (web_view->priv->font_settings, "changed::monospace-font-name",
+	g_signal_connect_swapped (
+		settings, "changed::monospace-font-name",
 		G_CALLBACK (e_web_view_update_fonts), web_view);
+	web_view->priv->font_settings = settings;
 
-	web_view->priv->aliasing_settings = g_settings_new ("org.gnome.settings-daemon.plugins.xsettings");
-	g_signal_connect_swapped (web_view->priv->aliasing_settings, "changed::antialiasing",
-		G_CALLBACK (e_web_view_update_fonts), web_view);
+	/* This schema is optional.  Use if available. */
+	id = "org.gnome.settings-daemon.plugins.xsettings";
+	settings_schema = g_settings_schema_source_lookup (
+		g_settings_schema_source_get_default (), id, FALSE);
+	if (settings_schema != NULL) {
+		settings = g_settings_new (id);
+		g_signal_connect_swapped (
+			settings, "changed::antialiasing",
+			G_CALLBACK (e_web_view_update_fonts), web_view);
+		web_view->priv->aliasing_settings = settings;
+	}
 
 	e_web_view_update_fonts (web_view);
 
@@ -2841,10 +2854,12 @@ void
 e_web_view_update_fonts(EWebView *web_view)
 {
 	GString *stylesheet;
-	gchar *aa, *base64;
+	gchar *base64;
+	gchar *aa = NULL;
 	WebKitWebSettings *settings;
 	PangoFontDescription *min_size, *ms, *vw;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
+	const gchar *smoothing = NULL;
 
 	ms = NULL;
 	vw = NULL;
@@ -2896,26 +2911,24 @@ e_web_view_update_fonts(EWebView *web_view)
 		pango_font_description_get_weight (vw),
 		styles[pango_font_description_get_style (vw)]);
 
-	aa = g_settings_get_string (web_view->priv->aliasing_settings, "antialiasing");
-	if (aa) {
-		const gchar *smoothing = NULL;
+	if (web_view->priv->aliasing_settings != NULL)
+		aa = g_settings_get_string (
+			web_view->priv->aliasing_settings, "antialiasing");
 
-		if (g_strcmp0 (aa, "none") == 0) {
-			smoothing = "none";
-		} else if (g_strcmp0 (aa, "grayscale") == 0) {
-			smoothing = "antialiased";
-		} else if (g_strcmp0 (aa, "rgba") == 0) {
-			smoothing = "subpixel-antialiased";
-		}
+	if (g_strcmp0 (aa, "none") == 0)
+		smoothing = "none";
+	else if (g_strcmp0 (aa, "grayscale") == 0)
+		smoothing = "antialiased";
+	else if (g_strcmp0 (aa, "rgba") == 0)
+		smoothing = "subpixel-antialiased";
 
-		if (smoothing) {
-			g_string_append_printf (stylesheet,
-				" -webkit-font-smoothing: %s;\n",
-				smoothing);
-		}
+	if (smoothing != NULL)
+		g_string_append_printf (
+			stylesheet,
+			" -webkit-font-smoothing: %s;\n",
+			smoothing);
 
-		g_free (aa);
-	}
+	g_free (aa);
 
 	g_string_append (stylesheet, "}\n");
 
