@@ -2860,6 +2860,8 @@ e_web_view_update_fonts(EWebView *web_view)
 	PangoFontDescription *min_size, *ms, *vw;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
 	const gchar *smoothing = NULL;
+	GtkStyleContext *context;
+	GdkColor *link, *visited;
 
 	ms = NULL;
 	vw = NULL;
@@ -2943,6 +2945,39 @@ e_web_view_update_fonts(EWebView *web_view)
 		pango_font_description_get_size (ms) / PANGO_SCALE,
 		pango_font_description_get_weight (ms),
 		styles[pango_font_description_get_style (ms)]);
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (web_view));
+	gtk_style_context_get_style (context,
+		"link-color", &link,
+		"visited-link-color", &visited,
+                NULL);
+
+	if (!link) {
+		link = g_new0 (GdkColor, 1);
+		link->blue = G_MAXINT16;
+	}
+
+	if (!visited) {
+		visited = g_new0 (GdkColor, 1);
+		visited->red = G_MAXINT16;
+	}
+
+	g_string_append_printf (stylesheet,
+		"a {\n"
+		"  color: #%06x;\n"
+		"}\n"
+		"a:visited {\n"
+		"  color: #%06x;\n"
+		"}\n",
+		e_color_to_value (link),
+		e_color_to_value (visited));
+
+	if (link)
+		gdk_color_free (link);
+
+	if (visited)
+		gdk_color_free (visited);
+
 
 	base64 = g_base64_encode ((guchar *) stylesheet->str, stylesheet->len);
 	g_string_free (stylesheet, TRUE);
