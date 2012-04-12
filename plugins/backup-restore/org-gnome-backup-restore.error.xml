@@ -14,8 +14,8 @@
    <error id="restore-confirm" type="warning" default="GTK_RESPONSE_CANCEL">
     <_primary>Are you sure you want to restore Evolution from the selected backup file?</_primary>
     <_secondary xml:space="preserve">To restore your data and settings, you must first close Evolution. Please make sure that you save any unsaved data before proceeding. This will delete all your current Evolution data and settings and restore them from your backup.</_secondary>
-    <button _label="Close and Restore Evolution" response="GTK_RESPONSE_YES"/>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="Close and Restore Evolution" response="GTK_RESPONSE_YES"/>
   </error>  
    <error id="insufficient-permissions" type="error">
    	<_primary>Insufficient Permissions</_primary>
