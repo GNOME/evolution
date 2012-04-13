@@ -1174,8 +1174,10 @@ efhd_attachment_button (EMFormatHTML *efh,
 		GFileInfo *fileinfo;
 
 		fileinfo = e_attachment_get_file_info (info->attachment);
-		g_file_info_set_size (fileinfo, size);
-		e_attachment_set_file_info (info->attachment, fileinfo);
+		if (fileinfo) {
+			g_file_info_set_size (fileinfo, size);
+			e_attachment_set_file_info (info->attachment, fileinfo);
+		}
 	}
 
 	widget = e_attachment_button_new (view);
