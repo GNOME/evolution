@@ -568,6 +568,7 @@ efh_write_image (EMFormat *emf,
 	EMFormatHTML *efh;
 	CamelDataWrapper *dw;
 	GByteArray *ba;
+	CamelStream *raw_content;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
@@ -577,7 +578,9 @@ efh_write_image (EMFormat *emf,
 	dw = camel_medium_get_content (CAMEL_MEDIUM (puri->part));
 	g_return_if_fail (dw);
 
-	ba = camel_data_wrapper_get_byte_array (dw);
+	raw_content = camel_stream_mem_new ();
+	camel_data_wrapper_decode_to_stream_sync (dw, raw_content, cancellable, NULL);
+	ba = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (raw_content));
 
 	if (info->mode == EM_FORMAT_WRITE_MODE_RAW) {
 
@@ -585,34 +588,16 @@ efh_write_image (EMFormat *emf,
 
 			gchar *buff;
 			gsize len;
-			gchar *data;
-			GByteArray anim;
 
-			data = g_strndup ((gchar *) ba->data, (gsize) ba->len);
-			anim.data = g_base64_decode (data, (gsize *) &(anim.len));
-			g_free (data);
-
-			em_format_html_animation_extract_frame (&anim, &buff, &len);
+			em_format_html_animation_extract_frame (ba, &buff, &len);
 
 			camel_stream_write (stream, buff, len, cancellable, NULL);
 
 			g_free (buff);
-			g_free (anim.data);
 
 		} else {
-			CamelStream *stream_filter;
-			CamelMimeFilter *filter;
 
-			stream_filter = camel_stream_filter_new (stream);
-			filter = camel_mime_filter_basic_new (
-					CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
-
-			camel_stream_write (
-				stream_filter,
-				(gchar *) ba->data, ba->len,
-				cancellable, NULL);
-			g_object_unref (stream_filter);
-			g_object_unref (filter);
+			camel_stream_write_to_stream (raw_content, stream, cancellable, NULL);
 		}
 
 	} else {
@@ -623,22 +608,15 @@ efh_write_image (EMFormat *emf,
 
 			gchar *buff;
 			gsize len;
-			gchar *data;
-			GByteArray raw_data;
 
-			data = g_strndup ((gchar *) ba->data, ba->len);
-			raw_data.data =  (guint8 *) g_base64_decode (
-						data, (gsize *) &(raw_data.len));
-			g_free (data);
-
-			em_format_html_animation_extract_frame (&raw_data, &buff, &len);
+			em_format_html_animation_extract_frame (ba, &buff, &len);
 
 			content = g_base64_encode ((guchar *) buff, len);
 			g_free (buff);
-			g_free (raw_data.data);
+
 
 		} else {
-			content = g_strndup ((gchar *) ba->data, ba->len);
+			content = g_base64_encode ((guchar *) ba->data, ba->len);
 		}
 
 		/* The image is already base64-encrypted so we can directly
@@ -651,6 +629,8 @@ efh_write_image (EMFormat *emf,
 		g_free (buffer);
 		g_free (content);
 	}
+
+	g_object_unref (raw_content);
 }
 
 static void
@@ -2934,6 +2914,12 @@ em_format_html_animation_extract_frame (const GByteArray *anim,
 	const gchar GIF_APPEXT[] = { 0x4E, 0x45, 0x54, 0x53, 0x43, 0x41,
 				     0x50, 0x45, 0x32, 0x2E, 0x30 };
 	const gint   GIF_APPEXT_LEN = sizeof (GIF_APPEXT);
+
+	if ((anim == NULL) || (anim->data == NULL)) {
+		*frame = NULL;
+		*len = 0;
+		return;
+	}
 
         /* Check if the image is an animated GIF. We don't care about any
          * other animated formats (APNG or MNG) as WebKit does not support them
