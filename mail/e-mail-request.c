@@ -581,6 +581,11 @@ mail_request_finalize (GObject *object)
 		request->priv->ret_mime_type = NULL;
 	}
 
+	if (request->priv->efh) {
+		g_object_unref (request->priv->efh);
+		request->priv->efh = NULL;
+	}
+
 	G_OBJECT_CLASS (e_mail_request_parent_class)->finalize (object);
 }
 
@@ -647,6 +652,9 @@ mail_request_send_async (SoupRequest *request,
 
 		g_return_if_fail (emr->priv->efh);
 
+		/* Make sure the formatter lives until we are finished here */
+		g_object_ref (emr->priv->efh);
+
 		result = g_simple_async_result_new (G_OBJECT (request), callback,
 				user_data, mail_request_send_async);
 		g_simple_async_result_run_in_thread (result, handle_mail_request,
@@ -673,6 +681,9 @@ mail_request_send_async (SoupRequest *request,
 		g_free (mail_uri);
 
 		g_return_if_fail (emr->priv->efh);
+
+		/* Make sure the formatter lives until we are finished here */
+		g_object_ref (emr->priv->efh);
 
 		result = g_simple_async_result_new (G_OBJECT (request), callback,
 				user_data, mail_request_send_async);
