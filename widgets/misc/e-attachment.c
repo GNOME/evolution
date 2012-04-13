@@ -1751,17 +1751,27 @@ attachment_load_query_info_cb (GFile *file,
 		attachment_load_file_read_cb, load_context);
 }
 
+#define ATTACHMENT_LOAD_CONTEXT "attachment-load-context-data"
+
 static void
-attachment_load_from_mime_part (LoadContext *load_context)
+attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
+				       GObject *object,
+				       GCancellable *cancellable)
 {
+	LoadContext *load_context;
 	GFileInfo *file_info;
 	EAttachment *attachment;
-	GSimpleAsyncResult *simple;
 	CamelContentType *content_type;
 	CamelMimePart *mime_part;
 	const gchar *attribute;
 	const gchar *string;
 	gchar *allocated;
+	CamelStream *null;
+	CamelDataWrapper *dw;
+
+	load_context = g_object_get_data (G_OBJECT (simple), ATTACHMENT_LOAD_CONTEXT);
+	g_return_if_fail (load_context != NULL);
+	g_object_set_data (G_OBJECT (simple), ATTACHMENT_LOAD_CONTEXT, NULL);
 
 	attachment = load_context->attachment;
 	mime_part = e_attachment_get_mime_part (attachment);
@@ -1819,6 +1829,13 @@ attachment_load_from_mime_part (LoadContext *load_context)
 		g_file_info_set_attribute_string (
 			file_info, attribute, string);
 
+	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+	null = camel_stream_null_new ();
+	/* this actually downloads the part and makes it available later */
+	camel_data_wrapper_decode_to_stream_sync (dw, null, attachment->priv->cancellable, NULL);
+	g_file_info_set_size (file_info, CAMEL_STREAM_NULL (null)->written);
+	g_object_unref (null);
+
 	string = camel_mime_part_get_disposition (mime_part);
 	e_attachment_set_disposition (attachment, string);
 
@@ -1826,11 +1843,9 @@ attachment_load_from_mime_part (LoadContext *load_context)
 
 	g_object_ref (mime_part);
 
-	simple = load_context->simple;
 	g_simple_async_result_set_op_res_gpointer (
 		simple, mime_part,
 		(GDestroyNotify) g_object_unref);
-	g_simple_async_result_complete (simple);
 
 	attachment_load_context_free (load_context);
 }
@@ -1873,16 +1888,21 @@ e_attachment_load_async (EAttachment *attachment,
 	cancellable = attachment->priv->cancellable;
 	g_cancellable_reset (cancellable);
 
-	if (file != NULL)
+	if (file != NULL) {
 		g_file_query_info_async (
 			file, ATTACHMENT_QUERY,
 			G_FILE_QUERY_INFO_NONE,G_PRIORITY_DEFAULT,
 			cancellable, (GAsyncReadyCallback)
 			attachment_load_query_info_cb, load_context);
 
-	else if (mime_part != NULL)
-		attachment_load_from_mime_part (load_context);
+	} else if (mime_part != NULL) {
+		g_object_set_data (G_OBJECT (load_context->simple), ATTACHMENT_LOAD_CONTEXT, load_context);
 
+		g_simple_async_result_run_in_thread (load_context->simple,
+			attachment_load_from_mime_part_thread,
+			G_PRIORITY_DEFAULT,
+			cancellable);
+	}
 }
 
 gboolean

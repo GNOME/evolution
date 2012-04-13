@@ -75,6 +75,10 @@ attachment_handler_get_component (EAttachment *attachment)
 	if (component != NULL)
 		return component;
 
+	if (e_attachment_get_loading (attachment) ||
+	    e_attachment_get_saving (attachment))
+		return NULL;
+
 	mime_part = e_attachment_get_mime_part (attachment);
 	if (!CAMEL_IS_MIME_PART (mime_part))
 		return NULL;

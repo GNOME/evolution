@@ -444,6 +444,11 @@ mail_attachment_handler_update_actions (EAttachmentView *view,
 		goto exit;
 
 	attachment = E_ATTACHMENT (selected->data);
+
+	if (e_attachment_get_loading (attachment) ||
+	    e_attachment_get_saving (attachment))
+		goto exit;
+
 	mime_part = e_attachment_get_mime_part (attachment);
 
 	if (!CAMEL_IS_MIME_PART (mime_part))
