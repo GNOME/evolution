@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-04-07 18:42+0000\n"
-"PO-Revision-Date: 2012-04-08 13:16+0200\n"
+"POT-Creation-Date: 2012-04-16 12:04+0000\n"
+"PO-Revision-Date: 2012-04-16 16:24+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -817,7 +817,7 @@ msgstr "El correo-e empieza por"
 #: ../calendar/gui/caltypes.xml.h:26 ../calendar/gui/memotypes.xml.h:19
 #: ../calendar/gui/tasktypes.xml.h:30
 #: ../modules/addressbook/e-book-shell-view-actions.c:1063
-#: ../modules/calendar/e-cal-shell-view-actions.c:1734
+#: ../modules/calendar/e-cal-shell-view-actions.c:1776
 #: ../modules/calendar/e-memo-shell-view-actions.c:788
 #: ../modules/calendar/e-task-shell-view-actions.c:987
 msgid "Any field contains"
@@ -834,22 +834,22 @@ msgid "Copy _Email Address"
 msgstr "Copiar dirección de _correo-e"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:157
-#: ../widgets/misc/e-web-view.c:293 ../widgets/misc/e-web-view-gtkhtml.c:431
+#: ../widgets/misc/e-web-view.c:297 ../widgets/misc/e-web-view-gtkhtml.c:431
 msgid "Copy the email address to the clipboard"
 msgstr "Copiar la dirección de correo-e al portapapeles"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:162
-#: ../widgets/misc/e-web-view.c:298 ../widgets/misc/e-web-view-gtkhtml.c:436
+#: ../widgets/misc/e-web-view.c:302 ../widgets/misc/e-web-view-gtkhtml.c:436
 msgid "_Send New Message To..."
 msgstr "_Enviar un correo nuevo a…"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:164
-#: ../widgets/misc/e-web-view.c:300 ../widgets/misc/e-web-view-gtkhtml.c:438
+#: ../widgets/misc/e-web-view.c:304 ../widgets/misc/e-web-view-gtkhtml.c:438
 msgid "Send a mail message to this address"
 msgstr "Enviar un correo a esta dirección"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:301
-#: ../widgets/misc/e-web-view.c:1051 ../widgets/misc/e-web-view-gtkhtml.c:955
+#: ../widgets/misc/e-web-view.c:1065 ../widgets/misc/e-web-view-gtkhtml.c:955
 #, c-format
 msgid "Click to mail %s"
 msgstr "Pulse para enviar correo a %s"
@@ -902,7 +902,7 @@ msgstr "Charla por vídeo"
 #: ../calendar/gui/dialogs/calendar-setup.c:469
 #: ../modules/calendar/e-cal-shell-view-actions.c:232
 #: ../modules/calendar/e-cal-shell-view-actions.c:261
-#: ../modules/calendar/e-cal-shell-view.c:528
+#: ../modules/calendar/e-cal-shell-view.c:550
 #: ../modules/online-accounts/e-online-accounts-google.c:302
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
 #: ../widgets/misc/e-send-options.c:546
@@ -2116,8 +2116,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
 msgstr ""
-"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione "
-"un calendario diferente de la barra lateral en la vista del calendario."
+"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione un "
+"calendario diferente de la barra lateral en la vista del calendario."
 
 #: ../calendar/calendar.error.xml.h:76
 msgid "Cannot save event"
@@ -2183,7 +2183,6 @@ msgstr ""
 "actualizarse a una versión soportada."
 
 #: ../calendar/calendar.error.xml.h:91
-#| msgid "Could not open destination"
 msgid "Could not perform this operation."
 msgstr "No se pudo realizar esta operación."
 
@@ -2652,7 +2651,7 @@ msgstr "Cerrar la ventana actual"
 #: ../calendar/gui/dialogs/comp-editor.c:1132 ../mail/e-mail-browser.c:139
 #: ../shell/e-shell-window-actions.c:1467
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
-#: ../widgets/misc/e-web-view.c:320 ../widgets/misc/e-web-view.c:1384
+#: ../widgets/misc/e-web-view.c:324 ../widgets/misc/e-web-view.c:1398
 #: ../widgets/misc/e-web-view-gtkhtml.c:458
 #: ../widgets/misc/e-web-view-gtkhtml.c:1281
 msgid "Copy the selection"
@@ -2661,7 +2660,7 @@ msgstr "Copiar la selección"
 #: ../calendar/gui/dialogs/comp-editor.c:1139 ../mail/e-mail-browser.c:146
 #: ../shell/e-shell-window-actions.c:1474
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1378 ../widgets/misc/e-web-view-gtkhtml.c:1275
+#: ../widgets/misc/e-web-view.c:1392 ../widgets/misc/e-web-view-gtkhtml.c:1275
 msgid "Cut the selection"
 msgstr "Cortar la selección"
 
@@ -2678,7 +2677,7 @@ msgstr "Ver la ayuda"
 #: ../calendar/gui/dialogs/comp-editor.c:1160 ../mail/e-mail-browser.c:153
 #: ../shell/e-shell-window-actions.c:1509
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1390 ../widgets/misc/e-web-view-gtkhtml.c:1287
+#: ../widgets/misc/e-web-view.c:1404 ../widgets/misc/e-web-view-gtkhtml.c:1287
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
 
@@ -3248,7 +3247,7 @@ msgid "Select Date"
 msgstr "Seleccionar fecha"
 
 #: ../calendar/gui/dialogs/goto-dialog.ui.h:14
-#: ../modules/calendar/e-cal-shell-view-actions.c:1363
+#: ../modules/calendar/e-cal-shell-view-actions.c:1384
 msgid "Select _Today"
 msgstr "Seleccionar _hoy"
 
@@ -3278,8 +3277,8 @@ msgid "Unable to open memos in '%s': %s"
 msgstr "No es posible abrir las notas en «%s»: %s"
 
 #: ../calendar/gui/dialogs/memo-page.c:1156 ../em-format/em-format.c:1227
-#: ../em-format/em-format-quote.c:154 ../mail/em-format-html.c:2304
-#: ../mail/em-format-html.c:2327 ../mail/message-list.etspec.h:9
+#: ../em-format/em-format-quote.c:154 ../mail/em-format-html.c:2286
+#: ../mail/em-format-html.c:2309 ../mail/message-list.etspec.h:9
 #: ../modules/mail/em-mailer-prefs.c:72
 msgid "To"
 msgstr "Para"
@@ -3860,7 +3859,7 @@ msgid "Gnome Calendar"
 msgstr "Calendario de GNOME"
 
 #: ../calendar/gui/ea-gnome-calendar.c:201
-#: ../modules/calendar/e-cal-shell-view-private.c:1070
+#: ../modules/calendar/e-cal-shell-view-private.c:1072
 msgid "%A %d %b %Y"
 msgstr "%A, %e de %b de %Y"
 
@@ -3873,16 +3872,16 @@ msgstr "%A, %e de %b de %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:204 ../calendar/gui/e-day-view.c:1850
 #: ../calendar/gui/e-day-view-top-item.c:837
 #: ../calendar/gui/e-week-view-main-item.c:231
-#: ../modules/calendar/e-cal-shell-view-private.c:1074
+#: ../modules/calendar/e-cal-shell-view-private.c:1076
 msgid "%a %d %b"
 msgstr "%a, %e de %b"
 
 #: ../calendar/gui/ea-gnome-calendar.c:206
 #: ../calendar/gui/ea-gnome-calendar.c:211
 #: ../calendar/gui/ea-gnome-calendar.c:213
-#: ../modules/calendar/e-cal-shell-view-private.c:1077
-#: ../modules/calendar/e-cal-shell-view-private.c:1083
-#: ../modules/calendar/e-cal-shell-view-private.c:1086
+#: ../modules/calendar/e-cal-shell-view-private.c:1079
+#: ../modules/calendar/e-cal-shell-view-private.c:1085
+#: ../modules/calendar/e-cal-shell-view-private.c:1088
 msgid "%a %d %b %Y"
 msgstr "%a, %e de %b de %Y"
 
@@ -3890,10 +3889,10 @@ msgstr "%a, %e de %b de %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:236
 #: ../calendar/gui/ea-gnome-calendar.c:242
 #: ../calendar/gui/ea-gnome-calendar.c:244
-#: ../modules/calendar/e-cal-shell-view-private.c:1103
-#: ../modules/calendar/e-cal-shell-view-private.c:1114
-#: ../modules/calendar/e-cal-shell-view-private.c:1121
-#: ../modules/calendar/e-cal-shell-view-private.c:1124
+#: ../modules/calendar/e-cal-shell-view-private.c:1105
+#: ../modules/calendar/e-cal-shell-view-private.c:1116
+#: ../modules/calendar/e-cal-shell-view-private.c:1123
+#: ../modules/calendar/e-cal-shell-view-private.c:1126
 msgid "%d %b %Y"
 msgstr "%e de %B de %Y"
 
@@ -3905,7 +3904,7 @@ msgstr "%e de %B de %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:234 ../calendar/gui/e-day-view.c:1866
 #: ../calendar/gui/e-day-view-top-item.c:841
 #: ../calendar/gui/e-week-view-main-item.c:245
-#: ../modules/calendar/e-cal-shell-view-private.c:1110
+#: ../modules/calendar/e-cal-shell-view-private.c:1112
 msgid "%d %b"
 msgstr "%e de %b"
 
@@ -4028,7 +4027,6 @@ msgid "Start Date:"
 msgstr "Fecha de inicio:"
 
 #: ../calendar/gui/e-cal-component-preview.c:266
-#| msgid "End Date"
 msgid "End Date:"
 msgstr "Fecha de finalización:"
 
@@ -4313,7 +4311,7 @@ msgid "%A %d %B"
 msgstr "%A %e de %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:2650
+#: ../calendar/gui/e-day-view.c:2653
 #, c-format
 msgid "Week %d"
 msgstr "Semana %d"
@@ -7293,13 +7291,13 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:4181
+#: ../composer/e-msg-composer.c:4203
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
 "editarse."
 
-#: ../composer/e-msg-composer.c:4885
+#: ../composer/e-msg-composer.c:4907
 msgid "Untitled Message"
 msgstr "Mensaje sin título"
 
@@ -7667,8 +7665,8 @@ msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\""
 msgstr ""
-"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», "
-"«hours» o «days»"
+"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», «hours» "
+"o «days»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:63
@@ -7808,8 +7806,7 @@ msgstr "Unidades predeterminadas del recordatorio"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\""
-msgstr ""
-"Unidades para el recordatorio predeterminado, «minutes», «hours» o «days»"
+msgstr "Unidades para el recordatorio predeterminado, «minutes», «hours» o «days»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:25
@@ -7828,8 +7825,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:15
 msgid "Show Role field in the event/task/meeting editor"
-msgstr ""
-"Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
+msgstr "Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:16
@@ -7887,8 +7883,8 @@ msgstr ""
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:20
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
-"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/"
-"tareas/reuniones"
+"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/tareas/"
+"reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:81
@@ -7997,8 +7993,8 @@ msgid ""
 msgstr ""
 "El estilo de la distribución determina dónde ubicar el panel de vista previa "
 "en relación con la lista de notas. «0» (vista clásica) ubica el panel de "
-"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el "
-"panel de vista previa junto a la lista de notas"
+"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el panel "
+"de vista previa junto a la lista de notas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:54
@@ -8084,8 +8080,8 @@ msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view"
 msgstr ""
-"El UID de la nota seleccionada (o «primaria») en la barra lateral de la "
-"vista de «Notas»"
+"El UID de la nota seleccionada (o «primaria») en la barra lateral de la vista "
+"de «Notas»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:79
@@ -8127,98 +8123,109 @@ msgstr ""
 "cursiva en la parte inferior izquierda del calendario"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
+msgid "Search range for time-based searching in years"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
+msgid ""
+"How many years can the time-based search go forward or backward from "
+"currently selected day when searching for another occurrence; default is ten "
+"years"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "List of selected calendars"
 msgstr "Lista de los calendarios seleccionados"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid "List of calendars to load"
 msgstr "Lista de calendarios disponibles"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
 msgid "List of selected memo lists"
 msgstr "Lista de listas notas seleccionadas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid "List of memo lists to load"
 msgstr "El registro de lista de nota"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 msgid "List of selected task lists"
 msgstr "Lista de listas de tareas seleccionadas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
 msgid "List of task lists to load"
 msgstr "Lista de listas de tareas para cargar"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:65
 msgid "Show appointment end times in week and month views"
 msgstr ""
 "Mostrar las horas de finalización de las citas en las vistas semanales y "
 "mensuales"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
 msgid "Whether to display the end time of events in the week and month views"
 msgstr ""
 "Indica si debe mostrar la hora de finalización de los acontecimientos en las "
 "vistas semanales y mensuales"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:50
 msgid "Show the memo preview pane"
 msgstr "Mostrar el panel de vista previa de las notas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid "If \"true\", show the memo preview pane in the main window"
 msgstr ""
 "Si es cierto mostrará el panel de vista previa de notas en la ventana "
 "principal"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:58
 msgid "Show the task preview pane"
 msgstr "Mostrar el panel de vista previa de las tareas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
 msgid "If \"true\", show the task preview pane in the main window"
 msgstr ""
 "Si es cierto mostrará el panel de vista previa de tareas en la ventana "
 "principal"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:107
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr ""
 "Mostrar los números de las semanas en la Vistas diaria, Vista de la semana "
 "laboral y el Navegador del calendario"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 msgid "Whether to show week numbers in various places in the Calendar"
 msgstr ""
 "Indica si debe mostrar los números de la semana en varias partes del "
 "calendario"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid "Vertical position for the tag pane"
 msgstr "Posición vertical del panel de etiquetas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
 msgid "Highlight tasks due today"
 msgstr "Resaltar tareas que vencen hoy"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
 "Indica si las tareas que vencen hoy se resaltan con un color especial (color "
 "para tareas que vencen hoy)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:87
 msgid "Tasks due today color"
 msgstr "Color para las tareas que vencen hoy"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
@@ -8226,17 +8233,17 @@ msgstr ""
 "Color de fondo para las tareas que vencen hoy, en formato «#rrggbb». Usado "
 "junto al resaltado de tareas que vencen hoy."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:60
 msgid "Task preview pane position (horizontal)"
 msgstr "Vista previa del panel de posición de las tareas (horizontal)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:56
 msgid "Task layout style"
 msgstr "Estilo de distribución de las tareas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
@@ -8247,34 +8254,34 @@ msgstr ""
 "vista previa debajo de la lista de tareas. «1» (vista vertical) ubica el "
 "panel de vista previa junto a la lista de tareas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:61
 msgid "Task preview pane position (vertical)"
 msgstr "Vista previa del panel de posición de las tareas (vertical)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Position of the task preview pane when oriented vertically"
 msgstr ""
 "Posición del panel de vista previa de tareas cuando está orientado "
 "verticalmente"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 msgid "Highlight overdue tasks"
 msgstr "Resaltar tareas fuera de plazo"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
 "Indica si las tareas fuera de plazo se resaltan con un color especial (color "
 "para tareas fuera de plazo)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:89
 msgid "Overdue tasks color"
 msgstr "Color para las tareas fuera de plazo"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
@@ -8282,23 +8289,23 @@ msgstr ""
 "Color de fondo para las tareas que están fuera de plazo, en formato "
 "«#rrggbb». Usado junto al resaltado de tareas fuera de plazo."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:37
 msgid "Time divisions"
 msgstr "Divisiones de hora"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
 msgid "Intervals shown in Day and Work Week views, in minutes"
 msgstr ""
 "Los intervalos de tiempo mostrados en las vistas diarias y semanales, en "
 "minutos"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:3
 msgid "Timezone"
 msgstr "Zona horaria"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
@@ -8307,64 +8314,64 @@ msgstr ""
 "calendario, como una localización sin correspondencia en una base de datos "
 "de zonas horarias Olsen, como en «América/Nueva York»"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:13
 msgid "Twenty four hour time format"
 msgstr "Formato de hora de veinticuatro horas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr ""
 "Indica si debe mostrar las horas en formato de veinticuatro horas en vez de "
 "usar am/pm"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:101
 msgid "Birthday and anniversary reminder"
 msgstr "Recordatorio de cumpleaños y aniversarios"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 msgid "Whether to set a reminder for birthdays and anniversaries"
 msgstr ""
 "Indica si debe establecer un recordatorio para cumpleaños y aniversarios"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:95
 msgid "Default appointment reminder"
 msgstr "Recordatorio predeterminado de citas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid "Whether to set a default reminder for appointments"
 msgstr ""
 "Indica si debe establecer un recordatorio predeterminado para las citas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:5
 msgid "Use system timezone"
 msgstr "Usar la hora del sistema"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid "Use the system timezone instead of the timezone selected in Evolution"
 msgstr ""
 "Usar la zona horaria del sistema en lugar de la zona horaria seleccionada en "
 "Evolution"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:27
 msgid "Week start"
 msgstr "Comienzo de la semana"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)"
 msgstr ""
 "El día en que empieza la semana, desde el domingo (0) hasta el sábado (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:67
 msgid "Work days"
 msgstr "Días laborables"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid "Days on which the start and end of work hours should be indicated"
 msgstr ""
 "Días en los cuales debe indicarse el inicio y fin de las horas de trabajo"
@@ -8637,8 +8644,8 @@ msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
-"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla "
-"desde el menú Ver cuando se elige una cuenta de correo."
+"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla desde "
+"el menú Ver cuando se elige una cuenta de correo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:33
 #: ../mail/evolution-mail.schemas.in.h:25
@@ -8774,8 +8781,8 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
-"Algunas listas de correo establecen una cabecera «Responder a:» para forzar "
-"a los usuarios a responder a la lista, incluso cuando los usuarios piden que "
+"Algunas listas de correo establecen una cabecera «Responder a:» para forzar a "
+"los usuarios a responder a la lista, incluso cuando los usuarios piden que "
 "Evolution envíe una respuesta privada. Establecer esta opción a cierta "
 "intentará ignorar tales cabeceras «Responder a:», de tal forma que Evolution "
 "haga lo que se le pide. Si usa la acción de respuesta privada, responderá de "
@@ -9038,8 +9045,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
 msgstr ""
-"Determina si se debe usar la misma tipografía para las líneas «De» y "
-"«Asunto» en la columna «Mensajes» de la vista vertical"
+"Determina si se debe usar la misma tipografía para las líneas «De» y «Asunto» "
+"en la columna «Mensajes» de la vista vertical"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 #: ../mail/evolution-mail.schemas.in.h:89
@@ -9047,8 +9054,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
-"Determina si se debe usar la misma tipografía para las líneas «De» y "
-"«Asunto» en la columna «Mensajes» de la vista vertical."
+"Determina si se debe usar la misma tipografía para las líneas «De» y «Asunto» "
+"en la columna «Mensajes» de la vista vertical."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 #: ../mail/evolution-mail.schemas.in.h:92
@@ -9092,9 +9099,9 @@ msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
-"Esta clave es de una sola lectura y después de leerla se establece a "
-"«false». Esto deselecciona el correo en la lista y elimina la vista previa "
-"para esa carpeta."
+"Esta clave es de una sola lectura y después de leerla se establece a «false». "
+"Esto deselecciona el correo en la lista y elimina la vista previa para esa "
+"carpeta."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 #: ../mail/evolution-mail.schemas.in.h:100
@@ -9117,8 +9124,7 @@ msgid ""
 "expanded by default. \"0\" = expanded and \"1\" = collapsed"
 msgstr ""
 "Describe si las cabeceras del mensajes en la vista con paneles se deben "
-"contraer o expandir de manera predeterminada. «0» = expandidas «1» = "
-"contraídas"
+"contraer o expandir de manera predeterminada. «0» = expandidas «1» = contraídas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 #: ../mail/evolution-mail.schemas.in.h:102
@@ -9479,10 +9485,9 @@ msgid ""
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
 msgstr ""
-"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana "
-"del examinador; «always» (siempre) para cerrar siempre la ventana del "
-"examinador o «ask» (preguntar) o cualquier otro valor, preguntarán al "
-"usuario."
+"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana del "
+"examinador; «always» (siempre) para cerrar siempre la ventana del examinador "
+"o «ask» (preguntar) o cualquier otro valor, preguntarán al usuario."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 #, fuzzy
@@ -9504,10 +9509,9 @@ msgid ""
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
 msgstr ""
-"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana "
-"del examinador; «always» (siempre) para cerrar siempre la ventana del "
-"examinador o «ask» (preguntar) o cualquier otro valor, preguntarán al "
-"usuario."
+"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana del "
+"examinador; «always» (siempre) para cerrar siempre la ventana del examinador "
+"o «ask» (preguntar) o cualquier otro valor, preguntarán al usuario."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 #: ../mail/evolution-mail.schemas.in.h:165
@@ -9569,10 +9573,9 @@ msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
 msgstr ""
-"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana "
-"del examinador; «always» (siempre) para cerrar siempre la ventana del "
-"examinador o «ask» (preguntar) o cualquier otro valor, preguntarán al "
-"usuario."
+"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana del "
+"examinador; «always» (siempre) para cerrar siempre la ventana del examinador "
+"o «ask» (preguntar) o cualquier otro valor, preguntarán al usuario."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 #: ../mail/evolution-mail.schemas.in.h:175
@@ -9626,8 +9629,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
-"«2» para mensajes de depuración."
+"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
+"para mensajes de depuración."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 #: ../mail/evolution-mail.schemas.in.h:184
@@ -9840,9 +9843,9 @@ msgid ""
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
 "Indica si se debe comprobar si hay mensajes nuevos en todas las cuentas "
-"activas independientemente del conteo en la opción «Comprobar si hay "
-"mensajes nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se "
-"usa junto con la opción «send_recv_on_start»."
+"activas independientemente del conteo en la opción «Comprobar si hay mensajes "
+"nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se usa junto "
+"con la opción «send_recv_on_start»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 #: ../mail/evolution-mail.schemas.in.h:239
@@ -9888,7 +9891,6 @@ msgstr ""
 "automáticamente"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
-#| msgid "Auto sync GAIM contacts"
 msgid "Auto sync Pidgin contacts"
 msgstr "Auto sincronizar contactos de Pidgin"
 
@@ -9929,33 +9931,27 @@ msgstr ""
 "sincronicados de GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
-#| msgid "GAIM check interval"
 msgid "Pidgin check interval"
 msgstr "Intervalo de comprobación para Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
-#, fuzzy
 #| msgid "Check interval for GAIM syncing of contacts"
 msgid "Check interval for Pidgin syncing of contacts."
-msgstr "Intervalo de comprobación para sincronizar contactos de GAIM"
+msgstr "Intervalo de comprobación para sincronizar contactos de Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
-#| msgid "GAIM last sync MD5"
 msgid "Pidgin last sync MD5"
 msgstr "MD5 de la última sincronización de Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:12
-#| msgid "GAIM last sync MD5"
 msgid "Pidgin last sync MD5."
 msgstr "MD5 de la última sincronización de Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:13
-#| msgid "GAIM last sync time"
 msgid "Pidgin last sync time"
 msgstr "Hora de la última sincronización de Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:14
-#| msgid "GAIM last sync time"
 msgid "Pidgin last sync time."
 msgstr "Hora de la última sincronización de Pidgin."
 
@@ -10134,9 +10130,9 @@ msgid ""
 "and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
 "El modo usado para mostrar mensajes. «normal» hace que Evolution elija la "
-"mejor parte que mostrar, «prefer_plain» hace que se use la parte de texto, "
-"si existe, y «only_plain» fuerza a Evolution a mostrar sólo la parte de "
-"texto plano."
+"mejor parte que mostrar, «prefer_plain» hace que se use la parte de texto, si "
+"existe, y «only_plain» fuerza a Evolution a mostrar sólo la parte de texto "
+"plano."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
@@ -10376,13 +10372,13 @@ msgid "Reply-To"
 msgstr "Responder a"
 
 #: ../em-format/em-format.c:1228 ../em-format/em-format-quote.c:154
-#: ../mail/em-format-html.c:2306 ../mail/em-format-html.c:2329
+#: ../mail/em-format-html.c:2288 ../mail/em-format-html.c:2311
 #: ../modules/mail/em-mailer-prefs.c:73
 msgid "Cc"
 msgstr "Cc"
 
 #: ../em-format/em-format.c:1229 ../em-format/em-format-quote.c:154
-#: ../mail/em-format-html.c:2308 ../mail/em-format-html.c:2331
+#: ../mail/em-format-html.c:2290 ../mail/em-format-html.c:2313
 #: ../modules/mail/em-mailer-prefs.c:74
 msgid "Bcc"
 msgstr "Cco"
@@ -10415,7 +10411,7 @@ msgid "%s attachment"
 msgstr "%s adjunto"
 
 #. pseudo-header
-#: ../em-format/em-format-quote.c:312 ../mail/em-format-html.c:2439
+#: ../em-format/em-format-quote.c:312 ../mail/em-format-html.c:2421
 #: ../modules/mail/em-mailer-prefs.c:1046
 msgid "Mailer"
 msgstr "Transporte"
@@ -10534,7 +10530,7 @@ msgstr "visual"
 
 #. strftime format of a weekday and a date.
 #: ../e-util/e-datetime-format.c:206
-#: ../modules/calendar/e-cal-shell-view-actions.c:1863
+#: ../modules/calendar/e-cal-shell-view-actions.c:1905
 #: ../plugins/itip-formatter/itip-view.c:211
 #: ../widgets/table/e-cell-date-edit.c:307
 msgid "Today"
@@ -11044,32 +11040,32 @@ msgid "Invalid folder URI '%s'"
 msgstr "URI « %s» de la carpeta no válida"
 
 #: ../libemail-engine/e-mail-session.c:108 ../mail/em-folder-properties.c:333
-#: ../mail/em-folder-tree-model.c:719
+#: ../mail/em-folder-tree-model.c:703
 #: ../modules/mail/e-mail-shell-view-private.c:1021
 #: ../modules/mail/e-mail-shell-view-private.c:1032
 msgid "Inbox"
 msgstr "Bandeja de entrada"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../libemail-engine/e-mail-session.c:109 ../mail/em-folder-tree-model.c:712
+#: ../libemail-engine/e-mail-session.c:109 ../mail/em-folder-tree-model.c:696
 #: ../modules/mail/e-mail-shell-view-private.c:1019
 msgid "Drafts"
 msgstr "Borradores"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../libemail-engine/e-mail-session.c:110 ../mail/em-folder-tree-model.c:723
+#: ../libemail-engine/e-mail-session.c:110 ../mail/em-folder-tree-model.c:707
 #: ../modules/mail/e-mail-shell-view-private.c:1023
 msgid "Outbox"
 msgstr "Bandeja de salida"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../libemail-engine/e-mail-session.c:111 ../mail/em-folder-tree-model.c:727
+#: ../libemail-engine/e-mail-session.c:111 ../mail/em-folder-tree-model.c:711
 #: ../modules/mail/e-mail-shell-view-private.c:1025
 msgid "Sent"
 msgstr "Correo enviado"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../libemail-engine/e-mail-session.c:112 ../mail/em-folder-tree-model.c:715
+#: ../libemail-engine/e-mail-session.c:112 ../mail/em-folder-tree-model.c:699
 #: ../modules/mail/e-mail-shell-view-private.c:1027
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1041 ../plugins/templates/templates.c:1341
@@ -11478,7 +11474,7 @@ msgstr "Nombre de la cuenta"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. * other user means other calendars subscribed
-#: ../mail/e-mail-account-tree-view.c:116 ../mail/e-mail-reader.c:3646
+#: ../mail/e-mail-account-tree-view.c:116 ../mail/e-mail-reader.c:3648
 #: ../mail/mail-config.ui.h:51
 #: ../plugins/google-account-setup/google-source.c:311
 #: ../plugins/google-account-setup/google-source.c:553
@@ -11518,35 +11514,35 @@ msgstr "Cierra esta ventana"
 msgid "(No Subject)"
 msgstr "(Sin asunto)"
 
-#: ../mail/e-mail-display.c:112
+#: ../mail/e-mail-display.c:114
 msgid "_Add to Address Book..."
 msgstr "_Añadir a la libreta de direcciones…"
 
-#: ../mail/e-mail-display.c:119
+#: ../mail/e-mail-display.c:121
 msgid "_To This Address"
 msgstr "_A esta dirección"
 
-#: ../mail/e-mail-display.c:126
+#: ../mail/e-mail-display.c:128
 msgid "_From This Address"
 msgstr "_Desde esta dirección"
 
-#: ../mail/e-mail-display.c:133
+#: ../mail/e-mail-display.c:135
 msgid "Send _Reply To..."
 msgstr "Enviar _respuesta a…"
 
-#: ../mail/e-mail-display.c:135
+#: ../mail/e-mail-display.c:137
 msgid "Send a reply message to this address"
 msgstr "Enviar un mensaje de respuesta a esta dirección"
 
-#: ../mail/e-mail-display.c:142
+#: ../mail/e-mail-display.c:144
 msgid "Create Search _Folder"
 msgstr "Crear carpeta de _búsqueda"
 
-#: ../mail/e-mail-display.c:152
+#: ../mail/e-mail-display.c:154
 msgid "Save _Image..."
 msgstr "Guardar _imagen…"
 
-#: ../mail/e-mail-display.c:154
+#: ../mail/e-mail-display.c:156
 msgid "Save the image to a file"
 msgstr "Guardar la imagen en un archivo"
 
@@ -11634,12 +11630,10 @@ msgid "Print"
 msgstr "Imprimir"
 
 #: ../mail/e-mail-printer.c:536
-#| msgid "Header name"
 msgid "Header Name"
 msgstr "Nombre de la cabecera"
 
 #: ../mail/e-mail-printer.c:542
-#| msgid "Header name"
 msgid "Header Value"
 msgstr "Valor de la cabecera"
 
@@ -12034,7 +12028,7 @@ msgid "Checks selected messages for duplicates"
 msgstr "Comprobar los mensajes seleccionados para buscar duplicados"
 
 #: ../mail/e-mail-reader.c:2231 ../mail/mail.error.xml.h:27
-#: ../modules/calendar/e-cal-shell-view-actions.c:1510
+#: ../modules/calendar/e-cal-shell-view-actions.c:1552
 #: ../modules/mail/e-mail-attachment-handler.c:182
 msgid "Reply to _All"
 msgstr "Responder a _todos"
@@ -12222,55 +12216,51 @@ msgid "Retrieving message '%s'"
 msgstr "Obteniendo mensaje «%s»"
 
 #: ../mail/e-mail-reader.c:2820
-#| msgid "Retrieving %d message"
-#| msgid_plural "Retrieving %d messages"
 msgid "Retrieving message"
 msgstr "Descargando mensaje"
 
-#: ../mail/e-mail-reader.c:3131
-#| msgid "Saving %d message"
-#| msgid_plural "Saving %d messages"
+#: ../mail/e-mail-reader.c:3133
 msgid "Parsing message"
 msgstr "Analizando mensaje"
 
-#: ../mail/e-mail-reader.c:3836
+#: ../mail/e-mail-reader.c:3838
 #: ../modules/mail/e-mail-attachment-handler.c:175
 msgid "_Forward"
 msgstr "Reen_viar"
 
-#: ../mail/e-mail-reader.c:3837
+#: ../mail/e-mail-reader.c:3839
 msgid "Forward the selected message to someone"
 msgstr "Reenvía a alguien el mensaje seleccionado"
 
-#: ../mail/e-mail-reader.c:3856
+#: ../mail/e-mail-reader.c:3858
 msgid "Group Reply"
 msgstr "Responder al grupo"
 
-#: ../mail/e-mail-reader.c:3857
+#: ../mail/e-mail-reader.c:3859
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Responder a la lista de correo o a todos los destinatarios"
 
-#: ../mail/e-mail-reader.c:3914 ../mail/em-filter-i18n.h:14
+#: ../mail/e-mail-reader.c:3916 ../mail/em-filter-i18n.h:14
 msgid "Delete"
 msgstr "Eliminar"
 
-#: ../mail/e-mail-reader.c:3947
-#: ../modules/calendar/e-cal-shell-view-actions.c:1356
+#: ../mail/e-mail-reader.c:3949
+#: ../modules/calendar/e-cal-shell-view-actions.c:1377
 #: ../widgets/misc/e-calendar.c:202
 msgid "Next"
 msgstr "Siguiente"
 
-#: ../mail/e-mail-reader.c:3951
-#: ../modules/calendar/e-cal-shell-view-actions.c:1349
+#: ../mail/e-mail-reader.c:3953
+#: ../modules/calendar/e-cal-shell-view-actions.c:1370
 #: ../widgets/misc/e-calendar.c:178
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../mail/e-mail-reader.c:3960 ../mail/mail-dialogs.ui.h:20
+#: ../mail/e-mail-reader.c:3962 ../mail/mail-dialogs.ui.h:20
 msgid "Reply"
 msgstr "Responder"
 
-#: ../mail/e-mail-reader.c:4669
+#: ../mail/e-mail-reader.c:4671
 #, c-format
 msgid "Folder '%s'"
 msgstr "Carpeta «%s»"
@@ -12280,7 +12270,6 @@ msgid "Do not warn me again"
 msgstr "No advertirme de nuevo"
 
 #: ../mail/e-mail-reader-utils.c:506
-#| msgid "Print"
 msgid "Printing"
 msgstr "Imprimiendo"
 
@@ -12320,7 +12309,6 @@ msgstr[1] "Mensajes"
 
 #: ../mail/e-mail-request.c:117
 #, c-format
-#| msgid "Failed to load the calendar '%s' (%s)"
 msgid "Failed to load part '%s'"
 msgstr "Falló al cargar la parte «%s»"
 
@@ -12679,37 +12667,37 @@ msgstr "%s (%u%s)"
 msgid "Mail Folder Tree"
 msgstr "Árbol de carpetas de correo"
 
-#: ../mail/em-folder-tree.c:2129 ../mail/em-folder-utils.c:115
+#: ../mail/em-folder-tree.c:2132 ../mail/em-folder-utils.c:115
 #, c-format
 msgid "Moving folder %s"
 msgstr "Moviendo la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2132 ../mail/em-folder-utils.c:117
+#: ../mail/em-folder-tree.c:2135 ../mail/em-folder-utils.c:117
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copiando la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2139 ../mail/message-list.c:2304
+#: ../mail/em-folder-tree.c:2142 ../mail/message-list.c:2304
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moviendo los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2143 ../mail/message-list.c:2306
+#: ../mail/em-folder-tree.c:2146 ../mail/message-list.c:2306
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2162
+#: ../mail/em-folder-tree.c:2165
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No se puede dejar el(los) mensaje(s) en el almacén de nivel superior"
 
 #. UNMATCHED is always last.
-#: ../mail/em-folder-tree-model.c:161 ../mail/em-folder-tree-model.c:163
+#: ../mail/em-folder-tree-model.c:158 ../mail/em-folder-tree-model.c:160
 msgid "UNMATCHED"
 msgstr "NO COINCIDENTE"
 
-#: ../mail/em-folder-tree-model.c:789 ../mail/em-folder-tree-model.c:1077
+#: ../mail/em-folder-tree-model.c:775 ../mail/em-folder-tree-model.c:1060
 msgid "Loading..."
 msgstr "Cargando…"
 
@@ -12730,10 +12718,9 @@ msgid "Specify where to create the folder:"
 msgstr "Especifique donde crear la carpeta:"
 
 #: ../mail/em-format-html.c:385
-#, fuzzy
 #| msgid "Malformed external-body part."
 msgid "Malformed external-body part"
-msgstr "Parte externa al cuerpo del mensaje mal escrita."
+msgstr "Parte externa al cuerpo del mensaje mal formada"
 
 #: ../mail/em-format-html.c:417
 #, c-format
@@ -12762,17 +12749,17 @@ msgstr "Puntero a datos externos desconocidos (tipo «%s»)"
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../mail/em-format-html.c:2581
+#: ../mail/em-format-html.c:2563
 #: ../plugins/mail-notification/mail-notification.c:395
 #, c-format
 msgid "From: %s"
 msgstr "De: %s"
 
-#: ../mail/em-format-html.c:2601 ../mail/em-format-html.c:2606
+#: ../mail/em-format-html.c:2583 ../mail/em-format-html.c:2588
 msgid "(no subject)"
 msgstr "(sin asunto)"
 
-#: ../mail/em-format-html.c:2718
+#: ../mail/em-format-html.c:2700
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "%s envió este mensaje en nombre de %s"
@@ -12941,22 +12928,18 @@ msgid "Size"
 msgstr "Tamaño"
 
 #: ../mail/em-format-html-print.c:202
-#| msgid "Assigned"
 msgid "GPG signed"
 msgstr "Firmado con GPG"
 
 #: ../mail/em-format-html-print.c:207
-#| msgid "Unencrypted"
 msgid "GPG encrpyted"
 msgstr "Cifrado GPG"
 
 #: ../mail/em-format-html-print.c:213
-#| msgid "S/MIME Sig_n"
 msgid "S/MIME signed"
 msgstr "Cifrado S/MIME"
 
 #: ../mail/em-format-html-print.c:219
-#| msgid "S/MIME En_crypt"
 msgid "S/MIME encrpyted"
 msgstr "Cifrado con S/MIME"
 
@@ -13160,8 +13143,7 @@ msgid ""
 "expanded by default. \"0\" = expanded \"1\" = collapsed"
 msgstr ""
 "Describe si las cabeceras del mensajes en la vista con paneles se deben "
-"contraer o expandir de manera predeterminada. «0» = expandidas «1» = "
-"contraídas"
+"contraer o expandir de manera predeterminada. «0» = expandidas «1» = contraídas"
 
 #: ../mail/evolution-mail.schemas.in.h:129
 msgid ""
@@ -13224,11 +13206,11 @@ msgid ""
 "particular value is not used by Evolution since the \"Folder Subscriptions\" "
 "window cannot be maximized. This key exists only as an implementation detail."
 msgstr ""
-"Estado inicial maximizado de la ventana «Suscripciones de carpetas». El "
-"valor se actualiza cuando el usuario maximiza o reduce la ventana. Nota: "
-"Evolution no usa este valor en particular ya que la ventana «Suscripciones "
-"de carpetas» no se puede maximizar. Esta clave existe sólo como un detalle "
-"de implementación."
+"Estado inicial maximizado de la ventana «Suscripciones de carpetas». El valor "
+"se actualiza cuando el usuario maximiza o reduce la ventana. Nota: Evolution "
+"no usa este valor en particular ya que la ventana «Suscripciones de carpetas» "
+"no se puede maximizar. Esta clave existe sólo como un detalle de "
+"implementación."
 
 #: ../mail/evolution-mail.schemas.in.h:140
 msgid "\"Folder Subscriptions\" window width"
@@ -13251,9 +13233,9 @@ msgid ""
 "Possible values are: never - to never close browser window always - to "
 "always close browser window ask - (or any other value) will ask user"
 msgstr ""
-"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana "
-"del examinador; «always» (siempre) para cerrar siempre la ventana del "
-"examinador; «ask» (preguntar) o cualquier otro valor, preguntarán al usuario"
+"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana del "
+"examinador; «always» (siempre) para cerrar siempre la ventana del examinador; "
+"«ask» (preguntar) o cualquier otro valor, preguntarán al usuario"
 
 #: ../mail/evolution-mail.schemas.in.h:207
 msgid "List of accounts"
@@ -13285,8 +13267,8 @@ msgid ""
 "Initial height of the \"Filter Editor\" window. The value updates as the "
 "user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Editor de filtros». El valor se actualiza "
-"según el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Editor de filtros». El valor se actualiza según "
+"el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:215
 msgid "\"Filter Editor\" window maximize state"
@@ -13331,9 +13313,9 @@ msgid ""
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
 "Indica si se debe comprobar si hay mensajes nuevos en todas las cuentas "
-"activas independientemente del conteo en la opción «Comprobar si hay "
-"mensajes nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se "
-"usa junto con la opción «send_recv_on_start»."
+"activas independientemente del conteo en la opción «Comprobar si hay mensajes "
+"nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se usa junto "
+"con la opción «send_recv_on_start»."
 
 #: ../mail/evolution-mail.schemas.in.h:223
 msgid "\"Send and Receive Mail\" window height"
@@ -13344,8 +13326,8 @@ msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Enviar y recibir correo». El valor se "
-"actualiza según el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Enviar y recibir correo». El valor se actualiza "
+"según el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:225
 msgid "\"Send and Receive Mail\" window maximize state"
@@ -15021,24 +15003,22 @@ msgid "N_ever"
 msgstr "_Nunca"
 
 #: ../mail/mail.error.xml.h:141
-#, fuzzy
 #| msgid "Copying folder %s"
 msgid "Copy folder in folder tree."
-msgstr "Copiando la carpeta %s"
+msgstr "Copiar carpeta en el árbol de carpetas."
 
 #: ../mail/mail.error.xml.h:142
 msgid "Are you sure to copy folder '{0}' to folder '{1}'?"
-msgstr ""
+msgstr "¿Está seguro de que quiere copiar la carpeta «{0}» a «{1}»?"
 
 #: ../mail/mail.error.xml.h:143
-#, fuzzy
 #| msgid "Moving folder %s"
 msgid "Move folder in folder tree."
-msgstr "Moviendo la carpeta %s"
+msgstr "Mover carpeta en el árbol de carpetas."
 
 #: ../mail/mail.error.xml.h:144
 msgid "Are you sure to move folder '{0}' to folder '{1}'?"
-msgstr ""
+msgstr "¿Está seguro de que quiere mover la carpeta «{0}» a «{1}»?"
 
 #: ../mail/mail.error.xml.h:145
 msgid "Signature Already Exists"
@@ -15153,21 +15133,18 @@ msgstr ""
 "sensibles. Revíselo antes de enviarlo."
 
 #: ../mail/mail.error.xml.h:172
-#| msgid "Print this calendar"
 msgid "Printing failed."
 msgstr "Falló al imprimir."
 
 #: ../mail/mail.error.xml.h:173
-#, fuzzy
 #| msgid "The reported error was &quot;{0}&quot;."
 msgid "The printer replied &quot;{0}&quot;."
-msgstr "El error devuelto fue «{0}»."
+msgstr "La impresora respondió &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:174
-#, fuzzy
 #| msgid "Could not open destination"
 msgid "Could not perform this operation on {0}."
-msgstr "No se puede abrir el destino"
+msgstr "No se puede realizar esta operación en {0}."
 
 #: ../mail/mail-send-recv.c:208
 msgid "Canceling..."
@@ -15619,7 +15596,7 @@ msgstr ""
 "seleccionada"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:858
-#: ../modules/calendar/e-cal-shell-view-actions.c:1405
+#: ../modules/calendar/e-cal-shell-view-actions.c:1426
 #: ../modules/calendar/e-memo-shell-view-actions.c:640
 #: ../modules/calendar/e-task-shell-view-actions.c:764
 #: ../modules/mail/e-mail-shell-view-actions.c:1299
@@ -15695,7 +15672,7 @@ msgid "Send a message to the selected contacts"
 msgstr "Enviar un mensaje a los contactos seleccionados"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:937
-#: ../modules/calendar/e-cal-shell-view-actions.c:1540
+#: ../modules/calendar/e-cal-shell-view-actions.c:1582
 #: ../modules/calendar/e-task-shell-view-actions.c:822
 msgid "_Actions"
 msgstr "A_cciones"
@@ -15708,7 +15685,7 @@ msgid "_Preview"
 msgstr "Vista _previa"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:953
-#: ../modules/calendar/e-cal-shell-view-actions.c:1557
+#: ../modules/calendar/e-cal-shell-view-actions.c:1599
 #: ../modules/calendar/e-memo-shell-view-actions.c:690
 #: ../modules/calendar/e-task-shell-view-actions.c:842
 msgid "_Delete"
@@ -15762,21 +15739,21 @@ msgid "Show contact preview alongside the contact list"
 msgstr "Mostrar la vista previa del contacto junto a la lista de contactos"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1039
-#: ../modules/calendar/e-cal-shell-view-actions.c:1696
+#: ../modules/calendar/e-cal-shell-view-actions.c:1738
 #: ../modules/calendar/e-memo-shell-view-actions.c:764
 #: ../modules/calendar/e-task-shell-view-actions.c:935
 msgid "Any Category"
 msgstr "Cualquier categoría"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1046
-#: ../modules/calendar/e-cal-shell-view-actions.c:1717
+#: ../modules/calendar/e-cal-shell-view-actions.c:1759
 #: ../modules/calendar/e-memo-shell-view-actions.c:771
 #: ../modules/calendar/e-task-shell-view-actions.c:970
 msgid "Unmatched"
 msgstr "No coincidente"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1056
-#: ../modules/calendar/e-cal-shell-view-actions.c:1727
+#: ../modules/calendar/e-cal-shell-view-actions.c:1769
 #: ../modules/calendar/e-memo-shell-view-actions.c:781
 #: ../modules/calendar/e-task-shell-view-actions.c:980
 #: ../modules/mail/e-mail-shell-view-actions.c:1659
@@ -16083,8 +16060,8 @@ msgid ""
 msgstr ""
 "El estilo de la distribución determina dónde ubicar el panel de vista previa "
 "en relación con la lista de notas. «0» (vista clásica) ubica el panel de "
-"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el "
-"panel de vista previa junto a la lista de notas."
+"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el panel "
+"de vista previa junto a la lista de notas."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:51
 msgid "If \"true\", show the memo preview pane in the main window."
@@ -16175,8 +16152,8 @@ msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view."
 msgstr ""
-"El UID de la nota seleccionada (o «primaria») en la barra lateral de la "
-"vista de «Notas»."
+"El UID de la nota seleccionada (o «primaria») en la barra lateral de la vista "
+"de «Notas»."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:80
 msgid ""
@@ -16247,8 +16224,8 @@ msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\"."
 msgstr ""
-"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», "
-"«hours» o «days»."
+"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», «hours» "
+"o «days»."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:108
 msgid "Whether to show week numbers in various places in the Calendar."
@@ -16305,27 +16282,27 @@ msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
 msgstr ""
-"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
-"«2» para mensajes de depuración."
+"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
+"para mensajes de depuración."
 
-#: ../modules/calendar/e-cal-attachment-handler.c:316
+#: ../modules/calendar/e-cal-attachment-handler.c:320
 #: ../smime/gui/smime-ui.ui.h:32
 msgid "I_mport"
 msgstr "I_mportar"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:397
+#: ../modules/calendar/e-cal-attachment-handler.c:401
 msgid "Select a Calendar"
 msgstr "Seleccionar un calendario"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:424
+#: ../modules/calendar/e-cal-attachment-handler.c:428
 msgid "Select a Task List"
 msgstr "Seleccionar una lista de tareas"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:434
+#: ../modules/calendar/e-cal-attachment-handler.c:438
 msgid "I_mport to Calendar"
 msgstr "I_mportar al calendario"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:441
+#: ../modules/calendar/e-cal-attachment-handler.c:445
 msgid "I_mport to Tasks"
 msgstr "I_mportar a las tareas"
 
@@ -16403,7 +16380,7 @@ msgid "_24 hour"
 msgstr "_24 horas"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:25
-#: ../modules/calendar/e-cal-shell-view-actions.c:1679
+#: ../modules/calendar/e-cal-shell-view-actions.c:1721
 msgid "Work Week"
 msgstr "Semana laboral"
 
@@ -16583,7 +16560,7 @@ msgid "_Appointment"
 msgstr "_Cita"
 
 #: ../modules/calendar/e-cal-shell-backend.c:453
-#: ../modules/calendar/e-cal-shell-view-actions.c:1484
+#: ../modules/calendar/e-cal-shell-view-actions.c:1526
 msgid "Create a new appointment"
 msgstr "Crea una cita nueva"
 
@@ -16611,7 +16588,7 @@ msgid "Cale_ndar"
 msgstr "Cale_ndario"
 
 #: ../modules/calendar/e-cal-shell-backend.c:477
-#: ../modules/calendar/e-cal-shell-view-actions.c:1379
+#: ../modules/calendar/e-cal-shell-view-actions.c:1400
 msgid "Create a new calendar"
 msgstr "Crea un calendario nuevo"
 
@@ -16653,21 +16630,21 @@ msgstr ""
 msgid "Purge events older than"
 msgstr "Purgar acontecimientos anteriores a"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:564
+#: ../modules/calendar/e-cal-shell-view-actions.c:585
 msgid "Copying Items"
 msgstr "Copiando elementos"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:848
+#: ../modules/calendar/e-cal-shell-view-actions.c:869
 msgid "Moving Items"
 msgstr "Moviendo elementos"
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
-#: ../modules/calendar/e-cal-shell-view-actions.c:1175
+#: ../modules/calendar/e-cal-shell-view-actions.c:1196
 msgid "event"
 msgstr "acontecimiento"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1177
+#: ../modules/calendar/e-cal-shell-view-actions.c:1198
 #: ../modules/calendar/e-cal-shell-view-memopad.c:219
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:286
 #: ../modules/calendar/e-memo-shell-view-actions.c:524
@@ -16675,111 +16652,140 @@ msgstr "acontecimiento"
 msgid "Save as iCalendar"
 msgstr "Guardar como iCalendar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1335
+#: ../modules/calendar/e-cal-shell-view-actions.c:1356
 #: ../modules/calendar/e-memo-shell-view-actions.c:605
 msgid "_Copy..."
 msgstr "_Copiar…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1342
+#: ../modules/calendar/e-cal-shell-view-actions.c:1363
 msgid "D_elete Calendar"
 msgstr "_Eliminar calendario"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1344
+#: ../modules/calendar/e-cal-shell-view-actions.c:1365
 msgid "Delete the selected calendar"
 msgstr "Eliminar el calendario seleccionado"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1351
+#: ../modules/calendar/e-cal-shell-view-actions.c:1372
 msgid "Go Back"
 msgstr "Retroceder"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1358
+#: ../modules/calendar/e-cal-shell-view-actions.c:1379
 msgid "Go Forward"
 msgstr "Avanzar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1365
+#: ../modules/calendar/e-cal-shell-view-actions.c:1386
 msgid "Select today"
 msgstr "Selecciona hoy"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1370
+#: ../modules/calendar/e-cal-shell-view-actions.c:1391
 msgid "Select _Date"
 msgstr "Seleccionar _fecha"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1372
+#: ../modules/calendar/e-cal-shell-view-actions.c:1393
 msgid "Select a specific date"
 msgstr "Selecciona una fecha específica"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1377
+#: ../modules/calendar/e-cal-shell-view-actions.c:1398
 msgid "_New Calendar"
 msgstr "Calendario _nuevo"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1391
+#: ../modules/calendar/e-cal-shell-view-actions.c:1412
 #: ../modules/calendar/e-task-shell-view-actions.c:813
 msgid "Purg_e"
 msgstr "Purg_ar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1393
+#: ../modules/calendar/e-cal-shell-view-actions.c:1414
 msgid "Purge old appointments and meetings"
 msgstr "Purgar reuniones y acontecimientos antiguos"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1398
+#: ../modules/calendar/e-cal-shell-view-actions.c:1419
 #: ../modules/calendar/e-memo-shell-view-actions.c:633
 #: ../modules/calendar/e-task-shell-view-actions.c:757
 msgid "Re_fresh"
 msgstr "Actuali_zar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1400
+#: ../modules/calendar/e-cal-shell-view-actions.c:1421
 msgid "Refresh the selected calendar"
 msgstr "Actualizar el calendario seleccionado"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1407
+#: ../modules/calendar/e-cal-shell-view-actions.c:1428
 msgid "Rename the selected calendar"
 msgstr "Renombrar el calendario seleccionado"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1412
+#: ../modules/calendar/e-cal-shell-view-actions.c:1433
+msgid "Find _next"
+msgstr "Buscar siguie_nte"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1435
+#, fuzzy
+#| msgid "Find the next occurrence of the phrase"
+msgid "Find next occurrence of the current search string"
+msgstr "Buscar la siguiente coincidencia de la frase"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1440
+#| msgid "_Previous"
+msgid "Find _previous"
+msgstr "Buscar _anterior"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1442
+#, fuzzy
+#| msgid "Find the previous occurrence of the phrase"
+msgid "Find previous occurrence of the current search string"
+msgstr "Buscar la coincidencia anterior de la frase"
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1447
+msgid "Stop _running search"
+msgstr ""
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1449
+msgid "Stop currently running search"
+msgstr ""
+
+#: ../modules/calendar/e-cal-shell-view-actions.c:1454
 msgid "Show _Only This Calendar"
 msgstr "Mostrar _sólo este calendario"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1419
+#: ../modules/calendar/e-cal-shell-view-actions.c:1461
 msgid "Cop_y to Calendar..."
 msgstr "Cop_iar al calendario…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1426
+#: ../modules/calendar/e-cal-shell-view-actions.c:1468
 msgid "_Delegate Meeting..."
 msgstr "_Delegar reunión…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1433
+#: ../modules/calendar/e-cal-shell-view-actions.c:1475
 msgid "_Delete Appointment"
 msgstr "_Eliminar cita"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1435
+#: ../modules/calendar/e-cal-shell-view-actions.c:1477
 msgid "Delete selected appointments"
 msgstr "Eliminar las citas seleccionadas"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1440
+#: ../modules/calendar/e-cal-shell-view-actions.c:1482
 msgid "Delete This _Occurrence"
 msgstr "Eliminar esta _repetición"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1442
+#: ../modules/calendar/e-cal-shell-view-actions.c:1484
 msgid "Delete this occurrence"
 msgstr "Eliminar esta repetición"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1447
+#: ../modules/calendar/e-cal-shell-view-actions.c:1489
 msgid "Delete All Occ_urrences"
 msgstr "Eliminar tod_as las repeticiones"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1449
+#: ../modules/calendar/e-cal-shell-view-actions.c:1491
 msgid "Delete all occurrences"
 msgstr "Eliminar todas las repeticiones"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1454
+#: ../modules/calendar/e-cal-shell-view-actions.c:1496
 msgid "New All Day _Event..."
 msgstr "Acont_ecimiento nuevo para todo el día"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1456
+#: ../modules/calendar/e-cal-shell-view-actions.c:1498
 msgid "Create a new all day event"
 msgstr "Crear un acontecimiento nuevo para todo el día"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1461
+#: ../modules/calendar/e-cal-shell-view-actions.c:1503
 #: ../modules/calendar/e-cal-shell-view-memopad.c:253
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:326
 #: ../modules/calendar/e-memo-shell-view-actions.c:598
@@ -16787,127 +16793,127 @@ msgstr "Crear un acontecimiento nuevo para todo el día"
 msgid "_Forward as iCalendar..."
 msgstr "Reenviar como i_Calendar…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1468
+#: ../modules/calendar/e-cal-shell-view-actions.c:1510
 msgid "New _Meeting..."
 msgstr "_Reunión nueva…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1470
+#: ../modules/calendar/e-cal-shell-view-actions.c:1512
 msgid "Create a new meeting"
 msgstr "Crear una reunión nueva"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1475
+#: ../modules/calendar/e-cal-shell-view-actions.c:1517
 msgid "Mo_ve to Calendar..."
 msgstr "Mo_ver al calendario…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1482
+#: ../modules/calendar/e-cal-shell-view-actions.c:1524
 msgid "New _Appointment..."
 msgstr "_Cita nueva…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1489
+#: ../modules/calendar/e-cal-shell-view-actions.c:1531
 msgid "Make this Occurrence _Movable"
 msgstr "Hacer esta repetición _movible"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1496
+#: ../modules/calendar/e-cal-shell-view-actions.c:1538
 msgid "_Open Appointment"
 msgstr "_Abrir cita"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1498
+#: ../modules/calendar/e-cal-shell-view-actions.c:1540
 msgid "View the current appointment"
 msgstr "Ver la cita actual"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1503
+#: ../modules/calendar/e-cal-shell-view-actions.c:1545
 msgid "_Reply"
 msgstr "_Responder"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1517
+#: ../modules/calendar/e-cal-shell-view-actions.c:1559
 msgid "_Schedule Meeting..."
 msgstr "_Concertar una reunión…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1519
+#: ../modules/calendar/e-cal-shell-view-actions.c:1561
 msgid "Converts an appointment to a meeting"
 msgstr "Convierte una cita en una reunión"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1524
+#: ../modules/calendar/e-cal-shell-view-actions.c:1566
 msgid "Conv_ert to Appointment..."
 msgstr "Con_vertir en una cita…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1526
+#: ../modules/calendar/e-cal-shell-view-actions.c:1568
 msgid "Converts a meeting to an appointment"
 msgstr "Convierte una reunión en una cita"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1531
+#: ../modules/calendar/e-cal-shell-view-actions.c:1573
 msgid "Quit"
 msgstr "Salir"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1651
+#: ../modules/calendar/e-cal-shell-view-actions.c:1693
 msgid "Day"
 msgstr "Día"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1653
+#: ../modules/calendar/e-cal-shell-view-actions.c:1695
 msgid "Show one day"
 msgstr "Mostrar un día"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1658
+#: ../modules/calendar/e-cal-shell-view-actions.c:1700
 msgid "List"
 msgstr "Lista"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1660
+#: ../modules/calendar/e-cal-shell-view-actions.c:1702
 msgid "Show as list"
 msgstr "Mostrar como una lista"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1665
+#: ../modules/calendar/e-cal-shell-view-actions.c:1707
 msgid "Month"
 msgstr "Mes"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1667
+#: ../modules/calendar/e-cal-shell-view-actions.c:1709
 msgid "Show one month"
 msgstr "Mostrar un mes"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1672
+#: ../modules/calendar/e-cal-shell-view-actions.c:1714
 msgid "Week"
 msgstr "Semana"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1674
+#: ../modules/calendar/e-cal-shell-view-actions.c:1716
 msgid "Show one week"
 msgstr "Mostrar una semana"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1681
+#: ../modules/calendar/e-cal-shell-view-actions.c:1723
 msgid "Show one work week"
 msgstr "Mostrar una semana de trabajo"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1689
+#: ../modules/calendar/e-cal-shell-view-actions.c:1731
 msgid "Active Appointments"
 msgstr "Citas activas"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1703
+#: ../modules/calendar/e-cal-shell-view-actions.c:1745
 msgid "Next 7 Days' Appointments"
 msgstr "Citas de los próximos 7 días"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1710
+#: ../modules/calendar/e-cal-shell-view-actions.c:1752
 msgid "Occurs Less Than 5 Times"
 msgstr "Sucede menos de 5 veces"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1741
+#: ../modules/calendar/e-cal-shell-view-actions.c:1783
 #: ../modules/calendar/e-memo-shell-view-actions.c:795
 #: ../modules/calendar/e-task-shell-view-actions.c:994
 msgid "Description contains"
 msgstr "La descripción contiene"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1748
+#: ../modules/calendar/e-cal-shell-view-actions.c:1790
 #: ../modules/calendar/e-memo-shell-view-actions.c:802
 #: ../modules/calendar/e-task-shell-view-actions.c:1001
 msgid "Summary contains"
 msgstr "El resumen contiene"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1760
+#: ../modules/calendar/e-cal-shell-view-actions.c:1802
 msgid "Print this calendar"
 msgstr "Imprime este calendario"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1767
+#: ../modules/calendar/e-cal-shell-view-actions.c:1809
 msgid "Preview the calendar to be printed"
 msgstr "Previsualizar el calendario que imprimir"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1789
+#: ../modules/calendar/e-cal-shell-view-actions.c:1831
 #: ../modules/calendar/e-cal-shell-view-memopad.c:294
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:381
 #: ../modules/calendar/e-memo-shell-view-actions.c:843
@@ -16915,7 +16921,7 @@ msgstr "Previsualizar el calendario que imprimir"
 msgid "_Save as iCalendar..."
 msgstr "G_uardar como iCalendar…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1866
+#: ../modules/calendar/e-cal-shell-view-actions.c:1908
 msgid "Go To"
 msgstr "Ir a"
 
@@ -16958,6 +16964,34 @@ msgstr "Abrir página _web"
 #: ../modules/calendar/e-memo-shell-view-actions.c:828
 msgid "Print the selected memo"
 msgstr "Imprimir la nota seleccionada"
+
+#: ../modules/calendar/e-cal-shell-view-private.c:1443
+#, fuzzy
+#| msgid "Print this event"
+msgid "Searching next matching event"
+msgstr "Imprime este acontecimiento"
+
+#: ../modules/calendar/e-cal-shell-view-private.c:1444
+msgid "Searching previous matching event"
+msgstr ""
+
+#: ../modules/calendar/e-cal-shell-view-private.c:1462
+#, c-format
+msgid "Cannot find matching event in the next %d year"
+msgid_plural "Cannot find matching event in the next %d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../modules/calendar/e-cal-shell-view-private.c:1465
+#, c-format
+msgid "Cannot find matching event in the previous %d year"
+msgid_plural "Cannot find matching event in the previous %d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../modules/calendar/e-cal-shell-view-private.c:1486
+msgid "Cannot search with no active calendar"
+msgstr "No se puede buscar sin un calendario activo"
 
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
@@ -17991,20 +18025,18 @@ msgid "Loading accounts..."
 msgstr "Cargando cuentas…"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:88
-#, fuzzy
 #| msgid "_Select..."
 msgid "_Inspect..."
-msgstr "_Seleccionar…"
+msgstr "_Inspeccionar…"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:90
 msgid "Inspect the HTML content (debugging feature)"
-msgstr ""
+msgstr "Inspeccionar el contenido HTML (característica de depurado)"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:102
-#, fuzzy
 #| msgid "Evolution Restore"
 msgid "Evolution Web Inspector"
-msgstr "Restaurador de Evolution"
+msgstr "Inspector web de Evolution"
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
 msgid "Local Address Books"
@@ -19363,8 +19395,8 @@ msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr ""
-"%s desea recibir la última información de la siguiente reunión a través de "
-"%s:"
+"%s desea recibir la última información de la siguiente reunión a través de %"
+"s:"
 
 #: ../plugins/itip-formatter/itip-view.c:422
 #, c-format
@@ -19558,12 +19590,10 @@ msgid "End time:"
 msgstr "Hora de fin:"
 
 #: ../plugins/itip-formatter/itip-view.c:1099
-#| msgid "_Open Calendar"
 msgid "Open Calendar"
 msgstr "Abrir calendario"
 
 #: ../plugins/itip-formatter/itip-view.c:1102
-#| msgid "_Decline all"
 msgid "Decline all"
 msgstr "Rechazar todo"
 
@@ -19572,12 +19602,10 @@ msgid "Decline"
 msgstr "Rehusar"
 
 #: ../plugins/itip-formatter/itip-view.c:1108
-#| msgid "_Tentative all"
 msgid "Tentative all"
 msgstr "Provisional todo"
 
 #: ../plugins/itip-formatter/itip-view.c:1114
-#| msgid "A_ccept all"
 msgid "Accept all"
 msgstr "Aceptar todo"
 
@@ -19586,12 +19614,10 @@ msgid "Accept"
 msgstr "Aceptar"
 
 #: ../plugins/itip-formatter/itip-view.c:1120
-#| msgid "_Send Information"
 msgid "Send Information"
 msgstr "Enviar información"
 
 #: ../plugins/itip-formatter/itip-view.c:1123
-#| msgid "_Update Attendee Status"
 msgid "Update Attendee Status"
 msgstr "_Actualizar el estado del participant"
 
@@ -19607,44 +19633,36 @@ msgstr "Comentario:"
 
 #. RSVP area
 #: ../plugins/itip-formatter/itip-view.c:1198
-#| msgid "Send _reply to sender"
 msgid "Send reply to sender"
 msgstr "Responder al remitente"
 
 #. Updates
 #: ../plugins/itip-formatter/itip-view.c:1212
-#| msgid "Send _updates to attendees"
 msgid "Send updates to attendees"
 msgstr "Enviar actualizaciones a los participantes"
 
 #. The recurrence check button
 #: ../plugins/itip-formatter/itip-view.c:1215
-#| msgid "_Apply to all instances"
 msgid "Apply to all instances"
 msgstr "Aplicar a todas las instancias"
 
 #: ../plugins/itip-formatter/itip-view.c:1216
-#| msgid "Show time as _free"
 msgid "Show time as free"
 msgstr "Mostrar hora como libre"
 
 #: ../plugins/itip-formatter/itip-view.c:1217
-#| msgid "_Preserve my reminder"
 msgid "Preserve my reminder"
 msgstr "Conservar mi recordatorio"
 
 #: ../plugins/itip-formatter/itip-view.c:1218
-#| msgid "_Inherit reminder"
 msgid "Inherit reminder"
 msgstr "Heredar recordatorio"
 
 #: ../plugins/itip-formatter/itip-view.c:1542
-#| msgid "_Tasks:"
 msgid "Tasks:"
 msgstr "Tareas:"
 
 #: ../plugins/itip-formatter/itip-view.c:1545
-#| msgid "_Memos:"
 msgid "Memos:"
 msgstr "Notas:"
 
@@ -19936,8 +19954,8 @@ msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
 msgstr ""
-"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere "
-"editar el acontecimiento antiguo?"
+"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere editar "
+"el acontecimiento antiguo?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:620
 #, c-format
@@ -20559,7 +20577,6 @@ msgid "Show Compact vCard"
 msgstr "Mostrar vCard compacta"
 
 #: ../plugins/vcard-inline/vcard-inline.c:372
-#| msgid "Save in Address Book"
 msgid "Save To Addressbook"
 msgstr "Guardar en la libreta de direcciones"
 
@@ -21127,7 +21144,7 @@ msgid "New"
 msgstr "Nuevo"
 
 #. Translators: This is used for the main window title.
-#: ../shell/e-shell-window-private.c:577
+#: ../shell/e-shell-window-private.c:582
 #, c-format
 msgid "%s - Evolution"
 msgstr "%s - Evolution"
@@ -22091,49 +22108,49 @@ msgid "Attached message"
 msgstr "Mensaje adjunto"
 
 #. Translators: Default attachment filename.
-#: ../widgets/misc/e-attachment.c:1811 ../widgets/misc/e-attachment.c:2349
+#: ../widgets/misc/e-attachment.c:1821 ../widgets/misc/e-attachment.c:2369
 #: ../widgets/misc/e-attachment-store.c:525
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../widgets/misc/e-attachment.c:1854 ../widgets/misc/e-attachment.c:2651
+#: ../widgets/misc/e-attachment.c:1869 ../widgets/misc/e-attachment.c:2671
 msgid "A load operation is already in progress"
 msgstr "Existe una operación de carga en progreso"
 
-#: ../widgets/misc/e-attachment.c:1862 ../widgets/misc/e-attachment.c:2659
+#: ../widgets/misc/e-attachment.c:1877 ../widgets/misc/e-attachment.c:2679
 msgid "A save operation is already in progress"
 msgstr "Existe una operación de guardado en progreso"
 
-#: ../widgets/misc/e-attachment.c:1954
+#: ../widgets/misc/e-attachment.c:1974
 #, c-format
 msgid "Could not load '%s'"
 msgstr "No se pudo cargar «%s»"
 
-#: ../widgets/misc/e-attachment.c:1957
+#: ../widgets/misc/e-attachment.c:1977
 #, c-format
 msgid "Could not load the attachment"
 msgstr "No se pudo cargar el adjunto"
 
-#: ../widgets/misc/e-attachment.c:2230
+#: ../widgets/misc/e-attachment.c:2250
 #, c-format
 msgid "Could not open '%s'"
 msgstr "No se pudo abrir «%s»"
 
-#: ../widgets/misc/e-attachment.c:2233
+#: ../widgets/misc/e-attachment.c:2253
 #, c-format
 msgid "Could not open the attachment"
 msgstr "No se pudo abrir el adjunto"
 
-#: ../widgets/misc/e-attachment.c:2667
+#: ../widgets/misc/e-attachment.c:2687
 msgid "Attachment contents not loaded"
 msgstr "No se cargó el contenido del adjunto"
 
-#: ../widgets/misc/e-attachment.c:2743
+#: ../widgets/misc/e-attachment.c:2763
 #, c-format
 msgid "Could not save '%s'"
 msgstr "No se pudo guardar «%s»"
 
-#: ../widgets/misc/e-attachment.c:2746
+#: ../widgets/misc/e-attachment.c:2766
 #, c-format
 msgid "Could not save the attachment"
 msgstr "No se pudo guardar el adjunto"
@@ -22457,7 +22474,6 @@ msgstr "Preferencias de Evolution"
 
 #: ../widgets/misc/e-search-bar.c:79
 #, c-format
-#| msgid "Matches: %d"
 msgid "Matches: %u"
 msgstr "Coincide con: %u"
 
@@ -22689,53 +22705,53 @@ msgstr "El script debe ser ejecutable."
 msgid "Click here to go to URL"
 msgstr "Pulse aquí para ir a la URL"
 
-#: ../widgets/misc/e-web-view.c:271 ../widgets/misc/e-web-view-gtkhtml.c:409
+#: ../widgets/misc/e-web-view.c:275 ../widgets/misc/e-web-view-gtkhtml.c:409
 msgid "_Copy Link Location"
 msgstr "_Copiar dirección del enlace"
 
-#: ../widgets/misc/e-web-view.c:273 ../widgets/misc/e-web-view-gtkhtml.c:411
+#: ../widgets/misc/e-web-view.c:277 ../widgets/misc/e-web-view-gtkhtml.c:411
 msgid "Copy the link to the clipboard"
 msgstr "Copiar el enlace al portapapeles"
 
-#: ../widgets/misc/e-web-view.c:281 ../widgets/misc/e-web-view-gtkhtml.c:419
+#: ../widgets/misc/e-web-view.c:285 ../widgets/misc/e-web-view-gtkhtml.c:419
 msgid "_Open Link in Browser"
 msgstr "_Abrir enlace en el navegador"
 
-#: ../widgets/misc/e-web-view.c:283 ../widgets/misc/e-web-view-gtkhtml.c:421
+#: ../widgets/misc/e-web-view.c:287 ../widgets/misc/e-web-view-gtkhtml.c:421
 msgid "Open the link in a web browser"
 msgstr "_Abrir enlace en el navegador"
 
-#: ../widgets/misc/e-web-view.c:291 ../widgets/misc/e-web-view-gtkhtml.c:429
+#: ../widgets/misc/e-web-view.c:295 ../widgets/misc/e-web-view-gtkhtml.c:429
 msgid "_Copy Email Address"
 msgstr "_Copiar dirección de correo-e"
 
-#: ../widgets/misc/e-web-view.c:308 ../widgets/misc/e-web-view-gtkhtml.c:446
+#: ../widgets/misc/e-web-view.c:312 ../widgets/misc/e-web-view-gtkhtml.c:446
 msgid "_Copy Image"
 msgstr "_Copiar imagen"
 
-#: ../widgets/misc/e-web-view.c:310 ../widgets/misc/e-web-view-gtkhtml.c:448
+#: ../widgets/misc/e-web-view.c:314 ../widgets/misc/e-web-view-gtkhtml.c:448
 msgid "Copy the image to the clipboard"
 msgstr "Copiar la imagen al portapapeles"
 
-#: ../widgets/misc/e-web-view.c:330 ../widgets/misc/e-web-view.c:1396
+#: ../widgets/misc/e-web-view.c:334 ../widgets/misc/e-web-view.c:1410
 #: ../widgets/misc/e-web-view-gtkhtml.c:468
 #: ../widgets/misc/e-web-view-gtkhtml.c:1293
 msgid "Select all text and images"
 msgstr "Seleccionar todo el texto y las imágenes"
 
-#: ../widgets/misc/e-web-view.c:1053 ../widgets/misc/e-web-view.c:1055
-#: ../widgets/misc/e-web-view.c:1057 ../widgets/misc/e-web-view-gtkhtml.c:957
+#: ../widgets/misc/e-web-view.c:1067 ../widgets/misc/e-web-view.c:1069
+#: ../widgets/misc/e-web-view.c:1071 ../widgets/misc/e-web-view-gtkhtml.c:957
 #: ../widgets/misc/e-web-view-gtkhtml.c:959
 #: ../widgets/misc/e-web-view-gtkhtml.c:961
 #, c-format
 msgid "Click to call %s"
 msgstr "Pulse para llamar a %s"
 
-#: ../widgets/misc/e-web-view.c:1059 ../widgets/misc/e-web-view-gtkhtml.c:963
+#: ../widgets/misc/e-web-view.c:1073 ../widgets/misc/e-web-view-gtkhtml.c:963
 msgid "Click to hide/unhide addresses"
 msgstr "Pulse para ocultar/mostrar las direcciones"
 
-#: ../widgets/misc/e-web-view.c:1061 ../widgets/misc/e-web-view-gtkhtml.c:965
+#: ../widgets/misc/e-web-view.c:1075 ../widgets/misc/e-web-view-gtkhtml.c:965
 #, c-format
 msgid "Click to open %s"
 msgstr "Pulse para abrir %s"
@@ -23802,8 +23818,8 @@ msgstr "Métodos de entrada"
 #~ "Folder '%s' contains %d duplicate messages. Are you sure you want to "
 #~ "delete them?"
 #~ msgstr ""
-#~ "La carpeta «%s» contiene %d correos duplicados. ¿Está seguro de que "
-#~ "quiere eliminarlos?"
+#~ "La carpeta «%s» contiene %d correos duplicados. ¿Está seguro de que quiere "
+#~ "eliminarlos?"
 
 #~ msgid ""
 #~ "Error on %s: %s\n"
@@ -23830,8 +23846,8 @@ msgstr "Métodos de entrada"
 
 #~ msgid "Count of default recurrence for a new event. -1 means forever."
 #~ msgstr ""
-#~ "Conteo de las repeticiones predeterminadas para un acontecimiento nuevo. "
-#~ "-1 significa para siempre."
+#~ "Conteo de las repeticiones predeterminadas para un acontecimiento nuevo. -"
+#~ "1 significa para siempre."
 
 #~ msgid "Default recurrence count"
 #~ msgstr "Conteo de repeticiones predeterminado"
@@ -25151,8 +25167,7 @@ msgstr "Métodos de entrada"
 
 #~ msgid "The content widget appears in a shell window's right pane"
 #~ msgstr ""
-#~ "El widget de contenido aparece en un panel derecho de la ventana de "
-#~ "«shell»"
+#~ "El widget de contenido aparece en un panel derecho de la ventana de «shell»"
 
 #~ msgid "Shell Sidebar Widget"
 #~ msgstr "Widget de barra lateral de «shell»"
@@ -26130,8 +26145,8 @@ msgstr "Métodos de entrada"
 #~ "This is the full name of your LDAP server. For example, \"ldap.mycompany."
 #~ "com\"."
 #~ msgstr ""
-#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap."
-#~ "miempresa.com»."
+#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap.miempresa."
+#~ "com»."
 
 #~ msgid ""
 #~ "This is the maximum number of entries to download. Setting this number to "
