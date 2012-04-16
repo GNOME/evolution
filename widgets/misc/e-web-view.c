@@ -2904,7 +2904,7 @@ e_web_view_update_fonts(EWebView *web_view)
 	stylesheet = g_string_new ("");
 	g_string_append_printf (stylesheet,
 		"body {\n"
-		"  font-family: %s;\n"
+		"  font-family: '%s';\n"
 		"  font-size: %dpt;\n"
 		"  font-weight: %d;\n"
 		"  font-style: %s;\n",
@@ -2936,7 +2936,7 @@ e_web_view_update_fonts(EWebView *web_view)
 
 	g_string_append_printf (stylesheet,
 		"pre,code,.pre {\n"
-		"  font-family: %s;\n"
+		"  font-family: '%s';\n"
 		"  font-size: %dpt;\n"
 		"  font-weight: %d;\n"
 		"  font-style: %s;\n"
