@@ -47,12 +47,68 @@ cal_shell_view_finalize (GObject *object)
 }
 
 static void
+cal_shell_view_add_action_button (GtkBox *box,
+				  GtkAction *action)
+{
+	GtkWidget *button, *icon;
+
+	g_return_if_fail (box != NULL);
+	g_return_if_fail (action != NULL);
+
+	icon = gtk_action_create_icon (action, GTK_ICON_SIZE_BUTTON);
+	button = gtk_button_new ();
+	gtk_button_set_image (GTK_BUTTON (button), icon);
+	gtk_box_pack_start (GTK_BOX (box), button, FALSE, FALSE, 0);
+
+	g_object_bind_property (
+		action, "visible",
+		button, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		action, "sensitive",
+		button, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		action, "tooltip",
+		button, "tooltip-text",
+		G_BINDING_SYNC_CREATE);
+
+	g_signal_connect_swapped (button, "clicked",
+		G_CALLBACK (gtk_action_activate), action);
+}
+
+static void
 cal_shell_view_constructed (GObject *object)
 {
+	EShellContent *shell_content;
+	EShellWindow *shell_window;
+	EShellSearchbar *searchbar;
+	GtkWidget *box;
+
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 
 	e_cal_shell_view_private_constructed (E_CAL_SHELL_VIEW (object));
+
+	/* no search bar in express mode */
+	if (e_shell_get_express_mode (e_shell_get_default ()))
+		return;
+
+	shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (object));
+	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (object));
+	searchbar = e_cal_shell_content_get_searchbar (E_CAL_SHELL_CONTENT (shell_content));	
+
+	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+
+	cal_shell_view_add_action_button (GTK_BOX (box), ACTION (CALENDAR_SEARCH_PREV));
+	cal_shell_view_add_action_button (GTK_BOX (box), ACTION (CALENDAR_SEARCH_NEXT));
+	cal_shell_view_add_action_button (GTK_BOX (box), ACTION (CALENDAR_SEARCH_STOP));
+
+	gtk_widget_show_all (box);
+
+	gtk_box_pack_start (GTK_BOX (e_shell_searchbar_get_search_box (searchbar)), box, FALSE, FALSE, 0);
 }
 
 static void

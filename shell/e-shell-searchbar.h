@@ -108,6 +108,8 @@ gboolean	e_shell_searchbar_get_search_visible
 void		e_shell_searchbar_set_search_visible
 						(EShellSearchbar *searchbar,
 						 gboolean search_visible);
+GtkWidget *	e_shell_searchbar_get_search_box
+						(EShellSearchbar *searchbar);
 EActionComboBox *
 		e_shell_searchbar_get_scope_combo_box
 						(EShellSearchbar *searchbar);

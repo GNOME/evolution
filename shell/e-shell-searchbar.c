@@ -1285,6 +1285,16 @@ e_shell_searchbar_set_search_visible (EShellSearchbar *searchbar,
 	g_object_notify (G_OBJECT (searchbar), "search-visible");
 }
 
+GtkWidget *
+e_shell_searchbar_get_search_box (EShellSearchbar *searchbar)
+{
+	g_return_val_if_fail (searchbar != NULL, NULL);
+	g_return_val_if_fail (searchbar->priv != NULL, NULL);
+	g_return_val_if_fail (searchbar->priv->search_entry != NULL, NULL);
+
+	return gtk_widget_get_parent (searchbar->priv->search_entry);
+}
+
 EActionComboBox *
 e_shell_searchbar_get_scope_combo_box (EShellSearchbar *searchbar)
 {
