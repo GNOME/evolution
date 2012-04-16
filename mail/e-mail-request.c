@@ -164,7 +164,6 @@ struct http_request_async_data {
 	CamelDataCache *cache;
 	gchar *cache_key;
 
-	GInputStream *stream;
 	CamelStream *cache_stream;
 	gchar *content_type;
 	goffset content_length;
@@ -185,38 +184,21 @@ http_request_write_to_cache (GInputStream *stream,
 
 	/* Error while reading data */
 	if (len == -1) {
-		g_message ("Error while reading input stream: %s",
-			error ? error->message : "Unknown error");
-		g_clear_error (&error);
-
-		g_main_loop_quit (data->loop);
-
-		if (data->buff)
-			g_free (data->buff);
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			g_message ("Error while reading input stream: %s",
+				error ? error->message : "Unknown error");
+			g_clear_error (&error);
+		}
 
 		/* Don't keep broken data in cache */
 		camel_data_cache_remove (data->cache, "http", data->cache_key, NULL);
-		return;
+
+		goto cleanup;
 	}
 
 	/* EOF */
 	if (len == 0) {
-		camel_stream_close (data->cache_stream, data->cancellable, NULL);
-
-		if (data->buff)
-			g_free (data->buff);
-
-		g_main_loop_quit (data->loop);
-		return;
-	}
-
-	if (!data->cache_stream) {
-
-		if (data->buff)
-			g_free (data->buff);
-
-		g_main_loop_quit (data->loop);
-		return;
+		goto cleanup;
 	}
 
 	/* Write chunk to cache and read another block of data. */
@@ -226,6 +208,16 @@ http_request_write_to_cache (GInputStream *stream,
 	g_input_stream_read_async (stream, data->buff, 4096,
 		G_PRIORITY_DEFAULT, data->cancellable,
 		(GAsyncReadyCallback) http_request_write_to_cache, data);
+
+	return;
+
+ cleanup:
+	if (data->buff)
+		g_free (data->buff);
+
+	g_object_unref (stream);
+
+	g_main_loop_quit (data->loop);
 }
 
 static void
@@ -235,13 +227,21 @@ http_request_finished (SoupRequest *request,
 {
 	GError *error;
 	SoupMessage *message;
+	GInputStream *stream;
 
 	error = NULL;
-	data->stream = soup_request_send_finish (request, res, &error);
+	stream = soup_request_send_finish (request, res, &error);
+	/* If there is an error or the operation was canceled, do nothing */
+	if (error) {
+		g_main_loop_quit (data->loop);
+		g_error_free (error);
+		return;
+	}
 
-	if (!data->stream) {
+	if (!stream) {
 		g_warning("HTTP request failed: %s", error ? error->message: "Unknown error");
 		g_clear_error (&error);
+
 		g_main_loop_quit (data->loop);
 		return;
 	}
@@ -249,8 +249,9 @@ http_request_finished (SoupRequest *request,
 	message = soup_request_http_get_message (SOUP_REQUEST_HTTP (request));
 	if (!SOUP_STATUS_IS_SUCCESSFUL (message->status_code)) {
 		g_warning ("HTTP request failed: HTTP code %d", message->status_code);
-		g_main_loop_quit (data->loop);
 		g_object_unref (message);
+
+		g_main_loop_quit (data->loop);
 		return;
 	}
 
@@ -259,15 +260,42 @@ http_request_finished (SoupRequest *request,
 	data->content_length = soup_request_get_content_length (request);
 	data->content_type = g_strdup (soup_request_get_content_type (request));
 
-	if (!data->cache_stream) {
+	if (!data->cache_stream || g_cancellable_is_cancelled (data->cancellable)) {
 		g_main_loop_quit (data->loop);
 		return;
 	}
 
 	data->buff = g_malloc (4096);
-	g_input_stream_read_async (data->stream, data->buff, 4096,
+	g_input_stream_read_async (stream, data->buff, 4096,
 		G_PRIORITY_DEFAULT, data->cancellable,
 		(GAsyncReadyCallback) http_request_write_to_cache, data);
+}
+
+static gssize
+copy_stream_to_stream (CamelStream *input,
+		       GMemoryInputStream *output,
+		       GCancellable *cancellable)
+{
+	gchar *buff;
+	gssize read_len = 0;
+	gssize total_len = 0;
+
+	g_seekable_seek (G_SEEKABLE (input), 0, G_SEEK_SET, cancellable, NULL);
+
+	buff = g_malloc (4096);
+	while ((read_len = camel_stream_read (input, buff, 4096, cancellable, NULL)) > 0) {
+
+		g_memory_input_stream_add_data (output, buff, read_len, g_free);
+
+		total_len += read_len;
+
+		buff = g_malloc (4096);
+	}
+
+	/* Free the last unused buffer */
+	g_free (buff);
+
+	return total_len;
 }
 
 static void
@@ -286,10 +314,11 @@ handle_http_request (GSimpleAsyncResult *res,
 	CamelDataCache *cache;
 	CamelStream *cache_stream;
 
-	gssize len;
-	gchar *buff;
-
 	GHashTable *query;
+
+	if (g_cancellable_is_cancelled (cancellable)) {
+		return;
+	}
 
 	/* Remove the __evo-mail query */
 	soup_uri = soup_request_get_uri (SOUP_REQUEST (request));
@@ -330,20 +359,13 @@ handle_http_request (GSimpleAsyncResult *res,
 	cache_stream = camel_data_cache_get (cache, "http", uri_md5, NULL);
 	if (cache_stream) {
 
+		gssize len;
+
 		stream = g_memory_input_stream_new ();
 
-		request->priv->content_length = 0;
-
-		buff = g_malloc (4096);
-		while ((len = camel_stream_read (cache_stream, buff, 4096,
-				cancellable, NULL)) > 0) {
-
-			g_memory_input_stream_add_data (G_MEMORY_INPUT_STREAM (stream),
-				buff, len, g_free);
-			request->priv->content_length += len;
-
-			buff = g_malloc (4096);
-		}
+		len = copy_stream_to_stream (cache_stream,
+			       G_MEMORY_INPUT_STREAM (stream), cancellable);
+		request->priv->content_length = len;
 
 		g_object_unref (cache_stream);
 
@@ -412,6 +434,11 @@ handle_http_request (GSimpleAsyncResult *res,
 			g_warning ("Failed to create cache file for '%s': %s",
 				uri, error ? error->message : "Unknown error");
 			g_clear_error (&error);
+
+			/* We rely on existence of the stream. If CamelDataCache
+			 * failed to create a cache file, then store it at least
+			 * temporarily. */
+			data.cache_stream = camel_stream_mem_new ();
 		}
 
 		/* Send the request and waint in mainloop until it's finished
@@ -420,6 +447,7 @@ handle_http_request (GSimpleAsyncResult *res,
 		soup_request_send_async (http_request, cancellable,
 			(GAsyncReadyCallback) http_request_finished, &data);
 
+		/* Wait for the asynchronous HTTP GET to finish */
 		g_main_loop_run (data.loop);
 		d(printf (" '%s' fetched from internet and (hopefully) stored in"
 			  " cache\n", uri));
@@ -427,13 +455,17 @@ handle_http_request (GSimpleAsyncResult *res,
 		g_main_loop_unref (data.loop);
 
 		g_object_unref (session);
-
 		g_object_unref (http_request);
 		g_object_unref (requester);
 
-		stream = data.stream;
-		if (!stream)
-			goto cleanup;
+		/* Copy the content of cache stream to GInputStream that can be
+		 * returned to WebKit */
+		stream = g_memory_input_stream_new ();
+		copy_stream_to_stream (data.cache_stream,
+			G_MEMORY_INPUT_STREAM (stream), cancellable);
+
+		camel_stream_close (data.cache_stream, cancellable, NULL);
+		g_object_unref (data.cache_stream);
 
 		request->priv->content_length = data.content_length;
 		request->priv->mime_type = data.content_type;
@@ -444,7 +476,7 @@ handle_http_request (GSimpleAsyncResult *res,
 
 	}
 
-cleanup:
+ cleanup:
 	g_free (uri);
 	g_free (uri_md5);
 }
@@ -716,7 +748,8 @@ mail_request_send_finish (SoupRequest *request,
 	/* Reset the stream before passing it back to webkit */
 	if (stream && G_IS_SEEKABLE (stream))
 		g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, NULL, NULL);
-	else /* We must always return something */
+
+	if (!stream) /* We must always return something */
 		stream = g_memory_input_stream_new ();
 
 	return stream;
