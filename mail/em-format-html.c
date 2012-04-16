@@ -2600,6 +2600,37 @@ efh_format_short_headers (EMFormatHTML *efh,
 }
 
 static void
+write_contact_picture (CamelMimePart *part, gint size, GString *buffer)
+{
+	gchar *b64, *content_type;
+	CamelDataWrapper *dw;
+	CamelContentType *ct;
+	GByteArray *ba;
+
+	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
+	ba = camel_data_wrapper_get_byte_array (dw);
+
+	b64 = g_base64_encode (ba->data, ba->len);
+	ct = camel_mime_part_get_content_type (part);
+	content_type = camel_content_type_simple (ct);
+
+	if (size >= 0) {
+		g_string_append_printf (
+			buffer,
+			"<img width=\"%d\" src=\"data:%s;base64,%s\">",
+			size, content_type, b64);
+	} else {
+		g_string_append_printf (
+			buffer,
+			"<img src=\"data:%s;base64,%s\">",
+			content_type, b64);
+	}
+
+	g_free (b64);
+	g_free (content_type);
+}
+
+static void
 efh_format_full_headers (EMFormatHTML *efh,
                          GString *buffer,
                          CamelMedium *part,
@@ -2707,7 +2738,7 @@ efh_format_full_headers (EMFormatHTML *efh,
 	g_free (header_sender);
 	g_free (header_from);
 
-	g_string_append (buffer, "<tr><td><table border=0 cellpadding=\"0\">\n");
+	g_string_append (buffer, "<tr><td width=\"100%%\"><table border=0 cellpadding=\"0\">\n");
 
 	g_free (evolution_imagesdir);
 
@@ -2800,7 +2831,6 @@ efh_format_full_headers (EMFormatHTML *efh,
 	g_string_append (buffer, "</table></td>");
 
 	if (photo_name) {
-		const gchar *classid;
 		CamelMimePart *photopart;
 		gboolean only_local_photo;
 
@@ -2810,44 +2840,26 @@ efh_format_full_headers (EMFormatHTML *efh,
 		photopart = em_utils_contact_photo (cia, only_local_photo);
 
 		if (photopart) {
-			EMFormatPURI *puri;
-			contact_has_photo = TRUE;
-			classid = "icon:///em-format-html/headers/photo";
-			g_string_append_printf (
-				buffer,
-				"<td align=\"right\" valign=\"top\">"
-				"<img width=64 src=\"%s\"></td>",
-				classid);
-			puri = em_format_puri_new (
-					emf, sizeof (EMFormatPURI), photopart, classid);
-			puri->write_func = efh_write_image;
-			em_format_add_puri (emf, puri);
+			g_string_append (buffer, "<td align=\"right\" valign=\"top\">");
+			write_contact_picture (photopart, -1, buffer);
+			g_string_append (buffer, "</td>");
 			g_object_unref (photopart);
 		}
 		g_object_unref (cia);
 	}
 
 	if (!contact_has_photo && face_decoded) {
-		const gchar *classid;
 		CamelMimePart *part;
-		EMFormatPURI *puri;
 
 		part = camel_mime_part_new ();
 		camel_mime_part_set_content (
 			(CamelMimePart *) part,
 			(const gchar *) face_header_value,
 			face_header_len, "image/png");
-		classid = "icon:///em-format-html/headers/face/photo";
-		g_string_append_printf (
-			buffer,
-			"<td align=\"right\" valign=\"top\">"
-			"<img width=48 src=\"%s\"></td>",
-			classid);
 
-		puri = em_format_puri_new (
-			emf, sizeof (EMFormatPURI), part, classid);
-		puri->write_func = efh_write_image;
-		em_format_add_puri (emf, puri);
+		g_string_append (buffer, "<td align=\"right\" valign=\"top\">");
+		write_contact_picture (part, 48, buffer);
+		g_string_append (buffer, "</td>");
 
 		g_object_unref (part);
 		g_free (face_header_value);
@@ -2855,19 +2867,11 @@ efh_format_full_headers (EMFormatHTML *efh,
 
 	if (have_icon && efh->show_icon) {
 		GtkIconInfo *icon_info;
-		const gchar *classid;
 		CamelMimePart *iconpart = NULL;
-		EMFormatPURI *puri;
 
-		classid = "icon:///em-format-html/header/icon";
-		g_string_append_printf (
-			buffer,
-			"<td align=\"right\" valign=\"top\">"
-			"<img width=16 height=16 src=\"%s\"></td>",
-			classid);
-			icon_info = gtk_icon_theme_lookup_icon (
-			gtk_icon_theme_get_default (),
-			"evolution", 16, GTK_ICON_LOOKUP_NO_SVG);
+		icon_info = gtk_icon_theme_lookup_icon (
+				gtk_icon_theme_get_default (),
+				"evolution", 16, GTK_ICON_LOOKUP_NO_SVG);
 		if (icon_info != NULL) {
 			iconpart = em_format_html_file_part (
 				(EMFormatHTML *) emf, "image/png",
@@ -2876,10 +2880,10 @@ efh_format_full_headers (EMFormatHTML *efh,
 			gtk_icon_info_free (icon_info);
 		}
 		if (iconpart) {
-			puri = em_format_puri_new (
-					emf, sizeof (EMFormatPURI), iconpart, classid);
-			puri->write_func = efh_write_image;
-			em_format_add_puri (emf, puri);
+			g_string_append (buffer, "<td align=\"right\" valign=\"top\">");
+			write_contact_picture (iconpart, 16, buffer);
+			g_string_append (buffer, "</td>");
+
 			g_object_unref (iconpart);
 		}
 	}
