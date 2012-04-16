@@ -98,7 +98,7 @@ handle_mail_request (GSimpleAsyncResult *res,
 
 		if (request->priv->puri) {
 			em_format_puri_write (request->priv->puri,
-				request->priv->output_stream, &info, NULL);
+				request->priv->output_stream, &info, cancellable);
 		} else {
 			g_warning ("Failed to lookup requested part '%s' - this should not happen!", part_id);
 		}
@@ -108,7 +108,7 @@ handle_mail_request (GSimpleAsyncResult *res,
 		if (info.mode == 0)
 			info.mode = EM_FORMAT_WRITE_MODE_NORMAL;
 
-		em_format_write (emf, request->priv->output_stream, &info, NULL);
+		em_format_write (emf, request->priv->output_stream, &info, cancellable);
 	}
 
 	/* Convert the GString to GInputStream and send it back to WebKit */
