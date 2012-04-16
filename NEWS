@@ -1,3 +1,34 @@
+Evolution 3.4.1 2012-04-16
+--------------------------
+
+Bug Fixes:
+	Bug #600860 - Opening IMAP message with large attachment blocks UI (Milan Crha)
+	Bug 673955 - Can not display email and calendar in separate windows anymore (Matthew Barnes)
+	Bug 673895 - "Send To..." doesn't work anymore (Matthew Barnes)
+	Bug #672916 - Spam is not detected automatically (Milan Crha)
+	Bug #617930 - Crash under mail_sidebar_model_loaded_row_cb (Milan Crha)
+	Bug 672986 - User docs are too big for git.mk (Sam Thursfield)
+
+Miscellaneous Fixes:
+	Fix backward buttons in "restore-confirm" dialog. (Matthew Barnes)
+	Add missing return to e_calendar_item_event() (Milan Crha)
+	Remove redundant tree_drag_data_delete() (Milan Crha)
+	EMailSidebar: Avoid runtime warnings in dispose(). (Matthew Barnes)
+	Add ability to specify INBOX for non-storage type accounts. Email daemon allows to store mails in individual INBOX rather than a common one. 
+	 (Srinivasa Ragavan)
+	Require gnome-doc-utils >= 0.20.10. (Matthew Barnes)
+
+Translations:
+	Mario Blättermann (de)
+	Christian Kirbach (de)
+	Valencian translation  (ca)
+	Daniel Nylander (sv)
+	Bruno Brouard (fr)
+	Sasi Bhushan (ug)
+	Jordi Serratosa (ca)
+	Daniel Mustieles (es)
+	Sweta Kothari (gu)
+
 Evolution 3.4.0 2012-03-26
 --------------------------
 
