@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-04-16 12:04+0000\n"
-"PO-Revision-Date: 2012-04-16 16:24+0200\n"
+"POT-Creation-Date: 2012-04-16 14:31+0000\n"
+"PO-Revision-Date: 2012-04-17 16:58+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -902,7 +902,7 @@ msgstr "Charla por vídeo"
 #: ../calendar/gui/dialogs/calendar-setup.c:469
 #: ../modules/calendar/e-cal-shell-view-actions.c:232
 #: ../modules/calendar/e-cal-shell-view-actions.c:261
-#: ../modules/calendar/e-cal-shell-view.c:550
+#: ../modules/calendar/e-cal-shell-view.c:606
 #: ../modules/online-accounts/e-online-accounts-google.c:302
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
 #: ../widgets/misc/e-send-options.c:546
@@ -2188,7 +2188,7 @@ msgstr "No se pudo realizar esta operación."
 
 #: ../calendar/calendar.error.xml.h:92 ../mail/mail.error.xml.h:175
 msgid "You must be working online to complete this operation."
-msgstr ""
+msgstr "Debe estar trabajando en línea para completar esta operación."
 
 #: ../calendar/gui/calendar-view-factory.c:88
 msgid "Day View"
@@ -8124,7 +8124,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
 msgid "Search range for time-based searching in years"
-msgstr ""
+msgstr "Rango de búsqueda en años para búsquedas basadas en tiempo"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
 msgid ""
@@ -8132,6 +8132,9 @@ msgid ""
 "currently selected day when searching for another occurrence; default is ten "
 "years"
 msgstr ""
+"Cuántos años puede ir hacia atrás o hacia delante la búsqueda basada en "
+"tiempo, desde el día seleccionado actualmente, al buscar otra ocurrencia; el "
+"valor predeterminado son 10 años"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "List of selected calendars"
@@ -9466,15 +9469,13 @@ msgstr ""
 "los elimina de los resultados de la búsqueda."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
-#, fuzzy
 #| msgid "Whether to show local folders (On This Computer) in a folder tree"
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr ""
-"Indica si se deben mostrar las carpetas locales (En este equipo) en un árbol "
-"de carpetas"
+"Pregunta si se deben copiar carpetas arrastrando y soltando en el árbol de "
+"carpetas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
-#, fuzzy
 #| msgid ""
 #| "Possible values are: 'never' - to never close browser window, 'always' - "
 #| "to always close browser window or 'ask' - (or any other value) will ask "
@@ -9485,20 +9486,19 @@ msgid ""
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
 msgstr ""
-"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana del "
-"examinador; «always» (siempre) para cerrar siempre la ventana del examinador "
-"o «ask» (preguntar) o cualquier otro valor, preguntarán al usuario."
+"Los valores posibles son: «never» (nunca) para no permitir copiar carpetas "
+"arrastrando y soltando en el árbol de carpetas, «always» (siempre) para "
+"permitir mover carpetas arrastrando y soltando en el árbol de carpetas o "
+"«ask» (preguntar) o cualquier otro valor, para preguntar al usuario."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
-#, fuzzy
 #| msgid "Whether to show local folders (On This Computer) in a folder tree"
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr ""
-"Indica si se deben mostrar las carpetas locales (En este equipo) en un árbol "
-"de carpetas"
+"Pregunta si se deben mover carpetas arrastrando y soltando en el árbol de "
+"carpetas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
-#, fuzzy
 #| msgid ""
 #| "Possible values are: 'never' - to never close browser window, 'always' - "
 #| "to always close browser window or 'ask' - (or any other value) will ask "
@@ -9509,9 +9509,10 @@ msgid ""
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
 msgstr ""
-"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana del "
-"examinador; «always» (siempre) para cerrar siempre la ventana del examinador "
-"o «ask» (preguntar) o cualquier otro valor, preguntarán al usuario."
+"Los valores posibles son: «never» (nunca) para no permitir mover carpetas "
+"arrastrando y soltando en el árbol de carpetas, «always» (siempre) para "
+"permitir mover carpetas arrastrando y soltando en el árbol de carpetas o "
+"«ask» (preguntar) o cualquier otro valor, para preguntar al usuario."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 #: ../mail/evolution-mail.schemas.in.h:165
@@ -9883,59 +9884,54 @@ msgid "Address book source"
 msgstr "Libreta de direcciones fuente"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
-#, fuzzy
 #| msgid "Address book to use for storing automatically synced contacts"
 msgid "Address book to use for storing automatically synced contacts."
 msgstr ""
 "Libreta de direcciones que usar para almacenar los contactos sincronizados "
-"automáticamente"
+"automáticamente."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
 msgid "Auto sync Pidgin contacts"
 msgstr "Auto sincronizar contactos de Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
-#, fuzzy
 #| msgid "Whether GAIM contacts should be automaticall synced"
 msgid "Whether Pidgin contacts should be automatically synced."
-msgstr "Indica si los contactos de GAIM se deben sincronizar automáticamente"
+msgstr ""
+"Indica si los contactos de Pidgin se deben sincronizar automáticamente."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
 msgid "Enable autocontacts"
 msgstr "Activar contactos automáticos"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
-#, fuzzy
 #| msgid ""
 #| "Whether contacts should be automatically added to the user's addressbook"
 msgid ""
 "Whether contacts should be automatically added to the user's address book."
 msgstr ""
 "indica si los contactos se deben añadir automáticamente a la libre de "
-"direcciones del usuario"
+"direcciones del usuario."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
-#, fuzzy
 #| msgid "Address book source"
 msgid "Pidgin address book source"
-msgstr "Libreta de direcciones fuente"
+msgstr "Fuente de la libreta de direcciones de Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
-#, fuzzy
 #| msgid ""
 #| "Address book to use for storing automatically synced contacts from GAIM"
 msgid ""
 "Address book to use for storing automatically synced contacts from Pidgin."
 msgstr ""
 "Lista de direcciones que usar para almacenar automáticamente los contactos "
-"sincronicados de GAIM"
+"sincronizados de Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "Pidgin check interval"
 msgstr "Intervalo de comprobación para Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
-#| msgid "Check interval for GAIM syncing of contacts"
 msgid "Check interval for Pidgin syncing of contacts."
 msgstr "Intervalo de comprobación para sincronizar contactos de Pidgin."
 
@@ -10358,7 +10354,7 @@ msgstr "No se pudo analizar el mensaje PGP: "
 
 #: ../em-format/em-format.c:1131
 msgid "Cannot proccess non-text mime/part"
-msgstr ""
+msgstr "No se puede procesar la parte MIME que no es texto"
 
 #: ../em-format/em-format.c:1225 ../em-format/em-format-quote.c:154
 #: ../mail/e-mail-tag-editor.c:327 ../mail/message-list.etspec.h:5
@@ -12718,7 +12714,6 @@ msgid "Specify where to create the folder:"
 msgstr "Especifique donde crear la carpeta:"
 
 #: ../mail/em-format-html.c:385
-#| msgid "Malformed external-body part."
 msgid "Malformed external-body part"
 msgstr "Parte externa al cuerpo del mensaje mal formada"
 
@@ -12759,7 +12754,7 @@ msgstr "De: %s"
 msgid "(no subject)"
 msgstr "(sin asunto)"
 
-#: ../mail/em-format-html.c:2700
+#: ../mail/em-format-html.c:2731
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "%s envió este mensaje en nombre de %s"
@@ -15003,7 +14998,6 @@ msgid "N_ever"
 msgstr "_Nunca"
 
 #: ../mail/mail.error.xml.h:141
-#| msgid "Copying folder %s"
 msgid "Copy folder in folder tree."
 msgstr "Copiar carpeta en el árbol de carpetas."
 
@@ -15012,7 +15006,6 @@ msgid "Are you sure to copy folder '{0}' to folder '{1}'?"
 msgstr "¿Está seguro de que quiere copiar la carpeta «{0}» a «{1}»?"
 
 #: ../mail/mail.error.xml.h:143
-#| msgid "Moving folder %s"
 msgid "Move folder in folder tree."
 msgstr "Mover carpeta en el árbol de carpetas."
 
@@ -15137,12 +15130,10 @@ msgid "Printing failed."
 msgstr "Falló al imprimir."
 
 #: ../mail/mail.error.xml.h:173
-#| msgid "The reported error was &quot;{0}&quot;."
 msgid "The printer replied &quot;{0}&quot;."
 msgstr "La impresora respondió &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:174
-#| msgid "Could not open destination"
 msgid "Could not perform this operation on {0}."
 msgstr "No se puede realizar esta operación en {0}."
 
@@ -16717,29 +16708,26 @@ msgid "Find _next"
 msgstr "Buscar siguie_nte"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1435
-#, fuzzy
 #| msgid "Find the next occurrence of the phrase"
 msgid "Find next occurrence of the current search string"
-msgstr "Buscar la siguiente coincidencia de la frase"
+msgstr "Buscar la siguiente coincidencia de la frase de búsqueda actual"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1440
-#| msgid "_Previous"
 msgid "Find _previous"
 msgstr "Buscar _anterior"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1442
-#, fuzzy
 #| msgid "Find the previous occurrence of the phrase"
 msgid "Find previous occurrence of the current search string"
-msgstr "Buscar la coincidencia anterior de la frase"
+msgstr "Buscar la coincidencia anterior de la frase de búsqueda actual"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1447
 msgid "Stop _running search"
-msgstr ""
+msgstr "Detene_r la búsqueda en ejecución"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1449
 msgid "Stop currently running search"
-msgstr ""
+msgstr "Detener la búsqueda actual en ejecución"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1454
 msgid "Show _Only This Calendar"
@@ -16966,28 +16954,27 @@ msgid "Print the selected memo"
 msgstr "Imprimir la nota seleccionada"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:1443
-#, fuzzy
 #| msgid "Print this event"
 msgid "Searching next matching event"
-msgstr "Imprime este acontecimiento"
+msgstr "Buscando el siguiente evento coincidente"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:1444
 msgid "Searching previous matching event"
-msgstr ""
+msgstr "Buscando el anterior evento coincidente"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:1462
 #, c-format
 msgid "Cannot find matching event in the next %d year"
 msgid_plural "Cannot find matching event in the next %d years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "No se puede encontrar un evento coincidente dentro de %d año"
+msgstr[1] "No se puede encontrar un evento coincidente dentro de %d años"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:1465
 #, c-format
 msgid "Cannot find matching event in the previous %d year"
 msgid_plural "Cannot find matching event in the previous %d years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "No se puede encontrar un evento coincidente hace %d año"
+msgstr[1] "No se puede encontrar un evento coincidente hace %d años"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:1486
 msgid "Cannot search with no active calendar"
@@ -18025,7 +18012,6 @@ msgid "Loading accounts..."
 msgstr "Cargando cuentas…"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:88
-#| msgid "_Select..."
 msgid "_Inspect..."
 msgstr "_Inspeccionar…"
 
@@ -18034,7 +18020,6 @@ msgid "Inspect the HTML content (debugging feature)"
 msgstr "Inspeccionar el contenido HTML (característica de depurado)"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:102
-#| msgid "Evolution Restore"
 msgid "Evolution Web Inspector"
 msgstr "Inspector web de Evolution"
 
