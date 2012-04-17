@@ -506,6 +506,9 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 				error->message);
 			g_clear_error (&error);
 		}
+
+		if ((camel_message_info_flags (context->info) & CAMEL_MESSAGE_DELETED) != 0)
+			copy_to_sent = FALSE;
 	}
 
 	if (!copy_to_sent)
@@ -630,6 +633,23 @@ exit:
 			context->sent_folder, FALSE, cancellable, NULL);
 
 	g_string_free (error_messages, TRUE);
+}
+
+static guint32
+get_message_size (CamelMimeMessage *message,
+		  GCancellable *cancellable)
+{
+	guint32 res = 0;
+	CamelStream *null;
+
+	g_return_val_if_fail (message != NULL, 0);
+
+	null = camel_stream_null_new ();
+	camel_data_wrapper_write_to_stream_sync (CAMEL_DATA_WRAPPER (message), null, cancellable, NULL);
+	res = CAMEL_STREAM_NULL (null)->written;
+	g_object_unref (null);
+
+	return res;
 }
 
 void
@@ -758,7 +778,8 @@ e_mail_session_send_to (EMailSession *session,
 
 	/* Miscellaneous preparations. */
 
-	info = camel_message_info_new (NULL);
+	info = camel_message_info_new_from_header (NULL, ((CamelMimePart *) message)->headers);
+	((CamelMessageInfoBase *) info)->size = get_message_size (message, cancellable);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
 
 	/* The rest of the processing happens in a thread. */
