@@ -1007,7 +1007,7 @@ efh_write_source (EMFormat *emf,
 			EM_FORMAT_HTML_COLOR_BODY]),
 		e_color_to_value (
 			&efh->priv->colors[
-			EM_FORMAT_HTML_COLOR_HEADER]));
+			EM_FORMAT_HTML_COLOR_TEXT]));
 
 	camel_stream_write_string (
 		stream, buffer->str, cancellable, NULL);
