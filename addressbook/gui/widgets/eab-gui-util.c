@@ -52,8 +52,8 @@
 #include <camel/camel.h>
 
 /* Template tags for address format localization */
-#define ADDRESS_REALNAME   			"%n"
-#define ADDRESS_REALNAME_UPPER			"%N"
+#define ADDRESS_REALNAME   			"%n" /* this is not used intentionally */
+#define ADDRESS_REALNAME_UPPER			"%N" /* this is not used intentionally */
 #define ADDRESS_COMPANY				"%m"
 #define ADDRESS_COMPANY_UPPER			"%M"
 #define ADDRESS_POBOX				"%p"
@@ -945,8 +945,10 @@ parse_address_template_section (const gchar *format,
 
 		switch (pos[1]) {
 			case 'n':
-				g_string_append (res, realname);
-				ret = TRUE;
+				if (realname && *realname) {
+					g_string_append (res, realname);
+					ret = TRUE;
+				}
 				pos += 2; /* Jump behind the modifier, see what's next */
 				break;
 			case 'N':
@@ -1119,9 +1121,12 @@ eab_format_address (EContact *contact,
 	}
 
 	/* Expand all the variables in format.
-	 * Don't display organization in home address */
+	 * Don't display organization in home address;
+	 * and skip full names, as it's part of the EContact itself,
+	 * check this bug for reason: https://bugzilla.gnome.org/show_bug.cgi?id=667912
+	 */
 	parse_address_template_section (format,
-					e_contact_get_const (contact, E_CONTACT_FULL_NAME),
+					NULL,
 					(address_type == E_CONTACT_ADDRESS_WORK) ? e_contact_get_const (contact, E_CONTACT_ORG): NULL,
 					addr,
 					&result);
