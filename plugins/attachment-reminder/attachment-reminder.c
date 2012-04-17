@@ -44,7 +44,6 @@
 #include "widgets/misc/e-attachment-store.h"
 
 #define CONF_KEY_ATTACH_REMINDER_CLUES "attachment-reminder-clues"
-#define SIGNATURE "-- "
 
 typedef struct {
 	GSettings   *settings;
@@ -72,9 +71,8 @@ GtkWidget *	org_gnome_attachment_reminder_config_option
 					 EConfigHookItemFactoryData *data);
 
 static gboolean ask_for_missing_attachment (EPlugin *ep, GtkWindow *widget);
-static gboolean check_for_attachment_clues (gchar *msg);
+static gboolean check_for_attachment_clues (GByteArray *msg_text);
 static gboolean check_for_attachment (EMsgComposer *composer);
-static gchar * strip_text_msg (gchar *msg);
 static void commit_changes (UIData *ui);
 
 gint
@@ -90,22 +88,16 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep,
 {
 	GByteArray *raw_msg_barray;
 
-	gchar *filtered_str = NULL;
+	/* no need to check for content, when there are attachments */
+	if (check_for_attachment (t->composer))
+		return;
 
 	raw_msg_barray = e_msg_composer_get_raw_message_text (t->composer);
-
 	if (!raw_msg_barray)
 		return;
 
-	raw_msg_barray = g_byte_array_append (raw_msg_barray, (const guint8 *)"", 1);
-
-	filtered_str = strip_text_msg ((gchar *) raw_msg_barray->data);
-
-	g_byte_array_free (raw_msg_barray, TRUE);
-
 	/* Set presend_check_status for the composer*/
-	if (check_for_attachment_clues (filtered_str) &&
-	    !check_for_attachment (t->composer)) {
+	if (check_for_attachment_clues (raw_msg_barray)) {
 		if (!ask_for_missing_attachment (ep, (GtkWindow *) t->composer))
 			g_object_set_data (
 				G_OBJECT (t->composer),
@@ -113,7 +105,7 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep,
 				GINT_TO_POINTER (1));
 	}
 
-	g_free (filtered_str);
+	g_byte_array_free (raw_msg_barray, TRUE);
 }
 
 static gboolean
@@ -150,16 +142,111 @@ ask_for_missing_attachment (EPlugin *ep,
 	return response == GTK_RESPONSE_YES;
 }
 
+static gboolean
+get_next_word (GByteArray *msg_text,
+	       guint *from,
+	       const gchar **word,
+	       guint *wlen)
+{
+	gboolean new_line;
+
+	g_return_val_if_fail (msg_text != NULL, FALSE);
+	g_return_val_if_fail (from != NULL, FALSE);
+	g_return_val_if_fail (word != NULL, FALSE);
+	g_return_val_if_fail (wlen != NULL, FALSE);
+
+	if (*from >= msg_text->len)
+		return FALSE;
+
+	new_line = TRUE;
+	while (new_line) {
+		new_line = FALSE;
+
+		while (*from < msg_text->len && g_ascii_isspace (msg_text->data[*from])) {
+			new_line = msg_text->data[*from] == '\n';
+			*from = (*from) + 1;
+		}
+
+		if (*from >= msg_text->len)
+			return FALSE;
+
+		if (new_line && msg_text->data[*from] == '>') {
+			/* skip quotation lines */
+			while (*from < msg_text->len && msg_text->data[*from] != '\n') {
+				*from = (*from) + 1;
+			}
+		} else if (new_line && *from + 3 < msg_text->len &&
+		           strncmp ((const gchar *) (msg_text->data + (*from)), "-- \n", 4) == 0) {
+			/* signature delimiter finishes message text */
+			*from = msg_text->len;
+			return FALSE;
+		} else {
+			new_line = FALSE;
+		}
+	}
+
+	if (*from >= msg_text->len)
+		return FALSE;
+
+	*word = (const gchar *) (msg_text->data + (*from));
+	*wlen = 0;
+
+	while (*from < msg_text->len && !g_ascii_isspace (msg_text->data[*from])) {
+		*from = (*from) + 1;
+		*wlen = (*wlen) + 1;
+	}
+
+	return TRUE;
+}
+
+/* 's1' has s1len bytes of text, while 's2' is NULL-terminated
+   and *s2len contains how many bytes were read */
+static gboolean
+utf8_casencmp (const gchar *s1,
+	       guint s1len,
+	       const gchar *s2,
+	       guint *s2len)
+{
+	gunichar u1, u2;
+	guint u1len, u2len;
+
+	if (!s1 || !s2 || !s1len || !s2len)
+		return FALSE;
+
+	*s2len = 0;
+
+	while (s1len > 0 && *s1 && *s2) {
+		u1 = g_utf8_get_char_validated (s1, s1len);
+		u2 = g_utf8_get_char_validated (s2, -1);
+
+		if (u1 == -1 || u1 == -2 || u2 == -1 || u2 == -2)
+			break;
+
+		if (u1 != u2 && g_unichar_tolower (u1) != g_unichar_tolower (u2))
+			break;
+
+		u1len = g_unichar_to_utf8 (u1, NULL);
+		if (s1len < u1len)
+			break;
+
+		u2len = g_unichar_to_utf8 (u2, NULL);
+
+		s1len -= u1len;
+		s1 += u1len;
+		*s2len = (*s2len) + u2len;
+		s2 += u2len;
+	}
+
+	return s1len == 0;
+}
+
 /* check for the clues */
 static gboolean
-check_for_attachment_clues (gchar *msg)
+check_for_attachment_clues (GByteArray *msg_text)
 {
-	/* TODO : Add more strings. RegEx ??? */
 	GSettings *settings;
 	gchar **clue_list;
-	gint i;
-	gboolean ret_val = FALSE;
-	guint msg_length;
+	gboolean found = FALSE;
 
 	settings = g_settings_new ("org.gnome.evolution.plugin.attachment-reminder");
 
@@ -168,20 +255,65 @@ check_for_attachment_clues (gchar *msg)
 
 	g_object_unref (settings);
 
-	msg_length = strlen (msg);
-	for (i = 0; clue_list[i] != NULL; i++) {
-		gchar *needle = g_utf8_strdown (clue_list[i], -1);
-		if (g_strstr_len (msg, msg_length, needle)) {
-			ret_val = TRUE;
+	if (clue_list && clue_list[0]) {
+		gint ii;
+		guint from = 0, wlen = 0, clen = 0;
+		const gchar *word = NULL;
+
+		while (!found && get_next_word (msg_text, &from, &word, &wlen)) {
+			for (ii = 0; !found && clue_list[ii] != NULL; ii++) {
+				const gchar *clue = clue_list[ii];
+
+				if (utf8_casencmp (word, wlen, clue, &clen)) {
+					found = clue[clen] == 0;
+
+					if (!found && g_ascii_isspace (clue[clen])) {
+						/* clue is a multi-word, then test more words */
+						guint bfrom = from, blen = 0;
+						const gchar *bword = NULL;
+
+						clue = clue + clen;
+						while (*clue && g_ascii_isspace (*clue))
+							clue++;
+
+						found = !*clue;
+						if (!found) {
+							found = TRUE;
+
+							while (found && get_next_word (msg_text, &bfrom, &bword, &blen)) {
+								found = FALSE;
+
+								if (utf8_casencmp (bword, blen, clue, &clen)) {
+									found = clue[clen] == 0;
+									if (found) {
+										clue = clue + clen;
+										break;
+									} else if (g_ascii_isspace (clue[clen])) {
+										/* another word in clue */
+										found = TRUE;
+
+										clue = clue + clen;
+										while (*clue && g_ascii_isspace (*clue))
+											clue++;
+									}
+								} else {
+									found = FALSE;
+								}
+							}
+
+							found = found && !*clue;
+						}
+					}
+				}
+			}
 		}
-		g_free (needle);
 	}
 
 	if (clue_list) {
 		g_strfreev (clue_list);
 	}
 
-	return ret_val;
+	return found;
 }
 
 /* check for the any attachment */
@@ -195,34 +327,6 @@ check_for_attachment (EMsgComposer *composer)
 	store = e_attachment_view_get_store (view);
 
 	return (e_attachment_store_get_num_attachments (store) > 0);
-}
-
-static gchar *
-strip_text_msg (gchar *msg)
-{
-	gchar **lines = g_strsplit ( msg, "\n", -1);
-	gchar *stripped_msg = g_strdup (" ");
-	guint i = 0;
-	gchar *temp;
-
-	/* Note : HTML Signatures won't work. Depends on Bug #522784 */
-	while (lines[i] && g_strcmp0 (lines[i], SIGNATURE)) {
-		if (!g_str_has_prefix (g_strstrip(lines[i]), ">")) {
-			temp = stripped_msg;
-
-			stripped_msg = g_strconcat (" ", stripped_msg, lines[i], NULL);
-
-			g_free (temp);
-		}
-		i++;
-	}
-
-	g_strfreev (lines);
-
-	temp = g_utf8_strdown (stripped_msg, -1);
-	g_free (stripped_msg);
-
-	return temp;
 }
 
 static void
