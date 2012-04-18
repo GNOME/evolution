@@ -883,10 +883,10 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 		goto whole_message;
 
 	selection = e_web_view_get_selection_html (web_view);
-	length = strlen (selection);
 	if (selection == NULL || *selection == '\0')
 		goto whole_message;
 
+	length = strlen (selection);
 	if (!html_contains_nonwhitespace (selection, length))
 		goto whole_message;
 
