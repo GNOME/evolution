@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.5.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-18 20:12+0200\n"
-"PO-Revision-Date: 2012-04-18 20:26+0200\n"
+"POT-Creation-Date: 2012-04-18 21:23+0200\n"
+"PO-Revision-Date: 2012-04-18 21:23+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -9643,7 +9643,8 @@ msgstr "Kilde for adressebok"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
 msgid "Address book to use for storing automatically synced contacts."
-msgstr "Adressebok som skal brukes til å lagre automatisk synkroniserte kontakter."
+msgstr ""
+"Adressebok som skal brukes til å lagre automatisk synkroniserte kontakter."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
 msgid "Auto sync Pidgin contacts"
@@ -9669,7 +9670,9 @@ msgstr "Kilde for Pidgin-adressebok"
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid ""
 "Address book to use for storing automatically synced contacts from Pidgin."
-msgstr "Adressebok som skal brukes til å lagre automatisk synkroniserte kontakter fra Pidgin."
+msgstr ""
+"Adressebok som skal brukes til å lagre automatisk synkroniserte kontakter "
+"fra Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "Pidgin check interval"
@@ -9817,7 +9820,9 @@ msgstr "Navn på lydfil som skal spilles av."
 msgid ""
 "Sound file to be played when new messages arrive, if \"notify-sound-play-file"
 "\" is \"true\"."
-msgstr "Lydfil som skal spilles av når nye meldinger ankommer hvis «notify-sound-play-file» er «true»."
+msgstr ""
+"Lydfil som skal spilles av når nye meldinger ankommer hvis «notify-sound-"
+"play-file» er «true»."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
 msgid "Whether to play a sound file."
@@ -14641,7 +14646,7 @@ msgid "Copy folder in folder tree."
 msgstr "Kopierer mappe i mappetre."
 
 #: ../mail/mail.error.xml.h:142
-msgid "Are you sure to copy folder '{0}' to folder '{1}'?"
+msgid "Are you sure you want to copy folder '{0}' to folder '{1}'?"
 msgstr "Er du sikker på at du vil kopiere mappe «{0} til mappe «{1}»?"
 
 #: ../mail/mail.error.xml.h:143
@@ -14649,7 +14654,7 @@ msgid "Move folder in folder tree."
 msgstr "Flytt mappe i mappetre."
 
 #: ../mail/mail.error.xml.h:144
-msgid "Are you sure to move folder '{0}' to folder '{1}'?"
+msgid "Are you sure you want to to move folder '{0}' to folder '{1}'?"
 msgstr "Er du sikker på at du vil flytte mappe «{0}» til mappe «{1}»?"
 
 #: ../mail/mail.error.xml.h:145
