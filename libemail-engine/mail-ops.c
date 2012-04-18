@@ -290,7 +290,6 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 		if (m->fetch_count > 0) {
 			/* We probably should fetch some old messages first. */
-			printf("Fetching %d %s messages\n", m->fetch_count, (m->fetch_type == CAMEL_FETCH_NEW_MESSAGES) ? "new" : "old");
 			m->still_more = camel_folder_fetch_messages_sync (folder, m->fetch_type, 
 					m->fetch_count, cancellable, error) ? 1 : 0 ;
 		}
@@ -314,7 +313,6 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 			folder_uids = camel_folder_get_uids (folder);
 			cache_uids = camel_uid_cache_get_new_uids (cache, folder_uids);
-			printf("Gonna cache uids: %d\n", cache_uids->len);
 
 			if (cache_uids) {
 				/* need to copy this, sigh */
