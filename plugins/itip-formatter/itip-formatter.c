@@ -2674,10 +2674,10 @@ in_proper_folder (CamelFolder *folder)
 
 	if (mail_folder_cache_get_folder_info_flags (folder_cache, folder, &flags)) {
 		/* it should be neither trash nor junk folder, */
-		res = ((flags & CAMEL_FOLDER_TYPE_TRASH) !=  CAMEL_FOLDER_TYPE_TRASH &&
-		       (flags & CAMEL_FOLDER_TYPE_JUNK) != CAMEL_FOLDER_TYPE_JUNK &&
+		res = ((flags & CAMEL_FOLDER_TYPE_MASK) !=  CAMEL_FOLDER_TYPE_TRASH &&
+		       (flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_JUNK &&
 			  /* it can be Inbox */
-			( (flags & CAMEL_FOLDER_TYPE_INBOX) == CAMEL_FOLDER_TYPE_INBOX ||
+			( (flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX ||
 			  /* or any other virtual folder */
 			  CAMEL_IS_VEE_FOLDER (folder) ||
 			  /* or anything else except of sent, outbox or drafts folder */
