@@ -750,6 +750,7 @@ efh_write_text_plain (EMFormat *emf,
 
 	camel_stream_write_string (stream, content, cancellable, NULL);
 	em_format_format_text (emf, filtered_stream, (CamelDataWrapper *) puri->part, cancellable);
+	camel_stream_flush (filtered_stream, cancellable, NULL);
 
 	g_object_unref (filtered_stream);
 	g_free (content);
