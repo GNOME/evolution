@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-04-16 14:31+0000\n"
-"PO-Revision-Date: 2012-04-17 16:58+0200\n"
+"POT-Creation-Date: 2012-04-19 08:31+0000\n"
+"PO-Revision-Date: 2012-04-19 12:22+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1563,7 +1563,7 @@ msgstr "No se pudo obtener la lista de libretas de direcciones: %s"
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:45
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
 #: ../calendar/gui/dialogs/memo-page.c:951 ../em-format/em-format.c:964
-#: ../libemail-engine/mail-ops.c:685 ../mail/em-folder-tree.c:678
+#: ../libemail-engine/mail-ops.c:683 ../mail/em-folder-tree.c:678
 #: ../plugins/caldav/caldav-browse-server.c:221
 #: ../plugins/caldav/caldav-browse-server.c:1478 ../plugins/face/face.c:174
 #: ../plugins/itip-formatter/itip-formatter.c:1503
@@ -7270,7 +7270,7 @@ msgstr "Buscar y reemplazar texto"
 msgid "Save draft"
 msgstr "Guardar borrador"
 
-#: ../composer/e-msg-composer.c:817
+#: ../composer/e-msg-composer.c:823
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -7278,7 +7278,7 @@ msgstr ""
 "No es posible firmar el mensaje saliente: No hay establecido un certificado "
 "de firma para esta cuenta"
 
-#: ../composer/e-msg-composer.c:826
+#: ../composer/e-msg-composer.c:832
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -7287,17 +7287,17 @@ msgstr ""
 "No es posible cifrar el mensaje saliente: no hay establecido un certificado "
 "de cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1613 ../composer/e-msg-composer.c:2000
+#: ../composer/e-msg-composer.c:1619 ../composer/e-msg-composer.c:2006
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:4203
+#: ../composer/e-msg-composer.c:4209
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
 "editarse."
 
-#: ../composer/e-msg-composer.c:4907
+#: ../composer/e-msg-composer.c:4913
 msgid "Untitled Message"
 msgstr "Mensaje sin título"
 
@@ -9202,42 +9202,11 @@ msgstr ""
 "en address_count."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
-#: ../mail/evolution-mail.schemas.in.h:114
-msgid "Display only message texts not exceeding certain size"
-msgstr "Mostrar sólo los mensajes de texto que no excedan de cierto tamaño"
-
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
-#: ../mail/evolution-mail.schemas.in.h:115
-msgid ""
-"Enable to display only message texts not exceeding size defined in "
-"'message_text_part_limit' key."
-msgstr ""
-"Activar el mostrado exclusivo de mensajes de texto que no excedan el tamaño "
-"definido en la clave «message_text_part_limit»."
-
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
-#: ../mail/evolution-mail.schemas.in.h:116
-msgid "Message text limit for display"
-msgstr "Límite del texto del mensaje para mostrarlo"
-
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
-#: ../mail/evolution-mail.schemas.in.h:117
-msgid ""
-"This decides the max size of the message text that will be displayed under "
-"Evolution, specified in terms of KB. The default is 4096 (4MB). This value "
-"is used only when 'force_message_limit' key is activated."
-msgstr ""
-"Esto decide el tamaño máximo de la parte de texto que se puede formatear "
-"bajo Evolution, especificado en términos de KB. Lo predeterminado son 4096 "
-"(4MiB). Este valor sólo se usa cuando la clave 'force_message_limit' está "
-"activada."
-
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 #: ../mail/evolution-mail.schemas.in.h:118
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Número de direcciones a mostrar en PARA/CC/CCO"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 #: ../mail/evolution-mail.schemas.in.h:119
 msgid ""
 "This sets the number of addresses to show in default message list view, "
@@ -9246,12 +9215,12 @@ msgstr ""
 "Esto establece el número de direcciones a mostrar en la vista de lista de "
 "mensajes predeterminada, más allá de los cuales se muestra un «…»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 #: ../mail/evolution-mail.schemas.in.h:120
 msgid "Thread the message-list based on Subject"
 msgstr "Agrupar la lista de mensajes en conversaciones basadas en el asunto"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 #: ../mail/evolution-mail.schemas.in.h:121
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
@@ -9260,12 +9229,12 @@ msgstr ""
 "Indica si se debe o no volver al agrupado de conversaciones por asuntos "
 "cuando los mensajes no contienen cabeceras «In-Reply-To» o «References»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 #: ../mail/evolution-mail.schemas.in.h:122
 msgid "Default value for thread expand state"
 msgstr "Valor predeterminado para el estado de expansión de la conversación"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -9274,14 +9243,14 @@ msgstr ""
 "deberían estar en estado expandido o contraído. Evolution necesita "
 "reiniciarse para aplicarlo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 #: ../mail/evolution-mail.schemas.in.h:124
 msgid "Whether sort threads based on latest message in that thread"
 msgstr ""
 "Indica si ordenar las conversaciones basándose en el último mensaje de esa "
 "conversación"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 #: ../mail/evolution-mail.schemas.in.h:125
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
@@ -9292,12 +9261,12 @@ msgstr ""
 "último mensaje de cada conversación, en lugar de por la fecha del mensaje. "
 "Evolution necesita un reinicio."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr "Ordenar cuentas alfabéticamente en un árbol de carpetas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to "
 "true accounts are sorted alphabetically, with an exception of On This "
@@ -9309,32 +9278,32 @@ msgstr ""
 "alfabéticamente, con la excepción de En este equipo y Carpetas de búsqueda, "
 "de lo contrario las carpetas se ordenan por el orden dado por el usuario"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 #: ../mail/evolution-mail.schemas.in.h:142
 msgid "Log filter actions"
 msgstr "Registrar acciones de filtrado"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 #: ../mail/evolution-mail.schemas.in.h:143
 msgid "Log filter actions to the specified log file."
 msgstr "Registrar acciones de filtrado en el archivo de registro especificado."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid "Logfile to log filter actions"
 msgstr "Archivo de registro para registrar las acciones de filtrado"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 #: ../mail/evolution-mail.schemas.in.h:145
 msgid "Logfile to log filter actions."
 msgstr "Archivo de registro para registrar las acciones de filtrado."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid "Flush Outbox after filtering"
 msgstr "Limpiar la bandeja de salida después de filtrar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 #: ../mail/evolution-mail.schemas.in.h:147
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
@@ -9346,55 +9315,55 @@ msgstr ""
 "algún filtro de acción «Reenviar a» y, aproximadamente, un minuto después de "
 "la última invocación a una acción."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 #: ../mail/evolution-mail.schemas.in.h:148
 msgid "Default forward style"
 msgstr "Estilo de reenvío predeterminado"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 #: ../mail/evolution-mail.schemas.in.h:150
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 msgstr ""
 "Estilo de visualización del mensaje (\"normal\", \"full headers\" (cabeceras "
 "completas), \"source\" (fuente))"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid "Prompt on empty subject"
 msgstr "Preguntar si el asunto está en blanco"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Preguntar al usuario cuando intente enviar un correo sin un asunto."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Prompt when emptying the trash"
 msgstr "Preguntar al vaciar la papelera"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "Preguntar al usuario cuando intente vaciar la papelera."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 #: ../mail/evolution-mail.schemas.in.h:153
 msgid "Prompt when user expunges"
 msgstr "Preguntar cuando el usuario compacte"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 #: ../mail/evolution-mail.schemas.in.h:154
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Preguntar al usuario cuando intente purgar una carpeta."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 #: ../mail/evolution-mail.schemas.in.h:173
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
 "Preguntar antes de enviar a los destinatarios no introducidos como "
 "direcciones de correo"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 #: ../mail/evolution-mail.schemas.in.h:174
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
@@ -9404,36 +9373,36 @@ msgstr ""
 "que está enviando un mensaje a destinatarios no introducidos como una "
 "dirección de correo"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 #: ../mail/evolution-mail.schemas.in.h:155
 msgid "Prompt when user only fills Bcc"
 msgstr "Preguntar cuando el usuario sólo rellene el campo Cco"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 #: ../mail/evolution-mail.schemas.in.h:156
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Preguntar cuando el usuario intente enviar un mensaje sin destinatarios Para "
 "o Cc."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 #: ../mail/evolution-mail.schemas.in.h:157
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Preguntar cuando el usuario intente enviar HTML no deseado"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 #: ../mail/evolution-mail.schemas.in.h:158
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr "Preguntar al enviar mensajes en HTML a contactos quizá no los quieran."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 #: ../mail/evolution-mail.schemas.in.h:159
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "Preguntar cuando el usuario intente abrir diez o más mensajes a la vez"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
 #: ../mail/evolution-mail.schemas.in.h:160
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
@@ -9442,22 +9411,22 @@ msgstr ""
 "Si el usuario intenta abrir diez o más mensajes al mismo tiempo, preguntar "
 "al usuario si quiere realmente hacerlo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 #: ../mail/evolution-mail.schemas.in.h:161
 msgid "Prompt while marking multiple messages"
 msgstr "Preguntar cuando se marquen varios correos"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 #: ../mail/evolution-mail.schemas.in.h:162
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr "Activar o desactivar la pregunta cuando se marcan varios mensajes."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 #: ../mail/evolution-mail.schemas.in.h:163
 msgid "Prompt when deleting messages in search folder"
 msgstr "Preguntar al eliminar correos en carpetas de búsqueda"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 #: ../mail/evolution-mail.schemas.in.h:164
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
@@ -9468,18 +9437,13 @@ msgstr ""
 "correos de una carpeta de búsqueda borra permanentemente el correo, no sólo "
 "los elimina de los resultados de la búsqueda."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
-#| msgid "Whether to show local folders (On This Computer) in a folder tree"
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr ""
 "Pregunta si se deben copiar carpetas arrastrando y soltando en el árbol de "
 "carpetas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
-#| msgid ""
-#| "Possible values are: 'never' - to never close browser window, 'always' - "
-#| "to always close browser window or 'ask' - (or any other value) will ask "
-#| "user."
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid ""
 "Possible values are: 'never' - do not allow copy with drag &amp; drop of "
 "folders in folder tree, 'always' - allow copy with drag &amp; drop of "
@@ -9491,18 +9455,13 @@ msgstr ""
 "permitir mover carpetas arrastrando y soltando en el árbol de carpetas o "
 "«ask» (preguntar) o cualquier otro valor, para preguntar al usuario."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
-#| msgid "Whether to show local folders (On This Computer) in a folder tree"
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr ""
 "Pregunta si se deben mover carpetas arrastrando y soltando en el árbol de "
 "carpetas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
-#| msgid ""
-#| "Possible values are: 'never' - to never close browser window, 'always' - "
-#| "to always close browser window or 'ask' - (or any other value) will ask "
-#| "user."
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid ""
 "Possible values are: 'never' - do not allow move with drag &amp; drop of "
 "folders in folder tree, 'always' - allow move with drag &amp; drop of "
@@ -9514,12 +9473,12 @@ msgstr ""
 "permitir mover carpetas arrastrando y soltando en el árbol de carpetas o "
 "«ask» (preguntar) o cualquier otro valor, para preguntar al usuario."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 #: ../mail/evolution-mail.schemas.in.h:165
 msgid "Prompt when replying privately to list messages"
 msgstr "Preguntar al responder de forma privada a correos de una lista"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 #: ../mail/evolution-mail.schemas.in.h:166
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
@@ -9529,12 +9488,12 @@ msgstr ""
 "que está enviando una respuesta privada a un correo que llegó a través de "
 "una lista de correo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 #: ../mail/evolution-mail.schemas.in.h:167
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "Preguntar cuando la lista de correo secuestre las respuestas privadas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 #: ../mail/evolution-mail.schemas.in.h:168
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
@@ -9546,12 +9505,12 @@ msgstr ""
 "una lista de correo, pero la lista establece una cabecera «Responder a:» que "
 "redirecciona su respuesta de nuevo a la lista."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 #: ../mail/evolution-mail.schemas.in.h:169
 msgid "Prompt when replying to many recipients"
 msgstr "Preguntar al responder a muchos desinatarios"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 #: ../mail/evolution-mail.schemas.in.h:170
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
@@ -9560,7 +9519,7 @@ msgstr ""
 "Desactiva o activa los mensajes repetitivos para avisarle de que está "
 "enviando una respuesta a mucha gente."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 #: ../mail/evolution-mail.schemas.in.h:171
 msgid ""
 "Asks whether to close the message window when the user forwards or replies "
@@ -9569,7 +9528,7 @@ msgstr ""
 "Preguntar si cerrar la ventana del mensaje cuando el usuario reenvía o "
 "responde al mensaje mostrado en la ventana"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
@@ -9578,32 +9537,32 @@ msgstr ""
 "examinador; «always» (siempre) para cerrar siempre la ventana del examinador "
 "o «ask» (preguntar) o cualquier otro valor, preguntarán al usuario."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 #: ../mail/evolution-mail.schemas.in.h:175
 msgid "Empty Trash folders on exit"
 msgstr "Vaciar papeleras al salir"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 #: ../mail/evolution-mail.schemas.in.h:176
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Vaciar todas las papeleras al salir de Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 #: ../mail/evolution-mail.schemas.in.h:177
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Días mínimos entre el vaciado de la papelera a la salida"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 #: ../mail/evolution-mail.schemas.in.h:178
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "Tiempo mínimo entre el vaciado de la papelera a la salida, en días."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 #: ../mail/evolution-mail.schemas.in.h:179
 msgid "Last time Empty Trash was run"
 msgstr "Última vez que se vació la papelera"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 #: ../mail/evolution-mail.schemas.in.h:180
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
@@ -9611,20 +9570,20 @@ msgstr ""
 "La última vez que se vació la papelera, en días desde el 1 de enero de 1970 "
 "(época)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 #: ../mail/evolution-mail.schemas.in.h:181
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:125
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr ""
 "Tiempo en segundos que deberá mostrarse el error en la barra de estado."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 #: ../mail/evolution-mail.schemas.in.h:182
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:126
 msgid "Level beyond which the message should be logged."
 msgstr "Nivel más allá del cuál el mensaje se debe registrar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 #: ../mail/evolution-mail.schemas.in.h:183
 msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
@@ -9633,12 +9592,12 @@ msgstr ""
 "Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
 "para mensajes de depuración."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 #: ../mail/evolution-mail.schemas.in.h:184
 msgid "Show original \"Date\" header value."
 msgstr "Mostrar el valor original de la cabecera «Fecha»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 #: ../mail/evolution-mail.schemas.in.h:185
 msgid ""
 "Show the original \"Date\" header (with a local time only if the time zone "
@@ -9650,12 +9609,12 @@ msgstr ""
 "cabecera «Fecha» en el formato preferido por el usuario para la fecha y hora "
 "locales."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 #: ../mail/evolution-mail.schemas.in.h:186
 msgid "List of Labels and their associated colors"
 msgstr "Lista de etiquetas y sus colores asociados"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 #: ../mail/evolution-mail.schemas.in.h:187
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
@@ -9665,42 +9624,42 @@ msgstr ""
 "lista contiene cadenas con el nombre:color donde color usa la codificación "
 "hex HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 #: ../mail/evolution-mail.schemas.in.h:188
 msgid "Check incoming mail being junk"
 msgstr "Comprobar si el correo entrante es SPAM"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 #: ../mail/evolution-mail.schemas.in.h:189
 msgid "Run junk test on incoming mail."
 msgstr "Ejecutar la prueba de SPAM en el correo entrante."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 #: ../mail/evolution-mail.schemas.in.h:190
 msgid "Empty Junk folders on exit"
 msgstr "Vaciar las carpetas SPAM al salir"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 #: ../mail/evolution-mail.schemas.in.h:191
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr "Vaciar todas las carpetas SPAM al salir de Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 #: ../mail/evolution-mail.schemas.in.h:192
 msgid "Minimum days between emptying the junk on exit"
 msgstr "Días mínimos entre el vaciado del SPAM a la salida"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 #: ../mail/evolution-mail.schemas.in.h:193
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr "Tiempo mínimo entre el vaciado del SPAM a la salida, en días."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 #: ../mail/evolution-mail.schemas.in.h:194
 msgid "Last time Empty Junk was run"
 msgstr "Última vez que se vació el SPAM"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 #: ../mail/evolution-mail.schemas.in.h:195
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
@@ -9708,12 +9667,12 @@ msgstr ""
 "La última vez que se vació el SPAM, en días desde el 1 de enero de 1970 "
 "(época)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 #: ../mail/evolution-mail.schemas.in.h:196
 msgid "The default plugin for Junk hook"
 msgstr "El complemento predeterminado para SPAM"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 #: ../mail/evolution-mail.schemas.in.h:197
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
@@ -9724,14 +9683,14 @@ msgstr ""
 "varios complementos activados. Si el complemento predeterminado listado está "
 "desactivado, entonces no usará los otros complementos disponibles."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 #: ../mail/evolution-mail.schemas.in.h:198
 msgid "Determines whether to lookup in address book for sender email"
 msgstr ""
 "Determina si se debe buscar la dirección del remitente en la libreta de "
 "direcciones"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 #: ../mail/evolution-mail.schemas.in.h:199
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
@@ -9744,7 +9703,7 @@ msgstr ""
 "libretas marcadas para autocompletado. Puede ser lento si se han marcado "
 "para autocompletado libretas de direcciones remotas (como LDAP)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 #: ../mail/evolution-mail.schemas.in.h:200
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
@@ -9753,7 +9712,7 @@ msgstr ""
 "Determina si se deben buscar direcciones para filtrar SPAM sólo en la "
 "libreta de direcciones local"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 #: ../mail/evolution-mail.schemas.in.h:201
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
@@ -9765,13 +9724,13 @@ msgstr ""
 "local para excluir de los filtros de correo basura el correo enviado por "
 "contactos conocidos."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 #: ../mail/evolution-mail.schemas.in.h:202
 msgid "Determines whether to use custom headers to check for junk"
 msgstr ""
 "Determina si se deben usar cabeceras personalizadas para comprobar si es SPAM"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 #: ../mail/evolution-mail.schemas.in.h:203
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
@@ -9782,12 +9741,12 @@ msgstr ""
 "SPAM. Si esta opción está activada y las cabeceras se mencionan, se mejorará "
 "la velocidad de comprobado de correo basura."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 #: ../mail/evolution-mail.schemas.in.h:204
 msgid "Custom headers to use while checking for junk."
 msgstr "Cabeceras personalizadas que usar al comprobar si es SPAM."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 #: ../mail/evolution-mail.schemas.in.h:205
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
@@ -9796,35 +9755,35 @@ msgstr ""
 "Cabeceras personalizadas que usar para comprobar si es SPAM. La lista de "
 "elementos son cadenas con el formato \"headername=valor\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 #: ../mail/evolution-mail.schemas.in.h:206
 msgid "UID string of the default account."
 msgstr "Cadena UID para la cuenta predeterminada."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 #: ../mail/evolution-mail.schemas.in.h:211
 msgid "Save directory"
 msgstr "Carpeta donde guardar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 #: ../mail/evolution-mail.schemas.in.h:212
 msgid "Directory for saving mail component files."
 msgstr "Carpeta para guardar archivos enviados por correo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "Composer load/attach directory"
 msgstr "Carpeta de carga/adjuntos del editor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Directory for loading/attaching files to composer."
 msgstr "Carpeta para cargar/adjuntar archivos en el editor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 #: ../mail/evolution-mail.schemas.in.h:219
 msgid "Check for new messages on start"
 msgstr "Comprobar si hay mensajes nuevos al inicio"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
@@ -9832,12 +9791,12 @@ msgstr ""
 "Indica si se debe comprobar si hay mensajes nuevos al iniciar Evolution. "
 "Incluye también el envío de mensajes en la bandeja de salida."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 #: ../mail/evolution-mail.schemas.in.h:221
 msgid "Check for new messages in all active accounts"
 msgstr "Comprobar si hay mensajes nuevos en todas las cuentas activas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account \"Check for new messages every X minutes\" option when Evolution is "
@@ -9848,12 +9807,12 @@ msgstr ""
 "nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se usa junto "
 "con la opción «send_recv_on_start»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 #: ../mail/evolution-mail.schemas.in.h:239
 msgid "Server synchronization interval"
 msgstr "Intervalo de sincronización con el servidor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 #: ../mail/evolution-mail.schemas.in.h:240
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
@@ -9884,7 +9843,6 @@ msgid "Address book source"
 msgstr "Libreta de direcciones fuente"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
-#| msgid "Address book to use for storing automatically synced contacts"
 msgid "Address book to use for storing automatically synced contacts."
 msgstr ""
 "Libreta de direcciones que usar para almacenar los contactos sincronizados "
@@ -9895,7 +9853,6 @@ msgid "Auto sync Pidgin contacts"
 msgstr "Auto sincronizar contactos de Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
-#| msgid "Whether GAIM contacts should be automaticall synced"
 msgid "Whether Pidgin contacts should be automatically synced."
 msgstr ""
 "Indica si los contactos de Pidgin se deben sincronizar automáticamente."
@@ -9905,8 +9862,6 @@ msgid "Enable autocontacts"
 msgstr "Activar contactos automáticos"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
-#| msgid ""
-#| "Whether contacts should be automatically added to the user's addressbook"
 msgid ""
 "Whether contacts should be automatically added to the user's address book."
 msgstr ""
@@ -9914,13 +9869,10 @@ msgstr ""
 "direcciones del usuario."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
-#| msgid "Address book source"
 msgid "Pidgin address book source"
 msgstr "Fuente de la libreta de direcciones de Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
-#| msgid ""
-#| "Address book to use for storing automatically synced contacts from GAIM"
 msgid ""
 "Address book to use for storing automatically synced contacts from Pidgin."
 msgstr ""
@@ -10401,7 +10353,7 @@ msgstr "Grupos de noticias"
 msgid "Face"
 msgstr "Cara"
 
-#: ../em-format/em-format.c:2291
+#: ../em-format/em-format.c:2263
 #, c-format
 msgid "%s attachment"
 msgstr "%s adjunto"
@@ -11126,14 +11078,14 @@ msgid "Cannot get transport for account '%s'"
 msgstr "No se puede obtener el servicio de transporte para la cuenta «%s»"
 
 #: ../libemail-engine/e-mail-session-utils.c:505
-#: ../libemail-engine/mail-ops.c:661
+#: ../libemail-engine/mail-ops.c:659
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "No se pudieron aplicar los filtros al correo saliente: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:531
-#: ../libemail-engine/e-mail-session-utils.c:565
-#: ../libemail-engine/mail-ops.c:680 ../libemail-engine/mail-ops.c:716
+#: ../libemail-engine/e-mail-session-utils.c:534
+#: ../libemail-engine/e-mail-session-utils.c:568
+#: ../libemail-engine/mail-ops.c:678 ../libemail-engine/mail-ops.c:714
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -11142,18 +11094,18 @@ msgstr ""
 "Falló al anexar a %s: %s\n"
 "En su lugar se anexará a la carpeta local «Correo enviado»."
 
-#: ../libemail-engine/e-mail-session-utils.c:585
-#: ../libemail-engine/mail-ops.c:738
+#: ../libemail-engine/e-mail-session-utils.c:588
+#: ../libemail-engine/mail-ops.c:736
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Falló anexar a la carpeta local «Correo enviado»: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:795
-#: ../libemail-engine/mail-ops.c:866 ../libemail-engine/mail-ops.c:967
+#: ../libemail-engine/e-mail-session-utils.c:816
+#: ../libemail-engine/mail-ops.c:864 ../libemail-engine/mail-ops.c:965
 msgid "Sending message"
 msgstr "Enviando mensaje"
 
-#: ../libemail-engine/e-mail-session-utils.c:869
+#: ../libemail-engine/e-mail-session-utils.c:890
 #, c-format
 msgid "Unsubscribing from folder '%s'"
 msgstr "Desuscribiéndose de la carpeta «%s»"
@@ -11186,7 +11138,7 @@ msgstr "Filtrado de mensajes seleccionados"
 msgid "Fetching Mail"
 msgstr "Obteniendo mensajes"
 
-#: ../libemail-engine/mail-ops.c:877
+#: ../libemail-engine/mail-ops.c:875
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando mensaje %d de %d"
@@ -11194,62 +11146,62 @@ msgstr "Enviando mensaje %d de %d"
 #. Translators: The string is distinguished by total
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
-#: ../libemail-engine/mail-ops.c:928
+#: ../libemail-engine/mail-ops.c:926
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "Falló al enviar un mensaje"
 msgstr[1] "Falló al enviar %d de %d mensajes"
 
-#: ../libemail-engine/mail-ops.c:934 ../mail/mail-send-recv.c:887
+#: ../libemail-engine/mail-ops.c:932 ../mail/mail-send-recv.c:887
 msgid "Canceled."
 msgstr "Cancelado."
 
-#: ../libemail-engine/mail-ops.c:936 ../mail/mail-send-recv.c:889
+#: ../libemail-engine/mail-ops.c:934 ../mail/mail-send-recv.c:889
 msgid "Complete."
 msgstr "Completado."
 
-#: ../libemail-engine/mail-ops.c:1048
+#: ../libemail-engine/mail-ops.c:1046
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Moviendo mensajes a «%s»"
 
-#: ../libemail-engine/mail-ops.c:1049
+#: ../libemail-engine/mail-ops.c:1047
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Copiando mensajes a «%s»"
 
-#: ../libemail-engine/mail-ops.c:1166
+#: ../libemail-engine/mail-ops.c:1164
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Guardando carpeta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1239
+#: ../libemail-engine/mail-ops.c:1237
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Compactando y almacenando cuenta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1240
+#: ../libemail-engine/mail-ops.c:1238
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Almacenando cuenta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1302
+#: ../libemail-engine/mail-ops.c:1300
 #, c-format
 msgid "Refreshing folder '%s'"
 msgstr "Actualizando carpeta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1520
+#: ../libemail-engine/mail-ops.c:1518
 #, c-format
 msgid "Expunging folder '%s'"
 msgstr "Compactando carpeta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1613
+#: ../libemail-engine/mail-ops.c:1611
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vaciando papelera en «%s»"
 
-#: ../libemail-engine/mail-ops.c:1709
+#: ../libemail-engine/mail-ops.c:1707
 #, c-format
 msgid "Disconnecting %s"
 msgstr "Desconectando de «%s»"
@@ -12871,51 +12823,25 @@ msgstr ""
 "difícil que un espía vea el contenido de este mensaje en empleando un tiempo "
 "razonable."
 
-#: ../mail/em-format-html-display.c:275 ../smime/gui/smime-ui.ui.h:43
+#: ../mail/em-format-html-display.c:273 ../smime/gui/smime-ui.ui.h:43
 msgid "_View Certificate"
 msgstr "_Ver certificado"
 
-#: ../mail/em-format-html-display.c:290
+#: ../mail/em-format-html-display.c:288
 msgid "This certificate is not viewable"
 msgstr "Certificado no es visible"
 
-#: ../mail/em-format-html-display.c:633
-msgid ""
-"Evolution cannot render this email as it is too large to process. You can "
-"view it unformatted or with an external text editor."
-msgstr ""
-"Evolution no puede mostrar este correo debido a que es demasiado grande para "
-"procesarlo. Puede verlo sin formato o con un editor de texto externo."
-
-#: ../mail/em-format-html-display.c:995
+#: ../mail/em-format-html-display.c:951
 msgid "Completed on"
 msgstr "Completado en"
 
-#: ../mail/em-format-html-display.c:1007
+#: ../mail/em-format-html-display.c:963
 msgid "Overdue:"
 msgstr "Atrasado:"
 
-#: ../mail/em-format-html-display.c:1015
+#: ../mail/em-format-html-display.c:971
 msgid "by"
 msgstr "por"
-
-#: ../mail/em-format-html-display.c:1110 ../mail/em-format-html-display.c:1148
-msgid "View _Unformatted"
-msgstr "Ver _sin formato"
-
-#: ../mail/em-format-html-display.c:1112
-msgid "Hide _Unformatted"
-msgstr "Ocultar _sin formato"
-
-#: ../mail/em-format-html-display.c:1170
-msgid "O_pen With"
-msgstr "Abrir c_on"
-
-#. Translators: Name of an Attachment button for a11y object
-#: ../mail/em-format-html-display.c:1179
-msgctxt "Button"
-msgid "Attachment"
-msgstr "Adjunto"
 
 #: ../mail/em-format-html-print.c:83 ../mail/message-list.etspec.h:10
 #: ../widgets/misc/e-attachment-tree-view.c:574
@@ -13122,6 +13048,33 @@ msgid "Whether to show local folders (On This Computer) in a folder tree."
 msgstr ""
 "Indica si se deben mostrar las carpetas locales (En este equipo) en un árbol "
 "de carpetas."
+
+#: ../mail/evolution-mail.schemas.in.h:114
+msgid "Display only message texts not exceeding certain size"
+msgstr "Mostrar sólo los mensajes de texto que no excedan de cierto tamaño"
+
+#: ../mail/evolution-mail.schemas.in.h:115
+msgid ""
+"Enable to display only message texts not exceeding size defined in "
+"'message_text_part_limit' key."
+msgstr ""
+"Activar el mostrado exclusivo de mensajes de texto que no excedan el tamaño "
+"definido en la clave «message_text_part_limit»."
+
+#: ../mail/evolution-mail.schemas.in.h:116
+msgid "Message text limit for display"
+msgstr "Límite del texto del mensaje para mostrarlo"
+
+#: ../mail/evolution-mail.schemas.in.h:117
+msgid ""
+"This decides the max size of the message text that will be displayed under "
+"Evolution, specified in terms of KB. The default is 4096 (4MB). This value "
+"is used only when 'force_message_limit' key is activated."
+msgstr ""
+"Esto decide el tamaño máximo de la parte de texto que se puede formatear "
+"bajo Evolution, especificado en términos de KB. Lo predeterminado son 4096 "
+"(4MiB). Este valor sólo se usa cuando la clave 'force_message_limit' está "
+"activada."
 
 #: ../mail/evolution-mail.schemas.in.h:123
 msgid ""
@@ -15002,7 +14955,8 @@ msgid "Copy folder in folder tree."
 msgstr "Copiar carpeta en el árbol de carpetas."
 
 #: ../mail/mail.error.xml.h:142
-msgid "Are you sure to copy folder '{0}' to folder '{1}'?"
+#| msgid "Are you sure to copy folder '{0}' to folder '{1}'?"
+msgid "Are you sure you want to copy folder '{0}' to folder '{1}'?"
 msgstr "¿Está seguro de que quiere copiar la carpeta «{0}» a «{1}»?"
 
 #: ../mail/mail.error.xml.h:143
@@ -15010,7 +14964,8 @@ msgid "Move folder in folder tree."
 msgstr "Mover carpeta en el árbol de carpetas."
 
 #: ../mail/mail.error.xml.h:144
-msgid "Are you sure to move folder '{0}' to folder '{1}'?"
+#| msgid "Are you sure to move folder '{0}' to folder '{1}'?"
+msgid "Are you sure you want to to move folder '{0}' to folder '{1}'?"
 msgstr "¿Está seguro de que quiere mover la carpeta «{0}» a «{1}»?"
 
 #: ../mail/mail.error.xml.h:145
@@ -16708,7 +16663,6 @@ msgid "Find _next"
 msgstr "Buscar siguie_nte"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1435
-#| msgid "Find the next occurrence of the phrase"
 msgid "Find next occurrence of the current search string"
 msgstr "Buscar la siguiente coincidencia de la frase de búsqueda actual"
 
@@ -16717,7 +16671,6 @@ msgid "Find _previous"
 msgstr "Buscar _anterior"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1442
-#| msgid "Find the previous occurrence of the phrase"
 msgid "Find previous occurrence of the current search string"
 msgstr "Buscar la coincidencia anterior de la frase de búsqueda actual"
 
@@ -16954,7 +16907,6 @@ msgid "Print the selected memo"
 msgstr "Imprimir la nota seleccionada"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:1443
-#| msgid "Print this event"
 msgid "Searching next matching event"
 msgstr "Buscando el siguiente evento coincidente"
 
@@ -18031,11 +17983,11 @@ msgstr "Libretas locales de direcciones"
 msgid "Add local address books to Evolution."
 msgstr "Añadir las libretas de direcciones locales a Evolution."
 
-#: ../plugins/attachment-reminder/attachment-reminder.c:136
+#: ../plugins/attachment-reminder/attachment-reminder.c:128
 msgid "_Do not show this message again."
 msgstr "_No mostrar otra vez este mensaje."
 
-#: ../plugins/attachment-reminder/attachment-reminder.c:484
+#: ../plugins/attachment-reminder/attachment-reminder.c:588
 #: ../plugins/templates/templates.c:462
 msgid "Keywords"
 msgstr "Palabras clave"
@@ -23017,6 +22969,26 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2351
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid ""
+#~ "Evolution cannot render this email as it is too large to process. You can "
+#~ "view it unformatted or with an external text editor."
+#~ msgstr ""
+#~ "Evolution no puede mostrar este correo debido a que es demasiado grande "
+#~ "para procesarlo. Puede verlo sin formato o con un editor de texto externo."
+
+#~ msgid "View _Unformatted"
+#~ msgstr "Ver _sin formato"
+
+#~ msgid "Hide _Unformatted"
+#~ msgstr "Ocultar _sin formato"
+
+#~ msgid "O_pen With"
+#~ msgstr "Abrir c_on"
+
+#~ msgctxt "Button"
+#~ msgid "Attachment"
+#~ msgstr "Adjunto"
 
 #~ msgid "GAIM address book source"
 #~ msgstr "Libreta de direcciones fuente de GAIM"
