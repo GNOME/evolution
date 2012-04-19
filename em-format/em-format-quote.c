@@ -523,6 +523,24 @@ emfq_write_attachment (EMFormat *emf,
 }
 
 static void
+emfq_write (EMFormat *emf,
+	    CamelStream *stream,
+	    EMFormatWriterInfo *info,
+	    GCancellable *cancellable)
+{
+	GList *iter;
+
+	for (iter = emf->mail_part_list; iter; iter = iter->next) {
+
+		EMFormatPURI *puri = iter->data;
+		if (!puri || !puri->write_func)
+			continue;
+
+		puri->write_func (emf, puri, stream, info, cancellable);
+	}
+}
+
+static void
 emfq_base_init (EMFormatQuoteClass *klass)
 {
 	emfq_builtin_init (klass);
@@ -532,9 +550,13 @@ static void
 emfq_class_init (EMFormatQuoteClass *klass)
 {
 	GObjectClass *object_class;
+	EMFormatClass *format_class;
 
 	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (EMFormatQuotePrivate));
+
+	format_class = EM_FORMAT_CLASS (klass);
+	format_class->write = emfq_write;
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->dispose = emfq_dispose;
@@ -550,7 +572,7 @@ emfq_init (EMFormatQuote *emfq)
 	emfq->priv->text_html_flags =
 		CAMEL_MIME_FILTER_TOHTML_PRE |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;		
 }
 
 GType

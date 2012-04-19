@@ -188,6 +188,9 @@ emcu_part_to_html (CamelSession *session,
 	CamelStreamMem *mem;
 	GByteArray *buf;
 	gchar *text;
+	EMFormatParserInfo p_info = { 0 };
+	EMFormatWriterInfo w_info = { 0 };
+	GString *part_id;
 
 	buf = g_byte_array_new ();
 	mem = (CamelStreamMem *) camel_stream_mem_new ();
@@ -208,8 +211,11 @@ emcu_part_to_html (CamelSession *session,
 				(EMFormat *) emfq, em_format_get_charset (source));
 	}
 
-	em_format_format_text (EM_FORMAT (emfq),
-			CAMEL_STREAM (mem), CAMEL_DATA_WRAPPER (part), cancellable);
+	part_id = g_string_sized_new (0);
+	em_format_parse_part (EM_FORMAT (emfq), part, part_id, &p_info, cancellable);
+	em_format_write (EM_FORMAT (emfq), CAMEL_STREAM (mem), &w_info, cancellable);
+	g_string_free (part_id, TRUE);
+
 	g_object_unref (emfq);
 
 	camel_stream_write((CamelStream *) mem, "", 1, cancellable, NULL);
