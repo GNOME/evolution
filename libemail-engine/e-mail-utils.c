@@ -128,6 +128,9 @@ em_utils_folder_is_drafts (CamelFolder *folder)
 	CamelFolder *local_drafts_folder;
 	CamelSession *session;
 	CamelStore *store;
+	MailFolderCache *cache;
+	EMailSession *mail_session;
+	CamelFolderInfoFlags flags = 0;
 	EAccountList *account_list;
 	EIterator *iterator;
 	gchar *folder_uri;
@@ -137,13 +140,21 @@ em_utils_folder_is_drafts (CamelFolder *folder)
 
 	store = camel_folder_get_parent_store (folder);
 	session = camel_service_get_session (CAMEL_SERVICE (store));
+	mail_session = E_MAIL_SESSION (session);
 
 	local_drafts_folder =
 		e_mail_session_get_local_folder (
-		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_DRAFTS);
+		mail_session, E_MAIL_LOCAL_FOLDER_DRAFTS);
 
 	if (folder == local_drafts_folder)
 		return TRUE;
+
+	cache = e_mail_session_get_folder_cache (mail_session);
+
+	/* user can select Inbox as his Draft folder - in that case prefer Inbox type */
+	if (mail_folder_cache_get_folder_info_flags (cache, folder, &flags) &&
+	    (flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
+		return FALSE;
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 
@@ -184,6 +195,9 @@ em_utils_folder_is_sent (CamelFolder *folder)
 	CamelFolder *local_sent_folder;
 	CamelSession *session;
 	CamelStore *store;
+	MailFolderCache *cache;
+	EMailSession *mail_session;
+	CamelFolderInfoFlags flags = 0;
 	EAccountList *account_list;
 	EIterator *iterator;
 	gchar *folder_uri;
@@ -193,13 +207,21 @@ em_utils_folder_is_sent (CamelFolder *folder)
 
 	store = camel_folder_get_parent_store (folder);
 	session = camel_service_get_session (CAMEL_SERVICE (store));
+	mail_session = E_MAIL_SESSION (session);
 
 	local_sent_folder =
 		e_mail_session_get_local_folder (
-		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_SENT);
+		mail_session, E_MAIL_LOCAL_FOLDER_SENT);
 
 	if (folder == local_sent_folder)
 		return TRUE;
+
+	cache = e_mail_session_get_folder_cache (mail_session);
+
+	/* user can select Inbox as his Sent folder - in that case prefer Inbox type */
+	if (mail_folder_cache_get_folder_info_flags (cache, folder, &flags) &&
+	    (flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
+		return FALSE;
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 
