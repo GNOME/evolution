@@ -113,11 +113,9 @@ static void efhd_message_prefix	(EMFormat *emf, CamelMimePart *part, GString *pa
 static void efhd_message_add_bar	(EMFormat *emf, CamelMimePart *part, GString *part_id, EMFormatParserInfo *info, GCancellable *cancellable);
 static void efhd_parse_attachment	(EMFormat *emf, CamelMimePart *part, GString *part_id, EMFormatParserInfo *info, GCancellable *cancellable);
 static void efhd_parse_secure		(EMFormat *emf, CamelMimePart *part, GString *part_id, EMFormatParserInfo *info, GCancellable *cancellable);
-static void efhd_parse_optional		(EMFormat *emf, CamelMimePart *part, GString *part_id, EMFormatParserInfo *info, GCancellable *cancellable);
 
 static GtkWidget * efhd_attachment_bar		(EMFormat *emf, EMFormatPURI *puri, GCancellable *cancellable);
 static GtkWidget * efhd_attachment_button	(EMFormat *emf, EMFormatPURI *puri, GCancellable *cancellable);
-static GtkWidget * efhd_attachment_optional	(EMFormat *emf, EMFormatPURI *puri, GCancellable *cancellable);
 
 static void efhd_write_attachment_bar   (EMFormat *emf, EMFormatPURI *emp, CamelStream *stream, EMFormatWriterInfo *info, GCancellable *cancellable);
 static void efhd_write_attachment       (EMFormat *emf, EMFormatPURI *emp, CamelStream *stream, EMFormatWriterInfo *info, GCancellable *cancellable);
@@ -607,47 +605,6 @@ efhd_parse_attachment (EMFormat *emf,
 }
 
 static void
-efhd_parse_optional (EMFormat *emf,
-                     CamelMimePart *part,
-                     GString *part_id,
-                     EMFormatParserInfo *info,
-                     GCancellable *cancellable)
-{
-	EMFormatAttachmentPURI *puri;
-	gint len;
-
-	len = part_id->len;
-	g_string_append (part_id, ".optional");
-
-	puri = (EMFormatAttachmentPURI *) em_format_puri_new (
-			emf, sizeof (EMFormatAttachmentPURI), part, part_id->str);
-	puri->puri.free = efhd_free_attach_puri_data;
-	puri->puri.write_func = efhd_write_attachment;
-	puri->puri.widget_func = efhd_attachment_optional;
-	puri->attachment_view_part_id = g_strdup (part_id->str);
-	puri->handle = em_format_find_handler (emf, "text/plain");
-	puri->shown = FALSE;
-	puri->snoop_mime_type = "text/plain";
-	puri->attachment = e_attachment_new ();
-	e_attachment_set_mime_part (puri->attachment, puri->puri.part);
-	puri->description = g_strdup(_("Evolution cannot render this email as it is too "
-				       "large to process. You can view it unformatted or "
-				       "with an external text editor."));
-
-	puri->mstream = CAMEL_STREAM_MEM (camel_stream_mem_new ());
-	camel_data_wrapper_decode_to_stream_sync ((CamelDataWrapper *) part,
-		(CamelStream *) puri->mstream, cancellable, NULL);
-
-	if (info->validity) {
-		puri->puri.validity = camel_cipher_validity_clone (info->validity);
-	}
-
-	em_format_add_puri (emf, (EMFormatPURI *) puri);
-
-	g_string_truncate (part_id, len);
-}
-
-static void
 efhd_parse_secure (EMFormat *emf,
                    CamelMimePart *part,
                    GString *part_id,
@@ -932,7 +889,6 @@ static EMFormatHandler type_builtin_table[] = {
 	{ (gchar *) "x-evolution/message/attachment-bar", (EMFormatParseFunc) efhd_message_add_bar, efhd_write_attachment_bar, },
 	{ (gchar *) "x-evolution/message/attachment", efhd_parse_attachment, efhd_write_attachment, },
 	{ (gchar *) "x-evolution/message/x-secure-button", efhd_parse_secure, efhd_write_secure_button, },
-	{ (gchar *) "x-evolution/message/optional", efhd_parse_optional, },
 };
 
 static void
@@ -1097,116 +1053,6 @@ efhd_message_add_bar (EMFormat *emf,
 	em_format_add_puri (emf, (EMFormatPURI *) puri);
 
 	g_string_truncate (part_id, len);
-}
-
-static void
-efhd_optional_button_show (GtkWidget *widget,
-                           GtkWidget *w)
-{
-	GtkWidget *label = g_object_get_data (G_OBJECT (widget), "text-label");
-
-	if (gtk_widget_get_visible (w)) {
-		gtk_widget_hide (w);
-		gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("View _Unformatted"));
-	} else {
-		gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("Hide _Unformatted"));
-		gtk_widget_show (w);
-	}
-}
-
-/* optional render attachment button callback */
-static GtkWidget *
-efhd_attachment_optional (EMFormat *efh,
-                          EMFormatPURI *puri,
-                          GCancellable *cancellable)
-{
-	GtkWidget *hbox, *vbox, *button, *mainbox, *scroll, *label, *img;
-	AtkObject *a11y;
-	GtkWidget *view;
-	GtkTextBuffer *buffer;
-	GByteArray *byte_array;
-	EMFormatAttachmentPURI *info = (EMFormatAttachmentPURI *) puri;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
-
-	/* FIXME: handle default shown case */
-	d(printf("adding attachment button/content for optional rendering\n"));
-
-	if (!info || info->forward) {
-		g_warning ("unable to expand the attachment\n");
-		return NULL;
-	}
-
-	scroll = gtk_scrolled_window_new (NULL, NULL);
-	mainbox = gtk_hbox_new (FALSE, 0);
-
-	button = gtk_button_new ();
-	hbox = gtk_hbox_new (FALSE, 0);
-	img = gtk_image_new_from_icon_name (
-		"stock_show-all", GTK_ICON_SIZE_BUTTON);
-	label = gtk_label_new_with_mnemonic(_("View _Unformatted"));
-	g_object_set_data (G_OBJECT (button), "text-label", (gpointer)label);
-	gtk_box_pack_start (GTK_BOX (hbox), img, TRUE, TRUE, 2);
-	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 2);
-	gtk_widget_show_all (hbox);
-	gtk_container_add (GTK_CONTAINER (button), GTK_WIDGET (hbox));
-	if (info->handle)
-		g_signal_connect (
-			button, "clicked",
-			G_CALLBACK (efhd_optional_button_show), scroll);
-	else {
-		gtk_widget_set_sensitive (button, FALSE);
-		gtk_widget_set_can_focus (button, FALSE);
-	}
-
-	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (mainbox), button, FALSE, FALSE, 6);
-
-	button = gtk_button_new ();
-	hbox = gtk_hbox_new (FALSE, 0);
-	img = gtk_image_new_from_stock (
-		GTK_STOCK_OPEN, GTK_ICON_SIZE_BUTTON);
-	label = gtk_label_new_with_mnemonic(_("O_pen With"));
-	gtk_box_pack_start (GTK_BOX (hbox), img, TRUE, TRUE, 2);
-	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 2);
-	gtk_box_pack_start (GTK_BOX (hbox), gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE), TRUE, TRUE, 2);
-	gtk_widget_show_all (hbox);
-	gtk_container_add (GTK_CONTAINER (button), GTK_WIDGET (hbox));
-
-	a11y = gtk_widget_get_accessible (button);
-	/* Translators: Name of an Attachment button for a11y object */
-	atk_object_set_name (a11y, C_("Button", "Attachment"));
-
-	gtk_box_pack_start (GTK_BOX (mainbox), button, FALSE, FALSE, 6);
-
-	gtk_widget_show_all (mainbox);
-
-	gtk_box_pack_start (GTK_BOX (vbox), mainbox, FALSE, FALSE, 6);
-
-	view = gtk_text_view_new ();
-	gtk_text_view_set_editable (GTK_TEXT_VIEW (view), FALSE);
-	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (view), FALSE);
-	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-	byte_array = camel_stream_mem_get_byte_array (info->mstream);
-	gtk_text_buffer_set_text (
-		buffer, (gchar *) byte_array->data, byte_array->len);
-	g_object_unref (info->mstream);
-	info->mstream = NULL;
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (view));
-	gtk_box_pack_start (GTK_BOX (vbox), scroll, TRUE, TRUE, 6);
-	gtk_widget_show (GTK_WIDGET (view));
-
-	if (!info->shown)
-		gtk_widget_hide (scroll);
-
-	gtk_widget_show (vbox);
-	info->handle = NULL;
-
-	return view;
 }
 
 static void

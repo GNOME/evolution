@@ -155,11 +155,6 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		MAIL_SCHEMA,
 		"variable-width-font");
 
-	e_shell_settings_install_property_for_key (
-		"mail-force-message-limit",
-		MAIL_SCHEMA,
-		"force-message-limit");
-
 	/* This value corresponds to the EMailForwardStyle enum. */
 	e_shell_settings_install_property_for_key (
 		"mail-forward-style",
@@ -196,11 +191,6 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"mail-mark-seen-timeout",
 		MAIL_SCHEMA,
 		"mark-seen-timeout");
-
-	e_shell_settings_install_property_for_key (
-		"mail-message-text-part-limit",
-		MAIL_SCHEMA,
-		"message-text-part-limit");
 
 	/* Do not bind to this.  Use "mail-sidebar-ellipsize" instead. */
 	e_shell_settings_install_property_for_key (

@@ -2173,9 +2173,6 @@ em_format_format_text (EMFormat *emf,
 	const gchar *charset = NULL;
 	CamelMimeFilterWindows *windows = NULL;
 	CamelStream *mem_stream = NULL;
-	gsize size;
-	gsize max;
-	GSettings *settings;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
@@ -2221,42 +2218,17 @@ em_format_format_text (EMFormat *emf,
 		g_object_unref (filter);
 	}
 
-	max = -1;
-
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	if (g_settings_get_boolean (settings, "force-message-limit")) {
-		max = g_settings_get_int (settings, "message-text-part-limit");
-		if (max == 0)
-			max = -1;
-	}
-	g_object_unref (settings);
-
-	size = camel_data_wrapper_decode_to_stream_sync (
+	camel_data_wrapper_decode_to_stream_sync (
 			camel_medium_get_content ((CamelMedium *) dw),
-		(CamelStream *) filter_stream, cancellable, NULL);
+			(CamelStream *) filter_stream, cancellable, NULL);
 	camel_stream_flush ((CamelStream *) filter_stream, cancellable, NULL);
 	g_object_unref (filter_stream);
 
 	g_seekable_seek (G_SEEKABLE (mem_stream), 0, G_SEEK_SET, NULL, NULL);
 
-	if (max == -1 || size == -1 || size < (max * 1024) || emf->priv->composer) {
-		camel_stream_write_to_stream (
-			mem_stream, (CamelStream *) stream, cancellable, NULL);
-		camel_stream_flush ((CamelStream *) mem_stream, cancellable, NULL);
-	} else {
-		/* Parse it as an attachment */
-		CamelMimePart *part = camel_mime_part_new ();
-		EMFormatParserInfo info = { 0 };
-		GString *part_id = g_string_new (".attachment");
-		camel_medium_set_content ((CamelMedium *) part, dw);
-
-		info.is_attachment = TRUE;
-		em_format_parse_part_as (emf, part, part_id, &info,
-			"x-evolution/message/attachment", cancellable);
-
-		g_string_free (part_id, TRUE);
-		g_object_unref (part);
-	}
+	camel_stream_write_to_stream (
+		mem_stream, (CamelStream *) stream, cancellable, NULL);
+	camel_stream_flush ((CamelStream *) mem_stream, cancellable, NULL);
 
 	if (windows)
 		g_object_unref (windows);

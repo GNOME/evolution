@@ -295,16 +295,6 @@
       <_summary>Compress display of addresses in TO/CC/BCC</_summary>
       <_description>Compress display of addresses in TO/CC/BCC to the number specified in address_count.</_description>
     </key>
-    <key name="force-message-limit" type="b">
-      <default>true</default>
-      <_summary>Display only message texts not exceeding certain size</_summary>
-      <_description>Enable to display only message texts not exceeding size defined in 'message_text_part_limit' key.</_description>
-    </key>
-    <key name="message-text-part-limit" type="i">
-      <default>4096</default>
-      <_summary>Message text limit for display</_summary>
-      <_description>This decides the max size of the message text that will be displayed under Evolution, specified in terms of KB. The default is 4096 (4MB). This value is used only when 'force_message_limit' key is activated.</_description>
-    </key>
     <key name="address-count" type="i">
       <default>5</default>
       <_summary>Number of addresses to display in TO/CC/BCC</_summary>
