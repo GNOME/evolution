@@ -45,8 +45,6 @@ struct _EMailAccountStorePrivate {
 	gboolean express_mode;
 	gpointer session;  /* weak pointer */
 	guint busy_count;
-	gint reorder_freeze;
-	gboolean reorder_changed_frozen;
 };
 
 struct _IndexItem {
@@ -619,18 +617,9 @@ static void
 mail_account_store_services_reordered (EMailAccountStore *store,
                                        gboolean default_restored)
 {
-	GtkTreeModel *model;
-	GError *error = NULL;
+	/* XXX Should this be made asynchronous? */
 
-	/* do not save order list if there are only two services - they
-	 * should be 'local' and 'vfolder' at start, and these may not rewrite
-	 * stored account order with other accounts
-	*/
-	model = GTK_TREE_MODEL (store);
-	if (!default_restored &&
-	    gtk_tree_model_iter_n_children (model, NULL) <= 2 &&
-	    e_list_length (E_LIST (e_get_account_list ())) != 0)
-		return;
+	GError *error = NULL;
 
 	if (default_restored) {
 		const gchar *filename;
@@ -1115,7 +1104,7 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 	 * user has messed around with the ordering so leave the new
 	 * service at row 0.  If not present, services are sorted in
 	 * their default order.  So re-apply the default order using
-	 * e_mail_account_store_reorder_services(store, TRUE) so the
+	 * e_mail_account_store_reorder_services(store, NULL) so the
 	 * new service moves to its proper default position. */
 
 	gtk_list_store_prepend (GTK_LIST_STORE (store), &iter);
@@ -1143,7 +1132,8 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 
 	filename = store->priv->sort_order_filename;
 
-	e_mail_account_store_reorder_services (store, !g_file_test (filename, G_FILE_TEST_EXISTS));
+	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
+		e_mail_account_store_reorder_services (store, NULL);
 }
 
 void
@@ -1177,18 +1167,6 @@ e_mail_account_store_remove_service (EMailAccountStore *store,
 
 		g_object_unref (service);
 	}
-}
-
-gboolean
-e_mail_account_store_has_service (EMailAccountStore *store,
-                                  CamelService *service)
-{
-	GtkTreeIter iter;
-
-	g_return_val_if_fail (E_IS_MAIL_ACCOUNT_STORE (store), FALSE);
-	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
-
-	return mail_account_store_get_iter (store, service, &iter);
 }
 
 void
@@ -1311,63 +1289,14 @@ e_mail_account_store_queue_enabled_services (EMailAccountStore *store,
 	}
 }
 
-static gboolean
-mail_account_store_load_sort_order_queue (EMailAccountStore *store,
-                                          GQueue *service_queue,
-                                          GError **error)
-{
-	EMailSession *session;
-	GKeyFile *key_file;
-	const gchar *filename;
-	gchar **service_uids;
-	gboolean success = TRUE;
-	gsize ii, length;
-
-	g_return_val_if_fail (E_IS_MAIL_ACCOUNT_STORE (store), FALSE);
-	g_return_val_if_fail (service_queue != NULL, FALSE);
-
-	session = e_mail_account_store_get_session (store);
-
-	key_file = g_key_file_new ();
-	filename = store->priv->sort_order_filename;
-
-	if (g_file_test (filename, G_FILE_TEST_EXISTS))
-		success = g_key_file_load_from_file (
-			key_file, filename, G_KEY_FILE_NONE, error);
-
-	if (!success) {
-		g_key_file_free (key_file);
-		return FALSE;
-	}
-
-	/* If the key is not present, length is set to zero. */
-	service_uids = g_key_file_get_string_list (
-		key_file, "Accounts", "SortOrder", &length, NULL);
-
-	for (ii = 0; ii < length; ii++) {
-		CamelService *service;
-
-		service = camel_session_get_service (
-			CAMEL_SESSION (session), service_uids[ii]);
-		if (service != NULL)
-			g_queue_push_tail (service_queue, service);
-	}
-
-	g_strfreev (service_uids);
-
-	g_key_file_free (key_file);
-
-	return TRUE;
-}
-
 void
 e_mail_account_store_reorder_services (EMailAccountStore *store,
-                                       gboolean use_default_order)
+                                       GQueue *ordered_services)
 {
 	GQueue *current_order = NULL;
 	GQueue *default_order = NULL;
 	GtkTreeModel *tree_model;
-	GQueue *ordered_services = NULL;
+	gboolean use_default_order;
 	GList *head, *link;
 	gint *new_order;
 	gint n_children;
@@ -1378,15 +1307,18 @@ e_mail_account_store_reorder_services (EMailAccountStore *store,
 	tree_model = GTK_TREE_MODEL (store);
 	n_children = gtk_tree_model_iter_n_children (tree_model, NULL);
 
-	if (!use_default_order) {
-		ordered_services = g_queue_new ();;
+	/* Treat NULL queues and empty queues the same. */
+	if (ordered_services != NULL && g_queue_is_empty (ordered_services))
+		ordered_services = NULL;
 
-		if (!mail_account_store_load_sort_order_queue (store, ordered_services, NULL)) {
-			g_queue_free (ordered_services);
+	/* If the length of the custom ordering disagrees with the
+	 * number of rows in the store, revert to default ordering. */
+	if (ordered_services != NULL) {
+		if (g_queue_get_length (ordered_services) != n_children)
 			ordered_services = NULL;
-			use_default_order = TRUE;
-		}
 	}
+
+	use_default_order = (ordered_services == NULL);
 
 	/* Build a queue of CamelServices in the order they appear in
 	 * the list store.  We'll use this to construct the mapping to
@@ -1402,10 +1334,7 @@ e_mail_account_store_reorder_services (EMailAccountStore *store,
 			default_order, (GCompareDataFunc)
 			mail_account_store_default_compare, store);
 
-		if (ordered_services)
-			g_queue_free (ordered_services);
 		ordered_services = default_order;
-		default_order = NULL;
 	}
 
 	new_order = g_new0 (gint, n_children);
@@ -1428,12 +1357,9 @@ e_mail_account_store_reorder_services (EMailAccountStore *store,
 
 	if (new_pos == n_children) {
 		gtk_list_store_reorder (GTK_LIST_STORE (store), new_order);
-		if (!e_mail_account_store_reorder_is_frozen (store))
-			g_signal_emit (
-				store, signals[SERVICES_REORDERED], 0,
-				use_default_order);
-		else
-			store->priv->reorder_changed_frozen = TRUE;
+		g_signal_emit (
+			store, signals[SERVICES_REORDERED], 0,
+			use_default_order);
 	}
 
 	g_free (new_order);
@@ -1441,48 +1367,8 @@ e_mail_account_store_reorder_services (EMailAccountStore *store,
 	if (current_order != NULL)
 		g_queue_free (current_order);
 
-	if (ordered_services)
-		g_queue_free (ordered_services);
-
 	if (default_order != NULL)
 		g_queue_free (default_order);
-}
-
-void
-e_mail_account_store_reorder_freeze (EMailAccountStore *store)
-{
-	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
-	g_return_if_fail (store->priv->reorder_freeze + 1 > 0);
-
-	g_atomic_int_add (&store->priv->reorder_freeze, 1);
-
-	if (store->priv->reorder_freeze == 1)
-		store->priv->reorder_changed_frozen = FALSE;
-}
-
-void
-e_mail_account_store_reorder_thaw (EMailAccountStore *store)
-{
-	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
-	g_return_if_fail (store->priv->reorder_freeze > 0);
-
-	g_atomic_int_add (&store->priv->reorder_freeze, -1);
-
-	if (!store->priv->reorder_freeze && store->priv->reorder_changed_frozen) {
-		store->priv->reorder_changed_frozen = FALSE;
-
-		g_signal_emit (
-			store, signals[SERVICES_REORDERED], 0,
-			FALSE);
-	}
-}
-
-gboolean
-e_mail_account_store_reorder_is_frozen (EMailAccountStore *store)
-{
-	g_return_val_if_fail (E_IS_MAIL_ACCOUNT_STORE (store), FALSE);
-
-	return store->priv->reorder_freeze > 0;
 }
 
 gint
@@ -1536,16 +1422,48 @@ e_mail_account_store_load_sort_order (EMailAccountStore *store,
                                       GError **error)
 {
 	GQueue service_queue = G_QUEUE_INIT;
+	EMailSession *session;
+	GKeyFile *key_file;
+	const gchar *filename;
+	gchar **service_uids;
+	gboolean success = TRUE;
+	gsize ii, length;
 
 	g_return_val_if_fail (E_IS_MAIL_ACCOUNT_STORE (store), FALSE);
 
-	if (!mail_account_store_load_sort_order_queue (store, &service_queue, error))
+	session = e_mail_account_store_get_session (store);
+
+	key_file = g_key_file_new ();
+	filename = store->priv->sort_order_filename;
+
+	if (g_file_test (filename, G_FILE_TEST_EXISTS))
+		success = g_key_file_load_from_file (
+			key_file, filename, G_KEY_FILE_NONE, error);
+
+	if (!success) {
+		g_key_file_free (key_file);
 		return FALSE;
+	}
+
+	/* If the key is not present, length is set to zero. */
+	service_uids = g_key_file_get_string_list (
+		key_file, "Accounts", "SortOrder", &length, NULL);
+
+	for (ii = 0; ii < length; ii++) {
+		CamelService *service;
+
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), service_uids[ii]);
+		if (service != NULL)
+			g_queue_push_tail (&service_queue, service);
+	}
+
+	e_mail_account_store_reorder_services (store, &service_queue);
 
 	g_queue_clear (&service_queue);
+	g_strfreev (service_uids);
 
-	e_mail_account_store_reorder_services (store,
-		!g_file_test (store->priv->sort_order_filename, G_FILE_TEST_EXISTS));
+	g_key_file_free (key_file);
 
 	return TRUE;
 }

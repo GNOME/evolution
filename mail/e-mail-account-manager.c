@@ -161,7 +161,7 @@ mail_account_manager_info_bar_response_cb (EMailAccountManager *manager,
 	store = e_mail_account_manager_get_store (manager);
 
 	if (response == DEFAULT_ORDER_RESPONSE)
-		e_mail_account_store_reorder_services (store, TRUE);
+		e_mail_account_store_reorder_services (store, NULL);
 }
 
 static gboolean

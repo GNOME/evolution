@@ -78,6 +78,8 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_UI_SESSION, EMailUISessionPrivate))
 
+typedef struct _SourceContext SourceContext;
+
 struct _EMailUISessionPrivate {
 	FILE *filter_logfile;
 	EMailAccountStore *account_store;
@@ -85,8 +87,6 @@ struct _EMailUISessionPrivate {
 
 	EAccountList *account_list;
 	gulong account_changed_handler_id;
-
-	guint update_services_id;
 };
 
 enum {
@@ -107,6 +107,11 @@ G_DEFINE_TYPE_WITH_CODE (
 	e_mail_ui_session,
 	E_TYPE_MAIL_SESSION,
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+
+struct _SourceContext {
+	EMailUISession *session;
+	CamelService *service;
+};
 
 /* Support for CamelSession.alert_user() *************************************/
 
@@ -458,6 +463,18 @@ main_get_filter_driver (CamelSession *session,
 }
 
 static void
+source_context_free (SourceContext *context)
+{
+	if (context->session != NULL)
+		g_object_unref (context->session);
+
+	if (context->service != NULL)
+		g_object_unref (context->service);
+
+	g_slice_free (SourceContext, context);
+}
+
+static void
 mail_ui_session_dispose (GObject *object)
 {
 	EMailUISessionPrivate *priv;
@@ -596,6 +613,7 @@ mail_ui_session_constructed (GObject *object)
 		account_list, "account-changed",
 		G_CALLBACK (mail_ui_session_account_changed_cb), session);
 	priv->account_changed_handler_id = handler_id;
+
 }
 
 static gint
@@ -684,31 +702,12 @@ mail_ui_session_get_property (GObject *object,
 }
 
 static gboolean
-mail_ui_session_update_services_cb (EMailUISession *mail_session)
+mail_ui_session_add_service_cb (SourceContext *context)
 {
 	EMailAccountStore *store;
-	GList *list, *iter;
 
-	g_return_val_if_fail (mail_session != NULL, FALSE);
-
-	mail_session->priv->update_services_id = 0;
-
-	store = e_mail_ui_session_get_account_store (mail_session);
-	e_mail_account_store_reorder_freeze (store);
-
-	list = camel_session_list_services (CAMEL_SESSION (mail_session));
-	for (iter = list; iter; iter = iter->next) {
-		CamelService *service = iter->data;
-
-		if (!service || !CAMEL_IS_STORE (service))
-			continue;
-
-		if (!e_mail_account_store_has_service (store, service))
-			e_mail_account_store_add_service (store, service);
-	}
-
-	g_list_free (list);
-	e_mail_account_store_reorder_thaw (store);
+	store = e_mail_ui_session_get_account_store (context->session);
+	e_mail_account_store_add_service (store, context->service);
 
 	return FALSE;
 }
@@ -730,15 +729,16 @@ mail_ui_session_add_service (CamelSession *session,
 	 * from an idle callback so the service has a chance to
 	 * fully initialize first. */
 	if (CAMEL_IS_STORE (service)) {
-		EMailUISession *mail_session = E_MAIL_UI_SESSION (session);
+		SourceContext *context;
 
-		g_return_val_if_fail (mail_session != NULL, service);
+		context = g_slice_new0 (SourceContext);
+		context->session = g_object_ref (session);
+		context->service = g_object_ref (service);
 
-		if (mail_session->priv->update_services_id == 0)
-			mail_session->priv->update_services_id = g_idle_add_full (
-				G_PRIORITY_DEFAULT_IDLE,
-				(GSourceFunc) mail_ui_session_update_services_cb,
-				g_object_ref (session), g_object_unref);
+		g_idle_add_full (
+			G_PRIORITY_DEFAULT_IDLE,
+			(GSourceFunc) mail_ui_session_add_service_cb,
+			context, (GDestroyNotify) source_context_free);
 	}
 
 	return service;
