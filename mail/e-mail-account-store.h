@@ -118,6 +118,9 @@ void		e_mail_account_store_remove_service
 						(EMailAccountStore *store,
 						 GtkWindow *parent_window,
 						 CamelService *service);
+gboolean	e_mail_account_store_has_service
+						(EMailAccountStore *store,
+						 CamelService *service);
 void		e_mail_account_store_enable_service
 						(EMailAccountStore *store,
 						 GtkWindow *parent_window,
@@ -134,7 +137,13 @@ void		e_mail_account_store_queue_enabled_services
 						 GQueue *out_queue);
 void		e_mail_account_store_reorder_services
 						(EMailAccountStore *store,
-						 GQueue *ordered_services);
+						 gboolean use_default_order);
+void		e_mail_account_store_reorder_freeze
+						(EMailAccountStore *store);
+void		e_mail_account_store_reorder_thaw
+						(EMailAccountStore *store);
+gboolean	e_mail_account_store_reorder_is_frozen
+						(EMailAccountStore *store);
 gint		e_mail_account_store_compare_services
 						(EMailAccountStore *store,
 						 CamelService *service_a,
