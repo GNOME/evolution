@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-04-19 08:31+0000\n"
+"POT-Creation-Date: 2012-04-19 15:55+0000\n"
 "PO-Revision-Date: 2012-04-19 12:22+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -13073,7 +13073,7 @@ msgid ""
 msgstr ""
 "Esto decide el tamaño máximo de la parte de texto que se puede formatear "
 "bajo Evolution, especificado en términos de KB. Lo predeterminado son 4096 "
-"(4MiB). Este valor sólo se usa cuando la clave 'force_message_limit' está "
+"(4MB). Este valor sólo se usa cuando la clave 'force_message_limit' está "
 "activada."
 
 #: ../mail/evolution-mail.schemas.in.h:123
@@ -14955,7 +14955,6 @@ msgid "Copy folder in folder tree."
 msgstr "Copiar carpeta en el árbol de carpetas."
 
 #: ../mail/mail.error.xml.h:142
-#| msgid "Are you sure to copy folder '{0}' to folder '{1}'?"
 msgid "Are you sure you want to copy folder '{0}' to folder '{1}'?"
 msgstr "¿Está seguro de que quiere copiar la carpeta «{0}» a «{1}»?"
 
@@ -14964,7 +14963,6 @@ msgid "Move folder in folder tree."
 msgstr "Mover carpeta en el árbol de carpetas."
 
 #: ../mail/mail.error.xml.h:144
-#| msgid "Are you sure to move folder '{0}' to folder '{1}'?"
 msgid "Are you sure you want to to move folder '{0}' to folder '{1}'?"
 msgstr "¿Está seguro de que quiere mover la carpeta «{0}» a «{1}»?"
 
