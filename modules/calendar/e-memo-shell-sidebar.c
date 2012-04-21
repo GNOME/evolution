@@ -127,7 +127,7 @@ memo_shell_sidebar_backend_died_cb (EMemoShellSidebar *memo_shell_sidebar,
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	source = e_client_get_source (E_CLIENT (client));
-	uid = e_source_peek_uid (source);
+	uid = e_source_get_uid (source);
 
 	g_object_ref (source);
 
@@ -163,7 +163,7 @@ memo_shell_sidebar_backend_error_cb (EMemoShellSidebar *memo_shell_sidebar,
 		E_ALERT_SINK (shell_content),
 		"calendar:backend-error",
 		e_source_group_peek_name (source_group),
-		e_source_peek_name (source), message, NULL);
+		e_source_get_display_name (source), message, NULL);
 }
 
 static void
@@ -276,7 +276,7 @@ memo_shell_sidebar_client_opened_cb (GObject *source_object,
 		case E_CLIENT_ERROR_BUSY:
 			g_warning (
 				"%s: Cannot open '%s', it's busy (%s)",
-				G_STRFUNC, e_source_peek_name (source),
+				G_STRFUNC, e_source_get_display_name (source),
 				error->message);
 			g_clear_error (&error);
 			return;
@@ -417,7 +417,7 @@ memo_shell_sidebar_set_default (EMemoShellSidebar *memo_shell_sidebar,
 		priv->loading_default_client = NULL;
 	}
 
-	uid = e_source_peek_uid (source);
+	uid = e_source_get_uid (source);
 	client = g_hash_table_lookup (priv->client_table, uid);
 
 	/* If we already have an open connection for
@@ -451,20 +451,22 @@ memo_shell_sidebar_row_changed_cb (EMemoShellSidebar *memo_shell_sidebar,
 	ESource *source;
 
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
-	source = e_source_selector_get_source_by_path (selector, tree_path);
+	source = e_source_selector_ref_source_by_path (selector, tree_path);
 
 	/* XXX This signal gets emitted a lot while the model is being
 	 *     rebuilt, during which time we won't get a valid ESource.
 	 *     ESourceSelector should probably block this signal while
 	 *     rebuilding the model, but we'll be forgiving and not
 	 *     emit a warning. */
-	if (!E_IS_SOURCE (source))
+	if (source == NULL)
 		return;
 
 	if (e_source_selector_source_is_selected (selector, source))
 		e_memo_shell_sidebar_add_source (memo_shell_sidebar, source);
 	else
 		e_memo_shell_sidebar_remove_source (memo_shell_sidebar, source);
+
+	g_object_unref (source);
 }
 
 static void
@@ -489,7 +491,7 @@ memo_shell_sidebar_selection_changed_cb (EMemoShellSidebar *memo_shell_sidebar,
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ESource *source = iter->data;
 
-		iter->data = (gpointer) e_source_peek_uid (source);
+		iter->data = (gpointer) e_source_get_uid (source);
 		g_object_unref (source);
 	}
 
@@ -505,11 +507,13 @@ memo_shell_sidebar_primary_selection_changed_cb (EMemoShellSidebar *memo_shell_s
 {
 	ESource *source;
 
-	source = e_source_selector_get_primary_selection (selector);
+	source = e_source_selector_ref_primary_selection (selector);
 	if (source == NULL)
 		return;
 
 	memo_shell_sidebar_set_default (memo_shell_sidebar, source);
+
+	g_object_unref (source);
 }
 
 static void
@@ -721,16 +725,19 @@ memo_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	gboolean can_delete = FALSE;
 	gboolean is_system = FALSE;
 	gboolean refresh_supported = FALSE;
+	gboolean has_primary_source = FALSE;
 	guint32 state = 0;
 
 	memo_shell_sidebar = E_MEMO_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
-	source = e_source_selector_get_primary_selection (selector);
+	source = e_source_selector_ref_primary_selection (selector);
 
 	if (source != NULL) {
 		ECalClient *client;
 		const gchar *uri;
 		const gchar *delete;
+
+		has_primary_source = TRUE;
 
 		uri = e_source_peek_relative_uri (source);
 		is_system = (uri == NULL || strcmp (uri, "system") == 0);
@@ -741,12 +748,14 @@ memo_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 
 		client = g_hash_table_lookup (
 			memo_shell_sidebar->priv->client_table,
-			e_source_peek_uid (source));
+			e_source_get_uid (source));
 		refresh_supported =
 			client && e_client_check_refresh_supported (E_CLIENT (client));
+
+		g_object_unref (source);
 	}
 
-	if (source != NULL)
+	if (has_primary_source)
 		state |= E_MEMO_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
 	if (can_delete)
 		state |= E_MEMO_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE;
@@ -775,8 +784,7 @@ memo_shell_sidebar_client_removed (EMemoShellSidebar *memo_shell_sidebar,
 		NULL, NULL, memo_shell_sidebar);
 
 	source = e_client_get_source (E_CLIENT (client));
-	uid = e_source_peek_uid (source);
-	g_return_if_fail (uid != NULL);
+	uid = e_source_get_uid (source);
 
 	g_hash_table_remove (client_table, uid);
 	e_source_selector_unselect_source (selector, source);
@@ -956,7 +964,7 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 	default_client = memo_shell_sidebar->priv->default_client;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 
-	uid = e_source_peek_uid (source);
+	uid = e_source_get_uid (source);
 	client = g_hash_table_lookup (client_table, uid);
 
 	if (client != NULL)
@@ -967,7 +975,7 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 		const gchar *default_uid;
 
 		default_source = e_client_get_source (E_CLIENT (default_client));
-		default_uid = e_source_peek_uid (default_source);
+		default_uid = e_source_get_uid (default_source);
 
 		if (g_strcmp0 (uid, default_uid) == 0)
 			client = g_object_ref (default_client);
@@ -1033,7 +1041,7 @@ e_memo_shell_sidebar_remove_source (EMemoShellSidebar *memo_shell_sidebar,
 
 	client_table = memo_shell_sidebar->priv->client_table;
 
-	uid = e_source_peek_uid (source);
+	uid = e_source_get_uid (source);
 	client = g_hash_table_lookup (client_table, uid);
 
 	if (client == NULL)

@@ -391,10 +391,14 @@ static void
 primary_selection_changed_cb (ESourceSelector *selector,
                               EImportTarget *target)
 {
+	ESource *source;
+
+	source = e_source_selector_ref_primary_selection (selector);
+	g_return_if_fail (source != NULL);
+
 	g_datalist_set_data_full (
 		&target->data, "vcard-source",
-		g_object_ref (e_source_selector_get_primary_selection (selector)),
-		g_object_unref);
+		source, (GDestroyNotify) g_object_unref);
 }
 
 static GtkWidget *
@@ -569,7 +573,8 @@ vcard_import (EImport *ei,
 
 	source = g_datalist_get_data (&target->data, "vcard-source");
 
-	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+	e_client_utils_open_new (
+		source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
 		e_client_utils_authenticate_handler, NULL,
 		book_loaded_cb, gci);
 }

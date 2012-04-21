@@ -134,7 +134,7 @@ eab_load_error_dialog (GtkWidget *parent,
 		source_dir = e_source_peek_relative_uri (source);
 
 		if (!source_dir || !g_str_equal (source_dir, "system"))
-			source_dir = e_source_peek_uid (source);
+			source_dir = e_source_get_uid (source);
 
 		/* Mangle the URI to not contain invalid characters. */
 		mangled_source_dir = g_strdelimit (g_strdup (source_dir), ":/", '_');
@@ -285,11 +285,16 @@ source_selection_changed_cb (ESourceSelector *selector,
                              GtkWidget *ok_button)
 {
 	ESource *except_source = NULL, *selected;
+	gboolean sensitive;
 
 	except_source = g_object_get_data (G_OBJECT (ok_button), "except-source");
-	selected = e_source_selector_get_primary_selection (selector);
+	selected = e_source_selector_ref_primary_selection (selector);
 
-	gtk_widget_set_sensitive (ok_button, selected && selected != except_source);
+	sensitive = (selected != NULL && selected != except_source);
+	gtk_widget_set_sensitive (ok_button, sensitive);
+
+	if (selected != NULL)
+		g_object_unref (selected);
 }
 
 ESource *
@@ -335,7 +340,7 @@ eab_select_source (ESource *except_source,
 		g_object_set_data (
 			G_OBJECT (ok_button), "except-source",
 			e_source_list_peek_source_by_uid (
-			source_list, e_source_peek_uid (except_source)));
+			source_list, e_source_get_uid (except_source)));
 
 	g_signal_connect (
 		selector, "primary_selection_changed",
@@ -343,7 +348,7 @@ eab_select_source (ESource *except_source,
 
 	if (select_uid) {
 		source = e_source_list_peek_source_by_uid (source_list, select_uid);
-		if (source)
+		if (source != NULL)
 			e_source_selector_set_primary_selection (
 				E_SOURCE_SELECTOR (selector), source);
 	}
@@ -359,11 +364,17 @@ eab_select_source (ESource *except_source,
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	if (response == GTK_RESPONSE_ACCEPT)
-		source = e_source_selector_get_primary_selection (E_SOURCE_SELECTOR (selector));
+		source = e_source_selector_ref_primary_selection (
+			E_SOURCE_SELECTOR (selector));
 	else
 		source = NULL;
 
 	gtk_widget_destroy (dialog);
+
+	/* XXX Return a borrowed reference for backward-compatibility. */
+	if (source != NULL)
+		g_object_unref (source);
+
 	return source;
 }
 
@@ -590,9 +601,9 @@ eab_transfer_contacts (EBookClient *source_client,
 	if (!destination)
 		return;
 
-	if (strcmp (last_uid, e_source_peek_uid (destination)) != 0) {
+	if (strcmp (last_uid, e_source_get_uid (destination)) != 0) {
 		g_free (last_uid);
-		last_uid = g_strdup (e_source_peek_uid (destination));
+		last_uid = g_strdup (e_source_get_uid (destination));
 	}
 
 	process = g_new (ContactCopyProcess, 1);

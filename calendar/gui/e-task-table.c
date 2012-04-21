@@ -1692,7 +1692,7 @@ hide_completed_rows_ready (GObject *source_object,
 
 			g_debug ("%s: Could not get the objects from '%s': %s",
 				G_STRFUNC,
-				source ? e_source_peek_name (source) : "???",
+				source ? e_source_get_display_name (source) : "???",
 				error ? error->message : "Uknown error");
 		}
 		g_clear_error (&error);
@@ -1754,7 +1754,7 @@ show_completed_rows_ready (GObject *source_object,
 
 			g_debug ("%s: Could not get the objects from '%s': %s",
 				G_STRFUNC,
-				source ? e_source_peek_name (source) : "???",
+				source ? e_source_get_display_name (source) : "???",
 				error ? error->message : "Uknown error");
 		}
 		g_clear_error (&error);

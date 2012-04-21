@@ -957,7 +957,7 @@ action_save_cb (GtkAction *action,
 		e_alert_submit (
 			E_ALERT_SINK (editor),
 			"calendar:prompt-read-only-cal-editor",
-			e_source_peek_name (
+			e_source_get_display_name (
 				e_client_get_source (E_CLIENT (priv->cal_client))),
 			NULL);
 		return;
@@ -969,7 +969,7 @@ action_save_cb (GtkAction *action,
 		e_alert_submit (
 			E_ALERT_SINK (editor),
 			"calendar:prompt-no-task-assignment-editor",
-			e_source_peek_name (
+			e_source_get_display_name (
 				e_client_get_source (E_CLIENT (priv->cal_client))),
 			NULL);
 		return;
@@ -2184,7 +2184,7 @@ prompt_and_save_changes (CompEditor *editor,
 			e_alert_submit (
 				E_ALERT_SINK (editor),
 				"calendar:prompt-read-only-cal-editor",
-				e_source_peek_name (
+				e_source_get_display_name (
 					e_client_get_source (E_CLIENT (priv->cal_client))),
 				NULL);
 			/* don't discard changes when selected readonly calendar */
@@ -2197,7 +2197,7 @@ prompt_and_save_changes (CompEditor *editor,
 			e_alert_submit (
 				E_ALERT_SINK (editor),
 				"calendar:prompt-no-task-assignment-editor",
-				e_source_peek_name (
+				e_source_get_display_name (
 					e_client_get_source (E_CLIENT (priv->cal_client))),
 				NULL);
 			return FALSE;

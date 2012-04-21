@@ -68,7 +68,7 @@ eccp_check_complete (EConfig *ec,
 	const gchar *tmp;
 	ESource *source;
 
-	tmp = e_source_peek_name (sdialog->source);
+	tmp = e_source_get_display_name (sdialog->source);
 	valid = tmp && tmp[0] && ((source = e_source_group_peek_source_by_name (sdialog->source_group, tmp)) == NULL || source == sdialog->original_source);
 
 	return valid;
@@ -233,7 +233,7 @@ name_changed (GtkEntry *entry,
 
 	name = gtk_entry_get_text (GTK_ENTRY (entry));
 
-	changed = g_strcmp0 (name, e_source_peek_name (source)) != 0;
+	changed = g_strcmp0 (name, e_source_get_display_name (source)) != 0;
 	e_source_set_name (source, name);
 
 	group = e_source_peek_group (source);
@@ -275,7 +275,7 @@ eccp_get_source_name (EConfig *ec,
 		G_CALLBACK (name_changed), (gpointer) t);
 
 	if (source)
-		gtk_entry_set_text (GTK_ENTRY (entry), e_source_peek_name (source));
+		gtk_entry_set_text (GTK_ENTRY (entry), e_source_get_display_name (source));
 
 	return entry;
 }
@@ -440,7 +440,7 @@ eccp_get_source_color (EConfig *ec,
 
 	if (!gdk_color_parse (color_spec, &color))
 		g_warning ("Unknown color \"%s\" in calendar \"%s\"",
-			color_spec, e_source_peek_name (sdialog->source));
+			color_spec, e_source_get_display_name (sdialog->source));
 
 	label = gtk_label_new_with_mnemonic (_("Colo_r:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);

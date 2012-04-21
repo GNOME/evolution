@@ -271,12 +271,12 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
-	source = e_source_selector_get_primary_selection (selector);
+	source = e_source_selector_ref_primary_selection (selector);
 
 	if (source == NULL)
 		return;
 
-	uid = e_source_peek_uid (source);
+	uid = e_source_get_uid (source);
 	hash_table = book_shell_view->priv->uid_to_view;
 	widget = g_hash_table_lookup (hash_table, uid);
 
@@ -339,7 +339,8 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		model = e_addressbook_view_get_model (view);
 
 		/* XXX No way to cancel this? */
-		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+		e_client_utils_open_new (
+			source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
 			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
 			book_shell_view_loaded_cb, g_object_ref (view));
 
@@ -380,6 +381,8 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 
 	e_addressbook_model_force_folder_bar_message (model);
 	selection_change (book_shell_view, view);
+
+	g_object_unref (source);
 }
 
 static gboolean

@@ -245,7 +245,7 @@ online_accounts_search_source_list (EOnlineAccounts *extension,
 			source = E_SOURCE (list_b->data);
 			list_b = g_slist_next (list_b);
 
-			uid = e_source_peek_uid (source);
+			uid = e_source_get_uid (source);
 			property = e_source_get_property (source, GOA_KEY);
 
 			if (property == NULL)

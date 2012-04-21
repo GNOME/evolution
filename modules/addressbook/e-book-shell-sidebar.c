@@ -151,15 +151,18 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	ESource *source;
 	gboolean can_delete = FALSE;
 	gboolean is_system = FALSE;
+	gboolean has_primary_source = FALSE;
 	guint32 state = 0;
 
 	book_shell_sidebar = E_BOOK_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
-	source = e_source_selector_get_primary_selection (selector);
+	source = e_source_selector_ref_primary_selection (selector);
 
 	if (source != NULL) {
 		const gchar *uri;
 		const gchar *delete;
+
+		has_primary_source = TRUE;
 
 		uri = e_source_peek_relative_uri (source);
 		is_system = (uri == NULL || strcmp (uri, "system") == 0);
@@ -167,9 +170,11 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		can_delete = !is_system;
 		delete = e_source_get_property (source, "delete");
 		can_delete &= (delete == NULL || strcmp (delete, "no") != 0);
+
+		g_object_unref (source);
 	}
 
-	if (source != NULL)
+	if (has_primary_source)
 		state |= E_BOOK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
 	if (can_delete)
 		state |= E_BOOK_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE;

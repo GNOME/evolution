@@ -124,7 +124,7 @@ e_calendar_file_customs (EPlugin *epl,
 	if (relative_uri && g_str_equal (relative_uri, "system"))
 		return NULL;
 
-	e_source_set_relative_uri (source, e_source_peek_uid (source));
+	e_source_set_relative_uri (source, e_source_get_uid (source));
 
 	mainbox = gtk_vbox_new (FALSE, 2);
 	g_object_get (data->parent, "n-rows", &n_rows, NULL);

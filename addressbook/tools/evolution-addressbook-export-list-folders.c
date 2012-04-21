@@ -76,7 +76,7 @@ action_list_folders_init (ActionContext *p_actctx)
 			book_client = e_book_client_new (s, &error);
 			if (!book_client
 			    || !e_client_open_sync (E_CLIENT (book_client), TRUE, NULL, &error)) {
-				g_warning (_("Failed to open client '%s': %s"), e_source_peek_name (s), error ? error->message : _("Unknown error"));
+				g_warning (_("Failed to open client '%s': %s"), e_source_get_display_name (s), error ? error->message : _("Unknown error"));
 				if (error)
 					g_error_free (error);
 				continue;
@@ -86,7 +86,7 @@ action_list_folders_init (ActionContext *p_actctx)
 				contacts = NULL;
 
 			uri = e_source_get_uri (s);
-			name = e_source_peek_name (s);
+			name = e_source_get_display_name (s);
 
 			if (outputfile)
 				fprintf (

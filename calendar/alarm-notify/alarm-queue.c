@@ -1022,7 +1022,7 @@ edit_component (ECalClient *cal_client,
 	 *     How are other apps expected to know this stuff? */
 
 	source = e_client_get_source (E_CLIENT (cal_client));
-	source_uid = e_source_peek_uid (source);
+	source_uid = e_source_get_uid (source);
 
 	e_cal_component_get_uid (comp, &comp_uid);
 

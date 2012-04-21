@@ -427,9 +427,11 @@ bbdb_create_book_client (gint type)
 
 	/* Open the appropriate addresbook. */
 	if (type == GAIM_ADDRESSBOOK)
-		uri = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM);
+		uri = g_settings_get_string (
+			settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM);
 	else
-		uri = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK);
+		uri = g_settings_get_string (
+			settings, CONF_KEY_WHICH_ADDRESSBOOK);
 	g_object_unref (G_OBJECT (settings));
 
 	if (uri == NULL)
@@ -520,12 +522,17 @@ enable_toggled_cb (GtkWidget *widget,
 	if (active && !addressbook) {
 		const gchar *uri = NULL;
 
-		selected_source = e_source_combo_box_get_active (
+		selected_source = e_source_combo_box_ref_active (
 			E_SOURCE_COMBO_BOX (stuff->combo_box));
-		if (selected_source != NULL)
+		if (selected_source != NULL) {
 			uri = e_source_get_uri (selected_source);
-
-		g_settings_set_string (settings, CONF_KEY_WHICH_ADDRESSBOOK, uri ? uri : "");
+			g_settings_set_string (
+				settings, CONF_KEY_WHICH_ADDRESSBOOK, uri);
+			g_object_unref (selected_source);
+		} else {
+			g_settings_set_string (
+				settings, CONF_KEY_WHICH_ADDRESSBOOK, "");
+		}
 	}
 
 	g_free (addressbook);
@@ -547,12 +554,23 @@ enable_gaim_toggled_cb (GtkWidget *widget,
 	/* Save the new setting to GSettings */
 	g_settings_set_boolean (settings, CONF_KEY_ENABLE_GAIM, active);
 
-	addressbook_gaim = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM);
+	addressbook_gaim = g_settings_get_string (
+		settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM);
 	gtk_widget_set_sensitive (stuff->gaim_combo_box, active);
 	if (active && !addressbook_gaim) {
-		selected_source = e_source_combo_box_get_active (
+		const gchar *uri = NULL;
+
+		selected_source = e_source_combo_box_ref_active (
 			E_SOURCE_COMBO_BOX (stuff->gaim_combo_box));
-		g_settings_set_string (settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM, e_source_get_uri (selected_source));
+		if (selected_source != NULL) {
+			uri = e_source_get_uri (selected_source);
+			g_settings_set_string (
+				settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM, uri);
+			g_object_unref (selected_source);
+		} else {
+			g_settings_set_string (
+				settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM, "");
+		}
 	}
 
 	g_free (addressbook_gaim);
@@ -569,34 +587,38 @@ static void
 source_changed_cb (ESourceComboBox *source_combo_box,
                    struct bbdb_stuff *stuff)
 {
+	GSettings *settings;
 	ESource *source;
-	GSettings *settings = g_settings_new (CONF_SCHEMA);
+	const gchar *uri;
 
-	source = e_source_combo_box_get_active (source_combo_box);
+	source = e_source_combo_box_ref_active (source_combo_box);
+	uri = (source != NULL) ? e_source_get_uri (source) : "";
 
-	g_settings_set_string (
-		settings,
-		CONF_KEY_WHICH_ADDRESSBOOK,
-		source ? e_source_get_uri (source) : "");
-
+	settings = g_settings_new (CONF_SCHEMA);
+	g_settings_set_string (settings, CONF_KEY_WHICH_ADDRESSBOOK, uri);
 	g_object_unref (settings);
+
+	if (source != NULL)
+		g_object_unref (source);
 }
 
 static void
 gaim_source_changed_cb (ESourceComboBox *source_combo_box,
                         struct bbdb_stuff *stuff)
 {
+	GSettings *settings;
 	ESource *source;
-	GSettings *settings = g_settings_new (CONF_SCHEMA);
+	const gchar *uri;
 
-	source = e_source_combo_box_get_active (source_combo_box);
+	source = e_source_combo_box_ref_active (source_combo_box);
+	uri = (source != NULL) ? e_source_get_uri (source) : "";
 
-	g_settings_set_string (
-		settings,
-		CONF_KEY_WHICH_ADDRESSBOOK_GAIM,
-		source ? e_source_get_uri (source) : "");
-
+	settings = g_settings_new (CONF_SCHEMA);
+	g_settings_set_string (settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM, uri);
 	g_object_unref (settings);
+
+	if (source != NULL)
+		g_object_unref (source);
 }
 
 static GtkWidget *

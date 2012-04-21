@@ -124,7 +124,7 @@ memo_shell_content_table_foreach_cb (gint model_row,
 		const gchar *source_uid;
 
 		source = e_client_get_source (E_CLIENT (comp_data->client));
-		source_uid = e_source_peek_uid (source);
+		source_uid = e_source_get_uid (source);
 
 		foreach_data->list = g_slist_prepend (
 			foreach_data->list,

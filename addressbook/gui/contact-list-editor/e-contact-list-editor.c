@@ -935,21 +935,31 @@ contact_list_editor_source_menu_changed_cb (GtkWidget *widget);
 void
 contact_list_editor_source_menu_changed_cb (GtkWidget *widget)
 {
+	ESourceComboBox *combo_box;
 	EContactListEditor *editor;
-	ESource *source;
+	ESource *active_source;
+	ESource *client_source;
+	EClient *client;
 
 	editor = contact_list_editor_extract (widget);
-	source = e_source_combo_box_get_active (E_SOURCE_COMBO_BOX (widget));
 
-	if (e_source_equal (e_client_get_source (E_CLIENT (editor->priv->book_client)), source))
-		return;
+	combo_box = E_SOURCE_COMBO_BOX (widget);
+	active_source = e_source_combo_box_ref_active (combo_box);
+	g_return_if_fail (active_source != NULL);
 
-	e_client_utils_open_new (
-		source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-		e_client_utils_authenticate_handler,
-		eab_editor_get_window (EAB_EDITOR (editor)),
-		contact_list_editor_book_loaded_cb,
-		g_object_ref (editor));
+	client = E_CLIENT (editor->priv->book_client);
+	client_source = e_client_get_source (client);
+
+	if (!e_source_equal (client_source, active_source))
+		e_client_utils_open_new (
+			client_source, E_CLIENT_SOURCE_TYPE_CONTACTS,
+			FALSE, NULL,
+			e_client_utils_authenticate_handler,
+			eab_editor_get_window (EAB_EDITOR (editor)),
+			contact_list_editor_book_loaded_cb,
+			g_object_ref (editor));
+
+	g_object_unref (active_source);
 }
 
 gboolean

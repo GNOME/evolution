@@ -337,14 +337,14 @@ do_save_calendar_csv (FormatHandler *handler,
 	if (!dest_uri)
 		return;
 
-	primary_source = e_source_selector_get_primary_selection (selector);
-
 	/* open source client */
+	primary_source = e_source_selector_ref_primary_selection (selector);
 	source_client = e_cal_client_new (primary_source, type, &error);
 	if (source_client)
 		g_signal_connect (
 			source_client, "authenticate",
 			G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+	g_object_unref (primary_source);
 
 	if (!source_client || !e_client_open_sync (E_CLIENT (source_client), TRUE, NULL, &error)) {
 		display_error_message (

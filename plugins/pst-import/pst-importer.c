@@ -666,7 +666,7 @@ open_client (PstImporter *m,
 	combo = g_datalist_get_data (&m->target->data, get_source_combo_key (source_type));
 	g_return_if_fail (combo != NULL);
 
-	source = e_source_combo_box_get_active (combo);
+	source = e_source_combo_box_ref_active (combo);
 	g_return_if_fail (source != NULL);
 
 	m->waiting_open++;
@@ -675,6 +675,8 @@ open_client (PstImporter *m,
 		source, source_type, FALSE, m->cancellable,
 		e_client_utils_authenticate_handler, NULL,
 		client_opened_cb, m);
+
+	g_object_unref (source);
 }
 
 static void

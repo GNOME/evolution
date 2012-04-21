@@ -165,7 +165,7 @@ ea_minicard_view_get_name (AtkObject *accessible)
 	g_object_get (card_view->adapter, "client", &book_client, NULL);
 	g_return_val_if_fail (E_IS_BOOK_CLIENT (book_client), NULL);
 	source = e_client_get_source (E_CLIENT (book_client));
-	display_name = e_source_peek_name (source);
+	display_name = e_source_get_display_name (source);
 	if (display_name == NULL)
 		display_name = "";
 

@@ -1456,7 +1456,7 @@ e_binding_transform_source_to_uid (GBinding *binding,
 
 	source = g_value_get_object (source_value);
 	if (E_IS_SOURCE (source)) {
-		string = e_source_peek_uid (source);
+		string = e_source_get_uid (source);
 		g_value_set_string (target_value, string);
 		success = TRUE;
 	}

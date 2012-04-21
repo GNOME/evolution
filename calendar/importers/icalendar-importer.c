@@ -255,20 +255,37 @@ static void
 button_toggled_cb (GtkWidget *widget,
                    struct _selector_data *sd)
 {
-	g_datalist_set_data_full(&sd->target->data, "primary-source",
-				 g_object_ref (e_source_selector_get_primary_selection ((ESourceSelector *) sd->selector)),
-				 g_object_unref);
-	g_datalist_set_data(&sd->target->data, "primary-type", GINT_TO_POINTER(import_type_map[sd->page]));
-	gtk_notebook_set_current_page ((GtkNotebook *) sd->notebook, sd->page);
+	ESourceSelector *selector;
+	ESource *source;
+	GtkNotebook *notebook;
+
+	selector = E_SOURCE_SELECTOR (sd->selector);
+	source = e_source_selector_ref_primary_selection (selector);
+	g_return_if_fail (source != NULL);
+
+	g_datalist_set_data_full (
+		&sd->target->data, "primary-source",
+		source, (GDestroyNotify) g_object_unref);
+	g_datalist_set_data (
+		&sd->target->data, "primary-type",
+		GINT_TO_POINTER (import_type_map[sd->page]));
+
+	notebook = GTK_NOTEBOOK (sd->notebook);
+	gtk_notebook_set_current_page (notebook, sd->page);
 }
 
 static void
 primary_selection_changed_cb (ESourceSelector *selector,
                               EImportTarget *target)
 {
-	g_datalist_set_data_full(&target->data, "primary-source",
-				 g_object_ref (e_source_selector_get_primary_selection (selector)),
-				 g_object_unref);
+	ESource *source;
+
+	source = e_source_selector_ref_primary_selection (selector);
+	g_return_if_fail (source != NULL);
+
+	g_datalist_set_data_full (
+		&target->data, "primary-source",
+		source, (GDestroyNotify) g_object_unref);
 }
 
 static GtkWidget *
@@ -436,7 +453,9 @@ ivcal_import (EImport *ei,
 	ici->cancellable = g_cancellable_new ();
 	e_import_status (ei, target, _("Opening calendar"), 0);
 
-	e_client_utils_open_new (g_datalist_get_data(&target->data, "primary-source"), type, FALSE, ici->cancellable,
+	e_client_utils_open_new (
+		g_datalist_get_data (&target->data, "primary-source"),
+		type, FALSE, ici->cancellable,
 		e_client_utils_authenticate_handler, NULL,
 		ivcal_opened, ici);
 }
@@ -841,6 +860,7 @@ open_default_source (ICalIntelligentImporter *ici,
 	ESource *source;
 	ECalClient *cal_client;
 	GError *error = NULL;
+	EClientSourceType client_source_type;
 	struct OpenDefaultSourceData *odsd;
 
 	g_return_if_fail (ici != NULL);
@@ -863,6 +883,20 @@ open_default_source (ICalIntelligentImporter *ici,
 	source = g_object_ref (source);
 	g_object_unref (cal_client);
 
+	switch (source_type) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			client_source_type = E_CLIENT_SOURCE_TYPE_EVENTS;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			client_source_type = E_CLIENT_SOURCE_TYPE_TASKS;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			client_source_type = E_CLIENT_SOURCE_TYPE_MEMOS;
+			break;
+		default:
+			g_return_if_reached ();
+	}
+
 	odsd = g_new0 (struct OpenDefaultSourceData, 1);
 	odsd->ici = ici;
 	odsd->opened_cb = opened_cb;
@@ -870,7 +904,7 @@ open_default_source (ICalIntelligentImporter *ici,
 	e_import_status (ici->ei, ici->target, _("Opening calendar"), 0);
 
 	e_client_utils_open_new (
-		source, source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? E_CLIENT_SOURCE_TYPE_EVENTS : E_CLIENT_SOURCE_TYPE_TASKS, FALSE, ici->cancellable,
+		source, client_source_type, FALSE, ici->cancellable,
 		e_client_utils_authenticate_handler, NULL,
 		default_source_opened_cb, odsd);
 

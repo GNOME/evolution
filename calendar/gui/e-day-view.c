@@ -7909,7 +7909,7 @@ e_day_view_on_drag_data_get (GtkWidget *widget,
 		gchar *tmp;
 
 		source = e_client_get_source (E_CLIENT (event->comp_data->client));
-		source_uid = e_source_peek_uid (source);
+		source_uid = e_source_get_uid (source);
 
 		tmp = g_strconcat (source_uid, "\n", comp_str, NULL);
 		target = gtk_selection_data_get_target (selection_data);

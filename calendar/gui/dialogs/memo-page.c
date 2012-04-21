@@ -947,7 +947,7 @@ mpage_client_opened_cb (GObject *source_object,
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
 						 _("Unable to open memos in '%s': %s"),
-						 e_source_peek_name (source),
+						 e_source_get_display_name (source),
 						 error ? error->message : _("Unknown error"));
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
@@ -993,7 +993,8 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (mpage)))
 		return;
 
-	source = e_source_combo_box_get_active (source_combo_box);
+	source = e_source_combo_box_ref_active (source_combo_box);
+	g_return_if_fail (source != NULL);
 
 	if (priv->open_cancellable) {
 		g_cancellable_cancel (priv->open_cancellable);
@@ -1001,9 +1002,13 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	}
 	priv->open_cancellable = g_cancellable_new ();
 
-	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_MEMOS, FALSE, priv->open_cancellable,
-				 e_client_utils_authenticate_handler, NULL,
-				 mpage_client_opened_cb, mpage);
+	e_client_utils_open_new (
+		source, E_CLIENT_SOURCE_TYPE_MEMOS,
+		FALSE, priv->open_cancellable,
+		e_client_utils_authenticate_handler, NULL,
+		mpage_client_opened_cb, mpage);
+
+	g_object_unref (source);
 }
 
 static void

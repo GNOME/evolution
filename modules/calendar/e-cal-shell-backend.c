@@ -163,7 +163,7 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		if (primary == NULL && selected == NULL) {
 			const gchar *uid;
 
-			uid = e_source_peek_uid (source);
+			uid = e_source_get_uid (source);
 			selected = g_slist_prepend (NULL, g_strdup (uid));
 
 			e_shell_settings_set_string (
@@ -260,7 +260,7 @@ cal_shell_backend_new_event (ESource *source,
 		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open '%s': %s",
-			G_STRFUNC, e_source_peek_name (source),
+			G_STRFUNC, e_source_get_display_name (source),
 			error->message);
 		g_error_free (error);
 		return;
@@ -641,7 +641,7 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	if (error != NULL) {
 		g_warning (
 			"%s: Failed to create/open client '%s': %s",
-			G_STRFUNC, e_source_peek_name (source),
+			G_STRFUNC, e_source_get_display_name (source),
 			error->message);
 		g_object_unref (source_list);
 		g_error_free (error);

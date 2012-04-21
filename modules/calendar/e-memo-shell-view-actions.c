@@ -116,12 +116,14 @@ action_memo_list_copy_cb (GtkAction *action,
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
-	source = e_source_selector_get_primary_selection (selector);
-	g_return_if_fail (E_IS_SOURCE (source));
+	source = e_source_selector_ref_primary_selection (selector);
+	g_return_if_fail (source != NULL);
 
 	copy_source_dialog (
 		GTK_WINDOW (shell_window),
 		source, E_CAL_CLIENT_SOURCE_TYPE_MEMOS);
+
+	g_object_unref (source);
 }
 
 static void
@@ -156,16 +158,18 @@ action_memo_list_delete_cb (GtkAction *action,
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
-	source = e_source_selector_get_primary_selection (selector);
-	g_return_if_fail (E_IS_SOURCE (source));
+	source = e_source_selector_ref_primary_selection (selector);
+	g_return_if_fail (source != NULL);
 
 	/* Ask for confirmation. */
 	response = e_alert_run_dialog_for_args (
 		GTK_WINDOW (shell_window),
 		"calendar:prompt-delete-memo-list",
-		e_source_peek_name (source), NULL);
-	if (response != GTK_RESPONSE_YES)
+		e_source_get_display_name (source), NULL);
+	if (response != GTK_RESPONSE_YES) {
+		g_object_unref (source);
 		return;
+	}
 
 	uri = e_source_get_uri (source);
 	client = e_cal_model_get_client_for_uri (model, uri);
@@ -182,6 +186,7 @@ action_memo_list_delete_cb (GtkAction *action,
 		g_warning (
 			"%s: Failed to remove client: %s",
 			G_STRFUNC, error->message);
+		g_object_unref (source);
 		g_error_free (error);
 		return;
 	}
@@ -203,6 +208,8 @@ action_memo_list_delete_cb (GtkAction *action,
 			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
+
+	g_object_unref (source);
 }
 
 static void
@@ -262,10 +269,12 @@ action_memo_list_properties_cb (GtkAction *action,
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
-	source = e_source_selector_get_primary_selection (selector);
-	g_return_if_fail (E_IS_SOURCE (source));
+	source = e_source_selector_ref_primary_selection (selector);
+	g_return_if_fail (source != NULL);
 
 	calendar_setup_edit_memo_list (GTK_WINDOW (shell_window), source);
+
+	g_object_unref (source);
 }
 
 static void
@@ -287,15 +296,17 @@ action_memo_list_refresh_cb (GtkAction *action,
 	model = e_memo_shell_content_get_memo_model (memo_shell_content);
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 
-	source = e_source_selector_get_primary_selection (selector);
-	g_return_if_fail (E_IS_SOURCE (source));
+	source = e_source_selector_ref_primary_selection (selector);
+	g_return_if_fail (source != NULL);
 
 	uri = e_source_get_uri (source);
 	client = e_cal_model_get_client_for_uri (model, uri);
 	g_free (uri);
 
-	if (client == NULL)
+	if (client == NULL) {
+		g_object_unref (source);
 		return;
+	}
 
 	g_return_if_fail (e_client_check_refresh_supported (E_CLIENT (client)));
 
@@ -304,10 +315,12 @@ action_memo_list_refresh_cb (GtkAction *action,
 	if (error != NULL) {
 		g_warning (
 			"%s: Failed to refresh '%s', %s",
-			G_STRFUNC, e_source_peek_name (source),
+			G_STRFUNC, e_source_get_display_name (source),
 			error->message);
 		g_error_free (error);
 	}
+
+	g_object_unref (source);
 }
 
 static void
@@ -334,10 +347,12 @@ action_memo_list_select_one_cb (GtkAction *action,
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 
-	primary = e_source_selector_get_primary_selection (selector);
+	primary = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (primary != NULL);
 
 	e_source_selector_select_exclusive (selector, primary);
+
+	g_object_unref (primary);
 }
 
 static void

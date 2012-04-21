@@ -482,7 +482,7 @@ eabc_type_changed (GtkComboBox *dropdown,
 		}
 
 		e_source_set_property(sdialog->source, "auth-domain", "Groupwise");
-		tmp = g_strconcat (";", e_source_peek_name(sdialog->source), NULL);
+		tmp = g_strconcat (";", e_source_get_display_name(sdialog->source), NULL);
 		e_source_set_relative_uri (sdialog->source, tmp);
 		g_free (tmp);
 #ifdef HAVE_LDAP
@@ -499,7 +499,7 @@ eabc_type_changed (GtkComboBox *dropdown,
 		e_source_set_property(sdialog->source, "limit", "100");
 #endif
 	} else {
-		e_source_set_relative_uri (sdialog->source, e_source_peek_uid (sdialog->source));
+		e_source_set_relative_uri (sdialog->source, e_source_get_uid (sdialog->source));
 	}
 
 	e_config_target_changed ((EConfig *) sdialog->config, E_CONFIG_TARGET_CHANGED_REBUILD);
@@ -573,7 +573,7 @@ name_changed_cb (GtkWidget *w,
 	text = gtk_entry_get_text (GTK_ENTRY (sdialog->display_name));
 
 	stripped_name = g_strstrip (g_strdup (text));
-	changed = g_strcmp0 (stripped_name, e_source_peek_name (sdialog->source)) != 0;
+	changed = g_strcmp0 (stripped_name, e_source_get_display_name (sdialog->source)) != 0;
 	e_source_set_name (sdialog->source, stripped_name);
 	g_free (stripped_name);
 
@@ -607,7 +607,7 @@ eabc_general_name (EConfig *ec,
 	g_signal_connect (
 		sdialog->display_name, "changed",
 		G_CALLBACK (name_changed_cb), sdialog);
-	gtk_entry_set_text ((GtkEntry *) sdialog->display_name, e_source_peek_name (sdialog->source));
+	gtk_entry_set_text ((GtkEntry *) sdialog->display_name, e_source_get_display_name (sdialog->source));
 
 	/* Hardcoded: groupwise can't edit the name (or anything else) */
 	if (sdialog->original_source) {
@@ -1204,7 +1204,7 @@ eabc_check_complete (EConfig *ec,
 
 	d(printf("check complete, pageid = '%s'\n", pageid?pageid:"<all>"));
 	/* have name, and unique */
-	tmp = e_source_peek_name (sdialog->source);
+	tmp = e_source_get_display_name (sdialog->source);
 	valid = tmp && tmp[0] != 0
 		&& ((source = e_source_group_peek_source_by_name (sdialog->source_group, tmp)) == NULL
 		    || source == sdialog->original_source);
@@ -1349,7 +1349,7 @@ addressbook_config_edit_source (GtkWidget *parent,
 
 	/* forces initial validation */
 	if (!sdialog->original_source) {
-		e_source_set_relative_uri (sdialog->source, e_source_peek_uid (sdialog->source));
+		e_source_set_relative_uri (sdialog->source, e_source_get_uid (sdialog->source));
 		e_config_target_changed ((EConfig *) ec, E_CONFIG_TARGET_CHANGED_STATE);
 	}
 

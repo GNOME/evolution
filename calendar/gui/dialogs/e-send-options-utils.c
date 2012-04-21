@@ -51,7 +51,7 @@ e_send_options_utils_set_default_data (ESendOptionsDialog *sod,
 	else
 		source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/tasks/sources");
 
-	uid = e_source_peek_uid (source);
+	uid = e_source_get_uid (source);
 	source = e_source_list_peek_source_by_uid (source_list, uid);
 
 		/* priority */

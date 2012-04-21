@@ -156,12 +156,13 @@ merge_cb (GObject *source_object,
 
 	if (!e_client_is_readonly (client))
 		eab_merging_book_add_contact (
-			E_BOOK_CLIENT (client), qa->contact, NULL, NULL);
+			E_BOOK_CLIENT (client),
+			qa->contact, NULL, NULL);
 	else
 		e_alert_run_dialog_for_args (
 			e_shell_get_active_window (NULL),
 			"addressbook:error-read-only",
-			e_source_peek_name (source),
+			e_source_get_display_name (source),
 			NULL);
 
 	if (qa->cb)
@@ -312,7 +313,8 @@ ce_have_book (GObject *source_object,
 	g_return_if_fail (E_IS_CLIENT (client));
 
 	eab_merging_book_find_contact (
-		E_BOOK_CLIENT (client), qa->contact, ce_have_contact, qa);
+		E_BOOK_CLIENT (client),
+		qa->contact, ce_have_contact, qa);
 }
 
 static void
@@ -389,13 +391,16 @@ clicked_cb (GtkWidget *w,
 static void
 sanitize_widgets (QuickAdd *qa)
 {
+	GtkComboBox *combo_box;
+	const gchar *active_id;
 	gboolean enabled = TRUE;
 
 	g_return_if_fail (qa != NULL);
 	g_return_if_fail (qa->dialog != NULL);
 
-	enabled = (e_source_combo_box_get_active_uid (
-		E_SOURCE_COMBO_BOX (qa->combo_box)) != NULL);
+	combo_box = GTK_COMBO_BOX (qa->combo_box);
+	active_id = gtk_combo_box_get_active_id (combo_box);
+	enabled = (active_id != NULL);
 
 	gtk_dialog_set_response_sensitive (
 		GTK_DIALOG (qa->dialog),
@@ -410,12 +415,12 @@ source_changed (ESourceComboBox *source_combo_box,
 {
 	ESource *source;
 
-	source = e_source_combo_box_get_active (source_combo_box);
+	source = e_source_combo_box_ref_active (source_combo_box);
 
 	if (source != NULL) {
 		if (qa->source != NULL)
 			g_object_unref (qa->source);
-		qa->source = g_object_ref (source);
+		qa->source = source;  /* takes reference */
 	}
 
 	sanitize_widgets (qa);

@@ -2942,7 +2942,7 @@ client_opened_cb (GObject *source_object,
 		g_warning (
 			"%s: Failed to open '%s': %s",
 			G_STRFUNC,
-			e_source_peek_name (source),
+			e_source_get_display_name (source),
 			error->message);
 		g_error_free (error);
 		e_cal_model_update_status_message (model, NULL, -1.0);
@@ -3017,7 +3017,7 @@ add_new_client (ECalModel *model,
 		gchar *msg;
 
 		source = e_client_get_source (E_CLIENT (client));
-		display_name = e_source_peek_name (source);
+		display_name = e_source_get_display_name (source);
 		msg = g_strdup_printf (_("Opening %s"), display_name);
 		e_cal_model_update_status_message (model, msg, -1.0);
 		g_free (msg);

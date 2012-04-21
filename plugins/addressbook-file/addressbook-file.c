@@ -63,7 +63,7 @@ e_book_file_dummy (EPlugin *epl,
 		return NULL;
 	}
 
-	e_source_set_relative_uri (source, e_source_peek_uid (source));
+	e_source_set_relative_uri (source, e_source_get_uid (source));
 
 	return NULL;
 }

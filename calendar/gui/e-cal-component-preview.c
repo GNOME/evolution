@@ -109,7 +109,7 @@ update_comp_info (ECalComponentPreview *preview,
 		gint comp_sequence;
 
 		source = e_client_get_source (E_CLIENT (client));
-		cal_uid = g_strdup (e_source_peek_uid (source));
+		cal_uid = g_strdup (e_source_get_uid (source));
 		e_cal_component_get_uid (comp, &uid);
 		comp_uid = g_strdup (uid);
 		e_cal_component_get_last_modified (comp, &itm);

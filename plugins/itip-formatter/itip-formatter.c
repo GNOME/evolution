@@ -440,7 +440,7 @@ get_real_item (ItipPURI *pitip)
 
 	source = e_client_get_source (E_CLIENT (pitip->current_client));
 	if (source)
-		comp = g_hash_table_lookup (pitip->real_comps, e_source_peek_uid (source));
+		comp = g_hash_table_lookup (pitip->real_comps, e_source_get_uid (source));
 
 	if (!comp) {
 		return NULL;
@@ -502,7 +502,7 @@ add_failed_to_load_msg (ItipView *view,
 
 	/* Translators: The first '%s' is replaced with a calendar name,
 	 * the second '%s' with an error message */
-	msg = g_strdup_printf (_("Failed to load the calendar '%s' (%s)"), e_source_peek_name (source), error->message);
+	msg = g_strdup_printf (_("Failed to load the calendar '%s' (%s)"), e_source_get_display_name (source), error->message);
 
 	itip_view_add_lower_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING, msg);
 
@@ -544,7 +544,7 @@ cal_opened_cb (GObject *source_object,
 	cal_client = E_CAL_CLIENT (client);
 	g_return_if_fail (cal_client != NULL);
 
-	uid = e_source_peek_uid (source);
+	uid = e_source_get_uid (source);
 	source_type = e_cal_client_get_source_type (cal_client);
 	g_hash_table_insert (
 		pitip->clients[source_type], g_strdup (uid), cal_client);
@@ -586,7 +586,7 @@ start_calendar_server (ItipPURI *pitip,
 
 	g_return_if_fail (source != NULL);
 
-	client = g_hash_table_lookup (pitip->clients[type], e_source_peek_uid (source));
+	client = g_hash_table_lookup (pitip->clients[type], e_source_get_uid (source));
 	if (client) {
 		pitip->current_client = client;
 
@@ -663,7 +663,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 
 	if (cal_client && g_hash_table_lookup (fd->conflicts, cal_client)) {
 		itip_view_add_upper_info_item_printf (view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-						      _("An appointment in the calendar '%s' conflicts with this meeting"), e_source_peek_name (source));
+						      _("An appointment in the calendar '%s' conflicts with this meeting"), e_source_get_display_name (source));
 	}
 
 	/* search for a master object if the detached object doesn't exist in the calendar */
@@ -687,7 +687,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 
 		/* FIXME Check read only state of calendar? */
 		itip_view_add_lower_info_item_printf (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Found the appointment in the calendar '%s'"), e_source_peek_name (source));
+			_("Found the appointment in the calendar '%s'"), e_source_get_display_name (source));
 
 		set_buttons_sensitive (pitip, view);
 	} else if (!pitip->current_client)
@@ -878,7 +878,7 @@ get_object_without_rid_ready_cb (GObject *source_object,
 		if (comp) {
 			ESource *source = e_client_get_source (E_CLIENT (cal_client));
 
-			g_hash_table_insert (fd->puri->real_comps, g_strdup (e_source_peek_uid (source)), comp);
+			g_hash_table_insert (fd->puri->real_comps, g_strdup (e_source_get_uid (source)), comp);
 		}
 
 		find_cal_update_ui (fd, cal_client);
@@ -929,7 +929,7 @@ get_object_with_rid_ready_cb (GObject *source_object,
 		if (comp) {
 			ESource *source = e_client_get_source (E_CLIENT (cal_client));
 
-			g_hash_table_insert (fd->puri->real_comps, g_strdup (e_source_peek_uid (source)), comp);
+			g_hash_table_insert (fd->puri->real_comps, g_strdup (e_source_get_uid (source)), comp);
 		}
 
 		find_cal_update_ui (fd, cal_client);
@@ -1037,7 +1037,7 @@ find_cal_opened_cb (GObject *source_object,
 	cal_client = E_CAL_CLIENT (client);
 	source_type = e_cal_client_get_source_type (cal_client);
 
-	uid = e_source_peek_uid (source);
+	uid = e_source_get_uid (source);
 	g_hash_table_insert (
 		pitip->clients[source_type], g_strdup (uid), cal_client);
 
@@ -1500,7 +1500,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 				itip_view_add_lower_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
 					_("Unable to send item to calendar '%s'.  %s"),
-					e_source_peek_name (source), error ? error->message : _("Unknown error"));
+					e_source_get_display_name (source), error ? error->message : _("Unknown error"));
 		}
 		g_clear_error (&error);
 		return;
@@ -1514,24 +1514,24 @@ receive_objects_ready_cb (GObject *ecalclient,
 	case ITIP_VIEW_RESPONSE_ACCEPT:
 		itip_view_add_lower_info_item_printf (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent to calendar '%s' as accepted"), e_source_peek_name (source));
+			_("Sent to calendar '%s' as accepted"), e_source_get_display_name (source));
 		break;
 	case ITIP_VIEW_RESPONSE_TENTATIVE:
 		itip_view_add_lower_info_item_printf (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent to calendar '%s' as tentative"), e_source_peek_name (source));
+			_("Sent to calendar '%s' as tentative"), e_source_get_display_name (source));
 		break;
 	case ITIP_VIEW_RESPONSE_DECLINE:
 		/* FIXME some calendars just might not save it at all, is this accurate? */
 		itip_view_add_lower_info_item_printf (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent to calendar '%s' as declined"), e_source_peek_name (source));
+			_("Sent to calendar '%s' as declined"), e_source_get_display_name (source));
 		break;
 	case ITIP_VIEW_RESPONSE_CANCEL:
 		/* FIXME some calendars just might not save it at all, is this accurate? */
 		itip_view_add_lower_info_item_printf (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent to calendar '%s' as canceled"), e_source_peek_name (source));
+			_("Sent to calendar '%s' as canceled"), e_source_get_display_name (source));
 		break;
 	default:
 		g_assert_not_reached ();

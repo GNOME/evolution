@@ -73,20 +73,23 @@ action_address_book_delete_cb (GtkAction *action,
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
-	source = e_source_selector_get_primary_selection (selector);
+	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
 	response = e_alert_run_dialog_for_args (
 		GTK_WINDOW (shell_window),
 		"addressbook:ask-delete-addressbook",
-		e_source_peek_name (source), NULL);
+		e_source_get_display_name (source), NULL);
 
-	if (response != GTK_RESPONSE_YES)
+	if (response != GTK_RESPONSE_YES) {
+		g_object_unref (source);
 		return;
+	}
 
 	book = e_book_client_new (source, &error);
 	if (error != NULL) {
 		g_warning ("Error removing addressbook: %s", error->message);
+		g_object_unref (source);
 		g_error_free (error);
 		return;
 	}
@@ -95,6 +98,7 @@ action_address_book_delete_cb (GtkAction *action,
 		e_alert_run_dialog_for_args (
 			GTK_WINDOW (shell_window),
 			"addressbook:remove-addressbook", NULL);
+		g_object_unref (source);
 		g_object_unref (book);
 		return;
 	}
@@ -107,6 +111,7 @@ action_address_book_delete_cb (GtkAction *action,
 
 	e_source_list_sync (source_list, NULL);
 
+	g_object_unref (source);
 	g_object_unref (book);
 }
 
@@ -187,10 +192,10 @@ action_address_book_properties_cb (GtkAction *action,
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
-	source = e_source_selector_get_primary_selection (selector);
+	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
-	uid = e_source_peek_uid (source);
+	uid = e_source_get_uid (source);
 	uid_to_editor = book_shell_view->priv->uid_to_editor;
 
 	closure = g_hash_table_lookup (uid_to_editor, uid);
@@ -213,6 +218,8 @@ action_address_book_properties_cb (GtkAction *action,
 	}
 
 	gtk_window_present (GTK_WINDOW (closure->editor));
+
+	g_object_unref (source);
 }
 
 #ifdef WITH_CONTACT_MAPS

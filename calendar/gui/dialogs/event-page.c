@@ -2889,10 +2889,12 @@ event_page_send_options_clicked_cb (EventPage *epage)
 
 	if (!priv->sod) {
 		priv->sod = e_send_options_dialog_new ();
-		source = e_source_combo_box_get_active (
+		source = e_source_combo_box_ref_active (
 			E_SOURCE_COMBO_BOX (priv->source_selector));
-		e_send_options_utils_set_default_data (priv->sod, source, "calendar");
+		e_send_options_utils_set_default_data (
+			priv->sod, source, "calendar");
 		priv->sod->data->initialized = TRUE;
+		g_object_unref (source);
 	}
 
 	if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS)) {
@@ -2939,7 +2941,7 @@ epage_client_opened_cb (GObject *source_object,
 			NULL, GTK_DIALOG_MODAL,
 			GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
 			_("Unable to open the calendar '%s': %s"),
-			e_source_peek_name (source),
+			e_source_get_display_name (source),
 			error->message);
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
@@ -2987,7 +2989,8 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (epage)))
 		return;
 
-	source = e_source_combo_box_get_active (source_combo_box);
+	source = e_source_combo_box_ref_active (source_combo_box);
+	g_return_if_fail (source != NULL);
 
 	if (priv->open_cancellable) {
 		g_cancellable_cancel (priv->open_cancellable);
@@ -2995,9 +2998,13 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	}
 	priv->open_cancellable = g_cancellable_new ();
 
-	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_EVENTS, FALSE, priv->open_cancellable,
-				 e_client_utils_authenticate_handler, NULL,
-				 epage_client_opened_cb, epage);
+	e_client_utils_open_new (
+		source, E_CLIENT_SOURCE_TYPE_EVENTS,
+		FALSE, priv->open_cancellable,
+		e_client_utils_authenticate_handler, NULL,
+		epage_client_opened_cb, epage);
+
+	g_object_unref (source);
 }
 
 static void
@@ -3305,7 +3312,8 @@ init_widgets (EventPage *epage)
 	g_signal_connect (
 		priv->alarm_dialog, "delete-event",
 		G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
-	priv->alarm_list_dlg_widget = alarm_list_dialog_peek (client, priv->alarm_list_store);
+	priv->alarm_list_dlg_widget = alarm_list_dialog_peek (
+		client, priv->alarm_list_store);
 	gtk_widget_reparent (priv->alarm_list_dlg_widget, priv->alarm_box);
 	gtk_widget_show_all (priv->alarm_list_dlg_widget);
 	gtk_widget_hide (priv->alarm_dialog);

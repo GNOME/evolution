@@ -46,12 +46,14 @@ action_calendar_copy_cb (GtkAction *action,
 
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
-	source = e_source_selector_get_primary_selection (selector);
-	g_return_if_fail (E_IS_SOURCE (source));
+	source = e_source_selector_ref_primary_selection (selector);
+	g_return_if_fail (source != NULL);
 
 	copy_source_dialog (
 		GTK_WINDOW (shell_window),
 		source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS);
+
+	g_object_unref (source);
 }
 
 static void
@@ -88,16 +90,18 @@ action_calendar_delete_cb (GtkAction *action,
 
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
-	source = e_source_selector_get_primary_selection (selector);
-	g_return_if_fail (E_IS_SOURCE (source));
+	source = e_source_selector_ref_primary_selection (selector);
+	g_return_if_fail (source != NULL);
 
 	/* Ask for confirmation. */
 	response = e_alert_run_dialog_for_args (
 		GTK_WINDOW (shell_window),
 		"calendar:prompt-delete-calendar",
-		e_source_peek_name (source), NULL);
-	if (response != GTK_RESPONSE_YES)
+		e_source_get_display_name (source), NULL);
+	if (response != GTK_RESPONSE_YES) {
+		g_object_unref (source);
 		return;
+	}
 
 	uri = e_source_get_uri (source);
 	client = e_cal_model_get_client_for_uri (model, uri);
@@ -114,6 +118,7 @@ action_calendar_delete_cb (GtkAction *action,
 		g_warning (
 			"%s: Failed to remove client: %s",
 			G_STRFUNC, error->message);
+		g_object_unref (source);
 		g_error_free (error);
 		return;
 	}
@@ -138,6 +143,8 @@ action_calendar_delete_cb (GtkAction *action,
 			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
+
+	g_object_unref (source);
 }
 
 static void
@@ -282,13 +289,15 @@ action_calendar_properties_cb (GtkAction *action,
 
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
-	source = e_source_selector_get_primary_selection (selector);
-	g_return_if_fail (E_IS_SOURCE (source));
+	source = e_source_selector_ref_primary_selection (selector);
+	g_return_if_fail (source != NULL);
 
 	/* XXX Does this -really- need a source group parameter? */
 	calendar_setup_edit_calendar (
 		GTK_WINDOW (shell_window), source,
 		e_source_peek_group (source));
+
+	g_object_unref (source);
 }
 
 static void
@@ -384,15 +393,17 @@ action_calendar_refresh_cb (GtkAction *action,
 	model = e_cal_shell_content_get_model (cal_shell_content);
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 
-	source = e_source_selector_get_primary_selection (selector);
-	g_return_if_fail (E_IS_SOURCE (source));
+	source = e_source_selector_ref_primary_selection (selector);
+	g_return_if_fail (source != NULL);
 
 	uri = e_source_get_uri (source);
 	client = e_cal_model_get_client_for_uri (model, uri);
 	g_free (uri);
 
-	if (client == NULL)
+	if (client == NULL) {
+		g_object_unref (source);
 		return;
+	}
 
 	g_return_if_fail (e_client_check_refresh_supported (E_CLIENT (client)));
 
@@ -401,10 +412,12 @@ action_calendar_refresh_cb (GtkAction *action,
 	if (error != NULL) {
 		g_warning (
 			"%s: Failed to refresh '%s', %s",
-			G_STRFUNC, e_source_peek_name (source),
+			G_STRFUNC, e_source_get_display_name (source),
 			error->message);
 		g_error_free (error);
 	}
+
+	g_object_unref (source);
 }
 
 static void
@@ -452,10 +465,12 @@ action_calendar_select_one_cb (GtkAction *action,
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 
-	primary = e_source_selector_get_primary_selection (selector);
+	primary = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (primary != NULL);
 
 	e_source_selector_select_exclusive (selector, primary);
+
+	g_object_unref (primary);
 }
 
 static void

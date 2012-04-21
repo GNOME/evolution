@@ -183,7 +183,7 @@ attachment_handler_import_event (GObject *source_object,
 		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open '%s': %s",
-			G_STRFUNC, e_source_peek_name (source),
+			G_STRFUNC, e_source_get_display_name (source),
 			error->message);
 		g_object_unref (attachment);
 		g_error_free (error);
@@ -239,7 +239,7 @@ attachment_handler_import_todo (GObject *source_object,
 		g_warn_if_fail (client == NULL);
 		g_warning (
 			"%s: Failed to open '%s': %s",
-			G_STRFUNC, e_source_peek_name (source),
+			G_STRFUNC, e_source_get_display_name (source),
 			error->message);
 		g_object_unref (attachment);
 		g_error_free (error);
@@ -354,24 +354,28 @@ attachment_handler_run_dialog (GtkWindow *parent,
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
 		goto exit;
 
-	source = e_source_selector_get_primary_selection (selector);
+	source = e_source_selector_ref_primary_selection (selector);
 	if (source == NULL)
 		goto exit;
 
 	switch (source_type) {
 	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_EVENTS, FALSE, NULL,
+		e_client_utils_open_new (
+			source, E_CLIENT_SOURCE_TYPE_EVENTS, FALSE, NULL,
 			e_client_utils_authenticate_handler, NULL,
 			attachment_handler_import_event, g_object_ref (attachment));
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
+		e_client_utils_open_new (
+			source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
 			e_client_utils_authenticate_handler, NULL,
 			attachment_handler_import_todo, g_object_ref (attachment));
 		break;
 	default:
 		break;
 	}
+
+	g_object_unref (source);
 
  exit:
 	gtk_widget_destroy (dialog);

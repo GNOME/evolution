@@ -943,7 +943,7 @@ source_changed_cb (WebKitDOMElement *select,
 
 	source = itip_view_get_source (view);
 
-	d(printf("Source changed to '%s'\n", e_source_peek_name (source)));
+	d(printf("Source changed to '%s'\n", e_source_get_display_name (source)));
 	g_signal_emit (view, signals[SOURCE_SELECTED], 0, source);
 }
 
@@ -2207,13 +2207,13 @@ source_list_changed_cb (ESourceList *source_list,
 				view->priv->dom_document, "OPTION", NULL);
 			webkit_dom_html_option_element_set_value (
 				WEBKIT_DOM_HTML_OPTION_ELEMENT (option),
-				e_source_peek_uid (source));
+				e_source_get_uid (source));
 			webkit_dom_html_option_element_set_label (
 				WEBKIT_DOM_HTML_OPTION_ELEMENT (option),
-				e_source_peek_name (source));
+				e_source_get_display_name (source));
 			webkit_dom_html_element_set_inner_html (
 				WEBKIT_DOM_HTML_ELEMENT (option),
-				e_source_peek_name (source), NULL);
+				e_source_get_display_name (source), NULL);
 			webkit_dom_html_element_set_class_name (
 				WEBKIT_DOM_HTML_ELEMENT (option), "calendar");
 
@@ -2271,7 +2271,7 @@ itip_view_set_source (ItipView *view,
 
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	d(printf("Settings default source '%s'\n", e_source_peek_name (source)));
+	d(printf("Settings default source '%s'\n", e_source_get_display_name (source)));
 
 	if (!view->priv->dom_document)
 		return;
@@ -2312,7 +2312,7 @@ itip_view_set_source (ItipView *view,
 		option = WEBKIT_DOM_HTML_OPTION_ELEMENT (node);
 
 		value = webkit_dom_html_option_element_get_value (option);
-		if (g_strcmp0 (value, e_source_peek_uid (source)) == 0) {
+		if (g_strcmp0 (value, e_source_get_uid (source)) == 0) {
 			webkit_dom_html_option_element_set_selected (
 				option, TRUE);
 

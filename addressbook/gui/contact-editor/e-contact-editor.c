@@ -27,6 +27,7 @@
 #include "eab-editor.h"
 #include "e-contact-editor.h"
 
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <gtk/gtk.h>
@@ -3094,7 +3095,9 @@ source_changed (ESourceComboBox *source_combo_box,
 	ESource *source;
 	GtkWindow *parent;
 
-	source = e_source_combo_box_get_active (source_combo_box);
+	source = e_source_combo_box_ref_active (source_combo_box);
+	g_return_if_fail (source != NULL);
+
 	parent = eab_editor_get_window (EAB_EDITOR (editor));
 
 	if (editor->cancellable != NULL) {
@@ -3107,13 +3110,13 @@ source_changed (ESourceComboBox *source_combo_box,
 	source_source = e_client_get_source (E_CLIENT (editor->source_client));
 
 	if (e_source_equal (target_source, source))
-		return;
+		goto exit;
 
 	if (e_source_equal (source_source, source)) {
 		g_object_set (
 			editor, "target_client",
 			editor->source_client, NULL);
-		return;
+		goto exit;
 	}
 
 	editor->cancellable = g_cancellable_new ();
@@ -3123,6 +3126,9 @@ source_changed (ESourceComboBox *source_combo_box,
 		FALSE, editor->cancellable,
 		e_client_utils_authenticate_handler, parent,
 		contact_editor_book_loaded_cb, g_object_ref (editor));
+
+exit:
+	g_object_unref (source);
 }
 
 static void

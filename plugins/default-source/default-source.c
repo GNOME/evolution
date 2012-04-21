@@ -62,7 +62,7 @@ mark_default_source_in_list (ESourceList *source_list,
 	g_return_if_fail (source_list != NULL);
 	g_return_if_fail (source != NULL);
 
-	source = e_source_list_peek_source_by_uid (source_list, e_source_peek_uid (source));
+	source = e_source_list_peek_source_by_uid (source_list, e_source_get_uid (source));
 
 	for (g = e_source_list_peek_groups (source_list); g; g = g->next) {
 		ESourceGroup *group = g->data;

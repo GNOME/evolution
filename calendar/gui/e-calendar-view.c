@@ -1517,7 +1517,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 
 		widget = e_alert_dialog_new_for_args (
 			parent, "calendar:prompt-read-only-cal",
-			e_source_peek_name (source),
+			e_source_get_display_name (source),
 			NULL);
 
 		g_signal_connect (

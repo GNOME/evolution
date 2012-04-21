@@ -309,7 +309,7 @@ setup_yahoo_account (MailAccountView *mav)
 		e_source_group_add_source (sgrp, calendar, -1);
 		e_source_list_sync (slist, NULL);
 
-		add_selected_calendar (e_source_peek_uid (calendar));
+		add_selected_calendar (e_source_get_uid (calendar));
 
 		g_free (abs_uri);
 		g_free (rel_uri);
@@ -400,7 +400,7 @@ setup_google_accounts (MailAccountView *mav)
 
 		e_source_list_sync (slist, NULL);
 
-		add_selected_calendar (e_source_peek_uid (calendar));
+		add_selected_calendar (e_source_get_uid (calendar));
 
 		g_free (abs_uri);
 		g_free (rel_uri);

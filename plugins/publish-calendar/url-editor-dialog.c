@@ -589,7 +589,7 @@ url_editor_dialog_run (UrlEditorDialog *dialog)
 
 		l = e_source_selector_get_selection (E_SOURCE_SELECTOR (dialog->events_selector));
 		for (p = l; p; p = g_slist_next (p))
-			dialog->uri->events = g_slist_append (dialog->uri->events, g_strdup (e_source_peek_uid (p->data)));
+			dialog->uri->events = g_slist_append (dialog->uri->events, g_strdup (e_source_get_uid (p->data)));
 	}
 	gtk_widget_hide (GTK_WIDGET (dialog));
 

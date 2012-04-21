@@ -1775,7 +1775,7 @@ tpage_client_opened_cb (GObject *source_object,
 			NULL, GTK_DIALOG_MODAL,
 			GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
 			_("Unable to open tasks in '%s': %s"),
-			e_source_peek_name (source),
+			e_source_get_display_name (source),
 			error->message);
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
@@ -1824,7 +1824,8 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tpage)))
 		return;
 
-	source = e_source_combo_box_get_active (source_combo_box);
+	source = e_source_combo_box_ref_active (source_combo_box);
+	g_return_if_fail (source != NULL);
 
 	if (priv->open_cancellable) {
 		g_cancellable_cancel (priv->open_cancellable);
@@ -1837,6 +1838,8 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 		FALSE, priv->open_cancellable,
 		e_client_utils_authenticate_handler, NULL,
 		tpage_client_opened_cb, tpage);
+
+	g_object_unref (source);
 }
 
 static void
@@ -1880,9 +1883,11 @@ task_page_send_options_clicked_cb (TaskPage *tpage)
 	if (!priv->sod) {
 		priv->sod = e_send_options_dialog_new ();
 		priv->sod->data->initialized = TRUE;
-		source = e_source_combo_box_get_active (
+		source = e_source_combo_box_ref_active (
 			E_SOURCE_COMBO_BOX (priv->source_selector));
-		e_send_options_utils_set_default_data (priv->sod, source, "task");
+		e_send_options_utils_set_default_data (
+			priv->sod, source, "task");
+		g_object_unref (source);
 	}
 
 	if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS)) {

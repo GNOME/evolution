@@ -837,8 +837,8 @@ merge_duplicate_local_sources (GConfClient *client,
 					continue;
 
 				/* pretty unlikely, but just in case */
-				val1 = e_source_peek_uid (dupe_source);
-				val2 = e_source_peek_uid (my_source);
+				val1 = e_source_get_uid (dupe_source);
+				val2 = e_source_get_uid (my_source);
 				if (g_strcmp0 (val1, val2) == 0)
 					break;
 
@@ -876,7 +876,7 @@ merge_duplicate_local_sources (GConfClient *client,
 
 			relative_uri = e_source_peek_relative_uri (source);
 			if (!relative_uri || !*relative_uri)
-				e_source_set_relative_uri (source, e_source_peek_uid (source));
+				e_source_set_relative_uri (source, e_source_get_uid (source));
 		}
 	}
 

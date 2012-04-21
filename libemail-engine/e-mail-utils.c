@@ -494,8 +494,8 @@ search_address_in_addressbooks (const gchar *address,
 		const gchar *uid;
 		GError *err = NULL;
 
-		uid = e_source_peek_uid (source);
-		display_name = e_source_peek_name (source);
+		uid = e_source_get_uid (source);
+		display_name = e_source_get_display_name (source);
 
 		/* failed to load this book last time, skip it now */
 		if (g_hash_table_lookup (emu_broken_books_hash, uid) != NULL) {
