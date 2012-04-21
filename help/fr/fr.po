@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution doc fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-26 09:56+0000\n"
+"POT-Creation-Date: 2012-03-31 19:51+0000\n"
 "PO-Revision-Date: 2012-03-11 15:46+0100\n"
 "Last-Translator: Bruno Brouard <annoa.b@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -1341,7 +1341,7 @@ msgstr ""
 
 #: C/sync-with-other-devices.page:23(title)
 msgid "Synchronize <app>Evolution</app> with other devices"
-msgstr "Synchronisation de <app>Evolution</app> avec les autres périphériques"
+msgstr "Synchronisation d'<app>Evolution</app> avec les autres périphériques"
 
 #: C/sync-with-other-devices.page:25(p)
 msgid "There are currently no \"recommended instructions\" for users."
@@ -3057,7 +3057,7 @@ msgid ""
 "available mechanisms actually work."
 msgstr ""
 "Sélectionnez le type d'authentification dans la liste Authentification ou "
-"cliquez sur <gui>Vérifier les types pris en charge</gui> pour que Evolution "
+"cliquez sur <gui>Vérifier les types pris en charge</gui> pour qu'Evolution "
 "vérifie les mécanismes d'authentification pris en charge. Certains serveurs "
 "ne signalent pas les mécanismes d'authentification qu'ils prennent en "
 "charge, ce qui signifie que cette fonction ne garantit pas que les "
@@ -3940,7 +3940,7 @@ msgid ""
 msgstr ""
 "Sélectionnez le type d'authentification dans la liste Authentification ou "
 "cliquez sur <gui style=\"button\">Vérifier les types pris en charge</gui> "
-"pour que Evolution vérifie les mécanismes d'authentification pris en charge. "
+"pour qu'Evolution vérifie les mécanismes d'authentification pris en charge. "
 "Certains serveurs ne signalent pas les mécanismes d'authentification qu'ils "
 "prennent en charge, ce qui signifie que cette fonction ne garantit pas que "
 "les mécanismes disponibles fonctionnent réellement."
@@ -7827,7 +7827,7 @@ msgid ""
 msgstr ""
 "Certaines personnes n'ont pas de logiciel de messagerie capable d'afficher "
 "le HTML, ou ils préfèrent ne pas recevoir des messages en HTML car c'est "
-"plus lent à télécharger et à afficher. C'est pour cette raison que Evolution "
+"plus lent à télécharger et à afficher. C'est pour cette raison qu'Evolution "
 "envoie les messages en texte simple, sauf si vous lui demandez explicitement "
 "d'utiliser le HTML."
 
@@ -9182,7 +9182,7 @@ msgstr "Barbara M. Tobias"
 
 #: C/intro-main-window.page:29(title)
 msgid "The <app>Evolution</app> main window"
-msgstr "La fenêtre principale de <app>Evolution</app>"
+msgstr "La fenêtre principale d'<app>Evolution</app>"
 
 #. This section fixes https://bugzilla.gnome.org/show_bug.cgi?id=657028
 #: C/intro-main-window.page:32(p)
