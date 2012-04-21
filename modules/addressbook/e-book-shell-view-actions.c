@@ -263,10 +263,12 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
-	source = e_source_selector_get_primary_selection (selector);
-
+	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
+
 	book_client = e_book_client_new (source, &error);
+	g_object_unref (source);
+
 	if (error) {
 		g_warning ("Error loading addressbook: %s", error->message);
 		g_error_free (error);
@@ -312,10 +314,12 @@ action_address_book_map_cb (GtkAction *action,
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
-	source = e_source_selector_get_primary_selection (selector);
-
+	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
+
 	book_client = e_book_client_new (source, &error);
+	g_object_unref (source);
+
 	if (error != NULL) {
 		g_warning ("Error loading addressbook: %s", error->message);
 		g_error_free (error);
