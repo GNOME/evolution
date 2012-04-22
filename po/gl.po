@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-19 19:53+0200\n"
-"PO-Revision-Date: 2012-04-19 20:08+0200\n"
+"POT-Creation-Date: 2012-04-22 21:16+0200\n"
+"PO-Revision-Date: 2012-04-22 21:18+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "Language: gl\n"
@@ -3293,8 +3293,8 @@ msgid "Unable to open memos in '%s': %s"
 msgstr "Non é posíbel abrir as notas en «%s»: %s"
 
 #: ../calendar/gui/dialogs/memo-page.c:1156 ../em-format/em-format.c:1227
-#: ../em-format/em-format-quote.c:154 ../mail/em-format-html.c:2286
-#: ../mail/em-format-html.c:2309 ../mail/message-list.etspec.h:9
+#: ../em-format/em-format-quote.c:154 ../mail/em-format-html.c:2287
+#: ../mail/em-format-html.c:2310 ../mail/message-list.etspec.h:9
 #: ../modules/mail/em-mailer-prefs.c:72
 msgid "To"
 msgstr "Para"
@@ -9441,16 +9441,16 @@ msgstr ""
 "cartafoles"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
-#, fuzzy
 msgid ""
 "Possible values are: 'never' - do not allow copy with drag &amp; drop of "
 "folders in folder tree, 'always' - allow copy with drag &amp; drop of "
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
 msgstr ""
-"Os valores posíbeis son: «nunca» - non pechar nunca a xanela do buscador, "
-"«sempre» - pechar sempre a xanela do buscador ou «preguntar» (ou calquera "
-"valor) preguntar ao usuario."
+"Os valores posíbeis son: «never» (nunca) para non permitir copiar cartafoles "
+"arrastrando e soltando no árbore de cartafoles, , «always» (sempre) para "
+"permitir mover cartafoles arrastrando e soltando no árbore de cartafoles ou  "
+"«ask» (preguntar) ou calquera outro valor, par preguntarlle ao usuario."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
@@ -10313,13 +10313,13 @@ msgid "Reply-To"
 msgstr "Responder a"
 
 #: ../em-format/em-format.c:1228 ../em-format/em-format-quote.c:154
-#: ../mail/em-format-html.c:2288 ../mail/em-format-html.c:2311
+#: ../mail/em-format-html.c:2289 ../mail/em-format-html.c:2312
 #: ../modules/mail/em-mailer-prefs.c:73
 msgid "Cc"
 msgstr "Cc"
 
 #: ../em-format/em-format.c:1229 ../em-format/em-format-quote.c:154
-#: ../mail/em-format-html.c:2290 ../mail/em-format-html.c:2313
+#: ../mail/em-format-html.c:2291 ../mail/em-format-html.c:2314
 #: ../modules/mail/em-mailer-prefs.c:74
 msgid "Bcc"
 msgstr "Cco"
@@ -10352,7 +10352,7 @@ msgid "%s attachment"
 msgstr "%s anexo"
 
 #. pseudo-header
-#: ../em-format/em-format-quote.c:312 ../mail/em-format-html.c:2421
+#: ../em-format/em-format-quote.c:312 ../mail/em-format-html.c:2422
 #: ../modules/mail/em-mailer-prefs.c:1046
 msgid "Mailer"
 msgstr "Aplicativo de correo"
@@ -12701,17 +12701,17 @@ msgstr "Punteiro aos datos externos descoñecidos (tipo «%s»)"
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../mail/em-format-html.c:2563
+#: ../mail/em-format-html.c:2564
 #: ../plugins/mail-notification/mail-notification.c:395
 #, c-format
 msgid "From: %s"
 msgstr "De: %s:"
 
-#: ../mail/em-format-html.c:2583 ../mail/em-format-html.c:2588
+#: ../mail/em-format-html.c:2584 ../mail/em-format-html.c:2589
 msgid "(no subject)"
 msgstr "(Sen asunto)"
 
-#: ../mail/em-format-html.c:2731
+#: ../mail/em-format-html.c:2732
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Esta mensaxe enviouse por %s no nome de %s"
