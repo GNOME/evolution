@@ -2733,6 +2733,7 @@ get_view_cb (GObject *source_object,
 		}
 
 		if (gvd->tries < 10) {
+			g_clear_error (&error);
 			gvd->tries++;
 			g_timeout_add (500, retry_get_view_timeout_cb, gvd);
 			return;

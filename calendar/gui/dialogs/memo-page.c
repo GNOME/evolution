@@ -927,6 +927,7 @@ mpage_client_opened_cb (GObject *source_object,
 	if (!e_client_utils_open_new_finish (source, result, &client, &error)) {
 		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			g_clear_error (&error);
 			return;
 		}
 	}
@@ -952,8 +953,7 @@ mpage_client_opened_cb (GObject *source_object,
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 
-		if (error)
-			g_error_free (error);
+		g_clear_error (&error);
 	} else {
 		icaltimezone *zone;
 		CompEditorFlags flags;
