@@ -278,6 +278,13 @@ view_modify_contact_cb (EBookClientView *client_view,
 		gint ii;
 
 		target_uid = e_contact_get_const (new_contact, E_CONTACT_UID);
+		g_warn_if_fail (target_uid != NULL);
+
+		/* skip contacts without UID */
+		if (!target_uid) {
+			contact_list = contact_list->next;
+			continue;
+		}
 
 		for (ii = 0; ii < array->len; ii++) {
 			EContact *old_contact;
