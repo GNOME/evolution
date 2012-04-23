@@ -220,21 +220,6 @@
       <_summary>Search range for time-based searching in years</_summary>
       <_description>How many years can the time-based search go forward or backward from currently selected day when searching for another occurrence; default is ten years</_description>
     </key>
-    <key name="selected-calendars" type="as">
-      <default>[]</default>
-      <_summary>List of selected calendars</_summary>
-      <_description>List of calendars to load</_description>
-    </key>
-    <key name="selected-memos" type="as">
-      <default>[]</default>
-      <_summary>List of selected memo lists</_summary>
-      <_description>List of memo lists to load</_description>
-    </key>
-    <key name="selected-tasks" type="as">
-      <default>[]</default>
-      <_summary>List of selected task lists</_summary>
-      <_description>List of task lists to load</_description>
-    </key>
     <key name="show-event-end" type="b">
       <default>true</default>
       <_summary>Show appointment end times in week and month views</_summary>
