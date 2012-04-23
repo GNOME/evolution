@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-22 21:16+0200\n"
-"PO-Revision-Date: 2012-04-22 21:18+0200\n"
+"POT-Creation-Date: 2012-04-24 00:31+0200\n"
+"PO-Revision-Date: 2012-04-24 00:35+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "Language: gl\n"
@@ -282,9 +282,9 @@ msgstr ""
 "Seleccione unha axenda de enderezos diferente na barra lateral en Contactos."
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:628
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:650
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2926
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:629
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:651
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2927
 msgid "Contact Editor"
 msgstr "Editor de contactos"
 
@@ -322,8 +322,8 @@ msgstr "_Desexa recibir o correo en HTML"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:9
 #: ../addressbook/gui/merging/eab-contact-merging.c:392
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:627
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:979
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:596
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:948
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 #: ../smime/lib/e-cert.c:811
 msgid "Email"
@@ -338,7 +338,7 @@ msgid "Instant Messaging"
 msgstr "Mensaxaría instantánea"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:12
-#: ../addressbook/importers/evolution-vcard-importer.c:990
+#: ../addressbook/importers/evolution-vcard-importer.c:995
 msgid "Contact"
 msgstr "Contacto"
 
@@ -440,7 +440,7 @@ msgid "_Anniversary:"
 msgstr "_Aniversario:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:37
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:721
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:690
 #: ../calendar/gui/e-calendar-view.c:2131
 msgid "Anniversary"
 msgstr "Aniversario"
@@ -451,7 +451,7 @@ msgstr "Aniversario"
 #. * which, so long as it has an icon.  We're just interested in
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:720
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:689
 #: ../calendar/gui/e-calendar-view.c:2130 ../capplet/anjal-settings-main.c:83
 #: ../shell/main.c:135
 msgid "Birthday"
@@ -491,27 +491,27 @@ msgid "_Address:"
 msgstr "_Enderezo:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:47
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:196
-#: ../addressbook/gui/widgets/eab-contact-display.c:366
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:197
+#: ../addressbook/gui/widgets/eab-contact-display.c:370
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:72
 #: ../widgets/misc/e-contact-map.c:300
 msgid "Home"
 msgstr "Particular"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:48
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:195
-#: ../addressbook/gui/widgets/eab-contact-display.c:363
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:196
+#: ../addressbook/gui/widgets/eab-contact-display.c:367
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:71
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:702
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:671
 #: ../widgets/misc/e-contact-map.c:308
 msgid "Work"
 msgstr "Traballo"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:49
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:197
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:198
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:73
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:402
-#: ../calendar/gui/e-cal-model.c:3471
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:373
+#: ../calendar/gui/e-cal-model.c:3472
 msgid "Other"
 msgstr "Outros"
 
@@ -523,74 +523,74 @@ msgstr "Enderezo de correo"
 msgid "Notes"
 msgstr "Notas"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:176
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:630
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:177
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:599
 msgid "AIM"
 msgstr "AIM"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:177
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:633
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:178
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:602
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:178
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:635
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:179
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:604
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:179
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:636
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:180
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:605
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:180
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:634
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:181
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:603
 msgid "MSN"
 msgstr "MSN"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:181
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:632
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:182
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:601
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:182
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:631
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:183
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:600
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:183
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:637
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:184
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:606
 msgid "Skype"
 msgstr "Skype"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:220
-#: ../addressbook/gui/widgets/eab-gui-util.c:488
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:221
+#: ../addressbook/gui/widgets/eab-gui-util.c:499
 msgid "Error adding contact"
 msgstr "Produciuse un erro ao engadir o contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:235
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:236
 msgid "Error modifying contact"
 msgstr "Produciuse un erro ao modificar o contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:250
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:251
 msgid "Error removing contact"
 msgstr "Produciuse un erro ao eliminar o contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:644
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2920
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:645
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2921
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Editor de contactos - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3401
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3407
 msgid "Please select an image for this contact"
 msgstr "Escolla unha imaxe para este contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3402
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3408
 msgid "_No image"
 msgstr "_Sen imaxe"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3729
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3735
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -598,48 +598,48 @@ msgstr ""
 "Os datos do contacto son incorrectos:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3735
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3741
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "«%s» ten un formato incorrecto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3742
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3748
 #, c-format
 msgid "'%s' cannot be a future date"
 msgstr "«%s» non pode ser unha data no futuro"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3750
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3756
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s«%s» ten un formato incorrecto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3763
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3777
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3769
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3783
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s«%s» está baleiro"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3792
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3798
 msgid "Invalid contact."
 msgstr "Contacto incorrecto."
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:438
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:443
 msgid "Contact Quick-Add"
 msgstr "Adición rápida de contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:441
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:446
 msgid "_Edit Full"
 msgstr "_Editar completo"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:492
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:497
 msgid "_Full name"
 msgstr "Nome _completo"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:503
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:508
 msgid "E_mail"
 msgstr "Correo _electrónico"
 
-#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:514
+#: ../addressbook/gui/contact-editor/e-contact-quick-add.c:519
 msgid "_Select Address Book"
 msgstr "_Seleccionar a axenda de enderezos"
 
@@ -739,19 +739,19 @@ msgstr "_Seleccionar…"
 msgid "Contact List Members"
 msgstr "Membros da lista de contactos"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1409
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1419
 msgid "_Members"
 msgstr "_Membros"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1523
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1533
 msgid "Error adding list"
 msgstr "Produciuse un erro ao engadir a lista"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1538
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1548
 msgid "Error modifying list"
 msgstr "Produciuse un erro ao modificar a lista"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1553
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1563
 msgid "Error removing list"
 msgstr "Produciuse un erro ao eliminar a lista"
 
@@ -803,22 +803,22 @@ msgid "Merge Contact"
 msgstr "Combinar o contacto"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../modules/addressbook/e-book-shell-view-actions.c:1077
+#: ../modules/addressbook/e-book-shell-view-actions.c:1088
 msgid "Name contains"
 msgstr "O nome contén"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../modules/addressbook/e-book-shell-view-actions.c:1070
+#: ../modules/addressbook/e-book-shell-view-actions.c:1081
 msgid "Email begins with"
 msgstr "O correo comeza por"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 #: ../calendar/gui/caltypes.xml.h:26 ../calendar/gui/memotypes.xml.h:19
 #: ../calendar/gui/tasktypes.xml.h:30
-#: ../modules/addressbook/e-book-shell-view-actions.c:1063
-#: ../modules/calendar/e-cal-shell-view-actions.c:1776
-#: ../modules/calendar/e-memo-shell-view-actions.c:788
-#: ../modules/calendar/e-task-shell-view-actions.c:987
+#: ../modules/addressbook/e-book-shell-view-actions.c:1074
+#: ../modules/calendar/e-cal-shell-view-actions.c:1791
+#: ../modules/calendar/e-memo-shell-view-actions.c:803
+#: ../modules/calendar/e-task-shell-view-actions.c:1002
 msgid "Any field contains"
 msgstr "Calquera campo contén"
 
@@ -828,79 +828,79 @@ msgstr "Calquera campo contén"
 msgid "evolution address book"
 msgstr "axenda de enderezos do Evolution"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:155
+#: ../addressbook/gui/widgets/eab-contact-display.c:157
 msgid "Copy _Email Address"
 msgstr "Copiar o _enderezo de correo"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:157
-#: ../widgets/misc/e-web-view.c:297 ../widgets/misc/e-web-view-gtkhtml.c:431
+#: ../addressbook/gui/widgets/eab-contact-display.c:159
+#: ../widgets/misc/e-web-view.c:300 ../widgets/misc/e-web-view-gtkhtml.c:431
 msgid "Copy the email address to the clipboard"
 msgstr "Copiar o enderezo de correo ao portapapeis"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:162
-#: ../widgets/misc/e-web-view.c:302 ../widgets/misc/e-web-view-gtkhtml.c:436
+#: ../addressbook/gui/widgets/eab-contact-display.c:164
+#: ../widgets/misc/e-web-view.c:305 ../widgets/misc/e-web-view-gtkhtml.c:436
 msgid "_Send New Message To..."
 msgstr "Enviar unha men_saxe nova a…"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:164
-#: ../widgets/misc/e-web-view.c:304 ../widgets/misc/e-web-view-gtkhtml.c:438
+#: ../addressbook/gui/widgets/eab-contact-display.c:166
+#: ../widgets/misc/e-web-view.c:307 ../widgets/misc/e-web-view-gtkhtml.c:438
 msgid "Send a mail message to this address"
 msgstr "Enviar unha mensaxe a este enderezo"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:301
-#: ../widgets/misc/e-web-view.c:1065 ../widgets/misc/e-web-view-gtkhtml.c:955
+#: ../addressbook/gui/widgets/eab-contact-display.c:305
+#: ../widgets/misc/e-web-view.c:1068 ../widgets/misc/e-web-view-gtkhtml.c:955
 #, c-format
 msgid "Click to mail %s"
 msgstr "Prema para enviar un correo a %s"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:170
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:143
 msgid "Open map"
 msgstr "Abrir mapa"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:565
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:534
 msgid "List Members:"
 msgstr "Membros da lista:"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:629
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:598
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Alcume"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:681
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:650
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Empresa"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:682
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:651
 msgid "Department"
 msgstr "Departamento"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:683
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:652
 msgid "Profession"
 msgstr "Profesión"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:684
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:653
 msgid "Position"
 msgstr "Cargo"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:685
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:654
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Director"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:686
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:655
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Secretaria/o"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:687
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:656
 msgid "Video Chat"
 msgstr "Videoconferencia"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:688
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:657
 #: ../calendar/gui/dialogs/calendar-setup.c:469
-#: ../modules/calendar/e-cal-shell-view-actions.c:232
-#: ../modules/calendar/e-cal-shell-view-actions.c:261
+#: ../modules/calendar/e-cal-shell-view-actions.c:239
+#: ../modules/calendar/e-cal-shell-view-actions.c:268
 #: ../modules/calendar/e-cal-shell-view.c:606
 #: ../modules/online-accounts/e-online-accounts-google.c:302
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
@@ -908,41 +908,41 @@ msgstr "Videoconferencia"
 msgid "Calendar"
 msgstr "Calendario"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:689
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:658
 #: ../calendar/gui/dialogs/event-editor.c:127
 #: ../calendar/gui/dialogs/event-editor.c:354
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Dispoñibilidade"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:690
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:717
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:659
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:686
 msgid "Phone"
 msgstr "Teléfono"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:691
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:660
 msgid "Fax"
 msgstr "Fax"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:692
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:719
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:661
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:688
 msgid "Address"
 msgstr "Enderezo"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:715
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:684
 msgid "Home Page"
 msgstr "Páxina persoal"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:716
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:685
 msgid "Web Log"
 msgstr "Diario web"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:718
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:687
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "Mobile Phone"
 msgstr "Teléfono móbil"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:722
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:691
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Cónxuxe"
@@ -951,7 +951,7 @@ msgstr "Cónxuxe"
 #. Create the default Person calendar
 #. Create the default Person memo list
 #. Create the default Person task list
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:732
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:701
 #: ../capplet/settings/mail-capplet-shell.c:385
 #: ../modules/addressbook/e-book-shell-backend.c:126
 #: ../modules/addressbook/e-book-shell-migrate.c:144
@@ -964,24 +964,24 @@ msgstr "Cónxuxe"
 msgid "Personal"
 msgstr "Persoal"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:756
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:725
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Nota"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:943
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:912
 msgid "List Members"
 msgstr "Membros da lista"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:964
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:933
 msgid "Job Title"
 msgstr "Posto de traballo"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:1005
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:974
 msgid "Home page"
 msgstr "Páxina web"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:1015
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:984
 msgid "Blog"
 msgstr "Blogue"
 
@@ -1078,27 +1078,27 @@ msgstr "Esta consulta non terminou correctamente. %s"
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:316
+#: ../addressbook/gui/widgets/eab-gui-util.c:321
 msgid "Select Address Book"
 msgstr "Seleccionar a axenda de enderezos"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:390
+#: ../addressbook/gui/widgets/eab-gui-util.c:401
 msgid "list"
 msgstr "lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:575
+#: ../addressbook/gui/widgets/eab-gui-util.c:586
 msgid "Move contact to"
 msgstr "Mover o contacto a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:577
+#: ../addressbook/gui/widgets/eab-gui-util.c:588
 msgid "Copy contact to"
 msgstr "Copiar o contacto a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:580
+#: ../addressbook/gui/widgets/eab-gui-util.c:591
 msgid "Move contacts to"
 msgstr "Mover os contactos a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:582
+#: ../addressbook/gui/widgets/eab-gui-util.c:593
 msgid "Copy contacts to"
 msgstr "Copiar os contactos a"
 
@@ -1113,11 +1113,11 @@ msgid_plural "%d contacts"
 msgstr[0] "%d contacto"
 msgstr[1] "%d contactos"
 
-#: ../addressbook/gui/widgets/e-addressbook-model.c:363
+#: ../addressbook/gui/widgets/e-addressbook-model.c:370
 msgid "Error getting book view"
 msgstr "Produciuse un erro a vista da axenda"
 
-#: ../addressbook/gui/widgets/e-addressbook-model.c:752
+#: ../addressbook/gui/widgets/e-addressbook-model.c:759
 msgid "Search Interrupted"
 msgstr "Busca interrumpida"
 
@@ -1138,7 +1138,7 @@ msgid "Paste contacts from the clipboard"
 msgstr "Pegar os contactos desde o portapapeis"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:658
-#: ../modules/addressbook/e-book-shell-view-actions.c:881
+#: ../modules/addressbook/e-book-shell-view-actions.c:892
 msgid "Delete selected contacts"
 msgstr "Eliminar os contactos seleccionados"
 
@@ -1437,49 +1437,49 @@ msgstr "Vista de tarxetas"
 #: ../addressbook/importers/evolution-csv-importer.c:748
 #: ../addressbook/importers/evolution-ldif-importer.c:546
 #: ../addressbook/importers/evolution-vcard-importer.c:280
-#: ../calendar/importers/icalendar-importer.c:415
-#: ../calendar/importers/icalendar-importer.c:905
-#: ../calendar/importers/icalendar-importer.c:944 ../shell/shell.error.xml.h:1
+#: ../calendar/importers/icalendar-importer.c:432
+#: ../calendar/importers/icalendar-importer.c:939
+#: ../calendar/importers/icalendar-importer.c:978 ../shell/shell.error.xml.h:1
 msgid "Importing..."
 msgstr "Importando…"
 
-#: ../addressbook/importers/evolution-csv-importer.c:1075
+#: ../addressbook/importers/evolution-csv-importer.c:1080
 msgid "Outlook Contacts CSV or Tab (.csv, .tab)"
 msgstr "CSV ou Tab de contactos de Outlook (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:1076
+#: ../addressbook/importers/evolution-csv-importer.c:1081
 msgid "Outlook Contacts CSV and Tab Importer"
 msgstr "Importador de CSV e Tab de contactos de Outlook"
 
-#: ../addressbook/importers/evolution-csv-importer.c:1084
+#: ../addressbook/importers/evolution-csv-importer.c:1089
 msgid "Mozilla Contacts CSV or Tab (.csv, .tab)"
 msgstr "CSV ou Tab de contactos de Mozilla (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:1085
+#: ../addressbook/importers/evolution-csv-importer.c:1090
 msgid "Mozilla Contacts CSV and Tab Importer"
 msgstr "Importador de CSV e Tab de contactos de Mozilla"
 
-#: ../addressbook/importers/evolution-csv-importer.c:1093
+#: ../addressbook/importers/evolution-csv-importer.c:1098
 msgid "Evolution Contacts CSV or Tab (.csv, .tab)"
 msgstr "CSV ou Tab de contactos de Evolution (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:1094
+#: ../addressbook/importers/evolution-csv-importer.c:1099
 msgid "Evolution Contacts CSV and Tab Importer"
 msgstr "Importador de CSV e Tab de contactos de Evolution"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:796
+#: ../addressbook/importers/evolution-ldif-importer.c:801
 msgid "LDAP Data Interchange Format (.ldif)"
 msgstr "Formato de intercambio de datos LDAP (.ldif)"
 
-#: ../addressbook/importers/evolution-ldif-importer.c:797
+#: ../addressbook/importers/evolution-ldif-importer.c:802
 msgid "Evolution LDIF importer"
 msgstr "Importador LDIF do Evolution"
 
-#: ../addressbook/importers/evolution-vcard-importer.c:657
+#: ../addressbook/importers/evolution-vcard-importer.c:662
 msgid "vCard (.vcf, .gcrd)"
 msgstr "vCard (.vcf, .gcrd)"
 
-#: ../addressbook/importers/evolution-vcard-importer.c:658
+#: ../addressbook/importers/evolution-vcard-importer.c:663
 msgid "Evolution vCard Importer"
 msgstr "Importador de vCard do Evolution"
 
@@ -1562,10 +1562,10 @@ msgstr "Non foi posíbel obter unha lista das axendas de enderezos: %s"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:45
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
-#: ../calendar/gui/dialogs/memo-page.c:951 ../em-format/em-format.c:964
+#: ../calendar/gui/dialogs/memo-page.c:952 ../em-format/em-format.c:964
 #: ../libemail-engine/mail-ops.c:683 ../mail/em-folder-tree.c:678
 #: ../plugins/caldav/caldav-browse-server.c:221
-#: ../plugins/caldav/caldav-browse-server.c:1478 ../plugins/face/face.c:174
+#: ../plugins/caldav/caldav-browse-server.c:1482 ../plugins/face/face.c:174
 #: ../plugins/itip-formatter/itip-formatter.c:1503
 #: ../plugins/itip-formatter/itip-formatter.c:1896
 #: ../smime/gui/certificate-manager.c:317
@@ -1593,7 +1593,7 @@ msgstr[1] "horas"
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:135
-#: ../calendar/gui/dialogs/recurrence-page.c:1191
+#: ../calendar/gui/dialogs/recurrence-page.c:1197
 msgid "day"
 msgid_plural "days"
 msgstr[0] "día"
@@ -1624,7 +1624,7 @@ msgstr "Tempo antes da repetición:"
 #. * "Purge events older than <<spin-button>> days"
 #: ../calendar/alarm-notify/alarm-notify.ui.h:5
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:10 ../e-util/e-plugin-util.c:454
-#: ../filter/filter.ui.h:8 ../modules/calendar/e-cal-shell-view-actions.c:350
+#: ../filter/filter.ui.h:8 ../modules/calendar/e-cal-shell-view-actions.c:359
 #: ../plugins/google-account-setup/google-contacts-source.c:390
 #: ../plugins/publish-calendar/publish-calendar.ui.h:6
 msgid "days"
@@ -2660,7 +2660,7 @@ msgstr "Pechar a xanela actual"
 #: ../calendar/gui/dialogs/comp-editor.c:1132 ../mail/e-mail-browser.c:139
 #: ../shell/e-shell-window-actions.c:1467
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
-#: ../widgets/misc/e-web-view.c:324 ../widgets/misc/e-web-view.c:1398
+#: ../widgets/misc/e-web-view.c:327 ../widgets/misc/e-web-view.c:1401
 #: ../widgets/misc/e-web-view-gtkhtml.c:458
 #: ../widgets/misc/e-web-view-gtkhtml.c:1281
 msgid "Copy the selection"
@@ -2669,7 +2669,7 @@ msgstr "Copiar a selección"
 #: ../calendar/gui/dialogs/comp-editor.c:1139 ../mail/e-mail-browser.c:146
 #: ../shell/e-shell-window-actions.c:1474
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1392 ../widgets/misc/e-web-view-gtkhtml.c:1275
+#: ../widgets/misc/e-web-view.c:1395 ../widgets/misc/e-web-view-gtkhtml.c:1275
 msgid "Cut the selection"
 msgstr "Cortar a selección"
 
@@ -2686,7 +2686,7 @@ msgstr "Ver a axuda"
 #: ../calendar/gui/dialogs/comp-editor.c:1160 ../mail/e-mail-browser.c:153
 #: ../shell/e-shell-window-actions.c:1509
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1404 ../widgets/misc/e-web-view-gtkhtml.c:1287
+#: ../widgets/misc/e-web-view.c:1407 ../widgets/misc/e-web-view-gtkhtml.c:1287
 msgid "Paste the clipboard"
 msgstr "Pegar o contido do portapapeis"
 
@@ -3030,7 +3030,7 @@ msgstr ""
 "organizador"
 
 #: ../calendar/gui/dialogs/event-page.c:659
-#: ../calendar/gui/dialogs/event-page.c:3101
+#: ../calendar/gui/dialogs/event-page.c:3108
 msgid "This event has reminders"
 msgstr "Esta actividade ten recordatorios"
 
@@ -3084,7 +3084,7 @@ msgstr "_Delegados"
 msgid "Atte_ndees"
 msgstr "_Participantes"
 
-#: ../calendar/gui/dialogs/event-page.c:2941
+#: ../calendar/gui/dialogs/event-page.c:2944
 #, c-format
 msgid "Unable to open the calendar '%s': %s"
 msgstr "Non foi posíbel abrir o calendario «%s»: %s"
@@ -3095,40 +3095,40 @@ msgstr "Non foi posíbel abrir o calendario «%s»: %s"
 #. * on behalf of some other user
 #. Translators: This string is used when we are creating a Task
 #. * on behalf of some other user
-#: ../calendar/gui/dialogs/event-page.c:3019
-#: ../calendar/gui/dialogs/memo-page.c:1025
-#: ../calendar/gui/dialogs/task-page.c:1858
+#: ../calendar/gui/dialogs/event-page.c:3026
+#: ../calendar/gui/dialogs/memo-page.c:1030
+#: ../calendar/gui/dialogs/task-page.c:1861
 #, c-format
 msgid "You are acting on behalf of %s"
 msgstr "Está actuando no nome de %s"
 
-#: ../calendar/gui/dialogs/event-page.c:3361
+#: ../calendar/gui/dialogs/event-page.c:3369
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d día antes da cita"
 msgstr[1] "%d días antes da cita"
 
-#: ../calendar/gui/dialogs/event-page.c:3367
+#: ../calendar/gui/dialogs/event-page.c:3375
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d hora antes da cita"
 msgstr[1] "%d horas antes da cita"
 
-#: ../calendar/gui/dialogs/event-page.c:3373
+#: ../calendar/gui/dialogs/event-page.c:3381
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minuto antes da cita"
 msgstr[1] "%d minutos antes da cita"
 
-#: ../calendar/gui/dialogs/event-page.c:3392
+#: ../calendar/gui/dialogs/event-page.c:3400
 msgid "Customize"
 msgstr "Personalizar"
 
 #. Translators: "None" for "No reminder set"
-#: ../calendar/gui/dialogs/event-page.c:3398
+#: ../calendar/gui/dialogs/event-page.c:3406
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Ningunha"
@@ -3259,7 +3259,7 @@ msgid "Select Date"
 msgstr "Seleccionar unha data"
 
 #: ../calendar/gui/dialogs/goto-dialog.ui.h:14
-#: ../modules/calendar/e-cal-shell-view-actions.c:1384
+#: ../modules/calendar/e-cal-shell-view-actions.c:1399
 msgid "Select _Today"
 msgstr "Seleccionar o día de _hoxe"
 
@@ -3287,12 +3287,12 @@ msgstr ""
 "Non é posíbel editar a nota na súa totalidade porque vostede non é o "
 "organizador"
 
-#: ../calendar/gui/dialogs/memo-page.c:949
+#: ../calendar/gui/dialogs/memo-page.c:950
 #, c-format
 msgid "Unable to open memos in '%s': %s"
 msgstr "Non é posíbel abrir as notas en «%s»: %s"
 
-#: ../calendar/gui/dialogs/memo-page.c:1156 ../em-format/em-format.c:1227
+#: ../calendar/gui/dialogs/memo-page.c:1161 ../em-format/em-format.c:1227
 #: ../em-format/em-format-quote.c:154 ../mail/em-format-html.c:2287
 #: ../mail/em-format-html.c:2310 ../mail/message-list.etspec.h:9
 #: ../modules/mail/em-mailer-prefs.c:72
@@ -3365,18 +3365,18 @@ msgstr "Todas as instancias"
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Esta cita contén repeticións que o Evolution non pode editar."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:965
+#: ../calendar/gui/dialogs/recurrence-page.c:971
 msgid "Recurrence date is invalid"
 msgstr "A data da repetición non é correcta"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1005
+#: ../calendar/gui/dialogs/recurrence-page.c:1011
 msgid "End time of the recurrence was before event's start"
 msgstr ""
 "A hora de finalización da repetición era anterior á do inicio da actividade"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/dialogs/recurrence-page.c:1035
+#: ../calendar/gui/dialogs/recurrence-page.c:1041
 msgid "on"
 msgstr "en"
 
@@ -3384,7 +3384,7 @@ msgstr "en"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1098
+#: ../calendar/gui/dialogs/recurrence-page.c:1104
 msgid "first"
 msgstr "primeiro"
 
@@ -3393,7 +3393,7 @@ msgstr "primeiro"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1104
+#: ../calendar/gui/dialogs/recurrence-page.c:1110
 msgid "second"
 msgstr "segundo"
 
@@ -3401,7 +3401,7 @@ msgstr "segundo"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1109
+#: ../calendar/gui/dialogs/recurrence-page.c:1115
 msgid "third"
 msgstr "terceiro"
 
@@ -3409,7 +3409,7 @@ msgstr "terceiro"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1114
+#: ../calendar/gui/dialogs/recurrence-page.c:1120
 msgid "fourth"
 msgstr "cuarto"
 
@@ -3417,7 +3417,7 @@ msgstr "cuarto"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1119
+#: ../calendar/gui/dialogs/recurrence-page.c:1125
 msgid "fifth"
 msgstr "quinto"
 
@@ -3425,13 +3425,13 @@ msgstr "quinto"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1124
+#: ../calendar/gui/dialogs/recurrence-page.c:1130
 msgid "last"
 msgstr "último"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/dialogs/recurrence-page.c:1148
+#: ../calendar/gui/dialogs/recurrence-page.c:1154
 msgid "Other Date"
 msgstr "Outra data"
 
@@ -3439,7 +3439,7 @@ msgstr "Outra data"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1154
+#: ../calendar/gui/dialogs/recurrence-page.c:1160
 msgid "1st to 10th"
 msgstr "Do 1 ao 10"
 
@@ -3447,7 +3447,7 @@ msgstr "Do 1 ao 10"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1160
+#: ../calendar/gui/dialogs/recurrence-page.c:1166
 msgid "11th to 20th"
 msgstr "do 11 ao 20"
 
@@ -3455,41 +3455,41 @@ msgstr "do 11 ao 20"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1166
+#: ../calendar/gui/dialogs/recurrence-page.c:1172
 msgid "21st to 31st"
 msgstr "Do 21 ao 31"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1192
+#: ../calendar/gui/dialogs/recurrence-page.c:1198
 #: ../modules/calendar/e-calendar-preferences.ui.h:1
 msgid "Monday"
 msgstr "Luns"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1193
+#: ../calendar/gui/dialogs/recurrence-page.c:1199
 #: ../modules/calendar/e-calendar-preferences.ui.h:2
 msgid "Tuesday"
 msgstr "Martes"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1194
+#: ../calendar/gui/dialogs/recurrence-page.c:1200
 #: ../modules/calendar/e-calendar-preferences.ui.h:3
 msgid "Wednesday"
 msgstr "Mércores"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1195
+#: ../calendar/gui/dialogs/recurrence-page.c:1201
 #: ../modules/calendar/e-calendar-preferences.ui.h:4
 msgid "Thursday"
 msgstr "Xoves"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1196
+#: ../calendar/gui/dialogs/recurrence-page.c:1202
 #: ../modules/calendar/e-calendar-preferences.ui.h:5
 msgid "Friday"
 msgstr "Venres"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1197
+#: ../calendar/gui/dialogs/recurrence-page.c:1203
 #: ../modules/calendar/e-calendar-preferences.ui.h:6
 msgid "Saturday"
 msgstr "Sábado"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1198
+#: ../calendar/gui/dialogs/recurrence-page.c:1204
 #: ../modules/calendar/e-calendar-preferences.ui.h:7
 msgid "Sunday"
 msgstr "Domingo"
@@ -3497,31 +3497,31 @@ msgstr "Domingo"
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1322
+#: ../calendar/gui/dialogs/recurrence-page.c:1328
 msgid "on the"
 msgstr "no"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1501
+#: ../calendar/gui/dialogs/recurrence-page.c:1507
 msgid "occurrences"
 msgstr "aparicións"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2217
+#: ../calendar/gui/dialogs/recurrence-page.c:2223
 msgid "Add exception"
 msgstr "Engadir unha excepción"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2258
+#: ../calendar/gui/dialogs/recurrence-page.c:2264
 msgid "Could not get a selection to modify."
 msgstr "Non foi posíbel obter unha selección para modificar."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2264
+#: ../calendar/gui/dialogs/recurrence-page.c:2270
 msgid "Modify exception"
 msgstr "Modificar a excepción"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2308
+#: ../calendar/gui/dialogs/recurrence-page.c:2314
 msgid "Could not get a selection to delete."
 msgstr "Non foi posíbel obter unha selección para eliminar."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2447
+#: ../calendar/gui/dialogs/recurrence-page.c:2453
 msgid "Date/Time"
 msgstr "Data e hora"
 
@@ -3680,7 +3680,7 @@ msgstr "Cancelada"
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../calendar/gui/dialogs/task-details-page.ui.h:17
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-cal-model.c:3522
+#: ../calendar/gui/e-cal-model.c:3523
 #: ../calendar/gui/e-meeting-list-view.c:680
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../calendar/gui/tasktypes.xml.h:8 ../mail/em-filter-i18n.h:74
@@ -3766,7 +3766,7 @@ msgstr ""
 msgid "Due date is wrong"
 msgstr "A data de vencemento é incorrecta"
 
-#: ../calendar/gui/dialogs/task-page.c:1777
+#: ../calendar/gui/dialogs/task-page.c:1778
 #, c-format
 msgid "Unable to open tasks in '%s': %s"
 msgstr "Non é posíbel abrir as tarefas en «%s»: %s"
@@ -3872,7 +3872,7 @@ msgstr "unha táboa para ver e seleccionar o intervalo de tempo actual"
 
 #: ../calendar/gui/ea-gnome-calendar.c:50
 #: ../calendar/gui/ea-gnome-calendar.c:58
-#: ../calendar/importers/icalendar-importer.c:1084
+#: ../calendar/importers/icalendar-importer.c:1118
 msgid "Gnome Calendar"
 msgstr "Calendario do GNOME"
 
@@ -4220,26 +4220,26 @@ msgstr "Si"
 msgid "No"
 msgstr "Non"
 
-#: ../calendar/gui/e-cal-model.c:3021
+#: ../calendar/gui/e-cal-model.c:3022
 #, c-format
 msgid "Opening %s"
 msgstr "Abrindo %s"
 
-#: ../calendar/gui/e-cal-model.c:3466
+#: ../calendar/gui/e-cal-model.c:3467
 #: ../calendar/gui/e-meeting-list-view.c:218
 #: ../calendar/gui/e-meeting-store.c:206 ../calendar/gui/e-meeting-store.c:229
 #: ../plugins/itip-formatter/itip-formatter.c:2937
 msgid "Accepted"
 msgstr "Aceptado"
 
-#: ../calendar/gui/e-cal-model.c:3467
+#: ../calendar/gui/e-cal-model.c:3468
 #: ../calendar/gui/e-meeting-list-view.c:219
 #: ../calendar/gui/e-meeting-store.c:208 ../calendar/gui/e-meeting-store.c:231
 #: ../plugins/itip-formatter/itip-formatter.c:2943
 msgid "Declined"
 msgstr "Rexeitado"
 
-#: ../calendar/gui/e-cal-model.c:3468
+#: ../calendar/gui/e-cal-model.c:3469
 #: ../calendar/gui/e-meeting-list-view.c:220
 #: ../calendar/gui/e-meeting-store.c:210 ../calendar/gui/e-meeting-store.c:233
 #: ../calendar/gui/e-meeting-time-sel.c:561
@@ -4247,14 +4247,14 @@ msgstr "Rexeitado"
 msgid "Tentative"
 msgstr "Provisional"
 
-#: ../calendar/gui/e-cal-model.c:3469
+#: ../calendar/gui/e-cal-model.c:3470
 #: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:212 ../calendar/gui/e-meeting-store.c:235
 #: ../plugins/itip-formatter/itip-formatter.c:2946
 msgid "Delegated"
 msgstr "Delegado"
 
-#: ../calendar/gui/e-cal-model.c:3470
+#: ../calendar/gui/e-cal-model.c:3471
 msgid "Needs action"
 msgstr "Necesita unha acción"
 
@@ -4555,8 +4555,8 @@ msgstr "Idioma"
 
 #: ../calendar/gui/e-memo-table.c:436
 #: ../modules/calendar/e-cal-shell-content.c:474
-#: ../modules/calendar/e-memo-shell-view-actions.c:231
-#: ../modules/calendar/e-memo-shell-view-actions.c:246
+#: ../modules/calendar/e-memo-shell-view-actions.c:238
+#: ../modules/calendar/e-memo-shell-view-actions.c:253
 #: ../modules/calendar/e-memo-shell-view.c:293
 #: ../plugins/caldav/caldav-browse-server.c:459
 msgid "Memos"
@@ -4589,7 +4589,7 @@ msgid "Paste memos from the clipboard"
 msgstr "Pegar as notas desde o portapapeis"
 
 #: ../calendar/gui/e-memo-table.c:760
-#: ../modules/calendar/e-memo-shell-view-actions.c:586
+#: ../modules/calendar/e-memo-shell-view-actions.c:601
 msgid "Delete selected memos"
 msgstr "Eliminar as notas seleccionadas"
 
@@ -4612,11 +4612,11 @@ msgstr "%d%%"
 
 #: ../calendar/gui/e-task-table.c:708 ../calendar/gui/print.c:2287
 #: ../calendar/importers/icalendar-importer.c:85
-#: ../calendar/importers/icalendar-importer.c:1048
+#: ../calendar/importers/icalendar-importer.c:1082
 #: ../modules/calendar/e-calendar-preferences.ui.h:61
 #: ../modules/calendar/e-cal-shell-content.c:435
-#: ../modules/calendar/e-task-shell-view-actions.c:254
-#: ../modules/calendar/e-task-shell-view-actions.c:269
+#: ../modules/calendar/e-task-shell-view-actions.c:261
+#: ../modules/calendar/e-task-shell-view-actions.c:276
 #: ../modules/calendar/e-task-shell-view.c:448
 #: ../plugins/caldav/caldav-browse-server.c:457
 msgid "Tasks"
@@ -4635,7 +4635,7 @@ msgid "Paste tasks from the clipboard"
 msgstr "Pegar as tarefas desde o portapapeis"
 
 #: ../calendar/gui/e-task-table.c:1043
-#: ../modules/calendar/e-task-shell-view-actions.c:710
+#: ../modules/calendar/e-task-shell-view-actions.c:725
 msgid "Delete selected tasks"
 msgstr "Eliminar as tarefas seleccionadas"
 
@@ -5030,181 +5030,181 @@ msgstr "é menor que"
 msgid "Appointments and Meetings"
 msgstr "Citas e reunións"
 
-#: ../calendar/importers/icalendar-importer.c:437
-#: ../calendar/importers/icalendar-importer.c:870
+#: ../calendar/importers/icalendar-importer.c:454
+#: ../calendar/importers/icalendar-importer.c:904
 #: ../plugins/itip-formatter/itip-formatter.c:2559
 msgid "Opening calendar"
 msgstr "Abrindo o calendario"
 
-#: ../calendar/importers/icalendar-importer.c:585
+#: ../calendar/importers/icalendar-importer.c:604
 msgid "iCalendar files (.ics)"
 msgstr "Ficheiros iCalendar (.ics)"
 
-#: ../calendar/importers/icalendar-importer.c:586
+#: ../calendar/importers/icalendar-importer.c:605
 msgid "Evolution iCalendar importer"
 msgstr "Importador de iCalendar do Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:676
+#: ../calendar/importers/icalendar-importer.c:695
 msgid "Reminder!"
 msgstr "Aviso"
 
-#: ../calendar/importers/icalendar-importer.c:760
+#: ../calendar/importers/icalendar-importer.c:779
 msgid "vCalendar files (.vcs)"
 msgstr "Ficheiros vCalendar (.vcs)"
 
-#: ../calendar/importers/icalendar-importer.c:761
+#: ../calendar/importers/icalendar-importer.c:780
 msgid "Evolution vCalendar importer"
 msgstr "Importador de vCalendar do Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:1041
+#: ../calendar/importers/icalendar-importer.c:1075
 msgid "Calendar Events"
 msgstr "Actividades do calendario"
 
-#: ../calendar/importers/icalendar-importer.c:1085
+#: ../calendar/importers/icalendar-importer.c:1119
 msgid "Evolution Calendar intelligent importer"
 msgstr "Importador intelixente do calendario do Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:1153
-#: ../calendar/importers/icalendar-importer.c:1471
+#: ../calendar/importers/icalendar-importer.c:1187
+#: ../calendar/importers/icalendar-importer.c:1505
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Reunión"
 
-#: ../calendar/importers/icalendar-importer.c:1153
-#: ../calendar/importers/icalendar-importer.c:1471
+#: ../calendar/importers/icalendar-importer.c:1187
+#: ../calendar/importers/icalendar-importer.c:1505
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Actividade"
 
-#: ../calendar/importers/icalendar-importer.c:1156
-#: ../calendar/importers/icalendar-importer.c:1472
+#: ../calendar/importers/icalendar-importer.c:1190
+#: ../calendar/importers/icalendar-importer.c:1506
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Tarefa"
 
-#: ../calendar/importers/icalendar-importer.c:1159
-#: ../calendar/importers/icalendar-importer.c:1473
+#: ../calendar/importers/icalendar-importer.c:1193
+#: ../calendar/importers/icalendar-importer.c:1507
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Nota"
 
-#: ../calendar/importers/icalendar-importer.c:1168
+#: ../calendar/importers/icalendar-importer.c:1202
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "ten repeticións"
 
-#: ../calendar/importers/icalendar-importer.c:1173
+#: ../calendar/importers/icalendar-importer.c:1207
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "é unha instancia"
 
-#: ../calendar/importers/icalendar-importer.c:1178
+#: ../calendar/importers/icalendar-importer.c:1212
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "Ten recordatorios"
 
-#: ../calendar/importers/icalendar-importer.c:1183
+#: ../calendar/importers/icalendar-importer.c:1217
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "ten anexos"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1196
+#: ../calendar/importers/icalendar-importer.c:1230
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Público"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1199
+#: ../calendar/importers/icalendar-importer.c:1233
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Privado"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1202
+#: ../calendar/importers/icalendar-importer.c:1236
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Confidencial"
 
 #. Translators: Appointment's classification section name
-#: ../calendar/importers/icalendar-importer.c:1206
+#: ../calendar/importers/icalendar-importer.c:1240
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Clasificación"
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
-#: ../calendar/importers/icalendar-importer.c:1211
-#: ../calendar/importers/icalendar-importer.c:1512
+#: ../calendar/importers/icalendar-importer.c:1245
+#: ../calendar/importers/icalendar-importer.c:1546
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Resumo"
 
 #. Translators: Appointment's location
-#: ../calendar/importers/icalendar-importer.c:1217
+#: ../calendar/importers/icalendar-importer.c:1251
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Localización"
 
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
-#: ../calendar/importers/icalendar-importer.c:1225
-#: ../calendar/importers/icalendar-importer.c:1508
+#: ../calendar/importers/icalendar-importer.c:1259
+#: ../calendar/importers/icalendar-importer.c:1542
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Inicio"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../calendar/importers/icalendar-importer.c:1236
+#: ../calendar/importers/icalendar-importer.c:1270
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Vencemento"
 
 #. Translators: Appointment's end time
-#: ../calendar/importers/icalendar-importer.c:1248
+#: ../calendar/importers/icalendar-importer.c:1282
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Final"
 
 #. Translators: Appointment's categories
-#: ../calendar/importers/icalendar-importer.c:1258
+#: ../calendar/importers/icalendar-importer.c:1292
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Categorías"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../calendar/importers/icalendar-importer.c:1282
+#: ../calendar/importers/icalendar-importer.c:1316
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Completada"
 
 #. Translators: Appointment's URL
-#: ../calendar/importers/icalendar-importer.c:1290
+#: ../calendar/importers/icalendar-importer.c:1324
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../calendar/importers/icalendar-importer.c:1301
-#: ../calendar/importers/icalendar-importer.c:1304
+#: ../calendar/importers/icalendar-importer.c:1335
+#: ../calendar/importers/icalendar-importer.c:1338
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Organizador"
 
 #. Translators: Appointment's attendees
-#: ../calendar/importers/icalendar-importer.c:1324
-#: ../calendar/importers/icalendar-importer.c:1327
+#: ../calendar/importers/icalendar-importer.c:1358
+#: ../calendar/importers/icalendar-importer.c:1361
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Participantes"
 
-#: ../calendar/importers/icalendar-importer.c:1341
+#: ../calendar/importers/icalendar-importer.c:1375
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Descrición"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
-#: ../calendar/importers/icalendar-importer.c:1504
+#: ../calendar/importers/icalendar-importer.c:1538
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Tipo"
@@ -10136,42 +10136,57 @@ msgstr ""
 "conectado."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
+msgid "Current state of offline mode"
+msgstr "Estado actual do modo desconectado"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
+msgid ""
+"Set to true when evolution is currently in offline mode, false otherwise. "
+"This is responding to both user choice of working online/offline and network "
+"outages noticed by any network monitoring system."
+msgstr ""
+"Estabelecer a verdadeiro cando evolution está actualmente en modo "
+"desconectado, falso en caso contrario. Isto responde tanto á elección do "
+"usuario de traballar conectado ou non e aos problemas de rede percibidos "
+"polo sistema de monitorización de rede."
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
 msgid "Offline folder paths"
 msgstr "Rutas de cartafol en modo desconectado"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage."
 msgstr ""
 "Lista das rutas aos cartafoles que se sincronizarán co disco para o uso sen "
 "conexión"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
 #: ../shell/apps_evolution_shell.schemas.in.h:61
 msgid "Enable express mode"
 msgstr "Activar o modo express"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
 #: ../shell/apps_evolution_shell.schemas.in.h:62
 msgid "Flag that enables a much simplified user interface."
 msgstr "Marca que activa unha interface de usuario moito máis simplificada."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
 #: ../shell/apps_evolution_shell.schemas.in.h:22
 msgid "Window buttons are visible"
 msgstr "Os botóns da xanela están visíbeis"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:16
 #: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Whether the window buttons should be visible."
 msgstr "Indica se os botóns da xanela están visíbeis."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
 #: ../shell/apps_evolution_shell.schemas.in.h:24
 msgid "Window button style"
 msgstr "Estilo dos botóns de xanela"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:16
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
@@ -10182,48 +10197,48 @@ msgstr ""
 "de ferramentas». Se se selecciona «barra de ferramentas», o estilo dos "
 "botóns determinarao a configuración da barra de ferramentas do GNOME."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
 #: ../shell/apps_evolution_shell.schemas.in.h:26
 msgid "Toolbar is visible"
 msgstr "A barra de ferramentas está visíbel"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
 #: ../shell/apps_evolution_shell.schemas.in.h:27
 msgid "Whether the toolbar should be visible."
 msgstr "Indica se a barra de ferramentas está visíbel."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
 #: ../shell/apps_evolution_shell.schemas.in.h:28
 msgid "Sidebar is visible"
 msgstr "A barra lateral está visíbel"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
 #: ../shell/apps_evolution_shell.schemas.in.h:29
 msgid "Whether the sidebar should be visible."
 msgstr "Indica se a barra lateral está visíbel."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
 #: ../shell/apps_evolution_shell.schemas.in.h:30
 msgid "Statusbar is visible"
 msgstr "A barra de estado é visíbel"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
 #: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "Whether the status bar should be visible."
 msgstr "Indica se a barra de estado está visíbel."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
 #: ../shell/apps_evolution_shell.schemas.in.h:32
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr ""
 "ID ou alias do compoñente que se mostrará de forma predeterminada ao iniciar."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:26
 #: ../shell/apps_evolution_shell.schemas.in.h:33
 msgid "Default sidebar width"
 msgstr "Largura predeterminada da barra lateral"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:27
 #: ../shell/apps_evolution_shell.schemas.in.h:34
 msgid "The default width for the sidebar, in pixels."
 msgstr "Largura predeterminada da barra lateral, en píxeles."
@@ -10471,7 +10486,7 @@ msgstr "Visual"
 
 #. strftime format of a weekday and a date.
 #: ../e-util/e-datetime-format.c:206
-#: ../modules/calendar/e-cal-shell-view-actions.c:1905
+#: ../modules/calendar/e-cal-shell-view-actions.c:1920
 #: ../plugins/itip-formatter/itip-view.c:211
 #: ../widgets/table/e-cell-date-edit.c:307
 msgid "Today"
@@ -10993,32 +11008,32 @@ msgstr "O URI do cartafol «%s» non é válido"
 
 #: ../libemail-engine/e-mail-session.c:108 ../mail/em-folder-properties.c:333
 #: ../mail/em-folder-tree-model.c:703
-#: ../modules/mail/e-mail-shell-view-private.c:1021
-#: ../modules/mail/e-mail-shell-view-private.c:1032
+#: ../modules/mail/e-mail-shell-view-private.c:1026
+#: ../modules/mail/e-mail-shell-view-private.c:1037
 msgid "Inbox"
 msgstr "Caixa de entrada"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:109 ../mail/em-folder-tree-model.c:696
-#: ../modules/mail/e-mail-shell-view-private.c:1019
+#: ../modules/mail/e-mail-shell-view-private.c:1024
 msgid "Drafts"
 msgstr "Borradores"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:110 ../mail/em-folder-tree-model.c:707
-#: ../modules/mail/e-mail-shell-view-private.c:1023
+#: ../modules/mail/e-mail-shell-view-private.c:1028
 msgid "Outbox"
 msgstr "Caixa de saída"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:111 ../mail/em-folder-tree-model.c:711
-#: ../modules/mail/e-mail-shell-view-private.c:1025
+#: ../modules/mail/e-mail-shell-view-private.c:1030
 msgid "Sent"
 msgstr "Enviados"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:112 ../mail/em-folder-tree-model.c:699
-#: ../modules/mail/e-mail-shell-view-private.c:1027
+#: ../modules/mail/e-mail-shell-view-private.c:1032
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1041 ../plugins/templates/templates.c:1341
 #: ../plugins/templates/templates.c:1351
@@ -11466,35 +11481,35 @@ msgstr "Pechar esta xanela"
 msgid "(No Subject)"
 msgstr "(Sen asunto)"
 
-#: ../mail/e-mail-display.c:114
+#: ../mail/e-mail-display.c:113
 msgid "_Add to Address Book..."
 msgstr "Eng_adir á axenda de enderezos…"
 
-#: ../mail/e-mail-display.c:121
+#: ../mail/e-mail-display.c:120
 msgid "_To This Address"
 msgstr "A es_te enderezo"
 
-#: ../mail/e-mail-display.c:128
+#: ../mail/e-mail-display.c:127
 msgid "_From This Address"
 msgstr "_Desde este enderezo"
 
-#: ../mail/e-mail-display.c:135
+#: ../mail/e-mail-display.c:134
 msgid "Send _Reply To..."
 msgstr "Enviar _resposta a…"
 
-#: ../mail/e-mail-display.c:137
+#: ../mail/e-mail-display.c:136
 msgid "Send a reply message to this address"
 msgstr "Enviar unha mensaxe de resposta a este enderezo"
 
-#: ../mail/e-mail-display.c:144
+#: ../mail/e-mail-display.c:143
 msgid "Create Search _Folder"
 msgstr "Crear un carta_fol de busca"
 
-#: ../mail/e-mail-display.c:154
+#: ../mail/e-mail-display.c:153
 msgid "Save _Image..."
 msgstr "Gardar _imaxe…"
 
-#: ../mail/e-mail-display.c:156
+#: ../mail/e-mail-display.c:155
 msgid "Save the image to a file"
 msgstr "Gardar a imaxe a un ficheiro"
 
@@ -11555,7 +11570,7 @@ msgstr "Cor"
 
 #: ../mail/e-mail-label-tree-view.c:99 ../mail/em-format-html-print.c:83
 #: ../modules/plugin-manager/evolution-plugin-manager.c:68
-#: ../plugins/caldav/caldav-browse-server.c:1359
+#: ../plugins/caldav/caldav-browse-server.c:1360
 #: ../widgets/menus/gal-define-views-dialog.c:352
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:92
 msgid "Name"
@@ -11576,8 +11591,8 @@ msgid "Page %d of %d"
 msgstr "Páxina %d de %d"
 
 #: ../mail/e-mail-printer.c:530
-#: ../modules/calendar/e-cal-shell-view-actions.c:232
-#: ../modules/calendar/e-cal-shell-view-actions.c:261
+#: ../modules/calendar/e-cal-shell-view-actions.c:239
+#: ../modules/calendar/e-cal-shell-view-actions.c:268
 msgid "Print"
 msgstr "Imprimir"
 
@@ -11980,7 +11995,7 @@ msgid "Checks selected messages for duplicates"
 msgstr "Comprobar se hai mensaxes seleccionadas que estean duplicadas"
 
 #: ../mail/e-mail-reader.c:2231 ../mail/mail.error.xml.h:27
-#: ../modules/calendar/e-cal-shell-view-actions.c:1552
+#: ../modules/calendar/e-cal-shell-view-actions.c:1567
 #: ../modules/mail/e-mail-attachment-handler.c:182
 msgid "Reply to _All"
 msgstr "Responder a t_odos"
@@ -12198,13 +12213,13 @@ msgid "Delete"
 msgstr "Eliminar"
 
 #: ../mail/e-mail-reader.c:3949
-#: ../modules/calendar/e-cal-shell-view-actions.c:1377
+#: ../modules/calendar/e-cal-shell-view-actions.c:1392
 #: ../widgets/misc/e-calendar.c:202
 msgid "Next"
 msgstr "Seguinte"
 
 #: ../mail/e-mail-reader.c:3953
-#: ../modules/calendar/e-cal-shell-view-actions.c:1370
+#: ../modules/calendar/e-cal-shell-view-actions.c:1385
 #: ../widgets/misc/e-calendar.c:178
 msgid "Previous"
 msgstr "Anterior"
@@ -13434,7 +13449,7 @@ msgstr "Importando a caixa de correo"
 #. Destination folder, was set in our widget
 #: ../mail/importers/mail-importer.c:153
 #: ../plugins/dbx-import/dbx-importer.c:621
-#: ../plugins/pst-import/pst-importer.c:770
+#: ../plugins/pst-import/pst-importer.c:772
 #, c-format
 msgid "Importing '%s'"
 msgstr "Importando «%s»"
@@ -14129,10 +14144,10 @@ msgstr "Configuración"
 msgid "_Server:"
 msgstr "_Servidor:"
 
-#: ../mail/mail-config.ui.h:163 ../plugins/caldav/caldav-source.c:250
+#: ../mail/mail-config.ui.h:163 ../plugins/caldav/caldav-source.c:260
 #: ../plugins/google-account-setup/google-contacts-source.c:337
 #: ../plugins/google-account-setup/google-source.c:655
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:273
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:274
 msgid "User_name:"
 msgstr "_Nome do usuario:"
 
@@ -15205,24 +15220,28 @@ msgid "Messages"
 msgstr "Mensaxes"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:4101
+#: ../mail/message-list.c:4107
 msgid "Follow-up"
 msgstr "Seguimento"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4638 ../mail/message-list.c:5058
+#: ../mail/message-list.c:4644 ../mail/message-list.c:5067
 msgid "Generating message list"
 msgstr "Xerando a lista de mensaxes"
 
-#: ../mail/message-list.c:4875
+#: ../mail/message-list.c:4881
 msgid ""
-"No message satisfies your search criteria. Either clear search with Search-"
-">Clear menu item or change it."
+"No message satisfies your search criteria. Change search criteria by "
+"selecting a new Show message filter from the drop down list above or by "
+"running a new search either by clearing it with Search->Clear menu item or "
+"by changing the query above."
 msgstr ""
-"Non hai mensaxes que satisfagan os seus criterios de busca. Limpe a busca no "
-"menú Buscar->Limpar ou cámbiea."
+"Non hai ningún mensaxe que cumpra o teu criterio de busca. Pode cambiar o "
+"seu criterio de busca seleccionando un novo filtro de mensaxes desde a lista "
+"despregábel de enriba ou executando unha nova busca limpándoa no elemento de "
+"menú Buscar->Limpar ou cambiando a consulta enriba."
 
-#: ../mail/message-list.c:4877
+#: ../mail/message-list.c:4886
 msgid "There are no messages in this folder."
 msgstr "Non hai mensaxes neste cartafol."
 
@@ -15457,7 +15476,7 @@ msgid "_Contact"
 msgstr "_Contacto"
 
 #: ../modules/addressbook/e-book-shell-backend.c:311
-#: ../modules/addressbook/e-book-shell-view-actions.c:909
+#: ../modules/addressbook/e-book-shell-view-actions.c:920
 msgid "Create a new contact"
 msgstr "Crear un contacto novo"
 
@@ -15467,7 +15486,7 @@ msgid "Contact _List"
 msgstr "_Lista de contactos"
 
 #: ../modules/addressbook/e-book-shell-backend.c:318
-#: ../modules/addressbook/e-book-shell-view-actions.c:916
+#: ../modules/addressbook/e-book-shell-view-actions.c:927
 msgid "Create a new contact list"
 msgstr "Crear unha lista de contactos nova"
 
@@ -15477,7 +15496,7 @@ msgid "Address _Book"
 msgstr "_Axenda de enderezos"
 
 #: ../modules/addressbook/e-book-shell-backend.c:328
-#: ../modules/addressbook/e-book-shell-view-actions.c:839
+#: ../modules/addressbook/e-book-shell-view-actions.c:850
 msgid "Create a new address book"
 msgstr "Crear unha axenda de enderezos nova"
 
@@ -15495,250 +15514,250 @@ msgid "Certificates"
 msgstr "Certificados"
 
 #. Translators: This is a save dialog title
-#: ../modules/addressbook/e-book-shell-view-actions.c:391
-#: ../modules/addressbook/e-book-shell-view-actions.c:687
+#: ../modules/addressbook/e-book-shell-view-actions.c:402
+#: ../modules/addressbook/e-book-shell-view-actions.c:698
 msgid "Save as vCard"
 msgstr "Gardar como vCard"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:816
+#: ../modules/addressbook/e-book-shell-view-actions.c:827
 msgid "Co_py All Contacts To..."
 msgstr "Co_piar todos os contactos a…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:818
+#: ../modules/addressbook/e-book-shell-view-actions.c:829
 msgid "Copy the contacts of the selected address book to another"
 msgstr "Copiar os contactos da axenda de enderezos seleccionada a outra"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:823
+#: ../modules/addressbook/e-book-shell-view-actions.c:834
 msgid "D_elete Address Book"
 msgstr "_Eliminar a axenda de enderezos"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:825
+#: ../modules/addressbook/e-book-shell-view-actions.c:836
 msgid "Delete the selected address book"
 msgstr "Eliminar a axenda seleccionada"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:830
+#: ../modules/addressbook/e-book-shell-view-actions.c:841
 msgid "Mo_ve All Contacts To..."
 msgstr "Mo_ver todos os contactos a…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:832
+#: ../modules/addressbook/e-book-shell-view-actions.c:843
 msgid "Move the contacts of the selected address book to another"
 msgstr "Mover os contactos da axenda de enderezos seleccionada a outra"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:837
+#: ../modules/addressbook/e-book-shell-view-actions.c:848
 msgid "_New Address Book"
 msgstr "_Nova axenda de enderezos"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:844
+#: ../modules/addressbook/e-book-shell-view-actions.c:855
 msgid "Address _Book Properties"
 msgstr "Propiedades da a_xenda de enderezos"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:846
+#: ../modules/addressbook/e-book-shell-view-actions.c:857
 msgid "Show properties of the selected address book"
 msgstr "Mostrar as propiedades da axenda de enderezos seleccionada"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:851
+#: ../modules/addressbook/e-book-shell-view-actions.c:862
 msgid "Address Book _Map"
 msgstr "_Mapa do caderno de enderezos"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:853
+#: ../modules/addressbook/e-book-shell-view-actions.c:864
 msgid "Show map with all contacts from selected address book"
 msgstr ""
 "Mostrar o mapa con tódolos contactos do caderno de enderezos seleccionado"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:858
-#: ../modules/calendar/e-cal-shell-view-actions.c:1426
-#: ../modules/calendar/e-memo-shell-view-actions.c:640
-#: ../modules/calendar/e-task-shell-view-actions.c:764
+#: ../modules/addressbook/e-book-shell-view-actions.c:869
+#: ../modules/calendar/e-cal-shell-view-actions.c:1441
+#: ../modules/calendar/e-memo-shell-view-actions.c:655
+#: ../modules/calendar/e-task-shell-view-actions.c:779
 #: ../modules/mail/e-mail-shell-view-actions.c:1299
 msgid "_Rename..."
 msgstr "_Renomear…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:860
+#: ../modules/addressbook/e-book-shell-view-actions.c:871
 msgid "Rename the selected address book"
 msgstr "Renomear a axenda de enderezos seleccionada"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:867
+#: ../modules/addressbook/e-book-shell-view-actions.c:878
 msgid "Stop loading"
 msgstr "Deter a carga"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:872
+#: ../modules/addressbook/e-book-shell-view-actions.c:883
 msgid "_Copy Contact To..."
 msgstr "_Copiar o contacto a…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:874
+#: ../modules/addressbook/e-book-shell-view-actions.c:885
 msgid "Copy selected contacts to another address book"
 msgstr "Copiar os contactos seleccionados a outra axenda de enderezos"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:879
+#: ../modules/addressbook/e-book-shell-view-actions.c:890
 msgid "_Delete Contact"
 msgstr "E_liminar o contacto"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:886
+#: ../modules/addressbook/e-book-shell-view-actions.c:897
 msgid "_Find in Contact..."
 msgstr "_Buscar no contacto…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:888
+#: ../modules/addressbook/e-book-shell-view-actions.c:899
 msgid "Search for text in the displayed contact"
 msgstr "Buscar un texto no contacto mostrado"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:893
+#: ../modules/addressbook/e-book-shell-view-actions.c:904
 msgid "_Forward Contact..."
 msgstr "_Reencamiñar o contacto…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:895
+#: ../modules/addressbook/e-book-shell-view-actions.c:906
 msgid "Send selected contacts to another person"
 msgstr "Enviar os contactos seleccionados a outra persoa"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:900
+#: ../modules/addressbook/e-book-shell-view-actions.c:911
 msgid "_Move Contact To..."
 msgstr "_Mover o contacto a…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:902
+#: ../modules/addressbook/e-book-shell-view-actions.c:913
 msgid "Move selected contacts to another address book"
 msgstr "Mover os contactos seleccionados a outra axenda de enderezos"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:907
+#: ../modules/addressbook/e-book-shell-view-actions.c:918
 msgid "_New Contact..."
 msgstr "Contacto _novo…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:914
+#: ../modules/addressbook/e-book-shell-view-actions.c:925
 msgid "New Contact _List..."
 msgstr "_Lista de contactos nova…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:921
+#: ../modules/addressbook/e-book-shell-view-actions.c:932
 msgid "_Open Contact"
 msgstr "Abrir _o contacto"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:923
+#: ../modules/addressbook/e-book-shell-view-actions.c:934
 msgid "View the current contact"
 msgstr "Ver o contacto actual"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:928
+#: ../modules/addressbook/e-book-shell-view-actions.c:939
 msgid "_Send Message to Contact..."
 msgstr "_Enviar unha mensaxe ao contacto…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:930
+#: ../modules/addressbook/e-book-shell-view-actions.c:941
 msgid "Send a message to the selected contacts"
 msgstr "Enviar unha mensaxe aos contactos seleccionados"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:937
-#: ../modules/calendar/e-cal-shell-view-actions.c:1582
-#: ../modules/calendar/e-task-shell-view-actions.c:822
+#: ../modules/addressbook/e-book-shell-view-actions.c:948
+#: ../modules/calendar/e-cal-shell-view-actions.c:1597
+#: ../modules/calendar/e-task-shell-view-actions.c:837
 msgid "_Actions"
 msgstr "_Accións"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:944
-#: ../modules/calendar/e-memo-shell-view-actions.c:677
-#: ../modules/calendar/e-task-shell-view-actions.c:829
+#: ../modules/addressbook/e-book-shell-view-actions.c:955
+#: ../modules/calendar/e-memo-shell-view-actions.c:692
+#: ../modules/calendar/e-task-shell-view-actions.c:844
 #: ../modules/mail/e-mail-shell-view-actions.c:1457
 msgid "_Preview"
 msgstr "Vista _previa"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:953
-#: ../modules/calendar/e-cal-shell-view-actions.c:1599
-#: ../modules/calendar/e-memo-shell-view-actions.c:690
-#: ../modules/calendar/e-task-shell-view-actions.c:842
+#: ../modules/addressbook/e-book-shell-view-actions.c:964
+#: ../modules/calendar/e-cal-shell-view-actions.c:1614
+#: ../modules/calendar/e-memo-shell-view-actions.c:705
+#: ../modules/calendar/e-task-shell-view-actions.c:857
 msgid "_Delete"
 msgstr "E_liminar"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:957
+#: ../modules/addressbook/e-book-shell-view-actions.c:968
 #: ../modules/mail/e-mail-shell-view-actions.c:1222
 msgid "_Properties"
 msgstr "_Propiedades"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:961
+#: ../modules/addressbook/e-book-shell-view-actions.c:972
 msgid "Address Book Map"
 msgstr "Mapa do caderno de enderezos"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:993
+#: ../modules/addressbook/e-book-shell-view-actions.c:1004
 msgid "Contact _Preview"
 msgstr "Vista _previa de contactos"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:995
+#: ../modules/addressbook/e-book-shell-view-actions.c:1006
 msgid "Show contact preview window"
 msgstr "Mostrar a xanela de vista previa de contactos"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1001
+#: ../modules/addressbook/e-book-shell-view-actions.c:1012
 msgid "Show _Maps"
 msgstr "Mostrar _mapas"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1003
+#: ../modules/addressbook/e-book-shell-view-actions.c:1014
 msgid "Show maps in contact preview window"
 msgstr "Mostrar mapas na xanela de vista previa de contactos"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1022
-#: ../modules/calendar/e-memo-shell-view-actions.c:747
-#: ../modules/calendar/e-task-shell-view-actions.c:911
+#: ../modules/addressbook/e-book-shell-view-actions.c:1033
+#: ../modules/calendar/e-memo-shell-view-actions.c:762
+#: ../modules/calendar/e-task-shell-view-actions.c:926
 #: ../modules/mail/e-mail-shell-view-actions.c:1576
 msgid "_Classic View"
 msgstr "Vista _clásica"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1024
+#: ../modules/addressbook/e-book-shell-view-actions.c:1035
 msgid "Show contact preview below the contact list"
 msgstr "Mostrar a vista previa do contacto embaixo da lista de contactos"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1029
-#: ../modules/calendar/e-memo-shell-view-actions.c:754
-#: ../modules/calendar/e-task-shell-view-actions.c:918
+#: ../modules/addressbook/e-book-shell-view-actions.c:1040
+#: ../modules/calendar/e-memo-shell-view-actions.c:769
+#: ../modules/calendar/e-task-shell-view-actions.c:933
 #: ../modules/mail/e-mail-shell-view-actions.c:1583
 msgid "_Vertical View"
 msgstr "Vista _vertical"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1031
+#: ../modules/addressbook/e-book-shell-view-actions.c:1042
 msgid "Show contact preview alongside the contact list"
 msgstr "Mostrar a vista previa do contacto ao carón da lista de contactos"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1039
-#: ../modules/calendar/e-cal-shell-view-actions.c:1738
-#: ../modules/calendar/e-memo-shell-view-actions.c:764
-#: ../modules/calendar/e-task-shell-view-actions.c:935
+#: ../modules/addressbook/e-book-shell-view-actions.c:1050
+#: ../modules/calendar/e-cal-shell-view-actions.c:1753
+#: ../modules/calendar/e-memo-shell-view-actions.c:779
+#: ../modules/calendar/e-task-shell-view-actions.c:950
 msgid "Any Category"
 msgstr "Calquera categoría"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1046
-#: ../modules/calendar/e-cal-shell-view-actions.c:1759
-#: ../modules/calendar/e-memo-shell-view-actions.c:771
-#: ../modules/calendar/e-task-shell-view-actions.c:970
+#: ../modules/addressbook/e-book-shell-view-actions.c:1057
+#: ../modules/calendar/e-cal-shell-view-actions.c:1774
+#: ../modules/calendar/e-memo-shell-view-actions.c:786
+#: ../modules/calendar/e-task-shell-view-actions.c:985
 msgid "Unmatched"
 msgstr "Sen coincidencias"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1056
-#: ../modules/calendar/e-cal-shell-view-actions.c:1769
-#: ../modules/calendar/e-memo-shell-view-actions.c:781
-#: ../modules/calendar/e-task-shell-view-actions.c:980
+#: ../modules/addressbook/e-book-shell-view-actions.c:1067
+#: ../modules/calendar/e-cal-shell-view-actions.c:1784
+#: ../modules/calendar/e-memo-shell-view-actions.c:796
+#: ../modules/calendar/e-task-shell-view-actions.c:995
 #: ../modules/mail/e-mail-shell-view-actions.c:1659
 #: ../shell/e-shell-content.c:664
 msgid "Advanced Search"
 msgstr "Busca avanzada"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1089
+#: ../modules/addressbook/e-book-shell-view-actions.c:1100
 msgid "Print all shown contacts"
 msgstr "Imprimir os contactos mostrados"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1096
+#: ../modules/addressbook/e-book-shell-view-actions.c:1107
 msgid "Preview the contacts to be printed"
 msgstr "Previsualizar os contactos que se van imprimir"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1103
+#: ../modules/addressbook/e-book-shell-view-actions.c:1114
 msgid "Print selected contacts"
 msgstr "Imprimir os contactos seleccionados"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1118
+#: ../modules/addressbook/e-book-shell-view-actions.c:1129
 msgid "S_ave Address Book as vCard"
 msgstr "G_ardar a axenda de enderezos como VCard"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1120
+#: ../modules/addressbook/e-book-shell-view-actions.c:1131
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr ""
 "Gardar os contactos da axenda de enderezos seleccionada como unha VCard"
 
 #. Translators: This is an action label
-#: ../modules/addressbook/e-book-shell-view-actions.c:1126
-#: ../modules/addressbook/e-book-shell-view-actions.c:1136
+#: ../modules/addressbook/e-book-shell-view-actions.c:1137
+#: ../modules/addressbook/e-book-shell-view-actions.c:1147
 msgid "_Save as vCard..."
 msgstr "_Gardar como vCard…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1128
+#: ../modules/addressbook/e-book-shell-view-actions.c:1139
 msgid "Save selected contacts as a vCard"
 msgstr "Gardar os contactos seleccionados como unha VCard"
 
@@ -16233,19 +16252,19 @@ msgstr ""
 msgid "I_mport"
 msgstr "I_mportar"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:401
+#: ../modules/calendar/e-cal-attachment-handler.c:405
 msgid "Select a Calendar"
 msgstr "Seleccionar un calendario"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:428
+#: ../modules/calendar/e-cal-attachment-handler.c:432
 msgid "Select a Task List"
 msgstr "Seleccionar unha lista de tarefas"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:438
+#: ../modules/calendar/e-cal-attachment-handler.c:442
 msgid "I_mport to Calendar"
 msgstr "I_mportar ao calendario"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:445
+#: ../modules/calendar/e-cal-attachment-handler.c:449
 msgid "I_mport to Tasks"
 msgstr "_Importar ás tarefas"
 
@@ -16323,7 +16342,7 @@ msgid "_24 hour"
 msgstr "_24 horas"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:25
-#: ../modules/calendar/e-cal-shell-view-actions.c:1721
+#: ../modules/calendar/e-cal-shell-view-actions.c:1736
 msgid "Work Week"
 msgstr "Semana laboral"
 
@@ -16502,7 +16521,7 @@ msgid "_Appointment"
 msgstr "Cit_a"
 
 #: ../modules/calendar/e-cal-shell-backend.c:453
-#: ../modules/calendar/e-cal-shell-view-actions.c:1526
+#: ../modules/calendar/e-cal-shell-view-actions.c:1541
 msgid "Create a new appointment"
 msgstr "Crear unha cita nova"
 
@@ -16530,7 +16549,7 @@ msgid "Cale_ndar"
 msgstr "Cale_ndario"
 
 #: ../modules/calendar/e-cal-shell-backend.c:477
-#: ../modules/calendar/e-cal-shell-view-actions.c:1400
+#: ../modules/calendar/e-cal-shell-view-actions.c:1415
 msgid "Create a new calendar"
 msgstr "Crear un calendario novo"
 
@@ -16542,21 +16561,21 @@ msgstr "Calendario e tarefas"
 msgid "Loading calendars"
 msgstr "Cargando os calendarios"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:761
+#: ../modules/calendar/e-cal-shell-sidebar.c:765
 msgid "_New Calendar..."
 msgstr "Calendario _novo…"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:778
+#: ../modules/calendar/e-cal-shell-sidebar.c:782
 msgid "Calendar Selector"
 msgstr "Selector de calendario"
 
 #. Translators: The string field is a URI.
-#: ../modules/calendar/e-cal-shell-sidebar.c:1114
+#: ../modules/calendar/e-cal-shell-sidebar.c:1122
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Abrindo o calendario en %s"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:320
+#: ../modules/calendar/e-cal-shell-view-actions.c:329
 msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
@@ -16568,337 +16587,337 @@ msgstr ""
 
 #. Translators: This is the first part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
-#: ../modules/calendar/e-cal-shell-view-actions.c:337
+#: ../modules/calendar/e-cal-shell-view-actions.c:346
 msgid "Purge events older than"
 msgstr "Purgar as actividades anteriores a"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:585
+#: ../modules/calendar/e-cal-shell-view-actions.c:600
 msgid "Copying Items"
 msgstr "Copiando os elementos"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:869
+#: ../modules/calendar/e-cal-shell-view-actions.c:884
 msgid "Moving Items"
 msgstr "Movendo os elementos"
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
-#: ../modules/calendar/e-cal-shell-view-actions.c:1196
+#: ../modules/calendar/e-cal-shell-view-actions.c:1211
 msgid "event"
 msgstr "actividade"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1198
+#: ../modules/calendar/e-cal-shell-view-actions.c:1213
 #: ../modules/calendar/e-cal-shell-view-memopad.c:219
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:286
-#: ../modules/calendar/e-memo-shell-view-actions.c:524
-#: ../modules/calendar/e-task-shell-view-actions.c:641
+#: ../modules/calendar/e-memo-shell-view-actions.c:539
+#: ../modules/calendar/e-task-shell-view-actions.c:656
 msgid "Save as iCalendar"
 msgstr "Gardar como iCalendar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1356
-#: ../modules/calendar/e-memo-shell-view-actions.c:605
+#: ../modules/calendar/e-cal-shell-view-actions.c:1371
+#: ../modules/calendar/e-memo-shell-view-actions.c:620
 msgid "_Copy..."
 msgstr "_Copiar…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1363
+#: ../modules/calendar/e-cal-shell-view-actions.c:1378
 msgid "D_elete Calendar"
 msgstr "_Eliminar o calendario"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1365
+#: ../modules/calendar/e-cal-shell-view-actions.c:1380
 msgid "Delete the selected calendar"
 msgstr "Eliminar o calendario seleccionado"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1372
+#: ../modules/calendar/e-cal-shell-view-actions.c:1387
 msgid "Go Back"
 msgstr "Atrás"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1379
+#: ../modules/calendar/e-cal-shell-view-actions.c:1394
 msgid "Go Forward"
 msgstr "Adiante"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1386
+#: ../modules/calendar/e-cal-shell-view-actions.c:1401
 msgid "Select today"
 msgstr "Seleccionar o día de hoxe"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1391
+#: ../modules/calendar/e-cal-shell-view-actions.c:1406
 msgid "Select _Date"
 msgstr "Seleccionar unha _data"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1393
+#: ../modules/calendar/e-cal-shell-view-actions.c:1408
 msgid "Select a specific date"
 msgstr "Seleccionar unha data determinada"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1398
+#: ../modules/calendar/e-cal-shell-view-actions.c:1413
 msgid "_New Calendar"
 msgstr "Calendario _novo"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1412
-#: ../modules/calendar/e-task-shell-view-actions.c:813
+#: ../modules/calendar/e-cal-shell-view-actions.c:1427
+#: ../modules/calendar/e-task-shell-view-actions.c:828
 msgid "Purg_e"
 msgstr "P_urgar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1414
+#: ../modules/calendar/e-cal-shell-view-actions.c:1429
 msgid "Purge old appointments and meetings"
 msgstr "Purgar as citas e reunións antigas"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1419
-#: ../modules/calendar/e-memo-shell-view-actions.c:633
-#: ../modules/calendar/e-task-shell-view-actions.c:757
+#: ../modules/calendar/e-cal-shell-view-actions.c:1434
+#: ../modules/calendar/e-memo-shell-view-actions.c:648
+#: ../modules/calendar/e-task-shell-view-actions.c:772
 msgid "Re_fresh"
 msgstr "Ac_tualizar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1421
+#: ../modules/calendar/e-cal-shell-view-actions.c:1436
 msgid "Refresh the selected calendar"
 msgstr "Actualizar o calendario seleccionado"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1428
+#: ../modules/calendar/e-cal-shell-view-actions.c:1443
 msgid "Rename the selected calendar"
 msgstr "Renomear o calendario seleccionado"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1433
+#: ../modules/calendar/e-cal-shell-view-actions.c:1448
 msgid "Find _next"
 msgstr "Buscar segui_nte"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1435
+#: ../modules/calendar/e-cal-shell-view-actions.c:1450
 msgid "Find next occurrence of the current search string"
 msgstr "Buscar a seguinte coincidencia da frase de busca actual"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1440
+#: ../modules/calendar/e-cal-shell-view-actions.c:1455
 msgid "Find _previous"
 msgstr "_Buscar _anterior"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1442
+#: ../modules/calendar/e-cal-shell-view-actions.c:1457
 msgid "Find previous occurrence of the current search string"
 msgstr "Buscar a coincidencia anterior da frase de busca actual"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1447
+#: ../modules/calendar/e-cal-shell-view-actions.c:1462
 msgid "Stop _running search"
 msgstr "Dete_r a busca en execución"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1449
+#: ../modules/calendar/e-cal-shell-view-actions.c:1464
 msgid "Stop currently running search"
 msgstr "Deter a busca actual en execución"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1454
+#: ../modules/calendar/e-cal-shell-view-actions.c:1469
 msgid "Show _Only This Calendar"
 msgstr "M_ostrar só este calendario"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1461
+#: ../modules/calendar/e-cal-shell-view-actions.c:1476
 msgid "Cop_y to Calendar..."
 msgstr "Cop_iar ao calendario…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1468
+#: ../modules/calendar/e-cal-shell-view-actions.c:1483
 msgid "_Delegate Meeting..."
 msgstr "_Delegar a reunión…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1475
+#: ../modules/calendar/e-cal-shell-view-actions.c:1490
 msgid "_Delete Appointment"
 msgstr "_Eliminar esta cita"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1477
+#: ../modules/calendar/e-cal-shell-view-actions.c:1492
 msgid "Delete selected appointments"
 msgstr "Eliminar as citas seleccionadas"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1482
+#: ../modules/calendar/e-cal-shell-view-actions.c:1497
 msgid "Delete This _Occurrence"
 msgstr "Eliminar esta _aparición"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1484
+#: ../modules/calendar/e-cal-shell-view-actions.c:1499
 msgid "Delete this occurrence"
 msgstr "Eliminar esta aparición"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1489
+#: ../modules/calendar/e-cal-shell-view-actions.c:1504
 msgid "Delete All Occ_urrences"
 msgstr "Eliminar _todas as aparicións"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1491
+#: ../modules/calendar/e-cal-shell-view-actions.c:1506
 msgid "Delete all occurrences"
 msgstr "Eliminar todas as aparicións"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1496
+#: ../modules/calendar/e-cal-shell-view-actions.c:1511
 msgid "New All Day _Event..."
 msgstr "Nova _actividade de día completo…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1498
+#: ../modules/calendar/e-cal-shell-view-actions.c:1513
 msgid "Create a new all day event"
 msgstr "Crear unha actividade nova de día completo"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1503
+#: ../modules/calendar/e-cal-shell-view-actions.c:1518
 #: ../modules/calendar/e-cal-shell-view-memopad.c:253
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:326
-#: ../modules/calendar/e-memo-shell-view-actions.c:598
-#: ../modules/calendar/e-task-shell-view-actions.c:722
+#: ../modules/calendar/e-memo-shell-view-actions.c:613
+#: ../modules/calendar/e-task-shell-view-actions.c:737
 msgid "_Forward as iCalendar..."
 msgstr "Reemcamiña_r como iCalendar…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1510
+#: ../modules/calendar/e-cal-shell-view-actions.c:1525
 msgid "New _Meeting..."
 msgstr "_Reunión nova…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1512
+#: ../modules/calendar/e-cal-shell-view-actions.c:1527
 msgid "Create a new meeting"
 msgstr "Crear unha reunión nova"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1517
+#: ../modules/calendar/e-cal-shell-view-actions.c:1532
 msgid "Mo_ve to Calendar..."
 msgstr "Mo_ver ao calendario…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1524
+#: ../modules/calendar/e-cal-shell-view-actions.c:1539
 msgid "New _Appointment..."
 msgstr "Cit_a nova…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1531
+#: ../modules/calendar/e-cal-shell-view-actions.c:1546
 msgid "Make this Occurrence _Movable"
 msgstr "Facer esta aparición _desprazábel"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1538
+#: ../modules/calendar/e-cal-shell-view-actions.c:1553
 msgid "_Open Appointment"
 msgstr "_Abrir unha cita"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1540
+#: ../modules/calendar/e-cal-shell-view-actions.c:1555
 msgid "View the current appointment"
 msgstr "Ver a cita actual"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1545
+#: ../modules/calendar/e-cal-shell-view-actions.c:1560
 msgid "_Reply"
 msgstr "_Responder"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1559
+#: ../modules/calendar/e-cal-shell-view-actions.c:1574
 msgid "_Schedule Meeting..."
 msgstr "_Programar unha reunión…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1561
+#: ../modules/calendar/e-cal-shell-view-actions.c:1576
 msgid "Converts an appointment to a meeting"
 msgstr "Converte una cita nunha reunión"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1566
+#: ../modules/calendar/e-cal-shell-view-actions.c:1581
 msgid "Conv_ert to Appointment..."
 msgstr "Conv_erter en cita…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1568
+#: ../modules/calendar/e-cal-shell-view-actions.c:1583
 msgid "Converts a meeting to an appointment"
 msgstr "Converte unha reunión nunha cita"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1573
+#: ../modules/calendar/e-cal-shell-view-actions.c:1588
 msgid "Quit"
 msgstr "Saír"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1693
+#: ../modules/calendar/e-cal-shell-view-actions.c:1708
 msgid "Day"
 msgstr "Día"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1695
+#: ../modules/calendar/e-cal-shell-view-actions.c:1710
 msgid "Show one day"
 msgstr "Mostrar un día"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1700
+#: ../modules/calendar/e-cal-shell-view-actions.c:1715
 msgid "List"
 msgstr "Lista"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1702
+#: ../modules/calendar/e-cal-shell-view-actions.c:1717
 msgid "Show as list"
 msgstr "Mostrar como unha lista"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1707
+#: ../modules/calendar/e-cal-shell-view-actions.c:1722
 msgid "Month"
 msgstr "Mes"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1709
+#: ../modules/calendar/e-cal-shell-view-actions.c:1724
 msgid "Show one month"
 msgstr "Mostrar un mes"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1714
+#: ../modules/calendar/e-cal-shell-view-actions.c:1729
 msgid "Week"
 msgstr "Semana"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1716
+#: ../modules/calendar/e-cal-shell-view-actions.c:1731
 msgid "Show one week"
 msgstr "Mostrar unha semana"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1723
+#: ../modules/calendar/e-cal-shell-view-actions.c:1738
 msgid "Show one work week"
 msgstr "Mostrar unha semana laboral"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1731
+#: ../modules/calendar/e-cal-shell-view-actions.c:1746
 msgid "Active Appointments"
 msgstr "Citas activas"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1745
+#: ../modules/calendar/e-cal-shell-view-actions.c:1760
 msgid "Next 7 Days' Appointments"
 msgstr "Citas dos próximos sete días"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1752
+#: ../modules/calendar/e-cal-shell-view-actions.c:1767
 msgid "Occurs Less Than 5 Times"
 msgstr "Acontece menos de 5 veces"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1783
-#: ../modules/calendar/e-memo-shell-view-actions.c:795
-#: ../modules/calendar/e-task-shell-view-actions.c:994
+#: ../modules/calendar/e-cal-shell-view-actions.c:1798
+#: ../modules/calendar/e-memo-shell-view-actions.c:810
+#: ../modules/calendar/e-task-shell-view-actions.c:1009
 msgid "Description contains"
 msgstr "A descrición contén"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1790
-#: ../modules/calendar/e-memo-shell-view-actions.c:802
-#: ../modules/calendar/e-task-shell-view-actions.c:1001
+#: ../modules/calendar/e-cal-shell-view-actions.c:1805
+#: ../modules/calendar/e-memo-shell-view-actions.c:817
+#: ../modules/calendar/e-task-shell-view-actions.c:1016
 msgid "Summary contains"
 msgstr "O resumo contén"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1802
+#: ../modules/calendar/e-cal-shell-view-actions.c:1817
 msgid "Print this calendar"
 msgstr "Imprimir este calendario"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1809
+#: ../modules/calendar/e-cal-shell-view-actions.c:1824
 msgid "Preview the calendar to be printed"
 msgstr "Previsualizar o calendario que se vai imprimir"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1831
+#: ../modules/calendar/e-cal-shell-view-actions.c:1846
 #: ../modules/calendar/e-cal-shell-view-memopad.c:294
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:381
-#: ../modules/calendar/e-memo-shell-view-actions.c:843
-#: ../modules/calendar/e-task-shell-view-actions.c:1042
+#: ../modules/calendar/e-memo-shell-view-actions.c:858
+#: ../modules/calendar/e-task-shell-view-actions.c:1057
 msgid "_Save as iCalendar..."
 msgstr "Gardar como iCalendar…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1908
+#: ../modules/calendar/e-cal-shell-view-actions.c:1923
 msgid "Go To"
 msgstr "Ir a"
 
 #. Translators: Default filename part saving a memo to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../modules/calendar/e-cal-shell-view-memopad.c:217
-#: ../modules/calendar/e-memo-shell-view-actions.c:522
+#: ../modules/calendar/e-memo-shell-view-actions.c:537
 msgid "memo"
 msgstr "nota"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:260
-#: ../modules/calendar/e-memo-shell-view-actions.c:654
+#: ../modules/calendar/e-memo-shell-view-actions.c:669
 msgid "New _Memo"
 msgstr "Nota _nova"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:262
 #: ../modules/calendar/e-memo-shell-backend.c:310
-#: ../modules/calendar/e-memo-shell-view-actions.c:656
+#: ../modules/calendar/e-memo-shell-view-actions.c:671
 msgid "Create a new memo"
 msgstr "Crear unha nota nova"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:267
-#: ../modules/calendar/e-memo-shell-view-actions.c:661
+#: ../modules/calendar/e-memo-shell-view-actions.c:676
 msgid "_Open Memo"
 msgstr "_Abrir a nota"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:269
-#: ../modules/calendar/e-memo-shell-view-actions.c:663
+#: ../modules/calendar/e-memo-shell-view-actions.c:678
 msgid "View the selected memo"
 msgstr "Ver a nota seleccionada"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:274
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:361
-#: ../modules/calendar/e-memo-shell-view-actions.c:668
-#: ../modules/calendar/e-task-shell-view-actions.c:806
+#: ../modules/calendar/e-memo-shell-view-actions.c:683
+#: ../modules/calendar/e-task-shell-view-actions.c:821
 msgid "Open _Web Page"
 msgstr "Abrir a páxina _web"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:286
-#: ../modules/calendar/e-memo-shell-view-actions.c:828
+#: ../modules/calendar/e-memo-shell-view-actions.c:843
 msgid "Print the selected memo"
 msgstr "Imprimir a nota seleccionada"
 
@@ -16933,22 +16952,22 @@ msgstr "Non é posíbel buscar sen un calendario activo"
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:284
-#: ../modules/calendar/e-task-shell-view-actions.c:639
+#: ../modules/calendar/e-task-shell-view-actions.c:654
 msgid "task"
 msgstr "tarefa"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:319
-#: ../modules/calendar/e-task-shell-view-actions.c:701
+#: ../modules/calendar/e-task-shell-view-actions.c:716
 msgid "_Assign Task"
 msgstr "_Asignar unha tarefa"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:333
-#: ../modules/calendar/e-task-shell-view-actions.c:778
+#: ../modules/calendar/e-task-shell-view-actions.c:793
 msgid "_Mark as Complete"
 msgstr "_Marcar como terminada"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:335
-#: ../modules/calendar/e-task-shell-view-actions.c:780
+#: ../modules/calendar/e-task-shell-view-actions.c:795
 msgid "Mark selected tasks as complete"
 msgstr "Marcar as tarefas seleccionadas como terminadas"
 
@@ -16957,33 +16976,33 @@ msgid "_Mark as Incomplete"
 msgstr "_Marcar como non terminada"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:342
-#: ../modules/calendar/e-task-shell-view-actions.c:787
+#: ../modules/calendar/e-task-shell-view-actions.c:802
 msgid "Mark selected tasks as incomplete"
 msgstr "Marcar as tarefas seleccionadas como non terminadas"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:347
-#: ../modules/calendar/e-task-shell-view-actions.c:792
+#: ../modules/calendar/e-task-shell-view-actions.c:807
 msgid "New _Task"
 msgstr "_Tarefa nova"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:349
 #: ../modules/calendar/e-task-shell-backend.c:305
-#: ../modules/calendar/e-task-shell-view-actions.c:794
+#: ../modules/calendar/e-task-shell-view-actions.c:809
 msgid "Create a new task"
 msgstr "Crear unha tarefa nova"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:354
-#: ../modules/calendar/e-task-shell-view-actions.c:799
+#: ../modules/calendar/e-task-shell-view-actions.c:814
 msgid "_Open Task"
 msgstr "_Abrir unha tarefa"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:356
-#: ../modules/calendar/e-task-shell-view-actions.c:801
+#: ../modules/calendar/e-task-shell-view-actions.c:816
 msgid "View the selected task"
 msgstr "Ver a tarefa seleccionada"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:373
-#: ../modules/calendar/e-task-shell-view-actions.c:1027
+#: ../modules/calendar/e-task-shell-view-actions.c:1042
 msgid "Print the selected task"
 msgstr "Imprimir a tarefa seleccionada"
 
@@ -17007,7 +17026,7 @@ msgid "Memo Li_st"
 msgstr "Li_sta de notas"
 
 #: ../modules/calendar/e-memo-shell-backend.c:327
-#: ../modules/calendar/e-memo-shell-view-actions.c:621
+#: ../modules/calendar/e-memo-shell-view-actions.c:636
 msgid "Create a new memo list"
 msgstr "Crear unha lista de notas nova"
 
@@ -17015,78 +17034,78 @@ msgstr "Crear unha lista de notas nova"
 msgid "Loading memos"
 msgstr "Cargando as notas"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:703
+#: ../modules/calendar/e-memo-shell-sidebar.c:707
 msgid "Memo List Selector"
 msgstr "Selector de lista de notas"
 
 #. Translators: The string field is a URI.
-#: ../modules/calendar/e-memo-shell-sidebar.c:1001
+#: ../modules/calendar/e-memo-shell-sidebar.c:1009
 #, c-format
 msgid "Opening memos at %s"
 msgstr "Abrindo as notas en %s"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:231
-#: ../modules/calendar/e-memo-shell-view-actions.c:246
+#: ../modules/calendar/e-memo-shell-view-actions.c:238
+#: ../modules/calendar/e-memo-shell-view-actions.c:253
 msgid "Print Memos"
 msgstr "Imprimir as notas"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:584
+#: ../modules/calendar/e-memo-shell-view-actions.c:599
 msgid "_Delete Memo"
 msgstr "E_liminar a nota"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:591
+#: ../modules/calendar/e-memo-shell-view-actions.c:606
 msgid "_Find in Memo..."
 msgstr "_Buscar na nota…"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:593
+#: ../modules/calendar/e-memo-shell-view-actions.c:608
 msgid "Search for text in the displayed memo"
 msgstr "Buscar un texto na nota mostrada"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:612
+#: ../modules/calendar/e-memo-shell-view-actions.c:627
 msgid "D_elete Memo List"
 msgstr "_Eliminar a lista de notas"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:614
+#: ../modules/calendar/e-memo-shell-view-actions.c:629
 msgid "Delete the selected memo list"
 msgstr "Eliminar a lista de notas seleccionada"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:619
+#: ../modules/calendar/e-memo-shell-view-actions.c:634
 msgid "_New Memo List"
 msgstr "Lista de notas _nova"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:635
+#: ../modules/calendar/e-memo-shell-view-actions.c:650
 msgid "Refresh the selected memo list"
 msgstr "Actualizar a lista de notas seleccionada"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:642
+#: ../modules/calendar/e-memo-shell-view-actions.c:657
 msgid "Rename the selected memo list"
 msgstr "Renomear a lista de notas seleccionada"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:647
+#: ../modules/calendar/e-memo-shell-view-actions.c:662
 msgid "Show _Only This Memo List"
 msgstr "M_ostrar só esta lista de notas"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:726
+#: ../modules/calendar/e-memo-shell-view-actions.c:741
 msgid "Memo _Preview"
 msgstr "Vista _previa de notas"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:728
+#: ../modules/calendar/e-memo-shell-view-actions.c:743
 msgid "Show memo preview pane"
 msgstr "Mostrar o panel de vista previa de notas"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:749
+#: ../modules/calendar/e-memo-shell-view-actions.c:764
 msgid "Show memo preview below the memo list"
 msgstr "Mostrar a vista previa da nota embaxio da lista de notas"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:756
+#: ../modules/calendar/e-memo-shell-view-actions.c:771
 msgid "Show memo preview alongside the memo list"
 msgstr "Mostrar a vista previa da nota a carón da lista de notas"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:814
+#: ../modules/calendar/e-memo-shell-view-actions.c:829
 msgid "Print the list of memos"
 msgstr "Imprimir a lista de notas"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:821
+#: ../modules/calendar/e-memo-shell-view-actions.c:836
 msgid "Preview the list of memos to be printed"
 msgstr "Previsualizar a lista de notas para imprimir"
 
@@ -17131,7 +17150,7 @@ msgid "Tas_k List"
 msgstr "Lista de tare_fas"
 
 #: ../modules/calendar/e-task-shell-backend.c:322
-#: ../modules/calendar/e-task-shell-view-actions.c:745
+#: ../modules/calendar/e-task-shell-view-actions.c:760
 msgid "Create a new task list"
 msgstr "Crear unha lista de tarefas nova"
 
@@ -17139,22 +17158,22 @@ msgstr "Crear unha lista de tarefas nova"
 msgid "Loading tasks"
 msgstr "Cargando as tarefas"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:703
+#: ../modules/calendar/e-task-shell-sidebar.c:707
 msgid "Task List Selector"
 msgstr "Selector de lista de tarefas"
 
 #. Translators: The string field is a URI.
-#: ../modules/calendar/e-task-shell-sidebar.c:1002
+#: ../modules/calendar/e-task-shell-sidebar.c:1010
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Abrindo as tarefas en %s"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:254
-#: ../modules/calendar/e-task-shell-view-actions.c:269
+#: ../modules/calendar/e-task-shell-view-actions.c:261
+#: ../modules/calendar/e-task-shell-view-actions.c:276
 msgid "Print Tasks"
 msgstr "Imprimir as tarefas"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:583
+#: ../modules/calendar/e-task-shell-view-actions.c:598
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -17166,99 +17185,99 @@ msgstr ""
 "\n"
 "Está seguro de que desexa eliminalas?"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:590
+#: ../modules/calendar/e-task-shell-view-actions.c:605
 msgid "Do not ask me again"
 msgstr "Non preguntar de novo."
 
-#: ../modules/calendar/e-task-shell-view-actions.c:708
+#: ../modules/calendar/e-task-shell-view-actions.c:723
 msgid "_Delete Task"
 msgstr "E_liminar a tarefa"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:715
+#: ../modules/calendar/e-task-shell-view-actions.c:730
 msgid "_Find in Task..."
 msgstr "Buscar na tare_fa…"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:717
+#: ../modules/calendar/e-task-shell-view-actions.c:732
 msgid "Search for text in the displayed task"
 msgstr "Buscar un texto na tarefa mostrada"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:729
+#: ../modules/calendar/e-task-shell-view-actions.c:744
 msgid "Copy..."
 msgstr "Copiar…"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:736
+#: ../modules/calendar/e-task-shell-view-actions.c:751
 msgid "D_elete Task List"
 msgstr "_Eliminar a lista de tarefas"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:738
+#: ../modules/calendar/e-task-shell-view-actions.c:753
 msgid "Delete the selected task list"
 msgstr "Eliminar a lista de tarefas seleccionada"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:743
+#: ../modules/calendar/e-task-shell-view-actions.c:758
 msgid "_New Task List"
 msgstr "Lista de tarefas _nova"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:759
+#: ../modules/calendar/e-task-shell-view-actions.c:774
 msgid "Refresh the selected task list"
 msgstr "Actualizar a lista de tarefas seleccionada"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:766
+#: ../modules/calendar/e-task-shell-view-actions.c:781
 msgid "Rename the selected task list"
 msgstr "Renomear a lista de tarefas seleccionada"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:771
+#: ../modules/calendar/e-task-shell-view-actions.c:786
 msgid "Show _Only This Task List"
 msgstr "M_ostrar só esta lista de tarefas"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:785
+#: ../modules/calendar/e-task-shell-view-actions.c:800
 msgid "Mar_k as Incomplete"
 msgstr "_Marcar como non terminada"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:815
+#: ../modules/calendar/e-task-shell-view-actions.c:830
 msgid "Delete completed tasks"
 msgstr "Eliminar as tarefas terminadas"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:890
+#: ../modules/calendar/e-task-shell-view-actions.c:905
 msgid "Task _Preview"
 msgstr "_Previsualizar a tarefa"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:892
+#: ../modules/calendar/e-task-shell-view-actions.c:907
 msgid "Show task preview pane"
 msgstr "Mostrar o panel de vista previa de tarefas"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:913
+#: ../modules/calendar/e-task-shell-view-actions.c:928
 msgid "Show task preview below the task list"
 msgstr "Mostrar a vista previa da tarefa embaixo da lista de tarefas"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:920
+#: ../modules/calendar/e-task-shell-view-actions.c:935
 msgid "Show task preview alongside the task list"
 msgstr "Mostrar a vista previa da tarefa a carón da lista de tarefas"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:928
+#: ../modules/calendar/e-task-shell-view-actions.c:943
 msgid "Active Tasks"
 msgstr "Tarefas activas"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:942
+#: ../modules/calendar/e-task-shell-view-actions.c:957
 msgid "Completed Tasks"
 msgstr "Tarefas terminadas"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:949
+#: ../modules/calendar/e-task-shell-view-actions.c:964
 msgid "Next 7 Days' Tasks"
 msgstr "Tarefas dos próximos sete días"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:956
+#: ../modules/calendar/e-task-shell-view-actions.c:971
 msgid "Overdue Tasks"
 msgstr "Tarefas atrasadas"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:963
+#: ../modules/calendar/e-task-shell-view-actions.c:978
 msgid "Tasks with Attachments"
 msgstr "Tarefas con anexos"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:1013
+#: ../modules/calendar/e-task-shell-view-actions.c:1028
 msgid "Print the list of tasks"
 msgstr "Imprimir a lista de tarefas"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:1020
+#: ../modules/calendar/e-task-shell-view-actions.c:1035
 msgid "Preview the list of tasks to be printed"
 msgstr "Previsualizar a lista de tarefas para imprimir"
 
@@ -17653,68 +17672,68 @@ msgstr "Buscar na conta"
 msgid "Proxy _Logout"
 msgstr "_Terminar a sesión proxy"
 
-#: ../modules/mail/e-mail-shell-view-private.c:949
+#: ../modules/mail/e-mail-shell-view-private.c:954
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d seleccionada, "
 msgstr[1] "%d seleccionadas, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:960
+#: ../modules/mail/e-mail-shell-view-private.c:965
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d eliminada"
 msgstr[1] "%d eliminadas"
 
-#: ../modules/mail/e-mail-shell-view-private.c:966
-#: ../modules/mail/e-mail-shell-view-private.c:973
+#: ../modules/mail/e-mail-shell-view-private.c:971
+#: ../modules/mail/e-mail-shell-view-private.c:978
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d correo lixo"
 msgstr[1] "%d correos lixo"
 
-#: ../modules/mail/e-mail-shell-view-private.c:979
+#: ../modules/mail/e-mail-shell-view-private.c:984
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d borrador"
 msgstr[1] "%d borradores"
 
-#: ../modules/mail/e-mail-shell-view-private.c:985
+#: ../modules/mail/e-mail-shell-view-private.c:990
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d sen enviar"
 msgstr[1] "%d sen enviar"
 
-#: ../modules/mail/e-mail-shell-view-private.c:991
+#: ../modules/mail/e-mail-shell-view-private.c:996
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d enviado"
 msgstr[1] "%d enviados"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1003
+#: ../modules/mail/e-mail-shell-view-private.c:1008
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d sen ler, "
 msgstr[1] "%d sen ler, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:1006
+#: ../modules/mail/e-mail-shell-view-private.c:1011
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d en total"
 msgstr[1] "%d en total"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1029
+#: ../modules/mail/e-mail-shell-view-private.c:1034
 msgid "Trash"
 msgstr "Lixo"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1505
+#: ../modules/mail/e-mail-shell-view-private.c:1510
 msgid "Send / Receive"
 msgstr "Enviar / Recibir"
 
@@ -17763,24 +17782,24 @@ msgstr ""
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
-#: ../modules/mdn/evolution-mdn.c:258
+#: ../modules/mdn/evolution-mdn.c:291
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "A mensaxe a %s sobre «%s» o %s leuse."
 
 #. Translators: %s is the subject of the email message.
-#: ../modules/mdn/evolution-mdn.c:324
+#: ../modules/mdn/evolution-mdn.c:357
 #, c-format
 msgid "Delivery Notification for \"%s\""
 msgstr "Notificación de recepción para «%s»"
 
-#: ../modules/mdn/evolution-mdn.c:449
+#: ../modules/mdn/evolution-mdn.c:499
 #, c-format
 msgid "Send a read receipt to '%s'"
 msgstr "Enviar unha confirmación de recepción a «%s»"
 
 #. name doesn't matter
-#: ../modules/mdn/evolution-mdn.c:454
+#: ../modules/mdn/evolution-mdn.c:504
 msgid "_Notify Sender"
 msgstr "_Notificar ao emisor"
 
@@ -18256,37 +18275,37 @@ msgstr "Permisos insuficientes"
 msgid "The selected folder is not writable."
 msgstr "O cartafol seleccionado non é escribíbel."
 
-#: ../plugins/bbdb/bbdb.c:668 ../plugins/bbdb/bbdb.c:677
+#: ../plugins/bbdb/bbdb.c:690 ../plugins/bbdb/bbdb.c:699
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Contactos automáticos"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:692
+#: ../plugins/bbdb/bbdb.c:714
 msgid "Create _address book entries when sending mails"
 msgstr "Crear _as entradas da axenda de enderezos ao enviar as mensaxes"
 
-#: ../plugins/bbdb/bbdb.c:700
+#: ../plugins/bbdb/bbdb.c:722
 msgid "Select Address book for Automatic Contacts"
 msgstr "Seleccionar a axenda de enderezos para contactos automáticos"
 
-#: ../plugins/bbdb/bbdb.c:717
+#: ../plugins/bbdb/bbdb.c:739
 msgid "Instant Messaging Contacts"
 msgstr "Contactos de mensaxería instantánea"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:732
+#: ../plugins/bbdb/bbdb.c:754
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
 "_Sincronizar a información e as imaxes de contactos desde a lista de amigos "
 "do Pidgin"
 
-#: ../plugins/bbdb/bbdb.c:740
+#: ../plugins/bbdb/bbdb.c:762
 msgid "Select Address book for Pidgin buddy list"
 msgstr "Seleccionar a axenda de enderezos para a lista de amigos do Pidgin"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:753
+#: ../plugins/bbdb/bbdb.c:775
 msgid "Synchronize with _buddy list now"
 msgstr "Sincronizar coa lista de _amigos agora"
 
@@ -18347,7 +18366,7 @@ msgstr "Produciuse un fallo ao obter o servidor LDAP."
 
 #: ../plugins/caldav/caldav-browse-server.c:762
 #: ../plugins/caldav/caldav-browse-server.c:803
-#: ../plugins/caldav/caldav-browse-server.c:1502
+#: ../plugins/caldav/caldav-browse-server.c:1506
 msgid "Searching for user's calendars..."
 msgstr "Buscando os calendarios do usuario…"
 
@@ -18380,55 +18399,61 @@ msgstr "Non é posíbel crear a mensaxe «soup» para o URL «%s»"
 msgid "Searching folder content..."
 msgstr "Buscando nos contidos do cartafol…"
 
-#: ../plugins/caldav/caldav-browse-server.c:1326
-#: ../plugins/caldav/caldav-source.c:262
+#: ../plugins/caldav/caldav-browse-server.c:1327
+#: ../plugins/caldav/caldav-source.c:272
 msgid "Server _handles meeting invitations"
 msgstr "O servidor ma_nexa as invitacións á reunión"
 
-#: ../plugins/caldav/caldav-browse-server.c:1333
+#: ../plugins/caldav/caldav-browse-server.c:1334
 msgid "List of available calendars:"
 msgstr "Lista de calendarios dispoñíbeis:"
 
-#: ../plugins/caldav/caldav-browse-server.c:1371
+#: ../plugins/caldav/caldav-browse-server.c:1372
 msgid "Supports"
 msgstr "Admite"
 
-#: ../plugins/caldav/caldav-browse-server.c:1402
-#: ../plugins/caldav/caldav-source.c:260
+#: ../plugins/caldav/caldav-browse-server.c:1403
+#: ../plugins/caldav/caldav-source.c:270
 msgid "User e_mail:"
 msgstr "Corro-_e do usuario:"
 
-#: ../plugins/caldav/caldav-browse-server.c:1478
+#: ../plugins/caldav/caldav-browse-server.c:1482
 #, c-format
 msgid "Failed to create thread: %s"
 msgstr "Produciuse un fallo ao crear a conversa: %s"
 
-#: ../plugins/caldav/caldav-browse-server.c:1599
+#: ../plugins/caldav/caldav-browse-server.c:1604
 #, c-format
 msgid "Server URL '%s' is not a valid URL"
 msgstr "O URL do servidor «%s» non é un URL correcto"
 
-#: ../plugins/caldav/caldav-browse-server.c:1609
+#: ../plugins/caldav/caldav-browse-server.c:1614
 msgid "Browse for a CalDAV calendar"
 msgstr "Buscar un calendario CalDAV"
 
-#: ../plugins/caldav/caldav-source.c:241
+#: ../plugins/caldav/caldav-source.c:245
 #: ../plugins/calendar-http/calendar-http.c:109
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:261
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:262
 msgid "_URL:"
 msgstr "_URL:"
 
-#: ../plugins/caldav/caldav-source.c:248
+#: ../plugins/caldav/caldav-source.c:252
 #: ../plugins/calendar-http/calendar-http.c:149
 #: ../plugins/google-account-setup/google-contacts-source.c:359
 msgid "Use _secure connection"
 msgstr "Usar conexión _segura"
 
-#: ../plugins/caldav/caldav-source.c:265
+#: ../plugins/caldav/caldav-source.c:253
+#: ../plugins/calendar-http/calendar-http.c:157
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:298
+msgid "_Ignore invalid SSL certificate"
+msgstr "_Ignorar certificado SSL non válido"
+
+#: ../plugins/caldav/caldav-source.c:275
 msgid "Brows_e server for a calendar"
 msgstr "Busca un cal_endario no servidor"
 
-#: ../plugins/caldav/caldav-source.c:283
+#: ../plugins/caldav/caldav-source.c:294
 #: ../plugins/calendar-file/calendar-file.c:207
 #: ../plugins/calendar-http/calendar-http.c:132
 #: ../plugins/calendar-weather/calendar-weather.c:421
@@ -18486,7 +18511,7 @@ msgstr "Calendarios locais"
 msgid "Add local calendars to Evolution."
 msgstr "Engadir calendarios locais ao Evolution."
 
-#: ../plugins/calendar-http/calendar-http.c:214
+#: ../plugins/calendar-http/calendar-http.c:236
 msgid "Userna_me:"
 msgstr "No_me do usuario:"
 
@@ -18803,7 +18828,7 @@ msgstr ""
 "{0}"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:325
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:249
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:250
 msgid "Server"
 msgstr "Servidor"
 
@@ -20165,7 +20190,7 @@ msgstr "_Tarefas"
 msgid "_Journal entries"
 msgstr "Entradas do _xornal"
 
-#: ../plugins/pst-import/pst-importer.c:707
+#: ../plugins/pst-import/pst-importer.c:709
 msgid "Importing Outlook data"
 msgstr "Importación de datos do Outlook"
 
@@ -20429,11 +20454,11 @@ msgstr "Garda un calendario ou unha lista de tarefas no disco."
 #. * It lets you define the formatting of the date in the rdf-file.
 #. * Also check out http://www.w3.org/2002/12/cal/tzd
 #. *
-#: ../plugins/save-calendar/rdf-format.c:152
+#: ../plugins/save-calendar/rdf-format.c:153
 msgid "%FT%T"
 msgstr "%FT%T"
 
-#: ../plugins/save-calendar/rdf-format.c:387
+#: ../plugins/save-calendar/rdf-format.c:388
 msgid "RDF (.rdf)"
 msgstr "RDF (.rdf)"
 
@@ -20534,7 +20559,7 @@ msgstr "Engadir contactos WebDAV ao Evolution."
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:287
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:288
 msgid "_Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Evit_ar o IfMatch (necesario no Apache < 2.2.8)"
 
@@ -22633,53 +22658,53 @@ msgstr "O ficheiro do script debe ser executábel."
 msgid "Click here to go to URL"
 msgstr "Prema aquí para ir ao URL"
 
-#: ../widgets/misc/e-web-view.c:275 ../widgets/misc/e-web-view-gtkhtml.c:409
+#: ../widgets/misc/e-web-view.c:278 ../widgets/misc/e-web-view-gtkhtml.c:409
 msgid "_Copy Link Location"
 msgstr "_Copiar a localización da ligazón"
 
-#: ../widgets/misc/e-web-view.c:277 ../widgets/misc/e-web-view-gtkhtml.c:411
+#: ../widgets/misc/e-web-view.c:280 ../widgets/misc/e-web-view-gtkhtml.c:411
 msgid "Copy the link to the clipboard"
 msgstr "Copiar a ligazón no portapapeis"
 
-#: ../widgets/misc/e-web-view.c:285 ../widgets/misc/e-web-view-gtkhtml.c:419
+#: ../widgets/misc/e-web-view.c:288 ../widgets/misc/e-web-view-gtkhtml.c:419
 msgid "_Open Link in Browser"
 msgstr "_Abrir a ligazón no navegador"
 
-#: ../widgets/misc/e-web-view.c:287 ../widgets/misc/e-web-view-gtkhtml.c:421
+#: ../widgets/misc/e-web-view.c:290 ../widgets/misc/e-web-view-gtkhtml.c:421
 msgid "Open the link in a web browser"
 msgstr "_Abrir a ligazón no navegador web"
 
-#: ../widgets/misc/e-web-view.c:295 ../widgets/misc/e-web-view-gtkhtml.c:429
+#: ../widgets/misc/e-web-view.c:298 ../widgets/misc/e-web-view-gtkhtml.c:429
 msgid "_Copy Email Address"
 msgstr "Copiar o enderezo de _correo"
 
-#: ../widgets/misc/e-web-view.c:312 ../widgets/misc/e-web-view-gtkhtml.c:446
+#: ../widgets/misc/e-web-view.c:315 ../widgets/misc/e-web-view-gtkhtml.c:446
 msgid "_Copy Image"
 msgstr "_Copiar imaxe"
 
-#: ../widgets/misc/e-web-view.c:314 ../widgets/misc/e-web-view-gtkhtml.c:448
+#: ../widgets/misc/e-web-view.c:317 ../widgets/misc/e-web-view-gtkhtml.c:448
 msgid "Copy the image to the clipboard"
 msgstr "Copiar a imaxe ao portapapeis"
 
-#: ../widgets/misc/e-web-view.c:334 ../widgets/misc/e-web-view.c:1410
+#: ../widgets/misc/e-web-view.c:337 ../widgets/misc/e-web-view.c:1413
 #: ../widgets/misc/e-web-view-gtkhtml.c:468
 #: ../widgets/misc/e-web-view-gtkhtml.c:1293
 msgid "Select all text and images"
 msgstr "Seleccionar todo o texto e as imaxes"
 
-#: ../widgets/misc/e-web-view.c:1067 ../widgets/misc/e-web-view.c:1069
-#: ../widgets/misc/e-web-view.c:1071 ../widgets/misc/e-web-view-gtkhtml.c:957
+#: ../widgets/misc/e-web-view.c:1070 ../widgets/misc/e-web-view.c:1072
+#: ../widgets/misc/e-web-view.c:1074 ../widgets/misc/e-web-view-gtkhtml.c:957
 #: ../widgets/misc/e-web-view-gtkhtml.c:959
 #: ../widgets/misc/e-web-view-gtkhtml.c:961
 #, c-format
 msgid "Click to call %s"
 msgstr "Prema para chamar a %s"
 
-#: ../widgets/misc/e-web-view.c:1073 ../widgets/misc/e-web-view-gtkhtml.c:963
+#: ../widgets/misc/e-web-view.c:1076 ../widgets/misc/e-web-view-gtkhtml.c:963
 msgid "Click to hide/unhide addresses"
 msgstr "Prema para ocultar/mostrar os enderezos"
 
-#: ../widgets/misc/e-web-view.c:1075 ../widgets/misc/e-web-view-gtkhtml.c:965
+#: ../widgets/misc/e-web-view.c:1078 ../widgets/misc/e-web-view-gtkhtml.c:965
 #, c-format
 msgid "Click to open %s"
 msgstr "Prema para abrir %s"
@@ -22961,6 +22986,13 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2351
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid ""
+#~ "No message satisfies your search criteria. Either clear search with "
+#~ "Search->Clear menu item or change it."
+#~ msgstr ""
+#~ "Non hai mensaxes que satisfagan os seus criterios de busca. Limpe a busca "
+#~ "no menú Buscar->Limpar ou cámbiea."
 
 #~ msgid "FIXME"
 #~ msgstr "ARRANXAR"
