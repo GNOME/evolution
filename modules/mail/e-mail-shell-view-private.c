@@ -926,8 +926,13 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
 
-	if (folder == NULL)
+	if (folder == NULL) {
+		if (e_shell_searchbar_get_state_group (searchbar)) {
+			e_shell_searchbar_set_state_group (searchbar, NULL);
+			e_shell_searchbar_load_state (searchbar);
+		}
 		return;
+	}
 
 	/* Do not restore state if we're running a "Current Account"
 	 * or "All Accounts" search, since we don't want the search

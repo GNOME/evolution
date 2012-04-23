@@ -3850,6 +3850,12 @@ message_list_set_folder (MessageList *message_list,
 	if (message_list->folder == folder)
 		return;
 
+	g_free (message_list->search);
+	message_list->search = NULL;
+
+	g_free (message_list->frozen_search);
+	message_list->frozen_search = NULL;
+
 	if (message_list->seen_id) {
 		g_source_remove (message_list->seen_id);
 		message_list->seen_id = 0;
