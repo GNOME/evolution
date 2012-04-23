@@ -899,7 +899,7 @@ get_object_with_rid_ready_cb (GObject *source_object,
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
 	    g_cancellable_is_cancelled (fd->cancellable)) {
-		g_error_free (error);
+		g_clear_error (&error);
 		find_cal_update_ui (fd, cal_client);
 		decrease_find_data (fd);
 		return;

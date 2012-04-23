@@ -634,8 +634,11 @@ rpage_get_objects_for_uid_cb (GObject *source_object,
 		ecalcomps = NULL;
 		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			g_clear_error (&error);
 			return;
 		}
+
+		g_clear_error (&error);
 	}
 
 	update_with_readonly (rpage, g_slist_length (ecalcomps) > 1);
@@ -659,8 +662,11 @@ rpage_get_object_cb (GObject *source_object,
 		icalcomp = NULL;
 		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			g_clear_error (&error);
 			return;
 		}
+
+		g_clear_error (&error);
 	}
 
 	if (icalcomp) {
