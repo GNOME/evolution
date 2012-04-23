@@ -1209,6 +1209,15 @@ e_shell_init (EShell *shell)
 		"org.gnome.evolution.shell",
 		"start-offline");
 
+	e_shell_settings_install_property_for_key (
+		"currently-offline",
+		"org.gnome.evolution.shell",
+		"currently-offline");
+
+	g_object_bind_property (shell, "online",
+		e_shell_get_shell_settings (shell), "currently-offline",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
 	/*** Session Management ***/
 
 	sm_client = egg_sm_client_get ();

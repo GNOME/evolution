@@ -81,7 +81,13 @@ offline_alert_network_available_cb (EShell *shell,
                                     GParamSpec *pspec,
                                     EOfflineAlert *extension)
 {
-	if (e_shell_get_network_available (shell))
+	if (e_shell_get_network_available (shell)) {
+		if (extension->alert != NULL)
+			e_alert_response (extension->alert, GTK_RESPONSE_OK);
+		return;
+	}
+
+	if (!e_shell_get_online (shell))
 		return;
 
 	g_return_if_fail (extension->alert == NULL);
@@ -124,11 +130,6 @@ offline_alert_window_added_cb (GtkApplication *application,
 	if (e_shell_get_online (shell))
 		return;
 
-	if (!e_shell_get_network_available (shell)) {
-		g_object_notify (G_OBJECT (shell), "network-available");
-		return;
-	}
-
 	g_return_if_fail (extension->alert == NULL);
 
 	/* This alert only shows at startup, not when the user
@@ -137,7 +138,7 @@ offline_alert_window_added_cb (GtkApplication *application,
 
 	action = E_SHELL_WINDOW_ACTION_WORK_ONLINE (window);
 
-	extension->alert = e_alert_new ("offline-alert:offline", NULL);
+	extension->alert = e_alert_new (e_shell_get_network_available (shell) ? "offline-alert:offline" : "offline-alert:no-network", NULL);
 	e_alert_add_action (extension->alert, action, GTK_RESPONSE_NONE);
 
 	g_object_add_weak_pointer (
