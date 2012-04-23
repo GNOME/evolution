@@ -4878,7 +4878,10 @@ regen_list_done (struct _regen_list_msg *m)
 		if (e_tree_row_count (E_TREE (m->ml)) <= 0) {
 			/* space is used to indicate no search too */
 			if (m->ml->search && *m->ml->search && strcmp (m->ml->search, " ") != 0)
-				e_tree_set_info_message (tree, _("No message satisfies your search criteria. Either clear search with Search->Clear menu item or change it."));
+				e_tree_set_info_message (tree, _("No message satisfies your search criteria. "
+					"Change search criteria by selecting a new Show message filter from "
+					"the drop down list above or by running a new search either by clearing "
+					"it with Search->Clear menu item or by changing the query above."));
 			else
 				e_tree_set_info_message (tree, _("There are no messages in this folder."));
 		} else
