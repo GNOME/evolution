@@ -31,12 +31,26 @@
 #include <mail/em-utils.h>
 #include <mail/e-mail-reader.h>
 #include <mail/mail-send-recv.h>
+#include <mail/message-list.h>
 #include <mail/em-composer-utils.h>
 
 #define MDN_USER_FLAG "receipt-handled"
 
-typedef EExtension EMdn;
-typedef EExtensionClass EMdnClass;
+#define E_TYPE_MDN (e_mdn_get_type ())
+#define E_MDN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MDN, EMdn))
+#define E_IS_MDN(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MDN))
+
+typedef struct _EMdn EMdn;
+typedef struct _EMdnClass EMdnClass;
+
+struct _EMdn {
+	EExtension parent;
+	gpointer alert;  /* weak pointer */
+};
+
+struct _EMdnClass {
+	EExtensionClass parent_class;
+};
 
 typedef struct _MdnContext MdnContext;
 
@@ -86,15 +100,34 @@ mdn_context_free (MdnContext *context)
 }
 
 static void
-mdn_submit_alert (EMailReader *reader,
+mdn_remove_alert (EMdn *mdn)
+{
+	g_return_if_fail (E_IS_MDN (mdn));
+
+	if (mdn->alert != NULL)
+		e_alert_response (mdn->alert, GTK_RESPONSE_OK);
+}
+
+static void
+mdn_submit_alert (EMdn *mdn,
+		  EMailReader *reader,
                   EAlert *alert)
 {
 	EPreviewPane *preview_pane;
+
+	g_return_if_fail (E_IS_MDN (mdn));
+
+	mdn_remove_alert (mdn);
+
+	g_return_if_fail (mdn->alert == NULL);
 
 	/* Make sure alerts are shown in the preview pane and not
 	 * wherever e_mail_reader_get_alert_sink() might show it. */
 	preview_pane = e_mail_reader_get_preview_pane (reader);
 	e_alert_sink_submit_alert (E_ALERT_SINK (preview_pane), alert);
+
+	mdn->alert = alert;
+	g_object_add_weak_pointer (G_OBJECT (mdn->alert), &mdn->alert);
 }
 
 static gchar *
@@ -399,9 +432,24 @@ mdn_notify_action_cb (GtkAction *action,
 }
 
 static void
+mdn_mail_reader_changed_cb (EMailReader *reader,
+			    EMdn *mdn)
+{
+	MessageList *message_list;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+
+	if (!message_list || message_list_selected_count (message_list) != 1)
+		mdn_remove_alert (mdn);
+}
+
+static void
 mdn_message_loaded_cb (EMailReader *reader,
                        const gchar *message_uid,
-                       CamelMimeMessage *message)
+                       CamelMimeMessage *message,
+		       EMdn *mdn)
 {
 	EAlert *alert;
 	EAccount *account;
@@ -411,13 +459,15 @@ mdn_message_loaded_cb (EMailReader *reader,
 
 	folder = e_mail_reader_get_folder (reader);
 
+	mdn_remove_alert (mdn);
+
 	info = camel_folder_get_message_info (folder, message_uid);
 	if (info == NULL)
 		return;
 
 	if (camel_message_info_user_flag (info, MDN_USER_FLAG)) {
 		alert = e_alert_new ("mdn:sender-notified", NULL);
-		mdn_submit_alert (reader, alert);
+		mdn_submit_alert (mdn, reader, alert);
 		g_object_unref (alert);
 		goto exit;
 	}
@@ -463,7 +513,7 @@ mdn_message_loaded_cb (EMailReader *reader,
 
 		alert = e_alert_new ("mdn:notify-sender", NULL);
 		e_alert_add_action (alert, action, GTK_RESPONSE_APPLY);
-		mdn_submit_alert (reader, alert);
+		mdn_submit_alert (mdn, reader, alert);
 		g_object_unref (alert);
 
 		g_object_unref (action);
@@ -525,8 +575,12 @@ mdn_constructed (GObject *object)
 	g_return_if_fail (E_IS_MAIL_READER (extensible));
 
 	g_signal_connect (
+		extensible, "changed",
+		G_CALLBACK (mdn_mail_reader_changed_cb), extension);
+
+	g_signal_connect (
 		extensible, "message-loaded",
-		G_CALLBACK (mdn_message_loaded_cb), NULL);
+		G_CALLBACK (mdn_message_loaded_cb), extension);
 
 	g_signal_connect (
 		extensible, "message-seen",
@@ -537,6 +591,15 @@ mdn_constructed (GObject *object)
 }
 
 static void
+mdn_dispose (GObject *object)
+{
+	mdn_remove_alert (E_MDN (object));
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mdn_parent_class)->dispose (object);
+}
+
+static void
 e_mdn_class_init (EMdnClass *class)
 {
 	GObjectClass *object_class;
@@ -544,6 +607,7 @@ e_mdn_class_init (EMdnClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mdn_constructed;
+	object_class->dispose = mdn_dispose;
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_MAIL_READER;
