@@ -153,7 +153,7 @@ browse_cal_clicked_cb (GtkButton *button,
                        gpointer user_data)
 {
 	GtkEntry *url, *username, *usermail;
-	GtkToggleButton *ssl, *autoschedule;
+	GtkToggleButton *ssl, *ignore_cert, *autoschedule;
 	gchar *new_url, *new_usermail;
 	gboolean new_autoschedule;
 
@@ -161,6 +161,7 @@ browse_cal_clicked_cb (GtkButton *button,
 
 	url = g_object_get_data (G_OBJECT (button), "caldav-url");
 	ssl = g_object_get_data (G_OBJECT (button), "caldav-ssl");
+	ignore_cert = g_object_get_data (G_OBJECT (button), "caldav-ignore-cert");
 	username = g_object_get_data (G_OBJECT (button), "caldav-username");
 	usermail = g_object_get_data (G_OBJECT (button), "caldav-usermail");
 	autoschedule = g_object_get_data (G_OBJECT (button), "caldav-autoschedule");
@@ -169,6 +170,8 @@ browse_cal_clicked_cb (GtkButton *button,
 	g_return_if_fail (GTK_IS_ENTRY (url));
 	g_return_if_fail (ssl != NULL);
 	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (ssl));
+	g_return_if_fail (ignore_cert != NULL);
+	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (ignore_cert));
 	g_return_if_fail (username != NULL);
 	g_return_if_fail (GTK_IS_ENTRY (username));
 	g_return_if_fail (usermail != NULL);
@@ -184,6 +187,7 @@ browse_cal_clicked_cb (GtkButton *button,
 		gtk_entry_get_text (url),
 		gtk_entry_get_text (username),
 		gtk_toggle_button_get_active (ssl),
+		gtk_toggle_button_get_active (ignore_cert),
 		&new_usermail,
 		&new_autoschedule,
 		GPOINTER_TO_INT (user_data));
@@ -208,7 +212,7 @@ oge_caldav (EPlugin *epl,
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource      *source;
 	SoupURI      *suri;
-	GtkWidget    *parent, *location, *ssl, *user, *mail, *autoschedule, *browse_cal;
+	GtkWidget    *parent, *location, *ssl, *ignore_cert, *user, *mail, *autoschedule, *browse_cal;
 	gchar        *uri, *username;
 	guint         n_rows;
 
@@ -246,6 +250,12 @@ oge_caldav (EPlugin *epl,
 		G_CALLBACK (location_changed_cb), source);
 
 	ssl = e_plugin_util_add_check (parent, _("Use _secure connection"), source, "ssl", "1", "0");
+	ignore_cert = e_plugin_util_add_check (parent, _("_Ignore invalid SSL certificate"), source, "ignore-invalid-cert", "1", NULL);
+
+	g_object_bind_property (
+		ssl, "active",
+		ignore_cert, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	user = e_plugin_util_add_entry (parent, _("User_name:"), NULL, NULL);
 	gtk_entry_set_text (GTK_ENTRY (user), username ? username : "");
@@ -271,6 +281,7 @@ oge_caldav (EPlugin *epl,
 
 	g_object_set_data (G_OBJECT (browse_cal), "caldav-url", location);
 	g_object_set_data (G_OBJECT (browse_cal), "caldav-ssl", ssl);
+	g_object_set_data (G_OBJECT (browse_cal), "caldav-ignore-cert", ignore_cert);
 	g_object_set_data (G_OBJECT (browse_cal), "caldav-username", user);
 	g_object_set_data (G_OBJECT (browse_cal), "caldav-usermail", mail);
 	g_object_set_data (G_OBJECT (browse_cal), "caldav-autoschedule", autoschedule);

@@ -219,6 +219,7 @@ plugin_webdav_contacts (EPlugin *epl,
 
 	GtkWidget    *section;
 	GtkWidget    *vbox2;
+	GtkWidget    *ignore_cert;
 
 	GtkBox       *hbox;
 	GtkWidget    *spacer;
@@ -287,6 +288,15 @@ plugin_webdav_contacts (EPlugin *epl,
 				_("_Avoid IfMatch (needed on Apache < 2.2.8)")));
 	gtk_box_pack_start (hbox, GTK_WIDGET (uidata->avoid_ifmatch_toggle),
 			   FALSE, FALSE, 0);
+
+	hbox = GTK_BOX (gtk_hbox_new (FALSE, 10));
+	gtk_box_pack_start (GTK_BOX (vbox2), GTK_WIDGET (hbox), TRUE, TRUE, 0);
+
+	spacer = gtk_label_new("   ");
+	gtk_box_pack_start (hbox, spacer, FALSE, FALSE, 0);
+
+	ignore_cert = e_plugin_util_add_check (NULL, _("_Ignore invalid SSL certificate"), source, "ignore-invalid-cert", "1", NULL);
+	gtk_box_pack_start (hbox, ignore_cert, TRUE, TRUE, 0);
 
 	set_ui_from_source (uidata);
 

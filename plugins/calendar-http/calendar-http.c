@@ -137,7 +137,7 @@ e_calendar_http_secure (EPlugin *epl,
                         EConfigHookItemFactoryData *data)
 {
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
-	GtkWidget *secure_setting;
+	GtkWidget *secure_setting, *ignore_cert, *grid;
 
 	if ((!e_plugin_util_is_source_proto (t->source, "http") &&
 	     !e_plugin_util_is_source_proto (t->source, "https") &&
@@ -146,7 +146,7 @@ e_calendar_http_secure (EPlugin *epl,
 	}
 
 	secure_setting = e_plugin_util_add_check (
-		data->parent, _("Use _secure connection"),
+		NULL, _("Use _secure connection"),
 		t->source, "use_ssl", "1", "0");
 
 	/* Store pointer to secure checkbox so we can retrieve it in url_changed() */
@@ -154,7 +154,29 @@ e_calendar_http_secure (EPlugin *epl,
 		G_OBJECT (data->parent), "secure_checkbox",
 		(gpointer) secure_setting);
 
-	return secure_setting;
+	ignore_cert = e_plugin_util_add_check (NULL, _("_Ignore invalid SSL certificate"), t->source, "ignore-invalid-cert", "1", NULL);
+
+	g_object_bind_property (
+		secure_setting, "active",
+		ignore_cert, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	grid = gtk_grid_new ();
+	gtk_grid_attach (GTK_GRID (grid), secure_setting, 0, 0, 1, 1);
+	gtk_grid_attach (GTK_GRID (grid), ignore_cert, 0, 1, 1, 1);
+	gtk_widget_show_all (grid);
+
+	if (GTK_IS_TABLE (data->parent)) {
+		gint row;
+		
+		g_object_get (data->parent, "n-rows", &row, NULL);
+
+		gtk_table_attach (GTK_TABLE (data->parent), grid, 1, 2, row , row + 1, GTK_FILL, 0, 0, 0);
+	} else {
+		gtk_container_add (GTK_CONTAINER (data->parent), grid);
+	}
+
+	return grid;
 }
 
 static void

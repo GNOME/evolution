@@ -1279,7 +1279,8 @@ init_dialog (GtkDialog *dialog,
              const gchar *username,
              const gchar *usermail,
              gboolean autoschedule,
-             gint source_type)
+             gint source_type,
+	     gboolean ignore_invalid_cert)
 {
 	GtkBox *content_area;
 	GtkWidget *label, *info_box, *spinner, *info_label, *hbox;
@@ -1413,7 +1414,10 @@ init_dialog (GtkDialog *dialog,
 	gtk_widget_hide (*new_url_entry);
 	gtk_widget_hide (spinner);
 
-	session = soup_session_sync_new ();
+	session = soup_session_sync_new_with_options (
+		SOUP_SESSION_SSL_USE_SYSTEM_CA_FILE, !ignore_invalid_cert,
+		NULL);
+
 	if (g_getenv ("CALDAV_DEBUG") != NULL) {
 		SoupLogger *logger;
 
@@ -1581,6 +1585,7 @@ caldav_browse_server (GtkWindow *parent,
                       const gchar *server_url,
                       const gchar *username,
                       gboolean use_ssl,
+		      gboolean ignore_invalid_cert,
                       gchar **new_usermail,
                       gboolean *new_autoschedule,
                       gint source_type)
@@ -1616,7 +1621,16 @@ caldav_browse_server (GtkWindow *parent,
 	new_url_entry = NULL;
 	new_usermail_combo = NULL;
 	new_autoschedule_check = NULL;
-	init_dialog (GTK_DIALOG (dialog), &new_url_entry, &new_usermail_combo, &new_autoschedule_check, url, username, new_usermail ? *new_usermail : NULL, new_autoschedule ? *new_autoschedule : FALSE, source_type);
+	init_dialog (GTK_DIALOG (dialog),
+		&new_url_entry,
+		&new_usermail_combo,
+		&new_autoschedule_check,
+		url,
+		username,
+		new_usermail ? *new_usermail : NULL,
+		new_autoschedule ? *new_autoschedule : FALSE,
+		source_type,
+		ignore_invalid_cert);
 
 	if (new_url_entry && gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		const gchar *txt;
