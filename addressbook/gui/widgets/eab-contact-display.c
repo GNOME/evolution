@@ -190,8 +190,10 @@ contact_formatting_finished (GObject *object,
 static void
 load_contact (EABContactDisplay *display)
 {
-	if (!display->priv->contact)
+	if (!display->priv->contact) {
+		e_web_view_clear (E_WEB_VIEW (display));
 		return;
+	}
 
 	eab_contact_formatter_format_contact_async (
 		display->priv->formatter,
