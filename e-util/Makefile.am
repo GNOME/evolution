@@ -27,6 +27,7 @@ eutilinclude_HEADERS = 				\
 	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
 	e-event.h				\
+	e-file-request.h			\
 	e-file-utils.h				\
 	e-html-utils.h				\
 	e-icon-factory.h			\
@@ -41,6 +42,7 @@ eutilinclude_HEADERS = 				\
 	e-selection.h				\
 	e-sorter.h				\
 	e-sorter-array.h			\
+	e-stock-request.h			\
 	e-text-event-processor-emacs-like.h	\
 	e-text-event-processor-types.h		\
 	e-text-event-processor.h		\
@@ -90,6 +92,7 @@ libeutil_la_SOURCES =				\
 	e-dialog-utils.c			\
 	e-dialog-widgets.c			\
 	e-event.c				\
+	e-file-request.c			\
 	e-file-utils.c				\
 	e-html-utils.c				\
 	e-icon-factory.c			\
@@ -104,6 +107,7 @@ libeutil_la_SOURCES =				\
 	e-selection.c				\
 	e-sorter.c				\
 	e-sorter-array.c			\
+	e-stock-request.c			\
 	e-text-event-processor-emacs-like.c	\
 	e-text-event-processor.c		\
 	e-ui-manager.c				\

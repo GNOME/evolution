@@ -110,33 +110,6 @@ common_location[] =
 "</script>\n" \
 "</head>\n"
 
-static gchar *
-get_icon_uri (const gchar *icon_name)
-{
-	GtkIconTheme *icon_theme;
-	GtkIconInfo *icon_info;
-	const gchar *filename;
-	gchar *icon_uri;
-	GError *error = NULL;
-
-	icon_theme = gtk_icon_theme_get_default ();
-	icon_info = gtk_icon_theme_lookup_icon (
-		icon_theme, icon_name, GTK_ICON_SIZE_MENU, 0);
-	g_return_val_if_fail (icon_info != NULL, NULL);
-
-	filename = gtk_icon_info_get_filename (icon_info);
-	icon_uri = g_filename_to_uri (filename, NULL, &error);
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
-
-	gtk_icon_info_free (icon_info);
-
-	return icon_uri;
-}
-
 static void
 render_address_link (GString *buffer,
                      EContact *contact,
@@ -292,9 +265,7 @@ render_table_row (GString *buffer,
 		value = (gchar *) str;
 
 	if (icon) {
-		gchar *icon_uri = get_icon_uri (icon);
-		icon_html = g_strdup_printf ("<img src=\"%s\" width=\"16\" height=\"16\" />", icon_uri);
-		g_free (icon_uri);
+		icon_html = g_strdup_printf ("<img src=\"gtk-stock://%s\" width=\"16\" height=\"16\" />", icon);
 	} else {
 		icon_html = "";
 	}
@@ -441,9 +412,7 @@ render_title_block (EABContactFormatter *formatter,
 		e_contact_photo_free (photo);
 
 	if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
-		gchar *icon = get_icon_uri (CONTACT_LIST_ICON);
-		g_string_append_printf (buffer, "<img src=\"%s\">", icon);
-		g_free (icon);
+		g_string_append_printf (buffer, "<img src=\"gtk-stock://%s\">", CONTACT_LIST_ICON);
 	}
 
 	g_string_append_printf (

@@ -23,7 +23,6 @@
 #include <config.h>
 #endif
 
-#define LIBSOUP_USE_UNSTABLE_REQUEST_API
 
 #include "e-mail-display.h"
 
@@ -33,17 +32,17 @@
 #include "e-util/e-marshal.h"
 #include "e-util/e-util.h"
 #include "e-util/e-plugin-ui.h"
+#include "e-util/e-file-request.h"
+#include "e-util/e-stock-request.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-utils.h"
 #include "mail/e-mail-request.h"
+#include "mail/e-http-request.h"
 #include "mail/em-format-html-display.h"
 #include "mail/e-mail-attachment-bar.h"
 #include "widgets/misc/e-attachment-button.h"
 
 #include <camel/camel.h>
-
-#include <libsoup/soup.h>
-#include <libsoup/soup-requester.h>
 
 #include <JavaScriptCore/JavaScript.h>
 
@@ -1288,8 +1287,6 @@ e_mail_display_init (EMailDisplay *display)
 {
 	GtkUIManager *ui_manager;
 	GError *error = NULL;
-	SoupSession *session;
-	SoupSessionFeature *feature;
 	const gchar *user_cache_dir;
 	WebKitWebSettings *settings;
 	WebKitWebFrame *main_frame;
@@ -1364,12 +1361,10 @@ e_mail_display_init (EMailDisplay *display)
 		g_error_free (error);
 	}
 
-	/* Register our own handler for our own mail:// protocol */
-	session = webkit_get_default_session ();
-	feature = SOUP_SESSION_FEATURE (soup_requester_new ());
-	soup_session_feature_add_feature (feature, E_TYPE_MAIL_REQUEST);
-	soup_session_add_feature (session, feature);
-	g_object_unref (feature);
+	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_MAIL_REQUEST);
+	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_HTTP_REQUEST);
+	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_FILE_REQUEST);
+	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_STOCK_REQUEST);
 
 	/* cache expiry - 2 hour access, 1 day max */
 	user_cache_dir = e_get_user_cache_dir ();

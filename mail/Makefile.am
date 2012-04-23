@@ -39,6 +39,7 @@ libevolution_mail_la_CPPFLAGS =				\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
 mailinclude_HEADERS =					\
+	e-http-request.h				\
 	e-mail.h					\
 	e-mail-account-manager.h			\
 	e-mail-account-store.h				\
@@ -105,6 +106,7 @@ mailinclude_HEADERS +=					\
 endif
 
 libevolution_mail_la_SOURCES =				\
+	e-http-request.c				\
 	e-mail-account-manager.c			\
 	e-mail-account-store.c				\
 	e-mail-account-tree-view.c			\

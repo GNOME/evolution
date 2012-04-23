@@ -33,6 +33,8 @@
 #include "e-util/e-html-utils.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-plugin-ui.h"
+#include "e-util/e-file-request.h"
+#include "e-util/e-stock-request.h"
 
 #ifdef WITH_CONTACT_MAPS
 #include "widgets/misc/e-contact-map.h"
@@ -511,6 +513,9 @@ eab_contact_display_init (EABContactDisplay *display)
 	g_signal_connect (web_view, "create-plugin-widget",
 		G_CALLBACK (contact_display_object_requested), display);
 #endif
+
+	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_FILE_REQUEST);
+	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_STOCK_REQUEST);
 
 	action_group = gtk_action_group_new ("internal-mailto");
 	gtk_action_group_set_translation_domain (action_group, domain);

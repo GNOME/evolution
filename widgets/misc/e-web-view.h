@@ -230,6 +230,11 @@ void		e_web_view_update_fonts		(EWebView *web_view);
 WebKitWebSettings *
 		e_web_view_get_default_settings (void);
 
+void		e_web_view_install_request_handler
+						(EWebView *web_view,
+						 GType handler_type);
+
+
 G_END_DECLS
 
 #endif /* E_WEB_VIEW_H */

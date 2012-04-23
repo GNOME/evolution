@@ -37,8 +37,11 @@
 #include <libevolution-utils/e-alert-dialog.h>
 #include <libevolution-utils/e-alert-sink.h>
 #include <e-util/e-plugin-ui.h>
+#include <e-util/e-file-request.h>
 
-#include <mail/e-mail-request.h>
+#define LIBSOUP_USE_UNSTABLE_REQUEST_API
+#include <libsoup/soup.h>
+#include <libsoup/soup-requester.h>
 
 #include "e-popup-action.h"
 #include "e-selectable.h"
@@ -1712,6 +1715,8 @@ e_web_view_init (EWebView *web_view)
 	e_web_view_set_settings (web_view, web_settings);
 	g_object_unref (web_settings);
 
+	e_web_view_install_request_handler (web_view, E_TYPE_FILE_REQUEST);
+
 	settings = g_settings_new ("org.gnome.desktop.interface");
 	g_signal_connect_swapped (
 		settings, "changed::font-name",
@@ -3001,3 +3006,29 @@ e_web_view_update_fonts(EWebView *web_view)
 	pango_font_description_free (ms);
 	pango_font_description_free (vw);
 }
+
+void
+e_web_view_install_request_handler (EWebView *web_view,
+				    GType handler_type)
+{
+	SoupSession *session;
+	SoupSessionFeature *feature;
+	gboolean new;
+
+	session = webkit_get_default_session ();
+
+	feature = soup_session_get_feature (session, SOUP_TYPE_REQUESTER);
+	new = FALSE;
+	if (feature == NULL) {
+		feature = SOUP_SESSION_FEATURE (soup_requester_new ());
+		soup_session_add_feature (session, feature);
+		new = TRUE;
+	}
+
+	soup_session_feature_add_feature (feature, handler_type);
+
+	if (new) {
+		g_object_unref (feature);
+	}
+}
+
