@@ -20,6 +20,7 @@
 
 #include "e-stock-request.h"
 
+#include <stdlib.h>
 #include <libsoup/soup.h>
 
 #include <e-util/e-util.h>
