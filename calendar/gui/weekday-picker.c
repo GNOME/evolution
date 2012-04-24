@@ -178,7 +178,7 @@ configure_items (WeekdayPicker *wp)
 		c = get_day_text (day);
 		gnome_canvas_item_set (priv->labels[i],
 				       "text", c,
-				       "x", (double) (i * box_width) + box_width / 2.0,
+				       "x", (double) (i * box_width) + PADDING,
 				       "y", (double) (1 + PADDING),
 				       NULL);
 		g_free (c);
