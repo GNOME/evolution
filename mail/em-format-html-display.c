@@ -443,8 +443,6 @@ attachment_loaded (EAttachment *attachment,
 
 	shell = e_shell_get_default ();
 	window = e_shell_get_active_window (shell);
-	if (!E_IS_SHELL_WINDOW (window))
-		window = NULL;
 
 	e_attachment_load_handle_error (data->attachment, res, window);
 

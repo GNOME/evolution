@@ -1941,7 +1941,7 @@ e_attachment_load_handle_error (EAttachment *attachment,
 
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 	g_return_if_fail (G_IS_ASYNC_RESULT (result));
-	g_return_if_fail (GTK_IS_WINDOW (parent));
+	g_return_if_fail (!parent || GTK_IS_WINDOW (parent));
 
 	if (e_attachment_load_finish (attachment, result, &error))
 		return;
@@ -1959,8 +1959,10 @@ e_attachment_load_handle_error (EAttachment *attachment,
 	}
 
 	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
 		return;
+	}
 
 	file_info = e_attachment_get_file_info (attachment);
 
