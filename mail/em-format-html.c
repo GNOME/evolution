@@ -1703,6 +1703,12 @@ badurl:
 /* ********************************************************************** */
 
 static void
+emfh_write_related (EMFormat *emf,
+                    CamelStream *stream,
+                    EMFormatPURI *puri,
+                    GCancellable *cancellable);
+
+static void
 efh_url_requested (GtkHTML *html,
                    const gchar *url,
                    GtkHTMLStream *handle,
@@ -1714,6 +1720,26 @@ efh_url_requested (GtkHTML *html,
 	d(printf("url requested, html = %p, url '%s'\n", html, url));
 
 	puri = em_format_find_visible_puri ((EMFormat *) efh, url);
+	if (!puri && url && g_str_has_prefix (url, "cid:")) {
+		GHashTableIter iter;
+		gpointer key, value;
+
+		g_hash_table_iter_init (&iter, ((EMFormat *) efh)->pending_uri_table);
+		while (g_hash_table_iter_next (&iter, &key, &value)) {
+			puri = value;
+
+			if (puri->part && g_strcmp0 (url + 4, camel_mime_part_get_content_id (puri->part)) == 0)
+				break;
+
+			puri = NULL;
+		}
+
+		if (puri) {
+			/* it's expected as cid:, with its content, thus write it as such */
+			puri->func = emfh_write_related;
+		}
+	}
+
 	if (puri) {
 		CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *) puri->part);
 		CamelContentType *ct = dw ? dw->mime_type : NULL;
