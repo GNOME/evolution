@@ -580,14 +580,7 @@ calendar_view_copy_clipboard (ESelectable *selectable)
 
 		new_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
 
-		/* remove RECURRENCE-IDs from copied objects */
-		if (e_cal_util_component_is_instance (new_icalcomp)) {
-			icalproperty *prop;
-
-			prop = icalcomponent_get_first_property (new_icalcomp, ICAL_RECURRENCEID_PROPERTY);
-			if (prop)
-				icalcomponent_remove_property (new_icalcomp, prop);
-		}
+		/* do not remove RECURRENCE-IDs from copied objects */
 		icalcomponent_add_component (vcal_comp, new_icalcomp);
 	}
 
