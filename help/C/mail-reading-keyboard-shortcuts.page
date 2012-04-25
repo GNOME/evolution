@@ -7,7 +7,7 @@
     <link type="guide" xref="index#mail-basic" />
 <!-- TODO:POST-3-2: maybe introduce keyboard shortcuts guide xref covering any shortcuts in all modules, covering http://library.gnome.org/users/evolution/2.32/quickref-mail.html.en ? -->
 
-    <revision pkgversion="3.1.5" version="0.2" date="2011-07-29" status="final"/>
+    <revision pkgversion="3.5.1" version="0.3" date="2012-04-25" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -31,6 +31,7 @@
 <section id="inside-message">
 <title>Navigating in a message</title>
 <p>To read mail with the keyboard, you can press the <key>Spacebar</key> to page down and press <key>Backspace</key> to page up while reading an email. Ensure that you use the keys when the message list is focused.</p>
+<p>Note that if you press the <key>Spacebar</key> at the end of a message Evolution will display the next unread message.</p>
 </section>
 
 <section id="inside-folder">
@@ -41,6 +42,7 @@
 <section id="inside-folder-unread">
 <title>Navigating in a folder's unread mail in the message list</title>
 <p>To go to the next or previous unread messages, press the period (<key>.</key>) or comma (<key>,</key>) keys. On some keyboards, these keys are also marked with the <key>&gt;</key> and <key>&lt;</key> symbols, which is a convenient way to remember that they move you forward and backward in your message list. You can also use the right square bracket (<key>]</key>) for the next unread message, and the left square bracket (<key>[</key>) for the previous unread message.</p>
+<p>If you are at the end of a message and press the <key>Spacebar</key>, Evolution will display the next unread message in this folder. If there are no unread messages left in this folder, Evolution will display the first unread message in the next folder that includes unread messages.</p>
 </section>
 
 <section id="unread-across-folders">
