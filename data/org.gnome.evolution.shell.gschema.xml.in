@@ -20,11 +20,6 @@
       <_summary>Start in offline mode</_summary>
       <_description>Whether Evolution will start up in offline mode instead of online mode.</_description>
     </key>
-    <key name="currently-offline" type="b">
-      <default>false</default>
-      <_summary>Current state of offline mode</_summary>
-      <_description>Set to true when evolution is currently in offline mode, false otherwise. This is responding to both user choice of working online/offline and network outages noticed by any network monitoring system.</_description>
-    </key>
     <key name="folder-paths" type="as">
       <default>[]</default>
       <_summary>Offline folder paths</_summary>
