@@ -83,6 +83,7 @@ common_location[] =
 #define YAHOO_ICON        "im-yahoo"
 #define GADUGADU_ICON	  "im-gadugadu"
 #define SKYPE_ICON	  "stock_people"
+#define TWITTER_ICON	  "im-twitter"
 #define VIDEOCONF_ICON    "stock_video-conferencing"
 
 #define MAX_COMPACT_IMAGE_DIMENSION 48
@@ -109,6 +110,23 @@ common_location[] =
 "}\n" \
 "</script>\n" \
 "</head>\n"
+
+static gboolean
+icon_available (const gchar *icon)
+{
+	GtkIconTheme *icon_theme;
+	GtkIconInfo *icon_info;
+
+	if (!icon)
+		return FALSE;
+
+	icon_theme = gtk_icon_theme_get_default ();
+	icon_info = gtk_icon_theme_lookup_icon (icon_theme, icon, 16, 0);
+	if (icon_info != NULL)
+		gtk_icon_info_free (icon_info);
+
+	return icon_info != NULL;
+}
 
 static void
 render_address_link (GString *buffer,
@@ -264,7 +282,7 @@ render_table_row (GString *buffer,
 	else
 		value = (gchar *) str;
 
-	if (icon) {
+	if (icon && icon_available (icon)) {
 		icon_html = g_strdup_printf ("<img src=\"gtk-stock://%s\" width=\"16\" height=\"16\" />", icon);
 	} else {
 		icon_html = "";
@@ -604,6 +622,7 @@ render_contact_column (EABContactFormatter *formatter,
 	accum_attribute_multival (accum, contact, _("Yahoo"), E_CONTACT_IM_YAHOO, YAHOO_ICON, 0);
 	accum_attribute_multival (accum, contact, _("Gadu-Gadu"), E_CONTACT_IM_GADUGADU, GADUGADU_ICON, 0);
 	accum_attribute_multival (accum, contact, _("Skype"), E_CONTACT_IM_SKYPE, SKYPE_ICON, 0);
+	accum_attribute_multival (accum, contact, _("Twitter"), E_CONTACT_IM_TWITTER, TWITTER_ICON, 0);
 
 	if (accum->len)
 		g_string_append_printf (

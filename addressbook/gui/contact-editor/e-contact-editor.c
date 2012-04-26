@@ -181,7 +181,8 @@ im_service[] =
 	{ E_CONTACT_IM_MSN,       N_ ("MSN")       },
 	{ E_CONTACT_IM_ICQ,       N_ ("ICQ")       },
 	{ E_CONTACT_IM_GROUPWISE, N_ ("GroupWise") },
-	{ E_CONTACT_IM_SKYPE,     N_ ("Skype") }
+	{ E_CONTACT_IM_SKYPE,     N_ ("Skype")     },
+	{ E_CONTACT_IM_TWITTER,   N_ ("Twitter")   }
 };
 
 /* Defaults from the table above */
@@ -3703,6 +3704,7 @@ static const EContactField  non_string_fields[] = {
 	E_CONTACT_IM_MSN,
 	E_CONTACT_IM_ICQ,
 	E_CONTACT_IM_SKYPE,
+	E_CONTACT_IM_TWITTER,
 	E_CONTACT_PHOTO,
 	E_CONTACT_LOGO,
 	E_CONTACT_X509_CERT,
