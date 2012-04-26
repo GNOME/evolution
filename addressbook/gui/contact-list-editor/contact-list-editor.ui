@@ -384,8 +384,9 @@
               <object class="GtkButton" id="ok-button">
                 <property name="visible">True</property>
                 <property name="can_default">True</property>
-                <property name="label">gtk-ok</property>
+                <property name="label">gtk-save</property>
                 <property name="use_stock">True</property>
+                <accelerator key="s" modifiers="GDK_CONTROL_MASK" signal="clicked"/>
                 <signal handler="contact_list_editor_ok_button_clicked_cb" name="clicked"/>
               </object>
               <packing>
