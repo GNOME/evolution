@@ -1108,6 +1108,15 @@ web_view_link_clicked (EWebView *web_view,
 {
 	gpointer parent;
 
+	if (uri && g_ascii_strncasecmp (uri, "mailto:", 7) == 0) {
+		gboolean handled = FALSE;
+
+		g_signal_emit (web_view, signals[PROCESS_MAILTO], 0, uri, &handled);
+
+		if (handled)
+			return;
+	}
+
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
