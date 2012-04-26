@@ -26,6 +26,7 @@
 #include <webkit/webkit.h>
 
 #include <e-util/e-util.h>
+#include <libedataserver/e-flag.h>
 
 #include <string.h>
 
@@ -48,6 +49,8 @@ struct _EHTTPRequestPrivate {
 G_DEFINE_TYPE (EHTTPRequest, e_http_request, SOUP_TYPE_REQUEST)
 
 struct http_request_async_data {
+	EFlag *flag;
+
 	GMainLoop *loop;
 	GCancellable *cancellable;
 	CamelDataCache *cache;
@@ -107,6 +110,7 @@ http_request_write_to_cache (GInputStream *stream,
 	g_object_unref (stream);
 
 	g_main_loop_quit (data->loop);
+	e_flag_set (data->flag);
 }
 
 static void
@@ -123,6 +127,7 @@ http_request_finished (SoupRequest *request,
 	/* If there is an error or the operation was canceled, do nothing */
 	if (error) {
 		g_main_loop_quit (data->loop);
+		e_flag_set (data->flag);
 		g_error_free (error);
 		return;
 	}
@@ -130,8 +135,8 @@ http_request_finished (SoupRequest *request,
 	if (!stream) {
 		g_warning("HTTP request failed: %s", error ? error->message: "Unknown error");
 		g_clear_error (&error);
-
 		g_main_loop_quit (data->loop);
+		e_flag_set (data->flag);
 		return;
 	}
 
@@ -139,8 +144,8 @@ http_request_finished (SoupRequest *request,
 	if (!SOUP_STATUS_IS_SUCCESSFUL (message->status_code)) {
 		g_warning ("HTTP request failed: HTTP code %d", message->status_code);
 		g_object_unref (message);
-
 		g_main_loop_quit (data->loop);
+		e_flag_set (data->flag);
 		return;
 	}
 
@@ -151,6 +156,7 @@ http_request_finished (SoupRequest *request,
 
 	if (!data->cache_stream || g_cancellable_is_cancelled (data->cancellable)) {
 		g_main_loop_quit (data->loop);
+		e_flag_set (data->flag);
 		return;
 	}
 
@@ -185,6 +191,15 @@ copy_stream_to_stream (CamelStream *input,
 	g_free (buff);
 
 	return total_len;
+}
+
+static void
+quit_main_loop (GCancellable *cancellable,
+	        GMainLoop *loop)
+{
+	if (g_main_loop_is_running (loop)) {
+		g_main_loop_quit (loop);
+	}
 }
 
 static void
@@ -300,6 +315,7 @@ handle_http_request (GSimpleAsyncResult *res,
 		SoupSession *session;
 		GMainContext *context;
 		GError *error;
+		gulong id;
 
 		struct http_request_async_data data = { 0 };
 
@@ -313,6 +329,7 @@ handle_http_request (GSimpleAsyncResult *res,
 		http_request = soup_requester_request (requester, uri, NULL);
 
 		error = NULL;
+		data.flag = e_flag_new ();
 		data.loop = g_main_loop_new (context, TRUE);
 		data.cancellable = cancellable;
 		data.cache = cache;
@@ -336,10 +353,20 @@ handle_http_request (GSimpleAsyncResult *res,
 		soup_request_send_async (http_request, cancellable,
 			(GAsyncReadyCallback) http_request_finished, &data);
 
+		id = g_cancellable_connect (cancellable,
+			G_CALLBACK (quit_main_loop), data.loop, NULL);
+
 		/* Wait for the asynchronous HTTP GET to finish */
 		g_main_loop_run (data.loop);
 		d(printf (" '%s' fetched from internet and (hopefully) stored in"
 			  " cache\n", uri));
+
+		g_cancellable_disconnect (cancellable, id);
+
+		/* Wait until all asynchronous operations are finished working
+		   with the 'data' structure so that it's not free'd too early. */
+		e_flag_wait (data.flag);
+		e_flag_free (data.flag);
 
 		g_main_loop_unref (data.loop);
 
