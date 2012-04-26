@@ -118,6 +118,7 @@ struct _ItipViewPrivate {
 #define TABLE_ROW_RSVP_COMMENT "table_row_rsvp_comment"
 #define TABLE_ROW_ESCB "table_row_escb"
 #define TABLE_ROW_BUTTONS "table_row_buttons"
+#define TABLE_ROW_ESCB_LABEL "table_row_escb_label"
 
 #define TABLE_BUTTONS "table_buttons"
 
@@ -947,18 +948,69 @@ source_changed_cb (WebKitDOMElement *select,
 	g_signal_emit (view, signals[SOURCE_SELECTED], 0, source);
 }
 
+static gchar*
+parse_html_mnemonics (const gchar *label,
+		      gchar **access_key)
+{
+	const gchar *pos = NULL;
+	gchar ak = 0;
+	GString *html_label = NULL;
+
+	pos = strstr (label, "_");
+	if (pos != NULL) {
+		ak = pos[1];
+
+		/* Convert to uppercase */
+		if (ak >= 'a')
+			ak = ak - 32;
+
+		html_label = g_string_new ("");
+		g_string_append_len (html_label, label, pos - label);
+		g_string_append_printf (html_label, "<u>%c</u>", pos[1]);
+		g_string_append (html_label, &pos[2]);
+
+		if (access_key) {
+			if (ak) {
+				*access_key = g_strdup_printf ("%c", ak);
+			} else {
+				*access_key = NULL;
+			}
+		}
+
+	} else {
+		html_label = g_string_new (label);
+
+		if (access_key) {
+			*access_key = NULL;
+		}
+	}
+
+	return g_string_free (html_label, FALSE);
+}
+
+
 static void
 append_checkbox_table_row (GString *buffer,
                            const gchar *name,
                            const gchar *label)
 {
+	gchar *access_key, *html_label;
+
+	html_label = parse_html_mnemonics (label, &access_key);
+
 	g_string_append_printf (
 		buffer,
 		"<tr id=\"table_row_%s\" hidden=\"\"><td colspan=\"2\">"
 		"<input type=\"checkbox\" name=\"%s\" id=\"%s\" value=\"%s\" >"
-		"<label for=\"%s\">%s</label>"
+		"<label for=\"%s\" accesskey=\"%s\">%s</label>"
 		"</td></tr>\n",
-		name, name, name, name, name, label);
+		name, name, name, name, name,
+		access_key ? access_key : "", html_label);
+
+	g_free (html_label);
+
+	if (access_key)
+		g_free (access_key);
 }
 
 static void
@@ -1077,12 +1129,22 @@ buttons_table_write_button (GString *buffer,
                             const gchar *icon,
                             ItipViewResponse response)
 {
+	gchar *access_key, *html_label;
+
+	html_label = parse_html_mnemonics (label, &access_key);
+
 	g_string_append_printf (
 		buffer,
-		"<td><button type=\"button\" name=\"%s\" value=\"%d\" id=\"%s\" hidden>"
+		"<td><button type=\"button\" name=\"%s\" value=\"%d\" id=\"%s\" accesskey=\"%s\" hidden>"
 		"<div><img src=\"gtk-stock://%s?size=%d\"> <span>%s</span></div>"
 		"</button></td>\n",
-		name, response, name, icon, GTK_ICON_SIZE_BUTTON, label);
+		name, response, name, access_key ? access_key : "" , icon,
+		GTK_ICON_SIZE_BUTTON, html_label);
+
+	g_free (html_label);
+
+	if (access_key)
+		g_free (access_key);
 }
 
 static void
@@ -1096,34 +1158,34 @@ append_buttons_table (GString *buffer)
 
         /* Everything gets the open button */
 	buttons_table_write_button (
-		buffer, BUTTON_OPEN_CALENDAR, _("Open Calendar"),
+		buffer, BUTTON_OPEN_CALENDAR, _("_Open Calendar"),
 		GTK_STOCK_JUMP_TO, ITIP_VIEW_RESPONSE_OPEN);
 	buttons_table_write_button (
-		buffer, BUTTON_DECLINE_ALL, _("Decline all"),
+		buffer, BUTTON_DECLINE_ALL, _("_Decline all"),
 		GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
 	buttons_table_write_button (
-		buffer, BUTTON_DECLINE, _("Decline"),
+		buffer, BUTTON_DECLINE, _("_Decline"),
 		GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
 	buttons_table_write_button (
-		buffer, BUTTON_TENTATIVE_ALL, _("Tentative all"),
+		buffer, BUTTON_TENTATIVE_ALL, _("_Tentative all"),
 		GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
 	buttons_table_write_button (
-		buffer, BUTTON_TENTATIVE, _("Tentative"),
+		buffer, BUTTON_TENTATIVE, _("_Tentative"),
 		GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
 	buttons_table_write_button (
-		buffer, BUTTON_ACCEPT_ALL, _("Accept all"),
+		buffer, BUTTON_ACCEPT_ALL, _("A_ccept all"),
 		GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 	buttons_table_write_button (
-		buffer, BUTTON_ACCEPT, _("Accept"),
+		buffer, BUTTON_ACCEPT, _("A_ccept"),
 		GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 	buttons_table_write_button (
-		buffer, BUTTON_SEND_INFORMATION, _("Send Information"),
+		buffer, BUTTON_SEND_INFORMATION, _("_Send Information"),
 		GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_REFRESH);
 	buttons_table_write_button (
-		buffer, BUTTON_UPDATE_ATTENDEE_STATUS, _("Update Attendee Status"),
+		buffer, BUTTON_UPDATE_ATTENDEE_STATUS, _("_Update Attendee Status"),
 		GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_UPDATE);
 	buttons_table_write_button (
-		buffer, BUTTON_UPDATE,  _("Update"),
+		buffer, BUTTON_UPDATE,  _("_Update"),
 		GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_CANCEL);
 
 	g_string_append (buffer, "</tr></table>");
@@ -1190,7 +1252,7 @@ itip_view_write (GString *buffer)
 
 	g_string_append (buffer,
 		"<tr id=\"" TABLE_ROW_ESCB "\" hidden=\"\""">"
-		"<th></th>"
+		"<th><label id=\"" TABLE_ROW_ESCB_LABEL "\" for=\"" SELECT_ESOURCE "\"></label></th>"
 		"<td><select name=\"" SELECT_ESOURCE "\" id=\"" SELECT_ESOURCE "\"></select></td>"
 		"</tr>\n");
 
@@ -1209,13 +1271,13 @@ itip_view_write (GString *buffer)
 		_("Comment:"));
 
         /* Updates */
-	append_checkbox_table_row (buffer, CHECKBOX_UPDATE, _("Send updates to attendees"));
+	append_checkbox_table_row (buffer, CHECKBOX_UPDATE, _("Send _updates to attendees"));
 
         /* The recurrence check button */
-	append_checkbox_table_row (buffer, CHECKBOX_RECUR, _("Apply to all instances"));
-	append_checkbox_table_row (buffer, CHECKBOX_FREE_TIME, _("Show time as free"));
-	append_checkbox_table_row (buffer, CHECKBOX_KEEP_ALARM, _("Preserve my reminder"));
-	append_checkbox_table_row (buffer, CHECKBOX_INHERIT_ALARM, _("Inherit reminder"));
+	append_checkbox_table_row (buffer, CHECKBOX_RECUR, _("_Apply to all instances"));
+	append_checkbox_table_row (buffer, CHECKBOX_FREE_TIME, _("Show time as _free"));
+	append_checkbox_table_row (buffer, CHECKBOX_KEEP_ALARM, _("_Preserve my reminder"));
+	append_checkbox_table_row (buffer, CHECKBOX_INHERIT_ALARM, _("_Inherit reminder"));
 
 	g_string_append (buffer, "</table>\n");
 
@@ -1520,8 +1582,9 @@ void
 itip_view_set_item_type (ItipView *view,
                          ECalClientSourceType type)
 {
-	WebKitDOMElement *row, *cell;
+	WebKitDOMElement *label;
 	const gchar *header;
+	gchar *access_key, *html_label;
 
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
@@ -1530,27 +1593,40 @@ itip_view_set_item_type (ItipView *view,
 	if (!view->priv->dom_document)
 		return;
 
-	row = webkit_dom_document_get_element_by_id (
-		view->priv->dom_document, TABLE_ROW_ESCB);
-	cell = webkit_dom_element_get_first_element_child (row);
+	label = webkit_dom_document_get_element_by_id (
+		view->priv->dom_document, TABLE_ROW_ESCB_LABEL);
 
 	switch (view->priv->type) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-			header = _("Calendar:");
+			header = _("_Calendar:");
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-			header = _("Tasks:");
+			header = _("_Tasks:");
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-			header = _("Memos:");
+			header = _("_Memos:");
 			break;
 		default:
 			header = NULL;
 			break;
 	}
 
+	if (!header) {
+		set_sender_text (view);
+		return;
+	}
+
+	html_label = parse_html_mnemonics (header, &access_key);
+
+	webkit_dom_html_element_set_access_key (
+		WEBKIT_DOM_HTML_ELEMENT (label), access_key);
 	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (cell), header ? header : "", NULL);
+		WEBKIT_DOM_HTML_ELEMENT (label), html_label, NULL);
+
+	g_free (html_label);
+
+	if (access_key)
+		g_free (access_key);
 
 	set_sender_text (view);
 }
@@ -2859,7 +2935,7 @@ itip_view_set_error (ItipView *view,
 			"<tr width=\"100%\" id=\"" TABLE_ROW_BUTTONS "\">");
 
 		buttons_table_write_button (
-			str, BUTTON_SAVE, _("Save"),
+			str, BUTTON_SAVE, _("_Save"),
 			GTK_STOCK_SAVE, ITIP_VIEW_RESPONSE_SAVE);
 
 		g_string_append (str, "</tr></table>");
