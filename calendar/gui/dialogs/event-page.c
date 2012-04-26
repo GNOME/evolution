@@ -1980,6 +1980,31 @@ minute_sel_changed (GtkSpinButton *widget,
 	hour_minute_changed (epage);
 }
 
+static gboolean
+minute_sel_focus_out (GtkSpinButton *widget,
+		      GdkEvent *event,
+		      EventPage *epage)
+{
+	const gchar *text;
+	gint hours, minutes;
+
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (epage != NULL, FALSE);
+
+	text = gtk_entry_get_text (GTK_ENTRY (widget));
+	minutes = g_strtod (text, NULL);
+
+	if (minutes >= 60) {
+		hours = minutes / 60;
+		minutes = minutes % 60;
+
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (epage->priv->hour_selector), hours);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (epage->priv->minute_selector), minutes);
+	}
+
+	return FALSE;
+}
+
 static void
 hour_minute_changed (EventPage *epage)
 {
@@ -3345,6 +3370,10 @@ init_widgets (EventPage *epage)
 	g_signal_connect (
 		priv->minute_selector, "value-changed",
 		G_CALLBACK (minute_sel_changed), epage);
+
+	g_signal_connect (
+		priv->minute_selector, "focus-out-event",
+		G_CALLBACK (minute_sel_focus_out), epage);
 
 	/* Add the user defined time if necessary */
 	priv->alarm_units =
