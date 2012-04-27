@@ -740,110 +740,39 @@ itip_view_finalize (GObject *object)
 
 	d(printf("Itip view finalized!\n"));
 
-	if (priv->sender) {
-		g_free (priv->sender);
-		priv->sender = NULL;
-	}
-
-	if (priv->organizer) {
-		g_free (priv->organizer);
-		priv->organizer = NULL;
-	}
-
-	if (priv->organizer_sentby) {
-		g_free (priv->organizer_sentby);
-		priv->organizer_sentby = NULL;
-	}
-
-	if (priv->delegator) {
-		g_free (priv->delegator);
-		priv->delegator = NULL;
-	}
-
-	if (priv->attendee) {
-		g_free (priv->attendee);
-		priv->attendee = NULL;
-	}
-
-	if (priv->attendee_sentby) {
-		g_free (priv->attendee_sentby);
-		priv->attendee_sentby = NULL;
-	}
-
-	if (priv->proxy) {
-		g_free (priv->proxy);
-		priv->proxy = NULL;
-	}
-
-	if (priv->summary) {
-		g_free (priv->summary);
-		priv->summary = NULL;
-	}
-
-	if (priv->location) {
-		g_free (priv->location);
-		priv->location = NULL;
-	}
-
-	if (priv->status) {
-		g_free (priv->status);
-		priv->status = NULL;
-	}
-
-	if (priv->comment) {
-		g_free (priv->comment);
-		priv->comment = NULL;
-	}
-
-	if (priv->start_tm) {
-		g_free (priv->start_tm);
-		priv->start_tm = NULL;
-	}
-
-	if (priv->start_label) {
-		g_free (priv->start_label);
-		priv->start_label = NULL;
-	}
-
-	if (priv->end_tm) {
-		g_free (priv->end_tm);
-		priv->end_tm = NULL;
-	}
-
-	if (priv->end_label) {
-		g_free (priv->end_label);
-		priv->end_label = NULL;
-	}
-
-	if (priv->description) {
-		g_free (priv->description);
-		priv->description = NULL;
-	}
+	g_free (priv->sender);
+	g_free (priv->organizer);
+	g_free (priv->organizer_sentby);
+	g_free (priv->delegator);
+	g_free (priv->attendee);
+	g_free (priv->attendee_sentby);
+	g_free (priv->proxy);
+	g_free (priv->summary);
+	g_free (priv->location);
+	g_free (priv->status);
+	g_free (priv->comment);
+	g_free (priv->start_tm);
+	g_free (priv->start_label);
+	g_free (priv->end_tm);
+	g_free (priv->end_label);
+	g_free (priv->description);
+	g_free (priv->error);
 
 	for (iter = priv->lower_info_items; iter; iter = iter->next) {
 		ItipViewInfoItem *item = iter->data;
 		g_free (item->message);
 		g_free (item);
 	}
-	if (priv->lower_info_items) {
-		g_slist_free (priv->lower_info_items);
-		priv->lower_info_items = NULL;
-	}
+
+	g_slist_free (priv->lower_info_items);
 
 	for (iter = priv->upper_info_items; iter; iter = iter->next) {
 		ItipViewInfoItem *item = iter->data;
 		g_free (item->message);
 		g_free (item);
 	}
-	if (priv->upper_info_items) {
-		g_slist_free (priv->upper_info_items);
-		priv->upper_info_items = NULL;
-	}
 
-	if (priv->error) {
-		g_free (priv->error);
-		priv->error = NULL;
-	}
+	g_slist_free (priv->upper_info_items);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (itip_view_parent_class)->finalize (object);
@@ -859,23 +788,25 @@ itip_view_class_init (ItipViewClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = itip_view_finalize;
 
-	signals[SOURCE_SELECTED] =
-		g_signal_new ("source_selected",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ItipViewClass, source_selected),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[SOURCE_SELECTED] = g_signal_new (
+		"source_selected",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ItipViewClass, source_selected),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_SOURCE);
 
-	signals[RESPONSE] =
-		g_signal_new ("response",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ItipViewClass, response),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE, 1, G_TYPE_INT);
+	signals[RESPONSE] = g_signal_new (
+		"response",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ItipViewClass, response),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1,
+		G_TYPE_INT);
 }
 
 static void
@@ -948,9 +879,9 @@ source_changed_cb (WebKitDOMElement *select,
 	g_signal_emit (view, signals[SOURCE_SELECTED], 0, source);
 }
 
-static gchar*
+static gchar *
 parse_html_mnemonics (const gchar *label,
-		      gchar **access_key)
+                      gchar **access_key)
 {
 	const gchar *pos = NULL;
 	gchar ak = 0;
@@ -987,7 +918,6 @@ parse_html_mnemonics (const gchar *label,
 
 	return g_string_free (html_label, FALSE);
 }
-
 
 static void
 append_checkbox_table_row (GString *buffer,
