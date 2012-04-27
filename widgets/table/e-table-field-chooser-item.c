@@ -516,6 +516,8 @@ etfci_draw (GnomeCanvasItem *item,
 		if (y2 < y)
 			continue;
 
+		cairo_save (cr);
+
 		e_table_header_draw_button (cr, ecol,
 					    GTK_WIDGET (canvas),
 					    -x, y1 - y,
