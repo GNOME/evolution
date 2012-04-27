@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-19 15:57+0000\n"
-"PO-Revision-Date: 2012-03-26 17:51+0200\n"
+"POT-Creation-Date: 2012-04-26 12:26+0000\n"
+"PO-Revision-Date: 2012-04-27 12:22+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2287,9 +2287,15 @@ msgstr ""
 "estas herramientas debe asegurarse de que están instaladas a través de la "
 "herramienta de gestión de software de su distribución."
 
-#: C/mail-spam-settings.page:43(p) C/mail-composer-spellcheck.page:31(p)
-msgid "You might need to install one of these packages to perform these steps."
-msgstr "Puede querer instalar uno de estos paquetes para realizar estos pasos."
+#: C/mail-spam-settings.page:43(p)
+#| msgid ""
+#| "You might need to install one of these packages to perform these steps."
+msgid ""
+"You might need to install <app>Bogofilter</app> or <app>SpamAssassin</app> "
+"to perform these steps."
+msgstr ""
+"Puede querer instalar<app>Bogofilter</app> o <app>SpamAssassin</app> para "
+"realizar estos pasos."
 
 #: C/mail-spam-settings.page:46(link)
 msgid "Install bogofilter"
@@ -6768,6 +6774,17 @@ msgstr ""
 "asegurarse de que tiene instalados, a través de la herramienta de gestión de "
 "software de su distribución, los paquetes <app>hunspell</app> y "
 "<app>enchant</app> específicos para su idioma."
+
+#: C/mail-composer-spellcheck.page:31(p)
+#| msgid ""
+#| "You might need to install the <sys>dconf-editor</sys> package to perform "
+#| "these steps."
+msgid ""
+"You might need to install <sys>hunspell</sys> and/or <sys>enchant</sys> to "
+"perform these steps."
+msgstr ""
+"Es posible que necesite instalar los paquetes <sys>hunspell</sys> y/o "
+"<sys>enchant</sys> para realizar estos pasos."
 
 #: C/mail-composer-spellcheck.page:34(link)
 msgid "Install hunspell"
