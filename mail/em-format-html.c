@@ -1488,6 +1488,15 @@ efh_finalize (GObject *object)
 }
 
 static void
+efh_constructed (GObject *object)
+{
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+}
+
+static void
 efh_write_attachment (EMFormat *emf,
                                           EMFormatPURI *puri,
                                           CamelStream *stream,
@@ -1671,6 +1680,7 @@ efh_class_init (EMFormatHTMLClass *klass)
 	emf_class->write = efh_write;
 
 	object_class = G_OBJECT_CLASS (klass);
+	object_class->constructed = efh_constructed;
 	object_class->set_property = efh_set_property;
 	object_class->get_property = efh_get_property;
 	object_class->finalize = efh_finalize;
@@ -1831,8 +1841,6 @@ efh_init (EMFormatHTML *efh,
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
 		CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 	efh->show_icon = TRUE;
-
-	e_extensible_load_extensions (E_EXTENSIBLE (efh));
 }
 
 GType
@@ -2608,8 +2616,31 @@ write_contact_picture (CamelMimePart *part, gint size, GString *buffer)
 	CamelContentType *ct;
 	GByteArray *ba;
 
+	ba = NULL;
 	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
-	ba = camel_data_wrapper_get_byte_array (dw);
+	if (dw) {
+		ba = camel_data_wrapper_get_byte_array (dw);
+	}
+
+	if (!ba || ba->len == 0) {
+
+		if (camel_mime_part_get_filename (part)) {
+
+			if (size >= 0) {
+				g_string_append_printf (
+					buffer,
+					"<img width=\"%d\" src=\"evo-file://%s\" />",
+					size, camel_mime_part_get_filename (part));
+			} else {
+				g_string_append_printf (
+					buffer,
+					"<img src=\"evo-file://%s\" />",
+					camel_mime_part_get_filename (part));
+			}
+		}
+
+		return;
+	}
 
 	b64 = g_base64_encode (ba->data, ba->len);
 	ct = camel_mime_part_get_content_type (part);
