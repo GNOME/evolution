@@ -1401,9 +1401,11 @@ e_mail_display_set_formatter (EMailDisplay *display,
                               EMFormatHTML *formatter)
 {
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
-	g_return_if_fail (EM_IS_FORMAT_HTML (formatter));
 
-	g_object_ref (formatter);
+	if (formatter) {
+		g_return_if_fail (EM_IS_FORMAT_HTML (formatter));
+		g_object_ref (formatter);
+	}
 
 	if (display->priv->formatter != NULL) {
 		/* The formatter might still exist after unrefing it, so 
@@ -1414,6 +1416,11 @@ e_mail_display_set_formatter (EMailDisplay *display,
 	}
 
 	display->priv->formatter = formatter;
+
+	if (!formatter) {
+		e_web_view_clear (E_WEB_VIEW (display));
+		return;
+	}
 
 	mail_display_update_formatter_colors (display);
 

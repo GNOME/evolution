@@ -1871,7 +1871,7 @@ e_web_view_clear (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	e_web_view_load_string (web_view, NULL);
+	webkit_web_view_load_uri (WEBKIT_WEB_VIEW (web_view), "about:blank");
 }
 
 void

@@ -2835,6 +2835,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 			priv->retrieving_message = g_object_ref (cancellable);
 		}
 	} else {
+		e_mail_display_set_formatter (display, NULL);
 		priv->restoring_message_selection = FALSE;
 	}
 
