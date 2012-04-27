@@ -959,15 +959,15 @@ efh_write_text_html (EMFormat *emf,
 				NULL);
 
 		str = g_strdup_printf (
-			"<div class=\"part-container\" style=\"border-color: #%06x; "
-			"background-color: #%06x;\">"
-			"<div class=\"part-container-inner-margin\">\n"
+			"<div class=\"part-container-nostyle\">"
 			"<iframe width=\"100%%\" height=\"auto\""
-			" frameborder=\"0\" src=\"%s\"></iframe>"
-			"</div></div>",
+			" frameborder=\"0\" src=\"%s\" "
+			" style=\"border: 1px solid #%06x; background-color: #%06x;\">"
+			"</iframe>"
+			"</div>",
+			uri,
 			e_color_to_value (&efh->priv->colors[EM_FORMAT_HTML_COLOR_FRAME]),
-			e_color_to_value (&efh->priv->colors[EM_FORMAT_HTML_COLOR_CONTENT]),
-			uri);
+			e_color_to_value (&efh->priv->colors[EM_FORMAT_HTML_COLOR_CONTENT]));
 
 		camel_stream_write_string (stream, str, cancellable, NULL);
 
