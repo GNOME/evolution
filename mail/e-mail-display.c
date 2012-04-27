@@ -384,6 +384,19 @@ mail_display_link_clicked (WebKitWebView *web_view,
 	EMailDisplay *display;
 	const gchar *uri = webkit_network_request_get_uri (request);
 
+	if (g_str_has_prefix (uri, "file://")) {
+		gchar *filename;
+		filename = g_filename_from_uri (uri, NULL, NULL);
+
+		if (g_file_test (filename, G_FILE_TEST_IS_DIR)) {
+			webkit_web_policy_decision_ignore (policy_decision);
+			webkit_network_request_set_uri (request, "about:blank");
+			return TRUE;
+		}
+
+		g_free (filename);
+	}
+
 	display = E_MAIL_DISPLAY (web_view);
 	if (display->priv->formatter == NULL)
 		return FALSE;
@@ -448,7 +461,7 @@ mail_display_resource_requested (WebKitWebView *web_view,
 	const gchar *uri = webkit_network_request_get_uri (request);
 
 	if (!formatter) {
-		webkit_network_request_set_uri (request, "invalid://uri");
+		webkit_network_request_set_uri (request, "about:blank");
 		return;
 	}
 
@@ -499,7 +512,7 @@ mail_display_resource_requested (WebKitWebView *web_view,
                  * a native placeholder for it. */
 		if (!stream && !display->priv->force_image_load &&
 		    !em_format_html_can_load_images (display->priv->formatter)) {
-			webkit_network_request_set_uri (request, "invalid://protocol");
+			webkit_network_request_set_uri (request, "about:blank");
 			return;
 		}
 
