@@ -693,8 +693,8 @@ em_utils_contact_photo (CamelInternetAddress *cia,
 	const gchar *addr = NULL;
 	CamelMimePart *part = NULL;
 	EContactPhoto *photo = NULL;
-	GSList *p, *first_not_null = NULL;
-	gint count_not_null = 0;
+	GSList *p, *last = NULL;
+	gint cache_len;
 
 	if (cia == NULL || !camel_internet_address_get (cia, 0, NULL, &addr) || !addr) {
 		return NULL;
@@ -703,22 +703,21 @@ em_utils_contact_photo (CamelInternetAddress *cia,
 	G_LOCK (photos_cache);
 
 	/* search a cache first */
+	cache_len = 0;
+	last = NULL;
 	for (p = photos_cache; p; p = p->next) {
 		PhotoInfo *pi = p->data;
 
 		if (!pi)
 			continue;
 
-		if (pi->photo) {
-			if (!first_not_null)
-				first_not_null = p;
-			count_not_null++;
-		}
-
 		if (g_ascii_strcasecmp (addr, pi->address) == 0) {
 			photo = pi->photo;
 			break;
 		}
+
+		cache_len++;
+		last = p;
 	}
 
 	/* !p means the address had not been found in the cache */
@@ -726,34 +725,46 @@ em_utils_contact_photo (CamelInternetAddress *cia,
 			addr, local_only, extract_photo_data, &photo)) {
 		PhotoInfo *pi;
 
-		if (photo && photo->type != E_CONTACT_PHOTO_TYPE_INLINED) {
-			e_contact_photo_free (photo);
-			photo = NULL;
-		}
-
 		/* keep only up to 10 photos in memory */
-		if (photo && count_not_null >= 10 && first_not_null) {
-			pi = first_not_null->data;
-
+		if (last && (cache_len >= 10)) {
+			pi = last->data;
 			photos_cache = g_slist_remove (photos_cache, pi);
 
-			emu_free_photo_info (pi);
+			if (pi)
+				emu_free_photo_info (pi);
 		}
 
 		pi = g_new0 (PhotoInfo, 1);
 		pi->address = g_strdup (addr);
 		pi->photo = photo;
 
-		photos_cache = g_slist_append (photos_cache, pi);
+		photos_cache = g_slist_prepend (photos_cache, pi);
 	}
 
 	/* some photo found, use it */
 	if (photo) {
 		/* Form a mime part out of the photo */
 		part = camel_mime_part_new ();
-		camel_mime_part_set_content (part,
-				    (const gchar *) photo->data.inlined.data,
-				    photo->data.inlined.length, "image/jpeg");
+
+		if (photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
+			camel_mime_part_set_content (part,
+				(const gchar *) photo->data.inlined.data,
+				photo->data.inlined.length, "image/jpeg");
+		} else {
+			gchar *filename = g_filename_from_uri (photo->data.uri, NULL, NULL);
+			gchar *data;
+			gsize len;
+
+			if (g_file_get_contents (filename, &data, &len, NULL)) {
+				camel_mime_part_set_content (part, data, len, "image/jpeg");
+				g_free (data);
+			} else {
+				g_object_unref (part);
+				part = NULL;
+			}
+
+			g_free (filename);
+		}
 	}
 
 	G_UNLOCK (photos_cache);

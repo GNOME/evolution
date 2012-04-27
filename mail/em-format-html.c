@@ -861,10 +861,20 @@ efh_busy (EMFormat *emf)
 
 	return (priv->format_id != -1);
 }
+
 static void
 efh_base_init (EMFormatHTMLClass *class)
 {
 	efh_builtin_init (class);
+}
+
+static void
+efh_constructed (GObject *object)
+{
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
 static void
@@ -878,6 +888,7 @@ efh_class_init (EMFormatHTMLClass *class)
 	g_type_class_add_private (class, sizeof (EMFormatHTMLPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = efh_constructed;
 	object_class->set_property = efh_set_property;
 	object_class->get_property = efh_get_property;
 	object_class->finalize = efh_finalize;
@@ -1104,8 +1115,6 @@ efh_init (EMFormatHTML *efh,
 		CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 	efh->show_icon = TRUE;
 	efh->state = EM_FORMAT_HTML_STATE_NONE;
-
-	e_extensible_load_extensions (E_EXTENSIBLE (efh));
 }
 
 GType
