@@ -1,3 +1,142 @@
+Evolution 3.5.1 2012-04-30
+--------------------------
+
+* Evolution now uses WebKit/GTK+ instead of GtkHtml to display emails,
+  contacts, tasks and memos.  A huge thanks to the heroic efforts of Dan
+  Vrátil for this!  It's been a long time coming.  Note that for the time
+  being Evolution still uses GtkHtml to compose emails, but work will soon
+  be underway to transition the email composer to WebKit/GTK+ as well.
+  GtkHtml will then be retired.
+
+Bug Fixes:
+	Bug 245025 - Popup confirmation when moving a folder (via drag and
+	             drop) (Milan Crha)
+	Bug 465076 - INBOX confusion with outbox (Milan Crha)
+	Bug 528508 - Wrap long lines when printing emails (Dan Vrátil)
+	Bug 560654 - Better description for message list filter (Milan Crha)
+	Bug 564820 - Search filter persists when changing folders (Milan Crha)
+	Bug 584143 - Global Search Function withing Calendar (Milan Crha)
+	Bug 593444 - templates-plugin: minor tweak to configuration tab
+	             (Ashwini Oruganti)
+	Bug 593449 - custom-header-plugin: minor tweak to configuration tab
+	             (Ashwini Oruganti)
+	Bug 593450 - attachment-reminder-plugin: minor tweak to configuration
+	             tab (Ashwini Oruganti)
+	Bug 600860 - Opening IMAP message with large attachment blocks UI
+	             (Milan Crha)
+	Bug 617930 - Crash under mail_sidebar_model_loaded_row_cb (Milan Crha)
+	Bug 655753 - Improve offline notification for network outage
+	             (Milan Crha)
+	Bug 667046 - Outgoing filter cannot override used Sent folder
+	             (Milan Crha)
+	Bug 667912 - Remove name field from formatted address label
+	             (Milan Crha)
+	Bug 668481 - Account order is not remembered (Milan Crha)
+	Bug 668543 - Crash in view_modify_contact_cb() if contact has no UID
+	             (Milan Crha)
+	Bug 668687 - MDN panel left shown when moving to an empty folder
+	             (Milan Crha)
+	Bug 668768 - Copy&paste of appointment occurrence creates two
+	             appointments (Milan Crha)
+	Bug 668769 - Recurrence editor weekday items slightly cropped
+	             (Milan Crha)
+	Bug 668976 - Capplet settings depends on local etable (Alban Browaeys)
+	Bug 668988 - Handle a "minutes" entry greater than 59 intelligently
+	             (Milan Crha)
+	Bug 668989 - Add a twitter username to IM in contacts (Milan Crha)
+	Bug 668998 - Consistent UI for saving Contacts like in Events/Tasks/
+	             Memos (Milan Crha)
+	Bug 669088 - Add a Column dialog draws incorrectly (Milan Crha)
+	Bug 670445 - Folder deletion in offline shows strange behavior
+	             (Vibha Yadav)
+	Bug 670609 - Delete /data/evolution.mime (Matthew Barnes)
+	Bug 670967 - Moving event in offline doesn't delete event from
+	             original calendar (Vibha Yadav)
+	Bug 670967 - Moving event in offline mode (Vibha Yadav)
+	Bug 671537 - Option to validate SSL certificates with libsoup
+	             (Milan Crha)
+	Bug 671874 - autocontacts.gschema: GAIM is called Pidgin now
+	             (Matthew Barnes)
+	Bug 671876 - Improve schema descriptions for mail-notification keys
+	             (Matthew Barnes)
+	Bug 672175 - Make CamelFolderSearch cancellable (Milan Crha)
+	Bug 672916 - Spam is not detected automatically (Milan Crha)
+	Bug 672986 - User docs are too big for git.mk (Sam Thursfield)
+	Bug 673013 - Doesn't expose webkit Cflags/Libs (Dan Vrátil)
+	Bug 673065 - Black rectangle around text in Source view (Dan Vrátil)
+	Bug 673067 - [itip-formatter] Shows one long line for the meeting
+	             description (Dan Vrátil)
+	Bug 673108 - Font settings and monospace fonts don't work (Dan Vrátil)
+	Bug 673123 - Crash in http_request_write_to_cache (Dan Vrátil)
+	Bug 673225 - White box in message preview not wide enough for very
+	             long strings (Dan Vrátil)
+	Bug 673228 - Fails to display attached image in attached email
+	             (Dan Vrátil)
+	Bug 673420 - Itip formatter lost all mnemonics (Dan Vrátil)
+	Bug 673430 - Can't read messages in virtual Junk/Trash folders
+	             (Dan Vrátil)
+	Bug 673525 - Crash under efh_write_message() (Dan Vrátil)
+	Bug 673895 - "Send To..." doesn't work anymore (Matthew Barnes)
+	Bug 673955 - Can not display email and calendar in separate windows
+	             anymore (Matthew Barnes)
+	Bug 674034 - Attached images from IMAP provider email not shown
+	             (Dan Vrátil)
+	Bug 674037 - [attachment-reminder] Parses message body inefficiently
+	             (Milan Crha)
+	Bug 674060 - Preview panel on folder change not updated (Dan Vrátil)
+	Bug 674062 - Runtime warning from e_attachment_load_handle_error()
+	             (Milan Crha)
+	Bug 674176 - Sender's photo not shown properly (Dan Vrátil)
+	Bug 674194 - Missing text in email (Dan Vrátil)
+	Bug 674248 - Lost new lines from text/plain (Dan Vrátil)
+	Bug 674249 - Crash when showing message with large text/plain
+	             (Dan Vrátil)
+	Bug 674272 - Contacts preview differs with mailer running and not
+	             (Dan Vrátil)
+	Bug 674282 - Don't crash on reply with empty selection (Yanko Kaneti)
+	Bug 674340 - Evolution hangs on startup (Dan Vrátil)
+	Bug 674380 - Deselected contact keeps preview filled (Dan Vrátil)
+	Bug 674381 - Show contact photo from address book doesn't work
+	             (Dan Vrátil)
+	Bug 674466 - Mail's preview panel can show listing of local filesystem
+	             root (Dan Vrátil)
+	Bug 674701 - Clicking address in preview composes to default account
+	             (Milan Crha)
+
+Miscellaneous Changes:
+	* Limit supported gweather to < 3.5. (Matthew Barnes)
+	* Require gnome-doc-utils >= 0.20.10. (Matthew Barnes)
+	* Add ability to specify INBOX for non-storage type accounts.
+	  (Srinivasa Ragavan)
+	* EMFormat: Add "session" as a constructor property. (Matthew Barnes)
+	* Use GNetworkMonitor to drive EShell:network-available.
+	  (Matthew Barnes)
+	* Drop the ConnMan/NetworkManager/WindowsSENS modules. (Matthew Barnes)
+	* Remove EMSyncStream. (Matthew Barnes)
+	* EMFolderTreeModel: Remove COL_STRING_URI. (Matthew Barnes)
+	* Fix backward buttons in "restore-confirm" dialog. (Matthew Barnes)
+	* EWebView: Make antialiasing settings optional. (Matthew Barnes)
+	* Show calendar Find Next/Prev/Stop buttons beside Search text entry
+	  (Milan Crha)
+
+Translations:
+	Ibrahim Saed (ar)
+	Jordi Serratosa (ca)
+	Carles Ferrando (ca@valencia)
+	Christian Kirbach (de)
+	Mario Blättermann (de)
+	Daniel Mustieles (es)
+	Mattias Põldaru (et)
+	Bruno Brouard (fr)
+	Fran Diéguez (gl)
+	Hideki Yamane (ja)
+	Kjartan Maraas (nb)
+	Piotr Drąg (pl)
+	Matej Urbančič (sl)
+	Daniel Nylander (sv)
+	Sasi Bhushan (te)
+
+
 Evolution 3.4.0 2012-03-26
 --------------------------
 
