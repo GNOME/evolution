@@ -391,6 +391,7 @@ mail_display_link_clicked (WebKitWebView *web_view,
 		if (g_file_test (filename, G_FILE_TEST_IS_DIR)) {
 			webkit_web_policy_decision_ignore (policy_decision);
 			webkit_network_request_set_uri (request, "about:blank");
+			g_free (filename);
 			return TRUE;
 		}
 
