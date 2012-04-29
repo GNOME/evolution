@@ -118,8 +118,8 @@ struct _EMFormatParserInfo {
 	guint32 validity_type;
 	CamelCipherValidity *validity;
 
-        gint is_attachment : 1;
-        gint force_handler: 1;
+	gint is_attachment : 1;
+	gint force_handler: 1;
 };
 
 struct _EMFormatWriterInfo {
@@ -172,7 +172,7 @@ struct _EMFormat {
 	CamelMimeMessage *message;
 	CamelFolder *folder;
 	gchar *message_uid;
-        gchar *uri_base;
+	gchar *uri_base;
 
 	/* Defines order in which parts should be displayed */
 	GList *mail_part_list;
@@ -188,163 +188,146 @@ struct _EMFormatClass {
 
 	GHashTable *type_handlers;
 
-	gboolean	(*is_inline)			(EMFormat *emf,
-							 const gchar *part_id,
-							 CamelMimePart *part,
-							 const EMFormatHandler *handler);
+	gboolean	(*is_inline)		(EMFormat *emf,
+						 const gchar *part_id,
+						 CamelMimePart *part,
+						 const EMFormatHandler *handler);
 
 	/* Write the entire message to stream */
-	void		(*write)			(EMFormat *emf,
-							 CamelStream *stream,
-							 EMFormatWriterInfo *info,
-							 GCancellable *cancellable);
+	void		(*write)		(EMFormat *emf,
+						 CamelStream *stream,
+						 EMFormatWriterInfo *info,
+						 GCancellable *cancellable);
 
-        void            (*preparse)                     (EMFormat *emf);
+	void		(*preparse)		(EMFormat *emf);
 
 	/* signals */
-	void		(*redraw_requested)		(EMFormat *emf);
+	void		(*redraw_requested)	(EMFormat *emf);
 
 };
 
-EMFormat *		em_format_new			(void);
-
-GType			em_format_get_type		(void);
-
-void			em_format_set_charset		(EMFormat *emf,
-							 const gchar *charset);
-const gchar *		em_format_get_charset		(EMFormat *emf);
-
-void			em_format_set_default_charset	(EMFormat *emf,
-							 const gchar *charset);
-const gchar *		em_format_get_default_charset	(EMFormat *emf);
-
-void			em_format_set_composer		(EMFormat *emf,
-							 gboolean composer);
-gboolean		em_format_get_composer		(EMFormat *emf);
-
-CamelSession *		em_format_get_session		(EMFormat *emf);
-
-void			em_format_set_base_url		(EMFormat *emf,
-							 CamelURL *url);
-void			em_format_set_base_url_string	(EMFormat *emf,
-							 const gchar *url_string);
-CamelURL *		em_format_get_base_url		(EMFormat *emf);
-
-void			em_format_clear_headers		(EMFormat *emf);
-
-void			em_format_default_headers	(EMFormat *emf);
-
-void			em_format_add_header		(EMFormat *emf,
-							 const gchar *name,
-							 const gchar *value,
-							 guint32 flags);
-void			em_format_add_header_struct	(EMFormat *emf,
-							 EMFormatHeader *header);
-void			em_format_remove_header		(EMFormat *emf,
-							 const gchar *name,
-							 const gchar *value);
-void                    em_format_remove_header_struct	(EMFormat *emf,
-							 const EMFormatHeader *header);
-
-void			em_format_add_puri		(EMFormat *emf,
-							 EMFormatPURI *puri);
-EMFormatPURI *		em_format_find_puri		(EMFormat *emf,
-							 const gchar *id);
-
-void			em_format_class_add_handler	(EMFormatClass *emfc,
-							 EMFormatHandler *handler);
-void			em_format_class_remove_handler	(EMFormatClass *emfc,
-							 EMFormatHandler *handler);
-
-const EMFormatHandler *	em_format_find_handler		(EMFormat *emf,
-							 const gchar *mime_type);
-const EMFormatHandler *	em_format_fallback_handler	(EMFormat *emf,
-							 const gchar *mime_type);
-
-void			em_format_parse			(EMFormat *emf,
-							 CamelMimeMessage *message,
-							 CamelFolder *folder,
-							 GCancellable *cancellable);
-
-void			em_format_write			(EMFormat *emf,
-							 CamelStream *stream,
-							 EMFormatWriterInfo *info,
-							 GCancellable *cancellable);
-
-void                    em_format_parse_async           (EMFormat *emf,
-                                                         CamelMimeMessage *message,
-                                                         CamelFolder *folder,
-                                                         GCancellable *cancellable,
-                                                         GAsyncReadyCallback callback,
-                                                         gpointer user_data);
-
-void			em_format_parse_part		(EMFormat *emf,
-							 CamelMimePart *part,
-							 GString *part_id,
-							 EMFormatParserInfo *info,
-							 GCancellable *cancellable);
-void			em_format_parse_part_as		(EMFormat *emf,
-							 CamelMimePart *part,
-							 GString *part_id,
-							 EMFormatParserInfo *info,
-							 const gchar *mime_type,
-							 GCancellable *cancellable);
-gboolean		em_format_is_inline		(EMFormat *emf,
-							 const gchar *part_id,
-							 CamelMimePart *part,
-							 const EMFormatHandler *handler);
-
-gchar *			em_format_get_error_id		(EMFormat *emf);
-
-void			em_format_format_error		(EMFormat *emf,
-							 const gchar *format,
-							 ...) G_GNUC_PRINTF (2, 3);
-void			em_format_format_text		(EMFormat *emf,
-							 CamelStream *stream,
-							 CamelDataWrapper *dw,
-							 GCancellable *cancellable);
-gchar *			em_format_describe_part		(CamelMimePart *part,
-							 const gchar *mime_type);
-gint			em_format_is_attachment	(EMFormat *emf,
-							 CamelMimePart *part);
-const gchar *		em_format_snoop_type		(CamelMimePart *part);
-
-gchar *			em_format_build_mail_uri	(CamelFolder *folder,
-							 const gchar *message_uid,
-							 const gchar *part_uid,
-							 ...) G_GNUC_NULL_TERMINATED;
+GType		em_format_get_type		(void);
+EMFormat *	em_format_new			(void);
+void		em_format_set_charset		(EMFormat *emf,
+						 const gchar *charset);
+const gchar *	em_format_get_charset		(EMFormat *emf);
+const gchar *	em_format_get_default_charset	(EMFormat *emf);
+void		em_format_set_default_charset	(EMFormat *emf,
+						 const gchar *charset);
+gboolean	em_format_get_composer		(EMFormat *emf);
+void		em_format_set_composer		(EMFormat *emf,
+						 gboolean composer);
+CamelSession *	em_format_get_session		(EMFormat *emf);
+void		em_format_set_base_url		(EMFormat *emf,
+						 CamelURL *url);
+void		em_format_set_base_url_string	(EMFormat *emf,
+						 const gchar *url_string);
+CamelURL *	em_format_get_base_url		(EMFormat *emf);
+void		em_format_clear_headers		(EMFormat *emf);
+void		em_format_default_headers	(EMFormat *emf);
+void		em_format_add_header		(EMFormat *emf,
+						 const gchar *name,
+						 const gchar *value,
+						 guint32 flags);
+void		em_format_add_header_struct	(EMFormat *emf,
+						 EMFormatHeader *header);
+void		em_format_remove_header		(EMFormat *emf,
+						 const gchar *name,
+						 const gchar *value);
+void		em_format_remove_header_struct	(EMFormat *emf,
+						 const EMFormatHeader *header);
+void		em_format_add_puri		(EMFormat *emf,
+						 EMFormatPURI *puri);
+EMFormatPURI *	em_format_find_puri		(EMFormat *emf,
+						 const gchar *id);
+void		em_format_class_add_handler	(EMFormatClass *emfc,
+						 EMFormatHandler *handler);
+void		em_format_class_remove_handler	(EMFormatClass *emfc,
+						 EMFormatHandler *handler);
+const EMFormatHandler *
+		em_format_find_handler		(EMFormat *emf,
+						 const gchar *mime_type);
+const EMFormatHandler *
+		em_format_fallback_handler	(EMFormat *emf,
+						 const gchar *mime_type);
+void		em_format_parse			(EMFormat *emf,
+						 CamelMimeMessage *message,
+						 CamelFolder *folder,
+						 GCancellable *cancellable);
+void		em_format_write			(EMFormat *emf,
+						 CamelStream *stream,
+						 EMFormatWriterInfo *info,
+						 GCancellable *cancellable);
+void		em_format_parse_async		(EMFormat *emf,
+						 CamelMimeMessage *message,
+						 CamelFolder *folder,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+void		em_format_parse_part		(EMFormat *emf,
+						 CamelMimePart *part,
+						 GString *part_id,
+						 EMFormatParserInfo *info,
+						 GCancellable *cancellable);
+void		em_format_parse_part_as		(EMFormat *emf,
+						 CamelMimePart *part,
+						 GString *part_id,
+						 EMFormatParserInfo *info,
+						 const gchar *mime_type,
+						 GCancellable *cancellable);
+gboolean	em_format_is_inline		(EMFormat *emf,
+						 const gchar *part_id,
+						 CamelMimePart *part,
+						 const EMFormatHandler *handler);
+gchar *		em_format_get_error_id		(EMFormat *emf);
+void		em_format_format_error		(EMFormat *emf,
+						 const gchar *format,
+						 ...) G_GNUC_PRINTF (2, 3);
+void		em_format_format_text		(EMFormat *emf,
+						 CamelStream *stream,
+						 CamelDataWrapper *dw,
+						 GCancellable *cancellable);
+gchar *		em_format_describe_part		(CamelMimePart *part,
+						 const gchar *mime_type);
+gint		em_format_is_attachment		(EMFormat *emf,
+						 CamelMimePart *part);
+const gchar *	em_format_snoop_type		(CamelMimePart *part);
+gchar *		em_format_build_mail_uri	(CamelFolder *folder,
+						 const gchar *message_uid,
+						 const gchar *part_uid,
+						 ...) G_GNUC_NULL_TERMINATED;
 
 /* EMFormatParseFunc that does nothing. Use it to disable
  * parsing of a specific mime type parts  */
-void			em_format_empty_parser		(EMFormat *emf,
-							 CamelMimePart *part,
-							 GString *part_id,
-							 EMFormatParserInfo *info,
-							 GCancellable *cancellable);
+void		em_format_empty_parser		(EMFormat *emf,
+						 CamelMimePart *part,
+						 GString *part_id,
+						 EMFormatParserInfo *info,
+						 GCancellable *cancellable);
 
 /* EMFormatWriteFunc that does nothing. Use it to disable
  * writing of a specific mime type parts */
-void			em_format_empty_writer		(EMFormat *emf,
-							 EMFormatPURI *puri,
-							 CamelStream *stream,
-							 EMFormatWriterInfo *info,
-							 GCancellable *cancellable);
+void		em_format_empty_writer		(EMFormat *emf,
+						 EMFormatPURI *puri,
+						 CamelStream *stream,
+						 EMFormatWriterInfo *info,
+						 GCancellable *cancellable);
 
-void			em_format_redraw		(EMFormat *emf);
+void		em_format_redraw		(EMFormat *emf);
 
-EMFormatPURI *		em_format_puri_new		(EMFormat *emf,
-							 gsize puri_size,
-							 CamelMimePart *part,
-							 const gchar *uri);
-void			em_format_puri_free		(EMFormatPURI *puri);
-
-void			em_format_puri_write		(EMFormatPURI *puri,
-							 CamelStream *stream,
-							 EMFormatWriterInfo *info,
-							 GCancellable *cancellable);
-
-EMFormatHeader *		em_format_header_new		(const gchar *name,
-							 const gchar *value);
-void			em_format_header_free		(EMFormatHeader *header);
+EMFormatPURI *	em_format_puri_new		(EMFormat *emf,
+						 gsize puri_size,
+						 CamelMimePart *part,
+						 const gchar *uri);
+void		em_format_puri_free		(EMFormatPURI *puri);
+void		em_format_puri_write		(EMFormatPURI *puri,
+						 CamelStream *stream,
+						 EMFormatWriterInfo *info,
+						 GCancellable *cancellable);
+EMFormatHeader *
+		em_format_header_new		(const gchar *name,
+						 const gchar *value);
+void		em_format_header_free		(EMFormatHeader *header);
 
 #endif /* EM_FORMAT_H */
+

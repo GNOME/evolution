@@ -141,7 +141,7 @@ preserve_charset_in_content_type (CamelMimePart *ipart,
 
 static CamelMimePart *
 get_related_display_part (CamelMimePart *part,
-                            gint *out_displayid)
+                          gint *out_displayid)
 {
 	CamelMultipart *mp;
 	CamelMimePart *body_part, *display_part = NULL;
@@ -267,10 +267,10 @@ emf_parse_application_xpkcs7mime (EMFormat *emf,
 /* RFC 4155 */
 static void
 emf_parse_application_mbox (EMFormat *emf,
-                                  CamelMimePart *mime_part,
-                                  GString *part_id,
-                                  EMFormatParserInfo *info,
-                                  GCancellable *cancellable)
+                            CamelMimePart *mime_part,
+                            GString *part_id,
+                            EMFormatParserInfo *info,
+                            GCancellable *cancellable)
 {
 	CamelMimeParser *parser;
 	CamelStream *mem_stream;
@@ -345,9 +345,9 @@ emf_parse_application_mbox (EMFormat *emf,
 /* RFC 1740 */
 static void
 emf_parse_multipart_alternative (EMFormat *emf,
-                                    CamelMimePart *part,
+                                 CamelMimePart *part,
                                  GString *part_id,
-                                            EMFormatParserInfo *info,
+                                 EMFormatParserInfo *info,
                                  GCancellable *cancellable)
 {
 	CamelMultipart *mp;
@@ -426,9 +426,9 @@ emf_parse_multipart_alternative (EMFormat *emf,
 /* RFC 1740 */
 static void
 emf_parse_multipart_appledouble (EMFormat *emf,
-                                    CamelMimePart *part,
+                                 CamelMimePart *part,
                                  GString *part_id,
-                                           EMFormatParserInfo *info,
+                                 EMFormatParserInfo *info,
                                  GCancellable *cancellable)
 {
 	CamelMultipart *mp;
@@ -545,10 +545,10 @@ emf_parse_multipart_encrypted (EMFormat *emf,
 /* RFC 2046 */
 static void
 emf_parse_multipart_mixed (EMFormat *emf,
-                                CamelMimePart *part,
-                                GString *part_id,
-                                EMFormatParserInfo *info,
-                                GCancellable *cancellable)
+                           CamelMimePart *part,
+                           GString *part_id,
+                           EMFormatParserInfo *info,
+                           GCancellable *cancellable)
 {
 	CamelMultipart *mp;
 	gint i, nparts, len;
@@ -578,10 +578,10 @@ emf_parse_multipart_mixed (EMFormat *emf,
 
 static void
 emf_parse_multipart_signed (EMFormat *emf,
-                                  CamelMimePart *part,
-                                  GString *part_id,
-                                  EMFormatParserInfo *info,
-                                  GCancellable *cancellable)
+                            CamelMimePart *part,
+                            GString *part_id,
+                            EMFormatParserInfo *info,
+                            GCancellable *cancellable)
 {
 	CamelMimePart *cpart;
 	CamelMultipartSigned *mps;
@@ -685,10 +685,10 @@ emf_parse_multipart_signed (EMFormat *emf,
 /* RFC 2046 */
 static void
 emf_parse_multipart_digest (EMFormat *emf,
-                                 CamelMimePart *part,
-                                 GString *part_id,
-                                 EMFormatParserInfo *info,
-                                 GCancellable *cancellable)
+                            CamelMimePart *part,
+                            GString *part_id,
+                            EMFormatParserInfo *info,
+                            GCancellable *cancellable)
 {
 	CamelMultipart *mp;
 	gint i, nparts, len;
@@ -739,10 +739,10 @@ emf_parse_multipart_digest (EMFormat *emf,
 /* RFC 2387 */
 static void
 emf_parse_multipart_related (EMFormat *emf,
-                                    CamelMimePart *part,
-                                    GString *part_id,
-                                    EMFormatParserInfo *info,
-                                    GCancellable *cancellable)
+                             CamelMimePart *part,
+                             GString *part_id,
+                             EMFormatParserInfo *info,
+                             GCancellable *cancellable)
 {
 	CamelMultipart *mp;
 	CamelMimePart *body_part, *display_part = NULL;
@@ -786,10 +786,10 @@ emf_parse_multipart_related (EMFormat *emf,
 
 static void
 emf_parse_message_deliverystatus (EMFormat *emf,
-                                      CamelMimePart *part,
-                                      GString *part_id,
-                                      EMFormatParserInfo *info,
-                                      GCancellable *cancellable)
+                                  CamelMimePart *part,
+                                  GString *part_id,
+                                  EMFormatParserInfo *info,
+                                  GCancellable *cancellable)
 {
 	EMFormatPURI *puri;
 	gint len;
@@ -813,8 +813,8 @@ emf_parse_message_deliverystatus (EMFormat *emf,
 
 static void
 emf_parse_inlinepgp_signed (EMFormat *emf,
-                                  CamelMimePart *ipart,
-                                  GString *part_id,
+                            CamelMimePart *ipart,
+                            GString *part_id,
                             EMFormatParserInfo *info,
                             GCancellable *cancellable)
 {
@@ -1503,9 +1503,7 @@ em_format_init (EMFormat *emf)
 EMFormat *
 em_format_new (void)
 {
-	EMFormat *emf = g_object_new (EM_TYPE_FORMAT, NULL);
-
-	return emf;
+	return g_object_new (EM_TYPE_FORMAT, NULL);
 }
 
 GType
@@ -1817,7 +1815,7 @@ em_format_find_puri (EMFormat *emf,
 
 void
 em_format_class_add_handler (EMFormatClass *emfc,
-                               EMFormatHandler *handler)
+                             EMFormatHandler *handler)
 {
 	EMFormatHandler *old_handler;
 
@@ -1940,7 +1938,8 @@ em_format_parse (EMFormat *emf,
 		emf->folder = g_object_ref (folder);
 	}
 
-        /* Before the actual parsing starts, let child classes prepare themselves. */
+	/* Before the actual parsing starts,
+	 * let child classes prepare themselves. */
 	if (EM_FORMAT_GET_CLASS (emf)->preparse)
 		EM_FORMAT_GET_CLASS (emf)->preparse (emf);
 
@@ -2041,8 +2040,9 @@ em_format_parse_part_as (EMFormat *emf,
 		.force_handler = 0
 	};
 
-        /* Let everything that claims to be an attachment or inlined part to be parsed 
-         * as an attachment. The parser will decide how to display it. */
+	/* Let everything that claims to be an attachment or inlined
+	 * part to be parsed as an attachment. The parser will decide
+	 * how to display it. */
 	disposition = camel_mime_part_get_content_disposition (part);
 	if (!info->force_handler && disposition &&
 	    (g_strcmp0 (disposition->disposition, "attachment") == 0)) {
@@ -2064,7 +2064,7 @@ em_format_parse_part_as (EMFormat *emf,
 		handler = em_format_find_handler (emf, "x-evolution/message/attachment");
 		ninfo.handler = handler;
 
-                /* When this fails, something is probably very wrong...*/
+		/* When this fails, something is probably very wrong...*/
 		if (handler && handler->parse_func)
 			handler->parse_func (emf, part, part_id, &ninfo, cancellable);
 	}

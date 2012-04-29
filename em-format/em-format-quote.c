@@ -524,9 +524,9 @@ emfq_write_attachment (EMFormat *emf,
 
 static void
 emfq_write (EMFormat *emf,
-	    CamelStream *stream,
-	    EMFormatWriterInfo *info,
-	    GCancellable *cancellable)
+            CamelStream *stream,
+            EMFormatWriterInfo *info,
+            GCancellable *cancellable)
 {
 	GList *iter;
 
@@ -572,7 +572,7 @@ emfq_init (EMFormatQuote *emfq)
 	emfq->priv->text_html_flags =
 		CAMEL_MIME_FILTER_TOHTML_PRE |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;		
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
 }
 
 GType
