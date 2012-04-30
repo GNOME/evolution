@@ -27,9 +27,9 @@ msgstr ""
 "Project-Id-Version: evolution gnome-3-4\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-03-29 06:09+0000\n"
-"PO-Revision-Date: 2012-03-28 16:46+0100\n"
-"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"POT-Creation-Date: 2012-04-27 18:35+0000\n"
+"PO-Revision-Date: 2012-04-30 23:12+0100\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Ubuntu German Translators\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -527,7 +527,7 @@ msgstr "Geschäftlich"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:197
 #: ../addressbook/gui/widgets/eab-contact-display.c:83
 #: ../addressbook/gui/widgets/eab-contact-display.c:421
-#: ../calendar/gui/e-cal-model.c:3471
+#: ../calendar/gui/e-cal-model.c:3472
 msgid "Other"
 msgstr "Weitere"
 
@@ -1584,8 +1584,8 @@ msgstr "Adressbuchliste konnte nicht abgerufen werden: %s"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:45
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
-#: ../calendar/gui/dialogs/memo-page.c:951 ../em-format/em-format.c:2330
-#: ../libemail-engine/mail-ops.c:684 ../mail/em-folder-tree.c:678
+#: ../calendar/gui/dialogs/memo-page.c:952 ../em-format/em-format.c:2330
+#: ../libemail-engine/mail-ops.c:682 ../mail/em-folder-tree.c:678
 #: ../plugins/caldav/caldav-browse-server.c:221
 #: ../plugins/caldav/caldav-browse-server.c:1478 ../plugins/face/face.c:174
 #: ../plugins/itip-formatter/itip-formatter.c:1485
@@ -1615,7 +1615,7 @@ msgstr[1] "Stunden"
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:135
-#: ../calendar/gui/dialogs/recurrence-page.c:1191
+#: ../calendar/gui/dialogs/recurrence-page.c:1197
 msgid "day"
 msgid_plural "days"
 msgstr[0] "Tag"
@@ -3072,7 +3072,7 @@ msgstr ""
 "Organisator sind"
 
 #: ../calendar/gui/dialogs/event-page.c:659
-#: ../calendar/gui/dialogs/event-page.c:3101
+#: ../calendar/gui/dialogs/event-page.c:3126
 msgid "This event has reminders"
 msgstr "Dieses Ereignis enthält Erinnerungen"
 
@@ -3126,7 +3126,7 @@ msgstr "_Vertreter"
 msgid "Atte_ndees"
 msgstr "Teil_nehmer"
 
-#: ../calendar/gui/dialogs/event-page.c:2941
+#: ../calendar/gui/dialogs/event-page.c:2967
 #, c-format
 msgid "Unable to open the calendar '%s': %s"
 msgstr "Der Kalender »%s« konnte nicht geöffnet werden: %s"
@@ -3137,40 +3137,40 @@ msgstr "Der Kalender »%s« konnte nicht geöffnet werden: %s"
 #. * on behalf of some other user
 #. Translators: This string is used when we are creating a Task
 #. * on behalf of some other user
-#: ../calendar/gui/dialogs/event-page.c:3019
+#: ../calendar/gui/dialogs/event-page.c:3044
 #: ../calendar/gui/dialogs/memo-page.c:1025
 #: ../calendar/gui/dialogs/task-page.c:1858
 #, c-format
 msgid "You are acting on behalf of %s"
 msgstr "Sie handeln im Namen von %s"
 
-#: ../calendar/gui/dialogs/event-page.c:3361
+#: ../calendar/gui/dialogs/event-page.c:3390
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d Tag vor dem Termin"
 msgstr[1] "%d Tage vor dem Termin"
 
-#: ../calendar/gui/dialogs/event-page.c:3367
+#: ../calendar/gui/dialogs/event-page.c:3396
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d Stunde vor dem Termin"
 msgstr[1] "%d Stunden vor dem Termin"
 
-#: ../calendar/gui/dialogs/event-page.c:3373
+#: ../calendar/gui/dialogs/event-page.c:3402
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d Minute vor dem Termin"
 msgstr[1] "%d Minuten vor dem Termin"
 
-#: ../calendar/gui/dialogs/event-page.c:3392
+#: ../calendar/gui/dialogs/event-page.c:3421
 msgid "Customize"
 msgstr "Anpassen"
 
 #. Translators: "None" for "No reminder set"
-#: ../calendar/gui/dialogs/event-page.c:3398
+#: ../calendar/gui/dialogs/event-page.c:3427
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Keine"
@@ -3329,14 +3329,14 @@ msgstr ""
 "Die Notiz kann nicht vollständig bearbeitet werden, weil Sie nicht der "
 "Organisator sind"
 
-#: ../calendar/gui/dialogs/memo-page.c:949
+#: ../calendar/gui/dialogs/memo-page.c:950
 #, c-format
 msgid "Unable to open memos in '%s': %s"
 msgstr "Notizen in »%s« konnten nicht geöffnet werden: %s"
 
 #: ../calendar/gui/dialogs/memo-page.c:1156 ../em-format/em-format.c:1065
-#: ../em-format/em-format-quote.c:318 ../mail/em-format-html.c:2666
-#: ../mail/em-format-html.c:2731 ../mail/em-format-html.c:2755
+#: ../em-format/em-format-quote.c:318 ../mail/em-format-html.c:2701
+#: ../mail/em-format-html.c:2766 ../mail/em-format-html.c:2790
 #: ../mail/message-list.etspec.h:9 ../modules/mail/em-mailer-prefs.c:72
 msgid "To"
 msgstr "An"
@@ -3415,17 +3415,17 @@ msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 "Dieser Termin enthält Wiederholungen, die Evolution nicht bearbeiten kann."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:965
+#: ../calendar/gui/dialogs/recurrence-page.c:971
 msgid "Recurrence date is invalid"
 msgstr "Das Wiederholungsdatum ist ungültig"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1005
+#: ../calendar/gui/dialogs/recurrence-page.c:1011
 msgid "End time of the recurrence was before event's start"
 msgstr "Die Zeit der letzten Wiederholung lag vor dem Start des Termins"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/dialogs/recurrence-page.c:1035
+#: ../calendar/gui/dialogs/recurrence-page.c:1041
 msgid "on"
 msgstr "am"
 
@@ -3433,7 +3433,7 @@ msgstr "am"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1098
+#: ../calendar/gui/dialogs/recurrence-page.c:1104
 msgid "first"
 msgstr "erster"
 
@@ -3442,7 +3442,7 @@ msgstr "erster"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1104
+#: ../calendar/gui/dialogs/recurrence-page.c:1110
 msgid "second"
 msgstr "zweiter"
 
@@ -3450,7 +3450,7 @@ msgstr "zweiter"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1109
+#: ../calendar/gui/dialogs/recurrence-page.c:1115
 msgid "third"
 msgstr "dritter"
 
@@ -3458,7 +3458,7 @@ msgstr "dritter"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1114
+#: ../calendar/gui/dialogs/recurrence-page.c:1120
 msgid "fourth"
 msgstr "vierter"
 
@@ -3466,7 +3466,7 @@ msgstr "vierter"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1119
+#: ../calendar/gui/dialogs/recurrence-page.c:1125
 msgid "fifth"
 msgstr "fünfter"
 
@@ -3474,13 +3474,13 @@ msgstr "fünfter"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1124
+#: ../calendar/gui/dialogs/recurrence-page.c:1130
 msgid "last"
 msgstr "letzter"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/dialogs/recurrence-page.c:1148
+#: ../calendar/gui/dialogs/recurrence-page.c:1154
 msgid "Other Date"
 msgstr "Anderes Datum"
 
@@ -3488,7 +3488,7 @@ msgstr "Anderes Datum"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1154
+#: ../calendar/gui/dialogs/recurrence-page.c:1160
 msgid "1st to 10th"
 msgstr "1. bis 10."
 
@@ -3496,7 +3496,7 @@ msgstr "1. bis 10."
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1160
+#: ../calendar/gui/dialogs/recurrence-page.c:1166
 msgid "11th to 20th"
 msgstr "11. bis 20."
 
@@ -3504,41 +3504,41 @@ msgstr "11. bis 20."
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1166
+#: ../calendar/gui/dialogs/recurrence-page.c:1172
 msgid "21st to 31st"
 msgstr "21. bis 31."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1192
+#: ../calendar/gui/dialogs/recurrence-page.c:1198
 #: ../modules/calendar/e-calendar-preferences.ui.h:1
 msgid "Monday"
 msgstr "Montag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1193
+#: ../calendar/gui/dialogs/recurrence-page.c:1199
 #: ../modules/calendar/e-calendar-preferences.ui.h:2
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1194
+#: ../calendar/gui/dialogs/recurrence-page.c:1200
 #: ../modules/calendar/e-calendar-preferences.ui.h:3
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1195
+#: ../calendar/gui/dialogs/recurrence-page.c:1201
 #: ../modules/calendar/e-calendar-preferences.ui.h:4
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1196
+#: ../calendar/gui/dialogs/recurrence-page.c:1202
 #: ../modules/calendar/e-calendar-preferences.ui.h:5
 msgid "Friday"
 msgstr "Freitag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1197
+#: ../calendar/gui/dialogs/recurrence-page.c:1203
 #: ../modules/calendar/e-calendar-preferences.ui.h:6
 msgid "Saturday"
 msgstr "Samstag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1198
+#: ../calendar/gui/dialogs/recurrence-page.c:1204
 #: ../modules/calendar/e-calendar-preferences.ui.h:7
 msgid "Sunday"
 msgstr "Sonntag"
@@ -3546,32 +3546,32 @@ msgstr "Sonntag"
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1322
+#: ../calendar/gui/dialogs/recurrence-page.c:1328
 msgid "on the"
 msgstr "am"
 
 # oder im Falle von Terminen: Wiederholungen ??
-#: ../calendar/gui/dialogs/recurrence-page.c:1501
+#: ../calendar/gui/dialogs/recurrence-page.c:1507
 msgid "occurrences"
 msgstr "Wiederholungen"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2217
+#: ../calendar/gui/dialogs/recurrence-page.c:2223
 msgid "Add exception"
 msgstr "Ausnahme hinzufügen"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2258
+#: ../calendar/gui/dialogs/recurrence-page.c:2264
 msgid "Could not get a selection to modify."
 msgstr "Keine zu verändernde Auswahl vorhanden."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2264
+#: ../calendar/gui/dialogs/recurrence-page.c:2270
 msgid "Modify exception"
 msgstr "Ausnahme verändern"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2308
+#: ../calendar/gui/dialogs/recurrence-page.c:2314
 msgid "Could not get a selection to delete."
 msgstr "Keine zu löschende Auswahl vorhanden."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2447
+#: ../calendar/gui/dialogs/recurrence-page.c:2453
 msgid "Date/Time"
 msgstr "Datum/Zeit"
 
@@ -3732,7 +3732,7 @@ msgstr "Abgebrochen"
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../calendar/gui/dialogs/task-details-page.ui.h:17
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-cal-model.c:3522
+#: ../calendar/gui/e-cal-model.c:3523
 #: ../calendar/gui/e-meeting-list-view.c:680
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../calendar/gui/tasktypes.xml.h:8 ../mail/em-filter-i18n.h:74
@@ -3819,7 +3819,7 @@ msgstr ""
 msgid "Due date is wrong"
 msgstr "Das Fälligkeitsdatum ist falsch"
 
-#: ../calendar/gui/dialogs/task-page.c:1777
+#: ../calendar/gui/dialogs/task-page.c:1778
 #, c-format
 msgid "Unable to open tasks in '%s': %s"
 msgstr "Aufgaben in »%s« konnten nicht geöffnet werden: %s"
@@ -4270,40 +4270,40 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nein"
 
-#: ../calendar/gui/e-cal-model.c:3021
+#: ../calendar/gui/e-cal-model.c:3022
 #, c-format
 msgid "Opening %s"
 msgstr "%s wird geöffnet …"
 
-#: ../calendar/gui/e-cal-model.c:3466
+#: ../calendar/gui/e-cal-model.c:3467
 #: ../calendar/gui/e-meeting-list-view.c:218
 #: ../calendar/gui/e-meeting-store.c:206 ../calendar/gui/e-meeting-store.c:229
 #: ../plugins/itip-formatter/itip-formatter.c:2873
 msgid "Accepted"
 msgstr "Angenommen"
 
-#: ../calendar/gui/e-cal-model.c:3467
+#: ../calendar/gui/e-cal-model.c:3468
 #: ../calendar/gui/e-meeting-list-view.c:219
 #: ../calendar/gui/e-meeting-store.c:208 ../calendar/gui/e-meeting-store.c:231
 #: ../plugins/itip-formatter/itip-formatter.c:2879
 msgid "Declined"
 msgstr "Abgelehnt"
 
-#: ../calendar/gui/e-cal-model.c:3468
+#: ../calendar/gui/e-cal-model.c:3469
 #: ../calendar/gui/e-meeting-list-view.c:220
 #: ../calendar/gui/e-meeting-store.c:210 ../calendar/gui/e-meeting-store.c:233
 #: ../calendar/gui/e-meeting-time-sel.c:561
 msgid "Tentative"
 msgstr "Vorläufig"
 
-#: ../calendar/gui/e-cal-model.c:3469
+#: ../calendar/gui/e-cal-model.c:3470
 #: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:212 ../calendar/gui/e-meeting-store.c:235
 #: ../plugins/itip-formatter/itip-formatter.c:2882
 msgid "Delegated"
 msgstr "Delegiert"
 
-#: ../calendar/gui/e-cal-model.c:3470
+#: ../calendar/gui/e-cal-model.c:3471
 msgid "Needs action"
 msgstr "Erfordert Maßnahme"
 
@@ -7367,13 +7367,13 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Nachricht verfassen"
 
-#: ../composer/e-msg-composer.c:4163
+#: ../composer/e-msg-composer.c:4185
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Der Editor enthält einen nicht-Text-Nachrichtenrumpf, der nicht bearbeitet "
 "werden kann."
 
-#: ../composer/e-msg-composer.c:4867
+#: ../composer/e-msg-composer.c:4889
 msgid "Untitled Message"
 msgstr "Namenlose Nachricht"
 
@@ -8127,9 +8127,8 @@ msgid "Whether or not to use the notification tray for display reminders"
 msgstr "Soll das Benachrichtigungsfeld für Erinnerungen verwendet werden?"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
-#, fuzzy
 msgid "Preferred New button item"
-msgstr "Ein neues Testobjekt anlegen"
+msgstr "Bevorzugtes Objekt für neuen Knopf"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
 msgid "Name of the preferred New toolbar button item"
@@ -8268,9 +8267,8 @@ msgstr ""
 "werden?"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
-#, fuzzy
 msgid "Vertical position for the tag pane"
-msgstr "Vertikale Position der ?"
+msgstr "Vertikale Position der Markierungsleiste"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 msgid "Highlight tasks due today"
@@ -8289,13 +8287,12 @@ msgid "Tasks due today color"
 msgstr "Farbe heute fälliger Aufgaben"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
-#, fuzzy
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
 msgstr ""
 "Hintergrundfarbe für heute fällige Aufgaben im Format »#rrggbb«. Gemeinsam "
-"verwendet mit ?"
+"verwendet mit task-due-today-highlight"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:60
@@ -8344,13 +8341,12 @@ msgid "Overdue tasks color"
 msgstr "Farbe überfälliger Aufgaben"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
-#, fuzzy
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
 msgstr ""
 "Hintergrundfarbe für überfällige Aufgaben im Format »#rrggbb«. Gemeinsam "
-"verwendet mit ?"
+"verwendet mit task-overdue-highlight."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:37
@@ -8577,9 +8573,8 @@ msgid "Recognize emoticons in text and replace them with images."
 msgstr "Emoticons im Text erkennen und durch Bilder ersetzen."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
-#, fuzzy
 msgid "Attribute message"
-msgstr "Nachricht beilegen."
+msgstr "Nachricht zuordnen"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
 msgid ""
@@ -8861,6 +8856,9 @@ msgid ""
 "text when replying to a message, as an addition to the standard \"Re\" "
 "prefix. An example is 'SV,AV'."
 msgstr ""
+"Durch Kommata getrennte Liste von übersetzten »AW«-Abkürzungen, die beim "
+"Antworten im Betreff übergangen werden sollen. Zusätzlich zum üblichen "
+"Präfix »AW«. Ein Beispiel lautet »SV,AV«."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 #: ../mail/evolution-mail.schemas.in.h:53
@@ -10326,14 +10324,14 @@ msgid "Reply-To"
 msgstr "Antwort an"
 
 #: ../em-format/em-format.c:1066 ../em-format/em-format-quote.c:318
-#: ../mail/em-format-html.c:2667 ../mail/em-format-html.c:2735
-#: ../mail/em-format-html.c:2758 ../modules/mail/em-mailer-prefs.c:73
+#: ../mail/em-format-html.c:2702 ../mail/em-format-html.c:2770
+#: ../mail/em-format-html.c:2793 ../modules/mail/em-mailer-prefs.c:73
 msgid "Cc"
 msgstr "Kopie"
 
 #: ../em-format/em-format.c:1067 ../em-format/em-format-quote.c:318
-#: ../mail/em-format-html.c:2668 ../mail/em-format-html.c:2739
-#: ../mail/em-format-html.c:2761 ../modules/mail/em-mailer-prefs.c:74
+#: ../mail/em-format-html.c:2703 ../mail/em-format-html.c:2774
+#: ../mail/em-format-html.c:2796 ../modules/mail/em-mailer-prefs.c:74
 msgid "Bcc"
 msgstr "Blindkopie"
 
@@ -10408,7 +10406,7 @@ msgid "Could not parse PGP message: "
 msgstr "Die Syntax der PGP-Nachricht konnte nicht analysiert werden:"
 
 #. pseudo-header
-#: ../em-format/em-format-quote.c:476 ../mail/em-format-html.c:2860
+#: ../em-format/em-format-quote.c:476 ../mail/em-format-html.c:2895
 #: ../modules/mail/em-mailer-prefs.c:1046
 msgid "Mailer"
 msgstr "Mailer"
@@ -11048,32 +11046,32 @@ msgstr "Ungültiger Ordneradresse »%s«"
 
 #: ../libemail-engine/e-mail-session.c:108 ../mail/em-folder-properties.c:333
 #: ../mail/em-folder-tree-model.c:719
-#: ../modules/mail/e-mail-shell-view-private.c:1095
-#: ../modules/mail/e-mail-shell-view-private.c:1106
+#: ../modules/mail/e-mail-shell-view-private.c:1100
+#: ../modules/mail/e-mail-shell-view-private.c:1111
 msgid "Inbox"
 msgstr "Eingang"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:109 ../mail/em-folder-tree-model.c:712
-#: ../modules/mail/e-mail-shell-view-private.c:1093
+#: ../modules/mail/e-mail-shell-view-private.c:1098
 msgid "Drafts"
 msgstr "Entwürfe"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:110 ../mail/em-folder-tree-model.c:723
-#: ../modules/mail/e-mail-shell-view-private.c:1097
+#: ../modules/mail/e-mail-shell-view-private.c:1102
 msgid "Outbox"
 msgstr "Ausgang"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:111 ../mail/em-folder-tree-model.c:727
-#: ../modules/mail/e-mail-shell-view-private.c:1099
+#: ../modules/mail/e-mail-shell-view-private.c:1104
 msgid "Sent"
 msgstr "Verschickt"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:112 ../mail/em-folder-tree-model.c:715
-#: ../modules/mail/e-mail-shell-view-private.c:1101
+#: ../modules/mail/e-mail-shell-view-private.c:1106
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1041 ../plugins/templates/templates.c:1341
 #: ../plugins/templates/templates.c:1351
@@ -11084,30 +11082,30 @@ msgstr "Vorlagen"
 msgid "Search Folders"
 msgstr "Suchordner"
 
-#: ../libemail-engine/e-mail-session.c:975
+#: ../libemail-engine/e-mail-session.c:987
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Passwort für %s eingeben"
 
-#: ../libemail-engine/e-mail-session.c:979
+#: ../libemail-engine/e-mail-session.c:991
 msgid "Enter Passphrase"
 msgstr "Geben Sie das Passwort ein"
 
-#: ../libemail-engine/e-mail-session.c:983
+#: ../libemail-engine/e-mail-session.c:995
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Passwort für %s eingeben"
 
-#: ../libemail-engine/e-mail-session.c:987
+#: ../libemail-engine/e-mail-session.c:999
 msgid "Enter Password"
 msgstr "Geben Sie das Passwort ein"
 
-#: ../libemail-engine/e-mail-session.c:1038
+#: ../libemail-engine/e-mail-session.c:1050
 #, c-format
 msgid "User canceled operation."
 msgstr "Benutzer hat Vorgang abgebrochen."
 
-#: ../libemail-engine/e-mail-session.c:1157
+#: ../libemail-engine/e-mail-session.c:1169
 #, c-format
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
@@ -11115,19 +11113,19 @@ msgstr ""
 "Das Weiterleiten der Nachricht wurde abgebrochen, da keine Zieladresse "
 "angegeben wurde."
 
-#: ../libemail-engine/e-mail-session.c:1166
+#: ../libemail-engine/e-mail-session.c:1178
 #, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr ""
 "Das Weiterleiten der Nachricht wurde abgebrochen, da kein nutzbares Konto "
 "gefunden wurde."
 
-#: ../libemail-engine/e-mail-session.c:1320
+#: ../libemail-engine/e-mail-session.c:1332
 #, c-format
 msgid "%s authentication failed"
 msgstr "%s-Legitimation ist fehlgeschlagen"
 
-#: ../libemail-engine/e-mail-session.c:1394
+#: ../libemail-engine/e-mail-session.c:1406
 #, c-format
 msgid "No password was provided"
 msgstr "Es wurde kein Passwort angegeben"
@@ -11138,14 +11136,14 @@ msgid "Cannot get transport for account '%s'"
 msgstr "Transport für Konto »%s« konnte nicht erhalten werden"
 
 #: ../libemail-engine/e-mail-session-utils.c:505
-#: ../libemail-engine/mail-ops.c:660
+#: ../libemail-engine/mail-ops.c:658
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Ausgangsfilter konnten nicht angewandt werden: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:531
-#: ../libemail-engine/e-mail-session-utils.c:565
-#: ../libemail-engine/mail-ops.c:679 ../libemail-engine/mail-ops.c:715
+#: ../libemail-engine/e-mail-session-utils.c:534
+#: ../libemail-engine/e-mail-session-utils.c:568
+#: ../libemail-engine/mail-ops.c:677 ../libemail-engine/mail-ops.c:713
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -11154,18 +11152,18 @@ msgstr ""
 "Anhängen an %s gescheitert: %s\n"
 "Stattdessen wird versucht, an den lokalen »Verschickt«-Ordner anzuhängen."
 
-#: ../libemail-engine/e-mail-session-utils.c:585
-#: ../libemail-engine/mail-ops.c:737
+#: ../libemail-engine/e-mail-session-utils.c:588
+#: ../libemail-engine/mail-ops.c:735
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Anhängen an lokalen »Verschickt«-Ordner gescheitert: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:795
-#: ../libemail-engine/mail-ops.c:865 ../libemail-engine/mail-ops.c:966
+#: ../libemail-engine/e-mail-session-utils.c:816
+#: ../libemail-engine/mail-ops.c:863 ../libemail-engine/mail-ops.c:964
 msgid "Sending message"
 msgstr "Nachricht wird verschickt"
 
-#: ../libemail-engine/e-mail-session-utils.c:869
+#: ../libemail-engine/e-mail-session-utils.c:890
 #, c-format
 msgid "Unsubscribing from folder '%s'"
 msgstr "Ordners »%s« wird abbestellt"
@@ -11198,7 +11196,7 @@ msgstr "Gewählte Nachrichten filtern"
 msgid "Fetching Mail"
 msgstr "E-Mail wird abgerufen"
 
-#: ../libemail-engine/mail-ops.c:876
+#: ../libemail-engine/mail-ops.c:874
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Nachricht %d von %d wird verschickt"
@@ -11206,62 +11204,62 @@ msgstr "Nachricht %d von %d wird verschickt"
 #. Translators: The string is distinguished by total
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
-#: ../libemail-engine/mail-ops.c:927
+#: ../libemail-engine/mail-ops.c:925
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "Eine Nachricht konnte nicht verschickt werden"
 msgstr[1] "%d von %d Nachrichten konnten nicht verschickt werden"
 
-#: ../libemail-engine/mail-ops.c:933 ../mail/mail-send-recv.c:886
+#: ../libemail-engine/mail-ops.c:931 ../mail/mail-send-recv.c:886
 msgid "Canceled."
 msgstr "Abgebrochen."
 
-#: ../libemail-engine/mail-ops.c:935 ../mail/mail-send-recv.c:888
+#: ../libemail-engine/mail-ops.c:933 ../mail/mail-send-recv.c:888
 msgid "Complete."
 msgstr "Abgeschlossen."
 
-#: ../libemail-engine/mail-ops.c:1047
+#: ../libemail-engine/mail-ops.c:1045
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Nachrichten werden nach »%s« verschoben"
 
-#: ../libemail-engine/mail-ops.c:1048
+#: ../libemail-engine/mail-ops.c:1046
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Nachrichten werden nach »%s« kopiert"
 
-#: ../libemail-engine/mail-ops.c:1165
+#: ../libemail-engine/mail-ops.c:1163
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Ordner »%s« wird gespeichert"
 
-#: ../libemail-engine/mail-ops.c:1238
+#: ../libemail-engine/mail-ops.c:1236
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Konto »%s« wird gesäubert und gespeichert"
 
-#: ../libemail-engine/mail-ops.c:1239
+#: ../libemail-engine/mail-ops.c:1237
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Konto »%s« wird gespeichert"
 
-#: ../libemail-engine/mail-ops.c:1301
+#: ../libemail-engine/mail-ops.c:1299
 #, c-format
 msgid "Refreshing folder '%s'"
 msgstr "Ordner »%s« wird aufgefrischt"
 
-#: ../libemail-engine/mail-ops.c:1519
+#: ../libemail-engine/mail-ops.c:1517
 #, c-format
 msgid "Expunging folder '%s'"
 msgstr "Ordner »%s« wird gesäubert"
 
-#: ../libemail-engine/mail-ops.c:1612
+#: ../libemail-engine/mail-ops.c:1610
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Müll in »%s« wird geleert"
 
-#: ../libemail-engine/mail-ops.c:1708
+#: ../libemail-engine/mail-ops.c:1706
 #, c-format
 msgid "Disconnecting %s"
 msgstr "»%s« wird getrennt"
@@ -12626,27 +12624,27 @@ msgstr "%s (%u%s)"
 msgid "Mail Folder Tree"
 msgstr "E-Mail-Ordnerbaum"
 
-#: ../mail/em-folder-tree.c:2097 ../mail/em-folder-utils.c:115
+#: ../mail/em-folder-tree.c:2055 ../mail/em-folder-utils.c:115
 #, c-format
 msgid "Moving folder %s"
 msgstr "Ordner %s wird verschoben"
 
-#: ../mail/em-folder-tree.c:2100 ../mail/em-folder-utils.c:117
+#: ../mail/em-folder-tree.c:2058 ../mail/em-folder-utils.c:117
 #, c-format
 msgid "Copying folder %s"
 msgstr "Ordner %s wird kopiert"
 
-#: ../mail/em-folder-tree.c:2107 ../mail/message-list.c:2304
+#: ../mail/em-folder-tree.c:2065 ../mail/message-list.c:2304
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Nachrichten werden in den Ordner %s verschoben"
 
-#: ../mail/em-folder-tree.c:2111 ../mail/message-list.c:2306
+#: ../mail/em-folder-tree.c:2069 ../mail/message-list.c:2306
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Nachrichten werden in den Ordner %s kopiert"
 
-#: ../mail/em-folder-tree.c:2130
+#: ../mail/em-folder-tree.c:2088
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr ""
@@ -12686,93 +12684,93 @@ msgstr "Nachricht wird formatiert"
 msgid "Formatting Message..."
 msgstr "Nachricht wird formatiert  …"
 
-#: ../mail/em-format-html.c:1637 ../mail/em-format-html.c:1651
+#: ../mail/em-format-html.c:1646 ../mail/em-format-html.c:1660
 #, c-format
 msgid "Retrieving '%s'"
 msgstr "»%s« wird abgerufen"
 
-#: ../mail/em-format-html.c:1802 ../mail/em-format-html-display.c:97
+#: ../mail/em-format-html.c:1837 ../mail/em-format-html-display.c:97
 msgid "Unsigned"
 msgstr "Unsigniert"
 
-#: ../mail/em-format-html.c:1803 ../mail/em-format-html-display.c:98
+#: ../mail/em-format-html.c:1838 ../mail/em-format-html-display.c:98
 msgid "Valid signature"
 msgstr "Gültige Signatur"
 
-#: ../mail/em-format-html.c:1804 ../mail/em-format-html-display.c:99
+#: ../mail/em-format-html.c:1839 ../mail/em-format-html-display.c:99
 msgid "Invalid signature"
 msgstr "Ungültige Signatur"
 
-#: ../mail/em-format-html.c:1805 ../mail/em-format-html-display.c:100
+#: ../mail/em-format-html.c:1840 ../mail/em-format-html-display.c:100
 msgid "Valid signature, but cannot verify sender"
 msgstr "Gültige Signatur, Absender konnte jedoch nicht verifiziert werden"
 
-#: ../mail/em-format-html.c:1806 ../mail/em-format-html-display.c:101
+#: ../mail/em-format-html.c:1841 ../mail/em-format-html-display.c:101
 msgid "Signature exists, but need public key"
 msgstr "Signatur existiert, jedoch wird der öffentliche Schlüssel benötigt"
 
-#: ../mail/em-format-html.c:1812 ../mail/em-format-html-display.c:108
+#: ../mail/em-format-html.c:1847 ../mail/em-format-html-display.c:108
 msgid "Unencrypted"
 msgstr "Nicht verschlüsselt"
 
-#: ../mail/em-format-html.c:1813 ../mail/em-format-html-display.c:109
+#: ../mail/em-format-html.c:1848 ../mail/em-format-html-display.c:109
 msgid "Encrypted, weak"
 msgstr "Schwach verschlüsselt"
 
-#: ../mail/em-format-html.c:1814 ../mail/em-format-html-display.c:110
+#: ../mail/em-format-html.c:1849 ../mail/em-format-html-display.c:110
 msgid "Encrypted"
 msgstr "Verschlüsselt"
 
-#: ../mail/em-format-html.c:1815 ../mail/em-format-html-display.c:111
+#: ../mail/em-format-html.c:1850 ../mail/em-format-html-display.c:111
 msgid "Encrypted, strong"
 msgstr "Stark verschlüsselt"
 
-#: ../mail/em-format-html.c:2210
+#: ../mail/em-format-html.c:2245
 msgid "Unknown external-body part."
 msgstr "Unbekannter external-body-Teil."
 
-#: ../mail/em-format-html.c:2220
+#: ../mail/em-format-html.c:2255
 msgid "Malformed external-body part."
 msgstr "Fehlerhaft formatierter external-body-Teil."
 
-#: ../mail/em-format-html.c:2251
+#: ../mail/em-format-html.c:2286
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Zeiger auf FTP-Site (%s)"
 
-#: ../mail/em-format-html.c:2262
+#: ../mail/em-format-html.c:2297
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Zeiger auf lokale Datei (%s) gültig auf Site »%s«"
 
-#: ../mail/em-format-html.c:2264
+#: ../mail/em-format-html.c:2299
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Zeiger auf lokale Datei (%s)"
 
-#: ../mail/em-format-html.c:2285
+#: ../mail/em-format-html.c:2320
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Zeiger auf ferne Daten (%s)"
 
-#: ../mail/em-format-html.c:2300
+#: ../mail/em-format-html.c:2335
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Zeiger auf unbekannte externe Daten (Typ »%s«)"
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../mail/em-format-html.c:3008
+#: ../mail/em-format-html.c:3043
 #: ../plugins/mail-notification/mail-notification.c:395
 #, c-format
 msgid "From: %s"
 msgstr "Von: %s"
 
-#: ../mail/em-format-html.c:3030
+#: ../mail/em-format-html.c:3065
 msgid "(no subject)"
 msgstr "(Kein Betreff)"
 
-#: ../mail/em-format-html.c:3106
+#: ../mail/em-format-html.c:3141
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Diese Nachricht wurde von %s im Namen von %s gesendet"
@@ -12894,20 +12892,20 @@ msgstr "Überfällig:"
 msgid "by"
 msgstr "am"
 
-#: ../mail/em-format-html-display.c:1325 ../mail/em-format-html-display.c:1376
+#: ../mail/em-format-html-display.c:1327 ../mail/em-format-html-display.c:1378
 msgid "View _Unformatted"
 msgstr "_Unformatierte ansehen"
 
-#: ../mail/em-format-html-display.c:1327
+#: ../mail/em-format-html-display.c:1329
 msgid "Hide _Unformatted"
 msgstr "_Unformatierte verstecken"
 
-#: ../mail/em-format-html-display.c:1398
+#: ../mail/em-format-html-display.c:1400
 msgid "O_pen With"
 msgstr "Ö_ffnen mit"
 
 #. Translators: Name of an Attachment button for a11y object
-#: ../mail/em-format-html-display.c:1407
+#: ../mail/em-format-html-display.c:1409
 msgctxt "Button"
 msgid "Attachment"
 msgstr "Anlage"
@@ -15244,16 +15242,16 @@ msgid "Messages"
 msgstr "Nachrichten"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:4101
+#: ../mail/message-list.c:4107
 msgid "Follow-up"
 msgstr "Folgenachricht"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4638 ../mail/message-list.c:5058
+#: ../mail/message-list.c:4644 ../mail/message-list.c:5064
 msgid "Generating message list"
 msgstr "Nachrichtenliste wird erzeugt"
 
-#: ../mail/message-list.c:4875
+#: ../mail/message-list.c:4881
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -15261,7 +15259,7 @@ msgstr ""
 "Auf Ihr Suchkriterium treffen keine Nachrichten zu. Leeren Sie die Suche mit "
 "Suchen->Verwerfen oder ändern Sie sie."
 
-#: ../mail/message-list.c:4877
+#: ../mail/message-list.c:4883
 msgid "There are no messages in this folder."
 msgstr "Es existieren keine Nachrichten in diesem Ordner."
 
@@ -16274,24 +16272,24 @@ msgstr ""
 "Hier sind drei verschiedene Werte möglich: »0« für Fehler, »1« für Warnungen, "
 "»2« für Diagnosemeldungen."
 
-#: ../modules/calendar/e-cal-attachment-handler.c:316
+#: ../modules/calendar/e-cal-attachment-handler.c:320
 #: ../smime/gui/smime-ui.ui.h:32
 msgid "I_mport"
 msgstr "I_mportieren"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:397
+#: ../modules/calendar/e-cal-attachment-handler.c:401
 msgid "Select a Calendar"
 msgstr "Einen Kalender auswählen"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:424
+#: ../modules/calendar/e-cal-attachment-handler.c:428
 msgid "Select a Task List"
 msgstr "Eine Aufgabenliste auswählen"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:434
+#: ../modules/calendar/e-cal-attachment-handler.c:438
 msgid "I_mport to Calendar"
 msgstr "In _Kalender importieren"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:441
+#: ../modules/calendar/e-cal-attachment-handler.c:445
 msgid "I_mport to Tasks"
 msgstr "In _Aufgaben importieren"
 
@@ -17648,68 +17646,68 @@ msgstr "Konto durchsuchen"
 msgid "Proxy _Logout"
 msgstr "Vertretungsa_bmeldung"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1023
+#: ../modules/mail/e-mail-shell-view-private.c:1028
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d gewählt, "
 msgstr[1] "%d gewählt, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:1034
+#: ../modules/mail/e-mail-shell-view-private.c:1039
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d gelöscht"
 msgstr[1] "%d gelöscht"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1040
-#: ../modules/mail/e-mail-shell-view-private.c:1047
+#: ../modules/mail/e-mail-shell-view-private.c:1045
+#: ../modules/mail/e-mail-shell-view-private.c:1052
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d unerwünscht"
 msgstr[1] "%d unerwünscht"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1053
+#: ../modules/mail/e-mail-shell-view-private.c:1058
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d Entwurf"
 msgstr[1] "%d Entwürfe"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1059
+#: ../modules/mail/e-mail-shell-view-private.c:1064
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d nicht verschickt"
 msgstr[1] "%d nicht verschickt"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1065
+#: ../modules/mail/e-mail-shell-view-private.c:1070
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d verschickt"
 msgstr[1] "%d verschickt"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1077
+#: ../modules/mail/e-mail-shell-view-private.c:1082
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d ungelesen, "
 msgstr[1] "%d ungelesen, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:1080
+#: ../modules/mail/e-mail-shell-view-private.c:1085
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d insgesamt"
 msgstr[1] "%d insgesamt"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1103
+#: ../modules/mail/e-mail-shell-view-private.c:1108
 msgid "Trash"
 msgstr "Müll"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1579
+#: ../modules/mail/e-mail-shell-view-private.c:1584
 msgid "Send / Receive"
 msgstr "Verschicken/Abrufen"
 
@@ -17756,24 +17754,24 @@ msgstr "Möchten Sie Evolution zu Ihrer bevorzugten E-Mail-Anwendung machen?"
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
-#: ../modules/mdn/evolution-mdn.c:258
+#: ../modules/mdn/evolution-mdn.c:291
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "Ihre Nachricht an %s mit dem Betreff »%s« am %s wurde gelesen."
 
 #. Translators: %s is the subject of the email message.
-#: ../modules/mdn/evolution-mdn.c:324
+#: ../modules/mdn/evolution-mdn.c:357
 #, c-format
 msgid "Delivery Notification for \"%s\""
 msgstr "Zustellungsbestätigung für »%s«"
 
-#: ../modules/mdn/evolution-mdn.c:449
+#: ../modules/mdn/evolution-mdn.c:499
 #, c-format
 msgid "Send a read receipt to '%s'"
 msgstr "Eine Lesebestätigung an »%s« verschicken"
 
 #. name doesn't matter
-#: ../modules/mdn/evolution-mdn.c:454
+#: ../modules/mdn/evolution-mdn.c:504
 msgid "_Notify Sender"
 msgstr "Abse_nder benachrichtigen"
 
@@ -21065,7 +21063,7 @@ msgid "New"
 msgstr "Neu"
 
 #. Translators: This is used for the main window title.
-#: ../shell/e-shell-window-private.c:577
+#: ../shell/e-shell-window-private.c:582
 #, c-format
 msgid "%s - Evolution"
 msgstr "%s - Evolution"
@@ -22044,49 +22042,49 @@ msgid "Attached message"
 msgstr "Beigelegte Nachricht"
 
 #. Translators: Default attachment filename.
-#: ../widgets/misc/e-attachment.c:1811 ../widgets/misc/e-attachment.c:2349
+#: ../widgets/misc/e-attachment.c:1821 ../widgets/misc/e-attachment.c:2369
 #: ../widgets/misc/e-attachment-store.c:525
 msgid "attachment.dat"
 msgstr "Anlage.dat"
 
-#: ../widgets/misc/e-attachment.c:1854 ../widgets/misc/e-attachment.c:2651
+#: ../widgets/misc/e-attachment.c:1869 ../widgets/misc/e-attachment.c:2671
 msgid "A load operation is already in progress"
 msgstr "Ein Ladevorgang läuft bereits"
 
-#: ../widgets/misc/e-attachment.c:1862 ../widgets/misc/e-attachment.c:2659
+#: ../widgets/misc/e-attachment.c:1877 ../widgets/misc/e-attachment.c:2679
 msgid "A save operation is already in progress"
 msgstr "Ein Speichervorgang läuft bereits"
 
-#: ../widgets/misc/e-attachment.c:1954
+#: ../widgets/misc/e-attachment.c:1974
 #, c-format
 msgid "Could not load '%s'"
 msgstr "»%s« konnte nicht geladen werden"
 
-#: ../widgets/misc/e-attachment.c:1957
+#: ../widgets/misc/e-attachment.c:1977
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Die Anlage konnte nicht geladen werden"
 
-#: ../widgets/misc/e-attachment.c:2230
+#: ../widgets/misc/e-attachment.c:2250
 #, c-format
 msgid "Could not open '%s'"
 msgstr "»%s« konnte nicht geöffnet werden"
 
-#: ../widgets/misc/e-attachment.c:2233
+#: ../widgets/misc/e-attachment.c:2253
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Die Anlage konnte nicht geöffnet werden"
 
-#: ../widgets/misc/e-attachment.c:2667
+#: ../widgets/misc/e-attachment.c:2687
 msgid "Attachment contents not loaded"
 msgstr "Anlagen wurden nicht geladen"
 
-#: ../widgets/misc/e-attachment.c:2743
+#: ../widgets/misc/e-attachment.c:2763
 #, c-format
 msgid "Could not save '%s'"
 msgstr "»%s« konnte nicht gespeichert werden"
 
-#: ../widgets/misc/e-attachment.c:2746
+#: ../widgets/misc/e-attachment.c:2766
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Die Anlage konnte nicht gespeichert werden"
