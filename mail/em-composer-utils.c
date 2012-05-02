@@ -2780,6 +2780,10 @@ em_utils_reply_to_message (EShell *shell,
 	account = em_utils_guess_account_with_recipients (message, folder);
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 
+	if (!address && (type == E_MAIL_REPLY_TO_FROM || type == E_MAIL_REPLY_TO_SENDER) &&
+	    folder && em_utils_folder_is_sent (folder))
+		type = E_MAIL_REPLY_TO_ALL;
+
 	switch (type) {
 	case E_MAIL_REPLY_TO_FROM:
 		if (folder)
