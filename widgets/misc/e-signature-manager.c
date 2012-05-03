@@ -378,6 +378,8 @@ signature_manager_edit_signature (ESignatureManager *manager)
 	editor = e_signature_editor_new ();
 	e_signature_editor_set_signature (
 		E_SIGNATURE_EDITOR (editor), signature);
+	e_signature_editor_set_editing_old (
+		E_SIGNATURE_EDITOR (editor), TRUE);
 	signature_manager_emit_editor_created (manager, editor);
 
 	goto exit;

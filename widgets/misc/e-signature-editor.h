@@ -67,6 +67,11 @@ EFocusTracker *	e_signature_editor_get_focus_tracker
 ESignature *	e_signature_editor_get_signature (ESignatureEditor *editor);
 void		e_signature_editor_set_signature (ESignatureEditor *editor,
 						  ESignature *signature);
+void		e_signature_editor_set_editing_old
+						 (ESignatureEditor *editor,
+						  gboolean editing_old);
+gboolean	e_signature_editor_get_editing_old
+						 (ESignatureEditor *editor);
 
 G_END_DECLS
 
