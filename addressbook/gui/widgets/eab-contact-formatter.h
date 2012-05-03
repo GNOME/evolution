@@ -84,6 +84,8 @@ void            eab_contact_formatter_format_contact_async
                                                  GAsyncReadyCallback callback,
                                                  gpointer user_data);
 
+void		eab_contact_formatter_bind_dom	(WebKitDOMDocument *document);
+
 G_END_DECLS
 
 #endif

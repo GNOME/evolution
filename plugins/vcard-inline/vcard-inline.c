@@ -304,6 +304,11 @@ org_gnome_vcard_inline_bind_dom (WebKitDOMElement *attachment,
 		WEBKIT_DOM_EVENT_TARGET (save_button),
 		"click", G_CALLBACK (org_gnome_vcard_inline_save_cb),
 		FALSE, puri);
+
+	/* Bind collapse buttons for contact lists. */
+	eab_contact_formatter_bind_dom (
+		webkit_dom_html_iframe_element_get_content_document (
+			WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe)));
 }
 
 static void

@@ -36,6 +36,8 @@
 #include "e-util/e-file-request.h"
 #include "e-util/e-stock-request.h"
 
+#include <webkit/webkit.h>
+
 #ifdef WITH_CONTACT_MAPS
 #include "widgets/misc/e-contact-map.h"
 #endif
@@ -400,6 +402,23 @@ contact_display_object_requested (WebKitWebView *web_view,
 #endif
 
 static void
+contact_display_load_status_changed (WebKitWebView *web_view,
+				     GParamSpec *pspec,
+				     gpointer user_data)
+{
+	WebKitLoadStatus load_status;
+	WebKitDOMDocument *document;
+
+
+	load_status = webkit_web_view_get_load_status (web_view);
+	if (load_status != WEBKIT_LOAD_FINISHED)
+		return;
+
+	document = webkit_web_view_get_dom_document (web_view);
+	eab_contact_formatter_bind_dom (document);
+}
+
+static void
 contact_display_update_actions (EWebView *web_view)
 {
 	GtkActionGroup *action_group;
@@ -515,6 +534,8 @@ eab_contact_display_init (EABContactDisplay *display)
 	g_signal_connect (web_view, "create-plugin-widget",
 		G_CALLBACK (contact_display_object_requested), display);
 #endif
+	g_signal_connect (web_view, "notify::load-status",
+		G_CALLBACK (contact_display_load_status_changed), NULL);
 
 	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_FILE_REQUEST);
 	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_STOCK_REQUEST);

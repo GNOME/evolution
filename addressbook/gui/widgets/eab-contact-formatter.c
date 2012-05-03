@@ -422,8 +422,11 @@ render_title_block (EABContactFormatter *formatter,
 			photo->data.inlined.mime_type,
 			photo_data);
 	} else if (photo && photo->type == E_CONTACT_PHOTO_TYPE_URI && photo->data.uri && *photo->data.uri) {
+		gboolean is_local = g_str_has_prefix (photo->data.uri, "file://");
+
 		g_string_append_printf (
-			buffer, "<img border=\"1\" src=\"%s\">", photo->data.uri);
+			buffer, "<img border=\"1\" src=\"%s%s\">",
+			is_local ? "evo-" : "", photo->data.uri);
 	}
 
 	if (photo)
@@ -478,11 +481,11 @@ render_contact_list_row (EABContactFormatter *formatter,
 	if (e_destination_is_evolution_list (destination)) {
 		g_string_append_printf (
 			buffer,
-			"<td width=" IMAGE_COL_WIDTH " valign=\"top\">"
-			"<img src=\"%s/minus.png\" "
-			     "onClick=\"collapse_list(this, %s);\" "
-			     "class=\"navigable\">"
-			"</td><td width=\"100%%\">%s",
+			"<td width=" IMAGE_COL_WIDTH " valign=\"top\" align=\"left\">"
+			"<img src=\"evo-file://%s/minus.png\" "
+			     "id=\"%s\" "
+			     "class=\"navigable _evo_collapse_button\">"
+			"</td><td width=\"100%%\" align=\"left\">%s",
 			evolution_imagesdir,
 			e_destination_get_contact_uid (destination),
 			name ? name : email_addr);
@@ -491,7 +494,7 @@ render_contact_list_row (EABContactFormatter *formatter,
 			const GList *dest, *dests;
 			g_string_append_printf (
 				buffer,
-				"<br><table cellspacing=\"1\" id=\"%s\">",
+				"<br><table cellspacing=\"1\" id=\"list-%s\">",
 				e_destination_get_contact_uid (destination));
 
 			dests = e_destination_list_get_root_dests (destination);
@@ -875,12 +878,14 @@ render_compact (EABContactFormatter *formatter,
 		}
 
 		if (photo->type == E_CONTACT_PHOTO_TYPE_URI &&
-			photo->data.uri && *photo->data.uri)
+			photo->data.uri && *photo->data.uri) {
+			gboolean is_local = g_str_has_prefix (photo->data.uri, "file://");
 			g_string_append_printf (
 				buffer,
-				"<img width=\"%d\" height=\"%d\" src=\"%s\">",
-				calced_width, calced_height, photo->data.uri);
-		else {
+				"<img width=\"%d\" height=\"%d\" src=\"%s%s\">",
+				calced_width, calced_height,
+				is_local ? "evo-" : "", photo->data.uri);
+		} else {
 			gchar *photo_data;
 
 			photo_data = g_base64_encode (
@@ -1252,4 +1257,65 @@ eab_contact_formatter_format_contact_async (EABContactFormatter *formatter,
 	g_simple_async_result_run_in_thread (
 		result, do_start_async_formatter,
 		G_PRIORITY_DEFAULT, cancellable);
+}
+
+static void
+collapse_contacts_list (WebKitDOMEventTarget *event_target,
+			WebKitDOMEvent *event,
+			gpointer user_data)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *list;
+	gchar *id, *list_id;
+	gchar *imagesdir, *src;
+	gboolean hidden;
+
+	document = user_data;
+	id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (event_target));
+
+	list_id = g_strconcat ("list-", id, NULL);
+	list = webkit_dom_document_get_element_by_id (document, list_id);
+	g_free (id);
+	g_free (list_id);
+
+	if (!list)
+		return;
+
+	imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
+	hidden = webkit_dom_html_element_get_hidden (WEBKIT_DOM_HTML_ELEMENT (list));
+
+	if (hidden) {
+		src = g_strdup_printf ("evo-file://%s/minus.png", imagesdir);
+	} else {
+		src = g_strdup_printf ("evo-file://%s/plus.png", imagesdir);
+	}
+
+	webkit_dom_html_element_set_hidden (
+		WEBKIT_DOM_HTML_ELEMENT (list), !hidden);
+	webkit_dom_html_image_element_set_src (
+		WEBKIT_DOM_HTML_IMAGE_ELEMENT (event_target), src);
+
+	g_free (src);
+	g_free (imagesdir);
+}
+
+void
+eab_contact_formatter_bind_dom (WebKitDOMDocument* document)
+{
+	WebKitDOMNodeList *nodes;
+	gulong i, length;
+
+	nodes = webkit_dom_document_get_elements_by_class_name (
+			document, "_evo_collapse_button");
+
+	length = webkit_dom_node_list_get_length (nodes);
+	for (i = 0; i < length; i++) {
+
+		WebKitDOMNode *node;
+
+		node = webkit_dom_node_list_item (nodes, i);
+		webkit_dom_event_target_add_event_listener (
+			WEBKIT_DOM_EVENT_TARGET (node), "click",
+			G_CALLBACK (collapse_contacts_list), FALSE, document);
+	}
 }
