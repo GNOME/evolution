@@ -462,7 +462,6 @@ mail_display_resource_requested (WebKitWebView *web_view,
 	const gchar *uri = webkit_network_request_get_uri (request);
 
 	if (!formatter) {
-		webkit_network_request_set_uri (request, "about:blank");
 		return;
 	}
 

@@ -38,6 +38,7 @@
 #include <libevolution-utils/e-alert-sink.h>
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-file-request.h>
+#include <e-util/e-stock-request.h>
 
 #define LIBSOUP_USE_UNSTABLE_REQUEST_API
 #include <libsoup/soup.h>
@@ -1281,35 +1282,28 @@ static void
 web_view_submit_alert (EAlertSink *alert_sink,
                        EAlert *alert)
 {
-	GtkIconInfo *icon_info;
 	EWebView *web_view;
 	GtkWidget *dialog;
 	GString *buffer;
 	const gchar *icon_name = NULL;
-	const gchar *filename;
 	gpointer parent;
-	gchar *icon_uri;
-	gint size = 0;
-	GError *error = NULL;
 
 	web_view = E_WEB_VIEW (alert_sink);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	/* We use equivalent named icons instead of stock IDs,
-	 * since it's easier to get the filename of the icon. */
 	switch (e_alert_get_message_type (alert)) {
 		case GTK_MESSAGE_INFO:
-			icon_name = "dialog-information";
+			icon_name = GTK_STOCK_DIALOG_INFO;
 			break;
 
 		case GTK_MESSAGE_WARNING:
-			icon_name = "dialog-warning";
+			icon_name = GTK_STOCK_DIALOG_WARNING;
 			break;
 
 		case GTK_MESSAGE_ERROR:
-			icon_name = "dialog-error";
+			icon_name = GTK_STOCK_DIALOG_ERROR;
 			break;
 
 		default:
@@ -1317,21 +1311,6 @@ web_view_submit_alert (EAlertSink *alert_sink,
 			gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
 			return;
-	}
-
-	gtk_icon_size_lookup (GTK_ICON_SIZE_DIALOG, &size, NULL);
-
-	icon_info = gtk_icon_theme_lookup_icon (
-		gtk_icon_theme_get_default (),
-		icon_name, size, GTK_ICON_LOOKUP_NO_SVG);
-	g_return_if_fail (icon_info != NULL);
-
-	filename = gtk_icon_info_get_filename (icon_info);
-	icon_uri = g_filename_to_uri (filename, NULL, &error);
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_clear_error (&error);
 	}
 
 	buffer = g_string_sized_new (512);
@@ -1358,14 +1337,15 @@ web_view_submit_alert (EAlertSink *alert_sink,
 		buffer,
 		"<tr>"
 		"<td valign='top'>"
-		"<img src='%s'/>"
+		"<img src='gtk-stock://%s/?size=%d'/>"
 		"</td>"
 		"<td align='left' width='100%%'>"
 		"<h3>%s</h3>"
 		"%s"
 		"</td>"
 		"</tr>",
-		icon_uri,
+		icon_name,
+		GTK_ICON_SIZE_DIALOG,
 		e_alert_get_primary_text (alert),
 		e_alert_get_secondary_text (alert));
 
@@ -1381,9 +1361,6 @@ web_view_submit_alert (EAlertSink *alert_sink,
 	e_web_view_load_string (web_view, buffer->str);
 
 	g_string_free (buffer, TRUE);
-
-	gtk_icon_info_free (icon_info);
-	g_free (icon_uri);
 }
 
 static void
@@ -1725,6 +1702,7 @@ e_web_view_init (EWebView *web_view)
 	g_object_unref (web_settings);
 
 	e_web_view_install_request_handler (web_view, E_TYPE_FILE_REQUEST);
+	e_web_view_install_request_handler (web_view, E_TYPE_STOCK_REQUEST);
 
 	settings = g_settings_new ("org.gnome.desktop.interface");
 	g_signal_connect_swapped (
