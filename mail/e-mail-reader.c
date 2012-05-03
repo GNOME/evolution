@@ -2813,6 +2813,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 			gchar *string;
 
 			string = g_strdup_printf (_("Retrieving message '%s'"), cursor_uid);
+			e_mail_display_set_formatter (display, NULL);
 			e_mail_display_set_status (display, string);
 			g_free (string);
 

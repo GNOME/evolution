@@ -1132,7 +1132,7 @@ web_view_load_string (EWebView *web_view,
 
 	webkit_web_view_load_string (
 		WEBKIT_WEB_VIEW (web_view),
-		string, "text/html", "UTF-8", "file://");
+		string, "text/html", "UTF-8", "evo-file:///");
 }
 
 static void
@@ -1162,7 +1162,7 @@ web_view_frame_load_string (EWebView *web_view,
 
 		if (frame)
 			webkit_web_frame_load_string (
-				frame, string, "text/html", "UTF-8", "file://");
+				frame, string, "text/html", "UTF-8", "evo-file:///");
 	}
 }
 
