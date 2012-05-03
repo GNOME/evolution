@@ -31,7 +31,7 @@
 #include <libevolution-utils/e-alert-dialog.h>
 #include <libevolution-utils/e-alert-sink.h>
 #include <libemail-utils/e-signature-utils.h>
-#include <misc/e-web-view.h>
+#include <misc/e-web-view-gtkhtml.h>
 
 #define E_SIGNATURE_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -485,7 +485,7 @@ e_signature_editor_new (void)
 {
 	return g_object_new (
 		E_TYPE_SIGNATURE_EDITOR,
-		"html", e_web_view_new (), NULL);
+		"html", e_web_view_gtkhtml_new (), NULL);
 }
 
 EFocusTracker *
