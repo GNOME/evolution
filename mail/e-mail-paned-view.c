@@ -84,6 +84,7 @@ enum {
 #define STATE_KEY_GROUP_BY_THREADS	"GroupByThreads"
 #define STATE_KEY_SELECTED_MESSAGE	"SelectedMessage"
 #define STATE_KEY_PREVIEW_VISIBLE	"PreviewVisible"
+#define STATE_GROUP_GLOBAL_FOLDER	"GlobalFolder"
 
 /* Forward Declarations */
 static void e_mail_paned_view_reader_init (EMailReaderInterface *interface);
@@ -121,6 +122,8 @@ mail_paned_view_save_boolean (EMailView *view,
 	g_key_file_set_boolean (key_file, group_name, key, value);
 	g_free (group_name);
 	g_free (folder_uri);
+
+	g_key_file_set_boolean (key_file, STATE_GROUP_GLOBAL_FOLDER, key, value);
 
 	e_shell_view_set_state_dirty (shell_view);
 }
@@ -508,7 +511,7 @@ mail_paned_view_set_folder (EMailReader *reader,
 	gchar *folder_uri;
 	gchar *group_name;
 	const gchar *key;
-	gboolean value;
+	gboolean value, global_view_settings;
 	GError *error = NULL;
 
 	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (reader);
@@ -519,6 +522,7 @@ mail_paned_view_set_folder (EMailReader *reader,
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
+	global_view_settings = e_shell_settings_get_boolean (shell_settings, "mail-global-view-setting");
 
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -551,19 +555,31 @@ mail_paned_view_set_folder (EMailReader *reader,
 	g_free (folder_uri);
 
 	key = STATE_KEY_GROUP_BY_THREADS;
-	value = g_key_file_get_boolean (key_file, group_name, key, &error);
+	value = g_key_file_get_boolean (key_file, global_view_settings ? STATE_GROUP_GLOBAL_FOLDER : group_name, key, &error);
 	if (error != NULL) {
-		value = TRUE;
 		g_clear_error (&error);
+
+		value = !global_view_settings ||
+			g_key_file_get_boolean (key_file, STATE_GROUP_GLOBAL_FOLDER, key, &error);
+		if (error != NULL) {
+			g_clear_error (&error);
+			value = TRUE;
+		}
 	}
 
 	e_mail_reader_set_group_by_threads (reader, value);
 
 	key = STATE_KEY_PREVIEW_VISIBLE;
-	value = g_key_file_get_boolean (key_file, group_name, key, &error);
+	value = g_key_file_get_boolean (key_file, global_view_settings ? STATE_GROUP_GLOBAL_FOLDER : group_name, key, &error);
 	if (error != NULL) {
-		value = TRUE;
 		g_clear_error (&error);
+
+		value = !global_view_settings ||
+			g_key_file_get_boolean (key_file, STATE_GROUP_GLOBAL_FOLDER, key, &error);
+		if (error != NULL) {
+			g_clear_error (&error);
+			value = TRUE;
+		}
 	}
 
 	/* XXX This is a little confusing and needs rethought.  The
