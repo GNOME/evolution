@@ -847,7 +847,7 @@ simple_filetype_changed_cb (GtkComboBox *combo_box,
 		page->target, page->importer);
 	if (control) {
 		page->has_preview = TRUE;
-		gtk_widget_set_size_request (control, 320, 240);
+		gtk_widget_set_size_request (control, 440, 360);
 	} else
 		control = create_importer_control (
 			priv->import, (EImportTarget *)
