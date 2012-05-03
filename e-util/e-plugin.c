@@ -67,8 +67,6 @@
 
 /* global table of plugin types by pluginclass.type */
 static GHashTable *ep_types;
-/* plugin load path */
-static GSList *ep_path;
 /* global table of plugins by plugin.id */
 static GHashTable *ep_plugins;
 /* the list of disabled plugins from GSettings */
@@ -289,7 +287,6 @@ static void
 e_plugin_class_init (EPluginClass *class)
 {
 	GObjectClass *object_class;
-	gchar *path, *col, *p;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = ep_set_property;
@@ -308,25 +305,6 @@ e_plugin_class_init (EPluginClass *class)
 			"Whether the plugin is enabled",
 			TRUE,
 			G_PARAM_READWRITE));
-
-	/* Add paths in the environment variable or default global
-	 * and user specific paths */
-	path = g_strdup(g_getenv("EVOLUTION_PLUGIN_PATH"));
-	if (path == NULL) {
-		/* Add the global path */
-		e_plugin_add_load_path (EVOLUTION_PLUGINDIR);
-
-		path = g_build_filename(g_get_home_dir(), ".eplugins", NULL);
-	}
-
-	p = path;
-	while ((col = strchr (p, G_SEARCHPATH_SEPARATOR))) {
-		*col++ = 0;
-		e_plugin_add_load_path (p);
-		p = col;
-	}
-	e_plugin_add_load_path (p);
-	g_free (path);
 }
 
 static void
@@ -450,26 +428,6 @@ ep_load (const gchar *filename,
 	return 0;
 }
 
-/**
- * e_plugin_add_load_path:
- * @path: The path to add to search for plugins.
- *
- * Add a path to be searched when e_plugin_load_plugins() is called.
- * By default the system plugin directory and ~/.eplugins is used as
- * the search path unless overriden by the environmental variable
- * %EVOLUTION_PLUGIN_PATH.
- *
- * %EVOLUTION_PLUGIN_PATH is a : separated list of paths to search for
- * plugin definitions in order.
- *
- * Plugin definitions are XML files ending in the extension ".eplug".
- **/
-void
-e_plugin_add_load_path (const gchar *path)
-{
-	ep_path = g_slist_append (ep_path, g_strdup (path));
-}
-
 static void
 plugin_load_subclass (GType type,
                       GHashTable *hash_table)
@@ -529,7 +487,6 @@ gint
 e_plugin_load_plugins (void)
 {
 	GSettings *settings;
-	GSList *l;
 	gchar **strv;
 	gint i;
 
@@ -558,31 +515,29 @@ e_plugin_load_plugins (void)
 	g_object_unref (settings);
 
 	for (i = 0; i < 3; i++) {
-		for (l = ep_path; l; l = g_slist_next (l)) {
-			GDir *dir;
-			const gchar *d;
-			gchar *path = l->data;
+		GDir *dir;
+		const gchar *d;
+		const gchar *path = EVOLUTION_PLUGINDIR;
 
-			pd(printf("scanning plugin dir '%s'\n", path));
+		pd(printf("scanning plugin dir '%s'\n", path));
 
-			dir = g_dir_open (path, 0, NULL);
-			if (dir == NULL) {
-				/*g_warning("Could not find plugin path: %s", path);*/
-				continue;
-			}
-
-			while ((d = g_dir_read_name (dir))) {
-				if (g_str_has_suffix  (d, ".eplug")) {
-					gchar *name;
-
-					name = g_build_filename (path, d, NULL);
-					ep_load (name, i);
-					g_free (name);
-				}
-			}
-
-			g_dir_close (dir);
+		dir = g_dir_open (path, 0, NULL);
+		if (dir == NULL) {
+			/*g_warning("Could not find plugin path: %s", path);*/
+			continue;
 		}
+
+		while ((d = g_dir_read_name (dir))) {
+			if (g_str_has_suffix  (d, ".eplug")) {
+				gchar *name;
+
+				name = g_build_filename (path, d, NULL);
+				ep_load (name, i);
+				g_free (name);
+			}
+		}
+
+		g_dir_close (dir);
 	}
 
 	return 0;

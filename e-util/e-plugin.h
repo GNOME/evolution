@@ -129,7 +129,6 @@ struct _EPluginClass {
 GType		e_plugin_get_type		(void);
 gint		e_plugin_construct		(EPlugin *plugin,
 						 xmlNodePtr root);
-void		e_plugin_add_load_path		(const gchar *path);
 gint		e_plugin_load_plugins		(void);
 GSList *	e_plugin_list_plugins		(void);
 gpointer	e_plugin_get_symbol		(EPlugin *plugin,
