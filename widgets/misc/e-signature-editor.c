@@ -40,8 +40,7 @@
 enum {
 	PROP_0,
 	PROP_FOCUS_TRACKER,
-	PROP_SIGNATURE,
-	PROP_EDITING_OLD
+	PROP_SIGNATURE
 };
 
 struct _ESignatureEditorPrivate {
@@ -50,7 +49,6 @@ struct _ESignatureEditorPrivate {
 	ESignature *signature;
 	GtkWidget *entry;
 	gchar *original_name;
-	gboolean editing_old;
 };
 
 static const gchar *ui =
@@ -256,12 +254,6 @@ signature_editor_set_property (GObject *object,
 				E_SIGNATURE_EDITOR (object),
 				g_value_get_object (value));
 			return;
-
-		case PROP_EDITING_OLD:
-			e_signature_editor_set_editing_old (
-				E_SIGNATURE_EDITOR (object),
-				g_value_get_boolean (value));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -283,12 +275,6 @@ signature_editor_get_property (GObject *object,
 		case PROP_SIGNATURE:
 			g_value_set_object (
 				value, e_signature_editor_get_signature (
-				E_SIGNATURE_EDITOR (object)));
-			return;
-
-		case PROP_EDITING_OLD:
-			g_value_set_boolean (
-				value, e_signature_editor_get_editing_old (
 				E_SIGNATURE_EDITOR (object)));
 			return;
 	}
@@ -402,16 +388,6 @@ e_signature_editor_class_init (ESignatureEditorClass *class)
 			NULL,
 			NULL,
 			E_TYPE_SIGNATURE,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_EDITING_OLD,
-		g_param_spec_boolean (
-			"editing-old",
-			NULL,
-			NULL,
-			FALSE,
 			G_PARAM_READWRITE));
 }
 
@@ -608,26 +584,4 @@ exit:
 	}
 
 	g_object_notify (G_OBJECT (editor), "signature");
-}
-
-void
-e_signature_editor_set_editing_old (ESignatureEditor *editor,
-                                    gboolean editing_old)
-{
-	g_return_if_fail (E_IS_SIGNATURE_EDITOR (editor));
-
-	if (editor->priv->editing_old == editing_old)
-		return;
-
-	editor->priv->editing_old = editing_old;
-
-	g_object_notify (G_OBJECT (editor), "editing-old");
-}
-
-gboolean
-e_signature_editor_get_editing_old (ESignatureEditor *editor)
-{
-	g_return_val_if_fail (E_IS_SIGNATURE_EDITOR (editor), FALSE);
-
-	return editor->priv->editing_old;
 }

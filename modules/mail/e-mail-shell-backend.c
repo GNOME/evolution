@@ -40,7 +40,6 @@
 #include <composer/e-msg-composer.h>
 
 #include <widgets/misc/e-preferences-window.h>
-#include <widgets/misc/e-signature-editor.h>
 #include <widgets/misc/e-web-view.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
@@ -364,6 +363,7 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 
 	/* This applies to both the composer and signature editor. */
 	if (GTKHTML_IS_EDITOR (window)) {
+		EShellSettings *shell_settings;
 		GList *spell_languages;
 		gboolean active = TRUE;
 
@@ -372,19 +372,14 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 			GTKHTML_EDITOR (window), spell_languages);
 		g_list_free (spell_languages);
 
-		if (!E_IS_SIGNATURE_EDITOR (window) ||
-		    !e_signature_editor_get_editing_old (E_SIGNATURE_EDITOR (window))) {
-			EShellSettings *shell_settings;
+		shell_settings = e_shell_get_shell_settings (shell);
 
-			shell_settings = e_shell_get_shell_settings (shell);
+		/* Express mode does not honor this setting. */
+		if (!e_shell_get_express_mode (shell))
+			active = e_shell_settings_get_boolean (
+				shell_settings, "composer-format-html");
 
-			/* Express mode does not honor this setting. */
-			if (!e_shell_get_express_mode (shell))
-				active = e_shell_settings_get_boolean (
-					shell_settings, "composer-format-html");
-
-			gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (window), active);
-		}
+		gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (window), active);
 	}
 
 	if (E_IS_MSG_COMPOSER (window)) {
