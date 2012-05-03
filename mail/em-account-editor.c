@@ -4915,6 +4915,12 @@ emae_update_review_page_for_google (EMAccountEditor *emae)
 	GtkWidget *container;
 	GtkWidget *widget;
 	gchar *markup;
+	gboolean can_contacts, can_calendar;
+
+	can_contacts = !emae->priv->gcontacts ||
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (emae->priv->gcontacts));
+	can_calendar = !emae->priv->calendar ||
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (emae->priv->calendar));
 
 	emae_destroy_widget (emae->priv->gcontacts);
 	emae_destroy_widget (emae->priv->calendar);
@@ -4935,14 +4941,14 @@ emae_update_review_page_for_google (EMAccountEditor *emae)
 
 	widget = gtk_check_button_new_with_mnemonic (
 		_("Setup Google con_tacts with Evolution"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), can_contacts);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	emae->priv->gcontacts = widget;
 	gtk_widget_show (widget);
 
 	widget = gtk_check_button_new_with_mnemonic (
 		_("Setup Google ca_lendar with Evolution"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), can_calendar);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	emae->priv->calendar = widget;
 	gtk_widget_show (widget);
