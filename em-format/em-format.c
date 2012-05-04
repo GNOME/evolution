@@ -135,8 +135,14 @@ preserve_charset_in_content_type (CamelMimePart *ipart,
 
 	data_wrapper = camel_medium_get_content (CAMEL_MEDIUM (opart));
 	content_type = camel_data_wrapper_get_mime_type_field (data_wrapper);
+	if (content_type)
+		camel_content_type_set_param (content_type, "charset", charset);
 
-	camel_content_type_set_param (content_type, "charset", charset);
+	/* update charset also on the part itself */
+	data_wrapper = CAMEL_DATA_WRAPPER (opart);
+	content_type = camel_data_wrapper_get_mime_type_field (data_wrapper);
+	if (content_type)
+		camel_content_type_set_param (content_type, "charset", charset);
 }
 
 static CamelMimePart *
