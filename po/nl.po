@@ -58,7 +58,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-21 23:45+0200\n"
-"PO-Revision-Date: 2012-05-07 00:56+0200\n"
+"PO-Revision-Date: 2012-05-07 01:01+0200\n"
 "Last-Translator: Reinout van Schouwen <reinouts@gnome.org>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -12134,11 +12134,11 @@ msgstr "Server _eist aanmeldingscontrole"
 
 #: ../mail/mail-config.ui.h:117
 msgid "Server Configuration"
-msgstr "Server-configuratie"
+msgstr "Serverconfiguratie"
 
 #: ../mail/mail-config.ui.h:118
 msgid "Server _Type:"
-msgstr "Server-_type:"
+msgstr "Server_type:"
 
 #: ../mail/mail-config.ui.h:119
 msgid "Set custom junk header"
@@ -16592,7 +16592,7 @@ msgstr "Importeren voltooid. Klik op ‘Volgende’ om door te gaan."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:497
 msgid "Evolution Setup Assistant"
-msgstr "Evolution instellingen-assistent"
+msgstr "Evolution-instellingenassistent"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:503
 msgid "Welcome"
@@ -19035,7 +19035,7 @@ msgstr "Beveiligd WebDAV (HTTPS)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "Service _type:"
-msgstr "Server-_type:"
+msgstr "Service_type:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:18
 msgid "Sources"
