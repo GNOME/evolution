@@ -1,9 +1,6 @@
 # Dutch translation for Evolution
-#
 # This file is distributed under the same license as the evolution package.
-#
 # Woordenlijst (naar believen aanvullen a.u.b):
-#
 # appointment            -  afspraak
 # attendee               -? aanwezige/bezoeker/komt/aanwezig
 # authentication         -  aanmeldingscontrole
@@ -41,7 +38,6 @@
 # subscription           -? abonnement/inschrijving
 # sync                   -? sync/synchroniseren/actualiseren
 # thread                 -  voor e-mail: conversatie (sinds 20110329 in plaats van ‘discussie’ gekomen), voor caldav/calendar: thread (alleen als technische term in foutmeldingen)
-#
 # Arjan Scherpenisse <acscherp@wins.uva.nl>, 2000.
 # Gerard Oskamp <gerard@linuxfreak.nl>, 2000.
 # Dennis Smit <synap@area101.penguin.nl>, 2000.
@@ -53,7 +49,7 @@
 # Daniel van Eeden <daniel_e@dds.nl>, 2004.
 # Elros Cyriatan <cyriatan@fastmail.fm>, 2004.
 # Vincent van Adrighem <adrighem@gnome.org>, 2001, 2003–2006.
-# Reinout van Schouwen <reinouts@gnome.org>, 2007–2008.
+# Reinout van Schouwen <reinouts@gnome.org>, 2007–2008, 2012.
 # Wouter Bolsterlee <wbolster@gnome.org>, 2006–2011.
 # Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2010–2011.
 #: ../shell/main.c:570
@@ -62,16 +58,16 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-21 23:45+0200\n"
-"PO-Revision-Date: 2011-09-16 17:07+0200\n"
-"Last-Translator: Hannie Dumoleyn <hannie@ubuntu-nl.org>\n"
-"Language-Team: Dutch <vertaling@vrijschrift.org>\n"
+"PO-Revision-Date: 2012-05-07 00:56+0200\n"
+"Last-Translator: Reinout van Schouwen <reinouts@gnome.org>\n"
+"Language-Team: Dutch\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
 "X-Launchpad-Export-Date: 2011-08-15 14:28+0000\n"
-"X-Generator: Lokalize 1.2\n"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:2
@@ -193,7 +189,7 @@ msgstr "Sommige adressen komen al voor in deze contactenlijst."
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "Some features may not work properly with your current server"
 msgstr ""
-"Bepaalde functies werken mogelijk niet correct met uw huidige server-versie"
+"Bepaalde functies werken mogelijk niet correct met uw huidige serverversie"
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid "The Evolution address book has quit unexpectedly."
@@ -650,7 +646,7 @@ msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr ""
-"De contact-data is ongeldig:\n"
+"De contactdata zijn ongeldig:\n"
 "\n"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3735
@@ -1378,8 +1374,8 @@ msgid ""
 "load the address book once in online mode to download its contents."
 msgstr ""
 "Kan dit adresboek niet openen. Dit betekent dat het niet aangemerkt is voor "
-"offline gebruik of nog niet is gedownload voor off-line gebruik. Om de "
-"inhoud te downloaden moet u het adresboek eenmalig online laden."
+"offline gebruik of nog niet is gedownload voor offline gebruik. Om de inhoud "
+"te downloaden moet u het adresboek eenmalig online laden."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:148
 #, c-format
@@ -1891,7 +1887,7 @@ msgid ""
 "lists up to date."
 msgstr ""
 "Het versturen van vernieuwde informatie zorgt ervoor dat de deelnemers hun "
-"takenlijkst up-to-date kunnen houden."
+"takenlijst up-to-date kunnen houden."
 
 #: ../calendar/calendar.error.xml.h:52
 msgid ""
@@ -1927,7 +1923,7 @@ msgstr "De Evolution-memo is onverwacht afgesloten."
 
 #: ../calendar/calendar.error.xml.h:58
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr "De Evolution taken zijn ploseling afgebroken."
+msgstr "De Evolution-taken zijn onverwacht afgebroken."
 
 #: ../calendar/calendar.error.xml.h:59
 msgid "The calendar is not marked for offline usage."
@@ -1935,7 +1931,7 @@ msgstr "De agenda is niet aangemerkt voor offline gebruik."
 
 #: ../calendar/calendar.error.xml.h:60
 msgid "The memo list is not marked for offline usage."
-msgstr "De memo's-lijst is niet aangemerkt voor offline gebruik"
+msgstr "De memolijst is niet aangemerkt voor offline gebruik"
 
 #: ../calendar/calendar.error.xml.h:61
 msgid "The task list is not marked for offline usage."
@@ -2000,10 +1996,10 @@ msgid ""
 "problems using Evolution. For best results, the server should be upgraded to "
 "a supported version."
 msgstr ""
-"U bent bezig te verbinden met een niet ondersteunde versie van een GroupWise-"
-"server. Mogelijkerwijs zal Evolution hierdoor problemen ondervinden. Voor "
-"het beste resultaat zou de server een upgrade moeten krijgen naar een "
-"ondersteunde versie."
+"U bent bezig te verbinden met een niet ondersteunde versie van een "
+"GroupWise-server. Mogelijkerwijs zal Evolution hierdoor problemen "
+"ondervinden. Voor het beste resultaat zou de server een upgrade moeten "
+"krijgen naar een ondersteunde versie."
 
 #: ../calendar/calendar.error.xml.h:76
 msgid "You have changed this appointment, but not yet saved it."
@@ -2588,7 +2584,7 @@ msgstr "Nieuwe takenlijst"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:684
 msgid "Memo List Properties"
-msgstr "Memolijst-eigenschappen"
+msgstr "Eigenschappen memolijst"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:684
 msgid "New Memo List"
@@ -2855,7 +2851,7 @@ msgstr "Schakelt de weergave van het status-veld aan/uit"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1300
 msgid "_Type Field"
-msgstr "_Type-veld"
+msgstr "_Typeveld"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1302
 msgid "Toggles whether the Attendee Type is displayed"
@@ -2917,7 +2913,7 @@ msgstr "Commentaar _intrekken"
 #: ../calendar/gui/dialogs/delete-error.c:57
 #, c-format
 msgid "The event could not be deleted due to a dbus error: %s"
-msgstr "De agendanotitie kon niet verwijderd worden door een dbusfout: %s"
+msgstr "De agendanotitie kon niet verwijderd worden door een d-busfout: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:61
@@ -5374,7 +5370,7 @@ msgstr "Afrika/Accra"
 
 #: ../calendar/zones.h:28
 msgid "Africa/Addis_Ababa"
-msgstr "Afrika?Addis_Ababa"
+msgstr "Afrika/Addis_Abeba"
 
 #: ../calendar/zones.h:29
 msgid "Africa/Algiers"
@@ -7031,11 +7027,11 @@ msgstr "Schakel CC-weergave aan/uit"
 
 #: ../composer/e-composer-actions.c:453
 msgid "_Reply-To Field"
-msgstr "Antwoordadres-veld:"
+msgstr "Antwoo_rdadresveld"
 
 #: ../composer/e-composer-actions.c:455
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "Schakel Antwoordadres-weergave aan/uit"
+msgstr "Schakel Antwoordadresweergave aan/uit"
 
 #: ../composer/e-composer-actions.c:514
 msgid "Save Draft"
@@ -7188,7 +7184,7 @@ msgstr ""
 #: ../composer/mail-composer.error.xml.h:7
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
 msgstr ""
-"Vanwege &quot;{0}&quot; zult u mogelijk andere mail-opties moeten kiezen."
+"Vanwege &quot;{0}&quot; zult u mogelijk andere mailopties moeten kiezen."
 
 # vanwege
 #: ../composer/mail-composer.error.xml.h:8
@@ -7222,7 +7218,7 @@ msgstr "Kon bericht niet aanmaken."
 
 #: ../composer/mail-composer.error.xml.h:12
 msgid "Could not read signature file &quot;{0}&quot;."
-msgstr "Kon handtekening-bestand &quot;{0}&quot; niet lezen."
+msgstr "Kon handtekeningbestand &quot;{0}&quot; niet lezen."
 
 # terugvinden
 #: ../composer/mail-composer.error.xml.h:13
@@ -8412,7 +8408,7 @@ msgid ""
 msgstr ""
 "Geef hier aan hoe u uw e-mail gaat verzenden. Als u niet weet wat voor "
 "servertype u gebruikt, neem dan contact op met uw systeembeheerder of met uw "
-"internet-provider."
+"internetprovider."
 
 #: ../mail/em-account-editor.c:2298 ../mail/mail-config.ui.h:1
 msgid "Account Information"
@@ -10349,7 +10345,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:30
 msgid "Custom headers to use while checking for junk."
-msgstr "Zelfgemaakte kopregels voor spam-controle."
+msgstr "Zelfgemaakte kopregels voor spamcontrole."
 
 #: ../mail/evolution-mail.schemas.in.h:31
 msgid ""
@@ -10573,8 +10569,8 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.h:71
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr ""
-"Het gebruik van gelijksoortige berichten-lijstweergaveinstellingen voor alle "
-"mappen inschakelen"
+"Het gebruik van gelijksoortige weergaveinstellingen van de berichtenlijst "
+"voor alle mappen inschakelen"
 
 #: ../mail/evolution-mail.schemas.in.h:72
 msgid "Enable to use a similar message list view settings for all folders."
@@ -10933,11 +10929,11 @@ msgstr "Breedte mailbrowser"
 
 #: ../mail/evolution-mail.schemas.in.h:125
 msgid "Mark as Seen after specified timeout"
-msgstr "Markeer als gelezen na een bepaalde timeout"
+msgstr "Markeer als gelezen na een bepaalde time-out"
 
 #: ../mail/evolution-mail.schemas.in.h:126
 msgid "Mark as Seen after specified timeout."
-msgstr "Markeer als gelezen ne een bepaalde tijd."
+msgstr "Markeer als gelezen na een bepaalde tijd."
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid "Mark citations in the message \"Preview\""
@@ -11187,7 +11183,7 @@ msgid ""
 "the View menu when a mail account is chosen."
 msgstr ""
 "Het veld ‘Bcc’ tonen bij versturen van e-mailbericht. Dit wordt bediend "
-"vanuit het menu Beeld wanneer er een e-mail-account is gekozen."
+"vanuit het menu Beeld wanneer er een e-mailaccount is gekozen."
 
 #: ../mail/evolution-mail.schemas.in.h:181
 msgid ""
@@ -11195,7 +11191,7 @@ msgid ""
 "the View menu when a mail account is chosen."
 msgstr ""
 "Het veld ‘Cc’ tonen bij versturen van e-mailbericht. Dit wordt bediend "
-"vanuit het menu Beeld wanneer er een e-mail-account is gekozen."
+"vanuit het menu Beeld wanneer er een e-mailaccount is gekozen."
 
 #: ../mail/evolution-mail.schemas.in.h:182
 msgid ""
@@ -11203,7 +11199,7 @@ msgid ""
 "the View menu when a news account is chosen."
 msgstr ""
 "Het veld ‘Van’ tonen bij posten naar een nieuwsgroep. Dit wordt bediend "
-"vanuit het menu Beeld wanneer er een nieuws-account is gekozen."
+"vanuit het menu Beeld wanneer er een nieuwsaccount is gekozen."
 
 #: ../mail/evolution-mail.schemas.in.h:183
 msgid ""
@@ -11211,7 +11207,7 @@ msgid ""
 "from the View menu when a news account is chosen."
 msgstr ""
 "Het veld ‘Antwoord naar’ tonen bij posten naar een nieuwsgroep. Dit wordt "
-"bediend vanuit het menu Beeld wanneer er een nieuws-account is gekozen."
+"bediend vanuit het menu Beeld wanneer er een nieuwsaccount is gekozen."
 
 #: ../mail/evolution-mail.schemas.in.h:184
 msgid ""
@@ -11219,7 +11215,7 @@ msgid ""
 "from the View menu when a mail account is chosen."
 msgstr ""
 "Het veld ‘Antwoord naar’ tonen bij versturen van e-mailbericht. Dit wordt "
-"bediend vanuit het menu Beeld wanneer er een e-mail-account is gekozen."
+"bediend vanuit het menu Beeld wanneer er een e-mailaccount is gekozen."
 
 #: ../mail/evolution-mail.schemas.in.h:185
 msgid ""
@@ -11353,8 +11349,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Dit kan drie waardes aannemen: \"0\" voor fouten, \"1\" voor waarschuwingen, "
-"\"2\" voor debug-berichten."
+"Dit kan drie waardes aannemen: \"0\" voor fouten, \"1\" voor waarschuwingen, \"2\" "
+"voor debug-berichten."
 
 #: ../mail/evolution-mail.schemas.in.h:204
 msgid ""
@@ -11392,10 +11388,10 @@ msgid ""
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
 msgstr ""
-"Deze sleutel zou een lijst met XML structuren moeten bevatten die aangepaste "
-"koppen speciferen en of ze weergeven dienen te worden. Het formaat van de "
-"XMLstructuur is &lt;header enabled&gt;- stel enabled in als de kop weergeven "
-"moet worden in de mailweergave."
+"Deze sleutel zou een lijst met XML-structuren moeten bevatten die aangepaste "
+"koppen specificeren en of ze weergeven dienen te worden. Het formaat van de "
+"XML-structuur is &lt;header enabled&gt;- stel enabled in als de kop "
+"weergeven moet worden in de mailweergave."
 
 #: ../mail/evolution-mail.schemas.in.h:208
 msgid ""
@@ -11593,7 +11589,7 @@ msgstr "Map selecteren"
 #: ../plugins/dbx-import/dbx-importer.c:261
 #: ../plugins/pst-import/pst-importer.c:461
 msgid "Select folder to import into"
-msgstr "Selecteer map waar in geimporteerd moet worden"
+msgstr "Selecteer map waar in geïmporteerd moet worden"
 
 #: ../mail/importers/evolution-mbox-importer.c:433
 msgctxt "mboxImp"
@@ -11939,7 +11935,7 @@ msgstr "Ingebonden"
 # Oorspronkelijke bericht citeren in Outlook-stijl
 #: ../mail/mail-config.ui.h:62
 msgid "Inline (Outlook style)"
-msgstr "Ingebonden (Oulook-stijl)"
+msgstr "Ingebonden (Outlook-stijl)"
 
 #: ../mail/mail-config.ui.h:64 ../mail/message-list.etspec.h:8
 msgid "Labels"
@@ -12260,7 +12256,7 @@ msgstr "_Type aanmeldingscontrole"
 
 #: ../mail/mail-config.ui.h:145
 msgid "_Direct connection to the Internet"
-msgstr "_Direkte verbinding met het internet"
+msgstr "_Directe verbinding met het internet"
 
 #: ../mail/mail-config.ui.h:146
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
@@ -12301,7 +12297,7 @@ msgstr "_Dit instellen als standaardaccount"
 
 #: ../mail/mail-config.ui.h:154
 msgid "_Manual proxy configuration:"
-msgstr "Hand_matige proxy-configuratie:"
+msgstr "Hand_matige proxyconfiguratie:"
 
 #: ../mail/mail-config.ui.h:156
 msgid "_Never load images from the Internet"
@@ -12833,7 +12829,7 @@ msgstr "Kan niet in bestand ‘{0}’ opslaan."
 
 #: ../mail/mail.error.xml.h:41
 msgid "Cannot set signature script \"{0}\"."
-msgstr "Kan handtekening-script ‘{0}’ niet instellen."
+msgstr "Kan handtekeningscript ‘{0}’ niet instellen."
 
 # of uw wachtwoord juist is ingevoerd/juist is/correct is
 # (gespeld is lelijk en onnodig hier)
@@ -12851,7 +12847,7 @@ msgstr "Berichtvenster sluiten."
 
 #: ../mail/mail.error.xml.h:44
 msgid "Could not save signature file."
-msgstr "Kon handtekening-bestand niet opslaan."
+msgstr "Kon handtekeningbestand niet opslaan."
 
 # deactiveren/uitzetten
 #: ../mail/mail.error.xml.h:46
@@ -12878,7 +12874,7 @@ msgstr "Wilt u alle berichten markeren als gelezen?"
 
 #: ../mail/mail.error.xml.h:51
 msgid "Do you wish to save your changes?"
-msgstr "Wilt u de wijzingen opslaan?"
+msgstr "Wilt u de wijzigingen opslaan?"
 
 # wachtwoord invoeren
 #: ../mail/mail.error.xml.h:52
@@ -12910,7 +12906,7 @@ msgid ""
 "delete the account after ensuring the data is safely migrated. Please make "
 "sure there is enough disk space if you choose to migrate now."
 msgstr ""
-"De lokale mail-indeling van Evolution is gewijzigd van mbox naar Maildir. Uw "
+"De lokale mailindeling van Evolution is gewijzigd van mbox naar Maildir. Uw "
 "lokale mail dient overgezet te worden naar de nieuwe indeling voordat "
 "Evolution verder kan. Wilt u nu overzetten?\n"
 "\n"
@@ -12921,7 +12917,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:62
 msgid "Evolution's local mail format has changed."
-msgstr "De lokale mail-indeling van Evolution is gewijzigd."
+msgstr "De lokale mailindeling van Evolution is gewijzigd."
 
 #: ../mail/mail.error.xml.h:63
 msgid "Failed to download messages for offline viewing."
@@ -13005,14 +13001,14 @@ msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
 msgstr ""
-"Indien u verdergaat, zal de account-informatie\n"
+"Als u verdergaat, zal de accountinformatie\n"
 "en alle proxy-informatie definitief worden verwijderd."
 
 # als
 #: ../mail/mail.error.xml.h:81
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr ""
-"Indien u verdergaat, zal de account-informatie definitief worden verwijderd."
+"Indien u verdergaat, zal de accountinformatie definitief worden verwijderd."
 
 #: ../mail/mail.error.xml.h:82
 msgid ""
@@ -13083,7 +13079,7 @@ msgstr "Teveel berichten tegelijk openen kan lang duren."
 
 #: ../mail/mail.error.xml.h:95
 msgid "Please check your account settings and try again."
-msgstr "Controleer uw account-instellingen en probeer opnieuw."
+msgstr "Controleer uw accountinstellingen en probeer opnieuw."
 
 # vrij vertaald
 # misschien nog tussenvoegen: probeer _het bericht_ via een ander...
@@ -13214,7 +13210,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:125
 msgid "The script file must exist and be executable."
-msgstr "Het script-bestand moet bestaan en uitvoerbaar zijn."
+msgstr "Het scriptbestand moet bestaan en uitvoerbaar zijn."
 
 #: ../mail/mail.error.xml.h:126
 msgid "These messages are not copies."
@@ -13712,11 +13708,11 @@ msgstr "EFolderList XML voor de lijst met auto-aanvul-URI's."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:7
 msgid "Position of the contact preview pane when oriented horizontally."
-msgstr "Positie van het horizontale contact-voorbeeldpaneel."
+msgstr "Positie van het horizontale contactvoorbeeldpaneel."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:8
 msgid "Position of the contact preview pane when oriented vertically."
-msgstr "Positie van het verticale contact-voorbeeldpaneel."
+msgstr "Positie van het verticale contactvoorbeeldpaneel."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:9
 msgid "Primary address book"
@@ -14024,7 +14020,7 @@ msgstr "Contacten_weergave"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:991
 msgid "Show contact preview window"
-msgstr "Contacten-voorbeeldvenster tonen"
+msgstr "Voorbeeldvenster contacten tonen"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:997
 msgid "Show _Maps"
@@ -14043,7 +14039,7 @@ msgstr "_Klassieke weergave"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1020
 msgid "Show contact preview below the contact list"
-msgstr "Het contact onder de contactenenlijst tonen"
+msgstr "Het contact onder de contactenlijst tonen"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1025
 #: ../modules/calendar/e-memo-shell-view-actions.c:754
@@ -14054,7 +14050,7 @@ msgstr "_Verticale weergave"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1027
 msgid "Show contact preview alongside the contact list"
-msgstr "Contacten-voorbeeld naast contactenlijst tonen"
+msgstr "Contactenvoorbeeld naast contactenlijst tonen"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1035
 #: ../modules/calendar/e-cal-shell-view-actions.c:1696
@@ -14235,7 +14231,7 @@ msgstr "_Zoek gebied:"
 
 #: ../modules/addressbook/ldap-config.ui.h:30
 msgid "_Timeout:"
-msgstr "_Timeout:"
+msgstr "_Tijdslimiet:"
 
 #: ../modules/addressbook/ldap-config.ui.h:32
 msgid "cards"
@@ -14595,11 +14591,11 @@ msgstr "Horizontale paneelpositie"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:24
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
-msgstr "Het uur waarop de werkdag eindigt, in 24-uurs formaat, 0 tot 23."
+msgstr "Het uur waarop de werkdag eindigt, in 24-uursnotatie, 0 tot 23."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:25
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
-msgstr "Het uur waarop de werkdag begint, in 24-uurs formaat, 0 tot 23."
+msgstr "Het uur waarop de werkdag begint, in 24-uursnotatie, 0 tot 23."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:26
 msgid "If \"true\", show the memo preview pane in the main window."
@@ -14612,8 +14608,7 @@ msgstr ""
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:28
 msgid "Intervals shown in Day and Work Week views, in minutes."
-msgstr ""
-"Tijdverdeling die getoont worden in dag- en werkweekweergave, in minuten."
+msgstr "Getoonde tijdsintervals in dag- en werkweekweergave, in minuten."
 
 # wekkertijd/alarmtijd
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:29
@@ -14842,7 +14837,7 @@ msgstr "Het tijdzoneveld tonen in de agendanotitie/bijeenkomst-editor"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:76
 msgid "Show type field in the event/task/meeting editor"
-msgstr "Het type-veld tonen in de agendanotitie/taak/bijeenkomst-editor"
+msgstr "Het typeveld tonen in de agendanotitie/taak/bijeenkomst-editor"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:77
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
@@ -14962,20 +14957,18 @@ msgstr "Tijdzone"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:96
 msgid "Twenty four hour time format"
-msgstr "24-uurs-tijdnotatie"
+msgstr "24-uursnotatie van tijd"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:97
 msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\"."
 msgstr ""
-"Tijdseenheden voor een standaard herinnering, \"minuten\", \"uren\" of "
-"\"dagen\"."
+"Tijdseenheden voor een standaard herinnering, ‘minutes’, ‘hours’ of ‘days’."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:98
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr ""
-"Eenheid voor een standaard-herinnering, \"minuten\", \"uren\" of \"dagen\"."
+msgstr "Eenheid voor een standaardherinnering, ‘minutes’, ‘hours’ of ‘days’."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:99
 msgid ""
@@ -15085,18 +15078,17 @@ msgstr ""
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:119
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
-msgstr ""
-"Of de tijd in een 24-uursformaat getoond wordt in plaats van als am/pm."
+msgstr "Of de tijd in een 24-uursnotatie getoond wordt in plaats van als am/pm."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:120
 msgid "Whether to show timezone field in the event/meeting editor"
 msgstr ""
-"Of het tijdzone-veld getoond wordt in de agendanotitie/bijeenkomsten-editor"
+"Of het tijdzoneveld getoond wordt in de agendanotitie/bijeenkomsteneditor"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:121
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
-"Of het type-veld getoond wordt in de agendanotitie/taken/bijeenkomsten-editor"
+"Of het typeveld getoond wordt in de agendanotitie/taken/bijeenkomsten-editor"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:122
 msgid "Whether to show week numbers in various places in the Calendar."
@@ -15116,11 +15108,11 @@ msgstr "Werkdag laatste minuut"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:126
 msgid "Workday start hour"
-msgstr "Werdag eerste uur"
+msgstr "Werkdag beginuur"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:127
 msgid "Workday start minute"
-msgstr "Werkdag eerste minuut"
+msgstr "Werkdag beginminuut"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:312
 #: ../smime/gui/smime-ui.ui.h:22
@@ -15228,7 +15220,7 @@ msgstr "_Nieuwe agenda..."
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:772
 msgid "Calendar Selector"
-msgstr "Agenda-selectie"
+msgstr "Agendaselectie"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-cal-shell-sidebar.c:1123
@@ -16691,16 +16683,16 @@ msgstr "Geluidsbijlage direct afspelen in e-mailbericht."
 
 #: ../plugins/backup-restore/backup-restore.c:192
 msgid "Select name of the Evolution backup file"
-msgstr "Selecteer de naam van het Evolution-archief"
+msgstr "Selecteer de naam van de Evolution-reservekopie"
 
 # na het maken van de reservekopie/archief
 #: ../plugins/backup-restore/backup-restore.c:225
 msgid "_Restart Evolution after backup"
-msgstr "Evolution _herstarten na het maken van de back-up"
+msgstr "Evolution _herstarten na het maken van de reservekopie"
 
 #: ../plugins/backup-restore/backup-restore.c:251
 msgid "Select name of the Evolution backup file to restore"
-msgstr "Selecteer de back-up waarmee Evolution hersteld wordt"
+msgstr "Selecteer het reservekopiebestand waarmee Evolution hersteld wordt"
 
 # herstelbewerking/operatie
 #: ../plugins/backup-restore/backup-restore.c:264
@@ -16713,13 +16705,13 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
 "settings, mail filters etc."
 msgstr ""
-"U kunt Evolution terugzetten vanaf een back-up. Hiermee kunt u al uw e-mail, "
-"agenda's, taken, memo's en adresgegevens herstellen. U kunt hiermee ook uw "
-"persoonlijke instellingen en e-mailfilters herstellen."
+"U kunt Evolution terugzetten vanaf een reservekopie. Hiermee kunt u al uw "
+"e-mail, agenda's, taken, memo's en adresgegevens herstellen. U kunt hiermee "
+"ook uw persoonlijke instellingen en e-mailfilters herstellen."
 
 #: ../plugins/backup-restore/backup-restore.c:344
 msgid "_Restore Evolution from the backup file"
-msgstr "Evolution _herstellen via een back-up"
+msgstr "Evolution _herstellen via een reservekopie"
 
 #: ../plugins/backup-restore/backup-restore.c:351
 msgid "Please select an Evolution Archive to restore:"
@@ -16732,7 +16724,7 @@ msgstr "Kies een bestand om te herstellen"
 # reservekopie/archief/backup
 #: ../plugins/backup-restore/backup-restore.c:362
 msgid "Restore from backup"
-msgstr "Back-up terugzetten"
+msgstr "Reservekopie terugzetten"
 
 #: ../plugins/backup-restore/backup-restore.c:402
 msgid "_Back up Evolution Data..."
@@ -17219,7 +17211,7 @@ msgstr "Metrisch (Celsius, cm, etc)"
 
 #: ../plugins/calendar-weather/calendar-weather.c:489
 msgid "Imperial (Fahrenheit, inches, etc)"
-msgstr "Imperisch (Fahrenheit, inch, etc)"
+msgstr "Angelsaksisch (Fahrenheit, inch, etc)"
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:1
 msgid "Add weather calendars to Evolution."
@@ -17439,8 +17431,8 @@ msgid ""
 "The external editor is still running. The mail composer window cannot be "
 "closed as long as the editor is active."
 msgstr ""
-"De externe editor draait nog. Het opstellen-venster kan niet worden gesloten "
-"zolang de editor actief is."
+"De externe editor draait nog. Het opstelvenster kan niet sluiten zolang de "
+"editor actief is."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:6
 msgid ""
@@ -17580,7 +17572,7 @@ msgstr "IMAP berichtkoppen"
 
 #: ../plugins/imap-features/imap-headers.ui.h:1
 msgid "Basic and _Mailing List Headers (Default)"
-msgstr "Basis- en _mailinglijst-berichtkoppen (standaard)"
+msgstr "Basis- en _mailinglijstberichtkoppen (standaard)"
 
 #: ../plugins/imap-features/imap-headers.ui.h:3
 msgid ""
@@ -17606,7 +17598,8 @@ msgid ""
 "Use this if you do not have filters based on mailing lists"
 msgstr ""
 "_Basis berichtkoppen - (Snelst) \n"
-"Gebruik dit wanneer u geen filters heeft die gebaseerd zijn op mailinglijsten"
+"Gebruik dit wanneer u geen filters heeft die gebaseerd zijn op "
+"mailinglijsten"
 
 #: ../plugins/imap-features/imap-headers.ui.h:10
 msgid "_Fetch All Headers"
@@ -17718,7 +17711,7 @@ msgstr "Kon aanwezige niet updaten. %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1733
 msgid "Attendee status updated"
-msgstr "Aanwezigheidstatus ververst"
+msgstr "Aanwezigheidsstatus ververst"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1737
 msgid "Attendee status can not be updated because the item no longer exists"
@@ -17748,7 +17741,7 @@ msgstr "Kan taakinformatie niet verzenden, de taak bestaat niet"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1780
 msgid "Unable to send memo information, the memo does not exist"
-msgstr "Kan memoinformatie niet verzenden, de memo bestaat niet"
+msgstr "Kan memo-informatie niet verzenden, de memo bestaat niet"
 
 #. Translators: This is a default filename for a calendar.
 #: ../plugins/itip-formatter/itip-formatter.c:1846
@@ -18396,7 +18389,7 @@ msgstr "Geluid afspelen bij binnenkomst van nieuwe berichten."
 msgid "Play themed sound when new messages arrive, if not in beep mode."
 msgstr ""
 "Het geluidsbestand dat afgespeeld wordt wanneer er nieuwe e-mail is "
-"binnengekomen, en wanneer niet in piep-modus."
+"binnengekomen, tenzij in piepmodus."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Show new mail icon in notification area when new messages arrive."
@@ -18686,7 +18679,8 @@ msgstr "_Eigenaar contactenlijst"
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:362
 msgid "Contact the owner of the mailing list this message belongs to"
 msgstr ""
-"Contact opnemen met de eigenaar van de mailinglijst waar dit bericht bijhoort"
+"Contact opnemen met de eigenaar van de mailinglijst waar dit bericht "
+"bijhoort"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:367
 msgid "_Post Message to List"
@@ -18722,7 +18716,7 @@ msgstr "Mailinglijst acties"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
 msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
-msgstr "Biedt veelgebruikte mailinglijst-functies (abonneren, opzeggen, enz.)."
+msgstr "Biedt veelgebruikte mailinglijstfuncties (abonneren, opzeggen, enz.)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 msgid "Action not available"
@@ -18795,8 +18789,7 @@ msgstr ""
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr ""
-"Dit bericht bevat niet de header-informatie die vereist is voor deze actie."
+msgstr "Dit bericht mist de koptekst-informatie die vereist is voor deze actie."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
 msgid "_Edit message"
@@ -19337,11 +19330,11 @@ msgstr "IfMatch _vermijden (nodig voor Apache < 2.2.8)"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
 msgid "Authenticate proxy server connections"
-msgstr "Aanmeldingscontrole op proxy-serververbindingen uitvoeren"
+msgstr "Aanmeldingscontrole op proxyserververbindingen uitvoeren"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Automatic proxy configuration URL"
-msgstr "De URL voor automatische proxy-configuratie"
+msgstr "De URL voor automatische proxyconfiguratie"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Configuration version"
@@ -19381,12 +19374,12 @@ msgstr "Expresmodus inschakelen"
 msgid ""
 "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
 msgstr ""
-"Activeert de proxy-instellingen bij gebruik van HTTP/Beveilighde HTTP over "
+"Activeert de proxy-instellingen bij gebruik van HTTP/Beveiligde HTTP over "
 "het internet."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:12
 msgid "Flag that enables a much simplified user interface."
-msgstr "Vlag die een sterk vereenvoudigde gebruikersinterface inschakeld."
+msgstr "Vlag die een sterk vereenvoudigde gebruikersinterface inschakelt."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "HTTP proxy host name"
@@ -19416,11 +19409,11 @@ msgid ""
 "authentication_user\" GConf key, and the password is retrieved from either "
 "gnome-keyring or the ~/.gnome2_private/Evolution password file."
 msgstr ""
-"Indien aangevinkt, vereisen verbindingen met de proxy-server "
+"Indien aangevinkt, vereisen verbindingen met de proxyserver "
 "aanmeldingscontrole. De gebruikersnaam wordt opgehaald uit de GConf-sleutel "
 "‘/apps/evolution/shell/network_config/authentication_user’, en het "
-"wachtwoord uit ofwel gnome-keyring, of het wachtwoordbestand ‘."
-"gnome2_private/Evolution’."
+"wachtwoord uit ofwel gnome-keyring, of het wachtwoordbestand "
+"‘.gnome2_private/Evolution’."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Initial attachment view"
@@ -19489,9 +19482,9 @@ msgid ""
 "configuration\" and \"use proxy configuration provided in the autoconfig url"
 "\" respectively."
 msgstr ""
-"Selecteer de proxy-configuratiemodus. Mogelijke waarden zijn  0, 1, 2, en 3 "
+"Selecteer de proxyconfiguratiemodus. Mogelijke waarden zijn  0, 1, 2, en 3 "
 "die staan voor ‘systeeminstellingen gebruiken’, ‘geen proxy’, ‘handmatige "
-"proxy-configuratie gebruiken’ en ‘proxy-configuratie geleverd door de "
+"proxyconfiguratie gebruiken’ en ‘proxyconfiguratie geleverd door de "
 "autoconfiguratie-url’ gebruiken."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:33
@@ -19601,11 +19594,11 @@ msgid ""
 "(using an initial wildcard like *.foo.com), IP host addresses (both IPv4 and "
 "IPv6) and network addresses with a netmask (something like 192.168.0.0/24)."
 msgstr ""
-"Deze sleutel bevat een lijst met hosts waarmee een direkte verbinding "
+"Deze sleutel bevat een lijst met hosts waarmee een directe verbinding "
 "gemaakt wordt in plaats van via een proxy (wanneer deze geactiveerd is). De "
 "waarden kunnen hostnamen zijn, domeinen (met een jokerteken aan het begin "
-"zoals *.foo.com), IP-host-adressen (zowel IPv4 als IPv6) en netwerkadressen "
-"met een netmasker (zoiets als: 192.168.0.0/24)"
+"zoals *.foo.com), IP-hostadressen (zowel IPv4 als IPv6) en netwerkadressen "
+"met een netmasker (zoiets als: 192.168.0.0/24)."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:52
 msgid "Toolbar is visible"
@@ -19980,7 +19973,8 @@ msgstr "_Werkbalkstijl"
 
 #: ../shell/e-shell-window-actions.c:1758
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr "Vensterknoppen weergeven volgens de desktop-instelling voor werkbalken"
+msgstr ""
+"Vensterknoppen weergeven volgens de werkomgevingsinstelling voor werkbalken"
 
 # enkelvoud is mooier (voor het label)
 #: ../shell/e-shell-window-actions.c:1766
@@ -20075,9 +20069,10 @@ msgstr ""
 "Als u een stabiele versie van Evolution wilt gebruiken, kunt u beter deze\n"
 "versie verwijderen en versie %s installeren.\n"
 "\n"
-"Wilt u, als u fouten tegenkomt, deze alstublieft melden bij bugzilla.ximian."
-"com.\n"
-"Dit produkt komt zonder enige garantie en is niet bedoeld voor mensen\n"
+"Wilt u, als u fouten tegenkomt, deze alstublieft melden bij "
+"bugzilla.gnome.org.\n"
+"Dit product wordt geleverd zonder enige garantie en is niet bedoeld voor "
+"mensen\n"
 "die licht ontvlambaar en agressief zijn.\n"
 "\n"
 "Wij hopen dat u met veel plezier gebruik zult maken van de resultaten van "
@@ -20247,12 +20242,12 @@ msgstr "Maak een nieuwe testbron aan"
 #: ../smclient/eggdesktopfile.c:166
 #, c-format
 msgid "File is not a valid .desktop file"
-msgstr "Bestand is geen geldig .desktop-bestand"
+msgstr "Bestand is geen geldig .desktopbestand"
 
 #: ../smclient/eggdesktopfile.c:189
 #, c-format
 msgid "Unrecognized desktop file Version '%s'"
-msgstr "Niet-herkend desktop-bestand versie ‘%s’"
+msgstr "Niet-herkend desktopbestand versie ‘%s’"
 
 #: ../smclient/eggdesktopfile.c:959
 #, c-format
@@ -20315,9 +20310,9 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
-"Certificaat '%s' is een CA certificaat.\n"
+"Certificaat ‘%s’ is een CA-certificaat.\n"
 "\n"
-"Vertrouwen-instellingen bewerken."
+"Vertrouwensinstellingen bewerken:"
 
 #: ../smime/gui/cert-trust-dialog.c:146
 msgid ""
@@ -20325,7 +20320,7 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
-"Omdat u de certificaat-autoriteit vertrouwt die dit certificaat heeft "
+"Omdat u de certificaatautoriteit vertrouwt die dit certificaat heeft "
 "afgegeven, vertrouwt u de geldigheid van dit certificaat; tenzij het hier "
 "anders is aangegeven"
 
@@ -20335,7 +20330,7 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
-"Omdat u de certificaat-autoriteit die dit certificaat heeft afgegeven niet "
+"Omdat u de certificaatautoriteit die dit certificaat heeft afgegeven niet "
 "vertrouwt, vertrouwt u de geldigheid van dit certificaat niet; tenzij het "
 "hier anders is aangegeven"
 
@@ -20445,7 +20440,7 @@ msgstr "Geef het wachtwoord voor ‘%s’"
 #. we're setting the password initially
 #: ../smime/gui/component.c:76
 msgid "Enter new password for certificate database"
-msgstr "Geef een nieuw wachtwoord voor de certificaat-database"
+msgstr "Geef een nieuw wachtwoord voor de certificaatdatabase"
 
 #: ../smime/gui/component.c:78
 msgid "Enter new password"
@@ -20484,15 +20479,15 @@ msgstr "Authoriteiten"
 
 #: ../smime/gui/smime-ui.ui.h:3
 msgid "Backup _All"
-msgstr "Van _Alles een back-up maken"
+msgstr "Van _alles een reservekopie maken"
 
 #: ../smime/gui/smime-ui.ui.h:4
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
 msgstr ""
-"Voordat u deze CA vertrouwd is het raadzaam dat u het certificaat, de "
-"regelgeving en procedures van deze CA besturdeerd, mits aanwezig."
+"Voordat u deze CA vertrouwt is het raadzaam dat u het certificaat, de "
+"regelgeving en procedures van deze CA bestudeert, mits aanwezig."
 
 #: ../smime/gui/smime-ui.ui.h:5 ../smime/lib/e-cert.c:1097
 msgid "Certificate"
@@ -20504,11 +20499,11 @@ msgstr "Vertrouwen Certificaat Authoriteit"
 
 #: ../smime/gui/smime-ui.ui.h:7
 msgid "Certificate Fields"
-msgstr "Certificaat-velden"
+msgstr "Certificaatvelden"
 
 #: ../smime/gui/smime-ui.ui.h:8
 msgid "Certificate Hierarchy"
-msgstr "Certificaat Hiërarchie"
+msgstr "Certificaathiërarchie"
 
 #: ../smime/gui/smime-ui.ui.h:9
 msgid "Certificate details"
@@ -20524,7 +20519,7 @@ msgstr "Algemene naam (CN)"
 
 #: ../smime/gui/smime-ui.ui.h:12
 msgid "Contact Certificates"
-msgstr "Contact-certificaten"
+msgstr "Contactcertificaten"
 
 #: ../smime/gui/smime-ui.ui.h:14
 msgid "Do not trust the authenticity of this certificate"
@@ -20536,7 +20531,7 @@ msgstr "Email certificaat vertrouwens-instellingen"
 
 #: ../smime/gui/smime-ui.ui.h:16
 msgid "Email Recipient Certificate"
-msgstr "Certificaat e-mail-ontvanger"
+msgstr "Certificaat e-mailontvanger"
 
 #: ../smime/gui/smime-ui.ui.h:17
 msgid "Email Signer Certificate"
@@ -20624,7 +20619,7 @@ msgstr "Uw certificaten"
 #. This is a verb, as in "make a backup".
 #: ../smime/gui/smime-ui.ui.h:44
 msgid "_Backup"
-msgstr "_Back-up"
+msgstr "_Reservekopie maken"
 
 #: ../smime/gui/smime-ui.ui.h:45
 msgid "_Edit CA Trust"
@@ -20828,7 +20823,7 @@ msgstr "Voer uw wachtwoord in voor PKCS12 bestand:"
 
 #: ../smime/lib/e-pkcs12.c:363
 msgid "Imported Certificate"
-msgstr "Geimporteerd certificaat"
+msgstr "Geïmporteerd certificaat"
 
 #: ../views/addressbook/galview.xml.h:1
 msgid "By _Company"
@@ -20924,7 +20919,7 @@ msgstr "Tijdzones"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:4
 msgid "Timezone drop-down combination box"
-msgstr "Tijdzone-combinatieveld"
+msgstr "Dropdownmenu tijdzone"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:5
 msgid ""
@@ -21219,7 +21214,7 @@ msgstr "Klik op deze knop om een kalender te tonen"
 
 #: ../widgets/misc/e-dateedit.c:591
 msgid "Drop-down combination box to select time"
-msgstr "Combinatieveld om de tijd te selecteren"
+msgstr "Dropdownmenu om de tijd te selecteren"
 
 #: ../widgets/misc/e-dateedit.c:663
 msgid "No_w"
@@ -21376,8 +21371,8 @@ msgid ""
 "should instead select the timezone from the drop-down combination box below."
 msgstr ""
 "Interactieve kaart voor het met de muis selecteren van de tijdzone. "
-"Toetsenbordgebruikers moeten de tijdzone kiezen met het drop-down "
-"combinatieveld hieronder."
+"Toetsenbordgebruikers moeten de tijdzone kiezen met het dropdownmenu "
+"hieronder."
 
 # Evolution is nu verbonden met het netwerk.
 # Klik op deze knop om zonder netwerkverbinding te werken.
@@ -21612,11 +21607,11 @@ msgstr "_Naam handtekening:"
 
 #: ../widgets/misc/e-signature-manager.c:317
 msgid "Add Signature Script"
-msgstr "Handtekening-script toevoegen"
+msgstr "Handtekeningscript toevoegen"
 
 #: ../widgets/misc/e-signature-manager.c:382
 msgid "Edit Signature Script"
-msgstr "Handtekening-script bewerken"
+msgstr "Handtekeningscript bewerken"
 
 #: ../widgets/misc/e-signature-manager.c:602
 msgid "Add _Script"
@@ -21638,7 +21633,7 @@ msgstr "_Script:"
 
 #: ../widgets/misc/e-signature-script-dialog.c:344
 msgid "Script file must be executable."
-msgstr "Het script-bestand moet uitvoerbaar zijn."
+msgstr "Het scriptbestand moet uitvoerbaar zijn."
 
 #: ../widgets/misc/e-url-entry.c:78
 msgid "Click here to go to URL"
@@ -21707,7 +21702,7 @@ msgstr "evolution agenda-item"
 
 #: ../widgets/table/e-cell-combo.c:187
 msgid "popup list"
-msgstr "popup-lijst"
+msgstr "pop-uplijst"
 
 #: ../widgets/table/e-cell-date-edit.c:299
 msgid "Now"
