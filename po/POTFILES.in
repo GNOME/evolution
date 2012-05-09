@@ -468,6 +468,7 @@ widgets/misc/e-signature-combo-box.c
 widgets/misc/e-signature-editor.c
 widgets/misc/e-signature-manager.c
 widgets/misc/e-signature-script-dialog.c
+widgets/misc/e-spell-entry.c
 widgets/misc/e-url-entry.c
 widgets/misc/e-web-view.c
 widgets/misc/e-web-view-gtkhtml.c
