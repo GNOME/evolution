@@ -66,16 +66,17 @@ composer_text_header_query_tooltip_cb (GtkEntry *entry,
 }
 
 static void
-e_composer_text_header_class_init (EComposerTextHeaderClass *class)
-{
-}
-
-static void
-e_composer_text_header_init (EComposerTextHeader *header)
+e_composer_text_header_constructed (GObject *object)
 {
 	GtkWidget *widget;
+	EComposerTextHeader *header;
 
-	widget = g_object_ref_sink (gtk_entry_new ());
+	G_OBJECT_CLASS (e_composer_text_header_parent_class)->constructed (object);
+
+	header = E_COMPOSER_TEXT_HEADER (object);
+	g_return_if_fail (header != NULL);
+
+	widget = g_object_ref_sink (g_object_new (E_COMPOSER_TEXT_HEADER_GET_CLASS (header)->entry_type, NULL));
 	g_signal_connect (
 		widget, "changed",
 		G_CALLBACK (composer_text_header_changed_cb), header);
@@ -84,6 +85,22 @@ e_composer_text_header_init (EComposerTextHeader *header)
 		G_CALLBACK (composer_text_header_query_tooltip_cb), NULL);
 	gtk_widget_set_has_tooltip (widget, TRUE);
 	E_COMPOSER_HEADER (header)->input_widget = widget;
+}
+
+static void
+e_composer_text_header_class_init (EComposerTextHeaderClass *class)
+{
+	GObjectClass *object_class;
+
+	class->entry_type = GTK_TYPE_ENTRY;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = e_composer_text_header_constructed;
+}
+
+static void
+e_composer_text_header_init (EComposerTextHeader *header)
+{
 }
 
 EComposerHeader *

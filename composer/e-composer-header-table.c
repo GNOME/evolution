@@ -32,6 +32,7 @@
 #include "e-composer-from-header.h"
 #include "e-composer-name-header.h"
 #include "e-composer-post-header.h"
+#include "e-composer-spell-header.h"
 #include "e-composer-text-header.h"
 
 #define E_COMPOSER_HEADER_TABLE_GET_PRIVATE(obj) \
@@ -808,7 +809,7 @@ composer_header_table_constructed (GObject *object)
 	composer_header_table_bind_header ("post-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_POST_TO] = header;
 
-	header = e_composer_text_header_new_label (_("S_ubject:"));
+	header = e_composer_spell_header_new_label (_("S_ubject:"));
 	composer_header_table_bind_header ("subject", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_SUBJECT] = header;
 

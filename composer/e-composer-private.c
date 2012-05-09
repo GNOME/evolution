@@ -22,6 +22,7 @@
 #endif
 
 #include "e-composer-private.h"
+#include "e-composer-spell-header.h"
 #include "e-util/e-util-private.h"
 
 /* Initial height of the picture gallery. */
@@ -122,6 +123,17 @@ composer_update_gallery_visibility (EMsgComposer *composer)
 	}
 }
 
+static void
+composer_spell_languages_changed (EMsgComposer *composer,
+				  GList *languages)
+{
+	EComposerHeader *header;
+	EComposerHeaderTable *table = e_msg_composer_get_header_table (composer);
+
+	header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_SUBJECT);
+	e_composer_spell_header_set_languages (E_COMPOSER_SPELL_HEADER (header), languages);
+}
+
 void
 e_composer_private_constructed (EMsgComposer *composer)
 {
@@ -142,6 +154,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gchar *filename, *gallery_path;
 	gint ii;
 	GError *error = NULL;
+	EComposerHeader *header;
 
 	editor = GTKHTML_EDITOR (composer);
 	ui_manager = gtkhtml_editor_get_ui_manager (editor);
@@ -279,6 +292,16 @@ e_composer_private_constructed (EMsgComposer *composer)
 		gtk_box_reorder_child (GTK_BOX (container), widget, 2);
 	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	header = e_composer_header_table_get_header (E_COMPOSER_HEADER_TABLE (widget),
+		E_COMPOSER_HEADER_SUBJECT);
+	g_object_bind_property (
+		shell_settings, "composer-inline-spelling",
+		header->input_widget, "checking-enabled",
+		G_BINDING_SYNC_CREATE);
+
+	g_signal_connect (G_OBJECT (composer), "spell-languages-changed",
+		G_CALLBACK (composer_spell_languages_changed), NULL);
 
 	/* Construct the attachment paned. */
 

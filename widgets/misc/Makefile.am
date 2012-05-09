@@ -60,6 +60,7 @@ widgetsinclude_HEADERS =			\
 	e-signature-preview.h			\
 	e-signature-script-dialog.h		\
 	e-signature-tree-view.h			\
+	e-spell-entry.h				\
 	e-url-entry.h				\
 	e-web-view.h				\
 	e-web-view-gtkhtml.h			\
@@ -142,6 +143,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-signature-preview.c			\
 	e-signature-script-dialog.c		\
 	e-signature-tree-view.c			\
+	e-spell-entry.c				\
 	e-url-entry.c				\
 	e-web-view.c				\
 	e-web-view-gtkhtml.c			\

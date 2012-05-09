@@ -53,6 +53,8 @@ struct _EComposerTextHeader {
 
 struct _EComposerTextHeaderClass {
 	EComposerHeaderClass parent_class;
+
+	GType entry_type;
 };
 
 GType		e_composer_text_header_get_type	(void);

@@ -18,6 +18,7 @@ libcomposerinclude_HEADERS = 			\
 	e-composer-name-header.h		\
 	e-composer-post-header.h		\
 	e-composer-private.h			\
+	e-composer-spell-header.h		\
 	e-composer-text-header.h		\
 	e-msg-composer.h
 
@@ -51,6 +52,7 @@ libcomposer_la_SOURCES = 			\
 	e-composer-name-header.c		\
 	e-composer-post-header.c		\
 	e-composer-private.c			\
+	e-composer-spell-header.c		\
 	e-composer-text-header.c		\
 	e-msg-composer.c
 
