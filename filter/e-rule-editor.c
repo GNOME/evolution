@@ -208,7 +208,7 @@ update_selected_rule (ERuleEditor *editor)
 	GtkTreeIter iter;
 
 	selection = gtk_tree_view_get_selection (editor->list);
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+	if (selection && gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (editor->model), &iter, 1, &editor->current, -1);
 		return TRUE;
 	}
@@ -400,7 +400,11 @@ rule_delete (GtkWidget *widget,
 
 	pos = e_rule_context_get_rank_rule (editor->context, editor->current, editor->source);
 	if (pos != -1) {
-		e_rule_context_remove_rule (editor->context, editor->current);
+		EFilterRule *delete_rule = editor->current;
+
+		editor->current = NULL;
+
+		e_rule_context_remove_rule (editor->context, delete_rule);
 
 		path = gtk_tree_path_new ();
 		gtk_tree_path_append_index (path, pos);
@@ -408,12 +412,11 @@ rule_delete (GtkWidget *widget,
 		gtk_list_store_remove (editor->model, &iter);
 		gtk_tree_path_free (path);
 
-		rule_editor_add_undo (editor, E_RULE_EDITOR_LOG_REMOVE, editor->current,
-				      e_rule_context_get_rank_rule (editor->context, editor->current, editor->current->source), 0);
+		rule_editor_add_undo (editor, E_RULE_EDITOR_LOG_REMOVE, delete_rule,
+				      e_rule_context_get_rank_rule (editor->context, delete_rule, delete_rule->source), 0);
 #if 0
-		g_object_unref (editor->current);
+		g_object_unref (delete_rule);
 #endif
-		editor->current = NULL;
 
 		/* now select the next rule */
 		len = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (editor->model), NULL);
