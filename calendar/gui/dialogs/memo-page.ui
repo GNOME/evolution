@@ -349,7 +349,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="sum-entry">
+                  <object class="ESpellEntry" id="sum-entry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">True</property>

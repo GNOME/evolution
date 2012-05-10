@@ -50,6 +50,7 @@
 
 #include <misc/e-dateedit.h>
 #include <misc/e-send-options.h>
+#include <misc/e-spell-entry.h>
 #include <misc/e-buffer-tagger.h>
 
 #include "../e-alarm-list.h"
@@ -2618,6 +2619,17 @@ get_widgets (EventPage *epage)
 	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
 	g_object_unref (completion);
 
+	if (priv->summary) {
+		EShellSettings *shell_settings;
+
+		shell_settings = e_shell_get_shell_settings (shell);
+
+		g_object_bind_property (
+			shell_settings, "composer-inline-spelling",
+			priv->summary, "checking-enabled",
+			G_BINDING_SYNC_CREATE);
+	}
+
 	return (priv->summary
 		&& priv->location
 		&& priv->start_time
@@ -3557,6 +3569,7 @@ event_page_construct (EventPage *epage,
 	 * GType before we load the GtkBuilder definition file. */
 	E_TYPE_DATE_EDIT;
 	E_TYPE_TIMEZONE_ENTRY;
+	E_TYPE_SPELL_ENTRY;
 
 	priv->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (priv->builder, "event-page.ui");

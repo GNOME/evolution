@@ -39,6 +39,7 @@
 #include <libedataserverui/e-source-combo-box.h>
 
 #include <misc/e-dateedit.h>
+#include <misc/e-spell-entry.h>
 #include <misc/e-buffer-tagger.h>
 
 #include <e-util/e-categories-config.h>
@@ -1516,6 +1517,21 @@ get_widgets (TaskPage *tpage)
 	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
 	g_object_unref (completion);
 
+	if (priv->summary) {
+		EShell *shell;
+		EShellSettings *shell_settings;
+		CompEditor *editor;
+
+		editor = comp_editor_page_get_editor (page);
+		shell = comp_editor_get_shell (editor);
+		shell_settings = e_shell_get_shell_settings (shell);
+
+		g_object_bind_property (
+			shell_settings, "composer-inline-spelling",
+			priv->summary, "checking-enabled",
+			G_BINDING_SYNC_CREATE);
+	}
+
 	return (priv->summary
 		&& priv->summary_label
 		&& priv->due_date
@@ -2143,6 +2159,7 @@ task_page_construct (TaskPage *tpage,
 	E_TYPE_DATE_EDIT;
 	E_TYPE_TIMEZONE_ENTRY;
 	E_TYPE_SOURCE_COMBO_BOX;
+	E_TYPE_SPELL_ENTRY;
 
 	priv->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (priv->builder, "task-page.ui");

@@ -47,6 +47,7 @@
 #include <e-util/e-util-private.h>
 
 #include <misc/e-dateedit.h>
+#include <misc/e-spell-entry.h>
 #include <misc/e-buffer-tagger.h>
 
 #include <libemail-utils/e-account-utils.h>
@@ -893,6 +894,22 @@ get_widgets (MemoPage *mpage)
 	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
 	g_object_unref (completion);
 
+	if (priv->summary_entry) {
+		EShell *shell;
+		EShellSettings *shell_settings;
+		CompEditor *editor;
+
+		editor = comp_editor_page_get_editor (page);
+		shell = comp_editor_get_shell (editor);
+		shell_settings = e_shell_get_shell_settings (shell);
+
+		g_object_bind_property (
+			shell_settings, "composer-inline-spelling",
+			priv->summary_entry, "checking-enabled",
+			G_BINDING_SYNC_CREATE);
+	}
+
+
 	return (priv->memo_content
 		&& priv->categories_btn
 		&& priv->categories
@@ -1233,6 +1250,11 @@ memo_page_construct (MemoPage *mpage)
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
 	flags = comp_editor_get_flags (editor);
+
+	/* Make sure our custom widget classes are registered with
+	 * GType before we load the GtkBuilder definition file. */
+	E_TYPE_DATE_EDIT;
+	E_TYPE_SPELL_ENTRY;
 
 	priv->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (priv->builder, "memo-page.ui");

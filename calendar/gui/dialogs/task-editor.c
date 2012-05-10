@@ -147,6 +147,7 @@ task_editor_constructor (GType type,
 	CompEditor *editor;
 	CompEditorFlags flags;
 	TaskEditorPrivate *priv;
+	GtkWidget *content_area;
 	GtkActionGroup *action_group;
 	ECalClient *client;
 	gboolean is_assigned;
@@ -160,10 +161,37 @@ task_editor_constructor (GType type,
 
 	client = comp_editor_get_client (editor);
 	flags = comp_editor_get_flags (editor);
-	action_group = comp_editor_get_action_group (editor, "coordinated");
+
+	priv->task_page = task_page_new (priv->model, editor);
+	comp_editor_append_page (
+		editor, COMP_EDITOR_PAGE (priv->task_page),
+		_("Task"), TRUE);
+
+	priv->task_details_window = gtk_dialog_new_with_buttons (
+		_("Task Details"), GTK_WINDOW (object), GTK_DIALOG_MODAL,
+		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+	g_signal_connect (
+		priv->task_details_window, "response",
+		G_CALLBACK (gtk_widget_hide), NULL);
+	g_signal_connect (
+		priv->task_details_window, "delete-event",
+		G_CALLBACK (gtk_widget_hide), NULL);
+
+	priv->task_details_page = task_details_page_new (editor);
+	content_area = gtk_dialog_get_content_area (
+		GTK_DIALOG (priv->task_details_window));
+	gtk_container_add (
+		GTK_CONTAINER (content_area),
+		comp_editor_page_get_widget (
+		(CompEditorPage *) priv->task_details_page));
+	gtk_widget_show_all (
+		gtk_bin_get_child (GTK_BIN (priv->task_details_window)));
+	comp_editor_append_page (
+		editor, COMP_EDITOR_PAGE (priv->task_details_page), NULL, FALSE);
 
 	is_assigned = flags & COMP_EDITOR_IS_ASSIGNED;
 
+	action_group = comp_editor_get_action_group (editor, "coordinated");
 	task_page_set_assignment (priv->task_page, is_assigned);
 	gtk_action_group_set_visible (action_group, is_assigned);
 
@@ -305,7 +333,6 @@ task_editor_init (TaskEditor *te)
 	CompEditor *editor = COMP_EDITOR (te);
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
-	GtkWidget *content_area;
 	GtkAction *action;
 	const gchar *id;
 	GError *error = NULL;
@@ -314,33 +341,6 @@ task_editor_init (TaskEditor *te)
 	te->priv->model = E_MEETING_STORE (e_meeting_store_new ());
 	te->priv->assignment_shown = TRUE;
 	te->priv->updating = FALSE;
-
-	te->priv->task_page = task_page_new (te->priv->model, editor);
-	comp_editor_append_page (
-		editor, COMP_EDITOR_PAGE (te->priv->task_page),
-		_("Task"), TRUE);
-
-	te->priv->task_details_window = gtk_dialog_new_with_buttons (
-		_("Task Details"), GTK_WINDOW (te), GTK_DIALOG_MODAL,
-		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
-	g_signal_connect (
-		te->priv->task_details_window, "response",
-		G_CALLBACK (gtk_widget_hide), NULL);
-	g_signal_connect (
-		te->priv->task_details_window, "delete-event",
-		G_CALLBACK (gtk_widget_hide), NULL);
-
-	te->priv->task_details_page = task_details_page_new (editor);
-	content_area = gtk_dialog_get_content_area (
-		GTK_DIALOG (te->priv->task_details_window));
-	gtk_container_add (
-		GTK_CONTAINER (content_area),
-		comp_editor_page_get_widget (
-		(CompEditorPage *) te->priv->task_details_page));
-	gtk_widget_show_all (
-		gtk_bin_get_child (GTK_BIN (te->priv->task_details_window)));
-	comp_editor_append_page (
-		editor, COMP_EDITOR_PAGE (te->priv->task_details_page), NULL, FALSE);
 
 	action_group = comp_editor_get_action_group (editor, "individual");
 	gtk_action_group_add_actions (
