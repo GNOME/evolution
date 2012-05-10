@@ -1,24 +1,24 @@
-module_LTLIBRARIES = libevolution-module-plugin-python.la
+module_LTLIBRARIES = module-plugin-python.la
 
-libevolution_module_plugin_python_la_CPPFLAGS =			\
+module_plugin_python_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-DG_LOG_DOMAIN=\"evolution-plugin-python\"		\
 	-I$(top_srcdir)						\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(PY_INCLUDES)
 
-libevolution_module_plugin_python_la_SOURCES =			\
+module_plugin_python_la_SOURCES = \
 	evolution-module-plugin-python.c			\
 	e-plugin-python.c					\
 	e-plugin-python.h
 
-libevolution_module_plugin_python_la_LIBADD =			\
+module_plugin_python_la_LIBADD = \
 	-ldl -lutil -lm						\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(PY_LIBS)
 
-libevolution_module_plugin_python_la_LDFLAGS =			\
+module_plugin_python_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 
 example_sources =						\

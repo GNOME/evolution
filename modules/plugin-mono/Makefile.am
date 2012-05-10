@@ -1,23 +1,23 @@
-module_LTLIBRARIES = libevolution-module-plugin-mono.la
+module_LTLIBRARIES = module-plugin-mono.la
 
-libevolution_module_plugin_mono_la_CPPFLAGS =			\
+module_plugin_mono_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-DG_LOG_DOMAIN=\"evolution-plugin-mono\"		\
 	-I$(top_srcdir)						\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(MONO_CFLAGS)
 
-libevolution_module_plugin_mono_la_SOURCES =			\
+module_plugin_mono_la_SOURCES = \
 	evolution-module-plugin-mono.c				\
 	e-plugin-mono.c						\
 	e-plugin-mono.h
 
-libevolution_module_plugin_mono_la_LIBADD =			\
+module_plugin_mono_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(MONO_LIBS)
 
-libevolution_module_plugin_mono_la_LDFLAGS =			\
+module_plugin_mono_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 
 -include $(top_srcdir)/git.mk

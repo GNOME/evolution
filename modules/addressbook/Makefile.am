@@ -1,6 +1,6 @@
-module_LTLIBRARIES = libevolution-module-addressbook.la
+module_LTLIBRARIES = module-addressbook.la
 
-libevolution_module_addressbook_la_CPPFLAGS =			\
+module_addressbook_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"		\
 	-I$(top_srcdir)						\
@@ -25,7 +25,7 @@ libevolution_module_addressbook_la_CPPFLAGS =			\
 	$(LDAP_CFLAGS)						\
 	$(CHAMPLAIN_CFLAGS)
 
-libevolution_module_addressbook_la_SOURCES = \
+module_addressbook_la_SOURCES = \
 	evolution-module-addressbook.c				\
 	addressbook-config.c					\
 	addressbook-config.h					\
@@ -56,7 +56,7 @@ if ENABLE_SMIME
 SMIME_LIB=$(top_builddir)/smime/gui/libevolution-smime.la
 endif
 
-libevolution_module_addressbook_la_LIBADD =			\
+module_addressbook_la_LIBADD = \
 	$(SMIME_LIB)						\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/composer/libcomposer.la			\
@@ -79,7 +79,7 @@ libevolution_module_addressbook_la_LIBADD =			\
 	$(LDAP_LIBS)
 
 
-libevolution_module_addressbook_la_LDFLAGS = \
+module_addressbook_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 
 # GConf schemas

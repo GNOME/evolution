@@ -1,6 +1,6 @@
-module_LTLIBRARIES = libevolution-module-mail.la
+module_LTLIBRARIES = module-mail.la
 
-libevolution_module_mail_la_CPPFLAGS =					\
+module_mail_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)							\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/widgets						\
@@ -12,7 +12,7 @@ libevolution_module_mail_la_CPPFLAGS =					\
 	$(GNOME_PLATFORM_CFLAGS)					\
 	$(GTKHTML_CFLAGS)
 
-libevolution_module_mail_la_SOURCES =					\
+module_mail_la_SOURCES = \
 	evolution-module-mail.c						\
 	e-mail-attachment-handler.c					\
 	e-mail-attachment-handler.h					\
@@ -49,7 +49,7 @@ libevolution_module_mail_la_SOURCES =					\
 	em-network-prefs.c						\
 	em-network-prefs.h
 
-libevolution_module_mail_la_LIBADD =					\
+module_mail_la_LIBADD = \
 	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(top_builddir)/libemail-engine/libemail-engine.la		\
 	$(top_builddir)/e-util/libeutil.la				\
@@ -72,7 +72,7 @@ libevolution_module_mail_la_LIBADD =					\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(GTKHTML_LIBS)
 
-libevolution_module_mail_la_LDFLAGS =					\
+module_mail_la_LDFLAGS = \
 	-avoid-version -module $(NO_UNDEFINED)
 
 -include $(top_srcdir)/git.mk

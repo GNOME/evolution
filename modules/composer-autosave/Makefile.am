@@ -1,6 +1,6 @@
-module_LTLIBRARIES = libevolution-module-composer-autosave.la
+module_LTLIBRARIES = module-composer-autosave.la
 
-libevolution_module_composer_autosave_la_CPPFLAGS =		\
+module_composer_autosave_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/widgets					\
@@ -9,14 +9,14 @@ libevolution_module_composer_autosave_la_CPPFLAGS =		\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
-libevolution_module_composer_autosave_la_SOURCES =		\
+module_composer_autosave_la_SOURCES = \
 	evolution-composer-autosave.c				\
 	e-autosave-utils.c					\
 	e-autosave-utils.h					\
 	e-composer-autosave.c					\
 	e-composer-registry.c
 
-libevolution_module_composer_autosave_la_LIBADD =		\
+module_composer_autosave_la_LIBADD = \
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/composer/libcomposer.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
@@ -26,7 +26,7 @@ libevolution_module_composer_autosave_la_LIBADD =		\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(GTKHTML_LIBS)
 
-libevolution_module_composer_autosave_la_LDFLAGS =		\
+module_composer_autosave_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 
 -include $(top_srcdir)/git.mk

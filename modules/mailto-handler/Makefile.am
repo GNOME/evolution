@@ -1,6 +1,6 @@
-module_LTLIBRARIES = libevolution-module-mailto-handler.la
+module_LTLIBRARIES = module-mailto-handler.la
 
-libevolution_module_mailto_handler_la_CPPFLAGS =		\
+module_mailto_handler_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
 	-DG_LOG_DOMAIN=\"evolution-mailto-handler\"		\
@@ -8,17 +8,17 @@ libevolution_module_mailto_handler_la_CPPFLAGS =		\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)
 
-libevolution_module_mailto_handler_la_SOURCES =			\
+module_mailto_handler_la_SOURCES = \
 	evolution-mailto-handler.c
 
-libevolution_module_mailto_handler_la_LIBADD =			\
+module_mailto_handler_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(GTKHTML_LIBS)
 
-libevolution_module_mailto_handler_la_LDFLAGS =			\
+module_mailto_handler_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 
 schemadir = $(GCONF_SCHEMA_FILE_DIR)

@@ -1,6 +1,6 @@
-module_LTLIBRARIES = libevolution-module-offline-alert.la
+module_LTLIBRARIES = module-offline-alert.la
 
-libevolution_module_offline_alert_la_CPPFLAGS =			\
+module_offline_alert_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/widgets					\
@@ -8,17 +8,17 @@ libevolution_module_offline_alert_la_CPPFLAGS =			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)
 
-libevolution_module_offline_alert_la_SOURCES =			\
+module_offline_alert_la_SOURCES = \
 	evolution-offline-alert.c
 
-libevolution_module_offline_alert_la_LIBADD =			\
+module_offline_alert_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)
 
-libevolution_module_offline_alert_la_LDFLAGS =			\
+module_offline_alert_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 
 error_DATA = evolution-offline-alert.error

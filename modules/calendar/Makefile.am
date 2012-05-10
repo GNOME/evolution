@@ -1,7 +1,6 @@
-module_LTLIBRARIES =					\
-	libevolution-module-calendar.la
+module_LTLIBRARIES = module-calendar.la
 
-libevolution_module_calendar_la_CPPFLAGS =		\
+module_calendar_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)					\
 	-DG_LOG_DOMAIN=\"calendar-modules\"		\
 	-I$(top_srcdir)					\
@@ -11,7 +10,7 @@ libevolution_module_calendar_la_CPPFLAGS =		\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(GTKHTML_CFLAGS)
 
-libevolution_module_calendar_la_SOURCES =		\
+module_calendar_la_SOURCES = \
 	evolution-module-calendar.c			\
 	e-cal-attachment-handler.c			\
 	e-cal-attachment-handler.h			\
@@ -82,7 +81,7 @@ libevolution_module_calendar_la_SOURCES =		\
 	e-task-shell-view-private.c			\
 	e-task-shell-view-private.h
 
-libevolution_module_calendar_la_LIBADD =		\
+module_calendar_la_LIBADD = \
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la	\
@@ -100,7 +99,7 @@ libevolution_module_calendar_la_LIBADD =		\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(GTKHTML_LIBS)
 
-libevolution_module_calendar_la_LDFLAGS =		\
+module_calendar_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 
 schemadir = $(GCONF_SCHEMA_FILE_DIR)

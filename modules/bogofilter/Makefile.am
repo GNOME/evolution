@@ -1,6 +1,6 @@
-module_LTLIBRARIES = libevolution-module-bogofilter.la
+module_LTLIBRARIES = module-bogofilter.la
 
-libevolution_module_bogofilter_la_CPPFLAGS =			\
+module_bogofilter_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
 	-DG_LOG_DOMAIN=\"evolution-bogofilter\"			\
@@ -8,10 +8,10 @@ libevolution_module_bogofilter_la_CPPFLAGS =			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)
 
-libevolution_module_bogofilter_la_SOURCES =			\
+module_bogofilter_la_SOURCES = \
 	evolution-bogofilter.c
 
-libevolution_module_bogofilter_la_LIBADD =			\
+module_bogofilter_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/libemail-engine/libemail-engine.la \
@@ -19,7 +19,7 @@ libevolution_module_bogofilter_la_LIBADD =			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)
 
-libevolution_module_bogofilter_la_LDFLAGS =			\
+module_bogofilter_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 
 schemadir = $(GCONF_SCHEMA_FILE_DIR)
