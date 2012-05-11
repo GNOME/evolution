@@ -160,6 +160,7 @@ static const gchar *ui =
 "  <menubar action='main-menu'>"
 "    <menu action='file-menu'>"
 "      <menuitem action='save'/>"
+"      <menuitem action='save-and-close'/>"
 "      <separator/>"
 "      <menuitem action='print-preview'/>"
 "      <menuitem action='print'/>"
@@ -184,6 +185,7 @@ static const gchar *ui =
 "    </menu>"
 "  </menubar>"
 "  <toolbar name='main-toolbar'>"
+"    <toolitem action='save-and-close'/>\n"
 "    <toolitem action='save'/>\n"
 "#if !EXPRESS\n"
 "    <toolitem action='print'/>\n"
@@ -918,8 +920,8 @@ remove_event_dialog (ECalClient *client,
 }
 
 static void
-action_save_cb (GtkAction *action,
-                CompEditor *editor)
+save_and_close_editor (CompEditor *editor,
+		       gboolean can_close)
 {
 	CompEditorPrivate *priv = editor->priv;
 	EAttachmentStore *store;
@@ -1028,8 +1030,26 @@ action_save_cb (GtkAction *action,
 	} else
 		correct = FALSE;
 
-	if (correct)
-		close_dialog (editor);
+	if (correct) {
+		if (can_close)
+			close_dialog (editor);
+		else
+			comp_editor_set_changed (editor, FALSE);
+	}
+}
+
+static void
+action_save_cb (GtkAction *action,
+                CompEditor *editor)
+{
+	save_and_close_editor (editor, FALSE);
+}
+
+static void
+action_save_and_close_cb (GtkAction *action,
+			  CompEditor *editor)
+{
+	save_and_close_editor (editor, TRUE);
 }
 
 static void
@@ -1180,6 +1200,13 @@ static GtkActionEntry core_entries[] = {
 	  NULL,
 	  N_("Save current changes"),
 	  G_CALLBACK (action_save_cb) },
+
+	{ "save-and-close",
+	  NULL,
+	  N_("Save and Close"),
+	  NULL,
+	  N_("Save current changes and close editor"),
+	  G_CALLBACK (action_save_and_close_cb) },
 
 	{ "select-all",
 	  GTK_STOCK_SELECT_ALL,
@@ -1987,6 +2014,33 @@ comp_editor_init (CompEditor *editor)
 	gtk_ui_manager_insert_action_group (
 		priv->ui_manager, action_group, 0);
 	g_object_unref (action_group);
+
+	action = gtk_action_group_get_action (action_group, "save-and-close");
+	if (action) {
+		GtkAction *save_action;
+		GIcon *icon;
+		GIcon *emblemed_icon;
+		GEmblem *emblem;
+
+		icon = g_themed_icon_new (GTK_STOCK_CLOSE);
+		emblemed_icon = g_themed_icon_new (GTK_STOCK_SAVE);
+		emblem = g_emblem_new (emblemed_icon);
+		g_object_unref (emblemed_icon);
+
+		emblemed_icon = g_emblemed_icon_new (icon, emblem);
+		g_object_unref (emblem);
+		g_object_unref (icon);
+
+		gtk_action_set_gicon (action, emblemed_icon);
+
+		g_object_unref (emblemed_icon);
+
+		save_action = gtk_action_group_get_action (action_group, "save");
+		g_object_bind_property (
+			save_action, "sensitive",
+			action, "sensitive",
+			G_BINDING_SYNC_CREATE);
+	}
 
 	action_group = gtk_action_group_new ("individual");
 	gtk_action_group_set_translation_domain (
