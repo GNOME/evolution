@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-05-09 20:54+0000\n"
-"PO-Revision-Date: 2012-05-10 11:56+0200\n"
+"POT-Creation-Date: 2012-05-11 13:43+0000\n"
+"PO-Revision-Date: 2012-05-11 16:49+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -348,7 +348,7 @@ msgid "_Home Page:"
 msgstr "_Página personal:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../calendar/gui/dialogs/event-page.c:718
+#: ../calendar/gui/dialogs/event-page.c:719
 #: ../calendar/gui/dialogs/event-page.ui.h:22
 #: ../plugins/itip-formatter/itip-view.c:1531
 msgid "_Calendar:"
@@ -1567,7 +1567,7 @@ msgstr "No se pudo obtener la lista de libretas de direcciones: %s"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:45
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
-#: ../calendar/gui/dialogs/memo-page.c:952 ../em-format/em-format.c:970
+#: ../calendar/gui/dialogs/memo-page.c:969 ../em-format/em-format.c:970
 #: ../libemail-engine/mail-ops.c:683 ../mail/em-folder-tree.c:678
 #: ../plugins/caldav/caldav-browse-server.c:221
 #: ../plugins/caldav/caldav-browse-server.c:1482 ../plugins/face/face.c:174
@@ -2605,56 +2605,56 @@ msgstr ""
 msgid "%s  You have made no changes, update the editor?"
 msgstr "%s  No ha realizado cambios, ¿quiere actualizar el editor?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:279
+#: ../calendar/gui/dialogs/comp-editor.c:281
 msgid "Could not save attachments"
 msgstr "No se pudieron guardar los adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:625
+#: ../calendar/gui/dialogs/comp-editor.c:627
 msgid "Could not update object"
 msgstr "No es posible actualizar el objeto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:753
+#: ../calendar/gui/dialogs/comp-editor.c:755
 msgid "Edit Appointment"
 msgstr "Editar cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:760
+#: ../calendar/gui/dialogs/comp-editor.c:762
 #, c-format
 msgid "Meeting - %s"
 msgstr "Reunión: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:762
+#: ../calendar/gui/dialogs/comp-editor.c:764
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:768
+#: ../calendar/gui/dialogs/comp-editor.c:770
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tarea asignada: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:770
+#: ../calendar/gui/dialogs/comp-editor.c:772
 #, c-format
 msgid "Task - %s"
 msgstr "Tarea: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:775
+#: ../calendar/gui/dialogs/comp-editor.c:777
 #, c-format
 msgid "Memo - %s"
 msgstr "Nota - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:791
+#: ../calendar/gui/dialogs/comp-editor.c:793
 msgid "No Summary"
 msgstr "Sin resumen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:912
+#: ../calendar/gui/dialogs/comp-editor.c:914
 msgid "Keep original item?"
 msgstr "¿Mantener el elemento original?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1125
+#: ../calendar/gui/dialogs/comp-editor.c:1145
 msgid "Close the current window"
 msgstr "Cerrar la ventana actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1132 ../mail/e-mail-browser.c:139
+#: ../calendar/gui/dialogs/comp-editor.c:1152 ../mail/e-mail-browser.c:139
 #: ../shell/e-shell-window-actions.c:1467
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
 #: ../widgets/misc/e-web-view.c:328 ../widgets/misc/e-web-view.c:1387
@@ -2663,45 +2663,55 @@ msgstr "Cerrar la ventana actual"
 msgid "Copy the selection"
 msgstr "Copiar la selección"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1139 ../mail/e-mail-browser.c:146
+#: ../calendar/gui/dialogs/comp-editor.c:1159 ../mail/e-mail-browser.c:146
 #: ../shell/e-shell-window-actions.c:1474
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
 #: ../widgets/misc/e-web-view.c:1381 ../widgets/misc/e-web-view-gtkhtml.c:1275
 msgid "Cut the selection"
 msgstr "Cortar la selección"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1146
+#: ../calendar/gui/dialogs/comp-editor.c:1166
 #: ../shell/e-shell-window-actions.c:1481
 #: ../widgets/misc/e-focus-tracker.c:135 ../widgets/misc/e-focus-tracker.c:568
 msgid "Delete the selection"
 msgstr "Eliminar la selección"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1153
+#: ../calendar/gui/dialogs/comp-editor.c:1173
 msgid "View help"
 msgstr "Ver la ayuda"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1160 ../mail/e-mail-browser.c:153
+#: ../calendar/gui/dialogs/comp-editor.c:1180 ../mail/e-mail-browser.c:153
 #: ../shell/e-shell-window-actions.c:1509
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
 #: ../widgets/misc/e-web-view.c:1393 ../widgets/misc/e-web-view-gtkhtml.c:1287
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1181
+#: ../calendar/gui/dialogs/comp-editor.c:1201
 msgid "Save current changes"
 msgstr "Guardar los cambios actuales"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1188 ../mail/e-mail-browser.c:160
+#: ../calendar/gui/dialogs/comp-editor.c:1206
+#| msgid "_Save and Close"
+msgid "Save and Close"
+msgstr "Guardar y cerrar"
+
+#: ../calendar/gui/dialogs/comp-editor.c:1208
+#| msgid "Save current changes"
+msgid "Save current changes and close editor"
+msgstr "Guardar los cambios actuales y cerrar el editor"
+
+#: ../calendar/gui/dialogs/comp-editor.c:1215 ../mail/e-mail-browser.c:160
 #: ../shell/e-shell-window-actions.c:1586
 #: ../widgets/misc/e-focus-tracker.c:142 ../widgets/misc/e-focus-tracker.c:573
 msgid "Select all text"
 msgstr "Selecciona todo el texto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1195
+#: ../calendar/gui/dialogs/comp-editor.c:1222
 msgid "_Classification"
 msgstr "_Clasificación"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1202
+#: ../calendar/gui/dialogs/comp-editor.c:1229
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:19 ../filter/filter.ui.h:16
 #: ../mail/e-mail-browser.c:174
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
@@ -2710,133 +2720,133 @@ msgstr "_Clasificación"
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1209 ../mail/e-mail-browser.c:167
+#: ../calendar/gui/dialogs/comp-editor.c:1236 ../mail/e-mail-browser.c:167
 #: ../shell/e-shell-window-actions.c:1621
 #: ../widgets/misc/e-signature-editor.c:227
 msgid "_File"
 msgstr "_Archivo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1216
+#: ../calendar/gui/dialogs/comp-editor.c:1243
 #: ../shell/e-shell-window-actions.c:1628
 msgid "_Help"
 msgstr "Ay_uda"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1223
+#: ../calendar/gui/dialogs/comp-editor.c:1250
 msgid "_Insert"
 msgstr "_Insertar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1230
+#: ../calendar/gui/dialogs/comp-editor.c:1257
 #: ../composer/e-composer-actions.c:339
 msgid "_Options"
 msgstr "_Opciones"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1237 ../mail/e-mail-browser.c:181
+#: ../calendar/gui/dialogs/comp-editor.c:1264 ../mail/e-mail-browser.c:181
 #: ../shell/e-shell-window-actions.c:1663 ../smime/gui/smime-ui.ui.h:28
 msgid "_View"
 msgstr "_Ver"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1247
+#: ../calendar/gui/dialogs/comp-editor.c:1274
 #: ../composer/e-composer-actions.c:288
 msgid "_Attachment..."
 msgstr "_Adjunto…"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1249
+#: ../calendar/gui/dialogs/comp-editor.c:1276
 #: ../composer/e-composer-actions.c:290
 #: ../widgets/misc/e-attachment-view.c:414
 msgid "Attach a file"
 msgstr "Adjuntar un archivo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1257
+#: ../calendar/gui/dialogs/comp-editor.c:1284
 msgid "_Categories"
 msgstr "_Categorías"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1259
+#: ../calendar/gui/dialogs/comp-editor.c:1286
 msgid "Toggles whether to display categories"
 msgstr "Conmuta cuando se muestran las categorías"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1265
+#: ../calendar/gui/dialogs/comp-editor.c:1292
 msgid "Time _Zone"
 msgstr "_Zona horaria"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1267
+#: ../calendar/gui/dialogs/comp-editor.c:1294
 msgid "Toggles whether the time zone is displayed"
 msgstr "Conmuta cuando se muestra la «Zona horaria»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1276
+#: ../calendar/gui/dialogs/comp-editor.c:1303
 msgid "Pu_blic"
 msgstr "Pú_blico"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1278
+#: ../calendar/gui/dialogs/comp-editor.c:1305
 msgid "Classify as public"
 msgstr "Clasificar como público"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1283
+#: ../calendar/gui/dialogs/comp-editor.c:1310
 msgid "_Private"
 msgstr "_Privado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1285
+#: ../calendar/gui/dialogs/comp-editor.c:1312
 msgid "Classify as private"
 msgstr "Clasificar como privado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1290
+#: ../calendar/gui/dialogs/comp-editor.c:1317
 msgid "_Confidential"
 msgstr "_Confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1292
+#: ../calendar/gui/dialogs/comp-editor.c:1319
 msgid "Classify as confidential"
 msgstr "Clasificar como confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1300
+#: ../calendar/gui/dialogs/comp-editor.c:1327
 msgid "R_ole Field"
 msgstr "Campo «_Rol»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1302
+#: ../calendar/gui/dialogs/comp-editor.c:1329
 msgid "Toggles whether the Role field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Rol»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1308
+#: ../calendar/gui/dialogs/comp-editor.c:1335
 msgid "_RSVP"
 msgstr "_Confirmar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1310
+#: ../calendar/gui/dialogs/comp-editor.c:1337
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Confirmar»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1316
+#: ../calendar/gui/dialogs/comp-editor.c:1343
 msgid "_Status Field"
 msgstr "Campo de _estado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1318
+#: ../calendar/gui/dialogs/comp-editor.c:1345
 msgid "Toggles whether the Status field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Estado»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1324
+#: ../calendar/gui/dialogs/comp-editor.c:1351
 msgid "_Type Field"
 msgstr "Campo de _tipo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1326
+#: ../calendar/gui/dialogs/comp-editor.c:1353
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Conmuta indicando si se muestra el campo «Tipo de participante»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2047
+#: ../calendar/gui/dialogs/comp-editor.c:2101
 #: ../composer/e-composer-actions.c:507
 msgid "Attach"
 msgstr "Adjuntar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2393
-#: ../calendar/gui/dialogs/comp-editor.c:2556
-#: ../calendar/gui/dialogs/comp-editor.c:3548
+#: ../calendar/gui/dialogs/comp-editor.c:2447
+#: ../calendar/gui/dialogs/comp-editor.c:2610
+#: ../calendar/gui/dialogs/comp-editor.c:3602
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Los cambios efectuados a este elemento pueden descartarse si llega una "
 "actualización por correo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3512
+#: ../calendar/gui/dialogs/comp-editor.c:3566
 #: ../plugins/prefer-plain/prefer-plain.c:64
 msgid "attachment"
 msgstr "adjunto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3580
+#: ../calendar/gui/dialogs/comp-editor.c:3634
 msgid "Unable to use current version!"
 msgstr "Imposible usar la versión actual."
 
@@ -3009,76 +3019,76 @@ msgstr "Participantes"
 msgid "Print this event"
 msgstr "Imprime este acontecimiento"
 
-#: ../calendar/gui/dialogs/event-page.c:566
+#: ../calendar/gui/dialogs/event-page.c:567
 msgid "Event's start time is in the past"
 msgstr "La hora de inicio del acontecimiento está en el pasado"
 
-#: ../calendar/gui/dialogs/event-page.c:643
+#: ../calendar/gui/dialogs/event-page.c:644
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr "El acontecimiento no se puede editar porque es de sólo lectura"
 
-#: ../calendar/gui/dialogs/event-page.c:647
+#: ../calendar/gui/dialogs/event-page.c:648
 msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr ""
 "El acontecimiento no se puede editar completamente porque no es el "
 "organizador"
 
-#: ../calendar/gui/dialogs/event-page.c:659
-#: ../calendar/gui/dialogs/event-page.c:3133
+#: ../calendar/gui/dialogs/event-page.c:660
+#: ../calendar/gui/dialogs/event-page.c:3145
 msgid "This event has reminders"
 msgstr "Este acontecimiento tiene recordatorios."
 
-#: ../calendar/gui/dialogs/event-page.c:726
+#: ../calendar/gui/dialogs/event-page.c:727
 #: ../calendar/gui/dialogs/event-page.ui.h:13
 msgid "Or_ganizer:"
 msgstr "Or_ganizador:"
 
-#: ../calendar/gui/dialogs/event-page.c:1285
+#: ../calendar/gui/dialogs/event-page.c:1286
 msgid "Event with no start date"
 msgstr "Acontecimiento sin fecha de inicio"
 
-#: ../calendar/gui/dialogs/event-page.c:1288
+#: ../calendar/gui/dialogs/event-page.c:1289
 msgid "Event with no end date"
 msgstr "Acontecimiento sin fecha de finalización"
 
-#: ../calendar/gui/dialogs/event-page.c:1461
-#: ../calendar/gui/dialogs/memo-page.c:723
-#: ../calendar/gui/dialogs/task-page.c:840
+#: ../calendar/gui/dialogs/event-page.c:1462
+#: ../calendar/gui/dialogs/memo-page.c:724
+#: ../calendar/gui/dialogs/task-page.c:841
 msgid "Start date is wrong"
 msgstr "La fecha de inicio está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1471
+#: ../calendar/gui/dialogs/event-page.c:1472
 msgid "End date is wrong"
 msgstr "La fecha de finalización está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1494
+#: ../calendar/gui/dialogs/event-page.c:1495
 msgid "Start time is wrong"
 msgstr "La hora de inicio está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1501
+#: ../calendar/gui/dialogs/event-page.c:1502
 msgid "End time is wrong"
 msgstr "La hora de finalización está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1664
-#: ../calendar/gui/dialogs/memo-page.c:762
-#: ../calendar/gui/dialogs/task-page.c:893
+#: ../calendar/gui/dialogs/event-page.c:1665
+#: ../calendar/gui/dialogs/memo-page.c:763
+#: ../calendar/gui/dialogs/task-page.c:894
 msgid "An organizer is required."
 msgstr "Se requiere un organizador."
 
-#: ../calendar/gui/dialogs/event-page.c:1698
-#: ../calendar/gui/dialogs/task-page.c:927
+#: ../calendar/gui/dialogs/event-page.c:1699
+#: ../calendar/gui/dialogs/task-page.c:928
 msgid "At least one attendee is required."
 msgstr "Es necesario por lo menos un participante."
 
-#: ../calendar/gui/dialogs/event-page.c:1905
+#: ../calendar/gui/dialogs/event-page.c:1906
 msgid "_Delegatees"
 msgstr "_Delegados"
 
-#: ../calendar/gui/dialogs/event-page.c:1907
+#: ../calendar/gui/dialogs/event-page.c:1908
 msgid "Atte_ndees"
 msgstr "_Participantes"
 
-#: ../calendar/gui/dialogs/event-page.c:2969
+#: ../calendar/gui/dialogs/event-page.c:2981
 #, c-format
 msgid "Unable to open the calendar '%s': %s"
 msgstr "No es posible abrir el calendario «%s»: %s"
@@ -3089,40 +3099,40 @@ msgstr "No es posible abrir el calendario «%s»: %s"
 #. * on behalf of some other user
 #. Translators: This string is used when we are creating a Task
 #. * on behalf of some other user
-#: ../calendar/gui/dialogs/event-page.c:3051
-#: ../calendar/gui/dialogs/memo-page.c:1030
-#: ../calendar/gui/dialogs/task-page.c:1861
+#: ../calendar/gui/dialogs/event-page.c:3063
+#: ../calendar/gui/dialogs/memo-page.c:1047
+#: ../calendar/gui/dialogs/task-page.c:1877
 #, c-format
 msgid "You are acting on behalf of %s"
 msgstr "Está actuando en nombre de %s"
 
-#: ../calendar/gui/dialogs/event-page.c:3398
+#: ../calendar/gui/dialogs/event-page.c:3410
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d día antes de la cita"
 msgstr[1] "%d días antes de la cita"
 
-#: ../calendar/gui/dialogs/event-page.c:3404
+#: ../calendar/gui/dialogs/event-page.c:3416
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d hora antes de la cita"
 msgstr[1] "%d horas antes de la cita"
 
-#: ../calendar/gui/dialogs/event-page.c:3410
+#: ../calendar/gui/dialogs/event-page.c:3422
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minuto antes de la cita"
 msgstr[1] "%d minutos antes de la cita"
 
-#: ../calendar/gui/dialogs/event-page.c:3429
+#: ../calendar/gui/dialogs/event-page.c:3441
 msgid "Customize"
 msgstr "Personalizar"
 
 #. Translators: "None" for "No reminder set"
-#: ../calendar/gui/dialogs/event-page.c:3435
+#: ../calendar/gui/dialogs/event-page.c:3447
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Ninguno"
@@ -3265,24 +3275,24 @@ msgstr "Nota"
 msgid "Print this memo"
 msgstr "Imprimir esta nota"
 
-#: ../calendar/gui/dialogs/memo-page.c:423
+#: ../calendar/gui/dialogs/memo-page.c:424
 msgid "Memo's start date is in the past"
 msgstr "La hora de inicio de la nota está en el pasado"
 
-#: ../calendar/gui/dialogs/memo-page.c:460
+#: ../calendar/gui/dialogs/memo-page.c:461
 msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr "La nota no se puede editar porque es de sólo lectura"
 
-#: ../calendar/gui/dialogs/memo-page.c:464
+#: ../calendar/gui/dialogs/memo-page.c:465
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "La nota no se puede editar completamente porque no es el organizador"
 
-#: ../calendar/gui/dialogs/memo-page.c:950
+#: ../calendar/gui/dialogs/memo-page.c:967
 #, c-format
 msgid "Unable to open memos in '%s': %s"
 msgstr "No es posible abrir las notas en «%s»: %s"
 
-#: ../calendar/gui/dialogs/memo-page.c:1161 ../em-format/em-format.c:1233
+#: ../calendar/gui/dialogs/memo-page.c:1178 ../em-format/em-format.c:1233
 #: ../em-format/em-format-quote.c:154 ../mail/em-format-html.c:2295
 #: ../mail/em-format-html.c:2318 ../mail/message-list.etspec.h:9
 #: ../modules/mail/em-mailer-prefs.c:72
@@ -3290,13 +3300,13 @@ msgid "To"
 msgstr "Para"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:3
-#: ../calendar/gui/dialogs/task-page.c:342
+#: ../calendar/gui/dialogs/task-page.c:343
 #: ../calendar/gui/dialogs/task-page.ui.h:9
 msgid "_List:"
 msgstr "_Lista:"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:4
-#: ../calendar/gui/dialogs/task-page.c:350
+#: ../calendar/gui/dialogs/task-page.c:351
 #: ../calendar/gui/dialogs/task-page.ui.h:2
 msgid "Organi_zer:"
 msgstr "Organi_zador:"
@@ -3713,12 +3723,12 @@ msgstr "Pulse para cambiar o ver los detalles del estado de la tarea"
 msgid "_Send Options"
 msgstr "Opciones de _envío"
 
-#: ../calendar/gui/dialogs/task-editor.c:321 ../calendar/gui/print.c:3329
+#: ../calendar/gui/dialogs/task-editor.c:168 ../calendar/gui/print.c:3329
 #: ../widgets/misc/e-send-options.c:553
 msgid "Task"
 msgstr "Tarea"
 
-#: ../calendar/gui/dialogs/task-editor.c:324
+#: ../calendar/gui/dialogs/task-editor.c:171
 msgid "Task Details"
 msgstr "Detalles"
 
@@ -3726,23 +3736,23 @@ msgstr "Detalles"
 msgid "Print this task"
 msgstr "Imprimir esta tarea"
 
-#: ../calendar/gui/dialogs/task-page.c:254
+#: ../calendar/gui/dialogs/task-page.c:255
 msgid "Task's start date is in the past"
 msgstr "La hora de inicio de la tarea está en el pasado"
 
-#: ../calendar/gui/dialogs/task-page.c:255
+#: ../calendar/gui/dialogs/task-page.c:256
 msgid "Task's due date is in the past"
 msgstr "La fecha de vencimiento de la tarea está en el pasado"
 
-#: ../calendar/gui/dialogs/task-page.c:289
+#: ../calendar/gui/dialogs/task-page.c:290
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr "No se puede editar la tarea porque es de sólo lectura"
 
-#: ../calendar/gui/dialogs/task-page.c:293
+#: ../calendar/gui/dialogs/task-page.c:294
 msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr "No se puede editar completamente la tarea porque no es el organizador"
 
-#: ../calendar/gui/dialogs/task-page.c:297
+#: ../calendar/gui/dialogs/task-page.c:298
 msgid ""
 "Task cannot be edited, because the selected task list does not support "
 "assigned tasks"
@@ -3750,11 +3760,11 @@ msgstr ""
 "No se puede editar la tarea porque la lista de tareas seleccionada no "
 "soporta asignación de tareas"
 
-#: ../calendar/gui/dialogs/task-page.c:822
+#: ../calendar/gui/dialogs/task-page.c:823
 msgid "Due date is wrong"
 msgstr "La fecha de vencimiento es errónea"
 
-#: ../calendar/gui/dialogs/task-page.c:1778
+#: ../calendar/gui/dialogs/task-page.c:1794
 #, c-format
 msgid "Unable to open tasks in '%s': %s"
 msgstr "No se pueden abrir las tareas en «%s»: %s"
@@ -6769,13 +6779,13 @@ msgid "Please enter your password."
 msgstr "Introduzca su contraseña."
 
 #: ../capplet/settings/mail-account-view.c:282
-#: ../mail/em-account-editor.c:5459 ../plugins/caldav/caldav-source.c:68
+#: ../mail/em-account-editor.c:5471 ../plugins/caldav/caldav-source.c:68
 msgid "CalDAV"
 msgstr "CalDAV"
 
 #: ../capplet/settings/mail-account-view.c:376
 #: ../capplet/settings/mail-account-view.c:421
-#: ../mail/em-account-editor.c:5330 ../mail/em-account-editor.c:5387
+#: ../mail/em-account-editor.c:5342 ../mail/em-account-editor.c:5399
 #: ../modules/online-accounts/e-online-accounts-google.c:295
 #: ../modules/online-accounts/e-online-accounts-google.c:371
 #: ../plugins/google-account-setup/google-contacts-source.c:55
@@ -6785,20 +6795,20 @@ msgstr "Google"
 
 #: ../capplet/settings/mail-account-view.c:497
 #: ../capplet/settings/mail-account-view.c:601
-#: ../mail/em-account-editor.c:4857 ../mail/em-account-editor.c:4892
+#: ../mail/em-account-editor.c:4869 ../mail/em-account-editor.c:4904
 msgid "Always (SSL)"
 msgstr "Siempre (SSL)"
 
 #: ../capplet/settings/mail-account-view.c:500
 #: ../capplet/settings/mail-account-view.c:604
-#: ../mail/em-account-editor.c:4860 ../mail/em-account-editor.c:4895
+#: ../mail/em-account-editor.c:4872 ../mail/em-account-editor.c:4907
 msgid "When possible (TLS)"
 msgstr "Cuando sea posible (TLS)"
 
 #: ../capplet/settings/mail-account-view.c:503
 #: ../capplet/settings/mail-account-view.c:607
-#: ../mail/em-account-editor.c:1752 ../mail/em-account-editor.c:4863
-#: ../mail/em-account-editor.c:4898
+#: ../mail/em-account-editor.c:1752 ../mail/em-account-editor.c:4875
+#: ../mail/em-account-editor.c:4910
 msgid "Never"
 msgstr "Nunca"
 
@@ -6888,7 +6898,7 @@ msgstr ""
 "obtener su correo."
 
 #: ../capplet/settings/mail-account-view.c:678
-#: ../mail/em-account-editor.c:2972 ../mail/em-account-editor.c:3111
+#: ../mail/em-account-editor.c:2984 ../mail/em-account-editor.c:3123
 msgid "Identity"
 msgstr "Identidad"
 
@@ -6940,7 +6950,7 @@ msgid "Back - Receiving options"
 msgstr "Atrás - Opciones de recepción"
 
 #: ../capplet/settings/mail-account-view.c:683
-#: ../mail/em-account-editor.c:4124
+#: ../mail/em-account-editor.c:4136
 msgid "Defaults"
 msgstr "Predeterminados"
 
@@ -6969,12 +6979,12 @@ msgid "Setup Google calendar with Evolution"
 msgstr "Configurar el calendario de Google con Evolution"
 
 #: ../capplet/settings/mail-account-view.c:861
-#: ../mail/em-account-editor.c:4958
+#: ../mail/em-account-editor.c:4970
 msgid "You may need to enable IMAP access."
 msgstr "Puede que deba activar el acceso IMAP."
 
 #: ../capplet/settings/mail-account-view.c:869
-#: ../mail/em-account-editor.c:4935
+#: ../mail/em-account-editor.c:4947
 msgid "Google account settings:"
 msgstr "Configuración de la cuenta de Google:"
 
@@ -6983,7 +6993,7 @@ msgid "Setup Yahoo calendar with Evolution"
 msgstr "Configurar el calendario de Yahoo con Evolution"
 
 #: ../capplet/settings/mail-account-view.c:899
-#: ../mail/em-account-editor.c:5005
+#: ../mail/em-account-editor.c:5017
 msgid ""
 "Yahoo calendars are named as firstname_lastname. We have tried to form the "
 "calendar name. So please confirm and re-enter the calendar name if it is not "
@@ -6994,7 +7004,7 @@ msgstr ""
 "calendario si no es correcto."
 
 #: ../capplet/settings/mail-account-view.c:908
-#: ../mail/em-account-editor.c:4990
+#: ../mail/em-account-editor.c:5002
 msgid "Yahoo account settings:"
 msgstr "Configuración de la cuenta de Yahoo:"
 
@@ -11281,19 +11291,19 @@ msgstr "Siempre"
 msgid "Ask for each message"
 msgstr "Preguntar por cada mensaje"
 
-#: ../mail/em-account-editor.c:2921 ../mail/mail-config.ui.h:164
+#: ../mail/em-account-editor.c:2933 ../mail/mail-config.ui.h:164
 msgid "_Path:"
 msgstr "R_uta:"
 
-#: ../mail/em-account-editor.c:2924
+#: ../mail/em-account-editor.c:2936
 msgid "Fil_e:"
 msgstr "_Archivo:"
 
-#: ../mail/em-account-editor.c:2969
+#: ../mail/em-account-editor.c:2981
 msgid "Mail Configuration"
 msgstr "Configuración del correo"
 
-#: ../mail/em-account-editor.c:2970
+#: ../mail/em-account-editor.c:2982
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -11303,7 +11313,7 @@ msgstr ""
 "\n"
 "Para comenzar, pulse «Continuar»."
 
-#: ../mail/em-account-editor.c:2973
+#: ../mail/em-account-editor.c:2985
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -11313,19 +11323,19 @@ msgstr ""
 "hace falta que los rellene, a menos que quiera incluir esta información en "
 "el correo-e que envíe."
 
-#: ../mail/em-account-editor.c:2975 ../mail/em-account-editor.c:3184
+#: ../mail/em-account-editor.c:2987 ../mail/em-account-editor.c:3196
 msgid "Receiving Email"
 msgstr "Recepción de correo"
 
-#: ../mail/em-account-editor.c:2976
+#: ../mail/em-account-editor.c:2988
 msgid "Please configure the following account settings."
 msgstr "Configure las siguientes opciones de la cuenta."
 
-#: ../mail/em-account-editor.c:2978 ../mail/em-account-editor.c:3803
+#: ../mail/em-account-editor.c:2990 ../mail/em-account-editor.c:3815
 msgid "Sending Email"
 msgstr "Envío de correo"
 
-#: ../mail/em-account-editor.c:2979
+#: ../mail/em-account-editor.c:2991
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -11334,21 +11344,21 @@ msgstr ""
 "seguro, pregúntele a su administrador de sistemas o a su Proveedor de "
 "Servicios de Internet."
 
-#: ../mail/em-account-editor.c:2981
+#: ../mail/em-account-editor.c:2993
 msgid "Account Summary"
 msgstr "Resumen de la cuenta"
 
-#: ../mail/em-account-editor.c:2982
+#: ../mail/em-account-editor.c:2994
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
 msgstr ""
 "Esto es un resumen de la configuración que se usará para acceder a su correo."
 
-#: ../mail/em-account-editor.c:2986
+#: ../mail/em-account-editor.c:2998
 msgid "Done"
 msgstr "Hecho"
 
-#: ../mail/em-account-editor.c:2987
+#: ../mail/em-account-editor.c:2999
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -11362,43 +11372,43 @@ msgstr ""
 "\n"
 "Pulse «Aplicar» para guardar su configuración."
 
-#: ../mail/em-account-editor.c:3550
+#: ../mail/em-account-editor.c:3562
 msgid "Check for _new messages every"
 msgstr "Comprobar si hay mensajes _nuevos cada"
 
-#: ../mail/em-account-editor.c:3558
+#: ../mail/em-account-editor.c:3570
 msgid "minu_tes"
 msgstr "minuto_s"
 
 #. Add encryption/signature header
-#: ../mail/em-account-editor.c:4276 ../mail/em-format-html-print.c:187
+#: ../mail/em-account-editor.c:4288 ../mail/em-format-html-print.c:187
 #: ../mail/mail-config.ui.h:166
 msgid "Security"
 msgstr "Seguridad"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:4331 ../mail/em-account-editor.c:4433
+#: ../mail/em-account-editor.c:4343 ../mail/em-account-editor.c:4445
 msgid "Receiving Options"
 msgstr "Opciones de recepción"
 
-#: ../mail/em-account-editor.c:4332 ../mail/em-account-editor.c:4434
+#: ../mail/em-account-editor.c:4344 ../mail/em-account-editor.c:4446
 msgid "Checking for New Messages"
 msgstr "Comprobando si hay mensajes nuevos"
 
-#: ../mail/em-account-editor.c:4943
+#: ../mail/em-account-editor.c:4955
 msgid "Setup Google con_tacts with Evolution"
 msgstr "Configurar los con_tactos de Google con Evolution"
 
-#: ../mail/em-account-editor.c:4950
+#: ../mail/em-account-editor.c:4962
 msgid "Setup Google ca_lendar with Evolution"
 msgstr "Configurar el ca_lendario de Google con Evolution"
 
-#: ../mail/em-account-editor.c:4998
+#: ../mail/em-account-editor.c:5010
 msgid "Setup _Yahoo calendar with Evolution"
 msgstr "Configurar el calendario de _Yahoo con Evolution"
 
-#: ../mail/em-account-editor.c:5023
+#: ../mail/em-account-editor.c:5035
 msgid "Yahoo Calen_dar name:"
 msgstr "Nombre del calen_dario de Yahoo:"
 
@@ -22653,12 +22663,10 @@ msgstr "El script debe ser ejecutable."
 
 #. no suggestions. Put something in the menu anyway...
 #: ../widgets/misc/e-spell-entry.c:348
-#| msgid "(no subject)"
 msgid "(no suggestions)"
 msgstr "(no hay sugerencias)"
 
 #: ../widgets/misc/e-spell-entry.c:372
-#| msgid "_Move..."
 msgid "More..."
 msgstr "Más…"
 
@@ -22670,12 +22678,10 @@ msgstr "Añadir «%s» al diccionario"
 
 #. - Ignore All
 #: ../widgets/misc/e-spell-entry.c:484
-#| msgid "Ignore"
 msgid "Ignore All"
 msgstr "Ignorar todo"
 
 #: ../widgets/misc/e-spell-entry.c:510
-#| msgid "Shell Settings"
 msgid "Spelling Suggestions"
 msgstr "Sugerencias de ortografía"
 
