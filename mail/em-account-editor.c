@@ -2276,6 +2276,15 @@ emae_setup_settings (EMAccountEditorService *service)
 	}
 
 	if (CAMEL_IS_NETWORK_SETTINGS (settings)) {
+		CamelNetworkSettings *network_settings;
+		guint16 port;
+
+		network_settings = CAMEL_NETWORK_SETTINGS (settings);
+
+		/* remember port number as set before binding properties,
+		   because changes in auth-mechanism combo can reset the port,
+		   thus effectively lost it, when set to other known value */
+		port = camel_network_settings_get_port (network_settings);
 
 		/* Even if the service does not need to authenticate, we
 		 * still need to initialize the auth mechanism combo box.
@@ -2322,6 +2331,9 @@ emae_setup_settings (EMAccountEditorService *service)
 			service->username, "text",
 			G_BINDING_BIDIRECTIONAL |
 			G_BINDING_SYNC_CREATE);
+
+		/* restore previously saved port */
+		camel_network_settings_set_port (network_settings, port);
 	}
 
 	if (CAMEL_IS_LOCAL_SETTINGS (settings)) {
