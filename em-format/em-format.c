@@ -2032,6 +2032,8 @@ em_format_parse_async (EMFormat *emf,
 	g_simple_async_result_run_in_thread (
 		simple, emf_start_async_parser,
 		G_PRIORITY_DEFAULT, cancellable);
+
+	g_object_unref (simple);
 }
 
 void

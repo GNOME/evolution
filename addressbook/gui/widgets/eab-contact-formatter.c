@@ -1258,6 +1258,8 @@ eab_contact_formatter_format_contact_async (EABContactFormatter *formatter,
 	g_simple_async_result_run_in_thread (
 		simple, do_start_async_formatter,
 		G_PRIORITY_DEFAULT, cancellable);
+
+	g_object_unref (simple);
 }
 
 static void

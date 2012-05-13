@@ -474,6 +474,8 @@ http_request_send_async (SoupRequest *request,
 		simple, handle_http_request,
 		G_PRIORITY_DEFAULT, cancellable);
 
+	g_object_unref (simple);
+
 	g_hash_table_destroy (query);
 }
 

@@ -111,6 +111,8 @@ file_request_send_async (SoupRequest *request,
 	g_simple_async_result_run_in_thread (
 		simple, handle_file_request,
 		G_PRIORITY_DEFAULT, cancellable);
+
+	g_object_unref (simple);
 }
 
 static GInputStream *
