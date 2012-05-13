@@ -1261,8 +1261,8 @@ eab_contact_formatter_format_contact_async (EABContactFormatter *formatter,
 
 static void
 collapse_contacts_list (WebKitDOMEventTarget *event_target,
-			WebKitDOMEvent *event,
-			gpointer user_data)
+                        WebKitDOMEvent *event,
+                        gpointer user_data)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *list;
@@ -1300,7 +1300,7 @@ collapse_contacts_list (WebKitDOMEventTarget *event_target,
 }
 
 void
-eab_contact_formatter_bind_dom (WebKitDOMDocument* document)
+eab_contact_formatter_bind_dom (WebKitDOMDocument *document)
 {
 	WebKitDOMNodeList *nodes;
 	gulong i, length;

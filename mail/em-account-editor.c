@@ -2282,8 +2282,8 @@ emae_setup_settings (EMAccountEditorService *service)
 		network_settings = CAMEL_NETWORK_SETTINGS (settings);
 
 		/* remember port number as set before binding properties,
-		   because changes in auth-mechanism combo can reset the port,
-		   thus effectively lost it, when set to other known value */
+		 * because changes in auth-mechanism combo can reset the port,
+		 * thus effectively lost it, when set to other known value */
 		port = camel_network_settings_get_port (network_settings);
 
 		/* Even if the service does not need to authenticate, we

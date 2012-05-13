@@ -62,7 +62,7 @@ e_composer_spell_header_new_button (const gchar *label)
 
 void
 e_composer_spell_header_set_languages (EComposerSpellHeader *spell_header,
-				       GList *languages)
+                                       GList *languages)
 {
 	ESpellEntry *spell_entry;
 

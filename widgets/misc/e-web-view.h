@@ -234,7 +234,6 @@ void		e_web_view_install_request_handler
 						(EWebView *web_view,
 						 GType handler_type);
 
-
 G_END_DECLS
 
 #endif /* E_WEB_VIEW_H */

@@ -637,7 +637,7 @@ exit:
 
 static guint32
 get_message_size (CamelMimeMessage *message,
-		  GCancellable *cancellable)
+                  GCancellable *cancellable)
 {
 	guint32 res = 0;
 	CamelStream *null;

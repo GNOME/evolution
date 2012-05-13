@@ -1755,8 +1755,8 @@ attachment_load_query_info_cb (GFile *file,
 
 static void
 attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
-				       GObject *object,
-				       GCancellable *cancellable)
+                                       GObject *object,
+                                       GCancellable *cancellable)
 {
 	LoadContext *load_context;
 	GFileInfo *file_info;

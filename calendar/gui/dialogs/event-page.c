@@ -1983,8 +1983,8 @@ minute_sel_changed (GtkSpinButton *widget,
 
 static gboolean
 minute_sel_focus_out (GtkSpinButton *widget,
-		      GdkEvent *event,
-		      EventPage *epage)
+                      GdkEvent *event,
+                      EventPage *epage)
 {
 	const gchar *text;
 	gint hours, minutes;

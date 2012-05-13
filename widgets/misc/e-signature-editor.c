@@ -612,7 +612,7 @@ exit:
 
 void
 e_signature_editor_set_editing_old (ESignatureEditor *editor,
-				    gboolean editing_old)
+                                    gboolean editing_old)
 {
 	g_return_if_fail (E_IS_SIGNATURE_EDITOR (editor));
 

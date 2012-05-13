@@ -168,7 +168,7 @@ e_calendar_http_secure (EPlugin *epl,
 
 	if (GTK_IS_TABLE (data->parent)) {
 		gint row;
-		
+
 		g_object_get (data->parent, "n-rows", &row, NULL);
 
 		gtk_table_attach (GTK_TABLE (data->parent), grid, 1, 2, row , row + 1, GTK_FILL, 0, 0, 0);

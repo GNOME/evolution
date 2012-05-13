@@ -921,7 +921,7 @@ remove_event_dialog (ECalClient *client,
 
 static void
 save_and_close_editor (CompEditor *editor,
-		       gboolean can_close)
+                       gboolean can_close)
 {
 	CompEditorPrivate *priv = editor->priv;
 	EAttachmentStore *store;
@@ -1047,7 +1047,7 @@ action_save_cb (GtkAction *action,
 
 static void
 action_save_and_close_cb (GtkAction *action,
-			  CompEditor *editor)
+                          CompEditor *editor)
 {
 	save_and_close_editor (editor, TRUE);
 }

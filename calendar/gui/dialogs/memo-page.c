@@ -909,7 +909,6 @@ get_widgets (MemoPage *mpage)
 			G_BINDING_SYNC_CREATE);
 	}
 
-
 	return (priv->memo_content
 		&& priv->categories_btn
 		&& priv->categories

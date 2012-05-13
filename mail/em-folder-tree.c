@@ -1968,10 +1968,10 @@ fail:
 
 static gboolean
 ask_drop_folder (EMFolderTree *folder_tree,
-		 const gchar *src_folder_uri,
-		 const gchar *des_full_name,
-		 CamelStore *des_store,
-		 gboolean is_move)
+                 const gchar *src_folder_uri,
+                 const gchar *des_full_name,
+                 CamelStore *des_store,
+                 gboolean is_move)
 {
 	const gchar *key = is_move ? "prompt-on-folder-drop-move" : "prompt-on-folder-drop-copy";
 	EMailSession *session;

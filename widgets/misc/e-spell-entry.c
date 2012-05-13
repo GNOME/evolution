@@ -348,7 +348,7 @@ build_suggestion_menu (ESpellEntry *entry,
 		GtkWidget *label = gtk_label_new (_("(no suggestions)"));
 		PangoAttribute *attribute;
 		PangoAttrList *attribute_list;
-	
+
 		attribute_list = pango_attr_list_new ();
 		attribute = pango_attr_style_new (PANGO_STYLE_ITALIC);
 		pango_attr_list_insert (attribute_list, attribute);
@@ -492,8 +492,8 @@ build_spelling_menu (ESpellEntry *entry,
 
 static void
 spell_entry_add_suggestions_menu (ESpellEntry *entry,
-				  GtkMenu *menu,
-				  const gchar *word)
+                                  GtkMenu *menu,
+                                  const gchar *word)
 {
 	GtkWidget *icon, *mi;
 
@@ -528,8 +528,8 @@ spell_entry_popup_menu (ESpellEntry *entry)
 
 static void
 spell_entry_populate_popup (ESpellEntry *entry,
-			    GtkMenu *menu,
-			    gpointer data)
+                            GtkMenu *menu,
+                            gpointer data)
 {
 	gint start, end;
 	gchar *word;
@@ -622,7 +622,7 @@ spell_entry_load_spell_languages (void)
 
 static void
 spell_entry_settings_changed (ESpellEntry *spell_entry,
-			      const gchar *key)
+                              const gchar *key)
 {
 	GList *languages;
 
@@ -643,7 +643,7 @@ spell_entry_settings_changed (ESpellEntry *spell_entry,
 
 static gint
 spell_entry_find_position (ESpellEntry *spell_entry,
-			   gint x)
+                           gint x)
 {
 	PangoLayout *layout;
 	PangoLayoutLine *line;
@@ -652,7 +652,7 @@ spell_entry_find_position (ESpellEntry *spell_entry,
 	gint trailing;
 	const gchar *text;
 	GtkEntry *entry = GTK_ENTRY (spell_entry);
-  
+
 	layout = gtk_entry_get_layout (entry);
 	text = pango_layout_get_text (layout);
 
@@ -667,7 +667,7 @@ spell_entry_find_position (ESpellEntry *spell_entry,
 
 static gboolean
 e_spell_entry_draw (GtkWidget *widget,
-		    cairo_t *cr)
+                    cairo_t *cr)
 {
 	ESpellEntry *spell_entry = E_SPELL_ENTRY (widget);
 	GtkEntry *entry = GTK_ENTRY (widget);
@@ -693,9 +693,9 @@ e_spell_entry_button_press (GtkWidget *widget,
 
 static void
 spell_entry_set_property (GObject *object,
-			  guint property_id,
-			  const GValue *value,
-			  GParamSpec *pspec)
+                          guint property_id,
+                          const GValue *value,
+                          GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_CHECKING_ENABLED:
@@ -810,7 +810,7 @@ e_spell_entry_new (void)
 /* 'languages' consists of 'const GtkhtmlSpellLanguage *' */
 void
 e_spell_entry_set_languages (ESpellEntry *spell_entry,
-			     GList *languages)
+                             GList *languages)
 {
 	GList *iter;
 
@@ -846,7 +846,7 @@ e_spell_entry_get_checking_enabled (ESpellEntry *spell_entry)
 
 void
 e_spell_entry_set_checking_enabled (ESpellEntry *spell_entry,
-				    gboolean enable_checking)
+                                    gboolean enable_checking)
 {
 	g_return_if_fail (spell_entry != NULL);
 
@@ -857,5 +857,5 @@ e_spell_entry_set_checking_enabled (ESpellEntry *spell_entry,
 	spell_entry_recheck_all (spell_entry);
 
 	g_object_notify (G_OBJECT (spell_entry), "checking-enabled");
-	
+
 }

@@ -23,7 +23,6 @@
 #include <config.h>
 #endif
 
-
 #include "e-mail-display.h"
 
 #include <glib/gi18n.h>
@@ -1200,8 +1199,8 @@ mail_display_frame_created (WebKitWebView *web_view,
 
 static void
 mail_display_set_fonts (EWebView *web_view,
-			PangoFontDescription **monospace,
-			PangoFontDescription **variable)
+                        PangoFontDescription **monospace,
+                        PangoFontDescription **variable)
 {
 	EMailDisplay *display = E_MAIL_DISPLAY (web_view);
 	gboolean use_custom_font;

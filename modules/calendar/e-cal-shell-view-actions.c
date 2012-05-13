@@ -435,21 +435,21 @@ action_calendar_rename_cb (GtkAction *action,
 
 static void
 action_calendar_search_next_cb (GtkAction *action,
-				ECalShellView *cal_shell_view)
+                                ECalShellView *cal_shell_view)
 {
 	e_cal_shell_view_search_events (cal_shell_view, TRUE);
 }
 
 static void
 action_calendar_search_prev_cb (GtkAction *action,
-				ECalShellView *cal_shell_view)
+                                ECalShellView *cal_shell_view)
 {
 	e_cal_shell_view_search_events (cal_shell_view, FALSE);
 }
 
 static void
 action_calendar_search_stop_cb (GtkAction *action,
-				ECalShellView *cal_shell_view)
+                                ECalShellView *cal_shell_view)
 {
 	e_cal_shell_view_search_stop (cal_shell_view);
 }

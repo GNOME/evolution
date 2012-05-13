@@ -48,7 +48,7 @@ cal_shell_view_finalize (GObject *object)
 
 static void
 cal_shell_view_add_action_button (GtkBox *box,
-				  GtkAction *action)
+                                  GtkAction *action)
 {
 	GtkWidget *button, *icon;
 
@@ -98,7 +98,7 @@ cal_shell_view_constructed (GObject *object)
 
 	shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (object));
 	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (object));
-	searchbar = e_cal_shell_content_get_searchbar (E_CAL_SHELL_CONTENT (shell_content));	
+	searchbar = e_cal_shell_content_get_searchbar (E_CAL_SHELL_CONTENT (shell_content));
 
 	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 

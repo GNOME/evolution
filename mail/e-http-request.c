@@ -32,7 +32,6 @@
 
 #include "em-format-html.h"
 
-
 #define d(x)
 
 #define E_HTTP_REQUEST_GET_PRIVATE(obj) \
@@ -168,8 +167,8 @@ http_request_finished (SoupRequest *request,
 
 static gssize
 copy_stream_to_stream (CamelStream *input,
-		       GMemoryInputStream *output,
-		       GCancellable *cancellable)
+                       GMemoryInputStream *output,
+                       GCancellable *cancellable)
 {
 	gchar *buff;
 	gssize read_len = 0;
@@ -195,7 +194,7 @@ copy_stream_to_stream (CamelStream *input,
 
 static void
 quit_main_loop (GCancellable *cancellable,
-	        GMainLoop *loop)
+                GMainLoop *loop)
 {
 	if (g_main_loop_is_running (loop)) {
 		g_main_loop_quit (loop);
@@ -364,7 +363,7 @@ handle_http_request (GSimpleAsyncResult *res,
 		g_cancellable_disconnect (cancellable, id);
 
 		/* Wait until all asynchronous operations are finished working
-		   with the 'data' structure so that it's not free'd too early. */
+		 * with the 'data' structure so that it's not free'd too early. */
 		e_flag_wait (data.flag);
 		e_flag_free (data.flag);
 

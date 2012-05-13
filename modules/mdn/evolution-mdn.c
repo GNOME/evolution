@@ -110,7 +110,7 @@ mdn_remove_alert (EMdn *mdn)
 
 static void
 mdn_submit_alert (EMdn *mdn,
-		  EMailReader *reader,
+                  EMailReader *reader,
                   EAlert *alert)
 {
 	EPreviewPane *preview_pane;
@@ -433,7 +433,7 @@ mdn_notify_action_cb (GtkAction *action,
 
 static void
 mdn_mail_reader_changed_cb (EMailReader *reader,
-			    EMdn *mdn)
+                            EMdn *mdn)
 {
 	MessageList *message_list;
 
@@ -449,7 +449,7 @@ static void
 mdn_message_loaded_cb (EMailReader *reader,
                        const gchar *message_uid,
                        CamelMimeMessage *message,
-		       EMdn *mdn)
+                       EMdn *mdn)
 {
 	EAlert *alert;
 	EAccount *account;

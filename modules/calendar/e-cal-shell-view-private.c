@@ -861,7 +861,7 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 	gboolean success;
 	const gchar *uid;
 	EShell *shell;
-	EShellContent *shell_content;	
+	EShellContent *shell_content;
 	gboolean is_src_local_cal, is_dest_local_cal;
 
 	/* XXX This function should be split up into
@@ -881,8 +881,8 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 	is_dest_local_cal = g_str_has_prefix (e_client_get_uri(E_CLIENT (destination_client)), "local:");
 
 	shell = e_shell_get_default ();
-	shell_content = e_shell_view_get_shell_content(E_SHELL_VIEW (cal_shell_view));
-	if(!e_shell_get_online(shell) && ((!is_src_local_cal && remove) || !is_dest_local_cal))
+	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (cal_shell_view));
+	if (!e_shell_get_online (shell) && ((!is_src_local_cal && remove) || !is_dest_local_cal))
 	{
 		e_alert_submit (
 			E_ALERT_SINK (shell_content),
@@ -1181,7 +1181,7 @@ cal_searching_get_search_range_years (ECalShellView *cal_shell_view)
 
 static gint
 cal_time_t_ptr_compare (gconstpointer a,
-			gconstpointer b)
+                        gconstpointer b)
 {
 	const time_t *ta = a, *tb = b;
 
@@ -1220,9 +1220,9 @@ cal_searching_instances_done_cb (gpointer user_data)
 
 static gboolean
 cal_searching_got_instance_cb (ECalComponent *comp,
-			       time_t instance_start,
-			       time_t instance_end,
-			       gpointer user_data)
+                               time_t instance_start,
+                               time_t instance_end,
+                               gpointer user_data)
 {
 	struct GenerateInstancesData *gid = user_data;
 	ECalShellViewPrivate *priv;
@@ -1267,8 +1267,8 @@ cal_searching_got_instance_cb (ECalComponent *comp,
 
 static void
 cal_search_get_object_list_cb (GObject *source,
-			       GAsyncResult *result,
-			       gpointer user_data)
+                               GAsyncResult *result,
+                               gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (source);
 	ECalShellView *cal_shell_view = user_data;
@@ -1369,7 +1369,7 @@ cal_searching_check_candidates (ECalShellView *cal_shell_view)
 
 static void
 cal_searching_update_alert (ECalShellView *cal_shell_view,
-			    const gchar *message)
+                            const gchar *message)
 {
 	ECalShellViewPrivate *priv;
 	EShellContent *shell_content;
@@ -1532,7 +1532,7 @@ cal_iterate_searching (ECalShellView *cal_shell_view)
 
 void
 e_cal_shell_view_search_events (ECalShellView *cal_shell_view,
-				gboolean search_forward)
+                                gboolean search_forward)
 {
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
 	ECalShellContent *cal_shell_content;

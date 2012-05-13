@@ -614,7 +614,6 @@ efh_write_image (EMFormat *emf,
 			content = g_base64_encode ((guchar *) buff, len);
 			g_free (buff);
 
-
 		} else {
 			content = g_base64_encode ((guchar *) ba->data, ba->len);
 		}
@@ -2609,7 +2608,9 @@ efh_format_short_headers (EMFormatHTML *efh,
 }
 
 static void
-write_contact_picture (CamelMimePart *part, gint size, GString *buffer)
+write_contact_picture (CamelMimePart *part,
+                       gint size,
+                       GString *buffer)
 {
 	gchar *b64, *content_type;
 	CamelDataWrapper *dw;

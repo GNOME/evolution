@@ -1280,7 +1280,7 @@ init_dialog (GtkDialog *dialog,
              const gchar *usermail,
              gboolean autoschedule,
              gint source_type,
-	     gboolean ignore_invalid_cert)
+             gboolean ignore_invalid_cert)
 {
 	GtkBox *content_area;
 	GtkWidget *label, *info_box, *spinner, *info_label, *hbox;
@@ -1585,7 +1585,7 @@ caldav_browse_server (GtkWindow *parent,
                       const gchar *server_url,
                       const gchar *username,
                       gboolean use_ssl,
-		      gboolean ignore_invalid_cert,
+                      gboolean ignore_invalid_cert,
                       gchar **new_usermail,
                       gboolean *new_autoschedule,
                       gint source_type)

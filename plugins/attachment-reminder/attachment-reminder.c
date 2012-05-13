@@ -144,9 +144,9 @@ ask_for_missing_attachment (EPlugin *ep,
 
 static gboolean
 get_next_word (GByteArray *msg_text,
-	       guint *from,
-	       const gchar **word,
-	       guint *wlen)
+               guint *from,
+               const gchar **word,
+               guint *wlen)
 {
 	gboolean new_line;
 
@@ -200,12 +200,12 @@ get_next_word (GByteArray *msg_text,
 }
 
 /* 's1' has s1len bytes of text, while 's2' is NULL-terminated
-   and *s2len contains how many bytes were read */
+ * and *s2len contains how many bytes were read */
 static gboolean
 utf8_casencmp (const gchar *s1,
-	       guint s1len,
-	       const gchar *s2,
-	       guint *s2len)
+               guint s1len,
+               const gchar *s2,
+               guint *s2len)
 {
 	gunichar u1, u2;
 	guint u1len, u2len;

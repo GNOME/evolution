@@ -2843,7 +2843,7 @@ e_web_view_get_default_settings (void)
 }
 
 void
-e_web_view_update_fonts(EWebView *web_view)
+e_web_view_update_fonts (EWebView *web_view)
 {
 	GString *stylesheet;
 	gchar *base64;
@@ -2942,7 +2942,7 @@ e_web_view_update_fonts(EWebView *web_view)
 	gtk_style_context_get_style (context,
 		"link-color", &link,
 		"visited-link-color", &visited,
-                NULL);
+		NULL);
 
 	if (!link) {
 		link = g_new0 (GdkColor, 1);
@@ -2970,7 +2970,6 @@ e_web_view_update_fonts(EWebView *web_view)
 	if (visited)
 		gdk_color_free (visited);
 
-
 	base64 = g_base64_encode ((guchar *) stylesheet->str, stylesheet->len);
 	g_string_free (stylesheet, TRUE);
 
@@ -2996,7 +2995,7 @@ e_web_view_update_fonts(EWebView *web_view)
 
 void
 e_web_view_install_request_handler (EWebView *web_view,
-				    GType handler_type)
+                                    GType handler_type)
 {
 	SoupSession *session;
 	SoupSessionFeature *feature;

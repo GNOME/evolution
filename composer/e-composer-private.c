@@ -125,7 +125,7 @@ composer_update_gallery_visibility (EMsgComposer *composer)
 
 static void
 composer_spell_languages_changed (EMsgComposer *composer,
-				  GList *languages)
+                                  GList *languages)
 {
 	EComposerHeader *header;
 	EComposerHeaderTable *table = e_msg_composer_get_header_table (composer);

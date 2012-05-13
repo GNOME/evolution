@@ -623,8 +623,8 @@ mail_account_store_services_reordered (EMailAccountStore *store,
 	GError *error = NULL;
 
 	/* do not save order list if there are only two services - they
-	   should be 'local' and 'vfolder' at start, and these may not rewrite
-	   stored account order with other accounts
+	 * should be 'local' and 'vfolder' at start, and these may not rewrite
+	 * stored account order with other accounts
 	*/
 	model = GTK_TREE_MODEL (store);
 	if (!default_restored &&
@@ -1181,7 +1181,7 @@ e_mail_account_store_remove_service (EMailAccountStore *store,
 
 gboolean
 e_mail_account_store_has_service (EMailAccountStore *store,
-				  CamelService *service)
+                                  CamelService *service)
 {
 	GtkTreeIter iter;
 
@@ -1313,8 +1313,8 @@ e_mail_account_store_queue_enabled_services (EMailAccountStore *store,
 
 static gboolean
 mail_account_store_load_sort_order_queue (EMailAccountStore *store,
-					  GQueue *service_queue,
-					  GError **error)
+                                          GQueue *service_queue,
+                                          GError **error)
 {
 	EMailSession *session;
 	GKeyFile *key_file;
@@ -1362,7 +1362,7 @@ mail_account_store_load_sort_order_queue (EMailAccountStore *store,
 
 void
 e_mail_account_store_reorder_services (EMailAccountStore *store,
-				       gboolean use_default_order)
+                                       gboolean use_default_order)
 {
 	GQueue *current_order = NULL;
 	GQueue *default_order = NULL;

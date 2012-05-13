@@ -403,12 +403,11 @@ contact_display_object_requested (WebKitWebView *web_view,
 
 static void
 contact_display_load_status_changed (WebKitWebView *web_view,
-				     GParamSpec *pspec,
-				     gpointer user_data)
+                                     GParamSpec *pspec,
+                                     gpointer user_data)
 {
 	WebKitLoadStatus load_status;
 	WebKitDOMDocument *document;
-
 
 	load_status = webkit_web_view_get_load_status (web_view);
 	if (load_status != WEBKIT_LOAD_FINISHED)
