@@ -1081,6 +1081,8 @@ composer_build_message (EMsgComposer *composer,
 		G_OBJECT (composer), callback,
 		user_data, composer_build_message);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
 
@@ -4574,6 +4576,8 @@ e_msg_composer_get_message (EMsgComposer *composer,
 		G_OBJECT (composer), callback,
 		user_data, e_msg_composer_get_message);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	if (gtkhtml_editor_get_html_mode (GTKHTML_EDITOR (composer)))
 		flags |= COMPOSER_FLAG_HTML_CONTENT;
 
@@ -4649,6 +4653,8 @@ e_msg_composer_get_message_print (EMsgComposer *composer,
 		G_OBJECT (composer), callback,
 		user_data, e_msg_composer_get_message_print);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	flags |= COMPOSER_FLAG_HTML_CONTENT;
 	flags |= COMPOSER_FLAG_SAVE_OBJECT_DATA;
 
@@ -4697,6 +4703,8 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
 	simple = g_simple_async_result_new (
 		G_OBJECT (composer), callback,
 		user_data, e_msg_composer_get_message_draft);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	if (gtkhtml_editor_get_html_mode (GTKHTML_EDITOR (composer)))
 		flags |= COMPOSER_FLAG_HTML_CONTENT;

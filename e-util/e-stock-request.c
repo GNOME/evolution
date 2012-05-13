@@ -180,14 +180,19 @@ stock_request_send_async (SoupRequest *request,
                          GAsyncReadyCallback callback,
                          gpointer user_data)
 {
-	GSimpleAsyncResult *result;
+	GSimpleAsyncResult *simple;
 
 	d(printf("received request for %s\n", soup_uri_to_string (uri, FALSE)));
 
-	result = g_simple_async_result_new (G_OBJECT (request), callback,
-			user_data, stock_request_send_async);
-	g_simple_async_result_run_in_thread (result, handle_stock_request,
-			G_PRIORITY_DEFAULT, cancellable);
+	simple = g_simple_async_result_new (
+		G_OBJECT (request), callback, user_data,
+		stock_request_send_async);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	g_simple_async_result_run_in_thread (
+		simple, handle_stock_request,
+		G_PRIORITY_DEFAULT, cancellable);
 }
 
 static GInputStream *

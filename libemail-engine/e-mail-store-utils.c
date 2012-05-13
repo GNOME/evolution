@@ -122,6 +122,8 @@ e_mail_store_create_folder (CamelStore *store,
 		G_OBJECT (store), callback, user_data,
 		e_mail_store_create_folder);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
 
@@ -216,6 +218,8 @@ e_mail_store_go_offline (CamelStore *store,
 		G_OBJECT (store), callback,
 		user_data, e_mail_store_go_offline);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	g_simple_async_result_run_in_thread (
 		simple, (GSimpleAsyncThreadFunc)
 		mail_store_go_offline_thread,
@@ -291,6 +295,8 @@ e_mail_store_go_online (CamelStore *store,
 		G_OBJECT (store), callback,
 		user_data, e_mail_store_go_online);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	g_simple_async_result_run_in_thread (
 		simple, (GSimpleAsyncThreadFunc)
 		mail_store_go_online_thread,
@@ -363,6 +369,8 @@ e_mail_store_prepare_for_offline (CamelStore *store,
 	simple = g_simple_async_result_new (
 		G_OBJECT (store), callback, user_data,
 		e_mail_store_prepare_for_offline);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	g_simple_async_result_run_in_thread (
 		simple, (GSimpleAsyncThreadFunc)

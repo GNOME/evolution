@@ -430,7 +430,7 @@ http_request_send_async (SoupRequest *request,
                          gpointer user_data)
 {
 	EHTTPRequest *ehr;
-	GSimpleAsyncResult *result;
+	GSimpleAsyncResult *simple;
 	gchar *mail_uri;
 	SoupURI *uri;
 	const gchar *enc;
@@ -464,10 +464,15 @@ http_request_send_async (SoupRequest *request,
 	/* Make sure the formatter lives until we are finished here */
 	g_object_ref (ehr->priv->efh);
 
-	result = g_simple_async_result_new (G_OBJECT (request), callback,
-			user_data, http_request_send_async);
-	g_simple_async_result_run_in_thread (result, handle_http_request,
-			G_PRIORITY_DEFAULT, cancellable);
+	simple = g_simple_async_result_new (
+		G_OBJECT (request), callback,
+		user_data, http_request_send_async);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	g_simple_async_result_run_in_thread (
+		simple, handle_http_request,
+		G_PRIORITY_DEFAULT, cancellable);
 
 	g_hash_table_destroy (query);
 }

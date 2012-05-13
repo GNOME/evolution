@@ -180,7 +180,7 @@ mail_request_send_async (SoupRequest *request,
 {
 	SoupSession *session;
 	EMailRequest *emr = E_MAIL_REQUEST (request);
-	GSimpleAsyncResult *result;
+	GSimpleAsyncResult *simple;
 	SoupURI *uri;
 	GHashTable *formatters;
 	gchar *uri_str;
@@ -209,10 +209,15 @@ mail_request_send_async (SoupRequest *request,
 	/* Make sure the formatter lives until we are finished here */
 	g_object_ref (emr->priv->efh);
 
-	result = g_simple_async_result_new (G_OBJECT (request), callback,
-			user_data, mail_request_send_async);
-	g_simple_async_result_run_in_thread (result, handle_mail_request,
-			G_PRIORITY_DEFAULT, cancellable);
+	simple = g_simple_async_result_new (
+		G_OBJECT (request), callback,
+		user_data, mail_request_send_async);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	g_simple_async_result_run_in_thread (
+		simple, handle_mail_request,
+		G_PRIORITY_DEFAULT, cancellable);
 }
 
 static GInputStream *

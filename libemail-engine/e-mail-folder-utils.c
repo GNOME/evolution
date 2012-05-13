@@ -147,6 +147,8 @@ e_mail_folder_append_message (CamelFolder *folder,
 		G_OBJECT (folder), callback, user_data,
 		e_mail_folder_append_message);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
 
@@ -300,6 +302,8 @@ e_mail_folder_build_attachment (CamelFolder *folder,
 	simple = g_simple_async_result_new (
 		G_OBJECT (folder), callback, user_data,
 		e_mail_folder_build_attachment);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
@@ -558,6 +562,8 @@ e_mail_folder_find_duplicate_messages (CamelFolder *folder,
 		G_OBJECT (folder), callback, user_data,
 		e_mail_folder_find_duplicate_messages);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
 
@@ -685,6 +691,8 @@ e_mail_folder_get_multiple_messages (CamelFolder *folder,
 	simple = g_simple_async_result_new (
 		G_OBJECT (folder), callback, user_data,
 		e_mail_folder_get_multiple_messages);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
@@ -916,6 +924,8 @@ e_mail_folder_remove (CamelFolder *folder,
 		G_OBJECT (folder), callback,
 		user_data, e_mail_folder_remove);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	g_simple_async_result_run_in_thread (
 		simple, mail_folder_remove_thread,
 		io_priority, cancellable);
@@ -1126,6 +1136,8 @@ e_mail_folder_remove_attachments (CamelFolder *folder,
 	simple = g_simple_async_result_new (
 		G_OBJECT (folder), callback, user_data,
 		e_mail_folder_remove_attachments);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
@@ -1376,6 +1388,8 @@ e_mail_folder_save_messages (CamelFolder *folder,
 	simple = g_simple_async_result_new (
 		G_OBJECT (folder), callback, user_data,
 		e_mail_folder_save_messages);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);

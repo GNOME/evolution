@@ -1738,6 +1738,8 @@ e_mail_session_get_inbox (EMailSession *session,
 		G_OBJECT (session), callback,
 		user_data, e_mail_session_get_inbox);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
 
@@ -1834,6 +1836,8 @@ e_mail_session_get_trash (EMailSession *session,
 	simple = g_simple_async_result_new (
 		G_OBJECT (session), callback,
 		user_data, e_mail_session_get_trash);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
@@ -1947,6 +1951,8 @@ e_mail_session_uri_to_folder (EMailSession *session,
 	simple = g_simple_async_result_new (
 		G_OBJECT (session), callback,
 		user_data, e_mail_session_uri_to_folder);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);

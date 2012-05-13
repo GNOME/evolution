@@ -205,6 +205,8 @@ e_mail_session_handle_draft_headers (EMailSession *session,
 		G_OBJECT (session), callback, user_data,
 		e_mail_session_handle_draft_headers);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
 
@@ -355,6 +357,8 @@ e_mail_session_handle_source_headers (EMailSession *session,
 	simple = g_simple_async_result_new (
 		G_OBJECT (session), callback, user_data,
 		e_mail_session_handle_source_headers);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
@@ -819,6 +823,8 @@ e_mail_session_send_to (EMailSession *session,
 		G_OBJECT (session), callback,
 		user_data, e_mail_session_send_to);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
 
@@ -926,6 +932,8 @@ e_mail_session_unsubscribe_folder (EMailSession *session,
 	simple = g_simple_async_result_new (
 		G_OBJECT (session), callback, user_data,
 		e_mail_session_unsubscribe_folder);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);

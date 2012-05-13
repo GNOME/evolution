@@ -1237,7 +1237,7 @@ eab_contact_formatter_format_contact_async (EABContactFormatter *formatter,
                                             GAsyncReadyCallback callback,
                                             gpointer user_data)
 {
-	GSimpleAsyncResult *result;
+	GSimpleAsyncResult *simple;
 
 	g_return_if_fail (EAB_IS_CONTACT_FORMATTER (formatter));
 	g_return_if_fail (E_IS_CONTACT (contact));
@@ -1249,13 +1249,14 @@ eab_contact_formatter_format_contact_async (EABContactFormatter *formatter,
 
 	formatter->priv->contact = contact;
 
-	result = g_simple_async_result_new (
-			G_OBJECT (formatter),
-			callback, user_data,
-			eab_contact_formatter_format_contact_async);
+	simple = g_simple_async_result_new (
+		G_OBJECT (formatter), callback, user_data,
+		eab_contact_formatter_format_contact_async);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	g_simple_async_result_run_in_thread (
-		result, do_start_async_formatter,
+		simple, do_start_async_formatter,
 		G_PRIORITY_DEFAULT, cancellable);
 }
 

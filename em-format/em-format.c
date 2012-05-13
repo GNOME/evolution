@@ -1996,7 +1996,7 @@ em_format_parse_async (EMFormat *emf,
                        GAsyncReadyCallback callback,
                        gpointer user_data)
 {
-	GSimpleAsyncResult *result;
+	GSimpleAsyncResult *simple;
 
 	g_return_if_fail (EM_IS_FORMAT (emf));
 
@@ -2023,10 +2023,15 @@ em_format_parse_async (EMFormat *emf,
 
 	}
 
-	result = g_simple_async_result_new (G_OBJECT (emf), callback,
-					    user_data, em_format_parse_async);
-	g_simple_async_result_run_in_thread (result, emf_start_async_parser,
-					     G_PRIORITY_DEFAULT, cancellable);
+	simple = g_simple_async_result_new (
+		G_OBJECT (emf), callback,
+		user_data, em_format_parse_async);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	g_simple_async_result_run_in_thread (
+		simple, emf_start_async_parser,
+		G_PRIORITY_DEFAULT, cancellable);
 }
 
 void

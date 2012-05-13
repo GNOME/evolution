@@ -410,6 +410,8 @@ e_composer_load_snapshot (EShell *shell,
 		G_OBJECT (shell), callback, user_data,
 		e_composer_load_snapshot);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) load_context_free);
 
@@ -463,6 +465,8 @@ e_composer_save_snapshot (EMsgComposer *composer,
 	simple = g_simple_async_result_new (
 		G_OBJECT (composer), callback, user_data,
 		e_composer_save_snapshot);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) save_context_free);

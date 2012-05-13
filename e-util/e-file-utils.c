@@ -172,6 +172,8 @@ e_file_replace_contents_async (GFile *file,
 		G_OBJECT (file), callback, user_data,
 		e_file_replace_contents_async);
 
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
 
