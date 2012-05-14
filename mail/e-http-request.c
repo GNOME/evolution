@@ -487,7 +487,6 @@ http_request_send_finish (SoupRequest *request,
 	GInputStream *stream;
 
 	stream = g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result));
-	g_object_unref (result);
 
 	/* Reset the stream before passing it back to webkit */
 	if (stream && G_IS_SEEKABLE (stream))
