@@ -124,7 +124,7 @@ typedef struct _EMEventTargetSendReceive EMEventTargetSendReceive;
 
 struct _EMEventTargetSendReceive {
 	EEventTarget target;
-	GtkWidget *table;
+	GtkWidget *grid;
 	gpointer data;
 	gint row;
 };
@@ -174,7 +174,7 @@ EMEventTargetMessage *
 EMEventTargetSendReceive *
 		em_event_target_new_send_receive
 						(EMEvent *eme,
-						 GtkWidget *table,
+						 GtkWidget *grid,
 						 gpointer data,
 						 gint row,
 						 guint32 flags);

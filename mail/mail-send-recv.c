@@ -494,8 +494,9 @@ build_dialog (GtkWindow *parent,
               gboolean allow_send)
 {
 	GtkDialog *gd;
-	GtkWidget *table;
-	gint row, num_sources;
+	GtkWidget *wgrid;
+	GtkGrid *grid;
+	gint row;
 	GList *list = NULL;
 	struct _send_data *data;
 	GtkWidget *container;
@@ -556,20 +557,11 @@ build_dialog (GtkWindow *parent,
 	gtk_widget_show (cancel_button);
 	gtk_dialog_add_action_widget (gd, cancel_button, GTK_RESPONSE_CANCEL);
 
-	num_sources = gtk_tree_model_iter_n_children (
-		GTK_TREE_MODEL (account_store), NULL);
-
-	/* Check to see if we have to send any mails.
-	 * If we don't, don't display the SMTP row in the table. */
-	if (outbox && CAMEL_IS_TRANSPORT (transport)
-	 && (camel_folder_get_message_count (outbox) -
-		camel_folder_get_deleted_message_count (outbox)) == 0)
-		num_sources--;
-
-	table = gtk_table_new (num_sources, 4, FALSE);
-	gtk_container_set_border_width (GTK_CONTAINER (table), 6);
-	gtk_table_set_row_spacings (GTK_TABLE (table), 6);
-	gtk_table_set_col_spacings (GTK_TABLE (table), 6);
+	wgrid = gtk_grid_new ();
+	grid = GTK_GRID (wgrid);
+	gtk_container_set_border_width (GTK_CONTAINER (grid), 6);
+	gtk_grid_set_row_spacing (grid, 6);
+	gtk_grid_set_column_spacing (grid, 6);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_container_set_border_width (
@@ -577,10 +569,11 @@ build_dialog (GtkWindow *parent,
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scrolled_window),
 		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_widget_set_size_request (scrolled_window, 50, 50);
 
 	container = gtk_dialog_get_content_area (gd);
 	gtk_scrolled_window_add_with_viewport (
-		GTK_SCROLLED_WINDOW (scrolled_window), table);
+		GTK_SCROLLED_WINDOW (scrolled_window), wgrid);
 	gtk_box_pack_start (
 		GTK_BOX (container), scrolled_window, TRUE, TRUE, 0);
 	gtk_widget_show (scrolled_window);
@@ -656,21 +649,17 @@ build_dialog (GtkWindow *parent,
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
 
-		gtk_table_attach (
-			GTK_TABLE (table), recv_icon,
-			0, 1, row, row + 2, 0, 0, 0, 0);
-		gtk_table_attach (
-			GTK_TABLE (table), label,
-			1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-		gtk_table_attach (
-			GTK_TABLE (table), progress_bar,
-			2, 3, row, row + 2, 0, 0, 0, 0);
-		gtk_table_attach (
-			GTK_TABLE (table), cancel_button,
-			3, 4, row, row + 2, 0, 0, 0, 0);
-		gtk_table_attach (
-			GTK_TABLE (table), status_label,
-			1, 2, row + 1, row + 2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_widget_set_hexpand (label, TRUE);
+		gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+
+		gtk_widget_set_hexpand (status_label, TRUE);
+		gtk_widget_set_halign (status_label, GTK_ALIGN_FILL);
+
+		gtk_grid_attach (grid, recv_icon, 0, row, 1, 2);
+		gtk_grid_attach (grid, label, 1, row, 1, 1);
+		gtk_grid_attach (grid, progress_bar, 2, row, 1, 1);
+		gtk_grid_attach (grid, cancel_button, 3, row, 1, 1);
+		gtk_grid_attach (grid, status_label, 1, row + 1, 2, 1);
 
 		info->progress_bar = progress_bar;
 		info->status_label = status_label;
@@ -687,7 +676,7 @@ build_dialog (GtkWindow *parent,
 	/* we also need gd during emition to be able to catch Cancel All */
 	data->gd = gd;
 	target = em_event_target_new_send_receive (
-		em_event_peek (), table, data, row, EM_EVENT_SEND_RECEIVE);
+		em_event_peek (), wgrid, data, row, EM_EVENT_SEND_RECEIVE);
 	e_event_emit (
 		(EEvent *) em_event_peek (), "mail.sendreceive",
 		(EEventTarget *) target);
@@ -741,21 +730,17 @@ build_dialog (GtkWindow *parent,
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
 
-		gtk_table_attach (
-			GTK_TABLE (table), send_icon,
-			0, 1, row, row + 2, 0, 0, 0, 0);
-		gtk_table_attach (
-			GTK_TABLE (table), label,
-			1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-		gtk_table_attach (
-			GTK_TABLE (table), progress_bar,
-			2, 3, row, row + 2, 0, 0, 0, 0);
-		gtk_table_attach (
-			GTK_TABLE (table), cancel_button,
-			3, 4, row, row + 2, 0, 0, 0, 0);
-		gtk_table_attach (
-			GTK_TABLE (table), status_label,
-			1, 2, row + 1, row + 2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_widget_set_hexpand (label, TRUE);
+		gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+
+		gtk_widget_set_hexpand (status_label, TRUE);
+		gtk_widget_set_halign (status_label, GTK_ALIGN_FILL);
+
+		gtk_grid_attach (grid, send_icon, 0, row, 1, 2);
+		gtk_grid_attach (grid, label, 1, row, 1, 1);
+		gtk_grid_attach (grid, progress_bar, 2, row, 1, 1);
+		gtk_grid_attach (grid, cancel_button, 3, row, 1, 1);
+		gtk_grid_attach (grid, status_label, 1, row + 1, 2, 1);
 
 		info->progress_bar = progress_bar;
 		info->cancel_button = cancel_button;
@@ -768,7 +753,7 @@ build_dialog (GtkWindow *parent,
 			G_CALLBACK (receive_cancel), info);
 	}
 
-	gtk_widget_show_all (table);
+	gtk_widget_show_all (wgrid);
 
 	if (parent != NULL)
 		gtk_widget_show (GTK_WIDGET (gd));
