@@ -351,6 +351,8 @@ copy_tree_state (EMailReader *src_reader,
 	if (state)
 		e_tree_set_state (E_TREE (des_mlist), state);
 	g_free (state);
+
+	message_list_set_search (MESSAGE_LIST (des_mlist), MESSAGE_LIST (src_mlist)->search);
 }
 
 guint
@@ -423,15 +425,23 @@ e_mail_reader_open_selected (EMailReader *reader)
 	for (ii = 0; ii < views->len; ii++) {
 		const gchar *uid = views->pdata[ii];
 		GtkWidget *browser;
+		MessageList *ml;
 
 		browser = e_mail_browser_new (backend, folder, uid,
 				EM_FORMAT_WRITE_MODE_NORMAL);
+
 		e_mail_reader_set_folder (E_MAIL_READER (browser), folder);
 		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
+
+		ml = MESSAGE_LIST (e_mail_reader_get_message_list (E_MAIL_READER (browser)));
+		message_list_freeze (ml);
+
 		copy_tree_state (reader, E_MAIL_READER (browser));
 		e_mail_reader_set_group_by_threads (
 			E_MAIL_READER (browser),
 			e_mail_reader_get_group_by_threads (reader));
+
+		message_list_thaw (ml);
 		gtk_widget_show (browser);
 	}
 
