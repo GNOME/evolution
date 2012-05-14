@@ -3071,8 +3071,6 @@ format_parser_async_done_cb (GObject *source,
 	g_object_unref (closure->display);
 	g_free (closure);
 
-	g_object_unref (result);
-
         /* Remove the reference added when formatter was created,
          * so that only owners are EMailDisplays */
 	g_object_unref (emf);
