@@ -1710,36 +1710,94 @@ action_mail_show_all_headers_cb (GtkToggleAction *action,
 		e_mail_display_set_mode (display, EM_FORMAT_WRITE_MODE_NORMAL);
 }
 
+struct _source_retrieval_closure {
+	EMailReader *browser;
+	EActivity *activity;
+	gchar *message_uid;
+};
+
+static void
+mail_source_retrieved (GObject *object,
+		       GAsyncResult *result,
+		       gpointer user_data)
+{
+	CamelMimeMessage *message;
+	EMailDisplay *display;
+	GError *error;
+	struct _source_retrieval_closure *data;
+
+	data = user_data;
+	display = e_mail_reader_get_mail_display (data->browser);
+
+	error = NULL;
+	message = camel_folder_get_message_finish (
+			CAMEL_FOLDER (object), result, &error);
+	if (error || !message) {
+		gchar *status;
+		status = g_strdup_printf ("%s<br>%s",
+				_("Failed to retrieve message:"),
+				error ? error->message : _("Unknown error"));
+		e_mail_display_set_status (display, status);
+		g_free (status);
+		g_clear_error (&error);
+		goto free_data;
+	}
+
+	mail_reader_set_display_formatter_for_message (
+		data->browser, display, data->message_uid,
+		message, CAMEL_FOLDER (object));
+
+ free_data:
+	e_activity_set_state (data->activity, E_ACTIVITY_COMPLETED);
+	g_object_unref (data->browser);
+	g_object_unref (data->activity);
+	g_free (data->message_uid);
+	g_free (data);
+}
+
 static void
 action_mail_show_source_cb (GtkAction *action,
                             EMailReader *reader)
 {
-	EMailBackend *backend;
 	EMailDisplay *display;
-	CamelFolder *folder;
-	CamelMimeMessage *message;
+	EMailBackend *backend;
 	GtkWidget *browser;
+	CamelFolder *folder;
 	GPtrArray *uids;
 	const gchar *message_uid;
+	gchar *string;
+	EActivity *activity;
+	GCancellable *cancellable;
+	struct _source_retrieval_closure *closure;
 
 	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_get_folder (reader);
-
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL && uids->len == 1);
 	message_uid = g_ptr_array_index (uids, 0);
 
-	message = camel_folder_get_message_sync (folder, message_uid, NULL, NULL);
-
 	browser = e_mail_browser_new (backend, NULL, NULL, EM_FORMAT_WRITE_MODE_SOURCE);
 	e_mail_reader_set_folder (E_MAIL_READER (browser), folder);
 	e_mail_reader_set_message (E_MAIL_READER (browser), message_uid);
-
 	display = e_mail_reader_get_mail_display (E_MAIL_READER (browser));
-	mail_reader_set_display_formatter_for_message (
-		E_MAIL_READER (browser), display, message_uid, message, folder);
 
+	string = g_strdup_printf (_("Retrieving message '%s'"), message_uid);
+	e_mail_display_set_formatter (display, NULL);
+	e_mail_display_set_status (display, string);
 	gtk_widget_show (browser);
+
+	activity = e_mail_reader_new_activity (reader);
+	e_activity_set_text (activity, string);
+	cancellable = e_activity_get_cancellable (activity);
+	g_free (string);
+
+	closure = g_new0 (struct _source_retrieval_closure, 1);
+	closure->browser = g_object_ref (E_MAIL_READER (browser));
+	closure->activity = activity;
+	closure->message_uid = g_strdup (message_uid);
+	camel_folder_get_message (folder, message_uid, G_PRIORITY_DEFAULT,
+				  cancellable, mail_source_retrieved,
+				  closure);
 
 	em_utils_uids_free (uids);
 }
