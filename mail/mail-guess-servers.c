@@ -296,17 +296,104 @@ guess_when_online (EmailProvider *provider)
 
 }
 
+static gboolean
+offline_file_includes_domain (const gchar *filename,
+			      const gchar *domain)
+{
+	gboolean res = FALSE;
+	gchar *content = NULL;
+	gsize length;
+	xmlDocPtr doc;
+	xmlNodePtr node;
+
+	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_val_if_fail (domain != NULL, FALSE);
+
+	if (!g_file_get_contents (filename, &content, &length, NULL))
+		return FALSE;
+
+	doc = xmlReadMemory (content, length, "file.xml", NULL, 0);
+
+	node = doc->children;
+	while (node) {
+		if (strcmp ((gchar *) node->name, "clientConfig") == 0) {
+			node = node->children;
+			while (node) {
+				if (strcmp ((gchar *) node->name, "emailProvider") == 0) {
+					break;
+				}
+				node = node->next;
+			}
+			break;
+		}
+		node = node->next;
+	}
+
+	if (node) {
+		xmlChar *xmlStr;
+
+		for (node = node->children; node && !res;  node = node->next) {
+			if (!g_str_equal (node->name, "domain"))
+				continue;
+
+			xmlStr = xmlNodeGetContent (node);
+			if (xmlStr && g_ascii_strcasecmp ((const gchar *) xmlStr, domain) == 0)
+				res = TRUE;
+
+			xmlFree (xmlStr);
+		}
+	}
+
+	xmlFreeDoc (doc);
+	g_free (content);
+
+	return res;
+}
+
 static gchar *
 get_filename_for_offline_autoconfig (const gchar *domain)
 {
-	return g_build_filename (EVOLUTION_PRIVDATADIR, "mail-autoconfig", domain, NULL);
+	gchar *path;
+	GDir *dir;
+	const gchar *filename;
+
+	path = g_build_filename (EVOLUTION_PRIVDATADIR, "mail-autoconfig", domain, NULL);
+	if (g_file_test (path, G_FILE_TEST_EXISTS))
+		return path;
+
+	g_free (path);
+
+	path = g_build_filename (EVOLUTION_PRIVDATADIR, "mail-autoconfig", NULL);
+	dir = g_dir_open (path, 0, NULL);
+	g_free (path);
+
+	if (!dir)
+		return NULL;
+
+	path = NULL;
+	while (filename = g_dir_read_name (dir), filename && !path) {
+		if (g_str_equal (filename, ".") ||
+		    g_str_equal (filename, ".."))
+			continue;
+
+		path = g_build_filename (EVOLUTION_PRIVDATADIR, "mail-autoconfig", filename, NULL);
+		if (offline_file_includes_domain (path, domain))
+			break;
+
+		g_free (path);
+		path = NULL;
+	}
+
+	g_dir_close (dir);
+
+	return path;
 }
 
 static gboolean
 guess_when_offline (EmailProvider *provider)
 {
 	gchar *filename;
-	gchar *contents;
+	gchar *contents = NULL;
 	gsize length;
 	gboolean success;
 
@@ -316,7 +403,7 @@ guess_when_offline (EmailProvider *provider)
 	success = FALSE;
 
 	filename = get_filename_for_offline_autoconfig (provider->domain);
-	if (!g_file_get_contents (filename, &contents, &length, NULL)) /* NULL-GError */
+	if (!filename || !g_file_get_contents (filename, &contents, &length, NULL)) /* NULL-GError */
 		goto out;
 
 	success = parse_message (contents, (gint) length, provider);

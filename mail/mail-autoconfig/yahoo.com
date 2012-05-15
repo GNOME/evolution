@@ -14,11 +14,11 @@
       <displayName>Yahoo! Mail</displayName>
       <displayShortName>Yahoo</displayShortName>
 
-      <incomingServer type="pop3">
-         <hostname>pop.mail.yahoo.com</hostname>
-         <port>995</port>
+      <incomingServer type="imap">
+         <hostname>imap.mail.yahoo.com</hostname>
+         <port>993</port>
          <socketType>SSL</socketType>
-         <username>%EMAILLOCALPART%</username>
+         <username>%EMAILADDRESS%</username>
          <authentication>plain</authentication>
       </incomingServer>
 
@@ -26,7 +26,7 @@
          <hostname>smtp.mail.yahoo.com</hostname>
          <port>465</port>
          <socketType>SSL</socketType>
-         <username>%EMAILLOCALPART%</username>
+         <username>%EMAILADDRESS%</username>
          <authentication>plain</authentication>
          <addThisServer>true</addThisServer>
          <useGlobalPreferredServer>false</useGlobalPreferredServer>

@@ -43,6 +43,7 @@
 #include <string.h>
 #include <stdarg.h>
 
+#include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-passwords.h>
 
 #include <shell/e-shell.h>
@@ -227,6 +228,7 @@ struct _EMAccountEditorPrivate {
 	gboolean is_yahoo;
 
 	GtkWidget *calendar;
+	GtkWidget *tasks;
 	GtkWidget *gcontacts;
 	GtkWidget *info_label;
 
@@ -4981,14 +4983,25 @@ emae_update_review_page_for_yahoo (EMAccountEditor *emae)
 	GtkWidget *widget;
 	GtkWidget *label;
 	gchar *markup;
-	gchar *name;
+	gchar *name = NULL;
+	gboolean can_calendar, can_tasks;
 
-	account = em_account_editor_get_modified_account (emae);
-	name = g_strdup (e_account_get_string (account, E_ACCOUNT_ID_NAME));
+	if (emae->priv->yahoo_cal_entry) {
+		name = g_strdup (gtk_entry_get_text (GTK_ENTRY (emae->priv->yahoo_cal_entry)));
+	} else {
+		account = em_account_editor_get_modified_account (emae);
+		name = g_strdup (e_account_get_string (account, E_ACCOUNT_ID_NAME));
 
-	g_strdelimit (name, " ", '_');
+		g_strdelimit (name, " ", '_');
+	}
+
+	can_calendar = !emae->priv->calendar ||
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (emae->priv->calendar));
+	can_tasks = !emae->priv->tasks ||
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (emae->priv->tasks));
 
 	emae_destroy_widget (emae->priv->calendar);
+	emae_destroy_widget (emae->priv->tasks);
 	emae_destroy_widget (emae->priv->info_label);
 	emae_destroy_widget (emae->priv->yahoo_cal_entry);
 	emae_destroy_widget (emae->priv->account_label);
@@ -4999,7 +5012,7 @@ emae_update_review_page_for_yahoo (EMAccountEditor *emae)
 	widget = gtk_label_new (NULL);
 	markup = g_markup_printf_escaped (
 		"<span size=\"large\" weight=\"bold\">%s</span>",
-		_("Yahoo account settings:"));
+		_("Yahoo! account settings:"));
 	gtk_label_set_markup (GTK_LABEL (widget), markup);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	emae->priv->account_label = widget;
@@ -5007,16 +5020,24 @@ emae_update_review_page_for_yahoo (EMAccountEditor *emae)
 	g_free (markup);
 
 	widget = gtk_check_button_new_with_mnemonic (
-		_("Setup _Yahoo calendar with Evolution"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
+		_("Setup _Yahoo! calendar with Evolution"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), can_calendar);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	emae->priv->calendar = widget;
 	gtk_widget_show (widget);
 
+	widget = gtk_check_button_new_with_mnemonic (
+		_("Setup Yahoo! _tasks with Evolution"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), can_tasks);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	emae->priv->tasks = widget;
+	gtk_widget_show (widget);
+
 	widget = gtk_label_new (
-		_("Yahoo calendars are named as firstname_lastname. We have "
-		  "tried to form the calendar name. So please confirm and "
-		  "re-enter the calendar name if it is not correct."));
+		_("Yahoo! calendars are named as firstname_lastname. We have "
+		  "tried to form the calendar name. Please confirm and "
+		  "re-enter the calendar name, if it is not correct, or "
+		  "change it later in calendar Properties."));
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_label_set_line_wrap_mode (GTK_LABEL (widget), PANGO_WRAP_WORD);
 	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
@@ -5032,7 +5053,7 @@ emae_update_review_page_for_yahoo (EMAccountEditor *emae)
 	container = widget;
 
 	widget = gtk_label_new_with_mnemonic (
-		_("Yahoo Calen_dar name:"));
+		_("Yahoo! Calen_dar name:"));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -5329,16 +5350,22 @@ sanitize_user_mail (const gchar *user)
 static void
 setup_google_addressbook (EMAccountEditor *emae)
 {
-	GConfClient *gconf;
-	ESourceList *slist;
+	ESourceList *slist = NULL;
 	ESourceGroup *sgrp;
 	GSList *sources;
 	gboolean source_already_exists = FALSE;
 	CamelURL *url;
 	gchar * username;
+	EAccount *modified_account;
+	GError *error = NULL;
 
-	gconf = gconf_client_get_default ();
-	slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/addressbook/sources" );
+	if (!e_client_utils_get_sources (&slist, E_CLIENT_SOURCE_TYPE_CONTACTS, &error) || !slist) {
+		g_debug ("%s: Failed to get list of sources: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
+		return;
+	}
+
+	modified_account = em_account_editor_get_modified_account (emae);
 	sgrp = e_source_list_ensure_group (slist, _("Google"), "google://", TRUE);
 	url = emae_account_url (emae, E_ACCOUNT_SOURCE_URL);
 	username = g_strdup (url->user);
@@ -5355,8 +5382,7 @@ setup_google_addressbook (EMAccountEditor *emae)
 	if (!source_already_exists) {
 		ESource *abook;
 
-		/* FIXME: Not sure if we should localize 'Contacts' */
-		abook = e_source_new ("Contacts", "");
+		abook = e_source_new (e_account_get_string (modified_account, E_ACCOUNT_NAME), "");
 		e_source_set_property (abook, "default", "true");
 		e_source_set_property (abook, "offline_sync", "1");
 		e_source_set_property (abook, "auth", "plain/password");
@@ -5374,16 +5400,15 @@ setup_google_addressbook (EMAccountEditor *emae)
 	}
 
 	g_free (username);
-	g_object_unref (slist);
 	g_object_unref (sgrp);
-	g_object_unref (gconf);
+	g_object_unref (slist);
 }
 
 static void
-setup_google_calendar (EMAccountEditor *emae)
+setup_google_calendar (EMAccountEditor *emae,
+		       EClientSourceType source_type)
 {
-	GConfClient *gconf;
-	ESourceList *slist;
+	ESourceList *slist = NULL;
 	ESourceGroup *sgrp;
 	ESource *calendar;
 	gchar *sanitize_uname, *username;
@@ -5393,15 +5418,21 @@ setup_google_calendar (EMAccountEditor *emae)
 	GPtrArray *array;
 	CamelURL *url;
 	GSettings *settings;
+	EAccount *modified_account;
+	GError *error = NULL;
 
-	gconf = gconf_client_get_default ();
-	slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
+	if (!e_client_utils_get_sources (&slist, source_type, &error) || !slist) {
+		g_debug ("%s: Failed to get list of sources: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
+		return;
+	}
+
+	modified_account = em_account_editor_get_modified_account (emae);
 	sgrp = e_source_list_ensure_group (slist, _("Google"), "google://", TRUE);
 	url = emae_account_url (emae, E_ACCOUNT_SOURCE_URL);
 	username = g_strdup (url->user);
 
-	/* FIXME: Not sure if we should localize 'Calendar' */
-	calendar = e_source_new ("Calendar", "");
+	calendar = e_source_new (e_account_get_string (modified_account, E_ACCOUNT_NAME), "");
 	e_source_set_property (calendar, "ssl", "1");
 	e_source_set_property (calendar, "refresh", "30");
 	e_source_set_property (calendar, "auth", "1");
@@ -5411,6 +5442,9 @@ setup_google_calendar (EMAccountEditor *emae)
 	e_source_set_property (calendar, "default", "true");
 	e_source_set_property (calendar, "alarm", "true");
 	e_source_set_readonly (calendar, FALSE);
+
+	if (source_type != E_CLIENT_SOURCE_TYPE_CONTACTS)
+		e_source_set_color_spec (calendar, "#CE9687");
 
 	e_source_group_add_source (sgrp, calendar, -1);
 
@@ -5442,17 +5476,16 @@ setup_google_calendar (EMAccountEditor *emae)
 	g_free (abs_uri);
 	g_free (rel_uri);
 	g_free (sanitize_uname);
-	g_object_unref (slist);
-	g_object_unref (sgrp);
 	g_object_unref (calendar);
-	g_object_unref (gconf);
+	g_object_unref (sgrp);
+	g_object_unref (slist);
 }
 
 static void
-setup_yahoo_calendar (EMAccountEditor *emae)
+setup_yahoo_calendar (EMAccountEditor *emae,
+		      EClientSourceType source_type)
 {
-	GConfClient *gconf;
-	ESourceList *slist;
+	ESourceList *slist = NULL;
 	ESourceGroup *sgrp;
 	ESource *calendar;
 	gchar *sanitize_uname;
@@ -5462,19 +5495,20 @@ setup_yahoo_calendar (EMAccountEditor *emae)
 	gchar **ids;
 	gint i;
 	GPtrArray *array;
+	EAccount *modified_account;
+	GError *error = NULL;
 
-	gconf = gconf_client_get_default ();
-	email = e_account_get_string (em_account_editor_get_modified_account (emae), E_ACCOUNT_ID_ADDRESS);
-	slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
-	sgrp = e_source_list_peek_group_by_base_uri (slist, "caldav://");
-	if (!sgrp) {
-		sgrp = e_source_list_ensure_group (slist, _("CalDAV"), "caldav://", TRUE);
+	if (!e_client_utils_get_sources (&slist, source_type, &error) || !slist) {
+		g_debug ("%s: Failed to get list of sources: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
+		return;
 	}
 
-	printf("Setting up Yahoo Calendar: list:%p CalDAVGrp: %p\n", slist, sgrp);
+	modified_account = em_account_editor_get_modified_account (emae);
+	email = e_account_get_string (modified_account, E_ACCOUNT_ID_ADDRESS);
+	sgrp = e_source_list_ensure_group (slist, _("CalDAV"), "caldav://", TRUE);
 
-	/* FIXME: Not sure if we should localize 'Calendar' */
-	calendar = e_source_new ("Yahoo", "");
+	calendar = e_source_new (e_account_get_string (modified_account, E_ACCOUNT_NAME), "");
 	e_source_set_property (calendar, "ssl", "1");
 	e_source_set_property (calendar, "refresh", "30");
 	e_source_set_property (calendar, "refresh-type", "0");
@@ -5483,12 +5517,14 @@ setup_yahoo_calendar (EMAccountEditor *emae)
 	e_source_set_property (calendar, "username", email);
 	e_source_set_property (calendar, "default", "true");
 	e_source_set_property (calendar, "alarm", "true");
-
 	e_source_set_readonly (calendar, FALSE);
+
+	if (source_type != E_CLIENT_SOURCE_TYPE_CONTACTS)
+		e_source_set_color_spec (calendar, "#87CE8C");
 
 	sanitize_uname = sanitize_user_mail (email);
 
-	abs_uri = g_strdup_printf ("caldav://%s@caldav.calendar.yahoo.com/dav/%s/Calendar/%s/",
+	abs_uri = g_strdup_printf ("caldav://%s@caldav.calendar.yahoo.com/dav/%s/Calendar/%s",
 			sanitize_uname, email,  gtk_entry_get_text ((GtkEntry *) emae->priv->yahoo_cal_entry));
 	rel_uri = g_strdup_printf (YAHOO_CALENDAR_LOCATION, sanitize_uname, email, gtk_entry_get_text ((GtkEntry *) emae->priv->yahoo_cal_entry));
 	e_source_set_relative_uri (calendar, rel_uri);
@@ -5513,10 +5549,9 @@ setup_yahoo_calendar (EMAccountEditor *emae)
 	g_free (abs_uri);
 	g_free (rel_uri);
 	g_free (sanitize_uname);
-	g_object_unref (slist);
-	g_object_unref (sgrp);
 	g_object_unref (calendar);
-	g_object_unref (gconf);
+	g_object_unref (sgrp);
+	g_object_unref (slist);
 }
 
 static void
@@ -5542,10 +5577,12 @@ emae_commit (EConfig *ec,
 		if (gtk_toggle_button_get_active ((GtkToggleButton *) emae->priv->gcontacts))
 			setup_google_addressbook (emae);
 		if (gtk_toggle_button_get_active ((GtkToggleButton *) emae->priv->calendar))
-			setup_google_calendar (emae);
-	} else if (!original_account && emae->priv->is_gmail) {
+			setup_google_calendar (emae, E_CLIENT_SOURCE_TYPE_EVENTS);
+	} else if (!original_account && emae->priv->is_yahoo) {
 		if (gtk_toggle_button_get_active ((GtkToggleButton *) emae->priv->calendar))
-			setup_yahoo_calendar (emae);
+			setup_yahoo_calendar (emae, E_CLIENT_SOURCE_TYPE_EVENTS);
+		if (gtk_toggle_button_get_active ((GtkToggleButton *) emae->priv->tasks))
+			setup_yahoo_calendar (emae, E_CLIENT_SOURCE_TYPE_TASKS);
 	}
 
 	/* Do some last minute tweaking. */
