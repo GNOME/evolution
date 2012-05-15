@@ -202,19 +202,40 @@ cal_shell_view_date_navigator_selection_changed_cb (ECalShellView *cal_shell_vie
 	gnome_calendar_notify_dates_shown_changed (calendar);
 }
 
-static void
+static gboolean
 cal_shell_view_date_navigator_scroll_event_cb (ECalShellView *cal_shell_view,
                                                GdkEventScroll *event,
                                                ECalendar *date_navigator)
 {
 	ECalendarItem *calitem;
 	GDate start_date, end_date;
+	GdkScrollDirection direction;
 
 	calitem = date_navigator->calitem;
 	if (!e_calendar_item_get_selection (calitem, &start_date, &end_date))
-		return;
+		return FALSE;
 
-	switch (event->direction) {
+	direction = event->direction;
+
+	#if GTK_CHECK_VERSION(3,3,18)
+	if (direction == GDK_SCROLL_SMOOTH) {
+		static gdouble total_delta_y = 0.0;
+
+		total_delta_y += event->delta_y;
+
+		if (total_delta_y >= 1.0) {
+			total_delta_y = 0.0;
+			direction = GDK_SCROLL_DOWN;
+		} else if (total_delta_y <= -1.0) {
+			total_delta_y = 0.0;
+			direction = GDK_SCROLL_UP;
+		} else {
+			return FALSE;
+		}
+	}
+	#endif
+
+	switch (direction) {
 		case GDK_SCROLL_UP:
 			g_date_subtract_months (&start_date, 1);
 			g_date_subtract_months (&end_date, 1);
@@ -226,7 +247,7 @@ cal_shell_view_date_navigator_scroll_event_cb (ECalShellView *cal_shell_view,
 			break;
 
 		default:
-			g_return_if_reached ();
+			g_return_val_if_reached (FALSE);
 	}
 
 	/* XXX Does ECalendarItem emit a signal for this?  If so, maybe
@@ -235,6 +256,8 @@ cal_shell_view_date_navigator_scroll_event_cb (ECalShellView *cal_shell_view,
 
 	cal_shell_view_date_navigator_selection_changed_cb (
 		cal_shell_view, calitem);
+
+	return TRUE;
 }
 
 static void

@@ -2027,6 +2027,7 @@ gnome_canvas_realize (GtkWidget *widget)
 	gdk_window_set_events (bin_window,
 			       (gdk_window_get_events (bin_window)
 				 | GDK_EXPOSURE_MASK
+				 | GDK_SCROLL_MASK
 				 | GDK_BUTTON_PRESS_MASK
 				 | GDK_BUTTON_RELEASE_MASK
 				 | GDK_POINTER_MOTION_MASK

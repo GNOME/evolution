@@ -877,7 +877,27 @@ web_view_scroll_event (GtkWidget *widget,
                        GdkEventScroll *event)
 {
 	if (event->state & GDK_CONTROL_MASK) {
-		switch (event->direction) {
+		GdkScrollDirection direction = event->direction;
+
+		#if GTK_CHECK_VERSION(3,3,18)
+		if (direction == GDK_SCROLL_SMOOTH) {
+			static gdouble total_delta_y = 0.0;
+
+			total_delta_y += event->delta_y;
+
+			if (total_delta_y >= 1.0) {
+				total_delta_y = 0.0;
+				direction = GDK_SCROLL_DOWN;
+			} else if (total_delta_y <= -1.0) {
+				total_delta_y = 0.0;
+				direction = GDK_SCROLL_UP;
+			} else {
+				return FALSE;
+			}
+		}
+		#endif
+
+		switch (direction) {
 			case GDK_SCROLL_UP:
 				gtk_html_zoom_in (GTK_HTML (widget));
 				return TRUE;
