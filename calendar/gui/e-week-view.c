@@ -2535,7 +2535,7 @@ e_week_view_on_scroll (GtkWidget *widget,
 		#if GTK_CHECK_VERSION(3,3,18)
 		case GDK_SCROLL_SMOOTH:
 			if (scroll->delta_y < -0.001 || scroll->delta_y > 0.001) {
-				new_value = value + scroll->delta_y;
+				new_value = value + scroll->delta_y * page_increment;
 				break;
 			}
 			return FALSE;
