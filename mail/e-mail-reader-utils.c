@@ -491,10 +491,15 @@ printing_done_cb (EMailPrinter *printer,
 	/* Set activity as completed, and keep it displayed for a few seconds
 	 * so that user can actually see the the printing was sucesfully finished. */
 	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+
+	/* We can't destroy the printer and associated WebKitWebView directly from
+	 * here, because this callback is a handler of a WebKit's signal. This
+	 * will destroy the printer later, together with the activity */
+	g_object_set_data_full (G_OBJECT (activity),
+		"printer", printer, (GDestroyNotify) g_object_unref);
+
 	g_timeout_add_seconds_full (G_PRIORITY_DEFAULT, 3,
 		(GSourceFunc) destroy_printing_activity, activity, NULL);
-
-	g_object_unref (printer);
 }
 
 void
