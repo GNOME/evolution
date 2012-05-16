@@ -1177,7 +1177,7 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 	gint year, month;
 	gint month_x, month_y, month_w, month_h;
 	gint min_x, max_x, text_x, text_y;
-	gint day, day_index, cells_x, cells_y, min_cell_width, text_width;
+	gint day, day_index, cells_x, cells_y, min_cell_width, text_width, arrow_button_size;
 	gint clip_width, clip_height;
 	gchar buffer[64];
 	PangoContext *pango_context;
@@ -1205,6 +1205,12 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 	xthickness = style->xthickness;
 	ythickness = style->ythickness;
+	arrow_button_size =
+		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics))
+		+ PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics))
+		+ E_CALENDAR_ITEM_YPAD_ABOVE_MONTH_NAME
+		+ E_CALENDAR_ITEM_YPAD_BELOW_MONTH_NAME
+		+ 2 * xthickness;
 
 	pango_font_metrics_unref (font_metrics);
 
@@ -1238,7 +1244,7 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 		min_x = E_CALENDAR_ITEM_XPAD_BEFORE_MONTH_NAME;
 
 	max_x = month_w;
-	if (row == 0 && col == calitem->cols - 1)
+	if (row == 0 && col == 0)
 		max_x -= E_CALENDAR_ITEM_XPAD_AFTER_MONTH_NAME_WITH_BUTTON;
 	else
 		max_x -= E_CALENDAR_ITEM_XPAD_AFTER_MONTH_NAME;
@@ -1265,23 +1271,69 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 		gdk_cairo_rectangle (cr, &clip_rect);
 		cairo_clip (cr);
 
-		/* This is a strftime() format. %B = Month name, %Y = Year. */
-		e_utf8_strftime (buffer, sizeof (buffer), _("%B %Y"), &tmp_tm);
-
-		pango_layout_set_font_description (layout, font_desc);
-		pango_layout_set_text (layout, buffer, -1);
-
-		/* Ideally we place the text centered in the month, but we
-		 * won't go to the left of the minimum x position. */
-		pango_layout_get_pixel_size (layout, &text_width, NULL);
-		text_x = (calitem->month_width - text_width) / 2;
-		text_x = MAX (min_x, text_x);
-
 		gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
-		cairo_move_to (cr,
-			       month_x + text_x,
-			       text_y);
-		pango_cairo_show_layout (cr, layout);
+
+		if (row == 0 && col == 0) {
+			PangoLayout *layout_yr;
+			gchar buffer_yr[64];
+			gdouble max_width;
+
+			layout_yr = gtk_widget_create_pango_layout (widget, NULL);
+
+			/* This is a strftime() format. %B = Month name. */
+			e_utf8_strftime (buffer, sizeof (buffer), C_("CalItem", "%B"), &tmp_tm);
+			/* This is a strftime() format. %Y = Year. */
+			e_utf8_strftime (buffer_yr, sizeof (buffer_yr), C_("CalItem", "%Y"), &tmp_tm);
+
+			pango_layout_set_font_description (layout, font_desc);
+			pango_layout_set_text (layout, buffer, -1);
+
+			pango_layout_set_font_description (layout_yr, font_desc);
+			pango_layout_set_text (layout_yr, buffer_yr, -1);
+
+			if (gtk_widget_get_direction (widget) != GTK_TEXT_DIR_RTL) {
+				max_width = calitem->max_month_name_width;
+				pango_layout_get_pixel_size (layout, &text_width, NULL);
+
+				cairo_move_to (cr, month_x + min_x + arrow_button_size + (max_width - text_width) / 2, text_y);
+				pango_cairo_show_layout (cr, layout);
+
+				max_width = calitem->max_digit_width * 5;
+				pango_layout_get_pixel_size (layout_yr, &text_width, NULL);
+
+				cairo_move_to (cr, month_x + month_w - arrow_button_size - (max_width - text_width) / 2 - text_width - min_x, text_y);
+				pango_cairo_show_layout (cr, layout_yr);
+			} else {
+				max_width = calitem->max_digit_width * 5;
+				pango_layout_get_pixel_size (layout_yr, &text_width, NULL);
+
+				cairo_move_to (cr, month_x + min_x + arrow_button_size + (max_width - text_width) / 2, text_y);
+				pango_cairo_show_layout (cr, layout_yr);
+
+				max_width = calitem->max_month_name_width;
+				pango_layout_get_pixel_size (layout, &text_width, NULL);
+
+				cairo_move_to (cr, month_x + month_w - arrow_button_size - (max_width - text_width) / 2 - text_width - min_x, text_y);
+				pango_cairo_show_layout (cr, layout);
+			}
+
+			g_object_unref (layout_yr);
+		} else {
+			/* This is a strftime() format. %B = Month name, %Y = Year. */
+			e_utf8_strftime (buffer, sizeof (buffer), C_("CalItem", "%B %Y"), &tmp_tm);
+
+			pango_layout_set_font_description (layout, font_desc);
+			pango_layout_set_text (layout, buffer, -1);
+
+			/* Ideally we place the text centered in the month, but we
+			 * won't go to the left of the minimum x position. */
+			pango_layout_get_pixel_size (layout, &text_width, NULL);
+			text_x = (calitem->month_width - text_width) / 2;
+			text_x = MAX (min_x, text_x);
+
+			cairo_move_to (cr, month_x + text_x, text_y);
+			pango_cairo_show_layout (cr, layout);
+		}
 
 		cairo_restore (cr);
 	}
@@ -1980,6 +2032,8 @@ e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 	GtkStyle *style;
 	gint day, max_day_width, digit, max_digit_width, max_week_number_digit_width;
 	gint char_height, width, min_cell_width, min_cell_height;
+	gchar buffer[64];
+	struct tm tmp_tm;
 	PangoFontDescription *font_desc, *wkfont_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
@@ -2071,6 +2125,23 @@ e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 		+ char_height + E_CALENDAR_ITEM_YPAD_BELOW_DAY_LETTERS + 1
 		+ E_CALENDAR_ITEM_YPAD_ABOVE_CELLS + min_cell_height * 6
 		+ E_CALENDAR_ITEM_YPAD_BELOW_CELLS;
+
+	calitem->max_month_name_width = 50;
+	memset (&tmp_tm, 0, sizeof (tmp_tm));
+	tmp_tm.tm_year = 2000 - 100;
+	tmp_tm.tm_mday = 1;
+	tmp_tm.tm_isdst = -1;
+	for (tmp_tm.tm_mon = 0; tmp_tm.tm_mon < 12 ; tmp_tm.tm_mon++) {
+		mktime (&tmp_tm);
+
+		e_utf8_strftime (buffer, sizeof (buffer), C_("CalItem", "%B"), &tmp_tm);
+
+		pango_layout_set_text (layout, buffer, -1);
+		pango_layout_get_pixel_size (layout, &width, NULL);
+
+		if (width > calitem->max_month_name_width)
+			calitem->max_month_name_width = width;
+	}
 
 	g_object_unref (layout);
 	g_object_unref (pango_context);
@@ -3266,6 +3337,8 @@ e_calendar_item_style_set (GtkWidget *widget,
 
 	color = &style->fg[GTK_STATE_INSENSITIVE];
 	calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG] = *color;
+
+	e_calendar_item_recalc_sizes (calitem);
 }
 
 void

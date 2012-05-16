@@ -59,10 +59,10 @@ G_BEGIN_DECLS
 #define	E_CALENDAR_ITEM_YPAD_BELOW_CELLS		2
 
 /* Horizontal padding in the heading bars. */
-#define	E_CALENDAR_ITEM_XPAD_BEFORE_MONTH_NAME_WITH_BUTTON	16
+#define	E_CALENDAR_ITEM_XPAD_BEFORE_MONTH_NAME_WITH_BUTTON	10
 #define	E_CALENDAR_ITEM_XPAD_BEFORE_MONTH_NAME			3
 #define	E_CALENDAR_ITEM_XPAD_AFTER_MONTH_NAME			3
-#define	E_CALENDAR_ITEM_XPAD_AFTER_MONTH_NAME_WITH_BUTTON	16
+#define	E_CALENDAR_ITEM_XPAD_AFTER_MONTH_NAME_WITH_BUTTON	10
 
 /* Horizontal padding in the month displays. */
 #define	E_CALENDAR_ITEM_XPAD_BEFORE_WEEK_NUMBERS	4
@@ -240,6 +240,8 @@ struct _ECalendarItem
 
 	gint week_number_digit_widths[10];
 	gint max_week_number_digit_width;
+
+	gint max_month_name_width;
 
 	/* Fonts for drawing text. If font isn't set it uses the font from the
 	 * canvas widget. If week_number_font isn't set it uses font. */

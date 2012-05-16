@@ -66,6 +66,8 @@ struct _ECalendar {
 
 	GnomeCanvasItem *prev_item;
 	GnomeCanvasItem *next_item;
+	GnomeCanvasItem *prev_item_year;
+	GnomeCanvasItem *next_item_year;
 
 	gint min_rows;
 	gint min_cols;
