@@ -34,10 +34,8 @@
 #include <libedataserverui/e-categories-editor.h>
 
 #define EVOLUTION_COPYRIGHT \
-	"Copyright \xC2\xA9 1999 - 2008 Novell, Inc. and Others"
-
-#define EVOLUTION_WEBSITE \
-	"http://www.gnome.org/projects/evolution/"
+	"Copyright \xC2\xA9 1999 - 2008 Novell, Inc. and Others\n" \
+	"Copyright \xC2\xA9 2008 - 2012 The Evolution Team"
 
 /* Authors and Documenters
  *
@@ -652,12 +650,13 @@ action_about_cb (GtkAction *action,
 		"version", VERSION,
 		"copyright", EVOLUTION_COPYRIGHT,
 		"comments", _("Groupware Suite"),
-		"website", EVOLUTION_WEBSITE,
+		"website", PACKAGE_URL,
 		"website-label", _("Evolution Website"),
 		"authors", authors,
 		"documenters", documenters,
 		"translator-credits", translator_credits,
 		"logo-icon-name", "evolution",
+	        "license-type", GTK_LICENSE_GPL_2_0,
 		NULL);
 }
 
