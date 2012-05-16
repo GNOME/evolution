@@ -194,7 +194,6 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 	ECalComponentPreview *task_preview;
 	ECalModel *task_model;
 	ECalModelComponent *comp_data;
-	ECalComponent *comp;
 	EPreviewPane *preview_pane;
 	EWebView *web_view;
 	const gchar *uid;
@@ -206,26 +205,31 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 	task_preview = E_CAL_COMPONENT_PREVIEW (web_view);
 
 	if (e_table_selected_count (table) != 1) {
-		e_cal_component_preview_clear (task_preview);
+		if (task_shell_content->priv->preview_visible)
+			e_cal_component_preview_clear (task_preview);
 		return;
 	}
 
 	row = e_table_get_cursor_row (table);
 	comp_data = e_cal_model_get_component_at (task_model, row);
 
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (
-		comp, icalcomponent_new_clone (comp_data->icalcomp));
-	e_cal_component_preview_display (
-		task_preview, comp_data->client, comp,
-		e_cal_model_get_timezone (task_model),
-		e_cal_model_get_use_24_hour_format (task_model));
+	if (task_shell_content->priv->preview_visible) {
+		ECalComponent *comp;
 
-	e_cal_component_get_uid (comp, &uid);
+		comp = e_cal_component_new_from_icalcomponent (
+				icalcomponent_new_clone (comp_data->icalcomp));
+
+		e_cal_component_preview_display (
+			task_preview, comp_data->client, comp,
+			e_cal_model_get_timezone (task_model),
+			e_cal_model_get_use_24_hour_format (task_model));
+
+		g_object_unref (comp);
+	}
+
+	uid = icalcomponent_get_uid (comp_data->icalcomp);
 	g_free (task_shell_content->priv->current_uid);
 	task_shell_content->priv->current_uid = g_strdup (uid);
-
-	g_object_unref (comp);
 }
 
 static void

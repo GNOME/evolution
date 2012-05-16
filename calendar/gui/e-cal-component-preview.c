@@ -58,7 +58,7 @@ struct _ECalComponentPreviewPrivate {
 
 #define HTML_HEADER "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n"  \
                     "<head>\n<meta name=\"generator\" content=\"Evolution Calendar Component\">\n" \
-		    "<link type=\"text/css\" rel=\"stylesheet\" href=\"file://" EVOLUTION_PRIVDATADIR "/theme/webview.css\">\n" \
+		    "<link type=\"text/css\" rel=\"stylesheet\" href=\"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview.css\">\n" \
 		    "<style>\n" \
 		    ".description { font-family: monospace; font-size: 1em; }\n" \
 		    "</style>\n" \
@@ -224,7 +224,7 @@ cal_component_preview_write_html (GString *buffer,
 
 			uri = g_filename_to_uri (icon_file, NULL, NULL);
 			g_string_append_printf (
-				buffer, "<img alt=\"%s\" src=\"%s\">",
+				buffer, "<img alt=\"%s\" src=\"evo-%s\">",
 				category, uri);
 			g_free (uri);
 		} else {

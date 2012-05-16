@@ -194,7 +194,6 @@ memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
 	ECalComponentPreview *memo_preview;
 	ECalModel *memo_model;
 	ECalModelComponent *comp_data;
-	ECalComponent *comp;
 	EPreviewPane *preview_pane;
 	EWebView *web_view;
 	const gchar *uid;
@@ -206,26 +205,31 @@ memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
 	memo_preview = E_CAL_COMPONENT_PREVIEW (web_view);
 
 	if (e_table_selected_count (table) != 1) {
-		e_cal_component_preview_clear (memo_preview);
+		if (memo_shell_content->priv->preview_visible)
+			e_cal_component_preview_clear (memo_preview);
 		return;
 	}
 
 	row = e_table_get_cursor_row (table);
 	comp_data = e_cal_model_get_component_at (memo_model, row);
 
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (
-		comp, icalcomponent_new_clone (comp_data->icalcomp));
-	e_cal_component_preview_display (
-		memo_preview, comp_data->client, comp,
-		e_cal_model_get_timezone (memo_model),
-		e_cal_model_get_use_24_hour_format (memo_model));
+	if (memo_shell_content->priv->preview_visible) {
+		ECalComponent *comp;
 
-	e_cal_component_get_uid (comp, &uid);
+		comp = e_cal_component_new_from_icalcomponent (
+			icalcomponent_new_clone (comp_data->icalcomp));
+
+		e_cal_component_preview_display (
+			memo_preview, comp_data->client, comp,
+			e_cal_model_get_timezone (memo_model),
+			e_cal_model_get_use_24_hour_format (memo_model));
+
+		g_object_unref (comp);
+	}
+
+	uid = icalcomponent_get_uid (comp_data->icalcomp);
 	g_free (memo_shell_content->priv->current_uid);
 	memo_shell_content->priv->current_uid = g_strdup (uid);
-
-	g_object_unref (comp);
 }
 
 static void
