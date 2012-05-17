@@ -5521,6 +5521,37 @@ setup_yahoo_calendar (EMAccountEditor *emae)
 }
 
 static void
+copy_param (GQuark key_id,
+            gpointer data,
+            gpointer user_data)
+{
+	GData **copy = user_data;
+
+	g_datalist_id_set_data_full (copy, key_id, g_strdup (data), g_free);
+}
+
+static void
+copy_original_url_parameters (CamelURL *copy_to_url,
+			      const gchar *copy_from)
+{
+	CamelURL *url;
+
+	g_return_if_fail (copy_to_url != NULL);
+
+	if (!copy_from || !*copy_from)
+		return;
+
+	url = camel_url_new (copy_from, NULL);
+	if (!url)
+		return;
+
+	if (url->params)
+		g_datalist_foreach (&url->params, copy_param, &copy_to_url->params);
+
+	camel_url_free (url);
+}
+
+static void
 emae_commit (EConfig *ec,
              EMAccountEditor *emae)
 {
@@ -5581,6 +5612,11 @@ emae_commit (EConfig *ec,
 		if (protocol != NULL)
 			camel_url_set_protocol (url, protocol);
 
+		/* the CamelSaslXOAUTH stores its data into parameters
+		   unknown to settings, thus copy these first and overwrite
+		   those known during save */
+		copy_original_url_parameters (url, modified_account->source->url);
+
 		if (settings != NULL)
 			camel_settings_save_to_url (settings, url);
 
@@ -5601,6 +5637,11 @@ emae_commit (EConfig *ec,
 
 	if (protocol != NULL)
 		camel_url_set_protocol (url, protocol);
+
+	/* the CamelSaslXOAUTH stores its data into parameters
+	   unknown to settings, thus copy these first and overwrite
+	   those known during save */
+	copy_original_url_parameters (url, modified_account->transport->url);
 
 	if (settings != NULL)
 		camel_settings_save_to_url (settings, url);

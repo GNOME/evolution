@@ -206,6 +206,13 @@ online_accounts_google_sync_mail (GoaObject *goa_object,
 	string = goa_account_get_id (goa_account);
 	camel_url_set_param (url, GOA_KEY, string);
 
+	if (new_account) {
+		e_account_set_bool (account, E_ACCOUNT_SOURCE_AUTO_CHECK, TRUE);
+		e_account_set_int (account, E_ACCOUNT_SOURCE_AUTO_CHECK_TIME, 10);
+
+		camel_url_set_param (url, "filter-inbox", "true");
+	}
+
 	g_free (account->source->url);
 	account->source->url = camel_url_to_string (url, 0);
 
