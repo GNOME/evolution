@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-05-15 19:13+0000\n"
-"PO-Revision-Date: 2012-05-16 11:52+0200\n"
+"POT-Creation-Date: 2012-05-16 21:02+0000\n"
+"PO-Revision-Date: 2012-05-17 12:01+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -741,7 +741,6 @@ msgid "Add an email to the List"
 msgstr "Añadir una dirección de correo-e a la lista"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:8
-#| msgid "Copy the email address to the clipboard"
 msgid "Remove an email address from the List"
 msgstr "Quitar una dirección de correo-e de la lista"
 
@@ -2668,7 +2667,7 @@ msgid "Close the current window"
 msgstr "Cerrar la ventana actual"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1152 ../mail/e-mail-browser.c:139
-#: ../shell/e-shell-window-actions.c:1467
+#: ../shell/e-shell-window-actions.c:1466
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
 #: ../widgets/misc/e-web-view.c:328 ../widgets/misc/e-web-view.c:1407
 #: ../widgets/misc/e-web-view-gtkhtml.c:458
@@ -2677,14 +2676,14 @@ msgid "Copy the selection"
 msgstr "Copiar la selección"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1159 ../mail/e-mail-browser.c:146
-#: ../shell/e-shell-window-actions.c:1474
+#: ../shell/e-shell-window-actions.c:1473
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
 #: ../widgets/misc/e-web-view.c:1401 ../widgets/misc/e-web-view-gtkhtml.c:1295
 msgid "Cut the selection"
 msgstr "Cortar la selección"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1166
-#: ../shell/e-shell-window-actions.c:1481
+#: ../shell/e-shell-window-actions.c:1480
 #: ../widgets/misc/e-focus-tracker.c:135 ../widgets/misc/e-focus-tracker.c:568
 msgid "Delete the selection"
 msgstr "Eliminar la selección"
@@ -2694,7 +2693,7 @@ msgid "View help"
 msgstr "Ver la ayuda"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1180 ../mail/e-mail-browser.c:153
-#: ../shell/e-shell-window-actions.c:1509
+#: ../shell/e-shell-window-actions.c:1508
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
 #: ../widgets/misc/e-web-view.c:1413 ../widgets/misc/e-web-view-gtkhtml.c:1307
 msgid "Paste the clipboard"
@@ -2713,7 +2712,7 @@ msgid "Save current changes and close editor"
 msgstr "Guardar los cambios actuales y cerrar el editor"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1215 ../mail/e-mail-browser.c:160
-#: ../shell/e-shell-window-actions.c:1586
+#: ../shell/e-shell-window-actions.c:1585
 #: ../widgets/misc/e-focus-tracker.c:142 ../widgets/misc/e-focus-tracker.c:573
 msgid "Select all text"
 msgstr "Selecciona todo el texto"
@@ -2726,19 +2725,19 @@ msgstr "_Clasificación"
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:19 ../filter/filter.ui.h:16
 #: ../mail/e-mail-browser.c:174
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
-#: ../shell/e-shell-window-actions.c:1614
+#: ../shell/e-shell-window-actions.c:1613
 #: ../widgets/menus/gal-define-views.ui.h:5
 msgid "_Edit"
 msgstr "_Editar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1236 ../mail/e-mail-browser.c:167
-#: ../shell/e-shell-window-actions.c:1621
+#: ../shell/e-shell-window-actions.c:1620
 #: ../widgets/misc/e-signature-editor.c:227
 msgid "_File"
 msgstr "_Archivo"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1243
-#: ../shell/e-shell-window-actions.c:1628
+#: ../shell/e-shell-window-actions.c:1627
 msgid "_Help"
 msgstr "Ay_uda"
 
@@ -2752,7 +2751,7 @@ msgid "_Options"
 msgstr "_Opciones"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1264 ../mail/e-mail-browser.c:181
-#: ../shell/e-shell-window-actions.c:1663 ../smime/gui/smime-ui.ui.h:28
+#: ../shell/e-shell-window-actions.c:1662 ../smime/gui/smime-ui.ui.h:28
 msgid "_View"
 msgstr "_Ver"
 
@@ -7090,7 +7089,7 @@ msgstr "_Mensaje nuevo"
 msgid "Open New Message window"
 msgstr "Abrir la ventana de mensaje nuevo"
 
-#: ../composer/e-composer-actions.c:311 ../shell/e-shell-window-actions.c:1523
+#: ../composer/e-composer-actions.c:311 ../shell/e-shell-window-actions.c:1522
 msgid "Configure Evolution"
 msgstr "Configurar Evolution"
 
@@ -7495,7 +7494,7 @@ msgstr "Notificaciones de acontecimientos del calendario"
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-actions.c:654
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-actions.c:652
 msgid "Groupware Suite"
 msgstr "Suite de trabajo en grupo"
 
@@ -11414,25 +11413,18 @@ msgid "Setup Google ca_lendar with Evolution"
 msgstr "Configurar el ca_lendario de Google con Evolution"
 
 #: ../mail/em-account-editor.c:5015
-#| msgid "Yahoo account settings:"
 msgid "Yahoo! account settings:"
 msgstr "Configuración de la cuenta de Yahoo!:"
 
 #: ../mail/em-account-editor.c:5023
-#| msgid "Setup _Yahoo calendar with Evolution"
 msgid "Setup _Yahoo! calendar with Evolution"
 msgstr "Configurar el calendario de _Yahoo! con Evolution"
 
 #: ../mail/em-account-editor.c:5030
-#| msgid "Setup Yahoo calendar with Evolution"
 msgid "Setup Yahoo! _tasks with Evolution"
 msgstr "Configurar las tareas de Yahoo! con Evolution"
 
 #: ../mail/em-account-editor.c:5037
-#| msgid ""
-#| "Yahoo calendars are named as firstname_lastname. We have tried to form "
-#| "the calendar name. So please confirm and re-enter the calendar name if it "
-#| "is not correct."
 msgid ""
 "Yahoo! calendars are named as firstname_lastname. We have tried to form the "
 "calendar name. Please confirm and re-enter the calendar name, if it is not "
@@ -11444,7 +11436,6 @@ msgstr ""
 "calendario."
 
 #: ../mail/em-account-editor.c:5056
-#| msgid "Yahoo Calen_dar name:"
 msgid "Yahoo! Calen_dar name:"
 msgstr "Nombre del calen_dario de Yahoo!:"
 
@@ -11503,9 +11494,9 @@ msgstr "Vista de lista"
 msgid "Unknown background operation"
 msgstr "Operación en segundo plano desconocida"
 
-#: ../mail/e-mail-browser.c:132 ../shell/e-shell-window-actions.c:1439
-#: ../shell/e-shell-window-actions.c:1446
-#: ../shell/e-shell-window-actions.c:1453
+#: ../mail/e-mail-browser.c:132 ../shell/e-shell-window-actions.c:1438
+#: ../shell/e-shell-window-actions.c:1445
+#: ../shell/e-shell-window-actions.c:1452
 msgid "Close this window"
 msgstr "Cierra esta ventana"
 
@@ -11670,7 +11661,6 @@ msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "_Ignorar siempre «Responder a:» para las listas de correo."
 
 #: ../mail/e-mail-reader.c:1738
-#| msgid "Failed to retrieve messages."
 msgid "Failed to retrieve message:"
 msgstr "Falló al obtener el mensaje:"
 
@@ -12250,13 +12240,11 @@ msgstr "Eliminar"
 
 #: ../mail/e-mail-reader.c:4007
 #: ../modules/calendar/e-cal-shell-view-actions.c:1392
-#: ../widgets/misc/e-calendar.c:202
 msgid "Next"
 msgstr "Siguiente"
 
 #: ../mail/e-mail-reader.c:4011
 #: ../modules/calendar/e-cal-shell-view-actions.c:1385
-#: ../widgets/misc/e-calendar.c:178
 msgid "Previous"
 msgstr "Anterior"
 
@@ -12273,13 +12261,13 @@ msgstr "Carpeta «%s»"
 msgid "Do not warn me again"
 msgstr "No advertirme de nuevo"
 
-#: ../mail/e-mail-reader-utils.c:516
+#: ../mail/e-mail-reader-utils.c:521
 msgid "Printing"
 msgstr "Imprimiendo"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../mail/e-mail-reader-utils.c:645
+#: ../mail/e-mail-reader-utils.c:650
 #, c-format
 msgid ""
 "Folder '%s' contains %u duplicate message. Are you sure you want to delete "
@@ -12294,7 +12282,7 @@ msgstr[1] ""
 "La carpeta «%s» contiene %u correos duplicados. ¿Está seguro de que quiere "
 "eliminarlos?"
 
-#: ../mail/e-mail-reader-utils.c:1028
+#: ../mail/e-mail-reader-utils.c:1033
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Guardar mensaje"
@@ -12305,7 +12293,7 @@ msgstr[1] "Guardar mensajes"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:1049
+#: ../mail/e-mail-reader-utils.c:1054
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Mensaje"
@@ -20854,7 +20842,7 @@ msgstr "Guardando el estado de la interfaz de usuario"
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-actions.c:645
+#: ../shell/e-shell-window-actions.c:643
 msgid "translator-credits"
 msgstr ""
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2010\n"
@@ -20865,278 +20853,278 @@ msgstr ""
 "Eneko Lacunza <enlar@iname.com>, 2001-2002\n"
 "Carlos Perelló Marín <carlos@gnome-db.org>, 2000-2001"
 
-#: ../shell/e-shell-window-actions.c:656
+#: ../shell/e-shell-window-actions.c:654
 msgid "Evolution Website"
 msgstr "Página web de Evolution"
 
-#: ../shell/e-shell-window-actions.c:914
+#: ../shell/e-shell-window-actions.c:913
 msgid "Categories Editor"
 msgstr "Editor de categorías"
 
-#: ../shell/e-shell-window-actions.c:1249
+#: ../shell/e-shell-window-actions.c:1248
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy no está instalado."
 
-#: ../shell/e-shell-window-actions.c:1251
+#: ../shell/e-shell-window-actions.c:1250
 msgid "Bug Buddy could not be run."
 msgstr "No se pudo ejecutar Bug Buddy."
 
-#: ../shell/e-shell-window-actions.c:1432
+#: ../shell/e-shell-window-actions.c:1431
 msgid "Show information about Evolution"
 msgstr "Mostrar información acerca de Evolution"
 
-#: ../shell/e-shell-window-actions.c:1437
-#: ../shell/e-shell-window-actions.c:1451
+#: ../shell/e-shell-window-actions.c:1436
+#: ../shell/e-shell-window-actions.c:1450
 msgid "_Close Window"
 msgstr "_Cerrar ventana"
 
-#: ../shell/e-shell-window-actions.c:1458
+#: ../shell/e-shell-window-actions.c:1457
 msgid "_Contents"
 msgstr "Índ_ice"
 
-#: ../shell/e-shell-window-actions.c:1460
+#: ../shell/e-shell-window-actions.c:1459
 msgid "Open the Evolution User Guide"
 msgstr "Abrir la Guía de usuario de Evolution"
 
-#: ../shell/e-shell-window-actions.c:1486
+#: ../shell/e-shell-window-actions.c:1485
 msgid "_Forget Passwords"
 msgstr "_Olvidar contraseñas"
 
-#: ../shell/e-shell-window-actions.c:1488
+#: ../shell/e-shell-window-actions.c:1487
 msgid "Forget all remembered passwords"
 msgstr "Olvidar todas las contraseñas recordadas"
 
-#: ../shell/e-shell-window-actions.c:1493
+#: ../shell/e-shell-window-actions.c:1492
 msgid "I_mport..."
 msgstr "I_mportar…"
 
-#: ../shell/e-shell-window-actions.c:1495
+#: ../shell/e-shell-window-actions.c:1494
 msgid "Import data from other programs"
 msgstr "Importa datos de otros programas"
 
-#: ../shell/e-shell-window-actions.c:1500
+#: ../shell/e-shell-window-actions.c:1499
 msgid "New _Window"
 msgstr "_Ventana nueva"
 
-#: ../shell/e-shell-window-actions.c:1502
+#: ../shell/e-shell-window-actions.c:1501
 msgid "Create a new window displaying this view"
 msgstr "Crear una ventana nueva mostrando esta vista"
 
-#: ../shell/e-shell-window-actions.c:1514
+#: ../shell/e-shell-window-actions.c:1513
 msgid "Available Cate_gories"
 msgstr "Categorías _disponibles:"
 
-#: ../shell/e-shell-window-actions.c:1516
+#: ../shell/e-shell-window-actions.c:1515
 msgid "Manage available categories"
 msgstr "Gestionar las categorías disponibles"
 
-#: ../shell/e-shell-window-actions.c:1528
+#: ../shell/e-shell-window-actions.c:1527
 msgid "_Quick Reference"
 msgstr "_Referencia rápida"
 
-#: ../shell/e-shell-window-actions.c:1530
+#: ../shell/e-shell-window-actions.c:1529
 msgid "Show Evolution's shortcut keys"
 msgstr "Mostrar los atajos de teclas de Evolution"
 
-#: ../shell/e-shell-window-actions.c:1537
+#: ../shell/e-shell-window-actions.c:1536
 msgid "Exit the program"
 msgstr "Sale del programa"
 
-#: ../shell/e-shell-window-actions.c:1542
+#: ../shell/e-shell-window-actions.c:1541
 msgid "_Advanced Search..."
 msgstr "Búsqueda _avanzada…"
 
-#: ../shell/e-shell-window-actions.c:1544
+#: ../shell/e-shell-window-actions.c:1543
 msgid "Construct a more advanced search"
 msgstr "Construir una búsqueda más avanzada"
 
-#: ../shell/e-shell-window-actions.c:1551
+#: ../shell/e-shell-window-actions.c:1550
 msgid "Clear the current search parameters"
 msgstr "Limpiar los parámetros de búsqueda actuales"
 
-#: ../shell/e-shell-window-actions.c:1556
+#: ../shell/e-shell-window-actions.c:1555
 msgid "_Edit Saved Searches..."
 msgstr "_Editar búsquedas guardadas…"
 
-#: ../shell/e-shell-window-actions.c:1558
+#: ../shell/e-shell-window-actions.c:1557
 msgid "Manage your saved searches"
 msgstr "Gestionar sus búsquedas guardadas"
 
-#: ../shell/e-shell-window-actions.c:1565
+#: ../shell/e-shell-window-actions.c:1564
 msgid "Click here to change the search type"
 msgstr "Pulse aquí para cambiar el tipo de búsqueda"
 
 # En conflicto con _Buscar del menu principal
-#: ../shell/e-shell-window-actions.c:1570
+#: ../shell/e-shell-window-actions.c:1569
 msgid "_Find Now"
 msgstr "B_uscar ahora"
 
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1572
+#: ../shell/e-shell-window-actions.c:1571
 msgid "Execute the current search parameters"
 msgstr "Ejecutar los parámetros de búsqueda actuales"
 
-#: ../shell/e-shell-window-actions.c:1577
+#: ../shell/e-shell-window-actions.c:1576
 msgid "_Save Search..."
 msgstr "_Guardar búsqueda…"
 
-#: ../shell/e-shell-window-actions.c:1579
+#: ../shell/e-shell-window-actions.c:1578
 msgid "Save the current search parameters"
 msgstr "Guardar los parámetros de búsqueda actuales"
 
-#: ../shell/e-shell-window-actions.c:1591
+#: ../shell/e-shell-window-actions.c:1590
 msgid "Submit _Bug Report..."
 msgstr "Enviar informe de _fallo…"
 
-#: ../shell/e-shell-window-actions.c:1593
+#: ../shell/e-shell-window-actions.c:1592
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Envía un informe de fallos usando Bug Buddy"
 
-#: ../shell/e-shell-window-actions.c:1598
+#: ../shell/e-shell-window-actions.c:1597
 msgid "_Work Offline"
 msgstr "_Trabajar desconectado"
 
-#: ../shell/e-shell-window-actions.c:1600
+#: ../shell/e-shell-window-actions.c:1599
 msgid "Put Evolution into offline mode"
 msgstr "Poner Evolution en modo desconectado"
 
-#: ../shell/e-shell-window-actions.c:1605
+#: ../shell/e-shell-window-actions.c:1604
 msgid "_Work Online"
 msgstr "_Trabajar conectado"
 
-#: ../shell/e-shell-window-actions.c:1607
+#: ../shell/e-shell-window-actions.c:1606
 msgid "Put Evolution into online mode"
 msgstr "Poner Evolution en modo conectado"
 
-#: ../shell/e-shell-window-actions.c:1635
+#: ../shell/e-shell-window-actions.c:1634
 msgid "Lay_out"
 msgstr "_Distribución"
 
-#: ../shell/e-shell-window-actions.c:1642
+#: ../shell/e-shell-window-actions.c:1641
 msgid "_New"
 msgstr "_Nuevo"
 
-#: ../shell/e-shell-window-actions.c:1649
+#: ../shell/e-shell-window-actions.c:1648
 msgid "_Search"
 msgstr "_Buscar"
 
-#: ../shell/e-shell-window-actions.c:1656
+#: ../shell/e-shell-window-actions.c:1655
 msgid "_Switcher Appearance"
 msgstr "Apariencia del _selector"
 
-#: ../shell/e-shell-window-actions.c:1670
+#: ../shell/e-shell-window-actions.c:1669
 msgid "_Window"
 msgstr "_Ventana"
 
-#: ../shell/e-shell-window-actions.c:1699
+#: ../shell/e-shell-window-actions.c:1698
 msgid "Show Side _Bar"
 msgstr "Mostrar barra _lateral"
 
-#: ../shell/e-shell-window-actions.c:1701
+#: ../shell/e-shell-window-actions.c:1700
 msgid "Show the side bar"
 msgstr "Mostrar la barra lateral"
 
-#: ../shell/e-shell-window-actions.c:1707
+#: ../shell/e-shell-window-actions.c:1706
 msgid "Show _Buttons"
 msgstr "Mostrar _botones"
 
-#: ../shell/e-shell-window-actions.c:1709
+#: ../shell/e-shell-window-actions.c:1708
 msgid "Show the switcher buttons"
 msgstr "Mostrar los botones del selector"
 
-#: ../shell/e-shell-window-actions.c:1715
+#: ../shell/e-shell-window-actions.c:1714
 msgid "Show _Status Bar"
 msgstr "Mostrar barra de _estado"
 
-#: ../shell/e-shell-window-actions.c:1717
+#: ../shell/e-shell-window-actions.c:1716
 msgid "Show the status bar"
 msgstr "Mostrar la barra de estado"
 
-#: ../shell/e-shell-window-actions.c:1723
+#: ../shell/e-shell-window-actions.c:1722
 msgid "Show _Tool Bar"
 msgstr "Mostrar barra de _herramientas"
 
-#: ../shell/e-shell-window-actions.c:1725
+#: ../shell/e-shell-window-actions.c:1724
 msgid "Show the tool bar"
 msgstr "Mostrar la barra de herramientas"
 
-#: ../shell/e-shell-window-actions.c:1747
+#: ../shell/e-shell-window-actions.c:1746
 msgid "_Icons Only"
 msgstr "Sólo _iconos"
 
-#: ../shell/e-shell-window-actions.c:1749
+#: ../shell/e-shell-window-actions.c:1748
 msgid "Display window buttons with icons only"
 msgstr "Mostrar los botones de la ventana sólo con iconos"
 
-#: ../shell/e-shell-window-actions.c:1754
+#: ../shell/e-shell-window-actions.c:1753
 msgid "_Text Only"
 msgstr "Sólo _texto"
 
-#: ../shell/e-shell-window-actions.c:1756
+#: ../shell/e-shell-window-actions.c:1755
 msgid "Display window buttons with text only"
 msgstr "Mostrar los botones de la ventana sólo con texto"
 
-#: ../shell/e-shell-window-actions.c:1761
+#: ../shell/e-shell-window-actions.c:1760
 msgid "Icons _and Text"
 msgstr "Iconos _y texto"
 
-#: ../shell/e-shell-window-actions.c:1763
+#: ../shell/e-shell-window-actions.c:1762
 msgid "Display window buttons with icons and text"
 msgstr "Mostrar los botones de la ventana con iconos y texto"
 
-#: ../shell/e-shell-window-actions.c:1768
+#: ../shell/e-shell-window-actions.c:1767
 msgid "Tool_bar Style"
 msgstr "Estilo de la _barra de herramientas"
 
-#: ../shell/e-shell-window-actions.c:1770
+#: ../shell/e-shell-window-actions.c:1769
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Mostrar los botones de la ventana usando la configuración de la barra de "
 "herramientas del escritorio"
 
-#: ../shell/e-shell-window-actions.c:1778
+#: ../shell/e-shell-window-actions.c:1777
 msgid "Define Views..."
 msgstr "Definir vistas…"
 
-#: ../shell/e-shell-window-actions.c:1780
+#: ../shell/e-shell-window-actions.c:1779
 msgid "Create or edit views"
 msgstr "Crear o editar vistas"
 
-#: ../shell/e-shell-window-actions.c:1785
+#: ../shell/e-shell-window-actions.c:1784
 msgid "Save Custom View..."
 msgstr "Guardar vista personalizada…"
 
-#: ../shell/e-shell-window-actions.c:1787
+#: ../shell/e-shell-window-actions.c:1786
 msgid "Save current custom view"
 msgstr "Guardar la vista actual personalizada"
 
-#: ../shell/e-shell-window-actions.c:1794
+#: ../shell/e-shell-window-actions.c:1793
 msgid "C_urrent View"
 msgstr "Vista act_ual"
 
-#: ../shell/e-shell-window-actions.c:1804
+#: ../shell/e-shell-window-actions.c:1803
 msgid "Custom View"
 msgstr "Vista personalizada"
 
-#: ../shell/e-shell-window-actions.c:1806
+#: ../shell/e-shell-window-actions.c:1805
 msgid "Current view is a customized view"
 msgstr "La vista actual es una vista personalizada"
 
-#: ../shell/e-shell-window-actions.c:1816
+#: ../shell/e-shell-window-actions.c:1815
 msgid "Change the page settings for your current printer"
 msgstr "Cambiar la configuración de página para la impresora actual"
 
-#: ../shell/e-shell-window-actions.c:2206
+#: ../shell/e-shell-window-actions.c:2205
 #, c-format
 msgid "Switch to %s"
 msgstr "Cambiar a %s"
 
-#: ../shell/e-shell-window-actions.c:2327
+#: ../shell/e-shell-window-actions.c:2326
 #, c-format
 msgid "Select view: %s"
 msgstr "Seleccionar vista: %s"
 
-#: ../shell/e-shell-window-actions.c:2428
+#: ../shell/e-shell-window-actions.c:2427
 msgid "Execute these search parameters"
 msgstr "Ejecutar estos parámetros de búsqueda"
 
@@ -22267,12 +22255,49 @@ msgstr "Abrir este adjunto en %s"
 msgid "Ctrl-click to open a link"
 msgstr "Pulse Ctrl-botón del ratón para abrir un enlace"
 
-#: ../widgets/misc/e-calendar.c:226
+#: ../widgets/misc/e-calendar.c:187
+#| msgid "Previous"
+msgid "Previous month"
+msgstr "Mes anterior"
+
+#: ../widgets/misc/e-calendar.c:211
+#| msgctxt "DateFmt"
+#| msgid "Next Mon"
+msgid "Next month"
+msgstr "Siguiente mes"
+
+#: ../widgets/misc/e-calendar.c:233
+#| msgid "Previous"
+msgid "Previous year"
+msgstr "Año anterior"
+
+#: ../widgets/misc/e-calendar.c:254
+#| msgctxt "DateFmt"
+#| msgid "Next Tue"
+msgid "Next year"
+msgstr "Siguiente año"
+
+#: ../widgets/misc/e-calendar.c:278
 msgid "Month Calendar"
 msgstr "Calendario mensual"
 
+#. This is a strftime() format. %B = Month name.
+#: ../widgets/misc/e-calendar-item.c:1284
+#: ../widgets/misc/e-calendar-item.c:2137
+msgctxt "CalItem"
+msgid "%B"
+msgstr "%B"
+
+#. This is a strftime() format. %Y = Year.
+#: ../widgets/misc/e-calendar-item.c:1286
+msgctxt "CalItem"
+msgid "%Y"
+msgstr "%Y"
+
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../widgets/misc/e-calendar-item.c:1269
+#: ../widgets/misc/e-calendar-item.c:1323
+#| msgid "%B %Y"
+msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%B %Y"
 
