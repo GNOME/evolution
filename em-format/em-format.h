@@ -26,6 +26,7 @@
 
 #include <camel/camel.h>
 #include <gtk/gtk.h>
+#include <webkit/webkitdom.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FORMAT \
@@ -65,7 +66,6 @@ typedef struct _EMFormatHeader EMFormatHeader;
 typedef struct _EMFormatHandler EMFormatHandler;
 typedef struct _EMFormatParserInfo EMFormatParserInfo;
 typedef struct _EMFormatWriterInfo EMFormatWriterInfo;
-typedef struct _WebKitDOMElement WebKitDOMElement;
 
 typedef void		(*EMFormatParseFunc)	(EMFormat *emf,
 						 CamelMimePart *part,

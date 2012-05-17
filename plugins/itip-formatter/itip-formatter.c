@@ -143,8 +143,6 @@ struct _ItipPURI {
 	GHashTable *real_comps; /* ESource's UID -> ECalComponent stored on the server */
 };
 
-typedef struct _ItipPURI ItipPURI;
-
 void format_itip (EPlugin *ep, EMFormatHookTarget *target);
 GtkWidget *itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
