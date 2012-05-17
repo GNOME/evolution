@@ -2334,8 +2334,9 @@ emae_setup_settings (EMAccountEditorService *service)
 			G_BINDING_BIDIRECTIONAL |
 			G_BINDING_SYNC_CREATE);
 
-		/* restore previously saved port */
-		camel_network_settings_set_port (network_settings, port);
+		/* restore previously saved port, if set */
+		if (port > 0)
+			camel_network_settings_set_port (network_settings, port);
 	}
 
 	if (CAMEL_IS_LOCAL_SETTINGS (settings)) {
