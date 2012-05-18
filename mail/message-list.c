@@ -4666,10 +4666,7 @@ regen_list_exec (struct _regen_list_msg *m,
 		m->last_row = e_tree_table_adapter_row_of_node (e_tree_get_table_adapter (tree), cursor);
 
 	/* if we have hidedeleted on, use a search to find it out, merge with existing search if set */
-	if (!camel_folder_has_search_capability (m->folder)) {
-		/* if we have no search capability, dont let search or hide deleted work */
-		expr = NULL;
-	} else if (m->hidedel) {
+	if (m->hidedel) {
 		if (m->hidejunk) {
 			if (m->search) {
 				expr = g_alloca (strlen (m->search) + 92);
