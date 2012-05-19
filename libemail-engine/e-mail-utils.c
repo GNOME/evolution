@@ -1001,64 +1001,6 @@ exit:
 	return account;
 }
 
-static void
-cancel_service_connect_cb (GCancellable *cancellable,
-                           CamelService *service)
-{
-	g_return_if_fail (CAMEL_IS_SERVICE (service));
-
-	camel_service_cancel_connect (service);
-}
-
-gboolean
-em_utils_connect_service_sync (CamelService *service,
-                               GCancellable *cancellable,
-                               GError **error)
-{
-	gboolean res;
-	gulong handler_id = 0;
-
-	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
-
-	if (cancellable != NULL)
-		handler_id = g_cancellable_connect (
-			cancellable,
-			G_CALLBACK (cancel_service_connect_cb),
-			service, NULL);
-
-	res = camel_service_connect_sync (service, error);
-
-	if (handler_id)
-		g_cancellable_disconnect (cancellable, handler_id);
-
-	return res;
-}
-
-gboolean
-em_utils_disconnect_service_sync (CamelService *service,
-                                  gboolean clean,
-                                  GCancellable *cancellable,
-                                  GError **error)
-{
-	gboolean res;
-	gulong handler_id = 0;
-
-	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
-
-	if (cancellable != NULL)
-		handler_id = g_cancellable_connect (
-			cancellable,
-			G_CALLBACK (cancel_service_connect_cb),
-			service, NULL);
-
-	res = camel_service_disconnect_sync (service, clean, error);
-
-	if (handler_id)
-		g_cancellable_disconnect (cancellable, handler_id);
-
-	return res;
-}
-
 /**
  * em_utils_uids_free:
  * @uids: array of uids

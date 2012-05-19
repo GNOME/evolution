@@ -554,7 +554,7 @@ all_accounts:
 	/* FIXME Complete lack of error checking here. */
 	service = camel_session_get_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
-	em_utils_connect_service_sync (service, NULL, NULL);
+	camel_service_connect_sync (service, NULL, NULL);
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
 		CAMEL_STORE (service), _("All Account Search"),
@@ -715,7 +715,7 @@ current_account:
 	/* FIXME Complete lack of error checking here. */
 	service = camel_session_get_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
-	em_utils_connect_service_sync (service, NULL, NULL);
+	camel_service_connect_sync (service, NULL, NULL);
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
 		CAMEL_STORE (service), _("Account Search"),

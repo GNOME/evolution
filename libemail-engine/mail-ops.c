@@ -380,7 +380,7 @@ exit:
 	/* also disconnect if not a local delivery mbox;
 	 * there is no need to keep the connection alive forever */
 	if (!is_local_delivery)
-		em_utils_disconnect_service_sync (
+		camel_service_disconnect_sync (
 			service, TRUE, cancellable, NULL);
 }
 
@@ -606,7 +606,7 @@ mail_send_message (struct _send_queue_msg *m,
 	}
 
 	if (camel_address_length (recipients) > 0) {
-		if (!em_utils_connect_service_sync (
+		if (!camel_service_connect_sync (
 			CAMEL_SERVICE (transport), cancellable, error))
 			goto exit;
 
@@ -1624,7 +1624,7 @@ empty_trash_exec (struct _empty_trash_msg *m,
 	service = CAMEL_SERVICE (m->store);
 	uid = camel_service_get_uid (service);
 
-	if (!em_utils_connect_service_sync (service, cancellable, error))
+	if (!camel_service_connect_sync (service, cancellable, error))
 		return;
 
 	trash = camel_store_get_trash_folder_sync (
@@ -1712,10 +1712,10 @@ disconnect_service_desc (struct _disconnect_msg *m)
 
 static void
 disconnect_service_exec (struct _disconnect_msg *m,
-                    GCancellable *cancellable,
-                    GError **error)
+                         GCancellable *cancellable,
+                         GError **error)
 {
-	em_utils_disconnect_service_sync (
+	camel_service_disconnect_sync (
 		CAMEL_SERVICE (m->store), TRUE, cancellable, error);
 }
 

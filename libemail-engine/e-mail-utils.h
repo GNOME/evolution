@@ -41,14 +41,6 @@ EAccount *	em_utils_guess_account_with_recipients
 void		emu_remove_from_mail_cache	(const GSList *addresses);
 void		emu_remove_from_mail_cache_1	(const gchar *address);
 void		emu_free_mail_cache		(void);
-gboolean	em_utils_connect_service_sync	(CamelService *service,
-						 GCancellable *cancellable,
-						 GError **error);
-gboolean	em_utils_disconnect_service_sync
-						(CamelService *service,
-						 gboolean clean,
-						 GCancellable *cancellable,
-						 GError **error);
 void		em_utils_uids_free		(GPtrArray *uids);
 gboolean	em_utils_is_local_delivery_mbox_file
 						(CamelURL *url);

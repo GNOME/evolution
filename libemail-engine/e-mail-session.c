@@ -695,7 +695,7 @@ mail_session_add_vfolder_store (EMailSession *session)
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	camel_service_set_display_name (service, _("Search Folders"));
-	em_utils_connect_service_sync (service, NULL, NULL);
+	camel_service_connect_sync (service, NULL, NULL);
 
 	/* XXX There's more configuration to do in vfolder_load_storage()
 	 *     but it requires an EMailBackend, which we don't have access
@@ -1710,7 +1710,7 @@ e_mail_session_get_inbox_sync (EMailSession *session,
 	if (!CAMEL_IS_STORE (service))
 		return NULL;
 
-	if (!em_utils_connect_service_sync (service, cancellable, error))
+	if (!camel_service_connect_sync (service, cancellable, error))
 		return NULL;
 
 	return camel_store_get_inbox_folder_sync (
@@ -1809,7 +1809,7 @@ e_mail_session_get_trash_sync (EMailSession *session,
 	if (!CAMEL_IS_STORE (service))
 		return NULL;
 
-	if (!em_utils_connect_service_sync (service, cancellable, error))
+	if (!camel_service_connect_sync (service, cancellable, error))
 		return NULL;
 
 	return camel_store_get_trash_folder_sync (

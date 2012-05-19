@@ -426,8 +426,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 		if (status != CAMEL_SERVICE_CONNECTED) {
 			did_connect = TRUE;
 
-			/* XXX This API does not allow for cancellation. */
-			em_utils_connect_service_sync (
+			camel_service_connect_sync (
 				service, cancellable, &error);
 
 			if (error != NULL) {
@@ -447,7 +446,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 			context->recipients, cancellable, &error);
 
 		if (did_connect)
-			em_utils_disconnect_service_sync (
+			camel_service_disconnect_sync (
 				service, error == NULL,
 				cancellable, error ? NULL : &error);
 
@@ -896,9 +895,8 @@ e_mail_session_unsubscribe_folder_sync (EMailSession *session,
 	message = _("Unsubscribing from folder '%s'");
 	camel_operation_push_message (cancellable, message, folder_name);
 
-	/* FIXME This should take our GCancellable. */
 	success =
-		em_utils_connect_service_sync (
+		camel_service_connect_sync (
 			CAMEL_SERVICE (store), cancellable, error) &&
 		camel_subscribable_unsubscribe_folder_sync (
 			CAMEL_SUBSCRIBABLE (store),

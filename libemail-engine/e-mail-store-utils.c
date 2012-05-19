@@ -180,7 +180,8 @@ mail_store_go_offline_thread (GSimpleAsyncResult *simple,
 				disco_store, CAMEL_DISCO_STORE_OFFLINE,
 				cancellable, &error);
 		else
-			em_utils_disconnect_service_sync (service, TRUE, cancellable, &error);
+			camel_service_disconnect_sync (
+				service, TRUE, cancellable, &error);
 
 	} else if (CAMEL_IS_OFFLINE_STORE (store)) {
 		CamelOfflineStore *offline_store;
@@ -190,8 +191,10 @@ mail_store_go_offline_thread (GSimpleAsyncResult *simple,
 		camel_offline_store_set_online_sync (
 			offline_store, FALSE, cancellable, &error);
 
-	} else
-		em_utils_disconnect_service_sync (service, TRUE, cancellable, &error);
+	} else {
+		camel_service_disconnect_sync (
+			service, TRUE, cancellable, &error);
+	}
 
 	if (error != NULL)
 		g_simple_async_result_take_error (simple, error);
@@ -209,10 +212,6 @@ e_mail_store_go_offline (CamelStore *store,
 	GSimpleAsyncResult *simple;
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
-
-	/* Cancel any pending connect first so the set_offline_op
-	 * thread won't get queued behind a hung connect op. */
-	camel_service_cancel_connect (CAMEL_SERVICE (store));
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (store), callback,
