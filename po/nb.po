@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.5.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-15 16:22+0200\n"
-"PO-Revision-Date: 2012-05-15 16:24+0200\n"
+"POT-Creation-Date: 2012-05-19 11:51+0200\n"
+"PO-Revision-Date: 2012-05-19 11:54+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -717,6 +717,18 @@ msgid "_Hide addresses when sending mail to this list"
 msgstr "_Skjul adresser når du sender e-post til listen"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:7
+msgid "Add an email to the List"
+msgstr "Legg til en e-postadresse i listen"
+
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:8
+msgid "Remove an email address from the List"
+msgstr "Fjern en e-postadresse fra listen"
+
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
+msgid "Insert email addresses from Address Book"
+msgstr "Sett inn e-postadresser fra adresseboken"
+
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
 #: ../mail/mail-config.ui.h:156
 msgid "_Select..."
 msgstr "_Velg …"
@@ -834,7 +846,7 @@ msgid "Send a mail message to this address"
 msgstr "Send en e-postmelding til denne adressen"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:307
-#: ../widgets/misc/e-web-view.c:1069 ../widgets/misc/e-web-view-gtkhtml.c:955
+#: ../widgets/misc/e-web-view.c:1089 ../widgets/misc/e-web-view-gtkhtml.c:975
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klikk for å sende melding til %s"
@@ -888,7 +900,7 @@ msgstr "Videosamtale"
 #: ../modules/calendar/e-cal-shell-view-actions.c:239
 #: ../modules/calendar/e-cal-shell-view-actions.c:268
 #: ../modules/calendar/e-cal-shell-view.c:606
-#: ../modules/online-accounts/e-online-accounts-google.c:302
+#: ../modules/online-accounts/e-online-accounts-google.c:309
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
 #: ../widgets/misc/e-send-options.c:546
 msgid "Calendar"
@@ -1545,8 +1557,8 @@ msgstr "Kunne ikke hente liste med adressebøker: %s"
 #: ../libemail-engine/mail-ops.c:683 ../mail/e-mail-reader.c:1739
 #: ../mail/em-folder-tree.c:678 ../plugins/caldav/caldav-browse-server.c:221
 #: ../plugins/caldav/caldav-browse-server.c:1482 ../plugins/face/face.c:174
-#: ../plugins/itip-formatter/itip-formatter.c:1503
-#: ../plugins/itip-formatter/itip-formatter.c:1896
+#: ../plugins/itip-formatter/itip-formatter.c:1501
+#: ../plugins/itip-formatter/itip-formatter.c:1894
 #: ../smime/gui/certificate-manager.c:317
 msgid "Unknown error"
 msgstr "Ukjent feil"
@@ -2484,7 +2496,7 @@ msgstr "Fa_rge:"
 #: ../modules/addressbook/addressbook-config.c:1114
 #: ../modules/addressbook/autocompletion-config.c:240
 #: ../modules/calendar/e-calendar-preferences.ui.h:47
-#: ../plugins/itip-formatter/itip-formatter.c:3403
+#: ../plugins/itip-formatter/itip-formatter.c:3401
 #: ../plugins/publish-calendar/publish-calendar.ui.h:16
 #: ../smime/gui/smime-ui.ui.h:21
 msgid "General"
@@ -2619,23 +2631,23 @@ msgid "Close the current window"
 msgstr "Lukk aktiv vindu"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1152 ../mail/e-mail-browser.c:139
-#: ../shell/e-shell-window-actions.c:1467
+#: ../shell/e-shell-window-actions.c:1466
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
-#: ../widgets/misc/e-web-view.c:328 ../widgets/misc/e-web-view.c:1387
+#: ../widgets/misc/e-web-view.c:328 ../widgets/misc/e-web-view.c:1407
 #: ../widgets/misc/e-web-view-gtkhtml.c:458
-#: ../widgets/misc/e-web-view-gtkhtml.c:1281
+#: ../widgets/misc/e-web-view-gtkhtml.c:1301
 msgid "Copy the selection"
 msgstr "Kopier utvalget"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1159 ../mail/e-mail-browser.c:146
-#: ../shell/e-shell-window-actions.c:1474
+#: ../shell/e-shell-window-actions.c:1473
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1381 ../widgets/misc/e-web-view-gtkhtml.c:1275
+#: ../widgets/misc/e-web-view.c:1401 ../widgets/misc/e-web-view-gtkhtml.c:1295
 msgid "Cut the selection"
 msgstr "Klipp ut utvalget"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1166
-#: ../shell/e-shell-window-actions.c:1481
+#: ../shell/e-shell-window-actions.c:1480
 #: ../widgets/misc/e-focus-tracker.c:135 ../widgets/misc/e-focus-tracker.c:568
 msgid "Delete the selection"
 msgstr "Slett utvalget"
@@ -2645,9 +2657,9 @@ msgid "View help"
 msgstr "Vis hjelp"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1180 ../mail/e-mail-browser.c:153
-#: ../shell/e-shell-window-actions.c:1509
+#: ../shell/e-shell-window-actions.c:1508
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1393 ../widgets/misc/e-web-view-gtkhtml.c:1287
+#: ../widgets/misc/e-web-view.c:1413 ../widgets/misc/e-web-view-gtkhtml.c:1307
 msgid "Paste the clipboard"
 msgstr "Lim inn fra utklippstavlen"
 
@@ -2664,7 +2676,7 @@ msgid "Save current changes and close editor"
 msgstr "Lagre endringer og lukk redigering"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1215 ../mail/e-mail-browser.c:160
-#: ../shell/e-shell-window-actions.c:1586
+#: ../shell/e-shell-window-actions.c:1585
 #: ../widgets/misc/e-focus-tracker.c:142 ../widgets/misc/e-focus-tracker.c:573
 msgid "Select all text"
 msgstr "Velg all tekst"
@@ -2677,19 +2689,19 @@ msgstr "K_lassifisering"
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:19 ../filter/filter.ui.h:16
 #: ../mail/e-mail-browser.c:174
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
-#: ../shell/e-shell-window-actions.c:1614
+#: ../shell/e-shell-window-actions.c:1613
 #: ../widgets/menus/gal-define-views.ui.h:5
 msgid "_Edit"
 msgstr "R_ediger"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1236 ../mail/e-mail-browser.c:167
-#: ../shell/e-shell-window-actions.c:1621
+#: ../shell/e-shell-window-actions.c:1620
 #: ../widgets/misc/e-signature-editor.c:227
 msgid "_File"
 msgstr "_Fil"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1243
-#: ../shell/e-shell-window-actions.c:1628
+#: ../shell/e-shell-window-actions.c:1627
 msgid "_Help"
 msgstr "_Hjelp"
 
@@ -2703,7 +2715,7 @@ msgid "_Options"
 msgstr "_Alternativer"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1264 ../mail/e-mail-browser.c:181
-#: ../shell/e-shell-window-actions.c:1663 ../smime/gui/smime-ui.ui.h:28
+#: ../shell/e-shell-window-actions.c:1662 ../smime/gui/smime-ui.ui.h:28
 msgid "_View"
 msgstr "_Vis"
 
@@ -3834,7 +3846,7 @@ msgid "Gnome Calendar"
 msgstr "GNOME kalender"
 
 #: ../calendar/gui/ea-gnome-calendar.c:201
-#: ../modules/calendar/e-cal-shell-view-private.c:1072
+#: ../modules/calendar/e-cal-shell-view-private.c:1095
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
@@ -3847,16 +3859,16 @@ msgstr "%A %d %b %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:204 ../calendar/gui/e-day-view.c:1850
 #: ../calendar/gui/e-day-view-top-item.c:837
 #: ../calendar/gui/e-week-view-main-item.c:231
-#: ../modules/calendar/e-cal-shell-view-private.c:1076
+#: ../modules/calendar/e-cal-shell-view-private.c:1099
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #: ../calendar/gui/ea-gnome-calendar.c:206
 #: ../calendar/gui/ea-gnome-calendar.c:211
 #: ../calendar/gui/ea-gnome-calendar.c:213
-#: ../modules/calendar/e-cal-shell-view-private.c:1079
-#: ../modules/calendar/e-cal-shell-view-private.c:1085
-#: ../modules/calendar/e-cal-shell-view-private.c:1088
+#: ../modules/calendar/e-cal-shell-view-private.c:1102
+#: ../modules/calendar/e-cal-shell-view-private.c:1108
+#: ../modules/calendar/e-cal-shell-view-private.c:1111
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -3864,10 +3876,10 @@ msgstr "%a %d %b %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:236
 #: ../calendar/gui/ea-gnome-calendar.c:242
 #: ../calendar/gui/ea-gnome-calendar.c:244
-#: ../modules/calendar/e-cal-shell-view-private.c:1105
-#: ../modules/calendar/e-cal-shell-view-private.c:1116
-#: ../modules/calendar/e-cal-shell-view-private.c:1123
-#: ../modules/calendar/e-cal-shell-view-private.c:1126
+#: ../modules/calendar/e-cal-shell-view-private.c:1128
+#: ../modules/calendar/e-cal-shell-view-private.c:1139
+#: ../modules/calendar/e-cal-shell-view-private.c:1146
+#: ../modules/calendar/e-cal-shell-view-private.c:1149
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -3879,7 +3891,7 @@ msgstr "%d %b %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:234 ../calendar/gui/e-day-view.c:1866
 #: ../calendar/gui/e-day-view-top-item.c:841
 #: ../calendar/gui/e-week-view-main-item.c:245
-#: ../modules/calendar/e-cal-shell-view-private.c:1112
+#: ../modules/calendar/e-cal-shell-view-private.c:1135
 msgid "%d %b"
 msgstr "%d %b"
 
@@ -4151,8 +4163,8 @@ msgstr "Sluttdato"
 #: ../calendar/gui/e-meeting-store.c:242 ../calendar/gui/print.c:1162
 #: ../calendar/gui/print.c:1179 ../e-util/e-charset.c:52
 #: ../modules/plugin-manager/evolution-plugin-manager.c:101
-#: ../plugins/itip-formatter/itip-formatter.c:474
-#: ../plugins/itip-formatter/itip-formatter.c:2949
+#: ../plugins/itip-formatter/itip-formatter.c:472
+#: ../plugins/itip-formatter/itip-formatter.c:2947
 msgid "Unknown"
 msgstr "Ukjent"
 
@@ -4185,14 +4197,14 @@ msgstr "Åpner %s"
 #: ../calendar/gui/e-cal-model.c:3467
 #: ../calendar/gui/e-meeting-list-view.c:218
 #: ../calendar/gui/e-meeting-store.c:206 ../calendar/gui/e-meeting-store.c:229
-#: ../plugins/itip-formatter/itip-formatter.c:2937
+#: ../plugins/itip-formatter/itip-formatter.c:2935
 msgid "Accepted"
 msgstr "Godtatt"
 
 #: ../calendar/gui/e-cal-model.c:3468
 #: ../calendar/gui/e-meeting-list-view.c:219
 #: ../calendar/gui/e-meeting-store.c:208 ../calendar/gui/e-meeting-store.c:231
-#: ../plugins/itip-formatter/itip-formatter.c:2943
+#: ../plugins/itip-formatter/itip-formatter.c:2941
 msgid "Declined"
 msgstr "Avslått"
 
@@ -4206,7 +4218,7 @@ msgstr "Tentativ"
 #: ../calendar/gui/e-cal-model.c:3470
 #: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:212 ../calendar/gui/e-meeting-store.c:235
-#: ../plugins/itip-formatter/itip-formatter.c:2946
+#: ../plugins/itip-formatter/itip-formatter.c:2944
 msgid "Delegated"
 msgstr "Delegert"
 
@@ -4986,7 +4998,7 @@ msgstr "Avtaler og møter"
 
 #: ../calendar/importers/icalendar-importer.c:454
 #: ../calendar/importers/icalendar-importer.c:904
-#: ../plugins/itip-formatter/itip-formatter.c:2559
+#: ../plugins/itip-formatter/itip-formatter.c:2557
 msgid "Opening calendar"
 msgstr "Åpner kalender"
 
@@ -6737,15 +6749,15 @@ msgid "Please enter your password."
 msgstr "Vennligst oppgi ditt passord."
 
 #: ../capplet/settings/mail-account-view.c:282
-#: ../mail/em-account-editor.c:5471 ../plugins/caldav/caldav-source.c:68
+#: ../mail/em-account-editor.c:5510 ../plugins/caldav/caldav-source.c:68
 msgid "CalDAV"
 msgstr "CalDAV"
 
 #: ../capplet/settings/mail-account-view.c:376
 #: ../capplet/settings/mail-account-view.c:421
-#: ../mail/em-account-editor.c:5342 ../mail/em-account-editor.c:5399
-#: ../modules/online-accounts/e-online-accounts-google.c:295
-#: ../modules/online-accounts/e-online-accounts-google.c:371
+#: ../mail/em-account-editor.c:5370 ../mail/em-account-editor.c:5432
+#: ../modules/online-accounts/e-online-accounts-google.c:302
+#: ../modules/online-accounts/e-online-accounts-google.c:378
 #: ../plugins/google-account-setup/google-contacts-source.c:55
 #: ../plugins/google-account-setup/google-source.c:83
 msgid "Google"
@@ -6753,20 +6765,20 @@ msgstr "Google"
 
 #: ../capplet/settings/mail-account-view.c:497
 #: ../capplet/settings/mail-account-view.c:601
-#: ../mail/em-account-editor.c:4869 ../mail/em-account-editor.c:4904
+#: ../mail/em-account-editor.c:4872 ../mail/em-account-editor.c:4907
 msgid "Always (SSL)"
 msgstr "Alltid (SSL)"
 
 #: ../capplet/settings/mail-account-view.c:500
 #: ../capplet/settings/mail-account-view.c:604
-#: ../mail/em-account-editor.c:4872 ../mail/em-account-editor.c:4907
+#: ../mail/em-account-editor.c:4875 ../mail/em-account-editor.c:4910
 msgid "When possible (TLS)"
 msgstr "Når mulig (TLS)"
 
 #: ../capplet/settings/mail-account-view.c:503
 #: ../capplet/settings/mail-account-view.c:607
-#: ../mail/em-account-editor.c:1752 ../mail/em-account-editor.c:4875
-#: ../mail/em-account-editor.c:4910
+#: ../mail/em-account-editor.c:1754 ../mail/em-account-editor.c:4878
+#: ../mail/em-account-editor.c:4913
 msgid "Never"
 msgstr "Aldri"
 
@@ -6855,7 +6867,7 @@ msgstr ""
 "posten din."
 
 #: ../capplet/settings/mail-account-view.c:678
-#: ../mail/em-account-editor.c:2984 ../mail/em-account-editor.c:3123
+#: ../mail/em-account-editor.c:2987 ../mail/em-account-editor.c:3126
 msgid "Identity"
 msgstr "Identitet"
 
@@ -6907,7 +6919,7 @@ msgid "Back - Receiving options"
 msgstr "Tilbake - Alternativer for mottak"
 
 #: ../capplet/settings/mail-account-view.c:683
-#: ../mail/em-account-editor.c:4136
+#: ../mail/em-account-editor.c:4139
 msgid "Defaults"
 msgstr "Forvalg"
 
@@ -6936,12 +6948,12 @@ msgid "Setup Google calendar with Evolution"
 msgstr "Sett opp Google-kalender i Evolution."
 
 #: ../capplet/settings/mail-account-view.c:861
-#: ../mail/em-account-editor.c:4970
+#: ../mail/em-account-editor.c:4973
 msgid "You may need to enable IMAP access."
 msgstr "Du må kanskje slå på IMAP-tilgang."
 
 #: ../capplet/settings/mail-account-view.c:869
-#: ../mail/em-account-editor.c:4947
+#: ../mail/em-account-editor.c:4950
 msgid "Google account settings:"
 msgstr "Innstillinger for Google-konto:"
 
@@ -6950,7 +6962,6 @@ msgid "Setup Yahoo calendar with Evolution"
 msgstr "Sett opp Yahoo-kalender i Evolution"
 
 #: ../capplet/settings/mail-account-view.c:899
-#: ../mail/em-account-editor.c:5017
 msgid ""
 "Yahoo calendars are named as firstname_lastname. We have tried to form the "
 "calendar name. So please confirm and re-enter the calendar name if it is not "
@@ -6961,7 +6972,6 @@ msgstr ""
 "ikke er korrekt."
 
 #: ../capplet/settings/mail-account-view.c:908
-#: ../mail/em-account-editor.c:5002
 msgid "Yahoo account settings:"
 msgstr "Innstillinger for Yahoo-konto:"
 
@@ -7038,7 +7048,7 @@ msgstr "Ny _melding"
 msgid "Open New Message window"
 msgstr "Åpne nytt meldingsvindu"
 
-#: ../composer/e-composer-actions.c:311 ../shell/e-shell-window-actions.c:1523
+#: ../composer/e-composer-actions.c:311 ../shell/e-shell-window-actions.c:1522
 msgid "Configure Evolution"
 msgstr "Konfigurer Evolution"
 
@@ -7444,7 +7454,7 @@ msgstr "Varsling om kalenderhendelser"
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-actions.c:654
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-actions.c:652
 msgid "Groupware Suite"
 msgstr "Gruppevareløsning"
 
@@ -11014,32 +11024,32 @@ msgid "Autogenerated"
 msgstr "Generert automatisk"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:1660 ../widgets/misc/e-signature-combo-box.c:79
+#: ../mail/em-account-editor.c:1662 ../widgets/misc/e-signature-combo-box.c:79
 msgctxt "mail-signature"
 msgid "None"
 msgstr "Ingen"
 
-#: ../mail/em-account-editor.c:1753
+#: ../mail/em-account-editor.c:1755
 msgid "Always"
 msgstr "Alltid"
 
-#: ../mail/em-account-editor.c:1754
+#: ../mail/em-account-editor.c:1756
 msgid "Ask for each message"
 msgstr "Spør for hver melding"
 
-#: ../mail/em-account-editor.c:2933 ../mail/mail-config.ui.h:164
+#: ../mail/em-account-editor.c:2936 ../mail/mail-config.ui.h:164
 msgid "_Path:"
 msgstr "S_ti:"
 
-#: ../mail/em-account-editor.c:2936
+#: ../mail/em-account-editor.c:2939
 msgid "Fil_e:"
 msgstr "_Fil:"
 
-#: ../mail/em-account-editor.c:2981
+#: ../mail/em-account-editor.c:2984
 msgid "Mail Configuration"
 msgstr "E-post-konfigurasjon"
 
-#: ../mail/em-account-editor.c:2982
+#: ../mail/em-account-editor.c:2985
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -11049,7 +11059,7 @@ msgstr ""
 "\n"
 "Klikk «Fortsett» for å begynne."
 
-#: ../mail/em-account-editor.c:2985
+#: ../mail/em-account-editor.c:2988
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -11059,19 +11069,19 @@ msgstr ""
 "under må ikke nødvendigvis fylles ut, hvis du ikke ønsker å inkludere denne "
 "informasjonen i meldingene du sender."
 
-#: ../mail/em-account-editor.c:2987 ../mail/em-account-editor.c:3196
+#: ../mail/em-account-editor.c:2990 ../mail/em-account-editor.c:3199
 msgid "Receiving Email"
 msgstr "Innkommende e-post"
 
-#: ../mail/em-account-editor.c:2988
+#: ../mail/em-account-editor.c:2991
 msgid "Please configure the following account settings."
 msgstr "Vennligst konfigurer følgende kontoinnstillinger."
 
-#: ../mail/em-account-editor.c:2990 ../mail/em-account-editor.c:3815
+#: ../mail/em-account-editor.c:2993 ../mail/em-account-editor.c:3818
 msgid "Sending Email"
 msgstr "Utgående e-post"
 
-#: ../mail/em-account-editor.c:2991
+#: ../mail/em-account-editor.c:2994
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -11079,22 +11089,22 @@ msgstr ""
 "Vennligst skriv inn informasjon om måten du sender e-post. Hvis du ikke er "
 "sikker, kontakt din systemadministrator eller din Internett tjenestetilbyder."
 
-#: ../mail/em-account-editor.c:2993
+#: ../mail/em-account-editor.c:2996
 msgid "Account Summary"
 msgstr "Kontosammendrag"
 
-#: ../mail/em-account-editor.c:2994
+#: ../mail/em-account-editor.c:2997
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
 msgstr ""
 "Dette er et sammendrag av innstillingene som brukes for å aksessere dine "
 "meldinger."
 
-#: ../mail/em-account-editor.c:2998
+#: ../mail/em-account-editor.c:3001
 msgid "Done"
 msgstr "Ferdig"
 
-#: ../mail/em-account-editor.c:2999
+#: ../mail/em-account-editor.c:3002
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -11108,45 +11118,60 @@ msgstr ""
 "\n"
 "Klikk «Bruk» for å lagre dine innstillinger."
 
-#: ../mail/em-account-editor.c:3562
+#: ../mail/em-account-editor.c:3565
 msgid "Check for _new messages every"
 msgstr "Se etter _nye meldinger hver(t)"
 
-#: ../mail/em-account-editor.c:3570
+#: ../mail/em-account-editor.c:3573
 msgid "minu_tes"
 msgstr "minu_tter"
 
 #. Add encryption/signature header
-#: ../mail/em-account-editor.c:4288 ../mail/em-format-html-print.c:187
+#: ../mail/em-account-editor.c:4291 ../mail/em-format-html-print.c:187
 #: ../mail/mail-config.ui.h:166
 msgid "Security"
 msgstr "Sikkerhet"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:4343 ../mail/em-account-editor.c:4445
+#: ../mail/em-account-editor.c:4346 ../mail/em-account-editor.c:4448
 msgid "Receiving Options"
 msgstr "Alternativer for mottak"
 
-#: ../mail/em-account-editor.c:4344 ../mail/em-account-editor.c:4446
+#: ../mail/em-account-editor.c:4347 ../mail/em-account-editor.c:4449
 msgid "Checking for New Messages"
 msgstr "Ser etter nye meldinger"
 
-#: ../mail/em-account-editor.c:4955
+#: ../mail/em-account-editor.c:4958
 msgid "Setup Google con_tacts with Evolution"
 msgstr "Sett opp Google-kon_takter i Evolution"
 
-#: ../mail/em-account-editor.c:4962
+#: ../mail/em-account-editor.c:4965
 msgid "Setup Google ca_lendar with Evolution"
 msgstr "Sett opp Google-ka_lender i Evolution"
 
-#: ../mail/em-account-editor.c:5010
-msgid "Setup _Yahoo calendar with Evolution"
-msgstr "Sett opp _Yahoo-kalender i Evolution"
+#: ../mail/em-account-editor.c:5016
+msgid "Yahoo! account settings:"
+msgstr "Innstillinger for Yahoo!-konto:"
 
-#: ../mail/em-account-editor.c:5035
-msgid "Yahoo Calen_dar name:"
-msgstr "Navn på Yahoo-kalen_der:"
+#: ../mail/em-account-editor.c:5024
+msgid "Setup _Yahoo! calendar with Evolution"
+msgstr "Sett opp _Yahoo!-kalender i Evolution"
+
+#: ../mail/em-account-editor.c:5031
+msgid "Setup Yahoo! _tasks with Evolution"
+msgstr "Sett opp Yahoo!-oppgaver i Evolution"
+
+#: ../mail/em-account-editor.c:5038
+msgid ""
+"Yahoo! calendars are named as firstname_lastname. We have tried to form the "
+"calendar name. Please confirm and re-enter the calendar name, if it is not "
+"correct, or change it later in calendar Properties."
+msgstr "Yahoo!-kalendere har navn som fornavn_etternavn. Vi har prøvd å utforme kalendernavnet. Vennligst bekreft og oppgi kalendernavnet på nytt eller endre det under egenskaper for kalender hvis det ikke er korrekt."
+
+#: ../mail/em-account-editor.c:5057
+msgid "Yahoo! Calen_dar name:"
+msgstr "Navn på Yahoo!-kalen_der:"
 
 #: ../mail/e-mail-account-manager.c:405
 msgid "_Restore Default"
@@ -11203,9 +11228,9 @@ msgstr "Listevisning"
 msgid "Unknown background operation"
 msgstr "Ukjent bakgrunnsoperasjon"
 
-#: ../mail/e-mail-browser.c:132 ../shell/e-shell-window-actions.c:1439
-#: ../shell/e-shell-window-actions.c:1446
-#: ../shell/e-shell-window-actions.c:1453
+#: ../mail/e-mail-browser.c:132 ../shell/e-shell-window-actions.c:1438
+#: ../shell/e-shell-window-actions.c:1445
+#: ../shell/e-shell-window-actions.c:1452
 msgid "Close this window"
 msgstr "Lukk dette vinduet"
 
@@ -11948,13 +11973,11 @@ msgstr "Slett"
 
 #: ../mail/e-mail-reader.c:4007
 #: ../modules/calendar/e-cal-shell-view-actions.c:1392
-#: ../widgets/misc/e-calendar.c:202
 msgid "Next"
 msgstr "Neste"
 
 #: ../mail/e-mail-reader.c:4011
 #: ../modules/calendar/e-cal-shell-view-actions.c:1385
-#: ../widgets/misc/e-calendar.c:178
 msgid "Previous"
 msgstr "Forrige"
 
@@ -11971,13 +11994,13 @@ msgstr "Mappe «%s»"
 msgid "Do not warn me again"
 msgstr "Ikke varsle meg igjen"
 
-#: ../mail/e-mail-reader-utils.c:516
+#: ../mail/e-mail-reader-utils.c:521
 msgid "Printing"
 msgstr "Skriver ut"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../mail/e-mail-reader-utils.c:645
+#: ../mail/e-mail-reader-utils.c:650
 #, c-format
 msgid ""
 "Folder '%s' contains %u duplicate message. Are you sure you want to delete "
@@ -11992,7 +12015,7 @@ msgstr[1] ""
 "Mappen «%s» inneholder %u duplikatmeldinger. Er du sikker på at du vil "
 "slette dem?"
 
-#: ../mail/e-mail-reader-utils.c:1028
+#: ../mail/e-mail-reader-utils.c:1033
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Lagre melding"
@@ -12003,7 +12026,7 @@ msgstr[1] "Lagre meldinger"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:1049
+#: ../mail/e-mail-reader-utils.c:1054
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Melding"
@@ -14880,11 +14903,11 @@ msgid "Follow-up"
 msgstr "Følg opp"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4644 ../mail/message-list.c:5067
+#: ../mail/message-list.c:4644 ../mail/message-list.c:5064
 msgid "Generating message list"
 msgstr "Genererer meldingsliste"
 
-#: ../mail/message-list.c:4881
+#: ../mail/message-list.c:4878
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -14896,7 +14919,7 @@ msgstr ""
 "starte et nytt søk enten ved å tømme det med Søk->Tøm menyoppføringen eller "
 "ved å endre spørringen over."
 
-#: ../mail/message-list.c:4886
+#: ../mail/message-list.c:4883
 msgid "There are no messages in this folder."
 msgstr "Det er ingen meldinger i denne mappen."
 
@@ -15157,7 +15180,7 @@ msgstr "Opprett en ny adressebok"
 #: ../modules/addressbook/e-book-shell-view.c:402
 #: ../modules/calendar/e-cal-shell-backend.c:121
 #: ../modules/calendar/e-cal-shell-migrate.c:63
-#: ../modules/online-accounts/e-online-accounts-google.c:378
+#: ../modules/online-accounts/e-online-accounts-google.c:385
 msgid "Contacts"
 msgstr "Kontakter"
 
@@ -16527,29 +16550,29 @@ msgstr "_Åpne nettside"
 msgid "Print the selected memo"
 msgstr "Skriv ut valgt notat"
 
-#: ../modules/calendar/e-cal-shell-view-private.c:1443
+#: ../modules/calendar/e-cal-shell-view-private.c:1466
 msgid "Searching next matching event"
 msgstr "Søker etter neste hendelsen som passer"
 
-#: ../modules/calendar/e-cal-shell-view-private.c:1444
+#: ../modules/calendar/e-cal-shell-view-private.c:1467
 msgid "Searching previous matching event"
 msgstr "Søker etter forrige hendelse som passer"
 
-#: ../modules/calendar/e-cal-shell-view-private.c:1462
+#: ../modules/calendar/e-cal-shell-view-private.c:1485
 #, c-format
 msgid "Cannot find matching event in the next %d year"
 msgid_plural "Cannot find matching event in the next %d years"
 msgstr[0] "Kan ikke finne treff på hendelse neste %d år"
 msgstr[1] "Kan ikke finne treff på hendelse de neste %d år"
 
-#: ../modules/calendar/e-cal-shell-view-private.c:1465
+#: ../modules/calendar/e-cal-shell-view-private.c:1488
 #, c-format
 msgid "Cannot find matching event in the previous %d year"
 msgid_plural "Cannot find matching event in the previous %d years"
 msgstr[0] "Kan ikke finne treff på hendelse forrige %d år"
 msgstr[1] "Kan ikke finne treff på hendelse forrige %d år"
 
-#: ../modules/calendar/e-cal-shell-view-private.c:1486
+#: ../modules/calendar/e-cal-shell-view-private.c:1509
 msgid "Cannot search with no active calendar"
 msgstr "Kan ikke søke uten en aktiv kalender"
 
@@ -18516,156 +18539,156 @@ msgstr "Endre innstillinger for dine IMAP-kontoer."
 
 #. Translators: The first '%s' is replaced with a calendar name,
 #. * the second '%s' with an error message
-#: ../plugins/itip-formatter/itip-formatter.c:505
+#: ../plugins/itip-formatter/itip-formatter.c:503
 #, c-format
 msgid "Failed to load the calendar '%s' (%s)"
 msgstr "Kunne ikke åpne kalender «%s» (%s)"
 
-#: ../plugins/itip-formatter/itip-formatter.c:666
+#: ../plugins/itip-formatter/itip-formatter.c:664
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "En avtale i kalender «%s» er i konflikt med dette møtet"
 
-#: ../plugins/itip-formatter/itip-formatter.c:690
+#: ../plugins/itip-formatter/itip-formatter.c:688
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "Fant avtalen i kalender «%s»"
 
-#: ../plugins/itip-formatter/itip-formatter.c:804
+#: ../plugins/itip-formatter/itip-formatter.c:802
 msgid "Unable to find any calendars"
 msgstr "Kan ikke finne noen kalendere"
 
-#: ../plugins/itip-formatter/itip-formatter.c:812
+#: ../plugins/itip-formatter/itip-formatter.c:810
 msgid "Unable to find this meeting in any calendar"
 msgstr "Kan ikke finne dette møtet i noen kalender"
 
-#: ../plugins/itip-formatter/itip-formatter.c:817
+#: ../plugins/itip-formatter/itip-formatter.c:815
 msgid "Unable to find this task in any task list"
 msgstr "Kan ikke finne denne oppgaven i noen oppgaveliste"
 
-#: ../plugins/itip-formatter/itip-formatter.c:822
+#: ../plugins/itip-formatter/itip-formatter.c:820
 msgid "Unable to find this memo in any memo list"
 msgstr "Kan ikke finne dette notatet i noen notatliste"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1128
+#: ../plugins/itip-formatter/itip-formatter.c:1126
 msgid "Opening the calendar. Please wait..."
 msgstr "Åpner kalender. Vennligst vent …"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1132
+#: ../plugins/itip-formatter/itip-formatter.c:1130
 msgid "Searching for an existing version of this appointment"
 msgstr "Søker etter en eksisterende versjon av denne avtalen"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1502
+#: ../plugins/itip-formatter/itip-formatter.c:1500
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Kunne ikke sende oppføring til kalender «%s». %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1517
+#: ../plugins/itip-formatter/itip-formatter.c:1515
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Sendt til kalender «%s» som godtatt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1522
+#: ../plugins/itip-formatter/itip-formatter.c:1520
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Sendt til kalender «%s» som tentativ"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1528
+#: ../plugins/itip-formatter/itip-formatter.c:1526
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Sendt til kalender «%s» som avslått"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1534
+#: ../plugins/itip-formatter/itip-formatter.c:1532
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Sendt til kalender «%s» som avlyst"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1604
-#: ../plugins/itip-formatter/itip-formatter.c:2021
-#: ../plugins/itip-formatter/itip-formatter.c:2128
+#: ../plugins/itip-formatter/itip-formatter.c:1602
+#: ../plugins/itip-formatter/itip-formatter.c:2019
+#: ../plugins/itip-formatter/itip-formatter.c:2126
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "Lagrer endringer i kalender. Vennligst vent …"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1643
+#: ../plugins/itip-formatter/itip-formatter.c:1641
 msgid "Unable to parse item"
 msgstr "Kunne ikke lese oppføring"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1829
+#: ../plugins/itip-formatter/itip-formatter.c:1827
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organisator har fjernet delegat %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1842
+#: ../plugins/itip-formatter/itip-formatter.c:1840
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Avlysningsvarsel sendt til delegat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1846
+#: ../plugins/itip-formatter/itip-formatter.c:1844
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Kunne ikke sende avlysningsmelding til delegaten"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1895
+#: ../plugins/itip-formatter/itip-formatter.c:1893
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Kan ikke oppdatere deltaker. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1902
+#: ../plugins/itip-formatter/itip-formatter.c:1900
 msgid "Attendee status updated"
 msgstr "Deltakerstatus oppdatert"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1925
+#: ../plugins/itip-formatter/itip-formatter.c:1923
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Møtet er ugyldig og kan ikke oppdateres"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1994
+#: ../plugins/itip-formatter/itip-formatter.c:1992
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Deltakerstatus kunne ikke oppdateres pga ugyldig status"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2058
-#: ../plugins/itip-formatter/itip-formatter.c:2098
+#: ../plugins/itip-formatter/itip-formatter.c:2056
+#: ../plugins/itip-formatter/itip-formatter.c:2096
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Deltakerstatus kan ikke oppdateres fordi oppføringen ikke eksisterer lenger"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2157
+#: ../plugins/itip-formatter/itip-formatter.c:2155
 msgid "Meeting information sent"
 msgstr "Informasjon om møte sendt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2162
+#: ../plugins/itip-formatter/itip-formatter.c:2160
 msgid "Task information sent"
 msgstr "Informasjon om oppgave sendt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2167
+#: ../plugins/itip-formatter/itip-formatter.c:2165
 msgid "Memo information sent"
 msgstr "Informasjon om notat sendt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2178
+#: ../plugins/itip-formatter/itip-formatter.c:2176
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Kan ikke sende møteinformasjon. Møtet eksisterer ikke"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2183
+#: ../plugins/itip-formatter/itip-formatter.c:2181
 msgid "Unable to send task information, the task does not exist"
 msgstr "Kan ikke sende informasjon om oppgave. Oppgaven eksisterer ikke"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2188
+#: ../plugins/itip-formatter/itip-formatter.c:2186
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Kan ikke sende informasjon om notat. Notatet eksisterer ikke"
 
 #. Translators: This is a default filename for a calendar.
-#: ../plugins/itip-formatter/itip-formatter.c:2253
+#: ../plugins/itip-formatter/itip-formatter.c:2251
 msgid "calendar.ics"
 msgstr "kalender.ics"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2258
+#: ../plugins/itip-formatter/itip-formatter.c:2256
 msgid "Save Calendar"
 msgstr "Lagre kalender"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2310
-#: ../plugins/itip-formatter/itip-formatter.c:2322
+#: ../plugins/itip-formatter/itip-formatter.c:2308
+#: ../plugins/itip-formatter/itip-formatter.c:2320
 msgid "The calendar attached is not valid"
 msgstr "Vedlagt kalender er ugyldig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2311
-#: ../plugins/itip-formatter/itip-formatter.c:2323
+#: ../plugins/itip-formatter/itip-formatter.c:2309
+#: ../plugins/itip-formatter/itip-formatter.c:2321
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -18673,15 +18696,15 @@ msgstr ""
 "Meldingen påstår at den inneholder en kalender, men kalenderen er ikke en "
 "gyldig iCalendar."
 
-#: ../plugins/itip-formatter/itip-formatter.c:2364
-#: ../plugins/itip-formatter/itip-formatter.c:2393
-#: ../plugins/itip-formatter/itip-formatter.c:2491
+#: ../plugins/itip-formatter/itip-formatter.c:2362
+#: ../plugins/itip-formatter/itip-formatter.c:2391
+#: ../plugins/itip-formatter/itip-formatter.c:2489
 msgid "The item in the calendar is not valid"
 msgstr "Oppføringen i kalenderen er ikke gyldig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2365
-#: ../plugins/itip-formatter/itip-formatter.c:2394
-#: ../plugins/itip-formatter/itip-formatter.c:2492
+#: ../plugins/itip-formatter/itip-formatter.c:2363
+#: ../plugins/itip-formatter/itip-formatter.c:2392
+#: ../plugins/itip-formatter/itip-formatter.c:2490
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -18689,11 +18712,11 @@ msgstr ""
 "Meldingen inneholder en kalender, men kalenderen inneholder ingen hendelser, "
 "oppgaver eller ledig/opptatt-informasjon"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2408
+#: ../plugins/itip-formatter/itip-formatter.c:2406
 msgid "The calendar attached contains multiple items"
 msgstr "Vedlagt kalender inneholder flere oppføringer"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2409
+#: ../plugins/itip-formatter/itip-formatter.c:2407
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -18701,42 +18724,42 @@ msgstr ""
 "Du må lagre filen og importere kalenderen for å prosessere alle disse "
 "oppføringene"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2924
+#: ../plugins/itip-formatter/itip-formatter.c:2922
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Ingen"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2940
+#: ../plugins/itip-formatter/itip-formatter.c:2938
 msgid "Tentatively Accepted"
 msgstr "Akseptert tentativt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:3083
+#: ../plugins/itip-formatter/itip-formatter.c:3081
 msgid "This meeting recurs"
 msgstr "Dettee møtet gjeninntreffer"
 
-#: ../plugins/itip-formatter/itip-formatter.c:3086
+#: ../plugins/itip-formatter/itip-formatter.c:3084
 msgid "This task recurs"
 msgstr "Denne oppgaven gjeninntreffer"
 
-#: ../plugins/itip-formatter/itip-formatter.c:3089
+#: ../plugins/itip-formatter/itip-formatter.c:3087
 msgid "This memo recurs"
 msgstr "Dette notatet gjeninntreffer"
 
-#: ../plugins/itip-formatter/itip-formatter.c:3394
+#: ../plugins/itip-formatter/itip-formatter.c:3392
 msgid "Meeting Invitations"
 msgstr "Møteinvitasjoner"
 
-#: ../plugins/itip-formatter/itip-formatter.c:3420
+#: ../plugins/itip-formatter/itip-formatter.c:3418
 msgid "_Delete message after acting"
 msgstr "_Slett melding etter utført handling"
 
-#: ../plugins/itip-formatter/itip-formatter.c:3434
-#: ../plugins/itip-formatter/itip-formatter.c:3467
+#: ../plugins/itip-formatter/itip-formatter.c:3432
+#: ../plugins/itip-formatter/itip-formatter.c:3465
 msgid "Conflict Search"
 msgstr "Søk etter konflikter"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:3449
+#: ../plugins/itip-formatter/itip-formatter.c:3447
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Velg kalendere som skal gjennomsøkes for å finne møtekonflikter"
 
@@ -20365,280 +20388,280 @@ msgstr "Lagrer tilstand for brukergrensesnitt"
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-actions.c:645
+#: ../shell/e-shell-window-actions.c:643
 msgid "translator-credits"
 msgstr "Kjartan Maraas <kmaraas@gnome.org>"
 
-#: ../shell/e-shell-window-actions.c:656
+#: ../shell/e-shell-window-actions.c:654
 msgid "Evolution Website"
 msgstr "Evolution nettsted"
 
-#: ../shell/e-shell-window-actions.c:914
+#: ../shell/e-shell-window-actions.c:913
 msgid "Categories Editor"
 msgstr "Redigering av kategorier"
 
-#: ../shell/e-shell-window-actions.c:1249
+#: ../shell/e-shell-window-actions.c:1248
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy er ikke installert."
 
-#: ../shell/e-shell-window-actions.c:1251
+#: ../shell/e-shell-window-actions.c:1250
 msgid "Bug Buddy could not be run."
 msgstr "Bug Buddy kunne ikke kjøres."
 
-#: ../shell/e-shell-window-actions.c:1432
+#: ../shell/e-shell-window-actions.c:1431
 msgid "Show information about Evolution"
 msgstr "Vis informasjon om Evolution"
 
-#: ../shell/e-shell-window-actions.c:1437
-#: ../shell/e-shell-window-actions.c:1451
+#: ../shell/e-shell-window-actions.c:1436
+#: ../shell/e-shell-window-actions.c:1450
 msgid "_Close Window"
 msgstr "_Lukk vindu"
 
-#: ../shell/e-shell-window-actions.c:1458
+#: ../shell/e-shell-window-actions.c:1457
 msgid "_Contents"
 msgstr "_Innhold"
 
-#: ../shell/e-shell-window-actions.c:1460
+#: ../shell/e-shell-window-actions.c:1459
 msgid "Open the Evolution User Guide"
 msgstr "Åpne Evolutions brukermanual"
 
-#: ../shell/e-shell-window-actions.c:1486
+#: ../shell/e-shell-window-actions.c:1485
 msgid "_Forget Passwords"
 msgstr "_Glem passord"
 
-#: ../shell/e-shell-window-actions.c:1488
+#: ../shell/e-shell-window-actions.c:1487
 msgid "Forget all remembered passwords"
 msgstr "Glem alle lagrede passord"
 
-#: ../shell/e-shell-window-actions.c:1493
+#: ../shell/e-shell-window-actions.c:1492
 msgid "I_mport..."
 msgstr "I_mporter …"
 
-#: ../shell/e-shell-window-actions.c:1495
+#: ../shell/e-shell-window-actions.c:1494
 msgid "Import data from other programs"
 msgstr "Importer data fra andre programmer"
 
-#: ../shell/e-shell-window-actions.c:1500
+#: ../shell/e-shell-window-actions.c:1499
 msgid "New _Window"
 msgstr "Nytt _vindu"
 
-#: ../shell/e-shell-window-actions.c:1502
+#: ../shell/e-shell-window-actions.c:1501
 msgid "Create a new window displaying this view"
 msgstr "Opprett et nytt vindu med denne visningen"
 
-#: ../shell/e-shell-window-actions.c:1514
+#: ../shell/e-shell-window-actions.c:1513
 msgid "Available Cate_gories"
 msgstr "Tilgjengelige kate_gorier"
 
-#: ../shell/e-shell-window-actions.c:1516
+#: ../shell/e-shell-window-actions.c:1515
 msgid "Manage available categories"
 msgstr "Håndter tilgjengelige kategorier"
 
-#: ../shell/e-shell-window-actions.c:1528
+#: ../shell/e-shell-window-actions.c:1527
 msgid "_Quick Reference"
 msgstr "_Hurtigreferanse"
 
-#: ../shell/e-shell-window-actions.c:1530
+#: ../shell/e-shell-window-actions.c:1529
 msgid "Show Evolution's shortcut keys"
 msgstr "Vis snarveitaster for Evolution"
 
-#: ../shell/e-shell-window-actions.c:1537
+#: ../shell/e-shell-window-actions.c:1536
 msgid "Exit the program"
 msgstr "Avslutt programmet"
 
-#: ../shell/e-shell-window-actions.c:1542
+#: ../shell/e-shell-window-actions.c:1541
 msgid "_Advanced Search..."
 msgstr "_Avansert søk …"
 
-#: ../shell/e-shell-window-actions.c:1544
+#: ../shell/e-shell-window-actions.c:1543
 msgid "Construct a more advanced search"
 msgstr "Sett sammen et mer avansert søk"
 
-#: ../shell/e-shell-window-actions.c:1551
+#: ../shell/e-shell-window-actions.c:1550
 msgid "Clear the current search parameters"
 msgstr "Tøm aktive søkeparametere"
 
-#: ../shell/e-shell-window-actions.c:1556
+#: ../shell/e-shell-window-actions.c:1555
 msgid "_Edit Saved Searches..."
 msgstr "R_ediger lagrede søk …"
 
-#: ../shell/e-shell-window-actions.c:1558
+#: ../shell/e-shell-window-actions.c:1557
 msgid "Manage your saved searches"
 msgstr "Håndter dine lagrede søk"
 
-#: ../shell/e-shell-window-actions.c:1565
+#: ../shell/e-shell-window-actions.c:1564
 msgid "Click here to change the search type"
 msgstr "Klikk her for å endre søketype"
 
-#: ../shell/e-shell-window-actions.c:1570
+#: ../shell/e-shell-window-actions.c:1569
 msgid "_Find Now"
 msgstr "_Finn nå "
 
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1572
+#: ../shell/e-shell-window-actions.c:1571
 msgid "Execute the current search parameters"
 msgstr "Kjør aktive søkeparametere"
 
-#: ../shell/e-shell-window-actions.c:1577
+#: ../shell/e-shell-window-actions.c:1576
 msgid "_Save Search..."
 msgstr "_Lagre søk …"
 
-#: ../shell/e-shell-window-actions.c:1579
+#: ../shell/e-shell-window-actions.c:1578
 msgid "Save the current search parameters"
 msgstr "Lagre aktive søkeparametere"
 
-#: ../shell/e-shell-window-actions.c:1591
+#: ../shell/e-shell-window-actions.c:1590
 msgid "Submit _Bug Report..."
 msgstr "Sen_d inn feilrapport …"
 
-#: ../shell/e-shell-window-actions.c:1593
+#: ../shell/e-shell-window-actions.c:1592
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Send inn en feilrapport med Bug Buddy"
 
-#: ../shell/e-shell-window-actions.c:1598
+#: ../shell/e-shell-window-actions.c:1597
 msgid "_Work Offline"
 msgstr "Ar_beid frakoblet"
 
-#: ../shell/e-shell-window-actions.c:1600
+#: ../shell/e-shell-window-actions.c:1599
 msgid "Put Evolution into offline mode"
 msgstr "Sett Evolution i frakoblet modus"
 
-#: ../shell/e-shell-window-actions.c:1605
+#: ../shell/e-shell-window-actions.c:1604
 msgid "_Work Online"
 msgstr "Ar_beid tilkoblet"
 
-#: ../shell/e-shell-window-actions.c:1607
+#: ../shell/e-shell-window-actions.c:1606
 msgid "Put Evolution into online mode"
 msgstr "Sett Evolution i tilkoblet modus"
 
-#: ../shell/e-shell-window-actions.c:1635
+#: ../shell/e-shell-window-actions.c:1634
 msgid "Lay_out"
 msgstr "Utf_orming"
 
-#: ../shell/e-shell-window-actions.c:1642
+#: ../shell/e-shell-window-actions.c:1641
 msgid "_New"
 msgstr "_Ny"
 
-#: ../shell/e-shell-window-actions.c:1649
+#: ../shell/e-shell-window-actions.c:1648
 msgid "_Search"
 msgstr "_Søk"
 
-#: ../shell/e-shell-window-actions.c:1656
+#: ../shell/e-shell-window-actions.c:1655
 msgid "_Switcher Appearance"
 msgstr "Ut_seende for bytter"
 
-#: ../shell/e-shell-window-actions.c:1670
+#: ../shell/e-shell-window-actions.c:1669
 msgid "_Window"
 msgstr "_Vindu"
 
-#: ../shell/e-shell-window-actions.c:1699
+#: ../shell/e-shell-window-actions.c:1698
 msgid "Show Side _Bar"
 msgstr "Vis si_delinje"
 
-#: ../shell/e-shell-window-actions.c:1701
+#: ../shell/e-shell-window-actions.c:1700
 msgid "Show the side bar"
 msgstr "Vis sidelinjen"
 
-#: ../shell/e-shell-window-actions.c:1707
+#: ../shell/e-shell-window-actions.c:1706
 msgid "Show _Buttons"
 msgstr "Vis _knapper"
 
-#: ../shell/e-shell-window-actions.c:1709
+#: ../shell/e-shell-window-actions.c:1708
 msgid "Show the switcher buttons"
 msgstr "Vis knapper for bytter"
 
-#: ../shell/e-shell-window-actions.c:1715
+#: ../shell/e-shell-window-actions.c:1714
 msgid "Show _Status Bar"
 msgstr "Vis _statuslinje"
 
-#: ../shell/e-shell-window-actions.c:1717
+#: ../shell/e-shell-window-actions.c:1716
 msgid "Show the status bar"
 msgstr "Vis statuslinjen"
 
-#: ../shell/e-shell-window-actions.c:1723
+#: ../shell/e-shell-window-actions.c:1722
 msgid "Show _Tool Bar"
 msgstr "Vis verk_tøylinjen"
 
-#: ../shell/e-shell-window-actions.c:1725
+#: ../shell/e-shell-window-actions.c:1724
 msgid "Show the tool bar"
 msgstr "Vis verktøylinjen"
 
-#: ../shell/e-shell-window-actions.c:1747
+#: ../shell/e-shell-window-actions.c:1746
 msgid "_Icons Only"
 msgstr "Kun _ikoner"
 
-#: ../shell/e-shell-window-actions.c:1749
+#: ../shell/e-shell-window-actions.c:1748
 msgid "Display window buttons with icons only"
 msgstr "Vis bare ikoner på vinduknapper"
 
-#: ../shell/e-shell-window-actions.c:1754
+#: ../shell/e-shell-window-actions.c:1753
 msgid "_Text Only"
 msgstr "Kun _tekst"
 
-#: ../shell/e-shell-window-actions.c:1756
+#: ../shell/e-shell-window-actions.c:1755
 msgid "Display window buttons with text only"
 msgstr "Vis bare tekst på vinduknapper"
 
-#: ../shell/e-shell-window-actions.c:1761
+#: ../shell/e-shell-window-actions.c:1760
 msgid "Icons _and Text"
 msgstr "Ikoner _og tekst"
 
-#: ../shell/e-shell-window-actions.c:1763
+#: ../shell/e-shell-window-actions.c:1762
 msgid "Display window buttons with icons and text"
 msgstr "Vis tekst og ikoner på vinduknapper"
 
-#: ../shell/e-shell-window-actions.c:1768
+#: ../shell/e-shell-window-actions.c:1767
 msgid "Tool_bar Style"
 msgstr "S_til for verktøylinje"
 
-#: ../shell/e-shell-window-actions.c:1770
+#: ../shell/e-shell-window-actions.c:1769
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Vis vinduknapper ved å bruke instillinger for verktøylinjen på skrivebordet"
 
-#: ../shell/e-shell-window-actions.c:1778
+#: ../shell/e-shell-window-actions.c:1777
 msgid "Define Views..."
 msgstr "Definer visninger …"
 
-#: ../shell/e-shell-window-actions.c:1780
+#: ../shell/e-shell-window-actions.c:1779
 msgid "Create or edit views"
 msgstr "Opprett eller rediger visninger"
 
-#: ../shell/e-shell-window-actions.c:1785
+#: ../shell/e-shell-window-actions.c:1784
 msgid "Save Custom View..."
 msgstr "Lagre egendefinert visning …"
 
-#: ../shell/e-shell-window-actions.c:1787
+#: ../shell/e-shell-window-actions.c:1786
 msgid "Save current custom view"
 msgstr "Lagre aktiv egendefinert visning"
 
-#: ../shell/e-shell-window-actions.c:1794
+#: ../shell/e-shell-window-actions.c:1793
 msgid "C_urrent View"
 msgstr "A_ktiv visning"
 
-#: ../shell/e-shell-window-actions.c:1804
+#: ../shell/e-shell-window-actions.c:1803
 msgid "Custom View"
 msgstr "Egendefinert visning"
 
-#: ../shell/e-shell-window-actions.c:1806
+#: ../shell/e-shell-window-actions.c:1805
 msgid "Current view is a customized view"
 msgstr "Aktiv visning er en egendefinert visning"
 
-#: ../shell/e-shell-window-actions.c:1816
+#: ../shell/e-shell-window-actions.c:1815
 msgid "Change the page settings for your current printer"
 msgstr "Endre sideinnstillingene for din skriver"
 
-#: ../shell/e-shell-window-actions.c:2206
+#: ../shell/e-shell-window-actions.c:2205
 #, c-format
 msgid "Switch to %s"
 msgstr "Bytt til %s"
 
-#: ../shell/e-shell-window-actions.c:2327
+#: ../shell/e-shell-window-actions.c:2326
 #, c-format
 msgid "Select view: %s"
 msgstr "Velg visning: %s"
 
-#: ../shell/e-shell-window-actions.c:2428
+#: ../shell/e-shell-window-actions.c:2427
 msgid "Execute these search parameters"
 msgstr "Kjør disse søkeparameterene"
 
@@ -21768,12 +21791,42 @@ msgstr "Åpne dette vedlegget i %s"
 msgid "Ctrl-click to open a link"
 msgstr "Ctrl-klikk for å åpne en lenke"
 
-#: ../widgets/misc/e-calendar.c:226
+#: ../widgets/misc/e-calendar.c:187
+msgid "Previous month"
+msgstr "Forrige måned"
+
+#: ../widgets/misc/e-calendar.c:211
+msgid "Next month"
+msgstr "Neste måned"
+
+#: ../widgets/misc/e-calendar.c:233
+msgid "Previous year"
+msgstr "Forrige år"
+
+#: ../widgets/misc/e-calendar.c:254
+msgid "Next year"
+msgstr "Neste år"
+
+#: ../widgets/misc/e-calendar.c:278
 msgid "Month Calendar"
 msgstr "Månedskalender"
 
+#. This is a strftime() format. %B = Month name.
+#: ../widgets/misc/e-calendar-item.c:1284
+#: ../widgets/misc/e-calendar-item.c:2137
+msgctxt "CalItem"
+msgid "%B"
+msgstr "%B"
+
+#. This is a strftime() format. %Y = Year.
+#: ../widgets/misc/e-calendar-item.c:1286
+msgctxt "CalItem"
+msgid "%Y"
+msgstr "%Y"
+
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../widgets/misc/e-calendar-item.c:1269
+#: ../widgets/misc/e-calendar-item.c:1323
+msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%B %Y"
 
@@ -22254,25 +22307,25 @@ msgstr "_Kopier bilde"
 msgid "Copy the image to the clipboard"
 msgstr "Kopier bildet til utklippstavlen"
 
-#: ../widgets/misc/e-web-view.c:338 ../widgets/misc/e-web-view.c:1399
+#: ../widgets/misc/e-web-view.c:338 ../widgets/misc/e-web-view.c:1419
 #: ../widgets/misc/e-web-view-gtkhtml.c:468
-#: ../widgets/misc/e-web-view-gtkhtml.c:1293
+#: ../widgets/misc/e-web-view-gtkhtml.c:1313
 msgid "Select all text and images"
 msgstr "Velg all tekst og alle bilder"
 
-#: ../widgets/misc/e-web-view.c:1071 ../widgets/misc/e-web-view.c:1073
-#: ../widgets/misc/e-web-view.c:1075 ../widgets/misc/e-web-view-gtkhtml.c:957
-#: ../widgets/misc/e-web-view-gtkhtml.c:959
-#: ../widgets/misc/e-web-view-gtkhtml.c:961
+#: ../widgets/misc/e-web-view.c:1091 ../widgets/misc/e-web-view.c:1093
+#: ../widgets/misc/e-web-view.c:1095 ../widgets/misc/e-web-view-gtkhtml.c:977
+#: ../widgets/misc/e-web-view-gtkhtml.c:979
+#: ../widgets/misc/e-web-view-gtkhtml.c:981
 #, c-format
 msgid "Click to call %s"
 msgstr "Klikk for å ringe %s"
 
-#: ../widgets/misc/e-web-view.c:1077 ../widgets/misc/e-web-view-gtkhtml.c:963
+#: ../widgets/misc/e-web-view.c:1097 ../widgets/misc/e-web-view-gtkhtml.c:983
 msgid "Click to hide/unhide addresses"
 msgstr "Klikk for å skjule/vise adresser"
 
-#: ../widgets/misc/e-web-view.c:1079 ../widgets/misc/e-web-view-gtkhtml.c:965
+#: ../widgets/misc/e-web-view.c:1099 ../widgets/misc/e-web-view-gtkhtml.c:985
 #, c-format
 msgid "Click to open %s"
 msgstr "Klikk for å åpne %s"
