@@ -93,27 +93,12 @@ button_clicked_cb (GtkButton *button,
 	gtk_dialog_response (dialog, GPOINTER_TO_INT (response));
 }
 
-static void
-box_mapped_cb (GtkWidget *box,
-               GtkWidget *label)
-{
-	GtkRequisition requisition;
-
-	/* In order to get decent line wrapping we need to wait until the
-	 * box containing the buttons is mapped, and then resize the label
-	 * to the same width as the box. */
-	gtk_widget_get_preferred_size (box, &requisition, NULL);
-	gtk_widget_set_size_request (label, requisition.width, -1);
-}
-
 static gint
 prompt_user (gboolean has_subfolders)
 {
 	GtkWidget *container;
 	GtkWidget *dialog;
-	GtkWidget *label1;
-	GtkWidget *label2;
-	GtkWidget *table;
+	GtkWidget *grid;
 	GtkWidget *widget;
 	GtkWidget *vbox;
 	gchar *markup;
@@ -135,28 +120,23 @@ prompt_user (gboolean has_subfolders)
 	widget = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
 	gtk_widget_hide (widget);
 	gtk_window_set_title (GTK_WINDOW (dialog), "");
-	g_signal_connect (
-		dialog, "map",
-		G_CALLBACK (gtk_widget_queue_resize), NULL);
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 12);
 	vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-	/* Table */
-	widget = gtk_table_new (3, 2, FALSE);
-	gtk_table_set_row_spacings (GTK_TABLE (widget), 12);
-	gtk_table_set_col_spacings (GTK_TABLE (widget), 12);
+	/* Grid */
+	widget = gtk_grid_new ();
+	gtk_grid_set_row_spacing (GTK_GRID (widget), 12);
+	gtk_grid_set_column_spacing (GTK_GRID (widget), 12);
 	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	table = widget;
+	grid = widget;
 
 	/* Question Icon */
 	widget = gtk_image_new_from_stock (
 		GTK_STOCK_DIALOG_QUESTION, GTK_ICON_SIZE_DIALOG);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.5, 0.0);
-	gtk_table_attach (
-		GTK_TABLE (table), widget, 0, 1, 0, 3,
-		0, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_widget_set_valign (widget, GTK_ALIGN_START);
+	gtk_grid_attach (GTK_GRID (grid), widget, 0, 0, 1, 3);
 	gtk_widget_show (widget);
 
 	/* Primary Text */
@@ -166,34 +146,23 @@ prompt_user (gboolean has_subfolders)
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
-	gtk_table_attach (
-		GTK_TABLE (table), widget, 1, 2, 0, 1,
-		0, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), widget, 1, 0, 1, 1);
 	gtk_widget_show (widget);
 	g_free (markup);
-	label1 = widget;
 
 	/* Secondary Text */
 	widget = gtk_label_new (gettext (SECONDARY_TEXT));
+	gtk_widget_set_vexpand (widget, TRUE);
+	gtk_widget_set_valign (widget, GTK_ALIGN_START);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
-	gtk_table_attach (
-		GTK_TABLE (table), widget, 1, 2, 1, 2,
-		0, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), widget, 1, 1, 1, 1);
 	gtk_widget_show (widget);
-	label2 = widget;
 
 	/* Action Area */
 	widget = gtk_hbox_new (FALSE, 6);
-	g_signal_connect (
-		widget, "map",
-		G_CALLBACK (box_mapped_cb), label1);
-	g_signal_connect (
-		widget, "map",
-		G_CALLBACK (box_mapped_cb), label2);
-	gtk_table_attach (
-		GTK_TABLE (table), widget, 1, 2, 2, 3,
-		GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_widget_set_halign (widget, GTK_ALIGN_END);
+	gtk_grid_attach (GTK_GRID (grid), widget, 1, 2, 1, 1);
 	gtk_widget_show (widget);
 
 	container = widget;
