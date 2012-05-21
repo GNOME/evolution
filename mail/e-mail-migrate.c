@@ -842,6 +842,7 @@ em_rename_camel_url_params (CamelURL *url)
 		const gchar *url_parameter;
 		const gchar *property_name;
 	} camel_url_conversion[] = {
+		{ "account_uid",		"account-uid" },
 		{ "ad_auth",			"gc-auth-method" },
 		{ "ad_browse",			"gc-allow-browse" },
 		{ "ad_expand_groups",		"gc-expand-groups" },
@@ -863,6 +864,8 @@ em_rename_camel_url_params (CamelURL *url)
 		{ "folder_hierarchy_relative",	"folder-hierarchy-relative" },
 		{ "imap_custom_headers",	"fetch-headers-extra" },
 		{ "keep_on_server",		"keep-on-server" },
+		{ "oab_offline",		"oab-offline" },
+		{ "oal_selected",		"oal-selected" },
 		{ "offline_sync",		"stay-synchronized" },
 		{ "override_namespace",		"use-namespace" },
 		{ "owa_path",			"owa-path" },
