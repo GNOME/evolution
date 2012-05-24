@@ -808,6 +808,7 @@ folder_tree_render_icon (GtkTreeViewColumn *column,
 	gboolean is_selected;
 	gboolean is_drafts = FALSE;
 	gboolean is_drag_dest = FALSE;
+	guint32 fi_flags = 0;
 
 	gtk_tree_model_get (
 		model, iter,
@@ -815,6 +816,7 @@ folder_tree_render_icon (GtkTreeViewColumn *column,
 		COL_UINT_UNREAD_LAST_SEL, &old_unread,
 		COL_UINT_UNREAD, &unread,
 		COL_BOOL_IS_DRAFT, &is_drafts,
+		COL_UINT_FLAGS, &fi_flags, 
 		-1);
 
 	if (icon_name == NULL)
@@ -850,7 +852,7 @@ folder_tree_render_icon (GtkTreeViewColumn *column,
 	icon = g_themed_icon_new (icon_name);
 
 	/* Show an emblem if there's new mail. */
-	if (!is_selected && unread > old_unread && !is_drafts) {
+	if (!is_selected && unread > old_unread && !is_drafts && !(fi_flags & CAMEL_FOLDER_VIRTUAL)) {
 		GIcon *temp_icon;
 		GEmblem *emblem;
 
