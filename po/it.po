@@ -39,7 +39,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-03-26 16:22+0000\n"
-"PO-Revision-Date: 2012-05-11 12:09+0200\n"
+"PO-Revision-Date: 2012-05-26 12:13+0200\n"
 "Last-Translator: Luca Ferretti <lferrett@gnome.org>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -20448,7 +20448,7 @@ msgstr "Notificare _solo i nuovi messaggi in «In arrivo»"
 
 #: ../plugins/mail-notification/mail-notification.c:800
 msgid "Show _notification when a new message arrives"
-msgstr "Mostrare una _notifica all'arrivo di un novo messaggio"
+msgstr "Mostrare una _notifica all'arrivo di un nuovo messaggio"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
