@@ -39,7 +39,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-03-26 16:22+0000\n"
-"PO-Revision-Date: 2012-05-26 12:13+0200\n"
+"PO-Revision-Date: 2012-05-26 12:49+0200\n"
 "Last-Translator: Luca Ferretti <lferrett@gnome.org>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -8296,7 +8296,6 @@ msgstr ""
 "Mostra in corsivo i giorni con eventi ricorrenti nel calendario in basso a "
 "sinistra"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
 #| msgid "Delete the selected calendar"
 msgid "List of selected calendars"
@@ -8307,27 +8306,21 @@ msgstr "Lista dei calendari selezionati"
 msgid "List of calendars to load"
 msgstr "Lista dei calendari da caricare"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
-#, fuzzy
-#| msgid "Delete the selected memo list"
 msgid "List of selected memo lists"
-msgstr "Elimina l'elenco memo selezionato"
+msgstr "Lista degli elenchi memo selezionati"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid "List of memo lists to load"
-msgstr ""
+msgstr "Lista degli elenchi memo da caricare"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
-#, fuzzy
-#| msgid "Delete the selected task list"
 msgid "List of selected task lists"
-msgstr "Elimina l'elenco di attività selezionato"
+msgstr "Lista degli elenchi attività selezionati"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid "List of task lists to load"
-msgstr ""
+msgstr "Lista degli elenchi attività da caricare"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:65
@@ -8337,9 +8330,6 @@ msgstr ""
 "mensile"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
-#, fuzzy
-#| msgid ""
-#| "Whether to display the end time of events in the week and month views."
 msgid "Whether to display the end time of events in the week and month views"
 msgstr ""
 "Indica se mostrare l'orario di termine degli eventi nelle viste settimanali "
@@ -8350,28 +8340,18 @@ msgstr ""
 msgid "Show the memo preview pane"
 msgstr "Mostra il riquadro anteprima dei memo"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
-#, fuzzy
-#| msgid "If \"true\", show the memo preview pane in the main window."
 msgid "If \"true\", show the memo preview pane in the main window"
-msgstr ""
-"Se impostata a VERO, mostra il riquadro di anteprima del memo nella finestra "
-"principale."
+msgstr "Se impostata a VERO, mostra il riquadro di anteprima del memo nella finestra principale"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:58
 msgid "Show the task preview pane"
 msgstr "Mostra il riquadro anteprima delle attività"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
-#, fuzzy
-#| msgid "If \"true\", show the task preview pane in the main window."
 msgid "If \"true\", show the task preview pane in the main window"
-msgstr ""
-"Se impostata a VERO, mostra il riquadro di anteprima dell'attività nella "
-"finestra principale."
+msgstr "Se impostata a VERO, mostra il riquadro di anteprima dell'attività nella finestra principale"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:107
@@ -8381,28 +8361,22 @@ msgstr ""
 "e nel navigatore di data."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
-#, fuzzy
-#| msgid "Whether to show week numbers in various places in the Calendar."
 msgid "Whether to show week numbers in various places in the Calendar"
-msgstr ""
-"Indica se mostrare i numeri di settimana in diversi elementi del calendario."
+msgstr "Indica se mostrare i numeri di settimana in diversi elementi del calendario"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
 #, fuzzy
-#| msgid "Vertical pane position"
 msgid "Vertical position for the tag pane"
-msgstr "Posizione riquadro verticale"
+msgstr "Posizione verticale per il riquadro etichette"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
-#, fuzzy
-#| msgid "T_asks due today:"
 msgid "Highlight tasks due today"
-msgstr "Com_piti in scadenza oggi:"
+msgstr "Evidenzia attività in scadenza oggi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
-msgstr ""
+msgstr "Indica se evidenziare le attività che scadono nel giorno corrente con un colore speciale (task-due-today-color)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:87
@@ -8410,22 +8384,16 @@ msgid "Tasks due today color"
 msgstr "Colore attività in scadenza oggi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
-#, fuzzy
-#| msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
-msgstr ""
-"Colore di sfondo delle attività in scadenza per oggi, nel formato \"#rrggbb"
-"\"."
+msgstr "Colore di sfondo delle attività che scadono nel giorno corrente, nel formato \"#rrggbb\". Usato assieme a task-due-today-highlight"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:60
 msgid "Task preview pane position (horizontal)"
 msgstr "Posizione riquadro anteprima attività (orizzontale)"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:56
 msgid "Task layout style"
@@ -8433,47 +8401,29 @@ msgstr "Stile visualizzazione attività"
 
 # GNOME-2.30
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
-#, fuzzy
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the task list. \"0\" (Classic View) places the preview pane below the "
-#| "task list. \"1\" (Vertical View) places the preview pane next to the task "
-#| "list."
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list"
-msgstr ""
-"Lo stile di disposizione determina dove posizionare il riquadro di anteprima "
-"in relazione all'elenco delle attività. Con \"0\" (vista classica) si "
-"posiziona il riquadro d'anteprima sotto l'elenco delle attività, con "
-"\"1\" (vista verticale) si posiziona il riquadro accanto all'elenco."
+msgstr "Lo stile di disposizione determina dove posizionare il riquadro di anteprima in relazione all'elenco delle attività. Con \"0\" (vista classica) si posiziona il riquadro d'anteprima sotto l'elenco delle attività, con \"1\" (vista verticale) si posiziona il riquadro accanto all'elenco."
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:61
 msgid "Task preview pane position (vertical)"
 msgstr "Posizione riquadro anteprima attività (verticale)"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
-#, fuzzy
-#| msgid "Position of the task preview pane when oriented vertically."
 msgid "Position of the task preview pane when oriented vertically"
-msgstr ""
-"Posizione del riquadro di anteprima dei compiti quando orientato "
-"verticalmente."
+msgstr "Posizione del riquadro di anteprima dei compiti quando orientato verticalmente"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
-#, fuzzy
-#| msgid "_Overdue tasks:"
 msgid "Highlight overdue tasks"
-msgstr "Attività sca_dute:"
+msgstr "Evidenzia attività scadute"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
-msgstr ""
+msgstr "Indica se evidenziare le attività scadute con un colore speciale (task-overdue-color)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:89
@@ -8481,13 +8431,10 @@ msgid "Overdue tasks color"
 msgstr "Colore attività scadute"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
-#, fuzzy
-#| msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
-msgstr ""
-"Colore di sfondo delle attività che sono scadute, nel formato \"#rrggbb\"."
+msgstr "Colore di sfondo delle attività che sono scadute, nel formato \"#rrggbb\". Usato assieme a task-overdue-highlight"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:37
@@ -8495,12 +8442,8 @@ msgid "Time divisions"
 msgstr "Divisioni di tempo"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
-#, fuzzy
-#| msgid "Intervals shown in Day and Work Week views, in minutes."
 msgid "Intervals shown in Day and Work Week views, in minutes"
-msgstr ""
-"Intervalli mostrati nelle viste giornaliera e settimana lavorativa, in "
-"minuti."
+msgstr "Intervalli mostrati nelle viste giornaliera e settimana lavorativa, in minuti"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:3
@@ -8508,17 +8451,10 @@ msgid "Timezone"
 msgstr "Fuso orario"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
-#, fuzzy
-#| msgid ""
-#| "The default timezone to use for dates and times in the calendar, as an "
-#| "untranslated Olsen timezone database location like \"America/New York\"."
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
-msgstr ""
-"Il fuso orario predefinito da usare per date e orari nel calendario, "
-"espresso come località non tradotta del database Olsen di fusi orari. Per "
-"esempio \"Italy/Rome\"."
+msgstr "Il fuso orario predefinito da usare per date e orari nel calendario, espresso come località non tradotta del database Olsen di fusi orari, per esempio \"Italy/Rome\"."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:13
@@ -8526,9 +8462,6 @@ msgid "Twenty four hour time format"
 msgstr "Formato orario 24 ore"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
-#, fuzzy
-#| msgid ""
-#| "Whether to show times in twenty four hour format instead of using am/pm."
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Indica se mostrare il tempo in formato orario a 24 ore o a.m./p.m."
 
@@ -8538,10 +8471,8 @@ msgid "Birthday and anniversary reminder"
 msgstr "Promemoria compleanni e anniversari"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
-#, fuzzy
-#| msgid "Whether to set a reminder for birthdays and anniversaries."
 msgid "Whether to set a reminder for birthdays and anniversaries"
-msgstr "Indica se impostare un promemoria compleanni e anniversari."
+msgstr "Indica se impostare un promemoria compleanni e anniversari"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:95
@@ -8549,10 +8480,8 @@ msgid "Default appointment reminder"
 msgstr "Promemoria appuntamento predefinito"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
-#, fuzzy
-#| msgid "Whether to set a default reminder for appointments."
 msgid "Whether to set a default reminder for appointments"
-msgstr "Indica se impostare un promemoria predefinito per gli appuntamenti."
+msgstr "Indica se impostare un promemoria predefinito per gli appuntamenti"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:5
@@ -8560,12 +8489,8 @@ msgid "Use system timezone"
 msgstr "Usa fuso orario di sistema"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
-#, fuzzy
-#| msgid ""
-#| "Use the system timezone instead of the timezone selected in Evolution."
 msgid "Use the system timezone instead of the timezone selected in Evolution"
-msgstr ""
-"Usa il fuso orario di sistema invece che quello selezionato in Evolution."
+msgstr "Usa il fuso orario di sistema invece che quello selezionato in Evolution"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:27
@@ -8573,12 +8498,8 @@ msgid "Week start"
 msgstr "Inizio settimana"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
-#, fuzzy
-#| msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)"
-msgstr ""
-"Giorno della settimana di inizio della settimana, da domenica (0) a sabato "
-"(6)."
+msgstr "Giorno della settimana di inizio della settimana, da domenica (0) a sabato (6)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:67
@@ -8586,12 +8507,8 @@ msgid "Work days"
 msgstr "Giornate lavorative"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
-#, fuzzy
-#| msgid "Days on which the start and end of work hours should be indicated."
 msgid "Days on which the start and end of work hours should be indicated"
-msgstr ""
-"Giorni per i quali dovrebbero essere indicate le ore di inizio e di termine "
-"del lavoro."
+msgstr "Giorni per i quali dovrebbero essere indicate le ore di inizio e di termine del lavoro"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
 #: ../shell/apps_evolution_shell.schemas.in.h:1
@@ -8622,44 +8539,32 @@ msgstr ""
 "configurazione (per esempio \"2.6.0\")."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:5
-#, fuzzy
-#| msgid "Enable and disable plugins"
 msgid "List of disabled plugins"
-msgstr "Abilita e disabilita plugin"
+msgstr "Lista dei plugin disabilitati"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:6
 msgid "The list of disabled plugins in Evolution"
-msgstr ""
+msgstr "La lista dei plugin disabilitati in Evolution"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
-#, fuzzy
-#| msgid "Default window X coordinate"
 msgid "The window's X coordinate"
-msgstr "Coordinata X predefinita per la finestra"
+msgstr "La coordinata X per la finestra"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
-#, fuzzy
-#| msgid "Default window Y coordinate"
 msgid "The window's Y coordinate"
-msgstr "Coordinata Y predefinita per la finestra"
+msgstr "La coordinata Y per la finestra"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:9
 msgid "The window's width in pixels"
-msgstr ""
+msgstr "La larghezza della finestra in pixel"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:10
-#, fuzzy
-#| msgid "Default window height"
 msgid "The window's height in pixels"
-msgstr "Altezza predefinita finestra"
+msgstr "L'altezza della finestra in pixel"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:11
-#, fuzzy
-#| msgid "Whether or not the window should be maximized."
 msgid "Whether the window is maximized"
-msgstr "Indica se la finestra deve essere massimizzata oppure no."
+msgstr "Indica se la finestra è massimizzata"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
 msgid "Gnome Calendar's calendar import done"
@@ -8706,20 +8611,11 @@ msgid "Path where picture gallery should search for its content"
 msgstr "Percorso in cui cercare il contenuto della raccolta immagini"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
-#, fuzzy
-#| msgid ""
-#| "This value can be an empty string, which means it'll use the system "
-#| "Picture folder, usually set to ~/Pictures. This folder will be also used "
-#| "when the set path is not pointing to the existent folder."
 msgid ""
 "This value can be an empty string, which means it'll use the system Picture "
 "folder, usually set to ~/Pictures. This folder will be also used when the "
 "set path is not pointing to the existent folder"
-msgstr ""
-"Questo valore può essere una stringa vuota: in tal modo viene usata la "
-"cartella Immagini di sistema, tipicamente impostata a ~/Immagini. Questa "
-"cartella è anche usata quando il percorso impostato non punta a una cartella "
-"esistente."
+msgstr "Questo valore può essere una stringa vuota: in tal modo viene usata la cartella Immagini di sistema, tipicamente impostata a ~/Immagini. Questa cartella è anche usata quando il percorso impostato non punta a una cartella esistente"
 
 # INLINE
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
@@ -8753,58 +8649,34 @@ msgid "Recognize emoticons in text and replace them with images."
 msgstr "Riconosce le faccine nel testo e le sostituisce con delle immagini."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
-#, fuzzy
-#| msgid "Attribute message."
 msgid "Attribute message"
-msgstr "Messaggio d'attribuzione."
+msgstr "Messaggio d'attribuzione"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
-#, fuzzy
-#| msgid ""
-#| "The text that is inserted when replying to a message, attributing the "
-#| "message to the original author."
 msgid ""
 "The text that is inserted when replying to a message, attributing the "
 "message to the original author"
-msgstr ""
-"Il testo da inserire quando si risponde a un messaggio, attribuendo il "
-"messaggio all'autore originale."
+msgstr "Il testo da inserire quando si risponde a un messaggio, attribuendo il messaggio all'autore originale"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
-#, fuzzy
-#| msgid "Forward message."
 msgid "Forward message"
-msgstr "Messaggio di inoltro."
+msgstr "Messaggio di inoltro"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:16
-#, fuzzy
-#| msgid ""
-#| "The text that is inserted when forwarding a message, saying that the "
-#| "forwarded message follows."
 msgid ""
 "The text that is inserted when forwarding a message, saying that the "
 "forwarded message follows"
-msgstr ""
-"Il testo da inserire quando si inoltra un messaggio, a indicare che quanto "
-"segue è il messaggio inoltrato."
+msgstr "Il testo da inserire quando si inoltra un messaggio, a indicare che quanto segue è il messaggio inoltrato"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:17
-#, fuzzy
-#| msgid "Original message."
 msgid "Original message"
-msgstr "Messaggio originale."
+msgstr "Messaggio originale"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:18
-#, fuzzy
-#| msgid ""
-#| "The text that is inserted when replying to a message (top posting), "
-#| "saying that the original message follows."
 msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows"
-msgstr ""
-"Il testo da inserire quando si risponde a un messaggio (top posting), a "
-"indicare che quanto segue è il messaggio originale."
+msgstr "Il testo da inserire quando si risponde a un messaggio (top posting), a indicare che quanto segue è il messaggio originale"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:19
 #: ../mail/evolution-mail.schemas.in.h:9
@@ -8956,47 +8828,29 @@ msgstr ""
 "controllato dal menù Visualizza quando viene scelto un account di news."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
-#, fuzzy
-#| msgid "_Keep signature above the original message on replying"
 msgid "Digitally sign replies when the original message is signed"
-msgstr "_Tenere la sigla sopra il messaggio originale nel rispondere"
+msgstr "Firma digitalmente le risposte quando il messaggio originale è firmato"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
 #: ../mail/evolution-mail.schemas.in.h:12
 msgid ""
 "Automatically enable PGP or S/MIME signatures when replying to a message "
 "which is also PGP or S/MIME signed."
-msgstr ""
+msgstr "Abilita automaticamente le firme PGP o S/MIME quando si risponde a un messaggio che è firmato con PGP o S/MIME."
 
-# GNOME-2-26
-# (ndt) messa all'infinito perché oltre che chiave schema pare sia usata
-# anche in un file glade, quindi con molta probabilità è un'opzione
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 #: ../mail/evolution-mail.schemas.in.h:33
-#, fuzzy
-#| msgid "Encode file names in an Outlook/GMail way"
 msgid "Encode filenames in an Outlook/GMail way"
-msgstr "Codificare i nomi dei file come Outlook/GMail"
+msgstr "Codifica i nomi dei file come Outlook/GMail"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
 #: ../mail/evolution-mail.schemas.in.h:34
-#, fuzzy
-#| msgid ""
-#| "Encode file names in the mail headers same as Outlook or GMail do, to let "
-#| "them display correctly file names with UTF-8 letters sent by Evolution, "
-#| "because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
-#| "standard."
 msgid ""
 "Encode filenames in the mail headers same as Outlook or GMail do, to let "
 "them display correctly filenames with UTF-8 letters sent by Evolution, "
 "because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
 "standard."
-msgstr ""
-"Codifica i nomi dei file nelle intestazioni della posta allo stesso modo di "
-"Outlook o GMail, per consentire a questi programmi di mostrare in modo "
-"corretto i nomi dei file con lettere UTF-8 inviati da Evolution. Ciò perché "
-"questi programmi non sono conformi allo RFC 2231, ma usano invece il non "
-"corretto standard RFC 2047."
+msgstr "Codifica i nomi dei file nelle intestazioni della posta allo stesso modo di Outlook o GMail, per consentire a questi programmi di mostrare in modo corretto i nomi dei file con lettere UTF-8 inviati da Evolution. Ciò perché questi programmi non sono conformi allo RFC 2231, ma usano invece il non corretto standard RFC 2047"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 #: ../mail/evolution-mail.schemas.in.h:35
@@ -9006,21 +8860,18 @@ msgstr "Mette le sigle personalizzate all'inizio delle risposte"
 # FIXME!!!!!
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
 #: ../mail/evolution-mail.schemas.in.h:36
+#, fuzzy
 msgid ""
 "Users get all up in arms over where their signature should go when replying "
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
-msgstr ""
-"Questa chiave determina se la sigla è posizionata all'inizio o alla fine del "
-"messaggio di risposta."
+msgstr "Questa chiave determina se la sigla è posizionata all'inizio o alla fine del messaggio di risposta."
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
 #: ../mail/evolution-mail.schemas.in.h:37
 msgid "Do not add signature delimiter"
 msgstr "Non aggiungere delimitatore di sigla"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
 #: ../mail/evolution-mail.schemas.in.h:38
 msgid ""
@@ -9284,17 +9135,13 @@ msgstr "Contrassegna come letto dopo un tempo specificato."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 #: ../mail/evolution-mail.schemas.in.h:90
-#, fuzzy
-#| msgid "Timeout for marking message as seen"
 msgid "Timeout for marking messages as seen"
-msgstr "Tempo dopo il quale contrassegnare il messaggio come letto"
+msgstr "Tempo dopo il quale contrassegnare i messaggi come letti"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 #: ../mail/evolution-mail.schemas.in.h:91
-#, fuzzy
-#| msgid "Timeout for marking message as seen."
 msgid "Timeout in milliseconds for marking messages as seen."
-msgstr "Tempo dopo il quale contrassegnare il messaggio come letto."
+msgstr "Tempo di attesa in millisecondi dopo il quale contrassegnare i messaggi come letti."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 #: ../mail/evolution-mail.schemas.in.h:87
@@ -9311,16 +9158,10 @@ msgstr ""
 "dei messaggi."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
-#, fuzzy
-#| msgid ""
-#| "Determines whether to use the same fonts for both \"From\" and \"Subject"
-#| "\" lines in the \"Messages\" column in vertical view."
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
-msgstr ""
-"Determina se usare gli stessi tipi di carattere per entrambe le righe \"Da\" "
-"e \"Oggetto\" nella colonna \"Messaggi\" della vista verticale."
+msgstr "Determina se usare gli stessi tipi di carattere per entrambe le righe \"Da\" e \"Oggetto\" nella colonna \"Messaggi\" della vista verticale"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 #: ../mail/evolution-mail.schemas.in.h:89
@@ -9344,14 +9185,12 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 #: ../mail/evolution-mail.schemas.in.h:96
-#, fuzzy
-#| msgid "All local folders"
 msgid "Enable local folders"
-msgstr "Tutte le cartelle locali"
+msgstr "Abilita le cartelle locali"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Whether to show local folders (On This Computer) in a folder tree"
-msgstr ""
+msgstr "Indica se mostrare le cartelle locali (Su questo computer) nell'albero delle cartelle"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 #: ../mail/evolution-mail.schemas.in.h:94
@@ -9393,10 +9232,6 @@ msgid "State of message headers in paned view"
 msgstr "Stato delle intestazioni messaggi nella vista a riquadri"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
-#, fuzzy
-#| msgid ""
-#| "Describes whether message headers in paned view should be collapsed or "
-#| "expanded by default. \"0\" = expanded \"1\" = collapsed"
 msgid ""
 "Describes whether message headers in paned view should be collapsed or "
 "expanded by default. \"0\" = expanded and \"1\" = collapsed"
@@ -9414,13 +9249,11 @@ msgstr "Larghezza del riquadro elenco-messaggi"
 msgid "Width of the message-list pane."
 msgstr "Larghezza del riquadro elenco-messaggi."
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 #: ../mail/evolution-mail.schemas.in.h:104
 msgid "Layout style"
 msgstr "Stile disposizione"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 #: ../mail/evolution-mail.schemas.in.h:105
 msgid ""
@@ -9544,17 +9377,10 @@ msgid "Default value for thread expand state"
 msgstr "Valore predefinito per stato espanso della discussione"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
-#, fuzzy
-#| msgid ""
-#| "This setting specifies whether the threads should be in expanded or "
-#| "collapsed state by default. Requires a restart to apply."
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
-msgstr ""
-"Questa impostazione specifica se in modo predefinito le discussioni debbono "
-"essere nello stato espanso o contratto. È necessario riavviare per "
-"applicarla."
+msgstr "Questa impostazione specifica se in modo predefinito le discussioni debbono essere nello stato espanso o contratto. È necessario riavviare Evolution per applicarla."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 #: ../mail/evolution-mail.schemas.in.h:124
@@ -9577,7 +9403,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Sort accounts alphabetically in a folder tree"
-msgstr ""
+msgstr "Elenca gli account alfabeticamente in un albero di cartelle"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid ""
@@ -9585,7 +9411,7 @@ msgid ""
 "true accounts are sorted alphabetically, with an exception of On This "
 "Computer and Search folders, otherwise accounts are sorted based on an order "
 "given by a user"
-msgstr ""
+msgstr "Indica come ordinare gli account in un albero di cartelle usato in una vista Email. Se impostata a VERO gli account sono ordinati in modo alfabetico con l'eccezione delle cartella Ricerca e Su questo computer. In caso contrario gli account sono ordinati secondo un criterio indicato dall'utente"
 
 # (milo) e se fosse 'Registra le azioni di filtraggio'?
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
@@ -9649,16 +9475,12 @@ msgstr ""
 "oggetto."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
-#, fuzzy
-#| msgid "Prompt when replying to many recipients"
 msgid "Prompt when emptying the trash"
-msgstr "Avverte quando si risponde a molti destinatari"
+msgstr "Avverte quando si svuota il cestino"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
-#, fuzzy
-#| msgid "Prompt the user when he or she tries to expunge a folder."
 msgid "Prompt the user when he or she tries to empty the trash."
-msgstr "Avverte l'utente quando si cerca di ripulire una cartella."
+msgstr "Avverte l'utente quando si cerca di svuotare il cestino."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 #: ../mail/evolution-mail.schemas.in.h:153
@@ -9809,12 +9631,7 @@ msgstr ""
 "Chiede conferma per chiudere la finestra del messaggio quando l'utente "
 "inoltra o risponde al messaggio mostrato nella finestra"
 
-# FIXME!!!!
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
-#, fuzzy
-#| msgid ""
-#| "Possible values are: never - to never close browser window always - to "
-#| "always close browser window ask - (or any other value) will ask user"
 msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
@@ -10077,10 +9894,6 @@ msgid "Check for new messages on start"
 msgstr "Controlla nuovi messaggi all'avvio"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
-#, fuzzy
-#| msgid ""
-#| "Whether check for new messages when Evolution is started. This includes "
-#| "also sending messages from Outbox."
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
@@ -10094,12 +9907,6 @@ msgid "Check for new messages in all active accounts"
 msgstr "Controlla nuovi messaggi in tutti gli account attivi"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
-#, fuzzy
-#| msgid ""
-#| "Whether check for new messages in all active accounts regardless of the "
-#| "account \"Check for new messages every X minutes\" option when Evolution "
-#| "is started. This option is used only together with 'send_recv_on_start' "
-#| "option."
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account \"Check for new messages every X minutes\" option when Evolution is "
@@ -10134,10 +9941,6 @@ msgstr ""
 "un messaggio"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:2
-#, fuzzy
-#| msgid ""
-#| "List of clues for the attachment reminder plugin to look for in a message "
-#| "body"
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
@@ -10146,43 +9949,33 @@ msgstr ""
 "un messaggio"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
-#, fuzzy
-#| msgid "Address Book Properties"
 msgid "Address book source"
-msgstr "Proprietà della rubrica"
+msgstr "Sorgente rubrica"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
-#, fuzzy
-#| msgid "Select Address book for Automatic Contacts"
 msgid "Address book to use for storing automatically synced contacts"
-msgstr "Rubrica selezionata per contatti automatici"
+msgstr "Rubrica da usare per memorizzare automaticamente i contatti sincronizzati"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
-#, fuzzy
-#| msgid "Automatic Contacts"
 msgid "Auto sync GAIM contacts"
-msgstr "Contatti automatici"
+msgstr "Sincronizzazione automatica contatti GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
 msgid "Whether GAIM contacts should be automaticall synced"
-msgstr ""
+msgstr "Indica se sincronizzare automaticamente i contatti di GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
-#, fuzzy
-#| msgid "Invalid contact."
 msgid "Enable autocontacts"
-msgstr "Contatto non valido."
+msgstr "Abilita contatti automatici"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
 msgid ""
 "Whether contacts should be automatically added to the user's addressbook"
-msgstr ""
+msgstr "Indica se aggiungere autimaticamente contatti alla rubrica dell'utente"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
-#, fuzzy
-#| msgid "Address Book Properties"
 msgid "GAIM address book source"
-msgstr "Proprietà della rubrica"
+msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid "Address book to use for storing automatically synced contacts from GAIM"
@@ -10240,20 +10033,14 @@ msgid "Automatically launch when a new mail is edited"
 msgstr "Lancia automaticamente quando una nuova email viene editata"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:4
-#, fuzzy
-#| msgid "Automatically launch editor when key is pressed in the mail composer"
 msgid "Automatically launch editor when key is pressed in the mail composer."
-msgstr ""
-"Lancia automaticamente l'editor quando il tasto è premuto nel compositore di "
-"email"
+msgstr "Lancia automaticamente l'editor quando il tasto è premuto nel compositore di email"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:1
 #: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:1
 msgid "Insert Face picture by default"
 msgstr "Inserire immagine \"faccia\" in modo predefinito"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:2
 #: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:2
 msgid ""
@@ -10265,10 +10052,8 @@ msgstr ""
 "questa opzione, altrimenti non funzionerà."
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
-#, fuzzy
-#| msgid "_Delete Message"
 msgid "Delete processed"
-msgstr "Eli_mina messaggio"
+msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
 msgid "Whether to delete processed iTip objects"
@@ -10343,8 +10128,6 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:13
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-#, fuzzy
-#| msgid "Sound file name to be played."
 msgid "Sound filename to be played."
 msgstr "Nome del file audio da riprodurre."
 
@@ -10355,20 +10138,15 @@ msgstr ""
 "File audio da riprodurre quando arrivano nuovi messaggi, qualora non in "
 "modalità avviso acustico."
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
-#, fuzzy
-#| msgid "FILE"
 msgid "FIXME"
-msgstr "FILE"
+msgstr "FIXME"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:16
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Use sound theme"
 msgstr "Usa tema audio"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:17
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
 msgid "Play themed sound when new messages arrive, if not in beep mode."
@@ -10377,23 +10155,19 @@ msgstr ""
 "modalità avviso acustico."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:1
-#, fuzzy
-#| msgid "Use custom fonts for displaying mail."
 msgid "Mode to use when displaying mails"
-msgstr "Usa caratteri personalizzati per mostrare la posta."
+msgstr "Modalità da usare per mostrare le email"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
 msgid ""
 "The mode to use for displaying mails. \"normal\" makes Evolution choose the "
 "best part to show, \"prefer_plain\" makes it use the text part, if present, "
 "and \"only_plain\" forces Evolution to only show plain text"
-msgstr ""
+msgstr "La modalità da usare per mostrare le email: \"normal\" (Evolution sceglie la parte migliore da mostrare), \"prefer_plain\" (usa la parte testuale, se presente) e \"only_plain\" (forza Evolution a mostrare solo il testo semplice)"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
-#, fuzzy
-#| msgid "Whether to show the preview pane."
 msgid "Whether to show suppressed HTML output"
-msgstr "Indica se mostrare il riquadro d'anteprima."
+msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 #: ../plugins/templates/apps-evolution-template-placeholders.schemas.in.h:1
@@ -10452,28 +10226,19 @@ msgstr ""
 "in rete."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
-#, fuzzy
-#| msgid "Opening folder '%s'"
 msgid "Offline folder paths"
-msgstr "Apertura della cartella «%s»"
+msgstr "Percorso cartelle offline"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
-#, fuzzy
-#| msgid ""
-#| "List of paths for the folders to be synchronized to disk for offline usage"
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage."
-msgstr ""
-"Elenco dei percorsi delle cartelle da sincronizzare su disco per l'uso fuori "
-"rete"
+msgstr "Elenco dei percorsi delle cartelle da sincronizzare su disco per l'uso fuori rete."
 
-# GNOME-2-30
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
 #: ../shell/apps_evolution_shell.schemas.in.h:61
 msgid "Enable express mode"
 msgstr "Abilita la modalità espressa"
 
-# GNOME-2.30
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
 #: ../shell/apps_evolution_shell.schemas.in.h:62
 msgid "Flag that enables a much simplified user interface."
@@ -10562,10 +10327,8 @@ msgid "Use only the local spam tests (no DNS)."
 msgstr "Usa solo test di spam locale (senza DNS)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
-#, fuzzy
-#| msgid "Failed to read output from SpamAssassin: "
 msgid "Socket path for SpamAssassin"
-msgstr "Lettura dell'output da SpamAssassin non riuscita: "
+msgstr "Percorso socket per SpamAssassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
 #: ../modules/spamassassin/evolution-spamassassin.schemas.in.h:3
@@ -10578,16 +10341,12 @@ msgid "Use SpamAssassin daemon and client (spamc/spamd)."
 msgstr "Usa il client e il demone SpamAssassin (spamc/spamd)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
-#, fuzzy
-#| msgid "SpamAssassin Options"
 msgid "SpamAssassin client binary"
-msgstr "Opzioni di SpamAssassin"
+msgstr "Binario client SpamAssassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:7
-#, fuzzy
-#| msgid "Use SpamAssassin daemon and client"
 msgid "SpamAssassin daemon binary"
-msgstr "Usa demone e client SpamAssassin"
+msgstr "Binario demone SpamAssassin"
 
 #: ../em-format/em-format.c:1063 ../em-format/em-format-quote.c:318
 #: ../mail/e-mail-tag-editor.c:327 ../mail/message-list.etspec.h:5
@@ -13374,7 +13133,7 @@ msgstr "Aggiungi cartella"
 
 #: ../mail/evolution-mail.schemas.in.h:11
 msgid "Digitally sign messages when original message signed (PGP or S/MIME)"
-msgstr ""
+msgstr "Firma digitalmente i messaggi quando il messaggio originale è firmato (PGP o S/MIME)"
 
 #: ../mail/evolution-mail.schemas.in.h:39
 msgid "Composer Window default width"
@@ -13441,7 +13200,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:97
 msgid "Whether to show local folders (On This Computer) in a folder tree."
-msgstr ""
+msgstr "Indica se mostrare le cartelle locali (Su questo computer) in una albero di cartelle."
 
 #: ../mail/evolution-mail.schemas.in.h:123
 msgid ""
@@ -13928,20 +13687,13 @@ msgstr "Ins_erire automaticamente immagini delle faccine"
 msgid "Always request rea_d receipt"
 msgstr "Richie_dere sempre ricevute di lettura"
 
-# GNOME-2-26
-# (ndt) messa all'infinito perché oltre che chiave schema pare sia usata
-# anche in un file glade, quindi con molta probabilità è un'opzione
 #: ../mail/mail-config.ui.h:15
-#, fuzzy
-#| msgid "Encode file names in an Outlook/GMail way"
 msgid "Encode filenames in an _Outlook/GMail way"
-msgstr "Codificare i nomi dei file come Outlook/GMail"
+msgstr "Codificare i nomi dei file come _Outlook/GMail"
 
 #: ../mail/mail-config.ui.h:16
-#, fuzzy
-#| msgid "Ch_aracter Encoding"
 msgid "Ch_aracter encoding:"
-msgstr "Codifica dei c_aratteri"
+msgstr "Codifica dei c_aratteri:"
 
 #: ../mail/mail-config.ui.h:17
 msgid "Replies and Forwards"
@@ -13965,16 +13717,12 @@ msgid "_Keep signature above the original message on replying"
 msgstr "_Tenere la sigla sopra il messaggio originale nel rispondere"
 
 #: ../mail/mail-config.ui.h:22
-#, fuzzy
-#| msgid "Ignore Reply-To: for mailing lists"
 msgid "Ig_nore Reply-To: for mailing lists"
-msgstr "Ignorare i Reply-To: per le mailing list"
+msgstr "Ig_norare i Reply-To: per le mailing list"
 
 #: ../mail/mail-config.ui.h:23
-#, fuzzy
-#| msgid "Group Reply goes only to mailing list, if possible"
 msgid "Gro_up Reply goes only to mailing list, if possible"
-msgstr "Risposta di gruppo solo alla mailing list, se possibile"
+msgstr "Risposta di gr_uppo solo alla mailing list, se possibile"
 
 #: ../mail/mail-config.ui.h:24
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
@@ -14597,15 +14345,12 @@ msgstr "_Ricordare la password"
 msgid "Personal Details:"
 msgstr "Dettagli personali:"
 
-# GNOME-2.30
 #: ../mail/mail-config.ui.h:188
 #| msgid "Encryption"
 msgid "Encryption:"
 msgstr "Cifratura:"
 
 #: ../mail/mail-config.ui.h:189
-#, fuzzy
-#| msgid "None"
 msgid "none"
 msgstr "nessuno"
 
@@ -15804,7 +15549,6 @@ msgid ""
 "destination country."
 msgstr ""
 
-# GNOME-2.30
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../modules/addressbook/autocompletion-config.c:194
 #: ../modules/mail/em-mailer-prefs.c:1067
@@ -16887,16 +16631,12 @@ msgid "Display"
 msgstr "Visualizzazione"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:57
-#, fuzzy
-#| msgid "T_asks due today:"
 msgid "Highlight t_asks due today"
-msgstr "Com_piti in scadenza oggi:"
+msgstr "Evidenziare le _attività che scadono oggi"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:59
-#, fuzzy
-#| msgid "_Overdue tasks:"
 msgid "Highlight _overdue tasks"
-msgstr "Attività sca_dute:"
+msgstr "Evidenziare le attività sca_dute"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:60
 msgid "_Hide completed tasks after"
@@ -16916,13 +16656,11 @@ msgstr "Mostrare un pr_omemoria"
 msgid "before every appointment"
 msgstr "prima di ogni appuntamento"
 
-# GNOME-2-26
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
 #: ../modules/calendar/e-calendar-preferences.ui.h:69
 msgid "Show a _reminder"
 msgstr "Mostrare un p_romemoria"
 
-# GNOME-2-26
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
 #: ../modules/calendar/e-calendar-preferences.ui.h:71
 msgid "before every anniversary/birthday"
@@ -17299,7 +17037,6 @@ msgstr "Settimana"
 msgid "Show one week"
 msgstr "Mostra una settimana"
 
-# GNOME-2.30
 #: ../modules/calendar/e-cal-shell-view-actions.c:1681
 msgid "Show one work week"
 msgstr "Mostra una settimana lavorativa"
@@ -17332,12 +17069,10 @@ msgstr "Riepilogo contiene"
 msgid "Print this calendar"
 msgstr "Stampa questo calendario"
 
-# GNOME-2.30
 #: ../modules/calendar/e-cal-shell-view-actions.c:1767
 msgid "Preview the calendar to be printed"
 msgstr "Anteprima del calendario da stampare"
 
-# GNOME-2.30
 #: ../modules/calendar/e-cal-shell-view-actions.c:1789
 #: ../modules/calendar/e-cal-shell-view-memopad.c:294
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:381
@@ -17350,7 +17085,6 @@ msgstr "_Salva come iCalendar..."
 msgid "Go To"
 msgstr "Vai a"
 
-# GNOME-2.30
 #. Translators: Default filename part saving a memo to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../modules/calendar/e-cal-shell-view-memopad.c:217
@@ -17358,7 +17092,6 @@ msgstr "Vai a"
 msgid "memo"
 msgstr "memo"
 
-# GNOME-2.30
 #: ../modules/calendar/e-cal-shell-view-memopad.c:260
 #: ../modules/calendar/e-memo-shell-view-actions.c:654
 msgid "New _Memo"
@@ -17387,13 +17120,11 @@ msgstr "Visualizza il memo selezionato"
 msgid "Open _Web Page"
 msgstr "Apri pagina _web"
 
-# GNOME-2.30
 #: ../modules/calendar/e-cal-shell-view-memopad.c:286
 #: ../modules/calendar/e-memo-shell-view-actions.c:828
 msgid "Print the selected memo"
 msgstr "Stampa il memo selezionato"
 
-# GNOME-2.30
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #. Translators: Default filename part saving a task to a file when
@@ -17422,7 +17153,6 @@ msgstr "Contrassegna le attività selezionate come completate"
 msgid "_Mark as Incomplete"
 msgstr "Contrassegna come inco_mpleto"
 
-# GNOME-2.30
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:342
 #: ../modules/calendar/e-task-shell-view-actions.c:787
 msgid "Mark selected tasks as incomplete"
@@ -17449,7 +17179,6 @@ msgstr "_Apri attività"
 msgid "View the selected task"
 msgstr "Visualizza l'attività selezionata"
 
-# GNOME-2.30
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:373
 #: ../modules/calendar/e-task-shell-view-actions.c:1027
 msgid "Print the selected task"
@@ -17460,18 +17189,15 @@ msgctxt "New"
 msgid "Mem_o"
 msgstr "Mem_o"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-backend.c:315
 msgctxt "New"
 msgid "_Shared Memo"
 msgstr "Memo condi_viso"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-backend.c:317
 msgid "Create a new shared memo"
 msgstr "Crea un nuovo memo condiviso"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-backend.c:325
 msgctxt "New"
 msgid "Memo Li_st"
@@ -17486,7 +17212,6 @@ msgstr "Crea un nuovo elenco di memo"
 msgid "Loading memos"
 msgstr "Caricamento memo"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-sidebar.c:703
 msgid "Memo List Selector"
 msgstr "Selettore elenco memo"
@@ -17502,27 +17227,22 @@ msgstr "Apertura memo presso %s"
 msgid "Print Memos"
 msgstr "Stampa memo"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-actions.c:584
 msgid "_Delete Memo"
 msgstr "Eli_mina memo"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-actions.c:591
 msgid "_Find in Memo..."
 msgstr "Tr_ova nel memo..."
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-actions.c:593
 msgid "Search for text in the displayed memo"
 msgstr "Cerca del testo nel memo visualizzato"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-actions.c:612
 msgid "D_elete Memo List"
 msgstr "Eli_mina elenco memo"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-actions.c:614
 msgid "Delete the selected memo list"
 msgstr "Elimina l'elenco memo selezionato"
@@ -17531,37 +17251,30 @@ msgstr "Elimina l'elenco memo selezionato"
 msgid "_New Memo List"
 msgstr "_Nuovo elenco memo"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-actions.c:635
 msgid "Refresh the selected memo list"
 msgstr "Aggiorna l'elenco memo selezionato"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-actions.c:642
 msgid "Rename the selected memo list"
 msgstr "Rinomina l'elenco memo selezionato"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-actions.c:647
 msgid "Show _Only This Memo List"
 msgstr "Mostra s_olo questo elenco di memo"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-actions.c:726
 msgid "Memo _Preview"
 msgstr "Ante_prima memo"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-actions.c:728
 msgid "Show memo preview pane"
 msgstr "Mostra riquadro d'anteprima dei memo"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-actions.c:749
 msgid "Show memo preview below the memo list"
 msgstr "Mostra l'anteprima dei memo sotto l'elenco dei memo"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-actions.c:756
 msgid "Show memo preview alongside the memo list"
 msgstr "Mostra l'anteprima dei memo accanto l'elenco dei memo"
@@ -17570,17 +17283,14 @@ msgstr "Mostra l'anteprima dei memo accanto l'elenco dei memo"
 msgid "Print the list of memos"
 msgstr "Stampa l'elenco dei memo"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-actions.c:821
 msgid "Preview the list of memos to be printed"
 msgstr "Anteprima dell'elenco di memo da stampare"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view.c:227
 msgid "Delete Memos"
 msgstr "Elimina i memo"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view.c:229
 msgid "Delete Memo"
 msgstr "Elimina memo"
@@ -17592,7 +17302,6 @@ msgid_plural "%d memos"
 msgstr[0] "%d memo"
 msgstr[1] "%d memo"
 
-# GNOME-2.30
 #: ../modules/calendar/e-memo-shell-view-private.c:428
 #: ../modules/calendar/e-task-shell-view-private.c:609
 #, c-format
@@ -17613,8 +17322,6 @@ msgstr "Attività assegna_ta"
 msgid "Create a new assigned task"
 msgstr "Crea una nuova attività assegnata"
 
-# GNOME-2.30
-#
 # FIXME controllare acceleratori...
 #: ../modules/calendar/e-task-shell-backend.c:320
 msgctxt "New"
@@ -17630,7 +17337,6 @@ msgstr "Crea un nuovo elenco di attività"
 msgid "Loading tasks"
 msgstr "Caricamento attività"
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-sidebar.c:703
 msgid "Task List Selector"
 msgstr "Selettore elenco attività"
@@ -17646,7 +17352,6 @@ msgstr "Apertura attività presso %s"
 msgid "Print Tasks"
 msgstr "Stampa attività"
 
-# GNOME-2-26
 #: ../modules/calendar/e-task-shell-view-actions.c:583
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
@@ -17660,37 +17365,30 @@ msgstr ""
 "\n"
 "Eliminare veramente queste attività?"
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:590
 msgid "Do not ask me again"
 msgstr "Non chiedere più in futuro"
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:708
 msgid "_Delete Task"
 msgstr "Eli_mina attività"
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:715
 msgid "_Find in Task..."
 msgstr "Tr_ova nell'attività..."
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:717
 msgid "Search for text in the displayed task"
 msgstr "Cerca del testo nell'attività visualizzata"
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:729
 msgid "Copy..."
 msgstr "Copia..."
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:736
 msgid "D_elete Task List"
 msgstr "Eli_mina elenco attività"
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:738
 msgid "Delete the selected task list"
 msgstr "Elimina l'elenco di attività selezionato"
@@ -17699,22 +17397,18 @@ msgstr "Elimina l'elenco di attività selezionato"
 msgid "_New Task List"
 msgstr "_Nuovo elenco attività"
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:759
 msgid "Refresh the selected task list"
 msgstr "Aggiorna l'elenco di attività selezionato"
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:766
 msgid "Rename the selected task list"
 msgstr "Rinomina l'elenco di attività selezionato"
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:771
 msgid "Show _Only This Task List"
 msgstr "Mostra s_olo questo elenco di attività"
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:785
 msgid "Mar_k as Incomplete"
 msgstr "Contrassegna come inco_mpleto"
@@ -17727,22 +17421,18 @@ msgstr "Elimina le attività completate"
 msgid "Task _Preview"
 msgstr "Ante_prima attività"
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:892
 msgid "Show task preview pane"
 msgstr "Mostra il riquadro anteprima delle attività"
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:913
 msgid "Show task preview below the task list"
 msgstr "Mostra l'anteprima delle attività sotto l'elenco di attività"
 
-# GNOME-2.30
 #: ../modules/calendar/e-task-shell-view-actions.c:920
 msgid "Show task preview alongside the task list"
 msgstr "Mostra l'anteprima delle attività accanto l'elenco di attività"
 
-# (milo) era 'attive'
 #: ../modules/calendar/e-task-shell-view-actions.c:928
 msgid "Active Tasks"
 msgstr "Attività in corso"
