@@ -1877,15 +1877,11 @@ msgid "If you want to change a memo that already exists in your memo lists,"
 msgstr "Wenn Sie bereits bestehende Notizen in der Notizliste ändern möchten,"
 
 #: C/memos-usage-edit-memo.page:25(p)
-#, fuzzy
-#| msgid ""
-#| "Double-click on the memo that you want to edit in the list of contacts, "
-#| "or right-click on the memo and click <gui>Open Memo</gui>."
 msgid ""
-"Double-click on the memo that you want to edit in the list of memos, or "
+"Double-click on the memo that you want to edit in the list of contacts, or "
 "right-click on the memo and click <gui>Open Memo</gui>."
 msgstr ""
-"Klicken Sie in der Kontaktliste zweimal auf die zu bearbeitende Notiz oder "
+"Klicken Sie in der Notizliste zweimal auf die zu bearbeitende Notiz, oder "
 "klicken Sie mit der rechten Maustaste auf die Notiz und wählen Sie "
 "<gui>Notiz öffnen</gui>."
 
@@ -2513,10 +2509,21 @@ msgid ""
 "gui> mail folder frequently to be sure that legitimate mail doesn't get "
 "flagged as junk mail."
 msgstr ""
+"SpamAssassin wird mit einer Menge vordefinierter Regeln ausgeliefert, "
+"während Bogofilter zuerst trainiert werden muss, bevor automatisch "
+"unerwünschte Nachrichten gefiltert werden. Wenn Sie Bogofilter nur mit "
+"unerwünschten Nachrichten trainieren, so geht es davon aus, dass alle "
+"Nachrichten unerwünschte sind (weil es nichts anderes kennt). Deshalb fällt "
+"es keine Entscheidungen, bis die Datenbank ausreichend groß ist, um sicher "
+"entscheiden zu können, welche Nachrichten unerwünschte sind und welche "
+"nicht. Prüfen Sie bitte in jedem Fall regelmäßig den Ordner "
+"<gui>Unerwünscht</gui>, wenn Sie die Blockierung unerwünschter Nachrichten "
+"erstmalig einsetzen, um sicher zu gehen, dass berechtigte E-Mails nicht als "
+"unerwünscht markiert werden."
 
 #: C/mail-spam-marking.page:35(title)
 msgid "Manually Marking Junk Mail"
-msgstr "Eine Nachricht manuell als Unerwünscht markieren"
+msgstr "Eine Nachricht manuell als unerwünscht markieren"
 
 #: C/mail-spam-marking.page:36(p)
 msgid ""
@@ -4327,6 +4334,10 @@ msgid ""
 "\">Fetch URL</gui> which will ask you for your password and then try to "
 "automatically fill in the values."
 msgstr ""
+"Geben Sie entweder händisch die Rechner-Adresse und OAB-Adresse ein, oder "
+"klicken Sie auf <gui style=\"button\">Adresse holen</gui>. Sie werden "
+"daraufhin nach Ihrem Passwort gefragt und es wird versucht, die Werte "
+"automatisch auszufüllen."
 
 #: C/mail-receiving-options-exchange-ews.page:44(p)
 msgid ""
@@ -4335,6 +4346,10 @@ msgid ""
 "<gui style=\"button\">Fetch list</gui>. Afterwards, select the address book "
 "from the available options."
 msgstr ""
+"Wenn Sie eine Kopie des Adressbuchs des Servers für Offline-Zugriff haben "
+"möchten, so aktivieren Sie <gui>Offline-Adressbuch zwischenspeichern</gui> "
+"und klicken Sie auf <gui style=\"button\">Liste holen</gui>. Wählen Sie "
+"danach das Adressbuch aus."
 
 #: C/mail-receiving-options-exchange-ews.page:45(p)
 msgid ""
@@ -4463,7 +4478,7 @@ msgid ""
 "receipt or not, so they are not a completely reliable way of checking if "
 "your emails have been received by someone."
 msgstr ""
-"Lesebestätigungn sind eine Möglichkeit, dass Empfänger den Erhalt Ihrer "
+"Lesebestätigungen sind eine Möglichkeit, dass Empfänger den Erhalt Ihrer "
 "Nachricht bestätigen. Der Empfänger hat normalerweise die Wahl, den Empfang "
 "entweder zu bestätigen oder auch nicht. Demnach ist es kein zuverlässiger "
 "Weg herauszufinden, ob Ihre E-Mails empfangen worden sind."
@@ -4760,9 +4775,9 @@ msgid ""
 "\"mail-searching\">quick search dropdown</link>. Also, <link xref=\"mail-"
 "search-folders\">search folders</link> can be created based on labels."
 msgstr ""
-"Suchen Sie nach Nachrichten mit bestimmten Beschriftungen mit Hife der <link "
-"xref=\"mail-searching\">Schnellsuche?</link>. Sie können auch <link xref="
-"\"mail-search-folders\">Suchordner</link> mit Hilfe von Beschriftungen "
+"Suchen Sie nach Nachrichten mit bestimmten Beschriftungen mit Hilfe der "
+"<link xref=\"mail-searching\">Schnellsuche?</link>. Sie können auch <link "
+"xref=\"mail-search-folders\">Suchordner</link> mit Hilfe von Beschriftungen "
 "erstellen."
 
 #: C/mail-labels.page:28(title)
@@ -4846,10 +4861,9 @@ msgid ""
 "IMAP server is configured, the list of available files might include non-"
 "mail folders. If it does, you can ignore them."
 msgstr ""
-"Sie sollten zumindest den Eingangsordner auswählen. Je nachdem wie Ihr "
-"IMAP_Server konfiguriert ist, kann die Liste der verfügbaren Datei auch "
-"Nicht-E-Mail-Ordner enthalten. Falls dies der Fall ist, so ignorieren Sie "
-"diese."
+"Sie sollten zumindest den Eingangsordner auswählen. Je nachdem wie Ihr IMAP-"
+"Server konfiguriert ist, kann die Liste der verfügbaren Dateien auch Nicht-E-"
+"Mail-Ordner enthalten. Falls dies der Fall ist, so ignorieren Sie diese."
 
 #: C/mail-imap-subscriptions.page:35(p)
 msgid "Click a folder's checkbox to add a folder to your subscriptions."
@@ -5514,7 +5528,7 @@ msgstr "In Ordner kopieren:"
 #: C/mail-filters-actions.page:30(p)
 msgid "Puts a copy of the message into a folder you specify."
 msgstr ""
-"Erzeugt eine Kopie einer Nachricht in einer anderen Ordner, den Sie "
+"Erzeugt eine Kopie einer Nachricht in einem anderen Ordner, den Sie "
 "auswählen können."
 
 #: C/mail-filters-actions.page:32(p)
@@ -5652,11 +5666,11 @@ msgstr "Wie bei dem gezeigten Fehler zu handeln ist."
 # Diese Nachricht gibt es nicht mehr in der aktuellen de.po der GUI
 #: C/mail-error-no-provider-available.page:20(title)
 msgid "Error message \"No provider available for protocol email\""
-msgstr "Fehlernachricht »Kein Provider für Protokoll-E-Mail verfügbar«"
+msgstr "Fehlermeldung »Kein Provider für Protokoll-E-Mail verfügbar«"
 
 #: C/mail-error-no-provider-available.page:22(p)
 msgid "This error message may be displayed for a number of reasons:"
-msgstr "Diese Fehlernachricht kann aus verschiedenen Gründen gezeigt werden:"
+msgstr "Diese Fehlermeldung kann aus verschiedenen Gründen gezeigt werden:"
 
 #: C/mail-error-no-provider-available.page:26(p)
 msgid "The filters used do not match the account they are associated with."
@@ -5873,6 +5887,12 @@ msgid ""
 "adding your mail certificate, go to <gui>Authorities</gui> and enable "
 "<gui>Trust this CA to identify email users</gui> for the certificate."
 msgstr ""
+"Wenn Sie die Fehlermeldung »Entfernter Zertifikat-Herausgeber wurde durch "
+"den Benutzer als nicht vertrauenswürdig eingestuft. (-8172) - "
+"SMIMEEncKeyPrefs-Attribute können nicht hinzugefügt werden« nach dem "
+"Hinzufügen Ihrer E-Mail-Zertifikate erhalten, so öffnen Sie "
+"<gui>Zertifizierungsstellen</gui> und aktivieren Sie <gui>Dieser CA bei der "
+"Identifikation von E-Mail-Benutzern vertrauen</gui> für das Zertifikat."
 
 #: C/mail-encryption-s-mime-manage.page:30(p)
 msgid ""
@@ -6834,9 +6854,9 @@ msgid ""
 "your distribution."
 msgstr ""
 "Um für die zu schreibenden Nachrichten eine Rechtschreibprüfung zu "
-"verwenden, müssen sie zunächst sicher stellen, dass die Pakete "
-"<sys>hunspell</sys> für Ihre Sprache sowie <sys>enchant</sys> installiert "
-"sind. Verwenden Sie hierzu das Paketverwaltungswerkzeug Ihrer Distribution."
+"verwenden, müssen sie zunächst sicherstellen, dass die Pakete <sys>hunspell</"
+"sys> für Ihre Sprache sowie <sys>enchant</sys> installiert sind. Verwenden "
+"Sie hierzu das Paketverwaltungswerkzeug Ihrer Distribution."
 
 #: C/mail-composer-spellcheck.page:34(link)
 msgid "Install hunspell"
@@ -6857,6 +6877,11 @@ msgid ""
 "can define whether your spelling is checked while you type and which color "
 "is used for underlining words that are misspelled."
 msgstr ""
+"Unter <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</"
+"gui><gui>Editoreinstellungen</gui><gui>Rechtschreibprüfung</"
+"gui><gui>Optionen</gui></guiseq> können Sie festlegen, ob die "
+"Rechtschreibung während der Eingabe geprüft werden soll und mit welcher "
+"Farbe falsch geschriebene Wörter unterstrichen werden."
 
 #: C/mail-composer-spellcheck.page:46(p)
 msgid ""
@@ -7224,8 +7249,7 @@ msgid ""
 "send mail with the same pattern."
 msgstr ""
 "Eine Nachrichtenvorlage ist eine Standardnachricht, welche Sie zum "
-"wiederholten Versenden von Nachrichten mit dem selben Muster verwenden "
-"können."
+"wiederholten Versenden von Nachrichten mit demselben Muster verwenden können."
 
 #: C/mail-composer-message-templates.page:25(p)
 msgid ""
@@ -7357,7 +7381,7 @@ msgid ""
 "of key-value pairs."
 msgstr ""
 "Sie können Paare von Schlüsselwörtern und Werten hinzufügen, löschen und "
-"bearbeiten. Sie können eine beliebige anzahl von Schlüssel-Wert-Paaren "
+"bearbeiten. Sie können eine beliebige Anzahl von Schlüssel-Wert-Paaren "
 "angeben."
 
 #: C/mail-composer-message-templates.page:82(p)
@@ -7456,6 +7480,10 @@ msgid ""
 "can change it via the dropdown menu in the right upper corner in the email "
 "composer window."
 msgstr ""
+"Wenn Sie für Ihr Konto eine Signatur festgelegt haben, aber diese "
+"ausnahmsweise nicht für eine Nachricht einsetzen oder eine andere Signatur "
+"verwenden wollen, so können Sie diese über das Auswahlmenü in der rechten "
+"oberen Ecke des Editorfensters wechseln."
 
 #: C/mail-composer-mail-signatures.page:5(desc)
 msgid "Using email signatures at the bottom of a message you send."
@@ -7472,6 +7500,10 @@ msgid ""
 "information or other things. A signature always begins with two dashes and a "
 "space (<code>-- </code>)."
 msgstr ""
+"Eine Signatur besteht aus einer oder mehreren Zeilen Text (oder einem "
+"Bild>), welche an das Ende einer E-Mail beim Verschicken angehängt wird. Sie "
+"kann Kontaktinformationen oder anderes enthalten. Eine Signatur beginnt "
+"immer mit zwei Bindestrichen und einem Leerzeichen (<code>-- </code>)."
 
 #: C/mail-composer-mail-signatures.page:24(p)
 msgid ""
@@ -7505,6 +7537,8 @@ msgid ""
 "<link xref=\"mail-composer-mail-signatures-per-account\">account settings</"
 "link>."
 msgstr ""
+"Eine Vorgabe-Signatur wird einem E-Mail-Konto in den <link xref=\"mail-"
+"composer-mail-signatures-per-account\">Konto-Einstellungen</link> zugewiesen."
 
 #: C/mail-composer-html-text.page:5(desc)
 msgid "Format Text in the mail composer."
@@ -7837,6 +7871,9 @@ msgid ""
 "menubar, or right-click on the selected text and click <gui>Insert Link</"
 "gui>."
 msgstr ""
+"Klicken Sie entweder auf <guiseq><gui>Einfügen</gui><gui>Verweis …</gui></"
+"guiseq> in der Menüleiste, oder klicken Sie mit der rechten Maustaste auf "
+"den gewählten Text und dann auf <gui>Verweis einfügen</gui>."
 
 #: C/mail-composer-html-link.page:28(p)
 msgid "Enter the address in the <gui>URL</gui> field."
@@ -7914,6 +7951,11 @@ msgid ""
 "link>), inline (in your message without the &gt; character before each "
 "line), or quoted (with &gt; character before each line)."
 msgstr ""
+"Sie können eine Nachricht entweder als Anhang einer neuen Nachricht "
+"weiterleiten (dies ist die Standard-Einstellung, siehe auch <link xref="
+"\"#default-settings\">Vorgabe-Einstellungen</link>), oder eingebettet (in "
+"Ihrer Nachricht ohne das Symbol &gt; zu Anfang jeder Zeile), oder zitiert"
+"(mit dem Symbol &gt; zu Anfang jeder Zeile)."
 
 #: C/mail-composer-forward.page:27(p)
 msgid ""
@@ -7922,6 +7964,11 @@ msgid ""
 "send portions of a message, or if you have a large number of comments on "
 "different sections of the message you are forwarding."
 msgstr ""
+"Eine Weiterleitung als Anhang ist die beste Wahl, wenn Sie die ursprüngliche "
+"Nachricht unverändert weiterleiten möchten. Eingebettete oder zitierende "
+"Weiterleitung ist die beste Wahl, wenn Sie Teile einer Nachricht verschicken "
+"wollen, oder wenn es eine Vielzahl Kommentare zu verschiedenen Abschnitten "
+"der weitergeleiteten Nachricht gibt."
 
 #: C/mail-composer-forward.page:29(p)
 msgid "To forward a message that you are reading:"
@@ -7936,6 +7983,14 @@ msgid ""
 "gui><gui>Forward as</gui></guiseq> or the small dropdown arrow next to the "
 "<gui>Forward</gui> button in the toolbar to choose the method."
 msgstr ""
+"Klicken Sie auf <guiseq><gui>Nachricht</gui><gui>Weiterleiten</gui></"
+"guiseq>, den Knopf <gui>Weiterleiten</gui> in der Werkzeugleiste, oder "
+"drücken Sie <keyseq><key>Strg</key><key>F</key></keyseq>, um die "
+"voreingestellte Weiterleitungs-Methode zu verwenden. Falls Sie eine andere "
+"Weiterleitungs-Methode verwenden möchten, klicken Sie auf  "
+"<guiseq><gui>Nachricht</gui><gui>Weiterleiten als</gui></guiseq> oder den "
+"kleinen Abwärtspfeil neben dem Knopf <gui>Weiterleiten</gui> in der "
+"Werkzeugleiste, um die gewünschte Methode auszuwählen."
 
 #: C/mail-composer-forward.page:32(p)
 msgid ""
@@ -7993,6 +8048,10 @@ msgid ""
 "<gui>Attachment</gui>, so the forwarded email and also its attachments get "
 "attached to the email you want to send."
 msgstr ""
+"Klicken Sie auf <guiseq><gui>Nachricht</gui><gui>Weiterleiten als …</gui></"
+"guiseq> und wählen Sie <gui>Anhang</gui>, so dass die weiterzuleitende E-"
+"Mail einschließlich deren Anhänge an die zu verschickende E-Mail angehängt "
+"wird."
 
 #: C/mail-composer-forward-as-attachment.page:26(p)
 msgid ""
@@ -8000,6 +8059,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Forward Style</"
 "gui></guiseq> to <gui>Attachment</gui>."
 msgstr ""
+"Wenn diese Einstellung Vorgabe werden soll, so ändern Sie bitte "
+"<guiseq><gui>Bearbeiten</gui><gui>Einstellungen</"
+"gui><gui>Editoreinstellungen</gui><gui>Weiterleitungsstil</gui></guiseq> auf "
+"<gui>Anhang</gui>."
 
 #: C/mail-composer-custom-header-lines.page:5(desc)
 msgid "Using custom fields in the header of composed messages"
@@ -8075,34 +8138,40 @@ msgid ""
 "It is not possible to change the quotation introduction added when answering "
 "mail."
 msgstr ""
+"Es ist nicht möglich, die Zitat-Einleitung beim Beantworten einer E-Mail zu "
+"ändern."
 
 #: C/mail-composer-change-quotation-string.page:24(title)
 msgid "Changing the \"On date, person wrote:\" string when replying"
-msgstr ""
+msgstr "Ändern der Meldung »Am <Datum> schrieb <Name>:« beim Antworten"
 
 #: C/mail-composer-change-quotation-string.page:26(p)
 msgid "Advanced users can change this string."
-msgstr ""
+msgstr "Fortgeschrittene Anwender können diese Zeichenkette ändern."
 
 #: C/mail-composer-change-quotation-string.page:29(p)
 msgid "Open the <app>dconf-editor</app> application."
-msgstr ""
+msgstr "Öffnen Sie die Anwendung <app>dconf-editor</app>."
 
 #: C/mail-composer-change-quotation-string.page:30(p)
 msgid "Navigate to <code>org.gnome.evolution.mail</code>."
-msgstr ""
+msgstr "Gehen Sie zu <code>org.gnome.evolution.mail</code>."
 
 #: C/mail-composer-change-quotation-string.page:31(p)
 msgid ""
 "Enter the prefered quotation string as the value for the key <gui>composer-"
 "message-attribution</gui>."
 msgstr ""
+"Geben Sie die gewünschte Zitat-Meldung als Wert für den Schlüssel "
+"<gui>composer-message-attribution</gui> an."
 
 #: C/mail-composer-change-quotation-string.page:35(p)
 msgid ""
 "You might need to install the <sys>dconf-editor</sys> package to perform "
 "these steps."
 msgstr ""
+"Gegebenenfalls müssen Sie das Paket <sys>dconf-editor</sys> installieren, um "
+"diese Schritte auszuführen."
 
 #: C/mail-composer-change-quotation-string.page:38(link)
 msgid "Install dconf-editor"
@@ -8123,6 +8192,10 @@ msgid ""
 "gui><gui>Mail Preferences</gui><gui>Headers</gui><gui>Date/Time format</"
 "gui></guiseq>."
 msgstr ""
+"Sie können das Format der Spalte <gui>Datum</gui> ändern, indem Sie das "
+"gewünschte Format unter <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</"
+"gui><gui>E-Mail-Einstellungen</gui><gui>Kopfzeilen</gui><gui>Format von "
+"Datum/Zeit</gui></guiseq> festlegen."
 
 #: C/mail-change-time-format.page:21(p)
 #: C/calendar-layout-appointment-display.page:50(p)
@@ -8131,6 +8204,9 @@ msgid ""
 "complete list of available strftime formats, run <cmd>date --help</cmd> in a "
 "terminal window."
 msgstr ""
+"Die Platzhalter im Ausdruck sind im strftime-Format. Um eine vollständige "
+"Liste aller strftime-Formate zu sehen, führen Sie bitte <cmd>date --help</"
+"cmd> in einem Terminal-Fenster aus."
 
 #: C/mail-change-columns-in-message-list.page:5(desc)
 msgid "Editing the columns displayed in the list of messages."
@@ -8178,11 +8254,13 @@ msgstr ""
 "<gui>Verschickt</gui>-Ordner haben möchten, so aktivieren Sie bitte "
 "<guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-"
 "Einstellungen</gui><gui>Allgemein</gui><gui>Ansichtseinstellungen auf alle "
-"ORdner anwenden</gui></guiseq>."
+"Ordner anwenden</gui></guiseq>."
 
 #: C/mail-cannot-see.page:5(desc)
 msgid "If you received or sent an email, but you cannot find it anywhere."
 msgstr ""
+"Wenn Sie eine E-Mail empfangen oder verschickt haben, diese aber nirgends "
+"finden können."
 
 #: C/mail-cannot-see.page:11(name) C/index.page:10(name) C/credits.page:34(p)
 msgid "Phil Bull"
@@ -8201,6 +8279,9 @@ msgid ""
 "Check whether you are using filters on incoming (or outgoing) messages. "
 "These could be automatically moving your messages to another destination."
 msgstr ""
+"Prüfen Sie, ob Sie Filter für eingehende (oder ausgehende) Nachrichten "
+"eingerichtet haben. Diese könnten Ihre Nachrichten automatisch zu einem "
+"anderen Ziel verschieben."
 
 #: C/mail-cannot-see.page:27(p)
 msgid ""
@@ -8209,6 +8290,11 @@ msgid ""
 "Messages</gui>, or the text input filed contains some value. Click the broom "
 "icon to clear the search field."
 msgstr ""
+"Prüfen Sie die Suche in der Suchleiste über der Nachrichtenliste. Eventuell "
+"ist die Auswahlliste <gui>Anzeigen</gui> auf einen Suchfilter wie z.B. "
+"<gui>Gelesene Nachrichten</gui> eingestellt, oder das Texteingabefeld "
+"enthält einen Suchbegriff. Klicken Sie auf das Besensymbol, um das Suchfeld "
+"zu leeren."
 
 #: C/mail-cannot-see.page:30(p)
 msgid ""
@@ -8217,6 +8303,10 @@ msgid ""
 "this, click <guiseq><gui>View</gui><gui>Preview</gui><gui>Show Message "
 "Preview</gui></guiseq>."
 msgstr ""
+"Wenn Sie überhaupt keine Nachrichten in einem Ordner sehen, so stellen Sie "
+"sicher, dass die Nachrichtenvorschau nicht maximiert ist (und damit die "
+"Nachrichtenliste versteckt ist). Klicken Sie dazu auf <guiseq><gui>Ansicht</"
+"gui><gui>Vorschau</gui><gui>Nachrichtenvorschau anzeigen</gui></guiseq>."
 
 #: C/mail-cannot-see.page:33(p)
 msgid ""
@@ -8234,7 +8324,7 @@ msgid ""
 msgstr ""
 "Klicken Sie auf <guiseq><gui>Bearbeiten</gui><gui>Gelöschte Nachrichten "
 "anzeigen</gui></guiseq>, um sicherzugehen, dass alle Nachrichten sichtbar "
-"sind.."
+"sind."
 
 #: C/mail-cannot-see.page:41(p)
 msgid ""
@@ -8403,6 +8493,8 @@ msgid ""
 "Click <gui style=\"button\">Add</gui>, then enter keywords in your language "
 "such as \"Attach\" or \"enclosed\"."
 msgstr ""
+"Klicken Sie auf <gui style=\"button\">Hinzufügen</gui> und geben Sie "
+"Schlüsselwörter in Ihrer Sprache ein, wie z.B. »anfügen« oder »beigelegt«."
 
 #: C/mail-attachments-sending.page:51(p)
 msgid ""
@@ -8432,6 +8524,10 @@ msgid ""
 "<gui style=\"button\">Save All</gui> button between the email header and the "
 "content of the email."
 msgstr ""
+"Wenn Sie eine E-Mail mit einem oder mehreren Anhängen erhalten, so zeigt "
+"Evolution die Anzahl der Anhänge an und den Knopf <gui style=\"button"
+"\">Speichern</gui> bzw. <gui style=\"button\">Alle speichern</gui> zwischen "
+"den Kopfzeilen und dem Nachrichtentext der E-Mail."
 
 #: C/mail-attachments-received.page:28(p)
 msgid "A list of attachments is also available at the bottom of the email."
@@ -8520,6 +8616,14 @@ msgid ""
 "first-run\">First-Run Assistant</link>, except for not getting asked whether "
 "to import data from other applications or to restore from a backup file."
 msgstr ""
+"E-Mail-Konten können hinzugefügt werden, indem Sie <guiseq><gui>Datei</"
+"gui><gui>Neu</gui><gui>E-Mail-Konto</gui></guiseq>  oder "
+"<guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-Konten</"
+"gui><gui style=\"button\">Hinzufügen</gui></guiseq> wählen. Die Schritte "
+"sind nahezu identisch mit dem <link xref=\"intro-first-run\">Erste-Schritte-"
+"Assistent</link> mit der Ausnahme, dass nicht gefragt wird, ob Sie Daten von "
+"anderen Anwendungen importieren oder aus einer Sicherungsdatei "
+"wiederherstellen möchten."
 
 #: C/mail-account-manage-usenet-news.page:25(p)
 #: C/mail-account-manage-novell-groupwise.page:26(p)
@@ -8555,6 +8659,8 @@ msgstr ""
 #: C/mail-account-manage-imap.page:26(p)
 msgid "The following settings are available when editing an existing account:"
 msgstr ""
+"Es gibt die folgenden Einstellmöglichkeiten beim Bearbeiten vorhandener "
+"Konten:"
 
 #: C/mail-account-manage-usenet-news.page:29(title)
 #: C/mail-account-manage-unix-mbox-spool-file.page:29(title)
@@ -8609,10 +8715,10 @@ msgid ""
 "work, or the organization you represent when you send email from this "
 "account)."
 msgstr ""
-"Optional können Sie dieses Konto zu Ihrem Vorgabe-Konto machen (z.B für das "
+"Optional können Sie dieses Konto zu Ihrem Vorgabe-Konto machen (z.B. für das "
 "Verfassen von E-Mails), eine Antwort-Adresse festlegen (wenn Antworten an "
-"eine andere Adresse erfolgen sollen) und eine Organisation angeben (z.B Ihre "
-"Firma oder sonstige Institution, in deren Auftrag Sie arbeiten)."
+"eine andere Adresse erfolgen sollen) und eine Organisation angeben (z.B. "
+"Ihre Firma oder sonstige Institution, in deren Auftrag Sie arbeiten)."
 
 #: C/mail-account-manage-usenet-news.page:36(title)
 #: C/mail-account-manage-unix-mbox-spool-file.page:36(title)
@@ -8687,6 +8793,8 @@ msgid ""
 "Other account related settings that are not located in the <gui>Account "
 "Editor</gui>:"
 msgstr ""
+"Andere kontenbezogene Einstellungen, die nicht im <gui>Konto-Editor</gui> zu "
+"finden sind:"
 
 #: C/mail-account-manage-unix-mbox-spool-file.page:5(desc)
 msgid "Add and edit a Standard Unix mbox Spool File account in Evolution."
@@ -8744,7 +8852,7 @@ msgstr "Vertretung"
 
 #: C/mail-account-manage-novell-groupwise.page:51(p)
 msgid "Settings for having somebody else handle your account."
-msgstr ""
+msgstr "Einstellungen für Fremdzugriff auf Ihr Konto."
 
 #: C/mail-account-manage-microsoft-exchange.page:5(desc)
 msgid "Add and edit a Microsoft Exchange account in Evolution."
@@ -8761,6 +8869,9 @@ msgid ""
 "right connector</link> to find out about the right Exchange account type for "
 "you."
 msgstr ""
+"Bitte lesen Sie zuerst <link xref=\"exchange-connectors-overview\">Die "
+"richtige Anbindung wählen</link>, um das für Sie passende Exchange-Konto "
+"herauszufinden."
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5(desc)
 msgid "Add and edit a Microsoft Exchange 2007 account in Evolution."
@@ -8789,6 +8900,8 @@ msgid ""
 "In this section you can define your \"Out of Office\" status, change the "
 "password for your Exchange account, and manage the delegation settings."
 msgstr ""
+"In diesem Abschnitt können Sie Ihren Abwesenheits-Status festlegen, das "
+"Exchange-Passwort ändern und Vertretungs-Einstellungen verwalten."
 
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:46(p)
 msgid "You can also view the size of all Exchange folders."
@@ -8898,30 +9011,42 @@ msgid ""
 "Enable the POP download feature by ticking the radio button that corresponds "
 "to either of these options:"
 msgstr ""
+"Aktivieren Sie die POP-Herunterladefunktion, indem Sie den Auswahlknopf zu "
+"einer der folgenden Optionen auswählen:"
 
 #: C/mail-access-gmail-pop-account.page:33(p)
 msgid "Enable POP for all mail (even mail that's already been downloaded)"
 msgstr ""
+"POP für alle E-Mails aktivieren (auch Nachrichten, die bereits "
+"heruntergeladen wurden)"
 
 #: C/mail-access-gmail-pop-account.page:34(p)
 msgid "Enable POP for mail that arrives from now on"
-msgstr ""
+msgstr "POP für E-Mails aktivieren, die ab sofort eingehen"
 
 #: C/mail-access-gmail-pop-account.page:37(p)
 msgid "Specify the other required settings for this Gmail feature."
 msgstr ""
+"Geben Sie die andere notwendigen Einstellungen für diese Gmail-Funktion an."
 
 #: C/mail-access-gmail-pop-account.page:38(p)
+#, fuzzy
 msgid ""
 "To know the Gmail Account settings, click on <guiseq><gui>Configuration "
 "instructions</gui><gui>Other</gui><gui>Standard Instructions</gui></guiseq>."
 msgstr ""
+"Klicken Sie auf <guiseq><gui>Konfigurationsanweisungen</gui><gui>Andere</"
+"gui><gui>Standardanweisungen</gui></guiseq>, um Ihre Gmail-"
+"Kontoeinstellungen zu ersehen."
 
 #: C/mail-access-gmail-pop-account.page:39(p)
 msgid ""
 "On your Evolution client, go to <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui></guiseq>. Click <gui style=\"button\">Add</gui>."
 msgstr ""
+"Gehen Sie in Evolution zu <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</"
+"gui><gui>E-Mail-Konten</gui></guiseq>. Klicken Sie auf <gui style=\"button"
+"\">Hinzufügen</gui>."
 
 #: C/mail-access-gmail-pop-account.page:40(p)
 msgid ""
@@ -8953,6 +9078,9 @@ msgid ""
 "the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
 "\">Gmail Help</link> for more information."
 msgstr ""
+"Um auf Gmail via IMAP zuzugreifen, müssen Sie IMAP für Ihr Google-Konto "
+"einschalten. Lesen Sie die <link href=\"https://mail.google.com/support/bin/"
+"answer.py?answer=77695\">Gmail-Hilfe</link> für weitere Informationen."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -9504,6 +9632,10 @@ msgid ""
 "<gui>Exchange MAPI</gui> account type in the future. It might not be "
 "available yet for your distribution."
 msgstr ""
+"Exchange EWS: Zum Verbinden mit einem Microsoft Exchange 2007/2010 oder "
+"OpenChange-Server. Beachten Sie, dass es derzeit noch entwickelt wird und in "
+"Zukunft den Kontotyp <gui>Exchange MAPI</gui> ersetzen soll. Es könnte noch "
+"nicht für Ihre Distribution zur Verfügung stehen."
 
 #: C/intro-first-run.page:60(p)
 msgid ""
@@ -9515,7 +9647,7 @@ msgstr ""
 
 #: C/intro-first-run.page:62(p)
 msgid "This requires having the <sys>evolution-ews</sys> package installed."
-msgstr ""
+msgstr "Dazu muss das Paket <sys>evolution-ews</sys> installiert sein."
 
 #: C/intro-first-run.page:65(link)
 #: C/exchange-connectors-overview.page:48(link)
@@ -9540,7 +9672,7 @@ msgstr ""
 
 #: C/intro-first-run.page:73(p)
 msgid "This requires having the <sys>evolution-mapi</sys> package installed."
-msgstr ""
+msgstr "Dazu muss das Paket <sys>evolution-mapi</sys> installiert sein."
 
 #: C/intro-first-run.page:76(link)
 #: C/exchange-connectors-overview.page:39(link)
@@ -9565,7 +9697,7 @@ msgstr ""
 #: C/intro-first-run.page:83(p)
 msgid ""
 "This requires having the <sys>evolution-exchange</sys> package installed."
-msgstr ""
+msgstr "Dazu muss das Paket <sys>evolution-exchange</sys> installiert sein."
 
 #: C/intro-first-run.page:86(link)
 #: C/exchange-connectors-overview.page:30(link)
@@ -9769,6 +9901,12 @@ msgid ""
 "calenders, and <link type=\"topic\" xref=\"mail-encryption\">to keep your "
 "information safe and secure</link>."
 msgstr ""
+"Evolution ist eine stabile und vielseite Verwaltung persönlicher "
+"Informationen für das GNOME-Projekt. Evolution vereinigt Kalender, E-Mail, "
+"ein Adressbuch und Ihre Aufgabenliste in einer Anwendung. Evolution kann "
+"<link type=\"topic\" xref=\"mail-spam\">unerwünschte Nachrichten filtern</"
+"link>, Ihren bevorzugten Internet-Kalender einbinden und <link type=\"topic"
+"\" xref=\"mail-encryption\">Ihre privaten Daten sicher speichern</link>."
 
 #: C/intro-application.page:27(p)
 msgid ""
@@ -9778,6 +9916,11 @@ msgid ""
 "and selecting the desired view. <link type=\"topic\" xref=\"intro-main-window"
 "\">Click here</link> for more information on the elements of the window."
 msgstr ""
+"Normalerweise öffnet Evolution die E-Mail-Ansicht. Dort sehen Sie alle Ihre "
+"E-Mails. Sie können in andere Bereiche der Anwendung wechseln, indem Sie im "
+"unteren Bereich der linken Leiste (dem Wechsler) die gewünschte Ansicht "
+"auswählen. <link type=\"topic\" xref=\"intro-main-window\">Klicken Sie hier</"
+"link> für weitere Informationen über die Elemente des Fensters."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -9909,6 +10052,10 @@ msgid ""
 "maildir-format-directories\">configure a Maildir account</link> in Evolution "
 "and point to the folder where the Maildir files are stored."
 msgstr ""
+"Das von Evolution verwendete Format (für lokale Ordner seit Version 3.0). "
+"Maildir-Dateien müssen nicht importiert werden, weil Sie in Evolution <link "
+"xref=\"mail-account-manage-maildir-format-directories\">ein Maildir-Konto "
+"einrichten</link> und den Ordner mit den Maildir-Dateien einstellen können."
 
 #: C/import-supported-file-formats.page:38(p)
 msgid "Outlook Express 5/6 Personal Folders (.dbx):"
@@ -10024,6 +10171,8 @@ msgstr ""
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
 msgstr ""
+"Klicken Sie im Reiter <gui>Importeurtyp</gui> auf <gui>Eine einzelne Datei "
+"importieren</gui>."
 
 #: C/import-single-files.page:26(p)
 msgid "Choose the file."
@@ -10045,6 +10194,8 @@ msgid ""
 "You can also import contacts that you have received as a vCard attachment of "
 "an email from its attachment menu."
 msgstr ""
+"Sie können auch Kontakte importieren, die Sie als vCard-Anhang an einer E-"
+"Mail erhalten haben."
 
 #: C/import-data.page:5(desc)
 msgid "Importing data from another application."
@@ -10074,6 +10225,11 @@ msgid ""
 "server and does not need to be manually transfered. You can set up the "
 "corresponding account in Evolution and the data will be downloaded."
 msgstr ""
+"Diese Schritte beziehen sich auf lokal gespeicherte Daten, wie z.B. bei POP-"
+"Konten. Für entfernt abgelegte Daten (wie z.B. bei IMAP) ist dies nicht "
+"notwendig, weil sich die Daten noch auf dem Server befinden und nicht "
+"händisch übertragen werden müssen. Sie können das entsprechende Konto in "
+"Evolution einrichten, woraufhin die Daten herunter geladen werden."
 
 #: C/import-apps-outlook.page:29(title)
 msgid "Prerequisites under Windows"
@@ -10107,7 +10263,6 @@ msgstr "Outlook 2010"
 
 # Windows 7/Vista
 #: C/import-apps-outlook.page:38(file)
-#, fuzzy
 msgid "C:\\Users\\username\\My Documents\\Outlook Files"
 msgstr ""
 "C:\\Dokumente und Einstellungen\\Benutzername\\Lokale Einstellungen"
@@ -10125,7 +10280,6 @@ msgstr "Outlook 2007 und früher"
 
 # Windows 7/Vista
 #: C/import-apps-outlook.page:41(file)
-#, fuzzy
 msgid "C:\\Users\\username\\AppData\\Local\\Microsoft\\Outlook"
 msgstr ""
 "C:\\Dokumente und Einstellungen\\Benutzername\\Lokale Einstellungen"
@@ -10171,6 +10325,9 @@ msgid ""
 "data and wait until the file manager window opens, or mount your Windows "
 "drive."
 msgstr ""
+"Legen Sie - abhängig von Ihrem letzten Schritt - entweder den Datenträger "
+"ein oder verbinden Sie das USB-Laufwerk und warten Sie, bis sich die "
+"Dateiverwaltung öffnet. Oder Sie binden Ihr Windows-Laufwerk ein."
 
 #: C/import-apps-outlook.page:56(p)
 msgid ""
@@ -10208,6 +10365,11 @@ msgid ""
 "file</gui><gui>File type</gui></guiseq>, your distribution might have not "
 "enabled this functionality."
 msgstr ""
+"Wenn die Option zum Importieren von persönlichen Outlook-Ordnern (.pst-"
+"Dateien) nicht unter <guiseq><gui>Datei</gui><gui>Importieren</"
+"gui><gui>Einzelne Datei importieren</gui><gui>Dateityp</gui></guiseq> "
+"verfügbar ist, so hat Ihre Distribution diese Funktion eventuell nicht "
+"freigeschaltet."
 
 #: C/import-apps-outlook.page:66(p) C/import-apps-mozilla.page:28(p)
 msgid "Repeat the import steps until you have imported all your data."
@@ -10269,12 +10431,18 @@ msgid ""
 "screen devices. This is available from version 2.30 on and can be enabled by "
 "starting <code>evolution --express</code> from the terminal window."
 msgstr ""
+"Sie können die Express-Version verwenden, welche für Mobilgeräte und solche "
+"mit kleinen Bildschirmen vorgesehen ist. Dies ist ab Version 2.30 möglich "
+"und wird aktiviert durch einen Start mit <code>evolution --express</code> in "
+"einem Terminal-Fenster."
 
 #: C/express-mode.page:25(p)
 msgid ""
 "You can also explicitly open Evolution in a specific component. For the "
 "calendar, use <cmd>evolution --express --component=calendar</cmd>."
 msgstr ""
+"Sie können außerdem Evolution gezielt mit einer Komponente öffnen. Verwenden "
+"Sie für den Kalender <cmd>evolution --express --component=calendar</cmd>."
 
 #: C/exporting-data.page:5(desc)
 msgid "How to export data from <app>Evolution</app>."
@@ -10299,12 +10467,19 @@ msgid ""
 "<guiseq><gui>File</gui><gui>Save as mbox...</gui></guiseq> or right-click on "
 "the message and click <gui>Save as mbox...</gui>."
 msgstr ""
+"Um eine E-Mail als Datei im <link href=\"https://secure.wikimedia.org/"
+"wikipedia/en/wiki/Mbox\">mbox</link>-Format zu speichern, wählen Sie die E-"
+"Mail und klicken Sie auf <guiseq><gui>Datei</gui><gui>Speichern als mbox …</"
+"gui></guiseq> oder klicken Sie mit der rechten Maustaste auf die Nachricht "
+"und wählen Sie <gui>Speichern als mbox …</gui>."
 
 #: C/exporting-data-mail.page:24(p)
 msgid ""
 "The same steps apply to save a complete mail folder, but you have to mark "
 "all messages in it first."
 msgstr ""
+"Mit den gleichen Schritten speichern Sie einen kompletten E-Mail-Ordner, nur "
+"dass Sie dazu alle Nachrichten markieren müssen."
 
 #: C/exporting-data-contacts.page:5(desc)
 msgid "How to export contacts data from <app>Evolution</app>."
@@ -10326,6 +10501,8 @@ msgid ""
 "To export a complete address book, click <guiseq><gui>File</gui><gui>Save "
 "Address Book As vCard</gui></guiseq>."
 msgstr ""
+"Um ein vollständiges Adressbuch zu exportieren, wählen Sie "
+"<guiseq><gui>Datei</gui><gui>Adressbuch als vCard speichern</gui></guiseq>."
 
 #: C/exporting-data-contacts.page:27(p)
 msgid ""
@@ -10333,6 +10510,10 @@ msgid ""
 "gui><gui>Save as vCard</gui></guiseq> or right-click on the contact and "
 "click <gui>Save as vCard</gui>."
 msgstr ""
+"Wenn Sie nur einen Kontakt exportieren wollen, so wählen Sie "
+"<guiseq><gui>Datei</gui><gui>Als vCard speichern …</gui></guiseq> oder "
+"klicken mit der rechten Maustaste auf den Kontakt und wählen <gui>Als vCard "
+"speichern …</gui>."
 
 #: C/exporting-data-calendar.page:5(desc)
 msgid "How to export calendar data from <app>Evolution</app>."
@@ -10348,12 +10529,19 @@ msgid ""
 "calendars and click <gui>Save as</gui>. Available formats are iCalendar "
 "format (ICS, recommended), comma separated values (CSV), and RDF format."
 msgstr ""
+"Um einen vollständigen Kalender zu exportieren, klicken Sie mit der rechten "
+"Maustaste auf den Kalender in der Kalenderliste und wählen Sie "
+"<gui>Speichern als …</gui>. Die Formate iCalendar (ICS, empfohlen), mit "
+"Kommata getrennte Werte (CSV) und RDF sind möglich."
 
 #: C/exporting-data-calendar.page:23(p)
 msgid ""
 "If you want to export only one appointment, right-click on the appointment "
 "and click <gui>Save as iCalendar...</gui>."
 msgstr ""
+"Wenn Sie nur eine Besprechung exportieren wollen, so klicken Sie mit der "
+"rechten Maustaste auf die Besprechung und wählen Sie <gui>Als iCalendar "
+"speichern …</gui>."
 
 #: C/exchange-placeholder.page:5(desc) C/exchange-placeholder.page:20(title)
 msgid "Connecting to Exchange Servers"
@@ -10388,7 +10576,7 @@ msgid ""
 "installed that provides this functionality."
 msgstr ""
 "Abhängig von der Version des Microsoft Exchange-Servers, zu dem Sie eine "
-"Verbindung herstellen wollen, müssen Sie sicher stellen, dass ein "
+"Verbindung herstellen wollen, müssen Sie sicherstellen, dass ein "
 "zusätzliches Paket installiert ist, welches diese Funktionalität "
 "bereitstellt."
 
@@ -10407,6 +10595,8 @@ msgid ""
 "For Microsoft Exchange 2007 and 2010 (and possibly earlier versions that "
 "support MAPI) it is recommended to use the package <sys>evolution-mapi</sys>."
 msgstr ""
+"Für Microsoft Exchange 2007 und 2010 (und möglicherweise frühere Versionen, "
+"die MAPI unterstützen) wird das Paket <sys>evolution-mapi</sys> empfohlen."
 
 #: C/exchange-connectors-overview.page:44(p)
 msgid ""
@@ -10414,6 +10604,9 @@ msgid ""
 "currently under development and will replace <sys>evolution-mapi</sys> in "
 "the future. It might not be available yet for your distribution."
 msgstr ""
+"Für Microsoft Exchange 2007 und 2010 ist das Paket <sys>evolution-ews</sys> "
+"derzeit in Entwicklung und wird <sys>evolution-mapi</sys> in Zukunft "
+"ersetzen. Es ist gegebenenfalls noch nicht für Ihre Distribution verfügbar."
 
 #: C/exchange-connectors-overview.page:53(p)
 msgid ""
@@ -10517,7 +10710,6 @@ msgstr "Einrichten des vorgegebenen Browsers"
 
 #. For GNOME2 the steps are to define the gconf keys /desktop/gnome/url-handlers/http and /https
 #: C/default-browser.page:26(p)
-#, fuzzy
 msgid ""
 "You can set the system-wide default browser in GNOME 3 under "
 "<guiseq><gui>Activities</gui><gui>Applications</gui><gui>System Settings</"
@@ -10525,9 +10717,9 @@ msgid ""
 "guiseq>."
 msgstr ""
 "Sie können den systemweit voreingestellten Web-Browser in GNOME 3 unter "
-"<guiseq><gui>Aktivitäten</gui><gui>Anwendungen</"
-"gui><gui>Systemeinstellungen</gui><gui>System</gui><gui>System-"
-"Informationen</gui><gui>Voreingestellte Anwendungen</gui></guiseq> festlegen."
+"<guiseq><gui>Aktivitäten</gui><gui>Anwendungen</gui><gui>Systemwerkzeuge</"
+"gui><gui>Systemeinstellungen</gui><gui>Details</gui><gui>Vorgabe-"
+"Anwendungen</gui></guiseq> festlegen."
 
 #: C/default-browser.page:27(p)
 msgid ""
@@ -10554,6 +10746,9 @@ msgid ""
 "If the error message \"Could not open the link: Operation not supported\" is "
 "shown, you need to install the package <sys>gvfs</sys>."
 msgstr ""
+"Wenn die Fehlermeldung »Verknüpfung konnte nicht geöffnet werden: Vorgang "
+"wird nicht unterstützt« erscheint, so müssen Sie das Paket <sys>gvfs</sys> "
+"installieren."
 
 #: C/default-browser.page:35(link)
 msgid "Install gvfs"
@@ -10799,6 +10994,11 @@ msgid ""
 "from the Contacts window into the list, or by using the <gui style=\"button"
 "\">Select...</gui> button."
 msgstr ""
+"Geben Sie die Listenmitglieder an, indem Sie entweder die Namen oder E-Mail-"
+"Adressen von Kontakten eingeben (das Textfeld unterstützt Auto-"
+"Vervollständigung), oder indem Sie Kontakte aus dem Kontakte-Fenster in die "
+"Liste ziehen und ablegen oder indem Sie den Knopf <gui style=\"button"
+"\">Auswählen …</gui> verwenden."
 
 #: C/contacts-using-contact-lists.page:36(p)
 msgid ""
@@ -10894,6 +11094,12 @@ msgid ""
 "key></keyseq>, or click <guiseq><gui>Edit</gui><gui>Delete Contact</gui></"
 "guiseq>."
 msgstr ""
+"Wenn Sie einen Kontakt in Ihren Adressbüchern löschen möchten, so klicken "
+"Sie mit der rechten Maustaste auf den Kontakt und wählen Sie <gui>Löschen</"
+"gui>, oder klicken Sie auf den Kontakt und klicken Sie auf <gui>Löschen</"
+"gui> in der Werkzeugleiste, oder geben Sie <keyseq><key>Strg</key><key>D</"
+"key></keyseq> ein, oder klicken Sie auf <guiseq><gui>Bearbeiten</"
+"gui><gui>Kontakt löschen</gui></guiseq>."
 
 #: C/contacts-usage-add-contact.page:5(desc)
 msgid "Adding a contact to your address book."
@@ -10955,8 +11161,8 @@ msgid ""
 "<gui>Contact Editor</gui>, or click <gui style=\"button\">OK</gui> to "
 "directly add the contact to the chosen address book."
 msgstr ""
-"Drücken Sie entweder <gui style=\"button\">?</gui> , um den ganzen "
-"<gui>Kontakt-Editor</gui> zuöffnen, oder klciken Sie auf <gui style=\"button"
+"Klicken Sie entweder auf <gui style=\"button\">?</gui> , um den ganzen "
+"<gui>Kontakt-Editor</gui> zu öffnen, oder klicken Sie auf <gui style=\"button"
 "\">OK</gui>, um den Kontakt unmittelbar dem gewählten Adressbuch "
 "hinzuzufügen."
 
@@ -10974,7 +11180,7 @@ msgid ""
 "or by contact's info."
 msgstr ""
 "Suchen Sie zügig nach Kontakten entweder nach Kategorie oder anhand der "
-"Kontaktinfomationenen in der Kalenderansicht."
+"Kontaktinfomationen in der Kalenderansicht."
 
 #: C/contacts-searching.page:32(p)
 msgid "Searching by contact's info:"
@@ -11175,7 +11381,8 @@ msgstr ""
 #: C/contacts-ldap.page:42(p)
 #, fuzzy
 msgid "One: Searches the Search Base and one entry below it."
-msgstr "Dursucht lediglich die Ebene unterhalb des Ausgangspunktes der Suche."
+msgstr ""
+"Durchsucht lediglich die Ebene unterhalb des Ausgangspunktes der Suche."
 
 # kontrollieren
 #: C/contacts-ldap.page:43(p)
@@ -11474,6 +11681,8 @@ msgid ""
 "Hover your mouse cursor over the menu bar item for which you want to add or "
 "change the keyboard shortcut."
 msgstr ""
+"Bewegen Sie den Mauszeiger in der Menüleiste über den Eintrag, für welchen "
+"Sie ein Tastenkürzel hinzufügen oder ändern wollen."
 
 #: C/change-keyboard-shortcuts.page:25(p)
 msgid "Type the shortcut that you want on the keyboard."
@@ -11489,6 +11698,7 @@ msgstr ""
 #: C/change-keyboard-shortcuts.page:30(p)
 msgid "You can also use the <app>dconf-editor</app> application to do this."
 msgstr ""
+"Sie können dies auch mit der Anwendung <app>dconf-editor</app> erledigen."
 
 #: C/calendar-webdav.page:5(desc)
 msgid "Using an online Webcal/WebDAV calendar."
@@ -11576,7 +11786,7 @@ msgstr ""
 "aufgelistet, und Sie können dort durch das Aus- und Abwählen der "
 "Ankreuzfelder neben den Namen entscheiden, welche Einträge in Ihrer "
 "Kalenderansicht angezeigt werden sollen. Indem Sie verschiedene Auswahlen "
-"von Termine anzeigen lassen, können Sie Terminkonflikte und zu viel "
+"von Terminen anzeigen lassen, können Sie Terminkonflikte und zu viel "
 "Durcheinander in der Kalenderansicht vermeiden."
 
 #: C/calendar-using-several-calendars.page:27(p)
@@ -11849,8 +12059,8 @@ msgstr ""
 "klicken. Sie können eine Zeit und ein Datum auswählen, an welchem der Termin "
 "zum letzten Mal gilt, und unter <gui>Ausnahmen</gui> einzelne Tage "
 "auswählen, an denen der Termin entfällt. Treffen Sie Ihre Auswahl von links "
-"nach rechts und formen Sie einen Satz wie: »Alle zwei Wochen Montags und "
-"Freitags bis 3. Januar 2015« oder »Jeden Monat am erster Freitag für 12 "
+"nach rechts und formen Sie einen Satz wie: »Alle zwei Wochen montags und "
+"freitags bis 3. Januar 2015« oder »Jeden Monat am ersten Freitag für 12 "
 "Wiederholungen«."
 
 #: C/calendar-publishing.page:5(desc)
@@ -12641,10 +12851,11 @@ msgid ""
 msgstr ""
 
 #: C/calendar-alarms-and-reminders.page:38(p)
+#, fuzzy
 msgid ""
 "From the dropdown menu, choose either one of the available default options "
 "when to show a notification reminder, or choose <gui>Customize</gui>."
-msgstr ""
+msgstr "Auswahlliste"
 
 #: C/calendar-alarms-and-reminders.page:40(p)
 msgid ""
