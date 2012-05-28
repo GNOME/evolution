@@ -33,7 +33,9 @@
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
 
+#ifdef WITH_CAPPLET
 #include <capplet/settings/mail-capplet-shell.h>
+#endif
 
 #include <composer/e-msg-composer.h>
 
@@ -698,6 +700,8 @@ void
 e_mail_shell_backend_new_account (EMailShellBackend *mail_shell_backend,
                                   GtkWindow *parent)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
 	EMailShellBackendPrivate *priv;
 
 	g_return_if_fail (mail_shell_backend != NULL);
@@ -705,41 +709,46 @@ e_mail_shell_backend_new_account (EMailShellBackend *mail_shell_backend,
 
 	priv = mail_shell_backend->priv;
 
-	if (priv->assistant) {
+	if (priv->assistant != NULL) {
 		gtk_window_present (GTK_WINDOW (priv->assistant));
-	} else {
-		EMAccountEditor *emae;
-		EShell *shell;
-
-		shell = e_shell_backend_get_shell (E_SHELL_BACKEND (mail_shell_backend));
-
-		if (!e_shell_get_express_mode (shell)) {
-			/** @HookPoint-EMConfig: New Mail Account Assistant
-			 * @Id: org.gnome.evolution.mail.config.accountAssistant
-			 * @Type: E_CONFIG_ASSISTANT
-			 * @Class: org.gnome.evolution.mail.config:1.0
-			 * @Target: EMConfigTargetAccount
-			 *
-			 * The new mail account assistant.
-			 */
-			emae = em_account_editor_new (
-				NULL, EMAE_ASSISTANT, E_MAIL_BACKEND (mail_shell_backend),
-				"org.gnome.evolution.mail.config.accountAssistant");
-			e_config_create_window (
-				E_CONFIG (emae->config), NULL,
-				_("Evolution Account Assistant"));
-			priv->assistant = E_CONFIG (emae->config)->window;
-			g_object_set_data_full (
-				G_OBJECT (priv->assistant), "AccountEditor",
-				emae, (GDestroyNotify) g_object_unref);
-		} else {
-			priv->assistant = mail_capplet_shell_new (0, TRUE, FALSE);
-		}
-
-		g_object_add_weak_pointer (G_OBJECT (priv->assistant), &priv->assistant);
-		gtk_window_set_transient_for (GTK_WINDOW (priv->assistant), parent);
-		gtk_widget_show (priv->assistant);
+		return;
 	}
+
+	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+#ifdef WITH_CAPPLET
+	if (e_shell_get_express_mode (shell))
+		priv->assistant = mail_capplet_shell_new (0, TRUE, FALSE);
+#endif /* WITH_CAPPLET */
+
+	if (priv->assistant == NULL) {
+		EMAccountEditor *emae;
+
+		/** @HookPoint-EMConfig: New Mail Account Assistant
+		 * @Id: org.gnome.evolution.mail.config.accountAssistant
+		 * @Type: E_CONFIG_ASSISTANT
+		 * @Class: org.gnome.evolution.mail.config:1.0
+		 * @Target: EMConfigTargetAccount
+		 *
+		 * The new mail account assistant.
+		 */
+		emae = em_account_editor_new (
+			NULL, EMAE_ASSISTANT, E_MAIL_BACKEND (mail_shell_backend),
+			"org.gnome.evolution.mail.config.accountAssistant");
+		e_config_create_window (
+			E_CONFIG (emae->config), NULL,
+			_("Evolution Account Assistant"));
+		priv->assistant = E_CONFIG (emae->config)->window;
+		g_object_set_data_full (
+			G_OBJECT (priv->assistant), "AccountEditor",
+			emae, (GDestroyNotify) g_object_unref);
+	}
+
+	g_object_add_weak_pointer (
+		G_OBJECT (priv->assistant), &priv->assistant);
+	gtk_window_set_transient_for (GTK_WINDOW (priv->assistant), parent);
+	gtk_widget_show (priv->assistant);
 }
 
 void

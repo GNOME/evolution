@@ -33,7 +33,9 @@
 #include <mail/e-mail-backend.h>
 #include <mail/em-account-editor.h>
 
+#ifdef WITH_CAPPLET
 #include <capplet/settings/mail-capplet-shell.h>
+#endif
 
 #include <calendar/gui/calendar-config.h>
 
@@ -527,6 +529,7 @@ startup_wizard_new_assistant (EStartupWizard *extension)
 	return config->window;
 }
 
+#ifdef WITH_CAPPLET
 static GtkWidget *
 startup_wizard_new_capplet (EStartupWizard *extension)
 {
@@ -540,12 +543,13 @@ startup_wizard_new_capplet (EStartupWizard *extension)
 
 	return capplet;
 }
+#endif /* WITH_CAPPLET */
 
 static void
 startup_wizard_run (EStartupWizard *extension)
 {
 	EShell *shell;
-	GtkWidget *window;
+	GtkWidget *window = NULL;
 	EAccountList *account_list;
 	const gchar *startup_view;
 	gboolean express_mode;
@@ -564,9 +568,12 @@ startup_wizard_run (EStartupWizard *extension)
 	if (express_mode && g_strcmp0 (startup_view, "mail") != 0)
 		return;
 
+#ifdef WITH_CAPPLET
 	if (express_mode)
 		window = startup_wizard_new_capplet (extension);
-	else {
+#endif /* WITH_CAPPLET */
+
+	if (window == NULL) {
 		window = startup_wizard_new_assistant (extension);
 		g_signal_connect (
 			window, "delete-event",

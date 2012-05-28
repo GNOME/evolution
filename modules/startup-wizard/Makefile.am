@@ -11,6 +11,11 @@ module_startup_wizard_la_CPPFLAGS = \
 module_startup_wizard_la_SOURCES = \
 	evolution-startup-wizard.c
 
+if WITH_CAPPLET
+libevolution_mail_settings_la = \
+	$(top_builddir)/capplet/settings/libevolution-mail-settings.la
+endif
+
 module_startup_wizard_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
@@ -18,9 +23,9 @@ module_startup_wizard_la_LIBADD = \
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/mail/libevolution-mail.la		\
-	$(top_builddir)/capplet/settings/libevolution-mail-settings.la \
-	$(top_builddir)/libemail-engine/libemail-engine.la \
-	$(top_builddir)/libemail-utils/libemail-utils.la  \
+	$(top_builddir)/libemail-engine/libemail-engine.la	\
+	$(top_builddir)/libemail-utils/libemail-utils.la	\
+	$(libevolution_mail_settings_la)			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)
 

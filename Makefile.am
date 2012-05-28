@@ -39,6 +39,10 @@ if ENABLE_SMIME
 SMIME_SUBDIR=smime
 endif
 
+if WITH_CAPPLET
+CAPPLET_SUBDIR=capplet
+endif
+
 if WITH_HELP
 HELP_SUBDIR=help
 endif
@@ -67,7 +71,7 @@ SUBDIRS = 			\
 	composer		\
 	mail			\
 	calendar		\
-	capplet			\
+	$(CAPPLET_SUBDIR)	\
 	art			\
 	plugins			\
 	modules			\

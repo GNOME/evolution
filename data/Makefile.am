@@ -1,7 +1,11 @@
 SUBDIRS = icons
 
+if WITH_CAPPLET
+evolution_settings_desktop_in = evolution-settings.desktop.in
+endif
+
 desktopdir = $(datadir)/applications
-desktop_in_files = evolution.desktop.in evolution-settings.desktop.in
+desktop_in_files = evolution.desktop.in $(evolution_settings_desktop_in)
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
 autostartdir = $(sysconfdir)/xdg/autostart

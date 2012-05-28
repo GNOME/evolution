@@ -40,8 +40,6 @@
 
 #include <libemail-utils/e-account-utils.h>
 
-#include <capplet/settings/mail-capplet-shell.h>
-
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-ui-session.h>
 #include <mail/em-config.h>
