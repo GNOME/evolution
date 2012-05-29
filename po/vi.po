@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-03-01 07:53+0000\n"
-"PO-Revision-Date: 2012-03-02 16:51+0700\n"
+"PO-Revision-Date: 2012-05-29 15:57+0700\n"
 "Last-Translator: Nguyễn Thái Ngọc Duy <pclouds@gmail.com>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -15949,7 +15949,7 @@ msgstr "Giờ"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:17
 msgid "Se_cond zone:"
-msgstr "Múi thứ _hai:"
+msgstr "Múi giờ _phụ:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:19
 msgid "(Shown in a Day View)"
@@ -15979,7 +15979,7 @@ msgstr "Tuần làm việc"
 #. A weekday like "Monday" follows
 #: ../modules/calendar/e-calendar-preferences.ui.h:27
 msgid "Wee_k starts on:"
-msgstr "Tuần _bắt đầu:"
+msgstr "Tuần _bắt đầu từ:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:28
 msgid "Work days:"
@@ -15987,7 +15987,7 @@ msgstr "Ngày làm việc:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:29
 msgid "_Day begins:"
-msgstr "_Ngày bắt đầu:"
+msgstr "_Ngày bắt đầu từ:"
 
 #. Monday
 #: ../modules/calendar/e-calendar-preferences.ui.h:31
@@ -16026,7 +16026,7 @@ msgstr "_CN"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:44
 msgid "Day _ends:"
-msgstr "Ngày _kết thúc:"
+msgstr "Ngày _kết thúc lúc:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Alerts"
