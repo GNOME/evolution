@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.5.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-19 11:51+0200\n"
+"POT-Creation-Date: 2012-05-30 13:19+0200\n"
 "PO-Revision-Date: 2012-05-19 11:54+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -10838,14 +10838,14 @@ msgstr "Passord ikke oppgitt"
 msgid "Cannot get transport for account '%s'"
 msgstr "Kan ikke hente transport for konto «%s»"
 
-#: ../libemail-engine/e-mail-session-utils.c:509
+#: ../libemail-engine/e-mail-session-utils.c:508
 #: ../libemail-engine/mail-ops.c:659
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Feil under påføring av utgående filtre: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:538
-#: ../libemail-engine/e-mail-session-utils.c:572
+#: ../libemail-engine/e-mail-session-utils.c:537
+#: ../libemail-engine/e-mail-session-utils.c:571
 #: ../libemail-engine/mail-ops.c:678 ../libemail-engine/mail-ops.c:714
 #, c-format
 msgid ""
@@ -10855,18 +10855,18 @@ msgstr ""
 "Kunne ikke legge til i %s: %s\n"
 "Legger til i lokal «Sendt»-mappe i stedet."
 
-#: ../libemail-engine/e-mail-session-utils.c:592
+#: ../libemail-engine/e-mail-session-utils.c:591
 #: ../libemail-engine/mail-ops.c:736
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Kunne ikke legge til i lokal Sendt-mappe: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:820
+#: ../libemail-engine/e-mail-session-utils.c:819
 #: ../libemail-engine/mail-ops.c:864 ../libemail-engine/mail-ops.c:965
 msgid "Sending message"
 msgstr "Sender melding"
 
-#: ../libemail-engine/e-mail-session-utils.c:896
+#: ../libemail-engine/e-mail-session-utils.c:895
 #, c-format
 msgid "Unsubscribing from folder '%s'"
 msgstr "Fjerner abonnement på mappe «%s»"
@@ -10876,12 +10876,12 @@ msgstr "Fjerner abonnement på mappe «%s»"
 msgid "Disconnecting from '%s'"
 msgstr "Kobler fra «%s»"
 
-#: ../libemail-engine/e-mail-store-utils.c:264
+#: ../libemail-engine/e-mail-store-utils.c:263
 #, c-format
 msgid "Reconnecting to '%s'"
 msgstr "Kobler til «%s» på nytt"
 
-#: ../libemail-engine/e-mail-store-utils.c:341
+#: ../libemail-engine/e-mail-store-utils.c:340
 #, c-format
 msgid "Preparing account '%s' for offline"
 msgstr "Forbereder konto «%s» for frakoblet bruk"
@@ -11167,7 +11167,10 @@ msgid ""
 "Yahoo! calendars are named as firstname_lastname. We have tried to form the "
 "calendar name. Please confirm and re-enter the calendar name, if it is not "
 "correct, or change it later in calendar Properties."
-msgstr "Yahoo!-kalendere har navn som fornavn_etternavn. Vi har prøvd å utforme kalendernavnet. Vennligst bekreft og oppgi kalendernavnet på nytt eller endre det under egenskaper for kalender hvis det ikke er korrekt."
+msgstr ""
+"Yahoo!-kalendere har navn som fornavn_etternavn. Vi har prøvd å utforme "
+"kalendernavnet. Vennligst bekreft og oppgi kalendernavnet på nytt eller "
+"endre det under egenskaper for kalender hvis det ikke er korrekt."
 
 #: ../mail/em-account-editor.c:5057
 msgid "Yahoo! Calen_dar name:"
@@ -11333,7 +11336,7 @@ msgstr "Farge"
 msgid "Name"
 msgstr "Navn"
 
-#: ../mail/e-mail-migrate.c:1269
+#: ../mail/e-mail-migrate.c:1272
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "Kunne ikke opprette lokale e-postmapper i «%s»: %s"
@@ -12388,31 +12391,31 @@ msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../mail/em-folder-tree.c:1606
+#: ../mail/em-folder-tree.c:1608
 msgid "Mail Folder Tree"
 msgstr "Tre for e-postmapper"
 
-#: ../mail/em-folder-tree.c:2132 ../mail/em-folder-utils.c:115
+#: ../mail/em-folder-tree.c:2134 ../mail/em-folder-utils.c:115
 #, c-format
 msgid "Moving folder %s"
 msgstr "Flytter mappe %s"
 
-#: ../mail/em-folder-tree.c:2135 ../mail/em-folder-utils.c:117
+#: ../mail/em-folder-tree.c:2137 ../mail/em-folder-utils.c:117
 #, c-format
 msgid "Copying folder %s"
 msgstr "Kopierer mappe %s"
 
-#: ../mail/em-folder-tree.c:2142 ../mail/message-list.c:2304
+#: ../mail/em-folder-tree.c:2144 ../mail/message-list.c:2304
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Flytter meldinger til mappe %s"
 
-#: ../mail/em-folder-tree.c:2146 ../mail/message-list.c:2306
+#: ../mail/em-folder-tree.c:2148 ../mail/message-list.c:2306
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopierer meldinger til mappe %s"
 
-#: ../mail/em-folder-tree.c:2165
+#: ../mail/em-folder-tree.c:2167
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Kan ikke slippe melding(er) toppnivå for lageret"
@@ -16936,54 +16939,54 @@ msgid_plural "%d attached messages"
 msgstr[0] "%d vedlagt melding"
 msgstr[1] "%d vedlagte meldinger"
 
-#: ../modules/mail/e-mail-shell-backend.c:231
+#: ../modules/mail/e-mail-shell-backend.c:233
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "E-post_melding"
 
-#: ../modules/mail/e-mail-shell-backend.c:233
+#: ../modules/mail/e-mail-shell-backend.c:235
 msgid "Compose a new mail message"
 msgstr "Skriv en ny e-postmelding"
 
-#: ../modules/mail/e-mail-shell-backend.c:241
+#: ../modules/mail/e-mail-shell-backend.c:243
 msgctxt "New"
 msgid "Mail Acco_unt"
 msgstr "E-post-k_onto"
 
-#: ../modules/mail/e-mail-shell-backend.c:243
+#: ../modules/mail/e-mail-shell-backend.c:245
 msgid "Create a new mail account"
 msgstr "Lag en ny e-postkonto"
 
-#: ../modules/mail/e-mail-shell-backend.c:248
+#: ../modules/mail/e-mail-shell-backend.c:250
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "E-post_mappe"
 
-#: ../modules/mail/e-mail-shell-backend.c:250
+#: ../modules/mail/e-mail-shell-backend.c:252
 msgid "Create a new mail folder"
 msgstr "Opprett en ny e-postmappe"
 
-#: ../modules/mail/e-mail-shell-backend.c:469
+#: ../modules/mail/e-mail-shell-backend.c:471
 msgid "Mail Accounts"
 msgstr "E-post-konti"
 
-#: ../modules/mail/e-mail-shell-backend.c:478
+#: ../modules/mail/e-mail-shell-backend.c:480
 msgid "Mail Preferences"
 msgstr "Brukervalg for e-post"
 
-#: ../modules/mail/e-mail-shell-backend.c:487
+#: ../modules/mail/e-mail-shell-backend.c:489
 msgid "Composer Preferences"
 msgstr "Brukervalg for redigering"
 
-#: ../modules/mail/e-mail-shell-backend.c:496
+#: ../modules/mail/e-mail-shell-backend.c:498
 msgid "Network Preferences"
 msgstr "Brukervalg for nettverk"
 
-#: ../modules/mail/e-mail-shell-backend.c:730
+#: ../modules/mail/e-mail-shell-backend.c:741
 msgid "Evolution Account Assistant"
 msgstr "Evolution kontoassistent"
 
-#: ../modules/mail/e-mail-shell-backend.c:776
+#: ../modules/mail/e-mail-shell-backend.c:785
 msgid "Account Editor"
 msgstr "Kontoredigering"
 
@@ -17555,7 +17558,7 @@ msgstr "Dette vil gjøre SpamAssassin mer pålitelig, men tregere."
 msgid "SpamAssassin"
 msgstr "SpamAssassin"
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:136
+#: ../modules/startup-wizard/evolution-startup-wizard.c:138
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications."
@@ -17563,39 +17566,39 @@ msgstr ""
 "Velkommen til Evolution. De neste skjermene lar deg konfigurere Evolution "
 "til å koble til dine e-post kontoer, og importere filer fra andre programmer."
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:297
+#: ../modules/startup-wizard/evolution-startup-wizard.c:299
 #: ../widgets/misc/e-import-assistant.c:403
 msgid "Please select the information that you would like to import:"
 msgstr "Vennligst velg informasjon du ønsker å importere:"
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:329
+#: ../modules/startup-wizard/evolution-startup-wizard.c:331
 #: ../widgets/misc/e-import-assistant.c:559
 #, c-format
 msgid "From %s:"
 msgstr "Fra %s:"
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:340
-#: ../modules/startup-wizard/evolution-startup-wizard.c:438
+#: ../modules/startup-wizard/evolution-startup-wizard.c:342
+#: ../modules/startup-wizard/evolution-startup-wizard.c:440
 msgid "Importing Files"
 msgstr "Importerer filer"
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:416
+#: ../modules/startup-wizard/evolution-startup-wizard.c:418
 msgid "Import cancelled."
 msgstr "Import avbrutt."
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:434
+#: ../modules/startup-wizard/evolution-startup-wizard.c:436
 msgid "Import complete."
 msgstr "Import fullført."
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:508
+#: ../modules/startup-wizard/evolution-startup-wizard.c:510
 msgid "Evolution Setup Assistant"
 msgstr "Konfigurasjonsassistent for Evolution"
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:514
+#: ../modules/startup-wizard/evolution-startup-wizard.c:516
 msgid "Welcome"
 msgstr "Velkommen"
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:626
+#: ../modules/startup-wizard/evolution-startup-wizard.c:633
 msgid "Loading accounts..."
 msgstr "Laster kontoer …"
 
@@ -19677,15 +19680,15 @@ msgstr ""
 "Vil du merke meldinger som lest kun i denne mappen, eller i valgt mappe og "
 "undermapper i tillegg?"
 
-#: ../plugins/mark-all-read/mark-all-read.c:216
+#: ../plugins/mark-all-read/mark-all-read.c:185
 msgid "In Current Folder and _Subfolders"
 msgstr "I denne mappen og _undermapper"
 
-#: ../plugins/mark-all-read/mark-all-read.c:230
+#: ../plugins/mark-all-read/mark-all-read.c:199
 msgid "In Current _Folder Only"
 msgstr "Kun i _denne mappen"
 
-#: ../plugins/mark-all-read/mark-all-read.c:576
+#: ../plugins/mark-all-read/mark-all-read.c:545
 msgid "Mark Me_ssages as Read"
 msgstr "Merk meldinger _som lest"
 
