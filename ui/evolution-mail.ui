@@ -96,6 +96,7 @@
     <menuitem action='mail-popup-manage-subscriptions'/>
     <menuitem action='mail-popup-account-expunge'/>
     <menuitem action='mail-popup-account-disable'/>
+    <menuitem action='mail-vfolder-unmatched-enable'/>
     <separator/>
     <menuitem action='mail-popup-folder-unsubscribe'/>
     <separator/>

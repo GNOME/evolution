@@ -108,7 +108,7 @@ vfolder_setup_exec (struct _setup_msg *m,
 	}
 
 	if (!vfolder_shutdown)
-		camel_vee_folder_set_folders ((CamelVeeFolder *) m->folder, list);
+		camel_vee_folder_set_folders ((CamelVeeFolder *) m->folder, list, cancellable);
 
 	l = list;
 	while (l) {
@@ -127,6 +127,8 @@ static void
 vfolder_setup_free (struct _setup_msg *m)
 {
 	GList *l;
+
+	camel_folder_thaw (m->folder);
 
 	g_object_unref (m->session);
 	g_object_unref (m->folder);
@@ -172,6 +174,8 @@ vfolder_setup (EMailSession *session,
 	m->query = g_strdup (query);
 	m->sources_uri = sources_uri;
 	m->sources_folder = sources_folder;
+
+	camel_folder_freeze (m->folder);
 
 	id = m->base.seq;
 	mail_msg_slow_ordered_push (m);
@@ -254,9 +258,9 @@ vfolder_adduri_exec (struct _adduri_msg *m,
 		while (l && !vfolder_shutdown) {
 			if (m->remove)
 				camel_vee_folder_remove_folder (
-					CAMEL_VEE_FOLDER (l->data), folder);
+					CAMEL_VEE_FOLDER (l->data), folder, cancellable);
 			else
-				camel_vee_folder_add_folder ((CamelVeeFolder *) l->data, folder);
+				camel_vee_folder_add_folder ((CamelVeeFolder *) l->data, folder, cancellable);
 			l = l->next;
 		}
 		g_object_unref (folder);
@@ -272,8 +276,8 @@ static void
 vfolder_adduri_free (struct _adduri_msg *m)
 {
 	g_object_unref (m->session);
-	g_list_foreach (m->folders, (GFunc) g_object_unref, NULL);
-	g_list_free (m->folders);
+	g_list_foreach (m->folders, (GFunc) camel_folder_thaw, NULL);
+	g_list_free_full (m->folders, g_object_unref);
 	g_free (m->uri);
 }
 
@@ -300,6 +304,8 @@ vfolder_adduri (EMailSession *session,
 	m->folders = folders;
 	m->uri = g_strdup (uri);
 	m->remove = remove;
+
+	g_list_foreach (m->folders, (GFunc) camel_folder_freeze, NULL);
 
 	id = m->base.seq;
 	mail_msg_slow_ordered_push (m);
@@ -877,10 +883,12 @@ store_folder_deleted_cb (CamelStore *store,
 	gchar *user;
 
 	d(printf("Folder deleted: %s\n", info->name));
-	store = store;
+
+	/* Unmatched folder doesn't have any rule */
+	if (g_strcmp0 (CAMEL_UNMATCHED_NAME, info->full_name) == 0)
+		return;
 
 	/* Warning not thread safe, but might be enough */
-
 	G_LOCK (vfolder);
 
 	/* delete it from our list */

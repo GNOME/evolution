@@ -3042,8 +3042,8 @@ mail_reader_set_folder (EMailReader *reader,
 
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	/* Only synchronize the folder if we're online. */
-	if (previous_folder != NULL && e_shell_get_online (shell))
+	/* Only synchronize the real folder if we're online. */
+	if (previous_folder != NULL && (CAMEL_IS_VEE_FOLDER (previous_folder) || e_shell_get_online (shell)))
 		mail_sync_folder (previous_folder, NULL, NULL);
 
 	/* Skip the rest if we're already viewing the folder. */
@@ -3058,6 +3058,11 @@ mail_reader_set_folder (EMailReader *reader,
 	e_web_view_clear (E_WEB_VIEW (display));
 
 	priv->folder_was_just_selected = (folder != NULL);
+
+	/* this is to make sure any post-poned changes in Search Folders
+	   will be propagated on folder selection */
+	if (folder && CAMEL_IS_VEE_FOLDER (folder))
+		mail_sync_folder (folder, NULL, NULL);
 
 	message_list_set_folder (
 		MESSAGE_LIST (message_list), folder, outgoing);

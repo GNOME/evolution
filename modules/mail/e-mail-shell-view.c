@@ -69,7 +69,7 @@ search_results_exec (SearchResultsMsg *msg,
 	g_list_foreach (copied_list, (GFunc) g_object_ref, NULL);
 
 	camel_vee_folder_set_folders (
-		CAMEL_VEE_FOLDER (msg->folder), copied_list);
+		CAMEL_VEE_FOLDER (msg->folder), copied_list, cancellable);
 
 	g_list_foreach (copied_list, (GFunc) g_object_unref, NULL);
 	g_list_free (copied_list);
@@ -528,7 +528,7 @@ all_accounts:
 
 	/* Skip the search if we already have the results. */
 	if (search_folder != NULL)
-		if (g_strcmp0 (query, search_folder->expression) == 0)
+		if (g_strcmp0 (query, camel_vee_folder_get_expression (search_folder)) == 0)
 			goto execute;
 
 	/* Disable the scope combo while search is in progress. */
@@ -558,7 +558,7 @@ all_accounts:
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
 		CAMEL_STORE (service), _("All Account Search"),
-		CAMEL_STORE_VEE_FOLDER_AUTO);
+		0);
 	priv->search_account_all = search_folder;
 
 	cache = e_mail_session_get_folder_cache (session);
@@ -632,7 +632,7 @@ current_account:
 
 	/* Skip the search if we already have the results. */
 	if (search_folder != NULL)
-		if (g_strcmp0 (query, search_folder->expression) == 0)
+		if (g_strcmp0 (query, camel_vee_folder_get_expression (search_folder)) == 0)
 			goto execute;
 
 	/* Disable the scope combo while search is in progress. */
@@ -719,7 +719,7 @@ current_account:
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
 		CAMEL_STORE (service), _("Account Search"),
-		CAMEL_STORE_VEE_FOLDER_AUTO);
+		0);
 	priv->search_account_current = search_folder;
 
 	camel_vee_folder_set_expression (search_folder, query);
@@ -832,6 +832,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_has_unread_rec = FALSE;
 	gboolean folder_tree_and_message_list_agree = TRUE;
 	gboolean store_is_subscribable;
+	gboolean store_is_vstore = FALSE;
 	gboolean any_store_is_subscribable = FALSE;
 
 	/* Chain up to parent's update_actions() method. */
@@ -880,6 +881,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		service = CAMEL_SERVICE (store);
 		uid = camel_service_get_uid (service);
 		account = e_get_account_by_uid (uid);
+
+		store_is_vstore = g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0;
 	} else
 		account = NULL;
 
@@ -1019,6 +1022,9 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	action = ACTION (MAIL_TOOLS_SUBSCRIPTIONS);
 	sensitive = any_store_is_subscribable;
 	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MAIL_VFOLDER_UNMATCHED_ENABLE);
+	gtk_action_set_visible (action, folder_is_store && store_is_vstore);
 
 	e_mail_shell_view_update_popup_labels (mail_shell_view);
 }

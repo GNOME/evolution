@@ -203,6 +203,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-tools-subscriptions")
 #define E_SHELL_WINDOW_ACTION_MAIL_UNDELETE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-undelete")
+#define E_SHELL_WINDOW_ACTION_MAIL_VFOLDER_UNMATCHED_ENABLE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-vfolder-unmatched-enable")
 #define E_SHELL_WINDOW_ACTION_MAIL_VIEW_CLASSIC(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-view-classic")
 #define E_SHELL_WINDOW_ACTION_MAIL_VIEW_VERTICAL(window) \

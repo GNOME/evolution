@@ -136,6 +136,11 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"trash-empty-on-exit");
 
 	e_shell_settings_install_property_for_key (
+		"mail-enable-unmatched-search-folder",
+		MAIL_SCHEMA,
+		"enable-unmatched");
+
+	e_shell_settings_install_property_for_key (
 		"mail-enable-search-folders",
 		MAIL_SCHEMA,
 		"enable-vfolders");

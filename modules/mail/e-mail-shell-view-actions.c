@@ -1556,7 +1556,14 @@ static GtkToggleActionEntry mail_toggle_entries[] = {
 	  "<Control>t",
 	  N_("Threaded message list"),
 	  NULL,  /* Handled by property bindings */
-	  FALSE }
+	  FALSE },
+
+	{ "mail-vfolder-unmatched-enable",
+	  NULL,
+	  N_("_Unmatched Folder Enabled"),
+	  NULL,
+	  N_("Toggles whether Unmatched search folder is enabled"),
+	  NULL }
 };
 
 static GtkRadioActionEntry mail_view_entries[] = {
@@ -1759,9 +1766,6 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	gtk_action_group_add_actions (
 		action_group, mail_entries,
 		G_N_ELEMENTS (mail_entries), mail_shell_view);
-	e_action_group_add_popup_actions (
-		action_group, mail_popup_entries,
-		G_N_ELEMENTS (mail_popup_entries));
 	gtk_action_group_add_toggle_actions (
 		action_group, mail_toggle_entries,
 		G_N_ELEMENTS (mail_toggle_entries), mail_shell_view);
@@ -1777,6 +1781,9 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		action_group, mail_scope_entries,
 		G_N_ELEMENTS (mail_scope_entries),
 		MAIL_SCOPE_CURRENT_FOLDER, NULL, NULL);
+	e_action_group_add_popup_actions (
+		action_group, mail_popup_entries,
+		G_N_ELEMENTS (mail_popup_entries));
 
 	/* Search Folder Actions */
 	action_group = ACTION_GROUP (SEARCH_FOLDERS);
@@ -1809,6 +1816,11 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	g_settings_bind (
 		settings, "layout",
 		ACTION (MAIL_VIEW_VERTICAL), "current-value",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_settings_bind (
+		settings, "enable-unmatched",
+		ACTION (MAIL_VFOLDER_UNMATCHED_ENABLE), "active",
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);

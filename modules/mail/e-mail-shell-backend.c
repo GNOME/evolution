@@ -425,11 +425,15 @@ static void
 mail_shell_backend_constructed (GObject *object)
 {
 	EShell *shell;
+	EShellSettings *shell_settings;
 	EShellBackend *shell_backend;
+	EMailSession *mail_session;
+	CamelService *vstore;
 	GtkWidget *preferences_window;
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_shell_backend_parent_class)->constructed (object);
@@ -499,6 +503,13 @@ mail_shell_backend_constructed (GObject *object)
 		NULL,
 		em_network_prefs_new,
 		500);
+
+	mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (object));
+	vstore = camel_session_get_service (CAMEL_SESSION (mail_session), E_MAIL_SESSION_VFOLDER_UID);
+	g_object_bind_property (
+		shell_settings, "mail-enable-unmatched-search-folder",
+		vstore, "unmatched-enabled",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 }
 
 static void

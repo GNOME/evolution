@@ -245,6 +245,11 @@
       <_summary>Enable local folders</_summary>
       <_description>Whether to show local folders (On This Computer) in a folder tree</_description>
     </key>
+    <key name="enable-unmatched" type="b">
+      <default>true</default>
+      <_summary>Enable Unmatched search folder</_summary>
+      <_description>Enable Unmatched search folder within Search Folders. It does nothing if 'enable-vfolders' is false.</_description>
+    </key>
     <key name="enable-vfolders" type="b">
       <default>true</default>
       <_summary>Enable search folders</_summary>

@@ -4447,6 +4447,7 @@ struct sort_array_data {
 	GPtrArray *sort_columns; /* struct sort_column_data in order of sorting */
 	GHashTable *message_infos; /* uid -> struct sort_message_info_data */
 	gpointer cmp_cache;
+	GCancellable *cancellable;
 };
 
 static gint
@@ -4470,10 +4471,16 @@ cmp_array_uids (gconstpointer a,
 	g_return_val_if_fail (md2 != NULL, 0);
 	g_return_val_if_fail (md2->mi != NULL, 0);
 
-	if (!sort_data->ml || sort_data->folder != sort_data->ml->folder)
+	if (!sort_data->ml ||
+	    sort_data->folder != sort_data->ml->folder ||
+	    g_cancellable_is_cancelled (sort_data->cancellable))
 		return 0;
 
-	for (i = 0; res == 0 && i < sort_data->sort_columns->len; i++) {
+	for (i = 0;
+	     res == 0
+	     && i < sort_data->sort_columns->len
+	     && !g_cancellable_is_cancelled (sort_data->cancellable);
+	     i++) {
 		gpointer v1, v2;
 		struct sort_column_data *scol = g_ptr_array_index (sort_data->sort_columns, i);
 
@@ -4524,13 +4531,17 @@ free_message_info_data (gpointer uid,
 
 static void
 ml_sort_uids_by_tree (MessageList *ml,
-                      GPtrArray *uids)
+                      GPtrArray *uids,
+		      GCancellable *cancellable)
 {
 	ETreeTableAdapter *adapter;
 	ETableSortInfo *sort_info;
 	ETableHeader *full_header;
 	struct sort_array_data sort_data;
 	guint i, len;
+
+	if (g_cancellable_is_cancelled (cancellable))
+		return;
 
 	g_return_if_fail (ml != NULL);
 	g_return_if_fail (ml->folder != NULL);
@@ -4554,8 +4565,13 @@ ml_sort_uids_by_tree (MessageList *ml,
 	sort_data.sort_columns = g_ptr_array_sized_new (len);
 	sort_data.message_infos = g_hash_table_new (g_str_hash, g_str_equal);
 	sort_data.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
+	sort_data.cancellable = cancellable;
 
-	for (i = 0; i < len && ml->folder == sort_data.folder; i++) {
+	for (i = 0;
+	     i < len
+	     && ml->folder == sort_data.folder
+	     && !g_cancellable_is_cancelled (cancellable);
+	     i++) {
 		ETableSortColumn scol;
 		struct sort_column_data *data = g_new0 (struct sort_column_data, 1);
 
@@ -4571,7 +4587,11 @@ ml_sort_uids_by_tree (MessageList *ml,
 
 	camel_folder_summary_prepare_fetch_all (ml->folder->summary, NULL);
 
-	for (i = 0; i < uids->len && ml->folder == sort_data.folder; i++) {
+	for (i = 0;
+	     i < uids->len
+	     && ml->folder == sort_data.folder
+	     && !g_cancellable_is_cancelled (cancellable);
+	     i++) {
 		gchar *uid;
 		CamelMessageInfo *mi;
 		struct sort_message_info_data *md;
@@ -4590,8 +4610,10 @@ ml_sort_uids_by_tree (MessageList *ml,
 		g_hash_table_insert (sort_data.message_infos, uid, md);
 	}
 
-	if (sort_data.folder == ml->folder)
+	if (sort_data.folder == ml->folder && !g_cancellable_is_cancelled (cancellable))
 		g_qsort_with_data (uids->pdata, uids->len, sizeof (gpointer), cmp_array_uids, &sort_data);
+
+	camel_folder_summary_unlock (sort_data.folder->summary, CAMEL_FOLDER_SUMMARY_SUMMARY_LOCK);
 
 	g_hash_table_foreach (sort_data.message_infos, (GHFunc) free_message_info_data, &sort_data);
 	g_hash_table_destroy (sort_data.message_infos);
@@ -4745,7 +4767,7 @@ regen_list_exec (struct _regen_list_msg *m,
 	if (!g_cancellable_is_cancelled (cancellable)) {
 		/* update/build a new tree */
 		if (m->dotree) {
-			ml_sort_uids_by_tree (m->ml, uids);
+			ml_sort_uids_by_tree (m->ml, uids, cancellable);
 
 			if (m->tree)
 				camel_folder_thread_messages_apply (m->tree, uids);
