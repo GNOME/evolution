@@ -196,13 +196,13 @@ e_mail_reader_delete_folder (EMailReader *reader,
 	EMailSession *session;
 	EAlertSink *alert_sink;
 	CamelStore *parent_store;
+	CamelProvider *provider;
 	MailFolderCache *folder_cache;
 	GtkWindow *parent = e_shell_get_active_window (NULL);
 	GtkWidget *dialog;
 	gboolean store_is_local;
 	const gchar *display_name;
 	const gchar *full_name;
-	const gchar *uid;
 	CamelFolderInfoFlags flags = 0;
 	gboolean have_flags;
 
@@ -212,9 +212,9 @@ e_mail_reader_delete_folder (EMailReader *reader,
 	full_name = camel_folder_get_full_name (folder);
 	display_name = camel_folder_get_display_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
+	provider = camel_service_get_provider (CAMEL_SERVICE (parent_store));
 
-	uid = camel_service_get_uid (CAMEL_SERVICE (parent_store));
-	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
+	store_is_local = (provider->flags & CAMEL_PROVIDER_IS_LOCAL) != 0;
 
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);

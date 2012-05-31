@@ -887,17 +887,18 @@ store_folder_deleted_cb (CamelStore *store,
 	rule = e_rule_context_find_rule ((ERuleContext *) context, info->full_name, NULL);
 	if (rule) {
 		const gchar *config_dir;
+		EMailSession *session = E_MAIL_SESSION (camel_service_get_session (CAMEL_SERVICE (store)));
 
 		/* We need to stop listening to removed events,
 		 * otherwise we'll try and remove it again. */
 		g_signal_handlers_disconnect_matched (
-			context, G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, context_rule_removed, context);
+			context, G_SIGNAL_MATCH_FUNC,
+			0, 0, NULL, context_rule_removed, NULL);
 		e_rule_context_remove_rule ((ERuleContext *) context, rule);
 		g_object_unref (rule);
 		g_signal_connect (
 			context, "rule_removed",
-			G_CALLBACK (context_rule_removed), context);
+			G_CALLBACK (context_rule_removed), session);
 
 		config_dir = mail_session_get_config_dir ();
 		user = g_build_filename (config_dir, "vfolders.xml", NULL);
