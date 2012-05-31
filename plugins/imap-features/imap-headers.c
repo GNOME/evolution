@@ -168,10 +168,12 @@ epif_add_sensitivity (EPImapFeaturesData *ui)
 						    0, &header_name,
 						    -1);
 		if (g_ascii_strcasecmp (header_name, entry_contents) == 0) {
+			g_free (header_name);
 			gtk_widget_set_sensitive (GTK_WIDGET (ui->add_header), FALSE);
 			return;
 		}
 
+		g_free (header_name);
 		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (ui->store), &iter);
 	}
 

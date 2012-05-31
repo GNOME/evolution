@@ -2294,6 +2294,7 @@ tree_drag_data_received (GtkWidget *widget,
 			      gdk_drag_context_get_selected_action (context) == GDK_ACTION_MOVE)) {
 		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
 		gtk_tree_path_free (dest_path);
+		g_free (full_name);
 		return;
 	}
 

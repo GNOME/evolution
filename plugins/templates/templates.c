@@ -169,8 +169,10 @@ commit_changes (UIData *ui)
 		gchar *keyword, *value;
 		gchar *key;
 
-		gtk_tree_model_get (model, &iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
-		gtk_tree_model_get (model, &iter, CLUE_VALUE_COLUMN, &value, -1);
+		gtk_tree_model_get (model, &iter,
+			CLUE_KEYWORD_COLUMN, &keyword,
+			CLUE_VALUE_COLUMN, &value,
+			-1);
 
 		/* Check if the keyword and value are not empty */
 		if ((keyword) && (value) && (g_utf8_strlen (g_strstrip (keyword), -1) > 0)
@@ -178,6 +180,10 @@ commit_changes (UIData *ui)
 			key = g_strdup_printf("%s=%s", keyword, value);
 			g_variant_builder_add (&b, "s", key);
 		}
+
+		g_free (keyword);
+		g_free (value);
+
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
@@ -260,6 +266,7 @@ key_cell_edited_callback (GtkCellRendererText *cell,
 	gtk_tree_model_get (model, &iter, CLUE_VALUE_COLUMN, &value, -1);
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				    CLUE_KEYWORD_COLUMN, new_text, CLUE_VALUE_COLUMN, value, -1);
+	g_free (value);
 
 	commit_changes (ui);
 }
@@ -282,6 +289,7 @@ value_cell_edited_callback (GtkCellRendererText *cell,
 
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				    CLUE_KEYWORD_COLUMN, keyword, CLUE_VALUE_COLUMN, new_text, -1);
+	g_free (keyword);
 
 	commit_changes (ui);
 }

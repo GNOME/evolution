@@ -196,6 +196,7 @@ map_contact_removed_cb (EContactMap *map,
 			gchar *name_str;
 			gtk_tree_model_get (model, &iter, 0, &name_str, -1);
 			if (g_ascii_strcasecmp (name_str, name) == 0) {
+				g_free (name_str);
 				gtk_list_store_remove (priv->completion_model, &iter);
 				break;
 			}

@@ -171,6 +171,8 @@ mail_sidebar_selection_changed_cb (GtkTreeSelection *selection,
 
 		if (CAMEL_IS_STORE (store) && folder_name != NULL)
 			uri = e_mail_folder_uri_build (store, folder_name);
+
+		g_free (folder_name);
 	}
 
 	if (uri != NULL)

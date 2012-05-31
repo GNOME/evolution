@@ -106,7 +106,7 @@ static void	on_combo_changed		(GtkComboBox	*combo,
 						 ETimezoneDialog *etd);
 
 static void timezone_combo_get_active_text	(GtkComboBox *combo,
-						 const gchar **zone_name);
+						 gchar **zone_name);
 static gboolean timezone_combo_set_active_text	(GtkComboBox *combo,
 						 const gchar *zone_name);
 
@@ -754,7 +754,7 @@ on_combo_changed (GtkComboBox *combo_box,
                   ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
-	const gchar *new_zone_name;
+	gchar *new_zone_name;
 	icalarray *zones;
 	icaltimezone *map_zone = NULL;
 	gchar *location;
@@ -765,7 +765,7 @@ on_combo_changed (GtkComboBox *combo_box,
 	timezone_combo_get_active_text (
 		GTK_COMBO_BOX (priv->timezone_combo), &new_zone_name);
 
-	if (!*new_zone_name)
+	if (!new_zone_name || !*new_zone_name)
 		priv->zone = NULL;
 	else if (!g_utf8_collate (new_zone_name, _("UTC")))
 		priv->zone = icaltimezone_get_utc_timezone ();
@@ -784,11 +784,13 @@ on_combo_changed (GtkComboBox *combo_box,
 	}
 
 	set_map_timezone (etd, map_zone);
+
+	g_free (new_zone_name);
 }
 
 static void
 timezone_combo_get_active_text (GtkComboBox *combo,
-                                const gchar **zone_name)
+                                gchar **zone_name)
 {
 	GtkTreeModel *list_store;
 	GtkTreeIter iter;
@@ -799,7 +801,7 @@ timezone_combo_get_active_text (GtkComboBox *combo,
 	if (gtk_combo_box_get_active_iter (combo, &iter))
 		gtk_tree_model_get (list_store, &iter, 0, zone_name, -1);
 	else
-		*zone_name = "";
+		*zone_name = NULL;
 }
 
 static gboolean

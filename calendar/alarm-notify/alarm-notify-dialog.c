@@ -502,6 +502,10 @@ tree_selection_changed_cb (GtkTreeSelection *selection,
 		gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &an->cur_funcinfo, -1);
 
 		fill_in_labels (an, summary, description, location, occur_start, occur_end);
+
+		g_free (summary);
+		g_free (description);
+		g_free (location);
 	} else {
 		gtk_widget_set_sensitive (an->snooze_btn, FALSE);
 		gtk_widget_set_sensitive (an->edit_btn, FALSE);

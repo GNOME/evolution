@@ -247,6 +247,7 @@ labels_model_changed_cb (GtkTreeModel *model,
 		store->priv->mail_settings, "labels",
 		(const gchar * const *) array->pdata);
 
+	g_ptr_array_foreach (array, (GFunc) g_free, NULL);
 	g_ptr_array_free (array, TRUE);
 
 	g_signal_handlers_unblock_by_func (

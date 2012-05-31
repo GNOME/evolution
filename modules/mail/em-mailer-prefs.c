@@ -364,8 +364,11 @@ emmp_header_add_sensitivity (EMMailerPrefs *prefs)
 				    -1);
 		if (g_ascii_strcasecmp (header_name, entry_contents) == 0) {
 			gtk_widget_set_sensitive (GTK_WIDGET (prefs->add_header), FALSE);
+			g_free (header_name);
 			return;
 		}
+
+		g_free (header_name);
 
 		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (prefs->header_list_store), &iter);
 	}
@@ -388,6 +391,8 @@ emmp_save_headers (EMMailerPrefs *prefs)
 		gboolean enabled;
 		gchar *xml;
 
+		h.name = NULL;
+
 		gtk_tree_model_get (GTK_TREE_MODEL (prefs->header_list_store), &iter,
 				    HEADER_LIST_HEADER_COLUMN, &h.name,
 				    HEADER_LIST_ENABLED_COLUMN, &enabled,
@@ -396,6 +401,8 @@ emmp_save_headers (EMMailerPrefs *prefs)
 
 		if ((xml = e_mail_reader_header_to_xml (&h)))
 			header_list = g_slist_append (header_list, xml);
+
+		g_free (h.name);
 
 		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (prefs->header_list_store), &iter);
 	}

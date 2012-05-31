@@ -461,6 +461,9 @@ find_cert_cb (GtkTreeModel *model,
 		fcd->path = gtk_tree_path_copy (path);
 	}
 
+	if (cert)
+		g_object_unref (cert);
+
 	return fcd->path != NULL;
 }
 
@@ -515,6 +518,7 @@ view_cert (GtkWidget *button,
 				dialog, "response",
 				G_CALLBACK (gtk_widget_destroy), NULL);
 			gtk_widget_show (dialog);
+			g_object_unref (cert);
 		}
 	}
 }
@@ -569,6 +573,7 @@ edit_cert (GtkWidget *button,
 			}
 
 			gtk_widget_destroy (dialog);
+			g_object_unref (cert);
 		}
 	}
 }
@@ -670,6 +675,8 @@ delete_cert (GtkWidget *button,
 			 * the initial ref when we created the cert
 			 * and added it to the tree */
 			g_object_unref (cert);
+			g_object_unref (cert);
+		} else if (cert) {
 			g_object_unref (cert);
 		}
 	}

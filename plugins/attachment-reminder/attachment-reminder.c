@@ -351,6 +351,8 @@ commit_changes (UIData *ui)
 		/* Check if the keyword is not empty */
 		if ((keyword) && (g_utf8_strlen (g_strstrip (keyword), -1) > 0))
 			g_variant_builder_add (&b, "s", keyword);
+		g_free (keyword);
+
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
