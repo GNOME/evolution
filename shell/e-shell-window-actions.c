@@ -989,9 +989,10 @@ action_quick_reference_cb (GtkAction *action,
                            EShellWindow *shell_window)
 {
 	const gchar * const *language_names;
+	gboolean app_launched = FALSE;
 
 	language_names = g_get_language_names ();
-	while (*language_names != NULL) {
+	while (*language_names != NULL && !app_launched) {
 		const gchar *language = *language_names++;
 		gchar *filename;
 
@@ -1013,7 +1014,8 @@ action_quick_reference_cb (GtkAction *action,
 			file = g_file_new_for_path (filename);
 			uri = g_file_get_uri (file);
 
-			g_app_info_launch_default_for_uri (uri, NULL, &error);
+			app_launched = g_app_info_launch_default_for_uri (
+				uri, NULL, &error);
 
 			if (error != NULL) {
 				/* FIXME Show an error dialog. */
