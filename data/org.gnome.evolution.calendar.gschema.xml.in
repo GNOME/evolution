@@ -166,7 +166,7 @@
       <_description>Position of the memo preview pane when oriented vertically</_description>
     </key>
     <key name="month-hpane-position" type="i">
-      <default>32000</default>
+      <default>400</default>
       <_summary>Month view horizontal pane position</_summary>
       <_description>Position of the horizontal pane, between the view and the date navigator calendar and task list in the month view, in pixels</_description>
     </key>
