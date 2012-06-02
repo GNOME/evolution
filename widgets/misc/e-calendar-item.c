@@ -2131,7 +2131,7 @@ e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 	tmp_tm.tm_year = 2000 - 100;
 	tmp_tm.tm_mday = 1;
 	tmp_tm.tm_isdst = -1;
-	for (tmp_tm.tm_mon = 0; tmp_tm.tm_mon < 12 ; tmp_tm.tm_mon++) {
+	for (tmp_tm.tm_mon = 0; tmp_tm.tm_mon < 12; tmp_tm.tm_mon++) {
 		mktime (&tmp_tm);
 
 		e_utf8_strftime (buffer, sizeof (buffer), C_("CalItem", "%B"), &tmp_tm);

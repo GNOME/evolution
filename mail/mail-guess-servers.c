@@ -298,7 +298,7 @@ guess_when_online (EmailProvider *provider)
 
 static gboolean
 offline_file_includes_domain (const gchar *filename,
-			      const gchar *domain)
+                              const gchar *domain)
 {
 	gboolean res = FALSE;
 	gchar *content = NULL;

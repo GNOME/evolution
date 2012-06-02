@@ -1718,8 +1718,8 @@ struct _source_retrieval_closure {
 
 static void
 mail_source_retrieved (GObject *object,
-		       GAsyncResult *result,
-		       gpointer user_data)
+                       GAsyncResult *result,
+                       gpointer user_data)
 {
 	CamelMimeMessage *message;
 	EMailDisplay *display;
@@ -3060,7 +3060,7 @@ mail_reader_set_folder (EMailReader *reader,
 	priv->folder_was_just_selected = (folder != NULL);
 
 	/* this is to make sure any post-poned changes in Search Folders
-	   will be propagated on folder selection */
+	 * will be propagated on folder selection */
 	if (folder && CAMEL_IS_VEE_FOLDER (folder))
 		mail_sync_folder (folder, NULL, NULL);
 

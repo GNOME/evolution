@@ -4532,7 +4532,7 @@ free_message_info_data (gpointer uid,
 static void
 ml_sort_uids_by_tree (MessageList *ml,
                       GPtrArray *uids,
-		      GCancellable *cancellable)
+                      GCancellable *cancellable)
 {
 	ETreeTableAdapter *adapter;
 	ETableSortInfo *sort_info;

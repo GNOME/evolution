@@ -816,7 +816,7 @@ folder_tree_render_icon (GtkTreeViewColumn *column,
 		COL_UINT_UNREAD_LAST_SEL, &old_unread,
 		COL_UINT_UNREAD, &unread,
 		COL_BOOL_IS_DRAFT, &is_drafts,
-		COL_UINT_FLAGS, &fi_flags, 
+		COL_UINT_FLAGS, &fi_flags,
 		-1);
 
 	if (icon_name == NULL)

@@ -574,8 +574,8 @@ e_calendar_start_auto_move (ECalendar *cal,
 }
 
 static void
-e_calendar_start_auto_move_year	(ECalendar *cal,
-				 gboolean moving_forward)
+e_calendar_start_auto_move_year (ECalendar *cal,
+                                 gboolean moving_forward)
 {
 	if (cal->timeout_id == 0) {
 		cal->timeout_id = g_timeout_add (E_CALENDAR_AUTO_MOVE_TIMEOUT,

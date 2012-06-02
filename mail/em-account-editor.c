@@ -5407,7 +5407,7 @@ setup_google_addressbook (EMAccountEditor *emae)
 
 static void
 setup_google_calendar (EMAccountEditor *emae,
-		       EClientSourceType source_type)
+                       EClientSourceType source_type)
 {
 	ESourceList *slist = NULL;
 	ESourceGroup *sgrp;
@@ -5484,7 +5484,7 @@ setup_google_calendar (EMAccountEditor *emae,
 
 static void
 setup_yahoo_calendar (EMAccountEditor *emae,
-		      EClientSourceType source_type)
+                      EClientSourceType source_type)
 {
 	ESourceList *slist = NULL;
 	ESourceGroup *sgrp;
@@ -5567,7 +5567,7 @@ copy_param (GQuark key_id,
 
 static void
 copy_original_url_parameters (CamelURL *copy_to_url,
-			      const gchar *copy_from)
+                              const gchar *copy_from)
 {
 	CamelURL *url;
 
@@ -5650,8 +5650,8 @@ emae_commit (EConfig *ec,
 			camel_url_set_protocol (url, protocol);
 
 		/* the CamelSaslXOAUTH stores its data into parameters
-		   unknown to settings, thus copy these first and overwrite
-		   those known during save */
+		 * unknown to settings, thus copy these first and overwrite
+		 * those known during save */
 		copy_original_url_parameters (url, modified_account->source->url);
 
 		if (settings != NULL)
@@ -5676,8 +5676,8 @@ emae_commit (EConfig *ec,
 		camel_url_set_protocol (url, protocol);
 
 	/* the CamelSaslXOAUTH stores its data into parameters
-	   unknown to settings, thus copy these first and overwrite
-	   those known during save */
+	 * unknown to settings, thus copy these first and overwrite
+	 * those known during save */
 	copy_original_url_parameters (url, modified_account->transport->url);
 
 	if (settings != NULL)
