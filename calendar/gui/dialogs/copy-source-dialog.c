@@ -218,7 +218,8 @@ copy_source (const CopySourceDialogData *const_csdd)
 	csdd->obj_type = const_csdd->obj_type;
 	csdd->selected_source = g_object_ref (const_csdd->selected_source);
 
-	e_client_utils_open_new (csdd->orig_source, csdd->obj_type, FALSE, NULL,
+	e_client_utils_open_new (
+		csdd->orig_source, csdd->obj_type, FALSE, NULL,
 		e_client_utils_authenticate_handler, csdd->parent,
 		orig_source_opened_cb, csdd);
 }

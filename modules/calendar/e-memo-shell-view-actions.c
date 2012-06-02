@@ -95,9 +95,11 @@ action_memo_forward_cb (GtkAction *action,
 	comp = e_cal_component_new ();
 	clone = icalcomponent_new_clone (comp_data->icalcomp);
 	e_cal_component_set_icalcomponent (comp, clone);
+
 	itip_send_comp (
 		E_CAL_COMPONENT_METHOD_PUBLISH, comp,
 		comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
+
 	g_object_unref (comp);
 }
 
@@ -166,6 +168,7 @@ action_memo_list_delete_cb (GtkAction *action,
 		GTK_WINDOW (shell_window),
 		"calendar:prompt-delete-memo-list",
 		e_source_get_display_name (source), NULL);
+
 	if (response != GTK_RESPONSE_YES) {
 		g_object_unref (source);
 		return;

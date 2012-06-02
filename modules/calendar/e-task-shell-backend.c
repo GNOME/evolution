@@ -278,13 +278,17 @@ action_task_new_cb (GtkAction *action,
 	 * FIXME Need to obtain a better default time zone. */
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "task-assigned-new") == 0)
-		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
+		e_client_utils_open_new (
+			source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
 			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
-			task_shell_backend_task_assigned_new_cb, g_object_ref (shell));
+			task_shell_backend_task_assigned_new_cb,
+			g_object_ref (shell));
 	else
-		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
+		e_client_utils_open_new (
+			source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
 			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
-			task_shell_backend_task_new_cb, g_object_ref (shell));
+			task_shell_backend_task_new_cb,
+			g_object_ref (shell));
 
 	g_object_unref (source_list);
 }

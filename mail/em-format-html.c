@@ -2869,7 +2869,8 @@ efh_format_full_headers (EMFormatHTML *efh,
 
 		cia = camel_internet_address_new ();
 		camel_address_decode ((CamelAddress *) cia, (const gchar *) photo_name);
-		only_local_photo = em_format_html_get_only_local_photos (efh);
+		only_local_photo =
+			em_format_html_get_only_local_photos (efh);
 		photopart = em_utils_contact_photo (cia, only_local_photo);
 
 		if (photopart) {

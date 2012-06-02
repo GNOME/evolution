@@ -1336,15 +1336,15 @@ if test "x$enable_audio_inline" = "xyes"; then
 	fi
 fi
 
-dnl *****************************************
-dnl calendar-weather plugin requires gweather
-dnl *****************************************
+dnl **************************************
+dnl Weather calendars require gweather-3.0
+dnl **************************************
 AC_ARG_ENABLE([weather],
 	[AS_HELP_STRING([--enable-weather],
-	[Enable calendar-weather plugin @<:@default=yes@:>@])],
+	[Enable weather calendars @<:@default=yes@:>@])],
 	[enable_weather="$enableval"],[enable_weather=yes])
 
-if test "x$enable_weather" = "xyes"; then
+if test "x$enable_weather" != "xno"; then
 	PKG_CHECK_MODULES([GWEATHER], gweather-3.0 >= gweather_minimum_version,
 	have_weather="yes", have_weather="no")
 	AC_SUBST(GWEATHER_CFLAGS)
@@ -1353,7 +1353,7 @@ if test "x$enable_weather" = "xyes"; then
 	if test "x$have_weather" = "xyes"; then
 		plugins_base="$plugins_base calendar-weather"
 	else
-		AC_MSG_ERROR([gweather-3.0 >= gweather_minimum_version is required for the calendar-weather plugin.  Use --disable-weather to exclude the plugin.])
+		AC_MSG_ERROR([gweather-3.0 >= gweather_minimum_version is required for configuring weather calendars.  Use --disable-weather to disable this features.])
 	fi
 
 	dnl gweather-3.5 introduces API changes we do not yet support.

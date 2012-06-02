@@ -16,18 +16,17 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+/* XXX Yeah, yeah... */
+#define GOA_API_IS_SUBJECT_TO_CHANGE
 
+#include <config.h>
 #include <glib/gi18n-lib.h>
+
+#include <goa/goa.h>
 
 #include <libemail-utils/e-account-utils.h>
 
 #include "camel-sasl-xoauth.h"
-
-#define GOA_API_IS_SUBJECT_TO_CHANGE
-#include <goa/goa.h>
 
 #define CAMEL_SASL_XOAUTH_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

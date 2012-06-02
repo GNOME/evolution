@@ -185,6 +185,12 @@ e_auth_combo_box_init (EAuthComboBox *combo_box)
 	combo_box->priv = E_AUTH_COMBO_BOX_GET_PRIVATE (combo_box);
 }
 
+GtkWidget *
+e_auth_combo_box_new (void)
+{
+	return g_object_new (E_TYPE_AUTH_COMBO_BOX, NULL);
+}
+
 CamelProvider *
 e_auth_combo_box_get_provider (EAuthComboBox *combo_box)
 {

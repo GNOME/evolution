@@ -427,10 +427,10 @@ static void
 task_shell_content_constructed (GObject *object)
 {
 	ETaskShellContentPrivate *priv;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellTaskbar *shell_taskbar;
-	EShellWindow *shell_window;
-	EShellView *shell_view;
 	GalViewInstance *view_instance;
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;

@@ -748,9 +748,9 @@ calendar_view_paste_clipboard (ESelectable *selectable)
 						&& cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 							comp_data->client, comp, TRUE))
 					itip_send_comp (
-							E_CAL_COMPONENT_METHOD_CANCEL,
-							comp, comp_data->client, NULL, NULL,
-							NULL, TRUE, FALSE);
+						E_CAL_COMPONENT_METHOD_CANCEL,
+						comp, comp_data->client,
+						NULL, NULL, NULL, TRUE, FALSE);
 
 				e_cal_component_get_uid (comp, &uid);
 				if (e_cal_component_is_instance (comp)) {

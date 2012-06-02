@@ -139,7 +139,8 @@ action_mail_account_properties_cb (GtkAction *action,
 	service = CAMEL_SERVICE (store);
 	uid = camel_service_get_uid (service);
 
-	e_mail_shell_backend_edit_account (E_MAIL_SHELL_BACKEND (shell_backend),
+	e_mail_shell_backend_edit_account (
+		E_MAIL_SHELL_BACKEND (shell_backend),
 		GTK_WINDOW (shell_window),
 		e_get_account_by_uid (uid));
 }

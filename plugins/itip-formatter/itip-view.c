@@ -62,7 +62,7 @@ struct _ItipViewPrivate {
 	ItipViewMode mode;
 	ECalClientSourceType type;
 
-        gchar *sender;
+	gchar *sender;
 	gchar *organizer;
 	gchar *organizer_sentby;
 	gchar *delegator;
@@ -73,18 +73,18 @@ struct _ItipViewPrivate {
 	gchar *summary;
 
 	gchar *location;
-        gchar *status;
+	gchar *status;
 	gchar *comment;
 
 	struct tm *start_tm;
 	gint start_tm_is_date : 1;
-        gchar *start_label;
-        const gchar *start_header;
+	gchar *start_label;
+	const gchar *start_header;
 
 	struct tm *end_tm;
 	gint end_tm_is_date : 1;
-        gchar *end_label;
-        const gchar *end_header;
+	gchar *end_label;
+	const gchar *end_header;
 
 	GSList *upper_info_items;
 	GSList *lower_info_items;
@@ -97,14 +97,14 @@ struct _ItipViewPrivate {
 
 	gint buttons_sensitive : 1;
 
-        gboolean is_recur_set;
+	gboolean is_recur_set;
 
 	gint needs_decline : 1;
 
-        WebKitDOMDocument *dom_document;
-        ItipPURI *puri;
+	WebKitDOMDocument *dom_document;
+	ItipPURI *puri;
 
-        gchar *error;
+	gchar *error;
 };
 
 #define TEXT_ROW_SENDER "text_row_sender"
@@ -150,7 +150,6 @@ struct _ItipViewPrivate {
 #define DIV_ITIP_CONTENT "div_itip_content"
 #define DIV_ITIP_ERROR "div_itip_error"
 
-/* Signal IDs */
 enum {
 	SOURCE_SELECTED,
 	RESPONSE,
@@ -2292,9 +2291,9 @@ itip_view_set_source (ItipView *view,
 	select = webkit_dom_document_get_element_by_id (
 		view->priv->dom_document, SELECT_ESOURCE);
 
-        /* <select> does not emit 'change' event when already selected <option>
-         * is re-selected, but we need to notify itip formatter, so that it would
-         * make all the buttons sensitive */
+	/* <select> does not emit 'change' event when already selected
+	 * <option> is re-selected, but we need to notify itip formatter,
+	 * so that it would make all the buttons sensitive. */
 	if (source == itip_view_get_source (view)) {
 		source_changed_cb (select, NULL, view);
 	}

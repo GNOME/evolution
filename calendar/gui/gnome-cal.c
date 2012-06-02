@@ -37,7 +37,6 @@
 #include <glib/gi18n.h>
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-url.h>
-#include <libedataserverui/e-passwords.h>
 #include <libedataserverui/e-client-utils.h>
 
 #include <libecal/e-cal-client-view.h>

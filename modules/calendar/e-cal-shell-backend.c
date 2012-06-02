@@ -422,17 +422,23 @@ action_event_new_cb (GtkAction *action,
 	/* Use a callback function appropriate for the action.
 	 * FIXME Need to obtain a better default time zone. */
 	if (strcmp (action_name, "event-all-day-new") == 0)
-		e_client_utils_open_new (source, source_type, FALSE, NULL,
+		e_client_utils_open_new (
+			source, source_type, FALSE, NULL,
 			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
-			cal_shell_backend_event_all_day_new_cb, g_object_ref (shell));
+			cal_shell_backend_event_all_day_new_cb,
+			g_object_ref (shell));
 	else if (strcmp (action_name, "event-meeting-new") == 0)
-		e_client_utils_open_new (source, source_type, FALSE, NULL,
+		e_client_utils_open_new (
+			source, source_type, FALSE, NULL,
 			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
-			cal_shell_backend_event_meeting_new_cb, g_object_ref (shell));
+			cal_shell_backend_event_meeting_new_cb,
+			g_object_ref (shell));
 	else
-		e_client_utils_open_new (source, source_type, FALSE, NULL,
+		e_client_utils_open_new (
+			source, source_type, FALSE, NULL,
 			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
-			cal_shell_backend_event_new_cb, g_object_ref (shell));
+			cal_shell_backend_event_new_cb,
+			g_object_ref (shell));
 
 	g_object_unref (source_list);
 }

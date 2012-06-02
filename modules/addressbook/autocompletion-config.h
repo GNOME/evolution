@@ -30,7 +30,7 @@
 
 G_BEGIN_DECLS
 
-GtkWidget *autocompletion_config_new (EPreferencesWindow *window);
+GtkWidget *	autocompletion_config_new	(EPreferencesWindow *window);
 
 G_END_DECLS
 

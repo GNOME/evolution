@@ -25,6 +25,7 @@
 #endif
 
 #include <gtk/gtk.h>
+
 #include "e-cal-config.h"
 
 #define E_CAL_CONFIG_GET_PRIVATE(obj) \

@@ -126,7 +126,9 @@ final_id_cb (EBookClient *book_client,
 	EContactMergingLookup *lookup = closure;
 
 	if (lookup->id_cb)
-		lookup->id_cb (lookup->book_client, error, id, lookup->closure);
+		lookup->id_cb (
+			lookup->book_client,
+			error, id, lookup->closure);
 
 	free_lookup (lookup);
 

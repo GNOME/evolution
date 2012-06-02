@@ -59,14 +59,17 @@ struct _EMailShellBackendClass {
 	EMailBackendClass parent_class;
 };
 
-GType		e_mail_shell_backend_get_type		(void);
-void		e_mail_shell_backend_type_register	(GTypeModule *type_module);
+GType		e_mail_shell_backend_get_type	(void);
+void		e_mail_shell_backend_type_register
+						(GTypeModule *type_module);
 
-void		e_mail_shell_backend_new_account	(EMailShellBackend *mail_shell_backend,
-							 GtkWindow *parent);
-void		e_mail_shell_backend_edit_account	(EMailShellBackend *mail_shell_backend,
-							 GtkWindow *parent,
-							 EAccount *account);
+void		e_mail_shell_backend_new_account
+						(EMailShellBackend *mail_shell_backend,
+						 GtkWindow *parent);
+void		e_mail_shell_backend_edit_account
+						(EMailShellBackend *mail_shell_backend,
+						 GtkWindow *parent,
+						 EAccount *account);
 
 /* XXX Find a better place for this function. */
 GSList *	e_mail_labels_get_filter_options (void);

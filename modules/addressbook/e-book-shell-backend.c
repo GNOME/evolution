@@ -284,13 +284,17 @@ action_contact_new_cb (GtkAction *action,
 	/* Use a callback function appropriate for the action. */
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "contact-new") == 0)
-		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+		e_client_utils_open_new (
+			source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
 			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
-			book_shell_backend_new_contact_cb, g_object_ref (shell));
+			book_shell_backend_new_contact_cb,
+			g_object_ref (shell));
 	if (strcmp (action_name, "contact-new-list") == 0)
-		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+		e_client_utils_open_new (
+			source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
 			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
-			book_shell_backend_new_contact_list_cb, g_object_ref (shell));
+			book_shell_backend_new_contact_list_cb,
+			g_object_ref (shell));
 
 	g_object_unref (source_list);
 }

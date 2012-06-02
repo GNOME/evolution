@@ -712,8 +712,8 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 
 	e_cal_shell_view_search_stop (cal_shell_view);
 
-	/* Calling calendar's save state from here,
-	 * because it is too late in its dispose. */
+	/* Calling ECalShellContent's save state from here,
+	 * because it is too late in its own dispose(). */
 	if (priv->cal_shell_content != NULL)
 		e_cal_shell_content_save_state (priv->cal_shell_content);
 

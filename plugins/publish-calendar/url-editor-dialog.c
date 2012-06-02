@@ -25,10 +25,13 @@
 #endif
 
 #include "url-editor-dialog.h"
+
+#include <string.h>
+#include <glib/gi18n.h>
+
 #include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-url.h>
-#include <glib/gi18n.h>
-#include <string.h>
+
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
 
@@ -588,8 +591,15 @@ url_editor_dialog_run (UrlEditorDialog *dialog)
 		}
 
 		l = e_source_selector_get_selection (E_SOURCE_SELECTOR (dialog->events_selector));
-		for (p = l; p; p = g_slist_next (p))
-			dialog->uri->events = g_slist_append (dialog->uri->events, g_strdup (e_source_get_uid (p->data)));
+		for (p = l; p; p = g_slist_next (p)) {
+			ESource *source;
+			const gchar *uid;
+
+			source = E_SOURCE (p->data);
+			uid = e_source_get_uid (source);
+			dialog->uri->events = g_slist_append (
+				dialog->uri->events, g_strdup (uid));
+		}
 	}
 	gtk_widget_hide (GTK_WIDGET (dialog));
 

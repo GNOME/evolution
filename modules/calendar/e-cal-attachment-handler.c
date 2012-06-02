@@ -363,13 +363,15 @@ attachment_handler_run_dialog (GtkWindow *parent,
 		e_client_utils_open_new (
 			source, E_CLIENT_SOURCE_TYPE_EVENTS, FALSE, NULL,
 			e_client_utils_authenticate_handler, NULL,
-			attachment_handler_import_event, g_object_ref (attachment));
+			attachment_handler_import_event,
+			g_object_ref (attachment));
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 		e_client_utils_open_new (
 			source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
 			e_client_utils_authenticate_handler, NULL,
-			attachment_handler_import_todo, g_object_ref (attachment));
+			attachment_handler_import_todo,
+			g_object_ref (attachment));
 		break;
 	default:
 		break;

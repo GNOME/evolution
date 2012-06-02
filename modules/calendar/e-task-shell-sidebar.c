@@ -750,7 +750,8 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		client = g_hash_table_lookup (
 			task_shell_sidebar->priv->client_table,
 			e_source_get_uid (source));
-		refresh_supported = client &&
+		refresh_supported =
+			client != NULL &&
 			e_client_check_refresh_supported (E_CLIENT (client));
 
 		g_object_unref (source);

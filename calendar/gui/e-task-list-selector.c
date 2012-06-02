@@ -18,9 +18,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include "e-task-list-selector.h"
 
@@ -212,7 +210,8 @@ task_list_selector_process_data (ESourceSelector *selector,
 	if (!E_IS_SOURCE (source) || e_source_get_readonly (source))
 		goto exit;
 
-	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_MEMOS, TRUE, NULL,
+	e_client_utils_open_new (
+		source, E_CLIENT_SOURCE_TYPE_MEMOS, TRUE, NULL,
 		e_client_utils_authenticate_handler, NULL,
 		client_opened_cb, g_strdup (old_uid));
 
@@ -303,7 +302,8 @@ task_list_selector_data_dropped (ESourceSelector *selector,
 	dd->action = action;
 	dd->list = cal_comp_selection_get_string_list (selection_data);
 
-	e_client_utils_open_new (destination, E_CLIENT_SOURCE_TYPE_TASKS, TRUE, NULL,
+	e_client_utils_open_new (
+		destination, E_CLIENT_SOURCE_TYPE_TASKS, TRUE, NULL,
 		e_client_utils_authenticate_handler, NULL,
 		client_opened_for_drop_cb, dd);
 

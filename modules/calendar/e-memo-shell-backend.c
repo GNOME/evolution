@@ -283,13 +283,17 @@ action_memo_new_cb (GtkAction *action,
 	 * FIXME Need to obtain a better default time zone. */
 	action_name = gtk_action_get_name (action);
 	if (g_strcmp0 (action_name, "memo-shared-new") == 0)
-		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_MEMOS, FALSE, NULL,
+		e_client_utils_open_new (
+			source, E_CLIENT_SOURCE_TYPE_MEMOS, FALSE, NULL,
 			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
-			memo_shell_backend_memo_shared_new_cb, g_object_ref (shell));
+			memo_shell_backend_memo_shared_new_cb,
+			g_object_ref (shell));
 	else
-		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_MEMOS, FALSE, NULL,
+		e_client_utils_open_new (
+			source, E_CLIENT_SOURCE_TYPE_MEMOS, FALSE, NULL,
 			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
-			memo_shell_backend_memo_new_cb, g_object_ref (shell));
+			memo_shell_backend_memo_new_cb,
+			g_object_ref (shell));
 
 	g_object_unref (source_list);
 }

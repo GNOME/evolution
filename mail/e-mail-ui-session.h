@@ -75,16 +75,16 @@ struct _EMailUISessionClass {
 
 };
 
-GType		e_mail_ui_session_get_type		(void);
-EMailSession *	e_mail_ui_session_new			(void);
+GType		e_mail_ui_session_get_type	(void);
+EMailSession *	e_mail_ui_session_new		(void);
 EMailAccountStore *
 		e_mail_ui_session_get_account_store
 						(EMailUISession *session);
-void		e_mail_ui_session_add_activity	(EMailUISession *session,
-						 EActivity *activity);
 EMailLabelListStore *
 		e_mail_ui_session_get_label_store
 						(EMailUISession *session);
+void		e_mail_ui_session_add_activity	(EMailUISession *session,
+						 EActivity *activity);
 
 G_END_DECLS
 

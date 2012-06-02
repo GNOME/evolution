@@ -826,6 +826,14 @@ e_mail_ui_session_get_account_store (EMailUISession *session)
 	return session->priv->account_store;
 }
 
+EMailLabelListStore *
+e_mail_ui_session_get_label_store (EMailUISession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), NULL);
+
+	return session->priv->label_store;
+}
+
 void
 e_mail_ui_session_add_activity (EMailUISession *session,
                                 EActivity *activity)
@@ -834,13 +842,5 @@ e_mail_ui_session_add_activity (EMailUISession *session,
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
 	g_signal_emit (session, signals[ACTIVITY_ADDED], 0, activity);
-}
-
-EMailLabelListStore *
-e_mail_ui_session_get_label_store (EMailUISession *session)
-{
-	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), NULL);
-
-	return session->priv->label_store;
 }
 

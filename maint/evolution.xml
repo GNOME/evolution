@@ -28,9 +28,7 @@
 
     <glade-widget-class name="EPortEntry" generic-name="port-entry" title="Port Entry" get-type-function="e_port_entry_get_type"/>
 
-    <glade-widget-class name="ESourceComboBox" generic-name="source-combo-box" title="Source Combo Box">
-      <property id="source-list"/>
-    </glade-widget-class>
+    <glade-widget-class name="ESourceComboBox" generic-name="source-combo-box" title="Source Combo Box"/>
 
     <glade-widget-class name="ETimezoneEntry" generic-name="timezone-entry" title="Timezone Entry">
       <property id="timezone"/>
