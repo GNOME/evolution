@@ -711,8 +711,10 @@ void
 e_mail_shell_backend_new_account (EMailShellBackend *mail_shell_backend,
                                   GtkWindow *parent)
 {
+#ifdef WITH_CAPPLET
 	EShell *shell;
 	EShellBackend *shell_backend;
+#endif /* WITH_CAPPLET */
 	EMailShellBackendPrivate *priv;
 
 	g_return_if_fail (mail_shell_backend != NULL);
@@ -725,10 +727,10 @@ e_mail_shell_backend_new_account (EMailShellBackend *mail_shell_backend,
 		return;
 	}
 
+#ifdef WITH_CAPPLET
 	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-#ifdef WITH_CAPPLET
 	if (e_shell_get_express_mode (shell))
 		priv->assistant = mail_capplet_shell_new (0, TRUE, FALSE);
 #endif /* WITH_CAPPLET */
