@@ -48,12 +48,6 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include <libedataserver/e-xml-utils.h>
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-source-camel.h>
-#include <libedataserver/e-source-registry.h>
-#include <libedataserver/e-source-mail-account.h>
-
 #include <shell/e-shell.h>
 #include <shell/e-shell-migrate.h>
 

@@ -26,9 +26,7 @@
 #ifndef __EAB_CONTACT_COMPARE_H__
 #define __EAB_CONTACT_COMPARE_H__
 
-#include <libebook/e-contact.h>
-#include <libebook/e-book-client.h>
-#include <libedataserver/e-source-registry.h>
+#include <libebook/libebook.h>
 
 typedef enum {
 	EAB_CONTACT_MATCH_NOT_APPLICABLE = 0,

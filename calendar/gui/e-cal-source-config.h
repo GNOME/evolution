@@ -19,9 +19,8 @@
 #ifndef E_CAL_SOURCE_CONFIG_H
 #define E_CAL_SOURCE_CONFIG_H
 
-#include <libecal/e-cal-client.h>
+#include <libecal/libecal.h>
 #include <misc/e-source-config.h>
-#include <libedataserver/e-source-extension.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CAL_SOURCE_CONFIG \

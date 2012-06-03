@@ -46,7 +46,6 @@
 #include <time.h>
 
 #include <glib/gi18n.h>
-#include <libedataserver/e-data-server-util.h>
 
 /* for e_utf8_strftime, what about e_time_format_time? */
 #include <e-util/e-util.h>

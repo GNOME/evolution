@@ -17,10 +17,10 @@
 #ifndef EAB_CONTACT_FORMATTER_H
 #define EAB_CONTACT_FORMATTER_H
 
-#include <libebook/e-contact.h>
-#include <addressbook/gui/widgets/eab-contact-display.h>
-
 #include <camel/camel.h>
+#include <libebook/libebook.h>
+
+#include <addressbook/gui/widgets/eab-contact-display.h>
 
 /* Standard GObject macros */
 #define EAB_TYPE_CONTACT_FORMATTER \

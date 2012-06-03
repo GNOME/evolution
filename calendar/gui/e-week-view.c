@@ -51,7 +51,6 @@
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "itip-utils.h"
-#include <libecal/e-cal-time-util.h>
 #include "calendar-config.h"
 #include "print.h"
 #include "e-cal-model-calendar.h"

@@ -19,7 +19,7 @@
 #ifndef E_SOURCE_LDAP_H
 #define E_SOURCE_LDAP_H
 
-#include <libedataserver/e-source-extension.h>
+#include <libedataserver/libedataserver.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SOURCE_LDAP \

@@ -28,8 +28,7 @@
 #include <unistd.h>
 #include <gtk/gtk.h>
 #include <webkit/webkitdom.h>
-#include <libecal/e-cal-client.h>
-#include <libedataserver/e-source-registry.h>
+#include <libecal/libecal.h>
 
 /* Standard GObject macros */
 #define ITIP_TYPE_VIEW \

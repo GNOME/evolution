@@ -19,8 +19,7 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libebackend/e-extension.h>
-#include <libedataserver/e-source-mail-account.h>
+#include <libebackend/libebackend.h>
 
 #include <mail/e-mail-config-notebook.h>
 

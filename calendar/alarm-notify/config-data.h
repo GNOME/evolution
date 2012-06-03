@@ -27,7 +27,7 @@
 #define CONFIG_DATA_H
 
 #include <libical/ical.h>
-#include <libecal/e-cal-client.h>
+#include <libecal/libecal.h>
 
 icaltimezone *	config_data_get_timezone	(void);
 gboolean	config_data_get_24_hour_format	(void);

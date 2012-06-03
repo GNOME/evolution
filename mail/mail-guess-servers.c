@@ -42,8 +42,6 @@
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
 
-#include <libedataserver/e-proxy.h>
-
 #include <shell/e-shell.h>
 #include <e-util/e-util-private.h>
 

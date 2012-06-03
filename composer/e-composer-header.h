@@ -19,7 +19,7 @@
 #define E_COMPOSER_HEADER_H
 
 #include <composer/e-composer-common.h>
-#include <libedataserver/e-source-registry.h>
+#include <libedataserver/libedataserver.h>
 
 /* Standard GObject macros */
 #define E_TYPE_COMPOSER_HEADER \

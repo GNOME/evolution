@@ -25,7 +25,7 @@
 
 #ifdef WITH_CONTACT_MAPS
 
-#include <libebook/e-contact.h>
+#include <libebook/libebook.h>
 
 #include <champlain/champlain.h>
 

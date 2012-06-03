@@ -21,7 +21,8 @@
  *
  */
 
-#include <gio/gio.h>
+#include <libecal/libecal.h>
+
 #include "publish-location.h"
 
 #ifndef PUBLISH_FORMAT_FB_H

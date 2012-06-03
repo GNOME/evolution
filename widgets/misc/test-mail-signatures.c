@@ -18,7 +18,7 @@
 
 #include <stdlib.h>
 
-#include <libedataserver/e-source-mail-identity.h>
+#include <libedataserver/libedataserver.h>
 
 #include <libevolution-utils/e-alert-sink.h>
 #include <misc/e-mail-identity-combo-box.h>

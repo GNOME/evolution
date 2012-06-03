@@ -33,7 +33,7 @@
 #define E_TIMEZONE_ENTRY_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-client.h>
+#include <libecal/libecal.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TIMEZONE_ENTRY \

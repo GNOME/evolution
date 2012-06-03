@@ -29,7 +29,7 @@
 #include <gtk/gtk.h>
 
 #include <glib/gi18n.h>
-#include <libedataserverui/e-passwords.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include "ca-trust-dialog.h"
 #include "e-cert-db.h"

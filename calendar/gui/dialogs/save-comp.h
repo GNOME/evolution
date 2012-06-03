@@ -27,7 +27,7 @@
 #define SAVE_COMP_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-component.h>
+#include <libecal/libecal.h>
 
 GtkResponseType save_component_dialog (GtkWindow *parent, ECalComponent *comp);
 

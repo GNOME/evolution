@@ -23,13 +23,9 @@
 #ifndef __E_CONTACT_LIST_EDITOR_H__
 #define __E_CONTACT_LIST_EDITOR_H__
 
-#include <libedataserverui/e-name-selector.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include "addressbook/gui/contact-editor/eab-editor.h"
-
-#include <libebook/e-book-client.h>
-#include <libebook/e-contact.h>
-#include <libebook/e-destination.h>
 
 #define E_TYPE_CONTACT_LIST_EDITOR \
 	(e_contact_list_editor_get_type ())

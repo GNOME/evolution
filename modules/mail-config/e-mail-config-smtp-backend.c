@@ -22,9 +22,7 @@
 #include <glib/gi18n-lib.h>
 
 #include <camel/camel.h>
-#include <libebackend/e-extension.h>
-#include <libedataserver/e-source-backend.h>
-#include <libedataserver/e-data-server-util.h>
+#include <libebackend/libebackend.h>
 
 #include <misc/e-port-entry.h>
 

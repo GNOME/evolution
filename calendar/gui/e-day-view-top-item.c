@@ -30,9 +30,7 @@
 
 #include <glib/gi18n.h>
 #include "e-util/e-categories-config.h"
-#include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-categories.h>
+
 #include "e-calendar-view.h"
 #include "e-day-view-top-item.h"
 

@@ -31,10 +31,6 @@
 #include <string.h>
 #include <glib/gstdio.h>
 #include <glib/gi18n-lib.h>
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-composition.h>
-#include <libedataserver/e-source-mail-submission.h>
 
 #include <shell/e-shell.h>
 

@@ -27,7 +27,6 @@
 #include <glib/gi18n.h>
 #include <gtkhtml/gtkhtml.h>
 #include <camel/camel-search-private.h>  /* for camel_search_word */
-#include <libedataserver/e-source-mail-account.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-ui-manager.h>

@@ -24,9 +24,8 @@
 #include "e-memo-list-selector.h"
 
 #include <string.h>
-#include <libecal/e-cal-client.h>
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserverui/e-client-utils.h>
+#include <libecal/libecal.h>
+
 #include "e-util/e-selection.h"
 #include "calendar/gui/comp-util.h"
 

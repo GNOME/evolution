@@ -25,7 +25,7 @@
 
 #include <time.h>
 #include <gtk/gtk.h>
-#include <libecal/e-cal-component.h>
+#include <libecal/libecal.h>
 
 typedef enum {
 	ALARM_NOTIFY_CLOSE,

@@ -22,15 +22,7 @@
 #include <glib/gi18n-lib.h>
 
 #include <camel/camel.h>
-
-#include <libebackend/e-extensible.h>
-#include <libedataserver/e-source-authentication.h>
-#include <libedataserver/e-source-collection.h>
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-identity.h>
-#include <libedataserver/e-source-mail-submission.h>
-#include <libedataserver/e-source-mail-transport.h>
-#include <libedataserver/e-source-security.h>
+#include <libebackend/libebackend.h>
 
 #define E_MAIL_CONFIG_SUMMARY_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

@@ -47,8 +47,6 @@
 #include <table/e-cell-date-edit.h>
 #include <table/e-cell-percent.h>
 #include <table/e-table-sorting-utils.h>
-#include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-time-utils.h>
 
 #include "calendar-config.h"
 #include "dialogs/delete-comp.h"

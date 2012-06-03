@@ -28,11 +28,10 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+
 #include "e-day-view-time-item.h"
 #include "calendar-config.h"
-#include <libecal/e-cal-time-util.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
-#include <libedataserver/e-data-server-util.h>
 
 /* The spacing between items in the time column. GRID_X_PAD is the space down
  * either side of the column, i.e. outside the main horizontal grid lines.

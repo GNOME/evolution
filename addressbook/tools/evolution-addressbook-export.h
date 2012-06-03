@@ -24,7 +24,7 @@
 #ifndef _EVOLUTION_ADDRESSBOOK_EXPORT_H_
 #define _EVOLUTION_ADDRESSBOOK_EXPORT_H__
 
-#include <libedataserver/e-source-registry.h>
+#include <libedataserver/libedataserver.h>
 
 G_BEGIN_DECLS
 

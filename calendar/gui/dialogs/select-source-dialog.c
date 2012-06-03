@@ -26,8 +26,8 @@
 #endif
 
 #include <glib/gi18n.h>
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserverui/e-source-selector-dialog.h>
+#include <libedataserverui/libedataserverui.h>
+
 #include "select-source-dialog.h"
 
 /**

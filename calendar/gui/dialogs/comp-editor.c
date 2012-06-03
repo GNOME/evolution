@@ -36,16 +36,13 @@
 #include <glib/gstdio.h>
 #include <gio/gio.h>
 #include <gdk/gdkkeysyms.h>
-#include <libebackend/e-extensible.h>
+#include <libebackend/libebackend.h>
+
 #include <e-util/e-util.h>
 #include <libevolution-utils/e-alert-sink.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <shell/e-shell.h>
-
-#include <libedataserver/e-data-server-util.h>
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-client-view.h>
 
 #include "../print.h"
 #include "../comp-util.h"

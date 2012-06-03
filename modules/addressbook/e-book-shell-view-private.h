@@ -27,11 +27,8 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <libebook/e-book-client.h>
-#include <libedataserver/e-categories.h>
-#include <libedataserver/e-sexp.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserverui/e-source-selector.h>
+#include <libebook/libebook.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include "e-util/e-util.h"
 #include "e-util/e-file-utils.h"

@@ -27,8 +27,7 @@
 
 #include <time.h>
 #include <gtk/gtk.h>
-#include <libecal/e-cal-component.h>
-#include <libecal/e-cal-client.h>
+#include <libecal/libecal.h>
 
 #include <calendar/gui/e-meeting-attendee.h>
 

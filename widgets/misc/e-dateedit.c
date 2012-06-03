@@ -37,9 +37,9 @@
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>
 #include <glib/gi18n.h>
-#include <libebackend/e-extensible.h>
-#include <libedataserver/e-time-utils.h>
-#include <libedataserver/e-data-server-util.h>
+
+#include <libebackend/libebackend.h>
+
 #include <e-util/e-util.h>
 #include "e-calendar.h"
 

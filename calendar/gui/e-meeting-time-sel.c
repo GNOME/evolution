@@ -33,7 +33,7 @@
 #include <time.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <libebackend/e-extensible.h>
+#include <libebackend/libebackend.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 
 #include "misc/e-canvas.h"

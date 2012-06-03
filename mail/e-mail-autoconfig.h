@@ -19,8 +19,7 @@
 #ifndef E_MAIL_AUTOCONFIG_H
 #define E_MAIL_AUTOCONFIG_H
 
-#include <gio/gio.h>
-#include <libedataserver/e-source.h>
+#include <libedataserver/libedataserver.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_AUTOCONFIG \

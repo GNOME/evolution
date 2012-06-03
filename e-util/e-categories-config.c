@@ -29,8 +29,8 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-categories.h>
-#include <libedataserverui/e-categories-dialog.h>
+
+#include <libedataserverui/libedataserverui.h>
 
 #include "e-util/e-util.h"
 

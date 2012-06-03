@@ -20,11 +20,8 @@
  *
  */
 
-#include <gtk/gtk.h>
-#include <gio/gio.h>
-#include <libedataserver/e-source.h>
-#include <libedataserverui/e-source-selector.h>
-#include <libecal/e-cal-client.h>
+#include <libecal/libecal.h>
+#include <libedataserverui/libedataserverui.h>
 
 typedef struct _FormatHandler FormatHandler;
 

@@ -50,8 +50,6 @@
 #include <shell/e-shell.h>
 #include <shell/e-shell-utils.h>
 
-#include <libedataserver/e-flag.h>
-
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 #include "certificate-viewer.h"
 #include "e-cert-db.h"

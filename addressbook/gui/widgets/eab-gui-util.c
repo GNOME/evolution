@@ -34,11 +34,9 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libebook/e-destination.h>
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-source-address-book.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserverui/e-source-selector.h>
+
+#include <libedataserverui/libedataserverui.h>
+
 #include <e-util/e-util.h>
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"

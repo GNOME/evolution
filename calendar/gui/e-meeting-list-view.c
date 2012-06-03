@@ -28,16 +28,13 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libebook/e-book-client.h>
-#include <libebook/e-vcard.h>
-#include <libecal/e-cal-component.h>
-#include <libecal/e-cal-util.h>
-#include <libecal/e-cal-time-util.h>
-#include <libedataserverui/e-name-selector.h>
+#include <libecal/libecal.h>
+#include <libebook/libebook.h>
+#include <libedataserverui/libedataserverui.h>
+
 #include "calendar-config.h"
 #include "e-meeting-list-view.h"
 #include "itip-utils.h"
-#include <libebook/e-destination.h>
 #include <shell/e-shell.h>
 #include "e-select-names-renderer.h"
 

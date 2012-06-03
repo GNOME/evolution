@@ -26,11 +26,8 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-time-utils.h>
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserverui/e-source-combo-box.h>
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-time-util.h>
+#include <libedataserverui/libedataserverui.h>
+
 #include <mail/em-format-hook.h>
 #include <mail/em-format-html.h>
 #include <e-util/e-util.h>

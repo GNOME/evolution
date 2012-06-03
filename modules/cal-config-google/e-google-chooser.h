@@ -20,7 +20,7 @@
 #define E_GOOGLE_CHOOSER_H
 
 #include <gtk/gtk.h>
-#include <libedataserver/e-source.h>
+#include <libedataserver/libedataserver.h>
 
 /* Standard GObject macros */
 #define E_TYPE_GOOGLE_CHOOSER \

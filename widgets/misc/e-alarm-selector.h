@@ -19,7 +19,7 @@
 #ifndef E_ALARM_SELECTOR_H
 #define E_ALARM_SELECTOR_H
 
-#include <libedataserverui/e-source-selector.h>
+#include <libedataserverui/libedataserverui.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ALARM_SELECTOR \

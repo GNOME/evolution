@@ -22,10 +22,7 @@
 #include "e-composer-header-table.h"
 
 #include <glib/gi18n-lib.h>
-#include <libedataserverui/e-name-selector.h>
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-composition.h>
-#include <libedataserver/e-source-mail-identity.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <shell/e-shell.h>
 #include <misc/e-mail-signature-combo-box.h>

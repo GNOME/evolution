@@ -18,8 +18,6 @@
 
 #include "e-conflict-search-selector.h"
 
-#include <libedataserver/e-source-calendar.h>
-
 #include "e-source-conflict-search.h"
 
 /* This forces the GType to be registered in a way that

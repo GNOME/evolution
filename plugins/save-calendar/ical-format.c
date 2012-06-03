@@ -25,14 +25,8 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtk.h>
-#include <glib/gi18n.h>
-#include <libedataserver/e-source.h>
-#include <libedataserverui/e-source-selector.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-util.h>
 #include <string.h>
+#include <glib/gi18n.h>
 
 #include "format-handler.h"
 

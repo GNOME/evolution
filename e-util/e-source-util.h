@@ -25,7 +25,7 @@
 #ifndef E_SOURCE_UTIL_H
 #define E_SOURCE_UTIL_H
 
-#include <libedataserver/e-source.h>
+#include <libedataserver/libedataserver.h>
 
 #include <e-util/e-activity.h>
 #include <libevolution-utils/e-alert-sink.h>

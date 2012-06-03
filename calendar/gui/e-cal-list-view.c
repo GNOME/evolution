@@ -45,7 +45,6 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 
-#include <libecal/e-cal-time-util.h>
 #include "e-cal-model-calendar.h"
 #include "e-cell-date-edit-text.h"
 #include "dialogs/delete-comp.h"

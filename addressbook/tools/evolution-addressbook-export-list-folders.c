@@ -27,10 +27,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <libebook/e-book-client.h>
-#include <libebook/e-book-query.h>
-#include <libedataserver/e-source-registry.h>
-#include <libedataserver/e-source-address-book.h>
+#include <libebook/libebook.h>
 
 #include "evolution-addressbook-export.h"
 

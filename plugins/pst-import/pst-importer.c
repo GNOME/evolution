@@ -39,23 +39,12 @@
 #include <glib/gprintf.h>
 
 #include <gtk/gtk.h>
+#include <libecal/libecal.h>
+#include <libebook/libebook.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <e-util/e-import.h>
 #include <e-util/e-plugin.h>
-
-#include <libebook/e-contact.h>
-#include <libebook/e-book-client.h>
-
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-component.h>
-
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-source-registry.h>
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserver/e-source-address-book.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserverui/e-source-combo-box.h>
-#include <libedataserverui/e-source-selector-dialog.h>
 
 #include <libemail-utils/mail-mt.h>
 #include <libemail-engine/mail-tools.h>

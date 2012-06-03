@@ -33,9 +33,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-time-utils.h>
-#include <libecal/e-cal-util.h>
-#include <libecal/e-cal-time-util.h>
+
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "alarm-dialog.h"

@@ -30,10 +30,6 @@
 
 #include <champlain/champlain.h>
 
-#include <libebook/e-book-client.h>
-#include <libebook/e-book-query.h>
-#include <libebook/e-contact.h>
-
 #include <string.h>
 
 #include <glib/gi18n.h>

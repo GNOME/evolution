@@ -21,7 +21,7 @@
 
 #include <gtkhtml-editor.h>
 #include <misc/e-focus-tracker.h>
-#include <libedataserver/e-source-registry.h>
+#include <libedataserver/libedataserver.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SIGNATURE_EDITOR \

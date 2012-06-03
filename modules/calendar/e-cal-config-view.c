@@ -22,7 +22,7 @@
 
 #include "e-cal-config-view.h"
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <shell/e-shell.h>
 #include <calendar/gui/e-day-view.h>

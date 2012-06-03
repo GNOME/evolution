@@ -22,7 +22,8 @@
 #ifndef E_ATTACHMENT_HANDLER_H
 #define E_ATTACHMENT_HANDLER_H
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
+
 #include <misc/e-attachment-view.h>
 
 /* Standard GObject macros */

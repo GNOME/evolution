@@ -24,7 +24,8 @@
 #ifndef E_CAL_CONFIG_H
 #define E_CAL_CONFIG_H
 
-#include <libecal/e-cal-client.h>
+#include <libecal/libecal.h>
+
 #include "e-util/e-config.h"
 
 /* Standard GObject macros */

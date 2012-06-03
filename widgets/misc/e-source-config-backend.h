@@ -19,7 +19,7 @@
 #ifndef E_SOURCE_CONFIG_BACKEND_H
 #define E_SOURCE_CONFIG_BACKEND_H
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <misc/e-source-config.h>
 

@@ -22,9 +22,7 @@
 
 #include <libical/ical.h>
 #include <string.h>
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-component.h>
-#include <libedataserver/e-source-registry.h>
+#include <libecal/libecal.h>
 
 G_BEGIN_DECLS
 

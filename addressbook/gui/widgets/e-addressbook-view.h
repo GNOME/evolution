@@ -23,8 +23,7 @@
 #ifndef E_ADDRESSBOOK_VIEW_H
 #define E_ADDRESSBOOK_VIEW_H
 
-#include <libebook/e-book-client.h>
-#include <libebook/e-contact.h>
+#include <libebook/libebook.h>
 
 #include <menus/gal-view-instance.h>
 #include <misc/e-selection-model.h>

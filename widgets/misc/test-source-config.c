@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
-#include <libedataserver/e-source-address-book.h>
+#include <libedataserver/libedataserver.h>
 
 #include "e-source-config-dialog.h"
 

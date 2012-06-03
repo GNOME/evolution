@@ -20,11 +20,7 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-#include <libebackend/e-extension.h>
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-identity.h>
-#include <libedataserver/e-source-mail-submission.h>
-#include <libedataserver/e-source-mdn.h>
+#include <libebackend/libebackend.h>
 
 #include <libevolution-utils/e-alert-dialog.h>
 

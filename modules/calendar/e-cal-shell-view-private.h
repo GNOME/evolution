@@ -27,13 +27,8 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <libecal/e-cal-time-util.h>
-#include <libecal/e-cal-system-timezone.h>
-#include <libedataserver/e-categories.h>
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-sexp.h>
-#include <libedataserver/e-source-registry.h>
-#include <libedataserverui/e-client-utils.h>
+#include <libecal/libecal.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <e-util/e-selection.h>
 #include <e-util/e-dialog-utils.h>

@@ -18,9 +18,6 @@
 
 #include "e-mail-identity-combo-box.h"
 
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-identity.h>
-
 #define E_MAIL_IDENTITY_COMBO_BOX_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_IDENTITY_COMBO_BOX, EMailIdentityComboBoxPrivate))

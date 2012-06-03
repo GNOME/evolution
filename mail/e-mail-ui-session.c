@@ -42,11 +42,8 @@
 #include <canberra-gtk.h>
 #endif
 
-#include <libedataserver/e-flag.h>
-#include <libedataserver/e-proxy.h>
-#include <libedataserver/e-source-mail-account.h>
-#include <libebackend/e-extensible.h>
-#include <libedataserverui/e-passwords.h>
+#include <libebackend/libebackend.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include "e-mail-account-store.h"
 

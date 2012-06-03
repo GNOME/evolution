@@ -34,11 +34,7 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <libedataserver/e-source-mail-identity.h>
-#include <libedataserver/e-source-registry.h>
-#include <libedataserverui/e-category-completion.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserverui/e-source-combo-box.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <misc/e-dateedit.h>
 #include <misc/e-spell-entry.h>

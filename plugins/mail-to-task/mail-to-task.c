@@ -32,14 +32,8 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-component.h>
-#include <libedataserver/e-flag.h>
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserver/e-source-mail-identity.h>
-#include <libedataserverui/e-source-selector-dialog.h>
-#include <libedataserverui/e-client-utils.h>
+#include <libecal/libecal.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <libemail-engine/e-mail-utils.h>
 

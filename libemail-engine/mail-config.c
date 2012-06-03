@@ -29,7 +29,7 @@
 
 #include <gtk/gtk.h>
 
-#include <libedataserver/e-data-server-util.h>
+#include <libedataserver/libedataserver.h>
 
 #include "e-mail-folder-utils.h"
 #include "mail-config.h"

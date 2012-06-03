@@ -42,9 +42,7 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <libebook/e-book-client.h>
-#include <libebook/e-book-query.h>
-#include <libedataserverui/e-source-combo-box.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <sys/time.h>
 #include <sys/stat.h>

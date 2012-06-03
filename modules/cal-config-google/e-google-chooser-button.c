@@ -21,8 +21,6 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libedataserver/e-source-webdav.h>
-
 #include "e-google-chooser-dialog.h"
 
 #define E_GOOGLE_CHOOSER_BUTTON_GET_PRIVATE(obj) \

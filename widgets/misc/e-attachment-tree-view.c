@@ -26,7 +26,7 @@
 #include "e-attachment-tree-view.h"
 
 #include <glib/gi18n.h>
-#include <libebackend/e-extensible.h>
+#include <libebackend/libebackend.h>
 
 #include "e-attachment.h"
 #include "e-attachment-store.h"

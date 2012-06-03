@@ -26,11 +26,11 @@
 #endif
 
 #include "publish-location.h"
+
+#include <string.h>
 #include <libxml/tree.h>
 #include <gconf/gconf-client.h>
-#include <libedataserver/e-url.h>
-#include <libedataserverui/e-passwords.h>
-#include <string.h>
+#include <libedataserverui/libedataserverui.h>
 
 static EPublishUri *
 migrateURI (const gchar *xml,

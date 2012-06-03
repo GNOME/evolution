@@ -33,8 +33,6 @@
 #include <gtkhtml/gtkhtml-properties.h>
 #include <libxml/tree.h>
 
-#include "libedataserverui/e-cell-renderer-color.h"
-
 #include <e-util/e-util.h>
 #include <e-util/e-datetime-format.h>
 #include <e-util/e-util-private.h>

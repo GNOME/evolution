@@ -24,7 +24,8 @@
 #ifndef __EAB_CONFIG_H__
 #define __EAB_CONFIG_H__
 
-#include <libedataserver/e-source.h>
+#include <libedataserver/libedataserver.h>
+
 #include "e-util/e-config.h"
 
 #define EAB_TYPE_CONFIG (eab_config_get_type ())

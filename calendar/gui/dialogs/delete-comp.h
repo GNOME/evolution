@@ -27,7 +27,7 @@
 #define DELETE_COMP_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-component.h>
+#include <libecal/libecal.h>
 
 gboolean delete_component_dialog (ECalComponent *comp,
 				  gboolean consider_as_untitled,

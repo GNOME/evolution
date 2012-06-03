@@ -27,7 +27,6 @@
 #endif
 
 #include <string.h>
-#include <libedataserver/e-source-alarms.h>
 #include "config-data.h"
 
 /* Whether we have initied ourselves by reading

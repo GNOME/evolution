@@ -35,12 +35,7 @@
 #include <fcntl.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-categories.h>
-#include <libedataserver/e-url.h>
-#include <libedataserverui/e-client-utils.h>
 
-#include <libecal/e-cal-client-view.h>
-#include <libecal/e-cal-time-util.h>
 #include <widgets/menus/gal-view-factory-etable.h>
 #include <widgets/menus/gal-view-etable.h>
 #include <widgets/menus/gal-define-views-dialog.h>

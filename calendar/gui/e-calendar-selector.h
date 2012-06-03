@@ -21,7 +21,7 @@
 #ifndef E_CALENDAR_SELECTOR_H
 #define E_CALENDAR_SELECTOR_H
 
-#include <libedataserverui/e-source-selector.h>
+#include <libedataserverui/libedataserverui.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CALENDAR_SELECTOR \

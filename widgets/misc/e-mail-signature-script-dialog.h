@@ -20,7 +20,7 @@
 #define E_MAIL_SIGNATURE_SCRIPT_DIALOG_H
 
 #include <gtk/gtk.h>
-#include <libedataserver/e-source-registry.h>
+#include <libedataserver/libedataserver.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SIGNATURE_SCRIPT_DIALOG \

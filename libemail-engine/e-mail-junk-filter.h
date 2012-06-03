@@ -20,7 +20,7 @@
 #define E_MAIL_JUNK_FILTER_H
 
 #include <gtk/gtk.h>
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_JUNK_FILTER \

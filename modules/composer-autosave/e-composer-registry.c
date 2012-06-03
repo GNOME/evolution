@@ -21,7 +21,7 @@
 #endif
 
 #include <glib/gstdio.h>
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>

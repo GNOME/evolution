@@ -24,10 +24,9 @@
 #ifndef CAL_PREFERENCES_H
 #define CAL_PREFERENCES_H
 
-#include <gtk/gtk.h>
+#include <libedataserverui/libedataserverui.h>
+
 #include <shell/e-shell.h>
-#include <libedataserver/e-source-registry.h>
-#include <libedataserverui/e-source-selector.h>
 #include <widgets/misc/e-preferences-window.h>
 
 /* Standard GObject macros */

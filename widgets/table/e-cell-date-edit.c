@@ -42,7 +42,7 @@
 
 #include <glib/gi18n.h>
 
-#include <libedataserver/e-time-utils.h>
+#include <libedataserver/libedataserver.h>
 
 /* This depends on ECalendar which is why I didn't put it in gal. */
 #include <misc/e-calendar.h>

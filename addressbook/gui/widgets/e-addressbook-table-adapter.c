@@ -26,7 +26,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <libebook/e-book-client.h>
+#include <libebook/libebook.h>
 
 #include "e-addressbook-model.h"
 #include "e-addressbook-table-adapter.h"

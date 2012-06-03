@@ -22,7 +22,7 @@
 #ifndef E_BOOK_SHELL_CONTENT_H
 #define E_BOOK_SHELL_CONTENT_H
 
-#include <libebook/e-contact.h>
+#include <libebook/libebook.h>
 
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-searchbar.h>

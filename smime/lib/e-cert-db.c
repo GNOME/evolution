@@ -50,6 +50,8 @@
 
 #include <camel/camel.h>        /* FIXME: this is where camel_init is defined; it shouldn't include everything else */
 
+#include <libedataserverui/libedataserverui.h>
+
 /* private NSS defines used by PSM */
 /* (must be declated before cert.h) */
 #define CERT_NewTempCertificate __CERT_NewTempCertificate
@@ -74,7 +76,6 @@
 #include "prmem.h"
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
-#include <libedataserverui/e-passwords.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>

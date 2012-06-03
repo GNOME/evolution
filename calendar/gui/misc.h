@@ -30,7 +30,6 @@
 #include <time.h>
 
 gboolean string_is_empty (const gchar *value);
-gchar    *get_uri_without_password (const gchar *uri);
 gint get_position_in_array (GPtrArray *objects, gpointer item);
 gchar * calculate_time (time_t start, time_t end);
 #endif

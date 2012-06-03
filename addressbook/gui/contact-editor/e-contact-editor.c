@@ -35,11 +35,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include <libebook/e-address-western.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserverui/e-categories-dialog.h>
-#include <libedataserverui/e-category-completion.h>
-#include <libedataserverui/e-source-combo-box.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"

@@ -21,9 +21,6 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libedataserver/e-source-camel.h>
-#include <libedataserver/e-source-mail-account.h>
-
 #include <mail/e-mail-config-security-page.h>
 
 #include "e-mail-config-header-manager.h"

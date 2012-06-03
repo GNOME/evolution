@@ -18,9 +18,6 @@
 
 #include "e-autocomplete-selector.h"
 
-#include <libedataserver/e-source-address-book.h>
-#include <libedataserver/e-source-autocomplete.h>
-
 G_DEFINE_TYPE (
 	EAutocompleteSelector,
 	e_autocomplete_selector,

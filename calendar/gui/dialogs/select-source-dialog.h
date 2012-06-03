@@ -27,8 +27,7 @@
 #define SELECT_SOURCE_DIALOG_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-client.h>
-#include <libedataserver/e-source-registry.h>
+#include <libecal/libecal.h>
 
 ESource *	select_source_dialog		(GtkWindow *parent,
 						 ESourceRegistry *registry,

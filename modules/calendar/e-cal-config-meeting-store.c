@@ -22,7 +22,7 @@
 
 #include "e-cal-config-meeting-store.h"
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <shell/e-shell.h>
 #include <calendar/gui/e-meeting-store.h>

@@ -24,12 +24,8 @@
 
 #include "autocompletion-config.h"
 
-#include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-source-address-book.h>
-#include <libedataserver/e-source-autocomplete.h>
-#include <libedataserverui/e-source-selector.h>
-#include <libedataserverui/e-name-selector-entry.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include "e-util/e-datetime-format.h"
 #include "misc/e-autocomplete-selector.h"

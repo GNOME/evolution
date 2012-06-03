@@ -30,7 +30,6 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-data-server-util.h>
 
 #include "calendar-config.h"
 #include "e-cal-model-tasks.h"

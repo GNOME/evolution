@@ -22,8 +22,8 @@
 #ifndef E_MEMO_SHELL_SIDEBAR_H
 #define E_MEMO_SHELL_SIDEBAR_H
 
-#include <libecal/e-cal-client.h>
-#include <libedataserverui/e-source-selector.h>
+#include <libecal/libecal.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-view.h>

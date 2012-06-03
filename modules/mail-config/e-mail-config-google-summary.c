@@ -21,11 +21,6 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-source-authentication.h>
-#include <libedataserver/e-source-collection.h>
-#include <libedataserver/e-source-mail-identity.h>
-
 #include <mail/e-mail-config-summary-page.h>
 
 #define E_MAIL_CONFIG_GOOGLE_SUMMARY_GET_PRIVATE(obj) \

@@ -24,7 +24,8 @@
 #define E_MEETING_STORE_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-client.h>
+#include <libecal/libecal.h>
+
 #include <e-util/e-util-enums.h>
 #include "e-meeting-attendee.h"
 

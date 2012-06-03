@@ -32,8 +32,6 @@
 
 #include <dbus/dbus-glib.h>
 
-#include <libedataserver/e-gdbus-templates.h>
-
 #include "alarm-notify.h"
 
 #ifdef G_OS_WIN32

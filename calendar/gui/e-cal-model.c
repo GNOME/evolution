@@ -29,12 +29,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <libebackend/e-extensible.h>
-#include <libedataserver/e-flag.h>
-#include <libedataserver/e-time-utils.h>
-#include <libedataserver/e-source-calendar.h>
-#include <libecal/e-cal-client-view.h>
-#include <libecal/e-cal-time-util.h>
+#include <libebackend/libebackend.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-util-enumtypes.h>

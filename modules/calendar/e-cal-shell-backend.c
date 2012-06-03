@@ -27,12 +27,8 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-url.h>
-#include <libedataserver/e-source.h>
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserverui/e-client-utils.h>
+#include <libecal/libecal.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include "e-util/e-import.h"
 #include "shell/e-shell.h"

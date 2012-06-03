@@ -28,7 +28,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <mail/e-mail-config-assistant.h>
 #include <libevolution-utils/e-alert-dialog.h>

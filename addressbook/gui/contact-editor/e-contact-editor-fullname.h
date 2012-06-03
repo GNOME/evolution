@@ -24,7 +24,7 @@
 #define __E_CONTACT_EDITOR_FULLNAME_H__
 
 #include <gtk/gtk.h>
-#include <libebook/e-contact.h>
+#include <libebook/libebook.h>
 
 G_BEGIN_DECLS
 

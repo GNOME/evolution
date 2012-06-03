@@ -18,9 +18,6 @@
 
 #include "e-alarm-selector.h"
 
-#include <libedataserver/e-source-alarms.h>
-#include <libedataserver/e-source-calendar.h>
-
 G_DEFINE_TYPE (
 	EAlarmSelector,
 	e_alarm_selector,

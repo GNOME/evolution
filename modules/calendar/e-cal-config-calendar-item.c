@@ -22,7 +22,7 @@
 
 #include "e-cal-config-calendar-item.h"
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <shell/e-shell.h>
 #include <misc/e-calendar-item.h>

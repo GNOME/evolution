@@ -28,8 +28,9 @@
 
 #include <gtk/gtk.h>
 #include <libical/ical.h>
-#include <libebook/e-destination.h>
-#include <libedataserverui/e-name-selector.h>
+#include <libebook/libebook.h>
+#include <libedataserverui/libedataserverui.h>
+
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "e-delegate-dialog.h"

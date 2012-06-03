@@ -45,8 +45,6 @@
 #include <e-util/e-util-private.h>
 #include <table/e-cell-date-edit.h>
 #include <table/e-cell-percent.h>
-#include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-time-utils.h>
 
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"

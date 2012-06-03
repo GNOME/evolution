@@ -20,8 +20,7 @@
 #define E_CALDAV_CHOOSER_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-client.h>
-#include <libedataserver/e-source-registry.h>
+#include <libecal/libecal.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CALDAV_CHOOSER \

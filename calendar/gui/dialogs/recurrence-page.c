@@ -32,10 +32,8 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-time-utils.h>
+
 #include <misc/e-dateedit.h>
-#include <libecal/e-cal-recur.h>
-#include <libecal/e-cal-time-util.h>
 #include "../tag-calendar.h"
 #include "../weekday-picker.h"
 #include "comp-editor-util.h"

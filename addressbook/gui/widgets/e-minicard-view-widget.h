@@ -24,7 +24,8 @@
 #define __E_MINICARD_VIEW_WIDGET_H__
 
 #include <misc/e-canvas.h>
-#include <libebook/e-book-client.h>
+#include <libebook/libebook.h>
+
 #include "e-minicard-view.h"
 
 G_BEGIN_DECLS

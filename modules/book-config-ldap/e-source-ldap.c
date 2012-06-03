@@ -20,9 +20,7 @@
 
 #include <ldap.h>
 
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-source-authentication.h>
-#include <libedataserver/e-source-security.h>
+#include <libedataserver/libedataserver.h>
 
 #define E_SOURCE_LDAP_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

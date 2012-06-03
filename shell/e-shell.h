@@ -22,7 +22,7 @@
 #ifndef E_SHELL_H
 #define E_SHELL_H
 
-#include <libedataserver/e-source-registry.h>
+#include <libedataserver/libedataserver.h>
 
 #include <e-util/e-activity.h>
 #include <libevolution-utils/e-alert.h>

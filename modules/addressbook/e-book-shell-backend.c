@@ -27,12 +27,8 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libebook/e-book-client.h>
-#include <libedataserver/e-url.h>
-#include <libedataserver/e-source.h>
-#include <libedataserver/e-source-address-book.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserverui/e-book-auth-util.h>
+#include <libebook/libebook.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include "e-util/e-import.h"
 #include "shell/e-shell.h"

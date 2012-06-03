@@ -51,8 +51,7 @@
 #endif
 
 #include <camel/camel.h>
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-categories.h>
+#include <libedataserver/libedataserver.h>
 
 #include "filter/e-filter-option.h"
 

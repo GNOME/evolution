@@ -26,7 +26,7 @@
 #define E_MAIL_SESSION_H
 
 #include <camel/camel.h>
-#include <libedataserver/e-source-registry.h>
+#include <libedataserver/libedataserver.h>
 #include <libemail-engine/e-mail-enums.h>
 #include <libemail-engine/mail-folder-cache.h>
 #include <libemail-utils/em-vfolder-context.h>

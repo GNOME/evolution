@@ -46,11 +46,12 @@
 #include <glib/gstdio.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libedataserverui/e-passwords.h>
 
 #include <time.h>
 #include <fcntl.h>
 #include <unistd.h>
+
+#include <libedataserverui/libedataserverui.h>
 
 #include "e-cert-db.h"
 #include "e-pkcs12.h"

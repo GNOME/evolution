@@ -21,8 +21,9 @@
 #ifndef _E_ADDRESSBOOK_REFLOW_ADAPTER_H_
 #define _E_ADDRESSBOOK_REFLOW_ADAPTER_H_
 
+#include <libebook/libebook.h>
 #include <text/e-reflow-model.h>
-#include <libebook/e-contact.h>
+
 #include "e-addressbook-model.h"
 
 #define E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER        (e_addressbook_reflow_adapter_get_type ())

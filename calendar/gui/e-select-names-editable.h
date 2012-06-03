@@ -24,7 +24,7 @@
 #ifndef __E_SELECT_NAMES_EDITABLE_H__
 #define __E_SELECT_NAMES_EDITABLE_H__
 
-#include <libedataserverui/e-name-selector-entry.h>
+#include <libedataserverui/libedataserverui.h>
 
 G_BEGIN_DECLS
 

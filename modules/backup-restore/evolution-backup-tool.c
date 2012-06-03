@@ -29,7 +29,7 @@
 #include <glib/gstdio.h>
 #include <gtk/gtk.h>
 
-#include <libedataserver/e-data-server-util.h>
+#include <libedataserver/libedataserver.h>
 
 #ifdef G_OS_WIN32
 #ifdef DATADIR

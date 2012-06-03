@@ -21,10 +21,6 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libedataserver/e-source-collection.h>
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-submission.h>
-
 #include <libevolution-utils/e-alert-dialog.h>
 #include <libevolution-utils/e-alert-sink.h>
 #include <misc/e-alert-bar.h>

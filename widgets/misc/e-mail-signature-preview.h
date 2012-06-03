@@ -20,7 +20,7 @@
 #define E_MAIL_SIGNATURE_PREVIEW_H
 
 #include <misc/e-web-view.h>
-#include <libedataserver/e-source-registry.h>
+#include <libedataserver/libedataserver.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SIGNATURE_PREVIEW \

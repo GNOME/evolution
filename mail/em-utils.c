@@ -45,22 +45,7 @@
 
 #include <glib/gi18n.h>
 
-#include <gio/gio.h>
-
-#include <libebook/e-book-client.h>
-#include <libebook/e-book-query.h>
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-flag.h>
-#include <libedataserver/e-proxy.h>
-#include <libedataserver/e-source-address-book.h>
-#include <libedataserver/e-source-autocomplete.h>
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-composition.h>
-#include <libedataserver/e-source-mail-identity.h>
-#include <libedataserver/e-source-mail-submission.h>
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-flag.h>
-#include <libedataserver/e-proxy.h>
+#include <libebook/libebook.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>

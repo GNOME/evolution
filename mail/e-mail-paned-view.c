@@ -27,8 +27,6 @@
 #include <glib/gi18n.h>
 #include "e-mail-paned-view.h"
 
-#include <libedataserver/e-data-server-util.h>
-
 #include "e-util/e-util-private.h"
 #include "widgets/menus/gal-view-etable.h"
 #include "widgets/menus/gal-view-instance.h"

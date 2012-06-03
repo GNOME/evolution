@@ -30,8 +30,7 @@
 #include <string.h>
 #include <libical/ical.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-time-utils.h>
-#include <libecal/e-cal-time-util.h>
+
 #include "widgets/misc/e-dateedit.h"
 #include "../itip-utils.h"
 #include <shell/e-shell.h>

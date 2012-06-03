@@ -35,7 +35,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <libedataserver/e-xml-utils.h>
+#include <libedataserver/libedataserver.h>
 
 #include "e-alert.h"
 #include "e-alert-sink.h"

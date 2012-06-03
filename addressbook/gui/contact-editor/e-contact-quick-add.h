@@ -23,8 +23,7 @@
 #ifndef __E_CONTACT_QUICK_ADD_H__
 #define __E_CONTACT_QUICK_ADD_H__
 
-#include <libebook/e-contact.h>
-#include <libedataserver/e-source-registry.h>
+#include <libebook/libebook.h>
 
 typedef void	(*EContactQuickAddCallback)	(EContact *new_contact,
 						 gpointer closure);

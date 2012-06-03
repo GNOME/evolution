@@ -31,7 +31,7 @@
 #include <pango/pango.h>
 
 #include <camel/camel.h>
-#include <libebackend/e-extensible.h>
+#include <libebackend/libebackend.h>
 
 #include <e-util/e-util.h>
 #include <libevolution-utils/e-alert-dialog.h>

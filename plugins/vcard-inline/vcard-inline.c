@@ -22,11 +22,8 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
-#include <libebook/e-book-client.h>
-#include <libebook/e-contact.h>
-#include <libedataserver/e-source-address-book.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserverui/e-source-selector-dialog.h>
+#include <libebook/libebook.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <shell/e-shell.h>
 #include <addressbook/gui/merging/eab-contact-merging.h>

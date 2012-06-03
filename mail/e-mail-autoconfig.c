@@ -34,10 +34,6 @@
 /* For error codes. */
 #include <libsoup/soup.h>
 
-#include <libedataserver/e-source-camel.h>
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-transport.h>
-
 #define E_MAIL_AUTOCONFIG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_AUTOCONFIG, EMailAutoconfigPrivate))

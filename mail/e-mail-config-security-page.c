@@ -21,10 +21,7 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libebackend/e-extensible.h>
-#include <libedataserver/e-source-mail-composition.h>
-#include <libedataserver/e-source-openpgp.h>
-#include <libedataserver/e-source-smime.h>
+#include <libebackend/libebackend.h>
 
 #if defined (HAVE_NSS)
 #include <smime/gui/e-cert-selector.h>

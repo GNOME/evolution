@@ -18,7 +18,7 @@
 #ifndef E_COMPOSER_HEADER_TABLE_H
 #define E_COMPOSER_HEADER_TABLE_H
 
-#include <libebook/e-destination.h>
+#include <libebook/libebook.h>
 
 #include <shell/e-shell.h>
 #include <composer/e-composer-header.h>

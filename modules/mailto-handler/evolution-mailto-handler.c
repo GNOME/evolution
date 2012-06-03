@@ -21,7 +21,7 @@
 #endif
 
 #include <glib/gi18n-lib.h>
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <shell/e-shell.h>
 

@@ -26,7 +26,6 @@
 #include <webkit/webkit.h>
 
 #include <e-util/e-util.h>
-#include <libedataserver/e-flag.h>
 
 #include <string.h>
 

@@ -23,7 +23,7 @@
 
 #include <gtk/gtk.h>
 
-#include <libebook/e-book-client.h>
+#include <libebook/libebook.h>
 
 #include <e-contact-map.h>
 

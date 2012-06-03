@@ -26,7 +26,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include <libecal/e-cal-component.h>
+#include <libecal/libecal.h>
 
 gchar *timet_to_str_with_zone (time_t t, icaltimezone *zone);
 gchar *calculate_time (time_t start, time_t end);

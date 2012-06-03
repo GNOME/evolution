@@ -20,7 +20,6 @@
 #define E_MAIL_CONFIG_SUMMARY_PAGE_H
 
 #include <gtk/gtk.h>
-#include <libedataserver/e-source.h>
 
 #include <mail/e-mail-config-page.h>
 #include <mail/e-mail-config-service-backend.h>

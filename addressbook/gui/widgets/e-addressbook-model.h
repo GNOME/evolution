@@ -21,10 +21,7 @@
 #ifndef E_ADDRESSBOOK_MODEL_H
 #define E_ADDRESSBOOK_MODEL_H
 
-#include <libebook/e-book-client.h>
-#include <libebook/e-book-client-view.h>
-#include <libebook/e-book-query.h>
-#include <libedataserver/e-source-registry.h>
+#include <libebook/libebook.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ADDRESSBOOK_MODEL \

@@ -26,11 +26,6 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-source.h>
-#include <libedataserver/e-source-registry.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-util.h>
 
 #include <shell/e-shell.h>
 

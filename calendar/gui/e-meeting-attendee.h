@@ -25,7 +25,8 @@
 #define _E_MEETING_ATTENDEE_H_
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-component.h>
+#include <libecal/libecal.h>
+
 #include "e-meeting-types.h"
 
 G_BEGIN_DECLS

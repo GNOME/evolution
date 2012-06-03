@@ -31,14 +31,12 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-time-utils.h>
-#include <libecal/e-cal-util.h>
-#include <libecal/e-cal-time-util.h>
+#include <libebook/libebook.h>
+#include <libedataserverui/libedataserverui.h>
+
 #include "e-util/e-util.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
-#include <libebook/e-destination.h>
-#include <libedataserverui/e-name-selector.h>
 #include <libical/icalattach.h>
 #include "../calendar-config.h"
 #include "comp-editor-util.h"

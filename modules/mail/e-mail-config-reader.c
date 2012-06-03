@@ -22,7 +22,7 @@
 
 #include "e-mail-config-reader.h"
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <shell/e-shell.h>
 #include <mail/e-mail-reader.h>

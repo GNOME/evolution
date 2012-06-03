@@ -22,7 +22,7 @@
 #ifndef E_SHELL_VIEW_H
 #define E_SHELL_VIEW_H
 
-#include <libedataserver/e-source.h>
+#include <libedataserver/libedataserver.h>
 
 #include <shell/e-shell-common.h>
 #include <shell/e-shell-backend.h>

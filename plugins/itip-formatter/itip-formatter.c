@@ -28,12 +28,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserver/e-source-mail-identity.h>
-#include <libedataserverui/e-source-selector.h>
-#include <libedataserverui/e-client-utils.h>
+#include <libecal/libecal.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <libevolution-utils/e-alert-dialog.h>
 #include <e-util/e-mktemp.h>

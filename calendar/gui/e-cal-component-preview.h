@@ -25,7 +25,7 @@
 #define E_CAL_COMPONENT_PREVIEW_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-client.h>
+#include <libecal/libecal.h>
 #include <misc/e-web-view.h>
 
 /* Standard GObject macros */

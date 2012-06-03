@@ -20,7 +20,7 @@
 #define E_MAIL_AUTHENTICATOR_H
 
 #include <camel/camel.h>
-#include <libedataserver/e-source-authenticator.h>
+#include <libedataserver/libedataserver.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_AUTHENTICATOR \

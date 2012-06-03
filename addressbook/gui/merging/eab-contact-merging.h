@@ -26,8 +26,7 @@
 #ifndef __E_CONTACT_MERGING_H__
 #define __E_CONTACT_MERGING_H__
 
-#include <libebook/e-book-client.h>
-#include <libedataserver/e-source-registry.h>
+#include <libebook/libebook.h>
 
 G_BEGIN_DECLS
 

@@ -29,13 +29,6 @@
 #include <libical/ical.h>
 #include <libsoup/soup.h>
 
-#include <libecal/e-cal-time-util.h>
-#include <libecal/e-cal-util.h>
-#include <libedataserver/e-time-utils.h>
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-identity.h>
-#include <libedataserver/e-source-registry.h>
-
 #include <e-util/e-dialog-utils.h>
 
 #include <composer/e-msg-composer.h>

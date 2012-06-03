@@ -26,7 +26,7 @@
 
 #include <gtk/gtk.h>
 
-#include <libedataserver/e-flag.h>
+#include <libedataserver/libedataserver.h>
 
 #include "mail-mt.h"
 

@@ -18,8 +18,6 @@
 
 #include "e-mail-signature-tree-view.h"
 
-#include <libedataserver/e-source-mail-signature.h>
-
 #define E_MAIL_SIGNATURE_TREE_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SIGNATURE_TREE_VIEW, EMailSignatureTreeViewPrivate))

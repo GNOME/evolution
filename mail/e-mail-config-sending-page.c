@@ -21,8 +21,6 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libedataserver/e-source-mail-transport.h>
-
 /* Forward Declarations */
 static void	e_mail_config_sending_page_interface_init
 					(EMailConfigPageInterface *interface);

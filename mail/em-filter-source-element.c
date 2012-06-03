@@ -32,9 +32,6 @@
 #include <gtk/gtk.h>
 #include <camel/camel.h>
 
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-identity.h>
-
 #include <shell/e-shell.h>
 #include <filter/e-filter-part.h>
 

@@ -25,8 +25,8 @@
 #define __E_ADDRESSBOOK_UTIL_H__
 
 #include <gtk/gtk.h>
-#include <libebook/e-book-client.h>
-#include <libedataserver/e-source-registry.h>
+#include <libebook/libebook.h>
+
 #include "libevolution-utils/e-alert-sink.h"
 
 G_BEGIN_DECLS

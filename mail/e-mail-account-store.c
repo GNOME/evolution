@@ -22,8 +22,7 @@
 #include <glib/gstdio.h>
 #include <glib/gi18n-lib.h>
 
-#include <libebackend/e-extensible.h>
-#include <libedataserver/e-source-collection.h>
+#include <libebackend/libebackend.h>
 
 #include <e-util/e-marshal.h>
 #include <libevolution-utils/e-alert-dialog.h>

@@ -20,7 +20,7 @@
 #include <glib/gi18n-lib.h>
 
 #include <misc/e-web-view.h>
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 /* Standard GObject macros */
 #define E_TYPE_WEB_INSPECTOR \

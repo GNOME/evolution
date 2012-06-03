@@ -23,11 +23,7 @@
 #include <gdata/gdata.h>
 #include <glib/gi18n-lib.h>
 
-#include <libedataserver/e-source-authentication.h>
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserver/e-source-webdav.h>
-#include <libedataserverui/e-cell-renderer-color.h>
-#include <libedataserverui/e-passwords.h>
+#include <libedataserverui/libedataserverui.h>
 
 #define E_GOOGLE_CHOOSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

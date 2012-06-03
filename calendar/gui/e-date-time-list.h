@@ -27,7 +27,7 @@
 #define E_DATE_TIME_LIST_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-component.h>
+#include <libecal/libecal.h>
 
 /* Standard GObject macros */
 #define E_TYPE_DATE_TIME_LIST \

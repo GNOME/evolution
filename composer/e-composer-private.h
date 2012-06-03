@@ -30,13 +30,7 @@
 #include <glib/gstdio.h>
 #include <glib/gi18n-lib.h>
 
-#include <libebackend/e-extensible.h>
-#include <libedataserver/e-source-mail-composition.h>
-#include <libedataserver/e-source-mail-identity.h>
-#include <libedataserver/e-source-mail-signature.h>
-#include <libedataserver/e-source-mail-submission.h>
-#include <libedataserver/e-source-openpgp.h>
-#include <libedataserver/e-source-smime.h>
+#include <libebackend/libebackend.h>
 
 #include "e-composer-actions.h"
 #include "e-composer-activity.h"

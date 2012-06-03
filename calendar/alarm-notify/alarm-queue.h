@@ -26,7 +26,7 @@
 #ifndef ALARM_QUEUE_H
 #define ALARM_QUEUE_H
 
-#include <libecal/e-cal-client.h>
+#include <libecal/libecal.h>
 
 void alarm_queue_init (gpointer);
 void alarm_queue_done (void);

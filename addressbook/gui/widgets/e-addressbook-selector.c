@@ -24,9 +24,6 @@
 
 #include "e-addressbook-selector.h"
 
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserver/e-source-address-book.h>
-
 #include <e-util/e-selection.h>
 
 #include <eab-book-util.h>

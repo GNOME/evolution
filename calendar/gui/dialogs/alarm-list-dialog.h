@@ -30,9 +30,8 @@
 #ifndef ALARM_LIST_DIALOG_H
 #define ALARM_LIST_DIALOG_H
 
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-component.h>
-#include <libedataserver/e-source-registry.h>
+#include <libecal/libecal.h>
+
 #include "../e-alarm-list.h"
 
 G_BEGIN_DECLS

@@ -32,7 +32,7 @@
 #include "e-shell-switcher.h"
 
 #include <glib/gi18n.h>
-#include <libebackend/e-extensible.h>
+#include <libebackend/libebackend.h>
 
 #define E_SHELL_SWITCHER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

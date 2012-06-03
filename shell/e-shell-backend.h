@@ -22,7 +22,7 @@
 #ifndef E_SHELL_BACKEND_H
 #define E_SHELL_BACKEND_H
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <shell/e-shell-common.h>
 #include <e-util/e-activity.h>

@@ -26,8 +26,7 @@
 #ifndef CANCEL_COMP_H
 #define CANCEL_COMP_H
 
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-component.h>
+#include <libecal/libecal.h>
 
 gboolean cancel_component_dialog (GtkWindow *parent, ECalClient *cal_client, ECalComponent *comp, gboolean deleting);
 

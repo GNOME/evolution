@@ -26,10 +26,10 @@
 #include <config.h>
 #endif
 
-#include <string.h>
-#include <libedataserver/e-time-utils.h>
 #include "e-date-time-list.h"
-#include <libecal/e-cal-time-util.h>
+
+#include <string.h>
+#include <libecal/libecal.h>
 
 /* XXX Was it really necessary to implement a custom GtkTreeModel for a
  *     one-column list store?  There's no mention of why this was done. */

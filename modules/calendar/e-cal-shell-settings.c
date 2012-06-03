@@ -25,7 +25,7 @@
 
 #include "e-cal-shell-settings.h"
 
-#include <libecal/e-cal-util.h>
+#include <libecal/libecal.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-util-enumtypes.h>

@@ -29,10 +29,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserverui/e-passwords.h>
-#include <libedataserver/e-url.h>
-
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
 

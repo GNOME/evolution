@@ -21,9 +21,6 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserver/e-source-offline.h>
-
 #include <e-util/e-util.h>
 
 #define E_CAL_SOURCE_CONFIG_GET_PRIVATE(obj) \

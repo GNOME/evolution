@@ -27,15 +27,11 @@
 #include <config.h>
 #endif
 
-#include <gio/gio.h>
-#include <gtk/gtk.h>
+#include <string.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-source.h>
-#include <libedataserverui/e-source-selector.h>
-#include <libecal/e-cal-client.h>
+
 #include <libevolution-utils/e-alert-dialog.h>
 #include <e-util/e-plugin.h>
-#include <string.h>
 
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-view.h>

@@ -5,7 +5,7 @@ ruledir = $(privdatadir)
 include $(top_srcdir)/glib-gen.mak
 glib_enum_headers=e-util-enums.h
 glib_enum_output=e-util-enumtypes
-glib_enum_define=E
+glib_enum_define=E_UTIL
 glib_enum_prefix=e
 
 ENUM_GENERATED = e-util-enumtypes.h e-util-enumtypes.c

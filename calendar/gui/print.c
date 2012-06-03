@@ -35,12 +35,9 @@
 #include <time.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-time-utils.h>
-#include <libedataserver/e-data-server-util.h>
+
 #include <e-util/e-util.h>
 #include <e-util/e-print.h>
-#include <libecal/e-cal-time-util.h>
-#include <libecal/e-cal-component.h>
 #include "e-cal-model.h"
 #include "e-day-view.h"
 #include "e-day-view-layout.h"

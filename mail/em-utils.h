@@ -26,7 +26,6 @@
 #include <gtk/gtk.h>
 #include <sys/types.h>
 #include <camel/camel.h>
-#include <libedataserver/e-proxy.h>
 
 #include <libemail-engine/e-mail-session.h>
 #include <libemail-engine/e-mail-utils.h>

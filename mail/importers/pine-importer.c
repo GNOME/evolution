@@ -38,10 +38,7 @@
 
 #include <gconf/gconf-client.h>
 
-#include <libebook/e-book-client.h>
-#include <libebook/e-destination.h>
-#include <libedataserver/e-source-registry.h>
-#include <libedataserver/e-source-address-book.h>
+#include <libebook/libebook.h>
 
 #include "mail-importer.h"
 

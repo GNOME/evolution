@@ -29,8 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-time-utils.h>
-#include <libecal/e-cal-time-util.h>
+
 #include "alarm-notify-dialog.h"
 #include "config-data.h"
 #include "util.h"

@@ -28,7 +28,6 @@
 
 #include <ctype.h>
 #include <time.h>
-#include <libedataserver/e-url.h>
 #include <glib/gi18n.h>
 
 #include "misc.h"
@@ -63,25 +62,6 @@ string_is_empty (const gchar *value)
 	return empty;
 
 }
-
-/**
- * get_uri_without_password
- */
-gchar *
-get_uri_without_password (const gchar *full_uri)
-{
-	EUri *uri;
-	gchar *uristr;
-
-	uri = e_uri_new (full_uri);
-	if (!uri)
-		return NULL;
-
-	uristr = e_uri_to_string (uri, FALSE);
-	e_uri_free (uri);
-
-	return uristr;
- }
 
 gint
 get_position_in_array (GPtrArray *objects,

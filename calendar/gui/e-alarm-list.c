@@ -28,8 +28,7 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-time-utils.h>
+
 #include "calendar-config.h"
 #include "e-alarm-list.h"
 

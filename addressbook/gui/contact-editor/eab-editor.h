@@ -25,7 +25,7 @@
 #define __EAB_EDITOR_H__
 
 #include <gtk/gtk.h>
-#include <libebook/e-contact.h>
+#include <libebook/libebook.h>
 #include <shell/e-shell.h>
 
 /* Standard GObject macros */

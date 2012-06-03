@@ -29,8 +29,7 @@
 #include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
 #include <gio/gio.h>
-#include <libedataserver/e-url.h>
-#include <libedataserverui/e-passwords.h>
+
 #include <calendar/gui/e-cal-config.h>
 #include <shell/es-event.h>
 #include <e-util/e-util.h>

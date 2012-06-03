@@ -21,9 +21,6 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libedataserver/e-source-mail-identity.h>
-#include <libedataserver/e-source-mail-signature.h>
-
 #define E_MAIL_SIGNATURE_COMBO_BOX_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SIGNATURE_COMBO_BOX, EMailSignatureComboBoxPrivate))

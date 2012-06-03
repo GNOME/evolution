@@ -26,7 +26,8 @@
 #define COMP_EDITOR_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-client.h>
+#include <libecal/libecal.h>
+
 #include "../itip-utils.h"
 #include "comp-editor-page.h"
 #include <shell/e-shell.h>

@@ -20,7 +20,7 @@
 #define E_MAIL_CONFIG_IDENTITY_PAGE_H
 
 #include <gtk/gtk.h>
-#include <libedataserver/e-source-registry.h>
+#include <libedataserver/libedataserver.h>
 
 #include <mail/e-mail-config-page.h>
 

@@ -20,7 +20,7 @@
 #include <config.h>
 #endif
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <libevolution-utils/e-alert-dialog.h>
 #include <composer/e-msg-composer.h>

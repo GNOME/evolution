@@ -25,8 +25,9 @@
 #define E_MSG_COMPOSER_H
 
 #include <camel/camel.h>
-#include <libebook/e-destination.h>
 #include <gtkhtml-editor.h>
+#include <libebook/libebook.h>
+
 #include <misc/e-attachment-view.h>
 #include <misc/e-focus-tracker.h>
 #include <misc/e-web-view-gtkhtml.h>

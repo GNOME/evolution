@@ -32,9 +32,8 @@
 #include "e-shell.h"
 
 #include <glib/gi18n.h>
-#include <libebackend/e-module.h>
-#include <libebackend/e-extensible.h>
-#include <libedataserverui/e-passwords.h>
+#include <libebackend/libebackend.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"

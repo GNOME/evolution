@@ -22,8 +22,6 @@
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <libedataserver/e-source-collection.h>
-
 #include <libemail-engine/e-mail-session.h>
 #include <mail/e-mail-account-tree-view.h>
 

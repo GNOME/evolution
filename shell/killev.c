@@ -29,7 +29,7 @@
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 
-#include <libedataserver/e-data-server-util.h>
+#include <libedataserver/libedataserver.h>
 
 /* Seconds to wait after asking Evolution to terminate gracefully.
  * If the process has not terminated before the timeout expires,

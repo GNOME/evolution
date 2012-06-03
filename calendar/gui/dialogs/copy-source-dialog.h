@@ -27,9 +27,7 @@
 #define COPY_SOURCE_DIALOG_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-util.h>
-#include <libecal/e-cal-client.h>
-#include <libedataserver/e-source-registry.h>
+#include <libecal/libecal.h>
 
 void		copy_source_dialog		(GtkWindow *parent,
 						 ESourceRegistry *registry,

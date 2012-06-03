@@ -29,8 +29,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 
-#include <libedataserver/e-source-mail-account.h>
-
 #include <e-util/e-util.h>
 #include <libevolution-utils/e-alert-dialog.h>
 

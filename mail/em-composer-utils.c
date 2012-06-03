@@ -30,13 +30,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-composition.h>
-#include <libedataserver/e-source-mail-identity.h>
-#include <libedataserver/e-source-mail-submission.h>
-#include <libedataserver/e-source-mdn.h>
-
 #include <libevolution-utils/e-alert-dialog.h>
 #include <libevolution-utils/e-alert-sink.h>
 #include <e-util/e-util.h>

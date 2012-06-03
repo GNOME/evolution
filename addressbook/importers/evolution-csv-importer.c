@@ -34,12 +34,8 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <libebook/e-book-client.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserverui/e-source-selector.h>
-#include <libedataserver/e-source-address-book.h>
-
-#include <libebook/e-destination.h>
+#include <libebook/libebook.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <shell/e-shell.h>
 #include <e-util/e-import.h>

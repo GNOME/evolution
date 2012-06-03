@@ -24,7 +24,7 @@
 #define CHANGED_COMP_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-component.h>
+#include <libecal/libecal.h>
 
 gboolean changed_component_dialog (GtkWindow *window, ECalComponent *comp, gboolean deleted, gboolean changed);
 

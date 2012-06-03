@@ -20,7 +20,7 @@
 #define E_MAIL_ACCOUNT_MANAGER_H
 
 #include <gtk/gtk.h>
-#include <libedataserver/e-source.h>
+#include <libedataserver/libedataserver.h>
 #include <mail/e-mail-account-store.h>
 
 /* Standard GObject macros */

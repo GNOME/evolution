@@ -27,9 +27,9 @@
 
 #include <ctype.h>
 #include <string.h>
-#include <libebook/e-book-query.h>
-#include <libedataserver/e-source-registry.h>
-#include <libedataserverui/e-client-utils.h>
+
+#include <libedataserverui/libedataserverui.h>
+
 #include "addressbook/util/eab-book-util.h"
 #include "eab-contact-compare.h"
 

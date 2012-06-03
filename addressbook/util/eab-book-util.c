@@ -26,7 +26,6 @@
 #endif
 
 #include <string.h>
-#include <libedataserver/e-source-registry.h>
 
 #include "eab-book-util.h"
 

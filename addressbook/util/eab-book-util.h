@@ -24,8 +24,7 @@
 #ifndef EAB_BOOK_UTIL_H
 #define EAB_BOOK_UTIL_H
 
-#include <libebook/e-book-client.h>
-#include <libedataserver/e-source-registry.h>
+#include <libebook/libebook.h>
 
 G_BEGIN_DECLS
 

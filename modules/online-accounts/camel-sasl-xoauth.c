@@ -24,8 +24,6 @@
 
 #include <goa/goa.h>
 
-#include <libedataserver/e-source-goa.h>
-
 #include <libemail-engine/e-mail-session.h>
 
 #include "camel-sasl-xoauth.h"

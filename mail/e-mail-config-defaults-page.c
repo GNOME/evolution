@@ -21,14 +21,7 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libebackend/e-extensible.h>
-#include <libedataserver/e-source-camel.h>
-#include <libedataserver/e-source-enumtypes.h>
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-composition.h>
-#include <libedataserver/e-source-mail-submission.h>
-#include <libedataserver/e-source-mdn.h>
-#include <libedataserver/e-data-server-util.h>
+#include <libebackend/libebackend.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
 

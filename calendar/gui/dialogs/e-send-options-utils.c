@@ -31,8 +31,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <libedataserver/e-source-extension.h>
-
 void
 e_send_options_utils_set_default_data (ESendOptionsDialog *sod,
                                        ESource *source,

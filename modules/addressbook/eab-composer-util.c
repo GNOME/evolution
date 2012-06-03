@@ -24,8 +24,7 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libebook/e-contact.h>
-#include <libebook/e-destination.h>
+#include <libebook/libebook.h>
 
 #include "composer/e-msg-composer.h"
 #include "addressbook/util/eab-book-util.h"

@@ -34,10 +34,10 @@
 #include <gtk/gtk.h>
 #include <libxml/parser.h>
 #include <glib/gstdio.h>
-#include <libedataserver/e-xml-utils.h>
-#include <libedataserver/e-data-server-util.h>
-
 #include <glib/gi18n.h>
+
+#include <libedataserver/libedataserver.h>
+
 #include "e-util/e-util.h"
 #include "libevolution-utils/e-xml-utils.h"
 #include "e-util/e-unicode.h"

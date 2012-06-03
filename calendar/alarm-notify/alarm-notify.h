@@ -27,8 +27,8 @@
 #define ALARM_NOTIFY_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-client.h>
-#include <libedataserverui/e-client-utils.h>
+#include <libecal/libecal.h>
+#include <libedataserverui/libedataserverui.h>
 
 /* Standard GObject macros */
 #define TYPE_ALARM_NOTIFY \

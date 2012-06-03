@@ -21,8 +21,7 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libebackend/e-extensible.h>
-#include <libedataserver/e-source-mail-identity.h>
+#include <libebackend/libebackend.h>
 
 #include <e-util/e-marshal.h>
 #include <misc/e-mail-signature-combo-box.h>

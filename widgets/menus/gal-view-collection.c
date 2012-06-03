@@ -29,7 +29,7 @@
 #include <errno.h>
 
 #include <libxml/parser.h>
-#include <libedataserver/e-xml-utils.h>
+#include <libedataserver/libedataserver.h>
 
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"

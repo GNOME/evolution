@@ -29,9 +29,9 @@
 
 #include <time.h>
 #include <gtk/gtk.h>
+#include <libecal/libecal.h>
+
 #include <misc/e-calendar.h>
-#include <libecal/e-cal-client.h>
-#include <libedataserver/e-source-registry.h>
 
 #include "e-cal-model.h"
 

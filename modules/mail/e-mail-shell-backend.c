@@ -27,9 +27,6 @@
 
 #include <glib/gi18n.h>
 
-#include <libedataserver/e-source-registry.h>
-#include <libedataserver/e-source-mail-transport.h>
-
 #include <e-util/e-import.h>
 #include <e-util/e-util.h>
 

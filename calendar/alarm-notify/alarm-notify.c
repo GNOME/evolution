@@ -26,13 +26,6 @@
 
 #include <string.h>
 #include <camel/camel.h>
-#include <libecal/e-cal-client.h>
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-source-alarms.h>
-#include <libedataserver/e-source-authentication.h>
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserver/e-source-registry.h>
-#include <libedataserverui/e-client-utils.h>
 
 #include "alarm.h"
 #include "alarm-notify.h"

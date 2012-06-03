@@ -28,8 +28,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <libedataserver/e-source-address-book.h>
-
 #include <e-util/e-util.h>
 
 #include "e-book-shell-view.h"

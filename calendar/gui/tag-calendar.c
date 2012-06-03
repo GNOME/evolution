@@ -28,7 +28,6 @@
 #include <config.h>
 #endif
 
-#include <libecal/e-cal-time-util.h>
 #include "shell/e-shell.h"
 #include "shell/e-shell-settings.h"
 #include "calendar-config.h"

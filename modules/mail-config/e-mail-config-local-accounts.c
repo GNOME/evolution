@@ -20,7 +20,7 @@
 #include <glib/gi18n-lib.h>
 
 #include <camel/camel.h>
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <mail/e-mail-config-service-page.h>
 

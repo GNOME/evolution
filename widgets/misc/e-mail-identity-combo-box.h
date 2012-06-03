@@ -20,7 +20,7 @@
 #define E_MAIL_IDENTITY_COMBO_BOX_H
 
 #include <gtk/gtk.h>
-#include <libedataserver/e-source-registry.h>
+#include <libedataserver/libedataserver.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_IDENTITY_COMBO_BOX \

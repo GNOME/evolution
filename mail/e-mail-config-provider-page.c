@@ -22,8 +22,7 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-#include <libebackend/e-extensible.h>
-#include <libedataserver/e-data-server-util.h>
+#include <libebackend/libebackend.h>
 
 #include <libevolution-utils/e-alert-sink.h>
 #include <libevolution-utils/e-alert-dialog.h>

@@ -36,8 +36,6 @@
 
 #include <clutter/clutter.h>
 
-#include <libebook/e-contact.h>
-
 #include <string.h>
 #include <glib/gi18n.h>
 #include <math.h>

@@ -19,7 +19,7 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <misc/e-source-config-backend.h>
 #include <calendar/gui/e-cal-source-config.h>

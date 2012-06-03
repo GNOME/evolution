@@ -34,10 +34,6 @@
 #include <canberra-gtk.h>
 #endif
 
-#include <libecal/e-cal-client-view.h>
-#include <libecal/e-cal-time-util.h>
-#include <libecal/e-cal-component.h>
-
 #ifdef HAVE_LIBNOTIFY
 #include <libnotify/notify.h>
 #endif

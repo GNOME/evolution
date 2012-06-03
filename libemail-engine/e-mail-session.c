@@ -42,18 +42,8 @@
 #include <canberra-gtk.h>
 #endif
 
-#include <libedataserver/e-flag.h>
-#include <libedataserver/e-proxy.h>
-#include <libebackend/e-extensible.h>
-#include <libedataserver/e-source-authentication.h>
-#include <libedataserver/e-source-camel.h>
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-identity.h>
-#include <libedataserver/e-source-mail-submission.h>
-#include <libedataserver/e-source-mail-transport.h>
-#include <libedataserver/e-source-refresh.h>
-#include <libedataserverui/e-passwords.h>
-#include <libedataserver/e-data-server-util.h>
+#include <libebackend/libebackend.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include "libemail-utils/mail-mt.h"
 

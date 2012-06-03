@@ -29,7 +29,6 @@
 
 #include <libxml/parser.h>
 #include <libevolution-utils/e-xml-utils.h>
-#include <libedataserver/e-xml-utils.h>
 
 #include "gal-view-minicard.h"
 

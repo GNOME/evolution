@@ -28,7 +28,7 @@
 #include <champlain/champlain.h>
 #include <champlain-gtk/champlain-gtk.h>
 
-#include <libebook/e-contact.h>
+#include <libebook/libebook.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CONTACT_MAP \

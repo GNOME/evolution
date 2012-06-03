@@ -19,10 +19,7 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libebackend/e-extension.h>
-#include <libedataserver/e-source-authentication.h>
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserver/e-source-webdav.h>
+#include <libebackend/libebackend.h>
 
 #include <misc/e-source-config-backend.h>
 #include <calendar/gui/e-cal-source-config.h>

@@ -31,7 +31,7 @@
 
 #include "e-shell-taskbar.h"
 
-#include <libebackend/e-extensible.h>
+#include <libebackend/libebackend.h>
 
 #include <e-shell-view.h>
 #include <misc/e-activity-proxy.h>

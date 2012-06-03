@@ -29,7 +29,6 @@
 #include <config.h>
 #endif
 
-#include <libecal/e-cal-time-util.h>
 #include <e-calendar-view.h>
 
 #include "e-util/e-categories-config.h"

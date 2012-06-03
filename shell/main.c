@@ -58,9 +58,7 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
-#include <libedataserver/e-categories.h>
-#include <libedataserver/e-gdbus-templates.h>
-#include <libedataserverui/e-passwords.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include "e-shell.h"
 #include "e-shell-migrate.h"

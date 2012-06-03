@@ -35,12 +35,10 @@
 
 #include <gtk/gtk.h>
 
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserverui/e-source-selector.h>
+#include <libecal/libecal.h>
+#include <libedataserverui/libedataserverui.h>
 #include <libical/icalvcal.h>
+
 #include "evolution-calendar-importer.h"
 #include "shell/e-shell.h"
 #include "gui/calendar-config-keys.h"

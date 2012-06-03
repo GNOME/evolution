@@ -24,8 +24,6 @@
 #include <config.h>
 #endif
 
-#include <libebook/e-book-client.h>
-
 #include "e-minicard-view.h"
 
 #include "eab-gui-util.h"

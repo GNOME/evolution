@@ -23,8 +23,6 @@
 #include <unistd.h>
 #include <glib/gstdio.h>
 
-#include <libedataserver/e-source-mail-signature.h>
-
 #include <libevolution-utils/e-alert-sink.h>
 
 #define E_MAIL_SIGNATURE_PREVIEW_GET_PRIVATE(obj) \

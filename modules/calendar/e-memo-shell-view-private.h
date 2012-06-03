@@ -26,8 +26,6 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-categories.h>
-#include <libedataserver/e-sexp.h>
 
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-file-utils.h"

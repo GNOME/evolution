@@ -42,9 +42,7 @@
 #undef interface
 #endif
 
-#include <libebackend/e-extensible.h>
-#include <libedataserver/e-time-utils.h>
-#include <libedataserver/e-data-server-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
+#include <libebackend/libebackend.h>
 
 #include "e-util/e-datetime-format.h"
 #include "e-util/e-icon-factory.h"

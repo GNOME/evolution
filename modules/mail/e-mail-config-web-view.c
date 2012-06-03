@@ -25,7 +25,7 @@
 
 #include "e-mail-config-web-view.h"
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <shell/e-shell.h>
 #include <misc/e-web-view.h>

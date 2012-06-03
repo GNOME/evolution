@@ -28,11 +28,9 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libebook/e-book-client.h>
-#include <libebook/e-contact.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserverui/e-source-combo-box.h>
-#include <libedataserver/e-source-address-book.h>
+
+#include <libedataserverui/libedataserverui.h>
+
 #include <addressbook/util/eab-book-util.h>
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"

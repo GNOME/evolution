@@ -32,7 +32,7 @@
 
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <libebackend/e-extensible.h>
+#include <libebackend/libebackend.h>
 
 #include <e-util/e-import.h>
 #include <e-util/e-util-private.h>

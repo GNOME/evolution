@@ -47,6 +47,9 @@
 #include <glib/gprintf.h>
 
 #include <gtk/gtk.h>
+#include <libecal/libecal.h>
+#include <libebook/libebook.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <e-util/e-import.h>
 #include <e-util/e-plugin.h>
@@ -55,14 +58,6 @@
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
 #include <shell/e-shell-view.h>
-
-#include <libebook/e-contact.h>
-
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-component.h>
-
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserverui/e-source-selector-dialog.h>
 
 #include <libemail-utils/mail-mt.h>
 #include <libemail-engine/mail-tools.h>

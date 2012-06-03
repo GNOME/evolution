@@ -30,7 +30,9 @@
 #include <libgnomecanvas/gnome-canvas.h>
 #include <e-util/e-util.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-data-server-util.h>
+
+#include <libedataserver/libedataserver.h>
+
 #include "ea-calendar-item.h"
 #include "ea-calendar-cell.h"
 #include "ea-cell-table.h"

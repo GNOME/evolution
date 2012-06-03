@@ -32,9 +32,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <camel/camel.h>
-#include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-categories.h>
-#include <libedataserver/e-time-utils.h>
+
 #include <e-util/e-util.h>
 #include <e-util/e-categories-config.h>
 

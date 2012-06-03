@@ -22,7 +22,7 @@
 
 #include "e-cal-config-meeting-time-selector.h"
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <shell/e-shell.h>
 #include <calendar/gui/e-meeting-time-sel.h>

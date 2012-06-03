@@ -35,12 +35,7 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-source-mail-identity.h>
-#include <libedataserver/e-source-registry.h>
-#include <libedataserverui/e-category-completion.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserverui/e-source-combo-box.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-categories-config.h>

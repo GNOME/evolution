@@ -23,7 +23,7 @@
 #define E_MAIL_UTILS_H
 
 #include <camel/camel.h>
-#include <libedataserver/e-source-registry.h>
+#include <libedataserver/libedataserver.h>
 
 gboolean	em_utils_folder_is_drafts	(ESourceRegistry *registry,
 						 CamelFolder *folder);

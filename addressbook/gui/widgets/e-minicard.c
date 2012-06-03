@@ -38,7 +38,6 @@
 #include "e-minicard-view.h"
 #include <e-util/e-html-utils.h>
 #include <e-util/e-icon-factory.h>
-#include <libebook/e-destination.h>
 #include "ea-addressbook.h"
 
 static void e_minicard_set_property  (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);

@@ -22,8 +22,7 @@
 #include <glib/gi18n-lib.h>
 
 #include <camel/camel.h>
-#include <libebackend/e-extensible.h>
-#include <libedataserver/e-source-backend.h>
+#include <libebackend/libebackend.h>
 
 #include <libevolution-utils/e-alert-sink.h>
 #include <libevolution-utils/e-alert-dialog.h>

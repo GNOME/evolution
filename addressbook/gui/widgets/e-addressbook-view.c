@@ -41,8 +41,6 @@
 #include "e-util/e-print.h"
 #include "e-util/e-selection.h"
 #include "e-util/e-util.h"
-#include "libedataserver/e-sexp.h"
-#include <libedataserver/e-categories.h>
 
 #include "gal-view-minicard.h"
 #include "gal-view-factory-minicard.h"

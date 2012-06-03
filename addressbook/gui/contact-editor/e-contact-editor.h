@@ -25,9 +25,6 @@
 
 #include "addressbook/gui/contact-editor/eab-editor.h"
 
-#include <libebook/e-book-client.h>
-#include <libebook/e-contact.h>
-
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS

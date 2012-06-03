@@ -20,7 +20,7 @@
 #include <config.h>
 #endif
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window-actions.h>

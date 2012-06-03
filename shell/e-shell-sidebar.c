@@ -31,7 +31,7 @@
 
 #include "e-shell-sidebar.h"
 
-#include <libebackend/e-extensible.h>
+#include <libebackend/libebackend.h>
 
 #include <libevolution-utils/e-alert-sink.h>
 #include <e-util/e-unicode.h>

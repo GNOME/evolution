@@ -18,8 +18,8 @@
 #ifndef E_COMPOSER_NAME_HEADER_H
 #define E_COMPOSER_NAME_HEADER_H
 
-#include <libebook/e-destination.h>
-#include <libedataserverui/e-name-selector.h>
+#include <libebook/libebook.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <composer/e-composer-header.h>
 

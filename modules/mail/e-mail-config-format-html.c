@@ -22,7 +22,7 @@
 
 #include "e-mail-config-format-html.h"
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 #include <shell/e-shell.h>
 #include <e-util/e-util.h>

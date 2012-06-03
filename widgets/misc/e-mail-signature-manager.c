@@ -22,8 +22,7 @@
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-source-mail-signature.h>
+#include <libedataserver/libedataserver.h>
 
 #include "e-mail-signature-preview.h"
 #include "e-mail-signature-tree-view.h"

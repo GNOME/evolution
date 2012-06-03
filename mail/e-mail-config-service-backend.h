@@ -21,8 +21,7 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
-#include <libebackend/e-extension.h>
-#include <libedataserver/e-source.h>
+#include <libebackend/libebackend.h>
 
 #include <mail/e-mail-autoconfig.h>
 

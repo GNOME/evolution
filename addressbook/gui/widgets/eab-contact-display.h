@@ -23,8 +23,8 @@
 #ifndef EAB_CONTACT_DISPLAY_H
 #define EAB_CONTACT_DISPLAY_H
 
-#include <libebook/e-contact.h>
-#include <libebook/e-destination.h>
+#include <libebook/libebook.h>
+
 #include <misc/e-web-view.h>
 
 /* Standard GObject macros */

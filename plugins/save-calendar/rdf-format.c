@@ -24,21 +24,15 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtk.h>
+#include <string.h>
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
-#include <libedataserver/e-source.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserverui/e-source-selector.h>
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-data-server-util.h>
+
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlIO.h>
 #include <libxml/xpath.h>
-#include <string.h>
 
 #include "format-handler.h"
 

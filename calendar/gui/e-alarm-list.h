@@ -27,7 +27,7 @@
 #define E_ALARM_LIST_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-component.h>
+#include <libecal/libecal.h>
 
 G_BEGIN_DECLS
 

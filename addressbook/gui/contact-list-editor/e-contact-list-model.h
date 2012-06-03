@@ -21,8 +21,7 @@
 #define _E_CONTACT_LIST_MODEL_H_
 
 #include <gtk/gtk.h>
-#include <libebook/e-contact.h>
-#include <libebook/e-destination.h>
+#include <libebook/libebook.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CONTACT_LIST_MODEL \

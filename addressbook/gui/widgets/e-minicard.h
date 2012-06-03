@@ -24,8 +24,8 @@
 #define E_MINICARD_H
 
 #include <gtk/gtk.h>
+#include <libebook/libebook.h>
 #include <libgnomecanvas/libgnomecanvas.h>
-#include <libebook/e-contact.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MINICARD \

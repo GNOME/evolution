@@ -18,10 +18,6 @@
 
 #include "e-mail-config-service-backend.h"
 
-#include <libedataserver/e-source-camel.h>
-#include <libedataserver/e-source-backend.h>
-#include <libedataserver/e-source-collection.h>
-
 #include <mail/e-mail-config-receiving-page.h>
 #include <mail/e-mail-config-sending-page.h>
 

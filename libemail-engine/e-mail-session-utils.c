@@ -23,7 +23,7 @@
 #include "e-mail-session-utils.h"
 
 #include <glib/gi18n-lib.h>
-#include <libedataserver/e-source-mail-submission.h>
+#include <libedataserver/libedataserver.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/e-mail-utils.h>

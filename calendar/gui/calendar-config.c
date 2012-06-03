@@ -33,8 +33,6 @@
 #include <string.h>
 #include <gio/gio.h>
 #include <e-util/e-util.h>
-#include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-data-server-util.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include <shell/e-shell.h>
 

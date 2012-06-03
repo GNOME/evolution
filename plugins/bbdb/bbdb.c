@@ -28,10 +28,7 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <libebook/e-book-client.h>
-#include <libedataserver/e-source-address-book.h>
-#include <libedataserverui/e-source-combo-box.h>
-#include <libedataserverui/e-client-utils.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <e-util/e-config.h>
 #include <addressbook/gui/widgets/eab-config.h>

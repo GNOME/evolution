@@ -28,8 +28,8 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <misc/e-map.h>
-#include <libecal/e-cal-time-util.h>
-#include <libecal/e-cal-system-timezone.h>
+
+#include <libecal/libecal.h>
 
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"

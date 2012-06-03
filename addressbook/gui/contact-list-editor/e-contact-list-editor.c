@@ -37,8 +37,6 @@
 #include <gdk/gdkkeysyms.h>
 
 #include <camel/camel.h>
-#include <libedataserverui/e-client-utils.h>
-#include <libedataserverui/e-source-combo-box.h>
 
 #include "e-util/e-util.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"

@@ -37,8 +37,7 @@
 #define GAIM_ADDRESSBOOK 1
 #define AUTOMATIC_CONTACTS_ADDRESSBOOK 0
 
-#include <libebook/e-book-client.h>
-#include <libebook/e-contact.h>
+#include <libebook/libebook.h>
 
 /* bbdb.c */
 /* creates an EBookClient for a given type (gaim or contacts), but doesn't open it;

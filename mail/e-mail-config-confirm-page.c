@@ -21,7 +21,7 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include <libebackend/e-extensible.h>
+#include <libebackend/libebackend.h>
 
 #define E_MAIL_CONFIG_CONFIRM_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

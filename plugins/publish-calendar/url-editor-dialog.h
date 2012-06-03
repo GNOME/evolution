@@ -24,7 +24,7 @@
 #define URL_EDITOR_DIALOG_H
 
 #include <gtk/gtk.h>
-#include <libedataserverui/e-source-selector.h>
+#include <libedataserverui/libedataserverui.h>
 #include "publish-location.h"
 
 G_BEGIN_DECLS

@@ -34,9 +34,7 @@
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
 
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-source-mail-account.h>
-#include <libedataserver/e-source-mail-submission.h>
+#include <libedataserver/libedataserver.h>
 
 #include <libemail-utils/mail-mt.h>
 

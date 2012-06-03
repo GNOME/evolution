@@ -21,9 +21,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-source-mail-signature.h>
-
 #include <libevolution-utils/e-alert-dialog.h>
 #include <libevolution-utils/e-alert-sink.h>
 #include <misc/e-alert-bar.h>

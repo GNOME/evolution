@@ -28,15 +28,12 @@
 #include <limits.h>
 #include <gconf/gconf-client.h>
 
+#include <libedataserver/libedataserver.h>
+
 #include <libevolution-utils/evolution-util.h>
+
 #include <e-util/e-marshal.h>
 #include <e-util/e-util-enums.h>
-
-#include <libedataserver/e-source-registry.h>
-
-/* e_get_user_data_dir() used to live here, so #include its new home
- * for backward-compatibility (not that we really care about that). */
-#include <libedataserver/e-data-server-util.h>
 
 G_BEGIN_DECLS
 

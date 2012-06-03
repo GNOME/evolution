@@ -41,8 +41,6 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-selection.h>
 
-#include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-data-server-util.h>
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/send-comp.h"

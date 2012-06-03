@@ -26,10 +26,10 @@
 #ifndef E_CAL_MODEL_H
 #define E_CAL_MODEL_H
 
+#include <libecal/libecal.h>
+
 #include <e-util/e-util-enums.h>
 #include <table/e-table-model.h>
-#include <libecal/e-cal-client.h>
-#include <libedataserver/e-source-registry.h>
 #include "e-cell-date-edit-text.h"
 
 /* Standard GObject macros */

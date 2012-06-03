@@ -27,11 +27,9 @@
 
 #include <glib/gi18n.h>
 #include <libical/ical.h>
-#include <libecal/e-cal-client.h>
 #include <camel/camel.h>
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserverui/e-source-selector.h>
-#include <libedataserverui/e-client-utils.h>
+#include <libecal/libecal.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include <shell/e-shell.h>
 

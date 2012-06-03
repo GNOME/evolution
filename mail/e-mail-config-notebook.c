@@ -18,9 +18,7 @@
 
 #include "e-mail-config-notebook.h"
 
-#include <libebackend/e-extensible.h>
-#include <libedataserver/e-source-goa.h>
-#include <libedataserver/e-source-mail-identity.h>
+#include <libebackend/libebackend.h>
 
 #include <mail/e-mail-config-defaults-page.h>
 #include <mail/e-mail-config-identity-page.h>

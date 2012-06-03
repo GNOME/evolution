@@ -26,13 +26,12 @@
 #include <glib/gi18n-lib.h>
 
 #include <camel/camel.h>
+#include <libebackend/libebackend.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-plugin-ui.h>
 #include <libevolution-utils/e-alert-dialog.h>
 #include <libevolution-utils/e-alert-sink.h>
-
-#include <libebackend/e-extensible.h>
 
 #include "e-popup-action.h"
 #include "e-selectable.h"

@@ -24,8 +24,8 @@
 #define E_CONTACT_PRINT_H
 
 #include <gtk/gtk.h>
-#include <libebook/e-book-client.h>
-#include <libebook/e-book-query.h>
+#include <libebook/libebook.h>
+
 #include "e-contact-print-types.h"
 
 void            e_contact_print               (EBookClient *book_client,

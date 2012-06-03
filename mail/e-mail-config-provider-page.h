@@ -21,7 +21,6 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
-#include <libedataserver/e-source-registry.h>
 
 #include <e-util/e-activity.h>
 #include <mail/e-mail-config-page.h>

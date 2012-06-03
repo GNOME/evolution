@@ -39,7 +39,7 @@
 
 #include <glib/gi18n.h>
 
-#include <libedataserver/e-xml-utils.h>
+#include <libedataserver/libedataserver.h>
 
 #include "libevolution-utils/e-alert-dialog.h"
 #include "libevolution-utils/e-xml-utils.h"

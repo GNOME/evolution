@@ -27,7 +27,7 @@
 #endif
 
 #include <glib/gi18n.h>
-#include <libedataserverui/e-client-utils.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include "copy-source-dialog.h"
 #include "select-source-dialog.h"

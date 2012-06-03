@@ -25,12 +25,13 @@
 
 #include "e-shell-migrate.h"
 
+#include <libedataserver/libedataserver.h>
+
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <libedataserver/e-xml-utils.h>
 
 #include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-file-utils.h"

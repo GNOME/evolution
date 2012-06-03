@@ -32,12 +32,6 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 #include <glib/gi18n.h>
-#include <libebook/e-book-client.h>
-#include <libebook/e-book-client-view.h>
-#include <libebook/e-contact.h>
-
-#include <libedataserver/e-flag.h>
-#include <libedataserver/e-xml-utils.h>
 
 #include "e-util/e-print.h"
 #include "e-util/e-util.h"

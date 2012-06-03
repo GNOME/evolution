@@ -25,8 +25,7 @@
 #define SEND_COMP_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal-client.h>
-#include <libecal/e-cal-component.h>
+#include <libecal/libecal.h>
 
 gboolean send_component_dialog (GtkWindow *parent, ECalClient *client, ECalComponent *comp, gboolean new, gboolean *strip_alarms, gboolean *only_new_attendees);
 gboolean send_component_prompt_subject (GtkWindow *parent, ECalClient *client, ECalComponent *comp);

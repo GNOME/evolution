@@ -30,7 +30,8 @@
 
 #include <gio/gio.h>
 #include <gdk/gdk.h>
-#include <libecal/e-cal-client.h>
+#include <libecal/libecal.h>
+
 #include <e-util/e-util-enums.h>
 
 /* These are used to get/set the working days in the week. The bit-flags are

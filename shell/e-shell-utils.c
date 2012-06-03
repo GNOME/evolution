@@ -33,7 +33,7 @@
 
 #include <glib/gi18n-lib.h>
 
-#include <libedataserver/e-data-server-util.h>
+#include <libedataserver/libedataserver.h>
 
 #include "widgets/misc/e-import-assistant.h"
 

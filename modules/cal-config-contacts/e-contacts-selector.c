@@ -18,8 +18,6 @@
 
 #include "e-contacts-selector.h"
 
-#include <libedataserver/e-source-address-book.h>
-
 #include "e-source-contacts.h"
 
 G_DEFINE_DYNAMIC_TYPE (

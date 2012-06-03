@@ -30,11 +30,10 @@
 #include <unistd.h>
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-time-utils.h>
-#include <libedataserver/e-data-server-util.h>
+#include <libecal/libecal.h>
+
 #include <e-util/e-util.h>
 #include <e-util/e-datetime-format.h>
-#include <libecal/e-cal-time-util.h>
 
 #include "e-cell-date-edit-text.h"
 

@@ -27,9 +27,7 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libecal/e-cal-client.h>
-#include <libedataserver/e-source-calendar.h>
-#include <libedataserverui/e-client-utils.h>
+#include <libedataserverui/libedataserverui.h>
 
 #include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-util.h"

@@ -19,7 +19,7 @@
 #ifndef E_MAIL_CONFIG_YAHOO_SUMMARY_H
 #define E_MAIL_CONFIG_YAHOO_SUMMARY_H
 
-#include <libebackend/e-extension.h>
+#include <libebackend/libebackend.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_CONFIG_YAHOO_SUMMARY \

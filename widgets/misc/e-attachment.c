@@ -29,7 +29,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <libedataserver/e-data-server-util.h>
+#include <libedataserver/libedataserver.h>
 
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-util.h"

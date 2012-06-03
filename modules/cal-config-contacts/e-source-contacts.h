@@ -19,7 +19,7 @@
 #ifndef E_SOURCE_CONTACTS_H
 #define E_SOURCE_CONTACTS_H
 
-#include <libedataserver/e-source-extension.h>
+#include <libedataserver/libedataserver.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SOURCE_CONTACTS \

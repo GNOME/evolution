@@ -20,8 +20,7 @@
 #include <stdlib.h>
 #include <glib/gi18n-lib.h>
 
-#include <libebackend/e-extension.h>
-#include <libedataserver/e-source-authentication.h>
+#include <libebackend/libebackend.h>
 
 #include <libevolution-utils/e-alert-dialog.h>
 #include <misc/e-source-config-backend.h>
