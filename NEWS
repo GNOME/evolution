@@ -1,3 +1,74 @@
+Evolution 3.5.2 2012-06-04
+--------------------------
+
+Bug Fixes:
+	Bug 200683 - Composer subject spell checking (Milan Crha)
+	Bug 206484 - Add year scrolling to date picker (Milan Crha)
+	Bug 246581 - Replies in Sent folder goes to myself (Milan Crha)
+	Bug 559710 - Do not close Event/Task/Memo editor on save (Milan Crha)
+	Bug 669111 - Lost charset in replies to encrypted mails (Milan Crha)
+	Bug 669133 - Import Assistant preview widget is too small (Milan Crha)
+	Bug 669295 - Choice made for 'setup Google contact/calendar' is not
+	             remembered (Milan Crha)
+	Bug 669445 - A way of turning Message Preview off by default
+	             (Milan Crha)
+	Bug 669463 - HTML signature opens in editor as Plain text (Milan Crha)
+	Bug 669657 - Move External Editor plugin to standard plugins
+	             (Holger Macht)
+	Bug 669674 - EMailBrowser doesn't copy search settings (Milan Crha)
+	Bug 669893 - Send/Receive dialog content too tall (Milan Crha)
+	Bug 669983 - Add "To" only search option (like for CC and BCC exists)
+	             (Milan Crha)
+	Bug 671585 - Add support for smooth scrolling devices (Milan Crha)
+	Bug 671585 - e-week-view.c: Use page_increment for smooth scrolling
+	             (Volker Sobek)
+	Bug 672827 - 'Mark as read' confirmation dialog is too big
+	             (Matthew Barnes)
+	Bug 673514 - Crash in WebKit after printing (Dan Vrátil)
+	Bug 673946 - Cannot delete search folders (Milan Crha)
+	Bug 674997 - Collapsing contact lists broken in Contacts preview
+	             (Dan Vrátil)
+	Bug 675061 - Evolution 3.5.1 does not build (Dan Vrátil)
+	Bug 675347 - No 'Retrieving message...' in preview panel (Dan Vrátil)
+	Bug 675391 - Remove support for EVOLUTION_PLUGIN_PATH. (Matthew Barnes)
+	Bug 675723 - UI lock from action_mail_show_source_cb (Dan Vrátil)
+	Bug 675725 - SMTP configuration window forgets custom port (Milan Crha)
+	Bug 675728 - Crash in strcmp, e_filter_rule_find_list (Milan Crha)
+	Bug 675863 - Cannot load webview.css from Tasks/Memos (Dan Vrátil)
+	Bug 675871 - Hide gnu make extensions warnings for automake 1.12
+	             (Milan Crha)
+	Bug 676226 - Changing GOA mail account looses GOA key (Milan Crha)
+	Bug 676410 - Add Unity to OnlyShowIn whitelist (Jeremy Bicha)
+	Bug 676492 - Mail backend properties with underscores stopped working
+	             (David Woodhouse)
+	Bug 677045 - pkg-config files missing libebackend-1.2 requirement
+	             (Matthew Barnes)
+	Bug 677273 - Bad default for month-hpane-position setting
+	             (Matthew Barnes)
+	Bug 677280 - "Help - Quick Reference" opens multiple PDF documents
+	             (Matthew Barnes)
+
+Other Changes:
+	* Require libsoup >= 2.38.1. (Matthew Barnes)
+	* Spell checking for 'Summary' in Event/Task/Memo editors (Milan Crha)
+	* Make Yahoo! mail-autoconfig use IMAP, instead of POP3 and preconfig
+	  also Tasks (Milan Crha)
+	* Avoid New unread icon emblem on virtual folders (Milan Crha)
+	* Make the settings capplet optional. (Matthew Barnes)
+	* Fix memory leaks around gtk_tree_model_get() function (Milan Crha)
+
+Translations:
+	Christian Kirbach (de)
+	Daniel Mustieles (es)
+	Bruno Brouard (fr)
+	Fran Diéguez (gl)
+	Luca Ferretti (it)
+	Jiro Matsuzawa (ja)
+	Kjartan Maraas (nb)
+	Dmitry Shachnev (ru)
+	Nguyễn Thái Ngọc Duy (vi)
+
+
 Evolution 3.5.1 2012-04-30
 --------------------------
 
