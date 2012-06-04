@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-05 00:53+0200\n"
-"PO-Revision-Date: 2012-06-05 01:23+0200\n"
+"POT-Creation-Date: 2012-06-05 01:26+0200\n"
+"PO-Revision-Date: 2012-06-05 01:31+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "Language: gl\n"
@@ -11210,7 +11210,7 @@ msgstr "Vista de lista"
 #: ../mail/e-mail-autoconfig.c:194
 #, c-format
 msgid "No mail exchanger record for '%s'"
-msgstr ""
+msgstr "Non hai un rexistro intercambiador para «%s»"
 
 #: ../mail/e-mail-autoconfig.c:201
 #, c-format
@@ -11406,9 +11406,8 @@ msgid "Add Ne_w Signature..."
 msgstr "Engadir unha sinatura _nova…"
 
 #: ../mail/e-mail-config-lookup-page.c:68
-#, fuzzy
 msgid "Looking up account details..."
-msgstr "Cargando contas…"
+msgstr "Buscando polos detalles da conta..."
 
 #: ../mail/e-mail-config-provider-page.c:712
 msgid "Receiving Options"
@@ -11433,14 +11432,12 @@ msgstr ""
 "Non asinar as solicitudes _de reunión (para a compatibilidade co Outlook)"
 
 #: ../mail/e-mail-config-security-page.c:290
-#, fuzzy
 msgid "Pretty Good Privacy (OpenPGP)"
-msgstr "Pretty Good Privacy (PGP/GPG)"
+msgstr "Pretty Good Privacy (OpenPGP)"
 
 #: ../mail/e-mail-config-security-page.c:298
-#, fuzzy
 msgid "OpenPGP _Key ID:"
-msgstr "ID da _chave PGP/GPG:"
+msgstr "ID da _chave OpenPGP:"
 
 #: ../mail/e-mail-config-security-page.c:320
 msgid "Si_gning algorithm:"
@@ -11488,33 +11485,28 @@ msgstr "Certificado de si_natura:"
 
 #: ../mail/e-mail-config-security-page.c:441
 #: ../mail/e-mail-config-security-page.c:547
-#, fuzzy
 msgid "Select"
-msgstr "Seleccionar…"
+msgstr "Seleccionar"
 
 #: ../mail/e-mail-config-security-page.c:459
 msgid "Signing _algorithm:"
 msgstr "_Algoritmo da sinatura:"
 
 #: ../mail/e-mail-config-security-page.c:500
-#, fuzzy
 msgid "Always sign outgoing messages when using this account"
-msgstr "Asinar sem_pre as mensaxes saíntes cando se use esta conta"
+msgstr "Asinar sempre as mensaxes saíntes ao usar esta conta"
 
 #: ../mail/e-mail-config-security-page.c:523
-#, fuzzy
 msgid "Encryption certificate:"
-msgstr "Certificado de ci_frado:"
+msgstr "Certificado de cifrado:"
 
 #: ../mail/e-mail-config-security-page.c:565
-#, fuzzy
 msgid "Always encrypt outgoing messages when using this account"
-msgstr "Asinar sem_pre as mensaxes saíntes cando se use esta conta"
+msgstr "Asinar sempre as mensaxes saíntes cando se use esta conta"
 
 #: ../mail/e-mail-config-security-page.c:585
-#, fuzzy
 msgid "Always encrypt to myself when sending encrypted messages"
-msgstr "Cifrar sempre para min _mesmo ao enviar correo cifrado"
+msgstr "Cifrar sempre para min mesmo ao enviar correo cifrado"
 
 #. Add encryption/signature header
 #: ../mail/e-mail-config-security-page.c:642
@@ -15923,7 +15915,6 @@ msgid "Search Scope:"
 msgstr "Ámbito da busca:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:777
-#, fuzzy
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree.  A search scope of \"Subtree\" will include all entries "
@@ -15931,9 +15922,10 @@ msgid ""
 "the entries one level beneath your search base."
 msgstr ""
 "O ámbito de busca define até que profundidade desexa que a busca se estenda "
-"ao longo dunha árbore de cartafoles. Un ámbito de busca de «sub» incluirá "
-"todas as entradas por embaixo da súa base de busca. Un ámbito «un» só "
-"incluirá as entradas un nivel por embaixo da súa base."
+"ao longo dunha árbore de cartafoles. Un ámbito de busca de «Subárbore» "
+"incluirá todas as entradas por embaixo da súa base de busca. Un ámbito de "
+"busca «Un nivel» só incluirá as entradas un nivel por embaixo da súa base de "
+"busca."
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:786
 msgid "Search Filter:"
@@ -16726,9 +16718,9 @@ msgid "Calendar Selector"
 msgstr "Selector de calendario"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:1054
-#, fuzzy, c-format
+#, c-format
 msgid "Opening calendar '%s'"
-msgstr "Abrindo o calendario en %s"
+msgstr "Abrindo o calendario «%s»"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:291
 msgid "Calendar Properties"
@@ -17203,9 +17195,9 @@ msgid "Memo List Selector"
 msgstr "Selector de lista de notas"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:939
-#, fuzzy, c-format
+#, c-format
 msgid "Opening memo list '%s'"
-msgstr "Abrindo as notas en %s"
+msgstr "Abrindo a lista de notas «%s»"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:232
 #: ../modules/calendar/e-memo-shell-view-actions.c:247
@@ -17335,9 +17327,9 @@ msgid "Task List Selector"
 msgstr "Selector de lista de tarefas"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:939
-#, fuzzy, c-format
+#, c-format
 msgid "Opening task list '%s'"
-msgstr "Abrindo as tarefas en %s"
+msgstr "Abrindo as tarefas «%s»"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:255
 #: ../modules/calendar/e-task-shell-view-actions.c:270
@@ -18280,16 +18272,16 @@ msgid "Import complete."
 msgstr "Importación rematada."
 
 #: ../modules/startup-wizard/e-startup-assistant.c:154
-#, fuzzy
 msgid ""
 "Welcome to Evolution.\n"
 "\n"
 "The next few screens will allow Evolution to connect to your email accounts, "
 "and to import files from other applications."
 msgstr ""
-"Benvido/a ao Evolution. As seguintes pantallas permitiranlle conectar "
-"Evolution coas súas contas de correo e importar ficheiros desde outros "
-"aplicativos."
+"Benvido/a ao Evolution. \n"
+"\n"
+"As seguintes pantallas permitiranlle conectar Evolution ás súas contas de "
+"correo e importar ficheiros desde outros aplicativos."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:259
 msgid "Loading accounts..."
@@ -22350,25 +22342,21 @@ msgstr "Tipo:"
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
 #: ../widgets/misc/e-source-config.c:1024
-#, fuzzy
 msgid "Refresh every"
-msgstr "Actualizar o cartafol"
+msgstr "Actualizar cada"
 
 #: ../widgets/misc/e-source-config.c:1054
 #: ../widgets/misc/e-source-config.c:1082
-#, fuzzy
 msgid "Use a secure connection"
-msgstr "Usar conexión _segura"
+msgstr "Usar unha conexión segura"
 
 #: ../widgets/misc/e-source-config.c:1096
-#, fuzzy
 msgid "Ignore invalid SSL certificate"
-msgstr "_Ignorar certificado SSL non válido"
+msgstr "Ignorar certificado SSL non válido"
 
 #: ../widgets/misc/e-source-config.c:1133
-#, fuzzy
 msgid "User"
-msgstr "Usuarios"
+msgstr "Usuario"
 
 #. no suggestions. Put something in the menu anyway...
 #: ../widgets/misc/e-spell-entry.c:348
@@ -22470,14 +22458,12 @@ msgid "Please provide an unique name to identify this signature."
 msgstr "Introduza un nome único para identificar esta sinatura."
 
 #: ../widgets/misc/widgets.error.xml.h:6
-#, fuzzy
 msgid "Could not load signature."
-msgstr "Non foi posíbel gardar o ficheiro da sinatura."
+msgstr "Non foi posíbel cargar a sinatura."
 
 #: ../widgets/misc/widgets.error.xml.h:7
-#, fuzzy
 msgid "Could not save signature."
-msgstr "Non foi posíbel gardar o ficheiro da sinatura."
+msgstr "Non foi posíbel gardar a sinatura."
 
 #: ../widgets/table/e-cell-combo.c:187
 msgid "popup list"
