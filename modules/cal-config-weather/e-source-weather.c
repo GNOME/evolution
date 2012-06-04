@@ -243,7 +243,7 @@ e_source_weather_set_units (ESourceWeather *extension,
 	g_object_notify (G_OBJECT (extension), "units");
 }
 
-ESourceWeatherUnits
+GType
 e_source_weather_units_get_type (void)
 {
 	return e_source_weather_units_type;
