@@ -1,4 +1,4 @@
-SUBDIRS = . default importers mail-autoconfig
+SUBDIRS = . default importers
 
 privsolib_LTLIBRARIES = libevolution-mail.la
 

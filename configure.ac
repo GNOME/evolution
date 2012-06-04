@@ -1624,7 +1624,6 @@ mail/default/sr@latin/Makefile
 mail/default/sv/Makefile
 mail/default/zh_CN/Makefile
 mail/importers/Makefile
-mail/mail-autoconfig/Makefile
 maint/Makefile
 modules/Makefile
 modules/addressbook/Makefile
