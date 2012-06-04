@@ -112,7 +112,6 @@ mailinclude_HEADERS =					\
 	em-vfolder-editor-rule.h			\
 	em-vfolder-editor.h				\
 	mail-autofilter.h				\
-	mail-guess-servers.h				\
 	mail-send-recv.h				\
 	mail-vfolder-ui.h				\
 	message-list.h
@@ -197,7 +196,6 @@ libevolution_mail_la_SOURCES =				\
 	em-vfolder-editor-rule.c			\
 	em-vfolder-editor.c				\
 	mail-autofilter.c				\
-	mail-guess-servers.c				\
 	mail-send-recv.c				\
 	mail-vfolder-ui.c				\
 	message-list.c
