@@ -77,6 +77,8 @@ errordir = $(privdatadir)/errors
 
 BUILT_SOURCES = $(error_DATA)
 
+CLEANFILES = $(BUILT_SOURCES)
+
 EXTRA_DIST =							\
 	org-gnome-backup-restore.error.xml			\
 	$(NULL)

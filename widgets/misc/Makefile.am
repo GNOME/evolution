@@ -276,6 +276,8 @@ test_source_config_LDADD = 			\
 
 BUILT_SOURCES = $(error_DATA)
 
+CLEANFILES = $(BUILT_SOURCES)
+
 EXTRA_DIST = $(ui_DATA) widgets.error.xml
 
 -include $(top_srcdir)/git.mk
