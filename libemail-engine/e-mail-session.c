@@ -1764,7 +1764,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 	camel_null_store_register_provider ();
 
 	/* Make sure ESourceCamel picks up the "none" provider. */
-	e_source_camel_register_types ();
+	e_source_camel_generate_subtype ("none", CAMEL_TYPE_SETTINGS);
 }
 
 static void
