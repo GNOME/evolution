@@ -5590,13 +5590,15 @@ emae_commit (EConfig *ec,
 	if (CAMEL_IS_NETWORK_SETTINGS (settings) && !requires_auth)
 		g_object_set (settings, "auth-mechanism", NULL, NULL);
 
-	settings = emae->priv->transport.settings;
-	requires_auth = emae_get_transport_requires_auth (emae);
+	if (!CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
+		settings = emae->priv->transport.settings;
+		requires_auth = emae_get_transport_requires_auth (emae);
 
-	/* Override the selected authentication mechanism name if
-	 * authentication is not required for the transport service. */
-	if (CAMEL_IS_NETWORK_SETTINGS (settings) && !requires_auth)
-		g_object_set (settings, "auth-mechanism", NULL, NULL);
+		/* Override the selected authentication mechanism name if
+		 * authentication is not required for the transport service. */
+		if (CAMEL_IS_NETWORK_SETTINGS (settings) && !requires_auth)
+			g_object_set (settings, "auth-mechanism", NULL, NULL);
+	}
 
 	/* Dump the storage service settings to a URL string. */
 
