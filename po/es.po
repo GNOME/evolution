@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-06-04 09:41+0000\n"
-"PO-Revision-Date: 2012-06-04 18:29+0200\n"
+"POT-Creation-Date: 2012-06-05 19:06+0000\n"
+"PO-Revision-Date: 2012-06-06 13:42+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1362,17 +1362,14 @@ msgstr[0] "la carpeta de la libreta de direcciones actual %s tiene %d tarjeta"
 msgstr[1] "la carpeta de la libreta de direcciones actual %s tiene %d tarjetas"
 
 #: ../addressbook/gui/widgets/e-book-source-config.c:98
-#| msgid "Mark as _default address book"
 msgid "Mark as default address book"
 msgstr "Marcar como libreta de direcciones predeterminada"
 
 #: ../addressbook/gui/widgets/e-book-source-config.c:103
-#| msgid "A_utocomplete with this address book"
 msgid "Autocomplete with this address book"
 msgstr "Autocompletar con esta libreta de direcciones"
 
 #: ../addressbook/gui/widgets/e-book-source-config.c:244
-#| msgid "Copy _book content locally for offline operation"
 msgid "Copy book content locally for offline operation"
 msgstr ""
 "Copiar el contenido de la libreta localmente para trabajar desconectado"
@@ -4202,20 +4199,17 @@ msgid "Color:"
 msgstr "Color:"
 
 #: ../calendar/gui/e-cal-source-config.c:373
-#| msgid "Cop_y calendar contents locally for offline operation"
 msgid "Copy calendar contents locally for offline operation"
 msgstr ""
 "Copiar el contenido del calendario localmente para trabajar desconectado"
 
 #: ../calendar/gui/e-cal-source-config.c:377
-#| msgid "Cop_y task list contents locally for offline operation"
 msgid "Copy task list contents locally for offline operation"
 msgstr ""
 "Copiar el contenido del la lista de tareas localmente para trabajar "
 "desconectado"
 
 #: ../calendar/gui/e-cal-source-config.c:381
-#| msgid "Cop_y memo list contents locally for offline operation"
 msgid "Copy memo list contents locally for offline operation"
 msgstr ""
 "Copiar el contenido de la lista de notas localmente para trabajar "
@@ -10948,7 +10942,6 @@ msgstr "Plantillas"
 
 #: ../libemail-engine/e-mail-session.c:1243
 #, c-format
-#| msgid "User canceled operation."
 msgid "User cancelled operation"
 msgstr "El usuario canceló la operación"
 
@@ -10966,7 +10959,6 @@ msgstr ""
 
 #: ../libemail-engine/e-mail-session.c:1381
 #, c-format
-#| msgid "No account found to use, forward of the message has been cancelled."
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "No se encontró ninguna identidad que usar, se canceló el reenvío del mensaje."
@@ -11223,11 +11215,10 @@ msgstr ""
 #: ../mail/e-mail-autoconfig.c:201
 #, c-format
 msgid "Temporarily unable to resolve '%s'"
-msgstr ""
+msgstr "No se puede resolver «%s» temporalmente"
 
 #: ../mail/e-mail-autoconfig.c:208
 #, c-format
-#| msgid "Error removing list"
 msgid "Error resolving '%s'"
 msgstr "Error al resolver «%s»"
 
@@ -11237,12 +11228,10 @@ msgid "No authoritative name server for '%s'"
 msgstr ""
 
 #: ../mail/e-mail-autoconfig.c:661
-#| msgid "No password was provided"
 msgid "No email address provided"
 msgstr "No se ha proporcionado ninguna dirección de correo-e"
 
 #: ../mail/e-mail-autoconfig.c:670
-#| msgid "Using email address"
 msgid "Missing domain in email address"
 msgstr "Falta el dominio en la dirección de correo-e"
 
@@ -11265,7 +11254,6 @@ msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
 #: ../mail/e-mail-config-auth-check.c:346
-#| msgid "Ch_eck for Supported Types"
 msgid "Check for Supported Types"
 msgstr "Comprobar tipos soportados"
 
@@ -11298,7 +11286,6 @@ msgid "Draft Messages _Folder:"
 msgstr "Carpeta de _mensajes enviados:"
 
 #: ../mail/e-mail-config-defaults-page.c:546
-#| msgid "Choose folders to post the message to."
 msgid "Choose a folder for saving draft messages."
 msgstr "Elija una carpeta en la que guardar los borradores."
 
@@ -11307,12 +11294,10 @@ msgid "Sent _Messages Folder:"
 msgstr "Carpeta de _mensajes enviados:"
 
 #: ../mail/e-mail-config-defaults-page.c:570
-#| msgid "Choose folders to post the message to."
 msgid "Choose a folder for saving sent messages."
 msgstr "Elija una carpeta en la que guardar los mensajes enviados."
 
 #: ../mail/e-mail-config-defaults-page.c:584
-#| msgid "_Restore Default"
 msgid "_Restore Defaults"
 msgstr "_Restaurar valores predeterminados"
 
@@ -11321,7 +11306,6 @@ msgid "Use a Real Folder for _Trash:"
 msgstr ""
 
 #: ../mail/e-mail-config-defaults-page.c:599
-#| msgid "Choose folders to post the message to."
 msgid "Choose a folder for deleted messages."
 msgstr "Elija una carpeta en la que guardar los mensajes eliminados."
 
@@ -11330,7 +11314,6 @@ msgid "Use a Real Folder for _Junk:"
 msgstr ""
 
 #: ../mail/e-mail-config-defaults-page.c:609
-#| msgid "Choose folders to post the message to."
 msgid "Choose a folder for junk messages."
 msgstr "Elija una carpeta para el spam."
 
@@ -11379,9 +11362,6 @@ msgstr "Información de la cuenta"
 
 #: ../mail/e-mail-config-identity-page.c:291
 #: ../mail/e-mail-config-summary-page.c:362
-#| msgid ""
-#| "Type the name by which you would like to refer to this account.\n"
-#| "For example: \"Work\" or \"Personal\""
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example, \"Work\" or \"Personal\"."
@@ -11455,12 +11435,10 @@ msgstr ""
 "No _firmar las solicitudes de reunión (para compatibilidad con Outlook)"
 
 #: ../mail/e-mail-config-security-page.c:290
-#| msgid "Pretty Good Privacy (PGP/GPG)"
 msgid "Pretty Good Privacy (OpenPGP)"
 msgstr "Pretty Good Privacy (OpenPGP)"
 
 #: ../mail/e-mail-config-security-page.c:298
-#| msgid "PGP/GPG _Key ID:"
 msgid "OpenPGP _Key ID:"
 msgstr "ID de c_lave OpenPGP:"
 
@@ -11520,22 +11498,18 @@ msgid "Signing _algorithm:"
 msgstr "_Algoritmo de firma:"
 
 #: ../mail/e-mail-config-security-page.c:500
-#| msgid "Al_ways sign outgoing messages when using this account"
 msgid "Always sign outgoing messages when using this account"
 msgstr "Firmar siempre los mensajes salientes cuando se use esta cuenta"
 
 #: ../mail/e-mail-config-security-page.c:523
-#| msgid "Encry_ption certificate:"
 msgid "Encryption certificate:"
 msgstr "Certificado de cifrado:"
 
 #: ../mail/e-mail-config-security-page.c:565
-#| msgid "Al_ways sign outgoing messages when using this account"
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "Cifrar siempre los mensajes salientes cuando se use esta cuenta"
 
 #: ../mail/e-mail-config-security-page.c:585
-#| msgid "Always encrypt to _myself when sending encrypted messages"
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr "Cifrarme siempre a mí mismo cuando envíe correo cifrado"
 
@@ -15611,7 +15585,6 @@ msgid "B_rowse this book until limit reached"
 msgstr "_Examinar esta libreta hasta llegar al final"
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:167
-#, fuzzy
 #| msgid ""
 #| "You can restore Evolution from your backup. It can restore all the Mails, "
 #| "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
@@ -15621,17 +15594,16 @@ msgid ""
 "\n"
 "This will restore all your personal data, settings mail filters, etc."
 msgstr ""
-"Puede restaurar Evolution desde su archivo de respaldo. Puede restaurar "
-"todos los correos, calendarios, tareas, notas, libreta de direcciones. "
-"También restaura su configuración personal, filtros de correo, etc."
+"Puede restaurar Evolution desde su archivo de respaldo.\n"
+"\n"
+"Esto restaurará todos sus datos personales, configuración, filtros de "
+"correo, etc."
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:182
-#| msgid "Restore from backup"
 msgid "_Restore from a backup file:"
 msgstr "Restaurar desde un archivo de respaldo:"
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:193
-#| msgid "Choose a file to restore"
 msgid "Choose a backup file to restore"
 msgstr "Elija un archivo de respaldo que restaurar"
 
@@ -15860,7 +15832,6 @@ msgid "Bogofilter"
 msgstr "Bogofilter"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:442
-#| msgid "S_tandard Font:"
 msgid "Standard LDAP Port"
 msgstr "Puerto LDAP estándar"
 
@@ -15879,7 +15850,6 @@ msgstr "Catálogo global de Microsoft sobre SSL"
 
 #. Page 1
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:564
-#| msgid "Reconnecting to '%s'"
 msgid "Connecting to LDAP"
 msgstr "Conectando a LDAP"
 
@@ -15888,7 +15858,6 @@ msgid "Server Information"
 msgstr "Información del servidor"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:622
-#| msgid "(Not Recommended)"
 msgid "StartTLS (recommended)"
 msgstr "StartTLS (recomendado)"
 
@@ -15903,17 +15872,15 @@ msgid "Authentication"
 msgstr "Autenticación"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:671
-#, fuzzy
 #| msgid "Anonymously"
 msgid "Anonymous"
-msgstr "Anónimamente"
+msgstr "Anónimo"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:679
 msgid "Method:"
 msgstr "Métodos:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:684
-#, fuzzy
 #| msgid ""
 #| "This is the method Evolution will use to authenticate you.  Note that "
 #| "setting this to \"Email Address\" requires anonymous access to your LDAP "
@@ -15923,9 +15890,9 @@ msgid ""
 "setting this to \"Using email address\" requires anonymous access to your "
 "LDAP server."
 msgstr ""
-"Este es el método que usará Evolution para autenticarle a usted.  Note que "
-"establecer esto a «Dirección de correo-e» requiere acceso anónimo a su "
-"servidor ldap."
+"Este es el método que usará Evolution para autenticarle a. Tenga en cuenta "
+"que establecer esto a «Usar dirección de correo-e» requiere acceso anónimo a "
+"su servidor LDAP."
 
 #. Page 2
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:699
@@ -15938,7 +15905,6 @@ msgid "Searching"
 msgstr "Búsqueda"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:738
-#| msgid "Search _base:"
 msgid "Search Base:"
 msgstr "Base de búsqueda:"
 
@@ -15955,7 +15921,6 @@ msgid "Subtree"
 msgstr "Subárbol"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:772
-#| msgid "_Search scope:"
 msgid "Search Scope:"
 msgstr "Ámbito de búsqueda:"
 
@@ -15978,7 +15943,6 @@ msgstr ""
 "«uno» sólo incluirá las entradas un nivel bajo su base."
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:786
-#| msgid "Search Filter"
 msgid "Search Filter:"
 msgstr "Filtro de búsqueda:"
 
@@ -15987,15 +15951,13 @@ msgid "Downloading"
 msgstr "Descargando"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:819
-#| msgid "_List:"
 msgid "Limit:"
 msgstr "Límite:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:835
-#, fuzzy
 #| msgid "B_rowse this book until limit reached"
 msgid "Browse until limit is reached"
-msgstr "_Examinar esta libreta hasta llegar al final"
+msgstr "Examinar hasta llegar al final"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:134
 #: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:133
@@ -16003,44 +15965,36 @@ msgid "URL:"
 msgstr "URL:"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:144
-#| msgid "_Avoid IfMatch (needed on Apache < 2.2.8)"
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Evitar IfMatch (necesario en Apache < 2.2.8)"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:264
 #: ../modules/cal-config-google/e-google-chooser-dialog.c:200
-#| msgid "Choose calendar file"
 msgid "Choose a Calendar"
 msgstr "Elegir un calendario"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:267
-#| msgid "New Memo List"
 msgid "Choose a Memo List"
 msgstr "Elegir una lista de notas"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:270
-#| msgid "Select a Task List"
 msgid "Choose a Task List"
 msgstr "Elegir una lista de tareas"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:398
 #, c-format
-#| msgid "GConf error: %s"
 msgid "HTTP Error: %s"
 msgstr "Error HTTP: %s"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:428
-#| msgid "Could not parse PGP message: "
 msgid "Could not parse response"
 msgstr "No se pudo analizar la respuesta"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:437
-#| msgid "Empty message"
 msgid "Empty response"
 msgstr "Respuesta vacía"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:445
-#| msgid "Send reply to sender"
 msgid "Unexpected reply from server"
 msgstr "Respuesta inesperada del servidor"
 
@@ -16055,17 +16009,14 @@ msgid "Path"
 msgstr "Ruta"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:259
-#| msgid "_Calendars"
 msgid "Find Calendars"
 msgstr "Buscar calendarios"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:262
-#| msgid "Memo List"
 msgid "Find Memo Lists"
 msgstr "Buscar listas de notas"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:265
-#| msgid "Task List"
 msgid "Find Task Lists"
 msgstr "Buscar listas de tareas"
 
@@ -16116,17 +16067,14 @@ msgid "Use an existing iCalendar (ics) file"
 msgstr "Usar un archivo de iCalendar (ics) existente"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:186
-#| msgid "iCalendar (.ics)"
 msgid "iCalendar File"
 msgstr "Archivo iCalendar"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:198
-#| msgid "Choose calendar file"
 msgid "Choose an iCalendar file"
 msgstr "Elegir un archivo de iCalendar"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:201
-#| msgid "Fil_e:"
 msgid "File:"
 msgstr "Archivo:"
 
@@ -16810,7 +16758,6 @@ msgstr "Selector de calendarios"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:1054
 #, c-format
-#| msgid "Opening calendar at %s"
 msgid "Opening calendar '%s'"
 msgstr "Abriendo calendario «%s»"
 
@@ -17288,7 +17235,6 @@ msgstr "Selector de lista de notas"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:939
 #, c-format
-#| msgid "Opening memos at %s"
 msgid "Opening memo list '%s'"
 msgstr "Abriendo lista de notas «%s»"
 
@@ -17421,7 +17367,6 @@ msgstr "Selector de listas de tareas"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:939
 #, c-format
-#| msgid "Opening tasks at %s"
 msgid "Opening task list '%s'"
 msgstr "Abriendo lista de tareas «%s»"
 
@@ -17583,9 +17528,6 @@ msgid "_Basic Headers (fastest)"
 msgstr "Tabla de cabeceras de correo"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:271
-#| msgid ""
-#| "_Basic Headers (Fastest) \n"
-#| "Use this if you do not have filters based on mailing lists"
 msgid "Use this if you are not filtering any mailing lists."
 msgstr "Use esto si no tiene filtros basados en listas de correo."
 
@@ -18079,17 +18021,14 @@ msgid "Show _original header value"
 msgstr "Mostrar el valor _original de la cabecera"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:247
-#| msgid "Google sources"
 msgid "Google Features"
 msgstr "Características de Google"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:256
-#| msgid "Add Google Calendars to Evolution."
 msgid "Add Google Ca_lendar to this account"
 msgstr "Añadir un ca_lendario de Google a esta cuenta"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:264
-#| msgid "Add Google Calendars to Evolution."
 msgid "Add Google Con_tacts to this account"
 msgstr "Añadir un con_tacto de Google a esta cuenta"
 
@@ -18171,7 +18110,6 @@ msgstr "_Usuario:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:226
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:149
-#| msgid "Encryption:"
 msgid "Encryption _method:"
 msgstr "_Método de cifrado:"
 
@@ -18196,12 +18134,10 @@ msgid "T_ype:"
 msgstr "T_ipo:"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:242
-#| msgid "IMAP Features"
 msgid "Yahoo! Features"
 msgstr "Características de Yahoo!"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:251
-#| msgid "Add Google Calendars to Evolution."
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
 msgstr "Añadir un calendario de Yahoo! a esta cuenta"
 
@@ -22476,18 +22412,15 @@ msgstr "Tipo:"
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
 #: ../widgets/misc/e-source-config.c:1024
-#| msgid "Refresh the folder"
 msgid "Refresh every"
 msgstr "Actualizar cada"
 
 #: ../widgets/misc/e-source-config.c:1054
 #: ../widgets/misc/e-source-config.c:1082
-#| msgid "Use _secure connection"
 msgid "Use a secure connection"
 msgstr "Usar una conexión segura"
 
 #: ../widgets/misc/e-source-config.c:1096
-#| msgid "_Ignore invalid SSL certificate"
 msgid "Ignore invalid SSL certificate"
 msgstr "Ignorar certificado SSL no válido"
 
