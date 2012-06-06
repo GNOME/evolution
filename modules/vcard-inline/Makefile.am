@@ -1,0 +1,32 @@
+module_LTLIBRARIES = module-vcard-inline.la
+
+module_vcard_inline_la_CPPFLAGS =				\
+	$(AM_CPPFLAGS)							\
+	-I$(top_srcdir)							\
+	-I$(top_srcdir)/widgets						\
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
+	-DG_LOG_DOMAIN=\"evolution-module-vcard-inline\"		\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
+	$(GNOME_PLATFORM_CFLAGS)
+
+module_vcard_inline_la_SOURCES =				\
+	e-mail-formatter-vcard-inline.c					\
+	e-mail-formatter-vcard-inline.h					\
+	e-mail-parser-vcard-inline.c					\
+	e-mail-parser-vcard-inline.h					\
+	evolution-module-vcard-inline.c
+
+module_vcard_inline_la_LIBADD =				\
+	$(top_builddir)/mail/libevolution-mail.la			\
+	$(top_builddir)/em-format/libemformat.la			\
+	$(top_builddir)/addressbook/util/libeabutil.la			\
+	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la	\
+	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la	\
+	$(top_builddir)/addressbook/printing/libecontactprint.la	\
+	$(EVOLUTION_DATA_SERVER_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)
+
+module_vcard_inline_la_LDFLAGS =				\
+	-avoid-version -module $(NO_UNDEFINED)
+
+-include $(top_srcdir)/git.mk

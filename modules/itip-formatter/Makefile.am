@@ -1,0 +1,51 @@
+module_LTLIBRARIES = module-itip-formatter.la
+
+module_itip_formatter_la_CPPFLAGS =					\
+	$(AM_CPPFLAGS)							\
+	-I$(top_srcdir)							\
+	-I$(top_srcdir)/widgets						\
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
+	-DG_LOG_DOMAIN=\"evolution-module-itip-formatter\"		\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
+	$(GNOME_PLATFORM_CFLAGS)
+
+module_itip_formatter_la_SOURCES =					\
+	e-conflict-search-selector.c					\
+	e-conflict-search-selector.h					\
+	e-mail-formatter-itip.c						\
+	e-mail-formatter-itip.h						\
+	e-mail-parser-itip.c						\
+	e-mail-parser-itip.h						\
+	e-source-conflict-search.c					\
+	e-sourec-conflict-search.h					\
+	itip-view.c							\
+	itip-view.h							\
+	evolution-module-itip-formatter.c
+
+module_itip_formatter_la_LIBADD =					\
+	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/calendar/gui/libevolution-calendar.la		\
+	$(top_builddir)/mail/libevolution-mail.la			\
+	$(top_builddir)/shell/libeshell.la				\
+	$(top_builddir)/em-format/libemformat.la			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
+	$(top_builddir)/libemail-engine/libemail-engine.la		\
+	$(top_builddir)/libevolution-utils/libevolution-utils.la	\
+	$(EVOLUTION_DATA_SERVER_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)
+
+module_itip_formatter_la_LDFLAGS =					\
+	-avoid-version -module $(NO_UNDEFINED)
+
+error_DATA = org-gnome-itip-formatter.error.xml
+errordir = $(privdatadir)/errors
+
+BUILT_SOURCES = $(error_DATA)
+
+CLEANFILES = $(BUILT_SOURCES)
+
+EXTRA_DIST = \
+	org-gnome-itip-formatter.error.xml
+
+-include $(top_srcdir)/git.mk

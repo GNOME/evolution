@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+  <e-plugin
+    type="shlib"
+    id="org.gnome.evolution.plugin.preferPlain"
+    location="@PLUGINDIR@/liborg-gnome-prefer-plain@SOEXT@"
+    _name="Prefer Plain Text">
+
+
+    <_description>View mail messages as plain text, even if they contain HTML content.</_description>
+    <author name="Michael Zucchi" email="NotZed@Ximian.com"/>
+
+
+    <!-- hook into the 'html mail' preferences page -->
+    <hook class="org.gnome.evolution.mail.config:1.0">
+      <group target="prefs" id="org.gnome.evolution.mail.prefs">
+	<!-- we could also just insert our own items from a section factory, -->
+	<!-- but then we also need to create our own section frame -->
+	<item type="section_table" path="10.html/80.mode" _label="Plain Text Mode"/>
+	<item type="item_table" path="10.html/80.mode/00.mode" factory="prefer_plain_page_factory"/>
+      </group>
+    </hook>
+
+  </e-plugin>
+</e-plugin-list>

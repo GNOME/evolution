@@ -18,6 +18,14 @@ if ENABLE_ONLINE_ACCOUNTS
 ONLINE_ACCOUNTS_DIR = online-accounts
 endif
 
+if ENABLE_TNEF
+TNEF_ATTACHMENT_DIR = tnef-attachment
+endif
+
+if ENABLE_AUDIO_INLINE
+AUDIO_INLINE_DIR = audio-inline
+endif
+
 SUBDIRS = \
 	addressbook \
 	bogofilter \
@@ -36,17 +44,23 @@ SUBDIRS = \
 	cal-config-webcal \
 	composer-autosave \
 	imap-features \
+	itip-formatter \
 	mail-config \
 	mailto-handler \
 	mdn \
 	offline-alert \
 	plugin-lib \
 	plugin-manager \
+	prefer-plain \
 	spamassassin \
 	startup-wizard \
+	text-highlight \
+	vcard-inline \
 	web-inspector \
 	$(MONO_DIR) \
 	$(PYTHON_DIR) \
-	$(ONLINE_ACCOUNTS_DIR)
+	$(ONLINE_ACCOUNTS_DIR) \
+	$(TNEF_ATTACHMENT_DIR) \
+	$(AUDIO_INLINE_DIR)
 
 -include $(top_srcdir)/git.mk

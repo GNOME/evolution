@@ -1106,8 +1106,9 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 	)],	[tnef_ok=yes], [tnef_ok=no])
 if test "$tnef_ok" = "yes"; then
 	AC_MSG_RESULT([yes])
-	TNEF_ATTACHMENTS="tnef-attachments"
 	TNEF_CFLAGS="-DHAVE_YTNEF_H"
+	AC_DEFINE(ENABLE_TNEF,1,[Define if TNEF attachments parser should be built])
+	
 else
 	AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 	[[
@@ -1118,14 +1119,14 @@ else
 	)], [tnef_ok=yes], [tnef_ok=no])
 	if test "$tnef_ok" = "yes"; then
 		AC_MSG_RESULT([yes])
-		TNEF_ATTACHMENTS="tnef-attachments"
 		TNEF_CFLAGS="-DHAVE_LIBYTNEF_YTNEF_H"
+		AC_DEFINE(ENABLE_TNEF,1,[Define if TNEF attachments parser should be built])		
 	else
 		AC_MSG_RESULT([no])
-		TNEF_ATTACHMENTS=""
 		TNEF_CFLAGS=""
 	fi
 fi
+AM_CONDITIONAL([ENABLE_TNEF], [test "$tnef_ok" = "yes"])
 AC_SUBST(TNEF_CFLAGS)
 
 dnl *******************************
@@ -1298,20 +1299,20 @@ AC_ARG_ENABLE([plugins],
 	[enable_plugins="$enableval"],[enable_plugins=all])
 
 dnl Add any new plugins here
-plugins_base_always="itip-formatter mark-all-read publish-calendar"
+plugins_base_always="mark-all-read publish-calendar"
 
 plugins_base="$plugins_base_always"
 dist_plugins_base="$plugins_base_always"
 
-plugins_standard_always="bbdb save-calendar mail-to-task mailing-list-actions prefer-plain mail-notification attachment-reminder email-custom-header face templates vcard-inline dbx-import external-editor"
+plugins_standard_always="bbdb save-calendar mail-to-task mailing-list-actions mail-notification attachment-reminder email-custom-header face templates dbx-import external-editor"
 
 plugins_standard="$plugins_standard_always"
-dist_plugins_standard="$plugins_standard audio-inline image-inline pst-import"
+dist_plugins_standard="$plugins_standard image-inline pst-import"
 
 plugins_experimental_always=""
 
-plugins_experimental="$plugins_experimental_always $TNEF_ATTACHMENTS"
-dist_plugins_experimental="$plugins_experimental_always tnef-attachments"
+plugins_experimental="$plugins_experimental_always"
+dist_plugins_experimental="$plugins_experimental_always"
 
 dnl ******************************************************************
 dnl The following plugins have additional library dependencies.
@@ -1332,11 +1333,13 @@ if test "x$enable_audio_inline" = "xyes"; then
 	AC_SUBST(GSTREAMER_LIBS)
 
 	if test "x$have_gst" = "xyes"; then
-		plugins_standard="$plugins_standard audio-inline"
+		AC_DEFINE(ENABLE_AUDIO_INLINE, 1, [Define to add support for inlining audio attachments])
 	else
 		AC_MSG_ERROR([gstreamer-0.10 is required for the audio-inline plugin.  Use --disable-audio-inline to exclude the plugin.])
 	fi
 fi
+
+AM_CONDITIONAL([ENABLE_AUDIO_INLINE], [test "x$enable_audio_inline" = "xyes"])
 
 dnl **************************************
 dnl Weather calendars require gweather-3.0
@@ -1627,8 +1630,11 @@ mail/importers/Makefile
 maint/Makefile
 modules/Makefile
 modules/addressbook/Makefile
+modules/audio-inline/Makefile
 modules/bogofilter/Makefile
 modules/calendar/Makefile
+modules/itip-formatter/Makefile
+modules/itip-formatter/plugin/Makefile
 modules/mail/Makefile
 modules/backup-restore/Makefile
 modules/book-config-google/Makefile
@@ -1652,30 +1658,30 @@ modules/plugin-lib/Makefile
 modules/plugin-manager/Makefile
 modules/plugin-mono/Makefile
 modules/plugin-python/Makefile
+modules/prefer-plain/Makefile
+modules/prefer-plain/plugin/Makefile
 modules/spamassassin/Makefile
 modules/startup-wizard/Makefile
+modules/text-highlight/Makefile
+modules/tnef-attachment/Makefile
+modules/vcard-inline/Makefile
 modules/web-inspector/Makefile
 plugins/Makefile
 plugins/attachment-reminder/Makefile
-plugins/audio-inline/Makefile
 plugins/bbdb/Makefile
 plugins/dbx-import/Makefile
 plugins/email-custom-header/Makefile
 plugins/external-editor/Makefile
 plugins/face/Makefile
 plugins/image-inline/Makefile
-plugins/itip-formatter/Makefile
 plugins/mail-notification/Makefile
 plugins/mail-to-task/Makefile
 plugins/mailing-list-actions/Makefile
 plugins/mark-all-read/Makefile
-plugins/prefer-plain/Makefile
 plugins/pst-import/Makefile
 plugins/publish-calendar/Makefile
 plugins/save-calendar/Makefile
 plugins/templates/Makefile
-plugins/tnef-attachments/Makefile
-plugins/vcard-inline/Makefile
 smclient/Makefile
 smime/Makefile
 smime/lib/Makefile

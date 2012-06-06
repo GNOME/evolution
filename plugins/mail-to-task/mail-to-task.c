@@ -47,7 +47,6 @@
 
 #include <mail/e-mail-browser.h>
 #include <mail/em-utils.h>
-#include <mail/em-format-html.h>
 #include <mail/message-list.h>
 
 #include <calendar/gui/dialogs/comp-editor.h>

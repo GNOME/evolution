@@ -45,7 +45,6 @@
 #include <mail/e-mail-reader.h>
 #include <mail/em-composer-utils.h>
 #include <mail/em-config.h>
-#include <mail/em-format-hook.h>
 #include <mail/em-utils.h>
 #include <mail/message-list.h>
 
