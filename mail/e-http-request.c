@@ -26,10 +26,13 @@
 #include <webkit/webkit.h>
 
 #include <e-util/e-util.h>
+#include <mail/em-utils.h>
+#include <libemail-engine/e-mail-enumtypes.h>
 
 #include <string.h>
 
-#include "em-format-html.h"
+#include <em-format/e-mail-formatter.h>
+#include <shell/e-shell.h>
 
 #define d(x)
 
@@ -41,7 +44,7 @@ struct _EHTTPRequestPrivate {
 	gchar *content_type;
 	gint content_length;
 
-	EMFormatHTML *efh;
+	EMailPartList *parts_list;
 };
 
 G_DEFINE_TYPE (EHTTPRequest, e_http_request, SOUP_TYPE_REQUEST)
@@ -208,9 +211,12 @@ handle_http_request (GSimpleAsyncResult *res,
 	EHTTPRequest *request = E_HTTP_REQUEST (object);
 	SoupURI *soup_uri;
 	gchar *evo_uri, *uri;
+	gchar *mail_uri;
 	GInputStream *stream;
 	gboolean force_load_images = FALSE;
+	EMailImageLoadingPolicy image_policy;
 	gchar *uri_md5;
+	EMailFormatter *formatter;
 
 	const gchar *user_cache_dir;
 	CamelDataCache *cache;
@@ -222,9 +228,15 @@ handle_http_request (GSimpleAsyncResult *res,
 		return;
 	}
 
+	formatter = e_mail_formatter_new ();
+
 	/* Remove the __evo-mail query */
 	soup_uri = soup_request_get_uri (SOUP_REQUEST (request));
 	query = soup_form_decode (soup_uri->query);
+	mail_uri = g_hash_table_lookup (query, "__evo-mail");
+	if (mail_uri)
+		mail_uri = g_strdup (mail_uri);
+
 	g_hash_table_remove (query, "__evo-mail");
 
 	/* Remove __evo-load-images if present (and in such case set
@@ -306,7 +318,36 @@ handle_http_request (GSimpleAsyncResult *res,
 
 	/* Item not found in cache, but image loading policy allows us to fetch
 	 * it from the interwebs */
-	if (force_load_images || em_format_html_can_load_images (request->priv->efh)) {
+	image_policy = e_mail_formatter_get_image_loading_policy (formatter);
+	if (!force_load_images && mail_uri &&
+	    (image_policy == E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES)) {
+		SoupSession *session;
+		GHashTable *parts;
+		gchar *decoded_uri;
+		EMailPartList *part_list;
+
+		session = webkit_get_default_session ();
+		parts = g_object_get_data (G_OBJECT (session), "mails");
+		decoded_uri = soup_uri_decode (mail_uri);
+
+		part_list = g_hash_table_lookup (parts, decoded_uri);
+		if (part_list) {
+			EShell *shell;
+			ESourceRegistry *registry;
+			CamelInternetAddress *addr;
+
+			shell = e_shell_get_default ();
+			registry = e_shell_get_registry (shell);
+			addr = camel_mime_message_get_from (part_list->message);
+			force_load_images = em_utils_in_addressbook (
+					registry, addr, FALSE);
+		}
+
+		g_free (decoded_uri);
+	}
+
+	if ((image_policy == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS) ||
+	    force_load_images) {
 
 		SoupRequester *requester;
 		SoupRequest *http_request;
@@ -393,6 +434,8 @@ handle_http_request (GSimpleAsyncResult *res,
  cleanup:
 	g_free (uri);
 	g_free (uri_md5);
+	if (mail_uri)
+		g_free (mail_uri);
 }
 
 static void
@@ -405,9 +448,9 @@ http_request_finalize (GObject *object)
 		request->priv->content_type = NULL;
 	}
 
-	if (request->priv->efh) {
-		g_object_unref (request->priv->efh);
-		request->priv->efh = NULL;
+	if (request->priv->parts_list) {
+		g_object_unref (request->priv->parts_list);
+		request->priv->parts_list = NULL;
 	}
 
 	G_OBJECT_CLASS (e_http_request_parent_class)->finalize (object);
@@ -434,7 +477,7 @@ http_request_send_async (SoupRequest *request,
 	SoupURI *uri;
 	const gchar *enc;
 	SoupSession *session;
-	GHashTable *formatters, *query;
+	GHashTable *mails, *query;
 
 	ehr = E_HTTP_REQUEST (request);
 	uri = soup_request_get_uri (request);
@@ -452,16 +495,16 @@ http_request_send_async (SoupRequest *request,
 	mail_uri = soup_uri_decode (enc);
 
 	session = webkit_get_default_session ();
-	formatters = g_object_get_data (G_OBJECT (session), "formatters");
-	g_return_if_fail (formatters != NULL);
+	mails = g_object_get_data (G_OBJECT (session), "mails");
+	g_return_if_fail (mails != NULL);
 
-	ehr->priv->efh = g_hash_table_lookup (formatters, mail_uri);
+	ehr->priv->parts_list = g_hash_table_lookup (mails, mail_uri);
 	g_free (mail_uri);
 
-	g_return_if_fail (ehr->priv->efh);
+	g_return_if_fail (ehr->priv->parts_list);
 
 	/* Make sure the formatter lives until we are finished here */
-	g_object_ref (ehr->priv->efh);
+	g_object_ref (ehr->priv->parts_list);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (request), callback,

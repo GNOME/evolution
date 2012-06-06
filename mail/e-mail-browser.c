@@ -39,7 +39,6 @@
 #include "mail/e-mail-reader.h"
 #include "mail/e-mail-reader-utils.h"
 #include "mail/em-folder-tree-model.h"
-#include "mail/em-format-html-display.h"
 #include "mail/message-list.h"
 
 #define E_MAIL_BROWSER_GET_PRIVATE(obj) \
@@ -56,7 +55,7 @@ struct _EMailBrowserPrivate {
 	GtkUIManager *ui_manager;
 	EFocusTracker *focus_tracker;
 
-	EMFormatWriteMode mode;
+	EMailFormatterMode mode;
 
 	GtkWidget *main_menu;
 	GtkWidget *main_toolbar;
@@ -915,7 +914,7 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 			NULL,
 			0,
 			G_MAXINT,
-			EM_FORMAT_WRITE_MODE_NORMAL,
+			E_MAIL_FORMATTER_MODE_NORMAL,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 }
 
@@ -951,7 +950,7 @@ GtkWidget *
 e_mail_browser_new (EMailBackend *backend,
                     CamelFolder *folder,
                     const gchar *msg_uid,
-                    EMFormatWriteMode mode)
+                    EMailFormatterMode mode)
 {
 	GtkWidget *widget;
 

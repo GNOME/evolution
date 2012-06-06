@@ -145,7 +145,7 @@ action_mail_account_properties_cb (GtkAction *action,
 	registry = e_shell_get_registry (shell);
 	source = e_source_registry_ref_source (registry, uid);
 	g_return_if_fail (source != NULL);
-	
+
 	e_mail_shell_backend_edit_account (
 		E_MAIL_SHELL_BACKEND (shell_backend),
 		GTK_WINDOW (shell_window), source);

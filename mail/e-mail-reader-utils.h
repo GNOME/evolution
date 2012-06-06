@@ -68,7 +68,22 @@ gchar *		e_mail_reader_header_to_xml	(EMailReaderHeader *header);
 void		e_mail_reader_header_free	(EMailReaderHeader *header);
 
 void		e_mail_reader_connect_headers	(EMailReader *reader,
-						 EMFormat *emf);
+						 EMailFormatter *formatter);
+
+EMailPartList *	e_mail_reader_lookup_part_list	(EMailReader *reader,
+						 const gchar *uri);
+
+void		e_mail_reader_store_part_list	(EMailReader *reader,
+						 const gchar *uri,
+						 EMailPartList *part_list);
+
+void		e_mail_reader_parse_message
+						(EMailReader *reader,
+						 CamelFolder *folder,
+						 const gchar *message_uid,
+						 CamelMimeMessage *message,
+						 GFunc ready_callback,
+						 gpointer user_data);
 
 G_END_DECLS
 

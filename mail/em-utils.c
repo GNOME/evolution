@@ -56,6 +56,9 @@
 #include <shell/e-shell.h>
 #include <widgets/misc/e-attachment.h>
 
+#include <em-format/e-mail-parser.h>
+#include <em-format/e-mail-formatter-quote.h>
+
 #include <libemail-utils/mail-mt.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
@@ -65,13 +68,11 @@
 
 #include "e-mail-tag-editor.h"
 #include "em-composer-utils.h"
-#include "em-format-html-display.h"
-#include "em-format-html-print.h"
 #include "em-utils.h"
 #include "e-mail-printer.h"
-#include "em-format/em-format-quote.h"
 
 /* XXX This is a dirty hack on a dirty hack.  We really need
+#include <em-format/e-mail-print-formatter.h>
  *     to rework or get rid of the functions that use this. */
 extern const gchar *shell_builtin_backend;
 
@@ -616,20 +617,22 @@ do_print_msg_to_file (GObject *source,
                       GAsyncResult *result,
                       gpointer user_data)
 {
-
-	EMFormatHTML *efh = EM_FORMAT_HTML (source);
+	EMailParser *parser;
+	EMailPartList *parts_list;
 	gchar *filename = user_data;
-
 	EMailPrinter *printer;
 
-	printer = e_mail_printer_new (efh);
+	parser = E_MAIL_PARSER (source);
+	parts_list = e_mail_parser_parse_finish (parser, result, NULL);
+
+	printer = e_mail_printer_new (parts_list);
 	e_mail_printer_set_export_filename (printer, filename);
 	g_signal_connect_swapped (printer, "done",
 		G_CALLBACK (g_object_unref), printer);
 
 	e_mail_printer_print (printer, TRUE, NULL);
 
-	g_object_unref (efh);
+	g_object_unref (parser);
 }
 
 static gboolean
@@ -637,7 +640,7 @@ em_utils_print_messages_to_file (CamelFolder *folder,
                                  const gchar *uid,
                                  const gchar *filename)
 {
-	EMFormatHTMLDisplay *efhd;
+	EMailParser *parser;
 	CamelMimeMessage *message;
 	CamelStore *parent_store;
 	CamelSession *session;
@@ -649,11 +652,10 @@ em_utils_print_messages_to_file (CamelFolder *folder,
 	parent_store = camel_folder_get_parent_store (folder);
 	session = camel_service_get_session (CAMEL_SERVICE (parent_store));
 
-	efhd = em_format_html_display_new (session);
-	((EMFormat *) efhd)->message_uid = g_strdup (uid);
+	parser = e_mail_parser_new (session);
 
-	em_format_parse_async ((EMFormat *) efhd, message, folder, NULL,
-		(GAsyncReadyCallback) do_print_msg_to_file, g_strdup (filename));
+	e_mail_parser_parse (parser, folder, uid, message,
+		(GAsyncReadyCallback) do_print_msg_to_file, NULL,  g_strdup (filename));
 
 	return TRUE;
 }
@@ -1180,13 +1182,19 @@ em_utils_message_to_html (CamelSession *session,
                           CamelMimeMessage *message,
                           const gchar *credits,
                           guint32 flags,
-                          EMFormat *source,
+                          EMailPartList *parts_list,
                           const gchar *append,
                           guint32 *validity_found)
 {
-	EMFormatQuote *emfq;
+	EMailFormatter *formatter;
+	EMailParser *parser;
 	CamelStream *mem;
 	GByteArray *buf;
+	EShell *shell;
+	GtkWindow *window;
+
+	shell = e_shell_get_default ();
+	window = e_shell_get_active_window (shell);
 
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
@@ -1194,10 +1202,12 @@ em_utils_message_to_html (CamelSession *session,
 	mem = camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (mem), buf);
 
-	emfq = em_format_quote_new (session, credits, mem, flags);
-	em_format_set_composer ((EMFormat *) emfq, TRUE);
+	formatter = e_mail_formatter_quote_new (credits, flags);
+	e_mail_formatter_set_style (formatter,
+		gtk_widget_get_style (GTK_WIDGET (window)),
+		gtk_widget_get_state (GTK_WIDGET (window)));
 
-	if (!source) {
+	if (!parts_list) {
 		GSettings *settings;
 		gchar *charset;
 
@@ -1205,37 +1215,38 @@ em_utils_message_to_html (CamelSession *session,
 		 *       current view, not the global setting. */
 		settings = g_settings_new ("org.gnome.evolution.mail");
 		charset = g_settings_get_string (settings, "charset");
-		em_format_set_default_charset ((EMFormat *) emfq, charset);
+		if (charset && *charset)
+			e_mail_formatter_set_default_charset (formatter, charset);
 		g_object_unref (settings);
 		g_free (charset);
+
+		parser = e_mail_parser_new (session);
+		parts_list = e_mail_parser_parse_sync (parser, NULL, NULL, message, NULL);
 	}
 
-	/* FIXME Not passing a GCancellable here. */
-	em_format_parse (EM_FORMAT (emfq), message, NULL, NULL);
-
 	if (validity_found) {
-		GList *iter;
-		EMFormat *emf = (EMFormat *) emfq;
+		GSList *iter;
 
 		if (validity_found)
 			*validity_found = 0;
 
 		/* Return all found validities */
-		for (iter = emf->mail_part_list; iter; iter = iter->next) {
+		for (iter = parts_list->list; iter; iter = iter->next) {
 
-			EMFormatPURI *puri = iter->data;
-			if (!puri)
+			EMailPart *part = iter->data;
+			if (!part)
 				continue;
 
-			if (*validity_found && puri->validity_type)
-				*validity_found |= puri->validity_type;
+			if (*validity_found && part->validity_type)
+				*validity_found |= part->validity_type;
 		}
 
 	}
 
-	em_format_quote_write (emfq, mem, NULL);
-
-	g_object_unref (emfq);
+	e_mail_formatter_format_sync (
+		formatter, parts_list, mem, 0,
+		E_MAIL_FORMATTER_MODE_PRINTING, NULL);
+	g_object_unref (formatter);
 
 	if (append && *append)
 		camel_stream_write_string (mem, append, NULL, NULL);

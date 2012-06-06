@@ -53,13 +53,15 @@
 #include <mail/e-mail-reader.h>
 #include <mail/em-composer-utils.h>
 #include <mail/em-folder-utils.h>
-#include <mail/em-format-hook.h>
-#include <mail/em-format-html-display.h>
 #include <mail/em-utils.h>
 #include <mail/mail-send-recv.h>
 #include <mail/mail-vfolder-ui.h>
 #include <mail/importers/mail-importer.h>
 #include <mail/e-mail-ui-session.h>
+
+#include <em-format/e-mail-parser.h>
+#include <em-format/e-mail-formatter.h>
+#include <em-format/e-mail-part-utils.h>
 
 #include "e-mail-shell-settings.h"
 #include "e-mail-shell-sidebar.h"
@@ -446,14 +448,6 @@ mail_shell_backend_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_shell_backend_parent_class)->constructed (object);
-
-	/* Register format types for EMFormatHook. */
-	em_format_hook_register_type (em_format_get_type ());
-	em_format_hook_register_type (em_format_html_get_type ());
-	em_format_hook_register_type (em_format_html_display_get_type ());
-
-	/* Register plugin hook types. */
-	em_format_hook_get_type ();
 
 	mail_shell_backend_init_importers ();
 
@@ -851,13 +845,35 @@ message_parsed_cb (GObject *source_object,
                    GAsyncResult *res,
                    gpointer user_data)
 {
-	EMFormatHTML *formatter = EM_FORMAT_HTML (source_object);
+	EMailParser *parser = E_MAIL_PARSER (source_object);
+	EMailPartList *parts_list;
 	GObject *preview = user_data;
 	EMailDisplay *display;
+	SoupSession *soup_session;
+	GHashTable *mails;
+	gchar *mail_uri;
 
 	display = g_object_get_data (preview, "mbox-imp-display");
-	e_mail_display_set_formatter (display, formatter);
-	e_mail_display_load (display, EM_FORMAT (formatter)->uri_base);
+
+	parts_list = e_mail_parser_parse_finish (parser, res, NULL);
+
+	soup_session = webkit_get_default_session ();
+	mails = g_object_get_data (G_OBJECT (soup_session), "mails");
+	if (!mails) {
+		mails = g_hash_table_new_full (g_str_hash, g_str_equal,
+			(GDestroyNotify) g_free, NULL);
+		g_object_set_data (
+			G_OBJECT (soup_session), "mails", mails);
+	}
+	mail_uri = e_mail_part_build_uri (
+		parts_list->folder, parts_list->message_uid, NULL, NULL);
+
+	g_hash_table_insert (mails, mail_uri, parts_list);
+
+	e_mail_display_set_parts_list (display, parts_list);
+	e_mail_display_load (display, NULL);
+
+	g_object_unref (parts_list);
 }
 
 /* utility functions for mbox importer */
@@ -883,12 +899,9 @@ mbox_fill_preview_cb (GObject *preview,
 {
 	EShell *shell;
 	EMailDisplay *display;
-	EMFormat *formatter;
-	GHashTable *formatters;
-	SoupSession *soup_session;
+	EMailParser *parser;
 	EMailSession *mail_session;
 	ESourceRegistry *registry;
-	gchar *mail_uri;
 
 	g_return_if_fail (preview != NULL);
 	g_return_if_fail (msg != NULL);
@@ -896,33 +909,13 @@ mbox_fill_preview_cb (GObject *preview,
 	display = g_object_get_data (preview, "mbox-imp-display");
 	g_return_if_fail (display != NULL);
 
-	soup_session = webkit_get_default_session ();
-	formatters = g_object_get_data (G_OBJECT (soup_session), "formatters");
-	if (!formatters) {
-		formatters = g_hash_table_new_full (g_str_hash, g_str_equal,
-			(GDestroyNotify) g_free, NULL);
-		g_object_set_data (
-			G_OBJECT (soup_session), "formatters", formatters);
-	}
-
-	mail_uri = em_format_build_mail_uri (NULL, msg->message_id, NULL, NULL);
-
 	shell = e_shell_get_default ();
 	registry = e_shell_get_registry (shell);
 	mail_session = e_mail_session_new (registry);
 
-	formatter = EM_FORMAT (
-		em_format_html_display_new (
-		CAMEL_SESSION (mail_session)));
-	formatter->message_uid = g_strdup (msg->message_id);
-	formatter->uri_base = g_strdup (mail_uri);
-
-        /* Don't free the mail_uri!! */
-	g_hash_table_insert (formatters, mail_uri, formatter);
-
-	em_format_parse_async (
-		formatter, msg, NULL, NULL,
-		message_parsed_cb, preview);
+	parser = e_mail_parser_new (CAMEL_SESSION (mail_session));
+	e_mail_parser_parse (parser, NULL, msg->message_id, msg,
+		message_parsed_cb, NULL, preview);
 
 	g_object_unref (mail_session);
 }

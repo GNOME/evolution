@@ -28,7 +28,6 @@
 #include <glib/gi18n-lib.h>
 
 #include "em-mailer-prefs.h"
-#include "em-format/em-format.h"
 
 #include <gtkhtml/gtkhtml-properties.h>
 #include <libxml/tree.h>

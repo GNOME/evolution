@@ -24,7 +24,7 @@
 #ifndef EM_COMPOSER_UTILS_H
 #define EM_COMPOSER_UTILS_H
 
-#include <em-format/em-format.h>
+#include <em-format/e-mail-part.h>
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-reader.h>
 #include <composer/e-msg-composer.h>
@@ -62,7 +62,7 @@ void		em_utils_redirect_message	(EShell *shell,
 gchar *		em_utils_construct_composer_text
 						(CamelSession *session,
 						 CamelMimeMessage *message,
-						 EMFormat *source_formatter);
+						 EMailPartList *source_formatter);
 gboolean	em_utils_is_munged_list_message	(CamelMimeMessage *message);
 void		em_utils_get_reply_sender	(CamelMimeMessage *message,
 						 CamelInternetAddress *to,
@@ -78,7 +78,7 @@ EMsgComposer *	em_utils_reply_to_message	(EShell *shell,
 						 const gchar *message_uid,
 						 EMailReplyType type,
 						 EMailReplyStyle style,
-						 EMFormat *source,
+						 EMailPartList *source,
 						 CamelInternetAddress *address);
 EDestination **	em_utils_camel_address_to_destination
 						(CamelInternetAddress *iaddr);

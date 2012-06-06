@@ -64,7 +64,7 @@ GType		e_mail_browser_get_type		(void);
 GtkWidget *	e_mail_browser_new		(EMailBackend *backend,
 						 CamelFolder *folder,
 						 const gchar *message_uid,
-						 EMFormatWriteMode mode);
+						 EMailFormatterMode mode);
 void		e_mail_browser_close		(EMailBrowser *browser);
 gboolean	e_mail_browser_get_show_deleted	(EMailBrowser *browser);
 void		e_mail_browser_set_show_deleted (EMailBrowser *browser,

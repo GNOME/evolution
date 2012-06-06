@@ -20,7 +20,7 @@
 #ifndef E_MAIL_PRINTER_H
 #define E_MAIL_PRINTER_H
 
-#include "mail/em-format-html-print.h"
+#include <em-format/e-mail-part-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_PRINTER \
@@ -63,7 +63,7 @@ struct _EMailPrinterClass {
 
 GType		e_mail_printer_get_type	(void);
 
-EMailPrinter *  e_mail_printer_new	(EMFormatHTML *source);
+EMailPrinter *  e_mail_printer_new	(EMailPartList *source);
 
 void		e_mail_printer_print	(EMailPrinter *printer,
 					 gboolean export,
@@ -75,10 +75,6 @@ void            e_mail_printer_set_export_filename
 
 const gchar *    e_mail_printer_get_export_filename
                                         (EMailPrinter *printer);
-
-EMFormatHTMLPrint *
-		e_mail_printer_get_print_formatter
-					(EMailPrinter *printer);
 
 G_END_DECLS
 

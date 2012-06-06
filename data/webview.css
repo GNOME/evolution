@@ -58,13 +58,13 @@ img.navigable {
 }
 
 .part-container {
-  width: 100%;
   height: 100%;
   background: #FFF;
   margin-top: 2px;
   margin-bottom: 3px;
   border-width: 1px;
   border-style: solid;
+  right: 0;
 }
 
 .part-container-inner-margin {

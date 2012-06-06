@@ -43,6 +43,9 @@
 #include <libemail-engine/mail-ops.h>
 #include <libemail-engine/mail-tools.h>
 
+#include <em-format/e-mail-parser.h>
+#include <em-format/e-mail-formatter-quote.h>
+
 #include <shell/e-shell.h>
 
 #include <composer/e-msg-composer.h>
@@ -54,10 +57,6 @@
 #include "em-composer-utils.h"
 #include "em-folder-selector.h"
 #include "em-folder-tree.h"
-#include "em-format-html.h"
-#include "em-format-html-print.h"
-#include "em-format-html-display.h"
-#include "em-format-quote.h"
 #include "em-event.h"
 #include "mail-send-recv.h"
 
@@ -958,8 +957,6 @@ composer_print_done_cb (EMailPrinter *emp,
                         GtkPrintOperationResult result,
                         gpointer user_data)
 {
-	EMFormat *emf = user_data;
-	g_object_unref (emf);
 	g_object_unref (emp);
 }
 
@@ -971,23 +968,23 @@ em_utils_composer_print_cb (EMsgComposer *composer,
                             EMailSession *session)
 {
 	EMailPrinter *emp;
-	EMFormatHTMLDisplay *efhd;
+	EMailParser *parser;
+	EMailPartList *parts;
 	const gchar *message_id;
 
-	efhd = em_format_html_display_new (CAMEL_SESSION (session));
+	parser = e_mail_parser_new (CAMEL_SESSION (session));
 
 	message_id = camel_mime_message_get_message_id (message);
-	((EMFormat *) efhd)->message_uid = g_strdup (message_id);
-
-        /* Parse the message */
-	em_format_parse ((EMFormat *) efhd, message, NULL, NULL);
+	parts = e_mail_parser_parse_sync (parser, NULL, g_strdup (message_id), message, NULL);
 
         /* Use EMailPrinter and WebKit to print the message */
-	emp = e_mail_printer_new ((EMFormatHTML *) efhd);
+	emp = e_mail_printer_new (parts);
 	g_signal_connect (emp, "done",
-		G_CALLBACK (composer_print_done_cb), efhd);
+		G_CALLBACK (composer_print_done_cb), NULL);
 
 	e_mail_printer_print (emp, FALSE, NULL);
+
+	g_object_unref (parts);
 }
 
 /* Composing messages... */
@@ -1543,13 +1540,13 @@ emu_update_composers_security (EMsgComposer *composer,
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	sign_by_default =
-		(validity_found & EM_FORMAT_VALIDITY_FOUND_SIGNED) != 0 &&
+		(validity_found & E_MAIL_PART_VALIDITY_SIGNED) != 0 &&
 		e_shell_settings_get_boolean (
 		shell_settings, "composer-sign-reply-if-signed");
 
 	/* Pre-set only for encrypted messages, not for signed */
 	if (sign_by_default) {
-		if (validity_found & EM_FORMAT_VALIDITY_FOUND_SMIME)
+		if (validity_found & E_MAIL_PART_VALIDITY_SMIME)
 			action = E_COMPOSER_ACTION_SMIME_SIGN (composer);
 		else
 			action = E_COMPOSER_ACTION_PGP_SIGN (composer);
@@ -1558,8 +1555,8 @@ emu_update_composers_security (EMsgComposer *composer,
 			GTK_TOGGLE_ACTION (action), TRUE);
 	}
 
-	if (validity_found & EM_FORMAT_VALIDITY_FOUND_ENCRYPTED) {
-		if (validity_found & EM_FORMAT_VALIDITY_FOUND_SMIME)
+	if (validity_found & E_MAIL_PART_VALIDITY_ENCRYPTED) {
+		if (validity_found & E_MAIL_PART_VALIDITY_SMIME)
 			action = E_COMPOSER_ACTION_SMIME_ENCRYPT (composer);
 		else
 			action = E_COMPOSER_ACTION_PGP_ENCRYPT (composer);
@@ -1703,9 +1700,9 @@ forward_non_attached (EShell *shell,
 	guint32 validity_found = 0;
 	guint32 flags;
 
-	flags = EM_FORMAT_QUOTE_HEADERS | EM_FORMAT_QUOTE_KEEP_SIG;
+	flags = E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS | E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG;
 	if (style == E_MAIL_FORWARD_STYLE_QUOTED)
-		flags |= EM_FORMAT_QUOTE_CITE;
+		flags |= E_MAIL_FORMATTER_QUOTE_FLAG_CITE;
 
 	forward = quoting_text (QUOTING_FORWARD);
 	text = em_utils_message_to_html (
@@ -2760,7 +2757,7 @@ static void
 composer_set_body (EMsgComposer *composer,
                    CamelMimeMessage *message,
                    EMailReplyStyle style,
-                   EMFormat *source)
+                   EMailPartList *parts_list)
 {
 	gchar *text, *credits, *original;
 	CamelMimePart *part;
@@ -2788,8 +2785,8 @@ composer_set_body (EMsgComposer *composer,
 	case E_MAIL_REPLY_STYLE_OUTLOOK:
 		original = quoting_text (QUOTING_ORIGINAL);
 		text = em_utils_message_to_html (
-			session, message, original, EM_FORMAT_QUOTE_HEADERS,
-			source, start_bottom ? "<BR>" : NULL, &validity_found);
+			session, message, original, E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS,
+			parts_list, start_bottom ? "<BR>" : NULL, &validity_found);
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		has_body_text = text && *text;
 		g_free (text);
@@ -2802,8 +2799,8 @@ composer_set_body (EMsgComposer *composer,
 		/* do what any sane user would want when replying... */
 		credits = attribution_format (message);
 		text = em_utils_message_to_html (
-			session, message, credits, EM_FORMAT_QUOTE_CITE,
-			source, start_bottom ? "<BR>" : NULL, &validity_found);
+			session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE,
+			parts_list, start_bottom ? "<BR>" : NULL, &validity_found);
 		g_free (credits);
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		has_body_text = text && *text;
@@ -2842,7 +2839,7 @@ composer_set_body (EMsgComposer *composer,
 gchar *
 em_utils_construct_composer_text (CamelSession *session,
                                   CamelMimeMessage *message,
-                                  EMFormat *source)
+                                  EMailPartList *parts_list)
 {
 	gchar *text, *credits;
 	gboolean start_bottom = 0;
@@ -2851,8 +2848,8 @@ em_utils_construct_composer_text (CamelSession *session,
 
 	credits = attribution_format (message);
 	text = em_utils_message_to_html (
-		session, message, credits, EM_FORMAT_QUOTE_CITE,
-		source, start_bottom ? "<BR>" : NULL, NULL);
+		session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE,
+		parts_list, start_bottom ? "<BR>" : NULL, NULL);
 	g_free (credits);
 
 	return text;
@@ -2881,7 +2878,7 @@ em_utils_reply_to_message (EShell *shell,
                            const gchar *message_uid,
                            EMailReplyType type,
                            EMailReplyStyle style,
-                           EMFormat *source_formatter,
+                           EMailPartList *parts_list,
                            CamelInternetAddress *address)
 {
 	ESourceRegistry *registry;
@@ -2956,7 +2953,7 @@ em_utils_reply_to_message (EShell *shell,
 	g_object_unref (to);
 	g_object_unref (cc);
 
-	composer_set_body (composer, message, style, source_formatter);
+	composer_set_body (composer, message, style, parts_list);
 
 	if (folder != NULL) {
 		gchar *folder_uri;

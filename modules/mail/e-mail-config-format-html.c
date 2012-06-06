@@ -26,7 +26,7 @@
 
 #include <shell/e-shell.h>
 #include <e-util/e-util.h>
-#include <mail/em-format-html.h>
+#include <em-format/e-mail-formatter.h>
 
 static gpointer parent_class;
 
@@ -95,7 +95,7 @@ mail_config_format_html_class_init (EExtensionClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_config_format_html_constructed;
 
-	class->extensible_type = EM_TYPE_FORMAT_HTML;
+	class->extensible_type = E_TYPE_MAIL_FORMATTER;
 }
 
 void

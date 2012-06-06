@@ -24,7 +24,8 @@
 
 #include <misc/e-web-view.h>
 #include <misc/e-search-bar.h>
-#include "em-format-html.h"
+
+#include <em-format/e-mail-formatter.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_DISPLAY \
@@ -62,13 +63,16 @@ struct _EMailDisplayClass {
 };
 
 GType			e_mail_display_get_type		(void);
-EMFormatHTML *		e_mail_display_get_formatter	(EMailDisplay *display);
-void			e_mail_display_set_formatter	(EMailDisplay *display,
-							 EMFormatHTML *formatter);
 
 void			e_mail_display_set_mode		(EMailDisplay *display,
-							 EMFormatWriteMode mode);
-EMFormatWriteMode	e_mail_display_get_mode		(EMailDisplay *display);
+							 EMailFormatterMode mode);
+EMailFormatterMode	e_mail_display_get_mode		(EMailDisplay *display);
+
+EMailPartList *		e_mail_display_get_parts_list	(EMailDisplay *display);
+
+void			e_mail_display_set_parts_list	(EMailDisplay *display,
+							 EMailPartList *parts_list);
+
 void			e_mail_display_set_headers_collapsable
 							(EMailDisplay *display,
 							 gboolean collapsable);

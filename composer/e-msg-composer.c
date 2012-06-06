@@ -40,10 +40,14 @@
 #include <libevolution-utils/e-alert-dialog.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
-#include <em-format/em-format.h>
-#include <em-format/em-format-quote.h>
 
 #include "e-composer-private.h"
+
+#include <em-format/e-mail-part.h>
+#include <em-format/e-mail-parser.h>
+#include <em-format/e-mail-formatter-quote.h>
+
+#include <shell/e-shell.h>
 
 typedef struct _AsyncContext AsyncContext;
 
@@ -179,49 +183,50 @@ static gchar *
 emcu_part_to_html (CamelSession *session,
                    CamelMimePart *part,
                    gssize *len,
-                   EMFormat *source,
                    GCancellable *cancellable)
 {
-	EMFormatQuote *emfq;
 	CamelStreamMem *mem;
 	GByteArray *buf;
 	gchar *text;
-	EMFormatParserInfo p_info = { 0 };
-	EMFormatWriterInfo w_info = { 0 };
+	EMailParser *parser;
+	EMailFormatter *formatter;
+	EMailPartList *part_list;
 	GString *part_id;
+	EShell *shell;
+	GtkWindow *window;
+
+	shell = e_shell_get_default ();
+	window = e_shell_get_active_window (shell);
 
 	buf = g_byte_array_new ();
 	mem = (CamelStreamMem *) camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (mem, buf);
 
-	emfq = em_format_quote_new (
-		session, NULL, (CamelStream *) mem,
-		EM_FORMAT_QUOTE_KEEP_SIG);
-	em_format_set_composer ((EMFormat *) emfq, TRUE);
-	if (source) {
-		/* Copy over things we can, other things are internal.
-		 * XXX Perhaps need different api than 'clone'. */
-		if (em_format_get_default_charset (source))
-			em_format_set_default_charset (
-				(EMFormat *) emfq, em_format_get_default_charset (source));
-		if (em_format_get_charset (source))
-			em_format_set_charset (
-				(EMFormat *) emfq, em_format_get_charset (source));
-	}
+	part_list = e_mail_part_list_new ();
 
 	part_id = g_string_sized_new (0);
-	em_format_parse_part (EM_FORMAT (emfq), part, part_id, &p_info, cancellable);
-	em_format_write (EM_FORMAT (emfq), CAMEL_STREAM (mem), &w_info, cancellable);
+	parser = e_mail_parser_new (session);
+	part_list->list = e_mail_parser_parse_part (parser, part, part_id, cancellable);
 	g_string_free (part_id, TRUE);
+	g_object_unref (parser);
 
-	g_object_unref (emfq);
+	formatter = e_mail_formatter_quote_new (NULL, E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG);
+	e_mail_formatter_set_style (formatter,
+			gtk_widget_get_style (GTK_WIDGET (window)),
+			gtk_widget_get_state (GTK_WIDGET (window)));
+
+	e_mail_formatter_format_sync (
+		formatter, part_list, (CamelStream *) mem,
+			0, E_MAIL_FORMATTER_MODE_PRINTING, cancellable);
+	g_object_unref (formatter);
+	g_object_unref (part_list);
 
 	camel_stream_write((CamelStream *) mem, "", 1, cancellable, NULL);
 	g_object_unref (mem);
 
 	text = (gchar *) buf->data;
 	if (len)
-		*len = buf->len-1;
+		*len = buf->len - 1;
 	g_byte_array_free (buf, FALSE);
 
 	return text;
@@ -2711,7 +2716,7 @@ handle_multipart_signed (EMsgComposer *composer,
 		gssize length;
 
 		html = emcu_part_to_html (
-			session, mime_part, &length, NULL, cancellable);
+			session, mime_part, &length, cancellable);
 		e_msg_composer_set_pending_body (composer, html, length);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -2799,7 +2804,7 @@ handle_multipart_encrypted (EMsgComposer *composer,
 		gssize length;
 
 		html = emcu_part_to_html (
-			session, mime_part, &length, NULL, cancellable);
+			session, mime_part, &length, cancellable);
 		e_msg_composer_set_pending_body (composer, html, length);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -2880,7 +2885,7 @@ handle_multipart_alternative (EMsgComposer *composer,
 		gssize length;
 
 		html = emcu_part_to_html (
-			session, text_part, &length, NULL, cancellable);
+			session, text_part, &length, cancellable);
 		e_msg_composer_set_pending_body (composer, html, length);
 	}
 }
@@ -2948,7 +2953,7 @@ handle_multipart (EMsgComposer *composer,
 			/* Since the first part is not multipart/alternative,
 			 * this must be the body. */
 			html = emcu_part_to_html (
-				session, mime_part, &length, NULL, cancellable);
+				session, mime_part, &length, cancellable);
 			e_msg_composer_set_pending_body (composer, html, length);
 		} else if (camel_mime_part_get_content_id (mime_part) ||
 			   camel_mime_part_get_content_location (mime_part)) {
@@ -3325,7 +3330,7 @@ e_msg_composer_new_with_message (EShell *shell,
 
 		html = emcu_part_to_html (
 			session, CAMEL_MIME_PART (message),
-			&length, NULL, cancellable);
+			&length, cancellable);
 		e_msg_composer_set_pending_body (composer, html, length);
 	}
 

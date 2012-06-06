@@ -28,8 +28,6 @@
 #include <shell/e-shell-searchbar.h>
 #include <shell/e-shell-view.h>
 
-#include <mail/em-format-html-display.h>
-
 /* Standard GObject macros */
 #define E_TYPE_MAIL_PANED_VIEW \
 	(e_mail_paned_view_get_type ())

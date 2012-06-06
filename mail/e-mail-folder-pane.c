@@ -43,7 +43,6 @@
 #include "mail/e-mail-reader.h"
 #include "mail/e-mail-reader-utils.h"
 #include "mail/em-folder-tree-model.h"
-#include "mail/em-format-html-display.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-utils.h"
 #include "mail/message-list.h"

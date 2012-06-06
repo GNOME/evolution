@@ -701,9 +701,10 @@ e_attachment_button_set_view (EAttachmentButton *button,
 
 	g_return_if_fail (button->priv->view == NULL);
 
+	g_object_ref (view);
 	if (button->priv->view)
 		g_object_unref (button->priv->view);
-	button->priv->view = g_object_ref (view);
+	button->priv->view = view;
 
 	popup_menu = e_attachment_view_get_popup_menu (view);
 

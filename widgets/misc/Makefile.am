@@ -11,6 +11,7 @@ widgetsinclude_HEADERS =			\
 	e-alarm-selector.h			\
 	e-alert-bar.h				\
 	e-attachment.h				\
+	e-attachment-bar.h			\
 	e-attachment-button.h			\
 	e-attachment-dialog.h			\
 	e-attachment-handler.h			\
@@ -100,6 +101,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-alarm-selector.c			\
 	e-alert-bar.c				\
 	e-attachment.c				\
+	e-attachment-bar.c			\
 	e-attachment-button.c			\
 	e-attachment-dialog.c			\
 	e-attachment-handler.c			\

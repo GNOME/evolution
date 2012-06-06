@@ -44,7 +44,6 @@ mailinclude_HEADERS =					\
 	e-mail-account-manager.h			\
 	e-mail-account-store.h				\
 	e-mail-account-tree-view.h			\
-	e-mail-attachment-bar.h				\
 	e-mail-autoconfig.h				\
 	e-mail-backend.h				\
 	e-mail-browser.h				\
@@ -101,10 +100,6 @@ mailinclude_HEADERS =					\
 	em-folder-tree-model.h				\
 	em-folder-tree.h				\
 	em-folder-utils.h				\
-	em-format-hook.h				\
-	em-format-html-display.h			\
-	em-format-html-print.h				\
-	em-format-html.h				\
 	em-search-context.h				\
 	em-subscription-editor.h			\
 	em-utils.h					\
@@ -128,7 +123,6 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-account-manager.c			\
 	e-mail-account-store.c				\
 	e-mail-account-tree-view.c			\
-	e-mail-attachment-bar.c				\
 	e-mail-autoconfig.c				\
 	e-mail-backend.c				\
 	e-mail-browser.c				\
@@ -185,10 +179,6 @@ libevolution_mail_la_SOURCES =				\
 	em-folder-tree-model.c				\
 	em-folder-tree.c				\
 	em-folder-utils.c				\
-	em-format-hook.c				\
-	em-format-html-display.c			\
-	em-format-html-print.c				\
-	em-format-html.c				\
 	em-search-context.c				\
 	em-subscription-editor.c			\
 	em-utils.c					\

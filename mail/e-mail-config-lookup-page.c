@@ -29,7 +29,7 @@ G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigLookupPage,
 	e_mail_config_lookup_page,
 	GTK_TYPE_BOX,
-	G_IMPLEMENT_INTERFACE(
+	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_CONFIG_PAGE,
 		e_mail_config_lookup_page_interface_init))
 

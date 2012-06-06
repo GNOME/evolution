@@ -35,7 +35,7 @@
 
 G_BEGIN_DECLS
 
-struct _EMFormat;
+struct _EMailPartList;
 struct _EShell;
 
 gboolean em_utils_ask_open_many (GtkWindow *parent, gint how_many);
@@ -66,7 +66,7 @@ void em_utils_selection_get_urilist (GtkSelectionData *data, CamelFolder *folder
 EProxy *	em_utils_get_proxy		(void);
 
 /* FIXME: should this have an override charset? */
-gchar *em_utils_message_to_html (CamelSession *session, CamelMimeMessage *msg, const gchar *credits, guint32 flags, struct _EMFormat *source, const gchar *append, guint32 *validity_found);
+gchar *em_utils_message_to_html (CamelSession *session, CamelMimeMessage *msg, const gchar *credits, guint32 flags, struct _EMailPartList *parts_list, const gchar *append, guint32 *validity_found);
 
 void		em_utils_empty_trash		(GtkWidget *parent,
 						 EMailSession *session);
