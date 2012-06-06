@@ -544,6 +544,20 @@ mail_account_store_service_enabled (EMailAccountStore *store,
 	uid = camel_service_get_uid (service);
 	source = e_source_registry_ref_source (registry, uid);
 
+	/* If this ESource is part of a collection, we need to enable
+	 * the entire collection.  Check the ESource and its ancestors
+	 * for a collection extension and enable the containing source. */
+	if (source != NULL) {
+		ESource *collection;
+
+		collection = e_source_registry_find_extension (
+			registry, source, E_SOURCE_EXTENSION_COLLECTION);
+		if (collection != NULL) {
+			g_object_unref (source);
+			source = collection;
+		}
+	}
+
 	if (source != NULL) {
 		e_source_set_enabled (source, TRUE);
 
@@ -574,6 +588,20 @@ mail_account_store_service_disabled (EMailAccountStore *store,
 
 	uid = camel_service_get_uid (service);
 	source = e_source_registry_ref_source (registry, uid);
+
+	/* If this ESource is part of a collection, we need to disable
+	 * the entire collection.  Check the ESource and its ancestors
+	 * for a collection extension and disable the containing source. */
+	if (source != NULL) {
+		ESource *collection;
+
+		collection = e_source_registry_find_extension (
+			registry, source, E_SOURCE_EXTENSION_COLLECTION);
+		if (collection != NULL) {
+			g_object_unref (source);
+			source = collection;
+		}
+	}
 
 	if (source != NULL) {
 		e_source_set_enabled (source, FALSE);
