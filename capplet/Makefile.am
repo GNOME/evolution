@@ -64,3 +64,4 @@ evolution_settings_LDADD = 				\
 	$(top_builddir)/em-format/libemformat.la \
 	$(top_builddir)/libemail-utils/libemail-utils.la
 
+-include $(top_srcdir)/git.mk
