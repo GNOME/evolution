@@ -47,11 +47,16 @@ static CamelProvider null_provider = {
 static void
 camel_null_store_class_init (CamelNullStoreClass *class)
 {
+	CamelServiceClass *service_class;
+
 	/* We should never be invoking methods on a CamelNullStore,
 	 * but thankfully, in case we do, CamelStore has NULL function
 	 * pointer checks in all of its wrapper functions.  So it will
 	 * emit a runtime warning, which is what we want, and frees us
 	 * from having to override any class methods here. */
+
+	service_class = CAMEL_SERVICE_CLASS (class);
+	service_class->settings_type = CAMEL_TYPE_SETTINGS;
 }
 
 static void
