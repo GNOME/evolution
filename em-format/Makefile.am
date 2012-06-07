@@ -108,10 +108,12 @@ SMIME_LIBS =						\
 endif
 
 libemformat_la_LIBADD =					\
+	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
-	$(top_builddir)/libemail-utils/libemail-utils.la	 \
-	$(top_builddir)/libemail-engine/libemail-engine.la	 \
+	$(top_builddir)/libemail-utils/libemail-utils.la \
+	$(top_builddir)/libemail-engine/libemail-engine.la \
+	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(LIBSOUP_LIBS)					\
