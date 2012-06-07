@@ -434,13 +434,8 @@ new_notify_status (EMEventTargetFolder *t)
 		if (!notify_init ("evolution-mail-notification"))
 			fprintf (stderr,"notify init error");
 
-#ifdef HAVE_LIBNOTIFY_07
 		notify  = notify_notification_new (
 			summary, escaped_text, icon_name);
-#else
-		notify  = notify_notification_new (
-			summary, escaped_text, icon_name, NULL);
-#endif /* HAVE_LIBNOTIFY_07 */
 
 		notify_notification_set_urgency (
 			notify, NOTIFY_URGENCY_NORMAL);

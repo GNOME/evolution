@@ -1768,11 +1768,7 @@ popup_notification (time_t trigger,
 				"%s %s", start_str, time_str);
 	}
 
-#ifdef HAVE_LIBNOTIFY_07
 	n = notify_notification_new (summary, body, "appointment-soon");
-#else
-	n = notify_notification_new (summary, body, "appointment-soon", NULL);
-#endif /* HAVE_LIBNOTIFY_07 */
 	if (!notify_notification_show (n, NULL))
 	    g_warning ("Could not send notification to daemon\n");
 

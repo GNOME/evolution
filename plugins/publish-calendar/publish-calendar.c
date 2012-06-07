@@ -150,12 +150,7 @@ update_publish_notification (GtkMessageType msg_type,
 				return;
 			}
 
-#ifdef HAVE_LIBNOTIFY_07
 			notify  = notify_notification_new (_("Calendar Publishing"), actual_msg->str, stock_name);
-#else
-			notify  = notify_notification_new (_("Calendar Publishing"), actual_msg->str, stock_name, NULL);
-			notify_notification_attach_to_status_icon (notify, status_icon);
-#endif /* HAVE_LIBNOTIFY_07 */
 			notify_notification_set_urgency (notify, NOTIFY_URGENCY_NORMAL);
 			notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
 			g_timeout_add (500, show_notify_cb, NULL);

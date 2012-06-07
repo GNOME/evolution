@@ -50,7 +50,6 @@ m4_define([libsoup_minimum_version], [2.38.1])
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.54])
-m4_define([libnotify_minimum_version], [0.5.1])
 
 dnl Optional Packages
 m4_define([champlain_minimum_version], [0.12])
@@ -60,6 +59,7 @@ m4_define([gladeui_minimum_version], [3.10.0])
 m4_define([goa_minimum_version], [3.2])
 m4_define([gweather_minimum_version], [2.90.0])
 m4_define([libcanberra_gtk_minimum_version], [0.25])
+m4_define([libnotify_minimum_version], [0.7])
 m4_define([nm_minimum_version], [0.7])
 
 dnl XXX These versions don't yet exist.  The latest releases
@@ -1184,10 +1184,6 @@ else
 fi
 AC_SUBST(LIBNOTIFY_CFLAGS)
 AC_SUBST(LIBNOTIFY_LIBS)
-
-if $PKG_CONFIG --atleast-version=0.7 libnotify; then
-	AC_DEFINE(HAVE_LIBNOTIFY_07, 1, [Define if you have libnotify >= 0.7])
-fi
 
 dnl **************
 dnl Calendar Flags
