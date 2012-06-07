@@ -1061,7 +1061,7 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 	} else {
 		EMailSession *session;
 		ESourceRegistry *registry;
-		ESourceCollection *collection;
+		ESource *collection;
 		ESource *source;
 
 		session = e_mail_account_store_get_session (store);
