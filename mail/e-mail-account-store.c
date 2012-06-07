@@ -1061,6 +1061,7 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 	} else {
 		EMailSession *session;
 		ESourceRegistry *registry;
+		ESourceCollection *collection;
 		ESource *source;
 
 		session = e_mail_account_store_get_session (store);
@@ -1068,6 +1069,17 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 		registry = e_mail_session_get_registry (session);
 		source = e_source_registry_ref_source (registry, uid);
 		g_return_if_fail (source != NULL);
+
+		/* If this ESource is part of a collection, we need to
+		 * pick up the enabled state for the entire collection.
+		 * Check the ESource and its ancestors for a collection
+		 * extension and read from the containing source. */
+		collection = e_source_registry_find_extension (
+			registry, source, E_SOURCE_EXTENSION_COLLECTION);
+		if (collection != NULL) {
+			g_object_unref (source);
+			source = collection;
+		}
 
 		builtin = FALSE;
 		enabled = e_source_get_enabled (source);

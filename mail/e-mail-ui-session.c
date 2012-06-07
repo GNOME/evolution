@@ -478,6 +478,8 @@ mail_ui_session_source_changed_cb (ESourceRegistry *registry,
 {
 	EMFolderTreeModel *folder_tree_model;
 	CamelService *service;
+	ESource *collection;
+	gboolean enabled;
 	const gchar *extension_name;
 	const gchar *uid;
 
@@ -505,7 +507,20 @@ mail_ui_session_source_changed_cb (ESourceRegistry *registry,
 	em_folder_tree_model_remove_store (
 		folder_tree_model, CAMEL_STORE (service));
 
-	if (e_source_get_enabled (source))
+	/* If this ESource is part of a collection, we need to
+	 * pick up the enabled state for the entire collection.
+	 * Check the ESource and its ancestors for a collection
+	 * extension and read from the containing source. */
+	collection = e_source_registry_find_extension (
+		registry, source, E_SOURCE_EXTENSION_COLLECTION);
+	if (collection != NULL) {
+		enabled = e_source_get_enabled (collection);
+		g_object_unref (collection);
+	} else {
+		enabled = e_source_get_enabled (source);
+	}
+
+	if (enabled)
 		em_folder_tree_model_add_store (
 			folder_tree_model, CAMEL_STORE (service));
 }
