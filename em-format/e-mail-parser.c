@@ -591,9 +591,6 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 	if (!snoop_mime_type)
 		snoop_mime_type = e_mail_part_snoop_type (part);
 
-	if (parts)
-		printf("WRAPPING %s AS %s\n", E_MAIL_PART (parts->data)->id, snoop_mime_type);
-
 	if (!extensions) {
 		EMailExtensionRegistry *reg;
 
