@@ -1,3 +1,5 @@
+@EVO_PLUGIN_RULE@
+
 module_LTLIBRARIES = module-itip-formatter.la
 
 module_itip_formatter_la_CPPFLAGS =					\
@@ -38,7 +40,7 @@ module_itip_formatter_la_LIBADD =					\
 module_itip_formatter_la_LDFLAGS =					\
 	-avoid-version -module $(NO_UNDEFINED)
 
-error_DATA = org-gnome-itip-formatter.error.xml
+error_DATA = org-gnome-itip-formatter.error
 errordir = $(privdatadir)/errors
 
 BUILT_SOURCES = $(error_DATA)
