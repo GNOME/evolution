@@ -364,6 +364,8 @@ new_notify_status (EMEventTargetFolder *t)
 {
 	gchar *escaped_text;
 	gchar *text;
+	const gchar *summary;
+	const gchar *icon_name;
 
 	if (!status_count) {
 		CamelService *service;
@@ -378,12 +380,11 @@ new_notify_status (EMEventTargetFolder *t)
 
 		status_count = t->new;
 
-		/* Translators: '%d' is the count of mails received
-		 * and '%s' is the name of the folder*/
+		/* Translators: '%d' is the count of mails received. */
 		text = g_strdup_printf (ngettext (
-			"You have received %d new message\nin %s.",
-			"You have received %d new messages\nin %s.",
-			status_count), status_count, folder_name);
+			"You have received %d new message.",
+			"You have received %d new messages.",
+			status_count), status_count);
 
 		g_free (folder_name);
 
@@ -422,22 +423,23 @@ new_notify_status (EMEventTargetFolder *t)
 			status_count), status_count);
 	}
 
+	icon_name = "evolution";
+	summary = _("New email in Evolution");
 	escaped_text = g_markup_escape_text (text, strlen (text));
 
 	if (notify) {
 		notify_notification_update (
-			notify, _("New email"),
-			escaped_text, "mail-unread");
+			notify, summary, escaped_text, icon_name);
 	} else {
 		if (!notify_init ("evolution-mail-notification"))
 			fprintf (stderr,"notify init error");
 
 #ifdef HAVE_LIBNOTIFY_07
 		notify  = notify_notification_new (
-			_("New email"), escaped_text, "mail-unread");
+			summary, escaped_text, icon_name);
 #else
 		notify  = notify_notification_new (
-			_("New email"), escaped_text, "mail-unread", NULL);
+			summary, escaped_text, icon_name, NULL);
 #endif /* HAVE_LIBNOTIFY_07 */
 
 		notify_notification_set_urgency (
