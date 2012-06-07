@@ -533,7 +533,7 @@ folder_tree_expand_node (const gchar *key,
 
 	g_object_unref (service);
 
-	if (p != NULL) {
+	if (p != NULL && p[1]) {
 		if (!(row = g_hash_table_lookup (si->full_hash, p + 1)))
 			return;
 	} else
@@ -3007,6 +3007,9 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 			end = strrchr (expand_key, '/');
 		} while (end);
 
+		if (expand_only)
+			folder_tree_free_select_uri (u);
+
 		g_free (expand_key);
 	}
 }
@@ -3378,6 +3381,8 @@ em_folder_tree_get_selected_uri (EMFolderTree *folder_tree)
 
 	if (CAMEL_IS_STORE (store) && folder_name != NULL)
 		folder_uri = e_mail_folder_uri_build (store, folder_name);
+	else if (CAMEL_IS_STORE (store))
+		folder_uri = e_mail_folder_uri_build (store, "");
 
 	g_free (folder_name);
 
