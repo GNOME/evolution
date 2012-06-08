@@ -1329,6 +1329,7 @@ mail_reader_create_vfolder_cb (CamelFolder *folder,
 	EMailSession *session;
 	EAlertSink *alert_sink;
 	CamelMimeMessage *message;
+	CamelFolder *use_folder;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
@@ -1362,10 +1363,26 @@ mail_reader_create_vfolder_cb (CamelFolder *folder,
 	backend = e_mail_reader_get_backend (context->reader);
 	session = e_mail_backend_get_session (backend);
 
+	use_folder = context->folder;
+	if (CAMEL_IS_VEE_FOLDER (use_folder)) {
+		CamelStore *parent_store;
+		CamelVeeFolder *vfolder;
+
+		parent_store = camel_folder_get_parent_store (use_folder);
+		vfolder = CAMEL_VEE_FOLDER (use_folder);
+
+		if (CAMEL_IS_VEE_STORE (parent_store) &&
+		    vfolder == camel_vee_store_get_unmatched_folder (CAMEL_VEE_STORE (parent_store))) {
+			/* use source folder instead of the Unmatched folder */
+			use_folder = camel_vee_folder_get_vee_uid_folder (
+				vfolder, context->message_uid);
+		}
+	}
+
 	vfolder_gui_add_from_message (
 		session, message,
 		context->filter_type,
-		context->folder);
+		use_folder);
 
 	g_object_unref (message);
 
@@ -1399,6 +1416,7 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
 	context->activity = activity;
 	context->folder = g_object_ref (folder);
 	context->reader = g_object_ref (reader);
+	context->message_uid = g_strdup (message_uid);
 	context->filter_type = vfolder_type;
 
 	camel_folder_get_message (
