@@ -420,6 +420,7 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 	gchar *full_name;
 	const gchar *uid;
 	gboolean store_is_local;
+	gboolean store_is_vfolder;
 	gboolean allows_children = TRUE;
 	gboolean can_delete = TRUE;
 	gboolean is_junk = FALSE;
@@ -445,6 +446,11 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
 	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
+	store_is_vfolder = (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0);
+
+	/* Bit of a hack to indicate "Search Folders" is selected. */
+	if (is_store && store_is_vfolder)
+		is_virtual = TRUE;
 
 	if (!is_store && full_name != NULL) {
 		guint32 folder_type;

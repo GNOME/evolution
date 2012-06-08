@@ -836,7 +836,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_has_unread_rec = FALSE;
 	gboolean folder_tree_and_message_list_agree = TRUE;
 	gboolean store_is_subscribable;
-	gboolean store_is_vstore = FALSE;
 	gboolean any_store_is_subscribable = FALSE;
 
 	/* Chain up to parent's update_actions() method. */
@@ -887,7 +886,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		service = CAMEL_SERVICE (store);
 		uid = camel_service_get_uid (service);
 		source = e_source_registry_ref_source (registry, uid);
-		store_is_vstore = g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0;
 	}
 
 	if (source != NULL) {
@@ -974,8 +972,9 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	sensitive = folder_is_trash;
 	gtk_action_set_sensitive (action, sensitive);
 
+	/* folder_is_store + folder_is_virtual == "Search Folders" */
 	action = ACTION (MAIL_ACCOUNT_PROPERTIES);
-	sensitive = (store != NULL) && folder_is_store;
+	sensitive = (store != NULL) && folder_is_store && !folder_is_virtual;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FLUSH_OUTBOX);
@@ -1042,8 +1041,9 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	sensitive = any_store_is_subscribable;
 	gtk_action_set_sensitive (action, sensitive);
 
+	/* folder_is_store + folder_is_virtual == "Search Folders" */
 	action = ACTION (MAIL_VFOLDER_UNMATCHED_ENABLE);
-	gtk_action_set_visible (action, folder_is_store && store_is_vstore);
+	gtk_action_set_visible (action, folder_is_store && folder_is_virtual);
 
 	e_mail_shell_view_update_popup_labels (mail_shell_view);
 }
