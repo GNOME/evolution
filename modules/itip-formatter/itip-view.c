@@ -47,6 +47,7 @@
 
 #include <mail/em-config.h>
 #include <mail/em-utils.h>
+#include <em-format/e-mail-formatter-utils.h>
 
 #include <calendar/gui/itip-utils.h>
 
@@ -835,46 +836,6 @@ source_changed_cb (WebKitDOMElement *select,
 	g_object_unref (source);
 }
 
-static gchar *
-parse_html_mnemonics (const gchar *label,
-                      gchar **access_key)
-{
-	const gchar *pos = NULL;
-	gchar ak = 0;
-	GString *html_label = NULL;
-
-	pos = strstr (label, "_");
-	if (pos != NULL) {
-		ak = pos[1];
-
-		/* Convert to uppercase */
-		if (ak >= 'a')
-			ak = ak - 32;
-
-		html_label = g_string_new ("");
-		g_string_append_len (html_label, label, pos - label);
-		g_string_append_printf (html_label, "<u>%c</u>", pos[1]);
-		g_string_append (html_label, &pos[2]);
-
-		if (access_key) {
-			if (ak) {
-				*access_key = g_strdup_printf ("%c", ak);
-			} else {
-				*access_key = NULL;
-			}
-		}
-
-	} else {
-		html_label = g_string_new (label);
-
-		if (access_key) {
-			*access_key = NULL;
-		}
-	}
-
-	return g_string_free (html_label, FALSE);
-}
-
 static void
 append_checkbox_table_row (GString *buffer,
                            const gchar *name,
@@ -882,7 +843,7 @@ append_checkbox_table_row (GString *buffer,
 {
 	gchar *access_key, *html_label;
 
-	html_label = parse_html_mnemonics (label, &access_key);
+	html_label = e_mail_formatter_parse_html_mnemonics (label, &access_key);
 
 	g_string_append_printf (
 		buffer,
@@ -1017,7 +978,7 @@ buttons_table_write_button (GString *buffer,
 {
 	gchar *access_key, *html_label;
 
-	html_label = parse_html_mnemonics (label, &access_key);
+	html_label = e_mail_formatter_parse_html_mnemonics (label, &access_key);
 
 	g_string_append_printf (
 		buffer,
@@ -1839,7 +1800,7 @@ itip_view_set_item_type (ItipView *view,
 		return;
 	}
 
-	html_label = parse_html_mnemonics (header, &access_key);
+	html_label = e_mail_formatter_parse_html_mnemonics (header, &access_key);
 
 	webkit_dom_html_element_set_access_key (
 		WEBKIT_DOM_HTML_ELEMENT (label), access_key);

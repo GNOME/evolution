@@ -29,6 +29,7 @@
 
 #include <em-format/e-mail-formatter-extension.h>
 #include <em-format/e-mail-formatter.h>
+#include <em-format/e-mail-formatter-utils.h>
 #include <em-format/e-mail-part-utils.h>
 
 #include <camel/camel.h>
@@ -93,6 +94,7 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 		const gchar *label = NULL;
 		EABContactDisplayMode mode;
 		const gchar *info = NULL;
+		gchar *html_label, *access_key;
 
 		length = g_slist_length (vcard_part->contact_list);
 		if (length < 1)
@@ -113,33 +115,50 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 		mode = eab_contact_formatter_get_display_mode (vcard_part->formatter);
 		if (mode == EAB_CONTACT_DISPLAY_RENDER_COMPACT) {
 			mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
-			label =_("Show Full vCard");
+			label = _("Show F_ull vCard");
 		} else {
 			mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
-			label = _("Show Compact vCard");
+			label = _("Show Com_pact vCard");
 		}
 
 		str = g_strdup_printf (
-			"<div id=\"%s\">"
+			"<div id=\"%s\">", part->id);
+		camel_stream_write_string (stream, str, cancellable, NULL);
+		g_free (str);
+
+		html_label = e_mail_formatter_parse_html_mnemonics (
+				label, &access_key);
+		str = g_strdup_printf (
 			"<button type=\"button\" "
 				"name=\"set-display-mode\" "
 				"class=\"org-gnome-vcard-inline-display-mode-button\" "
-				"value=\"%d\">%s</button>"
+				"value=\"%d\" "
+				"accesskey=\"%s\">%s</button>",
+			mode, access_key, html_label);
+		camel_stream_write_string (stream, str, cancellable, NULL);
+		g_free (str);
+		g_free (html_label);
+		if (access_key)
+			g_free (access_key);
+
+		html_label = e_mail_formatter_parse_html_mnemonics (
+				_("Save _To Addressbook"), &access_key);
+		str = g_strdup_printf (
 			"<button type=\"button\" "
 				"name=\"save-to-addressbook\" "
 				"class=\"org-gnome-vcard-inline-save-button\" "
-				"value=\"%s\">%s</button><br/>"
+				"value=\"%s\" "
+				"accesskey=\"%s\">%s</button><br/>"
 			"<iframe width=\"100%%\" height=\"auto\" frameborder=\"0\""
 				"src=\"%s\" name=\"%s\"></iframe>"
 			"</div>",
-			 part->id,
-			 mode, label,
-			 part->id, _("Save To Addressbook"),
+			 part->id, access_key, html_label,
 			 uri, part->id);
-
 		camel_stream_write_string (stream, str, cancellable, NULL);
-
 		g_free (str);
+		g_free (html_label);
+		if (access_key)
+			g_free (access_key);
 
 		if (length == 2) {
 

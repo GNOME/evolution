@@ -34,7 +34,7 @@
 #include <em-format/e-mail-parser-extension.h>
 #include <em-format/e-mail-part.h>
 #include <em-format/e-mail-part-utils.h>
-#include <em-format/e-mail-formatter.h>
+#include <em-format/e-mail-formatter-utils.h>
 
 #include <libebook/libebook.h>
 #include <libedataserver/libedataserver.h>
@@ -191,21 +191,44 @@ display_mode_toggle_cb (WebKitDOMEventTarget *button,
 {
 	EABContactDisplayMode mode;
 	gchar *uri;
+	gchar *html_label, *access_key;
 
 	mode = eab_contact_formatter_get_display_mode (vcard_part->formatter);
 	if (mode == EAB_CONTACT_DISPLAY_RENDER_NORMAL) {
 		mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
 
-		webkit_dom_html_element_set_inner_text (
+		html_label = e_mail_formatter_parse_html_mnemonics (
+				_("Show F_ull vCard"), &access_key);
+
+		webkit_dom_html_element_set_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (button),
-			_("Show Full vCard"), NULL);
+			html_label, NULL);
+		if (access_key) {
+			webkit_dom_html_element_set_access_key (
+				WEBKIT_DOM_HTML_ELEMENT (button),
+				access_key);
+			g_free (access_key);
+		}
+
+		g_free (html_label);
 
 	} else {
 		mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
 
-		webkit_dom_html_element_set_inner_text (
+		html_label = e_mail_formatter_parse_html_mnemonics (
+				_("Show Com_pact vCard"), &access_key);
+
+		webkit_dom_html_element_set_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (button),
-			_("Show Compact vCard"), NULL);
+			html_label, NULL);
+		if (access_key) {
+			webkit_dom_html_element_set_access_key (
+				WEBKIT_DOM_HTML_ELEMENT (button),
+				access_key);
+			g_free (access_key);
+		}
+
+		g_free (html_label);
 	}
 
 	eab_contact_formatter_set_display_mode (vcard_part->formatter, mode);
