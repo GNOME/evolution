@@ -1220,6 +1220,7 @@ itip_view_finalize (GObject *object)
 
 	d(printf("Itip view finalized!\n"));
 
+	g_clear_object (&priv->dom_document);
 	g_free (priv->extension_name);
 	g_free (priv->sender);
 	g_free (priv->organizer);
@@ -1543,7 +1544,7 @@ itip_view_create_dom_bindings (ItipView *view,
 	WebKitDOMDocument *doc;
 
 	doc = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
-	view->priv->dom_document = doc;
+	view->priv->dom_document = g_object_ref (doc);
 
 	el = webkit_dom_document_get_element_by_id (doc, CHECKBOX_RECUR);
 	if (el) {
