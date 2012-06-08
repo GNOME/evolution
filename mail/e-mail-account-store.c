@@ -544,6 +544,38 @@ mail_account_store_service_enabled (EMailAccountStore *store,
 	uid = camel_service_get_uid (service);
 	source = e_source_registry_ref_source (registry, uid);
 
+	/* Locate the identity source referenced in the [Mail Account]
+	 * extension.  We want to keep its enabled state synchronized
+	 * with the account's enabled state.  (Need to do this before
+	 * we swap the mail account ESource for a collection below.) */
+	if (source != NULL) {
+		ESource *identity = NULL;
+		ESourceMailAccount *extension;
+		const gchar *extension_name;
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+		extension = e_source_get_extension (source, extension_name);
+		uid = e_source_mail_account_get_identity_uid (extension);
+
+		if (uid != NULL)
+			identity = e_source_registry_ref_source (registry, uid);
+
+		if (identity != NULL) {
+			e_source_set_enabled (identity, TRUE);
+
+			store->priv->busy_count++;
+			g_object_notify (G_OBJECT (store), "busy");
+
+			/* XXX Should this be cancellable? */
+			e_source_write (
+				identity, NULL, (GAsyncReadyCallback)
+				mail_account_store_write_source_cb,
+				g_object_ref (store));
+
+			g_object_unref (identity);
+		}
+	}
+
 	/* If this ESource is part of a collection, we need to enable
 	 * the entire collection.  Check the ESource and its ancestors
 	 * for a collection extension and enable the containing source. */
@@ -588,6 +620,38 @@ mail_account_store_service_disabled (EMailAccountStore *store,
 
 	uid = camel_service_get_uid (service);
 	source = e_source_registry_ref_source (registry, uid);
+
+	/* Locate the identity source referenced in the [Mail Account]
+	 * extension.  We want to keep its enabled state synchronized
+	 * with the account's enabled state.  (Need to do this before
+	 * we swap the mail account ESource for a collection below.) */
+	if (source != NULL) {
+		ESource *identity = NULL;
+		ESourceMailAccount *extension;
+		const gchar *extension_name;
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+		extension = e_source_get_extension (source, extension_name);
+		uid = e_source_mail_account_get_identity_uid (extension);
+
+		if (uid != NULL)
+			identity = e_source_registry_ref_source (registry, uid);
+
+		if (identity != NULL) {
+			e_source_set_enabled (identity, FALSE);
+
+			store->priv->busy_count++;
+			g_object_notify (G_OBJECT (store), "busy");
+
+			/* XXX Should this be cancellable? */
+			e_source_write (
+				identity, NULL, (GAsyncReadyCallback)
+				mail_account_store_write_source_cb,
+				g_object_ref (store));
+
+			g_object_unref (identity);
+		}
+	}
 
 	/* If this ESource is part of a collection, we need to disable
 	 * the entire collection.  Check the ESource and its ancestors
