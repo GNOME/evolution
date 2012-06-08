@@ -519,27 +519,19 @@ static void
 mail_shell_backend_start (EShellBackend *shell_backend)
 {
 	EMailShellBackendPrivate *priv;
-	EShell *shell;
-	EShellSettings *shell_settings;
 	EMailBackend *backend;
 	EMailSession *session;
 	EMailAccountStore *account_store;
-	gboolean enable_search_folders;
 	GError *error = NULL;
 
 	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
-
-	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
-	enable_search_folders = e_shell_settings_get_boolean (
-		shell_settings, "mail-enable-search-folders");
-	if (enable_search_folders)
-		vfolder_load_storage (session);
+	/* XXX Should we be calling this unconditionally? */
+	vfolder_load_storage (session);
 
 	if (!e_mail_account_store_load_sort_order (account_store, &error)) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);

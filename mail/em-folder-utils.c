@@ -548,8 +548,6 @@ em_folder_utils_create_folder (GtkWindow *parent,
                                EMFolderTree *emft,
                                const gchar *initial_uri)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model;
@@ -563,9 +561,6 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	g_return_if_fail (GTK_IS_WINDOW (parent));
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-
 	model = em_folder_tree_model_new ();
 	em_folder_tree_model_set_session (model, session);
 
@@ -575,22 +570,12 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	while (!g_queue_is_empty (&queue)) {
 		CamelService *service;
 		CamelStoreFlags flags;
-		const gchar *uid, *prop = NULL;
 
 		service = g_queue_pop_head (&queue);
 		g_warn_if_fail (CAMEL_IS_STORE (service));
 
 		flags = CAMEL_STORE (service)->flags;
 		if ((flags & CAMEL_STORE_CAN_EDIT_FOLDERS) == 0)
-			continue;
-
-		uid = camel_service_get_uid (service);
-		if (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0)
-			prop = "mail-enable-local-folders";
-		else if (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0)
-			prop = "mail-enable-search-folders";
-
-		if (prop && !e_shell_settings_get_boolean (shell_settings, prop))
 			continue;
 
 		em_folder_tree_model_add_store (model, CAMEL_STORE (service));

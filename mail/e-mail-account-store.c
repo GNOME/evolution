@@ -1090,7 +1090,10 @@ void
 e_mail_account_store_add_service (EMailAccountStore *store,
                                   CamelService *service)
 {
-	GSettings *settings;
+	EMailSession *session;
+	ESourceRegistry *registry;
+	ESource *collection;
+	ESource *source;
 	GtkTreeIter iter;
 	const gchar *filename;
 	const gchar *uid;
@@ -1106,50 +1109,30 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 
 	uid = camel_service_get_uid (service);
 
-	/* Handle built-in services that don't have an EAccount. */
+	builtin =
+		(g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0) ||
+		(g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0);
 
-	if (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0) {
-		builtin = TRUE;
+	session = e_mail_account_store_get_session (store);
 
-		settings = g_settings_new ("org.gnome.evolution.mail");
-		enabled = g_settings_get_boolean (settings, "enable-local");
-		g_object_unref (settings);
+	registry = e_mail_session_get_registry (session);
+	source = e_source_registry_ref_source (registry, uid);
+	g_return_if_fail (source != NULL);
 
-	} else if (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0) {
-		builtin = TRUE;
-
-		settings = g_settings_new ("org.gnome.evolution.mail");
-		enabled = g_settings_get_boolean (settings, "enable-vfolders");
-		g_object_unref (settings);
-
+	/* If this ESource is part of a collection, we need to
+	 * pick up the enabled state for the entire collection.
+	 * Check the ESource and its ancestors for a collection
+	 * extension and read from the containing source. */
+	collection = e_source_registry_find_extension (
+		registry, source, E_SOURCE_EXTENSION_COLLECTION);
+	if (collection != NULL) {
+		enabled = e_source_get_enabled (collection);
+		g_object_unref (collection);
 	} else {
-		EMailSession *session;
-		ESourceRegistry *registry;
-		ESource *collection;
-		ESource *source;
-
-		session = e_mail_account_store_get_session (store);
-
-		registry = e_mail_session_get_registry (session);
-		source = e_source_registry_ref_source (registry, uid);
-		g_return_if_fail (source != NULL);
-
-		/* If this ESource is part of a collection, we need to
-		 * pick up the enabled state for the entire collection.
-		 * Check the ESource and its ancestors for a collection
-		 * extension and read from the containing source. */
-		collection = e_source_registry_find_extension (
-			registry, source, E_SOURCE_EXTENSION_COLLECTION);
-		if (collection != NULL) {
-			g_object_unref (source);
-			source = collection;
-		}
-
-		builtin = FALSE;
 		enabled = e_source_get_enabled (source);
-
-		g_object_unref (source);
 	}
+
+	g_object_unref (source);
 
 	/* Where do we insert new services now that accounts can be
 	 * reordered?  This is just a simple policy I came up with.

@@ -1018,7 +1018,6 @@ vfolder_load_storage (EMailSession *session)
 	EFilterRule *rule;
 	MailFolderCache *folder_cache;
 	gchar *xmlfile;
-	GSettings *settings;
 
 	G_LOCK (vfolder_hash);
 
@@ -1033,7 +1032,7 @@ vfolder_load_storage (EMailSession *session)
 	G_UNLOCK (vfolder_hash);
 
 	config_dir = mail_session_get_config_dir ();
-	vfolder_store = e_mail_session_get_vfolder_store (E_MAIL_SESSION (session));
+	vfolder_store = e_mail_session_get_vfolder_store (session);
 
 	g_signal_connect (
 		vfolder_store, "folder-deleted",
@@ -1075,11 +1074,6 @@ vfolder_load_storage (EMailSession *session)
 			d(printf("invalid rule (%p) encountered: rule->name is NULL\n", rule));
 		}
 	}
-
-	/* reenable the feature if required */
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	g_settings_set_boolean (settings, "enable-vfolders", TRUE);
-	g_object_unref (settings);
 
 	folder_cache = e_mail_session_get_folder_cache (session);
 

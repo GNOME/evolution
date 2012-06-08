@@ -141,16 +141,6 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"enable-unmatched");
 
 	e_shell_settings_install_property_for_key (
-		"mail-enable-search-folders",
-		MAIL_SCHEMA,
-		"enable-vfolders");
-
-	e_shell_settings_install_property_for_key (
-		"mail-enable-local-folders",
-		MAIL_SCHEMA,
-		"enable-local");
-
-	e_shell_settings_install_property_for_key (
 		"mail-font-monospace",
 		MAIL_SCHEMA,
 		"monospace-font");

@@ -35,11 +35,14 @@ mail_config_reader_idle_cb (EExtension *extension)
 	EExtensible *extensible;
 	GtkActionGroup *action_group;
 	EShellSettings *shell_settings;
+	ESourceRegistry *registry;
+	ESource *source;
 	EShell *shell;
 
 	extensible = e_extension_get_extensible (extension);
 
 	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	g_object_bind_property (
@@ -56,10 +59,14 @@ mail_config_reader_idle_cb (EExtension *extension)
 		E_MAIL_READER (extensible),
 		E_MAIL_READER_ACTION_GROUP_SEARCH_FOLDERS);
 
+	source = e_source_registry_ref_source (registry, "vfolder");
+
 	g_object_bind_property (
-		shell_settings, "mail-enable-search-folders",
+		source, "enabled",
 		action_group, "visible",
 		G_BINDING_SYNC_CREATE);
+
+	g_object_unref (source);
 
 	return FALSE;
 }
