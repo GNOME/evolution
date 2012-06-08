@@ -191,7 +191,6 @@ empe_inlinepgp_signed_parse (EMailParserExtension *extension,
 
 	/* Clean Up */
 	camel_cipher_validity_free (valid);
-	g_object_unref (dw);
 	g_object_unref (opart);
 	g_object_unref (ostream);
 	g_object_unref (cipher);
