@@ -116,8 +116,6 @@ struct _EMailPartItip {
 	ItipView *view;
 };
 
-typedef struct _EMailPartItip EMailPartItip;
-
 G_END_DECLS
 
 #endif /* E_MAIL_PART_ITIP_H */
