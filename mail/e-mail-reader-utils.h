@@ -67,9 +67,6 @@ EMailReaderHeader *
 gchar *		e_mail_reader_header_to_xml	(EMailReaderHeader *header);
 void		e_mail_reader_header_free	(EMailReaderHeader *header);
 
-void		e_mail_reader_connect_headers	(EMailReader *reader,
-						 EMailFormatter *formatter);
-
 EMailPartList *	e_mail_reader_lookup_part_list	(EMailReader *reader,
 						 const gchar *uri);
 

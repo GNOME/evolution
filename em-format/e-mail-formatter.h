@@ -126,6 +126,8 @@ struct _EMailFormatterClass {
 							 GtkStyle *style,
 							 GtkStateType state);
 
+	/* Signals */
+	void			(*need_redraw)		(EMailFormatter *formatter);
 };
 
 GType		e_mail_formatter_get_type	(void);

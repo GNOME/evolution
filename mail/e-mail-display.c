@@ -1552,6 +1552,8 @@ e_mail_display_set_mode (EMailDisplay *display,
 			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::notify::header-color",
 			G_CALLBACK (e_mail_display_reload), display,
+		"swapped-signal::need-redraw",
+			G_CALLBACK (e_mail_display_reload), display,
 		NULL);
 
 	e_mail_display_reload (display);

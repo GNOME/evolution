@@ -72,6 +72,13 @@ enum {
 	PROP_DEFAULT_CHARSET
 };
 
+enum {
+	NEED_REDRAW,
+	LAST_SIGNAL
+};
+
+static int signals[LAST_SIGNAL];
+
 static void
 mail_formatter_run (EMailFormatter *formatter,
                     EMailFormatterContext *context,
@@ -492,6 +499,7 @@ e_mail_formatter_base_init (EMailFormatterClass *klass)
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES |
 		CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 }
 
@@ -691,6 +699,16 @@ e_mail_formatter_class_init (EMailFormatterClass *klass)
 			NULL,
 			NULL,
 			G_PARAM_READWRITE));
+
+	signals[NEED_REDRAW] = g_signal_new (
+				"need-redraw",
+				E_TYPE_MAIL_FORMATTER,
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EMailFormatterClass, need_redraw),
+				NULL,
+				NULL,
+				g_cclosure_marshal_VOID__VOID,
+				G_TYPE_NONE,  0, NULL);
 }
 
 static void
@@ -1414,6 +1432,8 @@ e_mail_formatter_add_header (EMailFormatter *formatter,
 	h = e_mail_formatter_header_new (name, value);
 	h->flags = flags;
 	g_queue_push_tail (formatter->priv->header_list, h);
+
+	g_signal_emit (formatter, signals[NEED_REDRAW], 0, NULL);
 }
 
 void

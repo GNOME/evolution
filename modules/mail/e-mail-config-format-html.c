@@ -27,8 +27,64 @@
 #include <shell/e-shell.h>
 #include <e-util/e-util.h>
 #include <em-format/e-mail-formatter.h>
+#include <mail/e-mail-reader-utils.h>
 
 static gpointer parent_class;
+
+static void
+headers_changed_cb (GConfClient *client,
+                    guint cnxn_id,
+                    GConfEntry *entry,
+                    gpointer user_data)
+{
+	GSList *header_config_list, *p;
+	EExtension *extension;
+	EMailFormatter *formatter;
+
+	g_return_if_fail (client != NULL);
+
+	extension = user_data;
+	formatter = E_MAIL_FORMATTER (e_extension_get_extensible (extension));
+
+	header_config_list = gconf_client_get_list (
+		client, "/apps/evolution/mail/display/headers",
+		GCONF_VALUE_STRING, NULL);
+
+	e_mail_formatter_clear_headers (formatter);
+	for (p = header_config_list; p; p = g_slist_next (p)) {
+		EMailReaderHeader *h;
+		gchar *xml = (gchar *) p->data;
+
+		h = e_mail_reader_header_from_xml (xml);
+		if (h && h->enabled)
+			e_mail_formatter_add_header (
+				formatter, h->name, NULL,
+				E_MAIL_FORMATTER_HEADER_FLAG_BOLD);
+
+		e_mail_reader_header_free (h);
+	}
+
+	if (!header_config_list)
+		e_mail_formatter_set_default_headers (formatter);
+
+	g_slist_foreach (header_config_list, (GFunc) g_free, NULL);
+	g_slist_free (header_config_list);
+}
+
+static void
+remove_header_notify_cb (gpointer data)
+{
+	GConfClient *client;
+	guint notify_id;
+
+	notify_id = GPOINTER_TO_INT (data);
+	g_return_if_fail (notify_id != 0);
+
+	client = gconf_client_get_default ();
+	gconf_client_notify_remove (client, notify_id);
+	gconf_client_remove_dir (client, "/apps/evolution/mail/display", NULL);
+	g_object_unref (client);
+}
 
 static void
 mail_config_format_html_constructed (GObject *object)
@@ -37,6 +93,8 @@ mail_config_format_html_constructed (GObject *object)
 	EExtensible *extensible;
 	EShellSettings *shell_settings;
 	EShell *shell;
+	GConfClient *client;
+	guint notify_id;
 
 	extension = E_EXTENSION (object);
 	extensible = e_extension_get_extensible (extension);
@@ -80,6 +138,23 @@ mail_config_format_html_constructed (GObject *object)
 		shell_settings, "mail-show-animated-images",
 		extensible, "animate-images",
 		G_BINDING_SYNC_CREATE);
+
+
+	client = gconf_client_get_default ();
+	gconf_client_add_dir (
+		client, "/apps/evolution/mail/display",
+		GCONF_CLIENT_PRELOAD_NONE, NULL);
+	notify_id = gconf_client_notify_add (
+		client, "/apps/evolution/mail/display/headers",
+		(GConfClientNotifyFunc) headers_changed_cb,
+		object, NULL, NULL);
+
+	g_object_set_data_full (
+		G_OBJECT (extensible), "reader-header-notify-id",
+		GINT_TO_POINTER (notify_id), remove_header_notify_cb);
+
+	/* Initial synchronization */
+	headers_changed_cb (client, 0, NULL, object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);

@@ -4768,5 +4768,4 @@ e_mail_reader_set_formatter (EMailReader *reader,
 
 	priv->formatter = formatter;
 
-	e_mail_reader_connect_headers (reader, formatter);
 }
