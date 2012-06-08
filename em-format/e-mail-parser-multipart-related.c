@@ -122,7 +122,8 @@ empe_mp_related_parse (EMailParserExtension *extension,
 				continue;
 
 			/* Don't render the part on it's own! */
-			mail_part->is_hidden = TRUE;
+			if (mail_part->cid != NULL)
+				mail_part->is_hidden = TRUE;
 		}
 
 		parts = g_slist_concat (parts, list);
