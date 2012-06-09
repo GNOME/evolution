@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-displaying-message" />
     <link type="guide" xref="mail-attachments" />
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-31" status="final"/>
+    <revision pkgversion="3.5.3" version="0.3" date="2012-06-09" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -24,6 +24,7 @@
 <title>Handling attachments in received mail</title>
 
 <p>If you receive an email message with one or more file attachments, Evolution displays the number of attachments and a <gui style="button">Save</gui> or <gui style="button">Save All</gui> button between the email header and the content of the email.</p>
+<note style="tip"><p>Evolution does not support saving all attachments of all messages in one folder at once.</p></note>
 
 <p>A list of attachments is also available at the bottom of the email.</p>
 <p>To save an attachment to disk, click the down-arrow next to the attachment icon and click <gui>Save As</gui>.</p>
