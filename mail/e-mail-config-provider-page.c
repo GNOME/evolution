@@ -464,16 +464,86 @@ mail_config_provider_page_add_widgets (EMailConfigProviderPage *page)
 	EMailConfigServiceBackend *backend;
 	CamelProviderConfEntry *entries;
 	CamelProvider *provider;
+	GtkWidget *container;
 	GtkWidget *frame;
 	GtkWidget *widget;
+	ESource *source;
+	ESourceExtension *extension;
+	gboolean first_section = TRUE;
+	const gchar *extension_name;
+	const gchar *text;
+	gchar *markup;
 	gint ii;
+
+	/* XXX We begin the page with our own section header and refresh
+	 *     interval setting, and then skip the CamelProvider's first
+	 *     CAMEL_PROVIDER_CONF_SECTION_START entry.
+	 *
+	 *     This is all very brittle.  I'm convinced that generating
+	 *     a user interface from an array of records like this is a
+	 *     bad idea.  We already have EMailConfigServiceBackend for
+	 *     building provider-specific "Receving Email" and "Sending
+	 *     EMail" pages by hand.  We should do similarly here. */
+
+	backend = e_mail_config_provider_page_get_backend (page);
+	source = e_mail_config_service_backend_get_source (backend);
+	provider = e_mail_config_service_backend_get_provider (backend);
+	g_return_if_fail (provider != NULL);
+
+	/* XXX I guess refresh options go in the mail account source,
+	 *     even if the source is part of a collection.  I did not
+	 *     think about it too hard, so hopefully this is right. */
+	extension_name = E_SOURCE_EXTENSION_REFRESH;
+	extension = e_source_get_extension (source, extension_name);
+
+	text = _("Checking for New Mail");
+	markup = g_markup_printf_escaped ("<b>%s</b>", text);
+	widget = gtk_label_new (markup);
+	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+	g_free (markup);
+
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_widget_set_margin_left (widget, STANDARD_MARGIN);
+	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	text = _("Check for _new messages every");
+	widget = gtk_check_button_new_with_mnemonic (text);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	g_object_bind_property (
+		extension, "enabled",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	widget = gtk_spin_button_new_with_range (1.0, 1440.0, 1.0);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	g_object_bind_property (
+		extension, "enabled",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		extension, "interval-minutes",
+		widget, "value",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	widget = gtk_label_new (_("minutes"));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
 
 	/* Note the "text" member of each CamelProviderConfEntry is
 	 * already localized, so we can use it directly in widgets. */
-
-	backend = e_mail_config_provider_page_get_backend (page);
-	provider = e_mail_config_service_backend_get_provider (backend);
-	g_return_if_fail (provider != NULL);
 
 	entries = provider->extra_conf;
 
@@ -486,6 +556,11 @@ mail_config_provider_page_add_widgets (EMailConfigProviderPage *page)
 
 		switch (entries[ii].type) {
 			case CAMEL_PROVIDER_CONF_SECTION_START:
+				/* Skip the first section start. */
+				if (first_section) {
+					first_section = FALSE;
+					continue;
+				}
 				mail_config_provider_page_add_section (
 					page, &entries[ii]);
 				break;
