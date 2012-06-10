@@ -6,7 +6,7 @@
     
     <link type="guide" xref="mail-search-folders" />
 
-    <revision pkgversion="3.3.91" version="0.2" date="2012-02-18" status="draft"/>
+    <revision pkgversion="3.3.91" version="0.3" date="2012-06-10" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -20,6 +20,11 @@
 <title>Enable the Search Folders Functionality</title>
 
 <p>In the unlikely case that there is no <gui>Search folders</gui> top-level node displayed at the bottom of the <link xref="intro-main-window#e-mail"> mail folder list</link> you have to enable the search folders functionality yourself.</p>
+
+<!-- TODO: CHECK: Likely complete page OBSOLETE in 3.5.3 by http://git.gnome.org/browse/evolution/commit/?id=b4fbbde6ab7deb247f1db19558489a868c75467d
+<mbarnes> you can enable/disable both "On This Computer" and "Search Folders" directly from Edit->Preferences->Mail Accounts now. I think it's even in 3.4.
+If it is not, add this page to Makefile.am where it is currently missing!
+-->
 
 <list>
 <item><p>Open the <app>Terminal</app> application.</p></item>
