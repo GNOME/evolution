@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-06-09 14:40+0000\n"
-"PO-Revision-Date: 2012-06-11 12:04+0200\n"
+"POT-Creation-Date: 2012-06-11 11:40+0000\n"
+"PO-Revision-Date: 2012-06-11 17:33+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -8983,7 +8983,6 @@ msgid "Enable Unmatched search folder"
 msgstr "Activar la carpeta de búsqueda no coincidente"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
-#, fuzzy
 #| msgid ""
 #| "Enable Unmatched search folder within Search Folders. It does nothing if "
 #| "'enable-vfolders' is false."
@@ -8992,7 +8991,7 @@ msgid ""
 "Search Folders are disabled."
 msgstr ""
 "Activar la carpeta de búsqueda no coincidente en las carpetas de búsqueda. "
-"Si «enable-vfolders» es falso, no hace nada."
+"Si las carpetas de búsqueda están desactivadas, no hace nada."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 #: ../mail/evolution-mail.schemas.in.h:98
@@ -10181,8 +10180,6 @@ msgstr[0] "Adjunto"
 msgstr[1] "Adjuntos"
 
 #: ../em-format/e-mail-formatter-attachment.c:369
-#| msgctxt "iCalImp"
-#| msgid "has attachments"
 msgid "Display as attachment"
 msgstr "Mostrar como adjunto"
 
@@ -10209,7 +10206,6 @@ msgid "Regular Image"
 msgstr "Imagen regular"
 
 #: ../em-format/e-mail-formatter-image.c:158
-#| msgid "Display the next message"
 msgid "Display part as an image"
 msgstr "Mostrar parte como una imagen"
 
@@ -10218,7 +10214,6 @@ msgid "RFC822 message"
 msgstr "Mensaje RFC822"
 
 #: ../em-format/e-mail-formatter-message-rfc822.c:243
-#| msgid "Formatting message"
 msgid "Format part as an RFC822 message"
 msgstr "Formatear parte como un mensaje RFC822"
 
@@ -10288,7 +10283,6 @@ msgstr "Texto plano"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:129
 #: ../em-format/e-mail-formatter-text-plain.c:179
-#| msgid "Only ever show plain text"
 msgid "Format part as plain text"
 msgstr "Formatear parte como texto plano"
 
@@ -10476,20 +10470,17 @@ msgstr "Error al analizar la parte MBOX: %s"
 
 #: ../em-format/e-mail-parser-application-smime.c:102
 #, c-format
-#| msgid "Could not parse PGP/MIME message"
 msgid "Could not parse S/MIME message: %s"
 msgstr "No se pudo analizar el mensaje S/MIME: %s"
 
 #: ../em-format/e-mail-parser-inlinepgp-encrypted.c:91
 #, c-format
-#| msgid "Could not parse PGP message: "
 msgid "Could not parse PGP message: %s"
 msgstr "No se pudo analizar el mensaje PGP: %s"
 
 #: ../em-format/e-mail-parser-inlinepgp-signed.c:93
 #: ../em-format/e-mail-parser-multipart-signed.c:144
 #, c-format
-#| msgid "Error verifying signature"
 msgid "Error verifying signature: %s"
 msgstr "Error al verificar la firma: %s"
 
@@ -10533,7 +10524,6 @@ msgstr "Tipo de cifrado no soportado para multipart/encrypted"
 
 #: ../em-format/e-mail-parser-multipart-encrypted.c:119
 #, c-format
-#| msgid "Could not parse PGP/MIME message"
 msgid "Could not parse PGP/MIME message: %s"
 msgstr "No se pudo analizar el mensaje PGP/MIME: %s"
 
@@ -11120,10 +11110,10 @@ msgstr ""
 "fecha relativa al momento del filtrado."
 
 #: ../libemail-engine/e-mail-authenticator.c:182
-#, fuzzy, c-format
+#, c-format
 #| msgid "Invalid authentication"
 msgid "Invalid authentication result code (%d)"
-msgstr "Autenticación no válida"
+msgstr "Código de resultado de la autenticación no válido (%d)"
 
 #: ../libemail-engine/e-mail-folder-utils.c:109
 #, c-format
@@ -11216,7 +11206,7 @@ msgid "User cancelled operation"
 msgstr "El usuario canceló la operación"
 
 #: ../libemail-engine/e-mail-session.c:1368
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "No destination address provided, forward of the message has been "
 #| "cancelled."
@@ -11224,8 +11214,8 @@ msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr ""
-"No se proporcionó ninguna dirección de destino, se canceló el reenvío del "
-"mensaje."
+"No se proporcionó ninguna dirección de destino, se ha cancelado el reenvío "
+"del mensaje."
 
 #: ../libemail-engine/e-mail-session.c:1381
 #, c-format
@@ -11241,7 +11231,7 @@ msgstr "Falló en la autenticación %s"
 #: ../libemail-engine/e-mail-session.c:1588
 #, c-format
 msgid "No data source found for UID '%s'"
-msgstr ""
+msgstr "No se han encontrado fuentes de datos para el UID «%s»"
 
 #: ../libemail-engine/e-mail-session-utils.c:420
 #, c-format
@@ -11380,7 +11370,7 @@ msgstr "Desconectando de «%s»"
 #: ../libemail-engine/mail-tools.c:71
 #, c-format
 msgid "Could not create spool directory '%s': %s"
-msgstr "No se pudo crear la carpeta spool «%s»: %s"
+msgstr "No se pudo crear la carpeta de cola de correo «%s»: %s"
 
 #: ../libemail-engine/mail-tools.c:112
 #, c-format
@@ -11462,7 +11452,7 @@ msgstr "Predeterminado"
 #: ../mail/e-mail-autoconfig.c:194
 #, c-format
 msgid "No mail exchanger record for '%s'"
-msgstr ""
+msgstr "No hay ningún registro de intercambio de correo para «%s»"
 
 #: ../mail/e-mail-autoconfig.c:201
 #, c-format
@@ -11477,7 +11467,7 @@ msgstr "Error al resolver «%s»"
 #: ../mail/e-mail-autoconfig.c:264
 #, c-format
 msgid "No authoritative name server for '%s'"
-msgstr ""
+msgstr "No hay ningún servidor de nombres con autoridad para «%s»"
 
 #: ../mail/e-mail-autoconfig.c:661
 msgid "No email address provided"
@@ -11532,10 +11522,9 @@ msgid "Special Folders"
 msgstr "Carpetas especiales"
 
 #: ../mail/e-mail-config-defaults-page.c:536
-#, fuzzy
 #| msgid "Sent _Messages Folder:"
 msgid "Draft Messages _Folder:"
-msgstr "Carpeta de _mensajes enviados:"
+msgstr "Carpeta de _borradores:"
 
 #: ../mail/e-mail-config-defaults-page.c:546
 msgid "Choose a folder for saving draft messages."
@@ -11555,7 +11544,7 @@ msgstr "_Restaurar valores predeterminados"
 
 #: ../mail/e-mail-config-defaults-page.c:598
 msgid "Use a Real Folder for _Trash:"
-msgstr ""
+msgstr "Usar una carpeta _real para la papelera:"
 
 #: ../mail/e-mail-config-defaults-page.c:599
 msgid "Choose a folder for deleted messages."
@@ -11563,7 +11552,7 @@ msgstr "Elija una carpeta en la que guardar los mensajes eliminados."
 
 #: ../mail/e-mail-config-defaults-page.c:608
 msgid "Use a Real Folder for _Junk:"
-msgstr ""
+msgstr "Usar una carpeta real para el _spam:"
 
 #: ../mail/e-mail-config-defaults-page.c:609
 msgid "Choose a folder for junk messages."
@@ -11659,16 +11648,14 @@ msgid "Add Ne_w Signature..."
 msgstr "Añadir firma _nueva…"
 
 #: ../mail/e-mail-config-lookup-page.c:68
-#, fuzzy
 #| msgid "Loading accounts..."
 msgid "Looking up account details..."
-msgstr "Cargando cuentas…"
+msgstr "Consultado los detalles de la cuenta…"
 
 #: ../mail/e-mail-config-provider-page.c:499
-#, fuzzy
 #| msgid "Checking for new mail"
 msgid "Checking for New Mail"
-msgstr "Comprobando correo nuevo"
+msgstr "Comprobando si hay correo nuevo"
 
 #: ../mail/e-mail-config-provider-page.c:515
 msgid "Check for _new messages every"
@@ -11750,10 +11737,9 @@ msgstr "Certificado de _firma:"
 
 #: ../mail/e-mail-config-security-page.c:441
 #: ../mail/e-mail-config-security-page.c:547
-#, fuzzy
 #| msgid "Selected"
 msgid "Select"
-msgstr "Seleccionado"
+msgstr "Seleccionar"
 
 #: ../mail/e-mail-config-security-page.c:459
 msgid "Signing _algorithm:"
@@ -15772,7 +15758,7 @@ msgstr "Eliminando archivos temporales de respaldo"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:561
 msgid "Reloading registry service"
-msgstr ""
+msgstr "Recargando el servicio de registro"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:776
 msgid "Evolution Back Up"
@@ -15982,7 +15968,6 @@ msgid "Search Scope:"
 msgstr "Ámbito de búsqueda:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:777
-#, fuzzy
 #| msgid ""
 #| "The search scope defines how deep you would like the search to extend "
 #| "down the directory tree. A search scope of \"sub\" will include all "
@@ -15994,10 +15979,10 @@ msgid ""
 "below your search base.  A search scope of \"One Level\" will only include "
 "the entries one level beneath your search base."
 msgstr ""
-"El ámbito de búsqueda define hasta qué profundidad desea que la búsqueda se "
-"extienda a lo largo de un árbol de carpetas. Un ámbito de búsqueda de «sub» "
-"incluirá todas las entradas por debajo de su base de búsqueda. Un ámbito de "
-"«uno» sólo incluirá las entradas un nivel bajo su base."
+"El ámbito de búsqueda define hasta qué profundidad quiere que la búsqueda se "
+"extienda a lo largo de un árbol de carpetas. Un ámbito de búsqueda de "
+"«subárbol» incluirá todas las entradas por debajo de su base de búsqueda. Un "
+"ámbito de «un nivel» sólo incluirá las entradas un nivel bajo su base."
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:786
 msgid "Search Filter:"
@@ -16055,10 +16040,9 @@ msgid "Unexpected reply from server"
 msgstr "Respuesta inesperada del servidor"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1032
-#, fuzzy
 #| msgid "Could not find any user calendar."
 msgid "Could not locate user's calendars"
-msgstr "No se pudo encontrar ningún calendario del usuario."
+msgstr "No se pudo encontrar ningún calendario del usuario"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1256
 msgid "Path"
@@ -16085,38 +16069,33 @@ msgid "Email:"
 msgstr "Correo-e:"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:294
-#, fuzzy
 #| msgid "Server _handles meeting invitations"
 msgid "Server handles meeting invitations"
-msgstr "El servidor gesti_ona las invitaciones a reuniones"
+msgstr "El servidor gestiona las invitaciones a reuniones"
 
 #: ../modules/cal-config-contacts/evolution-cal-config-contacts.c:73
-#, fuzzy
 #| msgid "Look up in address books"
 msgid "Choose which address books to use."
-msgstr "Buscar en las libretas de direcciones"
+msgstr "Elegir qué libreta de direcciones usar."
 
 #: ../modules/cal-config-contacts/evolution-cal-config-contacts.c:203
-#, fuzzy
 #| msgid "U_se in Birthday & Anniversaries calendar"
 msgid "Use in Birthdays & Anniversaries calendar"
-msgstr "U_sar en el calendario Cumpleaños y aniversarios"
+msgstr "Usar en el calendario Cumpleaños y aniversarios"
 
 #: ../modules/cal-config-google/e-google-chooser-button.c:127
-#, fuzzy
 #| msgid "D_elete Calendar"
 msgid "Default User Calendar"
-msgstr "_Eliminar calendario"
+msgstr "Calendario predeterminado del usuario"
 
 #: ../modules/cal-config-google/e-google-chooser.c:508
 #, c-format
-#| msgid "Enter the password for '%s'"
 msgid "Enter Google password for user '%s'."
 msgstr "Introduzca la contraseña de Google para el usuario «%s»."
 
 #: ../modules/cal-config-google/e-google-chooser.c:525
 msgid "User declined to provide a password"
-msgstr ""
+msgstr "El usuario ha rechazado proporcionar una contraseña"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:161
 msgid "Use an existing iCalendar (ics) file"
@@ -16135,7 +16114,6 @@ msgid "File:"
 msgstr "Archivo:"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:216
-#| msgid "Allows Evolution to display text part of limited size"
 msgid "Allow Evolution to update the file"
 msgstr "Permite a Evolution actualizar el archivo"
 
@@ -16523,7 +16501,6 @@ msgid "I_mport to Tasks"
 msgstr "I_mportar a las tareas"
 
 #: ../modules/calendar/e-calendar-preferences.c:406
-#| msgid "Selected Calendars for Reminders"
 msgid "Selected Calendars for Alarms"
 msgstr "Calendario seleccionado para alarmas"
 
@@ -17570,26 +17547,28 @@ msgid ""
 "Select a predefined set of IMAP headers to fetch.\n"
 "Note, larger sets of headers take longer to download."
 msgstr ""
+"Seleccionar un conjunto predeterminado de cabeceras IMAP que obtener.\n"
+"Tenga en cuenta que los conjuntos grandes de cabeceras tardan más en "
+"descargarse."
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:243
 msgid "_Fetch All Headers"
 msgstr "Obtener _todas las cabeceras"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:257
-#, fuzzy
 #| msgid "Mail Headers Table"
 msgid "_Basic Headers (fastest)"
-msgstr "Tabla de cabeceras de correo"
+msgstr "Cabeceras _básicas (más rápido)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:271
 msgid "Use this if you are not filtering any mailing lists."
 msgstr "Use esto si no tiene filtros basados en listas de correo."
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:281
-#, fuzzy
 #| msgid "Basic and _Mailing List Headers (Default)"
 msgid "Basic and _Mailing List Headers (default)"
-msgstr "Cabeceras básicas y de _listas de correo predeterminadas"
+msgstr ""
+"Cabeceras básicas y de _listas de correo predeterminadas (predeterminado)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:330
 msgid "Custom Headers"
@@ -17600,6 +17579,8 @@ msgid ""
 "Specify any extra headers to fetch in addition to the predefined set of "
 "headers selected above."
 msgstr ""
+"Especifique cualquier cabecera extra que obtener además del conjunto de "
+"cabeceras predefinido anteriormente."
 
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:135
 msgid "ITIP"
@@ -18815,62 +18796,53 @@ msgid "Add Google Con_tacts to this account"
 msgstr "Añadir un con_tacto de Google a esta cuenta"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:272
-#| msgid "You may need to enable IMAP access."
 msgid "You may need to enable IMAP access"
 msgstr "Debe tener el acceso IMAP activado."
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:246
 #: ../modules/mail-config/e-mail-config-local-accounts.c:292
-#, fuzzy
 #| msgid "Module Directory"
 msgid "Mail _Directory:"
-msgstr "Directorio de módulos"
+msgstr "Carpeta _de correo:"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:247
-#, fuzzy
 #| msgid "Choose a file to restore"
 msgid "Choose a MH mail directory"
-msgstr "Elija un archivador para restaurar"
+msgstr "Elegir una carpeta de correo MH"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:269
 msgid "Local Delivery _File:"
-msgstr ""
+msgstr "Archivo de _entrega local:"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:270
-#, fuzzy
 #| msgid "Choose calendar file"
 msgid "Choose a local delivery file"
-msgstr "Elegir un archivo de calendario"
+msgstr "Elegir un archivo de entrega local"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:293
-#, fuzzy
 #| msgid "Choose a file to restore"
 msgid "Choose a Maildir mail directory"
-msgstr "Elija un archivador para restaurar"
+msgstr "Elegir una carpeta de correo Maildir"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:315
-#, fuzzy
 #| msgid "_File:"
 msgid "Spool _File:"
-msgstr "_Archivo:"
+msgstr "_Archivo de cola de correo:"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:316
-#, fuzzy
 #| msgid "Choose a File"
 msgid "Choose a mbox spool file"
-msgstr "Elegir un archivo"
+msgstr "Elegir un archivo de cola de correo mbox"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:338
-#, fuzzy
 #| msgid "Module Directory"
 msgid "Spool _Directory:"
-msgstr "Directorio de módulos"
+msgstr "Carpeta de cola de co_rreo:"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:339
-#, fuzzy
 #| msgid "Choose a file to restore"
 msgid "Choose a mbox spool directory"
-msgstr "Elija un archivador para restaurar"
+msgstr "Elija una carpeta de cola de correo mbox"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:149
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:81
@@ -18896,10 +18868,9 @@ msgstr "_Método de cifrado:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:241
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:164
-#, fuzzy
 #| msgid "_Secure connection"
 msgid "STARTTLS after connecting"
-msgstr "_Securizar conexión"
+msgstr "STARTTLS después de conectar"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:245
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:168
@@ -19168,10 +19139,6 @@ msgid "Import complete."
 msgstr "Importación completada."
 
 #: ../modules/startup-wizard/e-startup-assistant.c:154
-#| msgid ""
-#| "Welcome to Evolution. The next few screens will allow Evolution to "
-#| "connect to your email accounts, and to import files from other "
-#| "applications."
 msgid ""
 "Welcome to Evolution.\n"
 "\n"
@@ -19188,7 +19155,6 @@ msgid "Loading accounts..."
 msgstr "Cargando cuentas…"
 
 #: ../modules/text-highlight/text-highlight.c:244
-#| msgid "Path"
 msgid "Patch"
 msgstr "Parche"
 
@@ -19198,19 +19164,16 @@ msgstr "Formatear parte como un parche"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:118
 #: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:201
-#| msgid "Show Full vCard"
 msgid "Show F_ull vCard"
 msgstr "Mostrar _vCard completa"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:121
 #: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:219
-#, fuzzy
 #| msgid "Show Compact vCard"
 msgid "Show Com_pact vCard"
-msgstr "Mostrar vCard compacta"
+msgstr "Mostrar v_Card compacta"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:145
-#| msgid "Save To Addressbook"
 msgid "Save _To Addressbook"
 msgstr "Guardar en la _libreta de direcciones"
 
@@ -19226,13 +19189,12 @@ msgstr[0] "Hay %d contacto más."
 msgstr[1] "Hay otros %d contactos."
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:196
-#| msgid "Address book source"
 msgid "Addressbok Contact"
 msgstr "Libreta de direcciones de contactos"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:202
 msgid "Display the part as an addressbook contact"
-msgstr ""
+msgstr "Mostrar parte como un contacto de la libreta de direcciones"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:88
 msgid "_Inspect..."
@@ -19743,7 +19705,6 @@ msgid "Subject: %s"
 msgstr "Asunto: %s"
 
 #: ../plugins/mail-notification/mail-notification.c:427
-#| msgid "Restarting Evolution"
 msgid "New email in Evolution"
 msgstr "Correo nuevo en Evolution"
 
