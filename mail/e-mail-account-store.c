@@ -481,10 +481,6 @@ mail_account_store_service_removed (EMailAccountStore *store,
 	account = e_get_account_by_uid (uid);
 	g_return_if_fail (account != NULL);
 
-	/* no change */
-	if (!account->enabled)
-		return;
-
 	provider = camel_service_get_provider (service);
 	g_return_if_fail (provider != NULL);
 
