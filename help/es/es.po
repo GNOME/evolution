@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-26 12:26+0000\n"
-"PO-Revision-Date: 2012-04-27 12:22+0200\n"
+"POT-Creation-Date: 2012-06-09 09:29+0000\n"
+"PO-Revision-Date: 2012-06-11 12:27+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2288,8 +2288,6 @@ msgstr ""
 "herramienta de gestión de software de su distribución."
 
 #: C/mail-spam-settings.page:43(p)
-#| msgid ""
-#| "You might need to install one of these packages to perform these steps."
 msgid ""
 "You might need to install <app>Bogofilter</app> or <app>SpamAssassin</app> "
 "to perform these steps."
@@ -6776,9 +6774,6 @@ msgstr ""
 "<app>enchant</app> específicos para su idioma."
 
 #: C/mail-composer-spellcheck.page:31(p)
-#| msgid ""
-#| "You might need to install the <sys>dconf-editor</sys> package to perform "
-#| "these steps."
 msgid ""
 "You might need to install <sys>hunspell</sys> and/or <sys>enchant</sys> to "
 "perform these steps."
@@ -7181,15 +7176,15 @@ msgstr ""
 "<guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq> y actíve "
 "<gui>Plantillas</gui>."
 
-#: C/mail-composer-message-templates.page:31(title)
+#: C/mail-composer-message-templates.page:30(title)
 msgid "Creating a Message Template from an existing Message"
 msgstr "Crear una plantilla de correo desde un mensaje existente"
 
-#: C/mail-composer-message-templates.page:33(p)
+#: C/mail-composer-message-templates.page:32(p)
 msgid "Select the message."
 msgstr "Seleccione el mensaje."
 
-#: C/mail-composer-message-templates.page:34(p)
+#: C/mail-composer-message-templates.page:33(p)
 msgid ""
 "Right-click the message and choose <gui>Move to folder</gui> or <gui>Copy to "
 "folder</gui>."
@@ -7197,38 +7192,38 @@ msgstr ""
 "Pulse con el botón derecho del ratón y seleccione <gui>Mover a la carpeta</"
 "gui> o <gui>Copiar a la carpeta</gui>."
 
-#: C/mail-composer-message-templates.page:35(p)
+#: C/mail-composer-message-templates.page:34(p)
 msgid ""
 "Select the <gui>Templates</gui> folder under <gui>On This Computer</gui>."
 msgstr ""
 "Seleccione la carpeta <gui>Plantillas</gui> bajo <gui>En este equipo</gui>."
 
-#: C/mail-composer-message-templates.page:37(p)
+#: C/mail-composer-message-templates.page:36(p)
 msgid "You can also edit an existing message and save it as a template:"
 msgstr ""
 "También puede editar un correo existente y guardarlo como una plantilla:"
 
-#: C/mail-composer-message-templates.page:39(p)
+#: C/mail-composer-message-templates.page:38(p)
 msgid "Open the message and click <gui>Reply</gui>."
 msgstr "Abra el correo y pulse <gui>Responder</gui>."
 
-#: C/mail-composer-message-templates.page:40(p)
+#: C/mail-composer-message-templates.page:39(p)
 msgid "Edit the message body or the addresses according to your requirements."
 msgstr ""
 "Edite el cuerpo del mensaje o las direcciones de acuerdo con sus necesidades."
 
-#: C/mail-composer-message-templates.page:41(p)
-#: C/mail-composer-message-templates.page:52(p)
+#: C/mail-composer-message-templates.page:40(p)
+#: C/mail-composer-message-templates.page:51(p)
 msgid "Select <guiseq><gui>File</gui><gui>Save as Template</gui></guiseq>."
 msgstr ""
 "Seleccione <guiseq><gui>Archivo</gui><gui>Guardar como plantilla</gui></"
 "guiseq>."
 
-#: C/mail-composer-message-templates.page:46(title)
+#: C/mail-composer-message-templates.page:45(title)
 msgid "Saving a New Message as a Template"
 msgstr "Guardar un mensaje nuevo como plantilla"
 
-#: C/mail-composer-message-templates.page:49(p)
+#: C/mail-composer-message-templates.page:48(p)
 msgid ""
 "Click <gui>New</gui> and enter in the composer window what you need for the "
 "template."
@@ -7236,18 +7231,18 @@ msgstr ""
 "Pulse <gui>Nuevo</gui> para entrar en la ventana del editor que necesita "
 "para la plantilla."
 
-#: C/mail-composer-message-templates.page:58(title)
+#: C/mail-composer-message-templates.page:57(title)
 msgid "Using a Message Template as a Reply"
 msgstr "Usar una plantilla de mensaje como respuesta"
 
-#: C/mail-composer-message-templates.page:61(p)
+#: C/mail-composer-message-templates.page:60(p)
 msgid ""
 "Right-click the message you are replying to, then click <gui>Templates</gui>."
 msgstr ""
 "Pulse con el botón derecho del ratón sobre el correo al que está "
 "respondiendo, después pulse <gui>Plantillas</gui>."
 
-#: C/mail-composer-message-templates.page:62(p)
+#: C/mail-composer-message-templates.page:61(p)
 msgid ""
 "This option lists all the message templates in the <gui>Templates</gui> "
 "folder."
@@ -7255,7 +7250,7 @@ msgstr ""
 "Esta opción lista todas las plantillas de mensajes en la carpeta "
 "<gui>Plantillas</gui>."
 
-#: C/mail-composer-message-templates.page:65(p)
+#: C/mail-composer-message-templates.page:64(p)
 msgid ""
 "Select the message template of your choice. Make changes if required in the "
 "email composer window that will open."
@@ -7263,11 +7258,11 @@ msgstr ""
 "Seleccione un mensaje de plantilla a su elección. Realice los cambios que "
 "quiera en la ventana del editor de mensajes que se abrirá."
 
-#: C/mail-composer-message-templates.page:68(p)
+#: C/mail-composer-message-templates.page:67(p)
 msgid "Click <gui>Send</gui>."
 msgstr "Pulse <gui>Enviar</gui>."
 
-#: C/mail-composer-message-templates.page:69(p)
+#: C/mail-composer-message-templates.page:68(p)
 msgid ""
 "When you select a message template for replying, the subject of the reply is "
 "preserved."
@@ -7275,27 +7270,27 @@ msgstr ""
 "Al seleccionar una plantilla de mensaje para responder, el asunto de la "
 "respuesta se mantiene."
 
-#: C/mail-composer-message-templates.page:75(title)
+#: C/mail-composer-message-templates.page:74(title)
 msgid "Configuring Message Templates"
 msgstr "Configurar plantillas de mensajes"
 
-#: C/mail-composer-message-templates.page:77(p)
+#: C/mail-composer-message-templates.page:76(p)
 #: C/mail-composer-custom-header-lines.page:31(p)
 #: C/mail-attachments-sending.page:46(p)
 msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
 msgstr "Seleccione <guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq>."
 
-#: C/mail-composer-message-templates.page:78(p)
+#: C/mail-composer-message-templates.page:77(p)
 msgid "Click <gui>Templates</gui>."
 msgstr "Pulse <gui>Plantilas</gui>."
 
-#: C/mail-composer-message-templates.page:79(p)
+#: C/mail-composer-message-templates.page:78(p)
 #: C/mail-composer-custom-header-lines.page:33(p)
 #: C/mail-attachments-sending.page:48(p)
 msgid "Click the <gui>Configuration</gui> tab."
 msgstr "Pulse la pestaña <gui>Configuración</gui>."
 
-#: C/mail-composer-message-templates.page:80(p)
+#: C/mail-composer-message-templates.page:79(p)
 msgid ""
 "You can add, edit or remove the key-value pairs. You can specify any number "
 "of key-value pairs."
@@ -7303,7 +7298,7 @@ msgstr ""
 "Puede añadir, editar o quitar los pares de claves y valores. Puede "
 "especificar cualquier número de pares de claves y valores."
 
-#: C/mail-composer-message-templates.page:82(p)
+#: C/mail-composer-message-templates.page:81(p)
 msgid ""
 "In any template, the occurrence of every $key is replaced by the value it "
 "has in the configuration. For example, if you set the key to Manager and the "
@@ -7315,7 +7310,7 @@ msgstr ""
 "Director y el valor a Tomás, cualquier aparición de $Director se reemplaza "
 "con Tomás en el mensaje."
 
-#: C/mail-composer-message-templates.page:83(p)
+#: C/mail-composer-message-templates.page:82(p)
 msgid ""
 "Assume that you have 1000 message templates with your current manager's name "
 "in them. When the current manager is replaced by a new one, it is not easy "
@@ -7329,7 +7324,7 @@ msgstr ""
 "mensajes tienen un valor de clave $Jefe, puede cambiar el valor en la "
 "pestaña Configuración de este complemento."
 
-#: C/mail-composer-message-templates.page:84(p)
+#: C/mail-composer-message-templates.page:83(p)
 msgid ""
 "By default, the entire environment variables are used as a key-value pair. "
 "An occurrence of $env_variable is replaced by the value it carries. For "
@@ -7341,11 +7336,11 @@ msgstr ""
 "lleva. Por ejemplo, una aparición de $PATH en su plantilla se reemplaza por "
 "su valor al usar la plantilla."
 
-#: C/mail-composer-message-templates.page:85(p)
+#: C/mail-composer-message-templates.page:84(p)
 msgid "The replacement process uses the following order of precedence:"
 msgstr "El proceso de reemplazo usa el siguiente orden de precedencia:"
 
-#: C/mail-composer-message-templates.page:88(p)
+#: C/mail-composer-message-templates.page:87(p)
 msgid ""
 "$key is replaced by the value set for it in the Configuration tab of the "
 "Templates plugin."
@@ -7353,7 +7348,7 @@ msgstr ""
 "$key se reemplaza por el valor ajustado para ello en la pestaña "
 "Configuración del complemento Plantillas."
 
-#: C/mail-composer-message-templates.page:91(p)
+#: C/mail-composer-message-templates.page:90(p)
 msgid ""
 "If the key is not found, it is then replaced with the value of its "
 "environment variable."
@@ -7361,13 +7356,60 @@ msgstr ""
 "Si no se encuentra la clave, se reemplaza con el valor de su variable de "
 "entorno."
 
-#: C/mail-composer-message-templates.page:94(p)
+#: C/mail-composer-message-templates.page:93(p)
 msgid ""
 "If key is neither a configuration option nor an environment variable, no "
 "changes are made."
 msgstr ""
 "Si la clave no es una opción de configuración ni una variable de entorno, "
 "entonces no se hacen cambios."
+
+#. as per https://bugzilla.gnome.org/show_bug.cgi?id=641845 - available since 3.2
+#: C/mail-composer-message-templates.page:100(title)
+#| msgid "Using a Message Template as a Reply"
+msgid "Reusing message elements when replying"
+msgstr "Reutilizar elementos del mensaje al responder"
+
+#: C/mail-composer-message-templates.page:101(p)
+msgid ""
+"Templates can contain more than just the predefined set of <link xref="
+"\"#configure\">key-value pairs</link>. You can also get any message header "
+"values from the email that you are applying the template on, plus the "
+"complete message body."
+msgstr ""
+"Las plantillas pueden contener más <link xref=\"#configure\">parejas clave-"
+"valor</link> que las predefinidos. También puede obtener cualquier valor de "
+"una cabecera de mensaje del correo al que está aplicando la plantilla, "
+"además del cuerpo completo del mensaje."
+
+#. TRANSLATORS: Do NOT translate "$ORIG[subject]" and "$ORIG[body]" in this sentence.
+#: C/mail-composer-message-templates.page:104(p)
+msgid ""
+"In order to do this, use the format <code>$ORIG[header_name]</code> and "
+"replace the variable <code>header_name</code> by the actual header. For "
+"example, if you would like to insert the subject line of the message that "
+"you reply to, use <code>$ORIG[subject]</code>. To insert the complete body, "
+"use <code>$ORIG[body]</code>."
+msgstr ""
+"Para hacer esto, use el formato <code>$ORIG[nombre_cabecera]</code> y "
+"reemplace la variable <code>nombre_cabecera</code> por la cabecera actual. "
+"Por ejemplo, si quiere insertar el asunto en el mensaje al que está "
+"respondiendo, use <code>$ORIG[subject]</code>. Para insertar el cuerpo "
+"completo, use <code>$ORIG[body]</code>."
+
+#: C/mail-composer-message-templates.page:106(p)
+msgid ""
+"If no replacement for a variable is found, the variable is not removed "
+"(except for <code>$ORIG[body]</code>) but left in place so that you see that "
+"something went wrong. This could happen when trying to use headers that are "
+"not necessarily always available in the original message (for example <code>"
+"$ORIG[reply-to]</code>)."
+msgstr ""
+"Si no se encuentra un reemplazo para la variable, la variable no se quita "
+"(excepto <code>$ORIG[body]</code>), pero se deja para que pueda ver que hubo "
+"un error. Esto podría pasar al intentar usar cabeceras que no siempre están "
+"disponibles en el mensaje original (por ejemplo, <code>$ORIG[reply-to]</"
+"code>)."
 
 #: C/mail-composer-mail-signatures-per-account.page:5(desc)
 msgid "Setting a default signature for an email account."
@@ -8426,13 +8468,21 @@ msgstr ""
 "<gui style=\"button\">Guardar todo</gui> entre la cabecera del correo y el "
 "contenido del mismo."
 
-#: C/mail-attachments-received.page:28(p)
+#: C/mail-attachments-received.page:27(p)
+msgid ""
+"Evolution does not support saving all attachments of all messages in one "
+"folder at once."
+msgstr ""
+"Evolution no soporta guardar todos los adjuntos de todos los mensajes en una "
+"carpeta a la vez."
+
+#: C/mail-attachments-received.page:29(p)
 msgid "A list of attachments is also available at the bottom of the email."
 msgstr ""
 "También existe una lista de adjuntos disponible en la parte inferior del "
 "correo."
 
-#: C/mail-attachments-received.page:29(p)
+#: C/mail-attachments-received.page:30(p)
 msgid ""
 "To save an attachment to disk, click the down-arrow next to the attachment "
 "icon and click <gui>Save As</gui>."
@@ -8440,7 +8490,7 @@ msgstr ""
 "Para guardar un adjunto al disco, pulse sobre la flecha hacia abajo junto al "
 "icono de adjunto y seleccione <gui>Guardar como</gui>."
 
-#: C/mail-attachments-received.page:30(p)
+#: C/mail-attachments-received.page:31(p)
 msgid ""
 "To open an attachment in another application, click the down-arrow next to "
 "the attachment icon and choose one of the available applications."
@@ -8448,7 +8498,7 @@ msgstr ""
 "Para abrir un adjunto en otra aplicación, pulse la flecha hacia abajo junto "
 "al icono del adjunto y elija una de las aplicaciones disponibles."
 
-#: C/mail-attachments-received.page:32(p)
+#: C/mail-attachments-received.page:33(p)
 msgid ""
 "The options available for an attachment vary depending on the type of "
 "attachment and the applications that are installed on your system. For "
@@ -10659,12 +10709,16 @@ msgstr ""
 "problemas."
 
 #: C/data-storage.page:26(p)
+#| msgid ""
+#| "Evolution 3.4 and later stores its data according to the <link href="
+#| "\"http://www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG Base "
+#| "Directory Specification</link>. By default this means:"
 msgid ""
-"Evolution 3.4 and later stores its data according to the <link href=\"http://"
+"Evolution 3.6 and later stores its data according to the <link href=\"http://"
 "www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG Base Directory "
 "Specification</link>. By default this means:"
 msgstr ""
-"Evolution 3.4 y posterior se almacena sus datos según la <link href=\"http://"
+"Evolution 3.6 y posterior almacena sus datos según la <link href=\"http://"
 "www.freedesktop.org/wiki/Specifications/basedir-spec\">Especificación de "
 "directorios base XDG</link>. De forma predeterminada significa que:"
 
@@ -10685,18 +10739,27 @@ msgid "$HOME/.config/evolution"
 msgstr "$HOME/.config/evolution"
 
 #: C/data-storage.page:38(title)
+msgid "Account settings"
+msgstr "Configuración de la cuenta"
+
+#: C/data-storage.page:39(file)
+#| msgid "$HOME/.config/evolution"
+msgid "$HOME/.config/evolution/sources"
+msgstr "$HOME/.config/evolution/sources"
+
+#: C/data-storage.page:42(title)
 msgid "Disposable data caches"
 msgstr "Cachés de datos desechables"
 
-#: C/data-storage.page:39(file)
+#: C/data-storage.page:43(file)
 msgid "$HOME/.cache/evolution"
 msgstr "$HOME/.cache/evolution"
 
-#: C/data-storage.page:42(title)
+#: C/data-storage.page:46(title)
 msgid "Configuration settings in GSettings"
 msgstr "Ajustes de configuración en GSettings"
 
-#: C/data-storage.page:43(file)
+#: C/data-storage.page:47(file)
 msgid "$HOME/.config/dconf"
 msgstr "$HOME/.config/dconf"
 
@@ -14247,10 +14310,6 @@ msgstr ""
 
 #~ msgid "Signatures"
 #~ msgstr "Firmas"
-
-#, fuzzy
-#~ msgid "account settings"
-#~ msgstr "Configuración de la cuenta de Yahoo:"
 
 #~ msgid "Normal"
 #~ msgstr "Normal"
