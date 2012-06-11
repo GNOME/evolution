@@ -1148,7 +1148,7 @@ e_mail_account_store_remove_service (EMailAccountStore *store,
                                      CamelService *service)
 {
 	GtkTreeIter iter;
-	gboolean proceed;
+	gboolean proceed = TRUE;
 
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
