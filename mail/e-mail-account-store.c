@@ -483,7 +483,13 @@ static void
 mail_account_store_service_added (EMailAccountStore *store,
                                   CamelService *service)
 {
-	/* Placeholder so subclasses can safely chain up. */
+	EMailSession *session;
+	MailFolderCache *cache;
+
+	session = e_mail_account_store_get_session (store);
+	cache = e_mail_session_get_folder_cache (session);
+
+	mail_folder_cache_service_added (cache, service);
 }
 
 static void
@@ -491,14 +497,18 @@ mail_account_store_service_removed (EMailAccountStore *store,
                                     CamelService *service)
 {
 	EMailSession *session;
+	MailFolderCache *cache;
 	ESourceRegistry *registry;
 	ESource *source;
 	const gchar *uid;
 
 	session = e_mail_account_store_get_session (store);
-	registry = e_mail_session_get_registry (session);
+	cache = e_mail_session_get_folder_cache (session);
+
+	mail_folder_cache_service_removed (cache, service);
 
 	uid = camel_service_get_uid (service);
+	registry = e_mail_session_get_registry (session);
 	source = e_source_registry_ref_source (registry, uid);
 
 	/* If this ESource is part of a collection, we need to remove
@@ -534,14 +544,18 @@ mail_account_store_service_enabled (EMailAccountStore *store,
                                     CamelService *service)
 {
 	EMailSession *session;
+	MailFolderCache *cache;
 	ESourceRegistry *registry;
 	ESource *source;
 	const gchar *uid;
 
 	session = e_mail_account_store_get_session (store);
-	registry = e_mail_session_get_registry (session);
+	cache = e_mail_session_get_folder_cache (session);
+
+	mail_folder_cache_service_enabled (cache, service);
 
 	uid = camel_service_get_uid (service);
+	registry = e_mail_session_get_registry (session);
 	source = e_source_registry_ref_source (registry, uid);
 
 	/* Locate the identity source referenced in the [Mail Account]
@@ -611,14 +625,18 @@ mail_account_store_service_disabled (EMailAccountStore *store,
                                      CamelService *service)
 {
 	EMailSession *session;
+	MailFolderCache *cache;
 	ESourceRegistry *registry;
 	ESource *source;
 	const gchar *uid;
 
 	session = e_mail_account_store_get_session (store);
-	registry = e_mail_session_get_registry (session);
+	cache = e_mail_session_get_folder_cache (session);
+
+	mail_folder_cache_service_disabled (cache, service);
 
 	uid = camel_service_get_uid (service);
+	registry = e_mail_session_get_registry (session);
 	source = e_source_registry_ref_source (registry, uid);
 
 	/* Locate the identity source referenced in the [Mail Account]
