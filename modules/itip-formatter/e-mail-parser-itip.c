@@ -81,8 +81,10 @@ mail_part_itip_free (EMailPart *mail_part)
 	g_clear_object (&pitip->registry);
 
 	for (i = 0; i < E_CAL_CLIENT_SOURCE_TYPE_LAST; i++) {
-		g_hash_table_destroy (pitip->clients[i]);
-		pitip->clients[i] = NULL;
+		if (pitip->clients[i]) {
+			g_hash_table_destroy (pitip->clients[i]);
+			pitip->clients[i] = NULL;
+		}
 	}
 
 	g_free (pitip->vcalendar);

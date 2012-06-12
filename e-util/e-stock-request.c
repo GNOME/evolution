@@ -68,6 +68,7 @@ handle_stock_request (GSimpleAsyncResult *res,
 
 	if (query) {
 		a_size = g_hash_table_lookup (query, "size");
+		g_hash_table_destroy (query);
 	} else {
 		a_size = NULL;
 	}
@@ -77,8 +78,6 @@ handle_stock_request (GSimpleAsyncResult *res,
 	} else {
 		size = atoi (a_size);
 	}
-
-	g_hash_table_destroy (query);
 
 	/* Try style context first */
 	context = gtk_style_context_new ();
