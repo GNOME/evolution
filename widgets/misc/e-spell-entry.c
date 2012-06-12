@@ -142,6 +142,9 @@ spell_entry_recheck_all (ESpellEntry *entry)
 	PangoLayout *layout;
 	gint length, i;
 
+	if (!entry->priv->words)
+		return;
+
 	/* Remove all existing pango attributes.  These will get read as we check */
 	pango_attr_list_unref (entry->priv->attr_list);
 	entry->priv->attr_list = pango_attr_list_new ();
