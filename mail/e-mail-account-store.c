@@ -483,13 +483,7 @@ static void
 mail_account_store_service_added (EMailAccountStore *store,
                                   CamelService *service)
 {
-	EMailSession *session;
-	MailFolderCache *cache;
-
-	session = e_mail_account_store_get_session (store);
-	cache = e_mail_session_get_folder_cache (session);
-
-	mail_folder_cache_service_added (cache, service);
+	/* Placeholder so subclasses can safely chain up. */
 }
 
 static void

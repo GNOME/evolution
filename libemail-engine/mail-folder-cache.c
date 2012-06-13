@@ -1784,17 +1784,6 @@ mail_folder_cache_get_remote_folder_uris (MailFolderCache *self,
 }
 
 void
-mail_folder_cache_service_added (MailFolderCache *cache,
-                                 CamelService *service)
-{
-	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
-	g_return_if_fail (CAMEL_IS_SERVICE (service));
-
-	mail_folder_cache_note_store (
-		cache, CAMEL_STORE (service), NULL, NULL, NULL);
-}
-
-void
 mail_folder_cache_service_removed (MailFolderCache *cache,
                                    CamelService *service)
 {
