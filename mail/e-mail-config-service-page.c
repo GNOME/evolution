@@ -307,19 +307,6 @@ mail_config_service_page_backend_name_to_description (GBinding *binding,
 	return TRUE;
 }
 
-static Candidate *
-mail_config_service_page_get_active_candidate (EMailConfigServicePage *page)
-{
-	GtkComboBox *combo_box;
-	gint active;
-
-	combo_box = GTK_COMBO_BOX (page->priv->type_combo);
-	active = gtk_combo_box_get_active (combo_box);
-	g_return_val_if_fail (active >= 0, NULL);
-
-	return g_ptr_array_index (page->priv->candidates, active);
-}
-
 static void
 mail_config_service_page_set_registry (EMailConfigServicePage *page,
                                        ESourceRegistry *registry)
@@ -510,35 +497,43 @@ static gboolean
 mail_config_service_page_check_complete (EMailConfigPage *page)
 {
 	EMailConfigServicePagePrivate *priv;
-	Candidate *candidate;
+	EMailConfigServiceBackend *backend;
 	GtkComboBox *type_combo;
+	const gchar *backend_name;
 
 	priv = E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE (page);
 
-	/* Make sure the combo box has an active item. */
 	type_combo = GTK_COMBO_BOX (priv->type_combo);
-	if (gtk_combo_box_get_active_id (type_combo) == NULL)
+	backend_name = gtk_combo_box_get_active_id (type_combo);
+
+	if (backend_name == NULL)
 		return FALSE;
 
-	candidate = mail_config_service_page_get_active_candidate (
-		E_MAIL_CONFIG_SERVICE_PAGE (page));
-	g_return_val_if_fail (candidate != NULL, FALSE);
+	backend = e_mail_config_service_page_lookup_backend (
+		E_MAIL_CONFIG_SERVICE_PAGE (page), backend_name);
 
-	return e_mail_config_service_backend_check_complete (
-		candidate->backend);
+	return e_mail_config_service_backend_check_complete (backend);
 }
 
 static void
 mail_config_service_page_commit_changes (EMailConfigPage *page,
                                          GQueue *source_queue)
 {
-	Candidate *candidate;
+	EMailConfigServicePagePrivate *priv;
+	EMailConfigServiceBackend *backend;
+	GtkComboBox *type_combo;
+	const gchar *backend_name;
 
-	candidate = mail_config_service_page_get_active_candidate (
-		E_MAIL_CONFIG_SERVICE_PAGE (page));
-	g_return_if_fail (candidate != NULL);
+	priv = E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE (page);
 
-	e_mail_config_service_backend_commit_changes (candidate->backend);
+	type_combo = GTK_COMBO_BOX (priv->type_combo);
+	backend_name = gtk_combo_box_get_active_id (type_combo);
+	g_return_if_fail (backend_name != NULL);
+
+	backend = e_mail_config_service_page_lookup_backend (
+		E_MAIL_CONFIG_SERVICE_PAGE (page), backend_name);
+
+	e_mail_config_service_backend_commit_changes (backend);
 }
 
 static void
