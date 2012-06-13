@@ -247,10 +247,11 @@ select_source (GtkWidget *list,
 	GtkTreeIter iter;
 
 	gtk_tree_view_get_cursor (data->list, &path, &column);
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (data->model), &iter, path);
+	if (path && gtk_tree_model_get_iter (GTK_TREE_MODEL (data->model), &iter, path))
+		gtk_tree_model_get (GTK_TREE_MODEL (data->model), &iter, 0, &data->current, -1);
+	else
+		data->current = NULL;
 	gtk_tree_path_free (path);
-
-	gtk_tree_model_get (GTK_TREE_MODEL (data->model), &iter, 0, &data->current, -1);
 
 	set_sensitive (data);
 }
