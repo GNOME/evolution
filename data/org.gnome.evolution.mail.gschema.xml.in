@@ -340,11 +340,6 @@
       <_summary>Default forward style</_summary>
       <_description></_description>
     </key>
-    <key name="message-display-style" type="i">
-      <default>0</default>
-      <_summary>Message-display style ("normal", "full headers", "source")</_summary>
-      <_description></_description>
-    </key>
     <key name="prompt-on-empty-subject" type="b">
       <default>true</default>
       <_summary>Prompt on empty subject</_summary>
