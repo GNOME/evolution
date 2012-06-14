@@ -295,7 +295,6 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,
 				 "fill_color", "black",
-				 "draw_background", FALSE,
 				 "im_context", E_CANVAS (item->canvas)->im_context,
 				 NULL );
 	e_canvas_item_move_absolute (e_minicard_label->fieldname, 2, 1);
@@ -308,7 +307,6 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 				 "use_ellipsis", TRUE,
 				 "fill_color", "black",
 				 "editable", FALSE, /* e_minicard_label->editable, */
-				 "draw_background", FALSE,
 				 "im_context", E_CANVAS (item->canvas)->im_context,
 				 NULL );
 	e_canvas_item_move_absolute (e_minicard_label->field, ( e_minicard_label->width / 2 + 2), 1);

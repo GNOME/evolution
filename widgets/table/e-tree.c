@@ -3852,7 +3852,6 @@ e_tree_set_info_message (ETree *tree,
 				"clip", TRUE,
 				"justification", GTK_JUSTIFY_LEFT,
 				"text", info_message,
-				"draw_background", FALSE,
 				"width", (gdouble) allocation.width - 60.0,
 				"clip_width", (gdouble) allocation.width - 60.0,
 				NULL);

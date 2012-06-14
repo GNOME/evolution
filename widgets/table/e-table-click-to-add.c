@@ -272,7 +272,6 @@ create_rect_and_text (ETableClickToAdd *etcta)
 			e_text_get_type (),
 			"text", etcta->message ? etcta->message : "",
 			"width", etcta->width - 4,
-			"draw_background", FALSE,
 			"fill_color_gdk", &style->text[GTK_STATE_NORMAL],
 			NULL);
 }

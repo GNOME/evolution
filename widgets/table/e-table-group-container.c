@@ -465,7 +465,6 @@ create_child_node (ETableGroupContainer *etgc,
 	child_node->text = gnome_canvas_item_new (GNOME_CANVAS_GROUP (etgc),
 						  e_text_get_type (),
 						  "fill_color", "black",
-						  "draw_background", FALSE,
 						  NULL);
 	child = e_table_group_new (GNOME_CANVAS_GROUP (etgc), etg->full_header,
 				   etg->header, etg->model, etgc->sort_info, etgc->n + 1);

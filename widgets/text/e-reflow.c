@@ -574,7 +574,6 @@ set_empty (EReflow *reflow)
 							      "use_ellipsis", TRUE,
 							      "justification", GTK_JUSTIFY_CENTER,
 							      "text", reflow->empty_message,
-							      "draw_background", FALSE,
 							      NULL);
 				e_canvas_item_move_absolute (reflow->empty_text,
 							    reflow->minimum_width / 2,
