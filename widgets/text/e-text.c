@@ -102,7 +102,6 @@ enum {
 	PROP_WIDTH,
 	PROP_HEIGHT,
 	PROP_ALLOW_NEWLINES,
-	PROP_DRAW_BACKGROUND,
 	PROP_CURSOR_POS,
 	PROP_IM_CONTEXT,
 	PROP_HANDLE_POPUP
@@ -824,13 +823,6 @@ e_text_set_property (GObject *object,
 		needs_reflow = 1;
 		break;
 
-	case PROP_DRAW_BACKGROUND:
-		if (text->draw_background != g_value_get_boolean (value)) {
-			text->draw_background = g_value_get_boolean (value);
-			text->needs_redraw = 1;
-		}
-		break;
-
 	case PROP_ALLOW_NEWLINES:
 		text->allow_newlines = g_value_get_boolean (value);
 		_get_tep (text);
@@ -983,10 +975,6 @@ e_text_get_property (GObject *object,
 			value, text->clip &&
 			text->clip_height != -1 ?
 			text->clip_height : text->height);
-		break;
-
-	case PROP_DRAW_BACKGROUND:
-		g_value_set_boolean (value, text->draw_background);
 		break;
 
 	case PROP_ALLOW_NEWLINES:
@@ -1227,7 +1215,7 @@ e_text_draw (GnomeCanvasItem *item,
 
 	cairo_save (cr);
 
-	if (text->draw_background || !text->rgba_set) {
+	if (!text->rgba_set) {
 		gdk_cairo_set_source_color (cr, &style->fg[state]);
 	} else {
 		cairo_set_source_rgba (cr,
@@ -1237,27 +1225,6 @@ e_text_draw (GnomeCanvasItem *item,
 				       ( text->rgba        & 0xff) / 255.0);
 	}
 
-	if (text->draw_background) {
-		gdouble thisx = item->x1 - x;
-		gdouble thisy = item->y1 - y;
-		gdouble thiswidth, thisheight;
-		widget = GTK_WIDGET (item->canvas);
-
-		g_object_get (text,
-			     "width", &thiswidth,
-			     "height", &thisheight,
-			     NULL);
-
-		if (text->draw_background) {
-			gtk_paint_flat_box (style, cr,
-					    state, GTK_SHADOW_NONE,
-					    widget, "entry_bg",
-					    thisx + style->xthickness,
-					    thisy + style->ythickness,
-					    thiswidth - style->xthickness * 2,
-					    thisheight - style->ythickness * 2);
-		}
-	}
 	/* Insert preedit text only when im_context signals are connected &
 	 * text->preedit_len is not zero */
 	if (text->im_context_signals_registered && text->preedit_len)
@@ -3150,13 +3117,6 @@ e_text_class_init (ETextClass *class)
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (gobject_class, PROP_DRAW_BACKGROUND,
-					 g_param_spec_boolean ("draw_background",
-							       "Draw background",
-							       "Draw background",
-							       FALSE,
-							       G_PARAM_READWRITE));
-
 	g_object_class_install_property (gobject_class, PROP_CURSOR_POS,
 					 g_param_spec_int ("cursor_pos",
 							   "Cursor position",
@@ -3244,8 +3204,6 @@ e_text_init (EText *text)
 	text->max_lines               = -1;
 	text->dbl_timeout             = 0;
 	text->tpl_timeout             = 0;
-
-	text->draw_background         = FALSE;
 
 	text->bold                    = FALSE;
 	text->strikeout               = FALSE;

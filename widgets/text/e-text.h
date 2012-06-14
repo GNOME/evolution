@@ -83,7 +83,6 @@ G_BEGIN_DECLS
  * line_wrap            boolean                 RW              Line wrap when not editing.
  * break_characters     string                  RW              List of characters to optionally break on.
  * max_lines            gint                     RW              Number of lines possible when doing line wrap.
- * draw_background      boolean                 RW              Whether to draw the background.
  */
 
 #define E_TYPE_TEXT            (e_text_get_type ())
@@ -160,7 +159,6 @@ struct _EText {
 
 	guint pointer_in : 1;           /* Is the pointer currently over us? */
 	guint default_cursor_shown : 1; /* Is the default cursor currently shown? */
-	guint draw_background : 1;      /* Draw background? */
 
 	guint line_wrap : 1;            /* Do line wrap */
 
