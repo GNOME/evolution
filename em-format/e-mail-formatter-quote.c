@@ -105,6 +105,11 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 		if (!part)
 			continue;
 
+		if (g_str_has_suffix (part->id, ".headers") &&
+		   !(qf_context->qf_flags & E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS)) {
+			continue;
+		}
+
 		if (g_str_has_suffix (part->id, ".rfc822")) {
 			gchar *end = g_strconcat (part->id, ".end", NULL);
 
