@@ -1344,10 +1344,7 @@ e_text_draw (GnomeCanvasItem *item,
 			gint indices[2];
 			GtkStateType state;
 
-			if (text->has_selection)
-				state = GTK_STATE_SELECTED;
-			else
-				state = GTK_STATE_ACTIVE;
+			state = GTK_STATE_ACTIVE;
 
 			indices[0] = MIN (
 				text->selection_start,
@@ -3303,8 +3300,6 @@ e_text_init (EText *text)
 
 	text->tep                     = NULL;
 	text->tep_command_id          = 0;
-
-	text->has_selection           = FALSE;
 
 	text->pointer_in              = FALSE;
 	text->default_cursor_shown    = TRUE;
