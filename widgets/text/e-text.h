@@ -85,7 +85,6 @@ G_BEGIN_DECLS
  * max_lines            gint                     RW              Number of lines possible when doing line wrap.
  * draw_borders         boolean                 RW              Whether to draw borders.
  * draw_background      boolean                 RW              Whether to draw the background.
- * draw_button          boolean                 RW              This makes EText handle being the child of a button properly and highlighting as it should.
  */
 
 #define E_TYPE_TEXT            (e_text_get_type ())
@@ -164,7 +163,6 @@ struct _EText {
 	guint default_cursor_shown : 1; /* Is the default cursor currently shown? */
 	guint draw_borders : 1;         /* Draw borders? */
 	guint draw_background : 1;      /* Draw background? */
-	guint draw_button : 1;          /* Draw button? */
 
 	guint line_wrap : 1;            /* Do line wrap */
 

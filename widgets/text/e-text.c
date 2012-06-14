@@ -104,7 +104,6 @@ enum {
 	PROP_DRAW_BORDERS,
 	PROP_ALLOW_NEWLINES,
 	PROP_DRAW_BACKGROUND,
-	PROP_DRAW_BUTTON,
 	PROP_CURSOR_POS,
 	PROP_IM_CONTEXT,
 	PROP_HANDLE_POPUP
@@ -848,13 +847,6 @@ e_text_set_property (GObject *object,
 		}
 		break;
 
-	case PROP_DRAW_BUTTON:
-		if (text->draw_button !=  g_value_get_boolean (value)) {
-			text->draw_button = g_value_get_boolean (value);
-			text->needs_redraw = 1;
-		}
-		break;
-
 	case PROP_ALLOW_NEWLINES:
 		text->allow_newlines = g_value_get_boolean (value);
 		_get_tep (text);
@@ -1015,10 +1007,6 @@ e_text_get_property (GObject *object,
 
 	case PROP_DRAW_BACKGROUND:
 		g_value_set_boolean (value, text->draw_background);
-		break;
-
-	case PROP_DRAW_BUTTON:
-		g_value_set_boolean (value, text->draw_button);
 		break;
 
 	case PROP_ALLOW_NEWLINES:
@@ -1271,7 +1259,7 @@ e_text_draw (GnomeCanvasItem *item,
 
 	cairo_save (cr);
 
-	if (text->draw_background || text->draw_button || !text->rgba_set) {
+	if (text->draw_background || !text->rgba_set) {
 		gdk_cairo_set_source_color (cr, &style->fg[state]);
 	} else {
 		cairo_set_source_rgba (cr,
@@ -1311,107 +1299,6 @@ e_text_draw (GnomeCanvasItem *item,
 					    thisheight - style->ythickness * 2);
 		}
 	}
-	if (text->draw_button) {
-		GtkAllocation allocation;
-		gint xoff = item->x1 - x;
-		gint yoff = item->y1 - y;
-
-		widget = GTK_WIDGET (item->canvas);
-		gtk_widget_get_allocation (widget, &allocation);
-
-		xoff -= allocation.x;
-		yoff -= allocation.y;
-
-		widget = gtk_widget_get_parent (widget);
-
-		while (widget && !GTK_IS_BUTTON (widget)) {
-			if (gtk_widget_get_has_window (widget)) {
-				widget = NULL;
-				break;
-			}
-			widget = gtk_widget_get_parent (widget);
-		}
-		if (widget) {
-			GtkShadowType shadow_type;
-			GtkAllocation allocation;
-			GtkReliefStyle relief;
-			guint border_width;
-			gint thisx, thisy, thisheight, thiswidth;
-			gint default_spacing;
-
-			gtk_widget_get_allocation (widget, &allocation);
-			relief = gtk_button_get_relief (GTK_BUTTON (widget));
-			border_width = gtk_container_get_border_width (GTK_CONTAINER (widget));
-
-#define DEFAULT_SPACING   7
-#if 0
-			default_spacing = gtk_style_get_prop_experimental (style,
-									   "GtkButton::default_spacing",
-									   DEFAULT_SPACING);
-#endif
-			default_spacing = 7;
-
-			thisx = 0;
-			thisy = 0;
-			thiswidth = allocation.width - border_width * 2;
-			thisheight = allocation.height - border_width * 2;
-
-			if (gtk_widget_has_default (widget) &&
-			    relief == GTK_RELIEF_NORMAL) {
-					gtk_paint_box (
-						style, cr,
-						GTK_STATE_NORMAL,
-						GTK_SHADOW_IN,
-						widget, "buttondefault",
-						thisx + xoff, thisy + yoff,
-						thiswidth, thisheight);
-			}
-
-			if (gtk_widget_get_can_default (widget)) {
-				thisx += style->xthickness;
-				thisy += style->ythickness;
-				thiswidth -= 2 * thisx + default_spacing;
-				thisheight -= 2 * thisy + default_spacing;
-				thisx += (1 + default_spacing) / 2;
-				thisy += (1 + default_spacing) / 2;
-			}
-
-			if (gtk_widget_has_focus (widget)) {
-				thisx += 1;
-				thisy += 1;
-				thiswidth -= 2;
-				thisheight -= 2;
-			}
-
-			if (state == GTK_STATE_ACTIVE)
-				shadow_type = GTK_SHADOW_IN;
-			else
-				shadow_type = GTK_SHADOW_OUT;
-
-			if ((relief != GTK_RELIEF_NONE) ||
-			    ((state != GTK_STATE_NORMAL) &&
-			     (state != GTK_STATE_INSENSITIVE)))
-				gtk_paint_box (
-					style, cr, state,
-					shadow_type, widget, "button",
-					thisx + xoff, thisy + yoff,
-					thiswidth, thisheight);
-
-			if (gtk_widget_has_focus (widget)) {
-				thisx -= 1;
-				thisy -= 1;
-				thiswidth += 2;
-				thisheight += 2;
-
-				gtk_paint_focus (
-					style, cr, state,
-					widget, "button",
-					thisx + xoff, thisy + yoff,
-					thiswidth - 1, thisheight - 1);
-			}
-		}
-	}
-
 	/* Insert preedit text only when im_context signals are connected &
 	 * text->preedit_len is not zero */
 	if (text->im_context_signals_registered && text->preedit_len)
@@ -3337,13 +3224,6 @@ e_text_class_init (ETextClass *class)
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (gobject_class, PROP_DRAW_BUTTON,
-					 g_param_spec_boolean ("draw_button",
-							       "Draw button",
-							       "Draw button",
-							       FALSE,
-							       G_PARAM_READWRITE));
-
 	g_object_class_install_property (gobject_class, PROP_CURSOR_POS,
 					 g_param_spec_int ("cursor_pos",
 							   "Cursor position",
@@ -3435,7 +3315,6 @@ e_text_init (EText *text)
 	text->tpl_timeout             = 0;
 
 	text->draw_background         = FALSE;
-	text->draw_button             = FALSE;
 
 	text->bold                    = FALSE;
 	text->strikeout               = FALSE;
