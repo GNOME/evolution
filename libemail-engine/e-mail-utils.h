@@ -35,7 +35,8 @@ gboolean	em_utils_folder_is_outbox	(ESourceRegistry *registry,
 						 CamelFolder *folder);
 gboolean	em_utils_in_addressbook		(ESourceRegistry *registry,
 						 CamelInternetAddress *addr,
-						 gboolean local_only);
+						 gboolean local_only,
+						 GCancellable *cancellable);
 CamelMimePart *	em_utils_contact_photo		(ESourceRegistry *registry,
 						 CamelInternetAddress *addr,
 						 gboolean local,

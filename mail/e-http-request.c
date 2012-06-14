@@ -340,7 +340,7 @@ handle_http_request (GSimpleAsyncResult *res,
 			registry = e_shell_get_registry (shell);
 			addr = camel_mime_message_get_from (part_list->message);
 			force_load_images = em_utils_in_addressbook (
-					registry, addr, FALSE);
+					registry, addr, FALSE, cancellable);
 		}
 
 		g_free (decoded_uri);

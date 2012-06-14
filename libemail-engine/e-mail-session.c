@@ -1329,7 +1329,7 @@ mail_session_lookup_addressbook (CamelSession *session,
 	addr = camel_internet_address_new ();
 	camel_address_decode ((CamelAddress *) addr, name);
 	ret = em_utils_in_addressbook (
-		registry, addr, mail_config_get_lookup_book_local_only ());
+		registry, addr, mail_config_get_lookup_book_local_only (), NULL);
 	g_object_unref (addr);
 
 	return ret;

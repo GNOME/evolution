@@ -600,7 +600,8 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 gboolean
 em_utils_in_addressbook (ESourceRegistry *registry,
                          CamelInternetAddress *iaddr,
-                         gboolean local_only)
+                         gboolean local_only,
+			 GCancellable *cancellable)
 {
 	const gchar *addr;
 
@@ -611,7 +612,7 @@ em_utils_in_addressbook (ESourceRegistry *registry,
 		return FALSE;
 
 	return search_address_in_addressbooks (
-		registry, addr, local_only, NULL, NULL, NULL);
+		registry, addr, local_only, NULL, NULL, cancellable);
 }
 
 static gboolean
