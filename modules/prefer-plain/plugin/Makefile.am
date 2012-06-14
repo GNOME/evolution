@@ -26,3 +26,5 @@ CLEANFILES = $(BUILT_SOURCES)
 
 EXTRA_DIST = \
 	org-gnome-prefer-plain.eplug.xml
+
+-include $(top_srcdir)/git.mk

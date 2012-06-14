@@ -34,3 +34,5 @@ CLEANFILES = $(BUILT_SOURCES)
 
 EXTRA_DIST = \
 	org-gnome-itip-formatter.eplug.xml
+
+-include $(top_srcdir)/git.mk

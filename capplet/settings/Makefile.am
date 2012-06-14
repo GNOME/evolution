@@ -65,3 +65,4 @@ libevolution_mail_settings_la_LIBADD = 				\
 
 libevolution_mail_settings_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
+-include $(top_srcdir)/git.mk
