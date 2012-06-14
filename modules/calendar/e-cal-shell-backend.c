@@ -34,12 +34,12 @@
 #include "shell/e-shell.h"
 #include "shell/e-shell-backend.h"
 #include "shell/e-shell-window.h"
+#include "widgets/misc/e-cal-source-config.h"
 #include "widgets/misc/e-preferences-window.h"
 #include "widgets/misc/e-source-config-dialog.h"
 
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/dialogs/event-editor.h"
-#include "calendar/gui/e-cal-source-config.h"
 #include "calendar/gui/e-calendar-view.h"
 #include "calendar/gui/gnome-cal.h"
 #include "calendar/importers/evolution-calendar-importer.h"

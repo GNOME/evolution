@@ -37,6 +37,7 @@
 
 #include <shell/e-shell-utils.h>
 
+#include <misc/e-cal-source-config.h>
 #include <misc/e-popup-action.h>
 #include <misc/e-selectable.h>
 #include <misc/e-source-config-dialog.h>
@@ -45,7 +46,6 @@
 #include <calendar/gui/comp-util.h>
 #include <calendar/gui/e-cal-list-view.h>
 #include <calendar/gui/e-cal-model-tasks.h>
-#include <calendar/gui/e-cal-source-config.h>
 #include <calendar/gui/e-calendar-view.h>
 #include <calendar/gui/e-day-view.h>
 #include <calendar/gui/e-week-view.h>

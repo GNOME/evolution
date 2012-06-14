@@ -21,9 +21,9 @@
 
 #include <libebackend/libebackend.h>
 
+#include <misc/e-cal-source-config.h>
 #include <misc/e-interval-chooser.h>
 #include <misc/e-source-config-backend.h>
-#include <calendar/gui/e-cal-source-config.h>
 
 typedef ESourceConfigBackend ECalConfigWebcal;
 typedef ESourceConfigBackendClass ECalConfigWebcalClass;

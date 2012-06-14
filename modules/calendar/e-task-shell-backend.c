@@ -33,11 +33,11 @@
 #include "shell/e-shell.h"
 #include "shell/e-shell-backend.h"
 #include "shell/e-shell-window.h"
+#include "widgets/misc/e-cal-source-config.h"
 #include "widgets/misc/e-source-config-dialog.h"
 
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/dialogs/task-editor.h"
-#include "calendar/gui/e-cal-source-config.h"
 
 #include "e-task-shell-content.h"
 #include "e-task-shell-migrate.h"

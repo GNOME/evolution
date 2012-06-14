@@ -33,11 +33,11 @@
 #include "shell/e-shell.h"
 #include "shell/e-shell-backend.h"
 #include "shell/e-shell-window.h"
+#include "widgets/misc/e-cal-source-config.h"
 #include "widgets/misc/e-source-config-dialog.h"
 
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/dialogs/memo-editor.h"
-#include "calendar/gui/e-cal-source-config.h"
 
 #include "e-memo-shell-migrate.h"
 #include "e-memo-shell-view.h"

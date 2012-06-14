@@ -25,8 +25,8 @@
 #include <libgweather/location-entry.h>
 #undef GWEATHER_I_KNOW_THIS_IS_UNSTABLE
 
+#include <misc/e-cal-source-config.h>
 #include <misc/e-source-config-backend.h>
-#include <calendar/gui/e-cal-source-config.h>
 
 #include "e-source-weather.h"
 

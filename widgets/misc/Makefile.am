@@ -26,6 +26,7 @@ widgetsinclude_HEADERS =			\
 	e-autocomplete-selector.h		\
 	e-book-source-config.h			\
 	e-buffer-tagger.h			\
+	e-cal-source-config.h			\
 	e-calendar.h				\
 	e-calendar-item.h			\
 	e-canvas.h				\
@@ -117,6 +118,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-autocomplete-selector.c		\
 	e-book-source-config.c			\
 	e-buffer-tagger.c			\
+	e-cal-source-config.c			\
 	e-calendar.c				\
 	e-calendar-item.c			\
 	e-canvas.c				\
