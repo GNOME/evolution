@@ -55,8 +55,6 @@ libeabwidgets_la_SOURCES =			\
 	e-addressbook-selector.h		\
 	e-addressbook-view.c			\
 	e-addressbook-view.h			\
-	e-book-source-config.c			\
-	e-book-source-config.h			\
 	gal-view-minicard.c			\
 	gal-view-minicard.h			\
 	gal-view-factory-minicard.c		\

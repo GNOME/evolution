@@ -21,9 +21,9 @@
 
 #include <libebackend/libebackend.h>
 
+#include <misc/e-book-source-config.h>
 #include <misc/e-source-config-backend.h>
 #include <calendar/gui/e-cal-source-config.h>
-#include <addressbook/gui/widgets/e-book-source-config.h>
 
 #include "e-contacts-selector.h"
 #include "e-source-contacts.h"

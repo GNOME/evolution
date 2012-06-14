@@ -23,8 +23,8 @@
 #include <libebackend/libebackend.h>
 
 #include <libevolution-utils/e-alert-dialog.h>
+#include <misc/e-book-source-config.h>
 #include <misc/e-source-config-backend.h>
-#include <addressbook/gui/widgets/e-book-source-config.h>
 
 #include "e-source-ldap.h"
 

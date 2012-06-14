@@ -36,6 +36,7 @@
 #include "shell/e-shell-searchbar.h"
 #include "shell/e-shell-sidebar.h"
 #include "shell/e-shell-utils.h"
+#include "misc/e-book-source-config.h"
 #include "misc/e-popup-action.h"
 #include "misc/e-selectable.h"
 #include "misc/e-source-config-dialog.h"
@@ -46,7 +47,6 @@
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/gui/widgets/e-addressbook-view.h"
 #include "addressbook/gui/widgets/e-addressbook-selector.h"
-#include "addressbook/gui/widgets/e-book-source-config.h"
 
 #include "e-book-shell-backend.h"
 #include "e-book-shell-content.h"

@@ -24,6 +24,7 @@ widgetsinclude_HEADERS =			\
 	e-attachment-view.h			\
 	e-auth-combo-box.h			\
 	e-autocomplete-selector.h		\
+	e-book-source-config.h			\
 	e-buffer-tagger.h			\
 	e-calendar.h				\
 	e-calendar-item.h			\
@@ -114,6 +115,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-attachment-view.c			\
 	e-auth-combo-box.c			\
 	e-autocomplete-selector.c		\
+	e-book-source-config.c			\
 	e-buffer-tagger.c			\
 	e-calendar.c				\
 	e-calendar-item.c			\

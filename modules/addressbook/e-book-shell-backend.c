@@ -33,11 +33,11 @@
 #include "e-util/e-import.h"
 #include "shell/e-shell.h"
 #include "shell/e-shell-window.h"
+#include "widgets/misc/e-book-source-config.h"
 #include "widgets/misc/e-preferences-window.h"
 #include "widgets/misc/e-source-config-dialog.h"
 
 #include "addressbook/gui/widgets/eab-gui-util.h"
-#include "addressbook/gui/widgets/e-book-source-config.h"
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "addressbook/gui/contact-editor/e-contact-quick-add.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"

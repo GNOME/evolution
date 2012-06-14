@@ -21,9 +21,9 @@
 
 #include <libebackend/libebackend.h>
 
+#include <misc/e-book-source-config.h>
 #include <misc/e-interval-chooser.h>
 #include <misc/e-source-config-backend.h>
-#include <addressbook/gui/widgets/e-book-source-config.h>
 
 typedef ESourceConfigBackend EBookConfigGoogle;
 typedef ESourceConfigBackendClass EBookConfigGoogleClass;
