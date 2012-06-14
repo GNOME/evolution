@@ -321,14 +321,14 @@ format_full_headers (EMailFormatter *formatter,
 
 		g_string_append (
 			buffer,
-			"<tr valign=\"top\"><td><table border=1 width=\"100%%\" "
+			"<tr valign=\"top\"><td><table border=1 width=\"100%\" "
 			"cellspacing=2 cellpadding=2><tr>");
 		if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 			g_string_append (
-				buffer, "<td align=\"right\" width=\"100%%\">");
+				buffer, "<td align=\"right\" width=\"100%\">");
 		else
 			g_string_append (
-				buffer, "<td align=\"left\" width=\"100%%\">");
+				buffer, "<td align=\"left\" width=\"100%\">");
 		bold_sender = g_strconcat ("<b>", header_sender, "</b>", NULL);
 		bold_from = g_strconcat ("<b>", header_from, "</b>", NULL);
 		/* Translators: This message suggests to the receipients
@@ -348,7 +348,7 @@ format_full_headers (EMailFormatter *formatter,
 
 	g_string_append (
 		buffer,
-		"<tr valign=\"top\"><td width=\"100%%\">"
+		"<tr valign=\"top\"><td width=\"100%\">"
 		"<table border=0 cellpadding=\"0\">\n");
 
 	g_free (evolution_imagesdir);
