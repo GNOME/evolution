@@ -39,8 +39,6 @@ vpane-position = /apps/evolution/addressbook/display/vpane_position
 
 [org.gnome.evolution.calendar]
 audio-dir = /apps/evolution/calendar/audio_dir
-ba-reminder-interval = /apps/evolution/calendar/other/ba_reminder_interval
-ba-reminder-units = /apps/evolution/calendar/other/ba_reminder_units
 compress-weekend = /apps/evolution/calendar/display/compress_weekend
 confirm-delete = /apps/evolution/calendar/prompts/confirm_delete
 confirm-purge = /apps/evolution/calendar/prompts/confirm_purge
@@ -93,7 +91,6 @@ task-vpane-position = /apps/evolution/calendar/display/task_vpane_position
 time-divisions = /apps/evolution/calendar/display/time_divisions
 timezone = /apps/evolution/calendar/display/timezone
 use-24hour-format = /apps/evolution/calendar/display/use_24hour_format
-use-ba-reminder = /apps/evolution/calendar/other/use_ba_reminder
 use-default-reminder = /apps/evolution/calendar/other/use_default_reminder
 use-system-timezone = /apps/evolution/calendar/display/use_system_timezone
 week-start-day = /apps/evolution/calendar/display/week_start_day

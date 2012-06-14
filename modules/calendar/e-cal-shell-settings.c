@@ -31,6 +31,7 @@
 #include <e-util/e-util-enumtypes.h>
 
 #define CALENDAR_SCHEMA "org.gnome.evolution.calendar"
+#define EDS_CALENDAR_CONTACTS_SCHEMA "org.gnome.evolution-data-server.calendar"
 
 static gboolean
 transform_string_to_icaltimezone (GBinding *binding,
@@ -526,13 +527,13 @@ e_cal_shell_backend_init_settings (EShell *shell)
 
 	e_shell_settings_install_property_for_key (
 		"cal-ba-reminder-interval",
-		CALENDAR_SCHEMA,
-		"ba-reminder-interval");
+		EDS_CALENDAR_CONTACTS_SCHEMA,
+		"contacts-reminder-interval");
 
 	e_shell_settings_install_property_for_key (
 		"cal-ba-reminder-units-string",
-		CALENDAR_SCHEMA,
-		"ba-reminder-units");
+		EDS_CALENDAR_CONTACTS_SCHEMA,
+		"contacts-reminder-units");
 
 	e_shell_settings_install_property_for_key (
 		"cal-compress-weekend",
@@ -676,8 +677,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 
 	e_shell_settings_install_property_for_key (
 		"cal-use-ba-reminder",
-		CALENDAR_SCHEMA,
-		"use-ba-reminder");
+		EDS_CALENDAR_CONTACTS_SCHEMA,
+		"contacts-reminder-enabled");
 
 	e_shell_settings_install_property_for_key (
 		"cal-use-default-reminder",
