@@ -744,6 +744,12 @@ e_memo_shell_content_set_preview_visible (EMemoShellContent *memo_shell_content,
 
 	memo_shell_content->priv->preview_visible = preview_visible;
 
+	if (preview_visible && memo_shell_content->priv->preview_pane) {
+		memo_shell_content_cursor_change_cb (
+			memo_shell_content, 0,
+			E_TABLE (memo_shell_content->priv->memo_table));
+	}
+
 	g_object_notify (G_OBJECT (memo_shell_content), "preview-visible");
 }
 

@@ -769,6 +769,12 @@ e_task_shell_content_set_preview_visible (ETaskShellContent *task_shell_content,
 
 	task_shell_content->priv->preview_visible = preview_visible;
 
+	if (preview_visible && task_shell_content->priv->preview_pane) {
+		task_shell_content_cursor_change_cb (
+			task_shell_content, 0,
+			E_TABLE (task_shell_content->priv->task_table));
+	}
+
 	g_object_notify (G_OBJECT (task_shell_content), "preview-visible");
 }
 
