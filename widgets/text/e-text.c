@@ -136,29 +136,6 @@ static void e_text_reset_im_context (EText *text);
 
 static void reset_layout_attrs (EText *text);
 
-#if 0
-/* GtkEditable Methods */
-static void e_text_editable_do_insert_text (GtkEditable    *editable,
-					    const gchar    *text,
-					    gint            length,
-					    gint           *position);
-static void e_text_editable_do_delete_text (GtkEditable    *editable,
-					    gint            start_pos,
-					    gint            end_pos);
-static gchar * e_text_editable_get_chars (GtkEditable    *editable,
-					 gint            start_pos,
-					 gint            end_pos);
-static void e_text_editable_set_selection_bounds (GtkEditable    *editable,
-						  gint            start_pos,
-						  gint            end_pos);
-static gboolean e_text_editable_get_selection_bounds (GtkEditable    *editable,
-						      gint           *start_pos,
-						      gint           *end_pos);
-static void e_text_editable_set_position (GtkEditable    *editable,
-					  gint            position);
-static gint e_text_editable_get_position (GtkEditable    *editable);
-#endif
-
 /* IM Context Callbacks */
 static void     e_text_commit_cb               (GtkIMContext *context,
 						const gchar  *str,
@@ -186,21 +163,6 @@ disconnect_im_context (EText *text)
 }
 
 /* Dispose handler for the text item */
-
-#if 0
-static void
-e_text_style_set (EText *text,
-                  GtkStyle *previous_style)
-{
-	if (text->line_wrap) {
-		text->needs_split_into_lines = 1;
-	} else {
-		text->needs_calc_height = 1;
-	}
-	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (text));
-}
-#endif
-
 static void
 e_text_dispose (GObject *object)
 {
@@ -1935,10 +1897,6 @@ e_text_event (GnomeCanvasItem *item,
 
 			/* This is probably ugly hack, but we
 			 * have to handle UTF-8 input somehow. */
-#if 0
-			e_tep_event.key.length = key.length;
-			e_tep_event.key.string = key.string;
-#else
 			e_tep_event.key.string = e_utf8_from_gtk_event_key (
 				GTK_WIDGET (item->canvas),
 				key.keyval, key.string);
@@ -1947,7 +1905,7 @@ e_text_event (GnomeCanvasItem *item,
 			} else {
 				e_tep_event.key.length = 0;
 			}
-#endif
+
 			_get_tep (text);
 			ret = e_text_event_processor_handle_event (text->tep, &e_tep_event);
 
@@ -1963,28 +1921,6 @@ e_text_event (GnomeCanvasItem *item,
 		break;
 	case GDK_BUTTON_PRESS: /* Fall Through */
 	case GDK_BUTTON_RELEASE:
-#if 0
-		if ((!text->editing)
-		    && text->editable
-		    && event->type == GDK_BUTTON_RELEASE
-		    && event->button.button == 1) {
-			GdkEventButton button = event->button;
-
-			e_canvas_item_grab_focus (item, TRUE);
-
-			e_tep_event.type = GDK_BUTTON_RELEASE;
-			e_tep_event.button.time = button.time;
-			e_tep_event.button.state = button.state;
-			e_tep_event.button.button = button.button;
-			e_tep_event.button.position =
-				get_position_from_xy (
-				text, button.x, button.y);
-			_get_tep (text);
-			return_val = e_text_event_processor_handle_event (
-				text->tep, &e_tep_event);
-			e_tep_event.type = GDK_BUTTON_RELEASE;
-		}
-#else
 		if ((!text->editing)
 		    && text->editable
 		    && (event->button.button == 1 ||
@@ -1992,7 +1928,6 @@ e_text_event (GnomeCanvasItem *item,
 			e_canvas_item_grab_focus (item, TRUE);
 			start_editing (text);
 		}
-#endif
 
 		/* We follow convention and emit popup events on right-clicks. */
 		if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
