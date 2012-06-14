@@ -58,6 +58,31 @@ G_DEFINE_TYPE_EXTENDED (
 
 static const gchar *parser_mime_types[] = { "application/vnd.evolution.headers", NULL };
 
+static void
+empe_headers_bind_dom (EMailPart *part,
+		       WebKitDOMElement *element)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *photo;
+	gchar *addr, *uri;
+	gboolean only_local;
+
+	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
+	photo = webkit_dom_document_get_element_by_id (document, "__evo-contact-photo");
+
+	addr = webkit_dom_element_get_attribute (photo, "data-mailaddr");
+	only_local = webkit_dom_element_has_attribute (photo, "data-onlylocal");
+
+	uri = g_strdup_printf ("mail://contact-photo?mailaddr=%s%s",
+		addr, only_local ? "&only-local-photo=1" : "");
+
+	webkit_dom_html_image_element_set_src (
+		WEBKIT_DOM_HTML_IMAGE_ELEMENT (photo), uri);
+
+	g_free (addr);
+	g_free (uri);
+}
+
 static GSList *
 empe_headers_parse (EMailParserExtension *extension,
                     EMailParser *parser,
@@ -76,6 +101,7 @@ empe_headers_parse (EMailParserExtension *extension,
 
 	mail_part = e_mail_part_new (part, part_id->str);
 	mail_part->mime_type = g_strdup ("application/vnd.evolution.headers");
+	mail_part->bind_func = empe_headers_bind_dom;
 	g_string_truncate (part_id, len);
 
 	return g_slist_append (NULL, mail_part);

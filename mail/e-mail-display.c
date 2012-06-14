@@ -1048,6 +1048,7 @@ toggle_headers_visibility (WebKitDOMElement *button,
 	WebKitDOMCSSStyleDeclaration *css_short, *css_full;
 	gboolean expanded;
 	const gchar *path;
+	gchar *css_value;
 
 	document = webkit_web_view_get_dom_document (web_view);
 
@@ -1064,9 +1065,10 @@ toggle_headers_visibility (WebKitDOMElement *button,
 		return;
 
 	css_full = webkit_dom_element_get_style (full_headers);
-
-	expanded = (g_strcmp0 (webkit_dom_css_style_declaration_get_property_value (
-			css_full, "display"), "block") == 0);
+	css_value = webkit_dom_css_style_declaration_get_property_value (
+			css_full, "display");
+	expanded = (g_strcmp0 (css_value, "block") == 0);
+	g_free (css_value);
 
 	webkit_dom_css_style_declaration_set_property (css_full, "display",
 		expanded ? "none" : "block", "", NULL);
@@ -1233,6 +1235,9 @@ mail_parts_bind_dom (GObject *object,
 		return;
 
 	frame_name = webkit_web_frame_get_name (frame);
+	if (!frame_name || !*frame_name)
+		frame_name = ".message.headers";
+
 	for (iter = display->priv->part_list->list; iter; iter = iter->next) {
 
 		EMailPart *part = iter->data;

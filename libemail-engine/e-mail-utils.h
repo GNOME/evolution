@@ -38,7 +38,8 @@ gboolean	em_utils_in_addressbook		(ESourceRegistry *registry,
 						 gboolean local_only);
 CamelMimePart *	em_utils_contact_photo		(ESourceRegistry *registry,
 						 CamelInternetAddress *addr,
-						 gboolean local);
+						 gboolean local,
+						 GCancellable *cancellable);
 ESource *	em_utils_guess_mail_account	(ESourceRegistry *registry,
 						 CamelMimeMessage *message,
 						 CamelFolder *folder);

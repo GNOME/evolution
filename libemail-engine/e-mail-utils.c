@@ -278,26 +278,6 @@ em_utils_folder_is_outbox (ESourceRegistry *registry,
 
 /* ********************************************************************** */
 
-static void
-emu_addr_cancel_stop (gpointer data)
-{
-	gboolean *stop = data;
-
-	g_return_if_fail (stop != NULL);
-
-	*stop = TRUE;
-}
-
-static void
-emu_addr_cancel_cancellable (gpointer data)
-{
-	GCancellable *cancellable = data;
-
-	g_return_if_fail (cancellable != NULL);
-
-	g_cancellable_cancel (cancellable);
-}
-
 struct TryOpenEBookStruct {
 	GError **error;
 	EFlag *flag;
@@ -399,7 +379,8 @@ search_address_in_addressbooks (ESourceRegistry *registry,
                                 gboolean local_only,
                                 gboolean (*check_contact) (EContact *contact,
                                                            gpointer user_data),
-                                gpointer user_data)
+                                gpointer user_data,
+				GCancellable *cancellable)
 {
 	GList *list, *link;
 	GList *addr_sources = NULL;
@@ -408,8 +389,6 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 	gpointer ptr;
 	EBookQuery *book_query;
 	gchar *query;
-	GHook *hook_cancellable;
-	GCancellable *cancellable;
 	const gchar *extension_name;
 
 	if (!address || !*address)
@@ -474,15 +453,10 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
-	cancellable = g_cancellable_new ();
-	hook_cancellable = mail_cancel_hook_add (
-		emu_addr_cancel_cancellable, cancellable);
-
 	for (link = addr_sources; !stop && !found && link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 		GSList *contacts;
 		EBookClient *book_client = NULL;
-		GHook *hook_stop;
 		gboolean cached_book = FALSE;
 		const gchar *display_name;
 		const gchar *uid;
@@ -499,8 +473,6 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 		}
 
 		d(printf(" checking '%s'\n", e_source_get_uri(source)));
-
-		hook_stop = mail_cancel_hook_add (emu_addr_cancel_stop, &stop);
 
 		book_client = g_hash_table_lookup (emu_books_hash, uid);
 		if (!book_client) {
@@ -601,8 +573,6 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 			g_clear_error (&err);
 		}
 
-		mail_cancel_hook_remove (hook_stop);
-
 		if (stop && !cached_book && book_client) {
 			g_object_unref (book_client);
 		} else if (!stop && book_client && !cached_book) {
@@ -610,9 +580,6 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 				emu_books_hash, g_strdup (uid), book_client);
 		}
 	}
-
-	mail_cancel_hook_remove (hook_cancellable);
-	g_object_unref (cancellable);
 
 	g_list_free_full (addr_sources, (GDestroyNotify) g_object_unref);
 
@@ -644,7 +611,7 @@ em_utils_in_addressbook (ESourceRegistry *registry,
 		return FALSE;
 
 	return search_address_in_addressbooks (
-		registry, addr, local_only, NULL, NULL);
+		registry, addr, local_only, NULL, NULL, NULL);
 }
 
 static gboolean
@@ -687,7 +654,8 @@ static GSList *photos_cache = NULL; /* list of PhotoInfo-s */
 CamelMimePart *
 em_utils_contact_photo (ESourceRegistry *registry,
                         CamelInternetAddress *cia,
-                        gboolean local_only)
+                        gboolean local_only,
+			GCancellable *cancellable)
 {
 	const gchar *addr = NULL;
 	CamelMimePart *part = NULL;
@@ -723,7 +691,7 @@ em_utils_contact_photo (ESourceRegistry *registry,
 
 	/* !p means the address had not been found in the cache */
 	if (!p && search_address_in_addressbooks (
-		registry, addr, local_only, extract_photo_data, &photo)) {
+		registry, addr, local_only, extract_photo_data, &photo, cancellable)) {
 
 		PhotoInfo *pi;
 

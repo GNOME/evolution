@@ -19,6 +19,7 @@
 #define LIBSOUP_USE_UNSTABLE_REQUEST_API
 
 #include "e-mail-request.h"
+#include "em-utils.h"
 
 #include <libsoup/soup.h>
 #include <libsoup/soup-requester.h>
@@ -35,6 +36,8 @@
 
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-util.h>
+
+#include <shell/e-shell.h>
 
 #define d(x)
 #define dd(x)
@@ -164,6 +167,116 @@ handle_mail_request (GSimpleAsyncResult *res,
 	g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
 }
 
+static GInputStream *
+get_empty_image_stream (gsize *len)
+{
+	GdkPixbuf *p;
+	gchar *buff;
+	GInputStream *stream;
+
+	p = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
+	gdk_pixbuf_fill (p, 0x00000000);	/* transparent black */
+	gdk_pixbuf_save_to_buffer (p, &buff, len, "png", NULL, NULL);
+
+	stream = g_memory_input_stream_new_from_data (buff, *len, g_free);
+
+	g_object_unref (p);
+
+	return stream;
+}
+
+static void
+handle_contact_photo_request (GSimpleAsyncResult *res,
+			      GObject *object,
+			      GCancellable *cancellable)
+{
+	EMailRequest *request = E_MAIL_REQUEST (object);
+	const gchar *email;
+	gchar *photo_name;
+	gboolean only_local_photo;
+	CamelMimePart *photopart;
+	EShell *shell;
+	ESourceRegistry *registry;
+	CamelInternetAddress *cia;
+	CamelDataWrapper *dw;
+	GByteArray *ba;
+	GInputStream *stream = NULL;
+
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+
+	request->priv->mime_type = g_strdup ("image/*");
+
+	email = g_hash_table_lookup (
+			request->priv->uri_query, "mailaddr");
+	if (!email || !*email) {
+		gsize len;
+
+		stream = get_empty_image_stream (&len);
+		request->priv->content_length = len;
+
+		g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
+		return;
+	}
+
+	photo_name = g_uri_unescape_string (email, NULL);
+	only_local_photo = g_hash_table_lookup_extended (
+				request->priv->uri_query, "only-local-photo",
+				NULL, NULL);
+
+	cia = camel_internet_address_new ();
+	camel_address_decode ((CamelAddress *) cia, (const gchar *) photo_name);
+	photopart = em_utils_contact_photo (
+			registry, cia, only_local_photo, cancellable);
+	if (!photopart) {
+		gsize len;
+
+		stream = get_empty_image_stream (&len);
+		request->priv->content_length = len;
+
+		g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
+		g_free (photo_name);
+		return;
+	}
+
+	ba = NULL;
+	dw = camel_medium_get_content (CAMEL_MEDIUM (photopart));
+	if (dw) {
+		ba = camel_data_wrapper_get_byte_array (dw);
+	}
+
+	if (!ba || ba->len == 0) {
+
+		const gchar *filename = camel_mime_part_get_filename (photopart);
+
+		if (filename && *filename &&
+		    g_file_test (filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR)) {
+			gchar *data;
+			gsize len;
+
+			if (!g_file_get_contents (filename, &data, &len, NULL)) {
+				stream = get_empty_image_stream (&len);
+			} else {
+				stream = g_memory_input_stream_new_from_data (
+					(gchar *) data, len, g_free);
+			}
+
+			request->priv->content_length = len;
+		}
+
+	} else {
+
+		stream = g_memory_input_stream_new_from_data (
+				(gchar *) ba->data, ba->len, NULL);
+
+		request->priv->content_length = ba->len;
+
+	}
+
+	g_free (photo_name);
+	g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
+}
+
 static void
 mail_request_finalize (GObject *object)
 {
@@ -233,9 +346,15 @@ mail_request_send_async (SoupRequest *request,
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	g_simple_async_result_run_in_thread (
-		simple, handle_mail_request,
-		G_PRIORITY_DEFAULT, cancellable);
+	if (g_strcmp0 (uri->host, "contact-photo") == 0) {
+		g_simple_async_result_run_in_thread (
+			simple, handle_contact_photo_request,
+			G_PRIORITY_DEFAULT, cancellable);
+	} else {
+		g_simple_async_result_run_in_thread (
+			simple, handle_mail_request,
+			G_PRIORITY_DEFAULT, cancellable);
+	}
 
 	g_object_unref (simple);
 }

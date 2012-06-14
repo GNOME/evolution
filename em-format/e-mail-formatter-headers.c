@@ -248,9 +248,6 @@ format_full_headers (EMailFormatter *formatter,
 	struct _camel_header_raw *header;
 	gboolean have_icon = FALSE;
 	const gchar *photo_name = NULL;
-	CamelInternetAddress *cia = NULL;
-	EShell *shell;
-	ESourceRegistry *registry;
 	gboolean face_decoded  = FALSE, contact_has_photo = FALSE;
 	guchar *face_header_value = NULL;
 	gsize face_header_len = 0;
@@ -261,9 +258,6 @@ format_full_headers (EMailFormatter *formatter,
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
-
-	shell = e_shell_get_default ();
-	registry = e_shell_get_registry (shell);
 
 	ct = camel_mime_part_get_content_type ((CamelMimePart *) part);
 	charset = camel_content_type_param (ct, "charset");
@@ -327,7 +321,7 @@ format_full_headers (EMailFormatter *formatter,
 
 		g_string_append (
 			buffer,
-			"<tr><td><table border=1 width=\"100%%\" "
+			"<tr valign=\"top\"><td><table border=1 width=\"100%%\" "
 			"cellspacing=2 cellpadding=2><tr>");
 		if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 			g_string_append (
@@ -352,7 +346,10 @@ format_full_headers (EMailFormatter *formatter,
 	g_free (header_sender);
 	g_free (header_from);
 
-	g_string_append (buffer, "<tr><td width=\"100%%\"><table border=0 cellpadding=\"0\">\n");
+	g_string_append (
+		buffer,
+		"<tr valign=\"top\"><td width=\"100%%\">"
+		"<table border=0 cellpadding=\"0\">\n");
 
 	g_free (evolution_imagesdir);
 
@@ -446,22 +443,20 @@ format_full_headers (EMailFormatter *formatter,
 	g_string_append (buffer, "</table></td>");
 
 	if (photo_name) {
-		CamelMimePart *photopart;
 		gboolean only_local_photo;
+		gchar *name;
 
-		cia = camel_internet_address_new ();
-		camel_address_decode ((CamelAddress *) cia, (const gchar *) photo_name);
+		name = g_uri_escape_string (photo_name, NULL, FALSE);
 		only_local_photo = e_mail_formatter_get_only_local_photos (formatter);
-		photopart = em_utils_contact_photo (
-			registry, cia, only_local_photo);
+		g_string_append (buffer, "<td align=\"right\" valign=\"top\">");
 
-		if (photopart) {
-			g_string_append (buffer, "<td align=\"right\" valign=\"top\">");
-			write_contact_picture (photopart, -1, buffer);
-			g_string_append (buffer, "</td>");
-			g_object_unref (photopart);
-		}
-		g_object_unref (cia);
+		g_string_append_printf (buffer,
+			"<img src=\"mail://contact-photo?mailaddr=&only-local-photo=1\" "
+			"data-mailaddr=\"%s\" %s id=\"__evo-contact-photo\"/>",
+			name, only_local_photo ? "data-onlylocal=1" : "");
+		g_string_append (buffer, "</td>");
+
+		g_free (name);
 	}
 
 	if (!contact_has_photo && face_decoded) {
@@ -536,10 +531,11 @@ emfe_headers_format (EMailFormatterExtension *extension,
 
 	g_string_append_printf (
 		buffer,
-		"<div class=\"headers\" style=\"background: #%06x;\">"
+		"<div class=\"headers\" style=\"background: #%06x;\" id=\"%s\">"
 		"<table border=\"0\" width=\"100%%\" style=\"color: #%06x;\">\n"
 		"<tr><td valign=\"top\" width=\"16\">\n",
 		bg_color,
+		part->id,
 		e_color_to_value ((GdkColor *)
 			e_mail_formatter_get_color (
 				formatter,
