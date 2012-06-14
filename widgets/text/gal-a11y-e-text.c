@@ -551,11 +551,6 @@ et_get_character_extents (AtkText *text,
 	*width  = pango_pos.width;
 	*height = pango_pos.height;
 
-	if (etext->draw_borders) {
-                *x += 3; /*BORDER_INDENT;*/
-                *y += 3; /*BORDER_INDENT;*/
-	}
-
         *x += etext->xofs;
         *y += etext->yofs;
 
@@ -629,11 +624,6 @@ et_get_offset_at_point (AtkText *text,
 	}
 	else
 		return -1;
-
-	if (etext->draw_borders) {
-		x -= 3; /*BORDER_INDENT;*/
-		y -= 3; /*BORDER_INDENT;*/
-	}
 
 	x -= etext->xofs;
 	y -= etext->yofs;

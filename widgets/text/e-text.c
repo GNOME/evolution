@@ -101,7 +101,6 @@ enum {
 	PROP_MAX_LINES,
 	PROP_WIDTH,
 	PROP_HEIGHT,
-	PROP_DRAW_BORDERS,
 	PROP_ALLOW_NEWLINES,
 	PROP_DRAW_BACKGROUND,
 	PROP_CURSOR_POS,
@@ -506,11 +505,6 @@ get_bounds (EText *text,
 	text->text_cx = text->cx;
 	text->text_cy = text->cy;
 
-	if (text->draw_borders) {
-		text->text_cx += BORDER_INDENT;
-		text->text_cy += BORDER_INDENT;
-	}
-
 	/* Bounds */
 
 	if (text->clip) {
@@ -830,16 +824,6 @@ e_text_set_property (GObject *object,
 		needs_reflow = 1;
 		break;
 
-	case PROP_DRAW_BORDERS:
-		if (text->draw_borders != g_value_get_boolean (value)) {
-			text->draw_borders = g_value_get_boolean (value);
-			text->needs_calc_height = 1;
-			text->needs_redraw = 1;
-			needs_reflow = 1;
-			needs_update = 1;
-		}
-		break;
-
 	case PROP_DRAW_BACKGROUND:
 		if (text->draw_background != g_value_get_boolean (value)) {
 			text->draw_background = g_value_get_boolean (value);
@@ -999,10 +983,6 @@ e_text_get_property (GObject *object,
 			value, text->clip &&
 			text->clip_height != -1 ?
 			text->clip_height : text->height);
-		break;
-
-	case PROP_DRAW_BORDERS:
-		g_value_set_boolean (value, text->draw_borders);
 		break;
 
 	case PROP_DRAW_BACKGROUND:
@@ -1186,19 +1166,7 @@ show_pango_rectangle (EText *text,
 	gint clip_width, clip_height;
 
 	clip_width = text->clip_width;
-	if (clip_width >= 0 && text->draw_borders) {
-		clip_width -= 6;
-		if (clip_width < 0)
-			clip_width = 0;
-	}
-
 	clip_height = text->clip_height;
-
-	if (clip_height >= 0 && text->draw_borders) {
-		clip_height -= 6;
-		if (clip_height < 0)
-			clip_height = 0;
-	}
 
 	if (x1 < new_xofs_edit)
 		new_xofs_edit = x1;
@@ -1269,7 +1237,7 @@ e_text_draw (GnomeCanvasItem *item,
 				       ( text->rgba        & 0xff) / 255.0);
 	}
 
-	if (text->draw_borders || text->draw_background) {
+	if (text->draw_background) {
 		gdouble thisx = item->x1 - x;
 		gdouble thisy = item->y1 - y;
 		gdouble thiswidth, thisheight;
@@ -1279,15 +1247,6 @@ e_text_draw (GnomeCanvasItem *item,
 			     "width", &thiswidth,
 			     "height", &thisheight,
 			     NULL);
-
-		if (text->draw_borders) {
-
-			gtk_paint_shadow (style, cr,
-					  GTK_STATE_NORMAL, GTK_SHADOW_IN,
-					  widget, "entry",
-					  thisx, thisy, thiswidth, thisheight);
-
-		}
 
 		if (text->draw_background) {
 			gtk_paint_flat_box (style, cr,
@@ -1482,11 +1441,6 @@ get_position_from_xy (EText *text,
 	gint index;
 	gint trailing;
 
-	if (text->draw_borders) {
-		x -= BORDER_INDENT;
-		y -= BORDER_INDENT;
-	}
-
 	x -= text->xofs;
 	y -= text->yofs;
 
@@ -1609,7 +1563,7 @@ start_editing (EText *text)
 		window = gtk_widget_get_window (
 			GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas));
 
-		if (text->default_cursor_shown && (!text->draw_borders)) {
+		if (text->default_cursor_shown) {
 			gdk_window_set_cursor (window, text->i_cursor);
 			text->default_cursor_shown = FALSE;
 		}
@@ -1634,7 +1588,7 @@ e_text_stop_editing (EText *text)
 	text->revert = NULL;
 
 	text->editing = FALSE;
-	if ((!text->default_cursor_shown) && (!text->draw_borders)) {
+	if (!text->default_cursor_shown) {
 		GdkWindow *window;
 
 		window = gtk_widget_get_window (
@@ -1725,7 +1679,7 @@ e_text_event (GnomeCanvasItem *item,
 					g_source_remove (text->timeout_id);
 					text->timeout_id = 0;
 				}
-				if (text->show_cursor || text->draw_borders) {
+				if (text->show_cursor) {
 					text->show_cursor = FALSE;
 					text->needs_redraw = 1;
 					gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (text));
@@ -1886,7 +1840,7 @@ e_text_event (GnomeCanvasItem *item,
 		break;
 	case GDK_ENTER_NOTIFY:
 		text->pointer_in = TRUE;
-		if (text->editing || text->draw_borders) {
+		if (text->editing) {
 			if (text->default_cursor_shown) {
 				gdk_window_set_cursor (window, text->i_cursor);
 				text->default_cursor_shown = FALSE;
@@ -1895,7 +1849,7 @@ e_text_event (GnomeCanvasItem *item,
 		break;
 	case GDK_LEAVE_NOTIFY:
 		text->pointer_in = FALSE;
-		if (text->editing || text->draw_borders) {
+		if (text->editing) {
 			if (!text->default_cursor_shown) {
 				gdk_window_set_cursor (
 					window, text->default_cursor);
@@ -2921,11 +2875,6 @@ e_text_command (ETextEventProcessor *tep,
 			}
 
 			clip_width = text->clip_width;
-			if (clip_width >= 0 && text->draw_borders) {
-				clip_width -= 6;
-				if (clip_width < 0)
-					clip_width = 0;
-			}
 
 			if (xpos + pango_pos.width - clip_width > text->xofs_edit) {
 				text->xofs_edit = xpos + pango_pos.width - clip_width;
@@ -2944,12 +2893,6 @@ e_text_command (ETextEventProcessor *tep,
 				clip_height = text->height;
 			else
 				clip_height = text->clip_height;
-
-			if (clip_height >= 0 && text->draw_borders) {
-				clip_height -= 6;
-				if (clip_height < 0)
-					clip_height = 0;
-			}
 
 			if (ypos - clip_height > text->yofs_edit) {
 				text->yofs_edit = ypos - clip_height;
@@ -3199,13 +3142,6 @@ e_text_class_init (ETextClass *class)
 							      "Height",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (gobject_class, PROP_DRAW_BORDERS,
-					 g_param_spec_boolean ("draw_borders",
-							       "Draw borders",
-							       "Draw borders",
-							       FALSE,
-							       G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_ALLOW_NEWLINES,
 					 g_param_spec_boolean ("allow_newlines",
