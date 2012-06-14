@@ -15,12 +15,9 @@ module_book_config_ldap_la_SOURCES = \
 	e-source-ldap.h
 
 module_book_config_ldap_la_LIBADD = \
+	$(top_builddir)/libevolution-utils/libevolution-utils.la \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
-	$(top_builddir)/addressbook/printing/libecontactprint.la \
-	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la \
-	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la \
-	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(LDAP_LIBS)
