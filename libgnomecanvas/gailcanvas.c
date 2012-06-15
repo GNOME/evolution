@@ -24,7 +24,6 @@
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-text.h>
-#include <libgnomecanvas/gnome-canvas-rich-text.h>
 #include <libgnomecanvas/gnome-canvas-widget.h>
 #include "gailcanvas.h"
 #include "gailcanvasitem.h"
@@ -133,9 +132,6 @@ gail_canvas_init (void)
 				 gail_canvas_group_factory_get_type ());
   atk_registry_set_factory_type (atk_get_default_registry (),
 				 GNOME_TYPE_CANVAS_TEXT,
-				 gail_canvas_text_factory_get_type ());
-  atk_registry_set_factory_type (atk_get_default_registry (),
-				 GNOME_TYPE_CANVAS_RICH_TEXT,
 				 gail_canvas_text_factory_get_type ());
   atk_registry_set_factory_type (atk_get_default_registry (),
 				 GNOME_TYPE_CANVAS_WIDGET,

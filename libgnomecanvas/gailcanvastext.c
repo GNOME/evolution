@@ -127,12 +127,7 @@ gail_canvas_text_new (GObject *obj)
   atk_object_initialize (atk_object, obj);
   gail_text->textutil = gail_text_util_new ();
 
-  if (GNOME_IS_CANVAS_RICH_TEXT (obj))
-    {
-      gail_text_util_buffer_setup (gail_text->textutil,
-				     gnome_canvas_rich_text_get_buffer (GNOME_CANVAS_RICH_TEXT (obj)));
-    }
-  else if (GNOME_IS_CANVAS_TEXT (obj))
+  if (GNOME_IS_CANVAS_TEXT (obj))
     {
       gail_text_util_text_setup (gail_text->textutil,
 				   GNOME_CANVAS_TEXT (obj)->text);
