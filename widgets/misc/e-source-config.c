@@ -36,6 +36,7 @@ typedef struct _Candidate Candidate;
 
 struct _ESourceConfigPrivate {
 	ESource *original_source;
+	ESource *collection_source;
 	ESourceRegistry *registry;
 
 	GHashTable *backends;
@@ -58,6 +59,7 @@ struct _Candidate {
 
 enum {
 	PROP_0,
+	PROP_COLLECTION_SOURCE,
 	PROP_COMPLETE,
 	PROP_ORIGINAL_SOURCE,
 	PROP_REGISTRY
@@ -368,6 +370,13 @@ source_config_get_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_COLLECTION_SOURCE:
+			g_value_set_object (
+				value,
+				e_source_config_get_collection_source (
+				E_SOURCE_CONFIG (object)));
+			return;
+
 		case PROP_COMPLETE:
 			g_value_set_boolean (
 				value,
@@ -403,6 +412,11 @@ source_config_dispose (GObject *object)
 	if (priv->original_source != NULL) {
 		g_object_unref (priv->original_source);
 		priv->original_source = NULL;
+	}
+
+	if (priv->collection_source != NULL) {
+		g_object_unref (priv->collection_source);
+		priv->collection_source = NULL;
 	}
 
 	if (priv->registry != NULL) {
@@ -460,10 +474,24 @@ static void
 source_config_constructed (GObject *object)
 {
 	ESourceConfig *config;
+	ESourceRegistry *registry;
 	ESource *original_source;
+	ESource *collection_source = NULL;
 
 	config = E_SOURCE_CONFIG (object);
+	registry = e_source_config_get_registry (config);
 	original_source = e_source_config_get_original_source (config);
+
+	/* If we have an original source, see if it's part
+	 * of a collection and note the collection source. */
+	if (original_source != NULL) {
+		const gchar *extension_name;
+
+		extension_name = E_SOURCE_EXTENSION_COLLECTION;
+		collection_source = e_source_registry_find_extension (
+			registry, original_source, extension_name);
+		config->priv->collection_source = collection_source;
+	}
 
 	if (original_source != NULL)
 		e_source_config_insert_widget (
@@ -633,6 +661,18 @@ e_source_config_class_init (ESourceConfigClass *class)
 	class->check_complete = source_config_check_complete;
 	class->commit_changes = source_config_commit_changes;
 	class->resize_window = source_config_resize_window;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_COLLECTION_SOURCE,
+		g_param_spec_object (
+			"collection-source",
+			"Collection Source",
+			"The collection ESource to which "
+			"the ESource being edited belongs",
+			E_TYPE_SOURCE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -902,6 +942,14 @@ e_source_config_get_original_source (ESourceConfig *config)
 	g_return_val_if_fail (E_IS_SOURCE_CONFIG (config), NULL);
 
 	return config->priv->original_source;
+}
+
+ESource *
+e_source_config_get_collection_source (ESourceConfig *config)
+{
+	g_return_val_if_fail (E_IS_SOURCE_CONFIG (config), NULL);
+
+	return config->priv->collection_source;
 }
 
 ESourceRegistry *

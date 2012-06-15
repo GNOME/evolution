@@ -83,6 +83,8 @@ const gchar *	e_source_config_get_backend_extension_name
 gboolean	e_source_config_check_complete	(ESourceConfig *config);
 ESource *	e_source_config_get_original_source
 						(ESourceConfig *config);
+ESource *	e_source_config_get_collection_source
+						(ESourceConfig *config);
 ESourceRegistry *
 		e_source_config_get_registry	(ESourceConfig *config);
 void		e_source_config_resize_window	(ESourceConfig *config);
