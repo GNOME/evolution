@@ -228,6 +228,7 @@ handle_contact_photo_request (GSimpleAsyncResult *res,
 	camel_address_decode ((CamelAddress *) cia, (const gchar *) photo_name);
 	photopart = em_utils_contact_photo (
 			registry, cia, only_local_photo, cancellable);
+	g_object_unref (cia);
 	if (!photopart) {
 		gsize len;
 

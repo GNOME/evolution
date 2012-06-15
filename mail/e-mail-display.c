@@ -1680,7 +1680,6 @@ e_mail_display_reload (EMailDisplay *display)
 	GHashTable *table;
 	GHashTableIter table_iter;
 	gpointer key, val;
-	gchar separator;
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
@@ -1695,23 +1694,23 @@ e_mail_display_reload (EMailDisplay *display)
 		return;
 	}
 
-	base = g_strndup (uri, strstr (uri, "?") - uri);
+	base = g_strndup (uri, strstr (uri, "?") - uri + 1);
 	new_uri = g_string_new (base);
 	g_free (base);
 
 	table = soup_form_decode (strstr (uri, "?") + 1);
-	g_hash_table_insert (table, g_strdup ("mode"), g_strdup_printf ("%d", display->priv->mode));
-	g_hash_table_insert (table, g_strdup ("headers_collapsable"), g_strdup_printf ("%d", display->priv->headers_collapsable));
-	g_hash_table_insert (table, g_strdup ("headers_collapsed"), g_strdup_printf ("%d", display->priv->headers_collapsed));
+	g_hash_table_replace (table, g_strdup ("mode"), g_strdup_printf ("%d", display->priv->mode));
+	g_hash_table_replace (table, g_strdup ("headers_collapsable"), g_strdup_printf ("%d", display->priv->headers_collapsable));
+	g_hash_table_replace (table, g_strdup ("headers_collapsed"), g_strdup_printf ("%d", display->priv->headers_collapsed));
 
 	g_hash_table_iter_init (&table_iter, table);
-	separator = '?';
 	while (g_hash_table_iter_next (&table_iter, &key, &val)) {
-		g_string_append_printf (new_uri, "%c%s=%s", separator,
+		g_string_append_printf (new_uri, "%s=%s&",
 			(gchar *) key, (gchar *) val);
 
-	if (separator == '?')
-		separator = '&';
+		/* Free the value as Soup constructs the GHashTable without
+		 * value_destroy_func */
+		g_free (val);
 	}
 
 	e_web_view_load_uri (web_view, new_uri->str);

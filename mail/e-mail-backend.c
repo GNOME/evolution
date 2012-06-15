@@ -654,11 +654,15 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 		CamelFolder *folder = NULL;
 
 		if (mail_folder_cache_get_folder_from_uri (
-				folder_cache, folder_uri, &folder))
+				folder_cache, folder_uri, &folder)) {
 			if (folder != NULL &&
 				!mail_folder_cache_get_folder_info_flags (
-				folder_cache, folder, &flags))
+				folder_cache, folder, &flags)) {
+				g_free (folder_uri);
 				g_return_if_reached ();
+			}
+		}
+
 		if (folder != NULL)
 			g_object_unref (folder);
 	}
@@ -666,6 +670,9 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	target = em_event_target_new_folder (
 		event, store, folder_uri, new_messages,
 		msg_uid, msg_sender, msg_subject);
+
+	if (folder_uri)
+		g_free (folder_uri);
 
 	folder_type = (flags & CAMEL_FOLDER_TYPE_MASK);
 	target->is_inbox = (folder_type == CAMEL_FOLDER_TYPE_INBOX);

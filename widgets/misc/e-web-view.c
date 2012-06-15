@@ -937,6 +937,8 @@ web_view_button_press_event (GtkWidget *widget,
 				break;
 			}
 		}
+
+		g_object_unref (test);
 	}
 
 	if (event != NULL && event->button != 3)
@@ -1062,6 +1064,7 @@ web_view_extract_uri (EWebView *web_view,
 		WEBKIT_WEB_VIEW (web_view), event);
 
 	g_object_get (result, "context", &context, "link-uri", &uri, NULL);
+	g_object_unref (result);
 
 	if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK)
 		return uri;
