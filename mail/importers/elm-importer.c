@@ -36,8 +36,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <gconf/gconf-client.h>
-
 #include "mail-importer.h"
 
 #include "libemail-utils/mail-mt.h"
@@ -221,18 +219,6 @@ elm_import_exec (struct _elm_import_msg *m,
 static void
 elm_import_done (struct _elm_import_msg *m)
 {
-	printf("importing complete\n");
-
-	if (m->base.error == NULL) {
-		GConfClient *gconf;
-		const gchar *key;
-
-		gconf = gconf_client_get_default ();
-		key = "/apps/evolution/importer/elm/mail";
-		gconf_client_set_bool (gconf, key, TRUE, NULL);
-		g_object_unref (gconf);
-	}
-
 	e_import_complete (m->import, (EImportTarget *) m->target);
 }
 
@@ -337,21 +323,14 @@ elm_getwidget (EImport *ei,
                EImportImporter *im)
 {
 	GtkWidget *box, *w;
-	GConfClient *gconf;
-	gboolean done_mail;
-
-	gconf = gconf_client_get_default ();
-	done_mail = gconf_client_get_bool (
-		gconf, "/apps/evolution/importer/elm/mail", NULL);
-	g_object_unref (gconf);
 
 	g_datalist_set_data (
-		&target->data, "elm-do-mail", GINT_TO_POINTER(!done_mail));
+		&target->data, "elm-do-mail", GINT_TO_POINTER(TRUE));
 
 	box = gtk_vbox_new (FALSE, 2);
 
 	w = gtk_check_button_new_with_label(_("Mail"));
-	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_mail);
+	gtk_toggle_button_set_active ((GtkToggleButton *) w, TRUE);
 	g_signal_connect (
 		w, "toggled",
 		G_CALLBACK (checkbox_toggle_cb), target);

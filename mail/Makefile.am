@@ -274,7 +274,6 @@ EXTRA_DIST = 				\
 	README.async			\
 	mail.error.xml			\
 	$(ui_DATA)			\
-	$(schema_in_files)		\
 	$(server_in_files)		\
 	$(etspec_DATA)			\
 	filtertypes.xml			\
@@ -295,38 +294,6 @@ evolution-mail.pure: evolution-mail
 
 endif
 
-
-# GConf
-
-schemadir   = $(GCONF_SCHEMA_FILE_DIR)
-schema_in_files = evolution-mail.schemas.in
-schema_DATA = $(schema_in_files:.schemas.in=.schemas)
-@INTLTOOL_SCHEMAS_RULE@
-
-if GCONF_SCHEMAS_INSTALL
-
-if OS_WIN32
-install-data-local:
-	if test -z "$(DESTDIR)" ; then							\
-		for p in $(schema_DATA) ; do						\
-			(echo set GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE);	\
-			 echo $(GCONFTOOL) --makefile-install-rule $$p) >_temp.bat;	\
-			cmd /c _temp.bat; 						\
-			rm _temp.bat;							\
-		done									\
-	fi
-else
-install-data-local:
-	if test -z "$(DESTDIR)" ; then							\
-		for p in $(schema_DATA) ; do						\
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) 		\
-				$(GCONFTOOL) --makefile-install-rule $$p;		\
-		done									\
-	fi
-endif
-
-endif
-
 # Prologue
 
 dist-hook:
@@ -335,7 +302,5 @@ dist-hook:
 BUILT_SOURCES = $(error_DATA)
 
 CLEANFILES = $(BUILT_SOURCES)
-
-DISTCLEANFILES = $(schema_DATA)
 
 -include $(top_srcdir)/git.mk

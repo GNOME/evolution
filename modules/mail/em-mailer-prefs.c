@@ -100,7 +100,6 @@ em_mailer_prefs_finalize (GObject *object)
 	EMMailerPrefs *prefs = (EMMailerPrefs *) object;
 
 	g_object_unref (prefs->builder);
-	g_object_unref (prefs->gconf);
 	g_object_unref (prefs->settings);
 
 	/* Chain up to parent's finalize() method. */
@@ -120,9 +119,6 @@ static void
 em_mailer_prefs_init (EMMailerPrefs *preferences)
 {
 	preferences->settings = g_settings_new ("org.gnome.evolution.mail");
-
-	/* XXX Still need this for a little while longer. */
-	preferences->gconf = gconf_client_get_default ();
 }
 
 enum {
@@ -376,12 +372,12 @@ emmp_header_add_sensitivity (EMMailerPrefs *prefs)
 static void
 emmp_save_headers (EMMailerPrefs *prefs)
 {
-	GSList *header_list;
+	GPtrArray *headers;
 	GtkTreeIter iter;
 	gboolean valid;
 
 	/* Headers */
-	header_list = NULL;
+	headers = g_ptr_array_new_full (3, g_free);
 	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (prefs->header_list_store), &iter);
 	while (valid) {
 		struct _EMailReaderHeader h;
@@ -397,16 +393,18 @@ emmp_save_headers (EMMailerPrefs *prefs)
 		h.enabled = enabled;
 
 		if ((xml = e_mail_reader_header_to_xml (&h)))
-			header_list = g_slist_append (header_list, xml);
+			g_ptr_array_add (headers, xml);
 
 		g_free (h.name);
 
 		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (prefs->header_list_store), &iter);
 	}
 
-	gconf_client_set_list (prefs->gconf, "/apps/evolution/mail/display/headers", GCONF_VALUE_STRING, header_list, NULL);
-	g_slist_foreach (header_list, (GFunc) g_free, NULL);
-	g_slist_free (header_list);
+	g_ptr_array_add (headers, NULL);
+
+	g_settings_set_strv (prefs->settings, "headers", (const gchar * const *) headers->pdata);
+
+	g_ptr_array_free (headers, TRUE);
 }
 
 static void
@@ -706,7 +704,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
                            EMailSession *session,
                            EShell *shell)
 {
-	GSList *header_config_list, *header_add_list, *p;
+	GSList *header_add_list, *p;
+	gchar **headers_config;
 	EShellSettings *shell_settings;
 	GHashTable *default_header_hash;
 	GtkWidget *toplevel;
@@ -928,7 +927,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_BINDING_SYNC_CREATE);
 
 	/* headers */
-	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/headers", NULL);
+	locked = !g_settings_is_writable (prefs->settings, "headers");
 
 	widget = e_builder_get_widget (prefs->builder, "photo_show");
 	g_object_bind_property (
@@ -999,7 +998,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 						     NULL);
 
 	/* populated the listview with entries; firstly we add all the default headers, and then
-	 * we add read header configuration out of gconf. If a header in gconf is a default header,
+	 * we add read header configuration out of settings. If a header in settings is a default header,
 	 * we update the enabled flag accordingly
 	*/
 	header_add_list = NULL;
@@ -1015,31 +1014,30 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		header_add_list = g_slist_append (header_add_list, h);
 	}
 
-	/* read stored headers from gconf */
-	header_config_list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/display/headers", GCONF_VALUE_STRING, NULL);
-	p = header_config_list;
-	while (p) {
-		EMailReaderHeader *h, *def;
-		gchar *xml = (gchar *) p->data;
+	/* read stored headers from settings */
+	headers_config = g_settings_get_strv (prefs->settings, "headers");
+	if (headers_config) {
+		for (i = 0; headers_config[i]; i++) {
+			EMailReaderHeader *h, *def;
+			const gchar *xml = headers_config[i];
 
-		h = e_mail_reader_header_from_xml (xml);
-		if (h) {
-			def = g_hash_table_lookup (default_header_hash, h->name);
-			if (def) {
-				def->enabled = h->enabled;
-				e_mail_reader_header_free (h);
-			} else {
-				h->is_default = FALSE;
-				header_add_list = g_slist_append (header_add_list, h);
+			h = e_mail_reader_header_from_xml (xml);
+			if (h) {
+				def = g_hash_table_lookup (default_header_hash, h->name);
+				if (def) {
+					def->enabled = h->enabled;
+					e_mail_reader_header_free (h);
+				} else {
+					h->is_default = FALSE;
+					header_add_list = g_slist_append (header_add_list, h);
+				}
 			}
 		}
 
-		p = p->next;
+		g_strfreev (headers_config);
 	}
 
 	g_hash_table_destroy (default_header_hash);
-	g_slist_foreach (header_config_list, (GFunc) g_free, NULL);
-	g_slist_free (header_config_list);
 
 	p = header_add_list;
 	while (p) {

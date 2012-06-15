@@ -1,0 +1,9 @@
+<schemalist>
+  <schema gettext-domain="evolution" id="org.gnome.evolution.plugin.publish-calendar" path="/org/gnome/evolution/plugin/publish-calendar/">
+    <key name="uris" type="as">
+      <default>[]</default>
+      <_summary>List of Destinations for publishing</_summary>
+      <_description>The key specifies the list of destinations to where publish calendars. Each values specifies an XML with setup for publishing to one destination.</_description>
+    </key>
+  </schema>
+</schemalist>

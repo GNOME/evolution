@@ -36,8 +36,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <gconf/gconf-client.h>
-
 #include <libebook/libebook.h>
 
 #include "mail-importer.h"
@@ -291,23 +289,6 @@ pine_import_exec (struct _pine_import_msg *m,
 static void
 pine_import_done (struct _pine_import_msg *m)
 {
-	printf("importing complete\n");
-
-	if (m->base.error == NULL) {
-		GConfClient *gconf;
-
-		gconf = gconf_client_get_default ();
-		if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-addr")))
-			gconf_client_set_bool (
-				gconf, "/apps/evolution/importer/pine/addr",
-				TRUE, NULL);
-		if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-mail")))
-			gconf_client_set_bool (
-				gconf, "/apps/evolution/importer/pine/mail",
-				TRUE, NULL);
-		g_object_unref (gconf);
-	}
-
 	e_import_complete (m->import, (EImportTarget *) m->target);
 }
 
@@ -429,34 +410,25 @@ pine_getwidget (EImport *ei,
                 EImportImporter *im)
 {
 	GtkWidget *box, *w;
-	GConfClient *gconf;
-	gboolean done_mail, done_addr;
-
-	gconf = gconf_client_get_default ();
-	done_mail = gconf_client_get_bool (
-		gconf, "/apps/evolution/importer/pine/mail", NULL);
-	done_addr = gconf_client_get_bool (
-		gconf, "/apps/evolution/importer/pine/address", NULL);
-	g_object_unref (gconf);
 
 	g_datalist_set_data (
 		&target->data, "pine-do-mail",
-		GINT_TO_POINTER (!done_mail));
+		GINT_TO_POINTER (TRUE));
 	g_datalist_set_data (
 		&target->data, "pine-do-addr",
-		GINT_TO_POINTER (!done_addr));
+		GINT_TO_POINTER (TRUE));
 
 	box = gtk_vbox_new (FALSE, 2);
 
 	w = gtk_check_button_new_with_label(_("Mail"));
-	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_mail);
+	gtk_toggle_button_set_active ((GtkToggleButton *) w, TRUE);
 	g_signal_connect (
 		w, "toggled",
 		G_CALLBACK (checkbox_mail_toggle_cb), target);
 	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 0);
 
 	w = gtk_check_button_new_with_label(_("Address Book"));
-	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_addr);
+	gtk_toggle_button_set_active ((GtkToggleButton *) w, TRUE);
 	g_signal_connect (
 		w, "toggled",
 		G_CALLBACK (checkbox_addr_toggle_cb), target);

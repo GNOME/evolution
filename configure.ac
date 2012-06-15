@@ -44,7 +44,6 @@ m4_define([gnome_icon_theme_minimum_version], [2.30.2.1])
 m4_define([gsettings_desktop_schemas_minimum_version], [2.91.92])
 m4_define([webkitgtk_minimum_version], [1.8.0])
 m4_define([javascriptcoregtk_minimum_version], [1.8.0])
-m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
 m4_define([libgdata_minimum_version], [0.10])
 m4_define([libsoup_minimum_version], [2.38.1])
 m4_define([libxml_minimum_version], [2.7.3])
@@ -252,7 +251,6 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	 cairo-gobject
 	 gtk+-3.0 >= gtk_minimum_version
 	 gail-3.0 >= gtk_minimum_version
-	 gconf-2.0 >= gconf_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
 	 gnome-desktop-3.0 >= gnome_desktop_minimum_version
@@ -271,15 +269,6 @@ PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
 	 libebackend-1.2 >= eds_minimum_version])
 AC_SUBST(EVOLUTION_DATA_SERVER_CFLAGS)
 AC_SUBST(EVOLUTION_DATA_SERVER_LIBS)
-
-dnl ******************************
-dnl DBus-glib stuff, to initialize thread for GConf, which is using it
-dnl this is returned back only temporarily and wil lbe removed as soon
-dnl as eds will stop using GConf completely
-dnl ******************************
-PKG_CHECK_MODULES(DBUS_GLIB, dbus-glib-1 >= 0.6)
-AC_SUBST(DBUS_GLIB_CFLAGS)
-AC_SUBST(DBUS_GLIB_LIBS)
 
 dnl ******************************
 dnl Canberra / Canberra-GTK Sound
@@ -1467,12 +1456,6 @@ AC_SUBST(plugins_enabled)
 AC_SUBST(dist_plugins_base)
 AC_SUBST(dist_plugins_standard)
 AC_SUBST(dist_plugins_experimental)
-
-dnl ***********
-dnl GConf stuff
-dnl ***********
-AC_PATH_PROG(GCONFTOOL, gconftool-2, no)
-AM_GCONF_SOURCE_2
 
 dnl ******************
 dnl Sub-version number

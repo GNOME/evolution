@@ -42,8 +42,6 @@
 
 #include <gtk/gtk.h>
 
-#include <gconf/gconf-client.h>
-
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
@@ -268,152 +266,6 @@ emm_setup_initial (const gchar *data_dir)
 	g_free (base);
 
 	return TRUE;
-}
-
-static gboolean
-is_in_plugs_list (GSList *list,
-                  const gchar *value)
-{
-	GSList *l;
-
-	for (l = list; l; l = l->next) {
-		if (l->data && !strcmp (l->data, value))
-			return TRUE;
-	}
-
-	return FALSE;
-}
-
-/*
- * em_update_message_notify_settings_2_21
- * DBus plugin and sound email notification was merged to
- * mail-notification plugin, so move the options to new locations.
- */
-static void
-em_update_message_notify_settings_2_21 (void)
-{
-	GConfClient *client;
-	GConfValue  *is_key;
-	gboolean dbus, status;
-	GSList *list;
-	gchar *str;
-	gint val;
-
-	client = gconf_client_get_default ();
-
-	is_key = gconf_client_get (
-		client,
-		"/apps/evolution/eplugin/mail-notification/dbus-enabled", NULL);
-	if (is_key) {
-		/* already migrated, so do not migrate again */
-		gconf_value_free (is_key);
-		g_object_unref (client);
-
-		return;
-	}
-
-	gconf_client_set_bool (
-		client,
-		"/apps/evolution/eplugin/mail-notification/status-blink-icon",
-		gconf_client_get_bool (
-			client,
-			"/apps/evolution/mail/notification/blink-status-icon",
-			NULL), NULL);
-	gconf_client_set_bool (
-		client,
-		"/apps/evolution/eplugin/mail-notification/status-notification",
-		gconf_client_get_bool (
-			client,
-			"/apps/evolution/mail/notification/notification",
-			NULL), NULL);
-
-	list = gconf_client_get_list (
-		client, "/apps/evolution/eplugin/disabled",
-		GCONF_VALUE_STRING, NULL);
-	dbus = !is_in_plugs_list (list, "org.gnome.evolution.new_mail_notify");
-	status = !is_in_plugs_list (
-		list, "org.gnome.evolution.mail_notification");
-
-	gconf_client_set_bool (
-		client,
-		"/apps/evolution/eplugin/mail-notification/dbus-enabled",
-		dbus, NULL);
-	gconf_client_set_bool (
-		client,
-		"/apps/evolution/eplugin/mail-notification/status-enabled",
-		status, NULL);
-
-	if (!status) {
-		GSList *plugins, *l;
-
-		plugins = e_plugin_list_plugins ();
-
-		for (l = plugins; l; l = l->next) {
-			EPlugin *p = l->data;
-
-			if (p && p->id && !strcmp (p->id,
-				"org.gnome.evolution.mail_notification")) {
-				e_plugin_enable (p, 1);
-				break;
-			}
-		}
-
-		g_slist_foreach (plugins, (GFunc) g_object_unref, NULL);
-		g_slist_free (plugins);
-	}
-
-	g_slist_foreach (list, (GFunc) g_free, NULL);
-	g_slist_free (list);
-
-	val = gconf_client_get_int (
-		client, "/apps/evolution/mail/notify/type", NULL);
-	gconf_client_set_bool (
-		client,
-		"/apps/evolution/eplugin/mail-notification/sound-enabled",
-		val == 1 || val == 2, NULL);
-	gconf_client_set_bool (
-		client,
-		"/apps/evolution/eplugin/mail-notification/sound-beep",
-		val == 0 || val == 1, NULL);
-
-	str = gconf_client_get_string (
-		client, "/apps/evolution/mail/notify/sound", NULL);
-	gconf_client_set_string (
-		client,
-		"/apps/evolution/eplugin/mail-notification/sound-file",
-		str ? str : "", NULL);
-	g_free (str);
-
-	g_object_unref (client);
-}
-
-/* fixing typo in SpamAssassin name */
-static void
-em_update_sa_junk_setting_2_23 (void)
-{
-	GConfClient *client;
-	GConfValue  *key;
-
-	client = gconf_client_get_default ();
-
-	key = gconf_client_get (
-		client, "/apps/evolution/mail/junk/default_plugin", NULL);
-	if (key) {
-		const gchar *str = gconf_value_get_string (key);
-
-		if (str && strcmp (str, "Spamassasin") == 0)
-			gconf_client_set_string (
-				client,
-				"/apps/evolution/mail/junk/default_plugin",
-				"SpamAssassin", NULL);
-
-		gconf_value_free (key);
-		g_object_unref (client);
-
-		return;
-	}
-
-	g_object_unref (client);
 }
 
 static gboolean
@@ -694,66 +546,6 @@ migrate_local_store (EShellBackend *shell_backend)
 }
 
 static void
-em_ensure_proxy_ignore_hosts_being_list (void)
-{
-	const gchar *key = "/apps/evolution/shell/network_config/ignore_hosts";
-	GConfClient *client;
-	GConfValue  *key_value;
-
-	/* Makes sure the 'key' is a list of strings, not a string,
-	 * as set by previous versions. */
-
-	client = gconf_client_get_default ();
-	key_value = gconf_client_get (client, key, NULL);
-	if (key_value && key_value->type == GCONF_VALUE_STRING) {
-		gchar *value = gconf_client_get_string (client, key, NULL);
-		GSList *lst = NULL;
-		GError *error = NULL;
-
-		if (value && *value) {
-			gchar **split = g_strsplit (value, ",", -1);
-
-			if (split) {
-				gint ii;
-
-				for (ii = 0; split[ii]; ii++) {
-					const gchar *tmp = split[ii];
-
-					if (tmp && *tmp) {
-						gchar *val = g_strstrip (g_strdup (tmp));
-
-						if (val && *val)
-							lst = g_slist_append (lst, val);
-						else
-							g_free (val);
-					}
-				}
-			}
-
-			g_strfreev (split);
-		}
-
-		gconf_client_unset (client, key, NULL);
-		gconf_client_set_list (client, key, GCONF_VALUE_STRING, lst, &error);
-
-		g_slist_foreach (lst, (GFunc) g_free, NULL);
-		g_slist_free (lst);
-		g_free (value);
-
-		if (error) {
-			fprintf (
-				stderr, "%s: Failed to set a list values "
-				"with error: %s\n", G_STRFUNC, error->message);
-			g_error_free (error);
-		}
-	}
-
-	if (key_value)
-		gconf_value_free (key_value);
-	g_object_unref (client);
-}
-
-static void
 em_rename_view_in_folder (gpointer data,
                           gpointer user_data)
 {
@@ -859,23 +651,6 @@ e_mail_migrate (EShellBackend *shell_backend,
 
 	if (major == 0)
 		return emm_setup_initial (data_dir);
-
-#ifndef G_OS_WIN32
-	if (major < 2 || (major == 2 && minor < 22))
-		em_update_message_notify_settings_2_21 ();
-
-	if (major < 2 || (major == 2 && minor < 24))
-		em_update_sa_junk_setting_2_23 ();
-#else
-	if (major < 2 || (major == 2 && minor < 24))
-		g_warning (
-			"Upgrading from ancient versions %d.%d "
-			"not supported on Windows", major, minor);
-#endif
-
-	if (major < 2 || (major == 2 && minor < 32)) {
-		em_ensure_proxy_ignore_hosts_being_list ();
-	}
 
 	if (!migrate_local_store (shell_backend))
 		return FALSE;

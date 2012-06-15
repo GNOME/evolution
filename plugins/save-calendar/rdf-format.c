@@ -26,7 +26,6 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <gconf/gconf-client.h>
 
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>

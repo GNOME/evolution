@@ -31,6 +31,7 @@ gsettings_SCHEMAS =							\
 	org.gnome.evolution.plugin.itip.gschema.xml			\
 	org.gnome.evolution.plugin.mail-notification.gschema.xml	\
 	org.gnome.evolution.plugin.prefer-plain.gschema.xml		\
+	org.gnome.evolution.plugin.publish-calendar.gschema.xml		\
 	org.gnome.evolution.plugin.templates.gschema.xml
 
 @INTLTOOL_XML_NOMERGE_RULE@

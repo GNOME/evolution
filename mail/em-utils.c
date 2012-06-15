@@ -975,7 +975,7 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 	gchar *tmpdir;
 	gchar *uri;
 	gint fd;
-	GConfClient *client;
+	GSettings *settings;
 	gchar *exporttype;
 	gint exportname;
 
@@ -983,20 +983,21 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 	if (tmpdir == NULL)
 		return;
 
-	client = gconf_client_get_default ();
-	exporttype = gconf_client_get_string (
-		client, "/apps/evolution/mail/save_file_format", NULL);
-	if (exporttype == NULL)
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	exporttype = g_settings_get_string (settings, "drag-and-drop-save-file-format");
+	if (g_strcmp0 (exporttype, "mbox") != 0 && g_strcmp0 (exporttype, "pdf") != 0) {
+		g_free (exporttype);
 		exporttype = g_strdup ("mbox");
-	exportname = gconf_client_get_int (
-		client, "/apps/evolution/mail/save_name_format", NULL);
+	}
+	exportname = g_settings_get_int (settings, "drag-and-drop-save-name-format");
+	g_object_unref (settings);
 
-	if (g_ascii_strcasecmp (exporttype, "mbox")==0) {
+	if (g_ascii_strcasecmp (exporttype, "mbox") == 0) {
 		gchar * file = NULL;
 		CamelStream *fstream;
 
 		if (uids->len > 1) {
-			gchar * tmp = g_strdup_printf(_("Messages from %s"), camel_folder_get_display_name (folder));
+			gchar * tmp = g_strdup_printf (_("Messages from %s"), camel_folder_get_display_name (folder));
 			e_filename_make_safe (tmp);
 			file = g_build_filename (tmpdir, tmp, NULL);
 			g_free (tmp);
@@ -1004,11 +1005,11 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 			file = em_utils_build_export_filename (folder, uids->pdata[0], exporttype, exportname, tmpdir);
 		}
 
-		g_free (tmpdir);
 		fd = g_open (file, O_WRONLY | O_CREAT | O_EXCL | O_BINARY, 0666);
 		if (fd == -1) {
 			g_free (file);
 			g_free (exporttype);
+			g_free (tmpdir);
 			return;
 		}
 
@@ -1029,9 +1030,10 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 			close (fd);
 
 		g_free (exporttype);
+		g_free (tmpdir);
 		g_free (file);
 		g_free (uri);
-	} else if(g_ascii_strcasecmp (exporttype, "pdf")==0) {
+	} else if (g_ascii_strcasecmp (exporttype, "pdf") == 0) {
 		gchar ** filenames, **uris;
 		gint i, uris_count = 0;
 
@@ -1066,7 +1068,6 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 		uris[uris_count] = NULL;
 		gtk_selection_data_set_uris (data, uris);
 
-		g_free (tmpdir);
 		for (i = 0; i < uids->len; i++) {
 			g_free (filenames[i]);
 		}
@@ -1076,10 +1077,10 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 		}
 		g_free (uris);
 		g_free (exporttype);
-
-	} else {
 		g_free (tmpdir);
+	} else {
 		g_free (exporttype);
+		g_free (tmpdir);
 	}
 }
 

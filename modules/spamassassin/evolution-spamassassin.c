@@ -1145,10 +1145,6 @@ e_spam_assassin_init (ESpamAssassin *extension)
 
 	extension->socket_path_mutex = g_mutex_new ();
 
-	/* XXX Once we move to GSettings these probably don't
-	 *     need to be properties anymore.  GConfBridge is
-	 *     just easier to deal with than GConfClient. */
-
 	settings = g_settings_new ("org.gnome.evolution.spamassassin");
 
 	g_settings_bind (

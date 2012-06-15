@@ -2361,7 +2361,7 @@
 
 	    <para>The preferences target is used for global preferences.  As
 	      such it just contains a pointer to the global configuration store
-	      - a GConfClient.</para>
+	      - a GSettings.</para>
 	    
 	    <informaltable>
 	      <tgroup cols="2">

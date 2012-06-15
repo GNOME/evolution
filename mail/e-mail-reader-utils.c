@@ -30,7 +30,6 @@
 #include <glib/gi18n.h>
 #include <libxml/tree.h>
 #include <gtkhtml/gtkhtml.h>
-#include <gconf/gconf-client.h>
 #include <camel/camel.h>
 
 #include "libevolution-utils/e-alert-dialog.h"

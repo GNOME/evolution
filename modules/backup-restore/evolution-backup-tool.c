@@ -53,8 +53,14 @@
 #define EVOLUTION "evolution"
 #define EVOLUTION_DIR "$DATADIR/"
 #define EVOLUTION_DIR_FILE EVOLUTION ".dir"
-#define GCONF_DUMP_FILE "backup-restore-gconf.xml"
-#define GCONF_DIR "/apps/evolution"
+
+#define ANCIENT_GCONF_DUMP_FILE "backup-restore-gconf.xml"
+
+#define DCONF_DUMP_FILE_EDS "backup-restore-dconf-eds.ini"
+#define DCONF_DUMP_FILE_EVO "backup-restore-dconf-evo.ini"
+
+#define DCONF_PATH_EDS "/org/gnome/evolution-data-server/"
+#define DCONF_PATH_EVO "/org/gnome/evolution/"
 
 static gboolean backup_op = FALSE;
 static gchar *bk_file = NULL;
@@ -313,10 +319,15 @@ backup (const gchar *filename,
 		return;
 
 	txt = _("Backing Evolution accounts and settings");
-	run_cmd ("gconftool-2 --dump " GCONF_DIR " > " EVOLUTION_DIR GCONF_DUMP_FILE);
+	run_cmd ("dconf dump " DCONF_PATH_EDS " >" EVOLUTION_DIR DCONF_DUMP_FILE_EDS);
+	run_cmd ("dconf dump " DCONF_PATH_EVO " >" EVOLUTION_DIR DCONF_DUMP_FILE_EVO);
 
 	replace_in_file (
-		EVOLUTION_DIR GCONF_DUMP_FILE,
+		EVOLUTION_DIR DCONF_DUMP_FILE_EDS,
+		e_get_user_data_dir (), EVOUSERDATADIR_MAGIC);
+
+	replace_in_file (
+		EVOLUTION_DIR DCONF_DUMP_FILE_EVO,
 		e_get_user_data_dir (), EVOUSERDATADIR_MAGIC);
 
 	write_dir_file ();
@@ -514,17 +525,35 @@ restore (const gchar *filename,
 
 	if (is_new_format) {
 		/* new format has it in DATADIR... */
-		replace_in_file (
-			EVOLUTION_DIR GCONF_DUMP_FILE,
-			EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
-		run_cmd ("gconftool-2 --load " EVOLUTION_DIR GCONF_DUMP_FILE);
-		run_cmd ("rm " EVOLUTION_DIR GCONF_DUMP_FILE);
+		GString *file = replace_variables (EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE);
+		if (file && g_file_test (file->str, G_FILE_TEST_EXISTS)) {
+			/* ancient backup */
+			replace_in_file (
+				EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE,
+				EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
+			run_cmd ("gconftool-2 --load " EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE);
+			run_cmd ("rm " EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE);
+		} else {
+			replace_in_file (
+				EVOLUTION_DIR DCONF_DUMP_FILE_EDS,
+				EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
+			run_cmd ("cat " EVOLUTION_DIR DCONF_DUMP_FILE_EDS " | dconf load " DCONF_PATH_EDS);
+			run_cmd ("rm " EVOLUTION_DIR DCONF_DUMP_FILE_EDS);
+
+			replace_in_file (
+				EVOLUTION_DIR DCONF_DUMP_FILE_EVO,
+				EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
+			run_cmd ("cat " EVOLUTION_DIR DCONF_DUMP_FILE_EVO " | dconf load " DCONF_PATH_EVO);
+			run_cmd ("rm " EVOLUTION_DIR DCONF_DUMP_FILE_EVO);
+		}
+
+		g_string_free (file, TRUE);
 	} else {
 		gchar *gconf_dump_file;
 
 		/* ... old format in ~/.evolution */
 		gconf_dump_file = g_build_filename (
-			"$HOME", ".evolution", GCONF_DUMP_FILE, NULL);
+			"$HOME", ".evolution", ANCIENT_GCONF_DUMP_FILE, NULL);
 
 		replace_in_file (
 			gconf_dump_file,
@@ -635,9 +664,19 @@ check (const gchar *filename,
 
 	command = g_strdup_printf (
 		"tar ztf %s | grep -e \"^\\.evolution/%s$\"",
-		quotedfname, GCONF_DUMP_FILE);
+		quotedfname, ANCIENT_GCONF_DUMP_FILE);
 	result = system (command);
 	g_free (command);
+
+	if (result != 0) {
+		/* maybe it's an ancient backup */
+		command = g_strdup_printf (
+			"tar ztf %s | grep -e \"^\\.evolution/%s$\"",
+			quotedfname, ANCIENT_GCONF_DUMP_FILE);
+		result = system (command);
+		g_free (command);
+	}
+
 	g_free (quotedfname);
 
 	g_message ("Third result %d", result);

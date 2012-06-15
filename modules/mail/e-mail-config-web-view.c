@@ -79,7 +79,7 @@ mail_config_web_view_load_style (EMailConfigWebView *extension)
 
 	/* Some of our mail and composer preferences are passed down to
 	 * GtkHtml through style properties, unfortunately.  This builds
-	 * a style sheet for the EWebView using values from GConf. */
+	 * a style sheet for the EWebView using values from GSettings. */
 
 	custom_fonts = e_shell_settings_get_boolean (
 		extension->shell_settings, "mail-use-custom-fonts");

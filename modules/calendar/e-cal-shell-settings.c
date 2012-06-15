@@ -104,10 +104,10 @@ transform_icaltimezone_to_string (GBinding *binding,
 }
 
 static gboolean
-transform_weekdays_gconf_to_evolution (GBinding *binding,
-                                       const GValue *source_value,
-                                       GValue *target_value,
-                                       gpointer user_data)
+transform_weekdays_settings_to_evolution (GBinding *binding,
+					  const GValue *source_value,
+					  GValue *target_value,
+					  gpointer user_data)
 {
 	GDateWeekday weekday;
 
@@ -119,7 +119,7 @@ transform_weekdays_gconf_to_evolution (GBinding *binding,
 
 	/* This is purposefully verbose for better readability. */
 
-	/* GConf numbering */
+	/* setting numbering */
 	switch (g_value_get_int (source_value)) {
 		case 0:
 			weekday = G_DATE_SUNDAY;
@@ -177,10 +177,10 @@ transform_weekdays_gconf_to_evolution (GBinding *binding,
 }
 
 static gboolean
-transform_weekdays_evolution_to_gconf (GBinding *binding,
-                                       const GValue *source_value,
-                                       GValue *target_value,
-                                       gpointer user_data)
+transform_weekdays_evolution_to_settings (GBinding *binding,
+					  const GValue *source_value,
+					  GValue *target_value,
+					  gpointer user_data)
 {
 	GDateWeekday weekday;
 
@@ -192,7 +192,7 @@ transform_weekdays_evolution_to_gconf (GBinding *binding,
 
 	/* This is purposefully verbose for better readability. */
 
-	/* GConf numbering */
+	/* setting numbering */
 	switch (g_value_get_int (source_value)) {
 		case 0:
 			weekday = G_DATE_MONDAY;
@@ -692,7 +692,7 @@ e_cal_shell_backend_init_settings (EShell *shell)
 
 	/* Do not bind to this.  Use "cal-week-start-day" instead. */
 	e_shell_settings_install_property_for_key (
-		"cal-week-start-day-gconf",
+		"cal-week-start-day-setting",
 		CALENDAR_SCHEMA,
 		"week-start-day");
 
@@ -727,11 +727,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		"prefer-new-item");
 
 	/* These properties use transform functions to convert
-	 * GConf values to forms more useful to Evolution.  We
-	 * have to use separate properties because GConfBridge
-	 * does not support transform functions.  Much of this
-	 * is backward-compatibility cruft for poorly designed
-	 * GConf schemas. */
+	 * GSettings values to forms more useful to Evolution.
+	 */
 
 	e_shell_settings_install_property (
 		g_param_spec_enum (
@@ -815,15 +812,15 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			G_PARAM_READWRITE));
 
 	g_object_bind_property_full (
-		shell_settings, "cal-week-start-day-gconf",
+		shell_settings, "cal-week-start-day-setting",
 		shell_settings, "cal-week-start-day",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE,
-		transform_weekdays_gconf_to_evolution,
-		transform_weekdays_evolution_to_gconf,
+		transform_weekdays_settings_to_evolution,
+		transform_weekdays_evolution_to_settings,
 		NULL, (GDestroyNotify) NULL);
 
-	/* XXX These are my favorite.  Storing a bit array in GConf
+	/* XXX These are my favorite.  Storing a bit array in GSettings
 	 *     instead of separate boolean keys.  Brilliant move. */
 
 	e_shell_settings_install_property (

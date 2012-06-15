@@ -133,6 +133,8 @@ composer-spell-color = /apps/evolution/mail/composer/spell_color
 composer-spell-languages = /apps/evolution/mail/composer/spell_languages
 composer-top-signature = /apps/evolution/mail/composer/top_signature
 default-account = /apps/evolution/mail/default_account
+drag-and-drop-save-file-format = /apps/evolution/mail/save_file_format
+drag-and-drop-save-name-format = /apps/evolution/mail/save_name_format
 error-level = /apps/evolution/mail/display/error_level
 error-timeout = /apps/evolution/mail/display/error_timeout
 filters-log-actions = /apps/evolution/mail/filters/log
@@ -277,6 +279,9 @@ notify-status-notification = /apps/evolution/eplugin/mail-notification/status-no
 [org.gnome.evolution.plugin.prefer-plain]
 mode = /apps/evolution/eplugin/prefer_plain/mode
 show-suppressed = /apps/evolution/eplugin/prefer_plain/show_suppressed
+
+[org.gnome.evolution.plugin.publish-calendar]
+uris = /apps/evolution/calendar/publish/uris
 
 [org.gnome.evolution.plugin.templates]
 template-placeholders = /apps/evolution/mail/template_placeholders

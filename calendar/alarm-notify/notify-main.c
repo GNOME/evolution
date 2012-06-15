@@ -30,8 +30,6 @@
 #include <stdlib.h>
 #include <glib/gi18n.h>
 
-#include <dbus/dbus-glib.h>
-
 #include "alarm-notify.h"
 
 #ifdef G_OS_WIN32
@@ -83,9 +81,6 @@ main (gint argc,
 	textdomain (GETTEXT_PACKAGE);
 
 	gtk_init (&argc, &argv);
-
-	/* this is to initialize threading for dbus-glib used by GConf */
-	dbus_g_thread_init ();
 
 	e_gdbus_templates_init_main_thread ();
 

@@ -744,7 +744,7 @@ shell_migrate_get_version (EShell *shell,
 	string = g_settings_get_string (settings, "version");
 
 	if (string != NULL) {
-		/* Since 1.4.0 we've kept the version key in GConf. */
+		/* Since 1.4.0 we've kept the version key in GSettings. */
 		sscanf (string, "%d.%d.%d", major, minor, micro);
 		g_free (string);
 	}

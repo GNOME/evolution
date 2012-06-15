@@ -208,7 +208,7 @@ spell_language_save (EMComposerPrefs *prefs)
 	}
 	spell_languages = g_list_reverse (spell_languages);
 
-	/* Update the GConf value. */
+	/* Update the GSettings value. */
 	e_save_spell_languages (spell_languages);
 
 	g_list_free (spell_languages);

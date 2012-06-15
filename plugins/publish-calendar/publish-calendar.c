@@ -26,7 +26,6 @@
 
 #include <string.h>
 #include <gtk/gtk.h>
-#include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
 #include <gio/gio.h>
 
@@ -470,12 +469,12 @@ publish (EPublishUri *uri,
 }
 
 typedef struct {
-	GConfClient *gconf;
-	GtkWidget   *treeview;
-	GtkWidget   *url_add;
-	GtkWidget   *url_edit;
-	GtkWidget   *url_remove;
-	GtkWidget   *url_enable;
+	GSettings *settings;
+	GtkWidget *treeview;
+	GtkWidget *url_add;
+	GtkWidget *url_edit;
+	GtkWidget *url_remove;
+	GtkWidget *url_enable;
 } PublishUIData;
 
 static void
@@ -499,9 +498,12 @@ add_timeout (EPublishUri *uri)
 static void
 update_timestamp (EPublishUri *uri)
 {
-	GConfClient *client;
-	GSList *uris, *l;
+	GSettings *settings;
+	gchar **set_uris;
+	GPtrArray *uris_array;
+	gboolean found = FALSE;
 	gchar *xml;
+	gint ii;
 	guint id;
 
 	/* Remove timeout if we have one */
@@ -511,32 +513,40 @@ update_timestamp (EPublishUri *uri)
 		add_timeout (uri);
 	}
 
-	/* Update timestamp in gconf */
+	/* Update timestamp in settings */
 	xml = e_publish_uri_to_xml (uri);
-
-	client = gconf_client_get_default ();
-	uris = gconf_client_get_list (client, "/apps/evolution/calendar/publish/uris", GCONF_VALUE_STRING, NULL);
-	for (l = uris; l; l = g_slist_next (l)) {
-		gchar *d = l->data;
-		if (strcmp (d, xml) == 0) {
-			uris = g_slist_remove (uris, d);
-			g_free (d);
-			break;
-		}
-	}
-	g_free (xml);
 
 	if (uri->last_pub_time)
 		g_free (uri->last_pub_time);
 	uri->last_pub_time = g_strdup_printf ("%d", (gint) time (NULL));
 
-	uris = g_slist_prepend (uris, e_publish_uri_to_xml (uri));
+	uris_array = g_ptr_array_new_full (3, g_free);
+	settings = g_settings_new (PC_SETTINGS_ID);
+	set_uris = g_settings_get_strv (settings, PC_SETTINGS_URIS);
 
-	gconf_client_set_list (client, "/apps/evolution/calendar/publish/uris", GCONF_VALUE_STRING, uris, NULL);
+	for (ii = 0; set_uris && set_uris[ii]; ii++) {
+		const gchar *d = set_uris[ii];
 
-	g_slist_foreach (uris, (GFunc) g_free, NULL);
-	g_slist_free (uris);
-	g_object_unref (client);
+		if (!found && g_str_equal (d, xml)) {
+			found = TRUE;
+			g_ptr_array_add (uris_array, e_publish_uri_to_xml (uri));
+		} else {
+			g_ptr_array_add (uris_array, g_strdup (d));
+		}
+	}
+
+	g_strfreev (set_uris);
+	g_free (xml);
+
+	/* this should not happen, right? */
+	if (!found)
+		g_ptr_array_add (uris_array, e_publish_uri_to_xml (uri));
+	g_ptr_array_add (uris_array, NULL);
+
+	g_settings_set_strv (settings, PC_SETTINGS_URIS, (const gchar * const *) uris_array->pdata);
+
+	g_object_unref (settings);
+	g_ptr_array_free (uris_array, TRUE);
 }
 
 static void
@@ -575,12 +585,12 @@ static void
 url_list_changed (PublishUIData *ui)
 {
 	GtkTreeModel *model = NULL;
-	GSList *url_list = NULL;
+	GPtrArray *uris;
 	GtkTreeIter iter;
 	gboolean valid;
-	GConfClient *client;
+	GSettings *settings;
 
-	url_list = NULL;
+	uris = g_ptr_array_new_full (3, g_free);
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
 	valid = gtk_tree_model_get_iter_first (model, &iter);
@@ -590,15 +600,19 @@ url_list_changed (PublishUIData *ui)
 
 		gtk_tree_model_get (model, &iter, URL_LIST_URL_COLUMN, &url, -1);
 
-		if ((xml = e_publish_uri_to_xml (url)))
-			url_list = g_slist_append (url_list, xml);
+		if ((xml = e_publish_uri_to_xml (url)) != NULL)
+			g_ptr_array_add (uris, xml);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
-	client = gconf_client_get_default ();
-	gconf_client_set_list (client, "/apps/evolution/calendar/publish/uris", GCONF_VALUE_STRING, url_list, NULL);
-	g_slist_foreach (url_list, (GFunc) g_free, NULL);
-	g_slist_free (url_list);
+
+	g_ptr_array_add (uris, NULL);
+
+	settings = g_settings_new (PC_SETTINGS_ID);
+	g_settings_set_strv (settings, PC_SETTINGS_URIS, (const gchar * const *) uris->pdata);
+	g_object_unref (settings);
+
+	g_ptr_array_free (uris, TRUE);
 }
 
 static void
@@ -926,21 +940,18 @@ publish_urls (gpointer data)
 }
 
 static gpointer
-publish_uris_set_timeout (GSList *uris)
+publish_uris_set_timeout (gchar **uris)
 {
-	GSList *l;
+	gint ii;
 
 	uri_timeouts = g_hash_table_new (g_direct_hash, g_direct_equal);
-	l = uris;
 
-	while (l) {
-		gchar *xml = l->data;
-
+	for (ii = 0; uris && uris[ii]; ii++) {
+		const gchar *xml = uris[ii];
 		EPublishUri *uri = e_publish_uri_from_xml (xml);
 
 		if (!uri->location) {
 			g_free (uri);
-			l = g_slist_next (l);
 			continue;
 		}
 
@@ -948,11 +959,9 @@ publish_uris_set_timeout (GSList *uris)
 
 		/* Add a timeout based on the last publish time */
 		add_offset_timeout (uri);
-
-		l = g_slist_next (l);
 	}
-	g_slist_foreach (uris, (GFunc) g_free, NULL);
-	g_slist_free (uris);
+
+	g_strfreev (uris);
 
 	return NULL;
 }
@@ -961,8 +970,6 @@ gint
 e_plugin_lib_enable (EPlugin *ep,
                      gint enable)
 {
-	GSList *uris;
-	GConfClient *client;
 	EShell *shell = e_shell_get_default ();
 
 	if (shell) {
@@ -976,17 +983,20 @@ e_plugin_lib_enable (EPlugin *ep,
 	}
 
 	if (enable) {
+		GSettings *settings;
+		gchar **uris;
 		GThread *thread = NULL;
 		GError *error = NULL;
 
-		client = gconf_client_get_default ();
-		uris = gconf_client_get_list (client, "/apps/evolution/calendar/publish/uris", GCONF_VALUE_STRING, NULL);
+		settings = g_settings_new (PC_SETTINGS_ID);
+		uris = g_settings_get_strv (settings, PC_SETTINGS_URIS);
+		g_object_unref (settings);
+
 		thread = g_thread_create ((GThreadFunc) publish_uris_set_timeout, uris, FALSE, &error);
 		if (!thread) {
 			g_warning ("Could create thread to set timeout for publishing uris : %s", error->message);
 			g_error_free (error);
 		}
-		g_object_unref (client);
 	}
 
 	return 0;

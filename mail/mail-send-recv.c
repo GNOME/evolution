@@ -58,9 +58,6 @@
 /* pseudo-uri to key the send task on */
 #define SEND_URI_KEY "send-task:"
 
-/* Prefix for window size GConf keys */
-#define GCONF_KEY_PREFIX "/apps/evolution/mail/send_recv"
-
 /* send/receive email */
 
 /* ********************************************************************** */

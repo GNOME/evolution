@@ -2359,7 +2359,7 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 
 	/* Check for a NULL shell view before proceeding.  This can
-	 * happen if the initial view name from GConf is unrecognized.
+	 * happen if the initial view name from GSettings is unrecognized.
 	 * Without this we would crash at E_SHELL_VIEW_GET_CLASS(). */
 	g_return_if_fail (shell_view != NULL);
 

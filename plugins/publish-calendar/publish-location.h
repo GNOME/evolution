@@ -26,6 +26,9 @@
 
 #include <glib.h>
 
+#define PC_SETTINGS_ID "org.gnome.evolution.plugin.publish-calendar"
+#define PC_SETTINGS_URIS "uris"
+
 G_BEGIN_DECLS
 
 enum publish_frequency {

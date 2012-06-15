@@ -1030,9 +1030,9 @@ e_shell_window_init (EShellWindow *shell_window)
  * #EShellWindow into "safe mode" if detects the previous Evolution
  * session crashed.
  *
- * The initial view for the window is determined by GConf key
- * <filename>/apps/evolution/shell/view_defaults/component_id</filename>.
- * Or, if the GConf key is not set or can't be read, the first view
+ * The initial view for the window is determined by GSettings key
+ * <filename>/org/gnome/evolution/shell/default-component-id</filename>.
+ * Or, if the GSettings key is not set or can't be read, the first view
  * in the switcher is used.
  *
  * Returns: a new #EShellWindow
@@ -1326,8 +1326,8 @@ e_shell_window_get_active_view (EShellWindow *shell_window)
  * the entire content of @shell_window to change.  This is typically
  * called as a result of the user clicking one of the switcher buttons.
  *
- * The name of the newly activated shell view is also written to GConf key
- * <filename>/apps/evolution/shell/view_defaults/component_id</filename>.
+ * The name of the newly activated shell view is also written to GSettings key
+ * <filename>/org/gnome/evolution/shell/default-component-id</filename>.
  * This makes the active shell view persistent across Evolution sessions.
  * It also causes new shell windows created within the current Evolution
  * session to open to the most recently selected shell view.

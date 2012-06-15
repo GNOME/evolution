@@ -1239,7 +1239,7 @@ e_shell_init (EShell *shell)
 		G_CALLBACK (shell_notify_online_cb), NULL);
 
 	/* XXX Do this after creating the EShellSettings instance,
-	 *     otherwise the GConf bindings will not get set up. */
+	 *     otherwise the GSettings bindings will not get set up. */
 
 	e_shell_settings_install_property_for_key (
 		"start-offline",
@@ -1474,7 +1474,7 @@ e_shell_create_shell_window (EShell *shell,
 
 	view_name = e_shell_get_canonical_name (shell, view_name);
 
-	/* EShellWindow initializes its active view from a GConf key,
+	/* EShellWindow initializes its active view from a GSetting key,
 	 * so set the key ahead of time to control the intial view. */
 	if (view_name != NULL) {
 		GSettings *settings;

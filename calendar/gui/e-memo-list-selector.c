@@ -19,7 +19,6 @@
  */
 
 #include <config.h>
-#include <gconf/gconf-client.h>
 
 #include "e-memo-list-selector.h"
 

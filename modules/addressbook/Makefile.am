@@ -82,46 +82,11 @@ module_addressbook_la_LIBADD = \
 module_addressbook_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 
-# GConf schemas
-
-schemadir   = $(GCONF_SCHEMA_FILE_DIR)
-schema_in_files = apps_evolution_addressbook.schemas.in
-schema_DATA = $(schema_in_files:.schemas.in=.schemas)
-
-@INTLTOOL_SCHEMAS_RULE@
-
-if GCONF_SCHEMAS_INSTALL
-
-if OS_WIN32
-install-data-local:
-	if test -z "$(DESTDIR)" ; then							\
-		for p in $(schema_DATA) ; do						\
-			(echo set GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE);	\
-			 echo $(GCONFTOOL) --makefile-install-rule $$p) >_temp.bat;	\
-			cmd /c _temp.bat; 						\
-			rm _temp.bat;							\
-		done									\
-	fi
-else
-install-data-local:
-	if test -z "$(DESTDIR)" ; then							\
-		for p in $(schema_DATA) ; do						\
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) 		\
-				$(GCONFTOOL) --makefile-install-rule $$p;		\
-		done									\
-	fi
-endif
-
-endif
-
 ui_DATA =			\
 	ldap-config.ui
 
-DISTCLEANFILES = $(schema_DATA)
-
 EXTRA_DIST =			\
 	$(ui_DATA)		\
-	$(schema_in_files)	\
 	openldap-extract.h
 
 dist-hook:

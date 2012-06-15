@@ -45,8 +45,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_BROWSER, EMailBrowserPrivate))
 
-#define MAIL_BROWSER_GCONF_PREFIX "/apps/evolution/mail/mail_browser"
-
 #define ACTION_GROUP_STANDARD		"action-group-standard"
 #define ACTION_GROUP_SEARCH_FOLDERS	"action-group-search-folders"
 

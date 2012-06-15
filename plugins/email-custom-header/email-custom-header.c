@@ -26,7 +26,6 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <gconf/gconf-client.h>
 #include "mail/em-utils.h"
 #include "mail/em-event.h"
 #include "composer/e-msg-composer.h"
@@ -35,18 +34,19 @@
 #include "email-custom-header.h"
 
 #define d(x)
-#define GCONF_KEY_CUSTOM_HEADER "/apps/evolution/eplugin/email_custom_header/customHeader"
+
+#define ECM_SETTINGS_ID  "org.gnome.evolution.plugin.email-custom-header"
+#define ECM_SETTINGS_KEY "custom-header"
 
 #define CUSTOM_HEADER_OPTIONS_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG, CustomHeaderOptionsDialogPrivate))
 
 typedef struct {
-        GConfClient *gconf;
-        GtkWidget   *treeview;
-        GtkWidget   *header_add;
-        GtkWidget   *header_edit;
-        GtkWidget   *header_remove;
+        GtkWidget *treeview;
+        GtkWidget *header_add;
+        GtkWidget *header_edit;
+        GtkWidget *header_remove;
         GtkListStore *store;
 } ConfigData;
 
@@ -197,11 +197,15 @@ epech_dialog_run (CustomHeaderOptionsDialog *mch,
                   GtkWidget *parent)
 {
 	CustomHeaderOptionsDialogPrivate *priv;
+	GSettings *settings;
 	GtkWidget *toplevel;
 
 	g_return_val_if_fail (mch != NULL || EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG (mch), FALSE);
 	priv = mch->priv;
-	epech_get_header_list (mch);
+
+	settings = g_settings_new (ECM_SETTINGS_ID);
+	epech_load_from_settings (settings, ECM_SETTINGS_KEY, mch);
+	g_object_unref (settings);
 
 	priv->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (
@@ -228,41 +232,26 @@ epech_dialog_run (CustomHeaderOptionsDialog *mch,
 }
 
 static void
-epech_get_header_list (CustomHeaderOptionsDialog *mch)
-{
-	GConfClient *client;
-
-	client = gconf_client_get_default ();
-	g_return_if_fail (GCONF_IS_CLIENT (client));
-	gconf_client_add_dir (client, GCONF_KEY_CUSTOM_HEADER, GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	epech_load_from_gconf (client, "/apps/evolution/eplugin/email_custom_header/customHeader", mch);
-
-	return;
-}
-
-static void
-epech_load_from_gconf (GConfClient *client,
-                       const gchar *path,
-                       CustomHeaderOptionsDialog *mch)
+epech_load_from_settings (GSettings *settings,
+			  const gchar *key,
+			  CustomHeaderOptionsDialog *mch)
 {
 	CustomHeaderOptionsDialogPrivate *priv;
 	EmailCustomHeaderDetails temp_header_details= {-1, -1, NULL, NULL};
 	CustomSubHeader temp_header_value_details =  {NULL};
-	GSList *header_list,*q;
-	gchar *buffer;
+	gchar **headers;
 	gint index,pos;
 
 	priv = mch->priv;
 	priv->email_custom_header_details = g_array_new (TRUE, TRUE, sizeof (EmailCustomHeaderDetails));
-	header_list = gconf_client_get_list (client,path,GCONF_VALUE_STRING, NULL);
+	headers = g_settings_get_strv (settings, key);
 
-	for (q = header_list,pos = 0; q != NULL; q = q->next,pos++) {
+	for (pos = 0; headers && headers[pos]; pos++) {
 		gchar **parse_header_list;
 
-		memset (&temp_header_value_details,0,sizeof (CustomSubHeader));
+		memset (&temp_header_value_details, 0, sizeof (CustomSubHeader));
 		temp_header_details.sub_header_type_value = g_array_new (TRUE, TRUE, sizeof (CustomSubHeader));
-		buffer = q->data;
-		parse_header_list = g_strsplit_set (buffer, "=;,", -1);
+		parse_header_list = g_strsplit_set (headers[pos], "=;,", -1);
 		temp_header_details.header_type_value = g_string_new("");
 		if (temp_header_details.header_type_value) {
 			g_string_assign (temp_header_details.header_type_value, parse_header_list[0]);
@@ -283,6 +272,8 @@ epech_load_from_gconf (GConfClient *client,
 	}
 
 	temp_header_details.number_of_header = pos;
+
+	g_strfreev (headers);
 }
 
 static void
@@ -562,9 +553,12 @@ static void
 commit_changes (ConfigData *cd)
 {
 	GtkTreeModel *model = NULL;
-	GSList *header_config_list = NULL;
+	GPtrArray *headers;
 	GtkTreeIter iter;
 	gboolean valid;
+	GSettings *settings;
+
+	headers = g_ptr_array_new_full (3, g_free);
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (cd->treeview));
 	valid = gtk_tree_model_get_iter_first (model, &iter);
@@ -580,9 +574,12 @@ commit_changes (ConfigData *cd)
                 /* Check if the keyword is not empty */
 		if ((keyword) && (g_utf8_strlen (g_strstrip (keyword), -1) > 0)) {
 			if ((value) && (g_utf8_strlen (g_strstrip (value), -1) > 0)) {
+				gchar *tmp = keyword;
+
 				keyword = g_strconcat (keyword, "=", value, NULL);
+				g_free (tmp);
 			}
-			header_config_list = g_slist_append (header_config_list, g_strdup (keyword));
+			g_ptr_array_add (headers, g_strdup (keyword));
 		}
 
 		g_free (keyword);
@@ -591,10 +588,13 @@ commit_changes (ConfigData *cd)
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
-	gconf_client_set_list (cd->gconf, GCONF_KEY_CUSTOM_HEADER, GCONF_VALUE_STRING, header_config_list, NULL);
+	g_ptr_array_add (headers, NULL);
 
-	g_slist_foreach (header_config_list, (GFunc) g_free, NULL);
-	g_slist_free (header_config_list);
+	settings = g_settings_new (ECM_SETTINGS_ID);
+	g_settings_set_strv (settings, ECM_SETTINGS_KEY, (const gchar * const *) headers->pdata);
+	g_object_unref (settings);
+
+	g_ptr_array_free (headers, TRUE);
 }
 
 static void
@@ -759,7 +759,6 @@ destroy_cd_data (gpointer data)
 	if (!cd)
 		return;
 
-	g_object_unref (cd->gconf);
 	g_free (cd);
 }
 
@@ -770,13 +769,11 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 	GtkWidget *hbox;
-	GSList *list;
-	GSList *header_list = NULL;
+	gchar **headers;
 	gint index;
-	gchar *buffer;
 	GtkTreeViewColumn *col;
 	gint col_pos;
-	GConfClient *client = gconf_client_get_default ();
+	GSettings *settings;
 	ConfigData *cd = g_new0 (ConfigData, 1);
 
 	GtkWidget *ech_configuration_box;
@@ -844,8 +841,6 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_container_add (GTK_CONTAINER (vbuttonbox1), header_remove);
 	gtk_widget_set_can_default (header_remove, TRUE);
 
-	cd->gconf = gconf_client_get_default ();
-
 	cd->treeview = header_treeview;
 
 	cd->store = gtk_list_store_new (HEADER_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
@@ -904,27 +899,29 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 		G_CALLBACK (header_edit_clicked), cd);
 	gtk_widget_set_sensitive (cd->header_edit, FALSE);
 
-	/* Populate tree view with values from gconf */
-	header_list = gconf_client_get_list (client,GCONF_KEY_CUSTOM_HEADER,GCONF_VALUE_STRING, NULL);
+	/* Populate tree view with values from settings */
+	settings = g_settings_new (ECM_SETTINGS_ID);
+	headers = g_settings_get_strv (settings, ECM_SETTINGS_KEY);
+	g_object_unref (settings);
 
-	for (list = header_list; list; list = g_slist_next (list)) {
-		gchar **parse_header_list;
+	if (headers) {
+		gint ii;
 
-		buffer = list->data;
-		gtk_list_store_append (cd->store, &iter);
+		for (ii = 0; headers[ii]; ii++) {
+			gchar **parse_header_list;
 
-		parse_header_list = g_strsplit_set (buffer, "=,", -1);
+			gtk_list_store_append (cd->store, &iter);
 
-		gtk_list_store_set (cd->store, &iter, HEADER_KEY_COLUMN, parse_header_list[0], -1);
+			parse_header_list = g_strsplit_set (headers[ii], "=,", -1);
 
-		for (index = 0; parse_header_list[index + 1] ; ++index) {
-			gtk_list_store_set (cd->store, &iter, HEADER_VALUE_COLUMN, parse_header_list[index + 1], -1);
+			gtk_list_store_set (cd->store, &iter, HEADER_KEY_COLUMN, parse_header_list[0], -1);
+
+			for (index = 0; parse_header_list[index + 1] ; ++index) {
+				gtk_list_store_set (cd->store, &iter, HEADER_VALUE_COLUMN, parse_header_list[index + 1], -1);
+			}
 		}
-	}
 
-	if (header_list) {
-		g_slist_foreach (header_list, (GFunc) g_free, NULL);
-		g_slist_free (header_list);
+		g_strfreev (headers);
 	}
 
 	/* Add the list here */

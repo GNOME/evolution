@@ -25,8 +25,6 @@
 
 #include "e-mail-shell-settings.h"
 
-#include <gconf/gconf-client.h>
-
 #include <mail/e-mail-backend.h>
 
 #include <shell/e-shell.h>
@@ -367,13 +365,6 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"paned-view-headers-state",
 		MAIL_SCHEMA,
 		"paned-view-headers-state");
-
-	/* These properties use transform functions to convert
-	 * GConf values to forms more useful to Evolution.  We
-	 * have to use separate properties because GConfBridge
-	 * does not support transform functions.  Much of this
-	 * is backward-compatibility cruft for poorly designed
-	 * GConf schemas. */
 
 	e_shell_settings_install_property (
 		g_param_spec_enum (

@@ -24,7 +24,6 @@
 #define EM_MAILER_PREFS_H
 
 #include <gtk/gtk.h>
-#include <gconf/gconf-client.h>
 
 #include <shell/e-shell.h>
 #include <widgets/misc/e-preferences-window.h>
@@ -57,7 +56,6 @@ struct _EMMailerPrefs {
 	GtkVBox parent_object;
 
 	GtkBuilder *builder;
-	GConfClient *gconf;
 	GSettings *settings;
 
 	/* General tab */

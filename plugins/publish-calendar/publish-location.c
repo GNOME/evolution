@@ -29,34 +29,23 @@
 
 #include <string.h>
 #include <libxml/tree.h>
-#include <gconf/gconf-client.h>
 #include <libedataserverui/libedataserverui.h>
 
 static EPublishUri *
 migrateURI (const gchar *xml,
             xmlDocPtr doc)
 {
-	GConfClient *client;
-	GSList *uris, *l, *events = NULL;
+	GSettings *settings;
+	GSList *events = NULL;
+	gchar **set_uris;
+	GPtrArray *uris_array;
 	xmlChar *location, *enabled, *frequency, *username;
 	xmlNodePtr root, p;
 	EPublishUri *uri;
 	gchar *password, *temp;
 	EUri *euri;
-
-	client = gconf_client_get_default ();
-	uris = gconf_client_get_list (
-		client, "/apps/evolution/calendar/publish/uris",
-		GCONF_VALUE_STRING, NULL);
-	l = uris;
-	while (l && l->data) {
-		gchar *str = l->data;
-		if (strcmp (xml, str) == 0) {
-			uris = g_slist_remove (uris, str);
-			g_free (str);
-		}
-		l = g_slist_next (l);
-	}
+	gint ii;
+	gboolean found = FALSE;
 
 	uri = g_new0 (EPublishUri, 1);
 
@@ -106,13 +95,32 @@ migrateURI (const gchar *xml,
 	}
 	uri->events = events;
 
-	uris = g_slist_prepend (uris, e_publish_uri_to_xml (uri));
-	gconf_client_set_list (
-		client, "/apps/evolution/calendar/publish/uris",
-		GCONF_VALUE_STRING, uris, NULL);
-	g_slist_foreach (uris, (GFunc) g_free, NULL);
-	g_slist_free (uris);
-	g_object_unref (client);
+	uris_array = g_ptr_array_new_full (3, g_free);
+
+	settings = g_settings_new (PC_SETTINGS_ID);
+	set_uris = g_settings_get_strv (settings, PC_SETTINGS_URIS);
+
+	for (ii = 0; set_uris && set_uris[ii]; ii++) {
+		const gchar *str = set_uris[ii];
+		if (!found && g_str_equal (xml, str)) {
+			found = TRUE;
+			g_ptr_array_add (uris_array, e_publish_uri_to_xml (uri));
+		} else {
+			g_ptr_array_add (uris_array, g_strdup (str));
+		}
+	}
+
+	g_strfreev (set_uris);
+
+	/* this should not happen, right? */
+	if (!found)
+		g_ptr_array_add (uris_array, e_publish_uri_to_xml (uri));
+	g_ptr_array_add (uris_array, NULL);
+
+	g_settings_set_strv (settings, PC_SETTINGS_URIS, (const gchar * const *) uris_array->pdata);
+
+	g_ptr_array_free (uris_array, TRUE);
+	g_object_unref (settings);
 
 cleanup:
 	xmlFree (location);

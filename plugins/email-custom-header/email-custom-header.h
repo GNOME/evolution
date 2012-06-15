@@ -86,7 +86,5 @@ static guint signals[LAST_SIGNAL] = {0};
 
 CustomHeaderOptionsDialog *epech_dialog_new (void);
 static gboolean epech_dialog_run (CustomHeaderOptionsDialog *mch, GtkWidget *parent);
-static void epech_get_header_list (CustomHeaderOptionsDialog *mch);
-static void epech_load_from_gconf (GConfClient *client,const gchar *path,CustomHeaderOptionsDialog *mch);
+static void epech_load_from_settings (GSettings *settings, const gchar *path, CustomHeaderOptionsDialog *mch);
 #endif
-

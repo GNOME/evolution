@@ -30,8 +30,6 @@
 #include <glib-unix.h>
 #endif
 
-#include <dbus/dbus-glib.h>
-
 #if HAVE_CLUTTER
 #include <clutter-gtk/clutter-gtk.h>
 #include <mx/mx.h>
@@ -496,9 +494,6 @@ main (gint argc,
 	textdomain (GETTEXT_PACKAGE);
 
 	g_type_init ();
-
-	/* this is to initialize threading for dbus-glib used by GConf */
-	dbus_g_thread_init ();
 
 	/* do not require Gtk+ for --force-shutdown */
 	if (argc == 2 && argv[1] && g_str_equal (argv[1], "--force-shutdown")) {

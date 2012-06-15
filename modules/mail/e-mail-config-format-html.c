@@ -32,28 +32,29 @@
 static gpointer parent_class;
 
 static void
-headers_changed_cb (GConfClient *client,
-                    guint cnxn_id,
-                    GConfEntry *entry,
+headers_changed_cb (GSettings *settings,
+                    const gchar *key,
                     gpointer user_data)
 {
-	GSList *header_config_list, *p;
+	gint ii;
+	gchar **headers;
 	EExtension *extension;
 	EMailFormatter *formatter;
 
-	g_return_if_fail (client != NULL);
+	g_return_if_fail (settings != NULL);
+
+	if (key && !g_str_equal (key, "headers"))
+		return;
 
 	extension = user_data;
 	formatter = E_MAIL_FORMATTER (e_extension_get_extensible (extension));
 
-	header_config_list = gconf_client_get_list (
-		client, "/apps/evolution/mail/display/headers",
-		GCONF_VALUE_STRING, NULL);
+	headers = g_settings_get_strv (settings, "headers");
 
 	e_mail_formatter_clear_headers (formatter);
-	for (p = header_config_list; p; p = g_slist_next (p)) {
+	for (ii = 0; headers && headers[ii]; ii++) {
 		EMailReaderHeader *h;
-		gchar *xml = (gchar *) p->data;
+		const gchar *xml = headers[ii];
 
 		h = e_mail_reader_header_from_xml (xml);
 		if (h && h->enabled)
@@ -64,26 +65,10 @@ headers_changed_cb (GConfClient *client,
 		e_mail_reader_header_free (h);
 	}
 
-	if (!header_config_list)
+	if (!headers || !headers[0])
 		e_mail_formatter_set_default_headers (formatter);
 
-	g_slist_foreach (header_config_list, (GFunc) g_free, NULL);
-	g_slist_free (header_config_list);
-}
-
-static void
-remove_header_notify_cb (gpointer data)
-{
-	GConfClient *client;
-	guint notify_id;
-
-	notify_id = GPOINTER_TO_INT (data);
-	g_return_if_fail (notify_id != 0);
-
-	client = gconf_client_get_default ();
-	gconf_client_notify_remove (client, notify_id);
-	gconf_client_remove_dir (client, "/apps/evolution/mail/display", NULL);
-	g_object_unref (client);
+	g_strfreev (headers);
 }
 
 static void
@@ -93,8 +78,7 @@ mail_config_format_html_constructed (GObject *object)
 	EExtensible *extensible;
 	EShellSettings *shell_settings;
 	EShell *shell;
-	GConfClient *client;
-	guint notify_id;
+	GSettings *settings;
 
 	extension = E_EXTENSION (object);
 	extensible = e_extension_get_extensible (extension);
@@ -140,21 +124,16 @@ mail_config_format_html_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 
-	client = gconf_client_get_default ();
-	gconf_client_add_dir (
-		client, "/apps/evolution/mail/display",
-		GCONF_CLIENT_PRELOAD_NONE, NULL);
-	notify_id = gconf_client_notify_add (
-		client, "/apps/evolution/mail/display/headers",
-		(GConfClientNotifyFunc) headers_changed_cb,
-		object, NULL, NULL);
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	g_signal_connect (settings, "changed", G_CALLBACK (headers_changed_cb), object);
 
 	g_object_set_data_full (
-		G_OBJECT (extensible), "reader-header-notify-id",
-		GINT_TO_POINTER (notify_id), remove_header_notify_cb);
+		G_OBJECT (extensible), "reader-header-settings",
+		settings, g_object_unref);
+		
 
 	/* Initial synchronization */
-	headers_changed_cb (client, 0, NULL, object);
+	headers_changed_cb (settings, NULL, object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);

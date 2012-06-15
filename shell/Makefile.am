@@ -62,7 +62,6 @@ libeshell_la_CPPFLAGS =						\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(EGG_SMCLIENT_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
-	$(DBUS_GLIB_CFLAGS)					\
 	$(CLUTTER_CFLAGS)
 
 libeshell_la_SOURCES =				\
@@ -101,7 +100,6 @@ libeshell_la_LIBADD =					\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(EGG_SMCLIENT_LIBS)				\
-	$(DBUS_GLIB_LIBS)				\
 	$(CLUTTER_LIBS)
 
 # Evolution executable
@@ -185,43 +183,10 @@ error_DATA = shell.error
 errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
-# GConf schemas
-
-schemadir   = $(GCONF_SCHEMA_FILE_DIR)
-schema_in_files = apps_evolution_shell.schemas.in
-schema_DATA = $(schema_in_files:.schemas.in=.schemas)
-
-@INTLTOOL_SCHEMAS_RULE@
-
-if GCONF_SCHEMAS_INSTALL
-
-if OS_WIN32
-install-data-local:
-	if test -z "$(DESTDIR)" ; then							\
-		for p in $(schema_DATA) ; do						\
-			(echo set GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE);	\
-			 echo $(GCONFTOOL) --makefile-install-rule $$p) >_temp.bat;	\
-			cmd /c _temp.bat; 						\
-			rm _temp.bat;							\
-		done									\
-	fi
-else
-install-data-local:
-	if test -z "$(DESTDIR)" ; then							\
-		for p in $(schema_DATA) ; do						\
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) 		\
-				$(GCONFTOOL) --makefile-install-rule $$p;		\
-		done									\
-	fi
-endif
-
-endif
-
 # Extra dist stuff
 
 EXTRA_DIST = 					\
 	shell.error.xml				\
-	$(schema_in_files)			\
 	evolution-nognome.in			\
 	evolution-icon.rc			\
 	evolution.ico				\
@@ -245,8 +210,6 @@ endif
 
 BUILT_SOURCES = $(error_DATA) $(ENUM_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
-
-DISTCLEANFILES = $(schema_DATA)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

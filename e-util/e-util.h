@@ -26,7 +26,6 @@
 #include <sys/types.h>
 #include <gtk/gtk.h>
 #include <limits.h>
-#include <gconf/gconf-client.h>
 
 #include <libedataserver/libedataserver.h>
 
