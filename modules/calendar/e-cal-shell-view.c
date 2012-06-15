@@ -395,8 +395,9 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gboolean editable = TRUE;
 	gboolean has_mail_identity;
 	gboolean has_primary_source;
-	gboolean primary_source_is_removable;
 	gboolean primary_source_is_writable;
+	gboolean primary_source_is_removable;
+	gboolean primary_source_in_collection;
 	gboolean recurring = FALSE;
 	gboolean is_instance = FALSE;
 	gboolean is_meeting = FALSE;
@@ -509,10 +510,12 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	has_primary_source =
 		(state & E_CAL_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
-	primary_source_is_removable =
-		(state & E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE);
 	primary_source_is_writable =
 		(state & E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE);
+	primary_source_is_removable =
+		(state & E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE);
+	primary_source_in_collection =
+		(state & E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IN_COLLECTION);
 	refresh_supported =
 		(state & E_CAL_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
 
@@ -533,7 +536,9 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_RENAME);
-	sensitive = primary_source_is_writable;
+	sensitive =
+		primary_source_is_writable &&
+		!primary_source_in_collection;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_SEARCH_PREV);

@@ -201,8 +201,9 @@ book_shell_view_update_actions (EShellView *shell_view)
 	gboolean any_contacts_selected;
 	gboolean has_primary_source;
 	gboolean multiple_contacts_selected;
-	gboolean primary_source_is_removable;
 	gboolean primary_source_is_writable;
+	gboolean primary_source_is_removable;
+	gboolean primary_source_in_collection;
 	gboolean single_contact_selected;
 	gboolean selection_is_contact_list;
 	gboolean selection_has_email;
@@ -235,10 +236,12 @@ book_shell_view_update_actions (EShellView *shell_view)
 
 	has_primary_source =
 		(state & E_BOOK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
-	primary_source_is_removable =
-		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE);
 	primary_source_is_writable =
 		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE);
+	primary_source_is_removable =
+		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE);
+	primary_source_in_collection =
+		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IN_COLLECTION);
 
 	any_contacts_selected =
 		(single_contact_selected || multiple_contacts_selected);
@@ -264,7 +267,9 @@ book_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_RENAME);
-	sensitive = primary_source_is_writable;
+	sensitive =
+		primary_source_is_writable &&
+		!primary_source_in_collection;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_STOP);

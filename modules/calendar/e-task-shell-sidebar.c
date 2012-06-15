@@ -661,9 +661,11 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 {
 	ETaskShellSidebar *task_shell_sidebar;
 	ESourceSelector *selector;
+	ESourceRegistry *registry;
 	ESource *source;
-	gboolean removable = FALSE;
-	gboolean writable = FALSE;
+	gboolean is_writable = FALSE;
+	gboolean is_removable = FALSE;
+	gboolean in_collection = FALSE;
 	gboolean refresh_supported = FALSE;
 	gboolean has_primary_source = FALSE;
 	guint32 state = 0;
@@ -671,17 +673,25 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	task_shell_sidebar = E_TASK_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
 	source = e_source_selector_ref_primary_selection (selector);
+	registry = e_source_selector_get_registry (selector);
 
 	if (source != NULL) {
 		EClient *client;
+		ESource *collection;
 		const gchar *uid;
 
 		has_primary_source = TRUE;
+		is_writable = e_source_get_writable (source);
+		is_removable = e_source_get_removable (source);
+
+		collection = e_source_registry_find_extension (
+			registry, source, E_SOURCE_EXTENSION_COLLECTION);
+		if (collection != NULL) {
+			in_collection = TRUE;
+			g_object_unref (collection);
+		}
 
 		uid = e_source_get_uid (source);
-		removable = e_source_get_removable (source);
-		writable = e_source_get_writable (source);
-
 		client = g_hash_table_lookup (
 			task_shell_sidebar->priv->client_table, uid);
 		refresh_supported =
@@ -693,10 +703,12 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 
 	if (has_primary_source)
 		state |= E_TASK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
-	if (removable)
-		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE;
-	if (writable)
+	if (is_writable)
 		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE;
+	if (is_removable)
+		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE;
+	if (in_collection)
+		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IN_COLLECTION;
 	if (refresh_supported)
 		state |= E_TASK_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH;
 

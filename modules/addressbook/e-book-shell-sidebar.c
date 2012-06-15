@@ -145,29 +145,44 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 {
 	EBookShellSidebar *book_shell_sidebar;
 	ESourceSelector *selector;
+	ESourceRegistry *registry;
 	ESource *source;
-	gboolean removable = FALSE;
-	gboolean writable = FALSE;
+	gboolean is_writable = FALSE;
+	gboolean is_removable = FALSE;
+	gboolean in_collection = FALSE;
 	gboolean has_primary_source = FALSE;
 	guint32 state = 0;
 
 	book_shell_sidebar = E_BOOK_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
 	source = e_source_selector_ref_primary_selection (selector);
+	registry = e_source_selector_get_registry (selector);
 
 	if (source != NULL) {
+		ESource *collection;
+
 		has_primary_source = TRUE;
-		removable = e_source_get_removable (source);
-		writable = e_source_get_writable (source);
+		is_writable = e_source_get_writable (source);
+		is_removable = e_source_get_removable (source);
+
+		collection = e_source_registry_find_extension (
+			registry, source, E_SOURCE_EXTENSION_COLLECTION);
+		if (collection != NULL) {
+			in_collection = TRUE;
+			g_object_unref (collection);
+		}
+
 		g_object_unref (source);
 	}
 
 	if (has_primary_source)
 		state |= E_BOOK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
-	if (removable)
-		state |= E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE;
-	if (writable)
+	if (is_writable)
 		state |= E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE;
+	if (is_removable)
+		state |= E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE;
+	if (in_collection)
+		state |= E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IN_COLLECTION;
 
 	return state;
 }

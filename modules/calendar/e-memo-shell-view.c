@@ -184,8 +184,9 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	gboolean any_memos_selected;
 	gboolean has_primary_source;
 	gboolean multiple_memos_selected;
-	gboolean primary_source_is_removable;
 	gboolean primary_source_is_writable;
+	gboolean primary_source_is_removable;
+	gboolean primary_source_in_collection;
 	gboolean selection_has_url;
 	gboolean single_memo_selected;
 	gboolean sources_are_editable;
@@ -213,10 +214,12 @@ memo_shell_view_update_actions (EShellView *shell_view)
 
 	has_primary_source =
 		(state & E_MEMO_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
-	primary_source_is_removable =
-		(state & E_MEMO_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE);
 	primary_source_is_writable =
 		(state & E_MEMO_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE);
+	primary_source_is_removable =
+		(state & E_MEMO_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE);
+	primary_source_in_collection =
+		(state & E_MEMO_SHELL_SIDEBAR_PRIMARY_SOURCE_IN_COLLECTION);
 	refresh_supported =
 		(state & E_MEMO_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
 
@@ -257,7 +260,9 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_LIST_RENAME);
-	sensitive = primary_source_is_writable;
+	sensitive =
+		primary_source_is_writable &&
+		!primary_source_in_collection;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_OPEN);
