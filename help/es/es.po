@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-09 09:29+0000\n"
-"PO-Revision-Date: 2012-06-11 12:27+0200\n"
+"POT-Creation-Date: 2012-06-15 07:55+0000\n"
+"PO-Revision-Date: 2012-06-15 11:58+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1601,20 +1601,27 @@ msgid "How to get help"
 msgstr "Cómo obtener ayuda"
 
 #: C/problems-getting-help.page:24(p)
+#| msgid ""
+#| "To receive help on problems you can send an email to the <link href="
+#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
+#| "mailing list</link> or talk to developers and other users in the IRC chat "
+#| "channel #evolution on the server irc.gimp.net. To connect to an IRC "
+#| "server you can for example <link href=\"help:empathy/irc-manage\">use the "
+#| "internet messenger application <app>Empathy</app></link>."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
 "link> or talk to developers and other users in the IRC chat channel "
 "#evolution on the server irc.gimp.net. To connect to an IRC server you can "
-"for example <link href=\"help:empathy/irc-manage\">use the internet "
+"for example <link href=\"ghelp:empathy#irc-manage\">use the internet "
 "messenger application <app>Empathy</app></link>."
 msgstr ""
 "Para recibir ayuda sobre problemas puede enviar un correo a la <link href="
 "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">lista de correo de "
-"Evolution</link> o enviar un mensaje en el canal de chat de IRC #evolution "
-"en el servidor irc.gimp.net. Para conectarse a un servidor IRC puede, por "
-"ejemplo <link href=\"help:empathy/irc-manage\">usar la aplicación de "
-"mensajería instantánea <app>Empathy</app></link>."
+"Evolution</link> o hablar con los desarrolladores y otros usuarios en el "
+"canal de chat de IRC #evolution en el servidor irc.gimp.net. Para conectarse "
+"a un servidor IRC puede, por ejemplo <link href=\"ghelp:empathy/irc-manage"
+"\">usar la aplicación de mensajería instantánea <app>Empathy</app></link>."
 
 #: C/problems-debug-how-to.page:5(desc)
 msgid "How to provide good information when tracking down a problem."
@@ -7366,7 +7373,6 @@ msgstr ""
 
 #. as per https://bugzilla.gnome.org/show_bug.cgi?id=641845 - available since 3.2
 #: C/mail-composer-message-templates.page:100(title)
-#| msgid "Using a Message Template as a Reply"
 msgid "Reusing message elements when replying"
 msgstr "Reutilizar elementos del mensaje al responder"
 
@@ -10709,10 +10715,6 @@ msgstr ""
 "problemas."
 
 #: C/data-storage.page:26(p)
-#| msgid ""
-#| "Evolution 3.4 and later stores its data according to the <link href="
-#| "\"http://www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG Base "
-#| "Directory Specification</link>. By default this means:"
 msgid ""
 "Evolution 3.6 and later stores its data according to the <link href=\"http://"
 "www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG Base Directory "
@@ -10743,7 +10745,6 @@ msgid "Account settings"
 msgstr "Configuración de la cuenta"
 
 #: C/data-storage.page:39(file)
-#| msgid "$HOME/.config/evolution"
 msgid "$HOME/.config/evolution/sources"
 msgstr "$HOME/.config/evolution/sources"
 
@@ -10787,7 +10788,7 @@ msgstr "April Gonzalez"
 msgid "Translators of the <app>Evolution</app> User Documentation"
 msgstr "Traductores de la documentación del usuario de <app>Evolution</app>"
 
-#. TO TRANSLATORS: This is shown in the 'Translators of the User Documentation' section. Please REPLACE this string by adding your own names here so you get some well-deserved fame on the interwebs! Thanks for all your hard work! andre
+#. TO TRANSLATORS: This is shown in the 'Translators of the User Documentation' section. Please REPLACE this string by adding your own names here so you get some well-deserved fame on the interwebs! Do NOT use "\n" for linebreaks or square brakets (<>) for potential email addresses here as this will not work. Thanks for all your hard work! andre
 #: C/credits.page:43(p)
 msgid "(Not applicable to the English version)"
 msgstr ""
