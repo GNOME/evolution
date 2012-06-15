@@ -40,21 +40,6 @@ struct _EBookConfigNameSelectorEntryClass {
 static gpointer parent_class;
 
 static void
-book_config_name_selector_entry_realize (GtkWidget *widget,
-					 EBookConfigNameSelectorEntry *extension)
-{
-	g_settings_bind (
-		extension->settings, "completion-minimum-query-length",
-		widget, "minimum-query-length",
-		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
-
-	g_settings_bind (
-		extension->settings, "completion-show-address",
-		widget, "show-address",
-		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
-}
-
-static void
 book_config_name_selector_entry_dispose (GObject *object)
 {
 	EBookConfigNameSelectorEntry *extension;
@@ -81,16 +66,18 @@ book_config_name_selector_entry_constructed (GObject *object)
 
 	extension->settings = g_settings_new ("org.gnome.evolution.addressbook");
 
-	/* Wait to bind settings until the ENameSelectorEntry is realized */
-
-	/*g_signal_connect (
-		extensible, "realize",
-		G_CALLBACK (book_config_name_selector_entry_realize), extension);*/
-
 	/* Chain up to parent's consturcted() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 
-	book_config_name_selector_entry_realize (extensible, extension);
+	g_settings_bind (
+		extension->settings, "completion-minimum-query-length",
+		extensible, "minimum-query-length",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	g_settings_bind (
+		extension->settings, "completion-show-address",
+		extensible, "show-address",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
 }
 
 static void
