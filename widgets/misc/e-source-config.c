@@ -44,6 +44,7 @@ struct _ESourceConfigPrivate {
 
 	GtkWidget *type_label;
 	GtkWidget *type_combo;
+	GtkWidget *name_label;
 	GtkWidget *name_entry;
 	GtkWidget *backend_box;
 	GtkSizeGroup *size_group;
@@ -434,6 +435,11 @@ source_config_dispose (GObject *object)
 		priv->type_combo = NULL;
 	}
 
+	if (priv->name_label != NULL) {
+		g_object_unref (priv->name_label);
+		priv->name_label = NULL;
+	}
+
 	if (priv->name_entry != NULL) {
 		g_object_unref (priv->name_entry);
 		priv->name_entry = NULL;
@@ -502,9 +508,17 @@ source_config_constructed (GObject *object)
 			config, NULL, _("Type:"),
 			config->priv->type_combo);
 
-	e_source_config_insert_widget (
-		config, NULL, _("Name:"),
-		config->priv->name_entry);
+	/* If the original source is part of a collection then we assume
+	 * the display name is server-assigned and not user-assigned, at
+	 * least not assigned through Evolution. */
+	if (collection_source != NULL)
+		e_source_config_insert_widget (
+			config, NULL, _("Name:"),
+			config->priv->name_label);
+	else
+		e_source_config_insert_widget (
+			config, NULL, _("Name:"),
+			config->priv->name_entry);
 
 	source_config_init_backends (config);
 }
@@ -566,6 +580,11 @@ static void
 source_config_init_candidate (ESourceConfig *config,
                               ESource *scratch_source)
 {
+	g_object_bind_property (
+		scratch_source, "display-name",
+		config->priv->name_label, "label",
+		G_BINDING_SYNC_CREATE);
+
 	g_object_bind_property (
 		scratch_source, "display-name",
 		config->priv->name_entry, "text",
@@ -780,14 +799,14 @@ e_source_config_init (ESourceConfig *config)
 	config->priv->candidates = candidates;
 	config->priv->size_group = size_group;
 
-	/* Either the combo box or the label is shown, never both.
-	 * But we create both widgets and keep them both up-to-date
-	 * regardless just because it makes the logic simpler. */
-
 	attr_list = pango_attr_list_new ();
 
 	attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
 	pango_attr_list_insert (attr_list, attr);
+
+	/* Either the source type combo box or the label is shown,
+	 * never both.  But we create both widgets and keep them
+	 * both up-to-date because it makes the logic simpler. */
 
 	widget = gtk_label_new (NULL);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
@@ -797,6 +816,16 @@ e_source_config_init (ESourceConfig *config)
 
 	widget = gtk_combo_box_text_new ();
 	config->priv->type_combo = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
+	/* Similarly for the display name.  Either the text entry
+	 * or the label is shown, depending on whether the source
+	 * is a collection member (new sources never are). */
+
+	widget = gtk_label_new (NULL);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
+	config->priv->name_label = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_entry_new ();
