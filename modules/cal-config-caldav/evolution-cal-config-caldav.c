@@ -209,6 +209,7 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
                                   ESource *scratch_source)
 {
 	ESourceConfig *config;
+	ESource *collection_source;
 	ESourceExtension *extension;
 	ECalClientSourceType source_type;
 	GtkWidget *widget;
@@ -218,19 +219,25 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 	const gchar *label;
 	const gchar *uid;
 
-	context = cal_config_caldav_context_new (backend, scratch_source);
-	uid = e_source_get_uid (scratch_source);
 	config = e_source_config_backend_get_config (backend);
+	collection_source = e_source_config_get_collection_source (config);
+
+	e_cal_source_config_add_offline_toggle (
+		E_CAL_SOURCE_CONFIG (config), scratch_source);
+
+	/* If this data source is a collection member,
+	 * just add a refresh interval and skip the rest. */
+	if (collection_source != NULL) {
+		e_source_config_add_refresh_interval (config, scratch_source);
+		return;
+	}
+
+	uid = e_source_get_uid (scratch_source);
+	context = cal_config_caldav_context_new (backend, scratch_source);
 
 	g_object_set_data_full (
 		G_OBJECT (backend), uid, context,
 		(GDestroyNotify) cal_config_caldav_context_free);
-
-	source_type = e_cal_source_config_get_source_type (
-		E_CAL_SOURCE_CONFIG (config));
-
-	e_cal_source_config_add_offline_toggle (
-		E_CAL_SOURCE_CONFIG (config), scratch_source);
 
 	widget = gtk_entry_new ();
 	e_source_config_insert_widget (
@@ -253,6 +260,9 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 		config, scratch_source);
 
 	e_source_config_add_user_entry (config, scratch_source);
+
+	source_type = e_cal_source_config_get_source_type (
+		E_CAL_SOURCE_CONFIG (config));
 
 	switch (source_type) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
@@ -325,9 +335,17 @@ static gboolean
 cal_config_caldav_check_complete (ESourceConfigBackend *backend,
                                   ESource *scratch_source)
 {
+	ESourceConfig *config;
+	ESource *collection_source;
 	Context *context;
 	const gchar *uid;
 	gboolean complete;
+
+	config = e_source_config_backend_get_config (backend);
+	collection_source = e_source_config_get_collection_source (config);
+
+	if (collection_source != NULL)
+		return TRUE;
 
 	uid = e_source_get_uid (scratch_source);
 	context = g_object_get_data (G_OBJECT (backend), uid);
