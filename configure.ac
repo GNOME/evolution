@@ -23,7 +23,7 @@ m4_define([upgrade_revision], [0])
 dnl Autoconf / Automake Initialization
 AC_PREREQ([2.64])
 AC_INIT([evolution],[evo_version],[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution],[evolution],[http://www.gnome.org/projects/evolution/])
-AM_INIT_AUTOMAKE([1.10 dist-xz no-dist-gzip -Wall -Werror -Wno-portability foreign])
+AM_INIT_AUTOMAKE([1.10 dist-xz no-dist-gzip -Wall -Wno-portability foreign])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(README)
