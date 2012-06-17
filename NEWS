@@ -1,4 +1,35 @@
-Evolution 3.4.1 2012-05-14
+Evolution 3.4.3 2012-06-18
+--------------------------
+
+Bug Fixes:
+	Bug 668478 - Disabled account is not deleted in Edit -> Preferences
+	             (Milan Crha)
+	Bug 671585 - Add support for smooth scrolling devices (Milan Crha)
+	Bug 671585 - e-week-view.c: Use page_increment for smooth scrolling
+	             (Volker Sobek)
+	Bug 672827 - 'Mark as read' confirmation dialog is too big
+	             (Matthew Barnes)
+	Bug 673946 - Cannot delete search folders (Milan Crha)
+	Bug 676226 - Changing GOA mail account looses GOA key (Milan Crha)
+	Bug 676410 - Add Unity to OnlyShowIn whitelist (Jeremy Bicha)
+	Bug 676492 - Mail backend properties with underscores stopped working
+	             (David Woodhouse)
+	Bug 677045 - pkg-config files missing libebackend-1.2 requirement
+	             (Matthew Barnes)
+	Bug 677273 - Bad default for month-hpane-position setting
+	             (Matthew Barnes)
+	Bug 677280 - "Help - Quick Reference" opens multiple PDF documents
+	             (Matthew Barnes)
+	Bug 677597 - Crash on vFolder source folder removal (Milan Crha)
+
+Translations:
+	Christian Kirbach (de)
+	Bruno Brouard (fr)
+	Luca Ferretti (it)
+	Sasi Bhushan (te)
+
+
+Evolution 3.4.2 2012-05-14
 --------------------------
 
 Bug Fixes:
