@@ -1459,7 +1459,7 @@ e_mail_tab_set_can_close (EMailTab *tab,
 {
 	EMailTabPrivate *priv = tab->priv;
 
-	if (priv->can_close == can_close)
+	if ((priv->can_close ? 1 : 0) == (can_close ? 1 : 0))
 		return;
 
 	priv->can_close = can_close;
@@ -1504,7 +1504,7 @@ e_mail_tab_set_docking (EMailTab *tab,
 {
 	EMailTabPrivate *priv = tab->priv;
 
-	if (priv->docking == docking)
+	if ((priv->docking ? 1 : 0) == (docking ? 1 : 0))
 		return;
 
 	priv->docking = docking;
@@ -1815,7 +1815,7 @@ e_mail_tab_set_private (EMailTab *tab,
 {
 	EMailTabPrivate *priv = tab->priv;
 
-	if (priv->private == private)
+	if ((priv->private ? 1 : 0) == (private ? 1 : 0))
 		return;
 
 	priv->private = private;
@@ -1840,7 +1840,7 @@ e_mail_tab_set_active (EMailTab *tab,
 {
 	EMailTabPrivate *priv = tab->priv;
 
-	if (priv->active == active)
+	if ((priv->active ? 1 : 0) == (active ? 1 : 0))
 		return;
 
 	priv->active = active;

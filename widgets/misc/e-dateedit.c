@@ -1050,7 +1050,7 @@ e_date_edit_set_show_date (EDateEdit *dedit,
 
 	priv = dedit->priv;
 
-	if (priv->show_date == show_date)
+	if ((priv->show_date ? 1 : 0) == (show_date ? 1 : 0))
 		return;
 
 	priv->show_date = show_date;
@@ -1107,7 +1107,7 @@ e_date_edit_set_show_time (EDateEdit *dedit,
 
 	priv = dedit->priv;
 
-	if (priv->show_time == show_time)
+	if ((priv->show_time ? 1 : 0) == (show_time ? 1 : 0))
 		return;
 
 	priv->show_time = show_time;
@@ -1250,7 +1250,7 @@ e_date_edit_set_use_24_hour_format (EDateEdit *dedit,
 {
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	if (dedit->priv->use_24_hour_format == use_24_hour_format)
+	if ((dedit->priv->use_24_hour_format ? 1 : 0) == (use_24_hour_format ? 1 : 0))
 		return;
 
 	dedit->priv->use_24_hour_format = use_24_hour_format;
@@ -1277,6 +1277,9 @@ e_date_edit_set_allow_no_date_set (EDateEdit *dedit,
                                    gboolean allow_no_date_set)
 {
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
+
+	if ((dedit->priv->allow_no_date_set ? 1 : 0) == (allow_no_date_set ? 1 : 0))
+		return;
 
 	dedit->priv->allow_no_date_set = allow_no_date_set;
 

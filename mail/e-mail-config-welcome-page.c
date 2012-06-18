@@ -195,6 +195,9 @@ e_mail_config_welcome_page_set_text (EMailConfigWelcomePage *page,
 {
 	g_return_if_fail (E_IS_MAIL_CONFIG_WELCOME_PAGE (page));
 
+	if (g_strcmp0 (page->priv->text, (text != NULL) ? text : "") == 0)
+		return;
+
 	g_free (page->priv->text);
 	page->priv->text = g_strdup ((text != NULL) ? text : "");
 

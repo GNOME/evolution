@@ -879,6 +879,9 @@ e_meeting_store_set_client (EMeetingStore *store,
 {
 	g_return_if_fail (E_IS_MEETING_STORE (store));
 
+	if (store->priv->client == client)
+		return;
+
 	if (client != NULL) {
 		g_return_if_fail (E_IS_CAL_CLIENT (client));
 		g_object_ref (client);
@@ -906,6 +909,9 @@ e_meeting_store_set_default_reminder_interval (EMeetingStore *store,
 {
 	g_return_if_fail (E_IS_MEETING_STORE (store));
 
+	if (store->priv->default_reminder_interval == default_reminder_interval)
+		return;
+
 	store->priv->default_reminder_interval = default_reminder_interval;
 
 	g_object_notify (G_OBJECT (store), "default-reminder-interval");
@@ -925,6 +931,9 @@ e_meeting_store_set_default_reminder_units (EMeetingStore *store,
 {
 	g_return_if_fail (E_IS_MEETING_STORE (store));
 
+	if (store->priv->default_reminder_units == default_reminder_units)
+		return;
+
 	store->priv->default_reminder_units = default_reminder_units;
 
 	g_object_notify (G_OBJECT (store), "default-reminder-units");
@@ -943,6 +952,9 @@ e_meeting_store_set_free_busy_template (EMeetingStore *store,
                                         const gchar *free_busy_template)
 {
 	g_return_if_fail (E_IS_MEETING_STORE (store));
+
+	if (g_strcmp0 (store->priv->fb_uri, free_busy_template) == 0)
+		return;
 
 	g_free (store->priv->fb_uri);
 	store->priv->fb_uri = g_strdup (free_busy_template);
@@ -964,6 +976,9 @@ e_meeting_store_set_timezone (EMeetingStore *store,
 {
 	g_return_if_fail (E_IS_MEETING_STORE (store));
 
+	if (store->priv->zone == timezone)
+		return;
+
 	store->priv->zone = timezone;
 
 	g_object_notify (G_OBJECT (store), "timezone");
@@ -982,6 +997,9 @@ e_meeting_store_set_week_start_day (EMeetingStore *store,
                                     gint week_start_day)
 {
 	g_return_if_fail (E_IS_MEETING_STORE (store));
+
+	if (store->priv->week_start_day == week_start_day)
+		return;
 
 	store->priv->week_start_day = week_start_day;
 

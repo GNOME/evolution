@@ -1102,6 +1102,9 @@ e_shell_searchbar_set_express_mode (EShellSearchbar *searchbar,
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
+	if ((searchbar->priv->express_mode ? 1 : 0) == (express_mode ? 1 : 0))
+		return;
+
 	searchbar->priv->express_mode = express_mode;
 
 	/* Emit "notify" on all the properties we override. */
@@ -1139,6 +1142,9 @@ e_shell_searchbar_set_labels_visible (EShellSearchbar *searchbar,
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
+	if ((searchbar->priv->labels_visible ? 1 : 0) == (labels_visible ? 1 : 0))
+		return;
+
 	searchbar->priv->labels_visible = labels_visible;
 
 	g_object_notify (G_OBJECT (searchbar), "labels-visible");
@@ -1161,6 +1167,9 @@ e_shell_searchbar_set_filter_visible (EShellSearchbar *searchbar,
                                       gboolean filter_visible)
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
+
+	if ((searchbar->priv->filter_visible ? 1 : 0) == (filter_visible ? 1 : 0))
+		return;
 
 	searchbar->priv->filter_visible = filter_visible;
 
@@ -1189,6 +1198,9 @@ e_shell_searchbar_set_search_hint (EShellSearchbar *searchbar,
 
 	entry = GTK_ENTRY (searchbar->priv->search_entry);
 
+	if (g_strcmp0 (gtk_entry_get_placeholder_text (entry), search_hint) == 0)
+		return;
+
 	gtk_entry_set_placeholder_text (entry, search_hint);
 
 	g_object_notify (G_OBJECT (searchbar), "search-hint");
@@ -1207,6 +1219,9 @@ e_shell_searchbar_set_search_option (EShellSearchbar *searchbar,
                                      GtkRadioAction *search_option)
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
+
+	if (searchbar->priv->search_option == search_option)
+		return;
 
 	if (search_option != NULL) {
 		g_return_if_fail (GTK_IS_RADIO_ACTION (search_option));
@@ -1259,6 +1274,9 @@ e_shell_searchbar_set_search_text (EShellSearchbar *searchbar,
 	if (search_text == NULL)
 		search_text = "";
 
+	if (g_strcmp0 (gtk_entry_get_text (entry), search_text) == 0)
+		return;
+
 	gtk_entry_set_text (entry, search_text);
 
 	shell_searchbar_update_search_widgets (searchbar);
@@ -1279,6 +1297,9 @@ e_shell_searchbar_set_search_visible (EShellSearchbar *searchbar,
                                       gboolean search_visible)
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
+
+	if ((searchbar->priv->search_visible ? 1 : 0) == (search_visible ? 1 : 0))
+		return;
 
 	searchbar->priv->search_visible = search_visible;
 
@@ -1321,6 +1342,9 @@ e_shell_searchbar_set_scope_visible (EShellSearchbar *searchbar,
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
+	if ((searchbar->priv->scope_visible ? 1 : 0) == (scope_visible ? 1 : 0))
+		return;
+
 	searchbar->priv->scope_visible = scope_visible;
 
 	g_object_notify (G_OBJECT (searchbar), "scope-visible");
@@ -1350,6 +1374,9 @@ e_shell_searchbar_set_state_group (EShellSearchbar *searchbar,
 
 	if (state_group == NULL)
 		state_group = STATE_GROUP_DEFAULT;
+
+	if (g_strcmp0 (searchbar->priv->state_group, state_group) == 0)
+		return;
 
 	g_free (searchbar->priv->state_group);
 	searchbar->priv->state_group = g_strdup (state_group);

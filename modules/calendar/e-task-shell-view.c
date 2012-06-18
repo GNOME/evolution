@@ -526,6 +526,9 @@ e_task_shell_view_set_confirm_purge (ETaskShellView *task_shell_view,
 {
 	g_return_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view));
 
+	if ((task_shell_view->priv->confirm_purge ? 1 : 0) == (confirm_purge ? 1 : 0))
+		return;
+
 	task_shell_view->priv->confirm_purge = confirm_purge;
 
 	g_object_notify (G_OBJECT (task_shell_view), "confirm-purge");

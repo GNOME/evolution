@@ -1011,6 +1011,9 @@ e_day_view_time_item_set_day_view (EDayViewTimeItem *time_item,
 	g_return_if_fail (E_IS_DAY_VIEW_TIME_ITEM (time_item));
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
+	if (time_item->priv->day_view == day_view)
+		return;
+
 	if (time_item->priv->day_view != NULL)
 		g_object_unref (time_item->priv->day_view);
 

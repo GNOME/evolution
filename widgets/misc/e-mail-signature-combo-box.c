@@ -381,6 +381,9 @@ e_mail_signature_combo_box_set_identity_uid (EMailSignatureComboBox *combo_box,
 
 	g_return_if_fail (E_IS_MAIL_SIGNATURE_COMBO_BOX (combo_box));
 
+	if (g_strcmp0 (combo_box->priv->identity_uid, identity_uid) == 0)
+		return;
+
 	g_free (combo_box->priv->identity_uid);
 	combo_box->priv->identity_uid = g_strdup (identity_uid);
 

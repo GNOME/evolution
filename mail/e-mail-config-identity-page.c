@@ -692,6 +692,9 @@ e_mail_config_identity_page_set_show_account_info (EMailConfigIdentityPage *page
 {
 	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page));
 
+	if ((page->priv->show_account_info ? 1 : 0) == (show_account_info ? 1 : 0))
+		return;
+
 	page->priv->show_account_info = show_account_info;
 
 	g_object_notify (G_OBJECT (page), "show-account-info");
@@ -711,6 +714,9 @@ e_mail_config_identity_page_set_show_instructions (EMailConfigIdentityPage *page
 {
 	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page));
 
+	if ((page->priv->show_instructions ? 1 : 0) == (show_instructions ? 1 : 0))
+		return;
+
 	page->priv->show_instructions = show_instructions;
 
 	g_object_notify (G_OBJECT (page), "show-instructions");
@@ -729,6 +735,9 @@ e_mail_config_identity_page_set_show_signatures (EMailConfigIdentityPage *page,
                                                  gboolean show_signatures)
 {
 	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page));
+
+	if ((page->priv->show_signatures ? 1 : 0) == (show_signatures ? 1 : 0))
+		return;
 
 	page->priv->show_signatures = show_signatures;
 

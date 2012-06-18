@@ -2441,6 +2441,9 @@ comp_editor_set_summary (CompEditor *editor,
 
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
+	if (g_strcmp0 (editor->priv->summary, summary) == 0)
+		return;
+
 	g_free (editor->priv->summary);
 	editor->priv->summary = g_strdup (summary);
 
@@ -2485,6 +2488,9 @@ comp_editor_set_timezone (CompEditor *editor,
 {
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
+	if (editor->priv->zone == zone)
+		return;
+
 	editor->priv->zone = zone;
 
 	g_object_notify (G_OBJECT (editor), "timezone");
@@ -2503,6 +2509,9 @@ comp_editor_set_use_24_hour_format (CompEditor *editor,
                                     gboolean use_24_hour_format)
 {
 	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if ((editor->priv->use_24_hour_format ? 1 : 0) == (use_24_hour_format ? 1 : 0))
+		return;
 
 	editor->priv->use_24_hour_format = use_24_hour_format;
 
@@ -2523,6 +2532,9 @@ comp_editor_set_work_day_end_hour (CompEditor *editor,
 {
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
+	if (editor->priv->work_day_end_hour == work_day_end_hour)
+		return;
+
 	editor->priv->work_day_end_hour = work_day_end_hour;
 
 	g_object_notify (G_OBJECT (editor), "work-day-end-hour");
@@ -2541,6 +2553,9 @@ comp_editor_set_work_day_end_minute (CompEditor *editor,
                                      gint work_day_end_minute)
 {
 	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_end_minute == work_day_end_minute)
+		return;
 
 	editor->priv->work_day_end_minute = work_day_end_minute;
 
@@ -2561,6 +2576,9 @@ comp_editor_set_work_day_start_hour (CompEditor *editor,
 {
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
+	if (editor->priv->work_day_start_hour == work_day_start_hour)
+		return;
+
 	editor->priv->work_day_start_hour = work_day_start_hour;
 
 	g_object_notify (G_OBJECT (editor), "work-day-start-hour");
@@ -2579,6 +2597,9 @@ comp_editor_set_work_day_start_minute (CompEditor *editor,
                                        gint work_day_start_minute)
 {
 	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_start_minute == work_day_start_minute)
+		return;
 
 	editor->priv->work_day_start_minute = work_day_start_minute;
 
@@ -2600,6 +2621,9 @@ comp_editor_set_changed (CompEditor *editor,
 	gboolean show_warning;
 
 	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if ((editor->priv->changed ? 1 : 0) == (changed ? 1 : 0))
+		return;
 
 	editor->priv->changed = changed;
 
@@ -2654,6 +2678,9 @@ comp_editor_set_flags (CompEditor *editor,
                        CompEditorFlags flags)
 {
 	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->flags == flags)
+		return;
 
 	editor->priv->flags = flags;
 	editor->priv->user_org = flags & COMP_EDITOR_USER_ORG;
@@ -3000,6 +3027,9 @@ comp_editor_set_client (CompEditor *editor,
 {
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 	g_return_if_fail (cal_client == NULL || E_IS_CAL_CLIENT (cal_client));
+
+	if (editor->priv->cal_client == cal_client)
+		return;
 
 	if (cal_client != NULL)
 		g_object_ref (cal_client);

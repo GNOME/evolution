@@ -875,6 +875,9 @@ e_mail_config_summary_page_set_account_name (EMailConfigSummaryPage *page,
 	if (account_name == NULL)
 		account_name = "";
 
+	if (g_strcmp0 (page->priv->account_name, account_name) == 0)
+		return;
+
 	g_free (page->priv->account_name);
 	page->priv->account_name = g_strdup (account_name);
 
@@ -958,6 +961,9 @@ e_mail_config_summary_page_set_identity_source (EMailConfigSummaryPage *page,
                                                 ESource *identity_source)
 {
 	g_return_if_fail (E_IS_MAIL_CONFIG_SUMMARY_PAGE (page));
+
+	if (page->priv->identity_source == identity_source)
+		return;
 
 	if (identity_source != NULL) {
 		g_return_if_fail (E_IS_SOURCE (identity_source));

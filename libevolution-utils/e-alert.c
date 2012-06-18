@@ -782,6 +782,9 @@ e_alert_set_message_type (EAlert *alert,
 {
 	g_return_if_fail (E_IS_ALERT (alert));
 
+	if (alert->priv->message_type == message_type)
+		return;
+
 	alert->priv->message_type = message_type;
 
 	g_object_notify (G_OBJECT (alert), "message-type");
@@ -817,6 +820,9 @@ e_alert_set_primary_text (EAlert *alert,
                             const gchar *primary_text)
 {
 	g_return_if_fail (E_IS_ALERT (alert));
+
+	if (g_strcmp0 (alert->priv->primary_text, primary_text) == 0)
+		return;
 
 	g_free (alert->priv->primary_text);
 	alert->priv->primary_text = g_strdup (primary_text);
@@ -854,6 +860,9 @@ e_alert_set_secondary_text (EAlert *alert,
                             const gchar *secondary_text)
 {
 	g_return_if_fail (E_IS_ALERT (alert));
+
+	if (g_strcmp0 (alert->priv->secondary_text, secondary_text) == 0)
+		return;
 
 	g_free (alert->priv->secondary_text);
 	alert->priv->secondary_text = g_strdup (secondary_text);

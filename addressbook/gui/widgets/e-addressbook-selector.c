@@ -420,6 +420,9 @@ e_addressbook_selector_set_current_view (EAddressbookSelector *selector,
 	if (current_view != NULL)
 		g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (current_view));
 
+	if (selector->priv->current_view == current_view)
+		return;
+
 	if (selector->priv->current_view != NULL) {
 		g_object_unref (selector->priv->current_view);
 		selector->priv->current_view = NULL;

@@ -525,6 +525,9 @@ e_date_time_list_set_use_24_hour_format (EDateTimeList *date_time_list,
 {
 	g_return_if_fail (E_IS_DATE_TIME_LIST (date_time_list));
 
+	if ((date_time_list->use_24_hour_format ? 1 : 0) == (use_24_hour_format ? 1 : 0))
+		return;
+
 	date_time_list->use_24_hour_format = use_24_hour_format;
 
 	g_object_notify (G_OBJECT (date_time_list), "use-24-hour-format");

@@ -1192,6 +1192,9 @@ e_week_view_event_item_set_event_num (EWeekViewEventItem *event_item,
 {
 	g_return_if_fail (E_IS_WEEK_VIEW_EVENT_ITEM (event_item));
 
+	if (event_item->priv->event_num == event_num)
+		return;
+
 	event_item->priv->event_num = event_num;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (event_item));
 
@@ -1211,6 +1214,9 @@ e_week_view_event_item_set_span_num (EWeekViewEventItem *event_item,
                                      gint span_num)
 {
 	g_return_if_fail (E_IS_WEEK_VIEW_EVENT_ITEM (event_item));
+
+	if (event_item->priv->span_num == span_num)
+		return;
 
 	event_item->priv->span_num = span_num;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (event_item));

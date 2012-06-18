@@ -438,6 +438,9 @@ e_mail_config_auth_check_set_active_mechanism (EMailConfigAuthCheck *auth_check,
 {
 	g_return_if_fail (E_IS_MAIL_CONFIG_AUTH_CHECK (auth_check));
 
+	if (g_strcmp0 (auth_check->priv->active_mechanism, active_mechanism) == 0)
+		return;
+
 	g_free (auth_check->priv->active_mechanism);
 	auth_check->priv->active_mechanism = g_strdup (active_mechanism);
 

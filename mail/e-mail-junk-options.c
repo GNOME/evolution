@@ -356,6 +356,9 @@ e_mail_junk_options_set_session (EMailJunkOptions *options,
 {
 	g_return_if_fail (E_IS_MAIL_JUNK_OPTIONS (options));
 
+	if (options->priv->session == session)
+		return;
+
 	if (session != NULL) {
 		g_return_if_fail (E_IS_MAIL_SESSION (session));
 		g_object_ref (session);

@@ -314,6 +314,9 @@ static void
 task_shell_content_set_orientation (ETaskShellContent *task_shell_content,
                                     GtkOrientation orientation)
 {
+	if (task_shell_content->priv->orientation == orientation)
+		return;
+
 	task_shell_content->priv->orientation = orientation;
 
 	g_object_notify (G_OBJECT (task_shell_content), "orientation");
@@ -766,6 +769,9 @@ e_task_shell_content_set_preview_visible (ETaskShellContent *task_shell_content,
                                           gboolean preview_visible)
 {
 	g_return_if_fail (E_IS_TASK_SHELL_CONTENT (task_shell_content));
+
+	if ((task_shell_content->priv->preview_visible ? 1 : 0) == (preview_visible ? 1 : 0))
+		return;
 
 	task_shell_content->priv->preview_visible = preview_visible;
 

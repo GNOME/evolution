@@ -594,6 +594,9 @@ e_shell_sidebar_set_icon_name (EShellSidebar *shell_sidebar,
 {
 	g_return_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar));
 
+	if (g_strcmp0 (shell_sidebar->priv->icon_name, icon_name) == 0)
+		return;
+
 	g_free (shell_sidebar->priv->icon_name);
 	shell_sidebar->priv->icon_name = g_strdup (icon_name);
 
@@ -636,6 +639,9 @@ e_shell_sidebar_set_primary_text (EShellSidebar *shell_sidebar,
                                   const gchar *primary_text)
 {
 	g_return_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar));
+
+	if (g_strcmp0 (shell_sidebar->priv->primary_text, primary_text) == 0)
+		return;
 
 	g_free (shell_sidebar->priv->primary_text);
 	shell_sidebar->priv->primary_text = e_utf8_ensure_valid (primary_text);
@@ -682,6 +688,9 @@ e_shell_sidebar_set_secondary_text (EShellSidebar *shell_sidebar,
                                     const gchar *secondary_text)
 {
 	g_return_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar));
+
+	if (g_strcmp0 (shell_sidebar->priv->secondary_text, secondary_text) == 0)
+		return;
 
 	g_free (shell_sidebar->priv->secondary_text);
 	shell_sidebar->priv->secondary_text = e_utf8_ensure_valid (secondary_text);

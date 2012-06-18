@@ -889,6 +889,9 @@ e_addressbook_model_set_client (EAddressbookModel *model,
 	g_return_if_fail (E_IS_ADDRESSBOOK_MODEL (model));
 	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
 
+	if (model->priv->book_client == book_client)
+		return;
+
 	if (model->priv->book_client != NULL) {
 		if (model->priv->book_client == book_client)
 			return;

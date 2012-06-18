@@ -537,6 +537,9 @@ e_shell_window_switch_to_view (EShellWindow *shell_window,
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 	g_return_if_fail (view_name != NULL);
 
+	if (shell_window->priv->active_view == view_name)
+		return;
+
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 
 	shell_window->priv->active_view = view_name;

@@ -1762,6 +1762,9 @@ e_cal_model_set_confirm_delete (ECalModel *model,
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
+	if ((model->priv->confirm_delete ? 1 : 0) == (confirm_delete ? 1 : 0))
+		return;
+
 	model->priv->confirm_delete = confirm_delete;
 
 	g_object_notify (G_OBJECT (model), "confirm-delete");
@@ -1855,6 +1858,9 @@ e_cal_model_set_compress_weekend (ECalModel *model,
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
+	if ((model->priv->compress_weekend ? 1 : 0) == (compress_weekend ? 1 : 0))
+		return;
+
 	model->priv->compress_weekend = compress_weekend;
 
 	g_object_notify (G_OBJECT (model), "compress-weekend");
@@ -1884,6 +1890,9 @@ e_cal_model_set_default_reminder_interval (ECalModel *model,
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
+	if (model->priv->default_reminder_interval == default_reminder_interval)
+		return;
+
 	model->priv->default_reminder_interval = default_reminder_interval;
 
 	g_object_notify (G_OBJECT (model), "default-reminder-interval");
@@ -1902,6 +1911,9 @@ e_cal_model_set_default_reminder_units (ECalModel *model,
                                         EDurationType default_reminder_units)
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->default_reminder_units == default_reminder_units)
+		return;
 
 	model->priv->default_reminder_units = default_reminder_units;
 
@@ -1948,6 +1960,9 @@ e_cal_model_set_use_default_reminder (ECalModel *model,
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
+	if ((model->priv->use_default_reminder ? 1 : 0) == (use_default_reminder ? 1 : 0))
+		return;
+
 	model->priv->use_default_reminder = use_default_reminder;
 
 	g_object_notify (G_OBJECT (model), "use-default-reminder");
@@ -1991,6 +2006,9 @@ e_cal_model_set_work_day_end_hour (ECalModel *model,
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
+	if (model->priv->work_day_end_hour == work_day_end_hour)
+		return;
+
 	model->priv->work_day_end_hour = work_day_end_hour;
 
 	g_object_notify (G_OBJECT (model), "work-day-end-hour");
@@ -2009,6 +2027,9 @@ e_cal_model_set_work_day_end_minute (ECalModel *model,
                                    gint work_day_end_minute)
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_end_minute == work_day_end_minute)
+		return;
 
 	model->priv->work_day_end_minute = work_day_end_minute;
 
@@ -2029,6 +2050,9 @@ e_cal_model_set_work_day_start_hour (ECalModel *model,
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
+	if (model->priv->work_day_start_hour == work_day_start_hour)
+		return;
+
 	model->priv->work_day_start_hour = work_day_start_hour;
 
 	g_object_notify (G_OBJECT (model), "work-day-start-hour");
@@ -2047,6 +2071,9 @@ e_cal_model_set_work_day_start_minute (ECalModel *model,
                                    gint work_day_start_minute)
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_start_minute == work_day_start_minute)
+		return;
 
 	model->priv->work_day_start_minute = work_day_start_minute;
 
@@ -2091,6 +2118,9 @@ e_cal_model_set_default_client (ECalModel *model,
 		g_return_if_fail (E_IS_CAL_CLIENT (client));
 
 	priv = model->priv;
+
+	if (priv->default_client == client)
+		return;
 
 	if (priv->default_client) {
 		client_data = find_client_data (model, priv->default_client);

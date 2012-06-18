@@ -350,6 +350,9 @@ e_composer_post_header_set_mail_account (EComposerPostHeader *header,
 
 	g_return_if_fail (E_IS_COMPOSER_POST_HEADER (header));
 
+	if (header->priv->mail_account == mail_account)
+		return;
+
 	if (mail_account != NULL) {
 		g_return_if_fail (E_IS_SOURCE (mail_account));
 		g_object_ref (mail_account);

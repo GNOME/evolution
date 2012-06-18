@@ -339,6 +339,9 @@ static void
 spam_assassin_set_local_only (ESpamAssassin *extension,
                               gboolean local_only)
 {
+	if ((extension->local_only ? 1 : 0) == (local_only ? 1 : 0))
+		return;
+
 	extension->local_only = local_only;
 
 	g_object_notify (G_OBJECT (extension), "local-only");
@@ -354,6 +357,9 @@ static void
 spam_assassin_set_spamc_binary (ESpamAssassin *extension,
                                 const gchar *spamc_binary)
 {
+	if (g_strcmp0 (extension->spamc_binary, spamc_binary) == 0)
+		return;
+
 	g_free (extension->spamc_binary);
 	extension->spamc_binary = g_strdup (spamc_binary);
 
@@ -370,6 +376,9 @@ static void
 spam_assassin_set_spamd_binary (ESpamAssassin *extension,
                                 const gchar *spamd_binary)
 {
+	if (g_strcmp0 (extension->spamd_binary, spamd_binary) == 0)
+		return;
+
 	g_free (extension->spamd_binary);
 	extension->spamd_binary = g_strdup (spamd_binary);
 
@@ -386,6 +395,9 @@ static void
 spam_assassin_set_socket_path (ESpamAssassin *extension,
                                const gchar *socket_path)
 {
+	if (g_strcmp0 (extension->socket_path, socket_path) == 0)
+		return;
+
 	g_free (extension->socket_path);
 	extension->socket_path = g_strdup (socket_path);
 
@@ -402,6 +414,9 @@ static void
 spam_assassin_set_use_daemon (ESpamAssassin *extension,
                               gboolean use_daemon)
 {
+	if ((extension->use_daemon ? 1 : 0) == (use_daemon ? 1 : 0))
+		return;
+
 	extension->use_daemon = use_daemon;
 
 	g_object_notify (G_OBJECT (extension), "use-daemon");

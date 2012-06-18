@@ -1251,6 +1251,9 @@ e_calendar_view_set_time_divisions (ECalendarView *cal_view,
 {
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
+	if (cal_view->priv->time_divisions == time_divisions)
+		return;
+
 	cal_view->priv->time_divisions = time_divisions;
 
 	g_object_notify (G_OBJECT (cal_view), "time-divisions");

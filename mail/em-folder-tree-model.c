@@ -515,6 +515,9 @@ em_folder_tree_model_set_selection (EMFolderTreeModel *model,
 	if (selection != NULL)
 		g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
 
+	if (model->priv->selection == selection)
+		return;
+
 	if (model->priv->selection != NULL) {
 		g_object_weak_unref (
 			G_OBJECT (model->priv->selection), (GWeakNotify)
@@ -545,6 +548,9 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
                                   EMailSession *session)
 {
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+
+	if (model->priv->session == session)
+		return;
 
 	if (session != NULL) {
 		g_return_if_fail (E_IS_MAIL_SESSION (session));

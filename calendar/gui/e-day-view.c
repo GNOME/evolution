@@ -2827,6 +2827,9 @@ e_day_view_marcus_bains_set_show_line (EDayView *day_view,
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
+	if ((day_view->marcus_bains_show_line ? 1 : 0) == (show_line ? 1 : 0))
+		return;
+
 	day_view->marcus_bains_show_line = show_line;
 
 	e_day_view_marcus_bains_update (day_view);
@@ -2847,6 +2850,9 @@ e_day_view_marcus_bains_set_day_view_color (EDayView *day_view,
                                             const gchar *day_view_color)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	if (g_strcmp0 (day_view->marcus_bains_day_view_color, day_view_color) == 0)
+		return;
 
 	g_free (day_view->marcus_bains_day_view_color);
 	day_view->marcus_bains_day_view_color = g_strdup (day_view_color);
@@ -2869,6 +2875,9 @@ e_day_view_marcus_bains_set_time_bar_color (EDayView *day_view,
                                             const gchar *time_bar_color)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	if (g_strcmp0 (day_view->marcus_bains_time_bar_color, time_bar_color) == 0)
+		return;
 
 	g_free (day_view->marcus_bains_time_bar_color);
 	day_view->marcus_bains_time_bar_color = g_strdup (time_bar_color);

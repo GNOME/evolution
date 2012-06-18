@@ -1200,6 +1200,10 @@ e_mail_formatter_set_mark_citations (EMailFormatter *formatter,
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 
+	if (((E_MAIL_FORMATTER_GET_CLASS (formatter)->text_html_flags
+	    & CAMEL_MIME_FILTER_TOHTML_MARK_CITATION) ? 1 : 0) == (mark_citations ? 1 : 0))
+		return;
+
 	if (mark_citations)
 		E_MAIL_FORMATTER_GET_CLASS (formatter)->text_html_flags |=
 			CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
@@ -1224,6 +1228,9 @@ e_mail_formatter_set_only_local_photos (EMailFormatter *formatter,
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 
+	if ((formatter->priv->only_local_photos ? 1 : 0) == (only_local_photos ? 1 : 0))
+		return;
+
 	formatter->priv->only_local_photos = only_local_photos;
 
 	g_object_notify (G_OBJECT (formatter), "only-local-photos");
@@ -1242,6 +1249,9 @@ e_mail_formatter_set_show_sender_photo (EMailFormatter *formatter,
                                         gboolean show_sender_photo)
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
+
+	if ((formatter->priv->show_sender_photo ? 1 : 0) == (show_sender_photo ? 1 : 0))
+		return;
 
 	formatter->priv->show_sender_photo = show_sender_photo;
 
@@ -1262,6 +1272,9 @@ e_mail_formatter_set_show_real_date (EMailFormatter *formatter,
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 
+	if ((formatter->priv->show_real_date ? 1 : 0) == (show_real_date ? 1 : 0))
+		return;
+
 	formatter->priv->show_real_date = show_real_date;
 
 	g_object_notify (G_OBJECT (formatter), "show-real-date");
@@ -1280,6 +1293,9 @@ e_mail_formatter_set_animate_images (EMailFormatter *formatter,
                                      gboolean animate_images)
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
+
+	if ((formatter->priv->animate_images ? 1 : 0) == (animate_images ? 1 : 0))
+		return;
 
 	formatter->priv->animate_images = animate_images;
 
@@ -1300,6 +1316,9 @@ e_mail_formatter_set_charset (EMailFormatter *formatter,
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 	g_return_if_fail (charset && *charset);
+
+	if (g_strcmp0 (formatter->priv->charset, charset) == 0)
+		return;
 
 	if (formatter->priv->charset)
 		g_free (formatter->priv->charset);
@@ -1323,6 +1342,9 @@ e_mail_formatter_set_default_charset (EMailFormatter *formatter,
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 	g_return_if_fail (default_charset && *default_charset);
+
+	if (g_strcmp0 (formatter->priv->default_charset, default_charset) == 0)
+		return;
 
 	if (formatter->priv->default_charset)
 		g_free (formatter->priv->default_charset);

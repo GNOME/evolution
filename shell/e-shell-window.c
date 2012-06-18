@@ -1386,6 +1386,9 @@ e_shell_window_set_safe_mode (EShellWindow *shell_window,
 {
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
+	if ((shell_window->priv->safe_mode ? 1 : 0) == (safe_mode ? 1 : 0))
+		return;
+
 	shell_window->priv->safe_mode = safe_mode;
 
 	g_object_notify (G_OBJECT (shell_window), "safe-mode");
@@ -1449,6 +1452,9 @@ e_shell_window_set_sidebar_visible (EShellWindow *shell_window,
 {
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
+	if ((shell_window->priv->sidebar_visible ? 1 : 0) == (sidebar_visible ? 1 : 0))
+		return;
+
 	shell_window->priv->sidebar_visible = sidebar_visible;
 
 	g_object_notify (G_OBJECT (shell_window), "sidebar-visible");
@@ -1482,6 +1488,9 @@ e_shell_window_set_switcher_visible (EShellWindow *shell_window,
                                      gboolean switcher_visible)
 {
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	if ((shell_window->priv->switcher_visible ? 1 : 0) == (switcher_visible ? 1 : 0))
+		return;
 
 	shell_window->priv->switcher_visible = switcher_visible;
 
@@ -1517,6 +1526,9 @@ e_shell_window_set_taskbar_visible (EShellWindow *shell_window,
 {
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
+	if ((shell_window->priv->taskbar_visible ? 1 : 0) == (taskbar_visible ? 1 : 0))
+		return;
+
 	shell_window->priv->taskbar_visible = taskbar_visible;
 
 	g_object_notify (G_OBJECT (shell_window), "taskbar-visible");
@@ -1550,6 +1562,9 @@ e_shell_window_set_toolbar_visible (EShellWindow *shell_window,
                                     gboolean toolbar_visible)
 {
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	if ((shell_window->priv->toolbar_visible ? 1 : 0) == (toolbar_visible ? 1 : 0))
+		return;
 
 	shell_window->priv->toolbar_visible = toolbar_visible;
 

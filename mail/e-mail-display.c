@@ -1575,6 +1575,9 @@ e_mail_display_set_parts_list (EMailDisplay *display,
 {
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
+	if (display->priv->part_list == part_list)
+		return;
+
 	if (part_list) {
 		g_return_if_fail (E_IS_MAIL_PART_LIST (part_list));
 		g_object_ref (part_list);
@@ -1602,7 +1605,7 @@ e_mail_display_set_headers_collapsable (EMailDisplay *display,
 {
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	if (display->priv->headers_collapsable == collapsable)
+	if ((display->priv->headers_collapsable ? 1 : 0) == (collapsable ? 1 : 0))
 		return;
 
 	display->priv->headers_collapsable = collapsable;
@@ -1628,7 +1631,7 @@ e_mail_display_set_headers_collapsed (EMailDisplay *display,
 {
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	if (display->priv->headers_collapsed == collapsed)
+	if ((display->priv->headers_collapsed ? 1 : 0) == (collapsed ? 1 : 0))
 		return;
 
 	display->priv->headers_collapsed = collapsed;

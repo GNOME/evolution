@@ -1269,6 +1269,9 @@ e_cal_model_tasks_set_color_due_today (ECalModelTasks *model,
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 	g_return_if_fail (color_due_today != NULL);
 
+	if (g_strcmp0 (model->priv->color_due_today, color_due_today) == 0)
+		return;
+
 	g_free (model->priv->color_due_today);
 	model->priv->color_due_today = g_strdup (color_due_today);
 
@@ -1311,6 +1314,9 @@ e_cal_model_tasks_set_color_overdue (ECalModelTasks *model,
 {
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 	g_return_if_fail (color_overdue != NULL);
+
+	if (g_strcmp0 (model->priv->color_overdue, color_overdue) == 0)
+		return;
 
 	g_free (model->priv->color_overdue);
 	model->priv->color_overdue = g_strdup (color_overdue);

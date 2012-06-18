@@ -2033,7 +2033,7 @@ e_week_view_set_compress_weekend (EWeekView *week_view,
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (week_view->compress_weekend == compress_weekend)
+	if ((week_view->compress_weekend ? 1 : 0) == (compress_weekend ? 1 : 0))
 		return;
 
 	week_view->compress_weekend = compress_weekend;
@@ -2079,7 +2079,7 @@ e_week_view_set_show_event_end_times (EWeekView *week_view,
 {
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (week_view->show_event_end_times == show_event_end_times)
+	if ((week_view->show_event_end_times ? 1 : 0) == (show_event_end_times ? 1 : 0))
 		return;
 
 	week_view->show_event_end_times = show_event_end_times;

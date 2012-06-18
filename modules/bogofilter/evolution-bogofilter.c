@@ -257,6 +257,9 @@ static void
 bogofilter_set_convert_to_unicode (EBogofilter *extension,
                                    gboolean convert_to_unicode)
 {
+	if ((extension->convert_to_unicode ? 1 : 0) == (convert_to_unicode ? 1 : 0))
+		return;
+
 	extension->convert_to_unicode = convert_to_unicode;
 
 	g_object_notify (G_OBJECT (extension), "convert-to-unicode");

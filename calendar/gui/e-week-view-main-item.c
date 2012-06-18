@@ -477,6 +477,9 @@ e_week_view_main_item_set_week_view (EWeekViewMainItem *main_item,
 	g_return_if_fail (E_IS_WEEK_VIEW_MAIN_ITEM (main_item));
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
+	if (main_item->priv->week_view == week_view)
+		return;
+
 	if (main_item->priv->week_view != NULL)
 		g_object_unref (main_item->priv->week_view);
 

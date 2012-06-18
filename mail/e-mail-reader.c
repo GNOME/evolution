@@ -4572,6 +4572,9 @@ e_mail_reader_set_forward_style (EMailReader *reader,
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
+	if (priv->forward_style == style)
+		return;
+
 	priv->forward_style = style;
 
 	g_object_notify (G_OBJECT (reader), "forward-style");
@@ -4600,7 +4603,7 @@ e_mail_reader_set_group_by_threads (EMailReader *reader,
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
-	if (group_by_threads == priv->group_by_threads)
+	if ((group_by_threads ? 1 : 0) == (priv->group_by_threads ? 1 : 0))
 		return;
 
 	priv->group_by_threads = group_by_threads;
@@ -4634,6 +4637,9 @@ e_mail_reader_set_reply_style (EMailReader *reader,
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	if (priv->reply_style == style)
+		return;
 
 	priv->reply_style = style;
 

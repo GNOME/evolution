@@ -1018,6 +1018,9 @@ e_meeting_time_selector_set_show_week_numbers (EMeetingTimeSelector *mts,
 {
 	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (mts));
 
+	if ((mts->priv->show_week_numbers ? 1 : 0) == (show_week_numbers ? 1 : 0))
+		return;
+
 	mts->priv->show_week_numbers = show_week_numbers;
 
 	g_object_notify (G_OBJECT (mts), "show-week-numbers");
@@ -1037,6 +1040,9 @@ e_meeting_time_selector_set_use_24_hour_format (EMeetingTimeSelector *mts,
 {
 	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (mts));
 
+	if ((mts->priv->use_24_hour_format ? 1 : 0) == (use_24_hour_format ? 1 : 0))
+		return;
+
 	mts->priv->use_24_hour_format = use_24_hour_format;
 
 	g_object_notify (G_OBJECT (mts), "use-24-hour-format");
@@ -1055,6 +1061,9 @@ e_meeting_time_selector_set_week_start_day (EMeetingTimeSelector *mts,
                                             gint week_start_day)
 {
 	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (mts));
+
+	if (mts->priv->week_start_day == week_start_day)
+		return;
 
 	mts->priv->week_start_day = week_start_day;
 

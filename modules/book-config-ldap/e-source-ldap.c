@@ -463,6 +463,9 @@ e_source_ldap_set_authentication (ESourceLDAP *extension,
 {
 	g_return_if_fail (E_IS_SOURCE_LDAP (extension));
 
+	if (extension->priv->authentication == authentication)
+		return;
+
 	extension->priv->authentication = authentication;
 
 	g_object_notify (G_OBJECT (extension), "authentication");
@@ -481,6 +484,9 @@ e_source_ldap_set_can_browse (ESourceLDAP *extension,
                               gboolean can_browse)
 {
 	g_return_if_fail (E_IS_SOURCE_LDAP (extension));
+
+	if ((extension->priv->can_browse ? 1 : 0) == (can_browse ? 1 : 0))
+		return;
 
 	extension->priv->can_browse = can_browse;
 
@@ -518,6 +524,7 @@ e_source_ldap_set_filter (ESourceLDAP *extension,
                           const gchar *filter)
 {
 	gboolean needs_parens;
+	gchar *new_filter;
 
 	g_return_if_fail (E_IS_SOURCE_LDAP (extension));
 
@@ -528,11 +535,19 @@ e_source_ldap_set_filter (ESourceLDAP *extension,
 
 	g_mutex_lock (extension->priv->property_lock);
 
-	g_free (extension->priv->filter);
 	if (needs_parens)
-		extension->priv->filter = g_strdup_printf ("(%s)", filter);
+		new_filter = g_strdup_printf ("(%s)", filter);
 	else
-		extension->priv->filter = g_strdup (filter);
+		new_filter = g_strdup (filter);
+
+	if (g_strcmp0 (extension->priv->filter, new_filter) == 0) {
+		g_mutex_unlock (extension->priv->property_lock);
+		g_free (new_filter);
+		return;
+	}
+
+	g_free (extension->priv->filter);
+	extension->priv->filter = new_filter;
 
 	g_mutex_unlock (extension->priv->property_lock);
 
@@ -552,6 +567,9 @@ e_source_ldap_set_limit (ESourceLDAP *extension,
                          guint limit)
 {
 	g_return_if_fail (E_IS_SOURCE_LDAP (extension));
+
+	if (extension->priv->limit == limit)
+		return;
 
 	extension->priv->limit = limit;
 
@@ -592,6 +610,11 @@ e_source_ldap_set_root_dn (ESourceLDAP *extension,
 
 	g_mutex_lock (extension->priv->property_lock);
 
+	if (g_strcmp0 (extension->priv->root_dn, root_dn) == 0) {
+		g_mutex_unlock (extension->priv->property_lock);
+		return;
+	}
+
 	g_free (extension->priv->root_dn);
 	extension->priv->root_dn = e_util_strdup_strip (root_dn);
 
@@ -614,6 +637,9 @@ e_source_ldap_set_scope (ESourceLDAP *extension,
 {
 	g_return_if_fail (E_IS_SOURCE_LDAP (extension));
 
+	if (extension->priv->scope == scope)
+		return;
+
 	extension->priv->scope = scope;
 
 	g_object_notify (G_OBJECT (extension), "scope");
@@ -632,6 +658,9 @@ e_source_ldap_set_security (ESourceLDAP *extension,
                             ESourceLDAPSecurity security)
 {
 	g_return_if_fail (E_IS_SOURCE_LDAP (extension));
+
+	if (extension->priv->security == security)
+		return;
 
 	extension->priv->security = security;
 

@@ -468,6 +468,9 @@ e_port_entry_set_security_method (EPortEntry *port_entry,
 {
 	g_return_if_fail (E_IS_PORT_ENTRY (port_entry));
 
+	if (port_entry->priv->method == method)
+		return;
+
 	port_entry->priv->method = method;
 
 	port_entry_method_changed (port_entry);

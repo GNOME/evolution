@@ -302,6 +302,9 @@ e_week_view_titles_item_set_week_view (EWeekViewTitlesItem *titles_item,
 	g_return_if_fail (E_IS_WEEK_VIEW_TITLES_ITEM (titles_item));
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
+	if (titles_item->priv->week_view == week_view)
+		return;
+
 	if (titles_item->priv->week_view != NULL)
 		g_object_unref (titles_item->priv->week_view);
 

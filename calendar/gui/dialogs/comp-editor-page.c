@@ -224,6 +224,9 @@ comp_editor_page_set_updating (CompEditorPage *page,
 {
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
+	if ((page->priv->updating ? 1 : 0) == (updating ? 1 : 0))
+		return;
+
 	page->priv->updating = updating;
 
 	g_object_notify (G_OBJECT (page), "updating");

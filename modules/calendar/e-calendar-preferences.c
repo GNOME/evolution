@@ -522,7 +522,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	g_signal_connect (
 		shell_settings, "notify::cal-use-system-timezone",
 		G_CALLBACK (update_system_tz_widgets), prefs);
-	g_object_notify (G_OBJECT (shell_settings), "cal-use-system-timezone");
+	update_system_tz_widgets (shell_settings, NULL, prefs);
 
 	widget = e_builder_get_widget (prefs->builder, "timezone");
 	g_object_bind_property (

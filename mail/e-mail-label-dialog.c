@@ -266,6 +266,9 @@ e_mail_label_dialog_set_label_name (EMailLabelDialog *dialog,
 
 	entry = GTK_ENTRY (dialog->priv->entry);
 
+	if (g_strcmp0 (gtk_entry_get_text (entry), label_name) == 0)
+		return;
+
 	gtk_entry_set_text (entry, label_name);
 
 	g_object_notify (G_OBJECT (dialog), "label-name");

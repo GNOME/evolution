@@ -382,7 +382,7 @@ e_mail_tag_editor_set_completed (EMailTagEditor *editor,
 {
 	g_return_if_fail (E_IS_MAIL_TAG_EDITOR (editor));
 
-	if (completed == editor->priv->completed)
+	if ((completed ? 1 : 0) == (editor->priv->completed ? 1 : 0))
 		return;
 
 	editor->priv->completed = completed;
@@ -406,6 +406,9 @@ e_mail_tag_editor_set_week_start_day (EMailTagEditor *editor,
 	g_return_if_fail (E_IS_MAIL_TAG_EDITOR (editor));
 	g_return_if_fail (week_start_day >= 0 && week_start_day < 7);
 
+	if (editor->priv->week_start_day == week_start_day)
+		return;
+
 	editor->priv->week_start_day = week_start_day;
 
 	g_object_notify (G_OBJECT (editor), "week-start-day");
@@ -425,7 +428,7 @@ e_mail_tag_editor_set_use_24_hour_format (EMailTagEditor *editor,
 {
 	g_return_if_fail (E_IS_MAIL_TAG_EDITOR (editor));
 
-	if (use_24_hour_format == editor->priv->use_24_hour_format)
+	if ((use_24_hour_format ? 1 : 0) == (editor->priv->use_24_hour_format ? 1 : 0))
 		return;
 
 	editor->priv->use_24_hour_format = use_24_hour_format;

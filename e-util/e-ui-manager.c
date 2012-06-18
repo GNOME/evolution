@@ -213,6 +213,9 @@ e_ui_manager_set_express_mode (EUIManager *ui_manager,
 {
 	g_return_if_fail (E_IS_UI_MANAGER (ui_manager));
 
+	if ((ui_manager->priv->express_mode ? 1 : 0) == (express_mode ? 1 : 0))
+		return;
+
 	ui_manager->priv->express_mode = express_mode;
 
 	g_object_notify (G_OBJECT (ui_manager), "express-mode");

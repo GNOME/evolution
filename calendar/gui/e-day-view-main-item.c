@@ -1277,6 +1277,9 @@ e_day_view_main_item_set_day_view (EDayViewMainItem *main_item,
 	g_return_if_fail (E_IS_DAY_VIEW_MAIN_ITEM (main_item));
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
+	if (main_item->priv->day_view == day_view)
+		return;
+
 	if (main_item->priv->day_view != NULL)
 		g_object_unref (main_item->priv->day_view);
 

@@ -394,6 +394,9 @@ e_activity_set_alert_sink (EActivity *activity,
 {
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
+	if (activity->priv->alert_sink == alert_sink)
+		return;
+
 	if (alert_sink != NULL) {
 		g_return_if_fail (E_IS_ALERT_SINK (alert_sink));
 		g_object_ref (alert_sink);
@@ -420,6 +423,9 @@ e_activity_set_cancellable (EActivity *activity,
                             GCancellable *cancellable)
 {
 	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	if (activity->priv->cancellable == cancellable)
+		return;
 
 	if (cancellable != NULL) {
 		g_return_if_fail (G_IS_CANCELLABLE (cancellable));
@@ -459,6 +465,9 @@ e_activity_set_icon_name (EActivity *activity,
 {
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
+	if (g_strcmp0 (activity->priv->icon_name, icon_name) == 0)
+		return;
+
 	g_free (activity->priv->icon_name);
 	activity->priv->icon_name = g_strdup (icon_name);
 
@@ -479,6 +488,9 @@ e_activity_set_percent (EActivity *activity,
 {
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
+	if (activity->priv->percent == percent)
+		return;
+
 	activity->priv->percent = percent;
 
 	g_object_notify (G_OBJECT (activity), "percent");
@@ -498,6 +510,9 @@ e_activity_set_state (EActivity *activity,
 {
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
+	if (activity->priv->state == state)
+		return;
+
 	activity->priv->state = state;
 
 	g_object_notify (G_OBJECT (activity), "state");
@@ -516,6 +531,9 @@ e_activity_set_text (EActivity *activity,
                      const gchar *text)
 {
 	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	if (g_strcmp0 (activity->priv->text, text) == 0)
+		return;
 
 	g_free (activity->priv->text);
 	activity->priv->text = g_strdup (text);

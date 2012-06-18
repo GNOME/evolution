@@ -297,6 +297,9 @@ e_mail_config_service_backend_set_source (EMailConfigServiceBackend *backend,
 {
 	g_return_if_fail (E_IS_MAIL_CONFIG_SERVICE_BACKEND (backend));
 
+	if (backend->priv->source == source)
+		return;
+
 	if (source != NULL) {
 		g_return_if_fail (E_IS_SOURCE (source));
 		g_object_ref (source);
@@ -323,6 +326,9 @@ e_mail_config_service_backend_set_collection (EMailConfigServiceBackend *backend
                                               ESource *collection)
 {
 	g_return_if_fail (E_IS_MAIL_CONFIG_SERVICE_BACKEND (backend));
+
+	if (backend->priv->collection == collection)
+		return;
 
 	if (collection != NULL) {
 		g_return_if_fail (E_IS_SOURCE (collection));

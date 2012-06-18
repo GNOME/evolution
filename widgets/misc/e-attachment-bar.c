@@ -759,6 +759,9 @@ e_attachment_bar_set_expanded (EAttachmentBar *bar,
 {
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 
+	if ((bar->priv->expanded ? 1 : 0) == (expanded ? 1 : 0))
+		return;
+
 	bar->priv->expanded = expanded;
 
 	g_object_notify (G_OBJECT (bar), "expanded");

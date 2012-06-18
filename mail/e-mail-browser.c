@@ -985,6 +985,9 @@ e_mail_browser_set_show_deleted (EMailBrowser *browser,
 {
 	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
 
+	if ((browser->priv->show_deleted ? 1 : 0) == (show_deleted ? 1 : 0))
+		return;
+
 	browser->priv->show_deleted = show_deleted;
 
 	g_object_notify (G_OBJECT (browser), "show-deleted");

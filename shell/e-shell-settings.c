@@ -48,6 +48,60 @@ static GList *instances;
 static guint property_count;
 static gpointer parent_class;
 
+static gboolean
+shell_settings_value_equal (const GValue *v1,
+			    const GValue *v2,
+			    gboolean is_debug)
+{
+	if (!v1 || !v2)
+		return v1 == v2;
+
+	if (G_VALUE_HOLDS_STRING (v1) &&
+	    G_VALUE_HOLDS_STRING (v2)) {
+		return g_strcmp0 (g_value_get_string (v1),
+				  g_value_get_string (v2)) == 0;
+	} else if (G_VALUE_HOLDS_UCHAR (v1) &&
+		   G_VALUE_HOLDS_UCHAR (v2)) {
+		return g_value_get_uchar (v1) == g_value_get_uchar (v2);
+	} else if (G_VALUE_HOLDS_CHAR (v1) &&
+		   G_VALUE_HOLDS_CHAR (v2)) {
+		return g_value_get_schar (v1) == g_value_get_schar (v2);
+	} else if (G_VALUE_HOLDS_INT (v1) &&
+		   G_VALUE_HOLDS_INT (v2)) {
+		return g_value_get_int (v1) == g_value_get_int (v2);
+	} else if (G_VALUE_HOLDS_UINT (v1) &&
+		   G_VALUE_HOLDS_UINT (v2)) {
+		return g_value_get_uint (v1) == g_value_get_uint (v2);
+	} else if (G_VALUE_HOLDS_LONG (v1) &&
+		   G_VALUE_HOLDS_LONG (v2)) {
+		return g_value_get_long (v1) == g_value_get_long (v2);
+	} else if (G_VALUE_HOLDS_ULONG (v1) &&
+		   G_VALUE_HOLDS_ULONG (v2)) {
+		return g_value_get_ulong (v1) == g_value_get_ulong (v2);
+	} else if (G_VALUE_HOLDS_INT64 (v1) &&
+		   G_VALUE_HOLDS_INT64 (v2)) {
+		return g_value_get_int64 (v1) == g_value_get_int64 (v2);
+	} else if (G_VALUE_HOLDS_UINT64 (v1) &&
+		   G_VALUE_HOLDS_UINT64 (v2)) {
+		return g_value_get_uint64 (v1) == g_value_get_uint64 (v2);
+	} else if (G_VALUE_HOLDS_DOUBLE (v1) &&
+		   G_VALUE_HOLDS_DOUBLE (v2)) {
+		return g_value_get_double (v1) == g_value_get_double (v2);
+	} else if (G_VALUE_HOLDS_BOOLEAN (v1) &&
+		   G_VALUE_HOLDS_BOOLEAN (v2)) {
+		return (g_value_get_boolean (v1) ? 1 : 0) == (g_value_get_boolean (v2) ? 1 : 0);
+	} else if (G_VALUE_HOLDS_POINTER (v1) &&
+		   G_VALUE_HOLDS_POINTER (v2)) {
+		return g_value_get_pointer (v1) == g_value_get_pointer (v2);
+	}
+
+	if (is_debug)
+		g_debug ("%s: Cannot compare '%s' with '%s'",
+			G_STRFUNC, G_VALUE_TYPE_NAME (v1), G_VALUE_TYPE_NAME (v2));
+
+	return FALSE;
+}
+
 static GParamSpec *
 shell_settings_pspec_for_key (const gchar *property_name,
                               const gchar *schema,
@@ -150,6 +204,12 @@ shell_settings_set_property (GObject *object,
 
 	dest_value = &g_array_index (
 		priv->value_array, GValue, property_id - 1);
+
+	if (shell_settings_value_equal (value, dest_value, priv->debug)) {
+		if (priv->debug)
+			g_debug ("Setting '%s' set, but it didn't change", pspec->name);
+		return;
+	}
 
 	g_value_copy (value, dest_value);
 	g_object_notify (object, pspec->name);

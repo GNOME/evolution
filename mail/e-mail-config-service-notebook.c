@@ -350,6 +350,9 @@ e_mail_config_service_notebook_set_active_backend (EMailConfigServiceNotebook *n
 {
 	g_return_if_fail (E_IS_MAIL_CONFIG_SERVICE_NOTEBOOK (notebook));
 
+	if (notebook->priv->active_backend == backend)
+		return;
+
 	if (backend != NULL) {
 		g_return_if_fail (E_IS_MAIL_CONFIG_SERVICE_BACKEND (backend));
 		g_object_ref (backend);

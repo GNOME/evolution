@@ -353,6 +353,9 @@ e_timezone_entry_set_timezone (ETimezoneEntry *timezone_entry,
 {
 	g_return_if_fail (E_IS_TIMEZONE_ENTRY (timezone_entry));
 
+	if (timezone_entry->priv->timezone == timezone)
+		return;
+
 	timezone_entry->priv->timezone = timezone;
 
 	timezone_entry_update_entry (timezone_entry);

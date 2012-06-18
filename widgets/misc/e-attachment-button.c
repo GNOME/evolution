@@ -834,6 +834,9 @@ e_attachment_button_set_expandable (EAttachmentButton *button,
 {
 	g_return_if_fail (E_IS_ATTACHMENT_BUTTON (button));
 
+	if ((button->priv->expandable ? 1 : 0) == (expandable ? 1 : 0))
+		return;
+
 	button->priv->expandable = expandable;
 
 	if (!expandable)
@@ -855,6 +858,9 @@ e_attachment_button_set_expanded (EAttachmentButton *button,
                                   gboolean expanded)
 {
 	g_return_if_fail (E_IS_ATTACHMENT_BUTTON (button));
+
+	if ((button->priv->expanded ? 1 : 0) == (expanded ? 1 : 0))
+		return;
 
 	button->priv->expanded = expanded;
 

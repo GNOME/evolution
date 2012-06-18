@@ -314,6 +314,9 @@ static void
 memo_shell_content_set_orientation (EMemoShellContent *memo_shell_content,
                                     GtkOrientation orientation)
 {
+	if (memo_shell_content->priv->orientation == orientation)
+		return;
+
 	memo_shell_content->priv->orientation = orientation;
 
 	g_object_notify (G_OBJECT (memo_shell_content), "orientation");
@@ -741,6 +744,9 @@ e_memo_shell_content_set_preview_visible (EMemoShellContent *memo_shell_content,
                                           gboolean preview_visible)
 {
 	g_return_if_fail (E_IS_MEMO_SHELL_CONTENT (memo_shell_content));
+
+	if ((memo_shell_content->priv->preview_visible ? 1 : 0) == (preview_visible ? 1 : 0))
+		return;
 
 	memo_shell_content->priv->preview_visible = preview_visible;
 

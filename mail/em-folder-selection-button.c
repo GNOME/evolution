@@ -437,6 +437,9 @@ em_folder_selection_button_set_session (EMFolderSelectionButton *button,
 {
 	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
 
+	if (button->priv->session == session)
+		return;
+
 	if (session != NULL) {
 		g_return_if_fail (E_IS_MAIL_SESSION (session));
 		g_object_ref (session);
@@ -464,6 +467,9 @@ em_folder_selection_button_set_caption (EMFolderSelectionButton *button,
 {
 	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
 
+	if (g_strcmp0 (button->priv->caption, caption) == 0)
+		return;
+
 	g_free (button->priv->caption);
 	button->priv->caption = g_strdup (caption);
 
@@ -488,6 +494,9 @@ em_folder_selection_button_set_folder_uri (EMFolderSelectionButton *button,
 	if (folder_uri != NULL && *folder_uri == '\0')
 		folder_uri = NULL;
 
+	if (g_strcmp0 (button->priv->folder_uri, folder_uri) == 0)
+		return;
+
 	g_free (button->priv->folder_uri);
 	button->priv->folder_uri = g_strdup (folder_uri);
 
@@ -509,6 +518,9 @@ em_folder_selection_button_set_store (EMFolderSelectionButton *button,
                                       CamelStore *store)
 {
 	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
+
+	if (button->priv->store == store)
+		return;
 
 	if (store != NULL) {
 		g_return_if_fail (CAMEL_IS_STORE (store));
@@ -536,6 +548,9 @@ em_folder_selection_button_set_title (EMFolderSelectionButton *button,
                                       const gchar *title)
 {
 	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
+
+	if (g_strcmp0 (button->priv->title, title) == 0)
+		return;
 
 	g_free (button->priv->title);
 	button->priv->title = g_strdup (title);

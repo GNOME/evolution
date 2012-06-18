@@ -843,6 +843,9 @@ e_attachment_paned_set_expanded (EAttachmentPaned *paned,
 {
 	g_return_if_fail (E_IS_ATTACHMENT_PANED (paned));
 
+	if ((paned->priv->expanded ? 1 : 0) == (expanded ? 1 : 0))
+		return;
+
 	paned->priv->expanded = expanded;
 
 	g_object_notify (G_OBJECT (paned), "expanded");
@@ -861,6 +864,9 @@ e_attachment_paned_set_resize_toplevel (EAttachmentPaned *paned,
                                         gboolean resize_toplevel)
 {
 	g_return_if_fail (E_IS_ATTACHMENT_PANED (paned));
+
+	if ((paned->priv->resize_toplevel ? 1 : 0) == (resize_toplevel ? 1 : 0))
+		return;
 
 	paned->priv->resize_toplevel = resize_toplevel;
 

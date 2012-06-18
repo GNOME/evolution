@@ -1840,6 +1840,9 @@ gnome_calendar_set_view (GnomeCalendar *gcal,
 
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
+	if (gcal->priv->current_view_type == view_type)
+		return;
+
 	gcal->priv->current_view_type = view_type;
 	gnome_calendar_set_range_selected (gcal, FALSE);
 
@@ -1970,6 +1973,9 @@ gnome_calendar_set_date_navigator (GnomeCalendar *gcal,
 {
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
+	if (gcal->priv->date_navigator == date_navigator)
+		return;
+
 	if (date_navigator != NULL) {
 		g_return_if_fail (E_IS_CALENDAR (date_navigator));
 		g_object_ref (date_navigator);
@@ -2000,6 +2006,9 @@ gnome_calendar_set_memo_table (GnomeCalendar *gcal,
 {
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
+	if (gcal->priv->memo_table == memo_table)
+		return;
+
 	if (memo_table != NULL) {
 		g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
 		g_object_ref (memo_table);
@@ -2026,6 +2035,9 @@ gnome_calendar_set_task_table (GnomeCalendar *gcal,
                                GtkWidget *task_table)
 {
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	if (gcal->priv->task_table == task_table)
+		return;
 
 	if (task_table != NULL) {
 		g_return_if_fail (E_IS_TASK_TABLE (task_table));

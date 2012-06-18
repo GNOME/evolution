@@ -1252,7 +1252,7 @@ e_mail_tab_picker_set_preview_mode (EMailTabPicker *picker,
 
 	EMailTabPickerPrivate *priv = picker->priv;
 
-	if (priv->preview_mode == preview)
+	if ((priv->preview_mode ? 1 : 0) == (preview ? 1 : 0))
 		return;
 
 	priv->preview_mode = preview;
@@ -1333,7 +1333,7 @@ e_mail_tab_picker_enable_drop (EMailTabPicker *picker,
 {
 	EMailTabPickerPrivate *priv = picker->priv;
 
-	if (priv->drop_enabled == enable)
+	if ((priv->drop_enabled ? 1 : 0) == (enable ? 1 : 0))
 		return;
 
 	priv->drop_enabled = enable;

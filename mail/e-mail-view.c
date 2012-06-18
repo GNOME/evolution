@@ -184,6 +184,9 @@ static void
 mail_view_set_orientation (EMailView *view,
                            GtkOrientation orientation)
 {
+	if (view->priv->orientation == orientation)
+		return;
+
 	view->priv->orientation = orientation;
 
 	g_object_notify (G_OBJECT (view), "orientation");
@@ -201,6 +204,9 @@ static void
 mail_view_set_preview_visible (EMailView *view,
                                gboolean preview_visible)
 {
+	if ((view->priv->preview_visible ? 1 : 0) == (preview_visible ? 1 : 0))
+		return;
+
 	view->priv->preview_visible = preview_visible;
 
 	g_object_notify (G_OBJECT (view), "preview-visible");
@@ -216,6 +222,9 @@ static void
 mail_view_set_show_deleted (EMailView *view,
                             gboolean show_deleted)
 {
+	if ((view->priv->show_deleted ? 1 : 0) == (show_deleted ? 1 : 0))
+		return;
+
 	view->priv->show_deleted = show_deleted;
 
 	g_object_notify (G_OBJECT (view), "show-deleted");
@@ -441,6 +450,9 @@ e_mail_view_set_previous_view (EMailView *view,
                                EMailView *previous_view)
 {
 	g_return_if_fail (E_IS_MAIL_VIEW (view));
+
+	if (view->priv->previous_view == previous_view)
+		return;
 
 	if (previous_view != NULL) {
 		g_return_if_fail (E_IS_MAIL_VIEW (previous_view));

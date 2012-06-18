@@ -1687,6 +1687,9 @@ e_contact_list_editor_set_client (EContactListEditor *editor,
 	g_return_if_fail (E_IS_CONTACT_LIST_EDITOR (editor));
 	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
 
+	if (book_client == editor->priv->book_client)
+		return;
+
 	if (editor->priv->book_client != NULL)
 		g_object_unref (editor->priv->book_client);
 	editor->priv->book_client = g_object_ref (book_client);
@@ -1888,6 +1891,9 @@ e_contact_list_editor_set_is_new_list (EContactListEditor *editor,
 
 	g_return_if_fail (E_IS_CONTACT_LIST_EDITOR (editor));
 
+	if ((editor->priv->is_new_list ? 1 : 0) == (is_new_list ? 1 : 0))
+		return;
+
 	editor->priv->is_new_list = is_new_list;
 	contact_list_editor_update (editor);
 
@@ -1907,6 +1913,9 @@ e_contact_list_editor_set_editable (EContactListEditor *editor,
                                     gboolean editable)
 {
 	g_return_if_fail (E_IS_CONTACT_LIST_EDITOR (editor));
+
+	if ((editor->priv->editable ? 1 : 0) == (editable ? 1 : 0))
+		return;
 
 	editor->priv->editable = editable;
 	contact_list_editor_update (editor);

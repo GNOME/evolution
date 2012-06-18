@@ -1367,6 +1367,9 @@ e_shell_view_set_page_num (EShellView *shell_view,
 {
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
+	if (shell_view->priv->page_num == page_num)
+		return;
+
 	shell_view->priv->page_num = page_num;
 
 	g_object_notify (G_OBJECT (shell_view), "page-num");
@@ -1439,6 +1442,9 @@ e_shell_view_set_search_rule (EShellView *shell_view,
                               EFilterRule *search_rule)
 {
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if (shell_view->priv->search_rule == search_rule)
+		return;
 
 	if (search_rule != NULL) {
 		g_return_if_fail (E_IS_FILTER_RULE (search_rule));

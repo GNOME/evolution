@@ -858,6 +858,9 @@ e_day_view_top_item_set_day_view (EDayViewTopItem *top_item,
 	g_return_if_fail (E_IS_DAY_VIEW_TOP_ITEM (top_item));
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
+	if (top_item->priv->day_view == day_view)
+		return;
+
 	if (top_item->priv->day_view != NULL)
 		g_object_unref (top_item->priv->day_view);
 
@@ -879,6 +882,9 @@ e_day_view_top_item_set_show_dates (EDayViewTopItem *top_item,
                                     gboolean show_dates)
 {
 	g_return_if_fail (E_IS_DAY_VIEW_TOP_ITEM (top_item));
+
+	if ((top_item->priv->show_dates ? 1 : 0) == (show_dates ? 1 : 0))
+		return;
 
 	top_item->priv->show_dates = show_dates;
 

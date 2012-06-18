@@ -2205,6 +2205,9 @@ e_web_view_set_caret_mode (EWebView *web_view,
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
+	if ((web_view->priv->caret_mode ? 1 : 0) == (caret_mode ? 1 : 0))
+		return;
+
 	web_view->priv->caret_mode = caret_mode;
 
 	g_object_notify (G_OBJECT (web_view), "caret-mode");
@@ -2233,6 +2236,9 @@ e_web_view_set_disable_printing (EWebView *web_view,
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
+	if ((web_view->priv->disable_printing ? 1 : 0) == (disable_printing ? 1 : 0))
+		return;
+
 	web_view->priv->disable_printing = disable_printing;
 
 	g_object_notify (G_OBJECT (web_view), "disable-printing");
@@ -2251,6 +2257,9 @@ e_web_view_set_disable_save_to_disk (EWebView *web_view,
                                      gboolean disable_save_to_disk)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if ((web_view->priv->disable_save_to_disk ? 1 : 0) == (disable_save_to_disk ? 1 : 0))
+		return;
 
 	web_view->priv->disable_save_to_disk = disable_save_to_disk;
 
@@ -2416,6 +2425,9 @@ e_web_view_set_selected_uri (EWebView *web_view,
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
+	if (g_strcmp0 (web_view->priv->selected_uri, selected_uri) == 0)
+		return;
+
 	g_free (web_view->priv->selected_uri);
 	web_view->priv->selected_uri = g_strdup (selected_uri);
 
@@ -2435,6 +2447,9 @@ e_web_view_set_cursor_image (EWebView *web_view,
                              GdkPixbufAnimation *image)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (web_view->priv->cursor_image == image)
+		return;
 
 	if (image != NULL)
 		g_object_ref (image);
@@ -2461,6 +2476,9 @@ e_web_view_set_cursor_image_src (EWebView *web_view,
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
+	if (g_strcmp0 (web_view->priv->cursor_image_src, src_uri) == 0)
+		return;
+
 	g_free (web_view->priv->cursor_image_src);
 	web_view->priv->cursor_image_src = g_strdup (src_uri);
 
@@ -2480,6 +2498,9 @@ e_web_view_set_open_proxy (EWebView *web_view,
                            GtkAction *open_proxy)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (web_view->priv->open_proxy == open_proxy)
+		return;
 
 	if (open_proxy != NULL) {
 		g_return_if_fail (GTK_IS_ACTION (open_proxy));
@@ -2517,6 +2538,9 @@ e_web_view_set_print_proxy (EWebView *web_view,
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
+	if (web_view->priv->print_proxy == print_proxy)
+		return;
+
 	if (print_proxy != NULL) {
 		g_return_if_fail (GTK_IS_ACTION (print_proxy));
 		g_object_ref (print_proxy);
@@ -2543,6 +2567,9 @@ e_web_view_set_save_as_proxy (EWebView *web_view,
                               GtkAction *save_as_proxy)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (web_view->priv->save_as_proxy == save_as_proxy)
+		return;
 
 	if (save_as_proxy != NULL) {
 		g_return_if_fail (GTK_IS_ACTION (save_as_proxy));

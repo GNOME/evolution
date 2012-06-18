@@ -121,6 +121,9 @@ static void
 book_shell_content_set_orientation (EBookShellContent *book_shell_content,
                                     GtkOrientation orientation)
 {
+	if (book_shell_content->priv->orientation == orientation)
+		return;
+
 	book_shell_content->priv->orientation = orientation;
 
 	g_object_notify (G_OBJECT (book_shell_content), "orientation");
@@ -700,6 +703,9 @@ e_book_shell_content_set_preview_visible (EBookShellContent *book_shell_content,
 {
 	g_return_if_fail (E_IS_BOOK_SHELL_CONTENT (book_shell_content));
 
+	if ((book_shell_content->priv->preview_visible ? 1 : 0) == (preview_visible ? 1 : 0))
+		return;
+
 	book_shell_content->priv->preview_visible = preview_visible;
 
 	g_object_notify (G_OBJECT (book_shell_content), "preview-visible");
@@ -719,6 +725,9 @@ e_book_shell_content_set_preview_show_maps (EBookShellContent *book_shell_conten
                                             gboolean show_maps)
 {
 	g_return_if_fail (E_IS_BOOK_SHELL_CONTENT (book_shell_content));
+
+	if ((book_shell_content->priv->preview_show_maps ? 1 : 0) == (show_maps ? 1 : 0))
+		return;
 
 	book_shell_content->priv->preview_show_maps = show_maps;
 

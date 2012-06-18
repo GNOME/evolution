@@ -823,6 +823,9 @@ e_mail_config_service_page_set_active_backend (EMailConfigServicePage *page,
 {
 	g_return_if_fail (E_IS_MAIL_CONFIG_SERVICE_PAGE (page));
 
+	if (page->priv->active_backend == backend)
+		return;
+
 	if (backend != NULL) {
 		g_return_if_fail (E_IS_MAIL_CONFIG_SERVICE_BACKEND (backend));
 		g_object_ref (backend);
@@ -849,6 +852,9 @@ e_mail_config_service_page_set_email_address (EMailConfigServicePage *page,
                                               const gchar *email_address)
 {
 	g_return_if_fail (E_IS_MAIL_CONFIG_SERVICE_PAGE (page));
+
+	if (g_strcmp0 (page->priv->email_address, email_address) == 0)
+		return;
 
 	g_free (page->priv->email_address);
 	page->priv->email_address = g_strdup (email_address);

@@ -577,6 +577,9 @@ eab_contact_display_set_contact (EABContactDisplay *display,
 {
 	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
 
+	if (display->priv->contact == contact)
+		return;
+
 	if (contact != NULL)
 		g_object_ref (contact);
 
