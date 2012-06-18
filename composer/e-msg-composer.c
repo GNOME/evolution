@@ -3594,6 +3594,12 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		g_error_free (error);
+
+		if (e_msg_composer_is_exiting (composer)) {
+			gtk_window_present (GTK_WINDOW (composer));
+			composer->priv->application_exiting = FALSE;
+		}
+
 		return;
 	}
 
@@ -3605,6 +3611,12 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 			error->message, NULL);
 		async_context_free (context);
 		g_error_free (error);
+
+		if (e_msg_composer_is_exiting (composer)) {
+			gtk_window_present (GTK_WINDOW (composer));
+			composer->priv->application_exiting = FALSE;
+		}
+
 		return;
 	}
 
@@ -3619,6 +3631,9 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 		0, message, context->activity);
 
 	g_object_unref (message);
+
+	if (e_msg_composer_is_exiting (composer))
+		g_object_weak_ref (G_OBJECT (context->activity), (GWeakNotify) gtk_widget_destroy, composer);
 
 	async_context_free (context);
 }
