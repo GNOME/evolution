@@ -61,15 +61,22 @@ struct _EMailPartListClass {
 	GObjectClass parent_class;
 };
 
-EMailPartList *	e_mail_part_list_new		();
+EMailPartList *	e_mail_part_list_new		(void);
 
-GType		e_mail_part_list_get_type	();
+GType		e_mail_part_list_get_type	(void);
 
 EMailPart *	e_mail_part_list_find_part	(EMailPartList *part_list,
 						 const gchar *id);
 
-GSList *		e_mail_part_list_get_iter	(GSList *list,
+GSList *	e_mail_part_list_get_iter	(GSList *list,
 						 const gchar *id);
+
+CamelObjectBag *
+		e_mail_part_list_get_registry	(void);
+
+void		e_mail_part_list_registry_add	(CamelObjectBag *registry,
+						 const gchar *mail_uri,
+						 EMailPartList *part_list);
 
 G_END_DECLS
 

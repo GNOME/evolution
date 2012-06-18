@@ -57,8 +57,6 @@
 
 #define d(x)
 
-static GHashTable * mail_reader_get_mail_register (void);
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _AsyncContext {
@@ -538,18 +536,23 @@ free_message_printing_context (struct _MessagePrintingContext *context)
 }
 
 static void
-mail_reader_do_print_message (EMailPartList *part_list,
+mail_reader_do_print_message (GObject *object,
+			      GAsyncResult *result,
                               gpointer user_data)
 {
+	EMailReader *reader = E_MAIL_READER (object);
 	EActivity *activity;
 	GCancellable *cancellable;
 	EMailPrinter *printer;
+	EMailPartList *part_list;
 	struct _MessagePrintingContext *context = user_data;
 
 	activity = e_mail_reader_new_activity (context->reader);
 	e_activity_set_text (activity, _("Printing"));
 	e_activity_set_state (activity, E_ACTIVITY_RUNNING);
 	cancellable = e_activity_get_cancellable (activity);
+
+	part_list = e_mail_reader_parse_message_finish (reader, result);
 
 	printer = e_mail_printer_new (part_list);
 	g_signal_connect (printer, "done",
@@ -578,17 +581,15 @@ mail_reader_get_message_to_print_ready_cb (GObject *object,
 
 	e_mail_reader_parse_message (
 		context->reader, context->folder, context->message_uid,
-		message, (GFunc) mail_reader_do_print_message, context);
+		message, mail_reader_do_print_message, context);
 }
 
 void
 e_mail_reader_print (EMailReader *reader,
                      GtkPrintOperationAction action)
 {
-	EMailPartList *parts;
 	struct _MessagePrintingContext *context;
 	MessageList *message_list;
-	gchar *uri;
 
 	context = g_new0 (struct _MessagePrintingContext, 1);
 
@@ -596,27 +597,15 @@ e_mail_reader_print (EMailReader *reader,
 	context->reader = g_object_ref (reader);
 	context->message_uid = g_strdup (message_list->cursor_uid);
 	context->folder = g_object_ref (e_mail_reader_get_folder (reader));
+	context->activity = e_mail_reader_new_activity (reader);
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	uri = e_mail_part_build_uri (
-		context->folder, context->message_uid, NULL, NULL);
-	parts = e_mail_reader_lookup_part_list (reader, uri);
-	if (!parts) {
-		GCancellable *cancellable;
-
-		context->activity = e_mail_reader_new_activity (reader);
-		cancellable = e_activity_get_cancellable (context->activity);
-
-		camel_folder_get_message (
-			context->folder, context->message_uid,
-			G_PRIORITY_DEFAULT, cancellable,
-			(GAsyncReadyCallback) mail_reader_get_message_to_print_ready_cb,
-			context);
-
-	} else {
-		mail_reader_do_print_message (parts, context);
-	}
+	camel_folder_get_message (
+		context->folder, context->message_uid,
+		G_PRIORITY_DEFAULT, e_activity_get_cancellable (context->activity),
+		(GAsyncReadyCallback) mail_reader_get_message_to_print_ready_cb,
+		context);
 }
 
 static void
@@ -855,12 +844,17 @@ html_contains_nonwhitespace (const gchar *html,
 }
 
 static void
-mail_reader_reply_message_parsed (EMailPartList *part_list,
+mail_reader_reply_message_parsed (GObject *object,
+				  GAsyncResult *result,
                                   gpointer user_data)
 {
 	EShell *shell;
 	EMailBackend *backend;
+	EMailReader *reader = E_MAIL_READER (object);
+	EMailPartList *part_list;
 	AsyncContext *context = user_data;
+
+	part_list = e_mail_reader_parse_message_finish (reader, result);
 
 	backend = e_mail_reader_get_backend (context->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
@@ -907,8 +901,7 @@ mail_reader_get_message_ready_cb (CamelFolder *folder,
 
 	e_mail_reader_parse_message (context->reader, context->folder,
 		context->message_uid, message,
-		(GFunc) mail_reader_reply_message_parsed,
-		context);
+		mail_reader_reply_message_parsed, context);
 }
 
 void
@@ -932,7 +925,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	gchar *selection = NULL;
 	gint length;
 	gchar *mail_uri;
-	GHashTable *mail_register;
+	CamelObjectBag *registry;
 
 	/* This handles quoting only selected text in the reply.  If
 	 * nothing is selected or only whitespace is selected, fall
@@ -982,9 +975,9 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	if (!gtk_widget_get_visible (GTK_WIDGET (web_view)))
 		goto whole_message;
 
-	mail_register = mail_reader_get_mail_register ();
+	registry = e_mail_part_list_get_registry ();
 	mail_uri = e_mail_part_build_uri (folder, uid, NULL, NULL);
-	part_list = g_hash_table_lookup (mail_register, mail_uri);
+	part_list = camel_object_bag_get (registry, mail_uri);
 	g_free (mail_uri);
 
 	if (!part_list)
@@ -995,7 +988,11 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 		if (src_message != NULL)
 			g_object_ref (src_message);
 
+		g_object_unref (part_list);
+
 		g_return_if_fail (src_message != NULL);
+	} else {
+		g_object_unref (part_list);
 	}
 
 	if (!e_web_view_is_selection_active (web_view))
@@ -1535,98 +1532,63 @@ e_mail_reader_header_free (EMailReaderHeader *header)
 	g_free (header);
 }
 
-static GHashTable *
-mail_reader_get_mail_register (void)
-{
-	SoupSession *session;
-	GHashTable *mails;
+struct mail_reader_parse_message_run_data_ {
+	CamelFolder *folder;
+	CamelMimeMessage *message;
+	gchar *message_uid;
+	EActivity *activity;
 
-	session = webkit_get_default_session ();
-	mails = g_object_get_data (G_OBJECT (session), "mails");
-	if (!mails) {
-		mails = g_hash_table_new_full (g_str_hash, g_str_equal,
-				(GDestroyNotify) g_free, NULL);
-		g_object_set_data_full (
-			G_OBJECT (session), "mails", mails,
-			(GDestroyNotify) g_hash_table_destroy);
+	EMailPartList *part_list;
+};
+
+static void
+mail_reader_parse_message_run (GSimpleAsyncResult *simple,
+			       GObject *object,
+			       GCancellable *cancellable)
+{
+	EMailReader *reader = E_MAIL_READER (object);
+	CamelObjectBag *registry;
+	EMailPartList *part_list;
+	gchar *mail_uri;
+	struct mail_reader_parse_message_run_data_ *data;
+
+	data = g_object_get_data (G_OBJECT (simple), "evo-data");
+
+	registry = e_mail_part_list_get_registry ();
+
+	mail_uri = e_mail_part_build_uri (
+			data->folder, data->message_uid, NULL, NULL);
+
+	part_list = camel_object_bag_reserve (registry, mail_uri);
+	if (!part_list) {
+		EMailBackend *mail_backend;
+		EMailSession *mail_session;
+		EMailParser *parser;
+
+		mail_backend = e_mail_reader_get_backend (reader);
+		mail_session = e_mail_backend_get_session (mail_backend);
+
+		parser = e_mail_parser_new (CAMEL_SESSION (mail_session));
+
+		part_list = e_mail_parser_parse_sync (
+				parser, data->folder, data->message_uid,
+				data->message,
+				e_activity_get_cancellable (data->activity));
+
+		g_object_unref (parser);
+
+		if (!part_list) {
+			camel_object_bag_abort (registry, mail_uri);
+		} else {
+			e_mail_part_list_registry_add (
+				registry, mail_uri, part_list);
+			g_object_ref (part_list);
+		}
 	}
 
-	return mails;
-}
-
-EMailPartList *
-e_mail_reader_lookup_part_list (EMailReader *reader,
-                                const gchar *uri)
-{
-	GHashTable *mails;
-
-	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
-	g_return_val_if_fail (uri && *uri, NULL);
-
-	mails = mail_reader_get_mail_register ();
-	return g_hash_table_lookup (mails, uri);
-}
-
-struct _formatter_weak_ref_closure {
-	GHashTable *part_lists;
-	gchar *mail_uri;
-};
-
-static void
-part_list_weak_ref_cb (gchar *mail_uri,
-                       EMailPartList *part_list)
-{
-	GHashTable *mails;
-
-	mails = mail_reader_get_mail_register ();
-
-	/* When this callback is called, the partslist is being finalized
-	 * so we only remove it from the parts list table. */
-	g_hash_table_remove (mails, mail_uri);
-
-	d(printf("Destroying parts list %p (%s)\n", part_list, mail_uri));
-
 	g_free (mail_uri);
-}
 
-struct format_parser_async_closure_ {
-        EActivity *activity;
-	gchar *mail_uri;
-
-	GFunc user_callback;
-	gpointer user_data;
-};
-
-static void
-format_parser_async_done_cb (GObject *source,
-                             GAsyncResult *result,
-                             gpointer user_data)
-{
-	EMailParser *parser = E_MAIL_PARSER (source);
-	EMailPartList *part_list;
-	GHashTable *mails;
-	struct format_parser_async_closure_ *closure = user_data;
-
-	part_list = e_mail_parser_parse_finish (parser, result, NULL);
-
-	/* When no EMailDisplay holds reference to the part list, then
-	 * the list can be destroyed. */
-	g_object_weak_ref (G_OBJECT (part_list),
-		(GWeakNotify) part_list_weak_ref_cb, g_strdup (closure->mail_uri));
-
-	mails = mail_reader_get_mail_register ();
-	g_hash_table_insert (mails, g_strdup (closure->mail_uri), part_list);
-	d(printf("Registered EMailPartList %s\n", closure->mail_uri));
-
-	if (closure->user_callback)
-		closure->user_callback (part_list, closure->user_data);
-
-	g_object_unref (closure->activity);
-	g_free (closure->mail_uri);
-	g_free (closure);
-
-	g_object_unref (result);
-	g_object_unref (parser);
+	data->part_list = part_list;
 }
 
 void
@@ -1634,31 +1596,54 @@ e_mail_reader_parse_message (EMailReader *reader,
                              CamelFolder *folder,
                              const gchar *message_uid,
                              CamelMimeMessage *message,
-                             GFunc ready_callback,
+                             GAsyncReadyCallback ready_callback,
                              gpointer user_data)
 {
-	EMailParser *parser;
-	EMailBackend *mail_backend;
-	EMailSession *mail_session;
-	gchar *mail_uri;
-	struct format_parser_async_closure_ *closure;
+	GSimpleAsyncResult *simple;
+	struct mail_reader_parse_message_run_data_ *data;
 
-	mail_uri = e_mail_part_build_uri (folder, message_uid, NULL, NULL);
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (ready_callback != NULL);
 
-	mail_backend = e_mail_reader_get_backend (reader);
-	mail_session = e_mail_backend_get_session (mail_backend);
+	data = g_new0 (struct mail_reader_parse_message_run_data_, 1);
+	data->activity = e_mail_reader_new_activity (reader);
+	e_activity_set_text (data->activity, _("Parsing message"));
+	data->folder = g_object_ref (folder);
+	data->message = g_object_ref (message);
+	data->message_uid = g_strdup (message_uid);
 
-	closure = g_new0 (struct format_parser_async_closure_, 1);
-	parser = e_mail_parser_new (CAMEL_SESSION (mail_session));
+	simple = g_simple_async_result_new (
+		G_OBJECT (reader), ready_callback, user_data,
+		e_mail_reader_parse_message);
+	g_object_set_data (G_OBJECT (simple), "evo-data", data);
 
-	closure->activity = e_mail_reader_new_activity (reader);
-	e_activity_set_text (closure->activity, _("Parsing message"));
-	closure->mail_uri = mail_uri;
-	closure->user_callback = ready_callback;
-	closure->user_data = user_data;
+	g_simple_async_result_run_in_thread (
+		simple, mail_reader_parse_message_run,
+		G_PRIORITY_DEFAULT,
+		e_activity_get_cancellable (data->activity));
 
-	e_mail_parser_parse (parser, folder, message_uid,
-		message, format_parser_async_done_cb,
-		e_activity_get_cancellable (closure->activity),
-		closure);
+	g_object_unref (simple);
+}
+
+EMailPartList *
+e_mail_reader_parse_message_finish (EMailReader *reader,
+				    GAsyncResult *result)
+{
+	struct mail_reader_parse_message_run_data_ *data;
+	EMailPartList *part_list;
+
+	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), NULL);
+
+	data = g_object_get_data (G_OBJECT (result), "evo-data");
+	g_return_val_if_fail (data, NULL);
+
+	part_list = data->part_list;
+
+	g_clear_object (&data->folder);
+	g_clear_object (&data->message);
+	g_clear_object (&data->activity);
+	g_free (data->message_uid);
+	g_free (data);
+
+	return part_list;
 }

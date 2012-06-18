@@ -3110,15 +3110,22 @@ struct format_parser_async_closure_ {
 };
 
 static void
-set_mail_display_part_list (EMailPartList *part_list,
+set_mail_display_part_list (GObject *object,
+			    GAsyncResult *result,
                             gpointer user_data)
 {
-	EMailDisplay *display = user_data;
+	EMailPartList *part_list;
+	EMailReader *reader;
+	EMailDisplay *display;
+
+	reader = E_MAIL_READER (object);
+	display = e_mail_reader_get_mail_display (reader);
+
+	part_list = e_mail_reader_parse_message_finish (reader, result);
 
 	e_mail_display_set_parts_list (display, part_list);
 	e_mail_display_load (display, NULL);
 
-	g_object_unref (display);
         /* Remove the reference added when parts list was created,
          * so that only owners are EMailDisplays */
 	g_object_unref (part_list);
@@ -3131,23 +3138,25 @@ mail_reader_set_display_formatter_for_message (EMailReader *reader,
                                                CamelMimeMessage *message,
                                                CamelFolder *folder)
 {
+	CamelObjectBag *registry;
 	EMailPartList *parts;
 	gchar *mail_uri;
 
 	mail_uri = e_mail_part_build_uri (folder, message_uid, NULL, NULL);
-	parts = e_mail_reader_lookup_part_list (reader, mail_uri);
+	registry = e_mail_part_list_get_registry ();
+	parts = camel_object_bag_peek (registry, mail_uri);
 	g_free (mail_uri);
 
 	if (parts == NULL) {
 
 		e_mail_reader_parse_message (
 			reader, folder, message_uid, message,
-			(GFunc) set_mail_display_part_list,
-			g_object_ref (display));
+			set_mail_display_part_list, NULL);
 
 	} else {
 		e_mail_display_set_parts_list (display, parts);
 		e_mail_display_load (display, NULL);
+		g_object_unref (parts);
 	}
 }
 

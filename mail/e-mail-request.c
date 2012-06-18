@@ -69,8 +69,7 @@ handle_mail_request (GSimpleAsyncResult *res,
 	GInputStream *stream;
 	EMailFormatter *formatter;
 	EMailPartList *part_list;
-	SoupSession *session;
-	GHashTable *mails;
+	CamelObjectBag *registry;
 	GByteArray *ba;
 	gchar *part_id;
 	gchar *val;
@@ -84,9 +83,8 @@ handle_mail_request (GSimpleAsyncResult *res,
 		g_object_unref (request->priv->output_stream);
 	}
 
-	session = webkit_get_default_session ();
-	mails = g_object_get_data (G_OBJECT (session), "mails");
-	part_list = g_hash_table_lookup (mails, request->priv->uri_base);
+	registry = e_mail_part_list_get_registry ();
+	part_list = camel_object_bag_get (registry, request->priv->uri_base);
 	g_return_if_fail (part_list != NULL);
 
 	request->priv->output_stream = camel_stream_mem_new ();
@@ -161,6 +159,8 @@ handle_mail_request (GSimpleAsyncResult *res,
 			g_free (d);
 		});
 	}
+
+	g_object_unref (part_list);
 
 	stream = g_memory_input_stream_new_from_data (
 			(gchar *) ba->data, ba->len, NULL);

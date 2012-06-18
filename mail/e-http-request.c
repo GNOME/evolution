@@ -321,16 +321,14 @@ handle_http_request (GSimpleAsyncResult *res,
 	image_policy = e_mail_formatter_get_image_loading_policy (formatter);
 	if (!force_load_images && mail_uri &&
 	    (image_policy == E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES)) {
-		SoupSession *session;
-		GHashTable *parts;
+		CamelObjectBag *registry;
 		gchar *decoded_uri;
 		EMailPartList *part_list;
 
-		session = webkit_get_default_session ();
-		parts = g_object_get_data (G_OBJECT (session), "mails");
+		registry = e_mail_part_list_get_registry ();
 		decoded_uri = soup_uri_decode (mail_uri);
 
-		part_list = g_hash_table_lookup (parts, decoded_uri);
+		part_list = camel_object_bag_get (registry, decoded_uri);
 		if (part_list) {
 			EShell *shell;
 			ESourceRegistry *registry;
@@ -341,6 +339,8 @@ handle_http_request (GSimpleAsyncResult *res,
 			addr = camel_mime_message_get_from (part_list->message);
 			force_load_images = em_utils_in_addressbook (
 					registry, addr, FALSE, cancellable);
+
+			g_object_unref (part_list);
 		}
 
 		g_free (decoded_uri);
@@ -476,8 +476,8 @@ http_request_send_async (SoupRequest *request,
 	gchar *mail_uri;
 	SoupURI *uri;
 	const gchar *enc;
-	SoupSession *session;
-	GHashTable *mails, *query;
+	CamelObjectBag *registry;
+	GHashTable *query;
 
 	ehr = E_HTTP_REQUEST (request);
 	uri = soup_request_get_uri (request);
@@ -494,17 +494,11 @@ http_request_send_async (SoupRequest *request,
 
 	mail_uri = soup_uri_decode (enc);
 
-	session = webkit_get_default_session ();
-	mails = g_object_get_data (G_OBJECT (session), "mails");
-	g_return_if_fail (mails != NULL);
-
-	ehr->priv->parts_list = g_hash_table_lookup (mails, mail_uri);
+	registry = e_mail_part_list_get_registry ();
+	ehr->priv->parts_list = camel_object_bag_get (registry, mail_uri);
 	g_free (mail_uri);
 
 	g_return_if_fail (ehr->priv->parts_list);
-
-	/* Make sure the formatter lives until we are finished here */
-	g_object_ref (ehr->priv->parts_list);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (request), callback,

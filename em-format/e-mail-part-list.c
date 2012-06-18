@@ -22,6 +22,10 @@
 
 G_DEFINE_TYPE (EMailPartList, e_mail_part_list, G_TYPE_OBJECT)
 
+
+static CamelObjectBag *registry = NULL;
+G_LOCK_DEFINE_STATIC (registry);
+
 static void
 unref_mail_part (gpointer user_data)
 {
@@ -127,4 +131,54 @@ e_mail_part_list_get_iter (GSList *list,
 	}
 
 	return NULL;
+}
+
+/**
+ * e_mail_part_list_get_registry:
+ *
+ * Returns a #CamelObjectBag where parsed #EMailPartLists can be stored.
+ */
+CamelObjectBag *
+e_mail_part_list_get_registry (void)
+{
+	G_LOCK (registry);
+	if (registry == NULL) {
+		registry = camel_object_bag_new (
+				g_str_hash, g_str_equal,
+				(CamelCopyFunc) g_strdup, g_free);
+	}
+	G_UNLOCK (registry);
+
+	return registry;
+}
+
+static void
+part_list_weak_ref_notify (gchar *mail_uri,
+			   EMailPartList *part_list)
+{
+	CamelObjectBag *reg = e_mail_part_list_get_registry ();
+
+	camel_object_bag_remove (reg, part_list);
+}
+
+/**
+ * e_mail_part_list_registry_add:
+ *
+ * This method should be used to add a new @part_list to the
+ * #CamelObjectBag registry. It will automatically handle removing
+ * the @part_list from the bag when it's destroyed.
+ *
+ * The @registry don't take any reference to the @part_list.
+ */
+void
+e_mail_part_list_registry_add (CamelObjectBag *registry,
+			       const gchar *mail_uri,
+			       EMailPartList *part_list)
+{
+	camel_object_bag_add (registry, mail_uri, part_list);
+
+	g_object_weak_ref (
+		G_OBJECT (part_list),
+		(GWeakNotify) part_list_weak_ref_notify,
+		g_strdup (mail_uri));
 }
