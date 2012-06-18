@@ -279,7 +279,10 @@ AC_ARG_ENABLE([canberra],
 	[enable_canberra="$enableval"], [enable_canberra=yes])
 
 if test $enable_canberra = yes; then
-	PKG_CHECK_MODULES([CANBERRA],[libcanberra-gtk3 >= libcanberra_gtk_minimum_version])
+	PKG_CHECK_MODULES([CANBERRA],[libcanberra-gtk3 >= libcanberra_gtk_minimum_version],,
+	[AC_MSG_ERROR([libcanberra-gtk3 not found (or version < libcanberra_gtk_minimum_version),
+	If you want to disable support for event sounds,
+	please append --disable-canberra to configure.])])
 	AC_DEFINE(HAVE_CANBERRA, 1, [Define if using Canberra and Canberra-GTK for sound])
 fi
 AC_SUBST(CANBERRA_CFLAGS)
