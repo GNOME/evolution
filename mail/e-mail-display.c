@@ -71,6 +71,8 @@ struct _EMailDisplayPrivate {
 	GSettings *settings;
 
 	GHashTable *widgets;
+
+	guint reload_scheduled: 1;
 };
 
 enum {
@@ -1500,6 +1502,23 @@ e_mail_display_get_mode (EMailDisplay *display)
 	return display->priv->mode;
 }
 
+static gboolean
+reload_display (EMailDisplay *display)
+{
+	e_mail_display_reload (display);
+	return FALSE;
+}
+
+static void
+schedule_display_reload (EMailDisplay *display)
+{
+	if (display->priv->reload_scheduled)
+		return;
+
+	g_idle_add ((GSourceFunc) reload_display, display);
+	display->priv->reload_scheduled = TRUE;
+}
+
 void
 e_mail_display_set_mode (EMailDisplay *display,
                          EMailFormatterMode mode)
@@ -1527,33 +1546,33 @@ e_mail_display_set_mode (EMailDisplay *display,
 
 	g_object_connect (formatter,
 		"swapped-signal::notify::charset",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		"swapped-signal::notify::image-loading-policy",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		"swapped-signal::notify::mark-citations",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		"swapped-signal::notify::only-local-photos",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		"swapped-signal::notify::show-sender-photo",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		"swapped-signal::notify::show-real-date",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		"swapped-signal::notify::animate-images",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		"swapped-signal::notify::text-color",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		"swapped-signal::notify::body-color",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		"swapped-signal::notify::citation-color",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		"swapped-signal::notify::content-color",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		"swapped-signal::notify::frame-color",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		"swapped-signal::notify::header-color",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		"swapped-signal::need-redraw",
-			G_CALLBACK (e_mail_display_reload), display,
+			G_CALLBACK (schedule_display_reload), display,
 		NULL);
 
 	e_mail_display_reload (display);
@@ -1681,8 +1700,12 @@ e_mail_display_reload (EMailDisplay *display)
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
+	printf("Reloading EMailDisplay!\n");
+
 	web_view = E_WEB_VIEW (display);
 	uri = e_web_view_get_uri (web_view);
+
+	display->priv->reload_scheduled = FALSE;
 
 	if (!uri || !*uri)
 		return;
@@ -1715,6 +1738,7 @@ e_mail_display_reload (EMailDisplay *display)
 
 	g_string_free (new_uri, TRUE);
 	g_hash_table_destroy (table);
+
 }
 
 GtkAction *
