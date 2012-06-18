@@ -418,7 +418,8 @@ contact_display_load_status_changed (WebKitWebView *web_view,
 }
 
 static void
-contact_display_update_actions (EWebView *web_view)
+contact_display_update_actions (EWebView *web_view,
+				GdkEventButton *event)
 {
 	GtkActionGroup *action_group;
 	gboolean scheme_is_internal_mailto;
@@ -427,7 +428,7 @@ contact_display_update_actions (EWebView *web_view)
 	const gchar *uri;
 
 	/* Chain up to parent's update_actions() method. */
-	E_WEB_VIEW_CLASS (parent_class)->update_actions (web_view);
+	E_WEB_VIEW_CLASS (parent_class)->update_actions (web_view, event);
 
 	uri = e_web_view_get_selected_uri (web_view);
 

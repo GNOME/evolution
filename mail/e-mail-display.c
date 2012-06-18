@@ -66,9 +66,6 @@ struct _EMailDisplayPrivate {
 	gboolean headers_collapsable;
 	gboolean headers_collapsed;
 
-	GtkActionGroup *mailto_actions;
-        GtkActionGroup *images_actions;
-
         gint force_image_load: 1;
 
 	GSettings *settings;
@@ -165,16 +162,29 @@ static GtkActionEntry image_entries[] = {
 };
 
 static void
-mail_display_webview_update_actions (EWebView *web_view,
-                                     gpointer user_data)
+mail_display_update_actions (EWebView *web_view,
+			     GdkEventButton *event)
 {
-	const gchar *image_src;
+	WebKitHitTestResult *hit_test;
+	WebKitHitTestResultContext context;
+	gchar *image_src;
 	gboolean visible;
 	GtkAction *action;
 
-	g_return_if_fail (web_view != NULL);
+	/* Chain up first! */
+	E_WEB_VIEW_CLASS (parent_class)->update_actions (web_view, event);
 
-	image_src = e_web_view_get_cursor_image_src (web_view);
+	hit_test = webkit_web_view_get_hit_test_result (
+			WEBKIT_WEB_VIEW (web_view), event);
+	g_object_get (
+		G_OBJECT (hit_test),
+		"context", &context,
+	        "image-uri", &image_src,
+	        NULL);
+
+	if (!(context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE))
+		return;
+
 	visible = image_src && g_str_has_prefix (image_src, "cid:");
 	if (!visible && image_src) {
 		CamelStream *image_stream;
@@ -186,6 +196,9 @@ mail_display_webview_update_actions (EWebView *web_view,
 		if (image_stream)
 			g_object_unref (image_stream);
 	}
+
+	if (image_src)
+		g_free (image_src);
 
 	action = e_web_view_get_action (web_view, "image-save");
 	if (action)
@@ -1350,6 +1363,7 @@ e_mail_display_class_init (EMailDisplayClass *class)
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
 	web_view_class->set_fonts = mail_display_set_fonts;
+	web_view_class->update_actions = mail_display_update_actions;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = mail_display_realize;
@@ -1401,10 +1415,10 @@ static void
 e_mail_display_init (EMailDisplay *display)
 {
 	GtkUIManager *ui_manager;
-	GError *error = NULL;
 	const gchar *user_cache_dir;
 	WebKitWebSettings *settings;
 	WebKitWebFrame *main_frame;
+	GtkActionGroup *actions;
 
 	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
 
@@ -1413,13 +1427,6 @@ e_mail_display_init (EMailDisplay *display)
 	display->priv->mode = E_MAIL_FORMATTER_MODE_INVALID;
 	e_mail_display_set_mode (display, E_MAIL_FORMATTER_MODE_NORMAL);
 	display->priv->force_image_load = FALSE;
-	display->priv->mailto_actions = gtk_action_group_new ("mailto");
-	gtk_action_group_add_actions (display->priv->mailto_actions, mailto_entries,
-		G_N_ELEMENTS (mailto_entries), NULL);
-
-	display->priv->images_actions = gtk_action_group_new ("image");
-	gtk_action_group_add_actions (display->priv->images_actions, image_entries,
-		G_N_ELEMENTS (image_entries), NULL);
 
 	webkit_web_view_set_full_content_zoom (WEBKIT_WEB_VIEW (display), TRUE);
 
@@ -1432,8 +1439,6 @@ e_mail_display_init (EMailDisplay *display)
 			  G_CALLBACK (mail_display_resource_requested), NULL);
 	g_signal_connect (display, "process-mailto",
 			  G_CALLBACK (mail_display_process_mailto), NULL);
-	g_signal_connect (display, "update-actions",
-			  G_CALLBACK (mail_display_webview_update_actions), NULL);
 	g_signal_connect (display, "create-plugin-widget",
 			  G_CALLBACK (mail_display_plugin_widget_requested), NULL);
 	g_signal_connect (display, "frame-created",
@@ -1461,26 +1466,16 @@ e_mail_display_init (EMailDisplay *display)
 	g_signal_connect (main_frame, "notify::load-status",
 			  G_CALLBACK (mail_parts_bind_dom), NULL);
 
-        /* Because we are loading from a hard-coded string, there is
-         * no chance of I/O errors.  Failure here implies a malformed
-         * UI definition.  Full stop. */
+	actions = e_web_view_get_action_group (E_WEB_VIEW (display), "mailto");
+	gtk_action_group_add_actions (
+		actions, mailto_entries, G_N_ELEMENTS (mailto_entries), display);
 	ui_manager = e_web_view_get_ui_manager (E_WEB_VIEW (display));
-	gtk_ui_manager_insert_action_group (ui_manager, display->priv->mailto_actions, 0);
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
 
-	if (error != NULL) {
-		g_error ("%s", error->message);
-		g_error_free (error);
-	}
-
-	error = NULL;
-	gtk_ui_manager_insert_action_group (ui_manager, display->priv->images_actions, 0);
-	gtk_ui_manager_add_ui_from_string (ui_manager, image_ui, -1, &error);
-
-	if (error != NULL) {
-		g_error ("%s", error->message);
-		g_error_free (error);
-	}
+	actions = e_web_view_get_action_group (E_WEB_VIEW (display), "image");
+	gtk_action_group_add_actions (
+		actions, image_entries, G_N_ELEMENTS (image_entries), display);
+	gtk_ui_manager_add_ui_from_string (ui_manager, image_ui, -1, NULL);
 
 	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_MAIL_REQUEST);
 	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_HTTP_REQUEST);
@@ -1728,9 +1723,7 @@ e_mail_display_get_action (EMailDisplay *display,
 	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
 
-	action = gtk_action_group_get_action (display->priv->mailto_actions, action_name);
-	if (!action)
-		action = gtk_action_group_get_action (display->priv->images_actions, action_name);
+	action = e_web_view_get_action (E_WEB_VIEW (display), action_name);
 
 	return action;
 }

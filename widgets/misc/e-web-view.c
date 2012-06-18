@@ -882,7 +882,6 @@ web_view_button_press_event (GtkWidget *widget,
 		}
 
 		test = webkit_web_view_get_hit_test_result (WEBKIT_WEB_VIEW (web_view), event);
-
 		if (!test)
 			goto chainup;
 
@@ -945,11 +944,6 @@ web_view_button_press_event (GtkWidget *widget,
 		goto chainup;
 
 	uri = e_web_view_extract_uri (web_view, event);
-
-	if (uri != NULL && g_str_has_prefix (uri, "##")) {
-		g_free (uri);
-		goto chainup;
-	}
 
 	g_signal_emit (
 		web_view, signals[POPUP_EVENT], 0,
@@ -1227,21 +1221,29 @@ web_view_stop_loading (EWebView *web_view)
 }
 
 static void
-web_view_update_actions (EWebView *web_view)
+web_view_update_actions (EWebView *web_view,
+			 GdkEventButton *event)
 {
 	GtkActionGroup *action_group;
-	gboolean have_selection;
+	gboolean can_copy;
 	gboolean scheme_is_http = FALSE;
 	gboolean scheme_is_mailto = FALSE;
 	gboolean uri_is_valid = FALSE;
 	gboolean has_cursor_image;
 	gboolean visible;
+	WebKitHitTestResult *hit_test;
+	WebKitHitTestResultContext context;
 	const gchar *group_name;
 	const gchar *uri;
 
 	uri = e_web_view_get_selected_uri (web_view);
-	have_selection = e_web_view_is_selection_active (web_view);
-	has_cursor_image = e_web_view_get_cursor_image (web_view) != NULL;
+	can_copy = webkit_web_view_can_copy_clipboard (
+				WEBKIT_WEB_VIEW (web_view));
+	hit_test = webkit_web_view_get_hit_test_result (
+			WEBKIT_WEB_VIEW (web_view), event);
+	g_object_get (G_OBJECT (hit_test), "context", &context, NULL);
+
+	has_cursor_image = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE);
 
 	/* Parse the URI early so we know if the actions will work. */
 	if (uri != NULL) {
@@ -1281,7 +1283,7 @@ web_view_update_actions (EWebView *web_view)
 	gtk_action_group_set_visible (action_group, visible);
 
 	group_name = "selection";
-	visible = have_selection;
+	visible = can_copy;
 	action_group = e_web_view_get_action_group (web_view, group_name);
 	gtk_action_group_set_visible (action_group, visible);
 
@@ -1646,8 +1648,8 @@ e_web_view_class_init (EWebViewClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EWebViewClass, update_actions),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1, G_TYPE_POINTER);
 
 	/* return TRUE when a signal handler processed the mailto URI */
 	signals[PROCESS_MAILTO] = g_signal_new (
@@ -2760,7 +2762,7 @@ e_web_view_show_popup_menu (EWebView *web_view,
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	e_web_view_update_actions (web_view);
+	e_web_view_update_actions (web_view, event);
 
 	menu = e_web_view_get_popup_menu (web_view);
 
@@ -2792,11 +2794,12 @@ e_web_view_stop_loading (EWebView *web_view)
 }
 
 void
-e_web_view_update_actions (EWebView *web_view)
+e_web_view_update_actions (EWebView *web_view,
+			   GdkEventButton *event)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	g_signal_emit (web_view, signals[UPDATE_ACTIONS], 0);
+	g_signal_emit (web_view, signals[UPDATE_ACTIONS], 0, event);
 }
 
 gchar *
