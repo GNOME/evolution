@@ -721,64 +721,6 @@ dnl Kerberos 5
 dnl ************
 EVO_KRB5_SUPPORT(no)
 
-dnl ******************************
-dnl Mono hooks
-dnl This should just define mono CFLAGS etc here, it is used later to turn on the mono plugin or not.
-dnl ******************************
-AC_ARG_ENABLE([mono],
-	AS_HELP_STRING([--enable-mono],
-	[Add Mono embedded hooks.]),
-	[enable_mono=$enableval],[enable_mono=no])
-if test "x${enable_mono}" = "xyes"; then
-	PKG_CHECK_MODULES([MONO], ["mono-2"])
-	AC_DEFINE(ENABLE_MONO,1,[Define if Mono embedding should be enabled])
-fi
-AC_SUBST(MONO_CFLAGS)
-AC_SUBST(MONO_LIBS)
-
-AM_CONDITIONAL(ENABLE_MONO, [test "x$enable_mono" = "xyes"])
-
-dnl ******************************
-dnl Python hooks
-dnl This should just define python CFLAGS etc here, it is used later to turn on the python plugin or not.
-dnl (Thanks to Pidgin)
-dnl ******************************
-
-AC_ARG_ENABLE([python],
-	AS_HELP_STRING([--enable-python],
-	[Add python embedded hooks.]),
-	[enable_python=$enableval],[enable_python=no])
-
-if test "x${enable_python}" = "xyes"; then
-	AC_PATH_PROG(pythonpath, python)
-	if test "_$pythonpath" != _ ; then
-		AC_MSG_CHECKING([for python compile flags])
-		PY_PREFIX=`$pythonpath -c 'import sys ; print sys.prefix'`
-		PY_EXEC_PREFIX=`$pythonpath -c 'import sys ; print sys.exec_prefix'`
-		changequote(<<, >>)dnl
-		PY_VERSION=`$pythonpath -c 'import sys ; print sys.version[0:3]'`
-		PY_MAJOR=`$pythonpath -c 'import sys ; print sys.version[0:2]'`
-		changequote([, ])dnl
-
-		if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h -a "$PY_MAJOR" = "2."; then
-			PY_LIBS="-lpython$PY_VERSION -L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
-			PY_INCLUDES="-I$PY_PREFIX/include/python$PY_VERSION"
-			AC_MSG_RESULT([ok])
-			python_package="python-devel"
-		else
-			AC_MSG_ERROR([Can't find Python.h])
-			PY_LIBS=""
-			PY_INCLUDES=""
-			python_package=""
-		fi
-	fi
-	AC_SUBST(PY_LIBS)
-	AC_SUBST(PY_INCLUDES)
-fi
-
-AM_CONDITIONAL(ENABLE_PYTHON, [test "x$enable_python" = "xyes"])
-
-
 dnl ********************************************************************************
 dnl security extension support (SSL and S/MIME)
 dnl
@@ -1628,8 +1570,6 @@ modules/online-accounts/Makefile
 modules/offline-alert/Makefile
 modules/plugin-lib/Makefile
 modules/plugin-manager/Makefile
-modules/plugin-mono/Makefile
-modules/plugin-python/Makefile
 modules/prefer-plain/Makefile
 modules/prefer-plain/plugin/Makefile
 modules/spamassassin/Makefile
@@ -1689,6 +1629,4 @@ echo "
 	SMIME support:		$msg_smime
 	Plugins:		$msg_plugins
 	User documentation:	$with_help
-	Mono bindings:		$enable_mono
-	Python bindings:	$enable_python
 "

@@ -6,14 +6,6 @@ if ENABLE_WEATHER
 CONFIG_WEATHER_DIR = cal-config-weather
 endif
 
-if ENABLE_MONO
-MONO_DIR = plugin-mono
-endif
-
-if ENABLE_PYTHON
-PYTHON_DIR = plugin-python
-endif
-
 if ENABLE_ONLINE_ACCOUNTS
 ONLINE_ACCOUNTS_DIR = online-accounts
 endif
@@ -57,8 +49,6 @@ SUBDIRS = \
 	text-highlight \
 	vcard-inline \
 	web-inspector \
-	$(MONO_DIR) \
-	$(PYTHON_DIR) \
 	$(ONLINE_ACCOUNTS_DIR) \
 	$(TNEF_ATTACHMENT_DIR) \
 	$(AUDIO_INLINE_DIR)
