@@ -8,7 +8,7 @@
 
     <link type="guide" xref="exchange-placeholder"/>
 
-    <revision pkgversion="3.5.1" version="0.5" date="2012-04-25" status="final"/>
+    <revision pkgversion="3.5.3" version="0.6" date="2012-06-18" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -23,16 +23,16 @@
 
 <p>Depending on the version of the Microsoft Exchange server that you would like to connect to it is required to make sure that an additional package is installed that provides this functionality.</p>
 
-<p>For Microsoft Exchange 2000 and 2003 (and possibly earlier versions of Exchange that use Outlook Web Access) it is recommended to use the package <sys>evolution-exchange</sys>.</p>
+<p>For Microsoft Exchange 2007, 2010 and newer it is recommended to use the package <sys>evolution-ews</sys>.</p>
 <if:choose>
   <if:when test="if:supports('action:install')">
     <note style="info package">
-      <p><link action="install:evolution-exchange" href="http://projects.gnome.org/evolution/download" style="button">Install evolution-exchange</link></p>
+      <p><link action="install:evolution-ews" href="http://projects.gnome.org/evolution/download" style="button">Install evolution-ews</link></p>
     </note>
   </if:when>
 </if:choose>
 
-<p>For Microsoft Exchange 2007 and 2010 (and possibly earlier versions that support MAPI) it is recommended to use the package <sys>evolution-mapi</sys>.</p>
+<p>Only if <sys>evolution-ews</sys> does not work well for you it is recommended to use the package <sys>evolution-mapi</sys>. It supports Microsoft Exchange 2007 and 2010 (and possibly earlier versions that support MAPI).</p>
 <if:choose>
   <if:when test="if:supports('action:install')">
     <note style="info package">
@@ -41,11 +41,11 @@
   </if:when>
 </if:choose>
 
-<p>For Microsoft Exchange 2007 and 2010 the package <sys>evolution-ews</sys> is currently under development and will replace <sys>evolution-mapi</sys> in the future. It might not be available yet for your distribution.</p>
+<p>For Microsoft Exchange 2000 and 2003 (and possibly earlier versions of Exchange that use Outlook Web Access) it is recommended to use the package <sys>evolution-exchange</sys>.</p>
 <if:choose>
   <if:when test="if:supports('action:install')">
     <note style="info package">
-      <p><link action="install:evolution-ews" href="http://projects.gnome.org/evolution/download" style="button">Install evolution-ews</link></p>
+      <p><link action="install:evolution-exchange" href="http://projects.gnome.org/evolution/download" style="button">Install evolution-exchange</link></p>
     </note>
   </if:when>
 </if:choose>
