@@ -217,6 +217,7 @@ handle_http_request (GSimpleAsyncResult *res,
 	EMailImageLoadingPolicy image_policy;
 	gchar *uri_md5;
 	EMailFormatter *formatter;
+	EShell *shell;
 
 	const gchar *user_cache_dir;
 	CamelDataCache *cache;
@@ -314,6 +315,13 @@ handle_http_request (GSimpleAsyncResult *res,
 		} else {
 			d(printf("Failed to load '%s' from cache.\n", uri));
 		}
+	}
+
+	/* If the item is not in the cache and Evolution is in offline mode then
+	 * quit regardless any image loading policy */
+	shell = e_shell_get_default ();
+	if (!e_shell_get_online (shell)) {
+		goto cleanup;
 	}
 
 	/* Item not found in cache, but image loading policy allows us to fetch
