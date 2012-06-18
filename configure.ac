@@ -1282,7 +1282,7 @@ EVO_PLUGIN_RULE=$srcdir/plugin.mk
 AC_SUBST_FILE(EVO_PLUGIN_RULE)
 
 AC_ARG_ENABLE([plugins],
-	AS_HELP_STRING([--enable-plugins=[no/base/all/experimental/list]],
+	AS_HELP_STRING([--enable-plugins=[no/base/all/list]],
 	[Enable plugins.]),
 	[enable_plugins="$enableval"],[enable_plugins=all])
 
@@ -1296,11 +1296,6 @@ plugins_standard_always="bbdb save-calendar mail-to-task mailing-list-actions ma
 
 plugins_standard="$plugins_standard_always"
 dist_plugins_standard="$plugins_standard image-inline pst-import"
-
-plugins_experimental_always=""
-
-plugins_experimental="$plugins_experimental_always"
-dist_plugins_experimental="$plugins_experimental_always"
 
 dnl ******************************************************************
 dnl The following plugins have additional library dependencies.
@@ -1445,10 +1440,6 @@ xbase)
 	plugins_enabled="$plugins_base"
 	msg_plugins="yes ($plugins_base)"
 	;;
-xexperimental)
-	plugins_enabled="$plugins_base $plugins_standard $plugins_experimental"
-	msg_plugins="yes ($plugins_base $plugins_standard $plugins_experimental)"
-	;;
 *)
 	plugins_enabled="$enable_plugins"
 	msg_plugins="yes ($enable_plugins)"
@@ -1458,7 +1449,6 @@ esac
 AC_SUBST(plugins_enabled)
 AC_SUBST(dist_plugins_base)
 AC_SUBST(dist_plugins_standard)
-AC_SUBST(dist_plugins_experimental)
 
 dnl ******************
 dnl Sub-version number
