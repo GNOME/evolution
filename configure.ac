@@ -1224,7 +1224,7 @@ EVO_PLUGIN_RULE=$srcdir/plugin.mk
 AC_SUBST_FILE(EVO_PLUGIN_RULE)
 
 AC_ARG_ENABLE([plugins],
-	AS_HELP_STRING([--enable-plugins=[no/base/all/list]],
+	AS_HELP_STRING([--enable-plugins=[no/base/all]],
 	[Enable plugins.]),
 	[enable_plugins="$enableval"],[enable_plugins=all])
 
@@ -1383,8 +1383,8 @@ xbase)
 	msg_plugins="yes ($plugins_base)"
 	;;
 *)
-	plugins_enabled="$enable_plugins"
-	msg_plugins="yes ($enable_plugins)"
+	AC_MSG_ERROR([Invalid value for --enable-plugins.
+	Please specify either "no", "base", or "all" (default=all)])
 	;;
 esac
 
