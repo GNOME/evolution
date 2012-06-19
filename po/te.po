@@ -10,15 +10,17 @@
 # Krishnababu Krothapalli <kkrothap@redhat.com>, 2011, 2012.
 # Sasi Bhushan Boddepalli <sasi@swecha.net>, 2011, 2012.
 # Arza Mohan Vamsee(Swecha) <mohan.arza@ymail.com>, 2012.
+# GVS.Giri <gvs.giri947@gmail.com>, 2012.
 #: ../shell/main.c:575
+
 msgid ""
 msgstr ""
 "Project-Id-Version: te\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-05-11 11:48+0000\n"
+"POT-Creation-Date: 2012-06-13 09:57+0000\n"
 "PO-Revision-Date: 2012-04-10 17:43+0530\n"
-"Last-Translator: Sasi Bhushan Boddepalli <sasi@swecha.net>\n"
+"Last-Translator: GVS.Giri <gvs.giri947@gmail.com>\n"
 "Language-Team: Telugu <indlinux-telugu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -187,7 +189,7 @@ msgid ""
 msgstr "ఒక పైచయం ఈ చిరునామాతో ముందే ఉన్నది. మీరు ఈ చిరునామాతోనే కొత్త పలకానికి జతచేయాలనుకుంటున్నారా?"
 
 #: ../addressbook/addressbook.error.xml.h:33
-#: ../mail/em-vfolder-editor-rule.c:339 ../widgets/table/e-table-config.ui.h:6
+#: ../mail/em-vfolder-editor-rule.c:340 ../widgets/table/e-table-config.ui.h:6
 msgid "_Add"
 msgstr "జతచేయు(_A)"
 
@@ -888,7 +890,7 @@ msgstr "దృశ్య మాటామంతి"
 #: ../modules/calendar/e-cal-shell-view-actions.c:232
 #: ../modules/calendar/e-cal-shell-view-actions.c:261
 #: ../modules/calendar/e-cal-shell-view.c:528
-#: ../modules/online-accounts/e-online-accounts-google.c:302
+#: ../modules/online-accounts/e-online-accounts-google.c:309
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
 #: ../widgets/misc/e-send-options.c:546
 msgid "Calendar"
@@ -972,7 +974,7 @@ msgid "Blog"
 msgstr "బ్లాగ్"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:1285
-#: ../widgets/misc/e-web-view.c:980
+#: ../widgets/misc/e-web-view.c:1000
 #, c-format
 msgid "Click to mail %s"
 msgstr "%s కు మెయిల్ చేయుటకు నొక్కుము"
@@ -2583,21 +2585,21 @@ msgid "Close the current window"
 msgstr "ప్రస్తుత విండోను మూయి"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1132 ../mail/e-mail-browser.c:137
-#: ../shell/e-shell-window-actions.c:1467
+#: ../shell/e-shell-window-actions.c:1469
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
-#: ../widgets/misc/e-web-view.c:459 ../widgets/misc/e-web-view.c:1306
+#: ../widgets/misc/e-web-view.c:459 ../widgets/misc/e-web-view.c:1326
 msgid "Copy the selection"
 msgstr "ఎంపికను నకలు తీయుము"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1139 ../mail/e-mail-browser.c:144
-#: ../shell/e-shell-window-actions.c:1474
+#: ../shell/e-shell-window-actions.c:1476
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1300
+#: ../widgets/misc/e-web-view.c:1320
 msgid "Cut the selection"
 msgstr "ఎంపికచేసినదాన్ని కత్తిరించుము"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1146
-#: ../shell/e-shell-window-actions.c:1481
+#: ../shell/e-shell-window-actions.c:1483
 #: ../widgets/misc/e-focus-tracker.c:135 ../widgets/misc/e-focus-tracker.c:568
 msgid "Delete the selection"
 msgstr "ఎంపికచేసినదాన్ని తొలగించు"
@@ -2607,9 +2609,9 @@ msgid "View help"
 msgstr "సహాయం దర్శించు"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1160 ../mail/e-mail-browser.c:151
-#: ../shell/e-shell-window-actions.c:1509
+#: ../shell/e-shell-window-actions.c:1511
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1312
+#: ../widgets/misc/e-web-view.c:1332
 msgid "Paste the clipboard"
 msgstr "క్లిప్ పలకాన్ని అతికించుము"
 
@@ -2618,7 +2620,7 @@ msgid "Save current changes"
 msgstr "ప్రస్తుత  మార్పులను దాయి"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1188 ../mail/e-mail-browser.c:158
-#: ../shell/e-shell-window-actions.c:1586
+#: ../shell/e-shell-window-actions.c:1588
 #: ../widgets/misc/e-focus-tracker.c:142 ../widgets/misc/e-focus-tracker.c:573
 msgid "Select all text"
 msgstr "పాఠ్యమొత్తాన్ని ఎంచుకొనుము"
@@ -2631,19 +2633,19 @@ msgstr "వర్గీకరణ(_C)"
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:19 ../filter/filter.ui.h:16
 #: ../mail/e-mail-browser.c:172
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
-#: ../shell/e-shell-window-actions.c:1614
+#: ../shell/e-shell-window-actions.c:1616
 #: ../widgets/menus/gal-define-views.ui.h:5
 msgid "_Edit"
 msgstr "సరిచేయు(_E)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1209 ../mail/e-mail-browser.c:165
-#: ../shell/e-shell-window-actions.c:1621
+#: ../shell/e-shell-window-actions.c:1623
 #: ../widgets/misc/e-signature-editor.c:225
 msgid "_File"
 msgstr "ఫైలు (_F)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1216
-#: ../shell/e-shell-window-actions.c:1628
+#: ../shell/e-shell-window-actions.c:1630
 msgid "_Help"
 msgstr "సహాయం(_H)"
 
@@ -2657,7 +2659,7 @@ msgid "_Options"
 msgstr "ఇచ్ఛాపూర్వకాలు(_O)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1237 ../mail/e-mail-browser.c:179
-#: ../shell/e-shell-window-actions.c:1663 ../smime/gui/smime-ui.ui.h:28
+#: ../shell/e-shell-window-actions.c:1665 ../smime/gui/smime-ui.ui.h:28
 msgid "_View"
 msgstr "దర్శనం(_V)"
 
@@ -3785,7 +3787,7 @@ msgid "Gnome Calendar"
 msgstr "గ్నోమ్ క్యాలెండరు"
 
 #: ../calendar/gui/ea-gnome-calendar.c:201
-#: ../modules/calendar/e-cal-shell-view-private.c:1050
+#: ../modules/calendar/e-cal-shell-view-private.c:1073
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
@@ -3798,16 +3800,16 @@ msgstr "%A %d %b %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:204 ../calendar/gui/e-day-view.c:1850
 #: ../calendar/gui/e-day-view-top-item.c:837
 #: ../calendar/gui/e-week-view-main-item.c:231
-#: ../modules/calendar/e-cal-shell-view-private.c:1054
+#: ../modules/calendar/e-cal-shell-view-private.c:1077
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #: ../calendar/gui/ea-gnome-calendar.c:206
 #: ../calendar/gui/ea-gnome-calendar.c:211
 #: ../calendar/gui/ea-gnome-calendar.c:213
-#: ../modules/calendar/e-cal-shell-view-private.c:1057
-#: ../modules/calendar/e-cal-shell-view-private.c:1063
-#: ../modules/calendar/e-cal-shell-view-private.c:1066
+#: ../modules/calendar/e-cal-shell-view-private.c:1080
+#: ../modules/calendar/e-cal-shell-view-private.c:1086
+#: ../modules/calendar/e-cal-shell-view-private.c:1089
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -3815,10 +3817,10 @@ msgstr "%a %d %b %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:236
 #: ../calendar/gui/ea-gnome-calendar.c:242
 #: ../calendar/gui/ea-gnome-calendar.c:244
-#: ../modules/calendar/e-cal-shell-view-private.c:1083
-#: ../modules/calendar/e-cal-shell-view-private.c:1094
-#: ../modules/calendar/e-cal-shell-view-private.c:1101
-#: ../modules/calendar/e-cal-shell-view-private.c:1104
+#: ../modules/calendar/e-cal-shell-view-private.c:1106
+#: ../modules/calendar/e-cal-shell-view-private.c:1117
+#: ../modules/calendar/e-cal-shell-view-private.c:1124
+#: ../modules/calendar/e-cal-shell-view-private.c:1127
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -3830,7 +3832,7 @@ msgstr "%d %b %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:234 ../calendar/gui/e-day-view.c:1866
 #: ../calendar/gui/e-day-view-top-item.c:841
 #: ../calendar/gui/e-week-view-main-item.c:245
-#: ../modules/calendar/e-cal-shell-view-private.c:1090
+#: ../modules/calendar/e-cal-shell-view-private.c:1113
 msgid "%d %b"
 msgstr "%d %b"
 
@@ -6683,15 +6685,15 @@ msgid "Please enter your password."
 msgstr "దయచేసి మీ సంకేతపదంను ప్రవేశపెట్టండి."
 
 #: ../capplet/settings/mail-account-view.c:282
-#: ../mail/em-account-editor.c:5471 ../plugins/caldav/caldav-source.c:68
+#: ../mail/em-account-editor.c:5472 ../plugins/caldav/caldav-source.c:68
 msgid "CalDAV"
 msgstr "CalDAV"
 
 #: ../capplet/settings/mail-account-view.c:376
 #: ../capplet/settings/mail-account-view.c:421
-#: ../mail/em-account-editor.c:5342 ../mail/em-account-editor.c:5399
-#: ../modules/online-accounts/e-online-accounts-google.c:295
-#: ../modules/online-accounts/e-online-accounts-google.c:371
+#: ../mail/em-account-editor.c:5343 ../mail/em-account-editor.c:5400
+#: ../modules/online-accounts/e-online-accounts-google.c:302
+#: ../modules/online-accounts/e-online-accounts-google.c:378
 #: ../plugins/google-account-setup/google-contacts-source.c:55
 #: ../plugins/google-account-setup/google-source.c:83
 msgid "Google"
@@ -6699,20 +6701,20 @@ msgstr "Google"
 
 #: ../capplet/settings/mail-account-view.c:497
 #: ../capplet/settings/mail-account-view.c:601
-#: ../mail/em-account-editor.c:4869 ../mail/em-account-editor.c:4904
+#: ../mail/em-account-editor.c:4870 ../mail/em-account-editor.c:4905
 msgid "Always (SSL)"
 msgstr "యెల్లప్పుడు (SSL) "
 
 #: ../capplet/settings/mail-account-view.c:500
 #: ../capplet/settings/mail-account-view.c:604
-#: ../mail/em-account-editor.c:4872 ../mail/em-account-editor.c:4907
+#: ../mail/em-account-editor.c:4873 ../mail/em-account-editor.c:4908
 msgid "When possible (TLS)"
 msgstr "సాధ్యమైనపుడు (TLS) "
 
 #: ../capplet/settings/mail-account-view.c:503
 #: ../capplet/settings/mail-account-view.c:607
-#: ../mail/em-account-editor.c:1752 ../mail/em-account-editor.c:4875
-#: ../mail/em-account-editor.c:4910
+#: ../mail/em-account-editor.c:1752 ../mail/em-account-editor.c:4876
+#: ../mail/em-account-editor.c:4911
 msgid "Never"
 msgstr "ఎప్పటికివద్దు"
 
@@ -6801,7 +6803,7 @@ msgstr ""
 "మెయిల్ పొందడానికి కూడా పూర్తయినది. "
 
 #: ../capplet/settings/mail-account-view.c:678
-#: ../mail/em-account-editor.c:2984 ../mail/em-account-editor.c:3123
+#: ../mail/em-account-editor.c:2985 ../mail/em-account-editor.c:3124
 msgid "Identity"
 msgstr "గుర్తింపు"
 
@@ -6853,7 +6855,7 @@ msgid "Back - Receiving options"
 msgstr "వెనుకటి  - ఐచ్చికాలను పొందుతుంది "
 
 #: ../capplet/settings/mail-account-view.c:683
-#: ../mail/em-account-editor.c:4136
+#: ../mail/em-account-editor.c:4137
 msgid "Defaults"
 msgstr "అప్రమేయాలు"
 
@@ -6882,12 +6884,12 @@ msgid "Setup Google calendar with Evolution"
 msgstr "ఎవాల్యూషన్‌కు గూగుల్ కాలెండర్లు సెటప్ చేయుము."
 
 #: ../capplet/settings/mail-account-view.c:861
-#: ../mail/em-account-editor.c:4970
+#: ../mail/em-account-editor.c:4971
 msgid "You may need to enable IMAP access."
 msgstr "మీరు IMAP అనుమ తి ఎనేబుల్ చెయ్యాలి."
 
 #: ../capplet/settings/mail-account-view.c:869
-#: ../mail/em-account-editor.c:4947
+#: ../mail/em-account-editor.c:4948
 msgid "Google account settings:"
 msgstr "గూగుల్ ఖాతా సెట్టింగులు:‌"
 
@@ -6896,7 +6898,7 @@ msgid "Setup Yahoo calendar with Evolution"
 msgstr "ఎవల్యూషన్ తో  యాహూ  క్యాలెండర్ సెటప్ చేయుము "
 
 #: ../capplet/settings/mail-account-view.c:899
-#: ../mail/em-account-editor.c:5017
+#: ../mail/em-account-editor.c:5018
 msgid ""
 "Yahoo calendars are named as firstname_lastname. We have tried to form the "
 "calendar name. So please confirm and re-enter the calendar name if it is not "
@@ -6906,7 +6908,7 @@ msgstr ""
 "ప్రయత్నించాము. ఇది సరైనది కాదు ఉంటే క్యాలెండర్ పేరు నిర్థారించి మరియు తిరిగి నమోదు చేయండి. "
 
 #: ../capplet/settings/mail-account-view.c:908
-#: ../mail/em-account-editor.c:5002
+#: ../mail/em-account-editor.c:5003
 msgid "Yahoo account settings:"
 msgstr "యాహూ ఖాతా సెట్టింగులు:‌"
 
@@ -6983,7 +6985,7 @@ msgstr "కొత్త సందేశం (_M)"
 msgid "Open New Message window"
 msgstr "కొత్త సందేశం విండోను తెరువుము"
 
-#: ../composer/e-composer-actions.c:311 ../shell/e-shell-window-actions.c:1523
+#: ../composer/e-composer-actions.c:311 ../shell/e-shell-window-actions.c:1525
 msgid "Configure Evolution"
 msgstr "ఎవల్యూషన్  ఆకృతీకరించు "
 
@@ -9265,16 +9267,17 @@ msgid ""
 "Asks whether to close the message window when the user forwards or replies "
 "to the message shown in the window"
 msgstr ""
-"గవాక్షకంలో చూపించబడిన సందేశమునకు వినియోగదారుడు ప్రత్యుత్తరము లేక ఇతరులకు పంపుట చేసినప్పుడు"
-"సందేశ గవాక్షకమును మూసివేయవలెనా లేదా అని అడుగుము"
+"గవాక్షకంలో చూపించబడిన సందేశమునకు వినియోగదారుడు ప్రత్యుత్తరము లేక ఇతరులకు పంపుట "
+"చేసినప్పుడుసందేశ గవాక్షకమును మూసివేయవలెనా లేదా అని అడుగుము"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
 msgstr ""
-"'ఎన్నడూ కానిది' - ఎన్నడూ బ్రౌజర్ గవాక్షకమును మూయవద్దు, 'ఎల్లప్పుడూ' - ఎల్లప్పుడూ బ్రౌజర్ గవాక్షకమును మూసివుంచుము,"
-"లేక 'అడుగుము' - (వేరొక విలువను) వినియోగదారుని అడుగుము అనునవి సంభవమగు విలువలు."
+"'ఎన్నడూ కానిది' - ఎన్నడూ బ్రౌజర్ గవాక్షకమును మూయవద్దు, 'ఎల్లప్పుడూ' - ఎల్లప్పుడూ బ్రౌజర్ "
+"గవాక్షకమును మూసివుంచుము,లేక 'అడుగుము' - (వేరొక విలువను) వినియోగదారుని అడుగుము అనునవి "
+"సంభవమగు విలువలు."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 #: ../mail/evolution-mail.schemas.in.h:175
@@ -9340,8 +9343,8 @@ msgid ""
 "differs). Otherwise always show \"Date\" header value in a user preferred "
 "format and local time zone."
 msgstr ""
-"అసలైన \"తేది\" పట్టికను (కేవలం సమయ ప్రాంతం మారినప్పుడు మాత్రమే స్థానిక సమయముతో) చూపుము."
-"లేనిచో ఎల్లప్పుడూ \"తేది\" పట్టిక విలువని వినియోగదారుని నచ్చిన విధంగా మరియు స్థానిక సమయ ప్రాంతమును చూపుము."
+"అసలైన \"తేది\" పట్టికను (కేవలం సమయ ప్రాంతం మారినప్పుడు మాత్రమే స్థానిక సమయముతో) చూపుము.లేనిచో "
+"ఎల్లప్పుడూ \"తేది\" పట్టిక విలువని వినియోగదారుని నచ్చిన విధంగా మరియు స్థానిక సమయ ప్రాంతమును చూపుము."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 #: ../mail/evolution-mail.schemas.in.h:186
@@ -9444,9 +9447,10 @@ msgid ""
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
 msgstr ""
-"ఈ ఇచ్చికము కీ లుక్‌అప్ చిరునామా పుస్తకమునకు సంబంధించినది మరియు(_a)"
-"స్థానిక చిరునామా పుస్తకము చిరునామాలని చూడటం కేవలం తెలిసిన పరిచయాల నుండి పంపబడిన మెయిల్‌ని వడపోత ద్వారా విడతీయుట కొరకు"
-" లుక్‌అప్ చేయవలెనా లేదా అనునది వివరించుటకు ఉపయోగించును."
+"ఈ ఇచ్చికము కీ లుక్‌అప్ చిరునామా పుస్తకమునకు సంబంధించినది మరియు(_a)స్థానిక చిరునామా పుస్తకము "
+"చిరునామాలని చూడటం కేవలం తెలిసిన పరిచయాల నుండి పంపబడిన మెయిల్‌ని వడపోత ద్వారా విడతీయుట కొరకు లుక్‌అప్ "
+"చేయవలెనా లేదా అనునది వివరించుటకు ఉపయోగించును."
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 #: ../mail/evolution-mail.schemas.in.h:202
 msgid "Determines whether to use custom headers to check for junk"
@@ -9509,8 +9513,8 @@ msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
 msgstr ""
-"ఎవల్యూషన్ ప్రారంభమైనప్పుడు కొత్త సందేశముల కొరకు తనిఖీ చేయవలెనా లేదా. ఇది ఔట్ బాక్స్ లో నుండి"
-"పంపబడుతున్న సందేశములు కూడా కలిగివుంది."
+"ఎవల్యూషన్ ప్రారంభమైనప్పుడు కొత్త సందేశముల కొరకు తనిఖీ చేయవలెనా లేదా. ఇది ఔట్ బాక్స్ లో "
+"నుండిపంపబడుతున్న సందేశములు కూడా కలిగివుంది."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 #: ../mail/evolution-mail.schemas.in.h:221
@@ -9523,9 +9527,9 @@ msgid ""
 "account \"Check for new messages every X minutes\" option when Evolution is "
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
-"ఎవల్యూషన్ ప్రారంభమైనప్పుడు ఖాతాకు సంబంధం లేకుండా అన్ని క్రియాశీలమైన ఖాతాలలో కొత్త సందేశముల కొరకు తనిఖీ"
-"చేయవలెనా లేదా \"ప్రతి X నిముషములకు కొత్త సందేశములకు తనిఖీ చేయుము\" ఇచ్చికము."
-"ఈ ఇచ్చికము కేవలం 'send_recv_on_start'అను ఇచ్చికముతో పాటుగా ఉపయోగించును.(_r_o_s)"
+"ఎవల్యూషన్ ప్రారంభమైనప్పుడు ఖాతాకు సంబంధం లేకుండా అన్ని క్రియాశీలమైన ఖాతాలలో కొత్త సందేశముల కొరకు "
+"తనిఖీచేయవలెనా లేదా \"ప్రతి X నిముషములకు కొత్త సందేశములకు తనిఖీ చేయుము\" ఇచ్చికము.ఈ ఇచ్చికము కేవలం "
+"'send_recv_on_start'అను ఇచ్చికముతో పాటుగా ఉపయోగించును.(_r_o_s)"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 #: ../mail/evolution-mail.schemas.in.h:239
@@ -9567,7 +9571,7 @@ msgid "Auto sync GAIM contacts"
 msgstr "స్వయంచాలకంగా కలిసే GAIM పరిచయాలు"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
-msgid "Whether GAIM contacts should be automatically synced"
+msgid "Whether GAIM contacts should be automaticall synced"
 msgstr "GAIM పరిచయాలు స్వయంచాలికముగా కాలనియమించవలెనా లేదా"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
@@ -9577,8 +9581,7 @@ msgstr "స్వయంచాలక పరిచయాలను ప్రార�
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
 msgid ""
 "Whether contacts should be automatically added to the user's addressbook"
-msgstr ""
-"పరిచయములు స్వయంచాలికముగా వినియోగదారుని చిరునామా పుస్తకమునకు జతపరుచవలెనా లేదా"
+msgstr "పరిచయములు స్వయంచాలికముగా వినియోగదారుని చిరునామా పుస్తకమునకు జతపరుచవలెనా లేదా"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
 msgid "GAIM address book source"
@@ -9586,7 +9589,9 @@ msgstr "GAIM చిరునామా పుస్తకం మూలం "
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid "Address book to use for storing automatically synced contacts from GAIM"
-msgstr "స్వయంచాలకముగా GAIM ద్వారా కాలనియమతి కాబడిన పరిచయములను భద్రపరుచుటకు చిరునామాల పుస్తకమును ఉపయోగించును"
+msgstr ""
+"స్వయంచాలకముగా GAIM ద్వారా కాలనియమతి కాబడిన పరిచయములను భద్రపరుచుటకు చిరునామాల పుస్తకమును "
+"ఉపయోగించును"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "GAIM check interval"
@@ -9651,8 +9656,8 @@ msgid ""
 "Whether insert Face picture to outgoing messages by default. The picture "
 "should be set before checking this, otherwise nothing happens."
 msgstr ""
-"బయటకి పోవు సందేశములకు ముఖచిత్రమును అప్రమేయముగా అమర్చవలెనా లేదా."
-"ఇది జరుగక ముందే చిత్రమును అమర్చవలెను, లేనిచో ఏమి జరుగదు."
+"బయటకి పోవు సందేశములకు ముఖచిత్రమును అప్రమేయముగా అమర్చవలెనా లేదా.ఇది జరుగక ముందే చిత్రమును "
+"అమర్చవలెను, లేనిచో ఏమి జరుగదు."
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
 msgid "Delete processed"
@@ -9754,9 +9759,9 @@ msgid ""
 "best part to show, \"prefer_plain\" makes it use the text part, if present, "
 "and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
-"రీతి అనునది మెయిల్‌లను ప్రదర్శించుటకు ఉపయోగించును.\"సాధారణము\" ఎవల్యూషన్‌ని"
-"అత్యుత్తమమైన భాగమును చూపుటకు సాధ్యపడుతుంది, \"సాదాసీదాని ఎంచుకొను\"పాఠ్యపు భాగమును ఉపయోగింపజేయును,"
-"ఒకవేళ వున్నచో మరియు \"కేవలం సాదాసీద\" కేవలం సాదా పాఠమును చూపుటకు బలవంతం చేయును"
+"రీతి అనునది మెయిల్‌లను ప్రదర్శించుటకు ఉపయోగించును.\"సాధారణము\" ఎవల్యూషన్‌నిఅత్యుత్తమమైన భాగమును "
+"చూపుటకు సాధ్యపడుతుంది, \"సాదాసీదాని ఎంచుకొను\"పాఠ్యపు భాగమును ఉపయోగింపజేయును,ఒకవేళ వున్నచో "
+"మరియు \"కేవలం సాదాసీద\" కేవలం సాదా పాఠమును చూపుటకు బలవంతం చేయును"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
@@ -10265,8 +10270,7 @@ msgstr "\"{0}\" పేరుగల సంచయం యిప్పటికే�
 #: ../e-util/e-system.error.xml.h:2
 msgid ""
 "The file already exists in \"{0}\". Replacing it will overwrite its contents."
-msgstr ""
-"\"{0}\" లో దస్త్రము ముందుగానే కలిగివుంది. పునఃస్థాపించినచో వాటి అంశములను మరలవ్రాయును."
+msgstr "\"{0}\" లో దస్త్రము ముందుగానే కలిగివుంది. పునఃస్థాపించినచో వాటి అంశములను మరలవ్రాయును."
 
 #: ../e-util/e-system.error.xml.h:3
 msgid "_Replace"
@@ -10928,19 +10932,19 @@ msgstr "యెల్లప్పుడు"
 msgid "Ask for each message"
 msgstr "ప్రతి సందేశం కొరకు అడుగుము"
 
-#: ../mail/em-account-editor.c:2933 ../mail/mail-config.ui.h:164
+#: ../mail/em-account-editor.c:2934 ../mail/mail-config.ui.h:164
 msgid "_Path:"
 msgstr "పాత్(_P):"
 
-#: ../mail/em-account-editor.c:2936
+#: ../mail/em-account-editor.c:2937
 msgid "Fil_e:"
 msgstr "ఫైలు(_e):"
 
-#: ../mail/em-account-editor.c:2981
+#: ../mail/em-account-editor.c:2982
 msgid "Mail Configuration"
 msgstr "మెయిల్ ఆకృతీకరణ"
 
-#: ../mail/em-account-editor.c:2982
+#: ../mail/em-account-editor.c:2983
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -10950,7 +10954,7 @@ msgstr ""
 "\n"
 "ప్రారంభించుటకు \"ముందుకుపంపు\"ను నొక్కుము.  "
 
-#: ../mail/em-account-editor.c:2985
+#: ../mail/em-account-editor.c:2986
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -10959,19 +10963,19 @@ msgstr ""
 "దయచేసి క్రింద మీ పేరు మరియు ఈమెయిల్ చిరునామాను ప్రవేశపెట్టుము. క్రిందన ఉన్న \"ఐచ్చిక\" క్షేత్రాలు "
 "నింపవలిసిన అవసరంలేదు, మీరు ఈ సమాచారంను కూడా మీరు పంపే ఈమెయిల్ నందు చేర్చాలి అనుకుంటే తప్ప."
 
-#: ../mail/em-account-editor.c:2987 ../mail/em-account-editor.c:3196
+#: ../mail/em-account-editor.c:2988 ../mail/em-account-editor.c:3197
 msgid "Receiving Email"
 msgstr "మెయిల్ ను తీసుకుంటోంది"
 
-#: ../mail/em-account-editor.c:2988
+#: ../mail/em-account-editor.c:2989
 msgid "Please configure the following account settings."
 msgstr "దయచేసి క్రింది ఖాతా అమరికలను ఆకృతీకరించుము."
 
-#: ../mail/em-account-editor.c:2990 ../mail/em-account-editor.c:3815
+#: ../mail/em-account-editor.c:2991 ../mail/em-account-editor.c:3816
 msgid "Sending Email"
 msgstr "ఈమెయిల్ పంపిస్తున్నది"
 
-#: ../mail/em-account-editor.c:2991
+#: ../mail/em-account-editor.c:2992
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -10979,21 +10983,20 @@ msgstr ""
 "మీరు మెయిల్ పంపించు విధానం గురించి దయచేసి సమాచారంను ప్రవేశపెట్టండి. మీకు ఖచ్చితంగా తెలియకపోతే, మీ సిస్టమ్ "
 "నిర్వాహకుని గాని లేక ఇంటర్నెట్ సేవా దారునిగాని అడగండి."
 
-#: ../mail/em-account-editor.c:2993
+#: ../mail/em-account-editor.c:2994
 msgid "Account Summary"
 msgstr "ఖాతా సారాంశం "
 
-#: ../mail/em-account-editor.c:2994
+#: ../mail/em-account-editor.c:2995
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
-msgstr ""
-"ఇది మీ మెయిల్‌ని ఉపయోగించుటకు వాడే అమరికల సారాంశము."
+msgstr "ఇది మీ మెయిల్‌ని ఉపయోగించుటకు వాడే అమరికల సారాంశము."
 
-#: ../mail/em-account-editor.c:2998
+#: ../mail/em-account-editor.c:2999
 msgid "Done"
 msgstr "అయినది"
 
-#: ../mail/em-account-editor.c:2999
+#: ../mail/em-account-editor.c:3000
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -11008,41 +11011,41 @@ msgstr ""
 "\n"
 "మీ అమరికలను దాయుటకు \"ఆపాదించు\" ను నొక్కండి."
 
-#: ../mail/em-account-editor.c:3562
+#: ../mail/em-account-editor.c:3563
 msgid "Check for _new messages every"
 msgstr "కొత్త సందేశాల కొరకు వెతుకుము (_n)"
 
-#: ../mail/em-account-editor.c:3570
+#: ../mail/em-account-editor.c:3571
 msgid "minu_tes"
 msgstr "నిమిషాలు(_t)"
 
-#: ../mail/em-account-editor.c:4288 ../mail/mail-config.ui.h:166
+#: ../mail/em-account-editor.c:4289 ../mail/mail-config.ui.h:166
 msgid "Security"
 msgstr "రక్షణ"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:4343 ../mail/em-account-editor.c:4445
+#: ../mail/em-account-editor.c:4344 ../mail/em-account-editor.c:4446
 msgid "Receiving Options"
 msgstr "ఐచ్చికాలను తిరిగిపొందుతుంది"
 
-#: ../mail/em-account-editor.c:4344 ../mail/em-account-editor.c:4446
+#: ../mail/em-account-editor.c:4345 ../mail/em-account-editor.c:4447
 msgid "Checking for New Messages"
 msgstr "కొత్త సందేశాల కొరకు పరిశీలిస్తున్నది"
 
-#: ../mail/em-account-editor.c:4955
+#: ../mail/em-account-editor.c:4956
 msgid "Setup Google con_tacts with Evolution"
 msgstr "గూగుల్ పరిచయాలను ఎవాల్యూషన్‌కు జతచేయుము(_t)"
 
-#: ../mail/em-account-editor.c:4962
+#: ../mail/em-account-editor.c:4963
 msgid "Setup Google ca_lendar with Evolution"
 msgstr "ఎవాల్యూషన్‌కు గూగుల్ కాలెండర్లను జతచేయుము(_l)"
 
-#: ../mail/em-account-editor.c:5010
+#: ../mail/em-account-editor.c:5011
 msgid "Setup _Yahoo calendar with Evolution"
 msgstr "ఎవాల్యూషన్‌కు  యాహూ కాలెండర్లను జతచేయి.(_Y)"
 
-#: ../mail/em-account-editor.c:5035
+#: ../mail/em-account-editor.c:5036
 msgid "Yahoo Calen_dar name:"
 msgstr "యాహూ క్యాలెండర్ పేరు(_d):"
 
@@ -11101,9 +11104,9 @@ msgstr "జాబితా దర్శనం"
 msgid "Unknown background operation"
 msgstr "తెలియని నేపధ్యం ఆపరేషన్"
 
-#: ../mail/e-mail-browser.c:130 ../shell/e-shell-window-actions.c:1439
-#: ../shell/e-shell-window-actions.c:1446
-#: ../shell/e-shell-window-actions.c:1453
+#: ../mail/e-mail-browser.c:130 ../shell/e-shell-window-actions.c:1441
+#: ../shell/e-shell-window-actions.c:1448
+#: ../shell/e-shell-window-actions.c:1455
 msgid "Close this window"
 msgstr "ఈ గవాక్షాన్ని మూయుము"
 
@@ -11198,7 +11201,7 @@ msgstr "వర్ణము"
 msgid "Name"
 msgstr "పేరు"
 
-#: ../mail/e-mail-migrate.c:1269
+#: ../mail/e-mail-migrate.c:1272
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "స్థానిక మెయిల్ సంచయాలను '%s' వద్ద సృష్టించలేక పోయింది: %s"
@@ -11832,10 +11835,8 @@ msgid ""
 msgid_plural ""
 "Folder '%s' contains %u duplicate messages. Are you sure you want to delete "
 "them?"
-msgstr[0] ""
-"'%s'సంచయము %u నకిలీ సందేశము కలిగివుంది.దానిని తొలగించుటకు మీరు అంగీకరిస్తున్నారా?"
-msgstr[1] ""
-"'%s'సంచయము %u నకిలీ సందేశములను కలిగివుంది.వాటిని తొలగించుటకు మీరు అంగీకరిస్తున్నారా?"
+msgstr[0] "'%s'సంచయము %u నకిలీ సందేశము కలిగివుంది.దానిని తొలగించుటకు మీరు అంగీకరిస్తున్నారా?"
+msgstr[1] "'%s'సంచయము %u నకిలీ సందేశములను కలిగివుంది.వాటిని తొలగించుటకు మీరు అంగీకరిస్తున్నారా?"
 
 #: ../mail/e-mail-reader-utils.c:1020
 msgid "Save Message"
@@ -12592,7 +12593,7 @@ msgstr "%s నుండి సందేశాలు"
 msgid "Search _Folders"
 msgstr "సంచయాలను శోధించుము(_F)"
 
-#: ../mail/em-vfolder-editor-rule.c:339
+#: ../mail/em-vfolder-editor-rule.c:340
 msgid "Add Folder"
 msgstr "సంచయం జతచేయు "
 
@@ -12625,7 +12626,8 @@ msgid ""
 "The text that is inserted when replying to a message, attributing the "
 "message to the original author."
 msgstr ""
-"ఒక సందేశమునకు ప్రత్యుత్తరము ఇచ్చుచున్నప్పుడు, ఏ అంశము అమర్చిబడినదో అది నిజమైన రచయితని ఆపాదిస్తుంది."
+"ఒక సందేశమునకు ప్రత్యుత్తరము ఇచ్చుచున్నప్పుడు, ఏ అంశము అమర్చిబడినదో అది నిజమైన రచయితని "
+"ఆపాదిస్తుంది."
 
 #: ../mail/evolution-mail.schemas.in.h:47
 msgid "Forward message."
@@ -12636,8 +12638,8 @@ msgid ""
 "The text that is inserted when forwarding a message, saying that the "
 "forwarded message follows."
 msgstr ""
-"ఒక సందేశమును ఇతరులకు పంపునప్పుడు ఏ అంశము అయితే అమర్చబడునో,"
-"అది మునుముందుకు పంపుతున్న సందేశము అనుసరించునని చెబుతుంది."
+"ఒక సందేశమును ఇతరులకు పంపునప్పుడు ఏ అంశము అయితే అమర్చబడునో,అది మునుముందుకు పంపుతున్న "
+"సందేశము అనుసరించునని చెబుతుంది."
 
 #: ../mail/evolution-mail.schemas.in.h:49
 msgid "Original message."
@@ -12648,7 +12650,8 @@ msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows."
 msgstr ""
-"ఒక సందేశమునకు(పైన ప్రచురించింది) ప్రత్యుత్తరము పంపునప్పుడు ఏ అంశము అయితే అమర్చిబడినదో, అది ప్రథమ సందేశమును అనుసరించునని చెబుతుంది."
+"ఒక సందేశమునకు(పైన ప్రచురించింది) ప్రత్యుత్తరము పంపునప్పుడు ఏ అంశము అయితే అమర్చిబడినదో, అది "
+"ప్రథమ సందేశమును అనుసరించునని చెబుతుంది."
 
 #: ../mail/evolution-mail.schemas.in.h:52
 msgid ""
@@ -12656,9 +12659,9 @@ msgid ""
 "folder, usually set to ~/Pictures. This folder will be also used when the "
 "set path is not pointing to the existent folder."
 msgstr ""
-"ఈ విలువ ఖాళీ పదబంధము కావచ్చును, అనగా సిస్టమ్ చిత్ర సంచయమును ఉపయోగించును,"
-"సాధారణముగా ~/చిత్రములునకు అమర్చబడును.ఈ సంచయము అమర్చిన దారి ఉన్న"
-"సంచయమునకు చూపకపోయినప్పుడు కూడా ఉపయోగించవచ్చు."
+"ఈ విలువ ఖాళీ పదబంధము కావచ్చును, అనగా సిస్టమ్ చిత్ర సంచయమును ఉపయోగించును,సాధారణముగా ~/"
+"చిత్రములునకు అమర్చబడును.ఈ సంచయము అమర్చిన దారి ఉన్నసంచయమునకు చూపకపోయినప్పుడు కూడా "
+"ఉపయోగించవచ్చు."
 
 #: ../mail/evolution-mail.schemas.in.h:97
 msgid "Whether to show local folders (On This Computer) in a folder tree."
@@ -12677,8 +12680,8 @@ msgid ""
 "Describes whether message headers in paned view should be collapsed or "
 "expanded by default. \"0\" = expanded \"1\" = collapsed"
 msgstr ""
-"పేన్ ప్రదర్శనలో సందేశ పీఠికలను అప్రమేయముగా నాశనము చేయవలెనా లేకా"
-"విస్తరింపవలెనా \"0\" = విస్తరింపబడెను \"1\" = నాశనమయ్యెను"
+"పేన్ ప్రదర్శనలో సందేశ పీఠికలను అప్రమేయముగా నాశనము చేయవలెనా లేకావిస్తరింపవలెనా \"0\" = విస్తరింపబడెను "
+"\"1\" = నాశనమయ్యెను"
 
 #: ../mail/evolution-mail.schemas.in.h:129
 msgid ""
@@ -12687,9 +12690,9 @@ msgid ""
 "Computer and Search folders, otherwise accounts are sorted based on an order "
 "given by a user."
 msgstr ""
-"మెయిల్ ప్రదర్శనలో ఉపయోగించినట్టుగా ఒక సంచయ వృక్షములోని ఖాతాలను"
-" పద్ధతిలో పెట్టుట ఎలానో చెప్పుచున్నది.నిజమునకు అమర్చినచో ఖాతాలు అక్షరవరుసలో పెట్టబడెను,"
-"లేనిచో ఖాతాలను వినియోగదారును ఇష్ఠాంశముగా అవి అమర్చబడును."
+"మెయిల్ ప్రదర్శనలో ఉపయోగించినట్టుగా ఒక సంచయ వృక్షములోని ఖాతాలను పద్ధతిలో పెట్టుట ఎలానో చెప్పుచున్నది."
+"నిజమునకు అమర్చినచో ఖాతాలు అక్షరవరుసలో పెట్టబడెను,లేనిచో ఖాతాలను వినియోగదారును ఇష్ఠాంశముగా అవి "
+"అమర్చబడును."
 
 #: ../mail/evolution-mail.schemas.in.h:130
 msgid "Mail browser width"
@@ -12763,8 +12766,9 @@ msgid ""
 "Possible values are: never - to never close browser window always - to "
 "always close browser window ask - (or any other value) will ask user"
 msgstr ""
-"'ఎన్నడూ కానిది' - ఎన్నడూ బ్రౌజర్ గవాక్షకమును మూయవద్దు, 'ఎల్లప్పుడూ' - ఎల్లప్పుడూ బ్రౌజర్ గవాక్షకమును మూసివుంచుము,"
-"'అడుగుము' - (వేరొక విలువను) వినియోగదారుని అడుగుము అనునవి సంభవమగు విలువలు."
+"'ఎన్నడూ కానిది' - ఎన్నడూ బ్రౌజర్ గవాక్షకమును మూయవద్దు, 'ఎల్లప్పుడూ' - ఎల్లప్పుడూ బ్రౌజర్ "
+"గవాక్షకమును మూసివుంచుము,'అడుగుము' - (వేరొక విలువను) వినియోగదారుని అడుగుము అనునవి సంభవమగు "
+"విలువలు."
 
 #: ../mail/evolution-mail.schemas.in.h:207
 msgid "List of accounts"
@@ -12830,8 +12834,8 @@ msgid ""
 "Whether check for new messages when Evolution is started. This includes also "
 "sending messages from Outbox."
 msgstr ""
-"ఎవల్యూషన్ ప్రారంభమైనప్పుడు కొత్త సందేశముల కొరకు తనిఖీ చేయవలెనా లేదా. ఇది ఔట్ బాక్స్ లో నుండి"
-"పంపబడుతున్న సందేశములు కూడా కలిగివుంది."
+"ఎవల్యూషన్ ప్రారంభమైనప్పుడు కొత్త సందేశముల కొరకు తనిఖీ చేయవలెనా లేదా. ఇది ఔట్ బాక్స్ లో "
+"నుండిపంపబడుతున్న సందేశములు కూడా కలిగివుంది."
 
 #: ../mail/evolution-mail.schemas.in.h:222
 msgid ""
@@ -12839,9 +12843,9 @@ msgid ""
 "account \"Check for new messages every X minutes\" option when Evolution is "
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
-"ఎవల్యూషన్ ప్రారంభమైనప్పుడు ఖాతాకు సంబంధం లేకుండా అన్ని క్రియాశీలమైన ఖాతాలలో కొత్త సందేశముల కొరకు తనిఖీ"
-"చేయవలెనా లేదా \"ప్రతి X నిముషములకు కొత్త సందేశములకు తనిఖీ చేయుము\" ఇచ్చికము."
-"ఈ ఇచ్చికము కేవలం 'send_recv_on_start'అను ఇచ్చికముతో పాటుగా ఉపయోగించును.(_r_o_s)"
+"ఎవల్యూషన్ ప్రారంభమైనప్పుడు ఖాతాకు సంబంధం లేకుండా అన్ని క్రియాశీలమైన ఖాతాలలో కొత్త సందేశముల కొరకు "
+"తనిఖీచేయవలెనా లేదా \"ప్రతి X నిముషములకు కొత్త సందేశములకు తనిఖీ చేయుము\" ఇచ్చికము.ఈ ఇచ్చికము కేవలం "
+"'send_recv_on_start'అను ఇచ్చికముతో పాటుగా ఉపయోగించును.(_r_o_s)"
 
 #: ../mail/evolution-mail.schemas.in.h:223
 msgid "\"Send and Receive Mail\" window height"
@@ -12931,8 +12935,7 @@ msgid ""
 "Define the email export format when doing drag'n'drop. Possible values are "
 "mbox or pdf"
 msgstr ""
-"లాగి మరియు పడివేయుచుప్పుడు ఈమెయిల్ ఎగుమతి రూపకముని తెలుపవలెను. సంభవమగు విలువలు "
-"mbox or pdf"
+"లాగి మరియు పడివేయుచుప్పుడు ఈమెయిల్ ఎగుమతి రూపకముని తెలుపవలెను. సంభవమగు విలువలు mbox or pdf"
 
 #: ../mail/evolution-mail.schemas.in.h:237
 msgid "Format of the drag'n'drop export filename"
@@ -12943,8 +12946,8 @@ msgid ""
 "Exported filename will be YYYYmmDDHHMMSS_email_title Possible values: 1 (: "
 "email sent date), 2 (: drag'n'drop date)"
 msgstr ""
-"ఎగుమతి చేసిన దస్త్రము పేరు YYYYmmDDHHMMSSఈమెయిల్ శీర్షిక అగును. సంభవమగు విలువలు:1"
-"(:ఈమెయిల్ పంపిన తేది), 2(:లాగి పడివేసిన తేది)"
+"ఎగుమతి చేసిన దస్త్రము పేరు YYYYmmDDHHMMSSఈమెయిల్ శీర్షిక అగును. సంభవమగు విలువలు:1(:ఈమెయిల్ "
+"పంపిన తేది), 2(:లాగి పడివేసిన తేది)"
 
 #: ../mail/importers/elm-importer.c:181
 msgid "Importing Elm data"
@@ -13087,8 +13090,7 @@ msgstr "ములుచుకున్న నిరర్దకపు పీఠ�
 msgid ""
 "All new emails with header that matches given content will be automatically "
 "filtered as junk"
-msgstr ""
-"ఇచ్చిన అంశముతో అన్ని కొత్త ఈమెయిల్‌ల శీర్షిక సరిపోయినచో అవి అప్రమేయముగా పనికిరానివిగా లెక్కింపబడును"
+msgstr "ఇచ్చిన అంశముతో అన్ని కొత్త ఈమెయిల్‌ల శీర్షిక సరిపోయినచో అవి అప్రమేయముగా పనికిరానివిగా లెక్కింపబడును"
 
 #: ../mail/mail-config.ui.h:3
 msgid "Header name"
@@ -13217,8 +13219,8 @@ msgid ""
 "To help avoid email accidents and embarrassments, ask for confirmation "
 "before taking the following checkmarked actions:"
 msgstr ""
-"ఈమెయిల్ ప్రమాదం మరియు ఇబ్బందిపెట్టుట నుండి కాపాడుటకు, ఈ క్రింది చెక్‌మార్కు చేసినటువంటి చర్యలను"
-"అమలు చేయక ముందే నిర్దారణ కొరకు అడగండి:"
+"ఈమెయిల్ ప్రమాదం మరియు ఇబ్బందిపెట్టుట నుండి కాపాడుటకు, ఈ క్రింది చెక్‌మార్కు చేసినటువంటి చర్యలనుఅమలు "
+"చేయక ముందే నిర్దారణ కొరకు అడగండి:"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:39
@@ -13964,9 +13966,7 @@ msgstr "మీరు చెల్లని చిరునామాలతో ఒ
 msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
-msgstr ""
-"ఈ క్రింది స్వీకరించువారు అసలైన మెయిల్ చిరునామాలుగా గుర్తింపబడలేదు"
-"{0}"
+msgstr "ఈ క్రింది స్వీకరించువారు అసలైన మెయిల్ చిరునామాలుగా గుర్తింపబడలేదు{0}"
 
 #: ../mail/mail.error.xml.h:22
 msgid "Send private reply?"
@@ -13978,9 +13978,8 @@ msgid ""
 "but the list is trying to redirect your reply to go back to the list. Are "
 "you sure you want to proceed?"
 msgstr ""
-"మీరు మెయిలింగ్ జాబితా ద్వారా వచ్చిన సందేశమునకు రహస్యముగా ప్రత్యుత్తరము ఇచ్చుచున్నారు,"
-"కాని ఈ జాబితా మీ ప్రత్యుత్తరమును తిరిగి వెనక్కి పంపుతున్నది. మీరు"
-"ఖచ్చితముగా ముందుకు వెళ్ళాలనుకుంటున్నారా?"
+"మీరు మెయిలింగ్ జాబితా ద్వారా వచ్చిన సందేశమునకు రహస్యముగా ప్రత్యుత్తరము ఇచ్చుచున్నారు,కాని ఈ జాబితా మీ "
+"ప్రత్యుత్తరమును తిరిగి వెనక్కి పంపుతున్నది. మీరుఖచ్చితముగా ముందుకు వెళ్ళాలనుకుంటున్నారా?"
 
 #: ../mail/mail.error.xml.h:24
 msgid "Reply _Privately"
@@ -13992,10 +13991,9 @@ msgid ""
 "replying privately to the sender; not to the list. Are you sure you want to "
 "proceed?"
 msgstr ""
-"మీరు మెయిలింగ్ జాబితా ద్వారా వచ్చిన సందేశమునకు ప్రత్యుత్తరము ఇచ్చుచున్నారు,"
-"కాని మీరు రహస్యముగా ప్రత్యుత్తరమును జాబితాకు కాకుండా పంపువారికి పంపుతున్నారు. మీరు"
-"ఖచ్చితముగా ముందుకు వెళ్ళాలనుకుంటున్నారా?"
-
+"మీరు మెయిలింగ్ జాబితా ద్వారా వచ్చిన సందేశమునకు ప్రత్యుత్తరము ఇచ్చుచున్నారు,కాని మీరు రహస్యముగా "
+"ప్రత్యుత్తరమును జాబితాకు కాకుండా పంపువారికి పంపుతున్నారు. మీరుఖచ్చితముగా ముందుకు "
+"వెళ్ళాలనుకుంటున్నారా?"
 
 #: ../mail/mail.error.xml.h:28
 msgid "Send reply to all recipients?"
@@ -14383,12 +14381,12 @@ msgid ""
 "delete the account after ensuring the data is safely migrated. Please make "
 "sure there is enough disk space if you choose to migrate now."
 msgstr ""
-"ఎవల్యూషన్ యొక్క స్థానిక మెయిల్ ఆకృతి mbox నుండి Maildir మారినది. ఎవల్యూషన్ కొనసాగక ముందు"
-"మీ స్థానిక మెయిల్ కొత్త ఆకృతికి మార్చవలెను. మీరు తరలిపోవాలనుకుంటున్నారా?\n"
+"ఎవల్యూషన్ యొక్క స్థానిక మెయిల్ ఆకృతి mbox నుండి Maildir మారినది. ఎవల్యూషన్ కొనసాగక ముందుమీ స్థానిక "
+"మెయిల్ కొత్త ఆకృతికి మార్చవలెను. మీరు తరలిపోవాలనుకుంటున్నారా?\n"
 "\n"
-"పాత mbox సంచయములను బద్రపరుచుటకు ఒక mbox ఖాతా సృష్టింపబడును.మీరు సమాచారమును"
-"జాగ్రత్తగా తరలించిన తర్వాత ఖాతాని తొలగించవచ్చు.మీరు ఇప్పుడు తరలించాలనుకున్నప్పుడు"
-"దయచేసి డిస్క్ లో సరిపోయే ఖాళీ ఉందో లేదో నిర్దారించుకొనుము "
+"పాత mbox సంచయములను బద్రపరుచుటకు ఒక mbox ఖాతా సృష్టింపబడును.మీరు సమాచారమునుజాగ్రత్తగా "
+"తరలించిన తర్వాత ఖాతాని తొలగించవచ్చు.మీరు ఇప్పుడు తరలించాలనుకున్నప్పుడుదయచేసి డిస్క్ లో సరిపోయే ఖాళీ ఉందో "
+"లేదో నిర్దారించుకొనుము "
 
 #: ../mail/mail.error.xml.h:119
 msgid "_Exit Evolution"
@@ -14595,8 +14593,8 @@ msgid ""
 "The attachment named {0} is a hidden file and may contain sensitive data. "
 "Please review it before sending."
 msgstr ""
-"{0} అను పేరుగల జతపరి దాగివున్న దస్త్రం మరియు సున్నితమైన సమాచారము కలిగి వుండచ్చు."
-"మీరు పంపుటకు ముందు దయచేసి దానిని పునఃప్రదర్శన చేసుకొనుము."
+"{0} అను పేరుగల జతపరి దాగివున్న దస్త్రం మరియు సున్నితమైన సమాచారము కలిగి వుండచ్చు.మీరు పంపుటకు "
+"ముందు దయచేసి దానిని పునఃప్రదర్శన చేసుకొనుము."
 
 #: ../mail/mail-send-recv.c:208
 msgid "Canceling..."
@@ -14891,7 +14889,8 @@ msgid ""
 "The UID of the selected (or \"primary\") address book in the sidebar of the "
 "\"Contacts\" view."
 msgstr ""
-"ఎంచుకున్న (లేక \"ప్రధమమైన\") చిరునామా పుస్తకము యొక్క UID \"పరిచయముల\" ప్రదర్శన యొక్క పక్కపట్టీలో ఉన్నది."
+"ఎంచుకున్న (లేక \"ప్రధమమైన\") చిరునామా పుస్తకము యొక్క UID \"పరిచయముల\" ప్రదర్శన యొక్క "
+"పక్కపట్టీలో ఉన్నది."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:20
 msgid "Whether to show maps in preview pane."
@@ -14901,8 +14900,7 @@ msgstr "ఉపదర్శనం తలంను చూపించవలెన�
 msgid ""
 "Whether addresses should be formatted according to standard in their "
 "destination country."
-msgstr ""
-"చిరునామాల ఆకృతిని వాటి చేరబోవు దేశం యొక్క పరిమాణము తగ్గట్టు మార్చవలెనా"
+msgstr "చిరునామాల ఆకృతిని వాటి చేరబోవు దేశం యొక్క పరిమాణము తగ్గట్టు మార్చవలెనా"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../modules/addressbook/autocompletion-config.c:194
@@ -14987,7 +14985,7 @@ msgstr "కొత చిరునామా పుస్తకాన్ని స
 #: ../modules/addressbook/e-book-shell-view.c:402
 #: ../modules/calendar/e-cal-shell-backend.c:121
 #: ../modules/calendar/e-cal-shell-migrate.c:63
-#: ../modules/online-accounts/e-online-accounts-google.c:378
+#: ../modules/online-accounts/e-online-accounts-google.c:385
 msgid "Contacts"
 msgstr "పరిచయాలు"
 
@@ -15491,9 +15489,9 @@ msgid ""
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list."
 msgstr ""
-"మెమో జాబితాకు సంబంధించిన మునుజూపు పలకను ఎక్కడ స్థాపించాలనునది లేఔట్ శైలి"
-" నిర్ణయిస్తుంది. \"0\" (శాస్త్రీయ ప్రదర్శన) మెమో జాబితాకు క్రింద మునుజూపు పలకను స్థాపించును."
-"\"1\" (నిలువు ప్రదర్శన) మెమో జాబితాకు ప్రక్కన మునుజూపు పలకను స్థాపించును."
+"మెమో జాబితాకు సంబంధించిన మునుజూపు పలకను ఎక్కడ స్థాపించాలనునది లేఔట్ శైలి నిర్ణయిస్తుంది. \"0"
+"\" (శాస్త్రీయ ప్రదర్శన) మెమో జాబితాకు క్రింద మునుజూపు పలకను స్థాపించును.\"1\" (నిలువు ప్రదర్శన) "
+"మెమో జాబితాకు ప్రక్కన మునుజూపు పలకను స్థాపించును."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:51
 msgid "If \"true\", show the memo preview pane in the main window."
@@ -15513,9 +15511,9 @@ msgid ""
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list."
 msgstr ""
-"కర్తవ్య జాబితాకు సంబంధించిన మునుజూపు పలకను ఎక్కడ స్థాపించాలనునది లేఔట్ శైలి"
-"నిర్ణయిస్తుంది. \"0\" (శాస్త్రీయ ప్రదర్శన) కర్తవ్య జాబితాకు క్రింద మునుజూపు పలకను స్థాపించును."
-"\"1\" (నిలువు ప్రదర్శన) కర్తవ్య జాబితాకు ప్రక్కన మునుజూపు పలకను స్థాపించును."
+"కర్తవ్య జాబితాకు సంబంధించిన మునుజూపు పలకను ఎక్కడ స్థాపించాలనునది లేఔట్ శైలినిర్ణయిస్తుంది. \"0"
+"\" (శాస్త్రీయ ప్రదర్శన) కర్తవ్య జాబితాకు క్రింద మునుజూపు పలకను స్థాపించును.\"1\" (నిలువు "
+"ప్రదర్శన) కర్తవ్య జాబితాకు ప్రక్కన మునుజూపు పలకను స్థాపించును."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:59
 msgid "If \"true\", show the task preview pane in the main window."
@@ -17212,8 +17210,7 @@ msgstr "ఒక నెట్వర్క్ కనెక్షన్ ఏర్ప
 msgid ""
 "Cannot find a corresponding account in the org.gnome.OnlineAccounts service "
 "from which to obtain an authentication token."
-msgstr ""
-"org.gnome.OnlineAccounts సేవలో గుర్తింపు టోకెన్ పొందగలిగిన ఖాతాను కనుగొనలేకపోయెను."
+msgstr "org.gnome.OnlineAccounts సేవలో గుర్తింపు టోకెన్ పొందగలిగిన ఖాతాను కనుగొనలేకపోయెను."
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:475
 msgid "OAuth"
@@ -17223,8 +17220,7 @@ msgstr "OAuth"
 msgid ""
 "This option will connect to the server by way of the GNOME Online Accounts "
 "service"
-msgstr ""
-"ఈ ఇచ్చికము GNOME ఆన్‌లైన్ ఖాతాల సేవ ద్వారా సేవికకు అనుసంధానము చేయును"
+msgstr "ఈ ఇచ్చికము GNOME ఆన్‌లైన్ ఖాతాల సేవ ద్వారా సేవికకు అనుసంధానము చేయును"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:69
 msgid "Author(s)"
@@ -17592,8 +17588,8 @@ msgid ""
 "To back up your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding."
 msgstr ""
-"మీ సమాచారమును  మరియు అమరికలను భద్రపరుచుటకు, ముందుగా ఎవల్యూషన్‌ని మూసివేయవలెను.దయచేసి"
-"ముందుకు కొనసాగే ముందు మీరు సమాచారము అంతా భద్రపరుచుకున్నారని నిర్దారించుకొనుము."
+"మీ సమాచారమును  మరియు అమరికలను భద్రపరుచుటకు, ముందుగా ఎవల్యూషన్‌ని మూసివేయవలెను.దయచేసిముందుకు "
+"కొనసాగే ముందు మీరు సమాచారము అంతా భద్రపరుచుకున్నారని నిర్దారించుకొనుము."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Close and Back up Evolution"
@@ -17611,9 +17607,9 @@ msgid ""
 "all your current Evolution data and settings and restore them from your "
 "backup."
 msgstr ""
-"మీ సమాచారమును  మరియు అమరికలను భద్రపరుచుటకు, ముందుగా ఎవల్యూషన్‌ని మూసివేయవలెను.దయచేసి"
-"ముందుకు కొనసాగే ముందు మీరు సమాచారము అంతా భద్రపరుచుకున్నారని నిర్దారించుకొనుము."
-"ఇది మీ ప్రస్తుత ఎవల్యూషన్ యొక్క తేది మరియు అమరికలను తొలగించును మరియు మీ బాక్‌అప్ నుండి పునఃస్తాపించును."
+"మీ సమాచారమును  మరియు అమరికలను భద్రపరుచుటకు, ముందుగా ఎవల్యూషన్‌ని మూసివేయవలెను.దయచేసిముందుకు "
+"కొనసాగే ముందు మీరు సమాచారము అంతా భద్రపరుచుకున్నారని నిర్దారించుకొనుము.ఇది మీ ప్రస్తుత ఎవల్యూషన్ "
+"యొక్క తేది మరియు అమరికలను తొలగించును మరియు మీ బాక్‌అప్ నుండి పునఃస్తాపించును."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid "Close and Restore Evolution"
@@ -17732,10 +17728,12 @@ msgid "Previous attempt failed with code %d"
 msgstr "కోడ్ తో‌ఇదివరకటిది ప్రయత్నం విఫలమైంది %d "
 
 #: ../plugins/caldav/caldav-browse-server.c:946
+#, c-format
 msgid "Enter password for user %s on server %s"
 msgstr "%s సేవికపై వినియోగదారి %s కొరకు సంకేతపదాన్ని ప్రవేశపెట్టండి"
 
 #: ../plugins/caldav/caldav-browse-server.c:1009
+#, c-format
 msgid "Cannot create soup message for URL '%s'"
 msgstr "'%s'URL కొరకు సోప్ సందేశమును సృష్టించలేకపోయింది"
 
@@ -17763,6 +17761,7 @@ msgid "User e_mail:"
 msgstr "వినియోగదారుని ఈమెయిల్:(_e)"
 
 #: ../plugins/caldav/caldav-browse-server.c:1478
+#, c-format
 msgid "Failed to create thread: %s"
 msgstr "త్రెడ్ సృష్టించుటలో విఫలమైంది: %s"
 
@@ -18232,10 +18231,10 @@ msgstr "అన్ని పీఠికలను తెమ్ము (_F)"
 
 #: ../plugins/imap-features/imap-headers.ui.h:4
 msgid ""
-"_Basic Headers - (Fastest)(_B) \n"
+"_Basic Headers (Fastest) \n"
 "Use this if you do not have filters based on mailing lists"
 msgstr ""
-"ప్రాధమిక పీఠికలు - (వేగవంతమైన) \n"
+"ప్రాధమిక పీఠికలు - (వేగవంతమైన)\n"
 "మీకు మెయిలింగ్ జాబితాలపై ఆధారపడి వడపోతలు లేకపోతే ఇది ఉపయోగించండి"
 
 #: ../plugins/imap-features/imap-headers.ui.h:6
@@ -18262,6 +18261,7 @@ msgstr "మీ IMAP ఖాతాలను బాగా-అమర్చుము.
 #. Translators: The first '%s' is replaced with a calendar name,
 #. * the second '%s' with an error message
 #: ../plugins/itip-formatter/itip-formatter.c:505
+#, c-format
 msgid "Failed to load the calendar '%s' (%s)"
 msgstr "క్యాలెండర్ '%s'ను లోడుచేయలేకపోయింది(%s)"
 
@@ -18622,177 +18622,219 @@ msgstr "అపరిచిత వ్యక్తి"
 #: ../plugins/itip-formatter/itip-view.c:372
 #: ../plugins/itip-formatter/itip-view.c:460
 #: ../plugins/itip-formatter/itip-view.c:547
+#, c-format
 msgid "Please respond on behalf of %s"
 msgstr "దయచేసి %s తరుపున ప్రతిస్పందించుము"
 
 #: ../plugins/itip-formatter/itip-view.c:374
 #: ../plugins/itip-formatter/itip-view.c:462
 #: ../plugins/itip-formatter/itip-view.c:549
+#, c-format
 msgid "Received on behalf of %s"
 msgstr "%s తరుపున స్వీకరించింది"
 
 #: ../plugins/itip-formatter/itip-view.c:379
+#, c-format
 msgid "%s through %s has published the following meeting information:"
 msgstr "%s గుండా %s ఈ క్రింది సమావేశ సమాచారాన్ని ప్రచురించినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:381
+#, c-format
 msgid "%s has published the following meeting information:"
 msgstr "%s ఈ క్రింది సమావేశ సమాచారాన్ని ప్రచురించినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:386
+#, c-format
 msgid "%s has delegated the following meeting to you:"
 msgstr "%s ఈ క్రింది సమావేశాన్ని మీకు ప్రాతినిధ్యవహించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:389
+#, c-format
 msgid "%s through %s requests your presence at the following meeting:"
 msgstr "%s గుండా %s ఈ క్రింది సమావేశం వద్ద మీ హాజరును అభ్యర్ధించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:391
+#, c-format
 msgid "%s requests your presence at the following meeting:"
 msgstr "%s ఈ క్రింది సమావేశం వద్ద మీ హాజరును అభ్యర్ధించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:397
+#, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
 msgstr "%s గుండా %s ఉన్న సమావేశాన్ని జోడించదలచింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:399
+#, c-format
 msgid "%s wishes to add to an existing meeting:"
 msgstr "%s ఉన్న సమావేశాన్ని జోడించదలచింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:403
+#, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr "%s గుండా %s ఈ క్రింది సమాశం కొరకు తాజా సమాచారాన్ని పొంద దల్చినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:405
+#, c-format
 msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr "%s ఈ క్రింది సమావేశం కొరకు తాజా సమాచారాన్ని పొంద దల్చినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:409
+#, c-format
 msgid "%s through %s has sent back the following meeting response:"
 msgstr "%s గుండా %s ఈ క్రింది సమావేశం స్పందనను వెనుకకు పంపినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:411
+#, c-format
 msgid "%s has sent back the following meeting response:"
 msgstr "%s ఈ క్రింది సమావేశం స్పందనను వెనుకకు పంపినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:415
+#, c-format
 msgid "%s through %s has canceled the following meeting:"
 msgstr "%s గుండా %s ఈ క్రింది సమావేశాన్ని రద్దు చేసింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:417
+#, c-format
 msgid "%s has canceled the following meeting:"
 msgstr "%s సమావేశాన్ని రద్దు చేసింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:421
+#, c-format
 msgid "%s through %s has proposed the following meeting changes."
 msgstr "%s గుండా %s ఈ క్రింది సమావేశ మార్పలను ప్రస్తావించింది."
 
 #: ../plugins/itip-formatter/itip-view.c:423
+#, c-format
 msgid "%s has proposed the following meeting changes:"
 msgstr "%s ఈ క్రింది సమావేశ మార్పులను ప్రస్తావించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:427
+#, c-format
 msgid "%s through %s has declined the following meeting changes:"
 msgstr "%s గుండా %s ఈ క్రింది సమావేశ మార్పులను తిరస్కరించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:429
+#, c-format
 msgid "%s has declined the following meeting changes:"
 msgstr "%s ఈ క్రింది సమావేశ మార్పులను తిరస్కరించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:467
+#, c-format
 msgid "%s through %s has published the following task:"
 msgstr "%s గుండా %s ఈ క్రింది కర్తవ్యాన్ని ప్రచురించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:469
+#, c-format
 msgid "%s has published the following task:"
 msgstr "%s ఈ క్రింది కర్తవ్యాన్ని ప్రచురించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:474
+#, c-format
 msgid "%s requests the assignment of %s to the following task:"
 msgstr "%s ఈ క్రింది కర్తవ్యమునకు %s యొక్క చెరికను అభ్యర్దించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:477
+#, c-format
 msgid "%s through %s has assigned you a task:"
 msgstr "%s గుండా %s మీకు ఒక కర్తవ్యాన్ని అప్పగిస్తుంది:"
 
 #: ../plugins/itip-formatter/itip-view.c:479
+#, c-format
 msgid "%s has assigned you a task:"
 msgstr "%s మీకు ఒక కర్తవ్యాన్ని అప్పగించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:485
+#, c-format
 msgid "%s through %s wishes to add to an existing task:"
 msgstr "%s గుండా %s  ఉన్న కార్తవ్యాన్ని జోడించిదల్చింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:487
+#, c-format
 msgid "%s wishes to add to an existing task:"
 msgstr "%s ఉన్న కార్తవ్యాన్ని జోడించిదల్చింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:491
+#, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "assigned task:"
 msgstr "%s గుండా %s ఈ క్రింది అప్పగించన కర్తవ్యమునకు తాజా సమాచారాన్ని పొంద దల్చినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:493
+#, c-format
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
 msgstr "%s ఈ క్రింది అప్పగించిన కర్తవ్యానికి తాజా కార్య సమాచారాన్ని పొంద దల్చినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:497
+#, c-format
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr "%s గుండా %s ఈ క్రింది అప్పగించిన కర్తవ్యం స్పందనను వెనుకకు పంపినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:499
+#, c-format
 msgid "%s has sent back the following assigned task response:"
 msgstr "%s ఈ క్రింది అప్పగించిన కర్తవ్యం స్పందనను వెనుకకు పంపినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:503
+#, c-format
 msgid "%s through %s has canceled the following assigned task:"
 msgstr "%s గుండా %s ఈ క్రింది అప్పగించిన కర్తవ్యం రద్దుచేసినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:505
+#, c-format
 msgid "%s has canceled the following assigned task:"
 msgstr "%s ఈ క్రింది అప్పగించిన కర్తవ్యం రద్దుచేసినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:509
+#, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr "%s గుండా %s ఈ క్రింది కర్తవ్యం అప్పగింత మార్పులను ప్రస్తావించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:511
+#, c-format
 msgid "%s has proposed the following task assignment changes:"
 msgstr "%s ఈ క్రింది కర్తవ్యం అప్పగింత మార్పులను ప్రస్తావించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:515
+#, c-format
 msgid "%s through %s has declined the following assigned task:"
 msgstr "%s గుండా %s ఈ క్రింది అప్పగించిన కర్తవ్యాన్ని తిరస్కరించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:517
+#, c-format
 msgid "%s has declined the following assigned task:"
 msgstr "%s క్రింది అప్పగించిన కర్తవ్యాన్ని తిరస్కరించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:554
+#, c-format
 msgid "%s through %s has published the following memo:"
 msgstr "%s నుండి %s క్రింది మెమోను ప్రచురించినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:556
+#, c-format
 msgid "%s has published the following memo:"
 msgstr "%s క్రింది మెమోను ప్రచురించింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:561
+#, c-format
 msgid "%s through %s wishes to add to an existing memo:"
 msgstr "%s గుండా %s ఉన్న మెమో ను జోడించదలచింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:563
+#, c-format
 msgid "%s wishes to add to an existing memo:"
 msgstr "%s ఉన్న మెమో ను జోడించదలచింది:"
 
 #: ../plugins/itip-formatter/itip-view.c:567
+#, c-format
 msgid "%s through %s has canceled the following shared memo:"
 msgstr "%s గుండా %s ఈక్రింది భాగస్వామ్య మెమోను రద్దుచేసినది:"
 
 #: ../plugins/itip-formatter/itip-view.c:569
+#, c-format
 msgid "%s has canceled the following shared memo:"
 msgstr "%s ఈక్రింది భాగస్వామ్య మెమోను రద్దుచేసినది:"
 
@@ -18932,9 +18974,7 @@ msgstr "ఈ సమావేశం ప్రాతినిధ్యం వహి
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
-msgstr ""
-"'{0}' సమావేశనకు ప్రాతినిధ్యం వహించింది. మీరు ప్రతినిధి '{1}'ని "
-"జతచేయాలనుకుంటున్నారా?"
+msgstr "'{0}' సమావేశనకు ప్రాతినిధ్యం వహించింది. మీరు ప్రతినిధి '{1}'ని జతచేయాలనుకుంటున్నారా?"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:350
 msgid "Get List _Archive"
@@ -19090,6 +19130,7 @@ msgstr[1] ""
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
 #: ../plugins/mail-notification/mail-notification.c:409
+#, c-format
 msgid "Subject: %s"
 msgstr "సంగతి: %s"
 
@@ -19109,6 +19150,7 @@ msgstr "కొత్త ఈమెయిల్"
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
 #: ../plugins/mail-notification/mail-notification.c:461
+#, c-format
 msgid "Show %s"
 msgstr "చూపుము %s"
 
@@ -19202,10 +19244,8 @@ msgid ""
 msgid_plural ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
 "add them all?"
-msgstr[0] ""
-"మీరు %d మెయిల్‌లను చర్యలుగా మార్చుటకు ఎంపికచేశారు.మీరు నిజముగా అన్నిటిని జతపరుచుకుంటారా?"
-msgstr[1] ""
-"మీరు %d మెయిల్‌లను చర్యలుగా మార్చుటకు ఎంపికచేశారు.మీరు నిజముగా అన్నిటిని జతపరుచుకుంటారా?"
+msgstr[0] "మీరు %d మెయిల్‌లను చర్యలుగా మార్చుటకు ఎంపికచేశారు.మీరు నిజముగా అన్నిటిని జతపరుచుకుంటారా?"
+msgstr[1] "మీరు %d మెయిల్‌లను చర్యలుగా మార్చుటకు ఎంపికచేశారు.మీరు నిజముగా అన్నిటిని జతపరుచుకుంటారా?"
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../plugins/mail-to-task/mail-to-task.c:655
@@ -19216,10 +19256,8 @@ msgid ""
 msgid_plural ""
 "You have selected %d mails to be converted to memos. Do you really want to "
 "add them all?"
-msgstr[0] ""
-"మీరు %d మెయిల్‌లను మెమోలుగా మార్చుటకు ఎంపికచేశారు.మీరు నిజముగా అన్నిటిని జతపరుచుకుంటారా?"
-msgstr[1] ""
-"మీరు %d మెయిల్‌లను మెమోలుగా మార్చుటకు ఎంపికచేశారు.మీరు నిజముగా అన్నిటిని జతపరుచుకుంటారా?"
+msgstr[0] "మీరు %d మెయిల్‌లను మెమోలుగా మార్చుటకు ఎంపికచేశారు.మీరు నిజముగా అన్నిటిని జతపరుచుకుంటారా?"
+msgstr[1] "మీరు %d మెయిల్‌లను మెమోలుగా మార్చుటకు ఎంపికచేశారు.మీరు నిజముగా అన్నిటిని జతపరుచుకుంటారా?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:676
 msgid "Do you wish to continue converting remaining mails?"
@@ -19324,15 +19362,15 @@ msgstr ""
 "మీరు సందేశాలు చదివినట్లుగా ప్రస్తుత సంచయంనందు మాత్రమే గుర్తుంచాలనుకుంటున్నారా, లేక ప్రస్తుత "
 "సంచయంనందు అదేవిదంగా దాని వుపసంచయాలనందు కూడానా?"
 
-#: ../plugins/mark-all-read/mark-all-read.c:216
+#: ../plugins/mark-all-read/mark-all-read.c:185
 msgid "In Current Folder and _Subfolders"
 msgstr "ప్రస్తుత సంచయం మరియు వుపసంచయాలనందు (_S)"
 
-#: ../plugins/mark-all-read/mark-all-read.c:230
+#: ../plugins/mark-all-read/mark-all-read.c:199
 msgid "In Current _Folder Only"
 msgstr "ప్రస్తుత సంచయంనందు మాత్రమే (_F)"
 
-#: ../plugins/mark-all-read/mark-all-read.c:576
+#: ../plugins/mark-all-read/mark-all-read.c:545
 msgid "Mark Me_ssages as Read"
 msgstr "చదివిన సందేశాలుగా గుర్తుపెట్టుము"
 
@@ -19385,7 +19423,8 @@ msgid ""
 "Always show plain text part and make attachments from other parts, if "
 "requested."
 msgstr ""
-"ఎల్లప్పుడూ సాధారణ పాఠ్యభాగమును చూపుము మరియు అర్జిపెట్టుకొనినచో, వేరే భాగముల నుండి జతపరులని తయారుచేయుము."
+"ఎల్లప్పుడూ సాధారణ పాఠ్యభాగమును చూపుము మరియు అర్జిపెట్టుకొనినచో, వేరే భాగముల నుండి జతపరులని "
+"తయారుచేయుము."
 
 #: ../plugins/prefer-plain/prefer-plain.c:311
 msgid "Show s_uppressed HTML parts as attachments"
@@ -19728,9 +19767,9 @@ msgid ""
 "$ORIG[from], $ORIG[to] or $ORIG[body], which will be replaced by values from "
 "an email you are replying to."
 msgstr ""
-"డ్రాఫ్ట్ లతో కూడినటువంటి టెమ్‌ప్లేట్ ప్లగ్‌ఇన్. మీరు ప్రత్యుత్తరము చేయుచున్న"
-"ఈమెయిల్ నుండి వచ్చిన విలువలచేత పునఃస్థాపించబడే $ORIG[subject],"
-"$ORIG[from], $ORIG[to] or $ORIG[body], చర్ణాంశములను ఉపయోగించుము"
+"డ్రాఫ్ట్ లతో కూడినటువంటి టెమ్‌ప్లేట్ ప్లగ్‌ఇన్. మీరు ప్రత్యుత్తరము చేయుచున్నఈమెయిల్ నుండి వచ్చిన విలువలచేత "
+"పునఃస్థాపించబడే $ORIG[subject],$ORIG[from], $ORIG[to] or $ORIG[body], చర్ణాంశములను "
+"ఉపయోగించుము"
 
 #: ../plugins/templates/templates.c:1105
 msgid "No Title"
@@ -20054,266 +20093,267 @@ msgstr "ఎవల్యూషన్ వెబ్‌సైటు"
 msgid "Categories Editor"
 msgstr "వర్గముల కూర్పరి"
 
-#: ../shell/e-shell-window-actions.c:1249
+#: ../shell/e-shell-window-actions.c:1251
 msgid "Bug Buddy is not installed."
 msgstr "బగ్ బడ్డీ ప్రతిష్టించలేదు."
 
-#: ../shell/e-shell-window-actions.c:1251
+#: ../shell/e-shell-window-actions.c:1253
 msgid "Bug Buddy could not be run."
 msgstr "బగ్ బడ్డీ నడవడం కుదరదు."
 
-#: ../shell/e-shell-window-actions.c:1432
+#: ../shell/e-shell-window-actions.c:1434
 msgid "Show information about Evolution"
 msgstr "ఎవల్యూషన్ గురించి సమాచారం చూపుము"
 
-#: ../shell/e-shell-window-actions.c:1437
-#: ../shell/e-shell-window-actions.c:1451
+#: ../shell/e-shell-window-actions.c:1439
+#: ../shell/e-shell-window-actions.c:1453
 msgid "_Close Window"
 msgstr "గవాక్షమును మూయుము(_C)"
 
-#: ../shell/e-shell-window-actions.c:1458
+#: ../shell/e-shell-window-actions.c:1460
 msgid "_Contents"
 msgstr "అంశములు(_C)"
 
-#: ../shell/e-shell-window-actions.c:1460
+#: ../shell/e-shell-window-actions.c:1462
 msgid "Open the Evolution User Guide"
 msgstr "ఎవల్యూషన్ వినియోగదారుల దిక్సూచిని తెరువుము"
 
-#: ../shell/e-shell-window-actions.c:1486
+#: ../shell/e-shell-window-actions.c:1488
 msgid "_Forget Passwords"
 msgstr "రహస్య పదములను మర్చిపోండి(_F)"
 
-#: ../shell/e-shell-window-actions.c:1488
+#: ../shell/e-shell-window-actions.c:1490
 msgid "Forget all remembered passwords"
 msgstr "మీరు గుర్తుంచుకున్న అన్ని సంకేతపదాలను మర్చిపోండి"
 
-#: ../shell/e-shell-window-actions.c:1493
+#: ../shell/e-shell-window-actions.c:1495
 msgid "I_mport..."
 msgstr "దిగుమతి(_m)..."
 
-#: ../shell/e-shell-window-actions.c:1495
+#: ../shell/e-shell-window-actions.c:1497
 msgid "Import data from other programs"
 msgstr "ఇతర కార్యక్రమాలనుండి దత్తాంశాన్ని దిగుమతిచేయుము"
 
-#: ../shell/e-shell-window-actions.c:1500
+#: ../shell/e-shell-window-actions.c:1502
 msgid "New _Window"
 msgstr "కొత్త విండో(_W)"
 
-#: ../shell/e-shell-window-actions.c:1502
+#: ../shell/e-shell-window-actions.c:1504
 msgid "Create a new window displaying this view"
 msgstr "ఈ దర్శనముని ప్రదర్శిస్తు కొత్త గవాక్షాన్ని సృష్టించుము"
 
-#: ../shell/e-shell-window-actions.c:1514
+#: ../shell/e-shell-window-actions.c:1516
 msgid "Available Cate_gories"
 msgstr "అందుబాటులోవున్న క్షేత్రాలు(_g)"
 
-#: ../shell/e-shell-window-actions.c:1516
+#: ../shell/e-shell-window-actions.c:1518
 msgid "Manage available categories"
 msgstr "అందుబాటులోవున్న వర్గములను నిర్వహించండి"
 
-#: ../shell/e-shell-window-actions.c:1528
+#: ../shell/e-shell-window-actions.c:1530
 msgid "_Quick Reference"
 msgstr "చురుకైన నివేదన(_Q)"
 
-#: ../shell/e-shell-window-actions.c:1530
+#: ../shell/e-shell-window-actions.c:1532
 msgid "Show Evolution's shortcut keys"
 msgstr "ఎవల్యూషన్ యొక్క షార్టకట్ కీలను చూపుము"
 
-#: ../shell/e-shell-window-actions.c:1537
+#: ../shell/e-shell-window-actions.c:1539
 msgid "Exit the program"
 msgstr "కార్యక్రమం నుండి బయటకు రమ్ము"
 
-#: ../shell/e-shell-window-actions.c:1542
+#: ../shell/e-shell-window-actions.c:1544
 msgid "_Advanced Search..."
 msgstr "అదునాతన అన్వేషణ(_A)..."
 
-#: ../shell/e-shell-window-actions.c:1544
+#: ../shell/e-shell-window-actions.c:1546
 msgid "Construct a more advanced search"
 msgstr "మరింత ఆధునిక శోధన నిర్మించడం "
 
-#: ../shell/e-shell-window-actions.c:1551
+#: ../shell/e-shell-window-actions.c:1553
 msgid "Clear the current search parameters"
 msgstr "ప్రస్తుత అన్వేషణ ప్రమాణములను శుభ్రపరచుము"
 
-#: ../shell/e-shell-window-actions.c:1556
+#: ../shell/e-shell-window-actions.c:1558
 msgid "_Edit Saved Searches..."
 msgstr "దాచిన వెతుకుఫలితాలను సరిచేయు(_E)..."
 
-#: ../shell/e-shell-window-actions.c:1558
+#: ../shell/e-shell-window-actions.c:1560
 msgid "Manage your saved searches"
 msgstr "బద్రపరిచిన శోథనలను నిర్వహించుము"
 
-#: ../shell/e-shell-window-actions.c:1565
+#: ../shell/e-shell-window-actions.c:1567
 msgid "Click here to change the search type"
 msgstr "అన్వేషణ రకాన్ని మార్చుటకు ఇక్కడ నొక్కండి"
 
-#: ../shell/e-shell-window-actions.c:1570
+#: ../shell/e-shell-window-actions.c:1572
 msgid "_Find Now"
 msgstr "ఇప్పుడు కనుగొనుము(_F)"
 
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1572
+#: ../shell/e-shell-window-actions.c:1574
 msgid "Execute the current search parameters"
 msgstr "ప్రస్తుత శోథన ప్రమాణములను అమలుచేయుము"
 
-#: ../shell/e-shell-window-actions.c:1577
+#: ../shell/e-shell-window-actions.c:1579
 msgid "_Save Search..."
 msgstr "వెతుకును దాయుము(_S)..."
 
-#: ../shell/e-shell-window-actions.c:1579
+#: ../shell/e-shell-window-actions.c:1581
 msgid "Save the current search parameters"
 msgstr "ప్రస్తుత శోథన ప్రమాణములను దాయుము"
 
-#: ../shell/e-shell-window-actions.c:1591
+#: ../shell/e-shell-window-actions.c:1593
 msgid "Submit _Bug Report..."
 msgstr "బగ్ నివేదికను పంపుము(_B)..."
 
-#: ../shell/e-shell-window-actions.c:1593
+#: ../shell/e-shell-window-actions.c:1595
 msgid "Submit a bug report using Bug Buddy"
 msgstr "బగ్ బడ్డీతో బగ్ నివేదికను పంపుము"
 
-#: ../shell/e-shell-window-actions.c:1598
+#: ../shell/e-shell-window-actions.c:1600
 msgid "_Work Offline"
 msgstr "లైనువెలుపల పనిచేయుము(_W)"
 
-#: ../shell/e-shell-window-actions.c:1600
+#: ../shell/e-shell-window-actions.c:1602
 msgid "Put Evolution into offline mode"
 msgstr "ఎవల్యూషన్‌ని ఆఫ్‌లైన్ రీతినందు పెట్టుము"
 
-#: ../shell/e-shell-window-actions.c:1605
+#: ../shell/e-shell-window-actions.c:1607
 msgid "_Work Online"
 msgstr "లైనులో పనిచేయుము(_W)"
 
-#: ../shell/e-shell-window-actions.c:1607
+#: ../shell/e-shell-window-actions.c:1609
 msgid "Put Evolution into online mode"
 msgstr "ఎవల్యూషన్‌ని ఆన్‌లైన్ రీతినందు పెట్టుము"
 
-#: ../shell/e-shell-window-actions.c:1635
+#: ../shell/e-shell-window-actions.c:1637
 msgid "Lay_out"
 msgstr "కూర్పు(_o)"
 
-#: ../shell/e-shell-window-actions.c:1642
+#: ../shell/e-shell-window-actions.c:1644
 msgid "_New"
 msgstr "కొత్త(_N)"
 
-#: ../shell/e-shell-window-actions.c:1649
+#: ../shell/e-shell-window-actions.c:1651
 msgid "_Search"
 msgstr "వెతుకు(_S)"
 
-#: ../shell/e-shell-window-actions.c:1656
+#: ../shell/e-shell-window-actions.c:1658
 msgid "_Switcher Appearance"
 msgstr "స్విచ్చర్ కనిపించువిదం(_S)"
 
-#: ../shell/e-shell-window-actions.c:1670
+#: ../shell/e-shell-window-actions.c:1672
 msgid "_Window"
 msgstr "గవాక్షము(_W)"
 
-#: ../shell/e-shell-window-actions.c:1699
+#: ../shell/e-shell-window-actions.c:1701
 msgid "Show Side _Bar"
 msgstr "ప్రక్కపట్టీని చూపుము(_B)"
 
-#: ../shell/e-shell-window-actions.c:1701
+#: ../shell/e-shell-window-actions.c:1703
 msgid "Show the side bar"
 msgstr "ప్రక్కపట్టీని చూపుము"
 
-#: ../shell/e-shell-window-actions.c:1707
+#: ../shell/e-shell-window-actions.c:1709
 msgid "Show _Buttons"
 msgstr "బటన్‌లని చూపుము(_B)"
 
-#: ../shell/e-shell-window-actions.c:1709
+#: ../shell/e-shell-window-actions.c:1711
 msgid "Show the switcher buttons"
 msgstr "స్విచ్చర్ బటన్‌లని చూపుము"
 
-#: ../shell/e-shell-window-actions.c:1715
+#: ../shell/e-shell-window-actions.c:1717
 msgid "Show _Status Bar"
 msgstr "సుస్థిత పట్టీ ని చూపుము(_S)"
 
-#: ../shell/e-shell-window-actions.c:1717
+#: ../shell/e-shell-window-actions.c:1719
 msgid "Show the status bar"
 msgstr "సుస్థిత పట్టీని చూపుము"
 
-#: ../shell/e-shell-window-actions.c:1723
+#: ../shell/e-shell-window-actions.c:1725
 msgid "Show _Tool Bar"
 msgstr "పనిముట్లపట్టీని చూపుము(_T)"
 
-#: ../shell/e-shell-window-actions.c:1725
+#: ../shell/e-shell-window-actions.c:1727
 msgid "Show the tool bar"
 msgstr "పనిముట్లపట్టీని చూపుము"
 
-#: ../shell/e-shell-window-actions.c:1747
+#: ../shell/e-shell-window-actions.c:1749
 msgid "_Icons Only"
 msgstr "ప్రతిమలు మాత్రమే (_I)"
 
-#: ../shell/e-shell-window-actions.c:1749
+#: ../shell/e-shell-window-actions.c:1751
 msgid "Display window buttons with icons only"
 msgstr "చిత్రాలతో ఉన్న గవాక్ష బొత్తములను ప్రదర్శించుము"
 
-#: ../shell/e-shell-window-actions.c:1754
+#: ../shell/e-shell-window-actions.c:1756
 msgid "_Text Only"
 msgstr "పాఠ్యము మాత్రమే (_T)"
 
-#: ../shell/e-shell-window-actions.c:1756
+#: ../shell/e-shell-window-actions.c:1758
 msgid "Display window buttons with text only"
 msgstr "పాఠ్యము తో ఉన్న గవాక్ష బొత్తములను ప్రదర్శించుము"
 
-#: ../shell/e-shell-window-actions.c:1761
+#: ../shell/e-shell-window-actions.c:1763
 msgid "Icons _and Text"
 msgstr "ప్రతిమలు మరియు పాఠ్యము (_a)"
 
-#: ../shell/e-shell-window-actions.c:1763
+#: ../shell/e-shell-window-actions.c:1765
 msgid "Display window buttons with icons and text"
 msgstr "చిత్రాలు మరియు పాఠ్యము తో ఉన్న గవాక్ష బొత్తములను ప్రదర్శించుము"
 
-#: ../shell/e-shell-window-actions.c:1768
+#: ../shell/e-shell-window-actions.c:1770
 msgid "Tool_bar Style"
 msgstr "పనిముట్ల పట్టీ శైలి (_b)"
 
-#: ../shell/e-shell-window-actions.c:1770
+#: ../shell/e-shell-window-actions.c:1772
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "రంగస్థల పనిముట్లపట్టా అమరికను ఉపయోగించి  గవాక్ష బొత్తములను ప్రదర్శించుము"
 
-#: ../shell/e-shell-window-actions.c:1778
+#: ../shell/e-shell-window-actions.c:1780
 msgid "Define Views..."
 msgstr "దర్శనములను నిర్వచించు..."
 
-#: ../shell/e-shell-window-actions.c:1780
+#: ../shell/e-shell-window-actions.c:1782
 msgid "Create or edit views"
 msgstr "దర్శనాలను సృష్టించు లేదా సరిచేయు"
 
-#: ../shell/e-shell-window-actions.c:1785
+#: ../shell/e-shell-window-actions.c:1787
 msgid "Save Custom View..."
 msgstr "మలచిన దర్శనమును దాయుము..."
 
-#: ../shell/e-shell-window-actions.c:1787
+#: ../shell/e-shell-window-actions.c:1789
 msgid "Save current custom view"
 msgstr "ప్రస్తుత మలచిన దర్శనమును దాయుము"
 
-#: ../shell/e-shell-window-actions.c:1794
+#: ../shell/e-shell-window-actions.c:1796
 msgid "C_urrent View"
 msgstr "ప్రస్తుత దర్శనం(_u)"
 
-#: ../shell/e-shell-window-actions.c:1804
+#: ../shell/e-shell-window-actions.c:1806
 msgid "Custom View"
 msgstr "మలచిన దర్శనము"
 
-#: ../shell/e-shell-window-actions.c:1806
+#: ../shell/e-shell-window-actions.c:1808
 msgid "Current view is a customized view"
 msgstr "ప్రస్తుత దర్శనం మలచుకొనబడ్డ దర్శనమును"
 
-#: ../shell/e-shell-window-actions.c:1816
+#: ../shell/e-shell-window-actions.c:1818
 msgid "Change the page settings for your current printer"
 msgstr "మీ ప్రస్తుత ముద్రణ యంత్రముకు పుట అమరికలను మార్చుము"
 
-#: ../shell/e-shell-window-actions.c:2206
+#: ../shell/e-shell-window-actions.c:2208
 #, c-format
 msgid "Switch to %s"
 msgstr "%s కు మారుము"
 
-#: ../shell/e-shell-window-actions.c:2327
+#: ../shell/e-shell-window-actions.c:2329
+#, c-format
 msgid "Select view: %s"
 msgstr "దర్శనమును ఎంపికచేయుము: %s"
 
-#: ../shell/e-shell-window-actions.c:2428
+#: ../shell/e-shell-window-actions.c:2430
 msgid "Execute these search parameters"
 msgstr "ఈ అన్వేషణ పారామితులు అమలు పరచుట "
 
@@ -20382,8 +20422,8 @@ msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
 msgstr ""
-"నిర్దేశించిన భాగమును చూపుతూ ఎవల్యూషన్‌ని ప్రారంభించుము.'మెయిల్','క్యాలండర్','పరిచయములు',"
-"'చర్యలు' మరియు 'మెమోలు' లభ్యమైన ఇచ్చికములు"
+"నిర్దేశించిన భాగమును చూపుతూ ఎవల్యూషన్‌ని ప్రారంభించుము.'మెయిల్','క్యాలండర్','పరిచయములు','చర్యలు' "
+"మరియు 'మెమోలు' లభ్యమైన ఇచ్చికములు"
 
 #: ../shell/main.c:316
 msgid "Apply the given geometry to the main window"
@@ -20426,6 +20466,7 @@ msgid "- The Evolution PIM and Email Client"
 msgstr "- ఎవల్యూషన్ PIM మరియు ఈ మెయిల్ క్లైంట్"
 
 #: ../shell/main.c:588
+#, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
@@ -20434,6 +20475,7 @@ msgstr ""
 "అధిక సమాచారం కొరకు '%s --సహాయమును' ఉపయోగించుము.\n"
 
 #: ../shell/main.c:594
+#, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
@@ -20474,8 +20516,8 @@ msgid ""
 "a workaround you might try first upgrading to Evolution 2, and then "
 "upgrading to Evolution 3."
 msgstr ""
-"ఎవల్యూషన్ ద్వారా {} వివరణము నుండి నేరుగా నూతనపరుచుట సహాయము ఎన్నడూ కలగదు.ఎలాగైతేనేమి"
-"మీరు మొదట ఎవల్యూషన్ 2ని నూతన పరుచుటకు ప్ర్రయత్నించండి, తరువాత ఎవల్యూషన్ 3ని నూతన పరుచండి."
+"ఎవల్యూషన్ ద్వారా {} వివరణము నుండి నేరుగా నూతనపరుచుట సహాయము ఎన్నడూ కలగదు.ఎలాగైతేనేమిమీరు మొదట "
+"ఎవల్యూషన్ 2ని నూతన పరుచుటకు ప్ర్రయత్నించండి, తరువాత ఎవల్యూషన్ 3ని నూతన పరుచండి."
 
 #: ../shell/shell.error.xml.h:11
 msgid "Are you sure you want to forget all remembered passwords?"
@@ -20522,6 +20564,7 @@ msgid "Unrecognized desktop file Version '%s'"
 msgstr "గుర్తించలేని డెస్క్టాప్ ఫైలు వెర్షన్ '%s'"
 
 #: ../smclient/eggdesktopfile.c:959
+#, c-format
 msgid "Starting %s"
 msgstr "%s ను ప్రారంభిస్తోంది"
 
@@ -20541,6 +20584,7 @@ msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
 msgstr "'Type=Link' డెస్క్ టాప్ ప్రవేశమునకు దస్త్రముల URIలను పంపించుట కుదరలేదు"
 
 #: ../smclient/eggdesktopfile.c:1391
+#, c-format
 msgid "Not a launchable item"
 msgstr "అంశము దించదగునది కాదు"
 
@@ -20593,7 +20637,6 @@ msgid "Issued To Organization"
 msgstr "నిర్వహణాసంస్థకు జారీచేసెను"
 
 #: ../smime/gui/certificate-manager.c:79 ../smime/gui/certificate-manager.c:99
-#| msgid "Organizational Unit (OU)"
 msgid "Issued To Organizational Unit"
 msgstr "నిర్మాణ సంస్థ భాగమునకు జారీచేసెను"
 
@@ -20705,6 +20748,7 @@ msgstr ""
 "దృవీకరణపత్రం యొక్క ప్రామాణికతను నమ్మవద్దు ఇక్కడ సూచించి ఉంటే తప్ప"
 
 #: ../smime/gui/component.c:50
+#, c-format
 msgid "Enter the password for '%s'"
 msgstr "'%s' కు రహస్యపదాన్ని ప్రవేశపెట్టండి"
 
@@ -21420,6 +21464,7 @@ msgid "Vie_w All Inline"
 msgstr "ఇన్‌లైన్‌లో అన్నిటిని దర్శించుము(_w)"
 
 #: ../widgets/misc/e-attachment-view.c:778
+#, c-format
 msgid "Open With \"%s\""
 msgstr "\"%s\"తో తెరువుము"
 
@@ -21543,10 +21588,9 @@ msgid ""
 "Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
 "like to try again, please click the \"Back\" button."
 msgstr ""
-"ఈ క్రింది అనువర్తనంల నుండి దిగుమతి చేయుటకు ఎవాల్యూషన్ అమరికల కొరకు"
-"పరిశీలిస్తోంది: పైన్,నెట్‌స్కేప్,ఈఎల్ఎమ్,ఐక్యాలెండర్. ఏ దిగుమతికారక"
-"అమరికలు కనబడలేదు. మీరు మరలా ప్రయత్నించుటకు"
-"ఇష్టపడితే, దయచేసి \"వెనుకకు\" బటన్ ను నొక్కండి."
+"ఈ క్రింది అనువర్తనంల నుండి దిగుమతి చేయుటకు ఎవాల్యూషన్ అమరికల కొరకుపరిశీలిస్తోంది: పైన్,నెట్‌స్కేప్,"
+"ఈఎల్ఎమ్,ఐక్యాలెండర్. ఏ దిగుమతికారకఅమరికలు కనబడలేదు. మీరు మరలా ప్రయత్నించుటకుఇష్టపడితే, దయచేసి "
+"\"వెనుకకు\" బటన్ ను నొక్కండి."
 
 #. Install a custom "Cancel Import" button.
 #: ../widgets/misc/e-import-assistant.c:775
@@ -21894,21 +21938,21 @@ msgstr "ప్రతిరూపం నకలు తీయుము(_C)"
 msgid "Copy the image to the clipboard"
 msgstr "క్లిప్‌బోర్డునకు చిత్రమును నకలుతీయుము."
 
-#: ../widgets/misc/e-web-view.c:469 ../widgets/misc/e-web-view.c:1318
+#: ../widgets/misc/e-web-view.c:469 ../widgets/misc/e-web-view.c:1338
 msgid "Select all text and images"
 msgstr "అన్ని పాఠ్యములు మరియు చిత్రములను ఎంచుకొనుము"
 
-#: ../widgets/misc/e-web-view.c:982 ../widgets/misc/e-web-view.c:984
-#: ../widgets/misc/e-web-view.c:986
+#: ../widgets/misc/e-web-view.c:1002 ../widgets/misc/e-web-view.c:1004
+#: ../widgets/misc/e-web-view.c:1006
 #, c-format
 msgid "Click to call %s"
 msgstr "%s కు కాల్‌చేయుటకు నొక్కుము"
 
-#: ../widgets/misc/e-web-view.c:988
+#: ../widgets/misc/e-web-view.c:1008
 msgid "Click to hide/unhide addresses"
 msgstr "చిరునామాలను మరుగుపరచుటకు/బయల్పరచుటకు నొక్కము"
 
-#: ../widgets/misc/e-web-view.c:990
+#: ../widgets/misc/e-web-view.c:1010
 #, c-format
 msgid "Click to open %s"
 msgstr "%s తెరువుటకు నొకండి"
@@ -22074,6 +22118,7 @@ msgstr "నిలువు పట్టీని జతచేయుము"
 #. * Example: "Family name: Smith (13 items)"
 #.
 #: ../widgets/table/e-table-group-container.c:361
+#, c-format
 msgid "%s: %s (%d item)"
 msgid_plural "%s: %s (%d items)"
 msgstr[0] "%s : %s (%d అంశము)"
