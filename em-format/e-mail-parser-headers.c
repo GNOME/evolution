@@ -70,6 +70,10 @@ empe_headers_bind_dom (EMailPart *part,
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
 	photo = webkit_dom_document_get_element_by_id (document, "__evo-contact-photo");
 
+	/* Contact photos disabled, the <img> tag is not there */
+	if (!photo)
+		return;
+
 	addr = webkit_dom_element_get_attribute (photo, "data-mailaddr");
 	only_local = webkit_dom_element_has_attribute (photo, "data-onlylocal");
 
