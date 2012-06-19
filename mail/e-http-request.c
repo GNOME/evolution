@@ -224,6 +224,7 @@ handle_http_request (GSimpleAsyncResult *res,
 	CamelStream *cache_stream;
 
 	GHashTable *query;
+	gint uri_len;
 
 	if (g_cancellable_is_cancelled (cancellable)) {
 		return;
@@ -250,8 +251,15 @@ handle_http_request (GSimpleAsyncResult *res,
 	evo_uri = soup_uri_to_string (soup_uri, FALSE);
 
 	/* Remove the "evo-" prefix from scheme */
-	if (evo_uri && (strlen (evo_uri) > 5)) {
-		uri = g_strdup (&evo_uri[4]);
+	uri_len = strlen (evo_uri);
+	if (evo_uri && (uri_len > 5)) {
+
+		/* Remove trailing "?" if there is no URI query */
+		if (evo_uri[uri_len - 1] == '?') {
+			uri = g_strndup (evo_uri + 4, uri_len - 5);
+		} else {
+			uri = g_strdup (evo_uri + 4);
+		}
 		g_free (evo_uri);
 	}
 
