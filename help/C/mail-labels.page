@@ -24,6 +24,7 @@
 
 <p>You can search for messages with specific labels by using the <link xref="mail-searching">quick search dropdown</link>. Also, <link xref="mail-search-folders">search folders</link> can be created based on labels.</p>
 
+<!-- TODO: Update once https://bugzilla.gnome.org/show_bug.cgi?id=269852 is FIXED -->
 <section id="add">
 <title>Adding a label to a message</title>
 <p>To assign a label to a message, right-click the message, click <gui>Label</gui>, and choose the label to apply.</p>
