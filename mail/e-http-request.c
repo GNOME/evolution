@@ -300,7 +300,7 @@ handle_http_request (GSimpleAsyncResult *res,
 			GFileInfo *info;
 			gchar *path;
 
-			path = camel_data_cache_get_filename (cache, "http", uri_md5, NULL);
+			path = camel_data_cache_get_filename (cache, "http", uri_md5);
 			file = g_file_new_for_path (path);
 			info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
 					0, cancellable, NULL);
