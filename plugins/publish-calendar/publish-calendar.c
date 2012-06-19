@@ -310,9 +310,10 @@ ask_password (GMountOperation *op,
               gpointer user_data)
 {
 	struct mnt_struct *ms = (struct mnt_struct *) user_data;
-	gchar *username, *password;
+	const gchar *username;
+	gchar *password;
 	gboolean req_pass = FALSE;
-	EUri *euri;
+	SoupURI *soup_uri;
 
 	g_return_if_fail (ms != NULL);
 
@@ -320,8 +321,10 @@ ask_password (GMountOperation *op,
 	if ((flags & G_ASK_PASSWORD_NEED_PASSWORD) == 0)
 		return;
 
-	euri = e_uri_new (ms->uri->location);
-	username = euri->user;
+	soup_uri = soup_uri_new (ms->uri->location);
+	g_return_if_fail (soup_uri != NULL);
+
+	username = soup_uri_get_user (soup_uri);
 	password = e_passwords_get_password (NULL, ms->uri->location);
 	req_pass = ((username && *username) && !(ms->uri->service_type == TYPE_ANON_FTP &&
 			!strcmp (username, "anonymous"))) ? TRUE:FALSE;
@@ -337,7 +340,7 @@ ask_password (GMountOperation *op,
 		if (!password) {
 			/* user canceled password dialog */
 			g_mount_operation_reply (op, G_MOUNT_OPERATION_ABORTED);
-			e_uri_free (euri);
+			soup_uri_free (soup_uri);
 
 			return;
 		}
@@ -353,7 +356,7 @@ ask_password (GMountOperation *op,
 
 	g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
 
-	e_uri_free (euri);
+	soup_uri_free (soup_uri);
 }
 
 static void

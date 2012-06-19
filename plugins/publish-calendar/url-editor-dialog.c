@@ -299,51 +299,64 @@ static void
 set_from_uri (UrlEditorDialog *dialog)
 {
 	EPublishUri *uri;
-	gchar *method;
-	EUri *euri = NULL;
+	SoupURI *soup_uri;
+	const gchar *scheme;
+	const gchar *user;
+	const gchar *host;
+	const gchar *path;
+	guint port;
 
 	uri = dialog->uri;
 
-	euri = e_uri_new (uri->location);
-	/* determine our method */
-	method = euri->protocol;
-	if (strcmp ((const gchar *)method, "smb") == 0)
+	soup_uri = soup_uri_new (uri->location);
+	g_return_if_fail (soup_uri != NULL);
+
+	/* determine our service type */
+	scheme = soup_uri_get_scheme (soup_uri);
+	g_return_if_fail (scheme != NULL);
+
+	if (strcmp (scheme, "smb") == 0)
 		uri->service_type = TYPE_SMB;
-	else if (strcmp ((const gchar *)method, "sftp") == 0)
+	else if (strcmp (scheme, "sftp") == 0)
 		uri->service_type = TYPE_SFTP;
-	else if (strcmp ((const gchar *)method, "ftp") == 0)
+	else if (strcmp (scheme, "ftp") == 0)
 		/* we set TYPE_FTP here for now. if we don't find a
 		 * username later, we'll change it to TYPE_ANON_FTP */
 		uri->service_type = TYPE_FTP;
-	else if (strcmp ((const gchar *)method, "dav") == 0)
+	else if (strcmp (scheme, "dav") == 0)
 		uri->service_type = TYPE_DAV;
-	else if (strcmp ((const gchar *)method, "davs") == 0)
+	else if (strcmp (scheme, "davs") == 0)
 		uri->service_type = TYPE_DAVS;
 	else
 		uri->service_type = TYPE_URI;
 
-	if (euri->user)
-		gtk_entry_set_text (GTK_ENTRY (dialog->username_entry), euri->user);
+	user = soup_uri_get_user (soup_uri);
+	host = soup_uri_get_host (soup_uri);
+	port = soup_uri_get_port (soup_uri);
+	path = soup_uri_get_path (soup_uri);
 
-	if (euri->host)
-		gtk_entry_set_text (GTK_ENTRY (dialog->server_entry), euri->host);
+	if (user != NULL)
+		gtk_entry_set_text (GTK_ENTRY (dialog->username_entry), user);
 
-	if (euri->port) {
-		gchar *port;
-		port = g_strdup_printf ("%d", euri->port);
-		gtk_entry_set_text (GTK_ENTRY (dialog->port_entry), port);
-		g_free (port);
+	if (host != NULL)
+		gtk_entry_set_text (GTK_ENTRY (dialog->server_entry), host);
+
+	if (port > 0) {
+		gchar *port_str;
+		port_str = g_strdup_printf ("%d", port);
+		gtk_entry_set_text (GTK_ENTRY (dialog->port_entry), port_str);
+		g_free (port_str);
 	}
 
-	if (euri->path)
-		gtk_entry_set_text (GTK_ENTRY (dialog->file_entry), euri->path);
+	if (path != NULL)
+		gtk_entry_set_text (GTK_ENTRY (dialog->file_entry), path);
 
 	if (uri->service_type == TYPE_URI)
 		gtk_entry_set_text (GTK_ENTRY (dialog->server_entry), uri->location);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->publish_service), uri->service_type);
 
-	e_uri_free (euri);
+	soup_uri_free (soup_uri);
 }
 
 static gboolean

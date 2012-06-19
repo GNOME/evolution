@@ -321,7 +321,7 @@ static gboolean
 book_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
                                   const gchar *uri)
 {
-	EUri *euri;
+	SoupURI *soup_uri;
 	const gchar *cp;
 	gchar *source_uid = NULL;
 	gchar *contact_uid = NULL;
@@ -329,11 +329,15 @@ book_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	if (!g_str_has_prefix (uri, "contacts:"))
 		return FALSE;
 
-	euri = e_uri_new (uri);
-	cp = euri->query;
+	soup_uri = soup_uri_new (uri);
+
+	if (soup_uri == NULL)
+		return FALSE;
+
+	cp = soup_uri_get_query (soup_uri);
 
 	if (cp == NULL) {
-		e_uri_free (euri);
+		soup_uri_free (soup_uri);
 		return FALSE;
 	}
 
@@ -378,7 +382,7 @@ book_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	g_free (source_uid);
 	g_free (contact_uid);
 
-	e_uri_free (euri);
+	soup_uri_free (soup_uri);
 
 	return TRUE;
 }

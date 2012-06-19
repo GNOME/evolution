@@ -43,7 +43,7 @@ migrateURI (const gchar *xml,
 	xmlNodePtr root, p;
 	EPublishUri *uri;
 	gchar *password, *temp;
-	EUri *euri;
+	SoupURI *soup_uri;
 	gint ii;
 	gboolean found = FALSE;
 
@@ -55,22 +55,20 @@ migrateURI (const gchar *xml,
 	frequency = xmlGetProp (root, (const guchar *)"frequency");
 	username = xmlGetProp (root, (const guchar *)"username");
 
-	euri = e_uri_new ((const gchar *) location);
+	soup_uri = soup_uri_new ((gchar *) location);
 
-	if (!euri) {
+	if (soup_uri == NULL) {
 		g_warning ("Could not form the uri for %s \n", location);
 		goto cleanup;
 	}
 
-	if (euri->user)
-		g_free (euri->user);
+	soup_uri_set_user (soup_uri, (gchar *) username);
 
-	euri->user = g_strdup ((const gchar *) username);
-
-	temp = e_uri_to_string (euri, FALSE);
+	temp = soup_uri_to_string (soup_uri, FALSE);
 	uri->location = g_strdup_printf ("dav://%s", strstr (temp, "//") + 2);
 	g_free (temp);
-	e_uri_free (euri);
+
+	soup_uri_free (soup_uri);
 
 	if (enabled != NULL)
 		uri->enabled = atoi ((gchar *) enabled);

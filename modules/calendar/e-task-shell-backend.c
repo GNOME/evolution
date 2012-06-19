@@ -231,7 +231,7 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	ESource *source;
 	ESourceRegistry *registry;
 	ECalClientSourceType source_type;
-	EUri *euri;
+	SoupURI *soup_uri;
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
 	const gchar *cp;
@@ -247,8 +247,12 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	if (strncmp (uri, "task:", 5) != 0)
 		return FALSE;
 
-	euri = e_uri_new (uri);
-	cp = euri->query;
+	soup_uri = soup_uri_new (uri);
+
+	if (soup_uri == NULL)
+		return FALSE;
+
+	cp = soup_uri_get_query (soup_uri);
 	if (cp == NULL)
 		goto exit;
 
@@ -373,7 +377,7 @@ exit:
 	g_free (comp_uid);
 	g_free (comp_rid);
 
-	e_uri_free (euri);
+	soup_uri_free (soup_uri);
 
 	return handled;
 }
