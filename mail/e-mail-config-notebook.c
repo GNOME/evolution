@@ -356,23 +356,23 @@ mail_config_notebook_constructed (GObject *object)
 			G_BINDING_SYNC_CREATE);
 	}
 
-	provider = e_mail_config_service_backend_get_provider (backend);
+	provider = backend ? e_mail_config_service_backend_get_provider (backend) : NULL;
 
 	/*** Receiving Options (conditional) ***/
 
 	/* Note: We exclude this page if it has no options,
 	 *       but we don't know that until we create it. */
-	page = e_mail_config_provider_page_new (backend);
-	if (e_mail_config_provider_page_is_empty (
+	page = backend ? e_mail_config_provider_page_new (backend) : NULL;
+	if (page && e_mail_config_provider_page_is_empty (
 			E_MAIL_CONFIG_PROVIDER_PAGE (page))) {
 		g_object_unref (g_object_ref_sink (page));
-	} else {
+	} else if (page) {
 		e_mail_config_notebook_add_page (notebook, page);
 	}
 
 	/*** Sending Page (conditional) ***/
 
-	if (!CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
+	if (provider && !CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
 		page = e_mail_config_sending_page_new (registry);
 		e_mail_config_service_page_add_scratch_source (
 			E_MAIL_CONFIG_SERVICE_PAGE (page),
