@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-15 07:55+0000\n"
-"PO-Revision-Date: 2012-06-15 11:58+0200\n"
+"POT-Creation-Date: 2012-06-19 11:46+0000\n"
+"PO-Revision-Date: 2012-06-19 14:28+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1601,13 +1601,6 @@ msgid "How to get help"
 msgstr "Cómo obtener ayuda"
 
 #: C/problems-getting-help.page:24(p)
-#| msgid ""
-#| "To receive help on problems you can send an email to the <link href="
-#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
-#| "mailing list</link> or talk to developers and other users in the IRC chat "
-#| "channel #evolution on the server irc.gimp.net. To connect to an IRC "
-#| "server you can for example <link href=\"help:empathy/irc-manage\">use the "
-#| "internet messenger application <app>Empathy</app></link>."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
@@ -9604,7 +9597,7 @@ msgid "This requires having the <sys>evolution-ews</sys> package installed."
 msgstr "Esto requiere tener instalado el paquete <sys>evolution-ews</sys>."
 
 #: C/intro-first-run.page:65(link)
-#: C/exchange-connectors-overview.page:48(link)
+#: C/exchange-connectors-overview.page:30(link)
 msgid "Install evolution-ews"
 msgstr "Instalar «evolution-ews»"
 
@@ -9656,7 +9649,7 @@ msgstr ""
 "Esto requiere tener instalado el paquete <sys>evolution-exchange</sys>."
 
 #: C/intro-first-run.page:86(link)
-#: C/exchange-connectors-overview.page:30(link)
+#: C/exchange-connectors-overview.page:48(link)
 msgid "Install evolution-exchange"
 msgstr "Instalar «evolution-exchange»"
 
@@ -10528,6 +10521,29 @@ msgstr ""
 "proporciona esta funcionalidad."
 
 #: C/exchange-connectors-overview.page:26(p)
+#| msgid ""
+#| "For Microsoft Exchange 2007 and 2010 (and possibly earlier versions that "
+#| "support MAPI) it is recommended to use the package <sys>evolution-mapi</"
+#| "sys>."
+msgid ""
+"For Microsoft Exchange 2007, 2010 and newer it is recommended to use the "
+"package <sys>evolution-ews</sys>."
+msgstr ""
+"Para Microsoft Exchange 2007 y 2010 y superiores, se recomienda usar el "
+"paquete <sys>evolution-ews</sys>."
+
+#: C/exchange-connectors-overview.page:35(p)
+msgid ""
+"Only if <sys>evolution-ews</sys> does not work well for you it is "
+"recommended to use the package <sys>evolution-mapi</sys>. It supports "
+"Microsoft Exchange 2007 and 2010 (and possibly earlier versions that support "
+"MAPI)."
+msgstr ""
+"Sólo se recomienda usar el paquete <sys>evolution-mapi</sys> si "
+"<sys>evolution-ews</sys> no le funciona correctamente. Soporta Microsoft "
+"Exchange 2007 y 2010 (y posiblemente versiones anteriores que soporten MAPI)."
+
+#: C/exchange-connectors-overview.page:44(p)
 msgid ""
 "For Microsoft Exchange 2000 and 2003 (and possibly earlier versions of "
 "Exchange that use Outlook Web Access) it is recommended to use the package "
@@ -10536,24 +10552,6 @@ msgstr ""
 "Para Microsoft Exchange 2000 y 2003 (y, posiblemente, versiones anteriores "
 "de Exchange que usan Acceso web a Outlook) se recomienda usar el paquete "
 "<sys>evolution-exchange</sys>."
-
-#: C/exchange-connectors-overview.page:35(p)
-msgid ""
-"For Microsoft Exchange 2007 and 2010 (and possibly earlier versions that "
-"support MAPI) it is recommended to use the package <sys>evolution-mapi</sys>."
-msgstr ""
-"Para Microsoft Exchange 2007 y 2010 (y, posiblemente, versiones anteriores "
-"que soporten MAPI) se recomienda usar el paquete <sys>evolution-mapi</sys>."
-
-#: C/exchange-connectors-overview.page:44(p)
-msgid ""
-"For Microsoft Exchange 2007 and 2010 the package <sys>evolution-ews</sys> is "
-"currently under development and will replace <sys>evolution-mapi</sys> in "
-"the future. It might not be available yet for your distribution."
-msgstr ""
-"Para Microsoft Exchange 2007 y 2010 el paquete «<sys>evolution-ews</sys> está "
-"actualmente en desarrollo, y sustituirá a  <sys>evolution-mapi</sys> en el "
-"futuro. Puede que todavía no esté disponible para su distribución."
 
 #: C/exchange-connectors-overview.page:53(p)
 msgid ""
@@ -12974,6 +12972,15 @@ msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2011\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
+
+#~ msgid ""
+#~ "For Microsoft Exchange 2007 and 2010 the package <sys>evolution-ews</sys> "
+#~ "is currently under development and will replace <sys>evolution-mapi</sys> "
+#~ "in the future. It might not be available yet for your distribution."
+#~ msgstr ""
+#~ "Para Microsoft Exchange 2007 y 2010 el paquete «<sys>evolution-ews</sys> "
+#~ "está actualmente en desarrollo, y sustituirá a  <sys>evolution-mapi</sys> "
+#~ "en el futuro. Puede que todavía no esté disponible para su distribución."
 
 #~ msgid ""
 #~ "Evolution can check for junk mail for you. Evolution uses SpamAssassin "
