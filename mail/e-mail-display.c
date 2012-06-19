@@ -1700,8 +1700,6 @@ e_mail_display_reload (EMailDisplay *display)
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	printf("Reloading EMailDisplay!\n");
-
 	web_view = E_WEB_VIEW (display);
 	uri = e_web_view_get_uri (web_view);
 
