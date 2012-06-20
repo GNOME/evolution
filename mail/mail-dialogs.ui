@@ -313,6 +313,19 @@ Please select a follow up action from the "Flag" menu.</property>
           </packing>
         </child>
         <child>
+          <object class="EDateEdit" id="target_date">
+            <property name="allow-no-date-set">True</property>
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="right_attach">3</property>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkCheckButton" id="completed">
             <property name="label" translatable="yes" comments="Translators: Flag Completed">Co_mpleted</property>
             <property name="visible">True</property>
