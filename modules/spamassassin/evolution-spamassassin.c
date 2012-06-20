@@ -17,8 +17,10 @@
  */
 
 #include <config.h>
+#include <errno.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <glib/gstdio.h>
 #include <glib/gi18n-lib.h>
 
 #include <camel/camel.h>
@@ -575,17 +577,51 @@ static gboolean
 spam_assassin_start_our_own_daemon (ESpamAssassin *extension)
 {
 	const gchar *argv[8];
+	const gchar *user_runtime_dir;
 	gchar *pid_file;
 	gchar *socket_path;
 	gboolean started = FALSE;
 	gint exit_code;
 	gint ii = 0;
+	gint fd;
 	GError *error = NULL;
 
 	g_mutex_lock (extension->socket_path_mutex);
 
-	pid_file = e_mktemp ("spamd-pid-file-XXXXXX");
-	socket_path = e_mktemp ("spamd-socket-path-XXXXXX");
+	/* Don't put the PID files in Evolution's tmp directory
+	 * (as defined in e-mktemp.c) because that gets cleaned
+	 * every few hours, and these files need to persist. */
+	user_runtime_dir = g_get_user_runtime_dir ();
+
+	pid_file = g_build_filename (
+		user_runtime_dir, "spamd-pid-file-XXXXXX", NULL);
+
+	socket_path = g_build_filename (
+		user_runtime_dir, "spamd-socket-path-XXXXXX", NULL);
+
+	/* The template filename is modified in place. */
+	fd = g_mkstemp (pid_file);
+	if (fd >= 0) {
+		close (fd);
+		g_unlink (pid_file);
+	} else {
+		g_warning (
+			"Failed to create spamd-pid-file: %s",
+			g_strerror (errno));
+		goto exit;
+	}
+
+	/* The template filename is modified in place. */
+	fd = g_mkstemp (socket_path);
+	if (fd >= 0) {
+		close (fd);
+		g_unlink (socket_path);
+	} else {
+		g_warning (
+			"Failed to create spamd-socket-path: %s",
+			g_strerror (errno));
+		goto exit;
+	}
 
 	argv[ii++] = extension->spamd_binary;
 	argv[ii++] = "--socketpath";
