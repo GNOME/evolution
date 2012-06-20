@@ -498,6 +498,8 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		state |= E_MAIL_SIDEBAR_FOLDER_IS_TRASH;
 	if (is_virtual)
 		state |= E_MAIL_SIDEBAR_FOLDER_IS_VIRTUAL;
+	if (store_is_local || store_is_vfolder)
+		state |= E_MAIL_SIDEBAR_STORE_IS_BUILTIN;
 	if (CAMEL_IS_SUBSCRIBABLE (store))
 		state |= E_MAIL_SIDEBAR_STORE_IS_SUBSCRIBABLE;
 

@@ -835,6 +835,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_is_virtual;
 	gboolean folder_has_unread_rec = FALSE;
 	gboolean folder_tree_and_message_list_agree = TRUE;
+	gboolean store_is_builtin;
 	gboolean store_is_subscribable;
 	gboolean any_store_is_subscribable = FALSE;
 
@@ -873,6 +874,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MAIL_SIDEBAR_FOLDER_IS_TRASH);
 	folder_is_virtual =
 		(state & E_MAIL_SIDEBAR_FOLDER_IS_VIRTUAL);
+	store_is_builtin =
+		(state & E_MAIL_SIDEBAR_STORE_IS_BUILTIN);
 	store_is_subscribable =
 		(state & E_MAIL_SIDEBAR_STORE_IS_SUBSCRIBABLE);
 
@@ -972,9 +975,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	sensitive = folder_is_trash;
 	gtk_action_set_sensitive (action, sensitive);
 
-	/* folder_is_store + folder_is_virtual == "Search Folders" */
 	action = ACTION (MAIL_ACCOUNT_PROPERTIES);
-	sensitive = (store != NULL) && folder_is_store && !folder_is_virtual;
+	sensitive = folder_is_store && !store_is_builtin;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FLUSH_OUTBOX);
