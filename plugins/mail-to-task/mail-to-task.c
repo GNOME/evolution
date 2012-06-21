@@ -54,8 +54,8 @@
 #include <calendar/gui/dialogs/memo-editor.h>
 #include <calendar/gui/dialogs/task-editor.h>
 
-#define E_SHELL_WINDOW_ACTION_CONVERT_TO_EVENT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-event")
+#define E_SHELL_WINDOW_ACTION_CONVERT_TO_APPOINTMENT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-appointment")
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_MEETING(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-meeting")
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_MEMO(window) \
@@ -1266,9 +1266,9 @@ action_mail_convert_to_task_cb (GtkAction *action,
 
 static GtkActionEntry multi_selection_entries[] = {
 
-	{ "mail-convert-to-event",
+	{ "mail-convert-to-appointment",
 	  "appointment-new",
-	  N_("Create an _Event"),
+	  N_("Create an _Appointment"),
 	  NULL,
 	  N_("Create a new event from the selected message"),
 	  G_CALLBACK (action_mail_convert_to_event_cb) },

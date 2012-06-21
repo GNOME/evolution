@@ -96,14 +96,16 @@
         </menu>
         <menuitem action='mail-filters-apply'/>
         <menuitem action='mail-check-for-junk'/>
-	<menuitem action='mail-remove-attachments'/>
+        <menuitem action='mail-remove-attachments'/>
         <menuitem action='mail-remove-duplicates'/>
         <separator/>
-        <menu action='mail-create-rule-menu'>
-          <menuitem action='mail-filter-on-subject'/>
-          <menuitem action='mail-filter-on-sender'/>
-          <menuitem action='mail-filter-on-recipients'/>
-          <menuitem action='mail-filter-on-mailing-list'/>
+        <menu action='mail-create-menu'>
+          <placeholder action='mail-conversion-actions'/>
+          <separator/>
+          <menuitem action='mail-filter-rule-for-subject'/>
+          <menuitem action='mail-filter-rule-for-sender'/>
+          <menuitem action='mail-filter-rule-for-recipients'/>
+          <menuitem action='mail-filter-rule-for-mailing-list'/>
           <separator/>
           <menuitem action='mail-search-folder-from-subject'/>
           <menuitem action='mail-search-folder-from-sender'/>
@@ -111,8 +113,6 @@
           <menuitem action='mail-search-folder-from-mailing-list'/>
         </menu>
         <placeholder name='mail-message-custom-menus'/>
-        <separator/>
-        <placeholder name='mail-message-actions'/>
       </menu>
     </placeholder>
   </menubar>

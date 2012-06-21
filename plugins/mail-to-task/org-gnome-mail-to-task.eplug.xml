@@ -8,21 +8,23 @@
       <ui-manager id="org.gnome.evolution.mail.browser"
                   callback="mail_browser_init">
 #if !EXPRESS
-        <menubar name='main-menu'>
-          <placeholder name='custom-menus'>
+        <menubar name="main-menu">
+          <placeholder name="custom-menus">
             <menu action="mail-message-menu">
-              <placeholder name="mail-message-actions">
-                <menuitem action="mail-convert-to-event"/>
-                <menuitem action="mail-convert-to-meeting"/>
-                <menuitem action="mail-convert-to-task"/>
-                <menuitem action="mail-convert-to-memo"/>
-              </placeholder>
+              <menu action="mail-create-menu">
+                <placeholder name="mail-conversion-actions">
+                  <menuitem action="mail-convert-to-appointment"/>
+                  <menuitem action="mail-convert-to-meeting"/>
+                  <menuitem action="mail-convert-to-task"/>
+                  <menuitem action="mail-convert-to-memo"/>
+                </placeholder>
+              </menu>
             </menu>
           </placeholder>
         </menubar>
         <popup name="mail-preview-popup">
           <placeholder name="mail-message-popup-actions">
-            <menuitem action="mail-convert-to-event"/>
+            <menuitem action="mail-convert-to-appointment"/>
             <menuitem action="mail-convert-to-meeting"/>
             <menuitem action="mail-convert-to-task"/>
             <menuitem action="mail-convert-to-memo"/>
@@ -33,29 +35,33 @@
       <ui-manager id="org.gnome.evolution.mail"
                   callback="mail_shell_view_init">
 #if !EXPRESS
-        <menubar name='main-menu'>
-          <placeholder name='custom-menus'>
+        <menubar name="main-menu">
+          <placeholder name="custom-menus">
             <menu action="mail-message-menu">
-              <placeholder name="mail-message-actions">
-                <menuitem action="mail-convert-to-event"/>
-                <menuitem action="mail-convert-to-meeting"/>
-                <menuitem action="mail-convert-to-task"/>
-                <menuitem action="mail-convert-to-memo"/>
-              </placeholder>
+              <menu action="mail-create-menu">
+                <placeholder name="mail-conversion-actions">
+                  <menuitem action="mail-convert-to-appointment"/>
+                  <menuitem action="mail-convert-to-meeting"/>
+                  <menuitem action="mail-convert-to-task"/>
+                  <menuitem action="mail-convert-to-memo"/>
+                </placeholder>
+              </menu>
             </menu>
           </placeholder>
         </menubar>
         <popup name="mail-message-popup">
-           <placeholder name="mail-message-popup-actions">
-            <menuitem action="mail-convert-to-event"/>
-            <menuitem action="mail-convert-to-meeting"/>
-            <menuitem action="mail-convert-to-task"/>
-            <menuitem action="mail-convert-to-memo"/>
-          </placeholder>
+           <menu action="mail-create-menu">
+             <placeholder name="mail-conversion-actions">
+              <menuitem action="mail-convert-to-appointment"/>
+              <menuitem action="mail-convert-to-meeting"/>
+              <menuitem action="mail-convert-to-task"/>
+              <menuitem action="mail-convert-to-memo"/>
+            </placeholder>
+          </menu>
         </popup>
         <popup name="mail-preview-popup">
           <placeholder name="mail-message-popup-actions">
-            <menuitem action="mail-convert-to-event"/>
+            <menuitem action="mail-convert-to-appointment"/>
             <menuitem action="mail-convert-to-meeting"/>
             <menuitem action="mail-convert-to-task"/>
             <menuitem action="mail-convert-to-memo"/>

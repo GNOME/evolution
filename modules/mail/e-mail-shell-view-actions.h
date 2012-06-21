@@ -47,14 +47,14 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-delete")
 #define E_SHELL_WINDOW_ACTION_MAIL_DOWNLOAD(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-download")
-#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_ON_MAILING_LIST(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-on-mailing-list")
-#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_ON_RECIPIENTS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-on-recipients")
-#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_ON_SENDER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-on-sender")
-#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_ON_SUBJECT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-on-subject")
+#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_RULE_FOR_MAILING_LIST(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-filter-rule-for-mailing-list")
+#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_RULE_FOR_RECIPIENTS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-filter-rule-for-recipients")
+#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_RULE_FOR_SENDER(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-filter-rule-for-sender")
+#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_RULE_FOR_SUBJECT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-filter-rule-for-subject")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTERS_APPLY(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-filters-apply")
 #define E_SHELL_WINDOW_ACTION_MAIL_FIND(window) \

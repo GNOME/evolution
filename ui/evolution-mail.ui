@@ -128,11 +128,13 @@
       <menuitem action='mail-label-new'/>
     </menu>
     <separator/>
-    <menu action='mail-create-rule-menu'>
-      <menuitem action='mail-filter-on-subject'/>
-      <menuitem action='mail-filter-on-sender'/>
-      <menuitem action='mail-filter-on-recipients'/>
-      <menuitem action='mail-filter-on-mailing-list'/>
+    <menu action='mail-create-menu'>
+      <placeholder name='mail-conversion-actions'/>
+      <separator/>
+      <menuitem action='mail-filter-rule-for-subject'/>
+      <menuitem action='mail-filter-rule-for-sender'/>
+      <menuitem action='mail-filter-rule-for-recipients'/>
+      <menuitem action='mail-filter-rule-for-mailing-list'/>
       <separator/>
       <menuitem action='mail-search-folder-from-subject'/>
       <menuitem action='mail-search-folder-from-sender'/>
@@ -141,8 +143,6 @@
     </menu>
     <separator/>
     <placeholder name='mail-message-templates'/>
-    <separator/>
-    <placeholder name='mail-message-popup-actions'/>
   </popup>
   <popup name='mail-search-options'>
     <menuitem action='mail-search-advanced-hidden'/>

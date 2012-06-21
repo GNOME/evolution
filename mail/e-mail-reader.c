@@ -1992,30 +1992,30 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Mark the selected messages for deletion"),
 	  G_CALLBACK (action_mail_delete_cb) },
 
-	{ "mail-filter-on-mailing-list",
+	{ "mail-filter-rule-for-mailing-list",
 	  NULL,
-	  N_("Filter on Mailing _List..."),
+	  N_("Create a Filter Rule for Mailing _List..."),
 	  NULL,
 	  N_("Create a rule to filter messages to this mailing list"),
 	  G_CALLBACK (action_mail_filter_on_mailing_list_cb) },
 
-	{ "mail-filter-on-recipients",
+	{ "mail-filter-rule-for-recipients",
 	  NULL,
-	  N_("Filter on _Recipients..."),
+	  N_("Create a Filter Rule for _Recipients..."),
 	  NULL,
 	  N_("Create a rule to filter messages to these recipients"),
 	  G_CALLBACK (action_mail_filter_on_recipients_cb) },
 
-	{ "mail-filter-on-sender",
+	{ "mail-filter-rule-for-sender",
 	  NULL,
-	  N_("Filter on Se_nder..."),
+	  N_("Create a Filter Rule for Se_nder..."),
 	  NULL,
 	  N_("Create a rule to filter messages from this sender"),
 	  G_CALLBACK (action_mail_filter_on_sender_cb) },
 
-	{ "mail-filter-on-subject",
+	{ "mail-filter-rule-for-subject",
 	  NULL,
-	  N_("Filter on _Subject..."),
+	  N_("Create a Filter Rule for _Subject..."),
 	  NULL,
 	  N_("Create a rule to filter messages with this subject"),
 	  G_CALLBACK (action_mail_filter_on_subject_cb) },
@@ -2365,9 +2365,9 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	/*** Menus ***/
 
-	{ "mail-create-rule-menu",
+	{ "mail-create-menu",
 	  NULL,
-	  N_("Create R_ule"),
+	  N_("Cre_ate"),
 	  NULL,
 	  NULL,
 	  NULL },
@@ -2426,28 +2426,28 @@ static GtkActionEntry mail_reader_search_folder_entries[] = {
 
 	{ "mail-search-folder-from-mailing-list",
 	  NULL,
-	  N_("Search Folder from Mailing _List..."),
+	  N_("Create a Search Folder from Mailing _List..."),
 	  NULL,
 	  N_("Create a search folder for this mailing list"),
 	  G_CALLBACK (action_mail_search_folder_from_mailing_list_cb) },
 
 	{ "mail-search-folder-from-recipients",
 	  NULL,
-	  N_("Search Folder from Recipien_ts..."),
+	  N_("Create a Search Folder from Recipien_ts..."),
 	  NULL,
 	  N_("Create a search folder for these recipients"),
 	  G_CALLBACK (action_mail_search_folder_from_recipients_cb) },
 
 	{ "mail-search-folder-from-sender",
 	  NULL,
-	  N_("Search Folder from Sen_der..."),
+	  N_("Create a Search Folder from Sen_der..."),
 	  NULL,
 	  N_("Create a search folder for this sender"),
 	  G_CALLBACK (action_mail_search_folder_from_sender_cb) },
 
 	{ "mail-search-folder-from-subject",
 	  NULL,
-	  N_("Search Folder from S_ubject..."),
+	  N_("Create a Search Folder from S_ubject..."),
 	  NULL,
 	  N_("Create a search folder for this subject"),
 	  G_CALLBACK (action_mail_search_folder_from_subject_cb) },
@@ -3356,7 +3356,7 @@ mail_reader_update_actions (EMailReader *reader,
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-create-rule-menu";
+	action_name = "mail-create-menu";
 	sensitive = single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
