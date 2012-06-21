@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-06-18 16:57+0000\n"
-"PO-Revision-Date: 2012-06-19 16:28+0200\n"
+"POT-Creation-Date: 2012-06-21 05:34+0000\n"
+"PO-Revision-Date: 2012-06-21 11:47+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2269,7 +2269,7 @@ msgstr "Participante"
 
 #: ../calendar/gui/caltypes.xml.h:14
 #: ../calendar/gui/e-cal-list-view.etspec.h:5 ../mail/message-list.etspec.h:14
-#: ../plugins/publish-calendar/publish-calendar.c:869
+#: ../plugins/publish-calendar/publish-calendar.c:872
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
 #: ../plugins/save-calendar/csv-format.c:386
 msgid "Location"
@@ -4355,7 +4355,7 @@ msgid "Failure reason: %s"
 msgstr "Razón del fallo: %s"
 
 #: ../calendar/gui/e-meeting-store.c:1921
-#: ../plugins/publish-calendar/publish-calendar.c:332
+#: ../plugins/publish-calendar/publish-calendar.c:335
 #: ../smime/gui/component.c:54
 msgid "Enter password"
 msgstr "Introduzca contraseña"
@@ -11100,7 +11100,7 @@ msgstr "_Predeterminada"
 #: ../mail/e-mail-account-tree-view.c:85
 #: ../modules/mail/em-composer-prefs.c:505
 #: ../modules/plugin-manager/evolution-plugin-manager.c:360
-#: ../plugins/publish-calendar/publish-calendar.c:863
+#: ../plugins/publish-calendar/publish-calendar.c:866
 msgid "Enabled"
 msgstr "Activado"
 
@@ -11494,35 +11494,35 @@ msgstr "Bienvenido"
 msgid "Account Editor"
 msgstr "Editor de cuentas"
 
-#: ../mail/e-mail-display.c:117
+#: ../mail/e-mail-display.c:119
 msgid "_Add to Address Book..."
 msgstr "_Añadir a la libreta de direcciones…"
 
-#: ../mail/e-mail-display.c:124
+#: ../mail/e-mail-display.c:126
 msgid "_To This Address"
 msgstr "_A esta dirección"
 
-#: ../mail/e-mail-display.c:131
+#: ../mail/e-mail-display.c:133
 msgid "_From This Address"
 msgstr "_Desde esta dirección"
 
-#: ../mail/e-mail-display.c:138
+#: ../mail/e-mail-display.c:140
 msgid "Send _Reply To..."
 msgstr "Enviar _respuesta a…"
 
-#: ../mail/e-mail-display.c:140
+#: ../mail/e-mail-display.c:142
 msgid "Send a reply message to this address"
 msgstr "Enviar un mensaje de respuesta a esta dirección"
 
-#: ../mail/e-mail-display.c:147
+#: ../mail/e-mail-display.c:149
 msgid "Create Search _Folder"
 msgstr "Crear carpeta de _búsqueda"
 
-#: ../mail/e-mail-display.c:157
+#: ../mail/e-mail-display.c:159
 msgid "Save _Image..."
 msgstr "Guardar _imagen…"
 
-#: ../mail/e-mail-display.c:159
+#: ../mail/e-mail-display.c:161
 msgid "Save the image to a file"
 msgstr "Guardar la imagen en un archivo"
 
@@ -11684,32 +11684,36 @@ msgid "Mark the selected messages for deletion"
 msgstr "Marcar los mensajes seleccionados para eliminar"
 
 #: ../mail/e-mail-reader.c:1997
-msgid "Filter on Mailing _List..."
-msgstr "Filtro según la _lista de correo…"
+#| msgid "Filter on Mailing _List..."
+msgid "Create a Filter Rule for Mailing _List..."
+msgstr "Crear una regla de filtrado según la _lista de correo…"
 
 #: ../mail/e-mail-reader.c:1999
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Crea una regla para filtrar los mensajes de esta lista de correo"
 
 #: ../mail/e-mail-reader.c:2004
-msgid "Filter on _Recipients..."
-msgstr "Filtro según los _destinatarios…"
+#| msgid "Filter on _Recipients..."
+msgid "Create a Filter Rule for _Recipients..."
+msgstr "Crear una regla de filtrado según los _destinatarios…"
 
 #: ../mail/e-mail-reader.c:2006
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Crea una regla para filtrar los mensajes de estos destinatarios"
 
 #: ../mail/e-mail-reader.c:2011
-msgid "Filter on Se_nder..."
-msgstr "Filtro según el _remitente…"
+#| msgid "Filter on Se_nder..."
+msgid "Create a Filter Rule for Se_nder..."
+msgstr "Crear una regla de filtrado según el _remitente…"
 
 #: ../mail/e-mail-reader.c:2013
 msgid "Create a rule to filter messages from this sender"
 msgstr "Crea una regla para filtrar los mensajes de este remitente"
 
 #: ../mail/e-mail-reader.c:2018
-msgid "Filter on _Subject..."
-msgstr "Filtro según el _asunto…"
+#| msgid "Filter on _Subject..."
+msgid "Create a Filter Rule for _Subject..."
+msgstr "Crear una regla de filtrado según el _asunto…"
 
 #: ../mail/e-mail-reader.c:2020
 msgid "Create a rule to filter messages with this subject"
@@ -12084,8 +12088,9 @@ msgid "Decrease the text size"
 msgstr "Reduce el tamaño del texto"
 
 #: ../mail/e-mail-reader.c:2370
-msgid "Create R_ule"
-msgstr "Crear _regla"
+#| msgid "Created"
+msgid "Cre_ate"
+msgstr "Cre_ar"
 
 #: ../mail/e-mail-reader.c:2377
 msgid "Ch_aracter Encoding"
@@ -12116,32 +12121,36 @@ msgid "_Zoom"
 msgstr "_Ampliar"
 
 #: ../mail/e-mail-reader.c:2429
-msgid "Search Folder from Mailing _List..."
-msgstr "Carpeta de búsqueda según la l_ista de correo…"
+#| msgid "Search Folder from Mailing _List..."
+msgid "Create a Search Folder from Mailing _List..."
+msgstr "Crear una carpeta de búsqueda según la l_ista de correo…"
 
 #: ../mail/e-mail-reader.c:2431
 msgid "Create a search folder for this mailing list"
 msgstr "Crear una carpeta de búsqueda para esta lista de correo"
 
 #: ../mail/e-mail-reader.c:2436
-msgid "Search Folder from Recipien_ts..."
-msgstr "Carpeta de búsqueda según los des_tinatarios…"
+#| msgid "Search Folder from Recipien_ts..."
+msgid "Create a Search Folder from Recipien_ts..."
+msgstr "Crear una carpeta de búsqueda según los des_tinatarios…"
 
 #: ../mail/e-mail-reader.c:2438
 msgid "Create a search folder for these recipients"
 msgstr "Crear una carpeta de búsqueda para estos destinatarios"
 
 #: ../mail/e-mail-reader.c:2443
-msgid "Search Folder from Sen_der..."
-msgstr "Carpeta de búsqueda según el r_emitente…"
+#| msgid "Search Folder from Sen_der..."
+msgid "Create a Search Folder from Sen_der..."
+msgstr "Crear una carpeta de búsqueda según el r_emitente…"
 
 #: ../mail/e-mail-reader.c:2445
 msgid "Create a search folder for this sender"
 msgstr "Crear una carpeta de búsqueda para este remitente"
 
 #: ../mail/e-mail-reader.c:2450
-msgid "Search Folder from S_ubject..."
-msgstr "Carpeta de búsqueda según el a_sunto…"
+#| msgid "Search Folder from S_ubject..."
+msgid "Create a Search Folder from S_ubject..."
+msgstr "Crear una carpeta de búsqueda según el a_sunto…"
 
 #: ../mail/e-mail-reader.c:2452
 msgid "Create a search folder for this subject"
@@ -12807,7 +12816,7 @@ msgid "Importing Elm data"
 msgstr "Importando datos de Elm"
 
 #: ../mail/importers/elm-importer.c:332 ../mail/importers/pine-importer.c:423
-#: ../modules/mail/e-mail-shell-view.c:1067
+#: ../modules/mail/e-mail-shell-view.c:1069
 #: ../widgets/misc/e-send-options.c:538
 msgid "Mail"
 msgstr "Correo"
@@ -13856,7 +13865,7 @@ msgid "Do _Not Disable"
 msgstr "_No desactivar"
 
 #: ../mail/mail.error.xml.h:87
-#: ../plugins/publish-calendar/publish-calendar.c:625
+#: ../plugins/publish-calendar/publish-calendar.c:628
 msgid "_Disable"
 msgstr "_Desactivar"
 
@@ -15639,7 +15648,7 @@ msgstr "Cale_ndario"
 msgid "Create a new calendar"
 msgstr "Crea un calendario nuevo"
 
-#: ../modules/calendar/e-cal-shell-backend.c:593
+#: ../modules/calendar/e-cal-shell-backend.c:597
 msgid "Calendar and Tasks"
 msgstr "Calendario y tareas"
 
@@ -17324,7 +17333,7 @@ msgid "Network Preferences"
 msgstr "Preferencias de red"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1251
-#: ../modules/mail/e-mail-shell-view.c:967
+#: ../modules/mail/e-mail-shell-view.c:970
 msgid "_Disable Account"
 msgstr "_Desactivar cuenta"
 
@@ -17640,7 +17649,7 @@ msgstr "Búsqueda en todas las cuentas"
 msgid "Account Search"
 msgstr "Búsqueda en la cuenta"
 
-#: ../modules/mail/e-mail-shell-view.c:965
+#: ../modules/mail/e-mail-shell-view.c:968
 msgid "Proxy _Logout"
 msgstr "_Cerrar sesión proxy"
 
@@ -17852,22 +17861,6 @@ msgstr "Com_plementos"
 msgid "Enable and disable plugins"
 msgstr "Activar y desactivar complementos"
 
-#: ../modules/plugin-python/example/org-gnome-hello-python.eplug.xml.h:1
-msgid "Python Test Plugin"
-msgstr "Complemento de prueba Python"
-
-#: ../modules/plugin-python/example/org-gnome-hello-python.eplug.xml.h:2
-msgid "Test Plugin for Python EPlugin loader."
-msgstr "Probar el complemento para el cargador Python EPlugin."
-
-#: ../modules/plugin-python/example/org-gnome-hello-python-ui.xml.h:1
-msgid "Python Plugin Loader tests"
-msgstr "Pruebas de carga de los complementos Python"
-
-#: ../modules/plugin-python/example/org-gnome-hello-python-ui.xml.h:2
-msgid "Hello Python"
-msgstr "Hello Python"
-
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:79
 #: ../modules/prefer-plain/plugin/config-ui.c:46
 msgid "Show HTML if present"
@@ -17927,41 +17920,41 @@ msgstr "Modo de texto sin formato"
 msgid "View mail messages as plain text, even if they contain HTML content."
 msgstr "Ver los mensajes de correo en texto plano, incluso si contienen HTML."
 
-#: ../modules/spamassassin/evolution-spamassassin.c:190
+#: ../modules/spamassassin/evolution-spamassassin.c:192
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
 msgstr "Falló al iniciar SpamAssasin (%s): "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:213
+#: ../modules/spamassassin/evolution-spamassassin.c:215
 msgid "Failed to stream mail message content to SpamAssassin: "
 msgstr "Falló al enviar el flujo del contenido de los correos a SpamAssassin: "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:232
+#: ../modules/spamassassin/evolution-spamassassin.c:234
 #, c-format
 msgid "Failed to write '%s' to SpamAssassin: "
 msgstr "Falló al escribir «%s» a SpamAssassin: "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:260
+#: ../modules/spamassassin/evolution-spamassassin.c:262
 msgid "Failed to read output from SpamAssassin: "
 msgstr "Falló al leer la salida de SpamAssassin: "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:315
+#: ../modules/spamassassin/evolution-spamassassin.c:317
 msgid "SpamAssassin either crashed or failed to process a mail message"
 msgstr "SpamAssassin se colgó o falló al procesar un mensaje de correo"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:849
+#: ../modules/spamassassin/evolution-spamassassin.c:885
 msgid "SpamAssassin Options"
 msgstr "Opciones de SpamAssasin"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:864
+#: ../modules/spamassassin/evolution-spamassassin.c:900
 msgid "I_nclude remote tests"
 msgstr "I_ncluir tests remotos"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:878
+#: ../modules/spamassassin/evolution-spamassassin.c:914
 msgid "This will make SpamAssassin more reliable, but slower."
 msgstr "Esto hará que SpamAssasin sea más exacto, pero más lento."
 
-#: ../modules/spamassassin/evolution-spamassassin.c:1087
+#: ../modules/spamassassin/evolution-spamassassin.c:1123
 msgid "SpamAssassin"
 msgstr "SpamAssassin"
 
@@ -18707,8 +18700,9 @@ msgid "No writable calendar is available."
 msgstr "No hay ningún calendario escribible disponible."
 
 #: ../plugins/mail-to-task/mail-to-task.c:1271
-msgid "Create an _Event"
-msgstr "Crear un _acontecimiento"
+#| msgid "Create a new appointment"
+msgid "Create an _Appointment"
+msgstr "Crea una cit_a"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1273
 msgid "Create a new event from the selected message"
@@ -18829,7 +18823,7 @@ msgid "Publish calendars to the web."
 msgstr "Publicar calendarios en la web."
 
 #: ../plugins/publish-calendar/publish-calendar.c:211
-#: ../plugins/publish-calendar/publish-calendar.c:462
+#: ../plugins/publish-calendar/publish-calendar.c:465
 #, c-format
 msgid "Could not open %s:"
 msgstr "No se pudo abrir «%s»:"
@@ -18854,23 +18848,23 @@ msgstr "La publicación en %s finalizó correctamente"
 msgid "Mount of %s failed:"
 msgstr "Falló al montar %s:"
 
-#: ../plugins/publish-calendar/publish-calendar.c:625
+#: ../plugins/publish-calendar/publish-calendar.c:628
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
 msgid "E_nable"
 msgstr "_Activar"
 
-#: ../plugins/publish-calendar/publish-calendar.c:773
+#: ../plugins/publish-calendar/publish-calendar.c:776
 msgid "Are you sure you want to remove this location?"
 msgstr "¿Seguro que quiere eliminar este lugar?"
 
 #. To Translators: This is shown to a user when creation of a new thread,
 #. * where the publishing should be done, fails. Basically, this shouldn't
 #. * ever happen, and if so, then something is really wrong.
-#: ../plugins/publish-calendar/publish-calendar.c:1103
+#: ../plugins/publish-calendar/publish-calendar.c:1106
 msgid "Could not create publish thread."
 msgstr "No se pudo publicar el hilo de publicación."
 
-#: ../plugins/publish-calendar/publish-calendar.c:1111
+#: ../plugins/publish-calendar/publish-calendar.c:1114
 msgid "_Publish Calendar Information"
 msgstr "_Publicar información del calendario"
 
@@ -18969,11 +18963,11 @@ msgid "Could not publish calendar: Calendar backend no longer exists"
 msgstr ""
 "No se pudo publicar el calendario: El «backend» del calendario ya no existe."
 
-#: ../plugins/publish-calendar/url-editor-dialog.c:526
+#: ../plugins/publish-calendar/url-editor-dialog.c:539
 msgid "New Location"
 msgstr "Ubicación nueva"
 
-#: ../plugins/publish-calendar/url-editor-dialog.c:528
+#: ../plugins/publish-calendar/url-editor-dialog.c:541
 msgid "Edit Location"
 msgstr "Editar ubicación"
 
@@ -21505,6 +21499,24 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2087
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "Create R_ule"
+#~ msgstr "Crear _regla"
+
+#~ msgid "Python Test Plugin"
+#~ msgstr "Complemento de prueba Python"
+
+#~ msgid "Test Plugin for Python EPlugin loader."
+#~ msgstr "Probar el complemento para el cargador Python EPlugin."
+
+#~ msgid "Python Plugin Loader tests"
+#~ msgstr "Pruebas de carga de los complementos Python"
+
+#~ msgid "Hello Python"
+#~ msgstr "Hello Python"
+
+#~ msgid "Create an _Event"
+#~ msgstr "Crear un _acontecimiento"
 
 #~ msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 #~ msgstr ""
