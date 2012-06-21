@@ -44,8 +44,9 @@ Getting Started
 	shortcuts to all your mail folders. Below that, you will find
 	buttons for your calendars, contacts, tasks, mail and memos.
 
-	For a complete guide to Evolution, select "Table of
-	Contents" from the "Help" menu, or press the F1 key. 
+	For a complete guide to Evolution, either select "Contents" 
+        from the "Help" menu, or visit the online version at
+        http://library.gnome.org/users/evolution/stable/.
 
 Bug Reporting
 
@@ -112,8 +113,9 @@ Getting Started
 
 <br><br>
 
-    For a complete guide to using Evolution, select <b>Table of 
-    Contents</b> in the <b>Help</b> menu, or press the <b>F1</b> key.
+	For a complete guide to Evolution, either select "Contents" 
+        from the "Help" menu, or visit the online version at
+        <a href="http://library.gnome.org/users/evolution/stable/">http://library.gnome.org/users/evolution/stable/</a>.
 
 <br><br>
 </blockquote>
@@ -136,10 +138,6 @@ More Information
 
 	Information on the Evolution project is available at
 	<a href="http://projects.gnome.org/evolution">http://projects.gnome.org/evolution</a>.
-	<!--
-	You can find a list of answers to Frequently Asked Questions (FAQ) at
-	<a href="http://live.gnome.org/Evolution/FAQ">http://live.gnome.org/Evolution/FAQ</a>.
-	-->
 <br><br>	
 </blockquote>
 
