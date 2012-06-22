@@ -299,12 +299,13 @@ mail_config_notebook_constructed (GObject *object)
 	ESourceExtension *extension;
 	ESourceMailIdentity *mail_identity_extension;
 	EMailConfigServiceBackend *backend;
-	CamelProvider *provider;
+	CamelProvider *provider = NULL;
 	EMailSession *session;
 	EMailConfigPage *page;
 	const gchar *extension_name;
 	gboolean add_receiving_page = TRUE;
 	gboolean add_sending_page = TRUE;
+	gboolean add_transport_source;
 
 	notebook = E_MAIL_CONFIG_NOTEBOOK (object);
 
@@ -356,7 +357,8 @@ mail_config_notebook_constructed (GObject *object)
 			G_BINDING_SYNC_CREATE);
 	}
 
-	provider = backend ? e_mail_config_service_backend_get_provider (backend) : NULL;
+	if (backend != NULL)
+		provider = e_mail_config_service_backend_get_provider (backend);
 
 	/*** Receiving Options (conditional) ***/
 
@@ -372,7 +374,11 @@ mail_config_notebook_constructed (GObject *object)
 
 	/*** Sending Page (conditional) ***/
 
-	if (provider && !CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
+	add_transport_source =
+		(provider != NULL) &&
+		(!CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider));
+
+	if (add_transport_source) {
 		page = e_mail_config_sending_page_new (registry);
 		e_mail_config_service_page_add_scratch_source (
 			E_MAIL_CONFIG_SERVICE_PAGE (page),
