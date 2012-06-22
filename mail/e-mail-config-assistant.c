@@ -745,6 +745,7 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
                                GtkWidget *page)
 {
 	EMailConfigAssistantPrivate *priv;
+	gboolean first_visit = FALSE;
 
 	priv = E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE (assistant);
 
@@ -754,6 +755,7 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 			e_mail_config_page_setup_defaults (
 				E_MAIL_CONFIG_PAGE (page));
 		g_hash_table_add (priv->visited_pages, page);
+		first_visit = TRUE;
 	}
 
 	if (E_IS_MAIL_CONFIG_LOOKUP_PAGE (page)) {
@@ -772,6 +774,24 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 			email_address, G_PRIORITY_DEFAULT, NULL,
 			mail_config_assistant_autoconfigure_cb,
 			g_object_ref (assistant));
+	}
+
+	if (E_IS_MAIL_CONFIG_RECEIVING_PAGE (page) && first_visit) {
+		ESource *source;
+		ESourceMailIdentity *extension;
+		const gchar *email_address;
+		const gchar *extension_name;
+
+		/* Use the email address from the Identity Page as
+		 * the initial display name, so in case we have to
+		 * query a remote mail server, the password prompt
+		 * will have a more meaningful description. */
+
+		source = priv->identity_source;
+		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+		extension = e_source_get_extension (source, extension_name);
+		email_address = e_source_mail_identity_get_address (extension);
+		e_source_set_display_name (source, email_address);
 	}
 }
 
