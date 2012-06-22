@@ -333,6 +333,27 @@ mail_config_notebook_constructed (GObject *object)
 		}
 	}
 
+	/* Keep all the display name properties synchronized.
+	 * We consider the identity source's display name to
+	 * be authoritative since technically that's the one
+	 * shown on the Identity page. */
+
+	g_object_bind_property (
+		notebook->priv->identity_source, "display-name",
+		notebook->priv->account_source, "display-name",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		notebook->priv->identity_source, "display-name",
+		notebook->priv->transport_source, "display-name",
+		G_BINDING_SYNC_CREATE);
+
+	if (notebook->priv->collection_source != NULL)
+		g_object_bind_property (
+			notebook->priv->identity_source, "display-name",
+			notebook->priv->collection_source, "display-name",
+			G_BINDING_SYNC_CREATE);
+
 	/*** Identity Page ***/
 
 	page = e_mail_config_identity_page_new (
