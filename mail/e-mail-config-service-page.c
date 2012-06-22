@@ -158,6 +158,18 @@ mail_config_service_page_new_candidate (EMailConfigServicePage *page,
 		e_mail_config_service_backend_set_collection (
 			backend, opt_collection);
 
+	/* Backend may have created its own collection source,
+	 * so we need to get it from the backend before binding. */
+	opt_collection = e_mail_config_service_backend_get_collection (backend);
+
+	/* Keep display names synchronized. */
+	if (opt_collection != NULL)
+		g_object_bind_property (
+			scratch_source, "display-name",
+			opt_collection, "display-name",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
+
 	/* Make sure we have a corresponding CamelSettings. */
 	settings = e_mail_config_service_backend_get_settings (backend);
 	g_return_val_if_fail (CAMEL_IS_SETTINGS (settings), NULL);
