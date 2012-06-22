@@ -699,13 +699,9 @@ mail_config_summary_page_commit_changes (EMailConfigPage *page,
 	identity_source = e_mail_config_summary_page_get_identity_source (
 		E_MAIL_CONFIG_SUMMARY_PAGE (page));
 
+	/* This should propagate to the other sources through bindings. */
 	text = gtk_entry_get_text (priv->account_name_entry);
-	e_source_set_display_name (account_source, text);
 	e_source_set_display_name (identity_source, text);
-	if (transport_source != NULL)
-		e_source_set_display_name (transport_source, text);
-	if (collection_source != NULL)
-		e_source_set_display_name (collection_source, text);
 
 	/* Setup parent/child relationships and cross-references. */
 

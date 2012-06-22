@@ -602,6 +602,13 @@ mail_config_assistant_constructed (GObject *object)
 		e_source_backend_set_backend_name (
 			backend_extension, backend_name);
 
+		/* Keep display names synchronized. */
+		g_object_bind_property (
+			identity_source, "display-name",
+			scratch_source, "display-name",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
+
 		/* We always pass NULL for the collection argument.
 		 * The backend generates its own scratch collection
 		 * source if implements the new_collection() method. */
@@ -671,6 +678,13 @@ mail_config_assistant_constructed (GObject *object)
 			scratch_source, E_SOURCE_EXTENSION_MAIL_TRANSPORT);
 		e_source_backend_set_backend_name (
 			backend_extension, backend_name);
+
+		/* Keep display names synchronized. */
+		g_object_bind_property (
+			identity_source, "display-name",
+			scratch_source, "display-name",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
 
 		/* We always pass NULL for the collection argument.
 		 * The backend generates its own scratch collection

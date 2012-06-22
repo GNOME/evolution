@@ -58,6 +58,14 @@ mail_config_service_backend_init_collection (EMailConfigServiceBackend *backend)
 	g_return_if_fail (class->new_collection != NULL);
 
 	backend->priv->collection = class->new_collection (backend);
+
+	/* Keep display names synchronized. */
+	if (backend->priv->collection != NULL)
+		g_object_bind_property (
+			backend->priv->source, "display-name",
+			backend->priv->collection, "display-name",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
 }
 
 static void
