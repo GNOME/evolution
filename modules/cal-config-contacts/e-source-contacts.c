@@ -72,6 +72,34 @@ source_contacts_get_property (GObject *object,
 }
 
 static void
+source_contacts_constructed (GObject *object)
+{
+	ESource *source;
+	ESourceExtension *extension;
+	ESourceBackend *backend_extension;
+	ESourceContacts *contacts_extension;
+	const gchar *backend_name;
+	const gchar *extension_name;
+	gboolean include_me;
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_source_contacts_parent_class)->constructed (object);
+
+	extension = E_SOURCE_EXTENSION (object);
+	source = e_source_extension_get_source (extension);
+
+	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
+	backend_extension = e_source_get_extension (source, extension_name);
+	backend_name = e_source_backend_get_backend_name (backend_extension);
+
+	/* Only include local address books by default. */
+	include_me = (g_strcmp0 (backend_name, "local") == 0);
+
+	contacts_extension = E_SOURCE_CONTACTS (extension);
+	e_source_contacts_set_include_me (contacts_extension, include_me);
+}
+
+static void
 e_source_contacts_class_init (ESourceContactsClass *class)
 {
 	GObjectClass *object_class;
@@ -82,6 +110,7 @@ e_source_contacts_class_init (ESourceContactsClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = source_contacts_set_property;
 	object_class->get_property = source_contacts_get_property;
+	object_class->constructed = source_contacts_constructed;
 
 	extension_class = E_SOURCE_EXTENSION_CLASS (class);
 	extension_class->name = E_SOURCE_EXTENSION_CONTACTS_BACKEND;
@@ -93,9 +122,8 @@ e_source_contacts_class_init (ESourceContactsClass *class)
 			"include-me",
 			"Include Me",
 			"Include this address book in the contacts calendar",
-			TRUE,
+			FALSE,  /* see constructed() */
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
 			E_SOURCE_PARAM_SETTING));
 }
 
