@@ -69,11 +69,6 @@ EMailConfigPage *
 		e_mail_config_summary_page_new	(void);
 void		e_mail_config_summary_page_refresh
 						(EMailConfigSummaryPage *page);
-const gchar *	e_mail_config_summary_page_get_account_name
-						(EMailConfigSummaryPage *page);
-void		e_mail_config_summary_page_set_account_name
-						(EMailConfigSummaryPage *page,
-						 const gchar *account_name);
 EMailConfigServiceBackend *
 		e_mail_config_summary_page_get_account_backend
 						(EMailConfigSummaryPage *page);

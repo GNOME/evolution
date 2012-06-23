@@ -249,11 +249,10 @@ mail_config_assistant_autoconfigure_cb (GObject *source_object,
 	e_mail_config_service_page_auto_configure (
 		priv->sending_page, autoconfig);
 
-	/* Also set the initial account name to the email address
+	/* Also set the initial display name to the email address
 	 * given so the user can just click past the Summary page. */
 	email_address = e_mail_autoconfig_get_email_address (autoconfig);
-	e_mail_config_summary_page_set_account_name (
-		priv->summary_page, email_address);
+	e_source_set_display_name (priv->identity_source, email_address);
 
 	/* XXX Can't find a better way to learn the page number of
 	 *     the summary page.  Oh my god this API is horrible. */

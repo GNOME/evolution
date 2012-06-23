@@ -29,7 +29,6 @@
 	((obj), E_TYPE_MAIL_CONFIG_SUMMARY_PAGE, EMailConfigSummaryPagePrivate))
 
 struct _EMailConfigSummaryPagePrivate {
-	gchar *account_name;
 	ESource *account_source;
 	ESource *identity_source;
 	ESource *transport_source;
@@ -56,7 +55,6 @@ struct _EMailConfigSummaryPagePrivate {
 
 enum {
 	PROP_0,
-	PROP_ACCOUNT_NAME,
 	PROP_ACCOUNT_BACKEND,
 	PROP_ACCOUNT_SOURCE,
 	PROP_IDENTITY_SOURCE,
@@ -164,12 +162,6 @@ mail_config_summary_page_set_property (GObject *object,
                                        GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ACCOUNT_NAME:
-			e_mail_config_summary_page_set_account_name (
-				E_MAIL_CONFIG_SUMMARY_PAGE (object),
-				g_value_get_string (value));
-			return;
-
 		case PROP_ACCOUNT_BACKEND:
 			e_mail_config_summary_page_set_account_backend (
 				E_MAIL_CONFIG_SUMMARY_PAGE (object),
@@ -199,13 +191,6 @@ mail_config_summary_page_get_property (GObject *object,
                                        GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ACCOUNT_NAME:
-			g_value_set_string (
-				value,
-				e_mail_config_summary_page_get_account_name (
-				E_MAIL_CONFIG_SUMMARY_PAGE (object)));
-			return;
-
 		case PROP_ACCOUNT_BACKEND:
 			g_value_set_object (
 				value,
@@ -294,20 +279,6 @@ mail_config_summary_page_dispose (GObject *object)
 }
 
 static void
-mail_config_summary_page_finalize (GObject *object)
-{
-	EMailConfigSummaryPagePrivate *priv;
-
-	priv = E_MAIL_CONFIG_SUMMARY_PAGE_GET_PRIVATE (object);
-
-	g_free (priv->account_name);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_config_summary_page_parent_class)->
-		finalize (object);
-}
-
-static void
 mail_config_summary_page_constructed (GObject *object)
 {
 	EMailConfigSummaryPage *page;
@@ -387,12 +358,6 @@ mail_config_summary_page_constructed (GObject *object)
 	g_signal_connect_swapped (
 		widget, "changed",
 		G_CALLBACK (e_mail_config_page_changed), page);
-
-	g_object_bind_property (
-		widget, "text",
-		page, "account-name",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
 
 	/*** Details ***/
 
@@ -744,21 +709,9 @@ e_mail_config_summary_page_class_init (EMailConfigSummaryPageClass *class)
 	object_class->set_property = mail_config_summary_page_set_property;
 	object_class->get_property = mail_config_summary_page_get_property;
 	object_class->dispose = mail_config_summary_page_dispose;
-	object_class->finalize = mail_config_summary_page_finalize;
 	object_class->constructed = mail_config_summary_page_constructed;
 
 	class->refresh = mail_config_summary_page_refresh;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_ACCOUNT_NAME,
-		g_param_spec_string (
-			"account-name",
-			"Account Name",
-			"Display name for the mail account",
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -852,32 +805,6 @@ e_mail_config_summary_page_refresh (EMailConfigSummaryPage *page)
 	g_return_if_fail (E_IS_MAIL_CONFIG_SUMMARY_PAGE (page));
 
 	g_signal_emit (page, signals[REFRESH], 0);
-}
-
-const gchar *
-e_mail_config_summary_page_get_account_name (EMailConfigSummaryPage *page)
-{
-	g_return_val_if_fail (E_IS_MAIL_CONFIG_SUMMARY_PAGE (page), NULL);
-
-	return page->priv->account_name;
-}
-
-void
-e_mail_config_summary_page_set_account_name (EMailConfigSummaryPage *page,
-                                             const gchar *account_name)
-{
-	g_return_if_fail (E_IS_MAIL_CONFIG_SUMMARY_PAGE (page));
-
-	if (account_name == NULL)
-		account_name = "";
-
-	if (g_strcmp0 (page->priv->account_name, account_name) == 0)
-		return;
-
-	g_free (page->priv->account_name);
-	page->priv->account_name = g_strdup (account_name);
-
-	g_object_notify (G_OBJECT (page), "account-name");
 }
 
 EMailConfigServiceBackend *

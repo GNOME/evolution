@@ -118,6 +118,7 @@ mail_config_yahoo_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 	GList *head, *link;
 	const gchar *address;
 	const gchar *parent_uid;
+	const gchar *display_name;
 	const gchar *extension_name;
 	gboolean calendar_active;
 
@@ -132,13 +133,17 @@ mail_config_yahoo_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 	if (!calendar_active)
 		return;
 
-	/* The collection identity is the user's email address. */
 	source = e_mail_config_summary_page_get_identity_source (page);
+	display_name = e_source_get_display_name (source);
+
+	/* The collection identity is the user's email address. */
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 	identity_extension = e_source_get_extension (source, extension_name);
 	address = e_source_mail_identity_get_address (identity_extension);
 
 	source = extension->priv->collection_source;
+	e_source_set_display_name (source, display_name);
+
 	extension_name = E_SOURCE_EXTENSION_COLLECTION;
 	collection_extension = e_source_get_extension (source, extension_name);
 	e_source_collection_set_identity (collection_extension, address);
@@ -260,10 +265,9 @@ mail_config_yahoo_summary_constructed (GObject *object)
 	extension_name = E_SOURCE_EXTENSION_COLLECTION;
 	collection_extension = e_source_get_extension (source, extension_name);
 
-	g_object_bind_property (
-		page, "account-name",
-		source, "display-name",
-		G_BINDING_SYNC_CREATE);
+	/* Can't bind the collection's display name here because
+	 * the Summary Page has no sources yet.  Set the display
+	 * name while committing instead. */
 
 	g_object_bind_property (
 		extension->priv->calendar_toggle, "active",
