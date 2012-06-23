@@ -58,6 +58,8 @@ struct _ESourceConfigClass {
 	/* Methods */
 	const gchar *	(*get_backend_extension_name)
 						(ESourceConfig *config);
+	GList *		(*list_eligible_collections)
+						(ESourceConfig *config);
 
 	/* Signals */
 	void		(*init_candidate)	(ESourceConfig *config,
@@ -79,6 +81,8 @@ void		e_source_config_insert_widget	(ESourceConfig *config,
 GtkWidget *	e_source_config_get_page	(ESourceConfig *config,
 						 ESource *scratch_source);
 const gchar *	e_source_config_get_backend_extension_name
+						(ESourceConfig *config);
+GList *		e_source_config_list_eligible_collections
 						(ESourceConfig *config);
 gboolean	e_source_config_check_complete	(ESourceConfig *config);
 ESource *	e_source_config_get_original_source

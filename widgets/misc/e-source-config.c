@@ -117,73 +117,66 @@ source_config_init_backends (ESourceConfig *config)
 }
 
 static gint
-source_config_compare_backends (ESourceConfigBackend *backend_a,
-                                ESourceConfigBackend *backend_b,
-                                ESourceConfig *config)
+source_config_compare_sources (gconstpointer a,
+                               gconstpointer b,
+                               gpointer user_data)
 {
-	ESourceConfigBackendClass *class_a;
-	ESourceConfigBackendClass *class_b;
-	ESourceRegistry *registry;
 	ESource *source_a;
 	ESource *source_b;
+	ESource *parent_a;
+	ESource *parent_b;
+	ESourceConfig *config;
+	ESourceRegistry *registry;
 	const gchar *parent_uid_a;
 	const gchar *parent_uid_b;
-	const gchar *backend_name_a;
-	const gchar *backend_name_b;
 	gint result;
 
-	registry = e_source_config_get_registry (config);
+	source_a = E_SOURCE (a);
+	source_b = E_SOURCE (b);
+	config = E_SOURCE_CONFIG (user_data);
 
-	class_a = E_SOURCE_CONFIG_BACKEND_GET_CLASS (backend_a);
-	class_b = E_SOURCE_CONFIG_BACKEND_GET_CLASS (backend_b);
-
-	parent_uid_a = class_a->parent_uid;
-	parent_uid_b = class_b->parent_uid;
-
-	backend_name_a = class_a->backend_name;
-	backend_name_b = class_b->backend_name;
-
-	if (g_strcmp0 (backend_name_a, backend_name_b) == 0)
+	if (e_source_equal (source_a, source_b))
 		return 0;
 
 	/* "On This Computer" always comes first. */
 
-	if (g_strcmp0 (backend_name_a, "local") == 0)
+	parent_uid_a = e_source_get_parent (source_a);
+	parent_uid_b = e_source_get_parent (source_b);
+
+	if (g_strcmp0 (parent_uid_a, "local-stub") == 0)
 		return -1;
 
-	if (g_strcmp0 (backend_name_b, "local") == 0)
+	if (g_strcmp0 (parent_uid_b, "local-stub") == 0)
 		return 1;
 
-	source_a = e_source_registry_ref_source (registry, parent_uid_a);
-	source_b = e_source_registry_ref_source (registry, parent_uid_b);
+	registry = e_source_config_get_registry (config);
 
-	g_return_val_if_fail (source_a != NULL, 1);
-	g_return_val_if_fail (source_b != NULL, -1);
+	parent_a = e_source_registry_ref_source (registry, parent_uid_a);
+	parent_b = e_source_registry_ref_source (registry, parent_uid_b);
 
-	result = e_source_compare_by_display_name (source_a, source_b);
+	g_return_val_if_fail (parent_a != NULL, 1);
+	g_return_val_if_fail (parent_b != NULL, -1);
 
-	g_object_unref (source_a);
-	g_object_unref (source_b);
+	result = e_source_compare_by_display_name (parent_a, parent_b);
+
+	g_object_unref (parent_a);
+	g_object_unref (parent_b);
 
 	return result;
 }
 
 static void
 source_config_add_candidate (ESourceConfig *config,
+                             ESource *scratch_source,
                              ESourceConfigBackend *backend)
 {
 	Candidate *candidate;
 	GtkBox *backend_box;
 	GtkLabel *type_label;
 	GtkComboBoxText *type_combo;
-	ESourceConfigBackendClass *class;
-	ESourceRegistry *registry;
-	ESourceBackend *extension;
-	ESource *original_source;
 	ESource *parent_source;
-	GDBusObject *dbus_object;
+	ESourceRegistry *registry;
 	const gchar *display_name;
-	const gchar *extension_name;
 	const gchar *parent_uid;
 
 	backend_box = GTK_BOX (config->priv->backend_box);
@@ -191,54 +184,17 @@ source_config_add_candidate (ESourceConfig *config,
 	type_combo = GTK_COMBO_BOX_TEXT (config->priv->type_combo);
 
 	registry = e_source_config_get_registry (config);
-	class = E_SOURCE_CONFIG_BACKEND_GET_CLASS (backend);
-
-	original_source = e_source_config_get_original_source (config);
-
-	if (original_source != NULL)
-		parent_uid = e_source_get_parent (original_source);
-	else
-		parent_uid = class->parent_uid;
-
-	/* Make sure the parent source exists.  This will either
-	 * be a collection source or a built-in "stub" source. */
+	parent_uid = e_source_get_parent (scratch_source);
 	parent_source = e_source_registry_ref_source (registry, parent_uid);
-	if (parent_source == NULL)
-		return;
-
-	/* Some backends don't allow new sources to be created.
-	 * The "contacts" calendar backend is one such example. */
-	if (original_source == NULL) {
-		if (!e_source_config_backend_allow_creation (backend))
-			return;
-	}
+	g_return_if_fail (parent_source != NULL);
 
 	candidate = g_slice_new (Candidate);
 	candidate->backend = g_object_ref (backend);
-
-	/* Skip passing a GError here.  If dbus_object is NULL, this should
-	 * never fail.  If dbus_object is non-NULL, then its data should have
-	 * been produced by a GKeyFile on the server-side, so the chances of
-	 * it failing to load this time are slim. */
-	if (original_source != NULL)
-		dbus_object = e_source_ref_dbus_object (original_source);
-	else
-		dbus_object = NULL;
-	candidate->scratch_source = e_source_new (dbus_object, NULL, NULL);
-	if (dbus_object != NULL)
-		g_object_unref (dbus_object);
+	candidate->scratch_source = g_object_ref (scratch_source);
 
 	/* Do not show the page here. */
 	candidate->page = g_object_ref_sink (gtk_vbox_new (FALSE, 6));
 	gtk_box_pack_start (backend_box, candidate->page, FALSE, FALSE, 0);
-
-	e_source_set_parent (candidate->scratch_source, parent_uid);
-
-	extension_name =
-		e_source_config_get_backend_extension_name (config);
-	extension = e_source_get_extension (
-		candidate->scratch_source, extension_name);
-	e_source_backend_set_backend_name (extension, class->backend_name);
 
 	g_ptr_array_add (config->priv->candidates, candidate);
 
@@ -317,6 +273,215 @@ source_config_type_combo_changed_cb (GtkComboBox *type_combo,
 	}
 
 	e_source_config_resize_window (config);
+}
+
+static gboolean
+source_config_init_for_adding_source_foreach (gpointer key,
+                                              gpointer value,
+                                              gpointer user_data)
+{
+	ESource *scratch_source;
+	ESourceBackend *extension;
+	ESourceConfig *config;
+	ESourceConfigBackend *backend;
+	ESourceConfigBackendClass *class;
+	const gchar *extension_name;
+
+	scratch_source = E_SOURCE (key);
+	backend = E_SOURCE_CONFIG_BACKEND (value);
+	config = E_SOURCE_CONFIG (user_data);
+
+	/* This may not be the correct backend name for the child of a
+	 * collection.  For example, the "yahoo" collection backend uses
+	 * the "caldav" calender backend for calendar children.  But the
+	 * ESourceCollectionBackend can override our setting if needed. */
+	class = E_SOURCE_CONFIG_BACKEND_GET_CLASS (backend);
+	extension_name = e_source_config_get_backend_extension_name (config);
+	extension = e_source_get_extension (scratch_source, extension_name);
+	e_source_backend_set_backend_name (extension, class->backend_name);
+
+	source_config_add_candidate (config, scratch_source, backend);
+
+	return FALSE;  /* don't stop traversal */
+}
+
+static void
+source_config_init_for_adding_source (ESourceConfig *config)
+{
+	GList *list, *link;
+	ESourceRegistry *registry;
+	GTree *scratch_source_tree;
+
+	/* Candidates are drawn from two sources:
+	 *
+	 * ESourceConfigBackend classes that specify a fixed parent UID,
+	 * meaning there exists one only possible parent source for any
+	 * scratch source created by the backend.  The fixed parent UID
+	 * should be a built-in "stub" placeholder ("local-stub", etc).
+	 *
+	 * -and-
+	 *
+	 * Collection sources.  We let ESourceConfig subclasses gather
+	 * eligible collection sources to serve as parents for scratch
+	 * sources.  A scratch source is matched to a backend based on
+	 * the collection's backend name.  The "calendar-enabled" and
+	 * "contacts-enabled" settings also factor into eligibility.
+	 */
+
+	/* Use a GTree instead of a GHashTable so inserted scratch
+	 * sources automatically sort themselves by their parent's
+	 * display name. */
+	scratch_source_tree = g_tree_new_full (
+		source_config_compare_sources, config,
+		(GDestroyNotify) g_object_unref,
+		(GDestroyNotify) g_object_unref);
+
+	registry = e_source_config_get_registry (config);
+
+	/* First pick out the backends with a fixed parent UID. */
+
+	list = g_hash_table_get_values (config->priv->backends);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESourceConfigBackend *backend;
+		ESourceConfigBackendClass *class;
+		ESource *scratch_source;
+		ESource *parent_source;
+		gboolean parent_is_disabled;
+
+		backend = E_SOURCE_CONFIG_BACKEND (link->data);
+		class = E_SOURCE_CONFIG_BACKEND_GET_CLASS (backend);
+
+		if (class->parent_uid == NULL)
+			continue;
+
+		/* Verify the fixed parent UID is valid. */
+		parent_source = e_source_registry_ref_source (
+			registry, class->parent_uid);
+		if (parent_source == NULL) {
+			g_warning (
+				"%s: %sClass specifies "
+				"an invalid parent_uid '%s'",
+				G_STRFUNC,
+				G_OBJECT_TYPE_NAME (backend),
+				class->parent_uid);
+			continue;
+		}
+		parent_is_disabled = !e_source_get_enabled (parent_source);
+		g_object_unref (parent_source);
+
+		/* It's unusual for a fixed parent source to be disabled.
+		 * A user would have to go out of his way to do this, but
+		 * we should honor it regardless. */
+		if (parent_is_disabled)
+			continue;
+
+		/* Some backends don't allow new sources to be created.
+		 * The "contacts" calendar backend is one such example. */
+		if (!e_source_config_backend_allow_creation (backend))
+			continue;
+
+		scratch_source = e_source_new (NULL, NULL, NULL);
+		g_return_if_fail (scratch_source != NULL);
+
+		e_source_set_parent (scratch_source, class->parent_uid);
+
+		g_tree_insert (
+			scratch_source_tree,
+			g_object_ref (scratch_source),
+			g_object_ref (backend));
+
+		g_object_unref (scratch_source);
+	}
+
+	g_list_free (list);
+
+	/* Next gather eligible collection sources to serve as parents. */
+
+	list = e_source_config_list_eligible_collections (config);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *parent_source;
+		ESource *scratch_source;
+		ESourceBackend *extension;
+		ESourceConfigBackend *backend = NULL;
+		const gchar *backend_name;
+		const gchar *parent_uid;
+
+		parent_source = E_SOURCE (link->data);
+		parent_uid = e_source_get_uid (parent_source);
+
+		extension = e_source_get_extension (
+			parent_source, E_SOURCE_EXTENSION_COLLECTION);
+		backend_name = e_source_backend_get_backend_name (extension);
+
+		if (backend_name != NULL)
+			backend = g_hash_table_lookup (
+				config->priv->backends, backend_name);
+
+		if (backend == NULL)
+			continue;
+
+		scratch_source = e_source_new (NULL, NULL, NULL);
+		g_return_if_fail (scratch_source != NULL);
+
+		e_source_set_parent (scratch_source, parent_uid);
+
+		/* XXX Leave this disabled until we actually support
+		 *     creating remote resources through ESourceConfig. */
+#if 0
+		g_tree_insert (
+			scratch_source_tree,
+			g_object_ref (scratch_source),
+			g_object_ref (backend));
+#endif
+
+		g_object_unref (scratch_source);
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	/* XXX GTree doesn't get as much love as GHashTable.
+	 *     It's missing an equivalent to GHashTableIter. */
+	g_tree_foreach (
+		scratch_source_tree,
+		source_config_init_for_adding_source_foreach, config);
+
+	g_tree_unref (scratch_source_tree);
+}
+
+static void
+source_config_init_for_editing_source (ESourceConfig *config)
+{
+	ESource *original_source;
+	ESource *scratch_source;
+	ESourceBackend *extension;
+	ESourceConfigBackend *backend;
+	GDBusObject *dbus_object;
+	const gchar *backend_name;
+	const gchar *extension_name;
+
+	original_source = e_source_config_get_original_source (config);
+	g_return_if_fail (original_source != NULL);
+
+	extension_name = e_source_config_get_backend_extension_name (config);
+	extension = e_source_get_extension (original_source, extension_name);
+	backend_name = e_source_backend_get_backend_name (extension);
+	g_return_if_fail (backend_name != NULL);
+
+	backend = g_hash_table_lookup (config->priv->backends, backend_name);
+	g_return_if_fail (backend != NULL);
+
+	dbus_object = e_source_ref_dbus_object (original_source);
+	g_return_if_fail (dbus_object != NULL);
+
+	scratch_source = e_source_new (dbus_object, NULL, NULL);
+	g_return_if_fail (scratch_source != NULL);
+
+	source_config_add_candidate (config, scratch_source, backend);
+
+	g_object_unref (scratch_source);
+	g_object_unref (dbus_object);
 }
 
 static void
@@ -538,42 +703,37 @@ source_config_realize (GtkWidget *widget)
 	config = E_SOURCE_CONFIG (widget);
 	original_source = e_source_config_get_original_source (config);
 
-	if (original_source != NULL) {
-		ESourceBackend *extension;
-		ESourceConfigBackend *backend;
-		const gchar *backend_name;
-		const gchar *extension_name;
+	if (original_source == NULL)
+		source_config_init_for_adding_source (config);
+	else
+		source_config_init_for_editing_source (config);
+}
 
-		extension_name =
-			e_source_config_get_backend_extension_name (config);
-		extension = e_source_get_extension (
-			original_source, extension_name);
-		backend_name = e_source_backend_get_backend_name (extension);
-		g_return_if_fail (backend_name != NULL);
+static GList *
+source_config_list_eligible_collections (ESourceConfig *config)
+{
+	ESourceRegistry *registry;
+	GQueue trash = G_QUEUE_INIT;
+	GList *list, *link;
+	const gchar *extension_name;
 
-		backend = g_hash_table_lookup (
-			config->priv->backends, backend_name);
-		g_return_if_fail (E_IS_SOURCE_CONFIG_BACKEND (backend));
+	extension_name = E_SOURCE_EXTENSION_COLLECTION;
+	registry = e_source_config_get_registry (config);
 
-		source_config_add_candidate (config, backend);
+	list = e_source_registry_list_sources (registry, extension_name);
 
-	} else {
-		GList *list, *link;
-
-		list = g_list_sort_with_data (
-			g_hash_table_get_values (config->priv->backends),
-			(GCompareDataFunc) source_config_compare_backends,
-			config);
-
-		for (link = list; link != NULL; link = g_list_next (link)) {
-			ESourceConfigBackend *backend;
-
-			backend = E_SOURCE_CONFIG_BACKEND (link->data);
-			source_config_add_candidate (config, backend);
-		}
-
-		g_list_free (list);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		if (!e_source_get_enabled (E_SOURCE (link->data)))
+			g_queue_push_tail (&trash, link);
 	}
+
+	/* Remove ineligible collections from the list. */
+	while ((link = g_queue_pop_head (&trash)) != NULL) {
+		g_object_unref (link->data);
+		list = g_list_delete_link (list, link);
+	}
+
+	return list;
 }
 
 static void
@@ -676,6 +836,8 @@ e_source_config_class_init (ESourceConfigClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = source_config_realize;
 
+	class->list_eligible_collections =
+		source_config_list_eligible_collections;
 	class->init_candidate = source_config_init_candidate;
 	class->check_complete = source_config_check_complete;
 	class->commit_changes = source_config_commit_changes;
@@ -932,6 +1094,19 @@ e_source_config_get_backend_extension_name (ESourceConfig *config)
 	g_return_val_if_fail (class->get_backend_extension_name != NULL, NULL);
 
 	return class->get_backend_extension_name (config);
+}
+
+GList *
+e_source_config_list_eligible_collections (ESourceConfig *config)
+{
+	ESourceConfigClass *class;
+
+	g_return_val_if_fail (E_IS_SOURCE_CONFIG (config), NULL);
+
+	class = E_SOURCE_CONFIG_GET_CLASS (config);
+	g_return_val_if_fail (class->list_eligible_collections != NULL, NULL);
+
+	return class->list_eligible_collections (config);
 }
 
 gboolean

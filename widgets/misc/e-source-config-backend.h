@@ -56,8 +56,13 @@ struct _ESourceConfigBackend {
 struct _ESourceConfigBackendClass {
 	EExtensionClass parent_class;
 
-	const gchar *parent_uid;
+	/* This should match backend names used in ESourceBackend. */
 	const gchar *backend_name;
+
+	/* Optional.  Collection-based backends can leave this NULL.
+	 * This is only for sources which have a fixed parent source,
+	 * usually one of the "stub" placeholders ("local-stub", etc). */
+	const gchar *parent_uid;
 
 	gboolean	(*allow_creation)	(ESourceConfigBackend *backend);
 	void		(*insert_widgets)	(ESourceConfigBackend *backend,

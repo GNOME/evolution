@@ -229,6 +229,37 @@ cal_source_config_get_backend_extension_name (ESourceConfig *config)
 	return extension_name;
 }
 
+static GList *
+cal_source_config_list_eligible_collections (ESourceConfig *config)
+{
+	GQueue trash = G_QUEUE_INIT;
+	GList *list, *link;
+
+	/* Chain up to parent's list_eligible_collections() method. */
+	list = E_SOURCE_CONFIG_CLASS (e_cal_source_config_parent_class)->
+		list_eligible_collections (config);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceCollection *extension;
+		const gchar *extension_name;
+
+		extension_name = E_SOURCE_EXTENSION_COLLECTION;
+		extension = e_source_get_extension (source, extension_name);
+
+		if (!e_source_collection_get_calendar_enabled (extension))
+			g_queue_push_tail (&trash, link);
+	}
+
+	/* Remove ineligible collections from the list. */
+	while ((link = g_queue_pop_head (&trash)) != NULL) {
+		g_object_unref (link->data);
+		list = g_list_delete_link (list, link);
+	}
+
+	return list;
+}
+
 static void
 cal_source_config_init_candidate (ESourceConfig *config,
                                   ESource *scratch_source)
@@ -306,6 +337,8 @@ e_cal_source_config_class_init (ECalSourceConfigClass *class)
 	source_config_class = E_SOURCE_CONFIG_CLASS (class);
 	source_config_class->get_backend_extension_name =
 		cal_source_config_get_backend_extension_name;
+	source_config_class->list_eligible_collections =
+		cal_source_config_list_eligible_collections;
 	source_config_class->init_candidate = cal_source_config_init_candidate;
 	source_config_class->commit_changes = cal_source_config_commit_changes;
 
