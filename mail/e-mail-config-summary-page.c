@@ -547,6 +547,9 @@ mail_config_summary_page_refresh (EMailConfigSummaryPage *page)
 		const gchar *extension_name;
 		const gchar *value;
 
+		value = e_source_get_display_name (source);
+		gtk_entry_set_text (priv->account_name_entry, value);
+
 		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 		extension = e_source_get_extension (source, extension_name);
 
