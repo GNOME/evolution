@@ -435,7 +435,7 @@ e_mail_formatter_find_rfc822_end_iter (GSList *iter)
 
 gchar *
 e_mail_formatter_parse_html_mnemonics (const gchar *label,
-				       gchar **access_key)
+                                       gchar **access_key)
 {
 	const gchar *pos = NULL;
 	gchar ak = 0;

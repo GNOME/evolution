@@ -250,7 +250,7 @@ emfe_message_rfc822_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_formatter_message_rfc822_class_init (EMailFormatterMessageRFC822Class *klass)
+e_mail_formatter_message_rfc822_class_init (EMailFormatterMessageRFC822Class *class)
 {
 }
 

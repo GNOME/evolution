@@ -34,7 +34,6 @@
 static void fill_in_info (EContactEditorFullname *editor);
 static void extract_info (EContactEditorFullname *editor);
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_NAME,

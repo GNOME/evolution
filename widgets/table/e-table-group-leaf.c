@@ -41,7 +41,6 @@
 #define etgl_get_type e_table_group_leaf_get_type
 G_DEFINE_TYPE (ETableGroupLeaf, etgl, E_TYPE_TABLE_GROUP)
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_HEIGHT,

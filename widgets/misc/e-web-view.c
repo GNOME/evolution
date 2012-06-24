@@ -1221,7 +1221,7 @@ web_view_stop_loading (EWebView *web_view)
 
 static void
 web_view_update_actions (EWebView *web_view,
-			 GdkEventButton *event)
+                         GdkEventButton *event)
 {
 	GtkActionGroup *action_group;
 	gboolean can_copy;
@@ -2820,7 +2820,7 @@ e_web_view_stop_loading (EWebView *web_view)
 
 void
 e_web_view_update_actions (EWebView *web_view,
-			   GdkEventButton *event)
+                           GdkEventButton *event)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 

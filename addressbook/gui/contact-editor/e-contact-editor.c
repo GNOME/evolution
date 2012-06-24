@@ -99,7 +99,6 @@ static void	sensitize_ok			(EContactEditor *ce);
 
 static EABEditorClass *parent_class = NULL;
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_SOURCE_CLIENT,

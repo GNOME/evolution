@@ -22,7 +22,6 @@
 
 G_DEFINE_TYPE (EMailPartList, e_mail_part_list, G_TYPE_OBJECT)
 
-
 static CamelObjectBag *registry = NULL;
 G_LOCK_DEFINE_STATIC (registry);
 
@@ -55,11 +54,11 @@ e_mail_part_list_finalize (GObject *object)
 }
 
 static void
-e_mail_part_list_class_init (EMailPartListClass *klass)
+e_mail_part_list_class_init (EMailPartListClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_mail_part_list_finalize;
 }
 
@@ -154,7 +153,7 @@ e_mail_part_list_get_registry (void)
 
 static void
 part_list_weak_ref_notify (gchar *mail_uri,
-			   EMailPartList *part_list)
+                           EMailPartList *part_list)
 {
 	CamelObjectBag *reg = e_mail_part_list_get_registry ();
 
@@ -172,8 +171,8 @@ part_list_weak_ref_notify (gchar *mail_uri,
  */
 void
 e_mail_part_list_registry_add (CamelObjectBag *registry,
-			       const gchar *mail_uri,
-			       EMailPartList *part_list)
+                               const gchar *mail_uri,
+                               EMailPartList *part_list)
 {
 	camel_object_bag_add (registry, mail_uri, part_list);
 

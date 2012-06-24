@@ -47,7 +47,6 @@
 #define etgc_get_type e_table_group_container_get_type
 G_DEFINE_TYPE (ETableGroupContainer, etgc, E_TYPE_TABLE_GROUP)
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_HEIGHT,

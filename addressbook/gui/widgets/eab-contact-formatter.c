@@ -1112,13 +1112,13 @@ eab_contact_formatter_finalize (GObject *object)
 }
 
 static void
-eab_contact_formatter_class_init (EABContactFormatterClass *klass)
+eab_contact_formatter_class_init (EABContactFormatterClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (EABContactFormatterClass));
+	g_type_class_add_private (class, sizeof (EABContactFormatterClass));
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = eab_contact_formatter_finalize;
 	object_class->set_property = eab_contact_formatter_set_property;
 	object_class->get_property = eab_contact_formatter_get_property;

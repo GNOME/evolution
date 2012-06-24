@@ -40,7 +40,6 @@ static void e_table_field_chooser_set_property (GObject *object, guint property_
 static void e_table_field_chooser_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 static void e_table_field_chooser_dispose (GObject *object);
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_FULL_HEADER,

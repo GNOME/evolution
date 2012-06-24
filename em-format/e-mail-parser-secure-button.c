@@ -80,7 +80,7 @@ empe_secure_button_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_parser_secure_button_class_init (EMailParserSecureButtonClass *klass)
+e_mail_parser_secure_button_class_init (EMailParserSecureButtonClass *class)
 {
 }
 

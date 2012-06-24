@@ -376,7 +376,7 @@ emfe_attachment_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_formatter_attachment_class_init (EMailFormatterAttachmentClass *klass)
+e_mail_formatter_attachment_class_init (EMailFormatterAttachmentClass *class)
 {
 }
 

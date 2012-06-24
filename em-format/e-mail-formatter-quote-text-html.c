@@ -117,7 +117,7 @@ emqfe_text_html_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_formatter_quote_text_html_class_init (EMailFormatterQuoteTextHTMLClass *klass)
+e_mail_formatter_quote_text_html_class_init (EMailFormatterQuoteTextHTMLClass *class)
 {
 }
 

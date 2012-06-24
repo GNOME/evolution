@@ -123,14 +123,12 @@ mail_config_format_html_constructed (GObject *object)
 		extensible, "animate-images",
 		G_BINDING_SYNC_CREATE);
 
-
 	settings = g_settings_new ("org.gnome.evolution.mail");
 	g_signal_connect (settings, "changed", G_CALLBACK (headers_changed_cb), object);
 
 	g_object_set_data_full (
 		G_OBJECT (extensible), "reader-header-settings",
 		settings, g_object_unref);
-		
 
 	/* Initial synchronization */
 	headers_changed_cb (settings, NULL, object);

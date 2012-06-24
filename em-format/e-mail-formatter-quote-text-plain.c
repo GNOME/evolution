@@ -136,7 +136,7 @@ emqfe_text_plain_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_formatter_quote_text_plain_class_init (EMailFormatterQuoteTextPlainClass *klass)
+e_mail_formatter_quote_text_plain_class_init (EMailFormatterQuoteTextPlainClass *class)
 {
 }
 

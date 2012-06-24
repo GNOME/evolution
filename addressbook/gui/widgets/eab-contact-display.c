@@ -419,7 +419,7 @@ contact_display_load_status_changed (WebKitWebView *web_view,
 
 static void
 contact_display_update_actions (EWebView *web_view,
-				GdkEventButton *event)
+                                GdkEventButton *event)
 {
 	GtkActionGroup *action_group;
 	gboolean scheme_is_internal_mailto;

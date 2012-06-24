@@ -105,7 +105,7 @@ empe_message_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_parser_message_class_init (EMailParserMessageClass *klass)
+e_mail_parser_message_class_init (EMailParserMessageClass *class)
 {
 }
 

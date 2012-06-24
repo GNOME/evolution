@@ -115,7 +115,7 @@ emqfe_text_enriched_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_formatter_quote_text_enriched_class_init (EMailFormatterQuoteTextEnrichedClass *klass)
+e_mail_formatter_quote_text_enriched_class_init (EMailFormatterQuoteTextEnrichedClass *class)
 {
 }
 

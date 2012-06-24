@@ -272,20 +272,20 @@ e_mail_formatter_text_highlight_init (EMailFormatterTextHighlight *object)
 }
 
 static void
-e_mail_formatter_text_highlight_class_init (EMailFormatterTextHighlightClass *klass)
+e_mail_formatter_text_highlight_class_init (EMailFormatterTextHighlightClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = emfe_text_highlight_constructed;
 
-	extension_class = E_EXTENSION_CLASS (klass);
+	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_MAIL_FORMATTER_EXTENSION_REGISTRY;
 }
 
 static void
-e_mail_formatter_text_highlight_class_finalize (EMailFormatterTextHighlightClass *klass)
+e_mail_formatter_text_highlight_class_finalize (EMailFormatterTextHighlightClass *class)
 {
 }
 

@@ -537,7 +537,7 @@ free_message_printing_context (struct _MessagePrintingContext *context)
 
 static void
 mail_reader_do_print_message (GObject *object,
-			      GAsyncResult *result,
+                              GAsyncResult *result,
                               gpointer user_data)
 {
 	EMailReader *reader = E_MAIL_READER (object);
@@ -845,7 +845,7 @@ html_contains_nonwhitespace (const gchar *html,
 
 static void
 mail_reader_reply_message_parsed (GObject *object,
-				  GAsyncResult *result,
+                                  GAsyncResult *result,
                                   gpointer user_data)
 {
 	EShell *shell;
@@ -1543,8 +1543,8 @@ struct mail_reader_parse_message_run_data_ {
 
 static void
 mail_reader_parse_message_run (GSimpleAsyncResult *simple,
-			       GObject *object,
-			       GCancellable *cancellable)
+                               GObject *object,
+                               GCancellable *cancellable)
 {
 	EMailReader *reader = E_MAIL_READER (object);
 	CamelObjectBag *registry;
@@ -1627,7 +1627,7 @@ e_mail_reader_parse_message (EMailReader *reader,
 
 EMailPartList *
 e_mail_reader_parse_message_finish (EMailReader *reader,
-				    GAsyncResult *result)
+                                    GAsyncResult *result)
 {
 	struct mail_reader_parse_message_run_data_ *data;
 	EMailPartList *part_list;

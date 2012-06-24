@@ -34,7 +34,6 @@
 #include "e-table-defines.h"
 #include "e-table-header.h"
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_SORT_INFO,

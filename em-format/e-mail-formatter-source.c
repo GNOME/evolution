@@ -152,7 +152,7 @@ emfe_source_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_formatter_source_class_init (EMailFormatterSourceClass *klass)
+e_mail_formatter_source_class_init (EMailFormatterSourceClass *class)
 {
 }
 

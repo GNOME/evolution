@@ -204,29 +204,29 @@ e_mail_formatter_print_finalize (GObject *object)
 }
 
 static void
-e_mail_formatter_print_class_init (EMailFormatterPrintClass *klass)
+e_mail_formatter_print_class_init (EMailFormatterPrintClass *class)
 {
 	GObjectClass *object_class;
 	EMailFormatterClass *formatter_class;
 
-	e_mail_formatter_print_parent_class = g_type_class_peek_parent (klass);
+	e_mail_formatter_print_parent_class = g_type_class_peek_parent (class);
 
-	formatter_class = E_MAIL_FORMATTER_CLASS (klass);
+	formatter_class = E_MAIL_FORMATTER_CLASS (class);
 	formatter_class->run = mail_formatter_print_run;
 	formatter_class->set_style = mail_formatter_set_style;
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_mail_formatter_print_finalize;
 }
 
 static void
-e_mail_formatter_print_base_init (EMailFormatterPrintClass *klass)
+e_mail_formatter_print_base_init (EMailFormatterPrintClass *class)
 {
 	e_mail_formatter_print_internal_extensions_load (
 		E_MAIL_EXTENSION_REGISTRY (
-			E_MAIL_FORMATTER_CLASS (klass)->extension_registry));
+			E_MAIL_FORMATTER_CLASS (class)->extension_registry));
 
-	E_MAIL_FORMATTER_CLASS (klass)->text_html_flags =
+	E_MAIL_FORMATTER_CLASS (class)->text_html_flags =
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;

@@ -187,7 +187,7 @@ empe_msg_external_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_parser_message_external_class_init (EMailParserMessageExternalClass *klass)
+e_mail_parser_message_external_class_init (EMailParserMessageExternalClass *class)
 {
 }
 

@@ -777,19 +777,19 @@ e_spell_entry_finalize (GObject *object)
 }
 
 static void
-e_spell_entry_class_init (ESpellEntryClass *klass)
+e_spell_entry_class_init (ESpellEntryClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (klass, sizeof (ESpellEntryPrivate));
+	g_type_class_add_private (class, sizeof (ESpellEntryPrivate));
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = spell_entry_set_property;
 	object_class->get_property = spell_entry_get_property;
 	object_class->finalize = e_spell_entry_finalize;
 
-	widget_class  = GTK_WIDGET_CLASS (klass);
+	widget_class  = GTK_WIDGET_CLASS (class);
 	widget_class->draw = e_spell_entry_draw;
 	widget_class->button_press_event = e_spell_entry_button_press;
 

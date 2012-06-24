@@ -65,7 +65,6 @@ e_minicard_field_destroy (EMinicardField *field)
 	g_free (field);
 }
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_WIDTH,

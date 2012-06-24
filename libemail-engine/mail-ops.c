@@ -429,7 +429,7 @@ static MailMsgInfo fetch_mail_info = {
 /* ouch, a 'do everything' interface ... */
 void
 mail_fetch_mail (CamelStore *store,
-                 CamelFetchType fetch_type, 
+                 CamelFetchType fetch_type,
                  gint fetch_count,
                  const gchar *type,
                  MailProviderFetchLockFunc lock_func,

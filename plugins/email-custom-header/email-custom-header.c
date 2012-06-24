@@ -233,8 +233,8 @@ epech_dialog_run (CustomHeaderOptionsDialog *mch,
 
 static void
 epech_load_from_settings (GSettings *settings,
-			  const gchar *key,
-			  CustomHeaderOptionsDialog *mch)
+                          const gchar *key,
+                          CustomHeaderOptionsDialog *mch)
 {
 	CustomHeaderOptionsDialogPrivate *priv;
 	EmailCustomHeaderDetails temp_header_details= {-1, -1, NULL, NULL};

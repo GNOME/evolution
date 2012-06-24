@@ -69,13 +69,13 @@ mail_extension_registry_finalize (GObject *object)
 }
 
 void
-e_mail_extension_registry_class_init (EMailExtensionRegistryClass *klass)
+e_mail_extension_registry_class_init (EMailExtensionRegistryClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (EMailExtensionRegistryPrivate));
+	g_type_class_add_private (class, sizeof (EMailExtensionRegistryPrivate));
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = mail_extension_registry_finalize;
 }
 
@@ -250,7 +250,7 @@ e_mail_parser_extension_registry_init (EMailParserExtensionRegistry *parser_ereg
 }
 
 static void
-e_mail_parser_extension_registry_class_init (EMailParserExtensionRegistryClass *klass)
+e_mail_parser_extension_registry_class_init (EMailParserExtensionRegistryClass *class)
 {
 }
 
@@ -279,7 +279,7 @@ e_mail_formatter_extension_registry_init (EMailFormatterExtensionRegistry *forma
 }
 
 static void
-e_mail_formatter_extension_registry_class_init (EMailFormatterExtensionRegistryClass *klass)
+e_mail_formatter_extension_registry_class_init (EMailFormatterExtensionRegistryClass *class)
 {
 }
 

@@ -174,7 +174,7 @@ empe_application_smime_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_parser_application_smime_class_init (EMailParserApplicationSMIMEClass *klass)
+e_mail_parser_application_smime_class_init (EMailParserApplicationSMIMEClass *class)
 {
 }
 

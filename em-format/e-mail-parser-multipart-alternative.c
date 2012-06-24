@@ -167,7 +167,7 @@ empe_mp_alternative_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_parser_multipart_alternative_class_init (EMailParserMultipartAlternativeClass *klass)
+e_mail_parser_multipart_alternative_class_init (EMailParserMultipartAlternativeClass *class)
 {
 }
 

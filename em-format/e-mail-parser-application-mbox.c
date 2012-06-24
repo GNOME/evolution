@@ -189,7 +189,7 @@ empe_app_mbox_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_parser_application_mbox_class_init (EMailParserApplicationMBoxClass *klass)
+e_mail_parser_application_mbox_class_init (EMailParserApplicationMBoxClass *class)
 {
 }
 

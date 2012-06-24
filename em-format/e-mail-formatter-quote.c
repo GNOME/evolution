@@ -159,33 +159,33 @@ e_mail_formatter_quote_finalize (GObject *object)
 }
 
 static void
-e_mail_formatter_quote_base_init (EMailFormatterQuoteClass *klass)
+e_mail_formatter_quote_base_init (EMailFormatterQuoteClass *class)
 {
 	e_mail_formatter_quote_internal_extensions_load (
 		E_MAIL_EXTENSION_REGISTRY (
-			E_MAIL_FORMATTER_CLASS (klass)->extension_registry));
+			E_MAIL_FORMATTER_CLASS (class)->extension_registry));
 
-	E_MAIL_FORMATTER_CLASS (klass)->text_html_flags =
+	E_MAIL_FORMATTER_CLASS (class)->text_html_flags =
 		CAMEL_MIME_FILTER_TOHTML_PRE |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
 }
 
 static void
-e_mail_formatter_quote_class_init (EMailFormatterQuoteClass *klass)
+e_mail_formatter_quote_class_init (EMailFormatterQuoteClass *class)
 {
 	GObjectClass *object_class;
 	EMailFormatterClass *formatter_class;
 
-	e_mail_formatter_quote_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EMailFormatterQuotePrivate));
+	e_mail_formatter_quote_parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMailFormatterQuotePrivate));
 
-	formatter_class = E_MAIL_FORMATTER_CLASS (klass);
+	formatter_class = E_MAIL_FORMATTER_CLASS (class);
 	formatter_class->run = mail_formatter_quote_run;
 	formatter_class->create_context = mail_formatter_quote_create_context;
 	formatter_class->free_context = mail_formatter_quote_free_context;
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_mail_formatter_quote_finalize;
 }
 

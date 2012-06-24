@@ -136,7 +136,7 @@ emqfe_headers_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_formatter_quote_headers_class_init (EMailFormatterQuoteHeadersClass *klass)
+e_mail_formatter_quote_headers_class_init (EMailFormatterQuoteHeadersClass *class)
 {
 }
 

@@ -221,15 +221,15 @@ e_mail_formatter_vcard_inline_constructed (GObject *object)
 }
 
 static void
-e_mail_formatter_vcard_inline_class_init (EMailFormatterVCardInlineClass *klass)
+e_mail_formatter_vcard_inline_class_init (EMailFormatterVCardInlineClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = e_mail_formatter_vcard_inline_constructed;
 
-	extension_class = E_EXTENSION_CLASS (klass);
+	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_MAIL_FORMATTER_EXTENSION_REGISTRY;
 }
 
@@ -260,7 +260,7 @@ e_mail_formatter_vcard_inline_type_register (GTypeModule *type_module)
 }
 
 static void
-e_mail_formatter_vcard_inline_class_finalize (EMailFormatterVCardInlineClass *klass)
+e_mail_formatter_vcard_inline_class_finalize (EMailFormatterVCardInlineClass *class)
 {
 
 }

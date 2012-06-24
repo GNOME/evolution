@@ -45,7 +45,6 @@ static void e_minicard_view_drag_data_get (GtkWidget *widget,
 					  guint time,
 					  EMinicardView *view);
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_ADAPTER,

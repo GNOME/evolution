@@ -50,8 +50,8 @@ static gpointer parent_class;
 
 static gboolean
 shell_settings_value_equal (const GValue *v1,
-			    const GValue *v2,
-			    gboolean is_debug)
+                            const GValue *v2,
+                            gboolean is_debug)
 {
 	if (!v1 || !v2)
 		return v1 == v2;

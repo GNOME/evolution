@@ -232,7 +232,7 @@ emfpe_headers_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_formatter_print_headers_class_init (EMailFormatterPrintHeadersClass *klass)
+e_mail_formatter_print_headers_class_init (EMailFormatterPrintHeadersClass *class)
 {
 }
 

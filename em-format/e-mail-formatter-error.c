@@ -134,7 +134,7 @@ emfe_error_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_formatter_error_class_init (EMailFormatterErrorClass *klass)
+e_mail_formatter_error_class_init (EMailFormatterErrorClass *class)
 {
 }
 

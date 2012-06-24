@@ -105,9 +105,9 @@ transform_icaltimezone_to_string (GBinding *binding,
 
 static gboolean
 transform_weekdays_settings_to_evolution (GBinding *binding,
-					  const GValue *source_value,
-					  GValue *target_value,
-					  gpointer user_data)
+                                          const GValue *source_value,
+                                          GValue *target_value,
+                                          gpointer user_data)
 {
 	GDateWeekday weekday;
 
@@ -178,9 +178,9 @@ transform_weekdays_settings_to_evolution (GBinding *binding,
 
 static gboolean
 transform_weekdays_evolution_to_settings (GBinding *binding,
-					  const GValue *source_value,
-					  GValue *target_value,
-					  gpointer user_data)
+                                          const GValue *source_value,
+                                          GValue *target_value,
+                                          gpointer user_data)
 {
 	GDateWeekday weekday;
 

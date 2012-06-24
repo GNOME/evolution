@@ -60,7 +60,7 @@ static const gchar *parser_mime_types[] = { "application/vnd.evolution.headers",
 
 static void
 empe_headers_bind_dom (EMailPart *part,
-		       WebKitDOMElement *element)
+                       WebKitDOMElement *element)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *photo;
@@ -118,7 +118,7 @@ empe_headers_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_parser_headers_class_init (EMailParserHeadersClass *klass)
+e_mail_parser_headers_class_init (EMailParserHeadersClass *class)
 {
 }
 

@@ -127,7 +127,7 @@ emfe_attachment_bar_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_formatter_attachment_bar_class_init (EMailFormatterAttachmentBarClass *klass)
+e_mail_formatter_attachment_bar_class_init (EMailFormatterAttachmentBarClass *class)
 {
 }
 

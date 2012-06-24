@@ -187,8 +187,8 @@ get_empty_image_stream (gsize *len)
 
 static void
 handle_contact_photo_request (GSimpleAsyncResult *res,
-			      GObject *object,
-			      GCancellable *cancellable)
+                              GObject *object,
+                              GCancellable *cancellable)
 {
 	EMailRequest *request = E_MAIL_REQUEST (object);
 	const gchar *email;

@@ -58,7 +58,6 @@ static void e_reflow_resize_children (GnomeCanvasItem *item);
 
 G_DEFINE_TYPE (EReflow, e_reflow, GNOME_TYPE_CANVAS_GROUP)
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_MINIMUM_WIDTH,

@@ -150,7 +150,7 @@ empe_mp_digest_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_parser_multipart_digest_class_init (EMailParserMultipartDigestClass *klass)
+e_mail_parser_multipart_digest_class_init (EMailParserMultipartDigestClass *class)
 {
 }
 

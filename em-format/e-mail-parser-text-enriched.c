@@ -104,7 +104,7 @@ empe_text_enriched_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_parser_text_enriched_class_init (EMailParserTextEnrichedClass *klass)
+e_mail_parser_text_enriched_class_init (EMailParserTextEnrichedClass *class)
 {
 }
 

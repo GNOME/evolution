@@ -445,7 +445,7 @@ emfe_secure_button_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_formatter_secure_button_class_init (EMailFormatterSecureButtonClass *klass)
+e_mail_formatter_secure_button_class_init (EMailFormatterSecureButtonClass *class)
 {
 }
 

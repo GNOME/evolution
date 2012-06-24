@@ -55,7 +55,6 @@ static gboolean	e_minicard_view_widget_real_focus_in_event
 						(GtkWidget *widget,
 						 GdkEventFocus *event);
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_CLIENT,

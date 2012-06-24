@@ -65,7 +65,7 @@ string_is_empty (const gchar *value)
 
 gint
 get_position_in_array (GPtrArray *objects,
-		       gpointer item)
+                       gpointer item)
 {
 	gint i;
 

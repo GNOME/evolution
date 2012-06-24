@@ -163,7 +163,7 @@ static GtkActionEntry image_entries[] = {
 
 static void
 mail_display_update_actions (EWebView *web_view,
-			     GdkEventButton *event)
+                             GdkEventButton *event)
 {
 	WebKitHitTestResult *hit_test;
 	WebKitHitTestResultContext context;
@@ -181,7 +181,7 @@ mail_display_update_actions (EWebView *web_view,
 		G_OBJECT (hit_test),
 		"context", &context,
 	        "image-uri", &image_src,
-	        NULL);
+		NULL);
 
 	if (!(context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE))
 		return;

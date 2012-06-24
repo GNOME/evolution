@@ -38,7 +38,6 @@ static void e_text_event_processor_get_property (GObject *object,
 						 GValue *value,
 						 GParamSpec *pspec);
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_ALLOW_NEWLINES

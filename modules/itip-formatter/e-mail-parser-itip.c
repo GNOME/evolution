@@ -289,21 +289,21 @@ e_mail_parser_itip_finalize (GObject *object)
 }
 
 static void
-e_mail_parser_itip_class_init (EMailParserItipClass *klass)
+e_mail_parser_itip_class_init (EMailParserItipClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = e_mail_parser_itip_constructed;
 	object_class->finalize = e_mail_parser_itip_finalize;
 
-	extension_class = E_EXTENSION_CLASS (klass);
+	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_MAIL_PARSER_EXTENSION_REGISTRY;
 }
 
 static void
-e_mail_parser_itip_class_finalize (EMailParserItipClass *klass)
+e_mail_parser_itip_class_finalize (EMailParserItipClass *class)
 {
 
 }

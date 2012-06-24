@@ -96,7 +96,7 @@ empe_attachment_bar_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_parser_attachment_bar_class_init (EMailParserAttachmentBarClass *klass)
+e_mail_parser_attachment_bar_class_init (EMailParserAttachmentBarClass *class)
 {
 }
 

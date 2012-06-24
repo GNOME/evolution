@@ -90,7 +90,6 @@ static gboolean e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeS
 								   gint *start_x,
 								   gint *end_x);
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_MEETING_TIME_SELECTOR

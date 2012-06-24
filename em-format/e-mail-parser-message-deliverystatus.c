@@ -92,7 +92,7 @@ empe_msg_deliverystatus_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_parser_message_delivery_status_class_init (EMailParserMessageDeliveryStatusClass *klass)
+e_mail_parser_message_delivery_status_class_init (EMailParserMessageDeliveryStatusClass *class)
 {
 }
 

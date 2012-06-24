@@ -380,7 +380,7 @@ search_address_in_addressbooks (ESourceRegistry *registry,
                                 gboolean (*check_contact) (EContact *contact,
                                                            gpointer user_data),
                                 gpointer user_data,
-				GCancellable *cancellable)
+                                GCancellable *cancellable)
 {
 	GList *list, *link;
 	GList *addr_sources = NULL;
@@ -601,7 +601,7 @@ gboolean
 em_utils_in_addressbook (ESourceRegistry *registry,
                          CamelInternetAddress *iaddr,
                          gboolean local_only,
-			 GCancellable *cancellable)
+                         GCancellable *cancellable)
 {
 	const gchar *addr;
 
@@ -656,7 +656,7 @@ CamelMimePart *
 em_utils_contact_photo (ESourceRegistry *registry,
                         CamelInternetAddress *cia,
                         gboolean local_only,
-			GCancellable *cancellable)
+                        GCancellable *cancellable)
 {
 	const gchar *addr = NULL;
 	CamelMimePart *part = NULL;

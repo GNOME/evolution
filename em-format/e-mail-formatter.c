@@ -77,7 +77,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static int signals[LAST_SIGNAL];
+static gint signals[LAST_SIGNAL];
 
 static void
 mail_formatter_run (EMailFormatter *formatter,
@@ -484,18 +484,18 @@ e_mail_formatter_finalize (GObject *object)
 }
 
 static void
-e_mail_formatter_base_init (EMailFormatterClass *klass)
+e_mail_formatter_base_init (EMailFormatterClass *class)
 {
-	klass->extension_registry = g_object_new (
+	class->extension_registry = g_object_new (
 		E_TYPE_MAIL_FORMATTER_EXTENSION_REGISTRY, NULL);
 
 	e_mail_formatter_internal_extensions_load (
-			E_MAIL_EXTENSION_REGISTRY (klass->extension_registry));
+			E_MAIL_EXTENSION_REGISTRY (class->extension_registry));
 
 	e_extensible_load_extensions (
-		E_EXTENSIBLE (klass->extension_registry));
+		E_EXTENSIBLE (class->extension_registry));
 
-	klass->text_html_flags =
+	class->text_html_flags =
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
@@ -504,9 +504,9 @@ e_mail_formatter_base_init (EMailFormatterClass *klass)
 }
 
 static void
-e_mail_formatter_base_finalize (EMailFormatterClass *klass)
+e_mail_formatter_base_finalize (EMailFormatterClass *class)
 {
-	g_object_unref (klass->extension_registry);
+	g_object_unref (class->extension_registry);
 }
 
 static void
@@ -518,37 +518,37 @@ e_mail_formatter_constructed (GObject *object)
 }
 
 static void
-e_mail_formatter_class_init (EMailFormatterClass *klass)
+e_mail_formatter_class_init (EMailFormatterClass *class)
 {
 	GObjectClass *object_class;
 	GdkColor *color;
 
-	e_mail_formatter_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EMailFormatterPrivate));
+	e_mail_formatter_parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMailFormatterPrivate));
 
-	klass->run = mail_formatter_run;
+	class->run = mail_formatter_run;
 
 	/* EMailFormatter calls these directly */
-	klass->create_context = NULL;
-	klass->free_context = NULL;
-	klass->set_style = mail_formatter_set_style;
+	class->create_context = NULL;
+	class->free_context = NULL;
+	class->set_style = mail_formatter_set_style;
 
-	color = &klass->colors[E_MAIL_FORMATTER_COLOR_BODY];
+	color = &class->colors[E_MAIL_FORMATTER_COLOR_BODY];
 	gdk_color_parse ("#eeeeee", color);
 
-	color = &klass->colors[E_MAIL_FORMATTER_COLOR_CONTENT];
+	color = &class->colors[E_MAIL_FORMATTER_COLOR_CONTENT];
 	gdk_color_parse ("#ffffff", color);
 
-	color = &klass->colors[E_MAIL_FORMATTER_COLOR_FRAME];
+	color = &class->colors[E_MAIL_FORMATTER_COLOR_FRAME];
 	gdk_color_parse ("#3f3f3f", color);
 
-	color = &klass->colors[E_MAIL_FORMATTER_COLOR_HEADER];
+	color = &class->colors[E_MAIL_FORMATTER_COLOR_HEADER];
 	gdk_color_parse ("#eeeeee", color);
 
-	color = &klass->colors[E_MAIL_FORMATTER_COLOR_TEXT];
+	color = &class->colors[E_MAIL_FORMATTER_COLOR_TEXT];
 	gdk_color_parse ("#000000", color);
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = e_mail_formatter_constructed;
 	object_class->get_property = e_mail_formatter_get_property;
 	object_class->set_property = e_mail_formatter_set_property;

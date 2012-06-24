@@ -192,32 +192,32 @@ e_mail_parser_init (EMailParser *parser)
 }
 
 static void
-e_mail_parser_base_init (EMailParserClass *klass)
+e_mail_parser_base_init (EMailParserClass *class)
 {
-	klass->extension_registry = g_object_new (
+	class->extension_registry = g_object_new (
 		E_TYPE_MAIL_PARSER_EXTENSION_REGISTRY, NULL);
 
 	e_mail_parser_internal_extensions_load (
-		E_MAIL_EXTENSION_REGISTRY (klass->extension_registry));
+		E_MAIL_EXTENSION_REGISTRY (class->extension_registry));
 
-	e_extensible_load_extensions (E_EXTENSIBLE (klass->extension_registry));
+	e_extensible_load_extensions (E_EXTENSIBLE (class->extension_registry));
 }
 
 static void
-e_mail_parser_base_finalize (EMailParserClass *klass)
+e_mail_parser_base_finalize (EMailParserClass *class)
 {
-	g_object_unref (klass->extension_registry);
+	g_object_unref (class->extension_registry);
 }
 
 static void
-e_mail_parser_class_init (EMailParserClass *klass)
+e_mail_parser_class_init (EMailParserClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EMailParserPrivate));
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMailParserPrivate));
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_mail_parser_finalize;
 	object_class->set_property = e_mail_parser_set_property;
 	object_class->get_property = e_mail_parser_get_property;

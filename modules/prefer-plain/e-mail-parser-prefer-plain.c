@@ -444,18 +444,18 @@ e_mail_parser_prefer_plain_finalize (GObject *object)
 }
 
 static void
-e_mail_parser_prefer_plain_class_init (EMailParserPreferPlainClass *klass)
+e_mail_parser_prefer_plain_class_init (EMailParserPreferPlainClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = e_mail_parser_prefer_plain_constructed;
 	object_class->get_property = e_mail_parser_prefer_plain_get_property;
 	object_class->set_property = e_mail_parser_prefer_plain_set_property;
 	object_class->finalize = e_mail_parser_prefer_plain_finalize;
 
-	extension_class = E_EXTENSION_CLASS (klass);
+	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_MAIL_PARSER_EXTENSION_REGISTRY;
 
 	g_object_class_install_property (
@@ -482,7 +482,7 @@ e_mail_parser_prefer_plain_class_init (EMailParserPreferPlainClass *klass)
 }
 
 void
-e_mail_parser_prefer_plain_class_finalize (EMailParserPreferPlainClass *klass)
+e_mail_parser_prefer_plain_class_finalize (EMailParserPreferPlainClass *class)
 {
 }
 

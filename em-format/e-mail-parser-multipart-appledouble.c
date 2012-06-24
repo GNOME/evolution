@@ -106,7 +106,7 @@ empe_mp_appledouble_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_parser_multipart_apple_double_class_init (EMailParserMultipartAppleDoubleClass *klass)
+e_mail_parser_multipart_apple_double_class_init (EMailParserMultipartAppleDoubleClass *class)
 {
 }
 

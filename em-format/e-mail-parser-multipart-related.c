@@ -139,7 +139,7 @@ empe_mp_related_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_parser_multipart_related_class_init (EMailParserMultipartRelatedClass *klass)
+e_mail_parser_multipart_related_class_init (EMailParserMultipartRelatedClass *class)
 {
 }
 

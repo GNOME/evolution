@@ -35,7 +35,6 @@
 
 #define d(x)
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_SORT_INFO

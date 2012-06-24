@@ -729,13 +729,13 @@ emp_finalize (GObject *object)
 }
 
 static void
-e_mail_printer_class_init (EMailPrinterClass *klass)
+e_mail_printer_class_init (EMailPrinterClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (EMailPrinterPrivate));
+	g_type_class_add_private (class, sizeof (EMailPrinterPrivate));
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = emp_set_property;
 	object_class->get_property = emp_get_property;
 	object_class->finalize = emp_finalize;
@@ -750,8 +750,9 @@ e_mail_printer_class_init (EMailPrinterClass *klass)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 
-	signals[SIGNAL_DONE] =	g_signal_new ("done",
-		G_TYPE_FROM_CLASS (klass),
+	signals[SIGNAL_DONE] = g_signal_new (
+		"done",
+		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (EMailPrinterClass, done),
 		NULL, NULL,

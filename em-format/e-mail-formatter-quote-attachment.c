@@ -137,7 +137,7 @@ emfqe_attachment_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_formatter_quote_attachment_class_init (EMailFormatterQuoteAttachmentClass *klass)
+e_mail_formatter_quote_attachment_class_init (EMailFormatterQuoteAttachmentClass *class)
 {
 }
 

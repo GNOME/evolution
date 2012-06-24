@@ -46,7 +46,6 @@ static void e_minicard_label_resize_children ( EMinicardLabel *e_minicard_label 
 
 static void set_colors (EMinicardLabel *label);
 
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_WIDTH,

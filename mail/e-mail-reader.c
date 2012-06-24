@@ -3111,7 +3111,7 @@ struct format_parser_async_closure_ {
 
 static void
 set_mail_display_part_list (GObject *object,
-			    GAsyncResult *result,
+                            GAsyncResult *result,
                             gpointer user_data)
 {
 	EMailPartList *part_list;

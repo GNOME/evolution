@@ -173,20 +173,20 @@ e_mail_parser_audio_inline_constructed (GObject *object)
 }
 
 static void
-e_mail_parser_audio_inline_class_init (EMailParserAudioInlineClass *klass)
+e_mail_parser_audio_inline_class_init (EMailParserAudioInlineClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = e_mail_parser_audio_inline_constructed;
 
-	extension_class = E_EXTENSION_CLASS (klass);
+	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_MAIL_PARSER_EXTENSION_REGISTRY;
 }
 
 static void
-e_mail_parser_audio_inline_class_finalize (EMailParserAudioInlineClass *klass)
+e_mail_parser_audio_inline_class_finalize (EMailParserAudioInlineClass *class)
 {
 
 }

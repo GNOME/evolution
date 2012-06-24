@@ -186,7 +186,7 @@ emfe_text_plain_mime_types (EMailExtension *extension)
 }
 
 static void
-e_mail_formatter_text_plain_class_init (EMailFormatterTextPlainClass *klass)
+e_mail_formatter_text_plain_class_init (EMailFormatterTextPlainClass *class)
 {
 }
 

@@ -122,7 +122,7 @@ e_source_contacts_class_init (ESourceContactsClass *class)
 			"include-me",
 			"Include Me",
 			"Include this address book in the contacts calendar",
-			FALSE,  /* see constructed() */
+			FALSE,  /* see constructed () */
 			G_PARAM_READWRITE |
 			E_SOURCE_PARAM_SETTING));
 }

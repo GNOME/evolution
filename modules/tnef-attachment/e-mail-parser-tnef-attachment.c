@@ -293,20 +293,20 @@ e_mail_parser_tnef_attachment_constructed (GObject *object)
 }
 
 static void
-e_mail_parser_tnef_attachment_class_init (EMailParserTnefAttachmentClass *klass)
+e_mail_parser_tnef_attachment_class_init (EMailParserTnefAttachmentClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = e_mail_parser_tnef_attachment_constructed;
 
-	extension_class = E_EXTENSION_CLASS (klass);
+	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_MAIL_PARSER_EXTENSION_REGISTRY;
 }
 
 void
-e_mail_parser_tnef_attachment_class_finalize (EMailParserTnefAttachmentClass *klass)
+e_mail_parser_tnef_attachment_class_finalize (EMailParserTnefAttachmentClass *class)
 {
 }
 
