@@ -879,7 +879,7 @@ process_section (EMeetingListView *view,
 				ENameSelectorModel *model;
 				EContactStore *c_store;
 				GSList *clients, *l;
-				gchar *uid = e_contact_get (contact, E_CONTACT_BOOK_URI);
+				gchar *uid = e_contact_get (contact, E_CONTACT_BOOK_UID);
 
 				dialog = e_name_selector_peek_dialog (view->priv->name_selector);
 				model = e_name_selector_dialog_peek_model (dialog);
