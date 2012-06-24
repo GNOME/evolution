@@ -137,8 +137,6 @@ struct _EContactListEditorPrivate {
 	guint in_async_call : 1;
 };
 
-static gpointer parent_class;
-
 G_DEFINE_TYPE (EContactListEditor, e_contact_list_editor, EAB_TYPE_EDITOR)
 
 static EContactListEditor *
@@ -1347,7 +1345,7 @@ contact_list_editor_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_contact_list_editor_parent_class)->dispose (object);
 }
 
 static void
@@ -1364,7 +1362,8 @@ contact_list_editor_constructed (GObject *object)
 	editor = E_CONTACT_LIST_EDITOR (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_contact_list_editor_parent_class)->
+		constructed (object);
 
 	shell = eab_editor_get_shell (EAB_EDITOR (editor));
 	registry = e_shell_get_registry (shell);
@@ -1576,7 +1575,6 @@ e_contact_list_editor_class_init (EContactListEditorClass *class)
 	GObjectClass *object_class;
 	EABEditorClass *editor_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EContactListEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);

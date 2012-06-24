@@ -35,8 +35,6 @@
 #include "e-mail-printer.h"
 #include "e-mail-display.h"
 
-static gpointer parent_class = NULL;
-
 enum {
         BUTTON_SELECT_ALL,
         BUTTON_SELECT_NONE,
@@ -727,7 +725,7 @@ emp_finalize (GObject *object)
 	}
 
         /* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_mail_printer_parent_class)->finalize (object);
 }
 
 static void
@@ -735,7 +733,6 @@ e_mail_printer_class_init (EMailPrinterClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (EMailPrinterPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);

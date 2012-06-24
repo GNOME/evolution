@@ -129,8 +129,6 @@ static void gnome_canvas_text_apply_attributes (GnomeCanvasText *textitem);
 static void add_attr (PangoAttrList  *attr_list,
 		      PangoAttribute *attr);
 
-static GnomeCanvasItemClass *parent_class;
-
 G_DEFINE_TYPE (
 	GnomeCanvasText,
 	gnome_canvas_text,
@@ -145,8 +143,6 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 
 	gobject_class = (GObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	gobject_class->set_property = gnome_canvas_text_set_property;
 	gobject_class->get_property = gnome_canvas_text_get_property;
@@ -512,8 +508,8 @@ gnome_canvas_text_dispose (GnomeCanvasItem *object)
 		text->attr_list = NULL;
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->dispose)
-		GNOME_CANVAS_ITEM_CLASS (parent_class)->dispose (object);
+	GNOME_CANVAS_ITEM_CLASS (gnome_canvas_text_parent_class)->
+		dispose (object);
 }
 
 static void
@@ -1169,8 +1165,8 @@ gnome_canvas_text_update (GnomeCanvasItem *item,
 
 	text = GNOME_CANVAS_TEXT (item);
 
-	if (parent_class->update)
-		(* parent_class->update) (item, matrix, flags);
+	GNOME_CANVAS_ITEM_CLASS (gnome_canvas_text_parent_class)->
+		update (item, matrix, flags);
 
 	get_bounds (text, &x1, &y1, &x2, &y2);
 

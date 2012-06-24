@@ -45,8 +45,6 @@ static void e_minicard_view_drag_data_get (GtkWidget *widget,
 					  guint time,
 					  EMinicardView *view);
 
-static EReflowClass *parent_class = NULL;
-
 /* The arguments we take */
 enum {
 	PROP_0,
@@ -374,7 +372,7 @@ e_minicard_view_dispose (GObject *object)
 	view->adapter = NULL;
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_minicard_view_parent_class)->dispose (object);
 }
 
 static guint
@@ -421,10 +419,8 @@ e_minicard_view_event (GnomeCanvasItem *item,
 		break;
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->event)
-		return GNOME_CANVAS_ITEM_CLASS (parent_class)->event (item, event);
-	else
-		return FALSE;
+	return GNOME_CANVAS_ITEM_CLASS (e_minicard_view_parent_class)->
+		event (item, event);
 }
 
 static gint
@@ -436,9 +432,8 @@ e_minicard_view_selection_event (EReflow *reflow,
 	gint return_val = FALSE;
 
 	view = E_MINICARD_VIEW (reflow);
-	if (parent_class->selection_event) {
-		return_val = parent_class->selection_event (reflow, item, event);
-	}
+	return_val = E_REFLOW_CLASS (e_minicard_view_parent_class)->
+		selection_event (reflow, item, event);
 
 	switch (event->type) {
 	case GDK_FOCUS_CHANGE:
@@ -475,8 +470,6 @@ e_minicard_view_class_init (EMinicardViewClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	item_class = (GnomeCanvasItemClass *) class;
 	reflow_class = (EReflowClass *) class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class->set_property    = e_minicard_view_set_property;
 	object_class->get_property    = e_minicard_view_get_property;

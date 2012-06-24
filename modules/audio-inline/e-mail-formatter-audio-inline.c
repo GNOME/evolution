@@ -340,8 +340,6 @@ e_mail_formatter_audio_inline_class_init (EMailFormatterAudioInlineClass *klass)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	e_mail_formatter_audio_inline_parent_class = g_type_class_peek_parent (klass);
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->constructed = e_mail_formatter_audio_inline_constructed;
 

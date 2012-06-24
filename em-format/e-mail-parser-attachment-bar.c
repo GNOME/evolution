@@ -98,7 +98,6 @@ empe_attachment_bar_mime_types (EMailExtension *extension)
 static void
 e_mail_parser_attachment_bar_class_init (EMailParserAttachmentBarClass *klass)
 {
-	e_mail_parser_attachment_bar_parent_class = g_type_class_peek_parent (klass);
 }
 
 static void

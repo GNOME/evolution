@@ -33,8 +33,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CONTACT_LIST_MODEL, EContactListModelPrivate))
 
-static gpointer parent_class;
-
 G_DEFINE_TYPE (EContactListModel, e_contact_list_model, GTK_TYPE_TREE_STORE);
 
 struct _EContactListModelPrivate {
@@ -71,8 +69,8 @@ contact_list_model_constructor (GType type,
 	types[0] = E_TYPE_DESTINATION;
 
 	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (parent_class)->constructor (
-		type, n_construct_properties, construct_properties);
+	object = G_OBJECT_CLASS (e_contact_list_model_parent_class)->
+		constructor (type, n_construct_properties, construct_properties);
 
 	gtk_tree_store_set_column_types (
 		GTK_TREE_STORE (object), G_N_ELEMENTS (types), types);
@@ -104,8 +102,6 @@ e_contact_list_model_class_init (EContactListModelClass *class)
 	GObjectClass *object_class;
 
 	g_type_class_add_private (class, sizeof (EContactListModelPrivate));
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructor = contact_list_model_constructor;

@@ -449,8 +449,6 @@ e_mail_parser_prefer_plain_class_init (EMailParserPreferPlainClass *klass)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	e_mail_parser_prefer_plain_parent_class = g_type_class_peek_parent (klass);
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->constructed = e_mail_parser_prefer_plain_constructed;
 	object_class->get_property = e_mail_parser_prefer_plain_get_property;

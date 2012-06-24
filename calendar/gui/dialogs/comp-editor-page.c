@@ -51,7 +51,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint comp_editor_page_signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (CompEditorPage, comp_editor_page, G_TYPE_OBJECT)
@@ -119,7 +118,7 @@ comp_editor_page_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (comp_editor_page_parent_class)->dispose (object);
 }
 
 static void
@@ -127,7 +126,6 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (CompEditorPagePrivate));
 
 	object_class = G_OBJECT_CLASS (class);

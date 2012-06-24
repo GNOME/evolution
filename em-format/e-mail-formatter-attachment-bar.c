@@ -129,7 +129,6 @@ emfe_attachment_bar_mime_types (EMailExtension *extension)
 static void
 e_mail_formatter_attachment_bar_class_init (EMailFormatterAttachmentBarClass *klass)
 {
-	e_mail_formatter_attachment_bar_parent_class = g_type_class_peek_parent (klass);
 }
 
 static void

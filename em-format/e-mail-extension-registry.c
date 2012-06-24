@@ -36,8 +36,6 @@ struct _EMailExtensionRegistryPrivate {
 	GHashTable *table;
 };
 
-static gconstpointer parent_class = 0;
-
 G_DEFINE_ABSTRACT_TYPE (
 	EMailExtensionRegistry,
 	e_mail_extension_registry,
@@ -65,8 +63,9 @@ mail_extension_registry_finalize (GObject *object)
 		reg->priv->table = NULL;
 	}
 
-	/* Chain up to parent's finalize() */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_mail_extension_registry_parent_class)->
+		finalize (object);
 }
 
 void
@@ -248,13 +247,11 @@ G_DEFINE_TYPE_WITH_CODE (
 static void
 e_mail_parser_extension_registry_init (EMailParserExtensionRegistry *parser_ereg)
 {
-
 }
 
 static void
 e_mail_parser_extension_registry_class_init (EMailParserExtensionRegistryClass *klass)
 {
-	e_mail_parser_extension_registry_parent_class = g_type_class_peek_parent (klass);
 }
 
 static void
@@ -284,7 +281,6 @@ e_mail_formatter_extension_registry_init (EMailFormatterExtensionRegistry *forma
 static void
 e_mail_formatter_extension_registry_class_init (EMailFormatterExtensionRegistryClass *klass)
 {
-	e_mail_formatter_extension_registry_parent_class = g_type_class_peek_parent (klass);
 }
 
 static void

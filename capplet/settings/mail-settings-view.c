@@ -56,24 +56,12 @@ static void
 mail_settings_view_init (MailSettingsView *shell)
 {
 	shell->priv = g_new0 (MailSettingsViewPrivate, 1);
-
-}
-
-static void
-mail_settings_view_finalize (GObject *object)
-{
-	/* MailSettingsView *shell = (MailSettingsView *)object; */
-
-	G_OBJECT_CLASS (mail_settings_view_parent_class)->finalize (object);
 }
 
 static void
 mail_settings_view_class_init (MailSettingsViewClass *class)
 {
 	GObjectClass * object_class = G_OBJECT_CLASS (class);
-
-	mail_settings_view_parent_class = g_type_class_peek_parent (class);
-	object_class->finalize = mail_settings_view_finalize;
 
 	signals[VIEW_CLOSE] =
 		g_signal_new ("view-close",

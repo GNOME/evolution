@@ -46,8 +46,6 @@ G_DEFINE_TYPE (
 #define TEXT_IS_RIGHT_TO_LEFT \
         (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 
-static gpointer parent_class = NULL;
-
 enum {
 	PROP_0,
         PROP_DISPLAY_MODE,
@@ -1110,7 +1108,7 @@ eab_contact_formatter_finalize (GObject *object)
 		formatter->priv->contact = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (eab_contact_formatter_parent_class)->finalize (object);
 }
 
 static void
@@ -1118,7 +1116,6 @@ eab_contact_formatter_class_init (EABContactFormatterClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (EABContactFormatterClass));
 
 	object_class = G_OBJECT_CLASS (klass);

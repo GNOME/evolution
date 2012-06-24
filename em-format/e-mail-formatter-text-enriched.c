@@ -130,7 +130,6 @@ emfe_text_enriched_mime_types (EMailExtension *extension)
 static void
 e_mail_formatter_text_enriched_class_init (EMailFormatterTextEnrichedClass *klass)
 {
-	e_mail_formatter_text_enriched_parent_class = g_type_class_peek_parent (klass);
 }
 
 static void

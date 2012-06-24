@@ -83,7 +83,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (EAddressbookModel, e_addressbook_model, G_TYPE_OBJECT)
@@ -575,7 +574,7 @@ addressbook_model_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_addressbook_model_parent_class)->dispose (object);
 }
 
 static void
@@ -588,7 +587,7 @@ addressbook_model_finalize (GObject *object)
 	g_ptr_array_free (priv->contacts, TRUE);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_addressbook_model_parent_class)->finalize (object);
 }
 
 static void
@@ -596,7 +595,6 @@ e_addressbook_model_class_init (EAddressbookModelClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAddressbookModelPrivate));
 
 	object_class = G_OBJECT_CLASS (class);

@@ -117,7 +117,6 @@ mail_capplet_shell_class_init (MailCappletShellClass *class)
 	GObjectClass * object_class = G_OBJECT_CLASS (class);
 	GtkBindingSet *binding_set;
 
-	mail_capplet_shell_parent_class = g_type_class_peek_parent (class);
 	object_class->finalize = mail_capplet_shell_finalize;
 	class->ctrl_w_pressed = ms_ctrl_w_pressed;
 	class->ctrl_q_pressed = ms_ctrl_q_pressed;

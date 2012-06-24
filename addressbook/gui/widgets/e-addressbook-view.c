@@ -125,7 +125,6 @@ static GtkTargetEntry drag_types[] = {
 	{ (gchar *) "text/x-vcard", 0, DND_TARGET_TYPE_VCARD }
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 /* Forward Declarations */
@@ -566,7 +565,7 @@ addressbook_view_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_addressbook_view_parent_class)->dispose (object);
 }
 
 static void
@@ -603,7 +602,7 @@ addressbook_view_constructed (GObject *object)
 	 * view in GalViewInstance::loaded signal handlers. */
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_addressbook_view_parent_class)->constructed (object);
 }
 
 static void
@@ -765,7 +764,6 @@ e_addressbook_view_class_init (EAddressbookViewClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAddressbookViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);

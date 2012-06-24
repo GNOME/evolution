@@ -32,8 +32,6 @@
 
 #include "gal-view-minicard.h"
 
-static gpointer parent_class;
-
 G_DEFINE_TYPE (
 	GalViewMinicard,
 	gal_view_minicard,
@@ -69,7 +67,7 @@ view_minicard_finalize (GObject *object)
 	}
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (gal_view_minicard_parent_class)->finalize (object);
 }
 
 static void
@@ -160,8 +158,6 @@ gal_view_minicard_class_init (GalViewMinicardClass *class)
 {
 	GObjectClass *object_class;
 	GalViewClass *gal_view_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = view_minicard_finalize;

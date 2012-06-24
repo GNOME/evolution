@@ -83,8 +83,6 @@ enum {
 	PROP_HEADERS_COLLAPSED,
 };
 
-static gpointer parent_class;
-
 static CamelDataCache *emd_global_http_cache = 0;
 
 static const gchar *ui =
@@ -174,7 +172,8 @@ mail_display_update_actions (EWebView *web_view,
 	GtkAction *action;
 
 	/* Chain up first! */
-	E_WEB_VIEW_CLASS (parent_class)->update_actions (web_view, event);
+	E_WEB_VIEW_CLASS (e_mail_display_parent_class)->
+		update_actions (web_view, event);
 
 	hit_test = webkit_web_view_get_hit_test_result (
 			WEBKIT_WEB_VIEW (web_view), event);
@@ -318,14 +317,14 @@ mail_display_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_mail_display_parent_class)->dispose (object);
 }
 
 static void
 mail_display_realize (GtkWidget *widget)
 {
 	/* Chain up to parent's realize() method. */
-	GTK_WIDGET_CLASS (parent_class)->realize (widget);
+	GTK_WIDGET_CLASS (e_mail_display_parent_class)->realize (widget);
 
 	mail_display_update_formatter_colors (E_MAIL_DISPLAY (widget));
 }
@@ -339,7 +338,8 @@ mail_display_style_set (GtkWidget *widget,
 	mail_display_update_formatter_colors (display);
 
 	/* Chain up to parent's style_set() method. */
-	GTK_WIDGET_CLASS (parent_class)->style_set (widget, previous_style);
+	GTK_WIDGET_CLASS (e_mail_display_parent_class)->
+		style_set (widget, previous_style);
 }
 
 static gboolean
@@ -1355,7 +1355,6 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	EWebViewClass *web_view_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailDisplayPrivate));
 
 	object_class = G_OBJECT_CLASS (class);

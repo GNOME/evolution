@@ -87,7 +87,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (EMFolderTreeModel, em_folder_tree_model, GTK_TYPE_TREE_STORE)
@@ -306,7 +305,7 @@ folder_tree_model_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (em_folder_tree_model_parent_class)->dispose (object);
 }
 
 static void
@@ -319,7 +318,7 @@ folder_tree_model_finalize (GObject *object)
 	g_hash_table_destroy (priv->store_index);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (em_folder_tree_model_parent_class)->finalize (object);
 }
 
 static void
@@ -351,7 +350,8 @@ folder_tree_model_constructed (GObject *object)
 		GTK_SORT_ASCENDING);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (em_folder_tree_model_parent_class)->
+		constructed (object);
 }
 
 static void
@@ -359,7 +359,6 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMFolderTreeModelPrivate));
 
 	object_class = G_OBJECT_CLASS (class);

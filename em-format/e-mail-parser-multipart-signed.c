@@ -230,7 +230,6 @@ empe_mp_signed_mime_types (EMailExtension *extension)
 static void
 e_mail_parser_multipart_signed_class_init (EMailParserMultipartSignedClass *klass)
 {
-	e_mail_parser_multipart_signed_parent_class = g_type_class_peek_parent (klass);
 }
 
 static void

@@ -105,7 +105,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 static const gchar *ui =
@@ -811,7 +810,7 @@ web_view_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_web_view_parent_class)->dispose (object);
 }
 
 static void
@@ -828,7 +827,7 @@ web_view_finalize (GObject *object)
 	g_free (priv->selected_uri);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_web_view_parent_class)->finalize (object);
 }
 
 static void
@@ -853,7 +852,7 @@ web_view_constructed (GObject *object)
 #endif
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_web_view_parent_class)->constructed (object);
 }
 
 static gboolean
@@ -956,7 +955,7 @@ web_view_button_press_event (GtkWidget *widget,
 
 chainup:
 	/* Chain up to parent's button_press_event() method. */
-	widget_class = GTK_WIDGET_CLASS (parent_class);
+	widget_class = GTK_WIDGET_CLASS (e_web_view_parent_class);
 	return widget_class->button_press_event (widget, event);
 }
 
@@ -1459,7 +1458,6 @@ e_web_view_class_init (EWebViewClass *class)
 	GtkHTMLClass *html_class;
 #endif
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EWebViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);

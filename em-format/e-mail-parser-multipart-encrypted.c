@@ -198,7 +198,6 @@ empe_mp_encrypted_mime_types (EMailExtension *extension)
 static void
 e_mail_parser_multipart_encrypted_class_init (EMailParserMultipartEncryptedClass *klass)
 {
-	e_mail_parser_multipart_encrypted_parent_class = g_type_class_peek_parent (klass);
 }
 
 static void

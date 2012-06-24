@@ -32,8 +32,6 @@ static const gchar * ea_ab_view_get_description (AtkObject *accessible);
 
 static void ea_ab_view_class_init (EAddressbookViewClass *class);
 
-static gpointer parent_class = NULL;
-
 GType
 ea_ab_view_get_type (void)
 {
@@ -79,8 +77,6 @@ static void
 ea_ab_view_class_init (EAddressbookViewClass *class)
 {
 	AtkObjectClass *atk_object_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	atk_object_class = ATK_OBJECT_CLASS (class);
 	atk_object_class->get_name = ea_ab_view_get_name;

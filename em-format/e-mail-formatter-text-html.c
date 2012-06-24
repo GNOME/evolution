@@ -352,7 +352,6 @@ emfe_text_html_mime_types (EMailExtension *extension)
 static void
 e_mail_formatter_text_html_class_init (EMailFormatterTextHTMLClass *klass)
 {
-	e_mail_formatter_text_html_parent_class = g_type_class_peek_parent (klass);
 }
 
 static void

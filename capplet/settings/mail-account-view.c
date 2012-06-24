@@ -104,7 +104,6 @@ mail_account_view_class_init (MailAccountViewClass *class)
 {
 	GObjectClass * object_class = G_OBJECT_CLASS (class);
 
-	mail_account_view_parent_class = g_type_class_peek_parent (class);
 	object_class->finalize = mail_account_view_finalize;
 
 	signals[VIEW_CLOSE] =

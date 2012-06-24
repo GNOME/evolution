@@ -131,8 +131,6 @@ static gint  emit_event                       (GnomeCanvas *canvas, GdkEvent *ev
 
 static guint item_signals[ITEM_LAST_SIGNAL];
 
-static GObjectClass *item_parent_class;
-
 G_DEFINE_TYPE (
 	GnomeCanvasItem,
 	gnome_canvas_item,
@@ -336,10 +334,22 @@ gnome_canvas_item_dispose (GObject *object)
 	if (GNOME_CANVAS_ITEM_GET_CLASS (item)->dispose)
 		GNOME_CANVAS_ITEM_GET_CLASS (item)->dispose (item);
 
-	G_OBJECT_CLASS (item_parent_class)->dispose (object);
+	G_OBJECT_CLASS (gnome_canvas_item_parent_class)->dispose (object);
 	/* items should remove any reference to item->canvas after the
 	 * first ::dispose */
 	item->canvas = NULL;
+}
+
+/* Update handler for canvas items */
+static void
+gnome_canvas_item_update (GnomeCanvasItem *item,
+                          const cairo_matrix_t *matrix,
+                          gint flags)
+{
+	item->flags &= ~GNOME_CANVAS_ITEM_NEED_UPDATE;
+	item->flags &= ~GNOME_CANVAS_ITEM_NEED_AFFINE;
+	item->flags &= ~GNOME_CANVAS_ITEM_NEED_CLIP;
+	item->flags &= ~GNOME_CANVAS_ITEM_NEED_VIS;
 }
 
 /* Realize handler for canvas items */
@@ -372,16 +382,11 @@ gnome_canvas_item_unmap (GnomeCanvasItem *item)
 	item->flags &= ~GNOME_CANVAS_ITEM_MAPPED;
 }
 
-/* Update handler for canvas items */
+/* Dispose handler for canvas items */
 static void
-gnome_canvas_item_update (GnomeCanvasItem *item,
-                          const cairo_matrix_t *matrix,
-                          gint flags)
+gnome_canvas_item_dispose_item (GnomeCanvasItem *item)
 {
-	item->flags &= ~GNOME_CANVAS_ITEM_NEED_UPDATE;
-	item->flags &= ~GNOME_CANVAS_ITEM_NEED_AFFINE;
-	item->flags &= ~GNOME_CANVAS_ITEM_NEED_CLIP;
-	item->flags &= ~GNOME_CANVAS_ITEM_NEED_VIS;
+	/* Placeholder so subclasses can safely chain up. */
 }
 
 /*
@@ -1204,8 +1209,6 @@ static void   gnome_canvas_group_bounds      (GnomeCanvasItem *item,
 					      gdouble *x1, gdouble *y1,
 					      gdouble *x2, gdouble *y2);
 
-static GnomeCanvasItemClass *group_parent_class;
-
 G_DEFINE_TYPE (
 	GnomeCanvasGroup,
 	gnome_canvas_group,
@@ -1220,8 +1223,6 @@ gnome_canvas_group_class_init (GnomeCanvasGroupClass *class)
 
 	object_class = (GObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
-
-	group_parent_class = g_type_class_peek_parent (class);
 
 	object_class->set_property = gnome_canvas_group_set_property;
 	object_class->get_property = gnome_canvas_group_get_property;
@@ -1329,8 +1330,8 @@ gnome_canvas_group_dispose (GnomeCanvasItem *object)
 		g_object_run_dispose (G_OBJECT (group->item_list->data));
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS (group_parent_class)->dispose)
-		GNOME_CANVAS_ITEM_CLASS (group_parent_class)->dispose (object);
+	GNOME_CANVAS_ITEM_CLASS (gnome_canvas_group_parent_class)->
+		dispose (object);
 }
 
 /* Update handler for canvas groups */
@@ -1346,7 +1347,8 @@ gnome_canvas_group_update (GnomeCanvasItem *item,
 
 	group = GNOME_CANVAS_GROUP (item);
 
-	(* group_parent_class->update) (item, i2c, flags);
+	GNOME_CANVAS_ITEM_CLASS (gnome_canvas_group_parent_class)->
+		update (item, i2c, flags);
 
 	x1 = G_MAXDOUBLE;
 	y1 = G_MAXDOUBLE;
@@ -1390,7 +1392,8 @@ gnome_canvas_group_realize (GnomeCanvasItem *item)
 			(* GNOME_CANVAS_ITEM_GET_CLASS (i)->realize) (i);
 	}
 
-	(* group_parent_class->realize) (item);
+	GNOME_CANVAS_ITEM_CLASS (gnome_canvas_group_parent_class)->
+		realize (item);
 }
 
 /* Unrealize handler for canvas groups */
@@ -1410,7 +1413,8 @@ gnome_canvas_group_unrealize (GnomeCanvasItem *item)
 			(* GNOME_CANVAS_ITEM_GET_CLASS (i)->unrealize) (i);
 	}
 
-	(* group_parent_class->unrealize) (item);
+	GNOME_CANVAS_ITEM_CLASS (gnome_canvas_group_parent_class)->
+		unrealize (item);
 }
 
 /* Map handler for canvas groups */
@@ -1430,7 +1434,7 @@ gnome_canvas_group_map (GnomeCanvasItem *item)
 			(* GNOME_CANVAS_ITEM_GET_CLASS (i)->map) (i);
 	}
 
-	(* group_parent_class->map) (item);
+	GNOME_CANVAS_ITEM_CLASS (gnome_canvas_group_parent_class)->map (item);
 }
 
 /* Unmap handler for canvas groups */
@@ -1450,7 +1454,7 @@ gnome_canvas_group_unmap (GnomeCanvasItem *item)
 			(* GNOME_CANVAS_ITEM_GET_CLASS (i)->unmap) (i);
 	}
 
-	(* group_parent_class->unmap) (item);
+	GNOME_CANVAS_ITEM_CLASS (gnome_canvas_group_parent_class)->unmap (item);
 }
 
 /* Draw handler for canvas groups */
@@ -1683,8 +1687,6 @@ static void gnome_canvas_draw_background     (GnomeCanvas      *canvas,
 					      gint              width,
 					      gint              height);
 
-static GtkLayoutClass *canvas_parent_class;
-
 static guint canvas_signals[LAST_SIGNAL];
 
 enum {
@@ -1803,8 +1805,6 @@ gnome_canvas_class_init (GnomeCanvasClass *class)
 
 	object_class = (GObjectClass *) class;
 	widget_class  = (GtkWidgetClass *) class;
-
-	canvas_parent_class = g_type_class_peek_parent (class);
 
 	object_class->set_property = gnome_canvas_set_property;
 	object_class->get_property = gnome_canvas_get_property;
@@ -1941,7 +1941,7 @@ gnome_canvas_dispose (GObject *object)
 	shutdown_transients (canvas);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (canvas_parent_class)->dispose (object);
+	G_OBJECT_CLASS (gnome_canvas_parent_class)->dispose (object);
 }
 
 /**
@@ -1967,8 +1967,7 @@ gnome_canvas_map (GtkWidget *widget)
 
 	/* Normal widget mapping stuff */
 
-	if (GTK_WIDGET_CLASS (canvas_parent_class)->map)
-		(* GTK_WIDGET_CLASS (canvas_parent_class)->map) (widget);
+	GTK_WIDGET_CLASS (gnome_canvas_parent_class)->map (widget);
 
 	canvas = GNOME_CANVAS (widget);
 
@@ -2000,8 +1999,7 @@ gnome_canvas_unmap (GtkWidget *widget)
 
 	/* Normal widget unmapping stuff */
 
-	if (GTK_WIDGET_CLASS (canvas_parent_class)->unmap)
-		(* GTK_WIDGET_CLASS (canvas_parent_class)->unmap) (widget);
+	GTK_WIDGET_CLASS (gnome_canvas_parent_class)->unmap (widget);
 }
 
 /* Realize handler for the canvas */
@@ -2016,8 +2014,7 @@ gnome_canvas_realize (GtkWidget *widget)
 
 	/* Normal widget realization stuff */
 
-	if (GTK_WIDGET_CLASS (canvas_parent_class)->realize)
-		(* GTK_WIDGET_CLASS (canvas_parent_class)->realize) (widget);
+	GTK_WIDGET_CLASS (gnome_canvas_parent_class)->realize (widget);
 
 	canvas = GNOME_CANVAS (widget);
 
@@ -2058,8 +2055,7 @@ gnome_canvas_unrealize (GtkWidget *widget)
 
 	(* GNOME_CANVAS_ITEM_GET_CLASS (canvas->root)->unrealize) (canvas->root);
 
-	if (GTK_WIDGET_CLASS (canvas_parent_class)->unrealize)
-		(* GTK_WIDGET_CLASS (canvas_parent_class)->unrealize) (widget);
+	GTK_WIDGET_CLASS (gnome_canvas_parent_class)->unrealize (widget);
 }
 
 /* Handles scrolling of the canvas.  Adjusts the scrolling and zooming offset to
@@ -2170,9 +2166,8 @@ gnome_canvas_size_allocate (GtkWidget *widget,
 	g_return_if_fail (GNOME_IS_CANVAS (widget));
 	g_return_if_fail (allocation != NULL);
 
-	if (GTK_WIDGET_CLASS (canvas_parent_class)->size_allocate)
-		GTK_WIDGET_CLASS (canvas_parent_class)->size_allocate (
-			widget, allocation);
+	GTK_WIDGET_CLASS (gnome_canvas_parent_class)->
+		size_allocate (widget, allocation);
 
 	scrollable = GTK_SCROLLABLE (widget);
 	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
@@ -2245,7 +2240,7 @@ gnome_canvas_draw (GtkWidget *widget,
 	cairo_restore (cr);
 
 	/* And call expose on parent container class */
-	GTK_WIDGET_CLASS (canvas_parent_class)->draw (widget, cr);
+	GTK_WIDGET_CLASS (gnome_canvas_parent_class)->draw (widget, cr);
 
 	return FALSE;
 }
@@ -2649,7 +2644,7 @@ gnome_canvas_key (GtkWidget *widget,
 	if (!emit_event (canvas, (GdkEvent *) event)) {
 		GtkWidgetClass *widget_class;
 
-		widget_class = GTK_WIDGET_CLASS (canvas_parent_class);
+		widget_class = GTK_WIDGET_CLASS (gnome_canvas_parent_class);
 
 		if (event->type == GDK_KEY_PRESS) {
 			if (widget_class->key_press_event)
@@ -3311,8 +3306,6 @@ gnome_canvas_item_class_init (GnomeCanvasItemClass *class)
 
 	gobject_class = (GObjectClass *) class;
 
-	item_parent_class = g_type_class_peek_parent (class);
-
 	gobject_class->set_property = gnome_canvas_item_set_property;
 	gobject_class->get_property = gnome_canvas_item_get_property;
 
@@ -3334,9 +3327,10 @@ gnome_canvas_item_class_init (GnomeCanvasItemClass *class)
 
 	gobject_class->dispose = gnome_canvas_item_dispose;
 
+	class->update = gnome_canvas_item_update;
 	class->realize = gnome_canvas_item_realize;
 	class->unrealize = gnome_canvas_item_unrealize;
 	class->map = gnome_canvas_item_map;
 	class->unmap = gnome_canvas_item_unmap;
-	class->update = gnome_canvas_item_update;
+	class->dispose = gnome_canvas_item_dispose_item;
 }

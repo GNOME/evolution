@@ -106,7 +106,6 @@ empe_text_enriched_mime_types (EMailExtension *extension)
 static void
 e_mail_parser_text_enriched_class_init (EMailParserTextEnrichedClass *klass)
 {
-	e_mail_parser_text_enriched_parent_class = g_type_class_peek_parent (klass);
 }
 
 static void

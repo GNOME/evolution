@@ -80,8 +80,6 @@ static void	gnome_canvas_widget_draw	(GnomeCanvasItem *item,
 						 gint width,
 						 gint height);
 
-static GnomeCanvasItemClass *parent_class;
-
 G_DEFINE_TYPE (
 	GnomeCanvasWidget,
 	gnome_canvas_widget,
@@ -95,8 +93,6 @@ gnome_canvas_widget_class_init (GnomeCanvasWidgetClass *class)
 
 	gobject_class = (GObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	gobject_class->set_property = gnome_canvas_widget_set_property;
 	gobject_class->get_property = gnome_canvas_widget_get_property;
@@ -185,8 +181,8 @@ gnome_canvas_widget_dispose (GnomeCanvasItem *object)
 		witem->widget = NULL;
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->dispose)
-		GNOME_CANVAS_ITEM_CLASS (parent_class)->dispose (object);
+	GNOME_CANVAS_ITEM_CLASS (gnome_canvas_widget_parent_class)->
+		dispose (object);
 }
 
 static void
@@ -365,8 +361,8 @@ gnome_canvas_widget_update (GnomeCanvasItem *item,
 
 	witem = GNOME_CANVAS_WIDGET (item);
 
-	if (parent_class->update)
-		(* parent_class->update) (item, matrix, flags);
+	GNOME_CANVAS_ITEM_CLASS (gnome_canvas_widget_parent_class)->
+		update (item, matrix, flags);
 
 	if (witem->widget) {
 		witem->cwidth = (gint) (witem->width + 0.5);

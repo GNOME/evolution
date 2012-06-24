@@ -53,7 +53,6 @@ enum {
 };
 
 static GSList *all_editors;
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_ABSTRACT_TYPE (EABEditor, eab_editor, G_TYPE_OBJECT)
@@ -140,7 +139,7 @@ eab_editor_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (eab_editor_parent_class)->dispose (object);
 }
 
 static void
@@ -149,7 +148,7 @@ eab_editor_finalize (GObject *object)
 	all_editors = g_slist_remove (all_editors, object);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (eab_editor_parent_class)->finalize (object);
 }
 
 static void
@@ -157,7 +156,6 @@ eab_editor_class_init (EABEditorClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EABEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);

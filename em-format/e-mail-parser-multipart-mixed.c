@@ -135,7 +135,6 @@ empe_mp_mixed_mime_types (EMailExtension *extension)
 static void
 e_mail_parser_multipart_mixed_class_init (EMailParserMultipartMixedClass *klass)
 {
-	e_mail_parser_multipart_mixed_parent_class = g_type_class_peek_parent (klass);
 }
 
 static void

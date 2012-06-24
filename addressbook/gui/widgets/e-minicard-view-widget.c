@@ -55,8 +55,6 @@ static gboolean	e_minicard_view_widget_real_focus_in_event
 						(GtkWidget *widget,
 						 GdkEventFocus *event);
 
-static gpointer parent_class;
-
 /* The arguments we take */
 enum {
 	PROP_0,
@@ -88,8 +86,6 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	ECanvasClass *canvas_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = e_minicard_view_widget_set_property;
@@ -308,7 +304,7 @@ e_minicard_view_widget_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_minicard_view_widget_parent_class)->dispose (object);
 }
 
 static void
@@ -374,8 +370,8 @@ e_minicard_view_widget_style_set (GtkWidget *widget,
 			view->background, "fill_color_gdk",
 			&style->base[GTK_STATE_NORMAL], NULL);
 
-	if (GTK_WIDGET_CLASS (parent_class)->style_set)
-		GTK_WIDGET_CLASS (parent_class)->style_set (widget, previous_style);
+	GTK_WIDGET_CLASS (e_minicard_view_widget_parent_class)->
+		style_set (widget, previous_style);
 }
 
 static void
@@ -420,16 +416,16 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 		view->emv, "right_click",
 		G_CALLBACK (right_click), view);
 
-	if (GTK_WIDGET_CLASS (parent_class)->realize)
-		GTK_WIDGET_CLASS (parent_class)->realize (widget);
+	GTK_WIDGET_CLASS (e_minicard_view_widget_parent_class)->
+		realize (widget);
 }
 
 static void
 e_minicard_view_widget_size_allocate (GtkWidget *widget,
                                       GtkAllocation *allocation)
 {
-	if (GTK_WIDGET_CLASS (parent_class)->size_allocate)
-		GTK_WIDGET_CLASS (parent_class)->size_allocate (widget, allocation);
+	GTK_WIDGET_CLASS (e_minicard_view_widget_parent_class)->
+		size_allocate (widget, allocation);
 
 	if (gtk_widget_get_realized (widget)) {
 		gdouble width;
@@ -456,8 +452,7 @@ e_minicard_view_widget_reflow (ECanvas *canvas)
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET (canvas);
 	GtkAllocation allocation;
 
-	if (E_CANVAS_CLASS (parent_class)->reflow)
-		E_CANVAS_CLASS (parent_class)->reflow (canvas);
+	E_CANVAS_CLASS (e_minicard_view_widget_parent_class)->reflow (canvas);
 
 	g_object_get (view->emv, "width", &width, NULL);
 	gtk_widget_get_allocation (GTK_WIDGET (canvas), &allocation);
@@ -506,9 +501,7 @@ e_minicard_view_widget_real_focus_in_event (GtkWidget *widget,
 		}
 	}
 
-	if (GTK_WIDGET_CLASS (parent_class)->focus_in_event)
-		return GTK_WIDGET_CLASS (parent_class)->focus_in_event (widget, event);
-
-	return FALSE;
+	return GTK_WIDGET_CLASS (e_minicard_view_widget_parent_class)->
+		focus_in_event (widget, event);
 }
 

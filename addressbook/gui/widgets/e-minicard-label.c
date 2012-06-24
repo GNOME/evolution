@@ -39,15 +39,12 @@ static void e_minicard_label_set_property  (GObject *object, guint property_id, 
 static void e_minicard_label_get_property  (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 static gboolean e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_minicard_label_realize (GnomeCanvasItem *item);
-static void e_minicard_label_unrealize (GnomeCanvasItem *item);
 static void e_minicard_label_reflow (GnomeCanvasItem *item, gint flags);
 static void e_minicard_label_style_set (EMinicardLabel *label, GtkStyle *previous_style);
 
 static void e_minicard_label_resize_children ( EMinicardLabel *e_minicard_label );
 
 static void set_colors (EMinicardLabel *label);
-
-static GnomeCanvasGroupClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
@@ -84,8 +81,6 @@ e_minicard_label_class_init (EMinicardLabelClass *class)
 	item_class = (GnomeCanvasItemClass *) class;
 
 	class->style_set = e_minicard_label_style_set;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class->set_property = e_minicard_label_set_property;
 	object_class->get_property = e_minicard_label_get_property;
@@ -159,7 +154,6 @@ e_minicard_label_class_init (EMinicardLabelClass *class)
 
 	/* GnomeCanvasItem method overrides */
 	item_class->realize     = e_minicard_label_realize;
-	item_class->unrealize   = e_minicard_label_unrealize;
 	item_class->event       = e_minicard_label_event;
 }
 
@@ -274,8 +268,7 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 	e_minicard_label = E_MINICARD_LABEL (item);
 	group = GNOME_CANVAS_GROUP ( item );
 
-	if (GNOME_CANVAS_ITEM_CLASS ( parent_class )->realize)
-		(* GNOME_CANVAS_ITEM_CLASS ( parent_class )->realize) (item);
+	GNOME_CANVAS_ITEM_CLASS (e_minicard_label_parent_class)->realize (item);
 
 	e_canvas_item_request_reflow (item);
 
@@ -314,13 +307,6 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 	set_colors (e_minicard_label);
 
 	e_canvas_item_request_reflow (item);
-}
-
-static void
-e_minicard_label_unrealize (GnomeCanvasItem *item)
-{
-	if (GNOME_CANVAS_ITEM_CLASS ( parent_class )->unrealize)
-		(* GNOME_CANVAS_ITEM_CLASS ( parent_class )->unrealize) (item);
 }
 
 static gboolean
@@ -367,10 +353,8 @@ e_minicard_label_event (GnomeCanvasItem *item,
 		break;
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS ( parent_class )->event)
-		return (* GNOME_CANVAS_ITEM_CLASS ( parent_class )->event) (item, event);
-	else
-		return 0;
+	return GNOME_CANVAS_ITEM_CLASS (e_minicard_label_parent_class)->
+		event (item, event);
 }
 
 static void

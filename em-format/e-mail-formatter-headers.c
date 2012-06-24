@@ -587,7 +587,6 @@ emfe_headers_mime_types (EMailExtension *extension)
 static void
 e_mail_formatter_headers_class_init (EMailFormatterHeadersClass *klass)
 {
-	e_mail_formatter_headers_parent_class = g_type_class_peek_parent (klass);
 }
 
 static void

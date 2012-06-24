@@ -85,7 +85,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 /* The icons to represent the task. */
@@ -332,7 +331,7 @@ memo_table_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_memo_table_parent_class)->dispose (object);
 }
 
 static void
@@ -434,7 +433,7 @@ memo_table_constructed (GObject *object)
 		atk_object_set_name (a11y, _("Memos"));
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_memo_table_parent_class)->constructed (object);
 }
 
 static gboolean
@@ -1079,7 +1078,6 @@ e_memo_table_class_init (EMemoTableClass *class)
 	GtkWidgetClass *widget_class;
 	ETableClass *table_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMemoTablePrivate));
 
 	object_class = G_OBJECT_CLASS (class);

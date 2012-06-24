@@ -590,6 +590,12 @@ canvas_focus_out_event (GtkWidget *widget,
 }
 
 static void
+canvas_reflow (ECanvas *canvas)
+{
+	/* Placeholder so subclasses can safely chain up. */
+}
+
+static void
 e_canvas_class_init (ECanvasClass *class)
 {
 	GObjectClass *object_class;
@@ -608,6 +614,8 @@ e_canvas_class_init (ECanvasClass *class)
 	widget_class->key_release_event = canvas_key_event;
 	widget_class->focus_in_event = canvas_focus_in_event;
 	widget_class->focus_out_event = canvas_focus_out_event;
+
+	class->reflow = canvas_reflow;
 
 	signals[REFLOW] = g_signal_new (
 		"reflow",

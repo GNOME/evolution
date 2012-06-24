@@ -120,7 +120,6 @@ empe_headers_mime_types (EMailExtension *extension)
 static void
 e_mail_parser_headers_class_init (EMailParserHeadersClass *klass)
 {
-	e_mail_parser_headers_parent_class = g_type_class_peek_parent (klass);
 }
 
 static void

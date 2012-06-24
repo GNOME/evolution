@@ -298,8 +298,6 @@ e_mail_parser_tnef_attachment_class_init (EMailParserTnefAttachmentClass *klass)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	e_mail_parser_tnef_attachment_parent_class = g_type_class_peek_parent (klass);
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->constructed = e_mail_parser_tnef_attachment_constructed;
 

@@ -294,8 +294,6 @@ e_mail_parser_itip_class_init (EMailParserItipClass *klass)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	e_mail_parser_itip_parent_class = g_type_class_peek_parent (klass);
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->constructed = e_mail_parser_itip_constructed;
 	object_class->finalize = e_mail_parser_itip_finalize;

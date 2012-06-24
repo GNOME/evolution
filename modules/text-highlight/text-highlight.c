@@ -61,8 +61,6 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
 
-static gpointer emfe_parent_class = 0;
-
 static const gchar *formatter_mime_types[] = { "text/x-diff",
 					       "text/x-patch",
 					       NULL };
@@ -278,8 +276,6 @@ e_mail_formatter_text_highlight_class_init (EMailFormatterTextHighlightClass *kl
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
-
-	emfe_parent_class = g_type_class_peek_parent (klass);
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->constructed = emfe_text_highlight_constructed;

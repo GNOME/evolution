@@ -81,7 +81,6 @@ static const gchar *ui =
 "  </popup>"
 "</ui>";
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (
@@ -276,7 +275,7 @@ contact_display_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (eab_contact_display_parent_class)->dispose (object);
 }
 
 static void
@@ -312,7 +311,7 @@ contact_display_hovering_over_link (EWebView *web_view,
 
 chainup:
 	/* Chain up to parent's hovering_over_link() method. */
-	web_view_class = E_WEB_VIEW_CLASS (parent_class);
+	web_view_class = E_WEB_VIEW_CLASS (eab_contact_display_parent_class);
 	web_view_class->hovering_over_link (web_view, title, uri);
 }
 
@@ -335,7 +334,8 @@ contact_display_link_clicked (EWebView *web_view,
 	}
 
 	/* Chain up to parent's link_clicked() method. */
-	E_WEB_VIEW_CLASS (parent_class)->link_clicked (web_view, uri);
+	E_WEB_VIEW_CLASS (eab_contact_display_parent_class)->
+		link_clicked (web_view, uri);
 }
 
 #ifdef WITH_CONTACT_MAPS
@@ -428,7 +428,8 @@ contact_display_update_actions (EWebView *web_view,
 	const gchar *uri;
 
 	/* Chain up to parent's update_actions() method. */
-	E_WEB_VIEW_CLASS (parent_class)->update_actions (web_view, event);
+	E_WEB_VIEW_CLASS (eab_contact_display_parent_class)->
+		update_actions (web_view, event);
 
 	uri = e_web_view_get_selected_uri (web_view);
 
@@ -454,7 +455,6 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 	GObjectClass *object_class;
 	EWebViewClass *web_view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EABContactDisplayPrivate));
 
 	object_class = G_OBJECT_CLASS (class);

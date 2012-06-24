@@ -77,8 +77,6 @@ e_table_sort_info_class_init (ETableSortInfoClass *class)
 {
 	GObjectClass * object_class = G_OBJECT_CLASS (class);
 
-	e_table_sort_info_parent_class = g_type_class_peek_parent (class);
-
 	object_class->finalize = etsi_finalize;
 
 	e_table_sort_info_signals[SORT_INFO_CHANGED] =

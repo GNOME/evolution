@@ -46,7 +46,6 @@ static void e_minicard_dispose (GObject *object);
 static void e_minicard_finalize (GObject *object);
 static gboolean e_minicard_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_minicard_realize (GnomeCanvasItem *item);
-static void e_minicard_unrealize (GnomeCanvasItem *item);
 static void e_minicard_reflow ( GnomeCanvasItem *item, gint flags );
 static void e_minicard_style_set (EMinicard *minicard, GtkStyle *previous_style);
 
@@ -54,8 +53,6 @@ static void e_minicard_resize_children ( EMinicard *e_minicard );
 static void remodel ( EMinicard *e_minicard );
 
 static gint e_minicard_drag_begin (EMinicard *minicard, GdkEvent *event);
-
-static gpointer parent_class;
 
 #define d(x)
 
@@ -109,8 +106,6 @@ e_minicard_class_init (EMinicardClass *class)
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	parent_class = g_type_class_peek_parent (class);
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = e_minicard_set_property;
 	object_class->get_property = e_minicard_get_property;
@@ -119,7 +114,6 @@ e_minicard_class_init (EMinicardClass *class)
 
 	item_class = GNOME_CANVAS_ITEM_CLASS (class);
 	item_class->realize = e_minicard_realize;
-	item_class->unrealize = e_minicard_unrealize;
 	item_class->event = e_minicard_event;
 
 	class->style_set = e_minicard_style_set;
@@ -421,7 +415,7 @@ e_minicard_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_minicard_parent_class)->dispose (object);
 }
 
 static void
@@ -445,7 +439,7 @@ e_minicard_finalize (GObject *object)
 	}
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_minicard_parent_class)->finalize (object);
 }
 
 static void
@@ -472,8 +466,7 @@ e_minicard_realize (GnomeCanvasItem *item)
 	canvas = GNOME_CANVAS_ITEM (item)->canvas;
 	style = gtk_widget_get_style (GTK_WIDGET (canvas));
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->realize)
-		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->realize) (item);
+	GNOME_CANVAS_ITEM_CLASS (e_minicard_parent_class)->realize (item);
 
 	e_minicard->rect =
 	  gnome_canvas_item_new ( group,
@@ -517,13 +510,6 @@ e_minicard_realize (GnomeCanvasItem *item)
 
 	remodel (e_minicard);
 	e_canvas_item_request_reflow (item);
-}
-
-static void
-e_minicard_unrealize (GnomeCanvasItem *item)
-{
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize)
-		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize) (item);
 }
 
 void
@@ -695,10 +681,7 @@ e_minicard_event (GnomeCanvasItem *item,
 		break;
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS ( parent_class )->event)
-		return (* GNOME_CANVAS_ITEM_CLASS ( parent_class )->event) (item, event);
-	else
-		return FALSE;
+	return FALSE;
 }
 
 static void

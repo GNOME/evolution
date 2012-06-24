@@ -276,8 +276,6 @@ e_table_header_class_init (ETableHeaderClass *class)
 	object_class->set_property = eth_set_property;
 	object_class->get_property = eth_get_property;
 
-	e_table_header_parent_class = g_type_class_peek_parent (object_class);
-
 	g_object_class_install_property (
 		object_class, PROP_WIDTH,
 		g_param_spec_double ("width", "Width", "Width",

@@ -76,8 +76,6 @@ enum {
 	PROP_DISPLAY_MODE,
 };
 
-static gpointer parent_class;
-
 /* This is too trivial to put in a file.
  * It gets merged with the EMailReader UI. */
 static const gchar *ui =
@@ -527,7 +525,7 @@ mail_browser_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_mail_browser_parent_class)->dispose (object);
 }
 
 static void
@@ -553,7 +551,7 @@ mail_browser_constructed (GObject *object)
 	guint merge_id;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_mail_browser_parent_class)->constructed (object);
 
 	browser = E_MAIL_BROWSER (object);
 	reader = E_MAIL_READER (object);
@@ -713,7 +711,7 @@ mail_browser_key_press_event (GtkWidget *widget,
 	}
 
 	/* Chain up to parent's key_press_event() method. */
-	return GTK_WIDGET_CLASS (parent_class)->
+	return GTK_WIDGET_CLASS (e_mail_browser_parent_class)->
 		key_press_event (widget, event);
 }
 
@@ -842,7 +840,6 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailBrowserPrivate));
 
 	object_class = G_OBJECT_CLASS (class);

@@ -53,8 +53,6 @@ static void       get_item_extents                          (GnomeCanvasItem   *
 static gboolean   is_item_in_window                         (GnomeCanvasItem   *item,
 							     const GdkRectangle *extents);
 
-static AtkGObjectAccessibleClass *parent_class = NULL;
-
 G_DEFINE_TYPE_WITH_CODE (GailCanvasItem,
 			 gail_canvas_item,
 			 ATK_TYPE_GOBJECT_ACCESSIBLE,
@@ -85,7 +83,7 @@ static void
 gail_canvas_item_initialize (AtkObject *obj,
                              gpointer data)
 {
-  ATK_OBJECT_CLASS (parent_class)->initialize (obj, data);
+  ATK_OBJECT_CLASS (gail_canvas_item_parent_class)->initialize (obj, data);
 
   g_object_set_data (G_OBJECT (obj), "atk-component-layer",
 		     GINT_TO_POINTER (ATK_LAYER_MDI));
@@ -95,8 +93,6 @@ static void
 gail_canvas_item_class_init (GailCanvasItemClass *klass)
 {
   AtkObjectClass *class = ATK_OBJECT_CLASS (klass);
-
-  parent_class = g_type_class_peek_parent (klass);
 
   class->get_parent = gail_canvas_item_get_parent;
   class->get_index_in_parent = gail_canvas_item_get_index_in_parent;
@@ -185,7 +181,7 @@ gail_canvas_item_ref_state_set (AtkObject *obj)
   g_return_val_if_fail (GAIL_IS_CANVAS_ITEM (obj), NULL);
   atk_gobj = ATK_GOBJECT_ACCESSIBLE (obj);
 
-  state_set = ATK_OBJECT_CLASS (parent_class)->ref_state_set (obj);
+  state_set = ATK_OBJECT_CLASS (gail_canvas_item_parent_class)->ref_state_set (obj);
 
   g_obj = atk_gobject_accessible_get_object (atk_gobj);
   if (g_obj == NULL)

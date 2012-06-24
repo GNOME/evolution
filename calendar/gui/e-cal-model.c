@@ -177,7 +177,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE_WITH_CODE (
@@ -409,7 +408,7 @@ cal_model_constructed (GObject *object)
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_cal_model_parent_class)->constructed (object);
 }
 
 static void
@@ -457,7 +456,7 @@ cal_model_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_cal_model_parent_class)->dispose (object);
 }
 
 static void
@@ -492,7 +491,7 @@ cal_model_finalize (GObject *object)
 	g_hash_table_destroy (priv->notify_removed);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_cal_model_parent_class)->finalize (object);
 }
 
 static void
@@ -501,7 +500,6 @@ e_cal_model_class_init (ECalModelClass *class)
 	GObjectClass *object_class;
 	ETableModelClass *etm_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalModelPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -3767,8 +3765,6 @@ copy_ecdv (ECellDateEditValue *ecdv)
 
 static void e_cal_model_component_finalize (GObject *object);
 
-static GObjectClass *component_parent_class;
-
 /* Class initialization function for the calendar component object */
 static void
 e_cal_model_component_class_init (ECalModelComponentClass *class)
@@ -3777,8 +3773,6 @@ e_cal_model_component_class_init (ECalModelComponentClass *class)
 
 	object_class = (GObjectClass *) class;
 	g_type_class_add_private (class, sizeof (ECalModelComponentPrivate));
-
-	component_parent_class = g_type_class_peek_parent (class);
 
 	object_class->finalize = e_cal_model_component_finalize;
 }
@@ -3830,7 +3824,7 @@ e_cal_model_component_finalize (GObject *object)
 	comp_data->priv->categories_str = NULL;
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (component_parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_cal_model_component_parent_class)->finalize (object);
 }
 
 static void
