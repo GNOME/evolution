@@ -1,3 +1,97 @@
+Evolution 3.5.3 2012-06-25
+--------------------------
+
+!!! MAJOR DESIGN CHANGES AND API BREAKS IN THIS RELEASE !!!
+
+* GConf dependency has been dropped.
+
+* Account data now resides in plain text files rather than GConf XML blobs.
+  As part of this effort, a good part of libedataserver was rewritten from
+  scratch.  For further details and links to documentation see:
+  https://mail.gnome.org/archives/evolution-list/2012-May/msg00214.html
+
+Bug Fixes:
+	Bug 300677 - vFolder rules shouldn't refer to the Unmatched folder
+	             (Milan Crha)
+	Bug 431497 - Offline mode should disable loading of images from the
+	             internet (Dan Vrátil)
+	Bug 569540 - Remove unused message-display-style GSettings key
+	             (Milan Crha)
+	Bug 670876 - Missing mnemonics for buttons for vcard attached to email
+	             (Dan Vrátil)
+	Bug 674887 - Hang on sender's photo lookup (Dan Vrátil)
+	Bug 676179 - Memos/Tasks - Update preview when it's shown (Dan Vrátil)
+	Bug 676563 - Cannot create folders directly under store node
+	             (Milan Crha)
+	Bug 677597 - Crash on vFolder source folder removal (Milan Crha)
+	Bug 677607 - Closing Mail Browser emits critical warnings (Dan Vrátil)
+	Bug 677608 - Fails to open message which is not yet downloaded
+	             (Dan Vrátil)
+	Bug 677624 - Disable Properties when Search Folders is selected
+	             (Matthew Barnes)
+	Bug 677628 - Remove account and folder name from mail notifications
+	             (Matthew Barnes)
+	Bug 677631 - Some HTML links don't work (Dan Vrátil)
+	Bug 677673 - Reply contains quoted top headers (Dan Vrátil)
+	Bug 677679 - Folder tree unread counts don't decrease (Matthew Barnes)
+	Bug 677686 - Account editor missing refresh interval setting
+	             (Matthew Barnes)
+	Bug 677706 - Crash in spell_entry_recheck_all() (Milan Crha)
+	Bug 677882 - Cannot create account with Sendmail (Matthew Barnes)
+	Bug 677995 - Asks password for disabled mail account (Matthew Barnes)
+	Bug 678292 - Due Date does not display in follow-up flag dialogue box
+	             (Milan Crha)
+	Bug 678293 - Already downloaded images are not shown (Dan Vrátil)
+	Bug 678304 - Save Draft prevents Evolution's quit (Milan Crha)
+	Bug 678345 - Runtime warning when sender photo is disabled (Dan Vrátil)
+	Bug 678347 - Put spamd pid/socket files in $XDG_RUNTIME_DIR
+	             (Matthew Barnes)
+	Bug 678393 - Disable Properties for built-in mail stores
+	             (Matthew Barnes)
+	Bug 678397 - Move "mail-to-task" actions to a submenu (Matthew Barnes)
+	Bug 678608 - Please enter password for mail account "Unnamed"
+	             (Matthew Barnes)
+	Bug 678609 - No suggested name for new mail account (Matthew Barnes)
+	Bug 678613 - Keep display name synchronized across all mail sources
+	             (Matthew Barnes)
+	Bug 678634 - Criticals warnings when creating new book/cal
+	             (Matthew Barnes)
+	Bug 764467 - URL popup shows all Copy options (Dan Vrátil)
+
+Other Changes:
+	* User documentation improvements. (Andre Klapper)
+	* Adapt to single-include E-D-S libraries. (Matthew Barnes)
+	* Remove mail-guess-servers.[ch]. (Matthew Barnes)
+	* Remove local mail autoconfiguration data. (Matthew Barnes)
+	* Mail formatter rewrite (Dan Vrátil)
+	* Bump minimum libnotify version to 0.7. (Matthew Barnes)
+	* Fix possible use of uninitialized variable (Milan Crha)
+	* Adapt to evolution-data-server's port from GConf to GSettings
+	  (Milan Crha)
+	* Make em_utils_in_addressbook() cancellable (Dan Vrátil)
+	* Remove the last remaining usage of GConf (Milan Crha)
+	* Remove -Werror from AM_INIT_AUTOMAKE. (Matthew Barnes)
+	* Do not call g_object_notify() when property didn't change
+	  (Milan Crha)
+	* Clarify that libcanberra-gtk3 is optional. (Matthew Barnes)
+	* No more experimental plugins. (Matthew Barnes)
+	* Remove Mono and Python EPlugin bindings. (Matthew Barnes)
+	* Remove --enable-plugins=list variation. (Matthew Barnes)
+	* Delete unused GnomeCanvasRichText. (Matthew Barnes)
+	* Use SoupURI instead of EUri. (Matthew Barnes)
+	* Reduce amount or EMailDisplay reloads when displaying Preferences
+	  dialog (Dan Vrátil)
+	* Avoid crash for providers without configuration backend (Milan Crha)
+
+Translations:
+	Ihar Hrachyshka (be)
+	Tom Tryfonidis (el)
+	Daniel Mustieles (es)
+	Bruno Brouard (fr)
+	Fran Diéguez (gl)
+	Matej Urbančič (sl)
+
+
 Evolution 3.5.2 2012-06-04
 --------------------------
 
