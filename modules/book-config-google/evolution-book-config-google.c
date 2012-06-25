@@ -68,9 +68,6 @@ book_config_google_insert_widgets (ESourceConfigBackend *backend,
 		G_OBJECT (backend), uid, context,
 		(GDestroyNotify) book_config_google_context_free);
 
-	e_book_source_config_add_offline_toggle (
-		E_BOOK_SOURCE_CONFIG (config), scratch_source);
-
 	e_source_config_add_user_entry (config, scratch_source);
 
 	e_source_config_add_refresh_interval (config, scratch_source);
