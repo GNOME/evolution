@@ -73,8 +73,6 @@ book_config_google_insert_widgets (ESourceConfigBackend *backend,
 
 	e_source_config_add_user_entry (config, scratch_source);
 
-	e_source_config_add_secure_connection (config, scratch_source);
-
 	e_source_config_add_refresh_interval (config, scratch_source);
 }
 
