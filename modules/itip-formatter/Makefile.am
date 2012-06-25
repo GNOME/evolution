@@ -1,3 +1,5 @@
+SUBDIRS = plugin
+
 @EVO_PLUGIN_RULE@
 
 module_LTLIBRARIES = module-itip-formatter.la
