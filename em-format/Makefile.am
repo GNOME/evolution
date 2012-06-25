@@ -39,7 +39,6 @@ endif
 
 libemformat_la_SOURCES =				\
 	$(emformatinclude_HEADERS)			\
-	$(emformatextensions_SOURCES)			\
 	e-mail-extension-registry.c			\
 	e-mail-extension.c				\
 	e-mail-inline-filter.c				\
