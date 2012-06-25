@@ -240,6 +240,7 @@ static void
 format_full_headers (EMailFormatter *formatter,
                      GString *buffer,
                      CamelMedium *part,
+		     guint32 mode,
                      guint32 flags,
                      GCancellable *cancellable)
 {
@@ -354,7 +355,7 @@ format_full_headers (EMailFormatter *formatter,
 	g_free (evolution_imagesdir);
 
 	/* dump selected headers */
-	if (flags & E_MAIL_FORMATTER_MODE_ALL_HEADERS) {
+	if (mode & E_MAIL_FORMATTER_MODE_ALL_HEADERS) {
 		header = ((CamelMimePart *) part)->headers;
 		while (header) {
 			e_mail_formatter_format_header (
@@ -555,7 +556,7 @@ emfe_headers_format (EMailFormatterExtension *extension,
 	}
 
 	format_full_headers (formatter, buffer,
-		(CamelMedium *) part->part, context->flags, cancellable);
+		(CamelMedium *) part->part, context->mode, context->flags, cancellable);
 
 	g_string_append (buffer, "</td></tr></table></div>");
 
