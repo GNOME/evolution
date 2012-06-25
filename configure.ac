@@ -52,7 +52,7 @@ m4_define([clutter_gtk_minimum_version], [0.90])
 m4_define([geoclue_minimum_version], [0.12.0])
 m4_define([gladeui_minimum_version], [3.10.0])
 m4_define([goa_minimum_version], [3.2])
-m4_define([gweather_minimum_version], [2.90.0])
+m4_define([gweather_minimum_version], [3.5.0])
 m4_define([libcanberra_gtk_minimum_version], [0.25])
 m4_define([libnotify_minimum_version], [0.7])
 m4_define([nm_minimum_version], [0.7])
@@ -1279,11 +1279,6 @@ if test "x$enable_weather" != "xno"; then
 
 	if test "x$have_weather" = "xno"; then
 		AC_MSG_ERROR([gweather-3.0 >= gweather_minimum_version is required for configuring weather calendars.  Use --disable-weather to disable this feature.])
-	fi
-
-	dnl gweather-3.5 introduces API changes we do not yet support.
-	if `$PKG_CONFIG --atleast-version=3.5 gweather-3.0`; then
-		AC_MSG_ERROR([gweather-3.5 is not yet supported.  Install gweather-3.4 or specify --disable-weather as a configure option to exclude the calendar-weather plugin.])
 	fi
 fi
 AM_CONDITIONAL(ENABLE_WEATHER, [test "x$enable_weather" != "xno"])

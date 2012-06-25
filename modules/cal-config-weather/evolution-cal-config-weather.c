@@ -41,7 +41,6 @@ typedef struct _Context Context;
 
 struct _Context {
 	GtkWidget *location_entry;
-	GtkWidget *units_combo;
 };
 
 /* Forward Declarations */
@@ -56,7 +55,6 @@ static void
 cal_config_weather_context_free (Context *context)
 {
 	g_object_unref (context->location_entry);
-	g_object_unref (context->units_combo);
 
 	g_slice_free (Context, context);
 }
@@ -70,7 +68,7 @@ cal_config_weather_location_to_string (GBinding *binding,
 	GWeatherLocation *location;
 	gchar *string = NULL;
 
-	location = g_value_get_pointer (source_value);
+	location = g_value_get_boxed (source_value);
 
 	if (location != NULL) {
 		const gchar *code;
@@ -87,29 +85,20 @@ cal_config_weather_location_to_string (GBinding *binding,
 	return TRUE;
 }
 
-/* XXX This is a private libgweather constant.
- *     The value may change at any time. */
-#define GWEATHER_LOCATION_ENTRY_COL_LOCATION 1
-
 static gboolean
 cal_config_weather_string_to_location (GBinding *binding,
                                        const GValue *source_value,
                                        GValue *target_value,
                                        gpointer user_data)
 {
-	GObject *target;
-	GWeatherLocation *match = NULL;
-	GtkEntryCompletion *completion;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
+	GWeatherLocation *world;
+	GWeatherLocation *match, *start;
 	const gchar *string;
 	const gchar *city_name;
 	const gchar *code;
 	gchar **tokens;
 
-	/* XXX This is a bit convoluted because libgweather lacks a
-	 *     GWeatherLocation lookup function.  The algorithm is
-	 *     copied from gweather_location_entry_set_city(). */
+	world = user_data;
 
 	string = g_value_get_string (source_value);
 
@@ -127,42 +116,28 @@ cal_config_weather_string_to_location (GBinding *binding,
 	code = tokens[0];
 	city_name = tokens[1];
 
-	target = g_binding_get_target (binding);
-	completion = gtk_entry_get_completion (GTK_ENTRY (target));
-	model = gtk_entry_completion_get_model (completion);
-
-	gtk_tree_model_get_iter_first (model, &iter);
-
-	do {
-		GWeatherLocation *location;
-		const gchar *cmp_code;
-		gchar *cmp_city_name;
-
-		gtk_tree_model_get (
-			model, &iter,
-			GWEATHER_LOCATION_ENTRY_COL_LOCATION,
-			&location, -1);
-
-		/* Does the station code match? */
-		cmp_code = gweather_location_get_code (location);
-		if (g_strcmp0 (code, cmp_code) != 0)
-			continue;
+	match = start = gweather_location_find_by_station_code (world, code);
+	while (match) {
+		char *cmp_city_name;
 
 		/* Does the city name match? */
-		cmp_city_name = gweather_location_get_city_name (location);
-		if (g_strcmp0 (city_name, cmp_city_name) != 0) {
+		cmp_city_name = gweather_location_get_city_name (match);
+		if (g_strcmp0 (city_name, cmp_city_name) == 0) {
 			g_free (cmp_city_name);
-			continue;
+			break;
 		}
 		g_free (cmp_city_name);
 
-		/* We found a match! */
-		match = location;
-		break;
+		/* No match, try parent */
+		match = gweather_location_get_parent (match);
+	}
 
-	} while (gtk_tree_model_iter_next (model, &iter));
+	if (match == NULL) {
+		/* No exact match, use start instead */
+		match = start;
+	}
 
-	g_value_set_pointer (target_value, match);
+	g_value_set_boxed (target_value, match);
 
 	g_strfreev (tokens);
 
@@ -217,22 +192,7 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 	context->location_entry = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	/* This must follow the order of ESourceWeatherUnits. */
-	widget = gtk_combo_box_text_new ();
-	gtk_combo_box_text_append_text (
-		GTK_COMBO_BOX_TEXT (widget),
-		_("Metric (Celsius, cm, etc)"));
-	gtk_combo_box_text_append_text (
-		GTK_COMBO_BOX_TEXT (widget),
-		_("Imperial (Fahrenheit, inches, etc)"));
-	e_source_config_insert_widget (
-		config, scratch_source, _("Units:"), widget);
-	context->units_combo = g_object_ref (widget);
-	gtk_widget_show (widget);
-
 	e_source_config_add_refresh_interval (config, scratch_source);
-
-	gweather_location_unref (world);
 
 	extension_name = E_SOURCE_EXTENSION_WEATHER_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
@@ -244,13 +204,10 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_SYNC_CREATE,
 		cal_config_weather_string_to_location,
 		cal_config_weather_location_to_string,
-		NULL, (GDestroyNotify) NULL);
+		gweather_location_ref (world),
+		(GDestroyNotify) gweather_location_unref);
 
-	g_object_bind_property (
-		extension, "units",
-		context->units_combo, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+	gweather_location_unref (world);
 }
 
 static gboolean
