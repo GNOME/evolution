@@ -280,28 +280,29 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 			sparts = e_mail_parser_parse_part (
 					parser, sp, part_id, cancellable);
 
-			if (emp_pp->mode != PREFER_HTML) {
-				hide_parts (sparts);
-			} else {
-				GSList *iter;
-				gboolean has_html = FALSE;
+			GSList *iter;
+			gboolean has_html = FALSE;
 
-				/* Check whether the multipart contains a
-				 * text/html part and hide the whole multipart if
-				 * it does not. Otherwise assume that it's what
-				 * we wan't to display */
-				for (iter = sparts; iter; iter = g_slist_next (iter)) {
-					EMailPart *p = iter->data;
-					if (!p)
-						continue;
+			/* Check whether the multipart contains a text/html part */
+			for (iter = sparts; iter; iter = g_slist_next (iter)) {
+				EMailPart *p = iter->data;
+				if (!p)
+					continue;
 
-					if (strstr (p->id, ".text_html") != NULL) {
-						has_html = TRUE;
-						break;
-					}
+				if (strstr (p->id, ".text_html") != NULL) {
+					has_html = TRUE;
+					break;
 				}
-				if (!has_html)
+			}
+
+			if (has_html && (emp_pp->mode != PREFER_HTML)) {
+				if (emp_pp->show_suppressed) {
+					sparts =  e_mail_parser_wrap_as_attachment (
+							parser, sp, sparts, part_id,
+							cancellable);
+				} else {
 					hide_parts (sparts);
+				}
 			}
 
 			parts = g_slist_concat (parts, sparts);
