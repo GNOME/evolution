@@ -4841,6 +4841,11 @@ e_msg_composer_can_close (EMsgComposer *composer,
 	editor = GTKHTML_EDITOR (composer);
 	widget = GTK_WIDGET (composer);
 
+	/* this means that there is an async operation running,
+	   in which case the composer cannot be closed */
+	if (!gtk_action_group_get_sensitive (composer->priv->async_actions))
+		return FALSE;
+
 	if (!gtkhtml_editor_get_changed (editor))
 		return TRUE;
 
