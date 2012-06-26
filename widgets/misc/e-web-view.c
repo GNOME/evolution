@@ -851,6 +851,8 @@ web_view_constructed (GObject *object)
 	g_object_unref (settings);
 #endif
 
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->constructed (object);
 }
@@ -1861,9 +1863,6 @@ e_web_view_init (EWebView *web_view)
 	id = "org.gnome.evolution.webview";
 	e_plugin_ui_register_manager (ui_manager, id, web_view);
 	e_plugin_ui_enable_manager (ui_manager, id);
-
-	e_extensible_load_extensions (E_EXTENSIBLE (web_view));
-
 }
 
 GtkWidget *

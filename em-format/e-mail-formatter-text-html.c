@@ -309,11 +309,12 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 			"<div class=\"part-container-nostyle\">"
 			"<iframe width=\"100%%\" height=\"10\" "
 			" frameborder=\"0\" src=\"%s\" "
-			" id=\"%s.iframe\" "
+			" id=\"%s.iframe\" name=\"%s\" "
 			" style=\"border: 1px solid #%06x; background-color: #%06x;\">"
 			"</iframe>"
 			"</div>",
 			uri,
+			part->id,
 			part->id,
 			e_color_to_value ((GdkColor *)
 				e_mail_formatter_get_color (

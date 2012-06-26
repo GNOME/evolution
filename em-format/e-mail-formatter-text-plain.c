@@ -114,12 +114,8 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 
 		content = g_strdup_printf (
 			"<div class=\"part-container\" style=\""
-			"border-color: #%06x;"
-			"background-color: #%06x; color: #%06x;\">"
-			"<div class=\"part-container-inner-margin pre\">\n",
-			e_color_to_value ((GdkColor *)
-				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
+			"border: none; padding: 10px; margin: 0; "
+			"background-color: #%06x; color: #%06x;\">\n",
 			e_color_to_value ((GdkColor *)
 				e_mail_formatter_get_color (
 					formatter, E_MAIL_FORMATTER_COLOR_CONTENT)),
@@ -134,7 +130,7 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 		g_object_unref (filtered_stream);
 		g_free (content);
 
-		camel_stream_write_string (stream, "</div></div>\n", cancellable, NULL);
+		camel_stream_write_string (stream, "</div>\n", cancellable, NULL);
 
 		if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
 			camel_stream_write_string (stream, "</body></html>",
@@ -153,10 +149,20 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 			NULL);
 
 		str = g_strdup_printf (
+			"<div class=\"part-container-nostyle\" >"
 			"<iframe width=\"100%%\" height=\"10\""
-			" id=\"%s.iframe\" "
-			" frameborder=\"0\" src=\"%s\"></iframe>",
-			part->id, uri);
+			" id=\"%s.iframe\" name=\"%s\" "
+			" frameborder=\"0\" src=\"%s\" "
+			" style=\"border: 1px solid #%06x; background-color: #%06x;\">"
+			"</iframe>"
+			"</div>",
+			part->id, part->id, uri,
+			e_color_to_value ((GdkColor *)
+				e_mail_formatter_get_color (
+					formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
+			e_color_to_value ((GdkColor *)
+				e_mail_formatter_get_color (
+					formatter, E_MAIL_FORMATTER_COLOR_CONTENT)));
 
 		camel_stream_write_string (stream, str, cancellable, NULL);
 

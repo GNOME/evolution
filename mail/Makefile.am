@@ -67,6 +67,7 @@ mailinclude_HEADERS =					\
 	e-mail-config-welcome-page.h			\
 	e-mail-config-window.h				\
 	e-mail-display.h				\
+	e-mail-display-popup-extension.h		\
 	e-mail-folder-pane.h				\
 	e-mail-junk-options.h				\
 	e-mail-label-action.h				\
@@ -146,6 +147,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-config-welcome-page.c			\
 	e-mail-config-window.c				\
 	e-mail-display.c				\
+	e-mail-display-popup-extension.c		\
 	e-mail-folder-pane.c				\
 	e-mail-junk-options.c				\
 	e-mail-label-action.c				\

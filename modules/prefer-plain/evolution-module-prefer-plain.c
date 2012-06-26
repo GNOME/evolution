@@ -17,6 +17,7 @@
  */
 
 #include "e-mail-parser-prefer-plain.h"
+#include "e-mail-display-popup-prefer-plain.h"
 
 #include <gmodule.h>
 #include <gio/gio.h>
@@ -49,6 +50,7 @@ e_module_load (GTypeModule *type_module)
 	}
 
 	e_mail_parser_prefer_plain_type_register (type_module);
+	e_mail_display_popup_prefer_plain_type_register (type_module);
 
 	g_strfreev (disabled_plugins);
 	g_object_unref (settings);

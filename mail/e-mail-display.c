@@ -24,6 +24,7 @@
 #endif
 
 #include "e-mail-display.h"
+#include "e-mail-display-popup-extension.h"
 
 #include <glib/gi18n.h>
 #include <gdk/gdk.h>
@@ -52,7 +53,10 @@
 
 #define d(x)
 
-G_DEFINE_TYPE (EMailDisplay, e_mail_display, E_TYPE_WEB_VIEW)
+G_DEFINE_TYPE (
+	EMailDisplay,
+	e_mail_display,
+	E_TYPE_WEB_VIEW);
 
 #define E_MAIL_DISPLAY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -161,49 +165,67 @@ static GtkActionEntry image_entries[] = {
 
 };
 
-static void
-mail_display_update_actions (EWebView *web_view,
-                             GdkEventButton *event)
+static gboolean
+mail_display_button_press_event (GtkWidget *widget,
+				 GdkEventButton *event)
 {
 	WebKitHitTestResult *hit_test;
 	WebKitHitTestResultContext context;
 	gchar *image_src;
 	gboolean visible;
 	GtkAction *action;
-
-	/* Chain up first! */
-	E_WEB_VIEW_CLASS (e_mail_display_parent_class)->
-		update_actions (web_view, event);
+	GList *extensions, *iter;
+	EWebView *web_view = E_WEB_VIEW (widget);
 
 	hit_test = webkit_web_view_get_hit_test_result (
 			WEBKIT_WEB_VIEW (web_view), event);
+
 	g_object_get (
 		G_OBJECT (hit_test),
 		"context", &context,
 	        "image-uri", &image_src,
 		NULL);
 
-	if (!(context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE))
-		return;
+	if ((context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE)) {
+		visible = image_src && g_str_has_prefix (image_src, "cid:");
+		if (!visible && image_src) {
+			CamelStream *image_stream;
 
-	visible = image_src && g_str_has_prefix (image_src, "cid:");
-	if (!visible && image_src) {
-		CamelStream *image_stream;
+			image_stream = camel_data_cache_get (
+					emd_global_http_cache, "http",
+					image_src, NULL);
 
-		image_stream = camel_data_cache_get (emd_global_http_cache, "http", image_src, NULL);
+			visible = image_stream != NULL;
 
-		visible = image_stream != NULL;
+			if (image_stream)
+				g_object_unref (image_stream);
+		}
 
-		if (image_stream)
-			g_object_unref (image_stream);
+		if (image_src)
+			g_free (image_src);
+
+		action = e_web_view_get_action (web_view, "image-save");
+		if (action)
+			gtk_action_set_visible (action, visible);
 	}
 
-	if (image_src)
-		g_free (image_src);
+	extensions = e_extensible_list_extensions (
+			E_EXTENSIBLE (web_view), E_TYPE_EXTENSION);
+	for (iter = extensions; iter; iter = g_list_next (iter)) {
+		EExtension *extension = iter->data;
 
-	action = e_web_view_get_action (web_view, "image-save");
-	if (action)
-		gtk_action_set_visible (action, visible);
+		if (!E_IS_MAIL_DISPLAY_POPUP_EXTENSION (extension))
+			continue;
+
+		e_mail_display_popup_extension_update_actions (
+			E_MAIL_DISPLAY_POPUP_EXTENSION (extension), hit_test);
+	}
+	g_list_free (extensions);
+
+	g_object_unref (hit_test);
+
+	/* Chain up to parent's button_press_event() method. */
+	return GTK_WIDGET_CLASS (e_mail_display_parent_class)->button_press_event (widget, event);
 }
 
 static void
@@ -228,6 +250,15 @@ mail_display_update_formatter_colors (EMailDisplay *display)
 	style = gtk_widget_get_style (GTK_WIDGET (display));
 	state = gtk_widget_get_state (GTK_WIDGET (display));
 	e_mail_formatter_set_style (display->priv->formatter, style, state);
+}
+
+static void
+mail_display_constructed (GObject *object)
+{
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_mail_display_parent_class)->constructed (object);
 }
 
 static void
@@ -1358,17 +1389,18 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	g_type_class_add_private (class, sizeof (EMailDisplayPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = mail_display_constructed;
 	object_class->set_property = mail_display_set_property;
 	object_class->get_property = mail_display_get_property;
 	object_class->dispose = mail_display_dispose;
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
 	web_view_class->set_fonts = mail_display_set_fonts;
-	web_view_class->update_actions = mail_display_update_actions;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = mail_display_realize;
 	widget_class->style_set = mail_display_style_set;
+	widget_class->button_press_event = mail_display_button_press_event;
 
 	g_object_class_install_property (
 		object_class,

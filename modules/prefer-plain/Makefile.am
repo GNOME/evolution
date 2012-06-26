@@ -14,6 +14,8 @@ module_prefer_plain_la_CPPFLAGS =				\
 module_prefer_plain_la_SOURCES =				\
 	e-mail-parser-prefer-plain.c					\
 	e-mail-parser-prefer-plain.h					\
+	e-mail-display-popup-prefer-plain.c				\
+	e-mail-display-popup-prefer-plain.h				\
 	evolution-module-prefer-plain.c
 
 module_prefer_plain_la_LIBADD =				\
