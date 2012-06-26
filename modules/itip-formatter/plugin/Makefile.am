@@ -13,7 +13,11 @@ liborg_gnome_itip_formatter_la_CPPFLAGS =		\
 	$(GNOME_PLATFORM_CFLAGS)
 
 liborg_gnome_itip_formatter_la_SOURCES =		\
-	config-ui.c
+	config-ui.c					\
+	../e-conflict-search-selector.c			\
+	../e-conflict-search-selector.h			\
+	../e-source-conflict-search.c			\
+	../e-source-conflict-search.h
 
 liborg_gnome_itip_formatter_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
@@ -24,7 +28,6 @@ liborg_gnome_itip_formatter_la_LIBADD =				\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/em-format/libemformat.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
-	$(top_builddir)/modules/itip-formatter/module-itip-formatter.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)
 
