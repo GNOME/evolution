@@ -76,7 +76,7 @@ struct _EMailDisplayPrivate {
 
 	GHashTable *widgets;
 
-	guint reload_scheduled: 1;
+	guint scheduled_reload;
 };
 
 enum {
@@ -338,6 +338,11 @@ mail_display_dispose (GObject *object)
 	EMailDisplayPrivate *priv;
 
 	priv = E_MAIL_DISPLAY_GET_PRIVATE (object);
+
+	if (priv->scheduled_reload > 0) {
+		g_source_remove (priv->scheduled_reload);
+		priv->scheduled_reload = 0;
+	}
 
 	if (priv->part_list) {
 		g_object_unref (priv->part_list);
@@ -1467,6 +1472,7 @@ e_mail_display_init (EMailDisplay *display)
 	display->priv->mode = E_MAIL_FORMATTER_MODE_INVALID;
 	e_mail_display_set_mode (display, E_MAIL_FORMATTER_MODE_NORMAL);
 	display->priv->force_image_load = FALSE;
+	display->priv->scheduled_reload = 0;
 
 	webkit_web_view_set_full_content_zoom (WEBKIT_WEB_VIEW (display), TRUE);
 
@@ -1723,7 +1729,7 @@ do_reload_display (EMailDisplay *display)
 	web_view = E_WEB_VIEW (display);
 	uri = e_web_view_get_uri (web_view);
 
-	display->priv->reload_scheduled = FALSE;
+	display->priv->scheduled_reload = 0;
 
 	if (!uri || !*uri)
 		return FALSE;
@@ -1765,12 +1771,12 @@ e_mail_display_reload (EMailDisplay *display)
 {
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	if (display->priv->reload_scheduled)
+	if (display->priv->scheduled_reload > 0)
 		return;
 
 	/* Schedule reloading if neccessary */
-	g_idle_add ((GSourceFunc) do_reload_display, display);
-	display->priv->reload_scheduled = TRUE;
+	display->priv->scheduled_reload =
+		g_idle_add ((GSourceFunc) do_reload_display, display);
 }
 
 GtkAction *
