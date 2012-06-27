@@ -73,6 +73,8 @@ mail_shell_sidebar_selection_changed_cb (EShellSidebar *shell_sidebar,
 	if (is_folder)
 		icon_name = em_folder_utils_get_icon_name (flags);
 	else {
+		g_free (display_name);
+
 		icon_name = shell_view_class->icon_name;
 		display_name = g_strdup (shell_view_class->label);
 	}
