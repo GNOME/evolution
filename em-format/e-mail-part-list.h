@@ -74,10 +74,6 @@ GSList *	e_mail_part_list_get_iter	(GSList *list,
 CamelObjectBag *
 		e_mail_part_list_get_registry	(void);
 
-void		e_mail_part_list_registry_add	(CamelObjectBag *registry,
-						 const gchar *mail_uri,
-						 EMailPartList *part_list);
-
 G_END_DECLS
 
 #endif /* E_MAIL_PART_LIST_H_ */ 

@@ -1580,9 +1580,8 @@ mail_reader_parse_message_run (GSimpleAsyncResult *simple,
 		if (!part_list) {
 			camel_object_bag_abort (registry, mail_uri);
 		} else {
-			e_mail_part_list_registry_add (
+			camel_object_bag_add (
 				registry, mail_uri, part_list);
-			g_object_ref (part_list);
 		}
 	}
 
