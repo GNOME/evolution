@@ -308,6 +308,23 @@ e_mail_parser_parse_sync (EMailParser *parser,
 
 	parts_list->list = mail_parser_run (parser, message, cancellable);
 
+	if (camel_debug_start ("emformat:parser")) {
+		GSList *iter;
+
+		printf("%s finished with EMailPartList:\n",
+				G_OBJECT_TYPE_NAME (parser));
+
+		for (iter = parts_list->list; iter; iter = iter->next) {
+			EMailPart *part = iter->data;
+			if (!part) continue;
+			printf("	id: %s | cid: %s | mime_type: %s | is_hidden: %d | is_attachment: %d\n",
+				part->id, part->cid, part->mime_type,
+				part->is_hidden ? 1 : 0, part->is_attachment ? 1 : 0);
+		}
+
+		camel_debug_end ();
+	}
+
 	return parts_list;
 }
 
