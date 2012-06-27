@@ -210,7 +210,6 @@ enum {
 struct _source_data {
 	ERuleContext *rc;
 	EMVFolderRule *vr;
-	const gchar *current;
 	GtkListStore *model;
 	GtkTreeView *list;
 	GtkWidget *source_selector;
@@ -231,28 +230,21 @@ static struct {
 static void
 set_sensitive (struct _source_data *data)
 {
+	GtkTreeSelection *selection;
+
+	selection = gtk_tree_view_get_selection (data->list);
+
 	gtk_widget_set_sensitive (
 		GTK_WIDGET (data->buttons[BUTTON_ADD]), TRUE);
 	gtk_widget_set_sensitive (
 		GTK_WIDGET (data->buttons[BUTTON_REMOVE]),
-		data->current != NULL);
+		selection && gtk_tree_selection_count_selected_rows (selection) > 0);
 }
 
 static void
-select_source (GtkWidget *list,
-               struct _source_data *data)
+selection_changed_cb (GtkTreeSelection *selection,
+		      struct _source_data *data)
 {
-	GtkTreeViewColumn *column;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-
-	gtk_tree_view_get_cursor (data->list, &path, &column);
-	if (path && gtk_tree_model_get_iter (GTK_TREE_MODEL (data->model), &iter, path))
-		gtk_tree_model_get (GTK_TREE_MODEL (data->model), &iter, 0, &data->current, -1);
-	else
-		data->current = NULL;
-	gtk_tree_path_free (path);
-
 	set_sensitive (data);
 }
 
@@ -288,36 +280,67 @@ vfr_folder_response (EMFolderSelector *selector,
                      struct _source_data *data)
 {
 	EMFolderTreeModel *model;
-	EMailSession *session;
-	const gchar *uri;
+	EMFolderTree *folder_tree;
+	CamelSession *session;
+	GList *selected_uris;
 
+	folder_tree = em_folder_selector_get_folder_tree (selector);
 	model = em_folder_selector_get_model (selector);
-	session = em_folder_tree_model_get_session (model);
+	session = CAMEL_SESSION (em_folder_tree_model_get_session (model));
 
-	uri = em_folder_selector_get_selected_uri (selector);
+	selected_uris = em_folder_tree_get_selected_uris (folder_tree);
 
-	if (button == GTK_RESPONSE_OK && uri != NULL) {
-		GtkTreeSelection *selection;
+	if (button == GTK_RESPONSE_OK && selected_uris != NULL) {
+		GList *uris_iter;
+		GHashTable *known_uris;
 		GtkTreeIter iter;
-		gchar *markup;
+		GtkTreeSelection *selection;
 
-		g_queue_push_tail (&data->vr->sources, g_strdup (uri));
-
-		markup = e_mail_folder_uri_to_markup (
-			CAMEL_SESSION (session), uri, NULL);
-
-		gtk_list_store_append (data->model, &iter);
-		gtk_list_store_set (data->model, &iter, 0, markup, 1, uri, -1);
 		selection = gtk_tree_view_get_selection (data->list);
-		gtk_tree_selection_select_iter (selection, &iter);
-		data->current = uri;
+		gtk_tree_selection_unselect_all (selection);
 
-		g_free (markup);
+		known_uris = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+		if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (data->model), &iter)) {
+			GtkTreeModel *model = GTK_TREE_MODEL (data->model);
+			do {
+				gchar *known = NULL;
+
+				gtk_tree_model_get (model, &iter, 1, &known, -1);
+
+				if (known)
+					g_hash_table_insert (known_uris, known, GINT_TO_POINTER (1));
+			} while (gtk_tree_model_iter_next (model, &iter));
+		}
+
+		for (uris_iter = selected_uris; uris_iter != NULL; uris_iter = uris_iter->next) {
+			const gchar *uri = uris_iter->data;
+			gchar *markup;
+
+			if (!uri || g_hash_table_lookup (known_uris, uri))
+				continue;
+
+			g_hash_table_insert (known_uris, g_strdup (uri), GINT_TO_POINTER (1));
+
+			g_queue_push_tail (&data->vr->sources, g_strdup (uri));
+
+			markup = e_mail_folder_uri_to_markup (session, uri, NULL);
+
+			gtk_list_store_append (data->model, &iter);
+			gtk_list_store_set (data->model, &iter, 0, markup, 1, uri, -1);
+			g_free (markup);
+
+			/* select all newly added folders */
+			gtk_tree_selection_select_iter (selection, &iter);
+		}
+
+		g_hash_table_destroy (known_uris);
 
 		set_sensitive (data);
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (selector));
+	g_list_free_full (selected_uris, g_free);
 }
 
 static void
@@ -326,6 +349,7 @@ source_add (GtkWidget *widget,
 {
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model;
+	GtkTreeSelection *selection;
 	GtkWidget *dialog;
 	gpointer parent;
 
@@ -344,6 +368,9 @@ source_add (GtkWidget *widget,
 
 	em_folder_tree_set_excluded (folder_tree, EMFT_EXCLUDE_NOSELECT);
 
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
+
 	g_signal_connect (
 		dialog, "response",
 		G_CALLBACK (vfr_folder_response), data);
@@ -356,13 +383,15 @@ source_remove (GtkWidget *widget,
                struct _source_data *data)
 {
 	GtkTreeSelection *selection;
-	const gchar *source;
+	const gchar *source, *prev_source;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	gint index = 0;
+	GHashTable *to_remove;
+	gint index = 0, first_selected = -1, removed;
 	gint n;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list));
+	to_remove = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	source = NULL;
 	while ((source = em_vfolder_rule_next_source (data->vr, source))) {
@@ -370,6 +399,28 @@ source_remove (GtkWidget *widget,
 		gtk_tree_path_append_index (path, index);
 
 		if (gtk_tree_selection_path_is_selected (selection, path)) {
+			g_hash_table_insert (to_remove, GINT_TO_POINTER (index), GINT_TO_POINTER (1));
+
+			if (first_selected == -1)
+				first_selected = index;
+		}
+
+		index++;
+
+		gtk_tree_path_free (path);
+	}
+
+	/* do not depend on selection when removing */
+	gtk_tree_selection_unselect_all (selection);
+
+	index = 0;
+	source = NULL;
+	removed = 0;
+	prev_source = NULL;
+	while ((source = em_vfolder_rule_next_source (data->vr, source))) {
+		if (g_hash_table_lookup (to_remove, GINT_TO_POINTER (index + removed))) {
+			path = gtk_tree_path_new ();
+			gtk_tree_path_append_index (path, index);
 			gtk_tree_model_get_iter (
 				GTK_TREE_MODEL (data->model), &iter, path);
 
@@ -377,32 +428,29 @@ source_remove (GtkWidget *widget,
 			gtk_list_store_remove (data->model, &iter);
 			gtk_tree_path_free (path);
 
-			/* now select the next rule */
-			n = gtk_tree_model_iter_n_children (
-				GTK_TREE_MODEL (data->model), NULL);
-			index = index >= n ? n - 1 : index;
-
-			if (index >= 0) {
-				path = gtk_tree_path_new ();
-				gtk_tree_path_append_index (path, index);
-				gtk_tree_model_get_iter (
-					GTK_TREE_MODEL (data->model),
-					&iter, path);
-				gtk_tree_path_free (path);
-
-				gtk_tree_selection_select_iter (
-					selection, &iter);
-				gtk_tree_model_get (
-					GTK_TREE_MODEL (data->model), &iter,
-					0, &data->current, -1);
-			} else {
-				data->current = NULL;
-			}
-
-			break;
+			/* try again from the previous source */
+			removed++;
+			source = prev_source;
+		} else {
+			index++;
+			prev_source = source;
 		}
+	}
 
-		index++;
+	g_hash_table_destroy (to_remove);
+
+	/* now select the next rule */
+	n = gtk_tree_model_iter_n_children (
+		GTK_TREE_MODEL (data->model), NULL);
+	index = first_selected >= n ? n - 1 : first_selected;
+
+	if (index >= 0) {
+		path = gtk_tree_path_new ();
+		gtk_tree_path_append_index (path, index);
+		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (data->model), &iter, path)) {
+			gtk_tree_selection_select_iter (selection, &iter);
+			gtk_tree_view_set_cursor (data->list, path, NULL, FALSE);
+		}
 		gtk_tree_path_free (path);
 	}
 
@@ -420,6 +468,7 @@ get_widget (EFilterRule *fr,
 	GtkRadioButton *rb;
 	const gchar *source;
 	GtkTreeIter iter;
+	GtkTreeSelection *selection;
 	GtkBuilder *builder;
 	GObject *object;
 	gint i;
@@ -465,9 +514,12 @@ get_widget (EFilterRule *fr,
 		g_free (markup);
 	}
 
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
+
 	g_signal_connect (
-		data->list, "cursor-changed",
-		G_CALLBACK (select_source), data);
+		selection, "changed",
+		G_CALLBACK (selection_changed_cb), data);
 
 	rb = (GtkRadioButton *)e_builder_get_widget (builder, "local_rb");
 	g_signal_connect (

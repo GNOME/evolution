@@ -417,7 +417,7 @@ Please select a follow up action from the "Flag" menu.</property>
       <!-- column-name Translated -->
       <column type="gchararray"/>
       <!-- column-name Raw -->
-      <column type="gpointer"/>
+      <column type="gchararray"/>
     </columns>
   </object>
   <object class="GtkDialog" id="license_dialog">
