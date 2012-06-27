@@ -2612,14 +2612,25 @@ fill_in_simple_field (EContactEditor *editor,
 
 	} else if (E_IS_IMAGE_CHOOSER (widget)) {
 		EContactPhoto *photo = e_contact_get (contact, field_id);
+		editor->image_set = FALSE;
 		if (photo && photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
 			e_image_chooser_set_image_data (
 				E_IMAGE_CHOOSER (widget),
 				(gchar *) photo->data.inlined.data,
 				photo->data.inlined.length);
 			editor->image_set = TRUE;
+		} else if (photo && photo->type == E_CONTACT_PHOTO_TYPE_URI) {
+			gchar *file_name = g_filename_from_uri (photo->data.uri, NULL, NULL);
+			if (file_name) {
+				e_image_chooser_set_from_file (
+					E_IMAGE_CHOOSER (widget),
+					file_name);
+				editor->image_set = TRUE;
+				g_free (file_name);
+			}
 		}
-		else {
+
+		if (!editor->image_set) {
 			gchar *file_name;
 
 			file_name = e_icon_factory_get_icon_filename (
@@ -2629,6 +2640,7 @@ fill_in_simple_field (EContactEditor *editor,
 			editor->image_set = FALSE;
 			g_free (file_name);
 		}
+
 		editor->image_changed = FALSE;
 		e_contact_photo_free (photo);
 
