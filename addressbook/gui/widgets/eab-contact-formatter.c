@@ -421,10 +421,11 @@ render_title_block (EABContactFormatter *formatter,
 			photo_data);
 	} else if (photo && photo->type == E_CONTACT_PHOTO_TYPE_URI && photo->data.uri && *photo->data.uri) {
 		gboolean is_local = g_str_has_prefix (photo->data.uri, "file://");
-
+		gchar *unescaped = g_uri_unescape_string (photo->data.uri, NULL);
 		g_string_append_printf (
 			buffer, "<img border=\"1\" src=\"%s%s\">",
-			is_local ? "evo-" : "", photo->data.uri);
+			is_local ? "evo-" : "", unescaped);
+		g_free (unescaped);
 	}
 
 	if (photo)
@@ -878,11 +879,13 @@ render_compact (EABContactFormatter *formatter,
 		if (photo->type == E_CONTACT_PHOTO_TYPE_URI &&
 			photo->data.uri && *photo->data.uri) {
 			gboolean is_local = g_str_has_prefix (photo->data.uri, "file://");
+			gchar *unescaped = g_uri_unescape_string (photo->data.uri, NULL);
 			g_string_append_printf (
 				buffer,
 				"<img width=\"%d\" height=\"%d\" src=\"%s%s\">",
 				calced_width, calced_height,
-				is_local ? "evo-" : "", photo->data.uri);
+				is_local ? "evo-" : "", unescaped);
+			g_free (unescaped);
 		} else {
 			gchar *photo_data;
 
