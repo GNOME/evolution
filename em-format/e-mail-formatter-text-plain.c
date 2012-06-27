@@ -113,7 +113,7 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 		g_object_unref (html_filter);
 
 		content = g_strdup_printf (
-			"<div class=\"part-container\" style=\""
+			"<div class=\"part-container pre\" style=\""
 			"border: none; padding: 10px; margin: 0; "
 			"background-color: #%06x; color: #%06x;\">\n",
 			e_color_to_value ((GdkColor *)
