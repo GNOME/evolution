@@ -355,6 +355,7 @@ modules/mdn/evolution-mdn.error.xml
 modules/offline-alert/evolution-offline-alert.error.xml
 modules/online-accounts/camel-sasl-xoauth.c
 modules/plugin-manager/evolution-plugin-manager.c
+modules/prefer-plain/e-mail-display-popup-prefer-plain.c
 modules/prefer-plain/e-mail-parser-prefer-plain.c
 modules/prefer-plain/plugin/config-ui.c
 modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml
