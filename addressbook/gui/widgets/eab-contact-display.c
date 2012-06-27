@@ -54,7 +54,11 @@
 
 struct _EABContactDisplayPrivate {
 	EContact *contact;
-        EABContactFormatter *formatter;
+
+	EABContactDisplayMode mode;
+	gboolean show_maps;
+
+	GCancellable *formatter_cancellable;
 };
 
 enum {
@@ -186,20 +190,34 @@ contact_formatting_finished (GObject *object,
 
 	g_free (html);
 	g_object_unref (stream);
+	g_object_unref (object);
+	g_clear_object (&display->priv->formatter_cancellable);
 }
 
 static void
 load_contact (EABContactDisplay *display)
 {
+	EABContactFormatter *formatter;
+
+	if (display->priv->formatter_cancellable) {
+		g_cancellable_cancel (display->priv->formatter_cancellable);
+		g_clear_object (&display->priv->formatter_cancellable);
+	}
+
 	if (!display->priv->contact) {
 		e_web_view_clear (E_WEB_VIEW (display));
 		return;
 	}
 
+	formatter = eab_contact_formatter_new (
+			display->priv->mode,
+			display->priv->show_maps);
+
+	display->priv->formatter_cancellable = g_cancellable_new ();
+
 	eab_contact_formatter_format_contact_async (
-		display->priv->formatter,
-		display->priv->contact,
-		NULL,
+		formatter, display->priv->contact,
+		display->priv->formatter_cancellable,
 		(GAsyncReadyCallback) contact_formatting_finished,
 		display);
 }
@@ -522,11 +540,6 @@ eab_contact_display_init (EABContactDisplay *display)
 
 	display->priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (display);
 
-	display->priv->formatter = g_object_new (
-		EAB_TYPE_CONTACT_FORMATTER,
-		"display-mode", EAB_CONTACT_DISPLAY_RENDER_NORMAL,
-		"render-maps", FALSE, NULL);
-
 	web_view = E_WEB_VIEW (display);
 	ui_manager = e_web_view_get_ui_manager (web_view);
 
@@ -598,7 +611,7 @@ eab_contact_display_get_mode (EABContactDisplay *display)
 {
 	g_return_val_if_fail (EAB_IS_CONTACT_DISPLAY (display), 0);
 
-	return eab_contact_formatter_get_display_mode (display->priv->formatter);
+	return display->priv->mode;
 }
 
 void
@@ -607,14 +620,10 @@ eab_contact_display_set_mode (EABContactDisplay *display,
 {
 	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
 
-	if (eab_contact_formatter_get_display_mode (
-		display->priv->formatter) == mode) {
-
+	if (display->priv->mode == mode)
 		return;
-	};
 
-	eab_contact_formatter_set_display_mode (
-		display->priv->formatter, mode);
+	display->priv->mode = mode;
 
 	load_contact (display);
 
@@ -626,7 +635,7 @@ eab_contact_display_get_show_maps (EABContactDisplay *display)
 {
 	g_return_val_if_fail (EAB_IS_CONTACT_DISPLAY (display), FALSE);
 
-	return eab_contact_formatter_get_render_maps (display->priv->formatter);
+	return display->priv->show_maps;
 }
 
 void
@@ -635,14 +644,10 @@ eab_contact_display_set_show_maps (EABContactDisplay *display,
 {
 	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
 
-	if (eab_contact_formatter_get_render_maps (
-		display->priv->formatter) == show_maps) {
-
+	if ((display->priv->show_maps ? 1 : 0) == (show_maps ? 1 : 0))
 		return;
-	}
 
-	eab_contact_formatter_set_render_maps (
-		display->priv->formatter, show_maps);
+	display->priv->show_maps = show_maps;
 
 	load_contact (display);
 

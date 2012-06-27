@@ -1159,6 +1159,17 @@ eab_contact_formatter_init (EABContactFormatter *formatter)
 	formatter->priv->render_maps = FALSE;
 }
 
+EABContactFormatter *
+eab_contact_formatter_new (EABContactDisplayMode mode,
+			   gboolean render_maps)
+{
+	return g_object_new (EAB_TYPE_CONTACT_FORMATTER,
+			     "display-mode", mode,
+			     "render-maps", render_maps,
+			     NULL);
+}
+
+
 void
 eab_contact_formatter_set_display_mode (EABContactFormatter *formatter,
                                         EABContactDisplayMode mode)

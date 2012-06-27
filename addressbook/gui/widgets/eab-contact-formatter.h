@@ -58,6 +58,10 @@ struct _EABContactFormatterClass {
 
 GType           eab_contact_formatter_get_type  ();
 
+EABContactFormatter*
+		eab_contact_formatter_new	(EABContactDisplayMode mode,
+						 gboolean render_maps);
+
 void            eab_contact_formatter_set_render_maps
                                                 (EABContactFormatter *formatter,
                                                  gboolean render_maps);
