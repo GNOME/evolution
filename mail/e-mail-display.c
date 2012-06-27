@@ -234,8 +234,15 @@ formatter_image_loading_policy_changed_cb (GObject *object,
                                            gpointer user_data)
 {
 	EMailDisplay *display = user_data;
+	EMailFormatter *formatter = E_MAIL_FORMATTER (object);
+	EMailImageLoadingPolicy policy;
 
-	e_mail_display_load_images (display);
+	policy = e_mail_formatter_get_image_loading_policy (formatter);
+	if (policy == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS) {
+		e_mail_display_load_images (display);
+	} else {
+		e_mail_display_reload (display);
+	}
 }
 
 static void
@@ -1533,23 +1540,6 @@ e_mail_display_get_mode (EMailDisplay *display)
 	return display->priv->mode;
 }
 
-static gboolean
-reload_display (EMailDisplay *display)
-{
-	e_mail_display_reload (display);
-	return FALSE;
-}
-
-static void
-schedule_display_reload (EMailDisplay *display)
-{
-	if (display->priv->reload_scheduled)
-		return;
-
-	g_idle_add ((GSourceFunc) reload_display, display);
-	display->priv->reload_scheduled = TRUE;
-}
-
 void
 e_mail_display_set_mode (EMailDisplay *display,
                          EMailFormatterMode mode)
@@ -1577,33 +1567,33 @@ e_mail_display_set_mode (EMailDisplay *display,
 
 	g_object_connect (formatter,
 		"swapped-signal::notify::charset",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::notify::image-loading-policy",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::notify::mark-citations",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::notify::only-local-photos",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::notify::show-sender-photo",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::notify::show-real-date",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::notify::animate-images",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::notify::text-color",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::notify::body-color",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::notify::citation-color",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::notify::content-color",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::notify::frame-color",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::notify::header-color",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		"swapped-signal::need-redraw",
-			G_CALLBACK (schedule_display_reload), display,
+			G_CALLBACK (e_mail_display_reload), display,
 		NULL);
 
 	e_mail_display_reload (display);
@@ -1718,8 +1708,9 @@ e_mail_display_load (EMailDisplay *display,
 	g_free (uri);
 }
 
-void
-e_mail_display_reload (EMailDisplay *display)
+
+static gboolean
+do_reload_display (EMailDisplay *display)
 {
 	EWebView *web_view;
 	const gchar *uri;
@@ -1729,19 +1720,17 @@ e_mail_display_reload (EMailDisplay *display)
 	GHashTableIter table_iter;
 	gpointer key, val;
 
-	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
-
 	web_view = E_WEB_VIEW (display);
 	uri = e_web_view_get_uri (web_view);
 
 	display->priv->reload_scheduled = FALSE;
 
 	if (!uri || !*uri)
-		return;
+		return FALSE;
 
 	if (strstr(uri, "?") == NULL) {
 		e_web_view_reload (web_view);
-		return;
+		return FALSE;
 	}
 
 	base = g_strndup (uri, strstr (uri, "?") - uri + 1);
@@ -1768,6 +1757,20 @@ e_mail_display_reload (EMailDisplay *display)
 	g_string_free (new_uri, TRUE);
 	g_hash_table_destroy (table);
 
+	return FALSE;
+}
+
+void
+e_mail_display_reload (EMailDisplay *display)
+{
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	if (display->priv->reload_scheduled)
+		return;
+
+	/* Schedule reloading if neccessary */
+	g_idle_add ((GSourceFunc) do_reload_display, display);
+	display->priv->reload_scheduled = TRUE;
 }
 
 GtkAction *
