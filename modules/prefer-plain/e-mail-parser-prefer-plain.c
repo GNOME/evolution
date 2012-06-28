@@ -277,11 +277,11 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 		/* Multiparts can represent a text/html with inline images or so */
 		if (camel_content_type_is (ct, "multipart", "*")) {
-			sparts = e_mail_parser_parse_part (
-					parser, sp, part_id, cancellable);
-
 			GSList *iter;
 			gboolean has_html = FALSE;
+
+			sparts = e_mail_parser_parse_part (
+					parser, sp, part_id, cancellable);
 
 			/* Check whether the multipart contains a text/html part */
 			for (iter = sparts; iter; iter = g_slist_next (iter)) {
