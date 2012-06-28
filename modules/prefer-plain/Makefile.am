@@ -21,6 +21,8 @@ module_prefer_plain_la_SOURCES =				\
 module_prefer_plain_la_LIBADD =				\
 	$(top_builddir)/mail/libevolution-mail.la			\
 	$(top_builddir)/em-format/libemformat.la			\
+	$(top_builddir)/shell/libeshell.la				\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)
 
