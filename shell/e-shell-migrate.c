@@ -753,6 +753,29 @@ shell_migrate_get_version (EShell *shell,
 	g_object_unref (settings);
 }
 
+static gboolean
+shell_migrate_downgraded (gint previous_major,
+                          gint previous_minor,
+                          gint previous_micro)
+{
+	gboolean downgraded;
+
+	/* This could just be a single boolean expression,
+	 * but I find this form easier to understand. */
+
+	if (previous_major == EVO_MAJOR_VERSION) {
+		if (previous_minor == EVO_MINOR_VERSION) {
+			downgraded = (previous_micro > EVO_MICRO_VERSION);
+		} else {
+			downgraded = (previous_minor > EVO_MINOR_VERSION);
+		}
+	} else {
+		downgraded = (previous_major > EVO_MAJOR_VERSION);
+	}
+
+	return downgraded;
+}
+
 static void
 change_dir_modes (const gchar *path)
 {
@@ -794,19 +817,56 @@ fix_folder_permissions (const gchar *data_dir)
 		change_dir_modes (data_dir);
 }
 
+static void
+shell_migrate_save_current_version (void)
+{
+	GSettings *settings;
+	gchar *version;
+
+	/* Save the version after the startup wizard has had a chance to
+	 * run.  If the user chooses to restore data and settings from a
+	 * backup, Evolution will restart and the restored data may need
+	 * to be migrated.
+	 *
+	 * If we save the version before the restart, then Evolution will
+	 * think it has already migrated data and settings to the current
+	 * version and the restored data may not be handled properly.
+	 *
+	 * This implies an awareness of module behavior from within the
+	 * application core, but practical considerations overrule here. */
+
+	settings = g_settings_new ("org.gnome.evolution");
+
+	version = g_strdup_printf (
+		"%d.%d.%d",
+		EVO_MAJOR_VERSION,
+		EVO_MINOR_VERSION,
+		EVO_MICRO_VERSION);
+	g_settings_set_string (settings, "version", version);
+	g_free (version);
+
+	g_object_unref (settings);
+}
+
+static void
+shell_migrate_ready_to_start_event_cb (EShell *shell)
+{
+	shell_migrate_save_current_version ();
+}
+
 gboolean
 e_shell_migrate_attempt (EShell *shell)
 {
 	ESEvent *ese;
-	GSettings *settings;
 	gint major, minor, micro;
-	gchar *string;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
-	settings = g_settings_new ("org.gnome.evolution");
-
 	shell_migrate_get_version (shell, &major, &minor, &micro);
+
+	/* Abort all migration if the user downgraded. */
+	if (shell_migrate_downgraded (major, minor, micro))
+		return TRUE;
 
 	/* Migrate to XDG Base Directories first, so shell backends
 	 * don't have to deal with legacy data and cache directories. */
@@ -821,16 +881,10 @@ e_shell_migrate_attempt (EShell *shell)
 	if (!shell_migrate_attempt (shell, major, minor, micro))
 		_exit (EXIT_SUCCESS);
 
-	/* Record a successful migration. */
-	string = g_strdup_printf (
-		"%d.%d.%d",
-		EVO_MAJOR_VERSION,
-		EVO_MINOR_VERSION,
-		EVO_MICRO_VERSION);
-	g_settings_set_string (settings, "version", string);
-	g_free (string);
-
-	g_object_unref (settings);
+	/* We want our handler to run last, hence g_signal_connect_after(). */
+	g_signal_connect_after (
+		shell, "event::ready-to-start",
+		G_CALLBACK (shell_migrate_ready_to_start_event_cb), NULL);
 
 	/** @Event: Shell attempted upgrade
 	 * @Id: upgrade.done
