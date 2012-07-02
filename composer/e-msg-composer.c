@@ -3929,6 +3929,8 @@ file_is_blacklisted (const gchar *argument)
 	}
 
 	if (blacklisted) {
+		gchar *base_dir;
+
 		/* Don't blacklist files in trusted base directories. */
 		if (g_str_has_prefix (filename, g_get_user_data_dir ()))
 			blacklisted = FALSE;
@@ -3936,6 +3938,20 @@ file_is_blacklisted (const gchar *argument)
 			blacklisted = FALSE;
 		if (g_str_has_prefix (filename, g_get_user_config_dir ()))
 			blacklisted = FALSE;
+
+		/* Apparently KDE still uses ~/.kde heavily, and some
+		 * distributions use ~/.kde4 to distinguish KDE4 data
+		 * from KDE3 data.  Trust these directories as well. */
+
+		base_dir = g_build_filename (g_get_home_dir (), ".kde", NULL);
+		if (g_str_has_prefix (filename, base_dir))
+			blacklisted = FALSE;
+		g_free (base_dir);
+
+		base_dir = g_build_filename (g_get_home_dir (), ".kde4", NULL);
+		if (g_str_has_prefix (filename, base_dir))
+			blacklisted = FALSE;
+		g_free (base_dir);
 	}
 
 	g_strfreev (parts);
