@@ -38,6 +38,7 @@
 #include "e-util/e-util.h"
 
 #include "es-event.h"
+#include "evo-version.h"
 
 /******************** Begin XDG Base Directory Migration ********************/
 /* These are the known EShellBackend names as of Evolution 3.0 */
@@ -799,17 +800,11 @@ e_shell_migrate_attempt (EShell *shell)
 	ESEvent *ese;
 	GSettings *settings;
 	gint major, minor, micro;
-	gint curr_major, curr_minor;
 	gchar *string;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
 	settings = g_settings_new ("org.gnome.evolution");
-
-	if (sscanf (BASE_VERSION, "%d.%d", &curr_major, &curr_minor) != 2) {
-		g_warning ("Could not parse BASE_VERSION (%s)", BASE_VERSION);
-		return TRUE;
-	}
 
 	shell_migrate_get_version (shell, &major, &minor, &micro);
 
@@ -818,7 +813,7 @@ e_shell_migrate_attempt (EShell *shell)
 	shell_migrate_to_xdg_base_dirs (shell);
 
 	/* This sets the folder permissions to S_IRWXU if needed */
-	if (curr_major <= 2 && curr_minor <= 30)
+	if (major <= 2 && minor <= 30)
 		fix_folder_permissions (e_get_user_data_dir ());
 
 	/* Attempt to run migration all the time and let the backend
@@ -828,7 +823,10 @@ e_shell_migrate_attempt (EShell *shell)
 
 	/* Record a successful migration. */
 	string = g_strdup_printf (
-		"%d.%d.%d", curr_major, curr_minor, 0);
+		"%d.%d.%d",
+		EVO_MAJOR_VERSION,
+		EVO_MINOR_VERSION,
+		EVO_MICRO_VERSION);
 	g_settings_set_string (settings, "version", string);
 	g_free (string);
 
@@ -845,7 +843,7 @@ e_shell_migrate_attempt (EShell *shell)
 	e_event_emit (
 		(EEvent *) ese, "upgrade.done",
 		(EEventTarget *) es_event_target_new_upgrade (
-		ese, curr_major, curr_minor, 0));
+		ese, EVO_MAJOR_VERSION, EVO_MINOR_VERSION, EVO_MICRO_VERSION));
 
 	return TRUE;
 }

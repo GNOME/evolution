@@ -43,6 +43,8 @@ libeshell_la_CPPFLAGS =						\
 	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/shell					\
+	-I$(top_builddir)					\
+	-I$(top_builddir)/shell					\
 	-DEVOLUTION_BINDIR=\""$(bindir)"\"			\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
@@ -85,6 +87,7 @@ libeshell_la_SOURCES =				\
 	e-shell-migrate.c			\
 	e-shell-migrate.h			\
 	e-shell-window-actions.c		\
+	evo-version.h				\
 	es-event.c
 
 libeshell_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
@@ -186,6 +189,7 @@ errordir = $(privdatadir)/errors
 # Extra dist stuff
 
 EXTRA_DIST = 					\
+	evo-version.h.in			\
 	shell.error.xml				\
 	evolution-nognome.in			\
 	evolution-icon.rc			\
@@ -208,7 +212,10 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(error_DATA) $(ENUM_GENERATED)
+BUILT_SOURCES = \
+	$(error_DATA) \
+	$(ENUM_GENERATED) \
+	evo-version.h
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:

@@ -130,6 +130,10 @@ fi
 AC_SUBST([BASE_VERSION], [base_version])
 AC_DEFINE_UNQUOTED(BASE_VERSION, ["$BASE_VERSION"], [Base version (Major.Minor)])
 
+AC_SUBST([EVO_MAJOR_VERSION], [evo_major_version])
+AC_SUBST([EVO_MINOR_VERSION], [evo_minor_version])
+AC_SUBST([EVO_MICRO_VERSION], [evo_micro_version])
+
 AC_PROG_CC
 AC_C_INLINE
 AC_PROG_CPP
@@ -1487,6 +1491,7 @@ libemail-engine/Makefile
 libemail-engine/libemail-engine.pc
 libgnomecanvas/Makefile
 shell/Makefile
+shell/evo-version.h
 shell/evolution-nognome
 shell/test/Makefile
 ui/Makefile
