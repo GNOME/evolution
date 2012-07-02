@@ -586,7 +586,7 @@ get_widget (EFilterRule *fr,
 	g_free (msg);
 
 	hgrid = GTK_GRID (gtk_grid_new ());
-	gtk_grid_set_column_spacing (hgrid, 12);
+	gtk_grid_set_column_spacing (hgrid, 3);
 	gtk_widget_set_hexpand (GTK_WIDGET (hgrid), TRUE);
 	gtk_widget_set_halign (GTK_WIDGET (hgrid), GTK_ALIGN_FILL);
 	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (hgrid));
@@ -595,7 +595,7 @@ get_widget (EFilterRule *fr,
 	gtk_grid_attach (hgrid, label, 0, 0, 1, 1);
 
 	inframe = gtk_grid_new ();
-	gtk_grid_set_column_spacing (GTK_GRID (inframe), 12);
+	gtk_grid_set_row_spacing (GTK_GRID (inframe), 6);
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (inframe), GTK_ORIENTATION_VERTICAL);
 	gtk_widget_set_hexpand (inframe, TRUE);
 	gtk_widget_set_halign (inframe, GTK_ALIGN_FILL);
@@ -613,20 +613,6 @@ get_widget (EFilterRule *fr,
 
 	/* only set to automatically clean up the memory */
 	g_object_set_data_full ((GObject *) hgrid, "data", data, g_free);
-
-	hgrid = GTK_GRID (gtk_grid_new ());
-	gtk_grid_set_column_spacing (hgrid, 3);
-
-	add = gtk_button_new_with_mnemonic (_("Add Ac_tion"));
-	gtk_button_set_image (
-		GTK_BUTTON (add), gtk_image_new_from_stock (
-		GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
-	g_signal_connect (
-		add, "clicked",
-		G_CALLBACK (more_parts), data);
-	gtk_grid_attach (hgrid, add, 0, 0, 1, 1);
-
-	gtk_container_add (GTK_CONTAINER (inframe), GTK_WIDGET (hgrid));
 
 	l = ff->actions;
 	while (l) {
@@ -653,6 +639,20 @@ get_widget (EFilterRule *fr,
 	gtk_widget_set_valign (scrolledwindow, GTK_ALIGN_FILL);
 
 	gtk_container_add (GTK_CONTAINER (inframe), scrolledwindow);
+
+	hgrid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_column_spacing (hgrid, 3);
+
+	add = gtk_button_new_with_mnemonic (_("Add Ac_tion"));
+	gtk_button_set_image (
+		GTK_BUTTON (add), gtk_image_new_from_stock (
+		GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
+	g_signal_connect (
+		add, "clicked",
+		G_CALLBACK (more_parts), data);
+	gtk_grid_attach (hgrid, add, 0, 0, 1, 1);
+
+	gtk_container_add (GTK_CONTAINER (inframe), GTK_WIDGET (hgrid));
 
 	g_object_set_data (G_OBJECT (add), "scrolled-window", scrolledwindow);
 

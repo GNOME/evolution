@@ -721,7 +721,7 @@ static GtkWidget *
 filter_rule_get_widget (EFilterRule *rule,
                         ERuleContext *context)
 {
-	GtkGrid *hgrid, *vgrid, *inruleame;
+	GtkGrid *hgrid, *vgrid, *inframe;
 	GtkWidget *parts, *add, *label, *name, *w;
 	GtkWidget *combobox;
 	GtkWidget *scrolledwindow;
@@ -773,14 +773,6 @@ filter_rule_get_widget (EFilterRule *rule,
 	gtk_grid_set_column_spacing (hgrid, 12);
 	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (hgrid));
 
-	text = g_strdup_printf ("<b>%s</b>",
-		_("Find items that meet the following conditions"));
-	label = gtk_label_new (text);
-	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
-	gtk_container_add (GTK_CONTAINER (vgrid), label);
-	g_free (text);
-
 	/* this is the parts table, it should probably be inside a scrolling list */
 	rows = g_list_length (rule->parts);
 	parts = gtk_table_new (rows, 2, FALSE);
@@ -794,16 +786,16 @@ filter_rule_get_widget (EFilterRule *rule,
 	/* only set to automatically clean up the memory */
 	g_object_set_data_full ((GObject *) vgrid, "data", data, g_free);
 
-	hgrid = GTK_GRID (gtk_grid_new ());
-	gtk_grid_set_column_spacing (hgrid, 12);
-
 	if (context->flags & E_RULE_CONTEXT_GROUPING) {
 		const gchar *thread_types[] = {
-			N_("If all conditions are met"),
-			N_("If any conditions are met")
+			N_("all the following conditions"),
+			N_("any of the following conditions")
 		};
 
-		label = gtk_label_new_with_mnemonic (_("_Find items:"));
+		hgrid = GTK_GRID (gtk_grid_new ());
+		gtk_grid_set_column_spacing (hgrid, 12);
+
+		label = gtk_label_new_with_mnemonic (_("_Find items which match:"));
 		combobox = gtk_combo_box_text_new ();
 
 		for (i = 0; i < 2; i++) {
@@ -821,9 +813,17 @@ filter_rule_get_widget (EFilterRule *rule,
 		g_signal_connect (
 			combobox, "changed",
 			G_CALLBACK (filter_rule_grouping_changed_cb), rule);
-	}
 
-	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (hgrid));
+		gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (hgrid));
+	} else {
+		text = g_strdup_printf ("<b>%s</b>",
+			_("Find items that meet the following conditions"));
+		label = gtk_label_new (text);
+		gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+		gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+		gtk_container_add (GTK_CONTAINER (vgrid), label);
+		g_free (text);
+	}
 
 	hgrid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_column_spacing (hgrid, 12);
@@ -863,20 +863,6 @@ filter_rule_get_widget (EFilterRule *rule,
 
 	hgrid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_column_spacing (hgrid, 3);
-
-	add = gtk_button_new_with_mnemonic (_("A_dd Condition"));
-	gtk_button_set_image (
-		GTK_BUTTON (add), gtk_image_new_from_stock (
-		GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
-	g_signal_connect (
-		add, "clicked",
-		G_CALLBACK (more_parts), data);
-	gtk_grid_attach (hgrid, add, 0, 0, 1, 1);
-
-	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (hgrid));
-
-	hgrid = GTK_GRID (gtk_grid_new ());
-	gtk_grid_set_column_spacing (hgrid, 3);
 	gtk_widget_set_vexpand (GTK_WIDGET (hgrid), TRUE);
 	gtk_widget_set_valign (GTK_WIDGET (hgrid), GTK_ALIGN_FILL);
 
@@ -885,11 +871,14 @@ filter_rule_get_widget (EFilterRule *rule,
 	label = gtk_label_new ("");
 	gtk_grid_attach (hgrid, label, 0, 0, 1, 1);
 
-	inruleame = GTK_GRID (gtk_grid_new ());
-	gtk_grid_set_row_spacing (inruleame, 6);
-	gtk_widget_set_vexpand (GTK_WIDGET (inruleame), TRUE);
-	gtk_widget_set_valign (GTK_WIDGET (inruleame), GTK_ALIGN_FILL);
-	gtk_grid_attach_next_to (hgrid, GTK_WIDGET (inruleame), label, GTK_POS_RIGHT, 1, 1);
+	inframe = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_row_spacing (inframe, 6);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (inframe), GTK_ORIENTATION_VERTICAL);
+	gtk_widget_set_hexpand (GTK_WIDGET (inframe), TRUE);
+	gtk_widget_set_halign (GTK_WIDGET (inframe), GTK_ALIGN_FILL);
+	gtk_widget_set_vexpand (GTK_WIDGET (inframe), TRUE);
+	gtk_widget_set_valign (GTK_WIDGET (inframe), GTK_ALIGN_FILL);
+	gtk_grid_attach_next_to (hgrid, GTK_WIDGET (inframe), label, GTK_POS_RIGHT, 1, 1);
 
 	l = rule->parts;
 	i = 0;
@@ -922,7 +911,21 @@ filter_rule_get_widget (EFilterRule *rule,
 	gtk_widget_set_valign (scrolledwindow, GTK_ALIGN_FILL);
 	gtk_widget_set_hexpand (scrolledwindow, TRUE);
 	gtk_widget_set_halign (scrolledwindow, GTK_ALIGN_FILL);
-	gtk_container_add (GTK_CONTAINER (inruleame), scrolledwindow);
+	gtk_container_add (GTK_CONTAINER (inframe), scrolledwindow);
+
+	hgrid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_column_spacing (hgrid, 3);
+
+	add = gtk_button_new_with_mnemonic (_("A_dd Condition"));
+	gtk_button_set_image (
+		GTK_BUTTON (add), gtk_image_new_from_stock (
+		GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
+	g_signal_connect (
+		add, "clicked",
+		G_CALLBACK (more_parts), data);
+	gtk_grid_attach (hgrid, add, 0, 0, 1, 1);
+
+	gtk_container_add (GTK_CONTAINER (inframe), GTK_WIDGET (hgrid));
 
 	gtk_widget_show_all (GTK_WIDGET (vgrid));
 
