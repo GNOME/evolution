@@ -550,7 +550,9 @@ get_widget (EFilterRule *fr,
 
 	set_sensitive (data);
 
-	gtk_box_pack_start (GTK_BOX (widget), frame, TRUE, TRUE, 3);
+	gtk_widget_set_valign (frame, GTK_ALIGN_FILL);
+	gtk_widget_set_vexpand (frame, TRUE);
+	gtk_container_add (GTK_CONTAINER (widget), frame);
 
 	g_object_unref (builder);
 

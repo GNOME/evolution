@@ -664,12 +664,65 @@ ensure_scrolled_width_cb (GtkAdjustment *adj,
 		gtk_adjustment_get_upper (adj));
 }
 
+static void
+ensure_scrolled_height_cb (GtkAdjustment *adj,
+			   GParamSpec *param_spec,
+			   GtkScrolledWindow *scrolled_window)
+{
+	GtkWidget *toplevel;
+	GdkScreen *screen;
+	gint toplevel_height, scw_height, require_scw_height = 0, max_height;
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (scrolled_window));
+	if (!toplevel || !gtk_widget_is_toplevel (toplevel))
+		return;
+
+	scw_height = gtk_widget_get_allocated_height (GTK_WIDGET (scrolled_window));
+
+	gtk_widget_get_preferred_height_for_width (gtk_bin_get_child (GTK_BIN (scrolled_window)),
+		gtk_widget_get_allocated_width (GTK_WIDGET (scrolled_window)),
+		&require_scw_height, NULL);
+
+	if (scw_height >= require_scw_height) {
+		if (require_scw_height > 0)
+			gtk_scrolled_window_set_min_content_height (scrolled_window, require_scw_height);
+		return;
+	}
+
+	if (!GTK_IS_WINDOW (toplevel) ||
+	    !gtk_widget_get_window (toplevel))
+		return;
+
+	screen = gtk_window_get_screen (GTK_WINDOW (toplevel));
+	if (screen) {
+		gint monitor;
+		GdkRectangle workarea;
+
+		monitor = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (toplevel));
+		if (monitor < 0)
+			monitor = 0;
+
+		gdk_screen_get_monitor_workarea (screen, monitor, &workarea);
+
+		/* can enlarge up to 4 / 5 monitor's work area height */
+		max_height = workarea.height * 4 / 5;
+	} else {
+		return;
+	}
+
+	toplevel_height = gtk_widget_get_allocated_height (toplevel);
+	if (toplevel_height + require_scw_height - scw_height > max_height)
+		return;
+
+	gtk_scrolled_window_set_min_content_height (scrolled_window, require_scw_height);
+}
+
 static GtkWidget *
 filter_rule_get_widget (EFilterRule *rule,
                         ERuleContext *context)
 {
-	GtkWidget *hbox, *vbox, *parts, *inruleame;
-	GtkWidget *add, *label, *name, *w;
+	GtkGrid *hgrid, *vgrid, *inruleame;
+	GtkWidget *parts, *add, *label, *name, *w;
 	GtkWidget *combobox;
 	GtkWidget *scrolledwindow;
 	GtkAdjustment *hadj, *vadj;
@@ -681,10 +734,14 @@ filter_rule_get_widget (EFilterRule *rule,
 
 	/* this stuff should probably be a table, but the
 	 * rule parts need to be a vbox */
-	vbox = gtk_vbox_new (FALSE, 6);
+	vgrid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_row_spacing (vgrid, 6);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (vgrid), GTK_ORIENTATION_VERTICAL);
 
 	label = gtk_label_new_with_mnemonic (_("R_ule name:"));
 	name = gtk_entry_new ();
+	gtk_widget_set_hexpand (name, TRUE);
+	gtk_widget_set_halign (name, GTK_ALIGN_FILL);
 	gtk_label_set_mnemonic_widget ((GtkLabel *) label, name);
 
 	if (!rule->name) {
@@ -700,27 +757,28 @@ filter_rule_get_widget (EFilterRule *rule,
 		name, "realize",
 		G_CALLBACK (gtk_widget_grab_focus), name);
 
-	hbox = gtk_hbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), name, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+	hgrid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_column_spacing (hgrid, 12);
+
+	gtk_grid_attach (hgrid, label, 0, 0, 1, 1);
+	gtk_grid_attach_next_to (hgrid, name, label, GTK_POS_RIGHT, 1, 1);
+
+	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (hgrid));
+
 	g_signal_connect (
 		name, "changed",
 		G_CALLBACK (name_changed), rule);
-	gtk_widget_show (label);
-	gtk_widget_show (hbox);
 
-	hbox = gtk_hbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-	gtk_widget_show (hbox);
+	hgrid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_column_spacing (hgrid, 12);
+	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (hgrid));
 
 	text = g_strdup_printf ("<b>%s</b>",
 		_("Find items that meet the following conditions"));
 	label = gtk_label_new (text);
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	gtk_widget_show (label);
+	gtk_container_add (GTK_CONTAINER (vgrid), label);
 	g_free (text);
 
 	/* this is the parts table, it should probably be inside a scrolling list */
@@ -734,9 +792,10 @@ filter_rule_get_widget (EFilterRule *rule,
 	data->parts = parts;
 
 	/* only set to automatically clean up the memory */
-	g_object_set_data_full ((GObject *) vbox, "data", data, g_free);
+	g_object_set_data_full ((GObject *) vgrid, "data", data, g_free);
 
-	hbox = gtk_hbox_new (FALSE, 3);
+	hgrid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_column_spacing (hgrid, 12);
 
 	if (context->flags & E_RULE_CONTEXT_GROUPING) {
 		const gchar *thread_types[] = {
@@ -755,19 +814,19 @@ filter_rule_get_widget (EFilterRule *rule,
 
 		gtk_label_set_mnemonic_widget ((GtkLabel *) label, combobox);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), rule->grouping);
-		gtk_widget_show (combobox);
 
-		gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 12);
-		gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, 12);
+		gtk_grid_attach (hgrid, label, 0, 0, 1, 1);
+		gtk_grid_attach_next_to (hgrid, combobox, label, GTK_POS_RIGHT, 1, 1);
 
 		g_signal_connect (
 			combobox, "changed",
 			G_CALLBACK (filter_rule_grouping_changed_cb), rule);
 	}
 
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-	gtk_widget_show (hbox);
-	hbox = gtk_hbox_new (FALSE, 3);
+	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (hgrid));
+
+	hgrid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_column_spacing (hgrid, 12);
 
 	if (context->flags & E_RULE_CONTEXT_THREADING) {
 		const gchar *thread_types[] = {
@@ -791,20 +850,20 @@ filter_rule_get_widget (EFilterRule *rule,
 
 		gtk_label_set_mnemonic_widget ((GtkLabel *) label, combobox);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), rule->threading);
-		gtk_widget_show (combobox);
 
-		gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 12);
-		gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, 12);
+		gtk_grid_attach (hgrid, label, 0, 0, 1, 1);
+		gtk_grid_attach_next_to (hgrid, combobox, label, GTK_POS_RIGHT, 1, 1);
 
 		g_signal_connect (
 			combobox, "changed",
 			G_CALLBACK (filter_rule_threading_changed_cb), rule);
 	}
 
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-	gtk_widget_show (hbox);
+	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (hgrid));
 
-	hbox = gtk_hbox_new (FALSE, 3);
+	hgrid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_column_spacing (hgrid, 3);
+
 	add = gtk_button_new_with_mnemonic (_("A_dd Condition"));
 	gtk_button_set_image (
 		GTK_BUTTON (add), gtk_image_new_from_stock (
@@ -812,20 +871,25 @@ filter_rule_get_widget (EFilterRule *rule,
 	g_signal_connect (
 		add, "clicked",
 		G_CALLBACK (more_parts), data);
-	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-	gtk_widget_show (hbox);
+	gtk_grid_attach (hgrid, add, 0, 0, 1, 1);
 
-	hbox = gtk_hbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
-	gtk_widget_show (hbox);
+	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (hgrid));
+
+	hgrid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_column_spacing (hgrid, 3);
+	gtk_widget_set_vexpand (GTK_WIDGET (hgrid), TRUE);
+	gtk_widget_set_valign (GTK_WIDGET (hgrid), GTK_ALIGN_FILL);
+
+	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (hgrid));
 
 	label = gtk_label_new ("");
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	gtk_widget_show (label);
+	gtk_grid_attach (hgrid, label, 0, 0, 1, 1);
 
-	inruleame = gtk_vbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (hbox), inruleame, TRUE, TRUE, 0);
+	inruleame = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_row_spacing (inruleame, 6);
+	gtk_widget_set_vexpand (GTK_WIDGET (inruleame), TRUE);
+	gtk_widget_set_valign (GTK_WIDGET (inruleame), GTK_ALIGN_FILL);
+	gtk_grid_attach_next_to (hgrid, GTK_WIDGET (inruleame), label, GTK_POS_RIGHT, 1, 1);
 
 	l = rule->parts;
 	i = 0;
@@ -843,6 +907,9 @@ filter_rule_get_widget (EFilterRule *rule,
 	g_signal_connect (
 		hadj, "notify::upper",
 		G_CALLBACK (ensure_scrolled_width_cb), scrolledwindow);
+	g_signal_connect (
+		vadj, "notify::upper",
+		G_CALLBACK (ensure_scrolled_height_cb), scrolledwindow);
 
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scrolledwindow),
@@ -851,13 +918,17 @@ filter_rule_get_widget (EFilterRule *rule,
 	gtk_scrolled_window_add_with_viewport (
 		GTK_SCROLLED_WINDOW (scrolledwindow), parts);
 
-	gtk_box_pack_start (GTK_BOX (inruleame), scrolledwindow, TRUE, TRUE, 3);
+	gtk_widget_set_vexpand (scrolledwindow, TRUE);
+	gtk_widget_set_valign (scrolledwindow, GTK_ALIGN_FILL);
+	gtk_widget_set_hexpand (scrolledwindow, TRUE);
+	gtk_widget_set_halign (scrolledwindow, GTK_ALIGN_FILL);
+	gtk_container_add (GTK_CONTAINER (inruleame), scrolledwindow);
 
-	gtk_widget_show_all (vbox);
+	gtk_widget_show_all (GTK_WIDGET (vgrid));
 
 	g_object_set_data (G_OBJECT (add), "scrolled-window", scrolledwindow);
 
-	return vbox;
+	return GTK_WIDGET (vgrid);
 }
 
 static void

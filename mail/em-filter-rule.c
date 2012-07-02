@@ -505,13 +505,67 @@ more_parts (GtkWidget *button,
 	}
 }
 
+static void
+ensure_scrolled_height_cb (GtkAdjustment *adj,
+			   GParamSpec *param_spec,
+			   GtkScrolledWindow *scrolled_window)
+{
+	GtkWidget *toplevel;
+	GdkScreen *screen;
+	gint toplevel_height, scw_height, require_scw_height = 0, max_height;
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (scrolled_window));
+	if (!toplevel || !gtk_widget_is_toplevel (toplevel))
+		return;
+
+	scw_height = gtk_widget_get_allocated_height (GTK_WIDGET (scrolled_window));
+
+	gtk_widget_get_preferred_height_for_width (gtk_bin_get_child (GTK_BIN (scrolled_window)),
+		gtk_widget_get_allocated_width (GTK_WIDGET (scrolled_window)),
+		&require_scw_height, NULL);
+
+	if (scw_height >= require_scw_height) {
+		if (require_scw_height > 0)
+			gtk_scrolled_window_set_min_content_height (scrolled_window, require_scw_height);
+		return;
+	}
+
+	if (!GTK_IS_WINDOW (toplevel) ||
+	    !gtk_widget_get_window (toplevel))
+		return;
+
+	screen = gtk_window_get_screen (GTK_WINDOW (toplevel));
+	if (screen) {
+		gint monitor;
+		GdkRectangle workarea;
+
+		monitor = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (toplevel));
+		if (monitor < 0)
+			monitor = 0;
+
+		gdk_screen_get_monitor_workarea (screen, monitor, &workarea);
+
+		/* can enlarge up to 4 / 5 monitor's work area height */
+		max_height = workarea.height * 4 / 5;
+	} else {
+		return;
+	}
+
+	toplevel_height = gtk_widget_get_allocated_height (toplevel);
+	if (toplevel_height + require_scw_height - scw_height > max_height)
+		return;
+
+	gtk_scrolled_window_set_min_content_height (scrolled_window, require_scw_height);
+}
+
 static GtkWidget *
 get_widget (EFilterRule *fr,
             ERuleContext *rc)
 {
-	GtkWidget *widget, *hbox, *add, *label;
+	GtkWidget *widget, *add, *label;
 	GtkWidget *parts, *inframe, *w;
 	GtkWidget *scrolledwindow;
+	GtkGrid *hgrid;
 	GtkAdjustment *hadj, *vadj;
 	GList *l;
 	EFilterPart *part;
@@ -528,20 +582,27 @@ get_widget (EFilterRule *fr,
 	label = gtk_label_new (msg);
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
-	gtk_box_pack_start (GTK_BOX (widget), label, FALSE, FALSE, 0);
-	gtk_widget_show (label);
+	gtk_container_add (GTK_CONTAINER (widget), label);
 	g_free (msg);
 
-	hbox = gtk_hbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (widget), hbox, TRUE, TRUE, 0);
-	gtk_widget_show (hbox);
+	hgrid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_column_spacing (hgrid, 12);
+	gtk_widget_set_hexpand (GTK_WIDGET (hgrid), TRUE);
+	gtk_widget_set_halign (GTK_WIDGET (hgrid), GTK_ALIGN_FILL);
+	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (hgrid));
 
-	label = gtk_label_new("");
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	gtk_widget_show (label);
+	label = gtk_label_new ("");
+	gtk_grid_attach (hgrid, label, 0, 0, 1, 1);
 
-	inframe = gtk_vbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (hbox), inframe, TRUE, TRUE, 0);
+	inframe = gtk_grid_new ();
+	gtk_grid_set_column_spacing (GTK_GRID (inframe), 12);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (inframe), GTK_ORIENTATION_VERTICAL);
+	gtk_widget_set_hexpand (inframe, TRUE);
+	gtk_widget_set_halign (inframe, GTK_ALIGN_FILL);
+	gtk_widget_set_vexpand (inframe, TRUE);
+	gtk_widget_set_valign (inframe, GTK_ALIGN_FILL);
+
+	gtk_grid_attach_next_to (hgrid, inframe, label, GTK_POS_RIGHT, 1, 1);
 
 	rows = g_list_length (ff->actions);
 	parts = gtk_table_new (rows, 2, FALSE);
@@ -551,9 +612,10 @@ get_widget (EFilterRule *fr,
 	data->parts = parts;
 
 	/* only set to automatically clean up the memory */
-	g_object_set_data_full ((GObject *) hbox, "data", data, g_free);
+	g_object_set_data_full ((GObject *) hgrid, "data", data, g_free);
 
-	hbox = gtk_hbox_new (FALSE, 3);
+	hgrid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_column_spacing (hgrid, 3);
 
 	add = gtk_button_new_with_mnemonic (_("Add Ac_tion"));
 	gtk_button_set_image (
@@ -562,9 +624,9 @@ get_widget (EFilterRule *fr,
 	g_signal_connect (
 		add, "clicked",
 		G_CALLBACK (more_parts), data);
-	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 0);
+	gtk_grid_attach (hgrid, add, 0, 0, 1, 1);
 
-	gtk_box_pack_start (GTK_BOX (inframe), hbox, FALSE, FALSE, 3);
+	gtk_container_add (GTK_CONTAINER (inframe), GTK_WIDGET (hgrid));
 
 	l = ff->actions;
 	while (l) {
@@ -585,11 +647,18 @@ get_widget (EFilterRule *fr,
 	gtk_scrolled_window_add_with_viewport (
 		GTK_SCROLLED_WINDOW (scrolledwindow), parts);
 
-	gtk_box_pack_start (GTK_BOX (inframe), scrolledwindow, TRUE, TRUE, 0);
+	gtk_widget_set_hexpand (scrolledwindow, TRUE);
+	gtk_widget_set_halign (scrolledwindow, GTK_ALIGN_FILL);
+	gtk_widget_set_vexpand (scrolledwindow, TRUE);
+	gtk_widget_set_valign (scrolledwindow, GTK_ALIGN_FILL);
 
-	/*gtk_box_pack_start(GTK_BOX(inframe), parts, FALSE, FALSE, 3);*/
+	gtk_container_add (GTK_CONTAINER (inframe), scrolledwindow);
 
 	g_object_set_data (G_OBJECT (add), "scrolled-window", scrolledwindow);
+
+	g_signal_connect (
+		vadj, "notify::upper",
+		G_CALLBACK (ensure_scrolled_height_cb), scrolledwindow);
 
 	gtk_widget_show_all (widget);
 
