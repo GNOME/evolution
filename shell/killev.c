@@ -94,18 +94,6 @@ exit:
 	return success;
 }
 
-static void
-kill_factories (void)
-{
-	#ifdef KILL_PROCESS_CMD
-
-	system (KILL_PROCESS_CMD " -QUIT evolution 2> /dev/null");
-	system (KILL_PROCESS_CMD " -QUIT e-calendar-factory 2> /dev/null");
-	system (KILL_PROCESS_CMD " -QUIT e-addressbook-factory 2> /dev/null");
-
-	#endif
-}
-
 gint
 main (gint argc,
       gchar **argv)
@@ -114,6 +102,7 @@ main (gint argc,
 	GFileMonitor *monitor;
 	const gchar *user_config_dir;
 	gchar *filename;
+	gint retval = EXIT_SUCCESS;
 	GError *error = NULL;
 
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
@@ -129,27 +118,22 @@ main (gint argc,
 
 	if (!get_evolution_pid (pid_file)) {
 		g_printerr ("Could not find Evolution's process ID\n");
-		kill_factories ();
-		exit (EXIT_FAILURE);
+		retval = EXIT_FAILURE;
+		goto kill;
 	}
 
-	if (g_getenv ("DISPLAY") == NULL) {
-		#ifdef KILL_PROCESS_CMD
+	if (g_getenv ("DISPLAY") == NULL)
+		goto kill;
 
-		system (KILL_PROCESS_CMD " -QUIT evolution 2> /dev/null");
-
-		#endif
-	} else {
-		/* Play it safe here and bail if something goes wrong.  We don't
-		 * want to just skip to the killing if we can't ask Evolution to
-		 * terminate gracefully.  Despite our name we actually want to
-		 * -avoid- killing Evolution if at all possible. */
-		if (!g_spawn_command_line_async ("evolution --quit", &error)) {
-			g_printerr ("%s", error->message);
-			g_error_free (error);
-			kill_factories ();
-			exit (EXIT_FAILURE);
-		}
+	/* Play it safe here and bail if something goes wrong.  We don't
+	 * want to just skip to the killing if we can't ask Evolution to
+	 * terminate gracefully.  Despite our name we actually want to
+	 * -avoid- killing Evolution if at all possible. */
+	if (!g_spawn_command_line_async ("evolution --quit", &error)) {
+		g_printerr ("%s\n", error->message);
+		g_error_free (error);
+		retval = EXIT_FAILURE;
+		goto kill;
 	}
 
 	/* Now we set up a monitor on Evolution's .running file.
@@ -157,10 +141,10 @@ main (gint argc,
 	 * file just before terminating and we'll be notified. */
 	monitor = g_file_monitor_file (pid_file, 0, NULL, &error);
 	if (error != NULL) {
-		g_printerr ("%s", error->message);
+		g_printerr ("%s\n", error->message);
 		g_error_free (error);
-		kill_factories ();
-		exit (EXIT_FAILURE);
+		retval = EXIT_FAILURE;
+		goto kill;
 	}
 
 	g_signal_connect (
@@ -179,7 +163,12 @@ main (gint argc,
 
 	g_object_unref (monitor);
 
-	kill_factories ();
+kill:
+#ifdef KILL_PROCESS_CMD
+	system (KILL_PROCESS_CMD " -QUIT evolution 2> /dev/null");
+#else
+	g_printerr ("No \"kill\" command available.\n");
+#endif
 
-	return EXIT_SUCCESS;
+	return retval;
 }
