@@ -1492,7 +1492,6 @@ libemail-engine/libemail-engine.pc
 libgnomecanvas/Makefile
 shell/Makefile
 shell/evo-version.h
-shell/evolution-nognome
 shell/test/Makefile
 ui/Makefile
 views/Makefile

@@ -191,7 +191,6 @@ errordir = $(privdatadir)/errors
 EXTRA_DIST = 					\
 	evo-version.h.in			\
 	shell.error.xml				\
-	evolution-nognome.in			\
 	evolution-icon.rc			\
 	evolution.ico				\
 	evolution-mail.ico			\
@@ -220,8 +219,6 @@ CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
-
-noinst_SCRIPTS = evolution-nognome
 
 evolution-icon.o: evolution.ico evolution-mail.ico evolution-memos.ico evolution-tasks.ico
 	$(WINDRES) evolution-icon.rc evolution-icon.o
