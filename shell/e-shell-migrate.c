@@ -799,7 +799,7 @@ e_shell_migrate_attempt (EShell *shell)
 	ESEvent *ese;
 	GSettings *settings;
 	gint major, minor, micro;
-	gint curr_major, curr_minor, curr_micro;
+	gint curr_major, curr_minor;
 	gchar *string;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
@@ -810,8 +810,6 @@ e_shell_migrate_attempt (EShell *shell)
 		g_warning ("Could not parse BASE_VERSION (%s)", BASE_VERSION);
 		return TRUE;
 	}
-
-	curr_micro = atoi (UPGRADE_REVISION);
 
 	shell_migrate_get_version (shell, &major, &minor, &micro);
 
@@ -830,7 +828,7 @@ e_shell_migrate_attempt (EShell *shell)
 
 	/* Record a successful migration. */
 	string = g_strdup_printf (
-		"%d.%d.%d", curr_major, curr_minor, curr_micro);
+		"%d.%d.%d", curr_major, curr_minor, 0);
 	g_settings_set_string (settings, "version", string);
 	g_free (string);
 
@@ -847,7 +845,7 @@ e_shell_migrate_attempt (EShell *shell)
 	e_event_emit (
 		(EEvent *) ese, "upgrade.done",
 		(EEventTarget *) es_event_target_new_upgrade (
-		ese, curr_major, curr_minor, curr_micro));
+		ese, curr_major, curr_minor, 0));
 
 	return TRUE;
 }

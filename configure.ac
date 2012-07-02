@@ -16,10 +16,6 @@ dnl the way it is so that GETTEXT_PACKAGE will be parsed correctly.
 BASE_VERSION=3.6
 m4_define([base_version], [3.6])
 
-dnl Upgrade Revision: This is for triggering migration calls between
-dnl varying versions. Reset to 0 whenever BASE_VERSION changes.
-m4_define([upgrade_revision], [0])
-
 dnl Autoconf / Automake Initialization
 AC_PREREQ([2.64])
 AC_INIT([evolution],[evo_version],[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution],[evolution],[http://www.gnome.org/projects/evolution/])
@@ -133,9 +129,6 @@ fi
 
 AC_SUBST([BASE_VERSION], [base_version])
 AC_DEFINE_UNQUOTED(BASE_VERSION, ["$BASE_VERSION"], [Base version (Major.Minor)])
-
-AC_SUBST([UPGRADE_REVISION],[upgrade_revision])
-AC_DEFINE_UNQUOTED(UPGRADE_REVISION, ["$UPGRADE_REVISION"], [The number of times we've upgraded since the BASE_VERSION release])
 
 AC_PROG_CC
 AC_C_INLINE
