@@ -1,6 +1,5 @@
 [org.gnome.evolution]
 version = /apps/evolution/version
-last-upgraded-version = /apps/evolution/last_version
 disabled-eplugins = /apps/evolution/eplugin/disabled
 
 [org.gnome.evolution.shell]

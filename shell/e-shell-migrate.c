@@ -799,9 +799,7 @@ e_shell_migrate_attempt (EShell *shell)
 	ESEvent *ese;
 	GSettings *settings;
 	gint major, minor, micro;
-	gint last_major, last_minor, last_micro;
 	gint curr_major, curr_minor, curr_micro;
-	gboolean migrated = FALSE;
 	gchar *string;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
@@ -834,23 +832,6 @@ e_shell_migrate_attempt (EShell *shell)
 	string = g_strdup_printf (
 		"%d.%d.%d", curr_major, curr_minor, curr_micro);
 	g_settings_set_string (settings, "version", string);
-	g_free (string);
-
-	migrated = TRUE;
-
-	/* Try to retrieve the last migrated version from GSettings. */
-	string = g_settings_get_string (settings, "last-upgraded-version");
-	if (migrated || string == NULL || sscanf (string, "%d.%d.%d",
-		&last_major, &last_minor, &last_micro) != 3) {
-		last_major = major;
-		last_minor = minor;
-		last_micro = micro;
-	}
-	g_free (string);
-
-	string = g_strdup_printf (
-		"%d.%d.%d", last_major, last_minor, last_micro);
-	g_settings_set_string (settings, "last-upgraded-version", string);
 	g_free (string);
 
 	g_object_unref (settings);
