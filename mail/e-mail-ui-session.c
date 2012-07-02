@@ -492,7 +492,10 @@ mail_ui_session_source_changed_cb (ESourceRegistry *registry,
 
 	/* There should be a CamelStore with the same UID. */
 	service = camel_session_get_service (CAMEL_SESSION (session), uid);
-	g_return_if_fail (CAMEL_IS_STORE (service));
+
+	/* send-only accounts */
+	if (!CAMEL_IS_STORE (service))
+		return;
 
 	/* Remove the store from the folder tree model and, if the
 	 * source is still enabled, re-add it.  Easier than trying
