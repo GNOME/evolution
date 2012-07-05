@@ -133,7 +133,6 @@
   <_primary>Cannot add new contact</_primary>
   <!-- For Translators: {0} is the name of the address book source -->
   <_secondary>'{0}' is a read-only address book and cannot be modified. Please select a different address book from the side bar in the Contacts view.</_secondary>
-  <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
  </error>
 
 </error-list>
