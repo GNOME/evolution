@@ -52,9 +52,16 @@ enum {
 	PROP_SESSION
 };
 
+enum {
+	CHANGES_COMMITTED,
+	LAST_SIGNAL
+};
+
 /* Forward Declarations */
 static void	e_mail_config_window_alert_sink_init
 					(EAlertSinkInterface *interface);
+
+static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigWindow,
@@ -161,6 +168,7 @@ mail_config_window_commit_cb (GObject *object,
 		g_error_free (error);
 
 	} else {
+		g_signal_emit (window, signals[CHANGES_COMMITTED], 0);
 		gtk_widget_destroy (GTK_WIDGET (window));
 	}
 }
@@ -475,6 +483,15 @@ e_mail_config_window_class_init (EMailConfigWindowClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
+
+	signals[CHANGES_COMMITTED] = g_signal_new (
+		"changes-committed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMailConfigWindowClass, changes_committed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void

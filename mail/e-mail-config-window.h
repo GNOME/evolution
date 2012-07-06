@@ -55,6 +55,9 @@ struct _EMailConfigWindow {
 
 struct _EMailConfigWindowClass {
 	GtkDialogClass parent_class;
+
+	/* Signals */
+	void		(*changes_committed)	(EMailConfigWindow *window);
 };
 
 GType		e_mail_config_window_get_type	(void) G_GNUC_CONST;
