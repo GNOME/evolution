@@ -433,6 +433,82 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 }
 
 static void
+mail_shell_backend_disconnect_done_cb (GObject *source_object,
+                                       GAsyncResult *result,
+                                       gpointer user_data)
+{
+	CamelService *service;
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	GError *error = NULL;
+
+	service = CAMEL_SERVICE (source_object);
+	activity = E_ACTIVITY (user_data);
+
+	alert_sink = e_activity_get_alert_sink (activity);
+
+	camel_service_disconnect_finish (service, result, &error);
+
+	if (e_activity_handle_cancellation (activity, error)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		e_alert_submit (
+			alert_sink,
+			"mail:disconnect",
+			camel_service_get_display_name (service),
+			error->message, NULL);
+		g_error_free (error);
+
+	} else {
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	}
+
+	g_object_unref (activity);
+}
+
+static void
+mail_shell_backend_changes_committed_cb (EMailConfigWindow *window,
+                                         EMailShellBackend *mail_shell_backend)
+{
+	EMailSession *session;
+	EShellBackend *shell_backend;
+	ESource *original_source;
+	CamelService *service;
+	EActivity *activity;
+	GCancellable *cancellable;
+	GtkWindow *parent;
+	const gchar *uid;
+
+	session = e_mail_config_window_get_session (window);
+	original_source = e_mail_config_window_get_original_source (window);
+
+	uid = e_source_get_uid (original_source);
+	service = camel_session_get_service (CAMEL_SESSION (session), uid);
+	g_return_if_fail (CAMEL_IS_STORE (service));
+
+	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
+
+	activity = e_activity_new ();
+
+	/* XXX Can we be sure the parent window will always implement
+	 *     EAlertSink?  May need some kind of fallback behavior. */
+	parent = gtk_window_get_transient_for (GTK_WINDOW (window));
+	e_activity_set_alert_sink (activity, E_ALERT_SINK (parent));
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (activity, cancellable);
+
+	e_shell_backend_add_activity (shell_backend, activity);
+
+	camel_service_disconnect (
+		service, TRUE, G_PRIORITY_DEFAULT, cancellable,
+		mail_shell_backend_disconnect_done_cb, activity);
+
+	g_object_unref (cancellable);
+}
+
+static void
 mail_shell_backend_constructed (GObject *object)
 {
 	EShell *shell;
@@ -772,6 +848,12 @@ e_mail_shell_backend_edit_account (EMailShellBackend *mail_shell_backend,
 	priv->editor = e_mail_config_window_new (session, mail_account);
 	gtk_window_set_transient_for (GTK_WINDOW (priv->editor), parent);
 	g_object_add_weak_pointer (G_OBJECT (priv->editor), &priv->editor);
+
+	g_signal_connect (
+		priv->editor, "changes-committed",
+		G_CALLBACK (mail_shell_backend_changes_committed_cb),
+		mail_shell_backend);
+
 	gtk_widget_show (priv->editor);
 }
 
