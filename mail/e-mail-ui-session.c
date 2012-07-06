@@ -82,8 +82,6 @@ struct _EMailUISessionPrivate {
 	ESourceRegistry *registry;
 	EMailAccountStore *account_store;
 	EMailLabelListStore *label_store;
-
-	gulong source_changed_handler_id;
 };
 
 enum {
@@ -471,63 +469,6 @@ source_context_free (SourceContext *context)
 	g_slice_free (SourceContext, context);
 }
 
-static void
-mail_ui_session_source_changed_cb (ESourceRegistry *registry,
-                                   ESource *source,
-                                   EMailSession *session)
-{
-	EMFolderTreeModel *folder_tree_model;
-	CamelService *service;
-	ESource *collection;
-	gboolean enabled;
-	const gchar *extension_name;
-	const gchar *uid;
-
-	uid = e_source_get_uid (source);
-
-	/* We're only interested in mail account data sources. */
-	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
-	if (!e_source_has_extension (source, extension_name))
-		return;
-
-	/* There should be a CamelStore with the same UID. */
-	service = camel_session_get_service (CAMEL_SESSION (session), uid);
-
-	/* send-only accounts */
-	if (!CAMEL_IS_STORE (service))
-		return;
-
-	/* Remove the store from the folder tree model and, if the
-	 * source is still enabled, re-add it.  Easier than trying
-	 * to update the model with the store in place.
-	 *
-	 * em_folder_tree_model_add_store() already knows which types
-	 * of stores to disregard, so we don't have to deal with that
-	 * here. */
-
-	folder_tree_model = em_folder_tree_model_get_default ();
-
-	em_folder_tree_model_remove_store (
-		folder_tree_model, CAMEL_STORE (service));
-
-	/* If this ESource is part of a collection, we need to
-	 * pick up the enabled state for the entire collection.
-	 * Check the ESource and its ancestors for a collection
-	 * extension and read from the containing source. */
-	collection = e_source_registry_find_extension (
-		registry, source, E_SOURCE_EXTENSION_COLLECTION);
-	if (collection != NULL) {
-		enabled = e_source_get_enabled (collection);
-		g_object_unref (collection);
-	} else {
-		enabled = e_source_get_enabled (source);
-	}
-
-	if (enabled)
-		em_folder_tree_model_add_store (
-			folder_tree_model, CAMEL_STORE (service));
-}
-
 static gboolean
 mail_ui_session_add_service_cb (SourceContext *context)
 {
@@ -573,9 +514,6 @@ mail_ui_session_dispose (GObject *object)
 	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
 
 	if (priv->registry != NULL) {
-		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_changed_handler_id);
 		g_object_unref (priv->registry);
 		priv->registry = NULL;
 	}
@@ -628,13 +566,6 @@ mail_ui_session_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->constructed (object);
-
-	/* Listen for registry changes. */
-
-	handler_id = g_signal_connect (
-		registry, "source-changed",
-		G_CALLBACK (mail_ui_session_source_changed_cb), session);
-	priv->source_changed_handler_id = handler_id;
 }
 
 static CamelService *
