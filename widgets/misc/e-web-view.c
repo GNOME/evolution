@@ -2908,7 +2908,8 @@ e_web_view_update_fonts (EWebView *web_view)
 	const gchar *styles[] = { "normal", "oblique", "italic" };
 	const gchar *smoothing = NULL;
 	GtkStyleContext *context;
-	GdkColor *link, *visited;
+	GdkColor *link = NULL;
+	GdkColor *visited = NULL;
 
 	ms = NULL;
 	vw = NULL;
@@ -2999,13 +3000,13 @@ e_web_view_update_fonts (EWebView *web_view)
 		"visited-link-color", &visited,
 		NULL);
 
-	if (!link) {
-		link = g_new0 (GdkColor, 1);
+	if (link == NULL) {
+		link = g_slice_new0 (GdkColor);
 		link->blue = G_MAXINT16;
 	}
 
-	if (!visited) {
-		visited = g_new0 (GdkColor, 1);
+	if (visited == NULL) {
+		visited = g_slice_new0 (GdkColor);
 		visited->red = G_MAXINT16;
 	}
 
@@ -3019,11 +3020,8 @@ e_web_view_update_fonts (EWebView *web_view)
 		e_color_to_value (link),
 		e_color_to_value (visited));
 
-	if (link)
-		gdk_color_free (link);
-
-	if (visited)
-		gdk_color_free (visited);
+	gdk_color_free (link);
+	gdk_color_free (visited);
 
 	base64 = g_base64_encode ((guchar *) stylesheet->str, stylesheet->len);
 	g_string_free (stylesheet, TRUE);
