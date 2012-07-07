@@ -1201,8 +1201,14 @@ e_mail_account_store_remove_service (EMailAccountStore *store,
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
+	/* XXX Our service_removed() class method calls e_source_remove(),
+	 *     which causes the registry service to emit a "source-removed"
+	 *     signal.  But since other applications may also induce signal
+	 *     emissions from the registry service, EMailUISession handles
+	 *     "source-removed" by calling this function.  So quietly break
+	 *     the cycle if we don't find the service in our tree model. */
 	if (!mail_account_store_get_iter (store, service, &iter))
-		g_return_if_reached ();
+		return;
 
 	/* If no parent window was given, skip the request signal. */
 	if (GTK_IS_WINDOW (parent_window))
