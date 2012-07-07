@@ -540,7 +540,6 @@ mail_ui_session_constructed (GObject *object)
 	EMFolderTreeModel *folder_tree_model;
 	ESourceRegistry *registry;
 	EMailSession *session;
-	gulong handler_id;
 
 	session = E_MAIL_SESSION (object);
 
