@@ -424,7 +424,7 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 	registry = e_shell_get_registry (shell);
 
 	class = CAMEL_STORE_GET_CLASS (store);
-	g_return_if_fail (class->compare_folder_name != NULL);
+	g_return_if_fail (class->equal_folder_name != NULL);
 
 	session = e_mail_backend_get_session (backend);
 	alert_sink = e_mail_backend_get_alert_sink (backend);
@@ -453,7 +453,7 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 			e_source_mail_composition_get_drafts_folder (
 			E_SOURCE_MAIL_COMPOSITION (extension));
 
-		if (class->compare_folder_name (drafts_folder_uri, uri)) {
+		if (class->equal_folder_name (drafts_folder_uri, uri)) {
 			GError *error = NULL;
 
 			e_source_mail_composition_set_drafts_folder (
@@ -484,7 +484,7 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 			e_source_mail_submission_get_sent_folder (
 			E_SOURCE_MAIL_SUBMISSION (extension));
 
-		if (class->compare_folder_name (sent_folder_uri, uri)) {
+		if (class->equal_folder_name (sent_folder_uri, uri)) {
 			GError *error = NULL;
 
 			e_source_mail_submission_set_sent_folder (
@@ -539,7 +539,7 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 	registry = e_shell_get_registry (shell);
 
 	class = CAMEL_STORE_GET_CLASS (store);
-	g_return_if_fail (class->compare_folder_name != NULL);
+	g_return_if_fail (class->equal_folder_name != NULL);
 
 	old_uri = e_mail_folder_uri_build (store, old_folder_name);
 	new_uri = e_mail_folder_uri_build (store, new_folder_name);
@@ -558,7 +558,7 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 			e_source_mail_composition_get_drafts_folder (
 			E_SOURCE_MAIL_COMPOSITION (extension));
 
-		if (class->compare_folder_name (drafts_folder_uri, old_uri)) {
+		if (class->equal_folder_name (drafts_folder_uri, old_uri)) {
 			GError *error = NULL;
 
 			e_source_mail_composition_set_drafts_folder (
@@ -589,7 +589,7 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 			e_source_mail_submission_get_sent_folder (
 			E_SOURCE_MAIL_SUBMISSION (extension));
 
-		if (class->compare_folder_name (sent_folder_uri, old_uri)) {
+		if (class->equal_folder_name (sent_folder_uri, old_uri)) {
 			GError *error = NULL;
 
 			e_source_mail_submission_set_sent_folder (

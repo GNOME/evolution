@@ -1653,9 +1653,9 @@ e_mail_folder_uri_equal (CamelSession *session,
 
 	/* Doesn't matter which store we use since they're the same. */
 	class = CAMEL_STORE_GET_CLASS (store_a);
-	g_return_val_if_fail (class->compare_folder_name != NULL, FALSE);
+	g_return_val_if_fail (class->equal_folder_name != NULL, FALSE);
 
-	equal = class->compare_folder_name (folder_name_a, folder_name_b);
+	equal = class->equal_folder_name (folder_name_a, folder_name_b);
 
 exit:
 	if (success_a) {
