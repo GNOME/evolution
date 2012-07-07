@@ -484,6 +484,9 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 			e_source_mail_submission_get_sent_folder (
 			E_SOURCE_MAIL_SUBMISSION (extension));
 
+		if (sent_folder_uri == NULL)
+			continue;
+
 		if (class->equal_folder_name (sent_folder_uri, uri)) {
 			GError *error = NULL;
 
