@@ -18,10 +18,11 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-07-02 16:38+0000\n"
-"PO-Revision-Date: 2012-07-06 11:50+0200\n"
+"POT-Creation-Date: 2012-07-06 19:42+0000\n"
+"PO-Revision-Date: 2012-07-07 12:53+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2103,8 +2104,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
 msgstr ""
-"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione un "
-"calendario diferente de la barra lateral en la vista del calendario."
+"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione "
+"un calendario diferente de la barra lateral en la vista del calendario."
 
 #: ../calendar/calendar.error.xml.h:76
 msgid "Cannot save event"
@@ -2173,7 +2174,7 @@ msgstr ""
 msgid "Could not perform this operation."
 msgstr "No se pudo realizar esta operación."
 
-#: ../calendar/calendar.error.xml.h:92 ../mail/mail.error.xml.h:165
+#: ../calendar/calendar.error.xml.h:92 ../mail/mail.error.xml.h:166
 msgid "You must be working online to complete this operation."
 msgstr "Debe estar trabajando en línea para completar esta operación."
 
@@ -7528,8 +7529,8 @@ msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\""
 msgstr ""
-"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», «hours» "
-"o «days»"
+"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», "
+"«hours» o «days»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 msgid "Compress weekends in month view"
@@ -7654,7 +7655,8 @@ msgstr "Unidades predeterminadas del recordatorio"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\""
-msgstr "Unidades para el recordatorio predeterminado, «minutes», «hours» o «days»"
+msgstr ""
+"Unidades para el recordatorio predeterminado, «minutes», «hours» o «days»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
 msgid "Show categories field in the event/meeting/task editor"
@@ -7670,7 +7672,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
 msgid "Show Role field in the event/task/meeting editor"
-msgstr "Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
+msgstr ""
+"Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
 msgid "Whether to show role field in the event/task/meeting editor"
@@ -7719,8 +7722,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:44
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
-"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/tareas/"
-"reuniones"
+"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/"
+"tareas/reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
 msgid "Hide completed tasks"
@@ -7819,8 +7822,8 @@ msgid ""
 msgstr ""
 "El estilo de la distribución determina dónde ubicar el panel de vista previa "
 "en relación con la lista de notas. «0» (vista clásica) ubica el panel de "
-"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el panel "
-"de vista previa junto a la lista de notas"
+"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el "
+"panel de vista previa junto a la lista de notas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Memo preview pane position (vertical)"
@@ -7900,8 +7903,8 @@ msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view"
 msgstr ""
-"El UID de la nota seleccionada (o «primaria») en la barra lateral de la vista "
-"de «Notas»"
+"El UID de la nota seleccionada (o «primaria») en la barra lateral de la "
+"vista de «Notas»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 msgid "Primary task list"
@@ -8156,7 +8159,6 @@ msgstr ""
 "Días en los cuales debe indicarse el inicio y fin de las horas de trabajo"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
-#| msgid "Evolution Restore"
 msgid "Previous Evolution version"
 msgstr "Versión anterior de Evolution"
 
@@ -8385,8 +8387,8 @@ msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
-"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla desde "
-"el menú Ver cuando se elige una cuenta de correo."
+"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla "
+"desde el menú Ver cuando se elige una cuenta de correo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:33
 msgid "Show \"Cc\" field when sending a mail message"
@@ -8505,8 +8507,8 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
-"Algunas listas de correo establecen una cabecera «Responder a:» para forzar a "
-"los usuarios a responder a la lista, incluso cuando los usuarios piden que "
+"Algunas listas de correo establecen una cabecera «Responder a:» para forzar "
+"a los usuarios a responder a la lista, incluso cuando los usuarios piden que "
 "Evolution envíe una respuesta privada. Establecer esta opción a cierta "
 "intentará ignorar tales cabeceras «Responder a:», de tal forma que Evolution "
 "haga lo que se le pide. Si usa la acción de respuesta privada, responderá de "
@@ -8752,16 +8754,16 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
 msgstr ""
-"Determina si se debe usar la misma tipografía para las líneas «De» y «Asunto» "
-"en la columna «Mensajes» de la vista vertical"
+"Determina si se debe usar la misma tipografía para las líneas «De» y "
+"«Asunto» en la columna «Mensajes» de la vista vertical"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
-"Determina si se debe usar la misma tipografía para las líneas «De» y «Asunto» "
-"en la columna «Mensajes» de la vista vertical."
+"Determina si se debe usar la misma tipografía para las líneas «De» y "
+"«Asunto» en la columna «Mensajes» de la vista vertical."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid "Show deleted messages in the message-list"
@@ -8792,9 +8794,9 @@ msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
-"Esta clave es de una sola lectura y después de leerla se establece a «false». "
-"Esto deselecciona el correo en la lista y elimina la vista previa para esa "
-"carpeta."
+"Esta clave es de una sola lectura y después de leerla se establece a "
+"«false». Esto deselecciona el correo en la lista y elimina la vista previa "
+"para esa carpeta."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid "Height of the message-list pane"
@@ -8814,7 +8816,8 @@ msgid ""
 "expanded by default. \"0\" = expanded and \"1\" = collapsed"
 msgstr ""
 "Describe si las cabeceras del mensajes en la vista con paneles se deben "
-"contraer o expandir de manera predeterminada. «0» = expandidas «1» = contraídas"
+"contraer o expandir de manera predeterminada. «0» = expandidas «1» = "
+"contraídas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid "Width of the message-list pane"
@@ -9163,9 +9166,10 @@ msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
 msgstr ""
-"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana del "
-"examinador; «always» (siempre) para cerrar siempre la ventana del examinador "
-"o «ask» (preguntar) o cualquier otro valor, preguntarán al usuario."
+"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana "
+"del examinador; «always» (siempre) para cerrar siempre la ventana del "
+"examinador o «ask» (preguntar) o cualquier otro valor, preguntarán al "
+"usuario."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Empty Trash folders on exit"
@@ -9208,8 +9212,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
-"para mensajes de depuración."
+"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
+"«2» para mensajes de depuración."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Show original \"Date\" header value."
@@ -9395,9 +9399,9 @@ msgid ""
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
 "Indica si se debe comprobar si hay mensajes nuevos en todas las cuentas "
-"activas independientemente del conteo en la opción «Comprobar si hay mensajes "
-"nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se usa junto "
-"con la opción «send_recv_on_start»."
+"activas independientemente del conteo en la opción «Comprobar si hay "
+"mensajes nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se "
+"usa junto con la opción «send_recv_on_start»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid "Server synchronization interval"
@@ -9653,9 +9657,9 @@ msgid ""
 "and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
 "El modo usado para mostrar mensajes. «normal» hace que Evolution elija la "
-"mejor parte que mostrar, «prefer_plain» hace que se use la parte de texto, si "
-"existe, y «only_plain» fuerza a Evolution a mostrar sólo la parte de texto "
-"plano."
+"mejor parte que mostrar, «prefer_plain» hace que se use la parte de texto, "
+"si existe, y «only_plain» fuerza a Evolution a mostrar sólo la parte de "
+"texto plano."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
@@ -10586,17 +10590,14 @@ msgid "R_ule name:"
 msgstr "Nombre de la _regla:"
 
 #: ../filter/e-filter-rule.c:791
-#| msgid "Find items that meet the following conditions"
 msgid "all the following conditions"
 msgstr "todas las condiciones siguientes"
 
 #: ../filter/e-filter-rule.c:792
-#| msgid "Find items that meet the following conditions"
 msgid "any of the following conditions"
 msgstr "alguna de las condiciones siguientes"
 
 #: ../filter/e-filter-rule.c:798
-#| msgid "_Find items:"
 msgid "_Find items which match:"
 msgstr "_Buscar elementos que coinciden con:"
 
@@ -11484,7 +11485,7 @@ msgstr ""
 msgid "Welcome"
 msgstr "Bienvenido"
 
-#: ../mail/e-mail-config-window.c:321
+#: ../mail/e-mail-config-window.c:329
 msgid "Account Editor"
 msgstr "Editor de cuentas"
 
@@ -14127,46 +14128,51 @@ msgid "Folder '{0}' doesn't contain any duplicate message."
 msgstr "La carpeta «{0}» no contiene ningún correo duplicado."
 
 #: ../mail/mail.error.xml.h:150
+#| msgid "Could not save to autosave file &quot;{0}&quot;."
+msgid "Failed to disconnect account &quot;{0}&quot;."
+msgstr "Falló al desconectar la cuenta &quot;{0}&quot;."
+
+#: ../mail/mail.error.xml.h:152
 msgid "Failed to unsubscribe from folder."
 msgstr "Falló al desuscribirse de la carpeta."
 
-#: ../mail/mail.error.xml.h:152
+#: ../mail/mail.error.xml.h:153
 msgid "Unable to retrieve message."
 msgstr "No se pudo obtener el mensaje."
 
-#: ../mail/mail.error.xml.h:153
+#: ../mail/mail.error.xml.h:154
 msgid "{0}"
 msgstr "{0}"
 
-#: ../mail/mail.error.xml.h:154
+#: ../mail/mail.error.xml.h:155
 msgid "Failed to open folder."
 msgstr "Falló al abrir la carpeta."
 
-#: ../mail/mail.error.xml.h:155
+#: ../mail/mail.error.xml.h:156
 msgid "Failed to find duplicate messages."
 msgstr "Falló al buscar mensajes duplicados."
 
-#: ../mail/mail.error.xml.h:156
+#: ../mail/mail.error.xml.h:157
 msgid "Failed to retrieve messages."
 msgstr "Falló al obtener los mensajes."
 
-#: ../mail/mail.error.xml.h:157
+#: ../mail/mail.error.xml.h:158
 msgid "Failed to remove attachments from messages."
 msgstr "Falló al quitar los adjuntos de los mensajes."
 
-#: ../mail/mail.error.xml.h:158
+#: ../mail/mail.error.xml.h:159
 msgid "Failed to download messages for offline viewing."
 msgstr "Falló al descargar los mensajes para trabajar sin conexión"
 
-#: ../mail/mail.error.xml.h:159
+#: ../mail/mail.error.xml.h:160
 msgid "Failed to save messages to disk."
 msgstr "Falló al guardar los mensajes al disco."
 
-#: ../mail/mail.error.xml.h:160
+#: ../mail/mail.error.xml.h:161
 msgid "Hidden file is attached."
 msgstr "Existe un archivo oculto adjunto."
 
-#: ../mail/mail.error.xml.h:161
+#: ../mail/mail.error.xml.h:162
 msgid ""
 "The attachment named {0} is a hidden file and may contain sensitive data. "
 "Please review it before sending."
@@ -14174,15 +14180,15 @@ msgstr ""
 "El adjunto de nombre {0} es un archivo oculto y puede contener datos "
 "sensibles. Revíselo antes de enviarlo."
 
-#: ../mail/mail.error.xml.h:162
+#: ../mail/mail.error.xml.h:163
 msgid "Printing failed."
 msgstr "Falló al imprimir."
 
-#: ../mail/mail.error.xml.h:163
+#: ../mail/mail.error.xml.h:164
 msgid "The printer replied &quot;{0}&quot;."
 msgstr "La impresora respondió &quot;{0}&quot;."
 
-#: ../mail/mail.error.xml.h:164
+#: ../mail/mail.error.xml.h:165
 msgid "Could not perform this operation on {0}."
 msgstr "No se puede realizar esta operación en {0}."
 
@@ -16641,8 +16647,8 @@ msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr ""
-"%s desea recibir la última información de la siguiente reunión a través de %"
-"s:"
+"%s desea recibir la última información de la siguiente reunión a través de "
+"%s:"
 
 #: ../modules/itip-formatter/itip-view.c:446
 #, c-format
@@ -17301,19 +17307,19 @@ msgstr "_Carpeta de correo"
 msgid "Create a new mail folder"
 msgstr "Crea una carpeta de correo nueva"
 
-#: ../modules/mail/e-mail-shell-backend.c:478
+#: ../modules/mail/e-mail-shell-backend.c:554
 msgid "Mail Accounts"
 msgstr "Cuentas de correo"
 
-#: ../modules/mail/e-mail-shell-backend.c:487
+#: ../modules/mail/e-mail-shell-backend.c:563
 msgid "Mail Preferences"
 msgstr "Opciones de correo"
 
-#: ../modules/mail/e-mail-shell-backend.c:496
+#: ../modules/mail/e-mail-shell-backend.c:572
 msgid "Composer Preferences"
 msgstr "Preferencias del editor"
 
-#: ../modules/mail/e-mail-shell-backend.c:505
+#: ../modules/mail/e-mail-shell-backend.c:581
 msgid "Network Preferences"
 msgstr "Preferencias de red"
 
@@ -18577,8 +18583,8 @@ msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
 msgstr ""
-"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere editar "
-"el acontecimiento antiguo?"
+"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere "
+"editar el acontecimiento antiguo?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:625
 #, c-format
@@ -21712,9 +21718,9 @@ msgstr "Métodos de entrada"
 #~ msgstr ""
 #~ "Estado inicial maximizado de la ventana «Suscripciones de carpetas». El "
 #~ "valor se actualiza cuando el usuario maximiza o reduce la ventana. Nota: "
-#~ "Evolution no usa este valor en particular ya que la ventana «Suscripciones "
-#~ "de carpetas» no se puede maximizar. Esta clave existe sólo como un "
-#~ "detalle de implementación."
+#~ "Evolution no usa este valor en particular ya que la ventana "
+#~ "«Suscripciones de carpetas» no se puede maximizar. Esta clave existe sólo "
+#~ "como un detalle de implementación."
 
 #~ msgid "\"Folder Subscriptions\" window width"
 #~ msgstr "Anchura de la ventana «Suscripciones de carpetas»"
@@ -21852,8 +21858,8 @@ msgstr "Métodos de entrada"
 #~ "Initial height of the \"Search Folder Editor\" window. The value updates "
 #~ "as the user resizes the window vertically."
 #~ msgstr ""
-#~ "Altura inicial de la ventana «Editor de carpetas de búsqueda». El valor se "
-#~ "actualiza según el usuario redimensiona verticalmente la ventana."
+#~ "Altura inicial de la ventana «Editor de carpetas de búsqueda». El valor "
+#~ "se actualiza según el usuario redimensiona verticalmente la ventana."
 
 #~ msgid "\"Search Folder Editor\" window maximize state"
 #~ msgstr "Estado maximizado de la ventana «Editor de filtros»"
@@ -22135,13 +22141,15 @@ msgstr "Métodos de entrada"
 #~ "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days"
 #~ "\"."
 #~ msgstr ""
-#~ "Unidades para determinar cuándo ocultar tareas, «minutes», «hours» o «days»."
+#~ "Unidades para determinar cuándo ocultar tareas, «minutes», «hours» o "
+#~ "«days»."
 
 #~ msgid "Number of units for determining when to hide tasks."
 #~ msgstr "Número de unidades para determinar cuándo ocultar tareas."
 
 #~ msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-#~ msgstr "Color de fondo para las tareas que vencen hoy, en formato «#rrggbb»."
+#~ msgstr ""
+#~ "Color de fondo para las tareas que vencen hoy, en formato «#rrggbb»."
 
 #~ msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
 #~ msgstr ""
@@ -22222,8 +22230,8 @@ msgstr "Métodos de entrada"
 #~ "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 #~ "debug messages."
 #~ msgstr ""
-#~ "Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
-#~ "«2» para mensajes de depuración."
+#~ "Esto puede tener tres valores posibles. «0» para errores. «1» para "
+#~ "avisos. «2» para mensajes de depuración."
 
 #~ msgid "Automatically launch editor when key is pressed in the mail composer"
 #~ msgstr ""
@@ -23781,8 +23789,8 @@ msgstr "Métodos de entrada"
 #~ "Folder '%s' contains %d duplicate messages. Are you sure you want to "
 #~ "delete them?"
 #~ msgstr ""
-#~ "La carpeta «%s» contiene %d correos duplicados. ¿Está seguro de que quiere "
-#~ "eliminarlos?"
+#~ "La carpeta «%s» contiene %d correos duplicados. ¿Está seguro de que "
+#~ "quiere eliminarlos?"
 
 #~ msgid ""
 #~ "Error on %s: %s\n"
@@ -23809,8 +23817,8 @@ msgstr "Métodos de entrada"
 
 #~ msgid "Count of default recurrence for a new event. -1 means forever."
 #~ msgstr ""
-#~ "Conteo de las repeticiones predeterminadas para un acontecimiento nuevo. -"
-#~ "1 significa para siempre."
+#~ "Conteo de las repeticiones predeterminadas para un acontecimiento nuevo. "
+#~ "-1 significa para siempre."
 
 #~ msgid "Default recurrence count"
 #~ msgstr "Conteo de repeticiones predeterminado"
@@ -25109,7 +25117,8 @@ msgstr "Métodos de entrada"
 
 #~ msgid "The content widget appears in a shell window's right pane"
 #~ msgstr ""
-#~ "El widget de contenido aparece en un panel derecho de la ventana de «shell»"
+#~ "El widget de contenido aparece en un panel derecho de la ventana de "
+#~ "«shell»"
 
 #~ msgid "Shell Sidebar Widget"
 #~ msgstr "Widget de barra lateral de «shell»"
@@ -26084,8 +26093,8 @@ msgstr "Métodos de entrada"
 #~ "This is the full name of your LDAP server. For example, \"ldap.mycompany."
 #~ "com\"."
 #~ msgstr ""
-#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap.miempresa."
-#~ "com»."
+#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap."
+#~ "miempresa.com»."
 
 #~ msgid ""
 #~ "This is the maximum number of entries to download. Setting this number to "
