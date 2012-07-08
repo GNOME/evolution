@@ -195,6 +195,11 @@ Many email systems add an Apparently-To header to messages that only have BCC re
     <_secondary xml:space="preserve">System folders are required for Evolution to function correctly and cannot be renamed, moved, or deleted.</_secondary>
   </error>
 
+  <error id="no-refresh-folder" type="warning">
+    <_primary>Failed to refresh folder &quot;{0}&quot;.</_primary>
+    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+  </error>
+
   <error id="no-rename-special-folder" type="error">
     <_primary>Cannot rename or move system folder "{0}".</_primary>
     <_secondary xml:space="preserve">System folders are required for Evolution to function correctly and cannot be renamed, moved, or deleted.</_secondary>
