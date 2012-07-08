@@ -151,7 +151,7 @@ import_mbox_exec (struct _import_mbox_msg *m,
 
 		camel_operation_push_message (
 			m->cancellable, _("Importing '%s'"),
-			camel_folder_get_full_name (folder));
+			camel_folder_get_display_name (folder));
 		camel_folder_freeze (folder);
 		while (camel_mime_parser_step (mp, NULL, NULL) ==
 				CAMEL_MIME_PARSER_STATE_FROM) {

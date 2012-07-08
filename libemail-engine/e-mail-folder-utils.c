@@ -107,7 +107,7 @@ e_mail_folder_append_message_sync (CamelFolder *folder,
 	camel_operation_push_message (
 		cancellable,
 		_("Saving message to folder '%s'"),
-		camel_folder_get_full_name (folder));
+		camel_folder_get_display_name (folder));
 
 	if (camel_medium_get_header (medium, "X-Mailer") == NULL)
 		camel_medium_set_header (medium, "X-Mailer", X_MAILER);
@@ -831,7 +831,9 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 	CamelFolderInfo *to_remove;
 	CamelFolderInfo *next = NULL;
 	CamelStore *parent_store;
+	const gchar *display_name;
 	const gchar *full_name;
+	const gchar *message;
 	gboolean success = TRUE;
 	GCancellable *transparent_cancellable = NULL;
 	gulong cbid = 0;
@@ -879,9 +881,9 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 		to_remove->next = NULL;
 	}
 
-	camel_operation_push_message (
-		cancellable, _("Removing folder '%s'"),
-		camel_folder_get_full_name (folder));
+	message = _("Removing folder '%s'");
+	display_name = camel_folder_get_display_name (folder);
+	camel_operation_push_message (cancellable, message, display_name);
 
 	if (cancellable) {
 		transparent_cancellable = g_cancellable_new ();
