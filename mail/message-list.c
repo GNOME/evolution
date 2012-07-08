@@ -2447,6 +2447,7 @@ ml_tree_drag_motion (ETree *tree,
 {
 	GList *targets;
 	GdkDragAction action, actions = 0;
+	GtkWidget *source_widget;
 
 	/* If drop target is name of the account/store and not actual folder, don't allow any action */
 	if (!ml->folder) {
@@ -2454,18 +2455,41 @@ ml_tree_drag_motion (ETree *tree,
 		return TRUE;
 	}
 
+	source_widget = gtk_drag_get_source_widget (context);
+
 	/* If source widget is packed under 'tree', don't allow any action */
-	if (is_tree_widget_children (tree, gtk_drag_get_source_widget (context))) {
+	if (is_tree_widget_children (tree, source_widget)) {
 		gdk_drag_status (context, 0, time);
 		return TRUE;
 	}
 
-	if (EM_IS_FOLDER_TREE (gtk_drag_get_source_widget (context))) {
+	if (EM_IS_FOLDER_TREE (source_widget)) {
 		EMFolderTree *folder_tree;
-		CamelFolder *folder;
+		CamelFolder *folder = NULL;
+		CamelStore *selected_store;
+		gchar *selected_folder_name;
+		gboolean has_selection;
 
-		folder_tree = EM_FOLDER_TREE (gtk_drag_get_source_widget (context));
-		folder = em_folder_tree_get_selected_folder (folder_tree);
+		folder_tree = EM_FOLDER_TREE (source_widget);
+
+		has_selection = em_folder_tree_get_selected (
+			folder_tree, &selected_store, &selected_folder_name);
+
+		/* Sanity checks */
+		g_warn_if_fail (
+			(has_selection && selected_store != NULL) ||
+			(!has_selection && selected_store == NULL));
+		g_warn_if_fail (
+			(has_selection && selected_folder_name != NULL) ||
+			(!has_selection && selected_folder_name == NULL));
+
+		if (has_selection) {
+			folder = camel_store_get_folder_sync (
+				selected_store, selected_folder_name,
+				CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
+			g_object_unref (selected_store);
+			g_free (selected_folder_name);
+		}
 
 		if (folder == ml->folder) {
 			gdk_drag_status (context, 0, time);

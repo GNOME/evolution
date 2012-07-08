@@ -502,6 +502,9 @@ all_accounts:
 	 * account-wide searches still in progress. */
 	text = e_shell_searchbar_get_search_text (searchbar);
 	if (text == NULL || *text == '\0') {
+		CamelStore *selected_store;
+		gchar *selected_folder_name;
+
 		if (priv->search_account_all != NULL) {
 			g_object_unref (priv->search_account_all);
 			priv->search_account_all = NULL;
@@ -518,8 +521,14 @@ all_accounts:
 		 * avoid search conflicts, so we can't just grab the
 		 * folder URI and let the asynchronous callbacks run
 		 * after we've already kicked off the search. */
-		folder = em_folder_tree_get_selected_folder (folder_tree);
+		em_folder_tree_get_selected (
+			folder_tree, &selected_store, &selected_folder_name);
+		folder = camel_store_get_folder_sync (
+			selected_store, selected_folder_name,
+			CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
 		e_mail_reader_set_folder (reader, folder);
+		g_object_unref (selected_store);
+		g_free (selected_folder_name);
 
 		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
 
@@ -606,6 +615,9 @@ current_account:
 	 * account-wide searches still in progress. */
 	text = e_shell_searchbar_get_search_text (searchbar);
 	if (text == NULL || *text == '\0') {
+		CamelStore *selected_store;
+		gchar *selected_folder_name;
+
 		if (priv->search_account_current != NULL) {
 			g_object_unref (priv->search_account_current);
 			priv->search_account_current = NULL;
@@ -622,8 +634,14 @@ current_account:
 		 * avoid search conflicts, so we can't just grab the
 		 * folder URI and let the asynchronous callbacks run
 		 * after we've already kicked off the search. */
-		folder = em_folder_tree_get_selected_folder (folder_tree);
+		em_folder_tree_get_selected (
+			folder_tree, &selected_store, &selected_folder_name);
+		folder = camel_store_get_folder_sync (
+			selected_store, selected_folder_name,
+			CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
 		e_mail_reader_set_folder (reader, folder);
+		g_object_unref (selected_store);
+		g_free (selected_folder_name);
 
 		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
 
