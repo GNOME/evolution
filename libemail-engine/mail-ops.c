@@ -1325,50 +1325,6 @@ mail_sync_store (CamelStore *store,
 
 /* ******************************************************************************** */
 
-static gchar *
-refresh_folder_desc (struct _sync_folder_msg *m)
-{
-	return g_strdup_printf (
-		_("Refreshing folder '%s'"),
-		camel_folder_get_full_name (m->folder));
-}
-
-static void
-refresh_folder_exec (struct _sync_folder_msg *m,
-                     GCancellable *cancellable,
-                     GError **error)
-{
-	camel_folder_refresh_info_sync (
-		m->folder, cancellable, error);
-}
-
-/* we just use the sync stuff where we can, since it would be the same */
-static MailMsgInfo refresh_folder_info = {
-	sizeof (struct _sync_folder_msg),
-	(MailMsgDescFunc) refresh_folder_desc,
-	(MailMsgExecFunc) refresh_folder_exec,
-	(MailMsgDoneFunc) sync_folder_done,
-	(MailMsgFreeFunc) sync_folder_free
-};
-
-void
-mail_refresh_folder (CamelFolder *folder,
-                     void (*done) (CamelFolder *folder,
-                                   gpointer data),
-                     gpointer data)
-{
-	struct _sync_folder_msg *m;
-
-	m = mail_msg_new (&refresh_folder_info);
-	m->folder = g_object_ref (folder);
-	m->data = data;
-	m->done = done;
-
-	mail_msg_slow_ordered_push (m);
-}
-
-/* ******************************************************************************** */
-
 static gboolean
 folder_is_from_source_uid (CamelFolder *folder,
                            const gchar *source_uid)
