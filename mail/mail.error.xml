@@ -471,8 +471,8 @@ An mbox account will be created to preserve the old mbox folders. You can delete
   </error>
 
   <error id="folder-unsubscribe" type="warning">
-    <_primary>Failed to unsubscribe from folder.</_primary>
-    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+    <_primary>Failed to unsubscribe from folder &quot;{0}&quot;.</_primary>
+    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
   </error>
 
   <error id="no-retrieve-message" type="warning">

@@ -43,6 +43,10 @@ void		e_mail_reader_delete_folder_name
 						(EMailReader *reader,
 						 CamelStore *store,
 						 const gchar *folder_name);
+void		e_mail_reader_unsubscribe_folder_name
+						(EMailReader *reader,
+						 CamelStore *store,
+						 const gchar *folder_name);
 guint		e_mail_reader_mark_selected	(EMailReader *reader,
 						 guint32 mask,
 						 guint32 set);

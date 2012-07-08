@@ -26,35 +26,6 @@
 #include "e-mail-shell-view-private.h"
 
 static void
-mail_folder_unsubscribe_done_cb (EMailSession *session,
-                                 GAsyncResult *result,
-                                 EActivity *activity)
-{
-	EAlertSink *alert_sink;
-	GError *error = NULL;
-
-	alert_sink = e_activity_get_alert_sink (activity);
-
-	e_mail_session_unsubscribe_folder_finish (session, result, &error);
-
-	if (e_activity_handle_cancellation (activity, error)) {
-		g_error_free (error);
-
-	} else if (error != NULL) {
-		e_alert_submit (
-			alert_sink,
-			"mail:folder-unsubscribe",
-			error->message, NULL);
-		g_error_free (error);
-
-	} else {
-		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
-	}
-
-	g_object_unref (activity);
-}
-
-static void
 action_gal_save_custom_view_cb (GtkAction *action,
                                 EMailShellView *mail_shell_view)
 {
@@ -616,48 +587,30 @@ static void
 action_mail_folder_unsubscribe_cb (GtkAction *action,
                                    EMailShellView *mail_shell_view)
 {
+	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellBackend *shell_backend;
-	EShellContent *shell_content;
-	EShellView *shell_view;
-	EMailBackend *backend;
-	EMailSession *session;
+	EMailView *mail_view;
 	EMFolderTree *folder_tree;
-	EActivity *activity;
-	EAlertSink *alert_sink;
-	GCancellable *cancellable;
-	gchar *folder_uri;
+	CamelStore *selected_store = NULL;
+	gchar *selected_folder_name = NULL;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
+	em_folder_tree_get_selected (
+		folder_tree, &selected_store, &selected_folder_name);
+	g_return_if_fail (CAMEL_IS_STORE (selected_store));
+	g_return_if_fail (selected_folder_name != NULL);
 
-	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
+	e_mail_reader_unsubscribe_folder_name (
+		E_MAIL_READER (mail_view),
+		selected_store, selected_folder_name);
 
-	activity = e_activity_new ();
-
-	alert_sink = E_ALERT_SINK (shell_content);
-	e_activity_set_alert_sink (activity, alert_sink);
-
-	cancellable = camel_operation_new ();
-	e_activity_set_cancellable (activity, cancellable);
-
-	e_shell_backend_add_activity (shell_backend, activity);
-
-	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
-
-	e_mail_session_unsubscribe_folder (
-		session, folder_uri, G_PRIORITY_DEFAULT, cancellable,
-		(GAsyncReadyCallback) mail_folder_unsubscribe_done_cb,
-		activity);
-
-	g_free (folder_uri);
-
-	g_object_unref (cancellable);
+	g_object_unref (selected_store);
+	g_free (selected_folder_name);
 }
 
 static void

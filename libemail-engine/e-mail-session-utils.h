@@ -75,22 +75,6 @@ void		e_mail_session_send_to		(EMailSession *session,
 gboolean	e_mail_session_send_to_finish	(EMailSession *session,
 						 GAsyncResult *result,
 						 GError **error);
-gboolean	e_mail_session_unsubscribe_folder_sync
-						(EMailSession *session,
-						 const gchar *folder_uri,
-						 GCancellable *cancellable,
-						 GError **error);
-void		e_mail_session_unsubscribe_folder
-						(EMailSession *session,
-						 const gchar *folder_uri,
-						 gint io_priority,
-						 GCancellable *cancellable,
-						 GAsyncReadyCallback callback,
-						 gpointer user_data);
-gboolean	e_mail_session_unsubscribe_folder_finish
-						(EMailSession *session,
-						 GAsyncResult *result,
-						 GError **error);
 
 G_END_DECLS
 

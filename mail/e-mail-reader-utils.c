@@ -377,6 +377,70 @@ e_mail_reader_delete_folder_name (EMailReader *reader,
 		context);
 }
 
+/* Helper for e_mail_reader_unsubscribe_folder_name() */
+static void
+mail_reader_unsubscribe_folder_name_cb (GObject *source_object,
+                                        GAsyncResult *result,
+                                        gpointer user_data)
+{
+	CamelSubscribable *subscribable;
+	AsyncContext *context;
+	EAlertSink *alert_sink;
+	GError *error = NULL;
+
+	subscribable = CAMEL_SUBSCRIBABLE (source_object);
+	context = (AsyncContext *) user_data;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
+
+	camel_subscribable_unsubscribe_folder_finish (
+		subscribable, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		e_alert_submit (
+			alert_sink, "mail:folder-unsubscribe",
+			context->folder_name, error->message, NULL);
+		g_error_free (error);
+
+	} else {
+		e_activity_set_state (
+			context->activity, E_ACTIVITY_COMPLETED);
+	}
+
+	async_context_free (context);
+}
+
+void
+e_mail_reader_unsubscribe_folder_name (EMailReader *reader,
+                                       CamelStore *store,
+                                       const gchar *folder_name)
+{
+	EActivity *activity;
+	AsyncContext *context;
+	GCancellable *cancellable;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (CAMEL_IS_SUBSCRIBABLE (store));
+	g_return_if_fail (folder_name != NULL);
+
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
+	context = g_slice_new0 (AsyncContext);
+	context->activity = activity;
+	context->reader = g_object_ref (reader);
+	context->folder_name = g_strdup (folder_name);
+
+	camel_subscribable_unsubscribe_folder (
+		CAMEL_SUBSCRIBABLE (store), folder_name,
+		G_PRIORITY_DEFAULT, cancellable,
+		mail_reader_unsubscribe_folder_name_cb,
+		context);
+}
+
 guint
 e_mail_reader_mark_selected (EMailReader *reader,
                              guint32 mask,
