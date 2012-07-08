@@ -64,6 +64,7 @@ struct _AsyncContext {
 	CamelFolder *folder;
 	EMailReader *reader;
 	CamelInternetAddress *address;
+	gchar *folder_name;
 	gchar *message_uid;
 
 	EMailReplyType reply_type;
@@ -88,6 +89,7 @@ async_context_free (AsyncContext *context)
 	if (context->address != NULL)
 		g_object_unref (context->address);
 
+	g_free (context->folder_name);
 	g_free (context->message_uid);
 
 	g_slice_free (AsyncContext, context);
@@ -189,6 +191,10 @@ mail_reader_delete_folder_cb (CamelFolder *folder,
 			camel_folder_get_full_name (folder),
 			error->message, NULL);
 		g_error_free (error);
+
+	} else {
+		e_activity_set_state (
+			context->activity, E_ACTIVITY_COMPLETED);
 	}
 
 	async_context_free (context);
@@ -303,6 +309,72 @@ e_mail_reader_delete_folder (EMailReader *reader,
 			mail_reader_delete_folder_cb, context);
 	} else
 		gtk_widget_destroy (dialog);
+}
+
+static void
+mail_reader_delete_folder_name_cb (GObject *source_object,
+                                   GAsyncResult *result,
+                                   gpointer user_data)
+{
+	CamelStore *store;
+	CamelFolder *folder;
+	AsyncContext *context;
+	EAlertSink *alert_sink;
+	GError *error = NULL;
+
+	store = CAMEL_STORE (source_object);
+	context = (AsyncContext *) user_data;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
+
+	/* XXX The returned CamelFolder is a borrowed reference. */
+	folder = camel_store_get_folder_finish (store, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		e_alert_submit (
+			alert_sink, "mail:no-delete-folder",
+			context->folder_name, error->message, NULL);
+		g_error_free (error);
+
+	} else {
+		e_activity_set_state (
+			context->activity, E_ACTIVITY_COMPLETED);
+		e_mail_reader_delete_folder (context->reader, folder);
+	}
+
+	async_context_free (context);
+}
+
+void
+e_mail_reader_delete_folder_name (EMailReader *reader,
+                                  CamelStore *store,
+                                  const gchar *folder_name)
+{
+	EActivity *activity;
+	AsyncContext *context;
+	GCancellable *cancellable;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (folder_name != NULL);
+
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
+	context = g_slice_new0 (AsyncContext);
+	context->activity = activity;
+	context->reader = g_object_ref (reader);
+	context->folder_name = g_strdup (folder_name);
+
+	camel_store_get_folder (
+		store, folder_name,
+		CAMEL_STORE_FOLDER_INFO_FAST,
+		G_PRIORITY_DEFAULT, cancellable,
+		mail_reader_delete_folder_name_cb,
+		context);
 }
 
 guint

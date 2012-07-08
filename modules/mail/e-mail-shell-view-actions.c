@@ -333,17 +333,26 @@ action_mail_folder_delete_cb (GtkAction *action,
 	EMailShellSidebar *mail_shell_sidebar;
 	EMailView *mail_view;
 	EMFolderTree *folder_tree;
-	CamelFolder *folder;
+	CamelStore *selected_store = NULL;
+	gchar *selected_folder_name = NULL;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	folder = em_folder_tree_get_selected_folder (folder_tree);
-	g_return_if_fail (folder != NULL);
 
-	e_mail_reader_delete_folder (E_MAIL_READER (mail_view), folder);
+	em_folder_tree_get_selected (
+		folder_tree, &selected_store, &selected_folder_name);
+	g_return_if_fail (CAMEL_IS_STORE (selected_store));
+	g_return_if_fail (selected_folder_name != NULL);
+
+	e_mail_reader_delete_folder_name (
+		E_MAIL_READER (mail_view),
+		selected_store, selected_folder_name);
+
+	g_object_unref (selected_store);
+	g_free (selected_folder_name);
 }
 
 static void
