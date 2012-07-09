@@ -43,6 +43,8 @@ void		e_mail_reader_delete_folder_name
 						(EMailReader *reader,
 						 CamelStore *store,
 						 const gchar *folder_name);
+void		e_mail_reader_expunge_folder	(EMailReader *reader,
+						 CamelFolder *folder);
 void		e_mail_reader_refresh_folder	(EMailReader *reader,
 						 CamelFolder *folder);
 void		e_mail_reader_refresh_folder_name

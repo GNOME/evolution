@@ -377,6 +377,76 @@ e_mail_reader_delete_folder_name (EMailReader *reader,
 		context);
 }
 
+/* Helper for e_mail_reader_expunge_folder() */
+static void
+mail_reader_expunge_folder_cb (GObject *source_object,
+                               GAsyncResult *result,
+                               gpointer user_data)
+{
+	CamelFolder *folder;
+	AsyncContext *context;
+	EAlertSink *alert_sink;
+	GError *error = NULL;
+
+	folder = CAMEL_FOLDER (source_object);
+	context = (AsyncContext *) user_data;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		e_alert_submit (
+			alert_sink, "mail:no-expunge-folder",
+			camel_folder_get_display_name (folder),
+			error->message, NULL);
+		g_error_free (error);
+
+	} else {
+		e_activity_set_state (
+			context->activity, E_ACTIVITY_COMPLETED);
+	}
+
+	async_context_free (context);
+}
+
+void
+e_mail_reader_expunge_folder (EMailReader *reader,
+                              CamelFolder *folder)
+{
+	GtkWindow *window;
+	const gchar *display_name;
+	gboolean proceed;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+	window = e_mail_reader_get_window (reader);
+	display_name = camel_folder_get_display_name (folder);
+
+	proceed = em_utils_prompt_user (
+		window, "prompt-on-expunge",
+		"mail:ask-expunge", display_name, NULL);
+
+	if (proceed) {
+		EActivity *activity;
+		AsyncContext *context;
+		GCancellable *cancellable;
+
+		activity = e_mail_reader_new_activity (reader);
+		cancellable = e_activity_get_cancellable (activity);
+
+		context = g_slice_new0 (AsyncContext);
+		context->activity = activity;
+		context->reader = g_object_ref (reader);
+
+		e_mail_folder_expunge (
+			folder, G_PRIORITY_DEFAULT, cancellable,
+			mail_reader_expunge_folder_cb, context);
+	}
+}
+
 /* Helper for e_mail_reader_refresh_folder() */
 static void
 mail_reader_refresh_folder_cb (GObject *source_object,
