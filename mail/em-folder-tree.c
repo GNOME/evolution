@@ -3389,28 +3389,6 @@ em_folder_tree_get_selected_uri (EMFolderTree *folder_tree)
 	return folder_uri;
 }
 
-CamelFolder *
-em_folder_tree_get_selected_folder (EMFolderTree *folder_tree)
-{
-	CamelFolder *folder;
-	CamelStore *store;
-	gchar *full_name;
-
-	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
-
-	if (!em_folder_tree_get_selected (folder_tree, &store, &full_name))
-		return NULL;
-
-	/* FIXME camel_store_get_folder_sync() may block. */
-	folder = camel_store_get_folder_sync (
-		store, full_name, CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
-
-	g_object_unref (store);
-	g_free (full_name);
-
-	return folder;
-}
-
 CamelStore *
 em_folder_tree_get_selected_store (EMFolderTree *folder_tree)
 {
