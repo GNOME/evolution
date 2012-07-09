@@ -44,12 +44,70 @@ static const gchar *SEARCH_RESULTS_STATE =
 "  </grouping>"
 "</ETableState>";
 
+static void
+add_folders_from_store (GList **folders,
+			CamelStore *store,
+			GCancellable *cancellable,
+			GError **error)
+{
+	CamelFolderInfo *root, *fi;
+
+	g_return_if_fail (folders != NULL);
+	g_return_if_fail (store != NULL);
+
+	if (CAMEL_IS_VEE_STORE (store))
+		return;
+
+	root = camel_store_get_folder_info_sync (
+		store, NULL,
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE, cancellable, error);
+	fi = root;
+	while (fi && !g_cancellable_is_cancelled (cancellable)) {
+		CamelFolderInfo *next;
+
+		if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0) {
+			CamelFolder *fldr;
+
+			fldr = camel_store_get_folder_sync (
+				store, fi->full_name, 0, cancellable, error);
+			if (fldr) {
+				if (CAMEL_IS_VEE_FOLDER (fldr)) {
+					g_object_unref (fldr);
+				} else {
+					*folders = g_list_prepend (*folders, fldr);
+				}
+			}
+		}
+
+		/* pick the next */
+		next = fi->child;
+		if (!next)
+			next = fi->next;
+		if (!next) {
+			next = fi->parent;
+			while (next) {
+				if (next->next) {
+					next = next->next;
+					break;
+				}
+
+				next = next->parent;
+			}
+		}
+
+		fi = next;
+	}
+
+	if (root)
+		camel_store_free_folder_info_full (store, root);
+}
+
 typedef struct {
 	MailMsg base;
 
 	CamelFolder *folder;
 	GCancellable *cancellable;
-	GList *folder_list;
+	GList *stores_list;
 } SearchResultsMsg;
 
 static gchar *
@@ -63,16 +121,23 @@ search_results_exec (SearchResultsMsg *msg,
                      GCancellable *cancellable,
                      GError **error)
 {
-	GList *copied_list;
+	GList *folders = NULL, *iter;
 
-	copied_list = g_list_copy (msg->folder_list);
-	g_list_foreach (copied_list, (GFunc) g_object_ref, NULL);
+	for (iter = msg->stores_list; iter && !g_cancellable_is_cancelled (cancellable); iter = iter->next) {
+		CamelStore *store = iter->data;
 
-	camel_vee_folder_set_folders (
-		CAMEL_VEE_FOLDER (msg->folder), copied_list, cancellable);
+		add_folders_from_store (&folders, store, cancellable, error);
+	}
 
-	g_list_foreach (copied_list, (GFunc) g_object_unref, NULL);
-	g_list_free (copied_list);
+	if (!g_cancellable_is_cancelled (cancellable)) {
+		CamelVeeFolder *vfolder = CAMEL_VEE_FOLDER (msg->folder);
+
+		folders = g_list_reverse (folders);
+
+		camel_vee_folder_set_folders (vfolder, folders, cancellable);
+	}
+
+	g_list_free_full (folders, g_object_unref);
 }
 
 static void
@@ -84,9 +149,7 @@ static void
 search_results_free (SearchResultsMsg *msg)
 {
 	g_object_unref (msg->folder);
-
-	g_list_foreach (msg->folder_list, (GFunc) g_object_unref, NULL);
-	g_list_free (msg->folder_list);
+	g_list_free_full (msg->stores_list, g_object_unref);
 }
 
 static MailMsgInfo search_results_setup_info = {
@@ -99,7 +162,7 @@ static MailMsgInfo search_results_setup_info = {
 
 static gint
 mail_shell_view_setup_search_results_folder (CamelFolder *folder,
-                                             GList *folder_list,
+                                             GList *stores,
                                              GCancellable *cancellable)
 {
 	SearchResultsMsg *msg;
@@ -110,7 +173,7 @@ mail_shell_view_setup_search_results_folder (CamelFolder *folder,
 	msg = mail_msg_new (&search_results_setup_info);
 	msg->folder = folder;
 	msg->cancellable = cancellable;
-	msg->folder_list = folder_list;
+	msg->stores_list = stores;
 
 	id = msg->base.seq;
 	mail_msg_slow_ordered_push (msg);
@@ -222,7 +285,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	EActionComboBox *combo_box;
 	EMailBackend *backend;
 	EMailSession *session;
-	MailFolderCache *cache;
 	ESourceRegistry *registry;
 	EMFolderTree *folder_tree;
 	GtkWidget *message_list;
@@ -240,7 +302,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	GString *string;
 	GList *list, *iter;
 	GSList *search_strings = NULL;
-	GQueue queue = G_QUEUE_INIT;
 	const gchar *text;
 	gboolean valid;
 	gchar *query;
@@ -540,7 +601,7 @@ all_accounts:
 	/* Skip the search if we already have the results. */
 	if (search_folder != NULL)
 		if (g_strcmp0 (query, camel_vee_folder_get_expression (search_folder)) == 0)
-			goto execute;
+			goto all_accounts_setup;
 
 	/* Disable the scope combo while search is in progress. */
 	gtk_widget_set_sensitive (GTK_WIDGET (combo_box), FALSE);
@@ -555,12 +616,10 @@ all_accounts:
 
 		camel_vee_folder_set_expression (search_folder, query);
 
-		goto execute;
+		goto all_accounts_setup;
 	}
 
 	/* Create a new search folder. */
-
-	list = NULL;  /* list of CamelFolders */
 
 	/* FIXME Complete lack of error checking here. */
 	service = camel_session_get_service (
@@ -572,31 +631,16 @@ all_accounts:
 		0);
 	priv->search_account_all = search_folder;
 
-	cache = e_mail_session_get_folder_cache (session);
-	mail_folder_cache_get_local_folder_uris (cache, &queue);
-	mail_folder_cache_get_remote_folder_uris (cache, &queue);
-
-	/* Add all available local and remote folders. */
-	while (!g_queue_is_empty (&queue)) {
-		gchar *folder_uri = g_queue_pop_head (&queue);
-
-		/* FIXME Not passing a GCancellable or GError here. */
-		folder = e_mail_session_uri_to_folder_sync (
-			E_MAIL_SESSION (session), folder_uri, 0, NULL, NULL);
-
-		if (folder != NULL)
-			list = g_list_append (list, folder);
-		else
-			g_warning ("Could not open vfolder source: %s", folder_uri);
-
-		g_free (folder_uri);
-	}
-
 	camel_vee_folder_set_expression (search_folder, query);
+
+ all_accounts_setup:
+	list = em_folder_tree_model_list_stores (EM_FOLDER_TREE_MODEL (
+		gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree))));
+	g_list_foreach (list, (GFunc) g_object_ref, NULL);
 
 	priv->search_account_cancel = camel_operation_new ();
 
-	/* This takes ownership of the folder list. */
+	/* This takes ownership of the stores list. */
 	mail_shell_view_setup_search_results_folder (
 		CAMEL_FOLDER (search_folder), list,
 		priv->search_account_cancel);
@@ -653,7 +697,7 @@ current_account:
 	/* Skip the search if we already have the results. */
 	if (search_folder != NULL)
 		if (g_strcmp0 (query, camel_vee_folder_get_expression (search_folder)) == 0)
-			goto execute;
+			goto current_accout_setup;
 
 	/* Disable the scope combo while search is in progress. */
 	gtk_widget_set_sensitive (GTK_WIDGET (combo_box), FALSE);
@@ -668,69 +712,10 @@ current_account:
 
 		camel_vee_folder_set_expression (search_folder, query);
 
-		goto execute;
+		goto current_accout_setup;
 	}
 
 	/* Create a new search folder. */
-
-	if (folder != NULL) {
-		store = camel_folder_get_parent_store (folder);
-		if (store != NULL)
-			g_object_ref (store);
-	} else {
-		store = NULL;
-		em_folder_tree_get_selected (folder_tree, &store, NULL);
-	}
-
-	list = NULL;  /* list of CamelFolders */
-
-	if (store != NULL) {
-		CamelFolderInfo *root, *fi;
-
-		/* FIXME This call blocks the main loop. */
-		root = camel_store_get_folder_info_sync (
-			store, NULL,
-			CAMEL_STORE_FOLDER_INFO_RECURSIVE, NULL, NULL);
-		fi = root;
-		while (fi) {
-			CamelFolderInfo *next;
-
-			if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0) {
-				CamelFolder *fldr;
-
-				/* FIXME This call blocks the main loop. */
-				fldr = camel_store_get_folder_sync (
-					store, fi->full_name, 0, NULL, NULL);
-				if (fldr)
-					list = g_list_prepend (list, fldr);
-			}
-
-			/* pick the next */
-			next = fi->child;
-			if (!next)
-				next = fi->next;
-			if (!next) {
-				next = fi->parent;
-				while (next) {
-					if (next->next) {
-						next = next->next;
-						break;
-					}
-
-					next = next->parent;
-				}
-			}
-
-			fi = next;
-		}
-
-		if (root)
-			camel_store_free_folder_info_full (store, root);
-
-		g_object_unref (store);
-	}
-
-	list = g_list_reverse (list);
 
 	/* FIXME Complete lack of error checking here. */
 	service = camel_session_get_service (
@@ -744,9 +729,25 @@ current_account:
 
 	camel_vee_folder_set_expression (search_folder, query);
 
+ current_accout_setup:
+
+	if (folder != NULL && folder != CAMEL_FOLDER (search_folder)) {
+		store = camel_folder_get_parent_store (folder);
+		if (store != NULL)
+			g_object_ref (store);
+	} else {
+		store = NULL;
+		em_folder_tree_get_selected (folder_tree, &store, NULL);
+	}
+
+	list = NULL;  /* list of CamelStore-s */
+
+	if (store != NULL)
+		list = g_list_append (NULL, store);
+
 	priv->search_account_cancel = camel_operation_new ();
 
-	/* This takes ownership of the folder list. */
+	/* This takes ownership of the stores list. */
 	mail_shell_view_setup_search_results_folder (
 		CAMEL_FOLDER (search_folder), list,
 		priv->search_account_cancel);
