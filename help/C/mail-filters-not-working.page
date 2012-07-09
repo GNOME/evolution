@@ -7,7 +7,7 @@
     <link type="guide" xref="index#common-mail-problems" />
     <link type="seealso" xref="mail-filters" />
 
-    <revision pkgversion="3.1.5" version="0.2" date="2011-08-25" status="draft"/>
+    <revision pkgversion="3.5.2" version="0.3" date="2012-07-09" status="draft"/>
     <credit type="author">
       <name its:translate="no">April Gonzales</name>
       <email its:translate="no">loonycookie@gmail.com</email>
@@ -23,21 +23,42 @@
   </info>
 
 <title>Mail filters are not working</title>
-<p>Your mail filters are probably working, however, they could be ordered in an inefficient way. This will make your filters run slowly, so it may seem like they are not working.</p>
 
-<note>
-<p>Note that the order of filters is very important. They are applied to the original message in sequence, like a recipe.</p>
-<p>If your first filter has a <gui>Stop Processing</gui> rule, then all the email messages that match this filter will ignore all the succeeding filters.</p>
+<section id="order">
+<title>Order of Filters</title>
+<p>The order of filters is very important. They are applied to the original message in sequence, like a recipe.</p>
+<p>If your first filter has a <gui>Stop Processing</gui> rule, then all messages that match this filter will ignore all succeeding filters.</p>
 <p>When you move a message to another folder, "moving" actually means appending a copy of the message to the destination folder and marking the original message for deletion. So any subsequent filter rules will be applied to the original message that is now marked for deletion. Therefore moving a message should usually appear last in a sequence of filter rules.</p>
 <p>To check the rules and their order of an existing filter, review its actions in the <gui>Then</gui> section by <link xref="mail-filters#editing">editing the filter</link>.</p>
-</note>
+</section>
 
-<p>Another thing you have to keep in mind is that filters depend on the "new" flag that is set when a particular email message is initially fetched from the server. If you use another email client aside from Evolution, your filters may not work automatically.</p>
+<section id="several-clients">
+<title>Using Several Mail Clients</title>
+<p>Another thing you have to keep in mind is that filters depend on the "new" flag that is set on the server when a particular email message is initially fetched from the server. If you use another email client aside from Evolution, your filters may not work automatically.</p>
+</section>
 
-<note>
-<p>Applying the <gui>Stop Processing</gui> rule to an email message will cause all succeeding filters to ignore that message.</p>
+<!-- TODO: This really needs testing before 3.6 and if this is correct: -->
+<section id="filter-log">
+<title>Logging Filter Actions</title>
+If it is still unclear why filters do not work as expected, you can enable logging filter actions.
+<list>
+<item><p>Close Evolution.</p></item>
+<item><p>Open the <app>Terminal</app> application.</p></item>
+<item><p>Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-actions true</cmd></p></item>
+<item><p>Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-file "~/my-filter-log"</cmd>. This will create a text file named "my-filter-log" in your home directory.</p></item>
+<item><p>Start Evolution.</p></item>
+<item><p>Fetch mail to apply filters.</p></item>
+<item><p>Open the file "my-filter-log" with a text editor to see which filter actions have been applied.</p></item>
+</list>
 
-<!--<item><p>TODO: "flag" is a technical term, and might need explanation. A link to a glossary item, or a "what is a flag?" topic would suffice, like for example: For more information on flags, please see <link href="link to guide">this page</link></p></item>  -->
-</note>
+<p>Note that you can disable filter logging again by using the command <cmd>gsettings set org.gnome.evolution.mail filters-log-actions false</cmd></p>
+
+<p>You can also use the <app>dconf-editor</app> application to do this.</p>
+</section>
+
+<!-- TODO: As per https://bugzilla.gnome.org/show_bug.cgi?id=669471#c2 :
+Haven't tried it, but it looks like "CAMEL_DEBUG=filter" should work.
+Similarly, there's "CAMEL_DEBUG=junk" for monitoring junk mail classification.
+But maybe not in this place... -->
 
 </page>
