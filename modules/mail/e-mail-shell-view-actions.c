@@ -330,41 +330,38 @@ static void
 action_mail_folder_expunge_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
+	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
+	EMailView *mail_view;
 	EMFolderTree *folder_tree;
-	EShellWindow *shell_window;
-	EShellView *shell_view;
-	CamelFolder *folder;
-	const gchar *description;
-	gboolean proceed;
+	CamelStore *selected_store = NULL;
+	gchar *selected_folder_name = NULL;
 
 	/* This handles both the "folder-expunge" and "account-expunge"
 	 * actions. */
 
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
 	/* Get the folder from the folder tree, not the message list.
 	 * This correctly handles the use case of right-clicking on
 	 * the "Trash" folder and selecting "Empty Trash" without
 	 * actually selecting the folder.  In that case the message
 	 * list would not contain the correct folder to expunge. */
+	em_folder_tree_get_selected (
+		folder_tree, &selected_store, &selected_folder_name);
+	g_return_if_fail (CAMEL_IS_STORE (selected_store));
+	g_return_if_fail (selected_folder_name != NULL);
 
-	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
-	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	folder = em_folder_tree_get_selected_folder (folder_tree);
-	g_return_if_fail (folder != NULL);
+	e_mail_reader_expunge_folder_name (
+		E_MAIL_READER (mail_view),
+		selected_store, selected_folder_name);
 
-	description = camel_folder_get_description (folder);
-
-	proceed = em_utils_prompt_user (
-		GTK_WINDOW (shell_window),
-		"prompt-on-expunge",
-		"mail:ask-expunge",
-		description, NULL);
-
-	if (proceed)
-		mail_expunge_folder (folder);
+	g_object_unref (selected_store);
+	g_free (selected_folder_name);
 }
 
 static void

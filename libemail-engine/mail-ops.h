@@ -45,7 +45,6 @@ void mail_sync_folder (CamelFolder *folder,
 void mail_sync_store (CamelStore *store, gint expunge,
 		     void (*done) (CamelStore *store, gpointer data), gpointer data);
 
-void		mail_expunge_folder		(CamelFolder *folder);
 void		mail_empty_trash		(CamelStore *store);
 
 /* transfer (copy/move) a folder */
