@@ -447,6 +447,73 @@ e_mail_reader_expunge_folder (EMailReader *reader,
 	}
 }
 
+/* Helper for e_mail_reader_expunge_folder_name() */
+static void
+mail_reader_expunge_folder_name_cb (GObject *source_object,
+                                    GAsyncResult *result,
+                                    gpointer user_data)
+{
+	CamelStore *store;
+	CamelFolder *folder;
+	AsyncContext *context;
+	EAlertSink *alert_sink;
+	GError *error = NULL;
+
+	store = CAMEL_STORE (source_object);
+	context = (AsyncContext *) user_data;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
+
+	/* XXX The returned CamelFolder is a borrowed reference. */
+	folder = camel_store_get_folder_finish (store, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		e_alert_submit (
+			alert_sink, "mail:no-expunge-folder",
+			context->folder_name, error->message, NULL);
+		g_error_free (error);
+
+	} else {
+		e_activity_set_state (
+			context->activity, E_ACTIVITY_COMPLETED);
+		e_mail_reader_expunge_folder (context->reader, folder);
+	}
+
+	async_context_free (context);
+}
+
+void
+e_mail_reader_expunge_folder_name (EMailReader *reader,
+                                   CamelStore *store,
+                                   const gchar *folder_name)
+{
+	EActivity *activity;
+	AsyncContext *context;
+	GCancellable *cancellable;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (folder_name != NULL);
+
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
+	context = g_slice_new0 (AsyncContext);
+	context->activity = activity;
+	context->reader = g_object_ref (reader);
+	context->folder_name = g_strdup (folder_name);
+
+	camel_store_get_folder (
+		store, folder_name,
+		CAMEL_STORE_FOLDER_INFO_FAST,
+		G_PRIORITY_DEFAULT, cancellable,
+		mail_reader_expunge_folder_name_cb,
+		context);
+}
+
 /* Helper for e_mail_reader_refresh_folder() */
 static void
 mail_reader_refresh_folder_cb (GObject *source_object,
