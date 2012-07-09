@@ -213,18 +213,7 @@ struct _source_data {
 	GtkListStore *model;
 	GtkTreeView *list;
 	GtkWidget *source_selector;
-	GtkButton *buttons[BUTTON_LAST];
-};
-
-static void source_add (GtkWidget *widget, struct _source_data *data);
-static void source_remove (GtkWidget *widget, struct _source_data *data);
-
-static struct {
-	const gchar *name;
-	GCallback func;
-} edit_buttons[] = {
-	{ "source_add",    G_CALLBACK(source_add)   },
-	{ "source_remove", G_CALLBACK(source_remove)},
+	GtkWidget *buttons[BUTTON_LAST];
 };
 
 static void
@@ -252,24 +241,15 @@ static void
 select_source_with_changed (GtkWidget *widget,
                             struct _source_data *data)
 {
-	em_vfolder_rule_with_t with = 0;
-	GSList *group = NULL;
-	gint i = 0;
+	em_vfolder_rule_with_t with;
 
-	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
-		return;
-
-	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
-
-	for (i = 0; i< g_slist_length (group); i++) {
-		if (g_slist_nth_data (group, with = i) == widget)
-			break;
-	}
-
-	if (with > EM_VFOLDER_RULE_WITH_LOCAL )
+	with = gtk_combo_box_get_active (GTK_COMBO_BOX (widget));
+	if (with > EM_VFOLDER_RULE_WITH_LOCAL)
 		with = 0;
 
-	gtk_widget_set_sensitive (data->source_selector, !with );
+	with = 3 - with;
+
+	gtk_widget_set_sensitive (data->source_selector, !with);
 
 	data->vr->with = with;
 }
@@ -461,17 +441,16 @@ static GtkWidget *
 get_widget (EFilterRule *fr,
             ERuleContext *rc)
 {
-	EMVFolderRule *vr =(EMVFolderRule *) fr;
+	EMVFolderRule *vr = (EMVFolderRule *) fr;
 	EMailSession *session;
-	GtkWidget *widget, *frame;
+	GtkWidget *widget, *frame, *label, *combobox, *hgrid, *vgrid, *tree_view, *scrolled_window;
+	GtkListStore *model;
+	GtkCellRenderer *renderer;
 	struct _source_data *data;
-	GtkRadioButton *rb;
 	const gchar *source;
+	gchar *tmp;
 	GtkTreeIter iter;
 	GtkTreeSelection *selection;
-	GtkBuilder *builder;
-	GObject *object;
-	gint i;
 
 	widget = E_FILTER_RULE_CLASS (em_vfolder_editor_rule_parent_class)->
 		get_widget (fr, rc);
@@ -480,25 +459,96 @@ get_widget (EFilterRule *fr,
 	data->rc = rc;
 	data->vr = vr;
 
-	builder = gtk_builder_new ();
-	e_load_ui_builder_definition (builder, "mail-dialogs.ui");
+	frame = gtk_grid_new ();
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (frame), GTK_ORIENTATION_VERTICAL);
+	gtk_grid_set_row_spacing (GTK_GRID (frame), 6);
 
-	frame = e_builder_get_widget(builder, "vfolder_source_frame");
+	g_object_set_data_full (G_OBJECT (frame), "data", data, g_free);
 
-	g_object_set_data_full((GObject *)frame, "data", data, g_free);
+	tmp = g_strdup_printf ("<b>%s</b>", _("Search Folder Sources"));
+	label = gtk_label_new (tmp);
+	g_free (tmp);
+	g_object_set (G_OBJECT (label),
+		"use-markup", TRUE,
+		"xalign", 0.0,
+		NULL);
 
-	for (i = 0; i < BUTTON_LAST; i++) {
-		data->buttons[i] =(GtkButton *)
-			e_builder_get_widget (builder, edit_buttons[i].name);
-		g_signal_connect (
-			data->buttons[i], "clicked",
-			edit_buttons[i].func, data);
-	}
+	gtk_container_add (GTK_CONTAINER (frame), label);
 
-	object = gtk_builder_get_object (builder, "source_list");
-	data->list = GTK_TREE_VIEW (object);
-	object = gtk_builder_get_object (builder, "source_model");
-	data->model = GTK_LIST_STORE (object);
+	hgrid = gtk_grid_new ();
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (hgrid), GTK_ORIENTATION_HORIZONTAL);
+	gtk_container_add (GTK_CONTAINER (frame), hgrid);
+
+	label = gtk_label_new ("    ");
+	gtk_container_add (GTK_CONTAINER (hgrid), label);
+
+	vgrid = gtk_grid_new ();
+	g_object_set (G_OBJECT (vgrid),
+		"orientation", GTK_ORIENTATION_VERTICAL,
+		"border-width", 6,
+		"row-spacing", 6,
+		NULL);
+	gtk_container_add (GTK_CONTAINER (hgrid), vgrid);
+
+	hgrid = gtk_grid_new ();
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (hgrid), GTK_ORIENTATION_HORIZONTAL);
+	gtk_grid_set_column_spacing (GTK_GRID (hgrid), 6);
+	gtk_container_add (GTK_CONTAINER (vgrid), hgrid);
+
+	combobox = gtk_combo_box_text_new ();
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (combobox), NULL, _("All local folders"));
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (combobox), NULL, _("All active remote folders"));
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (combobox), NULL, _("All local and active remote folders"));
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (combobox), NULL, _("Specific folders"));
+	gtk_container_add (GTK_CONTAINER (hgrid), combobox);
+
+	hgrid = gtk_grid_new ();
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (hgrid), GTK_ORIENTATION_HORIZONTAL);
+	gtk_grid_set_column_spacing (GTK_GRID (hgrid), 6);
+	gtk_container_add (GTK_CONTAINER (vgrid), hgrid);
+
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	g_object_set (G_OBJECT (scrolled_window),
+		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"shadow-type", GTK_SHADOW_IN,
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		NULL);
+	gtk_container_add (GTK_CONTAINER (hgrid), scrolled_window);
+
+	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	renderer = gtk_cell_renderer_text_new ();
+	tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tree_view), FALSE);
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (tree_view),
+		-1, "column", renderer, "markup", 0, NULL);
+
+	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), tree_view);
+
+	vgrid = gtk_grid_new ();
+	g_object_set (G_OBJECT (vgrid),
+		"orientation", GTK_ORIENTATION_VERTICAL,
+		"border-width", 6,
+		"row-spacing", 6,
+		NULL);
+	gtk_container_add (GTK_CONTAINER (hgrid), vgrid);
+
+	data->buttons[BUTTON_ADD] = gtk_button_new_from_stock (GTK_STOCK_ADD);
+	g_signal_connect (data->buttons[BUTTON_ADD], "clicked",
+		G_CALLBACK (source_add), data);
+
+	data->buttons[BUTTON_REMOVE] = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+	g_signal_connect (data->buttons[BUTTON_REMOVE], "clicked",
+		G_CALLBACK (source_remove), data);
+
+	gtk_container_add (GTK_CONTAINER (vgrid), data->buttons[BUTTON_ADD]);
+	gtk_container_add (GTK_CONTAINER (vgrid), data->buttons[BUTTON_REMOVE]);
+
+	data->list = GTK_TREE_VIEW (tree_view);
+	data->model = model;
 
 	session = em_vfolder_editor_context_get_session (EM_VFOLDER_EDITOR_CONTEXT (rc));
 
@@ -521,40 +571,21 @@ get_widget (EFilterRule *fr,
 		selection, "changed",
 		G_CALLBACK (selection_changed_cb), data);
 
-	rb = (GtkRadioButton *)e_builder_get_widget (builder, "local_rb");
+	data->source_selector = hgrid;
+
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 3 - vr->with);
 	g_signal_connect (
-		rb, "toggled",
+		combobox, "changed",
 		G_CALLBACK (select_source_with_changed), data);
-
-	rb = (GtkRadioButton *)e_builder_get_widget (builder, "remote_rb");
-	g_signal_connect (
-		rb, "toggled",
-		G_CALLBACK (select_source_with_changed), data);
-
-	rb = (GtkRadioButton *)e_builder_get_widget (builder, "local_and_remote_rb");
-	g_signal_connect (
-		rb, "toggled",
-		G_CALLBACK (select_source_with_changed), data);
-
-	rb = (GtkRadioButton *) e_builder_get_widget (builder, "specific_rb");
-	g_signal_connect (
-		rb, "toggled",
-		G_CALLBACK (select_source_with_changed), data);
-
-	data->source_selector = (GtkWidget *)
-		e_builder_get_widget (builder, "source_selector");
-
-	rb = g_slist_nth_data (gtk_radio_button_get_group (rb), vr->with);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rb), TRUE);
-	g_signal_emit_by_name (rb, "toggled");
+	select_source_with_changed (combobox, data);
 
 	set_sensitive (data);
 
 	gtk_widget_set_valign (frame, GTK_ALIGN_FILL);
 	gtk_widget_set_vexpand (frame, TRUE);
-	gtk_container_add (GTK_CONTAINER (widget), frame);
+	gtk_widget_show_all (frame);
 
-	g_object_unref (builder);
+	gtk_container_add (GTK_CONTAINER (widget), frame);
 
 	return widget;
 }
