@@ -450,23 +450,6 @@ filter:
 			query = temp;
 			break;
 
-		case MAIL_FILTER_RECENT_MESSAGES:
-			if (em_utils_folder_is_sent (registry, folder))
-				temp = g_strdup_printf (
-					"(and %s (match-all "
-					"(> (get-sent-date) "
-					"(- (get-current-date) 86400))))",
-					query);
-			else
-				temp = g_strdup_printf (
-					"(and %s (match-all "
-					"(> (get-received-date) "
-					"(- (get-current-date) 86400))))",
-					query);
-			g_free (query);
-			query = temp;
-			break;
-
 		case MAIL_FILTER_LAST_5_DAYS_MESSAGES:
 			if (em_utils_folder_is_sent (registry, folder))
 				temp = g_strdup_printf (

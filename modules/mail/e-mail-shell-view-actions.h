@@ -231,8 +231,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-filter-no-label")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_READ_MESSAGES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-filter-read-messages")
-#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_RECENT_MESSAGES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-recent-messages")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_UNREAD_MESSAGES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-filter-unread-messages")
 #define E_SHELL_WINDOW_ACTION_MAIL_SCOPE_ALL_ACCOUNTS(window) \

@@ -1660,13 +1660,6 @@ static GtkRadioActionEntry mail_filter_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  MAIL_FILTER_READ_MESSAGES },
 
-	{ "mail-filter-recent-messages",
-	  NULL,
-	  N_("Recent Messages"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_FILTER_RECENT_MESSAGES },
-
 	{ "mail-filter-unread-messages",
 	  "mail-unread",
 	  N_("Unread Messages"),
