@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution 3.5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-09 09:43+0200\n"
-"PO-Revision-Date: 2012-07-09 10:09+0200\n"
+"PO-Revision-Date: 2012-07-09 13:58+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -9703,7 +9703,7 @@ msgstr "Kryptert med S/MIME"
 #: ../em-format/e-mail-formatter-quote-text-enriched.c:102
 #: ../em-format/e-mail-formatter-text-enriched.c:115
 msgid "Richtext"
-msgstr ""
+msgstr "Rik tekst"
 
 #: ../em-format/e-mail-formatter-quote-text-enriched.c:108
 #: ../em-format/e-mail-formatter-text-enriched.c:121
@@ -10610,9 +10610,9 @@ msgid ""
 msgstr "Ingen måladresse oppgitt. Videresending av meldingen ble avbrutt."
 
 #: ../libemail-engine/e-mail-session.c:1384
-#, fuzzy, c-format
+#, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
-msgstr "Fant ingen konto å bruke. Videresending av meldingen ble avbrutt."
+msgstr "Fant ingen identitet å bruke. Videresending av meldingen ble avbrutt."
 
 #: ../libemail-engine/e-mail-session.c:1546
 #, c-format
@@ -10843,22 +10843,22 @@ msgstr "Forvalgt"
 #: ../mail/e-mail-autoconfig.c:194
 #, c-format
 msgid "No mail exchanger record for '%s'"
-msgstr ""
+msgstr "Ingen e-postutvekslingsoppføring for «%s»"
 
 #: ../mail/e-mail-autoconfig.c:201
 #, c-format
 msgid "Temporarily unable to resolve '%s'"
-msgstr ""
+msgstr "Midlertidig ute av stand til å slå opp navn for «%s»"
 
 #: ../mail/e-mail-autoconfig.c:208
-#, fuzzy, c-format
+#, c-format
 msgid "Error resolving '%s'"
-msgstr "Feil under fjerning av liste"
+msgstr "Feil under oppslag av navn for «%s»"
 
 #: ../mail/e-mail-autoconfig.c:264
 #, c-format
 msgid "No authoritative name server for '%s'"
-msgstr ""
+msgstr "Ingen autorisert navnetjener for «%s»"
 
 #: ../mail/e-mail-autoconfig.c:661
 msgid "No email address provided"
@@ -11409,36 +11409,32 @@ msgid "Mark the selected messages for deletion"
 msgstr "Merk valgte meldinger for sletting"
 
 #: ../mail/e-mail-reader.c:1997
-#, fuzzy
 msgid "Create a Filter Rule for Mailing _List..."
-msgstr "Filtrer på e-post_liste …"
+msgstr "Lag filterregel for e-post_liste …"
 
 #: ../mail/e-mail-reader.c:1999
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Lag en regel for å filtrere meldinger til denne meldingslisten"
 
 #: ../mail/e-mail-reader.c:2004
-#, fuzzy
 msgid "Create a Filter Rule for _Recipients..."
-msgstr "Filtrer på mottake_re …"
+msgstr "Lag en filterregel for mottake_re …"
 
 #: ../mail/e-mail-reader.c:2006
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Lag en regel for å filtrere meldinger til disse mottakerene"
 
 #: ../mail/e-mail-reader.c:2011
-#, fuzzy
 msgid "Create a Filter Rule for Se_nder..."
-msgstr "Filtrer på se_nder …"
+msgstr "Lag en filterregel for avse_nder …"
 
 #: ../mail/e-mail-reader.c:2013
 msgid "Create a rule to filter messages from this sender"
 msgstr "Lag en regel for å filtrere meldinger fra denne avsenderen"
 
 #: ../mail/e-mail-reader.c:2018
-#, fuzzy
 msgid "Create a Filter Rule for _Subject..."
-msgstr "Filtrer på e_mne …"
+msgstr "Lag en filterregel for e_mne …"
 
 #: ../mail/e-mail-reader.c:2020
 msgid "Create a rule to filter messages with this subject"
@@ -11813,7 +11809,7 @@ msgstr "Mindre skrift"
 
 #: ../mail/e-mail-reader.c:2370
 msgid "Cre_ate"
-msgstr ""
+msgstr "L_ag"
 
 #: ../mail/e-mail-reader.c:2377
 msgid "Ch_aracter Encoding"
@@ -11844,36 +11840,32 @@ msgid "_Zoom"
 msgstr "_Zoom"
 
 #: ../mail/e-mail-reader.c:2429
-#, fuzzy
 msgid "Create a Search Folder from Mailing _List..."
-msgstr "Søkemappe på e-post_liste …"
+msgstr "Lag en søkemappe fra e-post_liste …"
 
 #: ../mail/e-mail-reader.c:2431
 msgid "Create a search folder for this mailing list"
 msgstr "Lag en søkemappe for denne e-postlisten"
 
 #: ../mail/e-mail-reader.c:2436
-#, fuzzy
 msgid "Create a Search Folder from Recipien_ts..."
-msgstr "Søkemappe fra mo_ttakere …"
+msgstr "Lag en søkemappe fra mo_ttakere …"
 
 #: ../mail/e-mail-reader.c:2438
 msgid "Create a search folder for these recipients"
 msgstr "Lag en søkemappe for disse mottakerene"
 
 #: ../mail/e-mail-reader.c:2443
-#, fuzzy
 msgid "Create a Search Folder from Sen_der..."
-msgstr "Søkemappe for avsen_der …"
+msgstr "Lag en søkemappe fra avsen_der …"
 
 #: ../mail/e-mail-reader.c:2445
 msgid "Create a search folder for this sender"
 msgstr "Lag en søkemappe for denne avsenderen"
 
 #: ../mail/e-mail-reader.c:2450
-#, fuzzy
 msgid "Create a Search Folder from S_ubject..."
-msgstr "Søkemappe for _emne …"
+msgstr "Lag en søkemappe fra _emne …"
 
 #: ../mail/e-mail-reader.c:2452
 msgid "Create a search folder for this subject"
@@ -13845,9 +13837,8 @@ msgid "Folder '{0}' doesn't contain any duplicate message."
 msgstr "Mappe «{0}» inneholder ingen duplikatmeldinger."
 
 #: ../mail/mail.error.xml.h:150
-#, fuzzy
 msgid "Failed to disconnect account &quot;{0}&quot;."
-msgstr "Kunne ikke lagre til fil for automatisk lagring: &quot;{0}&quot;."
+msgstr "Klarte ikke å koble fra konto &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:152
 msgid "Failed to unsubscribe from folder."
@@ -14567,22 +14558,20 @@ msgstr "B_la gjennom denne boken til grensen nås"
 
 #: ../modules/audio-inline/e-mail-formatter-audio-inline.c:310
 msgid "Audio Player"
-msgstr ""
+msgstr "Lydavspiller"
 
 #: ../modules/audio-inline/e-mail-formatter-audio-inline.c:316
 msgid "Play the attachment in embedded audio player"
-msgstr ""
+msgstr "Spill av vedlegg i innebygget lydavspiller"
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:167
-#, fuzzy
 msgid ""
 "You can restore Evolution from a backup file.\n"
 "\n"
 "This will restore all your personal data, settings mail filters, etc."
 msgstr ""
-"Du kan gjenopprette Evolution fra din sikkerhetskopi. Alle meldinger, "
-"kalendere, oppgaver, notater og adressebøker kan gjenopprettes. Dine "
-"personlige innstillinger, filtre osv, blir også lagret."
+"Du kan gjenopprette Evolution fra din sikkerhetskopi.\n"
+"Dette vil gjenopprette alle dine personlige data, innstillinger, e-postfiltre osv.."
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:182
 msgid "_Restore from a backup file:"
@@ -14693,7 +14682,7 @@ msgstr "Fjerner midlertidige sikkerhetskopifiler"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:590
 msgid "Reloading registry service"
-msgstr ""
+msgstr "Laster registertjenesten på nytt"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:815
 msgid "Evolution Back Up"
@@ -14819,15 +14808,15 @@ msgstr "Standard LDAP-port"
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:448
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:619
 msgid "LDAP over SSL (deprecated)"
-msgstr ""
+msgstr "LDAP over SSL (utfaset)"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:454
 msgid "Microsoft Global Catalog"
-msgstr ""
+msgstr "Microsoft Global Catalog"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:460
 msgid "Microsoft Global Catalog over SSL"
-msgstr ""
+msgstr "Microsoft Global Catalog over SSL"
 
 #. Page 1
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:564
@@ -14861,14 +14850,11 @@ msgid "Method:"
 msgstr "Metode:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:684
-#, fuzzy
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Using email address\" requires anonymous access to your "
 "LDAP server."
-msgstr ""
-"Dette er metoden Evolution bruker for å autentisere deg. Merk at hvis du "
-"setter denne til «E-post-adresse» kreves anonym tilgang til din LDAP-tjener."
+msgstr "Dette er metoden Evolution bruker for å autentisere deg. Merk at hvis du setter denne til «E-post-adresse» kreves anonym tilgang til din LDAP-tjener."
 
 #. Page 2
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:699
@@ -14882,12 +14868,11 @@ msgstr "Søker"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:738
 msgid "Search Base:"
-msgstr "Søkebase:"
+msgstr "Startnivå:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:743
-#, fuzzy
 msgid "Find Possible Search Bases"
-msgstr "_Finn mulige søkebaser"
+msgstr "Finn mulige startnivå"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:768
 msgid "One Level"
@@ -14902,17 +14887,12 @@ msgid "Search Scope:"
 msgstr "Søkeområde:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:777
-#, fuzzy
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree.  A search scope of \"Subtree\" will include all entries "
 "below your search base.  A search scope of \"One Level\" will only include "
 "the entries one level beneath your search base."
-msgstr ""
-"Søkeområdet definerer hvor dypt du ønsker at søket skal gå ned i "
-"katalogtreet. Et søkeområde som «sub» vil ta med alle oppføringer under din "
-"søkebase. Et søkeområde som «one» vil kun ta med oppføringer ett nivå under "
-"basen."
+msgstr "Søkeområdet definerer hvor dypt du ønsker at søket skal gå ned i katalogtreet. Et søkeområde som «Undertre» vil ta med alle oppføringer under din søkebase. Et søkeområde som «Ett nivå» vil kun ta med oppføringer ett nivå under startnivået."
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:786
 msgid "Search Filter:"
@@ -14927,9 +14907,8 @@ msgid "Limit:"
 msgstr "Grense:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:835
-#, fuzzy
 msgid "Browse until limit is reached"
-msgstr "B_la gjennom denne boken til grensen nås"
+msgstr "Bla gjennom til grensen nås"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:134
 #: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:133
@@ -14946,18 +14925,16 @@ msgid "HTTP Error: %s"
 msgstr "HTTP-feil: %s"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:428
-#, fuzzy
 msgid "Could not parse response"
-msgstr "Kunne ikke lese PGP-melding:"
+msgstr "Kunne ikke lese svar"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:437
 msgid "Empty response"
 msgstr "Tomt svar"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:445
-#, fuzzy
 msgid "Unexpected reply from server"
-msgstr "Send svar til avsender"
+msgstr "Uventet svar fra tjener"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1032
 msgid "Could not locate user's calendars"
@@ -15005,32 +14982,29 @@ msgid "Server handles meeting invitations"
 msgstr "Tjener håndterer møteinvitasjoner"
 
 #: ../modules/cal-config-contacts/evolution-cal-config-contacts.c:73
-#, fuzzy
 msgid "Choose which address books to use."
-msgstr "Legg til lokale adressebøker i Evolution."
+msgstr "Velg hvilke adressebøker som skal brukes."
 
 #: ../modules/cal-config-contacts/evolution-cal-config-contacts.c:203
-#, fuzzy
 msgid "Use in Birthdays & Anniversaries calendar"
-msgstr "Bruk i kalender for fød_selsdager og jubileum"
+msgstr "Bruk i kalender for fødselsdager og jubileum"
 
 #: ../modules/cal-config-google/e-google-chooser-button.c:127
-#, fuzzy
 msgid "Default User Calendar"
-msgstr "Sl_ett kalender"
+msgstr "Forvalgt kalender for bruker"
 
 #: ../modules/cal-config-google/e-google-chooser.c:508
-#, fuzzy, c-format
+#, c-format
 msgid "Enter Google password for user '%s'."
-msgstr "Oppgi passord for «%s»"
+msgstr "Oppgi Google-passord for bruker «%s»."
 
 #: ../modules/cal-config-google/e-google-chooser.c:525
 msgid "User declined to provide a password"
-msgstr ""
+msgstr "Bruker avsto fra å oppgi et passord"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:161
 msgid "Use an existing iCalendar (ics) file"
-msgstr ""
+msgstr "Bruk en eksisterende iCalendar-fil (ics)"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:186
 msgid "iCalendar File"
@@ -15045,9 +15019,8 @@ msgid "File:"
 msgstr "Fil:"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:216
-#, fuzzy
 msgid "Allow Evolution to update the file"
-msgstr "Ugyldig sikkerhetskopifil for Evolution"
+msgstr "La Evolution oppdatere filen"
 
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:224
 msgid "Metric (Celsius, cm, etc)"
@@ -15083,9 +15056,8 @@ msgid "I_mport to Tasks"
 msgstr "I_mporter til oppgaver"
 
 #: ../modules/calendar/e-calendar-preferences.c:406
-#, fuzzy
 msgid "Selected Calendars for Alarms"
-msgstr "Kalendere valgt for påminnelse"
+msgstr "Kalendere valgt for påminnelser"
 
 #: ../modules/calendar/e-calendar-preferences.c:828
 msgid "Ti_me and date:"
@@ -16124,28 +16096,24 @@ msgid ""
 "Select a predefined set of IMAP headers to fetch.\n"
 "Note, larger sets of headers take longer to download."
 msgstr ""
+"Velg et prefefinert sett med IMAP-meldingshoder som skal hentes.\n"
+"Merk at større sett med meldingshoder tar lengre tid å laste ned."
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:243
 msgid "_Fetch All Headers"
 msgstr "Hent alle meldin_gshoder"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:257
-#, fuzzy
 msgid "_Basic Headers (fastest)"
-msgstr "Tabell med meldingshoder"
+msgstr "_Grunnleggende meldingshoder (raskest)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:271
-#, fuzzy
 msgid "Use this if you are not filtering any mailing lists."
-msgstr ""
-"_Grunnleggende meldingshoder - (Raskest)\n"
-"Bruk dette valget hvis du ikke har filter basert på e-postlister"
+msgstr "Bruk dette valget hvis du ikke har filter basert på e-postlister"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:281
-#, fuzzy
 msgid "Basic and _Mailing List Headers (default)"
-msgstr ""
-"Grunnleggende meldingshoder og meldingshoder for e-postlister (Forvalg)"
+msgstr "Grunnleggende _meldingshoder for e-postlister (Forvalg)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:330
 msgid "Custom Headers"
@@ -16155,15 +16123,15 @@ msgstr "Egendefinerte meldingshoder"
 msgid ""
 "Specify any extra headers to fetch in addition to the predefined set of "
 "headers selected above."
-msgstr ""
+msgstr "Oppgi ekstra meldingshoder som skal hentes i tillegg til det predefinerte settet med meldingshoder over."
 
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:135
 msgid "ITIP"
-msgstr ""
+msgstr "ITIP"
 
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:141
 msgid "Display part as an invitation"
-msgstr ""
+msgstr "Vis del som en invitasjon"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
@@ -16880,69 +16848,57 @@ msgid "Display \"text/calendar\" MIME parts in mail messages."
 msgstr "Viser MIME-deler av type «text/calender» i e-poster."
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:252
-#, fuzzy
 msgid "Google Features"
-msgstr "Google kalendere"
+msgstr "Google funksjoner"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:261
-#, fuzzy
 msgid "Add Google Ca_lendar to this account"
-msgstr "Legg til kalendere fra Google i Evolution."
+msgstr "Legg til ka_lendere fra Google i denne kontoen"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:269
-#, fuzzy
 msgid "Add Google Con_tacts to this account"
-msgstr "Legg til kalendere fra Google i Evolution."
+msgstr "Legg til kontakter fra Google i denne kontoen"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:277
-#, fuzzy
 msgid "You may need to enable IMAP access"
-msgstr "Du må kanskje slå på IMAP-tilgang."
+msgstr "Du må kanskje slå på IMAP-tilgang"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:246
 #: ../modules/mail-config/e-mail-config-local-accounts.c:292
-#, fuzzy
 msgid "Mail _Directory:"
-msgstr "Lagre katalog"
+msgstr "E-_postkatalog:"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:247
-#, fuzzy
 msgid "Choose a MH mail directory"
-msgstr "Velg en fil som skal gjenopprettes"
+msgstr "Velg en katalog for MH-e-post"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:269
 msgid "Local Delivery _File:"
-msgstr ""
+msgstr "_Fil for lokal levering:"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:270
-#, fuzzy
 msgid "Choose a local delivery file"
-msgstr "Velg kalenderfil"
+msgstr "Velg en lokal fil for levering"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:293
-#, fuzzy
 msgid "Choose a Maildir mail directory"
-msgstr "Velg en fil som skal gjenopprettes"
+msgstr "Velg en katalog for maildir-e-post"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:315
-#, fuzzy
 msgid "Spool _File:"
-msgstr "_Fil:"
+msgstr "Kø_fil:"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:316
-#, fuzzy
 msgid "Choose a mbox spool file"
-msgstr "Velg en fil"
+msgstr "Velg en køfil for mbox"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:338
-#, fuzzy
 msgid "Spool _Directory:"
-msgstr "Lagre katalog"
+msgstr "_Køkatalog:"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:339
-#, fuzzy
 msgid "Choose a mbox spool directory"
-msgstr "Velg en fil som skal gjenopprettes"
+msgstr "Velg en køkatalog for mbox"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:149
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:81
@@ -16963,19 +16919,18 @@ msgstr "Bruker_navn:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:226
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:149
-#, fuzzy
 msgid "Encryption _method:"
-msgstr "Kryptering:"
+msgstr "Krypterings_metode:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:241
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:164
 msgid "STARTTLS after connecting"
-msgstr ""
+msgstr "STARTTLS etter tilkobling"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:245
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:168
 msgid "SSL on a dedicated port"
-msgstr ""
+msgstr "SSL på en dedikert port"
 
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:124
 msgid "Ser_ver requires authentication"
@@ -16986,14 +16941,12 @@ msgid "T_ype:"
 msgstr "T_ype:"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:247
-#, fuzzy
 msgid "Yahoo! Features"
-msgstr "IMAP-funksjoner"
+msgstr "Yahoo!-funksjoner"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:256
-#, fuzzy
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
-msgstr "Legg til kalendere fra Google i Evolution."
+msgstr "Legg til kalender og oppgaver fra Yahoo i denne kontoen"
 
 #: ../modules/mail/e-mail-attachment-handler.c:390
 #, c-format
@@ -17569,23 +17522,20 @@ msgid "Enable and disable plugins"
 msgstr "Aktiver og deaktiver tillegg"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:130
-#, fuzzy
 msgid "Display plain text version"
-msgstr "Vis neste melding"
+msgstr "Vis versjon i ren tekst"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:132
-#, fuzzy
 msgid "Display plain text version of multipart/alternative message"
-msgstr "Vis neste viktige melding"
+msgstr "Vis ren tekst versjonen av en multipart/alternative melding"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:138
 msgid "Display HTML version"
-msgstr ""
+msgstr "Vis HTML-versjon"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:140
-#, fuzzy
 msgid "Display HTML version of multipart/alternative message"
-msgstr "Vis forrige viktige melding"
+msgstr "Vis HTML-versjonen av en multipart/alternative melding"
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:79
 #: ../modules/prefer-plain/plugin/config-ui.c:46
@@ -17711,15 +17661,15 @@ msgid "Import complete."
 msgstr "Import fullført."
 
 #: ../modules/startup-wizard/e-startup-assistant.c:154
-#, fuzzy
 msgid ""
 "Welcome to Evolution.\n"
 "\n"
 "The next few screens will allow Evolution to connect to your email accounts, "
 "and to import files from other applications."
 msgstr ""
-"Velkommen til Evolution. De neste skjermene lar deg konfigurere Evolution "
-"til å koble til dine e-post kontoer, og importere filer fra andre programmer."
+"Velkommen til Evolution.\n"
+"\n"
+"De neste skjermene lar deg konfigurere Evolution til å koble til dine e-post kontoer, og importere filer fra andre programmer."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:259
 msgid "Loading accounts..."
@@ -17727,28 +17677,25 @@ msgstr "Laster kontoer …"
 
 #: ../modules/text-highlight/text-highlight.c:242
 msgid "Patch"
-msgstr ""
+msgstr "Patch"
 
 #: ../modules/text-highlight/text-highlight.c:248
 msgid "Format part as a patch"
-msgstr ""
+msgstr "Formater del som en patch"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:118
 #: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:201
-#, fuzzy
 msgid "Show F_ull vCard"
-msgstr "Vis alle data i vCard"
+msgstr "Vis f_ullstendig vCard"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:121
 #: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:219
-#, fuzzy
 msgid "Show Com_pact vCard"
-msgstr "Vis kompakt vCard"
+msgstr "Vis kom_pakt vCard"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:145
-#, fuzzy
 msgid "Save _To Addressbook"
-msgstr "Lagre i adressebok"
+msgstr "Lagre _til adressebok"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:165
 msgid "There is one other contact."
@@ -21191,1176 +21138,3 @@ msgstr "Velg alle"
 #: ../widgets/text/e-text.c:2087
 msgid "Input Methods"
 msgstr "Inndatametoder"
-
-#~ msgid "Couldn't get list of address books: %s"
-#~ msgstr "Kunne ikke hente liste med adressebøker: %s"
-
-#~ msgid "_Type:"
-#~ msgstr "_Type:"
-
-#~ msgid "Sh_ow reminder notifications"
-#~ msgstr "Vis varsling _om påminnelser"
-
-#~ msgid "You are acting on behalf of %s"
-#~ msgstr "Du opptrer på vegne av %s"
-
-#~ msgid "On This Computer"
-#~ msgstr "På denne datamaskinen"
-
-#~ msgid "List of selected calendars"
-#~ msgstr "Liste med valgte kalendere"
-
-#~ msgid "List of calendars to load"
-#~ msgstr "Liste med kalendere som skal lastes"
-
-#~ msgid "List of selected memo lists"
-#~ msgstr "Liste med valgte notatlister"
-
-#~ msgid "List of memo lists to load"
-#~ msgstr "Liste med notatlister som skal lastes"
-
-#~ msgid "List of selected task lists"
-#~ msgstr "Liste med valgte oppgavelister"
-
-#~ msgid "List of task lists to load"
-#~ msgstr "Liste med oppgavelister som skal lastes"
-
-#~ msgid "Configuration version"
-#~ msgstr "Konfigurasjonsversjon"
-
-#~ msgid ""
-#~ "The configuration version of Evolution, with major/minor/configuration "
-#~ "level (for example \"2.6.0\")."
-#~ msgstr ""
-#~ "Konfigurasjonsversjon for Evolution med større/mindre/konfigurasjonsnivå "
-#~ "(for eksempel «2.6.0»)."
-
-#~ msgid "Last upgraded configuration version"
-#~ msgstr "Sist oppgradert konfigurasjonsversjon"
-
-#~ msgid ""
-#~ "The last upgraded configuration version of Evolution, with major/minor/"
-#~ "configuration level (for example \"2.6.0\")."
-#~ msgstr ""
-#~ "Sist oppgradert konfigurasjonsversjon for Evolution, med major/minor/"
-#~ "konfigurasjonsnivå (for eksempel «2.6.0»)."
-
-#~ msgid "Enable local folders"
-#~ msgstr "Slå på lokale mapper"
-
-#~ msgid "Whether to show local folders (On This Computer) in a folder tree"
-#~ msgstr ""
-#~ "Hvorvidt lokale mapper (På denne datamaskinen) skal vises i et mappetre"
-
-#~ msgid "Enable search folders on startup."
-#~ msgstr "Aktiver søkemapper ved oppstart."
-
-#~ msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-#~ msgstr "Stil på e-postvisning («normal», «full headers», «source»)"
-
-#~ msgid "Could not parse S/MIME message: Unknown error"
-#~ msgstr "Kunne ikke lese S/MIME-melding: Ukjent feil"
-
-#~ msgid "Could not parse PGP/MIME message: Unknown error"
-#~ msgstr "Kunne ikke lese PGP/MIME-melding: Ukjent feil"
-
-#~ msgid "Unknown error verifying signature"
-#~ msgstr "Ukjent feil under verifisering av signatur"
-
-#~ msgid "Cannot proccess non-text mime/part"
-#~ msgstr "Kan ikke prosessere mime/part som ikke er tekst"
-
-#~ msgid "If all conditions are met"
-#~ msgstr "Hvis alle kriterier er møtt"
-
-#~ msgid "If any conditions are met"
-#~ msgstr "Hvis noe kriterie er møtt"
-
-#~ msgid "Enter Passphrase for %s"
-#~ msgstr "Skriv inn passord for %s"
-
-#~ msgid "Enter Passphrase"
-#~ msgstr "Skriv inn passord"
-
-#~ msgid "Enter Password for %s"
-#~ msgstr "Skriv inn passord for %s"
-
-#~ msgid "Enter Password"
-#~ msgstr "Skriv inn passord"
-
-#~ msgctxt "mail-signature"
-#~ msgid "None"
-#~ msgstr "Ingen"
-
-#~ msgid "Fil_e:"
-#~ msgstr "_Fil:"
-
-#~ msgid "Mail Configuration"
-#~ msgstr "E-post-konfigurasjon"
-
-#~ msgid "Please configure the following account settings."
-#~ msgstr "Vennligst konfigurer følgende kontoinnstillinger."
-
-#~ msgid ""
-#~ "Please enter information about the way you will send mail. If you are not "
-#~ "sure, ask your system administrator or Internet Service Provider."
-#~ msgstr ""
-#~ "Vennligst skriv inn informasjon om måten du sender e-post. Hvis du ikke "
-#~ "er sikker, kontakt din systemadministrator eller din Internett "
-#~ "tjenestetilbyder."
-
-#~ msgid "minu_tes"
-#~ msgstr "minu_tter"
-
-#~ msgid "Checking for New Messages"
-#~ msgstr "Ser etter nye meldinger"
-
-#~ msgid "Setup Google con_tacts with Evolution"
-#~ msgstr "Sett opp Google-kon_takter i Evolution"
-
-#~ msgid "Setup Google ca_lendar with Evolution"
-#~ msgstr "Sett opp Google-ka_lender i Evolution"
-
-#~ msgid "Yahoo! account settings:"
-#~ msgstr "Innstillinger for Yahoo!-konto:"
-
-#~ msgid "Setup _Yahoo! calendar with Evolution"
-#~ msgstr "Sett opp _Yahoo!-kalender i Evolution"
-
-#~ msgid "Setup Yahoo! _tasks with Evolution"
-#~ msgstr "Sett opp Yahoo!-oppgaver i Evolution"
-
-#~ msgid ""
-#~ "Yahoo! calendars are named as firstname_lastname. We have tried to form "
-#~ "the calendar name. Please confirm and re-enter the calendar name, if it "
-#~ "is not correct, or change it later in calendar Properties."
-#~ msgstr ""
-#~ "Yahoo!-kalendere har navn som fornavn_etternavn. Vi har prøvd å utforme "
-#~ "kalendernavnet. Vennligst bekreft og oppgi kalendernavnet på nytt eller "
-#~ "endre det under egenskaper for kalender hvis det ikke er korrekt."
-
-#~ msgid "Yahoo! Calen_dar name:"
-#~ msgstr "Navn på Yahoo!-kalen_der:"
-
-#~ msgid "Create R_ule"
-#~ msgstr "Opprett _regel"
-
-#~ msgid "Completed on"
-#~ msgstr "Fullført"
-
-#~ msgid "Overdue:"
-#~ msgstr "Utgått:"
-
-#~ msgid "by"
-#~ msgstr "innen"
-
-#~ msgid "Digitally sign messages when original message signed (PGP or S/MIME)"
-#~ msgstr ""
-#~ "Signer meldinger digitalt når opprinnelig melding er signert (PGP eller S/"
-#~ "MIME)"
-
-#~ msgid "Composer Window default width"
-#~ msgstr "Forvalgt bredde for skrivevindu"
-
-#~ msgid "Default width of the Composer Window."
-#~ msgstr "Forvalgt bredde for redigeringsvinduet."
-
-#~ msgid "Composer Window default height"
-#~ msgstr "Forvalgt høyde for skrivevindu"
-
-#~ msgid "Default height of the Composer Window."
-#~ msgstr "Forvalgt høyde for redigeringsvinduet."
-
-#~ msgid "Attribute message."
-#~ msgstr "Attributtmelding."
-
-#~ msgid "Forward message."
-#~ msgstr "Videresend melding."
-
-#~ msgid "Original message."
-#~ msgstr "Opprinnelig melding."
-
-#~ msgid "Display only message texts not exceeding certain size"
-#~ msgstr "Vis kun meldingstekst som ikke overstiger en bestemt størrelse"
-
-#~ msgid "Message text limit for display"
-#~ msgstr "Grense for tekst i meldingsvisning"
-
-#~ msgid ""
-#~ "This decides the max size of the message text that will be displayed "
-#~ "under Evolution, specified in terms of KB. The default is 4096 (4MB). "
-#~ "This value is used only when 'force_message_limit' key is activated."
-#~ msgstr ""
-#~ "Bestemmer maksimal størrelse for tekstdelen som kan formatteres i "
-#~ "evolution. Forvalg er 4MB / 4096 KB og oppgis i KB. Verdien brukes kun "
-#~ "hvis nøkkelen «force_message_limit» er slått på."
-
-#~ msgid ""
-#~ "This setting specifies whether the threads should be in expanded or "
-#~ "collapsed state by default. Requires a restart to apply."
-#~ msgstr ""
-#~ "Denne innstillingen spesifiserer om tråder skal være i utvidet eller "
-#~ "sammenslått tilstand som forvalg. Evolution må startes på nytt hvis denne "
-#~ "endres."
-
-#~ msgid "Mail browser width"
-#~ msgstr "Bredde på e-postleser"
-
-#~ msgid "Default width of the mail browser window."
-#~ msgstr "Forvalgt bredde for e-postleservinduet."
-
-#~ msgid "Mail browser height"
-#~ msgstr "Høyde på e-postleser"
-
-#~ msgid "Default height of the mail browser window."
-#~ msgstr "Forvalgt høyde for e-postleservinduet."
-
-#~ msgid "Mail browser maximized"
-#~ msgstr "E-postleser maksimert"
-
-#~ msgid "Default maximized state of the mail browser window."
-#~ msgstr "Forvalgt maksimert tilstand for e-postleservinduet."
-
-#~ msgid "\"Folder Subscriptions\" window height"
-#~ msgstr "Vinduhøyde for vinduet «Abonnement på mapper»"
-
-#~ msgid ""
-#~ "Initial height of the \"Folder Subscriptions\" window. The value updates "
-#~ "as the user resizes the window vertically."
-#~ msgstr ""
-#~ "Initiell høyde for vinduet «Abonnement på mapper». Verdien oppdateres "
-#~ "ettersom bruker endrer størrelse på vinduet vertikalt."
-
-#~ msgid "\"Folder Subscriptions\" window maximize state"
-#~ msgstr "Maksimeringstilstand for vinduet «Abonnement på mapper»"
-
-#~ msgid "\"Folder Subscriptions\" window width"
-#~ msgstr "Vindubredde for vinduet «Abonnement på mapper»"
-
-#~ msgid ""
-#~ "Initial width of the \"Folder Subscriptions\" window. The value updates "
-#~ "as the user resizes the window horizontally."
-#~ msgstr ""
-#~ "Initiell bredde på «Abonnement på mapper»-vinduet. Verdien oppdateres "
-#~ "ettersom bruker endrer størrelse på vinduet horisontalt."
-
-#~ msgid "Default reply style"
-#~ msgstr "Forvalgt svarstil"
-
-#~ msgid "List of accounts"
-#~ msgstr "Liste med kontoer"
-
-#~ msgid ""
-#~ "List of accounts known to the mail component of Evolution. The list "
-#~ "contains strings naming subdirectories relative to /apps/evolution/mail/"
-#~ "accounts."
-#~ msgstr ""
-#~ "Liste over kontoer som e-postkomponenten til Evolution kjenner til. "
-#~ "Listen innholder strenger som er undermapper relativt til /apps/evolution/"
-#~ "mail/accounts."
-
-#~ msgid "List of accepted licenses"
-#~ msgstr "Liste med godtatte lisenser"
-
-#~ msgid "List of protocol names whose license has been accepted."
-#~ msgstr "Liste over protokollnavn som har en godkjent lisens."
-
-#~ msgid "\"Filter Editor\" window height"
-#~ msgstr "Vinduhøyde for «Filterredigering»"
-
-#~ msgid ""
-#~ "Initial height of the \"Filter Editor\" window. The value updates as the "
-#~ "user resizes the window vertically."
-#~ msgstr ""
-#~ "Initiell høyde for «Filterredigering»-vinduet. Verdien oppdateres "
-#~ "ettersom bruker endrer størrelse på vinduet vertikalt."
-
-#~ msgid "\"Filter Editor\" window maximize state"
-#~ msgstr "Maksimeringstilstand for «Filterredigering»-vindu"
-
-#~ msgid "\"Filter Editor\" window width"
-#~ msgstr "Vindubredde for «Filterredigering»"
-
-#~ msgid ""
-#~ "Initial width of the \"Filter Editor\" window. The value updates as the "
-#~ "user resizes the window horizontally."
-#~ msgstr ""
-#~ "Initiell bredde på «Meldingsfiltre»-vinduet. Verdien oppdateres ettersom "
-#~ "bruker endrer størrelse på vinduet horisontalt."
-
-#~ msgid "\"Send and Receive Mail\" window height"
-#~ msgstr "Høyde på vindu for «Send & motta e-post»"
-
-#~ msgid ""
-#~ "Initial height of the \"Send and Receive Mail\" window. The value updates "
-#~ "as the user resizes the window vertically."
-#~ msgstr ""
-#~ "Initiell høyde for «Send og motta e-post»-vinduet. Verdien oppdateres "
-#~ "ettersom bruker endrer størrelse på vinduet vertikalt."
-
-#~ msgid "\"Send and Receive Mail\" window maximize state"
-#~ msgstr "Maksimeringstilstand for «Send & motta e-post»-vindu"
-
-#~ msgid "\"Send and Receive Mail\" window width"
-#~ msgstr "Bredde på «Send & motta e-post»-vindu"
-
-#~ msgid ""
-#~ "Initial width of the \"Send and Receive Mail\" window. The value updates "
-#~ "as the user resizes the window horizontally."
-#~ msgstr ""
-#~ "Initiell bredde på «Send og motta e-post»-vinduet. Verdien oppdateres "
-#~ "ettersom bruker endrer størrelse på vinduet horisontalt."
-
-#~ msgid "\"Search Folder Editor\" window height"
-#~ msgstr "Forvalgt vinduhøyde for «Redigering av søkemapper»"
-
-#~ msgid ""
-#~ "Initial height of the \"Search Folder Editor\" window. The value updates "
-#~ "as the user resizes the window vertically."
-#~ msgstr ""
-#~ "Initiell høyde for «Rediger søkemapper»-vinduet. Verdien oppdateres "
-#~ "ettersom bruker endrer størrelse på vinduet vertikalt."
-
-#~ msgid "\"Search Folder Editor\" window maximize state"
-#~ msgstr "Maksimeringstilstand for vindu for «Redigering av søkemapper»"
-
-#~ msgid "\"Search Folder Editor\" window width"
-#~ msgstr "Bredde på vindu for «Redigering av søkemapper»"
-
-#~ msgid ""
-#~ "Initial width of the \"Search Folder Editor\" window. The value updates "
-#~ "as the user resizes the window horizontally."
-#~ msgstr ""
-#~ "Initiell bredde på «Søkemapper»-vinduet. Verdien oppdateres ettersom "
-#~ "bruker endrer størrelse på vinduet horisontalt."
-
-#~ msgid "Drag'n'drop export format"
-#~ msgstr "Eksportformat for dra-og-slipp operasjoner"
-
-#~ msgid "Format of the drag'n'drop export filename"
-#~ msgstr "Format for filnavn for dra-og-slipp eksport"
-
-#~ msgid "_Add Signature"
-#~ msgstr "_Legg til signatur"
-
-#~ msgid ""
-#~ "The output of this script will be used as your\n"
-#~ "signature. The name you specify will be used\n"
-#~ "for display purposes only. "
-#~ msgstr ""
-#~ "Utdata fra dette skriptet vil brukes som din\n"
-#~ "signatur. Navnet du oppgir vil kun brukes\n"
-#~ "for visning på skjermen."
-
-#~ msgid "_Script:"
-#~ msgstr "_Skript:"
-
-#~ msgid "Drafts _Folder:"
-#~ msgstr "Mappe _for skisser:"
-
-#~ msgid "_Trash Folder:"
-#~ msgstr "Mappe for _papirkurv:"
-
-#~ msgid "_Junk Folder:"
-#~ msgstr "Mappe for _uønsket e-post:"
-
-#~ msgid "Signat_ure:"
-#~ msgstr "Signat_ur:"
-
-#~ msgid "_Make this my default account"
-#~ msgstr "_Bruk denne som forvalgt konto"
-
-#~ msgid "Also encrypt to sel_f when sending encrypted messages"
-#~ msgstr "Send krypterte me_ldinger til meg selv når kryptert e-post sendes"
-
-#~ msgid "Encrypt out_going messages (by default)"
-#~ msgstr "Krypter ut_gående meldinger (som forvalg)"
-
-#~ msgid "Digitally sign o_utgoing messages (by default)"
-#~ msgstr "Signer _utgående meldinger digitalt (som forvalg)"
-
-#~ msgid "S_elect..."
-#~ msgstr "V_elg …"
-
-#~ msgid "Clea_r"
-#~ msgstr "Tø_m"
-
-#~ msgid "Cle_ar"
-#~ msgstr "_Tøm"
-
-#~ msgid "description"
-#~ msgstr "beskrivelse"
-
-#~ msgid "Mailbox location"
-#~ msgstr "Plassering av postboks"
-
-#~ msgid "_Use secure connection:"
-#~ msgstr "Br_uk sikker forbindelse:"
-
-#~ msgid "SSL is not supported in this build of Evolution"
-#~ msgstr "SSL er ikke støttet i denne versjonen av Evolution  "
-
-#~ msgid "_Authentication Type"
-#~ msgstr "_Autentiseringstype"
-
-#~ msgid "Re_member password"
-#~ msgstr "_Husk passord"
-
-#~ msgid "Server Configuration"
-#~ msgstr "Tjenerkonfigurasjon"
-
-#~ msgid "User _Name:"
-#~ msgstr "Bruker_navn:"
-
-#~ msgid "Remember _password"
-#~ msgstr "Husk _passord"
-
-#~ msgid "none"
-#~ msgstr "ingen"
-
-#~ msgid "label"
-#~ msgstr "etikett"
-
-#~ msgid "Cannot set signature script \"{0}\"."
-#~ msgstr "Kan ikke sette signaturskript «{0}»."
-
-#~ msgid "The script file must exist and be executable."
-#~ msgstr "Skriptfilen må eksistere og være kjørbar."
-
-#~ msgid "Signature Already Exists"
-#~ msgstr "Signaturen eksisterer allerede"
-
-#~ msgid ""
-#~ "A signature already exists with the name \"{0}\". Please specify a "
-#~ "different name."
-#~ msgstr ""
-#~ "En signatur med navn «{0}» eksisterer allerede. Vennligst bruk et annet "
-#~ "navn."
-
-#~ msgid ""
-#~ "Selecting this option means that Evolution will only connect to your LDAP "
-#~ "server if your LDAP server supports SSL."
-#~ msgstr ""
-#~ "Hvis du velger dette alternativet vil Evolution kun koble til din LDAP-"
-#~ "tjener hvis denne støtter SSL."
-
-#~ msgid ""
-#~ "Selecting this option means that Evolution will only connect to your LDAP "
-#~ "server if your LDAP server supports TLS."
-#~ msgstr ""
-#~ "Hvis du velger dette alternativet vil Evolution kun koble til din LDAP-"
-#~ "tjener hvis denne støtter TLS."
-
-#~ msgid ""
-#~ "Selecting this option means that your server does not support either SSL "
-#~ "or TLS. This means that your connection will be insecure, and that you "
-#~ "will be vulnerable to security exploits."
-#~ msgstr ""
-#~ "Hvis du velger dette alternativet betyr det at din tjener ikke støtter "
-#~ "SSL eller TLS. Dette betyr at din tilkobling vil være usikker, og at du "
-#~ "vil være sårbar for sikkerhetshull. "
-
-#~ msgid ""
-#~ "This is the port on the LDAP server that Evolution will try to connect "
-#~ "to. A list of standard ports has been provided. Ask your system "
-#~ "administrator what port you should specify."
-#~ msgstr ""
-#~ "Dette er porten på LDAP-tjeneren som Evolution vil prøve å koble til. En "
-#~ "liste med standardporter er gitt. Spør din systemadministrator hvilken "
-#~ "port du skal bruke."
-
-#~ msgid "EFolderList XML for the list of completion URIs"
-#~ msgstr "EFolderList XML for listen med URIer for fullføring"
-
-#~ msgid "EFolderList XML for the list of completion URIs."
-#~ msgstr "EFolderList XML for listen med URIer for fullføring"
-
-#~ msgid ""
-#~ "The UID of the selected (or \"primary\") address book in the sidebar of "
-#~ "the \"Contacts\" view."
-#~ msgstr ""
-#~ "UID for valgt (eller «primær») adressebok i sidelinjen av «Kontakter»-"
-#~ "visningen."
-
-#~ msgid "Whether to show maps in preview pane."
-#~ msgstr "Om kart skal vises i forhåndsvisningsområdet."
-
-#~ msgid "On LDAP Servers"
-#~ msgstr "På LDAP-tjenere"
-
-#~ msgid ""
-#~ "The default timezone to use for dates and times in the calendar, as an "
-#~ "untranslated Olsen timezone database location like \"America/New York\"."
-#~ msgstr ""
-#~ "Den forvalgte tidssonen å bruke for datoer og tidspunkt i kalenderen som "
-#~ "en uoversatt Olsen tidssonedatabaseplassering som «America/New York»."
-
-#~ msgid ""
-#~ "Use the system timezone instead of the timezone selected in Evolution."
-#~ msgstr ""
-#~ "Bruk systemets tidssone i stedet for tidssonen som er valgt i Evolution."
-
-#~ msgid ""
-#~ "Shows the second time zone in a Day View, if set. Value is similar to one "
-#~ "used in a 'timezone' key."
-#~ msgstr ""
-#~ "Viser sekundærtidssone i en dagvisning hvis den er satt. Verdien er lik "
-#~ "den som brukes i nøkkelen «tidssone»."
-
-#~ msgid "List of recently used second time zones in a Day View."
-#~ msgstr "Liste med nylig brukte sekundærtidssoner i en dagvisning."
-
-#~ msgid "Maximum number of recently used timezones to remember."
-#~ msgstr "Maksimalt antall nylig brukte tidssoner som skal huskes."
-
-#~ msgid ""
-#~ "Maximum number of recently used timezones to remember in a "
-#~ "'day_second_zones' list."
-#~ msgstr ""
-#~ "Maksimalt antall nylig brukte tidssoner som skal huskes i en liste med "
-#~ "«day_second_zones»."
-
-#~ msgid ""
-#~ "Whether to show times in twenty four hour format instead of using am/pm."
-#~ msgstr "Om tider skal vises i 24-timers format i stedet for å bruke AM/PM."
-
-#~ msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
-#~ msgstr "Dag uken starter på. Fra søndag (0) til lørdag (6)."
-
-#~ msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
-#~ msgstr "Klokkeslett arbeidsdagen slutter på i 24-timers format, 0 til 23."
-
-#~ msgid "Intervals shown in Day and Work Week views, in minutes."
-#~ msgstr "Intervaller i minutter som vises i dag- og arbeidsukevisningene."
-
-#~ msgid ""
-#~ "Position of the horizontal pane, between the date navigator calendar and "
-#~ "the task list when not in the month view, in pixels."
-#~ msgstr ""
-#~ "Posisjonen til det horisontale feltet mellom minikalenderen og "
-#~ "oppgavelisten utenom månedsvisning, i piksler."
-
-#~ msgid "Vertical pane position"
-#~ msgstr "Posisjon til vertikalt felt"
-
-#~ msgid ""
-#~ "Position of the vertical pane, between the view and the date navigator "
-#~ "calendar and task list when not in the month view, in pixels."
-#~ msgstr ""
-#~ "Posisjonen til det vertikale feltet mellom visning, minikalenderen og "
-#~ "oppgavelisten utenom månedsvisning, i piksler."
-
-#~ msgid ""
-#~ "Position of the horizontal pane, between the view and the date navigator "
-#~ "calendar and task list in the month view, in pixels."
-#~ msgstr ""
-#~ "Posisjonen til det horisontale feltet mellom visning, minikalender og "
-#~ "oppgavelisten i månedsvisning, i piksler."
-
-#~ msgid ""
-#~ "Position of the vertical pane, between the view and the date navigator "
-#~ "calendar and task list in the month view, in pixels."
-#~ msgstr ""
-#~ "Posisjonen til det vertikale feltet mellom visning, minikalenderen og "
-#~ "oppgavelisten i månedsvisning, i piksler."
-
-#~ msgid ""
-#~ "Position of the vertical pane, between the calendar lists and the date "
-#~ "navigator calendar."
-#~ msgstr ""
-#~ "Plassering av vertikalt felt mellom kalenderlisten og minikalenderen."
-
-#~ msgid "If \"true\", show the memo preview pane in the main window."
-#~ msgstr "Vis forhåndsvisningsområdet for notater i hovedvinduet hvis «true»."
-
-#~ msgid "Position of the task preview pane when oriented horizontally."
-#~ msgstr ""
-#~ "Posisjon for forhåndsvisningsområdet for oppgaver med horisontall "
-#~ "orientering."
-
-#~ msgid "Position of the memo preview pane when oriented vertically."
-#~ msgstr ""
-#~ "Posisjon for forhåndsvisningsområdet for notater med vertikal orientering."
-
-#~ msgid "If \"true\", show the task preview pane in the main window."
-#~ msgstr ""
-#~ "Vis forhåndsvisningsområdet for oppgaver i hovedvinduet hvis «true»."
-
-#~ msgid "Position of the task preview pane when oriented vertically."
-#~ msgstr ""
-#~ "Posisjon for forhåndsvisningsområdet for oppgaver med vertikal "
-#~ "orientering."
-
-#~ msgid ""
-#~ "Whether to compress weekends in the month view, which puts Saturday and "
-#~ "Sunday in the space of one weekday."
-#~ msgstr ""
-#~ "Komprimere helger i månedsvisningen slik at lørdag og søndag bruker "
-#~ "plassen til en ukedag."
-
-#~ msgid ""
-#~ "Whether to display the end time of events in the week and month views."
-#~ msgstr ""
-#~ "Om tidspunktet en hendelse slutter på skal vises i uke- og "
-#~ "månedsvisninger."
-
-#~ msgid "Days on which the start and end of work hours should be indicated."
-#~ msgstr "Dager som starten og slutten på arbeidstid skal være indikert."
-
-#~ msgid ""
-#~ "Whether to draw the Marcus Bains Line (line at current time) in the "
-#~ "calendar."
-#~ msgstr ""
-#~ "Om Marcus Bains-linjen (linjen på nåværende tid) skal vises i kalenderen."
-
-#~ msgid "Color to draw the Marcus Bains line in the Day View."
-#~ msgstr "Farge på Marcus Bains-linjen i dagsvisningen."
-
-#~ msgid ""
-#~ "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
-#~ msgstr "Farge på Marcus Bains-linjen i tidslinjen (tom for forvalg)."
-
-#~ msgid ""
-#~ "Show days with recurrent events in italic font in bottom left calendar."
-#~ msgstr ""
-#~ "Vis dager med gjentakende hendelser i kursiv skrift i kalenderen nederst "
-#~ "til venstre."
-
-#~ msgid "Whether to hide completed tasks in the tasks view."
-#~ msgstr "Om fullførte oppgaver skal skjules i oppgavevisningen."
-
-#~ msgid ""
-#~ "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days"
-#~ "\"."
-#~ msgstr ""
-#~ "Enheter for å bestemme når oppgaver skal skjules. «minutes», «hours» "
-#~ "eller «days»."
-
-#~ msgid "Number of units for determining when to hide tasks."
-#~ msgstr "Antall enheter for å bestemme når oppgaver skal skjules"
-
-#~ msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-#~ msgstr "Farge for oppgaver som går ut i dag i «#rrggbb»-format."
-
-#~ msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
-#~ msgstr "Farge for oppgaver som har gått ut i «#rrggbb»-format."
-
-#~ msgid ""
-#~ "Whether to ask for confirmation when deleting an appointment or task."
-#~ msgstr ""
-#~ "Om det skal spørres etter bekreftelse ved sletting av en avtale eller "
-#~ "oppgave."
-
-#~ msgid ""
-#~ "Whether to ask for confirmation when expunging appointments and tasks."
-#~ msgstr ""
-#~ "Om det skal spørres etter bekreftelse ved tømming av avtaler eller "
-#~ "oppgaver."
-
-#~ msgid "Whether to set a default reminder for appointments."
-#~ msgstr "Om en forvalgt påminnelse skal bli satt for avtaler."
-
-#~ msgid "Number of units for determining a default reminder."
-#~ msgstr "Antall enheter for å bestemme en forvalgt påminnelse."
-
-#~ msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-#~ msgstr "Enhet for forvalgt påminnelse. «minutes», «hours», eller «days»."
-
-#~ msgid "Whether to set a reminder for birthdays and anniversaries."
-#~ msgstr ""
-#~ "Om en forvalgt påminnelse skal bli satt for fødselsdager og jubileum."
-
-#~ msgid "Number of units for determining a birthday or anniversary reminder."
-#~ msgstr ""
-#~ "Antall enheter for å bestemme en påminnelse om fødselsdag eller jubileum."
-
-#~ msgid ""
-#~ "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
-#~ "\"days\"."
-#~ msgstr ""
-#~ "Enhet for forvalgt påminnelse for jubileum. «minutes», «hours», eller "
-#~ "«days»."
-
-#~ msgid "Whether to show week numbers in various places in the Calendar."
-#~ msgstr "Om ukenummer skal vises på relevante steder i kalenderen."
-
-#~ msgid "Scroll Month View by a week"
-#~ msgstr "Rull månedsvisning en uke om gangen"
-
-#~ msgid "Whether to scroll a Month View by a week, not by a month."
-#~ msgstr "Om månedsvisning skal rulles per uke, og ikke per måned."
-
-#~ msgid "Time the last reminder ran, in time_t."
-#~ msgstr "Tid for forrige påminnelse, som time_t."
-
-#~ msgid "Calendars to run reminders for"
-#~ msgstr "Kalendere det skal kjøres påminnelser for"
-
-#~ msgid "Programs that are allowed to be run by reminders."
-#~ msgstr "Programmer som er tillat å kjøres av påminnelser."
-
-#~ msgid "Whether or not to use the notification tray for display reminders."
-#~ msgstr "Hvorvidt varslingsfeltet skal brukes for påminnelser på skjermen."
-
-#~ msgid "Free/busy server URLs"
-#~ msgstr "Tjener-URLer for ledig/opptatt-informasjon"
-
-#~ msgid ""
-#~ "The URL template to use as a free/busy data fallback, %u is replaced by "
-#~ "the user part of the mail address and %d is replaced by the domain."
-#~ msgstr ""
-#~ "URL-mal som brukes som reserveløsning for ledig/opptatt, %u er erstattet "
-#~ "med brukerdelen av e-postadressen og %d er erstattet med domenet."
-
-#~ msgid ""
-#~ "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
-#~ "debug messages."
-#~ msgstr ""
-#~ "Denne har tre mulige verdier. 0 for feil. 1 for advarsler. 2 for "
-#~ "feilsøkingsmeldinger."
-
-#~ msgid "On The Web"
-#~ msgstr "På nettet"
-
-#~ msgid "Weather"
-#~ msgstr "Vær"
-
-#~ msgid "Birthdays & Anniversaries"
-#~ msgstr "Fødselsdager og jubileum"
-
-#~ msgid "_New Calendar..."
-#~ msgstr "_Ny kalender …"
-
-#~ msgid "Python Test Plugin"
-#~ msgstr "Testtillegg for Python"
-
-#~ msgid "Test Plugin for Python EPlugin loader."
-#~ msgstr "Testtillegg for Python EPlugin laster."
-
-#~ msgid "Python Plugin Loader tests"
-#~ msgstr "Test av tilleggslaster for Python"
-
-#~ msgid "Hello Python"
-#~ msgstr "Hallo Python"
-
-#~ msgid "Evolution Setup Assistant"
-#~ msgstr "Konfigurasjonsassistent for Evolution"
-
-#~ msgid "Local Address Books"
-#~ msgstr "Lokal adressebok"
-
-#~ msgid "Inline Audio"
-#~ msgstr "Lyd i e-post"
-
-#~ msgid "Play audio attachments directly in mail messages."
-#~ msgstr "Spill av lyd-vedlegg direkte i e-postmeldinger."
-
-#~ msgid "Ensuring local sources"
-#~ msgstr "Sikrer lokale kilder"
-
-#~ msgid "_Restore Evolution from the backup file"
-#~ msgstr "Gjenopp_rett Evolution fra sikkerhetskopifil"
-
-#~ msgid "Please select an Evolution Archive to restore:"
-#~ msgstr "Velg Evolution-arkiv som skal gjenopprettes:"
-
-#~ msgid "Back up and Restore"
-#~ msgstr "Sikkerhetskopiering og gjenoppretting"
-
-#~ msgid "Back up and restore your Evolution data and settings."
-#~ msgstr ""
-#~ "Sikkerhetskopiering og gjenoppretting av data og innstillinger for "
-#~ "Evolution."
-
-#~ msgid "Authentication failed. Server requires correct login."
-#~ msgstr "Autentisering feilet. Tjener krever gyldig pålogging."
-
-#~ msgid "Given URL cannot be found."
-#~ msgstr "Oppgitt URL ble ikke funnet."
-
-#~ msgid ""
-#~ "Server returned unexpected data.\n"
-#~ "%d - %s"
-#~ msgstr ""
-#~ "Tjener returnerte uventede data.\n"
-#~ "%d - %s"
-
-#~ msgid "Failed to parse server response."
-#~ msgstr "Klarte ikke å tolke svar fra tjener."
-
-#~ msgid "Events"
-#~ msgstr "Hendelser"
-
-#~ msgid "User's calendars"
-#~ msgstr "Brukers kalendere"
-
-#~ msgid "Failed to get server URL."
-#~ msgstr "Kunne ikke hente URL til tjener."
-
-#~ msgid "Searching for user's calendars..."
-#~ msgstr "Søker etter brukers kalendere …"
-
-#~ msgid "Previous attempt failed: %s"
-#~ msgstr "Forrige forsøk feilet: %s"
-
-#~ msgid "Previous attempt failed with code %d"
-#~ msgstr "Forrige forsøk feilet med kode %d"
-
-#~ msgid "Enter password for user %s on server %s"
-#~ msgstr "Oppgi passord for bruker %s på tjener %s"
-
-#~ msgid "Cannot create soup message for URL '%s'"
-#~ msgstr "Kunne ikke opprette soup-melding for URL «%s»"
-
-#~ msgid "Searching folder content..."
-#~ msgstr "Søker i mappeinnhold …"
-
-#~ msgid "List of available calendars:"
-#~ msgstr "Liste med tilgjengelige kalendere:"
-
-#~ msgid "Supports"
-#~ msgstr "Støtter"
-
-#~ msgid "User e_mail:"
-#~ msgstr "E-_post for bruker:"
-
-#~ msgid "Failed to create thread: %s"
-#~ msgstr "Klarte ikke å opprette tråd: %s"
-
-#~ msgid "Server URL '%s' is not a valid URL"
-#~ msgstr "Tjener-URL «%s» er ikke en gyldig URL"
-
-#~ msgid "Browse for a CalDAV calendar"
-#~ msgstr "Se etter en CalDAV-kalender"
-
-#~ msgid "Brows_e server for a calendar"
-#~ msgstr "Bla gj_ennom tjener etter en kalender"
-
-#~ msgid "Re_fresh:"
-#~ msgstr "O_ppdater"
-
-#~ msgid "CalDAV Support"
-#~ msgstr "CalDAV-støtte"
-
-#~ msgid "Add CalDAV support to Evolution."
-#~ msgstr "Legg til støtte for CalDAV i Evolution."
-
-#~ msgid "C_ustomize options"
-#~ msgstr "Til_pass alternativer"
-
-#~ msgid "On open"
-#~ msgstr "Ved åpning"
-
-#~ msgid "On file change"
-#~ msgstr "Ved endring av fil"
-
-#~ msgid "Periodically"
-#~ msgstr "Periodisk"
-
-#~ msgid "Force read _only"
-#~ msgstr "Tvungen _skrivebeskyttelse"
-
-#~ msgid "Local Calendars"
-#~ msgstr "Lokale kalendere"
-
-#~ msgid "Add local calendars to Evolution."
-#~ msgstr "Legg til lokale kalendere i Evolution."
-
-#~ msgid "Userna_me:"
-#~ msgstr "Bruker_navn:"
-
-#~ msgid "Add web calendars to Evolution."
-#~ msgstr "Legg til web-kalendere i Evolution."
-
-#~ msgid "Weather: Fog"
-#~ msgstr "Vær: tåke"
-
-#~ msgid "Weather: Cloudy"
-#~ msgstr "Vær: overskyet"
-
-#~ msgid "Weather: Cloudy Night"
-#~ msgstr "Vær: overskyet natt"
-
-#~ msgid "Weather: Overcast"
-#~ msgstr "Vær: overskyet"
-
-#~ msgid "Weather: Showers"
-#~ msgstr "Vær: byger"
-
-#~ msgid "Weather: Snow"
-#~ msgstr "Vær: snø"
-
-#~ msgid "Weather: Sunny"
-#~ msgstr "Vær: sol"
-
-#~ msgid "Weather: Clear Night"
-#~ msgstr "Vær: klar natt"
-
-#~ msgid "Weather: Thunderstorms"
-#~ msgstr "Vær: tordenvær"
-
-#~ msgid "Select a location"
-#~ msgstr "Velg en plasseringapl"
-
-#~ msgctxt "weather-cal-location"
-#~ msgid "None"
-#~ msgstr "Ingen"
-
-#~ msgid "Weather Calendars"
-#~ msgstr "Værkalendere"
-
-#~ msgid "Add weather calendars to Evolution."
-#~ msgstr "Legg til værkalendere i Evolution."
-
-#~ msgid "Default Sources"
-#~ msgstr "Forvalgte kilder"
-
-#~ msgid "Mark your preferred address book and calendar as default."
-#~ msgstr "Merk din foretrukne adressebok og kalender som forvalgt."
-
-#~ msgid "Automatically launch editor when key is pressed in the mail composer"
-#~ msgstr ""
-#~ "Start redigeringsprogram automatisk når tasten trykkes i e-postredigering"
-
-#~ msgid "Server"
-#~ msgstr "Tjener"
-
-#~ msgid "Enter password for user %s to access list of subscribed calendars."
-#~ msgstr "Oppgi passord for %s for å aksessere liste med abonnerte kalendere."
-
-#~ msgid ""
-#~ "Cannot read data from Google server.\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kan ikke lese data fra Google-tjener.\n"
-#~ "%s"
-
-#~ msgid "Cal_endar:"
-#~ msgstr "Kal_ender:"
-
-#~ msgid "Retrieve _List"
-#~ msgstr "Hent _liste"
-
-#~ msgid ""
-#~ "Select your IMAP Header Preferences. \n"
-#~ "The more headers you have the more time it will take to download."
-#~ msgstr ""
-#~ "Sett dine brukervalg for IMAP-meldingshoder.\n"
-#~ "Hvis du velger flere meldingshoder her vil dette påvirke tiden det tar å "
-#~ "laste dem ned."
-
-#~ msgid ""
-#~ "Give the extra headers that you need to fetch in addition to the above "
-#~ "standard headers. \n"
-#~ "You can ignore this if you choose \"All Headers\"."
-#~ msgstr ""
-#~ "Oppgi ekstra meldingshoder du skal hente i tillegg til forvalgte "
-#~ "meldingshoder oppgitt over.\n"
-#~ "Du kan overse dette hvis du velger «Alle meldingshoder»."
-
-#~ msgid "Fine-tune your IMAP accounts."
-#~ msgstr "Endre innstillinger for dine IMAP-kontoer."
-
-#~ msgid "Play sound when new messages arrive."
-#~ msgstr "Spill en lyd når nye meldinger ankommer."
-
-#~ msgid "Whether play sound or beep when new messages arrive."
-#~ msgstr ""
-#~ "Om en lydfil eller et pip skal spilles av når nye meldinger ankommer."
-
-#~ msgid "Beep or play sound file."
-#~ msgstr "Pip eller spill av en lydfil."
-
-#~ msgid ""
-#~ "If \"true\", then beep, otherwise will play sound file when new messages "
-#~ "arrive."
-#~ msgstr "Pip hvis «true», eller spill en lydfil når nye meldinger ankommer."
-
-#~ msgid ""
-#~ "Sound file to be played when new messages arrive, if not in beep mode."
-#~ msgstr ""
-#~ "Lydfil som skal spilles av når nye meldinger ankommer hvis pip-modus ikke "
-#~ "er aktivert."
-
-#~ msgid ""
-#~ "You have received %d new message\n"
-#~ "in %s."
-#~ msgid_plural ""
-#~ "You have received %d new messages\n"
-#~ "in %s."
-#~ msgstr[0] ""
-#~ "Du har mottatt %d ny melding\n"
-#~ "i %s."
-#~ msgstr[1] ""
-#~ "Du har mottatt %d nye meldinger\n"
-#~ "i %s."
-
-#~ msgid "New email"
-#~ msgstr "Ny e-post"
-
-#~ msgid "Cannot get source list. %s"
-#~ msgstr "Fant ikke kildeliste %s"
-
-#~ msgid "Create an _Event"
-#~ msgstr "Lag en h_endelse"
-
-#~ msgid "TNEF Decoder"
-#~ msgstr "Dekoding av TNEF-vedlegg"
-
-#~ msgid "Decode TNEF (winmail.dat) attachments from Microsoft Outlook."
-#~ msgstr "Dekoding av TNEF-vedlegg (winmail.dat) fra Microsoft Outlook."
-
-#~ msgid "Inline vCards"
-#~ msgstr "vCard i e-post"
-
-#~ msgid "Show vCards directly in mail messages."
-#~ msgstr "Vis vCard-vedlegg direkte i e-postmeldinger."
-
-#~ msgid "WebDAV contacts"
-#~ msgstr "WebDAV-kontakter"
-
-#~ msgid "Add WebDAV contacts to Evolution."
-#~ msgstr "Legg til WebDAV-kontakter i Evolution."
-
-#~ msgid "WebDAV"
-#~ msgstr "WebDAV"
-
-#~ msgid ""
-#~ "List of paths for the folders to be synchronized to disk for offline usage"
-#~ msgstr ""
-#~ "Liste over stier for mapper som skal bli synkronisert til disk for "
-#~ "frakoblet bruk"
-
-#~ msgid "Default window Y coordinate"
-#~ msgstr "Forvalgt Y-koordinat for vinduet"
-
-#~ msgid "The default Y coordinate for the main window."
-#~ msgstr "Forvalgt Y-koordinat for hovedvinduet."
-
-#~ msgid "Default window X coordinate"
-#~ msgstr "Forvalgt X-koordinat for vinduet"
-
-#~ msgid "The default X coordinate for the main window."
-#~ msgstr "Forvalgt X-koordinat for hovedvinduet."
-
-#~ msgid "Default window width"
-#~ msgstr "Forvalgt vindubredde"
-
-#~ msgid "The default width for the main window, in pixels."
-#~ msgstr "Forvalgt bredde på hovedvinduet i piksler."
-
-#~ msgid "Default window height"
-#~ msgstr "Forvalgt vinduhøyde"
-
-#~ msgid "The default height for the main window, in pixels."
-#~ msgstr "Forvalgt høyde på hovedvinduet i piksler."
-
-#~ msgid "Default window state"
-#~ msgstr "Forvalgt vindutilstand"
-
-#~ msgid "Whether or not the window should be maximized."
-#~ msgstr "Om vinduet skal være maksimert."
-
-#~ msgid "Proxy configuration mode"
-#~ msgstr "Konfigurasjonsmodus for proxy"
-
-#~ msgid "HTTP proxy port"
-#~ msgstr "Port for HTTP-proxy"
-
-#~ msgid ""
-#~ "The port on the machine defined by \"/apps/evolution/shell/network_config/"
-#~ "http_host\" that you proxy through."
-#~ msgstr ""
-#~ "Porten på proxy definert av «/apps/evolution/shell/network_config/"
-#~ "http_host»."
-
-#~ msgid "HTTP proxy host name"
-#~ msgstr "Vertsnavn for HTTP-proxy"
-
-#~ msgid "The machine name to proxy HTTP through."
-#~ msgstr "Maskinnavn for HTTP-proxy."
-
-#~ msgid "Secure HTTP proxy port"
-#~ msgstr "Port for sikker HTTP-proxy"
-
-#~ msgid ""
-#~ "The port on the machine defined by \"/apps/evolution/shell/network_config/"
-#~ "secure_host\" that you proxy through."
-#~ msgstr ""
-#~ "Porten på proxy definert av «/apps/evolution/shell/network_config/"
-#~ "secure_host»."
-
-#~ msgid "Secure HTTP proxy host name"
-#~ msgstr "Vertsnavn for sikker HTTP-proxy"
-
-#~ msgid "The machine name to proxy secure HTTP through."
-#~ msgstr "Maskinnavn for HTTPS-proxy."
-
-#~ msgid "SOCKS proxy port"
-#~ msgstr "Port for SOCKS-proxy"
-
-#~ msgid ""
-#~ "The port on the machine defined by \"/apps/evolution/shell/network_config/"
-#~ "socks_host\" that you proxy through."
-#~ msgstr ""
-#~ "Porten på proxy definert av «/apps/evolution/shell/network_config/"
-#~ "socks_host»."
-
-#~ msgid "SOCKS proxy host name"
-#~ msgstr "Vertsnavn for SOCKS-proxy"
-
-#~ msgid "The machine name to proxy socks through."
-#~ msgstr "Maskinnavn for socks-proxy."
-
-#~ msgid "Use HTTP proxy"
-#~ msgstr "Bruk HTTP-proxy"
-
-#~ msgid ""
-#~ "Enables the proxy settings when accessing HTTP/Secure HTTP over the "
-#~ "Internet."
-#~ msgstr ""
-#~ "Aktiverer innstillinger for proxy ved aksess via HTTP/sikker HTTP over "
-#~ "internett."
-
-#~ msgid "Authenticate proxy server connections"
-#~ msgstr "Autentiser tilkoblinger via proxy-tjener"
-
-#~ msgid "HTTP proxy username"
-#~ msgstr "Brukernavn for HTTP-proxy"
-
-#~ msgid "Username to pass as authentication when doing HTTP proxying."
-#~ msgstr "Brukernavn for autentisering med HTTP-proxy."
-
-#~ msgid "HTTP proxy password"
-#~ msgstr "Passord for HTTP-proxy"
-
-#~ msgid "Password to pass as authentication when doing HTTP proxying."
-#~ msgstr "Passord som skal sendes som autentisering ved bruk av HTTP-proxy."
-
-#~ msgid "Non-proxy hosts"
-#~ msgstr "Verter som ikke bruker proxy"
-
-#~ msgid "Automatic proxy configuration URL"
-#~ msgstr "URL for automatisk konfigurasjon av proxy"
-
-#~ msgid "URL that provides proxy configuration values."
-#~ msgstr "URL som oppgir verdier for konfigurasjon av proxy."
-
-#~ msgid "_Forget Passwords"
-#~ msgstr "_Glem passord"
-
-#~ msgid "Forget all remembered passwords"
-#~ msgstr "Glem alle lagrede passord"
-
-#~ msgid "Are you sure you want to forget all remembered passwords?"
-#~ msgstr "Er du sikker på at du vil glemme alle lagrede passord?"
-
-#~ msgid ""
-#~ "Forgetting your passwords will clear all remembered passwords. You will "
-#~ "be reprompted next time they are needed."
-#~ msgstr ""
-#~ "Glemming av passord tømmer alle passord som huskes av programmet. Du vil "
-#~ "bli spurt igjen neste gang de kreves."
-
-#~ msgid "_Forget"
-#~ msgstr "_Glem"
