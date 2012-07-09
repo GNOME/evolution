@@ -45,6 +45,18 @@ gboolean	e_mail_folder_append_message_finish
 						 gchar **appended_uid,
 						 GError **error);
 
+gboolean	e_mail_folder_expunge_sync	(CamelFolder *folder,
+						 GCancellable *cancellable,
+						 GError **error);
+void		e_mail_folder_expunge		(CamelFolder *folder,
+						 gint io_priority,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_mail_folder_expunge_finish	(CamelFolder *folder,
+						 GAsyncResult *result,
+						 GError **error);
+
 CamelMimePart *	e_mail_folder_build_attachment_sync
 						(CamelFolder *folder,
 						 GPtrArray *message_uids,

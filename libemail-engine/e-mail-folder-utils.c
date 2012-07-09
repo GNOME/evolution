@@ -24,6 +24,9 @@
 
 #include <glib/gi18n-lib.h>
 
+#include <libedataserver/libedataserver.h>
+
+#include <libemail-engine/e-mail-session.h>
 #include <libemail-engine/mail-tools.h>
 
 /* X-Mailer header value */
@@ -180,6 +183,288 @@ e_mail_folder_append_message_finish (CamelFolder *folder,
 		*appended_uid = context->message_uid;
 		context->message_uid = NULL;
 	}
+
+	/* Assume success unless a GError is set. */
+	return !g_simple_async_result_propagate_error (simple, error);
+}
+
+static void
+mail_folder_expunge_thread (GSimpleAsyncResult *simple,
+                            GObject *object,
+                            GCancellable *cancellable)
+{
+	GError *error = NULL;
+
+	e_mail_folder_expunge_sync (
+		CAMEL_FOLDER (object), cancellable, &error);
+
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
+}
+
+static gboolean
+mail_folder_expunge_pop3_stores (CamelFolder *folder,
+                                 GCancellable *cancellable,
+                                 GError **error)
+{
+	GHashTable *expunging_uids;
+	CamelStore *parent_store;
+	CamelService *service;
+	CamelSession *session;
+	ESourceRegistry *registry;
+	GPtrArray *uids;
+	GList *list, *link;
+	const gchar *extension_name;
+	gboolean success = TRUE;
+	guint ii;
+
+	parent_store = camel_folder_get_parent_store (folder);
+
+	service = CAMEL_SERVICE (parent_store);
+	session = camel_service_get_session (service);
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+
+	uids = camel_folder_get_uids (folder);
+
+	if (uids == NULL)
+		return TRUE;
+
+	expunging_uids = g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
+
+	for (ii = 0; ii < uids->len; ii++) {
+		CamelMessageInfo *info;
+		CamelMessageFlags flags = 0;
+		CamelMimeMessage *message;
+		const gchar *pop3_uid;
+		const gchar *source_uid;
+
+		info = camel_folder_get_message_info (
+			folder, uids->pdata[ii]);
+
+		if (info != NULL) {
+			flags = camel_message_info_flags (info);
+			camel_folder_free_message_info (folder, info);
+		}
+
+		/* Only interested in deleted messages. */
+		if ((flags & CAMEL_MESSAGE_DELETED) == 0)
+			continue;
+
+		/* because the UID in the local store doesn't
+		 * match with the UID in the pop3 store */
+		message = camel_folder_get_message_sync (
+			folder, uids->pdata[ii], cancellable, NULL);
+
+		if (message == NULL)
+			continue;
+
+		pop3_uid = camel_medium_get_header (
+			CAMEL_MEDIUM (message), "X-Evolution-POP3-UID");
+		source_uid = camel_mime_message_get_source (message);
+
+		if (pop3_uid != NULL)
+			g_hash_table_insert (
+				expunging_uids,
+				g_strstrip (g_strdup (pop3_uid)),
+				g_strstrip (g_strdup (source_uid)));
+
+		g_object_unref (message);
+	}
+
+	camel_folder_free_uids (folder, uids);
+	uids = NULL;
+
+	if (g_hash_table_size (expunging_uids) == 0) {
+		g_hash_table_destroy (expunging_uids);
+		return TRUE;
+	}
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceBackend *extension;
+		CamelFolder *folder;
+		CamelService *service;
+		CamelSettings *settings;
+		const gchar *backend_name;
+		const gchar *service_uid;
+		const gchar *source_uid;
+		gboolean any_found = FALSE;
+		gboolean delete_expunged = FALSE;
+		gboolean keep_on_server = FALSE;
+		gboolean enabled;
+
+		source_uid = e_source_get_uid (source);
+		enabled = e_source_get_enabled (source);
+
+		extension = e_source_get_extension (source, extension_name);
+		backend_name = e_source_backend_get_backend_name (extension);
+
+		if (!enabled || g_strcmp0 (backend_name, "pop") != 0)
+			continue;
+
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), source_uid);
+
+		service_uid = camel_service_get_uid (service);
+		settings = camel_service_get_settings (service);
+
+		g_object_get (
+			settings,
+			"delete-expunged", &delete_expunged,
+			"keep-on-server", &keep_on_server,
+			NULL);
+
+		if (!keep_on_server || !delete_expunged)
+			continue;
+
+		folder = camel_store_get_inbox_folder_sync (
+			CAMEL_STORE (service), cancellable, error);
+
+		/* Abort the loop on error. */
+		if (folder == NULL) {
+			success = FALSE;
+			break;
+		}
+
+		uids = camel_folder_get_uids (folder);
+
+		if (uids == NULL) {
+			g_object_unref (folder);
+			continue;
+		}
+
+		for (ii = 0; ii < uids->len; ii++) {
+			const gchar *source_uid;
+
+			source_uid = g_hash_table_lookup (
+				expunging_uids, uids->pdata[ii]);
+			if (g_strcmp0 (source_uid, service_uid) == 0) {
+				any_found = TRUE;
+				camel_folder_delete_message (
+					folder, uids->pdata[ii]);
+			}
+		}
+
+		camel_folder_free_uids (folder, uids);
+
+		if (any_found)
+			success = camel_folder_synchronize_sync (
+				folder, TRUE, cancellable, error);
+
+		g_object_unref (folder);
+
+		/* Abort the loop on error. */
+		if (!success)
+			break;
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	g_hash_table_destroy (expunging_uids);
+
+	return success;
+}
+
+gboolean
+e_mail_folder_expunge_sync (CamelFolder *folder,
+                            GCancellable *cancellable,
+                            GError **error)
+{
+	CamelFolder *local_inbox;
+	CamelStore *parent_store;
+	CamelService *service;
+	CamelSession *session;
+	gboolean is_local_inbox;
+	gboolean is_local_trash;
+	gboolean store_is_local;
+	gboolean success = TRUE;
+	const gchar *uid;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
+
+	parent_store = camel_folder_get_parent_store (folder);
+
+	service = CAMEL_SERVICE (parent_store);
+	session = camel_service_get_session (service);
+
+	uid = camel_service_get_uid (service);
+	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
+
+	local_inbox = e_mail_session_get_local_folder (
+		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_INBOX);
+	is_local_inbox = (folder == local_inbox);
+
+	if (store_is_local && !is_local_inbox) {
+		CamelFolder *local_trash;
+
+		local_trash = camel_store_get_trash_folder_sync (
+			parent_store, cancellable, error);
+
+		if (local_trash != NULL) {
+			is_local_trash = (folder == local_trash);
+			g_object_unref (local_trash);
+		} else {
+			return FALSE;
+		}
+	}
+
+	/* Expunge all POP3 accounts when expunging
+	 * the local Inbox or Trash folder. */
+	if (is_local_inbox || is_local_trash)
+		success = mail_folder_expunge_pop3_stores (
+			folder, cancellable, error);
+
+	if (success)
+		success = camel_folder_expunge_sync (
+			folder, cancellable, error);
+
+	return success;
+}
+
+void
+e_mail_folder_expunge (CamelFolder *folder,
+                       gint io_priority,
+                       GCancellable *cancellable,
+                       GAsyncReadyCallback callback,
+                       gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (folder), callback,
+		user_data, e_mail_folder_expunge);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	g_simple_async_result_run_in_thread (
+		simple, mail_folder_expunge_thread,
+		io_priority, cancellable);
+
+	g_object_unref (simple);
+}
+
+gboolean
+e_mail_folder_expunge_finish (CamelFolder *folder,
+                              GAsyncResult *result,
+                              GError **error)
+{
+	GSimpleAsyncResult *simple;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (folder),
+		e_mail_folder_expunge), FALSE);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
 
 	/* Assume success unless a GError is set. */
 	return !g_simple_async_result_propagate_error (simple, error);
