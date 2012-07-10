@@ -592,7 +592,7 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 			e_source_mail_submission_get_sent_folder (
 			E_SOURCE_MAIL_SUBMISSION (extension));
 
-		if (class->equal_folder_name (sent_folder_uri, old_uri)) {
+		if (sent_folder_uri && class->equal_folder_name (sent_folder_uri, old_uri)) {
 			GError *error = NULL;
 
 			e_source_mail_submission_set_sent_folder (
