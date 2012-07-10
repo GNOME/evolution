@@ -413,6 +413,8 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 		return ptr != NOT_FOUND_BOOK;
 	}
 
+	G_UNLOCK (contact_cache);
+
 	book_query = e_book_query_field_test (E_CONTACT_EMAIL, E_BOOK_QUERY_IS, address);
 	query = e_book_query_to_string (book_query);
 	e_book_query_unref (book_query);
@@ -465,10 +467,19 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 		uid = e_source_get_uid (source);
 		display_name = e_source_get_display_name (source);
 
+		G_LOCK (contact_cache);
+
+		/* can be NULL on quit */
+		if (!emu_books_hash || !emu_broken_books_hash) {
+			G_UNLOCK (contact_cache);
+			break;
+		}
+
 		/* failed to load this book last time, skip it now */
 		if (g_hash_table_lookup (emu_broken_books_hash, uid) != NULL) {
 			d(printf ("%s: skipping broken book '%s'\n",
 				G_STRFUNC, display_name));
+			G_UNLOCK (contact_cache);
 			continue;
 		}
 
@@ -476,6 +487,8 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 
 		book_client = g_hash_table_lookup (emu_books_hash, uid);
 		if (!book_client) {
+			G_UNLOCK (contact_cache);
+
 			book_client = e_book_client_new (source, &err);
 
 			if (book_client == NULL) {
@@ -487,9 +500,20 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 
 					source_uid = g_strdup (uid);
 
-					g_hash_table_insert (
-						emu_broken_books_hash,
-						source_uid, source_uid);
+					G_LOCK (contact_cache);
+
+					/* can be NULL on quit */
+					if (emu_broken_books_hash) {
+						g_hash_table_insert (
+							emu_broken_books_hash,
+							source_uid, source_uid);
+					} else {
+						G_UNLOCK (contact_cache);
+						g_clear_error (&err);
+						break;
+					}
+
+					G_UNLOCK (contact_cache);
 
 					g_warning (
 						"%s: Unable to create addressbook '%s': %s",
@@ -510,9 +534,20 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 
 					source_uid = g_strdup (uid);
 
-					g_hash_table_insert (
-						emu_broken_books_hash,
-						source_uid, source_uid);
+					G_LOCK (contact_cache);
+
+					/* can be NULL on quit */
+					if (emu_broken_books_hash) {
+						g_hash_table_insert (
+							emu_broken_books_hash,
+							source_uid, source_uid);
+					} else {
+						G_UNLOCK (contact_cache);
+						g_clear_error (&err);
+						break;
+					}
+
+					G_UNLOCK (contact_cache);
 
 					g_warning (
 						"%s: Unable to open addressbook '%s': %s",
@@ -523,6 +558,8 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 				g_clear_error (&err);
 			}
 		} else {
+			G_UNLOCK (contact_cache);
+
 			cached_book = TRUE;
 		}
 
@@ -531,10 +568,20 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 		    book_client, query, &contacts, cancellable, &err)) {
 			if (contacts != NULL) {
 				if (!found_any) {
-					g_hash_table_insert (
-						contact_cache,
-						g_strdup (lowercase_addr),
-						book_client);
+					G_LOCK (contact_cache);
+
+					/* can be NULL on quit */
+					if (contact_cache) {
+						g_hash_table_insert (
+							contact_cache,
+							g_strdup (lowercase_addr),
+							book_client);
+					} else {
+						G_UNLOCK (contact_cache);
+						break;
+					}
+
+					G_UNLOCK (contact_cache);
 				}
 				found_any = TRUE;
 
@@ -560,9 +607,19 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 			if (err && !stop) {
 				gchar *source_uid = g_strdup (uid);
 
-				g_hash_table_insert (
-					emu_broken_books_hash,
-					source_uid, source_uid);
+				G_LOCK (contact_cache);
+
+				/* can be NULL on quit */
+				if (emu_broken_books_hash) {
+					g_hash_table_insert (
+						emu_broken_books_hash,
+						source_uid, source_uid);
+				} else {
+					G_UNLOCK (contact_cache);
+					break;
+				}
+
+				G_UNLOCK (contact_cache);
 
 				g_warning (
 					"%s: Can't get contacts from '%s': %s",
@@ -576,8 +633,18 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 		if (stop && !cached_book && book_client) {
 			g_object_unref (book_client);
 		} else if (!stop && book_client && !cached_book) {
-			g_hash_table_insert (
-				emu_books_hash, g_strdup (uid), book_client);
+			G_LOCK (contact_cache);
+
+			/* can be NULL on quit */
+			if (emu_books_hash) {
+				g_hash_table_insert (
+					emu_books_hash, g_strdup (uid), book_client);
+			} else {
+				G_UNLOCK (contact_cache);
+				break;
+			}
+
+			G_UNLOCK (contact_cache);
 		}
 	}
 
@@ -585,7 +652,9 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 
 	g_free (query);
 
-	if (!found_any) {
+	G_LOCK (contact_cache);
+
+	if (!found_any && contact_cache) {
 		g_hash_table_insert (contact_cache, lowercase_addr, NOT_FOUND_BOOK);
 		lowercase_addr = NULL;
 	}
@@ -690,11 +759,15 @@ em_utils_contact_photo (ESourceRegistry *registry,
 		last = p;
 	}
 
+	G_UNLOCK (photos_cache);
+
 	/* !p means the address had not been found in the cache */
 	if (!p && search_address_in_addressbooks (
 		registry, addr, local_only, extract_photo_data, &photo, cancellable)) {
 
 		PhotoInfo *pi;
+
+		G_LOCK (photos_cache);
 
 		/* keep only up to 10 photos in memory */
 		if (last && (cache_len >= 10)) {
@@ -710,6 +783,8 @@ em_utils_contact_photo (ESourceRegistry *registry,
 		pi->photo = photo;
 
 		photos_cache = g_slist_prepend (photos_cache, pi);
+
+		G_UNLOCK (photos_cache);
 	}
 
 	/* some photo found, use it */
@@ -727,8 +802,6 @@ em_utils_contact_photo (ESourceRegistry *registry,
 			g_free (s);
 		}
 	}
-
-	G_UNLOCK (photos_cache);
 
 	return part;
 }
