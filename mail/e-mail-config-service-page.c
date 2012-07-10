@@ -24,11 +24,6 @@
 #include <camel/camel.h>
 #include <libebackend/libebackend.h>
 
-#include <libevolution-utils/e-alert-sink.h>
-#include <libevolution-utils/e-alert-dialog.h>
-#include <misc/e-activity-bar.h>
-#include <misc/e-alert-bar.h>
-
 #include <mail/e-mail-config-page.h>
 #include <mail/e-mail-config-service-notebook.h>
 
@@ -60,8 +55,6 @@ struct _EMailConfigServicePagePrivate {
 	GtkWidget *type_label;
 	GtkWidget *desc_label;
 	GtkWidget *notebook;
-	GtkWidget *activity_bar;
-	GtkWidget *alert_bar;
 
 	/* Combo box list store */
 	GtkListStore *list_store;
@@ -93,20 +86,15 @@ enum {
 };
 
 /* Forward Declarations */
-static void	e_mail_config_service_page_alert_sink_init
-					(EAlertSinkInterface *interface);
 static void	e_mail_config_service_page_interface_init
 					(EMailConfigPageInterface *interface);
 
 G_DEFINE_ABSTRACT_TYPE_WITH_CODE (
 	EMailConfigServicePage,
 	e_mail_config_service_page,
-	GTK_TYPE_BOX,
+	E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK,
-		e_mail_config_service_page_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_CONFIG_PAGE,
 		e_mail_config_service_page_interface_init))
@@ -443,37 +431,11 @@ mail_config_service_page_constructed (GObject *object)
 
 	page = E_MAIL_CONFIG_SERVICE_PAGE (object);
 
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_mail_config_service_page_parent_class)->
+		constructed (object);
+
 	mail_config_service_page_init_backends (page);
-}
-
-static void
-mail_config_service_page_submit_alert (EAlertSink *alert_sink,
-                                       EAlert *alert)
-{
-	EMailConfigServicePagePrivate *priv;
-	EAlertBar *alert_bar;
-	GtkWidget *dialog;
-	gpointer parent;
-
-	priv = E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE (alert_sink);
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (alert_sink));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-	switch (e_alert_get_message_type (alert)) {
-		case GTK_MESSAGE_INFO:
-		case GTK_MESSAGE_WARNING:
-		case GTK_MESSAGE_ERROR:
-			alert_bar = E_ALERT_BAR (priv->alert_bar);
-			e_alert_bar_add_alert (alert_bar, alert);
-			break;
-
-		default:
-			dialog = e_alert_dialog_new (parent, alert);
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-			break;
-	}
 }
 
 static void
@@ -598,12 +560,6 @@ e_mail_config_service_page_class_init (EMailConfigServicePageClass *class)
 }
 
 static void
-e_mail_config_service_page_alert_sink_init (EAlertSinkInterface *interface)
-{
-	interface->submit_alert = mail_config_service_page_submit_alert;
-}
-
-static void
 e_mail_config_service_page_interface_init (EMailConfigPageInterface *interface)
 {
 	interface->setup_defaults = mail_config_service_page_setup_defaults;
@@ -619,7 +575,6 @@ e_mail_config_service_page_init (EMailConfigServicePage *page)
 	PangoAttribute *attr;
 	PangoAttrList *attr_list;
 	GtkLabel *label;
-	GtkWidget *frame;
 	GtkWidget *widget;
 	GtkWidget *container;
 	GtkTreeModel *tree_model;
@@ -644,9 +599,6 @@ e_mail_config_service_page_init (EMailConfigServicePage *page)
 		(GDestroyNotify) mail_config_service_page_free_candidate);
 
 	gtk_box_set_spacing (GTK_BOX (page), 12);
-
-	gtk_orientable_set_orientation (
-		GTK_ORIENTABLE (page), GTK_ORIENTATION_VERTICAL);
 
 	page->priv = E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE (page);
 	page->priv->candidates = candidates;
@@ -742,40 +694,6 @@ e_mail_config_service_page_init (EMailConfigServicePage *page)
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	page->priv->notebook = widget;  /* not referenced */
 	gtk_widget_show (widget);
-
-	widget = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_IN);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	/* Visibility is bound to the EActivityBar. */
-
-	frame = widget;
-
-	widget = e_activity_bar_new ();
-	gtk_container_add (GTK_CONTAINER (frame), widget);
-	page->priv->activity_bar = widget;  /* not referenced */
-	/* EActivityBar controls its own visibility. */
-
-	g_object_bind_property (
-		widget, "visible",
-		frame, "visible",
-		G_BINDING_SYNC_CREATE);
-
-	widget = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_IN);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	/* Visibility is bound to the EAlertBar. */
-
-	frame = widget;
-
-	widget = e_alert_bar_new ();
-	gtk_container_add (GTK_CONTAINER (frame), widget);
-	page->priv->alert_bar = widget;  /* not referenced */
-	/* EAlertBar controls its own visibility. */
-
-	g_object_bind_property (
-		widget, "visible",
-		frame, "visible",
-		G_BINDING_SYNC_CREATE);
 
 	/* Keep the notebook's active page number synchronized with our
 	 * own "active-backend" property.  Avoid G_BINDING_SYNC_CREATE
@@ -974,32 +892,6 @@ e_mail_config_service_page_lookup_backend (EMailConfigServicePage *page,
 	}
 
 	return NULL;
-}
-
-EActivity *
-e_mail_config_service_page_new_activity (EMailConfigServicePage *page)
-{
-	EActivity *activity;
-	EActivityBar *activity_bar;
-	GCancellable *cancellable;
-
-	g_return_val_if_fail (E_IS_MAIL_CONFIG_SERVICE_PAGE (page), NULL);
-
-	/* Clear any previous alerts. */
-	e_alert_bar_clear (E_ALERT_BAR (page->priv->alert_bar));
-
-	activity = e_activity_new ();
-
-	e_activity_set_alert_sink (activity, E_ALERT_SINK (page));
-
-	cancellable = camel_operation_new ();
-	e_activity_set_cancellable (activity, cancellable);
-	g_object_unref (cancellable);
-
-	activity_bar = E_ACTIVITY_BAR (page->priv->activity_bar);
-	e_activity_bar_set_activity (activity_bar, activity);
-
-	return activity;
 }
 
 void

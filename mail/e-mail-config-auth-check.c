@@ -168,7 +168,8 @@ mail_config_auth_check_update (EMailConfigAuthCheck *auth_check)
 
 	camel_service_set_settings (service, settings);
 
-	activity = e_mail_config_service_page_new_activity (page);
+	activity = e_mail_config_activity_page_new_activity (
+		E_MAIL_CONFIG_ACTIVITY_PAGE (page));
 	cancellable = e_activity_get_cancellable (activity);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (auth_check), FALSE);

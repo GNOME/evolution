@@ -23,11 +23,10 @@
 #ifndef E_MAIL_CONFIG_SERVICE_PAGE_H
 #define E_MAIL_CONFIG_SERVICE_PAGE_H
 
-#include <gtk/gtk.h>
 #include <camel/camel.h>
 
-#include <e-util/e-activity.h>
 #include <mail/e-mail-autoconfig.h>
+#include <mail/e-mail-config-activity-page.h>
 #include <mail/e-mail-config-service-backend.h>
 
 /* Standard GObject macros */
@@ -56,12 +55,12 @@ typedef struct _EMailConfigServicePageClass EMailConfigServicePageClass;
 typedef struct _EMailConfigServicePagePrivate EMailConfigServicePagePrivate;
 
 struct _EMailConfigServicePage {
-	GtkBox parent;
+	EMailConfigActivityPage parent;
 	EMailConfigServicePagePrivate *priv;
 };
 
 struct _EMailConfigServicePageClass {
-	GtkBoxClass parent_class;
+	EMailConfigActivityPageClass parent_class;
 
 	const gchar *extension_name;
 	CamelProviderType provider_type;
@@ -93,8 +92,6 @@ EMailConfigServiceBackend *
 		e_mail_config_service_page_lookup_backend
 						(EMailConfigServicePage *page,
 						 const gchar *backend_name);
-EActivity *	e_mail_config_service_page_new_activity
-						(EMailConfigServicePage *page);
 void		e_mail_config_service_page_auto_configure
 						(EMailConfigServicePage *page,
 						 EMailAutoconfig *autoconfig);
