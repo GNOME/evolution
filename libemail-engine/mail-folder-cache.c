@@ -830,6 +830,7 @@ update_folders (CamelStore *store,
 	CamelFolderInfo *fi;
 	StoreInfo *si;
 	GError *error = NULL;
+	gboolean free_fi = TRUE;
 
 	fi = camel_store_get_folder_info_finish (store, result, &error);
 
@@ -857,14 +858,10 @@ update_folders (CamelStore *store,
 		si->first_update = FALSE;
 	}
 
-	if (fi != NULL) {
-		gboolean free_fi = TRUE;
-
-		if (ud->done != NULL)
-			free_fi = ud->done (ud->cache, store, fi, ud->data);
-		if (free_fi)
-			camel_store_free_folder_info (store, fi);
-	}
+	if (ud->done != NULL)
+		free_fi = ud->done (ud->cache, store, fi, ud->data);
+	if (fi && free_fi)
+		camel_store_free_folder_info (store, fi);
 
 	if (ud->cancellable != NULL)
 		g_object_unref (ud->cancellable);
