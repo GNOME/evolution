@@ -47,6 +47,7 @@ mailinclude_HEADERS =					\
 	e-mail-autoconfig.h				\
 	e-mail-backend.h				\
 	e-mail-browser.h				\
+	e-mail-config-activity-page.h			\
 	e-mail-config-assistant.h			\
 	e-mail-config-auth-check.h			\
 	e-mail-config-confirm-page.h			\
@@ -127,6 +128,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-autoconfig.c				\
 	e-mail-backend.c				\
 	e-mail-browser.c				\
+	e-mail-config-activity-page.c			\
 	e-mail-config-assistant.c			\
 	e-mail-config-auth-check.c			\
 	e-mail-config-confirm-page.c			\
