@@ -64,9 +64,6 @@ typedef enum _em_vfolder_rule_with_t em_vfolder_rule_with_t;
 struct _EMVFolderRule {
 	EFilterRule rule;
 	EMVFolderRulePrivate *priv;
-
-	em_vfolder_rule_with_t with;
-	GQueue sources;		/* uri's of the source folders */
 };
 
 struct _EMVFolderRuleClass {
@@ -83,6 +80,14 @@ const gchar *	em_vfolder_rule_find_source	(EMVFolderRule *rule,
 						 const gchar *uri);
 const gchar *	em_vfolder_rule_next_source	(EMVFolderRule *rule,
 						 const gchar *last);
+void		em_vfolder_rule_set_with	(EMVFolderRule *rule,
+						 em_vfolder_rule_with_t with);
+em_vfolder_rule_with_t
+		em_vfolder_rule_get_with	(EMVFolderRule *rule);
+GQueue *	em_vfolder_rule_get_sources	(EMVFolderRule *rule);
+void		em_vfolder_rule_set_autoupdate	(EMVFolderRule *rule,
+						 gboolean autoupdate);
+gboolean	em_vfolder_rule_get_autoupdate	(EMVFolderRule *rule);
 
 G_END_DECLS
 

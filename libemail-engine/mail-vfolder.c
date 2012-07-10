@@ -399,12 +399,9 @@ mail_vfolder_add_folder (CamelStore *store,
 		 * they must be explictly listed as a source. */
 		if (rule->source
 		    && !CAMEL_IS_VEE_STORE (store)
-		    && ((((EMVFolderRule *) rule)->with ==
-				EM_VFOLDER_RULE_WITH_LOCAL && !remote)
-			|| (((EMVFolderRule *) rule)->with ==
-				EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE && remote)
-			|| (((EMVFolderRule *) rule)->with ==
-				EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)))
+		    && ((em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_LOCAL && !remote)
+			|| (em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE && remote)
+			|| (em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)))
 			found = TRUE;
 
 		source = NULL;
@@ -760,17 +757,20 @@ rule_changed (EFilterRule *rule,
 
 	d(printf("Filter rule changed? for folder '%s'!!\n", folder->name));
 
-	/* find any (currently available) folders, and add them to the ones to open */
-	rule_add_sources (
-		session, &((EMVFolderRule *) rule)->sources,
-		&sources_folder, &sources_uri);
+	camel_vee_folder_set_auto_update (CAMEL_VEE_FOLDER (folder),
+		em_vfolder_rule_get_autoupdate ((EMVFolderRule *) rule));
+
+	if (em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_SPECIFIC) {
+		/* find any (currently available) folders, and add them to the ones to open */
+		rule_add_sources (
+			session, em_vfolder_rule_get_sources ((EMVFolderRule *) rule),
+			&sources_folder, &sources_uri);
+	}
 
 	G_LOCK (vfolder);
 
-	if (((EMVFolderRule *) rule)->with ==
-			EM_VFOLDER_RULE_WITH_LOCAL ||
-			((EMVFolderRule *) rule)->with ==
-			EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE) {
+	if (em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_LOCAL ||
+	    em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE) {
 
 		MailFolderCache *cache;
 		GQueue queue = G_QUEUE_INIT;
@@ -785,10 +785,8 @@ rule_changed (EFilterRule *rule,
 			g_free (g_queue_pop_head (&queue));
 	}
 
-	if (((EMVFolderRule *) rule)->with ==
-			EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE ||
-			((EMVFolderRule *) rule)->with ==
-			EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE) {
+	if (em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE ||
+	    em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE) {
 
 		MailFolderCache *cache;
 		GQueue queue = G_QUEUE_INIT;

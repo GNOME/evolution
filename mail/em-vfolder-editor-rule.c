@@ -251,7 +251,14 @@ select_source_with_changed (GtkWidget *widget,
 
 	gtk_widget_set_sensitive (data->source_selector, !with);
 
-	data->vr->with = with;
+	em_vfolder_rule_set_with (data->vr, with);
+}
+
+static void
+autoupdate_toggled_cb (GtkToggleButton *toggle,
+		       struct _source_data *data)
+{
+	em_vfolder_rule_set_autoupdate (data->vr, gtk_toggle_button_get_active (toggle));
 }
 
 static void
@@ -302,7 +309,7 @@ vfr_folder_response (EMFolderSelector *selector,
 
 			g_hash_table_insert (known_uris, g_strdup (uri), GINT_TO_POINTER (1));
 
-			g_queue_push_tail (&data->vr->sources, g_strdup (uri));
+			g_queue_push_tail (em_vfolder_rule_get_sources (data->vr), g_strdup (uri));
 
 			markup = e_mail_folder_uri_to_markup (session, uri, NULL);
 
@@ -444,6 +451,7 @@ get_widget (EFilterRule *fr,
 	EMVFolderRule *vr = (EMVFolderRule *) fr;
 	EMailSession *session;
 	GtkWidget *widget, *frame, *label, *combobox, *hgrid, *vgrid, *tree_view, *scrolled_window;
+	GtkWidget *autoupdate;
 	GtkListStore *model;
 	GtkCellRenderer *renderer;
 	struct _source_data *data;
@@ -489,6 +497,17 @@ get_widget (EFilterRule *fr,
 		"row-spacing", 6,
 		NULL);
 	gtk_container_add (GTK_CONTAINER (hgrid), vgrid);
+
+	hgrid = gtk_grid_new ();
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (hgrid), GTK_ORIENTATION_HORIZONTAL);
+	gtk_grid_set_column_spacing (GTK_GRID (hgrid), 6);
+	gtk_container_add (GTK_CONTAINER (vgrid), hgrid);
+
+	autoupdate = gtk_check_button_new_with_mnemonic (_("Automatically update on any _source folder change"));
+	gtk_container_add (GTK_CONTAINER (hgrid), autoupdate);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autoupdate), em_vfolder_rule_get_autoupdate (vr));
+	g_signal_connect (autoupdate, "toggled", G_CALLBACK (autoupdate_toggled_cb), data);
 
 	hgrid = gtk_grid_new ();
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (hgrid), GTK_ORIENTATION_HORIZONTAL);
@@ -573,7 +592,7 @@ get_widget (EFilterRule *fr,
 
 	data->source_selector = hgrid;
 
-	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 3 - vr->with);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 3 - em_vfolder_rule_get_with (vr));
 	g_signal_connect (
 		combobox, "changed",
 		G_CALLBACK (select_source_with_changed), data);
