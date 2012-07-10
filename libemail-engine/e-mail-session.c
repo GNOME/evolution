@@ -1377,7 +1377,7 @@ mail_session_forward_to (CamelSession *session,
 
 	/* This returns a new ESource reference. */
 	source = em_utils_guess_mail_identity_with_recipients (
-		registry, message, folder);
+		registry, message, folder, NULL);
 	if (source == NULL) {
 		g_set_error (
 			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,

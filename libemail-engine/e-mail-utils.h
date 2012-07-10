@@ -43,18 +43,22 @@ CamelMimePart *	em_utils_contact_photo		(ESourceRegistry *registry,
 						 GCancellable *cancellable);
 ESource *	em_utils_guess_mail_account	(ESourceRegistry *registry,
 						 CamelMimeMessage *message,
-						 CamelFolder *folder);
+						 CamelFolder *folder,
+						 const gchar *message_uid);
 ESource *	em_utils_guess_mail_identity	(ESourceRegistry *registry,
 						 CamelMimeMessage *message,
-						 CamelFolder *folder);
+						 CamelFolder *folder,
+						 const gchar *message_uid);
 ESource *	em_utils_guess_mail_account_with_recipients
 						(ESourceRegistry *registry,
 						 CamelMimeMessage *message,
-						 CamelFolder *folder);
+						 CamelFolder *folder,
+						 const gchar *message_uid);
 ESource *	em_utils_guess_mail_identity_with_recipients
 						(ESourceRegistry *registry,
 						 CamelMimeMessage *message,
-						 CamelFolder *folder);
+						 CamelFolder *folder,
+						 const gchar *message_uid);
 ESource *	em_utils_ref_mail_identity_for_store
 						(ESourceRegistry *registry,
 						 CamelStore *store);

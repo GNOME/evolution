@@ -513,7 +513,7 @@ mdn_message_loaded_cb (EMailReader *reader,
 
 	/* This returns a new ESource reference. */
 	source = em_utils_guess_mail_account_with_recipients (
-		registry, message, folder);
+		registry, message, folder, message_uid);
 	if (source == NULL)
 		goto exit;
 
@@ -603,7 +603,7 @@ mdn_message_seen_cb (EMailReader *reader,
 
 	/* This returns a new ESource reference. */
 	source = em_utils_guess_mail_account_with_recipients (
-		registry, message, folder);
+		registry, message, folder, message_uid);
 	if (source == NULL)
 		goto exit;
 

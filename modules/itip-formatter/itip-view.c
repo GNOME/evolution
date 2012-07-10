@@ -3167,7 +3167,7 @@ find_to_address (EMailPartItip *itip_part,
 		ESource *source;
 
 		source = em_utils_guess_mail_identity (
-			registry, itip_part->msg, itip_part->folder);
+			registry, itip_part->msg, itip_part->folder, itip_part->uid);
 
 		if (source != NULL) {
 			extension = e_source_get_extension (source, extension_name);

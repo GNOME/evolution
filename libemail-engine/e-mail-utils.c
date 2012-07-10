@@ -900,7 +900,8 @@ emu_free_mail_cache (void)
 
 static ESource *
 guess_mail_account_from_folder (ESourceRegistry *registry,
-                                CamelFolder *folder)
+                                CamelFolder *folder,
+				const gchar *message_uid)
 {
 	ESource *source;
 	CamelStore *store;
@@ -908,6 +909,18 @@ guess_mail_account_from_folder (ESourceRegistry *registry,
 
 	/* Lookup an ESource by CamelStore UID. */
 	store = camel_folder_get_parent_store (folder);
+	if (message_uid && folder && CAMEL_IS_VEE_STORE (store)) {
+		CamelMessageInfo *mi = camel_folder_get_message_info (folder, message_uid);
+		if (mi) {
+			CamelFolder *location;
+
+			location = camel_vee_folder_get_location (CAMEL_VEE_FOLDER (folder), (CamelVeeMessageInfo *) mi, NULL);
+			if (location)
+				store = camel_folder_get_parent_store (location);
+			camel_folder_free_message_info (folder, mi);
+		}
+	}
+
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
 	source = e_source_registry_ref_source (registry, uid);
 
@@ -954,7 +967,8 @@ guess_mail_account_from_message (ESourceRegistry *registry,
 ESource *
 em_utils_guess_mail_account (ESourceRegistry *registry,
                              CamelMimeMessage *message,
-                             CamelFolder *folder)
+                             CamelFolder *folder,
+			     const gchar *message_uid)
 {
 	ESource *source = NULL;
 	const gchar *newsgroups;
@@ -969,11 +983,11 @@ em_utils_guess_mail_account (ESourceRegistry *registry,
 	newsgroups = camel_medium_get_header (
 		CAMEL_MEDIUM (message), "Newsgroups");
 	if (folder != NULL && newsgroups != NULL)
-		source = guess_mail_account_from_folder (registry, folder);
+		source = guess_mail_account_from_folder (registry, folder, message_uid);
 
 	/* check for source folder */
 	if (source == NULL && folder != NULL)
-		source = guess_mail_account_from_folder (registry, folder);
+		source = guess_mail_account_from_folder (registry, folder, message_uid);
 
 	/* then message source */
 	if (source == NULL)
@@ -985,7 +999,8 @@ em_utils_guess_mail_account (ESourceRegistry *registry,
 ESource *
 em_utils_guess_mail_identity (ESourceRegistry *registry,
                               CamelMimeMessage *message,
-                              CamelFolder *folder)
+                              CamelFolder *folder,
+			      const gchar *message_uid)
 {
 	ESource *source;
 	ESourceExtension *extension;
@@ -998,7 +1013,7 @@ em_utils_guess_mail_identity (ESourceRegistry *registry,
 	if (folder != NULL)
 		g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
-	source = em_utils_guess_mail_account (registry, message, folder);
+	source = em_utils_guess_mail_account (registry, message, folder, message_uid);
 
 	if (source == NULL)
 		return NULL;
@@ -1075,7 +1090,8 @@ mail_account_in_recipients (ESourceRegistry *registry,
 ESource *
 em_utils_guess_mail_account_with_recipients (ESourceRegistry *registry,
                                              CamelMimeMessage *message,
-                                             CamelFolder *folder)
+                                             CamelFolder *folder,
+					     const gchar *message_uid)
 {
 	ESource *source = NULL;
 	GHashTable *recipients;
@@ -1122,7 +1138,7 @@ em_utils_guess_mail_account_with_recipients (ESourceRegistry *registry,
 	 * in the list of To: or Cc: recipients. */
 
 	if (folder != NULL)
-		source = guess_mail_account_from_folder (registry, folder);
+		source = guess_mail_account_from_folder (registry, folder, message_uid);
 
 	if (source == NULL)
 		goto second_preference;
@@ -1158,7 +1174,7 @@ second_preference:
 		goto exit;
 
 	/* Last Preference: Defer to em_utils_guess_mail_account(). */
-	source = em_utils_guess_mail_account (registry, message, folder);
+	source = em_utils_guess_mail_account (registry, message, folder, message_uid);
 
 exit:
 	g_hash_table_destroy (recipients);
@@ -1169,7 +1185,8 @@ exit:
 ESource *
 em_utils_guess_mail_identity_with_recipients (ESourceRegistry *registry,
                                               CamelMimeMessage *message,
-                                              CamelFolder *folder)
+                                              CamelFolder *folder,
+					      const gchar *message_uid)
 {
 	ESource *source;
 	ESourceExtension *extension;
@@ -1180,7 +1197,7 @@ em_utils_guess_mail_identity_with_recipients (ESourceRegistry *registry,
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	source = em_utils_guess_mail_account_with_recipients (
-		registry, message, folder);
+		registry, message, folder, message_uid);
 
 	if (source == NULL)
 		return NULL;

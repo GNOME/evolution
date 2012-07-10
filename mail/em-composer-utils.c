@@ -1961,7 +1961,7 @@ redirect_get_composer (EShell *shell,
 
 	/* This returns a new ESource reference. */
 	source = em_utils_guess_mail_identity_with_recipients (
-		registry, message, NULL);
+		registry, message, NULL, NULL);
 
 	if (source != NULL) {
 		identity_uid = e_source_dup_uid (source);
@@ -2899,7 +2899,7 @@ em_utils_reply_to_message (EShell *shell,
 
 	/* This returns a new ESource reference. */
 	source = em_utils_guess_mail_identity_with_recipients (
-		registry, message, folder);
+		registry, message, folder, message_uid);
 	if (source != NULL) {
 		identity_uid = e_source_dup_uid (source);
 		g_object_unref (source);
