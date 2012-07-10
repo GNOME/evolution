@@ -1040,17 +1040,18 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 			m->folders->pdata[i], 0,
 			cancellable, &local_error);
 		if (folder) {
-			/* FIXME Not passing a GError here. */
-			camel_folder_synchronize_sync (
-				folder, FALSE, cancellable, NULL);
-			camel_folder_refresh_info_sync (folder, cancellable, NULL);
+			if (camel_folder_synchronize_sync (folder, FALSE, cancellable, &local_error))
+				camel_folder_refresh_info_sync (folder, cancellable, &local_error);
 			g_object_unref (folder);
-		} else if (local_error != NULL) {
+		}
+
+		if (local_error != NULL) {
 			g_warning ("Failed to refresh folders: %s", local_error->message);
 			g_clear_error (&local_error);
 		}
 
-		if (g_cancellable_is_cancelled (m->info->cancellable))
+		if (g_cancellable_is_cancelled (m->info->cancellable) ||
+		    g_cancellable_is_cancelled (cancellable))
 			break;
 
 		if (m->info->state != SEND_CANCELLED)
