@@ -16,6 +16,9 @@
  *
  */
 
+/* This is derived from EMailConfigActivityPage mainly as a convenience
+ * for Evolution-EWS, which queries available address books asynchronously. */
+
 #ifndef E_MAIL_CONFIG_PROVIDER_PAGE_H
 #define E_MAIL_CONFIG_PROVIDER_PAGE_H
 
@@ -24,6 +27,7 @@
 
 #include <e-util/e-activity.h>
 #include <mail/e-mail-config-page.h>
+#include <mail/e-mail-config-activity-page.h>
 #include <mail/e-mail-config-service-backend.h>
 
 /* Standard GObject macros */
@@ -54,12 +58,12 @@ typedef struct _EMailConfigProviderPageClass EMailConfigProviderPageClass;
 typedef struct _EMailConfigProviderPagePrivate EMailConfigProviderPagePrivate;
 
 struct _EMailConfigProviderPage {
-	GtkBox parent;
+	EMailConfigActivityPage parent;
 	EMailConfigProviderPagePrivate *priv;
 };
 
 struct _EMailConfigProviderPageClass {
-	GtkBoxClass parent_class;
+	EMailConfigActivityPageClass parent_class;
 };
 
 GType		e_mail_config_provider_page_get_type
@@ -71,8 +75,6 @@ gboolean	e_mail_config_provider_page_is_empty
 					(EMailConfigProviderPage *page);
 EMailConfigServiceBackend *
 		e_mail_config_provider_page_get_backend
-					(EMailConfigProviderPage *page);
-EActivity *	e_mail_config_provider_page_new_activity
 					(EMailConfigProviderPage *page);
 
 G_END_DECLS

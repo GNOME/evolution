@@ -24,11 +24,6 @@
 
 #include <libebackend/libebackend.h>
 
-#include <libevolution-utils/e-alert-sink.h>
-#include <libevolution-utils/e-alert-dialog.h>
-#include <misc/e-activity-bar.h>
-#include <misc/e-alert-bar.h>
-
 #define E_MAIL_CONFIG_PROVIDER_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_CONFIG_PROVIDER_PAGE, EMailConfigProviderPagePrivate))
@@ -39,9 +34,6 @@
 struct _EMailConfigProviderPagePrivate {
 	EMailConfigServiceBackend *backend;
 	gboolean is_empty;
-
-	GtkWidget *activity_bar;
-	GtkWidget *alert_bar;
 };
 
 enum {
@@ -50,20 +42,15 @@ enum {
 };
 
 /* Forward Declarations */
-static void	e_mail_config_provider_page_alert_sink_init
-					(EAlertSinkInterface *interface);
 static void	e_mail_config_provider_page_interface_init
 					(EMailConfigPageInterface *interface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigProviderPage,
 	e_mail_config_provider_page,
-	GTK_TYPE_BOX,
+	E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK,
-		e_mail_config_provider_page_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_CONFIG_PAGE,
 		e_mail_config_provider_page_interface_init))
@@ -465,7 +452,6 @@ mail_config_provider_page_add_widgets (EMailConfigProviderPage *page)
 	CamelProviderConfEntry *entries;
 	CamelProvider *provider;
 	GtkWidget *container;
-	GtkWidget *frame;
 	GtkWidget *widget;
 	ESource *source;
 	ESourceExtension *extension;
@@ -589,43 +575,6 @@ mail_config_provider_page_add_widgets (EMailConfigProviderPage *page)
 				break;  /* skip it */
 		}
 	}
-
-	/* So far only Evolution-EWS uses the activity and alert
-	 * bars, but other packages may someday find it handy. */
-
-	widget = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_IN);
-	gtk_box_pack_end (GTK_BOX (page), widget, FALSE, FALSE, 0);
-	/* Visibility is bound to the EActivityBar. */
-
-	frame = widget;
-
-	widget = e_activity_bar_new ();
-	gtk_container_add (GTK_CONTAINER (frame), widget);
-	page->priv->activity_bar = widget;  /* not referenced */
-	/* EActivity controls its own visibility. */
-
-	g_object_bind_property (
-		widget, "visible",
-		frame, "visible",
-		G_BINDING_SYNC_CREATE);
-
-	widget = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_IN);
-	gtk_box_pack_end (GTK_BOX (page), widget, FALSE, FALSE, 0);
-	/* Visibility is bound to the EAlertBar. */
-
-	frame = widget;
-
-	widget = e_alert_bar_new ();
-	gtk_container_add (GTK_CONTAINER (frame), widget);
-	page->priv->alert_bar = widget;  /* not referenced */
-	/* EAlertBar controls its own visibility. */
-
-	g_object_bind_property (
-		widget, "visible",
-		frame, "visible",
-		G_BINDING_SYNC_CREATE);
 }
 
 static void
@@ -720,36 +669,6 @@ mail_config_provider_page_constructed (GObject *object)
 }
 
 static void
-mail_config_provider_page_submit_alert (EAlertSink *alert_sink,
-                                        EAlert *alert)
-{
-	EMailConfigProviderPagePrivate *priv;
-	EAlertBar *alert_bar;
-	GtkWidget *dialog;
-	gpointer parent;
-
-	priv = E_MAIL_CONFIG_PROVIDER_PAGE_GET_PRIVATE (alert_sink);
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (alert_sink));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-	switch (e_alert_get_message_type (alert)) {
-		case GTK_MESSAGE_INFO:
-		case GTK_MESSAGE_WARNING:
-		case GTK_MESSAGE_ERROR:
-			alert_bar = E_ALERT_BAR (priv->alert_bar);
-			e_alert_bar_add_alert (alert_bar, alert);
-			break;
-
-		default:
-			dialog = e_alert_dialog_new (parent, alert);
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-			break;
-	}
-}
-
-static void
 e_mail_config_provider_page_class_init (EMailConfigProviderPageClass *class)
 {
 	GObjectClass *object_class;
@@ -773,12 +692,6 @@ e_mail_config_provider_page_class_init (EMailConfigProviderPageClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
-}
-
-static void
-e_mail_config_provider_page_alert_sink_init (EAlertSinkInterface *interface)
-{
-	interface->submit_alert = mail_config_provider_page_submit_alert;
 }
 
 static void
@@ -818,31 +731,5 @@ e_mail_config_provider_page_get_backend (EMailConfigProviderPage *page)
 	g_return_val_if_fail (E_IS_MAIL_CONFIG_PROVIDER_PAGE (page), NULL);
 
 	return page->priv->backend;
-}
-
-EActivity *
-e_mail_config_provider_page_new_activity (EMailConfigProviderPage *page)
-{
-	EActivity *activity;
-	EActivityBar *activity_bar;
-	GCancellable *cancellable;
-
-	g_return_val_if_fail (E_IS_MAIL_CONFIG_PROVIDER_PAGE (page), NULL);
-
-	/* Clear any previous alerts. */
-	e_alert_bar_clear (E_ALERT_BAR (page->priv->alert_bar));
-
-	activity = e_activity_new ();
-
-	e_activity_set_alert_sink (activity, E_ALERT_SINK (page));
-
-	cancellable = camel_operation_new ();
-	e_activity_set_cancellable (activity, cancellable);
-	g_object_unref (cancellable);
-
-	activity_bar = E_ACTIVITY_BAR (page->priv->activity_bar);
-	e_activity_bar_set_activity (activity_bar, activity);
-
-	return activity;
 }
 
