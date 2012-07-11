@@ -815,24 +815,53 @@ em_utils_selection_set_uidlist (GtkSelectionData *selection_data,
 	GByteArray *array = g_byte_array_new ();
 	GdkAtom target;
 	gchar *folder_uri;
-	gint i;
+	gint ii;
 
-	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn\0" */
+	/* format: "uri1\0uid1\0uri2\0uid2\0...\0urin\0uidn\0" */
 
-	folder_uri = e_mail_folder_uri_from_folder (folder);
+	if (CAMEL_IS_VEE_FOLDER (folder) &&
+	    CAMEL_IS_VEE_STORE (camel_folder_get_parent_store (folder))) {
+		CamelVeeFolder *vfolder = CAMEL_VEE_FOLDER (folder);
+		CamelFolder *real_folder;
+		CamelMessageInfo *info;
+		gchar *real_uid;
 
-	g_byte_array_append (
-		array, (guchar *) folder_uri, strlen (folder_uri) + 1);
+		for (ii = 0; ii < uids->len; ii++) {
+			info = camel_folder_get_message_info (folder, uids->pdata[ii]);
+			if (!info) {
+				g_warn_if_reached ();
+				continue;
+			}
 
-	for (i = 0; i < uids->len; i++)
-		g_byte_array_append (array, uids->pdata[i], strlen (uids->pdata[i]) + 1);
+			real_folder = camel_vee_folder_get_location (
+				vfolder, (CamelVeeMessageInfo *) info, &real_uid);
+
+			if (real_folder) {
+				folder_uri = e_mail_folder_uri_from_folder (real_folder);
+
+				g_byte_array_append (array, (guchar *) folder_uri, strlen (folder_uri) + 1);
+				g_byte_array_append (array, (guchar *) real_uid, strlen (real_uid) + 1);
+
+				g_free (folder_uri);
+			}
+
+			camel_folder_free_message_info (folder, info);
+		}
+	} else {
+		folder_uri = e_mail_folder_uri_from_folder (folder);
+
+		for (ii = 0; ii < uids->len; ii++) {
+			g_byte_array_append (array, (guchar *) folder_uri, strlen (folder_uri) + 1);
+			g_byte_array_append (array, uids->pdata[ii], strlen (uids->pdata[ii]) + 1);
+		}
+
+		g_free (folder_uri);
+	}
 
 	target = gtk_selection_data_get_target (selection_data);
 	gtk_selection_data_set (
 		selection_data, target, 8, array->data, array->len);
 	g_byte_array_free (array, TRUE);
-
-	g_free (folder_uri);
 }
 
 /**
@@ -853,12 +882,16 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
                                 GCancellable *cancellable,
                                 GError **error)
 {
-	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn" */
+	/* format: "uri1\0uid1\0uri2\0uid2\0...\0urin\0uidn\0" */
 	gchar *inptr, *inend;
-	GPtrArray *uids;
+	GPtrArray *items;
 	CamelFolder *folder;
 	const guchar *data;
-	gint length;
+	gint length, ii;
+	GHashTable *uids_by_uri;
+	GHashTableIter iter;
+	gpointer key, value;
+	GError *local_error = NULL;
 
 	g_return_if_fail (selection_data != NULL);
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
@@ -869,7 +902,7 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 	if (data == NULL || length == -1)
 		return;
 
-	uids = g_ptr_array_new ();
+	items = g_ptr_array_new ();
 
 	inptr = (gchar *) data;
 	inend = (gchar *) (data + length);
@@ -879,28 +912,59 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 		while (inptr < inend && *inptr)
 			inptr++;
 
-		if (start > (gchar *) data)
-			g_ptr_array_add (uids, g_strndup (start, inptr - start));
+		g_ptr_array_add (items, g_strndup (start, inptr - start));
 
 		inptr++;
 	}
 
-	if (uids->len == 0) {
-		g_ptr_array_free (uids, TRUE);
+	if (items->len == 0) {
+		g_ptr_array_free (items, TRUE);
 		return;
 	}
 
-	/* FIXME e_mail_session_uri_to_folder_sync() may block. */
-	folder = e_mail_session_uri_to_folder_sync (
-		session, (gchar *) data, 0, cancellable, error);
-	if (folder) {
-		/* FIXME camel_folder_transfer_messages_to_sync() may block. */
-		camel_folder_transfer_messages_to_sync (
-			folder, uids, dest, move, NULL, cancellable, error);
-		g_object_unref (folder);
+	uids_by_uri = g_hash_table_new (g_str_hash, g_str_equal);
+	for (ii = 0; ii < items->len - 1; ii += 2) {
+		gchar *uri, *uid;
+		GPtrArray *uids;
+
+		uri = items->pdata[ii];
+		uid = items->pdata[ii + 1];
+
+		uids = g_hash_table_lookup (uids_by_uri, uri);
+		if (!uids) {
+			uids = g_ptr_array_new ();
+			g_hash_table_insert (uids_by_uri, uri, uids);
+		}
+
+		/* reuse uid pointer from uids, do not strdup it */
+		g_ptr_array_add (uids, uid);
 	}
 
-	em_utils_uids_free (uids);
+	g_hash_table_iter_init (&iter, uids_by_uri);
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		const gchar *uri = key;
+		GPtrArray *uids = value;
+
+		if (!local_error) {
+			/* FIXME e_mail_session_uri_to_folder_sync() may block. */
+			folder = e_mail_session_uri_to_folder_sync (
+				session, uri, 0, cancellable, &local_error);
+			if (folder) {
+				/* FIXME camel_folder_transfer_messages_to_sync() may block. */
+				camel_folder_transfer_messages_to_sync (
+					folder, uids, dest, move, NULL, cancellable, &local_error);
+				g_object_unref (folder);
+			}
+		}
+
+		g_ptr_array_free (uids, TRUE);
+	}
+
+	g_hash_table_destroy (uids_by_uri);
+	em_utils_uids_free (items);
+
+	if (local_error)
+		g_propagate_error (error, local_error);
 }
 
 static gchar *
