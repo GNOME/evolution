@@ -376,7 +376,9 @@ handle_http_request (GSimpleAsyncResult *res,
 
 		context = g_main_context_get_thread_default ();
 		session = soup_session_async_new_with_options (
-					SOUP_SESSION_ASYNC_CONTEXT, context, NULL);
+					SOUP_SESSION_ASYNC_CONTEXT, context,
+					SOUP_SESSION_TIMEOUT, 90,
+					NULL);
 
 		requester = soup_requester_new ();
 		soup_session_add_feature (session, SOUP_SESSION_FEATURE (requester));

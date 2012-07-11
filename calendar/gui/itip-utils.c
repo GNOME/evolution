@@ -2158,6 +2158,7 @@ itip_publish_comp (ECalClient *cal_client,
 
 	/* Publish the component */
 	session = soup_session_async_new ();
+	g_object_set (session, SOUP_SESSION_TIMEOUT, 90, NULL);
 
 	real_uri = soup_uri_new (uri);
 	if (!real_uri || !real_uri->host) {

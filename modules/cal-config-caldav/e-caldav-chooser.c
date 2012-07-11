@@ -344,6 +344,8 @@ caldav_chooser_configure_session (ECaldavChooser *chooser,
 		g_object_unref (logger);
 	}
 
+	g_object_set (session, SOUP_SESSION_TIMEOUT, 90, NULL);
+
 	/* This adds proxy support. */
 	soup_session_add_feature_by_type (
 		session, SOUP_TYPE_GNOME_FEATURES_2_26);
