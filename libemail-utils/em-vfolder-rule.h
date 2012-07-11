@@ -71,7 +71,7 @@ struct _EMVFolderRuleClass {
 };
 
 GType		em_vfolder_rule_get_type	(void);
-EFilterRule *	em_vfolder_rule_new		();
+EFilterRule *	em_vfolder_rule_new		(void);
 void		em_vfolder_rule_add_source	(EMVFolderRule *rule,
 						 const gchar *uri);
 void		em_vfolder_rule_remove_source	(EMVFolderRule *rule,
@@ -80,11 +80,19 @@ const gchar *	em_vfolder_rule_find_source	(EMVFolderRule *rule,
 						 const gchar *uri);
 const gchar *	em_vfolder_rule_next_source	(EMVFolderRule *rule,
 						 const gchar *last);
+GQueue *	em_vfolder_rule_get_sources	(EMVFolderRule *rule);
+void		em_vfolder_rule_sources_changed	(EMVFolderRule *rule);
+gboolean	em_vfolder_rule_source_get_include_subfolders
+						(EMVFolderRule *rule,
+						 const gchar *source);
+void		em_vfolder_rule_source_set_include_subfolders
+						(EMVFolderRule *rule,
+						 const gchar *source,
+						 gboolean include_subfolders);
 void		em_vfolder_rule_set_with	(EMVFolderRule *rule,
 						 em_vfolder_rule_with_t with);
 em_vfolder_rule_with_t
 		em_vfolder_rule_get_with	(EMVFolderRule *rule);
-GQueue *	em_vfolder_rule_get_sources	(EMVFolderRule *rule);
 void		em_vfolder_rule_set_autoupdate	(EMVFolderRule *rule,
 						 gboolean autoupdate);
 gboolean	em_vfolder_rule_get_autoupdate	(EMVFolderRule *rule);

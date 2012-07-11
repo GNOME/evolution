@@ -211,7 +211,7 @@ struct _source_data {
 	ERuleContext *rc;
 	EMVFolderRule *vr;
 	GtkListStore *model;
-	GtkTreeView *list;
+	GtkTreeView *tree_view;
 	GtkWidget *source_selector;
 	GtkWidget *buttons[BUTTON_LAST];
 };
@@ -221,7 +221,7 @@ set_sensitive (struct _source_data *data)
 {
 	GtkTreeSelection *selection;
 
-	selection = gtk_tree_view_get_selection (data->list);
+	selection = gtk_tree_view_get_selection (data->tree_view);
 
 	gtk_widget_set_sensitive (
 		GTK_WIDGET (data->buttons[BUTTON_ADD]), TRUE);
@@ -262,6 +262,39 @@ autoupdate_toggled_cb (GtkToggleButton *toggle,
 }
 
 static void
+include_subfolders_toggled_cb (GtkCellRendererToggle *cell_renderer,
+			       const gchar *path_string,
+			       struct _source_data *data)
+{
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+
+	gtk_cell_renderer_toggle_set_active (cell_renderer,
+		!gtk_cell_renderer_toggle_get_active (cell_renderer));
+
+	model = gtk_tree_view_get_model (data->tree_view);
+	path = gtk_tree_path_new_from_string (path_string);
+
+	if (gtk_tree_model_get_iter (model, &iter, path)) {
+		gchar *source = NULL;
+
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+			2, gtk_cell_renderer_toggle_get_active (cell_renderer),
+			-1);
+
+		gtk_tree_model_get (model, &iter, 1, &source, -1);
+		if (source) {
+			em_vfolder_rule_source_set_include_subfolders (data->vr, source,
+				gtk_cell_renderer_toggle_get_active (cell_renderer));
+			g_free (source);
+		}
+	}
+
+	gtk_tree_path_free (path);
+}
+
+static void
 vfr_folder_response (EMFolderSelector *selector,
                      gint button,
                      struct _source_data *data)
@@ -282,8 +315,9 @@ vfr_folder_response (EMFolderSelector *selector,
 		GHashTable *known_uris;
 		GtkTreeIter iter;
 		GtkTreeSelection *selection;
+		gboolean changed = FALSE;
 
-		selection = gtk_tree_view_get_selection (data->list);
+		selection = gtk_tree_view_get_selection (data->tree_view);
 		gtk_tree_selection_unselect_all (selection);
 
 		known_uris = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
@@ -309,6 +343,7 @@ vfr_folder_response (EMFolderSelector *selector,
 
 			g_hash_table_insert (known_uris, g_strdup (uri), GINT_TO_POINTER (1));
 
+			changed = TRUE;
 			g_queue_push_tail (em_vfolder_rule_get_sources (data->vr), g_strdup (uri));
 
 			markup = e_mail_folder_uri_to_markup (session, uri, NULL);
@@ -322,6 +357,8 @@ vfr_folder_response (EMFolderSelector *selector,
 		}
 
 		g_hash_table_destroy (known_uris);
+		if (changed)
+			em_vfolder_rule_sources_changed (data->vr);
 
 		set_sensitive (data);
 	}
@@ -377,7 +414,7 @@ source_remove (GtkWidget *widget,
 	gint index = 0, first_selected = -1, removed;
 	gint n;
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (data->tree_view));
 	to_remove = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	source = NULL;
@@ -436,7 +473,7 @@ source_remove (GtkWidget *widget,
 		gtk_tree_path_append_index (path, index);
 		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (data->model), &iter, path)) {
 			gtk_tree_selection_select_iter (selection, &iter);
-			gtk_tree_view_set_cursor (data->list, path, NULL, FALSE);
+			gtk_tree_view_set_cursor (data->tree_view, path, NULL, FALSE);
 		}
 		gtk_tree_path_free (path);
 	}
@@ -454,6 +491,7 @@ get_widget (EFilterRule *fr,
 	GtkWidget *autoupdate;
 	GtkListStore *model;
 	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *column;
 	struct _source_data *data;
 	const gchar *source;
 	gchar *tmp;
@@ -538,12 +576,28 @@ get_widget (EFilterRule *fr,
 		NULL);
 	gtk_container_add (GTK_CONTAINER (hgrid), scrolled_window);
 
-	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	model = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN);
 	renderer = gtk_cell_renderer_text_new ();
 	tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tree_view), FALSE);
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (tree_view),
 		-1, "column", renderer, "markup", 0, NULL);
+
+	renderer = gtk_cell_renderer_toggle_new ();
+	column = gtk_tree_view_column_new_with_attributes (
+		"include subfolders", renderer, "active", 2, NULL);
+	g_signal_connect (renderer, "toggled", G_CALLBACK (include_subfolders_toggled_cb), data);
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (G_OBJECT (renderer),
+		"editable", FALSE,
+		"text", _("include subfolders"),
+		NULL);
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+	gtk_tree_view_insert_column (GTK_TREE_VIEW (tree_view), column, -1);
+
+	column = gtk_tree_view_get_column (GTK_TREE_VIEW (tree_view), 0);
+	gtk_tree_view_column_set_expand (column, TRUE);
 
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), tree_view);
 
@@ -566,7 +620,7 @@ get_widget (EFilterRule *fr,
 	gtk_container_add (GTK_CONTAINER (vgrid), data->buttons[BUTTON_ADD]);
 	gtk_container_add (GTK_CONTAINER (vgrid), data->buttons[BUTTON_REMOVE]);
 
-	data->list = GTK_TREE_VIEW (tree_view);
+	data->tree_view = GTK_TREE_VIEW (tree_view);
 	data->model = model;
 
 	session = em_vfolder_editor_context_get_session (EM_VFOLDER_EDITOR_CONTEXT (rc));
@@ -579,11 +633,15 @@ get_widget (EFilterRule *fr,
 			CAMEL_SESSION (session), source, NULL);
 
 		gtk_list_store_append (data->model, &iter);
-		gtk_list_store_set (data->model, &iter, 0, markup, 1, source, -1);
+		gtk_list_store_set (data->model, &iter,
+			0, markup,
+			1, source,
+			2, em_vfolder_rule_source_get_include_subfolders (vr, source),
+			-1);
 		g_free (markup);
 	}
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list));
+	selection = gtk_tree_view_get_selection (data->tree_view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
 
 	g_signal_connect (

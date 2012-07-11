@@ -256,6 +256,16 @@ vfolder_clone_rule (EMailSession *session,
 	return rule;
 }
 
+static void
+release_rule_notify_cb (gpointer rule)
+{
+	/* disconnect the "changed" signal */
+	g_signal_handlers_disconnect_by_data (rule,
+		g_object_get_data (rule, "editor-dlg"));
+	g_object_set_data (rule, "editor-dlg", NULL);
+	g_object_unref (rule);
+}
+
 /* adds a rule with a gui */
 void
 vfolder_gui_add_rule (EMVFolderRule *rule)
@@ -283,9 +293,10 @@ vfolder_gui_add_rule (EMVFolderRule *rule)
 	gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
 	gtk_box_pack_start (GTK_BOX (container), w, TRUE, TRUE, 0);
 	gtk_widget_show ((GtkWidget *) gd);
+	g_object_set_data (G_OBJECT (rule), "editor-dlg", gd);
 	g_object_set_data_full (
 		G_OBJECT (gd), "rule", rule,
-		(GDestroyNotify) g_object_unref);
+		release_rule_notify_cb);
 	g_signal_connect (
 		rule, "changed",
 		G_CALLBACK (new_rule_changed_cb), gd);

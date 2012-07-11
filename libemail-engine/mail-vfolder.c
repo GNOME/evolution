@@ -60,6 +60,59 @@ static void rule_changed (EFilterRule *rule, CamelFolder *folder);
 
 /* ********************************************************************** */
 
+static GList *
+vfolder_get_include_subfolders_uris (EMailSession *session,
+				     const gchar *base_uri,
+				     GCancellable *cancellable)
+{
+	GList *uris = NULL;
+	CamelStore *store = NULL;
+	gchar *folder_name = NULL;
+	CamelFolderInfo *fi;
+	const CamelFolderInfo *cur;
+
+	g_return_val_if_fail (session != NULL, NULL);
+	g_return_val_if_fail (base_uri != NULL, NULL);
+	g_return_val_if_fail (*base_uri == '*', NULL);
+
+	if (!e_mail_folder_uri_parse (CAMEL_SESSION (session), base_uri + 1, &store, &folder_name, NULL))
+		return NULL;
+
+	fi = camel_store_get_folder_info_sync (store, folder_name,
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE, cancellable, NULL);
+	cur = fi;
+	while (cur) {
+		if ((cur->flags & CAMEL_FOLDER_NOSELECT) == 0) {
+			gchar *fi_uri = e_mail_folder_uri_build (store, cur->full_name);
+
+			if (fi_uri)
+				uris = g_list_prepend (uris, fi_uri);
+		}
+
+		/* move to the next fi */
+		if (cur->child) {
+			cur = cur->child;
+		} else if (cur->next) {
+			cur = cur->next;
+		} else {
+			while (cur && !cur->next) {
+				cur = cur->parent;
+			}
+
+			if (cur)
+				cur = cur->next;
+		}
+	}
+
+	if (fi)
+		camel_store_free_folder_info (store, fi);
+
+	g_object_unref (store);
+	g_free (folder_name);
+
+	return g_list_reverse (uris);
+}
+
 struct _setup_msg {
 	MailMsg base;
 
@@ -67,7 +120,6 @@ struct _setup_msg {
 	CamelFolder *folder;
 	gchar *query;
 	GList *sources_uri;
-	GList *sources_folder;
 };
 
 static gchar *
@@ -88,34 +140,42 @@ vfolder_setup_exec (struct _setup_msg *m,
 
 	camel_vee_folder_set_expression ((CamelVeeFolder *) m->folder, m->query);
 
-	l = m->sources_uri;
-	while (l && !vfolder_shutdown) {
-		d(printf(" Adding uri: %s\n", (gchar *)l->data));
+	for (l = m->sources_uri;
+	     l && !vfolder_shutdown && !g_cancellable_is_cancelled (cancellable);
+	     l = l->next) {
+		const gchar *uri = l->data;
 
-		/* FIXME Not passing a GCancellable or GError here. */
-		folder = e_mail_session_uri_to_folder_sync (
-			m->session, l->data, 0, NULL, NULL);
-		if (folder != NULL)
-			list = g_list_append (list, folder);
-		l = l->next;
+		d(printf(" Adding uri: %s\n", uri));
+
+		if (!uri || !*uri || !uri[1])
+			continue;
+
+		if (*uri == '*') {
+			/* include folder and its subfolders */
+			GList *uris, *iter;
+
+			uris = vfolder_get_include_subfolders_uris (m->session, uri, cancellable);
+			for (iter = uris; iter; iter = iter->next) {
+				const gchar *fi_uri = iter->data;
+
+				folder = e_mail_session_uri_to_folder_sync (
+					m->session, fi_uri, 0, cancellable, NULL);
+				if (folder != NULL)
+					list = g_list_append (list, folder);
+			}
+
+			g_list_free_full (uris, g_free);
+		} else {
+			folder = e_mail_session_uri_to_folder_sync (m->session, l->data, 0, cancellable, NULL);
+			if (folder != NULL)
+				list = g_list_append (list, folder);
+		}
 	}
 
-	l = m->sources_folder;
-	while (l && !vfolder_shutdown) {
-		g_object_ref (l->data);
-		list = g_list_append (list, l->data);
-		l = l->next;
-	}
-
-	if (!vfolder_shutdown)
+	if (!vfolder_shutdown && !g_cancellable_is_cancelled (cancellable))
 		camel_vee_folder_set_folders ((CamelVeeFolder *) m->folder, list, cancellable);
 
-	l = list;
-	while (l) {
-		g_object_unref (l->data);
-		l = l->next;
-	}
-	g_list_free (list);
+	g_list_free_full (list, g_object_unref);
 }
 
 static void
@@ -126,27 +186,12 @@ vfolder_setup_done (struct _setup_msg *m)
 static void
 vfolder_setup_free (struct _setup_msg *m)
 {
-	GList *l;
-
 	camel_folder_thaw (m->folder);
 
 	g_object_unref (m->session);
 	g_object_unref (m->folder);
 	g_free (m->query);
-
-	l = m->sources_uri;
-	while (l) {
-		g_free (l->data);
-		l = l->next;
-	}
-	g_list_free (m->sources_uri);
-
-	l = m->sources_folder;
-	while (l) {
-		g_object_unref (l->data);
-		l = l->next;
-	}
-	g_list_free (m->sources_folder);
+	g_list_free_full (m->sources_uri, g_free);
 }
 
 static MailMsgInfo vfolder_setup_info = {
@@ -162,8 +207,7 @@ static gint
 vfolder_setup (EMailSession *session,
                CamelFolder *folder,
                const gchar *query,
-               GList *sources_uri,
-               GList *sources_folder)
+               GList *sources_uri)
 {
 	struct _setup_msg *m;
 	gint id;
@@ -173,7 +217,6 @@ vfolder_setup (EMailSession *session,
 	m->folder = g_object_ref (folder);
 	m->query = g_strdup (query);
 	m->sources_uri = sources_uri;
-	m->sources_folder = sources_folder;
 
 	camel_folder_freeze (m->folder);
 
@@ -184,6 +227,27 @@ vfolder_setup (EMailSession *session,
 }
 
 /* ********************************************************************** */
+
+static void
+vfolder_add_remove_one (GList *vfolders,
+			gboolean remove,
+			CamelFolder *folder,
+			GCancellable *cancellable)
+{
+	GList *iter;
+
+	for (iter = vfolders; iter && !vfolder_shutdown; iter = iter->next) {
+		CamelVeeFolder *vfolder = CAMEL_VEE_FOLDER (iter->data);
+
+		if (!vfolder)
+			continue;
+
+		if (remove)
+			camel_vee_folder_remove_folder (vfolder, folder, cancellable);
+		else
+			camel_vee_folder_add_folder (vfolder, folder, cancellable);
+	}
+}
 
 struct _adduri_msg {
 	MailMsg base;
@@ -229,7 +293,6 @@ vfolder_adduri_exec (struct _adduri_msg *m,
                      GCancellable *cancellable,
                      GError **error)
 {
-	GList *l;
 	CamelFolder *folder = NULL;
 	MailFolderCache *folder_cache;
 
@@ -241,29 +304,39 @@ vfolder_adduri_exec (struct _adduri_msg *m,
 	/* we dont try lookup the cache if we are removing it, its no longer there */
 
 	if (!m->remove &&
-	    !mail_folder_cache_get_folder_from_uri (folder_cache, m->uri, NULL)) {
+	    !mail_folder_cache_get_folder_from_uri (folder_cache, m->uri[0] == '*' ? m->uri + 1 : m->uri, NULL)) {
 		g_warning (
 			"Folder '%s' disappeared while I was "
 			"adding/removing it to/from my vfolder", m->uri);
 		return;
 	}
 
-	/* always pick fresh folders - they are
-	 * from CamelStore's folders bag anyway */
-	folder = e_mail_session_uri_to_folder_sync (
-		m->session, m->uri, 0, cancellable, error);
+	if (m->uri[0] == '*') {
+		GList *uris, *iter;
 
-	if (folder != NULL) {
-		l = m->folders;
-		while (l && !vfolder_shutdown) {
-			if (m->remove)
-				camel_vee_folder_remove_folder (
-					CAMEL_VEE_FOLDER (l->data), folder, cancellable);
-			else
-				camel_vee_folder_add_folder ((CamelVeeFolder *) l->data, folder, cancellable);
-			l = l->next;
+		uris = vfolder_get_include_subfolders_uris (m->session, m->uri, cancellable);
+		for (iter = uris; iter; iter = iter->next) {
+			const gchar *fi_uri = iter->data;
+
+			folder = e_mail_session_uri_to_folder_sync (
+				m->session, fi_uri, 0, cancellable, NULL);
+			if (folder != NULL) {
+				vfolder_add_remove_one (m->folders, m->remove, folder, cancellable);
+				g_object_unref (folder);
+			}
 		}
-		g_object_unref (folder);
+
+		g_list_free_full (uris, g_free);
+	} else {
+		/* always pick fresh folders - they are
+		 * from CamelStore's folders bag anyway */
+		folder = e_mail_session_uri_to_folder_sync (
+			m->session, m->uri, 0, cancellable, error);
+
+		if (folder != NULL) {
+			vfolder_add_remove_one (m->folders, m->remove, folder, cancellable);
+			g_object_unref (folder);
+		}
 	}
 }
 
@@ -359,10 +432,11 @@ mail_vfolder_add_folder (CamelStore *store,
 	CamelService *service;
 	CamelSession *session;
 	EFilterRule *rule;
+	EMVFolderRule *vrule;
 	const gchar *source;
 	CamelVeeFolder *vf;
 	CamelProvider *provider;
-	GList *folders = NULL;
+	GList *folders = NULL, *folders_include_subfolders = NULL;
 	gint remote;
 	gchar *uri;
 
@@ -395,18 +469,20 @@ mail_vfolder_add_folder (CamelStore *store,
 			d(printf("invalid rule (%p): rule->name is set to NULL\n", rule));
 			continue;
 		}
+
+		vrule = (EMVFolderRule *) rule;
+
 		/* Don't auto-add any sent/drafts folders etc,
 		 * they must be explictly listed as a source. */
 		if (rule->source
 		    && !CAMEL_IS_VEE_STORE (store)
-		    && ((em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_LOCAL && !remote)
-			|| (em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE && remote)
-			|| (em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)))
+		    && ((em_vfolder_rule_get_with (vrule) == EM_VFOLDER_RULE_WITH_LOCAL && !remote)
+			|| (em_vfolder_rule_get_with (vrule) == EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE && remote)
+			|| (em_vfolder_rule_get_with (vrule) == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)))
 			found = TRUE;
 
 		source = NULL;
-		while (!found && (source = em_vfolder_rule_next_source (
-				(EMVFolderRule *) rule, source))) {
+		while (!found && (source = em_vfolder_rule_next_source (vrule, source))) {
 			found = e_mail_folder_uri_equal (session, uri, source);
 		}
 
@@ -417,7 +493,11 @@ mail_vfolder_add_folder (CamelStore *store,
 				continue;
 			}
 			g_object_ref (vf);
-			folders = g_list_prepend (folders, vf);
+
+			if (em_vfolder_rule_source_get_include_subfolders (vrule, uri))
+				folders_include_subfolders = g_list_prepend (folders_include_subfolders, vf);
+			else
+				folders = g_list_prepend (folders, vf);
 		}
 	}
 
@@ -428,6 +508,16 @@ done:
 		vfolder_adduri (
 			E_MAIL_SESSION (session),
 			uri, folders, remove);
+
+	if (folders_include_subfolders) {
+		gchar *exuri = g_strconcat ("*", uri, NULL);
+
+		vfolder_adduri (
+			E_MAIL_SESSION (session),
+			exuri, folders_include_subfolders, remove);
+
+		g_free (exuri);
+	}
 
 	g_free (uri);
 }
@@ -671,10 +761,9 @@ static void context_rule_added (ERuleContext *ctx, EFilterRule *rule, EMailSessi
 static void
 rule_add_sources (EMailSession *session,
                   GQueue *queue,
-                  GList **sources_folderp,
-                  GList **sources_urip)
+                  GList **sources_urip,
+		  EMVFolderRule *rule)
 {
-	GList *sources_folder = *sources_folderp;
 	GList *sources_uri = *sources_urip;
 	MailFolderCache *folder_cache;
 	GList *head, *link;
@@ -688,11 +777,14 @@ rule_add_sources (EMailSession *session,
 		/* always pick fresh folders - they are
 		 * from CamelStore's folders bag anyway */
 		if (mail_folder_cache_get_folder_from_uri (folder_cache, uri, NULL)) {
-			sources_uri = g_list_append (sources_uri, g_strdup (uri));
+			/* "tag" uris with subfolders with a star prefix */
+			if (!rule || !em_vfolder_rule_source_get_include_subfolders (rule, uri))
+				sources_uri = g_list_prepend (sources_uri, g_strdup (uri));
+			else
+				sources_uri = g_list_prepend (sources_uri, g_strconcat ("*", uri, NULL));
 		}
 	}
 
-	*sources_folderp = sources_folder;
 	*sources_urip = sources_uri;
 }
 
@@ -713,7 +805,6 @@ rule_changed (EFilterRule *rule,
 	EMailSession *session;
 	CamelService *service;
 	GList *sources_uri = NULL;
-	GList *sources_folder = NULL;
 	GString *query;
 	const gchar *full_name;
 
@@ -764,7 +855,7 @@ rule_changed (EFilterRule *rule,
 		/* find any (currently available) folders, and add them to the ones to open */
 		rule_add_sources (
 			session, em_vfolder_rule_get_sources ((EMVFolderRule *) rule),
-			&sources_folder, &sources_uri);
+			&sources_uri, (EMVFolderRule *) rule);
 	}
 
 	G_LOCK (vfolder);
@@ -778,8 +869,7 @@ rule_changed (EFilterRule *rule,
 		cache = e_mail_session_get_folder_cache (session);
 		mail_folder_cache_get_local_folder_uris (cache, &queue);
 
-		rule_add_sources (
-			session, &queue, &sources_folder, &sources_uri);
+		rule_add_sources (session, &queue, &sources_uri, NULL);
 
 		while (!g_queue_is_empty (&queue))
 			g_free (g_queue_pop_head (&queue));
@@ -794,8 +884,7 @@ rule_changed (EFilterRule *rule,
 		cache = e_mail_session_get_folder_cache (session);
 		mail_folder_cache_get_remote_folder_uris (cache, &queue);
 
-		rule_add_sources (
-			session, &queue, &sources_folder, &sources_uri);
+		rule_add_sources (session, &queue, &sources_uri, NULL);
 
 		while (!g_queue_is_empty (&queue))
 			g_free (g_queue_pop_head (&queue));
@@ -806,7 +895,7 @@ rule_changed (EFilterRule *rule,
 	query = g_string_new("");
 	e_filter_rule_build_code (rule, query);
 
-	vfolder_setup (session, folder, query->str, sources_uri, sources_folder);
+	vfolder_setup (session, folder, query->str, sources_uri);
 
 	g_string_free (query, TRUE);
 }
