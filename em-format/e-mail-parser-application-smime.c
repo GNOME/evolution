@@ -57,7 +57,7 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar* parser_mime_types[] = { "application/xpkcs7mime",
+static const gchar * parser_mime_types[] = { "application/xpkcs7mime",
 					    "application/x-pkcs7-mime",
 					    "application/pkcs7-mime",
 					    "application/pkcs7-signature",

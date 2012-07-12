@@ -649,7 +649,7 @@ month_scrol_by_week_changed_cb (GSettings *settings,
 
 	if (week_view->multi_week_view && week_view->month_scroll_by_week != calendar_config_get_month_scroll_by_week ()) {
 		week_view->multi_week_view = FALSE;
-		e_week_view_set_multi_week_view	(week_view, TRUE);
+		e_week_view_set_multi_week_view (week_view, TRUE);
 	}
 }
 
@@ -3015,7 +3015,7 @@ tooltip_event_cb (GnomeCanvasItem *item,
 				G_PRIORITY_DEFAULT, 500,
 				(GSourceFunc) e_calendar_view_get_tooltips,
 				data, (GDestroyNotify) g_free);
-			g_object_set_data ((GObject *)view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
+			g_object_set_data ((GObject *) view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
 
 			return TRUE;
 		} else {
@@ -3024,7 +3024,7 @@ tooltip_event_cb (GnomeCanvasItem *item,
 		case GDK_MOTION_NOTIFY:
 			pevent->x = ((GdkEventMotion *) event)->x_root;
 			pevent->y = ((GdkEventMotion *) event)->y_root;
-			pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (view), "tooltip-window");
+			pevent->tooltip = (GtkWidget *) g_object_get_data (G_OBJECT (view), "tooltip-window");
 
 			if (pevent->tooltip) {
 				e_calendar_view_move_tip (pevent->tooltip, pevent->x + 16, pevent->y + 16);
@@ -3168,7 +3168,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       NULL);
 	}
 
-	g_object_set_data ((GObject *)span->background_item, "event-num", GINT_TO_POINTER (event_num));
+	g_object_set_data ((GObject *) span->background_item, "event-num", GINT_TO_POINTER (event_num));
 	g_signal_connect (
 		span->background_item, "event",
 		G_CALLBACK (tooltip_event_cb), week_view);
@@ -3657,7 +3657,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		    || !e_week_view_find_event_from_item (week_view, item, &nevent, &nspan))
 			return FALSE;
 
-		g_object_set_data ((GObject *)item, "event-num", GINT_TO_POINTER (nevent));
+		g_object_set_data ((GObject *) item, "event-num", GINT_TO_POINTER (nevent));
 
 		pevent = tooltip_get_view_event (week_view, -1, nevent);
 
@@ -3675,7 +3675,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			G_PRIORITY_DEFAULT, 500,
 			(GSourceFunc) e_calendar_view_get_tooltips,
 			data, (GDestroyNotify) g_free);
-		g_object_set_data ((GObject *)week_view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
+		g_object_set_data ((GObject *) week_view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
 
 		return TRUE;
 	}
@@ -3686,7 +3686,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 	case GDK_MOTION_NOTIFY:
 		pevent->x = ((GdkEventMotion *) gdkevent)->x_root;
 		pevent->y = ((GdkEventMotion *) gdkevent)->y_root;
-		pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (week_view), "tooltip-window");
+		pevent->tooltip = (GtkWidget *) g_object_get_data (G_OBJECT (week_view), "tooltip-window");
 
 		if (pevent->tooltip) {
 			e_calendar_view_move_tip (pevent->tooltip, pevent->x + 16, pevent->y + 16);
@@ -3757,8 +3757,8 @@ static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDir
 		break;
 	}
 
-	icaltime_adjust	(&start_time ,adjust_days,0,0,0);
-	icaltime_adjust	(&end_time ,adjust_days,0,0,0);
+	icaltime_adjust (&start_time ,adjust_days,0,0,0);
+	icaltime_adjust (&end_time ,adjust_days,0,0,0);
 	start_dt = icaltime_as_timet_with_zone (start_time,
 		e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 	end_dt = icaltime_as_timet_with_zone (end_time,

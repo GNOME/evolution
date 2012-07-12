@@ -55,7 +55,7 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar* parser_mime_types[] = { "message/external-body",
+static const gchar * parser_mime_types[] = { "message/external-body",
 					    NULL };
 
 static GSList *
@@ -89,8 +89,8 @@ empe_msg_external_parse (EMailParserExtension *extension,
 		goto addPart;
 	}
 
-	if (!g_ascii_strcasecmp(access_type, "ftp") ||
-	    !g_ascii_strcasecmp(access_type, "anon-ftp")) {
+	if (!g_ascii_strcasecmp (access_type, "ftp") ||
+	    !g_ascii_strcasecmp (access_type, "anon-ftp")) {
 		const gchar *name, *site, *dir, *mode;
 		gchar *path;
 		gchar ftype[16];
@@ -104,12 +104,12 @@ empe_msg_external_parse (EMailParserExtension *extension,
 
 		/* Generate the path. */
 		if (dir)
-			path = g_strdup_printf("/%s/%s", *dir=='/'?dir+1:dir, name);
+			path = g_strdup_printf ("/%s/%s", *dir == '/' ? dir + 1 : dir, name);
 		else
-			path = g_strdup_printf("/%s", *name=='/'?name+1:name);
+			path = g_strdup_printf ("/%s", *name == '/' ? name + 1 : name);
 
 		if (mode && *mode)
-			sprintf(ftype, ";type=%c",  *mode);
+			sprintf (ftype, ";type=%c",  *mode);
 		else
 			ftype[0] = 0;
 
@@ -126,9 +126,9 @@ empe_msg_external_parse (EMailParserExtension *extension,
 
 		url = g_filename_to_uri (name, NULL, NULL);
 		if (site)
-			desc = g_strdup_printf(_("Pointer to local file (%s) valid at site \"%s\""), name, site);
+			desc = g_strdup_printf (_("Pointer to local file (%s) valid at site \"%s\""), name, site);
 		else
-			desc = g_strdup_printf(_("Pointer to local file (%s)"), name);
+			desc = g_strdup_printf (_("Pointer to local file (%s)"), name);
 	} else if (!g_ascii_strcasecmp (access_type, "URL")) {
 		const gchar *urlparam;
 		gchar *s, *d;

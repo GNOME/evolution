@@ -444,7 +444,7 @@ zone_display_name_with_offset (icaltimezone *zone)
 	if (icaltimezone_get_builtin_timezone (display_name))
 		display_name = _(display_name);
 
-	return g_strdup_printf("%s (%s)", display_name, buffer);
+	return g_strdup_printf ("%s (%s)", display_name, buffer);
 }
 
 static const gchar *
@@ -703,7 +703,7 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 	gtk_label_set_text (GTK_LABEL (priv->preview_label),
 			    zone ? display : "");
 	timezone_combo_set_active_text (GTK_COMBO_BOX (priv->timezone_combo),
-					zone ? zone_display_name(zone) : "");
+					zone ? zone_display_name (zone) : "");
 
 	set_map_timezone (etd, zone);
 	g_free (display);

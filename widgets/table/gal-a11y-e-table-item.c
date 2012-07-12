@@ -207,7 +207,7 @@ eti_a11y_reset_focus_object (GalA11yETableItem *a11y,
 	if (view_col == -1)
 		view_col = 0;
 
-	old_cell = (AtkObject *)g_object_get_data (G_OBJECT (a11y), "gail-focus-object");
+	old_cell = (AtkObject *) g_object_get_data (G_OBJECT (a11y), "gail-focus-object");
 	if (old_cell && GAL_A11Y_IS_E_CELL (old_cell))
 		gal_a11y_e_cell_remove_state (
 			GAL_A11Y_E_CELL (old_cell), ATK_STATE_FOCUSED, FALSE);
@@ -909,7 +909,7 @@ eti_header_structure_changed (ETableHeader *eth,
 
 	/* Emit signals */
 	if (reorder_found)
-		g_signal_emit_by_name (G_OBJECT(a11y_item), "column_reordered");
+		g_signal_emit_by_name (G_OBJECT (a11y_item), "column_reordered");
 
 	if (removed_found) {
 		for (i = 0; i < prev_n_cols; i ++ ) {
@@ -1184,10 +1184,10 @@ gal_a11y_e_table_item_ref_selection (GalA11yETableItem *a11y,
 
 	priv = GET_PRIVATE (a11y);
 	priv->selection_change_id = g_signal_connect (
-	    G_OBJECT(selection), "selection_changed",
+	    G_OBJECT (selection), "selection_changed",
 	    G_CALLBACK (eti_a11y_selection_changed_cb), a11y);
 	priv->cursor_change_id = g_signal_connect (
-	    G_OBJECT(selection), "cursor_changed",
+	    G_OBJECT (selection), "cursor_changed",
 	    G_CALLBACK (eti_a11y_cursor_changed_cb), a11y);
 
 	priv->selection = selection;

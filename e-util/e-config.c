@@ -132,7 +132,7 @@ config_finalize (GObject *object)
 
 	priv = E_CONFIG_GET_PRIVATE (object);
 
-	d(printf("finalising EConfig %p\n", object));
+	d (printf ("finalising EConfig %p\n", object));
 
 	g_free (E_CONFIG (object)->id);
 
@@ -650,7 +650,7 @@ ec_rebuild (EConfig *emp)
 	gboolean is_assistant;
 	GList *link;
 
-	d(printf("target changed, rebuilding:\n"));
+	d (printf ("target changed, rebuilding:\n"));
 
 	/* TODO: This code is pretty complex, and will probably just
 	 * become more complex with time.  It could possibly be split
@@ -683,7 +683,7 @@ ec_rebuild (EConfig *emp)
 		const gchar *translated_label = NULL;
 		GtkWidget *w;
 
-		d(printf(" '%s'\n", item->path));
+		d (printf (" '%s'\n", item->path));
 
 		if (item->label != NULL)
 			translated_label = gettext (item->label);
@@ -713,7 +713,7 @@ ec_rebuild (EConfig *emp)
 					gtk_widget_show (sectionnode->frame);
 			}
 
-			d(printf("%s section '%s' [sections=%d]\n", sectionnode->empty?"hiding":"showing", sectionnode->item->path, sectionno));
+			d (printf ("%s section '%s' [sections=%d]\n", sectionnode->empty?"hiding":"showing", sectionnode->item->path, sectionno));
 		}
 
 		/* If the last page doesn't contain anything, hide it */
@@ -728,7 +728,7 @@ ec_rebuild (EConfig *emp)
 				pageno--;
 			} else
 				gtk_widget_show (pagenode->frame);
-			d(printf("%s page '%s' [section=%d]\n", pagenode->empty?"hiding":"showing", pagenode->item->path, pageno));
+			d (printf ("%s page '%s' [section=%d]\n", pagenode->empty?"hiding":"showing", pagenode->item->path, pageno));
 		}
 
 		/* Now process the item */
@@ -741,13 +741,13 @@ ec_rebuild (EConfig *emp)
 			 * cross-checked with the code's defined
 			 * type. */
 			if (root != NULL) {
-				g_warning("EConfig book/assistant redefined at: %s", item->path);
+				g_warning ("EConfig book/assistant redefined at: %s", item->path);
 				break;
 			}
 
 			if (wn->widget == NULL) {
 				if (item->type != emp->type) {
-					g_warning("EConfig book/assistant type mismatch");
+					g_warning ("EConfig book/assistant type mismatch");
 					break;
 				}
 				if (item->factory) {
@@ -804,11 +804,11 @@ ec_rebuild (EConfig *emp)
 		case E_CONFIG_PAGE_START:
 		case E_CONFIG_PAGE_FINISH:
 			if (root == NULL) {
-				g_warning("EConfig page defined before container widget: %s", item->path);
+				g_warning ("EConfig page defined before container widget: %s", item->path);
 				break;
 			}
 			if (emp->type != E_CONFIG_ASSISTANT) {
-				g_warning("EConfig assistant start/finish pages can't be used on E_CONFIG_BOOKs");
+				g_warning ("EConfig assistant start/finish pages can't be used on E_CONFIG_BOOKs");
 				break;
 			}
 
@@ -874,12 +874,12 @@ ec_rebuild (EConfig *emp)
 				any sections automatically added inside it. */
 			sectionno = 0;
 			if (root == NULL) {
-				g_warning("EConfig page defined before container widget: %s", item->path);
+				g_warning ("EConfig page defined before container widget: %s", item->path);
 				break;
 			}
 			if (item->type == E_CONFIG_PAGE_PROGRESS &&
 			    emp->type != E_CONFIG_ASSISTANT) {
-				g_warning("EConfig assistant progress pages can't be used on E_CONFIG_BOOKs");
+				g_warning ("EConfig assistant progress pages can't be used on E_CONFIG_BOOKs");
 				break;
 			}
 
@@ -927,10 +927,10 @@ ec_rebuild (EConfig *emp)
 			} else
 				page = wn->widget;
 
-			d(printf("page %d:%s widget %p\n", pageno, item->path, page));
+			d (printf ("page %d:%s widget %p\n", pageno, item->path, page));
 
 			if (wn->widget && wn->widget != page) {
-				d(printf("destroy old widget for page '%s' (%p)\n", item->path, wn->widget));
+				d (printf ("destroy old widget for page '%s' (%p)\n", item->path, wn->widget));
 				gtk_widget_destroy (wn->widget);
 			}
 
@@ -959,7 +959,7 @@ ec_rebuild (EConfig *emp)
 			itemno = 0;
 			n_visible_widgets = 0;
 
-			d(printf("Building section %s - '%s' - %s factory\n", item->path, item->label, item->factory ? "with" : "without"));
+			d (printf ("Building section %s - '%s' - %s factory\n", item->path, item->label, item->factory ? "with" : "without"));
 
 			if (item->factory) {
 				/* For sections, we pass an extra argument to the usual EConfigItemFactoryFunc.
@@ -985,31 +985,32 @@ ec_rebuild (EConfig *emp)
 					 * see emph_construct_item().
 					 */
 					n_visible_widgets++;
-					d(printf ("  n_visible_widgets++ because there is a section factory -> frame=%p\n", section));
+					d (printf ("  n_visible_widgets++ because there is a section factory -> frame=%p\n", section));
 				}
 
 				if (section
 				    && ((item->type == E_CONFIG_SECTION && !GTK_IS_BOX (section))
 					|| (item->type == E_CONFIG_SECTION_TABLE && !GTK_IS_TABLE (section))))
-					g_warning("EConfig section type is wrong");
+					g_warning ("EConfig section type is wrong");
 			} else {
 				GtkWidget *frame;
 				GtkWidget *label = NULL;
 
 				if (wn->frame) {
-					d(printf("Item %s, clearing generated section widget\n", wn->item->path));
+					d (printf ("Item %s, clearing generated section widget\n", wn->item->path));
 					gtk_widget_destroy (wn->frame);
 					wn->widget = NULL;
 					wn->frame = NULL;
 				}
 
 				if (translated_label != NULL) {
-					gchar *txt = g_markup_printf_escaped("<span weight=\"bold\">%s</span>", translated_label);
+					gchar *txt = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", translated_label);
 
-					label = g_object_new (gtk_label_get_type (),
-							     "label", txt,
-							     "use_markup", TRUE,
-							     "xalign", 0.0, NULL);
+					label = g_object_new (
+						gtk_label_get_type (),
+						"label", txt,
+						"use_markup", TRUE,
+						"xalign", 0.0, NULL);
 					g_free (txt);
 				}
 
@@ -1021,25 +1022,26 @@ ec_rebuild (EConfig *emp)
 					gtk_table_set_row_spacings ((GtkTable *) section, 6);
 				}
 
-				frame = g_object_new (gtk_frame_get_type (),
-						     "shadow_type", GTK_SHADOW_NONE,
-						     "label_widget", label,
-						     "child", g_object_new(gtk_alignment_get_type(),
-									   "left_padding", 12,
-									   "top_padding", 6,
-									   "child", section, NULL),
-						     NULL);
+				frame = g_object_new (
+					gtk_frame_get_type (),
+					"shadow_type", GTK_SHADOW_NONE,
+					"label_widget", label,
+					"child", g_object_new (gtk_alignment_get_type (),
+					"left_padding", 12,
+					"top_padding", 6,
+					"child", section, NULL),
+					NULL);
 				gtk_widget_show_all (frame);
 				gtk_box_pack_start ((GtkBox *) page, frame, FALSE, FALSE, 0);
 				wn->frame = frame;
 			}
 		nopage:
 			if (wn->widget && wn->widget != section) {
-				d(printf("destroy old widget for section '%s'\n", item->path));
+				d (printf ("destroy old widget for section '%s'\n", item->path));
 				gtk_widget_destroy (wn->widget);
 			}
 
-			d(printf("Item %s, setting section widget\n", wn->item->path));
+			d (printf ("Item %s, setting section widget\n", wn->item->path));
 
 			sectionno++;
 			wn->widget = section;
@@ -1062,24 +1064,17 @@ ec_rebuild (EConfig *emp)
 			if (section == NULL) {
 				wn->widget = NULL;
 				wn->frame = NULL;
-				g_warning("EConfig item has no parent section: %s", item->path);
+				g_warning ("EConfig item has no parent section: %s", item->path);
 			} else if ((item->type == E_CONFIG_ITEM && !GTK_IS_BOX (section))
 				 || (item->type == E_CONFIG_ITEM_TABLE && !GTK_IS_TABLE (section)))
-				g_warning("EConfig item parent type is incorrect: %s", item->path);
+				g_warning ("EConfig item parent type is incorrect: %s", item->path);
 			else if (item->factory)
 				w = item->factory (
 					emp, item, section, wn->widget,
 					0, wn->context->data);
 
-			d(printf("item %d:%s widget %p\n", itemno, item->path, w));
-
-			d(printf ("  item %s: (%s - %s)\n",
-				  item->path,
-				  g_type_name_from_instance ((GTypeInstance *) w),
-				  gtk_widget_get_visible (w) ? "visible" : "invisible"));
-
 			if (wn->widget && wn->widget != w) {
-				d(printf("destroy old widget for item '%s'\n", item->path));
+				d (printf ("destroy old widget for item '%s'\n", item->path));
 				gtk_widget_destroy (wn->widget);
 			}
 
@@ -1099,7 +1094,7 @@ ec_rebuild (EConfig *emp)
 
 	/* If the last section doesn't contain any visible widgets, hide it */
 	if (sectionnode != NULL && sectionnode->frame != NULL) {
-		d(printf ("Section %s - %d visible widgets (frame=%p)\n", sectionnode->item->path, n_visible_widgets, sectionnode->frame));
+		d (printf ("Section %s - %d visible widgets (frame=%p)\n", sectionnode->item->path, n_visible_widgets, sectionnode->frame));
 		if ((sectionnode->empty = (itemno == 0 || n_visible_widgets == 0))) {
 			if (sectionnode->real_frame)
 				gtk_widget_hide (sectionnode->real_frame);
@@ -1115,7 +1110,7 @@ ec_rebuild (EConfig *emp)
 			if (sectionnode->frame)
 				gtk_widget_show (sectionnode->frame);
 		}
-		d(printf("%s section '%s' [sections=%d]\n", sectionnode->empty?"hiding":"showing", sectionnode->item->path, sectionno));
+		d (printf ("%s section '%s' [sections=%d]\n", sectionnode->empty?"hiding":"showing", sectionnode->item->path, sectionno));
 	}
 
 	/* If the last page doesn't contain anything, hide it */
@@ -1125,7 +1120,7 @@ ec_rebuild (EConfig *emp)
 			pageno--;
 		} else
 			gtk_widget_show (pagenode->frame);
-		d(printf("%s page '%s' [section=%d]\n", pagenode->empty?"hiding":"showing", pagenode->item->path, pageno));
+		d (printf ("%s page '%s' [section=%d]\n", pagenode->empty?"hiding":"showing", pagenode->item->path, pageno));
 	}
 
 	if (book) {
@@ -1735,7 +1730,7 @@ ech_check (EConfig *ec,
 
 	hdata.config = ec;
 	hdata.target = ec->target;
-	hdata.pageid = pageid?pageid:"";
+	hdata.pageid = pageid ? pageid:"";
 
 	return GPOINTER_TO_INT (e_plugin_invoke (group->hook->hook.plugin, group->check, &hdata));
 }
@@ -1746,7 +1741,7 @@ ech_config_factory (EConfig *emp,
 {
 	EConfigHookGroup *group = data;
 
-	d(printf("config factory called %s\n", group->id?group->id:"all menus"));
+	d (printf ("config factory called %s\n", group->id ? group->id:"all menus"));
 
 	if (emp->target->type != group->target_type
 	    || !group->hook->hook.plugin->enabled)
@@ -1890,13 +1885,13 @@ emph_construct_item (EPluginHook *eph,
 {
 	struct _EConfigItem *item;
 
-	d(printf("  loading config item\n"));
+	d (printf ("  loading config item\n"));
 	item = g_malloc0 (sizeof (*item));
-	if ((item->type = e_plugin_hook_id(root, ech_item_types, "type")) == -1)
+	if ((item->type = e_plugin_hook_id (root, ech_item_types, "type")) == -1)
 		goto error;
-	item->path = e_plugin_xml_prop(root, "path");
-	item->label = e_plugin_xml_prop_domain(root, "label", eph->plugin->domain);
-	item->user_data = e_plugin_xml_prop(root, "factory");
+	item->path = e_plugin_xml_prop (root, "path");
+	item->label = e_plugin_xml_prop_domain (root, "label", eph->plugin->domain);
+	item->user_data = e_plugin_xml_prop (root, "factory");
 
 	if (item->path == NULL
 	    || (item->label == NULL && item->user_data == NULL))
@@ -1909,11 +1904,11 @@ emph_construct_item (EPluginHook *eph,
 	else if (item->type == E_CONFIG_SECTION_TABLE)
 		item->factory = (EConfigItemFactoryFunc) ech_config_section_factory;
 
-	d(printf("   path=%s label=%s factory=%s\n", item->path, item->label, (gchar *)item->user_data));
+	d (printf ("   path=%s label=%s factory=%s\n", item->path, item->label, (gchar *) item->user_data));
 
 	return item;
 error:
-	d(printf("error!\n"));
+	d (printf ("error!\n"));
 	emph_free_item (item);
 	return NULL;
 }
@@ -1928,10 +1923,10 @@ emph_construct_menu (EPluginHook *eph,
 	EConfigHookClass *class = (EConfigHookClass *) G_OBJECT_GET_CLASS (eph);
 	gchar *tmp;
 
-	d(printf(" loading menu\n"));
+	d (printf (" loading menu\n"));
 	menu = g_malloc0 (sizeof (*menu));
 
-	tmp = (gchar *)xmlGetProp(root, (const guchar *)"target");
+	tmp = (gchar *) xmlGetProp (root, (const guchar *)"target");
 	if (tmp == NULL)
 		goto error;
 	map = g_hash_table_lookup (class->target_map, tmp);
@@ -1940,19 +1935,21 @@ emph_construct_menu (EPluginHook *eph,
 		goto error;
 
 	menu->target_type = map->id;
-	menu->id = e_plugin_xml_prop(root, "id");
+	menu->id = e_plugin_xml_prop (root, "id");
 	if (menu->id == NULL) {
-		g_warning("Plugin '%s' missing 'id' field in group for '%s'\n", eph->plugin->name,
-			  ((EPluginHookClass *) G_OBJECT_GET_CLASS (eph))->id);
+		g_warning (
+			"Plugin '%s' missing 'id' field in group for '%s'\n",
+			eph->plugin->name,
+			((EPluginHookClass *) G_OBJECT_GET_CLASS (eph))->id);
 		goto error;
 	}
-	menu->check = e_plugin_xml_prop(root, "check");
-	menu->commit = e_plugin_xml_prop(root, "commit");
-	menu->abort = e_plugin_xml_prop(root, "abort");
+	menu->check = e_plugin_xml_prop (root, "check");
+	menu->commit = e_plugin_xml_prop (root, "commit");
+	menu->abort = e_plugin_xml_prop (root, "abort");
 	menu->hook = (EConfigHook *) eph;
 	node = root->children;
 	while (node) {
-		if (0 == strcmp((gchar *)node->name, "item")) {
+		if (0 == strcmp ((gchar *) node->name, "item")) {
 			struct _EConfigItem *item;
 
 			item = emph_construct_item (eph, menu, node, map);
@@ -1976,7 +1973,7 @@ emph_construct (EPluginHook *eph,
 	xmlNodePtr node;
 	EConfigClass *class;
 
-	d(printf("loading config hook\n"));
+	d (printf ("loading config hook\n"));
 
 	if (((EPluginHookClass *) e_config_hook_parent_class)->construct (eph, ep, root) == -1)
 		return -1;
@@ -1985,7 +1982,7 @@ emph_construct (EPluginHook *eph,
 
 	node = root->children;
 	while (node) {
-		if (strcmp((gchar *)node->name, "group") == 0) {
+		if (strcmp ((gchar *) node->name, "group") == 0) {
 			EConfigHookGroup *group;
 
 			group = emph_construct_menu (eph, node);

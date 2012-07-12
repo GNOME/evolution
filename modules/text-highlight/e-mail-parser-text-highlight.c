@@ -60,10 +60,10 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 
 static GSList *
 empe_text_highlight_parse (EMailParserExtension *extension,
-			   EMailParser *parser,
-			   CamelMimePart *part,
-			   GString *part_id,
-			   GCancellable *cancellable)
+                           EMailParser *parser,
+                           CamelMimePart *part,
+                           GString *part_id,
+                           GCancellable *cancellable)
 {
 	GSList *parts;
 	gint len;

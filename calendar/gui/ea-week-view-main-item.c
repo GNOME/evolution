@@ -1097,25 +1097,25 @@ table_interface_get_column_description (AtkTable *table,
 
 		switch (in_col) {
 		case 0:
-			g_snprintf(buffer,128,"Monday");
+			g_snprintf (buffer,128,"Monday");
 			break;
 		case 1:
-			g_snprintf(buffer,128,"Tuesday");
+			g_snprintf (buffer,128,"Tuesday");
 			break;
 		case 2:
-			g_snprintf(buffer,128,"Wednesday");
+			g_snprintf (buffer,128,"Wednesday");
 			break;
 		case 3:
-			g_snprintf(buffer,128,"Thursday");
+			g_snprintf (buffer,128,"Thursday");
 			break;
 		case 4:
-			g_snprintf(buffer,128,"Friday");
+			g_snprintf (buffer,128,"Friday");
 			break;
 		case 5:
-			g_snprintf(buffer,128,"Saturday");
+			g_snprintf (buffer,128,"Saturday");
 			break;
 		case 6:
-			g_snprintf(buffer,128,"Sunday");
+			g_snprintf (buffer,128,"Sunday");
 			break;
 		default:
 			break;

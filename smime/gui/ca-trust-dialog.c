@@ -62,7 +62,7 @@ catd_response (GtkWidget *w,
 	case GTK_RESPONSE_ACCEPT: {
 		GtkWidget *dialog = certificate_viewer_show (data->cert);
 
-		g_signal_stop_emission_by_name(w, "response");
+		g_signal_stop_emission_by_name (w, "response");
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->dialog));
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
@@ -103,8 +103,8 @@ ca_trust_dialog_show (ECert *cert,
 	ctd_data->email_checkbutton = e_builder_get_widget (ctd_data->builder, "email_trust_checkbutton");
 	ctd_data->objsign_checkbutton = e_builder_get_widget (ctd_data->builder, "objsign_trust_checkbutton");
 
-	w = e_builder_get_widget(ctd_data->builder, "ca-trust-label");
-	txt = g_strdup_printf(_("Certificate '%s' is a CA certificate.\n\nEdit trust settings:"), e_cert_get_cn(cert));
+	w = e_builder_get_widget (ctd_data->builder, "ca-trust-label");
+	txt = g_strdup_printf (_("Certificate '%s' is a CA certificate.\n\nEdit trust settings:"), e_cert_get_cn (cert));
 	gtk_label_set_text ((GtkLabel *) w, txt);
 	g_free (txt);
 

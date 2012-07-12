@@ -363,7 +363,7 @@ extern gint camel_application_is_exiting;
 #define NOT_FOUND_BOOK (GINT_TO_POINTER (1))
 
 /* to be able to cancel pending requests on exit; this lock
-   should not be held while contact_cache lock is held */
+ * should not be held while contact_cache lock is held */
 G_LOCK_DEFINE_STATIC (search_addressbook_cancellables);
 static GSList *search_addressbook_cancellables = NULL;
 
@@ -502,13 +502,10 @@ search_address_in_addressbooks (ESourceRegistry *registry,
 		display_name = e_source_get_display_name (source);
 
 		/* failed to load this book last time, skip it now */
-		if (g_hash_table_lookup (emu_broken_books_hash, uid) != NULL) {
-			d(printf ("%s: skipping broken book '%s'\n",
-				G_STRFUNC, display_name));
+		if (g_hash_table_lookup (emu_broken_books_hash, uid) != NULL)
 			continue;
-		}
 
-		d(printf(" checking '%s'\n", e_source_get_uri(source)));
+		d (printf (" checking '%s'\n", e_source_get_uri (source)));
 
 		book_client = g_hash_table_lookup (emu_books_hash, uid);
 		if (!book_client) {
@@ -759,7 +756,8 @@ em_utils_contact_photo (ESourceRegistry *registry,
 		part = camel_mime_part_new ();
 
 		if (photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
-			camel_mime_part_set_content (part,
+			camel_mime_part_set_content (
+				part,
 				(const gchar *) photo->data.inlined.data,
 				photo->data.inlined.length, "image/jpeg");
 		} else {
@@ -896,7 +894,7 @@ free_mail_cache_thread (gpointer user_data)
  */
 void
 emu_free_mail_cache (GDestroyNotify done_cb,
-		     gpointer user_data)
+                     gpointer user_data)
 {
 	struct FreeMailCacheData *fmc;
 	GThread *thread;
@@ -916,7 +914,7 @@ emu_free_mail_cache (GDestroyNotify done_cb,
 static ESource *
 guess_mail_account_from_folder (ESourceRegistry *registry,
                                 CamelFolder *folder,
-				const gchar *message_uid)
+                                const gchar *message_uid)
 {
 	ESource *source;
 	CamelStore *store;
@@ -983,7 +981,7 @@ ESource *
 em_utils_guess_mail_account (ESourceRegistry *registry,
                              CamelMimeMessage *message,
                              CamelFolder *folder,
-			     const gchar *message_uid)
+                             const gchar *message_uid)
 {
 	ESource *source = NULL;
 	const gchar *newsgroups;
@@ -1015,7 +1013,7 @@ ESource *
 em_utils_guess_mail_identity (ESourceRegistry *registry,
                               CamelMimeMessage *message,
                               CamelFolder *folder,
-			      const gchar *message_uid)
+                              const gchar *message_uid)
 {
 	ESource *source;
 	ESourceExtension *extension;
@@ -1106,7 +1104,7 @@ ESource *
 em_utils_guess_mail_account_with_recipients (ESourceRegistry *registry,
                                              CamelMimeMessage *message,
                                              CamelFolder *folder,
-					     const gchar *message_uid)
+                                             const gchar *message_uid)
 {
 	ESource *source = NULL;
 	GHashTable *recipients;
@@ -1153,7 +1151,8 @@ em_utils_guess_mail_account_with_recipients (ESourceRegistry *registry,
 	 * in the list of To: or Cc: recipients. */
 
 	if (folder != NULL)
-		source = guess_mail_account_from_folder (registry, folder, message_uid);
+		source = guess_mail_account_from_folder (
+			registry, folder, message_uid);
 
 	if (source == NULL)
 		goto second_preference;
@@ -1189,7 +1188,8 @@ second_preference:
 		goto exit;
 
 	/* Last Preference: Defer to em_utils_guess_mail_account(). */
-	source = em_utils_guess_mail_account (registry, message, folder, message_uid);
+	source = em_utils_guess_mail_account (
+		registry, message, folder, message_uid);
 
 exit:
 	g_hash_table_destroy (recipients);
@@ -1201,7 +1201,7 @@ ESource *
 em_utils_guess_mail_identity_with_recipients (ESourceRegistry *registry,
                                               CamelMimeMessage *message,
                                               CamelFolder *folder,
-					      const gchar *message_uid)
+                                              const gchar *message_uid)
 {
 	ESource *source;
 	ESourceExtension *extension;

@@ -172,19 +172,19 @@ e_alert_load (const gchar *path)
 	struct _e_alert_table *table;
 	gchar *tmp;
 
-	d(printf("loading error file %s\n", path));
+	d (printf ("loading error file %s\n", path));
 
 	doc = e_xml_parse_file (path);
 	if (doc == NULL) {
-		g_warning("Error file '%s' not found", path);
+		g_warning ("Error file '%s' not found", path);
 		return;
 	}
 
 	root = xmlDocGetRootElement (doc);
 	if (root == NULL
-	    || strcmp((gchar *)root->name, "error-list") != 0
-	    || (tmp = (gchar *)xmlGetProp(root, (const guchar *)"domain")) == NULL) {
-		g_warning("Error file '%s' invalid format", path);
+	    || strcmp ((gchar *) root->name, "error-list") != 0
+	    || (tmp = (gchar *) xmlGetProp (root, (const guchar *)"domain")) == NULL) {
+		g_warning ("Error file '%s' invalid format", path);
 		xmlFreeDoc (doc);
 		return;
 	}
@@ -218,8 +218,8 @@ e_alert_load (const gchar *path)
 	xmlFree (tmp);
 
 	for (error = root->children; error; error = error->next) {
-		if (!strcmp((gchar *)error->name, "error")) {
-			tmp = (gchar *)xmlGetProp(error, (const guchar *)"id");
+		if (!strcmp ((gchar *) error->name, "error")) {
+			tmp = (gchar *) xmlGetProp (error, (const guchar *)"id");
 			if (tmp == NULL)
 				continue;
 
@@ -229,39 +229,39 @@ e_alert_load (const gchar *path)
 			xmlFree (tmp);
 			lastbutton = (EAlertButton *) &e->buttons;
 
-			tmp = (gchar *)xmlGetProp(error, (const guchar *)"type");
+			tmp = (gchar *) xmlGetProp (error, (const guchar *)"type");
 			e->message_type = map_type (tmp);
 			if (tmp)
 				xmlFree (tmp);
 
-			tmp = (gchar *)xmlGetProp(error, (const guchar *)"default");
+			tmp = (gchar *) xmlGetProp (error, (const guchar *)"default");
 			if (tmp) {
 				e->default_response = map_response (tmp);
 				xmlFree (tmp);
 			}
 
 			for (scan = error->children; scan; scan = scan->next) {
-				if (!strcmp((gchar *)scan->name, "primary")) {
+				if (!strcmp ((gchar *) scan->name, "primary")) {
 					if ((tmp = (gchar *) xmlNodeGetContent (scan))) {
 						e->primary_text = g_strdup (
 							dgettext (table->
 							translation_domain, tmp));
 						xmlFree (tmp);
 					}
-				} else if (!strcmp((gchar *)scan->name, "secondary")) {
+				} else if (!strcmp ((gchar *) scan->name, "secondary")) {
 					if ((tmp = (gchar *) xmlNodeGetContent (scan))) {
 						e->secondary_text = g_strdup (
 							dgettext (table->
 							translation_domain, tmp));
 						xmlFree (tmp);
 					}
-				} else if (!strcmp((gchar *)scan->name, "button")) {
+				} else if (!strcmp ((gchar *) scan->name, "button")) {
 					EAlertButton *button;
 					gchar *label = NULL;
 					gchar *stock_id = NULL;
 
 					button = g_new0 (EAlertButton, 1);
-					tmp = (gchar *)xmlGetProp(scan, (const guchar *)"stock");
+					tmp = (gchar *) xmlGetProp (scan, (const guchar *)"stock");
 					if (tmp) {
 						stock_id = g_strdup (tmp);
 						button->stock_id = stock_id;

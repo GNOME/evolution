@@ -221,7 +221,7 @@ emcu_part_to_html (CamelSession *session,
 	g_object_unref (formatter);
 	g_object_unref (part_list);
 
-	camel_stream_write((CamelStream *) mem, "", 1, cancellable, NULL);
+	camel_stream_write ((CamelStream *) mem, "", 1, cancellable, NULL);
 	g_object_unref (mem);
 
 	text = (gchar *) buf->data;
@@ -239,7 +239,7 @@ emcu_remove_xevolution_headers (CamelMimeMessage *message)
 	struct _camel_header_raw *scan, *list = NULL;
 
 	for (scan = ((CamelMimePart *) message)->headers; scan; scan = scan->next)
-		if (!strncmp(scan->name, "X-Evolution", 11))
+		if (!strncmp (scan->name, "X-Evolution", 11))
 			camel_header_raw_append (&list, scan->name, scan->value, scan->offset);
 
 	for (scan = list; scan; scan = scan->next)
@@ -4858,7 +4858,7 @@ e_msg_composer_can_close (EMsgComposer *composer,
 	widget = GTK_WIDGET (composer);
 
 	/* this means that there is an async operation running,
-	   in which case the composer cannot be closed */
+	 * in which case the composer cannot be closed */
 	if (!gtk_action_group_get_sensitive (composer->priv->async_actions))
 		return FALSE;
 

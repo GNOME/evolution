@@ -24,7 +24,6 @@ G_DEFINE_INTERFACE (
 	e_mail_display_popup_extension,
 	G_TYPE_OBJECT)
 
-
 static void
 e_mail_display_popup_extension_default_init (EMailDisplayPopupExtensionInterface *iface)
 {
@@ -42,7 +41,7 @@ e_mail_display_popup_extension_default_init (EMailDisplayPopupExtensionInterface
  */
 void
 e_mail_display_popup_extension_update_actions (EMailDisplayPopupExtension *extension,
-					       WebKitHitTestResult *context)
+                                               WebKitHitTestResult *context)
 {
 	EMailDisplayPopupExtensionInterface *iface;
 

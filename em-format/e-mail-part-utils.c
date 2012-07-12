@@ -111,8 +111,8 @@ e_mail_part_snoop_type (CamelMimePart *part)
 
 	if (magic_type) {
 		if (name_type
-		    && (!strcmp(magic_type, "text/plain")
-			|| !strcmp(magic_type, "application/octet-stream")))
+		    && (!strcmp (magic_type, "text/plain")
+			|| !strcmp (magic_type, "application/octet-stream")))
 			res = name_type;
 		else
 			res = magic_type;
@@ -141,7 +141,7 @@ e_mail_part_snoop_type (CamelMimePart *part)
 		}
 	}
 
-	d(printf("Snooped mime type %s\n", res));
+	d (printf ("Snooped mime type %s\n", res));
 	return res;
 
 	/* We used to load parts to check their type, we don't anymore,
@@ -172,7 +172,7 @@ e_mail_part_is_attachment (CamelMimePart *part)
 	if (!dw)
 		return 0;
 
-	d(printf("checking is attachment %s/%s\n", dw->mime_type->type, dw->mime_type->subtype));
+	d (printf ("checking is attachment %s/%s\n", dw->mime_type->type, dw->mime_type->subtype));
 	return !(camel_content_type_is (dw->mime_type, "multipart", "*")
 		 || camel_content_type_is (
 			dw->mime_type, "application", "x-pkcs7-mime")
@@ -484,7 +484,7 @@ e_mail_part_describe (CamelMimePart *part,
 	const gchar *filename, *description;
 	gchar *content_type, *desc;
 
-	stext = g_string_new("");
+	stext = g_string_new ("");
 	content_type = g_content_type_from_mime_type (mime_type);
 	desc = g_content_type_get_description (
 		content_type != NULL ? content_type : mime_type);

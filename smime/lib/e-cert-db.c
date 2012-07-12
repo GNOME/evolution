@@ -495,7 +495,7 @@ install_loadable_roots (void)
 		};
 
 		for (i = 0; i < G_N_ELEMENTS (paths_to_check); i++) {
-			gchar *dll_path = g_module_build_path (paths_to_check [i], "nssckbi");
+			gchar *dll_path = g_module_build_path (paths_to_check[i], "nssckbi");
 
 			if (g_file_test (dll_path, G_FILE_TEST_EXISTS)) {
 				PRInt32 modType;
@@ -503,7 +503,7 @@ install_loadable_roots (void)
 				/* Delete the existing module */
 				SECMOD_DeleteModule ("Mozilla Root Certs", &modType);
 
-				SECMOD_AddNewModule("Mozilla Root Certs",dll_path, 0, 0);
+				SECMOD_AddNewModule ("Mozilla Root Certs",dll_path, 0, 0);
 				g_free (dll_path);
 				break;
 			}
@@ -937,7 +937,7 @@ handle_ca_cert_download (ECertDB *cert_db,
 				CERT_NewTempCertificate (certdb, &der, nsnull, PR_FALSE, PR_TRUE);
 
 			if (!tmpCert2) {
-				NS_ASSERTION(0, "Couldn't create temp cert from DER blob\n");
+				NS_ASSERTION (0, "Couldn't create temp cert from DER blob\n");
 				continue;  /* Let's try to import the rest of 'em */
 			}
 			nickname.Adopt (CERT_MakeCANickname (tmpCert2));
@@ -1163,14 +1163,14 @@ default_nickname (CERTCertificate *cert)
 
 	username = CERT_GetCommonName (&cert->subject);
 	if (username == NULL)
-		username = PL_strdup("");
+		username = PL_strdup ("");
 
 	if (username == NULL)
 		goto loser;
 
 	caname = CERT_GetOrgName (&cert->issuer);
 	if (caname == NULL)
-		caname = PL_strdup("");
+		caname = PL_strdup ("");
 
 	if (caname == NULL)
 		goto loser;
@@ -1190,7 +1190,7 @@ default_nickname (CERTCertificate *cert)
 		goto loser;
 	}
 	if (!PK11_IsInternal (slot)) {
-		tmp = PR_smprintf("%s:%s", PK11_GetTokenName(slot), nickname);
+		tmp = PR_smprintf ("%s:%s", PK11_GetTokenName (slot), nickname);
 		PR_Free (nickname);
 		nickname = tmp;
 		tmp = NULL;
@@ -1198,7 +1198,7 @@ default_nickname (CERTCertificate *cert)
 	tmp = nickname;
 	while (1) {
 		if (count > 1) {
-			nickname = PR_smprintf("%s #%d", tmp, count);
+			nickname = PR_smprintf ("%s #%d", tmp, count);
 		}
 
 		if (nickname == NULL)

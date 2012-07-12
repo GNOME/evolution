@@ -85,7 +85,7 @@ e_week_view_cell_new (EWeekView *week_view,
 	cell->column = column;
 
 #ifdef ACC_DEBUG
-	printf ("EvoAcc: e_week_view_cell created %p\n", (gpointer)cell);
+	printf ("EvoAcc: e_week_view_cell created %p\n", (gpointer) cell);
 #endif
 
 	return cell;

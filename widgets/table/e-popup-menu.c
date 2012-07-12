@@ -70,7 +70,7 @@ e_popup_menu_create_with_domain (EPopupMenu *menu_list,
 	gint i;
 
 	for (i = 0; menu_list[i].name; i++) {
-		if (strcmp ("", menu_list[i].name) && !(menu_list [i].disable_mask & hide_mask)) {
+		if (strcmp ("", menu_list[i].name) && !(menu_list[i].disable_mask & hide_mask)) {
 			last_non_separator = i;
 		}
 	}

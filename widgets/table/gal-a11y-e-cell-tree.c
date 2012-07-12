@@ -80,7 +80,7 @@ kill_view_cb (ECellView *subcell_view,
 	    subcell = GAL_A11Y_E_CELL (node->data);
 	    if (subcell && subcell->cell_view == subcell_view)
 	    {
-		d(fprintf(stderr, "subcell_view %p deleted before the a11y object %p\n", subcell_view, subcell));
+		d (fprintf (stderr, "subcell_view %p deleted before the a11y object %p\n", subcell_view, subcell));
 		subcell->cell_view = NULL;
 	    }
 	}

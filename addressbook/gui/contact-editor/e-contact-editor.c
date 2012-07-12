@@ -445,7 +445,7 @@ name_to_style (const EContactName *name,
 				*(stringptr++) = name->given;
 		}
 		*stringptr = NULL;
-		string = g_strjoinv(", ", strings);
+		string = g_strjoinv (", ", strings);
 		break;
 	case 1:
 		stringptr = strings;
@@ -456,7 +456,7 @@ name_to_style (const EContactName *name,
 				*(stringptr++) = name->family;
 		}
 		*stringptr = NULL;
-		string = g_strjoinv(" ", strings);
+		string = g_strjoinv (" ", strings);
 		break;
 	case 2:
 		midstrptr = midstring;
@@ -474,7 +474,7 @@ name_to_style (const EContactName *name,
 				*(stringptr++) = name->additional;
 		}
 		*stringptr = NULL;
-		string = g_strjoinv(" ", strings);
+		string = g_strjoinv (" ", strings);
 		break;
 	case 3:
 		string = g_strdup (company);
@@ -489,17 +489,17 @@ name_to_style (const EContactName *name,
 				*(stringptr++) = name->given;
 		}
 		*stringptr = NULL;
-		substring = g_strjoinv(", ", strings);
+		substring = g_strjoinv (", ", strings);
 		if (!(company && *company))
 			company = "";
 		if (style == 4)
-			string = g_strdup_printf("%s (%s)", substring, company);
+			string = g_strdup_printf ("%s (%s)", substring, company);
 		else
-			string = g_strdup_printf("%s (%s)", company, substring);
+			string = g_strdup_printf ("%s (%s)", company, substring);
 		g_free (substring);
 		break;
 	default:
-		string = g_strdup("");
+		string = g_strdup ("");
 	}
 	return string;
 }
@@ -509,7 +509,7 @@ file_as_get_style (EContactEditor *editor)
 {
 	GtkEntry *file_as = GTK_ENTRY (
 		gtk_bin_get_child (GTK_BIN (
-		e_builder_get_widget(editor->builder, "combo-file-as"))));
+		e_builder_get_widget (editor->builder, "combo-file-as"))));
 	GtkEntry *company_w = GTK_ENTRY (
 		e_builder_get_widget (editor->builder, "entry-company"));
 	gchar *filestring;
@@ -2027,7 +2027,7 @@ init_address_textview (EContactEditor *editor,
 	GtkTextBuffer *text_buffer;
 
 	textview_name = g_strdup_printf (
-		"textview-%s-address", address_name [record]);
+		"textview-%s-address", address_name[record]);
 	textview = e_builder_get_widget (editor->builder, textview_name);
 	g_free (textview_name);
 
@@ -2047,7 +2047,7 @@ init_address_field (EContactEditor *editor,
 	GtkWidget *entry;
 
 	entry_name = g_strdup_printf (
-		"entry-%s-%s", address_name [record], widget_field_name);
+		"entry-%s-%s", address_name[record], widget_field_name);
 	entry = e_builder_get_widget (editor->builder, entry_name);
 	g_free (entry_name);
 
@@ -2095,7 +2095,7 @@ fill_in_address_textview (EContactEditor *editor,
 	GtkTextBuffer *text_buffer;
 	GtkTextIter    iter_end, iter_start;
 
-	textview_name = g_strdup_printf ("textview-%s-address", address_name [record]);
+	textview_name = g_strdup_printf ("textview-%s-address", address_name[record]);
 	textview = e_builder_get_widget (editor->builder, textview_name);
 	g_free (textview_name);
 
@@ -2123,7 +2123,7 @@ fill_in_address_label_textview (EContactEditor *editor,
 	GtkTextBuffer *text_buffer;
 
 	textview_name = g_strdup_printf (
-		"textview-%s-address", address_name [record]);
+		"textview-%s-address", address_name[record]);
 	textview = e_builder_get_widget (editor->builder, textview_name);
 	g_free (textview_name);
 
@@ -2141,7 +2141,7 @@ fill_in_address_field (EContactEditor *editor,
 	GtkWidget *entry;
 
 	entry_name = g_strdup_printf (
-		"entry-%s-%s", address_name [record], widget_field_name);
+		"entry-%s-%s", address_name[record], widget_field_name);
 	entry = e_builder_get_widget (editor->builder, entry_name);
 	g_free (entry_name);
 
@@ -2200,7 +2200,7 @@ extract_address_textview (EContactEditor *editor,
 	GtkTextBuffer *text_buffer;
 	GtkTextIter    iter_1, iter_2;
 
-	textview_name = g_strdup_printf ("textview-%s-address", address_name [record]);
+	textview_name = g_strdup_printf ("textview-%s-address", address_name[record]);
 	textview = e_builder_get_widget (editor->builder, textview_name);
 	g_free (textview_name);
 
@@ -2242,7 +2242,7 @@ extract_address_field (EContactEditor *editor,
 	GtkWidget *entry;
 
 	entry_name = g_strdup_printf (
-		"entry-%s-%s", address_name [record], widget_field_name);
+		"entry-%s-%s", address_name[record], widget_field_name);
 	entry = e_builder_get_widget (editor->builder, entry_name);
 	g_free (entry_name);
 
@@ -2366,11 +2366,11 @@ sensitize_address_textview (EContactEditor *editor,
 	GtkWidget     *textview;
 	GtkWidget     *label;
 
-	widget_name = g_strdup_printf ("textview-%s-address", address_name [record]);
+	widget_name = g_strdup_printf ("textview-%s-address", address_name[record]);
 	textview = e_builder_get_widget (editor->builder, widget_name);
 	g_free (widget_name);
 
-	widget_name = g_strdup_printf ("label-%s-address", address_name [record]);
+	widget_name = g_strdup_printf ("label-%s-address", address_name[record]);
 	label = e_builder_get_widget (editor->builder, widget_name);
 	g_free (widget_name);
 
@@ -2389,12 +2389,12 @@ sensitize_address_field (EContactEditor *editor,
 	GtkWidget *label;
 
 	widget_name = g_strdup_printf (
-		"entry-%s-%s", address_name [record], widget_field_name);
+		"entry-%s-%s", address_name[record], widget_field_name);
 	entry = e_builder_get_widget (editor->builder, widget_name);
 	g_free (widget_name);
 
 	widget_name = g_strdup_printf (
-		"label-%s-%s", address_name [record], widget_field_name);
+		"label-%s-%s", address_name[record], widget_field_name);
 	label = e_builder_get_widget (editor->builder, widget_name);
 	g_free (widget_name);
 
@@ -3266,7 +3266,7 @@ categories_clicked (GtkWidget *button,
 {
 	gchar *categories = NULL;
 	GtkDialog *dialog;
-	GtkWidget *entry = e_builder_get_widget(editor->builder, "entry-categories");
+	GtkWidget *entry = e_builder_get_widget (editor->builder, "entry-categories");
 
 	if (entry && GTK_IS_ENTRY (entry))
 		categories = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
@@ -3898,24 +3898,24 @@ setup_tab_order (GtkBuilder *builder)
 	GtkWidget *container;
 	GList *list = NULL;
 /*
-	container = e_builder_get_widget(builder, "table-contact-editor-general");
+	container = e_builder_get_widget (builder, "table-contact-editor-general");
  *
 	if (container) {
-		list = add_to_tab_order(list, builder, "entry-fullname");
-		list = add_to_tab_order(list, builder, "entry-jobtitle");
-		list = add_to_tab_order(list, builder, "entry-company");
-		list = add_to_tab_order(list, builder, "combo-file-as");
-		list = add_to_tab_order(list, builder, "entry-phone-1");
-		list = add_to_tab_order(list, builder, "entry-phone-2");
-		list = add_to_tab_order(list, builder, "entry-phone-3");
-		list = add_to_tab_order(list, builder, "entry-phone-4");
+		list = add_to_tab_order (list, builder, "entry-fullname");
+		list = add_to_tab_order (list, builder, "entry-jobtitle");
+		list = add_to_tab_order (list, builder, "entry-company");
+		list = add_to_tab_order (list, builder, "combo-file-as");
+		list = add_to_tab_order (list, builder, "entry-phone-1");
+		list = add_to_tab_order (list, builder, "entry-phone-2");
+		list = add_to_tab_order (list, builder, "entry-phone-3");
+		list = add_to_tab_order (list, builder, "entry-phone-4");
  *
-		list = add_to_tab_order(list, builder, "entry-email1");
-		list = add_to_tab_order(list, builder, "alignment-htmlmail");
-		list = add_to_tab_order(list, builder, "entry-web");
-		list = add_to_tab_order(list, builder, "entry-homepage");
-		list = add_to_tab_order(list, builder, "button-fulladdr");
-		list = add_to_tab_order(list, builder, "text-address");
+		list = add_to_tab_order (list, builder, "entry-email1");
+		list = add_to_tab_order (list, builder, "alignment-htmlmail");
+		list = add_to_tab_order (list, builder, "entry-web");
+		list = add_to_tab_order (list, builder, "entry-homepage");
+		list = add_to_tab_order (list, builder, "button-fulladdr");
+		list = add_to_tab_order (list, builder, "text-address");
 		list = g_list_reverse (list);
 		e_container_change_tab_order (GTK_CONTAINER (container), list);
 		g_list_free (list);

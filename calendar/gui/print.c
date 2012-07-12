@@ -608,24 +608,24 @@ format_date (struct tm *tm,
 
 	fmt[0] = 0;
 	if (flags & DATE_DAYNAME) {
-		strcat(fmt, "%A");
+		strcat (fmt, "%A");
 	}
 	if (flags & DATE_DAY) {
 		if (flags & DATE_DAYNAME)
-			strcat(fmt, " ");
+			strcat (fmt, " ");
 		strcat (fmt, gettext (days[tm->tm_mday - 1]));
 	}
 	if (flags & DATE_MONTH) {
 		if (flags & (DATE_DAY | DATE_DAYNAME))
-			strcat(fmt, " ");
-		strcat(fmt, "%B");
+			strcat (fmt, " ");
+		strcat (fmt, "%B");
 		if ((flags & (DATE_DAY | DATE_YEAR)) == (DATE_DAY | DATE_YEAR))
-			strcat(fmt, ",");
+			strcat (fmt, ",");
 	}
 	if (flags & DATE_YEAR) {
 		if (flags & (DATE_DAY | DATE_DAYNAME | DATE_MONTH))
-			strcat(fmt, " ");
-		strcat(fmt, "%Y");
+			strcat (fmt, " ");
+		strcat (fmt, "%Y");
 	}
 	e_utf8_strftime (buffer, bufflen, fmt, tm);
 	buffer[bufflen - 1] = '\0';

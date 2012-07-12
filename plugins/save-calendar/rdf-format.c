@@ -150,7 +150,7 @@ add_time_to_rdf (xmlNodePtr node,
 		/* Not sure about this property */
 		timezone = calendar_config_get_timezone ();
 		tmp = g_strdup_printf ("http://www.w3.org/2002/12/cal/tzd/%s#tz", timezone);
-		xmlSetProp (cur_node, (const guchar *)"rdf:datatype", (guchar *)tmp);
+		xmlSetProp (cur_node, (const guchar *)"rdf:datatype", (guchar *) tmp);
 		g_free (tmp);
 		g_free (timezone);
 		g_free (str);
@@ -214,7 +214,7 @@ do_save_calendar_rdf (FormatHandler *handler,
 		GSList *iter;
 
 		xmlBufferPtr buffer = xmlBufferCreate ();
-		xmlDocPtr doc = xmlNewDoc((xmlChar *) "1.0");
+		xmlDocPtr doc = xmlNewDoc ((xmlChar *) "1.0");
 		xmlNodePtr fnode;
 
 		doc->children = xmlNewDocNode (doc, NULL, (const guchar *)"rdf:RDF", NULL);
@@ -234,14 +234,14 @@ do_save_calendar_rdf (FormatHandler *handler,
 		xmlNewChild (fnode, NULL, (const guchar *)"calscale", (const guchar *)"GREGORIAN");
 
 		temp = calendar_config_get_timezone ();
-		xmlNewChild (fnode, NULL, (const guchar *)"x-wr:timezone", (guchar *)temp);
+		xmlNewChild (fnode, NULL, (const guchar *)"x-wr:timezone", (guchar *) temp);
 		g_free (temp);
 
 		xmlNewChild (fnode, NULL, (const guchar *)"method", (const guchar *)"PUBLISH");
 
-		xmlNewChild (fnode, NULL, (const guchar *)"x-wr:relcalid", (guchar *)e_source_get_uid (primary_source));
+		xmlNewChild (fnode, NULL, (const guchar *)"x-wr:relcalid", (guchar *) e_source_get_uid (primary_source));
 
-		xmlNewChild (fnode, NULL, (const guchar *)"x-wr:calname", (guchar *)e_source_get_display_name (primary_source));
+		xmlNewChild (fnode, NULL, (const guchar *)"x-wr:calname", (guchar *) e_source_get_display_name (primary_source));
 
 		/* Version of this RDF-format */
 		xmlNewChild (fnode, NULL, (const guchar *)"version", (const guchar *)"2.0");
@@ -261,7 +261,7 @@ do_save_calendar_rdf (FormatHandler *handler,
 			/* Getting the stuff */
 			e_cal_component_get_uid (comp, &temp_constchar);
 			tmp_str = g_strdup_printf ("#%s", temp_constchar);
-			xmlSetProp (node, (const guchar *)"about", (guchar *)tmp_str);
+			xmlSetProp (node, (const guchar *)"about", (guchar *) tmp_str);
 			g_free (tmp_str);
 			add_string_to_rdf (node, "uid",temp_constchar);
 

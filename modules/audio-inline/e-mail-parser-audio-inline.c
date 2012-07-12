@@ -62,7 +62,7 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar* parser_mime_types[] = { "audio/ac3", "audio/x-ac3",
+static const gchar * parser_mime_types[] = { "audio/ac3", "audio/x-ac3",
 					    "audio/basic", "audio/mpeg",
 					    "audio/x-mpeg", "audio/mpeg3",
 					    "audio/x-mpeg3", "audio/mp3",
@@ -114,7 +114,7 @@ empe_audio_inline_parse (EMailParserExtension *extension,
 	len = part_id->len;
 	g_string_append (part_id, ".org-gnome-audio-inline-button-panel");
 
-	d(printf ("audio inline formatter: format classid %s\n", part_id->str));
+	d (printf ("audio inline formatter: format classid %s\n", part_id->str));
 
 	mail_part = (EMailPartAudioInline *) e_mail_part_subclass_new (
 			part, part_id->str, sizeof (EMailPartAudioInline),

@@ -61,7 +61,7 @@ static void
 filter_element_xml_create (EFilterElement *element,
                            xmlNodePtr node)
 {
-	element->name = (gchar *)xmlGetProp (node, (xmlChar *) "name");
+	element->name = (gchar *) xmlGetProp (node, (xmlChar *) "name");
 }
 
 static EFilterElement *

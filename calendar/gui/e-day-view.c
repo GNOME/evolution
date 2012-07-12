@@ -1115,7 +1115,7 @@ e_day_view_init (EDayView *day_view)
 				       "clip", TRUE,
 				       "max_lines", 1,
 				       "editable", TRUE,
-				       "fill_color_rgba", GNOME_CANVAS_COLOR(0, 0, 0),
+				       "fill_color_rgba", GNOME_CANVAS_COLOR (0, 0, 0),
 				       NULL);
 	gnome_canvas_item_hide (day_view->drag_long_event_item);
 
@@ -1192,7 +1192,7 @@ e_day_view_init (EDayView *day_view)
 				       "line_wrap", TRUE,
 				       "clip", TRUE,
 				       "editable", TRUE,
-				       "fill_color_rgba", GNOME_CANVAS_COLOR(0, 0, 0),
+				       "fill_color_rgba", GNOME_CANVAS_COLOR (0, 0, 0),
 				       NULL);
 	gnome_canvas_item_hide (day_view->drag_item);
 
@@ -2931,7 +2931,7 @@ e_day_view_recalc_work_week (EDayView *day_view)
 	if (!day_view->work_week_view)
 		return;
 
-	e_day_view_recalc_work_week_days_shown	(day_view);
+	e_day_view_recalc_work_week_days_shown (day_view);
 
 	/* If the date isn't set, just return. */
 	if (day_view->lower == 0 && day_view->upper == 0)
@@ -3350,7 +3350,7 @@ e_day_view_on_time_canvas_scroll (GtkWidget *widget,
                                   GdkEventScroll *scroll,
                                   EDayView *day_view)
 {
-	GtkWidget *tool_window = g_object_get_data ((GObject *)day_view, "tooltip-window");
+	GtkWidget *tool_window = g_object_get_data ((GObject *) day_view, "tooltip-window");
 
 	if (tool_window) {
 		gtk_widget_destroy (tool_window);
@@ -6286,8 +6286,8 @@ tooltip_destroy (EDayView *day_view,
 
 	if (item) {
 		EDayViewEvent *pevent;
-		gint event_num = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-num"));
-		gint day = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-day"));
+		gint event_num = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-num"));
+		gint day = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-day"));
 
 		pevent = tooltip_get_view_event (day_view, day, event_num);
 		if (pevent) {
@@ -6451,14 +6451,14 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 	case GDK_MOTION_NOTIFY:
 		{
 			EDayViewEvent *pevent;
-			gint event_num = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-num"));
-			gint day = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-day"));
+			gint event_num = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-num"));
+			gint day = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-day"));
 
 			pevent = tooltip_get_view_event (day_view, day, event_num);
 
 			pevent->x = ((GdkEventMotion *) event)->x_root;
 			pevent->y = ((GdkEventMotion *) event)->y_root;
-			pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (day_view), "tooltip-window");
+			pevent->tooltip = (GtkWidget *) g_object_get_data (G_OBJECT (day_view), "tooltip-window");
 
 			if (pevent->tooltip) {
 				e_calendar_view_move_tip (pevent->tooltip, pevent->x + 16, pevent->y + 16);
@@ -6531,8 +6531,8 @@ e_day_view_event_move (ECalendarView *cal_view,
 		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);
 		start_time = icaltime_from_timet (start_dt, 0);
 		end_time = icaltime_from_timet (end_dt, 0);
-		icaltime_adjust	(&start_time ,-1,0,0,0);
-		icaltime_adjust	(&end_time ,-1,0,0,0);
+		icaltime_adjust (&start_time ,-1,0,0,0);
+		icaltime_adjust (&end_time ,-1,0,0,0);
 		start_dt = icaltime_as_timet (start_time);
 		end_dt = icaltime_as_timet (end_time);
 		break;
@@ -6543,8 +6543,8 @@ e_day_view_event_move (ECalendarView *cal_view,
 		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);
 		start_time = icaltime_from_timet (start_dt, 0);
 		end_time = icaltime_from_timet (end_dt, 0);
-		icaltime_adjust	(&start_time ,1,0,0,0);
-		icaltime_adjust	(&end_time ,1,0,0,0);
+		icaltime_adjust (&start_time ,1,0,0,0);
+		icaltime_adjust (&end_time ,1,0,0,0);
 		start_dt = icaltime_as_timet (start_time);
 		end_dt = icaltime_as_timet (end_time);
 		break;

@@ -923,7 +923,6 @@ mail_labels_get_filter_options (gboolean include_none)
 	return g_slist_reverse (list);
 }
 
-
 GSList *
 e_mail_labels_get_filter_options (void)
 {
@@ -938,7 +937,7 @@ e_mail_labels_get_filter_options_without_none (void)
 
 static const gchar *
 get_filter_option_value (EFilterPart *part,
-			 const gchar *name)
+                         const gchar *name)
 {
 	EFilterElement *elem;
 	EFilterOption *opt;
@@ -956,7 +955,7 @@ get_filter_option_value (EFilterPart *part,
 
 static void
 append_one_label_expr (GString *out,
-		       const gchar *versus)
+                       const gchar *versus)
 {
 	GString *encoded;
 
@@ -966,7 +965,8 @@ append_one_label_expr (GString *out,
 	encoded = g_string_new ("");
 	camel_sexp_encode_string (encoded, versus);
 
-	g_string_append_printf (out,
+	g_string_append_printf (
+		out,
 		" (= (user-tag \"label\") %s) (user-flag (+ \"$Label\" %s)) (user-flag %s)",
 		encoded->str, encoded->str, encoded->str);
 
@@ -975,8 +975,8 @@ append_one_label_expr (GString *out,
 
 void
 e_mail_labels_get_filter_code (EFilterElement *element,
-			       GString *out,
-			       EFilterPart *part)
+                               GString *out,
+                               EFilterPart *part)
 {
 	const gchar *label_type, *versus;
 	gboolean is_not;
@@ -1013,7 +1013,7 @@ e_mail_labels_get_filter_code (EFilterElement *element,
 		GtkTreeModel *model;
 		GtkTreeIter iter;
 		gboolean valid;
-		
+
 		shell = e_shell_get_default ();
 		shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
@@ -1072,7 +1072,8 @@ message_parsed_cb (GObject *source_object,
 	soup_session = webkit_get_default_session ();
 	mails = g_object_get_data (G_OBJECT (soup_session), "mails");
 	if (!mails) {
-		mails = g_hash_table_new_full (g_str_hash, g_str_equal,
+		mails = g_hash_table_new_full (
+			g_str_hash, g_str_equal,
 			(GDestroyNotify) g_free, NULL);
 		g_object_set_data (
 			G_OBJECT (soup_session), "mails", mails);
@@ -1099,8 +1100,9 @@ mbox_create_preview_cb (GObject *preview,
 	g_return_if_fail (preview_widget != NULL);
 
 	display = g_object_new (E_TYPE_MAIL_DISPLAY, NULL);
-	g_object_set_data_full (preview, "mbox-imp-display",
-				g_object_ref (display), g_object_unref);
+	g_object_set_data_full (
+		preview, "mbox-imp-display",
+		g_object_ref (display), g_object_unref);
 
 	*preview_widget = GTK_WIDGET (display);
 }
@@ -1126,7 +1128,8 @@ mbox_fill_preview_cb (GObject *preview,
 	mail_session = e_mail_session_new (registry);
 
 	parser = e_mail_parser_new (CAMEL_SESSION (mail_session));
-	e_mail_parser_parse (parser, NULL, msg->message_id, msg,
+	e_mail_parser_parse (
+		parser, NULL, msg->message_id, msg,
 		message_parsed_cb, NULL, preview);
 
 	g_object_unref (mail_session);

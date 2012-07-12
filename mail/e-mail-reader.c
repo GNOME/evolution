@@ -1718,12 +1718,13 @@ mail_source_retrieved (GObject *object,
 
 	error = NULL;
 	message = camel_folder_get_message_finish (
-			CAMEL_FOLDER (object), result, &error);
+		CAMEL_FOLDER (object), result, &error);
 	if (error || !message) {
 		gchar *status;
-		status = g_strdup_printf ("%s<br>%s",
-				_("Failed to retrieve message:"),
-				error ? error->message : _("Unknown error"));
+		status = g_strdup_printf (
+			"%s<br>%s",
+			_("Failed to retrieve message:"),
+			error ? error->message : _("Unknown error"));
 		e_mail_display_set_status (display, status);
 		g_free (status);
 		g_clear_error (&error);
@@ -1782,9 +1783,10 @@ action_mail_show_source_cb (GtkAction *action,
 	closure->browser = g_object_ref (E_MAIL_READER (browser));
 	closure->activity = activity;
 	closure->message_uid = g_strdup (message_uid);
-	camel_folder_get_message (folder, message_uid, G_PRIORITY_DEFAULT,
-				  cancellable, mail_source_retrieved,
-				  closure);
+	camel_folder_get_message (
+		folder, message_uid, G_PRIORITY_DEFAULT,
+		cancellable, mail_source_retrieved,
+		closure);
 
 	em_utils_uids_free (uids);
 }
@@ -3025,6 +3027,7 @@ mail_reader_set_folder (EMailReader *reader,
 	EMailBackend *backend;
 	EShell *shell;
 	gboolean outgoing;
+	gboolean sync_folder;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
@@ -3039,7 +3042,11 @@ mail_reader_set_folder (EMailReader *reader,
 	registry = e_shell_get_registry (shell);
 
 	/* Only synchronize the real folder if we're online. */
-	if (previous_folder != NULL && (CAMEL_IS_VEE_FOLDER (previous_folder) || e_shell_get_online (shell)))
+	sync_folder =
+		(previous_folder != NULL) &&
+		(CAMEL_IS_VEE_FOLDER (previous_folder) ||
+		e_shell_get_online (shell));
+	if (sync_folder)
 		mail_sync_folder (previous_folder, NULL, NULL);
 
 	/* Skip the rest if we're already viewing the folder. */

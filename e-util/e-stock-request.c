@@ -117,7 +117,7 @@ handle_stock_request (GSimpleAsyncResult *res,
 					pixbuf, &buffer,
 					&buff_len, "png", NULL, NULL);
 
-				request->priv->content_type = g_strdup("image/png");
+				request->priv->content_type = g_strdup ("image/png");
 				request->priv->content_length = buff_len;
 
 				g_object_unref (pixbuf);
@@ -134,7 +134,7 @@ handle_stock_request (GSimpleAsyncResult *res,
 					pixbuf, &buffer,
 					&buff_len, "png", NULL, NULL);
 
-		request->priv->content_type = g_strdup("image/png");
+		request->priv->content_type = g_strdup ("image/png");
 		request->priv->content_length = buff_len;
 
 		g_object_unref (pixbuf);
@@ -180,7 +180,7 @@ stock_request_send_async (SoupRequest *request,
 {
 	GSimpleAsyncResult *simple;
 
-	d(printf("received request for %s\n", soup_uri_to_string (uri, FALSE)));
+	d (printf ("received request for %s\n", soup_uri_to_string (uri, FALSE)));
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (request), callback, user_data,
@@ -197,12 +197,14 @@ stock_request_send_async (SoupRequest *request,
 
 static GInputStream *
 stock_request_send_finish (SoupRequest *request,
-                          GAsyncResult *result,
-                          GError **error)
+                           GAsyncResult *result,
+                           GError **error)
 {
+	GSimpleAsyncResult *simple;
 	GInputStream *stream;
 
-	stream = g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result));
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	stream = g_simple_async_result_get_op_res_gpointer (simple);
 
 	/* Reset the stream before passing it back to webkit */
 	if (stream && G_IS_SEEKABLE (stream))
@@ -219,7 +221,7 @@ stock_request_get_content_length (SoupRequest *request)
 {
 	EStockRequest *esr = E_STOCK_REQUEST (request);
 
-	d(printf("Content-Length: %d bytes\n", esr->priv->content_length));
+	d (printf ("Content-Length: %d bytes\n", esr->priv->content_length));
 	return esr->priv->content_length;
 }
 
@@ -228,12 +230,12 @@ stock_request_get_content_type (SoupRequest *request)
 {
 	EStockRequest *esr = E_STOCK_REQUEST (request);
 
-	d(printf("Content-Type: %s\n", esr->priv->content_type));
+	d (printf ("Content-Type: %s\n", esr->priv->content_type));
 
 	return esr->priv->content_type;
 }
 
-static const char *data_schemes[] = { "gtk-stock", NULL };
+static const gchar *data_schemes[] = { "gtk-stock", NULL };
 
 static void
 e_stock_request_class_init (EStockRequestClass *class)

@@ -200,7 +200,7 @@ filter_input_xml_decode (EFilterElement *element,
 	while (child != NULL) {
 		if (!strcmp ((gchar *) child->name, type)) {
 			if (!(str = (gchar *) xmlNodeGetContent (child)))
-				str = (gchar *)xmlStrdup ((xmlChar *)"");
+				str = (gchar *) xmlStrdup ((xmlChar *)"");
 
 			input->values = g_list_append (input->values, g_strdup (str));
 			xmlFree (str);

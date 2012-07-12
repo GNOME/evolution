@@ -973,7 +973,8 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 
         /* Use EMailPrinter and WebKit to print the message */
 	emp = e_mail_printer_new (parts);
-	g_signal_connect (emp, "done",
+	g_signal_connect (
+		emp, "done",
 		G_CALLBACK (composer_print_done_cb), NULL);
 
 	e_mail_printer_print (
@@ -1279,7 +1280,7 @@ static struct {
 		 * with a value.  To see a full list of available variables,
 		 * see mail/em-composer-utils.c:attribvars array. */
 		  N_("On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at "
-		     "${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:") 
+		     "${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:")
 		},
 
 	[QUOTING_FORWARD] =

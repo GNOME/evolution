@@ -87,7 +87,7 @@ save_current_view (GalViewInstance *instance)
 	xmlDoc *doc;
 	xmlNode *root;
 
-	doc = xmlNewDoc((const guchar *)"1.0");
+	doc = xmlNewDoc ((const guchar *)"1.0");
 	root = xmlNewNode (NULL, (const guchar *)"GalViewCurrentView");
 	xmlDocSetRootElement (doc, root);
 
@@ -97,7 +97,7 @@ save_current_view (GalViewInstance *instance)
 		e_xml_set_string_prop_by_name (root, (const guchar *)"current_view_type", instance->current_type);
 
 	if (e_xml_save_file (instance->current_view_filename, doc) == -1)
-		g_warning ("Unable to save view to %s - %s", instance->current_view_filename, g_strerror(errno));
+		g_warning ("Unable to save view to %s - %s", instance->current_view_filename, g_strerror (errno));
 	xmlFreeDoc (doc);
 }
 
@@ -390,7 +390,7 @@ gal_view_instance_set_current_view_id (GalViewInstance *instance,
 	g_return_if_fail (instance != NULL);
 	g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
 
-	d(g_print("%s: view_id set to %s\n", G_STRFUNC, view_id));
+	d (g_print ("%s: view_id set to %s\n", G_STRFUNC, view_id));
 
 	if (instance->current_id && !strcmp (instance->current_id, view_id))
 		return;

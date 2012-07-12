@@ -3620,7 +3620,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 			camel_mime_part_get_content_id (mime_part));
 
 		disp = camel_mime_part_get_disposition (mime_part);
-		if (disp && !g_ascii_strcasecmp(disp, "inline"))
+		if (disp && !g_ascii_strcasecmp (disp, "inline"))
 			cal_mime_attach->disposition = TRUE;
 
 		attach_list = g_slist_append (attach_list, cal_mime_attach);

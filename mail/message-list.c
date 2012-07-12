@@ -146,7 +146,7 @@ static struct {
 	GdkAtom atom;
 	guint32 actions;
 } ml_drag_info[] = {
-	{ "x-uid-list", NULL, GDK_ACTION_MOVE|GDK_ACTION_COPY },
+	{ "x-uid-list", NULL, GDK_ACTION_MOVE | GDK_ACTION_COPY },
 	{ "message/rfc822", NULL, GDK_ACTION_COPY },
 	{ "text/uri-list", NULL, GDK_ACTION_COPY },
 };
@@ -1029,9 +1029,10 @@ message_list_copy (MessageList *ml,
 void
 message_list_paste (MessageList *ml)
 {
-	gtk_selection_convert (ml->priv->invisible, GDK_SELECTION_CLIPBOARD,
-			      gdk_atom_intern ("x-uid-list", FALSE),
-			      GDK_CURRENT_TIME);
+	gtk_selection_convert (
+		ml->priv->invisible, GDK_SELECTION_CLIPBOARD,
+		gdk_atom_intern ("x-uid-list", FALSE),
+		GDK_CURRENT_TIME);
 }
 
 /*
@@ -1065,7 +1066,7 @@ ml_get_save_id (ETreeModel *etm,
 	CamelMessageInfo *info;
 
 	if (e_tree_model_node_is_root (etm, path))
-		return g_strdup("root");
+		return g_strdup ("root");
 
 	/* Note: etable can ask for the save_id while we're clearing it,
 	 * which is the only time data should be null */
@@ -1302,7 +1303,7 @@ ml_value_to_string (ETreeModel *etm,
 	case COL_DELETED:
 	case COL_UNREAD:
 	case COL_FOLLOWUP_FLAG_STATUS:
-		return g_strdup_printf ("%u", GPOINTER_TO_UINT(value));
+		return g_strdup_printf ("%u", GPOINTER_TO_UINT (value));
 
 	case COL_SENT:
 	case COL_RECEIVED:
@@ -1429,7 +1430,7 @@ sanitize_recipients (const gchar *string)
 			quoted = ~quoted;
 		else if (c == ',' && !quoted) {
 			single_add = g_string_free (gstring, FALSE);
-			name = g_strsplit(single_add,"<",2);
+			name = g_strsplit (single_add,"<",2);
 			g_string_append (recipients, *name);
 			g_string_append (recipients, ",");
 			g_free (single_add);
@@ -1442,7 +1443,7 @@ sanitize_recipients (const gchar *string)
 	}
 
 	single_add = g_string_free (gstring, FALSE);
-	name = g_strsplit(single_add,"<",2);
+	name = g_strsplit (single_add,"<",2);
 	g_string_append (recipients, *name);
 	g_free (single_add);
 	g_strfreev (name);
@@ -1462,7 +1463,8 @@ add_label_if_known (struct LabelsData *ld,
 	GtkTreeIter label_defn;
 
 	if (e_mail_label_list_store_lookup (ld->store, tag, &label_defn)) {
-		g_hash_table_insert (ld->labels_tag2iter,
+		g_hash_table_insert (
+			ld->labels_tag2iter,
 			/* Should be the same as the "tag" arg */
 			e_mail_label_list_store_get_tag (ld->store, &label_defn),
 			gtk_tree_iter_copy (&label_defn));
@@ -1596,7 +1598,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		const gchar *tag;
 		gint score = 0;
 
-		tag = camel_message_info_user_tag(msg_info, "score");
+		tag = camel_message_info_user_tag (msg_info, "score");
 		if (tag)
 			score = atoi (tag);
 
@@ -1607,8 +1609,8 @@ ml_tree_value_at_ex (ETreeModel *etm,
 
 		/* FIXME: this all should be methods off of message-tag-followup class,
 		 * FIXME: the tag names should be namespaced :( */
-		tag = camel_message_info_user_tag(msg_info, "follow-up");
-		cmp = camel_message_info_user_tag(msg_info, "completed-on");
+		tag = camel_message_info_user_tag (msg_info, "follow-up");
+		cmp = camel_message_info_user_tag (msg_info, "completed-on");
 		if (tag && tag[0]) {
 			if (cmp && cmp[0])
 				return GINT_TO_POINTER (2);
@@ -1621,7 +1623,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		const gchar *tag;
 		time_t due_by;
 
-		tag = camel_message_info_user_tag(msg_info, "due-by");
+		tag = camel_message_info_user_tag (msg_info, "due-by");
 		if (tag && *tag) {
 			due_by = camel_header_decode_date (tag, NULL);
 			return GINT_TO_POINTER (due_by);
@@ -1630,7 +1632,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		}
 	}
 	case COL_FOLLOWUP_FLAG:
-		str = camel_message_info_user_tag(msg_info, "follow-up");
+		str = camel_message_info_user_tag (msg_info, "follow-up");
 		return (gpointer)(str ? str : "");
 	case COL_ATTACHMENT:
 		if (camel_message_info_user_flag (msg_info, "$has_cal"))
@@ -1694,9 +1696,9 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		Don't say that I need to have the new labels[with subject] column visible always */
 
 		colour = NULL;
-		due_by = camel_message_info_user_tag(msg_info, "due-by");
-		completed = camel_message_info_user_tag(msg_info, "completed-on");
-		followup = camel_message_info_user_tag(msg_info, "follow-up");
+		due_by = camel_message_info_user_tag (msg_info, "due-by");
+		completed = camel_message_info_user_tag (msg_info, "completed-on");
+		followup = camel_message_info_user_tag (msg_info, "follow-up");
 		if (colour == NULL) {
 			/* Get all applicable labels. */
 			struct LabelsData ld;
@@ -1975,16 +1977,18 @@ static ECell * create_composite_cell (gint col)
 
 	cell_date = e_cell_date_new (NULL, GTK_JUSTIFY_RIGHT);
 	e_cell_date_set_format_component (E_CELL_DATE (cell_date), "mail");
-	g_object_set (cell_date,
-		      "bold_column", COL_UNREAD,
-		      "color_column", COL_COLOUR,
-		      NULL);
+	g_object_set (
+		cell_date,
+		"bold_column", COL_UNREAD,
+		"color_column", COL_COLOUR,
+		NULL);
 
 	cell_from = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (cell_from,
-		      "bold_column", COL_UNREAD,
-		      "color_column", COL_COLOUR,
-		      NULL);
+	g_object_set (
+		cell_from,
+		"bold_column", COL_UNREAD,
+		"color_column", COL_COLOUR,
+		NULL);
 
 	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_from, show_email ? col : alt_col, 68);
 	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_attach, COL_ATTACHMENT, 5);
@@ -1994,9 +1998,10 @@ static ECell * create_composite_cell (gint col)
 	g_object_unref (cell_date);
 
 	cell_sub = e_cell_text_new (fixed_name? fixed_name : NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (cell_sub,
-		      "color_column", COL_COLOUR,
-		      NULL);
+	g_object_set (
+		cell_sub,
+		"color_column", COL_COLOUR,
+		NULL);
 	cell_tree = e_cell_tree_new (TRUE, cell_sub);
 	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), cell_hbox, COL_FROM);
 	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), cell_tree, COL_SUBJECT);
@@ -2017,8 +2022,8 @@ static void
 composite_cell_set_strike_col (ECell *cell,
                                gint col)
 {
-	g_object_set (g_object_get_data(G_OBJECT (cell), "cell_date"),  "strikeout_column", col, NULL);
-	g_object_set (g_object_get_data(G_OBJECT (cell), "cell_from"),  "strikeout_column", col, NULL);
+	g_object_set (g_object_get_data (G_OBJECT (cell), "cell_date"),  "strikeout_column", col, NULL);
+	g_object_set (g_object_get_data (G_OBJECT (cell), "cell_from"),  "strikeout_column", col, NULL);
 }
 
 static ETableExtras *
@@ -2064,19 +2069,21 @@ message_list_create_extras (void)
 	/* date cell */
 	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
 	e_cell_date_set_format_component (E_CELL_DATE (cell), "mail");
-	g_object_set (cell,
-		      "bold_column", COL_UNREAD,
-		      "color_column", COL_COLOUR,
-		      NULL);
+	g_object_set (
+		cell,
+		"bold_column", COL_UNREAD,
+		"color_column", COL_COLOUR,
+		NULL);
 	e_table_extras_add_cell (extras, "render_date", cell);
 	g_object_unref (cell);
 
 	/* text cell */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (cell,
-		      "bold_column", COL_UNREAD,
-		      "color_column", COL_COLOUR,
-		      NULL);
+	g_object_set (
+		cell,
+		"bold_column", COL_UNREAD,
+		"color_column", COL_COLOUR,
+		NULL);
 	e_table_extras_add_cell (extras, "render_text", cell);
 	g_object_unref (cell);
 
@@ -2086,10 +2093,11 @@ message_list_create_extras (void)
 
 	/* size cell */
 	cell = e_cell_size_new (NULL, GTK_JUSTIFY_RIGHT);
-	g_object_set (cell,
-		      "bold_column", COL_UNREAD,
-		      "color_column", COL_COLOUR,
-		      NULL);
+	g_object_set (
+		cell,
+		"bold_column", COL_UNREAD,
+		"color_column", COL_COLOUR,
+		NULL);
 	e_table_extras_add_cell (extras, "render_size", cell);
 	g_object_unref (cell);
 
@@ -2187,11 +2195,11 @@ ml_selection_get (GtkWidget *widget,
 
 	if (info & 2) {
 		/* text/plain */
-		d(printf("setting text/plain selection for uids\n"));
+		d (printf ("setting text/plain selection for uids\n"));
 		em_utils_selection_set_mailbox (data, selection->folder, selection->uids);
 	} else {
 		/* x-uid-list */
-		d(printf("setting x-uid-list selection for uids\n"));
+		d (printf ("setting x-uid-list selection for uids\n"));
 		em_utils_selection_set_uidlist (data, selection->folder, selection->uids);
 	}
 }
@@ -2220,7 +2228,7 @@ ml_selection_received (GtkWidget *widget,
 	target = gtk_selection_data_get_target (selection_data);
 
 	if (target != gdk_atom_intern ("x-uid-list", FALSE)) {
-		d(printf("Unknown selection received by message-list\n"));
+		d (printf ("Unknown selection received by message-list\n"));
 		return;
 	}
 
@@ -2290,9 +2298,9 @@ ml_drop_async_desc (struct _drop_msg *m)
 	full_name = camel_folder_get_full_name (m->folder);
 
 	if (m->move)
-		return g_strdup_printf(_("Moving messages into folder %s"), full_name);
+		return g_strdup_printf (_("Moving messages into folder %s"), full_name);
 	else
-		return g_strdup_printf(_("Copying messages into folder %s"), full_name);
+		return g_strdup_printf (_("Copying messages into folder %s"), full_name);
 }
 
 static void
@@ -2490,14 +2498,14 @@ ml_tree_drag_motion (ETree *tree,
 	while (targets != NULL) {
 		gint i;
 
-		d(printf("atom drop '%s'\n", gdk_atom_name(targets->data)));
+		d (printf ("atom drop '%s'\n", gdk_atom_name (targets->data)));
 		for (i = 0; i < G_N_ELEMENTS (ml_drag_info); i++)
 			if (targets->data == (gpointer) ml_drag_info[i].atom)
 				actions |= ml_drag_info[i].actions;
 
 		targets = g_list_next (targets);
 	}
-	d(printf("\n"));
+	d (printf ("\n"));
 
 	actions &= gdk_drag_context_get_actions (context);
 	action = gdk_drag_context_get_suggested_action (context);
@@ -2810,25 +2818,26 @@ message_list_class_init (MessageListClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 
-	message_list_signals[MESSAGE_SELECTED] =
-		g_signal_new ("message_selected",
-			      MESSAGE_LIST_TYPE,
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (MessageListClass, message_selected),
-			      NULL,
-			      NULL,
-			      g_cclosure_marshal_VOID__STRING,
-			      G_TYPE_NONE, 1, G_TYPE_STRING);
+	message_list_signals[MESSAGE_SELECTED] = g_signal_new (
+		"message_selected",
+		MESSAGE_LIST_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (MessageListClass, message_selected),
+		NULL,
+		NULL,
+		g_cclosure_marshal_VOID__STRING,
+		G_TYPE_NONE, 1,
+		G_TYPE_STRING);
 
-	message_list_signals[MESSAGE_LIST_BUILT] =
-		g_signal_new ("message_list_built",
-			      MESSAGE_LIST_TYPE,
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (MessageListClass, message_list_built),
-			      NULL,
-			      NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	message_list_signals[MESSAGE_LIST_BUILT] = g_signal_new (
+		"message_list_built",
+		MESSAGE_LIST_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (MessageListClass, message_list_built),
+		NULL,
+		NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -2847,28 +2856,29 @@ message_list_construct (MessageList *message_list)
 	GSettings *settings;
 
 	message_list->model =
-		e_tree_memory_callbacks_new (ml_tree_icon_at,
+		e_tree_memory_callbacks_new (
+			ml_tree_icon_at,
 
-					     ml_column_count,
+			ml_column_count,
 
-					     ml_has_save_id,
-					     ml_get_save_id,
+			ml_has_save_id,
+			ml_get_save_id,
 
-					     ml_has_get_node_by_id,
-					     ml_get_node_by_id,
+			ml_has_get_node_by_id,
+			ml_get_node_by_id,
 
-					     ml_tree_sort_value_at,
-					     ml_tree_value_at,
-					     ml_tree_set_value_at,
-					     ml_tree_is_cell_editable,
+			ml_tree_sort_value_at,
+			ml_tree_value_at,
+			ml_tree_set_value_at,
+			ml_tree_is_cell_editable,
 
-					     ml_duplicate_value,
-					     ml_free_value,
-					     ml_initialize_value,
-					     ml_value_is_empty,
-					     ml_value_to_string,
+			ml_duplicate_value,
+			ml_free_value,
+			ml_initialize_value,
+			ml_value_is_empty,
+			ml_value_to_string,
 
-					     message_list);
+			message_list);
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 	e_tree_memory_set_expanded_default (
@@ -2894,7 +2904,7 @@ message_list_construct (MessageList *message_list)
 
 	if (atk_get_root () != NULL) {
 		a11y = gtk_widget_get_accessible (GTK_WIDGET (message_list));
-		atk_object_set_name(a11y, _("Messages"));
+		atk_object_set_name (a11y, _("Messages"));
 	}
 
 	g_signal_connect (
@@ -2995,7 +3005,7 @@ clear_tree (MessageList *ml,
 	struct timeval start, end;
 	gulong diff;
 
-	printf("Clearing tree\n");
+	printf ("Clearing tree\n");
 	gettimeofday (&start, NULL);
 #endif
 
@@ -3022,7 +3032,7 @@ clear_tree (MessageList *ml,
 	gettimeofday (&end, NULL);
 	diff = end.tv_sec * 1000 + end.tv_usec / 1000;
 	diff -= start.tv_sec * 1000 + start.tv_usec / 1000;
-	printf("Clearing tree took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
+	printf ("Clearing tree took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
 #endif
 
 }
@@ -3239,7 +3249,7 @@ build_tree (MessageList *ml,
 	struct timeval start, end;
 	gulong diff;
 
-	printf("Building tree\n");
+	printf ("Building tree\n");
 	gettimeofday (&start, NULL);
 #endif
 
@@ -3247,7 +3257,7 @@ build_tree (MessageList *ml,
 	gettimeofday (&end, NULL);
 	diff = end.tv_sec * 1000 + end.tv_usec / 1000;
 	diff -= start.tv_sec * 1000 + start.tv_usec / 1000;
-	printf("Loading tree state took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
+	printf ("Loading tree state took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
 #endif
 
 	if (ml->tree_root == NULL) {
@@ -3315,7 +3325,7 @@ build_tree (MessageList *ml,
 	gettimeofday (&end, NULL);
 	diff = end.tv_sec * 1000 + end.tv_usec / 1000;
 	diff -= start.tv_sec * 1000 + start.tv_usec / 1000;
-	printf("Building tree took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
+	printf ("Building tree took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
 #endif
 }
 
@@ -3334,7 +3344,7 @@ build_subtree (MessageList *ml,
 	while (c) {
 		/* phantom nodes no longer allowed */
 		if (!c->message) {
-			g_warning("c->message shouldn't be NULL\n");
+			g_warning ("c->message shouldn't be NULL\n");
 			c = c->next;
 			continue;
 		}
@@ -3377,10 +3387,10 @@ tree_equal (ETreeModel *etm,
 
 	while (ap && bp) {
 		if (!node_equal (etm, ap, bp)) {
-			g_warning("Nodes in tree differ");
+			g_warning ("Nodes in tree differ");
 			info = e_tree_memory_node_get_data (E_TREE_MEMORY (etm), ap);
-			printf("table uid = %s\n", camel_message_info_uid(info));
-			printf("camel uid = %s\n", camel_message_info_uid(bp->message));
+			printf ("table uid = %s\n", camel_message_info_uid (info));
+			printf ("camel uid = %s\n", camel_message_info_uid (bp->message));
 			return FALSE;
 		} else {
 			if (!tree_equal (etm, e_tree_model_node_get_first_child (etm, ap), bp->child))
@@ -3391,16 +3401,16 @@ tree_equal (ETreeModel *etm,
 	}
 
 	if (ap || bp) {
-		g_warning("Tree differs, out of nodes in one branch");
+		g_warning ("Tree differs, out of nodes in one branch");
 		if (ap) {
 			info = e_tree_memory_node_get_data (E_TREE_MEMORY (etm), ap);
 			if (info)
-				printf("table uid = %s\n", camel_message_info_uid(info));
+				printf ("table uid = %s\n", camel_message_info_uid (info));
 			else
-				printf("info is empty?\n");
+				printf ("info is empty?\n");
 		}
 		if (bp) {
-			printf("camel uid = %s\n", camel_message_info_uid(bp->message));
+			printf ("camel uid = %s\n", camel_message_info_uid (bp->message));
 			return FALSE;
 		}
 		return FALSE;
@@ -3446,7 +3456,7 @@ remove_node_diff (MessageList *ml,
 	ETreePath cp, cn;
 	CamelMessageInfo *info;
 
-	t(printf("Removing node: %s\n", (gchar *)e_tree_memory_node_get_data(etm, node)));
+	t (printf ("Removing node: %s\n", (gchar *) e_tree_memory_node_get_data (etm, node)));
 
 	/* we depth-first remove all node data's ... */
 	cp = e_tree_model_node_get_first_child (etm, node);
@@ -3485,15 +3495,15 @@ build_subtree_diff (MessageList *ml,
 	bp = c;
 
 	while (ap || bp) {
-		t(printf("Processing row: %d (subtree row %d)\n", *row, myrow));
+		t (printf ("Processing row: %d (subtree row %d)\n", *row, myrow));
 		if (ap == NULL) {
-			t(printf("out of old nodes\n"));
+			t (printf ("out of old nodes\n"));
 			/* ran out of old nodes - remaining nodes are added */
 			add_node_diff (ml, parent, ap, bp, row, myrow);
 			myrow++;
 			bp = bp->next;
 		} else if (bp == NULL) {
-			t(printf("out of new nodes\n"));
+			t (printf ("out of new nodes\n"));
 			/* ran out of new nodes - remaining nodes are removed */
 			tmp = e_tree_model_node_get_next (etm, ap);
 			remove_node_diff (ml, ap, 0);
@@ -3510,7 +3520,7 @@ build_subtree_diff (MessageList *ml,
 						g_hash_table_insert (ml->uid_rowmap, olduid, (gpointer)(*row));
 					}
 				} else {
-					g_warning("Cannot find uid %s in table?", camel_message_info_uid(bp->message));
+					g_warning ("Cannot find uid %s in table?", camel_message_info_uid (bp->message));
 				}
 			}
 #endif
@@ -3524,7 +3534,7 @@ build_subtree_diff (MessageList *ml,
 			ap = e_tree_model_node_get_next (etm, ap);
 			bp = bp->next;
 		} else {
-			t(printf("searching for matches\n"));
+			t (printf ("searching for matches\n"));
 			/* we have to scan each side for a match */
 			bi = bp->next;
 			ai = e_tree_model_node_get_next (etm, ap);
@@ -3541,14 +3551,14 @@ build_subtree_diff (MessageList *ml,
 				if (bi) {
 					bt = bp;
 					while (bt != bi) {
-						t(printf("adding new node 0\n"));
+						t (printf ("adding new node 0\n"));
 						add_node_diff (ml, parent, NULL, bt, row, myrow);
 						myrow++;
 						bt = bt->next;
 					}
 					bp = bi;
 				} else {
-					t(printf("adding new node 1\n"));
+					t (printf ("adding new node 1\n"));
 					/* no match in new nodes, add one, try next */
 					add_node_diff (ml, parent, NULL, bp, row, myrow);
 					myrow++;
@@ -3559,14 +3569,14 @@ build_subtree_diff (MessageList *ml,
 				if (ai) {
 					at = ap;
 					while (at != ai) {
-						t(printf("removing old node 0\n"));
+						t (printf ("removing old node 0\n"));
 						tmp = e_tree_model_node_get_next (etm, at);
 						remove_node_diff (ml, at, 0);
 						at = tmp;
 					}
 					ap = ai;
 				} else {
-					t(printf("adding new node 2\n"));
+					t (printf ("adding new node 2\n"));
 					/* didn't find match in old nodes, must be new node? */
 					add_node_diff (ml, parent, NULL, bp, row, myrow);
 					myrow++;
@@ -3601,7 +3611,7 @@ build_flat (MessageList *ml,
 	struct timeval start, end;
 	gulong diff;
 
-	printf("Building flat\n");
+	printf ("Building flat\n");
 	gettimeofday (&start, NULL);
 #endif
 
@@ -3646,7 +3656,7 @@ build_flat (MessageList *ml,
 	gettimeofday (&end, NULL);
 	diff = end.tv_sec * 1000 + end.tv_usec / 1000;
 	diff -= start.tv_sec * 1000 + start.tv_usec / 1000;
-	printf("Building flat took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
+	printf ("Building flat took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
 #endif
 
 }
@@ -3685,10 +3695,10 @@ build_flat_diff (MessageList *ml,
 	gettimeofday (&start, NULL);
 #endif
 
-	d(printf("updating changes to display\n"));
+	d (printf ("updating changes to display\n"));
 
 	/* remove individual nodes? */
-	d(printf("Removing messages from view:\n"));
+	d (printf ("Removing messages from view:\n"));
 	for (i = 0; i < changes->uid_removed->len; i++) {
 		node = g_hash_table_lookup (ml->uid_nodemap, changes->uid_removed->pdata[i]);
 		if (node) {
@@ -3699,17 +3709,17 @@ build_flat_diff (MessageList *ml,
 	}
 
 	/* add new nodes? - just append to the end */
-	d(printf("Adding messages to view:\n"));
+	d (printf ("Adding messages to view:\n"));
 	for (i = 0; i < changes->uid_added->len; i++) {
 		info = camel_folder_get_message_info (ml->folder, changes->uid_added->pdata[i]);
 		if (info) {
-			d(printf(" %s\n", (gchar *)changes->uid_added->pdata[i]));
+			d (printf (" %s\n", (gchar *) changes->uid_added->pdata[i]));
 			ml_uid_nodemap_insert (ml, info, NULL, -1);
 		}
 	}
 
 	/* and update changes too */
-	d(printf("Changing messages to view:\n"));
+	d (printf ("Changing messages to view:\n"));
 	for (i = 0; i < changes->uid_changed->len; i++) {
 		ETreePath *node = g_hash_table_lookup (ml->uid_nodemap, changes->uid_changed->pdata[i]);
 		if (node) {
@@ -3724,7 +3734,7 @@ build_flat_diff (MessageList *ml,
 	gettimeofday (&end, NULL);
 	diff = end.tv_sec * 1000 + end.tv_usec / 1000;
 	diff -= start.tv_sec * 1000 + start.tv_usec / 1000;
-	printf("Inserting changes took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
+	printf ("Inserting changes took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
 #endif
 
 }
@@ -3792,11 +3802,8 @@ folder_changed (CamelFolder *folder,
 	if (ml->priv->destroyed)
 		return;
 
-	d(printf("folder changed event, changes = %p\n", changes));
+	d (printf ("folder changed event, changes = %p\n", changes));
 	if (changes) {
-		d(printf("changed = %d added = %d removed = %d\n",
-			 changes->uid_changed->len, changes->uid_added->len, changes->uid_removed->len));
-
 		for (i = 0; i < changes->uid_removed->len; i++)
 			g_hash_table_remove (
 				ml->normalised_hash,
@@ -3998,7 +4005,7 @@ on_cursor_activated_idle (gpointer data)
 	selected = e_selection_model_selected_count (esm);
 
 	if (selected == 1 && message_list->cursor_uid) {
-		d(printf ("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid));
+		d (printf ("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid));
 		g_signal_emit (message_list, message_list_signals[MESSAGE_SELECTED], 0, message_list->cursor_uid);
 	} else {
 		g_signal_emit (message_list, message_list_signals[MESSAGE_SELECTED], 0, NULL);
@@ -4037,8 +4044,9 @@ on_cursor_activated_cmd (ETree *tree,
 
 	if (!message_list->idle_id) {
 		message_list->idle_id =
-			g_idle_add_full (G_PRIORITY_LOW, on_cursor_activated_idle,
-					 message_list, NULL);
+			g_idle_add_full (
+				G_PRIORITY_LOW, on_cursor_activated_idle,
+				message_list, NULL);
 	}
 }
 
@@ -4652,13 +4660,13 @@ regen_list_exec (struct _regen_list_msg *m,
 		if (m->hidejunk) {
 			if (m->search) {
 				expr = g_alloca (strlen (m->search) + 92);
-				sprintf(expr, "(and (match-all (and (not (system-flag \"deleted\")) (not (system-flag \"junk\"))))\n %s)", m->search);
+				sprintf (expr, "(and (match-all (and (not (system-flag \"deleted\")) (not (system-flag \"junk\"))))\n %s)", m->search);
 			} else
 				expr = (gchar *) "(match-all (and (not (system-flag \"deleted\")) (not (system-flag \"junk\"))))";
 		} else {
 			if (m->search) {
 				expr = g_alloca (strlen (m->search) + 64);
-				sprintf(expr, "(and (match-all (not (system-flag \"deleted\")))\n %s)", m->search);
+				sprintf (expr, "(and (match-all (not (system-flag \"deleted\")))\n %s)", m->search);
 			} else
 				expr = (gchar *) "(match-all (not (system-flag \"deleted\")))";
 		}
@@ -4666,7 +4674,7 @@ regen_list_exec (struct _regen_list_msg *m,
 		if (m->hidejunk) {
 			if (m->search) {
 				expr = g_alloca (strlen (m->search) + 64);
-				sprintf(expr, "(and (match-all (not (system-flag \"junk\")))\n %s)", m->search);
+				sprintf (expr, "(and (match-all (not (system-flag \"junk\")))\n %s)", m->search);
 			} else
 				expr = (gchar *) "(match-all (not (system-flag \"junk\")))";
 		} else {

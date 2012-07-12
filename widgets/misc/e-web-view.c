@@ -2756,7 +2756,7 @@ e_web_view_get_default_settings (void)
 	settings = webkit_web_settings_new ();
 
 	g_object_set (G_OBJECT (settings),
-		"enable-frame-flattening", TRUE, 
+		"enable-frame-flattening", TRUE,
 		"enable-java-applet", FALSE,
 		"enable-html5-database", FALSE,
 		"enable-html5-local-storage", FALSE,

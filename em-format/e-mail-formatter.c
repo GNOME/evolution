@@ -865,7 +865,7 @@ e_mail_formatter_format_finished (EMailFormatter *formatter,
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), NULL);
 	g_return_val_if_fail (G_IS_ASYNC_RESULT (result), NULL);
 
-	context = g_object_get_data (G_OBJECT (result), "context");	
+	context = g_object_get_data (G_OBJECT (result), "context");
 
 	g_free (context->message_uid);
 	g_object_unref (context->message);
@@ -935,7 +935,7 @@ e_mail_formatter_format_as (EMailFormatter *formatter,
 
 	ok = FALSE;
 
-	d(printf("(%d) Formatting for part %s of type %s (found %d formatters)\n",
+	d (printf ("(%d) Formatting for part %s of type %s (found %d formatters)\n",
 		 _call_i, part->id, as_mime_type,
 		 formatters ? g_queue_get_length (formatters) : 0));
 
@@ -952,9 +952,9 @@ e_mail_formatter_format_as (EMailFormatter *formatter,
 					extension, formatter, context,
 					part, stream, cancellable);
 
-			d(printf("\t(%d) trying %s...%s\n", _call_i,
+			d (printf ("\t(%d) trying %s...%s\n", _call_i,
 					G_OBJECT_TYPE_NAME (extension),
-				 	ok ? "OK" : "failed"));
+					ok ? "OK" : "failed"));
 
 			if (ok)
 				break;
@@ -995,7 +995,7 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 		charset = formatter->priv->charset;
 	} else if (dw->mime_type
 		   && (charset = camel_content_type_param (dw->mime_type, "charset"))
-		   && g_ascii_strncasecmp(charset, "iso-8859-", 9) == 0) {
+		   && g_ascii_strncasecmp (charset, "iso-8859-", 9) == 0) {
 		CamelStream *null;
 
 		/* Since a few Windows mailers like to claim they sent

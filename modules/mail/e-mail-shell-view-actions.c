@@ -973,7 +973,8 @@ action_mail_smart_backward_cb (GtkAction *action,
 
 	} else {
 
-		gtk_adjustment_set_value (adj,
+		gtk_adjustment_set_value (
+			adj,
 			value - gtk_adjustment_get_page_increment (adj));
 
 		return;
@@ -1059,7 +1060,8 @@ action_mail_smart_forward_cb (GtkAction *action,
 
 	} else {
 
-		gtk_adjustment_set_value (adj,
+		gtk_adjustment_set_value (
+			adj,
 			value + gtk_adjustment_get_page_increment (adj));
 
 		return;

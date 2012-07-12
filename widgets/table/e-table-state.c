@@ -180,7 +180,7 @@ e_table_state_load_from_node (ETableState *state,
 	state->sort_info = NULL;
 	children = node->xmlChildrenNode;
 	for (; children; children = children->next) {
-		if (!strcmp ((gchar *)children->name, "column")) {
+		if (!strcmp ((gchar *) children->name, "column")) {
 			int_and_double *column_info = g_new (int_and_double, 1);
 
 			column_info->column = e_xml_get_integer_prop_by_name (
@@ -191,7 +191,7 @@ e_table_state_load_from_node (ETableState *state,
 
 			list = g_list_append (list, column_info);
 		} else if (state->sort_info == NULL &&
-			   !strcmp ((gchar *)children->name, "grouping")) {
+			   !strcmp ((gchar *) children->name, "grouping")) {
 			state->sort_info = e_table_sort_info_new ();
 			e_table_sort_info_load_from_node (
 				state->sort_info, children, state_version);
@@ -244,7 +244,7 @@ e_table_state_save_to_string (ETableState *state)
 
 	g_return_val_if_fail (E_IS_TABLE_STATE (state), NULL);
 
-	doc = xmlNewDoc((const guchar *)"1.0");
+	doc = xmlNewDoc ((const guchar *)"1.0");
 	xmlDocSetRootElement (doc, e_table_state_save_to_node (state, NULL));
 	xmlDocDumpMemory (doc, &string, &length);
 	xmlFreeDoc (doc);

@@ -1074,7 +1074,7 @@ pst_create_folder (PstImporter *m)
 	pos = dest + strlen (parent);
 
 	while (pos != NULL && pos < dest_end) {
-		pos = g_strstr_len (pos+1, dest_end-pos, "/");
+		pos = g_strstr_len (pos + 1, dest_end - pos, "/");
 		if (pos != NULL) {
 			CamelFolder *folder;
 
@@ -1739,7 +1739,7 @@ set_cal_attachments (ECalClient *cal,
 		orig_filename = camel_mime_part_get_filename (part);
 
 		if (orig_filename == NULL) {
-			g_warning("Ignoring unnamed attachment");
+			g_warning ("Ignoring unnamed attachment");
 			attach = attach->next;
 			continue;  /* Ignore unnamed attachments */
 		}
@@ -1753,7 +1753,7 @@ set_cal_attachments (ECalClient *cal,
 
 		dirname = g_path_get_dirname (path);
 		if (g_mkdir_with_parents (dirname, 0777) == -1) {
-			g_warning("Could not create directory %s: %s", dirname, g_strerror(errno));
+			g_warning ("Could not create directory %s: %s", dirname, g_strerror (errno));
 			g_free (dirname);
 			attach = attach->next;
 			continue;
@@ -1762,14 +1762,14 @@ set_cal_attachments (ECalClient *cal,
 
 		if (g_access (path, F_OK) == 0) {
 			if (g_access (path, W_OK) != 0) {
-				g_warning("Could not write file %s - file exists", path);
+				g_warning ("Could not write file %s - file exists", path);
 				attach = attach->next;
 				continue;
 			}
 		}
 
 		if (g_stat (path, &st) != -1 && !S_ISREG (st.st_mode)) {
-			g_warning("Could not write file %s - not a file", path);
+			g_warning ("Could not write file %s - not a file", path);
 			attach = attach->next;
 			continue;
 		}

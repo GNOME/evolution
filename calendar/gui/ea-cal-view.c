@@ -228,9 +228,9 @@ ea_cal_view_event_changed_cb (ECalendarView *cal_view,
 	}
 	if (event_atk_obj) {
 #ifdef ACC_DEBUG
-		printf ("AccDebug: event=%p changed\n", (gpointer)event);
+		printf ("AccDebug: event=%p changed\n", (gpointer) event);
 #endif
-		g_object_notify (G_OBJECT(event_atk_obj), "accessible-name");
+		g_object_notify (G_OBJECT (event_atk_obj), "accessible-name");
 		g_signal_emit_by_name (event_atk_obj, "visible_data_changed");
 	}
 
@@ -274,7 +274,7 @@ ea_cal_view_event_added_cb (ECalendarView *cal_view,
 		if (index < 0)
 			return;
 #ifdef ACC_DEBUG
-		printf ("AccDebug: event=%p added\n", (gpointer)event);
+		printf ("AccDebug: event=%p added\n", (gpointer) event);
 #endif
 		g_signal_emit_by_name (atk_obj, "children_changed::add",
 				       index, event_atk_obj, NULL);

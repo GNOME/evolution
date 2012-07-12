@@ -75,7 +75,8 @@ cal_shell_view_add_action_button (GtkBox *box,
 		button, "tooltip-text",
 		G_BINDING_SYNC_CREATE);
 
-	g_signal_connect_swapped (button, "clicked",
+	g_signal_connect_swapped (
+		button, "clicked",
 		G_CALLBACK (gtk_action_activate), action);
 }
 

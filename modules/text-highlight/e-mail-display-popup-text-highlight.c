@@ -46,7 +46,7 @@ typedef struct _EMailDisplayPopupTextHighlightClass {
 
 #define E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), e_mail_display_popup_text_highlight_get_type(), EMailDisplayPopupTextHighlight))
+	((obj), e_mail_display_popup_text_highlight_get_type (), EMailDisplayPopupTextHighlight))
 
 GType e_mail_display_popup_text_highlight_get_type (void);
 static void e_mail_display_popup_extension_interface_init (EMailDisplayPopupExtensionInterface *iface);
@@ -109,8 +109,8 @@ static GtkActionEntry entries[] = {
 
 static void
 reformat (GtkAction *old,
-	  GtkAction *action,
-	  gpointer user_data)
+          GtkAction *action,
+          gpointer user_data)
 {
 	EMailDisplayPopupTextHighlight *th_extension;
 	WebKitDOMDocument *doc;
@@ -119,7 +119,6 @@ reformat (GtkAction *old,
 	SoupURI *soup_uri;
 	GHashTable *query;
 	gchar *uri;
-
 
 	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (user_data);
 	doc = th_extension->document;
@@ -163,7 +162,7 @@ exit:
 	th_extension->document = NULL;
 }
 
-static GtkActionGroup*
+static GtkActionGroup *
 create_group (EMailDisplayPopupExtension *extension)
 {
 	EExtensible *extensible;
@@ -217,7 +216,8 @@ create_group (EMailDisplayPopupExtension *extension)
 				NULL, NULL, action_index);
 		action_index++;
 		gtk_action_group_add_action (group, GTK_ACTION (action));
-		g_signal_connect (action, "changed",
+		g_signal_connect (
+			action, "changed",
 			G_CALLBACK (reformat), extension);
 		gtk_radio_action_set_group (action, radio_group);
 		radio_group = gtk_radio_action_get_group (action);
@@ -226,15 +226,15 @@ create_group (EMailDisplayPopupExtension *extension)
 
 		gtk_ui_manager_add_ui (
 			ui_manager, merge_id,
-			 "/context/custom-actions-2/format-as-menu/format-as-actions",
+			"/context/custom-actions-2/format-as-menu/format-as-actions",
 			languages[i].action_name, languages[i].action_name,
-			 GTK_UI_MANAGER_AUTO, FALSE);
+			GTK_UI_MANAGER_AUTO, FALSE);
 
 		gtk_ui_manager_add_ui (
 			shell_ui_manager, shell_merge_id,
 			"/mail-preview-popup/mail-preview-popup-actions/format-as-menu/format-as-actions",
 			languages[i].action_name, languages[i].action_name,
-			 GTK_UI_MANAGER_AUTO, FALSE);
+			GTK_UI_MANAGER_AUTO, FALSE);
 	}
 
 	languages = get_additinal_languages (&len);
@@ -247,7 +247,8 @@ create_group (EMailDisplayPopupExtension *extension)
 				NULL, NULL, action_index);
 		action_index++;
 		gtk_action_group_add_action (group, GTK_ACTION (action));
-		g_signal_connect (action, "changed",
+		g_signal_connect (
+			action, "changed",
 			G_CALLBACK (reformat), extension);
 
 		gtk_radio_action_set_group (action, radio_group);
@@ -257,15 +258,15 @@ create_group (EMailDisplayPopupExtension *extension)
 
 		gtk_ui_manager_add_ui (
 			ui_manager, merge_id,
-			 "/context/custom-actions-2/format-as-menu/format-as-other-menu",
+			"/context/custom-actions-2/format-as-menu/format-as-other-menu",
 			languages[i].action_name, languages[i].action_name,
-			 GTK_UI_MANAGER_AUTO, FALSE);
+			GTK_UI_MANAGER_AUTO, FALSE);
 
 		gtk_ui_manager_add_ui (
 			shell_ui_manager, shell_merge_id,
 			"/mail-preview-popup/mail-preview-popup-actions/format-as-menu/format-as-other-menu",
 			languages[i].action_name, languages[i].action_name,
-			 GTK_UI_MANAGER_AUTO, FALSE);
+			GTK_UI_MANAGER_AUTO, FALSE);
 	}
 
 	return group;
@@ -273,7 +274,7 @@ create_group (EMailDisplayPopupExtension *extension)
 
 static void
 update_actions (EMailDisplayPopupExtension *extension,
-		WebKitHitTestResult *context)
+                WebKitHitTestResult *context)
 {
 	EMailDisplayPopupTextHighlight *th_extension;
 	WebKitDOMNode *node;
@@ -283,14 +284,13 @@ update_actions (EMailDisplayPopupExtension *extension,
 	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (extension);
 
 	if (th_extension->action_group == NULL) {
-		th_extension->action_group = create_group(extension);
+		th_extension->action_group = create_group (extension);
 	}
 
 	th_extension->document = NULL;
 	g_object_get (G_OBJECT (context), "inner-node", &node, NULL);
 	document = webkit_dom_node_get_owner_document (node);
 	uri = webkit_dom_document_get_document_uri (document);
-
 
 	/* If the part below context menu was made by text-highlight formatter,
 	 * then try to check what formatter it's using at the moment and set
@@ -326,7 +326,7 @@ update_actions (EMailDisplayPopupExtension *extension,
 		}
 
 	} else {
-		gtk_action_group_set_visible(
+		gtk_action_group_set_visible (
 			th_extension->action_group, FALSE);
 	}
 

@@ -1284,7 +1284,7 @@ remove_clicked_cb (GtkButton *btn,
 			g_warning ("Cannot delete attendee\n");
 			continue;
 		} else if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL) {
-			g_warning("Not enough rights to delete attendee: %s\n", e_meeting_attendee_get_address(ia));
+			g_warning ("Not enough rights to delete attendee: %s\n", e_meeting_attendee_get_address (ia));
 			continue;
 		}
 

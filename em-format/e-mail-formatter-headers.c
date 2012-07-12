@@ -173,12 +173,12 @@ write_contact_picture (CamelMimePart *part,
 			if (size >= 0) {
 				g_string_append_printf (
 					buffer,
-			    		"<img width=\"%d\" src=\"evo-file://%s\" />",
+					"<img width=\"%d\" src=\"evo-file://%s\" />",
 					size, camel_mime_part_get_filename (part));
 			} else {
 				g_string_append_printf (
 					buffer,
-			    		"<img src=\"evo-file://%s\" />",
+					"<img src=\"evo-file://%s\" />",
 					camel_mime_part_get_filename (part));
 			}
 		}
@@ -240,7 +240,7 @@ static void
 format_full_headers (EMailFormatter *formatter,
                      GString *buffer,
                      CamelMedium *part,
-		     guint32 mode,
+                     guint32 mode,
                      guint32 flags,
                      GCancellable *cancellable)
 {
@@ -283,7 +283,7 @@ format_full_headers (EMailFormatter *formatter,
 			if (!(addrs = camel_header_address_decode (header->value, hdr_charset)))
 				break;
 
-			html = g_string_new("");
+			html = g_string_new ("");
 			name = e_mail_formatter_format_address (
 					formatter, html, addrs, header->name, FALSE,
 					~(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
@@ -300,7 +300,7 @@ format_full_headers (EMailFormatter *formatter,
 			if (!(addrs = camel_header_address_decode (header->value, hdr_charset)))
 				break;
 
-			html = g_string_new("");
+			html = g_string_new ("");
 			name = e_mail_formatter_format_address (
 					formatter, html, addrs, header->name, FALSE,
 					!(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
@@ -411,7 +411,7 @@ format_full_headers (EMailFormatter *formatter,
 					e_mail_formatter_format_header (
 						formatter, buffer, part,
 						&xmailer, h->flags, charset);
-					if (strstr(use_header->value, "Evolution"))
+					if (strstr (use_header->value, "Evolution"))
 						have_icon = TRUE;
 				} else if (!face_decoded && face && !g_ascii_strcasecmp (header->name, "Face")) {
 					gchar *cp = header->value;

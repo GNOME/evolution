@@ -100,9 +100,9 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 			return FALSE;
 
 		/* Check for RFC 2646 flowed text. */
-		if (camel_content_type_is(dw->mime_type, "text", "plain")
-		&& (format = camel_content_type_param(dw->mime_type, "format"))
-		&& !g_ascii_strcasecmp(format, "flowed"))
+		if (camel_content_type_is (dw->mime_type, "text", "plain")
+		&& (format = camel_content_type_param (dw->mime_type, "format"))
+		&& !g_ascii_strcasecmp (format, "flowed"))
 			filter_flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 
 		rgb = e_color_to_value ((GdkColor *)

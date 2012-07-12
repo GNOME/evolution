@@ -184,7 +184,7 @@ mbox_supported (EImport *ei,
 	if (s->uri_src == NULL)
 		return TRUE;
 
-	if (strncmp(s->uri_src, "file:///", strlen("file:///")) != 0)
+	if (strncmp (s->uri_src, "file:///", strlen ("file:///")) != 0)
 		return FALSE;
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
@@ -192,7 +192,7 @@ mbox_supported (EImport *ei,
 	g_free (filename);
 	if (fd != -1) {
 		n = read (fd, signature, 5);
-		ret = n == 5 && memcmp(signature, "From ", 5) == 0;
+		ret = n == 5 && memcmp (signature, "From ", 5) == 0;
 		close (fd);
 	}
 
@@ -272,7 +272,7 @@ mbox_import (EImport *ei,
 	/* TODO: do we validate target? */
 
 	importer = g_malloc0 (sizeof (*importer));
-	g_datalist_set_data(&target->data, "mbox-data", importer);
+	g_datalist_set_data (&target->data, "mbox-data", importer);
 	importer->import = ei;
 	importer->target = target;
 	importer->status_lock = g_mutex_new ();
@@ -296,7 +296,7 @@ mbox_cancel (EImport *ei,
              EImportTarget *target,
              EImportImporter *im)
 {
-	MboxImporter *importer = g_datalist_get_data(&target->data, "mbox-data");
+	MboxImporter *importer = g_datalist_get_data (&target->data, "mbox-data");
 
 	if (importer)
 		g_cancellable_cancel (importer->cancellable);
@@ -407,7 +407,8 @@ mbox_get_preview (EImport *ei,
 				camel_mime_message_get_from (msg)));
 
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
+		gtk_list_store_set (
+			store, &iter,
 			0, camel_mime_message_get_subject (msg) ?
 			camel_mime_message_get_subject (msg) : "",
 			1, from ? from : "", 2, msg, -1);

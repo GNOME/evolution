@@ -584,8 +584,9 @@ mail_browser_constructed (GObject *object)
 		browser->priv->message_list, "message-list-built",
 		G_CALLBACK (mail_browser_message_list_built_cb), object);
 
-	display = g_object_new (E_TYPE_MAIL_DISPLAY,
-			"mode", E_MAIL_BROWSER (object)->priv->mode, NULL);
+	display = g_object_new (
+		E_TYPE_MAIL_DISPLAY,
+		"mode", E_MAIL_BROWSER (object)->priv->mode, NULL);
 
 	g_signal_connect_swapped (
 		display, "popup-event",
@@ -679,7 +680,7 @@ mail_browser_constructed (GObject *object)
 
 	gtk_style_context_add_class (
 		gtk_widget_get_style_context (widget),
-				     GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
+		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
 
 	gtk_container_add (GTK_CONTAINER (container), browser->priv->preview_pane);
 

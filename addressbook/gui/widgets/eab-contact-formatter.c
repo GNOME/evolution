@@ -1171,18 +1171,18 @@ eab_contact_formatter_class_init (EABContactFormatterClass *class)
 		PROP_STYLE,
 		g_param_spec_object (
 			"style",
-		        NULL,
-		        NULL,
-		        GTK_TYPE_STYLE,
-		        G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+			NULL,
+			NULL,
+			GTK_TYPE_STYLE,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
 		PROP_STATE,
 		g_param_spec_uint (
 			"state",
-		        NULL,
-		        NULL,
+			NULL,
+			NULL,
 			0,
 			G_MAXUINT,
 			0,
@@ -1201,14 +1201,13 @@ eab_contact_formatter_init (EABContactFormatter *formatter)
 
 EABContactFormatter *
 eab_contact_formatter_new (EABContactDisplayMode mode,
-			   gboolean render_maps)
+                           gboolean render_maps)
 {
 	return g_object_new (EAB_TYPE_CONTACT_FORMATTER,
 			     "display-mode", mode,
 			     "render-maps", render_maps,
 			     NULL);
 }
-
 
 void
 eab_contact_formatter_set_display_mode (EABContactFormatter *formatter,
@@ -1257,7 +1256,7 @@ eab_contact_formatter_get_render_maps (EABContactFormatter *formatter)
 
 void
 eab_contact_formatter_set_style (EABContactFormatter *formatter,
-				 GtkStyle *style)
+                                 GtkStyle *style)
 {
 	g_return_if_fail (EAB_IS_CONTACT_FORMATTER (formatter));
 
@@ -1284,7 +1283,7 @@ eab_contact_formatter_get_style (EABContactFormatter *formatter)
 
 void
 eab_contact_formatter_set_state (EABContactFormatter *formatter,
-				 GtkStateType state)
+                                 GtkStateType state)
 {
 	g_return_if_fail (EAB_IS_CONTACT_FORMATTER (formatter));
 

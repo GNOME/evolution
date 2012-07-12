@@ -101,7 +101,8 @@ shell_window_toolbar_update_new_menu (EShellWindow *shell_window,
 		EShellView *shell_view;
 		EShellBackend *shell_backend;
 
-		shell_view = e_shell_window_peek_shell_view (shell_window,
+		shell_view = e_shell_window_peek_shell_view (
+			shell_window,
 			e_shell_window_get_active_view (shell_window));
 		g_return_if_fail (shell_view != NULL);
 
@@ -130,7 +131,8 @@ shell_window_backend_prefer_item_changed_cb (EShellBackend *backend,
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
 
-	shell_view = e_shell_window_peek_shell_view (shell_window,
+	shell_view = e_shell_window_peek_shell_view (
+		shell_window,
 		e_shell_window_get_active_view (shell_window));
 	g_return_if_fail (shell_view != NULL);
 
@@ -138,7 +140,8 @@ shell_window_backend_prefer_item_changed_cb (EShellBackend *backend,
 	if (shell_backend != backend)
 		return;
 
-	e_shell_window_set_toolbar_new_prefer_item (shell_window,
+	e_shell_window_set_toolbar_new_prefer_item (
+		shell_window,
 		e_shell_backend_get_prefer_new_item (shell_backend));
 }
 
@@ -753,8 +756,9 @@ shell_window_realize (GtkWidget *widget)
 	EShellWindow *shell_window;
 
 	shell_window = E_SHELL_WINDOW (widget);
-	e_shell_adapt_window_size (shell_window->priv->shell,
-				   GTK_WINDOW (widget));
+	e_shell_adapt_window_size (
+		shell_window->priv->shell,
+		GTK_WINDOW (widget));
 
 	/* Chain up to parent's dispose() method. */
 	GTK_WIDGET_CLASS (e_shell_window_parent_class)->realize (widget);
@@ -933,7 +937,7 @@ e_shell_window_class_init (EShellWindowClass *class)
 			"switcher-visible",
 			"Switcher Visible",
 			"Whether the shell window's "
-			  "switcher buttons are visible",
+			"switcher buttons are visible",
 			TRUE,
 			G_PARAM_READWRITE));
 

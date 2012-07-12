@@ -315,7 +315,7 @@ spam_assassin_command_full (const gchar **argv,
 		g_set_error_literal (
 			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			_("SpamAssassin either crashed or "
-			  "failed to process a mail message"));
+			"failed to process a mail message"));
 
 	return source_data.exit_code;
 }

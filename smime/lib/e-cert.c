@@ -198,7 +198,7 @@ e_cert_populate (ECert *cert)
 		exploded_tm.tm_mday = explodedTime.tm_mday;
 		exploded_tm.tm_mon = explodedTime.tm_month;
 		exploded_tm.tm_year = explodedTime.tm_year - 1900;
-		e_utf8_strftime (buf, sizeof(buf), _("%d/%m/%Y"), &exploded_tm);
+		e_utf8_strftime (buf, sizeof (buf), _("%d/%m/%Y"), &exploded_tm);
 		cert->priv->issued_on_string = g_strdup (buf);
 
 		PR_ExplodeTime (
@@ -210,7 +210,7 @@ e_cert_populate (ECert *cert)
 		exploded_tm.tm_mday = explodedTime.tm_mday;
 		exploded_tm.tm_mon = explodedTime.tm_month;
 		exploded_tm.tm_year = explodedTime.tm_year - 1900;
-		e_utf8_strftime (buf, sizeof(buf), _("%d/%m/%Y"), &exploded_tm);
+		e_utf8_strftime (buf, sizeof (buf), _("%d/%m/%Y"), &exploded_tm);
 		cert->priv->expires_on_string = g_strdup (buf);
 	}
 
@@ -396,13 +396,13 @@ e_cert_get_usage (ECert *cert)
 {
 	if (cert->priv->usage_string == NULL) {
 		gint i;
-		GString *str = g_string_new("");
+		GString *str = g_string_new ("");
 		CERTCertificate *icert = e_cert_get_internal_cert (cert);
 
 		for (i = 0; i < G_N_ELEMENTS (usageinfo); i++) {
 			if (icert->keyUsage & usageinfo[i].bit) {
 				if (str->len != 0)
-					g_string_append(str, ", ");
+					g_string_append (str, ", ");
 				g_string_append (str, _(usageinfo[i].text));
 			}
 		}
@@ -561,7 +561,7 @@ get_default_oid_format (SECItem *oid,
 	gulong val  = oid->data[0];
 	guint  i    = val % 40;
 	val /= 40;
-	written = PR_snprintf(buf, 300, "%lu %u ", val, i);
+	written = PR_snprintf (buf, 300, "%lu %u ", val, i);
 	if (written < 0)
 		return FALSE;
 	len = written;
@@ -581,7 +581,7 @@ get_default_oid_format (SECItem *oid,
 		val = (val << 7) | (j & 0x7f);
 		if (j & 0x80)
 			continue;
-		written = PR_snprintf(&buf[len], sizeof(buf)-len, "%lu ", val);
+		written = PR_snprintf (&buf[len], sizeof (buf) - len, "%lu ", val);
 		if (written < 0)
 			return FALSE;
 
@@ -690,7 +690,7 @@ process_raw_bytes (SECItem *data,
 	PRUint32 i;
 	gchar buffer[5];
 	for (i = 0; i < data->len; i++) {
-		PR_snprintf(buffer, 5, "%02x ", data->data[i]);
+		PR_snprintf (buffer, 5, "%02x ", data->data[i]);
 		g_string_append (str, buffer);
 		if ((i + 1) % 16 == 0) {
 			g_string_append (str, "\n");
@@ -1097,11 +1097,11 @@ create_tbs_certificate_asn1_struct (ECert *cert,
 
 #ifdef notyet
 	nsCOMPtr < nsIASN1Sequence> validitySequence = new nsNSSASN1Sequence ();
-	nssComponent->GetPIPNSSBundleString(NS_LITERAL_STRING("CertDumpValidity").get(),
+	nssComponent->GetPIPNSSBundleString (NS_LITERAL_STRING ("CertDumpValidity").get (),
 					    text);
 	validitySequence->SetDisplayName (text);
 	asn1Objects->AppendElement (validitySequence, PR_FALSE);
-	nssComponent->GetPIPNSSBundleString(NS_LITERAL_STRING("CertDumpNotBefore").get(),
+	nssComponent->GetPIPNSSBundleString (NS_LITERAL_STRING ("CertDumpNotBefore").get (),
 					    text);
 	nsCOMPtr < nsIX509CertValidity> validityData;
 	GetValidity (getter_AddRefs (validityData));
@@ -1114,7 +1114,7 @@ create_tbs_certificate_asn1_struct (ECert *cert,
 	if (NS_FAILED (rv))
 		return rv;
 
-	nssComponent->GetPIPNSSBundleString(NS_LITERAL_STRING("CertDumpNotAfter").get(),
+	nssComponent->GetPIPNSSBundleString (NS_LITERAL_STRING ("CertDumpNotAfter").get (),
 					    text);
 	rv = ProcessTime (notAfter, text.get (), validitySequence);
 	if (NS_FAILED (rv))

@@ -193,13 +193,13 @@ e_minicard_label_set_property (GObject *object,
 			e_canvas_item_grab_focus (e_minicard_label->field, FALSE);
 		break;
 	case PROP_FIELD:
-		gnome_canvas_item_set( e_minicard_label->field, "text", g_value_get_string (value), NULL );
+		gnome_canvas_item_set ( e_minicard_label->field, "text", g_value_get_string (value), NULL );
 		break;
 	case PROP_FIELDNAME:
-		gnome_canvas_item_set( e_minicard_label->fieldname, "text", g_value_get_string (value), NULL );
+		gnome_canvas_item_set ( e_minicard_label->fieldname, "text", g_value_get_string (value), NULL );
 		break;
 	case PROP_TEXT_MODEL:
-		gnome_canvas_item_set( e_minicard_label->field, "model", g_value_get_object (value), NULL);
+		gnome_canvas_item_set ( e_minicard_label->field, "model", g_value_get_object (value), NULL);
 		break;
 	case PROP_MAX_FIELD_NAME_WIDTH:
 		e_minicard_label->max_field_name_length = g_value_get_double (value);
@@ -345,7 +345,7 @@ e_minicard_label_event (GnomeCanvasItem *item,
 	case GDK_ENTER_NOTIFY:
 	case GDK_LEAVE_NOTIFY: {
 		gboolean return_val;
-		g_signal_emit_by_name(e_minicard_label->field, "event", event, &return_val);
+		g_signal_emit_by_name (e_minicard_label->field, "event", event, &return_val);
 		return return_val;
 	}
 	default:

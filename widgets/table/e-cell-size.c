@@ -47,7 +47,7 @@ ecd_get_text (ECellText *cell,
 	} else {
 		fsize = ((gfloat) size) / 1024.0;
 		if (fsize < 1024.0) {
-			return g_strdup_printf ("%d K", (gint)fsize);
+			return g_strdup_printf ("%d K", (gint) fsize);
 		} else {
 			fsize /= 1024.0;
 			return g_strdup_printf ("%.1f MB", fsize);

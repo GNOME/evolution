@@ -149,13 +149,15 @@ filter_editor_folder_element_get_widget (EFilterElement *fe)
 	EMFilterEditorFolderElement *ff = (EMFilterEditorFolderElement *) fe;
 	EMailSession *session;
 	GtkWidget *button;
+	const gchar *uri;
 
 	session = em_filter_editor_folder_element_get_session (ff);
+	uri = em_filter_folder_element_get_uri ((EMFilterFolderElement *) ff);
 
 	button = em_folder_selection_button_new (
 		session, _("Select Folder"), NULL);
 	em_folder_selection_button_set_folder_uri (
-		EM_FOLDER_SELECTION_BUTTON (button), em_filter_folder_element_get_uri ((EMFilterFolderElement *) ff));
+		EM_FOLDER_SELECTION_BUTTON (button), uri);
 	gtk_widget_show (button);
 
 	g_signal_connect (

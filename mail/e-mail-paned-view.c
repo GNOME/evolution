@@ -642,7 +642,8 @@ mail_paned_view_constructed (GObject *object)
 
 	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (object);
 
-	priv->display = g_object_new (E_TYPE_MAIL_DISPLAY,
+	priv->display = g_object_new (
+		E_TYPE_MAIL_DISPLAY,
 		"headers-collapsable", TRUE, NULL);
 
 	view = E_MAIL_VIEW (object);
@@ -655,9 +656,10 @@ mail_paned_view_constructed (GObject *object)
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 
-	g_object_bind_property (shell_settings, "paned-view-headers-state",
-				priv->display, "headers-collapsed",
-				G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		shell_settings, "paned-view-headers-state",
+		priv->display, "headers-collapsed",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
 	/* Build content widgets. */
 

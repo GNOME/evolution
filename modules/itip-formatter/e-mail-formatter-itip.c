@@ -58,7 +58,7 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
 
-static const gchar* formatter_mime_types[] = { "text/calendar" , NULL };
+static const gchar * formatter_mime_types[] = { "text/calendar" , NULL };
 
 static gboolean
 emfe_itip_format (EMailFormatterExtension *extension,
@@ -105,15 +105,17 @@ emfe_itip_format (EMailFormatterExtension *extension,
 		itip_part->uid = g_strdup (context->message_uid);
 		itip_part->msg = g_object_ref (context->message);
 
-		uri = e_mail_part_build_uri (context->folder, context->message_uid,
+		uri = e_mail_part_build_uri (
+			context->folder, context->message_uid,
 			"part_id", G_TYPE_STRING, part->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			NULL);
 
 		buffer = g_string_sized_new (256);
-		g_string_append_printf (buffer,
+		g_string_append_printf (
+			buffer,
 			"<div class=\"part-container\" "
-			     "style=\"border: none; background: none;\">"
+			"style=\"border: none; background: none;\">"
 			"<iframe width=\"100%%\" height=\"auto\""
 			" frameborder=\"0\" src=\"%s\" name=\"%s\" id=\"%s\"></iframe>"
 			"</div>",

@@ -2005,7 +2005,8 @@ ask_drop_folder (EMFolderTree *folder_tree,
 	session = em_folder_tree_get_session (folder_tree);
 	if (!e_mail_folder_uri_parse (CAMEL_SESSION (session),
 				      src_folder_uri, NULL, &src_folder_name, &error)) {
-		g_debug ("%s: Failed to convert '%s' to folder name: %s",
+		g_debug (
+			"%s: Failed to convert '%s' to folder name: %s",
 			G_STRFUNC, src_folder_uri, error ? error->message : "Unknown error");
 		g_clear_error (&error);
 		g_object_unref (settings);
@@ -2074,7 +2075,7 @@ folder_tree_drop_folder (struct _DragDataReceivedAsync *m)
 
 	data = gtk_selection_data_get_data (m->selection);
 
-	d(printf(" * Drop folder '%s' onto '%s'\n", data, m->full_name));
+	d (printf (" * Drop folder '%s' onto '%s'\n", data, m->full_name));
 
 	cancellable = m->base.cancellable;
 

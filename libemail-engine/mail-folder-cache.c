@@ -258,8 +258,9 @@ flush_updates_idle_cb (MailFolderCache *cache)
 		}
 
 		/* update unread counts */
-		g_signal_emit (cache, signals[FOLDER_UNREAD_UPDATED], 0,
-			       up->store, up->full_name, up->unread);
+		g_signal_emit (
+			cache, signals[FOLDER_UNREAD_UPDATED], 0,
+			up->store, up->full_name, up->unread);
 
 		/* indicate that the folder has changed (new mail received, etc) */
 		if (up->store != NULL && up->full_name != NULL) {
@@ -370,7 +371,7 @@ update_1folder (MailFolderCache *cache,
 			folder_is_drafts || folder_is_outbox;
 
 		if (special_case) {
-			d(printf(" total count\n"));
+			d (printf (" total count\n"));
 			unread = camel_folder_get_message_count (folder);
 			if (folder_is_drafts || folder_is_outbox) {
 				guint32 junked = 0;
@@ -384,7 +385,7 @@ update_1folder (MailFolderCache *cache,
 					unread -= junked;
 			}
 		} else {
-			d(printf(" unread count\n"));
+			d (printf (" unread count\n"));
 			if (info)
 				unread = info->unread;
 			else
@@ -392,7 +393,7 @@ update_1folder (MailFolderCache *cache,
 		}
 	}
 
-	d(printf("folder updated: unread %d: '%s'\n", unread, mfi->full_name));
+	d (printf ("folder updated: unread %d: '%s'\n", unread, mfi->full_name));
 
 	if (unread == -1)
 		return;
@@ -514,7 +515,7 @@ unset_folder_info (MailFolderCache *cache,
 {
 	struct _folder_update *up;
 
-	d(printf("unset folderinfo '%s'\n", mfi->uri));
+	d (printf ("unset folderinfo '%s'\n", mfi->uri));
 
 	if (mfi->folder) {
 		CamelFolder *folder = mfi->folder;
@@ -667,7 +668,7 @@ rename_folders (MailFolderCache *cache,
 	up = g_malloc0 (sizeof (*up));
 
 	/* Form what was the old name, and try and look it up */
-	old = g_strdup_printf("%s%s", oldbase, fi->full_name + strlen(newbase));
+	old = g_strdup_printf ("%s%s", oldbase, fi->full_name + strlen (newbase));
 	mfi = g_hash_table_lookup (si->folders, old);
 	if (mfi) {
 		up->oldfull = mfi->full_name;
@@ -714,13 +715,13 @@ rename_folders (MailFolderCache *cache,
 	e_filename_make_safe (olduri);
 	newuri = e_mail_folder_uri_build (si->store, fi->full_name);
 	e_filename_make_safe (newuri);
-	oldfile = g_strdup_printf("%s/custom_view-%s.xml", config_dir, olduri);
-	newfile = g_strdup_printf("%s/custom_view-%s.xml", config_dir, newuri);
+	oldfile = g_strdup_printf ("%s/custom_view-%s.xml", config_dir, olduri);
+	newfile = g_strdup_printf ("%s/custom_view-%s.xml", config_dir, newuri);
 	g_rename (oldfile, newfile);
 	g_free (oldfile);
 	g_free (newfile);
-	oldfile = g_strdup_printf("%s/current_view-%s.xml", config_dir, olduri);
-	newfile = g_strdup_printf("%s/current_view-%s.xml", config_dir, newuri);
+	oldfile = g_strdup_printf ("%s/current_view-%s.xml", config_dir, olduri);
+	newfile = g_strdup_printf ("%s/current_view-%s.xml", config_dir, newuri);
 	g_rename (oldfile, newfile);
 	g_free (oldfile);
 	g_free (newfile);
@@ -1457,8 +1458,8 @@ mail_folder_cache_init (MailFolderCache *cache)
 	g_static_rec_mutex_init (&cache->priv->stores_mutex);
 
 	g_queue_init (&cache->priv->updates);
-	cache->priv->count_sent = getenv("EVOLUTION_COUNT_SENT") != NULL;
-	cache->priv->count_trash = getenv("EVOLUTION_COUNT_TRASH") != NULL;
+	cache->priv->count_sent = getenv ("EVOLUTION_COUNT_SENT") != NULL;
+	cache->priv->count_trash = getenv ("EVOLUTION_COUNT_TRASH") != NULL;
 
 	buf = getenv ("EVOLUTION_PING_TIMEOUT");
 	timeout = buf ? strtoul (buf, NULL, 10) : 600;
@@ -1620,7 +1621,7 @@ mail_folder_cache_note_folder (MailFolderCache *cache,
 	if (cache->priv->stores == NULL
 	    || (si = g_hash_table_lookup (cache->priv->stores, parent_store)) == NULL
 	    || (mfi = g_hash_table_lookup (si->folders, full_name)) == NULL) {
-		w(g_warning("Noting folder before store initialised"));
+		w (g_warning ("Noting folder before store initialised"));
 		g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
 		return;
 	}

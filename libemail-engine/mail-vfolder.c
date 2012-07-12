@@ -62,8 +62,8 @@ static void rule_changed (EFilterRule *rule, CamelFolder *folder);
 
 static GList *
 vfolder_get_include_subfolders_uris (EMailSession *session,
-				     const gchar *base_uri,
-				     GCancellable *cancellable)
+                                     const gchar *base_uri,
+                                     GCancellable *cancellable)
 {
 	GList *uris = NULL;
 	CamelStore *store = NULL;
@@ -78,7 +78,8 @@ vfolder_get_include_subfolders_uris (EMailSession *session,
 	if (!e_mail_folder_uri_parse (CAMEL_SESSION (session), base_uri + 1, &store, &folder_name, NULL))
 		return NULL;
 
-	fi = camel_store_get_folder_info_sync (store, folder_name,
+	fi = camel_store_get_folder_info_sync (
+		store, folder_name,
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE, cancellable, NULL);
 	cur = fi;
 	while (cur) {
@@ -145,7 +146,7 @@ vfolder_setup_exec (struct _setup_msg *m,
 	     l = l->next) {
 		const gchar *uri = l->data;
 
-		d(printf(" Adding uri: %s\n", uri));
+		d (printf (" Adding uri: %s\n", uri));
 
 		if (!uri || !*uri || !uri[1])
 			continue;
@@ -230,9 +231,9 @@ vfolder_setup (EMailSession *session,
 
 static void
 vfolder_add_remove_one (GList *vfolders,
-			gboolean remove,
-			CamelFolder *folder,
-			GCancellable *cancellable)
+                        gboolean remove,
+                        CamelFolder *folder,
+                        GCancellable *cancellable)
 {
 	GList *iter;
 
@@ -466,7 +467,7 @@ mail_vfolder_add_folder (CamelStore *store,
 		gint found = FALSE;
 
 		if (!rule->name) {
-			d(printf("invalid rule (%p): rule->name is set to NULL\n", rule));
+			d (printf ("invalid rule (%p): rule->name is set to NULL\n", rule));
 			continue;
 		}
 
@@ -559,7 +560,7 @@ mail_vfolder_delete_folder (CamelStore *store,
 	if (folder_is_spethal (store, folder_name))
 		return;
 
-	d(printf ("Deleting uri to check: %s\n", uri));
+	d (printf ("Deleting uri to check: %s\n", uri));
 
 	g_return_if_fail (mail_in_main_thread ());
 
@@ -680,7 +681,7 @@ mail_vfolder_rename_folder (CamelStore *store,
 	gchar *old_uri;
 	gchar *new_uri;
 
-	d(printf("vfolder rename uri: %s to %s\n", cfrom, cto));
+	d (printf ("vfolder rename uri: %s to %s\n", cfrom, cto));
 
 	if (context == NULL)
 		return;
@@ -743,7 +744,7 @@ mail_vfolder_rename_folder (CamelStore *store,
 		const gchar *config_dir;
 		gchar *user;
 
-		d(printf("Vfolders updated from renamed folder\n"));
+		d (printf ("Vfolders updated from renamed folder\n"));
 		config_dir = mail_session_get_config_dir ();
 		user = g_build_filename (config_dir, "vfolders.xml", NULL);
 		e_rule_context_save ((ERuleContext *) context, user);
@@ -762,7 +763,7 @@ static void
 rule_add_sources (EMailSession *session,
                   GQueue *queue,
                   GList **sources_urip,
-		  EMVFolderRule *rule)
+                  EMVFolderRule *rule)
 {
 	GList *sources_uri = *sources_urip;
 	MailFolderCache *folder_cache;
@@ -849,9 +850,10 @@ rule_changed (EFilterRule *rule,
 	g_object_unref (service);
 	service = NULL;
 
-	d(printf("Filter rule changed? for folder '%s'!!\n", folder->name));
+	d (printf ("Filter rule changed? for folder '%s'!!\n", folder->name));
 
-	camel_vee_folder_set_auto_update (CAMEL_VEE_FOLDER (folder),
+	camel_vee_folder_set_auto_update (
+		CAMEL_VEE_FOLDER (folder),
 		em_vfolder_rule_get_autoupdate ((EMVFolderRule *) rule));
 
 	if (em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_SPECIFIC) {
@@ -895,7 +897,7 @@ rule_changed (EFilterRule *rule,
 
 	G_UNLOCK (vfolder);
 
-	query = g_string_new("");
+	query = g_string_new ("");
 	e_filter_rule_build_code (rule, query);
 
 	vfolder_setup (session, folder, query->str, sources_uri);
@@ -911,7 +913,7 @@ context_rule_added (ERuleContext *ctx,
 	CamelFolder *folder;
 	CamelService *service;
 
-	d(printf("rule added: %s\n", rule->name));
+	d (printf ("rule added: %s\n", rule->name));
 
 	service = camel_session_ref_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
@@ -944,7 +946,7 @@ context_rule_removed (ERuleContext *ctx,
 	CamelService *service;
 	gpointer key, folder = NULL;
 
-	d(printf("rule removed; %s\n", rule->name));
+	d (printf ("rule removed; %s\n", rule->name));
 
 	service = camel_session_ref_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
@@ -976,7 +978,7 @@ store_folder_deleted_cb (CamelStore *store,
 	EFilterRule *rule;
 	gchar *user;
 
-	d(printf("Folder deleted: %s\n", info->name));
+	d (printf ("Folder deleted: %s\n", info->name));
 
 	/* Unmatched folder doesn't have any rule */
 	if (g_strcmp0 (CAMEL_UNMATCHED_NAME, info->full_name) == 0)
@@ -1027,11 +1029,11 @@ store_folder_renamed_cb (CamelStore *store,
 
 	/* This should be more-or-less thread-safe */
 
-	d(printf("Folder renamed to '%s' from '%s'\n", info->full_name, old_name));
+	d (printf ("Folder renamed to '%s' from '%s'\n", info->full_name, old_name));
 
 	/* Folder is already renamed? */
 	G_LOCK (vfolder);
-	d(printf("Changing folder name in hash table to '%s'\n", info->full_name));
+	d (printf ("Changing folder name in hash table to '%s'\n", info->full_name));
 	if (g_hash_table_lookup_extended (vfolder_hash, old_name, &key, &folder)) {
 		const gchar *config_dir;
 
@@ -1062,7 +1064,7 @@ store_folder_renamed_cb (CamelStore *store,
 		G_UNLOCK (vfolder);
 	} else {
 		G_UNLOCK (vfolder);
-		g_warning("couldn't find a vfolder rule in our table? %s", info->full_name);
+		g_warning ("couldn't find a vfolder rule in our table? %s", info->full_name);
 	}
 }
 
@@ -1146,7 +1148,7 @@ vfolder_load_storage (EMailSession *session)
 	xmlfile = g_build_filename (EVOLUTION_PRIVDATADIR, "vfoldertypes.xml", NULL);
 	if (e_rule_context_load ((ERuleContext *) context,
 			       xmlfile, user) != 0) {
-		g_warning("cannot load vfolders: %s\n", ((ERuleContext *)context)->error);
+		g_warning ("cannot load vfolders: %s\n", ((ERuleContext *) context)->error);
 	}
 	g_free (xmlfile);
 	g_free (user);
@@ -1162,10 +1164,10 @@ vfolder_load_storage (EMailSession *session)
 	rule = NULL;
 	while ((rule = e_rule_context_next_rule ((ERuleContext *) context, rule, NULL))) {
 		if (rule->name) {
-			d(printf("rule added: %s\n", rule->name));
+			d (printf ("rule added: %s\n", rule->name));
 			context_rule_added ((ERuleContext *) context, rule, session);
 		} else {
-			d(printf("invalid rule (%p) encountered: rule->name is NULL\n", rule));
+			d (printf ("invalid rule (%p) encountered: rule->name is NULL\n", rule));
 		}
 	}
 

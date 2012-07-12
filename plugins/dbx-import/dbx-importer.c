@@ -172,9 +172,9 @@ org_gnome_evolution_readdbx_supported (EPlugin *epl,
 			if (!memcmp (signature, oe56_mbox_sig, sizeof (oe56_mbox_sig))) {
 				ret = TRUE;
 			} else if (!memcmp (signature, oe56_flist_sig, sizeof (oe56_flist_sig))) {
-				d(printf("Found DBX folder list file\n"));
+				d (printf ("Found DBX folder list file\n"));
 			} else if (!memcmp (signature, oe4_mbox_sig, sizeof (oe4_mbox_sig))) {
-				d(printf("Found OE4 DBX file\n"));
+				d (printf ("Found OE4 DBX file\n"));
 			}
 		}
 		close (fd);
@@ -339,7 +339,7 @@ static gboolean dbx_load_index_table (DbxImporter *m, guint32 pos, guint32 *inde
 	struct _dbx_indexstruct index;
 	gint i;
 
-	d(printf("Loading index table at 0x%x\n", pos));
+	d (printf ("Loading index table at 0x%x\n", pos));
 
 	if (dbx_pread (m->dbx_fd, &tindex, sizeof (tindex), pos) != sizeof (tindex)) {
 		g_set_error (
@@ -359,7 +359,7 @@ static gboolean dbx_load_index_table (DbxImporter *m, guint32 pos, guint32 *inde
 		return FALSE;
 	}
 
-	d(printf("Index at %x: indexCount %x, anotherTablePtr %x\n",
+	d (printf ("Index at %x: indexCount %x, anotherTablePtr %x\n",
 		pos, tindex.indexCount, tindex.anotherTablePtr));
 
 	if (tindex.indexCount > 0) {
@@ -367,7 +367,7 @@ static gboolean dbx_load_index_table (DbxImporter *m, guint32 pos, guint32 *inde
 			return FALSE;
 	}
 
-	d(printf("Index at %x has ptrCount %d\n", pos, tindex.ptrCount));
+	d (printf ("Index at %x has ptrCount %d\n", pos, tindex.ptrCount));
 
 	pos += sizeof (tindex);
 
@@ -424,12 +424,12 @@ static gboolean dbx_load_indices (DbxImporter *m)
 	m->index_count = itemcount = GUINT32_FROM_LE (itemcount);
 	m->indices = g_malloc (itemcount * 4);
 
-	d(printf("indexptr %x, itemcount %d\n", indexptr, itemcount));
+	d (printf ("indexptr %x, itemcount %d\n", indexptr, itemcount));
 
 	if (indexptr && !dbx_load_index_table (m, indexptr, &index_ofs))
 		return FALSE;
 
-	d(printf("Loaded %d of %d indices\n", index_ofs, m->index_count));
+	d (printf ("Loaded %d of %d indices\n", index_ofs, m->index_count));
 
 	if (index_ofs < m->index_count) {
 		g_set_error (
@@ -457,7 +457,7 @@ dbx_read_mail_body (DbxImporter *m,
 	lseek (bodyfd, 0, SEEK_SET);
 
 	while (offset) {
-		d(printf("Reading mail data chunk from %x\n", offset));
+		d (printf ("Reading mail data chunk from %x\n", offset));
 
 		if (dbx_pread (m->dbx_fd, &hdr, sizeof (hdr), offset) != sizeof (hdr)) {
 			g_set_error (
@@ -557,23 +557,23 @@ dbx_read_email (DbxImporter *m,
 		switch (type) {
 		case 0x01:
 			*flags = buffer[hdr.count*4 + val];
-			d(printf("Got type 0x01 flags %02x\n", *flags));
+			d (printf ("Got type 0x01 flags %02x\n", *flags));
 			break;
 		case 0x81:
 			*flags = val;
-			d(printf("Got type 0x81 flags %02x\n", *flags));
+			d (printf ("Got type 0x81 flags %02x\n", *flags));
 			break;
 		case 0x04:
 			dataptr = GUINT32_FROM_LE (*(guint32 *)(buffer + hdr.count *4 + val));
-			d(printf("Got type 0x04 data pointer %x\n", dataptr));
+			d (printf ("Got type 0x04 data pointer %x\n", dataptr));
 			break;
 		case 0x84:
 			dataptr = val;
-			d(printf("Got type 0x84 data pointer %x\n", dataptr));
+			d (printf ("Got type 0x84 data pointer %x\n", dataptr));
 			break;
 		default:
 			/* We don't care about anything else */
-			d(printf("Ignoring type %02x datum\n", type));
+			d (printf ("Ignoring type %02x datum\n", type));
 			break;
 		}
 	}
@@ -619,7 +619,7 @@ dbx_import_file (DbxImporter *m)
 		cancellable, &m->base.error);
 	if (!folder)
 		return;
-	d(printf("importing to %s\n", camel_folder_get_full_name(folder)));
+	d (printf ("importing to %s\n", camel_folder_get_full_name (folder)));
 
 	camel_folder_freeze (folder);
 
@@ -638,7 +638,7 @@ dbx_import_file (DbxImporter *m)
 	if (!dbx_load_indices (m))
 		goto out;
 
-	tmpfile = e_mkstemp("dbx-import-XXXXXX");
+	tmpfile = e_mkstemp ("dbx-import-XXXXXX");
 	if (tmpfile == -1) {
 		g_set_error (
 			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
@@ -658,7 +658,7 @@ dbx_import_file (DbxImporter *m)
 		camel_operation_progress (cancellable, 100 * i / m->index_count);
 
 		if (!dbx_read_email (m, m->indices[i], tmpfile, &dbx_flags)) {
-			d(printf("Cannot read email index %d at %x\n",
+			d (printf ("Cannot read email index %d at %x\n",
 				 i, m->indices[i]));
 			if (m->base.error != NULL)
 				goto out;

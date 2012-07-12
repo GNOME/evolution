@@ -361,7 +361,7 @@ ivcal_getwidget (EImport *ei,
 		sd->selector = selector;
 		sd->notebook = nb;
 		sd->page = i;
-		g_object_set_data_full((GObject *)rb, "selector-data", sd, g_free);
+		g_object_set_data_full ((GObject *) rb, "selector-data", sd, g_free);
 		g_signal_connect (
 			rb, "toggled",
 			G_CALLBACK (button_toggled_cb), sd);
@@ -369,8 +369,8 @@ ivcal_getwidget (EImport *ei,
 		if (!group)
 			group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (rb));
 		if (first == NULL) {
-			g_datalist_set_data_full(&target->data, "primary-source", g_object_ref (source), g_object_unref);
-			g_datalist_set_data(&target->data, "primary-type", GINT_TO_POINTER(import_type_map[i]));
+			g_datalist_set_data_full (&target->data, "primary-source", g_object_ref (source), g_object_unref);
+			g_datalist_set_data (&target->data, "primary-type", GINT_TO_POINTER (import_type_map[i]));
 			first = rb;
 		}
 	}
@@ -443,7 +443,7 @@ ivcal_opened (GObject *source_object,
 
 	ici->cal_client = E_CAL_CLIENT (client);
 
-	e_import_status(ici->import, ici->target, _("Importing..."), 0);
+	e_import_status (ici->import, ici->target, _("Importing..."), 0);
 	ici->idle_id = g_idle_add (ivcal_import_items, ici);
 }
 
@@ -455,10 +455,10 @@ ivcal_import (EImport *ei,
 	EClientSourceType type;
 	ICalImporter *ici = g_malloc0 (sizeof (*ici));
 
-	type = GPOINTER_TO_INT(g_datalist_get_data(&target->data, "primary-type"));
+	type = GPOINTER_TO_INT (g_datalist_get_data (&target->data, "primary-type"));
 
 	ici->import = ei;
-	g_datalist_set_data(&target->data, "ivcal-data", ici);
+	g_datalist_set_data (&target->data, "ivcal-data", ici);
 	g_object_ref (ei);
 	ici->target = target;
 	ici->icalcomp = icalcomp;
@@ -477,7 +477,7 @@ ivcal_cancel (EImport *ei,
               EImportTarget *target,
               EImportImporter *im)
 {
-	ICalImporter *ici = g_datalist_get_data(&target->data, "ivcal-data");
+	ICalImporter *ici = g_datalist_get_data (&target->data, "ivcal-data");
 
 	if (ici)
 		g_cancellable_cancel (ici->cancellable);
@@ -505,7 +505,7 @@ ical_supported (EImport *ei,
 	if (s->uri_src == NULL)
 		return TRUE;
 
-	if (strncmp(s->uri_src, "file:///", 8) != 0)
+	if (strncmp (s->uri_src, "file:///", 8) != 0)
 		return FALSE;
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
@@ -641,7 +641,7 @@ vcal_supported (EImport *ei,
 	if (s->uri_src == NULL)
 		return TRUE;
 
-	if (strncmp(s->uri_src, "file:///", 8) != 0)
+	if (strncmp (s->uri_src, "file:///", 8) != 0)
 		return FALSE;
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
@@ -807,7 +807,7 @@ gnome_calendar_supported (EImport *ei,
 	if (target->type != E_IMPORT_TARGET_HOME)
 		return FALSE;
 
-	filename = g_build_filename(g_get_home_dir (), "user-cal.vcf", NULL);
+	filename = g_build_filename (g_get_home_dir (), "user-cal.vcf", NULL);
 	res = g_file_test (filename, G_FILE_TEST_IS_REGULAR);
 	g_free (filename);
 
@@ -995,15 +995,15 @@ gnome_calendar_import (EImport *ei,
 	/* This is pretty shitty, everything runs in the gui thread and can block
 	 * for quite some time */
 
-	do_calendar = GPOINTER_TO_INT(g_datalist_get_data(&target->data, "gnomecal-do-cal"));
-	do_tasks = GPOINTER_TO_INT(g_datalist_get_data(&target->data, "gnomecal-do-tasks"));
+	do_calendar = GPOINTER_TO_INT (g_datalist_get_data (&target->data, "gnomecal-do-cal"));
+	do_tasks = GPOINTER_TO_INT (g_datalist_get_data (&target->data, "gnomecal-do-tasks"));
 
 	/* If neither is selected, just return. */
 	if (!do_calendar && !do_tasks)
 		return;
 
 	/* Load the Gnome Calendar file and convert to iCalendar. */
-	filename = g_build_filename(g_get_home_dir (), "user-cal.vcf", NULL);
+	filename = g_build_filename (g_get_home_dir (), "user-cal.vcf", NULL);
 	icalcomp = load_vcalendar_file (filename);
 	g_free (filename);
 
@@ -1018,7 +1018,7 @@ gnome_calendar_import (EImport *ei,
 	ici->icalcomp = icalcomp;
 	icalcomp = NULL;
 
-	g_datalist_set_data_full(&target->data, "gnomecal-data", ici, free_ici);
+	g_datalist_set_data_full (&target->data, "gnomecal-data", ici, free_ici);
 
 	prepare_events (ici->icalcomp, &ici->tasks);
 	if (do_calendar) {
@@ -1043,14 +1043,14 @@ static void
 calendar_toggle_cb (GtkToggleButton *tb,
                     EImportTarget *target)
 {
-	g_datalist_set_data(&target->data, "gnomecal-do-cal", GINT_TO_POINTER(gtk_toggle_button_get_active(tb)));
+	g_datalist_set_data (&target->data, "gnomecal-do-cal", GINT_TO_POINTER (gtk_toggle_button_get_active (tb)));
 }
 
 static void
 tasks_toggle_cb (GtkToggleButton *tb,
                  EImportTarget *target)
 {
-	g_datalist_set_data(&target->data, "gnomecal-do-tasks", GINT_TO_POINTER(gtk_toggle_button_get_active(tb)));
+	g_datalist_set_data (&target->data, "gnomecal-do-tasks", GINT_TO_POINTER (gtk_toggle_button_get_active (tb)));
 }
 
 static GtkWidget *
@@ -1067,8 +1067,8 @@ gnome_calendar_getwidget (EImport *ei,
 	done_tasks = g_settings_get_boolean (settings, "gnome-calendar-done-tasks");
 	g_object_unref (settings);
 
-	g_datalist_set_data(&target->data, "gnomecal-do-cal", GINT_TO_POINTER(!done_cal));
-	g_datalist_set_data(&target->data, "gnomecal-do-tasks", GINT_TO_POINTER(!done_tasks));
+	g_datalist_set_data (&target->data, "gnomecal-do-cal", GINT_TO_POINTER (!done_cal));
+	g_datalist_set_data (&target->data, "gnomecal-do-tasks", GINT_TO_POINTER (!done_tasks));
 
 	hbox = gtk_hbox_new (FALSE, 2);
 
@@ -1096,7 +1096,7 @@ gnome_calendar_cancel (EImport *ei,
                        EImportTarget *target,
                        EImportImporter *im)
 {
-	ICalIntelligentImporter *ici = g_datalist_get_data(&target->data, "gnomecal-data");
+	ICalIntelligentImporter *ici = g_datalist_get_data (&target->data, "gnomecal-data");
 
 	if (ici)
 		g_cancellable_cancel (ici->cancellable);

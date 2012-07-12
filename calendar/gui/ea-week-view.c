@@ -115,7 +115,7 @@ ea_week_view_new (GtkWidget *widget)
 	atk_object_initialize (accessible, widget);
 
 #ifdef ACC_DEBUG
-	printf ("EvoAcc: ea_week_view created %p\n", (gpointer)accessible);
+	printf ("EvoAcc: ea_week_view created %p\n", (gpointer) accessible);
 #endif
 
 	return accessible;
@@ -250,7 +250,7 @@ ea_week_view_get_n_children (AtkObject *accessible)
 	count++;
 
 #ifdef ACC_DEBUG
-	printf("AccDebug: week view %p has %d children\n", (gpointer)week_view, count);
+	printf ("AccDebug: week view %p has %d children\n", (gpointer) week_view, count);
 #endif
 	return count;
 }

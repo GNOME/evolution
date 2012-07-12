@@ -242,7 +242,7 @@ jh_add_cb (GtkWidget *widget,
 		tok = g_strdup_printf ("%s=%s", name, value);
 		g_ptr_array_add (array, tok);
 		g_ptr_array_add (array, NULL);
-		g_settings_set_strv (prefs->settings, "junk-custom-header", (const gchar * const*) array->pdata);
+		g_settings_set_strv (prefs->settings, "junk-custom-header", (const gchar * const *) array->pdata);
 
 		g_ptr_array_free (array, TRUE);
 		g_strfreev (strv);
@@ -290,7 +290,7 @@ jh_remove_cb (GtkWidget *widget,
 
 		g_ptr_array_add (array, NULL);
 
-		g_settings_set_strv (prefs->settings, "junk-custom-header", (const gchar * const*) array->pdata);
+		g_settings_set_strv (prefs->settings, "junk-custom-header", (const gchar * const *) array->pdata);
 
 		g_strfreev (strv);
 		g_ptr_array_free (array, TRUE);
@@ -337,9 +337,10 @@ emmp_header_remove_sensitivity (EMMailerPrefs *prefs)
 	 * disabled
 	*/
 	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
-		gtk_tree_model_get (GTK_TREE_MODEL (prefs->header_list_store), &iter,
-				    HEADER_LIST_IS_DEFAULT_COLUMN, &is_default,
-				    -1);
+		gtk_tree_model_get (
+			GTK_TREE_MODEL (prefs->header_list_store), &iter,
+			HEADER_LIST_IS_DEFAULT_COLUMN, &is_default,
+			-1);
 		if (is_default)
 			gtk_widget_set_sensitive (GTK_WIDGET (prefs->remove_header), FALSE);
 		else
@@ -384,9 +385,10 @@ emmp_header_add_sensitivity (EMMailerPrefs *prefs)
 	while (valid) {
 		gchar *header_name;
 
-		gtk_tree_model_get (GTK_TREE_MODEL (prefs->header_list_store), &iter,
-				    HEADER_LIST_HEADER_COLUMN, &header_name,
-				    -1);
+		gtk_tree_model_get (
+			GTK_TREE_MODEL (prefs->header_list_store), &iter,
+			HEADER_LIST_HEADER_COLUMN, &header_name,
+			-1);
 		if (g_ascii_strcasecmp (header_name, entry_contents) == 0) {
 			gtk_widget_set_sensitive (GTK_WIDGET (prefs->add_header), FALSE);
 			g_free (header_name);
@@ -418,10 +420,11 @@ emmp_save_headers (EMMailerPrefs *prefs)
 
 		h.name = NULL;
 
-		gtk_tree_model_get (GTK_TREE_MODEL (prefs->header_list_store), &iter,
-				    HEADER_LIST_HEADER_COLUMN, &h.name,
-				    HEADER_LIST_ENABLED_COLUMN, &enabled,
-				    -1);
+		gtk_tree_model_get (
+			GTK_TREE_MODEL (prefs->header_list_store), &iter,
+			HEADER_LIST_HEADER_COLUMN, &h.name,
+			HEADER_LIST_ENABLED_COLUMN, &enabled,
+			-1);
 		h.enabled = enabled;
 
 		if ((xml = e_mail_reader_header_to_xml (&h)))
@@ -450,10 +453,13 @@ emmp_header_list_enabled_toggled (GtkCellRendererToggle *cell,
 	gint enabled;
 
 	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter, HEADER_LIST_ENABLED_COLUMN, &enabled, -1);
+	gtk_tree_model_get (
+		model, &iter,
+		HEADER_LIST_ENABLED_COLUMN, &enabled, -1);
 	enabled = !enabled;
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter, HEADER_LIST_ENABLED_COLUMN,
-			    enabled, -1);
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
+		HEADER_LIST_ENABLED_COLUMN, enabled, -1);
 	gtk_tree_path_free (path);
 
 	emmp_save_headers (prefs);
@@ -471,12 +477,13 @@ emmp_header_add_header (GtkWidget *widget,
 
 	if (text && (strlen (text) > 0)) {
 		gtk_list_store_append (GTK_LIST_STORE (model), &iter);
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-				HEADER_LIST_NAME_COLUMN, text,
-				HEADER_LIST_ENABLED_COLUMN, TRUE,
-				HEADER_LIST_HEADER_COLUMN, text,
-				HEADER_LIST_IS_DEFAULT_COLUMN, FALSE,
-				-1);
+		gtk_list_store_set (
+			GTK_LIST_STORE (model), &iter,
+			HEADER_LIST_NAME_COLUMN, text,
+			HEADER_LIST_ENABLED_COLUMN, TRUE,
+			HEADER_LIST_HEADER_COLUMN, text,
+			HEADER_LIST_IS_DEFAULT_COLUMN, FALSE,
+			-1);
 		gtk_entry_set_text (prefs->entry_header, "");
 		emmp_header_remove_sensitivity (prefs);
 		emmp_header_add_sensitivity (prefs);
@@ -491,8 +498,10 @@ emmp_header_remove_header (GtkWidget *button,
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
 	GtkTreeModel *model = GTK_TREE_MODEL (prefs->header_list_store);
-	GtkTreeSelection *selection = gtk_tree_view_get_selection (prefs->header_list);
+	GtkTreeSelection *selection;
 	GtkTreeIter iter;
+
+	selection = gtk_tree_view_get_selection (prefs->header_list);
 
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;
@@ -528,7 +537,9 @@ toggle_button_toggled (GtkToggleButton *toggle,
 	const gchar *key;
 
 	key = g_object_get_data ((GObject *) toggle, "key");
-	g_settings_set_boolean (prefs->settings, key, gtk_toggle_button_get_active (toggle));
+	g_settings_set_boolean (
+		prefs->settings, key,
+		gtk_toggle_button_get_active (toggle));
 }
 
 static void
@@ -536,7 +547,9 @@ junk_book_lookup_button_toggled (GtkToggleButton *toggle,
                                  EMMailerPrefs *prefs)
 {
 	toggle_button_toggled (toggle, prefs);
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->junk_lookup_local_only), gtk_toggle_button_get_active (toggle));
+	gtk_widget_set_sensitive (
+		GTK_WIDGET (prefs->junk_lookup_local_only),
+		gtk_toggle_button_get_active (toggle));
 }
 
 static void
@@ -614,7 +627,8 @@ emmp_empty_trash_init (EMMailerPrefs *prefs,
 			hist = ii;
 
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
+		gtk_list_store_set (
+			store, &iter,
 			0,  gettext (empty_trash_frequency[ii].label),
 			-1);
 	}
@@ -662,7 +676,8 @@ emmp_empty_junk_init (EMMailerPrefs *prefs,
 			hist = ii;
 
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
+		gtk_list_store_set (
+			store, &iter,
 			0, gettext (empty_trash_frequency[ii].label),
 			-1);
 	}
@@ -771,7 +786,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	 *
 	 * The main mail preferences page.
 	 */
-	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.prefs");
+	ec = em_config_new (E_CONFIG_BOOK, "org.gnome.evolution.mail.prefs");
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emmp_items); i++)
 		l = g_slist_prepend (l, &emmp_items[i]);
@@ -1043,15 +1058,17 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	g_signal_connect (
 		renderer, "toggled",
 		G_CALLBACK (emmp_header_list_enabled_toggled), prefs);
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (prefs->header_list), -1,
-						     "Enabled", renderer,
-						     "active", HEADER_LIST_ENABLED_COLUMN,
-						     NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (prefs->header_list), -1,
+		"Enabled", renderer,
+		"active", HEADER_LIST_ENABLED_COLUMN,
+		NULL);
 	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (prefs->header_list), -1,
-						     "Name", renderer,
-						     "text", HEADER_LIST_NAME_COLUMN,
-						     NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (prefs->header_list), -1,
+		"Name", renderer,
+		"text", HEADER_LIST_NAME_COLUMN,
+		NULL);
 
 	/* populated the listview with entries; firstly we add all the default headers, and then
 	 * we add read header configuration out of settings. If a header in settings is a default header,
@@ -1065,7 +1082,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		h = g_malloc (sizeof (EMailReaderHeader));
 		h->is_default = TRUE;
 		h->name = g_strdup (default_headers[i]);
-		h->enabled = strcmp ((gchar *)default_headers[i], "x-evolution-mailer") != 0;
+		h->enabled = strcmp ((gchar *) default_headers[i], "x-evolution-mailer") != 0;
 		g_hash_table_insert (default_header_hash, (gpointer) default_headers[i], h);
 		header_add_list = g_slist_append (header_add_list, h);
 	}
@@ -1106,12 +1123,13 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 			name = _(h->name);
 
 		gtk_list_store_append (prefs->header_list_store, &iter);
-		gtk_list_store_set (prefs->header_list_store, &iter,
-				    HEADER_LIST_NAME_COLUMN, name,
-				    HEADER_LIST_ENABLED_COLUMN, h->enabled,
-				    HEADER_LIST_IS_DEFAULT_COLUMN, h->is_default,
-				    HEADER_LIST_HEADER_COLUMN, h->name,
-				    -1);
+		gtk_list_store_set (
+			prefs->header_list_store, &iter,
+			HEADER_LIST_NAME_COLUMN, name,
+			HEADER_LIST_ENABLED_COLUMN, h->enabled,
+			HEADER_LIST_IS_DEFAULT_COLUMN, h->is_default,
+			HEADER_LIST_HEADER_COLUMN, h->name,
+			-1);
 
 		e_mail_reader_header_free (h);
 		p = p->next;
@@ -1159,12 +1177,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	widget = e_builder_get_widget (prefs->builder, "junk-module-options");
 	e_mail_junk_options_set_session (E_MAIL_JUNK_OPTIONS (widget), session);
 
-	prefs->junk_header_check = (GtkToggleButton *)e_builder_get_widget (prefs->builder, "junk_header_check");
-	prefs->junk_header_tree = (GtkTreeView *)e_builder_get_widget (prefs->builder, "junk_header_tree");
-	prefs->junk_header_add = (GtkButton *)e_builder_get_widget (prefs->builder, "junk_header_add");
-	prefs->junk_header_remove = (GtkButton *)e_builder_get_widget (prefs->builder, "junk_header_remove");
-	prefs->junk_book_lookup = (GtkToggleButton *)e_builder_get_widget (prefs->builder, "lookup_book");
-	prefs->junk_lookup_local_only = (GtkToggleButton *)e_builder_get_widget (prefs->builder, "junk_lookup_local_only");
+	prefs->junk_header_check = (GtkToggleButton *) e_builder_get_widget (prefs->builder, "junk_header_check");
+	prefs->junk_header_tree = (GtkTreeView *) e_builder_get_widget (prefs->builder, "junk_header_tree");
+	prefs->junk_header_add = (GtkButton *) e_builder_get_widget (prefs->builder, "junk_header_add");
+	prefs->junk_header_remove = (GtkButton *) e_builder_get_widget (prefs->builder, "junk_header_remove");
+	prefs->junk_book_lookup = (GtkToggleButton *) e_builder_get_widget (prefs->builder, "lookup_book");
+	prefs->junk_lookup_local_only = (GtkToggleButton *) e_builder_get_widget (prefs->builder, "junk_lookup_local_only");
 	toggle_button_init (
 		prefs, prefs->junk_book_lookup,
 		FALSE, "junk-lookup-addressbook",

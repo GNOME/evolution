@@ -219,7 +219,7 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 		} while (pos);
 
 		if (tags)
-			printf("\n\n**%s**\n\n", (gchar *) tags->data);
+			printf ("\n\n**%s**\n\n", (gchar *) tags->data);
 
 		/* Something's wrong, let's write the entire HTML and hope
 		 * that WebKit can handle it */

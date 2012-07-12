@@ -153,7 +153,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 	else
 		fromlen = tmp - m->frombase + 1;
 
-	d(printf ("top name is '%s'\n", fi->full_name));
+	d (printf ("top name is '%s'\n", fi->full_name));
 
 	while (pending) {
 		CamelFolderInfo *info = pending->data;
@@ -179,17 +179,21 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 					toname, "%s",
 					info->full_name + fromlen);
 
-			d(printf ("Copying from '%s' to '%s'\n", info->full_name, toname->str));
+			d (printf (
+				"Copying from '%s' to '%s'\n",
+				info->full_name, toname->str));
 
 			/* This makes sure we create the same tree,
 			 * e.g. from a nonselectable source. */
 			/* Not sure if this is really the 'right thing',
 			 * e.g. for spool stores, but it makes the ui work. */
 			if ((info->flags & CAMEL_FOLDER_NOSELECT) == 0) {
-				d(printf ("this folder is selectable\n"));
+				d (printf ("this folder is selectable\n"));
 				if (m->tostore == m->fromstore && m->delete) {
 					camel_store_rename_folder_sync (
-						m->fromstore, info->full_name, toname->str,
+						m->fromstore,
+						info->full_name,
+						toname->str,
 						cancellable, error);
 					if (error && *error)
 						goto exception;
@@ -258,7 +262,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 	while (l) {
 		CamelFolderInfo *info = l->data;
 
-		d(printf ("deleting folder '%s'\n", info->full_name));
+		d (printf ("deleting folder '%s'\n", info->full_name));
 
 		/* FIXME: we need to do something with the exception
 		 * since otherwise the users sees a failed operation

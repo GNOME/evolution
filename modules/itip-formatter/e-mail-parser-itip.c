@@ -68,7 +68,7 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar* parser_mime_types[] = { "text/calendar", NULL };
+static const gchar * parser_mime_types[] = { "text/calendar", NULL };
 
 static void
 mail_part_itip_free (EMailPart *mail_part)
@@ -169,8 +169,8 @@ bind_itip_view (EMailPart *part,
 		G_OBJECT (element), "view", view,
 		(GDestroyNotify) g_object_unref);
 
-	itip_view_create_dom_bindings (view,
-		webkit_dom_document_get_document_element (document));
+	itip_view_create_dom_bindings (
+		view, webkit_dom_document_get_document_element (document));
 
 	itip_view_init_view (view);
 	g_string_free (buffer, TRUE);

@@ -261,7 +261,7 @@ ets_proxy_model_rows_inserted (ETableSubset *etss,
 			e_table_model_row_inserted (etm, i);
 		}
 
-		d(g_print("inserted row %d", row));
+		d (g_print ("inserted row %d", row));
 		row++;
 	}
 	if (full_change)
@@ -307,7 +307,7 @@ ets_proxy_model_rows_deleted (ETableSubset *etss,
 		e_table_model_no_change (etm);
 	}
 
-	d(g_print("deleted row %d count %d", row, count));
+	d (g_print ("deleted row %d count %d", row, count));
 	d (e_table_subset_print_debugging (etss));
 }
 

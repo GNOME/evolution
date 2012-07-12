@@ -193,8 +193,8 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	specification->alternating_row_colors = e_xml_get_bool_prop_by_name_with_default (node, (const guchar *)"alternating-row-colors", TRUE);
 	specification->horizontal_draw_grid = e_xml_get_bool_prop_by_name (node, (const guchar *)"horizontal-draw-grid");
 	specification->vertical_draw_grid = e_xml_get_bool_prop_by_name (node, (const guchar *)"vertical-draw-grid");
-	if (e_xml_get_bool_prop_by_name_with_default(node, (const guchar *)"draw-grid", TRUE) ==
-	    e_xml_get_bool_prop_by_name_with_default(node, (const guchar *)"draw-grid", FALSE)) {
+	if (e_xml_get_bool_prop_by_name_with_default (node, (const guchar *)"draw-grid", TRUE) ==
+	    e_xml_get_bool_prop_by_name_with_default (node, (const guchar *)"draw-grid", FALSE)) {
 		specification->horizontal_draw_grid =
 			specification->vertical_draw_grid = e_xml_get_bool_prop_by_name (node, (const guchar *)"draw-grid");
 	}
@@ -249,12 +249,12 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	specification->columns = NULL;
 
 	for (children = node->xmlChildrenNode; children; children = children->next) {
-		if (!strcmp ((gchar *)children->name, "ETableColumn")) {
+		if (!strcmp ((gchar *) children->name, "ETableColumn")) {
 			ETableColumnSpecification *col_spec = e_table_column_specification_new ();
 
 			e_table_column_specification_load_from_node (col_spec, children);
 			list = g_list_append (list, col_spec);
-		} else if (specification->state == NULL && !strcmp ((gchar *)children->name, "ETableState")) {
+		} else if (specification->state == NULL && !strcmp ((gchar *) children->name, "ETableState")) {
 			specification->state = e_table_state_new ();
 			e_table_state_load_from_node (specification->state, children);
 			e_table_sort_info_set_can_group (specification->state->sort_info, specification->allow_grouping);
@@ -381,15 +381,15 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	case GTK_SELECTION_MULTIPLE:
 		s = "extended";
 	}
-	xmlSetProp (node, (const guchar *)"selection-mode", (guchar *)s);
+	xmlSetProp (node, (const guchar *)"selection-mode", (guchar *) s);
 	if (specification->cursor_mode == E_CURSOR_LINE)
 		s = "line";
 	else
 		s = "cell";
-	xmlSetProp (node, (const guchar *)"cursor-mode", (guchar *)s);
+	xmlSetProp (node, (const guchar *)"cursor-mode", (guchar *) s);
 
-	xmlSetProp (node, (const guchar *)"_click-to-add-message", (guchar *)specification->click_to_add_message);
-	xmlSetProp (node, (const guchar *)"gettext-domain", (guchar *)specification->domain);
+	xmlSetProp (node, (const guchar *)"_click-to-add-message", (guchar *) specification->click_to_add_message);
+	xmlSetProp (node, (const guchar *)"gettext-domain", (guchar *) specification->domain);
 
 	if (specification->columns) {
 		gint i;

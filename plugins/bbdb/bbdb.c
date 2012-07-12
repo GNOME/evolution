@@ -93,7 +93,7 @@ e_plugin_lib_enable (EPlugin *ep,
 	if (enable) {
 		gint interval;
 
-		d(fprintf (stderr, "BBDB spinning up...\n"));
+		d (fprintf (stderr, "BBDB spinning up...\n"));
 
 		g_idle_add (bbdb_timeout, ep);
 

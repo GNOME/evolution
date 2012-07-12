@@ -49,7 +49,6 @@ struct _EHTTPRequestPrivate {
 
 G_DEFINE_TYPE (EHTTPRequest, e_http_request, SOUP_TYPE_REQUEST)
 
-
 static gssize
 copy_stream_to_stream (CamelStream *input,
                        GMemoryInputStream *output,
@@ -168,8 +167,9 @@ handle_http_request (GSimpleAsyncResult *res,
 
 		stream = g_memory_input_stream_new ();
 
-		len = copy_stream_to_stream (cache_stream,
-			       G_MEMORY_INPUT_STREAM (stream), cancellable);
+		len = copy_stream_to_stream (
+			cache_stream,
+			G_MEMORY_INPUT_STREAM (stream), cancellable);
 		request->priv->content_length = len;
 
 		g_object_unref (cache_stream);
@@ -184,13 +184,15 @@ handle_http_request (GSimpleAsyncResult *res,
 
 			path = camel_data_cache_get_filename (cache, "http", uri_md5);
 			file = g_file_new_for_path (path);
-			info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
-					0, cancellable, NULL);
+			info = g_file_query_info (
+				file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+				0, cancellable, NULL);
 
 			request->priv->content_type = g_strdup (
 				g_file_info_get_content_type (info));
 
-			d(printf ("'%s' found in cache (%d bytes, %s)\n",
+			d (
+				printf ("'%s' found in cache (%d bytes, %s)\n",
 				uri, request->priv->content_length,
 				request->priv->content_type));
 
@@ -203,7 +205,7 @@ handle_http_request (GSimpleAsyncResult *res,
 
 			goto cleanup;
 		} else {
-			d(printf("Failed to load '%s' from cache.\n", uri));
+			d (printf ("Failed to load '%s' from cache.\n", uri));
 		}
 	}
 
@@ -291,7 +293,8 @@ handle_http_request (GSimpleAsyncResult *res,
 		error = NULL;
 		cache_stream = camel_data_cache_add (cache, "http", uri_md5, &error);
 		if (!cache_stream) {
-			g_warning ("Failed to create cache file for '%s': %s",
+			g_warning (
+				"Failed to create cache file for '%s': %s",
 				uri, error ? error->message : "Unknown error");
 			g_clear_error (&error);
 
@@ -356,12 +359,12 @@ handle_http_request (GSimpleAsyncResult *res,
 		g_object_unref (msg);
 		g_idle_add ((GSourceFunc) unref_soup_session, session);
 
-		d(printf ("Received image from %s\n"
-			  "Content-Type: %s\n"
-			  "Content-Length: %d bytes\n"
-			  "URI MD5: %s:\n",
-			  uri, request->priv->content_type,
-			  request->priv->content_length, uri_md5));
+		d (printf ("Received image from %s\n"
+			"Content-Type: %s\n"
+			"Content-Length: %d bytes\n"
+			"URI MD5: %s:\n",
+			uri, request->priv->content_type,
+			request->priv->content_length, uri_md5));
 
 		g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
 		goto cleanup;
@@ -396,8 +399,8 @@ http_request_finalize (GObject *object)
 
 static gboolean
 http_request_check_uri (SoupRequest *request,
-			SoupURI *uri,
-			GError **error)
+                        SoupURI *uri,
+                        GError **error)
 {
 	return ((strcmp (uri->scheme, "evo-http") == 0) ||
 		(strcmp (uri->scheme, "evo-https") == 0));
@@ -421,9 +424,9 @@ http_request_send_async (SoupRequest *request,
 	uri = soup_request_get_uri (request);
 	query = soup_form_decode (uri->query);
 
-	d({
+	d ({
 		gchar *uri_str = soup_uri_to_string (uri, FALSE);
-		printf("received request for %s\n", uri_str);
+		printf ("received request for %s\n", uri_str);
 		g_free (uri_str);
 	});
 
@@ -481,7 +484,7 @@ http_request_get_content_length (SoupRequest *request)
 {
 	EHTTPRequest *efr = E_HTTP_REQUEST (request);
 
-	d(printf("Content-Length: %d bytes\n", efr->priv->content_length));
+	d (printf ("Content-Length: %d bytes\n", efr->priv->content_length));
 	return efr->priv->content_length;
 }
 
@@ -490,7 +493,7 @@ http_request_get_content_type (SoupRequest *request)
 {
 	EHTTPRequest *efr = E_HTTP_REQUEST (request);
 
-	d(printf("Content-Type: %s\n", efr->priv->content_type));
+	d (printf ("Content-Type: %s\n", efr->priv->content_type));
 
 	return efr->priv->content_type;
 }

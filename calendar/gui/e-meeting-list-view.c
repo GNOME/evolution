@@ -405,7 +405,7 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 			}
 
 			attendee = e_meeting_store_add_attendee_with_defaults (model);
-			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", (gchar *)l->data));
+			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", (gchar *) l->data));
 			e_meeting_attendee_set_cn (attendee, g_strdup (m->data));
 			if (existing_attendee) {
 				/* FIXME Should we copy anything else? */

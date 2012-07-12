@@ -44,7 +44,7 @@ filter_code_build_code (EFilterElement *element,
 	gboolean is_rawcode = fi && fi->type && g_str_equal (fi->type, "rawcode");
 
 	if (!is_rawcode)
-		g_string_append(out, "(match-all ");
+		g_string_append (out, "(match-all ");
 
 	l = fi->values;
 	while (l) {
@@ -95,7 +95,7 @@ e_filter_code_new (gboolean raw_code)
 
 	if (fc && raw_code) {
 		xmlFree (((EFilterInput *) fc)->type);
-		((EFilterInput *) fc)->type = (gchar *)xmlStrdup ((xmlChar *)"rawcode");
+		((EFilterInput *) fc)->type = (gchar *) xmlStrdup ((xmlChar *)"rawcode");
 	}
 
 	return fc;

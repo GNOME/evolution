@@ -451,7 +451,7 @@ get_widgets (ESendOptionsDialog *sod)
 	priv->priority = e_builder_get_widget (builder, "combo-priority");
 	priv->status = e_builder_get_widget (builder, "status-tracking");
 	priv->security = e_builder_get_widget (builder, "security-combo");
-	priv->notebook = (GtkNotebook *)e_builder_get_widget (builder, "notebook");
+	priv->notebook = (GtkNotebook *) e_builder_get_widget (builder, "notebook");
 	priv->reply_request = e_builder_get_widget (builder, "reply-request-button");
 	priv->reply_convenient = e_builder_get_widget (builder, "reply-convinient");
 	priv->reply_within = e_builder_get_widget (builder, "reply-within");

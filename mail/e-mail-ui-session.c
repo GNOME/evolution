@@ -667,9 +667,6 @@ static void
 mail_ui_session_refresh_service (EMailSession *session,
                                  CamelService *service)
 {
-	g_debug ("*** Refreshing %s ***",
-		camel_service_get_display_name (service));
-
 	if (camel_session_get_online (CAMEL_SESSION (session)))
 		mail_receive_service (service);
 }

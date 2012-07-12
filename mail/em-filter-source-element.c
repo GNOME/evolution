@@ -161,7 +161,7 @@ filter_source_element_xml_encode (EFilterElement *fe)
 	EMFilterSourceElement *fs = (EMFilterSourceElement *) fe;
 
 	value = xmlNewNode (NULL, (const guchar *) "value");
-	xmlSetProp (value, (const guchar *) "name", (guchar *)fe->name);
+	xmlSetProp (value, (const guchar *) "name", (guchar *) fe->name);
 	xmlSetProp (value, (const guchar *) "type", (const guchar *) "uid");
 
 	if (fs->priv->active_id != NULL)
@@ -197,7 +197,7 @@ filter_source_element_xml_decode (EFilterElement *fe,
 
 		/* For backward-compatibility: We used to store
 		 * sources by their URI string, which can change. */
-		if (strcmp ((gchar *)node->name, "uri") == 0) {
+		if (strcmp ((gchar *) node->name, "uri") == 0) {
 			CamelService *service = NULL;
 			xmlChar *content;
 			CamelURL *url;
@@ -255,8 +255,8 @@ filter_source_element_clone (EFilterElement *fe)
 
 static void
 filter_source_element_add_to_combo (GtkComboBox *combo_box,
-				    CamelService *service,
-				    ESourceRegistry *registry)
+                                    CamelService *service,
+                                    ESourceRegistry *registry)
 {
 	ESource *source;
 	ESourceMailIdentity *extension;
@@ -267,7 +267,8 @@ filter_source_element_add_to_combo (GtkComboBox *combo_box,
 	const gchar *uid;
 	gchar *label;
 
-	source = e_source_registry_ref_source (registry,
+	source = e_source_registry_ref_source (
+		registry,
 		camel_service_get_uid (service));
 	if (!source)
 		return;
@@ -313,7 +314,7 @@ filter_source_element_add_to_combo (GtkComboBox *combo_box,
 			label = g_strdup (display_name);
 		else
 			label = g_strdup_printf ("%s (%s)", name ? name : address, display_name);
-			
+
 	} else if (g_strcmp0 (display_name, address) == 0)
 		label = g_strdup_printf ("%s <%s>", name, address);
 	else
@@ -354,7 +355,8 @@ filter_source_element_get_widget (EFilterElement *fe)
 
 			service = NULL;
 
-			gtk_tree_model_get (model, &iter,
+			gtk_tree_model_get (
+				model, &iter,
 				E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE, &service,
 				E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED, &enabled,
 				E_MAIL_ACCOUNT_STORE_COLUMN_BUILTIN, &builtin,

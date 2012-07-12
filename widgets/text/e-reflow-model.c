@@ -284,7 +284,7 @@ print_tabs (void)
 {
 	gint i;
 	for (i = 0; i < depth; i++)
-		g_print("\t");
+		g_print ("\t");
 }
 #endif
 
@@ -308,7 +308,7 @@ e_reflow_model_changed (EReflowModel *e_reflow_model)
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
 	d (print_tabs ());
-	d(g_print("Emitting model_changed on model 0x%p.\n", e_reflow_model));
+	d (g_print ("Emitting model_changed on model 0x%p.\n", e_reflow_model));
 	d (depth++);
 	g_signal_emit (e_reflow_model, signals[MODEL_CHANGED], 0);
 	d (depth--);
@@ -404,7 +404,7 @@ e_reflow_model_item_changed (EReflowModel *e_reflow_model,
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
 	d (print_tabs ());
-	d(g_print("Emitting item_changed on model 0x%p, n=%d.\n", e_reflow_model, n));
+	d (g_print ("Emitting item_changed on model 0x%p, n=%d.\n", e_reflow_model, n));
 	d (depth++);
 	g_signal_emit (e_reflow_model, signals[MODEL_ITEM_CHANGED], 0, n);
 	d (depth--);

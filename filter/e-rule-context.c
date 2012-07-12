@@ -219,7 +219,7 @@ rule_context_load (ERuleContext *context,
 	}
 
 	root = xmlDocGetRootElement (systemdoc);
-	if (root == NULL || strcmp ((gchar *)root->name, "filterdescription")) {
+	if (root == NULL || strcmp ((gchar *) root->name, "filterdescription")) {
 		gchar * err_msg;
 
 		err_msg = g_strdup_printf (
@@ -244,7 +244,7 @@ rule_context_load (ERuleContext *context,
 		if (part_map) {
 			rule = set->children;
 			while (rule) {
-				if (!strcmp ((gchar *)rule->name, "part")) {
+				if (!strcmp ((gchar *) rule->name, "part")) {
 					EFilterPart *part =
 						E_FILTER_PART (g_object_new (
 						part_map->type, NULL, NULL));
@@ -262,7 +262,7 @@ rule_context_load (ERuleContext *context,
 				context->rule_set_map, set->name))) {
 			rule = set->children;
 			while (rule) {
-				if (!strcmp ((gchar *)rule->name, "rule")) {
+				if (!strcmp ((gchar *) rule->name, "rule")) {
 					EFilterRule *part =
 						E_FILTER_RULE (g_object_new (
 						rule_map->type, NULL, NULL));
@@ -290,7 +290,7 @@ rule_context_load (ERuleContext *context,
 			if (rule_map) {
 				rule = set->children;
 				while (rule) {
-					if (!strcmp ((gchar *)rule->name, "rule")) {
+					if (!strcmp ((gchar *) rule->name, "rule")) {
 						EFilterRule *part =
 							E_FILTER_RULE (g_object_new (
 							rule_map->type, NULL, NULL));
@@ -397,7 +397,7 @@ rule_context_revert (ERuleContext *context,
 		if (rule_map) {
 			rule = set->children;
 			while (rule) {
-				if (!strcmp ((gchar *)rule->name, "rule")) {
+				if (!strcmp ((gchar *) rule->name, "rule")) {
 					EFilterRule *part =
 						E_FILTER_RULE (g_object_new (
 						rule_map->type, NULL, NULL));

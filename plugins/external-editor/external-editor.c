@@ -78,7 +78,7 @@ ee_editor_command_changed (GtkWidget *textbox)
 	GSettings *settings;
 
 	editor = gtk_entry_get_text (GTK_ENTRY (textbox));
-	d(printf ("\n\aeditor is : [%s] \n\a", editor));
+	d (printf ("\n\aeditor is : [%s] \n\a", editor));
 
 	/* GSettings access for every key-press. Sucky ? */
 	settings = g_settings_new ("org.gnome.evolution.plugin.external-editor");
@@ -93,7 +93,7 @@ ee_editor_immediate_launch_changed (GtkWidget *checkbox)
 	GSettings *settings;
 
 	immediately = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
-	d(printf ("\n\aimmediate launch is : [%d] \n\a", immediately));
+	d (printf ("\n\aimmediate launch is : [%d] \n\a", immediately));
 
 	settings = g_settings_new ("org.gnome.evolution.plugin.external-editor");
 	g_settings_set_boolean (settings, "launch-on-key-press", immediately);
@@ -264,7 +264,7 @@ async_external_editor (EMsgComposer *composer)
 		gsize length = 0;
 
 		close (fd);
-		d(printf ("\n\aTemporary-file Name is : [%s] \n\a", filename));
+		d (printf ("\n\aTemporary-file Name is : [%s] \n\a", filename));
 
 		/* Push the text (if there is one) from the composer to the file */
 		content = gtkhtml_editor_get_text_plain (GTKHTML_EDITOR (composer), &length);
@@ -349,7 +349,7 @@ async_external_editor (EMsgComposer *composer)
 #else
 	if (status) {
 #endif
-		d(printf ("\n\nsome problem here with external editor\n\n"));
+		d (printf ("\n\nsome problem here with external editor\n\n"));
 		g_idle_add ((GSourceFunc) enable_composer, composer);
 		return;
 	} else {
@@ -377,10 +377,10 @@ async_external_editor (EMsgComposer *composer)
 
 static void launch_editor (GtkAction *action, EMsgComposer *composer)
 {
-	d(printf ("\n\nexternal_editor plugin is launched \n\n"));
+	d (printf ("\n\nexternal_editor plugin is launched \n\n"));
 
 	if (editor_running ()) {
-		d(printf("not opening editor, because it's still running\n"));
+		d (printf ("not opening editor, because it's still running\n"));
 		return;
 	}
 

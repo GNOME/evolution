@@ -54,7 +54,7 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar* parser_mime_types[] = { "multipart/alternative", NULL };
+static const gchar * parser_mime_types[] = { "multipart/alternative", NULL };
 
 static gboolean
 related_display_part_is_attachment (CamelMimePart *part)
@@ -146,7 +146,7 @@ empe_mp_alternative_parse (EMailParserExtension *extension,
 	if (best) {
 		gint len = part_id->len;
 
-		g_string_append_printf(part_id, ".alternative.%d", bestid);
+		g_string_append_printf (part_id, ".alternative.%d", bestid);
 
 		parts = e_mail_parser_parse_part (
 			parser, best, part_id, cancellable);

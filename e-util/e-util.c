@@ -838,7 +838,7 @@ e_color_to_value (GdkColor *color)
  * e_rgba_to_value:
  * @rgba: a #GdkRGBA
  *
-
+ *
  * Converts #GdkRGBA to a 24-bit RGB color value
  *
  * Returns: a 24-bit color value
@@ -856,7 +856,10 @@ e_rgba_to_value (GdkRGBA *rgba)
 	green = 255 * rgba->green;
 	blue = 255 * rgba->blue;
 
-	return (guint32) ((((red & 0xFF) << 16) | ((green & 0xFF) << 8) | (blue & 0xFF)) & 0xffffff);
+	return (guint32)
+		((((red & 0xFF) << 16) |
+		((green & 0xFF) << 8) |
+		(blue & 0xFF)) & 0xffffff);
 }
 
 static gint
@@ -903,7 +906,7 @@ e_format_number (gint number)
 			number /= divider;
 			break;
 		case CHAR_MAX:
-			group = g_strdup_printf("%d", number);
+			group = g_strdup_printf ("%d", number);
 			number = 0;
 			break;
 		}
@@ -933,7 +936,7 @@ e_format_number (gint number)
 		g_list_free (list);
 		return value;
 	} else {
-		return g_strdup("0");
+		return g_strdup ("0");
 	}
 }
 
@@ -1034,7 +1037,7 @@ e_strftime_fix_am_pm (gchar *str,
 	gchar *ffmt;
 	gsize ret;
 
-	if (strstr(fmt, "%p")==NULL && strstr(fmt, "%P")==NULL) {
+	if (strstr (fmt, "%p") == NULL && strstr (fmt, "%P") == NULL) {
 		/* No AM/PM involved - can use the fmt string directly */
 		ret = e_strftime (str, max, fmt, tm);
 	} else {
@@ -1049,12 +1052,12 @@ e_strftime_fix_am_pm (gchar *str,
 			/* No AM/PM defined by locale
 			 * must change to 24 hour clock. */
 			ffmt = g_strdup (fmt);
-			for (sp=ffmt; (sp=strstr(sp, "%l")); sp++) {
+			for (sp = ffmt; (sp = strstr (sp, "%l")); sp++) {
 				/* Maybe this should be 'k', but I have never
 				 * seen a 24 clock actually use that format. */
 				sp[1]='H';
 			}
-			for (sp=ffmt; (sp=strstr(sp, "%I")); sp++) {
+			for (sp = ffmt; (sp = strstr (sp, "%I")); sp++) {
 				sp[1]='H';
 			}
 			ret = e_strftime (str, max, ffmt, tm);
@@ -1392,7 +1395,8 @@ e_binding_transform_color_to_string (GBinding *binding,
 		/* encode color manually, because css styles expect colors in #rrggbb,
 		 * not in #rrrrggggbbbb, which is a result of gdk_color_to_string()
 		*/
-		string = g_strdup_printf ("#%02x%02x%02x",
+		string = g_strdup_printf (
+			"#%02x%02x%02x",
 			(gint) color->red * 256 / 65536,
 			(gint) color->green * 256 / 65536,
 			(gint) color->blue * 256 / 65536);

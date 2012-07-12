@@ -153,9 +153,10 @@ plugin_lib_construct (EPlugin *plugin,
 #ifdef G_OS_WIN32
 	{
 		gchar *mapped_location =
-			e_util_replace_prefix (EVOLUTION_PREFIX,
-					       e_util_get_prefix (),
-					       plugin_lib->location);
+			e_util_replace_prefix (
+				EVOLUTION_PREFIX,
+				e_util_get_prefix (),
+				plugin_lib->location);
 		g_free (plugin_lib->location);
 		plugin_lib->location = mapped_location;
 	}

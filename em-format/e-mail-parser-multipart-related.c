@@ -54,7 +54,7 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar* parser_mime_types[] = { "multipart/related",
+static const gchar * parser_mime_types[] = { "multipart/related",
 					    NULL };
 
 static GSList *
@@ -90,7 +90,7 @@ empe_mp_related_parse (EMailParserExtension *extension,
 
 	/* The to-be-displayed part goes first */
 	partidlen = part_id->len;
-	g_string_append_printf(part_id, ".related.%d", displayid);
+	g_string_append_printf (part_id, ".related.%d", displayid);
 
 	parts = e_mail_parser_parse_part (
 			parser, display_part, part_id, cancellable);
@@ -107,7 +107,7 @@ empe_mp_related_parse (EMailParserExtension *extension,
 		if (body_part == display_part)
 			continue;
 
-		g_string_append_printf(part_id, ".related.%d", i);
+		g_string_append_printf (part_id, ".related.%d", i);
 
 		list = e_mail_parser_parse_part (
 				parser, body_part, part_id, cancellable);

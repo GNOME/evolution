@@ -84,7 +84,7 @@ etss_get_view_row (ETableSubset *etss,
 
 	for (i = initial; i < end; i++) {
 		if (map_table[i] == row) {
-			d(g_print("a) Found %d from %d\n", i, etss->last_access));
+			d (g_print ("a) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return i;
 		}
@@ -92,7 +92,7 @@ etss_get_view_row (ETableSubset *etss,
 
 	for (i = initial - 1; i >= start; i--) {
 		if (map_table[i] == row) {
-			d(g_print("b) Found %d from %d\n", i, etss->last_access));
+			d (g_print ("b) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return i;
 		}
@@ -100,7 +100,7 @@ etss_get_view_row (ETableSubset *etss,
 
 	for (i = 0; i < n; i++) {
 		if (map_table[i] == row) {
-			d(g_print("c) Found %d from %d\n", i, etss->last_access));
+			d (g_print ("c) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return i;
 		}
@@ -179,7 +179,7 @@ etss_value_at (ETableModel *etm,
 	g_return_val_if_fail (VALID_ROW (etss, row), NULL);
 
 	etss->last_access = row;
-	d(g_print("g) Setting last_access to %d\n", row));
+	d (g_print ("g) Setting last_access to %d\n", row));
 	return e_table_model_value_at (etss->source, col, MAP_ROW (etss, row));
 }
 
@@ -194,7 +194,7 @@ etss_set_value_at (ETableModel *etm,
 	g_return_if_fail (VALID_ROW (etss, row));
 
 	etss->last_access = row;
-	d(g_print("h) Setting last_access to %d\n", row));
+	d (g_print ("h) Setting last_access to %d\n", row));
 	e_table_model_set_value_at (etss->source, col, MAP_ROW (etss, row), val);
 }
 
@@ -227,7 +227,7 @@ etss_get_save_id (ETableModel *etm,
 	if (e_table_model_has_save_id (etss->source))
 		return e_table_model_get_save_id (etss->source, MAP_ROW (etss, row));
 	else
-		return g_strdup_printf ("%d", MAP_ROW(etss, row));
+		return g_strdup_printf ("%d", MAP_ROW (etss, row));
 }
 
 static void
@@ -557,6 +557,6 @@ e_table_subset_print_debugging (ETableSubset *table_model)
 {
 	gint i;
 	for (i = 0; i < table_model->n_map; i++) {
-		g_print("%8d\n", table_model->map_table[i]);
+		g_print ("%8d\n", table_model->map_table[i]);
 	}
 }

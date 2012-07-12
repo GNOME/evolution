@@ -138,12 +138,12 @@ e_reflow_update_selection_row (EReflow *reflow,
 {
 	if (reflow->items[row]) {
 		g_object_set (reflow->items[row],
-			     "selected", e_selection_model_is_row_selected(E_SELECTION_MODEL(reflow->selection), row),
+			     "selected", e_selection_model_is_row_selected (E_SELECTION_MODEL (reflow->selection), row),
 			     NULL);
 	} else if (e_selection_model_is_row_selected (E_SELECTION_MODEL (reflow->selection), row)) {
 		reflow->items[row] = e_reflow_model_incarnate (reflow->model, row, GNOME_CANVAS_GROUP (reflow));
 		g_object_set (reflow->items[row],
-			      "selected", e_selection_model_is_row_selected(E_SELECTION_MODEL(reflow->selection), row),
+			      "selected", e_selection_model_is_row_selected (E_SELECTION_MODEL (reflow->selection), row),
 			      "width", (gdouble) reflow->column_width,
 			      NULL);
 	}
@@ -298,7 +298,7 @@ incarnate (EReflow *reflow)
 			if (reflow->model) {
 				reflow->items[unsorted] = e_reflow_model_incarnate (reflow->model, unsorted, GNOME_CANVAS_GROUP (reflow));
 				g_object_set (reflow->items[unsorted],
-					      "selected", e_selection_model_is_row_selected(E_SELECTION_MODEL(reflow->selection), unsorted),
+					      "selected", e_selection_model_is_row_selected (E_SELECTION_MODEL (reflow->selection), unsorted),
 					      "width", (gdouble) reflow->column_width,
 					      NULL);
 			}

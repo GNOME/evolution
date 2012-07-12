@@ -134,7 +134,7 @@ ea_gnome_calendar_new (GtkWidget *widget)
 		G_CALLBACK (ea_gcal_dates_change_cb), accessible);
 
 #ifdef ACC_DEBUG
-	printf ("EvoAcc: ea-gnome-calendar created: %p\n", (gpointer)accessible);
+	printf ("EvoAcc: ea-gnome-calendar created: %p\n", (gpointer) accessible);
 #endif
 
 	return accessible;

@@ -155,9 +155,9 @@ e_mail_config_confirm_page_class_init (EMailConfigConfirmPageClass *class)
 			"Text",
 			"Confirmation message",
 			_("Congratulations, your mail configuration is "
-			  "complete.\n\nYou are now ready to send and "
-			  "receive email using Evolution.\n\nClick "
-			  "\"Apply\" to save your settings."),
+			"complete.\n\nYou are now ready to send and "
+			"receive email using Evolution.\n\nClick "
+			"\"Apply\" to save your settings."),
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));

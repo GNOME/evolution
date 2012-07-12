@@ -904,7 +904,7 @@ e_shell_view_class_init (EShellViewClass *class)
 			"shell-content",
 			"Shell Content Widget",
 			"The content widget appears in "
-			  "a shell window's right pane",
+			"a shell window's right pane",
 			E_TYPE_SHELL_CONTENT,
 			G_PARAM_READABLE));
 
@@ -921,7 +921,7 @@ e_shell_view_class_init (EShellViewClass *class)
 			"shell-sidebar",
 			"Shell Sidebar Widget",
 			"The sidebar widget appears in "
-			  "a shell window's left pane",
+			"a shell window's left pane",
 			E_TYPE_SHELL_SIDEBAR,
 			G_PARAM_READABLE));
 
@@ -937,7 +937,7 @@ e_shell_view_class_init (EShellViewClass *class)
 			"shell-taskbar",
 			"Shell Taskbar Widget",
 			"The taskbar widget appears at "
-			  "the bottom of a shell window",
+			"the bottom of a shell window",
 			E_TYPE_SHELL_TASKBAR,
 			G_PARAM_READABLE));
 

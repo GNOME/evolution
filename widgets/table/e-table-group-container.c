@@ -357,7 +357,7 @@ compute_text (ETableGroupContainer *etgc,
 		 * Finally the %d is replaced with count of items in this group.
 		 * Example: "Family name: Smith (13 items)"
 		*/
-		text = g_strdup_printf (ngettext("%s: %s (%d item)",
+		text = g_strdup_printf (ngettext ("%s: %s (%d item)",
 						 "%s: %s (%d items)",
 						 child_node->count),
 					etgc->ecol->text, child_node->string,
@@ -369,7 +369,7 @@ compute_text (ETableGroupContainer *etgc,
 		 * The %d is replaced with count of items in this group.
 		 * Example: "Smith (13 items)"
 		*/
-		text = g_strdup_printf (ngettext("%s (%d item)",
+		text = g_strdup_printf (ngettext ("%s (%d item)",
 						 "%s (%d items)",
 						 child_node->count),
 					child_node->string,
@@ -1387,7 +1387,7 @@ static gboolean
 e_table_group_container_data_left (EPrintable *ep,
                                      ETGCPrintContext *groupcontext)
 {
-	g_signal_stop_emission_by_name(ep, "data_left");
+	g_signal_stop_emission_by_name (ep, "data_left");
 	return groupcontext->child != NULL;
 }
 
@@ -1423,7 +1423,7 @@ e_table_group_container_height (EPrintable *ep,
 		g_object_ref (child_printable);
 	else {
 		if (!child) {
-			g_signal_stop_emission_by_name(ep, "height");
+			g_signal_stop_emission_by_name (ep, "height");
 			return 0;
 		} else {
 			child_node = child->data;
@@ -1465,7 +1465,7 @@ e_table_group_container_height (EPrintable *ep,
 	}
 	if (child_printable)
 		g_object_unref (child_printable);
-	g_signal_stop_emission_by_name(ep, "height");
+	g_signal_stop_emission_by_name (ep, "height");
 	return height;
 }
 
@@ -1491,7 +1491,7 @@ e_table_group_container_will_fit (EPrintable *ep,
 		g_object_ref (child_printable);
 	else {
 		if (!child) {
-			g_signal_stop_emission_by_name(ep, "will_fit");
+			g_signal_stop_emission_by_name (ep, "will_fit");
 			return will_fit;
 		} else {
 			child_node = child->data;
@@ -1535,7 +1535,7 @@ e_table_group_container_will_fit (EPrintable *ep,
 	if (child_printable)
 		g_object_unref (child_printable);
 
-	g_signal_stop_emission_by_name(ep, "will_fit");
+	g_signal_stop_emission_by_name (ep, "will_fit");
 	return will_fit;
 }
 

@@ -73,7 +73,7 @@ emfe_text_enriched_format (EMailFormatterExtension *extension,
 	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
 
-	if (!g_strcmp0(part->mime_type, "text/richtext")) {
+	if (!g_strcmp0 (part->mime_type, "text/richtext")) {
 		filter_flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;
 	}
 

@@ -273,7 +273,7 @@ dropdown_changed (GtkWidget *dropdown,
 	gchar *str;
 	str = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (dropdown));
 
-	if (g_ascii_strcasecmp(str, ""))
+	if (g_ascii_strcasecmp (str, ""))
 		e_contact_set (data->match, data->field, str);
 	else
 		e_contact_set (data->match, data->field, NULL);

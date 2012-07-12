@@ -95,7 +95,7 @@ file_request_send_async (SoupRequest *request,
 {
 	GSimpleAsyncResult *simple;
 
-	d(printf("received request for %s\n", soup_uri_to_string (uri, FALSE)));
+	d (printf ("received request for %s\n", soup_uri_to_string (uri, FALSE)));
 
 	/* WebKit won't allow us to load data through local file:// protocol
 	 * when using "remote" mail:// protocol, so we have evo-file://
@@ -120,9 +120,11 @@ file_request_send_finish (SoupRequest *request,
                           GAsyncResult *result,
                           GError **error)
 {
+	GSimpleAsyncResult *simple;
 	GInputStream *stream;
 
-	stream = g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result));
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	stream = g_simple_async_result_get_op_res_gpointer (simple);
 
 	/* Reset the stream before passing it back to webkit */
 	if (stream && G_IS_SEEKABLE (stream))
@@ -139,7 +141,8 @@ file_request_get_content_length (SoupRequest *request)
 {
 	EFileRequest *efr = E_FILE_REQUEST (request);
 
-	d(printf("Content-Length: %d bytes\n", efr->priv->content_length));
+	d (printf ("Content-Length: %d bytes\n", efr->priv->content_length));
+
 	return efr->priv->content_length;
 }
 
@@ -148,12 +151,12 @@ file_request_get_content_type (SoupRequest *request)
 {
 	EFileRequest *efr = E_FILE_REQUEST (request);
 
-	d(printf("Content-Type: %s\n", efr->priv->content_type));
+	d (printf ("Content-Type: %s\n", efr->priv->content_type));
 
 	return efr->priv->content_type;
 }
 
-static const char *data_schemes[] = { "evo-file", NULL };
+static const gchar *data_schemes[] = { "evo-file", NULL };
 
 static void
 e_file_request_class_init (EFileRequestClass *class)

@@ -118,7 +118,7 @@ cal_config_weather_string_to_location (GBinding *binding,
 
 	match = start = gweather_location_find_by_station_code (world, code);
 	while (match) {
-		char *cmp_city_name;
+		gchar *cmp_city_name;
 
 		/* Does the city name match? */
 		cmp_city_name = gweather_location_get_city_name (match);

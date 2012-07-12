@@ -83,7 +83,7 @@ ctd_response (GtkWidget *w,
 		/* *icert is already declared earlier in this function? */
 		CERTCertificate *icert = e_cert_get_internal_cert (data->cacert);
 
-		g_signal_stop_emission_by_name(w, "response");
+		g_signal_stop_emission_by_name (w, "response");
 
 		ca_trust_dialog_set_trust (dialog,
 					   e_cert_trust_has_trusted_ca (icert->trust, TRUE,  FALSE, FALSE),
@@ -125,10 +125,10 @@ cert_trust_dialog_show (ECert *cert)
 	ctd_data->dialog = e_builder_get_widget (ctd_data->builder, "cert-trust-dialog");
 	ctd_data->cert = g_object_ref (cert);
 	ctd_data->cacert = e_cert_get_ca_cert (cert);
-	ctd_data->trust_button = e_builder_get_widget(ctd_data->builder, "cert-trust");
-	ctd_data->notrust_button = e_builder_get_widget(ctd_data->builder, "cert-notrust");
+	ctd_data->trust_button = e_builder_get_widget (ctd_data->builder, "cert-trust");
+	ctd_data->notrust_button = e_builder_get_widget (ctd_data->builder, "cert-notrust");
 
-	ctd_data->label = e_builder_get_widget(ctd_data->builder, "trust-label");
+	ctd_data->label = e_builder_get_widget (ctd_data->builder, "trust-label");
 
 	g_signal_connect (
 		ctd_data->dialog, "response",

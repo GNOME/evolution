@@ -55,7 +55,7 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar* parser_mime_types[] = { "message/delivery-status",
+static const gchar * parser_mime_types[] = { "message/delivery-status",
 					    "message/feedback-report",
 					    "message/disposition-notification",
 					    NULL };

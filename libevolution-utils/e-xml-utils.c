@@ -207,7 +207,7 @@ e_xml_get_integer_prop_by_name_with_default (const xmlNode *parent,
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {
-		(void) sscanf ((gchar *)prop, "%d", &ret_val);
+		(void) sscanf ((gchar *) prop, "%d", &ret_val);
 		xmlFree (prop);
 	}
 	return ret_val;
@@ -251,7 +251,7 @@ e_xml_get_uint_prop_by_name_with_default (const xmlNode *parent,
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {
-		(void) sscanf ((gchar *)prop, "%u", &ret_val);
+		(void) sscanf ((gchar *) prop, "%u", &ret_val);
 		xmlFree (prop);
 	}
 	return ret_val;
@@ -279,9 +279,8 @@ e_xml_get_bool_prop_by_name (const xmlNode *parent,
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
 
-	return e_xml_get_bool_prop_by_name_with_default (parent,
-							 prop_name,
-							 FALSE);
+	return e_xml_get_bool_prop_by_name_with_default (
+		parent, prop_name, FALSE);
 }
 
 gboolean
@@ -297,9 +296,9 @@ e_xml_get_bool_prop_by_name_with_default (const xmlNode *parent,
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {
-		if (g_ascii_strcasecmp ((gchar *)prop, "true") == 0) {
+		if (g_ascii_strcasecmp ((gchar *) prop, "true") == 0) {
 			ret_val = TRUE;
-		} else if (g_ascii_strcasecmp ((gchar *)prop, "false") == 0) {
+		} else if (g_ascii_strcasecmp ((gchar *) prop, "false") == 0) {
 			ret_val = FALSE;
 		}
 		xmlFree (prop);
@@ -435,7 +434,7 @@ e_xml_get_translated_string_prop_by_name (const xmlNode *parent,
 		return ret_val;
 	}
 
-	combined_name = g_strdup_printf("_%s", prop_name);
+	combined_name = g_strdup_printf ("_%s", prop_name);
 	prop = xmlGetProp ((xmlNode *) parent, (guchar *) combined_name);
 	if (prop != NULL) {
 		ret_val = g_strdup (gettext ((gchar *) prop));

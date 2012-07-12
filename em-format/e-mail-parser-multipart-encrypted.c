@@ -52,7 +52,7 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init))
 
-static const gchar* parser_mime_types[] = { "multipart/encrypted", NULL };
+static const gchar * parser_mime_types[] = { "multipart/encrypted", NULL };
 
 static GSList *
 empe_mp_encrypted_parse (EMailParserExtension *extension,
@@ -84,7 +84,7 @@ empe_mp_encrypted_parse (EMailParserExtension *extension,
 				parts,
 				e_mail_parser_parse_part_as (
 					parser, part, part_id,
-				 	"application/vnd.evolution/source",
+					"application/vnd.evolution/source",
 					cancellable));
 
 		return parts;
@@ -92,7 +92,7 @@ empe_mp_encrypted_parse (EMailParserExtension *extension,
 
 	/* Currently we only handle RFC2015-style PGP encryption. */
 	protocol = camel_content_type_param (
-		((CamelDataWrapper *)mpe)->mime_type, "protocol");
+		((CamelDataWrapper *) mpe)->mime_type, "protocol");
 	if (!protocol || g_ascii_strcasecmp (protocol, "application/pgp-encrypted") != 0) {
 		parts = e_mail_parser_error (
 				parser, cancellable,
@@ -102,7 +102,7 @@ empe_mp_encrypted_parse (EMailParserExtension *extension,
 				parts,
 				e_mail_parser_parse_part_as (
 					parser, part, part_id,
-				   	"multipart/mixed", cancellable));
+					"multipart/mixed", cancellable));
 		return parts;
 	}
 
@@ -126,7 +126,7 @@ empe_mp_encrypted_parse (EMailParserExtension *extension,
 		parts = g_slist_concat (parts,
 				e_mail_parser_parse_part_as (
 					parser, part, part_id,
-				 	"multipart/mixed", cancellable));
+					"multipart/mixed", cancellable));
 
 		g_object_unref (opart);
 		g_object_unref (context);

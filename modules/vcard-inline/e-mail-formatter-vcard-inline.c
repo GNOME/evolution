@@ -60,7 +60,7 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
 
-static const gchar* formatter_mime_types[] = { "text/vcard", "text/x-vcard",
+static const gchar * formatter_mime_types[] = { "text/vcard", "text/x-vcard",
 					       "text/directory", NULL };
 
 static gboolean
@@ -152,8 +152,8 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 			"<iframe width=\"100%%\" height=\"auto\" frameborder=\"0\""
 				"src=\"%s\" name=\"%s\"></iframe>"
 			"</div>",
-			 part->id, access_key, html_label,
-			 uri, part->id);
+			part->id, access_key, html_label,
+			uri, part->id);
 		camel_stream_write_string (stream, str, cancellable, NULL);
 		g_free (str);
 		g_free (html_label);

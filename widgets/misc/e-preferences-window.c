@@ -75,13 +75,13 @@ preferences_window_filter_view (GtkTreeModel *model,
 		return TRUE;
 
 	gtk_tree_model_get (model, iter, COLUMN_ID, &str, -1);
-	if (strncmp(window->priv->filter_view, "mail", 4) == 0) {
+	if (strncmp (window->priv->filter_view, "mail", 4) == 0) {
 		/* Show everything except calendar */
 		if (str && (strncmp (str, "cal", 3) == 0))
 			visible = FALSE;
 		else
 			visible = TRUE;
-	} else if (strncmp(window->priv->filter_view, "cal", 3) == 0) {
+	} else if (strncmp (window->priv->filter_view, "cal", 3) == 0) {
 		/* Show only calendar and nothing else */
 		if (str && (strncmp (str, "cal", 3) != 0))
 			visible = FALSE;
@@ -537,7 +537,7 @@ e_preferences_window_filter_page (EPreferencesWindow *window,
 
 	/* XXX: We need a better solution to hide the icon view when
 	 * there is just one entry */
-	if (strncmp(page_name, "cal", 3) == 0) {
+	if (strncmp (page_name, "cal", 3) == 0) {
 		gtk_widget_hide (window->priv->scroll);
 	} else
 		gtk_widget_show (window->priv->scroll);

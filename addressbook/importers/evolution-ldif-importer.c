@@ -130,7 +130,7 @@ ldif_fields[] = {
 static GString *
 getValue (gchar **src)
 {
-	GString *dest = g_string_new("");
+	GString *dest = g_string_new ("");
 	gchar *s = *src;
 	gboolean need_base64 = (*s == ':');
 
@@ -582,7 +582,7 @@ ldif_getwidget (EImport *ei,
 		E_SOURCE_SELECTOR (selector), FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), selector, FALSE, TRUE, 6);
 
-	primary = g_datalist_get_data(&target->data, "ldif-source");
+	primary = g_datalist_get_data (&target->data, "ldif-source");
 	if (primary == NULL) {
 		GList *list;
 
@@ -628,7 +628,7 @@ ldif_supported (EImport *ei,
 	if (s->uri_src == NULL)
 		return TRUE;
 
-	if (strncmp(s->uri_src, "file:///", 8) != 0)
+	if (strncmp (s->uri_src, "file:///", 8) != 0)
 		return FALSE;
 
 	ext = strrchr (s->uri_src, '.');
@@ -696,17 +696,17 @@ ldif_import (EImport *ei,
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (filename != NULL) {
-		file = g_fopen(filename, "r");
+		file = g_fopen (filename, "r");
 		g_free (filename);
 	}
 	if (file == NULL) {
-		g_message(G_STRLOC ":Can't open .ldif file");
+		g_message (G_STRLOC ":Can't open .ldif file");
 		e_import_complete (ei, target);
 		return;
 	}
 
 	gci = g_malloc0 (sizeof (*gci));
-	g_datalist_set_data(&target->data, "ldif-data", gci);
+	g_datalist_set_data (&target->data, "ldif-data", gci);
 	gci->import = g_object_ref (ei);
 	gci->target = target;
 	gci->file = file;
@@ -730,7 +730,7 @@ ldif_cancel (EImport *ei,
              EImportTarget *target,
              EImportImporter *im)
 {
-	LDIFImporter *gci = g_datalist_get_data(&target->data, "ldif-data");
+	LDIFImporter *gci = g_datalist_get_data (&target->data, "ldif-data");
 
 	if (gci)
 		gci->state = 2;
@@ -755,7 +755,7 @@ ldif_get_preview (EImport *ei,
 		return NULL;
 	}
 
-	file = g_fopen(filename, "r");
+	file = g_fopen (filename, "r");
 	g_free (filename);
 
 	if (file == NULL) {

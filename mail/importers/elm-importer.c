@@ -126,12 +126,12 @@ elm_get_rc (EImport *ei,
 	GHashTable *prefs;
 	gchar *elmrc;
 
-	prefs = g_object_get_data((GObject *)ei, "elm-rc");
+	prefs = g_object_get_data ((GObject *) ei, "elm-rc");
 	if (prefs == NULL) {
-		elmrc = g_build_filename(g_get_home_dir(), ".elm/elmrc", NULL);
+		elmrc = g_build_filename (g_get_home_dir (), ".elm/elmrc", NULL);
 		prefs = parse_elm_rc (elmrc);
 		g_free (elmrc);
-		g_object_set_data((GObject *)ei, "elm-rc", prefs);
+		g_object_set_data ((GObject *) ei, "elm-rc", prefs);
 	}
 
 	if (prefs == NULL)
@@ -152,13 +152,13 @@ elm_supported (EImport *ei,
 	if (target->type != E_IMPORT_TARGET_HOME)
 		return FALSE;
 
-	elmdir = g_build_filename(g_get_home_dir (), ".elm", NULL);
+	elmdir = g_build_filename (g_get_home_dir (), ".elm", NULL);
 	exists = g_file_test (elmdir, G_FILE_TEST_IS_DIR);
 	g_free (elmdir);
 	if (!exists)
 		return FALSE;
 
-	maildir = elm_get_rc(ei, "maildir");
+	maildir = elm_get_rc (ei, "maildir");
 	if (maildir == NULL)
 		maildir = "Mail";
 
@@ -202,7 +202,7 @@ elm_import_exec (struct _elm_import_msg *m,
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
-	maildir = elm_get_rc(m->import, "maildir");
+	maildir = elm_get_rc (m->import, "maildir");
 	if (maildir == NULL)
 		maildir = "Mail";
 
@@ -289,7 +289,7 @@ mail_importer_elm_import (EImport *ei,
 	gint id;
 
 	m = mail_msg_new (&elm_import_info);
-	g_datalist_set_data(&target->data, "elm-msg", m);
+	g_datalist_set_data (&target->data, "elm-msg", m);
 	m->import = ei;
 	g_object_ref (m->import);
 	m->target = (EImportTargetHome *) target;
@@ -325,11 +325,11 @@ elm_getwidget (EImport *ei,
 	GtkWidget *box, *w;
 
 	g_datalist_set_data (
-		&target->data, "elm-do-mail", GINT_TO_POINTER(TRUE));
+		&target->data, "elm-do-mail", GINT_TO_POINTER (TRUE));
 
 	box = gtk_vbox_new (FALSE, 2);
 
-	w = gtk_check_button_new_with_label(_("Mail"));
+	w = gtk_check_button_new_with_label (_("Mail"));
 	gtk_toggle_button_set_active ((GtkToggleButton *) w, TRUE);
 	g_signal_connect (
 		w, "toggled",
@@ -346,7 +346,7 @@ elm_import (EImport *ei,
             EImportTarget *target,
             EImportImporter *im)
 {
-	if (GPOINTER_TO_INT(g_datalist_get_data(&target->data, "elm-do-mail")))
+	if (GPOINTER_TO_INT (g_datalist_get_data (&target->data, "elm-do-mail")))
 		mail_importer_elm_import (ei, target);
 	else
 		e_import_complete (ei, target);
@@ -357,7 +357,7 @@ elm_cancel (EImport *ei,
             EImportTarget *target,
             EImportImporter *im)
 {
-	struct _elm_import_msg *m = g_datalist_get_data(&target->data, "elm-msg");
+	struct _elm_import_msg *m = g_datalist_get_data (&target->data, "elm-msg");
 
 	if (m)
 		g_cancellable_cancel (m->status);

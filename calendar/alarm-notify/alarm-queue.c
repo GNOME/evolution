@@ -1724,7 +1724,7 @@ popup_notification (time_t trigger,
 	if (!qa)
 		return;
 	if (!notify_is_initted ())
-		notify_init("Evolution Alarm Notify");
+		notify_init ("Evolution Alarm Notify");
 
 	/* get a sensible description for the event */
 	e_cal_component_get_summary (comp, &text);
@@ -2048,7 +2048,7 @@ alarm_queue_init (gpointer data)
 	g_timeout_add_seconds (1800, (GSourceFunc) check_midnight_refresh, NULL);
 
 #ifdef HAVE_LIBNOTIFY
-	notify_init("Evolution Alarms");
+	notify_init ("Evolution Alarms");
 #endif
 
 	alarm_queue_inited = TRUE;

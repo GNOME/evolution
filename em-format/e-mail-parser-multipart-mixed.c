@@ -54,7 +54,7 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar* parser_mime_types[] = { "multipart/mixed",
+static const gchar * parser_mime_types[] = { "multipart/mixed",
 					    "multipart/report",
 					    "multipart/*",
 					    NULL };
@@ -92,7 +92,7 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 
 		subpart = camel_multipart_get_part (mp, i);
 
-		g_string_append_printf(part_id, ".mixed.%d", i);
+		g_string_append_printf (part_id, ".mixed.%d", i);
 
 		new_parts = e_mail_parser_parse_part (
 				parser, subpart, part_id, cancellable);

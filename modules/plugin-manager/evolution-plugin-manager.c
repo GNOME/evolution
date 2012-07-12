@@ -98,7 +98,7 @@ static void
 eppm_set_label (GtkLabel *l,
                 const gchar *v)
 {
-	gtk_label_set_label(l, v?v:_("Unknown"));
+	gtk_label_set_label (l, v ? v:_("Unknown"));
 }
 
 static void

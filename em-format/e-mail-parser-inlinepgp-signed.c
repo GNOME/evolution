@@ -55,7 +55,7 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar* parser_mime_types[] = { "application/x-inlinepgp-signed",
+static const gchar * parser_mime_types[] = { "application/x-inlinepgp-signed",
 					    NULL };
 
 static GSList *
@@ -100,7 +100,7 @@ empe_inlinepgp_signed_parse (EMailParserExtension *extension,
 		parts = g_slist_concat (parts,
 				e_mail_parser_parse_part_as (
 					parser, part, part_id,
-				 	"application/vnd.evolution.source",
+					"application/vnd.evolution.source",
 					cancellable));
 
 		g_object_unref (cipher);

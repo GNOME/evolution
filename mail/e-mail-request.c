@@ -149,14 +149,14 @@ handle_mail_request (GSimpleAsyncResult *res,
 	/* Convert the GString to GInputStream and send it back to WebKit */
 	ba = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (request->priv->output_stream));
 	if (!ba->data) {
-		gchar *data = g_strdup_printf(_("Failed to load part '%s'"), part_id);
-		dd(printf("%s", data));
+		gchar *data = g_strdup_printf (_("Failed to load part '%s'"), part_id);
+		dd (printf ("%s", data));
 		g_byte_array_append (ba, (guchar *) data, strlen (data));
 		g_free (data);
 	} else {
 		dd ({
 			gchar *d = g_strndup ((gchar *) ba->data, ba->len);
-			printf("%s", d);
+			printf ("%s", d);
 			g_free (d);
 		});
 	}
@@ -328,7 +328,7 @@ mail_request_send_async (SoupRequest *request,
 
 	uri = soup_request_get_uri (request);
 
-	d(printf("received request for %s\n", soup_uri_to_string (uri, FALSE)));
+	d (printf ("received request for %s\n", soup_uri_to_string (uri, FALSE)));
 
 	if (uri->query) {
 		emr->priv->uri_query = soup_form_decode (uri->query);
@@ -396,7 +396,7 @@ mail_request_get_content_length (SoupRequest *request)
 		}
 	}
 
-	d(printf("Content-Length: %d bytes\n", content_length));
+	d (printf ("Content-Length: %d bytes\n", content_length));
 	return content_length;
 }
 
@@ -419,12 +419,12 @@ mail_request_get_content_type (SoupRequest *request)
 		emr->priv->ret_mime_type = mime_type;
 	}
 
-	d(printf("Content-Type: %s\n", emr->priv->ret_mime_type));
+	d (printf ("Content-Type: %s\n", emr->priv->ret_mime_type));
 
 	return emr->priv->ret_mime_type;
 }
 
-static const char *data_schemes[] = { "mail", NULL };
+static const gchar *data_schemes[] = { "mail", NULL };
 
 static void
 e_mail_request_class_init (EMailRequestClass *class)

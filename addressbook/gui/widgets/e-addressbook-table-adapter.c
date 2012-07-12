@@ -268,7 +268,7 @@ static gpointer
 addressbook_initialize_value (ETableModel *etc,
                               gint col)
 {
-	return g_strdup("");
+	return g_strdup ("");
 }
 
 static gboolean

@@ -51,7 +51,7 @@ e_table_state_to_header (GtkWidget *widget,
 	nh = e_table_header_new ();
 	g_value_init (val, G_TYPE_DOUBLE);
 	g_value_set_double (val, e_table_header_width_extras (widget));
-	g_object_set_property (G_OBJECT(nh), "width_extras", val);
+	g_object_set_property (G_OBJECT (nh), "width_extras", val);
 	g_free (val);
 
 	for (column = 0; column < state->col_count; column++) {
@@ -128,7 +128,7 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 		}
 
 		col->search = search;
-		if (col_spec->sortable && !strcmp(col_spec->sortable, "false"))
+		if (col_spec->sortable && !strcmp (col_spec->sortable, "false"))
 			col->sortable = FALSE;
 		else
 			col->sortable = TRUE;

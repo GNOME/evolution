@@ -58,7 +58,7 @@ mail_tool_get_local_movemail_path (CamelStore *store,
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
 	safe_uid = (guchar *) g_strdup ((const gchar *) uid);
 	for (c = safe_uid; *c; c++)
-		if (strchr("/:;=|%&#!*^()\\, ", *c) || !isprint((gint) *c))
+		if (strchr ("/:;=|%&#!*^()\\, ", *c) || !isprint ((gint) *c))
 			*c = '_';
 
 	data_dir = mail_session_get_data_dir ();
@@ -74,7 +74,7 @@ mail_tool_get_local_movemail_path (CamelStore *store,
 		return NULL;
 	}
 
-	full = g_strdup_printf("%s/movemail.%s", path, safe_uid);
+	full = g_strdup_printf ("%s/movemail.%s", path, safe_uid);
 	g_free (path);
 	g_free (safe_uid);
 
@@ -146,7 +146,7 @@ mail_tool_do_movemail (CamelStore *store,
 	/* Unclear yet whether camel-movemail etc makes any sense on
 	 * Win32, at least it is not ported yet.
 	 */
-	g_warning("%s: Not implemented", __FUNCTION__);
+	g_warning ("%s: Not implemented", __FUNCTION__);
 	return NULL;
 #endif
 }
@@ -195,7 +195,7 @@ mail_tool_remove_xevolution_headers (CamelMimeMessage *message)
 	struct _camel_header_raw *scan, *list = NULL;
 
 	for (scan = ((CamelMimePart *) message)->headers; scan; scan = scan->next)
-		if (!strncmp(scan->name, "X-Evolution", 11))
+		if (!strncmp (scan->name, "X-Evolution", 11))
 			camel_header_raw_append (&list, scan->name, scan->value, scan->offset);
 
 	for (scan = list; scan; scan = scan->next)

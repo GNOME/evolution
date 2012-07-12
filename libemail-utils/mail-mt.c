@@ -122,7 +122,7 @@ mail_msg_new (MailMsgInfo *info)
 	g_hash_table_insert (
 		mail_msg_active_table, GINT_TO_POINTER (msg->seq), msg);
 
-	d(printf("New message %p\n", msg));
+	d (printf ("New message %p\n", msg));
 
 	g_mutex_unlock (mail_msg_lock);
 
@@ -140,13 +140,13 @@ checkmem (gpointer p)
 
 		switch (status) {
 		case MCHECK_HEAD:
-			printf("Memory underrun at %p\n", p);
+			printf ("Memory underrun at %p\n", p);
 			abort ();
 		case MCHECK_TAIL:
-			printf("Memory overrun at %p\n", p);
+			printf ("Memory overrun at %p\n", p);
 			abort ();
 		case MCHECK_FREE:
-			printf("Double free %p\n", p);
+			printf ("Double free %p\n", p);
 			abort ();
 		}
 	}
@@ -200,7 +200,7 @@ mail_msg_unref (gpointer msg)
 		checkmem (mail_msg->cancel);
 		checkmem (mail_msg->priv);
 #endif
-		d(printf("Free message %p\n", msg));
+		d (printf ("Free message %p\n", msg));
 
 		if (mail_msg->info->free)
 			mail_msg->info->free (mail_msg);
@@ -478,7 +478,8 @@ create_thread_pool (gpointer data)
 void
 mail_msg_main_loop_push (gpointer msg)
 {
-	g_async_queue_push_sorted (main_loop_queue, msg,
+	g_async_queue_push_sorted (
+		main_loop_queue, msg,
 		(GCompareDataFunc) mail_msg_compare, NULL);
 
 	G_LOCK (idle_source_id);

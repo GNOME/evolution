@@ -126,7 +126,7 @@ ecmm_set_value_at (ETableModel *etm,
 
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 	if (!comp_data) {
-		g_warning("couldn't get component data: row == %d", row);
+		g_warning ("couldn't get component data: row == %d", row);
 		return;
 	}
 

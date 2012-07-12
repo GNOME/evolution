@@ -101,7 +101,7 @@ gal_view_generate_string (GalViewCollection *collection,
 	if (which == 1)
 		ret_val = g_strdup (gal_view_get_title (view));
 	else
-		ret_val = g_strdup_printf("%s_%d", gal_view_get_title(view), which);
+		ret_val = g_strdup_printf ("%s_%d", gal_view_get_title (view), which);
 	for (pointer = ret_val; *pointer; pointer = g_utf8_next_char (pointer)) {
 		if (!g_unichar_isalnum (g_utf8_get_char (pointer))) {
 			gchar *ptr = pointer;
@@ -363,10 +363,10 @@ load_single_file (GalViewCollection *collection,
 	item->ever_changed = local;
 	item->changed = FALSE;
 	item->built_in = !local;
-	item->id = e_xml_get_string_prop_by_name(node, (const guchar *)"id");
-	item->filename = e_xml_get_string_prop_by_name(node, (const guchar *)"filename");
-	item->title = e_xml_get_translated_utf8_string_prop_by_name(node, (const guchar *)"title");
-	item->type = e_xml_get_string_prop_by_name(node, (const guchar *)"type");
+	item->id = e_xml_get_string_prop_by_name (node, (const guchar *)"id");
+	item->filename = e_xml_get_string_prop_by_name (node, (const guchar *)"filename");
+	item->title = e_xml_get_translated_utf8_string_prop_by_name (node, (const guchar *)"title");
+	item->type = e_xml_get_string_prop_by_name (node, (const guchar *)"type");
 	item->collection = collection;
 	item->view_changed_id = 0;
 
@@ -392,7 +392,7 @@ load_single_dir (GalViewCollection *collection,
 	xmlDoc *doc = NULL;
 	xmlNode *root;
 	xmlNode *child;
-	gchar *filename = g_build_filename(dir, "galview.xml", NULL);
+	gchar *filename = g_build_filename (dir, "galview.xml", NULL);
 	gchar *default_view;
 
 	if (g_file_test (filename, G_FILE_TEST_IS_REGULAR)) {
@@ -416,10 +416,10 @@ load_single_dir (GalViewCollection *collection,
 		gboolean found = FALSE;
 		gint i;
 
-		if (!strcmp ((gchar *)child->name, "text"))
+		if (!strcmp ((gchar *) child->name, "text"))
 			continue;
 
-		id = e_xml_get_string_prop_by_name(child, (const guchar *)"id");
+		id = e_xml_get_string_prop_by_name (child, (const guchar *)"id");
 		for (i = 0; i < collection->view_count; i++) {
 			if (!strcmp (id, collection->view_data[i]->id)) {
 				if (!local)
@@ -485,7 +485,7 @@ gal_view_collection_load (GalViewCollection *collection)
 	g_return_if_fail (!collection->loaded);
 
 	if ((g_mkdir_with_parents (collection->local_dir, 0777) == -1) && (errno != EEXIST))
-		g_warning ("Unable to create dir %s: %s", collection->local_dir, g_strerror(errno));
+		g_warning ("Unable to create dir %s: %s", collection->local_dir, g_strerror (errno));
 
 	load_single_dir (collection, collection->local_dir, TRUE);
 	load_single_dir (collection, collection->system_dir, FALSE);
@@ -513,12 +513,12 @@ gal_view_collection_save (GalViewCollection *collection)
 	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
 	g_return_if_fail (collection->local_dir != NULL);
 
-	doc = xmlNewDoc((const guchar *)"1.0");
-	root = xmlNewNode(NULL, (const guchar *)"GalViewCollection");
+	doc = xmlNewDoc ((const guchar *)"1.0");
+	root = xmlNewNode (NULL, (const guchar *)"GalViewCollection");
 	xmlDocSetRootElement (doc, root);
 
 	if (collection->default_view && !collection->default_view_built_in) {
-		e_xml_set_string_prop_by_name(root, (const guchar *)"default-view", collection->default_view);
+		e_xml_set_string_prop_by_name (root, (const guchar *)"default-view", collection->default_view);
 	}
 
 	for (i = 0; i < collection->view_count; i++) {
@@ -527,11 +527,11 @@ gal_view_collection_save (GalViewCollection *collection)
 
 		item = collection->view_data[i];
 		if (item->ever_changed) {
-			child = xmlNewChild(root, NULL, (const guchar *)"GalView", NULL);
-			e_xml_set_string_prop_by_name(child, (const guchar *)"id", item->id);
-			e_xml_set_string_prop_by_name(child, (const guchar *)"title", item->title);
-			e_xml_set_string_prop_by_name(child, (const guchar *)"filename", item->filename);
-			e_xml_set_string_prop_by_name(child, (const guchar *)"type", item->type);
+			child = xmlNewChild (root, NULL, (const guchar *)"GalView", NULL);
+			e_xml_set_string_prop_by_name (child, (const guchar *)"id", item->id);
+			e_xml_set_string_prop_by_name (child, (const guchar *)"title", item->title);
+			e_xml_set_string_prop_by_name (child, (const guchar *)"filename", item->filename);
+			e_xml_set_string_prop_by_name (child, (const guchar *)"type", item->type);
 
 			if (item->changed) {
 				filename = g_build_filename (collection->local_dir, item->filename, NULL);
@@ -546,14 +546,14 @@ gal_view_collection_save (GalViewCollection *collection)
 
 		item = collection->removed_view_data[i];
 
-		child = xmlNewChild(root, NULL, (const guchar *)"GalView", NULL);
-		e_xml_set_string_prop_by_name(child, (const guchar *)"id", item->id);
-		e_xml_set_string_prop_by_name(child, (const guchar *)"title", item->title);
-		e_xml_set_string_prop_by_name(child, (const guchar *)"type", item->type);
+		child = xmlNewChild (root, NULL, (const guchar *)"GalView", NULL);
+		e_xml_set_string_prop_by_name (child, (const guchar *)"id", item->id);
+		e_xml_set_string_prop_by_name (child, (const guchar *)"title", item->title);
+		e_xml_set_string_prop_by_name (child, (const guchar *)"type", item->type);
 	}
-	filename = g_build_filename(collection->local_dir, "galview.xml", NULL);
+	filename = g_build_filename (collection->local_dir, "galview.xml", NULL);
 	if (e_xml_save_file (filename, doc) == -1)
-		g_warning ("Unable to save view to %s - %s", filename, g_strerror(errno));
+		g_warning ("Unable to save view to %s - %s", filename, g_strerror (errno));
 	xmlFreeDoc (doc);
 	g_free (filename);
 }
@@ -649,7 +649,7 @@ gal_view_collection_append (GalViewCollection *collection,
 	item->title = g_strdup (gal_view_get_title (view));
 	item->type = g_strdup (gal_view_get_type_code (view));
 	item->id = gal_view_generate_id (collection, view);
-	item->filename = g_strdup_printf("%s.galview", item->id);
+	item->filename = g_strdup_printf ("%s.galview", item->id);
 	item->view = view;
 	item->collection = collection;
 	g_object_ref (view);
@@ -710,7 +710,7 @@ gal_view_collection_copy_view (GalViewCollection *collection,
 	item->title = g_strdup (gal_view_get_title (view));
 	item->type = g_strdup (gal_view_get_type_code (view));
 	item->id = gal_view_generate_id (collection, view);
-	item->filename = g_strdup_printf("%s.galview", item->id);
+	item->filename = g_strdup_printf ("%s.galview", item->id);
 	item->view = gal_view_clone (view);
 	item->collection = collection;
 
@@ -743,7 +743,7 @@ gal_view_collection_append_with_title (GalViewCollection *collection,
 
 	gal_view_set_title (view, title);
 
-	d(g_print("%s: %p\n", G_STRFUNC, view));
+	d (g_print ("%s: %p\n", G_STRFUNC, view));
 
 	item = g_new (GalViewCollectionItem, 1);
 	item->ever_changed = TRUE;
@@ -752,7 +752,7 @@ gal_view_collection_append_with_title (GalViewCollection *collection,
 	item->title = g_strdup (gal_view_get_title (view));
 	item->type = g_strdup (gal_view_get_type_code (view));
 	item->id = gal_view_generate_id (collection, view);
-	item->filename = g_strdup_printf("%s.galview", item->id);
+	item->filename = g_strdup_printf ("%s.galview", item->id);
 	item->view = view;
 	item->collection = collection;
 	g_object_ref (view);
@@ -781,7 +781,7 @@ gal_view_collection_set_nth_view (GalViewCollection *collection,
 	g_return_val_if_fail (i >= 0, NULL);
 	g_return_val_if_fail (i < collection->view_count, NULL);
 
-	d(g_print("%s: %p\n", G_STRFUNC, view));
+	d (g_print ("%s: %p\n", G_STRFUNC, view));
 
 	item = collection->view_data[i];
 

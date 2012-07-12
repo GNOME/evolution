@@ -112,14 +112,14 @@ filter_folder_element_xml_decode (EFilterElement *fe,
 	xmlNodePtr n;
 
 	xmlFree (fe->name);
-	fe->name = (gchar *) xmlGetProp(node, (xmlChar *) "name");
+	fe->name = (gchar *) xmlGetProp (node, (xmlChar *) "name");
 
 	n = node->children;
 	while (n) {
-		if (!strcmp((gchar *) n->name, "folder")) {
+		if (!strcmp ((gchar *) n->name, "folder")) {
 			gchar *uri;
 
-			uri = (gchar *) xmlGetProp(n, (xmlChar *) "uri");
+			uri = (gchar *) xmlGetProp (n, (xmlChar *) "uri");
 			g_free (ff->priv->uri);
 			ff->priv->uri = g_strdup (uri);
 			xmlFree (uri);

@@ -451,8 +451,9 @@ book_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 	spec = e_table_specification_new ();
 	filename = g_build_filename (base_dir, ETSPEC_FILENAME, NULL);
 	if (!e_table_specification_load_from_file (spec, filename))
-		g_critical ("Unable to load ETable specification file "
-			    "for address book");
+		g_critical (
+			"Unable to load ETable specification file "
+			"for address book");
 	g_free (filename);
 
 	factory = gal_view_factory_etable_new (spec);

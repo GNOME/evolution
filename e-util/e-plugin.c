@@ -142,14 +142,15 @@ ep_construct (EPlugin *ep,
 	gint res = -1;
 	gchar *localedir;
 
-	ep->domain = e_plugin_xml_prop(root, "domain");
+	ep->domain = e_plugin_xml_prop (root, "domain");
 	if (ep->domain
-	    && (localedir = e_plugin_xml_prop(root, "localedir"))) {
+	    && (localedir = e_plugin_xml_prop (root, "localedir"))) {
 #ifdef G_OS_WIN32
 		gchar *mapped_localedir =
-			e_util_replace_prefix (EVOLUTION_PREFIX,
-					       e_util_get_prefix (),
-					       localedir);
+			e_util_replace_prefix (
+				EVOLUTION_PREFIX,
+				e_util_get_prefix (),
+				localedir);
 		g_free (localedir);
 		localedir = mapped_localedir;
 #endif
@@ -157,14 +158,14 @@ ep_construct (EPlugin *ep,
 		g_free (localedir);
 	}
 
-	ep->name = e_plugin_xml_prop_domain(root, "name", ep->domain);
+	ep->name = e_plugin_xml_prop_domain (root, "name", ep->domain);
 
 	node = root->children;
 	while (node) {
-		if (strcmp((gchar *)node->name, "hook") == 0) {
+		if (strcmp ((gchar *) node->name, "hook") == 0) {
 			EPluginHook *hook;
 			EPluginHookClass *type;
-			gchar *class = e_plugin_xml_prop(node, "class");
+			gchar *class = e_plugin_xml_prop (node, "class");
 
 			if (class == NULL) {
 				g_warning (
@@ -176,7 +177,7 @@ ep_construct (EPlugin *ep,
 
 			if (ep->enabled
 			    && eph_types != NULL
-			    && (type = g_hash_table_lookup (
+				&& (type = g_hash_table_lookup (
 					eph_types, class)) != NULL) {
 				g_free (class);
 				hook = g_object_new (G_OBJECT_CLASS_TYPE (type), NULL);
@@ -193,12 +194,12 @@ ep_construct (EPlugin *ep,
 			} else {
 				g_free (class);
 			}
-		} else if (strcmp((gchar *)node->name, "description") == 0) {
+		} else if (strcmp ((gchar *) node->name, "description") == 0) {
 			ep->description =
 				e_plugin_xml_content_domain (node, ep->domain);
-		} else if (strcmp((gchar *)node->name, "author") == 0) {
-			gchar *name = e_plugin_xml_prop(node, "name");
-			gchar *email = e_plugin_xml_prop(node, "email");
+		} else if (strcmp ((gchar *) node->name, "author") == 0) {
+			gchar *name = e_plugin_xml_prop (node, "name");
+			gchar *email = e_plugin_xml_prop (node, "email");
 
 			if (name || email) {
 				EPluginAuthor *epa = g_malloc0 (sizeof (*epa));
@@ -319,22 +320,22 @@ ep_load_plugin (xmlNodePtr root,
 	EPluginClass *class;
 	EPlugin *ep;
 
-	id = e_plugin_xml_prop(root, "id");
+	id = e_plugin_xml_prop (root, "id");
 	if (id == NULL) {
-		g_warning("Invalid e-plugin entry in '%s': no id", pdoc->filename);
+		g_warning ("Invalid e-plugin entry in '%s': no id", pdoc->filename);
 		return NULL;
 	}
 
 	if (g_hash_table_lookup (ep_plugins, id)) {
-		g_warning("Plugin '%s' already defined", id);
+		g_warning ("Plugin '%s' already defined", id);
 		g_free (id);
 		return NULL;
 	}
 
-	prop = (gchar *)xmlGetProp(root, (const guchar *)"type");
+	prop = (gchar *) xmlGetProp (root, (const guchar *)"type");
 	if (prop == NULL) {
 		g_free (id);
-		g_warning("Invalid e-plugin entry in '%s': no type", pdoc->filename);
+		g_warning ("Invalid e-plugin entry in '%s': no type", pdoc->filename);
 		return NULL;
 	}
 
@@ -373,8 +374,8 @@ ep_load (const gchar *filename,
 		return -1;
 
 	root = xmlDocGetRootElement (doc);
-	if (strcmp((gchar *)root->name, "e-plugin-list") != 0) {
-		g_warning("No <e-plugin-list> root element: %s", filename);
+	if (strcmp ((gchar *) root->name, "e-plugin-list") != 0) {
+		g_warning ("No <e-plugin-list> root element: %s", filename);
 		xmlFreeDoc (doc);
 		return -1;
 	}
@@ -384,7 +385,7 @@ ep_load (const gchar *filename,
 	pdoc->filename = g_strdup (filename);
 
 	for (root = root->children; root; root = root->next) {
-		if (strcmp((gchar *)root->name, "e-plugin") == 0) {
+		if (strcmp ((gchar *) root->name, "e-plugin") == 0) {
 			gchar *plugin_load_level, *is_system_plugin;
 
 			plugin_load_level = NULL;
@@ -517,7 +518,7 @@ e_plugin_load_plugins (void)
 		const gchar *d;
 		const gchar *path = EVOLUTION_PLUGINDIR;
 
-		pd(printf("scanning plugin dir '%s'\n", path));
+		pd (printf ("scanning plugin dir '%s'\n", path));
 
 		dir = g_dir_open (path, 0, NULL);
 		if (dir == NULL) {

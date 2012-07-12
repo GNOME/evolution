@@ -176,7 +176,7 @@ get_next_word (GByteArray *msg_text,
 				*from = (*from) + 1;
 			}
 		} else if (new_line && *from + 3 < msg_text->len &&
-		           strncmp ((const gchar *) (msg_text->data + (*from)), "-- \n", 4) == 0) {
+			   strncmp ((const gchar *) (msg_text->data + (*from)), "-- \n", 4) == 0) {
 			/* signature delimiter finishes message text */
 			*from = msg_text->len;
 			return FALSE;

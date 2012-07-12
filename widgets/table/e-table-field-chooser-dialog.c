@@ -199,7 +199,7 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 	dialog = GTK_DIALOG (e_table_field_chooser_dialog);
 
 	e_table_field_chooser_dialog->etfc = NULL;
-	e_table_field_chooser_dialog->dnd_code = g_strdup("");
+	e_table_field_chooser_dialog->dnd_code = g_strdup ("");
 	e_table_field_chooser_dialog->full_header = NULL;
 	e_table_field_chooser_dialog->header = NULL;
 

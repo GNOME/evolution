@@ -2040,7 +2040,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	tmp = calculate_time (t_start, t_end);
 
 	/* To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"*/
-	tmp2 = g_strdup_printf(_("Time: %s %s"), tmp1, tmp);
+	tmp2 = g_strdup_printf (_("Time: %s %s"), tmp1, tmp);
 	if (zone && !cal_comp_util_compare_event_timezones (newcomp, client, default_zone)) {
 		g_free (tmp);
 		g_free (tmp1);
@@ -2181,7 +2181,7 @@ e_calendar_view_get_icalcomponent_summary (ECalClient *client,
 
 void
 e_calendar_view_emit_user_created (ECalendarView *cal_view,
-				   ECalClient *where_was_created)
+                                   ECalClient *where_was_created)
 {
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 

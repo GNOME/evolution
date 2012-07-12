@@ -501,9 +501,9 @@ em_utils_flag_for_followup_clear (GtkWindow *parent,
 		CamelMessageInfo *mi = camel_folder_get_message_info (folder, uids->pdata[i]);
 
 		if (mi) {
-			camel_message_info_set_user_tag(mi, "follow-up", NULL);
-			camel_message_info_set_user_tag(mi, "due-by", NULL);
-			camel_message_info_set_user_tag(mi, "completed-on", NULL);
+			camel_message_info_set_user_tag (mi, "follow-up", NULL);
+			camel_message_info_set_user_tag (mi, "due-by", NULL);
+			camel_message_info_set_user_tag (mi, "completed-on", NULL);
 			camel_folder_free_message_info (folder, mi);
 		}
 	}
@@ -543,9 +543,9 @@ em_utils_flag_for_followup_completed (GtkWindow *parent,
 		CamelMessageInfo *mi = camel_folder_get_message_info (folder, uids->pdata[i]);
 
 		if (mi) {
-			tag = camel_message_info_user_tag(mi, "follow-up");
+			tag = camel_message_info_user_tag (mi, "follow-up");
 			if (tag && tag[0])
-				camel_message_info_set_user_tag(mi, "completed-on", now);
+				camel_message_info_set_user_tag (mi, "completed-on", now);
 			camel_folder_free_message_info (folder, mi);
 		}
 	}
@@ -627,7 +627,8 @@ do_print_msg_to_file (GObject *source,
 
 	printer = e_mail_printer_new (parts_list);
 	e_mail_printer_set_export_filename (printer, filename);
-	g_signal_connect_swapped (printer, "done",
+	g_signal_connect_swapped (
+		printer, "done",
 		G_CALLBACK (g_object_unref), printer);
 
 	e_mail_printer_print (printer, GTK_PRINT_OPERATION_ACTION_EXPORT, NULL);
@@ -654,8 +655,10 @@ em_utils_print_messages_to_file (CamelFolder *folder,
 
 	parser = e_mail_parser_new (session);
 
-	e_mail_parser_parse (parser, folder, uid, message,
-		(GAsyncReadyCallback) do_print_msg_to_file, NULL,  g_strdup (filename));
+	e_mail_parser_parse (
+		parser, folder, uid, message,
+		(GAsyncReadyCallback) do_print_msg_to_file,
+		NULL, g_strdup (filename));
 
 	return TRUE;
 }
@@ -991,12 +994,12 @@ em_utils_build_export_filename (CamelFolder *folder,
 			}
 
 			ts = localtime (&reftime);
-			strftime(datetmp, 15, "%Y%m%d%H%M%S", ts);
+			strftime (datetmp, 15, "%Y%m%d%H%M%S", ts);
 
-			if (g_ascii_strcasecmp (exporttype, "pdf")==0)
+			if (g_ascii_strcasecmp (exporttype, "pdf") == 0)
 				file = g_strdup_printf ("%s_%s.pdf", datetmp, camel_message_info_subject (info));
 			else
-				file = g_strdup_printf ("%s_%s", datetmp, camel_message_info_subject(info));
+				file = g_strdup_printf ("%s_%s", datetmp, camel_message_info_subject (info));
 
 		}
 		camel_folder_free_message_info (folder, info);
@@ -1004,8 +1007,8 @@ em_utils_build_export_filename (CamelFolder *folder,
 		time_t reftime;
 		reftime = time (NULL);
 		ts = localtime (&reftime);
-		strftime(datetmp, 15, "%Y%m%d%H%M%S", ts);
-		if (g_ascii_strcasecmp (exporttype, "pdf")==0)
+		strftime (datetmp, 15, "%Y%m%d%H%M%S", ts);
+		if (g_ascii_strcasecmp (exporttype, "pdf") == 0)
 			file = g_strdup_printf ("%s_Untitled Message.pdf", datetmp);
 		else
 			file = g_strdup_printf ("%s_Untitled Message", datetmp);
@@ -1043,7 +1046,7 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 	gchar *exporttype;
 	gint exportname;
 
-	tmpdir = e_mkdtemp("drag-n-drop-XXXXXX");
+	tmpdir = e_mkdtemp ("drag-n-drop-XXXXXX");
 	if (tmpdir == NULL)
 		return;
 
@@ -1083,7 +1086,7 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 			if (em_utils_write_messages_to_stream (folder, uids, fstream) == 0) {
 				GdkAtom type;
 				/* terminate with \r\n to be compliant with the spec */
-				gchar *uri_crlf = g_strconcat(uri, "\r\n", NULL);
+				gchar *uri_crlf = g_strconcat (uri, "\r\n", NULL);
 
 				type = gtk_selection_data_get_target (data);
 				gtk_selection_data_set (data, type, 8, (guchar *) uri_crlf, strlen (uri_crlf));
@@ -1124,7 +1127,7 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 			if (em_utils_print_messages_to_file (folder, uids->pdata[i], filenames[i])) {
 				/* terminate with \r\n to be compliant with the spec */
 				uri = g_filename_to_uri (filenames[i], NULL, NULL);
-				uris[uris_count++] = g_strconcat(uri, "\r\n", NULL);
+				uris[uris_count++] = g_strconcat (uri, "\r\n", NULL);
 				g_free (uri);
 			}
 		}
@@ -1167,7 +1170,7 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
 	gint fd, i, res = 0;
 	gchar **uris;
 
-	d(printf(" * drop uri list\n"));
+	d (printf (" * drop uri list\n"));
 
 	uris = gtk_selection_data_get_uris (selection_data);
 
@@ -1180,7 +1183,7 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
 		if (url == NULL)
 			continue;
 
-		if (strcmp(url->protocol, "file") == 0
+		if (strcmp (url->protocol, "file") == 0
 		    && (fd = g_open (url->path, O_RDONLY | O_BINARY, 0)) != -1) {
 			stream = camel_stream_fs_new_with_fd (fd);
 			if (stream) {
@@ -1316,7 +1319,7 @@ em_utils_message_to_html (CamelSession *session,
 	if (append && *append)
 		camel_stream_write_string (mem, append, NULL, NULL);
 
-	camel_stream_write(mem, "", 1, NULL, NULL);
+	camel_stream_write (mem, "", 1, NULL, NULL);
 	g_object_unref (mem);
 
 	return (gchar *) g_byte_array_free (buf, FALSE);
@@ -1393,7 +1396,7 @@ em_utils_url_unescape_amp (const gchar *url)
 
 	amps = 0;
 	for (i = 0; url[i]; i++) {
-		if (url [i] == '&' && strncmp (url + i, "&amp;", 5) == 0)
+		if (url[i] == '&' && strncmp (url + i, "&amp;", 5) == 0)
 			amps++;
 	}
 
@@ -1405,7 +1408,7 @@ em_utils_url_unescape_amp (const gchar *url)
 	for (i = 0, j = 0; url[i]; i++, j++) {
 		buff[j] = url[i];
 
-		if (url [i] == '&' && strncmp (url + i, "&amp;", 5) == 0)
+		if (url[i] == '&' && strncmp (url + i, "&amp;", 5) == 0)
 			i += 4;
 	}
 	buff[j] = 0;

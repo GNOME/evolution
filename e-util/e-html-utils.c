@@ -158,7 +158,7 @@ is_citation (const guchar *c,
 	/* A line that starts with a ">" is a citation, unless it's
 	 * just mbox From-mangling...
 	 */
-	if (strncmp ((const gchar *)c, ">From ", 6) != 0)
+	if (strncmp ((const gchar *) c, ">From ", 6) != 0)
 		return TRUE;
 
 	/* If the previous line was a citation, then say this
@@ -281,36 +281,37 @@ e_text_to_html_full (const gchar *input,
 		    (flags & E_TEXT_TO_HTML_CONVERT_URLS)) {
 			gchar *tmpurl = NULL, *refurl = NULL, *dispurl = NULL;
 
-			if (!g_ascii_strncasecmp ((gchar *)cur, "http://", 7) ||
-			    !g_ascii_strncasecmp ((gchar *)cur, "https://", 8) ||
-			    !g_ascii_strncasecmp ((gchar *)cur, "ftp://", 6) ||
-			    !g_ascii_strncasecmp ((gchar *)cur, "nntp://", 7) ||
-			    !g_ascii_strncasecmp ((gchar *)cur, "mailto:", 7) ||
-			    !g_ascii_strncasecmp ((gchar *)cur, "news:", 5) ||
-			    !g_ascii_strncasecmp ((gchar *)cur, "file:", 5) ||
-			    !g_ascii_strncasecmp ((gchar *)cur, "callto:", 7) ||
-			    !g_ascii_strncasecmp ((gchar *)cur, "h323:", 5) ||
-			    !g_ascii_strncasecmp ((gchar *)cur, "sip:", 4) ||
-			    !g_ascii_strncasecmp ((gchar *)cur, "webcal:", 7)) {
+			if (!g_ascii_strncasecmp ((gchar *) cur, "http://", 7) ||
+			    !g_ascii_strncasecmp ((gchar *) cur, "https://", 8) ||
+			    !g_ascii_strncasecmp ((gchar *) cur, "ftp://", 6) ||
+			    !g_ascii_strncasecmp ((gchar *) cur, "nntp://", 7) ||
+			    !g_ascii_strncasecmp ((gchar *) cur, "mailto:", 7) ||
+			    !g_ascii_strncasecmp ((gchar *) cur, "news:", 5) ||
+			    !g_ascii_strncasecmp ((gchar *) cur, "file:", 5) ||
+			    !g_ascii_strncasecmp ((gchar *) cur, "callto:", 7) ||
+			    !g_ascii_strncasecmp ((gchar *) cur, "h323:", 5) ||
+			    !g_ascii_strncasecmp ((gchar *) cur, "sip:", 4) ||
+			    !g_ascii_strncasecmp ((gchar *) cur, "webcal:", 7)) {
 				tmpurl = url_extract (&cur, TRUE);
 				if (tmpurl) {
 					refurl = e_text_to_html (tmpurl, 0);
 					dispurl = g_strdup (refurl);
 				}
-			} else if (!g_ascii_strncasecmp ((gchar *)cur, "www.", 4) &&
+			} else if (!g_ascii_strncasecmp ((gchar *) cur, "www.", 4) &&
 				   is_url_char (*(cur + 4))) {
 				tmpurl = url_extract (&cur, FALSE);
 				if (tmpurl) {
 					dispurl = e_text_to_html (tmpurl, 0);
-					refurl = g_strdup_printf ("http://%s",
-								  dispurl);
+					refurl = g_strdup_printf (
+						"http://%s", dispurl);
 				}
 			}
 
 			if (tmpurl) {
-				out = check_size (&buffer, &buffer_size, out,
-						  strlen (refurl) +
-						  strlen (dispurl) + 15);
+				out = check_size (
+					&buffer, &buffer_size, out,
+					strlen (refurl) +
+					strlen (dispurl) + 15);
 				out += sprintf (out,
 						"<a href=\"%s\">%s</a>",
 						refurl, dispurl);
@@ -331,8 +332,9 @@ e_text_to_html_full (const gchar *input,
 			addr = email_address_extract (&cur, &out, linestart);
 			if (addr) {
 				dispaddr = e_text_to_html (addr, 0);
-				outaddr = g_strdup_printf ("<a href=\"mailto:%s\">%s</a>",
-							   addr, dispaddr);
+				outaddr = g_strdup_printf (
+					"<a href=\"mailto:%s\">%s</a>",
+					addr, dispaddr);
 				out = check_size (&buffer, &buffer_size, out, strlen (outaddr));
 				out += sprintf (out, "%s", outaddr);
 				col += strlen (addr);
@@ -396,8 +398,8 @@ e_text_to_html_full (const gchar *input,
 			if (flags & (E_TEXT_TO_HTML_CONVERT_SPACES |
 				     E_TEXT_TO_HTML_CONVERT_NL)) {
 				do {
-					out = check_size (&buffer, &buffer_size,
-						    out, 7);
+					out = check_size (
+						&buffer, &buffer_size, out, 7);
 					strcpy (out, "&nbsp;");
 					out += 6;
 					col++;
@@ -428,7 +430,7 @@ e_text_to_html_full (const gchar *input,
 				if (flags & E_TEXT_TO_HTML_ESCAPE_8BIT)
 					*out++ = '?';
 				else
-					out += g_snprintf(out, 9, "&#%d;", u);
+					out += g_snprintf (out, 9, "&#%d;", u);
 			}
 			col++;
 			break;
@@ -541,7 +543,8 @@ main (gint argc,
 
 		if ((url && (!url_tests[i].url || strcmp (url, url_tests[i].url) != 0)) ||
 		    (!url && url_tests[i].url)) {
-			printf ("FAILED on \"%s\" -> %s\n  (got %s)\n\n",
+			printf (
+				"FAILED on \"%s\" -> %s\n  (got %s)\n\n",
 				url_tests[i].text,
 				url_tests[i].url ? url_tests[i].url : "(nothing)",
 				url ? url : "(nothing)");

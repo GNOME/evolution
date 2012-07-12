@@ -248,8 +248,9 @@ e_ascii_dtostr (gchar *buffer,
 			p++;
 			if (decimal_point_len > 1) {
 				rest_len = strlen (p + (decimal_point_len - 1));
-				memmove (p, p + (decimal_point_len - 1),
-					 rest_len);
+				memmove (
+					p, p + (decimal_point_len - 1),
+					rest_len);
 				p[rest_len] = 0;
 			}
 		}

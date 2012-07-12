@@ -879,13 +879,13 @@ configure_sort_dialog (ETableConfig *config,
 
 		snprintf (
 			buffer, sizeof (buffer),
-			"radiobutton-ascending-sort-%d", i+1);
+			"radiobutton-ascending-sort-%d", i + 1);
 		config->sort[i].radio_ascending = e_builder_get_widget (
 			builder, buffer);
 
 		snprintf (
 			buffer, sizeof (buffer),
-			"radiobutton-descending-sort-%d", i+1);
+			"radiobutton-descending-sort-%d", i + 1);
 		config->sort[i].radio_descending = e_builder_get_widget (
 			builder, buffer);
 
@@ -999,19 +999,19 @@ configure_group_dialog (ETableConfig *config,
 
 		snprintf (
 			buffer, sizeof (buffer),
-			"radiobutton-ascending-group-%d", i+1);
+			"radiobutton-ascending-group-%d", i + 1);
 		config->group[i].radio_ascending = e_builder_get_widget (
 			builder, buffer);
 
 		snprintf (
 			buffer, sizeof (buffer),
-			"radiobutton-descending-group-%d", i+1);
+			"radiobutton-descending-group-%d", i + 1);
 		config->group[i].radio_descending = e_builder_get_widget (
 			builder, buffer);
 
 		snprintf (
 			buffer, sizeof (buffer),
-			"checkbutton-group-%d", i+1);
+			"checkbutton-group-%d", i + 1);
 		config->group[i].view_check = e_builder_get_widget (
 			builder, buffer);
 

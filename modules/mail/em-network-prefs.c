@@ -119,7 +119,7 @@ emnp_set_sensitiveness (EMNetworkPrefs *prefs,
 #if 0
 	if (type == NETWORK_PROXY_AUTOCONFIG) {
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->auto_proxy_url, sensitivity);
-		d(g_print ("Setting sensitivity of autoconfig to: %d\n", sensitivity));
+		d (g_print ("Setting sensitivity of autoconfig to: %d\n", sensitivity));
 	} else
 #endif
 	if (type == NETWORK_PROXY_MANUAL) {
@@ -147,7 +147,7 @@ emnp_set_sensitiveness (EMNetworkPrefs *prefs,
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->auth_user, state);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->auth_pwd, state);
 
-		d(g_print ("Setting sensitivity of manual proxy to: %d\n", sensitivity));
+		d (g_print ("Setting sensitivity of manual proxy to: %d\n", sensitivity));
 	}
 }
 
@@ -211,11 +211,11 @@ widget_entry_changed_cb (GtkWidget *widget,
 	if (GTK_IS_SPIN_BUTTON (widget)) {
 		port = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
 		g_settings_set_int (proxy_settings, key, port);
-		d(g_print ("%s:%s: %s is SpinButton: value = [%d]\n", G_STRLOC, G_STRFUNC, key, port));
+		d (g_print ("%s:%s: %s is SpinButton: value = [%d]\n", G_STRLOC, G_STRFUNC, key, port));
 	} else if (GTK_IS_ENTRY (widget)) {
 		value = gtk_entry_get_text (GTK_ENTRY (widget));
 		g_settings_set_string (proxy_settings, key, value);
-		d(g_print ("%s:%s: %s is Entry: value = [%s]\n", G_STRLOC, G_STRFUNC, key, value));
+		d (g_print ("%s:%s: %s is Entry: value = [%s]\n", G_STRLOC, G_STRFUNC, key, value));
 	}
 }
 
@@ -331,7 +331,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	 *
 	 * The network preferences settings page.
 	 */
-	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.networkPrefs");
+	ec = em_config_new (E_CONFIG_BOOK, "org.gnome.evolution.mail.networkPrefs");
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emnp_items); i++)
 		l = g_slist_prepend (l, &emnp_items[i]);
@@ -353,14 +353,14 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->sys_proxy, FALSE);
 
-	d(g_print ("Sys settings ----!!! \n"));
+	d (g_print ("Sys settings ----!!! \n"));
 
 	prefs->no_proxy = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "rdoNoProxy"));
 	gtk_toggle_button_set_active (prefs->no_proxy, val == NETWORK_PROXY_DIRECT_CONNECTION);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->no_proxy, FALSE);
 
-	d(g_print ("No proxy settings ----!!! \n"));
+	d (g_print ("No proxy settings ----!!! \n"));
 
 	/* no auto-proxy at the moment */
 #if 0
@@ -377,7 +377,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->auto_proxy, FALSE);
 #endif
 
-	d(g_print ("Auto config settings ----!!! \n"));
+	d (g_print ("Auto config settings ----!!! \n"));
 
 	prefs->manual_proxy = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "rdoManualProxy"));
 	prefs->http_host = GTK_ENTRY (e_builder_get_widget (prefs->builder, "txtHttpHost"));
@@ -466,7 +466,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->manual_proxy, FALSE);
-	d(g_print ("Manual settings ----!!! \n"));
+	d (g_print ("Manual settings ----!!! \n"));
 
 	buf = g_settings_get_string (prefs->proxy_settings, "http-host");
 	gtk_entry_set_text (prefs->http_host, buf ? buf : "");

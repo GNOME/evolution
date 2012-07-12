@@ -50,12 +50,9 @@ e_notice (gpointer parent,
 	va_start (args, format);
 	str = g_strdup_vprintf (format, args);
 
-	dialog = gtk_message_dialog_new (NULL,
-					 GTK_DIALOG_DESTROY_WITH_PARENT,
-					 type,
-					 GTK_BUTTONS_OK,
-					 "%s",
-					 str);
+	dialog = gtk_message_dialog_new (
+		NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+		type, GTK_BUTTONS_OK, "%s", str);
 	va_end (args);
 	g_free (str);
 

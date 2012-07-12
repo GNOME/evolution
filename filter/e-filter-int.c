@@ -112,11 +112,11 @@ filter_int_xml_decode (EFilterElement *element,
 	gchar *name, *type;
 	gchar *intval;
 
-	name = (gchar *)xmlGetProp (node, (xmlChar *)"name");
+	name = (gchar *) xmlGetProp (node, (xmlChar *)"name");
 	xmlFree (element->name);
 	element->name = name;
 
-	type = (gchar *)xmlGetProp (node, (xmlChar *)"type");
+	type = (gchar *) xmlGetProp (node, (xmlChar *)"type");
 	g_free (filter_int->type);
 	filter_int->type = g_strdup (type);
 	xmlFree (type);

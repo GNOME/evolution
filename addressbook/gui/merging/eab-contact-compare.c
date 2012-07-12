@@ -693,7 +693,7 @@ use_common_book_client (EBookClient *book_client,
 
 	contact_file_as = e_contact_get (contact, E_CONTACT_FILE_AS);
 	if (contact_file_as) {
-		query_parts [p++] = g_strdup_printf ("(contains \"file_as\" \"%s\")", contact_file_as);
+		query_parts[p++] = g_strdup_printf ("(contains \"file_as\" \"%s\")", contact_file_as);
 		g_free (contact_file_as);
 	}
 

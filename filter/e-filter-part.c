@@ -153,15 +153,15 @@ e_filter_part_xml_create (EFilterPart *part,
 	g_return_val_if_fail (node != NULL, FALSE);
 	g_return_val_if_fail (E_IS_RULE_CONTEXT (context), FALSE);
 
-	str = (gchar *)xmlGetProp (node, (xmlChar *)"name");
+	str = (gchar *) xmlGetProp (node, (xmlChar *)"name");
 	part->name = g_strdup (str);
 	if (str)
 		xmlFree (str);
 
 	n = node->children;
 	while (n) {
-		if (!strcmp ((gchar *)n->name, "input")) {
-			type = (gchar *)xmlGetProp (n, (xmlChar *)"type");
+		if (!strcmp ((gchar *) n->name, "input")) {
+			type = (gchar *) xmlGetProp (n, (xmlChar *)"type");
 			if (type != NULL
 			    && (el = e_rule_context_new_element (context, type)) != NULL) {
 				e_filter_element_xml_create (el, n);
@@ -170,15 +170,15 @@ e_filter_part_xml_create (EFilterPart *part,
 			} else {
 				g_warning ("Invalid xml format, missing/unknown input type");
 			}
-		} else if (!strcmp ((gchar *)n->name, "title") ||
-			   !strcmp ((gchar *)n->name, "_title")) {
+		} else if (!strcmp ((gchar *) n->name, "title") ||
+			   !strcmp ((gchar *) n->name, "_title")) {
 			if (!part->title) {
 				str = (gchar *) xmlNodeGetContent (n);
 				part->title = g_strdup (str);
 				if (str)
 					xmlFree (str);
 			}
-		} else if (!strcmp ((gchar *)n->name, "code")) {
+		} else if (!strcmp ((gchar *) n->name, "code")) {
 			if (!part->code) {
 				str = (gchar *) xmlNodeGetContent (n);
 				part->code = g_strdup (str);
@@ -203,7 +203,7 @@ e_filter_part_xml_encode (EFilterPart *part)
 	g_return_val_if_fail (E_IS_FILTER_PART (part), NULL);
 
 	node = xmlNewNode (NULL, (xmlChar *)"part");
-	xmlSetProp (node, (xmlChar *)"name", (xmlChar *)part->name);
+	xmlSetProp (node, (xmlChar *)"name", (xmlChar *) part->name);
 
 	for (link = part->elements; link != NULL; link = g_list_next (link)) {
 		EFilterElement *element = link->data;
@@ -483,7 +483,7 @@ e_filter_part_expand_code (EFilterPart *part,
 	start = source;
 
 	while (start && (newstart = strstr (start, "${"))
-		&& (end = strstr (newstart+2, "}")) ) {
+		&& (end = strstr (newstart + 2, "}")) ) {
 		EFilterElement *element;
 
 		len = end - newstart - 2;
@@ -496,15 +496,15 @@ e_filter_part_expand_code (EFilterPart *part,
 
 		element = e_filter_part_find_element (part, name);
 		if (element != NULL) {
-			g_string_append_printf (out, "%.*s", (gint)(newstart-start), start);
+			g_string_append_printf (out, "%.*s", (gint)(newstart - start), start);
 			e_filter_element_format_sexp (element, out);
 #if 0
 		} else if ((val = g_hash_table_lookup (part->globals, name))) {
-			g_string_append_printf (out, "%.*s", newstart-start, start);
+			g_string_append_printf (out, "%.*s", newstart - start, start);
 			camel_sexp_encode_string (out, val);
 #endif
 		} else {
-			g_string_append_printf (out, "%.*s", (gint)(end-start+1), start);
+			g_string_append_printf (out, "%.*s", (gint)(end - start + 1), start);
 		}
 		start = end + 1;
 	}

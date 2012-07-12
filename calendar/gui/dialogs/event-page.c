@@ -1918,9 +1918,9 @@ event_page_set_delegate (EventPage *page,
 	g_return_if_fail (IS_EVENT_PAGE (page));
 
 	if (set)
-		gtk_label_set_text_with_mnemonic ((GtkLabel *)page->priv->attendees_label, _("_Delegatees"));
+		gtk_label_set_text_with_mnemonic ((GtkLabel *) page->priv->attendees_label, _("_Delegatees"));
 	else
-		gtk_label_set_text_with_mnemonic ((GtkLabel *)page->priv->attendees_label, _("Atte_ndees"));
+		gtk_label_set_text_with_mnemonic ((GtkLabel *) page->priv->attendees_label, _("Atte_ndees"));
 }
 
 static void
@@ -2223,7 +2223,7 @@ remove_clicked_cb (GtkButton *btn,
 			g_warning ("Cannot delete attendee\n");
 			continue;
 		} else if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL) {
-			g_warning("Not enough rights to delete attendee: %s\n", e_meeting_attendee_get_address(ia));
+			g_warning ("Not enough rights to delete attendee: %s\n", e_meeting_attendee_get_address (ia));
 			continue;
 		}
 
@@ -3420,19 +3420,19 @@ init_widgets (EventPage *epage)
 	switch (priv->alarm_units) {
 	case E_DURATION_DAYS:
 		if (priv->alarm_interval != 1) {
-			combo_label = g_strdup_printf (ngettext("%d day before appointment", "%d days before appointment", priv->alarm_interval), priv->alarm_interval);
+			combo_label = g_strdup_printf (ngettext ("%d day before appointment", "%d days before appointment", priv->alarm_interval), priv->alarm_interval);
 		}
 		break;
 
 	case E_DURATION_HOURS:
 		if (priv->alarm_interval != 1) {
-			combo_label = g_strdup_printf (ngettext("%d hour before appointment", "%d hours before appointment", priv->alarm_interval), priv->alarm_interval);
+			combo_label = g_strdup_printf (ngettext ("%d hour before appointment", "%d hours before appointment", priv->alarm_interval), priv->alarm_interval);
 		}
 		break;
 
 	case E_DURATION_MINUTES:
 		if (priv->alarm_interval != 15) {
-			combo_label = g_strdup_printf (ngettext("%d minute before appointment", "%d minutes before appointment", priv->alarm_interval), priv->alarm_interval);
+			combo_label = g_strdup_printf (ngettext ("%d minute before appointment", "%d minutes before appointment", priv->alarm_interval), priv->alarm_interval);
 		}
 		break;
 	}
@@ -3736,8 +3736,8 @@ event_page_get_alarm_page (EventPage *epage)
 
 	priv = epage->priv;
 
-	tmp = GW("dialog-vbox1");
-	alarm_page = GW("vbox2");
+	tmp = GW ("dialog-vbox1");
+	alarm_page = GW ("vbox2");
 	g_object_ref (alarm_page);
 	gtk_container_remove ((GtkContainer *) tmp, alarm_page);
 

@@ -313,7 +313,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name_string);
 #ifdef ACC_DEBUG
-	printf("EvoAcc:  name for event accobj=%p, is %s\n",
+	printf ("EvoAcc:  name for event accobj=%p, is %s\n",
 	       (gpointer) accessible, new_name);
 #endif
 	g_free (name_string);

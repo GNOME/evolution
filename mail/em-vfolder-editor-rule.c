@@ -232,7 +232,7 @@ set_sensitive (struct _source_data *data)
 
 static void
 selection_changed_cb (GtkTreeSelection *selection,
-		      struct _source_data *data)
+                      struct _source_data *data)
 {
 	set_sensitive (data);
 }
@@ -256,21 +256,22 @@ select_source_with_changed (GtkWidget *widget,
 
 static void
 autoupdate_toggled_cb (GtkToggleButton *toggle,
-		       struct _source_data *data)
+                       struct _source_data *data)
 {
 	em_vfolder_rule_set_autoupdate (data->vr, gtk_toggle_button_get_active (toggle));
 }
 
 static void
 include_subfolders_toggled_cb (GtkCellRendererToggle *cell_renderer,
-			       const gchar *path_string,
-			       struct _source_data *data)
+                               const gchar *path_string,
+                               struct _source_data *data)
 {
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
 
-	gtk_cell_renderer_toggle_set_active (cell_renderer,
+	gtk_cell_renderer_toggle_set_active (
+		cell_renderer,
 		!gtk_cell_renderer_toggle_get_active (cell_renderer));
 
 	model = gtk_tree_view_get_model (data->tree_view);
@@ -279,13 +280,15 @@ include_subfolders_toggled_cb (GtkCellRendererToggle *cell_renderer,
 	if (gtk_tree_model_get_iter (model, &iter, path)) {
 		gchar *source = NULL;
 
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+		gtk_list_store_set (
+			GTK_LIST_STORE (model), &iter,
 			2, gtk_cell_renderer_toggle_get_active (cell_renderer),
 			-1);
 
 		gtk_tree_model_get (model, &iter, 1, &source, -1);
 		if (source) {
-			em_vfolder_rule_source_set_include_subfolders (data->vr, source,
+			em_vfolder_rule_source_set_include_subfolders (
+				data->vr, source,
 				gtk_cell_renderer_toggle_get_active (cell_renderer));
 			g_free (source);
 		}
@@ -514,7 +517,8 @@ get_widget (EFilterRule *fr,
 	tmp = g_strdup_printf ("<b>%s</b>", _("Search Folder Sources"));
 	label = gtk_label_new (tmp);
 	g_free (tmp);
-	g_object_set (G_OBJECT (label),
+	g_object_set (
+		G_OBJECT (label),
 		"use-markup", TRUE,
 		"xalign", 0.0,
 		NULL);
@@ -529,7 +533,8 @@ get_widget (EFilterRule *fr,
 	gtk_container_add (GTK_CONTAINER (hgrid), label);
 
 	vgrid = gtk_grid_new ();
-	g_object_set (G_OBJECT (vgrid),
+	g_object_set (
+		G_OBJECT (vgrid),
 		"orientation", GTK_ORIENTATION_VERTICAL,
 		"border-width", 6,
 		"row-spacing", 6,
@@ -565,7 +570,8 @@ get_widget (EFilterRule *fr,
 	gtk_container_add (GTK_CONTAINER (vgrid), hgrid);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	g_object_set (G_OBJECT (scrolled_window),
+	g_object_set (
+		G_OBJECT (scrolled_window),
 		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
 		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
 		"shadow-type", GTK_SHADOW_IN,
@@ -580,7 +586,8 @@ get_widget (EFilterRule *fr,
 	renderer = gtk_cell_renderer_text_new ();
 	tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tree_view), FALSE);
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (tree_view),
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (tree_view),
 		-1, "column", renderer, "markup", 0, NULL);
 
 	renderer = gtk_cell_renderer_toggle_new ();
@@ -589,7 +596,8 @@ get_widget (EFilterRule *fr,
 	g_signal_connect (renderer, "toggled", G_CALLBACK (include_subfolders_toggled_cb), data);
 
 	renderer = gtk_cell_renderer_text_new ();
-	g_object_set (G_OBJECT (renderer),
+	g_object_set (
+		G_OBJECT (renderer),
 		"editable", FALSE,
 		"text", _("include subfolders"),
 		NULL);
@@ -602,7 +610,8 @@ get_widget (EFilterRule *fr,
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), tree_view);
 
 	vgrid = gtk_grid_new ();
-	g_object_set (G_OBJECT (vgrid),
+	g_object_set (
+		G_OBJECT (vgrid),
 		"orientation", GTK_ORIENTATION_VERTICAL,
 		"border-width", 6,
 		"row-spacing", 6,
@@ -610,11 +619,13 @@ get_widget (EFilterRule *fr,
 	gtk_container_add (GTK_CONTAINER (hgrid), vgrid);
 
 	data->buttons[BUTTON_ADD] = gtk_button_new_from_stock (GTK_STOCK_ADD);
-	g_signal_connect (data->buttons[BUTTON_ADD], "clicked",
+	g_signal_connect (
+		data->buttons[BUTTON_ADD], "clicked",
 		G_CALLBACK (source_add), data);
 
 	data->buttons[BUTTON_REMOVE] = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-	g_signal_connect (data->buttons[BUTTON_REMOVE], "clicked",
+	g_signal_connect (
+		data->buttons[BUTTON_REMOVE], "clicked",
 		G_CALLBACK (source_remove), data);
 
 	gtk_container_add (GTK_CONTAINER (vgrid), data->buttons[BUTTON_ADD]);
@@ -633,7 +644,8 @@ get_widget (EFilterRule *fr,
 			CAMEL_SESSION (session), source, NULL);
 
 		gtk_list_store_append (data->model, &iter);
-		gtk_list_store_set (data->model, &iter,
+		gtk_list_store_set (
+			data->model, &iter,
 			0, markup,
 			1, source,
 			2, em_vfolder_rule_source_get_include_subfolders (vr, source),

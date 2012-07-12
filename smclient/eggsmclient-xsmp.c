@@ -851,7 +851,7 @@ save_state (EggSMClientXSMP *xsmp)
 	  for (i = 0; i < restart->len; i++)
 	    restart->pdata[i] = g_shell_quote (restart->pdata[i]);
 	  g_ptr_array_add (restart, NULL);
-	  exec = g_strjoinv (" ", (gchar **)restart->pdata);
+	  exec = g_strjoinv (" ", (gchar **) restart->pdata);
 	  g_strfreev ((gchar **) restart->pdata);
 	  g_ptr_array_free (restart, FALSE);
 

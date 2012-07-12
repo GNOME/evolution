@@ -266,7 +266,7 @@ dialog_response (GtkDialog *gd,
 {
 	switch (button) {
 	case GTK_RESPONSE_CANCEL:
-		d(printf("cancelled whole thing\n"));
+		d (printf ("cancelled whole thing\n"));
 		if (!data->cancelled) {
 			data->cancelled = TRUE;
 			g_hash_table_foreach (data->active, (GHFunc) cancel_send_info, NULL);
@@ -274,7 +274,7 @@ dialog_response (GtkDialog *gd,
 		gtk_dialog_set_response_sensitive (gd, GTK_RESPONSE_CANCEL, FALSE);
 		break;
 	default:
-		d(printf("hiding dialog\n"));
+		d (printf ("hiding dialog\n"));
 		g_hash_table_foreach (data->active, (GHFunc) hide_send_info, NULL);
 		data->gd = NULL;
 		/*gtk_widget_destroy((GtkWidget *)gd);*/
@@ -783,12 +783,12 @@ update_folders (gchar *uri,
 {
 	time_t now = *((time_t *) data);
 
-	d(printf("checking update for folder: %s\n", info->uri));
+	d (printf ("checking update for folder: %s\n", info->uri));
 
 	/* let it flow through to the folders every 10 seconds */
 	/* we back off slowly as we progress */
 	if (now > info->update + 10 + info->count *5) {
-		d(printf("upating a folder: %s\n", info->uri));
+		d (printf ("upating a folder: %s\n", info->uri));
 		/*camel_folder_thaw(info->folder);
 		  camel_folder_freeze (info->folder);*/
 		info->update = now;
@@ -810,7 +810,7 @@ receive_status (CamelFilterDriver *driver,
 	g_hash_table_foreach (info->data->folders, (GHFunc) update_folders, &now);
 
 	if (info->data->inbox && now > info->data->inbox_update + 20) {
-		d(printf("updating inbox too\n"));
+		d (printf ("updating inbox too\n"));
 		/* this doesn't seem to work right :( */
 		/*camel_folder_thaw(info->data->inbox);
 		  camel_folder_freeze (info->data->inbox);*/
@@ -890,7 +890,7 @@ receive_done (gint still_more,
 		gtk_widget_set_sensitive (info->cancel_button, FALSE);
 
 	/* remove/free this active download */
-	d(printf("%s: freeing info %p\n", G_STRFUNC, info));
+	d (printf ("%s: freeing info %p\n", G_STRFUNC, info));
 	if (info->type == SEND_SEND) {
 		gpointer key = NULL, value = NULL;
 		if (!g_hash_table_lookup_extended (info->data->active, SEND_URI_KEY, &key, &value))
@@ -1017,7 +1017,7 @@ struct _refresh_folders_msg {
 static gchar *
 refresh_folders_desc (struct _refresh_folders_msg *m)
 {
-	return g_strdup_printf(_("Checking for new mail"));
+	return g_strdup_printf (_("Checking for new mail"));
 }
 
 static void
@@ -1319,7 +1319,7 @@ mail_receive_service (CamelService *service)
 		info->cancellable, "status",
 		G_CALLBACK (operation_status), info);
 
-	d(printf("Adding new info %p\n", info));
+	d (printf ("Adding new info %p\n", info));
 
 	g_hash_table_insert (data->active, g_strdup (uid), info);
 
@@ -1378,12 +1378,12 @@ mail_send (EMailSession *session)
 	info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 	if (info != NULL) {
 		info->again++;
-		d(printf("send of %s still in progress\n", transport->url));
+		d (printf ("send of %s still in progress\n", transport->url));
 		g_object_unref (service);
 		return;
 	}
 
-	d(printf("starting non-interactive send of '%s'\n", transport->url));
+	d (printf ("starting non-interactive send of '%s'\n", transport->url));
 
 	type = get_receive_type (service);
 	if (type == SEND_INVALID) {
@@ -1403,7 +1403,7 @@ mail_send (EMailSession *session)
 	info->state = SEND_ACTIVE;
 	info->timeout_id = 0;
 
-	d(printf("Adding new info %p\n", info));
+	d (printf ("Adding new info %p\n", info));
 
 	g_hash_table_insert (data->active, g_strdup (SEND_URI_KEY), info);
 

@@ -138,7 +138,7 @@ vfolder_editor_context_new_element (ERuleContext *context,
 		return e_filter_option_new ();
 
 	if (strcmp (type, "score") == 0)
-		return e_filter_int_new_type("score", -3, 3);
+		return e_filter_int_new_type ("score", -3, 3);
 
 	if (strcmp (type, "folder") == 0)
 		return em_filter_editor_folder_element_new (priv->session);

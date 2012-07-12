@@ -753,7 +753,7 @@ comp_to_list (ESourceRegistry *registry,
 			e_destination_set_email (
 				destination, itip_strip_mailto (att->value));
 			g_ptr_array_add (array, destination);
-			d(printf ("itip-utils.c: comp_to_list: name: %s, email: %s\n",
+			d (printf ("itip-utils.c: comp_to_list: name: %s, email: %s\n",
 				  e_destination_get_name (destination),
 				  e_destination_get_email (destination)));
 		}
@@ -1112,10 +1112,10 @@ comp_server_send (ECalComponentItipMethod method,
 	GError *error = NULL;
 
 	top_level = comp_toplevel_with_zones (method, comp, cal_client, zones);
-	d(printf ("itip-utils.c: comp_server_send: calling e_cal_send_objects... \n"));
+	d (printf ("itip-utils.c: comp_server_send: calling e_cal_send_objects... \n"));
 	if (!e_cal_client_send_objects_sync (cal_client, top_level, users, &returned_icalcomp, NULL, &error)) {
 		/* FIXME Really need a book problem status code */
-		d(printf ("itip-utils.c: return value from e_cal_send_objects is: %d", error->code));
+		d (printf ("itip-utils.c: return value from e_cal_send_objects is: %d", error->code));
 		if (error) {
 			if (g_error_matches (error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_ID_ALREADY_EXISTS)) {
 				e_notice (
@@ -1133,7 +1133,7 @@ comp_server_send (ECalComponentItipMethod method,
 			retval = FALSE;
 		}
 	} else {
-	  d(printf ("itip-utils.c: e_cal_send_objects returned without errors\n"));
+	  d (printf ("itip-utils.c: e_cal_send_objects returned without errors\n"));
 	}
 
 	g_clear_error (&error);
@@ -1690,7 +1690,7 @@ itip_send_comp (ESourceRegistry *registry,
 
 	/* Give the server a chance to manipulate the comp */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
-		d(printf ("itip-utils.c: itip_send_comp: calling comp_server_send... \n"));
+		d (printf ("itip-utils.c: itip_send_comp: calling comp_server_send... \n"));
 		if (!comp_server_send (method, send_comp, cal_client, zones, &users))
 			goto cleanup;
 	}
@@ -2187,7 +2187,7 @@ itip_publish_comp (ECalClient *cal_client,
 	/* send message to server */
 	soup_session_send_message (session, msg);
 	if (!SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
-		g_warning(G_STRLOC ": Could not publish Free/Busy: %d: %s",
+		g_warning (G_STRLOC ": Could not publish Free/Busy: %d: %s",
 			  msg->status_code,
 			  msg->reason_phrase);
 		g_object_unref (msg);

@@ -306,8 +306,9 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 	if (m->fetch_count > 0) {
 		/* We probably should fetch some old messages first. */
-		m->still_more = camel_folder_fetch_messages_sync (folder, m->fetch_type,
-				m->fetch_count, cancellable, error) ? 1 : 0;
+		m->still_more = camel_folder_fetch_messages_sync (
+			folder, m->fetch_type,
+			m->fetch_count, cancellable, error) ? 1 : 0;
 	}
 
 	service = CAMEL_SERVICE (parent_store);
@@ -661,7 +662,7 @@ mail_send_message (struct _send_queue_msg *m,
 	for (header = xev; header; header = header->next) {
 		gchar *uri;
 
-		if (strcmp(header->name, "X-Evolution-PostTo") != 0)
+		if (strcmp (header->name, "X-Evolution-PostTo") != 0)
 			continue;
 
 		/* TODO: don't lose errors */
@@ -745,7 +746,7 @@ mail_send_message (struct _send_queue_msg *m,
 
 				description = camel_folder_get_description (folder);
 				if (err->len)
-					g_string_append(err, "\n\n");
+					g_string_append (err, "\n\n");
 				g_string_append_printf (
 					err, _("Failed to append to %s: %s\n"
 					"Appending to local 'Sent' folder instead."),
@@ -767,7 +768,7 @@ mail_send_message (struct _send_queue_msg *m,
 					goto exit;
 
 				if (err->len)
-					g_string_append(err, "\n\n");
+					g_string_append (err, "\n\n");
 				g_string_append_printf (
 					err, _("Failed to append to "
 					"local 'Sent' folder: %s"),
@@ -872,7 +873,7 @@ send_queue_exec (struct _send_queue_msg *m,
 	gint i, j;
 	GError *local_error = NULL;
 
-	d(printf("sending queue\n"));
+	d (printf ("sending queue\n"));
 
 	sent_folder =
 		e_mail_session_get_local_folder (
@@ -912,7 +913,7 @@ send_queue_exec (struct _send_queue_msg *m,
 
 		report_status (
 			m, CAMEL_FILTER_STATUS_START, pc,
-			_("Sending message %d of %d"), i+1,
+			_("Sending message %d of %d"), i + 1,
 			send_uids->len);
 
 		camel_operation_progress (
@@ -963,9 +964,10 @@ send_queue_exec (struct _send_queue_msg *m,
 			/* Translators: The string is distinguished by total
 			 * count of messages to be sent.  Failed messages is
 			 * always more than zero. */
-			ngettext ("Failed to send a message",
-				  "Failed to send %d of %d messages",
-				  send_uids->len),
+			ngettext (
+				"Failed to send a message",
+				"Failed to send %d of %d messages",
+				send_uids->len),
 			j, send_uids->len);
 	else if (g_error_matches (
 			m->base.error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
@@ -1201,8 +1203,9 @@ struct _sync_folder_msg {
 static gchar *
 sync_folder_desc (struct _sync_folder_msg *m)
 {
-	return g_strdup_printf (_("Storing folder '%s'"),
-			       camel_folder_get_full_name (m->folder));
+	return g_strdup_printf (
+		_("Storing folder '%s'"),
+		camel_folder_get_full_name (m->folder));
 }
 
 static void
@@ -1273,10 +1276,11 @@ sync_store_desc (struct _sync_store_msg *m)
 	uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (url);
 
-	res = g_strdup_printf (m->expunge
-			      ?_("Expunging and storing account '%s'")
-			      :_("Storing account '%s'"),
-			      uri);
+	res = g_strdup_printf (
+		m->expunge ?
+		_("Expunging and storing account '%s'") :
+		_("Storing account '%s'"),
+		uri);
 	g_free (uri);
 
 	return res;

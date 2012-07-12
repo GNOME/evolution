@@ -147,7 +147,8 @@ em_filter_editor_construct (EMFilterEditor *fe,
 
 	for (i = 0; source_names[i].source; i++) {
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
+		gtk_list_store_set (
+			store, &iter,
 			0, source_names[i].name,
 			-1);
 		sources = g_slist_append (sources, g_strdup (source_names[i].source));

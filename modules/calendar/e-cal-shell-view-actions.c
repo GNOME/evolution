@@ -321,8 +321,8 @@ action_calendar_purge_cb (GtkAction *action,
 		GTK_MESSAGE_WARNING,
 		GTK_BUTTONS_OK_CANCEL,
 		_("This operation will permanently erase all events older "
-		  "than the selected amount of time. If you continue, you "
-		  "will not be able to recover these events."));
+		"than the selected amount of time. If you continue, you "
+		"will not be able to recover these events."));
 
 	gtk_dialog_set_default_response (
 		GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);

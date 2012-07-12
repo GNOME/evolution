@@ -655,7 +655,7 @@ action_about_cb (GtkAction *action,
 		"documenters", documenters,
 		"translator-credits", translator_credits,
 		"logo-icon-name", "evolution",
-	        "license-type", GTK_LICENSE_GPL_2_0,
+		"license-type", GTK_LICENSE_GPL_2_0,
 		NULL);
 }
 

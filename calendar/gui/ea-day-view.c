@@ -113,7 +113,7 @@ ea_day_view_new (GtkWidget *widget)
 	atk_object_initialize (accessible, widget);
 
 #ifdef ACC_DEBUG
-	printf ("EvoAcc: ea_day_view created %p\n", (gpointer)accessible);
+	printf ("EvoAcc: ea_day_view created %p\n", (gpointer) accessible);
 #endif
 
 	return accessible;

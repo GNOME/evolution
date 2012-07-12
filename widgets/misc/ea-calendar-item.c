@@ -1208,7 +1208,7 @@ e_calendar_item_get_day_extents (ECalendarItem *calitem,
 
 	new_year = year;
 	new_month = month;
-	e_calendar_item_normalize_date	(calitem, &new_year, &new_month);
+	e_calendar_item_normalize_date (calitem, &new_year, &new_month);
 	num_months = calitem->rows * calitem->cols;
 	months_offset = (new_year - calitem->year) * 12
 		+ new_month - calitem->month;
@@ -1338,7 +1338,7 @@ ea_calendar_set_focus_object (EaCalendarItem *ea_calitem,
 	AtkObject *old_cell;
 
 	old_cell = (AtkObject *) g_object_get_data (
-		G_OBJECT(ea_calitem), "gail-focus-object");
+		G_OBJECT (ea_calitem), "gail-focus-object");
 	if (old_cell && EA_IS_CALENDAR_CELL (old_cell)) {
 		old_state_set = atk_object_ref_state_set (old_cell);
 		atk_state_set_remove_state (old_state_set, ATK_STATE_FOCUSED);
@@ -1349,6 +1349,6 @@ ea_calendar_set_focus_object (EaCalendarItem *ea_calitem,
 
 	state_set = atk_object_ref_state_set (item_cell);
 	atk_state_set_add_state (state_set, ATK_STATE_FOCUSED);
-	g_object_set_data (G_OBJECT(ea_calitem), "gail-focus-object", item_cell);
+	g_object_set_data (G_OBJECT (ea_calitem), "gail-focus-object", item_cell);
 	g_object_unref (state_set);
 }

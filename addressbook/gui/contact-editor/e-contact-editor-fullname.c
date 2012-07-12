@@ -233,11 +233,11 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 
 	e_contact_editor_fullname->builder = builder;
 
-	widget = e_builder_get_widget(builder, "dialog-checkfullname");
+	widget = e_builder_get_widget (builder, "dialog-checkfullname");
 	title = gtk_window_get_title (GTK_WINDOW (widget));
 	gtk_window_set_title (GTK_WINDOW (e_contact_editor_fullname), title);
 
-	widget = e_builder_get_widget(builder, "table-checkfullname");
+	widget = e_builder_get_widget (builder, "table-checkfullname");
 	parent = gtk_widget_get_parent (widget);
 	g_object_ref (widget);
 	gtk_container_remove (GTK_CONTAINER (parent), widget);
@@ -276,7 +276,7 @@ fill_in_field (EContactEditorFullname *editor,
 		if (string)
 			gtk_entry_set_text (entry, string);
 		else
-			gtk_entry_set_text(entry, "");
+			gtk_entry_set_text (entry, "");
 	}
 }
 
@@ -285,11 +285,11 @@ fill_in_info (EContactEditorFullname *editor)
 {
 	EContactName *name = editor->name;
 	if (name) {
-		fill_in_field(editor, "comboentry-title",  name->prefixes);
-		fill_in_field(editor, "entry-first",  name->given);
-		fill_in_field(editor, "entry-middle", name->additional);
-		fill_in_field(editor, "entry-last",   name->family);
-		fill_in_field(editor, "comboentry-suffix", name->suffixes);
+		fill_in_field (editor, "comboentry-title",  name->prefixes);
+		fill_in_field (editor, "entry-first",  name->given);
+		fill_in_field (editor, "entry-middle", name->additional);
+		fill_in_field (editor, "entry-last",   name->family);
+		fill_in_field (editor, "comboentry-suffix", name->suffixes);
 	}
 }
 
@@ -320,9 +320,9 @@ extract_info (EContactEditorFullname *editor)
 		editor->name = name;
 	}
 
-	name->prefixes   = extract_field(editor, "comboentry-title" );
-	name->given      = extract_field(editor, "entry-first" );
-	name->additional = extract_field(editor, "entry-middle");
-	name->family     = extract_field(editor, "entry-last"  );
-	name->suffixes   = extract_field(editor, "comboentry-suffix");
+	name->prefixes   = extract_field (editor, "comboentry-title" );
+	name->given      = extract_field (editor, "entry-first" );
+	name->additional = extract_field (editor, "entry-middle");
+	name->family     = extract_field (editor, "entry-last"  );
+	name->suffixes   = extract_field (editor, "comboentry-suffix");
 }

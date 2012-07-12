@@ -744,7 +744,7 @@ et_remove_selection (AtkText *text,
 	if (selection_num == 0
 	    && etext->selection_start != etext->selection_end) {
 		etext->selection_end = etext->selection_start;
-		g_signal_emit_by_name (ATK_OBJECT(text), "text_selection_changed");
+		g_signal_emit_by_name (ATK_OBJECT (text), "text_selection_changed");
 		return TRUE;
 	}
 

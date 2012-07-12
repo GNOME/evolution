@@ -62,7 +62,7 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
 
-static const gchar* formatter_mime_types[] = { "application/vnd.evolution.widget.audio-inline",
+static const gchar * formatter_mime_types[] = { "application/vnd.evolution.widget.audio-inline",
 					       "audio/ac3", "audio/x-ac3",
 					       "audio/basic", "audio/mpeg",
 					       "audio/x-mpeg", "audio/mpeg3",
@@ -172,19 +172,19 @@ play_clicked (GtkWidget *button,
 {
 	GstState cur_state;
 
-	d(printf ("audio inline formatter: play\n"));
+	d (printf ("audio inline formatter: play\n"));
 
 	if (!part->filename) {
 		CamelStream *stream;
 		CamelDataWrapper *data;
 		GError *error = NULL;
 		gint argc = 1;
-		const gchar *argv [] = { "org_gnome_audio_inline", NULL };
+		const gchar *argv[] = { "org_gnome_audio_inline", NULL };
 
 		/* FIXME this is ugly, we should stream this directly to gstreamer */
 		part->filename = e_mktemp ("org-gnome-audio-inline-file-XXXXXX");
 
-		d(printf ("audio inline formatter: write to temp file %s\n", po->filename));
+		d (printf ("audio inline formatter: write to temp file %s\n", po->filename));
 
 		stream = camel_stream_fs_new_with_name (
 			part->filename, O_RDWR | O_CREAT | O_TRUNC, 0600, NULL);
@@ -193,7 +193,7 @@ play_clicked (GtkWidget *button,
 		camel_stream_flush (stream, NULL, NULL);
 		g_object_unref (stream);
 
-		d(printf ("audio inline formatter: init gst playbin\n"));
+		d (printf ("audio inline formatter: init gst playbin\n"));
 
 		if (gst_init_check (&argc, (gchar ***) &argv, &error)) {
 			gchar *uri;
@@ -291,13 +291,13 @@ emfe_audio_inline_get_widget (EMailFormatterExtension *extension,
 	box = gtk_hbutton_box_new ();
 	ai_part->play_button = g_object_ref (
 		add_button (box, GTK_STOCK_MEDIA_PLAY,
-			    G_CALLBACK (play_clicked), part, TRUE));
+		G_CALLBACK (play_clicked), part, TRUE));
 	ai_part->pause_button = g_object_ref (
 		add_button (box, GTK_STOCK_MEDIA_PAUSE,
-			    G_CALLBACK (pause_clicked), part, FALSE));
+		G_CALLBACK (pause_clicked), part, FALSE));
 	ai_part->stop_button = g_object_ref (
 		add_button (box, GTK_STOCK_MEDIA_STOP,
-			    G_CALLBACK (stop_clicked), part, FALSE));
+		G_CALLBACK (stop_clicked), part, FALSE));
 
 	gtk_widget_show (box);
 

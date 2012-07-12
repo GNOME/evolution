@@ -862,7 +862,7 @@ get_widgets (MemoPage *mpage)
 
 	priv->main = GW ("memo-page");
 	if (!priv->main) {
-		g_warning("couldn't find memo-page!");
+		g_warning ("couldn't find memo-page!");
 		return FALSE;
 	}
 
@@ -1171,7 +1171,7 @@ get_to_entry (ENameSelector *name_selector)
 
 	name_selector_model = e_name_selector_peek_model (name_selector);
 	e_name_selector_model_add_section (name_selector_model, "To", _("To"), NULL);
-	name_selector_entry = (ENameSelectorEntry *)e_name_selector_peek_section_list (name_selector, "To");
+	name_selector_entry = (ENameSelectorEntry *) e_name_selector_peek_section_list (name_selector, "To");
 
 	return GTK_WIDGET (name_selector_entry);
 }

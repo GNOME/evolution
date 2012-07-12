@@ -69,7 +69,7 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar* parser_mime_types[] = { "multipart/alternative",
+static const gchar * parser_mime_types[] = { "multipart/alternative",
 					    "text/html",
 					    NULL };
 
@@ -202,7 +202,8 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 		/* Enforcing text/plain, but wants HTML as attachment */
 		if (emp_pp->show_suppressed) {
-			return make_part_attachment (parser, part, part_id,
+			return make_part_attachment (
+				parser, part, part_id,
 				FALSE, cancellable);
 		}
 
@@ -317,7 +318,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 				parser, sp, part_id, cancellable);
 		parts = g_slist_concat (
 				parts,
-			  	e_mail_parser_wrap_as_attachment (
+				e_mail_parser_wrap_as_attachment (
 					parser, sp, sparts, part_id,
 					cancellable));
 	}
@@ -328,7 +329,6 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	}
 
 	parts = g_slist_concat (parts, plain_text_parts);
-
 
 	g_string_truncate (part_id, partidlen);
 

@@ -388,7 +388,7 @@ e_cell_combo_show_popup (ECellCombo *ecc,
 	gtk_widget_show (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), TRUE);
-	d(g_print("%s: popup_shown = TRUE\n", __FUNCTION__));
+	d (g_print ("%s: popup_shown = TRUE\n", __FUNCTION__));
 }
 
 /* Calculates the size and position of the popup window (like GtkCombo). */
@@ -603,7 +603,7 @@ e_cell_combo_button_press (GtkWidget *popup_window,
 	gtk_widget_hide (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
-	d(g_print("%s: popup_shown = FALSE\n", __FUNCTION__));
+	d (g_print ("%s: popup_shown = FALSE\n", __FUNCTION__));
 
 	/* We don't want to update the cell here. Since the list is in browse
 	 * mode there will always be one item selected, so when we popup the
@@ -644,7 +644,7 @@ e_cell_combo_button_release (GtkWidget *popup_window,
 	gtk_widget_hide (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
-	d(g_print("%s: popup_shown = FALSE\n", __FUNCTION__));
+	d (g_print ("%s: popup_shown = FALSE\n", __FUNCTION__));
 
 	e_cell_combo_update_cell (ecc);
 	e_cell_combo_restart_edit (ecc);
@@ -677,7 +677,7 @@ e_cell_combo_key_press (GtkWidget *popup_window,
 	gtk_widget_hide (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
-	d(g_print("%s: popup_shown = FALSE\n", __FUNCTION__));
+	d (g_print ("%s: popup_shown = FALSE\n", __FUNCTION__));
 
 	if (event->keyval != GDK_KEY_Escape)
 		e_cell_combo_update_cell (ecc);

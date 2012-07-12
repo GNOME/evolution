@@ -720,7 +720,7 @@ e_table_setup_header (ETable *e_table)
 
 	gtk_widget_show (GTK_WIDGET (e_table->header_canvas));
 
-	pointer = g_strdup_printf("%p", (gpointer) e_table);
+	pointer = g_strdup_printf ("%p", (gpointer) e_table);
 
 	e_table->header_item = gnome_canvas_item_new (
 		gnome_canvas_root (e_table->header_canvas),
@@ -1787,7 +1787,7 @@ et_real_construct (ETable *e_table,
 		G_CALLBACK (sort_info_changed), e_table);
 
 	g_value_set_object (val, e_table->sort_info);
-	g_object_set_property (G_OBJECT(e_table->header), "sort_info", val);
+	g_object_set_property (G_OBJECT (e_table->header), "sort_info", val);
 	g_free (val);
 
 	e_table->sorter = e_table_sorter_new (

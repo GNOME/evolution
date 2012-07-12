@@ -164,7 +164,6 @@ do_run_print_operation (EMailPrinter *emp)
 	return FALSE;
 }
 
-
 static void
 emp_start_printing (GObject *object,
                     GParamSpec *pspec,
@@ -204,7 +203,8 @@ emp_run_print_operation (EMailPrinter *emp)
 {
 	gchar *mail_uri;
 
-	mail_uri = e_mail_part_build_uri (emp->priv->parts_list->folder,
+	mail_uri = e_mail_part_build_uri (
+		emp->priv->parts_list->folder,
 		emp->priv->parts_list->message_uid,
 		"__evo-load-image", G_TYPE_BOOLEAN, TRUE,
 		"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_PRINTING,
@@ -220,15 +220,17 @@ emp_run_print_operation (EMailPrinter *emp)
 			E_MAIL_DISPLAY (emp->priv->webview), TRUE);
 
 		g_object_ref_sink (emp->priv->webview);
-		g_signal_connect (emp->priv->webview, "notify::load-status",
+		g_signal_connect (
+			emp->priv->webview, "notify::load-status",
 			G_CALLBACK (emp_start_printing), emp);
 
 		w ({
 			GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 			GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
 			gtk_container_add (GTK_CONTAINER (window), sw);
-			gtk_container_add (GTK_CONTAINER (sw),
-					   GTK_WIDGET (emp->priv->webview));
+			gtk_container_add (
+				GTK_CONTAINER (sw),
+				GTK_WIDGET (emp->priv->webview));
 			gtk_widget_show_all (window);
 		});
 	}
@@ -257,7 +259,8 @@ set_header_visible (EMailPrinter *emp,
 
 	element = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (headers, index));
 	style = webkit_dom_element_get_style (element);
-	webkit_dom_css_style_declaration_set_property (style,
+	webkit_dom_css_style_declaration_set_property (
+		style,
 		"display", (visible ? "table-row" : "none"), "", NULL);
 }
 
@@ -272,14 +275,18 @@ header_active_renderer_toggled_cb (GtkCellRendererToggle *renderer,
 	EMailFormatterHeader *header;
 	gint *indices;
 
-	gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (emp->priv->headers),
+	gtk_tree_model_get_iter_from_string (
+		GTK_TREE_MODEL (emp->priv->headers),
 		&iter, path);
 
-	gtk_tree_model_get (GTK_TREE_MODEL (emp->priv->headers), &iter,
+	gtk_tree_model_get (
+		GTK_TREE_MODEL (emp->priv->headers), &iter,
 		COLUMN_ACTIVE, &active, -1);
-	gtk_tree_model_get (GTK_TREE_MODEL (emp->priv->headers), &iter,
+	gtk_tree_model_get (
+		GTK_TREE_MODEL (emp->priv->headers), &iter,
 		COLUMN_HEADER_STRUCT, &header, -1);
-	gtk_list_store_set (GTK_LIST_STORE (emp->priv->headers), &iter,
+	gtk_list_store_set (
+		GTK_LIST_STORE (emp->priv->headers), &iter,
 		COLUMN_ACTIVE, !active, -1);
 
 	p = gtk_tree_path_new_from_string (path);
@@ -311,9 +318,11 @@ emp_headers_tab_toggle_selection (GtkWidget *button,
 		GtkTreePath *path;
 		gint *indices;
 
-		gtk_tree_model_get (GTK_TREE_MODEL (emp->priv->headers), &iter,
+		gtk_tree_model_get (
+			GTK_TREE_MODEL (emp->priv->headers), &iter,
 			COLUMN_HEADER_STRUCT, &header, -1);
-		gtk_list_store_set (GTK_LIST_STORE (emp->priv->headers), &iter,
+		gtk_list_store_set (
+			GTK_LIST_STORE (emp->priv->headers), &iter,
 			COLUMN_ACTIVE, select, -1);
 
 		path = gtk_tree_model_get_path (GTK_TREE_MODEL (emp->priv->headers), &iter);
@@ -393,7 +402,8 @@ emp_headers_tab_move (GtkWidget *button,
 
 	references = NULL;
 	for (l = selected_rows; l; l = l->next) {
-		references = g_list_prepend (references,
+		references = g_list_prepend (
+			references,
 			gtk_tree_row_reference_new (model, l->data));
 	}
 
@@ -496,7 +506,8 @@ emp_headers_tab_move (GtkWidget *button,
 
         /* Keep the selection in middle of the screen */
 	path = gtk_tree_row_reference_get_path (selection_middle);
-	gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (emp->priv->treeview),
+	gtk_tree_view_scroll_to_cell (
+		GTK_TREE_VIEW (emp->priv->treeview),
 		path, COLUMN_ACTIVE, TRUE, 0.5, 0.5);
 	gtk_tree_path_free (path);
 	gtk_tree_row_reference_free (selection_middle);
@@ -526,20 +537,22 @@ emp_create_headers_tab (GtkPrintOperation *operation,
 	view = GTK_TREE_VIEW (emp->priv->treeview);
 	selection = gtk_tree_view_get_selection (view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
-	g_signal_connect (selection, "changed",
+	g_signal_connect (
+		selection, "changed",
 		G_CALLBACK (emp_headers_tab_selection_changed), emp);
 
 	renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (renderer, "toggled",
+	g_signal_connect (
+		renderer, "toggled",
 		G_CALLBACK (header_active_renderer_toggled_cb), emp);
 	column = gtk_tree_view_column_new_with_attributes (
-		_("Print"), renderer, 
+		_("Print"), renderer,
 		"active", COLUMN_ACTIVE, NULL);
 	gtk_tree_view_append_column (view, column);
 
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (
-		_("Header Name"), renderer, 
+		_("Header Name"), renderer,
 		"text", COLUMN_HEADER_NAME, NULL);
 	gtk_tree_view_append_column (view, column);
 
@@ -555,41 +568,47 @@ emp_create_headers_tab (GtkPrintOperation *operation,
 
 	button = gtk_button_new_from_stock (GTK_STOCK_SELECT_ALL);
 	emp->priv->buttons[BUTTON_SELECT_ALL] = button;
-	g_signal_connect (button, "clicked",
+	g_signal_connect (
+		button, "clicked",
 		G_CALLBACK (emp_headers_tab_toggle_selection), emp);
 	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 5);
 
 	button = gtk_button_new_from_stock (GTK_STOCK_CLEAR);
 	emp->priv->buttons[BUTTON_SELECT_NONE] = button;
-	g_signal_connect (button, "clicked",
+	g_signal_connect (
+		button, "clicked",
 		G_CALLBACK (emp_headers_tab_toggle_selection), emp);
 	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 5);
 
 	button = gtk_button_new_from_stock (GTK_STOCK_GOTO_TOP);
 	emp->priv->buttons[BUTTON_TOP] = button;
 	gtk_widget_set_sensitive (button, FALSE);
-	g_signal_connect (button, "clicked",
+	g_signal_connect (
+		button, "clicked",
 		G_CALLBACK (emp_headers_tab_move), emp);
 	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 5);
 
 	button = gtk_button_new_from_stock (GTK_STOCK_GO_UP);
 	emp->priv->buttons[BUTTON_UP] = button;
 	gtk_widget_set_sensitive (button, FALSE);
-	g_signal_connect (button, "clicked",
+	g_signal_connect (
+		button, "clicked",
 		G_CALLBACK (emp_headers_tab_move), emp);
 	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 5);
 
 	button = gtk_button_new_from_stock (GTK_STOCK_GO_DOWN);
 	emp->priv->buttons[BUTTON_DOWN] = button;
 	gtk_widget_set_sensitive (button, FALSE);
-	g_signal_connect (button, "clicked",
+	g_signal_connect (
+		button, "clicked",
 		G_CALLBACK (emp_headers_tab_move), emp);
 	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 5);
 
 	button = gtk_button_new_from_stock (GTK_STOCK_GOTO_BOTTOM);
 	emp->priv->buttons[BUTTON_BOTTOM] = button;
 	gtk_widget_set_sensitive (button, FALSE);
-	g_signal_connect (button, "clicked",
+	g_signal_connect (
+		button, "clicked",
 		G_CALLBACK (emp_headers_tab_move), emp);
 	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 5);
 
@@ -614,7 +633,8 @@ emp_set_parts_list (EMailPrinter *emp,
 
 	if (emp->priv->headers)
 		g_object_unref (emp->priv->headers);
-	emp->priv->headers = gtk_list_store_new (5,
+	emp->priv->headers = gtk_list_store_new (
+		5,
 		G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_INT);
 
 	headers = camel_medium_get_headers (CAMEL_MEDIUM (parts_list->message));
@@ -648,7 +668,8 @@ emp_set_parts_list (EMailPrinter *emp,
 			last_known = iter;
 		}
 
-		gtk_list_store_set (emp->priv->headers, &iter,
+		gtk_list_store_set (
+			emp->priv->headers, &iter,
 			COLUMN_ACTIVE, (found_header != NULL),
 			COLUMN_HEADER_NAME, emfh->name,
 			COLUMN_HEADER_VALUE, emfh->value,
@@ -687,8 +708,7 @@ emp_get_property (GObject *object,
 	switch (property_id) {
 
 		case PROP_PART_LIST:
-			g_value_set_pointer (value,
-				emp->priv->parts_list);
+			g_value_set_pointer (value, emp->priv->parts_list);
 			return;
 	}
 
@@ -711,7 +731,8 @@ emp_finalize (GObject *object)
 		if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (priv->headers), &iter)) {
 			do {
 				EMailFormatterHeader *header = NULL;
-				gtk_tree_model_get (GTK_TREE_MODEL (priv->headers), &iter,
+				gtk_tree_model_get (
+					GTK_TREE_MODEL (priv->headers), &iter,
 					COLUMN_HEADER_STRUCT, &header, -1);
 				e_mail_formatter_header_free (header);
 			} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (priv->headers), &iter));
@@ -793,7 +814,8 @@ e_mail_printer_new (EMailPartList *source)
 {
 	EMailPrinter *emp;
 
-	emp = g_object_new (E_TYPE_MAIL_PRINTER,
+	emp = g_object_new (
+		E_TYPE_MAIL_PRINTER,
 		"parts-list", source, NULL);
 
 	return emp;
@@ -801,7 +823,7 @@ e_mail_printer_new (EMailPartList *source)
 
 void
 e_mail_printer_print (EMailPrinter *emp,
-		      GtkPrintOperationAction action,
+                      GtkPrintOperationAction action,
                       GCancellable *cancellable)
 {
 	g_return_if_fail (E_IS_MAIL_PRINTER (emp));
@@ -813,15 +835,19 @@ e_mail_printer_print (EMailPrinter *emp,
 	gtk_print_operation_set_unit (emp->priv->operation, GTK_UNIT_PIXEL);
 
 	gtk_print_operation_set_show_progress (emp->priv->operation, TRUE);
-	g_signal_connect (emp->priv->operation, "create-custom-widget",
+	g_signal_connect (
+		emp->priv->operation, "create-custom-widget",
 		G_CALLBACK (emp_create_headers_tab), emp);
-	g_signal_connect (emp->priv->operation, "done",
+	g_signal_connect (
+		emp->priv->operation, "done",
 		G_CALLBACK (emp_printing_done), emp);
-	g_signal_connect (emp->priv->operation, "draw-page",
+	g_signal_connect (
+		emp->priv->operation, "draw-page",
 		G_CALLBACK (emp_draw_footer), NULL);
 
 	if (cancellable)
-		g_signal_connect_swapped (cancellable, "cancelled",
+		g_signal_connect_swapped (
+			cancellable, "cancelled",
 			G_CALLBACK (gtk_print_operation_cancel), emp->priv->operation);
 
 	emp_run_print_operation (emp);

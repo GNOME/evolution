@@ -54,7 +54,7 @@ gal_view_new_dialog_set_property (GObject *object,
 
 	switch (property_id) {
 	case PROP_NAME:
-		entry = e_builder_get_widget(dialog->builder, "entry-name");
+		entry = e_builder_get_widget (dialog->builder, "entry-name");
 		if (entry && GTK_IS_ENTRY (entry)) {
 			gtk_entry_set_text (GTK_ENTRY (entry), g_value_get_string (value));
 		}
@@ -78,7 +78,7 @@ gal_view_new_dialog_get_property (GObject *object,
 
 	switch (property_id) {
 	case PROP_NAME:
-		entry = e_builder_get_widget(dialog->builder, "entry-name");
+		entry = e_builder_get_widget (dialog->builder, "entry-name");
 		if (entry && GTK_IS_ENTRY (entry)) {
 			g_value_set_string (value, gtk_entry_get_text (GTK_ENTRY (entry)));
 		}
@@ -169,7 +169,7 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 
 	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	gtk_window_set_title (GTK_WINDOW(dialog), _("Define New View"));
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Define New View"));
 
 	dialog->collection = NULL;
 	dialog->selected_factory = NULL;
@@ -242,8 +242,8 @@ gal_view_new_dialog_construct (GalViewNewDialog *dialog,
 	GtkCellRenderer *rend;
 
 	dialog->collection = collection;
-	dialog->list = e_builder_get_widget(dialog->builder,"list-type-list");
-	dialog->entry = e_builder_get_widget(dialog->builder, "entry-name");
+	dialog->list = e_builder_get_widget (dialog->builder,"list-type-list");
+	dialog->entry = e_builder_get_widget (dialog->builder, "entry-name");
 
 	dialog->list_store = gtk_list_store_new (
 		2, G_TYPE_STRING, G_TYPE_POINTER);

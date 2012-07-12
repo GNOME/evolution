@@ -398,12 +398,12 @@ ethi_find_col_by_x (ETableHeaderItem *ethi,
 	gint x1 = 0;
 	gint col;
 
-	d(g_print ("%s:%d: x = %d, x1 = %d\n", __FUNCTION__, __LINE__, x, x1));
+	d (g_print ("%s:%d: x = %d, x1 = %d\n", __FUNCTION__, __LINE__, x, x1));
 
 	x1 += ethi->group_indent_width;
 
 	if (x < x1) {
-		d(g_print ("%s:%d: Returning 0\n", __FUNCTION__, __LINE__));
+		d (g_print ("%s:%d: Returning 0\n", __FUNCTION__, __LINE__));
 		return 0;
 	}
 
@@ -411,13 +411,13 @@ ethi_find_col_by_x (ETableHeaderItem *ethi,
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 
 		if ((x >= x1) && (x <= x1 + ecol->width)) {
-			d(g_print ("%s:%d: Returning %d\n", __FUNCTION__, __LINE__, col));
+			d (g_print ("%s:%d: Returning %d\n", __FUNCTION__, __LINE__, col));
 			return col;
 		}
 
 		x1 += ecol->width;
 	}
-	d(g_print ("%s:%d: Returning %d\n", __FUNCTION__, __LINE__, cols - 1));
+	d (g_print ("%s:%d: Returning %d\n", __FUNCTION__, __LINE__, cols - 1));
 	return cols - 1;
 }
 
@@ -594,7 +594,7 @@ do_drag_motion (ETableHeaderItem *ethi,
 	    (y >= 0) && (y <= (ethi->height))) {
 		GdkDragAction suggested_action;
 		gint col;
-		d(g_print("In header\n"));
+		d (g_print ("In header\n"));
 
 		col = ethi_find_col_by_x_nearest (ethi, x);
 		suggested_action = gdk_drag_context_get_suggested_action (context);
@@ -863,7 +863,7 @@ ethi_drag_data_get (GtkWidget *canvas,
 	if (ethi->drag_col != -1) {
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, ethi->drag_col);
 
-		gchar *string = g_strdup_printf("%d", ecol->col_idx);
+		gchar *string = g_strdup_printf ("%d", ecol->col_idx);
 		gtk_selection_data_set (selection_data,
 				       GDK_SELECTION_TYPE_STRING,
 				       sizeof (string[0]),
@@ -896,7 +896,7 @@ ethi_drag_drop (GtkWidget *canvas,
 		if (col != -1) {
 			gchar *target = g_strdup_printf (
 				"%s-%s", TARGET_ETABLE_COL_TYPE, ethi->dnd_code);
-			d(g_print ("ethi -  %s\n", target));
+			d (g_print ("ethi -  %s\n", target));
 			gtk_drag_get_data (
 				canvas, context,
 				gdk_atom_intern (target, FALSE),
@@ -1675,7 +1675,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 	GtkWidget *menu_item, *sub_menu;
 	ETableSortColumn column;
 	gboolean ascending = TRUE;
-	d( g_print("ethi_header_context_menu: \n") );
+	d ( g_print ("ethi_header_context_menu: \n") );
 
 	info->ethi = ethi;
 	info->col = ethi_find_col_by_x (ethi, event->x);

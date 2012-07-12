@@ -868,7 +868,7 @@ main (gint argc,
 				res_file = g_strdup ((gchar *) opt_remaining[ii]);
 				file = res_file;
 			} else if (check_op) {
-				d(g_message ("Checking %s", (gchar *) opt_remaining[ii]));
+				d (g_message ("Checking %s", (gchar *) opt_remaining[ii]));
 				chk_file = g_strdup ((gchar *) opt_remaining[ii]);
 			}
 		}

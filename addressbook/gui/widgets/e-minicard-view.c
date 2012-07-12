@@ -397,7 +397,7 @@ e_minicard_view_event (GnomeCanvasItem *item,
 		if (((GdkEventButton *) event)->button == 1) {
 			gboolean editable;
 
-			g_object_get(view->adapter, "editable", &editable, NULL);
+			g_object_get (view->adapter, "editable", &editable, NULL);
 
 			if (editable)
 				e_minicard_view_create_contact (view);

@@ -558,7 +558,7 @@ e_contact_quick_add (ESourceRegistry *registry,
 		g_strstrip (name);
 		len = strlen (name);
 		if ((name[0] == '\'' && name[len - 1] == '\'') ||
-			(name[0] == '"' && name[len-1] == '"')) {
+			(name[0] == '"' && name[len - 1] == '"')) {
 			name[0] = ' ';
 			name[len - 1] = ' ';
 		}

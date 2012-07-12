@@ -327,7 +327,7 @@ ask_password (GMountOperation *op,
 	username = soup_uri_get_user (soup_uri);
 	password = e_passwords_get_password (NULL, ms->uri->location);
 	req_pass = ((username && *username) && !(ms->uri->service_type == TYPE_ANON_FTP &&
-			!strcmp (username, "anonymous"))) ? TRUE:FALSE;
+			!strcmp (username, "anonymous"))) ? TRUE : FALSE;
 
 	if (!password && req_pass) {
 		gboolean remember = FALSE;

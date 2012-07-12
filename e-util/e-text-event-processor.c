@@ -65,26 +65,28 @@ e_text_event_processor_class_init (ETextEventProcessorClass *class)
 	object_class->set_property = e_text_event_processor_set_property;
 	object_class->get_property = e_text_event_processor_get_property;
 
-	e_tep_signals[E_TEP_EVENT] =
-		g_signal_new ("command",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETextEventProcessorClass, command),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_POINTER);
+	e_tep_signals[E_TEP_EVENT] = g_signal_new (
+		"command",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETextEventProcessorClass, command),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 
-	g_object_class_install_property (object_class, PROP_ALLOW_NEWLINES,
-					 g_param_spec_boolean ("allow_newlines",
-							       "Allow newlines",
-							       "Allow newlines",
-							       FALSE,
-							       G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_ALLOW_NEWLINES,
+		g_param_spec_boolean (
+			"allow_newlines",
+			"Allow newlines",
+			"Allow newlines",
+			FALSE,
+			G_PARAM_READWRITE));
 
 	class->event = NULL;
 	class->command = NULL;
-
 }
 
 static void

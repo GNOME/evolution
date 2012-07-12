@@ -108,7 +108,7 @@ on_date_range_changed (ECalendarItem *calitem)
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
 
-	e_calendar_item_get_date_range	(calitem,
+	e_calendar_item_get_date_range (calitem,
 					 &start_year, &start_month, &start_day,
 					 &end_year, &end_month, &end_day);
 
@@ -128,7 +128,7 @@ on_selection_changed (ECalendarItem *calitem)
 {
 	GDate start_date, end_date;
 
-	e_calendar_item_get_selection	(calitem, &start_date, &end_date);
+	e_calendar_item_get_selection (calitem, &start_date, &end_date);
 
 	g_print ("Selection changed (D/M/Y): %i/%i/%i - %i/%i/%i\n",
 		 g_date_get_day (&start_date),

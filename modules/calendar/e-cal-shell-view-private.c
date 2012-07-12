@@ -360,7 +360,7 @@ cal_shell_view_taskpad_popup_event_cb (EShellView *shell_view,
 
 static void
 cal_shell_view_user_created_cb (ECalShellView *cal_shell_view,
-				ECalClient *where_was_created,
+                                ECalClient *where_was_created,
                                 ECalendarView *calendar_view)
 {
 	ECalShellSidebar *cal_shell_sidebar;
@@ -389,8 +389,9 @@ cal_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 	spec = e_table_specification_new ();
 	filename = g_build_filename (base_dir, ETSPEC_FILENAME, NULL);
 	if (!e_table_specification_load_from_file (spec, filename))
-		g_critical ("Unable to load ETable specification file "
-			    "for calendars");
+		g_critical (
+			"Unable to load ETable specification file "
+			"for calendars");
 	g_free (filename);
 
 	factory = calendar_view_factory_new (GNOME_CAL_DAY_VIEW);
@@ -506,9 +507,8 @@ init_timezone_monitors (ECalShellView *view)
 		GFile *file;
 
 		file = g_file_new_for_path (files_to_check[i]);
-		priv->monitors[i] = g_file_monitor_file (file,
-				G_FILE_MONITOR_NONE,
-				NULL, NULL);
+		priv->monitors[i] = g_file_monitor_file (
+			file, G_FILE_MONITOR_NONE, NULL, NULL);
 		g_object_unref (file);
 
 		if (priv->monitors[i])
@@ -1203,8 +1203,7 @@ cal_time_t_ptr_compare (gconstpointer a,
 
 static void cal_iterate_searching (ECalShellView *cal_shell_view);
 
-struct GenerateInstancesData
-{
+struct GenerateInstancesData {
 	ECalClient *client;
 	ECalShellView *cal_shell_view;
 	GCancellable *cancellable;
@@ -1222,7 +1221,9 @@ cal_searching_instances_done_cb (gpointer user_data)
 		gid->cal_shell_view->priv->search_pending_count--;
 		if (!gid->cal_shell_view->priv->search_pending_count) {
 			gid->cal_shell_view->priv->search_hit_cache =
-				g_slist_sort (gid->cal_shell_view->priv->search_hit_cache, cal_time_t_ptr_compare);
+				g_slist_sort (
+					gid->cal_shell_view->priv->search_hit_cache,
+					cal_time_t_ptr_compare);
 			cal_iterate_searching (gid->cal_shell_view);
 		}
 	}
@@ -1303,7 +1304,9 @@ cal_search_get_object_list_cb (GObject *source,
 		cal_shell_view->priv->search_pending_count--;
 		if (!cal_shell_view->priv->search_pending_count) {
 			cal_shell_view->priv->search_hit_cache =
-				g_slist_sort (cal_shell_view->priv->search_hit_cache, cal_time_t_ptr_compare);
+				g_slist_sort (
+					cal_shell_view->priv->search_hit_cache,
+					cal_time_t_ptr_compare);
 			cal_iterate_searching (cal_shell_view);
 		}
 	} else {
@@ -1311,8 +1314,11 @@ cal_search_get_object_list_cb (GObject *source,
 		GCancellable *cancellable;
 		time_t start, end;
 
-		cancellable = e_activity_get_cancellable (cal_shell_view->priv->searching_activity);
-		start = time_add_day (cal_shell_view->priv->search_time, (-1) * cal_shell_view->priv->search_direction);
+		cancellable = e_activity_get_cancellable (
+			cal_shell_view->priv->searching_activity);
+		start = time_add_day (
+			cal_shell_view->priv->search_time,
+			(-1) * cal_shell_view->priv->search_direction);
 		end = cal_shell_view->priv->search_time;
 		if (start > end) {
 			time_t tmp = start;
@@ -1322,14 +1328,17 @@ cal_search_get_object_list_cb (GObject *source,
 
 		for (iter = icalcomps; iter; iter = iter->next) {
 			icalcomponent *icalcomp = iter->data;
-			struct GenerateInstancesData *gid = g_new0 (struct GenerateInstancesData, 1);
+			struct GenerateInstancesData *gid;
 
+			gid = g_new0 (struct GenerateInstancesData, 1);
 			gid->client = client;
 			gid->cal_shell_view = cal_shell_view;
 			gid->cancellable = g_object_ref (cancellable);
 
-			e_cal_client_generate_instances_for_object (client, icalcomp, start, end, cancellable,
-				cal_searching_got_instance_cb, gid, cal_searching_instances_done_cb);
+			e_cal_client_generate_instances_for_object (
+				client, icalcomp, start, end, cancellable,
+				cal_searching_got_instance_cb, gid,
+				cal_searching_instances_done_cb);
 		}
 
 		e_cal_client_free_icalcomp_slist (icalcomps);
@@ -1394,7 +1403,9 @@ cal_searching_update_alert (ECalShellView *cal_shell_view,
 	priv = cal_shell_view->priv;
 
 	if (priv->search_alert) {
-		e_alert_response (priv->search_alert, e_alert_get_default_response (priv->search_alert));
+		e_alert_response (
+			priv->search_alert,
+			e_alert_get_default_response (priv->search_alert));
 		priv->search_alert = NULL;
 	}
 
@@ -1408,8 +1419,10 @@ cal_searching_update_alert (ECalShellView *cal_shell_view,
 	g_object_add_weak_pointer (G_OBJECT (alert), &priv->search_alert);
 	e_alert_start_timer (priv->search_alert, 5);
 
-	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (cal_shell_view));
-	e_alert_sink_submit_alert (E_ALERT_SINK (shell_content), priv->search_alert);
+	shell_content = e_shell_view_get_shell_content (
+		E_SHELL_VIEW (cal_shell_view));
+	e_alert_sink_submit_alert (
+		E_ALERT_SINK (shell_content), priv->search_alert);
 	g_object_unref (priv->search_alert);
 }
 
@@ -1436,7 +1449,9 @@ cal_iterate_searching (ECalShellView *cal_shell_view)
 
 	if (cal_searching_check_candidates (cal_shell_view)) {
 		if (priv->searching_activity) {
-			e_activity_set_state (priv->searching_activity, E_ACTIVITY_COMPLETED);
+			e_activity_set_state (
+				priv->searching_activity,
+				E_ACTIVITY_COMPLETED);
 			g_object_unref (priv->searching_activity);
 			priv->searching_activity = NULL;
 		}
@@ -1445,18 +1460,25 @@ cal_iterate_searching (ECalShellView *cal_shell_view)
 	}
 
 	if (!priv->searching_activity) {
-		EShellBackend *shell_backend = e_shell_view_get_shell_backend (E_SHELL_VIEW (cal_shell_view));
+		EShellBackend *shell_backend;
+
+		shell_backend = e_shell_view_get_shell_backend (
+			E_SHELL_VIEW (cal_shell_view));
 
 		cancellable = g_cancellable_new ();
 		priv->searching_activity = e_activity_new ();
-		e_activity_set_cancellable (priv->searching_activity, cancellable);
-		e_activity_set_state (priv->searching_activity, E_ACTIVITY_RUNNING);
-		e_activity_set_text (priv->searching_activity,
+		e_activity_set_cancellable (
+			priv->searching_activity, cancellable);
+		e_activity_set_state (
+			priv->searching_activity, E_ACTIVITY_RUNNING);
+		e_activity_set_text (
+			priv->searching_activity,
 			priv->search_direction > 0 ?
 			_("Searching next matching event") :
 			_("Searching previous matching event"));
 
-		e_shell_backend_add_activity (shell_backend, priv->searching_activity);
+		e_shell_backend_add_activity (
+			shell_backend, priv->searching_activity);
 	}
 
 	new_time = time_add_day (priv->search_time, priv->search_direction);
@@ -1465,19 +1487,22 @@ cal_iterate_searching (ECalShellView *cal_shell_view)
 		gint range_years;
 
 		/* would get out of bounds, stop searching */
-		e_activity_set_state (priv->searching_activity, E_ACTIVITY_COMPLETED);
+		e_activity_set_state (
+			priv->searching_activity, E_ACTIVITY_COMPLETED);
 		g_object_unref (priv->searching_activity);
 		priv->searching_activity = NULL;
 
 		range_years = cal_searching_get_search_range_years (cal_shell_view);
 		alert_msg = g_strdup_printf (
 			priv->search_direction > 0 ?
-			ngettext ("Cannot find matching event in the next %d year",
-				  "Cannot find matching event in the next %d years",
-				  range_years) :
-			ngettext ("Cannot find matching event in the previous %d year",
-				  "Cannot find matching event in the previous %d years",
-				  range_years),
+			ngettext (
+			"Cannot find matching event in the next %d year",
+			"Cannot find matching event in the next %d years",
+			range_years) :
+			ngettext (
+			"Cannot find matching event in the previous %d year",
+			"Cannot find matching event in the previous %d years",
+			range_years),
 			range_years);
 		cal_searching_update_alert (cal_shell_view, alert_msg);
 		g_free (alert_msg);
@@ -1488,15 +1513,19 @@ cal_iterate_searching (ECalShellView *cal_shell_view)
 	}
 
 	model = gnome_calendar_get_model (
-		e_cal_shell_content_get_calendar (cal_shell_view->priv->cal_shell_content));
+		e_cal_shell_content_get_calendar (
+		cal_shell_view->priv->cal_shell_content));
 	clients = e_cal_model_get_client_list (model);
 
 	if (!clients) {
-		e_activity_set_state (priv->searching_activity, E_ACTIVITY_COMPLETED);
+		e_activity_set_state (
+			priv->searching_activity, E_ACTIVITY_COMPLETED);
 		g_object_unref (priv->searching_activity);
 		priv->searching_activity = NULL;
 
-		cal_searching_update_alert (cal_shell_view, _("Cannot search with no active calendar"));
+		cal_searching_update_alert (
+			cal_shell_view,
+			_("Cannot search with no active calendar"));
 
 		e_shell_view_update_actions (E_SHELL_VIEW (cal_shell_view));
 
@@ -1536,7 +1565,9 @@ cal_iterate_searching (ECalShellView *cal_shell_view)
 	for (iter = clients; iter; iter = iter->next) {
 		ECalClient *client = iter->data;
 
-		e_cal_client_get_object_list (client, sexp, cancellable, cal_search_get_object_list_cb, cal_shell_view);
+		e_cal_client_get_object_list (
+			client, sexp, cancellable,
+			cal_search_get_object_list_cb, cal_shell_view);
 	}
 
 	g_list_free_full (clients, g_object_unref);
@@ -1573,7 +1604,8 @@ e_cal_shell_view_search_events (ECalShellView *cal_shell_view,
 		time_t cached_start, cached_end, tmp;
 
 		cached_start = priv->search_time;
-		cached_end = time_add_day (cached_start, (-1) * priv->search_direction);
+		cached_end = time_add_day (
+			cached_start, (-1) * priv->search_direction);
 
 		if (priv->search_direction > 0) {
 			tmp = cached_start;
@@ -1621,8 +1653,10 @@ e_cal_shell_view_search_stop (ECalShellView *cal_shell_view)
 	cal_searching_update_alert (cal_shell_view, NULL);
 
 	if (priv->searching_activity) {
-		g_cancellable_cancel (e_activity_get_cancellable (priv->searching_activity));
-		e_activity_set_state (priv->searching_activity, E_ACTIVITY_CANCELLED);
+		g_cancellable_cancel (
+			e_activity_get_cancellable (priv->searching_activity));
+		e_activity_set_state (
+			priv->searching_activity, E_ACTIVITY_CANCELLED);
 		g_object_unref (priv->searching_activity);
 		priv->searching_activity = NULL;
 	}

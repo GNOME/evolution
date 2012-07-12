@@ -187,7 +187,7 @@ emm_setup_initial (const gchar *data_dir)
 	/* special-case - this means brand new install of evolution */
 	/* FIXME: create default folders and stuff... */
 
-	d(printf("Setting up initial mail tree\n"));
+	d (printf ("Setting up initial mail tree\n"));
 
 	base = g_build_filename (data_dir, "local", NULL);
 	if (g_mkdir_with_parents (base, 0700) == -1 && errno != EEXIST) {

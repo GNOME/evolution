@@ -136,7 +136,7 @@ static void
 tab_remove_gtk_cb (GtkWidget *button,
                    EMailNotebookView *view)
 {
-	EMailView *page = g_object_get_data ((GObject *)button, "page");
+	EMailView *page = g_object_get_data ((GObject *) button, "page");
 	EMailView *prev;
 	gint num;
 
@@ -158,8 +158,9 @@ tab_remove_gtk_cb (GtkWidget *button,
 		num = emnv_get_page_num (view, (GtkWidget *) prev);
 		gtk_notebook_set_current_page (view->priv->book, num);
 	}
-	gtk_notebook_remove_page (view->priv->book,
-			gtk_notebook_page_num (view->priv->book, (GtkWidget *) page));
+	gtk_notebook_remove_page (
+		view->priv->book,
+		gtk_notebook_page_num (view->priv->book, (GtkWidget *) page));
 
 }
 
@@ -226,8 +227,8 @@ create_tab_label (EMailNotebookView *view,
 		"gtk-close", GTK_ICON_SIZE_MENU));
 	gtk_widget_show_all (widget);
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	g_object_set_data ((GObject *)widget, "page", page);
-	g_object_set_data ((GObject *)page, "close-button", widget);
+	g_object_set_data ((GObject *) widget, "page", page);
+	g_object_set_data ((GObject *) page, "close-button", widget);
 
 	g_signal_connect (
 		widget, "clicked",
@@ -686,7 +687,7 @@ mail_netbook_view_open_mail (EMailView *view,
 	gtk_notebook_set_current_page (priv->book, page);
 
 	g_signal_connect (
-		E_MAIL_READER(pane), "changed",
+		E_MAIL_READER (pane), "changed",
 		G_CALLBACK (reconnect_changed_event), nview);
 	g_signal_connect (
 		E_MAIL_READER (pane), "folder-loaded",

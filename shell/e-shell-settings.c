@@ -58,10 +58,11 @@ shell_settings_value_equal (const GValue *v1,
 
 	if (G_VALUE_HOLDS_STRING (v1) &&
 	    G_VALUE_HOLDS_STRING (v2)) {
-		return g_strcmp0 (g_value_get_string (v1),
-				  g_value_get_string (v2)) == 0;
+		return g_strcmp0 (
+			g_value_get_string (v1),
+			g_value_get_string (v2)) == 0;
 	} else if (G_VALUE_HOLDS_UCHAR (v1) &&
-		   G_VALUE_HOLDS_UCHAR (v2)) {
+			G_VALUE_HOLDS_UCHAR (v2)) {
 		return g_value_get_uchar (v1) == g_value_get_uchar (v2);
 	} else if (G_VALUE_HOLDS_CHAR (v1) &&
 		   G_VALUE_HOLDS_CHAR (v2)) {
@@ -96,8 +97,11 @@ shell_settings_value_equal (const GValue *v1,
 	}
 
 	if (is_debug)
-		g_debug ("%s: Cannot compare '%s' with '%s'",
-			G_STRFUNC, G_VALUE_TYPE_NAME (v1), G_VALUE_TYPE_NAME (v2));
+		g_debug (
+			"%s: Cannot compare '%s' with '%s'",
+			G_STRFUNC,
+			G_VALUE_TYPE_NAME (v1),
+			G_VALUE_TYPE_NAME (v2));
 
 	return FALSE;
 }

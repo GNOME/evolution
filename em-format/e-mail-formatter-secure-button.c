@@ -113,7 +113,7 @@ static void
 viewcert_clicked (GtkWidget *button,
                   GtkWidget *parent)
 {
-	CamelCipherCertInfo *info = g_object_get_data((GObject *) button, "e-cert-info");
+	CamelCipherCertInfo *info = g_object_get_data ((GObject *) button, "e-cert-info");
 	ECert *ec = NULL;
 
 	if (info->cert_data)
@@ -134,7 +134,7 @@ viewcert_clicked (GtkWidget *button,
 
 		g_object_unref (ec);
 	} else {
-		g_warning("can't find certificate for %s <%s>",
+		g_warning ("can't find certificate for %s <%s>",
 			info->name ? info->name : "",
 			info->email ? info->email : "");
 	}
@@ -169,7 +169,7 @@ add_cert_table (GtkWidget *grid,
 
 		if (info->name) {
 			if (info->email && strcmp (info->name, info->email) != 0)
-				l = la = g_strdup_printf("%s <%s>", info->name, info->email);
+				l = la = g_strdup_printf ("%s <%s>", info->name, info->email);
 			else
 				l = info->name;
 		} else {
@@ -187,9 +187,9 @@ add_cert_table (GtkWidget *grid,
 			g_free (la);
 			gtk_table_attach (table, w, 0, 1, n, n + 1, GTK_FILL, GTK_FILL, 3, 3);
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
-			w = gtk_button_new_with_mnemonic(_("_View Certificate"));
+			w = gtk_button_new_with_mnemonic (_("_View Certificate"));
 			gtk_table_attach (table, w, 1, 2, n, n + 1, 0, 0, 3, 3);
-			g_object_set_data((GObject *)w, "e-cert-info", info);
+			g_object_set_data ((GObject *) w, "e-cert-info", info);
 			g_signal_connect (
 				w, "clicked",
 				G_CALLBACK (viewcert_clicked), grid);
@@ -274,9 +274,9 @@ secure_button_clicked_cb (GtkWidget *widget,
 	builder = gtk_builder_new ();
 	e_load_ui_builder_definition (builder, "mail-dialogs.ui");
 
-	dialog = e_builder_get_widget(builder, "message_security_dialog");
+	dialog = e_builder_get_widget (builder, "message_security_dialog");
 
-	grid = e_builder_get_widget(builder, "signature_grid");
+	grid = e_builder_get_widget (builder, "signature_grid");
 	w = gtk_label_new (_(smime_sign_table[part->validity->sign.status].description));
 	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
@@ -293,7 +293,7 @@ secure_button_clicked_cb (GtkWidget *widget,
 				 "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
 				 "shadow_type", GTK_SHADOW_IN,
 				 "expand", TRUE,
-				 "child", g_object_new(gtk_text_view_get_type(),
+				 "child", g_object_new (gtk_text_view_get_type (),
 						       "buffer", buffer,
 						       "cursor_visible", FALSE,
 						       "editable", FALSE,
@@ -312,7 +312,7 @@ secure_button_clicked_cb (GtkWidget *widget,
 
 	gtk_widget_show_all (grid);
 
-	grid = e_builder_get_widget(builder, "encryption_grid");
+	grid = e_builder_get_widget (builder, "encryption_grid");
 	w = gtk_label_new (_(smime_encrypt_table[part->validity->encrypt.status].description));
 	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
@@ -329,7 +329,7 @@ secure_button_clicked_cb (GtkWidget *widget,
 				 "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
 				 "shadow_type", GTK_SHADOW_IN,
 				 "expand", TRUE,
-				 "child", g_object_new(gtk_text_view_get_type(),
+				 "child", g_object_new (gtk_text_view_get_type (),
 						       "buffer", buffer,
 						       "cursor_visible", FALSE,
 						       "editable", FALSE,

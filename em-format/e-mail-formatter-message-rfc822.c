@@ -35,7 +35,7 @@
 
 #include <string.h>
 
-static const gchar* formatter_mime_types[] = { "message/rfc822",
+static const gchar * formatter_mime_types[] = { "message/rfc822",
 					       "application/vnd.evolution.rfc822.end",
 					       NULL };
 

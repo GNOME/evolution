@@ -184,9 +184,9 @@ inline_filter_add_part (EMailInlineFilter *emif,
 		camel_mime_part_set_filename (part, emif->filename);
 
 	/* pre-snoop the mime type of unknown objects, and poke and hack it into place */
-	if (camel_content_type_is(dw->mime_type, "application", "octet-stream")
+	if (camel_content_type_is (dw->mime_type, "application", "octet-stream")
 	    && (mimetype = e_mail_part_snoop_type (part))
-	    && strcmp(mimetype, "application/octet-stream") != 0) {
+	    && strcmp (mimetype, "application/octet-stream") != 0) {
 		camel_data_wrapper_set_mime_type (dw, mimetype);
 		camel_mime_part_set_content_type (part, mimetype);
 		if (emif->filename)

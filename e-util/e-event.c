@@ -229,7 +229,7 @@ e_event_emit (EEvent *event,
 	EEventPrivate *p = event->priv;
 	GSList *events;
 
-	d(printf("emit event %s\n", id));
+	d (printf ("emit event %s\n", id));
 
 	if (event->target != NULL) {
 		g_warning ("Event already in progress.\n");
@@ -263,9 +263,6 @@ e_event_emit (EEvent *event,
 	for (; events; events = g_slist_next (events)) {
 		struct _event_info *info = events->data;
 		EEventItem *item = info->item;
-
-		d(printf("event '%s' mask %08x target %08x\n",
-			item->id, item->enable, target->mask));
 
 		if (item->enable & target->mask)
 			continue;
@@ -429,7 +426,7 @@ emph_construct_item (EPluginHook *eph,
 
 	item = g_malloc0 (sizeof (*item));
 
-	tmp = (gchar *)xmlGetProp(root, (const guchar *)"target");
+	tmp = (gchar *) xmlGetProp (root, (const guchar *)"target");
 	if (tmp == NULL)
 		goto error;
 	map = g_hash_table_lookup (class->target_map, tmp);
@@ -437,13 +434,13 @@ emph_construct_item (EPluginHook *eph,
 	if (map == NULL)
 		goto error;
 	item->target_type = map->id;
-	item->type = e_plugin_hook_id(root, emph_item_types, "type");
+	item->type = e_plugin_hook_id (root, emph_item_types, "type");
 	if (item->type == -1)
 		item->type = E_EVENT_PASS;
-	item->priority = e_plugin_xml_int(root, "priority", 0);
-	item->id = e_plugin_xml_prop(root, "id");
-	item->enable = e_plugin_hook_mask(root, map->mask_bits, "enable");
-	item->user_data = e_plugin_xml_prop(root, "handle");
+	item->priority = e_plugin_xml_int (root, "priority", 0);
+	item->id = e_plugin_xml_prop (root, "id");
+	item->enable = e_plugin_hook_mask (root, map->mask_bits, "enable");
+	item->user_data = e_plugin_xml_prop (root, "handle");
 
 	if (item->user_data == NULL || item->id == NULL)
 		goto error;
@@ -465,7 +462,7 @@ emph_construct (EPluginHook *eph,
 	EEventHookClass *class;
 	GSList *items = NULL;
 
-	d(printf("loading event hook\n"));
+	d (printf ("loading event hook\n"));
 
 	if (((EPluginHookClass *) e_event_hook_parent_class)->
 		construct (eph, ep, root) == -1)
@@ -476,7 +473,7 @@ emph_construct (EPluginHook *eph,
 
 	node = root->children;
 	while (node) {
-		if (strcmp((gchar *)node->name, "event") == 0) {
+		if (strcmp ((gchar *) node->name, "event") == 0) {
 			EEventItem *item;
 
 			item = emph_construct_item (eph, node, class);

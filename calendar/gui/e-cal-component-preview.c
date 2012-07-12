@@ -96,9 +96,9 @@ clear_comp_info (ECalComponentPreview *preview)
 static gboolean
 update_comp_info (ECalComponentPreview *preview,
                   ECalClient *client,
-		  ECalComponent *comp,
-		  icaltimezone *zone,
-		  gboolean use_24_hour_format)
+                  ECalComponent *comp,
+                  icaltimezone *zone,
+                  gboolean use_24_hour_format)
 {
 	ECalComponentPreviewPrivate *priv;
 	gboolean changed;
@@ -195,7 +195,7 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 
 static void
 cal_component_preview_write_html (ECalComponentPreview *preview,
-				  GString *buffer)
+                                  GString *buffer)
 {
 	ECalClient *client;
 	ECalComponent *comp;
@@ -412,7 +412,6 @@ load_comp (ECalComponentPreview *preview)
 		e_cal_component_preview_clear (preview);
 		return;
 	}
-
 
 	buffer = g_string_sized_new (4096);
 	cal_component_preview_write_html (preview, buffer);

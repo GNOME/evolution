@@ -114,7 +114,7 @@ em_vfolder_rule_init (EMVFolderRule *rule)
 	rule->priv->with = EM_VFOLDER_RULE_WITH_SPECIFIC;
 	rule->priv->autoupdate = TRUE;
 	/* it's using pointers from priv::sources, and those
-	   included has include_subfolders set to true */
+	 * included has include_subfolders set to true */
 	rule->priv->include_subfolders = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	rule->rule.source = g_strdup ("incoming");
@@ -195,14 +195,14 @@ GQueue *
 em_vfolder_rule_get_sources (EMVFolderRule *rule)
 {
 	g_return_val_if_fail (rule != NULL, NULL);
-	
+
 	return &rule->priv->sources;
 }
 
 static gboolean
 check_queue_has_key (gpointer key,
-		     gpointer value,
-		     gpointer user_data)
+                     gpointer value,
+                     gpointer user_data)
 {
 	EMVFolderRule *rule = user_data;
 
@@ -222,7 +222,7 @@ em_vfolder_rule_sources_changed (EMVFolderRule *rule)
 
 gboolean
 em_vfolder_rule_source_get_include_subfolders (EMVFolderRule *rule,
-					       const gchar *source)
+                                               const gchar *source)
 {
 	g_return_val_if_fail (rule != NULL, FALSE);
 	g_return_val_if_fail (source != NULL, FALSE);
@@ -234,8 +234,8 @@ em_vfolder_rule_source_get_include_subfolders (EMVFolderRule *rule,
 
 void
 em_vfolder_rule_source_set_include_subfolders (EMVFolderRule *rule,
-					       const gchar *source,
-					       gboolean include_subfolders)
+                                               const gchar *source,
+                                               gboolean include_subfolders)
 {
 	g_return_if_fail (rule != NULL);
 	g_return_if_fail (source != NULL);
@@ -251,7 +251,7 @@ em_vfolder_rule_source_set_include_subfolders (EMVFolderRule *rule,
 
 void
 em_vfolder_rule_set_with (EMVFolderRule *rule,
-			  em_vfolder_rule_with_t with)
+                          em_vfolder_rule_with_t with)
 {
 	g_return_if_fail (rule != NULL);
 
@@ -267,8 +267,8 @@ em_vfolder_rule_get_with (EMVFolderRule *rule)
 }
 
 void
-em_vfolder_rule_set_autoupdate	(EMVFolderRule *rule,
-				 gboolean autoupdate)
+em_vfolder_rule_set_autoupdate (EMVFolderRule *rule,
+                                gboolean autoupdate)
 {
 	g_return_if_fail (rule != NULL);
 
@@ -353,10 +353,10 @@ xml_encode (EFilterRule *fr)
 	g_return_val_if_fail (node != NULL, NULL);
 	g_return_val_if_fail (vr->priv->with < G_N_ELEMENTS (with_names), NULL);
 
-	set = xmlNewNode(NULL, (const guchar *)"sources");
+	set = xmlNewNode (NULL, (const guchar *)"sources");
 	xmlAddChild (node, set);
-	xmlSetProp(set, (const guchar *)"with", (guchar *)with_names[vr->priv->with]);
-	xmlSetProp(set, (const guchar *)"autoupdate", (guchar *) (vr->priv->autoupdate ? "true" : "false"));
+	xmlSetProp (set, (const guchar *)"with", (guchar *) with_names[vr->priv->with]);
+	xmlSetProp (set, (const guchar *)"autoupdate", (guchar *) (vr->priv->autoupdate ? "true" : "false"));
 
 	head = g_queue_peek_head_link (&vr->priv->sources);
 	for (link = head; link != NULL; link = g_list_next (link)) {
@@ -404,16 +404,16 @@ xml_decode (EFilterRule *fr,
 		return result;
 
 	/* handle old format file, vfolder source is in filterrule */
-	if (strcmp(fr->source, "incoming")!= 0) {
+	if (strcmp (fr->source, "incoming")!= 0) {
 		set_with (vr, fr->source);
 		g_free (fr->source);
-		fr->source = g_strdup("incoming");
+		fr->source = g_strdup ("incoming");
 	}
 
 	set = node->children;
 	while (set) {
-		if (!strcmp((gchar *)set->name, "sources")) {
-			tmp = (gchar *)xmlGetProp(set, (const guchar *)"with");
+		if (!strcmp ((gchar *) set->name, "sources")) {
+			tmp = (gchar *) xmlGetProp (set, (const guchar *)"with");
 			if (tmp) {
 				set_with (vr, tmp);
 				xmlFree (tmp);
@@ -425,8 +425,8 @@ xml_decode (EFilterRule *fr,
 			}
 			work = set->children;
 			while (work) {
-				if (!strcmp((gchar *)work->name, "folder")) {
-					tmp = (gchar *)xmlGetProp(work, (const guchar *)"uri");
+				if (!strcmp ((gchar *) work->name, "folder")) {
+					tmp = (gchar *) xmlGetProp (work, (const guchar *)"uri");
 					if (tmp) {
 						gchar *include_subfolders;
 
@@ -434,7 +434,8 @@ xml_decode (EFilterRule *fr,
 
 						include_subfolders = (gchar *) xmlGetProp (work, (const guchar *) "include-subfolders");
 						if (include_subfolders) {
-							em_vfolder_rule_source_set_include_subfolders (vr,
+							em_vfolder_rule_source_set_include_subfolders (
+								vr,
 								tmp, g_str_equal (include_subfolders, "true"));
 							xmlFree (include_subfolders);
 						}
@@ -464,14 +465,15 @@ rule_copy (EFilterRule *dest,
 	while ((uri = g_queue_pop_head (&vdest->priv->sources)) != NULL)
 		g_free (uri);
 
-	em_vfolder_rule_sources_changed	(vdest);
+	em_vfolder_rule_sources_changed (vdest);
 
 	head = g_queue_peek_head_link (&vsrc->priv->sources);
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		const gchar *uri = link->data;
 		g_queue_push_tail (&vdest->priv->sources, g_strdup (uri));
 
-		em_vfolder_rule_source_set_include_subfolders (vdest, uri,
+		em_vfolder_rule_source_set_include_subfolders (
+			vdest, uri,
 			em_vfolder_rule_source_get_include_subfolders (vsrc, uri));
 	}
 

@@ -130,9 +130,9 @@ void
 em_filter_rule_build_action (EMFilterRule *fr,
                              GString *out)
 {
-	g_string_append(out, "(begin\n");
+	g_string_append (out, "(begin\n");
 	e_filter_part_build_code_list (fr->actions, out);
-	g_string_append(out, ")\n");
+	g_string_append (out, ")\n");
 }
 
 static gint
@@ -193,7 +193,7 @@ xml_encode (EFilterRule *fr)
 	node = E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->
 		xml_encode (fr);
 	g_return_val_if_fail (node != NULL, NULL);
-	set = xmlNewNode(NULL, (const guchar *)"actionset");
+	set = xmlNewNode (NULL, (const guchar *)"actionset");
 	xmlAddChild (node, set);
 	l = ff->actions;
 	while (l) {
@@ -217,19 +217,19 @@ load_set (xmlNodePtr node,
 
 	work = node->children;
 	while (work) {
-		if (!strcmp((gchar *)work->name, "part")) {
-			rulename = (gchar *)xmlGetProp(work, (const guchar *)"name");
+		if (!strcmp ((gchar *) work->name, "part")) {
+			rulename = (gchar *) xmlGetProp (work, (const guchar *)"name");
 			part = em_filter_context_find_action ((EMFilterContext *) rc, rulename);
 			if (part) {
 				part = e_filter_part_clone (part);
 				e_filter_part_xml_decode (part, work);
 				em_filter_rule_add_action (ff, part);
 			} else {
-				g_warning("cannot find rule part '%s'\n", rulename);
+				g_warning ("cannot find rule part '%s'\n", rulename);
 			}
 			xmlFree (rulename);
 		} else if (work->type == XML_ELEMENT_NODE) {
-			g_warning("Unknown xml node in part: %s", work->name);
+			g_warning ("Unknown xml node in part: %s", work->name);
 		}
 		work = work->next;
 	}
@@ -251,7 +251,7 @@ xml_decode (EFilterRule *fr,
 
 	work = node->children;
 	while (work) {
-		if (!strcmp((gchar *)work->name, "actionset")) {
+		if (!strcmp ((gchar *) work->name, "actionset")) {
 			load_set (work, ff, rc);
 		}
 		work = work->next;
@@ -405,7 +405,7 @@ less_parts (GtkWidget *button,
 	if (g_list_length (l) < 2)
 		return;
 
-	rule = g_object_get_data((GObject *)button, "rule");
+	rule = g_object_get_data ((GObject *) button, "rule");
 	part_data = g_object_get_data ((GObject *) rule, "data");
 
 	g_return_if_fail (part_data != NULL);
@@ -429,17 +429,19 @@ attach_rule (GtkWidget *rule,
 {
 	GtkWidget *remove;
 
-	gtk_table_attach (GTK_TABLE (data->parts), rule, 0, 1, row, row + 1,
-			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (data->parts), rule, 0, 1, row, row + 1,
+		GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	remove = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-	g_object_set_data((GObject *)remove, "rule", rule);
+	g_object_set_data ((GObject *) remove, "rule", rule);
 	/*gtk_button_set_relief(GTK_BUTTON(remove), GTK_RELIEF_NONE);*/
 	g_signal_connect (
 		remove, "clicked",
 		G_CALLBACK (less_parts), data);
-	gtk_table_attach (GTK_TABLE (data->parts), remove, 1, 2, row, row + 1,
-			  0, 0, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (data->parts), remove, 1, 2, row, row + 1,
+		0, 0, 0, 0);
 	gtk_widget_show (remove);
 }
 
@@ -488,7 +490,7 @@ more_parts (GtkWidget *button,
 			gtk_widget_grab_focus (w);
 
 		/* also scroll down to see new part */
-		w = (GtkWidget*) g_object_get_data (G_OBJECT (button), "scrolled-window");
+		w = (GtkWidget *) g_object_get_data (G_OBJECT (button), "scrolled-window");
 		if (w) {
 			GtkAdjustment *adjustment;
 
@@ -507,8 +509,8 @@ more_parts (GtkWidget *button,
 
 static void
 ensure_scrolled_height_cb (GtkAdjustment *adj,
-			   GParamSpec *param_spec,
-			   GtkScrolledWindow *scrolled_window)
+                           GParamSpec *param_spec,
+                           GtkScrolledWindow *scrolled_window)
 {
 	GtkWidget *toplevel;
 	GdkScreen *screen;
@@ -578,7 +580,7 @@ get_widget (EFilterRule *fr,
 		get_widget (fr, rc);
 
 	/* and now for the action area */
-	msg = g_strdup_printf("<b>%s</b>", _("Then"));
+	msg = g_strdup_printf ("<b>%s</b>", _("Then"));
 	label = gtk_label_new (msg);
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
@@ -617,7 +619,7 @@ get_widget (EFilterRule *fr,
 	l = ff->actions;
 	while (l) {
 		part = l->data;
-		d(printf("adding action %s\n", part->title));
+		d (printf ("adding action %s\n", part->title));
 		w = get_rule_part_widget ((EMFilterContext *) rc, part, fr);
 		attach_rule (w, data, part, i++);
 		l = l->next;

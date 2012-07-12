@@ -424,7 +424,7 @@ etfci_drag_data_get (GtkWidget *widget,
                      ETableFieldChooserItem *etfci)
 {
 	if (etfci->drag_col != -1) {
-		gchar *string = g_strdup_printf("%d", etfci->drag_col);
+		gchar *string = g_strdup_printf ("%d", etfci->drag_col);
 		gtk_selection_data_set (selection_data,
 				       GDK_SELECTION_TYPE_STRING,
 				       sizeof (string[0]),
@@ -590,7 +590,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci,
 
 	etfci_drag_types[0].target = g_strdup_printf (
 		"%s-%s", etfci_drag_types[0].target, etfci->dnd_code);
-	d(g_print ("etfci - %s\n", etfci_drag_types[0].target));
+	d (g_print ("etfci - %s\n", etfci_drag_types[0].target));
 	list = gtk_target_list_new (etfci_drag_types, G_N_ELEMENTS (etfci_drag_types));
 	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);
 	g_free ((gpointer) etfci_drag_types[0].target);

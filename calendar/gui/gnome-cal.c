@@ -1273,7 +1273,7 @@ gnome_calendar_set_search_query (GnomeCalendar *gcal,
 	start = start_range;
 	end = end_range;
 
-	d(g_print ("Changing the queries %s \n", sexp));
+	d (g_print ("Changing the queries %s \n", sexp));
 
 	gnome_calendar_update_query (gcal);
 

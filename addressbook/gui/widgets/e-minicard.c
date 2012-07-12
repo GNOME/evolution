@@ -330,7 +330,7 @@ e_minicard_set_property (GObject *object,
 		}
 		break;
 	case PROP_HAS_CURSOR:
-		d(g_print("%s: PROP_HAS_CURSOR\n", G_STRFUNC));
+		d (g_print ("%s: PROP_HAS_CURSOR\n", G_STRFUNC));
 		if (e_minicard->has_cursor != g_value_get_boolean (value))
 			set_has_cursor (e_minicard, g_value_get_boolean (value));
 		break;
@@ -490,7 +490,7 @@ e_minicard_realize (GnomeCanvasItem *item)
 	e_minicard->header_text =
 	  gnome_canvas_item_new ( group,
 				 e_text_get_type (),
-				 "width", (double) MAX( e_minicard->width - 12, 0 ),
+				 "width", (double) MAX ( e_minicard->width - 12, 0 ),
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,
 				 "fill_color_gdk", &style->fg[GTK_STATE_NORMAL],
@@ -531,7 +531,7 @@ e_minicard_event (GnomeCanvasItem *item,
 	case GDK_FOCUS_CHANGE:
 		{
 			GdkEventFocus *focus_event = (GdkEventFocus *) event;
-			d(g_print("%s: GDK_FOCUS_CHANGE: %s\n", G_STRFUNC, focus_event->in?"in":"out"));
+			d (g_print ("%s: GDK_FOCUS_CHANGE: %s\n", G_STRFUNC, focus_event->in?"in":"out"));
 			if (focus_event->in) {
 				/* Chris: When EMinicard gets the cursor, if it doesn't have the focus, it should take it.  */
 				e_minicard->has_focus = TRUE;
@@ -721,7 +721,7 @@ add_field (EMinicard *e_minicard,
 
 	group = GNOME_CANVAS_GROUP ( e_minicard );
 
-	name = g_strdup_printf("%s:", e_contact_pretty_name (field));
+	name = g_strdup_printf ("%s:", e_contact_pretty_name (field));
 	string = e_contact_get (e_minicard->contact, field);
 
 	new_item = e_minicard_label_new (group);
@@ -871,7 +871,7 @@ get_left_width (EMinicard *e_minicard,
 		if (field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_GIVEN_NAME)
 			continue;
 
-		name = g_strdup_printf("%s:", e_contact_pretty_name (field));
+		name = g_strdup_printf ("%s:", e_contact_pretty_name (field));
 		pango_layout_set_text (layout, name, -1);
 		pango_layout_get_pixel_size (layout, &this_width, NULL);
 		if (width < this_width)

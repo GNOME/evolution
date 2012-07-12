@@ -103,27 +103,27 @@ static import_fields csv_fields_outlook[] = {
 	{"Company", E_CONTACT_ORG},
 	{"Department", E_CONTACT_ORG_UNIT},
 	{"Job Title", E_CONTACT_TITLE},
-	{"Business Street", NOMAP, FLAG_WORK_ADDRESS|FLAG_STREET },
-	{"Business Street 2", NOMAP, FLAG_WORK_ADDRESS|FLAG_STREET },
-	{"Business Street 3", NOMAP, FLAG_WORK_ADDRESS|FLAG_STREET},
-	{"Business City", NOMAP, FLAG_WORK_ADDRESS|FLAG_CITY},
-	{"Business State", NOMAP, FLAG_WORK_ADDRESS|FLAG_STATE},
-	{"Business Postal Code", NOMAP, FLAG_WORK_ADDRESS|FLAG_POSTAL_CODE},
-	{"Business Country", NOMAP, FLAG_WORK_ADDRESS|FLAG_COUNTRY},
-	{"Home Street", NOMAP, FLAG_HOME_ADDRESS|FLAG_STREET},
-	{"Home Street 2", NOMAP, FLAG_HOME_ADDRESS|FLAG_STREET},
-	{"Home Street 3", NOMAP, FLAG_HOME_ADDRESS|FLAG_STREET},
-	{"Home City", NOMAP, FLAG_HOME_ADDRESS|FLAG_CITY},
-	{"Home State", NOMAP, FLAG_HOME_ADDRESS|FLAG_STATE},
-	{"Home Postal Code", NOMAP,FLAG_HOME_ADDRESS|FLAG_POSTAL_CODE},
-	{"Home Country", NOMAP, FLAG_HOME_ADDRESS|FLAG_COUNTRY},
-	{"Other Street", NOMAP, FLAG_OTHER_ADDRESS|FLAG_STREET},
-	{"Other Street 2", NOMAP, FLAG_OTHER_ADDRESS|FLAG_STREET},
-	{"Other Street 3", NOMAP, FLAG_OTHER_ADDRESS|FLAG_STREET},
-	{"Other City", NOMAP, FLAG_OTHER_ADDRESS|FLAG_CITY},
-	{"Other State", NOMAP, FLAG_OTHER_ADDRESS|FLAG_STATE},
-	{"Other Postal Code", NOMAP, FLAG_OTHER_ADDRESS|FLAG_POSTAL_CODE},
-	{"Other Country", NOMAP, FLAG_OTHER_ADDRESS|FLAG_COUNTRY},
+	{"Business Street", NOMAP, FLAG_WORK_ADDRESS | FLAG_STREET },
+	{"Business Street 2", NOMAP, FLAG_WORK_ADDRESS | FLAG_STREET },
+	{"Business Street 3", NOMAP, FLAG_WORK_ADDRESS | FLAG_STREET},
+	{"Business City", NOMAP, FLAG_WORK_ADDRESS | FLAG_CITY},
+	{"Business State", NOMAP, FLAG_WORK_ADDRESS | FLAG_STATE},
+	{"Business Postal Code", NOMAP, FLAG_WORK_ADDRESS | FLAG_POSTAL_CODE},
+	{"Business Country", NOMAP, FLAG_WORK_ADDRESS | FLAG_COUNTRY},
+	{"Home Street", NOMAP, FLAG_HOME_ADDRESS | FLAG_STREET},
+	{"Home Street 2", NOMAP, FLAG_HOME_ADDRESS | FLAG_STREET},
+	{"Home Street 3", NOMAP, FLAG_HOME_ADDRESS | FLAG_STREET},
+	{"Home City", NOMAP, FLAG_HOME_ADDRESS | FLAG_CITY},
+	{"Home State", NOMAP, FLAG_HOME_ADDRESS | FLAG_STATE},
+	{"Home Postal Code", NOMAP,FLAG_HOME_ADDRESS | FLAG_POSTAL_CODE},
+	{"Home Country", NOMAP, FLAG_HOME_ADDRESS | FLAG_COUNTRY},
+	{"Other Street", NOMAP, FLAG_OTHER_ADDRESS | FLAG_STREET},
+	{"Other Street 2", NOMAP, FLAG_OTHER_ADDRESS | FLAG_STREET},
+	{"Other Street 3", NOMAP, FLAG_OTHER_ADDRESS | FLAG_STREET},
+	{"Other City", NOMAP, FLAG_OTHER_ADDRESS | FLAG_CITY},
+	{"Other State", NOMAP, FLAG_OTHER_ADDRESS | FLAG_STATE},
+	{"Other Postal Code", NOMAP, FLAG_OTHER_ADDRESS | FLAG_POSTAL_CODE},
+	{"Other Country", NOMAP, FLAG_OTHER_ADDRESS | FLAG_COUNTRY},
 	{"Assistant's Phone", E_CONTACT_PHONE_ASSISTANT},
 	{"Business Fax", E_CONTACT_PHONE_BUSINESS_FAX},
 	{"Business Phone", E_CONTACT_PHONE_BUSINESS},
@@ -148,7 +148,7 @@ static import_fields csv_fields_outlook[] = {
 	{"Assistant's Name", E_CONTACT_ASSISTANT},
 	{"Billing Information", NOMAP},
 	{"Birthday", NOMAP, FLAG_DATE_BDAY},
-	{"Business Address PO Box", NOMAP, FLAG_WORK_ADDRESS|FLAG_POBOX},
+	{"Business Address PO Box", NOMAP, FLAG_WORK_ADDRESS | FLAG_POBOX},
 	{"Categories", E_CONTACT_CATEGORIES},
 	{"Children", NOMAP},
 	{"Directory Server", NOMAP},
@@ -164,7 +164,7 @@ static import_fields csv_fields_outlook[] = {
 	{"Gender", NOMAP},
 	{"Government ID Number", NOMAP},
 	{"Hobby", NOMAP},
-	{"Home Address PO Box", NOMAP, FLAG_HOME_ADDRESS|FLAG_POBOX},
+	{"Home Address PO Box", NOMAP, FLAG_HOME_ADDRESS | FLAG_POBOX},
 	{"Initials", NOMAP},
 	{"Internet FREE/BUSY", E_CONTACT_FREEBUSY_URL},
 	{"Keywords", NOMAP},
@@ -175,7 +175,7 @@ static import_fields csv_fields_outlook[] = {
 	{"Notes", NOMAP},
 	{"Office Location", NOMAP},
 	{"Organizational ID Number", NOMAP},
-	{"Other Address PO Box", NOMAP, FLAG_OTHER_ADDRESS|FLAG_POBOX},
+	{"Other Address PO Box", NOMAP, FLAG_OTHER_ADDRESS | FLAG_POBOX},
 	{"Priority", NOMAP},
 	{"Private", NOMAP},
 	{"Profession", NOMAP},
@@ -201,18 +201,18 @@ static import_fields csv_fields_mozilla[] = {
 	{"Business Fax", E_CONTACT_PHONE_BUSINESS_FAX},
 	{"Pager", E_CONTACT_PHONE_PAGER},
 	{"Mobile Phone", E_CONTACT_PHONE_MOBILE},
-	{"Home Street", NOMAP, FLAG_HOME_ADDRESS|FLAG_STREET},
-	{"Home Street 2", NOMAP, FLAG_HOME_ADDRESS|FLAG_STREET},
-	{"Home City", NOMAP, FLAG_HOME_ADDRESS|FLAG_CITY},
-	{"Home State", NOMAP, FLAG_HOME_ADDRESS|FLAG_STATE},
-	{"Home Postal Code", NOMAP,FLAG_HOME_ADDRESS|FLAG_POSTAL_CODE},
-	{"Home Country", NOMAP, FLAG_HOME_ADDRESS|FLAG_COUNTRY},
-	{"Business Street", NOMAP, FLAG_WORK_ADDRESS|FLAG_STREET },
-	{"Business Street 2", NOMAP, FLAG_WORK_ADDRESS|FLAG_STREET },
-	{"Business City", NOMAP, FLAG_WORK_ADDRESS|FLAG_CITY},
-	{"Business State", NOMAP, FLAG_WORK_ADDRESS|FLAG_STATE},
-	{"Business Postal Code", NOMAP, FLAG_WORK_ADDRESS|FLAG_POSTAL_CODE},
-	{"Business Country", NOMAP, FLAG_WORK_ADDRESS|FLAG_COUNTRY},
+	{"Home Street", NOMAP, FLAG_HOME_ADDRESS | FLAG_STREET},
+	{"Home Street 2", NOMAP, FLAG_HOME_ADDRESS | FLAG_STREET},
+	{"Home City", NOMAP, FLAG_HOME_ADDRESS | FLAG_CITY},
+	{"Home State", NOMAP, FLAG_HOME_ADDRESS | FLAG_STATE},
+	{"Home Postal Code", NOMAP,FLAG_HOME_ADDRESS | FLAG_POSTAL_CODE},
+	{"Home Country", NOMAP, FLAG_HOME_ADDRESS | FLAG_COUNTRY},
+	{"Business Street", NOMAP, FLAG_WORK_ADDRESS | FLAG_STREET },
+	{"Business Street 2", NOMAP, FLAG_WORK_ADDRESS | FLAG_STREET },
+	{"Business City", NOMAP, FLAG_WORK_ADDRESS | FLAG_CITY},
+	{"Business State", NOMAP, FLAG_WORK_ADDRESS | FLAG_STATE},
+	{"Business Postal Code", NOMAP, FLAG_WORK_ADDRESS | FLAG_POSTAL_CODE},
+	{"Business Country", NOMAP, FLAG_WORK_ADDRESS | FLAG_COUNTRY},
 	{"Job Title", E_CONTACT_TITLE},
 	{"Department", E_CONTACT_ORG_UNIT},
 	{"Company", E_CONTACT_ORG},
@@ -244,18 +244,18 @@ static import_fields csv_fields_evolution[] = {
 	{"Business Fax", E_CONTACT_PHONE_BUSINESS_FAX},
 	{"Pager", E_CONTACT_PHONE_PAGER},
 	{"Mobile Phone", E_CONTACT_PHONE_MOBILE},
-	{"Home Street", NOMAP, FLAG_HOME_ADDRESS|FLAG_STREET},
+	{"Home Street", NOMAP, FLAG_HOME_ADDRESS | FLAG_STREET},
 	{"Home Street 2", NOMAP, FLAG_INVALID},
-	{"Home City", NOMAP, FLAG_HOME_ADDRESS|FLAG_CITY},
-	{"Home State", NOMAP, FLAG_HOME_ADDRESS|FLAG_STATE},
-	{"Home Postal Code", NOMAP,FLAG_HOME_ADDRESS|FLAG_POSTAL_CODE},
-	{"Home Country", NOMAP, FLAG_HOME_ADDRESS|FLAG_COUNTRY},
-	{"Business Street", NOMAP, FLAG_WORK_ADDRESS|FLAG_STREET },
+	{"Home City", NOMAP, FLAG_HOME_ADDRESS | FLAG_CITY},
+	{"Home State", NOMAP, FLAG_HOME_ADDRESS | FLAG_STATE},
+	{"Home Postal Code", NOMAP,FLAG_HOME_ADDRESS | FLAG_POSTAL_CODE},
+	{"Home Country", NOMAP, FLAG_HOME_ADDRESS | FLAG_COUNTRY},
+	{"Business Street", NOMAP, FLAG_WORK_ADDRESS | FLAG_STREET },
 	{"Business Street 2", NOMAP, FLAG_INVALID },
-	{"Business City", NOMAP, FLAG_WORK_ADDRESS|FLAG_CITY},
-	{"Business State", NOMAP, FLAG_WORK_ADDRESS|FLAG_STATE},
-	{"Business Postal Code", NOMAP, FLAG_WORK_ADDRESS|FLAG_POSTAL_CODE},
-	{"Business Country", NOMAP, FLAG_WORK_ADDRESS|FLAG_COUNTRY},
+	{"Business City", NOMAP, FLAG_WORK_ADDRESS | FLAG_CITY},
+	{"Business State", NOMAP, FLAG_WORK_ADDRESS | FLAG_STATE},
+	{"Business Postal Code", NOMAP, FLAG_WORK_ADDRESS | FLAG_POSTAL_CODE},
+	{"Business Country", NOMAP, FLAG_WORK_ADDRESS | FLAG_COUNTRY},
 	{"Job Title", E_CONTACT_TITLE},
 	{"Office", E_CONTACT_OFFICE},
 	{"Company", E_CONTACT_ORG},
@@ -431,9 +431,9 @@ parseLine (CSVImporter *gci,
 	EContactAddress *home_address = NULL, *work_address = NULL, *other_address = NULL;
 	EContactDate *bday = NULL;
 	GString *home_street, *work_street, *other_street;
-	home_street = g_string_new("");
-	work_street = g_string_new("");
-	other_street = g_string_new("");
+	home_street = g_string_new ("");
+	work_street = g_string_new ("");
+	other_street = g_string_new ("");
 	home_address = g_new0 (EContactAddress, 1);
 	work_address = g_new0 (EContactAddress, 1);
 	other_address = g_new0 (EContactAddress, 1);
@@ -506,7 +506,7 @@ parseLine (CSVImporter *gci,
 
 				case FLAG_HOME_ADDRESS | FLAG_STREET:
 					if (strlen (home_street->str) != 0) {
-						home_street = g_string_append(home_street, ",\n");
+						home_street = g_string_append (home_street, ",\n");
 					}
 					home_street = g_string_append (home_street, value->str);
 					break;
@@ -528,7 +528,7 @@ parseLine (CSVImporter *gci,
 
 				case FLAG_WORK_ADDRESS | FLAG_STREET:
 					if (strlen (work_street->str) != 0) {
-						work_street = g_string_append(work_street, ",\n");
+						work_street = g_string_append (work_street, ",\n");
 					}
 					work_street = g_string_append (work_street, value->str);
 					break;
@@ -550,7 +550,7 @@ parseLine (CSVImporter *gci,
 
 				case FLAG_OTHER_ADDRESS | FLAG_STREET:
 					if (strlen (other_street->str) != 0) {
-						other_street = g_string_append(other_street, ",\n");
+						other_street = g_string_append (other_street, ",\n");
 					}
 					other_street = g_string_append (other_street, value->str);
 					break;
@@ -646,7 +646,7 @@ getNextCSVEntry (CSVImporter *gci,
 	gchar *buf;
 	gchar c;
 
-	line = g_string_new("");
+	line = g_string_new ("");
 	while (1) {
 		c = fgetc (f);
 		if (c == EOF)
@@ -671,7 +671,7 @@ getNextCSVEntry (CSVImporter *gci,
 	if (gci->count == 0 && importer != MOZILLA_IMPORTER) {
 		gci->fields_map = map_fields (line->str, importer);
 		g_string_free (line, TRUE);
-		line = g_string_new("");
+		line = g_string_new ("");
 		while (1) {
 			c = fgetc (f);
 			if (c == EOF)
@@ -695,7 +695,7 @@ getNextCSVEntry (CSVImporter *gci,
 		gci->count++;
 	}
 
-	str = g_string_new("");
+	str = g_string_new ("");
 	str = g_string_append (str, line->str);
 
 	g_string_free (line, TRUE);
@@ -784,7 +784,7 @@ csv_getwidget (EImport *ei,
 		E_SOURCE_SELECTOR (selector), FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), selector, FALSE, TRUE, 6);
 
-	primary = g_datalist_get_data(&target->data, "csv-source");
+	primary = g_datalist_get_data (&target->data, "csv-source");
 	if (primary == NULL) {
 		GList *list;
 
@@ -830,7 +830,7 @@ csv_supported (EImport *ei,
 	if (s->uri_src == NULL)
 		return TRUE;
 
-	if (strncmp(s->uri_src, "file:///", 8) != 0)
+	if (strncmp (s->uri_src, "file:///", 8) != 0)
 		return FALSE;
 
 	ext = strrchr (s->uri_src, '.');
@@ -912,13 +912,13 @@ csv_import (EImport *ei,
 	file = g_fopen (filename, "r");
 	g_free (filename);
 	if (file == NULL) {
-		g_message("Can't open .csv file");
+		g_message ("Can't open .csv file");
 		e_import_complete (ei, target);
 		return;
 	}
 
 	gci = g_malloc0 (sizeof (*gci));
-	g_datalist_set_data(&target->data, "csv-data", gci);
+	g_datalist_set_data (&target->data, "csv-data", gci);
 	gci->import = g_object_ref (ei);
 	gci->target = target;
 	gci->file = file;
@@ -967,7 +967,7 @@ csv_cancel (EImport *ei,
             EImportTarget *target,
             EImportImporter *im)
 {
-	CSVImporter *gci = g_datalist_get_data(&target->data, "csv-data");
+	CSVImporter *gci = g_datalist_get_data (&target->data, "csv-data");
 
 	if (gci)
 		gci->state = 1;

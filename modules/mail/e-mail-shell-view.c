@@ -46,9 +46,9 @@ static const gchar *SEARCH_RESULTS_STATE =
 
 static void
 add_folders_from_store (GList **folders,
-			CamelStore *store,
-			GCancellable *cancellable,
-			GError **error)
+                        CamelStore *store,
+                        GCancellable *cancellable,
+                        GError **error)
 {
 	CamelFolderInfo *root, *fi;
 
@@ -771,7 +771,8 @@ has_unread_mail (GtkTreeModel *model,
 	if (is_root) {
 		gboolean is_store = FALSE, is_draft = FALSE;
 
-		gtk_tree_model_get (model, parent,
+		gtk_tree_model_get (
+			model, parent,
 			COL_UINT_UNREAD, &unread,
 			COL_BOOL_IS_STORE, &is_store,
 			COL_BOOL_IS_DRAFT, &is_draft,

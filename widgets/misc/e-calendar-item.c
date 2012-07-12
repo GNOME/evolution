@@ -2746,7 +2746,7 @@ e_calendar_item_set_first_month (ECalendarItem *calitem,
 
 	new_year = year;
 	new_month = month;
-	e_calendar_item_normalize_date	(calitem, &new_year, &new_month);
+	e_calendar_item_normalize_date (calitem, &new_year, &new_month);
 
 	if (calitem->year == new_year && calitem->month == new_month)
 		return;
@@ -3493,9 +3493,9 @@ e_calendar_item_show_popup_menu (ECalendarItem *calitem,
 		submenu = gtk_menu_new ();
 		gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem), submenu);
 
-		g_object_set_data(G_OBJECT(submenu), "year",
+		g_object_set_data (G_OBJECT (submenu), "year",
 				     GINT_TO_POINTER (year));
-		g_object_set_data(G_OBJECT(submenu), "month_offset",
+		g_object_set_data (G_OBJECT (submenu), "month_offset",
 				     GINT_TO_POINTER (month_offset));
 
 		for (month = 0; month < 12; month++) {

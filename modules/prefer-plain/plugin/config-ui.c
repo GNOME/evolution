@@ -120,7 +120,7 @@ prefer_plain_page_factory (EPlugin *epl,
 	}
 
 	gtk_cell_layout_pack_start ((GtkCellLayout *) dropdown, cell, TRUE);
-	gtk_cell_layout_set_attributes((GtkCellLayout *)dropdown, cell, "text", 0, NULL);
+	gtk_cell_layout_set_attributes ((GtkCellLayout *) dropdown, cell, "text", 0, NULL);
 	gtk_combo_box_set_model (dropdown, (GtkTreeModel *) store);
 	/*gtk_combo_box_set_active(dropdown, -1);*/
 	gtk_combo_box_set_active (dropdown, epp_mode);

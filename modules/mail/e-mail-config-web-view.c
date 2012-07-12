@@ -57,7 +57,8 @@ fix_color_string (gchar *color_string)
 	if (!gdk_color_parse (color_string, &color))
 		return;
 
-	sprintf (color_string, "#%02x%02x%02x",
+	sprintf (
+		color_string, "#%02x%02x%02x",
 		(gint) color.red * 256 / 65536,
 		(gint) color.green * 256 / 65536,
 		(gint) color.blue * 256 / 65536);

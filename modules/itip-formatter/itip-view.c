@@ -760,7 +760,7 @@ button_clicked_cb (WebKitDOMElement *element,
 
 	response = atoi (responseStr);
 
-	//d(printf("Clicked btton %d\n", response));
+	//d (printf ("Clicked btton %d\n", response));
 	g_signal_emit (G_OBJECT (data), signals[RESPONSE], 0, response);
 }
 
@@ -830,7 +830,7 @@ source_changed_cb (WebKitDOMElement *select,
 
 	source = itip_view_ref_source (view);
 
-	d(printf("Source changed to '%s'\n", e_source_get_display_name (source)));
+	d (printf ("Source changed to '%s'\n", e_source_get_display_name (source)));
 	g_signal_emit (view, signals[SOURCE_SELECTED], 0, source);
 
 	g_object_unref (source);
@@ -868,7 +868,8 @@ append_text_table_row (GString *buffer,
 {
 	if (label && *label) {
 
-		g_string_append_printf (buffer,
+		g_string_append_printf (
+			buffer,
 			"<tr id=\"%s\" %s><th>%s</th><td>%s</td></tr>\n",
 			id, (value && *value) ? "" : "hidden=\"\"", label, value);
 
@@ -945,7 +946,7 @@ append_info_item_row (ItipView *view,
 
 	webkit_dom_html_element_set_inner_html (cell, item->message, NULL);
 
-	d(printf("Added row %s_row_%d ('%s')\n", table_id, item->id, item->message));
+	d (printf ("Added row %s_row_%d ('%s')\n", table_id, item->id, item->message));
 }
 
 static void
@@ -966,7 +967,7 @@ remove_info_item_row (ItipView *view,
 		WEBKIT_DOM_NODE (row),
 		NULL);
 
-	d(printf("Removed row %s_row_%d\n", table_id, id));
+	d (printf ("Removed row %s_row_%d\n", table_id, id));
 }
 
 static void
@@ -997,11 +998,12 @@ buttons_table_write_button (GString *buffer,
 static void
 append_buttons_table (GString *buffer)
 {
-	g_string_append (buffer,
-			 "<table class=\"itip buttons\" border=\"0\" "
-				"id=\"" TABLE_BUTTONS "\" cellspacing=\"6\" "
-				"cellpadding=\"0\" >"
-			 "<tr id=\"" TABLE_ROW_BUTTONS "\">");
+	g_string_append (
+		buffer,
+		"<table class=\"itip buttons\" border=\"0\" "
+		"id=\"" TABLE_BUTTONS "\" cellspacing=\"6\" "
+		"cellpadding=\"0\" >"
+		"<tr id=\"" TABLE_ROW_BUTTONS "\">");
 
         /* Everything gets the open button */
 	buttons_table_write_button (
@@ -1047,7 +1049,7 @@ itip_view_rebuild_source_list (ItipView *view)
 	const gchar *extension_name;
 	GHashTable *groups;
 
-	d(printf("Assigning a new source list!\n"));
+	d (printf ("Assigning a new source list!\n"));
 
 	if (!view->priv->dom_document)
 		return;
@@ -1262,7 +1264,7 @@ itip_view_finalize (GObject *object)
 
 	priv = ITIP_VIEW_GET_PRIVATE (object);
 
-	d(printf("Itip view finalized!\n"));
+	d (printf ("Itip view finalized!\n"));
 
 	g_clear_object (&priv->dom_document);
 	g_free (priv->extension_name);
@@ -1425,30 +1427,34 @@ itip_view_set_extension_name (ItipView *view,
 
 void
 itip_view_write (EMailFormatter *formatter,
-		 GString *buffer)
+                 GString *buffer)
 {
 	gchar *header = e_mail_formatter_get_html_header (formatter);
 	g_string_append (buffer, header);
 	g_free (header);
 
-	g_string_append_printf (buffer,
+	g_string_append_printf (
+		buffer,
 		"<img src=\"gtk-stock://%s?size=%d\" class=\"itip icon\" />\n",
 			MEETING_ICON, GTK_ICON_SIZE_BUTTON);
 
-	g_string_append (buffer,
+	g_string_append (
+		buffer,
 		"<div class=\"itip content\" id=\"" DIV_ITIP_CONTENT "\">\n");
 
         /* The first section listing the sender */
         /* FIXME What to do if the send and organizer do not match */
-	g_string_append (buffer,
+	g_string_append (
+		buffer,
 		"<div id=\"" TEXT_ROW_SENDER "\" class=\"itip sender\"></div>\n");
 
 	g_string_append (buffer, "<hr>\n");
 
         /* Elementary event information */
-	g_string_append (buffer,
+	g_string_append (
+		buffer,
 		"<table class=\"itip table\" border=\"0\" "
-		       "cellspacing=\"5\" cellpadding=\"0\">\n");
+		"cellspacing=\"5\" cellpadding=\"0\">\n");
 
 	append_text_table_row (buffer, TABLE_ROW_SUMMARY, NULL, NULL);
 	append_text_table_row (buffer, TABLE_ROW_LOCATION, _("Location:"), NULL);
@@ -1460,26 +1466,31 @@ itip_view_write (EMailFormatter *formatter,
 	g_string_append (buffer, "</table>\n");
 
 	/* Upper Info items */
-	g_string_append (buffer,
+	g_string_append (
+		buffer,
 		"<table class=\"itip info\" id=\"" TABLE_UPPER_ITIP_INFO "\" border=\"0\" "
-		       "cellspacing=\"5\" cellpadding=\"0\">");
+		"cellspacing=\"5\" cellpadding=\"0\">");
 
         /* Description */
-	g_string_append (buffer,
+	g_string_append (
+		buffer,
 		"<div id=\"" TABLE_ROW_DESCRIPTION "\" class=\"itip description\" hidden=\"\"></div>\n");
 
 	g_string_append (buffer, "<hr>\n");
 
 	/* Lower Info items */
-	g_string_append (buffer,
+	g_string_append (
+		buffer,
 		"<table class=\"itip info\" id=\"" TABLE_LOWER_ITIP_INFO "\" border=\"0\" "
-		       "cellspacing=\"5\" cellpadding=\"0\">");
+		"cellspacing=\"5\" cellpadding=\"0\">");
 
-	g_string_append (buffer,
+	g_string_append (
+		buffer,
 		"<table class=\"itip table\" border=\"0\" "
-		       "cellspacing=\"5\" cellpadding=\"0\">\n");
+		"cellspacing=\"5\" cellpadding=\"0\">\n");
 
-	g_string_append (buffer,
+	g_string_append (
+		buffer,
 		"<tr id=\"" TABLE_ROW_ESCB "\" hidden=\"\""">"
 		"<th><label id=\"" TABLE_ROW_ESCB_LABEL "\" for=\"" SELECT_ESOURCE "\"></label></th>"
 		"<td><select name=\"" SELECT_ESOURCE "\" id=\"" SELECT_ESOURCE "\"></select></td>"
@@ -1489,12 +1500,13 @@ itip_view_write (EMailFormatter *formatter,
 	append_checkbox_table_row (buffer, CHECKBOX_RSVP, _("Send reply to sender"));
 
         /* Comments */
-	g_string_append_printf (buffer,
+	g_string_append_printf (
+		buffer,
 		"<tr id=\"" TABLE_ROW_RSVP_COMMENT "\" hidden=\"\">"
 		"<th>%s</th>"
 		"<td><textarea name=\"" TEXTAREA_RSVP_COMMENT "\" "
-			      "id=\"" TEXTAREA_RSVP_COMMENT "\" "
-			      "rows=\"3\" cols=\"40\" disabled=\"\">"
+		"id=\"" TEXTAREA_RSVP_COMMENT "\" "
+		"rows=\"3\" cols=\"40\" disabled=\"\">"
 		"</textarea></td>\n"
 		"</tr>\n",
 		_("Comment:"));
@@ -1530,21 +1542,24 @@ itip_view_write_for_printing (ItipView *view,
 		return;
 	}
 
-	g_string_append (buffer,
+	g_string_append (
+		buffer,
 		"<div class=\"itip print_content\" id=\"" DIV_ITIP_CONTENT "\">\n");
 
         /* The first section listing the sender */
         /* FIXME What to do if the send and organizer do not match */
-	g_string_append_printf (buffer,
+	g_string_append_printf (
+		buffer,
 		"<div id=\"" TEXT_ROW_SENDER "\" class=\"itip sender\">%s</div>\n",
 		view->priv->sender ? view->priv->sender : "");
 
 	g_string_append (buffer, "<hr>\n");
 
         /* Elementary event information */
-	g_string_append (buffer,
+	g_string_append (
+		buffer,
 		"<table class=\"itip table\" border=\"0\" "
-		       "cellspacing=\"5\" cellpadding=\"0\">\n");
+		"cellspacing=\"5\" cellpadding=\"0\">\n");
 
 	append_text_table_row (
 		buffer, TABLE_ROW_SUMMARY,
@@ -1571,7 +1586,7 @@ itip_view_write_for_printing (ItipView *view,
 	g_string_append_printf (
 		buffer,
 		"<div id=\"" TABLE_ROW_DESCRIPTION "\" "
-		     "class=\"itip description\" %s>%s</div>\n",
+		"class=\"itip description\" %s>%s</div>\n",
 		view->priv->description ? "" : "hidden=\"\"", view->priv->description);
 
 	g_string_append (buffer, "</div>");
@@ -2467,7 +2482,7 @@ itip_view_set_source (ItipView *view,
 
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	d(printf("Settings default source '%s'\n", e_source_get_display_name (source)));
+	d (printf ("Settings default source '%s'\n", e_source_get_display_name (source)));
 
 	if (!view->priv->dom_document)
 		return;
@@ -2784,7 +2799,7 @@ itip_view_set_buttons_sensitive (ItipView *view,
 
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	d(printf("Settings buttons %s\n", sensitive ? "sensitive" : "insensitive"));
+	d (printf ("Settings buttons %s\n", sensitive ? "sensitive" : "insensitive"));
 
 	view->priv->buttons_sensitive = sensitive;
 
@@ -3054,7 +3069,8 @@ itip_view_set_error (ItipView *view,
 	str = g_string_new (error_html);
 
 	if (show_save_btn) {
-		g_string_append (str,
+		g_string_append (
+			str,
 			"<table border=\"0\" width=\"100%\">"
 			"<tr width=\"100%\" id=\"" TABLE_ROW_BUTTONS "\">");
 
@@ -3570,7 +3586,8 @@ start_calendar_server (EMailPartItip *pitip,
 		return;
 	}
 
-	e_client_utils_open_new (source,
+	e_client_utils_open_new (
+		source,
 		type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? E_CLIENT_SOURCE_TYPE_EVENTS :
 		type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS ? E_CLIENT_SOURCE_TYPE_MEMOS :
 		type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ? E_CLIENT_SOURCE_TYPE_TASKS : E_CLIENT_SOURCE_TYPE_LAST,
@@ -3630,8 +3647,11 @@ find_cal_update_ui (FormatItipFindData *fd,
 	source = cal_client ? e_client_get_source (E_CLIENT (cal_client)) : NULL;
 
 	if (cal_client && g_hash_table_lookup (fd->conflicts, cal_client)) {
-		itip_view_add_upper_info_item_printf (view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-						      _("An appointment in the calendar '%s' conflicts with this meeting"), e_source_get_display_name (source));
+		itip_view_add_upper_info_item_printf (
+			view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+			_("An appointment in the calendar "
+			"'%s' conflicts with this meeting"),
+			e_source_get_display_name (source));
 	}
 
 	/* search for a master object if the detached object doesn't exist in the calendar */
@@ -3654,7 +3674,8 @@ find_cal_update_ui (FormatItipFindData *fd,
 		pitip->progress_info_id = 0;
 
 		/* FIXME Check read only state of calendar? */
-		itip_view_add_lower_info_item_printf (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+		itip_view_add_lower_info_item_printf (
+			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
 			_("Found the appointment in the calendar '%s'"), e_source_get_display_name (source));
 
 		set_buttons_sensitive (pitip, view);
@@ -3689,7 +3710,7 @@ decrease_find_data (FormatItipFindData *fd)
 	g_return_if_fail (fd != NULL);
 
 	fd->count--;
-	d(printf ("Decreasing itip formatter search count to %d\n", fd->count));
+	d (printf ("Decreasing itip formatter search count to %d\n", fd->count));
 
 	if (fd->count == 0 && !g_cancellable_is_cancelled (fd->cancellable)) {
 		gboolean rsvp_enabled = FALSE;
@@ -3741,7 +3762,7 @@ decrease_find_data (FormatItipFindData *fd)
 			itip_view_set_extension_name (view, extension_name);
 
 			g_signal_connect (
- 				view, "source_selected",
+				view, "source_selected",
 				G_CALLBACK (source_selected_cb), pitip);
 
 			if (source != NULL) {
@@ -4108,12 +4129,12 @@ find_server (EMailPartItip *pitip,
 
 		pitip->progress_info_id = itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
- 			_("Opening the calendar. Please wait..."));
+			_("Opening the calendar. Please wait..."));
 	} else {
 		link = list;
 		pitip->progress_info_id = itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
- 			_("Searching for an existing version of this appointment"));
+			_("Searching for an existing version of this appointment"));
 	}
 
 	for (; link != NULL; link = g_list_next (link)) {
@@ -4136,15 +4157,20 @@ find_server (EMailPartItip *pitip,
 				start = isodate_from_time_t (pitip->start_time);
 				end = isodate_from_time_t (pitip->end_time);
 
-				fd->sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\") (make-time \"%s\")) (not (uid? \"%s\")))",
-						start, end, icalcomponent_get_uid (pitip->ical_comp));
+				fd->sexp = g_strdup_printf (
+					"(and (occur-in-time-range? "
+					"(make-time \"%s\") "
+					"(make-time \"%s\")) "
+					"(not (uid? \"%s\")))",
+					start, end,
+					icalcomponent_get_uid (pitip->ical_comp));
 			}
 
 			g_free (start);
 			g_free (end);
 		}
 		fd->count++;
-		d(printf ("Increasing itip formatter search count to %d\n", fd->count));
+		d (printf ("Increasing itip formatter search count to %d\n", fd->count));
 
 		if (current_source == source)
 			start_calendar_server (
@@ -4585,8 +4611,10 @@ update_item (EMailPartItip *pitip,
 	clone_comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (clone_comp, clone)) {
 		update_item_progress_info (pitip, view, NULL);
-		pitip->update_item_error_info_id = itip_view_add_lower_info_item (view,
-			ITIP_VIEW_INFO_ITEM_TYPE_ERROR, _("Unable to parse item"));
+		pitip->update_item_error_info_id =
+			itip_view_add_lower_info_item (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
+				_("Unable to parse item"));
 		goto cleanup;
 	}
 
@@ -4600,7 +4628,8 @@ update_item (EMailPartItip *pitip,
 			alarms = e_cal_component_get_alarm_uids (real_comp);
 
 			for (l = alarms; l; l = l->next) {
-				alarm = e_cal_component_get_alarm (real_comp, (const gchar *) l->data);
+				alarm = e_cal_component_get_alarm (
+					real_comp, (const gchar *) l->data);
 
 				if (alarm) {
 					ECalComponentAlarm *aclone = e_cal_component_alarm_clone (alarm);
@@ -4786,7 +4815,7 @@ remove_delegate (EMailPartItip *pitip,
 		send_comp_to_attendee (
 			pitip->registry,
 			E_CAL_COMPONENT_METHOD_REQUEST, pitip->comp,
-			 delegator, pitip->current_client, comment);
+			delegator, pitip->current_client, comment);
 	if (status) {
 		itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
@@ -4841,16 +4870,16 @@ modify_object_cb (GObject *ecalclient,
 		update_item_progress_info (pitip, view, NULL);
 		pitip->update_item_error_info_id =
 			itip_view_add_lower_info_item_printf (
-				view,
-				ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
+				view, ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
 				_("Unable to update attendee. %s"),
 				error ? error->message : _("Unknown error"));
 
 		g_clear_error (&error);
 	} else {
 		update_item_progress_info (pitip, view, NULL);
-		itip_view_add_lower_info_item (view,
-			ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("Attendee status updated"));
+		itip_view_add_lower_info_item (
+			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+			_("Attendee status updated"));
 	}
 }
 
@@ -4890,10 +4919,11 @@ update_attendee_status_icalcomp (EMailPartItip *pitip,
 			if ((a->status == ICAL_PARTSTAT_DELEGATED) && (del_prop = find_attendee (org_icalcomp, itip_strip_mailto (a->delto))) && !(find_attendee (icalcomp, itip_strip_mailto (a->delto)))) {
 				gint response;
 				delegate = icalproperty_get_attendee (del_prop);
-				response = e_alert_run_dialog_for_args (e_shell_get_active_window (shell),
-									"org.gnome.itip-formatter:add-delegate",
-									itip_strip_mailto (a->value),
-									itip_strip_mailto (delegate), NULL);
+				response = e_alert_run_dialog_for_args (
+					e_shell_get_active_window (shell),
+					"org.gnome.itip-formatter:add-delegate",
+					itip_strip_mailto (a->value),
+					itip_strip_mailto (delegate), NULL);
 				if (response == GTK_RESPONSE_YES) {
 					icalcomponent_add_property (icalcomp, icalproperty_new_clone (del_prop));
 					e_cal_component_rescan (comp);
@@ -4909,21 +4939,23 @@ update_attendee_status_icalcomp (EMailPartItip *pitip,
 				gint response;
 
 				if (a->delfrom && *a->delfrom) {
-					response = e_alert_run_dialog_for_args (e_shell_get_active_window (shell),
-										"org.gnome.itip-formatter:add-delegate",
-										itip_strip_mailto (a->delfrom),
-										itip_strip_mailto (a->value), NULL);
+					response = e_alert_run_dialog_for_args (
+						e_shell_get_active_window (shell),
+						"org.gnome.itip-formatter:add-delegate",
+						itip_strip_mailto (a->delfrom),
+						itip_strip_mailto (a->value), NULL);
 					if (response == GTK_RESPONSE_YES) {
 						/* Already declared in this function */
 						icalproperty *prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
 						icalcomponent_add_property (icalcomp,icalproperty_new_clone (prop));
 						e_cal_component_rescan (comp);
 					} else if (response == GTK_RESPONSE_NO) {
-						remove_delegate (pitip,
-								 view,
-								 itip_strip_mailto (a->value),
-								 itip_strip_mailto (a->delfrom),
-								 comp);
+						remove_delegate (
+							pitip,
+							view,
+							itip_strip_mailto (a->value),
+							itip_strip_mailto (a->delfrom),
+							comp);
 						goto cleanup;
 					} else {
 						goto cleanup;
@@ -5273,7 +5305,8 @@ extract_itip_data (EMailPartItip *pitip,
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	if (!pitip->vcalendar) {
-		set_itip_error (view,
+		set_itip_error (
+			view,
 			_("The calendar attached is not valid"),
 			_("The message claims to contain a calendar, but the calendar is not a valid iCalendar."),
 			FALSE);
@@ -5285,7 +5318,8 @@ extract_itip_data (EMailPartItip *pitip,
 
 	pitip->main_comp = icalparser_parse_string (pitip->vcalendar);
 	if (pitip->main_comp == NULL || !is_icalcomp_valid (pitip->main_comp)) {
-		set_itip_error (view,
+		set_itip_error (
+			view,
 			_("The calendar attached is not valid"),
 			_("The message claims to contain a calendar, but the calendar is not a valid iCalendar."),
 			FALSE);
@@ -5327,7 +5361,8 @@ extract_itip_data (EMailPartItip *pitip,
 	}
 
 	if (pitip->ical_comp == NULL) {
-		set_itip_error (view,
+		set_itip_error (
+			view,
 			_("The item in the calendar is not valid"),
 			_("The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"),
 			FALSE);
@@ -5356,7 +5391,8 @@ extract_itip_data (EMailPartItip *pitip,
 		pitip->type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
 		break;
 	default:
-		set_itip_error (view,
+		set_itip_error (
+			view,
 			_("The item in the calendar is not valid"),
 			_("The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"),
 			FALSE);
@@ -5371,7 +5407,8 @@ extract_itip_data (EMailPartItip *pitip,
 
 	if (pitip->total > 1) {
 
-		set_itip_error (view,
+		set_itip_error (
+			view,
 			_("The calendar attached contains multiple items"),
 			_("To process all of these items, the file should be saved and the calendar imported"),
 			TRUE);
@@ -5454,7 +5491,8 @@ extract_itip_data (EMailPartItip *pitip,
 		g_object_unref (pitip->comp);
 		pitip->comp = NULL;
 
-		set_itip_error (view,
+		set_itip_error (
+			view,
 			_("The item in the calendar is not valid"),
 			_("The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"),
 			FALSE);
@@ -5797,10 +5835,11 @@ itip_view_init_view (ItipView *view)
                                  * we show the "accept/tentative/decline" choice.
                                  * Otherwise only show "accept".
                                  */
-				itip_view_set_mode (view,
-						    info->has_organizer ?
-						    ITIP_VIEW_MODE_REQUEST :
-						    ITIP_VIEW_MODE_PUBLISH);
+				itip_view_set_mode (
+					view,
+					info->has_organizer ?
+					ITIP_VIEW_MODE_REQUEST :
+					ITIP_VIEW_MODE_PUBLISH);
 				break;
 			case ICAL_METHOD_REPLY:
 				itip_view_set_mode (view, ITIP_VIEW_MODE_REPLY);

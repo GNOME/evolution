@@ -115,12 +115,12 @@ ecs_cert_changed (GtkWidget *w,
 	GtkTextBuffer *buffer;
 	GString *text;
 
-	text = g_string_new("");
+	text = g_string_new ("");
 	node = ecs_find_current (ecs);
 	if (node) {
 		/* FIXME: add serial no, validity date, uses */
-		g_string_append_printf(text, _("Issued to:\n  Subject: %s\n"), node->cert->subjectName);
-		g_string_append_printf(text, _("Issued by:\n  Subject: %s\n"), node->cert->issuerName);
+		g_string_append_printf (text, _("Issued to:\n  Subject: %s\n"), node->cert->subjectName);
+		g_string_append_printf (text, _("Issued by:\n  Subject: %s\n"), node->cert->issuerName);
 	}
 
 	buffer = gtk_text_view_get_buffer ((GtkTextView *) p->description);
@@ -167,13 +167,13 @@ e_cert_selector_new (gint type,
 	builder = gtk_builder_new ();
 	e_load_ui_builder_definition (builder, "smime-ui.ui");
 
-	p->combobox = e_builder_get_widget(builder, "cert_combobox");
-	p->description = e_builder_get_widget(builder, "cert_description");
+	p->combobox = e_builder_get_widget (builder, "cert_combobox");
+	p->description = e_builder_get_widget (builder, "cert_description");
 
-	w = e_builder_get_widget(builder, "cert_selector_vbox");
+	w = e_builder_get_widget (builder, "cert_selector_vbox");
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (ecs));
 	gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 3);
-	gtk_window_set_title(GTK_WINDOW(ecs), _("Select certificate"));
+	gtk_window_set_title (GTK_WINDOW (ecs), _("Select certificate"));
 
 	switch (type) {
 	case E_CERT_SELECTOR_SIGNER:

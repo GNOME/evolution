@@ -668,7 +668,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 			g_string_append_printf (
 				error_messages,
 				_("Failed to append to %s: %s\n"
-				  "Appending to local 'Sent' folder instead."),
+				"Appending to local 'Sent' folder instead."),
 				context->sent_folder_uri, error->message);
 			g_clear_error (&error);
 		}
@@ -702,7 +702,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 		g_string_append_printf (
 			error_messages,
 			_("Failed to append to %s: %s\n"
-			  "Appending to local 'Sent' folder instead."),
+			"Appending to local 'Sent' folder instead."),
 			description, error->message);
 		g_clear_error (&error);
 

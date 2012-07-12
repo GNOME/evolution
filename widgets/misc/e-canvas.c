@@ -454,7 +454,7 @@ canvas_button_event (GtkWidget *widget,
 	canvas = GNOME_CANVAS (widget);
 	bin_window = gtk_layout_get_bin_window (GTK_LAYOUT (canvas));
 
-	d(g_print ("button %d, event type %d, grabbed=%p, current=%p\n",
+	d (g_print ("button %d, event type %d, grabbed=%p, current=%p\n",
 		   event->button,
 		   event->type,
 		   canvas->grabbed_item,
@@ -793,7 +793,7 @@ e_canvas_item_set_reflow_callback (GnomeCanvasItem *item,
 	g_return_if_fail (func != NULL);
 
 	g_object_set_data (
-		G_OBJECT(item), "ECanvasItem::reflow_callback",
+		G_OBJECT (item), "ECanvasItem::reflow_callback",
 		(gpointer) func);
 }
 

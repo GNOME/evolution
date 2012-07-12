@@ -510,7 +510,7 @@ spell_entry_add_suggestions_menu (ESpellEntry *entry,
 
 	/* Above the separator, show the suggestions menu */
 	icon = gtk_image_new_from_stock (GTK_STOCK_SPELL_CHECK, GTK_ICON_SIZE_MENU);
-	mi = gtk_image_menu_item_new_with_label(_("Spelling Suggestions"));
+	mi = gtk_image_menu_item_new_with_label (_("Spelling Suggestions"));
 	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (mi), icon);
 
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (mi), build_spelling_menu (entry, word));

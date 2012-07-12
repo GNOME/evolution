@@ -72,7 +72,7 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar* parser_mime_types[] = { "text/vcard", "text/x-vcard",
+static const gchar * parser_mime_types[] = { "text/vcard", "text/x-vcard",
 					    "text/directory", NULL };
 
 static void

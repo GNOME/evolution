@@ -59,7 +59,7 @@ expire_dir_rec (const gchar *base,
 	struct stat st;
 	gint count = 0;
 
-	d(printf("expire dir '%s'\n", base));
+	d (printf ("expire dir '%s'\n", base));
 
 	dir = g_dir_open (base, 0, NULL);
 	if (dir == NULL)
@@ -70,23 +70,23 @@ expire_dir_rec (const gchar *base,
 
 	while ((d = g_dir_read_name (dir))) {
 		g_string_truncate (path, len);
-		g_string_append_printf(path, "/%s", d);
-		d(printf("Checking '%s' for expiry\n", path->str));
+		g_string_append_printf (path, "/%s", d);
+		d (printf ("Checking '%s' for expiry\n", path->str));
 
 		if (g_stat (path->str, &st) == 0
 		    && st.st_atime + TEMP_EXPIRE < now) {
 			if (S_ISDIR (st.st_mode)) {
 				if (expire_dir_rec (path->str, now) == 0) {
-					d(printf("Removing dir '%s'\n", path->str));
+					d (printf ("Removing dir '%s'\n", path->str));
 					g_rmdir (path->str);
 				} else {
 					count++;
 				}
 			} else if (g_unlink (path->str) == -1) {
-				d(printf("expiry failed: %s\n", g_strerror(errno)));
+				d (printf ("expiry failed: %s\n", g_strerror (errno)));
 				count++;
 			} else {
-				d(printf("expired %s\n", path->str));
+				d (printf ("expired %s\n", path->str));
 			}
 		} else {
 			count++;
@@ -95,7 +95,7 @@ expire_dir_rec (const gchar *base,
 	g_string_free (path, TRUE);
 	g_dir_close (dir);
 
-	d(printf("expire dir '%s' %d remaining files\n", base, count));
+	d (printf ("expire dir '%s' %d remaining files\n", base, count));
 
 	return count;
 }
@@ -120,7 +120,7 @@ get_dir (gboolean make)
 	}
 	g_free (tmpdir);
 #else
-	path = g_string_new("/tmp/evolution-");
+	path = g_string_new ("/tmp/evolution-");
 	g_string_append_printf (path, "%d", (gint) getuid ());
 	if (make) {
 		gint ret;
@@ -155,7 +155,7 @@ get_dir (gboolean make)
 	}
 #endif
 
-	d(printf("temp dir '%s'\n", path ? path->str : "(null)"));
+	d (printf ("temp dir '%s'\n", path ? path->str : "(null)"));
 
 	/* fire off an expiry attempt no more often than TEMP_SCAN seconds */
 	if (path && (last + TEMP_SCAN) < now) {

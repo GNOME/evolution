@@ -30,7 +30,7 @@
 #include "e-table-model.h"
 
 #define ETM_FROZEN(e) \
-	(GPOINTER_TO_INT (g_object_get_data (G_OBJECT(e), "frozen")) != 0)
+	(GPOINTER_TO_INT (g_object_get_data (G_OBJECT (e), "frozen")) != 0)
 
 #define d(x)
 
@@ -443,7 +443,7 @@ print_tabs (void)
 {
 	gint i;
 	for (i = 0; i < depth; i++)
-		g_print("\t");
+		g_print ("\t");
 }
 #endif
 

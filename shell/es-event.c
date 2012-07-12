@@ -61,7 +61,7 @@ es_event_peek (void)
 		 *
 		 * This is the hook point which emits shell events.
 		 */
-		e_event_construct(&es_event->event, "org.gnome.evolution.shell.events");
+		e_event_construct (&es_event->event, "org.gnome.evolution.shell.events");
 	}
 
 	return es_event;

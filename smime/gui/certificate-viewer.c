@@ -270,7 +270,7 @@ fill_in_details (CertificateViewerData *cvm_data,
 				 GTK_TREE_MODEL (cvm_data->hierarchy_store));
 
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cvm_data->hierarchy_tree),
-						     -1, "Cert", gtk_cell_renderer_text_new(),
+						     -1, "Cert", gtk_cell_renderer_text_new (),
 						     "text", 0, NULL);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cvm_data->hierarchy_tree));
@@ -282,7 +282,7 @@ fill_in_details (CertificateViewerData *cvm_data,
 	cvm_data->fields_tree = e_builder_get_widget (cvm_data->builder, "cert-fields-treeview");
 
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cvm_data->fields_tree),
-						     -1, "Field", gtk_cell_renderer_text_new(),
+						     -1, "Field", gtk_cell_renderer_text_new (),
 						     "text", 0, NULL);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cvm_data->fields_tree));

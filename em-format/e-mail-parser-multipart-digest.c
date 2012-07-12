@@ -53,7 +53,7 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar* parser_mime_types[] = { "multipart/digest",
+static const gchar * parser_mime_types[] = { "multipart/digest",
 					    NULL };
 
 static GSList *
@@ -91,7 +91,7 @@ empe_mp_digest_parse (EMailParserExtension *extension,
 		if (!subpart)
 			continue;
 
-		g_string_append_printf(part_id, ".digest.%d", i);
+		g_string_append_printf (part_id, ".digest.%d", i);
 
 		ct = camel_mime_part_get_content_type (subpart);
 

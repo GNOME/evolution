@@ -103,8 +103,8 @@ filter_option_get_dynamic_options (EFilterOption *option)
 
 static void
 filter_option_generate_code (EFilterOption *option,
-			     GString *out,
-			     EFilterPart *part)
+                             GString *out,
+                             EFilterPart *part)
 {
 	GModule *module;
 	void (*code_gen_func) (EFilterElement *element, GString *out, EFilterPart *part);
@@ -172,22 +172,22 @@ filter_option_xml_create (EFilterElement *element,
 
 	n = node->children;
 	while (n) {
-		if (!strcmp ((gchar *)n->name, "option")) {
+		if (!strcmp ((gchar *) n->name, "option")) {
 			gchar *tmp, *value, *title = NULL, *code = NULL, *code_gen_func = NULL;
 
-			value = (gchar *)xmlGetProp (n, (xmlChar *)"value");
+			value = (gchar *) xmlGetProp (n, (xmlChar *)"value");
 			work = n->children;
 			while (work) {
-				if (!strcmp ((gchar *)work->name, "title") ||
-					!strcmp ((gchar *)work->name, "_title")) {
+				if (!strcmp ((gchar *) work->name, "title") ||
+					!strcmp ((gchar *) work->name, "_title")) {
 					if (!title) {
 						if (!(tmp = (gchar *) xmlNodeGetContent (work)))
-							tmp = (gchar *)xmlStrdup ((xmlChar *)"");
+							tmp = (gchar *) xmlStrdup ((xmlChar *)"");
 
 						title = g_strdup (tmp);
 						xmlFree (tmp);
 					}
-				} else if (!strcmp ((gchar *)work->name, "code")) {
+				} else if (!strcmp ((gchar *) work->name, "code")) {
 					if (code || code_gen_func) {
 						g_warning ("Element 'code' defined twice in '%s'",
 							element->name);
@@ -195,20 +195,20 @@ filter_option_xml_create (EFilterElement *element,
 						xmlChar *fn;
 
 						/* if element 'code' has attribute 'func', then
-						   the content of the element is ignored and only
-						   the 'func' is used to generate actual rule code;
-						   The function prototype is:
-						   void code_gen_func (EFilterElement *element, GString *out, EFilterPart *part);
-						   where @element is the one on which was called,
-						   @out is GString where to add the code, and
-						   @part is part which contains @element and other options of it.
+						 * the content of the element is ignored and only
+						 * the 'func' is used to generate actual rule code;
+						 * The function prototype is:
+						 * void code_gen_func (EFilterElement *element, GString *out, EFilterPart *part);
+						 * where @element is the one on which was called,
+						 * @out is GString where to add the code, and
+						 * @part is part which contains @element and other options of it.
 						*/
 						fn = xmlGetProp (work, (xmlChar *)"func");
 						if (fn && *fn) {
 							code_gen_func = g_strdup ((const gchar *) fn);
 						} else {
 							if (!(tmp = (gchar *) xmlNodeGetContent (work)))
-								tmp = (gchar *)xmlStrdup ((xmlChar *)"");
+								tmp = (gchar *) xmlStrdup ((xmlChar *)"");
 
 							code = g_strdup (tmp);
 							xmlFree (tmp);
@@ -225,7 +225,7 @@ filter_option_xml_create (EFilterElement *element,
 			g_free (title);
 			g_free (code);
 			g_free (code_gen_func);
-		} else if (g_str_equal ((gchar *)n->name, "dynamic")) {
+		} else if (g_str_equal ((gchar *) n->name, "dynamic")) {
 			if (option->dynamic_func) {
 				g_warning (
 					"Only one 'dynamic' node is "
@@ -296,7 +296,7 @@ filter_option_xml_encode (EFilterElement *element)
 	xmlSetProp (value, (xmlChar *) "name", (xmlChar *) element->name);
 	xmlSetProp (value, (xmlChar *) "type", (xmlChar *) option->type);
 	if (option->current)
-		xmlSetProp (value, (xmlChar *) "value", (xmlChar *)option->current->value);
+		xmlSetProp (value, (xmlChar *) "value", (xmlChar *) option->current->value);
 
 	return value;
 }
@@ -309,9 +309,9 @@ filter_option_xml_decode (EFilterElement *element,
 	gchar *value;
 
 	xmlFree (element->name);
-	element->name = (gchar *)xmlGetProp (node, (xmlChar *)"name");
+	element->name = (gchar *) xmlGetProp (node, (xmlChar *)"name");
 
-	value = (gchar *)xmlGetProp (node, (xmlChar *)"value");
+	value = (gchar *) xmlGetProp (node, (xmlChar *)"value");
 	if (value) {
 		option->current = find_option (option, value);
 		xmlFree (value);
@@ -514,7 +514,7 @@ e_filter_option_add (EFilterOption *option,
                      const gchar *value,
                      const gchar *title,
                      const gchar *code,
-		     const gchar *code_gen_func,
+                     const gchar *code_gen_func,
                      gboolean is_dynamic)
 {
 	struct _filter_option *op;

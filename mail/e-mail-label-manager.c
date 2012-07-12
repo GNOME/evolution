@@ -351,7 +351,7 @@ e_mail_label_manager_init (EMailLabelManager *manager)
 	/* FIXME Clarify this.  What menu? */
 	widget = gtk_label_new (
 		_("Note: Underscore in the label name is used\n"
-		  "as mnemonic identifier in menu."));
+		"as mnemonic identifier in menu."));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_CENTER);
 	gtk_table_attach (
 		GTK_TABLE (container), widget,

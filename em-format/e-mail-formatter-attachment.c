@@ -82,7 +82,7 @@ find_attachment_store (GSList *parts,
 	do {
 		GSList *iter;
 
-		d(printf("Looking up attachment bar as %s\n", id));
+		d (printf ("Looking up attachment bar as %s\n", id));
 
 		for (iter = parts; iter; iter = iter->next) {
 			EMailPart *p = iter->data;

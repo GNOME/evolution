@@ -133,7 +133,7 @@ vcard_import_contact (VCardImporter *gci,
 		GList *v = e_vcard_attribute_get_values (a);
 
 		if (v && v->data) {
-			if (!strncmp ((gchar *)v->data, "<?xml", 5)) {
+			if (!strncmp ((gchar *) v->data, "<?xml", 5)) {
 				EDestination *dest = e_destination_import ((gchar *) v->data);
 
 				e_destination_export_to_vcard_attribute (dest, a);
@@ -174,12 +174,12 @@ vcard_import_contact (VCardImporter *gci,
 			vs = e_vcard_attribute_param_get_values (p);
 			for (v = vs; v; v = v->next) {
 				is_work_home = is_work_home ||
-					!g_ascii_strcasecmp ((gchar *)v->data, "WORK") ||
-					!g_ascii_strcasecmp ((gchar *)v->data, "HOME");
+					!g_ascii_strcasecmp ((gchar *) v->data, "WORK") ||
+					!g_ascii_strcasecmp ((gchar *) v->data, "HOME");
 
-				if (!g_ascii_strcasecmp ((gchar *)v->data, "WORK") ||
-				    !g_ascii_strcasecmp ((gchar *)v->data, "HOME") ||
-				    !g_ascii_strcasecmp ((gchar *)v->data, "OTHER"))
+				if (!g_ascii_strcasecmp ((gchar *) v->data, "WORK") ||
+				    !g_ascii_strcasecmp ((gchar *) v->data, "HOME") ||
+				    !g_ascii_strcasecmp ((gchar *) v->data, "OTHER"))
 					no_location = FALSE;
 				else
 					location_only = FALSE;
@@ -227,8 +227,8 @@ vcard_import_contact (VCardImporter *gci,
 
 			vs = e_vcard_attribute_param_get_values (p);
 			for (v = vs; v; v = v->next) {
-				if (!g_ascii_strcasecmp ((gchar *)v->data, "WORK") ||
-				    !g_ascii_strcasecmp ((gchar *)v->data, "HOME"))
+				if (!g_ascii_strcasecmp ((gchar *) v->data, "WORK") ||
+				    !g_ascii_strcasecmp ((gchar *) v->data, "HOME"))
 					no_location = FALSE;
 			}
 		}
@@ -421,7 +421,7 @@ vcard_getwidget (EImport *ei,
 		E_SOURCE_SELECTOR (selector), FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), selector, FALSE, TRUE, 6);
 
-	primary = g_datalist_get_data(&target->data, "vcard-source");
+	primary = g_datalist_get_data (&target->data, "vcard-source");
 	if (primary == NULL) {
 		GList *list;
 
@@ -463,7 +463,7 @@ vcard_supported (EImport *ei,
 	if (s->uri_src == NULL)
 		return TRUE;
 
-	if (strncmp(s->uri_src, "file:///", 8) != 0)
+	if (strncmp (s->uri_src, "file:///", 8) != 0)
 		return FALSE;
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
@@ -549,7 +549,7 @@ vcard_import (EImport *ei,
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (filename == NULL) {
-		g_message(G_STRLOC ": Couldn't get filename from URI '%s'", s->uri_src);
+		g_message (G_STRLOC ": Couldn't get filename from URI '%s'", s->uri_src);
 		e_import_complete (ei, target);
 		return;
 	}
@@ -571,7 +571,7 @@ vcard_import (EImport *ei,
 
 	g_free (filename);
 	gci = g_malloc0 (sizeof (*gci));
-	g_datalist_set_data(&target->data, "vcard-data", gci);
+	g_datalist_set_data (&target->data, "vcard-data", gci);
 	gci->import = g_object_ref (ei);
 	gci->target = target;
 	gci->encoding = encoding;
@@ -589,7 +589,7 @@ vcard_cancel (EImport *ei,
               EImportTarget *target,
               EImportImporter *im)
 {
-	VCardImporter *gci = g_datalist_get_data(&target->data, "vcard-data");
+	VCardImporter *gci = g_datalist_get_data (&target->data, "vcard-data");
 
 	if (gci)
 		gci->state = 1;

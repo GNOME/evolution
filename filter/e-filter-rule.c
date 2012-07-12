@@ -289,7 +289,7 @@ more_parts (GtkWidget *button,
 			gtk_widget_grab_focus (w);
 
 		/* also scroll down to see new part */
-		w = (GtkWidget*) g_object_get_data (G_OBJECT (button), "scrolled-window");
+		w = (GtkWidget *) g_object_get_data (G_OBJECT (button), "scrolled-window");
 		if (w) {
 			GtkAdjustment *adjustment;
 
@@ -340,8 +340,8 @@ filter_rule_load_set (xmlNodePtr node,
 
 	work = node->children;
 	while (work) {
-		if (!strcmp ((gchar *)work->name, "part")) {
-			rulename = (gchar *)xmlGetProp (work, (xmlChar *)"name");
+		if (!strcmp ((gchar *) work->name, "part")) {
+			rulename = (gchar *) xmlGetProp (work, (xmlChar *)"name");
 			part = e_rule_context_find_part (context, rulename);
 			if (part) {
 				part = e_filter_part_clone (part);
@@ -480,7 +480,7 @@ filter_rule_xml_encode (EFilterRule *rule)
 	}
 
 	if (rule->source) {
-		xmlSetProp (node, (xmlChar *)"source", (xmlChar *)rule->source);
+		xmlSetProp (node, (xmlChar *)"source", (xmlChar *) rule->source);
 	} else {
 		/* set to the default filter type */
 		xmlSetProp (node, (xmlChar *)"source", (xmlChar *)"incoming");
@@ -520,7 +520,7 @@ filter_rule_xml_decode (EFilterRule *rule,
 	g_free (rule->name);
 	rule->name = NULL;
 
-	grouping = (gchar *)xmlGetProp (node, (xmlChar *)"enabled");
+	grouping = (gchar *) xmlGetProp (node, (xmlChar *)"enabled");
 	if (!grouping)
 		rule->enabled = TRUE;
 	else {
@@ -528,7 +528,7 @@ filter_rule_xml_decode (EFilterRule *rule,
 		xmlFree (grouping);
 	}
 
-	grouping = (gchar *)xmlGetProp (node, (xmlChar *)"grouping");
+	grouping = (gchar *) xmlGetProp (node, (xmlChar *)"grouping");
 	if (!strcmp (grouping, "any"))
 		rule->grouping = E_FILTER_GROUP_ANY;
 	else
@@ -537,7 +537,7 @@ filter_rule_xml_decode (EFilterRule *rule,
 
 	rule->threading = E_FILTER_THREAD_NONE;
 	if (context->flags & E_RULE_CONTEXT_THREADING
-	    && (grouping = (gchar *)xmlGetProp (node, (xmlChar *)"threading"))) {
+	    && (grouping = (gchar *) xmlGetProp (node, (xmlChar *)"threading"))) {
 		if (!strcmp (grouping, "all"))
 			rule->threading = E_FILTER_THREAD_ALL;
 		else if (!strcmp (grouping, "replies"))
@@ -550,7 +550,7 @@ filter_rule_xml_decode (EFilterRule *rule,
 	}
 
 	g_free (rule->source);
-	source = (gchar *)xmlGetProp (node, (xmlChar *)"source");
+	source = (gchar *) xmlGetProp (node, (xmlChar *)"source");
 	if (source) {
 		rule->source = g_strdup (source);
 		xmlFree (source);
@@ -561,10 +561,10 @@ filter_rule_xml_decode (EFilterRule *rule,
 
 	work = node->children;
 	while (work) {
-		if (!strcmp ((gchar *)work->name, "partset")) {
+		if (!strcmp ((gchar *) work->name, "partset")) {
 			filter_rule_load_set (work, rule, context);
-		} else if (!strcmp ((gchar *)work->name, "title") ||
-			!strcmp ((gchar *)work->name, "_title")) {
+		} else if (!strcmp ((gchar *) work->name, "title") ||
+			!strcmp ((gchar *) work->name, "_title")) {
 
 			if (!rule->name) {
 				gchar *str, *decstr = NULL;
@@ -666,8 +666,8 @@ ensure_scrolled_width_cb (GtkAdjustment *adj,
 
 static void
 ensure_scrolled_height_cb (GtkAdjustment *adj,
-			   GParamSpec *param_spec,
-			   GtkScrolledWindow *scrolled_window)
+                           GParamSpec *param_spec,
+                           GtkScrolledWindow *scrolled_window)
 {
 	GtkWidget *toplevel;
 	GdkScreen *screen;

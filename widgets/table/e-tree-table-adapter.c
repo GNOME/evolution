@@ -1027,7 +1027,7 @@ save_expanded_state_func (gpointer keyp,
 	if (node->expanded != tar->expanded_default) {
 		gchar *save_id = e_tree_model_get_save_id (tar->model, path);
 		xmlnode = xmlNewChild (tar->root, NULL, (const guchar *)"node", NULL);
-		e_xml_set_string_prop_by_name(xmlnode, (const guchar *)"id", save_id);
+		e_xml_set_string_prop_by_name (xmlnode, (const guchar *)"id", save_id);
 		g_free (save_id);
 	}
 }
@@ -1098,7 +1098,7 @@ open_file (ETreeTableAdapter *etta,
 		return NULL;
 
 	root = xmlDocGetRootElement (doc);
-	if (root == NULL || strcmp ((gchar *)root->name, "expanded_state")) {
+	if (root == NULL || strcmp ((gchar *) root->name, "expanded_state")) {
 		xmlFreeDoc (doc);
 		return NULL;
 	}
@@ -1145,7 +1145,7 @@ e_tree_table_adapter_load_expanded_state_xml (ETreeTableAdapter *etta,
 
 	model_default = e_tree_model_get_expanded_default (etta->priv->source);
 
-	if (!strcmp ((gchar *)root->name, "expanded_state")) {
+	if (!strcmp ((gchar *) root->name, "expanded_state")) {
 		gchar *state;
 
 		state = e_xml_get_string_prop_by_name_with_default (root, (const guchar *)"default", "");
@@ -1169,14 +1169,14 @@ e_tree_table_adapter_load_expanded_state_xml (ETreeTableAdapter *etta,
 		gchar *id;
 		ETreePath path;
 
-		if (strcmp ((gchar *)child->name, "node")) {
-			d(g_warning ("unknown node '%s' in %s", child->name, filename));
+		if (strcmp ((gchar *) child->name, "node")) {
+			d (g_warning ("unknown node '%s' in %s", child->name, filename));
 			continue;
 		}
 
 		id = e_xml_get_string_prop_by_name_with_default (child, (const guchar *)"id", "");
 
-		if (!strcmp(id, "")) {
+		if (!strcmp (id, "")) {
 			g_free (id);
 			continue;
 		}

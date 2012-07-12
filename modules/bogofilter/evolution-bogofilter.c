@@ -214,7 +214,7 @@ bogofilter_command (const gchar **argv,
 		g_set_error_literal (
 			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			_("Bogofilter either crashed or "
-			  "failed to process a mail message"));
+			"failed to process a mail message"));
 
 	return source_data.exit_code;
 }

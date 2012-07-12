@@ -415,8 +415,8 @@ sasl_xoauth_challenge_sync (CamelSasl *sasl,
 			error, CAMEL_SERVICE_ERROR,
 			CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE,
 			_("Cannot find a corresponding account in "
-			  "the org.gnome.OnlineAccounts service from "
-			  "which to obtain an authentication token."));
+			"the org.gnome.OnlineAccounts service from "
+			"which to obtain an authentication token."));
 		g_object_unref (goa_client);
 		return NULL;
 	}

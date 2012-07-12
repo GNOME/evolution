@@ -146,8 +146,8 @@ filter_file_xml_decode (EFilterElement *element,
 	gchar *name, *str, *type;
 	xmlNodePtr child;
 
-	name = (gchar *)xmlGetProp (node, (xmlChar *) "name");
-	type = (gchar *)xmlGetProp (node, (xmlChar *) "type");
+	name = (gchar *) xmlGetProp (node, (xmlChar *) "name");
+	type = (gchar *) xmlGetProp (node, (xmlChar *) "type");
 
 	xmlFree (element->name);
 	element->name = name;

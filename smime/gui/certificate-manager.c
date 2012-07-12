@@ -89,7 +89,7 @@ static CertTreeColumn yourcerts_columns[] = {
 	{ G_TYPE_OBJECT, NULL,					NULL,				FALSE } /* Hidden column for ECert * object */
 
 };
-static const gchar* yourcerts_mime_types[] = { "application/x-x509-user-cert", "application/x-pkcs12", NULL };
+static const gchar * yourcerts_mime_types[] = { "application/x-x509-user-cert", "application/x-pkcs12", NULL };
 
 static CertTreeColumn contactcerts_columns[] = {
 
@@ -109,7 +109,7 @@ static CertTreeColumn contactcerts_columns[] = {
 	{ G_TYPE_OBJECT, NULL,					NULL,				FALSE }
 
 };
-static const gchar* contactcerts_mime_types[] = { "application/x-x509-email-cert", "application/x-x509-ca-cert", NULL };
+static const gchar * contactcerts_mime_types[] = { "application/x-x509-email-cert", "application/x-x509-ca-cert", NULL };
 
 static CertTreeColumn authoritycerts_columns[] = {
 
@@ -127,7 +127,7 @@ static CertTreeColumn authoritycerts_columns[] = {
 	{ G_TYPE_OBJECT, NULL,					NULL,				FALSE }
 
 };
-static const gchar* authoritycerts_mime_types[] =  { "application/x-x509-ca-cert", NULL };
+static const gchar * authoritycerts_mime_types[] =  { "application/x-x509-ca-cert", NULL };
 
 typedef struct {
 	GtkTreeView *treeview;

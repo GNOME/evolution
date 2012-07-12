@@ -834,13 +834,15 @@ e_mail_reader_open_selected (EMailReader *reader)
 		GtkWidget *browser;
 		MessageList *ml;
 
-		browser = e_mail_browser_new (backend, folder, uid,
-				E_MAIL_FORMATTER_MODE_NORMAL);
+		browser = e_mail_browser_new (
+			backend, folder, uid,
+			E_MAIL_FORMATTER_MODE_NORMAL);
 
 		e_mail_reader_set_folder (E_MAIL_READER (browser), folder);
 		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
 
-		ml = MESSAGE_LIST (e_mail_reader_get_message_list (E_MAIL_READER (browser)));
+		ml = MESSAGE_LIST (e_mail_reader_get_message_list (
+			E_MAIL_READER (browser)));
 		message_list_freeze (ml);
 
 		copy_tree_state (reader, E_MAIL_READER (browser));
@@ -885,7 +887,8 @@ printing_done_cb (EMailPrinter *printer,
 		gtk_print_operation_get_error (operation, &error);
 
 		if (error != NULL) {
-			e_alert_submit (alert_sink, "mail:printing-failed",
+			e_alert_submit (
+				alert_sink, "mail:printing-failed",
 				error->message, NULL);
 			g_error_free (error);
 		}
@@ -902,10 +905,12 @@ printing_done_cb (EMailPrinter *printer,
 	/* We can't destroy the printer and associated WebKitWebView directly from
 	 * here, because this callback is a handler of a WebKit's signal. This
 	 * will destroy the printer later, together with the activity */
-	g_object_set_data_full (G_OBJECT (activity),
+	g_object_set_data_full (
+		G_OBJECT (activity),
 		"printer", printer, (GDestroyNotify) g_object_unref);
 
-	g_timeout_add_seconds_full (G_PRIORITY_DEFAULT, 3,
+	g_timeout_add_seconds_full (
+		G_PRIORITY_DEFAULT, 3,
 		(GSourceFunc) destroy_printing_activity, activity, NULL);
 }
 
@@ -953,7 +958,8 @@ mail_reader_do_print_message (GObject *object,
 	part_list = e_mail_reader_parse_message_finish (reader, result);
 
 	printer = e_mail_printer_new (part_list);
-	g_signal_connect (printer, "done",
+	g_signal_connect (
+		printer, "done",
 		G_CALLBACK (printing_done_cb), activity);
 
 	e_mail_printer_print (printer, context->action, cancellable);
@@ -1299,7 +1305,8 @@ mail_reader_get_message_ready_cb (CamelFolder *folder,
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	e_mail_reader_parse_message (context->reader, context->folder,
+	e_mail_reader_parse_message (
+		context->reader, context->folder,
 		context->message_uid, message, NULL,
 		mail_reader_reply_message_parsed, context);
 }
@@ -1834,7 +1841,7 @@ emr_header_from_xmldoc (xmlDocPtr doc)
 		return NULL;
 
 	root = doc->children;
-	if (strcmp ((gchar *)root->name, "header") != 0)
+	if (strcmp ((gchar *) root->name, "header") != 0)
 		return NULL;
 
 	name = xmlGetProp (root, (const guchar *)"name");
@@ -1899,7 +1906,7 @@ e_mail_reader_header_to_xml (EMailReaderHeader *header)
 	doc = xmlNewDoc ((const guchar *)"1.0");
 
 	root = xmlNewDocNode (doc, NULL, (const guchar *)"header", NULL);
-	xmlSetProp (root, (const guchar *)"name", (guchar *)header->name);
+	xmlSetProp (root, (const guchar *)"name", (guchar *) header->name);
 	if (header->enabled)
 		xmlSetProp (root, (const guchar *)"enabled", NULL);
 
@@ -1995,7 +2002,7 @@ e_mail_reader_parse_message (EMailReader *reader,
                              CamelFolder *folder,
                              const gchar *message_uid,
                              CamelMimeMessage *message,
-			     GCancellable *cancellable,
+                             GCancellable *cancellable,
                              GAsyncReadyCallback ready_callback,
                              gpointer user_data)
 {

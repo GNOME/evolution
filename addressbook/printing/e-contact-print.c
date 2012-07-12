@@ -468,7 +468,7 @@ e_contact_build_style (EContactPrintStyle *style)
 	xmlDocPtr styledoc;
 	gchar *filename;
 
-	style->title = g_strdup("");
+	style->title = g_strdup ("");
 	style->type = E_CONTACT_PRINT_TYPE_CARDS;
 	style->sections_start_new_page = TRUE;
 	style->num_columns = 2;
@@ -502,9 +502,9 @@ e_contact_build_style (EContactPrintStyle *style)
 
 	style->header_font = pango_font_description_copy (style->body_font);
 
-	style->left_header = g_strdup("");
-	style->center_header = g_strdup("");
-	style->right_header = g_strdup("");
+	style->left_header = g_strdup ("");
+	style->center_header = g_strdup ("");
+	style->right_header = g_strdup ("");
 
 	style->footer_font = pango_font_description_copy (style->body_font);
 
@@ -522,69 +522,69 @@ e_contact_build_style (EContactPrintStyle *style)
 		xmlNodePtr node;
 		for (node = stylenode->children; node; node = node->next) {
 			gchar *data = (gchar *) xmlNodeGetContent ( node );
-			if (!strcmp( (gchar *)node->name, "title" )) {
+			if (!strcmp ( (gchar *) node->name, "title" )) {
 				get_string (data, &(style->title));
-			} else if (!strcmp( (gchar *)node->name, "type" )) {
+			} else if (!strcmp ( (gchar *) node->name, "type" )) {
 				if (g_ascii_strcasecmp (data, "cards") == 0)
 					style->type = E_CONTACT_PRINT_TYPE_CARDS;
 				else if (g_ascii_strcasecmp (data, "memo_style") == 0)
 					style->type = E_CONTACT_PRINT_TYPE_MEMO_STYLE;
 				else if (g_ascii_strcasecmp (data, "phone_list") == 0)
 					style->type = E_CONTACT_PRINT_TYPE_PHONE_LIST;
-			} else if (!strcmp( (gchar *)node->name, "sections_start_new_page" )) {
+			} else if (!strcmp ( (gchar *) node->name, "sections_start_new_page" )) {
 				style->sections_start_new_page = get_bool (data);
-			} else if (!strcmp( (gchar *)node->name, "num_columns" )) {
+			} else if (!strcmp ( (gchar *) node->name, "num_columns" )) {
 				style->num_columns = get_integer (data);
-			} else if (!strcmp( (gchar *)node->name, "blank_forms" )) {
+			} else if (!strcmp ( (gchar *) node->name, "blank_forms" )) {
 				style->blank_forms = get_integer (data);
-			} else if (!strcmp( (gchar *)node->name, "letter_headings" )) {
+			} else if (!strcmp ( (gchar *) node->name, "letter_headings" )) {
 				style->letter_headings = get_bool (data);
-			} else if (!strcmp( (gchar *)node->name, "headings_font" )) {
+			} else if (!strcmp ( (gchar *) node->name, "headings_font" )) {
 				get_font ( data, &(style->headings_font) );
-			} else if (!strcmp( (gchar *)node->name, "body_font" )) {
+			} else if (!strcmp ( (gchar *) node->name, "body_font" )) {
 				get_font ( data, &(style->body_font) );
-			} else if (!strcmp( (gchar *)node->name, "print_using_grey" )) {
+			} else if (!strcmp ( (gchar *) node->name, "print_using_grey" )) {
 				style->print_using_grey = get_bool (data);
-			} else if (!strcmp( (gchar *)node->name, "paper_width" )) {
+			} else if (!strcmp ( (gchar *) node->name, "paper_width" )) {
 				style->paper_width = get_float (data);
-			} else if (!strcmp( (gchar *)node->name, "paper_height" )) {
+			} else if (!strcmp ( (gchar *) node->name, "paper_height" )) {
 				style->paper_height = get_float (data);
-			} else if (!strcmp( (gchar *)node->name, "top_margin" )) {
+			} else if (!strcmp ( (gchar *) node->name, "top_margin" )) {
 				style->top_margin = get_float (data);
-			} else if (!strcmp( (gchar *)node->name, "left_margin" )) {
+			} else if (!strcmp ( (gchar *) node->name, "left_margin" )) {
 				style->left_margin = get_float (data);
-			} else if (!strcmp( (gchar *)node->name, "bottom_margin" )) {
+			} else if (!strcmp ( (gchar *) node->name, "bottom_margin" )) {
 				style->bottom_margin = get_float (data);
-			} else if (!strcmp( (gchar *)node->name, "right_margin" )) {
+			} else if (!strcmp ( (gchar *) node->name, "right_margin" )) {
 				style->right_margin = get_float (data);
-			} else if (!strcmp( (gchar *)node->name, "page_width" )) {
+			} else if (!strcmp ( (gchar *) node->name, "page_width" )) {
 				style->page_width = get_float (data);
-			} else if (!strcmp( (gchar *)node->name, "page_height" )) {
+			} else if (!strcmp ( (gchar *) node->name, "page_height" )) {
 				style->page_height = get_float (data);
-			} else if (!strcmp( (gchar *)node->name, "orientation" )) {
+			} else if (!strcmp ( (gchar *) node->name, "orientation" )) {
 				if (data) {
 					style->orientation_portrait =
 						(g_ascii_strcasecmp (data, "landscape") != 0);
 				} else {
 					style->orientation_portrait = TRUE;
 				}
-			} else if (!strcmp( (gchar *)node->name, "header_font" )) {
+			} else if (!strcmp ( (gchar *) node->name, "header_font" )) {
 				get_font ( data, &(style->header_font) );
-			} else if (!strcmp( (gchar *)node->name, "left_header" )) {
+			} else if (!strcmp ( (gchar *) node->name, "left_header" )) {
 				get_string (data, &(style->left_header));
-			} else if (!strcmp( (gchar *)node->name, "center_header" )) {
+			} else if (!strcmp ( (gchar *) node->name, "center_header" )) {
 				get_string (data, &(style->center_header));
-			} else if (!strcmp( (gchar *)node->name, "right_header" )) {
+			} else if (!strcmp ( (gchar *) node->name, "right_header" )) {
 				get_string (data, &(style->right_header));
-			} else if (!strcmp( (gchar *)node->name, "footer_font" )) {
+			} else if (!strcmp ( (gchar *) node->name, "footer_font" )) {
 				get_font ( data, &(style->footer_font) );
-			} else if (!strcmp( (gchar *)node->name, "left_footer" )) {
+			} else if (!strcmp ( (gchar *) node->name, "left_footer" )) {
 				get_string (data, &(style->left_footer));
-			} else if (!strcmp( (gchar *)node->name, "center_footer" )) {
+			} else if (!strcmp ( (gchar *) node->name, "center_footer" )) {
 				get_string (data, &(style->center_footer));
-			} else if (!strcmp( (gchar *)node->name, "right_footer" )) {
+			} else if (!strcmp ( (gchar *) node->name, "right_footer" )) {
 				get_string (data, &(style->right_footer));
-			} else if (!strcmp( (gchar *)node->name, "reverse_on_even_pages" )) {
+			} else if (!strcmp ( (gchar *) node->name, "reverse_on_even_pages" )) {
 				style->reverse_on_even_pages = get_bool (data);
 			}
 			if (data)

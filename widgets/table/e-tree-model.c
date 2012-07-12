@@ -962,12 +962,12 @@ e_tree_model_value_to_string (ETreeModel *etree,
                               gint col,
                               gconstpointer value)
 {
-	g_return_val_if_fail(etree != NULL, g_strdup(""));
+	g_return_val_if_fail (etree != NULL, g_strdup (""));
 
 	if (ETM_CLASS (etree)->value_to_string)
 		return ETM_CLASS (etree)->value_to_string (etree, col, value);
 	else
-		return g_strdup("");
+		return g_strdup ("");
 }
 
 /**

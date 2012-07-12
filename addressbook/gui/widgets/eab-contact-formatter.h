@@ -58,14 +58,14 @@ struct _EABContactFormatterClass {
 
 GType           eab_contact_formatter_get_type  ();
 
-EABContactFormatter*
+EABContactFormatter *
 		eab_contact_formatter_new	(EABContactDisplayMode mode,
 						 gboolean render_maps);
 
 void		eab_contact_formatter_set_style
 						(EABContactFormatter *formatter,
 						 GtkStyle *context);
-GtkStyle*
+GtkStyle *
 		eab_contact_formatter_get_style
 						(EABContactFormatter *formatter);
 

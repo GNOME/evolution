@@ -526,8 +526,10 @@ e_plugin_ui_hook_init (EPluginUIHook *hook)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);
 
-	registry = g_hash_table_new_full (g_direct_hash, g_direct_equal,
-		NULL, (GDestroyNotify) g_hash_table_destroy);
+	registry = g_hash_table_new_full (
+		g_direct_hash, g_direct_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) g_hash_table_destroy);
 
 	hook->priv = E_PLUGIN_UI_HOOK_GET_PRIVATE (hook);
 	hook->priv->ui_definitions = ui_definitions;

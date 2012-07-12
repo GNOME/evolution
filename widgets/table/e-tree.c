@@ -391,7 +391,7 @@ connect_header (ETree *e_tree,
 
 	g_value_init (val, G_TYPE_OBJECT);
 	g_value_set_object (val, e_tree->priv->sort_info);
-	g_object_set_property (G_OBJECT(e_tree->priv->header), "sort_info", val);
+	g_object_set_property (G_OBJECT (e_tree->priv->header), "sort_info", val);
 	g_free (val);
 }
 
@@ -734,7 +734,7 @@ e_tree_setup_header (ETree *e_tree)
 	e_tree->priv->header_canvas = GNOME_CANVAS (widget);
 	gtk_widget_show (widget);
 
-	pointer = g_strdup_printf("%p", (gpointer) e_tree);
+	pointer = g_strdup_printf ("%p", (gpointer) e_tree);
 
 	e_tree->priv->header_item = gnome_canvas_item_new (
 		gnome_canvas_root (e_tree->priv->header_canvas),

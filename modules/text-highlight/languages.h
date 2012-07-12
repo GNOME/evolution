@@ -28,7 +28,7 @@ typedef struct Language {
 	const gchar **mime_types;
 } Language;
 
-const gchar *	get_syntax_for_ext 		(const gchar *extension);
+const gchar *	get_syntax_for_ext		(const gchar *extension);
 const gchar *	get_syntax_for_mime_type	(const gchar *mime_type);
 
 Language *	get_default_langauges		(gsize *len);

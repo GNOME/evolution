@@ -283,7 +283,7 @@ etgl_realize (GnomeCanvasItem *item)
 	etgl->item = E_TABLE_ITEM (gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (etgl),
 		e_table_item_get_type (),
-		"ETableHeader", E_TABLE_GROUP(etgl)->header,
+		"ETableHeader", E_TABLE_GROUP (etgl)->header,
 		"ETableModel", etgl->ets,
 		"alternating_row_colors", etgl->alternating_row_colors,
 		"horizontal_draw_grid", etgl->horizontal_draw_grid,

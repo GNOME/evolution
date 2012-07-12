@@ -182,20 +182,20 @@ show_development_warning (void)
 		/* xgettext:no-c-format */
 		/* Preview/Alpha/Beta version warning message */
 		_("Hi.  Thanks for taking the time to download this preview release\n"
-		  "of the Evolution groupware suite.\n"
-		  "\n"
-		  "This version of Evolution is not yet complete. It is getting close,\n"
-		  "but some features are either unfinished or do not work properly.\n"
-		  "\n"
-		  "If you want a stable version of Evolution, we urge you to uninstall\n"
-		  "this version, and install version %s instead.\n"
-		  "\n"
-		  "If you find bugs, please report them to us at bugzilla.gnome.org.\n"
-		  "This product comes with no warranty and is not intended for\n"
-		  "individuals prone to violent fits of anger.\n"
-		  "\n"
-		  "We hope that you enjoy the results of our hard work, and we\n"
-		  "eagerly await your contributions!\n"),
+		"of the Evolution groupware suite.\n"
+		"\n"
+		"This version of Evolution is not yet complete. It is getting close,\n"
+		"but some features are either unfinished or do not work properly.\n"
+		"\n"
+		"If you want a stable version of Evolution, we urge you to uninstall\n"
+		"this version, and install version %s instead.\n"
+		"\n"
+		"If you find bugs, please report them to us at bugzilla.gnome.org.\n"
+		"This product comes with no warranty and is not intended for\n"
+		"individuals prone to violent fits of anger.\n"
+		"\n"
+		"We hope that you enjoy the results of our hard work, and we\n"
+		"eagerly await your contributions!\n"),
 		STABLE_VERSION);
 	label = gtk_label_new (text);
 	g_free (text);
@@ -205,8 +205,7 @@ show_development_warning (void)
 
 	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 
-	label = gtk_label_new (_("Thanks\n"
-				 "The Evolution Team\n"));
+	label = gtk_label_new (_("Thanks\nThe Evolution Team\n"));
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_RIGHT);
 	gtk_misc_set_alignment (GTK_MISC (label), 1, .5);
 
@@ -558,8 +557,9 @@ main (gint argc,
 		 * language, so don't bother with the localisations
 		 * provided by other things then either. Reset thread
 		 * locale to "en-US" and C library locale to "C". */
-		SetThreadLocale (MAKELCID (MAKELANGID (LANG_ENGLISH, SUBLANG_ENGLISH_US),
-					   SORT_DEFAULT));
+		SetThreadLocale (
+			MAKELCID (MAKELANGID (LANG_ENGLISH, SUBLANG_ENGLISH_US),
+			SORT_DEFAULT));
 		setlocale (LC_ALL, "C");
 	}
 #endif
@@ -567,14 +567,14 @@ main (gint argc,
 	if (start_online && start_offline) {
 		g_printerr (
 			_("%s: --online and --offline cannot be used "
-			  "together.\n  Run '%s --help' for more "
-			  "information.\n"), argv[0], argv[0]);
+			"together.\n  Run '%s --help' for more "
+			"information.\n"), argv[0], argv[0]);
 		exit (1);
 	} else if (force_online && start_offline) {
 		g_printerr (
 			_("%s: --force-online and --offline cannot be used "
-			  "together.\n  Run '%s --help' for more "
-			  "information.\n"), argv[0], argv[0]);
+			"together.\n  Run '%s --help' for more "
+			"information.\n"), argv[0], argv[0]);
 		exit (1);
 	}
 

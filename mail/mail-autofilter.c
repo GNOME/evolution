@@ -66,7 +66,7 @@ rule_match_recipients (ERuleContext *context,
 		part = e_rule_context_create_part (context, "to");
 		e_filter_rule_add_part ((EFilterRule *) rule, part);
 		element = e_filter_part_find_element (part, "recipient-type");
-		e_filter_option_set_current ((EFilterOption *)element, "contains");
+		e_filter_option_set_current ((EFilterOption *) element, "contains");
 		element = e_filter_part_find_element (part, "recipient");
 		e_filter_input_set_value ((EFilterInput *) element, addr);
 
@@ -119,7 +119,7 @@ rule_add_subject (ERuleContext *context,
 	part = e_rule_context_create_part (context, "subject");
 	e_filter_rule_add_part ((EFilterRule *) rule, part);
 	element = e_filter_part_find_element (part, "subject-type");
-	e_filter_option_set_current ((EFilterOption *)element, "contains");
+	e_filter_option_set_current ((EFilterOption *) element, "contains");
 	element = e_filter_part_find_element (part, "subject");
 	e_filter_input_set_value ((EFilterInput *) element, text);
 }
@@ -138,7 +138,7 @@ rule_add_sender (ERuleContext *context,
 	part = e_rule_context_create_part (context, "sender");
 	e_filter_rule_add_part ((EFilterRule *) rule, part);
 	element = e_filter_part_find_element (part, "sender-type");
-	e_filter_option_set_current ((EFilterOption *)element, "contains");
+	e_filter_option_set_current ((EFilterOption *) element, "contains");
 	element = e_filter_part_find_element (part, "sender");
 	e_filter_input_set_value ((EFilterInput *) element, text);
 }
@@ -200,11 +200,11 @@ rule_match_mlist (ERuleContext *context,
 	if (mlist[0] == 0)
 		return;
 
-	part = e_rule_context_create_part(context, "mlist");
+	part = e_rule_context_create_part (context, "mlist");
 	e_filter_rule_add_part (rule, part);
 
-	element = e_filter_part_find_element(part, "mlist-type");
-	e_filter_option_set_current((EFilterOption *)element, "is");
+	element = e_filter_part_find_element (part, "mlist-type");
+	e_filter_option_set_current ((EFilterOption *) element, "is");
 
 	element = e_filter_part_find_element (part, "mlist");
 	e_filter_input_set_value ((EFilterInput *) element, mlist);
@@ -226,7 +226,7 @@ rule_from_address (EFilterRule *rule,
 		rule_add_sender (context, rule, address);
 		if (name == NULL || name[0] == '\0')
 			name = address;
-		namestr = g_strdup_printf(_("Mail from %s"), name);
+		namestr = g_strdup_printf (_("Mail from %s"), name);
 		e_filter_rule_set_name (rule, namestr);
 		g_free (namestr);
 	}
@@ -269,7 +269,7 @@ rule_from_message (EFilterRule *rule,
 			rule_add_sender (context, rule, address);
 			if (name == NULL || name[0] == '\0')
 				name = address;
-			namestr = g_strdup_printf(_("Mail from %s"), name);
+			namestr = g_strdup_printf (_("Mail from %s"), name);
 			e_filter_rule_set_name (rule, namestr);
 			g_free (namestr);
 		}
@@ -403,7 +403,7 @@ filter_gui_add_from_message (EMailSession *session,
 	e_filter_rule_set_source (rule, source);
 
 	e_rule_context_add_rule_gui (
-		(ERuleContext *)fc, rule, _("Add Filter Rule"), user);
+		(ERuleContext *) fc, rule, _("Add Filter Rule"), user);
 	g_free (user);
 	g_object_unref (fc);
 }
@@ -441,7 +441,7 @@ mail_filter_rename_folder (CamelStore *store,
 		(ERuleContext *) fc, old_uri, new_uri, g_str_equal);
 	if (changed) {
 		if (e_rule_context_save ((ERuleContext *) fc, user) == -1)
-			g_warning("Could not write out changed filter rules\n");
+			g_warning ("Could not write out changed filter rules\n");
 		e_rule_context_free_uri_list ((ERuleContext *) fc, changed);
 	}
 
@@ -487,7 +487,7 @@ mail_filter_delete_folder (CamelStore *store,
 		gchar *info;
 		GList *l;
 
-		s = g_string_new("");
+		s = g_string_new ("");
 		s_count = 0;
 		for (l = deleted; l; l = l->next) {
 			const gchar *name = (const gchar *) l->data;

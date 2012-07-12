@@ -1583,7 +1583,7 @@ mail_session_forward_to_sync (CamelSession *session,
 		g_set_error (
 			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			_("No destination address provided, forwarding "
-			  "of the message has been cancelled."));
+			"of the message has been cancelled."));
 		return FALSE;
 	}
 
@@ -1596,7 +1596,7 @@ mail_session_forward_to_sync (CamelSession *session,
 		g_set_error (
 			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			_("No identity found to use, forwarding "
-			  "of the message has been cancelled."));
+			"of the message has been cancelled."));
 		return FALSE;
 	}
 

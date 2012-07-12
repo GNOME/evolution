@@ -130,7 +130,7 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 
 				/* rfc2368 for mailto syntax and url encoding extras */
 				if ((real = camel_header_encode_phrase ((guchar *) a->name))) {
-					mailaddr = g_strdup_printf("%s <%s>", real, a->v.addr);
+					mailaddr = g_strdup_printf ("%s <%s>", real, a->v.addr);
 					g_free (real);
 					mailto = camel_url_encode (mailaddr, "?=&()");
 					g_free (mailaddr);
@@ -288,7 +288,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 
 		g_free (buf);
 
-		html = g_string_new("");
+		html = g_string_new ("");
 		img = e_mail_formatter_format_address (formatter, html, addrs, (gchar *) label,
 			(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS),
 			!(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
@@ -311,7 +311,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		g_free (buf);
 
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
-	} else if (!strcmp(name, "X-evolution-mailer")) {
+	} else if (!strcmp (name, "X-evolution-mailer")) {
 		/* pseudo-header */
 		label = _("Mailer");
 		txt = value = camel_header_format_ctext (header->value, charset);
@@ -363,7 +363,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		}
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML |
 			 E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
-	} else if (!strcmp(name, "Newsgroups")) {
+	} else if (!strcmp (name, "Newsgroups")) {
 		struct _camel_header_newsgroup *ng, *scan;
 		GString *html;
 
@@ -376,17 +376,17 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 
 		g_free (buf);
 
-		html = g_string_new("");
+		html = g_string_new ("");
 		scan = ng;
 		while (scan) {
 			if (flags & E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS)
 				g_string_append_printf (html, "%s", scan->newsgroup);
 			else
-				g_string_append_printf(html, "<a href=\"news:%s\">%s</a>",
+				g_string_append_printf (html, "<a href=\"news:%s\">%s</a>",
 					scan->newsgroup, scan->newsgroup);
 			scan = scan->next;
 			if (scan)
-				g_string_append_printf(html, ", ");
+				g_string_append_printf (html, ", ");
 		}
 
 		camel_header_newsgroups_free (ng);

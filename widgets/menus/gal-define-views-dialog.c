@@ -358,7 +358,7 @@ gal_define_views_dialog_set_collection (GalDefineViewsDialog *dialog,
 					      COL_GALVIEW_NAME, GTK_SORT_ASCENDING);
 
 	if (dialog->builder) {
-		GtkWidget *widget = e_builder_get_widget(dialog->builder, "label-views");
+		GtkWidget *widget = e_builder_get_widget (dialog->builder, "label-views");
 		if (widget && GTK_IS_LABEL (widget)) {
 			if (collection->title) {
 				gchar *text = g_strdup_printf (_("Define Views for %s"),

@@ -180,7 +180,7 @@ check_last_access (ETreeSorted *ets,
 		return NULL;
 
 	if (ets->priv->last_access == corresponding) {
-		d(g_print("Found last access %p at %p.", ets->priv->last_access, ets->priv->last_access));
+		d (g_print ("Found last access %p at %p.", ets->priv->last_access, ets->priv->last_access));
 		return ets->priv->last_access;
 	}
 
@@ -195,14 +195,14 @@ check_last_access (ETreeSorted *ets,
 
 		for (i = initial; i < end; i++) {
 			if (parent->children[i] && parent->children[i]->corresponding == corresponding) {
-				d(g_print("Found last access %p at %p.", ets->priv->last_access, parent->children[i]));
+				d (g_print ("Found last access %p at %p.", ets->priv->last_access, parent->children[i]));
 				return parent->children[i];
 			}
 		}
 
 		for (i = initial - 1; i >= start; i--) {
 			if (parent->children[i] && parent->children[i]->corresponding == corresponding) {
-				d(g_print("Found last access %p at %p.", ets->priv->last_access, parent->children[i]));
+				d (g_print ("Found last access %p at %p.", ets->priv->last_access, parent->children[i]));
 				return parent->children[i];
 			}
 		}
@@ -226,7 +226,7 @@ find_path (ETreeSorted *ets,
 
 	check_last = check_last_access (ets, corresponding);
 	if (check_last) {
-		d(g_print(" (find_path)\n"));
+		d (g_print (" (find_path)\n"));
 		return check_last;
 	}
 
@@ -263,7 +263,7 @@ find_path (ETreeSorted *ets,
 	}
 	g_free (sequence);
 
-	d(g_print("Didn't find last access %p.  Setting to %p. (find_path)\n", ets->priv->last_access, path));
+	d (g_print ("Didn't find last access %p.  Setting to %p. (find_path)\n", ets->priv->last_access, path));
 	ets->priv->last_access = path;
 
 	return path;
@@ -305,7 +305,7 @@ find_or_create_path (ETreeSorted *ets,
 
 	check_last = check_last_access (ets, corresponding);
 	if (check_last) {
-		d(g_print(" (find_or_create_path)\n"));
+		d (g_print (" (find_or_create_path)\n"));
 		return check_last;
 	}
 
@@ -341,7 +341,7 @@ find_or_create_path (ETreeSorted *ets,
 	}
 	g_free (sequence);
 
-	d(g_print("Didn't find last access %p.  Setting to %p. (find_or_create_path)\n", ets->priv->last_access, path));
+	d (g_print ("Didn't find last access %p.  Setting to %p. (find_or_create_path)\n", ets->priv->last_access, path));
 	ets->priv->last_access = path;
 
 	return path;
@@ -508,20 +508,20 @@ resort_node (ETreeSorted *ets,
 				e_tree_model_pre_change (E_TREE_MODEL (ets));
 			if (needs_resort) {
 				gint i;
-				d(g_print("Start sort of node %p\n", path));
+				d (g_print ("Start sort of node %p\n", path));
 				if (needs_regen)
 					regenerate_children (ets, path);
-				d(g_print("Regened sort of node %p\n", path));
+				d (g_print ("Regened sort of node %p\n", path));
 				e_table_sorting_utils_tree_sort (E_TREE_MODEL (ets),
 								 ets->priv->sort_info,
 								 ets->priv->full_header,
 								 (ETreePath *) path->children,
 								 path->num_children);
-				d(g_print("Renumbering sort of node %p\n", path));
+				d (g_print ("Renumbering sort of node %p\n", path));
 				for (i = 0; i < path->num_children; i++) {
 					path->children[i]->position = i;
 				}
-				d(g_print("End sort of node %p\n", path));
+				d (g_print ("End sort of node %p\n", path));
 			}
 			if (path->resort_all_children)
 				resort_all_children = TRUE;
@@ -871,7 +871,7 @@ ets_get_save_id (ETreeModel *etm,
 	if (e_tree_model_has_save_id (ets->priv->source))
 		return e_tree_model_get_save_id (ets->priv->source, path->corresponding);
 	else
-		return g_strdup_printf("%p", path->corresponding);
+		return g_strdup_printf ("%p", path->corresponding);
 }
 
 static gboolean
@@ -1007,7 +1007,7 @@ ets_proxy_node_changed (ETreeModel *etm,
                         ETreeSorted *ets)
 {
 	ets->priv->last_access = NULL;
-	d(g_print("Setting last access %p. (ets_proxy_node_changed)\n", ets->priv->last_access));
+	d (g_print ("Setting last access %p. (ets_proxy_node_changed)\n", ets->priv->last_access));
 
 	if (e_tree_model_node_is_root (ets->priv->source, node)) {
 		ets_stop_sort_idle (ets);
@@ -1156,7 +1156,7 @@ ets_proxy_node_removed (ETreeModel *etm,
 	else
 		path = find_path (ets, child);
 
-	d(g_print("Setting last access %p. (ets_proxy_node_removed)\n ", ets->priv->last_access));
+	d (g_print ("Setting last access %p. (ets_proxy_node_removed)\n ", ets->priv->last_access));
 	ets->priv->last_access = NULL;
 
 	if (path && parent_path && parent_path->num_children != -1) {
@@ -1352,7 +1352,7 @@ e_tree_sorted_view_to_model_path (ETreeSorted *ets,
 	ETreeSortedPath *path = view_path;
 	if (path) {
 		ets->priv->last_access = path;
-		d(g_print("Setting last access %p. (e_tree_sorted_view_to_model_path)\n", ets->priv->last_access));
+		d (g_print ("Setting last access %p. (e_tree_sorted_view_to_model_path)\n", ets->priv->last_access));
 		return path->corresponding;
 	} else
 		return NULL;

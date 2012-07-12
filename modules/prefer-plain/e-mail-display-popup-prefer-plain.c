@@ -90,10 +90,9 @@ static const gchar *ui_reader =
 "  </popup>"
 "</ui>";
 
-
 static void
 toggle_part (GtkAction *action,
-	     EMailDisplayPopupExtension *extension)
+             EMailDisplayPopupExtension *extension)
 {
 	EMailDisplayPopupPreferPlain *pp_extension = (EMailDisplayPopupPreferPlain *) extension;
 	WebKitDOMDocument *doc = pp_extension->document;
@@ -108,14 +107,16 @@ toggle_part (GtkAction *action,
 	g_free (uri);
 
 	query = soup_form_decode (soup_uri->query);
-	g_hash_table_replace (query, g_strdup ("part_id"),
+	g_hash_table_replace (
+		query, g_strdup ("part_id"),
 		pp_extension->text_html_id ?
 			pp_extension->text_html_id :
 			pp_extension->text_plain_id);
-	g_hash_table_replace (query, g_strdup ("mime_type"),
-			pp_extension->text_html_id ?
-					(gpointer) "text/html" :
-					(gpointer) "text/plain");
+	g_hash_table_replace (
+		query, g_strdup ("mime_type"),
+		pp_extension->text_html_id ?
+			(gpointer) "text/html" :
+			(gpointer) "text/plain");
 
 	soup_uri_set_query_from_form (soup_uri, query);
 	g_hash_table_destroy (query);
@@ -151,11 +152,11 @@ GtkActionEntry entries[] = {
 	}
 };
 
-const gint ID_LEN = G_N_ELEMENTS(".alternative-prefer-plain.");
+const gint ID_LEN = G_N_ELEMENTS (".alternative-prefer-plain.");
 
 static void
 set_text_plain_id (EMailDisplayPopupPreferPlain *extension,
-		   const gchar *id)
+                   const gchar *id)
 {
 	g_free (extension->text_plain_id);
 	extension->text_plain_id = g_strdup (id);
@@ -163,14 +164,13 @@ set_text_plain_id (EMailDisplayPopupPreferPlain *extension,
 
 static void
 set_text_html_id (EMailDisplayPopupPreferPlain *extension,
-		  const gchar *id)
+                  const gchar *id)
 {
 	g_free (extension->text_html_id);
 	extension->text_html_id = g_strdup (id);
 }
 
-
-static GtkActionGroup*
+static GtkActionGroup *
 create_group (EMailDisplayPopupExtension *extension)
 {
 	EExtensible *extensible;
@@ -192,13 +192,14 @@ create_group (EMailDisplayPopupExtension *extension)
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui_webview, -1, NULL);
 
 	action = gtk_action_group_get_action (group, "show-plain-text-part");
-	g_signal_connect (action, "activate",
+	g_signal_connect (
+		action, "activate",
 		G_CALLBACK (toggle_part), extension);
 
 	action = gtk_action_group_get_action (group, "show-text-html-part");
-	g_signal_connect (action, "activate",
+	g_signal_connect (
+		action, "activate",
 		G_CALLBACK (toggle_part), extension);
-
 
 	shell = e_shell_get_default ();
 	shell_window = e_shell_get_active_window (shell);
@@ -218,7 +219,7 @@ create_group (EMailDisplayPopupExtension *extension)
 
 static void
 mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *extension,
-						WebKitHitTestResult *context)
+                                                WebKitHitTestResult *context)
 {
 	EMailDisplay *display;
 	GtkAction *action;
@@ -412,7 +413,6 @@ e_mail_display_popup_prefer_plain_class_finalize (EMailDisplayPopupPreferPlainCl
 {
 
 }
-
 
 static void
 e_mail_display_popup_prefer_plain_init (EMailDisplayPopupPreferPlain *extension)

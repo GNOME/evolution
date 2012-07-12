@@ -176,7 +176,7 @@ commit_changes (UIData *ui)
 		/* Check if the keyword and value are not empty */
 		if ((keyword) && (value) && (g_utf8_strlen (g_strstrip (keyword), -1) > 0)
 			&& (g_utf8_strlen (g_strstrip (value), -1) > 0)) {
-			key = g_strdup_printf("%s=%s", keyword, value);
+			key = g_strdup_printf ("%s=%s", keyword, value);
 			g_variant_builder_add (&b, "s", key);
 		}
 
@@ -1118,9 +1118,9 @@ build_template_menus_recurse (CamelStore *local_store,
 			action = gtk_action_new (
 				action_name, action_label, NULL, NULL);
 
-			g_object_set_data(G_OBJECT (action), "template-uid", (gpointer) uid);
+			g_object_set_data (G_OBJECT (action), "template-uid", (gpointer) uid);
 
-			g_object_set_data(G_OBJECT (action), "template-folder", folder);
+			g_object_set_data (G_OBJECT (action), "template-folder", folder);
 
 			g_signal_connect (
 				action, "activate",

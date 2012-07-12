@@ -61,7 +61,7 @@ e_shell_detect_meego (gboolean *is_meego,
 
 	*is_meego = *small_screen = FALSE;
 
-	moblin_string = (guchar *)g_getenv ("EVO_MEEGO");
+	moblin_string = (guchar *) g_getenv ("EVO_MEEGO");
 	if (!moblin_string) {
 		GdkScreen *screen;
 		GdkDisplay *display;
@@ -82,8 +82,9 @@ e_shell_detect_meego (gboolean *is_meego,
 		if (!module)
 			return;
 		g_module_symbol (module, "XFree", (gpointer) &fns.XFree);
-		g_module_symbol (module, "XGetWindowProperty",
-				 (gpointer) &fns.XGetWindowProperty);
+		g_module_symbol (
+			module, "XGetWindowProperty",
+			(gpointer) &fns.XGetWindowProperty);
 		if (!fns.XFree || !fns.XGetWindowProperty) {
 			fprintf (stderr, "defective X server\n");
 			goto exit;
@@ -127,12 +128,13 @@ e_shell_detect_meego (gboolean *is_meego,
 		/* use meego theming tweaks */
 		*is_meego = TRUE;
 
-		props = g_strsplit ((gchar *)moblin_string, ":", -1);
+		props = g_strsplit ((gchar *) moblin_string, ":", -1);
 		for (i = 0; props && props[i]; i++) {
 			gchar **pair = g_strsplit (props[i], "=", 2);
 
-			g_warning ("pair '%s'='%s'", pair ? pair[0] : "<null>",
-				   pair && pair[0] ? pair[1] : "<null>");
+			g_warning (
+				"pair '%s'='%s'", pair ? pair[0] : "<null>",
+				pair && pair[0] ? pair[1] : "<null>");
 
 			/* Hunt for session-type=small-screen */
 			if (pair && pair[0] && !g_ascii_strcasecmp (pair[0], "session-type"))

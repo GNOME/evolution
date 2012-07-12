@@ -517,7 +517,7 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 			EAB_CONTACT_DISPLAY_RENDER_NORMAL,
 			G_PARAM_READWRITE));
 
-	g_object_class_install_property	(
+	g_object_class_install_property (
 		object_class,
 		PROP_SHOW_MAPS,
 		g_param_spec_boolean (

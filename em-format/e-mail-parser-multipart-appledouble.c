@@ -50,7 +50,7 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar* parser_mime_types[] = { "multipart/appledouble", NULL };
+static const gchar * parser_mime_types[] = { "multipart/appledouble", NULL };
 
 static GSList *
 empe_mp_appledouble_parse (EMailParserExtension *extension,
@@ -80,7 +80,7 @@ empe_mp_appledouble_parse (EMailParserExtension *extension,
 			gint len;
 			/* try the data fork for something useful, doubtful but who knows */
 			len = part_id->len;
-			g_string_append_printf(part_id, ".appledouble.1");
+			g_string_append_printf (part_id, ".appledouble.1");
 
 			parts = e_mail_parser_parse_part (
 					parser, mime_part, part_id, cancellable);

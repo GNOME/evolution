@@ -348,11 +348,11 @@ do_save_calendar_csv (FormatHandler *handler,
 	config = g_new (CsvConfig, 1);
 
 	tmp = gtk_entry_get_text (GTK_ENTRY (d->delimiter_entry));
-	config->delimiter = userstring_to_systemstring (tmp?tmp:", ");
+	config->delimiter = userstring_to_systemstring (tmp ? tmp:", ");
 	tmp = gtk_entry_get_text (GTK_ENTRY (d->newline_entry));
-	config->newline = userstring_to_systemstring (tmp?tmp:"\\n");
+	config->newline = userstring_to_systemstring (tmp ? tmp:"\\n");
 	tmp = gtk_entry_get_text (GTK_ENTRY (d->quote_entry));
-	config->quote = userstring_to_systemstring (tmp?tmp:"\"");
+	config->quote = userstring_to_systemstring (tmp ? tmp:"\"");
 	config->header = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (d->header_check));
 
@@ -570,9 +570,9 @@ create_options_widget (FormatHandler *handler)
 		_("Prepend a _header"));
 
 	/* Advanced CSV options */
-	gtk_entry_set_text (GTK_ENTRY(d->delimiter_entry), ", ");
-	gtk_entry_set_text (GTK_ENTRY(d->quote_entry), "\"");
-	gtk_entry_set_text (GTK_ENTRY(d->newline_entry), "\\n");
+	gtk_entry_set_text (GTK_ENTRY (d->delimiter_entry), ", ");
+	gtk_entry_set_text (GTK_ENTRY (d->quote_entry), "\"");
+	gtk_entry_set_text (GTK_ENTRY (d->newline_entry), "\\n");
 
 	gtk_table_set_row_spacings (GTK_TABLE (table), 5);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 5);

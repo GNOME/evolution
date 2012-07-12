@@ -950,7 +950,7 @@ ect_event (ECellView *ecell_view,
 	case GDK_BUTTON_PRESS: /* Fall Through */
 		d (press = TRUE);
 	case GDK_BUTTON_RELEASE:
-		d(g_print ("%s: %s\n", __FUNCTION__, press ? "GDK_BUTTON_PRESS" : "GDK_BUTTON_RELEASE"));
+		d (g_print ("%s: %s\n", __FUNCTION__, press ? "GDK_BUTTON_PRESS" : "GDK_BUTTON_RELEASE"));
 		event->button.x -= 4;
 		event->button.y -= 1;
 		if ((!edit_display)

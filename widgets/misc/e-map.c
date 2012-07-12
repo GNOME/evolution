@@ -388,7 +388,7 @@ e_map_set_hadjustment_values (EMap *map)
 	g_object_set (adj,
 		"lower", 0.0,
 		"upper", new_upper,
-		"page-size", (gdouble)allocation.height,
+		"page-size", (gdouble) allocation.height,
 		"step-increment", allocation.height * 0.1,
 		"page-increment", allocation.height * 0.9,
 		NULL);
@@ -416,7 +416,7 @@ e_map_set_vadjustment_values (EMap *map)
 	g_object_set (adj,
 		"lower", 0.0,
 		"upper", new_upper,
-		"page-size", (gdouble)allocation.height,
+		"page-size", (gdouble) allocation.height,
 		"step-increment", allocation.height * 0.1,
 		"page-increment", allocation.height * 0.9,
 		NULL);

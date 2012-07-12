@@ -197,7 +197,7 @@ new_rule_clicked (GtkWidget *w,
 	if (button == GTK_RESPONSE_OK) {
 		const gchar *config_dir;
 		gchar *user;
-		EFilterRule *rule = g_object_get_data((GObject *)w, "rule");
+		EFilterRule *rule = g_object_get_data ((GObject *) w, "rule");
 		EAlert *alert = NULL;
 
 		if (!e_filter_rule_validate (rule, &alert)) {
@@ -260,8 +260,8 @@ static void
 release_rule_notify_cb (gpointer rule)
 {
 	/* disconnect the "changed" signal */
-	g_signal_handlers_disconnect_by_data (rule,
-		g_object_get_data (rule, "editor-dlg"));
+	g_signal_handlers_disconnect_by_data (
+		rule, g_object_get_data (rule, "editor-dlg"));
 	g_object_set_data (rule, "editor-dlg", NULL);
 	g_object_unref (rule);
 }

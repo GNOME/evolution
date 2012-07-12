@@ -252,13 +252,13 @@ epech_load_from_settings (GSettings *settings,
 		memset (&temp_header_value_details, 0, sizeof (CustomSubHeader));
 		temp_header_details.sub_header_type_value = g_array_new (TRUE, TRUE, sizeof (CustomSubHeader));
 		parse_header_list = g_strsplit_set (headers[pos], "=;,", -1);
-		temp_header_details.header_type_value = g_string_new("");
+		temp_header_details.header_type_value = g_string_new ("");
 		if (temp_header_details.header_type_value) {
 			g_string_assign (temp_header_details.header_type_value, parse_header_list[0]);
 		}
 
 		for (index = 0; parse_header_list[index + 1] ; ++index) {
-			temp_header_value_details.sub_header_string_value = g_string_new("");
+			temp_header_value_details.sub_header_string_value = g_string_new ("");
 
 			if (temp_header_value_details.sub_header_string_value) {
 				g_string_assign (temp_header_value_details.sub_header_string_value, parse_header_list[index + 1]);

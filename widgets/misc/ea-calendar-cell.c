@@ -86,7 +86,7 @@ e_calendar_cell_new (ECalendarItem *calitem,
 	cell->column = column;
 
 #ifdef ACC_DEBUG
-	g_print ("EvoAcc: e_calendar_cell created %p\n", (gpointer)cell);
+	g_print ("EvoAcc: e_calendar_cell created %p\n", (gpointer) cell);
 #endif
 
 	return cell;

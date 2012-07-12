@@ -362,7 +362,7 @@ evolution_backup_restore_validate_backup_file (const gchar *filename)
 	quotedfname = g_shell_quote (filename);
 	toolfname = g_build_filename (basedir, "evolution-backup", NULL);
 
-	command =  g_strdup_printf("%s --check %s", toolfname, quotedfname);
+	command =  g_strdup_printf ("%s --check %s", toolfname, quotedfname);
 	result = system (command);
 
 	g_free (command);

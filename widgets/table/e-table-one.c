@@ -148,7 +148,7 @@ one_value_to_string (ETableModel *etm,
 	if (one->source)
 		return e_table_model_value_to_string (one->source, col, value);
 	else
-		return g_strdup("");
+		return g_strdup ("");
 }
 
 static void

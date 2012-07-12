@@ -488,8 +488,9 @@ mail_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 	spec = e_table_specification_new ();
 	filename = g_build_filename (base_dir, ETSPEC_FILENAME, NULL);
 	if (!e_table_specification_load_from_file (spec, filename))
-		g_critical ("Unable to load ETable specification file "
-			    "for mail");
+		g_critical (
+			"Unable to load ETable specification file "
+			"for mail");
 	g_free (filename);
 
 	factory = gal_view_factory_etable_new (spec);
@@ -1068,8 +1069,8 @@ typedef struct {
 
 static gboolean
 send_receive_can_use_service (EMailAccountStore *account_store,
-			      CamelService *service,
-			      GtkTreeIter *piter)
+                              CamelService *service,
+                              GtkTreeIter *piter)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -1089,7 +1090,8 @@ send_receive_can_use_service (EMailAccountStore *account_store,
 		do {
 			adept = NULL;
 
-			gtk_tree_model_get (model, &iter,
+			gtk_tree_model_get (
+				model, &iter,
 				E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE, &adept,
 				-1);
 
@@ -1107,7 +1109,8 @@ send_receive_can_use_service (EMailAccountStore *account_store,
 	if (!found)
 		return FALSE;
 
-	gtk_tree_model_get (model, &iter,
+	gtk_tree_model_get (
+		model, &iter,
 		E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED, &enabled,
 		E_MAIL_ACCOUNT_STORE_COLUMN_BUILTIN, &builtin,
 		-1);
@@ -1180,16 +1183,16 @@ send_receive_add_to_menu (SendReceiveData *data,
 
 static void
 send_receive_gather_services (gpointer menu_item,
-			      gpointer service,
-			      gpointer queue)
+                              gpointer service,
+                              gpointer queue)
 {
 	g_queue_push_head (queue, service);
 }
 
 static gint
 sort_services_cb (gconstpointer service1,
-		  gconstpointer service2,
-		  gpointer account_store)
+                  gconstpointer service2,
+                  gpointer account_store)
 {
 	return e_mail_account_store_compare_services (account_store, CAMEL_SERVICE (service1), CAMEL_SERVICE (service2));
 }
@@ -1363,7 +1366,8 @@ create_send_receive_submenu (EMailShellView *mail_shell_view)
 		do {
 			service = NULL;
 
-			gtk_tree_model_get (model, &iter,
+			gtk_tree_model_get (
+				model, &iter,
 				E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE, &service,
 				-1);
 

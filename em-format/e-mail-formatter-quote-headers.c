@@ -62,14 +62,13 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_quote_formatter_extension_interface_init))
 
-
 static void
 emfqe_format_text_header (EMailFormatter *emf,
-			  GString *buffer,
-			  const gchar *label,
-			  const gchar *value,
-			  guint32 flags,
-			  gint is_html)
+                          GString *buffer,
+                          const gchar *label,
+                          const gchar *value,
+                          guint32 flags,
+                          gint is_html)
 {
 	const gchar *html;
 	gchar *mhtml = NULL;
@@ -104,11 +103,11 @@ static const gchar *addrspec_hdrs[] = {
 
 static void
 emfqe_format_header (EMailFormatter *formatter,
-		     GString *buffer,
-		     CamelMedium *part,
-		     struct _camel_header_raw *header,
-		     guint32 flags,
-		     const gchar *charset)
+                     GString *buffer,
+                     CamelMedium *part,
+                     struct _camel_header_raw *header,
+                     guint32 flags,
+                     const gchar *charset)
 {
 	CamelMimeMessage *msg = (CamelMimeMessage *) part;
 	gchar *name, *buf, *value = NULL;
@@ -192,7 +191,6 @@ emfqe_format_header (EMailFormatter *formatter,
 
 	g_free (value);
 }
-
 
 static gboolean
 emqfe_headers_format (EMailFormatterExtension *extension,

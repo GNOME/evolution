@@ -294,7 +294,7 @@ static void
 ets_sort_info_changed (ETableSortInfo *info,
                        ETableSorter *ets)
 {
-	d(g_print ("sort info changed\n"));
+	d (g_print ("sort info changed\n"));
 	ets_clean (ets);
 }
 

@@ -166,7 +166,7 @@ ecv_draw (ECellView *ecell_view,
 			/* e_cell_max_width_by_row (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col, row);
 		if (width < hbox_view->def_size_cols[i])
 			width = hbox_view->def_size_cols[i];
-		printf("width of %d %d of %d\n", width,hbox_view->def_size_cols[i], allotted_width ); */
+		printf ("width of %d %d of %d\n", width,hbox_view->def_size_cols[i], allotted_width ); */
 
 		e_cell_draw (
 			hbox_view->subcell_views[i], cr,

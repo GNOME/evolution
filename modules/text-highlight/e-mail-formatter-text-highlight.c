@@ -82,7 +82,7 @@ get_default_font (void)
 
 static gchar *
 get_syntax (EMailPart *part,
-	    const gchar *uri)
+            const gchar *uri)
 {
 	gchar *syntax = NULL;
 	CamelContentType *ct = NULL;
@@ -151,7 +151,6 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		if (!disp || g_strcmp0 (disp->disposition, "attachment") != 0)
 			return FALSE;
 	}
-
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
 
@@ -245,10 +244,12 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			g_free (font);
 		}
 
-		font_family = g_strdup_printf ("--font='%s'",
-				pango_font_description_get_family (fd));
-		font_size = g_strdup_printf ("--font-size=%d",
-				pango_font_description_get_size (fd) / PANGO_SCALE);
+		font_family = g_strdup_printf (
+			"--font='%s'",
+			pango_font_description_get_family (fd));
+		font_size = g_strdup_printf (
+			"--font-size=%d",
+			pango_font_description_get_size (fd) / PANGO_SCALE);
 
 		argv[1] = font_family;
 		argv[2] = font_size;

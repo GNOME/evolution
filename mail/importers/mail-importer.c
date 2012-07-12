@@ -177,13 +177,13 @@ import_mbox_exec (struct _import_mbox_msg *m,
 
 			info = camel_message_info_new (NULL);
 
-			tmp = camel_medium_get_header((CamelMedium *)msg, "X-Mozilla-Status");
+			tmp = camel_medium_get_header ((CamelMedium *) msg, "X-Mozilla-Status");
 			if (tmp)
 				flags |= decode_mozilla_status (tmp);
-			tmp = camel_medium_get_header((CamelMedium *)msg, "Status");
+			tmp = camel_medium_get_header ((CamelMedium *) msg, "Status");
 			if (tmp)
 				flags |= decode_status (tmp);
-			tmp = camel_medium_get_header((CamelMedium *)msg, "X-Status");
+			tmp = camel_medium_get_header ((CamelMedium *) msg, "X-Status");
 			if (tmp)
 				flags |= decode_status (tmp);
 
@@ -348,7 +348,7 @@ import_folders_rec (struct _import_folders_data *m,
 				data_dir, folderparent, folder);
 		}
 
-		printf("importing to uri %s\n", uri);
+		printf ("importing to uri %s\n", uri);
 		mail_importer_import_mbox_sync (
 			m->session, filefull, uri, m->cancellable);
 		g_free (uri);
@@ -356,7 +356,7 @@ import_folders_rec (struct _import_folders_data *m,
 		/* This little gem re-uses the stat buffer and filefull
 		 * to automagically scan mozilla-format folders. */
 		if (!m->elmfmt) {
-			gchar *tmp = g_strdup_printf("%s.sbd", filefull);
+			gchar *tmp = g_strdup_printf ("%s.sbd", filefull);
 
 			g_free (filefull);
 			filefull = tmp;
