@@ -365,6 +365,7 @@ format_url (CamelService *service)
 {
 	CamelProvider *provider;
 	CamelSettings *settings;
+	gchar *service_name = NULL;
 	const gchar *display_name;
 	const gchar *host = NULL;
 	const gchar *path = NULL;
@@ -386,8 +387,10 @@ format_url (CamelService *service)
 
 	/* This should never happen, but if the service has no
 	 * display name, fall back to the generic service name. */
-	if (display_name == NULL || *display_name == '\0')
-		display_name = camel_service_get_name (service, TRUE);
+	if (display_name == NULL || *display_name == '\0') {
+		service_name = camel_service_get_name (service, TRUE);
+		display_name = service_name;
+	}
 
 	if (host != NULL && *host != '\0')
 		pretty_url = g_markup_printf_escaped (
@@ -398,6 +401,8 @@ format_url (CamelService *service)
 	else
 		pretty_url = g_markup_printf_escaped (
 			"<b>%s</b>", display_name);
+
+	g_free (service_name);
 
 	return pretty_url;
 }
