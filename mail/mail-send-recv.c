@@ -384,33 +384,20 @@ format_url (CamelService *service)
 
 	g_return_val_if_fail (provider != NULL, NULL);
 
-	if (display_name != NULL && *display_name != '\0') {
-		if (host != NULL && *host != '\0')
-			pretty_url = g_markup_printf_escaped (
-				"<b>%s (%s)</b>: %s",
-				display_name, provider->protocol, host);
-		else if (path != NULL)
-			pretty_url = g_markup_printf_escaped (
-				"<b>%s (%s)</b>: %s",
-				display_name, provider->protocol, path);
-		else
-			pretty_url = g_markup_printf_escaped (
-				"<b>%s (%s)</b>",
-				display_name, provider->protocol);
+	/* This should never happen, but if the service has no
+	 * display name, fall back to the generic service name. */
+	if (display_name == NULL || *display_name == '\0')
+		display_name = camel_service_get_name (service, TRUE);
 
-	} else {
-		if (host != NULL && *host != '\0')
-			pretty_url = g_markup_printf_escaped (
-				"<b>%s</b>: %s",
-				provider->protocol, host);
-		else if (path != NULL)
-			pretty_url = g_markup_printf_escaped (
-				"<b>%s</b>: %s",
-				provider->protocol, path);
-		else
-			pretty_url = g_markup_printf_escaped (
-				"<b>%s</b>", provider->protocol);
-	}
+	if (host != NULL && *host != '\0')
+		pretty_url = g_markup_printf_escaped (
+			"<b>%s</b>: %s", display_name, host);
+	else if (path != NULL)
+		pretty_url = g_markup_printf_escaped (
+			"<b>%s</b>: %s", display_name, path);
+	else
+		pretty_url = g_markup_printf_escaped (
+			"<b>%s</b>", display_name);
 
 	return pretty_url;
 }
