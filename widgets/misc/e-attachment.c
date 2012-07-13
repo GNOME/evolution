@@ -1454,6 +1454,7 @@ typedef struct _LoadContext LoadContext;
 
 struct _LoadContext {
 	EAttachment *attachment;
+	CamelMimePart *mime_part;
 	GSimpleAsyncResult *simple;
 
 	GInputStream *input_stream;
@@ -1495,7 +1496,12 @@ static void
 attachment_load_context_free (LoadContext *load_context)
 {
 	g_object_unref (load_context->attachment);
-	g_object_unref (load_context->simple);
+
+	if (load_context->mime_part != NULL)
+		g_object_unref (load_context->mime_part);
+
+	if (load_context->simple)
+		g_object_unref (load_context->simple);
 
 	if (load_context->input_stream != NULL)
 		g_object_unref (load_context->input_stream);
@@ -1590,17 +1596,19 @@ attachment_load_finish (LoadContext *load_context)
 		camel_mime_part_set_disposition (mime_part, disposition);
 
 	/* Correctly report the size of zero length special files. */
-	if (g_file_info_get_size (file_info) == 0) {
+	if (g_file_info_get_size (file_info) == 0)
 		g_file_info_set_size (file_info, size);
-		e_attachment_set_file_info (attachment, file_info);
-	}
+
+	load_context->mime_part = mime_part;
 
 	g_simple_async_result_set_op_res_gpointer (
-		simple, mime_part, (GDestroyNotify) g_object_unref);
+		simple, load_context, (GDestroyNotify) attachment_load_context_free);
 
 	g_simple_async_result_complete (simple);
 
-	attachment_load_context_free (load_context);
+	/* make sure it's freed on operation end */
+	load_context->simple = NULL;
+	g_object_unref (simple);
 }
 
 static void
@@ -1836,18 +1844,15 @@ attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
 	g_file_info_set_size (file_info, CAMEL_STREAM_NULL (null)->written);
 	g_object_unref (null);
 
-	string = camel_mime_part_get_disposition (mime_part);
-	e_attachment_set_disposition (attachment, string);
+	load_context->mime_part = g_object_ref (mime_part);
 
-	e_attachment_set_file_info (attachment, file_info);
-
-	g_object_ref (mime_part);
+	/* make sure it's freed on operation end */
+	g_object_unref (load_context->simple);
+	load_context->simple = NULL;
 
 	g_simple_async_result_set_op_res_gpointer (
-		simple, mime_part,
-		(GDestroyNotify) g_object_unref);
-
-	attachment_load_context_free (load_context);
+		simple, load_context,
+		(GDestroyNotify) attachment_load_context_free);
 }
 
 void
@@ -1911,20 +1916,28 @@ e_attachment_load_finish (EAttachment *attachment,
                           GError **error)
 {
 	GSimpleAsyncResult *simple;
-	CamelMimePart *mime_part;
+	const LoadContext *load_context;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
 	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
-	mime_part = g_simple_async_result_get_op_res_gpointer (simple);
-	if (mime_part != NULL)
-		e_attachment_set_mime_part (attachment, mime_part);
+	load_context = g_simple_async_result_get_op_res_gpointer (simple);
+	if (load_context && load_context->mime_part) {
+		const gchar *string;
+
+		string = camel_mime_part_get_disposition (load_context->mime_part);
+		e_attachment_set_disposition (attachment, string);
+
+		e_attachment_set_file_info (attachment, load_context->file_info);
+		e_attachment_set_mime_part (attachment, load_context->mime_part);
+	}
+
 	g_simple_async_result_propagate_error (simple, error);
 
 	attachment_set_loading (attachment, FALSE);
 
-	return (mime_part != NULL);
+	return (load_context != NULL);
 }
 
 void
