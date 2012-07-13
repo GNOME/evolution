@@ -268,6 +268,9 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 		if (camel_content_type_is (ct, "text", "calendar") ||
 		    camel_content_type_is (ct, "text", "x-calendar")) {
 
+			/* Hide everything else, displaying native calendar part only */
+			hide_parts (parts);
+
 			sparts = e_mail_parser_parse_part (
 					parser, sp, part_id, cancellable);
 
