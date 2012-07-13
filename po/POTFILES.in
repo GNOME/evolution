@@ -161,6 +161,7 @@ em-format/e-mail-formatter-image.c
 em-format/e-mail-formatter-message-rfc822.c
 em-format/e-mail-formatter-print.c
 em-format/e-mail-formatter-print-headers.c
+em-format/e-mail-formatter-quote-headers.c
 em-format/e-mail-formatter-quote-text-enriched.c
 em-format/e-mail-formatter-quote-text-html.c
 em-format/e-mail-formatter-quote-text-plain.c
