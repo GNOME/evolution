@@ -1231,14 +1231,11 @@ setup_DOM_bindings (GObject *object,
 
 	button = webkit_dom_document_get_element_by_id (
 			document, "__evo-collapse-headers-img");
-	if (!button)
-		return;
-
-	d(printf("Conntecting to __evo-collapsable-headers-img::click event\n"));
-
-	webkit_dom_event_target_add_event_listener (
-		WEBKIT_DOM_EVENT_TARGET (button), "click",
-		G_CALLBACK (toggle_headers_visibility), FALSE, web_view);
+	if (button) {
+		webkit_dom_event_target_add_event_listener (
+			WEBKIT_DOM_EVENT_TARGET (button), "click",
+			G_CALLBACK (toggle_headers_visibility), FALSE, web_view);
+	}
 
 	for (i = 0; i < 3; i++) {
 		gchar *id;
