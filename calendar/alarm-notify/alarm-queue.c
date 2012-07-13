@@ -1465,6 +1465,7 @@ open_alarm_dialog (TrayIconData *tray_data)
 			gtk_tree_selection_select_iter (
 				selection, &tray_data->iter);
 
+			gtk_window_present (GTK_WINDOW (alarm_notifications_dialog->dialog));
 		}
 
 	} else {
