@@ -68,15 +68,14 @@ handle_stock_request (GSimpleAsyncResult *res,
 
 	if (query) {
 		a_size = g_hash_table_lookup (query, "size");
+		if (a_size) {
+			size = atoi (a_size);
+		} else {
+			size = GTK_ICON_SIZE_BUTTON;
+		}
 		g_hash_table_destroy (query);
 	} else {
-		a_size = NULL;
-	}
-
-	if (!a_size) {
 		size = GTK_ICON_SIZE_BUTTON;
-	} else {
-		size = atoi (a_size);
 	}
 
 	/* Try style context first */
