@@ -41,7 +41,7 @@
 struct _AlarmNotifyPrivate {
 	ESourceRegistry *registry;
 	GHashTable *clients;
-	GMutex *mutex;
+	GMutex mutex;
 };
 
 /* Forward Declarations */
@@ -102,7 +102,7 @@ alarm_notify_finalize (GObject *object)
 	alarm_queue_done ();
 	alarm_done ();
 
-	g_mutex_free (priv->mutex);
+	g_mutex_clear (&priv->mutex);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (alarm_notify_parent_class)->finalize (object);
@@ -192,7 +192,7 @@ static void
 alarm_notify_init (AlarmNotify *an)
 {
 	an->priv = ALARM_NOTIFY_GET_PRIVATE (an);
-	an->priv->mutex = g_mutex_new ();
+	g_mutex_init (&an->priv->mutex);
 
 	an->priv->clients = g_hash_table_new_full (
 		(GHashFunc) e_source_hash,
@@ -228,11 +228,16 @@ client_opened_cb (GObject *source_object,
 	AlarmNotify *an = ALARM_NOTIFY (user_data);
 	EClient *client = NULL;
 	ECalClient *cal_client;
+	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, NULL);
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (client == NULL)
+	if (client == NULL) {
+		debug (("Failed to open '%s' (%s): %s", e_source_get_display_name (source),
+			e_source_get_uid (source), error ? error->message : "Unknown error"));
+		g_clear_error (&error);
 		return;
+	}
 
 	g_hash_table_insert (
 		an->priv->clients,
@@ -264,11 +269,11 @@ alarm_notify_add_calendar (AlarmNotify *an,
 
 	g_return_if_fail (IS_ALARM_NOTIFY (an));
 
-	g_mutex_lock (an->priv->mutex);
+	g_mutex_lock (&an->priv->mutex);
 
 	/* Check if we already know about this ESource. */
 	if (g_hash_table_lookup (an->priv->clients, source) != NULL) {
-		g_mutex_unlock (an->priv->mutex);
+		g_mutex_unlock (&an->priv->mutex);
 		return;
 	}
 
@@ -279,23 +284,29 @@ alarm_notify_add_calendar (AlarmNotify *an,
 		client_source_type = E_CLIENT_SOURCE_TYPE_MEMOS;
 	else if (e_source_has_extension (source, E_SOURCE_EXTENSION_TASK_LIST))
 		client_source_type = E_CLIENT_SOURCE_TYPE_TASKS;
-	else
+	else {
+		g_mutex_unlock (&an->priv->mutex);
 		return;
+	}
 
 	/* Check if alarms are even wanted on this ESource. */
 	extension_name = E_SOURCE_EXTENSION_ALARMS;
 	if (e_source_has_extension (source, extension_name)) {
 		ESourceAlarms *extension;
 		extension = e_source_get_extension (source, extension_name);
-		if (!e_source_alarms_get_include_me (extension))
+		if (!e_source_alarms_get_include_me (extension)) {
+			g_mutex_unlock (&an->priv->mutex);
 			return;
+		}
 	}
+
+	debug (("Opening '%s' (%s)", e_source_get_display_name (source), e_source_get_uid (source)));
 
 	e_client_utils_open_new (
 		source, client_source_type, TRUE, NULL,
 		client_opened_cb, an);
 
-	g_mutex_unlock (an->priv->mutex);
+	g_mutex_unlock (&an->priv->mutex);
 }
 
 void
