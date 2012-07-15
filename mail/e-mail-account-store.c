@@ -519,7 +519,7 @@ mail_account_store_service_removed (EMailAccountStore *store,
 		}
 	}
 
-	if (source != NULL) {
+	if (source != NULL && e_source_get_removable (source)) {
 		store->priv->busy_count++;
 		g_object_notify (G_OBJECT (store), "busy");
 
@@ -568,7 +568,7 @@ mail_account_store_service_enabled (EMailAccountStore *store,
 		if (uid != NULL)
 			identity = e_source_registry_ref_source (registry, uid);
 
-		if (identity != NULL) {
+		if (identity != NULL && e_source_get_writable (identity)) {
 			e_source_set_enabled (identity, TRUE);
 
 			store->priv->busy_count++;
@@ -598,7 +598,7 @@ mail_account_store_service_enabled (EMailAccountStore *store,
 		}
 	}
 
-	if (source != NULL) {
+	if (source != NULL && e_source_get_writable (source)) {
 		e_source_set_enabled (source, TRUE);
 
 		store->priv->busy_count++;
@@ -649,7 +649,7 @@ mail_account_store_service_disabled (EMailAccountStore *store,
 		if (uid != NULL)
 			identity = e_source_registry_ref_source (registry, uid);
 
-		if (identity != NULL) {
+		if (identity != NULL && e_source_get_writable (identity)) {
 			e_source_set_enabled (identity, FALSE);
 
 			store->priv->busy_count++;
@@ -679,7 +679,7 @@ mail_account_store_service_disabled (EMailAccountStore *store,
 		}
 	}
 
-	if (source != NULL) {
+	if (source != NULL && e_source_get_writable (source)) {
 		e_source_set_enabled (source, FALSE);
 
 		store->priv->busy_count++;
