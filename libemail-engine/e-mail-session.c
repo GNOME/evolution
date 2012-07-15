@@ -505,10 +505,7 @@ mail_session_add_from_source (EMailSession *session,
 
 	/* Sanity checks. */
 	g_return_if_fail (uid != NULL);
-
-	/* send-only accounts */
-	if (!backend_name)
-		return;
+	g_return_if_fail (backend_name != NULL);
 
 	/* Our own CamelSession.add_service() method will handle the
 	 * resulting CamelService, so we don't need the return value. */
