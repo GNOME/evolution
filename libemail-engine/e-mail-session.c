@@ -74,6 +74,8 @@ struct _EMailSessionPrivate {
 
 	gulong source_added_handler_id;
 	gulong source_removed_handler_id;
+	gulong source_enabled_handler_id;
+	gulong source_disabled_handler_id;
 	gulong default_mail_account_handler_id;
 
 	CamelStore *local_store;
@@ -474,6 +476,27 @@ mail_session_refresh_cb (ESource *source,
 	g_signal_emit (session, signals[REFRESH_SERVICE], 0, service);
 }
 
+static gboolean
+mail_session_check_goa_mail_disabled (EMailSession *session,
+                                      ESource *source)
+{
+	ESource *goa_source;
+	ESourceRegistry *registry;
+	gboolean goa_mail_disabled = FALSE;
+
+	registry = e_mail_session_get_registry (session);
+
+	goa_source = e_source_registry_find_extension (
+		registry, source, E_SOURCE_EXTENSION_GOA);
+
+	if (goa_source != NULL) {
+		goa_mail_disabled = !e_source_get_enabled (source);
+		g_object_unref (goa_source);
+	}
+
+	return goa_mail_disabled;
+}
+
 static void
 mail_session_add_from_source (EMailSession *session,
                               CamelProviderType type,
@@ -506,6 +529,13 @@ mail_session_add_from_source (EMailSession *session,
 	/* Sanity checks. */
 	g_return_if_fail (uid != NULL);
 	g_return_if_fail (backend_name != NULL);
+
+	/* Collection sources with a [GNOME Online Accounts] extension
+	 * require special handling.  If the collection's mail-enabled
+	 * flag is FALSE, do not add a CamelService.  The account must
+	 * not appear anywhere, not even in the Mail Accounts list. */
+	if (mail_session_check_goa_mail_disabled (session, source))
+		return;
 
 	/* Our own CamelSession.add_service() method will handle the
 	 * resulting CamelService, so we don't need the return value. */
@@ -577,6 +607,44 @@ mail_session_source_removed_cb (ESourceRegistry *registry,
 
 	if (CAMEL_IS_SERVICE (service))
 		camel_session_remove_service (camel_session, service);
+}
+
+static void
+mail_session_source_enabled_cb (ESourceRegistry *registry,
+                                ESource *source,
+                                EMailSession *session)
+{
+	ESource *goa_source;
+
+	/* If the source is linked to a GNOME Online Account,
+	 * enabling the source is equivalent to adding it. */
+
+	goa_source = e_source_registry_find_extension (
+		registry, source, E_SOURCE_EXTENSION_GOA);
+
+	if (goa_source != NULL) {
+		mail_session_source_added_cb (registry, source, session);
+		g_object_unref (goa_source);
+	}
+}
+
+static void
+mail_session_source_disabled_cb (ESourceRegistry *registry,
+                                 ESource *source,
+                                 EMailSession *session)
+{
+	ESource *goa_source;
+
+	/* If the source is linked to a GNOME Online Account,
+	 * disabling the source is equivalent to removing it. */
+
+	goa_source = e_source_registry_find_extension (
+		registry, source, E_SOURCE_EXTENSION_GOA);
+
+	if (goa_source != NULL) {
+		mail_session_source_removed_cb (registry, source, session);
+		g_object_unref (goa_source);
+	}
 }
 
 static void
@@ -881,6 +949,12 @@ mail_session_dispose (GObject *object)
 			priv->source_removed_handler_id);
 		g_signal_handler_disconnect (
 			priv->registry,
+			priv->source_enabled_handler_id);
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_disabled_handler_id);
+		g_signal_handler_disconnect (
+			priv->registry,
 			priv->default_mail_account_handler_id);
 
 		/* This requires the registry. */
@@ -1027,6 +1101,16 @@ mail_session_constructed (GObject *object)
 		registry, "source-removed",
 		G_CALLBACK (mail_session_source_removed_cb), session);
 	session->priv->source_removed_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		registry, "source-enabled",
+		G_CALLBACK (mail_session_source_enabled_cb), session);
+	session->priv->source_enabled_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		registry, "source-disabled",
+		G_CALLBACK (mail_session_source_disabled_cb), session);
+	session->priv->source_disabled_handler_id = handler_id;
 
 	handler_id = g_signal_connect (
 		registry, "notify::default-mail-account",

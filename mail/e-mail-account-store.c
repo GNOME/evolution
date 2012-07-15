@@ -981,6 +981,8 @@ e_mail_account_store_init (EMailAccountStore *store)
 	types[ii++] = G_TYPE_BOOLEAN;		/* COLUMN_DEFAULT */
 	types[ii++] = G_TYPE_STRING;		/* COLUMN_BACKEND_NAME */
 	types[ii++] = G_TYPE_STRING;		/* COLUMN_DISPLAY_NAME */
+	types[ii++] = G_TYPE_BOOLEAN;		/* COLUMN_ONLINE_ACCOUNT */
+	types[ii++] = G_TYPE_BOOLEAN;		/* COLUMN_ENABLED_VISIBLE */
 
 	g_assert (ii == E_MAIL_ACCOUNT_STORE_NUM_COLUMNS);
 
@@ -1114,6 +1116,8 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 	const gchar *uid;
 	gboolean builtin;
 	gboolean enabled;
+	gboolean online_account = FALSE;
+	gboolean enabled_visible = TRUE;
 
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
@@ -1141,7 +1145,17 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 	collection = e_source_registry_find_extension (
 		registry, source, E_SOURCE_EXTENSION_COLLECTION);
 	if (collection != NULL) {
+		const gchar *extension_name;
+
 		enabled = e_source_get_enabled (collection);
+
+		/* Check for GNOME Online Accounts linkage. */
+		extension_name = E_SOURCE_EXTENSION_GOA;
+		if (e_source_has_extension (collection, extension_name)) {
+			online_account = TRUE;
+			enabled_visible = FALSE;
+		}
+
 		g_object_unref (collection);
 	} else {
 		enabled = e_source_get_enabled (source);
@@ -1168,6 +1182,8 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 		E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE, service,
 		E_MAIL_ACCOUNT_STORE_COLUMN_BUILTIN, builtin,
 		E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED, enabled,
+		E_MAIL_ACCOUNT_STORE_COLUMN_ONLINE_ACCOUNT, online_account,
+		E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED_VISIBLE, enabled_visible,
 		-1);
 
 	/* This populates the rest of the columns. */
