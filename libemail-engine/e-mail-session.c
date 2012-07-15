@@ -1158,7 +1158,6 @@ mail_session_add_service (CamelSession *session,
 		g_object_bind_property (
 			source, "display-name",
 			service, "display-name",
-			G_BINDING_BIDIRECTIONAL |
 			G_BINDING_SYNC_CREATE);
 
 		/* Migrate files for this service from its old
