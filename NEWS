@@ -1,3 +1,91 @@
+Evolution 3.5.4 2012-07-16
+--------------------------
+
+Bug Fixes:
+	Bug 223309 - Add "Include Subfolders" to "Search Folder Sources"
+	             (Milan Crha)
+	Bug 246231 - Add Filter Rule dialog - UI suggestions (Milan Crha)
+	Bug 257283 - Can't select multiple folders at once in vFolder sources
+	             (Milan Crha)
+	Bug 332115 - Remove Camel module names from Send/Receive window
+	             (Matthew Barnes)
+	Bug 349875 - Dragging an email from a vFolder should link to source
+	             folder (Milan Crha)
+	Bug 515004 - Allow toggling between text and HTML view of mail
+	             (Dan Vrátil)
+	Bug 524737 - Replace radio buttons in Search folder editor (Milan Crha)
+	Bug 548778 - Use original location when replying in Search Folder
+	             (Milan Crha)
+	Bug 602425 - Search in "Current Account"/"All Accounts" depends on
+	             vfolders (Milan Crha)
+	Bug 617557 - Can close composer while message is sending (Milan Crha)
+	Bug 653529 - Alarm Notification window events list is too small
+	             (Milan Crha)
+	Bug 661886 - Avoid vertical scrolling in the filtering rules editor
+	             (Milan Crha)
+	Bug 674427 - Crash when formatting contact in addressbook (Dan Vrátil)
+	Bug 677604 - Critical warnings on evolution start (Milan Crha)
+	Bug 677695 - Freeze on quit in emu_free_mail_cache() (Milan Crha)
+	Bug 677885 - Deleting account is chatty on console (Matthew Barnes)
+	Bug 677993 - Remember screen used in previous session (Milan Crha)
+	Bug 678606 - Crash under mail_backend_folder_deleted_cb()
+	             (Matthew Barnes)
+	Bug 678667 - 'All Message Headers' option is broken (Lucian Langa)
+	Bug 678783 - Crash under e_attachment_set_file_info() (Milan Crha)
+	Bug 678834 - [prefer-plain] Setting change works only after restart
+	             (Dan Vrátil)
+	Bug 678946 - Port entry in Account Assistant is unset (Matthew Barnes)
+	Bug 679323 - Formatting errors when replying in inline mode
+	             (Dan Vrátil)
+	Bug 679649 - Remove "Recent Messages" from Quick Search Bar
+	             (Matthew Barnes)
+	Bug 679726 - Can't unfold long recipient list in message window
+	             (Dan Vrátil)
+	Bug 679814 - Calendar invitation shows both calendar and html part
+	             (Dan Vrátil)
+
+Other Changes:
+	* google: Remove SSL option for Google Contacts address books
+	  (Philip Withnall)
+	* google: Remove the offline caching option for Google Contacts
+	  address books (Philip Withnall)
+	* [prefer-plain] Fix displaying suppressed HTML parts (Dan Vrátil)
+	* Add CamelDebug to e_mail_parser_parse_sync (Dan Vrátil)
+	* Display text/plain in fixed-width font (Dan Vrátil)
+	* Fix displaying photos in contacts preview (Dan Vrátil)
+	* Display local contact photos in EContactEditor's EImageChooser
+	  (Dan Vrátil)
+	* Don't load images in preview pane when openning Preferences Dialog
+	  (Dan Vrátil)
+	* Trust attachments from ~/.kde and ~/.kde4. (Matthew Barnes)
+	* killev.c: Don't kill D-Bus services. (Matthew Barnes)
+	* Remove "last-upgraded-version" GSettings key. (Matthew Barnes)
+	* Remove evolution-nognome script. (Matthew Barnes)
+	* Delay saving Evolution version until later in initialization.
+	  (Matthew Barnes)
+	* EMailConfigWindow: Add a "changes-committed" signal. (Matthew Barnes)
+	* Disconnect a CamelService after editing its settings. (Matthew Barnes)
+	* e_web_view_update_fonts(): Fix memory corruption. (Matthew Barnes)
+	* Use folder display name in status messages when possible.
+	  (Matthew Barnes)
+	* Remove em_folder_tree_get_selected_folder(). (Matthew Barnes)
+	* Avoid crash on folder rename (Milan Crha)
+	* Add "auto-update" option to Search Folder Editor (Milan Crha)
+	* Preset timeout on SoupSession-s to 90 seconds (Milan Crha)
+	* Update to libgweather 3.5 (Giovanni Campagna)
+	* Don't display SMIME signature as an attachment (Dan Vrátil)
+	* Make alarm notifications work again (Milan Crha)
+	* Rework handling of GOA mail. (Matthew Barnes)
+
+Translations:
+	Ihar Hrachyshka (be)
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Kjartan Maraas (nb, nn)
+	Sasi Bhushan Boddepalli (te)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 3.5.3 2012-06-25
 --------------------------
 
