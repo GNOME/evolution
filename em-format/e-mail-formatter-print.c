@@ -159,6 +159,8 @@ mail_formatter_print_run (EMailFormatter *formatter,
 
 	write_attachments_list (formatter, context, attachments, stream, cancellable);
 
+	g_slist_free (attachments);
+
 	camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
 }
 
