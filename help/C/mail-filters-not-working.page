@@ -45,7 +45,7 @@ If it is still unclear why filters do not work as expected, you can enable loggi
 <item><p>Close Evolution.</p></item>
 <item><p>Open the <app>Terminal</app> application.</p></item>
 <item><p>Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-actions true</cmd></p></item>
-<item><p>Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-file "~/my-filter-log"</cmd>. This will create a text file named <file>my-filter-log<file> in your home directory.</p></item>
+<item><p>Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-file "~/my-filter-log"</cmd>. This will create a text file named <file>my-filter-log</file> in your home directory.</p></item>
 <item><p>Start Evolution.</p></item>
 <item><p>Fetch mail to apply filters.</p></item>
 <item><p>Open the file <file>my-filter-log</file> with a text editor to see which filter actions have been applied.</p></item>
