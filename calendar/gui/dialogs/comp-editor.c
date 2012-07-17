@@ -665,7 +665,7 @@ save_comp (CompEditor *editor)
 			listen_for_changes (editor);
 		}
 
-		priv->changed = FALSE;
+		comp_editor_set_changed (editor, FALSE);
 		priv->saved = TRUE;
 	}
 
@@ -996,6 +996,8 @@ action_save_cb (GtkAction *action,
 			(GtkWindow *) editor, priv->cal_client, priv->comp))
 			return;
 
+	gtk_widget_set_sensitive (GTK_WIDGET (editor), FALSE);
+
 	if (save_comp_with_send (editor)) {
 		CompEditorFlags flags;
 		gboolean delegate;
@@ -1027,6 +1029,8 @@ action_save_cb (GtkAction *action,
 		}
 	} else
 		correct = FALSE;
+
+	gtk_widget_set_sensitive (GTK_WIDGET (editor), TRUE);
 
 	if (correct)
 		close_dialog (editor);
@@ -3125,7 +3129,7 @@ real_edit_comp (CompEditor *editor,
 
 	fill_widgets (editor);
 
-	priv->changed =FALSE;
+	comp_editor_set_changed (editor, FALSE);
 
 	listen_for_changes (editor);
 }
