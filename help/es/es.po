@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-19 11:46+0000\n"
-"PO-Revision-Date: 2012-06-19 14:28+0200\n"
+"POT-Creation-Date: 2012-07-17 11:58+0000\n"
+"PO-Revision-Date: 2012-07-17 16:13+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -1792,18 +1792,26 @@ msgstr ""
 "usar esta característica de GNOME par acualquier notificación de correo."
 
 #: C/minimize-to-system-tray.page:29(p)
+#| msgid ""
+#| "In GNOME version 2 you may modify the notification area and set it up to "
+#| "become a system tray by using external software such as <link href="
+#| "\"http://alltray.trausch.us/\">Alltray</link> that might be available for "
+#| "installation in the software management tool of your distribution. This "
+#| "is no longer possible in GNOME 3."
 msgid ""
 "In GNOME version 2 you may modify the notification area and set it up to "
-"become a system tray by using external software such as <link href=\"http://"
-"alltray.trausch.us/\">Alltray</link> that might be available for "
-"installation in the software management tool of your distribution. This is "
-"no longer possible in GNOME 3."
+"become a system tray by using external applications which might be available "
+"for installation in the software management tool of your distribution. "
+"Available options are for example <link href=\"http://alltray.trausch.us/"
+"\">Alltray</link> or <link href=\"http://code.google.com/p/tint2/\">Tint2</"
+"link>. This is no longer possible in GNOME 3."
 msgstr ""
 "En la versión 2 de GNOME podía modificar el área de notificación y "
-"configurarla para que fuese una bandeja del sistema usando software externo "
-"tal como <link href=\"http://alltray.trausch.us/\">Alltray</link>, que puede "
-"estar disponible para su instalación en la herramienta de gestión de "
-"software de su distribución. Esto ya no es posible en GNOME 3."
+"configurarla para que fuese una bandeja del sistema usando aplicaciones "
+"externas disponibles en la herramienta de gestión de paquetes de su "
+"distribución. Por ejemplo, las opciones disponibles eran <link href=\"http://"
+"alltray.trausch.us/\">Alltray</link> o <link href=\"http://code.google.com/p/"
+"tint2/\">Tint2</link>. esto ya no es posible en GNOME 3."
 
 #: C/memos-usage.page:5(desc)
 msgid "On adding, editing, and deleting memos."
@@ -2709,6 +2717,7 @@ msgstr ""
 "expand true</cmd>"
 
 #: C/mail-sorting-message-list.page:39(p)
+#: C/mail-filters-not-working.page:46(p)
 #: C/change-keyboard-shortcuts.page:21(p)
 msgid "Open the <app>Terminal</app> application."
 msgstr "Abra la aplicación <app>Terminal</app>."
@@ -4733,11 +4742,11 @@ msgstr ""
 "en etiquetas."
 
 # index.docbook:41, index.docbook:293
-#: C/mail-labels.page:28(title)
+#: C/mail-labels.page:29(title)
 msgid "Adding a label to a message"
 msgstr "Añadir una etiqueta a un correo"
 
-#: C/mail-labels.page:29(p)
+#: C/mail-labels.page:30(p)
 msgid ""
 "To assign a label to a message, right-click the message, click <gui>Label</"
 "gui>, and choose the label to apply."
@@ -4746,17 +4755,17 @@ msgstr ""
 "sobre el mensaje, seleccione <gui>Etiqueta</gui> y elija la etiqueta que "
 "quiere aplicar."
 
-#: C/mail-labels.page:30(p)
+#: C/mail-labels.page:31(p)
 msgid "You can also quickly add a new label by choosing <gui>New Label</gui>."
 msgstr ""
 "También puede añadir rápidamente una etiqueta nueva eligiendo <gui>Etiqueta "
 "nueva</gui>."
 
-#: C/mail-labels.page:34(title)
+#: C/mail-labels.page:35(title)
 msgid "Managing labels"
 msgstr "Gestionar las etiquetas"
 
-#: C/mail-labels.page:35(p)
+#: C/mail-labels.page:36(p)
 msgid ""
 "You can add, edit and delete all labels under <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Labels</gui></"
@@ -5275,7 +5284,7 @@ msgstr ""
 "Para obtener más información acerca de las acciones disponibles, consulte "
 "<link linkend=\"bshly4v\">Acciones disponibles para filtros</link>."
 
-#: C/mail-filters.page:44(p) C/mail-filters-not-working.page:29(p)
+#: C/mail-filters.page:44(p)
 msgid ""
 "Note that the order of filters is very important. They are applied to the "
 "original message in sequence, like a recipe."
@@ -5283,7 +5292,7 @@ msgstr ""
 "Note que el orden de los filtros es muy importante. Se aplican sobre el "
 "correo original en secuencia, como una receta."
 
-#: C/mail-filters.page:45(p) C/mail-filters-not-working.page:30(p)
+#: C/mail-filters.page:45(p)
 msgid ""
 "If your first filter has a <gui>Stop Processing</gui> rule, then all the "
 "email messages that match this filter will ignore all the succeeding filters."
@@ -5365,15 +5374,33 @@ msgstr ""
 msgid "Mail filters are not working"
 msgstr "Los filtros de correo no funcionan"
 
-#: C/mail-filters-not-working.page:26(p)
+#: C/mail-filters-not-working.page:28(title)
+msgid "Order of Filters"
+msgstr "Orden de los filtros"
+
+#: C/mail-filters-not-working.page:29(p)
+#| msgid ""
+#| "Note that the order of filters is very important. They are applied to the "
+#| "original message in sequence, like a recipe."
 msgid ""
-"Your mail filters are probably working, however, they could be ordered in an "
-"inefficient way. This will make your filters run slowly, so it may seem like "
-"they are not working."
+"The order of filters is very important. They are applied to the original "
+"message in sequence, like a recipe."
 msgstr ""
-"Probablemente sus filtros de correo están funcionando, no obstante pueden "
-"estar ordenados de una forma no eficiente. Esto hará que sus filtros se "
-"ejecuten lentamente, de tal forma que parece que no funcionan."
+"El orden de los filtros es muy importante. Se aplican sobre el correo "
+"original en secuencia, como una receta."
+
+#: C/mail-filters-not-working.page:30(p)
+#| msgid ""
+#| "If your first filter has a <gui>Stop Processing</gui> rule, then all the "
+#| "email messages that match this filter will ignore all the succeeding "
+#| "filters."
+msgid ""
+"If your first filter has a <gui>Stop Processing</gui> rule, then all "
+"messages that match this filter will ignore all succeeding filters."
+msgstr ""
+"Si su primer filtro tiene una regla <gui>Parar de procesar</gui>, entonces "
+"todos los mensajes de correo que coincidan con este filtro ignorarán los "
+"siguientes filtros."
 
 #: C/mail-filters-not-working.page:32(p)
 msgid ""
@@ -5385,25 +5412,108 @@ msgstr ""
 "acciones en la sección <gui>Después</gui> <link xref=\"mail-filters#editing"
 "\">editando el filtro</link>."
 
-#: C/mail-filters-not-working.page:35(p)
+#: C/mail-filters-not-working.page:36(title)
+#| msgid "Using several calendars"
+msgid "Using Several Mail Clients"
+msgstr "Usar varios clientes de correo"
+
+#: C/mail-filters-not-working.page:37(p)
+#| msgid ""
+#| "Another thing you have to keep in mind is that filters depend on the \"new"
+#| "\" flag that is set when a particular email message is initially fetched "
+#| "from the server. If you use another email client aside from Evolution, "
+#| "your filters may not work automatically."
 msgid ""
 "Another thing you have to keep in mind is that filters depend on the \"new\" "
-"flag that is set when a particular email message is initially fetched from "
-"the server. If you use another email client aside from Evolution, your "
-"filters may not work automatically."
+"flag that is set on the server when a particular email message is initially "
+"fetched from the server. If you use another email client aside from "
+"Evolution, your filters may not work automatically."
 msgstr ""
 "También debe tener en cuenta que los filtros dependen del estado de «nuevo» "
 "que se establece cuando un correo en particular se obtiene del servidor. "
 "Puede que sus filtros no funcionen correctamente si usa otro cliente de "
 "correo además de Evolution."
 
-#: C/mail-filters-not-working.page:38(p)
+#: C/mail-filters-not-working.page:42(title)
+#| msgid "Available Filter actions"
+msgid "Logging Filter Actions"
+msgstr "Registro de las acciones de los filtros"
+
+#: C/mail-filters-not-working.page:45(p)
+#| msgid "Evolution"
+msgid "Close Evolution."
+msgstr "Cerrar Evolution."
+
+#: C/mail-filters-not-working.page:47(p)
+#| msgid ""
+#| "Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
+#| "accels true</cmd>"
 msgid ""
-"Applying the <gui>Stop Processing</gui> rule to an email message will cause "
-"all succeeding filters to ignore that message."
+"Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
+"actions true</cmd>"
 msgstr ""
-"Aplicar la regla <gui>Parar de procesar</gui> sobre un mensaje de correo "
-"hará que todos los sucesivos filtors ignoren ese correo."
+"Ejecute el comando <cmd>gsettings set org.gnome.evolution.mail filters-log-"
+"actions true</cmd>"
+
+#: C/mail-filters-not-working.page:48(p)
+msgid ""
+"Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-file "
+"\"~/my-filter-log\"</cmd>. This will create a text file named <file>my-"
+"filter-log</file> in your home directory."
+msgstr ""
+"Ejecute el comando <cmd>ggsettings set org.gnome.evolution.mail filters-log-"
+"file \"~/registro-filtro\"</cmd>. Esto creará un archivo de texto llamado "
+"<file>registro-filtro</file> en su carpeta personal."
+
+#: C/mail-filters-not-working.page:49(p) C/import-apps-outlook.page:57(p)
+#: C/change-keyboard-shortcuts.page:23(p)
+msgid "Start Evolution."
+msgstr "Inicie Evolution."
+
+#: C/mail-filters-not-working.page:50(p)
+msgid "Fetch mail to apply filters."
+msgstr "Reciba el correo para aplicar los filtros."
+
+#: C/mail-filters-not-working.page:51(p)
+msgid ""
+"Open the file <file>my-filter-log</file> with a text editor to see which "
+"filter actions have been applied."
+msgstr ""
+"Abra el archivo <file>registro-filtro</file> con un editor de texto para ver "
+"qué acciones de filtrado se han aplicado."
+
+#: C/mail-filters-not-working.page:54(p)
+#| msgid ""
+#| "Note that this setting is desktop-wide and that you can disable it again "
+#| "after your changes by using the command <cmd>gsettings set org.gnome."
+#| "desktop.interface can-change-accels false</cmd>"
+msgid ""
+"Note that you can disable filter logging again by using the command "
+"<cmd>gsettings set org.gnome.evolution.mail filters-log-actions false</cmd>"
+msgstr ""
+"Tenga en cuenta que puede desactivar el registro del filtro usando el "
+"comando <cmd>gsettings set org.gnome.evolution.mail filters-log-actions "
+"false</cmd>"
+
+#: C/mail-filters-not-working.page:56(p)
+#: C/change-keyboard-shortcuts.page:30(p)
+msgid "You can also use the <app>dconf-editor</app> application to do this."
+msgstr ""
+"También puede usar la aplicación <gui>dconf-editor</gui> para hacer esto."
+
+#. TODO: This really needs testing before 3.6 and if this is correct:
+#: C/mail-filters-not-working.page:41(section)
+msgid ""
+"<placeholder-1/> If it is still unclear why filters do not work as expected, "
+"you can enable logging filter actions. <list><placeholder-2/><placeholder-3/"
+"><placeholder-4/><placeholder-5/><placeholder-6/><placeholder-7/"
+"><placeholder-8/></list><placeholder-9/><placeholder-10/>"
+msgstr ""
+"<placeholder-1/> Si todavía no tiene claro porqué los filtros no funcionan "
+"como esperaba, puede activar el registro de las acciones de los filtros. "
+"<list><placeholder-2/><placeholder-3/><placeholder-4/><placeholder-5/"
+"><placeholder-6/><placeholder-7/><placeholder-8/></list><placeholder-9/"
+"><placeholder-10/>"
 
 #: C/mail-filters-conditions.page:5(desc)
 msgid "Available conditions for setting up filtering."
@@ -10278,10 +10388,6 @@ msgstr ""
 "Copie todos los archivos de correo en su carpeta personal o cualquier otro "
 "lugar conveniente."
 
-#: C/import-apps-outlook.page:57(p) C/change-keyboard-shortcuts.page:23(p)
-msgid "Start Evolution."
-msgstr "Inicie Evolution."
-
 #: C/import-apps-outlook.page:58(p)
 msgid ""
 "Optionally select <guiseq><gui>File</gui><gui>New</gui><gui>Mail Folder</"
@@ -10521,10 +10627,6 @@ msgstr ""
 "proporciona esta funcionalidad."
 
 #: C/exchange-connectors-overview.page:26(p)
-#| msgid ""
-#| "For Microsoft Exchange 2007 and 2010 (and possibly earlier versions that "
-#| "support MAPI) it is recommended to use the package <sys>evolution-mapi</"
-#| "sys>."
 msgid ""
 "For Microsoft Exchange 2007, 2010 and newer it is recommended to use the "
 "package <sys>evolution-ews</sys>."
@@ -11651,11 +11753,6 @@ msgstr ""
 "Tenga en cuenta que este ajuste es para todo el escritorio y que puede "
 "desactivarlo de nuevo después de cambiarlo usando el comando <cmd>gsettings "
 "set org.gnome.desktop.interface can-change-accels false</cmd>"
-
-#: C/change-keyboard-shortcuts.page:30(p)
-msgid "You can also use the <app>dconf-editor</app> application to do this."
-msgstr ""
-"También puede usar la aplicación <gui>dconf-editor</gui> para hacer esto."
 
 #: C/calendar-webdav.page:5(desc)
 msgid "Using an online Webcal/WebDAV calendar."
@@ -12974,6 +13071,22 @@ msgstr ""
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
 
 #~ msgid ""
+#~ "Your mail filters are probably working, however, they could be ordered in "
+#~ "an inefficient way. This will make your filters run slowly, so it may "
+#~ "seem like they are not working."
+#~ msgstr ""
+#~ "Probablemente sus filtros de correo están funcionando, no obstante pueden "
+#~ "estar ordenados de una forma no eficiente. Esto hará que sus filtros se "
+#~ "ejecuten lentamente, de tal forma que parece que no funcionan."
+
+#~ msgid ""
+#~ "Applying the <gui>Stop Processing</gui> rule to an email message will "
+#~ "cause all succeeding filters to ignore that message."
+#~ msgstr ""
+#~ "Aplicar la regla <gui>Parar de procesar</gui> sobre un mensaje de correo "
+#~ "hará que todos los sucesivos filtors ignoren ese correo."
+
+#~ msgid ""
 #~ "For Microsoft Exchange 2007 and 2010 the package <sys>evolution-ews</sys> "
 #~ "is currently under development and will replace <sys>evolution-mapi</sys> "
 #~ "in the future. It might not be available yet for your distribution."
@@ -13685,10 +13798,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "creating folders"
 #~ msgstr "Creando carpeta «%s»"
-
-#, fuzzy
-#~ msgid "creating filters"
-#~ msgstr "Borrar filtros"
 
 #, fuzzy
 #~ msgid "Message Filters..."
