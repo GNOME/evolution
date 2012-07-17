@@ -91,8 +91,6 @@
 #include "gnome-canvas.h"
 #include "gnome-canvas-i18n.h"
 #include "gnome-canvas-util.h"
-#include "gnome-canvas-marshal.h"
-#include "gnome-canvas-marshal.c"
 
 /* We must run our idle update handler *before* GDK wants to redraw. */
 #define CANVAS_IDLE_PRIORITY (GDK_PRIORITY_REDRAW - 5)
@@ -1839,8 +1837,7 @@ gnome_canvas_class_init (GnomeCanvasClass *class)
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GnomeCanvasClass, draw_background),
-			      NULL, NULL,
-			      gnome_canvas_marshal_VOID__BOXED_INT_INT_INT_INT,
+			      NULL, NULL, NULL,
 			      G_TYPE_NONE, 5, CAIRO_GOBJECT_TYPE_CONTEXT,
 			      G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT);
 
@@ -3320,8 +3317,7 @@ gnome_canvas_item_class_init (GnomeCanvasItemClass *class)
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GnomeCanvasItemClass, event),
-			      boolean_handled_accumulator, NULL,
-			      gnome_canvas_marshal_BOOLEAN__BOXED,
+			      boolean_handled_accumulator, NULL, NULL,
 			      G_TYPE_BOOLEAN, 1,
 			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 

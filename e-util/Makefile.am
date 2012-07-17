@@ -2,11 +2,22 @@ eutilincludedir = $(privincludedir)/e-util
 ecpsdir = $(privdatadir)/ecps
 ruledir = $(privdatadir)
 
-include $(top_srcdir)/glib-gen.mak
-glib_enum_headers=e-util-enums.h
-glib_enum_output=e-util-enumtypes
-glib_enum_define=E_UTIL
-glib_enum_prefix=e
+ENUM_TYPES = e-util-enums.h
+
+e-util-enumtypes.h: e-util-enumtypes.h.template $(ENUM_TYPES)
+	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template e-util-enumtypes.h.template $(ENUM_TYPES)) > $@
+
+e-util-enumtypes.c: e-util-enumtypes.c.template $(ENUM_TYPES)
+	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template e-util-enumtypes.c.template $(ENUM_TYPES)) > $@
+
+e-marshal.h: e-marshal.list
+	$(AM_V_GEN) $(GLIB_GENMARSHAL) --header --prefix=e_marshal $^ > e-marshal.h.tmp && \
+	mv e-marshal.h.tmp e-marshal.h
+
+e-marshal.c: e-marshal.list
+	$(AM_V_GEN) echo "#include \"e-marshal.h\"" >> e-marshal.c.tmp && \
+	$(GLIB_GENMARSHAL) --body --prefix=e_marshal $^ >> e-marshal.c.tmp && \
+	mv e-marshal.c.tmp e-marshal.c
 
 ENUM_GENERATED = e-util-enumtypes.h e-util-enumtypes.c
 MARSHAL_GENERATED = e-marshal.c e-marshal.h
@@ -131,6 +142,8 @@ errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
 EXTRA_DIST =				\
+	e-util-enumtypes.h.template	\
+	e-util-enumtypes.c.template	\
 	e-system.error.xml		\
 	e-marshal.list
 

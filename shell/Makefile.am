@@ -10,11 +10,13 @@ privsolib_LTLIBRARIES = libeshell.la
 
 eshellincludedir = $(privincludedir)/shell
 
-include $(top_srcdir)/glib-gen.mak
-glib_enum_headers=e-shell.h
-glib_enum_output=e-shell-enumtypes
-glib_enum_define=E_SHELL
-glib_enum_prefix=e_shell
+ENUM_TYPES = e-shell.h
+
+e-shell-enumtypes.h: e-shell-enumtypes.h.template $(ENUM_TYPES)
+	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template e-shell-enumtypes.h.template $(ENUM_TYPES)) > $@
+
+e-shell-enumtypes.c: e-shell-enumtypes.c.template $(ENUM_TYPES)
+	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template e-shell-enumtypes.c.template $(ENUM_TYPES)) > $@
 
 ENUM_GENERATED = e-shell-enumtypes.h e-shell-enumtypes.c
 
@@ -190,6 +192,8 @@ errordir = $(privdatadir)/errors
 
 EXTRA_DIST = 					\
 	evo-version.h.in			\
+	e-shell-enumtypes.h.template		\
+	e-shell-enumtypes.c.template		\
 	shell.error.xml				\
 	evolution-icon.rc			\
 	evolution.ico				\

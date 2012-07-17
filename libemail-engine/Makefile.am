@@ -2,11 +2,13 @@ NULL =
 
 privsolib_LTLIBRARIES = libemail-engine.la
 
-include $(top_srcdir)/glib-gen.mak
-glib_enum_headers=e-mail-enums.h
-glib_enum_output=e-mail-enumtypes
-glib_enum_define=E_MAIL
-glib_enum_prefix=e_mail
+ENUM_TYPES = e-mail-enums.h
+
+e-mail-enumtypes.h: e-mail-enumtypes.h.template $(ENUM_TYPES)
+	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template e-mail-enumtypes.h.template $(ENUM_TYPES)) > $@
+
+e-mail-enumtypes.c: e-mail-enumtypes.c.template $(ENUM_TYPES)
+	$(AM_V_GEN) (cd $(srcdir) && $(GLIB_MKENUMS) --template e-mail-enumtypes.c.template $(ENUM_TYPES)) > $@
 
 ENUM_GENERATED = e-mail-enumtypes.h e-mail-enumtypes.c
 
@@ -73,6 +75,11 @@ BUILT_SOURCES = $(ENUM_GENERATED)
 
 CLEANFILES = $(BUILT_SOURCES)
 DISTCLEANFILES = $(pkgconfig_DATA)
+
+EXTRA_DIST = \
+	e-mail-enumtypes.h.template \
+	e-mail-enumtypes.c.template \
+	$(NULL)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

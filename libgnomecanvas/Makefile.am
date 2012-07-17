@@ -49,13 +49,6 @@ libgnomecanvas_la_SOURCES =			\
 	gnome-canvas-widget.c			\
 	gnome-canvas.c
 
-include $(top_srcdir)/glib-gen.mak
-glib_enum_prefix=gnome_canvas
-
-MARSHAL_GENERATED =				\
-	gnome-canvas-marshal.c			\
-	gnome-canvas-marshal.h
-
 libgnomecanvas_la_LIBADD = \
 	$(GNOME_PLATFORM_LIBS) \
 	$(MATH_LIB)
@@ -65,8 +58,5 @@ libgnomecanvas_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 
 CLEANFILES = $(BUILT_SOURCES)
-
-EXTRA_DIST = \
-	gnome-canvas-marshal.list
 
 -include $(top_srcdir)/git.mk
