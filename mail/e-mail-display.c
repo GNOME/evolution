@@ -1525,10 +1525,11 @@ e_mail_display_init (EMailDisplay *display)
 	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_FILE_REQUEST);
 	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_STOCK_REQUEST);
 
-	/* cache expiry - 2 hour access, 1 day max */
-	user_cache_dir = e_get_user_cache_dir ();
-	emd_global_http_cache = camel_data_cache_new (user_cache_dir, NULL);
-	if (emd_global_http_cache) {
+	if (!emd_global_http_cache) {
+		user_cache_dir = e_get_user_cache_dir ();
+		emd_global_http_cache = camel_data_cache_new (user_cache_dir, NULL);
+
+		/* cache expiry - 2 hour access, 1 day max */
 		camel_data_cache_set_expire_age (emd_global_http_cache, 24 * 60 * 60);
 		camel_data_cache_set_expire_access (emd_global_http_cache, 2 * 60 * 60);
 	}
@@ -1716,15 +1717,13 @@ static gboolean
 do_reload_display (EMailDisplay *display)
 {
 	EWebView *web_view;
-	const gchar *uri;
-	gchar *base;
-	GString *new_uri;
+	gchar *uri, *query;
 	GHashTable *table;
-	GHashTableIter table_iter;
-	gpointer key, val;
+	SoupURI *soup_uri;
+	gchar *mode, *collapsable, *collapsed;
 
 	web_view = E_WEB_VIEW (display);
-	uri = e_web_view_get_uri (web_view);
+	uri = (gchar *) e_web_view_get_uri (web_view);
 
 	display->priv->scheduled_reload = 0;
 
@@ -1736,29 +1735,32 @@ do_reload_display (EMailDisplay *display)
 		return FALSE;
 	}
 
-	base = g_strndup (uri, strstr (uri, "?") - uri + 1);
-	new_uri = g_string_new (base);
-	g_free (base);
+	soup_uri = soup_uri_new (uri);
 
-	table = soup_form_decode (strstr (uri, "?") + 1);
-	g_hash_table_replace (table, g_strdup ("mode"), g_strdup_printf ("%d", display->priv->mode));
-	g_hash_table_replace (table, g_strdup ("headers_collapsable"), g_strdup_printf ("%d", display->priv->headers_collapsable));
-	g_hash_table_replace (table, g_strdup ("headers_collapsed"), g_strdup_printf ("%d", display->priv->headers_collapsed));
+	mode = g_strdup_printf ("%d", display->priv->mode);
+	collapsable = g_strdup_printf ("%d", display->priv->headers_collapsable);
+	collapsed = g_strdup_printf ("%d", display->priv->headers_collapsed);
 
-	g_hash_table_iter_init (&table_iter, table);
-	while (g_hash_table_iter_next (&table_iter, &key, &val)) {
-		g_string_append_printf (new_uri, "%s=%s&",
-			(gchar *) key, (gchar *) val);
+	table = soup_form_decode (soup_uri->query);
+	g_hash_table_replace (table, g_strdup ("mode"), mode);
+	g_hash_table_replace (table, g_strdup ("headers_collapsable"), collapsable);
+	g_hash_table_replace (table, g_strdup ("headers_collapsed"), collapsed);
 
-		/* Free the value as Soup constructs the GHashTable without
-		 * value_destroy_func */
-		g_free (val);
-	}
+	query = soup_form_encode_hash (table);
 
-	e_web_view_load_uri (web_view, new_uri->str);
-
-	g_string_free (new_uri, TRUE);
+	/* The hash table does not free custom values upon destruction */
+	g_free (mode);
+	g_free (collapsable);
+	g_free (collapsed);
 	g_hash_table_destroy (table);
+
+	soup_uri_set_query (soup_uri, query);
+	g_free (query);
+
+	uri = soup_uri_to_string (soup_uri, FALSE);
+	e_web_view_load_uri (web_view, uri);
+	g_free (uri);
+	soup_uri_free (soup_uri);
 
 	return FALSE;
 }

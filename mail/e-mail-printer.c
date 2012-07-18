@@ -590,7 +590,7 @@ emp_set_parts_list (EMailPrinter *emp,
 	CamelMediumHeader *header;
 	GArray *headers;
 	gint i;
-	GtkTreeIter last_known;
+	GtkTreeIter last_known = { 0 };
 
 	g_return_if_fail (parts_list);
 
