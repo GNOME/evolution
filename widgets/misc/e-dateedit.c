@@ -2333,17 +2333,19 @@ e_date_edit_set_time_internal (EDateEdit *dedit,
 	return time_changed;
 }
 
-gboolean   e_date_edit_get_twodigit_year_can_future (EDateEdit  *dedit)
+gboolean
+e_date_edit_get_twodigit_year_can_future (EDateEdit *dedit)
 {
-	g_return_val_if_fail (dedit != NULL, FALSE);
+	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
 
 	return dedit->priv->twodigit_year_can_future;
 }
 
-void       e_date_edit_set_twodigit_year_can_future (EDateEdit  *dedit,
-						     gboolean    value)
+void
+e_date_edit_set_twodigit_year_can_future (EDateEdit *dedit,
+                                          gboolean value)
 {
-	g_return_if_fail (dedit != NULL);
+	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
 	dedit->priv->twodigit_year_can_future = value;
 }
@@ -2375,8 +2377,7 @@ e_date_edit_set_get_time_callback (EDateEdit *dedit,
 GtkWidget *
 e_date_edit_get_entry (EDateEdit *dedit)
 {
-	EDateEditPrivate *priv;
-	priv = dedit->priv;
+	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), NULL);
 
-	return GTK_WIDGET (priv->date_entry);
+	return GTK_WIDGET (dedit->priv->date_entry);
 }
