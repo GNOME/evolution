@@ -1045,6 +1045,7 @@ itip_view_rebuild_source_list (ItipView *view)
 	WebKitDOMElement *select;
 	GList *list, *link;
 	const gchar *extension_name;
+	GHashTable *groups;
 
 	d(printf("Assigning a new source list!\n"));
 
@@ -1068,10 +1069,30 @@ itip_view_rebuild_source_list (ItipView *view)
 		return;
 
 	list = e_source_registry_list_sources (registry, extension_name);
-
+	groups = g_hash_table_new_full (
+			g_str_hash, g_str_equal,
+			(GDestroyNotify) g_free, NULL);
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
+		ESource *parent;
 		WebKitDOMElement *option;
+		WebKitDOMHTMLOptGroupElement *optgroup;
+
+		parent = e_source_registry_ref_source (
+				registry, e_source_get_parent (source));
+
+		optgroup = g_hash_table_lookup (groups, e_source_get_uid (parent));
+		if (!optgroup) {
+			optgroup = WEBKIT_DOM_HTML_OPT_GROUP_ELEMENT (
+					webkit_dom_document_create_element (
+						view->priv->dom_document,
+						"OPTGROUP", NULL));
+			webkit_dom_html_opt_group_element_set_label (
+				optgroup, e_source_get_display_name (parent));
+			g_hash_table_insert (
+				groups, g_strdup (e_source_get_uid (parent)), optgroup);
+		}
+		g_object_unref (parent);
 
 		option = webkit_dom_document_create_element (
 			view->priv->dom_document, "OPTION", NULL);
@@ -1087,13 +1108,28 @@ itip_view_rebuild_source_list (ItipView *view)
 		webkit_dom_html_element_set_class_name (
 			WEBKIT_DOM_HTML_ELEMENT (option), "calendar");
 
+		if (!e_source_get_writable (source)) {
+			webkit_dom_html_option_element_set_disabled (
+				WEBKIT_DOM_HTML_OPTION_ELEMENT (option), TRUE);
+		}
+
 		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (select),
+			WEBKIT_DOM_NODE (optgroup),
 			WEBKIT_DOM_NODE (option),
 			NULL);
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	list = g_hash_table_get_values (groups);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		WebKitDOMNode *optgroup = link->data;
+
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (select), optgroup, NULL);
+	}
+	g_list_free (list);
+	g_hash_table_destroy (groups);
 
 	source_changed_cb (select, NULL, view);
 }
@@ -2445,8 +2481,10 @@ itip_view_set_source (ItipView *view,
 	 * <option> is re-selected, but we need to notify itip formatter,
 	 * so that it would make all the buttons sensitive */
 	selected_source = itip_view_ref_source (view);
-	if (source == selected_source)
+	if (source == selected_source) {
 		source_changed_cb (select, NULL, view);
+		return;
+	}
 
 	if (selected_source != NULL)
 		g_object_unref (selected_source);
@@ -2480,6 +2518,8 @@ itip_view_set_source (ItipView *view,
 
 		g_free (value);
 	}
+
+	source_changed_cb (select, NULL, view);
 }
 
 ESource *
@@ -2780,11 +2820,6 @@ itip_view_set_buttons_sensitive (ItipView *view,
 		view->priv->dom_document, TEXTAREA_RSVP_COMMENT);
 	webkit_dom_html_text_area_element_set_disabled (
 		WEBKIT_DOM_HTML_TEXT_AREA_ELEMENT (el), !sensitive);
-
-	el = webkit_dom_document_get_element_by_id (
-		view->priv->dom_document, SELECT_ESOURCE);
-	webkit_dom_html_select_element_set_disabled (
-		WEBKIT_DOM_HTML_SELECT_ELEMENT (el), !sensitive);
 
 	el = webkit_dom_document_get_element_by_id (
 		view->priv->dom_document, TABLE_ROW_BUTTONS);
