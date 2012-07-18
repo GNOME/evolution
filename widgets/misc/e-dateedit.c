@@ -2227,23 +2227,6 @@ e_date_edit_time_is_valid (EDateEdit *dedit)
 	return TRUE;
 }
 
-/**
- * e_date_edit_have_time
- * @dedit: an #EDateEdit
- *
- * Check if time is set, i.e. it isn't 'None'/empty. Date can be set in
- * this case.
- *
- * Returns: %TRUE is time is set, %FALSE otherwise.
- **/
-gboolean
-e_date_edit_have_time (EDateEdit *dedit)
-{
-	g_return_val_if_fail (dedit != NULL, FALSE);
-
-	return !dedit->priv->date_set_to_none && !dedit->priv->time_set_to_none;
-}
-
 static gboolean
 e_date_edit_set_date_internal (EDateEdit *dedit,
                                gboolean valid,
