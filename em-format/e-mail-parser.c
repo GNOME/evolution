@@ -599,7 +599,7 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 				reg, mime_type);
 
 		if (camel_content_type_is (ct, "text", "*") ||
-		    camel_content_type_is (ct, "message", "rfc822"))
+		    camel_content_type_is (ct, "message", "*"))
 			snoop_mime_type = mime_type;
 		else
 			g_free (mime_type);

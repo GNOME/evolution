@@ -31,7 +31,10 @@
 #include <glib/gi18n-lib.h>
 #include <camel/camel.h>
 
-static const gchar *formatter_mime_types[] = { "text/plain", "text/*", NULL };
+static const gchar *formatter_mime_types[] = { "text/plain",
+					       "text/*",
+					       "message/*",
+					       NULL };
 
 typedef struct _EMailFormatterTextPlain {
 	GObject parent;

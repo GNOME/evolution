@@ -60,7 +60,6 @@ G_DEFINE_TYPE_EXTENDED (
 
 static const gchar* parser_mime_types[] = { "message/rfc822",
 					    "message/news",
-					    "message/*",
 					    NULL };
 
 static GSList *
