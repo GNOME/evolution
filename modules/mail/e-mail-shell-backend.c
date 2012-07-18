@@ -472,12 +472,13 @@ mail_shell_backend_changes_committed_cb (EMailConfigWindow *window,
                                          EMailShellBackend *mail_shell_backend)
 {
 	EMailSession *session;
+	EShell *shell;
 	EShellBackend *shell_backend;
 	ESource *original_source;
 	CamelService *service;
 	EActivity *activity;
 	GCancellable *cancellable;
-	GtkWindow *parent;
+	GList *list, *link;
 	const gchar *uid;
 
 	session = e_mail_config_window_get_session (window);
@@ -489,12 +490,20 @@ mail_shell_backend_changes_committed_cb (EMailConfigWindow *window,
 
 	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
 
+	shell = e_shell_backend_get_shell (shell_backend);
+	list = gtk_application_get_windows (GTK_APPLICATION (shell));
+
 	activity = e_activity_new ();
 
-	/* XXX Can we be sure the parent window will always implement
-	 *     EAlertSink?  May need some kind of fallback behavior. */
-	parent = gtk_window_get_transient_for (GTK_WINDOW (window));
-	e_activity_set_alert_sink (activity, E_ALERT_SINK (parent));
+	/* Find an EShellWindow to serve as an EAlertSink. */
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		GtkWindow *window = GTK_WINDOW (link->data);
+
+		if (E_IS_SHELL_WINDOW (window)) {
+			EAlertSink *alert_sink = E_ALERT_SINK (window);
+			e_activity_set_alert_sink (activity, alert_sink);
+		}
+	}
 
 	cancellable = camel_operation_new ();
 	e_activity_set_cancellable (activity, cancellable);
