@@ -21,6 +21,8 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
+#include <libedataserver/libedataserver.h>
+
 #include <e-util/e-marshal.h>
 
 enum {
@@ -45,6 +47,65 @@ mail_config_page_check_complete (EMailConfigPage *page)
 }
 
 static gboolean
+mail_config_page_submit_sync (EMailConfigPage *page,
+                              GCancellable *cancellable,
+                              GError **error)
+{
+	EAsyncClosure *closure;
+	GAsyncResult *result;
+	gboolean success;
+
+	closure = e_async_closure_new ();
+
+	e_mail_config_page_submit (
+		page, cancellable, e_async_closure_callback, closure);
+
+	result = e_async_closure_wait (closure);
+
+	success = e_mail_config_page_submit_finish (page, result, error);
+
+	e_async_closure_free (closure);
+
+	return success;
+}
+
+static void
+mail_config_page_submit (EMailConfigPage *page,
+                         GCancellable *cancellable,
+                         GAsyncReadyCallback callback,
+                         gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (page), callback,
+		user_data, mail_config_page_submit);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	g_simple_async_result_complete_in_idle (simple);
+
+	g_object_unref (simple);
+}
+
+static gboolean
+mail_config_page_submit_finish (EMailConfigPage *page,
+                                GAsyncResult *result,
+                                GError **error)
+{
+	GSimpleAsyncResult *simple;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (page), mail_config_page_submit), FALSE);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+
+	/* Assume success unless a GError is set. */
+	return !g_simple_async_result_propagate_error (simple, error);
+}
+
+static gboolean
 mail_config_page_check_complete_accumulator (GSignalInvocationHint *ihint,
                                              GValue *return_accu,
                                              const GValue *handler_return,
@@ -66,6 +127,9 @@ e_mail_config_page_default_init (EMailConfigPageInterface *interface)
 	interface->page_type = GTK_ASSISTANT_PAGE_CONTENT;
 
 	interface->check_complete = mail_config_page_check_complete;
+	interface->submit_sync = mail_config_page_submit_sync;
+	interface->submit = mail_config_page_submit;
+	interface->submit_finish = mail_config_page_submit_finish;
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
@@ -103,6 +167,37 @@ e_mail_config_page_default_init (EMailConfigPageInterface *interface)
 		g_cclosure_marshal_VOID__POINTER,
 		G_TYPE_NONE, 1,
 		G_TYPE_POINTER);
+}
+
+gint
+e_mail_config_page_compare (GtkWidget *page_a,
+                            GtkWidget *page_b)
+{
+	EMailConfigPageInterface *interface_a = NULL;
+	EMailConfigPageInterface *interface_b = NULL;
+
+	if (E_IS_MAIL_CONFIG_PAGE (page_a))
+		interface_a = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page_a);
+
+	if (E_IS_MAIL_CONFIG_PAGE (page_b))
+		interface_b = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page_b);
+
+	if (interface_a == interface_b)
+		return 0;
+
+	if (interface_a != NULL && interface_b == NULL)
+		return -1;
+
+	if (interface_a == NULL && interface_b != NULL)
+		return 1;
+
+	if (interface_a->sort_order < interface_b->sort_order)
+		return -1;
+
+	if (interface_a->sort_order > interface_b->sort_order)
+		return 1;
+
+	return 0;
 }
 
 void
@@ -143,34 +238,50 @@ e_mail_config_page_commit_changes (EMailConfigPage *page,
 	g_signal_emit (page, signals[COMMIT_CHANGES], 0, source_queue);
 }
 
-gint
-e_mail_config_page_compare (GtkWidget *page_a,
-                            GtkWidget *page_b)
+gboolean
+e_mail_config_page_submit_sync (EMailConfigPage *page,
+                                GCancellable *cancellable,
+                                GError **error)
 {
-	EMailConfigPageInterface *interface_a = NULL;
-	EMailConfigPageInterface *interface_b = NULL;
+	EMailConfigPageInterface *interface;
 
-	if (E_IS_MAIL_CONFIG_PAGE (page_a))
-		interface_a = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page_a);
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_PAGE (page), FALSE);
 
-	if (E_IS_MAIL_CONFIG_PAGE (page_b))
-		interface_b = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page_b);
+	interface = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page);
+	g_return_val_if_fail (interface->submit_sync != NULL, FALSE);
 
-	if (interface_a == interface_b)
-		return 0;
+	return interface->submit_sync (page, cancellable, error);
+}
 
-	if (interface_a != NULL && interface_b == NULL)
-		return -1;
+void
+e_mail_config_page_submit (EMailConfigPage *page,
+                           GCancellable *cancellable,
+                           GAsyncReadyCallback callback,
+                           gpointer user_data)
+{
+	EMailConfigPageInterface *interface;
 
-	if (interface_a == NULL && interface_b != NULL)
-		return 1;
+	g_return_if_fail (E_IS_MAIL_CONFIG_PAGE (page));
 
-	if (interface_a->sort_order < interface_b->sort_order)
-		return -1;
+	interface = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page);
+	g_return_if_fail (interface->submit != NULL);
 
-	if (interface_a->sort_order > interface_b->sort_order)
-		return 1;
+	return interface->submit (page, cancellable, callback, user_data);
+}
 
-	return 0;
+gboolean
+e_mail_config_page_submit_finish (EMailConfigPage *page,
+                                  GAsyncResult *result,
+                                  GError **error)
+{
+	EMailConfigPageInterface *interface;
+
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_PAGE (page), FALSE);
+	g_return_val_if_fail (G_IS_ASYNC_RESULT (result), FALSE);
+
+	interface = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page);
+	g_return_val_if_fail (interface->submit_finish != NULL, FALSE);
+
+	return interface->submit_finish (page, result, error);
 }
 

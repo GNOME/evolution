@@ -52,9 +52,24 @@ struct _EMailConfigPageInterface {
 	gboolean	(*check_complete)	(EMailConfigPage *page);
 	void		(*commit_changes)	(EMailConfigPage *page,
 						 GQueue *source_queue);
+
+	/* Intended for pages with server-side settings.
+	 * Called after client-side settings are written. */
+	gboolean	(*submit_sync)		(EMailConfigPage *page,
+						 GCancellable *cancellable,
+						 GError **error);
+	void		(*submit)		(EMailConfigPage *page,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+	gboolean	(*submit_finish)	(EMailConfigPage *page,
+						 GAsyncResult *result,
+						 GError **error);
 };
 
 GType		e_mail_config_page_get_type	(void) G_GNUC_CONST;
+gint		e_mail_config_page_compare	(GtkWidget *page_a,
+						 GtkWidget *page_b);
 void		e_mail_config_page_changed	(EMailConfigPage *page);
 void		e_mail_config_page_setup_defaults
 						(EMailConfigPage *page);
@@ -63,8 +78,17 @@ gboolean	e_mail_config_page_check_complete
 void		e_mail_config_page_commit_changes
 						(EMailConfigPage *page,
 						 GQueue *source_queue);
-gint		e_mail_config_page_compare	(GtkWidget *page_a,
-						 GtkWidget *page_b);
+gboolean	e_mail_config_page_submit_sync	(EMailConfigPage *page,
+						 GCancellable *cancellable,
+						 GError **error);
+void		e_mail_config_page_submit	(EMailConfigPage *page,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_mail_config_page_submit_finish
+						(EMailConfigPage *page,
+						 GAsyncResult *result,
+						 GError **error);
 
 G_END_DECLS
 

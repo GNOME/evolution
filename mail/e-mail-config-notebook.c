@@ -44,6 +44,7 @@ struct _EMailConfigNotebookPrivate {
 struct _AsyncContext {
 	ESourceRegistry *registry;
 	GCancellable *cancellable;
+	GQueue *page_queue;
 	GQueue *source_queue;
 };
 
@@ -72,6 +73,10 @@ async_context_free (AsyncContext *async_context)
 
 	if (async_context->cancellable != NULL)
 		g_object_unref (async_context->cancellable);
+
+	g_queue_free_full (
+		async_context->page_queue,
+		(GDestroyNotify) g_object_unref);
 
 	g_queue_free_full (
 		async_context->source_queue,
@@ -672,9 +677,49 @@ e_mail_config_notebook_check_complete (EMailConfigNotebook *notebook)
 /********************** e_mail_config_notebook_commit() **********************/
 
 static void
-mail_config_notebook_commit_cb (GObject *object,
-                                GAsyncResult *result,
-                                gpointer user_data)
+mail_config_notebook_page_submit_cb (GObject *source_object,
+                                     GAsyncResult *result,
+                                     gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *async_context;
+	EMailConfigPage *next_page;
+	GError *error = NULL;
+
+	simple = G_SIMPLE_ASYNC_RESULT (user_data);
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	e_mail_config_page_submit_finish (
+		E_MAIL_CONFIG_PAGE (source_object), result, &error);
+
+	if (error != NULL) {
+		g_simple_async_result_take_error (simple, error);
+		g_simple_async_result_complete (simple);
+		g_object_unref (simple);
+		return;
+	}
+
+	next_page = g_queue_pop_head (async_context->page_queue);
+
+	/* Submit the next EMailConfigPage. */
+	if (next_page != NULL) {
+		e_mail_config_page_submit (
+			next_page, async_context->cancellable,
+			mail_config_notebook_page_submit_cb, simple);
+
+		g_object_unref (next_page);
+
+	/* All done! */
+	} else {
+		g_simple_async_result_complete (simple);
+		g_object_unref (simple);
+	}
+}
+
+static void
+mail_config_notebook_source_commit_cb (GObject *source_object,
+                                       GAsyncResult *result,
+                                       gpointer user_data)
 {
 	GSimpleAsyncResult *simple;
 	AsyncContext *async_context;
@@ -685,7 +730,7 @@ mail_config_notebook_commit_cb (GObject *object,
 	async_context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	e_source_registry_commit_source_finish (
-		E_SOURCE_REGISTRY (object), result, &error);
+		E_SOURCE_REGISTRY (source_object), result, &error);
 
 	if (error != NULL) {
 		g_simple_async_result_take_error (simple, error);
@@ -696,18 +741,29 @@ mail_config_notebook_commit_cb (GObject *object,
 
 	next_source = g_queue_pop_head (async_context->source_queue);
 
-	if (next_source == NULL) {
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
-		return;
+	/* Commit the next ESources. */
+	if (next_source != NULL) {
+		e_source_registry_commit_source (
+			async_context->registry, next_source,
+			async_context->cancellable,
+			mail_config_notebook_source_commit_cb, simple);
+
+		g_object_unref (next_source);
+
+	/* ESources done, start on the EMailConfigPages. */
+	} else {
+		EMailConfigPage *page;
+
+		/* There should be at least one page,
+		 * so we can skip the NULL check here. */
+		page = g_queue_pop_head (async_context->page_queue);
+
+		e_mail_config_page_submit (
+			page, async_context->cancellable,
+			mail_config_notebook_page_submit_cb, simple);
+
+		g_object_unref (page);
 	}
-
-	e_source_registry_commit_source (
-		async_context->registry, next_source,
-		async_context->cancellable,
-		mail_config_notebook_commit_cb, simple);
-
-	g_object_unref (next_source);
 }
 
 void
@@ -722,30 +778,32 @@ e_mail_config_notebook_commit (EMailConfigNotebook *notebook,
 	EMailSession *session;
 	ESource *source;
 	GList *list, *link;
-	GQueue *queue;
+	GQueue *page_queue;
+	GQueue *source_queue;
 
 	g_return_if_fail (E_IS_MAIL_CONFIG_NOTEBOOK (notebook));
 
 	session = e_mail_config_notebook_get_session (notebook);
 	registry = e_mail_session_get_registry (session);
 
-	queue = g_queue_new ();
+	page_queue = g_queue_new ();
+	source_queue = g_queue_new ();
 
 	/* Queue the collection data source if one is defined. */
 	source = e_mail_config_notebook_get_collection_source (notebook);
 	if (source != NULL)
-		g_queue_push_tail (queue, g_object_ref (source));
+		g_queue_push_tail (source_queue, g_object_ref (source));
 
 	/* Queue the mail-related data sources for the account. */
 	source = e_mail_config_notebook_get_account_source (notebook);
 	if (source != NULL)
-		g_queue_push_tail (queue, g_object_ref (source));
+		g_queue_push_tail (source_queue, g_object_ref (source));
 	source = e_mail_config_notebook_get_identity_source (notebook);
 	if (source != NULL)
-		g_queue_push_tail (queue, g_object_ref (source));
+		g_queue_push_tail (source_queue, g_object_ref (source));
 	source = e_mail_config_notebook_get_transport_source (notebook);
 	if (source != NULL)
-		g_queue_push_tail (queue, g_object_ref (source));
+		g_queue_push_tail (source_queue, g_object_ref (source));
 
 	list = gtk_container_get_children (GTK_CONTAINER (notebook));
 
@@ -757,7 +815,8 @@ e_mail_config_notebook_commit (EMailConfigNotebook *notebook,
 		if (E_IS_MAIL_CONFIG_PAGE (link->data)) {
 			EMailConfigPage *page;
 			page = E_MAIL_CONFIG_PAGE (link->data);
-			e_mail_config_page_commit_changes (page, queue);
+			g_queue_push_tail (page_queue, g_object_ref (page));
+			e_mail_config_page_commit_changes (page, source_queue);
 		}
 	}
 
@@ -765,7 +824,8 @@ e_mail_config_notebook_commit (EMailConfigNotebook *notebook,
 
 	async_context = g_slice_new0 (AsyncContext);
 	async_context->registry = g_object_ref (registry);
-	async_context->source_queue = queue;  /* takes ownership */
+	async_context->page_queue = page_queue;      /* takes ownership */
+	async_context->source_queue = source_queue;  /* takes ownership */
 
 	if (G_IS_CANCELLABLE (cancellable))
 		async_context->cancellable = g_object_ref (cancellable);
@@ -783,7 +843,7 @@ e_mail_config_notebook_commit (EMailConfigNotebook *notebook,
 	e_source_registry_commit_source (
 		async_context->registry, source,
 		async_context->cancellable,
-		mail_config_notebook_commit_cb, simple);
+		mail_config_notebook_source_commit_cb, simple);
 
 	g_object_unref (source);
 }
