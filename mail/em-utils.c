@@ -630,7 +630,7 @@ do_print_msg_to_file (GObject *source,
 	g_signal_connect_swapped (printer, "done",
 		G_CALLBACK (g_object_unref), printer);
 
-	e_mail_printer_print (printer, TRUE, NULL);
+	e_mail_printer_print (printer, GTK_PRINT_OPERATION_ACTION_EXPORT, NULL);
 
 	g_object_unref (parser);
 }

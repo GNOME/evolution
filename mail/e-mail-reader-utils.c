@@ -913,6 +913,7 @@ struct _MessagePrintingContext {
 	EMailReader *reader;
 	CamelFolder *folder;
 	gchar *message_uid;
+	GtkPrintOperationAction action;
 
 	EActivity *activity;
 };
@@ -954,7 +955,8 @@ mail_reader_do_print_message (GObject *object,
 	printer = e_mail_printer_new (part_list);
 	g_signal_connect (printer, "done",
 		G_CALLBACK (printing_done_cb), activity);
-	e_mail_printer_print (printer, FALSE, cancellable);
+
+	e_mail_printer_print (printer, context->action, cancellable);
 
 	free_message_printing_context (context);
 }
@@ -995,6 +997,7 @@ e_mail_reader_print (EMailReader *reader,
 	context->message_uid = g_strdup (message_list->cursor_uid);
 	context->folder = g_object_ref (e_mail_reader_get_folder (reader));
 	context->activity = e_mail_reader_new_activity (reader);
+	context->action = action;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 

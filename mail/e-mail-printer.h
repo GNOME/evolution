@@ -66,7 +66,7 @@ GType		e_mail_printer_get_type	(void);
 EMailPrinter *  e_mail_printer_new	(EMailPartList *source);
 
 void		e_mail_printer_print	(EMailPrinter *printer,
-					 gboolean export,
+					 GtkPrintOperationAction action,
 					 GCancellable *cancellable);
 
 void            e_mail_printer_set_export_filename

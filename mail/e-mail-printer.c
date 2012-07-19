@@ -51,7 +51,6 @@ struct _EMailPrinterPrivate {
 	EMailFormatterPrint *formatter;
 	EMailPartList *parts_list;
 
-        gboolean export_mode;
 	gchar *export_filename;
 
 	GtkListStore *headers;
@@ -62,6 +61,7 @@ struct _EMailPrinterPrivate {
 	GtkWidget *treeview;
 
 	GtkPrintOperation *operation;
+	GtkPrintOperationAction print_action;
 };
 
 G_DEFINE_TYPE (
@@ -167,20 +167,21 @@ emp_start_printing (GObject *object,
 	if (load_status != WEBKIT_LOAD_FINISHED)
 		return;
 
+	/* WebKit reloads the page once more right before starting to print, so
+	 * disconnect this handler after the first time, so that we don't start
+	 * another printing operation */
+	g_signal_handlers_disconnect_by_func (
+		object, emp_start_printing, user_data);
+
 	frame = webkit_web_view_get_main_frame (web_view);
 
-	if (emp->priv->export_mode) {
+	if (emp->priv->print_action == GTK_PRINT_OPERATION_ACTION_EXPORT) {
 		gtk_print_operation_set_export_filename (
 			emp->priv->operation, emp->priv->export_filename);
-		webkit_web_frame_print_full (
-			frame, emp->priv->operation,
-			GTK_PRINT_OPERATION_ACTION_EXPORT, NULL);
-	} else {
-		webkit_web_frame_print_full
-		(frame, emp->priv->operation,
-		 GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, NULL);
 	}
 
+	webkit_web_frame_print_full
+		(frame, emp->priv->operation, emp->priv->print_action, NULL);
 }
 
 static void
@@ -785,7 +786,7 @@ e_mail_printer_new (EMailPartList *source)
 
 void
 e_mail_printer_print (EMailPrinter *emp,
-                      gboolean export_mode,
+		      GtkPrintOperationAction action,
                       GCancellable *cancellable)
 {
 	g_return_if_fail (E_IS_MAIL_PRINTER (emp));
@@ -793,6 +794,7 @@ e_mail_printer_print (EMailPrinter *emp,
 	if (emp->priv->operation)
 		g_object_unref (emp->priv->operation);
 	emp->priv->operation = e_print_operation_new ();
+	emp->priv->print_action = action;
 	gtk_print_operation_set_unit (emp->priv->operation, GTK_UNIT_PIXEL);
 
 	gtk_print_operation_set_show_progress (emp->priv->operation, TRUE);
@@ -802,8 +804,6 @@ e_mail_printer_print (EMailPrinter *emp,
 		G_CALLBACK (emp_printing_done), emp);
 	g_signal_connect (emp->priv->operation, "draw-page",
 		G_CALLBACK (emp_draw_footer), NULL);
-
-	emp->priv->export_mode = export_mode;
 
 	if (cancellable)
 		g_signal_connect_swapped (cancellable, "cancelled",
