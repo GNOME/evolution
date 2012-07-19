@@ -369,8 +369,9 @@ format_service_name (CamelService *service)
 	const gchar *display_name;
 	const gchar *host = NULL;
 	const gchar *path = NULL;
-	const gchar *user = NULL;
 	gchar *pretty_url = NULL;
+	gchar *user = NULL;
+	gchar *cp;
 	gboolean have_host = FALSE;
 	gboolean have_path = FALSE;
 	gboolean have_user = FALSE;
@@ -384,7 +385,7 @@ format_service_name (CamelService *service)
 			CAMEL_NETWORK_SETTINGS (settings));
 		have_host = (host != NULL) && (*host != '\0');
 
-		user = camel_network_settings_get_user (
+		user = camel_network_settings_dup_user (
 			CAMEL_NETWORK_SETTINGS (settings));
 		have_user = (user != NULL) && (*user != '\0');
 	}
@@ -394,6 +395,13 @@ format_service_name (CamelService *service)
 			CAMEL_LOCAL_SETTINGS (settings));
 		have_path = (path != NULL) && (*path != '\0');
 	}
+
+	/* Shorten user names with '@', since multiple '@' in a
+	 * 'user@host' label look weird.  This is just supposed
+	 * to be a hint anyway so it doesn't matter if it's not
+	 * strictly correct. */
+	if (have_user && (cp = strchr (user, '@')) != NULL)
+		*cp = '\0';
 
 	g_return_val_if_fail (provider != NULL, NULL);
 
@@ -422,6 +430,7 @@ format_service_name (CamelService *service)
 	}
 
 	g_free (service_name);
+	g_free (user);
 
 	return pretty_url;
 }
