@@ -3908,6 +3908,10 @@ message_list_set_folder (MessageList *message_list,
 	if (message_list->folder) {
 		g_signal_handlers_disconnect_by_func (
 			message_list->folder, folder_changed, message_list);
+
+		if (message_list->uid_nodemap)
+			g_hash_table_foreach (message_list->uid_nodemap, (GHFunc) clear_info, message_list);
+
 		g_object_unref (message_list->folder);
 		message_list->folder = NULL;
 	}
