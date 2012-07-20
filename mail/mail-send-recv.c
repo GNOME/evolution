@@ -897,10 +897,21 @@ receive_done (int still_more, gpointer data)
 
 	/* remove/free this active download */
 	d(printf("%s: freeing info %p\n", G_STRFUNC, info));
-	if (info->type == SEND_SEND)
+	if (info->type == SEND_SEND) {
+		gpointer key = NULL, value = NULL;
+		if (!g_hash_table_lookup_extended (info->data->active, SEND_URI_KEY, &key, &value))
+			key = NULL;
+
 		g_hash_table_steal (info->data->active, SEND_URI_KEY);
-	else
+		g_free (key);
+	} else {
+		gpointer key = NULL, value = NULL;
+		if (!g_hash_table_lookup_extended (info->data->active, uid, &key, &value))
+			key = NULL;
+
 		g_hash_table_steal (info->data->active, uid);
+		g_free (key);
+	}
 	info->data->infos = g_list_remove (info->data->infos, info);
 
 	if (g_hash_table_size (info->data->active) == 0) {
