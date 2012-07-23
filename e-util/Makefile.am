@@ -190,6 +190,7 @@ evolution_util_include_HEADERS =  \
 	e-html-utils.h \
 	e-icon-factory.h \
 	e-image-chooser.h \
+	e-image-chooser-dialog.h \
 	e-import-assistant.h \
 	e-import.h \
 	e-interval-chooser.h \
@@ -435,6 +436,7 @@ libevolution_util_la_SOURCES = \
 	e-html-utils.c \
 	e-icon-factory.c \
 	e-image-chooser.c \
+	e-image-chooser-dialog.c \
 	e-import-assistant.c \
 	e-import.c \
 	e-interval-chooser.c \
