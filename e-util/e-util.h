@@ -89,6 +89,8 @@
 #include <e-util/e-destination-store.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
+#include <e-util/e-editor-selection.h>
+#include <e-util/e-editor-widget.h>
 #include <e-util/e-event.h>
 #include <e-util/e-file-request.h>
 #include <e-util/e-file-utils.h>

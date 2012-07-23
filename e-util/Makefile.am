@@ -40,6 +40,8 @@ errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
 ui_DATA = \
+	e-editor-builder.ui \
+	e-editor-manager.ui \
 	e-send-options.ui \
 	e-table-config.ui \
 	e-timezone-dialog.ui \
@@ -60,6 +62,7 @@ noinst_PROGRAMS = \
 	test-category-completion \
 	test-contact-store \
 	test-dateedit \
+	test-editor \
 	test-mail-signatures \
 	test-name-selector \
 	test-preferences-window \
@@ -173,6 +176,8 @@ evolution_util_include_HEADERS =  \
 	e-destination-store.h \
 	e-dialog-utils.h \
 	e-dialog-widgets.h \
+	e-editor-selection.h \
+	e-editor-widget.h \
 	e-event.h \
 	e-file-request.h \
 	e-file-utils.h \
@@ -419,6 +424,8 @@ libevolution_util_la_SOURCES = \
 	e-destination-store.c \
 	e-dialog-utils.c \
 	e-dialog-widgets.c \
+	e-editor-selection.c \
+	e-editor-widget.c \
 	e-event.c \
 	e-file-request.c \
 	e-file-utils.c \
@@ -626,6 +633,10 @@ test_contact_store_LDADD = $(TEST_LDADD)
 test_dateedit_CPPFLAGS = $(TEST_CPPFLAGS)
 test_dateedit_SOURCES = test-dateedit.c
 test_dateedit_LDADD = $(TEST_LDADD)
+
+test_editor_CPPFLAGS = $(TEST_CPPFLAGS)
+test_editor_SOURCES = test-editor.c
+test_editor_LDADD = $(TEST_LDADD)
 
 test_mail_signatures_CPPFLAGS = $(TEST_CPPFLAGS)
 test_mail_signatures_SOURCES = test-mail-signatures.c
