@@ -178,6 +178,11 @@ evolution_util_include_HEADERS =  \
 	e-dialog-widgets.h \
 	e-editor-selection.h \
 	e-editor-widget.h \
+	e-emoticon-action.h \
+	e-emoticon-chooser-menu.h \
+	e-emoticon-chooser.h \
+	e-emoticon-tool-button.h \
+	e-emoticon.h \
 	e-event.h \
 	e-file-request.h \
 	e-file-utils.h \
@@ -426,6 +431,11 @@ libevolution_util_la_SOURCES = \
 	e-dialog-widgets.c \
 	e-editor-selection.c \
 	e-editor-widget.c \
+	e-emoticon-action.c \
+	e-emoticon-chooser-menu.c \
+	e-emoticon-chooser.c \
+	e-emoticon-tool-button.c \
+	e-emoticon.c \
 	e-event.c \
 	e-file-request.c \
 	e-file-utils.c \
