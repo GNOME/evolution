@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 /*
  * e-spell-dictionary.c
+=======
+/* e-spell-dictionary.c
+>>>>>>> Import classes for spell checking
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -16,11 +20,16 @@
  * Boston, MA 02111-1307, USA.
  */
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Import classes for spell checking
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include "e-spell-dictionary.h"
+<<<<<<< HEAD
 #include "e-spell-checker.h"
 
 #include <glib/gi18n-lib.h>
@@ -60,6 +69,25 @@ G_DEFINE_TYPE (
 	e_spell_dictionary,
 	G_TYPE_OBJECT);
 
+=======
+
+#include <string.h>
+#include <enchant.h>
+#include <glib/gi18n-lib.h>
+
+#define ISO_639_DOMAIN	"iso_639"
+#define ISO_3166_DOMAIN	"iso_3166"
+
+struct _ESpellDictionary {
+	gchar *code;
+	gchar *name;
+	gchar *ckey;
+};
+
+static GHashTable *iso_639_table = NULL;
+static GHashTable *iso_3166_table = NULL;
+
+>>>>>>> Import classes for spell checking
 #ifdef HAVE_ISO_CODES
 
 #define ISOCODESLOCALEDIR ISO_CODES_PREFIX "/share/locale"
@@ -150,9 +178,14 @@ iso_639_start_element (GMarkupParseContext *context,
 	const gchar *code = NULL;
 	gint ii;
 
+<<<<<<< HEAD
 	if (g_strcmp0 (element_name, "iso_639_entry") != 0) {
 		return;
 	}
+=======
+	if (strcmp (element_name, "iso_639_entry") != 0)
+		return;
+>>>>>>> Import classes for spell checking
 
 	for (ii = 0; attribute_names[ii] != NULL; ii++) {
 		if (strcmp (attribute_names[ii], "name") == 0)
@@ -252,6 +285,7 @@ iso_codes_parse (const GMarkupParser *parser,
 
 #endif /* HAVE_ISO_CODES */
 
+<<<<<<< HEAD
 struct _enchant_dict_description_data {
 	gchar *language_tag;
 	gchar *dict_name;
@@ -265,6 +299,15 @@ describe_dictionary (const gchar *language_tag,
                      gpointer user_data)
 {
 	struct _enchant_dict_description_data *data = user_data;
+=======
+static void
+spell_dictionary_describe_cb (const gchar * const language_code,
+			      const gchar * const provider_name,
+			      const gchar * const provider_desc,
+			      const gchar * const provider_file,
+			      GTree *tree)
+{
+>>>>>>> Import classes for spell checking
 	const gchar *iso_639_name;
 	const gchar *iso_3166_name;
 	gchar *language_name;
@@ -272,7 +315,11 @@ describe_dictionary (const gchar *language_tag,
 	gchar **tokens;
 
 	/* Split language code into lowercase tokens. */
+<<<<<<< HEAD
 	lowercase = g_ascii_strdown (language_tag, -1);
+=======
+	lowercase = g_ascii_strdown (language_code, -1);
+>>>>>>> Import classes for spell checking
 	tokens = g_strsplit (lowercase, "_", -1);
 	g_free (lowercase);
 
@@ -283,7 +330,11 @@ describe_dictionary (const gchar *language_tag,
 	if (iso_639_name == NULL) {
 		language_name = g_strdup_printf (
 		/* Translators: %s is the language ISO code. */
+<<<<<<< HEAD
 			C_("language", "Unknown (%s)"), language_tag);
+=======
+			C_("language", "Unknown (%s)"), language_code);
+>>>>>>> Import classes for spell checking
 		goto exit;
 	}
 
@@ -308,6 +359,7 @@ describe_dictionary (const gchar *language_tag,
 exit:
 	g_strfreev (tokens);
 
+<<<<<<< HEAD
 	data->language_tag = g_strdup (language_tag);
 	data->dict_name = language_name;
 }
@@ -795,3 +847,196 @@ e_spell_dictionary_store_correction (ESpellDictionary *dictionary,
 	g_object_unref (spell_checker);
 }
 
+=======
+	g_tree_replace (tree, g_strdup (language_code), language_name);
+}
+
+static const ESpellDictionary *
+spell_dictionary_copy (const ESpellDictionary *language)
+{
+	return language;
+}
+
+static void
+spell_dictionary_free (const ESpellDictionary *language)
+{
+	/* do nothing */
+}
+
+static const ESpellDictionary *
+spell_dictionary_lookup (const gchar *language_code)
+{
+	const ESpellDictionary *closest_match = NULL;
+	const GList *available_dicts;
+
+	available_dicts = e_spell_dictionary_get_available ();
+
+	while (available_dicts != NULL && language_code != NULL) {
+		ESpellDictionary *dict = available_dicts->data;
+		const gchar *code = dict->code;
+		gsize length = strlen (code);
+
+		if (g_ascii_strcasecmp (language_code, code) == 0)
+			return dict;
+
+		if (g_ascii_strncasecmp (language_code, code, length) == 0)
+			closest_match = dict;
+
+		available_dicts = g_list_next (available_dicts);
+	}
+
+	return closest_match;
+}
+
+static gboolean
+spell_dictionary_traverse_cb (const gchar *code,
+                            const gchar *name,
+                            GList **available_languages)
+{
+	ESpellDictionary *dict;
+
+	dict = g_slice_new (ESpellDictionary);
+	dict->code = g_strdup (code);
+	dict->name = g_strdup (name);
+	dict->ckey = g_utf8_collate_key (name, -1);
+
+	*available_languages = g_list_insert_sorted (
+		*available_languages, dict,
+		(GCompareFunc) e_spell_dictionary_compare);
+
+	return FALSE;
+}
+
+GType
+e_spell_dictionary_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0))
+		type = g_boxed_type_register_static (
+			"ESpellDictionary",
+			(GBoxedCopyFunc) spell_dictionary_copy,
+			(GBoxedFreeFunc) spell_dictionary_free);
+
+	return type;
+}
+
+const GList *
+e_spell_dictionary_get_available (void)
+{
+	static gboolean initialized = FALSE;
+	static GList *available_dicts = NULL;
+	EnchantBroker *broker;
+	GTree *tree;
+
+	if (initialized)
+		return available_dicts;
+
+	initialized = TRUE;
+
+#if defined (ENABLE_NLS) && defined (HAVE_ISO_CODES)
+	bindtextdomain (ISO_639_DOMAIN, ISOCODESLOCALEDIR);
+	bind_textdomain_codeset (ISO_639_DOMAIN, "UTF-8");
+
+	bindtextdomain (ISO_3166_DOMAIN, ISOCODESLOCALEDIR);
+	bind_textdomain_codeset (ISO_3166_DOMAIN, "UTF-8");
+#endif
+
+	iso_639_table = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
+
+	iso_3166_table = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
+
+#ifdef HAVE_ISO_CODES
+	iso_codes_parse (&iso_639_parser, "iso_639.xml", iso_639_table);
+	iso_codes_parse (&iso_3166_parser, "iso_3166.xml", iso_3166_table);
+#endif
+
+	tree = g_tree_new_full (
+		(GCompareDataFunc) strcmp, NULL,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
+
+	broker = enchant_broker_init ();
+	enchant_broker_list_dicts (
+		broker, (EnchantDictDescribeFn)
+		spell_dictionary_describe_cb, tree);
+	enchant_broker_free (broker);
+
+	g_tree_foreach (
+		tree, (GTraverseFunc)
+		spell_dictionary_traverse_cb,
+		&available_dicts);
+
+	g_tree_destroy (tree);
+
+	return available_dicts;
+}
+
+static const ESpellDictionary *
+spell_dictionary_pick_default (void)
+{
+	const ESpellDictionary *dictionary = NULL;
+	const gchar * const *language_names;
+	const GList *available_dicts;
+	gint ii;
+
+	language_names = g_get_language_names ();
+	available_dicts = e_spell_dictionary_get_available ();
+
+	for (ii = 0; dictionary == NULL && language_names[ii] != NULL; ii++)
+		dictionary = spell_dictionary_lookup (language_names[ii]);
+
+	if (dictionary == NULL)
+		dictionary = spell_dictionary_lookup ("en_US");
+
+	if (dictionary == NULL && available_dicts != NULL)
+		dictionary = available_dicts->data;
+
+	return dictionary;
+}
+
+const ESpellDictionary *
+e_spell_dictionary_lookup (const gchar *language_code)
+{
+	const ESpellDictionary *dictionary = NULL;
+
+	dictionary = spell_dictionary_lookup (language_code);
+
+	if (dictionary == NULL)
+		dictionary = spell_dictionary_pick_default ();
+
+	return dictionary;
+}
+
+const gchar *
+e_spell_dictionary_get_language_code (const ESpellDictionary *dictionary)
+{
+	g_return_val_if_fail (dictionary != NULL, NULL);
+
+	return dictionary->code;
+}
+
+const gchar *
+e_spell_dictionary_get_name (const ESpellDictionary *dictionary)
+{
+	if (dictionary == NULL)
+		 /* Translators: This refers to the default language used
+		 * by the spell checker. */
+		return C_("language", "Default");
+
+	return dictionary->name;
+}
+
+gint
+e_spell_dictionary_compare (const ESpellDictionary *dict_a,
+			    const ESpellDictionary *dict_b)
+{
+	return strcmp (dict_a->ckey, dict_b->ckey);
+}
+>>>>>>> Import classes for spell checking
