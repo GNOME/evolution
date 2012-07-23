@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 /*
  * e-emoticon.c
  *
  * Copyright (C) 2008 Novell, Inc.
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+=======
+/* e-emoticon.c
+>>>>>>> Import GtkhtmlFace* classes as EEmoticon*
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -21,8 +25,11 @@
 
 #include "e-emoticon.h"
 
+<<<<<<< HEAD
 #include <gtk/gtk.h>
 
+=======
+>>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 static EEmoticon *
 emoticon_copy (EEmoticon *emoticon)
 {
@@ -61,7 +68,11 @@ e_emoticon_get_type (void)
 
 gboolean
 e_emoticon_equal (EEmoticon *emoticon_a,
+<<<<<<< HEAD
                   EEmoticon *emoticon_b)
+=======
+		  EEmoticon *emoticon_b)
+>>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	if (((emoticon_a == NULL) && (emoticon_b != NULL)) ||
 	    ((emoticon_a != NULL) && (emoticon_b == NULL)))
@@ -93,6 +104,7 @@ e_emoticon_free (EEmoticon *emoticon)
 {
 	g_boxed_free (E_TYPE_EMOTICON, emoticon);
 }
+<<<<<<< HEAD
 
 gchar *
 e_emoticon_get_uri (EEmoticon *emoticon)
@@ -116,3 +128,5 @@ e_emoticon_get_uri (EEmoticon *emoticon)
 
 	return uri;
 }
+=======
+>>>>>>> Import GtkhtmlFace* classes as EEmoticon*

@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 /*
  * e-emoticon-chooser.h
  *
  * Copyright (C) 2008 Novell, Inc.
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+=======
+/* e-emoticon-chooser.h
+>>>>>>> Import GtkhtmlFace* classes as EEmoticon*
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -37,17 +41,30 @@
 #define E_IS_EMOTICON_CHOOSER(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
 	((obj), E_TYPE_EMOTICON_CHOOSER))
+<<<<<<< HEAD
 #define E_EMOTICON_CHOOSER_GET_INTERFACE(obj) \
 	(G_TYPE_INSTANCE_GET_INTERFACE \
 	((obj), E_TYPE_EMOTICON_CHOOSER, EEmoticonChooserInterface))
+=======
+#define E_EMOTICON_CHOOSER_GET_IFACE(obj) \
+	(G_TYPE_INSTANCE_GET_INTERFACE \
+	((obj), E_TYPE_EMOTICON_CHOOSER, EEmoticonChooserIface))
+>>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 G_BEGIN_DECLS
 
 typedef struct _EEmoticonChooser EEmoticonChooser;
+<<<<<<< HEAD
 typedef struct _EEmoticonChooserInterface EEmoticonChooserInterface;
 
 struct _EEmoticonChooserInterface {
 	GTypeInterface parent_interface;
+=======
+typedef struct _EEmoticonChooserIface EEmoticonChooserIface;
+
+struct _EEmoticonChooserIface {
+	GTypeInterface parent_iface;
+>>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 	/* Methods */
 	EEmoticon *	(*get_current_emoticon)	(EEmoticonChooser *chooser);
@@ -58,7 +75,11 @@ struct _EEmoticonChooserInterface {
 	void		(*item_activated)	(EEmoticonChooser *chooser);
 };
 
+<<<<<<< HEAD
 GType		e_emoticon_chooser_get_type	(void) G_GNUC_CONST;
+=======
+GType		e_emoticon_chooser_get_type	(void);
+>>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 EEmoticon *	e_emoticon_chooser_get_current_emoticon
 						(EEmoticonChooser *chooser);
 void		e_emoticon_chooser_set_current_emoticon
@@ -66,11 +87,15 @@ void		e_emoticon_chooser_set_current_emoticon
 						 EEmoticon *emoticon);
 void		e_emoticon_chooser_item_activated
 						(EEmoticonChooser *chooser);
+<<<<<<< HEAD
 
 GList *		e_emoticon_chooser_get_items	(void);
 const EEmoticon *
 		e_emoticon_chooser_lookup_emoticon
 						(const gchar *icon_name);
+=======
+GList *		e_emoticon_chooser_get_items	(EEmoticonChooser *chooser);
+>>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 G_END_DECLS
 

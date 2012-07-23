@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 /*
  * e-emoticon-chooser-menu.h
  *
  * Copyright (C) 2008 Novell, Inc.
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+=======
+/* e-emoticon-chooser-menu.h
+>>>>>>> Import GtkhtmlFace* classes as EEmoticon*
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -61,9 +65,14 @@ struct _EEmoticonChooserMenuClass {
 	GtkMenuClass parent_class;
 };
 
+<<<<<<< HEAD
 GType		e_emoticon_chooser_menu_get_type
 						(void) G_GNUC_CONST;
 GtkWidget *	e_emoticon_chooser_menu_new	(void);
+=======
+GType		e_emoticon_chooser_menu_get_type	(void);
+GtkWidget *	e_emoticon_chooser_menu_new		(void);
+>>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 G_END_DECLS
 

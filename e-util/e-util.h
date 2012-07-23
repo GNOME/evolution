@@ -93,6 +93,11 @@
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-editor-selection.h>
 #include <e-util/e-editor-widget.h>
+#include <e-util/e-emoticon-action.h>
+#include <e-util/e-emoticon-chooser-menu.h>
+#include <e-util/e-emoticon-chooser.h>
+#include <e-util/e-emoticon-tool-button.h>
+#include <e-util/e-emoticon.h>
 #include <e-util/e-event.h>
 #include <e-util/e-file-request.h>
 #include <e-util/e-file-utils.h>

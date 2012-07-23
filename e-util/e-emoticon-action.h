@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 /*
  * e-emoticon-action.h
  *
  * Copyright (C) 2008 Novell, Inc.
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+=======
+/* e-emoticon-action.h
+>>>>>>> Import GtkhtmlFace* classes as EEmoticon*
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -62,7 +66,11 @@ struct _EEmoticonActionClass {
 	GtkActionClass parent_class;
 };
 
+<<<<<<< HEAD
 GType		e_emoticon_action_get_type	(void) G_GNUC_CONST;
+=======
+GType		e_emoticon_action_get_type	(void);
+>>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 GtkAction *	e_emoticon_action_new		(const gchar *name,
 						 const gchar *label,
 						 const gchar *tooltip,
