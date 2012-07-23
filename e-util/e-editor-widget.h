@@ -1,8 +1,11 @@
 /*
  * e-editor-widget.h
  *
+<<<<<<< HEAD
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
+=======
+>>>>>>> Initial basic implementation of WebKit-based editor
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -27,12 +30,16 @@
 
 #include <webkit/webkit.h>
 
+<<<<<<< HEAD
 #include <camel/camel.h>
 
 #include <e-util/e-editor-selection.h>
 #include <e-util/e-emoticon.h>
 #include <e-util/e-spell-checker.h>
 #include <e-util/e-util-enums.h>
+=======
+#include <e-util/e-editor-selection.h>
+>>>>>>> Initial basic implementation of WebKit-based editor
 
 /* Standard GObject macros */
 #define E_TYPE_EDITOR_WIDGET \
@@ -55,17 +62,30 @@
 
 G_BEGIN_DECLS
 
+<<<<<<< HEAD
+=======
+typedef enum {
+	E_EDITOR_WIDGET_MODE_PLAIN_TEXT,
+	E_EDITOR_WIDGET_MODE_HTML,
+} EEditorWidgetMode;
+
+>>>>>>> Initial basic implementation of WebKit-based editor
 typedef struct _EEditorWidget EEditorWidget;
 typedef struct _EEditorWidgetClass EEditorWidgetClass;
 typedef struct _EEditorWidgetPrivate EEditorWidgetPrivate;
 
 struct _EEditorWidget {
 	WebKitWebView parent;
+<<<<<<< HEAD
+=======
+
+>>>>>>> Initial basic implementation of WebKit-based editor
 	EEditorWidgetPrivate *priv;
 };
 
 struct _EEditorWidgetClass {
 	WebKitWebViewClass parent_class;
+<<<<<<< HEAD
 
 	void		(*paste_clipboard_quoted)
 						(EEditorWidget *widget);
@@ -137,3 +157,23 @@ GList *		e_editor_widget_get_parts_for_inline_images
 G_END_DECLS
 
 #endif /* E_EDITOR_WIDGET_H */
+=======
+};
+
+GType			e_editor_widget_get_type 	(void);
+
+EEditorWidget *		e_editor_widget_new		(void);
+
+EEditorSelection *	e_editor_widget_get_selection	(EEditorWidget *widget);
+
+void			e_editor_widget_insert_html	(EEditorWidget *widget,
+							 const gchar *html);
+
+void			e_editor_widget_insert_text	(EEditorWidget *widget,
+							 const gchar *html);
+
+G_END_DECLS
+
+#endif /* E_EDITOR_WIDGET_H */
+ 
+>>>>>>> Initial basic implementation of WebKit-based editor

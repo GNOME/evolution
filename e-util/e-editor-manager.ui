@@ -23,6 +23,7 @@
       <menuitem action='spell-check'/>
       <menu action='language-menu'/>
     </menu>
+<<<<<<< HEAD
     <placeholder name='pre-insert-menu'>
       <menu action='view-menu'>
         <placeholder name='view-menu-top'/>
@@ -30,6 +31,11 @@
         <separator/>
       </menu>
     </placeholder>
+=======
+    <placeholder name='pre-view-menu'/>
+    <menu action='view-menu'/>
+    <placeholder name='pre-insert-menu'/>
+>>>>>>> Initial basic implementation of WebKit-based editor
     <menu action='insert-menu'>
       <placeholder name='insert-menu-top'/>
       <menuitem action='insert-image'/>
@@ -38,7 +44,11 @@
       <menuitem action='insert-table'/>
       <menuitem action='insert-text-file'/>
       <menuitem action='insert-html-file'/>
+<<<<<<< HEAD
       <menuitem action='insert-emoticon'/>
+=======
+      <menuitem action='insert-face'/>
+>>>>>>> Initial basic implementation of WebKit-based editor
     </menu>
     <placeholder name='pre-format-menu'/>
     <menu action='format-menu'>
@@ -128,7 +138,11 @@
     <toolitem action='insert-link'/>
     <toolitem action='insert-rule'/>
     <toolitem action='insert-table'/>
+<<<<<<< HEAD
     <toolitem action='insert-emoticon'/>
+=======
+    <toolitem action='insert-face'/>
+>>>>>>> Initial basic implementation of WebKit-based editor
   </toolbar>
   <popup name='context-menu'>
     <placeholder name='context-spell-suggest'/>

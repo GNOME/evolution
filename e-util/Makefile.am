@@ -40,6 +40,7 @@ errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
 ui_DATA = \
+	e-editor-builder.ui \
 	e-editor-manager.ui \
 	e-send-options.ui \
 	e-table-config.ui \
@@ -178,28 +179,8 @@ evolution_util_include_HEADERS =  \
 	e-destination-store.h \
 	e-dialog-utils.h \
 	e-dialog-widgets.h \
-	e-editor-actions.h \
-	e-editor-cell-dialog.h \
-	e-editor-dialog.h \
-	e-editor-find-dialog.h \
-	e-editor-hrule-dialog.h \
-	e-editor-image-dialog.h \
-	e-editor-link-dialog.h \
-	e-editor-page-dialog.h \
-	e-editor-paragraph-dialog.h \
-	e-editor-replace-dialog.h \
 	e-editor-selection.h \
-	e-editor-spell-check-dialog.h \
-	e-editor-table-dialog.h \
-	e-editor-text-dialog.h \
-	e-editor-utils.h \
 	e-editor-widget.h \
-	e-editor.h \
-	e-emoticon-action.h \
-	e-emoticon-chooser-menu.h \
-	e-emoticon-chooser.h \
-	e-emoticon-tool-button.h \
-	e-emoticon.h \
 	e-event.h \
 	e-file-request.h \
 	e-file-utils.h \
@@ -449,29 +430,8 @@ libevolution_util_la_SOURCES = \
 	e-destination-store.c \
 	e-dialog-utils.c \
 	e-dialog-widgets.c \
-	e-editor-actions.c \
-	e-editor-cell-dialog.c \
-	e-editor-dialog.c \
-	e-editor-find-dialog.c \
-	e-editor-hrule-dialog.c \
-	e-editor-image-dialog.c \
-	e-editor-link-dialog.c \
-	e-editor-page-dialog.c \
-	e-editor-paragraph-dialog.c \
-	e-editor-private.h \
-	e-editor-replace-dialog.c \
 	e-editor-selection.c \
-	e-editor-spell-check-dialog.c \
-	e-editor-table-dialog.c \
-	e-editor-text-dialog.c \
-	e-editor-utils.c \
 	e-editor-widget.c \
-	e-editor.c \
-	e-emoticon-action.c \
-	e-emoticon-chooser-menu.c \
-	e-emoticon-chooser.c \
-	e-emoticon-tool-button.c \
-	e-emoticon.c \
 	e-event.c \
 	e-file-request.c \
 	e-file-utils.c \

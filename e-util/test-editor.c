@@ -1,8 +1,11 @@
 /*
  * e-editor-test.c
  *
+<<<<<<< HEAD
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
+=======
+>>>>>>> Initial basic implementation of WebKit-based editor
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,6 +21,7 @@
  *
  */
 
+<<<<<<< HEAD
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -391,6 +395,15 @@ static WebKitWebView *
 open_inspector (WebKitWebInspector *inspector,
                 WebKitWebView *webview,
                 gpointer user_data)
+=======
+#include <gtk/gtk.h>
+#include <e-util/e-util.h>
+
+static WebKitWebView *
+open_inspector (WebKitWebInspector *inspector,
+		WebKitWebView *webview,
+		gpointer user_data)
+>>>>>>> Initial basic implementation of WebKit-based editor
 {
 	GtkWidget *window;
 	GtkWidget *inspector_view;
@@ -406,6 +419,7 @@ open_inspector (WebKitWebInspector *inspector,
 	return WEBKIT_WEB_VIEW (inspector_view);
 }
 
+<<<<<<< HEAD
 gint
 main (gint argc,
       gchar **argv)
@@ -498,4 +512,42 @@ main (gint argc,
 	g_object_unref (editor);
 
 	return 0;
+=======
+gint main (gint argc,
+	   gchar **argv)
+{
+        GtkWidget *window;
+	GtkWidget *editor;
+	WebKitWebInspector *inspector;
+
+	gtk_init (&argc, &argv);
+
+        window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+        gtk_widget_set_size_request (window, 600, 400);
+        g_signal_connect_swapped (window, "destroy",
+                G_CALLBACK (gtk_main_quit), NULL);
+
+	editor = GTK_WIDGET (e_editor_widget_new ());
+        gtk_container_add (GTK_CONTAINER (window), editor);
+
+        gtk_widget_show_all (window);
+
+	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (editor));
+	g_signal_connect (inspector, "inspect-web-view",
+			  G_CALLBACK (open_inspector), NULL);
+	/*
+	webkit_web_view_load_html_string (
+		WEBKIT_WEB_VIEW (editor),
+		"<html><head></head><body>\n"
+		"<table border=1 width=100%>\n"
+		"  <tr><td></td><td></td><td></td></tr>\n"
+		"  <tr><td></td><td></td><td></td></tr>\n"
+		"  <tr><td></td><td></td><td></td></tr>\n"
+		"</table></body></html>", NULL);
+	*/
+
+        gtk_main ();
+
+        return 0;
+>>>>>>> Initial basic implementation of WebKit-based editor
 }

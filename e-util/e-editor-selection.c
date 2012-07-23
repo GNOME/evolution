@@ -1,8 +1,11 @@
 /*
  * e-editor-selection.c
  *
+<<<<<<< HEAD
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
+=======
+>>>>>>> Initial basic implementation of WebKit-based editor
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -23,22 +26,29 @@
 #endif
 
 #include "e-editor-selection.h"
+<<<<<<< HEAD
 #include "e-editor-widget.h"
 #include "e-editor.h"
 #include "e-editor-utils.h"
 
 #include <e-util/e-util.h>
+=======
+>>>>>>> Initial basic implementation of WebKit-based editor
 
 #include <webkit/webkit.h>
 #include <webkit/webkitdom.h>
 #include <string.h>
 #include <stdlib.h>
+<<<<<<< HEAD
 #include <ctype.h>
+=======
+>>>>>>> Initial basic implementation of WebKit-based editor
 
 #define E_EDITOR_SELECTION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_EDITOR_SELECTION, EEditorSelectionPrivate))
 
+<<<<<<< HEAD
 #define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
 #define SPACES_PER_INDENTATION 4
 
@@ -88,10 +98,41 @@ enum {
 	PROP_INDENTED,
 	PROP_ITALIC,
 	PROP_MONOSPACED,
+=======
+
+struct _EEditorSelectionPrivate {
+
+	WebKitWebView *webview;
+	WebKitDOMRange *range;
+
+	gchar *text;
+	gchar *background_color;
+	gchar *font_color;
+	gchar *font_family;
+};
+
+G_DEFINE_TYPE (
+	EEditorSelection,
+	e_editor_selection,
+	G_TYPE_OBJECT
+);
+
+enum {
+	PROP_0,
+	PROP_WEBVIEW,
+	PROP_BACKGROUND_COLOR,
+	PROP_BOLD,
+	PROP_FONT_NAME,
+	PROP_FONT_SIZE,
+	PROP_FONT_COLOR,
+	PROP_BLOCK_FORMAT,
+	PROP_ITALIC,
+>>>>>>> Initial basic implementation of WebKit-based editor
 	PROP_STRIKE_THROUGH,
 	PROP_SUBSCRIPT,
 	PROP_SUPERSCRIPT,
 	PROP_TEXT,
+<<<<<<< HEAD
 	PROP_UNDERLINE
 };
 
@@ -202,10 +243,35 @@ get_has_style (EEditorSelection *selection,
 		element = webkit_dom_node_get_parent_element (
 			WEBKIT_DOM_NODE (element));
 	}
+=======
+	PROP_UNDERLINE,
+};
+
+static gboolean
+get_has_style_property (EEditorSelection *selection,
+			const gchar *style,
+			const gchar *value)
+{
+	WebKitDOMNode *node;
+	WebKitDOMCSSStyleDeclaration *css;
+	gchar *style_value;
+	gboolean result;
+
+	node = webkit_dom_range_get_common_ancestor_container (
+			selection->priv->range, NULL);
+
+	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
+	style_value = webkit_dom_css_style_declaration_get_property_value (
+			css, style);
+
+	result = (g_ascii_strncasecmp (style_value, value, strlen (value)) == 0);
+	g_free (style_value);
+>>>>>>> Initial basic implementation of WebKit-based editor
 
 	return result;
 }
 
+<<<<<<< HEAD
 static gchar *
 get_font_property (EEditorSelection *selection,
                    const gchar *font_property)
@@ -236,20 +302,44 @@ editor_selection_selection_changed_cb (WebKitWebView *webview,
 	g_object_freeze_notify (G_OBJECT (selection));
 
 	g_object_notify (G_OBJECT (selection), "alignment");
+=======
+static void
+webview_selection_changed (WebKitWebView *webview,
+			   EEditorSelection *selection)
+{
+	WebKitDOMDocument *doc;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *sel;
+
+	g_clear_object (&selection->priv->range);
+
+	doc = webkit_web_view_get_dom_document (webview);
+	window = webkit_dom_document_get_default_view (doc);
+	sel = webkit_dom_dom_window_get_selection (window);
+
+	selection->priv->range =
+		webkit_dom_dom_selection_get_range_at (sel, 0, NULL);
+
+>>>>>>> Initial basic implementation of WebKit-based editor
 	g_object_notify (G_OBJECT (selection), "background-color");
 	g_object_notify (G_OBJECT (selection), "bold");
 	g_object_notify (G_OBJECT (selection), "font-name");
 	g_object_notify (G_OBJECT (selection), "font-size");
 	g_object_notify (G_OBJECT (selection), "font-color");
 	g_object_notify (G_OBJECT (selection), "block-format");
+<<<<<<< HEAD
 	g_object_notify (G_OBJECT (selection), "indented");
 	g_object_notify (G_OBJECT (selection), "italic");
 	g_object_notify (G_OBJECT (selection), "monospaced");
+=======
+	g_object_notify (G_OBJECT (selection), "italic");
+>>>>>>> Initial basic implementation of WebKit-based editor
 	g_object_notify (G_OBJECT (selection), "strike-through");
 	g_object_notify (G_OBJECT (selection), "subscript");
 	g_object_notify (G_OBJECT (selection), "superscript");
 	g_object_notify (G_OBJECT (selection), "text");
 	g_object_notify (G_OBJECT (selection), "underline");
+<<<<<<< HEAD
 
 	g_object_thaw_notify (G_OBJECT (selection));
 }
@@ -390,6 +480,88 @@ editor_selection_get_property (GObject *object,
 				value,
 				e_editor_selection_is_underline (
 				E_EDITOR_SELECTION (object)));
+=======
+}
+
+static void
+editor_selection_set_webview (EEditorSelection *selection,
+			      WebKitWebView *webview)
+{
+	selection->priv->webview = g_object_ref (webview);
+	g_signal_connect (webview, "selection-changed",
+			  G_CALLBACK (webview_selection_changed), selection);
+}
+
+
+static void
+e_editor_selection_get_property (GObject *object,
+				 guint property_id,
+				 GValue *value,
+				 GParamSpec *pspec)
+{
+	EEditorSelection *selection = E_EDITOR_SELECTION (object);
+
+	switch (property_id) {
+		case PROP_BACKGROUND_COLOR:
+			g_value_set_string (value,
+				e_editor_selection_get_background_color (
+					selection));
+			return;
+
+		case PROP_BOLD:
+			g_value_set_boolean (value,
+				e_editor_selection_get_bold (selection));
+			return;
+
+		case PROP_FONT_NAME:
+			g_value_set_string (value,
+				e_editor_selection_get_font_name (selection));
+			return;
+
+		case PROP_FONT_SIZE:
+			g_value_set_int (value,
+				e_editor_selection_get_font_size (selection));
+			return;
+
+		case PROP_FONT_COLOR:
+			g_value_set_string (value,
+				e_editor_selection_get_font_color (selection));
+			return;
+
+		case PROP_BLOCK_FORMAT:
+			g_value_set_int (value,
+				e_editor_selection_get_block_format (selection));
+			return;
+
+		case PROP_ITALIC:
+			g_value_set_boolean (value,
+				e_editor_selection_get_italic (selection));
+			return;
+
+		case PROP_STRIKE_THROUGH:
+			g_value_set_boolean (value,
+				e_editor_selection_get_strike_through (selection));
+			return;
+
+		case PROP_SUBSCRIPT:
+			g_value_set_boolean (value,
+				e_editor_selection_get_subscript (selection));
+			return;
+
+		case PROP_SUPERSCRIPT:
+			g_value_set_boolean (value,
+				e_editor_selection_get_superscript (selection));
+			return;
+
+		case PROP_TEXT:
+			g_value_set_string (value,
+				e_editor_selection_get_string (selection));
+			break;
+
+		case PROP_UNDERLINE:
+			g_value_set_boolean (value,
+				e_editor_selection_get_underline (selection));
+>>>>>>> Initial basic implementation of WebKit-based editor
 			return;
 	}
 
@@ -397,6 +569,7 @@ editor_selection_get_property (GObject *object,
 }
 
 static void
+<<<<<<< HEAD
 editor_selection_set_property (GObject *object,
                                guint property_id,
                                const GValue *value,
@@ -413,10 +586,29 @@ editor_selection_set_property (GObject *object,
 			e_editor_selection_set_background_color (
 				E_EDITOR_SELECTION (object),
 				g_value_get_string (value));
+=======
+e_editor_selection_set_property (GObject *object,
+				 guint property_id,
+				 const GValue *value,
+				 GParamSpec *pspec)
+{
+	EEditorSelection *selection = E_EDITOR_SELECTION (object);
+
+	switch (property_id) {
+		case PROP_WEBVIEW:
+			editor_selection_set_webview (
+				selection, g_value_get_object (value));
+			break;
+
+		case PROP_BACKGROUND_COLOR:
+			e_editor_selection_set_background_color (
+				selection, g_value_get_string (value));
+>>>>>>> Initial basic implementation of WebKit-based editor
 			return;
 
 		case PROP_BOLD:
 			e_editor_selection_set_bold (
+<<<<<<< HEAD
 				E_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
 			return;
@@ -425,10 +617,14 @@ editor_selection_set_property (GObject *object,
 			editor_selection_set_editor_widget (
 				E_EDITOR_SELECTION (object),
 				g_value_get_object (value));
+=======
+				selection, g_value_get_boolean (value));
+>>>>>>> Initial basic implementation of WebKit-based editor
 			return;
 
 		case PROP_FONT_COLOR:
 			e_editor_selection_set_font_color (
+<<<<<<< HEAD
 				E_EDITOR_SELECTION (object),
 				g_value_get_boxed (value));
 			return;
@@ -437,22 +633,34 @@ editor_selection_set_property (GObject *object,
 			e_editor_selection_set_block_format (
 				E_EDITOR_SELECTION (object),
 				g_value_get_int (value));
+=======
+				selection, g_value_get_string (value));
+>>>>>>> Initial basic implementation of WebKit-based editor
 			return;
 
 		case PROP_FONT_NAME:
 			e_editor_selection_set_font_name (
+<<<<<<< HEAD
 				E_EDITOR_SELECTION (object),
 				g_value_get_string (value));
+=======
+				selection, g_value_get_string (value));
+>>>>>>> Initial basic implementation of WebKit-based editor
 			return;
 
 		case PROP_FONT_SIZE:
 			e_editor_selection_set_font_size (
+<<<<<<< HEAD
 				E_EDITOR_SELECTION (object),
 				g_value_get_int (value));
+=======
+				selection, g_value_get_uint (value));
+>>>>>>> Initial basic implementation of WebKit-based editor
 			return;
 
 		case PROP_ITALIC:
 			e_editor_selection_set_italic (
+<<<<<<< HEAD
 				E_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
 			return;
@@ -461,30 +669,49 @@ editor_selection_set_property (GObject *object,
 			e_editor_selection_set_monospaced (
 				E_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
+=======
+				selection, g_value_get_boolean (value));
+>>>>>>> Initial basic implementation of WebKit-based editor
 			return;
 
 		case PROP_STRIKE_THROUGH:
 			e_editor_selection_set_strike_through (
+<<<<<<< HEAD
 				E_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
+=======
+				selection, g_value_get_boolean (value));
+>>>>>>> Initial basic implementation of WebKit-based editor
 			return;
 
 		case PROP_SUBSCRIPT:
 			e_editor_selection_set_subscript (
+<<<<<<< HEAD
 				E_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
+=======
+				selection, g_value_get_boolean (value));
+>>>>>>> Initial basic implementation of WebKit-based editor
 			return;
 
 		case PROP_SUPERSCRIPT:
 			e_editor_selection_set_superscript (
+<<<<<<< HEAD
 				E_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
+=======
+				selection, g_value_get_boolean (value));
+>>>>>>> Initial basic implementation of WebKit-based editor
 			return;
 
 		case PROP_UNDERLINE:
 			e_editor_selection_set_underline (
+<<<<<<< HEAD
 				E_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
+=======
+				selection, g_value_get_boolean (value));
+>>>>>>> Initial basic implementation of WebKit-based editor
 			return;
 	}
 
@@ -492,6 +719,7 @@ editor_selection_set_property (GObject *object,
 }
 
 static void
+<<<<<<< HEAD
 editor_selection_dispose (GObject *object)
 {
 	EEditorSelectionPrivate *priv;
@@ -564,11 +792,45 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 	 * Holds background color of current selection or at current cursor
 	 * position.
 	 */
+=======
+e_editor_selection_finalize (GObject *object)
+{
+	EEditorSelection *selection = E_EDITOR_SELECTION (object);
+
+	g_clear_object (&selection->priv->range);
+	g_clear_object (&selection->priv->webview);
+
+	g_free (selection->priv->text);
+	selection->priv->text = NULL;
+}
+
+static void
+e_editor_selection_class_init (EEditorSelectionClass *klass)
+{
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->get_property = e_editor_selection_get_property;
+	object_class->set_property = e_editor_selection_set_property;
+	object_class->finalize = e_editor_selection_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WEBVIEW,
+		g_param_spec_object (
+			"webview",
+		        NULL,
+		        NULL,
+		        WEBKIT_TYPE_WEB_VIEW,
+		        G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+
+>>>>>>> Initial basic implementation of WebKit-based editor
 	g_object_class_install_property (
 		object_class,
 		PROP_BACKGROUND_COLOR,
 		g_param_spec_string (
 			"background-color",
+<<<<<<< HEAD
 			NULL,
 			NULL,
 			NULL,
@@ -601,6 +863,13 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 	 * Holds whether current selection or text at current cursor position
 	 * is bold.
 	 */
+=======
+		        NULL,
+		        NULL,
+		        NULL,
+		        G_PARAM_READWRITE));
+
+>>>>>>> Initial basic implementation of WebKit-based editor
 	g_object_class_install_property (
 		object_class,
 		PROP_BOLD,
@@ -609,6 +878,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			NULL,
 			NULL,
 			FALSE,
+<<<<<<< HEAD
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -662,6 +932,20 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 	 *
 	 * Holds point size of current selection or at current cursor position.
 	 */
+=======
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FONT_NAME,
+		g_param_spec_string (
+			"font-name",
+		        NULL,
+		        NULL,
+		        NULL,
+		        G_PARAM_READWRITE));
+
+>>>>>>> Initial basic implementation of WebKit-based editor
 	g_object_class_install_property (
 		object_class,
 		PROP_FONT_SIZE,
@@ -672,6 +956,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			1,
 			7,
 			3,
+<<<<<<< HEAD
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -732,6 +1017,42 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 	 * Holds whether current selection or letter at current cursor position
 	 * is strike-through.
 	 */
+=======
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FONT_COLOR,
+		g_param_spec_string (
+			"font-color",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_BLOCK_FORMAT,
+		g_param_spec_uint (
+			"block-format",
+			NULL,
+			NULL,
+			0,
+			G_MAXUINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ITALIC,
+		g_param_spec_boolean (
+			"italic",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+>>>>>>> Initial basic implementation of WebKit-based editor
 	g_object_class_install_property (
 		object_class,
 		PROP_STRIKE_THROUGH,
@@ -740,6 +1061,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			NULL,
 			NULL,
 			FALSE,
+<<<<<<< HEAD
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -749,6 +1071,10 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 	 * Holds whether current selection or letter at current cursor position
 	 * is in superscript.
 	 */
+=======
+			G_PARAM_READWRITE));
+
+>>>>>>> Initial basic implementation of WebKit-based editor
 	g_object_class_install_property (
 		object_class,
 		PROP_SUPERSCRIPT,
@@ -757,6 +1083,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			NULL,
 			NULL,
 			FALSE,
+<<<<<<< HEAD
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -766,6 +1093,10 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 	 * Holds whether current selection or letter at current cursor position
 	 * is in subscript.
 	 */
+=======
+			G_PARAM_READWRITE));
+
+>>>>>>> Initial basic implementation of WebKit-based editor
 	g_object_class_install_property (
 		object_class,
 		PROP_SUBSCRIPT,
@@ -774,6 +1105,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			NULL,
 			NULL,
 			FALSE,
+<<<<<<< HEAD
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -782,11 +1114,16 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 	 *
 	 * Holds always up-to-date text of current selection.
 	 */
+=======
+			G_PARAM_READWRITE));
+
+>>>>>>> Initial basic implementation of WebKit-based editor
 	g_object_class_install_property (
 		object_class,
 		PROP_TEXT,
 		g_param_spec_string (
 			"text",
+<<<<<<< HEAD
 			NULL,
 			NULL,
 			NULL,
@@ -799,6 +1136,13 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 	 * Holds whether current selection or letter at current cursor position
 	 * is underlined.
 	 */
+=======
+		       NULL,
+		       NULL,
+		       NULL,
+		       G_PARAM_READABLE));
+
+>>>>>>> Initial basic implementation of WebKit-based editor
 	g_object_class_install_property (
 		object_class,
 		PROP_UNDERLINE,
@@ -807,6 +1151,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			NULL,
 			NULL,
 			FALSE,
+<<<<<<< HEAD
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 }
@@ -1502,10 +1847,182 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_NONE:
 		default:
 			command = E_EDITOR_WIDGET_COMMAND_REMOVE_FORMAT;
+=======
+			G_PARAM_READWRITE));
+}
+
+
+static void
+e_editor_selection_init (EEditorSelection *selection)
+{
+	selection->priv = E_EDITOR_SELECTION_GET_PRIVATE (selection);
+}
+
+EEditorSelection *
+e_editor_selection_new (WebKitWebView *parent_view)
+{
+	g_return_val_if_fail (WEBKIT_IS_WEB_VIEW (parent_view), NULL);
+
+	return g_object_new (
+			E_TYPE_EDITOR_SELECTION,
+			"webview", parent_view, NULL);
+}
+
+
+const gchar *
+e_editor_selection_get_string(EEditorSelection *selection)
+{
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+
+	g_free (selection->priv->text);
+	selection->priv->text = webkit_dom_range_get_text (selection->priv->range);
+
+	return selection->priv->text;
+}
+
+void
+e_editor_selection_replace (EEditorSelection *selection,
+			    const gchar *new_string)
+{
+	WebKitDOMDocumentFragment *frag;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	frag = webkit_dom_range_create_contextual_fragment (
+			selection->priv->range, new_string, NULL);
+
+	webkit_dom_range_delete_contents (selection->priv->range, NULL);
+	webkit_dom_range_insert_node (
+		selection->priv->range, WEBKIT_DOM_NODE (frag), NULL);
+}
+
+const gchar *
+e_editor_selection_get_background_color	(EEditorSelection *selection)
+{
+	WebKitDOMNode *ancestor;
+	WebKitDOMCSSStyleDeclaration *css;
+
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+
+	ancestor = webkit_dom_range_get_common_ancestor_container (
+			selection->priv->range, NULL);
+
+	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (ancestor));
+	selection->priv->background_color =
+		webkit_dom_css_style_declaration_get_property_value (
+			css, "background-color");
+
+	return selection->priv->background_color;
+}
+
+void
+e_editor_selection_set_background_color (EEditorSelection *selection,
+					const gchar *color)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (color && *color);
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (
+		document, "backColor", FALSE, color);
+
+	g_object_notify (G_OBJECT (selection), "background-color");
+}
+
+EEditorSelectionBlockFormat
+e_editor_selection_get_block_format (EEditorSelection *selection)
+{
+	WebKitDOMNode *node;
+	gchar *tmp, *node_name;
+	EEditorSelectionBlockFormat result;
+
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection),
+			      E_EDITOR_SELECTION_BLOCK_FORMAT_NONE);
+
+	node = webkit_dom_range_get_common_ancestor_container (
+			selection->priv->range, NULL);
+
+	tmp = webkit_dom_node_get_node_name (node);
+	node_name = g_ascii_strdown (tmp, -1);
+	g_free (tmp);
+
+	if (g_strcmp0 (node_name, "blockquote") == 0)
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
+	else if (g_strcmp0 (node_name, "h1") == 0)
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H1;
+	else if (g_strcmp0 (node_name, "h2") == 0)
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H2;
+	else if (g_strcmp0 (node_name, "h3") == 0)
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H3;
+	else if (g_strcmp0 (node_name, "h4") == 0)
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H4;
+	else if (g_strcmp0 (node_name, "h5") == 0)
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H5;
+	else if (g_strcmp0 (node_name, "h6") == 0)
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H6;
+	else if (g_strcmp0 (node_name, "p") == 0)
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+	else if (g_strcmp0 (node_name, "pre") == 0)
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PRE;
+	else if (g_strcmp0 (node_name, "address") == 0)
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS;
+	else
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_NONE;
+
+	g_free (node_name);
+	return result;
+}
+
+void
+e_editor_selection_set_block_format (EEditorSelection *selection,
+				     EEditorSelectionBlockFormat format)
+{
+	WebKitDOMDocument *document;
+	const gchar *value;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	switch (format) {
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE:
+			value = "BLOCKQUOTE";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_H1:
+			value = "H1";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_H2:
+			value = "H2";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_H3:
+			value = "H3";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_H4:
+			value = "H4";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_H5:
+			value = "H5";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_H6:
+			value = "H6";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH:
+			value = "P";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_PRE:
+			value = "PRE";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS:
+			value = "ADDRESS";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_NONE:
+		default:
+>>>>>>> Initial basic implementation of WebKit-based editor
 			value = NULL;
 			break;
 	}
 
+<<<<<<< HEAD
 	/* H1 - H6 have bold font by default */
 	if (format >= E_EDITOR_SELECTION_BLOCK_FORMAT_H1 && format <= E_EDITOR_SELECTION_BLOCK_FORMAT_H6)
 		selection->priv->is_bold = TRUE;
@@ -4409,4 +4926,326 @@ e_editor_selection_move (EEditorSelection *selection,
                          EEditorSelectionGranularity granularity)
 {
 	editor_selection_modify (selection, "move", forward, granularity);
+=======
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	if (value) {
+		webkit_dom_document_exec_command (
+			document, "formatBlock", FALSE, value);
+	} else {
+		webkit_dom_document_exec_command (
+			document, "removeFormat", FALSE, NULL);
+	}
+
+	g_object_notify (G_OBJECT (selection), "block-format");
+}
+
+gboolean
+e_editor_selection_get_bold (EEditorSelection *selection)
+{
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	return (get_has_style_property (selection, "fontWeight", "bold") ||
+	       get_has_style_property (selection, "fontWeight", "700"));
+}
+
+void
+e_editor_selection_set_bold (EEditorSelection *selection,
+			     gboolean bold)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	if ((e_editor_selection_get_bold (selection) ? TRUE : FALSE)
+				== (bold ? TRUE : FALSE)) {
+		return;
+	}
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, "bold", FALSE, NULL);
+
+	g_object_notify (G_OBJECT (selection), "bold");
+}
+
+const gchar *
+e_editor_selection_get_font_color (EEditorSelection *selection)
+{
+	WebKitDOMNode *node;
+	WebKitDOMCSSStyleDeclaration *css;
+
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+
+	node = webkit_dom_range_get_common_ancestor_container (
+			selection->priv->range, NULL);
+
+
+	g_free (selection->priv->font_color);
+	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
+	selection->priv->font_color =
+		webkit_dom_css_style_declaration_get_property_value (css, "color");
+
+	return selection->priv->font_color;
+}
+
+void
+e_editor_selection_set_font_color (EEditorSelection *selection,
+				   const gchar *color)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, "foreColor", FALSE, color);
+
+	g_object_notify (G_OBJECT (selection), "font-color");
+}
+
+const gchar *
+e_editor_selection_get_font_name (EEditorSelection *selection)
+{
+	WebKitDOMNode *node;
+	WebKitDOMCSSStyleDeclaration *css;
+
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+
+	node = webkit_dom_range_get_common_ancestor_container (
+			selection->priv->range, NULL);
+
+
+	g_free (selection->priv->font_family);
+	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
+	selection->priv->font_family =
+		webkit_dom_css_style_declaration_get_property_value (css, "fontFamily");
+
+	return selection->priv->font_family;
+}
+
+void
+e_editor_selection_set_font_name (EEditorSelection *selection,
+				  const gchar *font_name)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, "fontName", FALSE, font_name);
+
+	g_object_notify (G_OBJECT (selection), "font-name");
+}
+
+guint
+e_editor_selection_get_font_size (EEditorSelection *selection)
+{
+	WebKitDOMNode *node;
+	WebKitDOMCSSStyleDeclaration *css;
+	gchar *size;
+	gint size_int;
+
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), 0);
+
+	node = webkit_dom_range_get_common_ancestor_container (
+			selection->priv->range, NULL);
+
+
+	g_free (selection->priv->font_family);
+	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
+	size = webkit_dom_css_style_declaration_get_property_value (css, "fontSize");
+
+	size_int = atoi (size);
+	g_free (size);
+
+	return size_int;
+}
+
+void
+e_editor_selection_set_font_size (EEditorSelection *selection,
+				  guint font_size)
+{
+	WebKitDOMDocument *document;
+	gchar *size_str;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	size_str = g_strdup_printf("%d", font_size);
+	webkit_dom_document_exec_command (document, "fontSize", FALSE, size_str);
+	g_free (size_str);
+
+	g_object_notify (G_OBJECT (selection), "font-size");
+}
+
+gboolean
+e_editor_selection_get_italic (EEditorSelection *selection)
+{
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	return get_has_style_property (selection, "fontStyle", "italic");
+}
+
+void
+e_editor_selection_set_italic (EEditorSelection *selection,
+			       gboolean italic)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	if ((e_editor_selection_get_italic (selection) ? TRUE : FALSE)
+				== (italic ? TRUE : FALSE)) {
+		return;
+	}
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, "italic", FALSE, NULL);
+
+	g_object_notify (G_OBJECT (selection), "italic");
+}
+
+gboolean
+e_editor_selection_get_strike_through (EEditorSelection *selection)
+{
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	return get_has_style_property (selection, "textDecoration", "overline");
+}
+
+void
+e_editor_selection_set_strike_through (EEditorSelection *selection,
+				       gboolean strike_through)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	if ((e_editor_selection_get_strike_through (selection) ? TRUE : FALSE)
+				== (strike_through? TRUE : FALSE)) {
+		return;
+	}
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, "strikeThrough", FALSE, NULL);
+
+	g_object_notify (G_OBJECT (selection), "strike-through");
+}
+
+gboolean
+e_editor_selection_get_subscript (EEditorSelection *selection)
+{
+	WebKitDOMNode *node;
+
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	node = webkit_dom_range_get_common_ancestor_container (
+			selection->priv->range, NULL);
+
+	while (node) {
+		gchar *tag_name;
+
+		tag_name = webkit_dom_element_get_tag_name (WEBKIT_DOM_ELEMENT (node));
+
+		if (g_ascii_strncasecmp (tag_name, "sub", 3) == 0) {
+			g_free (tag_name);
+			break;
+		}
+
+		g_free (tag_name);
+		node = webkit_dom_node_get_parent_node (node);
+	}
+
+	return (node != NULL);
+}
+
+void
+e_editor_selection_set_subscript (EEditorSelection *selection,
+				  gboolean subscript)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	if ((e_editor_selection_get_subscript (selection) ? TRUE : FALSE)
+				== (subscript? TRUE : FALSE)) {
+		return;
+	}
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, "subscript", FALSE, NULL);
+
+	g_object_notify (G_OBJECT (selection), "subscript");
+}
+
+gboolean
+e_editor_selection_get_superscript (EEditorSelection *selection)
+{
+	WebKitDOMNode *node;
+
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	node = webkit_dom_range_get_common_ancestor_container (
+			selection->priv->range, NULL);
+
+	while (node) {
+		gchar *tag_name;
+
+		tag_name = webkit_dom_element_get_tag_name (WEBKIT_DOM_ELEMENT (node));
+
+		if (g_ascii_strncasecmp (tag_name, "sup", 3) == 0) {
+			g_free (tag_name);
+			break;
+		}
+
+		g_free (tag_name);
+		node = webkit_dom_node_get_parent_node (node);
+	}
+
+	return (node != NULL);
+}
+
+void
+e_editor_selection_set_superscript (EEditorSelection *selection,
+				    gboolean superscript)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	if ((e_editor_selection_get_superscript (selection) ? TRUE : FALSE)
+				== (superscript? TRUE : FALSE)) {
+		return;
+	}
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, "superscript", FALSE, NULL);
+
+	g_object_notify (G_OBJECT (selection), "superscript");
+}
+
+gboolean
+e_editor_selection_get_underline (EEditorSelection *selection)
+{
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	return get_has_style_property (selection, "textDecoration", "underline");
+}
+
+void
+e_editor_selection_set_underline (EEditorSelection *selection,
+				  gboolean underline)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	if ((e_editor_selection_get_underline (selection) ? TRUE : FALSE)
+				== (underline? TRUE : FALSE)) {
+		return;
+	}
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, "underline", FALSE, NULL);
+
+	g_object_notify (G_OBJECT (selection), "underline");
+>>>>>>> Initial basic implementation of WebKit-based editor
 }
