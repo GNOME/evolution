@@ -980,7 +980,7 @@ mail_reader_get_message_to_print_ready_cb (GObject *object,
 
 	e_mail_reader_parse_message (
 		context->reader, context->folder, context->message_uid,
-		message, mail_reader_do_print_message, context);
+		message, NULL, mail_reader_do_print_message, context);
 }
 
 void
@@ -1300,7 +1300,7 @@ mail_reader_get_message_ready_cb (CamelFolder *folder,
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	e_mail_reader_parse_message (context->reader, context->folder,
-		context->message_uid, message,
+		context->message_uid, message, NULL,
 		mail_reader_reply_message_parsed, context);
 }
 
@@ -1995,6 +1995,7 @@ e_mail_reader_parse_message (EMailReader *reader,
                              CamelFolder *folder,
                              const gchar *message_uid,
                              CamelMimeMessage *message,
+			     GCancellable *cancellable,
                              GAsyncReadyCallback ready_callback,
                              gpointer user_data)
 {
@@ -2007,6 +2008,8 @@ e_mail_reader_parse_message (EMailReader *reader,
 	data = g_new0 (struct mail_reader_parse_message_run_data_, 1);
 	data->activity = e_mail_reader_new_activity (reader);
 	e_activity_set_text (data->activity, _("Parsing message"));
+	if (cancellable)
+		e_activity_set_cancellable (data->activity, cancellable);
 	data->folder = g_object_ref (folder);
 	data->message = g_object_ref (message);
 	data->message_uid = g_strdup (message_uid);

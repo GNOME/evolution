@@ -72,7 +72,7 @@
 	((EMailReaderPrivate *) g_object_get_qdata \
 	(G_OBJECT (obj), quark_private))
 
-#define d(x) x
+#define d(x)
 
 typedef struct _EMailReaderClosure EMailReaderClosure;
 typedef struct _EMailReaderPrivate EMailReaderPrivate;
@@ -3140,8 +3140,10 @@ mail_reader_set_display_formatter_for_message (EMailReader *reader,
 {
 	CamelObjectBag *registry;
 	EMailPartList *parts;
+	EMailReaderPrivate *priv;
 	gchar *mail_uri;
 
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
 	mail_uri = e_mail_part_build_uri (folder, message_uid, NULL, NULL);
 	registry = e_mail_part_list_get_registry ();
 	parts = camel_object_bag_peek (registry, mail_uri);
@@ -3151,6 +3153,7 @@ mail_reader_set_display_formatter_for_message (EMailReader *reader,
 
 		e_mail_reader_parse_message (
 			reader, folder, message_uid, message,
+			priv->retrieving_message,
 			set_mail_display_part_list, NULL);
 
 	} else {

@@ -92,6 +92,7 @@ void		e_mail_reader_parse_message
 						 CamelFolder *folder,
 						 const gchar *message_uid,
 						 CamelMimeMessage *message,
+						 GCancellable *cancellable,
 						 GAsyncReadyCallback ready_callback,
 						 gpointer user_data);
 

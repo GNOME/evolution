@@ -3924,8 +3924,12 @@ message_list_set_folder (MessageList *message_list,
 	if (message_list->cursor_uid) {
 		g_free (message_list->cursor_uid);
 		message_list->cursor_uid = NULL;
-		g_signal_emit (message_list, message_list_signals[MESSAGE_SELECTED], 0, NULL);
 	}
+
+	/* Always emit message-selected, event when an account node
+	 * (folder == NULL) is selected, so that views know what happened and
+	 * can stop all running operations etc. */
+	g_signal_emit (message_list, message_list_signals[MESSAGE_SELECTED], 0, NULL);
 
 	if (CAMEL_IS_FOLDER (folder)) {
 		CamelStore *store;
