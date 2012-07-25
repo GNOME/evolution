@@ -422,19 +422,21 @@ source_config_init_for_adding_source (ESourceConfig *config)
 		if (backend == NULL)
 			continue;
 
+		/* Some backends disallow creating certain types of
+		 * resources.  For example, the Exchange Web Services
+		 * backend disallows creating new memo lists. */
+		if (!e_source_config_backend_allow_creation (backend))
+			continue;
+
 		scratch_source = e_source_new (NULL, NULL, NULL);
 		g_return_if_fail (scratch_source != NULL);
 
 		e_source_set_parent (scratch_source, parent_uid);
 
-		/* XXX Leave this disabled until we actually support
-		 *     creating remote resources through ESourceConfig. */
-#if 0
 		g_tree_insert (
 			scratch_source_tree,
 			g_object_ref (scratch_source),
 			g_object_ref (backend));
-#endif
 
 		g_object_unref (scratch_source);
 	}
@@ -723,7 +725,14 @@ source_config_list_eligible_collections (ESourceConfig *config)
 	list = e_source_registry_list_sources (registry, extension_name);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
-		if (!e_source_get_enabled (E_SOURCE (link->data)))
+		ESource *source = E_SOURCE (link->data);
+		gboolean elligible;
+
+		elligible =
+			e_source_get_enabled (source) &&
+			e_source_get_remote_creatable (source);
+
+		if (!elligible)
 			g_queue_push_tail (&trash, link);
 	}
 
