@@ -177,6 +177,12 @@ mail_display_button_press_event (GtkWidget *widget,
 	GList *extensions, *iter;
 	EWebView *web_view = E_WEB_VIEW (widget);
 
+	if (event->button != 3) {
+		return GTK_WIDGET_CLASS (
+			e_mail_display_parent_class)->button_press_event (
+				widget, event);
+	}
+
 	hit_test = webkit_web_view_get_hit_test_result (
 			WEBKIT_WEB_VIEW (web_view), event);
 

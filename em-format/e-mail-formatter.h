@@ -96,6 +96,8 @@ struct _EMailFormatterContext {
 
 	EMailFormatterMode mode;
 	guint32 flags;
+
+	gchar *uri;
 };
 
 struct _EMailFormatter {

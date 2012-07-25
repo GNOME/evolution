@@ -9,10 +9,16 @@ module_text_highlight_la_CPPFLAGS =					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)
 
-module_text_highlight_la_SOURCES =				\
-	text-highlight.c					\
-	text-highlight.h					\
-	evolution-module-text-highlight.c
+module_text_highlight_la_SOURCES =					\
+	e-mail-display-popup-text-highlight.c				\
+	e-mail-display-popup-text-highlight.h				\
+	e-mail-formatter-text-highlight.c				\
+	e-mail-formatter-text-highlight.h				\
+	e-mail-parser-text-highlight.c					\
+	e-mail-parser-text-highlight.h					\
+	evolution-module-text-highlight.c				\
+	languages.c							\
+	languages.h
 
 module_text_highlight_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la				\
@@ -21,7 +27,7 @@ module_text_highlight_la_LIBADD =					\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)
 
-module_text_highlight_la_LDFLAGS =				\
+module_text_highlight_la_LDFLAGS =					\
 	-avoid-version -module $(NO_UNDEFINED)
 
 -include $(top_srcdir)/git.mk

@@ -20,12 +20,16 @@
 #include <config.h>
 #endif
 
-#include "text-highlight.h"
+#include "e-mail-formatter-text-highlight.h"
+#include "languages.h"
 
 #include <em-format/e-mail-formatter-extension.h>
 #include <em-format/e-mail-formatter.h>
 #include <em-format/e-mail-part-utils.h>
 #include <e-util/e-util.h>
+
+#include <shell/e-shell-settings.h>
+#include <shell/e-shell.h>
 
 #include <libebackend/libebackend.h>
 #include <libedataserver/libedataserver.h>
@@ -61,11 +65,8 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
 
-static const gchar *formatter_mime_types[] = { "text/x-diff",
-					       "text/x-patch",
-					       NULL };
-
-static gchar * get_default_font (void)
+static gchar *
+get_default_font (void)
 {
 	gchar *font;
 	GSettings *settings;
@@ -74,7 +75,59 @@ static gchar * get_default_font (void)
 
 	font = g_settings_get_string (settings, "monospace-font-name");
 
+	g_object_unref (settings);
+
 	return font ? font : g_strdup ("monospace 10");
+}
+
+static gchar *
+get_syntax (EMailPart *part,
+	    const gchar *uri)
+{
+	gchar *syntax = NULL;
+
+	if (uri) {
+		SoupURI *soup_uri = soup_uri_new (uri);
+		GHashTable *query = soup_form_decode (soup_uri->query);
+
+		syntax = g_hash_table_lookup (query, "__formatas");
+		if (syntax) {
+			syntax = g_strdup (syntax);
+		}
+		g_hash_table_destroy (query);
+		soup_uri_free (soup_uri);
+	}
+
+	/* Try to detect syntax from attachment filename extension */
+	if (syntax == NULL) {
+		const gchar *filename = camel_mime_part_get_filename (part->part);
+		if (filename) {
+			gchar *ext = g_strrstr (filename, ".");
+			if (ext) {
+				syntax = (gchar *) get_syntax_for_ext (ext + 1);
+				syntax = g_strdup (syntax ? syntax : "txt");
+			}
+		}
+	}
+
+	/* Try it by mime type */
+	if (syntax == NULL) {
+		CamelContentType *ct = camel_mime_part_get_content_type (part->part);
+		if (ct) {
+			gchar *mime_type = camel_content_type_simple (ct);
+
+			syntax = (gchar *) get_syntax_for_mime_type (mime_type);
+			syntax = g_strdup (syntax ? syntax : "txt");
+			g_free (mime_type);
+		}
+	}
+
+	/* Out of ideas - use plain text */
+	if (syntax == NULL) {
+		syntax = g_strdup ("txt");
+	}
+
+	return syntax;
 }
 
 static gboolean
@@ -85,6 +138,17 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
                             CamelStream *stream,
                             GCancellable *cancellable)
 {
+	/* Don't format text/html unless it's an attachment */
+	CamelContentType *ct = camel_mime_part_get_content_type (part->part);
+	if (ct && camel_content_type_is (ct, "text", "html")) {
+		const CamelContentDisposition *disp;
+		disp = camel_mime_part_get_content_disposition (part->part);
+
+		if (!disp || g_strcmp0 (disp->disposition, "attachment") != 0)
+			return FALSE;
+	}
+
+
 	if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
 
 		CamelDataWrapper *dw;
@@ -102,8 +166,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		filter_stream = camel_stream_filter_new (stream);
 		mime_filter = camel_mime_filter_tohtml_new (
 				CAMEL_MIME_FILTER_TOHTML_PRE |
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES,
-				0x7a7a7a);
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES, 0);
 		camel_stream_filter_add (
 			CAMEL_STREAM_FILTER (filter_stream), mime_filter);
 		g_object_unref (mime_filter);
@@ -124,18 +187,19 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		GPid pid;
 		CamelStream *read, *write;
 		CamelDataWrapper *dw;
-		gchar *font_family, *font_size;
+		gchar *font_family, *font_size, *syntax;
 		gboolean use_custom_font;
-		GSettings *settings;
+		EShell *shell;
+		EShellSettings *settings;
 		PangoFontDescription *fd;
 		const gchar *argv[] = { "highlight",
-					NULL,	/* don't move these! */
-					NULL,
+					NULL,	/* --font= */
+					NULL,   /* --font-size= */
+					NULL,   /* --syntax= */
 					"--out-format=html",
 					"--include-style",
 					"--inline-css",
 					"--style=bclear",
-					"--syntax=diff",
 					"--failsafe",
 					NULL };
 
@@ -144,9 +208,20 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			return FALSE;
 		}
 
+		syntax = get_syntax (part, context->uri);
+
+		/* Use the traditional text/plain formatter for plain-text */
+		if (g_strcmp0 (syntax, "txt") == 0) {
+			g_free (syntax);
+			return FALSE;
+		}
+
+		shell = e_shell_get_default ();
+		settings = e_shell_get_shell_settings (shell);
+
 		fd = NULL;
-		settings = g_settings_new ("org.gnome.evolution.mail");
-		use_custom_font = g_settings_get_boolean (settings, "use-custom-font");
+		use_custom_font = e_shell_settings_get_boolean (
+					settings, "mail-use-custom-fonts");
 		if (!use_custom_font) {
 			gchar *font;
 
@@ -154,17 +229,15 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			fd = pango_font_description_from_string (font);
 			g_free (font);
 
-			g_object_unref (settings);
-
 		} else {
 			gchar *font;
 
-			font = g_settings_get_string (settings, "monospace-font");
+			font = e_shell_settings_get_string (
+					settings, "mail-font-monospace");
 			if (!font)
 				font = get_default_font ();
 
 			fd = pango_font_description_from_string (font);
-
 			g_free (font);
 		}
 
@@ -175,6 +248,8 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 
 		argv[1] = font_family;
 		argv[2] = font_size;
+		argv[3] = g_strdup_printf ("--syntax=%s", syntax);
+		g_free (syntax);
 
 		if (!g_spawn_async_with_pipes (
 			NULL, (gchar **) argv, NULL,
@@ -195,21 +270,27 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 
 		g_seekable_seek (G_SEEKABLE (read), 0, G_SEEK_SET, cancellable, NULL);
 		camel_stream_write_to_stream (read, stream, cancellable, NULL);
-		camel_stream_flush (read, cancellable, NULL);
 		g_object_unref (read);
 
 		g_free (font_family);
 		g_free (font_size);
+		g_free ((gchar *) argv[3]);
 		pango_font_description_free (fd);
 
 	} else {
 		gchar *uri, *str;
+		gchar *syntax;
+
+		syntax = get_syntax (part, NULL);
 
 		uri = e_mail_part_build_uri (
 			context->folder, context->message_uid,
 			"part_id", G_TYPE_STRING, part->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
+			"__formatas", G_TYPE_STRING, syntax,
 			NULL);
+
+		g_free (syntax);
 
 		str = g_strdup_printf (
 			"<div class=\"part-container\" style=\"border-color: #%06x; "
@@ -239,19 +320,19 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 static const gchar *
 emfe_text_highlight_get_display_name (EMailFormatterExtension *extension)
 {
-	return _("Patch");
+	return _("Text Highlight");
 }
 
 static const gchar *
 emfe_text_highlight_get_description (EMailFormatterExtension *extension)
 {
-	return _("Format part as a patch");
+	return _("Syntax highlighting of mail parts");
 }
 
 static const gchar **
 emfe_text_highlight_mime_types (EMailExtension *extension)
 {
-	return formatter_mime_types;
+	return get_mime_types ();
 }
 
 static void

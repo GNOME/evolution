@@ -54,6 +54,7 @@ struct _EMailRequestPrivate {
 
 	GHashTable *uri_query;
 	gchar *uri_base;
+	gchar *full_uri;
 
         gchar *ret_mime_type;
 };
@@ -105,6 +106,7 @@ handle_mail_request (GSimpleAsyncResult *res,
 	context.message_uid = part_list->message_uid;
 	context.folder = part_list->folder;
 	context.parts = part_list->list;
+	context.uri = request->priv->full_uri;
 
 	if (context.mode == E_MAIL_FORMATTER_MODE_PRINTING)
 		formatter = e_mail_formatter_print_new ();
@@ -285,25 +287,22 @@ mail_request_finalize (GObject *object)
 
 	g_clear_object (&request->priv->output_stream);
 
-	if (request->priv->mime_type) {
-		g_free (request->priv->mime_type);
-		request->priv->mime_type = NULL;
-	}
+	g_free (request->priv->mime_type);
+	request->priv->mime_type = NULL;
 
 	if (request->priv->uri_query) {
 		g_hash_table_destroy (request->priv->uri_query);
 		request->priv->uri_query = NULL;
 	}
 
-	if (request->priv->ret_mime_type) {
-		g_free (request->priv->ret_mime_type);
-		request->priv->ret_mime_type = NULL;
-	}
+	g_free (request->priv->ret_mime_type);
+	request->priv->ret_mime_type = NULL;
 
-	if (request->priv->uri_base) {
-		g_free (request->priv->uri_base);
-		request->priv->uri_base = NULL;
-	}
+	g_free (request->priv->uri_base);
+	request->priv->uri_base = NULL;
+
+	g_free (request->priv->full_uri);
+	request->priv->full_uri = NULL;
 
 	G_OBJECT_CLASS (e_mail_request_parent_class)->finalize (object);
 }
@@ -337,6 +336,7 @@ mail_request_send_async (SoupRequest *request,
 		emr->priv->uri_query = NULL;
 	}
 
+	emr->priv->full_uri = soup_uri_to_string (uri, FALSE);
 	uri_str = g_strdup_printf (
 		"%s://%s%s", uri->scheme, uri->host, uri->path);
 	emr->priv->uri_base = uri_str;

@@ -16,7 +16,9 @@
  *
  */
 
-#include "text-highlight.h"
+#include "e-mail-parser-text-highlight.h"
+#include "e-mail-formatter-text-highlight.h"
+#include "e-mail-display-popup-text-highlight.h"
 
 #include <gmodule.h>
 
@@ -28,8 +30,9 @@ G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
 	/* Register dynamically loaded types. */
-
+	e_mail_parser_text_highlight_type_register (type_module);
 	e_mail_formatter_text_highlight_type_register (type_module);
+	e_mail_display_popup_text_highlight_type_register (type_module);
 }
 
 G_MODULE_EXPORT void
