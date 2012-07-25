@@ -168,6 +168,8 @@ evolution_util_include_HEADERS =  \
 	e-client-cache.h \
 	e-client-combo-box.h \
 	e-client-selector.h \
+	e-color-chooser-widget.h \
+	e-color-combo.h \
 	e-config.h \
 	e-contact-store.h \
 	e-data-capture.h \
@@ -421,6 +423,8 @@ libevolution_util_la_SOURCES = \
 	e-client-cache.c \
 	e-client-combo-box.c \
 	e-client-selector.c \
+	e-color-chooser-widget.c \
+	e-color-combo.c \
 	e-config.c \
 	e-contact-store.c \
 	e-data-capture.c \
