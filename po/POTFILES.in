@@ -365,7 +365,9 @@ modules/startup-wizard/e-mail-config-import-page.c
 modules/startup-wizard/e-mail-config-import-progress-page.c
 modules/startup-wizard/e-startup-assistant.c
 modules/startup-wizard/evolution-startup-wizard.c
-modules/text-highlight/text-highlight.c
+modules/text-highlight/e-mail-display-popup-text-highlight.c
+modules/text-highlight/e-mail-formatter-text-highlight.c
+modules/text-highlight/languages.c
 modules/vcard-inline/e-mail-formatter-vcard-inline.c
 modules/vcard-inline/e-mail-parser-vcard-inline.c
 modules/web-inspector/evolution-web-inspector.c
