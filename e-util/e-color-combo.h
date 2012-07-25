@@ -1,7 +1,10 @@
 /* e-color-combo.h
  *
+<<<<<<< HEAD
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
+=======
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
@@ -65,32 +68,63 @@ struct _EColorComboClass {
 						 GdkRGBA *color);
 };
 
+<<<<<<< HEAD
 GType		e_color_combo_get_type		(void) G_GNUC_CONST;
+=======
+GType		e_color_combo_get_type	(void);
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 GtkWidget *	e_color_combo_new		(void);
 GtkWidget *	e_color_combo_new_defaults	(GdkRGBA *default_color,
 						 const gchar *default_label);
 void		e_color_combo_popup		(EColorCombo *combo);
 void		e_color_combo_popdown		(EColorCombo *combo);
+<<<<<<< HEAD
 void		e_color_combo_get_current_color	(EColorCombo *combo,
 						 GdkRGBA *rgba);
 void		e_color_combo_set_current_color	(EColorCombo *combo,
 						 const GdkRGBA *color);
+=======
+
+void		e_color_combo_get_current_color	(EColorCombo *combo,
+						 GdkRGBA *rgba);
+
+void		e_color_combo_set_current_color	(EColorCombo *combo,
+						 const GdkRGBA *color);
+
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 void		e_color_combo_get_default_color	(EColorCombo *combo,
 						 GdkRGBA *color);
 void		e_color_combo_set_default_color	(EColorCombo *combo,
 						 const GdkRGBA *default_color);
+<<<<<<< HEAD
 const gchar *	e_color_combo_get_default_label	(EColorCombo *combo);
 void		e_color_combo_set_default_label	(EColorCombo *combo,
 						 const gchar *text);
+=======
+
+const gchar *	e_color_combo_get_default_label	(EColorCombo *combo);
+void		e_color_combo_set_default_label	(EColorCombo *combo,
+						 const gchar *text);
+
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 gboolean	e_color_combo_get_default_transparent
 						(EColorCombo *combo);
 void		e_color_combo_set_default_transparent
 						(EColorCombo *combo,
 						 gboolean transparent);
+<<<<<<< HEAD
 GList	*	e_color_combo_get_palette	(EColorCombo *combo);
 void		e_color_combo_set_palette	(EColorCombo *combo,
 						 GList *palette);
 
+=======
+
+GList 	*	e_color_combo_get_palette	(EColorCombo *combo);
+void		e_color_combo_set_palette	(EColorCombo *combo,
+						 GList *palette);
+
+
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 G_END_DECLS
 
 #endif /* E_COLOR_COMBO_H */

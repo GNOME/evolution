@@ -1,7 +1,10 @@
 /* e-color-combo.c
  *
+<<<<<<< HEAD
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
+=======
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
@@ -29,6 +32,7 @@
 #include <cairo/cairo.h>
 #include <alloca.h>
 
+<<<<<<< HEAD
 #define E_COLOR_COMBO_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_COLOR_COMBO, EColorComboPrivate))
@@ -53,6 +57,12 @@ struct _EColorComboPrivate {
 	GdkDevice *grab_keyboard;
 	GdkDevice *grab_mouse;
 };
+=======
+G_DEFINE_TYPE (
+	EColorCombo,
+	e_color_combo,
+	GTK_TYPE_BUTTON);
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 
 enum {
 	PROP_0,
@@ -71,6 +81,30 @@ enum {
 	LAST_SIGNAL
 };
 
+<<<<<<< HEAD
+=======
+struct _EColorComboPrivate {
+	GtkWidget *color_frame;
+	GtkWidget *arrow;
+
+	GtkWidget *window;
+	GtkWidget *default_button;
+	GtkWidget *chooser_widget;
+
+	guint popup_shown	: 1;
+	guint popup_in_progress : 1;
+
+	GdkRGBA *current_color;
+	GdkRGBA *default_color;
+	gint default_transparent: 1;
+
+	GList *palette;
+
+	GdkDevice *grab_keyboard;
+	GdkDevice *grab_mouse;
+};
+
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 static guint signals[LAST_SIGNAL];
 static GdkRGBA black = { 0, 0, 0, 1 };
 
@@ -125,11 +159,14 @@ static struct {
 	{ "#FFFFFF", N_("white") }
 };
 
+<<<<<<< HEAD
 G_DEFINE_TYPE (
 	EColorCombo,
 	e_color_combo,
 	GTK_TYPE_BUTTON);
 
+=======
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 static void
 color_combo_reposition_window (EColorCombo *combo)
 {
@@ -198,6 +235,7 @@ color_combo_popup (EColorCombo *combo)
 
 	/* Try to grab the pointer and keyboard. */
 	window = gtk_widget_get_window (combo->priv->window);
+<<<<<<< HEAD
 	grab_status =
 		(keyboard == NULL) ||
 		(gdk_device_grab (
@@ -215,6 +253,19 @@ color_combo_popup (EColorCombo *combo)
 				GDK_BUTTON_RELEASE_MASK |
 				GDK_POINTER_MOTION_MASK,
 				NULL, activate_time) == GDK_GRAB_SUCCESS);
+=======
+	grab_status = !keyboard ||
+		gdk_device_grab (keyboard, window,
+			GDK_OWNERSHIP_WINDOW, TRUE,
+			GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK,
+			NULL, activate_time) == GDK_GRAB_SUCCESS;
+	if (grab_status) {
+		grab_status = !mouse ||
+			gdk_device_grab (mouse, window,
+				GDK_OWNERSHIP_WINDOW, TRUE,
+				GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
+				NULL, activate_time) == GDK_GRAB_SUCCESS;
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 		if (!grab_status && keyboard)
 			gdk_device_ungrab (keyboard, activate_time);
 	}
@@ -229,8 +280,12 @@ color_combo_popup (EColorCombo *combo)
 
 	/* Always make sure the editor-mode is OFF */
 	g_object_set (
+<<<<<<< HEAD
 		G_OBJECT (combo->priv->chooser_widget),
 		"show-editor", FALSE, NULL);
+=======
+		G_OBJECT (combo->priv->chooser_widget), "show-editor", FALSE, NULL);
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 }
 
 static void
@@ -257,8 +312,13 @@ color_combo_popdown (EColorCombo *combo)
 
 static gboolean
 color_combo_window_button_press_event_cb (EColorCombo *combo,
+<<<<<<< HEAD
                                           GdkEvent *event,
                                           gpointer user_data)
+=======
+					  GdkEvent *event,
+					  gpointer user_data)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	GtkWidget *event_widget;
 
@@ -279,8 +339,13 @@ color_combo_window_button_press_event_cb (EColorCombo *combo,
 
 static gboolean
 color_combo_window_button_release_event_cb (EColorCombo *combo,
+<<<<<<< HEAD
                                             GdkEvent *event,
                                             gpointer user_data)
+=======
+					    GdkEvent  *event,
+					    gpointer user_data)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	gboolean popup_in_progress;
 
@@ -317,8 +382,13 @@ color_combo_child_hide_cb (EColorCombo *combo)
 
 static void
 color_combo_get_preferred_width (GtkWidget *widget,
+<<<<<<< HEAD
                                  gint *min_width,
                                  gint *natural_width)
+=======
+				 gint *min_width,
+				 gint *natural_width)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	GtkWidgetClass *widget_class;
 
@@ -327,15 +397,26 @@ color_combo_get_preferred_width (GtkWidget *widget,
 
 	/* Make sure the box with color sample is always visible */
 	if (min_width)
+<<<<<<< HEAD
 		*min_width += 20;
 
 	if (natural_width)
 		*natural_width += 20;
+=======
+		*min_width += 8;
+
+	if (natural_width)
+		*natural_width += 8;
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 }
 
 static gboolean
 color_combo_button_press_event_cb (GtkWidget *widget,
+<<<<<<< HEAD
                                    GdkEventButton *event)
+=======
+				   GdkEventButton *event)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	EColorCombo *combo = E_COLOR_COMBO (widget);
 	GdkWindow *window;
@@ -365,7 +446,11 @@ color_combo_button_press_event_cb (GtkWidget *widget,
 	if (combo->priv->popup_shown) {
 		color_combo_popdown (combo);
 	} else {
+<<<<<<< HEAD
 		color_combo_popup (combo);
+=======
+ 		color_combo_popup (combo);
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 	}
 
 	return FALSE;
@@ -373,8 +458,13 @@ color_combo_button_press_event_cb (GtkWidget *widget,
 
 static void
 color_combo_swatch_color_changed (EColorCombo *combo,
+<<<<<<< HEAD
                                   GdkRGBA *color,
                                   gpointer user_data)
+=======
+				  GdkRGBA *color,
+				  gpointer user_data)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	g_signal_emit (combo, signals[ACTIVATED], 0, color);
 
@@ -385,8 +475,13 @@ color_combo_swatch_color_changed (EColorCombo *combo,
 
 static void
 color_combo_draw_frame_cb (GtkWidget *widget,
+<<<<<<< HEAD
                            cairo_t *cr,
                            gpointer user_data)
+=======
+			   cairo_t *cr,
+			   gpointer user_data)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	EColorCombo *combo = user_data;
 	GdkRGBA rgba;
@@ -406,7 +501,11 @@ color_combo_draw_frame_cb (GtkWidget *widget,
 
 static void
 color_combo_set_default_color_cb (EColorCombo *combo,
+<<<<<<< HEAD
                                   gpointer user_data)
+=======
+				  gpointer user_data)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	GdkRGBA color;
 
@@ -472,10 +571,15 @@ color_combo_get_property (GObject *object,
                           GValue *value,
                           GParamSpec *pspec)
 {
+<<<<<<< HEAD
 	EColorComboPrivate *priv;
 	GdkRGBA color;
 
 	priv = E_COLOR_COMBO_GET_PRIVATE (object);
+=======
+	GdkRGBA color;
+	EColorComboPrivate *priv = E_COLOR_COMBO (object)->priv;
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 
 	switch (property_id) {
 		case PROP_CURRENT_COLOR:
@@ -522,6 +626,7 @@ color_combo_dispose (GObject *object)
 {
 	EColorComboPrivate *priv;
 
+<<<<<<< HEAD
 	priv = E_COLOR_COMBO_GET_PRIVATE (object);
 
 	if (priv->window != NULL) {
@@ -530,41 +635,80 @@ color_combo_dispose (GObject *object)
 	}
 
 	if (priv->current_color != NULL) {
+=======
+	priv = E_COLOR_COMBO (object)->priv;
+
+	if (priv->palette) {
+		g_list_free_full (
+			priv->palette,
+		    	(GDestroyNotify) gdk_color_free);
+		priv->palette = NULL;
+	}
+
+	if (priv->current_color) {
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 		gdk_rgba_free (priv->current_color);
 		priv->current_color = NULL;
 	}
 
+<<<<<<< HEAD
 	if (priv->default_color != NULL) {
+=======
+	if (priv->default_color) {
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 		gdk_rgba_free (priv->default_color);
 		priv->default_color = NULL;
 	}
 
+<<<<<<< HEAD
 	g_list_free_full (priv->palette, (GDestroyNotify) gdk_rgba_free);
 	priv->palette = NULL;
 
+=======
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_color_combo_parent_class)->dispose (object);
 }
 
 static void
+<<<<<<< HEAD
 e_color_combo_class_init (EColorComboClass *class)
+=======
+e_color_combo_class_init (EColorComboClass *klass)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
+<<<<<<< HEAD
 	g_type_class_add_private (class, sizeof (EColorComboPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+=======
+	e_color_combo_parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (EColorComboPrivate));
+
+	object_class = G_OBJECT_CLASS (klass);
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 	object_class->set_property = color_combo_set_property;
 	object_class->get_property = color_combo_get_property;
 	object_class->dispose = color_combo_dispose;
 
+<<<<<<< HEAD
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->get_preferred_width = color_combo_get_preferred_width;
 	widget_class->button_press_event = color_combo_button_press_event_cb;
 
 	class->popup = color_combo_popup;
 	class->popdown = color_combo_popdown;
+=======
+	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class->get_preferred_width = color_combo_get_preferred_width;
+	widget_class->button_press_event = color_combo_button_press_event_cb;
+
+	klass->popup = color_combo_popup;
+	klass->popdown = color_combo_popdown;
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 
 	g_object_class_install_property (
 		object_class,
@@ -573,7 +717,11 @@ e_color_combo_class_init (EColorComboClass *class)
 			"current-color",
 			"Current color",
 			"The currently selected color",
+<<<<<<< HEAD
 			GDK_TYPE_RGBA,
+=======
+			GDK_TYPE_COLOR,
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -583,7 +731,11 @@ e_color_combo_class_init (EColorComboClass *class)
 			"default-color",
 			"Default color",
 			"The color associated with the default button",
+<<<<<<< HEAD
 			GDK_TYPE_RGBA,
+=======
+			GDK_TYPE_COLOR,
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 			G_PARAM_CONSTRUCT |
 			G_PARAM_READWRITE));
 
@@ -630,7 +782,11 @@ e_color_combo_class_init (EColorComboClass *class)
 
 	signals[ACTIVATED] = g_signal_new (
 		"activated",
+<<<<<<< HEAD
 		G_OBJECT_CLASS_TYPE (class),
+=======
+		G_OBJECT_CLASS_TYPE (klass),
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EColorComboClass, activated),
 		NULL, NULL,
@@ -639,7 +795,11 @@ e_color_combo_class_init (EColorComboClass *class)
 
 	signals[POPUP] = g_signal_new (
 		"popup",
+<<<<<<< HEAD
 		G_OBJECT_CLASS_TYPE (class),
+=======
+		G_OBJECT_CLASS_TYPE (klass),
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 		G_STRUCT_OFFSET (EColorComboClass, popup),
 		NULL, NULL,
@@ -648,7 +808,11 @@ e_color_combo_class_init (EColorComboClass *class)
 
 	signals[POPDOWN] = g_signal_new (
 		"popdown",
+<<<<<<< HEAD
 		G_OBJECT_CLASS_TYPE (class),
+=======
+		G_OBJECT_CLASS_TYPE (klass),
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 		G_STRUCT_OFFSET (EColorComboClass, popdown),
 		NULL, NULL,
@@ -656,6 +820,7 @@ e_color_combo_class_init (EColorComboClass *class)
 		G_TYPE_NONE, 0);
 
 	gtk_binding_entry_add_signal (
+<<<<<<< HEAD
 		gtk_binding_set_by_class (class),
 		GDK_KEY_Down, GDK_MOD1_MASK, "popup", 0);
 	gtk_binding_entry_add_signal (
@@ -670,18 +835,40 @@ e_color_combo_class_init (EColorComboClass *class)
 		GDK_KEY_KP_Up, GDK_MOD1_MASK, "popdown", 0);
 	gtk_binding_entry_add_signal (
 		gtk_binding_set_by_class (class),
+=======
+		gtk_binding_set_by_class (klass),
+		GDK_KEY_Down, GDK_MOD1_MASK, "popup", 0);
+	gtk_binding_entry_add_signal (
+		gtk_binding_set_by_class (klass),
+		GDK_KEY_KP_Down, GDK_MOD1_MASK, "popup", 0);
+
+	gtk_binding_entry_add_signal (
+		gtk_binding_set_by_class (klass),
+		GDK_KEY_Up, GDK_MOD1_MASK, "popdown", 0);
+	gtk_binding_entry_add_signal (
+		gtk_binding_set_by_class (klass),
+		GDK_KEY_KP_Up, GDK_MOD1_MASK, "popdown", 0);
+	gtk_binding_entry_add_signal (
+		gtk_binding_set_by_class (klass),
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 		GDK_KEY_Escape, 0, "popdown", 0);
 }
 
 static void
 e_color_combo_init (EColorCombo *combo)
 {
+<<<<<<< HEAD
 	GtkWidget *container;
 	GtkWidget *toplevel;
+=======
+	GtkWidget *toplevel;
+	GtkWidget *layout;
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 	GtkWidget *widget;
 	GList *palette;
 	guint ii;
 
+<<<<<<< HEAD
 	combo->priv = E_COLOR_COMBO_GET_PRIVATE (combo);
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -763,6 +950,83 @@ e_color_combo_init (EColorCombo *combo)
 		G_CALLBACK (color_combo_swatch_color_changed), combo);
 	g_signal_connect_swapped (
 		widget, "editor-activated",
+=======
+	combo->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		combo, E_TYPE_COLOR_COMBO, EColorComboPrivate);
+
+	layout = gtk_hbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (combo), layout);
+
+	/* Build the combo button. */
+	widget = gtk_frame_new (NULL);
+	gtk_box_pack_start (GTK_BOX (layout), widget, TRUE, TRUE, 0);
+	g_signal_connect (
+		widget, "draw",
+		G_CALLBACK (color_combo_draw_frame_cb), combo);
+	combo->priv->color_frame = widget;
+
+	widget = gtk_vseparator_new ();
+	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, TRUE, 0);
+
+	widget = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
+	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, TRUE, 0);
+	combo->priv->arrow = widget;
+
+
+	/* Build the drop-down menu */
+	combo->priv->window = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_container_set_border_width (GTK_CONTAINER (combo->priv->window), 5);
+	gtk_window_set_resizable (GTK_WINDOW (combo->priv->window), FALSE);
+	gtk_window_set_type_hint (
+		GTK_WINDOW (combo->priv->window), GDK_WINDOW_TYPE_HINT_COMBO);
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (combo));
+	if (gtk_widget_is_toplevel (toplevel)) {
+		gtk_window_group_add_window (
+			gtk_window_get_group (GTK_WINDOW (toplevel)),
+			GTK_WINDOW (combo->priv->window ));
+		gtk_window_set_transient_for (
+			GTK_WINDOW (combo->priv->window), GTK_WINDOW (toplevel));
+	}
+
+	g_signal_connect_swapped (
+		combo->priv->window, "show",
+		G_CALLBACK (color_combo_child_show_cb), combo);
+	g_signal_connect_swapped (
+		combo->priv->window, "hide",
+		G_CALLBACK (color_combo_child_hide_cb), combo);
+	g_signal_connect_swapped (
+		combo->priv->window, "button-press-event",
+		G_CALLBACK (color_combo_window_button_press_event_cb), combo);
+	g_signal_connect_swapped (
+		combo->priv->window, "button-release-event",
+		G_CALLBACK (color_combo_window_button_release_event_cb), combo);
+
+	layout = gtk_grid_new ();
+	gtk_grid_set_row_spacing (GTK_GRID (layout), 5);
+	gtk_container_add (GTK_CONTAINER (combo->priv->window), layout);
+
+	widget = gtk_button_new ();
+	gtk_grid_attach (GTK_GRID (layout), widget, 0, 0, 1, 1);
+	combo->priv->default_button = widget;
+	g_signal_connect_swapped (
+		combo->priv->default_button, "clicked",
+		G_CALLBACK (color_combo_set_default_color_cb), combo);
+	g_signal_connect_swapped (
+		combo->priv->default_button, "clicked",
+		G_CALLBACK (color_combo_popdown), combo);
+
+	combo->priv->chooser_widget = e_color_chooser_widget_new ();
+	g_object_set_data (
+		G_OBJECT (combo->priv->chooser_widget),
+		"window", combo->priv->window);
+	gtk_grid_attach (
+		GTK_GRID (layout), combo->priv->chooser_widget, 0, 1, 1, 1);
+	g_signal_connect_swapped (
+		combo->priv->chooser_widget, "color-activated",
+		G_CALLBACK (color_combo_swatch_color_changed), combo);
+	g_signal_connect_swapped (
+		combo->priv->chooser_widget, "editor-activated",
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 		G_CALLBACK (color_combo_popdown), combo);
 
 	palette = NULL;
@@ -778,6 +1042,20 @@ e_color_combo_init (EColorCombo *combo)
 
 	combo->priv->current_color = gdk_rgba_copy (&black);
 	combo->priv->default_color = gdk_rgba_copy (&black);
+<<<<<<< HEAD
+=======
+	/*
+	for (ii = 0; ii < NUM_CUSTOM_COLORS; ii++) {
+		widget = color_combo_new_swatch_button (
+			combo, _("custom"), &black);
+		gtk_table_attach (
+			GTK_TABLE (container), widget,
+			ii, ii + 1, 6, 7, 0, 0, 0, 0);
+		combo->priv->custom[ii] = g_object_ref (
+			gtk_bin_get_child (GTK_BIN (widget)));
+	}
+	*/
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 }
 
 GtkWidget *
@@ -788,7 +1066,11 @@ e_color_combo_new (void)
 
 GtkWidget *
 e_color_combo_new_defaults (GdkRGBA *default_color,
+<<<<<<< HEAD
                             const gchar *default_label)
+=======
+			    const gchar *default_label)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	g_return_val_if_fail (default_color != NULL, NULL);
 	g_return_val_if_fail (default_label != NULL, NULL);
@@ -818,7 +1100,11 @@ e_color_combo_popdown (EColorCombo *combo)
 
 void
 e_color_combo_get_current_color (EColorCombo *combo,
+<<<<<<< HEAD
                                  GdkRGBA *color)
+=======
+				 GdkRGBA *color)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	g_return_if_fail (E_IS_COLOR_COMBO (combo));
 	g_return_if_fail (color != NULL);
@@ -831,7 +1117,11 @@ e_color_combo_get_current_color (EColorCombo *combo,
 
 void
 e_color_combo_set_current_color (EColorCombo *combo,
+<<<<<<< HEAD
                                  const GdkRGBA *color)
+=======
+				 const GdkRGBA *color)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	g_return_if_fail (E_IS_COLOR_COMBO (combo));
 
@@ -847,6 +1137,10 @@ e_color_combo_set_current_color (EColorCombo *combo,
 		gdk_rgba_free (combo->priv->current_color);
 	}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 	combo->priv->current_color = gdk_rgba_copy (color);
 
 	gtk_color_chooser_set_rgba (
@@ -858,7 +1152,11 @@ e_color_combo_set_current_color (EColorCombo *combo,
 
 void
 e_color_combo_get_default_color (EColorCombo *combo,
+<<<<<<< HEAD
                                  GdkRGBA *color)
+=======
+				 GdkRGBA *color)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	g_return_if_fail (E_IS_COLOR_COMBO (combo));
 	g_return_if_fail (color != NULL);
@@ -871,7 +1169,11 @@ e_color_combo_get_default_color (EColorCombo *combo,
 
 void
 e_color_combo_set_default_color (EColorCombo *combo,
+<<<<<<< HEAD
                                  const GdkRGBA *color)
+=======
+				 const GdkRGBA *color)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	g_return_if_fail (E_IS_COLOR_COMBO (combo));
 
@@ -904,7 +1206,11 @@ e_color_combo_get_default_label (EColorCombo *combo)
 
 void
 e_color_combo_set_default_label (EColorCombo *combo,
+<<<<<<< HEAD
                                  const gchar *text)
+=======
+				 const gchar *text)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	g_return_if_fail (E_IS_COLOR_COMBO (combo));
 
@@ -923,7 +1229,11 @@ e_color_combo_get_default_transparent (EColorCombo *combo)
 
 void
 e_color_combo_set_default_transparent (EColorCombo *combo,
+<<<<<<< HEAD
                                        gboolean transparent)
+=======
+				       gboolean transparent)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	g_return_if_fail (E_IS_COLOR_COMBO (combo));
 
@@ -942,7 +1252,11 @@ e_color_combo_get_palette (EColorCombo *combo)
 
 void
 e_color_combo_set_palette (EColorCombo *combo,
+<<<<<<< HEAD
                            GList *palette)
+=======
+			   GList *palette)
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 {
 	gint ii, count, colors_per_line;
 	GList *iter;
@@ -954,7 +1268,11 @@ e_color_combo_set_palette (EColorCombo *combo,
 	colors_per_line = (count % 10 == 0) ? 10 : 9;
 
 	colors = g_malloc_n (count, sizeof (GdkRGBA));
+<<<<<<< HEAD
 	g_list_free_full (combo->priv->palette, (GDestroyNotify) gdk_rgba_free);
+=======
+	g_list_free_full (combo->priv->palette, (GDestroyNotify) gdk_color_free);
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 	ii = 0;
 	combo->priv->palette = NULL;
 	for (iter = palette; iter; iter = g_list_next (iter)) {
@@ -966,6 +1284,10 @@ e_color_combo_set_palette (EColorCombo *combo,
 	}
 	combo->priv->palette = g_list_reverse (combo->priv->palette);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Import GtkhtmlColorCombo as EColorCombo
 	gtk_color_chooser_add_palette (
 		GTK_COLOR_CHOOSER (combo->priv->chooser_widget),
 		GTK_ORIENTATION_HORIZONTAL, 0, 0, NULL);
