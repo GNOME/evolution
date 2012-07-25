@@ -1054,19 +1054,70 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 typedef struct {
 	GtkMenuShell *menu;
 	CamelSession *session;
-	ESourceRegistry *registry;
+	EMailAccountStore *account_store;
 
-	/* GtkMenuItem -> ESource */
+	/* GtkMenuItem -> CamelService */
 	GHashTable *menu_items;
 
 	/* Signal handlers */
-	gulong source_added_id;
-	gulong source_removed_id;
+	gulong service_added_id;
+	gulong service_removed_id;
+	gulong service_enabled_id;
+	gulong service_disabled_id;
 } SendReceiveData;
+
+static gboolean
+send_receive_can_use_service (EMailAccountStore *account_store,
+			      CamelService *service,
+			      GtkTreeIter *piter)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean found = FALSE, enabled = FALSE, builtin = TRUE;
+
+	if (!CAMEL_IS_STORE (service))
+		return FALSE;
+
+	model = GTK_TREE_MODEL (account_store);
+
+	if (piter) {
+		found = TRUE;
+		iter = *piter;
+	} else if (gtk_tree_model_get_iter_first (model, &iter)) {
+		CamelService *adept;
+
+		do {
+			adept = NULL;
+
+			gtk_tree_model_get (model, &iter,
+				E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE, &adept,
+				-1);
+
+			if (service == adept) {
+				found = TRUE;
+				g_object_unref (adept);
+				break;
+			}
+
+			if (adept)
+				g_object_unref (adept);
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+
+	if (!found)
+		return FALSE;
+
+	gtk_tree_model_get (model, &iter,
+		E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED, &enabled,
+		E_MAIL_ACCOUNT_STORE_COLUMN_BUILTIN, &builtin,
+		-1);
+
+	return enabled && !builtin;
+}
 
 static GtkMenuItem *
 send_receive_find_menu_item (SendReceiveData *data,
-                             gpointer source)
+                             gpointer service)
 {
 	GHashTableIter iter;
 	gpointer menu_item;
@@ -1075,7 +1126,7 @@ send_receive_find_menu_item (SendReceiveData *data,
 	g_hash_table_iter_init (&iter, data->menu_items);
 
 	while (g_hash_table_iter_next (&iter, &menu_item, &candidate))
-		if (source == candidate)
+		if (service == candidate)
 			return GTK_MENU_ITEM (menu_item);
 
 	return NULL;
@@ -1085,18 +1136,9 @@ static void
 send_receive_account_item_activate_cb (GtkMenuItem *menu_item,
                                        SendReceiveData *data)
 {
-	ESource *source;
 	CamelService *service;
-	const gchar *uid;
 
-	source = g_hash_table_lookup (data->menu_items, menu_item);
-	g_return_if_fail (E_IS_SOURCE (source));
-
-	/* Shouldn't get here if the source is disabled. */
-	g_return_if_fail (e_source_get_enabled (source));
-
-	uid = e_source_get_uid (source);
-	service = camel_session_get_service (data->session, uid);
+	service = g_hash_table_lookup (data->menu_items, menu_item);
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	mail_receive_service (service);
@@ -1104,37 +1146,32 @@ send_receive_account_item_activate_cb (GtkMenuItem *menu_item,
 
 static void
 send_receive_add_to_menu (SendReceiveData *data,
-                          ESource *source,
+                          CamelService *service,
                           gint position)
 {
 	GtkWidget *menu_item;
 
-	if (send_receive_find_menu_item (data, source) != NULL)
+	if (send_receive_find_menu_item (data, service) != NULL)
 		return;
 
 	menu_item = gtk_menu_item_new ();
 	gtk_widget_show (menu_item);
 
 	g_object_bind_property (
-		source, "display-name",
+		service, "display-name",
 		menu_item, "label",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		source, "enabled",
-		menu_item, "visible",
 		G_BINDING_SYNC_CREATE);
 
 	g_hash_table_insert (
 		data->menu_items, menu_item,
-		g_object_ref (source));
+		g_object_ref (service));
 
 	g_signal_connect (
 		menu_item, "activate",
 		G_CALLBACK (send_receive_account_item_activate_cb), data);
 
-	/* Position is with respect to the sorted list of ESources
-	 * with a mail account extension, not menu item position. */
+	/* Position is with respect to the sorted list of CamelService-s,
+	 * not menu item position. */
 	if (position < 0)
 		gtk_menu_shell_append (data->menu, menu_item);
 	else
@@ -1142,39 +1179,50 @@ send_receive_add_to_menu (SendReceiveData *data,
 }
 
 static void
-send_receive_menu_source_added_cb (ESourceRegistry *registry,
-                                   ESource *source,
-                                   SendReceiveData *data)
+send_receive_gather_services (gpointer menu_item,
+			      gpointer service,
+			      gpointer queue)
 {
-	const gchar *extension_name;
-	GList *list;
-	gint position;
+	g_queue_push_head (queue, service);
+}
 
-	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
-	if (!e_source_has_extension (source, extension_name))
-		return;
-
-	/* List is already sorted by display name. */
-	list = e_source_registry_list_sources (data->registry, extension_name);
-	position = g_list_index (list, source);
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
-
-	send_receive_add_to_menu (data, source, position);
+static gint
+sort_services_cb (gconstpointer service1,
+		  gconstpointer service2,
+		  gpointer account_store)
+{
+	return e_mail_account_store_compare_services (account_store, CAMEL_SERVICE (service1), CAMEL_SERVICE (service2));
 }
 
 static void
-send_receive_menu_source_removed_cb (ESourceRegistry *registry,
-                                     ESource *source,
-                                     SendReceiveData *data)
+send_receive_menu_service_added_cb (EMailAccountStore *account_store,
+                                    CamelService *service,
+                                    SendReceiveData *data)
 {
-	GtkMenuItem *menu_item;
-	const gchar *extension_name;
+	GQueue *services;
 
-	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
-	if (!e_source_has_extension (source, extension_name))
+	if (!send_receive_can_use_service (account_store, service, NULL))
 		return;
 
-	menu_item = send_receive_find_menu_item (data, source);
+	services = g_queue_new ();
+
+	g_queue_push_head (services, service);
+	g_hash_table_foreach (data->menu_items, send_receive_gather_services, services);
+	g_queue_sort (services, sort_services_cb, account_store);
+
+	send_receive_add_to_menu (data, service, g_queue_index (services, service));
+
+	g_queue_free (services);
+}
+
+static void
+send_receive_menu_service_removed_cb (EMailAccountStore *account_store,
+                                      CamelService *service,
+                                      SendReceiveData *data)
+{
+	GtkMenuItem *menu_item;
+
+	menu_item = send_receive_find_menu_item (data, service);
 	if (menu_item == NULL)
 		return;
 
@@ -1188,11 +1236,13 @@ send_receive_menu_source_removed_cb (ESourceRegistry *registry,
 static void
 send_receive_data_free (SendReceiveData *data)
 {
-	g_signal_handler_disconnect (data->registry, data->source_added_id);
-	g_signal_handler_disconnect (data->registry, data->source_removed_id);
+	g_signal_handler_disconnect (data->account_store, data->service_added_id);
+	g_signal_handler_disconnect (data->account_store, data->service_removed_id);
+	g_signal_handler_disconnect (data->account_store, data->service_enabled_id);
+	g_signal_handler_disconnect (data->account_store, data->service_disabled_id);
 
 	g_object_unref (data->session);
-	g_object_unref (data->registry);
+	g_object_unref (data->account_store);
 
 	g_hash_table_destroy (data->menu_items);
 
@@ -1206,7 +1256,7 @@ send_receive_data_new (EMailShellView *mail_shell_view,
 	SendReceiveData *data;
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
-	ESourceRegistry *registry;
+	EMailAccountStore *account_store;
 	EMailBackend *backend;
 	EMailSession *session;
 
@@ -1215,12 +1265,13 @@ send_receive_data_new (EMailShellView *mail_shell_view,
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	registry = e_mail_session_get_registry (session);
+	account_store = e_mail_ui_session_get_account_store (
+		E_MAIL_UI_SESSION (session));
 
 	data = g_slice_new0 (SendReceiveData);
 	data->menu = GTK_MENU_SHELL (menu);  /* do not reference */
 	data->session = g_object_ref (session);
-	data->registry = g_object_ref (registry);
+	data->account_store = g_object_ref (account_store);
 
 	data->menu_items = g_hash_table_new_full (
 		(GHashFunc) g_direct_hash,
@@ -1228,12 +1279,18 @@ send_receive_data_new (EMailShellView *mail_shell_view,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) g_object_unref);
 
-	data->source_added_id = g_signal_connect (
-		registry, "source-added",
-		G_CALLBACK (send_receive_menu_source_added_cb), data);
-	data->source_removed_id = g_signal_connect (
-		registry, "source-removed",
-		G_CALLBACK (send_receive_menu_source_removed_cb), data);
+	data->service_added_id = g_signal_connect (
+		account_store, "service-added",
+		G_CALLBACK (send_receive_menu_service_added_cb), data);
+	data->service_removed_id = g_signal_connect (
+		account_store, "service-removed",
+		G_CALLBACK (send_receive_menu_service_removed_cb), data);
+	data->service_enabled_id = g_signal_connect (
+		account_store, "service-enabled",
+		G_CALLBACK (send_receive_menu_service_added_cb), data);
+	data->service_disabled_id = g_signal_connect (
+		account_store, "service-disabled",
+		G_CALLBACK (send_receive_menu_service_removed_cb), data);
 
 	g_object_weak_ref (
 		G_OBJECT (menu), (GWeakNotify)
@@ -1248,16 +1305,16 @@ create_send_receive_submenu (EMailShellView *mail_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
-	ESourceRegistry *registry;
+	EMailAccountStore *account_store;
 	EMailBackend *backend;
 	EMailSession *session;
 	GtkWidget *menu;
 	GtkAccelGroup *accel_group;
 	GtkUIManager *ui_manager;
 	GtkAction *action;
-	GList *list, *link;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
 	SendReceiveData *data;
-	const gchar *extension_name;
 
 	g_return_val_if_fail (mail_shell_view != NULL, NULL);
 
@@ -1267,7 +1324,7 @@ create_send_receive_submenu (EMailShellView *mail_shell_view)
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	registry = e_mail_session_get_registry (session);
+	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
 	menu = gtk_menu_new ();
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
@@ -1299,13 +1356,24 @@ create_send_receive_submenu (EMailShellView *mail_shell_view)
 
 	data = send_receive_data_new (mail_shell_view, menu);
 
-	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
-	list = e_source_registry_list_sources (registry, extension_name);
+	model = GTK_TREE_MODEL (account_store);
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		CamelService *service;
 
-	for (link = list; link != NULL; link = g_list_next (link))
-		send_receive_add_to_menu (data, E_SOURCE (link->data), -1);
+		do {
+			service = NULL;
 
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+			gtk_tree_model_get (model, &iter,
+				E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE, &service,
+				-1);
+
+			if (send_receive_can_use_service (account_store, service, &iter))
+				send_receive_add_to_menu (data, service, -1);
+
+			if (service)
+				g_object_unref (service);
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
 
 	gtk_widget_show_all (menu);
 
