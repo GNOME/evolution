@@ -111,7 +111,7 @@ action_address_book_new_cb (GtkAction *action,
 	dialog = e_source_config_dialog_new (E_SOURCE_CONFIG (config));
 
 	gtk_window_set_transient_for (
-		GTK_WINDOW (config), GTK_WINDOW (shell_window));
+		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
 
 	icon_name = gtk_action_get_icon_name (action);
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
