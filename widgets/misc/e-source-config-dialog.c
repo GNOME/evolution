@@ -18,6 +18,10 @@
 
 #include "e-source-config-dialog.h"
 
+#include <libevolution-utils/e-alert-dialog.h>
+#include <libevolution-utils/e-alert-sink.h>
+#include <misc/e-alert-bar.h>
+
 #define E_SOURCE_CONFIG_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SOURCE_CONFIG_DIALOG, ESourceConfigDialogPrivate))
@@ -25,6 +29,9 @@
 struct _ESourceConfigDialogPrivate {
 	ESourceConfig *config;
 	ESourceRegistry *registry;
+
+	GtkWidget *alert_bar;
+	gulong alert_bar_visible_handler_id;
 };
 
 enum {
@@ -32,10 +39,17 @@ enum {
 	PROP_CONFIG
 };
 
-G_DEFINE_TYPE (
+/* Forward Declarations */
+static void	e_source_config_dialog_alert_sink_init
+					(EAlertSinkInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
 	ESourceConfigDialog,
 	e_source_config_dialog,
-	GTK_TYPE_DIALOG)
+	GTK_TYPE_DIALOG,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_ALERT_SINK,
+		e_source_config_dialog_alert_sink_init))
 
 static void
 source_config_dialog_commit_cb (GObject *object,
@@ -64,9 +78,11 @@ source_config_dialog_commit_cb (GObject *object,
 		g_object_unref (dialog);
 		g_error_free (error);
 
-	/* FIXME ESourceConfigDialog should implement EAlertSink. */
 	} else if (error != NULL) {
-		g_warning ("%s: %s", G_STRFUNC, error->message);
+		e_alert_submit (
+			E_ALERT_SINK (dialog),
+			"system:simple-error",
+			error->message, NULL);
 		g_object_unref (dialog);
 		g_error_free (error);
 
@@ -83,6 +99,9 @@ source_config_dialog_commit (ESourceConfigDialog *dialog)
 	ESourceConfig *config;
 
 	config = e_source_config_dialog_get_config (dialog);
+
+	/* Clear any previous alerts. */
+	e_alert_bar_clear (E_ALERT_BAR (dialog->priv->alert_bar));
 
 	/* Make the cursor appear busy. */
 	gdk_cursor = gdk_cursor_new (GDK_WATCH);
@@ -120,6 +139,14 @@ source_config_dialog_source_removed_cb (ESourceRegistry *registry,
 		return;
 
 	gtk_dialog_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
+}
+
+static void
+source_config_alert_bar_visible_cb (EAlertBar *alert_bar,
+                                    GParamSpec *pspec,
+                                    ESourceConfigDialog *dialog)
+{
+	e_source_config_resize_window (dialog->priv->config);
 }
 
 static void
@@ -196,6 +223,14 @@ source_config_dialog_dispose (GObject *object)
 		priv->registry = NULL;
 	}
 
+	if (priv->alert_bar != NULL) {
+		g_signal_handler_disconnect (
+			priv->alert_bar,
+			priv->alert_bar_visible_handler_id);
+		g_object_unref (priv->alert_bar);
+		priv->alert_bar = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_source_config_dialog_parent_class)->dispose (object);
 }
@@ -207,6 +242,7 @@ source_config_dialog_constructed (GObject *object)
 	GtkWidget *content_area;
 	GtkWidget *config;
 	GtkWidget *widget;
+	gulong handler_id;
 
 	priv = E_SOURCE_CONFIG_DIALOG_GET_PRIVATE (object);
 
@@ -228,6 +264,17 @@ source_config_dialog_constructed (GObject *object)
 		config, "complete",
 		widget, "sensitive",
 		G_BINDING_DEFAULT);
+
+	widget = e_alert_bar_new ();
+	gtk_box_pack_start (GTK_BOX (content_area), widget, FALSE, FALSE, 0);
+	priv->alert_bar = g_object_ref (widget);
+	/* EAlertBar controls its own visibility. */
+
+	handler_id = g_signal_connect (
+		priv->alert_bar, "notify::visible",
+		G_CALLBACK (source_config_alert_bar_visible_cb), object);
+
+	priv->alert_bar_visible_handler_id = handler_id;
 }
 
 static void
@@ -245,6 +292,34 @@ source_config_dialog_response (GtkDialog *dialog,
 			gtk_widget_destroy (GTK_WIDGET (dialog));
 			break;
 		default:
+			break;
+	}
+}
+
+static void
+source_config_dialog_submit_alert (EAlertSink *alert_sink,
+                                   EAlert *alert)
+{
+	ESourceConfigDialogPrivate *priv;
+	EAlertBar *alert_bar;
+	GtkWidget *dialog;
+	GtkWindow *parent;
+
+	priv = E_SOURCE_CONFIG_DIALOG_GET_PRIVATE (alert_sink);
+
+	switch (e_alert_get_message_type (alert)) {
+		case GTK_MESSAGE_INFO:
+		case GTK_MESSAGE_WARNING:
+		case GTK_MESSAGE_ERROR:
+			alert_bar = E_ALERT_BAR (priv->alert_bar);
+			e_alert_bar_add_alert (alert_bar, alert);
+			break;
+
+		default:
+			parent = GTK_WINDOW (alert_sink);
+			dialog = e_alert_dialog_new (parent, alert);
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
 			break;
 	}
 }
@@ -277,6 +352,12 @@ e_source_config_dialog_class_init (ESourceConfigDialogClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
+}
+
+static void
+e_source_config_dialog_alert_sink_init (EAlertSinkInterface *interface)
+{
+	interface->submit_alert = source_config_dialog_submit_alert;
 }
 
 static void
