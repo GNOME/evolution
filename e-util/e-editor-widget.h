@@ -53,6 +53,13 @@ typedef enum {
 	E_EDITOR_WIDGET_MODE_HTML,
 } EEditorWidgetMode;
 
+typedef enum {
+	E_EDITOR_WIDGET_REPLACE_ANSWER_REPLACE,
+	E_EDITOR_WIDGET_REPLACE_ANSWER_REPLACE_ALL,
+	E_EDITOR_WIDGET_REPLACE_ANSWER_CANCEL,
+	E_EDITOR_WIDGET_REPLACE_ANSWER_NEXT
+} EEditorWidgetReplaceAnswer;
+
 typedef struct _EEditorWidget EEditorWidget;
 typedef struct _EEditorWidgetClass EEditorWidgetClass;
 typedef struct _EEditorWidgetPrivate EEditorWidgetPrivate;
@@ -67,17 +74,46 @@ struct _EEditorWidgetClass {
 	WebKitWebViewClass parent_class;
 };
 
-GType			e_editor_widget_get_type 	(void);
+GType		e_editor_widget_get_type 	(void);
 
-EEditorWidget *		e_editor_widget_new		(void);
+EEditorWidget *	e_editor_widget_new		(void);
 
-EEditorSelection *	e_editor_widget_get_selection	(EEditorWidget *widget);
+EEditorSelection *
+		e_editor_widget_get_selection	(EEditorWidget *widget);
 
-void			e_editor_widget_insert_html	(EEditorWidget *widget,
-							 const gchar *html);
 
-void			e_editor_widget_insert_text	(EEditorWidget *widget,
-							 const gchar *html);
+gboolean	e_editor_widget_get_changed	(EEditorWidget *widget);
+void		e_editor_widget_set_changed	(EEditorWidget *widget,
+						 gboolean changed);
+
+gboolean	e_editor_widget_get_html_mode	(EEditorWidget *widget);
+void		e_editor_widget_set_html_mode	(EEditorWidget *widget,
+						 gboolean html_mode);
+
+gboolean	e_editor_widget_get_inline_spelling
+						(EEditorWidget *widget);
+void		e_editor_widget_set_inline_spelling
+						(EEditorWidget *widget,
+						 gboolean inline_spelling);
+gboolean	e_editor_widget_get_magic_links	(EEditorWidget *widget);
+void		e_editor_widget_set_magic_links	(EEditorWidget *widget,
+						 gboolean magic_links);
+gboolean	e_editor_widget_get_magic_smileys
+						(EEditorWidget *widget);
+void		e_editor_widget_set_magic_smileys
+						(EEditorWidget *widget,
+						 gboolean magic_smileys);
+
+GList *		e_editor_widget_get_spell_languages
+						(EEditorWidget *widget);
+void		e_editor_widget_set_spell_languages
+						(EEditorWidget *widget,
+						 GList *spell_languages);
+
+gchar *		e_editor_widget_get_text_html	(EEditorWidget *widget);
+gchar *		e_editor_widget_get_text_plain	(EEditorWidget *widget);
+void		e_editor_widget_set_text_html	(EEditorWidget *widget,
+						 const gchar *text);
 
 G_END_DECLS
 
