@@ -1,11 +1,6 @@
 /*
  * e-editor-selection.h
  *
-<<<<<<< HEAD
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
-=======
->>>>>>> Initial basic implementation of WebKit-based editor
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -28,12 +23,7 @@
 #ifndef E_EDITOR_SELECTION_H
 #define E_EDITOR_SELECTION_H
 
-<<<<<<< HEAD
-#include <gtk/gtk.h>
-#include <e-util/e-util-enums.h>
-=======
 #include <glib-object.h>
->>>>>>> Initial basic implementation of WebKit-based editor
 #include <webkit/webkit.h>
 
 /* Standard GObject macros */
@@ -57,19 +47,10 @@
 
 G_BEGIN_DECLS
 
-<<<<<<< HEAD
-struct _EEditorWidget;
-
-=======
->>>>>>> Initial basic implementation of WebKit-based editor
 typedef struct _EEditorSelection EEditorSelection;
 typedef struct _EEditorSelectionClass EEditorSelectionClass;
 typedef struct _EEditorSelectionPrivate EEditorSelectionPrivate;
 
-<<<<<<< HEAD
-struct _EEditorSelection {
-	GObject parent;
-=======
 typedef enum {
 	E_EDITOR_SELECTION_BLOCK_FORMAT_NONE = 0,
 	E_EDITOR_SELECTION_BLOCK_FORMAT_H1,
@@ -107,153 +88,12 @@ typedef enum {
 struct _EEditorSelection {
 	GObject parent;
 
->>>>>>> Initial basic implementation of WebKit-based editor
 	EEditorSelectionPrivate *priv;
 };
 
 struct _EEditorSelectionClass {
 	GObjectClass parent_class;
 };
-
-<<<<<<< HEAD
-GType		e_editor_selection_get_type	(void) G_GNUC_CONST;
-struct _EEditorWidget *
-		e_editor_selection_ref_editor_widget
-						(EEditorSelection *selection);
-gint		e_editor_selection_get_word_wrap_length
-						(EEditorSelection *selection);
-gboolean	e_editor_selection_has_text	(EEditorSelection *selection);
-gchar *		e_editor_selection_get_caret_word
-						(EEditorSelection *selection);
-void		e_editor_selection_replace_caret_word
-						(EEditorSelection *selection,
-						 const gchar *replacement);
-EEditorSelectionAlignment
-		e_editor_selection_get_alignment
-						(EEditorSelection *selection);
-void		e_editor_selection_set_alignment
-						(EEditorSelection *selection,
-						 EEditorSelectionAlignment alignment);
-const gchar *	e_editor_selection_get_background_color
-						(EEditorSelection *selection);
-void		e_editor_selection_set_background_color
-						(EEditorSelection *selection,
-						 const gchar *color);
-void		e_editor_selection_get_font_color
-						(EEditorSelection *selection,
-						 GdkRGBA *rgba);
-void		e_editor_selection_set_font_color
-						(EEditorSelection *selection,
-						 const GdkRGBA *rgba);
-const gchar *	e_editor_selection_get_font_name
-						(EEditorSelection *selection);
-void		e_editor_selection_set_font_name
-						(EEditorSelection *selection,
-						 const gchar *font_name);
-guint		e_editor_selection_get_font_size
-						(EEditorSelection *selection);
-void		e_editor_selection_set_font_size
-						(EEditorSelection *selection,
-						 guint font_size);
-EEditorSelectionBlockFormat
-		e_editor_selection_get_block_format
-						(EEditorSelection *selection);
-void		e_editor_selection_set_block_format
-						(EEditorSelection *selection,
-						 EEditorSelectionBlockFormat format);
-gboolean	e_editor_selection_is_citation	(EEditorSelection *selection);
-gboolean	e_editor_selection_is_indented	(EEditorSelection *selection);
-void		e_editor_selection_indent	(EEditorSelection *selection);
-void		e_editor_selection_unindent	(EEditorSelection *selection);
-gboolean	e_editor_selection_is_bold	(EEditorSelection *selection);
-void		e_editor_selection_set_bold	(EEditorSelection *selection,
-						 gboolean bold);
-gboolean	e_editor_selection_is_italic	(EEditorSelection *selection);
-void		e_editor_selection_set_italic	(EEditorSelection *selection,
-						 gboolean italic);
-gboolean	e_editor_selection_is_monospaced
-						(EEditorSelection *selection);
-void		e_editor_selection_set_monospaced
-						(EEditorSelection *selection,
-						 gboolean monospaced);
-gboolean	e_editor_selection_is_strike_through
-						(EEditorSelection *selection);
-void		e_editor_selection_set_strike_through
-						(EEditorSelection *selection,
-						 gboolean strike_through);
-gboolean	e_editor_selection_is_superscript
-						(EEditorSelection *selection);
-void		e_editor_selection_set_superscript
-						(EEditorSelection *selection,
-						 gboolean superscript);
-gboolean	e_editor_selection_is_subscript
-						(EEditorSelection *selection);
-void		e_editor_selection_set_subscript
-						(EEditorSelection *selection,
-						 gboolean subscript);
-gboolean	e_editor_selection_is_underline
-						(EEditorSelection *selection);
-void		e_editor_selection_set_underline
-						(EEditorSelection *selection,
-						 gboolean underline);
-void		e_editor_selection_unlink	(EEditorSelection *selection);
-void		e_editor_selection_create_link	(EEditorSelection *selection,
-						 const gchar *uri);
-const gchar *	e_editor_selection_get_string	(EEditorSelection *selection);
-void		e_editor_selection_replace	(EEditorSelection *selection,
-						 const gchar *new_string);
-void		e_editor_selection_insert_html	(EEditorSelection *selection,
-						 const gchar *html_text);
-void		e_editor_selection_insert_image	(EEditorSelection *selection,
-						 const gchar *image_uri);
-void		e_editor_selection_insert_text	(EEditorSelection *selection,
-						 const gchar *plain_text);
-void 		e_editor_selection_clear_caret_position_marker
-						(EEditorSelection *selection);
-WebKitDOMNode *
-		e_editor_selection_get_caret_position_node
-						(WebKitDOMDocument *document);
-void		e_editor_selection_save_caret_position
-						(EEditorSelection *selection);
-void		e_editor_selection_restore_caret_position
-						(EEditorSelection *selection);
-void		e_editor_selection_set_indented_style
-						(EEditorSelection *selection,
-						 WebKitDOMElement *element,
-						 gint width);
-WebKitDOMElement *
-		e_editor_selection_get_indented_element
-						(EEditorSelection *selection,
-						 WebKitDOMDocument *document,
-						 gint width);
-void		e_editor_selection_set_paragraph_style
-						(EEditorSelection *selection,
-						 WebKitDOMElement *element,
-						 gint width);
-WebKitDOMElement *
-		e_editor_selection_get_paragraph_element
-						(EEditorSelection *selection,
-						 WebKitDOMDocument *document,
-						 gint width);
-WebKitDOMElement *
-		e_editor_selection_put_node_into_paragraph
-						(EEditorSelection *selection,
-						 WebKitDOMDocument *document,
-						 WebKitDOMNode *node,
-						 WebKitDOMNode *caret_position);
-void		e_editor_selection_wrap_lines	(EEditorSelection *selection);
-void		e_editor_selection_wrap_paragraph
-						(EEditorSelection *selection,
-						 WebKitDOMElement *paragraph);
-void		e_editor_selection_save		(EEditorSelection *selection);
-void		e_editor_selection_restore	(EEditorSelection *selection);
-void		e_editor_selection_move		(EEditorSelection *selection,
-						 gboolean forward,
-						 EEditorSelectionGranularity granularity);
-void		e_editor_selection_extend	(EEditorSelection *selection,
-						 gboolean forward,
-						 EEditorSelectionGranularity granularity);
-=======
 GType			e_editor_selection_get_type 	(void);
 
 EEditorSelection *	e_editor_selection_new		(WebKitWebView *parent_view);
@@ -326,13 +166,13 @@ const gchar *		e_editor_selection_get_string	(EEditorSelection *selection);
 void			e_editor_selection_replace	(EEditorSelection *selection,
 							 const gchar *new_string);
 
->>>>>>> Initial basic implementation of WebKit-based editor
+void			e_editor_selection_insert_html	(EEditorSelection *selection,
+							 const gchar *html_text);
+void			e_editor_selection_insert_image	(EEditorSelection *selection,
+							 const gchar *image_uri);
+void			e_editor_selection_insert_text	(EEditorSelection *selection,
+							 const gchar *plain_text);
 
 G_END_DECLS
 
 #endif /* E_EDITOR_SELECTION_H */
-<<<<<<< HEAD
-=======
-
- 
->>>>>>> Initial basic implementation of WebKit-based editor
