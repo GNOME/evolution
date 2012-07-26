@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <error-list domain="addressbook">
 
- <error id="ldap-init" type="error" modal="true">
+ <error id="ldap-init" type="error">
   <_primary>This address book could not be opened.</_primary>
   <_secondary>This address book server might be unreachable or the server name may be misspelled or your network connection could be down.</_secondary>
  </error>
 
- <error id="ldap-auth" type="error" modal="true">
+ <error id="ldap-auth" type="error">
   <_primary>Failed to authenticate with LDAP server.</_primary>
   <_secondary>Check to make sure your password is spelled correctly and that you are using a supported login method. Remember that many passwords are case sensitive; your caps lock might be on.</_secondary>
  </error>
 
- <error id="ldap-search-base" type="error" modal="true">
+ <error id="ldap-search-base" type="error">
   <_primary>This address book server does not have any suggested search bases.</_primary>
   <_secondary>This LDAP server may use an older version of LDAP, which does not support this functionality or it may be misconfigured. Ask your administrator for supported search bases.</_secondary>
  </error>
 
- <error id="ldap-v3-schema" type="error" modal="true">
+ <error id="ldap-v3-schema" type="error">
   <_primary>This server does not support LDAPv3 schema information.</_primary>
  </error>
 
- <error id="ldap-get-schema" type="error" modal="true">
+ <error id="ldap-get-schema" type="error">
   <_primary>Could not get schema information for LDAP server.</_primary>
  </error>
 
- <error id="ldap-invalid-schema" type="error" modal="true">
+ <error id="ldap-invalid-schema" type="error">
   <_primary>LDAP server did not respond with valid schema information.</_primary>
  </error>
 
- <error id="remove-addressbook" type="error" modal="true">
+ <error id="remove-addressbook" type="error">
   <_primary>Could not remove address book.</_primary>
  </error>
 
- <error id="ask-delete-addressbook" type="question" modal="true" default="GTK_RESPONSE_CANCEL">
+ <error id="ask-delete-addressbook" type="question" default="GTK_RESPONSE_CANCEL">
   <_primary>Delete address book '{0}'?</_primary>
   <_secondary>This address book will be removed permanently.</_secondary>
   <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>

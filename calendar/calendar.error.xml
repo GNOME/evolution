@@ -198,21 +198,21 @@
   <secondary>{0}.</secondary>
  </error>
 
- <error id="prompt-delete-calendar" type="question" modal="true" default="GTK_RESPONSE_CANCEL">
+ <error id="prompt-delete-calendar" type="question" default="GTK_RESPONSE_CANCEL">
   <_primary>Delete calendar '{0}'?</_primary>
   <_secondary>This calendar will be removed permanently.</_secondary>
   <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
   <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
  </error>
 
- <error id="prompt-delete-task-list" type="question" modal="true" default="GTK_RESPONSE_CANCEL">
+ <error id="prompt-delete-task-list" type="question" default="GTK_RESPONSE_CANCEL">
   <_primary>Delete task list '{0}'?</_primary>
   <_secondary>This task list will be removed permanently.</_secondary>
   <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
   <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
  </error>
 
- <error id="prompt-delete-memo-list" type="question" modal="true" default="GTK_RESPONSE_CANCEL">
+ <error id="prompt-delete-memo-list" type="question" default="GTK_RESPONSE_CANCEL">
   <_primary>Delete memo list '{0}'?</_primary>
   <_secondary>This memo list will be removed permanently.</_secondary>
   <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
