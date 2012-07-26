@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <error-list domain="system">
 
- <error id="ask-save-file-exists-overwrite" type="error" default="GTK_RESPONSE_CANCEL">
-  <_primary>A file named "{0}" already exists.  Do you want to replace it?</_primary>
-  <_secondary>The file already exists in "{0}".  Replacing it will overwrite its contents.</_secondary>
-  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-  <button _label="_Replace" response="GTK_RESPONSE_OK"/>
- </error>
+  <error id="ask-save-file-exists-overwrite" type="error" default="GTK_RESPONSE_CANCEL">
+    <_primary>A file named "{0}" already exists.  Do you want to replace it?</_primary>
+    <_secondary>The file already exists in "{0}".  Replacing it will overwrite its contents.</_secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="_Replace" response="GTK_RESPONSE_OK"/>
+  </error>
 
- <error id="no-save-file" type="error">
-  <_primary>Cannot save file "{0}".</_primary>
-  <_secondary>Because "{1}".</_secondary>
- </error>
+  <error id="no-save-file" type="error">
+    <_primary>Cannot save file "{0}".</_primary>
+    <_secondary>Because "{1}".</_secondary>
+  </error>
 
- <error id="no-load-file" type="error">
-  <_primary>Cannot open file "{0}".</_primary>
-  <_secondary>Because "{1}".</_secondary>
- </error>
+  <error id="no-load-file" type="error">
+    <_primary>Cannot open file "{0}".</_primary>
+    <_secondary>Because "{1}".</_secondary>
+  </error>
 
 </error-list>
