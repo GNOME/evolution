@@ -226,6 +226,13 @@
     <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
   </error>
 
+  <error id="prompt-delete-remote-task-list" type="question" default="GTK_RESPONSE_CANCEL">
+    <_primary>Delete remote task list &quot;{0}&quot;?</_primary>
+    <_secondary>This will permanently remove the task list &quot;{0}&quot; from the server.  Are you sure you want to proceed?</_secondary>
+    <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
+  </error>
+
   <error id="prompt-save-no-subject-calendar" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to save the appointment without a summary?</_primary>
     <_secondary>Adding a meaningful summary to your appointment will give you an idea of what your appointment is about.</_secondary>

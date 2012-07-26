@@ -173,8 +173,8 @@ action_task_list_delete_cb (GtkAction *action,
 	ETaskShellSidebar *task_shell_sidebar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
-	ESourceSelector *selector;
 	ESource *source;
+	ESourceSelector *selector;
 	gint response;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
@@ -182,27 +182,28 @@ action_task_list_delete_cb (GtkAction *action,
 
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+
 	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
-	/* Ask for confirmation. */
-	response = e_alert_run_dialog_for_args (
-		GTK_WINDOW (shell_window),
-		"calendar:prompt-delete-task-list",
-		e_source_get_display_name (source), NULL);
+	if (e_source_get_remote_deletable (source)) {
+		response = e_alert_run_dialog_for_args (
+			GTK_WINDOW (shell_window),
+			"calendar:prompt-delete-remote-task-list",
+			e_source_get_display_name (source), NULL);
 
-	if (response != GTK_RESPONSE_YES) {
-		g_object_unref (source);
-		return;
+		if (response == GTK_RESPONSE_YES)
+			e_shell_view_remote_delete_source (shell_view, source);
+
+	} else {
+		response = e_alert_run_dialog_for_args (
+			GTK_WINDOW (shell_window),
+			"calendar:prompt-delete-task-list",
+			e_source_get_display_name (source), NULL);
+
+		if (response == GTK_RESPONSE_YES)
+			e_shell_view_remove_source (shell_view, source);
 	}
-
-	if (e_source_selector_source_is_selected (selector, source)) {
-		e_task_shell_sidebar_remove_source (
-			task_shell_sidebar, source);
-		e_source_selector_unselect_source (selector, source);
-	}
-
-	e_shell_view_remove_source (shell_view, source);
 
 	g_object_unref (source);
 }
