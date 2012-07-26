@@ -107,6 +107,10 @@ toggle_part (GtkAction *action,
 		pp_extension->text_html_id ?
 			pp_extension->text_html_id :
 			pp_extension->text_plain_id);
+	g_hash_table_replace (query, g_strdup ("mime_type"),
+			pp_extension->text_html_id ?
+					(gpointer) "text/html" :
+					(gpointer) "text/plain");
 
 	soup_uri_set_query_from_form (soup_uri, query);
 	g_hash_table_destroy (query);

@@ -140,7 +140,6 @@ handle_mail_request (GSimpleAsyncResult *res,
 			g_warning ("Failed to lookup requested part '%s' - this should not happen!", part_id);
 		}
 
-		g_free (part_id);
 	} else {
 		e_mail_formatter_format_sync (
 			formatter, part_list, request->priv->output_stream,
@@ -162,6 +161,7 @@ handle_mail_request (GSimpleAsyncResult *res,
 		});
 	}
 
+	g_free (part_id);
 	g_object_unref (part_list);
 
 	stream = g_memory_input_stream_new_from_data (

@@ -131,16 +131,18 @@ reformat (GtkAction *old,
 	g_free (uri);
 
 	if (!soup_uri)
-		return;
+		goto exit;
 
 	if (!soup_uri->query) {
 		soup_uri_free (soup_uri);
-		return;
+		goto exit;
 	}
 
 	query = soup_form_decode (soup_uri->query);
 	g_hash_table_replace (
 		query, g_strdup ("__formatas"), (gpointer) gtk_action_get_name (action));
+	g_hash_table_replace (
+		query, g_strdup ("mime_type"), (gpointer) "text/plain");
 
 	soup_uri_set_query_from_form (soup_uri, query);
 	g_hash_table_destroy (query);
@@ -157,6 +159,7 @@ reformat (GtkAction *old,
 	g_free (uri);
 
 	/* The frame has been reloaded, the document pointer is invalid now */
+exit:
 	th_extension->document = NULL;
 }
 
@@ -283,6 +286,7 @@ update_actions (EMailDisplayPopupExtension *extension,
 		th_extension->action_group = create_group(extension);
 	}
 
+	th_extension->document = NULL;
 	g_object_get (G_OBJECT (context), "inner-node", &node, NULL);
 	document = webkit_dom_node_get_owner_document (node);
 	uri = webkit_dom_document_get_document_uri (document);
