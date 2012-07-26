@@ -63,16 +63,28 @@ action_address_book_delete_cb (GtkAction *action,
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
+
 	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
-	response = e_alert_run_dialog_for_args (
-		GTK_WINDOW (shell_window),
-		"addressbook:ask-delete-addressbook",
-		e_source_get_display_name (source), NULL);
+	if (e_source_get_remote_deletable (source)) {
+		response = e_alert_run_dialog_for_args (
+			GTK_WINDOW (shell_window),
+			"addressbook:ask-delete-remote-addressbook",
+			e_source_get_display_name (source), NULL);
 
-	if (response == GTK_RESPONSE_YES)
-		e_shell_view_remove_source (shell_view, source);
+		if (response == GTK_RESPONSE_YES)
+			e_shell_view_remote_delete_source (shell_view, source);
+
+	} else {
+		response = e_alert_run_dialog_for_args (
+			GTK_WINDOW (shell_window),
+			"addressbook:ask-delete-addressbook",
+			e_source_get_display_name (source), NULL);
+
+		if (response == GTK_RESPONSE_YES)
+			e_shell_view_remove_source (shell_view, source);
+	}
 
 	g_object_unref (source);
 }

@@ -39,6 +39,13 @@
     <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
   </error>
 
+ <error id="ask-delete-remote-addressbook" type="question" default="GTK_RESPONSE_CANCEL">
+   <_primary>Delete remote address book &quot;{0}&quot;?</_primary>
+   <_secondary>This will permanently remove the address book &quot;{0}&quot; from the server.  Are you sure you want to proceed?</_secondary>
+   <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
+   <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
+ </error>
+
   <error id="edit-categories" type="error">
     <_primary>Category editor not available.</_primary>
   </error>
