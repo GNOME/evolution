@@ -1,138 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <error-list domain="addressbook">
 
- <error id="ldap-init" type="error">
-  <_primary>This address book could not be opened.</_primary>
-  <_secondary>This address book server might be unreachable or the server name may be misspelled or your network connection could be down.</_secondary>
- </error>
+  <error id="ldap-init" type="error">
+    <_primary>This address book could not be opened.</_primary>
+    <_secondary>This address book server might be unreachable or the server name may be misspelled or your network connection could be down.</_secondary>
+  </error>
 
- <error id="ldap-auth" type="error">
-  <_primary>Failed to authenticate with LDAP server.</_primary>
-  <_secondary>Check to make sure your password is spelled correctly and that you are using a supported login method. Remember that many passwords are case sensitive; your caps lock might be on.</_secondary>
- </error>
+  <error id="ldap-auth" type="error">
+    <_primary>Failed to authenticate with LDAP server.</_primary>
+    <_secondary>Check to make sure your password is spelled correctly and that you are using a supported login method. Remember that many passwords are case sensitive; your caps lock might be on.</_secondary>
+  </error>
 
- <error id="ldap-search-base" type="error">
-  <_primary>This address book server does not have any suggested search bases.</_primary>
-  <_secondary>This LDAP server may use an older version of LDAP, which does not support this functionality or it may be misconfigured. Ask your administrator for supported search bases.</_secondary>
- </error>
+  <error id="ldap-search-base" type="error">
+    <_primary>This address book server does not have any suggested search bases.</_primary>
+    <_secondary>This LDAP server may use an older version of LDAP, which does not support this functionality or it may be misconfigured. Ask your administrator for supported search bases.</_secondary>
+  </error>
 
- <error id="ldap-v3-schema" type="error">
-  <_primary>This server does not support LDAPv3 schema information.</_primary>
- </error>
+  <error id="ldap-v3-schema" type="error">
+    <_primary>This server does not support LDAPv3 schema information.</_primary>
+  </error>
 
- <error id="ldap-get-schema" type="error">
-  <_primary>Could not get schema information for LDAP server.</_primary>
- </error>
+  <error id="ldap-get-schema" type="error">
+    <_primary>Could not get schema information for LDAP server.</_primary>
+  </error>
 
- <error id="ldap-invalid-schema" type="error">
-  <_primary>LDAP server did not respond with valid schema information.</_primary>
- </error>
+  <error id="ldap-invalid-schema" type="error">
+    <_primary>LDAP server did not respond with valid schema information.</_primary>
+  </error>
 
- <error id="remove-addressbook" type="error">
-  <_primary>Could not remove address book.</_primary>
- </error>
+  <error id="remove-addressbook" type="error">
+    <_primary>Could not remove address book.</_primary>
+  </error>
 
- <error id="ask-delete-addressbook" type="question" default="GTK_RESPONSE_CANCEL">
-  <_primary>Delete address book '{0}'?</_primary>
-  <_secondary>This address book will be removed permanently.</_secondary>
-  <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
-  <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
- </error>
+  <error id="ask-delete-addressbook" type="question" default="GTK_RESPONSE_CANCEL">
+    <_primary>Delete address book '{0}'?</_primary>
+    <_secondary>This address book will be removed permanently.</_secondary>
+    <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
+  </error>
 
- <error id="edit-categories" type="error">
-  <_primary>Category editor not available.</_primary>
- </error>
+  <error id="edit-categories" type="error">
+    <_primary>Category editor not available.</_primary>
+  </error>
 
- <error id="generic-error" type="error">
-  <primary>{0}</primary>
-  <secondary>{1}</secondary>
- </error>
+  <error id="generic-error" type="error">
+    <primary>{0}</primary>
+    <secondary>{1}</secondary>
+  </error>
 
- <error id="load-error" type="error">
-  <_primary>Unable to open address book</_primary>
-  <secondary>{0}</secondary>
- </error>
+  <error id="load-error" type="error">
+    <_primary>Unable to open address book</_primary>
+    <secondary>{0}</secondary>
+  </error>
 
- <error id="search-error" type="error">
-  <_primary>Unable to perform search.</_primary>
-  <secondary>{0}</secondary>
- </error>
+  <error id="search-error" type="error">
+    <_primary>Unable to perform search.</_primary>
+    <secondary>{0}</secondary>
+  </error>
 
- <error id="prompt-save" type="question" default="GTK_RESPONSE_YES">
-  <_primary>Would you like to save your changes?</_primary>
-  <_secondary>You have made modifications to this contact. Do you want to save these changes?</_secondary>
-  <button _label="_Discard" response="GTK_RESPONSE_NO"/>
-  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-  <button stock="gtk-save" response="GTK_RESPONSE_YES"/>
- </error>
+  <error id="prompt-save" type="question" default="GTK_RESPONSE_YES">
+    <_primary>Would you like to save your changes?</_primary>
+    <_secondary>You have made modifications to this contact. Do you want to save these changes?</_secondary>
+    <button _label="_Discard" response="GTK_RESPONSE_NO"/>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button stock="gtk-save" response="GTK_RESPONSE_YES"/>
+  </error>
 
- <error id="prompt-move" type="question" default="GTK_RESPONSE_NO">
-  <_primary>Cannot move contact.</_primary>
-  <_secondary>You are attempting to move a contact from one address book to another but it cannot be removed from the source. Do you want to save a copy instead?</_secondary>
-  <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
-  <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
- </error>
+  <error id="prompt-move" type="question" default="GTK_RESPONSE_NO">
+    <_primary>Cannot move contact.</_primary>
+    <_secondary>You are attempting to move a contact from one address book to another but it cannot be removed from the source. Do you want to save a copy instead?</_secondary>
+    <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
+    <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
+  </error>
 
- <error type="question" id="prompt-resize" default="GTK_RESPONSE_YES">
-  <_primary>The image you have selected is large. Do you want to resize and store it?</_primary>
-  <button _label="_Resize" response="GTK_RESPONSE_YES"/>
-  <button _label="_Use as it is" response="GTK_RESPONSE_NO"/>
-  <button _label="_Do not save" response="GTK_RESPONSE_CANCEL"/>
- </error>
+  <error type="question" id="prompt-resize" default="GTK_RESPONSE_YES">
+    <_primary>The image you have selected is large. Do you want to resize and store it?</_primary>
+    <button _label="_Resize" response="GTK_RESPONSE_YES"/>
+    <button _label="_Use as it is" response="GTK_RESPONSE_NO"/>
+    <button _label="_Do not save" response="GTK_RESPONSE_CANCEL"/>
+  </error>
 
- <error id="save-error" type="error">
-  <_primary>Unable to save {0}.</_primary>
-  <_secondary>Error saving {0} to {1}: {2}</_secondary>
- </error>
+  <error id="save-error" type="error">
+    <_primary>Unable to save {0}.</_primary>
+    <_secondary>Error saving {0} to {1}: {2}</_secondary>
+  </error>
 
- <error id="backend-died" type="error">
-  <_primary>The Evolution address book has quit unexpectedly.</_primary>
-  <!-- Translators: {0} is replaced with an address book name which will not be available -->
-  <_secondary>Your contacts for {0} will not be available until Evolution is restarted.</_secondary>
- </error>
+  <error id="backend-died" type="error">
+    <_primary>The Evolution address book has quit unexpectedly.</_primary>
+    <!-- Translators: {0} is replaced with an address book name which will not be available -->
+    <_secondary>Your contacts for {0} will not be available until Evolution is restarted.</_secondary>
+  </error>
 
- <error id="ask-list-add-exists" type="question" default="GTK_RESPONSE_NO">
-  <_primary>Address '{0}' already exists.</_primary>
-  <_secondary>A contact already exists with this address. Would you like to add a new card with the same address anyway?</_secondary>
-  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-  <button stock="gtk-ok" _label="_Add" response="GTK_RESPONSE_YES"/>
- </error>
- 
- <error id="ask-list-add-some-mails-exist" type="question" default="GTK_RESPONSE_CANCEL">
-  <_primary>Some addresses already exist in this contact list.</_primary>
-  <_secondary>You are trying to add addresses that are part of this list already. Would you like to add them anyway?</_secondary>
-  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-  <button _label="Skip duplicates" response="GTK_RESPONSE_NO"/>
-  <button _label="Add with duplicates" response="GTK_RESPONSE_YES"/>
- </error>
- 
- <error id="ask-list-add-list-exists" type="question" default="GTK_RESPONSE_NO">
-   <_primary>List '{0}' is already in this contact list.</_primary>
-   <_secondary>A contact list named '{0}' is already in this contact list. Would you like to add it anyway?</_secondary>
-   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-   <button stock="gtk-ok" _label="_Add" response="GTK_RESPONSE_YES"/>
- </error>
- 
- <error id="server-version" type="warning">
-  <_primary>Some features may not work properly with your current server</_primary> 
-  <_secondary>You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results the server should be upgraded to a supported version</_secondary>
- </error>
+  <error id="ask-list-add-exists" type="question" default="GTK_RESPONSE_NO">
+    <_primary>Address '{0}' already exists.</_primary>
+    <_secondary>A contact already exists with this address. Would you like to add a new card with the same address anyway?</_secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button stock="gtk-ok" _label="_Add" response="GTK_RESPONSE_YES"/>
+  </error>
 
- <error id="gw-book-list-init" type="warning">
-  <_primary>GroupWise Address book creation:</_primary> 
-  <_secondary>Currently you can only access the GroupWise System Address Book from Evolution. Please use some other GroupWise mail client once to get your GroupWise Frequent Contacts and Groupwise Personal Contacts folders.
+  <error id="ask-list-add-some-mails-exist" type="question" default="GTK_RESPONSE_CANCEL">
+    <_primary>Some addresses already exist in this contact list.</_primary>
+    <_secondary>You are trying to add addresses that are part of this list already. Would you like to add them anyway?</_secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="Skip duplicates" response="GTK_RESPONSE_NO"/>
+    <button _label="Add with duplicates" response="GTK_RESPONSE_YES"/>
+  </error>
+
+  <error id="ask-list-add-list-exists" type="question" default="GTK_RESPONSE_NO">
+    <_primary>List '{0}' is already in this contact list.</_primary>
+    <_secondary>A contact list named '{0}' is already in this contact list. Would you like to add it anyway?</_secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button stock="gtk-ok" _label="_Add" response="GTK_RESPONSE_YES"/>
+  </error>
+
+  <error id="server-version" type="warning">
+    <_primary>Some features may not work properly with your current server</_primary>
+    <_secondary>You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results the server should be upgraded to a supported version</_secondary>
+  </error>
+
+  <error id="gw-book-list-init" type="warning">
+    <_primary>GroupWise Address book creation:</_primary>
+    <_secondary>Currently you can only access the GroupWise System Address Book from Evolution. Please use some other GroupWise mail client once to get your GroupWise Frequent Contacts and Groupwise Personal Contacts folders.
 </_secondary>
- </error>
+  </error>
 
- <error id="contact-delete-error-perm" type="warning">
-  <_primary>Failed to delete contact</_primary> 
-  <_secondary>You do not have permission to delete contacts in this address book.</_secondary>
- </error>
+  <error id="contact-delete-error-perm" type="warning">
+    <_primary>Failed to delete contact</_primary>
+    <_secondary>You do not have permission to delete contacts in this address book.</_secondary>
+  </error>
 
- <error id="error-read-only" type="error" default="GTK_RESPONSE_YES">
-  <_primary>Cannot add new contact</_primary>
-  <!-- For Translators: {0} is the name of the address book source -->
-  <_secondary>'{0}' is a read-only address book and cannot be modified. Please select a different address book from the side bar in the Contacts view.</_secondary>
- </error>
+  <error id="error-read-only" type="error" default="GTK_RESPONSE_YES">
+    <_primary>Cannot add new contact</_primary>
+    <!-- For Translators: {0} is the name of the address book source -->
+    <_secondary>'{0}' is a read-only address book and cannot be modified. Please select a different address book from the side bar in the Contacts view.</_secondary>
+  </error>
 
 </error-list>
