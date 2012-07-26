@@ -1,11 +1,6 @@
 /*
  * e-editor-test.c
  *
-<<<<<<< HEAD
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
-=======
->>>>>>> Initial basic implementation of WebKit-based editor
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -20,11 +15,6 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  */
-
-<<<<<<< HEAD
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 
 #include <gtk/gtk.h>
 #include <e-util/e-util.h>
@@ -41,8 +31,6 @@ static const gchar *file_ui =
 "     <menuitem action='print-preview'/>\n"
 "     <menuitem action='print'/>\n"
 "     <separator/>\n"
-"     <menuitem action='disable-editor'/>\n"
-"     <separator/>\n"
 "     <menuitem action='quit'/>\n"
 "    </menu>\n"
 "  </menubar>\n"
@@ -55,7 +43,6 @@ static const gchar *view_ui =
 "     <menuitem action='view-html-output'/>\n"
 "     <menuitem action='view-html-source'/>\n"
 "     <menuitem action='view-plain-source'/>\n"
-"     <menuitem action='view-inspector'/>\n"
 "    </menu>\n"
 "  </menubar>\n"
 "</ui>";
@@ -136,14 +123,14 @@ save_dialog (EEditor *editor)
 static void
 view_source_dialog (EEditor *editor,
                     const gchar *title,
-                    gboolean plain_text,
-                    gboolean show_source)
+                    const gchar *content_type,
+		    gboolean show_source)
 {
 	GtkWidget *dialog;
 	GtkWidget *content;
 	GtkWidget *content_area;
 	GtkWidget *scrolled_window;
-	gchar * html;
+	gchar* html;
 
 	dialog = gtk_dialog_new_with_buttons (
 		title,
@@ -168,16 +155,11 @@ view_source_dialog (EEditor *editor,
 	gtk_container_set_border_width (GTK_CONTAINER (scrolled_window), 6);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
 
-	if (plain_text) {
-		html = e_editor_widget_get_text_plain (
-				e_editor_get_editor_widget (editor));
-	} else {
-		html = e_editor_widget_get_text_html (
-			e_editor_get_editor_widget (editor));
-	}
-
-	if (show_source || plain_text) {
+	html = e_editor_widget_get_text_html (
+		e_editor_get_editor_widget (editor));
+	if (show_source) {
 		GtkTextBuffer *buffer;
+
 
 		content = gtk_text_view_new ();
 		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (content));
@@ -185,8 +167,8 @@ view_source_dialog (EEditor *editor,
 		gtk_text_view_set_editable (GTK_TEXT_VIEW (content), FALSE);
 	} else {
 		content = webkit_web_view_new ();
-		webkit_web_view_load_string (
-			WEBKIT_WEB_VIEW (content), html, NULL, NULL, NULL);
+		webkit_web_view_load_html_string (
+			WEBKIT_WEB_VIEW (content), html, NULL);
 	}
 	g_free (html);
 
@@ -231,7 +213,8 @@ action_save_cb (GtkAction *action,
 			return;
 
 	filename = e_editor_get_filename (editor);
-	as_html = (e_editor_widget_get_html_mode (e_editor_get_editor_widget (editor)));
+	as_html = e_editor_widget_get_html_mode (
+			e_editor_get_editor_widget (editor));
 
 	e_editor_save (editor, filename, as_html, &error);
 	handle_error (&error);
@@ -249,56 +232,32 @@ action_save_as_cb (GtkAction *action,
 		return;
 
 	filename = e_editor_get_filename (editor);
-	as_html = (e_editor_widget_get_html_mode (e_editor_get_editor_widget (editor)));
+	as_html = e_editor_widget_get_html_mode (
+			e_editor_get_editor_widget (editor));
 
 	e_editor_save (editor, filename, as_html, &error);
 	handle_error (&error);
 }
 
 static void
-action_toggle_editor (GtkAction *action,
-                      EEditor *editor)
-{
-	EEditorWidget *widget;
-
-	widget = e_editor_get_editor_widget (editor);
-	webkit_web_view_set_editable (
-		WEBKIT_WEB_VIEW (widget),
-		! webkit_web_view_get_editable (WEBKIT_WEB_VIEW (widget)));
-}
-
-static void
 action_view_html_output (GtkAction *action,
                          EEditor *editor)
 {
-	view_source_dialog (editor, _("HTML Output"), FALSE, FALSE);
+	view_source_dialog (editor, _("HTML Output"), "text/html", TRUE);
 }
 
 static void
 action_view_html_source (GtkAction *action,
                          EEditor *editor)
 {
-	view_source_dialog (editor, _("HTML Source"), FALSE, TRUE);
+	view_source_dialog (editor, _("HTML Source"), "text/html", FALSE);
 }
 
 static void
 action_view_plain_source (GtkAction *action,
                           EEditor *editor)
 {
-	view_source_dialog (editor, _("Plain Source"), TRUE, FALSE);
-}
-
-static void
-action_view_inspector (GtkAction *action,
-                       EEditor *editor)
-{
-	WebKitWebInspector *inspector;
-	EEditorWidget *widget;
-
-	widget = e_editor_get_editor_widget (editor);
-	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (widget));
-
-	webkit_web_inspector_show (inspector);
+	view_source_dialog (editor, _("Plain Source"), "text/plain", FALSE);
 }
 
 static GtkActionEntry file_entries[] = {
@@ -338,13 +297,6 @@ static GtkActionEntry file_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_save_as_cb) },
 
-	{ "disable-editor",
-	  NULL,
-	  N_("Disable/Enable Editor"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_toggle_editor) },
-
 	{ "file-menu",
 	  NULL,
 	  N_("_File"),
@@ -376,13 +328,6 @@ static GtkActionEntry view_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_view_plain_source) },
 
-	{ "view-inspector",
-	  NULL,
-	  N_("Inspector"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_view_inspector) },
-
 	{ "view-menu",
 	  NULL,
 	  N_("_View"),
@@ -391,19 +336,11 @@ static GtkActionEntry view_entries[] = {
 	  NULL }
 };
 
-static WebKitWebView *
-open_inspector (WebKitWebInspector *inspector,
-                WebKitWebView *webview,
-                gpointer user_data)
-=======
-#include <gtk/gtk.h>
-#include <e-util/e-util.h>
 
 static WebKitWebView *
 open_inspector (WebKitWebInspector *inspector,
 		WebKitWebView *webview,
 		gpointer user_data)
->>>>>>> Initial basic implementation of WebKit-based editor
 {
 	GtkWidget *window;
 	GtkWidget *inspector_view;
@@ -419,17 +356,12 @@ open_inspector (WebKitWebInspector *inspector,
 	return WEBKIT_WEB_VIEW (inspector_view);
 }
 
-<<<<<<< HEAD
-gint
-main (gint argc,
-      gchar **argv)
+gint main (gint argc,
+	   gchar **argv)
 {
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
-	GtkWidget *container;
-	GtkWidget *widget;
-	EEditor *editor;
-	EEditorWidget *editor_widget;
+	GtkWidget *window, *editor;
 	WebKitWebInspector *inspector;
 
 	GError *error = NULL;
@@ -440,44 +372,23 @@ main (gint argc,
 
 	gtk_init (&argc, &argv);
 
-	editor = g_object_ref_sink (e_editor_new ());
-	editor_widget = e_editor_get_editor_widget (editor);
+        window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+        gtk_widget_set_size_request (window, 600, 400);
+        g_signal_connect_swapped (window, "destroy",
+                G_CALLBACK (gtk_main_quit), NULL);
+
+	editor = e_editor_new ();
+	gtk_container_add (GTK_CONTAINER (window), editor);
+	gtk_widget_show (editor);
 
 	inspector = webkit_web_view_get_inspector (
-		WEBKIT_WEB_VIEW (editor_widget));
-	g_signal_connect (
-		inspector, "inspect-web-view",
-		G_CALLBACK (open_inspector), NULL);
+			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (
+				E_EDITOR (editor))));
+	g_signal_connect (inspector, "inspect-web-view",
+			  G_CALLBACK (open_inspector), NULL);
 
-	widget = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_widget_set_size_request (widget, 600, 400);
-	gtk_widget_show (widget);
 
-	g_signal_connect_swapped (
-		widget, "destroy",
-		G_CALLBACK (gtk_main_quit), NULL);
-
-	container = widget;
-
-	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = e_editor_get_managed_widget (editor, "/main-menu");
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	widget = e_editor_get_managed_widget (editor, "/main-toolbar");
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	widget = GTK_WIDGET (editor);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
-
-	manager = e_editor_get_ui_manager (editor);
+	manager = e_editor_get_ui_manager (E_EDITOR (editor));
 
 	gtk_ui_manager_add_ui_from_string (manager, file_ui, -1, &error);
 	handle_error (&error);
@@ -502,6 +413,7 @@ main (gint argc,
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	gtk_ui_manager_ensure_update (manager);
+	gtk_widget_show (window);
 
 	g_signal_connect (
 		editor, "destroy",
@@ -509,45 +421,5 @@ main (gint argc,
 
 	gtk_main ();
 
-	g_object_unref (editor);
-
 	return 0;
-=======
-gint main (gint argc,
-	   gchar **argv)
-{
-        GtkWidget *window;
-	GtkWidget *editor;
-	WebKitWebInspector *inspector;
-
-	gtk_init (&argc, &argv);
-
-        window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-        gtk_widget_set_size_request (window, 600, 400);
-        g_signal_connect_swapped (window, "destroy",
-                G_CALLBACK (gtk_main_quit), NULL);
-
-	editor = GTK_WIDGET (e_editor_widget_new ());
-        gtk_container_add (GTK_CONTAINER (window), editor);
-
-        gtk_widget_show_all (window);
-
-	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (editor));
-	g_signal_connect (inspector, "inspect-web-view",
-			  G_CALLBACK (open_inspector), NULL);
-	/*
-	webkit_web_view_load_html_string (
-		WEBKIT_WEB_VIEW (editor),
-		"<html><head></head><body>\n"
-		"<table border=1 width=100%>\n"
-		"  <tr><td></td><td></td><td></td></tr>\n"
-		"  <tr><td></td><td></td><td></td></tr>\n"
-		"  <tr><td></td><td></td><td></td></tr>\n"
-		"</table></body></html>", NULL);
-	*/
-
-        gtk_main ();
-
-        return 0;
->>>>>>> Initial basic implementation of WebKit-based editor
 }
