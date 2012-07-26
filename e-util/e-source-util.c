@@ -22,32 +22,35 @@ typedef struct _AsyncContext AsyncContext;
 
 struct _AsyncContext {
 	EActivity *activity;
-	ESource *source;
 };
 
 static void
-async_context_free (AsyncContext *context)
+async_context_free (AsyncContext *async_context)
 {
-	if (context->activity != NULL)
-		g_object_unref (context->activity);
+	if (async_context->activity != NULL)
+		g_object_unref (async_context->activity);
 
-	if (context->source != NULL)
-		g_object_unref (context->source);
-
-	g_slice_free (AsyncContext, context);
+	g_slice_free (AsyncContext, async_context);
 }
 
 static void
-source_util_remove_cb (ESource *source,
+source_util_remove_cb (GObject *source_object,
                        GAsyncResult *result,
-                       AsyncContext *context)
+                       gpointer user_data)
 {
+	ESource *source;
 	EActivity *activity;
 	EAlertSink *alert_sink;
+	AsyncContext *async_context;
+	const gchar *display_name;
 	GError *error = NULL;
 
-	activity = context->activity;
+	source = E_SOURCE (source_object);
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
 	alert_sink = e_activity_get_alert_sink (activity);
+	display_name = e_source_get_display_name (source);
 
 	e_source_remove_finish (source, result, &error);
 
@@ -57,16 +60,15 @@ source_util_remove_cb (ESource *source,
 	} else if (error != NULL) {
 		e_alert_submit (
 			alert_sink,
-			"source:remove-source-fail",
-			e_source_get_display_name (context->source),
-			error->message, NULL);
+			"system:remove-source-fail",
+			display_name, error->message, NULL);
 		g_error_free (error);
 
 	} else {
 		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 	}
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 /**
@@ -88,7 +90,7 @@ EActivity *
 e_source_util_remove (ESource *source,
                       EAlertSink *alert_sink)
 {
-	AsyncContext *context;
+	AsyncContext *async_context;
 	GCancellable *cancellable;
 
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
@@ -96,33 +98,40 @@ e_source_util_remove (ESource *source,
 
 	cancellable = g_cancellable_new ();
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = e_activity_new ();
-	context->source = g_object_ref (source);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = e_activity_new ();
 
-	e_activity_set_alert_sink (context->activity, alert_sink);
-	e_activity_set_cancellable (context->activity, cancellable);
+	e_activity_set_alert_sink (async_context->activity, alert_sink);
+	e_activity_set_cancellable (async_context->activity, cancellable);
 
 	e_source_remove (
-		source, cancellable, (GAsyncReadyCallback)
-		source_util_remove_cb, context);
+		source, cancellable,
+		source_util_remove_cb,
+		async_context);
 
 	g_object_unref (cancellable);
 
-	return context->activity;
+	return async_context->activity;
 }
 
 static void
-source_util_write_cb (ESource *source,
+source_util_write_cb (GObject *source_object,
                       GAsyncResult *result,
-                      AsyncContext *context)
+                      gpointer user_data)
 {
+	ESource *source;
 	EActivity *activity;
 	EAlertSink *alert_sink;
+	AsyncContext *async_context;
+	const gchar *display_name;
 	GError *error = NULL;
 
-	activity = context->activity;
+	source = E_SOURCE (source_object);
+	async_context = (AsyncContext *) user_data;
+
+	activity = async_context->activity;
 	alert_sink = e_activity_get_alert_sink (activity);
+	display_name = e_source_get_display_name (source);
 
 	e_source_write_finish (source, result, &error);
 
@@ -132,15 +141,15 @@ source_util_write_cb (ESource *source,
 	} else if (error != NULL) {
 		e_alert_submit (
 			alert_sink,
-			"source:submit-data-fail",
-			error->message, NULL);
+			"system:write-source-fail",
+			display_name, error->message, NULL);
 		g_error_free (error);
 
 	} else {
 		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 	}
 
-	async_context_free (context);
+	async_context_free (async_context);
 }
 
 /**
@@ -162,7 +171,7 @@ EActivity *
 e_source_util_write (ESource *source,
                      EAlertSink *alert_sink)
 {
-	AsyncContext *context;
+	AsyncContext *async_context;
 	GCancellable *cancellable;
 
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
@@ -170,18 +179,19 @@ e_source_util_write (ESource *source,
 
 	cancellable = g_cancellable_new ();
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = e_activity_new ();
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = e_activity_new ();
 
-	e_activity_set_alert_sink (context->activity, alert_sink);
-	e_activity_set_cancellable (context->activity, cancellable);
+	e_activity_set_alert_sink (async_context->activity, alert_sink);
+	e_activity_set_cancellable (async_context->activity, cancellable);
 
 	e_source_write (
-		source, cancellable, (GAsyncReadyCallback)
-		source_util_write_cb, context);
+		source, cancellable,
+		source_util_write_cb,
+		async_context);
 
 	g_object_unref (cancellable);
 
-	return context->activity;
+	return async_context->activity;
 }
 

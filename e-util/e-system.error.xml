@@ -30,4 +30,14 @@
     <_secondary>Because "{1}".</_secondary>
   </error>
 
+  <error id="remove-source-fail" type="error">
+    <_primary>Failed to remove data source &quot;{0}&quot;.</_primary>
+    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+  </error>
+
+  <error id="write-source-fail" type="error">
+    <_primary>Failed to update data source &quot;{0}&quot;.</_primary>
+    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+  </error>
+
 </error-list>
