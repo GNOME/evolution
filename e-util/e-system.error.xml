@@ -1,6 +1,18 @@
 <?xml version="1.0"?>
 <error-list domain="system">
 
+  <error id="simple-info" type="info">
+    <secondary>{0}</secondary>
+  </error>
+
+  <error id="simple-warning" type="warning">
+    <secondary>{0}</secondary>
+  </error>
+
+  <error id="simple-error" type="error">
+    <secondary>{0}</secondary>
+  </error>
+
   <error id="ask-save-file-exists-overwrite" type="error" default="GTK_RESPONSE_CANCEL">
     <_primary>A file named "{0}" already exists.  Do you want to replace it?</_primary>
     <_secondary>The file already exists in "{0}".  Replacing it will overwrite its contents.</_secondary>
