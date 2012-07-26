@@ -179,8 +179,11 @@ evolution_util_include_HEADERS =  \
 	e-destination-store.h \
 	e-dialog-utils.h \
 	e-dialog-widgets.h \
+	e-editor-actions.h \
 	e-editor-selection.h \
 	e-editor-widget.h \
+	e-editor-widgets.h \
+	e-editor.h \
 	e-emoticon-action.h \
 	e-emoticon-chooser-menu.h \
 	e-emoticon-chooser.h \
@@ -435,8 +438,11 @@ libevolution_util_la_SOURCES = \
 	e-destination-store.c \
 	e-dialog-utils.c \
 	e-dialog-widgets.c \
+	e-editor-actions.c \
+	e-editor-private.h \
 	e-editor-selection.c \
 	e-editor-widget.c \
+	e-editor.c \
 	e-emoticon-action.c \
 	e-emoticon-chooser-menu.c \
 	e-emoticon-chooser.c \

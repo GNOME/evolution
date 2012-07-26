@@ -1,7 +1,10 @@
 /* e-editor-actions.h
+<<<<<<< HEAD
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
+=======
+>>>>>>> Initial import of GtkhtmlEditor class
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
@@ -29,6 +32,17 @@
 
 #define E_EDITOR_ACTION_BOLD(editor) \
 	E_EDITOR_ACTION ((editor), "bold")
+<<<<<<< HEAD
+=======
+#define E_EDITOR_ACTION_CONFIRM_REPLACE(editor) \
+	E_EDITOR_ACTION ((editor), "confirm-replace")
+#define E_EDITOR_ACTION_CONFIRM_REPLACE_ALL(editor) \
+	E_EDITOR_ACTION ((editor), "confirm-replace-all")
+#define E_EDITOR_ACTION_CONFIRM_REPLACE_CANCEL(editor) \
+	E_EDITOR_ACTION ((editor), "confirm-replace-cancel")
+#define E_EDITOR_ACTION_CONFIRM_REPLACE_NEXT(editor) \
+	E_EDITOR_ACTION ((editor), "confirm-replace-next")
+>>>>>>> Initial import of GtkhtmlEditor class
 #define E_EDITOR_ACTION_CONTEXT_DELETE_CELL(editor) \
 	E_EDITOR_ACTION ((editor), "context-delete-cell")
 #define E_EDITOR_ACTION_CONTEXT_DELETE_COLUMN(editor) \
@@ -75,10 +89,17 @@
 	E_EDITOR_ACTION ((editor), "cut")
 #define E_EDITOR_ACTION_EDIT_MENU(editor) \
 	E_EDITOR_ACTION ((editor), "edit-menu")
+<<<<<<< HEAD
 #define E_EDITOR_ACTION_FIND_AGAIN(editor) \
 	E_EDITOR_ACTION ((editor), "find-again")
 #define E_EDITOR_ACTION_FONT_SIZE_GROUP(editor) \
 	E_EDITOR_ACTION ((editor), "size-plus-zero")
+=======
+#define E_EDITOR_ACTION_FIND(editor) \
+	E_EDITOR_ACTION ((editor), "find")
+#define E_EDITOR_ACTION_FIND_AND_REPLACE(editor) \
+	E_EDITOR_ACTION ((editor), "find-and-replace")
+>>>>>>> Initial import of GtkhtmlEditor class
 #define E_EDITOR_ACTION_FORMAT_MENU(editor) \
 	E_EDITOR_ACTION ((editor), "format-menu")
 #define E_EDITOR_ACTION_FORMAT_TEXT(editor) \
@@ -107,14 +128,20 @@
 	E_EDITOR_ACTION ((editor), "mode-plain")
 #define E_EDITOR_ACTION_MONOSPACED(editor) \
 	E_EDITOR_ACTION ((editor), "monospaced")
+<<<<<<< HEAD
 #define E_EDITOR_ACTION_PASTE(editor) \
 	E_EDITOR_ACTION ((editor), "paste")
+=======
+>>>>>>> Initial import of GtkhtmlEditor class
 #define E_EDITOR_ACTION_PROPERTIES_RULE(editor) \
 	E_EDITOR_ACTION ((editor), "properties-rule")
 #define E_EDITOR_ACTION_PROPERTIES_TABLE(editor) \
 	E_EDITOR_ACTION ((editor), "properties-table")
+<<<<<<< HEAD
 #define E_EDITOR_ACTION_REDO(editor) \
 	E_EDITOR_ACTION ((editor), "redo")
+=======
+>>>>>>> Initial import of GtkhtmlEditor class
 #define E_EDITOR_ACTION_SHOW_FIND(editor) \
 	E_EDITOR_ACTION ((editor), "show-find")
 #define E_EDITOR_ACTION_SHOW_REPLACE(editor) \
@@ -145,11 +172,16 @@
 	E_EDITOR_ACTION ((editor), "test-url")
 #define E_EDITOR_ACTION_UNDERLINE(editor) \
 	E_EDITOR_ACTION ((editor), "underline")
+<<<<<<< HEAD
 #define E_EDITOR_ACTION_UNDO(editor) \
 	E_EDITOR_ACTION ((editor), "undo")
 #define E_EDITOR_ACTION_UNINDENT(editor) \
 	E_EDITOR_ACTION ((editor), "unindent")
 #define E_EDITOR_ACTION_WEBKIT_INSPECTOR(editor) \
 	E_EDITOR_ACTION ((editor), "webkit-inspector")
+=======
+#define E_EDITOR_ACTION_UNINDENT(editor) \
+	E_EDITOR_ACTION ((editor), "unindent")
+>>>>>>> Initial import of GtkhtmlEditor class
 
 #endif /* E_EDITOR_ACTIONS_H */

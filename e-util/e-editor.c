@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 /*
  * e-editor.c
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+=======
+/* e-editor.c
+>>>>>>> Initial import of GtkhtmlEditor class
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -18,6 +22,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+<<<<<<< HEAD
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
@@ -511,6 +516,27 @@ editor_show_popup (EEditor *editor,
 	return TRUE;
 }
 
+=======
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include "e-editor.h"
+#include "e-editor-private.h"
+
+#include <glib/gi18n-lib.h>
+
+G_DEFINE_TYPE (
+	EEditor,
+	e_editor,
+	GTK_TYPE_BOX);
+
+enum {
+	PROP_0,
+	PROP_FILENAME
+};
+
+>>>>>>> Initial import of GtkhtmlEditor class
 static gchar *
 editor_find_ui_file (const gchar *basename)
 {
@@ -536,6 +562,7 @@ editor_find_ui_file (const gchar *basename)
 }
 
 static void
+<<<<<<< HEAD
 editor_parent_changed (GtkWidget *widget,
                        GtkWidget *previous_parent)
 {
@@ -593,6 +620,17 @@ editor_set_property (GObject *object,
 		case PROP_FILENAME:
 			e_editor_set_filename (
 				E_EDITOR (object),
+=======
+editor_set_property (GObject *object,
+		     guint property_id,
+		     const GValue *value,
+		     GParamSpec *pspec)
+{
+	switch (property_id) {
+
+		case PROP_FILENAME:
+			e_editor_set_filename (E_EDITOR (object),
+>>>>>>> Initial import of GtkhtmlEditor class
 				g_value_get_string (value));
 			return;
 
@@ -603,6 +641,7 @@ editor_set_property (GObject *object,
 
 static void
 editor_get_property (GObject *object,
+<<<<<<< HEAD
                      guint property_id,
                      GValue *value,
                      GParamSpec *pspec)
@@ -619,6 +658,19 @@ editor_get_property (GObject *object,
 				value, e_editor_get_filename (
 				E_EDITOR (object)));
 			return;
+=======
+		     guint property_id,
+		     GValue *value,
+		     GParamSpec *pspec)
+{
+	switch (property_id) {
+
+		case PROP_FILENAME:
+			g_value_set_string (
+				value, e_editor_get_filename(
+				E_EDITOR (object)));
+		return;
+>>>>>>> Initial import of GtkhtmlEditor class
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -629,22 +681,48 @@ editor_constructed (GObject *object)
 {
 	EEditor *editor = E_EDITOR (object);
 	EEditorPrivate *priv = editor->priv;
+<<<<<<< HEAD
 	GtkIMMulticontext *im_context;
+=======
+>>>>>>> Initial import of GtkhtmlEditor class
 
 	GtkWidget *widget;
 	GtkToolbar *toolbar;
 	GtkToolItem *tool_item;
 
+<<<<<<< HEAD
 	/* Construct the editing toolbars. */
 
 	widget = e_editor_get_managed_widget (editor, "/edit-toolbar");
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
 	gtk_grid_attach (GTK_GRID (editor), widget, 0, 0, 1, 1);
+=======
+	/* Construct main window widgets. */
+
+	widget = e_editor_get_managed_widget (editor, "/main-menu");
+	gtk_box_pack_start (GTK_BOX (editor), widget, FALSE, FALSE, 0);
+	priv->main_menu = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	widget = e_editor_get_managed_widget (editor, "/main-toolbar");
+	gtk_box_pack_start (GTK_BOX (editor), widget, FALSE, FALSE, 0);
+	priv->main_toolbar = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	gtk_style_context_add_class (
+		gtk_widget_get_style_context (widget),
+		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
+
+	widget = e_editor_get_managed_widget (editor, "/edit-toolbar");
+	gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
+	gtk_box_pack_start (GTK_BOX (editor), widget, FALSE, FALSE, 0);
+>>>>>>> Initial import of GtkhtmlEditor class
 	priv->edit_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = e_editor_get_managed_widget (editor, "/html-toolbar");
+<<<<<<< HEAD
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
 	gtk_grid_attach (GTK_GRID (editor), widget, 0, 1, 1, 1);
@@ -673,24 +751,38 @@ editor_constructed (GObject *object)
 
 	/* Construct the main editing area. */
 
+=======
+	gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
+	gtk_box_pack_start (GTK_BOX (editor), widget, FALSE, FALSE, 0);
+	priv->html_toolbar = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+>>>>>>> Initial import of GtkhtmlEditor class
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+<<<<<<< HEAD
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_widget_set_vexpand (widget, TRUE);
 	gtk_grid_attach (GTK_GRID (editor), widget, 0, 4, 1, 1);
+=======
+	gtk_box_pack_start (GTK_BOX (editor), widget, TRUE, TRUE, 0);
+>>>>>>> Initial import of GtkhtmlEditor class
 	priv->scrolled_window = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = GTK_WIDGET (e_editor_get_editor_widget (editor));
 	gtk_container_add (GTK_CONTAINER (priv->scrolled_window), widget);
 	gtk_widget_show (widget);
+<<<<<<< HEAD
 	g_signal_connect_swapped (
 		widget, "popup-event",
 		G_CALLBACK (editor_show_popup), editor);
+=======
+>>>>>>> Initial import of GtkhtmlEditor class
 
 	/* Add some combo boxes to the "edit" toolbar. */
 
@@ -731,6 +823,7 @@ editor_constructed (GObject *object)
 	gtk_toolbar_insert (toolbar, tool_item, 0);
 	priv->color_combo_box = g_object_ref (widget);
 	gtk_widget_show_all (GTK_WIDGET (tool_item));
+<<<<<<< HEAD
 	g_object_bind_property (
 		priv->color_combo_box, "current-color",
 		priv->selection, "font-color",
@@ -739,6 +832,8 @@ editor_constructed (GObject *object)
 		priv->editor_widget, "editable",
 		priv->color_combo_box, "sensitive",
 		G_BINDING_SYNC_CREATE);
+=======
+>>>>>>> Initial import of GtkhtmlEditor class
 
 	tool_item = gtk_tool_item_new ();
 	widget = e_action_combo_box_new_with_action (
@@ -750,6 +845,7 @@ editor_constructed (GObject *object)
 	priv->size_combo_box = g_object_ref (widget);
 	gtk_widget_show_all (GTK_WIDGET (tool_item));
 
+<<<<<<< HEAD
 	/* Add input methods to the context menu. */
 	widget = e_editor_get_managed_widget (
 		editor, "/context-menu/context-input-methods-menu");
@@ -759,16 +855,99 @@ editor_constructed (GObject *object)
 	gtk_im_multicontext_append_menuitems (
 		GTK_IM_MULTICONTEXT (im_context),
 		GTK_MENU_SHELL (widget));
+=======
+	/* Initialize painters (requires "edit_area"). */
+
+	/* FIXME WEBKIT
+	html = e_editor_widget_get_html (E_EDITOR_WIDGET (editor));
+	gtk_widget_ensure_style (GTK_WIDGET (html));
+	priv->html_painter = g_object_ref (html->engine->painter);
+	priv->plain_painter = html_plain_painter_new (priv->edit_area, TRUE);
+	*/
+
+	/* Add input methods to the context menu. */
+
+	/* FIXME WEBKIT
+	widget = e_editor_get_managed_widget (
+		editor, "/context-menu/context-input-methods-menu");
+	widget = gtk_menu_item_get_submenu (GTK_MENU_ITEM (widget));
+	gtk_im_multicontext_append_menuitems (
+		GTK_IM_MULTICONTEXT (html->priv->im_context),
+		GTK_MENU_SHELL (widget));
+	*/
+
+	/* Configure color stuff. */
+
+	/* FIXME WEBKIT
+	priv->palette = gtkhtml_color_palette_new ();
+	priv->text_color = gtkhtml_color_state_new ();
+
+	gtkhtml_color_state_set_default_label (
+		priv->text_color, _("Automatic"));
+	gtkhtml_color_state_set_palette (
+		priv->text_color, priv->palette);
+	*/
+
+	/* Text color widgets share state. */
+
+	/* FIXME WEBKIT
+	widget = priv->color_combo_box;
+	gtkhtml_color_combo_set_state (
+		GTKHTML_COLOR_COMBO (widget), priv->text_color);
+
+	widget = WIDGET (TEXT_PROPERTIES_COLOR_COMBO);
+	gtkhtml_color_combo_set_state (
+		GTKHTML_COLOR_COMBO (widget), priv->text_color);
+	*/
+
+	/* These color widgets share a custom color palette. */
+
+	/* FIXME WEBKIT
+	widget = WIDGET (CELL_PROPERTIES_COLOR_COMBO);
+	gtkhtml_color_combo_set_palette (
+		GTKHTML_COLOR_COMBO (widget), priv->palette);
+
+	widget = WIDGET (PAGE_PROPERTIES_BACKGROUND_COLOR_COMBO);
+	gtkhtml_color_combo_set_palette (
+		GTKHTML_COLOR_COMBO (widget), priv->palette);
+
+	widget = WIDGET (PAGE_PROPERTIES_LINK_COLOR_COMBO);
+	gtkhtml_color_combo_set_palette (
+		GTKHTML_COLOR_COMBO (widget), priv->palette);
+
+	widget = WIDGET (TABLE_PROPERTIES_COLOR_COMBO);
+	gtkhtml_color_combo_set_palette (
+		GTKHTML_COLOR_COMBO (widget), priv->palette);
+		*/
+>>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 editor_dispose (GObject *object)
 {
+<<<<<<< HEAD
 	EEditorPrivate *priv;
 
 	priv = E_EDITOR_GET_PRIVATE (object);
 
 	g_clear_object (&priv->manager);
+=======
+	EEditor *editor = E_EDITOR (object);
+	EEditorPrivate *priv = editor->priv;
+
+	/* Disconnect signal handlers from the color
+	 * state object since it may live on. */
+	/* FIXME WEBKIT
+	if (priv->text_color != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->text_color, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, editor);
+	}
+	*/
+
+	g_clear_object (&priv->manager);
+	g_clear_object (&priv->manager);
+>>>>>>> Initial import of GtkhtmlEditor class
 	g_clear_object (&priv->core_actions);
 	g_clear_object (&priv->html_actions);
 	g_clear_object (&priv->context_actions);
@@ -776,13 +955,30 @@ editor_dispose (GObject *object)
 	g_clear_object (&priv->language_actions);
 	g_clear_object (&priv->spell_check_actions);
 	g_clear_object (&priv->suggestion_actions);
+<<<<<<< HEAD
+=======
+	g_clear_object (&priv->builder);
+
+	/* FIXME WEBKIT
+	g_hash_table_remove_all (priv->available_spell_checkers);
+
+	g_list_foreach (
+		priv->active_spell_checkers,
+		(GFunc) g_object_unref, NULL);
+	g_list_free (priv->active_spell_checkers);
+	priv->active_spell_checkers = NULL;
+	*/
+>>>>>>> Initial import of GtkhtmlEditor class
 
 	g_clear_object (&priv->main_menu);
 	g_clear_object (&priv->main_toolbar);
 	g_clear_object (&priv->edit_toolbar);
 	g_clear_object (&priv->html_toolbar);
+<<<<<<< HEAD
 	g_clear_object (&priv->activity_bar);
 	g_clear_object (&priv->alert_bar);
+=======
+>>>>>>> Initial import of GtkhtmlEditor class
 	g_clear_object (&priv->edit_area);
 
 	g_clear_object (&priv->color_combo_box);
@@ -791,6 +987,7 @@ editor_dispose (GObject *object)
 	g_clear_object (&priv->style_combo_box);
 	g_clear_object (&priv->scrolled_window);
 
+<<<<<<< HEAD
 	g_clear_object (&priv->editor_widget);
 
 	/* Chain up to parent's dispose() method. */
@@ -839,11 +1036,28 @@ e_editor_class_init (EEditorClass *class)
 	g_type_class_add_private (class, sizeof (EEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+=======
+	/* FIXME WEBKIT
+	DISPOSE (priv->palette);
+	DISPOSE (priv->text_color);
+	*/
+}
+
+static void
+e_editor_class_init (EEditorClass *klass)
+{
+	GObjectClass *object_class;
+
+	g_type_class_add_private (klass, sizeof (EEditorPrivate));
+
+	object_class = G_OBJECT_CLASS (klass);
+>>>>>>> Initial import of GtkhtmlEditor class
 	object_class->set_property = editor_set_property;
 	object_class->get_property = editor_get_property;
 	object_class->constructed = editor_constructed;
 	object_class->dispose = editor_dispose;
 
+<<<<<<< HEAD
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->parent_set = editor_parent_changed;
 
@@ -861,11 +1075,14 @@ e_editor_class_init (EEditorClass *class)
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
 
+=======
+>>>>>>> Initial import of GtkhtmlEditor class
 	g_object_class_install_property (
 		object_class,
 		PROP_FILENAME,
 		g_param_spec_string (
 			"filename",
+<<<<<<< HEAD
 			NULL,
 			NULL,
 			NULL,
@@ -896,17 +1113,31 @@ static void
 e_editor_alert_sink_init (EAlertSinkInterface *interface)
 {
 	interface->submit_alert = editor_submit_alert;
+=======
+		        NULL,
+		        NULL,
+		        NULL,
+		        G_PARAM_READWRITE));
+>>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 e_editor_init (EEditor *editor)
 {
 	EEditorPrivate *priv;
+<<<<<<< HEAD
 	GtkWidget *widget;
 	gchar *filename;
 	GError *error = NULL;
 
 	editor->priv = E_EDITOR_GET_PRIVATE (editor);
+=======
+	GError *error;
+	gchar *filename;
+
+	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		editor, E_TYPE_EDITOR, EEditorPrivate);
+>>>>>>> Initial import of GtkhtmlEditor class
 
 	priv = editor->priv;
 
@@ -918,14 +1149,23 @@ e_editor_init (EEditor *editor)
 	priv->language_actions = gtk_action_group_new ("language");
 	priv->spell_check_actions = gtk_action_group_new ("spell-check");
 	priv->suggestion_actions = gtk_action_group_new ("suggestion");
+<<<<<<< HEAD
 	priv->editor_widget = g_object_ref_sink (e_editor_widget_new ());
 	priv->selection = e_editor_widget_get_selection (priv->editor_widget);
 
 	filename = editor_find_ui_file ("e-editor-manager.ui");
+=======
+	priv->editor_widget = e_editor_widget_new ();
+
+	filename = editor_find_ui_file ("e-editor-manager.ui");
+
+	error = NULL;
+>>>>>>> Initial import of GtkhtmlEditor class
 	if (!gtk_ui_manager_add_ui_from_file (priv->manager, filename, &error)) {
 		g_critical ("Couldn't load builder file: %s\n", error->message);
 		g_clear_error (&error);
 	}
+<<<<<<< HEAD
 	g_free (filename);
 
 	editor_actions_init (editor);
@@ -987,6 +1227,52 @@ e_editor_get_editor_widget (EEditor *editor)
  *
  * Returns #GtkUIManager that manages all the actions in the @editor.
  */
+=======
+
+	g_free (filename);
+
+	filename = editor_find_ui_file ("e-editor-builder.ui");
+
+	priv->builder = gtk_builder_new ();
+	/* To keep translated strings in subclasses */
+	gtk_builder_set_translation_domain (priv->builder, GETTEXT_PACKAGE);
+	error = NULL;
+	if (!gtk_builder_add_from_file (priv->builder, filename, &error)) {
+		g_critical ("Couldn't load builder file: %s\n", error->message);
+		g_clear_error (&error);
+	}
+
+	g_free (filename);
+
+	editor_actions_init (editor);
+}
+
+GtkWidget *
+e_editor_new (void)
+{
+	return g_object_new (E_TYPE_EDITOR,
+		"orientation", GTK_ORIENTATION_VERTICAL,
+		NULL);
+}
+
+EEditorWidget *
+e_editor_get_editor_widget (EEditor *editor)
+{
+	g_return_val_if_fail (E_IS_EDITOR (editor), NULL);
+
+	return editor->priv->editor_widget;
+}
+
+
+GtkBuilder *
+e_editor_get_builder (EEditor *editor)
+{
+	g_return_val_if_fail (E_IS_EDITOR (editor), NULL);
+
+	return editor->priv->builder;
+}
+
+>>>>>>> Initial import of GtkhtmlEditor class
 GtkUIManager *
 e_editor_get_ui_manager (EEditor *editor)
 {
@@ -995,6 +1281,7 @@ e_editor_get_ui_manager (EEditor *editor)
 	return editor->priv->manager;
 }
 
+<<<<<<< HEAD
 /**
  * e_editor_get_action:
  * @editor: an #EEditor
@@ -1009,11 +1296,21 @@ e_editor_get_action (EEditor *editor,
 	GtkUIManager *manager;
 	GtkAction *action = NULL;
 	GList *list;
+=======
+GtkAction *
+e_editor_get_action (EEditor *editor,
+		     const gchar *action_name)
+{
+	GtkUIManager *manager;
+	GtkAction *action = NULL;
+	GList *iter;
+>>>>>>> Initial import of GtkhtmlEditor class
 
 	g_return_val_if_fail (E_IS_EDITOR (editor), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
 
 	manager = e_editor_get_ui_manager (editor);
+<<<<<<< HEAD
 	list = gtk_ui_manager_get_action_groups (manager);
 
 	while (list != NULL && action == NULL) {
@@ -1023,6 +1320,16 @@ e_editor_get_action (EEditor *editor,
 			action_group, action_name);
 
 		list = g_list_next (list);
+=======
+	iter = gtk_ui_manager_get_action_groups (manager);
+
+	while (iter != NULL && action == NULL) {
+		GtkActionGroup *action_group = iter->data;
+
+		action = gtk_action_group_get_action (
+			action_group, action_name);
+		iter = g_list_next (iter);
+>>>>>>> Initial import of GtkhtmlEditor class
 	}
 
 	g_return_val_if_fail (action != NULL, NULL);
@@ -1030,6 +1337,7 @@ e_editor_get_action (EEditor *editor,
 	return action;
 }
 
+<<<<<<< HEAD
 /**
  * e_editor_get_action_group:
  * @editor: an #EEditor
@@ -1044,30 +1352,71 @@ e_editor_get_action_group (EEditor *editor,
 {
 	GtkUIManager *manager;
 	GList *list;
+=======
+GtkActionGroup *
+e_editor_get_action_group (EEditor *editor,
+			   const gchar *group_name)
+{
+	GtkUIManager *manager;
+	GList *iter;
+>>>>>>> Initial import of GtkhtmlEditor class
 
 	g_return_val_if_fail (E_IS_EDITOR (editor), NULL);
 	g_return_val_if_fail (group_name != NULL, NULL);
 
 	manager = e_editor_get_ui_manager (editor);
+<<<<<<< HEAD
 	list = gtk_ui_manager_get_action_groups (manager);
 
 	while (list != NULL) {
 		GtkActionGroup *action_group = list->data;
+=======
+	iter = gtk_ui_manager_get_action_groups (manager);
+
+	while (iter != NULL) {
+		GtkActionGroup *action_group = iter->data;
+>>>>>>> Initial import of GtkhtmlEditor class
 		const gchar *name;
 
 		name = gtk_action_group_get_name (action_group);
 		if (strcmp (name, group_name) == 0)
 			return action_group;
 
+<<<<<<< HEAD
 		list = g_list_next (list);
+=======
+		iter = g_list_next (iter);
+>>>>>>> Initial import of GtkhtmlEditor class
 	}
 
 	return NULL;
 }
 
 GtkWidget *
+<<<<<<< HEAD
 e_editor_get_managed_widget (EEditor *editor,
                              const gchar *widget_path)
+=======
+e_editor_get_widget (EEditor *editor,
+                           const gchar *widget_name)
+{
+	GtkBuilder *builder;
+	GObject *object;
+
+	g_return_val_if_fail (E_IS_EDITOR (editor), NULL);
+	g_return_val_if_fail (widget_name != NULL, NULL);
+
+	builder = e_editor_get_builder (editor);
+	object = gtk_builder_get_object (builder, widget_name);
+	g_return_val_if_fail (GTK_IS_WIDGET (object), NULL);
+
+	return GTK_WIDGET (object);
+}
+
+GtkWidget *
+e_editor_get_managed_widget (EEditor *editor,
+			     const gchar *widget_path)
+>>>>>>> Initial import of GtkhtmlEditor class
 {
 	GtkUIManager *manager;
 	GtkWidget *widget;
@@ -1083,12 +1432,15 @@ e_editor_get_managed_widget (EEditor *editor,
 	return widget;
 }
 
+<<<<<<< HEAD
 /**
  * e_editor_get_filename:
  * @editor: an #EEditor
  *
  * Returns path and name of file to which content of the editor should be saved.
  */
+=======
+>>>>>>> Initial import of GtkhtmlEditor class
 const gchar *
 e_editor_get_filename (EEditor *editor)
 {
@@ -1097,6 +1449,7 @@ e_editor_get_filename (EEditor *editor)
 	return editor->priv->filename;
 }
 
+<<<<<<< HEAD
 /**
  * e_editor_set_filename:
  * @editor: an #EEditor
@@ -1108,6 +1461,11 @@ e_editor_get_filename (EEditor *editor)
 void
 e_editor_set_filename (EEditor *editor,
                        const gchar *filename)
+=======
+void
+e_editor_set_filename (EEditor *editor,
+		       const gchar *filename)
+>>>>>>> Initial import of GtkhtmlEditor class
 {
 	g_return_if_fail (E_IS_EDITOR (editor));
 
@@ -1120,6 +1478,7 @@ e_editor_set_filename (EEditor *editor,
 	g_object_notify (G_OBJECT (editor), "filename");
 }
 
+<<<<<<< HEAD
 /**
  * e_editor_new_activity:
  * @editor: an #EEditor
@@ -1187,6 +1546,13 @@ e_editor_save (EEditor *editor,
                const gchar *filename,
                gboolean as_html,
                GError **error)
+=======
+gboolean
+e_editor_save (EEditor *editor,
+	       const gchar *filename,
+	       gboolean as_html,
+	       GError **error)
+>>>>>>> Initial import of GtkhtmlEditor class
 {
 	GFile *file;
 	GFileOutputStream *stream;
@@ -1199,6 +1565,7 @@ e_editor_save (EEditor *editor,
 	if ((error && *error) || !stream)
 		return FALSE;
 
+<<<<<<< HEAD
 	if (as_html)
 		content = e_editor_widget_get_text_html (
 			E_EDITOR_WIDGET (editor));
@@ -1210,6 +1577,19 @@ e_editor_save (EEditor *editor,
 		g_set_error (
 			error, G_IO_ERROR, G_IO_ERROR_FAILED,
 			"Failed to obtain content of editor");
+=======
+	if (as_html) {
+		content = e_editor_widget_get_text_html (
+				E_EDITOR_WIDGET (editor));
+	} else {
+		content = e_editor_widget_get_text_plain (
+				E_EDITOR_WIDGET (editor));
+	}
+
+	if (!content || !*content) {
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED,
+			     "Failed to obtain content of editor");
+>>>>>>> Initial import of GtkhtmlEditor class
 		return FALSE;
 	}
 
@@ -1223,4 +1603,7 @@ e_editor_save (EEditor *editor,
 
 	return TRUE;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> Initial import of GtkhtmlEditor class

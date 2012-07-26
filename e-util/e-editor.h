@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 /*
  * e-editor.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+=======
+/* e-editor.h
+>>>>>>> Initial import of GtkhtmlEditor class
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -26,7 +30,10 @@
 #define E_EDITOR_H
 
 #include <gtk/gtk.h>
+<<<<<<< HEAD
 #include <e-util/e-activity.h>
+=======
+>>>>>>> Initial import of GtkhtmlEditor class
 #include <e-util/e-editor-widget.h>
 
 /* Standard GObject macros */
@@ -55,11 +62,17 @@ typedef struct _EEditorClass EEditorClass;
 typedef struct _EEditorPrivate EEditorPrivate;
 
 struct _EEditor {
+<<<<<<< HEAD
 	GtkGrid parent;
+=======
+	GtkBox parent;
+
+>>>>>>> Initial import of GtkhtmlEditor class
 	EEditorPrivate *priv;
 };
 
 struct _EEditorClass {
+<<<<<<< HEAD
 	GtkGridClass parent_class;
 
 	void		(*update_actions)	(EEditor *editor,
@@ -72,6 +85,16 @@ GType		e_editor_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_editor_new			(void);
 gboolean	e_editor_is_busy		(EEditor *editor);
 EEditorWidget *	e_editor_get_editor_widget	(EEditor *editor);
+=======
+	GtkBoxClass parent_class;
+};
+
+GType		e_editor_get_type		(void);
+GtkWidget *	e_editor_new			(void);
+
+EEditorWidget*	e_editor_get_editor_widget	(EEditor *editor);
+
+>>>>>>> Initial import of GtkhtmlEditor class
 GtkBuilder *	e_editor_get_builder		(EEditor *editor);
 GtkUIManager *	e_editor_get_ui_manager		(EEditor *editor);
 GtkAction *	e_editor_get_action		(EEditor *editor,
@@ -80,14 +103,23 @@ GtkActionGroup *e_editor_get_action_group	(EEditor *editor,
 						 const gchar *group_name);
 GtkWidget *	e_editor_get_widget		(EEditor *editor,
 						 const gchar *widget_name);
+<<<<<<< HEAD
 GtkWidget *	e_editor_get_managed_widget	(EEditor *editor,
+=======
+GtkWidget *	e_editor_get_managed_widget
+						(EEditor *editor,
+>>>>>>> Initial import of GtkhtmlEditor class
 						 const gchar *widget_path);
 const gchar *	e_editor_get_filename		(EEditor *editor);
 void		e_editor_set_filename		(EEditor *editor,
 						 const gchar *filename);
+<<<<<<< HEAD
 EActivity *	e_editor_new_activity		(EEditor *editor);
 void		e_editor_pack_above		(EEditor *editor,
 						 GtkWidget *child);
+=======
+
+>>>>>>> Initial import of GtkhtmlEditor class
 
 /*****************************************************************************
  * High-Level Editing Interface

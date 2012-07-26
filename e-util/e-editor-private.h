@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 /*
  * e-editor-private.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+=======
+/* e-editor-private.h
+>>>>>>> Initial import of GtkhtmlEditor class
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -25,6 +29,7 @@
 #include <e-action-combo-box.h>
 #include <e-color-combo.h>
 #include <e-editor-actions.h>
+<<<<<<< HEAD
 #include <e-editor-widget.h>
 #include <e-editor-find-dialog.h>
 #include <e-editor-replace-dialog.h>
@@ -37,11 +42,19 @@
 #include <e-editor-paragraph-dialog.h>
 #include <e-editor-cell-dialog.h>
 #include <e-editor-spell-check-dialog.h>
+=======
+#include <e-editor-widgets.h>
+#include <e-editor-widget.h>
+>>>>>>> Initial import of GtkhtmlEditor class
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>
 #endif
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Initial import of GtkhtmlEditor class
 #define ACTION(name) (E_EDITOR_ACTION_##name (editor))
 #define WIDGET(name) (E_EDITOR_WIDGETS_##name (editor))
 
@@ -56,11 +69,16 @@ struct _EEditorPrivate {
 	GtkActionGroup *language_actions;
 	GtkActionGroup *spell_check_actions;
 	GtkActionGroup *suggestion_actions;
+<<<<<<< HEAD
+=======
+	GtkBuilder *builder;
+>>>>>>> Initial import of GtkhtmlEditor class
 
 	GtkWidget *main_menu;
 	GtkWidget *main_toolbar;
 	GtkWidget *edit_toolbar;
 	GtkWidget *html_toolbar;
+<<<<<<< HEAD
 	GtkWidget *activity_bar;
 	GtkWidget *alert_bar;
 	GtkWidget *edit_area;
@@ -77,6 +95,10 @@ struct _EEditorPrivate {
 	GtkWidget *cell_dialog;
 	GtkWidget *spell_check_dialog;
 
+=======
+	GtkWidget *edit_area;
+
+>>>>>>> Initial import of GtkhtmlEditor class
 	GtkWidget *color_combo_box;
 	GtkWidget *mode_combo_box;
 	GtkWidget *size_combo_box;
@@ -84,6 +106,7 @@ struct _EEditorPrivate {
 	GtkWidget *scrolled_window;
 
 	EEditorWidget *editor_widget;
+<<<<<<< HEAD
 	EEditorSelection *selection;
 
 	gchar *filename;
@@ -100,6 +123,12 @@ struct _EEditorPrivate {
 	/* The web view is uneditable while the editor is busy.
 	 * This is used to restore the previous editable state. */
 	gboolean saved_editable;
+=======
+
+	guint ignore_style_change : 1;
+
+	gchar *filename;
+>>>>>>> Initial import of GtkhtmlEditor class
 };
 
 void		editor_actions_init		(EEditor *editor);
