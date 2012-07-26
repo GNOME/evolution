@@ -97,8 +97,6 @@ void		mail_filter_folder		(EMailSession *session,
 /* filter driver execute shell command async callback */
 void mail_execute_shell_command (CamelFilterDriver *driver, gint argc, gchar **argv, gpointer data);
 
-gint mail_disconnect_store (CamelStore *store);
-
 G_END_DECLS
 
 #endif /* MAIL_OPS_H */
