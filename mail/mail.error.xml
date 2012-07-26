@@ -371,11 +371,6 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <secondary xml:space="preserve">{0}</secondary>
   </error>
 
-  <error id="gw-accountsetup-error" type="error">
-    <_primary>Unable to connect to the GroupWise server.</_primary>
-    <_secondary xml:space="preserve">Please check your account settings and try again.</_secondary>
-  </error>
-
   <error id="ask-quick-offline" type="question" default="GTK_RESPONSE_NO">
     <_primary>Synchronize folders locally for offline usage?</_primary>
     <_secondary xml:space="preserve">Do you want to locally synchronize the folders that are marked for offline usage?</_secondary>
