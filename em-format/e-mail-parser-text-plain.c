@@ -98,7 +98,14 @@ process_part (EMailParser *parser,
 	}
 
 	type = camel_mime_part_get_content_type (part);
-	if (!camel_content_type_is (type, "text", "calendar")) {
+	if (!camel_content_type_is (type, "text", "*")) {
+
+		parts = e_mail_parser_parse_part (
+				parser, CAMEL_MIME_PART (part),
+				part_id, cancellable);
+		return parts;
+
+	} else if (!camel_content_type_is (type, "text", "calendar")) {
 
 		g_string_append_printf (part_id, ".plain_text.%d", part_number);
 
