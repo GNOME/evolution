@@ -294,11 +294,6 @@
     <secondary>{2}</secondary>
   </error>
 
-  <error id="server-version" type="warning">
-    <_primary>Some features may not work properly with your current server.</_primary>
-    <_secondary>You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results, the server should be upgraded to a supported version.</_secondary>
-  </error>
-
   <error id="online-operation" type="error">
     <_primary>Could not perform this operation.</_primary>
     <_secondary>You must be working online to complete this operation.</_secondary>
