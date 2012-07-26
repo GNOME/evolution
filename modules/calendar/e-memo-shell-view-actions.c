@@ -150,8 +150,8 @@ action_memo_list_delete_cb (GtkAction *action,
 	EMemoShellSidebar *memo_shell_sidebar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
-	ESourceSelector *selector;
 	ESource *source;
+	ESourceSelector *selector;
 	gint response;
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
@@ -159,27 +159,28 @@ action_memo_list_delete_cb (GtkAction *action,
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
+
 	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
-	/* Ask for confirmation. */
-	response = e_alert_run_dialog_for_args (
-		GTK_WINDOW (shell_window),
-		"calendar:prompt-delete-memo-list",
-		e_source_get_display_name (source), NULL);
+	if (e_source_get_remote_deletable (source)) {
+		response = e_alert_run_dialog_for_args (
+			GTK_WINDOW (shell_window),
+			"calendar:prompt-delete-remote-memo-list",
+			e_source_get_display_name (source), NULL);
 
-	if (response != GTK_RESPONSE_YES) {
-		g_object_unref (source);
-		return;
+		if (response == GTK_RESPONSE_YES)
+			e_shell_view_remote_delete_source (shell_view, source);
+
+	} else {
+		response = e_alert_run_dialog_for_args (
+			GTK_WINDOW (shell_window),
+			"calendar:prompt-delete-memo-list",
+			e_source_get_display_name (source), NULL);
+
+		if (response != GTK_RESPONSE_YES)
+			e_shell_view_remove_source (shell_view, source);
 	}
-
-	if (e_source_selector_source_is_selected (selector, source)) {
-		e_memo_shell_sidebar_remove_source (
-			memo_shell_sidebar, source);
-		e_source_selector_unselect_source (selector, source);
-	}
-
-	e_shell_view_remove_source (shell_view, source);
 
 	g_object_unref (source);
 }
