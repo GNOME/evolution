@@ -665,6 +665,8 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	ESource *source;
 	gboolean is_writable = FALSE;
 	gboolean is_removable = FALSE;
+	gboolean is_remote_creatable = FALSE;
+	gboolean is_remote_deletable = FALSE;
 	gboolean in_collection = FALSE;
 	gboolean refresh_supported = FALSE;
 	gboolean has_primary_source = FALSE;
@@ -683,6 +685,8 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		has_primary_source = TRUE;
 		is_writable = e_source_get_writable (source);
 		is_removable = e_source_get_removable (source);
+		is_remote_creatable = e_source_get_remote_creatable (source);
+		is_remote_deletable = e_source_get_remote_deletable (source);
 
 		collection = e_source_registry_find_extension (
 			registry, source, E_SOURCE_EXTENSION_COLLECTION);
@@ -707,6 +711,10 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE;
 	if (is_removable)
 		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE;
+	if (is_remote_creatable)
+		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOTE_CREATABLE;
+	if (is_remote_deletable)
+		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOTE_DELETABLE;
 	if (in_collection)
 		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IN_COLLECTION;
 	if (refresh_supported)

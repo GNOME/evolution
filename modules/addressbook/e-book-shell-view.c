@@ -203,6 +203,7 @@ book_shell_view_update_actions (EShellView *shell_view)
 	gboolean multiple_contacts_selected;
 	gboolean primary_source_is_writable;
 	gboolean primary_source_is_removable;
+	gboolean primary_source_is_remote_deletable;
 	gboolean primary_source_in_collection;
 	gboolean single_contact_selected;
 	gboolean selection_is_contact_list;
@@ -240,6 +241,8 @@ book_shell_view_update_actions (EShellView *shell_view)
 		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE);
 	primary_source_is_removable =
 		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE);
+	primary_source_is_remote_deletable =
+		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOTE_DELETABLE);
 	primary_source_in_collection =
 		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IN_COLLECTION);
 
@@ -251,7 +254,9 @@ book_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_DELETE);
-	sensitive = primary_source_is_removable;
+	sensitive =
+		primary_source_is_removable ||
+		primary_source_is_remote_deletable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_PRINT);
