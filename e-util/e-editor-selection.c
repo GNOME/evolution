@@ -35,7 +35,6 @@
 struct _EEditorSelectionPrivate {
 
 	WebKitWebView *webview;
-	WebKitDOMRange *range;
 
 	gchar *text;
 	gchar *background_color;
@@ -66,20 +65,43 @@ enum {
 	PROP_UNDERLINE,
 };
 
+static WebKitDOMRange *
+editor_selection_get_current_range (EEditorSelection *selection)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *dom_selection;
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (window);
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1)
+		return NULL;
+
+	return webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+}
+
 static gboolean
 get_has_style_property (EEditorSelection *selection,
 			const gchar *style,
 			const gchar *value)
 {
 	WebKitDOMNode *node;
+	WebKitDOMElement *element;
+	WebKitDOMRange *range;
 	WebKitDOMCSSStyleDeclaration *css;
 	gchar *style_value;
 	gboolean result;
 
-	node = webkit_dom_range_get_common_ancestor_container (
-			selection->priv->range, NULL);
+	range = editor_selection_get_current_range (selection);
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	if (!WEBKIT_DOM_IS_ELEMENT (node)) {
+		element = webkit_dom_node_get_parent_element (node);
+	} else {
+		element = WEBKIT_DOM_ELEMENT (node);
+	}
 
-	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
+	css = webkit_dom_element_get_style (element);
 	style_value = webkit_dom_css_style_declaration_get_property_value (
 			css, style);
 
@@ -93,19 +115,6 @@ static void
 webview_selection_changed (WebKitWebView *webview,
 			   EEditorSelection *selection)
 {
-	WebKitDOMDocument *doc;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *sel;
-
-	g_clear_object (&selection->priv->range);
-
-	doc = webkit_web_view_get_dom_document (webview);
-	window = webkit_dom_document_get_default_view (doc);
-	sel = webkit_dom_dom_window_get_selection (window);
-
-	selection->priv->range =
-		webkit_dom_dom_selection_get_range_at (sel, 0, NULL);
-
 	g_object_notify (G_OBJECT (selection), "background-color");
 	g_object_notify (G_OBJECT (selection), "bold");
 	g_object_notify (G_OBJECT (selection), "font-name");
@@ -216,7 +225,7 @@ e_editor_selection_set_property (GObject *object,
 		case PROP_WEBVIEW:
 			editor_selection_set_webview (
 				selection, g_value_get_object (value));
-			break;
+			return;
 
 		case PROP_BACKGROUND_COLOR:
 			e_editor_selection_set_background_color (
@@ -277,7 +286,6 @@ e_editor_selection_finalize (GObject *object)
 {
 	EEditorSelection *selection = E_EDITOR_SELECTION (object);
 
-	g_clear_object (&selection->priv->range);
 	g_clear_object (&selection->priv->webview);
 
 	g_free (selection->priv->text);
@@ -288,6 +296,8 @@ static void
 e_editor_selection_class_init (EEditorSelectionClass *klass)
 {
 	GObjectClass *object_class;
+
+	g_type_class_add_private (klass, sizeof (EEditorSelectionPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->get_property = e_editor_selection_get_property;
@@ -448,12 +458,16 @@ e_editor_selection_new (WebKitWebView *parent_view)
 
 
 const gchar *
-e_editor_selection_get_string(EEditorSelection *selection)
+e_editor_selection_get_string (EEditorSelection *selection)
 {
+	WebKitDOMRange *range;
+
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
 
+	range = editor_selection_get_current_range (selection);
+
 	g_free (selection->priv->text);
-	selection->priv->text = webkit_dom_range_get_text (selection->priv->range);
+	selection->priv->text = webkit_dom_range_get_text (range);
 
 	return selection->priv->text;
 }
@@ -463,27 +477,31 @@ e_editor_selection_replace (EEditorSelection *selection,
 			    const gchar *new_string)
 {
 	WebKitDOMDocumentFragment *frag;
+	WebKitDOMRange *range;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	frag = webkit_dom_range_create_contextual_fragment (
-			selection->priv->range, new_string, NULL);
+	range = editor_selection_get_current_range (selection);
 
-	webkit_dom_range_delete_contents (selection->priv->range, NULL);
-	webkit_dom_range_insert_node (
-		selection->priv->range, WEBKIT_DOM_NODE (frag), NULL);
+	frag = webkit_dom_range_create_contextual_fragment (
+			range, new_string, NULL);
+
+	webkit_dom_range_delete_contents (range, NULL);
+	webkit_dom_range_insert_node (range, WEBKIT_DOM_NODE (frag), NULL);
 }
 
 const gchar *
 e_editor_selection_get_background_color	(EEditorSelection *selection)
 {
 	WebKitDOMNode *ancestor;
+	WebKitDOMRange *range;
 	WebKitDOMCSSStyleDeclaration *css;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
 
-	ancestor = webkit_dom_range_get_common_ancestor_container (
-			selection->priv->range, NULL);
+	range = editor_selection_get_current_range (selection);
+
+	ancestor = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (ancestor));
 	selection->priv->background_color =
@@ -513,14 +531,15 @@ EEditorSelectionBlockFormat
 e_editor_selection_get_block_format (EEditorSelection *selection)
 {
 	WebKitDOMNode *node;
+	WebKitDOMRange *range;
 	gchar *tmp, *node_name;
 	EEditorSelectionBlockFormat result;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection),
 			      E_EDITOR_SELECTION_BLOCK_FORMAT_NONE);
 
-	node = webkit_dom_range_get_common_ancestor_container (
-			selection->priv->range, NULL);
+	range = editor_selection_get_current_range (selection);
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	tmp = webkit_dom_node_get_node_name (node);
 	node_name = g_ascii_strdown (tmp, -1);
@@ -605,7 +624,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 			document, "formatBlock", FALSE, value);
 	} else {
 		webkit_dom_document_exec_command (
-			document, "removeFormat", FALSE, NULL);
+			document, "removeFormat", FALSE, "");
 	}
 
 	g_object_notify (G_OBJECT (selection), "block-format");
@@ -634,7 +653,7 @@ e_editor_selection_set_bold (EEditorSelection *selection,
 	}
 
 	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "bold", FALSE, NULL);
+	webkit_dom_document_exec_command (document, "bold", FALSE, "");
 
 	g_object_notify (G_OBJECT (selection), "bold");
 }
@@ -643,13 +662,13 @@ const gchar *
 e_editor_selection_get_font_color (EEditorSelection *selection)
 {
 	WebKitDOMNode *node;
+	WebKitDOMRange *range;
 	WebKitDOMCSSStyleDeclaration *css;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
 
-	node = webkit_dom_range_get_common_ancestor_container (
-			selection->priv->range, NULL);
-
+	range = editor_selection_get_current_range (selection);
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	g_free (selection->priv->font_color);
 	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
@@ -668,7 +687,7 @@ e_editor_selection_set_font_color (EEditorSelection *selection,
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
 	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "foreColor", FALSE, color);
+	webkit_dom_document_exec_command (document, "foreColor", FALSE, "");
 
 	g_object_notify (G_OBJECT (selection), "font-color");
 }
@@ -677,13 +696,13 @@ const gchar *
 e_editor_selection_get_font_name (EEditorSelection *selection)
 {
 	WebKitDOMNode *node;
+	WebKitDOMRange *range;
 	WebKitDOMCSSStyleDeclaration *css;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
 
-	node = webkit_dom_range_get_common_ancestor_container (
-			selection->priv->range, NULL);
-
+	range = editor_selection_get_current_range (selection);
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	g_free (selection->priv->font_family);
 	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
@@ -702,7 +721,7 @@ e_editor_selection_set_font_name (EEditorSelection *selection,
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
 	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "fontName", FALSE, font_name);
+	webkit_dom_document_exec_command (document, "fontName", FALSE, "");
 
 	g_object_notify (G_OBJECT (selection), "font-name");
 }
@@ -711,15 +730,15 @@ guint
 e_editor_selection_get_font_size (EEditorSelection *selection)
 {
 	WebKitDOMNode *node;
+	WebKitDOMRange *range;
 	WebKitDOMCSSStyleDeclaration *css;
 	gchar *size;
 	gint size_int;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), 0);
 
-	node = webkit_dom_range_get_common_ancestor_container (
-			selection->priv->range, NULL);
-
+	range = editor_selection_get_current_range (selection);
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	g_free (selection->priv->font_family);
 	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
@@ -770,7 +789,7 @@ e_editor_selection_set_italic (EEditorSelection *selection,
 	}
 
 	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "italic", FALSE, NULL);
+	webkit_dom_document_exec_command (document, "italic", FALSE, "");
 
 	g_object_notify (G_OBJECT (selection), "italic");
 }
@@ -797,7 +816,7 @@ e_editor_selection_set_strike_through (EEditorSelection *selection,
 	}
 
 	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "strikeThrough", FALSE, NULL);
+	webkit_dom_document_exec_command (document, "strikeThrough", FALSE, "");
 
 	g_object_notify (G_OBJECT (selection), "strike-through");
 }
@@ -806,11 +825,12 @@ gboolean
 e_editor_selection_get_subscript (EEditorSelection *selection)
 {
 	WebKitDOMNode *node;
+	WebKitDOMRange *range;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
-	node = webkit_dom_range_get_common_ancestor_container (
-			selection->priv->range, NULL);
+	range = editor_selection_get_current_range (selection);
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	while (node) {
 		gchar *tag_name;
@@ -843,7 +863,7 @@ e_editor_selection_set_subscript (EEditorSelection *selection,
 	}
 
 	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "subscript", FALSE, NULL);
+	webkit_dom_document_exec_command (document, "subscript", FALSE, "");
 
 	g_object_notify (G_OBJECT (selection), "subscript");
 }
@@ -852,11 +872,12 @@ gboolean
 e_editor_selection_get_superscript (EEditorSelection *selection)
 {
 	WebKitDOMNode *node;
+	WebKitDOMRange *range;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
-	node = webkit_dom_range_get_common_ancestor_container (
-			selection->priv->range, NULL);
+	range = editor_selection_get_current_range (selection);
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	while (node) {
 		gchar *tag_name;
@@ -889,7 +910,7 @@ e_editor_selection_set_superscript (EEditorSelection *selection,
 	}
 
 	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "superscript", FALSE, NULL);
+	webkit_dom_document_exec_command (document, "superscript", FALSE, "");
 
 	g_object_notify (G_OBJECT (selection), "superscript");
 }
@@ -916,7 +937,59 @@ e_editor_selection_set_underline (EEditorSelection *selection,
 	}
 
 	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "underline", FALSE, NULL);
+	webkit_dom_document_exec_command (document, "underline", FALSE, "");
 
 	g_object_notify (G_OBJECT (selection), "underline");
+}
+
+void
+e_editor_selection_insert_text (EEditorSelection *selection,
+				const gchar *plain_text)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMRange *range;
+	WebKitDOMElement *element;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (plain_text != NULL);
+
+	range = editor_selection_get_current_range (selection);
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	element = webkit_dom_document_create_element (document, "DIV", NULL);
+	webkit_dom_html_element_set_inner_text (
+		WEBKIT_DOM_HTML_ELEMENT (element), plain_text, NULL);
+
+	webkit_dom_range_insert_node (
+		range, webkit_dom_node_get_first_child (
+			WEBKIT_DOM_NODE (element)), NULL);
+
+	g_object_unref (element);
+}
+
+void
+e_editor_selection_insert_html (EEditorSelection *selection,
+				const gchar *html_text)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (html_text != NULL);
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (
+			document, "insertHTML", FALSE, html_text);
+}
+
+void
+e_editor_selection_insert_image (EEditorSelection *selection,
+				 const gchar *image_uri)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (image_uri != NULL);
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (
+			document, "insertImage", FALSE, image_uri);
 }
