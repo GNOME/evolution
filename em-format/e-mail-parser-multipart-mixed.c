@@ -97,9 +97,19 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 		new_parts = e_mail_parser_parse_part (
 				parser, subpart, part_id, cancellable);
 
-		/* Force messages to be expandable */
 		ct = camel_mime_part_get_content_type (subpart);
-		if (!new_parts ||
+
+		/* Display parts with CID as attachments */
+		if (new_parts && new_parts->data &&
+			(E_MAIL_PART (new_parts->data)->cid != NULL)) {
+
+			parts = g_slist_concat (parts,
+					e_mail_parser_wrap_as_attachment (
+						parser, subpart, new_parts,
+						part_id, cancellable));
+
+			/* Force messages to be expandable */
+		} else if (!new_parts ||
 		    (camel_content_type_is (ct, "message", "rfc822") &&
 		     new_parts && new_parts->data &&
 		     !E_MAIL_PART (new_parts->data)->is_attachment)) {

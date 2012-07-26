@@ -293,19 +293,20 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		g_free (syntax);
 
 		str = g_strdup_printf (
-			"<div class=\"part-container\" style=\"border-color: #%06x; "
-			"background-color: #%06x;\">"
-			"<div class=\"part-container-inner-margin\">\n"
+			"<div class=\"part-container-nostyle\" >"
 			"<iframe width=\"100%%\" height=\"10\""
-			" name=\"%s\" frameborder=\"0\" src=\"%s\"></iframe>"
-			"</div></div>",
+			" id=\"%s\" name=\"%s\" "
+			" frameborder=\"0\" src=\"%s\" "
+			" style=\"border: 1px solid #%06x; background-color: #%06x;\">"
+			"</iframe>"
+			"</div>",
+			part->id, part->id, uri,
 			e_color_to_value ((GdkColor *)
 				e_mail_formatter_get_color (
 					formatter, E_MAIL_FORMATTER_COLOR_FRAME)),
 			e_color_to_value ((GdkColor *)
 				e_mail_formatter_get_color (
-					formatter, E_MAIL_FORMATTER_COLOR_CONTENT)),
-			part->id, uri);
+					formatter, E_MAIL_FORMATTER_COLOR_CONTENT)));
 
 		camel_stream_write_string (stream, str, cancellable, NULL);
 
