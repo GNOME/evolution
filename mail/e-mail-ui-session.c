@@ -186,13 +186,13 @@ user_message_exec (struct _user_message_msg *m,
 
 	switch (m->type) {
 		case CAMEL_SESSION_ALERT_INFO:
-			error_type = "mail:session-message-info";
+			error_type = "system:simple-info";
 			break;
 		case CAMEL_SESSION_ALERT_WARNING:
-			error_type = "mail:session-message-warning";
+			error_type = "system:simple-warning";
 			break;
 		case CAMEL_SESSION_ALERT_ERROR:
-			error_type = "mail:session-message-error";
+			error_type = "system:simple-error";
 			break;
 		default:
 			error_type = NULL;

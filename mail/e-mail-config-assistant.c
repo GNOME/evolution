@@ -325,7 +325,7 @@ mail_config_assistant_close_cb (GObject *object,
 	} else if (error != NULL) {
 		e_alert_submit (
 			E_ALERT_SINK (assistant),
-			"mail:session-message-error",
+			"system:simple-error",
 			error->message, NULL);
 		g_error_free (error);
 

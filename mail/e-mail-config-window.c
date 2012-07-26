@@ -162,7 +162,7 @@ mail_config_window_commit_cb (GObject *object,
 	} else if (error != NULL) {
 		e_alert_submit (
 			E_ALERT_SINK (window),
-			"mail:session-message-error",
+			"system:simple-error",
 			error->message, NULL);
 		g_object_unref (window);
 		g_error_free (error);

@@ -136,18 +136,6 @@ Many email systems add an Apparently-To header to messages that only have BCC re
     <secondary>{0}</secondary>
   </error>
 
-  <error id="session-message-info" type="info">
-    <secondary>{0}</secondary>
-  </error>
-
-  <error id="session-message-warning" type="warning">
-    <secondary>{0}</secondary>
-  </error>
-
-  <error id="session-message-error" type="error">
-    <secondary>{0}</secondary>
-  </error>
-
   <error id="ask-session-password" type="question" default="GTK_RESPONSE_OK">
     <_primary>Enter password.</_primary>
     <secondary>{0}</secondary>
