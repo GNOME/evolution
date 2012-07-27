@@ -1887,8 +1887,7 @@ e_web_view_clear (EWebView *web_view)
 		style_context, state_flags, &rgba);
 
 	html = g_strdup_printf (
-		"<html><head></hea
-		d><body bgcolor=\"#%06x\"></body></html>",
+		"<html><head></head><body bgcolor=\"#%06x\"></body></html>",
 		e_rgba_to_value (&rgba));
 
 	webkit_web_view_load_html_string (WEBKIT_WEB_VIEW (web_view), html, NULL);
