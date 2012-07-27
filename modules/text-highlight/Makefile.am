@@ -24,6 +24,8 @@ module_text_highlight_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/mail/libevolution-mail.la			\
 	$(top_builddir)/em-format/libemformat.la			\
+	$(top_builddir)/shell/libeshell.la				\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)
 
