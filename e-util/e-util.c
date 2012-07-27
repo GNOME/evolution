@@ -835,6 +835,31 @@ e_color_to_value (GdkColor *color)
 	return (guint32) (((red << 16) | (green << 8) | blue) & 0xffffff);
 }
 
+/**
+ * e_rgba_to_value:
+ * @rgba: a #GdkRGBA
+ *
+
+ * Converts #GdkRGBA to a 24-bit RGB color value
+ *
+ * Returns: a 24-bit color value
+ **/
+guint32
+e_rgba_to_value (GdkRGBA *rgba)
+{
+	guint16 red;
+	guint16 green;
+	guint16 blue;
+
+	g_return_val_if_fail (rgba != NULL, 0);
+
+	red = ((guint16) (G_MAXUINT16 * rgba->red)) >> 8;
+	green = ((guint16) (G_MAXUINT16 * rgba->green)) >> 8;
+	blue = ((guint16) (G_MAXUINT16 * rgba->blue)) >> 8;
+
+	return (guint32) (((red << 16) | (green << 8) | blue) & 0xffffff);
+}
+
 static gint
 epow10 (gint number)
 {

@@ -85,7 +85,7 @@ emfe_itip_format (EMailFormatterExtension *extension,
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
 		buffer = g_string_sized_new (2048);
 
-		itip_view_write (buffer);
+		itip_view_write (formatter, buffer);
 
 	} else {
 		gchar *uri;

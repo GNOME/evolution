@@ -1060,12 +1060,18 @@ e_mail_formatter_get_html_header (EMailFormatter *formatter)
 		"<title>Evolution Mail Display</title>\n"
 		"<link type=\"text/css\" rel=\"stylesheet\" href=\"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview.css\" />\n"
 		"<style type=\"text/css\">\n"
-		"  table th { color: #000; font-weight: bold; }\n"
+		"  table th { color: #%06x; font-weight: bold; }\n"
 		"</style>\n"
-		"</head><body bgcolor=\"#%06x\">",
+		"</head><body bgcolor=\"#%06x\" text=\"#%06x\">",
 		e_color_to_value ((GdkColor *)
 			e_mail_formatter_get_color (
-				formatter, E_MAIL_FORMATTER_COLOR_BODY)));
+				formatter, E_MAIL_FORMATTER_COLOR_HEADER)),
+		e_color_to_value ((GdkColor *)
+			e_mail_formatter_get_color (
+				formatter, E_MAIL_FORMATTER_COLOR_BODY)),
+		e_color_to_value ((GdkColor *)
+			e_mail_formatter_get_color (
+				formatter, E_MAIL_FORMATTER_COLOR_TEXT)));
 }
 
 EMailExtensionRegistry *

@@ -1874,9 +1874,26 @@ e_web_view_new (void)
 void
 e_web_view_clear (EWebView *web_view)
 {
+	GtkStyleContext *style_context;
+	GtkStateFlags state_flags;
+	GdkRGBA rgba;
+	gchar *html;
+
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	webkit_web_view_load_uri (WEBKIT_WEB_VIEW (web_view), "about:blank");
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (web_view));
+	state_flags = gtk_widget_get_state_flags (GTK_WIDGET (web_view));
+	gtk_style_context_get_background_color (
+		style_context, state_flags, &rgba);
+
+	html = g_strdup_printf (
+		"<html><head></hea
+		d><body bgcolor=\"#%06x\"></body></html>",
+		e_rgba_to_value (&rgba));
+
+	webkit_web_view_load_html_string (WEBKIT_WEB_VIEW (web_view), html, NULL);
+
+	g_free (html);
 }
 
 void

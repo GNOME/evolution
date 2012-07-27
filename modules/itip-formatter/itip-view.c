@@ -1416,15 +1416,12 @@ itip_view_set_extension_name (ItipView *view,
 }
 
 void
-itip_view_write (GString *buffer)
+itip_view_write (EMailFormatter *formatter,
+		 GString *buffer)
 {
-	g_string_append (buffer,
-		"<html>\n"
-		"<head>\n"
-		"<title>ITIP</title>\n"
-		"<link type=\"text/css\" rel=\"stylesheet\" href=\"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview.css\" />\n"
-		"</head>\n"
-		"<body>\n");
+	gchar *header = e_mail_formatter_get_html_header (formatter);
+	g_string_append (buffer, header);
+	g_free (header);
 
 	g_string_append_printf (buffer,
 		"<img src=\"gtk-stock://%s?size=%d\" class=\"itip icon\" />\n",

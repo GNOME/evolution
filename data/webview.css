@@ -12,19 +12,10 @@ body {
   margin: 10px;
 }
 
-h1, h2, h3 {
-  color: #7f7f7f;
-}
-
 th {
-  color: #7f7f7f;
   text-align: left;
   font-weight: normal;
   vertical-align: top;
-}
-
-.header {
-  color: #7f7f7f;
 }
 
 span.navigable, div.navigable, p.navigable {
@@ -123,7 +114,6 @@ object { /* GtkWidgets */
 }
 
 .itip th {
-  color: #000;
   vertical-align: middle;
 }
 

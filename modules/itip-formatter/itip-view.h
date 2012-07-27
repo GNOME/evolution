@@ -30,6 +30,7 @@
 #include <webkit/webkitdom.h>
 #include <libecal/libecal.h>
 #include <libedataserver/libedataserver.h>
+#include <em-format/e-mail-formatter.h>
 
 G_BEGIN_DECLS
 
@@ -100,7 +101,8 @@ ItipView *      itip_view_new                   (EMailPartItip *puri,
 						 ESourceRegistry *registry);
 void		itip_view_init_view		(ItipView *view);
 
-void            itip_view_write                 (GString *buffer);
+void            itip_view_write                 (EMailFormatter *formatter,
+						 GString *buffer);
 
 void            itip_view_write_for_printing    (ItipView *view,
                                                  GString *buffer);

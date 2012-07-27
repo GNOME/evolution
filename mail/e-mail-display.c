@@ -1802,24 +1802,25 @@ void
 e_mail_display_set_status (EMailDisplay *display,
                            const gchar *status)
 {
-	gchar *str;
+	gchar *str, *header;
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
+	header = e_mail_formatter_get_html_header (display->priv->formatter);
 	str = g_strdup_printf (
-		"<!DOCTYPE>"
-		"<html>"
-		  "<head><title>Evolution Mail Display</title></head>"
-		  "<body>"
-		    "<table border=\"0\" width=\"100%%\" height=\"100%%\">"
-		      "<tr height=\"100%%\" valign=\"middle\">"
-			"<td width=\"100%%\" align=\"center\">"
-			  "<strong>%s</strong>"
-			"</td>"
-		      "</tr>"
-		    "</table>"
-		  "</body>"
-		"</html>", status);
+		"%s\n"
+		"  <style>html, body { height: 100%%; }</style>\n"
+		"  <table border=\"0\" width=\"100%%\" height=\"100%%\">\n"
+		"    <tr height=\"100%%\" valign=\"middle\">\n"
+		"      <td width=\"100%%\" align=\"center\">\n"
+		"        <strong>%s</strong>\n"
+		"      </td>\n"
+		"    </tr>\n"
+		"  </table>\n"
+		"</body>\n"
+		"</html>\n",
+		header, status);
+	g_free (header);
 
 	e_web_view_load_string (E_WEB_VIEW (display), str);
 	g_free (str);
