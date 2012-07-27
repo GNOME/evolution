@@ -205,17 +205,13 @@ mail_label_list_store_finalize (GObject *object)
 }
 
 static void
-labels_model_changed_cb (GtkTreeModel *model,
-                         GtkTreePath *path,
-                         GtkTreeIter *iter,
-                         gpointer user_data)
+labels_model_changed_cb (EMailLabelListStore *store)
 {
-	EMailLabelListStore *store;
 	GPtrArray *array;
 	GtkTreeIter tmp_iter;
 	gboolean iter_set;
 
-	store = E_MAIL_LABEL_LIST_STORE (user_data);
+	g_return_if_fail (E_IS_MAIL_LABEL_LIST_STORE (store));
 
 	/* Make sure we don't enter an infinite synchronizing loop */
 	g_signal_handlers_block_by_func (
@@ -303,16 +299,16 @@ mail_label_list_store_constructed (GObject *object)
 		store->priv->mail_settings, "labels", store);
 
 	/* Connect to ListStore change notifications */
-	g_signal_connect (
+	g_signal_connect_swapped (
 		store, "row-inserted",
 		G_CALLBACK (labels_model_changed_cb), store);
-	g_signal_connect (
+	g_signal_connect_swapped (
 		store, "row-changed",
 		G_CALLBACK (labels_model_changed_cb), store);
-	g_signal_connect (
+	g_signal_connect_swapped (
 		store, "row-deleted",
 		G_CALLBACK (labels_model_changed_cb), store);
-	g_signal_connect (
+	g_signal_connect_swapped (
 		store, "rows-reordered",
 		G_CALLBACK (labels_model_changed_cb), store);
 
