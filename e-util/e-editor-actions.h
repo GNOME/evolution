@@ -116,6 +116,8 @@
 	E_EDITOR_ACTION ((editor), "properties-rule")
 #define E_EDITOR_ACTION_PROPERTIES_TABLE(editor) \
 	E_EDITOR_ACTION ((editor), "properties-table")
+#define E_EDITOR_ACTION_REDO(editor) \
+	E_EDITOR_ACTION ((editor), "redo")
 #define E_EDITOR_ACTION_SHOW_FIND(editor) \
 	E_EDITOR_ACTION ((editor), "show-find")
 #define E_EDITOR_ACTION_SHOW_REPLACE(editor) \
@@ -146,6 +148,8 @@
 	E_EDITOR_ACTION ((editor), "test-url")
 #define E_EDITOR_ACTION_UNDERLINE(editor) \
 	E_EDITOR_ACTION ((editor), "underline")
+#define E_EDITOR_ACTION_UNDO(editor) \
+	E_EDITOR_ACTION ((editor), "undo")
 #define E_EDITOR_ACTION_UNINDENT(editor) \
 	E_EDITOR_ACTION ((editor), "unindent")
 
