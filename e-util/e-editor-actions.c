@@ -612,44 +612,6 @@ action_cut_cb (GtkAction *action,
 }
 
 static void
-action_find_cb (GtkAction *action,
-                EEditor *editor)
-{
-	gboolean found;
-
-
-	found = webkit_web_view_search_text (
-		WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)),
-		gtk_entry_get_text (GTK_ENTRY (WIDGET (FIND_ENTRY))),
-		gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (WIDGET (FIND_CASE_SENSITIVE))),
-		!gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (WIDGET (FIND_BACKWARDS))),
-		gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (WIDGET (FIND_WRAP))));
-
-	gtk_action_set_sensitive (ACTION (FIND), found);
-
-	if (!found)
-		gtk_label_set_label (
-			GTK_LABEL (WIDGET (FIND_RESULT_LABEL)),
-			N_("No match found"));
-}
-
-static void
-action_find_again_cb (GtkAction *action,
-                      EEditor *editor)
-{
-	/* FIXME WEBKIT
-	 * Verify that this actually works and if so, then just change the
-	 * callback and remove this function. If not, then we are in trouble...
-	 */
-
-	action_find_cb (action, editor);
-}
-
-
-static void
 action_find_and_replace_cb (GtkAction *action,
                             EEditor *editor)
 {
@@ -1277,9 +1239,24 @@ static void
 action_show_find_cb (GtkAction *action,
                      EEditor *editor)
 {
-	gtk_widget_set_sensitive (WIDGET (FIND_BUTTON), TRUE);
+	if (editor->priv->find_dialog == NULL) {
+		editor->priv->find_dialog = e_editor_find_dialog_new (editor);
+		gtk_action_set_sensitive (ACTION (FIND_AGAIN), TRUE);
+	}
 
-	gtk_window_present (GTK_WINDOW (WIDGET (FIND_WINDOW)));
+	gtk_window_present (GTK_WINDOW (editor->priv->find_dialog));
+}
+
+static void
+action_find_again_cb (GtkAction *action,
+                      EEditor *editor)
+{
+	if (editor->priv->find_dialog == NULL) {
+		return;
+	}
+
+	e_editor_find_dialog_find_next (
+		E_EDITOR_FIND_DIALOG (editor->priv->find_dialog));
 }
 
 static void
@@ -1444,20 +1421,6 @@ static GtkActionEntry core_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_cut_cb) },
 
-	{ "find",
-	  GTK_STOCK_FIND,
-	  NULL,
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_find_cb) },
-
-	{ "find-again",
-	  NULL,
-	  N_("Find A_gain"),
-	  "<Control>g",
-	  NULL,
-	  G_CALLBACK (action_find_again_cb) },
-
 	{ "find-and-replace",
 	  GTK_STOCK_FIND_AND_REPLACE,
 	  NULL,
@@ -1520,6 +1483,13 @@ static GtkActionEntry core_entries[] = {
 	  "<Control>f",
 	  NULL,
 	  G_CALLBACK (action_show_find_cb) },
+
+	{ "find-again",
+	  NULL,
+	  N_("Find A_gain"),
+	  "<Control>g",
+	  NULL,
+	  G_CALLBACK (action_find_again_cb) },
 
 	{ "show-replace",
 	  GTK_STOCK_FIND_AND_REPLACE,
@@ -2415,7 +2385,7 @@ editor_actions_init (EEditor *editor)
 	/* Fine Tuning */
 
 	g_object_set (
-		G_OBJECT (ACTION (FIND)),
+		G_OBJECT (ACTION (SHOW_FIND)),
 		"short-label", _("_Find"), NULL);
 	g_object_set (
 		G_OBJECT (ACTION (FIND_AND_REPLACE)),
@@ -2435,6 +2405,7 @@ editor_actions_init (EEditor *editor)
 		"short-label", _("_Table"), NULL);
 
 	gtk_action_set_sensitive (ACTION (UNINDENT), FALSE);
+	gtk_action_set_sensitive (ACTION (FIND_AGAIN), FALSE);
 
 	editor_widget = e_editor_get_editor_widget (editor);
 	g_object_bind_property (

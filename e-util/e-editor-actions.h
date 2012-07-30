@@ -82,6 +82,8 @@
 	E_EDITOR_ACTION ((editor), "edit-menu")
 #define E_EDITOR_ACTION_FIND(editor) \
 	E_EDITOR_ACTION ((editor), "find")
+#define E_EDITOR_ACTION_FIND_AGAIN(editor) \
+	E_EDITOR_ACTION ((editor), "find-again")
 #define E_EDITOR_ACTION_FIND_AND_REPLACE(editor) \
 	E_EDITOR_ACTION ((editor), "find-and-replace")
 #define E_EDITOR_ACTION_FORMAT_MENU(editor) \

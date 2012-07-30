@@ -59,24 +59,6 @@
 #define E_EDITOR_WIDGETS_CELL_PROPERTIES_WRAP_TEXT_CHECK_BUTTON(editor) \
 	E_EDITOR_WIDGETS ((editor), "cell-properties-wrap-text-check-button")
 
-/* Find Window */
-#define E_EDITOR_WIDGETS_FIND_BACKWARDS(editor) \
-	E_EDITOR_WIDGETS ((editor), "find-backwards")
-#define E_EDITOR_WIDGETS_FIND_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "find-button")
-#define E_EDITOR_WIDGETS_FIND_CASE_SENSITIVE(editor) \
-	E_EDITOR_WIDGETS ((editor), "find-case-sensitive")
-#define E_EDITOR_WIDGETS_FIND_WINDOW(editor) \
-	E_EDITOR_WIDGETS ((editor), "find-window")
-#define E_EDITOR_WIDGETS_FIND_ENTRY(editor) \
-	E_EDITOR_WIDGETS ((editor), "find-entry")
-#define E_EDITOR_WIDGETS_FIND_REGULAR_EXPRESSION(editor) \
-	E_EDITOR_WIDGETS ((editor), "find-regular-expression")
-#define E_EDITOR_WIDGETS_FIND_RESULT_LABEL(editor) \
-	E_EDITOR_WIDGETS ((editor), "find-result-label")
-#define E_EDITOR_WIDGETS_FIND_WRAP(editor) \
-	E_EDITOR_WIDGETS ((editor), "find-wrap")
-
 /* Image Properties Window */
 #define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_ALIGNMENT_COMBO_BOX(editor) \
 	E_EDITOR_WIDGETS ((editor), "image-properties-alignment-combo-box")

@@ -1,8 +1,11 @@
 /*
  * e-editor-find-dialog.h
  *
+<<<<<<< HEAD
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
+=======
+>>>>>>> Port Find dialog and search functionality
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -25,7 +28,12 @@
 #ifndef E_EDITOR_FIND_DIALOG_H
 #define E_EDITOR_FIND_DIALOG_H
 
+<<<<<<< HEAD
 #include <e-util/e-editor-dialog.h>
+=======
+#include <gtk/gtk.h>
+#include <e-util/e-editor.h>
+>>>>>>> Port Find dialog and search functionality
 
 /* Standard GObject macros */
 #define E_TYPE_EDITOR_FIND_DIALOG \
@@ -53,16 +61,31 @@ typedef struct _EEditorFindDialogClass EEditorFindDialogClass;
 typedef struct _EEditorFindDialogPrivate EEditorFindDialogPrivate;
 
 struct _EEditorFindDialog {
+<<<<<<< HEAD
 	EEditorDialog parent;
+=======
+	GtkWindow parent;
+
+>>>>>>> Port Find dialog and search functionality
 	EEditorFindDialogPrivate *priv;
 };
 
 struct _EEditorFindDialogClass {
+<<<<<<< HEAD
 	EEditorDialogClass parent_class;
 };
 
 GType		e_editor_find_dialog_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_editor_find_dialog_new	(EEditor *editor);
+=======
+	GtkWindowClass parent_class;
+};
+
+GType		e_editor_find_dialog_get_type	(void);
+
+GtkWidget*	e_editor_find_dialog_new	(EEditor *editor);
+
+>>>>>>> Port Find dialog and search functionality
 void		e_editor_find_dialog_find_next	(EEditorFindDialog *dialog);
 
 G_END_DECLS
