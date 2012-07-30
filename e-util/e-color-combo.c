@@ -314,10 +314,10 @@ color_combo_get_preferred_width (GtkWidget *widget,
 
 	/* Make sure the box with color sample is always visible */
 	if (min_width)
-		*min_width += 8;
+		*min_width += 20;
 
 	if (natural_width)
-		*natural_width += 8;
+		*natural_width += 20;
 }
 
 static gboolean
