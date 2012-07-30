@@ -24,6 +24,7 @@
 #include <e-editor-actions.h>
 #include <e-editor-widgets.h>
 #include <e-editor-widget.h>
+#include <e-editor-find-dialog.h>
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>
@@ -51,6 +52,8 @@ struct _EEditorPrivate {
 	GtkWidget *edit_toolbar;
 	GtkWidget *html_toolbar;
 	GtkWidget *edit_area;
+
+	GtkWidget *find_dialog;
 
 	GtkWidget *color_combo_box;
 	GtkWidget *mode_combo_box;
