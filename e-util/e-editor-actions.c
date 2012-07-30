@@ -2445,5 +2445,17 @@ editor_actions_init (EEditor *editor)
 		editor_widget, "can-undo",
 		ACTION (UNDO), "sensitive",
 		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		editor_widget, "can-copy",
+		ACTION (COPY), "sensitive",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		editor_widget, "can-cut",
+		ACTION (CUT), "sensitive",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		editor_widget, "can-paste",
+		ACTION (PASTE), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
 }
- 

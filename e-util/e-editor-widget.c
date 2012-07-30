@@ -30,6 +30,9 @@ struct _EEditorWidgetPrivate {
 	gint inline_spelling	: 1;
 	gint magic_links	: 1;
 	gint magic_smileys	: 1;
+	gint can_copy		: 1;
+	gint can_cut		: 1;
+	gint can_paste		: 1;
 	gint can_redo		: 1;
 	gint can_undo		: 1;
 
@@ -51,6 +54,9 @@ enum {
 	PROP_MAGIC_LINKS,
 	PROP_MAGIC_SMILEYS,
 	PROP_SPELL_LANGUAGES,
+	PROP_CAN_COPY,
+	PROP_CAN_CUT,
+	PROP_CAN_PASTE,
 	PROP_CAN_REDO,
 	PROP_CAN_UNDO
 };
@@ -61,6 +67,7 @@ editor_widget_user_changed_contents_cb (EEditorWidget *widget,
 					gpointer user_data)
 {
 	gboolean can_redo, can_undo;
+
 	e_editor_widget_set_changed (widget, TRUE);
 
 	can_redo = webkit_web_view_can_redo (WEBKIT_WEB_VIEW (widget));
@@ -73,6 +80,31 @@ editor_widget_user_changed_contents_cb (EEditorWidget *widget,
 	if ((widget->priv->can_undo ? TRUE : FALSE) != (can_undo ? TRUE : FALSE)) {
 		widget->priv->can_undo = can_undo;
 		g_object_notify (G_OBJECT (widget), "can-undo");
+	}
+}
+
+static void
+editor_widget_selection_changed_cb (EEditorWidget *widget,
+				    gpointer user_data)
+{
+	gboolean can_copy, can_cut, can_paste;
+
+	can_copy = webkit_web_view_can_copy_clipboard (WEBKIT_WEB_VIEW (widget));
+	if ((widget->priv->can_copy ? TRUE : FALSE) != (can_copy ? TRUE : FALSE)) {
+		widget->priv->can_copy = can_copy;
+		g_object_notify (G_OBJECT (widget), "can-copy");
+	}
+
+	can_cut = webkit_web_view_can_cut_clipboard (WEBKIT_WEB_VIEW (widget));
+	if ((widget->priv->can_cut ? TRUE : FALSE) != (can_cut ? TRUE : FALSE)) {
+		widget->priv->can_cut = can_cut;
+		g_object_notify (G_OBJECT (widget), "can-cut");
+	}
+
+	can_paste = webkit_web_view_can_paste_clipboard (WEBKIT_WEB_VIEW (widget));
+	if ((widget->priv->can_paste ? TRUE : FALSE) != (can_paste ? TRUE : FALSE)) {
+		widget->priv->can_paste = can_paste;
+		g_object_notify (G_OBJECT (widget), "can-paste");
 	}
 }
 
@@ -111,6 +143,21 @@ e_editor_widget_get_property (GObject *object,
 			g_value_set_boolean (
 				value, e_editor_widget_get_changed (
 				E_EDITOR_WIDGET (object)));
+			return;
+		case PROP_CAN_COPY:
+			g_value_set_boolean (
+				value, webkit_web_view_can_copy_clipboard (
+				WEBKIT_WEB_VIEW (object)));
+			return;
+		case PROP_CAN_CUT:
+			g_value_set_boolean (
+				value, webkit_web_view_can_cut_clipboard (
+				WEBKIT_WEB_VIEW (object)));
+			return;
+		case PROP_CAN_PASTE:
+			g_value_set_boolean (
+				value, webkit_web_view_can_paste_clipboard (
+				WEBKIT_WEB_VIEW (object)));
 			return;
 		case PROP_CAN_REDO:
 			g_value_set_boolean (
@@ -241,6 +288,36 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_CAN_COPY,
+		g_param_spec_boolean (
+			"can-copy",
+			"Can Copy",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CAN_CUT,
+		g_param_spec_boolean (
+			"can-cut",
+			"Can Cut",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CAN_PASTE,
+		g_param_spec_boolean (
+			"can-paste",
+			"Can Paste",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_CAN_REDO,
 		g_param_spec_boolean (
 			"can-redo",
@@ -299,6 +376,8 @@ e_editor_widget_init (EEditorWidget *editor)
 
 	g_signal_connect (editor, "user-changed-contents",
 		G_CALLBACK (editor_widget_user_changed_contents_cb), NULL);
+	g_signal_connect (editor, "selection-changed",
+		G_CALLBACK (editor_widget_selection_changed_cb), NULL);
 }
 
 EEditorWidget *
