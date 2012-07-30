@@ -1,10 +1,5 @@
 /* e-editor-actions.c
  *
-<<<<<<< HEAD
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
-=======
->>>>>>> Initial import of GtkhtmlEditor class
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
@@ -20,11 +15,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
-<<<<<<< HEAD
-=======
 //#include "e-editor-private.h"
 
->>>>>>> Initial import of GtkhtmlEditor class
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -32,18 +24,6 @@
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
-<<<<<<< HEAD
-#include <enchant/enchant.h>
-
-#include "e-editor.h"
-#include "e-editor-private.h"
-#include "e-editor-actions.h"
-#include "e-editor-utils.h"
-#include "e-emoticon-action.h"
-#include "e-emoticon-chooser.h"
-#include "e-image-chooser-dialog.h"
-#include "e-spell-checker.h"
-=======
 
 #include "e-editor.h"
 #include "e-editor-actions.h"
@@ -51,7 +31,6 @@
 #include "e-editor-widgets.h"
 #include "e-emoticon-action.h"
 #include "e-image-chooser-dialog.h"
->>>>>>> Initial import of GtkhtmlEditor class
 
 static void
 insert_html_file_ready_cb (GFile *file,
@@ -128,29 +107,6 @@ insert_text_file_ready_cb (GFile *file,
 }
 
 static void
-<<<<<<< HEAD
-editor_update_static_spell_actions (EEditor *editor)
-{
-	ESpellChecker *checker;
-	EEditorWidget *editor_widget;
-	guint count;
-
-	editor_widget = e_editor_get_editor_widget (editor);
-	checker = e_editor_widget_get_spell_checker (editor_widget);
-
-	count = e_spell_checker_count_active_languages (checker);
-
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD), count == 1);
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD_MENU), count > 1);
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_IGNORE), count > 0);
-
-	gtk_action_set_sensitive (ACTION (SPELL_CHECK), count > 0);
-}
-
-/*****************************************************************************
- * Action Callbacks
- *****************************************************************************/
-=======
 replace_answer (EEditor *editor,
                 EEditorWidgetReplaceAnswer answer)
 {
@@ -218,40 +174,11 @@ find_parent_element_by_type (WebKitDOMNode *node, GType type)
 
 	return NULL;
 }
->>>>>>> Initial import of GtkhtmlEditor class
 
 static void
 action_context_delete_cell_cb (GtkAction *action,
                                EEditor *editor)
 {
-<<<<<<< HEAD
-	WebKitDOMNode *sibling;
-	WebKitDOMElement *cell;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	cell = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
-	if (!cell) {
-		cell = e_editor_dom_node_find_parent_element (
-					editor->priv->table_cell, "TH");
-	}
-	g_return_if_fail (cell != NULL);
-
-	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (cell));
-	if (!sibling) {
-		sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (cell));
-	}
-
-	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (cell)),
-		WEBKIT_DOM_NODE (cell), NULL);
-
-	if (sibling) {
-		webkit_dom_html_table_cell_element_set_col_span (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (sibling),
-			webkit_dom_html_table_cell_element_get_col_span (
-				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (sibling)) + 1);
-=======
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
@@ -309,7 +236,6 @@ action_context_delete_cell_cb (GtkAction *action,
 			cell = webkit_dom_node_get_first_child (
 				webkit_dom_node_get_parent_node (cell));
 		}
->>>>>>> Initial import of GtkhtmlEditor class
 	}
 }
 
@@ -317,39 +243,6 @@ static void
 action_context_delete_column_cb (GtkAction *action,
                                  EEditor *editor)
 {
-<<<<<<< HEAD
-	WebKitDOMElement *cell, *table;
-	WebKitDOMHTMLCollection *rows;
-	gulong index, length, ii;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	/* Find TD in which the selection starts */
-	cell = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
-	if (!cell) {
-		cell = e_editor_dom_node_find_parent_element (
-					editor->priv->table_cell, "TH");
-	}
-	g_return_if_fail (cell != NULL);
-
-	table = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
-	g_return_if_fail (table != NULL);
-
-	rows = webkit_dom_html_table_element_get_rows (
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table));
-	length = webkit_dom_html_collection_get_length (rows);
-
-	index = webkit_dom_html_table_cell_element_get_cell_index (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
-
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *row;
-
-		row = webkit_dom_html_collection_item (rows, ii);
-
-		webkit_dom_html_table_row_element_delete_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index, NULL);
-=======
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
@@ -401,7 +294,6 @@ action_context_delete_column_cb (GtkAction *action,
 
 			row = webkit_dom_node_get_next_sibling (row);
 		}
->>>>>>> Initial import of GtkhtmlEditor class
 	}
 }
 
@@ -409,18 +301,6 @@ static void
 action_context_delete_row_cb (GtkAction *action,
                               EEditor *editor)
 {
-<<<<<<< HEAD
-	WebKitDOMElement *row;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	row = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
-	g_return_if_fail (row != NULL);
-
-	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row)),
-		WEBKIT_DOM_NODE (row), NULL);
-=======
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
@@ -461,25 +341,10 @@ action_context_delete_row_cb (GtkAction *action,
 		webkit_dom_html_table_element_delete_row (
 			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index, NULL);
 	}
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_context_delete_table_cb (GtkAction *action,
-<<<<<<< HEAD
-                                EEditor *editor)
-{
-	WebKitDOMElement *table;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	table = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TABLE");
-	g_return_if_fail (table != NULL);
-
-	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (table)),
-		WEBKIT_DOM_NODE (table), NULL);
-=======
     EEditor *editor)
 {
 	WebKitDOMDocument *document;
@@ -505,34 +370,12 @@ action_context_delete_table_cb (GtkAction *action,
 
 	webkit_dom_node_remove_child (
 		webkit_dom_node_get_parent_node (table), table, NULL);
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_context_insert_column_after_cb (GtkAction *action,
                                        EEditor *editor)
 {
-<<<<<<< HEAD
-	WebKitDOMElement *cell, *row;
-	gulong index;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	cell = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
-	if (!cell) {
-		cell = e_editor_dom_node_find_parent_element (
-					editor->priv->table_cell, "TH");
-	}
-	g_return_if_fail (cell != NULL);
-
-	row = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
-	g_return_if_fail (row != NULL);
-
-	/* Get the first row in the table */
-	row = WEBKIT_DOM_ELEMENT (
-		webkit_dom_node_get_first_child (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row))));
-=======
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
@@ -560,7 +403,6 @@ action_context_insert_column_after_cb (GtkAction *action,
 	/* Get the first row in the table */
 	row = webkit_dom_node_get_first_child (
 		webkit_dom_node_get_parent_node (row));
->>>>>>> Initial import of GtkhtmlEditor class
 
 	index = webkit_dom_html_table_cell_element_get_cell_index (
 			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
@@ -569,12 +411,7 @@ action_context_insert_column_after_cb (GtkAction *action,
 		webkit_dom_html_table_row_element_insert_cell (
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index + 1, NULL);
 
-<<<<<<< HEAD
-		row = WEBKIT_DOM_ELEMENT (
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row)));
-=======
 		row = webkit_dom_node_get_next_sibling (row);
->>>>>>> Initial import of GtkhtmlEditor class
 	}
 }
 
@@ -582,27 +419,6 @@ static void
 action_context_insert_column_before_cb (GtkAction *action,
                                         EEditor *editor)
 {
-<<<<<<< HEAD
-	WebKitDOMElement *cell, *row;
-	gulong index;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	cell = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
-	if (!cell) {
-		cell = e_editor_dom_node_find_parent_element (
-				editor->priv->table_cell, "TH");
-	}
-	g_return_if_fail (cell != NULL);
-
-	row = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
-	g_return_if_fail (row != NULL);
-
-	/* Get the first row in the table */
-	row = WEBKIT_DOM_ELEMENT (
-		webkit_dom_node_get_first_child (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row))));
-=======
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
@@ -630,7 +446,6 @@ action_context_insert_column_before_cb (GtkAction *action,
 	/* Get the first row in the table */
 	row = webkit_dom_node_get_first_child (
 		webkit_dom_node_get_parent_node (row));
->>>>>>> Initial import of GtkhtmlEditor class
 
 	index = webkit_dom_html_table_cell_element_get_cell_index (
 			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
@@ -639,12 +454,7 @@ action_context_insert_column_before_cb (GtkAction *action,
 		webkit_dom_html_table_row_element_insert_cell (
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index - 1, NULL);
 
-<<<<<<< HEAD
-		row = WEBKIT_DOM_ELEMENT (
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row)));
-=======
 		row = webkit_dom_node_get_next_sibling (row);
->>>>>>> Initial import of GtkhtmlEditor class
 	}
 }
 
@@ -652,35 +462,6 @@ static void
 action_context_insert_row_above_cb (GtkAction *action,
                                     EEditor *editor)
 {
-<<<<<<< HEAD
-	WebKitDOMElement *row, *table;
-	WebKitDOMHTMLCollection *cells;
-	WebKitDOMHTMLElement *new_row;
-	gulong index, cell_count, ii;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	row = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
-	g_return_if_fail (row != NULL);
-
-	table = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
-	g_return_if_fail (table != NULL);
-
-	index = webkit_dom_html_table_row_element_get_row_index (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
-
-	new_row = webkit_dom_html_table_element_insert_row (
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index, NULL);
-
-	cells = webkit_dom_html_table_row_element_get_cells (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
-	cell_count = webkit_dom_html_collection_get_length (cells);
-	for (ii = 0; ii < cell_count; ii++) {
-		webkit_dom_html_table_row_element_insert_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (new_row), -1, NULL);
-	}
-
-=======
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
@@ -711,27 +492,12 @@ action_context_insert_row_above_cb (GtkAction *action,
 
 	webkit_dom_html_table_element_insert_row (
 		WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index - 1, NULL);
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_context_insert_row_below_cb (GtkAction *action,
                                     EEditor *editor)
 {
-<<<<<<< HEAD
-	WebKitDOMElement *row, *table;
-	WebKitDOMHTMLCollection *cells;
-	WebKitDOMHTMLElement *new_row;
-	gulong index, cell_count, ii;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	row = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
-	g_return_if_fail (row != NULL);
-
-	table = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
-	g_return_if_fail (table != NULL);
-=======
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
@@ -756,66 +522,29 @@ action_context_insert_row_below_cb (GtkAction *action,
 
 	table = find_parent_element_by_type (
 		row, WEBKIT_TYPE_DOM_HTML_TABLE_ELEMENT);
->>>>>>> Initial import of GtkhtmlEditor class
 
 	index = webkit_dom_html_table_row_element_get_row_index (
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
 
-<<<<<<< HEAD
-	new_row = webkit_dom_html_table_element_insert_row (
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index + 1, NULL);
-
-	cells = webkit_dom_html_table_row_element_get_cells (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
-	cell_count = webkit_dom_html_collection_get_length (cells);
-	for (ii = 0; ii < cell_count; ii++) {
-		webkit_dom_html_table_row_element_insert_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (new_row), -1, NULL);
-	}
-=======
 	webkit_dom_html_table_element_insert_row (
 		WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index + 1, NULL);
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_context_remove_link_cb (GtkAction *action,
                                EEditor *editor)
 {
-<<<<<<< HEAD
-	EEditorWidget *widget;
-	EEditorSelection *selection;
-
-	widget = e_editor_get_editor_widget (editor);
-	selection = e_editor_widget_get_selection (widget);
-
-	e_editor_selection_unlink (selection);
-=======
 	WebKitDOMDocument *document;
 
 	document = webkit_web_view_get_dom_document (
 			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
 	webkit_dom_document_exec_command (document, "unlink", FALSE, "");
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_context_spell_add_cb (GtkAction *action,
                              EEditor *editor)
 {
-<<<<<<< HEAD
-	ESpellChecker *spell_checker;
-	EEditorSelection *selection;
-	gchar *word;
-
-	spell_checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
-	selection = e_editor_widget_get_selection (editor->priv->editor_widget);
-
-	word = e_editor_selection_get_caret_word (selection);
-	if (word && *word) {
-		e_spell_checker_learn_word (spell_checker, word);
-	}
-=======
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
@@ -837,26 +566,12 @@ action_context_spell_add_cb (GtkAction *action,
 	webkit_spell_checker_learn_word (spell_checker, word);
 
 	g_free (word);
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_context_spell_ignore_cb (GtkAction *action,
                                 EEditor *editor)
 {
-<<<<<<< HEAD
-	ESpellChecker *spell_checker;
-	EEditorSelection *selection;
-	gchar *word;
-
-	spell_checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
-	selection = e_editor_widget_get_selection (editor->priv->editor_widget);
-
-	word = e_editor_selection_get_caret_word (selection);
-	if (word && *word) {
-		e_spell_checker_ignore_word (spell_checker, word);
-	}
-=======
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
@@ -878,7 +593,6 @@ action_context_spell_ignore_cb (GtkAction *action,
 	webkit_spell_checker_ignore_word (spell_checker, word);
 
 	g_free (word);
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
@@ -898,12 +612,6 @@ action_cut_cb (GtkAction *action,
 }
 
 static void
-<<<<<<< HEAD
-action_indent_cb (GtkAction *action,
-                  EEditor *editor)
-{
-	e_editor_selection_indent (editor->priv->selection);
-=======
 action_find_cb (GtkAction *action,
                 EEditor *editor)
 {
@@ -1049,24 +757,10 @@ action_indent_cb (GtkAction *action,
 	document = webkit_web_view_get_dom_document (
 			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
 	webkit_dom_document_exec_command (document, "indent", FALSE, "");
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_insert_emoticon_cb (GtkAction *action,
-<<<<<<< HEAD
-                           EEditor *editor)
-{
-	EEditorWidget *widget;
-	EEmoticon *emoticon;
-
-	emoticon = e_emoticon_chooser_get_current_emoticon (
-					E_EMOTICON_CHOOSER (action));
-	g_return_if_fail (emoticon != NULL);
-
-	widget = e_editor_get_editor_widget (editor);
-	e_editor_widget_insert_smiley (widget, emoticon);
-=======
       EEditor *editor)
 {
 	/* FIXME WEBKIT
@@ -1106,7 +800,6 @@ action_insert_emoticon_cb (GtkAction *action,
 
 	g_free (uri);
 	*/
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
@@ -1117,17 +810,10 @@ action_insert_html_file_cb (GtkToggleAction *action,
 	GtkFileFilter *filter;
 
 	dialog = gtk_file_chooser_dialog_new (
-<<<<<<< HEAD
-		_("Insert HTML File"), NULL,
-		GTK_FILE_CHOOSER_ACTION_OPEN,
-		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
-=======
 			_("Insert HTML File"), NULL,
 			GTK_FILE_CHOOSER_ACTION_OPEN,
 			GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
->>>>>>> Initial import of GtkhtmlEditor class
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("HTML file"));
@@ -1135,14 +821,8 @@ action_insert_html_file_cb (GtkToggleAction *action,
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-<<<<<<< HEAD
-		GFile *file;
-
-		file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
-=======
 		GFile *file = gtk_file_chooser_get_file (
 					GTK_FILE_CHOOSER (dialog));
->>>>>>> Initial import of GtkhtmlEditor class
 
 		/* XXX Need a way to cancel this. */
 		g_file_load_contents_async (
@@ -1162,22 +842,6 @@ action_insert_image_cb (GtkAction *action,
 {
 	GtkWidget *dialog;
 
-<<<<<<< HEAD
-	dialog = e_image_chooser_dialog_new (_("Insert Image"), NULL);
-
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-		EEditorWidget *editor_widget;
-		EEditorSelection *selection;
-		gchar *uri;
-
-		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
-
-		editor_widget = e_editor_get_editor_widget (editor);
-		selection = e_editor_widget_get_selection (editor_widget);
-		e_editor_selection_insert_image (selection, uri);
-
-		g_free (uri);
-=======
 	dialog = e_image_chooser_dialog_new (
 			_("Insert Image"), NULL);
 
@@ -1192,7 +856,6 @@ action_insert_image_cb (GtkAction *action,
 				e_editor_get_editor_widget (editor));
 		 e_editor_selection_insert_image (selection, uri);
 		 g_free (uri);
->>>>>>> Initial import of GtkhtmlEditor class
 	}
 
 	gtk_widget_destroy (dialog);
@@ -1202,29 +865,14 @@ static void
 action_insert_link_cb (GtkAction *action,
                        EEditor *editor)
 {
-<<<<<<< HEAD
-	if (editor->priv->link_dialog == NULL)
-		editor->priv->link_dialog =
-			e_editor_link_dialog_new (editor);
-
-	gtk_window_present (GTK_WINDOW (editor->priv->link_dialog));
-=======
 	/* FIXME WEBKIT */
 	gtk_window_present (GTK_WINDOW (WIDGET (LINK_PROPERTIES_WINDOW)));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_insert_rule_cb (GtkAction *action,
                        EEditor *editor)
 {
-<<<<<<< HEAD
-	if (editor->priv->hrule_dialog == NULL)
-		editor->priv->hrule_dialog =
-			e_editor_hrule_dialog_new (editor);
-
-	gtk_window_present (GTK_WINDOW (editor->priv->hrule_dialog));
-=======
 	WebKitDOMDocument *document;
 
 	document = webkit_web_view_get_dom_document (
@@ -1234,20 +882,12 @@ action_insert_rule_cb (GtkAction *action,
 
 	/* FIXME WEBKIT - does the action work? */
 	gtk_action_activate (ACTION (PROPERTIES_RULE));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_insert_table_cb (GtkAction *action,
                         EEditor *editor)
 {
-<<<<<<< HEAD
-	if (editor->priv->table_dialog == NULL)
-		editor->priv->table_dialog =
-			e_editor_table_dialog_new (editor);
-
-	gtk_window_present (GTK_WINDOW (editor->priv->table_dialog));
-=======
 	WebKitDOMDocument *document;
 	WebKitDOMElement *table;
 	WebKitDOMDOMWindow *window;
@@ -1284,7 +924,6 @@ action_insert_table_cb (GtkAction *action,
 
 	/* FIXME WEBKIT - does the action work? */
 	gtk_action_activate (ACTION (PROPERTIES_TABLE));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
@@ -1295,17 +934,10 @@ action_insert_text_file_cb (GtkAction *action,
 	GtkFileFilter *filter;
 
 	dialog = gtk_file_chooser_dialog_new (
-<<<<<<< HEAD
-		_("Insert text file"), NULL,
-		GTK_FILE_CHOOSER_ACTION_OPEN,
-		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
-=======
 			_("Insert text file"), NULL,
 			GTK_FILE_CHOOSER_ACTION_OPEN,
 			GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
->>>>>>> Initial import of GtkhtmlEditor class
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("Text file"));
@@ -1313,14 +945,8 @@ action_insert_text_file_cb (GtkAction *action,
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-<<<<<<< HEAD
-		GFile *file;
-
-		file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
-=======
 		GFile *file = gtk_file_chooser_get_file (
 					GTK_FILE_CHOOSER (dialog));
->>>>>>> Initial import of GtkhtmlEditor class
 
 		/* XXX Need a way to cancel this. */
 		g_file_load_contents_async (
@@ -1335,53 +961,6 @@ action_insert_text_file_cb (GtkAction *action,
 }
 
 static void
-<<<<<<< HEAD
-action_language_cb (GtkToggleAction *toggle_action,
-                    EEditor *editor)
-{
-	ESpellChecker *checker;
-	EEditorWidget *editor_widget;
-	const gchar *language_code;
-	GtkAction *add_action;
-	gchar *action_name;
-	gboolean active;
-
-	editor_widget = e_editor_get_editor_widget (editor);
-	checker = e_editor_widget_get_spell_checker (editor_widget);
-	language_code = gtk_action_get_name (GTK_ACTION (toggle_action));
-
-	active = gtk_toggle_action_get_active (toggle_action);
-	e_spell_checker_set_language_active (checker, language_code, active);
-
-	/* Update "Add Word To" context menu item visibility. */
-	action_name = g_strdup_printf ("context-spell-add-%s", language_code);
-	add_action = e_editor_get_action (editor, action_name);
-	gtk_action_set_visible (add_action, active);
-	g_free (action_name);
-
-	editor_update_static_spell_actions (editor);
-
-	g_signal_emit_by_name (editor, "spell-languages-changed");
-}
-
-static gboolean
-update_mode_combobox (gpointer data)
-{
-	EEditor *editor = data;
-	EEditorWidget *editor_widget;
-	GtkAction *action;
-	gboolean is_html;
-
-	editor_widget = e_editor_get_editor_widget (editor);
-	is_html = e_editor_widget_get_html_mode (editor_widget);
-
-	action = gtk_action_group_get_action (
-		editor->priv->core_actions, "mode-html");
-	gtk_radio_action_set_current_value (
-		GTK_RADIO_ACTION (action), (is_html ? 1 : 0));
-
-	return FALSE;
-=======
 action_italic_cb (GtkToggleAction *action,
                   EEditor *editor)
 {
@@ -1480,7 +1059,6 @@ action_language_cb (GtkToggleAction *action,
 
 	gtkthtml_editor_emit_spell_languages_changed (editor);
 	*/
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
@@ -1488,41 +1066,6 @@ action_mode_cb (GtkRadioAction *action,
                 GtkRadioAction *current,
                 EEditor *editor)
 {
-<<<<<<< HEAD
-	GtkActionGroup *action_group;
-	EEditorWidget *editor_widget;
-	gboolean is_html;
-
-	editor_widget = e_editor_get_editor_widget (editor);
-	is_html = e_editor_widget_get_html_mode (editor_widget);
-
-	/* This must be done from idle callback, because apparently we can change
-	 * current value in callback of current value change */
-	g_idle_add (update_mode_combobox, editor);
-
-	action_group = editor->priv->html_actions;
-	gtk_action_group_set_sensitive (action_group, is_html);
-
-	action_group = editor->priv->html_context_actions;
-	gtk_action_group_set_visible (action_group, is_html);
-
-	gtk_widget_set_sensitive (editor->priv->color_combo_box, is_html);
-
-	if (is_html) {
-		gtk_widget_show (editor->priv->html_toolbar);
-	} else {
-		gtk_widget_hide (editor->priv->html_toolbar);
-	}
-
-	/* Certain paragraph styles are HTML-only. */
-	gtk_action_set_sensitive (ACTION (STYLE_H1), is_html);
-	gtk_action_set_sensitive (ACTION (STYLE_H2), is_html);
-	gtk_action_set_sensitive (ACTION (STYLE_H3), is_html);
-	gtk_action_set_sensitive (ACTION (STYLE_H4), is_html);
-	gtk_action_set_sensitive (ACTION (STYLE_H5), is_html);
-	gtk_action_set_sensitive (ACTION (STYLE_H6), is_html);
-	gtk_action_set_sensitive (ACTION (STYLE_ADDRESS), is_html);
-=======
 	/* FIXME WEBKIT */
 	/*
 	GtkActionGroup *action_group;
@@ -1618,33 +1161,20 @@ action_monospaced_cb (GtkToggleAction *action,
 	html = gtkhtml_editor_get_html (editor);
 	gtk_html_set_font_style (html, and_mask, or_mask);
 	*/
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_paste_cb (GtkAction *action,
                  EEditor *editor)
 {
-<<<<<<< HEAD
-	/* Paste only into WebView when it has focus */
-	if (gtk_widget_has_focus (GTK_WIDGET (e_editor_get_editor_widget (editor)))) {
-		webkit_web_view_paste_clipboard (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	}
-=======
 	webkit_web_view_paste_clipboard (
 		WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_paste_quote_cb (GtkAction *action,
                        EEditor *editor)
 {
-<<<<<<< HEAD
-	e_editor_widget_paste_clipboard_quoted (
-		e_editor_get_editor_widget (editor));
-=======
 	/* FIXME WEBKIT */
 	/*
 	GtkHTML *html;
@@ -1652,137 +1182,61 @@ action_paste_quote_cb (GtkAction *action,
 	html = gtkhtml_editor_get_html (editor);
 	gtk_html_paste (html, TRUE);
 	*/
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_properties_cell_cb (GtkAction *action,
                            EEditor *editor)
 {
-<<<<<<< HEAD
-	if (editor->priv->cell_dialog == NULL) {
-		editor->priv->cell_dialog =
-			e_editor_cell_dialog_new (editor);
-	}
-
-	e_editor_cell_dialog_show (
-		E_EDITOR_CELL_DIALOG (editor->priv->cell_dialog),
-		editor->priv->table_cell);
-=======
 	gtk_window_present (GTK_WINDOW (WIDGET (CELL_PROPERTIES_WINDOW)));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_properties_image_cb (GtkAction *action,
                             EEditor *editor)
 {
-<<<<<<< HEAD
-	if (editor->priv->image_dialog == NULL) {
-		editor->priv->image_dialog =
-			e_editor_image_dialog_new (editor);
-	}
-
-	e_editor_image_dialog_show (
-		E_EDITOR_IMAGE_DIALOG (editor->priv->image_dialog),
-		editor->priv->image);
-=======
 	gtk_window_present (GTK_WINDOW (WIDGET (IMAGE_PROPERTIES_WINDOW)));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_properties_link_cb (GtkAction *action,
                            EEditor *editor)
 {
-<<<<<<< HEAD
-	if (editor->priv->link_dialog == NULL) {
-		editor->priv->link_dialog =
-			e_editor_link_dialog_new (editor);
-	}
-
-	gtk_window_present (GTK_WINDOW (editor->priv->link_dialog));
-=======
 	gtk_window_present (GTK_WINDOW (WIDGET (LINK_PROPERTIES_WINDOW)));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_properties_page_cb (GtkAction *action,
                            EEditor *editor)
 {
-<<<<<<< HEAD
-	if (editor->priv->page_dialog == NULL) {
-		editor->priv->page_dialog =
-			e_editor_page_dialog_new (editor);
-	}
-
-	gtk_window_present (GTK_WINDOW (editor->priv->page_dialog));
-=======
 	gtk_window_present (GTK_WINDOW (WIDGET (PAGE_PROPERTIES_WINDOW)));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_properties_paragraph_cb (GtkAction *action,
                                 EEditor *editor)
 {
-<<<<<<< HEAD
-	if (editor->priv->paragraph_dialog == NULL) {
-		editor->priv->paragraph_dialog =
-			e_editor_paragraph_dialog_new (editor);
-	}
-
-	gtk_window_present (GTK_WINDOW (editor->priv->paragraph_dialog));
-=======
 	gtk_window_present (GTK_WINDOW (WIDGET (PARAGRAPH_PROPERTIES_WINDOW)));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_properties_rule_cb (GtkAction *action,
                            EEditor *editor)
 {
-<<<<<<< HEAD
-	if (editor->priv->hrule_dialog == NULL) {
-		editor->priv->hrule_dialog =
-			e_editor_hrule_dialog_new (editor);
-	}
-
-	gtk_window_present (GTK_WINDOW (editor->priv->hrule_dialog));
-=======
 	gtk_window_present (GTK_WINDOW (WIDGET (RULE_PROPERTIES_WINDOW)));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_properties_table_cb (GtkAction *action,
                             EEditor *editor)
 {
-<<<<<<< HEAD
-	if (editor->priv->table_dialog == NULL) {
-		editor->priv->table_dialog =
-			e_editor_table_dialog_new (editor);
-	}
-
-	gtk_window_present (GTK_WINDOW (editor->priv->table_dialog));
-=======
 	gtk_window_present (GTK_WINDOW (WIDGET (TABLE_PROPERTIES_WINDOW)));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_properties_text_cb (GtkAction *action,
                            EEditor *editor)
 {
-<<<<<<< HEAD
-	if (editor->priv->text_dialog == NULL) {
-		editor->priv->text_dialog =
-			e_editor_text_dialog_new (editor);
-	}
-
-	gtk_window_present (GTK_WINDOW (editor->priv->text_dialog));
-=======
 	gtk_window_present (GTK_WINDOW (WIDGET (TEXT_PROPERTIES_WINDOW)));
 }
 
@@ -1801,7 +1255,6 @@ action_style_cb (GtkRadioAction *action,
 			e_editor_get_editor_widget (editor));
 	e_editor_selection_set_block_format (
 		selection, gtk_radio_action_get_current_value (current));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
@@ -1824,38 +1277,6 @@ static void
 action_show_find_cb (GtkAction *action,
                      EEditor *editor)
 {
-<<<<<<< HEAD
-	if (editor->priv->find_dialog == NULL) {
-		editor->priv->find_dialog = e_editor_find_dialog_new (editor);
-		gtk_action_set_sensitive (ACTION (FIND_AGAIN), TRUE);
-	}
-
-	gtk_window_present (GTK_WINDOW (editor->priv->find_dialog));
-}
-
-static void
-action_find_again_cb (GtkAction *action,
-                      EEditor *editor)
-{
-	if (editor->priv->find_dialog == NULL) {
-		return;
-	}
-
-	e_editor_find_dialog_find_next (
-		E_EDITOR_FIND_DIALOG (editor->priv->find_dialog));
-}
-
-static void
-action_show_replace_cb (GtkAction *action,
-                        EEditor *editor)
-{
-	if (editor->priv->replace_dialog == NULL) {
-		editor->priv->replace_dialog =
-			e_editor_replace_dialog_new (editor);
-	}
-
-	gtk_window_present (GTK_WINDOW (editor->priv->replace_dialog));
-=======
 	gtk_widget_set_sensitive (WIDGET (FIND_BUTTON), TRUE);
 
 	gtk_window_present (GTK_WINDOW (WIDGET (FIND_WINDOW)));
@@ -1882,21 +1303,12 @@ action_size_cb (GtkRadioAction *action,
 			e_editor_get_editor_widget (editor));
 	e_editor_selection_set_font_size (
 		selection, gtk_radio_action_get_current_value (current));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_spell_check_cb (GtkAction *action,
                        EEditor *editor)
 {
-<<<<<<< HEAD
-	if (editor->priv->spell_check_dialog == NULL) {
-		editor->priv->spell_check_dialog =
-			e_editor_spell_check_dialog_new (editor);
-	}
-
-	gtk_window_present (GTK_WINDOW (editor->priv->spell_check_dialog));
-=======
 	/* FIXME WEBKIT
 	e_editor_widget_spell_check (editor);
 	*/
@@ -1950,7 +1362,6 @@ action_underline_cb (GtkToggleAction *action,
 			e_editor_get_editor_widget (editor));
 	e_editor_selection_set_underline (
 		selection, gtk_toggle_action_get_active (action));
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
@@ -1965,43 +1376,22 @@ static void
 action_unindent_cb (GtkAction *action,
                     EEditor *editor)
 {
-<<<<<<< HEAD
-	e_editor_selection_unindent (editor->priv->selection);
-=======
 	WebKitDOMDocument *document;
 
 	document = webkit_web_view_get_dom_document (
 		WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
 	webkit_dom_document_exec_command (
 		document, "outdent", FALSE, "");
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 action_wrap_lines_cb (GtkAction *action,
                       EEditor *editor)
 {
-<<<<<<< HEAD
-	e_editor_selection_wrap_lines (editor->priv->selection);
-}
-
-static void
-action_show_webkit_inspector_cb (GtkAction *action,
-                                 EEditor *editor)
-{
-	WebKitWebInspector *inspector;
-	EEditorWidget *widget;
-
-	widget = e_editor_get_editor_widget (editor);
-	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (widget));
-
-	webkit_web_inspector_show (inspector);
-=======
 	/* FIXME WEBKIT */
 	/*
 	e_editor_widget_wrap_lines (editor);
 	*/
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 /*****************************************************************************
@@ -2012,8 +1402,6 @@ action_show_webkit_inspector_cb (GtkAction *action,
 
 static GtkActionEntry core_entries[] = {
 
-<<<<<<< HEAD
-=======
 	{ "confirm-replace",
 	  NULL,
 	  N_("_Replace"),
@@ -2042,7 +1430,6 @@ static GtkActionEntry core_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_confirm_replace_next_cb) },
 
->>>>>>> Initial import of GtkhtmlEditor class
 	{ "copy",
 	  GTK_STOCK_COPY,
 	  N_("_Copy"),
@@ -2057,8 +1444,6 @@ static GtkActionEntry core_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_cut_cb) },
 
-<<<<<<< HEAD
-=======
 	{ "find",
 	  GTK_STOCK_FIND,
 	  NULL,
@@ -2080,7 +1465,6 @@ static GtkActionEntry core_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_find_and_replace_cb) },
 
->>>>>>> Initial import of GtkhtmlEditor class
 	{ "indent",
 	  GTK_STOCK_INDENT,
 	  N_("_Increase Indent"),
@@ -2137,16 +1521,6 @@ static GtkActionEntry core_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_show_find_cb) },
 
-<<<<<<< HEAD
-	{ "find-again",
-	  NULL,
-	  N_("Find A_gain"),
-	  "<Control>g",
-	  NULL,
-	  G_CALLBACK (action_find_again_cb) },
-
-=======
->>>>>>> Initial import of GtkhtmlEditor class
 	{ "show-replace",
 	  GTK_STOCK_FIND_AND_REPLACE,
 	  N_("Re_place..."),
@@ -2161,8 +1535,6 @@ static GtkActionEntry core_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_spell_check_cb) },
 
-<<<<<<< HEAD
-=======
 	{ "test-url",
 	  NULL,
 	  N_("_Test URL..."),
@@ -2170,7 +1542,6 @@ static GtkActionEntry core_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_test_url_cb) },
 
->>>>>>> Initial import of GtkhtmlEditor class
 	{ "undo",
 	  GTK_STOCK_UNDO,
 	  N_("_Undo"),
@@ -2192,16 +1563,6 @@ static GtkActionEntry core_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_wrap_lines_cb) },
 
-<<<<<<< HEAD
-	{ "webkit-inspector",
-          NULL,
-          N_("Open Inspector"),
-          NULL,
-          NULL,
-          G_CALLBACK (action_show_webkit_inspector_cb) },
-
-=======
->>>>>>> Initial import of GtkhtmlEditor class
 	/* Menus */
 
 	{ "edit-menu",
@@ -2292,22 +1653,14 @@ static GtkRadioActionEntry core_mode_entries[] = {
 	  N_("_HTML"),
 	  NULL,
 	  N_("HTML editing mode"),
-<<<<<<< HEAD
-	  TRUE },	/* e_editor_widget_set_html_mode */
-=======
 	  E_EDITOR_WIDGET_MODE_HTML },
->>>>>>> Initial import of GtkhtmlEditor class
 
 	{ "mode-plain",
 	  NULL,
 	  N_("Plain _Text"),
 	  NULL,
 	  N_("Plain text editing mode"),
-<<<<<<< HEAD
-	  FALSE }	/* e_editor_widget_set_html_mode */
-=======
 	  E_EDITOR_WIDGET_MODE_PLAIN_TEXT }
->>>>>>> Initial import of GtkhtmlEditor class
 };
 
 static GtkRadioActionEntry core_style_entries[] = {
@@ -2361,16 +1714,6 @@ static GtkRadioActionEntry core_style_entries[] = {
 	  NULL,
 	  E_EDITOR_SELECTION_BLOCK_FORMAT_H6 },
 
-<<<<<<< HEAD
-        { "style-preformat",
-          NULL,
-          N_("_Preformatted"),
-          "<Control>7",
-          NULL,
-          E_EDITOR_SELECTION_BLOCK_FORMAT_PRE },
-
-=======
->>>>>>> Initial import of GtkhtmlEditor class
 	{ "style-address",
 	  NULL,
 	  N_("A_ddress"),
@@ -2378,21 +1721,12 @@ static GtkRadioActionEntry core_style_entries[] = {
 	  NULL,
 	  E_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS },
 
-<<<<<<< HEAD
-        { "style-blockquote",
-          NULL,
-          N_("_Blockquote"),
-          "<Control>9",
-          NULL,
-          E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE },
-=======
 	{ "style-preformat",
 	  NULL,
 	  N_("_Preformatted"),
 	  "<Control>7",
 	  NULL,
 	  E_EDITOR_SELECTION_BLOCK_FORMAT_PRE },
->>>>>>> Initial import of GtkhtmlEditor class
 
 	{ "style-list-bullet",
 	  NULL,
@@ -2528,11 +1862,7 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  N_("_Bold"),
 	  "<Control>b",
 	  N_("Bold"),
-<<<<<<< HEAD
-	  NULL,
-=======
 	  G_CALLBACK (action_bold_cb),
->>>>>>> Initial import of GtkhtmlEditor class
 	  FALSE },
 
 	{ "italic",
@@ -2540,11 +1870,7 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  N_("_Italic"),
 	  "<Control>i",
 	  N_("Italic"),
-<<<<<<< HEAD
-	  NULL,
-=======
 	  G_CALLBACK (action_italic_cb),
->>>>>>> Initial import of GtkhtmlEditor class
 	  FALSE },
 
 	{ "monospaced",
@@ -2552,11 +1878,7 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  N_("_Plain Text"),
 	  "<Control>t",
 	  N_("Plain Text"),
-<<<<<<< HEAD
-	  NULL,
-=======
 	  G_CALLBACK (action_monospaced_cb),
->>>>>>> Initial import of GtkhtmlEditor class
 	  FALSE },
 
 	{ "strikethrough",
@@ -2564,11 +1886,7 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  N_("_Strikethrough"),
 	  NULL,
 	  N_("Strikethrough"),
-<<<<<<< HEAD
-	  NULL,
-=======
 	  G_CALLBACK (action_strikethrough_cb),
->>>>>>> Initial import of GtkhtmlEditor class
 	  FALSE },
 
 	{ "underline",
@@ -2576,11 +1894,7 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  N_("_Underline"),
 	  "<Control>u",
 	  N_("Underline"),
-<<<<<<< HEAD
-	  NULL,
-=======
 	  G_CALLBACK (action_underline_cb),
->>>>>>> Initial import of GtkhtmlEditor class
 	  FALSE }
 };
 
@@ -2875,47 +2189,14 @@ static GtkActionEntry spell_context_entries[] = {
 static void
 editor_actions_setup_languages_menu (EEditor *editor)
 {
-<<<<<<< HEAD
-	ESpellChecker *checker;
-	EEditorWidget *editor_widget;
-	GtkUIManager *manager;
-	GtkActionGroup *action_group;
-	GList *list, *link;
-=======
 	/* FIXME WEBKIT
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
 	const GList *available_languages;
->>>>>>> Initial import of GtkhtmlEditor class
 	guint merge_id;
 
 	manager = editor->priv->manager;
 	action_group = editor->priv->language_actions;
-<<<<<<< HEAD
-	editor_widget = e_editor_get_editor_widget (editor);
-	checker = e_editor_widget_get_spell_checker (editor_widget);
-	merge_id = gtk_ui_manager_new_merge_id (manager);
-
-	list = e_spell_checker_list_available_dicts (checker);
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ESpellDictionary *dictionary = link->data;
-		GtkToggleAction *action;
-		gboolean active;
-
-		action = gtk_toggle_action_new (
-			e_spell_dictionary_get_code (dictionary),
-			e_spell_dictionary_get_name (dictionary),
-			NULL, NULL);
-
-		/* Do this BEFORE connecting to the "toggled" signal.
-		 * We're not prepared to invoke the signal handler yet.
-		 * The "Add Word To" actions have not yet been added. */
-		active = e_spell_checker_get_language_active (
-			checker, e_spell_dictionary_get_code (dictionary));
-		gtk_toggle_action_set_active (action, active);
-
-=======
 	available_languages = gtkhtml_spell_language_get_available ();
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
@@ -2935,7 +2216,6 @@ editor_actions_setup_languages_menu (EEditor *editor)
 			gtkhtml_spell_language_get_name (language),
 			NULL, NULL);
 
->>>>>>> Initial import of GtkhtmlEditor class
 		g_signal_connect (
 			action, "toggled",
 			G_CALLBACK (action_language_cb), editor);
@@ -2948,14 +2228,6 @@ editor_actions_setup_languages_menu (EEditor *editor)
 		gtk_ui_manager_add_ui (
 			manager, merge_id,
 			"/main-menu/edit-menu/language-menu",
-<<<<<<< HEAD
-			e_spell_dictionary_get_code (dictionary),
-			e_spell_dictionary_get_code (dictionary),
-			GTK_UI_MANAGER_AUTO, FALSE);
-	}
-
-	g_list_free (list);
-=======
 			gtkhtml_spell_language_get_code (language),
 			gtkhtml_spell_language_get_code (language),
 			GTK_UI_MANAGER_AUTO, FALSE);
@@ -2963,59 +2235,35 @@ editor_actions_setup_languages_menu (EEditor *editor)
 		available_languages = g_list_next (available_languages);
 	}
 	*/
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 static void
 editor_actions_setup_spell_check_menu (EEditor *editor)
 {
-<<<<<<< HEAD
-	ESpellChecker *checker;
-	GtkUIManager *manager;
-	GtkActionGroup *action_group;
-	GList *available_dicts, *iter;
-=======
 	/*
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
 	const GList *available_languages;
->>>>>>> Initial import of GtkhtmlEditor class
 	guint merge_id;
 
 	manager = editor->priv->manager;
 	action_group = editor->priv->spell_check_actions;;
-<<<<<<< HEAD
-	checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
-	available_dicts = e_spell_checker_list_available_dicts (checker);
-	merge_id = gtk_ui_manager_new_merge_id (manager);
-
-	for (iter = available_dicts; iter; iter = iter->next) {
-		ESpellDictionary *dictionary = iter->data;
-=======
 	available_languages = gtkhtml_spell_language_get_available ();
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
 	while (available_languages != NULL) {
 		GtkhtmlSpellLanguage *language = available_languages->data;
->>>>>>> Initial import of GtkhtmlEditor class
 		GtkAction *action;
 		const gchar *code;
 		const gchar *name;
 		gchar *action_label;
 		gchar *action_name;
 
-<<<<<<< HEAD
-		code = e_spell_dictionary_get_code (dictionary);
-		name = e_spell_dictionary_get_name (dictionary);
-
-		/* Add a suggestion menu. */
-=======
 		code = gtkhtml_spell_language_get_code (language);
 		name = gtkhtml_spell_language_get_name (language);
 
 		// Add a suggestion menu. 
 
->>>>>>> Initial import of GtkhtmlEditor class
 		action_name = g_strdup_printf (
 			"context-spell-suggest-%s-menu", code);
 
@@ -3031,19 +2279,11 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 
 		g_free (action_name);
 
-<<<<<<< HEAD
-		/* Add an item to the "Add Word To" menu. */
-		action_name = g_strdup_printf ("context-spell-add-%s", code);
-		/* Translators: %s will be replaced with the actual dictionary
-		 * name, where a user can add a word to. This is part of an
-		 * "Add Word To" submenu. */
-=======
 		// Add an item to the "Add Word To" menu.
 
 		action_name = g_strdup_printf ("context-spell-add-%s", code);
 		// Translators: %s will be replaced with the actual dictionary name,
 		//where a user can add a word to. This is part of an "Add Word To" submenu.
->>>>>>> Initial import of GtkhtmlEditor class
 		action_label = g_strdup_printf (_("%s Dictionary"), name);
 
 		action = gtk_action_new (
@@ -3053,13 +2293,8 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 			action, "activate",
 			G_CALLBACK (action_context_spell_add_cb), editor);
 
-<<<<<<< HEAD
-		/* Visibility is dependent on whether the
-		 * corresponding language action is active. */
-=======
 		// Visibility is dependent on whether the
 		//corresponding language action is active.
->>>>>>> Initial import of GtkhtmlEditor class
 		gtk_action_set_visible (action, FALSE);
 
 		gtk_action_group_add_action (action_group, action);
@@ -3074,16 +2309,10 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 
 		g_free (action_label);
 		g_free (action_name);
-<<<<<<< HEAD
-	}
-
-	g_list_free (available_dicts);
-=======
 
 		available_languages = g_list_next (available_languages);
 	}
 	*/
->>>>>>> Initial import of GtkhtmlEditor class
 }
 
 void
@@ -3093,20 +2322,12 @@ editor_actions_init (EEditor *editor)
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
 	const gchar *domain;
-<<<<<<< HEAD
 	EEditorWidget *editor_widget;
-	GSettings *settings;
-=======
->>>>>>> Initial import of GtkhtmlEditor class
 
 	g_return_if_fail (E_IS_EDITOR (editor));
 
 	manager = e_editor_get_ui_manager (editor);
 	domain = GETTEXT_PACKAGE;
-<<<<<<< HEAD
-	editor_widget = e_editor_get_editor_widget (editor);
-=======
->>>>>>> Initial import of GtkhtmlEditor class
 
 	/* Core Actions */
 	action_group = editor->priv->core_actions;
@@ -3118,58 +2339,28 @@ editor_actions_init (EEditor *editor)
 		action_group, core_justify_entries,
 		G_N_ELEMENTS (core_justify_entries),
 		E_EDITOR_SELECTION_ALIGNMENT_LEFT,
-<<<<<<< HEAD
-		NULL, NULL);
-	gtk_action_group_add_radio_actions (
-		action_group, core_mode_entries,
-		G_N_ELEMENTS (core_mode_entries),
-		TRUE,
-=======
 		G_CALLBACK (action_justify_cb), editor);
 	gtk_action_group_add_radio_actions (
 		action_group, core_mode_entries,
 		G_N_ELEMENTS (core_mode_entries),
 		E_EDITOR_WIDGET_MODE_HTML,
->>>>>>> Initial import of GtkhtmlEditor class
 		G_CALLBACK (action_mode_cb), editor);
 	gtk_action_group_add_radio_actions (
 		action_group, core_style_entries,
 		G_N_ELEMENTS (core_style_entries),
 		E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH,
-<<<<<<< HEAD
-		NULL, NULL);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
-
-	action = gtk_action_group_get_action (action_group, "mode-html");
-	g_object_bind_property (
-		editor_widget, "html-mode",
-		action, "current-value",
-		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
-
-	/* Synchronize wiget mode with the buttons */
-	e_editor_widget_set_html_mode (editor_widget, TRUE);
-
-	/* Face Action */
-	action = e_emoticon_action_new (
-		"insert-emoticon", _("_Emoticon"),
-=======
 		G_CALLBACK (action_style_cb), editor);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* Face Action */
 	action = e_emoticon_action_new (
 		"insert-face", _("_Emoticon"),
->>>>>>> Initial import of GtkhtmlEditor class
 		_("Insert Emoticon"), NULL);
 	g_object_set (action, "icon-name", "face-smile", NULL);
 	g_signal_connect (
 		action, "item-activated",
 		G_CALLBACK (action_insert_emoticon_cb), editor);
 	gtk_action_group_add_action (action_group, action);
-<<<<<<< HEAD
-	g_object_unref (action);
-=======
->>>>>>> Initial import of GtkhtmlEditor class
 
 	/* Core Actions (HTML only) */
 	action_group = editor->priv->html_actions;
@@ -3184,11 +2375,7 @@ editor_actions_init (EEditor *editor)
 		action_group, html_size_entries,
 		G_N_ELEMENTS (html_size_entries),
 		E_EDITOR_SELECTION_FONT_SIZE_NORMAL,
-<<<<<<< HEAD
-		NULL, NULL);
-=======
 		G_CALLBACK (action_size_cb), editor);
->>>>>>> Initial import of GtkhtmlEditor class
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* Context Menu Actions */
@@ -3225,18 +2412,6 @@ editor_actions_init (EEditor *editor)
 	editor_actions_setup_spell_check_menu (editor);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
-<<<<<<< HEAD
-	/* Do this after all language actions are initialized. */
-	editor_update_static_spell_actions (editor);
-
-	/* Fine Tuning */
-
-	g_object_set (
-		G_OBJECT (ACTION (SHOW_FIND)),
-		"short-label", _("_Find"), NULL);
-	g_object_set (
-		G_OBJECT (ACTION (SHOW_REPLACE)),
-=======
 	/* Fine Tuning */
 
 	g_object_set (
@@ -3244,7 +2419,6 @@ editor_actions_init (EEditor *editor)
 		"short-label", _("_Find"), NULL);
 	g_object_set (
 		G_OBJECT (ACTION (FIND_AND_REPLACE)),
->>>>>>> Initial import of GtkhtmlEditor class
 		"short-label", _("Re_place"), NULL);
 	g_object_set (
 		G_OBJECT (ACTION (INSERT_IMAGE)),
@@ -3261,95 +2435,5 @@ editor_actions_init (EEditor *editor)
 		"short-label", _("_Table"), NULL);
 
 	gtk_action_set_sensitive (ACTION (UNINDENT), FALSE);
-<<<<<<< HEAD
-	gtk_action_set_sensitive (ACTION (FIND_AGAIN), FALSE);
-	gtk_action_set_sensitive (ACTION (SPELL_CHECK), FALSE);
-
-	g_object_bind_property (
-		editor_widget, "can-redo",
-		ACTION (REDO), "sensitive",
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		editor_widget, "can-undo",
-		ACTION (UNDO), "sensitive",
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		editor_widget, "can-copy",
-		ACTION (COPY), "sensitive",
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		editor_widget, "can-cut",
-		ACTION (CUT), "sensitive",
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		editor_widget, "can-paste",
-		ACTION (PASTE), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	/* This is connected to JUSTIFY_LEFT action only, but
-	 * it automatically applies on all actions in the group. */
-	g_object_bind_property (
-		editor->priv->selection, "alignment",
-		ACTION (JUSTIFY_LEFT), "current-value",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
-		editor->priv->selection, "bold",
-		ACTION (BOLD), "active",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
-		editor->priv->selection, "font-size",
-		ACTION (FONT_SIZE_GROUP), "current-value",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
-		editor->priv->selection, "block-format",
-		ACTION (STYLE_NORMAL), "current-value",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
-		editor->priv->selection, "indented",
-		ACTION (UNINDENT), "sensitive",
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		editor->priv->selection, "italic",
-		ACTION (ITALIC), "active",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
-		editor->priv->selection, "monospaced",
-		ACTION (MONOSPACED), "active",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
-		editor->priv->selection, "strike-through",
-		ACTION (STRIKETHROUGH), "active",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
-		editor->priv->selection, "underline",
-		ACTION (UNDERLINE), "active",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-
-	/* Disable all actions and toolbars when editor is not editable */
-	g_object_bind_property (
-		editor_widget, "editable",
-		editor->priv->core_actions, "sensitive",
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		editor_widget, "editable",
-		editor->priv->html_actions, "sensitive",
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		editor_widget, "editable",
-		editor->priv->spell_check_actions, "sensitive",
-		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
-		editor_widget, "editable",
-		editor->priv->suggestion_actions, "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	gtk_action_set_visible (
-		ACTION (WEBKIT_INSPECTOR),
-		g_settings_get_boolean (settings, "composer-developer-mode"));
-	g_object_unref (settings);
-}
-=======
 }
  
->>>>>>> Initial import of GtkhtmlEditor class

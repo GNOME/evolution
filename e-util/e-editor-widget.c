@@ -3942,6 +3942,8 @@ struct _EEditorWidgetPrivate {
 	gint inline_spelling	: 1;
 	gint magic_links	: 1;
 	gint magic_smileys	: 1;
+	gint can_redo		: 1;
+	gint can_undo		: 1;
 
 	/* FIXME WEBKIT Is this in widget's competence? */
 	GList *spelling_langs;
@@ -3960,9 +3962,31 @@ enum {
 	PROP_INLINE_SPELLING,
 	PROP_MAGIC_LINKS,
 	PROP_MAGIC_SMILEYS,
-	PROP_SPELL_LANGUAGES
+	PROP_SPELL_LANGUAGES,
+	PROP_CAN_REDO,
+	PROP_CAN_UNDO
 };
 
+
+static void
+editor_widget_user_changed_contents_cb (EEditorWidget *widget,
+					gpointer user_data)
+{
+	gboolean can_redo, can_undo;
+	e_editor_widget_set_changed (widget, TRUE);
+
+	can_redo = webkit_web_view_can_redo (WEBKIT_WEB_VIEW (widget));
+	if ((widget->priv->can_redo ? TRUE : FALSE) != (can_redo ? TRUE : FALSE)) {
+		widget->priv->can_redo = can_redo;
+		g_object_notify (G_OBJECT (widget), "can-redo");
+	}
+
+	can_undo = webkit_web_view_can_undo (WEBKIT_WEB_VIEW (widget));
+	if ((widget->priv->can_undo ? TRUE : FALSE) != (can_undo ? TRUE : FALSE)) {
+		widget->priv->can_undo = can_undo;
+		g_object_notify (G_OBJECT (widget), "can-undo");
+	}
+}
 
 static void
 e_editor_widget_get_property (GObject *object,
@@ -3999,6 +4023,16 @@ e_editor_widget_get_property (GObject *object,
 			g_value_set_boolean (
 				value, e_editor_widget_get_changed (
 				E_EDITOR_WIDGET (object)));
+			return;
+		case PROP_CAN_REDO:
+			g_value_set_boolean (
+				value, webkit_web_view_can_redo (
+				WEBKIT_WEB_VIEW (object)));
+			return;
+		case PROP_CAN_UNDO:
+			g_value_set_boolean (
+				value, webkit_web_view_can_undo (
+				WEBKIT_WEB_VIEW (object)));
 			return;
 	}
 
@@ -4116,6 +4150,26 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 			_("Whether editor changed"),
 			FALSE,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CAN_REDO,
+		g_param_spec_boolean (
+			"can-redo",
+			"Can Redo",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CAN_UNDO,
+		g_param_spec_boolean (
+			"can-undo",
+			"Can Undo",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE));
 }
 
 static void
@@ -4154,6 +4208,9 @@ e_editor_widget_init (EEditorWidget *editor)
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor));
 	webkit_dom_document_exec_command (
 		document, "styleWithCSS", FALSE, "false");
+
+	g_signal_connect (editor, "user-changed-contents",
+		G_CALLBACK (editor_widget_user_changed_contents_cb), NULL);
 }
 
 EEditorWidget *
