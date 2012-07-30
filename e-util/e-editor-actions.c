@@ -2435,5 +2435,27 @@ editor_actions_init (EEditor *editor)
 		"short-label", _("_Table"), NULL);
 
 	gtk_action_set_sensitive (ACTION (UNINDENT), FALSE);
+
+	editor_widget = e_editor_get_editor_widget (editor);
+	g_object_bind_property (
+		editor_widget, "can-redo",
+		ACTION (REDO), "sensitive",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		editor_widget, "can-undo",
+		ACTION (UNDO), "sensitive",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		editor_widget, "can-copy",
+		ACTION (COPY), "sensitive",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		editor_widget, "can-cut",
+		ACTION (CUT), "sensitive",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		editor_widget, "can-paste",
+		ACTION (PASTE), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
 }
- 

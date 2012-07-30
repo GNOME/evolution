@@ -112,6 +112,8 @@
 	E_EDITOR_ACTION ((editor), "mode-plain")
 #define E_EDITOR_ACTION_MONOSPACED(editor) \
 	E_EDITOR_ACTION ((editor), "monospaced")
+#define E_EDITOR_ACTION_PASTE(editor) \
+	E_EDITOR_ACTION ((editor), "paste")
 #define E_EDITOR_ACTION_PROPERTIES_RULE(editor) \
 	E_EDITOR_ACTION ((editor), "properties-rule")
 #define E_EDITOR_ACTION_PROPERTIES_TABLE(editor) \
