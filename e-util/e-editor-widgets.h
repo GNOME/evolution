@@ -123,36 +123,6 @@
 #define E_EDITOR_WIDGETS_PARAGRAPH_PROPERTIES_WINDOW(editor) \
 	E_EDITOR_WIDGETS ((editor), "paragraph-properties-window")
 
-/* Replace Confirmation Window */
-#define E_EDITOR_WIDGETS_REPLACE_CONFIRMATION_CLOSE_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "replace-confirmation-close-button")
-#define E_EDITOR_WIDGETS_REPLACE_CONFIRMATION_NEXT_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "replace-confirmation-next-button")
-#define E_EDITOR_WIDGETS_REPLACE_CONFIRMATION_REPLACE_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "replace-confirmation-replace-button")
-#define E_EDITOR_WIDGETS_REPLACE_CONFIRMATION_REPLACE_ALL_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "replace-confirmation-replace-all-button")
-#define E_EDITOR_WIDGETS_REPLACE_CONFIRMATION_WINDOW(editor) \
-	E_EDITOR_WIDGETS ((editor), "replace-confirmation-window")
-
-/* Replace Window */
-#define E_EDITOR_WIDGETS_REPLACE_BACKWARDS(editor) \
-	E_EDITOR_WIDGETS ((editor), "replace-backwards")
-#define E_EDITOR_WIDGETS_REPLACE_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "replace-button")
-#define E_EDITOR_WIDGETS_REPLACE_CASE_SENSITIVE(editor) \
-	E_EDITOR_WIDGETS ((editor), "replace-case-sensitive")
-#define E_EDITOR_WIDGETS_REPLACE_ENTRY(editor) \
-	E_EDITOR_WIDGETS ((editor), "replace-entry")
-#define E_EDITOR_WIDGETS_REPLACE_WITH_ENTRY(editor) \
-	E_EDITOR_WIDGETS ((editor), "replace-with-entry")
-#define E_EDITOR_WIDGETS_REPLACE_WINDOW(editor) \
-	E_EDITOR_WIDGETS ((editor), "replace-window")
-#define E_EDITOR_WIDGETS_REPLACE_WRAP(editor) \
-	E_EDITOR_WIDGETS ((editor), "replace-wrap")
-#define E_EDITOR_WIDGETS_REPLACE_ONLY_SELECTION(editor) \
-	E_EDITOR_WIDGETS ((editor), "replace-only-selection")
-
 /* Rule Properties Window */
 #define E_EDITOR_WIDGETS_RULE_PROPERTIES_ALIGNMENT_COMBO_BOX(editor) \
 	E_EDITOR_WIDGETS ((editor), "rule-properties-alignment-combo-box")

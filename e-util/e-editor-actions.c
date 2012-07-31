@@ -106,16 +106,6 @@ insert_text_file_ready_cb (GFile *file,
 	g_object_unref (editor);
 }
 
-static void
-replace_answer (EEditor *editor,
-                EEditorWidgetReplaceAnswer answer)
-{
-	/* FIXME WEBKIT
-	if (e_editor_widget_replace (e_editor_get_editor_widget (editor), answer))
-		gtk_widget_hide (WIDGET (REPLACE_CONFIRMATION_WINDOW));
-	*/
-}
-
 /*****************************************************************************
  * Action Callbacks
  *****************************************************************************/
@@ -130,35 +120,6 @@ action_bold_cb (GtkToggleAction *action,
 			e_editor_get_editor_widget (editor));
 	e_editor_selection_set_bold (
 		selection, gtk_toggle_action_get_active (action));
-}
-
-
-static void
-action_confirm_replace_cb (GtkAction *action,
-                           EEditor *editor)
-{
-	replace_answer (editor, E_EDITOR_WIDGET_REPLACE_ANSWER_REPLACE);
-}
-
-static void
-action_confirm_replace_all_cb (GtkAction *action,
-                               EEditor *editor)
-{
-	replace_answer (editor, E_EDITOR_WIDGET_REPLACE_ANSWER_REPLACE_ALL);
-}
-
-static void
-action_confirm_replace_cancel_cb (GtkAction *action,
-                                  EEditor *editor)
-{
-	replace_answer (editor, E_EDITOR_WIDGET_REPLACE_ANSWER_CANCEL);
-}
-
-static void
-action_confirm_replace_next_cb (GtkAction *action,
-                                EEditor *editor)
-{
-	replace_answer (editor, E_EDITOR_WIDGET_REPLACE_ANSWER_NEXT);
 }
 
 static WebKitDOMNode *
@@ -610,105 +571,6 @@ action_cut_cb (GtkAction *action,
 	webkit_web_view_cut_clipboard (
 		WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
 }
-
-static void
-action_find_and_replace_cb (GtkAction *action,
-                            EEditor *editor)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMNode *start, *end;
-	WebKitDOMNodeList *children;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
-	WebKitDOMNode *node;
-
-	gulong length, i;
-	const gchar *needle, *replacement;
-	gboolean case_sensitive, backwards, wrap, only_selection;
-
-	needle = gtk_entry_get_text (GTK_ENTRY (WIDGET (REPLACE_ENTRY)));
-	replacement = gtk_entry_get_text (
-				GTK_ENTRY (WIDGET (REPLACE_WITH_ENTRY)));
-	case_sensitive = gtk_toggle_button_get_active (
-				GTK_TOGGLE_BUTTON (WIDGET (REPLACE_CASE_SENSITIVE)));
-	wrap = gtk_toggle_button_get_active (
-				GTK_TOGGLE_BUTTON (WIDGET (REPLACE_WRAP)));
-	backwards = gtk_toggle_button_get_active (
-				GTK_TOGGLE_BUTTON (WIDGET (REPLACE_BACKWARDS)));
-	only_selection = gtk_toggle_button_get_active (
-				GTK_TOGGLE_BUTTON (WIDGET (REPLACE_ONLY_SELECTION)));
-
-	/* XXX Port this if to native WebKit API if they ever implement
-	 * support for find&replace...unless this implementation
-	 * is better ;) */
-
-	/* FIXME WEBKIT This is not working at all */
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
-		return;
-
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-	start = webkit_dom_range_get_start_container (range, NULL);
-
-	if (only_selection) {
-		end = webkit_dom_range_get_end_container (range, NULL);
-	} else {
-		end = NULL;
-	}
-
-	/* WEBKIT FIXME Implement me! */
-	/*
-	node = start;
-	while (node && (node != end)) {
-
-
-
-	}
-	*/
-
-	/*
-	html = gtkhtml_editor_get_html (editor);
-
-	gtk_widget_hide (WIDGET (REPLACE_WINDOW));
-
-	html_engine_replace (
-		html->engine,
-		gtk_entry_get_text (GTK_ENTRY (WIDGET (REPLACE_ENTRY))),
-		gtk_entry_get_text (GTK_ENTRY (WIDGET (REPLACE_WITH_ENTRY))),
-		gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (WIDGET (REPLACE_CASE_SENSITIVE))),
-		!gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (WIDGET (REPLACE_BACKWARDS))),
-		FALSE, replace_ask_cb, editor);
-	*/
-}
-
-/* FIXME WEBKIT
-static void
-replace_ask_cb (HTMLEngine *engine,
-                gpointer data)
-{
-	GtkhtmlEditor *editor = data;
-
-	gtk_window_present (GTK_WINDOW (WIDGET (REPLACE_CONFIRMATION_WINDOW)));
-}
-
-static void
-replace_answer (GtkhtmlEditor *editor,
-                HTMLReplaceQueryAnswer answer)
-{
-	GtkHTML *html;
-
-	html = gtkhtml_editor_get_html (editor);
-
-	if (html_engine_replace_do (html->engine, answer))
-		gtk_widget_hide (WIDGET (REPLACE_CONFIRMATION_WINDOW));
-}
-*/
 
 static void
 action_indent_cb (GtkAction *action,
@@ -1263,7 +1125,12 @@ static void
 action_show_replace_cb (GtkAction *action,
                         EEditor *editor)
 {
-	gtk_window_present (GTK_WINDOW (WIDGET (REPLACE_WINDOW)));
+	if (editor->priv->replace_dialog == NULL) {
+		editor->priv->replace_dialog =
+			e_editor_replace_dialog_new (editor);
+	}
+
+	gtk_window_present (GTK_WINDOW (editor->priv->replace_dialog));
 }
 
 static void
@@ -1379,34 +1246,6 @@ action_wrap_lines_cb (GtkAction *action,
 
 static GtkActionEntry core_entries[] = {
 
-	{ "confirm-replace",
-	  NULL,
-	  N_("_Replace"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_confirm_replace_cb) },
-
-	{ "confirm-replace-all",
-	  NULL,
-	  N_("Replace _All"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_confirm_replace_all_cb) },
-
-	{ "confirm-replace-cancel",
-	  GTK_STOCK_CLOSE,
-	  NULL,
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_confirm_replace_cancel_cb) },
-
-	{ "confirm-replace-next",
-	  NULL,
-	  N_("_Next"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_confirm_replace_next_cb) },
-
 	{ "copy",
 	  GTK_STOCK_COPY,
 	  N_("_Copy"),
@@ -1420,13 +1259,6 @@ static GtkActionEntry core_entries[] = {
 	  "<Control>x",
 	  NULL,
 	  G_CALLBACK (action_cut_cb) },
-
-	{ "find-and-replace",
-	  GTK_STOCK_FIND_AND_REPLACE,
-	  NULL,
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_find_and_replace_cb) },
 
 	{ "indent",
 	  GTK_STOCK_INDENT,
@@ -2388,7 +2220,7 @@ editor_actions_init (EEditor *editor)
 		G_OBJECT (ACTION (SHOW_FIND)),
 		"short-label", _("_Find"), NULL);
 	g_object_set (
-		G_OBJECT (ACTION (FIND_AND_REPLACE)),
+		G_OBJECT (ACTION (SHOW_REPLACE)),
 		"short-label", _("Re_place"), NULL);
 	g_object_set (
 		G_OBJECT (ACTION (INSERT_IMAGE)),
