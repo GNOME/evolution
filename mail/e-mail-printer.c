@@ -151,13 +151,26 @@ emp_printing_done (GtkPrintOperation *operation,
 	g_signal_emit (emp, signals[SIGNAL_DONE], 0, operation, result);
 }
 
+static gboolean
+do_run_print_operation (EMailPrinter *emp)
+{
+	WebKitWebFrame *frame;
+
+	frame = webkit_web_view_get_main_frame (emp->priv->webview);
+
+	webkit_web_frame_print_full (
+		frame, emp->priv->operation, emp->priv->print_action, NULL);
+
+	return FALSE;
+}
+
+
 static void
 emp_start_printing (GObject *object,
                     GParamSpec *pspec,
                     gpointer user_data)
 {
 	WebKitWebView *web_view;
-	WebKitWebFrame *frame;
 	WebKitLoadStatus load_status;
 	EMailPrinter *emp = user_data;
 
@@ -173,15 +186,17 @@ emp_start_printing (GObject *object,
 	g_signal_handlers_disconnect_by_func (
 		object, emp_start_printing, user_data);
 
-	frame = webkit_web_view_get_main_frame (web_view);
-
 	if (emp->priv->print_action == GTK_PRINT_OPERATION_ACTION_EXPORT) {
 		gtk_print_operation_set_export_filename (
 			emp->priv->operation, emp->priv->export_filename);
 	}
 
-	webkit_web_frame_print_full
-		(frame, emp->priv->operation, emp->priv->print_action, NULL);
+	/* Give WebKit some time to perform layouting and rendering before
+	 * we start printing. 500ms should be enough in most cases... */
+	g_timeout_add_full (
+		G_PRIORITY_DEFAULT, 500,
+		(GSourceFunc) do_run_print_operation,
+		g_object_ref (emp), g_object_unref);
 }
 
 static void
