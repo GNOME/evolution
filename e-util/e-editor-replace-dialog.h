@@ -1,8 +1,11 @@
 /*
  * e-editor-replace-dialog.h
  *
+<<<<<<< HEAD
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
+=======
+>>>>>>> Port Replace dialog and it's functionality
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -25,7 +28,12 @@
 #ifndef E_EDITOR_REPLACE_DIALOG_H
 #define E_EDITOR_REPLACE_DIALOG_H
 
+<<<<<<< HEAD
 #include <e-util/e-editor-dialog.h>
+=======
+#include <gtk/gtk.h>
+#include <e-util/e-editor.h>
+>>>>>>> Port Replace dialog and it's functionality
 
 /* Standard GObject macros */
 #define E_TYPE_EDITOR_REPLACE_DIALOG \
@@ -53,17 +61,31 @@ typedef struct _EEditorReplaceDialogClass EEditorReplaceDialogClass;
 typedef struct _EEditorReplaceDialogPrivate EEditorReplaceDialogPrivate;
 
 struct _EEditorReplaceDialog {
+<<<<<<< HEAD
 	EEditorDialog parent;
+=======
+	GtkWindow parent;
+
+>>>>>>> Port Replace dialog and it's functionality
 	EEditorReplaceDialogPrivate *priv;
 };
 
 struct _EEditorReplaceDialogClass {
+<<<<<<< HEAD
 	EEditorDialogClass parent_class;
 };
 
 GType		e_editor_replace_dialog_get_type
 						(void) G_GNUC_CONST;
 GtkWidget *	e_editor_replace_dialog_new	(EEditor *editor);
+=======
+	GtkWindowClass parent_class;
+};
+
+GType		e_editor_replace_dialog_get_type	(void);
+
+GtkWidget*	e_editor_replace_dialog_new		(EEditor *editor);
+>>>>>>> Port Replace dialog and it's functionality
 
 G_END_DECLS
 
