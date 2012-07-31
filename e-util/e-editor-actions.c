@@ -885,80 +885,102 @@ action_language_cb (GtkToggleAction *action,
 	*/
 }
 
+struct _ModeChanged {
+	GtkRadioAction *action;
+	EEditor *editor;
+};
+
+static gboolean
+mode_changed (struct _ModeChanged *data)
+{
+	GtkActionGroup *action_group;
+	EEditor *editor = data->editor;
+	EEditorWidget *widget;
+	EEditorWidgetMode mode;
+	gboolean is_html;
+
+	widget = e_editor_get_editor_widget (editor);
+	mode = gtk_radio_action_get_current_value (data->action);
+	is_html = (mode == E_EDITOR_WIDGET_MODE_HTML);
+
+	if (mode == e_editor_widget_get_mode (widget)) {
+		goto exit;
+	}
+
+	/* If switching from HTML to plain text */
+	if (!is_html) {
+		GtkWidget *dialog, *parent;
+
+		parent = gtk_widget_get_toplevel (GTK_WIDGET (editor));
+		if (!GTK_IS_WINDOW (parent)) {
+			parent = NULL;
+		}
+
+		dialog = gtk_message_dialog_new (
+				parent ? GTK_WINDOW (parent) : NULL,
+				GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_MESSAGE_WARNING,
+				GTK_BUTTONS_OK_CANCEL,
+				_("Turning HTML mode off will cause the text "
+				  "to loose all formatting. Do you want to continue?"));
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_CANCEL) {
+			gtk_radio_action_set_current_value (
+				data->action, E_EDITOR_WIDGET_MODE_HTML);
+			gtk_widget_destroy (dialog);
+			goto exit;
+		}
+
+		gtk_widget_destroy (dialog);
+	}
+
+	action_group = editor->priv->html_actions;
+	gtk_action_group_set_sensitive (action_group, is_html);
+
+	action_group = editor->priv->html_context_actions;
+	gtk_action_group_set_visible (action_group, is_html);
+
+	gtk_widget_set_sensitive (editor->priv->color_combo_box, is_html);
+
+	if (is_html) {
+		gtk_widget_show (editor->priv->html_toolbar);
+	} else {
+		gtk_widget_hide (editor->priv->html_toolbar);
+	}
+
+	/* Certain paragraph styles are HTML-only. */
+	gtk_action_set_sensitive (ACTION (STYLE_H1), is_html);
+	gtk_action_set_sensitive (ACTION (STYLE_H2), is_html);
+	gtk_action_set_sensitive (ACTION (STYLE_H3), is_html);
+	gtk_action_set_sensitive (ACTION (STYLE_H4), is_html);
+	gtk_action_set_sensitive (ACTION (STYLE_H5), is_html);
+	gtk_action_set_sensitive (ACTION (STYLE_H6), is_html);
+	gtk_action_set_sensitive (ACTION (STYLE_ADDRESS), is_html);
+
+	e_editor_widget_set_mode (
+		e_editor_get_editor_widget (editor), mode);
+
+ exit:
+	g_clear_object (&data->editor);
+	g_clear_object (&data->action);
+	g_free (data);
+
+	return FALSE;
+}
+
 static void
 action_mode_cb (GtkRadioAction *action,
                 GtkRadioAction *current,
                 EEditor *editor)
 {
-	/* FIXME WEBKIT */
-	/*
-	GtkActionGroup *action_group;
-	HTMLPainter *new_painter;
-	HTMLPainter *old_painter;
-	GtkHTML *html;
-	EditorMode mode;
-	gboolean html_mode;
+	struct _ModeChanged *data;
 
-	html = gtkhtml_editor_get_html (editor);
-	mode = gtk_radio_action_get_current_value (current);
-	html_mode = (mode == EDITOR_MODE_HTML);
+	data = g_new0 (struct _ModeChanged, 1);
+	data->action = g_object_ref (current);
+	data->editor = g_object_ref (editor);
 
-	action_group = editor->priv->html_actions;
-	gtk_action_group_set_sensitive (action_group, html_mode);
-
-	action_group = editor->priv->html_context_actions;
-	gtk_action_group_set_visible (action_group, html_mode);
-
-	gtk_widget_set_sensitive (editor->priv->color_combo_box, html_mode);
-
-	if (html_mode)
-		gtk_widget_show (editor->priv->html_toolbar);
-	else
-		gtk_widget_hide (editor->priv->html_toolbar);
-
-	// Certain paragraph styles are HTML-only.
-	gtk_action_set_sensitive (ACTION (STYLE_H1), html_mode);
-	gtk_action_set_sensitive (ACTION (STYLE_H2), html_mode);
-	gtk_action_set_sensitive (ACTION (STYLE_H3), html_mode);
-	gtk_action_set_sensitive (ACTION (STYLE_H4), html_mode);
-	gtk_action_set_sensitive (ACTION (STYLE_H5), html_mode);
-	gtk_action_set_sensitive (ACTION (STYLE_H6), html_mode);
-	gtk_action_set_sensitive (ACTION (STYLE_ADDRESS), html_mode);
-
-	// Swap painters.
-
-	if (html_mode) {
-		new_painter = editor->priv->html_painter;
-		old_painter = editor->priv->plain_painter;
-	} else {
-		new_painter = editor->priv->plain_painter;
-		old_painter = editor->priv->html_painter;
-	}
-
-	// Might be true during initialization.
-	if (html->engine->painter == new_painter)
-		return;
-
-	html_gdk_painter_unrealize (HTML_GDK_PAINTER (old_painter));
-	if (html->engine->window != NULL)
-		html_gdk_painter_realize (
-			HTML_GDK_PAINTER (new_painter),
-			html->engine->window);
-
-	html_font_manager_set_default (
-		&new_painter->font_manager,
-		old_painter->font_manager.variable.face,
-		old_painter->font_manager.fixed.face,
-		old_painter->font_manager.var_size,
-		old_painter->font_manager.var_points,
-		old_painter->font_manager.fix_size,
-		old_painter->font_manager.fix_points);
-
-	html_engine_set_painter (html->engine, new_painter);
-	html_engine_schedule_redraw (html->engine);
-
-	g_object_notify (G_OBJECT (editor), "html-mode");
-	*/
+	/* We can't change group current value from this callback, so
+	 * let's do it all from an idle callback */
+	g_idle_add ((GSourceFunc) mode_changed, data);
 }
 
 static void
@@ -2130,6 +2152,7 @@ editor_actions_init (EEditor *editor)
 
 	manager = e_editor_get_ui_manager (editor);
 	domain = GETTEXT_PACKAGE;
+	editor_widget = e_editor_get_editor_widget (editor);
 
 	/* Core Actions */
 	action_group = editor->priv->core_actions;
@@ -2153,6 +2176,9 @@ editor_actions_init (EEditor *editor)
 		E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH,
 		G_CALLBACK (action_style_cb), editor);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+
+	/* Synchronize wiget mode with the button */
+	e_editor_widget_set_mode (editor_widget, E_EDITOR_WIDGET_MODE_HTML);
 
 	/* Face Action */
 	action = e_emoticon_action_new (
@@ -2239,7 +2265,6 @@ editor_actions_init (EEditor *editor)
 	gtk_action_set_sensitive (ACTION (UNINDENT), FALSE);
 	gtk_action_set_sensitive (ACTION (FIND_AGAIN), FALSE);
 
-	editor_widget = e_editor_get_editor_widget (editor);
 	g_object_bind_property (
 		editor_widget, "can-redo",
 		ACTION (REDO), "sensitive",

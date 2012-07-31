@@ -21,12 +21,12 @@
 #endif
 
 #include "e-editor-widget.h"
+#include "e-editor.h"
 
 #include <glib/gi18n-lib.h>
 
 struct _EEditorWidgetPrivate {
 	gint changed		: 1;
-	gint html_mode		: 1;
 	gint inline_spelling	: 1;
 	gint magic_links	: 1;
 	gint magic_smileys	: 1;
@@ -35,6 +35,8 @@ struct _EEditorWidgetPrivate {
 	gint can_paste		: 1;
 	gint can_redo		: 1;
 	gint can_undo		: 1;
+
+	EEditorWidgetMode mode;
 
 	/* FIXME WEBKIT Is this in widget's competence? */
 	GList *spelling_langs;
@@ -49,7 +51,7 @@ G_DEFINE_TYPE (
 enum {
 	PROP_0,
 	PROP_CHANGED,
-	PROP_HTML_MODE,
+	PROP_MODE,
 	PROP_INLINE_SPELLING,
 	PROP_MAGIC_LINKS,
 	PROP_MAGIC_SMILEYS,
@@ -61,6 +63,22 @@ enum {
 	PROP_CAN_UNDO
 };
 
+static void
+editor_widget_strip_formatting (EEditorWidget *widget)
+{
+	gchar *plain, *html;
+
+	plain = e_editor_widget_get_text_plain (widget);
+
+	/* Convert \n to <br> */
+	regex = g_regex_new ("\n", 0, 0, NULL);
+	html = g_regex_replace (regex, plain, strlen (plain), 0, "<br>", 0, NULL);
+
+	e_editor_widget_set_text_html (widget, html);
+
+	g_free (plain);
+	g_free (html);
+}
 
 static void
 editor_widget_user_changed_contents_cb (EEditorWidget *widget,
@@ -116,9 +134,9 @@ e_editor_widget_get_property (GObject *object,
 {
 	switch (property_id) {
 
-		case PROP_HTML_MODE:
-			g_value_set_boolean (
-				value, e_editor_widget_get_html_mode (
+		case PROP_MODE:
+			g_value_set_int (
+				value, e_editor_widget_get_mode (
 				E_EDITOR_WIDGET (object)));
 			return;
 
@@ -182,10 +200,10 @@ e_editor_widget_set_property (GObject *object,
 {
 	switch (property_id) {
 
-		case PROP_HTML_MODE:
-			e_editor_widget_set_html_mode (
+		case PROP_MODE:
+			e_editor_widget_set_mode (
 				E_EDITOR_WIDGET (object),
-				g_value_get_boolean (value));
+				g_value_get_int (value));
 			return;
 
 		case PROP_INLINE_SPELLING:
@@ -234,12 +252,14 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_HTML_MODE,
-		g_param_spec_boolean (
-			"html-mode",
-			"HTML Mode",
+		PROP_MODE,
+		g_param_spec_int (
+			"mode",
+			"Mode",
 			"Edit HTML or plain text",
-			TRUE,
+			E_EDITOR_WIDGET_MODE_PLAIN_TEXT,
+		    	E_EDITOR_WIDGET_MODE_HTML,
+		    	E_EDITOR_WIDGET_MODE_PLAIN_TEXT,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -414,26 +434,29 @@ e_editor_widget_set_changed (EEditorWidget *widget,
 	g_object_notify (G_OBJECT (widget), "changed");
 }
 
-gboolean
-e_editor_widget_get_html_mode (EEditorWidget *widget)
+EEditorWidgetMode
+e_editor_widget_get_mode (EEditorWidget *widget)
 {
 	g_return_val_if_fail (E_IS_EDITOR_WIDGET (widget), FALSE);
 
-	return widget->priv->html_mode;
+	return widget->priv->mode;
 }
 
 void
-e_editor_widget_set_html_mode (EEditorWidget *widget,
-			       gboolean html_mode)
+e_editor_widget_set_mode (EEditorWidget *widget,
+			  EEditorWidgetMode mode)
 {
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
 
-	if ((widget->priv->html_mode ? TRUE : FALSE) == (html_mode ? TRUE : FALSE))
+	if (widget->priv->mode == mode)
 		return;
 
-	widget->priv->html_mode = html_mode;
+	widget->priv->mode = mode;
 
-	g_object_notify (G_OBJECT (widget), "html-mode");
+	if (widget->priv->mode == E_EDITOR_WIDGET_MODE_PLAIN_TEXT)
+		editor_widget_strip_formatting (widget);
+
+	g_object_notify (G_OBJECT (widget), "mode");
 }
 
 gboolean
