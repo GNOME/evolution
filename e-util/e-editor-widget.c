@@ -67,6 +67,7 @@ static void
 editor_widget_strip_formatting (EEditorWidget *widget)
 {
 	gchar *plain, *html;
+	GRegex *regex;
 
 	plain = e_editor_widget_get_text_plain (widget);
 
