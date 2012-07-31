@@ -86,9 +86,10 @@ gboolean	e_editor_widget_get_changed	(EEditorWidget *widget);
 void		e_editor_widget_set_changed	(EEditorWidget *widget,
 						 gboolean changed);
 
-gboolean	e_editor_widget_get_html_mode	(EEditorWidget *widget);
-void		e_editor_widget_set_html_mode	(EEditorWidget *widget,
-						 gboolean html_mode);
+EEditorWidgetMode
+		e_editor_widget_get_mode	(EEditorWidget *widget);
+void		e_editor_widget_set_mode	(EEditorWidget *widget,
+						 EEditorWidgetMode mode);
 
 gboolean	e_editor_widget_get_inline_spelling
 						(EEditorWidget *widget);
