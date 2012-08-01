@@ -129,7 +129,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 			continue;
 		}
 
-		if (part->is_hidden)
+		if (part->is_hidden || part->is_attachment)
 			continue;
 
 		e_mail_formatter_format_as (
