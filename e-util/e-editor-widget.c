@@ -36,6 +36,8 @@ struct _EEditorWidgetPrivate {
 	gint can_redo		: 1;
 	gint can_undo		: 1;
 
+	EEditorSelection *selection;
+
 	EEditorWidgetMode mode;
 
 	/* FIXME WEBKIT Is this in widget's competence? */
@@ -237,6 +239,12 @@ e_editor_widget_set_property (GObject *object,
 static void
 e_editor_widget_finalize (GObject *object)
 {
+	EEditorWidgetPrivate *priv = E_EDITOR_WIDGET (object)->priv;
+
+	g_clear_object (&priv->selection);
+
+	/* Chain up to parent's implementation */
+	G_OBJECT_CLASS (e_editor_widget_parent_class)->finalize (object);
 }
 
 static void
@@ -399,6 +407,9 @@ e_editor_widget_init (EEditorWidget *editor)
 		G_CALLBACK (editor_widget_user_changed_contents_cb), NULL);
 	g_signal_connect (editor, "selection-changed",
 		G_CALLBACK (editor_widget_selection_changed_cb), NULL);
+
+	editor->priv->selection = e_editor_selection_new (
+					WEBKIT_WEB_VIEW (editor));
 }
 
 EEditorWidget *
@@ -410,7 +421,9 @@ e_editor_widget_new (void)
 EEditorSelection *
 e_editor_widget_get_selection (EEditorWidget *widget)
 {
-	return e_editor_selection_new (WEBKIT_WEB_VIEW (widget));
+	g_return_val_if_fail (E_IS_EDITOR_WIDGET (widget), NULL);
+
+	return widget->priv->selection;
 }
 
 gboolean

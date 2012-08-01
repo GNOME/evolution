@@ -64,8 +64,7 @@ struct _EEditorPrivate {
 	GtkWidget *scrolled_window;
 
 	EEditorWidget *editor_widget;
-
-	guint ignore_style_change : 1;
+	EEditorSelection *selection;
 
 	gchar *filename;
 };

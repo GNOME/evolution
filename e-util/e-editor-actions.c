@@ -110,18 +110,6 @@ insert_text_file_ready_cb (GFile *file,
  * Action Callbacks
  *****************************************************************************/
 
-static void
-action_bold_cb (GtkToggleAction *action,
-                EEditor *editor)
-{
-	EEditorSelection *selection;
-
-	selection = e_editor_widget_get_selection (
-			e_editor_get_editor_widget (editor));
-	e_editor_selection_set_bold (
-		selection, gtk_toggle_action_get_active (action));
-}
-
 static WebKitDOMNode *
 find_parent_element_by_type (WebKitDOMNode *node, GType type)
 {
@@ -785,18 +773,6 @@ action_insert_text_file_cb (GtkAction *action,
 }
 
 static void
-action_italic_cb (GtkToggleAction *action,
-                  EEditor *editor)
-{
-	EEditorSelection *selection;
-
-	selection = e_editor_widget_get_selection (
-			e_editor_get_editor_widget (editor));
-	e_editor_selection_set_italic (
-		selection, gtk_toggle_action_get_active (action));
-}
-
-static void
 action_justify_cb (GtkRadioAction *action,
                    GtkRadioAction *current,
                    EEditor *editor)
@@ -984,32 +960,6 @@ action_mode_cb (GtkRadioAction *action,
 }
 
 static void
-action_monospaced_cb (GtkToggleAction *action,
-                      EEditor *editor)
-{
-	/* FIXME WEBKIT */
-	/*
-	GtkHTML *html;
-	GtkHTMLFontStyle and_mask;
-	GtkHTMLFontStyle or_mask;
-
-	if (editor->priv->ignore_style_change)
-		return;
-
-	if (gtk_toggle_action_get_active (action)) {
-		and_mask = GTK_HTML_FONT_STYLE_MAX;
-		or_mask = GTK_HTML_FONT_STYLE_FIXED;
-	} else {
-		and_mask = ~GTK_HTML_FONT_STYLE_FIXED;
-		or_mask = 0;
-	}
-
-	html = gtkhtml_editor_get_html (editor);
-	gtk_html_set_font_style (html, and_mask, or_mask);
-	*/
-}
-
-static void
 action_paste_cb (GtkAction *action,
                  EEditor *editor)
 {
@@ -1093,10 +1043,6 @@ action_style_cb (GtkRadioAction *action,
 {
 	EEditorSelection *selection;
 
-	/* FIXME WEBKIT What's this good for? */
-	if (editor->priv->ignore_style_change)
-		return;
-
 	selection = e_editor_widget_get_selection (
 			e_editor_get_editor_widget (editor));
 	e_editor_selection_set_block_format (
@@ -1162,9 +1108,6 @@ action_size_cb (GtkRadioAction *action,
 {
 	EEditorSelection *selection;
 
-	if (editor->priv->ignore_style_change)
-		return;
-
 	selection = e_editor_widget_get_selection (
 			e_editor_get_editor_widget (editor));
 	e_editor_selection_set_font_size (
@@ -1178,21 +1121,6 @@ action_spell_check_cb (GtkAction *action,
 	/* FIXME WEBKIT
 	e_editor_widget_spell_check (editor);
 	*/
-}
-
-static void
-action_strikethrough_cb (GtkToggleAction *action,
-                         EEditor *editor)
-{
-	EEditorSelection *selection;
-
-	if (editor->priv->ignore_style_change)
-		return;
-
-	selection = e_editor_widget_get_selection (
-			e_editor_get_editor_widget (editor));
-	e_editor_selection_set_italic (
-		selection, gtk_toggle_action_get_active (action));
 }
 
 static void
@@ -1213,21 +1141,6 @@ action_test_url_cb (GtkAction *action,
 	if (text != NULL && *text != '\0')
 		gtkhtml_editor_show_uri (window, text);
 	*/
-}
-
-static void
-action_underline_cb (GtkToggleAction *action,
-                     EEditor *editor)
-{
-	EEditorSelection *selection;
-
-	if (editor->priv->ignore_style_change)
-		return;
-
-	selection = e_editor_widget_get_selection (
-			e_editor_get_editor_widget (editor));
-	e_editor_selection_set_underline (
-		selection, gtk_toggle_action_get_active (action));
 }
 
 static void
@@ -1686,7 +1599,7 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  N_("_Bold"),
 	  "<Control>b",
 	  N_("Bold"),
-	  G_CALLBACK (action_bold_cb),
+	  NULL,
 	  FALSE },
 
 	{ "italic",
@@ -1694,7 +1607,7 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  N_("_Italic"),
 	  "<Control>i",
 	  N_("Italic"),
-	  G_CALLBACK (action_italic_cb),
+	  NULL,
 	  FALSE },
 
 	{ "monospaced",
@@ -1702,7 +1615,7 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  N_("_Plain Text"),
 	  "<Control>t",
 	  N_("Plain Text"),
-	  G_CALLBACK (action_monospaced_cb),
+	  NULL,
 	  FALSE },
 
 	{ "strikethrough",
@@ -1710,7 +1623,7 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  N_("_Strikethrough"),
 	  NULL,
 	  N_("Strikethrough"),
-	  G_CALLBACK (action_strikethrough_cb),
+	  NULL,
 	  FALSE },
 
 	{ "underline",
@@ -1718,7 +1631,7 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  N_("_Underline"),
 	  "<Control>u",
 	  N_("Underline"),
-	  G_CALLBACK (action_underline_cb),
+	  NULL,
 	  FALSE }
 };
 
@@ -2285,5 +2198,26 @@ editor_actions_init (EEditor *editor)
 		editor_widget, "can-paste",
 		ACTION (PASTE), "sensitive",
 		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		editor->priv->selection, "bold",
+		ACTION (BOLD), "active",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+	g_object_bind_property (
+		editor->priv->selection, "italic",
+		ACTION (ITALIC), "active",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+	g_object_bind_property (
+		editor->priv->selection, "monospaced",
+		ACTION (MONOSPACED), "active",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+	g_object_bind_property (
+		editor->priv->selection, "strike-through",
+		ACTION (STRIKETHROUGH), "active",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+	g_object_bind_property (
+		editor->priv->selection, "underline",
+		ACTION (UNDERLINE), "active",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 
 }

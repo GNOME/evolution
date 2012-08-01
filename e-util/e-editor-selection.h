@@ -138,6 +138,12 @@ void			e_editor_selection_set_italic	(EEditorSelection *selection,
 							 gboolean italic);
 gboolean		e_editor_selection_get_italic	(EEditorSelection *selection);
 
+void			e_editor_selection_set_monospaced
+							(EEditorSelection *selection,
+							 gboolean monospaced);
+gboolean		e_editor_selection_get_monospaced
+							(EEditorSelection *selection);
+
 void			e_editor_selection_set_strike_through
 							(EEditorSelection *selection,
 							 gboolean strike_through);

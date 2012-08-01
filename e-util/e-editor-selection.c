@@ -58,6 +58,7 @@ enum {
 	PROP_FONT_COLOR,
 	PROP_BLOCK_FORMAT,
 	PROP_ITALIC,
+	PROP_MONOSPACED,
 	PROP_STRIKE_THROUGH,
 	PROP_SUBSCRIPT,
 	PROP_SUPERSCRIPT,
@@ -82,31 +83,47 @@ editor_selection_get_current_range (EEditorSelection *selection)
 }
 
 static gboolean
-get_has_style_property (EEditorSelection *selection,
-			const gchar *style,
-			const gchar *value)
+get_has_style (EEditorSelection *selection,
+	       const gchar *style_tag)
 {
 	WebKitDOMNode *node;
 	WebKitDOMElement *element;
 	WebKitDOMRange *range;
-	WebKitDOMCSSStyleDeclaration *css;
-	gchar *style_value;
 	gboolean result;
+	gint tag_len;
+
 
 	range = editor_selection_get_current_range (selection);
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	if (!range) {
+		return FALSE;
+	}
+
+	node = webkit_dom_range_get_start_container (range, NULL);
 	if (!WEBKIT_DOM_IS_ELEMENT (node)) {
 		element = webkit_dom_node_get_parent_element (node);
 	} else {
 		element = WEBKIT_DOM_ELEMENT (node);
 	}
 
-	css = webkit_dom_element_get_style (element);
-	style_value = webkit_dom_css_style_declaration_get_property_value (
-			css, style);
+	tag_len = strlen (style_tag);
+	result = FALSE;
+	while (!result && element) {
+		gchar *element_tag;
 
-	result = (g_ascii_strncasecmp (style_value, value, strlen (value)) == 0);
-	g_free (style_value);
+		element_tag = webkit_dom_element_get_tag_name (element);
+
+		result = ((tag_len == strlen (element_tag)) &&
+				(g_ascii_strncasecmp (element_tag, style_tag, tag_len) == 0));
+
+		g_free (element_tag);
+
+		if (result) {
+			break;
+		}
+
+		element = webkit_dom_node_get_parent_element (
+				WEBKIT_DOM_NODE (element));
+	}
 
 	return result;
 }
@@ -122,6 +139,7 @@ webview_selection_changed (WebKitWebView *webview,
 	g_object_notify (G_OBJECT (selection), "font-color");
 	g_object_notify (G_OBJECT (selection), "block-format");
 	g_object_notify (G_OBJECT (selection), "italic");
+	g_object_notify (G_OBJECT (selection), "monospaced");
 	g_object_notify (G_OBJECT (selection), "strike-through");
 	g_object_notify (G_OBJECT (selection), "subscript");
 	g_object_notify (G_OBJECT (selection), "superscript");
@@ -134,8 +152,9 @@ editor_selection_set_webview (EEditorSelection *selection,
 			      WebKitWebView *webview)
 {
 	selection->priv->webview = g_object_ref (webview);
-	g_signal_connect (webview, "selection-changed",
-			  G_CALLBACK (webview_selection_changed), selection);
+	g_signal_connect (
+		webview, "selection-changed",
+		G_CALLBACK (webview_selection_changed), selection);
 }
 
 
@@ -182,6 +201,11 @@ e_editor_selection_get_property (GObject *object,
 		case PROP_ITALIC:
 			g_value_set_boolean (value,
 				e_editor_selection_get_italic (selection));
+			return;
+
+		case PROP_MONOSPACED:
+			g_value_set_boolean (value,
+				e_editor_selection_get_monospaced (selection));
 			return;
 
 		case PROP_STRIKE_THROUGH:
@@ -254,6 +278,11 @@ e_editor_selection_set_property (GObject *object,
 
 		case PROP_ITALIC:
 			e_editor_selection_set_italic (
+				selection, g_value_get_boolean (value));
+			return;
+
+		case PROP_MONOSPACED:
+			e_editor_selection_set_monospaced (
 				selection, g_value_get_boolean (value));
 			return;
 
@@ -383,6 +412,16 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 		PROP_ITALIC,
 		g_param_spec_boolean (
 			"italic",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MONOSPACED,
+		g_param_spec_boolean (
+			"monospaced",
 			NULL,
 			NULL,
 			FALSE,
@@ -635,8 +674,7 @@ e_editor_selection_get_bold (EEditorSelection *selection)
 {
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
-	return (get_has_style_property (selection, "fontWeight", "bold") ||
-	       get_has_style_property (selection, "fontWeight", "700"));
+	return get_has_style (selection, "b");
 }
 
 void
@@ -772,7 +810,7 @@ e_editor_selection_get_italic (EEditorSelection *selection)
 {
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
-	return get_has_style_property (selection, "fontStyle", "italic");
+	return get_has_style (selection, "i");
 }
 
 void
@@ -795,11 +833,54 @@ e_editor_selection_set_italic (EEditorSelection *selection,
 }
 
 gboolean
+e_editor_selection_get_monospaced (EEditorSelection *selection)
+{
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	return get_has_style (selection, "tt");
+}
+
+void
+e_editor_selection_set_monospaced (EEditorSelection *selection,
+				   gboolean monospaced)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMRange *range;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	if ((e_editor_selection_get_monospaced (selection) ? TRUE : FALSE)
+				== (monospaced ? TRUE : FALSE)) {
+		return;
+	}
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+
+	range = editor_selection_get_current_range (selection);
+	if (!range) {
+		return;
+	}
+
+	if (monospaced) {
+		WebKitDOMElement *tt;
+
+		tt = webkit_dom_document_create_element (document, "TT", NULL);
+		webkit_dom_range_surround_contents (
+			range, WEBKIT_DOM_NODE (tt), NULL);
+
+	} else {
+		/* FIXME WEBKIT: this does not work yet :)
+	}
+
+	g_object_notify (G_OBJECT (selection), "monospaced");
+}
+
+gboolean
 e_editor_selection_get_strike_through (EEditorSelection *selection)
 {
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
-	return get_has_style_property (selection, "textDecoration", "overline");
+	return get_has_style (selection, "strike");
 }
 
 void
@@ -920,7 +1001,7 @@ e_editor_selection_get_underline (EEditorSelection *selection)
 {
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
-	return get_has_style_property (selection, "textDecoration", "underline");
+	return get_has_style (selection, "u");
 }
 
 void
