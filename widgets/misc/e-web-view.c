@@ -936,6 +936,7 @@ web_view_button_press_event (GtkWidget *widget,
 				g_object_unref (loader);
 				break;
 			}
+			g_list_free (subresources);
 		}
 
 		g_object_unref (test);

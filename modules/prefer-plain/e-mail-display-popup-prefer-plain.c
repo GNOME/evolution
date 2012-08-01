@@ -351,14 +351,30 @@ e_mail_display_popup_prefer_plain_type_register (GTypeModule *type_module)
 }
 
 static void
+e_mail_display_popup_prefer_plain_finalize (GObject *object)
+{
+	EMailDisplayPopupPreferPlain *extension;
+
+	extension = E_MAIL_DISPLAY_POPUP_PREFER_PLAIN (object);
+
+	g_free (extension->text_html_id);
+	g_free (extension->text_plain_id);
+	g_object_unref (extension->action_group);
+}
+
+static void
 e_mail_display_popup_prefer_plain_class_init (EMailDisplayPopupPreferPlainClass *klass)
 {
 	EExtensionClass *extension_class;
+	GObjectClass *object_class;
 
 	e_mail_display_popup_prefer_plain_parent_class = g_type_class_peek_parent (klass);
 
 	extension_class = E_EXTENSION_CLASS (klass);
 	extension_class->extensible_type = E_TYPE_MAIL_DISPLAY;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = e_mail_display_popup_prefer_plain_finalize;
 }
 
 static void
