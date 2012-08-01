@@ -4,11 +4,11 @@
       type="topic" id="default-browser">
 
   <info>
-    <desc>How to define the default browser to open links with.</desc>
+    <desc>Opening links from an email in a browser and opening the mail composer from an email link on a website.</desc>
     
     <link type="guide" xref="index#common-other-problems" />
 
-    <revision pkgversion="3.0.2" version="0.5" date="2012-03-07" status="final"/>
+    <revision pkgversion="3.5.4" version="0.6" date="2012-08-01" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -19,14 +19,16 @@
 
   </info>
 
-<title>Setting the default browser</title>
+<title>Opening links in and from the web browser</title>
 
 <!-- For GNOME2 the steps are to define the gconf keys /desktop/gnome/url-handlers/http and /https -->
 
-<p>You can set the system-wide default browser in GNOME 3 under <guiseq><gui>Activities</gui><gui>Applications</gui><gui>System Settings</gui><gui>System</gui><gui>System Info</gui><gui>Default Applications</gui></guiseq>.</p>
-<p>If the preferred browser is set as default application but still does not work correctly please contact your distribution via their forum or bug tracker.</p>
+<section id="urls-in-emails">
+<title>Change which web browser websites are opened in</title>
 
-<note><p>GNOME 3 users with a technical background can tweak these settings by defining scheme-handlers in <file>$HOME/.local/share/applications/mimeapps.list</file>.</p></note>
+<p>Please see <link href="ghelp:gnome-help#net-default-browser">the GNOME Desktop Help</link>.</p>
+
+<p>If the preferred browser is set as default application but still does not work correctly please contact your distribution via their forum or bug tracker.</p>
 
 <note style="info package">
   <p>If the error message "Could not open the link: Operation not supported" is shown, you need to install the package <sys>gvfs</sys>.</p>
@@ -36,4 +38,18 @@
     </if:when>
   </if:choose>
 </note>
+</section>
+
+<section id="urls-in-emails">
+<title>Change which mail application is used to write emails</title>
+
+<p>Please see <link href="ghelp:gnome-help#net-default-email">the GNOME Desktop Help</link>.</p>
+
+</section>
+
+<section id="advanced-options">
+<title>Advanced options</title>
+<note><p>If you have a technical background you can also tweak these settings by defining scheme-handlers in <file>$HOME/.local/share/applications/mimeapps.list</file>.</p></note>
+</section>
+
 </page>
