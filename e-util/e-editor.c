@@ -1156,6 +1156,7 @@ e_editor_init (EEditor *editor)
 	filename = editor_find_ui_file ("e-editor-manager.ui");
 =======
 	priv->editor_widget = e_editor_widget_new ();
+	priv->selection = e_editor_widget_get_selection (priv->editor_widget);
 
 	filename = editor_find_ui_file ("e-editor-manager.ui");
 
