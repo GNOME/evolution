@@ -36,6 +36,8 @@ EActivity *	e_source_util_remove		(ESource *source,
 						 EAlertSink *alert_sink);
 EActivity *	e_source_util_write		(ESource *source,
 						 EAlertSink *alert_sink);
+EActivity *	e_source_util_remote_delete	(ESource *source,
+						 EAlertSink *alert_sink);
 
 G_END_DECLS
 

@@ -40,4 +40,9 @@
     <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
   </error>
 
+  <error id="delete-resource-fail" type="error">
+    <_primary>Failed to delete resource &quot;{0}&quot;.</_primary>
+    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+  </error>
+
 </error-list>
