@@ -1954,3 +1954,36 @@ e_shell_view_remove_source (EShellView *shell_view,
 	e_shell_backend_add_activity (shell_backend, activity);
 }
 
+/**
+ * e_shell_view_remote_delete_source:
+ * @shell_view: an #EShellView
+ * @source: an #ESource
+ *
+ * Deletes the resource represented by @source from a remote server.
+ * The @source must be #ESource:remote-deletable.  This will also delete
+ * the key file for @source and broadcast its removal to all clients,
+ * similar to e_shell_view_remove_source().
+ *
+ * This function does not block; @shell_view will dispatch the operation
+ * asynchronously and handle any errors.
+ **/
+void
+e_shell_view_remote_delete_source (EShellView *shell_view,
+                                   ESource *source)
+{
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	alert_sink = E_ALERT_SINK (shell_content);
+	activity = e_source_util_remote_delete (source, alert_sink);
+	e_shell_backend_add_activity (shell_backend, activity);
+}
+

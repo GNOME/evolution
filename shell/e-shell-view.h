@@ -234,6 +234,9 @@ void		e_shell_view_write_source	(EShellView *shell_view,
 						 ESource *source);
 void		e_shell_view_remove_source	(EShellView *shell_view,
 						 ESource *source);
+void		e_shell_view_remote_delete_source
+						(EShellView *shell_view,
+						 ESource *source);
 
 G_END_DECLS
 
