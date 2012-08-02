@@ -52,6 +52,11 @@ struct _ECalComponentPreviewPrivate {
 	gchar *comp_uid;
 	struct icaltimetype comp_last_modified;
 	gint comp_sequence;
+
+	ECalClient *client;
+	ECalComponent *comp;
+	icaltimezone *timezone;
+	gboolean use_24_hour_format;
 };
 
 #define HTML_HEADER "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n"  \
@@ -77,6 +82,13 @@ clear_comp_info (ECalComponentPreview *preview)
 	priv->comp_uid = NULL;
 	priv->comp_last_modified = icaltime_null_time ();
 	priv->comp_sequence = -1;
+
+	g_clear_object (&priv->client);
+	g_clear_object (&priv->comp);
+	if (priv->timezone) {
+		icaltimezone_free (priv->timezone, 1);
+		priv->timezone = NULL;
+	}
 }
 
 /* Stores information about actually shown component and
@@ -84,7 +96,9 @@ clear_comp_info (ECalComponentPreview *preview)
 static gboolean
 update_comp_info (ECalComponentPreview *preview,
                   ECalClient *client,
-                  ECalComponent *comp)
+		  ECalComponent *comp,
+		  icaltimezone *zone,
+		  gboolean use_24_hour_format)
 {
 	ECalComponentPreviewPrivate *priv;
 	gboolean changed;
@@ -135,6 +149,11 @@ update_comp_info (ECalComponentPreview *preview,
 		priv->comp_uid = comp_uid;
 		priv->comp_sequence = comp_sequence;
 		priv->comp_last_modified = comp_last_modified;
+
+		priv->comp = g_object_ref (comp);
+		priv->client = g_object_ref (client);
+		priv->timezone = icaltimezone_copy (zone);
+		priv->use_24_hour_format = use_24_hour_format;
 	}
 
 	return changed;
@@ -175,12 +194,13 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 }
 
 static void
-cal_component_preview_write_html (GString *buffer,
-                                  ECalClient *client,
-                                  ECalComponent *comp,
-                                  icaltimezone *default_zone,
-                                  gboolean use_24_hour_format)
+cal_component_preview_write_html (ECalComponentPreview *preview,
+				  GString *buffer)
 {
+	ECalClient *client;
+	ECalComponent *comp;
+	icaltimezone *default_zone;
+	gboolean use_24_hour_format;
 	ECalComponentText text;
 	ECalComponentDateTime dt;
 	gchar *str;
@@ -191,14 +211,25 @@ cal_component_preview_write_html (GString *buffer,
 	icalproperty_status status;
 	const gchar *location;
 	gint *priority_value;
+	GtkStyle *style;
+	GtkStateType state;
 
-	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
+	client = preview->priv->client;
+	comp = preview->priv->comp;
+	default_zone = preview->priv->timezone;
+	use_24_hour_format = preview->priv->use_24_hour_format;
 
 	/* write document header */
 	e_cal_component_get_summary (comp, &text);
 
+	style = gtk_widget_get_style (GTK_WIDGET (preview));
+	state = gtk_widget_get_state (GTK_WIDGET (preview));
+
 	g_string_append (buffer, HTML_HEADER);
-	g_string_append (buffer, "<body>");
+	g_string_append_printf (
+		buffer, "<body bgcolor=\"#%06x\" text=\"#%06x\">",
+		e_color_to_value (&style->base[state]),
+		e_color_to_value (&style->text[state]));
 
 	if (text.value)
 		g_string_append_printf (buffer, "<h2>%s</h2>", text.value);
@@ -373,6 +404,23 @@ cal_component_preview_write_html (GString *buffer,
 }
 
 static void
+load_comp (ECalComponentPreview *preview)
+{
+	GString *buffer;
+
+	if (!preview->priv->comp) {
+		e_cal_component_preview_clear (preview);
+		return;
+	}
+
+
+	buffer = g_string_sized_new (4096);
+	cal_component_preview_write_html (preview, buffer);
+	e_web_view_load_string (E_WEB_VIEW (preview), buffer->str);
+	g_string_free (buffer, TRUE);
+}
+
+static void
 cal_component_preview_finalize (GObject *object)
 {
 	clear_comp_info (E_CAL_COMPONENT_PREVIEW (object));
@@ -396,6 +444,9 @@ static void
 e_cal_component_preview_init (ECalComponentPreview *preview)
 {
 	preview->priv = E_CAL_COMPONENT_PREVIEW_GET_PRIVATE (preview);
+
+	g_signal_connect (preview, "style-set",
+		G_CALLBACK (load_comp), NULL);
 }
 
 GtkWidget *
@@ -411,23 +462,15 @@ e_cal_component_preview_display (ECalComponentPreview *preview,
                                  icaltimezone *zone,
                                  gboolean use_24_hour_format)
 {
-	GString *buffer;
-
 	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview));
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	/* do not update preview when setting the same component as last time,
 	 * which even didn't change */
-	if (!update_comp_info (preview, client, comp))
+	if (!update_comp_info (preview, client, comp, zone, use_24_hour_format))
 		return;
 
-	/* XXX The initial buffer size is arbitrary.  Tune it. */
-
-	buffer = g_string_sized_new (4096);
-	cal_component_preview_write_html (
-		buffer, client, comp, zone, use_24_hour_format);
-	e_web_view_load_string (E_WEB_VIEW (preview), buffer->str);
-	g_string_free (buffer, TRUE);
+	load_comp (preview);
 }
 
 void

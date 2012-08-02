@@ -1802,13 +1802,16 @@ void
 e_mail_display_set_status (EMailDisplay *display,
                            const gchar *status)
 {
-	gchar *str, *header;
+	gchar *str;
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	header = e_mail_formatter_get_html_header (display->priv->formatter);
 	str = g_strdup_printf (
-		"%s\n"
+		"<!DOCTYPE HTML>\n<html>\n"
+		"<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\" />\n"
+		"<title>Evolution Mail Display</title>\n"
+		"</head>\n"
+		"<body bgcolor=\"#%06x\" text=\"#%06x\">"
 		"  <style>html, body { height: 100%%; }</style>\n"
 		"  <table border=\"0\" width=\"100%%\" height=\"100%%\">\n"
 		"    <tr height=\"100%%\" valign=\"middle\">\n"
@@ -1819,8 +1822,15 @@ e_mail_display_set_status (EMailDisplay *display,
 		"  </table>\n"
 		"</body>\n"
 		"</html>\n",
-		header, status);
-	g_free (header);
+		e_color_to_value ((GdkColor *)
+			e_mail_formatter_get_color (
+				display->priv->formatter,
+				E_MAIL_FORMATTER_COLOR_CONTENT)),
+		e_color_to_value ((GdkColor *)
+			e_mail_formatter_get_color (
+				display->priv->formatter,
+				E_MAIL_FORMATTER_COLOR_TEXT)),
+		status);
 
 	e_web_view_load_string (E_WEB_VIEW (display), str);
 	g_free (str);

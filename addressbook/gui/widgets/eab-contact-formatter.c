@@ -49,7 +49,9 @@ G_DEFINE_TYPE (
 enum {
 	PROP_0,
         PROP_DISPLAY_MODE,
-        PROP_RENDER_MAPS
+        PROP_RENDER_MAPS,
+	PROP_STYLE,
+	PROP_STATE
 };
 
 struct _EABContactFormatterPrivate {
@@ -58,6 +60,9 @@ struct _EABContactFormatterPrivate {
 
         EABContactDisplayMode mode;
         gboolean render_maps;
+
+	GtkStyle *style;
+	GtkStateType state;
 };
 
 static struct {
@@ -97,16 +102,6 @@ common_location[] =
 "  img#contact-photo { float: left; }\n" \
 "  div#contact-name { float: left; margin-left: 20px; }\n" \
 "</style>\n" \
-"<script type=\"text/javascript\">\n" \
-"function collapse_list (obj, listId) {\n" \
-"	var l = document.getElementById (listId);\n" \
-"	if (l.style.display == \"none\") {\n" \
-"		l.style.display = \"block\"; obj.src = obj.src.substr (0, obj.src.lastIndexOf (\"/\")) + \"/minus.png\";\n" \
-"	} else {\n" \
-"		l.style.display = \"none\"; obj.src = obj.src.substr (0, obj.src.lastIndexOf (\"/\")) + \"/plus.png\";\n" \
-"   }\n" \
-"}\n" \
-"</script>\n" \
 "</head>\n"
 
 static gboolean
@@ -773,7 +768,12 @@ render_normal (EABContactFormatter *formatter,
                GString *buffer)
 {
 	g_string_append (buffer, HTML_HEADER);
-	g_string_append (buffer, "<body>");
+	g_string_append_printf (
+		buffer, "<body bgcolor=\"#%06x\" text=\"#%06x\">",
+		e_color_to_value (
+			&formatter->priv->style->base[formatter->priv->state]),
+		e_color_to_value (
+			&formatter->priv->style->text[formatter->priv->state]));
 
 	if (formatter->priv->contact) {
 
@@ -1070,6 +1070,14 @@ eab_contact_formatter_set_property (GObject *object,
 			eab_contact_formatter_set_render_maps (
 				formatter, g_value_get_boolean (value));
 			return;
+		case PROP_STYLE:
+			eab_contact_formatter_set_style (
+				formatter, g_value_get_object (value));
+			return;
+		case PROP_STATE:
+			eab_contact_formatter_set_state (
+				formatter, g_value_get_uint (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1092,6 +1100,16 @@ eab_contact_formatter_get_property (GObject *object,
 		case PROP_RENDER_MAPS:
 			g_value_set_boolean (value,
 				eab_contact_formatter_get_render_maps (
+					formatter));
+			return;
+		case PROP_STYLE:
+			g_value_set_object (value,
+				eab_contact_formatter_get_style (
+					formatter));
+			return;
+		case PROP_STATE:
+			g_value_set_uint (value,
+				eab_contact_formatter_get_state (
 					formatter));
 			return;
 	}
@@ -1147,6 +1165,28 @@ eab_contact_formatter_class_init (EABContactFormatterClass *class)
 			"",
 			FALSE,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_STYLE,
+		g_param_spec_object (
+			"style",
+		        NULL,
+		        NULL,
+		        GTK_TYPE_STYLE,
+		        G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_STATE,
+		g_param_spec_uint (
+			"state",
+		        NULL,
+		        NULL,
+			0,
+			G_MAXUINT,
+			0,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 }
 
 static void
@@ -1213,6 +1253,55 @@ eab_contact_formatter_get_render_maps (EABContactFormatter *formatter)
 	g_return_val_if_fail (EAB_IS_CONTACT_FORMATTER (formatter), FALSE);
 
 	return formatter->priv->render_maps;
+}
+
+void
+eab_contact_formatter_set_style (EABContactFormatter *formatter,
+				 GtkStyle *style)
+{
+	g_return_if_fail (EAB_IS_CONTACT_FORMATTER (formatter));
+
+	if (formatter->priv->style == style) {
+		return;
+	}
+
+	g_clear_object (&formatter->priv->style);
+
+	if (style != NULL) {
+		formatter->priv->style = g_object_ref (style);
+	}
+
+	g_object_notify (G_OBJECT (formatter), "style");
+}
+
+GtkStyle *
+eab_contact_formatter_get_style (EABContactFormatter *formatter)
+{
+	g_return_val_if_fail (EAB_IS_CONTACT_FORMATTER (formatter), NULL);
+
+	return formatter->priv->style;
+}
+
+void
+eab_contact_formatter_set_state (EABContactFormatter *formatter,
+				 GtkStateType state)
+{
+	g_return_if_fail (EAB_IS_CONTACT_FORMATTER (formatter));
+
+	if (formatter->priv->state == state)
+		return;
+
+	formatter->priv->state = state;
+
+	g_object_notify (G_OBJECT (formatter), "state");
+}
+
+GtkStateType
+eab_contact_formatter_get_state (EABContactFormatter *formatter)
+{
+	g_return_val_if_fail (EAB_IS_CONTACT_FORMATTER (formatter), 0);
+
+	return formatter->priv->state;
 }
 
 void

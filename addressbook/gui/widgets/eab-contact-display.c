@@ -183,6 +183,10 @@ contact_formatting_finished (GObject *object,
 	GByteArray *ba;
 
 	stream = g_simple_async_result_get_op_res_gpointer (result);
+	/* The operation was probably cancelled */
+	if (!stream)
+		return;
+
 	ba = camel_stream_mem_get_byte_array (stream);
 
 	html = g_strndup ((gchar *) ba->data, ba->len);
@@ -212,6 +216,11 @@ load_contact (EABContactDisplay *display)
 	formatter = eab_contact_formatter_new (
 			display->priv->mode,
 			display->priv->show_maps);
+	g_object_set (
+		G_OBJECT (formatter),
+		"style", gtk_widget_get_style (GTK_WIDGET (display)),
+		"state", gtk_widget_get_state (GTK_WIDGET (display)),
+		NULL);
 
 	display->priv->formatter_cancellable = g_cancellable_new ();
 
@@ -549,6 +558,8 @@ eab_contact_display_init (EABContactDisplay *display)
 #endif
 	g_signal_connect (web_view, "notify::load-status",
 		G_CALLBACK (contact_display_load_status_changed), NULL);
+	g_signal_connect (web_view, "style-set",
+		G_CALLBACK (load_contact), NULL);
 
 	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_FILE_REQUEST);
 	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_STOCK_REQUEST);

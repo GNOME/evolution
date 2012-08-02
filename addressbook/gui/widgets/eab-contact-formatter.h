@@ -62,6 +62,17 @@ EABContactFormatter*
 		eab_contact_formatter_new	(EABContactDisplayMode mode,
 						 gboolean render_maps);
 
+void		eab_contact_formatter_set_style
+						(EABContactFormatter *formatter,
+						 GtkStyle *context);
+GtkStyle*
+		eab_contact_formatter_get_style
+						(EABContactFormatter *formatter);
+
+void		eab_contact_formatter_set_state	(EABContactFormatter *formatter,
+						 GtkStateType state);
+GtkStateType	eab_contact_formatter_get_state	(EABContactFormatter *formatter);
+
 void            eab_contact_formatter_set_render_maps
                                                 (EABContactFormatter *formatter,
                                                  gboolean render_maps);

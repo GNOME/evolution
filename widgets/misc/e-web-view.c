@@ -1875,21 +1875,16 @@ e_web_view_new (void)
 void
 e_web_view_clear (EWebView *web_view)
 {
-	GtkStyleContext *style_context;
-	GtkStateFlags state_flags;
-	GdkRGBA rgba;
+	GtkStyle *style;
 	gchar *html;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	style_context = gtk_widget_get_style_context (GTK_WIDGET (web_view));
-	state_flags = gtk_widget_get_state_flags (GTK_WIDGET (web_view));
-	gtk_style_context_get_background_color (
-		style_context, state_flags, &rgba);
+	style = gtk_widget_get_style (GTK_WIDGET (web_view));
 
 	html = g_strdup_printf (
 		"<html><head></head><body bgcolor=\"#%06x\"></body></html>",
-		e_rgba_to_value (&rgba));
+		e_color_to_value (&style->base[GTK_STATE_NORMAL]));
 
 	webkit_web_view_load_html_string (WEBKIT_WEB_VIEW (web_view), html, NULL);
 
