@@ -822,17 +822,16 @@ e_int_compare (gconstpointer x,
 guint32
 e_color_to_value (GdkColor *color)
 {
-	guint16 red;
-	guint16 green;
-	guint16 blue;
+	GdkRGBA rgba;
 
 	g_return_val_if_fail (color != NULL, 0);
 
-	red = color->red >> 8;
-	green = color->green >> 8;
-	blue = color->blue >> 8;
+	rgba.red = color->red / 65535.0;
+	rgba.green = color->green / 65535.0;
+	rgba.blue = color->blue / 65535.0;
+	rgba.alpha = 0.0;
 
-	return (guint32) (((red << 16) | (green << 8) | blue) & 0xffffff);
+	return e_rgba_to_value (&rgba);
 }
 
 /**
@@ -853,11 +852,11 @@ e_rgba_to_value (GdkRGBA *rgba)
 
 	g_return_val_if_fail (rgba != NULL, 0);
 
-	red = ((guint16) (G_MAXUINT16 * rgba->red)) >> 8;
-	green = ((guint16) (G_MAXUINT16 * rgba->green)) >> 8;
-	blue = ((guint16) (G_MAXUINT16 * rgba->blue)) >> 8;
+	red = 255 * rgba->red;
+	green = 255 * rgba->green;
+	blue = 255 * rgba->blue;
 
-	return (guint32) (((red << 16) | (green << 8) | blue) & 0xffffff);
+	return (guint32) ((((red & 0xFF) << 16) | ((green & 0xFF) << 8) | (blue & 0xFF)) & 0xffffff);
 }
 
 static gint
