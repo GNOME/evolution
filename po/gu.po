@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
 "cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-07-27 09:33+0000\n"
-"PO-Revision-Date: 2012-08-02 12:48+0530\n"
+"PO-Revision-Date: 2012-08-02 15:14+0530\n"
 "Last-Translator: \n"
 "Language-Team: gu_IN <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -255,7 +255,6 @@ msgid "Some addresses already exist in this contact list."
 msgstr "અમુક સરનામાંઓ પહેલથી સંપર્ક યાદીમાં અસ્તિત્વ ધરાવે છે."
 
 #: ../addressbook/addressbook.error.xml.h:35
-#, fuzzy
 #| msgid ""
 #| "The name or email address of this contact already exists\n"
 #| "in this folder.  Would you like to add it anyway?"
@@ -263,8 +262,8 @@ msgid ""
 "You are trying to add addresses that are part of this list already. Would "
 "you like to add them anyway?"
 msgstr ""
-"આ સંપર્કનું નામ અથવા ઈ-મેઈલ સરનામું પહેલાથી જ આ\n"
-"ફોલ્ડરમાં હાજર છે. શું તમે એને કોઈપણ રીતે ઉમેરવા માંગો છો?"
+"તમે સરનામાંને ઉમરવાનો પ્રયત્ન કરી રહ્યા છે કે જે પહેલેથી જ આ યાદીનો ભાગ છે. શું તમે તેઓને ગમે તે "
+"રીતે ઉમેરવા માંગો છો?"
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid "Skip duplicates"
@@ -279,7 +278,6 @@ msgid "List '{0}' is already in this contact list."
 msgstr "યાદી '{0}' આ સંપર્ક યાદીમાં પહેલેથી જ છે."
 
 #: ../addressbook/addressbook.error.xml.h:39
-#, fuzzy
 #| msgid ""
 #| "The name or email of this contact already exists in this folder.  Would "
 #| "you like to add it anyway?"
@@ -287,8 +285,8 @@ msgid ""
 "A contact list named '{0}' is already in this contact list. Would you like "
 "to add it anyway?"
 msgstr ""
-"આ સંપર્કનું નામ અથવા ઈ-મેઈલ સરનામું પહેલાથી જ આ ફોલ્ડરમાં હાજર છે.  શું તમે એને કોઈપણ રીતે "
-"ઉમેરવા માંગો છો?"
+"નામ થયેલ સંપર્ક યાદી '{0}' પેહેલથી જ આ સંપર્ક યાદીમાં પહેલેથી છે. શું તમે તેને ગમે તે રીતે ઉમેરવા "
+"માંગો છો?"
 
 #: ../addressbook/addressbook.error.xml.h:40
 msgid "Some features may not work properly with your current server"
@@ -518,7 +516,6 @@ msgstr "જન્મદિવસ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:39
 #: ../calendar/gui/dialogs/task-details-page.ui.h:22
-#, fuzzy
 msgid "Miscellaneous"
 msgstr "મિશ્રિત"
 
@@ -799,10 +796,9 @@ msgid "Add an email to the List"
 msgstr "યાદીમાં ઇમેઇલને ઉમેરો"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:8
-#, fuzzy
 #| msgid "Copy the email address to the clipboard"
 msgid "Remove an email address from the List"
-msgstr "ક્લિપબોર્ડમાં ઇમેલ સરનામાની નકલ કરો"
+msgstr "યાદીમાંથી ઇમેઇલ સરનામાંને દૂર કરો"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 msgid "Insert email addresses from Address Book"
@@ -838,7 +834,6 @@ msgid "Duplicate Contact Detected"
 msgstr "નકલી સંપર્ક કાઢી નખાયો"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.ui.h:2
-#, fuzzy
 #| msgid ""
 #| "The name or email of this contact already exists in this folder.  Would "
 #| "you like to add it anyway?"
@@ -846,8 +841,8 @@ msgid ""
 "The name or email of this contact already exists in this folder. Would you "
 "like to save the changes anyway?"
 msgstr ""
-"આ સંપર્કનું નામ અથવા ઈ-મેઈલ સરનામું પહેલાથી જ આ ફોલ્ડરમાં હાજર છે.  શું તમે એને કોઈપણ રીતે "
-"ઉમેરવા માંગો છો?"
+"આ સંપર્કનુ નામ અથવા ઇમેઅલ પહેલેથી જ આ ફોલ્ડરમાં અસ્તિત્વ ધરાવે છે. શું તમે તેને કોઇપણ રીતે "
+"ફેરફારોને સંગ્રહવા માંગો છો?"
 
 #. Translators: Heading of the contact which has same name or email address in this folder already.
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.ui.h:4
@@ -935,16 +930,14 @@ msgid "Click to mail %s"
 msgstr "મેઈલ %s કરવા માટે ક્લિક કરો"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:159
-#, fuzzy
 #| msgid "Open"
 msgid "Open map"
-msgstr "ખોલો"
+msgstr "નક્ષો ખોલો"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:554
-#, fuzzy
 #| msgid "List Members"
 msgid "List Members:"
-msgstr "સભ્યોની યાદી"
+msgstr "સભ્યોની યાદી:"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:618
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:5
@@ -1126,9 +1119,9 @@ msgstr "આ સરનામા પુસ્તિકાના પાશ્વભ
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:230
-#, fuzzy, c-format
+#, c-format
 msgid "The backend for this address book refused to perform this query. %s"
-msgstr "આ સરનામા પુસ્તિકાના પાશ્વભાગ માટે આ પ્રશ્નનું પદચ્છેદન કરવામાં નકાર્યું."
+msgstr "આ સરનામા પુસ્તિકાના પાશ્વભાગ માટે આ પ્રશ્નનું પદચ્છેદન કરવામાં નકાર્યું. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:236
@@ -1511,40 +1504,34 @@ msgid "Importing..."
 msgstr "આયાત કરી રહ્યા છીએ..."
 
 #: ../addressbook/importers/evolution-csv-importer.c:1084
-#, fuzzy
 #| msgid "Outlook CSV or Tab (.csv, .tab)"
 msgid "Outlook Contacts CSV or Tab (.csv, .tab)"
-msgstr "આઉટલુક CSV અથવા ટેબ (.csv, .tab)"
+msgstr "આઉટલુક સંપર્કો CSV અથવા ટેબ (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1085
-#, fuzzy
 #| msgid "Outlook CSV and Tab Importer"
 msgid "Outlook Contacts CSV and Tab Importer"
-msgstr "આઉટલુક CSV અને ટેબ આયાત કરનાર"
+msgstr "આઉટલુક સંપર્કો CSV અને ટેબ આયાત કરનાર"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1093
-#, fuzzy
 #| msgid "Mozilla CSV or Tab (.csv, .tab)"
 msgid "Mozilla Contacts CSV or Tab (.csv, .tab)"
-msgstr "મોઝિલ્લા CSV અથવા ટેબ (.csv, .tab)"
+msgstr "Mozilla સંપર્કો CSV અથવા ટેબ (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1094
-#, fuzzy
 #| msgid "Mozilla CSV and Tab Importer"
 msgid "Mozilla Contacts CSV and Tab Importer"
-msgstr "મોઝિલ્લા CSV અને ટેબ આયાત કરનાર"
+msgstr "Mozilla સંપર્કો CSV અને ટેબ આયાત કરનાર"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1102
-#, fuzzy
 #| msgid "Evolution CSV or Tab (.csv, .tab)"
 msgid "Evolution Contacts CSV or Tab (.csv, .tab)"
-msgstr "ઈવોલ્યુશન CSV અથવા ટેબ (.csv, .tab)"
+msgstr "Evolution સંપર્કો CSV અથવા ટેબ (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1103
-#, fuzzy
 #| msgid "Evolution CSV and Tab Importer"
 msgid "Evolution Contacts CSV and Tab Importer"
-msgstr "ઈવોલ્યુશન CSV અને ટેબ આયાત કરનાર"
+msgstr "Evolution સંપર્કો CSV અને ટેબ આયાત કરનાર"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:805
 msgid "LDAP Data Interchange Format (.ldif)"
@@ -1630,9 +1617,9 @@ msgid "Can not open file"
 msgstr "ફાઈલ ખોલી શકાસે નહિં"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to open client '%s': %s"
-msgstr "કેલેન્ડર '%s' લાવવામાં નિષ્ફળ"
+msgstr "ક્લાયન્ટ '%s' ને ખોલવામાં નિષ્ફળતા: %s"
 
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:108
 msgid "minute"
@@ -1651,12 +1638,11 @@ msgstr[1] "કલાકો"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:134
 #: ../calendar/gui/dialogs/recurrence-page.c:1195
-#, fuzzy
 #| msgid "day"
 msgid "day"
 msgid_plural "days"
 msgstr[0] "દિવસ"
-msgstr[1] "દિવસ"
+msgstr[1] "દિવસો"
 
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:330
 msgid "Start time"
@@ -1880,7 +1866,6 @@ msgid "All information on this memo will be deleted and can not be restored."
 msgstr "આ મેમોની બધી જાણકારી કાઢી નાંખવામાં આવેલ છે અને ફરીથી સંગ્રહી શકાતી નથી."
 
 #: ../calendar/calendar.error.xml.h:15
-#, fuzzy
 msgid "Are you sure you want to delete the meeting titled '{0}'?"
 msgstr "શું તમે ખરેખર '{0}' શીર્ષકવાળી મુલાકાત કાઢી નાંખવા માંગો છો?"
 
@@ -1935,14 +1920,12 @@ msgid "All information in these memos will be deleted and can not be restored."
 msgstr "આ મેમોની બધી જાણકારી કાઢી નંખાશે અને ફરીથી સંગ્રહી શકાશે નહિં."
 
 #: ../calendar/calendar.error.xml.h:28
-#, fuzzy
 msgid "Would you like to save your changes to this meeting?"
-msgstr "શું તમે તમારા ફેરફારો આ મેમોમાં સંગ્રહવા માંગો છો?"
+msgstr "શું તમે તમારા ફેરફારો આ મંત્રણામાં સંગ્રહવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:29
-#, fuzzy
 msgid "You have changed this meeting, but not yet saved it."
-msgstr "તમે આ બાબતમાં ફેરફારો કર્યા છે, પરંતુ હજુ સંગ્રહ્યા નથી."
+msgstr "તમે આ મંત્રણામાં ફેરફારો કર્યા છે, પરંતુ હજુ સંગ્રહ્યા નથી."
 
 #: ../calendar/calendar.error.xml.h:30
 #: ../composer/mail-composer.error.xml.h:16
@@ -2104,12 +2087,10 @@ msgid "This memo list will be removed permanently."
 msgstr "મેમો યાદી કાયમ માટે દૂર થઈ જશે."
 
 #: ../calendar/calendar.error.xml.h:66
-#, fuzzy
 msgid "Are you sure you want to save the appointment without a summary?"
-msgstr "શું તમે ખરેખર મુલાકાત સાર વિના મોકલવા માંગો છો?"
+msgstr "શું તમે ખરેખર મુલાકાત સાર વિના સંગ્રહવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:67
-#, fuzzy
 msgid ""
 "Adding a meaningful summary to your appointment will give you an idea of "
 "what your appointment is about."
@@ -2118,17 +2099,15 @@ msgstr ""
 "વિશે છે."
 
 #: ../calendar/calendar.error.xml.h:68
-#, fuzzy
 msgid "Are you sure you want to save the task without a summary?"
-msgstr "શું તમે ખરેખર બાબર સાર વિના મોકલવા માંગો છો?"
+msgstr "શું તમે ખરેખર કાર્ય સાર વિના સંગ્રહવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:69
-#, fuzzy
 msgid ""
 "Adding a meaningful summary to your task will give you an idea of what your "
 "task is about."
 msgstr ""
-"તમારી બાબતને અર્થવાળો સાર ઉમેરવાનું તમારા મેળવનારાઓને ખબર પાડશે કે તમારી બાબત શેના વિશે "
+"તમારી કાર્યને અર્થવાળો સાર ઉમેરવાનું તમારા મેળવનારાઓને ખબર પાડશે કે તમારી કાર્ય શેના વિશે "
 "છે."
 
 #: ../calendar/calendar.error.xml.h:70
@@ -2170,10 +2149,9 @@ msgstr ""
 "કેલેન્ડરને પસંદ કરો કે જે મુલાકાતો ને સ્વીકારી શકે છે."
 
 #: ../calendar/calendar.error.xml.h:79
-#, fuzzy
 #| msgid "Cannot save event"
 msgid "Cannot save task"
-msgstr "ઘટનાનો સંગ્રહ કરી શકતા નથી"
+msgstr "કાર્યને સંગ્રહી શકાતુ નથી"
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:81
@@ -2216,10 +2194,9 @@ msgstr ""
 "અનુભવશો. શ્રેષ્ઠ પરિણામો માટે, સર્વર એ આધારભૂત આવૃત્તિમાં સુધારાવું જોઈએ."
 
 #: ../calendar/calendar.error.xml.h:91
-#, fuzzy
 #| msgid "Could not open destination"
 msgid "Could not perform this operation."
-msgstr "અંતિમ મુકામ ખોલી શક્યા નથી"
+msgstr "આ ક્રિયાને ચલાવી શક્યા નહિં."
 
 #: ../calendar/calendar.error.xml.h:92 ../mail/mail.error.xml.h:169
 msgid "You must be working online to complete this operation."
@@ -2357,10 +2334,9 @@ msgid "Occurs"
 msgstr ""
 
 #: ../calendar/gui/caltypes.xml.h:21
-#, fuzzy
 #| msgid "is less than"
 msgid "Less Than"
-msgstr "ના કરતાં નાનું છે"
+msgstr "ના કરતા ઓછુ"
 
 #: ../calendar/gui/caltypes.xml.h:22
 msgid "Exactly"
@@ -2381,10 +2357,9 @@ msgid "Description Contains"
 msgstr "વર્ણન સમાવે છે"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:632
-#, fuzzy
 #| msgid "Reminder!"
 msgid "Edit Reminder"
-msgstr "યાદ અપાવનાર!"
+msgstr "યાદ અપાવનારમાં ફેરફાર કરો"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:823
 #: ../calendar/gui/e-alarm-list.c:412
@@ -2435,17 +2410,15 @@ msgid "end of appointment"
 msgstr "મુલાકાતનો અંત"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:11
-#, fuzzy
 #| msgid "Reminder!"
 msgid "Add Reminder"
-msgstr "યાદ અપાવનાર!"
+msgstr "યાદ અપાવનાર ઉમેરો"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:12
 #: ../calendar/gui/dialogs/event-editor.c:364
-#, fuzzy
 #| msgid "Reminder!"
 msgid "Reminder"
-msgstr "યાદ અપાવનાર!"
+msgstr "યાદ અપાવનાર"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:13
 msgid "Repeat"
@@ -2507,10 +2480,9 @@ msgstr "ક્રિયા/ફેરબદલી"
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:1
 #: ../calendar/gui/dialogs/event-page.ui.h:25
 #: ../modules/calendar/e-calendar-preferences.ui.h:62
-#, fuzzy
 #| msgid "Reminder!"
 msgid "Reminders"
-msgstr "યાદ અપાવનાર!"
+msgstr "યાદ અપાવનાર"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
 msgid "A_dd"
@@ -2606,10 +2578,9 @@ msgid "Keep original item?"
 msgstr "મૂળભૂત વસ્તુ ને રાખો?"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1157
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Close the current window"
-msgstr "વર્તમાન ફાઈલ બંધ કરો"
+msgstr "વર્તમાન વિન્ડોને બંધ કરો"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1164 ../mail/e-mail-browser.c:134
 #: ../shell/e-shell-window-actions.c:1446
@@ -2645,22 +2616,19 @@ msgid "Paste the clipboard"
 msgstr "ક્લિપબોર્ડમાં ચોંટાડો"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1213
-#, fuzzy
 #| msgid "Save Current View"
 msgid "Save current changes"
-msgstr "વર્તમાન દેખાવ સંગ્રહો"
+msgstr "વર્તમાન ફેરફારોને સંગ્રહો"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1218
-#, fuzzy
 #| msgid "_Save and Close"
 msgid "Save and Close"
-msgstr "સંગ્રહો અને બંધ કરો (_S)"
+msgstr "સંગ્રહો અને બંધ કરો"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1220
-#, fuzzy
 #| msgid "Save Current View"
 msgid "Save current changes and close editor"
-msgstr "વર્તમાન દેખાવ સંગ્રહો"
+msgstr "વર્તમાન ફેરફારોને સંગ્રહો અને સંપાદકને બંધ કરો"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1227 ../mail/e-mail-browser.c:155
 #: ../shell/e-shell-window-actions.c:1558
@@ -2823,10 +2791,9 @@ msgid "Destination is read only"
 msgstr "અંતિમ મુકામ માત્ર વાંચી શકાય તેવું છે"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:160
-#, fuzzy
 #| msgid "Cannot create a new event"
 msgid "Cannot create object"
-msgstr "નવી ઘટના બનાવી શકતા નથી"
+msgstr "ઑબ્જેક્ટને બનાવી શકાતુ નથી"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:189
 msgid "Could not open source"
@@ -2837,33 +2804,32 @@ msgid "_Delete this item from all other recipient's mailboxes?"
 msgstr "શું બાકીના બધા મેળવનારાઓના મેઈલબોક્સમાંથી આ વસ્તુને કાઢી નાંખવી છે (_D)?"
 
 #: ../calendar/gui/dialogs/delete-comp.c:215
-#, fuzzy
 msgid "_Retract comment"
-msgstr "ટકા પૂર્ણ થયું (_e):"
+msgstr "ટિપ્પણી પાછી લેવી (_R)"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "The event could not be deleted due to a dbus error: %s"
-msgstr "ઘટના ભૂલને કારણે કાઢી શકાઈ નહિં"
+msgstr "dbus ઘટના ભૂલને કારણે કાઢી શકાઈ નહિં: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "The task could not be deleted due to a dbus error: %s"
-msgstr "ભૂલને કારણે બાબત કાઢી શકાઈ નહિં"
+msgstr "dbus ભૂલને કારણે બાબત કાઢી શકાઈ નહિં: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:63
-#, fuzzy, c-format
+#, c-format
 msgid "The memo could not be deleted due to a dbus error: %s"
-msgstr "ભૂલને કારણે મેમો કાઢી શક્યા નહિં"
+msgstr "dbusભૂલને કારણે મેમો કાઢી શક્યા નહિં: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:67
-#, fuzzy, c-format
+#, c-format
 msgid "The item could not be deleted due to a dbus error: %s"
-msgstr "ભૂલને કારણે વસ્તુ કાઢી શકાઈ નહિં"
+msgstr "dbus ભૂલને કારણે વસ્તુ કાઢી શકાઈ નહિં: %s"
 
 #: ../calendar/gui/dialogs/delete-error.c:74
 msgid "The event could not be deleted because permission was denied"
@@ -2883,27 +2849,27 @@ msgstr "વસ્તુ કાઢી શકાઈ નહિં કારણક�
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:91
-#, fuzzy, c-format
+#, c-format
 msgid "The event could not be deleted due to an error: %s"
-msgstr "ઘટના ભૂલને કારણે કાઢી શકાઈ નહિં"
+msgstr "ઘટના ભૂલને કારણે કાઢી શકાઈ નહિં: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:95
-#, fuzzy, c-format
+#, c-format
 msgid "The task could not be deleted due to an error: %s"
-msgstr "ભૂલને કારણે બાબત કાઢી શકાઈ નહિં"
+msgstr "ભૂલને કારણે કાર્ય કાઢી શકાયુ નહિં: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "The memo could not be deleted due to an error: %s"
-msgstr "ભૂલને કારણે મેમો કાઢી શક્યા નહિં"
+msgstr "ભૂલને કારણે મેમો કાઢી શક્યા નહિં: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "The item could not be deleted due to an error: %s"
-msgstr "ભૂલને કારણે વસ્તુ કાઢી શકાઈ નહિં"
+msgstr "ભૂલને કારણે વસ્તુ કાઢી શકાઈ નહિં: %s"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:1
 msgid "Enter Delegate"
@@ -2918,10 +2884,9 @@ msgid "Contacts..."
 msgstr "સંપર્કો..."
 
 #: ../calendar/gui/dialogs/event-editor.c:216
-#, fuzzy
 #| msgid "Reminder!"
 msgid "_Reminders"
-msgstr "યાદ અપાવનાર!"
+msgstr "યાદ અપાવનાર (_R)"
 
 #: ../calendar/gui/dialogs/event-editor.c:218
 #, fuzzy
@@ -2999,10 +2964,9 @@ msgstr "ઘટના ને સંપૂર્ણ રીતે ફેરફા�
 
 #: ../calendar/gui/dialogs/event-page.c:663
 #: ../calendar/gui/dialogs/event-page.c:3138
-#, fuzzy
 #| msgid "This event has alarms"
 msgid "This event has reminders"
-msgstr "આ ઘટનાને એલાર્મો છે"
+msgstr "આ ઘટનાને પાસે યાદ અપાવનાર છે"
 
 #: ../calendar/gui/dialogs/event-page.c:730
 #: ../calendar/gui/dialogs/event-page.ui.h:13
@@ -3055,10 +3019,10 @@ msgid "Atte_ndees"
 msgstr "સભાજનો (_n)"
 
 #: ../calendar/gui/dialogs/event-page.c:2993
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unable to open the calendar '%s'."
 msgid "Unable to open the calendar '%s': %s"
-msgstr "કેલેન્ડર '%s' ખોલી શકાય એમ નથી."
+msgstr "કૅલેન્ડર '%s' ને ખોલવામાં અસમર્થ: %s"
 
 #: ../calendar/gui/dialogs/event-page.c:3409
 #, c-format
@@ -3087,7 +3051,6 @@ msgstr "વૈવિધ્યપૂર્ણ બનાવો"
 
 #. Translators: "None" for "No reminder set"
 #: ../calendar/gui/dialogs/event-page.c:3446
-#, fuzzy
 #| msgid "None"
 msgctxt "cal-reminders"
 msgid "None"
@@ -3158,10 +3121,9 @@ msgid "Atte_ndees..."
 msgstr "સભાજનો (_n)..."
 
 #: ../calendar/gui/dialogs/event-page.ui.h:26
-#, fuzzy
 #| msgid "Reminder!"
 msgid "_Reminder"
-msgstr "યાદ અપાવનાર!"
+msgstr "યાદ અપાવનાર (_R)"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:27
 #, fuzzy
@@ -3247,10 +3209,10 @@ msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "મેમોને સંપૂર્ણપણે ફેરફાર કરી શકાતુ નથી, કારણ કે તમે સંચાલક નથી"
 
 #: ../calendar/gui/dialogs/memo-page.c:981
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unable to open memos in '%s'."
 msgid "Unable to open memos in '%s': %s"
-msgstr "'%s' માં મેમો ખોલવામાં અસમર્થ."
+msgstr "'%s' માં મેમોને ખોલવામાં અસમર્થ: %s"
 
 #: ../calendar/gui/dialogs/memo-page.c:983
 #: ../em-format/e-mail-parser-application-mbox.c:111
@@ -3277,10 +3239,9 @@ msgstr "પ્રતિ"
 #: ../calendar/gui/dialogs/memo-page.ui.h:3
 #: ../calendar/gui/dialogs/task-page.c:346
 #: ../calendar/gui/dialogs/task-page.ui.h:9
-#, fuzzy
 #| msgid "_Last:"
 msgid "_List:"
-msgstr "છેલ્લુ (_L):"
+msgstr "યાદી (_L):"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:4
 #: ../calendar/gui/dialogs/task-page.c:354
@@ -3729,22 +3690,21 @@ msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr "કાર્યનો સંપૂર્ણપણે ફેરફાર કરી શકાતો નથી, કારણ કે તમે સંચાલક નથી"
 
 #: ../calendar/gui/dialogs/task-page.c:301
-#, fuzzy
 #| msgid "Task cannot be edited, because the selected task list is read only"
 msgid ""
 "Task cannot be edited, because the selected task list does not support "
 "assigned tasks"
-msgstr "કાર્ય ને ફેરફાર કરી શકાતુ નથી, કારણ કે પસંદ થયેલ કાર્ય યાદી ફક્ત વાંચી શકાય છે"
+msgstr "કાર્ય ને ફેરફાર કરી શકાતુ નથી, કારણ કે પસંદ થયેલ કાર્ય યાદી સોંપેલ કાર્યોને આધાર આપતુ નથી"
 
 #: ../calendar/gui/dialogs/task-page.c:834
 msgid "Due date is wrong"
 msgstr "નક્કી થયેલ તારીખ ખોટી છે"
 
 #: ../calendar/gui/dialogs/task-page.c:1813
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unable to open tasks in '%s'."
 msgid "Unable to open tasks in '%s': %s"
-msgstr "'%s' માં બાબતો ખોલવા સમર્થ નથી."
+msgstr "'%s'માં કાર્યોને ખોલવાનું અસમર્થ: %s"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:3
 msgid "D_ue date:"
@@ -4023,10 +3983,9 @@ msgid "Start Date:"
 msgstr "શરુઆતની તારીખ:"
 
 #: ../calendar/gui/e-cal-component-preview.c:264
-#, fuzzy
 #| msgid "End Date"
 msgid "End Date:"
-msgstr "અંતિમ તારીખ"
+msgstr "અંતિમ તારીખ:"
 
 #: ../calendar/gui/e-cal-component-preview.c:275
 msgid "Due Date:"
@@ -6769,10 +6728,9 @@ msgstr "Google"
 
 #: ../capplet/settings/mail-account-view.c:454
 #: ../capplet/settings/mail-account-view.c:558
-#, fuzzy
 #| msgid "Always"
 msgid "Always (SSL)"
-msgstr "હંમેશા"
+msgstr "હંમેશા (SSL)"
 
 #: ../capplet/settings/mail-account-view.c:457
 #: ../capplet/settings/mail-account-view.c:561
@@ -6927,9 +6885,8 @@ msgid "Back - Sending mail"
 msgstr "પાછળ - મેઇલને મોકલી રહ્યા છે"
 
 #: ../capplet/settings/mail-account-view.c:645
-#, fuzzy
 msgid "Review account"
-msgstr "ખાતું કાઢી નાંખવું છે?"
+msgstr "ખાતાને રિવ્યૂ કરો"
 
 #: ../capplet/settings/mail-account-view.c:645
 msgid "Finish"
@@ -7227,9 +7184,8 @@ msgid "Search for text"
 msgstr "લખાણ માટે શોધો"
 
 #: ../composer/e-composer-private.c:242
-#, fuzzy
 msgid "Search for and replace text"
-msgstr "iPod નિષ્ફળ માટે શોધો"
+msgstr "તેની માટે શોધો અને લખાણને બદલો"
 
 #: ../composer/e-composer-private.c:362
 msgid "Save draft"
@@ -7261,14 +7217,12 @@ msgid "Untitled Message"
 msgstr "શીર્ષક વગરનો સંદેશો"
 
 #: ../composer/mail-composer.error.xml.h:1
-#, fuzzy
 msgid "You cannot attach the file &quot;{0}&quot; to this message."
-msgstr "તમે આ મદદપત્રિકામાં ફાઈલ `{0}' જોડી શકતા નથી."
+msgstr "તમે આ સંદેશામાં ફાઇલ &quot;{0}&quot; ને જોડી શકતા નથી."
 
 #: ../composer/mail-composer.error.xml.h:2
-#, fuzzy
 msgid "The file '{0}' is not a regular file and cannot be sent in a message."
-msgstr "ફાઈલ `{0}' નિયમિત ફાઈલ નથી અને સંદેશામાં મોકલી શકાતી નથી."
+msgstr "ફાઈલ '{0}' નિયમિત ફાઈલ નથી અને સંદેશામાં મોકલી શકાતી નથી."
 
 #: ../composer/mail-composer.error.xml.h:3
 msgid "Could not retrieve messages to attach from {0}."
@@ -7363,9 +7317,8 @@ msgid "You need to configure an account before you can compose mail."
 msgstr "તમે મેઈલ કમ્પોઝ કરો તે પહેલા ખાતુ રુપરેખાંકિત કરવાની જરુર છે."
 
 #: ../composer/mail-composer.error.xml.h:25
-#, fuzzy
 msgid "An error occurred while saving to your Outbox folder."
-msgstr "છાપતી વખતે ભૂલ ઉદ્ભવી"
+msgstr "ભૂલ ઉદ્ભવી જ્યારે તમારાં આઉટબોક્સમાં સંગ્રહી રહ્યા હોય."
 
 #: ../composer/mail-composer.error.xml.h:26
 msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
@@ -7383,14 +7336,12 @@ msgid ""
 msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:29
-#, fuzzy
 msgid "An error occurred while sending. How do you want to proceed?"
-msgstr "છાપતી વખતે ભૂલ ઉદ્ભવી"
+msgstr "ભૂલ ઉદ્ભવી જ્યારે મોકલી રહ્યા હોય. તમે કેવી રીતે આગળ ધપવા માંગો છો?"
 
 #: ../composer/mail-composer.error.xml.h:30 ../mail/mail.error.xml.h:154
-#, fuzzy
 msgid "The reported error was &quot;{0}&quot;."
-msgstr "ખરાબ નિયમિત સમીકરણ &quot;{0}&quot;."
+msgstr "અહેવાલ થયેલ ભૂલ &quot;{0}&quot; હતી."
 
 #: ../composer/mail-composer.error.xml.h:31
 msgid "_Save to Outbox"
@@ -7422,9 +7373,8 @@ msgid "Evolution Alarm Notify"
 msgstr "Evolution Elm આયાત કરનાર"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:2
-#, fuzzy
 msgid "Calendar event notifications"
-msgstr "કેલેન્ડર જાણકારી"
+msgstr "કૅલેન્ડર ઘટના સૂચના"
 
 #: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:935
 #: ../modules/mailto-handler/evolution-mailto-handler.c:215
@@ -7453,10 +7403,9 @@ msgid "Configure email accounts"
 msgstr "ઇમેલ ખાતાઓને રૂપરેખાંકિત કરો"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
-#, fuzzy
 #| msgid "Calendar information"
 msgid "Enable address formatting"
-msgstr "કેલેન્ડર જાણકારી"
+msgstr "સરનામાં બંધારણને સક્રિય કરો"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:2
 msgid ""
@@ -7493,9 +7442,8 @@ msgid "URI for the folder last used in the select names dialog."
 msgstr "નામ પસંદ કરો સંવાદમાં છેલ્લે વપરાયેલ ફોલ્ડર માટેની URI."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:9
-#, fuzzy
 msgid "Contact layout style"
-msgstr "સંપર્ક યાદી"
+msgstr "સંપર્ક લેઆઉટ શૈલી"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:10
 msgid ""
@@ -7514,19 +7462,17 @@ msgid "Position of the contact preview pane when oriented horizontally."
 msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:13
-#, fuzzy
 msgid "Contact preview pane position (vertical)"
-msgstr "ઊભી તકતીની સ્થિતિમાં મહિનાનો દેખાવ"
+msgstr "સંપર્ક  પૂર્વદર્શન તકતી સ્થાન (ઊભુ)"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:14
 msgid "Position of the contact preview pane when oriented vertically."
 msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:15
-#, fuzzy
 #| msgid "Show Animations"
 msgid "Show maps"
-msgstr "એનિમેશન બતાવો"
+msgstr "નક્ષાને બતાવો"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:16
 #, fuzzy
@@ -7703,16 +7649,14 @@ msgid "Recently used second time zones in a Day View"
 msgstr "દિવસ દેખાવમાં તાજેતરમાં વપરાયેલ બીજા ટાઇમ ઝોનો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:26
-#, fuzzy
 #| msgid "List of recently used second time zones in a Day View."
 msgid "List of recently used second time zones in a Day View"
 msgstr "દિવસ દેખાવમાં તાજેતરમાં વપરાયેલ બીજી ટાઇમ ઝોન ની યાદી."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
-#, fuzzy
 #| msgid "Maximum number of recently used timezones to remember."
 msgid "Maximum number of recently used timezones to remember"
-msgstr "યાદ રાખવા માટે તાજેતરમાં વપરાયેલ ટાઇમઝોનો નાં મહત્તમ નંબર."
+msgstr "યાદ રાખવા માટે તાજેતરમાં વપરાયેલ ટાઇમઝોનો નાં મહત્તમ નંબર"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
 #, fuzzy
@@ -7819,10 +7763,9 @@ msgid "Hide task value"
 msgstr "બાબત કિંમત છુપાવો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
-#, fuzzy
 #| msgid "Number of units for determining when to hide tasks."
 msgid "Number of units for determining when to hide tasks"
-msgstr "ક્યારે બાબતો છુપાવવી તે નક્કી કરવા માટેના એકમોની સંખ્યા."
+msgstr "નક્કી કરવા માટે એકમોની સંખ્યા જ્યારે કાર્યોને છુપાડવા"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
 msgid "Horizontal pane position"
@@ -7841,10 +7784,9 @@ msgstr ""
 "હોય ત્યારે, પિક્સેલમાં."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
-#, fuzzy
 #| msgid "Last alarm time"
 msgid "Last reminder time"
-msgstr "છેલ્લો એલાર્મ સમય"
+msgstr "છેલ્લે યાદ અપાવનાર"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
 #, fuzzy
@@ -7907,9 +7849,8 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
-#, fuzzy
 msgid "Memo preview pane position (vertical)"
-msgstr "ઊભી તકતીની સ્થિતિમાં મહિનાનો દેખાવ"
+msgstr "મેમો પૂર્વદર્શન તકતી સ્થાન (ઊભી)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
 #, fuzzy
