@@ -18996,6 +18996,7 @@ msgid_plural ""
 msgstr[0] ""
 "ઘટનાઓને રૂપાંતરિત કરવા માટે તમે %d મેઇલને પસંદ કરેલ છે. શું તમે ખરેખર બધા તેઓને ઉમેરવા માંગો છો?"
 msgstr[1] ""
+"ઘટનાઓને રૂપાંતરિત કરવા માટે તમે %d મેઇલને પસંદ કરેલ છે. શું તમે ખરેખર બધા તેઓને ઉમેરવા માંગો છો?"
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../plugins/mail-to-task/mail-to-task.c:653
