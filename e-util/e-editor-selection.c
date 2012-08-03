@@ -52,6 +52,7 @@ G_DEFINE_TYPE (
 enum {
 	PROP_0,
 	PROP_WEBVIEW,
+	PROP_ALIGNMENT,
 	PROP_BACKGROUND_COLOR,
 	PROP_BOLD,
 	PROP_FONT_NAME,
@@ -133,6 +134,7 @@ static void
 webview_selection_changed (WebKitWebView *webview,
 			   EEditorSelection *selection)
 {
+	g_object_notify (G_OBJECT (selection), "alignment");
 	g_object_notify (G_OBJECT (selection), "background-color");
 	g_object_notify (G_OBJECT (selection), "bold");
 	g_object_notify (G_OBJECT (selection), "font-name");
@@ -168,6 +170,12 @@ e_editor_selection_get_property (GObject *object,
 	EEditorSelection *selection = E_EDITOR_SELECTION (object);
 
 	switch (property_id) {
+		case PROP_ALIGNMENT:
+			g_value_set_int (value,
+					e_editor_selection_get_alignment (
+					selection));
+			return;
+
 		case PROP_BACKGROUND_COLOR:
 			g_value_set_string (value,
 				e_editor_selection_get_background_color (
@@ -250,6 +258,11 @@ e_editor_selection_set_property (GObject *object,
 		case PROP_WEBVIEW:
 			editor_selection_set_webview (
 				selection, g_value_get_object (value));
+			return;
+
+		case PROP_ALIGNMENT:
+			e_editor_selection_set_alignment (
+				selection, g_value_get_int (value));
 			return;
 
 		case PROP_BACKGROUND_COLOR:
@@ -339,10 +352,22 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 		PROP_WEBVIEW,
 		g_param_spec_object (
 			"webview",
-		        NULL,
-		        NULL,
+			NULL,
+			NULL,
 		        WEBKIT_TYPE_WEB_VIEW,
 		        G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ALIGNMENT,
+		g_param_spec_int (
+			"alignment",
+			NULL,
+			NULL,
+			E_EDITOR_SELECTION_ALIGNMENT_LEFT,
+			E_EDITOR_SELECTION_ALIGNMENT_RIGHT,
+			E_EDITOR_SELECTION_ALIGNMENT_LEFT,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -513,6 +538,90 @@ e_editor_selection_replace (EEditorSelection *selection,
 	webkit_dom_range_insert_node (
 		selection->priv->range, WEBKIT_DOM_NODE (frag), NULL);
 }
+
+EEditorSelectionAlignment
+e_editor_selection_get_alignment (EEditorSelection *selection)
+{
+	WebKitDOMRange *range;
+	WebKitDOMNode *node;
+	WebKitDOMElement *element;
+	WebKitDOMCSSStyleDeclaration *style;
+	gchar *value;
+	EEditorSelectionAlignment alignment;
+
+	g_return_val_if_fail (
+		E_IS_EDITOR_SELECTION (selection),
+		E_EDITOR_SELECTION_ALIGNMENT_LEFT);
+
+	range = editor_selection_get_current_range (selection);
+	if (!range) {
+		return E_EDITOR_SELECTION_ALIGNMENT_LEFT;
+	}
+
+	node = webkit_dom_range_get_start_container (range, NULL);
+	if (!node) {
+		return E_EDITOR_SELECTION_ALIGNMENT_LEFT;
+	}
+
+	if (!WEBKIT_DOM_IS_ELEMENT (node)) {
+		element = webkit_dom_node_get_parent_element (node);
+	} else {
+		element = WEBKIT_DOM_ELEMENT (node);
+	}
+
+	style = webkit_dom_element_get_style (element);
+	value = webkit_dom_css_style_declaration_get_property_value (
+				style, "text-align");
+
+	if (!value || !*value ||
+	    (g_ascii_strncasecmp (value, "left", 4) == 0)) {
+		alignment = E_EDITOR_SELECTION_ALIGNMENT_LEFT;
+	} else if (g_ascii_strncasecmp (value, "center", 6) == 0) {
+		alignment = E_EDITOR_SELECTION_ALIGNMENT_CENTER;
+	} else if (g_ascii_strncasecmp (value, "right", 5) == 0) {
+		alignment = E_EDITOR_SELECTION_ALIGNMENT_RIGHT;
+	} else {
+		alignment = E_EDITOR_SELECTION_ALIGNMENT_LEFT;
+	}
+
+	g_free (value);
+
+	return alignment;
+}
+
+void
+e_editor_selection_set_alignment (EEditorSelection *selection,
+				  EEditorSelectionAlignment alignment)
+{
+	WebKitDOMDocument *document;
+	const gchar *command;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	if (e_editor_selection_get_alignment (selection) == alignment) {
+		return;
+	}
+
+	switch (alignment) {
+		case E_EDITOR_SELECTION_ALIGNMENT_CENTER:
+			command = "justifyCenter";
+			break;
+
+		case E_EDITOR_SELECTION_ALIGNMENT_LEFT:
+			command = "justifyLeft";
+			break;
+
+		case E_EDITOR_SELECTION_ALIGNMENT_RIGHT:
+			command = "justifyRight";
+			break;
+	}
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, command, FALSE, "");
+
+	g_object_notify (G_OBJECT (selection), "alignment");
+}
+
 
 const gchar *
 e_editor_selection_get_background_color	(EEditorSelection *selection)

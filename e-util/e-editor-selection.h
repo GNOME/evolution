@@ -98,6 +98,13 @@ GType			e_editor_selection_get_type 	(void);
 
 EEditorSelection *	e_editor_selection_new		(WebKitWebView *parent_view);
 
+void			e_editor_selection_set_alignment
+							(EEditorSelection *selection,
+							 EEditorSelectionAlignment alignment);
+EEditorSelectionAlignment
+			e_editor_selection_get_alignment
+							(EEditorSelection *selection);
+
 void			e_editor_selection_set_background_color
 							(EEditorSelection *selection,
 							 const gchar *color);
