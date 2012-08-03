@@ -224,23 +224,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	send_widget = gtk_ui_manager_get_widget (ui_manager, path);
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
 
-	/* Tooltips for all buttons in toolbar that don't yet have one */
-	path = "/main-toolbar/undo";
-	widget = gtk_ui_manager_get_widget (ui_manager, path);
-	gtk_widget_set_tooltip_text (widget, _("Undo the last action"));
-
-	path = "/main-toolbar/redo";
-	widget = gtk_ui_manager_get_widget (ui_manager, path);
-	gtk_widget_set_tooltip_text (widget, _("Redo the last undone action"));
-
-	path = "/main-toolbar/show-find";
-	widget = gtk_ui_manager_get_widget (ui_manager, path);
-	gtk_widget_set_tooltip_text (widget, _("Search for text"));
-
-	path = "/main-toolbar/show-replace";
-	widget = gtk_ui_manager_get_widget (ui_manager, path);
-	gtk_widget_set_tooltip_text (widget, _("Search for and replace text"));
-
 	composer_setup_charset_menu (composer);
 
 	if (error != NULL) {
