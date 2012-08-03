@@ -1069,19 +1069,6 @@ action_show_replace_cb (GtkAction *action,
 }
 
 static void
-action_size_cb (GtkRadioAction *action,
-                GtkRadioAction *current,
-                EEditor *editor)
-{
-	EEditorSelection *selection;
-
-	selection = e_editor_widget_get_selection (
-			e_editor_get_editor_widget (editor));
-	e_editor_selection_set_font_size (
-		selection, gtk_radio_action_get_current_value (current));
-}
-
-static void
 action_spell_check_cb (GtkAction *action,
                        EEditor *editor)
 {
@@ -2078,7 +2065,7 @@ editor_actions_init (EEditor *editor)
 		action_group, html_size_entries,
 		G_N_ELEMENTS (html_size_entries),
 		E_EDITOR_SELECTION_FONT_SIZE_NORMAL,
-		G_CALLBACK (action_size_cb), editor);
+		NULL, NULL);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* Context Menu Actions */
@@ -2170,6 +2157,10 @@ editor_actions_init (EEditor *editor)
 	g_object_bind_property (
 		editor->priv->selection, "bold",
 		ACTION (BOLD), "active",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+	g_object_bind_property (
+		editor->priv->selection, "font-size",
+		ACTION (FONT_SIZE_GROUP), "current-value",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	g_object_bind_property (
 		editor->priv->selection, "indented",
