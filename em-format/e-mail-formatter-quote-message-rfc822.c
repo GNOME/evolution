@@ -82,9 +82,12 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 	g_free (header);
 
 	iter = e_mail_part_list_get_iter (context->parts, part->id);
+	if (!iter) {
+		return FALSE;
+	}
 
 	end = g_strconcat (part->id, ".end", NULL);
-	for (iter = iter->next; iter; iter = iter->next) {
+	for (iter = g_slist_next (iter); iter; iter = g_slist_next (iter)) {
 		EMailPart * p = iter->data;
 		if (!p)
 			continue;
@@ -111,7 +114,10 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 			while (iter) {
 				p = iter->data;
 				if (!p) {
-					iter = iter->next;
+					iter = g_slist_next (iter);
+					if (!iter) {
+						break;
+					}
 					continue;
 				}
 
@@ -119,7 +125,10 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 					break;
 				}
 
-				iter = iter->next;
+				iter = g_slist_next (iter);
+				if (!iter) {
+					break;
+				}
 			}
 			g_free (sub_end);
 			continue;

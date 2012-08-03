@@ -99,7 +99,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 			"<blockquote type=cite>\n", cancellable, NULL);
 	}
 
-	for (iter = context->parts; iter; iter = iter->next) {
+	for (iter = context->parts; iter; iter = g_slist_next (iter)) {
 		EMailPart *part = iter->data;
 
 		if (!part)
@@ -116,16 +116,23 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 			while (iter) {
 				EMailPart *p = iter->data;
 				if (!p) {
-					iter = iter->next;
+					iter = g_slist_next (iter);
+					if (!iter) {
+						break;
+					}
 					continue;
 				}
 
 				if (g_strcmp0 (p->id, end) == 0)
 					break;
 
-				iter = iter->next;
+				iter = g_slist_next (iter);
+				if (!iter) {
+					break;
+				}
 			}
 			g_free (end);
+
 			continue;
 		}
 

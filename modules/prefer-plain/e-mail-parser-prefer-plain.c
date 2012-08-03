@@ -322,6 +322,8 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 					cancellable));
 	}
 
+	g_string_truncate (part_id, partidlen);
+
 	return parts;
 }
 
