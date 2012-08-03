@@ -55,7 +55,6 @@ m4_define([goa_minimum_version], [3.2])
 m4_define([gweather_minimum_version], [3.5.0])
 m4_define([libcanberra_gtk_minimum_version], [0.25])
 m4_define([libnotify_minimum_version], [0.7])
-m4_define([nm_minimum_version], [0.7])
 
 dnl XXX These versions don't yet exist.  The latest releases
 dnl     link to gtk+-2.0 so we've bumped the versions to some
