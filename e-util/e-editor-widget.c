@@ -388,6 +388,7 @@ e_editor_widget_init (EEditorWidget *editor)
 		G_OBJECT (settings),
 		"enable-developer-extras", TRUE,
 		"enable-dom-paste", TRUE,
+		"enable-file-access-from-file-uris", TRUE,
 	        "enable-plugins", FALSE,
 		"enable-spell-checking", enable_spellchecking,
 	        "enable-scripts", FALSE,
@@ -410,6 +411,12 @@ e_editor_widget_init (EEditorWidget *editor)
 
 	editor->priv->selection = e_editor_selection_new (
 					WEBKIT_WEB_VIEW (editor));
+
+
+	/* Make WebKit think we are displaying a local file, so that it
+	 * does not block loading resources from file:// protocol */
+	webkit_web_view_load_string (
+		WEBKIT_WEB_VIEW (editor), "", "text/html", "UTF-8", "file://");
 }
 
 EEditorWidget *
