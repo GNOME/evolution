@@ -773,35 +773,6 @@ action_insert_text_file_cb (GtkAction *action,
 }
 
 static void
-action_justify_cb (GtkRadioAction *action,
-                   GtkRadioAction *current,
-                   EEditor *editor)
-{
-	WebKitDOMDocument *document;
-	const gchar *command;
-
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-
-	switch (gtk_radio_action_get_current_value (current))
-	{
-		case E_EDITOR_SELECTION_ALIGNMENT_CENTER:
-			command = "justifyCenter";
-			break;
-
-		case E_EDITOR_SELECTION_ALIGNMENT_LEFT:
-			command = "justifyLeft";
-			break;
-
-		case E_EDITOR_SELECTION_ALIGNMENT_RIGHT:
-			command = "justifyRight";
-			break;
-	}
-
-	webkit_dom_document_exec_command (document, command, FALSE, "");
-}
-
-static void
 action_language_cb (GtkToggleAction *action,
                     EEditor *editor)
 {
@@ -2077,7 +2048,7 @@ editor_actions_init (EEditor *editor)
 		action_group, core_justify_entries,
 		G_N_ELEMENTS (core_justify_entries),
 		E_EDITOR_SELECTION_ALIGNMENT_LEFT,
-		G_CALLBACK (action_justify_cb), editor);
+		NULL, NULL);
 	gtk_action_group_add_radio_actions (
 		action_group, core_mode_entries,
 		G_N_ELEMENTS (core_mode_entries),
@@ -2198,6 +2169,13 @@ editor_actions_init (EEditor *editor)
 		editor_widget, "can-paste",
 		ACTION (PASTE), "sensitive",
 		G_BINDING_SYNC_CREATE);
+
+	/* This is connected to JUSTIFY_LEFT action only, but
+	 * it automatically applies on all actions in the group. */
+	g_object_bind_property (
+		editor->priv->selection, "alignment",
+		ACTION (JUSTIFY_LEFT), "current-value",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 
 	g_object_bind_property (
 		editor->priv->selection, "bold",
