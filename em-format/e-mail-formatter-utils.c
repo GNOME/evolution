@@ -294,7 +294,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 			!(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
 
 		if (img) {
-			str_field = g_strdup_printf ("%s%s:", img, label);
+			str_field = g_strdup_printf ("%s: %s", label, img);
 			label = str_field;
 			flags |= E_MAIL_FORMATTER_HEADER_FLAG_NODEC;
 			g_free (img);
