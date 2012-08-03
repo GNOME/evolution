@@ -284,14 +284,14 @@ static GtkActionEntry entries[] = {
 	  GTK_STOCK_CLOSE,
 	  N_("_Close"),
 	  "<Control>w",
-	  NULL,
+	  N_("Close"),
 	  G_CALLBACK (action_close_cb) },
 
 	{ "save-and-close",
 	  GTK_STOCK_SAVE,
 	  N_("_Save and Close"),
 	  "<Control>Return",
-	  NULL,
+	  N_("Save and Close"),
 	  G_CALLBACK (action_save_and_close_cb) },
 
 	{ "file-menu",
