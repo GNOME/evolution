@@ -558,7 +558,7 @@ e_color_combo_class_init (EColorComboClass *klass)
 			"current-color",
 			"Current color",
 			"The currently selected color",
-			GDK_TYPE_COLOR,
+			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -568,7 +568,7 @@ e_color_combo_class_init (EColorComboClass *klass)
 			"default-color",
 			"Default color",
 			"The color associated with the default button",
-			GDK_TYPE_COLOR,
+			GDK_TYPE_RGBA,
 			G_PARAM_CONSTRUCT |
 			G_PARAM_READWRITE));
 
@@ -836,7 +836,6 @@ e_color_combo_set_current_color (EColorCombo *combo,
 
 		gdk_rgba_free (combo->priv->current_color);
 	}
-
 
 	combo->priv->current_color = gdk_rgba_copy (color);
 

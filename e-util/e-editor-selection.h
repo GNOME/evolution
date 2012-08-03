@@ -130,9 +130,10 @@ guint			e_editor_selection_get_font_size
 
 void			e_editor_selection_set_font_color
 							(EEditorSelection *selection,
-							 const gchar *color);
-const gchar *		e_editor_selection_get_font_color
-							(EEditorSelection *selection);
+							 const GdkRGBA *color);
+void			e_editor_selection_get_font_color
+							(EEditorSelection *selection,
+							 GdkRGBA *color);
 
 void			e_editor_selection_set_block_format
 							(EEditorSelection *selection,

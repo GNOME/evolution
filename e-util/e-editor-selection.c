@@ -23,6 +23,8 @@
 #include "e-editor-selection.h"
 #include "e-editor.h"
 
+#include <e-util/e-util.h>
+
 #include <webkit/webkit.h>
 #include <webkit/webkitdom.h>
 #include <string.h>
@@ -68,6 +70,8 @@ enum {
 	PROP_TEXT,
 	PROP_UNDERLINE,
 };
+
+static const GdkRGBA black = { 0 };
 
 static WebKitDOMElement *
 find_parent_element_by_type (WebKitDOMNode *node, GType type)
@@ -145,6 +149,32 @@ get_has_style (EEditorSelection *selection,
 	return result;
 }
 
+static gchar *
+get_font_property (EEditorSelection *selection,
+		   const gchar *font_property)
+{
+	WebKitDOMRange *range;
+	WebKitDOMNode *node;
+	WebKitDOMElement *element;
+	gchar *value;
+
+	range = editor_selection_get_current_range (selection);
+	if (!range) {
+		return NULL;
+	}
+
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	element = find_parent_element_by_type (
+			node, WEBKIT_TYPE_DOM_HTML_FONT_ELEMENT);
+	if (!element) {
+		return NULL;
+	}
+
+	g_object_get (G_OBJECT (element), font_property, &value, NULL);
+
+	return value;
+}
+
 static void
 webview_selection_changed (WebKitWebView *webview,
 			   EEditorSelection *selection)
@@ -183,6 +213,7 @@ e_editor_selection_get_property (GObject *object,
 				 GValue *value,
 				 GParamSpec *pspec)
 {
+	GdkRGBA rgba = { 0 };
 	EEditorSelection *selection = E_EDITOR_SELECTION (object);
 
 	switch (property_id) {
@@ -212,8 +243,8 @@ e_editor_selection_get_property (GObject *object,
 			return;
 
 		case PROP_FONT_COLOR:
-			g_value_set_string (value,
-				e_editor_selection_get_font_color (selection));
+			e_editor_selection_get_font_color (selection, &rgba);
+			g_value_set_boxed (value, &rgba);
 			return;
 
 		case PROP_BLOCK_FORMAT:
@@ -296,7 +327,7 @@ e_editor_selection_set_property (GObject *object,
 
 		case PROP_FONT_COLOR:
 			e_editor_selection_set_font_color (
-				selection, g_value_get_string (value));
+				selection, g_value_get_boxed (value));
 			return;
 
 		case PROP_FONT_NAME:
@@ -433,11 +464,11 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 	g_object_class_install_property (
 		object_class,
 		PROP_FONT_COLOR,
-		g_param_spec_string (
+		g_param_spec_boxed (
 			"font-color",
 			NULL,
 			NULL,
-			NULL,
+			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -835,36 +866,42 @@ e_editor_selection_set_bold (EEditorSelection *selection,
 	g_object_notify (G_OBJECT (selection), "bold");
 }
 
-const gchar *
-e_editor_selection_get_font_color (EEditorSelection *selection)
+void
+e_editor_selection_get_font_color (EEditorSelection *selection,
+				   GdkRGBA *rgba)
 {
-	WebKitDOMNode *node;
-	WebKitDOMRange *range;
-	WebKitDOMCSSStyleDeclaration *css;
+	gchar *color;
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+	color = get_font_property (selection, "color");
+	if (!color) {
+		*rgba = black;
+		return;
+	}
 
-	range = editor_selection_get_current_range (selection);
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-
-	g_free (selection->priv->font_color);
-	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
-	selection->priv->font_color =
-		webkit_dom_css_style_declaration_get_property_value (css, "color");
-
-	return selection->priv->font_color;
+	gdk_rgba_parse (rgba, color);
+	g_free (color);
 }
 
 void
 e_editor_selection_set_font_color (EEditorSelection *selection,
-				   const gchar *color)
+				   const GdkRGBA *rgba)
 {
 	WebKitDOMDocument *document;
+	gchar *color;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
+	if (!rgba) {
+		rgba = &black;
+	}
+
+	color = g_strdup_printf ("#%06x", e_rgba_to_value ((GdkRGBA *) rgba));
+
 	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "foreColor", FALSE, "");
+	webkit_dom_document_exec_command (document, "foreColor", FALSE, color);
+
+	g_free (color);
 
 	g_object_notify (G_OBJECT (selection), "font-color");
 }
@@ -906,9 +943,6 @@ e_editor_selection_set_font_name (EEditorSelection *selection,
 guint
 e_editor_selection_get_font_size (EEditorSelection *selection)
 {
-	WebKitDOMNode *node;
-	WebKitDOMElement *element;
-	WebKitDOMRange *range;
 	gchar *size;
 	gint size_int;
 
@@ -916,20 +950,11 @@ e_editor_selection_get_font_size (EEditorSelection *selection)
 		E_IS_EDITOR_SELECTION (selection),
 		E_EDITOR_SELECTION_FONT_SIZE_NORMAL);
 
-	range = editor_selection_get_current_range (selection);
-	if (!range) {
+	size = get_font_property (selection, "size");
+	if (!size) {
 		return E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 	}
 
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	element = find_parent_element_by_type (
-			node, WEBKIT_TYPE_DOM_HTML_FONT_ELEMENT);
-	if (!element) {
-		return E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
-	}
-
-	size = webkit_dom_html_font_element_get_size (
-			WEBKIT_DOM_HTML_FONT_ELEMENT (element));
 	size_int = atoi (size);
 	g_free (size);
 

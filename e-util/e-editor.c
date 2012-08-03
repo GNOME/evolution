@@ -185,6 +185,10 @@ editor_constructed (GObject *object)
 	gtk_toolbar_insert (toolbar, tool_item, 0);
 	priv->color_combo_box = g_object_ref (widget);
 	gtk_widget_show_all (GTK_WIDGET (tool_item));
+	g_object_bind_property (
+		priv->color_combo_box, "current-color",
+		priv->selection, "font-color",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 
 	tool_item = gtk_tool_item_new ();
 	widget = e_action_combo_box_new_with_action (
