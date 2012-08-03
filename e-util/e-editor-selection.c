@@ -59,6 +59,7 @@ enum {
 	PROP_FONT_SIZE,
 	PROP_FONT_COLOR,
 	PROP_BLOCK_FORMAT,
+	PROP_INDENTED,
 	PROP_ITALIC,
 	PROP_MONOSPACED,
 	PROP_STRIKE_THROUGH,
@@ -141,6 +142,7 @@ webview_selection_changed (WebKitWebView *webview,
 	g_object_notify (G_OBJECT (selection), "font-size");
 	g_object_notify (G_OBJECT (selection), "font-color");
 	g_object_notify (G_OBJECT (selection), "block-format");
+	g_object_notify (G_OBJECT (selection), "indented");
 	g_object_notify (G_OBJECT (selection), "italic");
 	g_object_notify (G_OBJECT (selection), "monospaced");
 	g_object_notify (G_OBJECT (selection), "strike-through");
@@ -205,6 +207,11 @@ e_editor_selection_get_property (GObject *object,
 		case PROP_BLOCK_FORMAT:
 			g_value_set_int (value,
 				e_editor_selection_get_block_format (selection));
+			return;
+
+		case PROP_INDENTED:
+			g_value_set_boolean (value,
+				e_editor_selection_get_indented (selection));
 			return;
 
 		case PROP_ITALIC:
@@ -432,6 +439,16 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 			G_MAXUINT,
 			0,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_INDENTED,
+		g_param_spec_boolean (
+			"indented",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READABLE));
 
 	g_object_class_install_property (
 		object_class,
@@ -913,6 +930,40 @@ e_editor_selection_set_font_size (EEditorSelection *selection,
 	g_free (size_str);
 
 	g_object_notify (G_OBJECT (selection), "font-size");
+}
+
+gboolean
+e_editor_selection_get_indented (EEditorSelection *selection)
+{
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	return get_has_style (selection, "blockquote");
+}
+
+void
+e_editor_selection_indent (EEditorSelection *selection)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, "indent", FALSE, "");
+
+	g_object_notify (G_OBJECT (selection), "indented");
+}
+
+void
+e_editor_selection_unindent (EEditorSelection *selection)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, "outdent", FALSE, "");
+
+	g_object_notify (G_OBJECT (selection), "indented");
 }
 
 gboolean

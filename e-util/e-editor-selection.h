@@ -141,6 +141,10 @@ EEditorSelectionBlockFormat
 			e_editor_selection_get_block_format
 							(EEditorSelection *selection);
 
+gboolean		e_editor_selection_get_indented	(EEditorSelection *selection);
+void			e_editor_selection_indent	(EEditorSelection *selection);
+void			e_editor_selection_unindent	(EEditorSelection *selection);
+
 void			e_editor_selection_set_italic	(EEditorSelection *selection,
 							 gboolean italic);
 gboolean		e_editor_selection_get_italic	(EEditorSelection *selection);

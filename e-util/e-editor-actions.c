@@ -564,11 +564,7 @@ static void
 action_indent_cb (GtkAction *action,
                   EEditor *editor)
 {
-	WebKitDOMDocument *document;
-
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	webkit_dom_document_exec_command (document, "indent", FALSE, "");
+	e_editor_selection_indent (editor->priv->selection);
 }
 
 static void
@@ -1126,12 +1122,7 @@ static void
 action_unindent_cb (GtkAction *action,
                     EEditor *editor)
 {
-	WebKitDOMDocument *document;
-
-	document = webkit_web_view_get_dom_document (
-		WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	webkit_dom_document_exec_command (
-		document, "outdent", FALSE, "");
+	e_editor_selection_unindent (editor->priv->selection);
 }
 
 static void
@@ -2176,11 +2167,14 @@ editor_actions_init (EEditor *editor)
 		editor->priv->selection, "alignment",
 		ACTION (JUSTIFY_LEFT), "current-value",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-
 	g_object_bind_property (
 		editor->priv->selection, "bold",
 		ACTION (BOLD), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+	g_object_bind_property (
+		editor->priv->selection, "indented",
+		ACTION (UNINDENT), "sensitive",
+		G_BINDING_SYNC_CREATE);
 	g_object_bind_property (
 		editor->priv->selection, "italic",
 		ACTION (ITALIC), "active",
