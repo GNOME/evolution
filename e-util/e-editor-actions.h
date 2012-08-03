@@ -82,6 +82,8 @@
 	E_EDITOR_ACTION ((editor), "edit-menu")
 #define E_EDITOR_ACTION_FIND_AGAIN(editor) \
 	E_EDITOR_ACTION ((editor), "find-again")
+#define E_EDITOR_ACTION_FONT_SIZE_GROUP(editor) \
+	E_EDITOR_ACTION ((editor), "size-plus-zero")
 #define E_EDITOR_ACTION_FORMAT_MENU(editor) \
 	E_EDITOR_ACTION ((editor), "format-menu")
 #define E_EDITOR_ACTION_FORMAT_TEXT(editor) \

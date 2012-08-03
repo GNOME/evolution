@@ -69,6 +69,20 @@ enum {
 	PROP_UNDERLINE,
 };
 
+static WebKitDOMElement *
+find_parent_element_by_type (WebKitDOMNode *node, GType type)
+{
+	while (node) {
+
+		if (G_TYPE_CHECK_INSTANCE_TYPE (node, type))
+			return (WebKitDOMElement *) node;
+
+		node = (WebKitDOMNode *) webkit_dom_node_get_parent_element (node);
+	}
+
+	return NULL;
+}
+
 static WebKitDOMRange *
 editor_selection_get_current_range (EEditorSelection *selection)
 {
@@ -174,14 +188,12 @@ e_editor_selection_get_property (GObject *object,
 	switch (property_id) {
 		case PROP_ALIGNMENT:
 			g_value_set_int (value,
-					e_editor_selection_get_alignment (
-					selection));
+				e_editor_selection_get_alignment (selection));
 			return;
 
 		case PROP_BACKGROUND_COLOR:
 			g_value_set_string (value,
-				e_editor_selection_get_background_color (
-					selection));
+				e_editor_selection_get_background_color (selection));
 			return;
 
 		case PROP_BOLD:
@@ -294,7 +306,7 @@ e_editor_selection_set_property (GObject *object,
 
 		case PROP_FONT_SIZE:
 			e_editor_selection_set_font_size (
-				selection, g_value_get_uint (value));
+				selection, g_value_get_int (value));
 			return;
 
 		case PROP_ITALIC:
@@ -876,22 +888,35 @@ guint
 e_editor_selection_get_font_size (EEditorSelection *selection)
 {
 	WebKitDOMNode *node;
+	WebKitDOMElement *element;
 	WebKitDOMRange *range;
-	WebKitDOMCSSStyleDeclaration *css;
 	gchar *size;
 	gint size_int;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), 0);
+	g_return_val_if_fail (
+		E_IS_EDITOR_SELECTION (selection),
+		E_EDITOR_SELECTION_FONT_SIZE_NORMAL);
 
 	range = editor_selection_get_current_range (selection);
+	if (!range) {
+		return E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+	}
+
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	element = find_parent_element_by_type (
+			node, WEBKIT_TYPE_DOM_HTML_FONT_ELEMENT);
+	if (!element) {
+		return E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+	}
 
-	g_free (selection->priv->font_family);
-	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
-	size = webkit_dom_css_style_declaration_get_property_value (css, "fontSize");
-
+	size = webkit_dom_html_font_element_get_size (
+			WEBKIT_DOM_HTML_FONT_ELEMENT (element));
 	size_int = atoi (size);
 	g_free (size);
+
+	if (size_int == 0) {
+		return E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+	}
 
 	return size_int;
 }
