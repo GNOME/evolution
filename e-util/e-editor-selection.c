@@ -21,6 +21,7 @@
 #endif
 
 #include "e-editor-selection.h"
+#include "e-editor.h"
 
 #include <webkit/webkit.h>
 #include <webkit/webkitdom.h>
@@ -844,7 +845,6 @@ void
 e_editor_selection_set_monospaced (EEditorSelection *selection,
 				   gboolean monospaced)
 {
-	WebKitDOMDocument *document;
 	WebKitDOMRange *range;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
@@ -854,22 +854,21 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 		return;
 	}
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-
 	range = editor_selection_get_current_range (selection);
 	if (!range) {
 		return;
 	}
 
+	/* FIXME WEBKIT Although we can implement applying and
+	 * removing style on our own by advanced DOM manipulation,
+	 * this change will not be recorded in UNDO and REDO history
+	 * TODO: Think of something..... */
 	if (monospaced) {
-		WebKitDOMElement *tt;
 
-		tt = webkit_dom_document_create_element (document, "TT", NULL);
-		webkit_dom_range_surround_contents (
-			range, WEBKIT_DOM_NODE (tt), NULL);
+		/* apply_format (selection, "TT"); */
 
 	} else {
-		/* FIXME WEBKIT: this does not work yet :)
+		/* remove_format (selection, "TT"); */
 	}
 
 	g_object_notify (G_OBJECT (selection), "monospaced");
