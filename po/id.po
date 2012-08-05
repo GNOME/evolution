@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-08-03 15:40+0000\n"
-"PO-Revision-Date: 2012-08-04 21:51+0700\n"
+"PO-Revision-Date: 2012-08-05 19:54+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -105,6 +105,8 @@ msgid ""
 "This will permanently remove the address book &quot;{0}&quot; from the "
 "server. Are you sure you want to proceed?"
 msgstr ""
+"Ini akan menghapus secara permanen buku alamat &quot;{0}&quot; dari server. "
+"Apakah Anda yakin ingin melanjutkan?"
 
 #: ../addressbook/addressbook.error.xml.h:16
 #: ../calendar/calendar.error.xml.h:68
@@ -2037,6 +2039,8 @@ msgid ""
 "This will permanently remove the calendar &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
 msgstr ""
+"Ini akan menghapus secara permanen kalender &quot;{0}&quot; dari server. "
+"Apakah Anda yakin ingin melanjutkan?"
 
 #: ../calendar/calendar.error.xml.h:69
 #| msgid "Delete task list '{0}'?"
@@ -2048,6 +2052,8 @@ msgid ""
 "This will permanently remove the task list &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
 msgstr ""
+"Ini akan menghapus secara permanen daftar tugas &quot;{0}&quot; dari server. "
+"Apakah Anda yakin ingin melanjutkan?"
 
 #: ../calendar/calendar.error.xml.h:71
 #| msgid "The reported error was &quot;{0}&quot;."
@@ -2059,6 +2065,8 @@ msgid ""
 "This will permanently remote the memo list &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
 msgstr ""
+"Ini akan menghapus secara permanen daftar memo &quot;{0}&quot; dari server. "
+"Apakah Anda yakin ingin melanjutkan?"
 
 #: ../calendar/calendar.error.xml.h:73
 msgid "Are you sure you want to save the appointment without a summary?"
@@ -3936,7 +3944,7 @@ msgstr "Status:"
 
 #: ../calendar/gui/e-cal-component-preview.c:343
 msgid "Priority:"
-msgstr "Prioritas: "
+msgstr "Prioritas:"
 
 #: ../calendar/gui/e-cal-component-preview.c:367
 #: ../mail/e-mail-config-service-page.c:672
@@ -4844,7 +4852,7 @@ msgstr "Keterangan: %s"
 
 #: ../calendar/gui/print.c:3378
 msgid "Attendees: "
-msgstr "Peserta"
+msgstr "Peserta: "
 
 #: ../calendar/gui/print.c:3421
 #, c-format
@@ -6706,11 +6714,11 @@ msgstr "Menerima"
 
 #: ../capplet/settings/mail-account-view.c:509
 msgid "Server type:"
-msgstr "Tipe Server: "
+msgstr "Tipe server:"
 
 #: ../capplet/settings/mail-account-view.c:518
 msgid "Server address:"
-msgstr "Alamat Server:"
+msgstr "Alamat server:"
 
 #: ../capplet/settings/mail-account-view.c:527
 #: ../mail/e-mail-config-summary-page.c:475
@@ -7399,7 +7407,6 @@ msgid "Contact layout style"
 msgstr "Gaya tampilan kontak"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:10
-#, fuzzy
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the contact list. \"0\" (Classic View) places the preview pane below the "
@@ -7866,17 +7873,18 @@ msgstr ""
 "oleh bagian alamat surat pengguna dan $d diganti dengan domain"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
-#, fuzzy
 msgid "Recurrent Events in Italic"
-msgstr "Tanggal perulangan tidak benar"
+msgstr "Acara Berulang dicetak Miring"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr ""
+"Tampilkan hari dengan acara berulang dalam fonta miring di kalender bagian "
+"kiri bawah"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
 msgid "Search range for time-based searching in years"
-msgstr ""
+msgstr "Jangkauan pencarian untuk pencarian berbasis waktu dalam tahun"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
 msgid ""
@@ -7884,15 +7892,17 @@ msgid ""
 "currently selected day when searching for another occurrence; default is ten "
 "years"
 msgstr ""
+"Berapa tahun pencarian berbasis waktu mencari maju atau mundur dari hari "
+"yang kini dipilih ketika mencari kemuncuan lain; nilai baku adalah sepuluh "
+"tahun"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "Show appointment end times in week and month views"
 msgstr "_Tampilkan akhir waktu pertemuan dalam tampilan minggu dan bulan"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
-#, fuzzy
 msgid "Whether to display the end time of events in the week and month views"
-msgstr "Tampilkan akhir waktu jadwal pertemuan dalam tampilan minggu dan bulan"
+msgstr "Apakah menampilkan akhir waktu acara dalam tampilan minggu dan bulan"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
 msgid "Show the memo preview pane"
@@ -7932,6 +7942,8 @@ msgstr "Sorot tugas yang harus selesai hari ini"
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
+"Apakah menyorot tugas yang mesti selesai hari ini dengan warna khusus (taks-"
+"due-today-color)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
 msgid "Tasks due today color"
@@ -7980,6 +7992,7 @@ msgstr "Sorot tugas yang terlambat selesai"
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
+"Apakah menyorot tugas yang terlambat dengan warna khusus (task-overdue-color)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 msgid "Overdue tasks color"
@@ -7998,9 +8011,9 @@ msgid "Time divisions"
 msgstr "Pembagian waktu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
-#, fuzzy
 msgid "Intervals shown in Day and Work Week views, in minutes"
-msgstr "Interval pada tampilan Hari dan Minggu Kerja, dalam menit."
+msgstr ""
+"Interval yang ditunjukkan pada tampilan Hari dan Minggu Kerja, dalam menit"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 msgid "Timezone"
@@ -8076,6 +8089,9 @@ msgid ""
 "\". This is used for data and settings migration from older to newer "
 "versions."
 msgstr ""
+"Versi Evolution yang paling akhir dipakai, dinyatakan sebagai \"mayor.minor."
+"mikro\". Ini dipakai untuk data dan pengaturan migrasi dari versi lebih lama "
+"ke versi lebih baru."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
 msgid "List of disabled plugins"
@@ -8111,7 +8127,7 @@ msgstr "Impor kalender Kalender Gnome selesai"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:2
 msgid "Whether calendar from Gnome Calendar has been imported or not"
-msgstr ""
+msgstr "Apakah kalender dari Kalender Gnome telah diimpor atau belum"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:3
 msgid "Gnome Calendar's tasks import done"
@@ -8149,6 +8165,9 @@ msgid ""
 "folder, usually set to ~/Pictures. This folder will be also used when the "
 "set path is not pointing to the existent folder"
 msgstr ""
+"Nilai ini bisa berupa string kosong, yang berarti akan memakai folder Gambar "
+"sistem, biasanya ditata ke ~/Pictures. Folder ini juga akan dipakai ketika "
+"path yang ditata tak mengacu ke folder yang telah ada"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
 msgid "Spell check inline"
@@ -8179,20 +8198,18 @@ msgid "Attribute message"
 msgstr "Pesan atribut"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
-#, fuzzy
 msgid ""
 "The text that is inserted when replying to a message, attributing the "
 "message to the original author"
 msgstr ""
-"Teks yang disisipkan ketika menjawab suatu pesan (top posting), yang "
-"menyatakan bahwa berikutnya adalah pesan semula"
+"Teks yang disisipkan ketika menjawab suatu pesan, menandai bahwa bagian "
+"pesan tersebut ditulis oleh pengarang semula"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
 msgid "Forward message"
 msgstr "Teruskan pesan"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:16
-#, fuzzy
 msgid ""
 "The text that is inserted when forwarding a message, saying that the "
 "forwarded message follows"
@@ -8205,7 +8222,6 @@ msgid "Original message"
 msgstr "Pesan asli"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:18
-#, fuzzy
 msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows"
@@ -8218,7 +8234,6 @@ msgid "Group Reply replies to list"
 msgstr "Jawaban Grup menjawab ke milis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:20
-#, fuzzy
 msgid ""
 "Instead of the normal \"Reply to All\" behaviour, this option will make the "
 "'Group Reply' toolbar button try to reply only to the mailing list through "
@@ -8239,6 +8254,8 @@ msgid ""
 "message. This determines whether the cursor is placed at the top of the "
 "message or the bottom."
 msgstr ""
+"Pengguna dapat memilih dimana kursor mesti berada ketika menjawab pesan. Ini "
+"menentukan apakah kursor ditempatkan di puncak pesan atau di dasar."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:23
 msgid "Always request read receipt"
@@ -8263,7 +8280,6 @@ msgid "Spell checking color"
 msgstr "Warna untuk memeriksa ejaan"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:28
-#, fuzzy
 msgid "Underline color for misspelled words when using inline spelling."
 msgstr ""
 "Warna garis bawah bagi kata-kata yang salah eja ketika memakai pengeja "
@@ -8314,9 +8330,8 @@ msgstr ""
 "dari menu Tilikan ketika suatu akun news dipilih."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:37
-#, fuzzy
 msgid "Show \"From\" field when posting to a newsgroup"
-msgstr "Tampilkan ruas \"Dari\" ketika mengirim ke newsgroup"
+msgstr "Tampilkan ruas \"From\" ketika mengirim ke newsgroup"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:38
 msgid ""
@@ -8376,6 +8391,9 @@ msgid ""
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
 msgstr ""
+"Pengguna dapat memilih dimana tanda tangan mesti diletakkan ketika menjawab "
+"pesan. Ini menentukan apakah tanda tangan ditempatkan di puncak pesan atau "
+"di dasar."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
 msgid "Do not add signature delimiter"
@@ -8394,7 +8412,6 @@ msgid "Ignore list Reply-To:"
 msgstr "Abaikan Reply-To dari list:"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:50
-#, fuzzy
 msgid ""
 "Some mailing lists set a Reply-To: header to trick users into sending "
 "replies to the list, even when they ask Evolution to make a private reply. "
@@ -8421,6 +8438,9 @@ msgid ""
 "text when replying to a message, as an addition to the standard \"Re\" "
 "prefix. An example is 'SV,AV'."
 msgstr ""
+"Daftar yang dipisah koma atas singkatan 'Re' yang dilokalkan untuk melompati "
+"dalam teks subjek ketika menjawab suatu pesan, sebagai tambahan atas prefiks "
+"standar \"Re\". Suatu contoh adalah 'Pe,Ttg'."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "Save file format for drag-and-drop operation"
@@ -8439,6 +8459,9 @@ msgid ""
 "Can be either 2 to use current date and time or any other value for sent "
 "date of the message. This has a meaning only when dropping just one message."
 msgstr ""
+"Bisa berupa 2 untuk memakai tanggal dan waktu kini atau sebarang nilai lain "
+"untuk tanggal dikirimnya pesan. Ini hanya punya arti ketika menjatuhkan "
+"hanya satu pesan."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "Show image animations"
@@ -8586,7 +8609,6 @@ msgid "Search for the sender photo in local address books"
 msgstr "Cari foto pengirim di buku alamat lokal"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
-#, fuzzy
 msgid "This option would help in improving the speed of fetching."
 msgstr "Opsi ini akan membantu memperbaiki kecepatan pengambilan."
 
@@ -8674,7 +8696,6 @@ msgid "Hides the per-folder preview and removes the selection"
 msgstr "Sembunyikan pratilik per folder dan hapus pilihan"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
-#, fuzzy
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
@@ -8716,7 +8737,6 @@ msgid "Layout style"
 msgstr "Gaya tata letak"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
-#, fuzzy
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. \"0\" (Classic View) places the preview pane below the "
@@ -8794,7 +8814,6 @@ msgid "Default value for thread expand state"
 msgstr "Nilai baku untuk tingkat perluasan topik"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -8803,12 +8822,10 @@ msgstr ""
 "terlipat secara default. Evolution perlu dijalankan ulang."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
-#, fuzzy
 msgid "Whether sort threads based on latest message in that thread"
 msgstr "Apakah mengurutkan thread berdasarkan pesan terakhir dalam thread itu"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
@@ -8820,7 +8837,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Sort accounts alphabetically in a folder tree"
-msgstr ""
+msgstr "Urutkan akun secara alfabetis dalam pohon folder"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid ""
@@ -8829,6 +8846,10 @@ msgid ""
 "Computer and Search folders, otherwise accounts are sorted based on an order "
 "given by a user"
 msgstr ""
+"Memberitahu bagaimana mengurut akun dalam pohon folder yang dipakai dalam "
+"tampilan Surel. Ketika ditata ke true, akun akan diurutkan secara alfabetis, "
+"dengan pengecualian folder Pada Komputer Ini dan Pencarian, selain itu akun "
+"diurutkan berdasarkan urutan yang diminta oleh pengguna"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Log filter actions"
@@ -8851,7 +8872,6 @@ msgid "Flush Outbox after filtering"
 msgstr "Gelontor Outbox setelah penyaringan"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
-#, fuzzy
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any 'Forward to' filter action and approximately "
@@ -8966,16 +8986,16 @@ msgstr ""
 "dalam pohon folder"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
-#, fuzzy
 msgid ""
 "Possible values are: 'never' - do not allow copy with drag &amp; drop of "
 "folders in folder tree, 'always' - allow copy with drag &amp; drop of "
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
 msgstr ""
-"Nilai yang mungkin: never - tak pernah tutup jendela peramban, always - "
-"selalu tutup jendela peramban, ask - (atau sebaran nilai lain) akan bertanya "
-"ke pengguna."
+"Nilai yang mungkin: 'never' - jangan ijinkan menyalin dengan seret &amp; "
+"jatuhkan folder dalam pohon folder, 'always' - ijinkan menyalin dengan seret "
+"&amp; jatuhkan folder dalam pohon folder tanpa bertanya, atau 'ask' - (atau "
+"sebarang nilai lain) akan bertanya ke pengguna."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
@@ -8984,16 +9004,16 @@ msgstr ""
 "dalam pohon folder"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
-#, fuzzy
 msgid ""
 "Possible values are: 'never' - do not allow move with drag &amp; drop of "
 "folders in folder tree, 'always' - allow move with drag &amp; drop of "
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
 msgstr ""
-"Nilai yang mungkin: never - tak pernah tutup jendela peramban, always - "
-"selalu tutup jendela peramban, ask - (atau sebaran nilai lain) akan bertanya "
-"ke pengguna."
+"Nilai yang mungkin: 'never' - jangan ijinkan memindah dengan seret &amp; "
+"jatuhkan folder dalam pohon folder, 'always' - ijinkan memindah dengan seret "
+"&amp; jatuhkan folder dalam pohon folder tanpa bertanya, atau 'ask' - (atau "
+"sebarang nilai lain) akan bertanya ke pengguna."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid "Prompt when replying privately to list messages"
@@ -9043,14 +9063,13 @@ msgstr ""
 "yang ditampilkan di jendela"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
-#, fuzzy
 msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
 msgstr ""
-"Nilai yang mungkin: never - tak pernah tutup jendela peramban, always - "
-"selalu tutup jendela peramban, ask - (atau sebaran nilai lain) akan bertanya "
-"ke pengguna."
+"Nilai yang mungkin: 'never' - tak pernah tutup jendela peramban, 'always' - "
+"selalu tutup jendela peramban, atau 'ask' - (atau sebarang nilai lain) akan "
+"bertanya ke pengguna."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Empty Trash folders on exit"
@@ -9074,12 +9093,11 @@ msgid "Last time Empty Trash was run"
 msgstr "Kala terakhir Kosongkan Tong Sampah dijalankan"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
-#, fuzzy
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
-"Kala terakhir Kosongkan Sampah dijalankan, dalam hari sejak 1 Januari 1970 "
-"(Epoch)."
+"Kala terakhir Kosongkan Tong Sampah dijalankan, dalam hari sejak 1 Januari "
+"1970 (Epos)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid "Amount of time in seconds the error should be shown on the status bar."
@@ -9153,20 +9171,17 @@ msgid "Last time Empty Junk was run"
 msgstr "Kala terakhir Kosongkan Sampah dijalankan"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
-#, fuzzy
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "Kala terakhir Kosongkan Spam dijalankan, dalam hari sejak 1 Januari 1970 "
-"(Epoch)."
+"(Epos)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
-#, fuzzy
 msgid "The default plugin for Junk hook"
 msgstr "Plugin bawaan bagi kait Spam"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
-#, fuzzy
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won't fall back "
@@ -9200,7 +9215,6 @@ msgstr ""
 "Apakah melihat alamat untuk penyaringan sampah hanya pada buku alamat lokal"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
-#, fuzzy
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
@@ -9249,7 +9263,6 @@ msgid "Directory for saving mail component files."
 msgstr "Direktori untuk menyimpan berkas yang menjadi komponen surat."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
-#, fuzzy
 msgid "Composer load/attach directory"
 msgstr "Direktori muat/lampirkan Penyusun"
 
@@ -9266,6 +9279,8 @@ msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
 msgstr ""
+"Apakah memeriksa pesan baru saat Evolution dimulai. Ini termasuk juga "
+"mengirim pesan dari Outbox."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Check for new messages in all active accounts"
@@ -9277,9 +9292,11 @@ msgid ""
 "account \"Check for new messages every X minutes\" option when Evolution is "
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
+"Apakah memeriksa pesan baru dalam semua akun aktif, tanpa peduli pada opsi "
+"\"Periksa pesan baru setiap X menit\" ketika Evolution dimulai. Opsi ini "
+"hanya dipakai bersama dengan opsi 'send_recv_on_start'."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
-#, fuzzy
 msgid "Server synchronization interval"
 msgstr "Selang waktu sinkronisasi server"
 
@@ -9299,7 +9316,6 @@ msgid "['attachment','attaching','attached','enclosed']"
 msgstr "['lampiran','melampirkan','dilampirkan','terlampir']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
-#, fuzzy
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body"
@@ -9307,12 +9323,11 @@ msgstr ""
 "Daftar petunjuk bagi plugin pengingat lampiran untuk dicari di tubuh pesan"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:6
-#, fuzzy
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
 msgstr ""
-"Daftar petunjuk bagi plugin pengingat lampiran untuk dicari di tubuh pesan"
+"Daftar petunjuk bagi plugin pengingat lampiran untuk dicari di tubuh pesan."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
 msgid "Address book source"
@@ -9329,7 +9344,7 @@ msgstr "Otomatis selaraskan kontak Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
 msgid "Whether Pidgin contacts should be automatically synced."
-msgstr ""
+msgstr "Apakah kontak Pidgin mesti diselaraskan secara otomatis."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
 msgid "Enable autocontacts"
@@ -9339,6 +9354,7 @@ msgstr "Aktifkan kontak otomatis"
 msgid ""
 "Whether contacts should be automatically added to the user's address book."
 msgstr ""
+"Apakah kontak mesti ditambahkan secara otomatis ke buku alamat pengguna."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
 msgid "Pidgin address book source"
@@ -9348,6 +9364,8 @@ msgstr "Sumber buku alamat Pidgin"
 msgid ""
 "Address book to use for storing automatically synced contacts from Pidgin."
 msgstr ""
+"Buku alamat yang dipakai untuk menyimpan kontak yang otomatis diselaraskan "
+"dari Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "Pidgin check interval"
@@ -9378,7 +9396,6 @@ msgid "List of Custom Headers"
 msgstr "Daftar Tajuk Ubahan"
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:2
-#, fuzzy
 msgid ""
 "The key specifies the list of custom headers that you can add to an outgoing "
 "message. The format for specifying a Header and Header value is: Name of the "
@@ -9407,12 +9424,10 @@ msgid "Automatically launch editor when key is pressed in the mail composer."
 msgstr "Otomatis luncurkan penyunting ketika tombol ditekan di penyusun surel."
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:1
-#, fuzzy
 msgid "Insert Face picture by default"
 msgstr "Sisipkan gambar Wajah secara default"
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:2
-#, fuzzy
 msgid ""
 "Whether insert Face picture to outgoing messages by default. The picture "
 "should be set before checking this, otherwise nothing happens."
@@ -9455,7 +9470,6 @@ msgstr ""
 "datang."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:7
-#, fuzzy
 msgid "Popup message together with the icon."
 msgstr "Popup pesan bersama dengan ikon."
 
@@ -9473,6 +9487,9 @@ msgid ""
 "the \"notify-sound-beep\", \"notify-sound-file\", \"notify-sound-play-file\" "
 "and \"notify-sound-use-theme\" keys are disregarded."
 msgstr ""
+"Apakah membuat suara apapun saat tibanya pesan baru. Bila \"false\", kunci-"
+"kunci \"notify-sound-beep\", \"notify-sound-file\", \"notify-sound-play-file"
+"\", dan \"notify-sound-use-theme\" diabaikan."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
 msgid "Whether to emit a beep."
@@ -9503,13 +9520,14 @@ msgid ""
 "Whether to play a sound file when new messages arrive. The name of the sound "
 "file is given by the 'notify-sound-file' key."
 msgstr ""
+"Apakah memutar berkas suara saat tibanya pesan baru. Nama dari berkas suara "
+"diberikan oleh kunci 'notify-sound-file'."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:17
 msgid "Use sound theme"
 msgstr "Gunakan tema suara"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:18
-#, fuzzy
 msgid "Play themed sound when new messages arrive, if not in beep mode."
 msgstr ""
 "Bunyikan suara bertema ketika pesan baru tiba, bila tidak dalam mode bip."
@@ -9524,6 +9542,10 @@ msgid ""
 "best part to show, \"prefer_plain\" makes it use the text part, if present, "
 "and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
+"Mode untuk menampilkan surel. \"normal\" membuat Evolution memilih bagian "
+"terbaik yang akan ditunjukkan, \"prefer_plain\" membuatnya memakai bagian "
+"teks, bila ada, dan \"only_plain\" memaksa Evolution untuk hanya menampilkan "
+"teks polos"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
@@ -9538,9 +9560,10 @@ msgid ""
 "The key specifies the list of destinations to where publish calendars. Each "
 "values specifies an XML with setup for publishing to one destination."
 msgstr ""
+"Kunci menyatakan daftar tujuan kemana mempublikasi kalender. Setiap nilai "
+"menyatakan suatu XML dengan penyiapan untuk mempublikasikan ke satu tujuan."
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
-#, fuzzy
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
 "message body."
@@ -9590,11 +9613,10 @@ msgid "Offline folder paths"
 msgstr "Path folder luring"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
-#, fuzzy
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage."
 msgstr ""
-"Daftar path folder yang akan disinkronkan ke disk untuk penggunaan luring"
+"Daftar path folder yang akan disinkronkan ke disk untuk penggunaan luring."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
 msgid "Enable express mode"
@@ -10005,9 +10027,8 @@ msgid "Error verifying signature: %s"
 msgstr "Galat sewaktu memverifikasi tanda tangan: %s"
 
 #: ../em-format/e-mail-parser-message-external.c:86
-#, fuzzy
 msgid "Malformed external-body part"
-msgstr "Bagian badan-luar rusak."
+msgstr "Bagian badan-luar rusak"
 
 #: ../em-format/e-mail-parser-message-external.c:118
 #, c-format
@@ -10287,17 +10308,13 @@ msgid "A file named \"{0}\" already exists. Do you want to replace it?"
 msgstr "Berkas bernama \"{0}\" sudah ada. Ingin menimpanya?"
 
 #: ../e-util/e-system.error.xml.h:2
-#, fuzzy
 msgid ""
 "The file already exists in \"{0}\". Replacing it will overwrite its contents."
-msgstr ""
-"Berkas sudah ada dalam \"%s\". Berkas lama akan diganti dengan yang baru "
-"bila Anda menimpanya."
+msgstr "Berkas sudah ada dalam \"{0}\". Menggantikannya akan menimpa isinya."
 
 #: ../e-util/e-system.error.xml.h:3
-#, fuzzy
 msgid "_Replace"
-msgstr "_Timpa"
+msgstr "_Ganti"
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Cannot save file \"{0}\"."
@@ -10316,9 +10333,8 @@ msgid "Failed to remove data source &quot;{0}&quot;."
 msgstr "Gagal menghapus sumber data &quot;{0}&quot;."
 
 #: ../e-util/e-system.error.xml.h:8 ../mail/mail.error.xml.h:61
-#, fuzzy
 msgid "The reported error was &quot;{1}&quot;."
-msgstr "Galat yang dilaporkan adalah &quot;{0}&quot;."
+msgstr "Galat yang dilaporkan adalah &quot;{1}&quot;."
 
 #: ../e-util/e-system.error.xml.h:9
 msgid "Failed to update data source &quot;{0}&quot;."
@@ -10727,16 +10743,16 @@ msgid "User cancelled operation"
 msgstr "Pengguna membatalkan operasi"
 
 #: ../libemail-engine/e-mail-session.c:1451
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr "Tak diberikan alamat tujuan, penerusan pesan telah dibatalkan."
 
 #: ../libemail-engine/e-mail-session.c:1464
-#, fuzzy, c-format
+#, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
-msgstr "Tak ditemukan akun untuk dipakai, pesan batal diteruskan."
+msgstr "Tak ditemukan identitas untuk dipakai, pesan batal diteruskan."
 
 #: ../libemail-engine/e-mail-session.c:1626
 #, c-format
@@ -10867,9 +10883,9 @@ msgid "Could not create spool directory '%s': %s"
 msgstr "Tidak dapat membuat direktori spool '%s': %s"
 
 #: ../libemail-engine/mail-tools.c:112
-#, fuzzy, c-format
+#, c-format
 msgid "Trying to movemail a non-mbox source '%s'"
-msgstr "Mencoba untuk moveemail suatu sumber bukan mbox '%s'"
+msgstr "Mencoba untuk movemail suatu sumber bukan mbox '%s'"
 
 #: ../libemail-engine/mail-tools.c:224
 #, c-format
@@ -10886,9 +10902,9 @@ msgid "Setting up Search Folder: %s"
 msgstr "Membuat Saringan Folder: %s"
 
 #: ../libemail-engine/mail-vfolder.c:282
-#, fuzzy, c-format
+#, c-format
 msgid "Updating Search Folders for '%s' - %s"
-msgstr "Saringan Folder untuk '%s: %s' diperbarui"
+msgstr "Memutakhirkan Folder Pencarian untuk '%s' - %s"
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
@@ -10896,7 +10912,7 @@ msgstr "Saringan Folder untuk '%s: %s' diperbarui"
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
 #: ../libemail-engine/mail-vfolder.c:647
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The Search Folder \"%s\" has been modified to account for the deleted "
 "folder\n"
@@ -10906,18 +10922,18 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
-"Folder Pencarian berikut\n"
-"%s telah diubah untuk memperhitungkan folder yang dihapus\n"
+"Folder Pencarian \"%s\" telah diubah untuk memperhitungkan folder yang "
+"dihapus\n"
 "\"%s\"."
 
 #: ../mail/e-mail-account-manager.c:446
-#, fuzzy
 msgid "_Restore Default"
-msgstr "Kembalikan Hu_ruf Standar"
+msgstr "Kembalikan _Baku"
 
 #: ../mail/e-mail-account-manager.c:459
 msgid "You can drag and drop account names to reorder them."
 msgstr ""
+"Anda dapat menyeret dan menjatuhkan nama akun untuk mengubah urutan mereka."
 
 #: ../mail/e-mail-account-manager.c:504
 msgid "De_fault"
@@ -10947,7 +10963,7 @@ msgid "No mail exchanger record for '%s'"
 msgstr "Tak ada record mail exchanger bagi '%s'"
 
 #: ../mail/e-mail-autoconfig.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "Temporarily unable to resolve '%s'"
 msgstr "Sementara tidak dapat menguraikan '%s'"
 
@@ -11031,13 +11047,12 @@ msgid "Choose a folder for saving sent messages."
 msgstr "Pilih folder tempat menyimpan pesan yang telah terkirim."
 
 #: ../mail/e-mail-config-defaults-page.c:584
-#, fuzzy
 msgid "_Restore Defaults"
-msgstr "Termasuk baku"
+msgstr "Kembalikan _Baku"
 
 #: ../mail/e-mail-config-defaults-page.c:598
 msgid "Use a Real Folder for _Trash:"
-msgstr ""
+msgstr "Pakai Folder Nyata bagi _Tong Sampah:"
 
 #: ../mail/e-mail-config-defaults-page.c:599
 msgid "Choose a folder for deleted messages."
@@ -11045,7 +11060,7 @@ msgstr "Pilih folder bagi pesan yang dihapus."
 
 #: ../mail/e-mail-config-defaults-page.c:608
 msgid "Use a Real Folder for _Junk:"
-msgstr ""
+msgstr "Pakai Folder Nyata bagi _Spam:"
 
 #: ../mail/e-mail-config-defaults-page.c:609
 msgid "Choose a folder for junk messages."
@@ -11096,12 +11111,11 @@ msgstr "Informasi Akun"
 
 #: ../mail/e-mail-config-identity-page.c:291
 #: ../mail/e-mail-config-summary-page.c:333
-#, fuzzy
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example, \"Work\" or \"Personal\"."
 msgstr ""
-"Beri nama yang hendak Anda berikan pada account ini.\n"
+"Ketikkan nama yang hendak Anda pakai untuk mengacu ke akun ini.\n"
 "Misalnya: \"Kantor\" atau \"Rumah\""
 
 #: ../mail/e-mail-config-identity-page.c:299
@@ -11263,7 +11277,7 @@ msgstr "Pengiriman Surel"
 
 #: ../mail/e-mail-config-service-page.c:640
 msgid "Server _Type:"
-msgstr "_Jenis Server: "
+msgstr "_Tipe Server:"
 
 #: ../mail/e-mail-config-summary-page.c:142
 msgid "SSL"
@@ -11277,6 +11291,8 @@ msgstr "TLS"
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
 msgstr ""
+"Ini adalah ringkasan dari pengaturan yang akan dipakai untuk mengakses surel "
+"Anda."
 
 #: ../mail/e-mail-config-summary-page.c:372
 msgid "Personal Details"
@@ -11292,7 +11308,7 @@ msgstr "Alamat Surel:"
 
 #: ../mail/e-mail-config-summary-page.c:433
 msgid "Server Type:"
-msgstr "Tipe Server: "
+msgstr "Tipe Server:"
 
 #: ../mail/e-mail-config-summary-page.c:454
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:602
@@ -11948,27 +11964,24 @@ msgid "_Zoom"
 msgstr "_Zum"
 
 #: ../mail/e-mail-reader.c:2429
-#, fuzzy
 msgid "Create a Search Folder from Mailing _List..."
-msgstr "Buat Folder Pencarian untuk mailing list ini"
+msgstr "Buat Folder Pencarian dari Mi_lis..."
 
 #: ../mail/e-mail-reader.c:2431
 msgid "Create a search folder for this mailing list"
 msgstr "Membuat Folder Pencarian untuk mailing list ini"
 
 #: ../mail/e-mail-reader.c:2436
-#, fuzzy
 msgid "Create a Search Folder from Recipien_ts..."
-msgstr "Cari Folder berdasarkan Pene_rima..."
+msgstr "Buat Folder Pencarian dari Pene_rima…"
 
 #: ../mail/e-mail-reader.c:2438
 msgid "Create a search folder for these recipients"
 msgstr "Membuat Folder Pencarian untuk penerima ini"
 
 #: ../mail/e-mail-reader.c:2443
-#, fuzzy
 msgid "Create a Search Folder from Sen_der..."
-msgstr "Saring Folder berdasarkan Pe_ngirim..."
+msgstr "Buat Folder Pencarian dari Pe_ngirim…"
 
 #: ../mail/e-mail-reader.c:2445
 msgid "Create a search folder for this sender"
@@ -12027,9 +12040,8 @@ msgid "Show messages with all email headers"
 msgstr "Menampilkan pesan dengan semua tajuk surat"
 
 #: ../mail/e-mail-reader.c:2888
-#, fuzzy
 msgid "Retrieving message"
-msgstr "Mengambil Pesan %d dari %d"
+msgstr "Mengambil pesan"
 
 #: ../mail/e-mail-reader.c:3860
 #: ../modules/mail/e-mail-attachment-handler.c:175
@@ -12520,19 +12532,16 @@ msgid "Specify where to create the folder:"
 msgstr "Tentukan lokasi folder baru:"
 
 #: ../mail/em-subscription-editor.c:869
-#, fuzzy
 msgid "_Subscribe"
-msgstr "_Langganan"
+msgstr "Ber_langganan"
 
 #: ../mail/em-subscription-editor.c:878
-#, fuzzy
 msgid "Su_bscribe To Shown"
-msgstr "_Berlangganan"
+msgstr "_Berlangganan Ke Yang Ditampilkan"
 
 #: ../mail/em-subscription-editor.c:886
-#, fuzzy
 msgid "Subscribe To _All"
-msgstr "Balas Ke Semu_a..."
+msgstr "Berlangganan Ke Semu_a"
 
 #: ../mail/em-subscription-editor.c:986 ../mail/em-subscription-editor.c:1844
 #: ../modules/mail/e-mail-shell-view-actions.c:1336
@@ -12540,14 +12549,12 @@ msgid "_Unsubscribe"
 msgstr "_Berhenti Langganan"
 
 #: ../mail/em-subscription-editor.c:995
-#, fuzzy
 msgid "Unsu_bscribe From Hidden"
-msgstr "_Stop langganan dari daftar"
+msgstr "_Berhenti Berlangganan Dari Yang Tersembunyi"
 
 #: ../mail/em-subscription-editor.c:1003
-#, fuzzy
 msgid "Unsubscribe From _All"
-msgstr "%s (%d belum dibaca dari semua)"
+msgstr "Berhenti Berlangganan Dari Semu_a"
 
 #: ../mail/em-subscription-editor.c:1679
 msgid "Folder Subscriptions"
@@ -12779,7 +12786,7 @@ msgstr "TAmbahkan Aturan Filter"
 #. * them on a separate line, with four spaces in front
 #. * of its name, without quotes.
 #: ../mail/mail-autofilter.c:513
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The filter rule \"%s\" has been modified to account for the deleted folder\n"
 "\"%s\"."
@@ -12788,14 +12795,13 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
-"Aturan penyaringan berikut\n"
-"%s telah diubah dengan memperhitungkan folder yang dihapus\n"
+"Aturan penyaringan \"%s\" telah diubah untuk memperhitungkan folder yang "
+"dihapus\n"
 "\"%s\"."
 
 #: ../mail/mail-config.ui.h:1
-#, fuzzy
 msgid "Set custom junk header"
-msgstr "Tambahkan Tajuk Spam Ubahan"
+msgstr "Atur tajuk spam ubahan"
 
 #: ../mail/mail-config.ui.h:2
 msgid ""
@@ -12854,18 +12860,16 @@ msgid "Start _typing at the bottom on replying"
 msgstr "Menge_tik balasan dimulai dari bawah"
 
 #: ../mail/mail-config.ui.h:15
-#, fuzzy
 msgid "_Keep signature above the original message on replying"
-msgstr "Pertahan_kan Tanda Tangan di atas pesan asli ketika menjawab"
+msgstr "Pertahan_kan tanda tangan di atas pesan asli ketika menjawab"
 
 #: ../mail/mail-config.ui.h:16
-#, fuzzy
 msgid "Ig_nore Reply-To: for mailing lists"
-msgstr "Abaikan Reply-To: untuk milis"
+msgstr "Abaika_n Reply-To: untuk milis"
 
 #: ../mail/mail-config.ui.h:17
 msgid "Gro_up Reply goes only to mailing list, if possible"
-msgstr ""
+msgstr "Jawaban Gr_up hanya dikirim ke milis, bila mungkin"
 
 #: ../mail/mail-config.ui.h:18
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
@@ -12919,29 +12923,28 @@ msgid ""
 "To help avoid email accidents and embarrassments, ask for confirmation "
 "before taking the following checkmarked actions:"
 msgstr ""
+"Untuk membantu menghindari kecelakaan surel dan kejadian memalukan, tanyakan "
+"konfirmasi sebelum melakukan aksi-aksi berikut yang dicontreng:"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:32
-#, fuzzy
 msgid "Sending a message with an _empty subject line"
-msgstr "K_onfirmasi saat mengirim surel dengan isi baris subyek kosong"
+msgstr "M_engirim surel dengan isi baris subjek kosong"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:34
-#, fuzzy
 msgid "Sending a message with only _Bcc recipients defined"
-msgstr "K_onfirmasi saat pada surel hanya kolom Bcc yang diisi"
+msgstr "Mengirim surel hanya kolom _Bcc yang diisi"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:36
-#, fuzzy
 msgid "Sending a _private reply to a mailing list message"
-msgstr "Konfirmasi saat menandai beberapa pesan"
+msgstr "Mengirim jawaban _privat ke pesan milis"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:38
 msgid "Sending a reply to a large _number of recipients"
-msgstr ""
+msgstr "Mengirim balasan ke sejumlah besar pe_nerima"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:40
@@ -12952,6 +12955,7 @@ msgstr "Mengijinkan suatu _milis untuk mengarahkan jawaban privat ke milis"
 #: ../mail/mail-config.ui.h:42
 msgid "Sending a message with _recipients not entered as mail addresses"
 msgstr ""
+"Mengirim pesan dengan pene_rima yang tak dimasukkan sebagai alamat surel"
 
 #: ../mail/mail-config.ui.h:43
 msgid "Confirmations"
@@ -12971,10 +12975,9 @@ msgid "Attachment"
 msgstr "Lampiran"
 
 #: ../mail/mail-config.ui.h:52
-#, fuzzy
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
-msgstr "Biasa (Gaya Outlook)"
+msgstr "Inline (Gaya Outlook)"
 
 #: ../mail/mail-config.ui.h:53
 msgctxt "ReplyForward"
@@ -12987,10 +12990,9 @@ msgid "Do not quote"
 msgstr "Jangan kutip"
 
 #: ../mail/mail-config.ui.h:55
-#, fuzzy
 msgctxt "ReplyForward"
 msgid "Inline"
-msgstr "Berurut"
+msgstr "Inline"
 
 #: ../mail/mail-config.ui.h:56
 msgid "Proxy Settings"
@@ -13042,7 +13044,6 @@ msgid "Pass_word:"
 msgstr "Kata _Sandi:"
 
 #: ../mail/mail-config.ui.h:68
-#, fuzzy
 msgid "Start up"
 msgstr "Awal mula"
 
@@ -13096,7 +13097,7 @@ msgstr "_Terapkan tatanan tilikan yang sama untuk semua folder"
 
 #: ../mail/mail-config.ui.h:81
 msgid "F_all back to threading messages by subject"
-msgstr "Ke pilih_an terakhir yaitu ulir pesan berdasar subjek."
+msgstr "Ke pilih_an terakhir yaitu ulir pesan berdasar subjek"
 
 #: ../mail/mail-config.ui.h:82
 msgid "Delete Mail"
@@ -13116,7 +13117,6 @@ msgid "_Show animated images"
 msgstr "_Tampilkan gambar bergerak"
 
 #: ../mail/mail-config.ui.h:87
-#, fuzzy
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr ""
 "_Meminta konfirmasi saat hendak mengirim surel HTML ke kontak yang tak "
@@ -13151,14 +13151,12 @@ msgid "Sender Photograph"
 msgstr "Foto Pengirim"
 
 #: ../mail/mail-config.ui.h:95
-#, fuzzy
 msgid "_Show the photograph of sender in the message preview"
 msgstr "Tampilkan foto pengirim pada pratilik pe_san"
 
 #: ../mail/mail-config.ui.h:96
-#, fuzzy
 msgid "S_earch for sender photograph only in local address books"
-msgstr "_Cari foto pengirim hanya di buku alamat lokal"
+msgstr "Cari foto p_engirim hanya di buku alamat lokal"
 
 #: ../mail/mail-config.ui.h:97
 msgid "Displayed Message Headers"
@@ -13197,7 +13195,6 @@ msgid "_Lookup in local address book only"
 msgstr "_Lihat di buku alamat lokal saja"
 
 #: ../mail/mail-config.ui.h:106
-#, fuzzy
 msgid "Option is ignored if a match for custom junk headers is found."
 msgstr "Opsi diabaikan bila tajuk spam ubahan yang cocok ditemukan."
 
@@ -13407,7 +13404,6 @@ msgid "Send private reply?"
 msgstr "Kirim balasan pribadi?"
 
 #: ../mail/mail.error.xml.h:23
-#, fuzzy
 msgid ""
 "You are replying privately to a message which arrived via a mailing list, "
 "but the list is trying to redirect your reply to go back to the list. Are "
@@ -13422,7 +13418,6 @@ msgid "Reply _Privately"
 msgstr "Balas Secara _Pribadi"
 
 #: ../mail/mail.error.xml.h:26
-#, fuzzy
 msgid ""
 "You are replying to a message which arrived via a mailing list, but you are "
 "replying privately to the sender; not to the list. Are you sure you want to "
@@ -13436,7 +13431,6 @@ msgid "Send reply to all recipients?"
 msgstr "Kirim jawaban ke semua penerima?"
 
 #: ../mail/mail.error.xml.h:29
-#, fuzzy
 msgid ""
 "You are replying to a message which was sent to many recipients. Are you "
 "sure you want to reply to ALL of them?"
@@ -13598,7 +13592,6 @@ msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "Benar ingin menghapus folder \"{0}\" dan semua subfolder?"
 
 #: ../mail/mail.error.xml.h:65
-#, fuzzy
 msgid ""
 "If you delete the folder, all of its contents and its subfolders' contents "
 "will be deleted permanently."
@@ -13626,6 +13619,9 @@ msgid ""
 "Folder will delete the actual messages from the folder or folders in which "
 "they physically reside. Do you really want to delete these messages?"
 msgstr ""
+"Pesan yang ditampilkan dalam Folder Pencarian bukan salinan. Menghapus "
+"mereka dari Folder Pencarian akan menghapus pesan sebenarnya dimana mereka "
+"berada. Apakah Anda yakin hendak menghapus pesan-pesan ini?"
 
 #: ../mail/mail.error.xml.h:71
 msgid "Cannot rename \"{0}\" to \"{1}\"."
@@ -13805,6 +13801,14 @@ msgid ""
 "delete the account after ensuring the data is safely migrated. Please make "
 "sure there is enough disk space if you choose to migrate now."
 msgstr ""
+"Format surel lokal Evolution telah berubah dari mbox ke Maildir. Surel lokal "
+"Anda mesti dimigrasi ke format baru sebelum Evolution dapat melanjutkan. "
+"Apakah Anda ingin memigrasi sekarang?\n"
+"\n"
+"Suatu akun mbox akan dibuat untuk melestarikan folder mbox lama. Anda dapat "
+"menghapus akun tersebut setelah memastikan bahwa data termigrasi dengan "
+"aman. Harap pastikan ada cukup ruang disk bila Anda memilih untuk memigrasi "
+"sekarang."
 
 #: ../mail/mail.error.xml.h:116
 msgid "_Exit Evolution"
@@ -14011,15 +14015,16 @@ msgid ""
 "The attachment named {0} is a hidden file and may contain sensitive data. "
 "Please review it before sending."
 msgstr ""
+"Lampiran bernama {0} adalah berkas tersembunyi dan mungkin memuat data yang "
+"sensitif. Harap periksa sebelum mengirimnya."
 
 #: ../mail/mail.error.xml.h:164
 msgid "Printing failed."
 msgstr "Pencetakan gagal."
 
 #: ../mail/mail.error.xml.h:165
-#, fuzzy
 msgid "The printer replied &quot;{0}&quot;."
-msgstr "Galat yang dilaporkan adalah &quot;{0}&quot;."
+msgstr "Pencetak menjawab &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:166
 msgid "Could not perform this operation on {0}."
@@ -14153,6 +14158,10 @@ msgid ""
 "running a new search either by clearing it with Search->Clear menu item or "
 "by changing the query above."
 msgstr ""
+"Tak ada pesan yang memenuhi kriteria pencarian Anda. Ubah kriteria pencarian "
+"dengan memilih penyaring baru Tampilkan pesan dari daftar drop down di atas "
+"atau dengan menjalankan pencarian baru dengan cara membersihkannya memakai "
+"butir menu Cari->Bersihkan atau ndengan mengubah query di atas."
 
 #: ../mail/message-list.c:4938
 msgid "There are no messages in this folder."
@@ -14227,7 +14236,7 @@ msgstr "Pemformatan alamat"
 
 #: ../modules/addressbook/autocompletion-config.c:102
 msgid "_Format address according to standard of its destination country"
-msgstr ""
+msgstr "_Format alamat sesuai standar dari negara tujuannya"
 
 #: ../modules/addressbook/autocompletion-config.c:111
 msgid "Autocompletion"
@@ -14688,28 +14697,26 @@ msgstr "Pemutar Audio"
 
 #: ../modules/audio-inline/e-mail-formatter-audio-inline.c:316
 msgid "Play the attachment in embedded audio player"
-msgstr ""
+msgstr "Mainkan lampiran dalam pemutar audio tertanam"
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:167
-#, fuzzy
 msgid ""
 "You can restore Evolution from a backup file.\n"
 "\n"
 "This will restore all your personal data, settings mail filters, etc."
 msgstr ""
-"Anda dapat mengembalikan data cadangan Evolution. Pengembalian tersebut "
-"meliputi semua Surat, Kalender, Tugas, Memo, dan Kontak. Selain itu, semua "
-"pengaturan pribadi Anda, penyaringan pesan, dll. turut dikembalikan."
+"Anda dapat mengembalikan data Evolution dari berkas cadangan.\n"
+"\n"
+"Pengembalian tersebut meliputi semua pengaturan pribadi Anda, penyaringan "
+"pesan, dll."
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:182
-#, fuzzy
 msgid "_Restore from a backup file:"
-msgstr "_Restore Evolution dari berkas backup"
+msgstr "Kembalikan dari be_rkas cadangan:"
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:193
-#, fuzzy
 msgid "Choose a backup file to restore"
-msgstr "Pilih berkas yang hendak dikembalikan"
+msgstr "Pilih berkas cadangan yang hendak dikembalikan"
 
 #. Keep the title identical to EMailConfigRestorePage
 #. * so it's only shown once in the assistant sidebar.
@@ -14875,6 +14882,9 @@ msgid ""
 "To back up your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding."
 msgstr ""
+"Untuk membuat cadangan data dan pengaturan Anda, Anda mesti terlebih dahulu "
+"menutup Evolution. Pastikan bahwa Anda telah menyimpan data sebelum "
+"melanjutkan."
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Close and Back up Evolution"
@@ -14886,7 +14896,6 @@ msgid ""
 msgstr "Anda yakin ingin merestore Evolution dari berkas backup yang dipilih?"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:7
-#, fuzzy
 msgid ""
 "To restore your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding. This will delete "
@@ -14917,12 +14926,11 @@ msgstr "Gagal menspawn BogoFilter (%s): "
 
 #: ../modules/bogofilter/evolution-bogofilter.c:167
 msgid "Failed to stream mail message content to Bogofilter: "
-msgstr "Gagal menstream isi pesan surat ke Bogofilter:"
+msgstr "Gagal menstream isi pesan surat ke Bogofilter: "
 
 #: ../modules/bogofilter/evolution-bogofilter.c:216
-#, fuzzy
 msgid "Bogofilter either crashed or failed to process a mail message"
-msgstr "SpamAssassin mungkin crash atau gagal memroses suatu pesan surat"
+msgstr "BogoFilter mungkin crash atau gagal memroses suatu pesan surat"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:318
 msgid "Bogofilter Options"
@@ -14985,15 +14993,14 @@ msgid "Method:"
 msgstr "Metode:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:684
-#, fuzzy
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Using email address\" requires anonymous access to your "
 "LDAP server."
 msgstr ""
-"Ini adalah metode yang akan digunakan oleh Evolution untuk mengenali anda. "
-"Ingat bahwa membuat ini ke \"Alamat Surel\" membutuhkan akses tak dikenal ke "
-"server ldap anda."
+"Ini adalah metode yang akan digunakan oleh Evolution untuk mengotentikasi "
+"Anda. Ingat bahwa menata ini ke \"Memakai alamat surel\" membutuhkan akses "
+"anonim ke server LDAP Anda."
 
 #. Page 2
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:699
@@ -15019,25 +15026,23 @@ msgstr "Satu Tingkat"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:770
 msgid "Subtree"
-msgstr ""
+msgstr "Sub pohon"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:772
-#, fuzzy
 msgid "Search Scope:"
-msgstr "Lingku_p pencarian:"
+msgstr "Lingkup Pencarian:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:777
-#, fuzzy
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree.  A search scope of \"Subtree\" will include all entries "
 "below your search base.  A search scope of \"One Level\" will only include "
 "the entries one level beneath your search base."
 msgstr ""
-"Lingkup pencarian adalah seberapa dalam proses pencarian akan dilakukan "
-"dalam pohon direktori. Lingkup pencarian jenis \"sub\" akan mencari semua "
-"data di bawah basis pencarian. Lingkup pencarian jenis \"satu\" hanya akan "
-"mencari satu tingkat di bawah basis pencarian saja."
+"Lingkup pencarian menentukan seberapa dalam proses pencarian akan dilakukan "
+"dalam pohon direktori. Lingkup pencarian jenis \"sub pohon\" akan mencari "
+"semua data di bawah basis pencarian. Lingkup pencarian jenis \"satu tingkat"
+"\" hanya akan mencari satu tingkat di bawah basis pencarian saja."
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:786
 msgid "Search Filter:"
@@ -15078,7 +15083,6 @@ msgid "Empty response"
 msgstr "Respon kosong"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:447
-#, fuzzy
 msgid "Unexpected reply from server"
 msgstr "Jawaban yang tak diharapkan dari server"
 
@@ -15124,18 +15128,16 @@ msgid "Email:"
 msgstr "Surel:"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:304
-#, fuzzy
 msgid "Server handles meeting invitations"
-msgstr "Server meng_angani undangan pertemuan"
+msgstr "Server mengangani undangan pertemuan"
 
 #: ../modules/cal-config-contacts/evolution-cal-config-contacts.c:73
 msgid "Choose which address books to use."
 msgstr "Pilih buku alamat mana yang akan dipakai."
 
 #: ../modules/cal-config-contacts/evolution-cal-config-contacts.c:203
-#, fuzzy
 msgid "Use in Birthdays & Anniversaries calendar"
-msgstr "Gunakan pada kalender _Ulang Tahun dan Peringatan"
+msgstr "Gunakan pada kalender Ulang Tahun dan Peringatan Tahunan"
 
 #: ../modules/cal-config-google/e-google-chooser-button.c:127
 msgid "Default User Calendar"
@@ -15192,9 +15194,8 @@ msgid "I_mport to Tasks"
 msgstr "I_mpor ke Tugas"
 
 #: ../modules/calendar/e-calendar-preferences.c:406
-#, fuzzy
 msgid "Selected Calendars for Alarms"
-msgstr "Kalender Terpilih untuk Alarm"
+msgstr "Kalender yang Dipilih untuk Alarm"
 
 #: ../modules/calendar/e-calendar-preferences.c:828
 msgid "Ti_me and date:"
@@ -15348,10 +15349,9 @@ msgstr "Tampilkan _nomor minggu"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:52
 msgid "Show r_ecurring events in italic in bottom left calendar"
-msgstr ""
+msgstr "Tampilkan acara b_erulang dalam cetak miring di kalender kiri bawah"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:53
-#, fuzzy
 msgid "Sc_roll Month View by a week"
 msgstr "Guli_r Tilikan Bulan seminggu"
 
@@ -15364,14 +15364,12 @@ msgid "Task List"
 msgstr "Daftar Tugas"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:57
-#, fuzzy
 msgid "Highlight t_asks due today"
-msgstr "Tug_as harus selesai hari ini:"
+msgstr "Sorot tug_as yang harus selesai hari ini"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:59
-#, fuzzy
 msgid "Highlight _overdue tasks"
-msgstr "Warga tugas belum selesai"
+msgstr "Sorot tugas yang terlambat"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:60
 msgid "_Hide completed tasks after"
@@ -15419,9 +15417,8 @@ msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr "%u dan %d akan diganti dengan pengguna dan domain dari alamat surel."
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:77
-#, fuzzy
 msgid "Publishing Information"
-msgstr "Informasi Tabel"
+msgstr "Informasi Publikasi"
 
 #: ../modules/calendar/e-cal-shell-backend.c:278
 #: ../modules/calendar/e-cal-shell-view-actions.c:192
@@ -15603,9 +15600,8 @@ msgid "Find previous occurrence of the current search string"
 msgstr "Temukan kemunculan sebelumnya dari string yang dicari"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1469
-#, fuzzy
 msgid "Stop _running search"
-msgstr "Layanan pencarian tidak sedang berjalan"
+msgstr "Hentikan penca_rian yang sedang berjalan"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1471
 msgid "Stop currently running search"
@@ -15649,7 +15645,7 @@ msgstr "Hapus Semua Kejadian"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1518
 msgid "New All Day _Event..."
-msgstr "Acara Baru S_epanjang Hari..."
+msgstr "Acara Baru S_epanjang Hari…"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1520
 msgid "Create a new all day event"
@@ -15837,9 +15833,8 @@ msgid "Print the selected memo"
 msgstr "Cetak memo yang dipilih"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:1457
-#, fuzzy
 msgid "Searching next matching event"
-msgstr "Cetak acara ini"
+msgstr "Mencari acara selanjutnya yang cocok"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:1458
 msgid "Searching previous matching event"
@@ -15849,13 +15844,13 @@ msgstr "Mencari acara sebelumnya yang cocok"
 #, c-format
 msgid "Cannot find matching event in the next %d year"
 msgid_plural "Cannot find matching event in the next %d years"
-msgstr[0] ""
+msgstr[0] "Tak bisa temukan acara yang cocok dalam %d tahun mendatang"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:1479
 #, c-format
 msgid "Cannot find matching event in the previous %d year"
 msgid_plural "Cannot find matching event in the previous %d years"
-msgstr[0] ""
+msgstr[0] "Tak bisa temukan acara yang cocok dalam %d tahun lalu"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:1500
 msgid "Cannot search with no active calendar"
@@ -16005,7 +16000,6 @@ msgid "Rename the selected memo list"
 msgstr "Mengubah nama daftar memo yang dipilih"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:672
-#, fuzzy
 msgid "Show _Only This Memo List"
 msgstr "Tampilkan Hanya Daftar Mem_o Ini"
 
@@ -16129,7 +16123,6 @@ msgid "_Find in Task..."
 msgstr "Temukan dalam _Tugas..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:742
-#, fuzzy
 msgid "Search for text in the displayed task"
 msgstr "Cari pada teks dalam tugas yang ditampilkan"
 
@@ -16241,24 +16234,25 @@ msgid ""
 "Select a predefined set of IMAP headers to fetch.\n"
 "Note, larger sets of headers take longer to download."
 msgstr ""
+"Pilih suatu set tajuk IMAP terpradefinisi untuk diambil.\n"
+"Catatlah, set lebih besar dari tajuk memerlukan waktu lebih lama untuk "
+"mengunduh."
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:243
 msgid "_Fetch All Headers"
 msgstr "Ambil semua _header"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:257
-#, fuzzy
 msgid "_Basic Headers (fastest)"
-msgstr "Tabel Tajuk Surel"
+msgstr "Tajuk _Dasar (paling cepat)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:271
 msgid "Use this if you are not filtering any mailing lists."
 msgstr "Pakai ini bila Anda tak menyaring milis apapun."
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:281
-#, fuzzy
 msgid "Basic and _Mailing List Headers (default)"
-msgstr "Tajuk Dasar dan _Milis (Bawaan)"
+msgstr "Tajuk Dasar dan _Milis (bawaan)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:330
 msgid "Custom Headers"
@@ -16269,6 +16263,8 @@ msgid ""
 "Specify any extra headers to fetch in addition to the predefined set of "
 "headers selected above."
 msgstr ""
+"Nyatakan sebarang tajuk ekstra yang diambil sebagai tambahan atas set tajuk "
+"terpradefinisi yang dipilih di atas."
 
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:135
 msgid "ITIP"
@@ -16708,9 +16704,8 @@ msgstr "Komentar:"
 
 #. RSVP area
 #: ../modules/itip-formatter/itip-view.c:1481
-#, fuzzy
 msgid "Send reply to sender"
-msgstr "Balas ke pengi_rim"
+msgstr "Balas ke pengirim"
 
 #. Updates
 #: ../modules/itip-formatter/itip-view.c:1495
@@ -16727,9 +16722,8 @@ msgid "Show time as _free"
 msgstr "Tampilkan waktu sebagai _bebas"
 
 #: ../modules/itip-formatter/itip-view.c:1500
-#, fuzzy
 msgid "_Preserve my reminder"
-msgstr "_Pertahankan pengingat saya"
+msgstr "Lestarikan _pengingat saya"
 
 #: ../modules/itip-formatter/itip-view.c:1501
 msgid "_Inherit reminder"
@@ -16812,9 +16806,8 @@ msgstr "Kirim ke kalender '%s' sebagai dibatalkan"
 #: ../modules/itip-formatter/itip-view.c:4592
 #: ../modules/itip-formatter/itip-view.c:5026
 #: ../modules/itip-formatter/itip-view.c:5133
-#, fuzzy
 msgid "Saving changes to the calendar. Please wait..."
-msgstr "Membuka kalender. Mohon tunggu..."
+msgstr "Membuka kalender. Mohon tunggu…"
 
 #: ../modules/itip-formatter/itip-view.c:4631
 msgid "Unable to parse item"
@@ -16843,9 +16836,8 @@ msgid "Attendee status updated"
 msgstr "Status peserta diperbarui"
 
 #: ../modules/itip-formatter/itip-view.c:4918
-#, fuzzy
 msgid "The meeting is invalid and cannot be updated"
-msgstr "Obyek rusak dan tidak dapat diperbarui\n"
+msgstr "Rapat tak valid dan tak dapat dimutakhirkan"
 
 #: ../modules/itip-formatter/itip-view.c:4991
 msgid "Attendee status could not be updated because the status is invalid"
@@ -17022,9 +17014,8 @@ msgid "Choose a MH mail directory"
 msgstr "Pilih direktori surel MH"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:269
-#, fuzzy
 msgid "Local Delivery _File:"
-msgstr "Bukan berkas lokal: %s"
+msgstr "_Berkas Pengiriman Lokal:"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:270
 msgid "Choose a local delivery file"
@@ -17114,10 +17105,9 @@ msgid "Compose a new mail message"
 msgstr "Membuat pesan surel baru"
 
 #: ../modules/mail/e-mail-shell-backend.c:258
-#, fuzzy
 msgctxt "New"
 msgid "Mail Acco_unt"
-msgstr "Akun Surat"
+msgstr "Ak_un Surel"
 
 #: ../modules/mail/e-mail-shell-backend.c:260
 msgid "Create a new mail account"
@@ -17387,14 +17377,12 @@ msgid "Threaded message list"
 msgstr "Daftar Pesan dalam Thread"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1579
-#, fuzzy
 msgid "_Unmatched Folder Enabled"
-msgstr "Aktifkan folder yang tak dicocokkan"
+msgstr "_Aktifkan Folder yang tak Cocok"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1581
-#, fuzzy
 msgid "Toggles whether Unmatched search folder is enabled"
-msgstr "Apakah daerah peran diampilkan"
+msgstr "Menjungkit apakah folder pencarian Tak cocok diaktifkan"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1601
 msgid "Show message preview below the message list"
@@ -17514,9 +17502,8 @@ msgid_plural "%d total"
 msgstr[0] "%d total"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1041
-#, fuzzy
 msgid "Trash"
-msgstr "Sampah"
+msgstr "Tong Sampah"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1454
 msgid "Send / Receive"
@@ -17577,9 +17564,9 @@ msgid "Delivery Notification for \"%s\""
 msgstr "Notifikasi Pengiriman untuk \"%s\""
 
 #: ../modules/mdn/evolution-mdn.c:540
-#, fuzzy, c-format
+#, c-format
 msgid "Send a read receipt to '%s'"
-msgstr "Kirim nota p_esan:"
+msgstr "Kirim nota pesan diterima ke '%s'"
 
 #. name doesn't matter
 #: ../modules/mdn/evolution-mdn.c:545
@@ -17717,7 +17704,6 @@ msgstr ""
 "diminta."
 
 #: ../modules/prefer-plain/plugin/config-ui.c:107
-#, fuzzy
 msgid "Show s_uppressed HTML parts as attachments"
 msgstr "Tampilkan bagian HTML yang disemb_unyikan sebagai lampiran"
 
@@ -17745,7 +17731,7 @@ msgstr "Gagal menspawn SpamAssassin (%s): "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:215
 msgid "Failed to stream mail message content to SpamAssassin: "
-msgstr "Gagal menstream isi pesan surat ke SpamAssassin:"
+msgstr "Gagal menstream isi pesan surat ke SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:234
 #, c-format
@@ -17821,7 +17807,7 @@ msgstr "Memuat akun..."
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:95
 #| msgid "Format Column_s..."
 msgid "_Format as..."
-msgstr "_Format sebagai…"
+msgstr "_Format sebagai..."
 
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:103
 #| msgid "_Languages"
@@ -17829,13 +17815,12 @@ msgid "_Other languages"
 msgstr "Bahasa _lain"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:324
-#, fuzzy
 msgid "Text Highlight"
-msgstr "Durasi penyorotan"
+msgstr "Penyorotan Teks"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:330
 msgid "Syntax highlighting of mail parts"
-msgstr ""
+msgstr "Penyorotan sintaks dari bagian surel"
 
 #: ../modules/text-highlight/languages.c:32
 #| msgid "Plain Text"
@@ -18047,9 +18032,8 @@ msgid "_R"
 msgstr "_R"
 
 #: ../modules/text-highlight/languages.c:334
-#, fuzzy
 msgid "_RPM Spec"
-msgstr "Spec RPM"
+msgstr "Spek _RPM"
 
 #: ../modules/text-highlight/languages.c:339
 msgid "_Scala"
@@ -18069,20 +18053,17 @@ msgstr "_VHDL"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:118
 #: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:201
-#, fuzzy
 msgid "Show F_ull vCard"
-msgstr "Tampilkan seluruh isi vCard"
+msgstr "Tampilkan vCard _Lengkap"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:121
 #: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:219
-#, fuzzy
 msgid "Show Com_pact vCard"
-msgstr "Tampilkan Ringkasan vCard"
+msgstr "Tam_pilkan vCard Ringkas"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:145
-#, fuzzy
 msgid "Save _To Addressbook"
-msgstr "Tidak dapat menyimpan {0}."
+msgstr "Simpan Ke Buku Alama_t"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:165
 msgid "There is one other contact."
@@ -18148,7 +18129,6 @@ msgid "Attachment Reminder"
 msgstr "Pengingat Lampiran"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
-#, fuzzy
 msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr ""
 "Mengingatkan Anda ketika Anda lupa untuk menambahkan lampiran ke suatu pesan "
@@ -18174,7 +18154,6 @@ msgstr "Alamat Pesan Instant"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:714
-#, fuzzy
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr "_Selaraskan gambar dan info kontak dari daftar sobat Pidgin"
 
@@ -18266,7 +18245,6 @@ msgstr "_Tajuk Ubahan"
 
 #. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
 #: ../plugins/email-custom-header/email-custom-header.c:799
-#, fuzzy
 msgid ""
 "The format for specifying a Custom Header key value is:\n"
 "Name of the Custom Header key values separated by \";\"."
@@ -18298,7 +18276,7 @@ msgstr "Tajuk Ubahan Surel"
 
 #: ../plugins/external-editor/external-editor.c:114
 msgid "Command to be executed to launch the editor: "
-msgstr "Perintah yang dieksekusi untuk meluncurkan penyunting:"
+msgstr "Perintah yang dieksekusi untuk meluncurkan penyunting: "
 
 #: ../plugins/external-editor/external-editor.c:115
 msgid ""
@@ -18358,16 +18336,14 @@ msgstr ""
 "ditutup selama penyunting aktif."
 
 #: ../plugins/face/face.c:292
-#, fuzzy
 msgid "Select a Face Picture"
-msgstr "Muat gambar _Wajah baru"
+msgstr "Pilih Gambar Wajah"
 
 #: ../plugins/face/face.c:302
 msgid "Image files"
 msgstr "Berkas gambar"
 
 #: ../plugins/face/face.c:361
-#, fuzzy
 msgid "_Insert Face picture by default"
 msgstr "S_isipkan gambar Wajah secara default"
 
@@ -18376,7 +18352,6 @@ msgid "Load new _Face picture"
 msgstr "Muat gambar _Wajah yang baru"
 
 #: ../plugins/face/face.c:435
-#, fuzzy
 msgid "Include _Face"
 msgstr "Sertakan _Wajah"
 
@@ -18409,7 +18384,6 @@ msgid "The file you selected does not look like a valid .png image. Error: {0}"
 msgstr "Berkas yang Anda pilih bukan berkas .png yang sah. Galat: {0}"
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:1
-#, fuzzy
 msgid "Inline Image"
 msgstr "Gambar Inline"
 
@@ -18462,7 +18436,6 @@ msgid "_Unsubscribe from List"
 msgstr "_Stop langganan dari daftar"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:402
-#, fuzzy
 msgid "Unsubscribe from the mailing list this message belongs to"
 msgstr "Berhenti langganan milis yang memiliki pesan ini"
 
@@ -18475,7 +18448,6 @@ msgid "Mailing List Actions"
 msgstr "Tindakan Untuk Milis"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
-#, fuzzy
 msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
 msgstr "Melakukan aksi milis umum (daftar, lepas, dsb.)."
 
@@ -18546,14 +18518,13 @@ msgid "No e-mail action"
 msgstr "Tanpa aksi e-surat"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:16
-#, fuzzy
 msgid ""
 "The action could not be performed. The header for this action did not "
 "contain any action that could be processed.\n"
 "\n"
 "Header: {0}"
 msgstr ""
-"Aksi tidak dapat dilakukan. Bagian kepala email tidak memuat aksi apapun "
+"Aksi tidak dapat dilakukan. Bagian kepala aksi ini tidak memuat aksi apapun "
 "yang dapat diproses.\n"
 "\n"
 "Header: {0}"
@@ -19146,6 +19117,9 @@ msgid ""
 "$ORIG[from], $ORIG[to] or $ORIG[body], which will be replaced by values from "
 "an email you are replying to."
 msgstr ""
+"Plugin templat berbasis draft. Anda dapat memakai variabel seperti $ORIG"
+"[subject], $ORIG[from], $ORIG[to], atau $ORIG[body], yang akan digantikan "
+"dengan nilai-nilai dari surel yang sedang Anda jawab."
 
 #: ../plugins/templates/templates.c:1113
 msgid "No Title"
@@ -19185,7 +19159,7 @@ msgstr "Simpan Pencarian"
 #. * "Important Messages", or "Active Appointments".
 #: ../shell/e-shell-searchbar.c:940
 msgid "Sho_w:"
-msgstr "_Tampilkan: "
+msgstr "_Tampilkan:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
@@ -19197,7 +19171,7 @@ msgstr "_Cari:"
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-searchbar.c:1036
 msgid "i_n"
-msgstr "dala_m "
+msgstr "dala_m"
 
 #: ../shell/e-shell-utils.c:197
 msgid "vCard (.vcf)"
@@ -19481,9 +19455,9 @@ msgid "Switch to %s"
 msgstr "Berpindah ke %s"
 
 #: ../shell/e-shell-window-actions.c:2299
-#, fuzzy, c-format
+#, c-format
 msgid "Select view: %s"
-msgstr "Tanpa tampilan"
+msgstr "Pilih tampilan: %s"
 
 #: ../shell/e-shell-window-actions.c:2400
 msgid "Execute these search parameters"
@@ -19586,7 +19560,6 @@ msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Menonaktifkan panel pratinjau untuk Surat, Kontak, dan Tugas."
 
 #: ../shell/main.c:332
-#, fuzzy
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "URI impor atau nama berkas diberikan sebagai sisa argumen."
 
@@ -20886,7 +20859,7 @@ msgstr "Nama _Tanda Tangan"
 
 #: ../widgets/misc/e-mail-signature-editor.c:572
 msgid "Unnamed"
-msgstr "Belum diberi nama"
+msgstr "Tanpa nama"
 
 #: ../widgets/misc/e-mail-signature-manager.c:337
 msgid "Add _Script"
@@ -21156,7 +21129,6 @@ msgid "(no suggestions)"
 msgstr "(tak ada saran)"
 
 #: ../widgets/misc/e-spell-entry.c:375
-#, fuzzy
 msgid "More..."
 msgstr "Lainnya..."
 
@@ -21172,9 +21144,8 @@ msgid "Ignore All"
 msgstr "Abaikan Semua"
 
 #: ../widgets/misc/e-spell-entry.c:513
-#, fuzzy
 msgid "Spelling Suggestions"
-msgstr "_Saran Ejaan"
+msgstr "Saran Ejaan"
 
 #: ../widgets/misc/e-url-entry.c:78
 msgid "Click here to go to URL"
