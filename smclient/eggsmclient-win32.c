@@ -182,9 +182,7 @@ sm_client_win32_end_session (EggSMClient         *client,
 static gboolean
 emit_quit_requested (gpointer smclient)
 {
-  gdk_threads_enter ();
   egg_sm_client_quit_requested (smclient);
-  gdk_threads_leave ();
 
   return FALSE;
 }
@@ -194,9 +192,7 @@ emit_quit (gpointer smclient)
 {
   EggSMClientWin32 *win32 = smclient;
 
-  gdk_threads_enter ();
   egg_sm_client_quit (smclient);
-  gdk_threads_leave ();
 
   SetEvent (win32->response_event);
   return FALSE;
@@ -207,9 +203,7 @@ emit_quit_cancelled (gpointer smclient)
 {
   EggSMClientWin32 *win32 = smclient;
 
-  gdk_threads_enter ();
   egg_sm_client_quit_cancelled (smclient);
-  gdk_threads_leave ();
 
   SetEvent (win32->response_event);
   return FALSE;

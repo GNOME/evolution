@@ -72,7 +72,7 @@ mail_signature_tree_view_registry_changed (ESourceRegistry *registry,
 	if (tree_view->priv->refresh_idle_id > 0)
 		return;
 
-	tree_view->priv->refresh_idle_id = gdk_threads_add_idle (
+	tree_view->priv->refresh_idle_id = g_idle_add (
 		(GSourceFunc) mail_signature_tree_view_refresh_idle_cb,
 		tree_view);
 }

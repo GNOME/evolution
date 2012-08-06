@@ -598,8 +598,6 @@ e_calendar_auto_move_year_handler (gpointer data)
 	cal = E_CALENDAR (data);
 	calitem = cal->calitem;
 
-	GDK_THREADS_ENTER ();
-
 	if (cal->timeout_delay > 0) {
 		cal->timeout_delay--;
 	} else {
@@ -607,8 +605,6 @@ e_calendar_auto_move_year_handler (gpointer data)
 		e_calendar_item_set_first_month (calitem, calitem->year,
 						 calitem->month + offset);
 	}
-
-	GDK_THREADS_LEAVE ();
 
 	return TRUE;
 }
@@ -625,8 +621,6 @@ e_calendar_auto_move_handler (gpointer data)
 	cal = E_CALENDAR (data);
 	calitem = cal->calitem;
 
-	GDK_THREADS_ENTER ();
-
 	if (cal->timeout_delay > 0) {
 		cal->timeout_delay--;
 	} else {
@@ -635,7 +629,6 @@ e_calendar_auto_move_handler (gpointer data)
 						 calitem->month + offset);
 	}
 
-	GDK_THREADS_LEAVE ();
 	return TRUE;
 }
 

@@ -377,7 +377,6 @@ ask_question (GMountOperation *op,
 		primary = g_strndup (message, strlen (message) - strlen (primary));
 	}
 
-	gdk_threads_enter ();
 	dialog = gtk_message_dialog_new (NULL,
 					 0, GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_NONE, "%s", primary);
@@ -409,7 +408,6 @@ ask_question (GMountOperation *op,
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
-	gdk_threads_leave ();
 }
 
 static void

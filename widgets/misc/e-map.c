@@ -204,7 +204,7 @@ e_map_start_tweening (EMap *map)
 
 	map->priv->timer = g_timer_new ();
 	map->priv->timer_current_ms = 0;
-	map->priv->tween_id = gdk_threads_add_timeout (
+	map->priv->tween_id = g_timeout_add (
 		E_MAP_TWEEN_TIMEOUT_MSECS, e_map_do_tween_cb, map);
 	g_timer_start (map->priv->timer);
 }

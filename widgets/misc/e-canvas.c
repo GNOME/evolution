@@ -732,8 +732,6 @@ idle_handler (gpointer data)
 {
 	ECanvas *canvas;
 
-	GDK_THREADS_ENTER ();
-
 	canvas = E_CANVAS (data);
 	do_reflow (canvas);
 
@@ -741,8 +739,6 @@ idle_handler (gpointer data)
 	canvas->idle_id = 0;
 
 	g_signal_emit (canvas, signals[REFLOW], 0);
-
-	GDK_THREADS_LEAVE ();
 
 	return FALSE;
 }

@@ -2788,16 +2788,12 @@ idle_handler (gpointer data)
 {
 	GnomeCanvas *canvas;
 
-	GDK_THREADS_ENTER ();
-
 	canvas = GNOME_CANVAS (data);
 
 	do_update (canvas);
 
 	/* Reset idle id */
 	canvas->idle_id = 0;
-
-	GDK_THREADS_LEAVE ();
 
 	return FALSE;
 }

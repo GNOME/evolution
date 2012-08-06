@@ -3623,8 +3623,6 @@ e_calendar_item_signal_emission_idle_cb (gpointer data)
 
 	g_return_val_if_fail (E_IS_CALENDAR_ITEM (data), FALSE);
 
-	GDK_THREADS_ENTER ();
-
 	calitem = E_CALENDAR_ITEM (data);
 
 	calitem->signal_emission_idle_id = 0;
@@ -3645,7 +3643,6 @@ e_calendar_item_signal_emission_idle_cb (gpointer data)
 
 	g_object_unref ((calitem));
 
-	GDK_THREADS_LEAVE ();
 	return FALSE;
 }
 

@@ -2794,13 +2794,9 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 
 	mts = E_MEETING_TIME_SELECTOR (data);
 
-	GDK_THREADS_ENTER ();
-
 	/* Return if we don't need to scroll yet. */
-	if (mts->scroll_count-- > 0) {
-		GDK_THREADS_LEAVE ();
+	if (mts->scroll_count-- > 0)
 		return TRUE;
-	}
 
 	/* Get the x coords of visible part of the canvas. */
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (mts->display_main),
@@ -2871,10 +2867,8 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 		time_to_set = &mts->meeting_end_time;
 
 	/* If the time is unchanged, just return. */
-	if (e_meeting_time_compare_times (time_to_set, &drag_time) == 0) {
-		GDK_THREADS_LEAVE ();
+	if (e_meeting_time_compare_times (time_to_set, &drag_time) == 0)
 		goto scroll;
-	}
 
 	/* Don't let an empty occur for all day events */
 	if (mts->all_day
@@ -2929,7 +2923,6 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 	gnome_canvas_scroll_to (GNOME_CANVAS (mts->display_top),
 				scroll_x, scroll_y);
 
-	GDK_THREADS_LEAVE ();
 	return TRUE;
 }
 

@@ -129,7 +129,7 @@ window_configure_event_cb (GtkWindow *window,
 	if (data->timeout_id > 0)
 		g_source_remove (data->timeout_id);
 
-	data->timeout_id = gdk_threads_add_timeout_seconds (
+	data->timeout_id = g_timeout_add_seconds (
 		1, (GSourceFunc) window_update_settings, data);
 
 	return FALSE;

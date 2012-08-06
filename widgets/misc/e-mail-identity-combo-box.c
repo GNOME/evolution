@@ -71,7 +71,7 @@ mail_identity_combo_box_registry_changed (ESourceRegistry *registry,
 	if (combo_box->priv->refresh_idle_id > 0)
 		return;
 
-	combo_box->priv->refresh_idle_id = gdk_threads_add_idle (
+	combo_box->priv->refresh_idle_id = g_idle_add (
 		(GSourceFunc) mail_identity_combo_box_refresh_idle_cb,
 		combo_box);
 }

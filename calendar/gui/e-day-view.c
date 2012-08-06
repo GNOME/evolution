@@ -7131,11 +7131,8 @@ e_day_view_auto_scroll_handler (gpointer data)
 
 	day_view = E_DAY_VIEW (data);
 
-	GDK_THREADS_ENTER ();
-
 	if (day_view->auto_scroll_delay > 0) {
 		day_view->auto_scroll_delay--;
-		GDK_THREADS_LEAVE ();
 		return TRUE;
 	}
 
@@ -7189,7 +7186,6 @@ e_day_view_auto_scroll_handler (gpointer data)
 		}
 	}
 
-	GDK_THREADS_LEAVE ();
 	return TRUE;
 }
 

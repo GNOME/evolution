@@ -704,11 +704,8 @@ e_clipboard_wait_for_calendar (GtkClipboard *clipboard)
 		clipboard, (GtkClipboardTextReceivedFunc)
 		clipboard_wait_for_text_cb, &results);
 
-	if (g_main_loop_is_running (results.loop)) {
-		GDK_THREADS_LEAVE ();
+	if (g_main_loop_is_running (results.loop))
 		g_main_loop_run (results.loop);
-		GDK_THREADS_ENTER ();
-	}
 
 	g_main_loop_unref (results.loop);
 
@@ -729,11 +726,8 @@ e_clipboard_wait_for_directory (GtkClipboard *clipboard)
 		clipboard, (GtkClipboardTextReceivedFunc)
 		clipboard_wait_for_text_cb, &results);
 
-	if (g_main_loop_is_running (results.loop)) {
-		GDK_THREADS_LEAVE ();
+	if (g_main_loop_is_running (results.loop))
 		g_main_loop_run (results.loop);
-		GDK_THREADS_ENTER ();
-	}
 
 	g_main_loop_unref (results.loop);
 
@@ -754,11 +748,8 @@ e_clipboard_wait_for_html (GtkClipboard *clipboard)
 		clipboard, (GtkClipboardTextReceivedFunc)
 		clipboard_wait_for_text_cb, &results);
 
-	if (g_main_loop_is_running (results.loop)) {
-		GDK_THREADS_LEAVE ();
+	if (g_main_loop_is_running (results.loop))
 		g_main_loop_run (results.loop);
-		GDK_THREADS_ENTER ();
-	}
 
 	g_main_loop_unref (results.loop);
 
