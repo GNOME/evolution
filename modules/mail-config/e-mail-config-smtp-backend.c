@@ -65,6 +65,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	const gchar *extension_name;
 	const gchar *mechanism;
 	const gchar *text;
+	guint16 port;
 	gchar *markup;
 
 	priv = E_MAIL_CONFIG_SMTP_BACKEND_GET_PRIVATE (backend);
@@ -239,6 +240,9 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	priv->user_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
+	port = 0;
+	g_object_get (G_OBJECT (settings), "port", &port, NULL);
+
 	g_object_bind_property (
 		settings, "host",
 		priv->host_entry, "text",
@@ -270,6 +274,9 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		priv->user_entry, "text",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
+
+	if (port != 0)
+		g_object_set (G_OBJECT (priv->port_entry), "port", port, NULL);
 
 	/* Enable the auth-required toggle button if
 	 * we have an authentication mechanism name. */
