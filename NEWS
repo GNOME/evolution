@@ -1,3 +1,58 @@
+Evolution 3.5.5 2012-08-06
+--------------------------
+
+Bug Fixes:
+	Bug 677635 - Vanished message list with filled preview panel
+	             (Dan Vrátil)
+	Bug 678635 - File->Send/Receive lists too many sources (Milan Crha)
+	Bug 679049 - [itip-formatter] Cannot reply to meeting invitation
+	             (Dan Vrátil)
+	Bug 679404 - Read colors for message preview from Gtk theme
+	             (Dan Vrátil)
+	Bug 679726 - Move button for expanding headers behind header label
+	             (Dan Vrátil)
+	Bug 679843 - Double free when printing (Dan Vrátil)
+	Bug 680123 - Freeze on message/disposition-notification email parsing
+	             (Dan Vrátil)
+	Bug 680164 - Print Preview action should open preview immediatelly
+	             (Dan Vrátil)
+	Bug 680331 - Crash when replying to a message (Dan Vrátil)
+	Bug 680535 - Reply to message with text attachments formats them
+	             inline (Dan Vrátil)
+	Bug 680577 - [text-highlight] - Failed to load part (Dan Vrátil)
+	Bug 680634 - Missing image attachment (Dan Vrátil)
+	Bug 680635 - Inline GPG shown as source (Dan Vrátil)
+	Bug 680643 - First message Print preview without CSS (Dan Vrátil)
+	Bug 680666 - Contacts/Tasks/Memos preview pane does not follow theme
+	             colors (Dan Vrátil)
+	Bug 680682 - Segfault after label attempted deletion (Milan Crha)
+	Bug 681075 - Add tooltips to signature editor toolbar (Michael Wood)
+
+Other Changes:
+	* Various mail formatter and highlighter improvements (Dan Vrátil)
+	* Improvements to user documentation. (Andre Klapper)
+	* Disable CompEditor when saving changes (Milan Crha)
+	* Use template files to generate GEnumClass types. (Matthew Barnes)
+	* mail-send-recv: Improve presentation. (Matthew Barnes)
+	* Fix few more memory leaks (Milan Crha)
+	* Support creating and deleting remote resources. (Matthew Barnes)
+	* Remove all GDK threads usage. (Matthew Barnes)
+
+Translations:
+	Ihar Hrachyshka (be)
+	Dimitris Spingos (el)
+	Tom Tryfonidis (el)
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Sweta Kothari (gu)
+	Andika Triwidada (id)
+	Aurimas Černius (lt)
+	Kjartan Maraas (nb)
+	Мирослав Николић (sr)
+	tuhaihe (zh_CN)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 3.5.4 2012-07-16
 --------------------------
 
