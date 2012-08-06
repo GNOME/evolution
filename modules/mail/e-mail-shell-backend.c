@@ -871,8 +871,8 @@ e_mail_shell_backend_edit_account (EMailShellBackend *mail_shell_backend,
 #include "filter/e-filter-option.h"
 #include "shell/e-shell-settings.h"
 
-GSList *
-e_mail_labels_get_filter_options (void)
+static GSList *
+mail_labels_get_filter_options (gboolean include_none)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
@@ -891,6 +891,16 @@ e_mail_labels_get_filter_options (void)
 	session = e_mail_backend_get_session (backend);
 	label_store = e_mail_ui_session_get_label_store (
 		E_MAIL_UI_SESSION (session));
+
+	if (include_none) {
+		struct _filter_option *option;
+
+		option = g_new0 (struct _filter_option, 1);
+		/* Translators: The first item in the list, to be able to set rule: [Label] [is/is-not] [None] */
+		option->title = g_strdup (C_("label", "None"));
+		option->value = g_strdup ("");
+		list = g_slist_prepend (list, option);
+	}
 
 	model = GTK_TREE_MODEL (label_store);
 	valid = gtk_tree_model_get_iter_first (model, &iter);
@@ -921,6 +931,135 @@ e_mail_labels_get_filter_options (void)
 	}
 
 	return g_slist_reverse (list);
+}
+
+
+GSList *
+e_mail_labels_get_filter_options (void)
+{
+	return mail_labels_get_filter_options (TRUE);
+}
+
+GSList *
+e_mail_labels_get_filter_options_without_none (void)
+{
+	return mail_labels_get_filter_options (FALSE);
+}
+
+static const gchar *
+get_filter_option_value (EFilterPart *part,
+			 const gchar *name)
+{
+	EFilterElement *elem;
+	EFilterOption *opt;
+
+	g_return_val_if_fail (part != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	elem = e_filter_part_find_element (part, name);
+	g_return_val_if_fail (elem != NULL, NULL);
+	g_return_val_if_fail (E_IS_FILTER_OPTION (elem), NULL);
+
+	opt = E_FILTER_OPTION (elem);
+	return e_filter_option_get_current (opt);
+}
+
+static void
+append_one_label_expr (GString *out,
+		       const gchar *versus)
+{
+	GString *encoded;
+
+	g_return_if_fail (out != NULL);
+	g_return_if_fail (versus != NULL);
+
+	encoded = g_string_new ("");
+	camel_sexp_encode_string (encoded, versus);
+
+	g_string_append_printf (out,
+		" (= (user-tag \"label\") %s) (user-flag (+ \"$Label\" %s)) (user-flag %s)",
+		encoded->str, encoded->str, encoded->str);
+
+	g_string_free (encoded, TRUE);
+}
+
+void
+e_mail_labels_get_filter_code (EFilterElement *element,
+			       GString *out,
+			       EFilterPart *part)
+{
+	const gchar *label_type, *versus;
+	gboolean is_not;
+
+	label_type = get_filter_option_value (part, "label-type");
+	versus = get_filter_option_value (part, "versus");
+
+	g_return_if_fail (label_type != NULL);
+	g_return_if_fail (versus != NULL);
+
+	is_not = g_str_equal (label_type, "is-not");
+
+	if (!g_str_equal (label_type, "is") && !is_not) {
+		g_warning ("%s: Unknown label-type: '%s'", G_STRFUNC, label_type);
+		return;
+	}
+
+	/* the 'None' item has 'is-not' inverted */
+	if (!*versus)
+		is_not = !is_not;
+
+	g_string_append (out, " (match-all (");
+	if (is_not)
+		g_string_append (out, " not (");
+	g_string_append (out, "or");
+
+	/* the 'None' item; "is None" means "has not set any label" */
+	if (!*versus) {
+		EShell *shell;
+		EShellBackend *shell_backend;
+		EMailBackend *backend;
+		EMailSession *session;
+		EMailLabelListStore *label_store;
+		GtkTreeModel *model;
+		GtkTreeIter iter;
+		gboolean valid;
+		
+		shell = e_shell_get_default ();
+		shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+		backend = E_MAIL_BACKEND (shell_backend);
+		session = e_mail_backend_get_session (backend);
+		label_store = e_mail_ui_session_get_label_store (E_MAIL_UI_SESSION (session));
+
+		model = GTK_TREE_MODEL (label_store);
+		valid = gtk_tree_model_get_iter_first (model, &iter);
+
+		while (valid) {
+			gchar *tag;
+
+			tag = e_mail_label_list_store_get_tag (label_store, &iter);
+
+			if (g_str_has_prefix (tag, "$Label")) {
+				gchar *tmp = tag;
+
+				tag = g_strdup (tag + 6);
+
+				g_free (tmp);
+			}
+
+			append_one_label_expr (out, tag);
+
+			g_free (tag);
+
+			valid = gtk_tree_model_iter_next (model, &iter);
+		}
+	} else {
+		append_one_label_expr (out, versus);
+	}
+
+	if (is_not)
+		g_string_append (out, ")");
+	g_string_append (out, " ))");
 }
 
 static void

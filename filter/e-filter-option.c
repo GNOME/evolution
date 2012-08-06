@@ -45,6 +45,7 @@ free_option (struct _filter_option *opt)
 	g_free (opt->title);
 	g_free (opt->value);
 	g_free (opt->code);
+	g_free (opt->code_gen_func);
 	g_free (opt);
 }
 
@@ -101,6 +102,29 @@ filter_option_get_dynamic_options (EFilterOption *option)
 }
 
 static void
+filter_option_generate_code (EFilterOption *option,
+			     GString *out,
+			     EFilterPart *part)
+{
+	GModule *module;
+	void (*code_gen_func) (EFilterElement *element, GString *out, EFilterPart *part);
+
+	if (!option || !option->current || !option->current->code_gen_func)
+		return;
+
+	module = g_module_open (NULL, G_MODULE_BIND_LAZY);
+
+	if (g_module_symbol (module, option->current->code_gen_func, (gpointer) &code_gen_func)) {
+		code_gen_func (E_FILTER_ELEMENT (option), out, part);
+	} else {
+		g_warning ("optionlist dynamic code function '%s' not found",
+			   option->current->code_gen_func);
+	}
+
+	g_module_close (module);
+}
+
+static void
 filter_option_finalize (GObject *object)
 {
 	EFilterOption *option = E_FILTER_OPTION (object);
@@ -149,7 +173,7 @@ filter_option_xml_create (EFilterElement *element,
 	n = node->children;
 	while (n) {
 		if (!strcmp ((gchar *)n->name, "option")) {
-			gchar *tmp, *value, *title = NULL, *code = NULL;
+			gchar *tmp, *value, *title = NULL, *code = NULL, *code_gen_func = NULL;
 
 			value = (gchar *)xmlGetProp (n, (xmlChar *)"value");
 			work = n->children;
@@ -164,21 +188,43 @@ filter_option_xml_create (EFilterElement *element,
 						xmlFree (tmp);
 					}
 				} else if (!strcmp ((gchar *)work->name, "code")) {
-					if (!code) {
-						if (!(tmp = (gchar *) xmlNodeGetContent (work)))
-							tmp = (gchar *)xmlStrdup ((xmlChar *)"");
+					if (code || code_gen_func) {
+						g_warning ("Element 'code' defined twice in '%s'",
+							element->name);
+					} else {
+						xmlChar *fn;
 
-						code = g_strdup (tmp);
-						xmlFree (tmp);
+						/* if element 'code' has attribute 'func', then
+						   the content of the element is ignored and only
+						   the 'func' is used to generate actual rule code;
+						   The function prototype is:
+						   void code_gen_func (EFilterElement *element, GString *out, EFilterPart *part);
+						   where @element is the one on which was called,
+						   @out is GString where to add the code, and
+						   @part is part which contains @element and other options of it.
+						*/
+						fn = xmlGetProp (work, (xmlChar *)"func");
+						if (fn && *fn) {
+							code_gen_func = g_strdup ((const gchar *) fn);
+						} else {
+							if (!(tmp = (gchar *) xmlNodeGetContent (work)))
+								tmp = (gchar *)xmlStrdup ((xmlChar *)"");
+
+							code = g_strdup (tmp);
+							xmlFree (tmp);
+						}
+
+						xmlFree (fn);
 					}
 				}
 				work = work->next;
 			}
 
-			e_filter_option_add (option, value, title, code, FALSE);
+			e_filter_option_add (option, value, title, code, code_gen_func, FALSE);
 			xmlFree (value);
 			g_free (title);
 			g_free (code);
+			g_free (code_gen_func);
 		} else if (g_str_equal ((gchar *)n->name, "dynamic")) {
 			if (option->dynamic_func) {
 				g_warning (
@@ -217,6 +263,7 @@ filter_option_xml_create (EFilterElement *element,
 								op->value,
 								op->title,
 								op->code,
+								op->code_gen_func,
 								TRUE);
 							free_option (op);
 						}
@@ -295,7 +342,7 @@ filter_option_clone (EFilterElement *element)
 
 		newop = e_filter_option_add (
 			clone_option, op->value,
-			op->title, op->code, op->is_dynamic);
+			op->title, op->code, op->code_gen_func, op->is_dynamic);
 		if (option->current == op)
 			clone_option->current = newop;
 	}
@@ -335,8 +382,8 @@ filter_option_get_widget (EFilterElement *element)
 				break;
 			} else {
 				e_filter_option_add (
-					option, op->value,
-					op->title, op->code, FALSE);
+					option, op->value, op->title,
+					op->code, op->code_gen_func, FALSE);
 			}
 		}
 
@@ -346,8 +393,8 @@ filter_option_get_widget (EFilterElement *element)
 
 			if (op) {
 				e_filter_option_add (
-					option, op->value,
-					op->title, op->code, TRUE);
+					option, op->value, op->title,
+					op->code, op->code_gen_func, TRUE);
 				free_option (op);
 			}
 		}
@@ -360,8 +407,8 @@ filter_option_get_widget (EFilterElement *element)
 
 			if (!op->is_dynamic)
 				e_filter_option_add (
-					option, op->value,
-					op->title, op->code, FALSE);
+					option, op->value, op->title,
+					op->code, op->code_gen_func, FALSE);
 		}
 
 		if (old_cur)
@@ -402,8 +449,11 @@ filter_option_build_code (EFilterElement *element,
 {
 	EFilterOption *option = E_FILTER_OPTION (element);
 
-	if (option->current && option->current->code)
+	if (option->current && option->current->code_gen_func) {
+		filter_option_generate_code (option, out, part);
+	} else if (option->current && option->current->code) {
 		e_filter_part_expand_code (part, option->current->code, out);
+	}
 }
 
 static void
@@ -464,6 +514,7 @@ e_filter_option_add (EFilterOption *option,
                      const gchar *value,
                      const gchar *title,
                      const gchar *code,
+		     const gchar *code_gen_func,
                      gboolean is_dynamic)
 {
 	struct _filter_option *op;
@@ -471,10 +522,14 @@ e_filter_option_add (EFilterOption *option,
 	g_return_val_if_fail (E_IS_FILTER_OPTION (option), NULL);
 	g_return_val_if_fail (find_option (option, value) == NULL, NULL);
 
+	if (code_gen_func && !*code_gen_func)
+		code_gen_func = NULL;
+
 	op = g_malloc (sizeof (*op));
 	op->title = g_strdup (title);
 	op->value = g_strdup (value);
 	op->code = g_strdup (code);
+	op->code_gen_func = g_strdup (code_gen_func);
 	op->is_dynamic = is_dynamic;
 
 	option->options = g_list_append (option->options, op);

@@ -23,6 +23,8 @@
 #define E_MAIL_SHELL_BACKEND_H
 
 #include <mail/e-mail-backend.h>
+#include <filter/e-filter-element.h>
+#include <filter/e-filter-rule.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SHELL_BACKEND \
@@ -71,7 +73,13 @@ void		e_mail_shell_backend_edit_account
 						 ESource *mail_account);
 
 /* XXX Find a better place for this function. */
-GSList *	e_mail_labels_get_filter_options (void);
+GSList *	e_mail_labels_get_filter_options
+						(void);
+GSList *	e_mail_labels_get_filter_options_without_none
+						(void);
+void		e_mail_labels_get_filter_code	(EFilterElement *element,
+						 GString *out,
+						 EFilterPart *part);
 
 G_END_DECLS
 

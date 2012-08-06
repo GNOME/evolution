@@ -648,15 +648,11 @@
   <input type="optionlist" name="label-type">
    <option value="is">
     <title>is</title>
-    <code>
-       (match-all (or (= (user-tag "label") ${versus}) (user-flag (+ "$Label" ${versus})) (user-flag ${versus})))
-    </code>
+    <code func="e_mail_labels_get_filter_code"/>
    </option>
    <option value="is-not">
     <title>is not</title>
-    <code>
-       (match-all (not (or (= (user-tag "label") ${versus}) (user-flag (+ "$Label" ${versus})) (user-flag ${versus}))))
-    </code>
+    <code func="e_mail_labels_get_filter_code"/>
    </option>
   </input>
   <input type="optionlist" name="versus">
@@ -947,7 +943,7 @@
   <title>Set Label</title>
   <code>(set-label ${label})</code>
   <input type="optionlist" name="label">
-     <dynamic func="e_mail_labels_get_filter_options"/>
+     <dynamic func="e_mail_labels_get_filter_options_without_none"/>
   </input>
  </part>
  <part name="colour">
