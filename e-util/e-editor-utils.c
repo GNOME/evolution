@@ -37,3 +37,27 @@ e_editor_dom_node_get_parent_element (WebKitDOMNode *node,
 
 	return NULL;
 }
+
+WebKitDOMElement *
+e_editor_dom_node_find_child_element (WebKitDOMNode *node,
+				      GType child_type)
+{
+	WebKitDOMElement *link;
+	WebKitDOMNode *start_node = node;
+
+	do {
+		if (G_TYPE_CHECK_INSTANCE_TYPE (node, child_type)) {
+			return WEBKIT_DOM_ELEMENT (node);
+		}
+
+		if (webkit_dom_node_has_child_nodes (node)) {
+			node = webkit_dom_node_get_first_child (node);
+		} else if (webkit_dom_node_get_next_sibling (node)) {
+			node = webkit_dom_node_get_next_sibling (node);
+		} else {
+			node = webkit_dom_node_get_parent_node (node);
+		}
+	} while (!webkit_dom_node_is_same_node (node, start_node));
+
+	return NULL;
+}

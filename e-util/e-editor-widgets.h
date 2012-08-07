@@ -87,16 +87,6 @@
 #define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_Y_PADDING_SPIN_BUTTON(editor) \
 	E_EDITOR_WIDGETS ((editor), "image-properties-y-padding-spin-button")
 
-/* Link Properties Window */
-#define E_EDITOR_WIDGETS_LINK_PROPERTIES_DESCRIPTION_ENTRY(editor) \
-	E_EDITOR_WIDGETS ((editor), "link-properties-description-entry")
-#define E_EDITOR_WIDGETS_LINK_PROPERTIES_TEST_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "link-properties-test-button")
-#define E_EDITOR_WIDGETS_LINK_PROPERTIES_URL_ENTRY(editor) \
-	E_EDITOR_WIDGETS ((editor), "link-properties-url-entry")
-#define E_EDITOR_WIDGETS_LINK_PROPERTIES_WINDOW(editor) \
-	E_EDITOR_WIDGETS ((editor), "link-properties-window")
-
 /* Page Properties Window */
 #define E_EDITOR_WIDGETS_PAGE_PROPERTIES_BACKGROUND_COLOR_COMBO(editor) \
 	E_EDITOR_WIDGETS ((editor), "page-properties-background-color-combo")
@@ -122,20 +112,6 @@
 	E_EDITOR_WIDGETS ((editor), "paragraph-properties-style-combo-box")
 #define E_EDITOR_WIDGETS_PARAGRAPH_PROPERTIES_WINDOW(editor) \
 	E_EDITOR_WIDGETS ((editor), "paragraph-properties-window")
-
-/* Rule Properties Window */
-#define E_EDITOR_WIDGETS_RULE_PROPERTIES_ALIGNMENT_COMBO_BOX(editor) \
-	E_EDITOR_WIDGETS ((editor), "rule-properties-alignment-combo-box")
-#define E_EDITOR_WIDGETS_RULE_PROPERTIES_SHADED_CHECK_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "rule-properties-shaded-check-button")
-#define E_EDITOR_WIDGETS_RULE_PROPERTIES_SIZE_SPIN_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "rule-properties-size-spin-button")
-#define E_EDITOR_WIDGETS_RULE_PROPERTIES_WIDTH_COMBO_BOX(editor) \
-	E_EDITOR_WIDGETS ((editor), "rule-properties-width-combo-box")
-#define E_EDITOR_WIDGETS_RULE_PROPERTIES_WIDTH_SPIN_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "rule-properties-width-spin-button")
-#define E_EDITOR_WIDGETS_RULE_PROPERTIES_WINDOW(editor) \
-	E_EDITOR_WIDGETS ((editor), "rule-properties-window")
 
 /* Spell Check Window */
 #define E_EDITOR_WIDGETS_SPELL_WINDOW(editor) \
