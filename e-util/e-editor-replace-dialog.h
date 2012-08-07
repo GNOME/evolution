@@ -23,8 +23,7 @@
 #ifndef E_EDITOR_REPLACE_DIALOG_H
 #define E_EDITOR_REPLACE_DIALOG_H
 
-#include <gtk/gtk.h>
-#include <e-util/e-editor.h>
+#include <e-util/e-editor-dialog.h>
 
 /* Standard GObject macros */
 #define E_TYPE_EDITOR_REPLACE_DIALOG \
@@ -52,13 +51,13 @@ typedef struct _EEditorReplaceDialogClass EEditorReplaceDialogClass;
 typedef struct _EEditorReplaceDialogPrivate EEditorReplaceDialogPrivate;
 
 struct _EEditorReplaceDialog {
-	GtkWindow parent;
+	EEditorDialog parent;
 
 	EEditorReplaceDialogPrivate *priv;
 };
 
 struct _EEditorReplaceDialogClass {
-	GtkWindowClass parent_class;
+	EEditorDialogClass parent_class;
 };
 
 GType		e_editor_replace_dialog_get_type	(void);

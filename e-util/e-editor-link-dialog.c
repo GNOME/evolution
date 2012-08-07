@@ -1,5 +1,5 @@
 /*
- * e-editor-url-properties-dialog.h
+ * e-editor-link-dialog.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,20 +20,18 @@
 #include <config.h>
 #endif
 
-#include "e-editor-url-properties-dialog.h"
+#include "e-editor-link-dialog.h"
 #include "e-editor-selection.h"
 #include "e-editor-utils.h"
 
 #include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (
-	EEditorUrlPropertiesDialog,
-	e_editor_url_properties_dialog,
-	GTK_TYPE_WINDOW);
+	EEditorLinkDialog,
+	e_editor_link_dialog,
+	E_TYPE_EDITOR_DIALOG);
 
-struct _EEditorUrlPropertiesDialogPrivate {
-	EEditor *editor;
-
+struct _EEditorLinkDialogPrivate {
 	GtkWidget *url_edit;
 	GtkWidget *label_edit;
 	GtkWidget *test_button;
@@ -41,11 +39,6 @@ struct _EEditorUrlPropertiesDialogPrivate {
 	GtkWidget *remove_link_button;
 	GtkWidget *close_button;
 	GtkWidget *ok_button;
-};
-
-enum {
-	PROP_0,
-	PROP_EDITOR
 };
 
 static WebKitDOMElement *
@@ -90,7 +83,7 @@ find_anchor_element (WebKitDOMRange *range)
 
 
 static void
-editor_url_properties_dialog_test_url (EEditorUrlPropertiesDialog *dialog)
+editor_link_dialog_test_link (EEditorLinkDialog *dialog)
 {
 	gtk_show_uri (
 		gtk_window_get_screen (GTK_WINDOW (dialog)),
@@ -100,27 +93,30 @@ editor_url_properties_dialog_test_url (EEditorUrlPropertiesDialog *dialog)
 }
 
 static void
-editor_url_properties_dialog_close (EEditorUrlPropertiesDialog *dialog)
+editor_link_dialog_close (EEditorLinkDialog *dialog)
 {
 	gtk_widget_hide (GTK_WIDGET (dialog));
 }
 
 static void
-editor_url_properties_dialog_remove_link (EEditorUrlPropertiesDialog *dialog)
+editor_link_dialog_remove_link (EEditorLinkDialog *dialog)
 {
-	EEditorSelection *selection;
+	EEditor *editor;
 	EEditorWidget *widget;
+	EEditorSelection *selection;
 
-	widget = e_editor_get_editor_widget (dialog->priv->editor);
+	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	widget = e_editor_get_editor_widget (editor);
 	selection = e_editor_widget_get_selection (widget);
 	e_editor_selection_unlink (selection);
 
-	editor_url_properties_dialog_close (dialog);
+	editor_link_dialog_close (dialog);
 }
 
 static void
-editor_url_properties_dialog_ok (EEditorUrlPropertiesDialog *dialog)
+editor_link_dialog_ok (EEditorLinkDialog *dialog)
 {
+	EEditor *editor;
 	EEditorWidget *widget;
 	EEditorSelection *selection;
 	WebKitDOMDocument *document;
@@ -129,7 +125,8 @@ editor_url_properties_dialog_ok (EEditorUrlPropertiesDialog *dialog)
 	WebKitDOMRange *range;
 	WebKitDOMElement *link;
 
-	widget = e_editor_get_editor_widget (dialog->priv->editor);
+	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	widget = e_editor_get_editor_widget (editor);
 	selection = e_editor_widget_get_selection (widget);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
@@ -176,22 +173,24 @@ editor_url_properties_dialog_ok (EEditorUrlPropertiesDialog *dialog)
 		g_free (text);
 	}
 
-	editor_url_properties_dialog_close (dialog);
+	editor_link_dialog_close (dialog);
 }
 
 static void
-editor_url_properties_dialog_show (GtkWidget *widget)
+editor_link_dialog_show (GtkWidget *widget)
 {
-	EEditorUrlPropertiesDialog *dialog;
+	EEditor *editor;
 	EEditorWidget *editor_widget;
+	EEditorLinkDialog *dialog;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 	WebKitDOMElement *link;
 
-	dialog = E_EDITOR_URL_PROPERTIES_DIALOG (widget);
-	editor_widget = e_editor_get_editor_widget (dialog->priv->editor);
+	dialog = E_EDITOR_LINK_DIALOG (widget);
+	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor_widget = e_editor_get_editor_widget (editor);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 	window = webkit_dom_document_get_default_view (document);
@@ -246,75 +245,31 @@ editor_url_properties_dialog_show (GtkWidget *widget)
 
  chainup:
 	/* Chain up to parent implementation */
-	GTK_WIDGET_CLASS (e_editor_url_properties_dialog_parent_class)->show (widget);
+	GTK_WIDGET_CLASS (e_editor_link_dialog_parent_class)->show (widget);
 }
 
 static void
-editor_url_properties_dialog_set_property (GObject *object,
-					   guint property_id,
-					   const GValue *value,
-					   GParamSpec *pspec)
+e_editor_link_dialog_class_init (EEditorLinkDialogClass *klass)
 {
-	switch (property_id) {
-		case PROP_EDITOR:
-			E_EDITOR_URL_PROPERTIES_DIALOG (object)->priv->editor =
-				g_object_ref (g_value_get_object (value));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-editor_url_properties_dialog_finalize (GObject *object)
-{
-	EEditorUrlPropertiesDialogPrivate *priv;
-	priv = E_EDITOR_URL_PROPERTIES_DIALOG (object)->priv;
-
-	g_clear_object (&priv->editor);
-
-	/* Chain up to parent implementation */
-	G_OBJECT_CLASS (e_editor_url_properties_dialog_parent_class)->finalize (object);
-}
-
-static void
-e_editor_url_properties_dialog_class_init (EEditorUrlPropertiesDialogClass *klass)
-{
-	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	e_editor_url_properties_dialog_parent_class  = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (EEditorUrlPropertiesDialogPrivate));
-
+	e_editor_link_dialog_parent_class  = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (EEditorLinkDialogPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (klass);
-	widget_class->show = editor_url_properties_dialog_show;
-
-	object_class = G_OBJECT_CLASS (klass);
-	object_class->set_property = editor_url_properties_dialog_set_property;
-	object_class->finalize = editor_url_properties_dialog_finalize;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_EDITOR,
-		g_param_spec_object (
-			"editor",
-		        NULL,
-		        NULL,
-		        E_TYPE_EDITOR,
-		        G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+	widget_class->show = editor_link_dialog_show;
 }
 
 static void
-e_editor_url_properties_dialog_init (EEditorUrlPropertiesDialog *dialog)
+e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 {
 	GtkGrid *main_layout;
 	GtkBox *button_box;
 	GtkWidget *widget;
 
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-				dialog, E_TYPE_EDITOR_URL_PROPERTIES_DIALOG,
-				EEditorUrlPropertiesDialogPrivate);
+				dialog, E_TYPE_EDITOR_LINK_DIALOG,
+				EEditorLinkDialogPrivate);
 
 	main_layout = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (main_layout, 10);
@@ -326,15 +281,15 @@ e_editor_url_properties_dialog_init (EEditorUrlPropertiesDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 1, 0, 1, 1);
 	dialog->priv->url_edit = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("URL:"));
+	widget = gtk_label_new_with_mnemonic (_("LINK:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->url_edit);
 	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
-	widget = gtk_button_new_with_label (_("Test URL..."));
+	widget = gtk_button_new_with_label (_("Test LINK..."));
 	gtk_grid_attach (main_layout, widget, 2, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_url_properties_dialog_test_url), dialog);
+		G_CALLBACK (editor_link_dialog_test_link), dialog);
 	dialog->priv->test_button = widget;
 
 	widget = gtk_entry_new ();
@@ -353,21 +308,21 @@ e_editor_url_properties_dialog_init (EEditorUrlPropertiesDialog *dialog)
 	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_url_properties_dialog_close), dialog);
+		G_CALLBACK (editor_link_dialog_close), dialog);
 	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
 	dialog->priv->close_button = widget;
 
 	widget = gtk_button_new_with_label (_("Remove Link"));
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_url_properties_dialog_remove_link), dialog);
+		G_CALLBACK (editor_link_dialog_remove_link), dialog);
 	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
 	dialog->priv->remove_link_button = widget;
 
 	widget = gtk_button_new_from_stock (GTK_STOCK_OK);
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_url_properties_dialog_ok), dialog);
+		G_CALLBACK (editor_link_dialog_ok), dialog);
 	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
 	dialog->priv->ok_button = widget;
 
@@ -375,19 +330,13 @@ e_editor_url_properties_dialog_init (EEditorUrlPropertiesDialog *dialog)
 }
 
 GtkWidget *
-e_editor_url_properties_dialog_new (EEditor *editor)
+e_editor_link_dialog_new (EEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (
-			E_TYPE_EDITOR_URL_PROPERTIES_DIALOG,
-			"destroy-with-parent", TRUE,
-			"events", GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK,
+			E_TYPE_EDITOR_LINK_DIALOG,
 			"editor", editor,
 			"icon-name", "insert-link",
-			"resizable", FALSE,
 			"title", N_("Link Properties"),
-			"transient-for", gtk_widget_get_toplevel (GTK_WIDGET (editor)),
-			"type", GTK_WINDOW_TOPLEVEL,
-			"window-position", GTK_WIN_POS_CENTER_ON_PARENT,
 			NULL));
 }
