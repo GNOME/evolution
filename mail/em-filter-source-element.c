@@ -28,6 +28,8 @@
 #include <string.h>
 
 #include "em-filter-source-element.h"
+#include "e-mail-account-store.h"
+#include "e-mail-ui-session.h"
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
@@ -249,62 +251,120 @@ filter_source_element_clone (EFilterElement *fe)
 	return (EFilterElement *) cpy;
 }
 
+static void
+filter_source_element_add_to_combo (GtkComboBox *combo_box,
+				    CamelService *service,
+				    ESourceRegistry *registry)
+{
+	ESource *source;
+	ESourceMailIdentity *extension;
+	const gchar *extension_name;
+	const gchar *display_name;
+	const gchar *address;
+	const gchar *name;
+	const gchar *uid;
+	gchar *label;
+
+	source = e_source_registry_ref_source (registry,
+		camel_service_get_uid (service));
+	if (!source)
+		return;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	if (e_source_has_extension (source, extension_name)) {
+		ESource *identity_source;
+		ESourceMailAccount *mail_account;
+
+		mail_account = e_source_get_extension (source, extension_name);
+		uid = e_source_mail_account_get_identity_uid (mail_account);
+
+		if (!uid || !*uid) {
+			g_object_unref (source);
+			return;
+		}
+
+		identity_source = e_source_registry_ref_source (registry, uid);
+		g_object_unref (source);
+		source = identity_source;
+
+		if (!source)
+			return;
+	}
+
+	/* use UID of the service, because that's the one used in camel-filter-driver */
+	uid = camel_service_get_uid (service);
+	display_name = e_source_get_display_name (source);
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	if (!e_source_has_extension (source, extension_name)) {
+		g_object_unref (source);
+		return;
+	}
+
+	extension = e_source_get_extension (source, extension_name);
+
+	name = e_source_mail_identity_get_name (extension);
+	address = e_source_mail_identity_get_address (extension);
+
+	if (name == NULL || address == NULL) {
+		if (name == NULL && address == NULL)
+			label = g_strdup (display_name);
+		else
+			label = g_strdup_printf ("%s (%s)", name ? name : address, display_name);
+			
+	} else if (g_strcmp0 (display_name, address) == 0)
+		label = g_strdup_printf ("%s <%s>", name, address);
+	else
+		label = g_strdup_printf ("%s <%s> (%s)", name, address, display_name);
+
+	gtk_combo_box_text_append (
+		GTK_COMBO_BOX_TEXT (combo_box), uid, label);
+
+	g_free (label);
+	g_object_unref (source);
+}
+
 static GtkWidget *
 filter_source_element_get_widget (EFilterElement *fe)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *) fe;
 	EMailSession *session;
 	ESourceRegistry *registry;
-	GList *list, *link;
+	EMailAccountStore *account_store;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
 	GtkWidget *widget;
 	GtkComboBox *combo_box;
-	const gchar *extension_name;
 
 	widget = gtk_combo_box_text_new ();
 	combo_box = GTK_COMBO_BOX (widget);
 
 	session = em_filter_source_element_get_session (fs);
 	registry = e_mail_session_get_registry (session);
+	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
-	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
-	list = e_source_registry_list_sources (registry, extension_name);
+	model = GTK_TREE_MODEL (account_store);
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		CamelService *service;
 
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ESource *source = E_SOURCE (link->data);
-		ESourceMailIdentity *extension;
-		const gchar *display_name;
-		const gchar *address;
-		const gchar *name;
-		const gchar *uid;
-		gchar *label;
+		do {
+			gboolean enabled = FALSE, builtin = TRUE;
 
-		uid = e_source_get_uid (source);
-		display_name = e_source_get_display_name (source);
+			service = NULL;
 
-		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
-		extension = e_source_get_extension (source, extension_name);
+			gtk_tree_model_get (model, &iter,
+				E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE, &service,
+				E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED, &enabled,
+				E_MAIL_ACCOUNT_STORE_COLUMN_BUILTIN, &builtin,
+				-1);
 
-		name = e_source_mail_identity_get_name (extension);
-		address = e_source_mail_identity_get_address (extension);
+			if (CAMEL_IS_STORE (service) && enabled && !builtin)
+				filter_source_element_add_to_combo (combo_box, service, registry);
 
-		if (name == NULL || address == NULL)
-			continue;
-
-		if (g_strcmp0 (display_name, address) == 0)
-			label = g_strdup_printf (
-				"%s <%s>", name, address);
-		else
-			label = g_strdup_printf (
-				"%s <%s> (%s)", name,
-				address, display_name);
-
-		gtk_combo_box_text_append (
-			GTK_COMBO_BOX_TEXT (combo_box), uid, label);
-
-		g_free (label);
+			if (service)
+				g_object_unref (service);
+		} while (gtk_tree_model_iter_next (model, &iter));
 	}
-
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	if (fs->priv->active_id != NULL) {
 		gtk_combo_box_set_active_id (combo_box, fs->priv->active_id);
