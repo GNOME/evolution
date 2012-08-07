@@ -1,8 +1,6 @@
 /*
  * e-editor-link-dialog.h
  *
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -25,13 +23,8 @@
 #include "e-editor-link-dialog.h"
 #include "e-editor-selection.h"
 #include "e-editor-utils.h"
-#include "e-editor-widget.h"
 
 #include <glib/gi18n-lib.h>
-
-#define E_EDITOR_LINK_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_LINK_DIALOG, EEditorLinkDialogPrivate))
 
 G_DEFINE_TYPE (
 	EEditorLinkDialog,
@@ -44,10 +37,50 @@ struct _EEditorLinkDialogPrivate {
 	GtkWidget *test_button;
 
 	GtkWidget *remove_link_button;
+	GtkWidget *close_button;
 	GtkWidget *ok_button;
-
-	gboolean label_autofill;
 };
+
+static WebKitDOMElement *
+find_anchor_element (WebKitDOMRange *range)
+{
+	WebKitDOMElement *link;
+	WebKitDOMNode *node;
+
+	node = webkit_dom_range_get_start_container (range, NULL);
+
+	/* Try to find if the selection is within a link */
+	link = NULL;
+	link = e_editor_dom_node_get_parent_element (
+			node, WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
+
+	/* ...or if there is a link within selection */
+	if (!link) {
+		WebKitDOMNode *start_node = node;
+		gboolean found = FALSE;
+		do {
+			if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
+				found = TRUE;
+				break;
+			}
+
+			if (webkit_dom_node_has_child_nodes (node)) {
+				node = webkit_dom_node_get_first_child (node);
+			} else if (webkit_dom_node_get_next_sibling (node)) {
+				node = webkit_dom_node_get_next_sibling (node);
+			} else {
+				node = webkit_dom_node_get_parent_node (node);
+			}
+		} while (!webkit_dom_node_is_same_node (node, start_node));
+
+		if (found) {
+			link = WEBKIT_DOM_ELEMENT (node);
+		}
+	}
+
+	return link;
+}
+
 
 static void
 editor_link_dialog_test_link (EEditorLinkDialog *dialog)
@@ -60,28 +93,9 @@ editor_link_dialog_test_link (EEditorLinkDialog *dialog)
 }
 
 static void
-editor_link_dialog_url_changed (EEditorLinkDialog *dialog)
+editor_link_dialog_close (EEditorLinkDialog *dialog)
 {
-	if (dialog->priv->label_autofill &&
-	    gtk_widget_is_sensitive (dialog->priv->label_edit)) {
-		const gchar *text;
-
-		text = gtk_entry_get_text (
-			GTK_ENTRY (dialog->priv->url_edit));
-		gtk_entry_set_text (
-			GTK_ENTRY (dialog->priv->label_edit), text);
-	}
-}
-
-static gboolean
-editor_link_dialog_description_changed (EEditorLinkDialog *dialog)
-{
-	const gchar *text;
-
-	text = gtk_entry_get_text (GTK_ENTRY (dialog->priv->label_edit));
-	dialog->priv->label_autofill = (*text == '\0');
-
-	return FALSE;
+	gtk_widget_hide (GTK_WIDGET (dialog));
 }
 
 static void
@@ -96,7 +110,7 @@ editor_link_dialog_remove_link (EEditorLinkDialog *dialog)
 	selection = e_editor_widget_get_selection (widget);
 	e_editor_selection_unlink (selection);
 
-	gtk_widget_hide (GTK_WIDGET (dialog));
+	editor_link_dialog_close (dialog);
 }
 
 static void
@@ -121,49 +135,16 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 
 	if (!dom_selection ||
 	    (webkit_dom_dom_selection_get_range_count (dom_selection) == 0)) {
-		gtk_widget_hide (GTK_WIDGET (dialog));
 		return;
 	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	link = e_editor_dom_node_find_parent_element (
-			webkit_dom_range_get_start_container (range, NULL), "A");
-	if (!link) {
-		if ((webkit_dom_range_get_start_container (range, NULL) !=
-			webkit_dom_range_get_end_container (range, NULL)) ||
-		    (webkit_dom_range_get_start_offset (range, NULL) !=
-			webkit_dom_range_get_end_offset (range, NULL))) {
-
-			WebKitDOMDocumentFragment *fragment;
-			fragment = webkit_dom_range_extract_contents (range, NULL);
-			link = e_editor_dom_node_find_child_element (
-				WEBKIT_DOM_NODE (fragment), "A");
-			webkit_dom_range_insert_node (
-				range, WEBKIT_DOM_NODE (fragment), NULL);
-
-			webkit_dom_dom_selection_set_base_and_extent (
-				dom_selection,
-				webkit_dom_range_get_start_container (range, NULL),
-				webkit_dom_range_get_start_offset (range, NULL),
-				webkit_dom_range_get_end_container (range, NULL),
-				webkit_dom_range_get_end_offset (range, NULL),
-				NULL);
-		} else {
-			/* get element that was clicked on */
-			link = e_editor_widget_get_element_under_mouse_click (widget);
-			if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
-				link = NULL;
-		}
-	}
+	link = find_anchor_element (range);
 
 	if (link) {
 		webkit_dom_html_anchor_element_set_href (
 			WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link),
 			gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit)));
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (link),
-			gtk_entry_get_text (GTK_ENTRY (dialog->priv->label_edit)),
-			NULL);
 	} else {
 		gchar *text;
 
@@ -182,8 +163,8 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 				gtk_entry_get_text (
 					GTK_ENTRY (dialog->priv->label_edit)));
 
-			e_editor_widget_exec_command (
-				widget, E_EDITOR_WIDGET_COMMAND_INSERT_HTML, html);
+			webkit_dom_document_exec_command (
+				document, "insertHTML", FALSE, html);
 
 			g_free (html);
 
@@ -192,21 +173,7 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 		g_free (text);
 	}
 
-	gtk_widget_hide (GTK_WIDGET (dialog));
-}
-
-static gboolean
-editor_link_dialog_entry_key_pressed (EEditorLinkDialog *dialog,
-                                      GdkEventKey *event)
-{
-	/* We can't do thins in key_released, because then you could not open
-	 * this dialog from main menu by pressing enter on Insert->Link action */
-	if (event->keyval == GDK_KEY_Return) {
-		editor_link_dialog_ok (dialog);
-		return TRUE;
-	}
-
-	return FALSE;
+	editor_link_dialog_close (dialog);
 }
 
 static void
@@ -234,35 +201,16 @@ editor_link_dialog_show (GtkWidget *widget)
 	gtk_entry_set_text (GTK_ENTRY (dialog->priv->label_edit), "");
 	gtk_widget_set_sensitive (dialog->priv->label_edit, TRUE);
 	gtk_widget_set_sensitive (dialog->priv->remove_link_button, TRUE);
-	dialog->priv->label_autofill = TRUE;
 
 	/* No selection at all */
 	if (!dom_selection ||
 	    webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
-		gtk_widget_set_sensitive (dialog->priv->remove_link_button, FALSE);
+
 		goto chainup;
 	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	link = e_editor_dom_node_find_parent_element (
-		webkit_dom_range_get_start_container (range, NULL), "A");
-	if (!link) {
-		if ((webkit_dom_range_get_start_container (range, NULL) !=
-			webkit_dom_range_get_end_container (range, NULL)) ||
-		    (webkit_dom_range_get_start_offset (range, NULL) !=
-			webkit_dom_range_get_end_offset (range, NULL))) {
-
-			WebKitDOMDocumentFragment *fragment;
-			fragment = webkit_dom_range_clone_contents (range, NULL);
-			link = e_editor_dom_node_find_child_element (
-					WEBKIT_DOM_NODE (fragment), "A");
-		} else {
-			/* get element that was clicked on */
-			link = e_editor_widget_get_element_under_mouse_click (editor_widget);
-			if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
-				link = NULL;
-		}
-	}
+	link = find_anchor_element (range);
 
 	if (link) {
 		gchar *href, *text;
@@ -276,6 +224,7 @@ editor_link_dialog_show (GtkWidget *widget)
 			GTK_ENTRY (dialog->priv->url_edit), href);
 		gtk_entry_set_text (
 			GTK_ENTRY (dialog->priv->label_edit), text);
+		gtk_widget_set_sensitive (dialog->priv->label_edit, FALSE);
 
 		g_free (text);
 		g_free (href);
@@ -300,13 +249,14 @@ editor_link_dialog_show (GtkWidget *widget)
 }
 
 static void
-e_editor_link_dialog_class_init (EEditorLinkDialogClass *class)
+e_editor_link_dialog_class_init (EEditorLinkDialogClass *klass)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EEditorLinkDialogPrivate));
+	e_editor_link_dialog_parent_class  = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (EEditorLinkDialogPrivate));
 
-	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->show = editor_link_dialog_show;
 }
 
@@ -317,26 +267,25 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 	GtkBox *button_box;
 	GtkWidget *widget;
 
-	dialog->priv = E_EDITOR_LINK_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+				dialog, E_TYPE_EDITOR_LINK_DIALOG,
+				EEditorLinkDialogPrivate);
 
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+	main_layout = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_row_spacing (main_layout, 10);
+	gtk_grid_set_column_spacing (main_layout, 10);
+	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
 
 	widget = gtk_entry_new ();
 	gtk_grid_attach (main_layout, widget, 1, 0, 1, 1);
-	g_signal_connect_swapped (
-		widget, "notify::text",
-		G_CALLBACK (editor_link_dialog_url_changed), dialog);
-	g_signal_connect_swapped (
-		widget, "key-press-event",
-		G_CALLBACK (editor_link_dialog_entry_key_pressed), dialog);
 	dialog->priv->url_edit = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("_URL:"));
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+	widget = gtk_label_new_with_mnemonic (_("LINK:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->url_edit);
 	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
-	widget = gtk_button_new_with_mnemonic (_("_Test URL..."));
+	widget = gtk_button_new_with_label (_("Test LINK..."));
 	gtk_grid_attach (main_layout, widget, 2, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "clicked",
@@ -345,22 +294,25 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 
 	widget = gtk_entry_new ();
 	gtk_grid_attach (main_layout, widget, 1, 1, 2, 1);
-	g_signal_connect_swapped (
-		widget, "key-release-event",
-		G_CALLBACK (editor_link_dialog_description_changed), dialog);
-	g_signal_connect_swapped (
-		widget, "key-press-event",
-		G_CALLBACK (editor_link_dialog_entry_key_pressed), dialog);
 	dialog->priv->label_edit = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("_Description:"));
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+	widget = gtk_label_new_with_mnemonic (_("Description:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->label_edit);
 	gtk_grid_attach (main_layout, widget, 0, 1, 1, 1);
 
-	button_box = e_editor_dialog_get_button_box (E_EDITOR_DIALOG (dialog));
+	button_box = GTK_BOX (gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL));
+	gtk_box_set_spacing (button_box, 5);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (button_box), GTK_BUTTONBOX_END);
+	gtk_grid_attach (main_layout, GTK_WIDGET (button_box), 0, 2, 3, 1);
 
-	widget = gtk_button_new_with_mnemonic (_("_Remove Link"));
+	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (editor_link_dialog_close), dialog);
+	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
+	dialog->priv->close_button = widget;
+
+	widget = gtk_button_new_with_label (_("Remove Link"));
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (editor_link_dialog_remove_link), dialog);
@@ -371,7 +323,7 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (editor_link_dialog_ok), dialog);
-	gtk_box_pack_end (button_box, widget, FALSE, FALSE, 5);
+	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
 	dialog->priv->ok_button = widget;
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));

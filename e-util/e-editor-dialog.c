@@ -1,8 +1,11 @@
 /*
  * e-editor-dialog.h
  *
+<<<<<<< HEAD
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
+=======
+>>>>>>> Refactor EEditorDialog... classes
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -24,6 +27,7 @@
 
 #include "e-editor-dialog.h"
 
+<<<<<<< HEAD
 #define E_EDITOR_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_EDITOR_DIALOG, EEditorDialogPrivate))
@@ -33,6 +37,15 @@ struct _EEditorDialogPrivate {
 
 	GtkBox *button_box;
 	GtkGrid *container;
+=======
+G_DEFINE_ABSTRACT_TYPE (
+	EEditorDialog,
+	e_editor_dialog,
+	GTK_TYPE_WINDOW);
+
+struct _EEditorDialogPrivate {
+	EEditor *editor;
+>>>>>>> Refactor EEditorDialog... classes
 };
 
 enum {
@@ -40,6 +53,7 @@ enum {
 	PROP_EDITOR,
 };
 
+<<<<<<< HEAD
 G_DEFINE_ABSTRACT_TYPE (
 	EEditorDialog,
 	e_editor_dialog,
@@ -51,11 +65,24 @@ editor_dialog_set_editor (EEditorDialog *dialog,
 {
 	dialog->priv->editor = g_object_ref (editor);
 
+=======
+static void
+editor_dialog_set_editor (EEditorDialog *dialog,
+			  EEditor *editor)
+{
+	dialog->priv->editor = g_object_ref (editor);
+
+	gtk_window_set_transient_for (
+		GTK_WINDOW (dialog),
+		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (editor))));
+
+>>>>>>> Refactor EEditorDialog... classes
 	g_object_notify (G_OBJECT (dialog), "editor");
 }
 
 static void
 editor_dialog_get_property (GObject *object,
+<<<<<<< HEAD
                             guint property_id,
                             GValue *value,
                             GParamSpec *pspec)
@@ -64,6 +91,15 @@ editor_dialog_get_property (GObject *object,
 		case PROP_EDITOR:
 			g_value_set_object (
 				value,
+=======
+			    guint property_id,
+			    GValue *value,
+			    GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_EDITOR:
+			g_value_set_object (value,
+>>>>>>> Refactor EEditorDialog... classes
 			e_editor_dialog_get_editor (E_EDITOR_DIALOG (object)));
 			return;
 	}
@@ -73,9 +109,15 @@ editor_dialog_get_property (GObject *object,
 
 static void
 editor_dialog_set_property (GObject *object,
+<<<<<<< HEAD
                             guint property_id,
                             const GValue *value,
                             GParamSpec *pspec)
+=======
+			    guint property_id,
+			    const GValue *value,
+			    GParamSpec *pspec)
+>>>>>>> Refactor EEditorDialog... classes
 {
 	switch (property_id) {
 		case PROP_EDITOR:
@@ -89,6 +131,7 @@ editor_dialog_set_property (GObject *object,
 }
 
 static void
+<<<<<<< HEAD
 editor_dialog_constructed (GObject *object)
 {
 	EEditorDialog *dialog = E_EDITOR_DIALOG (object);
@@ -121,6 +164,11 @@ editor_dialog_dispose (GObject *object)
 	EEditorDialogPrivate *priv;
 
 	priv = E_EDITOR_DIALOG_GET_PRIVATE (object);
+=======
+editor_dialog_dispose (GObject *object)
+{
+	EEditorDialogPrivate *priv = E_EDITOR_DIALOG (object)->priv;
+>>>>>>> Refactor EEditorDialog... classes
 
 	g_clear_object (&priv->editor);
 
@@ -129,6 +177,7 @@ editor_dialog_dispose (GObject *object)
 }
 
 static void
+<<<<<<< HEAD
 e_editor_dialog_class_init (EEditorDialogClass *class)
 {
 	GObjectClass *object_class;
@@ -144,21 +193,42 @@ e_editor_dialog_class_init (EEditorDialogClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_dialog_show;
+=======
+e_editor_dialog_class_init (EEditorDialogClass *klass)
+{
+	GObjectClass *object_class;
+
+	g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (EEditorDialogPrivate));
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->get_property = editor_dialog_get_property;
+	object_class->set_property = editor_dialog_set_property;
+	object_class->dispose = editor_dialog_dispose;
+>>>>>>> Refactor EEditorDialog... classes
 
 	g_object_class_install_property (
 		object_class,
 		PROP_EDITOR,
 		g_param_spec_object (
 			"editor",
+<<<<<<< HEAD
 			NULL,
 			NULL,
 			E_TYPE_EDITOR,
 			G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+=======
+		        NULL,
+		       	NULL,
+		        E_TYPE_EDITOR,
+		        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+>>>>>>> Refactor EEditorDialog... classes
 }
 
 static void
 e_editor_dialog_init (EEditorDialog *dialog)
 {
+<<<<<<< HEAD
 	GtkBox *main_layout;
 	GtkGrid *grid;
 	GtkWidget *widget, *button_box;
@@ -189,11 +259,18 @@ e_editor_dialog_init (EEditorDialog *dialog)
 	dialog->priv->button_box = GTK_BOX (button_box);
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
+=======
+	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		dialog, E_TYPE_EDITOR_DIALOG, EEditorDialogPrivate);
+>>>>>>> Refactor EEditorDialog... classes
 
 	g_object_set (
 		G_OBJECT (dialog),
 		"destroy-with-parent", TRUE,
+<<<<<<< HEAD
 		"modal", TRUE,
+=======
+>>>>>>> Refactor EEditorDialog... classes
 		"resizable", FALSE,
 		"type-hint", GDK_WINDOW_TYPE_HINT_POPUP_MENU,
 		"window-position", GTK_WIN_POS_CENTER_ON_PARENT,
@@ -205,6 +282,11 @@ e_editor_dialog_init (EEditorDialog *dialog)
 		G_CALLBACK (gtk_widget_hide_on_delete), NULL);
 }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> Refactor EEditorDialog... classes
 EEditor *
 e_editor_dialog_get_editor (EEditorDialog *dialog)
 {
@@ -212,6 +294,7 @@ e_editor_dialog_get_editor (EEditorDialog *dialog)
 
 	return dialog->priv->editor;
 }
+<<<<<<< HEAD
 
 GtkGrid *
 e_editor_dialog_get_container (EEditorDialog *dialog)
@@ -229,3 +312,5 @@ e_editor_dialog_get_button_box (EEditorDialog *dialog)
 	return dialog->priv->button_box;
 }
 
+=======
+>>>>>>> Refactor EEditorDialog... classes

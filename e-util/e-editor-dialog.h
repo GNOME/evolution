@@ -1,8 +1,11 @@
 /*
  * e-editor-dialog.h
  *
+<<<<<<< HEAD
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
+=======
+>>>>>>> Refactor EEditorDialog... classes
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -55,6 +58,10 @@ typedef struct _EEditorDialogPrivate EEditorDialogPrivate;
 
 struct _EEditorDialog {
 	GtkWindow parent;
+<<<<<<< HEAD
+=======
+
+>>>>>>> Refactor EEditorDialog... classes
 	EEditorDialogPrivate *priv;
 };
 
@@ -62,10 +69,16 @@ struct _EEditorDialogClass {
 	GtkWindowClass parent_class;
 };
 
+<<<<<<< HEAD
 GType		e_editor_dialog_get_type	(void) G_GNUC_CONST;
 EEditor *	e_editor_dialog_get_editor	(EEditorDialog *dialog);
 GtkBox *	e_editor_dialog_get_button_box	(EEditorDialog *dialog);
 GtkGrid *	e_editor_dialog_get_container	(EEditorDialog *dialog);
+=======
+GType		e_editor_dialog_get_type	(void);
+
+EEditor *	e_editor_dialog_get_editor	(EEditorDialog *dialog);
+>>>>>>> Refactor EEditorDialog... classes
 
 G_END_DECLS
 

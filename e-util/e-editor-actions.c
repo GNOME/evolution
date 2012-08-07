@@ -673,12 +673,12 @@ static void
 action_insert_link_cb (GtkAction *action,
                        EEditor *editor)
 {
-	if (editor->priv->url_properties_dialog == NULL) {
-		editor->priv->url_properties_dialog =
-			e_editor_url_properties_dialog_new (editor);
+	if (editor->priv->link_dialog == NULL) {
+		editor->priv->link_dialog =
+			e_editor_link_dialog_new (editor);
 	}
 
-	gtk_window_present (GTK_WINDOW (editor->priv->url_properties_dialog));
+	gtk_window_present (GTK_WINDOW (editor->priv->link_dialog));
 }
 
 static void
@@ -969,12 +969,12 @@ static void
 action_properties_link_cb (GtkAction *action,
                            EEditor *editor)
 {
-	if (editor->priv->url_properties_dialog == NULL) {
-		editor->priv->url_properties_dialog =
-			e_editor_url_properties_dialog_new (editor);
+	if (editor->priv->link_dialog == NULL) {
+		editor->priv->link_dialog =
+			e_editor_link_dialog_new (editor);
 	}
 
-	gtk_window_present (GTK_WINDOW (editor->priv->url_properties_dialog));
+	gtk_window_present (GTK_WINDOW (editor->priv->link_dialog));
 }
 
 static void

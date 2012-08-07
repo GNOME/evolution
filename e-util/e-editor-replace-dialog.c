@@ -1,11 +1,6 @@
 /*
  * e-editor-replace-dialog.h
  *
-<<<<<<< HEAD
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
-=======
->>>>>>> Port Replace dialog and it's functionality
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -29,21 +24,10 @@
 
 #include <glib/gi18n-lib.h>
 
-<<<<<<< HEAD
-#define E_EDITOR_REPLACE_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_REPLACE_DIALOG, EEditorReplaceDialogPrivate))
-
-G_DEFINE_TYPE (
-	EEditorReplaceDialog,
-	e_editor_replace_dialog,
-	E_TYPE_EDITOR_DIALOG);
-=======
 G_DEFINE_TYPE (
 	EEditorReplaceDialog,
 	e_editor_replace_dialog,
 	GTK_TYPE_WINDOW);
->>>>>>> Port Replace dialog and it's functionality
 
 struct _EEditorReplaceDialogPrivate {
 	GtkWidget *search_entry;
@@ -55,11 +39,6 @@ struct _EEditorReplaceDialogPrivate {
 
 	GtkWidget *result_label;
 
-<<<<<<< HEAD
-	GtkWidget *skip_button;
-	GtkWidget *replace_button;
-	GtkWidget *replace_all_button;
-=======
 	GtkWidget *close_button;
 	GtkWidget *skip_button;
 	GtkWidget *replace_button;
@@ -71,27 +50,16 @@ struct _EEditorReplaceDialogPrivate {
 enum {
 	PROP_0,
 	PROP_EDITOR
->>>>>>> Port Replace dialog and it's functionality
 };
 
 static gboolean
 jump (EEditorReplaceDialog *dialog)
 {
-<<<<<<< HEAD
-	EEditor *editor;
-	WebKitWebView *webview;
-	gboolean found;
-
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	webview = WEBKIT_WEB_VIEW (
-			e_editor_get_editor_widget (editor));
-=======
 	WebKitWebView *webview;
 	gboolean found;
 
 	webview = WEBKIT_WEB_VIEW (
 			e_editor_get_editor_widget (dialog->priv->editor));
->>>>>>> Port Replace dialog and it's functionality
 
 	found = webkit_web_view_search_text (
 		webview,
@@ -122,10 +90,6 @@ editor_replace_dialog_skip_cb (EEditorReplaceDialog *dialog)
 static void
 editor_replace_dialog_replace_cb (EEditorReplaceDialog *dialog)
 {
-<<<<<<< HEAD
-	EEditor *editor;
-=======
->>>>>>> Port Replace dialog and it's functionality
 	EEditorWidget *editor_widget;
 	EEditorSelection *selection;
 
@@ -140,12 +104,7 @@ editor_replace_dialog_replace_cb (EEditorReplaceDialog *dialog)
 		gtk_widget_hide (dialog->priv->result_label);
 	}
 
-<<<<<<< HEAD
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	editor_widget = e_editor_get_editor_widget (editor);
-=======
 	editor_widget = e_editor_get_editor_widget (dialog->priv->editor);
->>>>>>> Port Replace dialog and it's functionality
 	selection = e_editor_widget_get_selection (editor_widget);
 
 	e_editor_selection_replace (
@@ -158,32 +117,17 @@ editor_replace_dialog_replace_all_cb (EEditorReplaceDialog *dialog)
 {
 	gint i = 0;
 	gchar *result;
-<<<<<<< HEAD
-	EEditor *editor;
-=======
->>>>>>> Port Replace dialog and it's functionality
 	EEditorWidget *widget;
 	EEditorSelection *selection;
 	const gchar *replacement;
 
-<<<<<<< HEAD
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	widget = e_editor_get_editor_widget (editor);
-=======
 	widget = e_editor_get_editor_widget (dialog->priv->editor);
->>>>>>> Port Replace dialog and it's functionality
 	selection = e_editor_widget_get_selection (widget);
 	replacement = gtk_entry_get_text (GTK_ENTRY (dialog->priv->replace_entry));
 
 	while (jump (dialog)) {
 		e_editor_selection_replace (selection, replacement);
 		i++;
-<<<<<<< HEAD
-
-		/* Jump behind the word */
-		e_editor_selection_move (selection, TRUE, E_EDITOR_SELECTION_GRANULARITY_WORD);
-=======
->>>>>>> Port Replace dialog and it's functionality
 	}
 
 	result = g_strdup_printf (_("%d occurences replaced"), i);
@@ -193,15 +137,12 @@ editor_replace_dialog_replace_all_cb (EEditorReplaceDialog *dialog)
 }
 
 static void
-<<<<<<< HEAD
-=======
 editor_replace_dialog_close_cb (EEditorReplaceDialog *dialog)
 {
 	gtk_widget_hide (GTK_WIDGET (dialog));
 }
 
 static void
->>>>>>> Port Replace dialog and it's functionality
 editor_replace_dialog_entry_changed (EEditorReplaceDialog *dialog)
 {
 	gboolean ready;
@@ -228,16 +169,6 @@ editor_replace_dialog_show (GtkWidget *widget)
 }
 
 static void
-<<<<<<< HEAD
-e_editor_replace_dialog_class_init (EEditorReplaceDialogClass *class)
-{
-	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (EEditorReplaceDialogPrivate));
-
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = editor_replace_dialog_show;
-=======
 editor_replace_dialog_set_property (GObject *object,
 				    guint property_id,
 				    const GValue *value,
@@ -289,7 +220,6 @@ e_editor_replace_dialog_class_init (EEditorReplaceDialogClass *klass)
 		        NULL,
 		        E_TYPE_EDITOR,
 		        G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
->>>>>>> Port Replace dialog and it's functionality
 }
 
 static void
@@ -297,13 +227,6 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 {
 	GtkGrid *main_layout;
 	GtkWidget *widget, *layout;
-<<<<<<< HEAD
-	GtkBox *button_box;
-
-	dialog->priv = E_EDITOR_REPLACE_DIALOG_GET_PRIVATE (dialog);
-
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
-=======
 
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 				dialog, E_TYPE_EDITOR_REPLACE_DIALOG,
@@ -314,7 +237,6 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 	gtk_grid_set_column_spacing (main_layout, 10);
 	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
->>>>>>> Port Replace dialog and it's functionality
 
 	widget = gtk_entry_new ();
 	gtk_grid_attach (main_layout, widget, 1, 0, 2, 1);
@@ -340,11 +262,7 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_grid_attach (main_layout, widget, 0, 1, 1, 1);
 
-<<<<<<< HEAD
-	layout = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
-=======
 	layout = gtk_hbox_new (FALSE, 5);
->>>>>>> Port Replace dialog and it's functionality
 	gtk_grid_attach (main_layout, layout, 1, 2, 2, 1);
 
 	widget = gtk_check_button_new_with_mnemonic (_("Search _backwards"));
@@ -363,12 +281,6 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 0, 3, 2, 1);
 	dialog->priv->result_label = widget;
 
-<<<<<<< HEAD
-	button_box = e_editor_dialog_get_button_box (E_EDITOR_DIALOG (dialog));
-
-	widget = gtk_button_new_with_mnemonic (_("_Skip"));
-	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
-=======
 	layout = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_set_spacing (GTK_BOX (layout), 5);
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (layout), GTK_BUTTONBOX_START);
@@ -383,7 +295,6 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 
 	widget = gtk_button_new_with_mnemonic (_("_Skip"));
 	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, FALSE, 5);
->>>>>>> Port Replace dialog and it's functionality
 	gtk_widget_set_sensitive (widget, FALSE);
 	dialog->priv->skip_button = widget;
 	g_signal_connect_swapped (
@@ -391,11 +302,7 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 		G_CALLBACK (editor_replace_dialog_skip_cb), dialog);
 
 	widget = gtk_button_new_with_mnemonic (_("_Replace"));
-<<<<<<< HEAD
-	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
-=======
 	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, FALSE, 5);
->>>>>>> Port Replace dialog and it's functionality
 	gtk_widget_set_sensitive (widget, FALSE);
 	dialog->priv->replace_button = widget;
 	g_signal_connect_swapped (
@@ -403,11 +310,7 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 		G_CALLBACK (editor_replace_dialog_replace_cb), dialog);
 
 	widget = gtk_button_new_with_mnemonic (_("Replace _All"));
-<<<<<<< HEAD
-	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
-=======
 	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, FALSE, 5);
->>>>>>> Port Replace dialog and it's functionality
 	gtk_widget_set_sensitive (widget, FALSE);
 	dialog->priv->replace_all_button = widget;
 	g_signal_connect_swapped (
@@ -423,11 +326,6 @@ e_editor_replace_dialog_new (EEditor *editor)
 	return GTK_WIDGET (
 		g_object_new (
 			E_TYPE_EDITOR_REPLACE_DIALOG,
-<<<<<<< HEAD
-			"editor", editor,
-			"icon-name", GTK_STOCK_FIND_AND_REPLACE,
-			"title", N_("Replace"),
-=======
 			"destroy-with-parent", TRUE,
 			"events", GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK,
 			"editor", editor,
@@ -437,6 +335,5 @@ e_editor_replace_dialog_new (EEditor *editor)
 			"transient-for", gtk_widget_get_toplevel (GTK_WIDGET (editor)),
 			"type", GTK_WINDOW_TOPLEVEL,
 			"window-position", GTK_WIN_POS_CENTER_ON_PARENT,
->>>>>>> Port Replace dialog and it's functionality
 			NULL));
 }
