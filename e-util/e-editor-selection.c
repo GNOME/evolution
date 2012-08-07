@@ -22,6 +22,7 @@
 
 #include "e-editor-selection.h"
 #include "e-editor.h"
+#include "e-editor-utils.h"
 
 #include <e-util/e-util.h>
 
@@ -72,20 +73,6 @@ enum {
 };
 
 static const GdkRGBA black = { 0 };
-
-static WebKitDOMElement *
-find_parent_element_by_type (WebKitDOMNode *node, GType type)
-{
-	while (node) {
-
-		if (G_TYPE_CHECK_INSTANCE_TYPE (node, type))
-			return (WebKitDOMElement *) node;
-
-		node = (WebKitDOMNode *) webkit_dom_node_get_parent_element (node);
-	}
-
-	return NULL;
-}
 
 static WebKitDOMRange *
 editor_selection_get_current_range (EEditorSelection *selection)
@@ -164,7 +151,7 @@ get_font_property (EEditorSelection *selection,
 	}
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	element = find_parent_element_by_type (
+	element = e_editor_dom_node_get_parent_element (
 			node, WEBKIT_TYPE_DOM_HTML_FONT_ELEMENT);
 	if (!element) {
 		return NULL;
@@ -1231,6 +1218,31 @@ e_editor_selection_set_underline (EEditorSelection *selection,
 
 	g_object_notify (G_OBJECT (selection), "underline");
 }
+
+void
+e_editor_selection_unlink (EEditorSelection *selection)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, "unlink", FALSE, "");
+}
+
+void
+e_editor_selection_create_link (EEditorSelection *selection,
+				const gchar *uri)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (uri && *uri);
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, "createLink", FALSE, uri);
+}
+
 
 void
 e_editor_selection_insert_text (EEditorSelection *selection,
