@@ -174,7 +174,7 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 			continue;
 
 		/* Let us add a '...' if we have more addresses */
-		if (limit > 0 && (i == limit - 1)) {
+		if (limit > 0 && i == limit && a != NULL) {
 			const gchar *id = NULL;
 
 			if (strcmp (field, _("To")) == 0) {
