@@ -578,10 +578,19 @@ web_view_load_status_changed_cb (WebKitWebView *web_view,
                                  gpointer user_data)
 {
 	WebKitLoadStatus status;
+	GtkAllocation allocation, allocation_copy;
 
 	status = webkit_web_view_get_load_status (web_view);
 	if (status != WEBKIT_LOAD_FINISHED)
 		return;
+
+	/* Workaround webkit bug https://bugs.webkit.org/show_bug.cgi?id=89553 */
+	gtk_widget_get_allocation (GTK_WIDGET (web_view), &allocation_copy);
+	allocation = allocation_copy;
+	allocation.width -= 10;
+	allocation.height -= 10;
+	gtk_widget_size_allocate (GTK_WIDGET (web_view), &allocation);
+	gtk_widget_size_allocate (GTK_WIDGET (web_view), &allocation_copy);
 
 	web_view_update_document_highlights (E_WEB_VIEW (web_view));
 }
