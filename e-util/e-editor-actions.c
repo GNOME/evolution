@@ -673,8 +673,12 @@ static void
 action_insert_link_cb (GtkAction *action,
                        EEditor *editor)
 {
-	/* FIXME WEBKIT */
-	gtk_window_present (GTK_WINDOW (WIDGET (LINK_PROPERTIES_WINDOW)));
+	if (editor->priv->url_properties_dialog == NULL) {
+		editor->priv->url_properties_dialog =
+			e_editor_url_properties_dialog_new (editor);
+	}
+
+	gtk_window_present (GTK_WINDOW (editor->priv->url_properties_dialog));
 }
 
 static void
@@ -965,7 +969,12 @@ static void
 action_properties_link_cb (GtkAction *action,
                            EEditor *editor)
 {
-	gtk_window_present (GTK_WINDOW (WIDGET (LINK_PROPERTIES_WINDOW)));
+	if (editor->priv->url_properties_dialog == NULL) {
+		editor->priv->url_properties_dialog =
+			e_editor_url_properties_dialog_new (editor);
+	}
+
+	gtk_window_present (GTK_WINDOW (editor->priv->url_properties_dialog));
 }
 
 static void
@@ -1074,26 +1083,6 @@ action_spell_check_cb (GtkAction *action,
 {
 	/* FIXME WEBKIT
 	e_editor_widget_spell_check (editor);
-	*/
-}
-
-static void
-action_test_url_cb (GtkAction *action,
-                    EEditor *editor)
-{
-	/* FIXME WEBKIT What does this do? */
-	/*
-	GtkEntry *entry;
-	GtkWindow *window;
-	const gchar *text;
-
-	entry = GTK_ENTRY (WIDGET (LINK_PROPERTIES_URL_ENTRY));
-	window = GTK_WINDOW (WIDGET (LINK_PROPERTIES_WINDOW));
-
-	text = gtk_entry_get_text (entry);
-
-	if (text != NULL && *text != '\0')
-		gtkhtml_editor_show_uri (window, text);
 	*/
 }
 
@@ -1220,13 +1209,6 @@ static GtkActionEntry core_entries[] = {
 	  "F7",
 	  NULL,
 	  G_CALLBACK (action_spell_check_cb) },
-
-	{ "test-url",
-	  NULL,
-	  N_("_Test URL..."),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_test_url_cb) },
 
 	{ "undo",
 	  GTK_STOCK_UNDO,

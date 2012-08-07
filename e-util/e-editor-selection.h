@@ -179,6 +179,11 @@ void			e_editor_selection_set_underline
 gboolean		e_editor_selection_get_underline
 							(EEditorSelection *selection);
 
+void			e_editor_selection_unlink	(EEditorSelection *selection);
+
+void			e_editor_selection_create_link	(EEditorSelection *selection,
+							 const gchar *uri);
+
 const gchar *		e_editor_selection_get_string	(EEditorSelection *selection);
 
 void			e_editor_selection_replace	(EEditorSelection *selection,
