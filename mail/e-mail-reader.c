@@ -2943,15 +2943,21 @@ mail_reader_message_selected_cb (EMailReader *reader,
 	priv->restoring_message_selection = priv->folder_was_just_selected;
 	priv->folder_was_just_selected = FALSE;
 
-	/* Skip the timeout if we're restoring the previous message
-	 * selection.  The timeout is there for when we're scrolling
-	 * rapidly through the message list. */
-	if (priv->restoring_message_selection)
+	if (message_list_selected_count (message_list) != 1) {
+		EMailDisplay *display = e_mail_reader_get_mail_display (reader);
+
+		e_mail_display_set_parts_list (display, NULL);
+		e_web_view_clear (E_WEB_VIEW (display));
+	} else if (priv->restoring_message_selection) {
+		/* Skip the timeout if we're restoring the previous message
+		 * selection.  The timeout is there for when we're scrolling
+		 * rapidly through the message list. */
 		mail_reader_message_selected_timeout_cb (reader);
-	else
+	} else {
 		priv->message_selected_timeout_id = g_timeout_add (
 			100, (GSourceFunc)
 			mail_reader_message_selected_timeout_cb, reader);
+	}
 
 	e_mail_reader_changed (reader);
 }
