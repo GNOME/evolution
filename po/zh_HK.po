@@ -3,17 +3,16 @@
 # Joe Man <trmetal@yahoo.com.hk>, 2001.
 # Chao-Hsiung Liao <pesder.liao@msa.hinet.net>, 2003.
 # Craig Jeffares <cjeffares@novell.com>, 2004.
-# Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>, 2005, 2010.
+# Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>, 2005, 2010, 2012.
 # Abel Cheung <abelcheung@gmail.com>, 2006.
 # Wei-Lun Chao <chaoweilun@gmail.com>, 2010.
-#
 #: ../shell/main.c:568
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.3.91\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-02 10:14+0800\n"
-"PO-Revision-Date: 2012-08-02 10:14+0800\n"
+"POT-Creation-Date: 2012-08-07 13:22+0800\n"
+"PO-Revision-Date: 2012-08-07 13:22+0800\n"
 "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese (Hong Kong) <community@linuxhall.org>\n"
 "Language: zh_TW\n"
@@ -21,6 +20,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: gnome\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
@@ -84,156 +85,149 @@ msgid "Do _Not Delete"
 msgstr "不要刪除(_N)"
 
 #: ../addressbook/addressbook.error.xml.h:14
+msgid "Delete remote address book &quot;{0}&quot;?"
+msgstr "刪除遠端通訊錄 &quot;{0}&quot;？"
+
+#: ../addressbook/addressbook.error.xml.h:15
+msgid ""
+"This will permanently remove the address book &quot;{0}&quot; from the "
+"server. Are you sure you want to proceed?"
+msgstr "這樣會從伺服器永遠刪除通訊錄 &quot;{0}&quot;。你確定要繼續嗎？"
+
+#: ../addressbook/addressbook.error.xml.h:16
+#: ../calendar/calendar.error.xml.h:68
+msgid "_Delete From Server"
+msgstr "從伺服器刪除(_D)"
+
+#: ../addressbook/addressbook.error.xml.h:17
 msgid "Category editor not available."
 msgstr "分類編輯器無法使用。"
 
-#: ../addressbook/addressbook.error.xml.h:15
+#: ../addressbook/addressbook.error.xml.h:18
 msgid "Unable to open address book"
 msgstr "無法開啟通訊錄"
 
-#: ../addressbook/addressbook.error.xml.h:16
+#: ../addressbook/addressbook.error.xml.h:19
 msgid "Unable to perform search."
 msgstr "無法執行搜尋。"
 
-#: ../addressbook/addressbook.error.xml.h:17
+#: ../addressbook/addressbook.error.xml.h:20
 msgid "Would you like to save your changes?"
 msgstr "要儲存所做的更改？"
 
-#: ../addressbook/addressbook.error.xml.h:18
+#: ../addressbook/addressbook.error.xml.h:21
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
 msgstr "你已經修改此聯絡人。要儲存這些更改？"
 
-#: ../addressbook/addressbook.error.xml.h:19
+#: ../addressbook/addressbook.error.xml.h:22
 msgid "_Discard"
 msgstr "放棄(_D)"
 
-#: ../addressbook/addressbook.error.xml.h:20
+#: ../addressbook/addressbook.error.xml.h:23
 msgid "Cannot move contact."
 msgstr "無法移動聯絡人。"
 
-#: ../addressbook/addressbook.error.xml.h:21
+#: ../addressbook/addressbook.error.xml.h:24
 msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr "你正在嘗試從某一個通訊錄，將聯絡人移至另一個通訊錄，但是它無法從來源移除。你想要儲存一個副本來代替嗎？"
 
-#: ../addressbook/addressbook.error.xml.h:22
+#: ../addressbook/addressbook.error.xml.h:25
 msgid ""
 "The image you have selected is large. Do you want to resize and store it?"
 msgstr "你所選擇的圖片太大。你是否要改變大小後才儲存它？"
 
-#: ../addressbook/addressbook.error.xml.h:23
+#: ../addressbook/addressbook.error.xml.h:26
 msgid "_Resize"
 msgstr "調整大小(_R)"
 
-#: ../addressbook/addressbook.error.xml.h:24
+#: ../addressbook/addressbook.error.xml.h:27
 msgid "_Use as it is"
 msgstr "將它視為(_U)"
 
-#: ../addressbook/addressbook.error.xml.h:25
+#: ../addressbook/addressbook.error.xml.h:28
 msgid "_Do not save"
 msgstr "不要儲存(_D)"
 
-#: ../addressbook/addressbook.error.xml.h:26
+#: ../addressbook/addressbook.error.xml.h:29
 msgid "Unable to save {0}."
 msgstr "無法儲存 {0}。"
 
-#: ../addressbook/addressbook.error.xml.h:27
+#: ../addressbook/addressbook.error.xml.h:30
 msgid "Error saving {0} to {1}: {2}"
 msgstr "將 {0} 儲存至 {1} 發生錯誤： {2}"
 
-#: ../addressbook/addressbook.error.xml.h:28
+#: ../addressbook/addressbook.error.xml.h:31
 msgid "The Evolution address book has quit unexpectedly."
 msgstr "Evolution 通訊錄已經意外結束。"
 
 #. Translators: {0} is replaced with an address book name which will not be available
-#: ../addressbook/addressbook.error.xml.h:30
+#: ../addressbook/addressbook.error.xml.h:33
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr "重新啟動 Evolution 之前，無法使用 {0} 的聯絡人。"
 
-#: ../addressbook/addressbook.error.xml.h:31
+#: ../addressbook/addressbook.error.xml.h:34
 msgid "Address '{0}' already exists."
 msgstr "通訊錄「{0}」已存在"
 
-#: ../addressbook/addressbook.error.xml.h:32
+#: ../addressbook/addressbook.error.xml.h:35
 msgid ""
 "A contact already exists with this address. Would you like to add a new card "
 "with the same address anyway?"
 msgstr "此聯絡人的電子郵件地址已經存在。你無論如何都要加入同樣位址的新卡片嗎？"
 
-#: ../addressbook/addressbook.error.xml.h:33
+#: ../addressbook/addressbook.error.xml.h:36
 #: ../mail/em-vfolder-editor-rule.c:388 ../widgets/table/e-table-config.ui.h:6
 msgid "_Add"
 msgstr "加入(_A)"
 
-#: ../addressbook/addressbook.error.xml.h:34
+#: ../addressbook/addressbook.error.xml.h:37
 msgid "Some addresses already exist in this contact list."
 msgstr "有些位址已在這個聯絡人清單中。"
 
-#: ../addressbook/addressbook.error.xml.h:35
+#: ../addressbook/addressbook.error.xml.h:38
 msgid ""
 "You are trying to add addresses that are part of this list already. Would "
 "you like to add them anyway?"
 msgstr "你嘗試加入的位址已經是這個清單的一部分。要強制加入它們嗎？"
 
-#: ../addressbook/addressbook.error.xml.h:36
+#: ../addressbook/addressbook.error.xml.h:39
 msgid "Skip duplicates"
 msgstr "略過重複項目"
 
-#: ../addressbook/addressbook.error.xml.h:37
+#: ../addressbook/addressbook.error.xml.h:40
 msgid "Add with duplicates"
 msgstr "加入重複項目"
 
-#: ../addressbook/addressbook.error.xml.h:38
+#: ../addressbook/addressbook.error.xml.h:41
 msgid "List '{0}' is already in this contact list."
 msgstr "清單「{0}」已經在這個聯絡人清單中。"
 
-#: ../addressbook/addressbook.error.xml.h:39
+#: ../addressbook/addressbook.error.xml.h:42
 msgid ""
 "A contact list named '{0}' is already in this contact list. Would you like "
 "to add it anyway?"
 msgstr "以「{0}」為名的聯絡人清單已經存在這個聯絡人清單中。要強制加入它嗎？"
 
-#: ../addressbook/addressbook.error.xml.h:40
-msgid "Some features may not work properly with your current server"
-msgstr "某些功能可能無法在你目前的伺服器版本上正常運作"
-
-#: ../addressbook/addressbook.error.xml.h:41
-msgid ""
-"You are connecting to an unsupported GroupWise server and may encounter "
-"problems using Evolution. For best results the server should be upgraded to "
-"a supported version"
-msgstr "你正連線到不支援的 GroupWise 伺服器而且可能遇到使用 Evolution 的問題。最好的解決計劃是將該伺服器升級至支援的版太"
-
-#: ../addressbook/addressbook.error.xml.h:42
-msgid "GroupWise Address book creation:"
-msgstr "GroupWise 通訊錄的建立"
-
 #: ../addressbook/addressbook.error.xml.h:43
-msgid ""
-"Currently you can only access the GroupWise System Address Book from "
-"Evolution. Please use some other GroupWise mail client once to get your "
-"GroupWise Frequent Contacts and Groupwise Personal Contacts folders."
-msgstr "目前你只能存取 Evolution 中的 GroupWise 系統通訊錄。請使用一次其他的 GroupWise 郵件客戶端，以取得你的 GroupWise 常用聯絡人及 Groupwise 個人聯絡人資料夾。"
-
-#: ../addressbook/addressbook.error.xml.h:44
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1264
 msgid "Failed to delete contact"
 msgstr "刪除聯絡人失敗"
 
-#: ../addressbook/addressbook.error.xml.h:45
+#: ../addressbook/addressbook.error.xml.h:44
 msgid "You do not have permission to delete contacts in this address book."
 msgstr "你沒有足夠的權限刪除這個通訊錄中的聯絡人。"
 
-#: ../addressbook/addressbook.error.xml.h:46
+#: ../addressbook/addressbook.error.xml.h:45
 msgid "Cannot add new contact"
 msgstr "不能加入新的聯絡人"
 
 #. For Translators: {0} is the name of the address book source
-#: ../addressbook/addressbook.error.xml.h:48
+#: ../addressbook/addressbook.error.xml.h:47
 msgid ""
 "'{0}' is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
@@ -280,7 +274,7 @@ msgstr "可接受 H_TML 郵件"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:9
 #: ../addressbook/gui/merging/eab-contact-merging.c:396
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:616
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:611
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:973
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 #: ../smime/lib/e-cert.c:810
@@ -399,7 +393,7 @@ msgid "_Anniversary:"
 msgstr "週年紀念日(_A):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:37
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:711
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:706
 #: ../calendar/gui/e-calendar-view.c:2150
 msgid "Anniversary"
 msgstr "週年紀念日"
@@ -410,7 +404,7 @@ msgstr "週年紀念日"
 #. * which, so long as it has an icon.  We're just interested in
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:710
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:705
 #: ../calendar/gui/e-calendar-view.c:2149 ../capplet/anjal-settings-main.c:83
 #: ../shell/main.c:131
 msgid "Birthday"
@@ -451,25 +445,25 @@ msgstr "地址(_A):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:47
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:193
-#: ../addressbook/gui/widgets/eab-contact-display.c:390
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:70
+#: ../addressbook/gui/widgets/eab-contact-display.c:399
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:75
 #: ../widgets/misc/e-contact-map.c:298
 msgid "Home"
 msgstr "住家"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:48
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:192
-#: ../addressbook/gui/widgets/eab-contact-display.c:387
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:69
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:692
+#: ../addressbook/gui/widgets/eab-contact-display.c:396
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:74
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:687
 #: ../widgets/misc/e-contact-map.c:306
 msgid "Work"
 msgstr "工作"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:49
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:194
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:71
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:389
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:76
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:384
 #: ../calendar/gui/e-cal-model.c:3564
 msgid "Other"
 msgstr "其他"
@@ -483,47 +477,47 @@ msgid "Notes"
 msgstr "備註"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:172
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:619
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:614
 msgid "AIM"
 msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:173
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:622
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:617
 msgid "Jabber"
 msgstr "Jabber"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:174
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:624
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:619
 msgid "Yahoo"
 msgstr "Yahoo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:175
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:625
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:620
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:176
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:623
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:618
 msgid "MSN"
 msgstr "MSN"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:177
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:621
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:616
 msgid "ICQ"
 msgstr "ICQ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:178
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:620
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:615
 msgid "GroupWise"
 msgstr "GroupWise"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:179
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:626
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:621
 msgid "Skype"
 msgstr "Skype"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:180
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:627
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:622
 msgid "Twitter"
 msgstr "Twitter"
 
@@ -775,22 +769,22 @@ msgid "Merge Contact"
 msgstr "合併聯絡人"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../modules/addressbook/e-book-shell-view-actions.c:1060
+#: ../modules/addressbook/e-book-shell-view-actions.c:1072
 msgid "Name contains"
 msgstr "名稱包含"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../modules/addressbook/e-book-shell-view-actions.c:1053
+#: ../modules/addressbook/e-book-shell-view-actions.c:1065
 msgid "Email begins with"
 msgstr "電子郵件開始於"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
 #: ../calendar/gui/caltypes.xml.h:26 ../calendar/gui/memotypes.xml.h:19
 #: ../calendar/gui/tasktypes.xml.h:30
-#: ../modules/addressbook/e-book-shell-view-actions.c:1046
-#: ../modules/calendar/e-cal-shell-view-actions.c:1797
-#: ../modules/calendar/e-memo-shell-view-actions.c:812
-#: ../modules/calendar/e-task-shell-view-actions.c:1011
+#: ../modules/addressbook/e-book-shell-view-actions.c:1058
+#: ../modules/calendar/e-cal-shell-view-actions.c:1798
+#: ../modules/calendar/e-memo-shell-view-actions.c:813
+#: ../modules/calendar/e-task-shell-view-actions.c:1012
 msgid "Any field contains"
 msgstr "任何欄位包含"
 
@@ -819,109 +813,109 @@ msgstr "傳送新郵件至(_S)…"
 msgid "Send a mail message to this address"
 msgstr "傳送郵件到這個位址"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:324
+#: ../addressbook/gui/widgets/eab-contact-display.c:333
 #: ../widgets/misc/e-web-view.c:1088 ../widgets/misc/e-web-view-gtkhtml.c:973
 #, c-format
 msgid "Click to mail %s"
 msgstr "按一下來傳送郵件 %s"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:159
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:154
 msgid "Open map"
 msgstr "開啟地圖"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:554
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:549
 msgid "List Members:"
 msgstr "清單成員："
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:618
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:613
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "網名"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:671
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:666
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "公司"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:672
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:667
 msgid "Department"
 msgstr "部門"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:673
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:668
 msgid "Profession"
 msgstr "職業"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:674
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:669
 msgid "Position"
 msgstr "位置"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:675
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:670
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "主管"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:676
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:671
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "助理"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:677
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:672
 msgid "Video Chat"
 msgstr "視像交談"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:678
-#: ../modules/calendar/e-cal-shell-view-actions.c:216
-#: ../modules/calendar/e-cal-shell-view-actions.c:245
-#: ../modules/calendar/e-cal-shell-view.c:626
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:673
+#: ../modules/calendar/e-cal-shell-view-actions.c:217
+#: ../modules/calendar/e-cal-shell-view-actions.c:246
+#: ../modules/calendar/e-cal-shell-view.c:631
 #: ../plugins/publish-calendar/publish-calendar.ui.h:21
 #: ../widgets/misc/e-send-options.c:546
 msgid "Calendar"
 msgstr "行事曆"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:679
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:674
 #: ../calendar/gui/dialogs/event-editor.c:127
 #: ../calendar/gui/dialogs/event-editor.c:354
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "空閒/忙碌"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:680
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:707
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:675
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:702
 msgid "Phone"
 msgstr "電話"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:681
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:676
 msgid "Fax"
 msgstr "傳真"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:682
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:709
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:677
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:704
 msgid "Address"
 msgstr "地址"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:705
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:700
 msgid "Home Page"
 msgstr "首頁"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:706
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:701
 msgid "Web Log"
 msgstr "網誌"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:708
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:703
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "Mobile Phone"
 msgstr "流動電話"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:712
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:707
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "配偶"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:722
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:717
 msgid "Personal"
 msgstr "個人"
 
-#: ../addressbook/gui/widgets/eab-contact-formatter.c:746
+#: ../addressbook/gui/widgets/eab-contact-formatter.c:741
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "備註"
@@ -1079,7 +1073,7 @@ msgid "Paste contacts from the clipboard"
 msgstr "從剪貼簿貼上聯絡人"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:662
-#: ../modules/addressbook/e-book-shell-view-actions.c:864
+#: ../modules/addressbook/e-book-shell-view-actions.c:876
 msgid "Delete selected contacts"
 msgstr "刪除選定的聯絡人"
 
@@ -1554,7 +1548,7 @@ msgstr "忽略時間(_T):"
 #. * "Purge events older than <<spin-button>> days"
 #: ../calendar/alarm-notify/alarm-notify.ui.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:10 ../filter/filter.ui.h:8
-#: ../modules/calendar/e-cal-shell-view-actions.c:352
+#: ../modules/calendar/e-cal-shell-view-actions.c:353
 #: ../plugins/publish-calendar/publish-calendar.ui.h:6
 #: ../widgets/misc/e-interval-chooser.c:143
 msgid "days"
@@ -1953,107 +1947,126 @@ msgid "This memo list will be removed permanently."
 msgstr "這個備忘錄清單將會被永遠移除。"
 
 #: ../calendar/calendar.error.xml.h:66
+msgid "Delete remote calendar &quot;{0}&quot;?"
+msgstr "刪除遠端行事曆 &quot;{0}&quot;？"
+
+#: ../calendar/calendar.error.xml.h:67
+msgid ""
+"This will permanently remove the calendar &quot;{0}&quot; from the server. "
+"Are you sure you want to proceed?"
+msgstr "這樣會從伺服器永遠刪除行事曆 &quot;{0}&quot;。你確定要繼續嗎？"
+
+#: ../calendar/calendar.error.xml.h:69
+msgid "Delete remote task list &quot;{0}&quot;?"
+msgstr "刪除遠端工作清單 &quot;{0}&quot;？"
+
+#: ../calendar/calendar.error.xml.h:70
+msgid ""
+"This will permanently remove the task list &quot;{0}&quot; from the server. "
+"Are you sure you want to proceed?"
+msgstr "這樣會從伺服器永遠刪除工作清單 &quot;{0}&quot;。你確定要繼續嗎？"
+
+#: ../calendar/calendar.error.xml.h:71
+msgid "Delete remote memo list &quot;{0}&quot;?"
+msgstr "刪除遠端備忘錄清單 &quot;{0}&quot;？"
+
+#: ../calendar/calendar.error.xml.h:72
+msgid ""
+"This will permanently remote the memo list &quot;{0}&quot; from the server. "
+"Are you sure you want to proceed?"
+msgstr "這樣會從伺服器永遠刪除備忘錄清單 &quot;{0}&quot;。你確定要繼續嗎？"
+
+#: ../calendar/calendar.error.xml.h:73
 msgid "Are you sure you want to save the appointment without a summary?"
 msgstr "你確定要儲存沒有摘要的約會？"
 
-#: ../calendar/calendar.error.xml.h:67
+#: ../calendar/calendar.error.xml.h:74
 msgid ""
 "Adding a meaningful summary to your appointment will give you an idea of "
 "what your appointment is about."
 msgstr "新增有意義的摘要到你的約會可以讓你知道這個約會和什麼事有關。"
 
-#: ../calendar/calendar.error.xml.h:68
+#: ../calendar/calendar.error.xml.h:75
 msgid "Are you sure you want to save the task without a summary?"
 msgstr "你確定要儲存沒有摘要的工作？"
 
-#: ../calendar/calendar.error.xml.h:69
+#: ../calendar/calendar.error.xml.h:76
 msgid ""
 "Adding a meaningful summary to your task will give you an idea of what your "
 "task is about."
 msgstr "新增有意義的摘要到你的工作可以讓你知道這個工作和什麼事有關。"
 
-#: ../calendar/calendar.error.xml.h:70
+#: ../calendar/calendar.error.xml.h:77
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr "確定要儲存沒有摘要的備忘錄？"
 
-#: ../calendar/calendar.error.xml.h:71
+#: ../calendar/calendar.error.xml.h:78
 msgid "Error loading calendar"
 msgstr "載入行事曆時發生錯誤"
 
-#: ../calendar/calendar.error.xml.h:72
+#: ../calendar/calendar.error.xml.h:79
 msgid "The calendar is not marked for offline usage."
 msgstr "此行事曆尚未標記為離線使用。"
 
-#: ../calendar/calendar.error.xml.h:73
+#: ../calendar/calendar.error.xml.h:80
 msgid "Cannot create a new event"
 msgstr "不能建立新的事件"
 
 #. For Translators: {0} is the name of the calendar source
-#: ../calendar/calendar.error.xml.h:75
+#: ../calendar/calendar.error.xml.h:82
 msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
 msgstr "「{0}」是一個唯讀的行事曆並且不能被修改。請從行事曆檢視的側邊欄中選擇不同的行事曆。"
 
-#: ../calendar/calendar.error.xml.h:76
+#: ../calendar/calendar.error.xml.h:83
 msgid "Cannot save event"
 msgstr "不能儲存事件"
 
 #. For Translators: {0} is the name of the calendar source
-#: ../calendar/calendar.error.xml.h:78
+#: ../calendar/calendar.error.xml.h:85
 msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
 msgstr "「{0}」是一個唯讀的行事曆來源。請選取一個能加入約會的行事曆。"
 
-#: ../calendar/calendar.error.xml.h:79
+#: ../calendar/calendar.error.xml.h:86
 msgid "Cannot save task"
 msgstr "不能儲存工作"
 
 #. For Translators: {0} is the name of the calendar source
-#: ../calendar/calendar.error.xml.h:81
+#: ../calendar/calendar.error.xml.h:88
 msgid ""
 "'{0}' does not support assigned tasks, please select a different task list."
 msgstr "「{0}」不支援指派工作，請選擇不同的工作清單。"
 
-#: ../calendar/calendar.error.xml.h:82
+#: ../calendar/calendar.error.xml.h:89
 msgid "Error loading task list"
 msgstr "載入工作清單時發生錯誤"
 
-#: ../calendar/calendar.error.xml.h:83
+#: ../calendar/calendar.error.xml.h:90
 msgid "The task list is not marked for offline usage."
 msgstr "此工作清單尚未標記為離線使用。"
 
-#: ../calendar/calendar.error.xml.h:84
+#: ../calendar/calendar.error.xml.h:91
 msgid "Error loading memo list"
 msgstr "載入備忘錄清單時發生錯誤"
 
-#: ../calendar/calendar.error.xml.h:85
+#: ../calendar/calendar.error.xml.h:92
 msgid "The memo list is not marked for offline usage."
 msgstr "此備忘錄清單尚未標記為離線使用。"
 
 #. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
 #. {1} is replaced with a calendar/task/memo list name, where the error happened
-#: ../calendar/calendar.error.xml.h:88
+#: ../calendar/calendar.error.xml.h:95
 msgid "Error on {0}: {1}"
 msgstr "{0} 發生錯誤：{1}"
 
-#: ../calendar/calendar.error.xml.h:89
-msgid "Some features may not work properly with your current server."
-msgstr "某些功能可能無法在你目前的伺服器版本上正常運作。"
-
-#: ../calendar/calendar.error.xml.h:90
-msgid ""
-"You are connecting to an unsupported GroupWise server and may encounter "
-"problems using Evolution. For best results, the server should be upgraded to "
-"a supported version."
-msgstr "你正連線到不支援的 GroupWise 伺服器而且可能遇到使用 Evolution 的問題。最好的解決計劃是將該伺服器升級至支援的版本。"
-
-#: ../calendar/calendar.error.xml.h:91
+#: ../calendar/calendar.error.xml.h:96
 msgid "Could not perform this operation."
 msgstr "無法進行這個操作。"
 
-#: ../calendar/calendar.error.xml.h:92 ../mail/mail.error.xml.h:169
+#: ../calendar/calendar.error.xml.h:97 ../mail/mail.error.xml.h:167
 msgid "You must be working online to complete this operation."
 msgstr "你必須於網上工作才能完成此操作。"
 
@@ -2149,7 +2162,7 @@ msgstr "到會者"
 
 #: ../calendar/gui/caltypes.xml.h:14
 #: ../calendar/gui/e-cal-list-view.etspec.h:5 ../mail/message-list.etspec.h:14
-#: ../plugins/publish-calendar/publish-calendar.c:872
+#: ../plugins/publish-calendar/publish-calendar.c:870
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
 #: ../plugins/save-calendar/csv-format.c:386
 msgid "Location"
@@ -2465,6 +2478,7 @@ msgid "Save current changes"
 msgstr "儲存目前的更改"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1218
+#: ../widgets/misc/e-mail-signature-editor.c:294
 msgid "Save and Close"
 msgstr "儲存並關閉"
 
@@ -3013,7 +3027,7 @@ msgid "Select Date"
 msgstr "選擇日期"
 
 #: ../calendar/gui/dialogs/goto-dialog.ui.h:14
-#: ../modules/calendar/e-cal-shell-view-actions.c:1405
+#: ../modules/calendar/e-cal-shell-view-actions.c:1406
 msgid "Select _Today"
 msgstr "選擇今天(_T)"
 
@@ -3366,7 +3380,7 @@ msgstr "網頁"
 
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-details-page.ui.h:2
-#: ../calendar/gui/e-cal-component-preview.c:314
+#: ../calendar/gui/e-cal-component-preview.c:345
 #: ../calendar/gui/e-task-table.c:579 ../calendar/gui/tasktypes.xml.h:19
 #: ../mail/message-list.c:1285 ../widgets/misc/e-send-options.ui.h:2
 msgid "High"
@@ -3374,7 +3388,7 @@ msgstr "高"
 
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-details-page.ui.h:4
-#: ../calendar/gui/e-cal-component-preview.c:316
+#: ../calendar/gui/e-cal-component-preview.c:347
 #: ../calendar/gui/e-cal-model.c:1655 ../calendar/gui/e-task-table.c:580
 #: ../calendar/gui/tasktypes.xml.h:20 ../mail/message-list.c:1284
 #: ../widgets/misc/e-send-options.ui.h:5
@@ -3383,7 +3397,7 @@ msgstr "一般"
 
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-details-page.ui.h:6
-#: ../calendar/gui/e-cal-component-preview.c:318
+#: ../calendar/gui/e-cal-component-preview.c:349
 #: ../calendar/gui/e-task-table.c:581 ../calendar/gui/tasktypes.xml.h:21
 #: ../mail/message-list.c:1283 ../widgets/misc/e-send-options.ui.h:4
 msgid "Low"
@@ -3398,7 +3412,7 @@ msgstr "未指定"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-details-page.ui.h:10
-#: ../calendar/gui/e-cal-component-preview.c:300
+#: ../calendar/gui/e-cal-component-preview.c:331
 #: ../calendar/gui/e-cal-model-tasks.c:489
 #: ../calendar/gui/e-cal-model-tasks.c:774 ../calendar/gui/e-task-table.c:227
 #: ../calendar/gui/e-task-table.c:242 ../calendar/gui/e-task-table.c:656
@@ -3408,7 +3422,7 @@ msgstr "未開始"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-details-page.ui.h:12
-#: ../calendar/gui/e-cal-component-preview.c:290
+#: ../calendar/gui/e-cal-component-preview.c:321
 #: ../calendar/gui/e-cal-model-tasks.c:491
 #: ../calendar/gui/e-cal-model-tasks.c:776
 #: ../calendar/gui/e-cal-model-tasks.c:854 ../calendar/gui/e-task-table.c:229
@@ -3419,7 +3433,7 @@ msgstr "進行中"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-details-page.ui.h:14
-#: ../calendar/gui/e-cal-component-preview.c:293
+#: ../calendar/gui/e-cal-component-preview.c:324
 #: ../calendar/gui/e-cal-model-tasks.c:493
 #: ../calendar/gui/e-cal-model-tasks.c:778
 #: ../calendar/gui/e-meeting-store.c:209 ../calendar/gui/e-meeting-store.c:232
@@ -3432,7 +3446,7 @@ msgstr "已完成"
 
 #. To Translators: This is task status
 #: ../calendar/gui/dialogs/task-details-page.ui.h:16
-#: ../calendar/gui/e-cal-component-preview.c:296
+#: ../calendar/gui/e-cal-component-preview.c:327
 #: ../calendar/gui/e-cal-model-tasks.c:495
 #: ../calendar/gui/e-cal-model-tasks.c:780 ../calendar/gui/e-task-table.c:233
 #: ../calendar/gui/e-task-table.c:248 ../calendar/gui/e-task-table.c:659
@@ -3783,47 +3797,47 @@ msgstr "用於月的行事曆檢視"
 msgid "calendar view for one or more weeks"
 msgstr "用於一或多週的行事曆檢視"
 
-#: ../calendar/gui/e-cal-component-preview.c:206 ../filter/e-filter-rule.c:748
+#: ../calendar/gui/e-cal-component-preview.c:237 ../filter/e-filter-rule.c:748
 #: ../mail/e-mail-config-page.c:126
 msgid "Untitled"
 msgstr "無標題"
 
-#: ../calendar/gui/e-cal-component-preview.c:214
+#: ../calendar/gui/e-cal-component-preview.c:245
 msgid "Categories:"
 msgstr "分類："
 
-#: ../calendar/gui/e-cal-component-preview.c:245
+#: ../calendar/gui/e-cal-component-preview.c:276
 msgid "Summary:"
 msgstr "摘要："
 
-#: ../calendar/gui/e-cal-component-preview.c:253
+#: ../calendar/gui/e-cal-component-preview.c:284
 msgid "Start Date:"
 msgstr "開始日期："
 
-#: ../calendar/gui/e-cal-component-preview.c:264
+#: ../calendar/gui/e-cal-component-preview.c:295
 msgid "End Date:"
 msgstr "結束日期："
 
-#: ../calendar/gui/e-cal-component-preview.c:275
+#: ../calendar/gui/e-cal-component-preview.c:306
 msgid "Due Date:"
 msgstr "截止日期："
 
-#: ../calendar/gui/e-cal-component-preview.c:286
+#: ../calendar/gui/e-cal-component-preview.c:317
 #: ../modules/itip-formatter/itip-view.c:1449
 #: ../modules/itip-formatter/itip-view.c:1555
 msgid "Status:"
 msgstr "狀態："
 
-#: ../calendar/gui/e-cal-component-preview.c:312
+#: ../calendar/gui/e-cal-component-preview.c:343
 msgid "Priority:"
 msgstr "優先等級："
 
-#: ../calendar/gui/e-cal-component-preview.c:336
+#: ../calendar/gui/e-cal-component-preview.c:367
 #: ../mail/e-mail-config-service-page.c:672
 msgid "Description:"
 msgstr "描述："
 
-#: ../calendar/gui/e-cal-component-preview.c:366
+#: ../calendar/gui/e-cal-component-preview.c:397
 msgid "Web Page:"
 msgstr "網頁："
 
@@ -4307,9 +4321,9 @@ msgstr "語言"
 
 #: ../calendar/gui/e-memo-table.c:433
 #: ../modules/calendar/e-cal-shell-content.c:476
-#: ../modules/calendar/e-memo-shell-view-actions.c:232
-#: ../modules/calendar/e-memo-shell-view-actions.c:247
-#: ../modules/calendar/e-memo-shell-view.c:301
+#: ../modules/calendar/e-memo-shell-view-actions.c:233
+#: ../modules/calendar/e-memo-shell-view-actions.c:248
+#: ../modules/calendar/e-memo-shell-view.c:306
 msgid "Memos"
 msgstr "備忘錄"
 
@@ -4340,7 +4354,7 @@ msgid "Paste memos from the clipboard"
 msgstr "從剪貼簿貼上備忘錄"
 
 #: ../calendar/gui/e-memo-table.c:757
-#: ../modules/calendar/e-memo-shell-view-actions.c:610
+#: ../modules/calendar/e-memo-shell-view-actions.c:611
 msgid "Delete selected memos"
 msgstr "刪除選定的備忘錄"
 
@@ -4366,9 +4380,9 @@ msgstr "%d%%"
 #: ../calendar/importers/icalendar-importer.c:1082
 #: ../modules/calendar/e-calendar-preferences.ui.h:61
 #: ../modules/calendar/e-cal-shell-content.c:437
-#: ../modules/calendar/e-task-shell-view-actions.c:255
-#: ../modules/calendar/e-task-shell-view-actions.c:270
-#: ../modules/calendar/e-task-shell-view.c:456
+#: ../modules/calendar/e-task-shell-view-actions.c:256
+#: ../modules/calendar/e-task-shell-view-actions.c:271
+#: ../modules/calendar/e-task-shell-view.c:461
 msgid "Tasks"
 msgstr "工作"
 
@@ -4385,7 +4399,7 @@ msgid "Paste tasks from the clipboard"
 msgstr "從剪貼簿貼上工作"
 
 #: ../calendar/gui/e-task-table.c:1040
-#: ../modules/calendar/e-task-shell-view-actions.c:734
+#: ../modules/calendar/e-task-shell-view-actions.c:735
 msgid "Delete selected tasks"
 msgstr "刪除選定的工作"
 
@@ -6559,7 +6573,7 @@ msgid "Personal details:"
 msgstr "個人詳細資料："
 
 #: ../capplet/settings/mail-account-view.c:475
-#: ../widgets/misc/e-source-config.c:681 ../widgets/misc/e-source-config.c:685
+#: ../widgets/misc/e-source-config.c:683 ../widgets/misc/e-source-config.c:687
 msgid "Name:"
 msgstr "名稱："
 
@@ -6832,7 +6846,7 @@ msgstr "儲存為草稿(_D)"
 msgid "Save as draft"
 msgstr "儲存為草稿"
 
-#: ../composer/e-composer-actions.c:370 ../composer/e-composer-private.c:342
+#: ../composer/e-composer-actions.c:370 ../composer/e-composer-private.c:325
 msgid "S_end"
 msgstr "傳送(_E)"
 
@@ -6979,23 +6993,7 @@ msgstr "按這裏新增目錄服務"
 msgid "Click here to select folders to post to"
 msgstr "按一下這裏，選取要張貼的資料夾"
 
-#: ../composer/e-composer-private.c:230
-msgid "Undo the last action"
-msgstr "取消剛完成的動作"
-
-#: ../composer/e-composer-private.c:234
-msgid "Redo the last undone action"
-msgstr "重複剛取消的動作"
-
-#: ../composer/e-composer-private.c:238
-msgid "Search for text"
-msgstr "搜尋文字"
-
-#: ../composer/e-composer-private.c:242
-msgid "Search for and replace text"
-msgstr "搜尋和取代文字"
-
-#: ../composer/e-composer-private.c:362
+#: ../composer/e-composer-private.c:345
 msgid "Save draft"
 msgstr "儲存草稿"
 
@@ -7140,7 +7138,7 @@ msgstr "回報的錯誤為 &quot;{0}&quot;。郵件很可能沒有儲存。"
 msgid "An error occurred while sending. How do you want to proceed?"
 msgstr "在寄信時發生錯誤。你要如何繼續？"
 
-#: ../composer/mail-composer.error.xml.h:30 ../mail/mail.error.xml.h:154
+#: ../composer/mail-composer.error.xml.h:30 ../mail/mail.error.xml.h:152
 msgid "The reported error was &quot;{0}&quot;."
 msgstr "回報的錯誤為 &quot;{0}&quot;。"
 
@@ -8894,13 +8892,20 @@ msgid ""
 "server. The interval must be at least 30 seconds."
 msgstr "控制本地端更改與遠端郵件伺服器同步的頻率。間隔必須至少有 30 秒。"
 
-#: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:1
+#. Translators: This is the a list of words for the attach reminder plugin to look
+#. for in a message body. Please use any number of words here in your language that might
+#. indicate that an attachment should have been attached to the message.
+#: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
+msgid "['attachment','attaching','attached','enclosed']"
+msgstr "['attachment','attaching','attached','enclosed','附加檔案','附件']"
+
+#: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body"
 msgstr "讓附件提醒外掛程式用來搜尋郵件內文的關鍵字清單"
 
-#: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:2
+#: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:6
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
@@ -9367,7 +9372,7 @@ msgstr "大小"
 #: ../em-format/e-mail-formatter-print-headers.c:130
 #: ../mail/e-mail-config-security-page.c:642
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:207
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:130
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:131
 msgid "Security"
 msgstr "安全性"
 
@@ -9720,7 +9725,7 @@ msgstr "視覺"
 
 #. strftime format of a weekday and a date.
 #: ../e-util/e-datetime-format.c:206
-#: ../modules/calendar/e-cal-shell-view-actions.c:1926
+#: ../modules/calendar/e-cal-shell-view-actions.c:1927
 #: ../modules/itip-formatter/itip-view.c:235
 #: ../widgets/table/e-cell-date-edit.c:307
 msgid "Today"
@@ -9854,6 +9859,22 @@ msgstr "因為「{1}」。"
 #: ../e-util/e-system.error.xml.h:6
 msgid "Cannot open file \"{0}\"."
 msgstr "不能開啟檔案「{0}」。"
+
+#: ../e-util/e-system.error.xml.h:7
+msgid "Failed to remove data source &quot;{0}&quot;."
+msgstr "無法移除資料來源 &quot;{0}&quot;。"
+
+#: ../e-util/e-system.error.xml.h:8 ../mail/mail.error.xml.h:61
+msgid "The reported error was &quot;{1}&quot;."
+msgstr "回報的錯誤為 &quot;{1}&quot;。"
+
+#: ../e-util/e-system.error.xml.h:9
+msgid "Failed to update data source &quot;{0}&quot;."
+msgstr "無法更新資料來源 &quot;{0}&quot;。"
+
+#: ../e-util/e-system.error.xml.h:10
+msgid "Failed to delete resource &quot;{0}&quot;."
+msgstr "無法刪除來源 &quot;{0}&quot;。"
 
 #: ../e-util/e-util.c:243
 msgid "Could not open the link."
@@ -10451,7 +10472,7 @@ msgstr "預設值(_F)"
 #: ../mail/e-mail-account-tree-view.c:85
 #: ../modules/mail/em-composer-prefs.c:505
 #: ../modules/plugin-manager/evolution-plugin-manager.c:360
-#: ../plugins/publish-calendar/publish-calendar.c:866
+#: ../plugins/publish-calendar/publish-calendar.c:864
 msgid "Enabled"
 msgstr "已啟用"
 
@@ -10942,8 +10963,8 @@ msgid "Page %d of %d"
 msgstr "第 %d / %d 頁"
 
 #: ../mail/e-mail-printer.c:536
-#: ../modules/calendar/e-cal-shell-view-actions.c:216
-#: ../modules/calendar/e-cal-shell-view-actions.c:245
+#: ../modules/calendar/e-cal-shell-view-actions.c:217
+#: ../modules/calendar/e-cal-shell-view-actions.c:246
 msgid "Print"
 msgstr "列印"
 
@@ -11354,7 +11375,7 @@ msgid "Checks selected messages for duplicates"
 msgstr "檢查選取的郵件是否有重複"
 
 #: ../mail/e-mail-reader.c:2298 ../mail/mail.error.xml.h:27
-#: ../modules/calendar/e-cal-shell-view-actions.c:1573
+#: ../modules/calendar/e-cal-shell-view-actions.c:1574
 #: ../modules/mail/e-mail-attachment-handler.c:182
 msgid "Reply to _All"
 msgstr "回覆所有人(_A)"
@@ -11562,12 +11583,12 @@ msgid "Delete"
 msgstr "刪除"
 
 #: ../mail/e-mail-reader.c:3971
-#: ../modules/calendar/e-cal-shell-view-actions.c:1398
+#: ../modules/calendar/e-cal-shell-view-actions.c:1399
 msgid "Next"
 msgstr "下一個"
 
 #: ../mail/e-mail-reader.c:3975
-#: ../modules/calendar/e-cal-shell-view-actions.c:1391
+#: ../modules/calendar/e-cal-shell-view-actions.c:1392
 msgid "Previous"
 msgstr "上一個"
 
@@ -12680,7 +12701,7 @@ msgstr "如果找到符合的自選垃圾郵件標頭這個選項就會被忽略
 
 #: ../mail/mail-config.ui.h:108 ../modules/addressbook/ldap-config.ui.h:3
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:237
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:160
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:161
 msgid "No encryption"
 msgstr "沒有加密"
 
@@ -13022,10 +13043,6 @@ msgstr "Evolution 需要系統資料夾才能正常作業，而且該資料夾�
 msgid "Failed to expunge folder &quot;{0}&quot;."
 msgstr "無法清除資料夾 &quot;{0}&quot;。"
 
-#: ../mail/mail.error.xml.h:61
-msgid "The reported error was &quot;{1}&quot;."
-msgstr "回報的錯誤為 &quot;{1}&quot;。"
-
 #: ../mail/mail.error.xml.h:62
 msgid "Failed to refresh folder &quot;{0}&quot;."
 msgstr "無法重新整理資料夾 &quot;{0}&quot;。"
@@ -13142,7 +13159,7 @@ msgid "Do _Not Disable"
 msgstr "不要停用(_N)"
 
 #: ../mail/mail.error.xml.h:90
-#: ../plugins/publish-calendar/publish-calendar.c:628
+#: ../plugins/publish-calendar/publish-calendar.c:626
 msgid "_Disable"
 msgstr "停用(_D)"
 
@@ -13276,187 +13293,179 @@ msgid ""
 msgstr "無法向伺服器查詢支援的驗證演算法清單。"
 
 #: ../mail/mail.error.xml.h:123
-msgid "Unable to connect to the GroupWise server."
-msgstr "無法連線至 GroupWise 伺服器。"
-
-#: ../mail/mail.error.xml.h:124
-msgid "Please check your account settings and try again."
-msgstr "請檢查帳號設定並再試一次。"
-
-#: ../mail/mail.error.xml.h:125
 msgid "Synchronize folders locally for offline usage?"
 msgstr "是否同步資料夾以供離線使用？"
 
-#: ../mail/mail.error.xml.h:126
+#: ../mail/mail.error.xml.h:124
 msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
 msgstr "是否要在本地端同步那些標記為離線使用的資料夾？"
 
-#: ../mail/mail.error.xml.h:127
+#: ../mail/mail.error.xml.h:125
 msgid "Do _Not Synchronize"
 msgstr "不要同步(_N)"
 
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:126
 msgid "_Synchronize"
 msgstr "同步化(_S)"
 
-#: ../mail/mail.error.xml.h:129
+#: ../mail/mail.error.xml.h:127
 msgid "Do you want to mark all messages as read?"
 msgstr "是否要將全部的郵件標示成已閱讀？"
 
-#: ../mail/mail.error.xml.h:130
+#: ../mail/mail.error.xml.h:128
 msgid "This will mark all messages as read in the selected folder."
 msgstr "這會將標示選取的資料夾中所有郵件為已閱讀。"
 
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:129
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
 msgstr "這會將標示選定的資料夾及其子資料夾中所有郵件為已閱讀。"
 
-#: ../mail/mail.error.xml.h:132
+#: ../mail/mail.error.xml.h:130
 msgid "Close message window."
 msgstr "關閉郵件視窗。"
 
-#: ../mail/mail.error.xml.h:133
+#: ../mail/mail.error.xml.h:131
 msgid "Would you like to close the message window?"
 msgstr "你想要關閉郵件視窗嗎？"
 
-#: ../mail/mail.error.xml.h:134
+#: ../mail/mail.error.xml.h:132
 msgid "_Yes"
 msgstr "是(_Y)"
 
-#: ../mail/mail.error.xml.h:135
+#: ../mail/mail.error.xml.h:133
 msgid "_No"
 msgstr "否(_N)"
 
-#: ../mail/mail.error.xml.h:136
+#: ../mail/mail.error.xml.h:134
 msgid "_Always"
 msgstr "總是(_A)"
 
-#: ../mail/mail.error.xml.h:137
+#: ../mail/mail.error.xml.h:135
 msgid "N_ever"
 msgstr "永不(_E)"
 
-#: ../mail/mail.error.xml.h:138
+#: ../mail/mail.error.xml.h:136
 msgid "Copy folder in folder tree."
 msgstr "於資料夾樹狀圖複製。"
 
-#: ../mail/mail.error.xml.h:139
+#: ../mail/mail.error.xml.h:137
 msgid "Are you sure you want to copy folder '{0}' to folder '{1}'?"
 msgstr "是否確定要將資料夾「{0}」複製到資料夾「{1}」？"
 
-#: ../mail/mail.error.xml.h:140
+#: ../mail/mail.error.xml.h:138
 msgid "Move folder in folder tree."
 msgstr "於資料夾樹狀圖移動。"
 
-#: ../mail/mail.error.xml.h:141
+#: ../mail/mail.error.xml.h:139
 msgid "Are you sure you want to to move folder '{0}' to folder '{1}'?"
 msgstr "是否確定要將資料夾「{0}」移動到資料夾「{1}」？"
 
-#: ../mail/mail.error.xml.h:142
+#: ../mail/mail.error.xml.h:140
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
 msgstr "因為你沒有啟用選擇用來寄送的帳號，所以無法傳送此郵件。"
 
-#: ../mail/mail.error.xml.h:143
+#: ../mail/mail.error.xml.h:141
 msgid "Please enable the account or send using another account."
 msgstr "請啟用該帳號或使用其他帳號傳送。"
 
-#: ../mail/mail.error.xml.h:144
+#: ../mail/mail.error.xml.h:142
 msgid "Mail Deletion Failed"
 msgstr "刪除郵件失敗"
 
-#: ../mail/mail.error.xml.h:145
+#: ../mail/mail.error.xml.h:143
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "你沒有足夠的權限刪除此封郵件。"
 
-#: ../mail/mail.error.xml.h:146
+#: ../mail/mail.error.xml.h:144
 msgid "\"Check Junk\" Failed"
 msgstr "「檢查垃圾郵件」失敗"
 
-#: ../mail/mail.error.xml.h:147
+#: ../mail/mail.error.xml.h:145
 msgid "\"Report Junk\" Failed"
 msgstr "「回報垃圾郵件」失敗"
 
-#: ../mail/mail.error.xml.h:148
+#: ../mail/mail.error.xml.h:146
 msgid "\"Report Not Junk\" Failed"
 msgstr "「回報為非垃圾郵件」失敗"
 
-#: ../mail/mail.error.xml.h:149
+#: ../mail/mail.error.xml.h:147
 msgid "Remove duplicate messages?"
 msgstr "是否移除重複的郵件？"
 
-#: ../mail/mail.error.xml.h:150
+#: ../mail/mail.error.xml.h:148
 msgid "No duplicate messages found."
 msgstr "找不到重複的郵件。"
 
 #. Translators: {0} is replaced with a folder name
-#: ../mail/mail.error.xml.h:152
+#: ../mail/mail.error.xml.h:150
 msgid "Folder '{0}' doesn't contain any duplicate message."
 msgstr "資料夾「{0}」並未包含任何重複的郵件。"
 
-#: ../mail/mail.error.xml.h:153
+#: ../mail/mail.error.xml.h:151
 msgid "Failed to disconnect account &quot;{0}&quot;."
 msgstr "無法中斷與帳號 &quot;{0}&quot; 的連線。"
 
-#: ../mail/mail.error.xml.h:155
+#: ../mail/mail.error.xml.h:153
 msgid "Failed to unsubscribe from folder &quot;{0}&quot;."
 msgstr "無法取消訂閱資料夾 &quot;{0}&quot;。"
 
-#: ../mail/mail.error.xml.h:156
+#: ../mail/mail.error.xml.h:154
 msgid "Unable to retrieve message."
 msgstr "無法接收郵件。"
 
-#: ../mail/mail.error.xml.h:157
+#: ../mail/mail.error.xml.h:155
 msgid "{0}"
 msgstr "{0}"
 
-#: ../mail/mail.error.xml.h:158
+#: ../mail/mail.error.xml.h:156
 msgid "Failed to open folder."
 msgstr "無法開啟資料夾。"
 
-#: ../mail/mail.error.xml.h:159
+#: ../mail/mail.error.xml.h:157
 msgid "Failed to find duplicate messages."
 msgstr "找不到重複的郵件。"
 
-#: ../mail/mail.error.xml.h:160
+#: ../mail/mail.error.xml.h:158
 msgid "Failed to retrieve messages."
 msgstr "無法取回郵件。"
 
-#: ../mail/mail.error.xml.h:161
+#: ../mail/mail.error.xml.h:159
 msgid "Failed to remove attachments from messages."
 msgstr "無法移除郵件中的附件。"
 
-#: ../mail/mail.error.xml.h:162
+#: ../mail/mail.error.xml.h:160
 msgid "Failed to download messages for offline viewing."
 msgstr "下載離線使用的郵件失敗。"
 
-#: ../mail/mail.error.xml.h:163
+#: ../mail/mail.error.xml.h:161
 msgid "Failed to save messages to disk."
 msgstr "無法將選取的郵件儲存至磁碟。"
 
-#: ../mail/mail.error.xml.h:164
+#: ../mail/mail.error.xml.h:162
 msgid "Hidden file is attached."
 msgstr "附加了隱藏的檔案。"
 
-#: ../mail/mail.error.xml.h:165
+#: ../mail/mail.error.xml.h:163
 msgid ""
 "The attachment named {0} is a hidden file and may contain sensitive data. "
 "Please review it before sending."
 msgstr "名稱為 {0} 的附件是隱藏檔，可能包含敏感資料。請重新檢閱後再寄出。"
 
-#: ../mail/mail.error.xml.h:166
+#: ../mail/mail.error.xml.h:164
 msgid "Printing failed."
 msgstr "列印失敗。"
 
-#: ../mail/mail.error.xml.h:167
+#: ../mail/mail.error.xml.h:165
 msgid "The printer replied &quot;{0}&quot;."
 msgstr "打印機回覆 &quot;{0}&quot;。"
 
-#: ../mail/mail.error.xml.h:168
+#: ../mail/mail.error.xml.h:166
 msgid "Could not perform this operation on {0}."
 msgstr "無法進行 {0} 上的操作。"
 
@@ -13693,7 +13702,7 @@ msgid "Contact information for %s"
 msgstr "%s 的聯絡人資訊"
 
 #: ../modules/addressbook/e-book-shell-backend.c:229
-#: ../modules/addressbook/e-book-shell-view-actions.c:119
+#: ../modules/addressbook/e-book-shell-view-actions.c:131
 msgid "New Address Book"
 msgstr "新通訊錄"
 
@@ -13703,7 +13712,7 @@ msgid "_Contact"
 msgstr "聯絡人(_C)"
 
 #: ../modules/addressbook/e-book-shell-backend.c:240
-#: ../modules/addressbook/e-book-shell-view-actions.c:892
+#: ../modules/addressbook/e-book-shell-view-actions.c:904
 msgid "Create a new contact"
 msgstr "建立新的聯絡人"
 
@@ -13713,7 +13722,7 @@ msgid "Contact _List"
 msgstr "聯絡人清單(_L)"
 
 #: ../modules/addressbook/e-book-shell-backend.c:247
-#: ../modules/addressbook/e-book-shell-view-actions.c:899
+#: ../modules/addressbook/e-book-shell-view-actions.c:911
 msgid "Create a new contact list"
 msgstr "建立新的聯絡人清單"
 
@@ -13723,12 +13732,12 @@ msgid "Address _Book"
 msgstr "通訊錄(_B)"
 
 #: ../modules/addressbook/e-book-shell-backend.c:257
-#: ../modules/addressbook/e-book-shell-view-actions.c:822
+#: ../modules/addressbook/e-book-shell-view-actions.c:834
 msgid "Create a new address book"
 msgstr "建立新通訊錄"
 
 #: ../modules/addressbook/e-book-shell-backend.c:274
-#: ../modules/addressbook/e-book-shell-view.c:351
+#: ../modules/addressbook/e-book-shell-view.c:356
 msgid "Contacts"
 msgstr "聯絡人"
 
@@ -13736,273 +13745,273 @@ msgstr "聯絡人"
 msgid "Certificates"
 msgstr "證書"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:192
+#: ../modules/addressbook/e-book-shell-view-actions.c:204
 msgid "Address Book Properties"
 msgstr "通訊錄內容"
 
 #. Translators: This is a save dialog title
-#: ../modules/addressbook/e-book-shell-view-actions.c:374
-#: ../modules/addressbook/e-book-shell-view-actions.c:670
+#: ../modules/addressbook/e-book-shell-view-actions.c:386
+#: ../modules/addressbook/e-book-shell-view-actions.c:682
 msgid "Save as vCard"
 msgstr "儲存為 vCard"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:799
+#: ../modules/addressbook/e-book-shell-view-actions.c:811
 msgid "Co_py All Contacts To..."
 msgstr "複製所有的聯絡人到(_P)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:801
+#: ../modules/addressbook/e-book-shell-view-actions.c:813
 msgid "Copy the contacts of the selected address book to another"
 msgstr "將已選取通訊錄中的聯絡人複製到另一個通訊錄"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:806
+#: ../modules/addressbook/e-book-shell-view-actions.c:818
 msgid "D_elete Address Book"
 msgstr "刪除通訊錄(_E)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:808
+#: ../modules/addressbook/e-book-shell-view-actions.c:820
 msgid "Delete the selected address book"
 msgstr "刪除選取的通訊錄"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:813
+#: ../modules/addressbook/e-book-shell-view-actions.c:825
 msgid "Mo_ve All Contacts To..."
 msgstr "將所有的聯絡人移到(_V)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:815
+#: ../modules/addressbook/e-book-shell-view-actions.c:827
 msgid "Move the contacts of the selected address book to another"
 msgstr "將已選取通訊錄中的聯絡人移動到另一個通訊錄"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:820
+#: ../modules/addressbook/e-book-shell-view-actions.c:832
 msgid "_New Address Book"
 msgstr "新增通訊錄(_N)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:827
+#: ../modules/addressbook/e-book-shell-view-actions.c:839
 msgid "Address _Book Properties"
 msgstr "通訊錄屬性(_B)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:829
+#: ../modules/addressbook/e-book-shell-view-actions.c:841
 msgid "Show properties of the selected address book"
 msgstr "顯示選取通訊錄的屬性"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:834
+#: ../modules/addressbook/e-book-shell-view-actions.c:846
 msgid "Address Book _Map"
 msgstr "通訊錄地圖(_M)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:836
+#: ../modules/addressbook/e-book-shell-view-actions.c:848
 msgid "Show map with all contacts from selected address book"
 msgstr "顯示已選取通訊錄中所有聯絡人的地圖"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:841
-#: ../modules/calendar/e-cal-shell-view-actions.c:1447
-#: ../modules/calendar/e-memo-shell-view-actions.c:664
-#: ../modules/calendar/e-task-shell-view-actions.c:788
+#: ../modules/addressbook/e-book-shell-view-actions.c:853
+#: ../modules/calendar/e-cal-shell-view-actions.c:1448
+#: ../modules/calendar/e-memo-shell-view-actions.c:665
+#: ../modules/calendar/e-task-shell-view-actions.c:789
 #: ../modules/mail/e-mail-shell-view-actions.c:1315
 msgid "_Rename..."
 msgstr "重新命名(_R)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:843
+#: ../modules/addressbook/e-book-shell-view-actions.c:855
 msgid "Rename the selected address book"
 msgstr "重新命名選取的通訊錄"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:850
+#: ../modules/addressbook/e-book-shell-view-actions.c:862
 msgid "Stop loading"
 msgstr "停止載入"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:855
+#: ../modules/addressbook/e-book-shell-view-actions.c:867
 msgid "_Copy Contact To..."
 msgstr "複製聯絡人到(_C)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:857
+#: ../modules/addressbook/e-book-shell-view-actions.c:869
 msgid "Copy selected contacts to another address book"
 msgstr "將選取的聯絡人複製到另一個通訊錄"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:862
+#: ../modules/addressbook/e-book-shell-view-actions.c:874
 msgid "_Delete Contact"
 msgstr "刪除聯絡人(_D)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:869
+#: ../modules/addressbook/e-book-shell-view-actions.c:881
 msgid "_Find in Contact..."
 msgstr "在聯絡人內尋找(_F)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:871
+#: ../modules/addressbook/e-book-shell-view-actions.c:883
 msgid "Search for text in the displayed contact"
 msgstr "搜尋顯示的聯絡人中的文字"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:876
+#: ../modules/addressbook/e-book-shell-view-actions.c:888
 msgid "_Forward Contact..."
 msgstr "轉寄聯絡人(_F)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:878
+#: ../modules/addressbook/e-book-shell-view-actions.c:890
 msgid "Send selected contacts to another person"
 msgstr "傳送選取聯絡人給其他使用者。"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:883
+#: ../modules/addressbook/e-book-shell-view-actions.c:895
 msgid "_Move Contact To..."
 msgstr "將聯絡人移到(_M)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:885
+#: ../modules/addressbook/e-book-shell-view-actions.c:897
 msgid "Move selected contacts to another address book"
 msgstr "將選取的聯絡人移至另一個通訊錄"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:890
+#: ../modules/addressbook/e-book-shell-view-actions.c:902
 msgid "_New Contact..."
 msgstr "新增聯絡人(_N)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:897
+#: ../modules/addressbook/e-book-shell-view-actions.c:909
 msgid "New Contact _List..."
 msgstr "新增聯絡人清單(_L)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:904
+#: ../modules/addressbook/e-book-shell-view-actions.c:916
 msgid "_Open Contact"
 msgstr "開啟聯絡人(_O)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:906
+#: ../modules/addressbook/e-book-shell-view-actions.c:918
 msgid "View the current contact"
 msgstr "檢視目前的聯絡人"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:911
+#: ../modules/addressbook/e-book-shell-view-actions.c:923
 msgid "_Send Message to Contact..."
 msgstr "傳送郵件給聯絡人(_S)…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:913
+#: ../modules/addressbook/e-book-shell-view-actions.c:925
 msgid "Send a message to the selected contacts"
 msgstr "傳送郵件至選取的聯絡人"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:920
-#: ../modules/calendar/e-cal-shell-view-actions.c:1603
-#: ../modules/calendar/e-task-shell-view-actions.c:846
+#: ../modules/addressbook/e-book-shell-view-actions.c:932
+#: ../modules/calendar/e-cal-shell-view-actions.c:1604
+#: ../modules/calendar/e-task-shell-view-actions.c:847
 msgid "_Actions"
 msgstr "動作(_A)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:927
-#: ../modules/calendar/e-memo-shell-view-actions.c:701
-#: ../modules/calendar/e-task-shell-view-actions.c:853
+#: ../modules/addressbook/e-book-shell-view-actions.c:939
+#: ../modules/calendar/e-memo-shell-view-actions.c:702
+#: ../modules/calendar/e-task-shell-view-actions.c:854
 #: ../modules/mail/e-mail-shell-view-actions.c:1473
 msgid "_Preview"
 msgstr "預覽(_P)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:936
-#: ../modules/calendar/e-cal-shell-view-actions.c:1620
-#: ../modules/calendar/e-memo-shell-view-actions.c:714
-#: ../modules/calendar/e-task-shell-view-actions.c:866
+#: ../modules/addressbook/e-book-shell-view-actions.c:948
+#: ../modules/calendar/e-cal-shell-view-actions.c:1621
+#: ../modules/calendar/e-memo-shell-view-actions.c:715
+#: ../modules/calendar/e-task-shell-view-actions.c:867
 msgid "_Delete"
 msgstr "刪除(_D)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:940
+#: ../modules/addressbook/e-book-shell-view-actions.c:952
 #: ../modules/mail/e-mail-shell-view-actions.c:1238
 msgid "_Properties"
 msgstr "屬性(_P)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:944
+#: ../modules/addressbook/e-book-shell-view-actions.c:956
 msgid "Address Book Map"
 msgstr "通訊錄地圖"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:976
+#: ../modules/addressbook/e-book-shell-view-actions.c:988
 msgid "Contact _Preview"
 msgstr "聯絡人預覽(_P)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:978
+#: ../modules/addressbook/e-book-shell-view-actions.c:990
 msgid "Show contact preview window"
 msgstr "顯示聯絡人預覽視窗"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:984
+#: ../modules/addressbook/e-book-shell-view-actions.c:996
 msgid "Show _Maps"
 msgstr "顯示地圖(_M)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:986
+#: ../modules/addressbook/e-book-shell-view-actions.c:998
 msgid "Show maps in contact preview window"
 msgstr "在聯絡人預覽視窗顯示地圖"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1005
-#: ../modules/calendar/e-memo-shell-view-actions.c:771
-#: ../modules/calendar/e-task-shell-view-actions.c:935
+#: ../modules/addressbook/e-book-shell-view-actions.c:1017
+#: ../modules/calendar/e-memo-shell-view-actions.c:772
+#: ../modules/calendar/e-task-shell-view-actions.c:936
 #: ../modules/mail/e-mail-shell-view-actions.c:1599
 msgid "_Classic View"
 msgstr "傳統檢視(_C)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1007
+#: ../modules/addressbook/e-book-shell-view-actions.c:1019
 msgid "Show contact preview below the contact list"
 msgstr "在聯絡人清單下方顯示聯絡人預覽"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1012
-#: ../modules/calendar/e-memo-shell-view-actions.c:778
-#: ../modules/calendar/e-task-shell-view-actions.c:942
+#: ../modules/addressbook/e-book-shell-view-actions.c:1024
+#: ../modules/calendar/e-memo-shell-view-actions.c:779
+#: ../modules/calendar/e-task-shell-view-actions.c:943
 #: ../modules/mail/e-mail-shell-view-actions.c:1606
 msgid "_Vertical View"
 msgstr "垂直檢視(_V)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1014
+#: ../modules/addressbook/e-book-shell-view-actions.c:1026
 msgid "Show contact preview alongside the contact list"
 msgstr "在聯絡人清單旁邊顯示聯絡人預覽"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1022
-#: ../modules/calendar/e-cal-shell-view-actions.c:1759
-#: ../modules/calendar/e-memo-shell-view-actions.c:788
-#: ../modules/calendar/e-task-shell-view-actions.c:959
+#: ../modules/addressbook/e-book-shell-view-actions.c:1034
+#: ../modules/calendar/e-cal-shell-view-actions.c:1760
+#: ../modules/calendar/e-memo-shell-view-actions.c:789
+#: ../modules/calendar/e-task-shell-view-actions.c:960
 msgid "Any Category"
 msgstr "任何分類"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1029
-#: ../modules/calendar/e-cal-shell-view-actions.c:1780
-#: ../modules/calendar/e-memo-shell-view-actions.c:795
-#: ../modules/calendar/e-task-shell-view-actions.c:994
+#: ../modules/addressbook/e-book-shell-view-actions.c:1041
+#: ../modules/calendar/e-cal-shell-view-actions.c:1781
+#: ../modules/calendar/e-memo-shell-view-actions.c:796
+#: ../modules/calendar/e-task-shell-view-actions.c:995
 msgid "Unmatched"
 msgstr "沒有相符資料"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1039
-#: ../modules/calendar/e-cal-shell-view-actions.c:1790
-#: ../modules/calendar/e-memo-shell-view-actions.c:805
-#: ../modules/calendar/e-task-shell-view-actions.c:1004
+#: ../modules/addressbook/e-book-shell-view-actions.c:1051
+#: ../modules/calendar/e-cal-shell-view-actions.c:1791
+#: ../modules/calendar/e-memo-shell-view-actions.c:806
+#: ../modules/calendar/e-task-shell-view-actions.c:1005
 #: ../modules/mail/e-mail-shell-view-actions.c:1675
 #: ../shell/e-shell-content.c:664
 msgid "Advanced Search"
 msgstr "進階搜尋"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1072
+#: ../modules/addressbook/e-book-shell-view-actions.c:1084
 msgid "Print all shown contacts"
 msgstr "列印所有顯示的聯絡人"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1079
+#: ../modules/addressbook/e-book-shell-view-actions.c:1091
 msgid "Preview the contacts to be printed"
 msgstr "預覽將要列印的聯絡人"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1086
+#: ../modules/addressbook/e-book-shell-view-actions.c:1098
 msgid "Print selected contacts"
 msgstr "列印已選取的聯絡人"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1101
+#: ../modules/addressbook/e-book-shell-view-actions.c:1113
 msgid "S_ave Address Book as vCard"
 msgstr "將通訊錄另存為 vC_ard"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1103
+#: ../modules/addressbook/e-book-shell-view-actions.c:1115
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "將已選取通訊錄中的聯絡人儲存為 vCard"
 
 #. Translators: This is an action label
-#: ../modules/addressbook/e-book-shell-view-actions.c:1109
-#: ../modules/addressbook/e-book-shell-view-actions.c:1119
+#: ../modules/addressbook/e-book-shell-view-actions.c:1121
+#: ../modules/addressbook/e-book-shell-view-actions.c:1131
 msgid "_Save as vCard..."
 msgstr "儲存成 _vCard…"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:1111
+#: ../modules/addressbook/e-book-shell-view-actions.c:1123
 msgid "Save selected contacts as a vCard"
 msgstr "將選取的聯絡人儲存為 vCard"
 
-#: ../modules/addressbook/e-book-shell-view.c:295
+#: ../modules/addressbook/e-book-shell-view.c:300
 msgid "_Forward Contacts"
 msgstr "轉寄聯絡人(_F)"
 
-#: ../modules/addressbook/e-book-shell-view.c:297
+#: ../modules/addressbook/e-book-shell-view.c:302
 msgid "_Forward Contact"
 msgstr "轉寄聯絡人(_F)"
 
-#: ../modules/addressbook/e-book-shell-view.c:328
+#: ../modules/addressbook/e-book-shell-view.c:333
 msgid "_Send Message to Contacts"
 msgstr "傳送郵件給聯絡人(_S)"
 
-#: ../modules/addressbook/e-book-shell-view.c:330
+#: ../modules/addressbook/e-book-shell-view.c:335
 msgid "_Send Message to List"
 msgstr "傳送郵件給清單(_S)"
 
-#: ../modules/addressbook/e-book-shell-view.c:332
+#: ../modules/addressbook/e-book-shell-view.c:337
 msgid "_Send Message to Contact"
 msgstr "傳送郵件給聯絡人(_S)"
 
@@ -14036,7 +14045,7 @@ msgstr "支援的搜尋起點"
 
 #: ../modules/addressbook/ldap-config.ui.h:13
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:181
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:112
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:113
 msgid "_Port:"
 msgstr "連接埠(_P):"
 
@@ -14384,7 +14393,7 @@ msgstr "加密："
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:648
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:258
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:181
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:182
 msgid "Authentication"
 msgstr "驗證"
 
@@ -14664,7 +14673,7 @@ msgid "_24 hour"
 msgstr "_24 小時"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:25
-#: ../modules/calendar/e-cal-shell-view-actions.c:1742
+#: ../modules/calendar/e-cal-shell-view-actions.c:1743
 msgid "Work Week"
 msgstr "工作週"
 
@@ -14818,7 +14827,7 @@ msgid "Publishing Information"
 msgstr "發布資訊"
 
 #: ../modules/calendar/e-cal-shell-backend.c:278
-#: ../modules/calendar/e-cal-shell-view-actions.c:191
+#: ../modules/calendar/e-cal-shell-view-actions.c:192
 msgid "New Calendar"
 msgstr "新行事曆"
 
@@ -14828,7 +14837,7 @@ msgid "_Appointment"
 msgstr "約會(_A)"
 
 #: ../modules/calendar/e-cal-shell-backend.c:289
-#: ../modules/calendar/e-cal-shell-view-actions.c:1547
+#: ../modules/calendar/e-cal-shell-view-actions.c:1548
 msgid "Create a new appointment"
 msgstr "建立一個新的約會"
 
@@ -14856,7 +14865,7 @@ msgid "Cale_ndar"
 msgstr "行事曆(_N)"
 
 #: ../modules/calendar/e-cal-shell-backend.c:313
-#: ../modules/calendar/e-cal-shell-view-actions.c:1421
+#: ../modules/calendar/e-cal-shell-view-actions.c:1422
 msgid "Create a new calendar"
 msgstr "建立新行事曆"
 
@@ -14872,16 +14881,16 @@ msgstr "正在載入行事曆"
 msgid "Calendar Selector"
 msgstr "行事曆選擇器"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:1066
+#: ../modules/calendar/e-cal-shell-sidebar.c:1074
 #, c-format
 msgid "Opening calendar '%s'"
 msgstr "開啟行事曆「%s」"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:291
+#: ../modules/calendar/e-cal-shell-view-actions.c:292
 msgid "Calendar Properties"
 msgstr "iCalendar 錯誤"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:322
+#: ../modules/calendar/e-cal-shell-view-actions.c:323
 msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
@@ -14890,337 +14899,337 @@ msgstr "此作業會永久性刪除比選取時間還舊的所有事件。如果
 
 #. Translators: This is the first part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
-#: ../modules/calendar/e-cal-shell-view-actions.c:339
+#: ../modules/calendar/e-cal-shell-view-actions.c:340
 msgid "Purge events older than"
 msgstr "清除早於這段時間的事件"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:590
+#: ../modules/calendar/e-cal-shell-view-actions.c:591
 msgid "Copying Items"
 msgstr "複製項目"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:884
+#: ../modules/calendar/e-cal-shell-view-actions.c:885
 msgid "Moving Items"
 msgstr "移動項目"
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
-#: ../modules/calendar/e-cal-shell-view-actions.c:1217
+#: ../modules/calendar/e-cal-shell-view-actions.c:1218
 msgid "event"
 msgstr "事件"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1219
+#: ../modules/calendar/e-cal-shell-view-actions.c:1220
 #: ../modules/calendar/e-cal-shell-view-memopad.c:231
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:298
-#: ../modules/calendar/e-memo-shell-view-actions.c:548
-#: ../modules/calendar/e-task-shell-view-actions.c:665
+#: ../modules/calendar/e-memo-shell-view-actions.c:549
+#: ../modules/calendar/e-task-shell-view-actions.c:666
 msgid "Save as iCalendar"
 msgstr "儲存為 iCalendar"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1377
-#: ../modules/calendar/e-memo-shell-view-actions.c:629
+#: ../modules/calendar/e-cal-shell-view-actions.c:1378
+#: ../modules/calendar/e-memo-shell-view-actions.c:630
 msgid "_Copy..."
 msgstr "複製(_C)…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1384
+#: ../modules/calendar/e-cal-shell-view-actions.c:1385
 msgid "D_elete Calendar"
 msgstr "刪除行事曆(_E)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1386
+#: ../modules/calendar/e-cal-shell-view-actions.c:1387
 msgid "Delete the selected calendar"
 msgstr "刪除選取的行事曆"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1393
+#: ../modules/calendar/e-cal-shell-view-actions.c:1394
 msgid "Go Back"
 msgstr "向後"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1400
+#: ../modules/calendar/e-cal-shell-view-actions.c:1401
 msgid "Go Forward"
 msgstr "向前"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1407
+#: ../modules/calendar/e-cal-shell-view-actions.c:1408
 msgid "Select today"
 msgstr "選取今日"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1412
+#: ../modules/calendar/e-cal-shell-view-actions.c:1413
 msgid "Select _Date"
 msgstr "選擇日期(_D)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1414
+#: ../modules/calendar/e-cal-shell-view-actions.c:1415
 msgid "Select a specific date"
 msgstr "選取特定日期"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1419
+#: ../modules/calendar/e-cal-shell-view-actions.c:1420
 msgid "_New Calendar"
 msgstr "新增行事曆(_N)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1433
-#: ../modules/calendar/e-task-shell-view-actions.c:837
+#: ../modules/calendar/e-cal-shell-view-actions.c:1434
+#: ../modules/calendar/e-task-shell-view-actions.c:838
 msgid "Purg_e"
 msgstr "清除(_E)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1435
+#: ../modules/calendar/e-cal-shell-view-actions.c:1436
 msgid "Purge old appointments and meetings"
 msgstr "刪除舊約會和會議"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1440
-#: ../modules/calendar/e-memo-shell-view-actions.c:657
-#: ../modules/calendar/e-task-shell-view-actions.c:781
+#: ../modules/calendar/e-cal-shell-view-actions.c:1441
+#: ../modules/calendar/e-memo-shell-view-actions.c:658
+#: ../modules/calendar/e-task-shell-view-actions.c:782
 msgid "Re_fresh"
 msgstr "重新整理(_F)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1442
+#: ../modules/calendar/e-cal-shell-view-actions.c:1443
 msgid "Refresh the selected calendar"
 msgstr "重新整理選取的行事曆"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1449
+#: ../modules/calendar/e-cal-shell-view-actions.c:1450
 msgid "Rename the selected calendar"
 msgstr "重新命名選取的行事曆"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1454
+#: ../modules/calendar/e-cal-shell-view-actions.c:1455
 msgid "Find _next"
 msgstr "尋找下一個(_N)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1456
+#: ../modules/calendar/e-cal-shell-view-actions.c:1457
 msgid "Find next occurrence of the current search string"
 msgstr "尋找目前搜尋字詞下一個出現處"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1461
+#: ../modules/calendar/e-cal-shell-view-actions.c:1462
 msgid "Find _previous"
 msgstr "尋找上一個(_P)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1463
+#: ../modules/calendar/e-cal-shell-view-actions.c:1464
 msgid "Find previous occurrence of the current search string"
 msgstr "尋找目前搜尋字詞上一個出現處"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1468
+#: ../modules/calendar/e-cal-shell-view-actions.c:1469
 msgid "Stop _running search"
 msgstr "停止執行搜尋(_R)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1470
+#: ../modules/calendar/e-cal-shell-view-actions.c:1471
 msgid "Stop currently running search"
 msgstr "停止目前執行的搜尋"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1475
+#: ../modules/calendar/e-cal-shell-view-actions.c:1476
 msgid "Show _Only This Calendar"
 msgstr "只顯示這個行事曆(_O)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1482
+#: ../modules/calendar/e-cal-shell-view-actions.c:1483
 msgid "Cop_y to Calendar..."
 msgstr "複製至行事曆(_Y)…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1489
+#: ../modules/calendar/e-cal-shell-view-actions.c:1490
 msgid "_Delegate Meeting..."
 msgstr "委派會議(_D)…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1496
+#: ../modules/calendar/e-cal-shell-view-actions.c:1497
 msgid "_Delete Appointment"
 msgstr "刪除約會(_D)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1498
+#: ../modules/calendar/e-cal-shell-view-actions.c:1499
 msgid "Delete selected appointments"
 msgstr "刪除選取的約會"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1503
+#: ../modules/calendar/e-cal-shell-view-actions.c:1504
 msgid "Delete This _Occurrence"
 msgstr "刪除這次發生的事件(_O)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1505
+#: ../modules/calendar/e-cal-shell-view-actions.c:1506
 msgid "Delete this occurrence"
 msgstr "刪除此週期"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1510
+#: ../modules/calendar/e-cal-shell-view-actions.c:1511
 msgid "Delete All Occ_urrences"
 msgstr "刪除所有發生的事件(_U)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1512
+#: ../modules/calendar/e-cal-shell-view-actions.c:1513
 msgid "Delete all occurrences"
 msgstr "刪除全部週期"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1517
+#: ../modules/calendar/e-cal-shell-view-actions.c:1518
 msgid "New All Day _Event..."
 msgstr "新增全天事件(_E)…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1519
+#: ../modules/calendar/e-cal-shell-view-actions.c:1520
 msgid "Create a new all day event"
 msgstr "建立新的全天事件"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1524
+#: ../modules/calendar/e-cal-shell-view-actions.c:1525
 #: ../modules/calendar/e-cal-shell-view-memopad.c:265
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:338
-#: ../modules/calendar/e-memo-shell-view-actions.c:622
-#: ../modules/calendar/e-task-shell-view-actions.c:746
+#: ../modules/calendar/e-memo-shell-view-actions.c:623
+#: ../modules/calendar/e-task-shell-view-actions.c:747
 msgid "_Forward as iCalendar..."
 msgstr "以 iCale_ndar 轉寄…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1531
+#: ../modules/calendar/e-cal-shell-view-actions.c:1532
 msgid "New _Meeting..."
 msgstr "新增會議(_M)…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1533
+#: ../modules/calendar/e-cal-shell-view-actions.c:1534
 msgid "Create a new meeting"
 msgstr "建立新的會議"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1538
+#: ../modules/calendar/e-cal-shell-view-actions.c:1539
 msgid "Mo_ve to Calendar..."
 msgstr "移至行事曆(_V)…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1545
+#: ../modules/calendar/e-cal-shell-view-actions.c:1546
 msgid "New _Appointment..."
 msgstr "新增約會(_A)…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1552
+#: ../modules/calendar/e-cal-shell-view-actions.c:1553
 msgid "Make this Occurrence _Movable"
 msgstr "將這個事件標示成可移動(_M)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1559
+#: ../modules/calendar/e-cal-shell-view-actions.c:1560
 msgid "_Open Appointment"
 msgstr "開啟約會(_O)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1561
+#: ../modules/calendar/e-cal-shell-view-actions.c:1562
 msgid "View the current appointment"
 msgstr "檢視目前的約會"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1566
+#: ../modules/calendar/e-cal-shell-view-actions.c:1567
 msgid "_Reply"
 msgstr "回覆(_R)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1580
+#: ../modules/calendar/e-cal-shell-view-actions.c:1581
 msgid "_Schedule Meeting..."
 msgstr "會議排程(_S)…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1582
+#: ../modules/calendar/e-cal-shell-view-actions.c:1583
 msgid "Converts an appointment to a meeting"
 msgstr "將約會轉換為會議"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1587
+#: ../modules/calendar/e-cal-shell-view-actions.c:1588
 msgid "Conv_ert to Appointment..."
 msgstr "轉換為約會(_E)…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1589
+#: ../modules/calendar/e-cal-shell-view-actions.c:1590
 msgid "Converts a meeting to an appointment"
 msgstr "將會議轉換為約會"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1594
+#: ../modules/calendar/e-cal-shell-view-actions.c:1595
 msgid "Quit"
 msgstr "結束"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1714
+#: ../modules/calendar/e-cal-shell-view-actions.c:1715
 msgid "Day"
 msgstr "天"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1716
+#: ../modules/calendar/e-cal-shell-view-actions.c:1717
 msgid "Show one day"
 msgstr "顯示一天"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1721
+#: ../modules/calendar/e-cal-shell-view-actions.c:1722
 msgid "List"
 msgstr "清單"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1723
+#: ../modules/calendar/e-cal-shell-view-actions.c:1724
 msgid "Show as list"
 msgstr "顯示成清單"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1728
+#: ../modules/calendar/e-cal-shell-view-actions.c:1729
 msgid "Month"
 msgstr "月"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1730
+#: ../modules/calendar/e-cal-shell-view-actions.c:1731
 msgid "Show one month"
 msgstr "顯示一個月"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1735
+#: ../modules/calendar/e-cal-shell-view-actions.c:1736
 msgid "Week"
 msgstr "週"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1737
+#: ../modules/calendar/e-cal-shell-view-actions.c:1738
 msgid "Show one week"
 msgstr "顯示一週"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1744
+#: ../modules/calendar/e-cal-shell-view-actions.c:1745
 msgid "Show one work week"
 msgstr "顯示一個工作週"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1752
+#: ../modules/calendar/e-cal-shell-view-actions.c:1753
 msgid "Active Appointments"
 msgstr "進行中的約會"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1766
+#: ../modules/calendar/e-cal-shell-view-actions.c:1767
 msgid "Next 7 Days' Appointments"
 msgstr "未來 7 天的約會(_P)"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1773
+#: ../modules/calendar/e-cal-shell-view-actions.c:1774
 msgid "Occurs Less Than 5 Times"
 msgstr "發生少於五次"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1804
-#: ../modules/calendar/e-memo-shell-view-actions.c:819
-#: ../modules/calendar/e-task-shell-view-actions.c:1018
+#: ../modules/calendar/e-cal-shell-view-actions.c:1805
+#: ../modules/calendar/e-memo-shell-view-actions.c:820
+#: ../modules/calendar/e-task-shell-view-actions.c:1019
 msgid "Description contains"
 msgstr "描述包含"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1811
-#: ../modules/calendar/e-memo-shell-view-actions.c:826
-#: ../modules/calendar/e-task-shell-view-actions.c:1025
+#: ../modules/calendar/e-cal-shell-view-actions.c:1812
+#: ../modules/calendar/e-memo-shell-view-actions.c:827
+#: ../modules/calendar/e-task-shell-view-actions.c:1026
 msgid "Summary contains"
 msgstr "主旨包含"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1823
+#: ../modules/calendar/e-cal-shell-view-actions.c:1824
 msgid "Print this calendar"
 msgstr "列印這個行事曆"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1830
+#: ../modules/calendar/e-cal-shell-view-actions.c:1831
 msgid "Preview the calendar to be printed"
 msgstr "預覽將要列印的行事曆"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1852
+#: ../modules/calendar/e-cal-shell-view-actions.c:1853
 #: ../modules/calendar/e-cal-shell-view-memopad.c:306
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:393
-#: ../modules/calendar/e-memo-shell-view-actions.c:867
-#: ../modules/calendar/e-task-shell-view-actions.c:1066
+#: ../modules/calendar/e-memo-shell-view-actions.c:868
+#: ../modules/calendar/e-task-shell-view-actions.c:1067
 msgid "_Save as iCalendar..."
 msgstr "儲存為 iCalendar[_S]…"
 
-#: ../modules/calendar/e-cal-shell-view-actions.c:1929
+#: ../modules/calendar/e-cal-shell-view-actions.c:1930
 msgid "Go To"
 msgstr "移至"
 
 #. Translators: Default filename part saving a memo to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../modules/calendar/e-cal-shell-view-memopad.c:229
-#: ../modules/calendar/e-memo-shell-view-actions.c:546
+#: ../modules/calendar/e-memo-shell-view-actions.c:547
 msgid "memo"
 msgstr "備忘錄"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:272
-#: ../modules/calendar/e-memo-shell-view-actions.c:678
+#: ../modules/calendar/e-memo-shell-view-actions.c:679
 msgid "New _Memo"
 msgstr "新增備忘錄(_M)"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:274
 #: ../modules/calendar/e-memo-shell-backend.c:204
-#: ../modules/calendar/e-memo-shell-view-actions.c:680
+#: ../modules/calendar/e-memo-shell-view-actions.c:681
 msgid "Create a new memo"
 msgstr "建立新的備忘錄"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:279
-#: ../modules/calendar/e-memo-shell-view-actions.c:685
+#: ../modules/calendar/e-memo-shell-view-actions.c:686
 msgid "_Open Memo"
 msgstr "開啟備忘錄(_O)"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:281
-#: ../modules/calendar/e-memo-shell-view-actions.c:687
+#: ../modules/calendar/e-memo-shell-view-actions.c:688
 msgid "View the selected memo"
 msgstr "檢視選取的備忘錄"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:286
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:373
-#: ../modules/calendar/e-memo-shell-view-actions.c:692
-#: ../modules/calendar/e-task-shell-view-actions.c:830
+#: ../modules/calendar/e-memo-shell-view-actions.c:693
+#: ../modules/calendar/e-task-shell-view-actions.c:831
 msgid "Open _Web Page"
 msgstr "開啟網頁(_W)"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:298
-#: ../modules/calendar/e-memo-shell-view-actions.c:852
+#: ../modules/calendar/e-memo-shell-view-actions.c:853
 msgid "Print the selected memo"
 msgstr "列印選取的備忘錄"
 
@@ -15253,22 +15262,22 @@ msgstr "不能搜尋未使用的行事曆"
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:296
-#: ../modules/calendar/e-task-shell-view-actions.c:663
+#: ../modules/calendar/e-task-shell-view-actions.c:664
 msgid "task"
 msgstr "工作"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:331
-#: ../modules/calendar/e-task-shell-view-actions.c:725
+#: ../modules/calendar/e-task-shell-view-actions.c:726
 msgid "_Assign Task"
 msgstr "指派工作(_A)"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:345
-#: ../modules/calendar/e-task-shell-view-actions.c:802
+#: ../modules/calendar/e-task-shell-view-actions.c:803
 msgid "_Mark as Complete"
 msgstr "標示為完成(_M)"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:347
-#: ../modules/calendar/e-task-shell-view-actions.c:804
+#: ../modules/calendar/e-task-shell-view-actions.c:805
 msgid "Mark selected tasks as complete"
 msgstr "將選取的工作標示成完成"
 
@@ -15277,38 +15286,38 @@ msgid "_Mark as Incomplete"
 msgstr "標示為未完成(_M)"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:354
-#: ../modules/calendar/e-task-shell-view-actions.c:811
+#: ../modules/calendar/e-task-shell-view-actions.c:812
 msgid "Mark selected tasks as incomplete"
 msgstr "將選取的工作標示成未完成"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:359
-#: ../modules/calendar/e-task-shell-view-actions.c:816
+#: ../modules/calendar/e-task-shell-view-actions.c:817
 msgid "New _Task"
 msgstr "新增工作(_T)"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:361
 #: ../modules/calendar/e-task-shell-backend.c:201
-#: ../modules/calendar/e-task-shell-view-actions.c:818
+#: ../modules/calendar/e-task-shell-view-actions.c:819
 msgid "Create a new task"
 msgstr "建立一個新的工作"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:366
-#: ../modules/calendar/e-task-shell-view-actions.c:823
+#: ../modules/calendar/e-task-shell-view-actions.c:824
 msgid "_Open Task"
 msgstr "開啟工作(_O)"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:368
-#: ../modules/calendar/e-task-shell-view-actions.c:825
+#: ../modules/calendar/e-task-shell-view-actions.c:826
 msgid "View the selected task"
 msgstr "檢視選取的工作"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:385
-#: ../modules/calendar/e-task-shell-view-actions.c:1051
+#: ../modules/calendar/e-task-shell-view-actions.c:1052
 msgid "Print the selected task"
 msgstr "列印選取的工作"
 
 #: ../modules/calendar/e-memo-shell-backend.c:193
-#: ../modules/calendar/e-memo-shell-view-actions.c:216
+#: ../modules/calendar/e-memo-shell-view-actions.c:217
 msgid "New Memo List"
 msgstr "新增備忘錄清單"
 
@@ -15332,7 +15341,7 @@ msgid "Memo Li_st"
 msgstr "備忘錄清單(_S)"
 
 #: ../modules/calendar/e-memo-shell-backend.c:221
-#: ../modules/calendar/e-memo-shell-view-actions.c:645
+#: ../modules/calendar/e-memo-shell-view-actions.c:646
 msgid "Create a new memo list"
 msgstr "建立新備忘錄清單"
 
@@ -15344,85 +15353,85 @@ msgstr "正在載入備忘錄"
 msgid "Memo List Selector"
 msgstr "備忘錄清單選擇器"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:951
+#: ../modules/calendar/e-memo-shell-sidebar.c:959
 #, c-format
 msgid "Opening memo list '%s'"
 msgstr "開啟備忘錄清單「%s」"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:232
-#: ../modules/calendar/e-memo-shell-view-actions.c:247
+#: ../modules/calendar/e-memo-shell-view-actions.c:233
+#: ../modules/calendar/e-memo-shell-view-actions.c:248
 msgid "Print Memos"
 msgstr "列印備忘錄"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:288
+#: ../modules/calendar/e-memo-shell-view-actions.c:289
 msgid "Memo List Properties"
 msgstr "備忘錄清單屬性"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:608
+#: ../modules/calendar/e-memo-shell-view-actions.c:609
 msgid "_Delete Memo"
 msgstr "刪除備忘錄(_D)"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:615
+#: ../modules/calendar/e-memo-shell-view-actions.c:616
 msgid "_Find in Memo..."
 msgstr "在備忘錄內尋找(_F)…"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:617
+#: ../modules/calendar/e-memo-shell-view-actions.c:618
 msgid "Search for text in the displayed memo"
 msgstr "搜尋顯示的備忘錄中的文字"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:636
+#: ../modules/calendar/e-memo-shell-view-actions.c:637
 msgid "D_elete Memo List"
 msgstr "刪除備忘錄清單(_E)"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:638
+#: ../modules/calendar/e-memo-shell-view-actions.c:639
 msgid "Delete the selected memo list"
 msgstr "刪除選取的備忘錄清單"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:643
+#: ../modules/calendar/e-memo-shell-view-actions.c:644
 msgid "_New Memo List"
 msgstr "新增備忘錄清單(_N)"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:659
+#: ../modules/calendar/e-memo-shell-view-actions.c:660
 msgid "Refresh the selected memo list"
 msgstr "重新整理選取的備忘錄清單"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:666
+#: ../modules/calendar/e-memo-shell-view-actions.c:667
 msgid "Rename the selected memo list"
 msgstr "重新命名選取的備忘錄清單"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:671
+#: ../modules/calendar/e-memo-shell-view-actions.c:672
 msgid "Show _Only This Memo List"
 msgstr "只顯示此備忘錄清單(_O)"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:750
+#: ../modules/calendar/e-memo-shell-view-actions.c:751
 msgid "Memo _Preview"
 msgstr "備忘錄預覽(_P)"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:752
+#: ../modules/calendar/e-memo-shell-view-actions.c:753
 msgid "Show memo preview pane"
 msgstr "顯示備忘錄預覽窗格"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:773
+#: ../modules/calendar/e-memo-shell-view-actions.c:774
 msgid "Show memo preview below the memo list"
 msgstr "在備忘錄清單下方顯示備忘錄預覽"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:780
+#: ../modules/calendar/e-memo-shell-view-actions.c:781
 msgid "Show memo preview alongside the memo list"
 msgstr "在備忘錄清單旁邊顯示備忘錄預覽"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:838
+#: ../modules/calendar/e-memo-shell-view-actions.c:839
 msgid "Print the list of memos"
 msgstr "列印備忘錄清單"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:845
+#: ../modules/calendar/e-memo-shell-view-actions.c:846
 msgid "Preview the list of memos to be printed"
 msgstr "預覽將要列印的備忘錄清單"
 
-#: ../modules/calendar/e-memo-shell-view.c:233
+#: ../modules/calendar/e-memo-shell-view.c:236
 msgid "Delete Memos"
 msgstr "刪除備忘錄"
 
-#: ../modules/calendar/e-memo-shell-view.c:235
+#: ../modules/calendar/e-memo-shell-view.c:238
 msgid "Delete Memo"
 msgstr "刪除備忘錄"
 
@@ -15439,7 +15448,7 @@ msgid "%d selected"
 msgstr "已選擇 %d 個"
 
 #: ../modules/calendar/e-task-shell-backend.c:190
-#: ../modules/calendar/e-task-shell-view-actions.c:239
+#: ../modules/calendar/e-task-shell-view-actions.c:240
 msgid "New Task List"
 msgstr "新增工作清單"
 
@@ -15463,7 +15472,7 @@ msgid "Tas_k List"
 msgstr "工作清單(_K)"
 
 #: ../modules/calendar/e-task-shell-backend.c:218
-#: ../modules/calendar/e-task-shell-view-actions.c:769
+#: ../modules/calendar/e-task-shell-view-actions.c:770
 msgid "Create a new task list"
 msgstr "建立新工作清單"
 
@@ -15475,21 +15484,21 @@ msgstr "正在載入工作"
 msgid "Task List Selector"
 msgstr "工作清單選擇器"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:951
+#: ../modules/calendar/e-task-shell-sidebar.c:959
 #, c-format
 msgid "Opening task list '%s'"
 msgstr "開啟工作清單「%s」"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:255
-#: ../modules/calendar/e-task-shell-view-actions.c:270
+#: ../modules/calendar/e-task-shell-view-actions.c:256
+#: ../modules/calendar/e-task-shell-view-actions.c:271
 msgid "Print Tasks"
 msgstr "打印工作"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:311
+#: ../modules/calendar/e-task-shell-view-actions.c:312
 msgid "Task List Properties"
 msgstr "工作清單"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:607
+#: ../modules/calendar/e-task-shell-view-actions.c:608
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -15500,107 +15509,107 @@ msgstr ""
 "\n"
 "確定清除這些工作？"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:614
+#: ../modules/calendar/e-task-shell-view-actions.c:615
 msgid "Do not ask me again"
 msgstr "不要再詢問我"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:732
+#: ../modules/calendar/e-task-shell-view-actions.c:733
 msgid "_Delete Task"
 msgstr "刪除工作(_D)"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:739
+#: ../modules/calendar/e-task-shell-view-actions.c:740
 msgid "_Find in Task..."
 msgstr "在工作內尋找(_F)…"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:741
+#: ../modules/calendar/e-task-shell-view-actions.c:742
 msgid "Search for text in the displayed task"
 msgstr "搜尋顯示的工作中的文字"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:753
+#: ../modules/calendar/e-task-shell-view-actions.c:754
 msgid "Copy..."
 msgstr "複製…"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:760
+#: ../modules/calendar/e-task-shell-view-actions.c:761
 msgid "D_elete Task List"
 msgstr "刪除工作清單(_E)"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:762
+#: ../modules/calendar/e-task-shell-view-actions.c:763
 msgid "Delete the selected task list"
 msgstr "刪除選取的工作清單"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:767
+#: ../modules/calendar/e-task-shell-view-actions.c:768
 msgid "_New Task List"
 msgstr "新增工作清單(_N)"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:783
+#: ../modules/calendar/e-task-shell-view-actions.c:784
 msgid "Refresh the selected task list"
 msgstr "重新整理選取的工作清單"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:790
+#: ../modules/calendar/e-task-shell-view-actions.c:791
 msgid "Rename the selected task list"
 msgstr "重新命名選取的工作清單"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:795
+#: ../modules/calendar/e-task-shell-view-actions.c:796
 msgid "Show _Only This Task List"
 msgstr "只顯示此工作清單(_O)"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:809
+#: ../modules/calendar/e-task-shell-view-actions.c:810
 msgid "Mar_k as Incomplete"
 msgstr "標示為未完成(_K)"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:839
+#: ../modules/calendar/e-task-shell-view-actions.c:840
 msgid "Delete completed tasks"
 msgstr "刪除已完成的工作"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:914
+#: ../modules/calendar/e-task-shell-view-actions.c:915
 msgid "Task _Preview"
 msgstr "工作預覽(_P)"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:916
+#: ../modules/calendar/e-task-shell-view-actions.c:917
 msgid "Show task preview pane"
 msgstr "顯示工作預覽窗格"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:937
+#: ../modules/calendar/e-task-shell-view-actions.c:938
 msgid "Show task preview below the task list"
 msgstr "在工作清單下方顯示工作預覽"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:944
+#: ../modules/calendar/e-task-shell-view-actions.c:945
 msgid "Show task preview alongside the task list"
 msgstr "在工作清單旁邊顯示工作預覽"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:952
+#: ../modules/calendar/e-task-shell-view-actions.c:953
 msgid "Active Tasks"
 msgstr "進行中的工作"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:966
+#: ../modules/calendar/e-task-shell-view-actions.c:967
 msgid "Completed Tasks"
 msgstr "已完成的工作 "
 
-#: ../modules/calendar/e-task-shell-view-actions.c:973
+#: ../modules/calendar/e-task-shell-view-actions.c:974
 msgid "Next 7 Days' Tasks"
 msgstr "未來 7 天的工作"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:980
+#: ../modules/calendar/e-task-shell-view-actions.c:981
 msgid "Overdue Tasks"
 msgstr "過期的工作"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:987
+#: ../modules/calendar/e-task-shell-view-actions.c:988
 msgid "Tasks with Attachments"
 msgstr "有附件的工作"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:1037
+#: ../modules/calendar/e-task-shell-view-actions.c:1038
 msgid "Print the list of tasks"
 msgstr "打印工作清單"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:1044
+#: ../modules/calendar/e-task-shell-view-actions.c:1045
 msgid "Preview the list of tasks to be printed"
 msgstr "預覽將要列印的工作清單"
 
-#: ../modules/calendar/e-task-shell-view.c:368
+#: ../modules/calendar/e-task-shell-view.c:371
 msgid "Delete Tasks"
 msgstr "刪除工作"
 
-#: ../modules/calendar/e-task-shell-view.c:370
+#: ../modules/calendar/e-task-shell-view.c:373
 msgid "Delete Task"
 msgstr "刪除工作"
 
@@ -16417,42 +16426,42 @@ msgid "Choose a mbox spool directory"
 msgstr "選擇 mbox 排程器目錄"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:149
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:81
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:82
 #: ../modules/plugin-manager/evolution-plugin-manager.c:160
 msgid "Configuration"
 msgstr "組態"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:167
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:99
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:100
 #: ../plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "_Server:"
 msgstr "伺服器(_S):"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:193
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:228
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:229
 msgid "User_name:"
 msgstr "使用者名稱(_N):"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:226
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:149
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:150
 msgid "Encryption _method:"
 msgstr "加密方法(_M):"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:241
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:164
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:165
 msgid "STARTTLS after connecting"
 msgstr "連線後使用 STARTTLS"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:245
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:168
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:169
 msgid "SSL on a dedicated port"
 msgstr "SSL 於專用的連接埠"
 
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:124
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:125
 msgid "Ser_ver requires authentication"
 msgstr "伺服器要求驗證(_V)"
 
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:210
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:211
 msgid "T_ype:"
 msgstr "類型(_Y):"
 
@@ -16512,6 +16521,12 @@ msgstr "郵件編輯器偏好設定"
 #: ../modules/mail/e-mail-shell-backend.c:590
 msgid "Network Preferences"
 msgstr "網絡偏好設定"
+
+#. Translators: The first item in the list, to be able to set rule: [Label] [is/is-not] [None]
+#: ../modules/mail/e-mail-shell-backend.c:900
+msgctxt "label"
+msgid "None"
+msgstr "沒有"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1224
 #: ../modules/mail/e-mail-shell-view.c:972
@@ -18151,7 +18166,7 @@ msgid "Publish calendars to the web."
 msgstr "將行事曆發布為網頁。"
 
 #: ../plugins/publish-calendar/publish-calendar.c:211
-#: ../plugins/publish-calendar/publish-calendar.c:465
+#: ../plugins/publish-calendar/publish-calendar.c:463
 #, c-format
 msgid "Could not open %s:"
 msgstr "無法開啟 %s："
@@ -18176,23 +18191,23 @@ msgstr "發布到 %s 已成功結束"
 msgid "Mount of %s failed:"
 msgstr "掛載 %s 失敗："
 
-#: ../plugins/publish-calendar/publish-calendar.c:628
+#: ../plugins/publish-calendar/publish-calendar.c:626
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
 msgid "E_nable"
 msgstr "啟用(_E)"
 
-#: ../plugins/publish-calendar/publish-calendar.c:776
+#: ../plugins/publish-calendar/publish-calendar.c:774
 msgid "Are you sure you want to remove this location?"
 msgstr "確定要移除這個位置？"
 
 #. To Translators: This is shown to a user when creation of a new thread,
 #. * where the publishing should be done, fails. Basically, this shouldn't
 #. * ever happen, and if so, then something is really wrong.
-#: ../plugins/publish-calendar/publish-calendar.c:1106
+#: ../plugins/publish-calendar/publish-calendar.c:1104
 msgid "Could not create publish thread."
 msgstr "無法建立發布執行緒。"
 
-#: ../plugins/publish-calendar/publish-calendar.c:1114
+#: ../plugins/publish-calendar/publish-calendar.c:1112
 msgid "_Publish Calendar Information"
 msgstr "發布行事曆資訊(_P)"
 
@@ -20120,6 +20135,10 @@ msgstr "按「套用」開始將檔案匯入到 Evolution。"
 msgid "Autogenerated"
 msgstr "自動產生的"
 
+#: ../widgets/misc/e-mail-signature-editor.c:287
+msgid "Close"
+msgstr "關閉"
+
 #: ../widgets/misc/e-mail-signature-editor.c:292
 msgid "_Save and Close"
 msgstr "儲存後關閉(_S)"
@@ -20372,26 +20391,26 @@ msgstr "返回通知"
 msgid "Sta_tus Tracking"
 msgstr "狀態追蹤(_T)"
 
-#: ../widgets/misc/e-source-config.c:669 ../widgets/misc/e-source-config.c:673
+#: ../widgets/misc/e-source-config.c:671 ../widgets/misc/e-source-config.c:675
 msgid "Type:"
 msgstr "類型:"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../widgets/misc/e-source-config.c:1276
+#: ../widgets/misc/e-source-config.c:1285
 msgid "Refresh every"
 msgstr "重新整理於每"
 
-#: ../widgets/misc/e-source-config.c:1306
-#: ../widgets/misc/e-source-config.c:1334
+#: ../widgets/misc/e-source-config.c:1315
+#: ../widgets/misc/e-source-config.c:1343
 msgid "Use a secure connection"
 msgstr "使用安全連線"
 
-#: ../widgets/misc/e-source-config.c:1348
+#: ../widgets/misc/e-source-config.c:1357
 msgid "Ignore invalid SSL certificate"
 msgstr "忽略無效的 SSL 證書"
 
-#: ../widgets/misc/e-source-config.c:1385
+#: ../widgets/misc/e-source-config.c:1394
 msgid "User"
 msgstr "使用者"
 
@@ -20776,6 +20795,58 @@ msgstr "全部選取"
 #: ../widgets/text/e-text.c:2087
 msgid "Input Methods"
 msgstr "輸入法"
+
+#~ msgid "Some features may not work properly with your current server"
+#~ msgstr "某些功能可能無法在您目前的伺服器版本上正常運作"
+
+#~ msgid ""
+#~ "You are connecting to an unsupported GroupWise server and may encounter "
+#~ "problems using Evolution. For best results the server should be upgraded "
+#~ "to a supported version"
+#~ msgstr ""
+#~ "您正連線到不支援的 GroupWise 伺服器而且可能遇到使用 Evolution 的問題。最好"
+#~ "的解決方案是將該伺服器升級至支援的版太"
+
+#~ msgid "GroupWise Address book creation:"
+#~ msgstr "GroupWise 通訊錄的建立"
+
+#~ msgid ""
+#~ "Currently you can only access the GroupWise System Address Book from "
+#~ "Evolution. Please use some other GroupWise mail client once to get your "
+#~ "GroupWise Frequent Contacts and Groupwise Personal Contacts folders."
+#~ msgstr ""
+#~ "目前您只能存取 Evolution 中的 GroupWise 系統通訊錄。請使用一次其他的 "
+#~ "GroupWise 郵件客戶端，以取得您的 GroupWise 常用連絡人及 Groupwise 個人連絡"
+#~ "人資料夾。"
+
+#~ msgid "Some features may not work properly with your current server."
+#~ msgstr "某些功能可能無法在您目前的伺服器版本上正常運作。"
+
+#~ msgid ""
+#~ "You are connecting to an unsupported GroupWise server and may encounter "
+#~ "problems using Evolution. For best results, the server should be upgraded "
+#~ "to a supported version."
+#~ msgstr ""
+#~ "您正連線到不支援的 GroupWise 伺服器而且可能遇到使用 Evolution 的問題。最好"
+#~ "的解決方案是將該伺服器升級至支援的版本。"
+
+#~ msgid "Undo the last action"
+#~ msgstr "取消剛完成的動作"
+
+#~ msgid "Redo the last undone action"
+#~ msgstr "重複剛取消的動作"
+
+#~ msgid "Search for text"
+#~ msgstr "搜尋文字"
+
+#~ msgid "Search for and replace text"
+#~ msgstr "搜尋和取代文字"
+
+#~ msgid "Unable to connect to the GroupWise server."
+#~ msgstr "無法連線至 GroupWise 伺服器。"
+
+#~ msgid "Please check your account settings and try again."
+#~ msgstr "請檢查帳號設定並再試一次。"
 
 #~ msgid "Disconnecting %s"
 #~ msgstr "正在中斷 %s"
