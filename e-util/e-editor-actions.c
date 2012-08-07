@@ -685,15 +685,12 @@ static void
 action_insert_rule_cb (GtkAction *action,
                        EEditor *editor)
 {
-	WebKitDOMDocument *document;
+	if (editor->priv->hrule_dialog == NULL) {
+		editor->priv->hrule_dialog =
+			e_editor_hrule_dialog_new (editor);
+	}
 
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	webkit_dom_document_exec_command (
-		document, "insertHorizontalRule", FALSE, "");
-
-	/* FIXME WEBKIT - does the action work? */
-	gtk_action_activate (ACTION (PROPERTIES_RULE));
+	gtk_window_present (GTK_WINDOW (editor->priv->hrule_dialog));
 }
 
 static void
@@ -995,7 +992,12 @@ static void
 action_properties_rule_cb (GtkAction *action,
                            EEditor *editor)
 {
-	gtk_window_present (GTK_WINDOW (WIDGET (RULE_PROPERTIES_WINDOW)));
+	if (editor->priv->hrule_dialog == NULL) {
+		editor->priv->hrule_dialog =
+			e_editor_hrule_dialog_new (editor);
+	}
+
+	gtk_window_present (GTK_WINDOW (editor->priv->hrule_dialog));
 }
 
 static void

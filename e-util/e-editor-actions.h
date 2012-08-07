@@ -26,14 +26,6 @@
 
 #define E_EDITOR_ACTION_BOLD(editor) \
 	E_EDITOR_ACTION ((editor), "bold")
-#define E_EDITOR_ACTION_CONFIRM_REPLACE(editor) \
-	E_EDITOR_ACTION ((editor), "confirm-replace")
-#define E_EDITOR_ACTION_CONFIRM_REPLACE_ALL(editor) \
-	E_EDITOR_ACTION ((editor), "confirm-replace-all")
-#define E_EDITOR_ACTION_CONFIRM_REPLACE_CANCEL(editor) \
-	E_EDITOR_ACTION ((editor), "confirm-replace-cancel")
-#define E_EDITOR_ACTION_CONFIRM_REPLACE_NEXT(editor) \
-	E_EDITOR_ACTION ((editor), "confirm-replace-next")
 #define E_EDITOR_ACTION_CONTEXT_DELETE_CELL(editor) \
 	E_EDITOR_ACTION ((editor), "context-delete-cell")
 #define E_EDITOR_ACTION_CONTEXT_DELETE_COLUMN(editor) \

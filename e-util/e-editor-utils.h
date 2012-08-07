@@ -50,4 +50,8 @@ WebKitDOMElement *	e_editor_dom_node_get_parent_element
 							 GType parent_type);
 >>>>>>> Make the URL editor work
 
+WebKitDOMElement *	e_editor_dom_node_find_child_element
+							(WebKitDOMNode *node,
+							 GType child_type);
+
 #endif /* E_EDITOR_UTILS_H */

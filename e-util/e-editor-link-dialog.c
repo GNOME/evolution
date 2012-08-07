@@ -41,47 +41,6 @@ struct _EEditorLinkDialogPrivate {
 	GtkWidget *ok_button;
 };
 
-static WebKitDOMElement *
-find_anchor_element (WebKitDOMRange *range)
-{
-	WebKitDOMElement *link;
-	WebKitDOMNode *node;
-
-	node = webkit_dom_range_get_start_container (range, NULL);
-
-	/* Try to find if the selection is within a link */
-	link = NULL;
-	link = e_editor_dom_node_get_parent_element (
-			node, WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
-
-	/* ...or if there is a link within selection */
-	if (!link) {
-		WebKitDOMNode *start_node = node;
-		gboolean found = FALSE;
-		do {
-			if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
-				found = TRUE;
-				break;
-			}
-
-			if (webkit_dom_node_has_child_nodes (node)) {
-				node = webkit_dom_node_get_first_child (node);
-			} else if (webkit_dom_node_get_next_sibling (node)) {
-				node = webkit_dom_node_get_next_sibling (node);
-			} else {
-				node = webkit_dom_node_get_parent_node (node);
-			}
-		} while (!webkit_dom_node_is_same_node (node, start_node));
-
-		if (found) {
-			link = WEBKIT_DOM_ELEMENT (node);
-		}
-	}
-
-	return link;
-}
-
-
 static void
 editor_link_dialog_test_link (EEditorLinkDialog *dialog)
 {
@@ -139,7 +98,14 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	link = find_anchor_element (range);
+	link = e_editor_dom_node_get_parent_element (
+		webkit_dom_range_get_start_container (range, NULL),
+		WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
+	if (!link) {
+		link = e_editor_dom_node_find_child_element (
+			webkit_dom_range_get_start_container (range, NULL),
+			WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
+	}
 
 	if (link) {
 		webkit_dom_html_anchor_element_set_href (
@@ -210,7 +176,14 @@ editor_link_dialog_show (GtkWidget *widget)
 	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	link = find_anchor_element (range);
+	link = e_editor_dom_node_get_parent_element (
+		webkit_dom_range_get_start_container (range, NULL),
+		WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
+	if (!link) {
+		link = e_editor_dom_node_find_child_element (
+			webkit_dom_range_get_start_container (range, NULL),
+			WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
+	}
 
 	if (link) {
 		gchar *href, *text;
