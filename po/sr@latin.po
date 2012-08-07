@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolut"
 "ion&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-08-03 15:40+0000\n"
-"PO-Revision-Date: 2012-08-04 05:13+0200\n"
+"POT-Creation-Date: 2012-08-06 14:11+0000\n"
+"PO-Revision-Date: 2012-08-07 23:24+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -95,7 +95,6 @@ msgid "Do _Not Delete"
 msgstr "Ne _briši"
 
 #: ../addressbook/addressbook.error.xml.h:14
-#| msgid "Delete address book '{0}'?"
 msgid "Delete remote address book &quot;{0}&quot;?"
 msgstr "Da obrišem udaljeni adresar „{0}“?"
 
@@ -109,7 +108,6 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:16
 #: ../calendar/calendar.error.xml.h:68
-#| msgid "Delegated From"
 msgid "_Delete From Server"
 msgstr "_Obriši sa servera"
 
@@ -2071,7 +2069,6 @@ msgid "This memo list will be removed permanently."
 msgstr "Ovaj spisak beleški će biti trajno uklonjen."
 
 #: ../calendar/calendar.error.xml.h:66
-#| msgid "Failed to refresh folder &quot;{0}&quot;."
 msgid "Delete remote calendar &quot;{0}&quot;?"
 msgstr "Da obrišem udaljeni kalendar „{0}“?"
 
@@ -2084,7 +2081,6 @@ msgstr ""
 "želite da nastavite?"
 
 #: ../calendar/calendar.error.xml.h:69
-#| msgid "Delete task list '{0}'?"
 msgid "Delete remote task list &quot;{0}&quot;?"
 msgstr "Da obrišem udaljeni spisak zadataka „{0}“?"
 
@@ -2097,7 +2093,6 @@ msgstr ""
 "želite da nastavite?"
 
 #: ../calendar/calendar.error.xml.h:71
-#| msgid "The reported error was &quot;{0}&quot;."
 msgid "Delete remote memo list &quot;{0}&quot;?"
 msgstr "Da obrišem udaljeni spisak beleški „{0}“?"
 
@@ -2305,7 +2300,7 @@ msgstr "Učesnik"
 
 #: ../calendar/gui/caltypes.xml.h:14
 #: ../calendar/gui/e-cal-list-view.etspec.h:5 ../mail/message-list.etspec.h:14
-#: ../plugins/publish-calendar/publish-calendar.c:872
+#: ../plugins/publish-calendar/publish-calendar.c:870
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
 #: ../plugins/save-calendar/csv-format.c:386
 msgid "Location"
@@ -9915,7 +9910,7 @@ msgstr "Veličina"
 #: ../em-format/e-mail-formatter-print-headers.c:130
 #: ../mail/e-mail-config-security-page.c:642
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:207
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:130
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:131
 msgid "Security"
 msgstr "Bezbednost"
 
@@ -10422,7 +10417,6 @@ msgid "Cannot open file \"{0}\"."
 msgstr "Ne mogu da otvorim datoteku „{0}“."
 
 #: ../e-util/e-system.error.xml.h:7
-#| msgid "Failed to refresh folder &quot;{0}&quot;."
 msgid "Failed to remove data source &quot;{0}&quot;."
 msgstr "Nisam uspeo da uklonim izvor podataka „{0}“."
 
@@ -10431,12 +10425,10 @@ msgid "The reported error was &quot;{1}&quot;."
 msgstr "Prijavljena greška bejaše „{1}“."
 
 #: ../e-util/e-system.error.xml.h:9
-#| msgid "Failed to expunge folder &quot;{0}&quot;."
 msgid "Failed to update data source &quot;{0}&quot;."
 msgstr "Nisam uspeo da osvežim izvor podataka „{0}“."
 
 #: ../e-util/e-system.error.xml.h:10
-#| msgid "Failed to refresh folder &quot;{0}&quot;."
 msgid "Failed to delete resource &quot;{0}&quot;."
 msgstr "Nisam uspeo da obrišem resurs „{0}“."
 
@@ -11106,7 +11098,7 @@ msgstr "Pod_razumevano"
 #: ../mail/e-mail-account-tree-view.c:85
 #: ../modules/mail/em-composer-prefs.c:505
 #: ../modules/plugin-manager/evolution-plugin-manager.c:360
-#: ../plugins/publish-calendar/publish-calendar.c:866
+#: ../plugins/publish-calendar/publish-calendar.c:864
 msgid "Enabled"
 msgstr "Uključen"
 
@@ -13396,7 +13388,7 @@ msgstr ""
 
 #: ../mail/mail-config.ui.h:108 ../modules/addressbook/ldap-config.ui.h:3
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:237
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:160
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:161
 msgid "No encryption"
 msgstr "Bez šifrovanja"
 
@@ -13906,7 +13898,7 @@ msgid "Do _Not Disable"
 msgstr "Nemoj _isključiti"
 
 #: ../mail/mail.error.xml.h:90
-#: ../plugins/publish-calendar/publish-calendar.c:628
+#: ../plugins/publish-calendar/publish-calendar.c:626
 msgid "_Disable"
 msgstr "_Isključi"
 
@@ -14816,7 +14808,7 @@ msgstr "Podržane baze za pretragu"
 
 #: ../modules/addressbook/ldap-config.ui.h:13
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:181
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:112
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:113
 msgid "_Port:"
 msgstr "_Port:"
 
@@ -15179,7 +15171,7 @@ msgstr "Šifrovanje:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:648
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:258
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:181
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:182
 msgid "Authentication"
 msgstr "Potvrđivanje identiteta"
 
@@ -17259,42 +17251,42 @@ msgid "Choose a mbox spool directory"
 msgstr "Izaberite direktorijum mboks pripreme"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:149
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:81
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:82
 #: ../modules/plugin-manager/evolution-plugin-manager.c:160
 msgid "Configuration"
 msgstr "Podešavanje"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:167
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:99
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:100
 #: ../plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "_Server:"
 msgstr "_Server:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:193
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:228
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:229
 msgid "User_name:"
 msgstr "Korisničko_ime:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:226
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:149
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:150
 msgid "Encryption _method:"
 msgstr "Način _šifrovanja:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:241
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:164
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:165
 msgid "STARTTLS after connecting"
 msgstr "STARTTLS nakon povezivanja"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:245
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:168
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:169
 msgid "SSL on a dedicated port"
 msgstr "SSL na odeđenom portu"
 
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:124
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:125
 msgid "Ser_ver requires authentication"
 msgstr "Ser_ver traži potvrđivanje identiteta"
 
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:210
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:211
 msgid "T_ype:"
 msgstr "_Vrsta:"
 
@@ -17357,6 +17349,18 @@ msgstr "Postavke sastavljača"
 #: ../modules/mail/e-mail-shell-backend.c:590
 msgid "Network Preferences"
 msgstr "Postavke mreže"
+
+# add a "None" option to the stores menu
+# Put the "None" and "UTC" entries at the top of the combo's list.
+# When "None" is selected we want the field to be cleared.
+# Note that we don't show this here, since by default a 'None' date
+# is not permitted.
+#. Translators: The first item in the list, to be able to set rule: [Label] [is/is-not] [None]
+#: ../modules/mail/e-mail-shell-backend.c:900
+#| msgid "None"
+msgctxt "label"
+msgid "None"
+msgstr "Ništa"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1224
 #: ../modules/mail/e-mail-shell-view.c:972
@@ -17466,7 +17470,7 @@ msgstr "Izbaci _smeće"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1345
 msgid "Permanently remove all the deleted messages from all accounts"
-msgstr "Trajno ukloni sve obrisane poruke sa svih naloga"
+msgstr "Trajno uklonite sve obrisane poruke sa svih naloga"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1350
 msgid "_New Label"
@@ -17488,7 +17492,7 @@ msgstr "_Upravljaj prijavama"
 #: ../modules/mail/e-mail-shell-view-actions.c:1375
 #: ../modules/mail/e-mail-shell-view-actions.c:1452
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr "Prijavi se ili odjavi na fascikle na mrežnim serverima"
+msgstr "Prijavite se ili se odjavite sa fascikli na mrežnim serverima"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1380
 #: ../modules/mail/e-mail-shell-view-actions.c:1401
@@ -17497,7 +17501,7 @@ msgstr "Slanje / p_rimanje"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1382
 msgid "Send queued items and retrieve new items"
-msgstr "Šalje pripremljene i dovlači nove stavke"
+msgstr "Pošaljite pripremljene i dovucite nove stavke"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1387
 msgid "R_eceive All"
@@ -19123,7 +19127,7 @@ msgid "Publish calendars to the web."
 msgstr "Objavite kalendare na veb."
 
 #: ../plugins/publish-calendar/publish-calendar.c:211
-#: ../plugins/publish-calendar/publish-calendar.c:465
+#: ../plugins/publish-calendar/publish-calendar.c:463
 #, c-format
 msgid "Could not open %s:"
 msgstr "Ne mogu da otvorim %s:"
@@ -19148,23 +19152,23 @@ msgstr "Objavljivanje na %s je uspešno završeno"
 msgid "Mount of %s failed:"
 msgstr "Nisam uspeo da montiram %s:"
 
-#: ../plugins/publish-calendar/publish-calendar.c:628
+#: ../plugins/publish-calendar/publish-calendar.c:626
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
 msgid "E_nable"
 msgstr "O_mogući"
 
-#: ../plugins/publish-calendar/publish-calendar.c:776
+#: ../plugins/publish-calendar/publish-calendar.c:774
 msgid "Are you sure you want to remove this location?"
 msgstr "Sigurno želite da uklonite ovu lokaciju?"
 
 #. To Translators: This is shown to a user when creation of a new thread,
 #. * where the publishing should be done, fails. Basically, this shouldn't
 #. * ever happen, and if so, then something is really wrong.
-#: ../plugins/publish-calendar/publish-calendar.c:1106
+#: ../plugins/publish-calendar/publish-calendar.c:1104
 msgid "Could not create publish thread."
 msgstr "Ne mogu da objavim raspravu."
 
-#: ../plugins/publish-calendar/publish-calendar.c:1114
+#: ../plugins/publish-calendar/publish-calendar.c:1112
 msgid "_Publish Calendar Information"
 msgstr "Objavi raspored iz _kalendara"
 
@@ -21132,7 +21136,6 @@ msgid "Autogenerated"
 msgstr "Automatski sastavljeno"
 
 #: ../widgets/misc/e-mail-signature-editor.c:287
-#| msgid "_Close"
 msgid "Close"
 msgstr "Zatvori"
 
