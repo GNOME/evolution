@@ -24,8 +24,6 @@
 
 #include <math.h>
 
-#include <JavaScriptCore/JavaScript.h>
-
 #include <string.h>
 #include <glib/gi18n-lib.h>
 #include <pango/pango.h>
@@ -60,8 +58,6 @@ struct _EWebViewPrivate {
 	gchar *selected_uri;
 	GdkPixbufAnimation *cursor_image;
 	gchar *cursor_image_src;
-
-	GHashTable *js_callbacks;
 
         GSList *highlights;
 
@@ -805,11 +801,6 @@ web_view_dispose (GObject *object)
 	if (priv->cursor_image_src != NULL) {
 		g_free (priv->cursor_image_src);
 		priv->cursor_image_src = NULL;
-	}
-
-	if (priv->js_callbacks != NULL) {
-		g_hash_table_destroy (priv->js_callbacks);
-		priv->js_callbacks = NULL;
 	}
 
 	if (priv->highlights != NULL) {
@@ -1739,9 +1730,6 @@ e_web_view_init (EWebView *web_view)
 	ui_manager = gtk_ui_manager_new ();
 	web_view->priv->ui_manager = ui_manager;
 
-	web_view->priv->js_callbacks = g_hash_table_new_full (g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free, NULL);
-
 	g_signal_connect_swapped (
 		ui_manager, "connect-proxy",
 		G_CALLBACK (web_view_connect_proxy_cb), web_view);
@@ -2008,214 +1996,16 @@ e_web_view_frame_get_uri (EWebView *web_view,
 gchar *
 e_web_view_get_html (EWebView *web_view)
 {
-	GValue html = {0};
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element;
 
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
 
-	if (e_web_view_exec_script (web_view, "return document.documentElement.innerHTML;", &html) == G_TYPE_STRING)
-		return g_strdup (g_value_get_string (&html));
-	else
-		return NULL;
-}
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (web_view));
+	element = webkit_dom_document_get_document_element (document);
 
-JSGlobalContextRef
-e_web_view_get_global_context (EWebView *web_view)
-{
-	WebKitWebFrame *main_frame;
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), 0);
-
-	main_frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (web_view));
-	return webkit_web_frame_get_global_context (main_frame);
-}
-
-GType
-e_web_view_exec_script (EWebView *web_view,
-                        const gchar *script,
-                        GValue *value)
-{
-	WebKitWebFrame *main_frame;
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), G_TYPE_INVALID);
-	g_return_val_if_fail (script != NULL, G_TYPE_INVALID);
-
-	main_frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (web_view));
-
-	return e_web_view_frame_exec_script (web_view,
-		webkit_web_frame_get_name (main_frame),
-		script, value);
-}
-
-GType
-e_web_view_frame_exec_script (EWebView *web_view,
-                              const gchar *frame_name,
-                              const gchar *script,
-                              GValue *value)
-{
-	WebKitWebFrame *main_frame, *frame;
-	JSGlobalContextRef context;
-	JSValueRef js_value, error = NULL;
-	JSType js_type;
-	JSStringRef js_script;
-	JSStringRef js_str;
-	size_t str_len;
-	gchar *str;
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), G_TYPE_INVALID);
-	g_return_val_if_fail (script != NULL, G_TYPE_INVALID);
-
-	main_frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (web_view));
-	frame = webkit_web_frame_find_frame (main_frame, frame_name);
-
-	context = webkit_web_frame_get_global_context (frame);
-
-	js_script = JSStringCreateWithUTF8CString (script);
-	js_value = JSEvaluateScript (context, js_script, NULL, NULL, 0, &error);
-	JSStringRelease (js_script);
-
-	if (error) {
-		gchar *msg;
-		js_str = JSValueToStringCopy (context, error, NULL);
-		str_len = JSStringGetLength (js_str);
-
-		msg = g_malloc (str_len + 1);
-		JSStringGetUTF8CString (js_str, msg, str_len + 1);
-		JSStringRelease (js_str);
-
-		g_message ("JavaScript Execution Failed: %s", msg);
-		g_free (msg);
-
-		return G_TYPE_INVALID;
-	}
-
-	if (!value)
-		return G_TYPE_NONE;
-
-	js_type = JSValueGetType (context, js_value);
-	switch (js_type) {
-		case kJSTypeBoolean:
-			g_value_init (value, G_TYPE_BOOLEAN);
-			g_value_set_boolean (value, JSValueToBoolean (context, js_value));
-			break;
-		case kJSTypeNumber:
-			g_value_init (value, G_TYPE_DOUBLE);
-			g_value_set_double (value, JSValueToNumber (context, js_value, NULL));
-			break;
-		case kJSTypeString:
-			js_str = JSValueToStringCopy (context, js_value, NULL);
-			str_len = JSStringGetLength (js_str);
-			str = g_malloc (str_len + 1);
-			JSStringGetUTF8CString (js_str, str, str_len + 1);
-			JSStringRelease (js_str);
-			g_value_init (value, G_TYPE_STRING);
-			g_value_set_string (value, str);
-			g_free (str);
-			break;
-		case kJSTypeObject:
-			g_value_init (value, G_TYPE_OBJECT);
-			g_value_set_object (value, JSValueToObject (context, js_value, NULL));
-			break;
-		case kJSTypeNull:
-			g_value_init (value, G_TYPE_POINTER);
-			g_value_set_pointer (value, NULL);
-			break;
-		case kJSTypeUndefined:
-			break;
-	}
-
-	return G_VALUE_TYPE (value);
-}
-
-static JSValueRef
-web_view_handle_js_callback (JSContextRef ctx,
-                             JSObjectRef function,
-                             JSObjectRef this_object,
-                             size_t argument_count,
-                             const JSValueRef arguments[],
-                             JSValueRef *exception)
-{
-	gpointer web_view;
-	gpointer user_data;
-	gchar *fnc_name;
-	size_t fnc_name_len;
-
-	EWebViewJSFunctionCallback callback;
-
-	JSStringRef js_webview_prop = JSStringCreateWithUTF8CString ("webview");
-	JSStringRef js_userdata_prop = JSStringCreateWithUTF8CString ("user-data");
-	JSStringRef js_fncname_prop = JSStringCreateWithUTF8CString ("fnc-name");
-	JSStringRef js_fncname_str;
-
-	JSValueRef js_webview = JSObjectGetProperty (ctx, function, js_webview_prop, NULL);
-	JSValueRef js_userdata = JSObjectGetProperty (ctx, function, js_userdata_prop, NULL);
-	JSValueRef js_fncname = JSObjectGetProperty (ctx, function, js_fncname_prop, NULL);
-
-	web_view = GINT_TO_POINTER ((gint) JSValueToNumber (ctx, js_webview, NULL));
-	user_data = GINT_TO_POINTER ((gint) JSValueToNumber (ctx, js_userdata, NULL));
-	js_fncname_str = JSValueToStringCopy (ctx, js_fncname, NULL);
-	fnc_name_len = JSStringGetLength (js_fncname_str);
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), 0);
-
-	/* Convert fncname to gchar* and lookup the callback in hashtable */
-	fnc_name = g_malloc (fnc_name_len + 1);
-	JSStringGetUTF8CString (js_fncname_str, fnc_name, fnc_name_len + 1);
-	callback = g_hash_table_lookup (E_WEB_VIEW (web_view)->priv->js_callbacks, fnc_name);
-
-	g_return_val_if_fail (callback != NULL, 0);
-
-	/* Call the callback function */
-	callback (E_WEB_VIEW (web_view), argument_count, arguments, user_data);
-
-	JSStringRelease (js_fncname_str);
-	JSStringRelease (js_fncname_prop);
-	JSStringRelease (js_webview_prop);
-	JSStringRelease (js_userdata_prop);
-
-	g_free (fnc_name);
-
-	return 0;
-}
-
-void
-e_web_view_install_js_callback (EWebView *web_view,
-                                const gchar *fnc_name,
-                                EWebViewJSFunctionCallback callback,
-                                gpointer user_data)
-{
-	WebKitWebFrame *frame;
-	JSGlobalContextRef ctx;
-	JSObjectRef global_obj, js_func;
-	JSStringRef js_fnc_name, js_webview_prop, js_userdata_prop, js_fncname_prop;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-	g_return_if_fail (fnc_name != NULL);
-	g_return_if_fail (callback != NULL);
-
-	frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (web_view));
-	ctx = webkit_web_frame_get_global_context (frame);
-	global_obj = JSContextGetGlobalObject (ctx);
-	js_fnc_name = JSStringCreateWithUTF8CString (fnc_name);
-	js_func = JSObjectMakeFunctionWithCallback (ctx, NULL,
-		(JSObjectCallAsFunctionCallback) web_view_handle_js_callback);
-	js_webview_prop = JSStringCreateWithUTF8CString ("webview");
-	js_userdata_prop = JSStringCreateWithUTF8CString ("user-data");
-	js_fncname_prop = JSStringCreateWithUTF8CString ("fnc-name");
-
-	/* Set some properties to the function */
-	JSObjectSetProperty (ctx, js_func, js_webview_prop, JSValueMakeNumber (ctx, GPOINTER_TO_INT (web_view)), 0, NULL);
-	JSObjectSetProperty (ctx, js_func, js_userdata_prop, JSValueMakeNumber (ctx, GPOINTER_TO_INT (user_data)), 0, NULL);
-	JSObjectSetProperty (ctx, js_func, js_fncname_prop, JSValueMakeString (ctx, js_fnc_name), 0, NULL);
-
-	/* Set the function as a property of global object */
-	JSObjectSetProperty (ctx, global_obj, js_fnc_name, js_func, 0, NULL);
-
-	JSStringRelease (js_fncname_prop);
-	JSStringRelease (js_userdata_prop);
-	JSStringRelease (js_webview_prop);
-	JSStringRelease (js_fnc_name);
-
-	g_hash_table_insert (web_view->priv->js_callbacks, g_strdup (fnc_name), callback);
+	return webkit_dom_html_element_get_outer_html (
+			WEBKIT_DOM_HTML_ELEMENT (element));
 }
 
 gboolean

@@ -49,8 +49,6 @@
 
 #include <camel/camel.h>
 
-#include <JavaScriptCore/JavaScript.h>
-
 #define d(x)
 
 G_DEFINE_TYPE (
@@ -1832,32 +1830,80 @@ e_mail_display_set_status (EMailDisplay *display,
 	gtk_widget_show_all (GTK_WIDGET (display));
 }
 
-gchar *
-e_mail_display_get_selection_plain_text (EMailDisplay *display,
-                                         gint *len)
+
+static gchar *
+mail_display_get_frame_selection_text (WebKitDOMElement *iframe)
 {
-	EWebView *web_view;
-	WebKitWebFrame *frame;
-	const gchar *frame_name;
-	GValue value = {0};
-	GType type;
-	const gchar *str;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *selection;
+	WebKitDOMNodeList *frames;
+	gulong ii, length;
+
+	document = webkit_dom_html_iframe_element_get_content_document (
+			WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
+	window = webkit_dom_document_get_default_view (document);
+	selection = webkit_dom_dom_window_get_selection (window);
+	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
+		WebKitDOMRange *range;
+
+		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+		if (range) {
+			return webkit_dom_range_to_string (range, NULL);
+		}
+	}
+
+	frames = webkit_dom_document_get_elements_by_tag_name (
+			document, "IFRAME");
+	length = webkit_dom_node_list_get_length (frames);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node;
+		gchar *text;
+
+		node = webkit_dom_node_list_item (frames, ii);
+
+		text = mail_display_get_frame_selection_text (
+				WEBKIT_DOM_ELEMENT (node));
+
+		if (text) {
+			return text;
+		}
+	}
+
+	return NULL;
+}
+
+gchar *
+e_mail_display_get_selection_plain_text (EMailDisplay *display)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *frames;
+	gulong ii, length;
 
 	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
 
-	web_view = E_WEB_VIEW (display);
-	frame = webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (web_view));
-	frame_name = webkit_web_frame_get_name (frame);
+	if (!webkit_web_view_has_selection (WEBKIT_WEB_VIEW (display)))
+		return NULL;
 
-	type = e_web_view_frame_exec_script (web_view, frame_name, "window.getSelection().toString()", &value);
-	g_return_val_if_fail (type == G_TYPE_STRING, NULL);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (display));
+	frames = webkit_dom_document_get_elements_by_tag_name (document, "IFRAME");
+	length = webkit_dom_node_list_get_length (frames);
 
-	str = g_value_get_string (&value);
+	for (ii = 0; ii < length; ii++) {
+		gchar *text;
+		WebKitDOMNode *node;
 
-	if (len)
-		*len = strlen (str);
+		node = webkit_dom_node_list_item (frames, ii);
 
-	return g_strdup (str);
+		text = mail_display_get_frame_selection_text (
+				WEBKIT_DOM_ELEMENT (node));
+
+		if (text) {
+			return text;
+		}
+	}
+
+	return NULL;
 }
 
 void

@@ -1068,16 +1068,15 @@ get_selected_text (EMailReader *reader)
 {
 	EMailDisplay *display;
 	gchar *text = NULL;
-	gint len;
 
 	display = e_mail_reader_get_mail_display (reader);
 
 	if (!e_web_view_is_selection_active (E_WEB_VIEW (display)))
 		return NULL;
 
-	text = e_mail_display_get_selection_plain_text (display, &len);
+	text = e_mail_display_get_selection_plain_text (display);
 
-	if (text == NULL || !text_contains_nonwhitespace (text, len)) {
+	if (text == NULL || !text_contains_nonwhitespace (text, strlen (text))) {
 		g_free (text);
 		return NULL;
 	}

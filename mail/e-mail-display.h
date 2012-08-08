@@ -95,8 +95,7 @@ void			e_mail_display_set_status	(EMailDisplay *display,
 							 const gchar *status);
 
 gchar *			e_mail_display_get_selection_plain_text
-							(EMailDisplay *display,
-							 gint *len);
+							(EMailDisplay *display);
 
 void                    e_mail_display_load_images      (EMailDisplay *display);
 
