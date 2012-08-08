@@ -121,6 +121,38 @@ em_mailer_prefs_init (EMMailerPrefs *preferences)
 	preferences->settings = g_settings_new ("org.gnome.evolution.mail");
 }
 
+static gboolean
+mark_seen_milliseconds_to_seconds (GBinding *binding,
+                                   const GValue *source_value,
+                                   GValue *target_value,
+                                   gpointer user_data)
+{
+	gint milliseconds;
+	gdouble seconds;
+
+	milliseconds = g_value_get_int (source_value);
+	seconds = milliseconds / 1000.0;
+	g_value_set_double (target_value, seconds);
+
+	return TRUE;
+}
+
+static gboolean
+mark_seen_seconds_to_milliseconds (GBinding *binding,
+                                   const GValue *source_value,
+                                   GValue *target_value,
+                                   gpointer user_data)
+{
+	gint milliseconds;
+	gdouble seconds;
+
+	seconds = g_value_get_double (source_value);
+	milliseconds = seconds * 1000;
+	g_value_set_int (target_value, milliseconds);
+
+	return TRUE;
+}
+
 enum {
 	JH_LIST_COLUMN_NAME,
 	JH_LIST_COLUMN_VALUE
@@ -767,6 +799,30 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_BINDING_SYNC_CREATE);
 
 	/* Message Display */
+
+	widget = e_builder_get_widget (prefs->builder, "chkMarkTimeout");
+	g_object_bind_property (
+		shell_settings, "mail-mark-seen",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	/* The "mark seen" timeout requires special transform functions
+	 * because we display the timeout value to the user in seconds
+	 * but store the settings value in milliseconds. */
+	widget = e_builder_get_widget (prefs->builder, "spinMarkTimeout");
+	g_object_bind_property (
+		shell_settings, "mail-mark-seen",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property_full (
+		shell_settings, "mail-mark-seen-timeout",
+		widget, "value",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
+		mark_seen_milliseconds_to_seconds,
+		mark_seen_seconds_to_milliseconds,
+		NULL, (GDestroyNotify) NULL);
 
 	widget = e_builder_get_widget (prefs->builder, "view-check");
 	g_object_bind_property (
