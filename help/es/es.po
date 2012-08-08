@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-17 11:58+0000\n"
-"PO-Revision-Date: 2012-07-17 16:13+0200\n"
+"POT-Creation-Date: 2012-08-01 15:05+0000\n"
+"PO-Revision-Date: 2012-08-08 16:36+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -1792,12 +1792,6 @@ msgstr ""
 "usar esta característica de GNOME par acualquier notificación de correo."
 
 #: C/minimize-to-system-tray.page:29(p)
-#| msgid ""
-#| "In GNOME version 2 you may modify the notification area and set it up to "
-#| "become a system tray by using external software such as <link href="
-#| "\"http://alltray.trausch.us/\">Alltray</link> that might be available for "
-#| "installation in the software management tool of your distribution. This "
-#| "is no longer possible in GNOME 3."
 msgid ""
 "In GNOME version 2 you may modify the notification area and set it up to "
 "become a system tray by using external applications which might be available "
@@ -5379,9 +5373,6 @@ msgid "Order of Filters"
 msgstr "Orden de los filtros"
 
 #: C/mail-filters-not-working.page:29(p)
-#| msgid ""
-#| "Note that the order of filters is very important. They are applied to the "
-#| "original message in sequence, like a recipe."
 msgid ""
 "The order of filters is very important. They are applied to the original "
 "message in sequence, like a recipe."
@@ -5390,10 +5381,6 @@ msgstr ""
 "original en secuencia, como una receta."
 
 #: C/mail-filters-not-working.page:30(p)
-#| msgid ""
-#| "If your first filter has a <gui>Stop Processing</gui> rule, then all the "
-#| "email messages that match this filter will ignore all the succeeding "
-#| "filters."
 msgid ""
 "If your first filter has a <gui>Stop Processing</gui> rule, then all "
 "messages that match this filter will ignore all succeeding filters."
@@ -5413,16 +5400,10 @@ msgstr ""
 "\">editando el filtro</link>."
 
 #: C/mail-filters-not-working.page:36(title)
-#| msgid "Using several calendars"
 msgid "Using Several Mail Clients"
 msgstr "Usar varios clientes de correo"
 
 #: C/mail-filters-not-working.page:37(p)
-#| msgid ""
-#| "Another thing you have to keep in mind is that filters depend on the \"new"
-#| "\" flag that is set when a particular email message is initially fetched "
-#| "from the server. If you use another email client aside from Evolution, "
-#| "your filters may not work automatically."
 msgid ""
 "Another thing you have to keep in mind is that filters depend on the \"new\" "
 "flag that is set on the server when a particular email message is initially "
@@ -5435,19 +5416,14 @@ msgstr ""
 "correo además de Evolution."
 
 #: C/mail-filters-not-working.page:42(title)
-#| msgid "Available Filter actions"
 msgid "Logging Filter Actions"
 msgstr "Registro de las acciones de los filtros"
 
 #: C/mail-filters-not-working.page:45(p)
-#| msgid "Evolution"
 msgid "Close Evolution."
 msgstr "Cerrar Evolution."
 
 #: C/mail-filters-not-working.page:47(p)
-#| msgid ""
-#| "Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
-#| "accels true</cmd>"
 msgid ""
 "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
 "actions true</cmd>"
@@ -5483,10 +5459,6 @@ msgstr ""
 "qué acciones de filtrado se han aplicado."
 
 #: C/mail-filters-not-working.page:54(p)
-#| msgid ""
-#| "Note that this setting is desktop-wide and that you can disable it again "
-#| "after your changes by using the command <cmd>gsettings set org.gnome."
-#| "desktop.interface can-change-accels false</cmd>"
 msgid ""
 "Note that you can disable filter logging again by using the command "
 "<cmd>gsettings set org.gnome.evolution.mail filters-log-actions false</cmd>"
@@ -10748,27 +10720,30 @@ msgstr ""
 "verán afectados los otros calendarios."
 
 #: C/default-browser.page:7(desc)
-msgid "How to define the default browser to open links with."
-msgstr "Cómo definir el navegador predeterminado con el que abrir los enlaces."
+msgid ""
+"Opening links from an email in a browser and opening the mail composer from "
+"an email link on a website."
+msgstr ""
+"Abrir enlaces de un correo en un navegador y abrir el editor de mensajes "
+"desde un enlace de un correo en una página web."
 
 #: C/default-browser.page:22(title)
-msgid "Setting the default browser"
-msgstr "Establecer el navegador predeterminado"
+msgid "Opening links in and from the web browser"
+msgstr "Abrir enlaces en y desde un navegador web"
 
-#. For GNOME2 the steps are to define the gconf keys /desktop/gnome/url-handlers/http and /https
-#: C/default-browser.page:26(p)
+#: C/default-browser.page:27(title)
+msgid "Change which web browser websites are opened in"
+msgstr "Cambiar qué páginas web se abren en el navegador"
+
+#: C/default-browser.page:29(p)
 msgid ""
-"You can set the system-wide default browser in GNOME 3 under "
-"<guiseq><gui>Activities</gui><gui>Applications</gui><gui>System Settings</"
-"gui><gui>System</gui><gui>System Info</gui><gui>Default Applications</gui></"
-"guiseq>."
+"Please see <link href=\"ghelp:gnome-help#net-default-browser\">the GNOME "
+"Desktop Help</link>."
 msgstr ""
-"En GNOME 3 puede configurar el navegador predeterminado del sistema bajo "
-"<guiseq><gui>Actividades</gui><gui>Aplicaciones</gui><gui>Configuración del "
-"sistema</gui><gui>Sistema</gui><gui>Información del sistema</"
-"gui><gui>Aplicaciones predeterminadas</gui></guiseq>."
+"Consulte <link href=\"ghelp:gnome-help#net-default-browser\">la ayuda del "
+"escritorio GNOME</link>."
 
-#: C/default-browser.page:27(p)
+#: C/default-browser.page:31(p)
 msgid ""
 "If the preferred browser is set as default application but still does not "
 "work correctly please contact your distribution via their forum or bug "
@@ -10778,17 +10753,7 @@ msgstr ""
 "pero aún así no funciona correctamente, contacte con su distribución a "
 "través de su foto o web de seguimiento de errores."
 
-#: C/default-browser.page:29(p)
-msgid ""
-"GNOME 3 users with a technical background can tweak these settings by "
-"defining scheme-handlers in <file>$HOME/.local/share/applications/mimeapps."
-"list</file>."
-msgstr ""
-"Los usuarios de GNOME 3 con conocimientos técnicos puede ajustar estas "
-"configuraciones definiendo manejadores de esquemas en <file>$HOME/.local/"
-"share/applications/mimeapps.list</file>."
-
-#: C/default-browser.page:32(p)
+#: C/default-browser.page:34(p)
 msgid ""
 "If the error message \"Could not open the link: Operation not supported\" is "
 "shown, you need to install the package <sys>gvfs</sys>."
@@ -10796,9 +10761,41 @@ msgstr ""
 "Si se muestra el error «No se pudo abrir el enlace: operación no soportada», "
 "debe instalar el paquete <sys>gvfs</sys>."
 
-#: C/default-browser.page:35(link)
+#: C/default-browser.page:37(link)
 msgid "Install gvfs"
 msgstr "Instalar «gvfs»"
+
+#: C/default-browser.page:44(title)
+msgid "Change which mail application is used to write emails"
+msgstr ""
+"Cambiar qué aplicación de correo se usa para escribir correos electrónicos"
+
+#: C/default-browser.page:46(p)
+msgid ""
+"Please see <link href=\"ghelp:gnome-help#net-default-email\">the GNOME "
+"Desktop Help</link>."
+msgstr ""
+"Consulte <link href=\"ghelp:gnome-help#net-default-email\">la ayuda del "
+"escritorio GNOME</link>."
+
+#: C/default-browser.page:51(title)
+#| msgid "Advanced Options"
+msgid "Advanced options"
+msgstr "Opciones avanzadas"
+
+#: C/default-browser.page:52(p)
+#| msgid ""
+#| "GNOME 3 users with a technical background can tweak these settings by "
+#| "defining scheme-handlers in <file>$HOME/.local/share/applications/"
+#| "mimeapps.list</file>."
+msgid ""
+"If you have a technical background you can also tweak these settings by "
+"defining scheme-handlers in <file>$HOME/.local/share/applications/mimeapps."
+"list</file>."
+msgstr ""
+"Si tiene conocimientos técnicos puede ajustar estas configuraciones "
+"definiendo manejadores de esquemas en <file>$HOME/.local/share/applications/"
+"mimeapps.list</file>."
 
 #: C/data-storage.page:5(desc)
 msgid "Where does Evolution store my data on the harddisk?"
@@ -13069,6 +13066,24 @@ msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2011\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
+
+#~ msgid "How to define the default browser to open links with."
+#~ msgstr ""
+#~ "Cómo definir el navegador predeterminado con el que abrir los enlaces."
+
+#~ msgid "Setting the default browser"
+#~ msgstr "Establecer el navegador predeterminado"
+
+#~ msgid ""
+#~ "You can set the system-wide default browser in GNOME 3 under "
+#~ "<guiseq><gui>Activities</gui><gui>Applications</gui><gui>System Settings</"
+#~ "gui><gui>System</gui><gui>System Info</gui><gui>Default Applications</"
+#~ "gui></guiseq>."
+#~ msgstr ""
+#~ "En GNOME 3 puede configurar el navegador predeterminado del sistema bajo "
+#~ "<guiseq><gui>Actividades</gui><gui>Aplicaciones</gui><gui>Configuración "
+#~ "del sistema</gui><gui>Sistema</gui><gui>Información del sistema</"
+#~ "gui><gui>Aplicaciones predeterminadas</gui></guiseq>."
 
 #~ msgid ""
 #~ "Your mail filters are probably working, however, they could be ordered in "
