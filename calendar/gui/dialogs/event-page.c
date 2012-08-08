@@ -918,6 +918,11 @@ event_page_dispose (GObject *object)
 		priv->sod = NULL;
 	}
 
+	if (priv->alarm_dialog) {
+		gtk_widget_destroy (priv->alarm_dialog);
+		priv->alarm_dialog = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (event_page_parent_class)->dispose (object);
 }
@@ -3200,6 +3205,15 @@ alarm_custom_clicked_cb (GtkWidget *widget,
 }
 #endif
 
+static gboolean
+alarm_dialog_delete_event_cb (GtkWidget *alarm_dialog)
+{
+	gtk_widget_hide (alarm_dialog);
+
+	/* stop processing other handlers */
+	return TRUE;
+}
+
 /* Hooks the widget signals */
 static gboolean
 init_widgets (EventPage *epage)
@@ -3347,7 +3361,7 @@ init_widgets (EventPage *epage)
 		G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
 	g_signal_connect (
 		priv->alarm_dialog, "delete-event",
-		G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
+		G_CALLBACK (alarm_dialog_delete_event_cb), priv->alarm_dialog);
 	priv->alarm_list_dlg_widget = alarm_list_dialog_peek (
 		registry, client, priv->alarm_list_store);
 	gtk_widget_reparent (priv->alarm_list_dlg_widget, priv->alarm_box);
