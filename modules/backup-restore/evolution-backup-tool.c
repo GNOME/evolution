@@ -62,6 +62,8 @@
 #define DCONF_PATH_EDS "/org/gnome/evolution-data-server/"
 #define DCONF_PATH_EVO "/org/gnome/evolution/"
 
+#define KEY_FILE_GROUP "Evolution Backup"
+
 static gboolean backup_op = FALSE;
 static gchar *bk_file = NULL;
 static gboolean restore_op = FALSE;
@@ -280,9 +282,10 @@ write_dir_file (void)
 	g_return_if_fail (filename != NULL);
 
 	content = replace_variables (
-		"[dirs]\n"
-		"data=$STRIPDATADIR\n"
-		"config=$STRIPCONFIGDIR\n");
+		"[" KEY_FILE_GROUP "]\n"
+		"Version=" VERSION "\n"
+		"UserDataDir=$STRIPDATADIR\n"
+		"UserConfigDir=$STRIPCONFIGDIR\n");
 	g_return_if_fail (content != NULL);
 
 	g_file_set_contents (filename->str, content->str, content->len, &error);
@@ -365,7 +368,8 @@ backup (const gchar *filename,
 }
 
 static void
-extract_backup_dirs (const gchar *filename,
+extract_backup_data (const gchar *filename,
+                     gchar **restored_version,
                      gchar **data_dir,
                      gchar **config_dir)
 {
@@ -382,7 +386,31 @@ extract_backup_dirs (const gchar *filename,
 	if (error) {
 		g_warning ("Failed to read '%s': %s", filename, error->message);
 		g_error_free (error);
-	} else {
+
+	/* This is the current format as of Evolution 3.6. */
+	} else if (g_key_file_has_group (key_file, KEY_FILE_GROUP)) {
+		gchar *tmp;
+
+		tmp = g_key_file_get_value (
+			key_file, KEY_FILE_GROUP, "Version", NULL);
+		if (tmp != NULL)
+			*restored_version = g_strstrip (g_strdup (tmp));
+		g_free (tmp);
+
+		tmp = g_key_file_get_value (
+			key_file, KEY_FILE_GROUP, "UserDataDir", NULL);
+		if (tmp != NULL)
+			*data_dir = g_shell_quote (tmp);
+		g_free (tmp);
+
+		tmp = g_key_file_get_value (
+			key_file, KEY_FILE_GROUP, "UserConfigDir", NULL);
+		if (tmp != NULL)
+			*config_dir = g_shell_quote (tmp);
+		g_free (tmp);
+
+	/* This is the legacy format with no version information. */
+	} else if (g_key_file_has_group (key_file, "dirs")) {
 		gchar *tmp;
 
 		tmp = g_key_file_get_value (key_file, "dirs", "data", NULL);
@@ -456,7 +484,9 @@ restore (const gchar *filename,
 
 	if (is_new_format) {
 		GString *dir_fn;
-		gchar *data_dir = NULL, *config_dir = NULL;
+		gchar *data_dir = NULL;
+		gchar *config_dir = NULL;
+		gchar *restored_version = NULL;
 
 		command = g_strdup_printf (
 			"cd $TMP && tar xzf %s "
@@ -470,8 +500,12 @@ restore (const gchar *filename,
 			goto end;
 		}
 
-		/* data_dir and config_dir are quoted inside extract_backup_dirs */
-		extract_backup_dirs (dir_fn->str, &data_dir, &config_dir);
+		/* data_dir and config_dir are quoted inside extract_backup_data */
+		extract_backup_data (
+			dir_fn->str,
+			&restored_version,
+			&data_dir,
+			&config_dir);
 
 		g_unlink (dir_fn->str);
 		g_string_free (dir_fn, TRUE);
@@ -505,8 +539,20 @@ restore (const gchar *filename,
 		run_cmd (command);
 		g_free (command);
 
+		/* If the back file had version information, set the last
+		 * used version in GSettings before restarting Evolution. */
+		if (restored_version != NULL && *restored_version != '\0') {
+			GSettings *settings;
+
+			settings = g_settings_new ("org.gnome.evolution");
+			g_settings_set_string (
+				settings, "version", restored_version);
+			g_object_unref (settings);
+		}
+
 		g_free (data_dir);
 		g_free (config_dir);
+		g_free (restored_version);
 	} else {
 		run_cmd ("mv $HOME/.evolution $HOME/.evolution_old");
 
