@@ -28,6 +28,7 @@
 #include <e-editor-replace-dialog.h>
 #include <e-editor-link-dialog.h>
 #include <e-editor-hrule-dialog.h>
+#include <e-editor-table-dialog.h>
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>
@@ -60,6 +61,7 @@ struct _EEditorPrivate {
 	GtkWidget *replace_dialog;
 	GtkWidget *link_dialog;
 	GtkWidget *hrule_dialog;
+	GtkWidget *table_dialog;
 
 	GtkWidget *color_combo_box;
 	GtkWidget *mode_combo_box;

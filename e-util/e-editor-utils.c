@@ -42,7 +42,6 @@ WebKitDOMElement *
 e_editor_dom_node_find_child_element (WebKitDOMNode *node,
 				      GType child_type)
 {
-	WebKitDOMElement *link;
 	WebKitDOMNode *start_node = node;
 
 	do {

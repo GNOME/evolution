@@ -697,42 +697,12 @@ static void
 action_insert_table_cb (GtkAction *action,
                         EEditor *editor)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMElement *table;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
-	gint i;
-
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
-		return;
-
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-
-	/* Default 3x3 table */
-	table = webkit_dom_document_create_element (document, "TABLE", NULL);
-	for (i = 0; i < 3; i++) {
-		WebKitDOMHTMLElement *row;
-		gint j;
-
-		row = webkit_dom_html_table_element_insert_row (
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), -1, NULL);
-
-		for (j = 0; j < 3; j++) {
-			webkit_dom_html_table_row_element_insert_cell (
-				WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row),
-				-1, NULL);
-		}
+	if (editor->priv->table_dialog == NULL) {
+		editor->priv->table_dialog =
+			e_editor_table_dialog_new (editor);
 	}
 
-	webkit_dom_range_insert_node (range, WEBKIT_DOM_NODE (table), NULL);
-
-	/* FIXME WEBKIT - does the action work? */
-	gtk_action_activate (ACTION (PROPERTIES_TABLE));
+	gtk_window_present (GTK_WINDOW (editor->priv->table_dialog));
 }
 
 static void
@@ -1004,7 +974,12 @@ static void
 action_properties_table_cb (GtkAction *action,
                             EEditor *editor)
 {
-	gtk_window_present (GTK_WINDOW (WIDGET (TABLE_PROPERTIES_WINDOW)));
+	if (editor->priv->table_dialog == NULL) {
+		editor->priv->table_dialog =
+			e_editor_table_dialog_new (editor);
+	}
+
+	gtk_window_present (GTK_WINDOW (editor->priv->table_dialog));
 }
 
 static void
