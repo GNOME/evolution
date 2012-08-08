@@ -469,8 +469,17 @@ web_view_update_document_highlights (EWebView *web_view)
 		WebKitDOMElement *span;
 
 		span = webkit_dom_document_create_element (document, "span", NULL);
-		webkit_dom_html_element_set_class_name (
-			WEBKIT_DOM_HTML_ELEMENT (span), "__evo-highlight");
+
+		/* See https://bugzilla.gnome.org/show_bug.cgi?id=681400
+		 * FIXME: This can be removed once we require WebKitGtk 1.10+ */
+		#if WEBKIT_CHECK_VERSION (1, 9, 6)
+			webkit_dom_element_set_class_name (
+				span, "__evo-highlight");
+		#else
+			webkit_dom_html_element_set_class_name (
+				WEBKIT_DOM_HTML_ELEMENT (span), "__evo-highlight");
+		#endif
+
 		webkit_dom_html_element_set_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (span), iter->data, NULL);
 
