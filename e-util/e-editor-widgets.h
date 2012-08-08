@@ -117,32 +117,6 @@
 #define E_EDITOR_WIDGETS_SPELL_WINDOW(editor) \
 	E_EDITOR_WIDGETS ((editor), "spell-window")
 
-/* Table Properties Window */
-#define E_EDITOR_WIDGETS_TABLE_PROPERTIES_ALIGNMENT_COMBO_BOX(editor) \
-	E_EDITOR_WIDGETS ((editor), "table-properties-alignment-combo-box")
-#define E_EDITOR_WIDGETS_TABLE_PROPERTIES_BORDER_SPIN_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "table-properties-border-spin-button")
-#define E_EDITOR_WIDGETS_TABLE_PROPERTIES_COLOR_COMBO(editor) \
-	E_EDITOR_WIDGETS ((editor), "table-properties-color-combo")
-#define E_EDITOR_WIDGETS_TABLE_PROPERTIES_COLS_SPIN_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "table-properties-cols-spin-button")
-#define E_EDITOR_WIDGETS_TABLE_PROPERTIES_IMAGE_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "table-properties-image-button")
-#define E_EDITOR_WIDGETS_TABLE_PROPERTIES_PADDING_SPIN_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "table-properties-padding-spin-button")
-#define E_EDITOR_WIDGETS_TABLE_PROPERTIES_ROWS_SPIN_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "table-properties-rows-spin-button")
-#define E_EDITOR_WIDGETS_TABLE_PROPERTIES_SPACING_SPIN_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "table-properties-spacing-spin-button")
-#define E_EDITOR_WIDGETS_TABLE_PROPERTIES_WIDTH_CHECK_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "table-properties-width-check-button")
-#define E_EDITOR_WIDGETS_TABLE_PROPERTIES_WIDTH_COMBO_BOX(editor) \
-	E_EDITOR_WIDGETS ((editor), "table-properties-width-combo-box")
-#define E_EDITOR_WIDGETS_TABLE_PROPERTIES_WIDTH_SPIN_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "table-properties-width-spin-button")
-#define E_EDITOR_WIDGETS_TABLE_PROPERTIES_WINDOW(editor) \
-	E_EDITOR_WIDGETS ((editor), "table-properties-window")
-
 /* Text Properties Window */
 #define E_EDITOR_WIDGETS_TEXT_PROPERTIES_BOLD_BUTTON(editor) \
 	E_EDITOR_WIDGETS ((editor), "text-properties-bold-button")

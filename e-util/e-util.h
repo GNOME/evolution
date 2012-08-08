@@ -98,6 +98,7 @@
 #include <e-util/e-editor-link-dialog.h>
 #include <e-util/e-editor-replace-dialog.h>
 #include <e-util/e-editor-selection.h>
+#include <e-util/e-editor-table-dialog.h>
 #include <e-util/e-editor-utils.h>
 #include <e-util/e-editor-widget.h>
 #include <e-util/e-editor-widgets.h>

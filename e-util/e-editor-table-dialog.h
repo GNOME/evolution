@@ -1,8 +1,11 @@
 /*
  * e-editor-table-dialog.h
  *
+<<<<<<< HEAD
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
+=======
+>>>>>>> Make the 'Table properties' dialog work
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -54,6 +57,10 @@ typedef struct _EEditorTableDialogPrivate EEditorTableDialogPrivate;
 
 struct _EEditorTableDialog {
 	EEditorDialog parent;
+<<<<<<< HEAD
+=======
+
+>>>>>>> Make the 'Table properties' dialog work
 	EEditorTableDialogPrivate *priv;
 };
 
@@ -61,8 +68,14 @@ struct _EEditorTableDialogClass {
 	EEditorDialogClass parent_class;
 };
 
+<<<<<<< HEAD
 GType		e_editor_table_dialog_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_editor_table_dialog_new	(EEditor *editor);
+=======
+GType		e_editor_table_dialog_get_type	(void);
+
+GtkWidget*	e_editor_table_dialog_new	(EEditor *editor);
+>>>>>>> Make the 'Table properties' dialog work
 
 G_END_DECLS
 
