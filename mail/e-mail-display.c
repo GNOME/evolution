@@ -648,12 +648,6 @@ mail_display_plugin_widget_resize (GObject *object,
 		return;
 	}
 
-	/* For attachment bar, we need to ask for height it's parent,
-	 * GtkBox, because EAttachmentBar itself lies about it's real height. */
-	if (E_IS_ATTACHMENT_BAR (widget)) {
-		widget = gtk_widget_get_parent (widget);
-	}
-
 	gtk_widget_get_preferred_height (widget, &height, NULL);
 
         /* Int -> Str */
