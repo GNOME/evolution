@@ -27,7 +27,7 @@
 
 <p>To send a message to more than one person, enter the addresses in the composer by separating them with commas or semicolons.</p>
 
-<note><p>If you frequently write email to the same groups of people, you can create <link xref="contacts-using-contact-lists">contact lists</link> to send them mail as though they have a single address.</p></note>
+<note style="tip"><p>If you frequently write email to the same groups of people, you can create <link xref="contacts-using-contact-lists">contact lists</link> to send them mail as though they have a single address.</p></note>
 
 <section id="to-cc-bcc-meaning">
 <title>Recipient types</title>

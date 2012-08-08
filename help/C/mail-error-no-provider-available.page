@@ -39,7 +39,7 @@
 <item><p>Refer to the list of folders associated with that particular filter. Click on the button that allows you to modify the folders assigned for that filter. Set the folders again.</p></item>
 </steps>
 
-<note>
+<note style="advanced">
 <p>Advanced users may also be interested in this write up: <link href="https://thomas.apestaart.org/thomas/trac/wiki/Evolution">How to keep the Evolution filters in sync on multiple machines by Thomas Vander Stichele</link>
 </p>
 </note>

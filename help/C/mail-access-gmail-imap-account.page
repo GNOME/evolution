@@ -25,6 +25,6 @@
 
 <p>Please refer to the <link xref="mail-account-manage-imap">IMAP mail account settings</link>.</p>
 
-<note><p>To access Gmail via IMAP you must turn on IMAP in your Google account. See the <link href="https://mail.google.com/support/bin/answer.py?answer=77695">Gmail Help</link> for more information.</p></note>
+<note style="important"><p>To access Gmail via IMAP you must turn on IMAP in your Google account. See the <link href="https://mail.google.com/support/bin/answer.py?answer=77695">Gmail Help</link> for more information.</p></note>
 </page>
 

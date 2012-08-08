@@ -22,6 +22,6 @@
 <p>This is a known problem and hard to solve for a complex application with many settings such as Evolution.</p>
 <p>You can use the Express version which is targeted for mobile and small-screen devices. This is available from version 2.30 on and can be enabled by starting <code>evolution --express</code> from the terminal window.</p>
 
-<note><p>You can also explicitly open Evolution in a specific component. For the calendar, use <cmd>evolution --express --component=calendar</cmd>.</p></note>
+<note style="advanced"><p>You can also explicitly open Evolution in a specific component. For the calendar, use <cmd>evolution --express --component=calendar</cmd>.</p></note>
 
 </page>

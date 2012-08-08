@@ -40,6 +40,6 @@
 
 <p>Flags can help you organize your work in a number of ways. For example, you might <link xref="mail-change-columns-in-message-list">add a Flag Status column</link> to your message list and sort that way. Alternately, you could create a <link xref="mail-search-folders">search folder</link> that displays all your flagged messages, then clear the flags when you're done, so the search folder contains only messages with upcoming deadlines.</p>
 
-<note><p>If you prefer a simpler way to remind yourself about messages, you can mark them as important by right-clicking the message, then click <gui>Mark as Important</gui>, or by selecting <guiseq><gui>Message</gui><gui>Mark as</gui><gui>Important</gui></guiseq> from the menubar.</p></note>
+<note style="tip"><p>If you prefer a simpler way to remind yourself about messages, you can mark them as important by right-clicking the message, then click <gui>Mark as Important</gui>, or by selecting <guiseq><gui>Message</gui><gui>Mark as</gui><gui>Important</gui></guiseq> from the menubar.</p></note>
 
 </page>

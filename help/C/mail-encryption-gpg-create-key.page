@@ -22,7 +22,7 @@
 
   <title>Creating a GPG key</title>
 
-<note><p>These steps are very technical. For average users we nowadays recommend using the Seahorse application for managing GPG keys.</p></note>
+<note style="advanced"><p>These steps are very technical. For average users we nowadays recommend using the Seahorse application for managing GPG keys.</p></note>
 <!-- TODO:POST-3-2: Update and rewrite using Seahorse. Needs a complete rewrite once https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
 
 <p>Before you can get or send GPG encrypted mail, you need to generate your public and private keys with GPG.</p>

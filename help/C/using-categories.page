@@ -26,7 +26,7 @@
 
 <p>Another way to group contacts, appointments, tasks and memos (summarized by the term "objects" in the following text) is to mark them as belonging to different categories. You can mark an object as being in several categories or no category at all. For example in your address book, you put a friend in the "Business" category because he works with you and the "Friends" category because he is a friend.</p>
 
-<note><p>To display only the objects in a particular category, select the corresponding category in the quick <link xref="searching-items">search</link> bar.</p></note>
+<note style="tip"><p>To display only the objects in a particular category, select the corresponding category in the quick <link xref="searching-items">search</link> bar.</p></note>
 
 <section id="set-category-for-object">
 <title>Setting categories for an object</title>

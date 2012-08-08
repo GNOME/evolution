@@ -40,11 +40,11 @@
 <item><p>If you want to define multiple conditions, define under <gui>Find items</gui> if any or if all conditions have to apply, and click <gui style="button">Add Condition</gui> and repeat the previous step.</p></item>
 <item>
 <p>Select the Actions for the Filter in the <gui>Then</gui> section.</p><p>For more information on the available actions see <link xref="mail-filters-actions">Available Filter actions</link>.</p>
-<note>
-<p>Note that the order of filters is very important. They are applied to the original message in sequence, like a recipe.</p>
+
+<note style="warning"><p>The order of filters is important. Filters are applied to the original message in sequence, like a recipe.</p>
 <p>If your first filter has a <gui>Stop Processing</gui> rule, then all the email messages that match this filter will ignore all the succeeding filters.</p>
-<p>When you move a message to another folder, "moving" actually means appending a copy of the message to the destination folder and marking the original message for deletion. So any subsequent filter rules will be applied to the original message that is now marked for deletion. Therefore moving a message should usually appear last in a sequence of filter rules.</p>
-</note>
+<p>When you move a message to another folder, "moving" actually means appending a copy of the message to the destination folder and marking the original message for deletion. So any subsequent filter rules will be applied to the original message that is now marked for deletion. Therefore moving a message should usually appear last in a sequence of filter rules.</p></note>
+
 </item>
 <item><p>If you want to define multiple actions, click <gui style="button">Add Action</gui> and repeat the previous step. For example, if you want no other existing filters to be applied choose <gui>Stop Processing</gui> as the second action in the list.</p></item>
 <item><p>Click <gui style="button">OK</gui>.</p></item>

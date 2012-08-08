@@ -31,6 +31,6 @@
 <item><p>(Optional) Enter a description in the <gui>Description</gui> field.</p></item>
 <item><p>To show the time as <link xref="calendar-free-busy">busy</link> to others, click <guiseq><gui>Options</gui><gui>Show Time as Busy</gui></guiseq>.</p></item>
 </steps>
-<note><p>You can also define a <link xref="calendar-timezones">time zone</link>, a <link xref="using-categories">category</link>, a <link xref="calendar-alarms-and-reminders">reminder</link>, a <link xref="calendar-recurrence">recurrence</link>, or a <link xref="calendar-classifications">classification</link> for the event, or add an attachment.</p></note>
+<p>You can also define a <link xref="calendar-timezones">time zone</link>, a <link xref="using-categories">category</link>, a <link xref="calendar-alarms-and-reminders">reminder</link>, a <link xref="calendar-recurrence">recurrence</link>, or a <link xref="calendar-classifications">classification</link> for the event, or add an attachment.</p>
 
 </page>

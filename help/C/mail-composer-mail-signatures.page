@@ -21,6 +21,6 @@
 <title>Working with email signatures</title>
 
 <p>A signature consists of one or more lines of text (or even a picture) that will be added at the end of an email that you send. It can contain contact information or other things. A signature always begins with two dashes and a space (<code>-- </code>).</p>
-<note><p>The term "signature" is also differently used in terms of <link xref="mail-encryption">encryption</link>.</p></note>
+<note style="tip"><p>The term "signature" is also differently used in terms of <link xref="mail-encryption">encryption</link>.</p></note>
 </page>
 

@@ -24,7 +24,7 @@
 
 <title>IMAP Headers</title>
 
-<note><p>The <gui>IMAP Headers</gui> tab is only displayed in the <gui>Account Editor</gui> if <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>IMAP Features</gui></guiseq> is enabled.</p></note>
+<note style="important"><p>The <gui>IMAP Headers</gui> tab is only displayed in the <gui>Account Editor</gui> if <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>IMAP Features</gui></guiseq> is enabled.</p></note>
 
 <p>Evolution allows you for IMAP accounts to choose the headers that you want to download so that you can reduce the download time and filter or move your mail around the way you like it. The IMAP Mail header options are as follows:</p>
 <list>
@@ -42,6 +42,6 @@
 <item><p>Optionally: If you want to define extra headers to download you can add these in the <gui>Custom Headers</gui> section.</p></item>
 </steps>
 
-<note><p>The option to define IMAP Headers is currently only available for IMAP accounts, but not for IMAP+ accounts.</p></note><!-- TODO:DEVELOPERS: Recheck this once https://bugzilla.gnome.org/show_bug.cgi?id=655519 has been fixed -->
+<note style="tip"><p>The option to define IMAP Headers is currently only available for IMAP accounts, but not for IMAP+ accounts.</p></note><!-- TODO:DEVELOPERS: Recheck this once https://bugzilla.gnome.org/show_bug.cgi?id=655519 has been fixed -->
 </page>
 

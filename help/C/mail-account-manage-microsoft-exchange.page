@@ -20,6 +20,6 @@
 
   <title>Microsoft Exchange account settings</title>
 
-<note><p>Please first read <link xref="exchange-connectors-overview">Choosing the right connector</link> to find out about the right Exchange account type for you.</p></note>
+<note style="important"><p>Please first read <link xref="exchange-connectors-overview">Choosing the right connector</link> to find out about the right Exchange account type for you.</p></note>
 
 </page>

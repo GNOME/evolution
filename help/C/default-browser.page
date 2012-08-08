@@ -30,7 +30,7 @@
 
 <p>If the preferred browser is set as default application but still does not work correctly please contact your distribution via their forum or bug tracker.</p>
 
-<note style="info package">
+<note style="tip">
   <p>If the error message "Could not open the link: Operation not supported" is shown, you need to install the package <sys>gvfs</sys>.</p>
   <if:choose>
     <if:when test="if:supports('action:install')">
@@ -49,7 +49,7 @@
 
 <section id="advanced-options">
 <title>Advanced options</title>
-<note><p>If you have a technical background you can also tweak these settings by defining scheme-handlers in <file>$HOME/.local/share/applications/mimeapps.list</file>.</p></note>
+<note style="advanced"><p>If you have a technical background you can also tweak these settings by defining scheme-handlers in <file>$HOME/.local/share/applications/mimeapps.list</file>.</p></note>
 </section>
 
 </page>

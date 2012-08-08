@@ -25,8 +25,6 @@
 
 <p>You can easily tell the two Trash folders apart by looking at their icons. The Evolution <gui>Trash</gui> folder has a special icon whereas the other physical Trash folder looks like any other folder.</p>
 
-<note>
-<p>Note that the <gui>Junk</gui> folder is also a search folder and may also appear twice.</p>
-</note>
+<note style="tip"><p>Note that the <gui>Junk</gui> folder is also a search folder and may also appear twice.</p></note>
 
 </page>

@@ -45,8 +45,8 @@
 
 <p>An email is sent out to all the recipients, inviting them to your event.</p>
 
-<note><p>You can also define a <link xref="calendar-timezones">time zone</link>, a <link xref="using-categories">category</link>, a <link xref="calendar-alarms-and-reminders">reminder</link>, a <link xref="calendar-recurrence">recurrence</link>, or a <link xref="calendar-classifications">classification</link> for the event, or add an attachment.</p></note>
+<p>You can also define a <link xref="calendar-timezones">time zone</link>, a <link xref="using-categories">category</link>, a <link xref="calendar-alarms-and-reminders">reminder</link>, a <link xref="calendar-recurrence">recurrence</link>, or a <link xref="calendar-classifications">classification</link> for the event, or add an attachment.</p>
 
-<note><p>In Evolution, a meeting can have only one organizer, and only the organizer can add participants to that meeting. Though it is possible to change the organizer of a meeting, this is not recommended as a means to invite additional participants to meetings. If you want to invite additional people to a meeting and are not that meeting's organizer, it is recommended that you forward the invitation message you received from the original meeting organiser to additional participants.</p></note>
+<note style="tip"><p>In Evolution, a meeting can have only one organizer, and only the organizer can add participants to that meeting. Though it is possible to change the organizer of a meeting, this is not recommended as a means to invite additional participants to meetings. If you want to invite additional people to a meeting and are not that meeting's organizer, it is recommended that you forward the invitation message you received from the original meeting organiser to additional participants.</p></note>
 
 </page>

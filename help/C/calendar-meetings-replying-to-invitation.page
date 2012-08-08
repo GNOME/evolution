@@ -29,5 +29,5 @@
 <p>If you click <gui>Accept</gui> the event is added automatically to the calendar that you have chosen.</p>
 <p>After you have added the meeting to your calendar, you can make changes to the meeting, but if the original organizer sends out an update, your changes might be overwritten.</p>
 
-<note><p>Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Meeting Invitations</gui><gui>Conflict Search</gui></guiseq> you can define which calendars are used for warning you of meeting conflicts.</p></note> <!-- This is the location since 3.1.5, see bug https://bugzilla.gnome.org/show_bug.cgi?id=655494 -->
+<note style="tip"><p>Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Meeting Invitations</gui><gui>Conflict Search</gui></guiseq> you can define which calendars are used for warning you of meeting conflicts.</p></note> <!-- This is the location since 3.1.5, see bug https://bugzilla.gnome.org/show_bug.cgi?id=655494 -->
 </page>

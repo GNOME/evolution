@@ -31,7 +31,7 @@
 
 <p>If you just want to quickly add a memo by entering a summary you can directly enter it in the list of memos.</p>
 
-<note><p>You can also define a <link xref="using-categories">category</link>, or a <link xref="calendar-classifications">classification</link> for the memo, or add an attachment.</p></note>
+<p>You can also define a <link xref="using-categories">category</link>, or a <link xref="calendar-classifications">classification</link> for the memo, or add an attachment.</p>
 
 <section id="shared-memos">
 <title>Shared Memos</title>

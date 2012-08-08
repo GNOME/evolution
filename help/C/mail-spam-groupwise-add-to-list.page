@@ -31,6 +31,6 @@
 <item><p>Click <gui style="button">Add</gui> and then click on the <gui style="button">OK</gui> button.</p></item>
 </steps>
 
-<note><p>Remember, when you mark an item as junk in GroupWise, that item is added to your junk list in the GroupWise system. The settings in the GroupWise system are applied from computer to computer.</p></note>
+<p>Note that when you mark an item as junk in GroupWise, that item is added to your junk list in the GroupWise system. The settings in the GroupWise system are applied from computer to computer.</p>
 
 </page>
