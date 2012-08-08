@@ -270,7 +270,7 @@ mail_backend_poll_to_quit (EActivity *activity)
 static void
 mail_backend_ready_to_quit (EActivity *activity)
 {
-	emu_free_mail_cache ();
+	emu_free_mail_cache (g_object_unref, g_object_ref (activity));
 
 	/* Do this last.  It may terminate the process. */
 	g_object_unref (activity);
