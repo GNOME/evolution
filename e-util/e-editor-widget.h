@@ -72,6 +72,8 @@ struct _EEditorWidget {
 
 struct _EEditorWidgetClass {
 	WebKitWebViewClass parent_class;
+
+	void	(*paste_clipboard_quoted)	(EEditorWidget *widget);
 };
 
 GType		e_editor_widget_get_type 	(void);
@@ -115,6 +117,9 @@ gchar *		e_editor_widget_get_text_html	(EEditorWidget *widget);
 gchar *		e_editor_widget_get_text_plain	(EEditorWidget *widget);
 void		e_editor_widget_set_text_html	(EEditorWidget *widget,
 						 const gchar *text);
+
+void		e_editor_widget_paste_clipboard_quoted
+						(EEditorWidget *widget);
 
 G_END_DECLS
 

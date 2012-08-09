@@ -297,6 +297,50 @@ editor_widget_key_release_event (GtkWidget *gtk_widget,
 }
 
 static void
+clipboard_text_received (GtkClipboard *clipboard,
+			 const gchar *text,
+			 EEditorWidget *widget)
+{
+	gchar *html, *escaped_text;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element;
+
+	/* This is a little trick to escape any HTML characters (like <, > or &).
+	 * <textarea> automatically replaces all these unsafe characters
+	 * by &lt;, &gt; etc. */
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	element = webkit_dom_document_create_element (document, "TEXTAREA", NULL);
+	webkit_dom_html_element_set_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (element), text, NULL);
+	escaped_text = webkit_dom_html_element_get_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (element));
+	g_object_unref (element);
+
+	html = g_strconcat (
+		"<blockquote type=\"cite\"><pre>",
+		escaped_text, "</pre></blockquote>", NULL);
+	e_editor_selection_insert_html (widget->priv->selection, html);
+
+	g_free (escaped_text);
+	g_free (html);
+}
+
+static void
+editor_widget_paste_clipboard_quoted (EEditorWidget *widget)
+{
+	GtkClipboard *clipboard;
+
+	clipboard = gtk_clipboard_get_for_display (
+			gdk_display_get_default (),
+			GDK_SELECTION_CLIPBOARD);
+
+	gtk_clipboard_request_text (
+		clipboard,
+		(GtkClipboardTextReceivedFunc) clipboard_text_received,
+		widget);
+}
+
+static void
 e_editor_widget_get_property (GObject *object,
 			      guint property_id,
 			      GValue *value,
@@ -429,6 +473,8 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->key_release_event = editor_widget_key_release_event;
+
+	klass->paste_clipboard_quoted = editor_widget_paste_clipboard_quoted;
 
 	g_object_class_install_property (
 		object_class,
@@ -777,3 +823,15 @@ e_editor_widget_set_text_html (EEditorWidget *widget,
 	webkit_web_view_load_html_string (WEBKIT_WEB_VIEW (widget), text, NULL);
 }
 
+void
+e_editor_widget_paste_clipboard_quoted (EEditorWidget *widget)
+{
+	EEditorWidgetClass *klass;
+
+	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
+
+	klass = E_EDITOR_WIDGET_GET_CLASS (widget);
+	g_return_if_fail (klass->paste_clipboard_quoted != NULL);
+
+	klass->paste_clipboard_quoted (widget);
+}

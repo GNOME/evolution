@@ -889,13 +889,8 @@ static void
 action_paste_quote_cb (GtkAction *action,
                        EEditor *editor)
 {
-	/* FIXME WEBKIT */
-	/*
-	GtkHTML *html;
-
-	html = gtkhtml_editor_get_html (editor);
-	gtk_html_paste (html, TRUE);
-	*/
+	e_editor_widget_paste_clipboard_quoted (
+		e_editor_get_editor_widget (editor));
 }
 
 static void
