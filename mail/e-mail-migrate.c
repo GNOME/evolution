@@ -461,15 +461,16 @@ migrate_mbox_to_maildir (EShellBackend *shell_backend,
 			CAMEL_SESSION (session), "local", "maildir",
 			CAMEL_PROVIDER_STORE, &error);
 
-	g_object_unref (source);
-
 	if (error != NULL) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_object_unref (source);
 		g_error_free (error);
 		return FALSE;
 	}
 
 	camel_service_set_settings (mbox_service, settings);
+
+	g_object_unref (source);
 
 	settings = camel_service_get_settings (maildir_service);
 	path = g_build_filename (data_dir, "local", NULL);
