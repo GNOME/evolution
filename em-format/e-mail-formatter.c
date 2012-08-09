@@ -1321,15 +1321,17 @@ e_mail_formatter_set_charset (EMailFormatter *formatter,
                               const gchar *charset)
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
-	g_return_if_fail (charset && *charset);
 
 	if (g_strcmp0 (formatter->priv->charset, charset) == 0)
 		return;
 
-	if (formatter->priv->charset)
-		g_free (formatter->priv->charset);
+	g_free (formatter->priv->charset);
 
-	formatter->priv->charset = g_strdup (charset);
+	if (!charset) {
+		formatter->priv->charset = NULL;
+	} else {
+		formatter->priv->charset = g_strdup (charset);
+	}
 
 	g_object_notify (G_OBJECT (formatter), "charset");
 }
@@ -1352,9 +1354,7 @@ e_mail_formatter_set_default_charset (EMailFormatter *formatter,
 	if (g_strcmp0 (formatter->priv->default_charset, default_charset) == 0)
 		return;
 
-	if (formatter->priv->default_charset)
-		g_free (formatter->priv->default_charset);
-
+	g_free (formatter->priv->default_charset);
 	formatter->priv->default_charset = g_strdup (default_charset);
 
 	g_object_notify (G_OBJECT (formatter), "default-charset");

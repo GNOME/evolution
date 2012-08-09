@@ -88,8 +88,6 @@ struct _EMailReaderPrivate {
 	EMailForwardStyle forward_style;
 	EMailReplyStyle reply_style;
 
-	EMailFormatter *formatter;
-
 	/* This timer runs when the user selects a single message. */
 	guint message_selected_timeout_id;
 
@@ -376,18 +374,17 @@ action_mail_charset_cb (GtkRadioAction *action,
                         GtkRadioAction *current,
                         EMailReader *reader)
 {
-	EMailFormatter *formatter;
+	EMailDisplay *display;
 	const gchar *charset;
 
 	if (action != current)
 		return;
 
-	formatter = e_mail_reader_get_formatter (reader);
+	display = e_mail_reader_get_mail_display (reader);
 	charset = g_object_get_data (G_OBJECT (action), "charset");
 
 	/* Charset for "Default" action will be NULL. */
-	if (formatter)
-		e_mail_formatter_set_charset (formatter, charset);
+	e_mail_display_set_charset (display, charset);
 }
 
 static void
@@ -4757,39 +4754,4 @@ e_mail_reader_avoid_next_mark_as_seen (EMailReader *reader)
 	g_return_if_fail (message_list != NULL);
 
 	priv->avoid_next_mark_as_seen = TRUE;
-}
-
-EMailFormatter *
-e_mail_reader_get_formatter (EMailReader *reader)
-{
-	EMailReaderPrivate *priv;
-
-	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
-
-	priv = E_MAIL_READER_GET_PRIVATE (reader);
-	g_return_val_if_fail (priv != NULL, NULL);
-
-	return priv->formatter;
-}
-
-void
-e_mail_reader_set_formatter (EMailReader *reader,
-                             EMailFormatter *formatter)
-{
-	EMailReaderPrivate *priv;
-
-	g_return_if_fail (E_IS_MAIL_READER (reader));
-	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
-
-	priv = E_MAIL_READER_GET_PRIVATE (reader);
-	g_return_if_fail (priv != NULL);
-
-	g_object_ref (formatter);
-
-	if (priv->formatter) {
-		g_object_unref (priv->formatter);
-	}
-
-	priv->formatter = formatter;
-
 }
