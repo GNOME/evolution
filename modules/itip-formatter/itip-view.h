@@ -44,7 +44,8 @@ G_BEGIN_DECLS
 typedef struct _ItipView        ItipView;
 typedef struct _ItipViewPrivate ItipViewPrivate;
 typedef struct _ItipViewClass   ItipViewClass;
-typedef struct _EMailPartItip	EMailPartItip;
+
+struct _EMailPartItip;
 
 typedef enum {
 	ITIP_VIEW_MODE_NONE,
@@ -97,7 +98,7 @@ struct _ItipViewClass {
 
 GType           itip_view_get_type              (void);
 
-ItipView *      itip_view_new                   (EMailPartItip *puri,
+ItipView *      itip_view_new                   (struct _EMailPartItip *puri,
 						 ESourceRegistry *registry);
 void		itip_view_init_view		(ItipView *view);
 
@@ -110,7 +111,8 @@ void            itip_view_write_for_printing    (ItipView *view,
 void            itip_view_create_dom_bindings   (ItipView *view,
                                                  WebKitDOMElement *element);
 
-EMailPartItip *	itip_view_get_mail_part		(ItipView *view);
+struct _EMailPartItip *
+		itip_view_get_mail_part		(ItipView *view);
 ESourceRegistry *
 		itip_view_get_registry		(ItipView *view);
 const gchar *	itip_view_get_extension_name	(ItipView *view);
