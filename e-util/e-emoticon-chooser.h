@@ -55,6 +55,7 @@ struct _EEmoticonChooserIface {
 };
 
 GType		e_emoticon_chooser_get_type	(void);
+
 EEmoticon *	e_emoticon_chooser_get_current_emoticon
 						(EEmoticonChooser *chooser);
 void		e_emoticon_chooser_set_current_emoticon
@@ -62,7 +63,8 @@ void		e_emoticon_chooser_set_current_emoticon
 						 EEmoticon *emoticon);
 void		e_emoticon_chooser_item_activated
 						(EEmoticonChooser *chooser);
-GList *		e_emoticon_chooser_get_items	(EEmoticonChooser *chooser);
+
+GList *		e_emoticon_chooser_get_items	(void);
 
 G_END_DECLS
 

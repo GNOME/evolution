@@ -30,6 +30,7 @@
 #include "e-editor-private.h"
 #include "e-editor-widgets.h"
 #include "e-emoticon-action.h"
+#include "e-emoticon-chooser.h"
 #include "e-image-chooser-dialog.h"
 
 static void
@@ -569,45 +570,24 @@ action_indent_cb (GtkAction *action,
 
 static void
 action_insert_emoticon_cb (GtkAction *action,
-      EEditor *editor)
+			   EEditor *editor)
 {
-	/* FIXME WEBKIT
-	GtkHTML *html;
-	HTMLObject *image;
-	GtkIconInfo *icon_info;
-	GtkIconTheme *icon_theme;
-	GtkhtmlFaceChooser *chooser;
-	GtkhtmlFace *face;
-	const gchar *filename;
+	EEditorWidget *widget;
+	EEditorSelection *selection;
+	EEmoticonChooser *chooser;
+	EEmoticon *emoticon;
 	gchar *uri = NULL;
 
-	html = gtkhtml_editor_get_html (editor);
+	chooser = E_EMOTICON_CHOOSER (action);
+	emoticon = e_emoticon_chooser_get_current_emoticon (chooser);
+	g_return_if_fail (emoticon != NULL);
 
-	chooser = GTKHTML_FACE_CHOOSER (action);
-	face = gtkhtml_face_chooser_get_current_face (chooser);
-	g_return_if_fail (face != NULL);
-
-	icon_theme = gtk_icon_theme_get_default ();
-	icon_info = gtk_icon_theme_lookup_icon (
-		icon_theme, face->icon_name, 16, 0);
-	g_return_if_fail (icon_info != NULL);
-
-	filename = gtk_icon_info_get_filename (icon_info);
-	if (filename != NULL)
-		uri = g_filename_to_uri (filename, NULL, NULL);
-	gtk_icon_info_free (icon_info);
-	g_return_if_fail (uri != NULL);
-
-	image = html_image_new (
-		html_engine_get_image_factory (html->engine),
-		uri, NULL, NULL, -1, -1, FALSE, FALSE, 0, NULL,
-		HTML_VALIGN_MIDDLE, FALSE);
-	html_image_set_alt (HTML_IMAGE (image), face->text_face);
-	html_engine_paste_object (
-		html->engine, image, html_object_get_length (image));
+	uri = e_emoticon_get_uri (emoticon);
+	widget = e_editor_get_editor_widget (editor);
+	selection = e_editor_widget_get_selection (widget);
+	e_editor_selection_insert_image (selection, uri);
 
 	g_free (uri);
-	*/
 }
 
 static void

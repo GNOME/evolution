@@ -168,7 +168,7 @@ e_emoticon_chooser_item_activated (EEmoticonChooser *chooser)
 }
 
 GList *
-e_emoticon_chooser_get_items (EEmoticonChooser *chooser)
+e_emoticon_chooser_get_items (void)
 {
 	GList *list = NULL;
 	gint ii;

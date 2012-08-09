@@ -133,7 +133,7 @@ emoticon_chooser_menu_init (EEmoticonChooserMenu *chooser_menu)
 	GList *list, *iter;
 
 	chooser = E_EMOTICON_CHOOSER (chooser_menu);
-	list = e_emoticon_chooser_get_items (chooser);
+	list = e_emoticon_chooser_get_items ();
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		EEmoticon *face = iter->data;

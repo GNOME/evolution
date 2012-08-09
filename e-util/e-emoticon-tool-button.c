@@ -601,7 +601,7 @@ emoticon_tool_button_init (EEmoticonToolButton *button)
 	container = widget;
 
 	chooser = E_EMOTICON_CHOOSER (button);
-	list = e_emoticon_chooser_get_items (chooser);
+	list = e_emoticon_chooser_get_items ();
 	g_assert (g_list_length (list) <= NUM_ROWS * NUM_COLS);
 
 	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {

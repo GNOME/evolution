@@ -43,6 +43,8 @@ gboolean	e_emoticon_equal		(EEmoticon *emoticon_a,
 EEmoticon *	e_emoticon_copy			(EEmoticon *emoticon);
 void		e_emoticon_free			(EEmoticon *emoticon);
 
+gchar *		e_emoticon_get_uri		(EEmoticon *emoticon);
+
 G_END_DECLS
 
 #endif /* E_EMOTICON_H */
