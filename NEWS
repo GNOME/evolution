@@ -1,3 +1,10 @@
+Evolution 3.5.5.1 2012-08-09
+----------------------------
+
+Bug Fixes:
+	Bug #681400 - Fix build against WebKitGtk+ 1.9.6 (Dan Vrátil)
+
+
 Evolution 3.5.5 2012-08-06
 --------------------------
 
