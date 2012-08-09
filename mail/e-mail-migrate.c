@@ -97,9 +97,16 @@ em_migrate_session_init (EMMigrateSession *session)
 static EMMigrateSession *
 em_migrate_session_new (const gchar *user_data_dir)
 {
+	const gchar *user_cache_dir;
+
+	/* FIXME Really need to kill this function and
+	 *       get the cache dir from EShellBackend. */
+	user_cache_dir = mail_session_get_cache_dir ();
+
 	return g_object_new (
 		EM_TYPE_MIGRATE_SESSION,
-		"user-data-dir", user_data_dir, NULL);
+		"user-data-dir", user_data_dir,
+		"user-cache-dir", user_cache_dir, NULL);
 }
 
 static GtkProgressBar *progress;
