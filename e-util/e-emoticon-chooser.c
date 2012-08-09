@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-/*
- * e-emoticon-chooser.c
- *
- * Copyright (C) 2008 Novell, Inc.
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
-=======
 /* e-emoticon-chooser.c
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -90,24 +82,11 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-<<<<<<< HEAD
-G_DEFINE_INTERFACE (
-	EEmoticonChooser,
-	e_emoticon_chooser,
-	G_TYPE_OBJECT)
-
-static void
-e_emoticon_chooser_default_init (EEmoticonChooserInterface *interface)
-{
-	g_object_interface_install_property (
-		interface,
-=======
 static void
 emoticon_chooser_class_init (EEmoticonChooserIface *iface)
 {
 	g_object_interface_install_property (
 		iface,
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 		g_param_spec_boxed (
 			"current-emoticon",
 			"Current Emoticon",
@@ -117,33 +96,14 @@ emoticon_chooser_class_init (EEmoticonChooserIface *iface)
 
 	signals[ITEM_ACTIVATED] = g_signal_new (
 		"item-activated",
-<<<<<<< HEAD
-		G_TYPE_FROM_INTERFACE (interface),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (EEmoticonChooserInterface, item_activated),
-=======
 		G_TYPE_FROM_INTERFACE (iface),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EEmoticonChooserIface, item_activated),
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 }
 
-<<<<<<< HEAD
-EEmoticon *
-e_emoticon_chooser_get_current_emoticon (EEmoticonChooser *chooser)
-{
-	EEmoticonChooserInterface *interface;
-
-	g_return_val_if_fail (E_IS_EMOTICON_CHOOSER (chooser), NULL);
-
-	interface = E_EMOTICON_CHOOSER_GET_INTERFACE (chooser);
-	g_return_val_if_fail (interface->get_current_emoticon != NULL, NULL);
-
-	return interface->get_current_emoticon (chooser);
-=======
 GType
 e_emoticon_chooser_get_type (void)
 {
@@ -183,23 +143,10 @@ e_emoticon_chooser_get_current_emoticon (EEmoticonChooser *chooser)
 	g_return_val_if_fail (iface->get_current_emoticon != NULL, NULL);
 
 	return iface->get_current_emoticon (chooser);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 }
 
 void
 e_emoticon_chooser_set_current_emoticon (EEmoticonChooser *chooser,
-<<<<<<< HEAD
-                                         EEmoticon *emoticon)
-{
-	EEmoticonChooserInterface *interface;
-
-	g_return_if_fail (E_IS_EMOTICON_CHOOSER (chooser));
-
-	interface = E_EMOTICON_CHOOSER_GET_INTERFACE (chooser);
-	g_return_if_fail (interface->set_current_emoticon != NULL);
-
-	interface->set_current_emoticon (chooser, emoticon);
-=======
 					 EEmoticon *emoticon)
 {
 	EEmoticonChooserIface *iface;
@@ -210,7 +157,6 @@ e_emoticon_chooser_set_current_emoticon (EEmoticonChooser *chooser,
 	g_return_if_fail (iface->set_current_emoticon != NULL);
 
 	iface->set_current_emoticon (chooser, emoticon);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 }
 
 void
@@ -222,11 +168,7 @@ e_emoticon_chooser_item_activated (EEmoticonChooser *chooser)
 }
 
 GList *
-<<<<<<< HEAD
 e_emoticon_chooser_get_items (void)
-=======
-e_emoticon_chooser_get_items (EEmoticonChooser *chooser)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	GList *list = NULL;
 	gint ii;
@@ -236,23 +178,3 @@ e_emoticon_chooser_get_items (EEmoticonChooser *chooser)
 
 	return g_list_reverse (list);
 }
-<<<<<<< HEAD
-
-const EEmoticon *
-e_emoticon_chooser_lookup_emoticon (const gchar *icon_name)
-{
-	gint ii;
-
-	g_return_val_if_fail (icon_name && *icon_name, NULL);
-
-	for (ii = 0; ii < G_N_ELEMENTS (available_emoticons); ii++) {
-		if (strcmp (available_emoticons[ii].icon_name, icon_name) == 0) {
-			return (const EEmoticon *) &available_emoticons[ii];
-		}
-	}
-
-	return NULL;
-}
-
-=======
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*

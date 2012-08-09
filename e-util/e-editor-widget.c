@@ -22,8 +22,10 @@
 
 #include "e-editor-widget.h"
 #include "e-editor.h"
+#include "e-emoticon-chooser.h"
 
 #include <glib/gi18n-lib.h>
+#include <gdk/gdkkeysyms.h>
 
 struct _EEditorWidgetPrivate {
 	gint changed		: 1;
@@ -47,8 +49,7 @@ struct _EEditorWidgetPrivate {
 G_DEFINE_TYPE (
 	EEditorWidget,
 	e_editor_widget,
-	WEBKIT_TYPE_WEB_VIEW
-);
+	WEBKIT_TYPE_WEB_VIEW);
 
 enum {
 	PROP_0,
@@ -64,6 +65,24 @@ enum {
 	PROP_CAN_REDO,
 	PROP_CAN_UNDO
 };
+
+static WebKitDOMRange *
+editor_widget_get_dom_range (EEditorWidget *widget)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *selection;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	window = webkit_dom_document_get_default_view (document);
+	selection = webkit_dom_dom_window_get_selection (window);
+
+	if (webkit_dom_dom_selection_get_range_count (selection) < 1) {
+		return NULL;
+	}
+
+	return webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+}
 
 static void
 editor_widget_strip_formatting (EEditorWidget *widget)
@@ -127,6 +146,154 @@ editor_widget_selection_changed_cb (EEditorWidget *widget,
 		widget->priv->can_paste = can_paste;
 		g_object_notify (G_OBJECT (widget), "can-paste");
 	}
+}
+
+/* Based on original use_pictograms() from GtkHTML */
+static const gchar *emoticons_chars =
+	/*  0 */ "DO)(|/PQ*!"
+	/* 10 */ "S\0:-\0:\0:-\0"
+	/* 20 */ ":\0:;=-\"\0:;"
+	/* 30 */ "B\"|\0:-'\0:X"
+	/* 40 */ "\0:\0:-\0:\0:-"
+	/* 50 */ "\0:\0:-\0:\0:-"
+	/* 60 */ "\0:\0:\0:-\0:\0"
+	/* 70 */ ":-\0:\0:-\0:\0";
+static gint emoticons_states[] = {
+	/*  0 */  12,  17,  22,  34,  43,  48,  53,  58,  65,  70,
+	/* 10 */  75,   0, -15,  15,   0, -15,   0, -17,  20,   0,
+	/* 20 */ -17,   0, -14, -20, -14,  28,  63,   0, -14, -20,
+	/* 30 */  -3,  63, -18,   0, -12,  38,  41,   0, -12,  -2,
+	/* 40 */   0,  -4,   0, -10,  46,   0, -10,   0, -19,  51,
+	/* 50 */   0, -19,   0, -11,  56,   0, -11,   0, -13,  61,
+	/* 60 */   0, -13,   0,  -6,   0,  68,  -7,   0,  -7,   0,
+	/* 70 */ -16,  73,   0, -16,   0, -21,  78,   0, -21,   0 };
+static const gchar *emoticons_icon_names[] = {
+	"face-angel",
+	"face-angry",
+	"face-cool",
+	"face-crying",
+	"face-devilish",
+	"face-embarrassed",
+	"face-kiss",
+	"face-laugh",		/* not used */
+	"face-monkey",		/* not used */
+	"face-plain",
+	"face-raspberry",
+	"face-sad",
+	"face-sick",
+	"face-smile",
+	"face-smile-big",
+	"face-smirk",
+	"face-surprise",
+	"face-tired",
+	"face-uncertain",
+	"face-wink",
+	"face-worried"
+};
+
+static void
+editor_widget_check_magic_smileys (EEditorWidget *widget,
+				   WebKitDOMRange *range)
+{
+	gint pos;
+	gint state;
+	gint relative;
+	gint start;
+	gchar *node_text;
+	gunichar uc;
+	WebKitDOMNode *node;
+
+	node = webkit_dom_range_get_end_container (range, NULL);
+	if (!webkit_dom_node_get_node_type (node) == 3) {
+		return;
+	}
+
+	node_text = webkit_dom_text_get_whole_text ((WebKitDOMText *) node);
+	start = webkit_dom_range_get_end_offset (range, NULL) - 1;
+	pos = start;
+	state = 0;
+	while (pos >= 0) {
+		uc = g_utf8_get_char (g_utf8_offset_to_pointer (node_text, pos));
+		relative = 0;
+		while (emoticons_chars[state + relative]) {
+			if (emoticons_chars[state + relative] == uc)
+				break;
+			relative++;
+		}
+		state = emoticons_states[state + relative];
+		/* 0 .. not found, -n .. found n-th */
+		if (state <= 0)
+			break;
+		pos--;
+	}
+
+	/* Special case needed to recognize angel and devilish. */
+	if (pos > 0 && state == -14) {
+		uc = g_utf8_get_char (g_utf8_offset_to_pointer (node_text, pos - 1));
+		if (uc == 'O') {
+			state = -1;
+			pos--;
+		} else if (uc == '>') {
+			state = -5;
+			pos--;
+		}
+	}
+
+	if (state < 0) {
+		GtkIconInfo *icon_info;
+		const gchar *filename;
+		gchar *filename_uri;
+		WebKitDOMDocument *document;
+		WebKitDOMDOMWindow *window;
+		WebKitDOMDOMSelection *selection;
+
+		if (pos > 0) {
+			uc = g_utf8_get_char (g_utf8_offset_to_pointer (node_text, pos - 1));
+			if (uc != ' ' && uc != '\t')
+				return;
+		}
+
+		/* Select the text-smiley and replace it by <img> */
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+		window = webkit_dom_document_get_default_view (document);
+		selection = webkit_dom_dom_window_get_selection (window);
+		webkit_dom_dom_selection_set_base_and_extent (
+			selection, webkit_dom_range_get_end_container (range, NULL),
+			pos, webkit_dom_range_get_end_container (range, NULL),
+			start + 1, NULL);
+
+		/* Convert a named icon to a file URI. */
+		icon_info = gtk_icon_theme_lookup_icon (
+			gtk_icon_theme_get_default (),
+			emoticons_icon_names[-state - 1], 16, 0);
+		g_return_if_fail (icon_info != NULL);
+		filename = gtk_icon_info_get_filename (icon_info);
+		g_return_if_fail (filename != NULL);
+		filename_uri = g_filename_to_uri (filename, NULL, NULL);
+
+		e_editor_selection_insert_image (
+			widget->priv->selection, filename_uri);
+
+		g_free (filename_uri);
+		gtk_icon_info_free (icon_info);
+	}
+}
+
+static gboolean
+editor_widget_key_release_event (GtkWidget *gtk_widget,
+				 GdkEventKey *event)
+{
+	WebKitDOMRange *range;
+	EEditorWidget *widget = E_EDITOR_WIDGET (gtk_widget);
+
+	range = editor_widget_get_dom_range (widget);
+
+	if (widget->priv->magic_smileys) {
+		editor_widget_check_magic_smileys (widget, range);
+	}
+
+	/* Propagate the event to WebKit */
+	return FALSE;
 }
 
 static void
@@ -251,6 +418,7 @@ static void
 e_editor_widget_class_init (EEditorWidgetClass *klass)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (klass, sizeof (EEditorWidgetPrivate));
 
@@ -258,6 +426,9 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 	object_class->get_property = e_editor_widget_get_property;
 	object_class->set_property = e_editor_widget_set_property;
 	object_class->finalize = e_editor_widget_finalize;
+
+	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class->key_release_event = editor_widget_key_release_event;
 
 	g_object_class_install_property (
 		object_class,

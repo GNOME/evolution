@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-/*
- * e-emoticon-tool-button.c
- *
- * Copyright (C) 2008 Novell, Inc.
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
-=======
 /* e-emoticon-tool-button.c
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -39,13 +31,6 @@
 
 #include "e-emoticon-chooser.h"
 
-<<<<<<< HEAD
-#define E_EMOTICON_TOOL_BUTTON_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EMOTICON_TOOL_BUTTON, EEmoticonToolButtonPrivate))
-
-=======
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 /* XXX Should calculate this dynamically. */
 #define NUM_ROWS	7
 #define NUM_COLS	3
@@ -73,26 +58,9 @@ struct _EEmoticonToolButtonPrivate {
 	GdkDevice *grab_mouse;
 };
 
-<<<<<<< HEAD
-static guint signals[LAST_SIGNAL];
-
-/* Forward Declarations */
-static void	e_emoticon_tool_button_interface_init
-					(EEmoticonChooserInterface *interface);
-
-G_DEFINE_TYPE_WITH_CODE (
-	EEmoticonToolButton,
-	e_emoticon_tool_button,
-	GTK_TYPE_TOGGLE_TOOL_BUTTON,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EMOTICON_CHOOSER,
-		e_emoticon_tool_button_interface_init))
-
-=======
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 /* XXX Copied from _gtk_toolbar_elide_underscores() */
 static gchar *
 emoticon_tool_button_elide_underscores (const gchar *original)
@@ -169,11 +137,7 @@ emoticon_tool_button_reposition_window (EEmoticonToolButton *button)
 
 static void
 emoticon_tool_button_emoticon_clicked_cb (EEmoticonToolButton *button,
-<<<<<<< HEAD
-                                          GtkWidget *emoticon_button)
-=======
 					  GtkWidget *emoticon_button)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	button->priv->active_button = emoticon_button;
 	e_emoticon_tool_button_popdown (button);
@@ -181,13 +145,8 @@ emoticon_tool_button_emoticon_clicked_cb (EEmoticonToolButton *button,
 
 static gboolean
 emoticon_tool_button_emoticon_release_event_cb (EEmoticonToolButton *button,
-<<<<<<< HEAD
-                                                GdkEventButton *event,
-                                                GtkButton *emoticon_button)
-=======
 						GdkEventButton *event,
 						GtkButton *emoticon_button)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	GtkStateType state;
 
@@ -201,11 +160,7 @@ emoticon_tool_button_emoticon_release_event_cb (EEmoticonToolButton *button,
 
 static gboolean
 emoticon_tool_button_button_release_event_cb (EEmoticonToolButton *button,
-<<<<<<< HEAD
-                                              GdkEventButton *event)
-=======
 					      GdkEventButton *event)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	GtkToggleToolButton *tool_button;
 	GtkWidget *event_widget;
@@ -250,11 +205,7 @@ emoticon_tool_button_child_hide_cb (EEmoticonToolButton *button)
 
 static gboolean
 emoticon_tool_button_child_key_press_event_cb (EEmoticonToolButton *button,
-<<<<<<< HEAD
-                                               GdkEventKey *event)
-=======
 					       GdkEventKey *event)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	GtkWidget *window = button->priv->window;
 
@@ -266,15 +217,9 @@ emoticon_tool_button_child_key_press_event_cb (EEmoticonToolButton *button,
 
 static void
 emoticon_tool_button_set_property (GObject *object,
-<<<<<<< HEAD
-                                   guint property_id,
-                                   const GValue *value,
-                                   GParamSpec *pspec)
-=======
 				   guint property_id,
 				   const GValue *value,
 				   GParamSpec *pspec)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	switch (property_id) {
 		case PROP_CURRENT_EMOTICON:
@@ -298,15 +243,6 @@ emoticon_tool_button_set_property (GObject *object,
 
 static void
 emoticon_tool_button_get_property (GObject *object,
-<<<<<<< HEAD
-                                   guint property_id,
-                                   GValue *value,
-                                   GParamSpec *pspec)
-{
-	EEmoticonToolButtonPrivate *priv;
-
-	priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (object);
-=======
 				   guint property_id,
 				   GValue *value,
 				   GParamSpec *pspec)
@@ -314,7 +250,6 @@ emoticon_tool_button_get_property (GObject *object,
 	EEmoticonToolButtonPrivate *priv;
 
 	priv = E_EMOTICON_TOOL_BUTTON (object)->priv;
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 	switch (property_id) {
 		case PROP_CURRENT_EMOTICON:
@@ -337,35 +272,20 @@ emoticon_tool_button_dispose (GObject *object)
 {
 	EEmoticonToolButtonPrivate *priv;
 
-<<<<<<< HEAD
-	priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (object);
-
-	if (priv->window != NULL) {
-		gtk_widget_destroy (priv->window);
-=======
 	priv = E_EMOTICON_TOOL_BUTTON (object)->priv;
 
 	if (priv->window != NULL) {
 		g_object_unref (priv->window);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 		priv->window = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
-<<<<<<< HEAD
-	G_OBJECT_CLASS (e_emoticon_tool_button_parent_class)->dispose (object);
-=======
 	G_OBJECT_CLASS (parent_class)->dispose (object);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 }
 
 static gboolean
 emoticon_tool_button_press_event (GtkWidget *widget,
-<<<<<<< HEAD
-                                  GdkEventButton *event)
-=======
                               GdkEventButton *event)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	EEmoticonToolButton *button;
 	GtkToggleToolButton *toggle_button;
@@ -444,12 +364,7 @@ emoticon_tool_button_popup (EEmoticonToolButton *button)
 	/* Try to grab the pointer and keyboard. */
 	window = gtk_widget_get_window (button->priv->window);
 	grab_status = !keyboard ||
-<<<<<<< HEAD
-		gdk_device_grab (
-			keyboard, window,
-=======
 		gdk_device_grab (keyboard, window,
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 			GDK_OWNERSHIP_WINDOW, TRUE,
 			GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK,
 			NULL, activate_time) == GDK_GRAB_SUCCESS;
@@ -505,11 +420,7 @@ emoticon_tool_button_get_current_emoticon (EEmoticonChooser *chooser)
 {
 	EEmoticonToolButtonPrivate *priv;
 
-<<<<<<< HEAD
-	priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (chooser);
-=======
 	priv = E_EMOTICON_TOOL_BUTTON (chooser)->priv;
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 	if (priv->active_button == NULL)
 		return NULL;
@@ -519,20 +430,12 @@ emoticon_tool_button_get_current_emoticon (EEmoticonChooser *chooser)
 
 static void
 emoticon_tool_button_set_current_emoticon (EEmoticonChooser *chooser,
-<<<<<<< HEAD
-                                           EEmoticon *emoticon)
-=======
 					   EEmoticon *emoticon)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	EEmoticonToolButtonPrivate *priv;
 	GList *list, *iter;
 
-<<<<<<< HEAD
-	priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (chooser);
-=======
 	priv = E_EMOTICON_TOOL_BUTTON (chooser)->priv;
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 	list = gtk_container_get_children (GTK_CONTAINER (priv->table));
 
@@ -554,20 +457,13 @@ emoticon_tool_button_set_current_emoticon (EEmoticonChooser *chooser,
 }
 
 static void
-<<<<<<< HEAD
-e_emoticon_tool_button_class_init (EEmoticonToolButtonClass *class)
-=======
 emoticon_tool_button_class_init (EEmoticonToolButtonClass *class)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkToggleToolButtonClass *toggle_tool_button_class;
 
-<<<<<<< HEAD
-=======
 	parent_class = g_type_class_peek_parent (class);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 	g_type_class_add_private (class, sizeof (EEmoticonToolButtonPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -634,18 +530,6 @@ emoticon_tool_button_class_init (EEmoticonToolButtonClass *class)
 }
 
 static void
-<<<<<<< HEAD
-e_emoticon_tool_button_interface_init (EEmoticonChooserInterface *interface)
-{
-	interface->get_current_emoticon =
-		emoticon_tool_button_get_current_emoticon;
-	interface->set_current_emoticon =
-		emoticon_tool_button_set_current_emoticon;
-}
-
-static void
-e_emoticon_tool_button_init (EEmoticonToolButton *button)
-=======
 emoticon_tool_button_iemoticon_init (EEmoticonChooserIface *iemoticon)
 {
 	iemoticon->get_current_emoticon = emoticon_tool_button_get_current_emoticon;
@@ -654,7 +538,6 @@ emoticon_tool_button_iemoticon_init (EEmoticonChooserIface *iemoticon)
 
 static void
 emoticon_tool_button_init (EEmoticonToolButton *button)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	EEmoticonChooser *chooser;
 	GtkWidget *toplevel;
@@ -664,42 +547,25 @@ emoticon_tool_button_init (EEmoticonToolButton *button)
 	GList *list, *iter;
 	gint ii;
 
-<<<<<<< HEAD
-	button->priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (button);
-=======
 	button->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		button, E_TYPE_EMOTICON_TOOL_BUTTON,
 		EEmoticonToolButtonPrivate);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 	/* Build the pop-up window. */
 
 	window = gtk_window_new (GTK_WINDOW_POPUP);
-<<<<<<< HEAD
-	gtk_window_set_resizable (GTK_WINDOW (window), FALSE);
-	gtk_window_set_type_hint (
-		GTK_WINDOW (window), GDK_WINDOW_TYPE_HINT_COMBO);
-	button->priv->window = g_object_ref_sink (window);
-
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
-	if (GTK_IS_WINDOW (toplevel)) {
-=======
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	gtk_window_set_resizable (GTK_WINDOW (window), FALSE);
 	gtk_window_set_type_hint (
 		GTK_WINDOW (window), GDK_WINDOW_TYPE_HINT_COMBO);
 	if (gtk_widget_is_toplevel (toplevel)) {
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 		gtk_window_group_add_window (
 			gtk_window_get_group (GTK_WINDOW (toplevel)),
 			GTK_WINDOW (window));
 		gtk_window_set_transient_for (
 			GTK_WINDOW (window), GTK_WINDOW (toplevel));
 	}
-<<<<<<< HEAD
-=======
 	button->priv->window = g_object_ref (window);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
 	g_signal_connect_swapped (
 		window, "show",
@@ -735,11 +601,7 @@ emoticon_tool_button_init (EEmoticonToolButton *button)
 	container = widget;
 
 	chooser = E_EMOTICON_CHOOSER (button);
-<<<<<<< HEAD
 	list = e_emoticon_chooser_get_items ();
-=======
-	list = e_emoticon_chooser_get_items (chooser);
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 	g_assert (g_list_length (list) <= NUM_ROWS * NUM_COLS);
 
 	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
@@ -790,8 +652,6 @@ emoticon_tool_button_init (EEmoticonToolButton *button)
 	g_list_free (list);
 }
 
-<<<<<<< HEAD
-=======
 GType
 e_emoticon_tool_button_get_type (void)
 {
@@ -828,7 +688,6 @@ e_emoticon_tool_button_get_type (void)
 	return type;
 }
 
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 GtkToolItem *
 e_emoticon_tool_button_new (void)
 {

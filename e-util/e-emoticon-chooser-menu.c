@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-/*
- * e-emoticon-chooser-menu.c
- *
- * Copyright (C) 2008 Novell, Inc.
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
-=======
 /* e-emoticon-chooser-menu.c
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -37,25 +29,6 @@ enum {
 	PROP_CURRENT_FACE
 };
 
-<<<<<<< HEAD
-/* Forward Declarations */
-static void	e_emoticon_chooser_menu_interface_init
-					(EEmoticonChooserInterface *interface);
-
-G_DEFINE_TYPE_WITH_CODE (
-	EEmoticonChooserMenu,
-	e_emoticon_chooser_menu,
-	GTK_TYPE_MENU,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EMOTICON_CHOOSER,
-		e_emoticon_chooser_menu_interface_init))
-
-static void
-emoticon_chooser_menu_set_property (GObject *object,
-                                    guint property_id,
-                                    const GValue *value,
-                                    GParamSpec *pspec)
-=======
 static gpointer parent_class;
 
 static void
@@ -63,7 +36,6 @@ emoticon_chooser_menu_set_property (GObject *object,
 				    guint property_id,
 				    const GValue *value,
 				    GParamSpec *pspec)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	switch (property_id) {
 		case PROP_CURRENT_FACE:
@@ -78,15 +50,9 @@ emoticon_chooser_menu_set_property (GObject *object,
 
 static void
 emoticon_chooser_menu_get_property (GObject *object,
-<<<<<<< HEAD
-                                    guint property_id,
-                                    GValue *value,
-                                    GParamSpec *pspec)
-=======
 				    guint property_id,
 				    GValue *value,
 				    GParamSpec *pspec)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	switch (property_id) {
 		case PROP_CURRENT_FACE:
@@ -114,11 +80,7 @@ emoticon_chooser_menu_get_current_emoticon (EEmoticonChooser *chooser)
 
 static void
 emoticon_chooser_menu_set_current_emoticon (EEmoticonChooser *chooser,
-<<<<<<< HEAD
-                                            EEmoticon *emoticon)
-=======
 					    EEmoticon *emoticon)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	GList *list, *iter;
 
@@ -143,19 +105,12 @@ emoticon_chooser_menu_set_current_emoticon (EEmoticonChooser *chooser,
 }
 
 static void
-<<<<<<< HEAD
-e_emoticon_chooser_menu_class_init (EEmoticonChooserMenuClass *class)
-{
-	GObjectClass *object_class;
-
-=======
 emoticon_chooser_menu_class_init (EEmoticonChooserMenuClass *class)
 {
 	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (class);
 
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = emoticon_chooser_menu_set_property;
 	object_class->get_property = emoticon_chooser_menu_get_property;
@@ -165,18 +120,6 @@ emoticon_chooser_menu_class_init (EEmoticonChooserMenuClass *class)
 }
 
 static void
-<<<<<<< HEAD
-e_emoticon_chooser_menu_interface_init (EEmoticonChooserInterface *interface)
-{
-	interface->get_current_emoticon =
-		emoticon_chooser_menu_get_current_emoticon;
-	interface->set_current_emoticon =
-		emoticon_chooser_menu_set_current_emoticon;
-}
-
-static void
-e_emoticon_chooser_menu_init (EEmoticonChooserMenu *chooser_menu)
-=======
 emoticon_chooser_menu_iface_init (EEmoticonChooserIface *iface)
 {
 	iface->get_current_emoticon = emoticon_chooser_menu_get_current_emoticon;
@@ -185,32 +128,12 @@ emoticon_chooser_menu_iface_init (EEmoticonChooserIface *iface)
 
 static void
 emoticon_chooser_menu_init (EEmoticonChooserMenu *chooser_menu)
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 {
 	EEmoticonChooser *chooser;
 	GList *list, *iter;
 
 	chooser = E_EMOTICON_CHOOSER (chooser_menu);
-<<<<<<< HEAD
 	list = e_emoticon_chooser_get_items ();
-
-	for (iter = list; iter != NULL; iter = iter->next) {
-		EEmoticon *emoticon = iter->data;
-		GtkWidget *item;
-
-		/* To keep translated strings in subclasses */
-		item = gtk_image_menu_item_new_with_mnemonic (_(emoticon->label));
-		gtk_image_menu_item_set_image (
-			GTK_IMAGE_MENU_ITEM (item),
-			gtk_image_new_from_icon_name (
-			emoticon->icon_name, GTK_ICON_SIZE_MENU));
-		gtk_widget_show (item);
-
-		g_object_set_data_full (
-			G_OBJECT (item), "emoticon",
-			e_emoticon_copy (emoticon),
-=======
-	list = e_emoticon_chooser_get_items (chooser);
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		EEmoticon *face = iter->data;
@@ -227,7 +150,6 @@ emoticon_chooser_menu_init (EEmoticonChooserMenu *chooser_menu)
 		g_object_set_data_full (
 			G_OBJECT (item), "face",
 			e_emoticon_copy (face),
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 			(GDestroyNotify) e_emoticon_free);
 
 		g_signal_connect_swapped (
@@ -241,8 +163,6 @@ emoticon_chooser_menu_init (EEmoticonChooserMenu *chooser_menu)
 	g_list_free (list);
 }
 
-<<<<<<< HEAD
-=======
 GType
 e_emoticon_chooser_menu_get_type (void)
 {
@@ -279,7 +199,6 @@ e_emoticon_chooser_menu_get_type (void)
 	return type;
 }
 
->>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 GtkWidget *
 e_emoticon_chooser_menu_new (void)
 {

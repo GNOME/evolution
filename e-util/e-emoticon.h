@@ -59,6 +59,8 @@ gchar *		e_emoticon_get_uri		(EEmoticon *emoticon);
 =======
 >>>>>>> Import GtkhtmlFace* classes as EEmoticon*
 
+gchar *		e_emoticon_get_uri		(EEmoticon *emoticon);
+
 G_END_DECLS
 
 #endif /* E_EMOTICON_H */
