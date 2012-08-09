@@ -94,6 +94,7 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 
 	if (!dom_selection ||
 	    (webkit_dom_dom_selection_get_range_count (dom_selection) == 0)) {
+		editor_link_dialog_close (dialog);
 		return;
 	}
 
@@ -102,9 +103,27 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 		webkit_dom_range_get_start_container (range, NULL),
 		WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
 	if (!link) {
-		link = e_editor_dom_node_find_child_element (
-			webkit_dom_range_get_start_container (range, NULL),
-			WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
+		if ((webkit_dom_range_get_start_container (range, NULL) !=
+			webkit_dom_range_get_end_container (range, NULL)) ||
+		    (webkit_dom_range_get_start_offset (range, NULL) !=
+		    	webkit_dom_range_get_end_offset (range, NULL))) {
+
+			WebKitDOMDocumentFragment *fragment;
+			fragment = webkit_dom_range_extract_contents (range, NULL);
+			link = e_editor_dom_node_find_child_element (
+				WEBKIT_DOM_NODE (fragment),
+				WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
+			webkit_dom_range_insert_node (
+				range, WEBKIT_DOM_NODE (fragment), NULL);
+
+			webkit_dom_dom_selection_set_base_and_extent (
+				dom_selection,
+				webkit_dom_range_get_start_container (range, NULL),
+				webkit_dom_range_get_start_offset (range, NULL),
+				webkit_dom_range_get_end_container (range, NULL),
+				webkit_dom_range_get_end_offset (range, NULL),
+				NULL);
+		}
 	}
 
 	if (link) {
@@ -171,7 +190,7 @@ editor_link_dialog_show (GtkWidget *widget)
 	/* No selection at all */
 	if (!dom_selection ||
 	    webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
-
+		gtk_widget_set_sensitive (dialog->priv->remove_link_button, FALSE);
 		goto chainup;
 	}
 
@@ -180,9 +199,17 @@ editor_link_dialog_show (GtkWidget *widget)
 		webkit_dom_range_get_start_container (range, NULL),
 		WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
 	if (!link) {
-		link = e_editor_dom_node_find_child_element (
-			webkit_dom_range_get_start_container (range, NULL),
-			WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
+		if ((webkit_dom_range_get_start_container (range, NULL) !=
+			webkit_dom_range_get_end_container (range, NULL)) ||
+		    (webkit_dom_range_get_start_offset (range, NULL) !=
+		    	webkit_dom_range_get_end_offset (range, NULL))) {
+
+			WebKitDOMDocumentFragment *fragment;
+			fragment = webkit_dom_range_clone_contents (range, NULL);
+			link = e_editor_dom_node_find_child_element (
+				WEBKIT_DOM_NODE (fragment),
+				WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
+		}
 	}
 
 	if (link) {
@@ -254,11 +281,11 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 1, 0, 1, 1);
 	dialog->priv->url_edit = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("LINK:"));
+	widget = gtk_label_new_with_mnemonic (_("URL:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->url_edit);
 	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
-	widget = gtk_button_new_with_label (_("Test LINK..."));
+	widget = gtk_button_new_with_label (_("Test URL..."));
 	gtk_grid_attach (main_layout, widget, 2, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "clicked",
