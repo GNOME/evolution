@@ -751,6 +751,29 @@ mail_session_configure_local_store (EMailSession *session)
 }
 
 static void
+mail_session_configure_vfolder_store (EMailSession *session)
+{
+	CamelSession *camel_session;
+	CamelService *service;
+	const gchar *uid;
+
+	camel_session = CAMEL_SESSION (session);
+
+	uid = E_MAIL_SESSION_VFOLDER_UID;
+	service = camel_session_get_service (camel_session, uid);
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	camel_service_connect_sync (service, NULL, NULL);
+
+	/* XXX There's more configuration to do in vfolder_load_storage()
+	 *     but it requires an EMailBackend, which we don't have access
+	 *     to from here, so it has to be called from elsewhere.  Kinda
+	 *     thinking about reworking that... */
+
+	session->priv->vfolder_store = g_object_ref (service);
+}
+
+static void
 mail_session_force_refresh (EMailSession *session)
 {
 	ESourceRegistry *registry;
@@ -978,29 +1001,6 @@ mail_session_dispose (GObject *object)
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_session_parent_class)->dispose (object);
-}
-
-static void
-mail_session_configure_vfolder_store (EMailSession *session)
-{
-	CamelSession *camel_session;
-	CamelService *service;
-	const gchar *uid;
-
-	camel_session = CAMEL_SESSION (session);
-
-	uid = E_MAIL_SESSION_VFOLDER_UID;
-	service = camel_session_get_service (camel_session, uid);
-	g_return_if_fail (CAMEL_IS_SERVICE (service));
-
-	camel_service_connect_sync (service, NULL, NULL);
-
-	/* XXX There's more configuration to do in vfolder_load_storage()
-	 *     but it requires an EMailBackend, which we don't have access
-	 *     to from here, so it has to be called from elsewhere.  Kinda
-	 *     thinking about reworking that... */
-
-	session->priv->vfolder_store = g_object_ref (service);
 }
 
 static void
