@@ -247,14 +247,14 @@ static void
 action_view_html_output (GtkAction *action,
                          EEditor *editor)
 {
-	view_source_dialog (editor, _("HTML Output"), "text/html", TRUE);
+	view_source_dialog (editor, _("HTML Output"), "text/html", FALSE);
 }
 
 static void
 action_view_html_source (GtkAction *action,
                          EEditor *editor)
 {
-	view_source_dialog (editor, _("HTML Source"), "text/html", FALSE);
+	view_source_dialog (editor, _("HTML Source"), "text/html", TRUE);
 }
 
 static void
