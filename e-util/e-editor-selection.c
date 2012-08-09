@@ -123,6 +123,21 @@ get_has_style (EEditorSelection *selection,
 		result = ((tag_len == strlen (element_tag)) &&
 				(g_ascii_strncasecmp (element_tag, style_tag, tag_len) == 0));
 
+		/* Special case: <blockquote type=cite> marks quotation, while
+		 * just <blockquote> is used for indentation. If the <blockquote>
+		 * has type=cite, then ignore it */
+		if (result && g_ascii_strncasecmp (element_tag, "blockquote", 10) == 0) {
+			if (webkit_dom_element_has_attribute (element, "type")) {
+				gchar *type;
+				type = webkit_dom_element_get_attribute (
+						element, "type");
+				if (g_ascii_strncasecmp (type, "cite", 4) == 0) {
+					result = FALSE;
+				}
+				g_free (type);
+			}
+		}
+
 		g_free (element_tag);
 
 		if (result) {
