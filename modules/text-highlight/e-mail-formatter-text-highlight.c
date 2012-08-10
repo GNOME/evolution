@@ -85,6 +85,7 @@ get_syntax (EMailPart *part,
 	    const gchar *uri)
 {
 	gchar *syntax = NULL;
+	CamelContentType *ct = NULL;
 
 	if (uri) {
 		SoupURI *soup_uri = soup_uri_new (uri);
@@ -98,27 +99,30 @@ get_syntax (EMailPart *part,
 		soup_uri_free (soup_uri);
 	}
 
-	/* Try to detect syntax from attachment filename extension */
+	/* Try to detect syntax by content-type first */
 	if (syntax == NULL) {
+		ct = camel_mime_part_get_content_type (part->part);
+		if (ct) {
+			gchar *mime_type = camel_content_type_simple (ct);
+
+			syntax = (gchar *) get_syntax_for_mime_type (mime_type);
+			syntax = syntax ? g_strdup (syntax) : NULL;
+			g_free (mime_type);
+		}
+	}
+
+	/* If it fails or the content type too generic, try to detect it by
+	 * filename extension */
+	if (syntax == NULL || ct == NULL ||
+	    camel_content_type_is (ct, "application", "octet-stream") ||
+	    camel_content_type_is (ct, "text", "plain")) {
 		const gchar *filename = camel_mime_part_get_filename (part->part);
 		if (filename) {
 			gchar *ext = g_strrstr (filename, ".");
 			if (ext) {
 				syntax = (gchar *) get_syntax_for_ext (ext + 1);
-				syntax = g_strdup (syntax ? syntax : "txt");
+				syntax = syntax ? g_strdup (syntax) : NULL;
 			}
-		}
-	}
-
-	/* Try it by mime type */
-	if (syntax == NULL) {
-		CamelContentType *ct = camel_mime_part_get_content_type (part->part);
-		if (ct) {
-			gchar *mime_type = camel_content_type_simple (ct);
-
-			syntax = (gchar *) get_syntax_for_mime_type (mime_type);
-			syntax = g_strdup (syntax ? syntax : "txt");
-			g_free (mime_type);
 		}
 	}
 
