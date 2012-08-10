@@ -348,20 +348,14 @@ mail_display_dispose (GObject *object)
 		priv->scheduled_reload = 0;
 	}
 
-	if (priv->part_list) {
-		g_object_unref (priv->part_list);
-		priv->part_list = NULL;
-	}
-
-	if (priv->settings) {
-		g_object_unref (priv->settings);
-		priv->settings = NULL;
-	}
-
 	if (priv->widgets) {
 		g_hash_table_destroy (priv->widgets);
 		priv->widgets = NULL;
 	}
+
+	g_clear_object (&priv->part_list);
+	g_clear_object (&priv->settings);
+	g_clear_object (&priv->formatter);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->dispose (object);
@@ -1568,33 +1562,33 @@ e_mail_display_set_mode (EMailDisplay *display,
 		G_CALLBACK (formatter_image_loading_policy_changed_cb), display);
 
 	g_object_connect (formatter,
-		"swapped-signal::notify::charset",
+		"swapped-object-signal::notify::charset",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-signal::notify::image-loading-policy",
+		"swapped-object-signal::notify::image-loading-policy",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-signal::notify::mark-citations",
+		"swapped-object-signal::notify::mark-citations",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-signal::notify::only-local-photos",
+		"swapped-object-signal::notify::only-local-photos",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-signal::notify::show-sender-photo",
+		"swapped-object-signal::notify::show-sender-photo",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-signal::notify::show-real-date",
+		"swapped-object-signal::notify::show-real-date",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-signal::notify::animate-images",
+		"swapped-object-signal::notify::animate-images",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-signal::notify::text-color",
+		"swapped-object-signal::notify::text-color",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-signal::notify::body-color",
+		"swapped-object-signal::notify::body-color",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-signal::notify::citation-color",
+		"swapped-object-signal::notify::citation-color",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-signal::notify::content-color",
+		"swapped-object-signal::notify::content-color",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-signal::notify::frame-color",
+		"swapped-object-signal::notify::frame-color",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-signal::notify::header-color",
+		"swapped-object-signal::notify::header-color",
 			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-signal::need-redraw",
+		"swapped-object-signal::need-redraw",
 			G_CALLBACK (e_mail_display_reload), display,
 		NULL);
 
