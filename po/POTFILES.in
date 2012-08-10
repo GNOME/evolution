@@ -119,12 +119,6 @@ calendar/gui/tasktypes.xml
 calendar/gui/weekday-picker.c
 calendar/importers/icalendar-importer.c
 calendar/zones.h
-capplet/anjal-settings-main.c
-capplet/settings/anjal-mail-view.c
-capplet/settings/mail-account-view.c
-capplet/settings/mail-capplet-shell.c
-capplet/settings/mail-settings-view.c
-capplet/settings/mail-view.c
 composer/e-composer-actions.c
 composer/e-composer-header.c
 composer/e-composer-header-table.c

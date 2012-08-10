@@ -21,11 +21,6 @@ module_startup_wizard_la_SOURCES = \
 	e-mail-config-import-progress-page.h			\
 	$(NULL)
 
-if WITH_CAPPLET
-libevolution_mail_settings_la = \
-	$(top_builddir)/capplet/settings/libevolution-mail-settings.la
-endif
-
 module_startup_wizard_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\

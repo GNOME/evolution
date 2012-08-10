@@ -32,10 +32,6 @@
 #include <mail/e-mail-config-assistant.h>
 #include <mail/e-mail-config-welcome-page.h>
 
-#ifdef WITH_CAPPLET
-#include <capplet/settings/mail-capplet-shell.h>
-#endif
-
 #include "e-startup-assistant.h"
 #include "e-mail-config-import-page.h"
 #include "e-mail-config-import-progress-page.h"
@@ -104,14 +100,6 @@ startup_wizard_new_assistant (EStartupWizard *extension)
 	 *       add a "Restore" page to the first-time assistant only. */
 	return e_startup_assistant_new (session);
 }
-
-#ifdef WITH_CAPPLET
-static GtkWidget *
-startup_wizard_new_capplet (EStartupWizard *extension)
-{
-	return mail_capplet_shell_new (0, TRUE, TRUE);
-}
-#endif /* WITH_CAPPLET */
 
 static gboolean
 startup_wizard_have_mail_account (EStartupWizard *extension)
@@ -193,11 +181,6 @@ startup_wizard_run (EStartupWizard *extension)
 
 	if (express_mode && g_strcmp0 (startup_view, "mail") != 0)
 		return;
-
-#ifdef WITH_CAPPLET
-	if (express_mode)
-		window = startup_wizard_new_capplet (extension);
-#endif /* WITH_CAPPLET */
 
 	if (window == NULL) {
 		window = startup_wizard_new_assistant (extension);

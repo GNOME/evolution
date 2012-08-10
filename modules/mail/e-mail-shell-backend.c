@@ -33,10 +33,6 @@
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
 
-#ifdef WITH_CAPPLET
-#include <capplet/settings/mail-capplet-shell.h>
-#endif
-
 #include <composer/e-msg-composer.h>
 
 #include <widgets/misc/e-preferences-window.h>
@@ -793,11 +789,6 @@ e_mail_shell_backend_new_account (EMailShellBackend *mail_shell_backend,
 	EMailBackend *backend;
 	EMailSession *session;
 
-#ifdef WITH_CAPPLET
-	EShell *shell;
-	EShellBackend *shell_backend;
-#endif /* WITH_CAPPLET */
-
 	g_return_if_fail (mail_shell_backend != NULL);
 	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
 
@@ -810,14 +801,6 @@ e_mail_shell_backend_new_account (EMailShellBackend *mail_shell_backend,
 
 	backend = E_MAIL_BACKEND (mail_shell_backend);
 	session = e_mail_backend_get_session (backend);
-
-#ifdef WITH_CAPPLET
-	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
-	shell = e_shell_backend_get_shell (shell_backend);
-
-	if (e_shell_get_express_mode (shell))
-		assistant = mail_capplet_shell_new (0, TRUE, FALSE);
-#endif /* WITH_CAPPLET */
 
 	if (assistant == NULL)
 		assistant = e_mail_config_assistant_new (session);

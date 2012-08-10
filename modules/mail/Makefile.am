@@ -49,11 +49,6 @@ module_mail_la_SOURCES = \
 	em-network-prefs.c						\
 	em-network-prefs.h
 
-if WITH_CAPPLET
-libevolution_mail_settings_la = \
-	$(top_builddir)/capplet/settings/libevolution-mail-settings.la
-endif
-
 module_mail_la_LIBADD = \
 	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(top_builddir)/libemail-engine/libemail-engine.la		\

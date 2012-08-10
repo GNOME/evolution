@@ -293,20 +293,6 @@ AC_ARG_WITH([help],
 AM_CONDITIONAL(WITH_HELP, test "x$with_help" != "xno")
 AC_MSG_RESULT([$with_help])
 
-dnl ****************
-dnl Settings Capplet
-dnl ****************
-AC_MSG_CHECKING([whether to build the settings capplet])
-AC_ARG_WITH([capplet],
-	[AS_HELP_STRING([--with-capplet],
-	[Build the account settings capplet [default=no]])],
-	[with_capplet="$withval"],[with_capplet="no"])
-if test "x$with_capplet" = "xyes"; then
-	AC_DEFINE(WITH_CAPPLET, 1, [Define if building the settings capplet])
-fi
-AM_CONDITIONAL(WITH_CAPPLET, test "x$with_capplet" = "xyes")
-AC_MSG_RESULT([$with_capplet])
-
 dnl ******************************
 dnl iconv checking
 dnl ******************************
@@ -1588,8 +1574,6 @@ smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile
 sounds/Makefile
-capplet/Makefile
-capplet/settings/Makefile
 evolution-zip
 evolution-calendar.pc
 evolution-mail.pc
