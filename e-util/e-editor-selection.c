@@ -30,10 +30,13 @@
 #include <webkit/webkitdom.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #define E_EDITOR_SELECTION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_EDITOR_SELECTION, EEditorSelectionPrivate))
+
+#define WORD_WRAP_LENGTH 71
 
 
 struct _EEditorSelectionPrivate {
@@ -1290,4 +1293,171 @@ e_editor_selection_insert_image (EEditorSelection *selection,
 	document = webkit_web_view_get_dom_document (selection->priv->webview);
 	webkit_dom_document_exec_command (
 			document, "insertImage", FALSE, image_uri);
+}
+
+static gint
+find_where_to_break_line (WebKitDOMNode *node,
+			  gint max_len)
+{
+	gchar *str, *text_start;
+	gunichar uc;
+	gint pos, last_space;
+
+	text_start = webkit_dom_text_get_whole_text ((WebKitDOMText *) node);
+
+	pos = 0;
+	last_space = 0;
+	str = text_start;
+	do {
+		uc = g_utf8_get_char (str);
+		if (!uc) {
+			g_free (text_start);
+			if (pos <= max_len) {
+				return pos;
+			} else {
+				return last_space;
+			}
+		}
+
+		/* If last_space is zero then the word is longer than
+		 * WORD_WRAP_LENGTH characters, so continue untill we find
+		 * a space */
+		if ((pos > max_len) && (last_space > 0)) {
+			g_free (text_start);
+			return last_space;
+		}
+
+		if (g_unichar_isspace (uc)) {
+			last_space = pos;
+		}
+
+		pos += 1;
+		str = g_utf8_next_char (str);
+	} while (*str);
+
+	g_free (text_start);
+	return max_len;
+}
+
+void
+e_editor_selection_wrap_lines (EEditorSelection *selection)
+{
+	WebKitDOMRange *range;
+	WebKitDOMNode *node, *start_node;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element;
+	WebKitDOMDocumentFragment *fragment;
+	gint len;
+	gchar *html;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	range = editor_selection_get_current_range (selection);
+
+	/* Extend the range to include entire nodes */
+	webkit_dom_range_select_node_contents (
+		range,
+		webkit_dom_range_get_common_ancestor_container (range, NULL),
+		NULL);
+
+	/* Copy the selection from DOM, wrap the lines and then paste it back
+	 * using the DOM command which will overwrite the selection, and
+	 * record it as an undoable action */
+	fragment = webkit_dom_range_clone_contents (range, NULL);
+	node = WEBKIT_DOM_NODE (fragment);
+
+	start_node = node;
+	len = 0;
+	while (node) {
+		/* Find nearest text node */
+		if (webkit_dom_node_get_node_type (node) != 3) {
+			if (webkit_dom_node_has_child_nodes (node)) {
+				node = webkit_dom_node_get_first_child (node);
+			} else if (webkit_dom_node_get_next_sibling (node)) {
+				node = webkit_dom_node_get_next_sibling (node);
+			} else {
+				if (webkit_dom_node_is_equal_node (node, start_node)) {
+					break;
+				}
+
+				node = webkit_dom_node_get_parent_node (node);
+				if (node) {
+					node = webkit_dom_node_get_next_sibling (node);
+				}
+			}
+			continue;
+		}
+
+		/* If length of this node + what we already have is still less
+		 * then 71 characters, then just join it and continue to next
+		 * node */
+		if ((webkit_dom_character_data_get_length (
+			(WebKitDOMCharacterData *) node) + len) < WORD_WRAP_LENGTH) {
+
+			len += webkit_dom_character_data_get_length (
+				(WebKitDOMCharacterData *) node);
+
+		} else {
+			gint offset;
+
+			/* Find where we can line-break the node so that it
+			 * effectively fills the rest of current row */
+			offset = find_where_to_break_line (node, WORD_WRAP_LENGTH - len);
+
+			if (offset > 0) {
+				/* Split the node and append <BR> tag to it */
+				webkit_dom_text_split_text (
+					(WebKitDOMText *) node, len + offset, NULL);
+
+				element = webkit_dom_document_create_element (
+						document, "BR", NULL);
+
+				/* WebKit throws warning when ref_child is NULL */
+				if (webkit_dom_node_get_next_sibling (node)) {
+					webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (node),
+						WEBKIT_DOM_NODE (element),
+						webkit_dom_node_get_next_sibling (node),
+						NULL);
+				} else {
+					webkit_dom_node_append_child (
+						webkit_dom_node_get_parent_node (node),
+						WEBKIT_DOM_NODE (element),
+						NULL);
+				}
+
+				len = 0;
+			}
+		}
+
+		/* Skip to next node */
+		if (webkit_dom_node_get_next_sibling (node)) {
+			node = webkit_dom_node_get_next_sibling (node);
+		} else {
+			if (webkit_dom_node_is_equal_node (node, start_node)) {
+				break;
+			}
+
+			node = webkit_dom_node_get_parent_node (node);
+			if (node) {
+				node = webkit_dom_node_get_next_sibling (node);
+			}
+		}
+	}
+
+	/* Create a wrapper DIV and put the processed content into it */
+	element = webkit_dom_document_create_element (document, "DIV", NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (start_node), NULL);
+
+	/* Get HTML code of the processed content */
+	html = webkit_dom_html_element_get_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (element));
+
+	/* Overwrite the current selection be the processed content, so that
+	 * "UNDO" and "REDO" buttons work as expected */
+	e_editor_selection_insert_html (selection, html);
+
+	g_free (html);
 }

@@ -195,6 +195,7 @@ void			e_editor_selection_insert_image	(EEditorSelection *selection,
 							 const gchar *image_uri);
 void			e_editor_selection_insert_text	(EEditorSelection *selection,
 							 const gchar *plain_text);
+void			e_editor_selection_wrap_lines	(EEditorSelection *selection);
 
 G_END_DECLS
 
