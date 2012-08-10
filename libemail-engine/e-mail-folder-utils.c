@@ -400,6 +400,7 @@ e_mail_folder_expunge_sync (CamelFolder *folder,
 	local_inbox = e_mail_session_get_local_folder (
 		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_INBOX);
 	is_local_inbox = (folder == local_inbox);
+	is_local_trash = FALSE;
 
 	if (store_is_local && !is_local_inbox) {
 		CamelFolder *local_trash;
