@@ -114,6 +114,9 @@ static gchar *geometry = NULL;
 static gchar *requested_view = NULL;
 static gchar **remaining_args;
 
+/* Forward declarations */
+void e_convert_local_mail (EShell *shell);
+
 static void
 categories_icon_theme_hack (void)
 {
@@ -643,6 +646,18 @@ main (gint argc,
 		e_shell_quit (shell, E_SHELL_QUIT_OPTION);
 		goto exit;
 	}
+
+	/* This routine converts the local mail store from mbox format to
+	 * Maildir format as needed.  The reason the code is here and not
+	 * in the mail module is because we inform the user at startup of
+	 * the impending mail conversion by displaying a popup dialog and
+	 * waiting for confirmation before proceeding.
+	 *
+	 * This has to be done before we load modules because some of the
+	 * EShellBackends immediately add GMainContext sources that would
+	 * otherwise get dispatched during gtk_dialog_run(), and we don't
+	 * want them dispatched until after the conversion is complete. */
+	e_convert_local_mail (shell);
 
 	e_shell_load_modules (shell);
 

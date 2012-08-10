@@ -143,7 +143,8 @@ evolution_CPPFLAGS =						\
 	$(CLUTTER_CFLAGS)
 
 evolution_SOURCES =				\
-	main.c
+	main.c					\
+	e-convert-local-mail.c
 
 evolution_LDADD =							\
 	libeshell.la							\
