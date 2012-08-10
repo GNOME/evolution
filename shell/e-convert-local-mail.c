@@ -150,7 +150,7 @@ migrate_stores (struct MigrateStore *ms)
 }
 
 static void
-rename_mail_dir (ESource *mbox_source,
+rename_mbox_dir (ESource *mbox_source,
                  const gchar *mail_data_dir)
 {
 	gchar *old_mail_dir;
@@ -176,17 +176,15 @@ rename_mail_dir (ESource *mbox_source,
 }
 
 static gboolean
-migrate_mail_to_maildir (EShell *shell,
+migrate_mbox_to_maildir (EShell *shell,
                          CamelSession *session,
                          ESource *mbox_source)
 {
 	ESourceRegistry *registry;
 	ESourceExtension *extension;
 	const gchar *extension_name;
-	CamelService *mail_service;
+	CamelService *mbox_service;
 	CamelService *maildir_service;
-	CamelStore *mail_store;
-	CamelStore *maildir_store;
 	CamelSettings *settings;
 	const gchar *data_dir;
 	const gchar *mbox_uid;
@@ -219,7 +217,7 @@ migrate_mail_to_maildir (EShell *shell,
 		registry, mbox_source, NULL, &error);
 
 	if (error == NULL)
-		mail_service = camel_session_add_service (
+		mbox_service = camel_session_add_service (
 			session, mbox_uid, "mbox",
 			CAMEL_PROVIDER_STORE, &error);
 
@@ -234,7 +232,7 @@ migrate_mail_to_maildir (EShell *shell,
 		return FALSE;
 	}
 
-	camel_service_set_settings (mail_service, settings);
+	camel_service_set_settings (mbox_service, settings);
 
 	settings = camel_service_get_settings (maildir_service);
 	path = g_build_filename (data_dir, "local", NULL);
@@ -242,11 +240,8 @@ migrate_mail_to_maildir (EShell *shell,
 	g_mkdir (path, 0700);
 	g_free (path);
 
-	mail_store = CAMEL_STORE (mail_service);
-	maildir_store = CAMEL_STORE (maildir_service);
-
-	ms.mail_store = mail_store;
-	ms.maildir_store = maildir_store;
+	ms.mail_store = CAMEL_STORE (mbox_service);
+	ms.maildir_store = CAMEL_STORE (maildir_service);
 	ms.session = session;
 	ms.complete = FALSE;
 
@@ -287,7 +282,7 @@ e_convert_local_mail (EShell *shell)
 
 	mbox_source = e_source_new (NULL, NULL, NULL);
 
-	rename_mail_dir (mbox_source, mail_data_dir);
+	rename_mbox_dir (mbox_source, mail_data_dir);
 
 	local_store = g_build_filename (mail_data_dir, "local", NULL);
 
@@ -303,7 +298,7 @@ e_convert_local_mail (EShell *shell)
 		"user-cache-dir", mail_cache_dir,
 		NULL);
 
-	migrate_mail_to_maildir (shell, session, mbox_source);
+	migrate_mbox_to_maildir (shell, session, mbox_source);
 
 	g_object_unref (session);
 
