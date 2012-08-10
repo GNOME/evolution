@@ -4056,7 +4056,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 					icalcomponent_set_uid (icalcomp, uid);
 
 				e_calendar_view_emit_user_created (
-					E_CALENDAR_VIEW (week_view));
+					E_CALENDAR_VIEW (week_view), client);
 			}
 
 			if (uid)

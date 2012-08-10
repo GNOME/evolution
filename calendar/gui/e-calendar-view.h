@@ -143,7 +143,8 @@ struct _ECalendarViewClass {
 						 ECalendarViewEvent *event);
 	void		(*event_added)		(ECalendarView *day_view,
 						 ECalendarViewEvent *event);
-	void		(*user_created)		(ECalendarView *cal_view);
+	void		(*user_created)		(ECalendarView *cal_view,
+						 ECalClient *where_was_created);
 
 	/* Virtual methods */
 	GList *		(*get_selected_events)	(ECalendarView *cal_view);
@@ -261,7 +262,8 @@ const gchar *	e_calendar_view_get_icalcomponent_summary
 						 gboolean *free_text);
 
 void		e_calendar_view_emit_user_created
-						(ECalendarView *cal_view);
+						(ECalendarView *cal_view,
+						 ECalClient *where_was_created);
 
 void		draw_curved_rectangle		(cairo_t *cr,
 						 gdouble x0,

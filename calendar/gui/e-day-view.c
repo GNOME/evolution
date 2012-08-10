@@ -6898,7 +6898,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 			} else {
 				icalcomponent_set_uid (icalcomp, uid);
 				e_calendar_view_emit_user_created (
-					E_CALENDAR_VIEW (day_view));
+					E_CALENDAR_VIEW (day_view), client);
 			}
 
 			g_free (uid);

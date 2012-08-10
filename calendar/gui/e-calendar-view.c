@@ -943,8 +943,8 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ECalendarViewClass, user_created),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1, G_TYPE_OBJECT);
 
 	signals[OPEN_EVENT] = g_signal_new (
 		"open-event",
@@ -1677,7 +1677,7 @@ static void
 object_created_cb (CompEditor *ce,
                    ECalendarView *cal_view)
 {
-	e_calendar_view_emit_user_created (cal_view);
+	e_calendar_view_emit_user_created (cal_view, comp_editor_get_client (ce));
 }
 
 CompEditor *
@@ -2180,11 +2180,12 @@ e_calendar_view_get_icalcomponent_summary (ECalClient *client,
 }
 
 void
-e_calendar_view_emit_user_created (ECalendarView *cal_view)
+e_calendar_view_emit_user_created (ECalendarView *cal_view,
+				   ECalClient *where_was_created)
 {
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	g_signal_emit (cal_view, signals[USER_CREATED], 0);
+	g_signal_emit (cal_view, signals[USER_CREATED], 0, where_was_created);
 }
 
 void
