@@ -420,6 +420,7 @@ static void e_day_view_recalc_work_week_days_shown	(EDayView	*day_view);
 static void e_day_view_queue_layout (EDayView *day_view);
 static void e_day_view_cancel_layout (EDayView *day_view);
 static gboolean e_day_view_layout_timeout_cb (gpointer data);
+static void tooltip_destroy (EDayView *day_view, GnomeCanvasItem *item);
 
 enum {
 	PROP_0,
@@ -3662,6 +3663,8 @@ e_day_view_show_popup_menu (EDayView *day_view,
                             gint day,
                             gint event_num)
 {
+	tooltip_destroy (day_view, NULL);
+
 	day_view->popup_event_day = day;
 	day_view->popup_event_num = event_num;
 
@@ -6274,23 +6277,26 @@ static void
 tooltip_destroy (EDayView *day_view,
                  GnomeCanvasItem *item)
 {
-	EDayViewEvent *pevent;
-	gint event_num = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-num"));
-	gint day = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-day"));
+	GtkWidget *tooltip = g_object_get_data (G_OBJECT (day_view), "tooltip-window");
 
-	pevent = tooltip_get_view_event (day_view, day, event_num);
-	if (pevent) {
-		if (pevent->tooltip && g_object_get_data (G_OBJECT (day_view), "tooltip-window")) {
-			gtk_widget_destroy (pevent->tooltip);
-			pevent->tooltip = NULL;
-		}
-
-		if (pevent->timeout != -1) {
-			g_source_remove (pevent->timeout);
-			pevent->timeout = -1;
-		}
-
+	if (tooltip) {
+		gtk_widget_destroy (tooltip);
 		g_object_set_data (G_OBJECT (day_view), "tooltip-window", NULL);
+	}
+
+	if (item) {
+		EDayViewEvent *pevent;
+		gint event_num = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-num"));
+		gint day = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-day"));
+
+		pevent = tooltip_get_view_event (day_view, day, event_num);
+		if (pevent) {
+			pevent->tooltip = NULL;
+			if (pevent->timeout != -1) {
+				g_source_remove (pevent->timeout);
+				pevent->timeout = -1;
+			}
+		}
 	}
 }
 
