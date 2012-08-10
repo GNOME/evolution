@@ -1057,10 +1057,7 @@ static void
 action_wrap_lines_cb (GtkAction *action,
                       EEditor *editor)
 {
-	/* FIXME WEBKIT */
-	/*
-	e_editor_widget_wrap_lines (editor);
-	*/
+	e_editor_selection_wrap_lines (editor->priv->selection);
 }
 
 /*****************************************************************************
