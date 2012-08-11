@@ -592,27 +592,6 @@ if test x"$have_xfree" = "xyes" ; then
 fi
 
 dnl **************************************************
-dnl Clutter support.
-dnl **************************************************
-AC_MSG_CHECKING([whether to build with Clutter])
-AC_ARG_WITH([clutter],
-       [AC_HELP_STRING([--with-clutter],
-       [Build with Clutter [default=no]])],
-       with_clutter="$withval", with_clutter="no")
-AC_MSG_RESULT($with_clutter)
-
-if test "x$with_clutter" = "xyes"; then
-   PKG_CHECK_MODULES(CLUTTER, [clutter-gtk-1.0 >= clutter_gtk_minimum_version mx-1.0 clutter-1.0 >= 1.0.0])
-
-   AC_DEFINE(HAVE_CLUTTER, 1, [Clutter available])
-   AM_CONDITIONAL(ENABLE_CLUTTER, true)
-else
-   AC_DEFINE(HAVE_CLUTTER, 0, [Clutter not available])
-   AM_CONDITIONAL(ENABLE_CLUTTER, false)
-fi
-
-
-dnl **************************************************
 dnl LDAP support.
 dnl **************************************************
 if test "$os_win32" != yes; then
@@ -1275,10 +1254,6 @@ AC_ARG_ENABLE([contact-maps],
 	[enable_contact_maps="$enableval"], [enable_contact_maps="no"])
 
 if test "x$enable_contact_maps" = "xyes"; then
-	if test "x$with_clutter" = "xno"; then
-		AC_MSG_ERROR([Clutter is required for maps in contacts. Use --with-clutter=yes to enable clutter.])
-	fi
-
 	PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.12 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
 	AC_SUBST(CHAMPLAIN_CFLAGS)
 	AC_SUBST(CHAMPLAIN_LIBS)
@@ -1593,7 +1568,6 @@ fi
 
 echo "
 	LDAP support:		$msg_ldap
-	Clutter support:	$with_clutter
 	Contact Maps:		$enable_contact_maps
 	GNOME Online Accounts:	$enable_goa
 	Libnotify:		$HAVE_LIBNOTIFY

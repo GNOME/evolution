@@ -69,12 +69,6 @@
 #include "mail/em-utils.h"
 #include "mail/message-list.h"
 
-#if HAVE_CLUTTER
-#include <clutter/clutter.h>
-#include <mx/mx.h>
-#include <clutter-gtk/clutter-gtk.h>
-#endif
-
 /*#define TIMEIT */
 
 #ifdef TIMEIT
@@ -126,11 +120,6 @@ struct _MessageListPrivate {
 	const gchar *newest_read_uid;
 	time_t oldest_unread_date;
 	const gchar *oldest_unread_uid;
-
-#if HAVE_CLUTTER
-	ClutterActor *search_texture;
-	ClutterTimeline *timeline;
-#endif
 };
 
 enum {
@@ -2568,11 +2557,6 @@ message_list_init (MessageList *message_list)
 
 	message_list->priv = MESSAGE_LIST_GET_PRIVATE (message_list);
 
-#if HAVE_CLUTTER
-	message_list->priv->timeline = NULL;
-	message_list->priv->search_texture = NULL;
-#endif
-
 	message_list->normalised_hash = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) NULL,
@@ -4376,58 +4360,6 @@ void
 message_list_set_search (MessageList *ml,
                          const gchar *search)
 {
-#if HAVE_CLUTTER
-	if (ml->priv->timeline == NULL) {
-		ClutterActor *stage = g_object_get_data ((GObject *)ml, "stage");
-
-		if (stage) {
-			ClutterActor *texture = NULL;
-			ClutterPath *path;
-			ClutterBehaviour *behaviour;
-			ClutterAlpha *alpha;
-			GtkIconInfo *info;
-
-			info = gtk_icon_theme_lookup_icon (gtk_icon_theme_get_default (),
-							"system-search",
-							72,
-							GTK_ICON_LOOKUP_NO_SVG);
-
-			if (info) {
-				texture = clutter_texture_new_from_file (gtk_icon_info_get_filename (info), NULL);
-				gtk_icon_info_free (info);
-			}
-			clutter_container_add_actor ((ClutterContainer *) stage, texture);
-			ml->priv->search_texture = texture;
-
-			ml->priv->timeline = clutter_timeline_new (2 * 1000);
-			alpha = clutter_alpha_new_full (ml->priv->timeline, CLUTTER_LINEAR);
-			path = clutter_path_new ();
-			behaviour = clutter_behaviour_path_new (alpha, path);
-			clutter_actor_hide (texture);
-			clutter_path_clear (path);
-			clutter_path_add_move_to (path, 100, 50);
-			clutter_path_add_line_to (path, 200, 50);
-			clutter_path_add_line_to (path, 200, 100);
-			clutter_path_add_line_to (path, 100, 100);
-			clutter_path_add_line_to (path, 100, 50);
-
-			clutter_behaviour_apply (behaviour, texture);
-			clutter_timeline_set_loop (ml->priv->timeline, TRUE);
-
-			g_signal_connect_swapped (
-				ml->priv->timeline, "started",
-				G_CALLBACK (clutter_actor_show), texture);
-			g_signal_connect (
-				ml->priv->timeline, "paused",
-				G_CALLBACK (clutter_actor_hide), texture);
-
-			clutter_timeline_pause (ml->priv->timeline);
-			clutter_timeline_stop (ml->priv->timeline);
-
-		}
-	}
-#endif
-
 	if (search == NULL || search[0] == '\0')
 		if (ml->search == NULL || ml->search[0] == '\0')
 			return;
@@ -4439,11 +4371,6 @@ message_list_set_search (MessageList *ml,
 		camel_folder_thread_messages_unref (ml->thread_tree);
 		ml->thread_tree = NULL;
 	}
-
-#if HAVE_CLUTTER
-	if (ml->priv->timeline)
-		clutter_timeline_start (ml->priv->timeline);
-#endif
 
 	if (ml->frozen == 0)
 		mail_regen_list (ml, search, NULL, NULL, TRUE);
@@ -4944,22 +4871,6 @@ regen_list_done (struct _regen_list_msg *m)
 
 	g_signal_emit (m->ml, message_list_signals[MESSAGE_LIST_BUILT], 0);
 	m->ml->priv->any_row_changed = FALSE;
-
-#if HAVE_CLUTTER
-	if (m->ml->priv->timeline && clutter_timeline_is_playing (m->ml->priv->timeline)) {
-		clutter_timeline_pause (m->ml->priv->timeline);
-		clutter_actor_hide (m->ml->priv->search_texture);
-	} else {
-		ClutterActor *pane = g_object_get_data ((GObject *)m->ml, "actor");
-
-		if (pane) {
-			clutter_actor_set_opacity (pane, 0);
-			clutter_actor_animate (
-				pane, CLUTTER_EASE_OUT_SINE,
-				150, "opacity", 255, NULL);
-		}
-	}
-#endif
 }
 
 static void

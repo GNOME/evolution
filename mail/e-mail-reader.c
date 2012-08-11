@@ -62,12 +62,6 @@
 #include <em-format/e-mail-parser.h>
 #include <em-format/e-mail-part-utils.h>
 
-#if HAVE_CLUTTER
-#include <clutter/clutter.h>
-#include <mx/mx.h>
-#include <clutter-gtk/clutter-gtk.h>
-#endif
-
 #define E_MAIL_READER_GET_PRIVATE(obj) \
 	((EMailReaderPrivate *) g_object_get_qdata \
 	(G_OBJECT (obj), quark_private))
@@ -1040,25 +1034,12 @@ action_mail_next_cb (GtkAction *action,
 	GtkWidget *message_list;
 	MessageListSelectDirection direction;
 	guint32 flags, mask;
-#if HAVE_CLUTTER
-	ClutterActor *actor;
-#endif
 
 	direction = MESSAGE_LIST_SELECT_NEXT;
 	flags = 0;
 	mask  = 0;
 
 	message_list = e_mail_reader_get_message_list (reader);
-
-#if HAVE_CLUTTER
-	actor = g_object_get_data (G_OBJECT (message_list), "preview-actor");
-	if (actor != NULL) {
-		clutter_actor_set_opacity (actor, 0);
-		clutter_actor_animate (
-			actor, CLUTTER_EASE_OUT_SINE,
-			500, "opacity", 255, NULL);
-	}
-#endif
 
 	message_list_select (
 		MESSAGE_LIST (message_list), direction, flags, mask);

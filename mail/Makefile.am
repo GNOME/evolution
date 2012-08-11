@@ -112,13 +112,6 @@ mailinclude_HEADERS =					\
 	mail-vfolder-ui.h				\
 	message-list.h
 
-if ENABLE_CLUTTER
-mailinclude_HEADERS +=					\
-	e-mail-tab.h					\
-	e-mail-tab-picker.h				
-
-endif
-
 libevolution_mail_la_SOURCES =				\
 	e-http-request.c				\
 	e-mail-account-manager.c			\
@@ -192,12 +185,6 @@ libevolution_mail_la_SOURCES =				\
 	mail-send-recv.c				\
 	mail-vfolder-ui.c				\
 	message-list.c
-
-if ENABLE_CLUTTER
-libevolution_mail_la_SOURCES +=				\
-	e-mail-tab.c					\
-	e-mail-tab-picker.c				
-endif
 
 if ENABLE_SMIME
 SMIME_LIBS =						\
