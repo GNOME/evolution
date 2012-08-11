@@ -30,7 +30,10 @@
 
 #define d(x)
 
-typedef struct _EMailDisplayPopupPreferPlain {
+typedef struct _EMailDisplayPopupPreferPlain EMailDisplayPopupPreferPlain;
+typedef struct _EMailDisplayPopupPreferPlainClass EMailDisplayPopupPreferPlainClass;
+
+struct _EMailDisplayPopupPreferPlain {
 	EExtension parent;
 
 	WebKitDOMDocument *document;
@@ -39,15 +42,17 @@ typedef struct _EMailDisplayPopupPreferPlain {
 
 	GtkActionGroup *action_group;
 
-} EMailDisplayPopupPreferPlain;
+};
 
-typedef struct _EMailDisplayPopupPreferPlainClass {
+struct _EMailDisplayPopupPreferPlainClass {
 	EExtensionClass parent_class;
-} EMailDisplayPopupPreferPlainClass;
+};
 
+#define E_TYPE_MAIL_DISPLAY_POPUP_PREFER_PLAIN \
+	(e_mail_display_popup_prefer_plain_get_type ())
 #define E_MAIL_DISPLAY_POPUP_PREFER_PLAIN(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), e_mail_display_popup_prefer_plain_get_type(), EMailDisplayPopupPreferPlain))
+	((obj), E_TYPE_MAIL_DISPLAY_POPUP_PREFER_PLAIN, EMailDisplayPopupPreferPlain))
 
 GType e_mail_display_popup_prefer_plain_get_type (void);
 static void e_mail_display_popup_extension_interface_init (EMailDisplayPopupExtensionInterface *iface);
@@ -360,20 +365,22 @@ e_mail_display_popup_prefer_plain_finalize (GObject *object)
 	g_free (extension->text_html_id);
 	g_free (extension->text_plain_id);
 	g_object_unref (extension->action_group);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_mail_display_popup_prefer_plain_parent_class)->
+		finalize (object);
 }
 
 static void
-e_mail_display_popup_prefer_plain_class_init (EMailDisplayPopupPreferPlainClass *klass)
+e_mail_display_popup_prefer_plain_class_init (EMailDisplayPopupPreferPlainClass *class)
 {
 	EExtensionClass *extension_class;
 	GObjectClass *object_class;
 
-	e_mail_display_popup_prefer_plain_parent_class = g_type_class_peek_parent (klass);
-
-	extension_class = E_EXTENSION_CLASS (klass);
+	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_MAIL_DISPLAY;
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_mail_display_popup_prefer_plain_finalize;
 }
 
@@ -384,7 +391,7 @@ e_mail_display_popup_extension_interface_init (EMailDisplayPopupExtensionInterfa
 }
 
 void
-e_mail_display_popup_prefer_plain_class_finalize (EMailDisplayPopupPreferPlainClass *klass)
+e_mail_display_popup_prefer_plain_class_finalize (EMailDisplayPopupPreferPlainClass *class)
 {
 
 }

@@ -32,17 +32,20 @@
 
 #define d(x)
 
-typedef struct _EMailParserPreferPlain {
+typedef struct _EMailParserPreferPlain EMailParserPreferPlain;
+typedef struct _EMailParserPreferPlainClass EMailParserPreferPlainClass;
+
+struct _EMailParserPreferPlain {
 	EExtension parent;
 
 	GSettings *settings;
 	gint mode;
 	gboolean show_suppressed;
-} EMailParserPreferPlain;
+};
 
-typedef struct _EMailParserPreferPlainClass {
+struct _EMailParserPreferPlainClass {
 	EExtensionClass parent_class;
-} EMailParserPreferPlainClass;
+};
 
 GType e_mail_parser_prefer_plain_get_type (void);
 static void e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface);
@@ -416,7 +419,9 @@ e_mail_parser_prefer_plain_finalize (GObject *object)
 
 	g_clear_object (&parser->settings);
 
-	G_OBJECT_CLASS (e_mail_parser_prefer_plain_parent_class)->finalize (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_mail_parser_prefer_plain_parent_class)->
+		finalize (object);
 }
 
 static void
