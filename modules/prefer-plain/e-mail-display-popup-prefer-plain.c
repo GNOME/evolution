@@ -356,6 +356,23 @@ e_mail_display_popup_prefer_plain_type_register (GTypeModule *type_module)
 }
 
 static void
+e_mail_display_popup_prefer_plain_dispose (GObject *object)
+{
+	EMailDisplayPopupPreferPlain *extension;
+
+	extension = E_MAIL_DISPLAY_POPUP_PREFER_PLAIN (object);
+
+	if (extension->action_group != NULL) {
+		g_object_unref (extension->action_group);
+		extension->action_group = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_display_popup_prefer_plain_parent_class)->
+		dispose (object);
+}
+
+static void
 e_mail_display_popup_prefer_plain_finalize (GObject *object)
 {
 	EMailDisplayPopupPreferPlain *extension;
@@ -364,7 +381,6 @@ e_mail_display_popup_prefer_plain_finalize (GObject *object)
 
 	g_free (extension->text_html_id);
 	g_free (extension->text_plain_id);
-	g_object_unref (extension->action_group);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_display_popup_prefer_plain_parent_class)->
@@ -381,6 +397,7 @@ e_mail_display_popup_prefer_plain_class_init (EMailDisplayPopupPreferPlainClass 
 	extension_class->extensible_type = E_TYPE_MAIL_DISPLAY;
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = e_mail_display_popup_prefer_plain_dispose;
 	object_class->finalize = e_mail_display_popup_prefer_plain_finalize;
 }
 

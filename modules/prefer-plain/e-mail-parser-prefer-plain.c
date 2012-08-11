@@ -411,7 +411,7 @@ e_mail_parser_prefer_plain_set_property (GObject *object,
 }
 
 static void
-e_mail_parser_prefer_plain_finalize (GObject *object)
+e_mail_parser_prefer_plain_dispose (GObject *object)
 {
 	EMailParserPreferPlain *parser;
 
@@ -419,9 +419,9 @@ e_mail_parser_prefer_plain_finalize (GObject *object)
 
 	g_clear_object (&parser->settings);
 
-	/* Chain up to parent's finalize() method. */
+	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_parser_prefer_plain_parent_class)->
-		finalize (object);
+		dispose (object);
 }
 
 static void
@@ -434,7 +434,7 @@ e_mail_parser_prefer_plain_class_init (EMailParserPreferPlainClass *class)
 	object_class->constructed = e_mail_parser_prefer_plain_constructed;
 	object_class->get_property = e_mail_parser_prefer_plain_get_property;
 	object_class->set_property = e_mail_parser_prefer_plain_set_property;
-	object_class->finalize = e_mail_parser_prefer_plain_finalize;
+	object_class->dispose = e_mail_parser_prefer_plain_dispose;
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_MAIL_PARSER_EXTENSION_REGISTRY;
