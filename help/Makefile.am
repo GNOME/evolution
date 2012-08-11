@@ -1,9 +1,10 @@
+@YELP_HELP_RULES@
+
 SUBDIRS = quickref
 
-include $(top_srcdir)/gnome-doc-utils.make
+HELP_ID = evolution
 
-DOC_ID = evolution
-DOC_FIGURES = \
+HELP_MEDIA = \
 	figures/color-204a87.png \
 	figures/color-2e3436.png \
 	figures/color-4e9a06.png \
@@ -20,7 +21,7 @@ DOC_FIGURES = \
 	figures/search-icon.png \
 	figures/window-overview-layers.png
 
-DOC_PAGES = \
+HELP_FILES = \
 	backup-restore.page \
 	calendar-alarms-and-reminders.page \
 	calendar-caldav.page \
@@ -237,7 +238,6 @@ DOC_PAGES = \
 	tasks-webdav.page \
 	using-categories.page
 
-DOC_LINGUAS = cs de el en_GB es eu fr gl hu mk oc ru sl sv te zh_CN
-dist-hook: doc-dist-hook
+HELP_LINGUAS = cs de el en_GB es eu fr gl hu mk oc ru sl sv te zh_CN
 
 -include $(top_srcdir)/git.mk

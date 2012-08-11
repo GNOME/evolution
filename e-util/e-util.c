@@ -271,7 +271,7 @@ e_display_help (GtkWindow *parent,
 	GError *error = NULL;
 	guint32 timestamp;
 
-	uri = g_string_new ("ghelp:" PACKAGE);
+	uri = g_string_new ("help:" PACKAGE);
 	timestamp = gtk_get_current_event_time ();
 
 	if (parent != NULL)

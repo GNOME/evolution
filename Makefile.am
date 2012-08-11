@@ -32,7 +32,6 @@ EXTRA_DIST = 			\
 	intltool-update.in	\
 	intltool-extract.in	\
 	evolution-zip.in	\
-	gnome-doc-utils.make    \
 	gtk-doc.make
 
 if ENABLE_SMIME
@@ -98,13 +97,11 @@ MAINTAINERCLEANFILES =			\
 	$(srcdir)/ltmain.sh		\
 	$(srcdir)/missing		\
 	$(srcdir)/mkinstalldirs		\
-	$(srcdir)/gnome-doc-utils.make	\
 	$(srcdir)/gtk-doc.make		\
 	$(srcdir)/m4/codeset.m4		\
 	$(srcdir)/m4/gettext.m4		\
 	$(srcdir)/m4/glibc2.m4		\
 	$(srcdir)/m4/glibc21.m4		\
-	$(srcdir)/m4/gnome-doc-utils.m4	\
 	$(srcdir)/m4/gtk-doc.m4		\
 	$(srcdir)/m4/iconv.m4		\
 	$(srcdir)/m4/intdiv0.m4		\
