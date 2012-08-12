@@ -241,11 +241,14 @@ migrate_mbox_to_maildir (EShell *shell,
 
 	camel_service_set_settings (mbox_service, settings);
 
-	settings = camel_service_get_settings (maildir_service);
+	settings = camel_service_ref_settings (maildir_service);
+
 	path = g_build_filename (data_dir, "local", NULL);
 	g_object_set (settings, "path", path, NULL);
 	g_mkdir (path, 0700);
 	g_free (path);
+
+	g_object_unref (settings);
 
 	ms.mail_store = CAMEL_STORE (mbox_service);
 	ms.maildir_store = CAMEL_STORE (maildir_service);

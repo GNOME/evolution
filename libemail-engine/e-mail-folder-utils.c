@@ -313,13 +313,15 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 			CAMEL_SESSION (session), source_uid);
 
 		service_uid = camel_service_get_uid (service);
-		settings = camel_service_get_settings (service);
+		settings = camel_service_ref_settings (service);
 
 		g_object_get (
 			settings,
 			"delete-expunged", &delete_expunged,
 			"keep-on-server", &keep_on_server,
 			NULL);
+
+		g_object_unref (settings);
 
 		if (!keep_on_server || !delete_expunged) {
 			g_object_unref (service);

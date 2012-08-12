@@ -249,12 +249,15 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 	service = CAMEL_SERVICE (m->store);
 	uid = camel_service_get_uid (service);
-	settings = camel_service_get_settings (service);
+
+	settings = camel_service_ref_settings (service);
 
 	/* XXX This is a POP3-specific setting. */
 	class = G_OBJECT_GET_CLASS (settings);
 	if (g_object_class_find_property (class, "keep-on-server") != NULL)
 		g_object_get (settings, "keep-on-server", &keep, NULL);
+
+	g_object_unref (settings);
 
 	/* Just for readability. */
 	delete_fetched = !keep;

@@ -370,9 +370,9 @@ format_service_name (CamelService *service)
 	CamelSettings *settings;
 	gchar *service_name = NULL;
 	const gchar *display_name;
-	const gchar *host = NULL;
-	const gchar *path = NULL;
 	gchar *pretty_url = NULL;
+	gchar *host = NULL;
+	gchar *path = NULL;
 	gchar *user = NULL;
 	gchar *cp;
 	gboolean have_host = FALSE;
@@ -380,11 +380,12 @@ format_service_name (CamelService *service)
 	gboolean have_user = FALSE;
 
 	provider = camel_service_get_provider (service);
-	settings = camel_service_get_settings (service);
 	display_name = camel_service_get_display_name (service);
 
+	settings = camel_service_ref_settings (service);
+
 	if (CAMEL_IS_NETWORK_SETTINGS (settings)) {
-		host = camel_network_settings_get_host (
+		host = camel_network_settings_dup_host (
 			CAMEL_NETWORK_SETTINGS (settings));
 		have_host = (host != NULL) && (*host != '\0');
 
@@ -394,10 +395,12 @@ format_service_name (CamelService *service)
 	}
 
 	if (CAMEL_IS_LOCAL_SETTINGS (settings)) {
-		path = camel_local_settings_get_path (
+		path = camel_local_settings_dup_path (
 			CAMEL_LOCAL_SETTINGS (settings));
 		have_path = (path != NULL) && (*path != '\0');
 	}
+
+	g_object_unref (settings);
 
 	/* Shorten user names with '@', since multiple '@' in a
 	 * 'user@host' label look weird.  This is just supposed
@@ -433,6 +436,8 @@ format_service_name (CamelService *service)
 	}
 
 	g_free (service_name);
+	g_free (host);
+	g_free (path);
 	g_free (user);
 
 	return pretty_url;
@@ -491,7 +496,7 @@ get_keep_on_server (CamelService *service)
 	CamelSettings *settings;
 	gboolean keep_on_server = FALSE;
 
-	settings = camel_service_get_settings (service);
+	settings = camel_service_ref_settings (service);
 	class = G_OBJECT_GET_CLASS (settings);
 
 	/* XXX This is a POP3-specific setting. */
@@ -499,6 +504,8 @@ get_keep_on_server (CamelService *service)
 		g_object_get (
 			settings, "keep-on-server",
 			&keep_on_server, NULL);
+
+	g_object_unref (settings);
 
 	return keep_on_server;
 }

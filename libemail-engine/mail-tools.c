@@ -91,7 +91,7 @@ mail_tool_do_movemail (CamelStore *store,
 	CamelService *service;
 	CamelProvider *provider;
 	CamelSettings *settings;
-	const gchar *src_path;
+	gchar *src_path;
 	gchar *dest_path;
 	struct stat sb;
 	gboolean success;
@@ -100,7 +100,6 @@ mail_tool_do_movemail (CamelStore *store,
 
 	service = CAMEL_SERVICE (store);
 	provider = camel_service_get_provider (service);
-	settings = camel_service_get_settings (service);
 
 	g_return_val_if_fail (provider != NULL, NULL);
 
@@ -114,8 +113,12 @@ mail_tool_do_movemail (CamelStore *store,
 		return NULL;
 	}
 
-	src_path = camel_local_settings_get_path (
+	settings = camel_service_ref_settings (service);
+
+	src_path = camel_local_settings_dup_path (
 		CAMEL_LOCAL_SETTINGS (settings));
+
+	g_object_unref (settings);
 
 	/* Set up our destination. */
 	dest_path = mail_tool_get_local_movemail_path (store, error);
@@ -124,6 +127,8 @@ mail_tool_do_movemail (CamelStore *store,
 
 	/* Movemail from source to dest_path */
 	success = camel_movemail (src_path, dest_path, error) != -1;
+
+	g_free (src_path);
 
 	if (g_stat (dest_path, &sb) < 0 || sb.st_size == 0) {
 		g_unlink (dest_path); /* Clean up the movemail.foo file. */

@@ -688,13 +688,17 @@ mail_session_configure_local_store (EMailSession *session)
 	session->priv->local_store = service;  /* takes ownership */
 	g_return_if_fail (service != NULL);
 
-	settings = camel_service_get_settings (service);
-	local_settings = CAMEL_LOCAL_SETTINGS (settings);
-	data_dir = camel_session_get_user_data_dir (camel_session);
+	settings = camel_service_ref_settings (service);
 
+	data_dir = camel_session_get_user_data_dir (camel_session);
 	path = g_build_filename (data_dir, E_MAIL_SESSION_LOCAL_UID, NULL);
+
+	local_settings = CAMEL_LOCAL_SETTINGS (settings);
 	camel_local_settings_set_path (local_settings, path);
+
 	g_free (path);
+
+	g_object_unref (settings);
 
 	/* Shouldn't need to worry about other mail applications
 	 * altering files in our local mail store. */
