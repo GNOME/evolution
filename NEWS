@@ -1,3 +1,32 @@
+Evolution 3.4.4 2012-08-13
+--------------------------
+
+* At some point since Evolution 3.0, detection of when the local mail
+  storage format needs to be converted from mbox (as used in 2.x) to
+  Maildir (as used in 3.x) broke.  This release fixes the detection.
+
+Bug Fixes:
+	Bug 559815 - Empty Reminders editor when opened second time
+	             (Milan Crha)
+	Bug 617557 - Can close composer while message is sending (Milan Crha)
+	Bug 653529 - Alarm Notification window events list is too small
+	             (Milan Crha)
+	Bug 677993 - Remember screen used in previous session (Milan Crha)
+	Bug 678292 - Due Date does not display in follow-up flag dialogue box
+	             (Milan Crha)
+	Bug 678304 - Save Draft prevents Evolution's quit (Milan Crha)
+	Bug 678783 - Crash under e_attachment_set_file_info() (Milan Crha)
+	Bug 680682 - Segfault after label attempted deletion (Milan Crha)
+
+Other Changes:
+	* Trust attachments from ~/.kde and ~/.kde4. (Matthew Barnes)
+	* Run mbox-to-Maildir conversion before loading modules.
+	  (Matthew Barnes)
+
+Translations:
+	Sasi Bhushan Boddepalli (te)
+
+
 Evolution 3.4.3 2012-06-18
 --------------------------
 
