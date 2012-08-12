@@ -88,6 +88,9 @@ struct _EMailSessionPrivate {
 	/* Local folder cache. */
 	GPtrArray *local_folders;
 	GPtrArray *local_folder_uris;
+
+	guint preparing_flush;
+	GMutex *preparing_flush_lock;
 };
 
 struct _AsyncContext {
@@ -267,47 +270,19 @@ main_get_filter_driver (CamelSession *session,
 	return driver;
 }
 
-/* Support for CamelSession.forward_to () ************************************/
-
-static guint preparing_flush = 0;
-
 static gboolean
-forward_to_flush_outbox_cb (EMailSession *session)
+session_forward_to_flush_outbox_cb (gpointer user_data)
 {
+	EMailSession *session = E_MAIL_SESSION (user_data);
 
-	preparing_flush = 0;
+	g_mutex_lock (session->priv->preparing_flush_lock);
+	session->priv->preparing_flush_lock = 0;
+	g_mutex_unlock (session->priv->preparing_flush_lock);
 
 	/* Connect to this and call mail_send in the main email client.*/
 	g_signal_emit (session, signals[FLUSH_OUTBOX], 0);
 
 	return FALSE;
-}
-
-static void
-ms_forward_to_cb (CamelFolder *folder,
-                  GAsyncResult *result,
-                  EMailSession *session)
-{
-	GSettings *settings;
-
-	/* FIXME Poor error handling. */
-	if (!e_mail_folder_append_message_finish (folder, result, NULL, NULL))
-		return;
-
-	settings = g_settings_new ("org.gnome.evolution.mail");
-
-	/* do not call mail send immediately, just pile them all in the outbox */
-	if (preparing_flush || g_settings_get_boolean (
-		settings, "flush-outbox")) {
-		if (preparing_flush)
-			g_source_remove (preparing_flush);
-
-		preparing_flush = g_timeout_add_seconds (
-			60, (GSourceFunc)
-			forward_to_flush_outbox_cb, session);
-	}
-
-	g_object_unref (settings);
 }
 
 static void
@@ -996,8 +971,14 @@ mail_session_dispose (GObject *object)
 		g_object_unref (priv->vfolder_store);
 		priv->vfolder_store = NULL;
 	}
+
 	g_ptr_array_set_size (priv->local_folders, 0);
 	g_ptr_array_set_size (priv->local_folder_uris, 0);
+
+	if (priv->preparing_flush > 0) {
+		g_source_remove (priv->preparing_flush);
+		priv->preparing_flush = 0;
+	}
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_session_parent_class)->dispose (object);
@@ -1016,6 +997,8 @@ mail_session_finalize (GObject *object)
 
 	g_ptr_array_free (priv->local_folders, TRUE);
 	g_ptr_array_free (priv->local_folder_uris, TRUE);
+
+	g_mutex_free (priv->preparing_flush_lock);
 
 	g_free (mail_data_dir);
 	g_free (mail_config_dir);
@@ -1418,136 +1401,6 @@ mail_session_lookup_addressbook (CamelSession *session,
 	return ret;
 }
 
-static gboolean
-mail_session_forward_to (CamelSession *session,
-                         CamelFolder *folder,
-                         CamelMimeMessage *message,
-                         const gchar *address,
-                         GError **error)
-{
-	ESource *source;
-	ESourceRegistry *registry;
-	ESourceMailIdentity *extension;
-	CamelMimeMessage *forward;
-	CamelStream *mem;
-	CamelInternetAddress *addr;
-	CamelFolder *out_folder;
-	CamelMessageInfo *info;
-	CamelMedium *medium;
-	const gchar *extension_name;
-	const gchar *from_address;
-	const gchar *from_name;
-	const gchar *header_name;
-	struct _camel_header_raw *xev;
-	gchar *subject;
-
-	g_return_val_if_fail (folder != NULL, FALSE);
-	g_return_val_if_fail (message != NULL, FALSE);
-	g_return_val_if_fail (address != NULL, FALSE);
-
-	if (!*address) {
-		g_set_error (
-			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
-			_("No destination address provided, forwarding "
-			  "of the message has been cancelled."));
-		return FALSE;
-	}
-
-	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
-
-	/* This returns a new ESource reference. */
-	source = em_utils_guess_mail_identity_with_recipients (
-		registry, message, folder, NULL);
-	if (source == NULL) {
-		g_set_error (
-			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
-			_("No identity found to use, forwarding "
-			  "of the message has been cancelled."));
-		return FALSE;
-	}
-
-	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
-	extension = e_source_get_extension (source, extension_name);
-	from_address = e_source_mail_identity_get_address (extension);
-	from_name = e_source_mail_identity_get_name (extension);
-
-	forward = camel_mime_message_new ();
-
-	/* make copy of the message, because we are going to modify it */
-	mem = camel_stream_mem_new ();
-	camel_data_wrapper_write_to_stream_sync (
-		CAMEL_DATA_WRAPPER (message), mem, NULL, NULL);
-	g_seekable_seek (G_SEEKABLE (mem), 0, G_SEEK_SET, NULL, NULL);
-	camel_data_wrapper_construct_from_stream_sync (
-		CAMEL_DATA_WRAPPER (forward), mem, NULL, NULL);
-	g_object_unref (mem);
-
-	/* clear previous recipients */
-	camel_mime_message_set_recipients (
-		forward, CAMEL_RECIPIENT_TYPE_TO, NULL);
-	camel_mime_message_set_recipients (
-		forward, CAMEL_RECIPIENT_TYPE_CC, NULL);
-	camel_mime_message_set_recipients (
-		forward, CAMEL_RECIPIENT_TYPE_BCC, NULL);
-	camel_mime_message_set_recipients (
-		forward, CAMEL_RECIPIENT_TYPE_RESENT_TO, NULL);
-	camel_mime_message_set_recipients (
-		forward, CAMEL_RECIPIENT_TYPE_RESENT_CC, NULL);
-	camel_mime_message_set_recipients (
-		forward, CAMEL_RECIPIENT_TYPE_RESENT_BCC, NULL);
-
-	medium = CAMEL_MEDIUM (forward);
-
-	/* remove all delivery and notification headers */
-	header_name = "Disposition-Notification-To";
-	while (camel_medium_get_header (medium, header_name))
-		camel_medium_remove_header (medium, header_name);
-
-	header_name = "Delivered-To";
-	while (camel_medium_get_header (medium, header_name))
-		camel_medium_remove_header (medium, header_name);
-
-	/* remove any X-Evolution-* headers that may have been set */
-	xev = mail_tool_remove_xevolution_headers (forward);
-	camel_header_raw_clear (&xev);
-
-	/* from */
-	addr = camel_internet_address_new ();
-	camel_internet_address_add (addr, from_name, from_address);
-	camel_mime_message_set_from (forward, addr);
-	g_object_unref (addr);
-
-	/* to */
-	addr = camel_internet_address_new ();
-	camel_address_decode (CAMEL_ADDRESS (addr), address);
-	camel_mime_message_set_recipients (
-		forward, CAMEL_RECIPIENT_TYPE_TO, addr);
-	g_object_unref (addr);
-
-	/* subject */
-	subject = mail_tool_generate_forward_subject (message);
-	camel_mime_message_set_subject (forward, subject);
-	g_free (subject);
-
-	/* and send it */
-	info = camel_message_info_new (NULL);
-	out_folder = e_mail_session_get_local_folder (
-		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_OUTBOX);
-	camel_message_info_set_flags (
-		info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-
-	/* FIXME Pass a GCancellable. */
-	e_mail_folder_append_message (
-		out_folder, forward, info, G_PRIORITY_DEFAULT, NULL,
-		(GAsyncReadyCallback) ms_forward_to_cb, session);
-
-	camel_message_info_free (info);
-
-	g_object_unref (source);
-
-	return TRUE;
-}
-
 static void
 mail_session_get_socks_proxy (CamelSession *session,
                               const gchar *for_host,
@@ -1684,6 +1537,175 @@ mail_session_authenticate_sync (CamelSession *session,
 	return authenticated;
 }
 
+static gboolean
+mail_session_forward_to_sync (CamelSession *session,
+                              CamelFolder *folder,
+                              CamelMimeMessage *message,
+                              const gchar *address,
+                              GCancellable *cancellable,
+                              GError **error)
+{
+	EMailSessionPrivate *priv;
+	ESource *source;
+	ESourceRegistry *registry;
+	ESourceMailIdentity *extension;
+	CamelMimeMessage *forward;
+	CamelStream *mem;
+	CamelInternetAddress *addr;
+	CamelFolder *out_folder;
+	CamelMessageInfo *info;
+	CamelMedium *medium;
+	const gchar *extension_name;
+	const gchar *from_address;
+	const gchar *from_name;
+	const gchar *header_name;
+	struct _camel_header_raw *xev;
+	gboolean success;
+	gchar *subject;
+
+	g_return_val_if_fail (folder != NULL, FALSE);
+	g_return_val_if_fail (message != NULL, FALSE);
+	g_return_val_if_fail (address != NULL, FALSE);
+
+	priv = E_MAIL_SESSION_GET_PRIVATE (session);
+
+	if (!*address) {
+		g_set_error (
+			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			_("No destination address provided, forwarding "
+			  "of the message has been cancelled."));
+		return FALSE;
+	}
+
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+
+	/* This returns a new ESource reference. */
+	source = em_utils_guess_mail_identity_with_recipients (
+		registry, message, folder, NULL);
+	if (source == NULL) {
+		g_set_error (
+			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			_("No identity found to use, forwarding "
+			  "of the message has been cancelled."));
+		return FALSE;
+	}
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	extension = e_source_get_extension (source, extension_name);
+	from_address = e_source_mail_identity_get_address (extension);
+	from_name = e_source_mail_identity_get_name (extension);
+
+	forward = camel_mime_message_new ();
+
+	/* make copy of the message, because we are going to modify it */
+	mem = camel_stream_mem_new ();
+	camel_data_wrapper_write_to_stream_sync (
+		CAMEL_DATA_WRAPPER (message), mem, NULL, NULL);
+	g_seekable_seek (G_SEEKABLE (mem), 0, G_SEEK_SET, NULL, NULL);
+	camel_data_wrapper_construct_from_stream_sync (
+		CAMEL_DATA_WRAPPER (forward), mem, NULL, NULL);
+	g_object_unref (mem);
+
+	/* clear previous recipients */
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_TO, NULL);
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_CC, NULL);
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_BCC, NULL);
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_RESENT_TO, NULL);
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_RESENT_CC, NULL);
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_RESENT_BCC, NULL);
+
+	medium = CAMEL_MEDIUM (forward);
+
+	/* remove all delivery and notification headers */
+	header_name = "Disposition-Notification-To";
+	while (camel_medium_get_header (medium, header_name))
+		camel_medium_remove_header (medium, header_name);
+
+	header_name = "Delivered-To";
+	while (camel_medium_get_header (medium, header_name))
+		camel_medium_remove_header (medium, header_name);
+
+	/* remove any X-Evolution-* headers that may have been set */
+	xev = mail_tool_remove_xevolution_headers (forward);
+	camel_header_raw_clear (&xev);
+
+	/* from */
+	addr = camel_internet_address_new ();
+	camel_internet_address_add (addr, from_name, from_address);
+	camel_mime_message_set_from (forward, addr);
+	g_object_unref (addr);
+
+	/* to */
+	addr = camel_internet_address_new ();
+	camel_address_decode (CAMEL_ADDRESS (addr), address);
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_TO, addr);
+	g_object_unref (addr);
+
+	/* subject */
+	subject = mail_tool_generate_forward_subject (message);
+	camel_mime_message_set_subject (forward, subject);
+	g_free (subject);
+
+	/* and send it */
+	info = camel_message_info_new (NULL);
+	out_folder = e_mail_session_get_local_folder (
+		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_OUTBOX);
+	camel_message_info_set_flags (
+		info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+
+	success = e_mail_folder_append_message_sync (
+		out_folder, forward, info, NULL, cancellable, error);
+
+	if (success) {
+		GSettings *settings;
+		gboolean flush_outbox;
+
+		settings = g_settings_new ("org.gnome.evolution.mail");
+		flush_outbox = g_settings_get_boolean (settings, "flush-outbox");
+		g_object_unref (settings);
+
+		g_mutex_lock (priv->preparing_flush_lock);
+
+		if (priv->preparing_flush > 0) {
+			g_source_remove (priv->preparing_flush);
+			flush_outbox = TRUE;
+		}
+
+		if (flush_outbox) {
+			GMainContext *main_context;
+			GSource *timeout_source;
+
+			main_context =
+				camel_session_get_main_context (session);
+
+			timeout_source =
+				g_timeout_source_new_seconds (60);
+			g_source_set_callback (
+				timeout_source,
+				session_forward_to_flush_outbox_cb,
+				session, (GDestroyNotify) NULL);
+			priv->preparing_flush = g_source_attach (
+				timeout_source, main_context);
+			g_source_unref (timeout_source);
+		}
+
+		g_mutex_unlock (priv->preparing_flush_lock);
+	}
+
+	camel_message_info_free (info);
+
+	g_object_unref (source);
+
+	return success;
+}
+
 static EMVFolderContext *
 mail_session_create_vfolder_context (EMailSession *session)
 {
@@ -1713,9 +1735,9 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->alert_user = mail_session_alert_user;
 	session_class->get_filter_driver = mail_session_get_filter_driver;
 	session_class->lookup_addressbook = mail_session_lookup_addressbook;
-	session_class->forward_to = mail_session_forward_to;
 	session_class->get_socks_proxy = mail_session_get_socks_proxy;
 	session_class->authenticate_sync = mail_session_authenticate_sync;
+	session_class->forward_to_sync = mail_session_forward_to_sync;
 
 	class->create_vfolder_context = mail_session_create_vfolder_context;
 
@@ -1878,6 +1900,8 @@ e_mail_session_init (EMailSession *session)
 	session->priv->local_folder_uris =
 		g_ptr_array_new_with_free_func (
 		(GDestroyNotify) g_free);
+
+	session->priv->preparing_flush_lock = g_mutex_new ();
 }
 
 EMailSession *
