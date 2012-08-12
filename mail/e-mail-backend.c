@@ -166,18 +166,22 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 		const gchar *uid;
 
 		uid = e_source_get_uid (source);
-		service = camel_session_get_service (
+		service = camel_session_ref_service (
 			CAMEL_SESSION (session), uid);
 
-		if (!CAMEL_IS_STORE (service))
+		if (service == NULL)
 			continue;
 
 		/* FIXME Not passing a GCancellable. */
-		e_mail_store_go_offline (
-			CAMEL_STORE (service), G_PRIORITY_DEFAULT,
-			NULL, (GAsyncReadyCallback)
-			mail_backend_store_operation_done_cb,
-			g_object_ref (activity));
+		if (CAMEL_IS_STORE (service))
+			e_mail_store_go_offline (
+				CAMEL_STORE (service),
+				G_PRIORITY_DEFAULT,
+				NULL, (GAsyncReadyCallback)
+				mail_backend_store_operation_done_cb,
+				g_object_ref (activity));
+
+		g_object_unref (service);
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
@@ -210,18 +214,22 @@ mail_backend_prepare_for_online_cb (EShell *shell,
 			continue;
 
 		uid = e_source_get_uid (source);
-		service = camel_session_get_service (
+		service = camel_session_ref_service (
 			CAMEL_SESSION (session), uid);
 
-		if (!CAMEL_IS_STORE (service))
+		if (service == NULL)
 			continue;
 
 		/* FIXME Not passing a GCancellable. */
-		e_mail_store_go_online (
-			CAMEL_STORE (service), G_PRIORITY_DEFAULT,
-			NULL, (GAsyncReadyCallback)
-			mail_backend_store_operation_done_cb,
-			g_object_ref (activity));
+		if (CAMEL_IS_STORE (service))
+			e_mail_store_go_online (
+				CAMEL_STORE (service),
+				G_PRIORITY_DEFAULT,
+				NULL, (GAsyncReadyCallback)
+				mail_backend_store_operation_done_cb,
+				g_object_ref (activity));
+
+		g_object_unref (service);
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
@@ -331,7 +339,7 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 			g_object_ref (activity));
 	}
 
-	g_list_free (list);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	/* Now we poll until all activities are actually cancelled or finished.
 	 * Reffing the activity delays quitting; the reference count

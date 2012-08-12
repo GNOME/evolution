@@ -339,13 +339,16 @@ set_transport_service (struct _send_info *info,
 
 	g_static_mutex_lock (&status_lock);
 
-	service = camel_session_get_service (info->session, transport_uid);
+	service = camel_session_ref_service (info->session, transport_uid);
 
 	if (CAMEL_IS_TRANSPORT (service)) {
 		if (info->service != NULL)
 			g_object_unref (info->service);
 		info->service = g_object_ref (service);
 	}
+
+	if (service != NULL)
+		g_object_unref (service);
 
 	g_static_mutex_unlock (&status_lock);
 }
@@ -1136,7 +1139,7 @@ receive_update_got_store (CamelStore *store,
 }
 
 static CamelService *
-get_default_transport (EMailSession *session)
+ref_default_transport (EMailSession *session)
 {
 	ESource *source;
 	ESourceRegistry *registry;
@@ -1171,7 +1174,7 @@ get_default_transport (EMailSession *session)
 		return NULL;
 
 	uid = e_source_get_uid (source);
-	service = camel_session_get_service (CAMEL_SESSION (session), uid);
+	service = camel_session_ref_service (CAMEL_SESSION (session), uid);
 
 	g_object_unref (source);
 
@@ -1198,7 +1201,7 @@ send_receive (GtkWindow *parent,
 	if (!camel_session_get_online (CAMEL_SESSION (session)))
 		return send_recv_dialog;
 
-	transport = get_default_transport (session);
+	transport = ref_default_transport (session);
 
 	local_outbox =
 		e_mail_session_get_local_folder (
@@ -1206,6 +1209,9 @@ send_receive (GtkWindow *parent,
 
 	data = build_dialog (
 		parent, session, local_outbox, transport, allow_send);
+
+	if (transport != NULL)
+		g_object_unref (transport);
 
 	for (scan = data->infos; scan != NULL; scan = scan->next) {
 		struct _send_info *info = scan->data;
@@ -1357,7 +1363,7 @@ mail_send (EMailSession *session)
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
-	service = get_default_transport (session);
+	service = ref_default_transport (session);
 	if (service == NULL)
 		return;
 
@@ -1366,15 +1372,17 @@ mail_send (EMailSession *session)
 	if (info != NULL) {
 		info->again++;
 		d(printf("send of %s still in progress\n", transport->url));
+		g_object_unref (service);
 		return;
 	}
 
 	d(printf("starting non-interactive send of '%s'\n", transport->url));
 
 	type = get_receive_type (service);
-
-	if (type == SEND_INVALID)
+	if (type == SEND_INVALID) {
+		g_object_unref (service);
 		return;
+	}
 
 	info = g_malloc0 (sizeof (*info));
 	info->type = SEND_SEND;
@@ -1405,4 +1413,6 @@ mail_send (EMailSession *session)
 		receive_get_folder, info,
 		receive_status, info,
 		send_done, info);
+
+	g_object_unref (service);
 }

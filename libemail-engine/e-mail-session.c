@@ -78,8 +78,8 @@ struct _EMailSessionPrivate {
 	gulong source_disabled_handler_id;
 	gulong default_mail_account_handler_id;
 
-	CamelStore *local_store;
-	CamelStore *vfolder_store;
+	CamelService *local_store;
+	CamelService *vfolder_store;
 
 	FILE *filter_logfile;
 	GHashTable *junk_filters;
@@ -445,10 +445,12 @@ mail_session_refresh_cb (ESource *source,
 	const gchar *uid;
 
 	uid = e_source_get_uid (source);
-	service = camel_session_get_service (session, uid);
-	g_return_if_fail (CAMEL_IS_SERVICE (service));
+	service = camel_session_ref_service (session, uid);
+	g_return_if_fail (service != NULL);
 
 	g_signal_emit (session, signals[REFRESH_SERVICE], 0, service);
+
+	g_object_unref (service);
 }
 
 static gboolean
@@ -478,6 +480,7 @@ mail_session_add_from_source (EMailSession *session,
                               ESource *source)
 {
 	ESourceBackend *extension;
+	CamelService *service;
 	const gchar *uid;
 	const gchar *backend_name;
 	const gchar *display_name;
@@ -512,11 +515,14 @@ mail_session_add_from_source (EMailSession *session,
 	if (mail_session_check_goa_mail_disabled (session, source))
 		return;
 
-	/* Our own CamelSession.add_service() method will handle the
-	 * resulting CamelService, so we don't need the return value. */
-	camel_session_add_service (
+	service = camel_session_add_service (
 		CAMEL_SESSION (session), uid,
 		backend_name, type, &error);
+
+	/* Our own CamelSession.add_service() method will handle the
+	 * new CamelService, so we only need to unreference it here. */
+	if (service != NULL)
+		g_object_unref (service);
 
 	if (error != NULL) {
 		g_warning (
@@ -578,10 +584,12 @@ mail_session_source_removed_cb (ESourceRegistry *registry,
 	camel_session = CAMEL_SESSION (session);
 
 	uid = e_source_get_uid (source);
-	service = camel_session_get_service (camel_session, uid);
+	service = camel_session_ref_service (camel_session, uid);
 
-	if (CAMEL_IS_SERVICE (service))
+	if (service != NULL) {
 		camel_session_remove_service (camel_session, service);
+		g_object_unref (service);
+	}
 }
 
 static void
@@ -676,8 +684,9 @@ mail_session_configure_local_store (EMailSession *session)
 	camel_session = CAMEL_SESSION (session);
 
 	uid = E_MAIL_SESSION_LOCAL_UID;
-	service = camel_session_get_service (camel_session, uid);
-	g_return_if_fail (CAMEL_IS_SERVICE (service));
+	service = camel_session_ref_service (camel_session, uid);
+	session->priv->local_store = service;  /* takes ownership */
+	g_return_if_fail (service != NULL);
 
 	settings = camel_service_get_settings (service);
 	local_settings = CAMEL_LOCAL_SETTINGS (settings);
@@ -721,8 +730,6 @@ mail_session_configure_local_store (EMailSession *session)
 			g_error_free (error);
 		}
 	}
-
-	session->priv->local_store = g_object_ref (service);
 }
 
 static void
@@ -735,8 +742,9 @@ mail_session_configure_vfolder_store (EMailSession *session)
 	camel_session = CAMEL_SESSION (session);
 
 	uid = E_MAIL_SESSION_VFOLDER_UID;
-	service = camel_session_get_service (camel_session, uid);
-	g_return_if_fail (CAMEL_IS_SERVICE (service));
+	service = camel_session_ref_service (camel_session, uid);
+	session->priv->vfolder_store = service;  /* takes ownership */
+	g_return_if_fail (service != NULL);
 
 	camel_service_connect_sync (service, NULL, NULL);
 
@@ -744,8 +752,6 @@ mail_session_configure_vfolder_store (EMailSession *session)
 	 *     but it requires an EMailBackend, which we don't have access
 	 *     to from here, so it has to be called from elsewhere.  Kinda
 	 *     thinking about reworking that... */
-
-	session->priv->vfolder_store = g_object_ref (service);
 }
 
 static void
@@ -1944,7 +1950,7 @@ e_mail_session_get_local_store (EMailSession *session)
 {
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
-	return session->priv->local_store;
+	return CAMEL_STORE (session->priv->local_store);
 }
 
 CamelFolder *
@@ -2037,21 +2043,30 @@ e_mail_session_get_inbox_sync (EMailSession *session,
                                GError **error)
 {
 	CamelService *service;
+	CamelFolder *folder = NULL;
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 	g_return_val_if_fail (service_uid != NULL, NULL);
 
-	service = camel_session_get_service (
+	service = camel_session_ref_service (
 		CAMEL_SESSION (session), service_uid);
 
-	if (!CAMEL_IS_STORE (service))
+	if (service == NULL)
 		return NULL;
+
+	if (!CAMEL_IS_STORE (service))
+		goto exit;
 
 	if (!camel_service_connect_sync (service, cancellable, error))
-		return NULL;
+		goto exit;
 
-	return camel_store_get_inbox_folder_sync (
+	folder = camel_store_get_inbox_folder_sync (
 		CAMEL_STORE (service), cancellable, error);
+
+exit:
+	g_object_unref (service);
+
+	return folder;
 }
 
 void
@@ -2136,21 +2151,30 @@ e_mail_session_get_trash_sync (EMailSession *session,
                                GError **error)
 {
 	CamelService *service;
+	CamelFolder *folder = NULL;
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 	g_return_val_if_fail (service_uid != NULL, NULL);
 
-	service = camel_session_get_service (
+	service = camel_session_ref_service (
 		CAMEL_SESSION (session), service_uid);
 
-	if (!CAMEL_IS_STORE (service))
+	if (service == NULL)
 		return NULL;
+
+	if (!CAMEL_IS_STORE (service))
+		goto exit;
 
 	if (!camel_service_connect_sync (service, cancellable, error))
-		return NULL;
+		goto exit;
 
-	return camel_store_get_trash_folder_sync (
+	folder = camel_store_get_trash_folder_sync (
 		CAMEL_STORE (service), cancellable, error);
+
+exit:
+	g_object_unref (service);
+
+	return folder;
 }
 
 void
@@ -2377,12 +2401,12 @@ e_binding_transform_source_to_service (GBinding *binding,
 		return FALSE;
 
 	uid = e_source_get_uid (source);
-	service = camel_session_get_service (session, uid);
+	service = camel_session_ref_service (session, uid);
 
-	if (!CAMEL_IS_SERVICE (service))
+	if (service == NULL)
 		return FALSE;
 
-	g_value_set_object (target_value, service);
+	g_value_take_object (target_value, service);
 
 	return TRUE;
 }
@@ -2433,7 +2457,7 @@ e_mail_session_get_vfolder_store (EMailSession *session)
 {
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
-	return session->priv->vfolder_store;
+	return CAMEL_STORE (session->priv->vfolder_store);
 }
 
 EMVFolderContext *

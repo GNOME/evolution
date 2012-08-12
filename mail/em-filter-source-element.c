@@ -207,7 +207,7 @@ filter_source_element_xml_decode (EFilterElement *fe,
 			xmlFree (content);
 
 			if (url != NULL) {
-				service = camel_session_get_service_by_url (
+				service = camel_session_ref_service_by_url (
 					CAMEL_SESSION (session),
 					url, CAMEL_PROVIDER_STORE);
 				camel_url_free (url);
@@ -218,6 +218,8 @@ filter_source_element_xml_decode (EFilterElement *fe,
 
 				uid = camel_service_get_uid (service);
 				active_id = g_strdup (uid);
+
+				g_object_unref (service);
 			}
 
 			break;

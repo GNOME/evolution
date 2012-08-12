@@ -183,8 +183,8 @@ migrate_mbox_to_maildir (EShell *shell,
 	ESourceRegistry *registry;
 	ESourceExtension *extension;
 	const gchar *extension_name;
-	CamelService *mbox_service;
-	CamelService *maildir_service;
+	CamelService *mbox_service = NULL;
+	CamelService *maildir_service = NULL;
 	CamelSettings *settings;
 	const gchar *data_dir;
 	const gchar *mbox_uid;
@@ -227,10 +227,17 @@ migrate_mbox_to_maildir (EShell *shell,
 			CAMEL_PROVIDER_STORE, &error);
 
 	if (error != NULL) {
+		if (mbox_service != NULL)
+			g_object_unref (mbox_service);
+		if (maildir_service != NULL)
+			g_object_unref (maildir_service);
 		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 		return FALSE;
 	}
+
+	g_return_val_if_fail (CAMEL_IS_STORE (mbox_service), FALSE);
+	g_return_val_if_fail (CAMEL_IS_STORE (maildir_service), FALSE);
 
 	camel_service_set_settings (mbox_service, settings);
 
@@ -248,6 +255,9 @@ migrate_mbox_to_maildir (EShell *shell,
 	g_thread_create ((GThreadFunc) migrate_stores, &ms, TRUE, NULL);
 	while (!ms.complete)
 		g_main_context_iteration (NULL, TRUE);
+
+	g_object_unref (mbox_service);
+	g_object_unref (maildir_service);
 
 	return TRUE;
 }

@@ -811,9 +811,9 @@ rule_changed (EFilterRule *rule,
 	full_name = camel_folder_get_full_name (folder);
 	session = get_session (folder);
 
-	service = camel_session_get_service (
+	service = camel_session_ref_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
-	g_return_if_fail (CAMEL_IS_SERVICE (service));
+	g_return_if_fail (service != NULL);
 
 	/* If the folder has changed name, then
 	 * add it, then remove the old manually. */
@@ -845,6 +845,9 @@ rule_changed (EFilterRule *rule,
 			oldname, rule->name, NULL, NULL);
 		g_free (oldname);
 	}
+
+	g_object_unref (service);
+	service = NULL;
 
 	d(printf("Filter rule changed? for folder '%s'!!\n", folder->name));
 
@@ -910,9 +913,9 @@ context_rule_added (ERuleContext *ctx,
 
 	d(printf("rule added: %s\n", rule->name));
 
-	service = camel_session_get_service (
+	service = camel_session_ref_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
-	g_return_if_fail (CAMEL_IS_SERVICE (service));
+	g_return_if_fail (service != NULL);
 
 	/* this always runs quickly */
 	/* FIXME Not passing a GCancellable or GError. */
@@ -929,6 +932,8 @@ context_rule_added (ERuleContext *ctx,
 
 		rule_changed (rule, folder);
 	}
+
+	g_object_unref (service);
 }
 
 static void
@@ -941,9 +946,9 @@ context_rule_removed (ERuleContext *ctx,
 
 	d(printf("rule removed; %s\n", rule->name));
 
-	service = camel_session_get_service (
+	service = camel_session_ref_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
-	g_return_if_fail (CAMEL_IS_SERVICE (service));
+	g_return_if_fail (service != NULL);
 
 	/* TODO: remove from folder info cache? */
 
@@ -960,6 +965,8 @@ context_rule_removed (ERuleContext *ctx,
 	/* this must be unref'd after its deleted */
 	if (folder)
 		g_object_unref ((CamelFolder *) folder);
+
+	g_object_unref (service);
 }
 
 static void

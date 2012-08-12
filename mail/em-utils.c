@@ -1377,7 +1377,7 @@ em_utils_empty_trash (GtkWidget *parent,
 			mail_empty_trash (CAMEL_STORE (service));
 	}
 
-	g_list_free (list);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
 /* ********************************************************************** */

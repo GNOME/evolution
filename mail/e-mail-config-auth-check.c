@@ -146,7 +146,6 @@ mail_config_auth_check_update (EMailConfigAuthCheck *auth_check)
 		"user-cache-dir", temp_dir,
 		NULL);
 
-	/* This returns a BORROWED reference to the CamelService. */
 	service = camel_session_add_service (
 		session, "fake-uid",
 		backend_class->backend_name,
@@ -182,6 +181,8 @@ mail_config_auth_check_update (EMailConfigAuthCheck *auth_check)
 	camel_service_query_auth_types (
 		service, G_PRIORITY_DEFAULT, cancellable,
 		mail_config_auth_check_update_done_cb, async_context);
+
+	g_object_unref (service);
 }
 
 static void

@@ -610,7 +610,7 @@ mail_send_message (struct _send_queue_msg *m,
 	if (sent_folder_uri == NULL && tmp != NULL)
 		sent_folder_uri = g_strstrip (g_strdup (tmp));
 
-	service = camel_session_get_service (
+	service = camel_session_ref_service (
 		CAMEL_SESSION (m->session), transport_uid);
 	if (service != NULL)
 		provider = camel_service_get_provider (service);
@@ -825,6 +825,10 @@ exit:
 	}
 	if (info)
 		camel_message_info_free (info);
+
+	if (service != NULL)
+		g_object_unref (service);
+
 	g_object_unref (recipients);
 	g_object_unref (from);
 	g_free (sent_folder_uri);

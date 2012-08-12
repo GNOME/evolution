@@ -1528,7 +1528,7 @@ e_mail_account_store_load_sort_order (EMailAccountStore *store,
 	for (ii = 0; ii < length; ii++) {
 		CamelService *service;
 
-		service = camel_session_get_service (
+		service = camel_session_ref_service (
 			CAMEL_SESSION (session), service_uids[ii]);
 		if (service != NULL)
 			g_queue_push_tail (&service_queue, service);
@@ -1536,7 +1536,9 @@ e_mail_account_store_load_sort_order (EMailAccountStore *store,
 
 	e_mail_account_store_reorder_services (store, &service_queue);
 
-	g_queue_clear (&service_queue);
+	while (!g_queue_is_empty (&service_queue))
+		g_object_unref (g_queue_pop_head (&service_queue));
+
 	g_strfreev (service_uids);
 
 	g_key_file_free (key_file);

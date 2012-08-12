@@ -309,7 +309,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 		if (!enabled || g_strcmp0 (backend_name, "pop") != 0)
 			continue;
 
-		service = camel_session_get_service (
+		service = camel_session_ref_service (
 			CAMEL_SESSION (session), source_uid);
 
 		service_uid = camel_service_get_uid (service);
@@ -321,14 +321,17 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 			"keep-on-server", &keep_on_server,
 			NULL);
 
-		if (!keep_on_server || !delete_expunged)
+		if (!keep_on_server || !delete_expunged) {
+			g_object_unref (service);
 			continue;
+		}
 
 		folder = camel_store_get_inbox_folder_sync (
 			CAMEL_STORE (service), cancellable, error);
 
 		/* Abort the loop on error. */
 		if (folder == NULL) {
+			g_object_unref (service);
 			success = FALSE;
 			break;
 		}
@@ -336,6 +339,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 		uids = camel_folder_get_uids (folder);
 
 		if (uids == NULL) {
+			g_object_unref (service);
 			g_object_unref (folder);
 			continue;
 		}
@@ -359,6 +363,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 				folder, TRUE, cancellable, error);
 
 		g_object_unref (folder);
+		g_object_unref (service);
 
 		/* Abort the loop on error. */
 		if (!success)
@@ -1801,7 +1806,7 @@ e_mail_folder_uri_parse (CamelSession *session,
 				uid = g_strconcat (
 					url->user, "@", url->host, NULL);
 
-			service = camel_session_get_service (session, uid);
+			service = camel_session_ref_service (session, uid);
 			g_free (uid);
 		}
 
@@ -1845,7 +1850,7 @@ e_mail_folder_uri_parse (CamelSession *session,
 		}
 
 		if (uid != NULL) {
-			service = camel_session_get_service (session, uid);
+			service = camel_session_ref_service (session, uid);
 			g_free (uid);
 		}
 
@@ -1858,7 +1863,7 @@ e_mail_folder_uri_parse (CamelSession *session,
 	 * To determine which it is, you have to check the provider
 	 * flags for CAMEL_URL_FRAGMENT_IS_PATH. */
 	} else {
-		service = camel_session_get_service_by_url (
+		service = camel_session_ref_service_by_url (
 			session, url, CAMEL_PROVIDER_STORE);
 
 		if (CAMEL_IS_STORE (service)) {
@@ -1890,6 +1895,9 @@ e_mail_folder_uri_parse (CamelSession *session,
 			_("Invalid folder URI '%s'"),
 			folder_uri);
 	}
+
+	if (service != NULL)
+		g_object_unref (service);
 
 	g_free (folder_name);
 

@@ -93,7 +93,7 @@ mail_config_defaults_page_maybe_get_settings (EMailConfigDefaultsPage *page)
 }
 
 static CamelStore *
-mail_config_defaults_page_get_store (EMailConfigDefaultsPage *page)
+mail_config_defaults_page_ref_store (EMailConfigDefaultsPage *page)
 {
 	ESource *source;
 	EMailSession *session;
@@ -104,9 +104,17 @@ mail_config_defaults_page_get_store (EMailConfigDefaultsPage *page)
 	source = e_mail_config_defaults_page_get_account_source (page);
 
 	uid = e_source_get_uid (source);
-	service = camel_session_get_service (CAMEL_SESSION (session), uid);
+	service = camel_session_ref_service (CAMEL_SESSION (session), uid);
 
-	return CAMEL_IS_STORE (service) ? CAMEL_STORE (service) : NULL;
+	if (service == NULL)
+		return NULL;
+
+	if (!CAMEL_IS_STORE (service)) {
+		g_object_unref (service);
+		return NULL;
+	}
+
+	return CAMEL_STORE (service);
 }
 
 static gboolean
@@ -185,8 +193,8 @@ mail_config_defaults_page_folder_name_to_uri (GBinding *binding,
 	gchar *folder_uri = NULL;
 
 	page = E_MAIL_CONFIG_DEFAULTS_PAGE (data);
-	store = mail_config_defaults_page_get_store (page);
-	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+	store = mail_config_defaults_page_ref_store (page);
+	g_return_val_if_fail (store != NULL, FALSE);
 
 	folder_name = g_value_get_string (source_value);
 
@@ -196,6 +204,8 @@ mail_config_defaults_page_folder_name_to_uri (GBinding *binding,
 	g_value_set_string (target_value, folder_uri);
 
 	g_free (folder_uri);
+
+	g_object_unref (store);
 
 	return TRUE;
 }
@@ -286,9 +296,6 @@ mail_config_defaults_page_add_real_folder (EMailConfigDefaultsPage *page,
 	CamelStore *store;
 	GObjectClass *class;
 
-	store = mail_config_defaults_page_get_store (page);
-	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
-
 	session = e_mail_config_defaults_page_get_session (page);
 	settings = mail_config_defaults_page_maybe_get_settings (page);
 
@@ -305,6 +312,9 @@ mail_config_defaults_page_add_real_folder (EMailConfigDefaultsPage *page,
 
 	if (g_object_class_find_property (class, use_property_name) == NULL)
 		return NULL;
+
+	store = mail_config_defaults_page_ref_store (page);
+	g_return_val_if_fail (store != NULL, NULL);
 
 	/* We're good to go. */
 
@@ -351,6 +361,8 @@ mail_config_defaults_page_add_real_folder (EMailConfigDefaultsPage *page,
 		revert_button, "clicked",
 		G_CALLBACK (mail_config_defaults_page_restore_real_folder),
 		check_button);
+
+	g_object_unref (store);
 
 	return box;
 }

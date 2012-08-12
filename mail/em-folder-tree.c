@@ -491,7 +491,7 @@ static void
 folder_tree_expand_node (const gchar *key,
                          EMFolderTree *folder_tree)
 {
-	struct _EMFolderTreeModelStoreInfo *si;
+	struct _EMFolderTreeModelStoreInfo *si = NULL;
 	GtkTreeRowReference *row;
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
@@ -517,21 +517,18 @@ folder_tree_expand_node (const gchar *key,
 
 	session = em_folder_tree_get_session (folder_tree);
 
-	service = camel_session_get_service (CAMEL_SESSION (session), uid);
+	service = camel_session_ref_service (CAMEL_SESSION (session), uid);
 
-	if (!CAMEL_IS_STORE (service))
-		return;
+	if (CAMEL_IS_STORE (service))
+		si = em_folder_tree_model_lookup_store_info (
+			EM_FOLDER_TREE_MODEL (model),
+			CAMEL_STORE (service));
 
-	g_object_ref (service);
-
-	si = em_folder_tree_model_lookup_store_info (
-		EM_FOLDER_TREE_MODEL (model), CAMEL_STORE (service));
-	if (si == NULL) {
+	if (service != NULL)
 		g_object_unref (service);
-		return;
-	}
 
-	g_object_unref (service);
+	if (si == NULL)
+		return;
 
 	if (p != NULL && p[1]) {
 		if (!(row = g_hash_table_lookup (si->full_hash, p + 1)))
@@ -3516,12 +3513,14 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 			CamelService *service;
 			const gchar *uid = group_name + 6;
 
-			service = camel_session_get_service (
+			service = camel_session_ref_service (
 				CAMEL_SESSION (session), uid);
 			if (CAMEL_IS_STORE (service)) {
 				store = g_object_ref (service);
 				success = TRUE;
 			}
+			if (service != NULL)
+				g_object_unref (service);
 			expanded = TRUE;
 
 		} else if (g_str_has_prefix (group_name, "Folder ")) {

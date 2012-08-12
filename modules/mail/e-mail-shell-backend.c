@@ -314,7 +314,7 @@ mail_shell_backend_mail_sync (EMailShellBackend *mail_shell_backend)
 			mail_shell_backend);
 	}
 
-	g_list_free (list);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 exit:
 	return TRUE;
@@ -481,8 +481,8 @@ mail_shell_backend_changes_committed_cb (EMailConfigWindow *window,
 	original_source = e_mail_config_window_get_original_source (window);
 
 	uid = e_source_get_uid (original_source);
-	service = camel_session_get_service (CAMEL_SESSION (session), uid);
-	g_return_if_fail (CAMEL_IS_STORE (service));
+	service = camel_session_ref_service (CAMEL_SESSION (session), uid);
+	g_return_if_fail (service != NULL);
 
 	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
 
@@ -511,6 +511,8 @@ mail_shell_backend_changes_committed_cb (EMailConfigWindow *window,
 		mail_shell_backend_disconnect_done_cb, activity);
 
 	g_object_unref (cancellable);
+
+	g_object_unref (service);
 }
 
 static void
@@ -589,11 +591,16 @@ mail_shell_backend_constructed (GObject *object)
 		500);
 
 	mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (object));
-	vstore = camel_session_get_service (CAMEL_SESSION (mail_session), E_MAIL_SESSION_VFOLDER_UID);
+	vstore = camel_session_ref_service (
+		CAMEL_SESSION (mail_session), E_MAIL_SESSION_VFOLDER_UID);
+	g_return_if_fail (vstore != NULL);
+
 	g_object_bind_property (
 		shell_settings, "mail-enable-unmatched-search-folder",
 		vstore, "unmatched-enabled",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+
+	g_object_unref (vstore);
 }
 
 static void

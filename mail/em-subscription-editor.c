@@ -1564,12 +1564,15 @@ subscription_editor_constructed (GObject *object)
 
 		source = e_source_registry_ref_default_mail_account (registry);
 
-		service = camel_session_get_service (
+		service = camel_session_ref_service (
 			CAMEL_SESSION (session),
 			e_source_get_uid (source));
 
 		if (CAMEL_IS_SUBSCRIBABLE (service))
 			editor->priv->initial_store = g_object_ref (service);
+
+		if (service != NULL)
+			g_object_unref (service);
 
 		g_object_unref (source);
 	}

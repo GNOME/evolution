@@ -605,14 +605,15 @@ all_accounts:
 	/* Create a new search folder. */
 
 	/* FIXME Complete lack of error checking here. */
-	service = camel_session_get_service (
+	service = camel_session_ref_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
 	camel_service_connect_sync (service, NULL, NULL);
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
-		CAMEL_STORE (service), _("All Account Search"),
-		0);
+		CAMEL_STORE (service), _("All Account Search"), 0);
 	priv->search_account_all = search_folder;
+
+	g_object_unref (service);
 
 	camel_vee_folder_set_expression (search_folder, query);
 
@@ -701,14 +702,15 @@ current_account:
 	/* Create a new search folder. */
 
 	/* FIXME Complete lack of error checking here. */
-	service = camel_session_get_service (
+	service = camel_session_ref_service (
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
 	camel_service_connect_sync (service, NULL, NULL);
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
-		CAMEL_STORE (service), _("Account Search"),
-		0);
+		CAMEL_STORE (service), _("Account Search"), 0);
 	priv->search_account_current = search_folder;
+
+	g_object_unref (service);
 
 	camel_vee_folder_set_expression (search_folder, query);
 

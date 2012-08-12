@@ -410,15 +410,25 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 		CamelService *service;
 		gboolean did_connect = FALSE;
 
-		service = camel_session_get_service (
+		service = camel_session_ref_service (
 			CAMEL_SESSION (session), context->transport_uid);
 
-		if (!CAMEL_IS_TRANSPORT (service)) {
-			g_simple_async_result_set_error (simple,
-				CAMEL_SERVICE_ERROR,
+		if (service == NULL) {
+			g_simple_async_result_set_error (
+				simple, CAMEL_SERVICE_ERROR,
 				CAMEL_SERVICE_ERROR_URL_INVALID,
-				_("Cannot get transport for account '%s'"),
+				_("No mail service found with UID '%s'"),
 				context->transport_uid);
+			return;
+		}
+
+		if (!CAMEL_IS_TRANSPORT (service)) {
+			g_simple_async_result_set_error (
+				simple, CAMEL_SERVICE_ERROR,
+				CAMEL_SERVICE_ERROR_URL_INVALID,
+				_("UID '%s' is not a mail transport"),
+				context->transport_uid);
+			g_object_unref (service);
 			return;
 		}
 
@@ -431,6 +441,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 
 			if (error != NULL) {
 				g_simple_async_result_take_error (simple, error);
+				g_object_unref (service);
 				return;
 			}
 		}
@@ -449,6 +460,8 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 			camel_service_disconnect_sync (
 				service, error == NULL,
 				cancellable, error ? NULL : &error);
+
+		g_object_unref (service);
 
 		if (error != NULL) {
 			g_simple_async_result_take_error (simple, error);

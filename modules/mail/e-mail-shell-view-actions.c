@@ -244,7 +244,7 @@ action_mail_download_cb (GtkAction *action,
 			action_mail_download_finished_cb, activity);
 	}
 
-	g_list_free (list);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
 static void
