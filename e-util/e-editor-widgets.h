@@ -59,34 +59,6 @@
 #define E_EDITOR_WIDGETS_CELL_PROPERTIES_WRAP_TEXT_CHECK_BUTTON(editor) \
 	E_EDITOR_WIDGETS ((editor), "cell-properties-wrap-text-check-button")
 
-/* Image Properties Window */
-#define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_ALIGNMENT_COMBO_BOX(editor) \
-	E_EDITOR_WIDGETS ((editor), "image-properties-alignment-combo-box")
-#define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_BORDER_SPIN_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "image-properties-border-spin-button")
-#define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_DESCRIPTION_ENTRY(editor) \
-	E_EDITOR_WIDGETS ((editor), "image-properties-description-entry")
-#define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_HEIGHT_COMBO_BOX(editor) \
-	E_EDITOR_WIDGETS ((editor), "image-properties-height-combo-box")
-#define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_HEIGHT_SPIN_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "image-properties-height-spin-button")
-#define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_SOURCE_FILE_CHOOSER(editor) \
-	E_EDITOR_WIDGETS ((editor), "image-properties-source-file-chooser")
-#define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_URL_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "image-properties-url-button")
-#define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_URL_ENTRY(editor) \
-	E_EDITOR_WIDGETS ((editor), "image-properties-url-entry")
-#define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_WIDTH_COMBO_BOX(editor) \
-	E_EDITOR_WIDGETS ((editor), "image-properties-width-combo-box")
-#define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_WIDTH_SPIN_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "image-properties-width-spin-button")
-#define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_WINDOW(editor) \
-	E_EDITOR_WIDGETS ((editor), "image-properties-window")
-#define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_X_PADDING_SPIN_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "image-properties-x-padding-spin-button")
-#define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_Y_PADDING_SPIN_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "image-properties-y-padding-spin-button")
-
 /* Paragraph Properties Window */
 #define E_EDITOR_WIDGETS_PARAGRAPH_PROPERTIES_CENTER_BUTTON(editor) \
 	E_EDITOR_WIDGETS ((editor), "paragraph-properties-center-button")

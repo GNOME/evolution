@@ -1,8 +1,11 @@
 /*
  * e-editor-image-dialog.h
  *
+<<<<<<< HEAD
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
+=======
+>>>>>>> Make 'Image Properties' dialog work
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -30,9 +33,16 @@
 #include "e-editor-utils.h"
 #include "e-image-chooser-dialog.h"
 
+<<<<<<< HEAD
 #define E_EDITOR_IMAGE_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_EDITOR_IMAGE_DIALOG, EEditorImageDialogPrivate))
+=======
+G_DEFINE_TYPE (
+	EEditorImageDialog,
+	e_editor_image_dialog,
+	E_TYPE_EDITOR_DIALOG);
+>>>>>>> Make 'Image Properties' dialog work
 
 struct _EEditorImageDialogPrivate {
 	GtkWidget *file_chooser;
@@ -51,6 +61,7 @@ struct _EEditorImageDialogPrivate {
 	GtkWidget *url_edit;
 	GtkWidget *test_url_button;
 
+<<<<<<< HEAD
 	WebKitDOMHTMLImageElement *image;
 };
 
@@ -59,6 +70,13 @@ G_DEFINE_TYPE (
 	e_editor_image_dialog,
 	E_TYPE_EDITOR_DIALOG);
 
+=======
+	GtkWidget *close_button;
+
+	WebKitDOMHTMLImageElement *image;
+};
+
+>>>>>>> Make 'Image Properties' dialog work
 static void
 editor_image_dialog_set_src (EEditorImageDialog *dialog)
 {
@@ -120,6 +138,10 @@ editor_image_dialog_set_width_units (EEditorImageDialog *dialog)
 	requested = gtk_spin_button_get_value_as_int (
 			GTK_SPIN_BUTTON (dialog->priv->width_edit));
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Make 'Image Properties' dialog work
 	switch (gtk_combo_box_get_active (
 		GTK_COMBO_BOX (dialog->priv->width_units))) {
 
@@ -196,6 +218,10 @@ editor_image_dialog_set_height_units (EEditorImageDialog *dialog)
 	requested = gtk_spin_button_get_value_as_int (
 			GTK_SPIN_BUTTON (dialog->priv->height_edit));
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Make 'Image Properties' dialog work
 	switch (gtk_combo_box_get_active (
 		GTK_COMBO_BOX (dialog->priv->height_units))) {
 
@@ -276,13 +302,20 @@ editor_image_dialog_set_url (EEditorImageDialog *dialog)
 	const gchar *url;
 
 	url = gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit));
+<<<<<<< HEAD
 	link = e_editor_dom_node_find_parent_element (
 		WEBKIT_DOM_NODE (dialog->priv->image), "A");
+=======
+	link = e_editor_dom_node_get_parent_element (
+		(WebKitDOMNode *) dialog->priv->image,
+		WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
+>>>>>>> Make 'Image Properties' dialog work
 
 	if (link) {
 		if (!url || !*url) {
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (
+<<<<<<< HEAD
 					WEBKIT_DOM_NODE (link)),
 				WEBKIT_DOM_NODE (dialog->priv->image),
 				WEBKIT_DOM_NODE (link), NULL);
@@ -293,17 +326,34 @@ editor_image_dialog_set_url (EEditorImageDialog *dialog)
 		} else {
 			webkit_dom_html_anchor_element_set_href (
 				WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link), url);
+=======
+					(WebKitDOMNode *) link),
+				(WebKitDOMNode *) dialog->priv->image,
+				(WebKitDOMNode *) link, NULL);
+			webkit_dom_node_remove_child (
+				webkit_dom_node_get_parent_node (
+					(WebKitDOMNode *) link),
+				(WebKitDOMNode *) link, NULL);
+		} else {
+			webkit_dom_html_anchor_element_set_href (
+				(WebKitDOMHTMLAnchorElement *) link, url);
+>>>>>>> Make 'Image Properties' dialog work
 		}
 	} else {
 		if (url && *url) {
 			WebKitDOMDocument *document;
 
 			document = webkit_dom_node_get_owner_document (
+<<<<<<< HEAD
 					WEBKIT_DOM_NODE (dialog->priv->image));
+=======
+					(WebKitDOMNode *) dialog->priv->image);
+>>>>>>> Make 'Image Properties' dialog work
 			link = webkit_dom_document_create_element (
 					document, "A", NULL);
 
 			webkit_dom_html_anchor_element_set_href (
+<<<<<<< HEAD
 				WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link), url);
 
 			webkit_dom_node_insert_before (
@@ -315,6 +365,19 @@ editor_image_dialog_set_url (EEditorImageDialog *dialog)
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (link),
 				WEBKIT_DOM_NODE (dialog->priv->image), NULL);
+=======
+				(WebKitDOMHTMLAnchorElement *) link, url);
+
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (
+					(WebKitDOMNode *) dialog->priv->image),
+				(WebKitDOMNode *) link,
+				(WebKitDOMNode *) dialog->priv->image, NULL);
+
+			webkit_dom_node_append_child (
+				(WebKitDOMNode *) link,
+				(WebKitDOMNode *) dialog->priv->image, NULL);
+>>>>>>> Make 'Image Properties' dialog work
 		}
 	}
 }
@@ -330,14 +393,22 @@ editor_image_dialog_test_url (EEditorImageDialog *dialog)
 }
 
 static void
+<<<<<<< HEAD
 editor_image_dialog_show (GtkWidget *widget)
+=======
+editor_image_dialog_show (GtkWidget *gtk_widget)
+>>>>>>> Make 'Image Properties' dialog work
 {
 	EEditorImageDialog *dialog;
 	WebKitDOMElement *link;
 	gchar *tmp;
 	glong val;
 
+<<<<<<< HEAD
 	dialog = E_EDITOR_IMAGE_DIALOG (widget);
+=======
+	dialog = E_EDITOR_IMAGE_DIALOG (gtk_widget);
+>>>>>>> Make 'Image Properties' dialog work
 
 	if (!dialog->priv->image) {
 		return;
@@ -378,16 +449,26 @@ editor_image_dialog_show (GtkWidget *widget)
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->y_padding_edit), val);
 
+<<<<<<< HEAD
 	link = e_editor_dom_node_find_parent_element (
 			WEBKIT_DOM_NODE (dialog->priv->image), "A");
 	if (link) {
 		tmp = webkit_dom_html_anchor_element_get_href (
 				WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link));
+=======
+
+	link = e_editor_dom_node_get_parent_element (
+		WEBKIT_DOM_NODE (dialog->priv->image), WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
+	if (link) {
+		tmp = webkit_dom_html_anchor_element_get_href (
+				(WebKitDOMHTMLAnchorElement *) link);
+>>>>>>> Make 'Image Properties' dialog work
 		gtk_entry_set_text (GTK_ENTRY (dialog->priv->url_edit), tmp);
 		g_free (tmp);
 	}
 
 	/* Chain up to parent implementation */
+<<<<<<< HEAD
 	GTK_WIDGET_CLASS (e_editor_image_dialog_parent_class)->show (widget);
 }
 
@@ -413,11 +494,35 @@ e_editor_image_dialog_class_init (EEditorImageDialogClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = editor_image_dialog_show;
 	widget_class->hide = editor_image_dialog_hide;
+=======
+	GTK_WIDGET_CLASS (e_editor_image_dialog_parent_class)->show (gtk_widget);
+}
+
+static void
+editor_image_dialog_close (EEditorImageDialog *dialog)
+{
+	dialog->priv->image = NULL;
+
+	gtk_widget_hide (GTK_WIDGET (dialog));
+}
+
+static void
+e_editor_image_dialog_class_init (EEditorImageDialogClass *klass)
+{
+	GtkWidgetClass *widget_class;
+
+	e_editor_image_dialog_parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (EEditorImageDialogPrivate));
+
+	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class->show = editor_image_dialog_show;
+>>>>>>> Make 'Image Properties' dialog work
 }
 
 static void
 e_editor_image_dialog_init (EEditorImageDialog *dialog)
 {
+<<<<<<< HEAD
 	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
 	GtkFileFilter *file_filter;
@@ -425,17 +530,38 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	dialog->priv = E_EDITOR_IMAGE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+=======
+	GtkBox *main_layout;
+	GtkGrid *grid;
+	GtkWidget *widget;
+	GtkFileFilter *file_filter;
+
+	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		dialog, E_TYPE_EDITOR_IMAGE_DIALOG, EEditorImageDialogPrivate);
+
+	main_layout = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 5));
+	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+>>>>>>> Make 'Image Properties' dialog work
 
 	/* == General == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>General</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+<<<<<<< HEAD
 	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
+=======
+	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+>>>>>>> Make 'Image Properties' dialog work
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
+<<<<<<< HEAD
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
+=======
+	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+>>>>>>> Make 'Image Properties' dialog work
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Source */
@@ -457,8 +583,12 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_src), dialog);
 	dialog->priv->file_chooser = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_Source:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+=======
+	widget = gtk_label_new_with_mnemonic (_("Source:"));
+>>>>>>> Make 'Image Properties' dialog work
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->file_chooser);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
@@ -471,21 +601,37 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_alt), dialog);
 	dialog->priv->description_edit = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_Description:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->description_edit);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
+=======
+	widget = gtk_label_new_with_mnemonic (_("Description:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->description_edit);
+	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
+
+
+>>>>>>> Make 'Image Properties' dialog work
 	/* == Layout == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Layout</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+<<<<<<< HEAD
 	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
+=======
+	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+>>>>>>> Make 'Image Properties' dialog work
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
+<<<<<<< HEAD
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
+=======
+	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+>>>>>>> Make 'Image Properties' dialog work
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Width */
@@ -496,8 +642,12 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_width), dialog);
 	dialog->priv->width_edit = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_Width:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+=======
+	widget = gtk_label_new_with_mnemonic (_("Width:"));
+>>>>>>> Make 'Image Properties' dialog work
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->width_edit);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
@@ -520,8 +670,12 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_height), dialog);
 	dialog->priv->height_edit = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_Height:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+=======
+	widget = gtk_label_new_with_mnemonic (_("Height:"));
+>>>>>>> Make 'Image Properties' dialog work
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->height_edit);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
@@ -548,8 +702,12 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_alignment), dialog);
 	dialog->priv->alignment = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_Alignment"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+=======
+	widget = gtk_label_new_with_mnemonic (_("Alignment"));
+>>>>>>> Make 'Image Properties' dialog work
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->alignment);
 	gtk_grid_attach (grid, widget, 0, 2, 1, 1);
 
@@ -561,8 +719,12 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_x_padding), dialog);
 	dialog->priv->x_padding_edit = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_X-Padding:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+=======
+	widget = gtk_label_new_with_mnemonic (_("X-Padding:"));
+>>>>>>> Make 'Image Properties' dialog work
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->x_padding_edit);
 	gtk_grid_attach (grid, widget, 4, 0, 1, 1);
 
@@ -577,8 +739,12 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_y_padding), dialog);
 	dialog->priv->y_padding_edit = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_Y-Padding:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+=======
+	widget = gtk_label_new_with_mnemonic (_("Y-Padding:"));
+>>>>>>> Make 'Image Properties' dialog work
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->y_padding_edit);
 	gtk_grid_attach (grid, widget, 4, 1, 1, 1);
 
@@ -593,8 +759,12 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_border), dialog);
 	dialog->priv->border_edit = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_Border:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+=======
+	widget = gtk_label_new_with_mnemonic (_("Border:"));
+>>>>>>> Make 'Image Properties' dialog work
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->border_edit);
 	gtk_grid_attach (grid, widget, 4, 2, 1, 1);
 
@@ -605,12 +775,20 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Link</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+<<<<<<< HEAD
 	gtk_grid_attach (main_layout, widget, 0, 4, 1, 1);
+=======
+	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+>>>>>>> Make 'Image Properties' dialog work
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
+<<<<<<< HEAD
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 5, 1, 1);
+=======
+	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+>>>>>>> Make 'Image Properties' dialog work
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	widget = gtk_entry_new ();
@@ -621,18 +799,40 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_url), dialog);
 	dialog->priv->url_edit = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_URL:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->url_edit);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
 	widget = gtk_button_new_with_mnemonic (_("_Test URL..."));
+=======
+	widget = gtk_label_new_with_mnemonic (_("URL:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->url_edit);
+	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
+
+	widget = gtk_button_new_with_label (_("Test URL..."));
+>>>>>>> Make 'Image Properties' dialog work
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (editor_image_dialog_test_url), dialog);
 	dialog->priv->test_url_button = widget;
 
+<<<<<<< HEAD
+=======
+	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (editor_image_dialog_close), dialog);
+	dialog->priv->close_button = widget;
+
+	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);
+	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_box_pack_start (GTK_BOX (widget), dialog->priv->close_button, FALSE, FALSE, 5);
+
+>>>>>>> Make 'Image Properties' dialog work
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }
 
@@ -649,18 +849,33 @@ e_editor_image_dialog_new (EEditor *editor)
 
 void
 e_editor_image_dialog_show (EEditorImageDialog *dialog,
+<<<<<<< HEAD
                             WebKitDOMNode *image)
 {
 	EEditorImageDialogClass *class;
+=======
+			    WebKitDOMNode *image)
+{
+	EEditorImageDialogClass *klass;
+>>>>>>> Make 'Image Properties' dialog work
 
 	g_return_if_fail (E_IS_EDITOR_IMAGE_DIALOG (dialog));
 
 	if (image) {
+<<<<<<< HEAD
 		dialog->priv->image = WEBKIT_DOM_HTML_IMAGE_ELEMENT (image);
+=======
+		dialog->priv->image = (WebKitDOMHTMLImageElement *) image;
+>>>>>>> Make 'Image Properties' dialog work
 	} else {
 		dialog->priv->image = NULL;
 	}
 
+<<<<<<< HEAD
 	class = E_EDITOR_IMAGE_DIALOG_GET_CLASS (dialog);
 	GTK_WIDGET_CLASS (class)->show (GTK_WIDGET (dialog));
+=======
+	klass = E_EDITOR_IMAGE_DIALOG_GET_CLASS (dialog);
+	GTK_WIDGET_CLASS (klass)->show (GTK_WIDGET (dialog));
+>>>>>>> Make 'Image Properties' dialog work
 }

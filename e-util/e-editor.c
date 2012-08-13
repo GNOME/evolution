@@ -61,6 +61,8 @@ editor_update_actions (EEditor *editor,
 	webview = WEBKIT_WEB_VIEW (widget);
 	manager = e_editor_get_ui_manager (editor);
 
+	editor->priv->image = NULL;
+
 	/* Update context menu item visibility. */
 	hit_test = webkit_web_view_get_hit_test_result (webview, event);
 	g_object_get (
@@ -70,6 +72,9 @@ editor_update_actions (EEditor *editor,
 
 	visible = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_IMAGE), visible);
+	if (visible) {
+		editor->priv->image = node;
+	}
 
 	visible = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_LINK), visible);
