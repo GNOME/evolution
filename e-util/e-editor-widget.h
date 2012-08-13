@@ -73,7 +73,10 @@ struct _EEditorWidget {
 struct _EEditorWidgetClass {
 	WebKitWebViewClass parent_class;
 
-	void	(*paste_clipboard_quoted)	(EEditorWidget *widget);
+	void		(*paste_clipboard_quoted)	(EEditorWidget *widget);
+
+	gboolean	(*popup_event)			(EEditorWidget *widget,
+							 GdkEventButton *event);
 };
 
 GType		e_editor_widget_get_type 	(void);
