@@ -111,6 +111,19 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_SOURCE_AUTHENTICATOR,
 		e_caldav_chooser_authenticator_init))
 
+static gconstpointer
+compat_libxml_output_buffer_get_content (xmlOutputBufferPtr buf,
+                                         gsize *out_len)
+{
+#ifdef LIBXML2_NEW_BUFFER
+	*out_len = xmlOutputBufferGetSize (buf);
+	return xmlOutputBufferGetContent (buf);
+#else
+	*out_len = buf->buffer->use;
+	return buf->buffer->content;
+#endif
+}
+
 static void
 context_cancel_message (GCancellable *cancellable,
                         Context *context)
@@ -203,6 +216,8 @@ caldav_chooser_new_propfind (SoupSession *session,
 	xmlNodePtr node;
 	xmlNsPtr ns;
 	xmlOutputBufferPtr output;
+	gconstpointer content;
+	gsize length;
 	gpointer key;
 	va_list va;
 
@@ -268,9 +283,11 @@ caldav_chooser_new_propfind (SoupSession *session,
 	xmlNodeDumpOutput (output, doc, root, 0, 1, NULL);
 	xmlOutputBufferFlush (output);
 
+	content = compat_libxml_output_buffer_get_content (output, &length);
+
 	soup_message_set_request (
 		message, "application/xml", SOUP_MEMORY_COPY,
-		(gchar *) output->buffer->content, output->buffer->use);
+		content, length);
 
 	xmlOutputBufferClose (output);
 
