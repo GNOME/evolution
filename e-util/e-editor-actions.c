@@ -484,11 +484,13 @@ static void
 action_context_remove_link_cb (GtkAction *action,
                                EEditor *editor)
 {
-	WebKitDOMDocument *document;
+	EEditorWidget *widget;
+	EEditorSelection *selection;
 
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	webkit_dom_document_exec_command (document, "unlink", FALSE, "");
+	widget = e_editor_get_editor_widget (editor);
+	selection = e_editor_widget_get_selection (widget);
+
+	e_editor_selection_unlink (selection);
 }
 
 static void
