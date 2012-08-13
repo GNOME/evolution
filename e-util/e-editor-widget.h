@@ -121,7 +121,8 @@ void		e_editor_widget_set_text_html	(EEditorWidget *widget,
 void		e_editor_widget_paste_clipboard_quoted
 						(EEditorWidget *widget);
 
+void		e_editor_widget_update_fonts	(EEditorWidget *widget);
+
 G_END_DECLS
 
 #endif /* E_EDITOR_WIDGET_H */
- 

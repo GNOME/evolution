@@ -24,6 +24,7 @@
 #include "e-editor.h"
 #include "e-emoticon-chooser.h"
 
+#include <e-util/e-util.h>
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 
@@ -44,6 +45,9 @@ struct _EEditorWidgetPrivate {
 
 	/* FIXME WEBKIT Is this in widget's competence? */
 	GList *spelling_langs;
+
+	GSettings *font_settings;
+	GSettings *aliasing_settings;
 };
 
 G_DEFINE_TYPE (
@@ -589,7 +593,7 @@ e_editor_widget_init (EEditorWidget *editor)
 	WebKitWebSettings *settings;
 	WebKitDOMDocument *document;
 	GSettings *g_settings;
-	gboolean enable_spellchecking;
+	GSettingsSchema *settings_schema;
 
 	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		editor, E_TYPE_EDITOR_WIDGET, EEditorWidgetPrivate);
@@ -597,21 +601,14 @@ e_editor_widget_init (EEditorWidget *editor)
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor), TRUE);
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (editor));
 
-	g_settings = g_settings_new ("org.gnome.evolution.mail");
-	enable_spellchecking = g_settings_get_boolean (
-			g_settings, "composer-inline-spelling");
-
 	g_object_set (
 		G_OBJECT (settings),
 		"enable-developer-extras", TRUE,
 		"enable-dom-paste", TRUE,
 		"enable-file-access-from-file-uris", TRUE,
 	        "enable-plugins", FALSE,
-		"enable-spell-checking", enable_spellchecking,
 	        "enable-scripts", FALSE,
 		NULL);
-
-	g_object_unref(g_settings);
 
 	webkit_web_view_set_settings (WEBKIT_WEB_VIEW (editor), settings);
 
@@ -628,6 +625,29 @@ e_editor_widget_init (EEditorWidget *editor)
 
 	editor->priv->selection = e_editor_selection_new (
 					WEBKIT_WEB_VIEW (editor));
+
+	g_settings = g_settings_new ("org.gnome.desktop.interface");
+	g_signal_connect_swapped (
+		g_settings, "changed::font-name",
+		G_CALLBACK (e_editor_widget_update_fonts), editor);
+	g_signal_connect_swapped (
+		g_settings, "changed::monospace-font-name",
+		G_CALLBACK (e_editor_widget_update_fonts), editor);
+	editor->priv->font_settings = g_settings;
+
+	/* This schema is optional.  Use if available. */
+	settings_schema = g_settings_schema_source_lookup (
+		g_settings_schema_source_get_default (),
+		"org.gnome.settings-daemon.plugins.xsettings", FALSE);
+	if (settings_schema != NULL) {
+		g_settings = g_settings_new ("org.gnome.settings-daemon.plugins.xsettings");
+		g_signal_connect_swapped (
+			settings, "changed::antialiasing",
+			G_CALLBACK (e_editor_widget_update_fonts), editor);
+		editor->priv->aliasing_settings = g_settings;
+	}
+
+	e_editor_widget_update_fonts (editor);
 
 
 	/* Make WebKit think we are displaying a local file, so that it
@@ -834,4 +854,151 @@ e_editor_widget_paste_clipboard_quoted (EEditorWidget *widget)
 	g_return_if_fail (klass->paste_clipboard_quoted != NULL);
 
 	klass->paste_clipboard_quoted (widget);
+}
+
+void
+e_editor_widget_update_fonts (EEditorWidget *widget)
+{
+	GString *stylesheet;
+	gchar *base64;
+	gchar *aa = NULL;
+	WebKitWebSettings *settings;
+	PangoFontDescription *min_size, *ms, *vw;
+	const gchar *styles[] = { "normal", "oblique", "italic" };
+	const gchar *smoothing = NULL;
+	GtkStyleContext *context;
+	GdkColor *link = NULL;
+	GdkColor *visited = NULL;
+
+	ms = NULL;
+	vw = NULL;
+
+
+	if (ms == NULL) {
+		gchar *font;
+
+		font = g_settings_get_string (
+				widget->priv->font_settings,
+				"monospace-font-name");
+
+		ms = pango_font_description_from_string (
+				font ? font : "monospace 10");
+
+		g_free (font);
+	}
+
+	if (vw == NULL) {
+		gchar *font;
+
+		font = g_settings_get_string (
+				widget->priv->font_settings,
+				"font-name");
+
+		vw = pango_font_description_from_string (
+				font ? font : "serif 10");
+
+		g_free (font);
+	}
+
+	if (pango_font_description_get_size (ms) < pango_font_description_get_size (vw)) {
+		min_size = ms;
+	} else {
+		min_size = vw;
+	}
+
+	stylesheet = g_string_new ("");
+	g_string_append_printf (stylesheet,
+		"body {\n"
+		"  font-family: '%s';\n"
+		"  font-size: %dpt;\n"
+		"  font-weight: %d;\n"
+		"  font-style: %s;\n",
+		pango_font_description_get_family (vw),
+		pango_font_description_get_size (vw) / PANGO_SCALE,
+		pango_font_description_get_weight (vw),
+		styles[pango_font_description_get_style (vw)]);
+
+	if (widget->priv->aliasing_settings != NULL)
+		aa = g_settings_get_string (
+			widget->priv->aliasing_settings, "antialiasing");
+
+	if (g_strcmp0 (aa, "none") == 0)
+		smoothing = "none";
+	else if (g_strcmp0 (aa, "grayscale") == 0)
+		smoothing = "antialiased";
+	else if (g_strcmp0 (aa, "rgba") == 0)
+		smoothing = "subpixel-antialiased";
+
+	if (smoothing != NULL)
+		g_string_append_printf (
+			stylesheet,
+			" -webkit-font-smoothing: %s;\n",
+			smoothing);
+
+	g_free (aa);
+
+	g_string_append (stylesheet, "}\n");
+
+	g_string_append_printf (stylesheet,
+		"pre,code,.pre {\n"
+		"  font-family: '%s';\n"
+		"  font-size: %dpt;\n"
+		"  font-weight: %d;\n"
+		"  font-style: %s;\n"
+		"}",
+		pango_font_description_get_family (ms),
+		pango_font_description_get_size (ms) / PANGO_SCALE,
+		pango_font_description_get_weight (ms),
+		styles[pango_font_description_get_style (ms)]);
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (widget));
+	gtk_style_context_get_style (context,
+		"link-color", &link,
+		"visited-link-color", &visited,
+		NULL);
+
+	if (link == NULL) {
+		link = g_slice_new0 (GdkColor);
+		link->blue = G_MAXINT16;
+	}
+
+	if (visited == NULL) {
+		visited = g_slice_new0 (GdkColor);
+		visited->red = G_MAXINT16;
+	}
+
+	g_string_append_printf (stylesheet,
+		"a {\n"
+		"  color: #%06x;\n"
+		"}\n"
+		"a:visited {\n"
+		"  color: #%06x;\n"
+		"}\n",
+		e_color_to_value (link),
+		e_color_to_value (visited));
+
+	gdk_color_free (link);
+	gdk_color_free (visited);
+
+	base64 = g_base64_encode ((guchar *) stylesheet->str, stylesheet->len);
+	g_string_free (stylesheet, TRUE);
+
+	stylesheet = g_string_new ("data:text/css;charset=utf-8;base64,");
+	g_string_append (stylesheet, base64);
+	g_free (base64);
+
+	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (widget));
+	g_object_set (G_OBJECT (settings),
+		"default-font-size", pango_font_description_get_size (vw) / PANGO_SCALE,
+		"default-font-family", pango_font_description_get_family (vw),
+		"monospace-font-family", pango_font_description_get_family (ms),
+		"default-monospace-font-size", (pango_font_description_get_size (ms) / PANGO_SCALE),
+		"minimum-font-size", (pango_font_description_get_size (min_size) / PANGO_SCALE),
+		"user-stylesheet-uri", stylesheet->str,
+		NULL);
+
+	g_string_free (stylesheet, TRUE);
+
+	pango_font_description_free (ms);
+	pango_font_description_free (vw);
 }

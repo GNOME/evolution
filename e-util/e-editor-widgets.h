@@ -87,20 +87,6 @@
 #define E_EDITOR_WIDGETS_IMAGE_PROPERTIES_Y_PADDING_SPIN_BUTTON(editor) \
 	E_EDITOR_WIDGETS ((editor), "image-properties-y-padding-spin-button")
 
-/* Page Properties Window */
-#define E_EDITOR_WIDGETS_PAGE_PROPERTIES_BACKGROUND_COLOR_COMBO(editor) \
-	E_EDITOR_WIDGETS ((editor), "page-properties-background-color-combo")
-#define E_EDITOR_WIDGETS_PAGE_PROPERTIES_CUSTOM_FILE_CHOOSER(editor) \
-	E_EDITOR_WIDGETS ((editor), "page-properties-custom-file-chooser")
-#define E_EDITOR_WIDGETS_PAGE_PROPERTIES_LINK_COLOR_COMBO(editor) \
-	E_EDITOR_WIDGETS ((editor), "page-properties-link-color-combo")
-#define E_EDITOR_WIDGETS_PAGE_PROPERTIES_TEMPLATE_COMBO_BOX(editor) \
-	E_EDITOR_WIDGETS ((editor), "page-properties-template-combo-box")
-#define E_EDITOR_WIDGETS_PAGE_PROPERTIES_TEXT_COLOR_COMBO(editor) \
-	E_EDITOR_WIDGETS ((editor), "page-properties-text-color-combo")
-#define E_EDITOR_WIDGETS_PAGE_PROPERTIES_WINDOW(editor) \
-	E_EDITOR_WIDGETS ((editor), "page-properties-window")
-
 /* Paragraph Properties Window */
 #define E_EDITOR_WIDGETS_PARAGRAPH_PROPERTIES_CENTER_BUTTON(editor) \
 	E_EDITOR_WIDGETS ((editor), "paragraph-properties-center-button")
