@@ -1,8 +1,11 @@
 /*
  * e-editor-page-dialog.h
  *
+<<<<<<< HEAD
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
+=======
+>>>>>>> Make 'Page Properties' dialog work
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -29,9 +32,16 @@
 #include "e-color-combo.h"
 #include "e-misc-utils.h"
 
+<<<<<<< HEAD
 #define E_EDITOR_PAGE_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_EDITOR_PAGE_DIALOG, EEditorPageDialogPrivate))
+=======
+G_DEFINE_TYPE (
+	EEditorPageDialog,
+	e_editor_page_dialog,
+	E_TYPE_EDITOR_DIALOG);
+>>>>>>> Make 'Page Properties' dialog work
 
 struct _EEditorPageDialogPrivate {
 	GtkWidget *text_color_picker;
@@ -40,6 +50,11 @@ struct _EEditorPageDialogPrivate {
 
 	GtkWidget *background_template_combo;
 	GtkWidget *background_image_filechooser;
+<<<<<<< HEAD
+=======
+
+	GtkWidget *close_button;
+>>>>>>> Make 'Page Properties' dialog work
 };
 
 typedef struct _Template {
@@ -133,12 +148,17 @@ static const Template templates[] = {
 		{ 1.0 , 1.0 , 1.0 , 1 },
 		0
 	}
+<<<<<<< HEAD
 };
 
 G_DEFINE_TYPE (
 	EEditorPageDialog,
 	e_editor_page_dialog,
 	E_TYPE_EDITOR_DIALOG);
+=======
+
+};
+>>>>>>> Make 'Page Properties' dialog work
 
 static void
 editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
@@ -150,7 +170,11 @@ editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
 	GdkRGBA rgba;
 	gchar *color;
 
+<<<<<<< HEAD
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+=======
+	editor = e_editor_dialog_get_editor(E_EDITOR_DIALOG (dialog));
+>>>>>>> Make 'Page Properties' dialog work
 	widget = e_editor_get_editor_widget (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	body = webkit_dom_document_get_body (document);
@@ -158,9 +182,15 @@ editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
 
+<<<<<<< HEAD
 	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
 	webkit_dom_html_body_element_set_text (
 		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
+=======
+	color = g_strdup_printf("#%06x", e_rgba_to_value (&rgba));
+	webkit_dom_html_body_element_set_text (
+		(WebKitDOMHTMLBodyElement *) body, color);
+>>>>>>> Make 'Page Properties' dialog work
 
 	g_free (color);
 }
@@ -175,7 +205,11 @@ editor_page_dialog_set_link_color (EEditorPageDialog *dialog)
 	GdkRGBA rgba;
 	gchar *color;
 
+<<<<<<< HEAD
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+=======
+	editor = e_editor_dialog_get_editor(E_EDITOR_DIALOG (dialog));
+>>>>>>> Make 'Page Properties' dialog work
 	widget = e_editor_get_editor_widget (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	body = webkit_dom_document_get_body (document);
@@ -183,9 +217,15 @@ editor_page_dialog_set_link_color (EEditorPageDialog *dialog)
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
 
+<<<<<<< HEAD
 	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
 	webkit_dom_html_body_element_set_link (
 		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
+=======
+	color = g_strdup_printf("#%06x", e_rgba_to_value (&rgba));
+	webkit_dom_html_body_element_set_link (
+		(WebKitDOMHTMLBodyElement *) body, color);
+>>>>>>> Make 'Page Properties' dialog work
 
 	g_free (color);
 }
@@ -200,7 +240,11 @@ editor_page_dialog_set_background_color (EEditorPageDialog *dialog)
 	GdkRGBA rgba;
 	gchar *color;
 
+<<<<<<< HEAD
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+=======
+	editor = e_editor_dialog_get_editor(E_EDITOR_DIALOG (dialog));
+>>>>>>> Make 'Page Properties' dialog work
 	widget = e_editor_get_editor_widget (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	body = webkit_dom_document_get_body (document);
@@ -208,10 +252,17 @@ editor_page_dialog_set_background_color (EEditorPageDialog *dialog)
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
 
+<<<<<<< HEAD
 	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
 
 	webkit_dom_html_body_element_set_bg_color (
 		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
+=======
+	color = g_strdup_printf("#%06x", e_rgba_to_value (&rgba));
+
+	webkit_dom_html_body_element_set_bg_color (
+		(WebKitDOMHTMLBodyElement *) body, color);
+>>>>>>> Make 'Page Properties' dialog work
 
 	g_free (color);
 }
@@ -225,6 +276,10 @@ editor_page_dialog_set_background_from_template (EEditorPageDialog *dialog)
 		gtk_combo_box_get_active (
 			GTK_COMBO_BOX (dialog->priv->background_template_combo))];
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Make 'Page Properties' dialog work
 	/* Special case - 'none' template */
 	if (tmplt->filename == NULL) {
 		gtk_file_chooser_unselect_all (
@@ -259,9 +314,15 @@ editor_page_dialog_set_background_image (EEditorPageDialog *dialog)
 	EEditorWidget *widget;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
+<<<<<<< HEAD
 	gchar *uri;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+=======
+	const gchar *uri;
+
+	editor = e_editor_dialog_get_editor(E_EDITOR_DIALOG (dialog));
+>>>>>>> Make 'Page Properties' dialog work
 	widget = e_editor_get_editor_widget (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	body = webkit_dom_document_get_body (document);
@@ -271,9 +332,19 @@ editor_page_dialog_set_background_image (EEditorPageDialog *dialog)
 				dialog->priv->background_image_filechooser));
 
 	webkit_dom_html_body_element_set_background (
+<<<<<<< HEAD
 		WEBKIT_DOM_HTML_BODY_ELEMENT (body), uri ? uri : "");
 
 	g_free (uri);
+=======
+		(WebKitDOMHTMLBodyElement *) body, uri ? uri : "");
+}
+
+static void
+editor_page_dialog_close (EEditorPageDialog *dialog)
+{
+	gtk_widget_hide (GTK_WIDGET (dialog));
+>>>>>>> Make 'Page Properties' dialog work
 }
 
 static void
@@ -295,7 +366,11 @@ editor_page_dialog_show (GtkWidget *widget)
 	body = webkit_dom_document_get_body (document);
 
 	tmp = webkit_dom_html_body_element_get_background (
+<<<<<<< HEAD
 			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
+=======
+			(WebKitDOMHTMLBodyElement *) body);
+>>>>>>> Make 'Page Properties' dialog work
 	if (tmp && *tmp) {
 		gint ii;
 		gchar *fname = g_filename_from_uri (tmp, NULL, NULL);
@@ -314,10 +389,16 @@ editor_page_dialog_show (GtkWidget *widget)
 		gtk_combo_box_set_active (
 			GTK_COMBO_BOX (dialog->priv->background_template_combo), 0);
 	}
+<<<<<<< HEAD
 	g_free (tmp);
 
 	tmp = webkit_dom_html_body_element_get_text (
 			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
+=======
+
+	tmp = webkit_dom_html_body_element_get_text (
+			(WebKitDOMHTMLBodyElement *) body);
+>>>>>>> Make 'Page Properties' dialog work
 	if (!tmp || !*tmp) {
 		GdkColor *color;
 		GtkStyle *style = gtk_widget_get_style (GTK_WIDGET (editor_widget));
@@ -329,13 +410,22 @@ editor_page_dialog_show (GtkWidget *widget)
 		rgba.blue = ((gdouble) color->blue) / G_MAXUINT16;
 	} else {
 		gdk_rgba_parse (&rgba, tmp);
+<<<<<<< HEAD
 	}
 	g_free (tmp);
+=======
+		g_free (tmp);
+	}
+>>>>>>> Make 'Page Properties' dialog work
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
 
 	tmp = webkit_dom_html_body_element_get_link (
+<<<<<<< HEAD
 			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
+=======
+			(WebKitDOMHTMLBodyElement *) body);
+>>>>>>> Make 'Page Properties' dialog work
 	if (!tmp || !*tmp) {
 		GdkColor color;
 		gtk_widget_style_get (
@@ -347,13 +437,22 @@ editor_page_dialog_show (GtkWidget *widget)
 		rgba.blue = ((gdouble) color.blue) / G_MAXUINT16;
 	} else {
 		gdk_rgba_parse (&rgba, tmp);
+<<<<<<< HEAD
 	}
 	g_free (tmp);
+=======
+		g_free (tmp);
+	}
+>>>>>>> Make 'Page Properties' dialog work
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
 
 	tmp = webkit_dom_html_body_element_get_bg_color (
+<<<<<<< HEAD
 			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
+=======
+			(WebKitDOMHTMLBodyElement *) body);
+>>>>>>> Make 'Page Properties' dialog work
 	if (!tmp || !*tmp) {
 		GdkColor *color;
 		GtkStyle *style = gtk_widget_get_style (GTK_WIDGET (editor_widget));
@@ -366,15 +465,25 @@ editor_page_dialog_show (GtkWidget *widget)
 
 	} else {
 		gdk_rgba_parse (&rgba, tmp);
+<<<<<<< HEAD
 	}
 	g_free (tmp);
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
 
+=======
+		g_free (tmp);
+	}
+	e_color_combo_set_current_color (
+		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
+
+
+>>>>>>> Make 'Page Properties' dialog work
 	GTK_WIDGET_CLASS (e_editor_page_dialog_parent_class)->show (widget);
 }
 
 static void
+<<<<<<< HEAD
 e_editor_page_dialog_class_init (EEditorPageDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
@@ -382,12 +491,23 @@ e_editor_page_dialog_class_init (EEditorPageDialogClass *class)
 	g_type_class_add_private (class, sizeof (EEditorPageDialogPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (class);
+=======
+e_editor_page_dialog_class_init (EEditorPageDialogClass *klass)
+{
+	GtkWidgetClass *widget_class;
+
+	e_editor_page_dialog_parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (EEditorPageDialogPrivate));
+
+	widget_class = GTK_WIDGET_CLASS (klass);
+>>>>>>> Make 'Page Properties' dialog work
 	widget_class->show = editor_page_dialog_show;
 }
 
 static void
 e_editor_page_dialog_init (EEditorPageDialog *dialog)
 {
+<<<<<<< HEAD
 	GtkGrid *grid, *main_layout;
 	GtkWidget *widget;
 	gint ii;
@@ -395,17 +515,38 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	dialog->priv = E_EDITOR_PAGE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+=======
+	GtkBox *main_layout;
+	GtkGrid *grid;
+	GtkWidget *widget;
+	gint ii;
+
+	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		dialog, E_TYPE_EDITOR_PAGE_DIALOG, EEditorPageDialogPrivate);
+
+	main_layout = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 5));
+	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+>>>>>>> Make 'Page Properties' dialog work
 
 	/* == Colors == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Colors</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+<<<<<<< HEAD
 	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
+=======
+	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+>>>>>>> Make 'Page Properties' dialog work
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
+<<<<<<< HEAD
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
+=======
+	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+>>>>>>> Make 'Page Properties' dialog work
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Text */
@@ -417,8 +558,12 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	dialog->priv->text_color_picker = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_Text:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+=======
+	widget = gtk_label_new_with_mnemonic (_("Text:"));
+>>>>>>> Make 'Page Properties' dialog work
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->text_color_picker);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
@@ -432,8 +577,12 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 	dialog->priv->link_color_picker = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_Link:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+=======
+	widget = gtk_label_new_with_mnemonic (_("Link:"));
+>>>>>>> Make 'Page Properties' dialog work
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->link_color_picker);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
@@ -447,8 +596,12 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 2, 1, 1);
 	dialog->priv->background_color_picker = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_Background:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+=======
+	widget = gtk_label_new_with_mnemonic (_("Background:"));
+>>>>>>> Make 'Page Properties' dialog work
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_color_picker);
 	gtk_grid_attach (grid, widget, 0, 2, 1, 1);
@@ -457,12 +610,20 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Background Image</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+<<<<<<< HEAD
 	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
+=======
+	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+>>>>>>> Make 'Page Properties' dialog work
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
+<<<<<<< HEAD
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
+=======
+	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+>>>>>>> Make 'Page Properties' dialog work
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Template */
@@ -477,8 +638,12 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	dialog->priv->background_template_combo = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_Template:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+=======
+	widget = gtk_label_new_with_mnemonic (_("Template:"));
+>>>>>>> Make 'Page Properties' dialog work
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_template_combo);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
@@ -492,15 +657,39 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 	dialog->priv->background_image_filechooser = widget;
 
+<<<<<<< HEAD
 	widget = gtk_label_new_with_mnemonic (_("_Custom:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+=======
+	widget = gtk_label_new_with_mnemonic (_("Custom:"));
+>>>>>>> Make 'Page Properties' dialog work
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_image_filechooser);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
+<<<<<<< HEAD
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }
 
+=======
+
+	/* == Button box == */
+	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (editor_page_dialog_close), dialog);
+	dialog->priv->close_button = widget;
+
+	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);
+	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (widget), dialog->priv->close_button, FALSE, FALSE, 5);
+
+	gtk_widget_show_all (GTK_WIDGET (main_layout));
+}
+
+
+>>>>>>> Make 'Page Properties' dialog work
 GtkWidget *
 e_editor_page_dialog_new (EEditor *editor)
 {

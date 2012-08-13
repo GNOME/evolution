@@ -923,7 +923,12 @@ static void
 action_properties_page_cb (GtkAction *action,
                            EEditor *editor)
 {
-	gtk_window_present (GTK_WINDOW (WIDGET (PAGE_PROPERTIES_WINDOW)));
+	if (editor->priv->page_dialog == NULL) {
+		editor->priv->page_dialog =
+			e_editor_page_dialog_new (editor);
+	}
+
+	gtk_window_present (GTK_WINDOW (editor->priv->page_dialog));
 }
 
 static void
