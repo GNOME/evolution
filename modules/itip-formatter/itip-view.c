@@ -4485,7 +4485,6 @@ receive_objects_ready_cb (GObject *ecalclient,
 	ESource *source = e_client_get_source (E_CLIENT (client));
 	ItipView *view = user_data;
 	EMailPartItip *pitip = itip_view_get_mail_part (view);
-	gboolean save_schedules;
 	GError *error = NULL;
 
 	if (!e_cal_client_receive_objects_finish (client, result, &error)) {
@@ -4532,55 +4531,6 @@ receive_objects_ready_cb (GObject *ecalclient,
 	default:
 		g_assert_not_reached ();
 		break;
-	}
-
-	/*FIXME Save schedules is misused here, remove it */
-	save_schedules = e_cal_client_check_save_schedules (client);
-
-	/* FIXME Remove this and handle this at the groupwise mail provider */
-	if (save_schedules && pitip->can_delete_invitation_from_cache && pitip->folder) {
-		CamelFolderChangeInfo *changes = NULL;
-		const gchar *tag = NULL;
-		CamelMessageInfo *mi;
-		mi = camel_folder_summary_get (pitip->folder->summary, pitip->uid);
-		if (mi) {
-			changes = camel_folder_change_info_new ();
-
-			if (itip_view_get_recur_check_state (view)) {
-				/* Recurring appointment and "apply-to-all" is selected */
-				tag = camel_message_info_user_tag (mi, "recurrence-key");
-				if (tag) {
-					gint i;
-					GPtrArray *known_uids;
-
-					known_uids = camel_folder_summary_get_array (pitip->folder->summary);
-					for (i = 0; known_uids && i < known_uids->len; i++) {
-						const gchar *uid = g_ptr_array_index (known_uids, i);
-						CamelMessageInfo *mi2;
-
-						mi2 = camel_folder_summary_get (pitip->folder->summary, uid);
-						if (!mi2)
-							continue;
-
-						if (camel_message_info_user_tag (mi2, "recurrence-key") &&
-						    g_str_equal (camel_message_info_user_tag (mi2, "recurrence-key"), tag)) {
-							camel_folder_summary_remove_uid (pitip->folder->summary, mi2->uid);
-							camel_folder_change_info_remove_uid (changes, mi2->uid);
-						}
-
-						camel_message_info_free (mi2);
-					}
-				}
-			} else {
-				/* Either not a recurring appointment or "apply-to-all" is not selected. So just delete this instance alone */
-				camel_folder_summary_remove_uid (pitip->folder->summary, pitip->uid);
-				camel_folder_change_info_remove_uid (changes, pitip->uid);
-			}
-
-			camel_folder_changed (pitip->folder, changes);
-			camel_folder_change_info_free (changes);
-			camel_message_info_free (mi);
-		}
 	}
 
 	finish_message_delete_with_rsvp (pitip, view, client);
@@ -5635,7 +5585,6 @@ view_response_cb (ItipView *view,
 		return;
 	}
 
-	pitip->can_delete_invitation_from_cache = FALSE;
 	if (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) {
 		if (itip_view_get_free_time_check_state (view))
 			e_cal_component_set_transparency (pitip->comp, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
@@ -5671,7 +5620,6 @@ view_response_cb (ItipView *view,
 				status = TRUE;
 			if (status) {
 				e_cal_component_rescan (pitip->comp);
-				pitip->can_delete_invitation_from_cache = TRUE;
 				update_item (pitip, view, response);
 			}
 			break;
@@ -5683,7 +5631,6 @@ view_response_cb (ItipView *view,
 					ICAL_PARTSTAT_TENTATIVE);
 			if (status) {
 				e_cal_component_rescan (pitip->comp);
-				pitip->can_delete_invitation_from_cache = TRUE;
 				update_item (pitip, view, response);
 			}
 			break;
@@ -5703,7 +5650,6 @@ view_response_cb (ItipView *view,
 
 			if (status) {
 				e_cal_component_rescan (pitip->comp);
-				pitip->can_delete_invitation_from_cache = TRUE;
 				update_item (pitip, view, response);
 			}
 			break;

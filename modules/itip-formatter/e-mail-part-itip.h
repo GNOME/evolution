@@ -110,7 +110,6 @@ struct _EMailPartItip {
 	guint update_item_progress_info_id;
 	guint update_item_error_info_id;
 	ItipViewResponse update_item_response;
-	gboolean can_delete_invitation_from_cache;
 	GHashTable *real_comps; /* ESource's UID -> ECalComponent stored on the server */
 
 	ItipView *view;
