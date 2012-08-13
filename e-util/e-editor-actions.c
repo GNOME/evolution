@@ -906,7 +906,14 @@ static void
 action_properties_image_cb (GtkAction *action,
                             EEditor *editor)
 {
-	gtk_window_present (GTK_WINDOW (WIDGET (IMAGE_PROPERTIES_WINDOW)));
+	if (editor->priv->image_dialog == NULL) {
+		editor->priv->image_dialog =
+			e_editor_image_dialog_new (editor);
+	}
+
+	e_editor_image_dialog_show (
+		E_EDITOR_IMAGE_DIALOG (editor->priv->image_dialog),
+		editor->priv->image);
 }
 
 static void

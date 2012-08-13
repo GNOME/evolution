@@ -95,6 +95,7 @@
 #include <e-util/e-editor-dialog.h>
 #include <e-util/e-editor-find-dialog.h>
 #include <e-util/e-editor-hrule-dialog.h>
+#include <e-util/e-editor-image-dialog.h>
 #include <e-util/e-editor-link-dialog.h>
 #include <e-util/e-editor-page-dialog.h>
 #include <e-util/e-editor-replace-dialog.h>
