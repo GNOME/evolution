@@ -21,6 +21,7 @@
 
 #include "e-editor.h"
 #include "e-editor-private.h"
+#include "e-editor-utils.h"
 
 #include <glib/gi18n-lib.h>
 
@@ -33,6 +34,157 @@ enum {
 	PROP_0,
 	PROP_FILENAME
 };
+
+enum {
+	UPDATE_ACTIONS,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
+static void
+editor_update_actions (EEditor *editor,
+		       GdkEventButton *event)
+{
+	WebKitWebView *webview;
+	WebKitHitTestResult *hit_test;
+	WebKitHitTestResultContext context;
+	WebKitDOMNode *node;
+	EEditorWidget *widget;
+	GtkUIManager *manager;
+	GtkActionGroup *action_group;
+	GList *list;
+	gboolean visible;
+	guint merge_id;
+
+	widget = e_editor_get_editor_widget (editor);
+	webview = WEBKIT_WEB_VIEW (widget);
+	manager = e_editor_get_ui_manager (editor);
+
+	/* Update context menu item visibility. */
+	hit_test = webkit_web_view_get_hit_test_result (webview, event);
+	g_object_get (
+		G_OBJECT (hit_test),
+		"context", &context,
+	        "inner-node", &node, NULL);
+
+	visible = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE);
+	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_IMAGE), visible);
+
+	visible = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK);
+	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_LINK), visible);
+
+	visible = (WEBKIT_DOM_IS_HTMLHR_ELEMENT (node));
+	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_RULE), visible);
+
+	visible = (webkit_dom_node_get_node_type (node) == 3);
+	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_TEXT), visible);
+
+	visible =
+		gtk_action_get_visible (ACTION (CONTEXT_PROPERTIES_IMAGE)) ||
+		gtk_action_get_visible (ACTION (CONTEXT_PROPERTIES_LINK)) ||
+		gtk_action_get_visible (ACTION (CONTEXT_PROPERTIES_TEXT));
+	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_PARAGRAPH), visible);
+
+	/* Set to visible if any of these are true:
+	 *   - Selection is active and contains a link.
+	 *   - Cursor is on a link.
+	 *   - Cursor is on an image that has a URL or target.
+	 */
+	visible = (e_editor_dom_node_get_parent_element (
+			node, WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT) != NULL);
+	gtk_action_set_visible (ACTION (CONTEXT_REMOVE_LINK), visible);
+
+
+	visible = (e_editor_dom_node_get_parent_element (
+			node, WEBKIT_TYPE_DOM_HTML_TABLE_CELL_ELEMENT) != NULL);
+	gtk_action_set_visible (ACTION (CONTEXT_DELETE_CELL), visible);
+	gtk_action_set_visible (ACTION (CONTEXT_DELETE_COLUMN), visible);
+	gtk_action_set_visible (ACTION (CONTEXT_DELETE_ROW), visible);
+	gtk_action_set_visible (ACTION (CONTEXT_DELETE_TABLE), visible);
+	gtk_action_set_visible (ACTION (CONTEXT_INSERT_COLUMN_AFTER), visible);
+	gtk_action_set_visible (ACTION (CONTEXT_INSERT_COLUMN_BEFORE), visible);
+	gtk_action_set_visible (ACTION (CONTEXT_INSERT_ROW_ABOVE), visible);
+	gtk_action_set_visible (ACTION (CONTEXT_INSERT_ROW_BELOW), visible);
+	gtk_action_set_visible (ACTION (CONTEXT_INSERT_TABLE), visible);
+	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_CELL), visible);
+
+	/* Note the |= (cursor must be in a table cell). */
+	visible |= (e_editor_dom_node_get_parent_element (
+			node, WEBKIT_TYPE_DOM_HTML_TABLE_ELEMENT) != NULL);
+	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_TABLE), visible);
+
+	/********************** Spell Check Suggestions **********************/
+
+	/* FIXME WEBKIT No spellcheching for now
+	object = html->engine->cursor->object;
+	action_group = editor->priv->suggestion_actions;
+
+	// Remove the old content from the context menu.
+	merge_id = editor->priv->spell_suggestions_merge_id;
+	if (merge_id > 0) {
+		gtk_ui_manager_remove_ui (manager, merge_id);
+		editor->priv->spell_suggestions_merge_id = 0;
+	}
+
+	// Clear the action group for spelling suggestions.
+	list = gtk_action_group_list_actions (action_group);
+	while (list != NULL) {
+		GtkAction *action = list->data;
+
+		gtk_action_group_remove_action (action_group, action);
+		list = g_list_delete_link (list, list);
+	}
+
+	// Decide if we should show spell checking items.
+	visible =
+		!html_engine_is_selection_active (html->engine) &&
+		object != NULL && html_object_is_text (object) &&
+		!html_engine_spell_word_is_valid (html->engine);
+	action_group = editor->priv->spell_check_actions;
+	gtk_action_group_set_visible (action_group, visible);
+
+	// Exit early if spell checking items are invisible.
+	if (!visible)
+		return;
+
+	list = editor->priv->active_spell_checkers;
+	merge_id = gtk_ui_manager_new_merge_id (manager);
+	editor->priv->spell_suggestions_merge_id = merge_id;
+
+	// Handle a single active language as a special case.
+	if (g_list_length (list) == 1) {
+		editor_inline_spelling_suggestions (editor, list->data);
+		return;
+	}
+
+	// Add actions and context menu content for active languages
+	g_list_foreach (list, (GFunc) editor_spell_checkers_foreach, editor);
+	*/
+}
+
+static gboolean
+editor_show_popup (EEditor *editor,
+		   GdkEventButton *event,
+		   gpointer user_data)
+{
+	GtkWidget *menu;
+
+	menu = e_editor_get_managed_widget (editor, "/context-menu");
+
+	g_signal_emit(editor, signals[UPDATE_ACTIONS], 0, event);
+
+	if (event != NULL)
+		gtk_menu_popup (
+			GTK_MENU (menu), NULL, NULL, NULL,
+			user_data, event->button, event->time);
+	else
+		gtk_menu_popup (
+			GTK_MENU (menu), NULL, NULL, NULL,
+			user_data, 0, gtk_get_current_event_time ());
+
+	return TRUE;
+}
 
 static gchar *
 editor_find_ui_file (const gchar *basename)
@@ -145,6 +297,8 @@ editor_constructed (GObject *object)
 	widget = GTK_WIDGET (e_editor_get_editor_widget (editor));
 	gtk_container_add (GTK_CONTAINER (priv->scrolled_window), widget);
 	gtk_widget_show (widget);
+	g_signal_connect_swapped (widget, "popup-event",
+		G_CALLBACK (editor_show_popup), editor);
 
 	/* Add some combo boxes to the "edit" toolbar. */
 
@@ -329,6 +483,8 @@ e_editor_class_init (EEditorClass *klass)
 	object_class->constructed = editor_constructed;
 	object_class->dispose = editor_dispose;
 
+	klass->update_actions = editor_update_actions;
+
 	g_object_class_install_property (
 		object_class,
 		PROP_FILENAME,
@@ -338,6 +494,16 @@ e_editor_class_init (EEditorClass *klass)
 		        NULL,
 		        NULL,
 		        G_PARAM_READWRITE));
+
+	signals[UPDATE_ACTIONS] = g_signal_new (
+		"update-actions",
+		G_TYPE_FROM_CLASS (klass),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EEditorClass, update_actions),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOXED,
+		G_TYPE_NONE, 1,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 }
 
 static void

@@ -87,6 +87,9 @@ gboolean	e_editor_is_busy		(EEditor *editor);
 EEditorWidget *	e_editor_get_editor_widget	(EEditor *editor);
 =======
 	GtkBoxClass parent_class;
+
+	void		(*update_actions)	(EEditor *editor,
+						 GdkEventButton *event);
 };
 
 GType		e_editor_get_type		(void);

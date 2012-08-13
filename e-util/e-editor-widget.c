@@ -25,6 +25,7 @@
 #include "e-emoticon-chooser.h"
 
 #include <e-util/e-util.h>
+#include <e-util/e-marshal.h>
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 
@@ -69,6 +70,13 @@ enum {
 	PROP_CAN_REDO,
 	PROP_CAN_UNDO
 };
+
+enum {
+	POPUP_EVENT,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 static WebKitDOMRange *
 editor_widget_get_dom_range (EEditorWidget *widget)
@@ -150,6 +158,28 @@ editor_widget_selection_changed_cb (EEditorWidget *widget,
 		widget->priv->can_paste = can_paste;
 		g_object_notify (G_OBJECT (widget), "can-paste");
 	}
+}
+
+static gboolean
+editor_widget_button_press_event (GtkWidget *gtk_widget,
+				  GdkEventButton *event)
+{
+	gboolean event_handled;
+
+	if (event->button != 3) {
+		event_handled = FALSE;
+	} else {
+		g_signal_emit (
+			gtk_widget, signals[POPUP_EVENT],
+			0, event, &event_handled);
+	}
+
+	if (event_handled) {
+		return TRUE;
+	}
+
+	/* Chain up to parent implementation */
+	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->button_press_event (gtk_widget, event);
 }
 
 /* Based on original use_pictograms() from GtkHTML */
@@ -476,6 +506,7 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 	object_class->finalize = e_editor_widget_finalize;
 
 	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class->button_press_event = editor_widget_button_press_event;
 	widget_class->key_release_event = editor_widget_key_release_event;
 
 	klass->paste_clipboard_quoted = editor_widget_paste_clipboard_quoted;
@@ -585,6 +616,16 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 			NULL,
 			FALSE,
 			G_PARAM_READABLE));
+
+	signals[POPUP_EVENT] = g_signal_new (
+		"popup-event",
+		G_TYPE_FROM_CLASS (klass),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EEditorWidgetClass, popup_event),
+		g_signal_accumulator_true_handled, NULL,
+		e_marshal_BOOLEAN__BOXED,
+		G_TYPE_BOOLEAN, 1,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 }
 
 static void
