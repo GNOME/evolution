@@ -59,36 +59,8 @@
 #define E_EDITOR_WIDGETS_CELL_PROPERTIES_WRAP_TEXT_CHECK_BUTTON(editor) \
 	E_EDITOR_WIDGETS ((editor), "cell-properties-wrap-text-check-button")
 
-/* Paragraph Properties Window */
-#define E_EDITOR_WIDGETS_PARAGRAPH_PROPERTIES_CENTER_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "paragraph-properties-center-button")
-#define E_EDITOR_WIDGETS_PARAGRAPH_PROPERTIES_LEFT_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "paragraph-properties-left-button")
-#define E_EDITOR_WIDGETS_PARAGRAPH_PROPERTIES_RIGHT_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "paragraph-properties-right-button")
-#define E_EDITOR_WIDGETS_PARAGRAPH_PROPERTIES_STYLE_COMBO_BOX(editor) \
-	E_EDITOR_WIDGETS ((editor), "paragraph-properties-style-combo-box")
-#define E_EDITOR_WIDGETS_PARAGRAPH_PROPERTIES_WINDOW(editor) \
-	E_EDITOR_WIDGETS ((editor), "paragraph-properties-window")
-
 /* Spell Check Window */
 #define E_EDITOR_WIDGETS_SPELL_WINDOW(editor) \
 	E_EDITOR_WIDGETS ((editor), "spell-window")
-
-/* Text Properties Window */
-#define E_EDITOR_WIDGETS_TEXT_PROPERTIES_BOLD_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "text-properties-bold-button")
-#define E_EDITOR_WIDGETS_TEXT_PROPERTIES_COLOR_COMBO(editor) \
-	E_EDITOR_WIDGETS ((editor), "text-properties-color-combo")
-#define E_EDITOR_WIDGETS_TEXT_PROPERTIES_ITALIC_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "text-properties-italic-button")
-#define E_EDITOR_WIDGETS_TEXT_PROPERTIES_SIZE_COMBO_BOX(editor) \
-	E_EDITOR_WIDGETS ((editor), "text-properties-size-combo-box")
-#define E_EDITOR_WIDGETS_TEXT_PROPERTIES_STRIKETHROUGH_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "text-properties-strikethrough-button")
-#define E_EDITOR_WIDGETS_TEXT_PROPERTIES_UNDERLINE_BUTTON(editor) \
-	E_EDITOR_WIDGETS ((editor), "text-properties-underline-button")
-#define E_EDITOR_WIDGETS_TEXT_PROPERTIES_WINDOW(editor) \
-	E_EDITOR_WIDGETS ((editor), "text-properties-window")
 
 #endif /* E_EDITOR_WIDGETS_H */
