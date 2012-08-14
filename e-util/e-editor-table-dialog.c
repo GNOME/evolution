@@ -565,9 +565,8 @@ editor_table_dialog_show (GtkWidget *widget)
 		WebKitDOMRange *range;
 
 		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-		table = e_editor_dom_node_get_parent_element (
-			webkit_dom_range_get_start_container (range, NULL),
-			WEBKIT_TYPE_DOM_HTML_TABLE_ELEMENT);
+		table = e_editor_dom_node_find_parent_element (
+			webkit_dom_range_get_start_container (range, NULL), "TABLE");
 
 		if (!table) {
 			dialog->priv->table_element = (WebKitDOMHTMLTableElement *)

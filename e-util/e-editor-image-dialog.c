@@ -274,9 +274,8 @@ editor_image_dialog_set_url (EEditorImageDialog *dialog)
 	const gchar *url;
 
 	url = gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit));
-	link = e_editor_dom_node_get_parent_element (
-		(WebKitDOMNode *) dialog->priv->image,
-		WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
+	link = e_editor_dom_node_find_parent_element (
+		(WebKitDOMNode *) dialog->priv->image, "A");
 
 	if (link) {
 		if (!url || !*url) {
@@ -378,8 +377,8 @@ editor_image_dialog_show (GtkWidget *gtk_widget)
 		GTK_SPIN_BUTTON (dialog->priv->y_padding_edit), val);
 
 
-	link = e_editor_dom_node_get_parent_element (
-		WEBKIT_DOM_NODE (dialog->priv->image), WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT);
+	link = e_editor_dom_node_find_parent_element (
+			WEBKIT_DOM_NODE (dialog->priv->image), "A");
 	if (link) {
 		tmp = webkit_dom_html_anchor_element_get_href (
 				(WebKitDOMHTMLAnchorElement *) link);

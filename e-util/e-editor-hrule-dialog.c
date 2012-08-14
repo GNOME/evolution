@@ -223,13 +223,11 @@ editor_hrule_dialog_show (GtkWidget *widget)
 
 	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
 
-	rule = e_editor_dom_node_get_parent_element (
-		webkit_dom_range_get_start_container (range, NULL),
-		WEBKIT_TYPE_DOM_HTMLHR_ELEMENT);
+	rule = e_editor_dom_node_find_parent_element (
+		webkit_dom_range_get_start_container (range, NULL), "HR");
 	if (!rule) {
 		rule = e_editor_dom_node_find_child_element (
-			webkit_dom_range_get_start_container (range, NULL),
-			WEBKIT_TYPE_DOM_HTMLHR_ELEMENT);
+			webkit_dom_range_get_start_container (range, NULL), "HR");
 	}
 
 	if (!rule) {
@@ -237,8 +235,7 @@ editor_hrule_dialog_show (GtkWidget *widget)
 			document, "insertHorizontalRule", FALSE, "");
 
 		rule = e_editor_dom_node_find_child_element (
-			webkit_dom_range_get_start_container (range, NULL),
-			WEBKIT_TYPE_DOM_HTMLHR_ELEMENT);
+			webkit_dom_range_get_start_container (range, NULL), "HR");
 
 		dialog->priv->hr_element = WEBKIT_DOM_HTMLHR_ELEMENT (rule);
 
