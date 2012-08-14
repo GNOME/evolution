@@ -37,8 +37,7 @@
 
 #include <shell/e-shell-view.h>
 
-#include <libemail-engine/e-mail-folder-utils.h>
-#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/e-mail-session-utils.h>
 #include <libemail-engine/mail-ops.h>
 
 #include <mail/e-mail-reader.h>
@@ -1157,7 +1156,6 @@ got_message_draft_cb (EMsgComposer *composer,
 	EMailSession *session;
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
-	CamelFolder *folder;
 	GError *error = NULL;
 
 	message = e_msg_composer_get_message_draft_finish (
@@ -1188,10 +1186,6 @@ got_message_draft_cb (EMsgComposer *composer,
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 
-	/* Get the templates folder and all UIDs of the messages there. */
-	folder = e_mail_session_get_local_folder (
-		session, E_MAIL_LOCAL_FOLDER_TEMPLATES);
-
 	info = camel_message_info_new (NULL);
 
 	/* The last argument is a bit mask which tells the function
@@ -1200,9 +1194,11 @@ got_message_draft_cb (EMsgComposer *composer,
 	camel_message_info_set_flags (
 		info, CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DRAFT, ~0);
 
-	/* FIXME No async callback, so... hope for the best? */
-	e_mail_folder_append_message (
-		folder, message, info, G_PRIORITY_DEFAULT,
+	/* FIXME Should submit an EActivity for this
+	 *       operation, same as saving to Outbox. */
+	e_mail_session_append_to_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_TEMPLATES,
+		message, info, G_PRIORITY_DEFAULT,
 		NULL, (GAsyncReadyCallback) NULL, NULL);
 
 	g_object_unref (message);

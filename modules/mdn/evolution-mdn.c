@@ -24,8 +24,7 @@
 
 #include <libevolution-utils/e-alert-dialog.h>
 
-#include <libemail-engine/e-mail-folder-utils.h>
-#include <libemail-engine/e-mail-session.h>
+#include <libemail-engine/e-mail-session-utils.h>
 
 #include <mail/em-utils.h>
 #include <mail/e-mail-reader.h>
@@ -187,15 +186,22 @@ mdn_get_disposition (MdnActionMode action_mode,
 }
 
 static void
-mdn_receipt_done (CamelFolder *folder,
+mdn_receipt_done (EMailSession *session,
                   GAsyncResult *result,
-                  EMailSession *session)
+                  gpointer user_data)
 {
-	/* FIXME Poor error handling. */
-	if (e_mail_folder_append_message_finish (folder, result, NULL, NULL))
-		mail_send (session);
+	GError *error = NULL;
 
-	g_object_unref (session);
+	e_mail_session_append_to_local_folder_finish (
+		session, result, NULL, &error);
+
+	if (error == NULL) {
+		mail_send (session);
+	} else {
+		/* FIXME Poor error handling. */
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 }
 
 static void
@@ -218,7 +224,6 @@ mdn_notify_sender (ESource *source,
 	CamelContentType *type;
 	CamelInternetAddress *address;
 	CamelStream *stream;
-	CamelFolder *out_folder;
 	CamelMessageInfo *receipt_info;
 	EMailBackend *backend;
 	EMailSession *session;
@@ -420,15 +425,13 @@ mdn_notify_sender (ESource *source,
 
 	/* Send the receipt. */
 	receipt_info = camel_message_info_new (NULL);
-	out_folder =
-		e_mail_session_get_local_folder (
-		session, E_MAIL_LOCAL_FOLDER_OUTBOX);
 	camel_message_info_set_flags (
 		receipt_info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 
 	/* FIXME Pass a GCancellable. */
-	e_mail_folder_append_message (
-		out_folder, receipt, receipt_info, G_PRIORITY_DEFAULT,
+	e_mail_session_append_to_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_OUTBOX,
+		receipt, receipt_info, G_PRIORITY_DEFAULT,
 		NULL, (GAsyncReadyCallback) mdn_receipt_done,
 		g_object_ref (session));
 

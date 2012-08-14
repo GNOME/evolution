@@ -874,7 +874,7 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 }
 
 static void
-composer_save_to_outbox_completed (CamelFolder *outbox_folder,
+composer_save_to_outbox_completed (EMailSession *session,
                                    GAsyncResult *result,
                                    AsyncContext *context)
 {
@@ -883,8 +883,8 @@ composer_save_to_outbox_completed (CamelFolder *outbox_folder,
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
 
-	e_mail_folder_append_message_finish (
-		outbox_folder, result, NULL, &error);
+	e_mail_session_append_to_local_folder_finish (
+		session, result, NULL, &error);
 
 	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_error_free (error);
@@ -901,7 +901,7 @@ composer_save_to_outbox_completed (CamelFolder *outbox_folder,
 
 	/* special processing for Outbox folder */
 	manage_x_evolution_replace_outbox (
-		context->composer, context->session, context->message,
+		context->composer, session, context->message,
 		e_activity_get_cancellable (context->activity));
 
 	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
@@ -923,28 +923,22 @@ em_utils_composer_save_to_outbox_cb (EMsgComposer *composer,
                                      EMailSession *session)
 {
 	AsyncContext *context;
-	CamelFolder *outbox_folder;
 	CamelMessageInfo *info;
 	GCancellable *cancellable;
 
 	context = g_slice_new0 (AsyncContext);
 	context->message = g_object_ref (message);
-	context->session = g_object_ref (session);
 	context->composer = g_object_ref (composer);
 	context->activity = g_object_ref (activity);
 
 	cancellable = e_activity_get_cancellable (activity);
 
-	outbox_folder =
-		e_mail_session_get_local_folder (
-		session, E_MAIL_LOCAL_FOLDER_OUTBOX);
-
 	info = camel_message_info_new (NULL);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
 
-	e_mail_folder_append_message (
-		outbox_folder, message, info,
-		G_PRIORITY_DEFAULT, cancellable,
+	e_mail_session_append_to_local_folder (
+		session, E_MAIL_LOCAL_FOLDER_OUTBOX,
+		message, info, G_PRIORITY_DEFAULT, cancellable,
 		(GAsyncReadyCallback) composer_save_to_outbox_completed,
 		context);
 

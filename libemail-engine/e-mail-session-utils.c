@@ -56,6 +56,8 @@ struct _AsyncContext {
 
 	GPtrArray *post_to_uris;
 
+	EMailLocalFolder local_id;
+
 	gchar *folder_uri;
 	gchar *message_uid;
 	gchar *transport_uid;
@@ -116,6 +118,124 @@ e_mail_error_quark (void)
 	}
 
 	return quark;
+}
+
+static void
+mail_session_append_to_local_folder_thread (GSimpleAsyncResult *simple,
+                                            GObject *object,
+                                            GCancellable *cancellable)
+{
+	AsyncContext *context;
+	GError *error = NULL;
+
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	e_mail_session_append_to_local_folder_sync (
+		E_MAIL_SESSION (object),
+		context->local_id, context->message,
+		context->info, &context->message_uid,
+		cancellable, &error);
+
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
+}
+
+gboolean
+e_mail_session_append_to_local_folder_sync (EMailSession *session,
+                                            EMailLocalFolder local_id,
+                                            CamelMimeMessage *message,
+                                            CamelMessageInfo *info,
+                                            gchar **appended_uid,
+                                            GCancellable *cancellable,
+                                            GError **error)
+{
+	CamelFolder *folder;
+	const gchar *folder_uri;
+	gboolean success = FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), FALSE);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), FALSE);
+
+	folder_uri = e_mail_session_get_local_folder_uri (session, local_id);
+	g_return_val_if_fail (folder_uri != NULL, FALSE);
+
+	folder = e_mail_session_uri_to_folder_sync (
+		session, folder_uri, CAMEL_STORE_FOLDER_CREATE,
+		cancellable, error);
+
+	if (folder != NULL) {
+		success = e_mail_folder_append_message_sync (
+			folder, message, info, appended_uid,
+			cancellable, error);
+		g_object_unref (folder);
+	}
+
+	return success;
+}
+
+void
+e_mail_session_append_to_local_folder (EMailSession *session,
+                                       EMailLocalFolder local_id,
+                                       CamelMimeMessage *message,
+                                       CamelMessageInfo *info,
+                                       gint io_priority,
+                                       GCancellable *cancellable,
+                                       GAsyncReadyCallback callback,
+                                       gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *context;
+
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	context = g_slice_new0 (AsyncContext);
+	context->local_id = local_id;
+	context->message = g_object_ref (message);
+
+	if (info != NULL)
+		context->info = camel_message_info_ref (info);
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (session), callback, user_data,
+		e_mail_session_append_to_local_folder);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, context, (GDestroyNotify) async_context_free);
+
+	g_simple_async_result_run_in_thread (
+		simple, mail_session_append_to_local_folder_thread,
+		io_priority, cancellable);
+
+	g_object_unref (simple);
+}
+
+gboolean
+e_mail_session_append_to_local_folder_finish (EMailSession *session,
+                                              GAsyncResult *result,
+                                              gchar **appended_uid,
+                                              GError **error)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *context;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (session),
+		e_mail_session_append_to_local_folder), FALSE);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	if (appended_uid != NULL) {
+		*appended_uid = context->message_uid;
+		context->message_uid = NULL;
+	}
+
+	/* Assume success unless a GError is set. */
+	return !g_simple_async_result_propagate_error (simple, error);
 }
 
 static void

@@ -32,6 +32,28 @@ typedef enum {
 } EMailError;
 
 GQuark		e_mail_error_quark		(void) G_GNUC_CONST;
+gboolean	e_mail_session_append_to_local_folder_sync
+						(EMailSession *session,
+						 EMailLocalFolder local_id,
+						 CamelMimeMessage *message,
+						 CamelMessageInfo *info,
+						 gchar **appended_uid,
+						 GCancellable *cancellable,
+						 GError **error);
+void		e_mail_session_append_to_local_folder
+						(EMailSession *session,
+						 EMailLocalFolder local_id,
+						 CamelMimeMessage *message,
+						 CamelMessageInfo *info,
+						 gint io_priority,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_mail_session_append_to_local_folder_finish
+						(EMailSession *session,
+						 GAsyncResult *result,
+						 gchar **appended_uid,
+						 GError **error);
 gboolean	e_mail_session_handle_draft_headers_sync
 						(EMailSession *session,
 						 CamelMimeMessage *message,
