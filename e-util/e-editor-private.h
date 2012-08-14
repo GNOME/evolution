@@ -32,6 +32,7 @@
 #include <e-editor-page-dialog.h>
 #include <e-editor-image-dialog.h>
 #include <e-editor-text-dialog.h>
+#include <e-editor-paragraph-dialog.h>
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>
@@ -68,6 +69,7 @@ struct _EEditorPrivate {
 	GtkWidget *page_dialog;
 	GtkWidget *image_dialog;
 	GtkWidget *text_dialog;
+	GtkWidget *paragraph_dialog;
 
 	GtkWidget *color_combo_box;
 	GtkWidget *mode_combo_box;

@@ -944,7 +944,12 @@ static void
 action_properties_paragraph_cb (GtkAction *action,
                                 EEditor *editor)
 {
-	gtk_window_present (GTK_WINDOW (WIDGET (PARAGRAPH_PROPERTIES_WINDOW)));
+	if (editor->priv->paragraph_dialog == NULL) {
+		editor->priv->paragraph_dialog =
+			e_editor_paragraph_dialog_new (editor);
+	}
+
+	gtk_window_present (GTK_WINDOW (editor->priv->paragraph_dialog));
 }
 
 static void
