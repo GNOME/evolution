@@ -169,8 +169,7 @@ get_font_property (EEditorSelection *selection,
 	}
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	element = e_editor_dom_node_get_parent_element (
-			node, WEBKIT_TYPE_DOM_HTML_FONT_ELEMENT);
+	element = e_editor_dom_node_find_parent_element (node, "FONT");
 	if (!element) {
 		return NULL;
 	}

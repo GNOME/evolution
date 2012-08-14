@@ -1,11 +1,6 @@
 /*
  * e-editor-table-dialog.h
  *
-<<<<<<< HEAD
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
-=======
->>>>>>> Make the 'Table properties' dialog work
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -34,16 +29,10 @@
 #include "e-image-chooser-dialog.h"
 #include "e-misc-utils.h"
 
-<<<<<<< HEAD
-#define E_EDITOR_TABLE_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_TABLE_DIALOG, EEditorTableDialogPrivate))
-=======
 G_DEFINE_TYPE (
 	EEditorTableDialog,
 	e_editor_table_dialog,
 	E_TYPE_EDITOR_DIALOG);
->>>>>>> Make the 'Table properties' dialog work
 
 struct _EEditorTableDialogPrivate {
 	GtkWidget *rows_edit;
@@ -63,24 +52,13 @@ struct _EEditorTableDialogPrivate {
 	GtkWidget *background_image_button;
 	GtkWidget *image_chooser_dialog;
 
-<<<<<<< HEAD
-=======
 	GtkWidget *close_button;
 
->>>>>>> Make the 'Table properties' dialog work
 	WebKitDOMHTMLTableElement *table_element;
 };
 
 static GdkRGBA white = { 1, 1, 1, 1 };
 
-<<<<<<< HEAD
-G_DEFINE_TYPE (
-	EEditorTableDialog,
-	e_editor_table_dialog,
-	E_TYPE_EDITOR_DIALOG);
-
-=======
->>>>>>> Make the 'Table properties' dialog work
 static WebKitDOMElement *
 editor_table_dialog_create_table (EEditorTableDialog *dialog)
 {
@@ -106,19 +84,11 @@ editor_table_dialog_create_table (EEditorTableDialog *dialog)
 		gint j;
 
 		row = webkit_dom_html_table_element_insert_row (
-<<<<<<< HEAD
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), -1, NULL);
-
-		for (j = 0; j < 3; j++) {
-			webkit_dom_html_table_row_element_insert_cell (
-				WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), -1, NULL);
-=======
 			(WebKitDOMHTMLTableElement *) table, -1, NULL);
 
 		for (j = 0; j < 3; j++) {
 			webkit_dom_html_table_row_element_insert_cell (
 				(WebKitDOMHTMLTableRowElement *) row, -1, NULL);
->>>>>>> Make the 'Table properties' dialog work
 		}
 	}
 
@@ -185,11 +155,7 @@ editor_table_dialog_set_column_count (EEditorTableDialog *dialog)
 		WebKitDOMHTMLCollection *cells;
 		gulong jj, current_columns;
 
-<<<<<<< HEAD
-		row = WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (
-=======
 		row = (WebKitDOMHTMLTableRowElement *) (
->>>>>>> Make the 'Table properties' dialog work
 			webkit_dom_html_collection_item (rows, ii));
 
 		cells = webkit_dom_html_table_row_element_get_cells (row);
@@ -221,11 +187,7 @@ editor_table_dialog_get_column_count (EEditorTableDialog *dialog)
 	row = webkit_dom_html_collection_item (rows, 0);
 
 	columns = webkit_dom_html_table_row_element_get_cells (
-<<<<<<< HEAD
-				WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
-=======
 				(WebKitDOMHTMLTableRowElement *) row);
->>>>>>> Make the 'Table properties' dialog work
 
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->columns_edit),
@@ -241,25 +203,13 @@ editor_table_dialog_set_width (EEditorTableDialog *dialog)
 
 	if (gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->width_check))) {
-<<<<<<< HEAD
-		gchar *units;
 
-		units = gtk_combo_box_text_get_active_text (
-				GTK_COMBO_BOX_TEXT (dialog->priv->width_units));
-=======
-
->>>>>>> Make the 'Table properties' dialog work
 		width = g_strdup_printf (
 			"%d%s",
 			gtk_spin_button_get_value_as_int (
 				GTK_SPIN_BUTTON (dialog->priv->width_edit)),
-<<<<<<< HEAD
-			units);
-		g_free (units);
-=======
 			gtk_combo_box_text_get_active_text (
 				GTK_COMBO_BOX_TEXT (dialog->priv->width_units)));
->>>>>>> Make the 'Table properties' dialog work
 
 		gtk_widget_set_sensitive (dialog->priv->width_edit, TRUE);
 		gtk_widget_set_sensitive (dialog->priv->width_units, TRUE);
@@ -300,10 +250,6 @@ editor_table_dialog_get_width (EEditorTableDialog *dialog)
 			((strstr (width, "%") == NULL) ?
 				"units-px" : "units-percent"));
 	}
-<<<<<<< HEAD
-	g_free (width);
-=======
->>>>>>> Make the 'Table properties' dialog work
 }
 
 static void
@@ -340,12 +286,7 @@ editor_table_dialog_set_padding (EEditorTableDialog *dialog)
 
 	g_return_if_fail (dialog->priv->table_element);
 
-<<<<<<< HEAD
-	padding = g_strdup_printf (
-		"%d",
-=======
 	padding = g_strdup_printf ("%d",
->>>>>>> Make the 'Table properties' dialog work
 			gtk_spin_button_get_value_as_int (
 				GTK_SPIN_BUTTON (dialog->priv->padding_edit)));
 
@@ -384,12 +325,7 @@ editor_table_dialog_set_spacing (EEditorTableDialog *dialog)
 
 	g_return_if_fail (dialog->priv->table_element);
 
-<<<<<<< HEAD
-	spacing = g_strdup_printf (
-		"%d",
-=======
 	spacing = g_strdup_printf ("%d",
->>>>>>> Make the 'Table properties' dialog work
 			gtk_spin_button_get_value_as_int (
 				GTK_SPIN_BUTTON (dialog->priv->spacing_edit)));
 
@@ -428,12 +364,7 @@ editor_table_dialog_set_border (EEditorTableDialog *dialog)
 
 	g_return_if_fail (dialog->priv->table_element);
 
-<<<<<<< HEAD
-	border = g_strdup_printf (
-		"%d",
-=======
 	border = g_strdup_printf ("%d",
->>>>>>> Make the 'Table properties' dialog work
 			gtk_spin_button_get_value_as_int (
 				GTK_SPIN_BUTTON (dialog->priv->border_edit)));
 
@@ -532,11 +463,7 @@ editor_table_dialog_get_background_image (EEditorTableDialog *dialog)
 	if (!webkit_dom_element_has_attribute (
 		WEBKIT_DOM_ELEMENT (dialog->priv->table_element), "background")) {
 
-<<<<<<< HEAD
-		gtk_file_chooser_unselect_all (
-=======
 		gtk_file_chooser_unselect_all(
->>>>>>> Make the 'Table properties' dialog work
 			GTK_FILE_CHOOSER (dialog->priv->background_image_button));
 		return;
 	} else {
@@ -554,8 +481,6 @@ editor_table_dialog_get_background_image (EEditorTableDialog *dialog)
 }
 
 static void
-<<<<<<< HEAD
-=======
 editor_table_dialog_close (EEditorTableDialog *dialog)
 {
 	gtk_widget_hide (GTK_WIDGET (dialog));
@@ -564,7 +489,6 @@ editor_table_dialog_close (EEditorTableDialog *dialog)
 }
 
 static void
->>>>>>> Make the 'Table properties' dialog work
 editor_table_dialog_get_values (EEditorTableDialog *dialog)
 {
 	editor_table_dialog_get_row_count (dialog);
@@ -618,10 +542,7 @@ editor_table_dialog_reset_values (EEditorTableDialog *dialog)
 	editor_table_dialog_set_background_image (dialog);
 }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> Make the 'Table properties' dialog work
 static void
 editor_table_dialog_show (GtkWidget *widget)
 {
@@ -644,21 +565,8 @@ editor_table_dialog_show (GtkWidget *widget)
 		WebKitDOMRange *range;
 
 		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-<<<<<<< HEAD
 		table = e_editor_dom_node_find_parent_element (
 			webkit_dom_range_get_start_container (range, NULL), "TABLE");
-
-		if (!table) {
-			dialog->priv->table_element = WEBKIT_DOM_HTML_TABLE_ELEMENT (
-				editor_table_dialog_create_table (dialog));
-			editor_table_dialog_reset_values (dialog);
-		} else {
-			dialog->priv->table_element =
-				WEBKIT_DOM_HTML_TABLE_ELEMENT (table);
-=======
-		table = e_editor_dom_node_get_parent_element (
-			webkit_dom_range_get_start_container (range, NULL),
-			WEBKIT_TYPE_DOM_HTML_TABLE_ELEMENT);
 
 		if (!table) {
 			dialog->priv->table_element = (WebKitDOMHTMLTableElement *)
@@ -667,7 +575,6 @@ editor_table_dialog_show (GtkWidget *widget)
 		} else {
 			dialog->priv->table_element =
 				(WebKitDOMHTMLTableElement *) table;
->>>>>>> Make the 'Table properties' dialog work
 			editor_table_dialog_get_values (dialog);
 		}
 	}
@@ -677,29 +584,6 @@ editor_table_dialog_show (GtkWidget *widget)
 }
 
 static void
-<<<<<<< HEAD
-editor_table_dialog_hide (GtkWidget *widget)
-{
-	EEditorTableDialogPrivate *priv;
-
-	priv = E_EDITOR_TABLE_DIALOG_GET_PRIVATE (widget);
-
-	priv->table_element = NULL;
-
-	GTK_WIDGET_CLASS (e_editor_table_dialog_parent_class)->hide (widget);
-}
-
-static void
-e_editor_table_dialog_class_init (EEditorTableDialogClass *class)
-{
-	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (EEditorTableDialogPrivate));
-
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = editor_table_dialog_show;
-	widget_class->hide = editor_table_dialog_hide;
-=======
 e_editor_table_dialog_class_init (EEditorTableDialogClass *klass)
 {
 	GtkWidgetClass *widget_class;
@@ -709,21 +593,11 @@ e_editor_table_dialog_class_init (EEditorTableDialogClass *klass)
 
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->show = editor_table_dialog_show;
->>>>>>> Make the 'Table properties' dialog work
 }
 
 static void
 e_editor_table_dialog_init (EEditorTableDialog *dialog)
 {
-<<<<<<< HEAD
-	GtkGrid *main_layout, *grid;
-	GtkWidget *widget;
-	GtkFileFilter *file_filter;
-
-	dialog->priv = E_EDITOR_TABLE_DIALOG_GET_PRIVATE (dialog);
-
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
-=======
 	GtkBox *main_layout, *box;
 	GtkGrid *grid;
 	GtkWidget *widget;
@@ -735,26 +609,17 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	main_layout = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 5));
 	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
->>>>>>> Make the 'Table properties' dialog work
 
 	/* == General == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>General</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-<<<<<<< HEAD
-	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
-=======
 	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
->>>>>>> Make the 'Table properties' dialog work
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-<<<<<<< HEAD
-	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
-=======
 	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
->>>>>>> Make the 'Table properties' dialog work
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Rows */
@@ -770,10 +635,6 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->rows_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Rows:"));
-<<<<<<< HEAD
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
-=======
->>>>>>> Make the 'Table properties' dialog work
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->rows_edit);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 
@@ -790,43 +651,24 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->columns_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("C_olumns:"));
-<<<<<<< HEAD
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->columns_edit);
-	gtk_grid_attach (grid, widget, 4, 0, 1, 1);
-
-=======
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->columns_edit);
 	gtk_grid_attach (grid, widget, 4, 0, 1, 1);
 
 
->>>>>>> Make the 'Table properties' dialog work
 	/* == Layout == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Layout</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-<<<<<<< HEAD
-	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
-=======
 	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
->>>>>>> Make the 'Table properties' dialog work
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-<<<<<<< HEAD
-	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
-
-	/* Width */
-	widget = gtk_check_button_new_with_mnemonic (_("_Width:"));
-=======
 	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Width */
 	widget = gtk_check_button_new_with_mnemonic (_("Width:"));
->>>>>>> Make the 'Table properties' dialog work
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "toggled",
@@ -860,10 +702,6 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->spacing_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Spacing:"));
-<<<<<<< HEAD
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
-=======
->>>>>>> Make the 'Table properties' dialog work
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->spacing_edit);
 	gtk_grid_attach (grid, widget, 4, 0, 1, 1);
 
@@ -880,10 +718,6 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->padding_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Padding:"));
-<<<<<<< HEAD
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
-=======
->>>>>>> Make the 'Table properties' dialog work
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->padding_edit);
 	gtk_grid_attach (grid, widget, 4, 1, 1, 1);
 
@@ -900,10 +734,6 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->border_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Border:"));
-<<<<<<< HEAD
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
-=======
->>>>>>> Make the 'Table properties' dialog work
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->border_edit);
 	gtk_grid_attach (grid, widget, 4, 2, 1, 1);
 
@@ -922,10 +752,6 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->alignment_combo = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Alignment:"));
-<<<<<<< HEAD
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
-=======
->>>>>>> Make the 'Table properties' dialog work
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->alignment_combo);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
@@ -933,20 +759,12 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Background</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-<<<<<<< HEAD
-	gtk_grid_attach (main_layout, widget, 0, 4, 1, 1);
-=======
 	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
->>>>>>> Make the 'Table properties' dialog work
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-<<<<<<< HEAD
-	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 5, 1, 1);
-=======
 	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
->>>>>>> Make the 'Table properties' dialog work
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Color */
@@ -960,10 +778,6 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->background_color_button = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Color:"));
-<<<<<<< HEAD
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
-=======
->>>>>>> Make the 'Table properties' dialog work
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_color_button);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
@@ -988,19 +802,12 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 		G_CALLBACK (editor_table_dialog_set_background_image), dialog);
 	dialog->priv->background_image_button = widget;
 
-<<<<<<< HEAD
-	widget =gtk_label_new_with_mnemonic (_("Image:"));
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
-=======
 
 	widget =gtk_label_new_with_mnemonic (_("Image:"));
->>>>>>> Make the 'Table properties' dialog work
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_image_button);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
-<<<<<<< HEAD
-=======
 	/* == Button box == */
 	box = GTK_BOX (gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL));
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (box), GTK_BUTTONBOX_END);
@@ -1013,7 +820,6 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 		G_CALLBACK (editor_table_dialog_close), dialog);
 	dialog->priv->close_button = widget;
 
->>>>>>> Make the 'Table properties' dialog work
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }
 
@@ -1025,10 +831,6 @@ e_editor_table_dialog_new (EEditor *editor)
 			E_TYPE_EDITOR_TABLE_DIALOG,
 			"editor", editor,
 			"title", N_("Table Properties"),
-<<<<<<< HEAD
-			NULL));
-=======
 			NULL));	
->>>>>>> Make the 'Table properties' dialog work
 }
 

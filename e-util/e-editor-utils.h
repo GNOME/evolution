@@ -1,11 +1,6 @@
 /*
  * e-editor-utils.h
  *
-<<<<<<< HEAD
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
-=======
->>>>>>> Make the URL editor work
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -30,28 +25,12 @@
 
 #include <webkit/webkitdom.h>
 
-<<<<<<< HEAD
-G_BEGIN_DECLS
-
-WebKitDOMElement *
-		e_editor_dom_node_find_parent_element
-						(WebKitDOMNode *node,
-						 const gchar *tagname);
-
-WebKitDOMElement *
-		e_editor_dom_node_find_child_element
-						(WebKitDOMNode *node,
-						 const gchar *tagname);
-
-G_END_DECLS
-=======
-WebKitDOMElement *	e_editor_dom_node_get_parent_element
+WebKitDOMElement *	e_editor_dom_node_find_parent_element
 							(WebKitDOMNode *node,
-							 GType parent_type);
->>>>>>> Make the URL editor work
+							 const gchar *tagname);
 
 WebKitDOMElement *	e_editor_dom_node_find_child_element
 							(WebKitDOMNode *node,
-							 GType child_type);
+							 const gchar *tagname);
 
 #endif /* E_EDITOR_UTILS_H */

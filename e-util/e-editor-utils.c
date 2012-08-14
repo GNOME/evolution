@@ -21,16 +21,31 @@
 #endif
 
 #include "e-editor-utils.h"
-
+#include <string.h>
 
 WebKitDOMElement *
-e_editor_dom_node_get_parent_element (WebKitDOMNode *node,
-				      GType parent_type)
+e_editor_dom_node_find_parent_element (WebKitDOMNode *node,
+				       const gchar *tagname)
 {
+	gint taglen = strlen (tagname);
+
 	while (node) {
 
-		if (G_TYPE_CHECK_INSTANCE_TYPE (node, parent_type))
-			return (WebKitDOMElement *) node;
+		if (WEBKIT_DOM_IS_ELEMENT (node)) {
+			gchar *node_tagname;
+
+			node_tagname = webkit_dom_element_get_tag_name (
+						WEBKIT_DOM_ELEMENT (node));
+
+			if (node_tagname &&
+			    (strlen (node_tagname) == taglen) &&
+			    (g_ascii_strncasecmp (node_tagname, tagname, taglen) == 0)) {
+				g_free (node_tagname);
+				return (WebKitDOMElement *) node;
+			}
+
+			g_free (node_tagname);
+		}
 
 		node = (WebKitDOMNode *) webkit_dom_node_get_parent_element (node);
 	}
@@ -40,13 +55,26 @@ e_editor_dom_node_get_parent_element (WebKitDOMNode *node,
 
 WebKitDOMElement *
 e_editor_dom_node_find_child_element (WebKitDOMNode *node,
-				      GType child_type)
+				      const gchar *tagname)
 {
 	WebKitDOMNode *start_node = node;
+	gint taglen = strlen (tagname);
 
 	do {
-		if (G_TYPE_CHECK_INSTANCE_TYPE (node, child_type)) {
-			return WEBKIT_DOM_ELEMENT (node);
+		if (WEBKIT_DOM_IS_ELEMENT (node)) {
+			gchar *node_tagname;
+
+			node_tagname = webkit_dom_element_get_tag_name (
+					WEBKIT_DOM_ELEMENT (node));
+
+			if (node_tagname &&
+			    (strlen (node_tagname) == taglen) &&
+			    (g_ascii_strncasecmp (node_tagname, tagname, taglen) == 0)) {
+				g_free (node_tagname);
+				return (WebKitDOMElement *) node;
+			}
+
+			g_free (node_tagname);
 		}
 
 		if (webkit_dom_node_has_child_nodes (node)) {

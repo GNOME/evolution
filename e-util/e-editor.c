@@ -96,13 +96,13 @@ editor_update_actions (EEditor *editor,
 	 *   - Cursor is on a link.
 	 *   - Cursor is on an image that has a URL or target.
 	 */
-	visible = (e_editor_dom_node_get_parent_element (
-			node, WEBKIT_TYPE_DOM_HTML_ANCHOR_ELEMENT) != NULL);
+	visible = (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node) ||
+		   (e_editor_dom_node_find_parent_element (node, "A") != NULL));
 	gtk_action_set_visible (ACTION (CONTEXT_REMOVE_LINK), visible);
 
 
-	visible = (e_editor_dom_node_get_parent_element (
-			node, WEBKIT_TYPE_DOM_HTML_TABLE_CELL_ELEMENT) != NULL);
+	visible = (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node) ||
+		   (e_editor_dom_node_find_parent_element (node, "TD") != NULL));
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_CELL), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_COLUMN), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_ROW), visible);
@@ -115,8 +115,8 @@ editor_update_actions (EEditor *editor,
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_CELL), visible);
 
 	/* Note the |= (cursor must be in a table cell). */
-	visible |= (e_editor_dom_node_get_parent_element (
-			node, WEBKIT_TYPE_DOM_HTML_TABLE_ELEMENT) != NULL);
+	visible |= (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (node) ||
+		    (e_editor_dom_node_find_parent_element (node, "TABLE") != NULL));
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_TABLE), visible);
 
 	/********************** Spell Check Suggestions **********************/
