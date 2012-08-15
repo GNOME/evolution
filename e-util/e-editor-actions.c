@@ -448,12 +448,11 @@ action_insert_emoticon_cb (GtkAction *action,
 {
 	EEditorWidget *widget;
 	EEditorSelection *selection;
-	EEmoticonChooser *chooser;
 	EEmoticon *emoticon;
 	gchar *uri = NULL;
 
-	chooser = E_EMOTICON_CHOOSER (action);
-	emoticon = e_emoticon_chooser_get_current_emoticon (chooser);
+	emoticon = e_emoticon_chooser_get_current_emoticon (
+					E_EMOTICON_CHOOSER (action));
 	g_return_if_fail (emoticon != NULL);
 
 	uri = e_emoticon_get_uri (emoticon);
@@ -1878,7 +1877,7 @@ editor_actions_init (EEditor *editor)
 
 	/* Face Action */
 	action = e_emoticon_action_new (
-		"insert-face", _("_Emoticon"),
+		"insert-emoticon", _("_Emoticon"),
 		_("Insert Emoticon"), NULL);
 	g_object_set (action, "icon-name", "face-smile", NULL);
 	g_signal_connect (

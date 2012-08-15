@@ -136,20 +136,20 @@ emoticon_chooser_menu_init (EEmoticonChooserMenu *chooser_menu)
 	list = e_emoticon_chooser_get_items ();
 
 	for (iter = list; iter != NULL; iter = iter->next) {
-		EEmoticon *face = iter->data;
+		EEmoticon *emoticon = iter->data;
 		GtkWidget *item;
 
 		/* To keep translated strings in subclasses */
-		item = gtk_image_menu_item_new_with_mnemonic (_(face->label));
+		item = gtk_image_menu_item_new_with_mnemonic (_(emoticon->label));
 		gtk_image_menu_item_set_image (
 			GTK_IMAGE_MENU_ITEM (item),
 			gtk_image_new_from_icon_name (
-			face->icon_name, GTK_ICON_SIZE_MENU));
+			emoticon->icon_name, GTK_ICON_SIZE_MENU));
 		gtk_widget_show (item);
 
 		g_object_set_data_full (
-			G_OBJECT (item), "face",
-			e_emoticon_copy (face),
+			G_OBJECT (item), "emoticon",
+			e_emoticon_copy (emoticon),
 			(GDestroyNotify) e_emoticon_free);
 
 		g_signal_connect_swapped (
