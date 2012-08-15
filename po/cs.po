@@ -11144,7 +11144,7 @@ msgid ""
 msgstr ""
 "Vítejte v průvodci nastavením pošty Evolution.\n"
 "\n"
-"Začněte kliknutím na „Vpřed“."
+"Začněte kliknutím na „Pokračovat“."
 
 #: ../mail/em-account-editor.c:2973
 msgid ""
