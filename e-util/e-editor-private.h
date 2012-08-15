@@ -33,6 +33,7 @@
 #include <e-editor-image-dialog.h>
 #include <e-editor-text-dialog.h>
 #include <e-editor-paragraph-dialog.h>
+#include <e-editor-cell-dialog.h>
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>
@@ -70,6 +71,7 @@ struct _EEditorPrivate {
 	GtkWidget *image_dialog;
 	GtkWidget *text_dialog;
 	GtkWidget *paragraph_dialog;
+	GtkWidget *cell_dialog;
 
 	GtkWidget *color_combo_box;
 	GtkWidget *mode_combo_box;
@@ -83,6 +85,7 @@ struct _EEditorPrivate {
 	gchar *filename;
 
 	WebKitDOMNode *image;
+	WebKitDOMNode *table_cell;
 };
 
 void		editor_actions_init		(EEditor *editor);

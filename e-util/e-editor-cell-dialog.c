@@ -1,8 +1,6 @@
 /*
  * e-editor-cell-dialog.c
  *
- * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -17,7 +15,7 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  */
-
+ 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -32,9 +30,17 @@
 #include "e-image-chooser-dialog.h"
 #include "e-misc-utils.h"
 
-#define E_EDITOR_CELL_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_CELL_DIALOG, EEditorCellDialogPrivate))
+G_DEFINE_TYPE (
+	EEditorCellDialog,
+	e_editor_cell_dialog,
+	E_TYPE_EDITOR_DIALOG);
+
+enum {
+	SCOPE_CELL,
+	SCOPE_ROW,
+	SCOPE_COLUMN,
+	SCOPE_TABLE
+} DialogScope;
 
 struct _EEditorCellDialogPrivate {
 	GtkWidget *scope_cell_button;
@@ -58,16 +64,11 @@ struct _EEditorCellDialogPrivate {
 	GtkWidget *background_color_picker;
 	GtkWidget *background_image_chooser;
 
+	GtkWidget *close_button;
+
 	WebKitDOMElement *cell;
 	guint scope;
 };
-
-enum {
-	SCOPE_CELL,
-	SCOPE_ROW,
-	SCOPE_COLUMN,
-	SCOPE_TABLE
-} DialogScope;
 
 static GdkRGBA white = { 1, 1, 1, 1 };
 
@@ -75,16 +76,11 @@ typedef void (*DOMStrFunc) (WebKitDOMHTMLTableCellElement *cell, const gchar *va
 typedef void (*DOMUlongFunc) (WebKitDOMHTMLTableCellElement *cell, gulong val, gpointer user_data);
 typedef void (*DOMBoolFunc) (WebKitDOMHTMLTableCellElement *cell, gboolean val, gpointer user_data);
 
-G_DEFINE_TYPE (
-	EEditorCellDialog,
-	e_editor_cell_dialog,
-	E_TYPE_EDITOR_DIALOG);
-
 static void
 call_cell_dom_func (WebKitDOMHTMLTableCellElement *cell,
-                    gpointer func,
-                    GValue *value,
-                    gpointer user_data)
+		    gpointer func,
+		    GValue *value,
+		    gpointer user_data)
 {
 	if (G_VALUE_HOLDS_STRING (value)) {
 		DOMStrFunc f = func;
@@ -100,14 +96,14 @@ call_cell_dom_func (WebKitDOMHTMLTableCellElement *cell,
 
 static void
 for_each_cell_do (WebKitDOMElement *row,
-                  gpointer func,
-                  GValue *value,
-                  gpointer user_data)
+		  gpointer func,
+		  GValue *value,
+		  gpointer user_data)
 {
 	WebKitDOMHTMLCollection *cells;
 	gulong ii, length;
 	cells = webkit_dom_html_table_row_element_get_cells (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
+			(WebKitDOMHTMLTableRowElement *) row);
 	length = webkit_dom_html_collection_get_length (cells);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *cell;
@@ -117,20 +113,20 @@ for_each_cell_do (WebKitDOMElement *row,
 		}
 
 		call_cell_dom_func (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell), func, value, user_data);
+			(WebKitDOMHTMLTableCellElement *) cell, func, value, user_data);
 	}
 }
 
 static void
 editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
-                                  gpointer func,
-                                  GValue *value,
-                                  gpointer user_data)
+				  gpointer func,
+				  GValue *value,
+				  gpointer user_data)
 {
 	if (dialog->priv->scope == SCOPE_CELL) {
 
 		call_cell_dom_func (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell),
+			(WebKitDOMHTMLTableCellElement *) dialog->priv->cell,
 			func, value, user_data);
 
 	} else if (dialog->priv->scope == SCOPE_COLUMN) {
@@ -139,15 +135,15 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 		WebKitDOMHTMLCollection *rows;
 
 		index = webkit_dom_html_table_cell_element_get_cell_index (
-				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell));
+				(WebKitDOMHTMLTableCellElement *) dialog->priv->cell);
 		table = e_editor_dom_node_find_parent_element (
-				WEBKIT_DOM_NODE (dialog->priv->cell), "TABLE");
+				(WebKitDOMNode *) dialog->priv->cell, "TABLE");
 		if (!table) {
 			return;
 		}
 
 		rows = webkit_dom_html_table_element_get_rows (
-				WEBKIT_DOM_HTML_TABLE_ELEMENT (table));
+				(WebKitDOMHTMLTableElement *) table);
 		length = webkit_dom_html_collection_get_length (rows);
 		for (ii = 0; ii < length; ii++) {
 			WebKitDOMNode *row, *cell;
@@ -155,14 +151,14 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 
 			row = webkit_dom_html_collection_item (rows, ii);
 			cells = webkit_dom_html_table_row_element_get_cells (
-					WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
+					(WebKitDOMHTMLTableRowElement *) row);
 			cell = webkit_dom_html_collection_item (cells, index);
 			if (!cell) {
 				continue;
 			}
 
 			call_cell_dom_func (
-				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell),
+				(WebKitDOMHTMLTableCellElement *) cell,
 				func, value, user_data);
 		}
 
@@ -170,7 +166,7 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 		WebKitDOMElement *row;
 
 		row = e_editor_dom_node_find_parent_element (
-				WEBKIT_DOM_NODE (dialog->priv->cell), "TR");
+				(WebKitDOMNode *) dialog->priv->cell, "TR");
 		if (!row) {
 			return;
 		}
@@ -183,13 +179,13 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 		WebKitDOMHTMLCollection *rows;
 
 		table = e_editor_dom_node_find_parent_element (
-				WEBKIT_DOM_NODE (dialog->priv->cell), "TABLE");
+				(WebKitDOMNode *) dialog->priv->cell, "TABLE");
 		if (!table) {
 			return;
 		}
 
 		rows = webkit_dom_html_table_element_get_rows (
-				WEBKIT_DOM_HTML_TABLE_ELEMENT (table));
+				(WebKitDOMHTMLTableElement *) table);
 		length = webkit_dom_html_collection_get_length (rows);
 		for (ii = 0; ii < length; ii++) {
 			WebKitDOMNode *row;
@@ -200,10 +196,11 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 			}
 
 			for_each_cell_do (
-				WEBKIT_DOM_ELEMENT (row), func, value, user_data);
+				(WebKitDOMElement *) row, func, value, user_data);
 		}
 	}
 }
+
 
 static void
 editor_cell_dialog_set_scope (EEditorCellDialog *dialog)
@@ -244,8 +241,6 @@ editor_cell_dialog_set_valign (EEditorCellDialog *dialog)
 
 	editor_cell_dialog_set_attribute (
 		dialog, webkit_dom_html_table_cell_element_set_v_align, &val, NULL);
-
-	g_value_unset (&val);
 }
 
 static void
@@ -261,8 +256,6 @@ editor_cell_dialog_set_halign (EEditorCellDialog *dialog)
 
 	editor_cell_dialog_set_attribute (
 		dialog, webkit_dom_html_table_cell_element_set_align, &val, NULL);
-
-	g_value_unset (&val);
 }
 
 static void
@@ -271,10 +264,10 @@ editor_cell_dialog_set_wrap_text (EEditorCellDialog *dialog)
 	GValue val = { 0 };
 
 	g_value_init (&val, G_TYPE_BOOLEAN);
-	g_value_set_boolean (
-		&val,
+	g_value_set_boolean (&val,
 		!gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->wrap_text_check)));
+
 
 	editor_cell_dialog_set_attribute (
 		dialog, webkit_dom_html_table_cell_element_set_no_wrap, &val, NULL);
@@ -282,8 +275,8 @@ editor_cell_dialog_set_wrap_text (EEditorCellDialog *dialog)
 
 static void
 cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
-                       gboolean header_style,
-                       gpointer user_data)
+		       gboolean header_style,
+		       gpointer user_data)
 {
 	EEditorCellDialog *dialog = user_data;
 	WebKitDOMDocument *document;
@@ -304,7 +297,6 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 		new_cell = webkit_dom_document_create_element (document, "TD", NULL);
 
 	} else {
-		g_free (tagname);
 		return;
 	}
 
@@ -331,8 +323,6 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 		WEBKIT_DOM_NODE (cell), NULL);
 
 	dialog->priv->cell = new_cell;
-
-	g_free (tagname);
 }
 
 static void
@@ -341,10 +331,10 @@ editor_cell_dialog_set_header_style (EEditorCellDialog *dialog)
 	GValue val = { 0 };
 
 	g_value_init (&val, G_TYPE_BOOLEAN);
-	g_value_set_boolean (
-		&val,
+	g_value_set_boolean (&val,
 		gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->header_style_check)));
+
 
 	editor_cell_dialog_set_attribute (
 		dialog, cell_set_header_style, &val, dialog);
@@ -362,8 +352,7 @@ editor_cell_dialog_set_width (EEditorCellDialog *dialog)
 		width = g_strdup ("auto");
 	} else {
 
-		width = g_strdup_printf (
-			"%d%s",
+		width = g_strdup_printf ("%d%s",
 			gtk_spin_button_get_value_as_int (
 				GTK_SPIN_BUTTON (dialog->priv->width_edit)),
 			((gtk_combo_box_get_active (
@@ -385,8 +374,7 @@ editor_cell_dialog_set_column_span (EEditorCellDialog *dialog)
 	GValue val = { 0 };
 
 	g_value_init (&val, G_TYPE_ULONG);
-	g_value_set_ulong (
-		&val,
+	g_value_set_ulong (&val,
 		gtk_spin_button_get_value_as_int (
 			GTK_SPIN_BUTTON (dialog->priv->col_span_edit)));
 
@@ -400,8 +388,7 @@ editor_cell_dialog_set_row_span (EEditorCellDialog *dialog)
 	GValue val = { 0 };
 
 	g_value_init (&val, G_TYPE_ULONG);
-	g_value_set_ulong (
-		&val,
+	g_value_set_ulong (&val,
 		gtk_spin_button_get_value_as_int (
 			GTK_SPIN_BUTTON (dialog->priv->row_span_edit)));
 
@@ -431,15 +418,15 @@ editor_cell_dialog_set_background_color (EEditorCellDialog *dialog)
 
 static void
 cell_set_background_image (WebKitDOMHTMLTableCellElement *cell,
-                           const gchar *uri,
-                           gpointer user_data)
+			   const gchar *uri,
+			   gpointer user_data)
 {
 	if (!uri || !*uri) {
 		webkit_dom_element_remove_attribute (
-			WEBKIT_DOM_ELEMENT (cell), "background");
+			(WebKitDOMElement *) cell, "background");
 	} else {
 		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (cell), "background", uri, NULL);
+			(WebKitDOMElement *) cell, "background", uri, NULL);
 	}
 }
 
@@ -460,26 +447,26 @@ editor_cell_dialog_set_background_image (EEditorCellDialog *dialog)
 }
 
 static void
-editor_cell_dialog_show (GtkWidget *widget)
+editor_cell_dialog_show (GtkWidget *gtk_widget)
 {
 	EEditorCellDialog *dialog;
 	gchar *tmp;
 	GdkRGBA color;
 
-	dialog = E_EDITOR_CELL_DIALOG (widget);
+	dialog = E_EDITOR_CELL_DIALOG (gtk_widget);
 
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->scope_cell_button), TRUE);
 
 	tmp = webkit_dom_html_table_cell_element_get_align (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell));
+			(WebKitDOMHTMLTableCellElement *) dialog->priv->cell);
 	gtk_combo_box_set_active_id (
 		GTK_COMBO_BOX (dialog->priv->halign_combo),
 		(tmp && *tmp) ? tmp : "left");
 	g_free (tmp);
 
 	tmp = webkit_dom_html_table_cell_element_get_v_align (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell));
+			(WebKitDOMHTMLTableCellElement *) dialog->priv->cell);
 	gtk_combo_box_set_active_id (
 		GTK_COMBO_BOX (dialog->priv->valign_combo),
 		(tmp && *tmp) ? tmp : "middle");
@@ -488,17 +475,17 @@ editor_cell_dialog_show (GtkWidget *widget)
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->wrap_text_check),
 		!webkit_dom_html_table_cell_element_get_no_wrap (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell)));
+			(WebKitDOMHTMLTableCellElement *) dialog->priv->cell));
 
 	tmp = webkit_dom_element_get_tag_name (
-		WEBKIT_DOM_ELEMENT (dialog->priv->cell));
+		(WebKitDOMElement *) dialog->priv->cell);
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->header_style_check),
 		(g_ascii_strncasecmp (tmp, "TH", 2) == 0));
 	g_free (tmp);
 
 	tmp = webkit_dom_html_table_cell_element_get_width (
-		WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell));
+		(WebKitDOMHTMLTableCellElement *) dialog->priv->cell);
 	if (tmp && *tmp) {
 		gint val = atoi (tmp);
 		gtk_spin_button_set_value (
@@ -518,16 +505,16 @@ editor_cell_dialog_show (GtkWidget *widget)
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->row_span_edit),
 		webkit_dom_html_table_cell_element_get_row_span (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell)));
+			(WebKitDOMHTMLTableCellElement *) dialog->priv->cell));
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->col_span_edit),
 		webkit_dom_html_table_cell_element_get_col_span (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell)));
+			(WebKitDOMHTMLTableCellElement *) dialog->priv->cell));
 
 	if (webkit_dom_element_has_attribute (
-		WEBKIT_DOM_ELEMENT (dialog->priv->cell), "background")) {
+		(WebKitDOMElement *) dialog->priv->cell, "background")) {
 		tmp = webkit_dom_element_get_attribute (
-			WEBKIT_DOM_ELEMENT (dialog->priv->cell), "background");
+			(WebKitDOMElement *) dialog->priv->cell, "background");
 
 		gtk_file_chooser_set_uri (
 			GTK_FILE_CHOOSER (dialog->priv->background_image_chooser),
@@ -540,7 +527,7 @@ editor_cell_dialog_show (GtkWidget *widget)
 	}
 
 	tmp = webkit_dom_html_table_cell_element_get_bg_color (
-		WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell));
+		(WebKitDOMHTMLTableCellElement *) dialog->priv->cell);
 	if (!tmp || *tmp) {
 		color = white;
 	}
@@ -555,87 +542,94 @@ editor_cell_dialog_show (GtkWidget *widget)
 	}
 	g_free (tmp);
 
-	GTK_WIDGET_CLASS (e_editor_cell_dialog_parent_class)->show (widget);
+
+	GTK_WIDGET_CLASS (e_editor_cell_dialog_parent_class)->show (gtk_widget);
 }
 
 static void
-e_editor_cell_dialog_class_init (EEditorCellDialogClass *class)
+e_editor_cell_dialog_class_init (EEditorCellDialogClass *klass)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EEditorCellDialogPrivate));
+	e_editor_cell_dialog_parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (EEditorCellDialogPrivate));
 
-	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->show = editor_cell_dialog_show;
 }
+
 
 static void
 e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 {
-	GtkGrid *main_layout, *grid;
+	GtkBox *main_layout;
+	GtkGrid *grid;
 	GtkWidget *widget;
 	GtkFileFilter *file_filter;
 
-	dialog->priv = E_EDITOR_CELL_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		dialog, E_TYPE_EDITOR_CELL_DIALOG, EEditorCellDialogPrivate);
 
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+	main_layout = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 5));
+	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
 
 	/* == Scope == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Scope</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
+	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
+	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Scope: cell */
 	widget = gtk_image_new_from_icon_name ("stock_select-cell", GTK_ICON_SIZE_BUTTON);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
-	widget = gtk_radio_button_new_with_mnemonic (NULL, _("C_ell"));
-	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
+	widget = gtk_radio_button_new_with_mnemonic(NULL, _("Cell"));
+ 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	dialog->priv->scope_cell_button = widget;
 
 	g_signal_connect_swapped (
 		widget, "toggled",
-		G_CALLBACK (editor_cell_dialog_set_scope), dialog);
+		G_CALLBACK (editor_cell_dialog_set_scope), dialog);	
 
 	/* Scope: row */
 	widget = gtk_image_new_from_icon_name ("stock_select-row", GTK_ICON_SIZE_BUTTON);
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 
 	widget = gtk_radio_button_new_with_mnemonic_from_widget (
-		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("_Row"));
+		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("Row"));
 	gtk_grid_attach (grid, widget, 3, 0, 1, 1);
 	dialog->priv->scope_row_button = widget;
 
 	g_signal_connect_swapped (
 		widget, "toggled",
-		G_CALLBACK (editor_cell_dialog_set_scope), dialog);
+		G_CALLBACK (editor_cell_dialog_set_scope), dialog);	
 
 	/* Scope: table */
 	widget = gtk_image_new_from_icon_name ("stock_select-table", GTK_ICON_SIZE_BUTTON);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
 	widget = gtk_radio_button_new_with_mnemonic_from_widget (
-		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("_Table"));
+		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("Table"));
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 	dialog->priv->scope_table_button = widget;
 
 	g_signal_connect_swapped (
 		widget, "toggled",
-		G_CALLBACK (editor_cell_dialog_set_scope), dialog);
+		G_CALLBACK (editor_cell_dialog_set_scope), dialog);	
 
 	/* Scope: column */
 	widget = gtk_image_new_from_icon_name ("stock_select-column", GTK_ICON_SIZE_BUTTON);
 	gtk_grid_attach (grid, widget, 2, 1, 1, 1);
 
 	widget = gtk_radio_button_new_with_mnemonic_from_widget (
-		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("Col_umn"));
+		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("Column"));
 	gtk_grid_attach (grid, widget, 3, 1, 1, 1);
 	dialog->priv->scope_column_button = widget;
 
@@ -647,12 +641,12 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Alignment &amp; Behavior</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
+	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
+	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Horizontal */
@@ -668,8 +662,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		widget, "changed",
 		G_CALLBACK (editor_cell_dialog_set_halign), dialog);
 
-	widget = gtk_label_new_with_mnemonic (_("_Horizontal:"));
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+	widget = gtk_label_new_with_mnemonic (_("Horizontal:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->halign_combo);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
@@ -686,13 +679,12 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		widget, "changed",
 		G_CALLBACK (editor_cell_dialog_set_valign), dialog);
 
-	widget = gtk_label_new_with_mnemonic (_("_Vertical:"));
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+	widget = gtk_label_new_with_mnemonic (_("Vertical:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->valign_combo);
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 
 	/* Wrap Text */
-	widget = gtk_check_button_new_with_mnemonic (_("_Wrap Text"));
+	widget = gtk_check_button_new_with_mnemonic (_("Wrap Text"));
 	dialog->priv->wrap_text_check = widget;
 
 	g_signal_connect_swapped (
@@ -700,7 +692,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		G_CALLBACK (editor_cell_dialog_set_wrap_text), dialog);
 
 	/* Header Style */
-	widget = gtk_check_button_new_with_mnemonic (_("_Header Style"));
+	widget = gtk_check_button_new_with_mnemonic (_("Header Style"));
 	dialog->priv->header_style_check = widget;
 
 	g_signal_connect_swapped (
@@ -716,16 +708,16 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Layout</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_grid_attach (main_layout, widget, 0, 4, 1, 1);
+	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 5, 1, 1);
+	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Width */
-	widget = gtk_check_button_new_with_mnemonic (_("_Width"));
+	widget = gtk_check_button_new_with_mnemonic (_("Width"));
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 	dialog->priv->width_check = widget;
 
@@ -764,8 +756,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		widget, "value-changed",
 		G_CALLBACK (editor_cell_dialog_set_row_span), dialog);
 
-	widget = gtk_label_new_with_mnemonic (_("Row S_pan:"));
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+	widget = gtk_label_new_with_mnemonic (_("Row Span:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->row_span_edit);
 	gtk_grid_attach (grid, widget, 3, 0, 1, 1);
 
@@ -778,8 +769,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		widget, "value-changed",
 		G_CALLBACK (editor_cell_dialog_set_column_span), dialog);
 
-	widget = gtk_label_new_with_mnemonic (_("Co_lumn Span:"));
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+	widget = gtk_label_new_with_mnemonic (_("Column Span:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->col_span_edit);
 	gtk_grid_attach (grid, widget, 3, 1, 1, 1);
 
@@ -787,12 +777,12 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Background</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_grid_attach (main_layout, widget, 0, 6, 1, 1);
+	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 7, 1, 1);
+	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Color */
@@ -805,8 +795,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		G_CALLBACK (editor_cell_dialog_set_background_color), dialog);
 	dialog->priv->background_color_picker = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("C_olor:"));
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+	widget = gtk_label_new_with_mnemonic (_("_Color:"));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_color_picker);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
@@ -831,14 +820,28 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		G_CALLBACK (editor_cell_dialog_set_background_image), dialog);
 	dialog->priv->background_image_chooser = widget;
 
-	widget =gtk_label_new_with_mnemonic (_("_Image:"));
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+
+	widget =gtk_label_new_with_mnemonic (_("Image:"));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_image_chooser);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
+	/* == Button box == */
+	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (gtk_widget_hide), dialog);
+	dialog->priv->close_button = widget;
+
+	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);
+	gtk_box_pack_start (main_layout, GTK_WIDGET (widget), TRUE, TRUE, 0);
+	gtk_box_pack_start (
+		GTK_BOX (widget), dialog->priv->close_button, FALSE, FALSE, 0);
+
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }
+
 
 GtkWidget *
 e_editor_cell_dialog_new (EEditor *editor)
@@ -853,9 +856,9 @@ e_editor_cell_dialog_new (EEditor *editor)
 
 void
 e_editor_cell_dialog_show (EEditorCellDialog *dialog,
-                           WebKitDOMNode *cell)
+			   WebKitDOMNode *cell)
 {
-	EEditorCellDialogClass *class;
+	EEditorCellDialogClass *klass;
 
 	g_return_if_fail (E_IS_EDITOR_CELL_DIALOG (dialog));
 	g_return_if_fail (cell != NULL);
@@ -866,7 +869,8 @@ e_editor_cell_dialog_show (EEditorCellDialog *dialog,
 			e_editor_dom_node_find_parent_element (cell, "TH");
 	}
 
-	class = E_EDITOR_CELL_DIALOG_GET_CLASS (dialog);
-	GTK_WIDGET_CLASS (class)->show (GTK_WIDGET (dialog));
+	klass = E_EDITOR_CELL_DIALOG_GET_CLASS (dialog);
+	GTK_WIDGET_CLASS (klass)->show (GTK_WIDGET (dialog));
 }
+
 

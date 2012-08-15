@@ -161,6 +161,13 @@ editor_widget_selection_changed_cb (EEditorWidget *widget,
 }
 
 static gboolean
+editor_widget_should_show_delete_interface_for_element (EEditorWidget *widget,
+							WebKitDOMHTMLElement *element)
+{
+	return FALSE;
+}
+
+static gboolean
 editor_widget_button_press_event (GtkWidget *gtk_widget,
 				  GdkEventButton *event)
 {
@@ -663,6 +670,8 @@ e_editor_widget_init (EEditorWidget *editor)
 		G_CALLBACK (editor_widget_user_changed_contents_cb), NULL);
 	g_signal_connect (editor, "selection-changed",
 		G_CALLBACK (editor_widget_selection_changed_cb), NULL);
+	g_signal_connect (editor, "should-show-delete-interface-for-element",
+		G_CALLBACK (editor_widget_should_show_delete_interface_for_element), NULL);
 
 	editor->priv->selection = e_editor_selection_new (
 					WEBKIT_WEB_VIEW (editor));
