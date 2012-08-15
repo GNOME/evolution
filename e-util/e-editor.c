@@ -62,6 +62,7 @@ editor_update_actions (EEditor *editor,
 	manager = e_editor_get_ui_manager (editor);
 
 	editor->priv->image = NULL;
+	editor->priv->table_cell = NULL;
 
 	/* Update context menu item visibility. */
 	hit_test = webkit_web_view_get_hit_test_result (webview, event);
@@ -102,7 +103,8 @@ editor_update_actions (EEditor *editor,
 
 
 	visible = (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node) ||
-		   (e_editor_dom_node_find_parent_element (node, "TD") != NULL));
+		   (e_editor_dom_node_find_parent_element (node, "TD") != NULL) ||
+		   (e_editor_dom_node_find_parent_element (node, "TH") != NULL));
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_CELL), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_COLUMN), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_ROW), visible);
@@ -113,6 +115,9 @@ editor_update_actions (EEditor *editor,
 	gtk_action_set_visible (ACTION (CONTEXT_INSERT_ROW_BELOW), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_INSERT_TABLE), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_CELL), visible);
+	if (visible) {
+		editor->priv->table_cell = node;
+	}
 
 	/* Note the |= (cursor must be in a table cell). */
 	visible |= (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (node) ||

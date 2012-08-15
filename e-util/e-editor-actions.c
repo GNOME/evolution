@@ -29,6 +29,7 @@
 #include "e-editor-actions.h"
 #include "e-editor-private.h"
 #include "e-editor-widgets.h"
+#include "e-editor-utils.h"
 #include "e-emoticon-action.h"
 #include "e-emoticon-chooser.h"
 #include "e-image-chooser-dialog.h"
@@ -111,81 +112,36 @@ insert_text_file_ready_cb (GFile *file,
  * Action Callbacks
  *****************************************************************************/
 
-static WebKitDOMNode *
-find_parent_element_by_type (WebKitDOMNode *node, GType type)
-{
-	while (node) {
-
-		if (g_type_is_a (type, webkit_dom_node_get_type ()))
-			return node;
-
-		node = webkit_dom_node_get_parent_node (node);
-	}
-
-	return NULL;
-}
-
 static void
 action_context_delete_cell_cb (GtkAction *action,
                                EEditor *editor)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
-	WebKitDOMNode *start, *end, *cell;
-	gboolean single_row;
+	WebKitDOMNode *sibling;
+	WebKitDOMElement *cell;
 
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
-		return;
+	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+	cell = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
+	if (!cell) {
+		cell = e_editor_dom_node_find_parent_element (
+					editor->priv->table_cell, "TH");
+	}
+	g_return_if_fail (cell != NULL);
 
-	/* Find TD in which the selection starts */
-	start = webkit_dom_range_get_start_container (range, NULL);
-	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (start)) {
-		start = find_parent_element_by_type (
-			start, WEBKIT_TYPE_DOM_HTML_TABLE_CELL_ELEMENT);
+	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (cell));
+	if (!sibling) {
+		sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (cell));
 	}
 
-	/* Find TD in which the selection ends */
-	end = webkit_dom_range_get_end_container (range, NULL);
-	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (end)) {
-		end = find_parent_element_by_type (
-			end, WEBKIT_TYPE_DOM_HTML_TABLE_CELL_ELEMENT);
-	}
+	webkit_dom_node_remove_child (
+		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (cell)),
+		WEBKIT_DOM_NODE (cell), NULL);
 
-	single_row = (webkit_dom_node_get_parent_node (start) ==
-			webkit_dom_node_get_parent_node (end));
-
-	cell = start;
-	while (cell) {
-		WebKitDOMNodeList *nodes;
-		gulong length, i;
-
-		/* Remove all child nodes in the cell */
-		nodes = webkit_dom_node_get_child_nodes (cell);
-		length = webkit_dom_node_list_get_length (nodes);
-		for (i = 0; i < length; i++) {
-			webkit_dom_node_remove_child (
-				cell,
-				webkit_dom_node_list_item (nodes, i),
-				NULL);
-		}
-
-		if (cell == end)
-			break;
-
-		cell = webkit_dom_node_get_next_sibling (cell);
-
-		if (!cell && !single_row) {
-			cell = webkit_dom_node_get_first_child (
-				webkit_dom_node_get_parent_node (cell));
-		}
+	if (sibling) {
+		webkit_dom_html_table_cell_element_set_col_span (
+			(WebKitDOMHTMLTableCellElement *) sibling,
+			webkit_dom_html_table_cell_element_get_col_span (
+				(WebKitDOMHTMLTableCellElement *) sibling) + 1);
 	}
 }
 
@@ -193,57 +149,37 @@ static void
 action_context_delete_column_cb (GtkAction *action,
                                  EEditor *editor)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
-	WebKitDOMNode *start, *end, *first_row;
-	gulong index, count, i;
+	WebKitDOMElement *cell, *table;
+	WebKitDOMHTMLCollection *rows;
+	gulong index, length, ii;
 
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1) {
-		return;
-	}
-
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+	g_return_if_fail (editor->priv->table_cell != NULL);
 
 	/* Find TD in which the selection starts */
-	start = webkit_dom_range_get_start_container (range, NULL);
-	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (start)) {
-		start = find_parent_element_by_type (
-			start, WEBKIT_TYPE_DOM_HTML_TABLE_CELL_ELEMENT);
+	cell = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
+	if (!cell) {
+		cell = e_editor_dom_node_find_parent_element (
+					editor->priv->table_cell, "TH");
 	}
+	g_return_if_fail (cell != NULL);
 
-	/* Find TD in which the selection ends */
-	end = webkit_dom_range_get_end_container (range, NULL);
-	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (end)) {
-		end = find_parent_element_by_type (
-			end, WEBKIT_TYPE_DOM_HTML_TABLE_CELL_ELEMENT);
-	}
+	table = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
+	g_return_if_fail (table != NULL);
 
-	first_row = find_parent_element_by_type (
-		start, WEBKIT_TYPE_DOM_HTML_TABLE_ROW_ELEMENT);
-	first_row = webkit_dom_node_get_first_child (
-		webkit_dom_node_get_parent_node (first_row));
+	rows = webkit_dom_html_table_element_get_rows (
+			(WebKitDOMHTMLTableElement *) table);
+	length = webkit_dom_html_collection_get_length (rows);
 
 	index = webkit_dom_html_table_cell_element_get_cell_index (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (start));
-	count = webkit_dom_html_table_cell_element_get_cell_index (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (end)) - index;
+			(WebKitDOMHTMLTableCellElement *) cell);
 
-	for (i = 0; i < count; i++) {
-		WebKitDOMNode *row = first_row;
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *row;
 
-		while (row) {
-			webkit_dom_html_table_row_element_delete_cell (
-				WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row),
-				index, NULL);
+		row = webkit_dom_html_collection_item (rows, ii);
 
-			row = webkit_dom_node_get_next_sibling (row);
-		}
+		webkit_dom_html_table_row_element_delete_cell (
+			(WebKitDOMHTMLTableRowElement *) row, index, NULL);
 	}
 }
 
@@ -251,117 +187,67 @@ static void
 action_context_delete_row_cb (GtkAction *action,
                               EEditor *editor)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
-	WebKitDOMNode *start, *end, *table;
-	gulong index, row_count, i;
+	WebKitDOMElement *row;
 
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
-		return;
+	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+	row = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
+	g_return_if_fail (row != NULL);
 
-	start = webkit_dom_range_get_start_container (range, NULL);
-	if (!WEBKIT_DOM_IS_HTML_TABLE_ROW_ELEMENT (start)) {
-		start = find_parent_element_by_type (
-			start, WEBKIT_TYPE_DOM_HTML_TABLE_ROW_ELEMENT);
-	}
-
-	end = webkit_dom_range_get_end_container (range, NULL);
-	if (!WEBKIT_DOM_IS_HTML_TABLE_ROW_ELEMENT (end)) {
-		end = find_parent_element_by_type (
-			end, WEBKIT_TYPE_DOM_HTML_TABLE_ROW_ELEMENT);
-	}
-
-	table = find_parent_element_by_type (
-			start, WEBKIT_TYPE_DOM_HTML_TABLE_ELEMENT);
-
-	index = webkit_dom_html_table_row_element_get_row_index (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (start));
-	row_count = webkit_dom_html_table_row_element_get_row_index (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (end)) - index;
-
-	for (i = 0; i < row_count; i++) {
-		webkit_dom_html_table_element_delete_row (
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index, NULL);
-	}
+	webkit_dom_node_remove_child (
+		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row)),
+		WEBKIT_DOM_NODE (row), NULL);
 }
 
 static void
 action_context_delete_table_cb (GtkAction *action,
-    EEditor *editor)
+				EEditor *editor)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
-	WebKitDOMNode *table;
+	WebKitDOMElement *table;
 
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
-		return;
+	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-
-	table = webkit_dom_range_get_start_container (range, NULL);
-	if (!WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (table)) {
-		table = find_parent_element_by_type (
-			table, WEBKIT_TYPE_DOM_HTML_TABLE_ELEMENT);
-	}
+	table = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TABLE");
+	g_return_if_fail (table != NULL);
 
 	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (table), table, NULL);
+		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (table)),
+		WEBKIT_DOM_NODE (table), NULL);
 }
 
 static void
 action_context_insert_column_after_cb (GtkAction *action,
                                        EEditor *editor)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
-	WebKitDOMNode *cell, *row;
+	WebKitDOMElement *cell, *row;
 	gulong index;
 
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
-		return;
+	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-
-	cell = webkit_dom_range_get_end_container (range, NULL);
-	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (cell)) {
-		cell = find_parent_element_by_type (
-			cell, WEBKIT_TYPE_DOM_HTML_TABLE_CELL_ELEMENT);
+	cell = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
+	if (!cell) {
+		cell = e_editor_dom_node_find_parent_element (
+					editor->priv->table_cell, "TH");
 	}
+	g_return_if_fail (cell != NULL);
 
-	row = find_parent_element_by_type (
-		cell, WEBKIT_TYPE_DOM_HTML_TABLE_ROW_ELEMENT);
+	row = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
+	g_return_if_fail (row != NULL);
+
 	/* Get the first row in the table */
-	row = webkit_dom_node_get_first_child (
-		webkit_dom_node_get_parent_node (row));
+	row = (WebKitDOMElement *)
+		webkit_dom_node_get_first_child (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row)));
 
 	index = webkit_dom_html_table_cell_element_get_cell_index (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
+			(WebKitDOMHTMLTableCellElement *) (cell));
 
 	while (row) {
 		webkit_dom_html_table_row_element_insert_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index + 1, NULL);
+			(WebKitDOMHTMLTableRowElement *) row, index + 1, NULL);
 
-		row = webkit_dom_node_get_next_sibling (row);
+		row = (WebKitDOMElement *)
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row));
 	}
 }
 
@@ -369,42 +255,35 @@ static void
 action_context_insert_column_before_cb (GtkAction *action,
                                         EEditor *editor)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
-	WebKitDOMNode *cell, *row;
+	WebKitDOMElement *cell, *row;
 	gulong index;
 
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
-		return;
+	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-
-	cell = webkit_dom_range_get_start_container (range, NULL);
-	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (cell)) {
-		cell = find_parent_element_by_type (
-			cell, WEBKIT_TYPE_DOM_HTML_TABLE_CELL_ELEMENT);
+	cell = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
+	if (!cell) {
+		cell = e_editor_dom_node_find_parent_element (
+				editor->priv->table_cell, "TH");
 	}
+	g_return_if_fail (cell != NULL);
 
-	row = find_parent_element_by_type (
-		cell, WEBKIT_TYPE_DOM_HTML_TABLE_ROW_ELEMENT);
+	row = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
+	g_return_if_fail (row != NULL);
+
 	/* Get the first row in the table */
-	row = webkit_dom_node_get_first_child (
-		webkit_dom_node_get_parent_node (row));
+	row = (WebKitDOMElement *)
+		webkit_dom_node_get_first_child (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row)));
 
 	index = webkit_dom_html_table_cell_element_get_cell_index (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
+			(WebKitDOMHTMLTableCellElement *) (cell));
 
 	while (row) {
 		webkit_dom_html_table_row_element_insert_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index - 1, NULL);
+			(WebKitDOMHTMLTableRowElement *) row, index - 1, NULL);
 
-		row = webkit_dom_node_get_next_sibling (row);
+		row = (WebKitDOMElement *)
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row));
 	}
 }
 
@@ -412,72 +291,65 @@ static void
 action_context_insert_row_above_cb (GtkAction *action,
                                     EEditor *editor)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
-	WebKitDOMNode *row, *table;
-	gulong index;
+	WebKitDOMElement *row, *table;
+	WebKitDOMHTMLCollection *cells;
+	WebKitDOMHTMLElement *new_row;
+	gulong index, cell_count, ii;
 
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
-		return;
+	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+	row = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
+	g_return_if_fail (row != NULL);
 
-	row = webkit_dom_range_get_start_container (range, NULL);
-	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (row)) {
-		row = find_parent_element_by_type (
-			row, WEBKIT_TYPE_DOM_HTML_TABLE_ROW_ELEMENT);
-	}
-
-	table = find_parent_element_by_type (
-		row, WEBKIT_TYPE_DOM_HTML_TABLE_ELEMENT);
+	table = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
+	g_return_if_fail (table != NULL);
 
 	index = webkit_dom_html_table_row_element_get_row_index (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
+			(WebKitDOMHTMLTableRowElement *) row);
 
-	webkit_dom_html_table_element_insert_row (
-		WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index - 1, NULL);
+	new_row = webkit_dom_html_table_element_insert_row (
+			(WebKitDOMHTMLTableElement *) table, index, NULL);
+
+	cells = webkit_dom_html_table_row_element_get_cells (
+			(WebKitDOMHTMLTableRowElement *) row);
+	cell_count = webkit_dom_html_collection_get_length (cells);
+	for (ii = 0; ii < cell_count; ii++) {
+		webkit_dom_html_table_row_element_insert_cell (
+			(WebKitDOMHTMLTableRowElement *) new_row, -1, NULL);
+	}
+
 }
 
 static void
 action_context_insert_row_below_cb (GtkAction *action,
                                     EEditor *editor)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
-	WebKitDOMNode *row, *table;
-	gulong index;
+	WebKitDOMElement *row, *table;
+	WebKitDOMHTMLCollection *cells;
+	WebKitDOMHTMLElement *new_row;
+	gulong index, cell_count, ii;
 
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
-		return;
+	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+	row = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
+	g_return_if_fail (row != NULL);
 
-	row = webkit_dom_range_get_end_container (range, NULL);
-	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (row)) {
-		row = find_parent_element_by_type (
-			row, WEBKIT_TYPE_DOM_HTML_TABLE_ROW_ELEMENT);
-	}
-
-	table = find_parent_element_by_type (
-		row, WEBKIT_TYPE_DOM_HTML_TABLE_ELEMENT);
+	table = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
+	g_return_if_fail (table != NULL);
 
 	index = webkit_dom_html_table_row_element_get_row_index (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
+			(WebKitDOMHTMLTableRowElement *) row);
 
-	webkit_dom_html_table_element_insert_row (
-		WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index + 1, NULL);
+	new_row = webkit_dom_html_table_element_insert_row (
+			(WebKitDOMHTMLTableElement *) table, index + 1, NULL);
+
+	cells = webkit_dom_html_table_row_element_get_cells (
+			(WebKitDOMHTMLTableRowElement *) row);
+	cell_count = webkit_dom_html_collection_get_length (cells);
+	for (ii = 0; ii < cell_count; ii++) {
+		webkit_dom_html_table_row_element_insert_cell (
+			(WebKitDOMHTMLTableRowElement *) new_row, -1, NULL);
+	}
 }
 
 static void
@@ -899,7 +771,14 @@ static void
 action_properties_cell_cb (GtkAction *action,
                            EEditor *editor)
 {
-	gtk_window_present (GTK_WINDOW (WIDGET (CELL_PROPERTIES_WINDOW)));
+	if (editor->priv->cell_dialog == NULL) {
+		editor->priv->cell_dialog =
+			e_editor_cell_dialog_new (editor);
+	}
+
+	e_editor_cell_dialog_show (
+		E_EDITOR_CELL_DIALOG (editor->priv->cell_dialog),
+		editor->priv->table_cell);
 }
 
 static void
