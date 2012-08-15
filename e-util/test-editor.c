@@ -47,6 +47,7 @@ static const gchar *view_ui =
 "     <menuitem action='view-html-output'/>\n"
 "     <menuitem action='view-html-source'/>\n"
 "     <menuitem action='view-plain-source'/>\n"
+"     <menuitem action='view-inspector'/>\n"
 "    </menu>\n"
 "  </menubar>\n"
 "</ui>";
@@ -264,6 +265,19 @@ action_view_plain_source (GtkAction *action,
 	view_source_dialog (editor, _("Plain Source"), "text/plain", FALSE);
 }
 
+static void
+action_view_inspector (GtkAction *action,
+		       EEditor *editor)
+{
+	WebKitWebInspector *inspector;
+	EEditorWidget *widget;
+
+	widget = e_editor_get_editor_widget (editor);
+	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (widget));
+
+	webkit_web_inspector_show (inspector);
+}
+
 static GtkActionEntry file_entries[] = {
 
 	{ "print",
@@ -331,6 +345,13 @@ static GtkActionEntry view_entries[] = {
 	  NULL,
 	  NULL,
 	  G_CALLBACK (action_view_plain_source) },
+
+	{ "view-inspector",
+	  NULL,
+	  N_("Inspector"),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_view_inspector) },
 
 	{ "view-menu",
 	  NULL,
