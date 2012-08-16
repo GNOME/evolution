@@ -2,10 +2,10 @@
       type="guide" id="mail-composer-html">
 
   <info>
-    <desc>Format emails by using HTML instead of plain text.</desc>
+    <desc>Changing fonts, using colors, and inserting images, tables and links.</desc>
     <link type="guide" xref="index#mail-composing" />
 
-    <revision pkgversion="3.5.90" version="0.4" date="2012-08-16" status="final"/>
+    <revision pkgversion="3.5.90" version="0.5" date="2012-08-16" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -18,18 +18,23 @@
     </credit>
   </info>
 
-<title>Using HTML format to enhance emails</title>
+<title>Formatting emails (in Plain Text and HTML)</title>
 
-<p>Normally, you cannot set text styles or insert pictures in email. However, most newer email applications can display images and text styles in addition to basic alignment and paragraph formatting. This is done with HTML, which is the format that also web pages use.</p>
+<p></p>
+
+<p>Text formatting tools for basic alignment and paragraph formatting are located in the tool bar below the <gui>Subject</gui> line. They also appear in the <gui>Insert</gui> and <gui>Format</gui> menus.</p>
+     <p>The icons in the tool bar are explained in tooltips which appear when you hold your mouse pointer over the buttons.</p>
+
+<p>Normally, you cannot set text color or size or embed pictures in messages. However, most newer email applications can do this by using HTML format, which is the format that also web pages use.</p>
 
 <p>Some people do not have HTML-capable mail clients, or prefer not to receive HTML-enhanced mail because it is slower to download and display. Because of this, <app>Evolution</app> sends plain text unless you explicitly ask for HTML.</p>
 
-<p>You can change the format of an email message from plain text to HTML in the email composer by choosing <guiseq><gui>Format</gui><gui>HTML</gui></guiseq> from the menu bar.</p>
-<p>Alternately, you also can change the first dropdown list below the <gui>Subject</gui> line from <gui>Plain Text</gui> to <gui>HTML</gui>.</p>
-<p>To send all your mail as HTML by default, enable <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Default Behavior</gui><gui>Format messages in HTML</gui></guiseq>.</p>
+  <section id="formatting-options-plain" style="2column">
+    <title>Plain Text Formatting Options</title>
+  </section>
 
-  <section id="formatting-options" style="2column">
-    <title>HTML Formatting Options</title>
+  <section id="formatting-options-html" style="2column">
+    <title>HTML-only Formatting Options</title>
   </section>
 
 </page>

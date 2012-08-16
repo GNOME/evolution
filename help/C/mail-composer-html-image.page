@@ -3,9 +3,9 @@
 
   <info>
     <desc>Embed a picture in the mail composer.</desc>
-    <link type="guide" xref="mail-composer-html#formatting-options" />
+    <link type="guide" xref="mail-composer-html#formatting-options-html" />
 
-    <revision pkgversion="3.5.90" version="0.4" date="2012-08-16" status="final"/>
+    <revision pkgversion="3.5.90" version="0.5" date="2012-08-16" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
