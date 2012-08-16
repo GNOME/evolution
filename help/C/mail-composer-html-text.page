@@ -5,7 +5,7 @@
     <desc>Format Text in the mail composer.</desc>
     <link type="guide" xref="mail-composer-html#formatting-options" />
 
-    <revision pkgversion="3.0.2" version="0.3" date="2011-08-01" status="draft"/>
+    <revision pkgversion="3.5.90" version="0.4" date="2012-08-16" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -20,10 +20,13 @@
 
 <title>Formatting Text in HTML</title>
 
-<!-- TODO: These instructions are partially WRONG in 3.0.2 as the tool bar has been split into two. Needs an update. Maybe we also need a way to describe the non-HTML-only functions for plain text mail somewhere. -->
+<!-- TODO: We need a way to describe the non-HTML-only functions for plain text mail somewhere else (first bar). -->
 
      <p>HTML formatting tools are located in the two tool bars just above the area where you actually write the message. They also appear in the <gui>Insert</gui> and <gui>Format</gui> menus.</p>
      <p>The icons in the tool bar are explained in tooltips which appear when you hold your mouse pointer over the buttons. The buttons fall into five categories:</p>
+
+<section id="first-bar">
+<title>First bar</title>
 
 <section id="headers-and-lists">
  <title>Headers and Lists:</title>
@@ -41,6 +44,12 @@
       <p>The button with the arrow pointing left decreases a paragraph's indentation, and the right arrow increases its indentation.</p>
 </section>
 
+</section>
+
+
+<section id="first-bar">
+<title>Second bar</title>
+
 <section id="text-styles">
       <title>Text Styles:</title>
       <p>Use these buttons in the lower tool bar to determine the way your email looks. If you have text selected, the style applies to the selected text. If you do not have text selected, the style applies to whatever you type next.</p>
@@ -49,6 +58,14 @@
   <tr>
     <td><p>Button</p></td>
     <td><p>Description</p></td>
+  </tr>
+  <tr>
+    <td><p>+0</p></td>
+    <td><p>Font size.</p></td>
+  </tr>
+  <tr>
+    <td><p><media type="image" src="./figures/color-000000.png" /></p></td>
+    <td><p>Color chooser for text. The box displays the current text color. To choose a new color, click the arrow button to the right. If you have text selected, the color applies to the selected text. If you do not have text selected, the color applies to whatever you type next. You can select a background color or image by right-clicking the message background, then selecting <guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>.</p></td>
   </tr>
   <tr>
     <td><p>TT</p></td>
@@ -71,11 +88,11 @@
     <td><p>Marks a line through the text.</p></td>
   </tr>
 </table>
+
+<p>The other buttons are explained under <link xref="mail-composer-html#formatting-options" />.</p>
+
 </section>
 
-<section id="color-selection">
-      <title>Color Selection:</title>
-      <p>At the left in the lower tool bar is the color section tool, where a box displays the current text color. To choose a new color, click the arrow button to the right. If you have text selected, the color applies to the selected text. If you do not have text selected, the color applies to whatever you type next. You can select a background color or image by right-clicking the message background, then selecting <guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>.</p>
 </section>
 
 </page>

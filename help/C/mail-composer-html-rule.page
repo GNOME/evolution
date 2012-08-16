@@ -5,7 +5,7 @@
     <desc>Insert a horizontal line in the mail composer.</desc>
     <link type="guide" xref="mail-composer-html#formatting-options" />
 
-    <revision pkgversion="3.1.5" version="0.2" date="2011-07-29" status="final"/>
+    <revision pkgversion="3.5.90" version="0.3" date="2011-08-16" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -27,6 +27,8 @@
 <item><p>Select <gui>Shaded</gui> if wanted.</p></item>
 <item><p>Click <gui>Close</gui>.</p></item>
 </steps>
+
+<p>Alternately, you can also use the <media type="image" src="./figures/html-composer-insert-rule.png" /> icon in the second bar below the <gui>Subject</gui> line.</p>
 
 </page>
 
