@@ -61,6 +61,10 @@ struct _EEditorClass {
 
 	void		(*update_actions)	(EEditor *editor,
 						 GdkEventButton *event);
+
+	void		(*spell_languages_changed)
+						(EEditor *editor,
+						 GList *dictionaries);
 };
 
 GType		e_editor_get_type		(void);
@@ -82,6 +86,9 @@ GtkWidget *	e_editor_get_managed_widget
 const gchar *	e_editor_get_filename		(EEditor *editor);
 void		e_editor_set_filename		(EEditor *editor,
 						 const gchar *filename);
+
+void		e_editor_emit_spell_languages_changed
+						(EEditor *editor);
 
 
 /*****************************************************************************

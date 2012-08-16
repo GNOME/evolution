@@ -498,6 +498,42 @@ dnl **************************************************
 PKG_CHECK_MODULES([GIT], [gnome-icon-theme >= gnome_icon_theme_minimum_version])
 
 dnl **************************************************
+dnl iso-codes
+dnl **************************************************
+AC_MSG_CHECKING([for iso-codes package])
+have_iso_codes=no
+if $PKG_CONFIG --exists iso-codes; then
+	if $PKG_CONFIG iso-codes --atleast-version=0.49; then
+		have_iso_codes=yes
+		AC_MSG_RESULT([$have_iso_codes])
+	else
+		AC_MSG_WARN([iso-codes detected, but version 0.49 or later is required due to licensing])
+	fi
+else
+	AC_MSG_RESULT([$have_iso_codes])
+fi
+
+if test "x$have_iso_codes" = "xyes"; then
+	AC_MSG_CHECKING([whether iso-codes has iso-639 and iso-3166 domains])
+	if $PKG_CONFIG --variable=domains iso-codes | grep 639 >/dev/null 2>&1 && \
+		$PKG_CONFIG --variable=domains iso-codes | grep 3166 >/dev/null 2>&1 ; then
+			result=yes
+	else
+		result=no
+		have_iso_codes=no
+	fi
+	AC_MSG_RESULT([$result])
+fi
+
+if test "x$have_iso_codes" = "xyes"; then
+	AC_DEFINE_UNQUOTED([ISO_CODES_PREFIX],
+		["`$PKG_CONFIG --variable=prefix iso-codes`"],
+		[ISO codes prefix])
+	AC_DEFINE([HAVE_ISO_CODES], [1],
+		[Define if you have the iso-codes package])
+fi
+
+dnl **************************************************
 dnl Accessibility support
 dnl **************************************************
 PKG_CHECK_MODULES([A11Y], [atk])

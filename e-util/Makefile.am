@@ -188,6 +188,8 @@ evolution_util_include_HEADERS =  \
 	e-editor-paragraph-dialog.h \
 	e-editor-replace-dialog.h \
 	e-editor-selection.h \
+	e-editor-spell-check-dialog.h \
+	e-editor-spell-checker.h \
 	e-editor-table-dialog.h \
 	e-editor-text-dialog.h \
 	e-editor-utils.h \
@@ -459,6 +461,8 @@ libevolution_util_la_SOURCES = \
 	e-editor-private.h \
 	e-editor-replace-dialog.c \
 	e-editor-selection.c \
+	e-editor-spell-check-dialog.c \
+	e-editor-spell-checker.c \
 	e-editor-table-dialog.c \
 	e-editor-text-dialog.c \
 	e-editor-utils.c \

@@ -15,8 +15,6 @@
  * Boston, MA 02111-1307, USA.
  */
 
-//#include "e-editor-private.h"
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -26,8 +24,9 @@
 #include <string.h>
 
 #include "e-editor.h"
-#include "e-editor-actions.h"
 #include "e-editor-private.h"
+#include "e-editor-actions.h"
+#include "e-editor-spell-checker.h"
 #include "e-editor-widgets.h"
 #include "e-editor-utils.h"
 #include "e-emoticon-action.h"
@@ -369,54 +368,34 @@ static void
 action_context_spell_add_cb (GtkAction *action,
                              EEditor *editor)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
 	WebKitSpellChecker *spell_checker;
+	EEditorSelection *selection;
 	gchar *word;
 
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
-		return;
-
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-	word = webkit_dom_range_get_text (range);
-
 	spell_checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
-	webkit_spell_checker_learn_word (spell_checker, word);
+	selection = e_editor_widget_get_selection (editor->priv->editor_widget);
 
-	g_free (word);
+	word = e_editor_selection_get_caret_word (selection);
+	if (word && *word) {
+		webkit_spell_checker_learn_word (spell_checker, word);
+	}
 }
 
 static void
 action_context_spell_ignore_cb (GtkAction *action,
                                 EEditor *editor)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
 	WebKitSpellChecker *spell_checker;
+	EEditorSelection *selection;
 	gchar *word;
 
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
-		return;
-
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-	word = webkit_dom_range_get_text (range);
-
 	spell_checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
-	webkit_spell_checker_ignore_word (spell_checker, word);
+	selection = e_editor_widget_get_selection (editor->priv->editor_widget);
 
-	g_free (word);
+	word = e_editor_selection_get_caret_word (selection);
+	if (word && *word) {
+		webkit_spell_checker_ignore_word (spell_checker, word);
+	}
 }
 
 static void
@@ -596,46 +575,40 @@ static void
 action_language_cb (GtkToggleAction *action,
                     EEditor *editor)
 {
-	/* FIXME WEBKIT */
-	/*
-	const GtkhtmlSpellLanguage *language;
-	GtkhtmlSpellChecker *checker;
+	EEditorSpellChecker *checker;
+	EnchantDict *dictionary;
 	const gchar *language_code;
 	GtkAction *add_action;
-	GtkHTML *html;
 	GList *list;
 	guint length;
 	gchar *action_name;
 	gboolean active;
 
+	checker = E_EDITOR_SPELL_CHECKER (webkit_get_text_checker ());
 	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
 	language_code = gtk_action_get_name (GTK_ACTION (action));
-	language = gtkhtml_spell_language_lookup (language_code);
+	dictionary = e_editor_spell_checker_lookup_dict (checker, language_code);
 
-	checker = g_hash_table_lookup (
-		editor->priv->available_spell_checkers, language);
-	g_return_if_fail (checker != NULL);
-
-	//Update the list of active spell checkers.
-	list = editor->priv->active_spell_checkers;
+	/* Update the list of active dictionaries */
+	list = editor->priv->active_dictionaries;
 	if (active)
 		list = g_list_insert_sorted (
-			list, g_object_ref (checker),
-			(GCompareFunc) gtkhtml_spell_checker_compare);
+			list, (EnchantDict *) dictionary,
+			(GCompareFunc) e_editor_spell_checker_dict_compare);
 	else {
 		GList *link;
 
-		link = g_list_find (list, checker);
+		link = g_list_find (list, dictionary);
 		g_return_if_fail (link != NULL);
+		e_editor_spell_checker_free_dict (checker, link->data);
 		list = g_list_delete_link (list, link);
-		g_object_unref (checker);
 	}
-	editor->priv->active_spell_checkers = list;
+	editor->priv->active_dictionaries = list;
 	length = g_list_length (list);
 
-	// Update "Add Word To" context menu item visibility.
+	/* Update "Add Word To" context menu item visibility. */
 	action_name = g_strdup_printf ("context-spell-add-%s", language_code);
-	add_action = gtkhtml_editor_get_action (editor, action_name);
+	add_action = e_editor_get_action (editor, action_name);
 	gtk_action_set_visible (add_action, active);
 	g_free (action_name);
 
@@ -645,11 +618,7 @@ action_language_cb (GtkToggleAction *action,
 
 	gtk_action_set_sensitive (ACTION (SPELL_CHECK), length > 0);
 
-	html = gtkhtml_editor_get_html (editor);
-	html_engine_spell_check (html->engine);
-
-	gtkthtml_editor_emit_spell_languages_changed (editor);
-	*/
+	e_editor_emit_spell_languages_changed (editor);
 }
 
 struct _ModeChanged {
@@ -935,9 +904,16 @@ static void
 action_spell_check_cb (GtkAction *action,
                        EEditor *editor)
 {
-	/* FIXME WEBKIT
-	e_editor_widget_spell_check (editor);
-	*/
+	if (editor->priv->spell_check_dialog == NULL) {
+		editor->priv->spell_check_dialog =
+			e_editor_spell_check_dialog_new (editor);
+
+		e_editor_spell_check_dialog_set_dictionaries (
+			E_EDITOR_SPELL_CHECK_DIALOG (editor->priv->spell_check_dialog),
+			editor->priv->active_dictionaries);
+	}
+
+	gtk_window_present (GTK_WINDOW (editor->priv->spell_check_dialog));
 }
 
 static void
@@ -1708,31 +1684,25 @@ static GtkActionEntry spell_context_entries[] = {
 static void
 editor_actions_setup_languages_menu (EEditor *editor)
 {
-	/* FIXME WEBKIT
+	EEditorSpellChecker *checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
-	const GList *available_languages;
+	const GList *available_dicts;
 	guint merge_id;
 
 	manager = editor->priv->manager;
 	action_group = editor->priv->language_actions;
-	available_languages = gtkhtml_spell_language_get_available ();
+	checker = E_EDITOR_SPELL_CHECKER (webkit_get_text_checker ());
+	available_dicts = e_editor_spell_checker_get_available_dicts (checker);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
-	while (available_languages != NULL) {
-		GtkhtmlSpellLanguage *language = available_languages->data;
-		GtkhtmlSpellChecker *checker;
+	while (available_dicts != NULL) {
+		EnchantDict *dictionary = available_dicts->data;
 		GtkToggleAction *action;
 
-		checker = gtkhtml_spell_checker_new (language);
-
-		g_hash_table_insert (
-			editor->priv->available_spell_checkers,
-			language, checker);
-
 		action = gtk_toggle_action_new (
-			gtkhtml_spell_language_get_code (language),
-			gtkhtml_spell_language_get_name (language),
+			e_editor_spell_checker_get_dict_code (dictionary),
+			e_editor_spell_checker_get_dict_name (dictionary),
 			NULL, NULL);
 
 		g_signal_connect (
@@ -1747,42 +1717,41 @@ editor_actions_setup_languages_menu (EEditor *editor)
 		gtk_ui_manager_add_ui (
 			manager, merge_id,
 			"/main-menu/edit-menu/language-menu",
-			gtkhtml_spell_language_get_code (language),
-			gtkhtml_spell_language_get_code (language),
+			e_editor_spell_checker_get_dict_code (dictionary),
+			e_editor_spell_checker_get_dict_code (dictionary),
 			GTK_UI_MANAGER_AUTO, FALSE);
 
-		available_languages = g_list_next (available_languages);
+		available_dicts = g_list_next (available_dicts);
 	}
-	*/
 }
 
 static void
 editor_actions_setup_spell_check_menu (EEditor *editor)
 {
-	/*
+	EEditorSpellChecker *checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
-	const GList *available_languages;
+	const GList *available_dicts;
 	guint merge_id;
 
 	manager = editor->priv->manager;
 	action_group = editor->priv->spell_check_actions;;
-	available_languages = gtkhtml_spell_language_get_available ();
+	checker = E_EDITOR_SPELL_CHECKER (webkit_get_text_checker ());
+	available_dicts = e_editor_spell_checker_get_available_dicts (checker);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
-	while (available_languages != NULL) {
-		GtkhtmlSpellLanguage *language = available_languages->data;
+	while (available_dicts != NULL) {
+		EnchantDict *dictionary = available_dicts->data;
 		GtkAction *action;
 		const gchar *code;
 		const gchar *name;
 		gchar *action_label;
 		gchar *action_name;
 
-		code = gtkhtml_spell_language_get_code (language);
-		name = gtkhtml_spell_language_get_name (language);
+		code = e_editor_spell_checker_get_dict_code (dictionary);
+		name = e_editor_spell_checker_get_dict_name (dictionary);
 
-		// Add a suggestion menu. 
-
+		/* Add a suggestion menu. */
 		action_name = g_strdup_printf (
 			"context-spell-suggest-%s-menu", code);
 
@@ -1798,11 +1767,11 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 
 		g_free (action_name);
 
-		// Add an item to the "Add Word To" menu.
-
+		/* Add an item to the "Add Word To" menu. */
 		action_name = g_strdup_printf ("context-spell-add-%s", code);
-		// Translators: %s will be replaced with the actual dictionary name,
-		//where a user can add a word to. This is part of an "Add Word To" submenu.
+		/* Translators: %s will be replaced with the actual dictionary
+		 * name, where a user can add a word to. This is part of an
+		 * "Add Word To" submenu. */
 		action_label = g_strdup_printf (_("%s Dictionary"), name);
 
 		action = gtk_action_new (
@@ -1812,8 +1781,8 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 			action, "activate",
 			G_CALLBACK (action_context_spell_add_cb), editor);
 
-		// Visibility is dependent on whether the
-		//corresponding language action is active.
+		/* Visibility is dependent on whether the
+		   corresponding language action is active. */
 		gtk_action_set_visible (action, FALSE);
 
 		gtk_action_group_add_action (action_group, action);
@@ -1829,9 +1798,8 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 		g_free (action_label);
 		g_free (action_name);
 
-		available_languages = g_list_next (available_languages);
+		available_dicts = g_list_next (available_dicts);
 	}
-	*/
 }
 
 void

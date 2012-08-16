@@ -99,6 +99,14 @@ GType			e_editor_selection_get_type 	(void);
 
 EEditorSelection *	e_editor_selection_new		(WebKitWebView *parent_view);
 
+gboolean		e_editor_selection_has_text	(EEditorSelection *selection);
+
+gchar *			e_editor_selection_get_caret_word
+							(EEditorSelection *selection);
+void			e_editor_selection_replace_caret_word
+							(EEditorSelection *selection,
+							 const gchar *replacement);
+
 void			e_editor_selection_set_alignment
 							(EEditorSelection *selection,
 							 EEditorSelectionAlignment alignment);

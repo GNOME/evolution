@@ -34,6 +34,7 @@
 #include <e-editor-text-dialog.h>
 #include <e-editor-paragraph-dialog.h>
 #include <e-editor-cell-dialog.h>
+#include <e-editor-spell-check-dialog.h>
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>
@@ -72,6 +73,7 @@ struct _EEditorPrivate {
 	GtkWidget *text_dialog;
 	GtkWidget *paragraph_dialog;
 	GtkWidget *cell_dialog;
+	GtkWidget *spell_check_dialog;
 
 	GtkWidget *color_combo_box;
 	GtkWidget *mode_combo_box;
@@ -83,6 +85,9 @@ struct _EEditorPrivate {
 	EEditorSelection *selection;
 
 	gchar *filename;
+
+	guint spell_suggestions_merge_id;
+	GList *active_dictionaries;
 
 	WebKitDOMNode *image;
 	WebKitDOMNode *table_cell;

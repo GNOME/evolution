@@ -22,8 +22,11 @@
 #include "e-editor.h"
 #include "e-editor-private.h"
 #include "e-editor-utils.h"
+#include "e-editor-selection.h"
+#include "e-editor-spell-checker.h"
 
 #include <glib/gi18n-lib.h>
+#include <enchant/enchant.h>
 
 G_DEFINE_TYPE (
 	EEditor,
@@ -37,25 +40,260 @@ enum {
 
 enum {
 	UPDATE_ACTIONS,
+	SPELL_LANGUAGES_CHANGED,
 	LAST_SIGNAL
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
+
+
+/* This controls how spelling suggestions are divided between the primary
+ * context menu and a secondary menu.  The idea is to prevent the primary
+ * menu from growing too long.
+ *
+ * The constants below are used as follows:
+ *
+ * if TOTAL_SUGGESTIONS <= MAX_LEVEL1_SUGGETIONS:
+ *     LEVEL1_SUGGESTIONS = TOTAL_SUGGESTIONS
+ * elif TOTAL_SUGGESTIONS - MAX_LEVEL1_SUGGESTIONS < MIN_LEVEL2_SUGGESTIONS:
+ *     LEVEL1_SUGGESTIONS = TOTAL_SUGGESTIONS
+ * else
+ *     LEVEL1_SUGGESTIONS = MAX_LEVEL1_SUGGETIONS
+ *
+ * LEVEL2_SUGGESTIONS = TOTAL_SUGGESTIONS - LEVEL1_SUGGESTIONS
+ *
+ * Note that MAX_LEVEL1_SUGGETIONS is not a hard maximum.
+ */
+#define MAX_LEVEL1_SUGGESTIONS	4
+#define MIN_LEVEL2_SUGGESTIONS	3
+
+/* Action callback for context menu spelling suggestions.
+ * XXX This should really be in e-editor-actions.c */
+static void
+action_context_spell_suggest_cb (GtkAction *action,
+                                 EEditor *editor)
+{
+	EEditorWidget *widget;
+	EEditorSelection *selection;
+	const gchar *word;
+
+	word = g_object_get_data (G_OBJECT (action), "word");
+	g_return_if_fail (word != NULL);
+
+	widget = e_editor_get_editor_widget (editor);
+	selection = e_editor_widget_get_selection (widget);
+
+	e_editor_selection_replace_caret_word (selection, word);
+}
+
+static void
+editor_inline_spelling_suggestions (EEditor *editor,
+                                    EnchantDict *dictionary)
+{
+	EEditorWidget *widget;
+	EEditorSelection *selection;
+	WebKitSpellChecker *checker;
+	GtkActionGroup *action_group;
+	GtkUIManager *manager;
+	gchar **suggestions;
+	const gchar *path;
+	gchar *word;
+	guint count = 0;
+	guint length;
+	guint merge_id;
+	guint threshold;
+	gint ii;
+
+	widget = e_editor_get_editor_widget (editor);
+	selection = e_editor_widget_get_selection (widget);
+	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
+
+	word = e_editor_selection_get_caret_word (selection);
+	if (!word || !*word) {
+		return;
+	}
+
+	suggestions = webkit_spell_checker_get_guesses_for_word (checker, word, NULL);
+
+	path = "/context-menu/context-spell-suggest/";
+	manager = e_editor_get_ui_manager (editor);
+	action_group = editor->priv->suggestion_actions;
+	merge_id = editor->priv->spell_suggestions_merge_id;
+
+	length = 0;
+	while (suggestions && suggestions[length]) {
+		length++;
+	}
+
+	/* Calculate how many suggestions to put directly in the
+	 * context menu.  The rest will go in a secondary menu. */
+	if (length <= MAX_LEVEL1_SUGGESTIONS) {
+		threshold = length;
+	} else if (length - MAX_LEVEL1_SUGGESTIONS < MIN_LEVEL2_SUGGESTIONS) {
+		threshold = length;
+	} else {
+		threshold = MAX_LEVEL1_SUGGESTIONS;
+	}
+
+	ii = 0;
+	for (ii = 0; suggestions && suggestions[ii]; ii++) {
+		gchar *suggestion = suggestions[ii];
+		gchar *action_name;
+		gchar *action_label;
+		GtkAction *action;
+		GtkWidget *child;
+		GSList *proxies;
+
+		/* Once we reach the threshold, put all subsequent
+		 * spelling suggestions in a secondary menu. */
+		if (count == threshold)
+			path = "/context-menu/context-more-suggestions-menu/";
+
+		/* Action name just needs to be unique. */
+		action_name = g_strdup_printf ("suggest-%d", count++);
+
+		action_label = g_markup_printf_escaped (
+			"<b>%s</b>", suggestion);
+
+		action = gtk_action_new (
+			action_name, action_label, NULL, NULL);
+
+		g_object_set_data_full (
+			G_OBJECT (action), "word",
+			g_strdup (suggestion), g_free);
+
+		g_signal_connect (
+			action, "activate", G_CALLBACK (
+			action_context_spell_suggest_cb), editor);
+
+		gtk_action_group_add_action (action_group, action);
+
+		gtk_ui_manager_add_ui (
+			manager, merge_id, path,
+			action_name, action_name,
+			GTK_UI_MANAGER_AUTO, FALSE);
+
+		/* XXX GtkAction offers no support for Pango markup,
+		 *     so we have to manually set "use-markup" on the
+		 *     child of the proxy widget. */
+		gtk_ui_manager_ensure_update (manager);
+		proxies = gtk_action_get_proxies (action);
+		child = gtk_bin_get_child (proxies->data);
+		g_object_set (child, "use-markup", TRUE, NULL);
+
+		g_free (action_name);
+		g_free (action_label);
+	}
+
+	g_free (word);
+	g_strfreev (suggestions);
+}
+
+/* Helper for editor_update_actions() */
+static void
+editor_spell_checkers_foreach (EnchantDict *dictionary,
+                               EEditor *editor)
+{
+	EEditorSpellChecker *checker;
+	EEditorWidget *widget;
+	EEditorSelection *selection;
+	const gchar *language_code;
+	GtkActionGroup *action_group;
+	GtkUIManager *manager;
+	gchar **suggestions;
+	gchar *path;
+	gchar *word;
+	gint ii = 0;
+	guint merge_id;
+
+	language_code = e_editor_spell_checker_get_dict_code (dictionary);
+
+	widget = e_editor_get_editor_widget (editor);
+	selection = e_editor_widget_get_selection (widget);
+	checker = E_EDITOR_SPELL_CHECKER (webkit_get_text_checker ());
+	word = e_editor_selection_get_caret_word (selection);
+	if (!word || !*word) {
+		return;
+	}
+
+	suggestions = webkit_spell_checker_get_guesses_for_word (
+			WEBKIT_SPELL_CHECKER (checker), word, NULL);
+
+	manager = e_editor_get_ui_manager (editor);
+	action_group = editor->priv->suggestion_actions;
+	merge_id = editor->priv->spell_suggestions_merge_id;
+
+	path = g_strdup_printf (
+		"/context-menu/context-spell-suggest/"
+		"context-spell-suggest-%s-menu", language_code);
+
+	for (ii = 0; suggestions && suggestions[ii]; ii++) {
+		gchar *suggestion = suggestions[ii];
+		gchar *action_name;
+		gchar *action_label;
+		GtkAction *action;
+		GtkWidget *child;
+		GSList *proxies;
+
+		/* Action name just needs to be unique. */
+		action_name = g_strdup_printf (
+			"suggest-%s-%d", language_code, ii);
+
+		action_label = g_markup_printf_escaped (
+			"<b>%s</b>", suggestion);
+
+		action = gtk_action_new (
+			action_name, action_label, NULL, NULL);
+
+		g_object_set_data_full (
+			G_OBJECT (action), "word",
+			g_strdup (suggestion), g_free);
+
+		g_signal_connect (
+			action, "activate", G_CALLBACK (
+			action_context_spell_suggest_cb), editor);
+
+		gtk_action_group_add_action (action_group, action);
+
+		gtk_ui_manager_add_ui (
+			manager, merge_id, path,
+			action_name, action_name,
+			GTK_UI_MANAGER_AUTO, FALSE);
+
+		/* XXX GtkAction offers no supports for Pango markup,
+		 *     so we have to manually set "use-markup" on the
+		 *     child of the proxy widget. */
+		gtk_ui_manager_ensure_update (manager);
+		proxies = gtk_action_get_proxies (action);
+		child = gtk_bin_get_child (proxies->data);
+		g_object_set (child, "use-markup", TRUE, NULL);
+
+		g_free (action_name);
+		g_free (action_label);
+	}
+
+	g_free (path);
+	g_free (word);
+	g_strfreev (suggestions);
+}
 
 static void
 editor_update_actions (EEditor *editor,
 		       GdkEventButton *event)
 {
 	WebKitWebView *webview;
+	WebKitSpellChecker *checker;
 	WebKitHitTestResult *hit_test;
 	WebKitHitTestResultContext context;
 	WebKitDOMNode *node;
 	EEditorWidget *widget;
+	EEditorSelection *selection;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
 	GList *list;
 	gboolean visible;
 	guint merge_id;
+	gint loc, len;
 
 	widget = e_editor_get_editor_widget (editor);
 	webview = WEBKIT_WEB_VIEW (widget);
@@ -126,18 +364,16 @@ editor_update_actions (EEditor *editor,
 
 	/********************** Spell Check Suggestions **********************/
 
-	/* FIXME WEBKIT No spellcheching for now
-	object = html->engine->cursor->object;
 	action_group = editor->priv->suggestion_actions;
 
-	// Remove the old content from the context menu.
+	/* Remove the old content from the context menu. */
 	merge_id = editor->priv->spell_suggestions_merge_id;
 	if (merge_id > 0) {
 		gtk_ui_manager_remove_ui (manager, merge_id);
 		editor->priv->spell_suggestions_merge_id = 0;
 	}
 
-	// Clear the action group for spelling suggestions.
+	/* Clear the action group for spelling suggestions. */
 	list = gtk_action_group_list_actions (action_group);
 	while (list != NULL) {
 		GtkAction *action = list->data;
@@ -146,31 +382,88 @@ editor_update_actions (EEditor *editor,
 		list = g_list_delete_link (list, list);
 	}
 
-	// Decide if we should show spell checking items.
-	visible =
-		!html_engine_is_selection_active (html->engine) &&
-		object != NULL && html_object_is_text (object) &&
-		!html_engine_spell_word_is_valid (html->engine);
+	/* Decide if we should show spell checking items. */
+	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
+	selection = e_editor_widget_get_selection (widget);
+	visible = FALSE;
+	if ((g_list_length (editor->priv->active_dictionaries) > 0) &&
+	    e_editor_selection_has_text (selection)) {
+		gchar *word = e_editor_selection_get_caret_word (selection);
+		if (word && *word) {
+			webkit_spell_checker_check_spelling_of_string (
+				checker, word, &loc, &len);
+			visible = (loc > -1);
+		} else {
+			visible = FALSE;
+		}
+		g_free (word);
+	}
+
 	action_group = editor->priv->spell_check_actions;
 	gtk_action_group_set_visible (action_group, visible);
 
-	// Exit early if spell checking items are invisible.
-	if (!visible)
+	/* Exit early if spell checking items are invisible. */
+	if (!visible) {
 		return;
+	}
 
-	list = editor->priv->active_spell_checkers;
+	list = editor->priv->active_dictionaries;
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 	editor->priv->spell_suggestions_merge_id = merge_id;
 
-	// Handle a single active language as a special case.
+	/* Handle a single active language as a special case. */
 	if (g_list_length (list) == 1) {
 		editor_inline_spelling_suggestions (editor, list->data);
 		return;
 	}
 
-	// Add actions and context menu content for active languages
+	/* Add actions and context menu content for active languages */
 	g_list_foreach (list, (GFunc) editor_spell_checkers_foreach, editor);
-	*/
+}
+
+static void
+editor_spell_languages_changed (EEditor *editor,
+				GList *dictionaries)
+{
+	WebKitSpellChecker *checker;
+	WebKitWebSettings *settings;
+	GString *languages;
+	const GList *iter;
+
+	languages = g_string_new ("");
+
+	/* Join the languages codes to comma-separated list */
+	for (iter = dictionaries; iter; iter = iter->next) {
+		EnchantDict *dictionary = iter->data;
+
+		if (iter != dictionaries) {
+			g_string_append (languages, ",");
+		}
+
+		g_string_append (
+			languages,
+		   	e_editor_spell_checker_get_dict_code (dictionary));
+	}
+
+	/* Set the languages for spell-checker to use for suggestions etc. */
+	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker());
+	webkit_spell_checker_update_spell_checking_languages (checker, languages->str);
+
+	/* Set the languages for webview to highlight misspelled words */
+	settings = webkit_web_view_get_settings (
+			WEBKIT_WEB_VIEW (editor->priv->editor_widget));
+	g_object_set (
+		G_OBJECT (settings),
+		"spell-checking-languages", languages->str,
+		NULL);
+
+	if (editor->priv->spell_check_dialog != NULL) {
+		e_editor_spell_check_dialog_set_dictionaries (
+			E_EDITOR_SPELL_CHECK_DIALOG (editor->priv->spell_check_dialog),
+			dictionaries);
+	}
+
+	g_string_free (languages, TRUE);
 }
 
 static gboolean
@@ -261,6 +554,7 @@ editor_constructed (GObject *object)
 {
 	EEditor *editor = E_EDITOR (object);
 	EEditorPrivate *priv = editor->priv;
+	GtkIMMulticontext *im_context;
 
 	GtkWidget *widget;
 	GtkToolbar *toolbar;
@@ -364,69 +658,15 @@ editor_constructed (GObject *object)
 	priv->size_combo_box = g_object_ref (widget);
 	gtk_widget_show_all (GTK_WIDGET (tool_item));
 
-	/* Initialize painters (requires "edit_area"). */
-
-	/* FIXME WEBKIT
-	html = e_editor_widget_get_html (E_EDITOR_WIDGET (editor));
-	gtk_widget_ensure_style (GTK_WIDGET (html));
-	priv->html_painter = g_object_ref (html->engine->painter);
-	priv->plain_painter = html_plain_painter_new (priv->edit_area, TRUE);
-	*/
-
 	/* Add input methods to the context menu. */
-
-	/* FIXME WEBKIT
 	widget = e_editor_get_managed_widget (
 		editor, "/context-menu/context-input-methods-menu");
 	widget = gtk_menu_item_get_submenu (GTK_MENU_ITEM (widget));
+	g_object_get (
+		G_OBJECT (priv->editor_widget), "im-context", &im_context, NULL);
 	gtk_im_multicontext_append_menuitems (
-		GTK_IM_MULTICONTEXT (html->priv->im_context),
+		GTK_IM_MULTICONTEXT (im_context),
 		GTK_MENU_SHELL (widget));
-	*/
-
-	/* Configure color stuff. */
-
-	/* FIXME WEBKIT
-	priv->palette = gtkhtml_color_palette_new ();
-	priv->text_color = gtkhtml_color_state_new ();
-
-	gtkhtml_color_state_set_default_label (
-		priv->text_color, _("Automatic"));
-	gtkhtml_color_state_set_palette (
-		priv->text_color, priv->palette);
-	*/
-
-	/* Text color widgets share state. */
-
-	/* FIXME WEBKIT
-	widget = priv->color_combo_box;
-	gtkhtml_color_combo_set_state (
-		GTKHTML_COLOR_COMBO (widget), priv->text_color);
-
-	widget = WIDGET (TEXT_PROPERTIES_COLOR_COMBO);
-	gtkhtml_color_combo_set_state (
-		GTKHTML_COLOR_COMBO (widget), priv->text_color);
-	*/
-
-	/* These color widgets share a custom color palette. */
-
-	/* FIXME WEBKIT
-	widget = WIDGET (CELL_PROPERTIES_COLOR_COMBO);
-	gtkhtml_color_combo_set_palette (
-		GTKHTML_COLOR_COMBO (widget), priv->palette);
-
-	widget = WIDGET (PAGE_PROPERTIES_BACKGROUND_COLOR_COMBO);
-	gtkhtml_color_combo_set_palette (
-		GTKHTML_COLOR_COMBO (widget), priv->palette);
-
-	widget = WIDGET (PAGE_PROPERTIES_LINK_COLOR_COMBO);
-	gtkhtml_color_combo_set_palette (
-		GTKHTML_COLOR_COMBO (widget), priv->palette);
-
-	widget = WIDGET (TABLE_PROPERTIES_COLOR_COMBO);
-	gtkhtml_color_combo_set_palette (
-		GTKHTML_COLOR_COMBO (widget), priv->palette);
-		*/
 }
 
 static void
@@ -434,16 +674,6 @@ editor_dispose (GObject *object)
 {
 	EEditor *editor = E_EDITOR (object);
 	EEditorPrivate *priv = editor->priv;
-
-	/* Disconnect signal handlers from the color
-	 * state object since it may live on. */
-	/* FIXME WEBKIT
-	if (priv->text_color != NULL) {
-		g_signal_handlers_disconnect_matched (
-			priv->text_color, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, editor);
-	}
-	*/
 
 	g_clear_object (&priv->manager);
 	g_clear_object (&priv->manager);
@@ -456,15 +686,8 @@ editor_dispose (GObject *object)
 	g_clear_object (&priv->suggestion_actions);
 	g_clear_object (&priv->builder);
 
-	/* FIXME WEBKIT
-	g_hash_table_remove_all (priv->available_spell_checkers);
-
-	g_list_foreach (
-		priv->active_spell_checkers,
-		(GFunc) g_object_unref, NULL);
-	g_list_free (priv->active_spell_checkers);
-	priv->active_spell_checkers = NULL;
-	*/
+	g_list_free (priv->active_dictionaries);
+	priv->active_dictionaries = NULL;
 
 	g_clear_object (&priv->main_menu);
 	g_clear_object (&priv->main_toolbar);
@@ -477,11 +700,6 @@ editor_dispose (GObject *object)
 	g_clear_object (&priv->size_combo_box);
 	g_clear_object (&priv->style_combo_box);
 	g_clear_object (&priv->scrolled_window);
-
-	/* FIXME WEBKIT
-	DISPOSE (priv->palette);
-	DISPOSE (priv->text_color);
-	*/
 }
 
 static void
@@ -498,6 +716,7 @@ e_editor_class_init (EEditorClass *klass)
 	object_class->dispose = editor_dispose;
 
 	klass->update_actions = editor_update_actions;
+	klass->spell_languages_changed = editor_spell_languages_changed;
 
 	g_object_class_install_property (
 		object_class,
@@ -518,6 +737,16 @@ e_editor_class_init (EEditorClass *klass)
 		g_cclosure_marshal_VOID__BOXED,
 		G_TYPE_NONE, 1,
 		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+
+	signals[SPELL_LANGUAGES_CHANGED] = g_signal_new (
+		"spell-languages-changed",
+		G_OBJECT_CLASS_TYPE (klass),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EEditorClass, spell_languages_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 }
 
 static void
@@ -754,4 +983,25 @@ e_editor_save (EEditor *editor,
 	g_object_unref (file);
 
 	return TRUE;
+}
+
+void
+e_editor_emit_spell_languages_changed (EEditor *editor)
+{
+	GList *dictionaries, *iter;
+
+	g_return_if_fail (editor != NULL);
+
+	dictionaries = NULL;
+	for (iter = editor->priv->active_dictionaries; iter; iter = g_list_next (iter)) {
+		EnchantDict *dictionary = iter->data;
+
+		dictionaries = g_list_prepend (dictionaries, dictionary);
+	}
+
+	dictionaries = g_list_reverse (dictionaries);
+
+	g_signal_emit (editor, signals[SPELL_LANGUAGES_CHANGED], 0, dictionaries);
+
+	g_list_free (dictionaries);
 }
