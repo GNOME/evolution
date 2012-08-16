@@ -7,7 +7,7 @@
     <link type="guide" xref="searching-items" />
     <link type="guide" xref="calendar-organizing" />
 
-    <revision pkgversion="2.32.1" version="0.2" date="2010-10-12" status="draft"/>
+    <revision pkgversion="3.5.90" version="0.3" date="2012-08-16" status="draft"/>
     <credit type="author">
       <name its:translate="no">Max Vorobuov</name>
       <email its:translate="no">vmax0770@gmail.com</email>
@@ -42,6 +42,9 @@
 <item><p>Select the category from the list.</p></item>
 <item><p>Evolution displays the search results.</p></item>
 </steps>
+
+<p>To go through the results you can use the two arrow buttons next to the search field. This searches in currently enabled calendars. It searches from the currently selected day in the given direction, in a range of 10 years by default.</p>
+
 <p>If you want to set several search conditions, you should use an Advanced search, which is described below.</p>
 </section>
 
