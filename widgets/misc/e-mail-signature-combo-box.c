@@ -81,6 +81,49 @@ mail_signature_combo_box_registry_changed (ESourceRegistry *registry,
 		combo_box);
 }
 
+static gboolean
+mail_signature_combo_box_identity_to_signature (GBinding *binding,
+                                                const GValue *source_value,
+                                                GValue *target_value,
+                                                gpointer user_data)
+{
+	EMailSignatureComboBox *combo_box;
+	ESourceRegistry *registry;
+	GObject *source_object;
+	ESource *source;
+	ESourceMailIdentity *extension;
+	const gchar *identity_uid;
+	const gchar *signature_uid = "none";
+	const gchar *extension_name;
+
+	/* Source and target are the same object. */
+	source_object = g_binding_get_source (binding);
+	combo_box = E_MAIL_SIGNATURE_COMBO_BOX (source_object);
+	registry = e_mail_signature_combo_box_get_registry (combo_box);
+
+	identity_uid = g_value_get_string (source_value);
+	if (identity_uid == NULL)
+		return FALSE;
+
+	source = e_source_registry_ref_source (registry, identity_uid);
+	if (source == NULL)
+		return FALSE;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	if (!e_source_has_extension (source, extension_name)) {
+		g_object_unref (source);
+		return FALSE;
+	}
+
+	extension = e_source_get_extension (source, extension_name);
+	signature_uid = e_source_mail_identity_get_signature_uid (extension);
+	g_value_set_string (target_value, signature_uid);
+
+	g_object_unref (source);
+
+	return TRUE;
+}
+
 static void
 mail_signature_combo_box_set_registry (EMailSignatureComboBox *combo_box,
                                        ESourceRegistry *registry)
@@ -217,6 +260,14 @@ mail_signature_combo_box_constructed (GObject *object)
 	gtk_cell_layout_pack_start (cell_layout, cell_renderer, TRUE);
 	gtk_cell_layout_add_attribute (
 		cell_layout, cell_renderer, "text", COLUMN_DISPLAY_NAME);
+
+	g_object_bind_property_full (
+		combo_box, "identity-uid",
+		combo_box, "active-id",
+		G_BINDING_DEFAULT,
+		mail_signature_combo_box_identity_to_signature,
+		NULL,
+		NULL, (GDestroyNotify) NULL);
 
 	e_mail_signature_combo_box_refresh (
 		E_MAIL_SIGNATURE_COMBO_BOX (object));
