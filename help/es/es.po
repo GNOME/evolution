@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-11 15:10+0000\n"
-"PO-Revision-Date: 2012-08-13 10:57+0200\n"
+"POT-Creation-Date: 2012-08-16 11:37+0000\n"
+"PO-Revision-Date: 2012-08-16 17:00+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -21,7 +21,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
-#| msgid "translator-credits"
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
@@ -49,8 +48,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/index.page:6(media) C/index.page:24(media)
-#| msgid ""
-#| "@@image: 'figures/evolutionlogo.png'; md5=4bf469aaba7c368937309e931ba9bdcc"
 msgctxt "_"
 msgid ""
 "external ref='figures/evolutionlogo.png' "
@@ -64,7 +61,6 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: C/index.page:7(info/title)
-#| msgid "Evolution Mail and Calendar"
 msgctxt "text"
 msgid "Evolution Mail and Calendar"
 msgstr "Correo y calendario de Evolution"
@@ -1504,8 +1500,6 @@ msgstr ""
 #: C/calendar-searching.page:34(media) C/contacts-searching.page:34(media)
 #: C/mail-searching.page:33(media) C/memos-searching.page:34(media)
 #: C/tasks-searching.page:34(media)
-#| msgid ""
-#| "@@image: 'figures/search-icon.png'; md5=cd4b82c84c628bfbbfa39d1e0d1eae89"
 msgctxt "_"
 msgid ""
 "external ref='figures/search-icon.png' md5='cd4b82c84c628bfbbfa39d1e0d1eae89'"
@@ -1586,7 +1580,15 @@ msgstr "Pulse la lista desplegable <gui>Mostrar</gui>."
 msgid "Select the category from the list."
 msgstr "Seleccione la categoría de la lista."
 
-#: C/calendar-searching.page:45(section/p)
+#: C/calendar-searching.page:46(section/p)
+msgid ""
+"To go through the results you can use the two arrow buttons next to the "
+"search field. This searches in currently enabled calendars. It searches from "
+"the currently selected day in the given direction, in a range of 10 years by "
+"default."
+msgstr ""
+
+#: C/calendar-searching.page:48(section/p)
 #: C/contacts-searching.page:45(section/p) C/mail-searching.page:43(section/p)
 #: C/memos-searching.page:45(section/p) C/tasks-searching.page:45(section/p)
 msgid ""
@@ -1596,14 +1598,14 @@ msgstr ""
 "Si quiere establecer varias condiciones de búsqueda debe usar la Búsqueda "
 "avanzada, descrita debajo."
 
-#: C/calendar-searching.page:49(section/title)
+#: C/calendar-searching.page:52(section/title)
 #: C/contacts-searching.page:49(section/title)
 #: C/memos-searching.page:49(section/title)
 #: C/tasks-searching.page:49(section/title)
 msgid "Advanced Search"
 msgstr "Búsqueda avanzada"
 
-#: C/calendar-searching.page:51(item/p) C/contacts-searching.page:51(item/p)
+#: C/calendar-searching.page:54(item/p) C/contacts-searching.page:51(item/p)
 #: C/mail-searching.page:49(item/p) C/memos-searching.page:51(item/p)
 #: C/tasks-searching.page:51(item/p)
 msgid ""
@@ -1613,7 +1615,7 @@ msgstr ""
 "Seleccione el menú <guiseq><gui>Buscar</gui><gui>Búsqueda avanzada</gui></"
 "guiseq> para abrir el cuadro de diálogo."
 
-#: C/calendar-searching.page:52(item/p) C/contacts-searching.page:52(item/p)
+#: C/calendar-searching.page:55(item/p) C/contacts-searching.page:52(item/p)
 #: C/mail-searching.page:50(item/p) C/memos-searching.page:52(item/p)
 #: C/tasks-searching.page:52(item/p)
 msgid ""
@@ -1622,7 +1624,7 @@ msgstr ""
 "Pulse <gui style=\"button\">Añadir condición</gui> para añadir cualquier "
 "número de reglas."
 
-#: C/calendar-searching.page:53(item/p) C/contacts-searching.page:53(item/p)
+#: C/calendar-searching.page:56(item/p) C/contacts-searching.page:53(item/p)
 #: C/mail-searching.page:51(item/p) C/memos-searching.page:53(item/p)
 #: C/tasks-searching.page:53(item/p)
 msgid ""
@@ -1632,7 +1634,7 @@ msgstr ""
 "Seleccione el criterio de la lista desplegable y después escriba una entrada "
 "de búsqueda en el campo."
 
-#: C/calendar-searching.page:54(item/p) C/contacts-searching.page:54(item/p)
+#: C/calendar-searching.page:57(item/p) C/contacts-searching.page:54(item/p)
 #: C/mail-searching.page:52(item/p) C/memos-searching.page:54(item/p)
 #: C/tasks-searching.page:54(item/p)
 msgid ""
@@ -1641,7 +1643,7 @@ msgstr ""
 "Pulse <gui style=\"button\">Aceptar</gui> para mostrar los resultados de la "
 "búsqueda."
 
-#: C/calendar-searching.page:60(section/title)
+#: C/calendar-searching.page:63(section/title)
 #: C/contacts-searching.page:60(section/title)
 #: C/mail-searching.page:58(section/title)
 #: C/memos-searching.page:60(section/title)
@@ -1649,7 +1651,7 @@ msgstr ""
 msgid "Clearing the Search results"
 msgstr "Limpiar los resultados de la búsqueda"
 
-#: C/calendar-searching.page:61(section/p)
+#: C/calendar-searching.page:64(section/p)
 #: C/contacts-searching.page:61(section/p) C/mail-searching.page:59(section/p)
 #: C/memos-searching.page:61(section/p) C/tasks-searching.page:61(section/p)
 msgid ""
@@ -1665,7 +1667,7 @@ msgstr ""
 "búsqueda vacía. También puede pulsar <keyseq><key>Mayús</key><key>Ctrl</"
 "key><key>Q</key></keyseq> para limpiar la búsqueda."
 
-#: C/calendar-searching.page:65(section/title)
+#: C/calendar-searching.page:68(section/title)
 #: C/contacts-searching.page:65(section/title)
 #: C/mail-searching.page:63(section/title)
 #: C/memos-searching.page:65(section/title)
@@ -1673,7 +1675,7 @@ msgstr ""
 msgid "Saved Searches"
 msgstr "Búsquedas guardadas"
 
-#: C/calendar-searching.page:66(section/p)
+#: C/calendar-searching.page:69(section/p)
 #: C/contacts-searching.page:66(section/p) C/mail-searching.page:64(section/p)
 #: C/memos-searching.page:66(section/p) C/tasks-searching.page:66(section/p)
 msgid ""
@@ -1683,7 +1685,7 @@ msgstr ""
 "Si suele buscar algo con relativa frecuencia, quizá prefiera no escribirlo "
 "tantas veces. En ese caso puede usar las búsquedas guardadas."
 
-#: C/calendar-searching.page:67(section/p)
+#: C/calendar-searching.page:70(section/p)
 #: C/contacts-searching.page:67(section/p) C/mail-searching.page:65(section/p)
 #: C/memos-searching.page:67(section/p) C/tasks-searching.page:67(section/p)
 msgid ""
@@ -1699,7 +1701,7 @@ msgstr ""
 "gui><gui>Guardar búsqueda</gui></guiseq>. Desde ahora, esta búsqueda estará "
 "directamente disponible desde el menú <gui>Buscar</gui>."
 
-#: C/calendar-searching.page:71(section/title)
+#: C/calendar-searching.page:74(section/title)
 #: C/contacts-searching.page:71(section/title)
 #: C/mail-searching.page:69(section/title)
 #: C/memos-searching.page:71(section/title)
@@ -1707,7 +1709,7 @@ msgstr ""
 msgid "Editing a Saved Search"
 msgstr "Editar una búsqueda guardada"
 
-#: C/calendar-searching.page:73(item/p) C/contacts-searching.page:73(item/p)
+#: C/calendar-searching.page:76(item/p) C/contacts-searching.page:73(item/p)
 #: C/mail-searching.page:71(item/p) C/memos-searching.page:73(item/p)
 #: C/tasks-searching.page:73(item/p)
 msgid ""
@@ -1717,7 +1719,7 @@ msgstr ""
 "Para abrir la ventana seleccione <guiseq><gui>Buscar</gui><gui>Editar "
 "búsquedas guardadas</gui></guiseq> de la barra de menú."
 
-#: C/calendar-searching.page:74(item/p) C/contacts-searching.page:74(item/p)
+#: C/calendar-searching.page:77(item/p) C/contacts-searching.page:74(item/p)
 #: C/mail-searching.page:72(item/p) C/memos-searching.page:74(item/p)
 #: C/tasks-searching.page:74(item/p)
 msgid ""
@@ -1727,13 +1729,13 @@ msgstr ""
 "Pulse el botón <gui style=\"button\">Editar</gui> para abrir la ventana "
 "<gui>Editar regla</gui>."
 
-#: C/calendar-searching.page:75(item/p) C/contacts-searching.page:75(item/p)
+#: C/calendar-searching.page:78(item/p) C/contacts-searching.page:75(item/p)
 #: C/mail-searching.page:73(item/p) C/memos-searching.page:75(item/p)
 #: C/tasks-searching.page:75(item/p)
 msgid "Edit the title or search conditions from the dialog box."
 msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo."
 
-#: C/calendar-searching.page:76(item/p) C/contacts-searching.page:76(item/p)
+#: C/calendar-searching.page:79(item/p) C/contacts-searching.page:76(item/p)
 #: C/mail-searching.page:74(item/p) C/memos-searching.page:76(item/p)
 #: C/tasks-searching.page:76(item/p)
 msgid "Click <gui>OK</gui>."
@@ -2959,7 +2961,6 @@ msgid "The user's data files"
 msgstr "Los archivos de datos del usuario"
 
 #: C/data-storage.page:31(item/p)
-#| msgid "$HOME/.local/share/evolution"
 msgid "<file>$HOME/.local/share/evolution</file>"
 msgstr "<file>$HOME/.local/share/evolution</file>"
 
@@ -2968,7 +2969,6 @@ msgid "Various configuration and state files"
 msgstr "Varios archivos de configuración y estado"
 
 #: C/data-storage.page:35(item/p)
-#| msgid "$HOME/.config/evolution"
 msgid "<file>$HOME/.config/evolution</file>"
 msgstr "<file>$HOME/.config/evolution</file>"
 
@@ -2977,7 +2977,6 @@ msgid "Account settings"
 msgstr "Configuración de la cuenta"
 
 #: C/data-storage.page:39(item/p)
-#| msgid "$HOME/.config/evolution/sources"
 msgid "<file>$HOME/.config/evolution/sources</file>"
 msgstr "<file>$HOME/.config/evolution/sources</file>"
 
@@ -2986,7 +2985,6 @@ msgid "Disposable data caches"
 msgstr "Cachés de datos desechables"
 
 #: C/data-storage.page:43(item/p)
-#| msgid "$HOME/.cache/evolution"
 msgid "<file>$HOME/.cache/evolution</file>"
 msgstr "<file>$HOME/.cache/evolution</file>"
 
@@ -2995,7 +2993,6 @@ msgid "Configuration settings in GSettings"
 msgstr "Ajustes de configuración en GSettings"
 
 #: C/data-storage.page:47(item/p)
-#| msgid "$HOME/.config/dconf"
 msgid "<file>$HOME/.config/dconf</file>"
 msgstr "<file>$HOME/.config/dconf</file>"
 
@@ -3016,9 +3013,6 @@ msgid "Change which web browser websites are opened in"
 msgstr "Cambiar qué páginas web se abren en el navegador"
 
 #: C/default-browser.page:29(section/p)
-#| msgid ""
-#| "Please see <link href=\"ghelp:gnome-help#net-default-browser\">the GNOME "
-#| "Desktop Help</link>."
 msgid ""
 "Please see <link href=\"help:gnome-help#net-default-browser\">the GNOME "
 "Desktop Help</link>."
@@ -3045,10 +3039,6 @@ msgstr ""
 "debe instalar el paquete <sys>gvfs</sys>."
 
 #: C/default-browser.page:37(when/p)
-#| msgid ""
-#| "You might need to <link action=\"install:dconf-editor\" href=\"http://ftp."
-#| "gnome.org/pub/gnome/sources/dconf-editor/\">install dconf-editor</link> "
-#| "to perform these steps."
 msgid ""
 "<link action=\"install:gvfs\" href=\"http://ftp.gnome.org/pub/gnome/sources/"
 "gvfs/\" style=\"button\">Install gvfs</link>"
@@ -3062,9 +3052,6 @@ msgstr ""
 "Cambiar qué aplicación de correo se usa para escribir correos electrónicos"
 
 #: C/default-browser.page:46(section/p)
-#| msgid ""
-#| "Please see <link href=\"ghelp:gnome-help#net-default-email\">the GNOME "
-#| "Desktop Help</link>."
 msgid ""
 "Please see <link href=\"help:gnome-help#net-default-email\">the GNOME "
 "Desktop Help</link>."
@@ -3221,10 +3208,6 @@ msgstr ""
 
 #: C/exchange-connectors-overview.page:39(note/p)
 #: C/intro-first-run.page:76(when/p)
-#| msgid ""
-#| "This requires having the evolution-mapi package installed. <link action="
-#| "\"install:evolution-mapi\" href=\"http://ftp.gnome.org/pub/gnome/sources/"
-#| "evolution-mapi/\">Install evolution-mapi now.</link>"
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"http://projects.gnome.org/"
 "evolution/download\" style=\"button\">Install evolution-mapi</link>"
@@ -3244,10 +3227,6 @@ msgstr ""
 
 #: C/exchange-connectors-overview.page:48(note/p)
 #: C/intro-first-run.page:86(when/p)
-#| msgid ""
-#| "This requires having the evolution-exchange package installed. <link "
-#| "action=\"install:evolution-exchange\" href=\"http://ftp.gnome.org/pub/"
-#| "gnome/sources/evolution-exchange/\">Install evolution-exchange now.</link>"
 msgid ""
 "<link action=\"install:evolution-exchange\" href=\"http://projects.gnome.org/"
 "evolution/download\" style=\"button\">Install evolution-exchange</link>"
@@ -3538,12 +3517,10 @@ msgid "Outlook 2010"
 msgstr "Outlook 2010"
 
 #: C/import-apps-outlook.page:38(td/p)
-#| msgid "C:\\Users\\username\\My Documents\\Outlook Files"
 msgid "<file>C:\\Users\\username\\My Documents\\Outlook Files</file>"
 msgstr "<file>C:\\Users\\nombre_de_usuario\\My Documents\\Outlook Files</file>"
 
 #: C/import-apps-outlook.page:38(td/p)
-#| msgid "C:\\Documents and Settings\\username\\My Documents\\Outlook Files"
 msgid ""
 "<file>C:\\Documents and Settings\\username\\My Documents\\Outlook Files</"
 "file>"
@@ -3556,14 +3533,11 @@ msgid "Outlook 2007 and earlier"
 msgstr " Outlook 2007 y anteriores"
 
 #: C/import-apps-outlook.page:41(td/p)
-#| msgid "C:\\Users\\username\\AppData\\Local\\Microsoft\\Outlook"
 msgid "<file>C:\\Users\\username\\AppData\\Local\\Microsoft\\Outlook</file>"
 msgstr ""
 "<file>C:\\Users\\nombre_de_usuario\\AppData\\Local\\Microsoft\\Outlook</file>"
 
 #: C/import-apps-outlook.page:41(td/p)
-#| msgid ""
-#| "C:\\Documents and Settings\\username\\AppData\\Local\\Microsoft\\Outlook"
 msgid ""
 "<file>C:\\Documents and Settings\\username\\AppData\\Local\\Microsoft"
 "\\Outlook</file>"
@@ -4332,9 +4306,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:37(media)
-#| msgid ""
-#| "@@image: './figures/window-overview-layers.png'; "
-#| "md5=3156497ff1c51756838f9ddfbce9baee"
 msgctxt "_"
 msgid ""
 "external ref='./figures/window-overview-layers.png' "
@@ -4359,9 +4330,6 @@ msgstr ""
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:44(media) C/intro-main-window.page:93(media)
 #: C/intro-main-window.page:139(media)
-#| msgid ""
-#| "@@image: './figures/color-c4a000.png'; "
-#| "md5=9db17d2d5e9013501aeab2e165c6a6c9"
 msgctxt "_"
 msgid ""
 "external ref='./figures/color-c4a000.png' "
@@ -4386,9 +4354,6 @@ msgstr ""
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:47(media) C/intro-main-window.page:96(media)
 #: C/intro-main-window.page:142(media)
-#| msgid ""
-#| "@@image: './figures/color-ce5c00.png'; "
-#| "md5=19dae9650e3936312e09198973372a24"
 msgctxt "_"
 msgid ""
 "external ref='./figures/color-ce5c00.png' "
@@ -4413,9 +4378,6 @@ msgstr ""
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:50(media) C/intro-main-window.page:99(media)
 #: C/intro-main-window.page:145(media)
-#| msgid ""
-#| "@@image: './figures/color-8f5902.png'; "
-#| "md5=ff5ccb859fe04a004cd67e1c22621dc6"
 msgctxt "_"
 msgid ""
 "external ref='./figures/color-8f5902.png' "
@@ -4440,9 +4402,6 @@ msgstr ""
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:51(media) C/intro-main-window.page:100(media)
 #: C/intro-main-window.page:146(media)
-#| msgid ""
-#| "@@image: './figures/color-4e9a06.png'; "
-#| "md5=b2c2e7b66fb470344c804db396b48b98"
 msgctxt "_"
 msgid ""
 "external ref='./figures/color-4e9a06.png' "
@@ -4467,9 +4426,6 @@ msgstr ""
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:54(media) C/intro-main-window.page:103(media)
 #: C/intro-main-window.page:149(media)
-#| msgid ""
-#| "@@image: './figures/color-204a87.png'; "
-#| "md5=511497260cc4caab69d67814b1ee3b8b"
 msgctxt "_"
 msgid ""
 "external ref='./figures/color-204a87.png' "
@@ -4494,9 +4450,6 @@ msgstr ""
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:57(media) C/intro-main-window.page:111(media)
 #: C/intro-main-window.page:152(media)
-#| msgid ""
-#| "@@image: './figures/color-a40000.png'; "
-#| "md5=19195da020e059dab33aa37788763a97"
 msgctxt "_"
 msgid ""
 "external ref='./figures/color-a40000.png' "
@@ -4515,9 +4468,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:58(media) C/intro-main-window.page:153(media)
-#| msgid ""
-#| "@@image: './figures/color-5c3566.png'; "
-#| "md5=7c001a57237acc2ff61ee61e05ad3168"
 msgctxt "_"
 msgid ""
 "external ref='./figures/color-5c3566.png' "
@@ -4542,9 +4492,6 @@ msgstr ""
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:61(media) C/intro-main-window.page:114(media)
 #: C/intro-main-window.page:156(media)
-#| msgid ""
-#| "@@image: './figures/color-2e3436.png'; "
-#| "md5=3c796c7aed3044e59f131bea364e8598"
 msgctxt "_"
 msgid ""
 "external ref='./figures/color-2e3436.png' "
@@ -5758,10 +5705,6 @@ msgstr ""
 "realizar estos pasos."
 
 #: C/mail-composer-change-quotation-string.page:38(when/p)
-#| msgid ""
-#| "You might need to <link action=\"install:dconf-editor\" href=\"http://ftp."
-#| "gnome.org/pub/gnome/sources/dconf-editor/\">install dconf-editor</link> "
-#| "to perform these steps."
 msgid ""
 "<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/gnome/"
 "sources/dconf-editor/\" style=\"button\">Install dconf-editor</link>"
@@ -5978,6 +5921,23 @@ msgstr ""
 "editor</gui><gui>General</gui><gui>Respuestas y reenvíos</gui><gui>Estilo de "
 "reenvío</gui></guiseq>."
 
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/mail-composer-html-image.page:30(media)
+#| msgctxt "_"
+#| msgid ""
+#| "external ref='./figures/color-5c3566.png' "
+#| "md5='7c001a57237acc2ff61ee61e05ad3168'"
+msgctxt "_"
+msgid ""
+"external ref='./figures/html-composer-insert-image.png' "
+"md5='45e231e87c10b3fc61a1bbb0ad50c3f3'"
+msgstr ""
+"external ref='./figures/html-composer-insert-image.png' "
+"md5='45e231e87c10b3fc61a1bbb0ad50c3f3'"
+
 #: C/mail-composer-html-image.page:5(info/desc)
 msgid "Embed a picture in the mail composer."
 msgstr "Empotrar una imagen en el editor."
@@ -6011,11 +5971,27 @@ msgstr "Pulse <gui>Abrir</gui>."
 
 #: C/mail-composer-html-image.page:30(page/p)
 msgid ""
-"Alternately, you can also drag an image into the text area of the message "
-"composer."
+"Alternately, you can also use the <media type=\"image\" src=\"./figures/html-"
+"composer-insert-image.png\"/> icon in the second bar below the <gui>Subject</"
+"gui> line, or drag an image into the text area of the message composer."
 msgstr ""
-"Alternativamente también puede arrastrar una imagen al área de texto del "
-"editor de mensajes."
+
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/mail-composer-html-link.page:32(media)
+#| msgctxt "_"
+#| msgid ""
+#| "external ref='./figures/plus-icon.png' "
+#| "md5='57bf83c4ab8585c30897a6cf89c5949c'"
+msgctxt "_"
+msgid ""
+"external ref='./figures/html-composer-insert-link.png' "
+"md5='f143b5dabdc8af72dd68fe7557928893'"
+msgstr ""
+"external ref='./figures/html-composer-insert-link.png' "
+"md5='f143b5dabdc8af72dd68fe7557928893'"
 
 #: C/mail-composer-html-link.page:5(info/desc)
 msgid "Insert a link to a website in the mail composer."
@@ -6055,6 +6031,13 @@ msgstr "Pulse <gui>Cerrar</gui>."
 
 #: C/mail-composer-html-link.page:32(page/p)
 msgid ""
+"Alternately, you can also use the <media type=\"image\" src=\"./figures/html-"
+"composer-insert-link.png\"/> icon in the second bar below the <gui>Subject</"
+"gui> line."
+msgstr ""
+
+#: C/mail-composer-html-link.page:34(page/p)
+msgid ""
 "If you do not want a special link text you can just enter the address of the "
 "link directly. It will be automatically recognized as a link."
 msgstr ""
@@ -6062,19 +6045,55 @@ msgstr ""
 "dirección directamente. Evolution la reconocerá como un enlace."
 
 #: C/mail-composer-html.page:5(info/desc)
-msgid "Format emails by using HTML instead of plain text."
-msgstr "Formatee correos electrónicos usando HTML en lugar de texto plano."
+msgid "Changing fonts, using colors, and inserting images, tables and links."
+msgstr ""
 
 #: C/mail-composer-html.page:21(page/title)
-msgid "Using HTML format to enhance emails"
-msgstr "Usar HTML para mejorar el formato de los correos"
+#| msgid "Formatting Text in HTML"
+msgid "Formatting emails (in Plain Text and HTML)"
+msgstr "Formatear correo-e (en texto plano y en HTML)"
 
-#: C/mail-composer-html.page:23(page/p)
+#: C/mail-composer-html.page:25(page/p)
+#, fuzzy
+#| msgid ""
+#| "HTML formatting tools are located in the two tool bars just above the "
+#| "area where you actually write the message. They also appear in the "
+#| "<gui>Insert</gui> and <gui>Format</gui> menus."
 msgid ""
-"Normally, you cannot set text styles or insert pictures in email. However, "
-"most newer email applications can display images and text styles in addition "
-"to basic alignment and paragraph formatting. They do this with HTML, just "
-"like web pages do."
+"Text formatting tools for basic alignment and paragraph formatting are "
+"located in the tool bar below the <gui>Subject</gui> line. They also appear "
+"in the <gui>Insert</gui> and <gui>Format</gui> menus."
+msgstr ""
+"Las herramientas de formateo HTML se encuentran en la barra de herramientas "
+"justo encima del espacio en el que realmente compone su mensaje y también "
+"aparecen en los menús <gui>Insertar</gui> y <gui>Formato</gui>."
+
+#: C/mail-composer-html.page:26(page/p)
+#: C/mail-composer-html-text.page:24(page/p)
+#, fuzzy
+#| msgid ""
+#| "The icons in the tool bar are explained in tooltips which appear when you "
+#| "hold your mouse pointer over the buttons. The buttons fall into five "
+#| "categories:"
+msgid ""
+"The icons in the tool bar are explained in tooltips which appear when you "
+"hold your mouse pointer over the buttons."
+msgstr ""
+"Los iconos de la barra de herramientas se explican con consejos que aparecen "
+"cuando mantiene el ratón sobre los botones. Estos se clasifican en cinco "
+"categorías:"
+
+#: C/mail-composer-html.page:28(page/p)
+#, fuzzy
+#| msgid ""
+#| "Normally, you cannot set text styles or insert pictures in email. "
+#| "However, most newer email applications can display images and text styles "
+#| "in addition to basic alignment and paragraph formatting. They do this "
+#| "with HTML, just like web pages do."
+msgid ""
+"Normally, you cannot set text color or size or embed pictures in messages. "
+"However, most newer email applications can do this by using HTML format, "
+"which is the format that also web pages use."
 msgstr ""
 "Normalmente no se pueden aplicar estilos o insertar imágenes en mensajes de "
 "correo electrónico. Sin embargo la mayoría de los clientes de correo "
@@ -6082,41 +6101,51 @@ msgstr ""
 "básico y el formateo de párrafos. Esto es posible usando HTML al igual que "
 "las páginas web."
 
-#: C/mail-composer-html.page:25(page/p)
+#: C/mail-composer-html.page:30(page/p)
+#, fuzzy
+#| msgid ""
+#| "Some people do not have HTML-capable mail clients, or prefer not to "
+#| "receive HTML-enhanced mail because it is slower to download and display. "
+#| "Because of this, Evolution sends plain text unless you explicitly ask for "
+#| "HTML."
 msgid ""
 "Some people do not have HTML-capable mail clients, or prefer not to receive "
 "HTML-enhanced mail because it is slower to download and display. Because of "
-"this, Evolution sends plain text unless you explicitly ask for HTML."
+"this, <app>Evolution</app> sends plain text unless you explicitly ask for "
+"HTML."
 msgstr ""
 "Algunas personas no tienen clientes de correo capaces de leer HTML o "
 "prefieren no recibir mensajes enriquecidos con HTML porque son más lentos de "
 "descargar y de mostrar en pantalla. Por ello Evolution envía mensajes de "
 "texto plano a menos que le pida explícitamenteque los componga con HTML."
 
-#: C/mail-composer-html.page:27(page/p)
-msgid ""
-"You can change the format of an email message from plain text to HTML in the "
-"email composer by choosing <guiseq><gui>Format</gui><gui>HTML</gui></guiseq> "
-"from the menu bar."
-msgstr ""
-"Puede cambiar el formato de un mensaje de correo electrónico de texto plano "
-"a HTML eligiendo <guiseq><gui>Formato</gui><gui>HTML</gui></guiseq> desde la "
-"barra de menú."
+#: C/mail-composer-html.page:33(section/title)
+#| msgid "HTML Formatting Options"
+msgid "Plain Text Formatting Options"
+msgstr "Opciones de formateo en texto plano"
 
-#: C/mail-composer-html.page:28(page/p)
-msgid ""
-"To send all your mail as HTML by default, enable <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Default "
-"Behavior</gui><gui>Format messages in HTML</gui></guiseq>."
-msgstr ""
-"Para enviar todos sus correos en HTML de forma predeterminada actíve "
-"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
-"editor</gui><gui>Comportamiento predeterminado</gui><gui>Dar formato HTML a "
-"los mensajes</gui></guiseq>."
-
-#: C/mail-composer-html.page:31(section/title)
-msgid "HTML Formatting Options"
+#: C/mail-composer-html.page:37(section/title)
+#, fuzzy
+#| msgid "HTML Formatting Options"
+msgid "HTML-only Formatting Options"
 msgstr "Opciones de formateo HTML"
+
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/mail-composer-html-rule.page:31(media)
+#| msgctxt "_"
+#| msgid ""
+#| "external ref='./figures/color-5c3566.png' "
+#| "md5='7c001a57237acc2ff61ee61e05ad3168'"
+msgctxt "_"
+msgid ""
+"external ref='./figures/html-composer-insert-rule.png' "
+"md5='d3cda5fa4cf0fc2c911fd1aa14908ff3'"
+msgstr ""
+"external ref='./figures/html-composer-insert-rule.png' "
+"md5='d3cda5fa4cf0fc2c911fd1aa14908ff3'"
 
 #: C/mail-composer-html-rule.page:5(info/desc)
 msgid "Insert a horizontal line in the mail composer."
@@ -6148,6 +6177,30 @@ msgstr "Seleccione la anchura, tamaño y la alineación."
 #: C/mail-composer-html-rule.page:27(item/p)
 msgid "Select <gui>Shaded</gui> if wanted."
 msgstr "Seleccione <gui>Enrollada</gui> si lo desea."
+
+#: C/mail-composer-html-rule.page:31(page/p)
+msgid ""
+"Alternately, you can also use the <media type=\"image\" src=\"./figures/html-"
+"composer-insert-rule.png\"/> icon in the second bar below the <gui>Subject</"
+"gui> line."
+msgstr ""
+
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/mail-composer-html-table.page:32(media)
+#| msgctxt "_"
+#| msgid ""
+#| "external ref='./figures/color-c4a000.png' "
+#| "md5='9db17d2d5e9013501aeab2e165c6a6c9'"
+msgctxt "_"
+msgid ""
+"external ref='./figures/html-composer-insert-table.png' "
+"md5='d5b54d183ad37488041005964062e7f6'"
+msgstr ""
+"external ref='./figures/html-composer-insert-table.png' "
+"md5='d5b54d183ad37488041005964062e7f6'"
 
 #: C/mail-composer-html-table.page:5(info/desc)
 msgid "Insert a table in the mail composer."
@@ -6183,98 +6236,61 @@ msgstr "Defina el tipo de distribución de la tabla."
 msgid "Optionally: Select a background color or image for the table."
 msgstr "Opcional: seleccione un color de fondo o una imagen para la tabla."
 
+#: C/mail-composer-html-table.page:32(page/p)
+msgid ""
+"Alternately, you can also use the <media type=\"image\" src=\"./figures/html-"
+"composer-insert-table.png\"/> icon in the second bar below the <gui>Subject</"
+"gui> line."
+msgstr ""
+
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/mail-composer-html-text.page:40(media)
+#| msgctxt "_"
+#| msgid ""
+#| "external ref='./figures/color-a40000.png' "
+#| "md5='19195da020e059dab33aa37788763a97'"
+msgctxt "_"
+msgid ""
+"external ref='./figures/color-000000.png' "
+"md5='2d416af8bfaec805470e5d2980d90a68'"
+msgstr ""
+"external ref='./figures/color-000000.png' "
+"md5='2d416af8bfaec805470e5d2980d90a68'"
+
 #: C/mail-composer-html-text.page:5(info/desc)
-msgid "Format Text in the mail composer."
-msgstr "Formatear texto en el editor de correo."
+#, fuzzy
+#| msgid "Insert a table in the mail composer."
+msgid "Change font sizes, styles and colors in the mail composer."
+msgstr "Insertar una tabla en el editor de correo."
 
 #: C/mail-composer-html-text.page:21(page/title)
 msgid "Formatting Text in HTML"
 msgstr "Formatear texto en HTML"
 
-#: C/mail-composer-html-text.page:25(page/p)
+#: C/mail-composer-html-text.page:23(page/p)
+#, fuzzy
+#| msgid ""
+#| "HTML formatting tools are located in the two tool bars just above the "
+#| "area where you actually write the message. They also appear in the "
+#| "<gui>Insert</gui> and <gui>Format</gui> menus."
 msgid ""
-"HTML formatting tools are located in the two tool bars just above the area "
-"where you actually write the message. They also appear in the <gui>Insert</"
-"gui> and <gui>Format</gui> menus."
+"Text formatting tools that are available in HTML format only are located in "
+"the second tool bar below the <gui>Subject</gui> line after enabling HTML "
+"format. They also appear in the <gui>Insert</gui> and <gui>Format</gui> "
+"menus."
 msgstr ""
 "Las herramientas de formateo HTML se encuentran en la barra de herramientas "
 "justo encima del espacio en el que realmente compone su mensaje y también "
 "aparecen en los menús <gui>Insertar</gui> y <gui>Formato</gui>."
 
-#: C/mail-composer-html-text.page:26(page/p)
-msgid ""
-"The icons in the tool bar are explained in tooltips which appear when you "
-"hold your mouse pointer over the buttons. The buttons fall into five "
-"categories:"
-msgstr ""
-"Los iconos de la barra de herramientas se explican con consejos que aparecen "
-"cuando mantiene el ratón sobre los botones. Estos se clasifican en cinco "
-"categorías:"
-
-#: C/mail-composer-html-text.page:29(section/title)
-msgid "Headers and Lists:"
-msgstr "Cabeceras y listas:"
-
-#: C/mail-composer-html-text.page:30(section/p)
-msgid ""
-"At the left of the upper tool bar, you can choose <gui>Normal</gui> for a "
-"default text style or <gui>Header 1</gui> through <gui>Header 6</gui> for "
-"varying sizes of header from large (1) to tiny (6). Other styles include "
-"<gui>Preformat</gui>, to use the HTML tag for preformatted blocks of text, "
-"and three types of bullet points for lists."
-msgstr ""
-"En la parte izquierda de la barra superior puede elegir el estilo de texto "
-"predeterminado, <gui>Normal</gui> <gui>Cabecera 1</gui> hasta <gui>Cabecera "
-"6</gui> para tamaños variables de la cabecera, desde grande (1) hasta "
-"pequeño (6). Otros estilos incluyen el <gui>Preformato</gui>, para usar la "
-"etiqueta de HTML para bloques de texto preformateados, y tres tipos de topos "
-"para las listas."
-
-#: C/mail-composer-html-text.page:31(section/p)
-msgid ""
-"For instance, instead of using asterisks to mark a bulleted list, you can "
-"use the <gui>Bulleted List</gui> style from the style dropdown list. "
-"Evolution uses different bullet styles, and handles word wrap and multiple "
-"levels of indentation."
-msgstr ""
-"Por ejemplo, en lugar de usar asteriscos para marcar una lista de puntos, "
-"puede usar el estilo <gui>Lista de topos</gui> desde el menú desplegable de "
-"estilos. Evolution distintos estilos para las listas de topos y maneja "
-"varios niveles de sangría y de ajuste para las palabras."
-
-#: C/mail-composer-html-text.page:35(section/title)
-msgid "Alignment:"
-msgstr "Alineación:"
-
-#: C/mail-composer-html-text.page:36(section/p)
-msgid ""
-"Located next to the Headers and Lists dropdown, the three paragraph icons "
-"should be familiar to users of most word processing software. The left-most "
-"button aligns your text to the left, the center button centers text, and the "
-"right button aligns the text to the right."
-msgstr ""
-"Situado junto a la lista desplegable de Cabeceras y Listas, los tres iconos "
-"de párrafo deberían ser familiares para los usuarios de procesadores de "
-"textos. El que está más a la izquierda alinea el texto a la izquierda, el "
-"del centro, lo centra y el de la derecha lo alinea hacia el lado derecho."
-
-#: C/mail-composer-html-text.page:40(section/title)
-msgid "Indentation Rules:"
-msgstr "Reglas de sangrado:"
-
-#: C/mail-composer-html-text.page:41(section/p)
-msgid ""
-"The button with the arrow pointing left decreases a paragraph's indentation, "
-"and the right arrow increases its indentation."
-msgstr ""
-"El botón con la flecha que apunta a la izquierda reducirá la sangría de un "
-"párrafo y el de la derecha la aumentará."
-
-#: C/mail-composer-html-text.page:45(section/title)
+#: C/mail-composer-html-text.page:27(section/title)
 msgid "Text Styles:"
 msgstr "Estilos de texto:"
 
-#: C/mail-composer-html-text.page:46(section/p)
+#: C/mail-composer-html-text.page:28(section/p)
 msgid ""
 "Use these buttons in the lower tool bar to determine the way your email "
 "looks. If you have text selected, the style applies to the selected text. If "
@@ -6284,69 +6300,39 @@ msgstr ""
 "apariencia de su mensaje. Si tiene seleccionado un texto, el estilo se "
 "aplicará sobre él. Si no, el estilo se aplicará a lo próximo que escriba."
 
-#: C/mail-composer-html-text.page:50(td/p)
+#: C/mail-composer-html-text.page:32(td/p)
 msgid "Button"
 msgstr "Botón"
 
-#: C/mail-composer-html-text.page:51(td/p)
+#: C/mail-composer-html-text.page:33(td/p)
 msgid "Description"
 msgstr "Descripción"
 
-#: C/mail-composer-html-text.page:54(td/p)
-msgid "TT"
-msgstr "TT"
+#: C/mail-composer-html-text.page:36(td/p)
+msgid "+0"
+msgstr "+0"
 
-#: C/mail-composer-html-text.page:55(td/p)
-msgid "Typewriter text, which is similar to a monospace font."
-msgstr ""
-"Texto de máquina de escribir, es aproximadamente igual a la tipografía "
-"monoespaciadia."
+#: C/mail-composer-html-text.page:37(td/p)
+msgid "Font size."
+msgstr "Tamaño de la tipografía."
 
-#: C/mail-composer-html-text.page:58(td/p)
-msgid "Bold A"
-msgstr "A en negrita"
-
-#: C/mail-composer-html-text.page:59(td/p)
-msgid "Bolds the text."
-msgstr "Pone el texto en negrita."
-
-#: C/mail-composer-html-text.page:62(td/p)
-msgid "Italic A"
-msgstr "A en cursiva"
-
-#: C/mail-composer-html-text.page:63(td/p)
-msgid "Italicizes the text."
-msgstr "Pone el texto en cursiva."
-
-#: C/mail-composer-html-text.page:66(td/p)
-msgid "Underlined A"
-msgstr "A subrayada"
-
-#: C/mail-composer-html-text.page:67(td/p)
-msgid "Underlines the text."
-msgstr "Subraya el texto."
-
-#: C/mail-composer-html-text.page:70(td/p)
-msgid "Strike through A"
-msgstr "A tachada"
-
-#: C/mail-composer-html-text.page:71(td/p)
-msgid "Marks a line through the text."
-msgstr "Tacha el texto."
-
-#: C/mail-composer-html-text.page:77(section/title)
-msgid "Color Selection:"
-msgstr "Selección de color:"
-
-#: C/mail-composer-html-text.page:78(section/p)
+#: C/mail-composer-html-text.page:41(td/p)
+#, fuzzy
+#| msgid ""
+#| "At the left in the lower tool bar is the color section tool, where a box "
+#| "displays the current text color. To choose a new color, click the arrow "
+#| "button to the right. If you have text selected, the color applies to the "
+#| "selected text. If you do not have text selected, the color applies to "
+#| "whatever you type next. You can select a background color or image by "
+#| "right-clicking the message background, then selecting <guiseq><gui>Style</"
+#| "gui><gui>Page Style</gui></guiseq>."
 msgid ""
-"At the left in the lower tool bar is the color section tool, where a box "
-"displays the current text color. To choose a new color, click the arrow "
-"button to the right. If you have text selected, the color applies to the "
-"selected text. If you do not have text selected, the color applies to "
-"whatever you type next. You can select a background color or image by right-"
-"clicking the message background, then selecting <guiseq><gui>Style</"
-"gui><gui>Page Style</gui></guiseq>."
+"Color chooser for text. The box displays the current text color. To choose a "
+"new color, click the arrow button to the right. If you have text selected, "
+"the color applies to the selected text. If you do not have text selected, "
+"the color applies to whatever you type next. You can select a background "
+"color or image by right-clicking the message background, then selecting "
+"<guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
 msgstr ""
 "En parte izquierda de la barra inferior está la herramienta de selección del "
 "color, donde una caja muestra el color actual del texto. Para elegir uno "
@@ -6356,6 +6342,54 @@ msgstr ""
 "fondo pulsando con el botón derecho del ratón sobre el fondo del mensaje, "
 "para después seleccionar <guiseq><gui>Estilo</gui><gui>Estilo de la página</"
 "gui></guiseq>."
+
+#: C/mail-composer-html-text.page:44(td/p)
+msgid "TT"
+msgstr "TT"
+
+#: C/mail-composer-html-text.page:45(td/p)
+msgid "Typewriter text, which is similar to a monospace font."
+msgstr ""
+"Texto de máquina de escribir, es aproximadamente igual a la tipografía "
+"monoespaciadia."
+
+#: C/mail-composer-html-text.page:48(td/p)
+msgid "Bold A"
+msgstr "A en negrita"
+
+#: C/mail-composer-html-text.page:49(td/p)
+msgid "Bolds the text."
+msgstr "Pone el texto en negrita."
+
+#: C/mail-composer-html-text.page:52(td/p)
+msgid "Italic A"
+msgstr "A en cursiva"
+
+#: C/mail-composer-html-text.page:53(td/p)
+msgid "Italicizes the text."
+msgstr "Pone el texto en cursiva."
+
+#: C/mail-composer-html-text.page:56(td/p)
+msgid "Underlined A"
+msgstr "A subrayada"
+
+#: C/mail-composer-html-text.page:57(td/p)
+msgid "Underlines the text."
+msgstr "Subraya el texto."
+
+#: C/mail-composer-html-text.page:60(td/p)
+msgid "Strike through A"
+msgstr "A tachada"
+
+#: C/mail-composer-html-text.page:61(td/p)
+msgid "Marks a line through the text."
+msgstr "Tacha el texto."
+
+#: C/mail-composer-html-text.page:65(section/p)
+msgid ""
+"The other buttons are explained under <link xref=\"mail-composer-"
+"html#formatting-options-html\"/>."
+msgstr ""
 
 #: C/mail-composer-mail-signatures-manage.page:5(info/desc)
 msgid "Add, change, edit or delete email signatures."
@@ -6819,7 +6853,6 @@ msgid "Reply to Sender"
 msgstr "Responder al remitente"
 
 #: C/mail-composer-reply.page:43(td/p)
-#| msgid "Day (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
 msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 
@@ -6828,7 +6861,6 @@ msgid "Reply to Mailing List"
 msgstr "Responder a una lista de correo"
 
 #: C/mail-composer-reply.page:45(td/p)
-#| msgid "List (<keyseq><key>Ctrl</key><key>L</key></keyseq>)"
 msgid "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
 
@@ -6837,9 +6869,6 @@ msgid "Reply to All"
 msgstr "Responder a todos"
 
 #: C/mail-composer-reply.page:47(td/p)
-#| msgid ""
-#| "Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
-#| "key></keyseq>."
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgstr "<keyseq><key>Mayús</key><key>Ctrl</key><key>R</key></keyseq>"
 
@@ -7338,8 +7367,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-displaying-collapsible-headers.page:27(media)
-#| msgid ""
-#| "@@image: './figures/plus-icon.png'; md5=57bf83c4ab8585c30897a6cf89c5949c"
 msgctxt "_"
 msgid ""
 "external ref='./figures/plus-icon.png' md5='57bf83c4ab8585c30897a6cf89c5949c'"
@@ -7351,8 +7378,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-displaying-collapsible-headers.page:29(media)
-#| msgid ""
-#| "@@image: './figures/minus-icon.png'; md5=7cef9df0f691c8d6ce67cad29ebceac9"
 msgctxt "_"
 msgid ""
 "external ref='./figures/minus-icon.png' "
@@ -7669,10 +7694,6 @@ msgid "Creating a GPG key"
 msgstr "Crear una clave GPG"
 
 #: C/mail-encryption-gpg-create-key.page:25(note/p)
-#| msgid ""
-#| "These steps are very technical. For average users we recommend using the "
-#| "<link href=\"ghelp:seahorse#index\"><app>Seahorse</app> application</"
-#| "link> for managing GPG/OpenPGP keys."
 msgid ""
 "These steps are very technical. For average users we recommend using the "
 "<link href=\"help:seahorse#index\"><app>Seahorse</app> application</link> "
@@ -7732,12 +7753,6 @@ msgid "Move your mouse randomly to generate the keys."
 msgstr "Mueva su ratón aleatoriamente para generar las claves."
 
 #: C/mail-encryption-gpg-create-key.page:42(page/p)
-#| msgid ""
-#| "After the keys are generated, you can view your key information by "
-#| "entering <cmd>gpg --list-keys</cmd>. You should see something similar to "
-#| "this: <code> /home/you/.gnupg/pubring.gpg ----------------------------  "
-#| "pub 1024D/32j38dk2 2001-06-20 you &lt;you@example.com&gt;  sub "
-#| "1024g/289sklj3 2011-06-20 [expires: 2012-11-14]</code>"
 msgid ""
 "After the keys are generated, you can view your key information by entering "
 "<cmd>gpg --list-keys</cmd>. You should see something similar to this: "
@@ -8913,11 +8928,6 @@ msgstr ""
 "false</cmd>"
 
 #: C/mail-filters-not-working.page:41(page/section)
-#| msgid ""
-#| "<placeholder-1/> If it is still unclear why filters do not work as "
-#| "expected, you can enable logging filter actions. <list><placeholder-2/"
-#| "><placeholder-3/><placeholder-4/><placeholder-5/><placeholder-6/"
-#| "><placeholder-7/><placeholder-8/></list><placeholder-9/><placeholder-10/>"
 msgid ""
 "<_:title-1/> If it is still unclear why filters do not work as expected, you "
 "can enable logging filter actions. <_:list-2/> <_:p-3/> <_:p-4/>"
@@ -9857,9 +9867,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-received-notification.page:24(media)
-#| msgid ""
-#| "@@image: './figures/new-mail-switcher.png'; "
-#| "md5=be4dbdb5f6e3dcbd5111b87169cae268"
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-switcher.png' "
@@ -9873,9 +9880,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-received-notification.page:29(media)
-#| msgid ""
-#| "@@image: './figures/new-mail-notification.png'; "
-#| "md5=25a4373da392793406910cd883f0c21c"
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
@@ -11162,9 +11166,6 @@ msgid "Due By"
 msgstr "Vence en"
 
 #: C/mail-sorting-message-list.page:73(item/p)
-#| msgid ""
-#| "Checks whether the message is <link xref=\"mail-follow-up-flag\">flagged "
-#| "for follow-up</link>."
 msgid "<link xref=\"mail-follow-up-flag\">Follow Up Flag</link>"
 msgstr "<link xref=\"mail-follow-up-flag\">Marcar para seguimiento</link>."
 
@@ -12151,20 +12152,6 @@ msgstr ""
 "Pulse en el icono para cambiar su estado."
 
 #: C/offline.page:28(page/p)
-#| msgid ""
-#| "If the problem persists and you are sure you have not clicked the icon, "
-#| "but you can still reach the network from other apps on your system "
-#| "(browsers, FTP, SSH, ping etc.) it may be that NetworkManager (NM) is not "
-#| "properly configured. Many Linux distributions now use NM to manage their "
-#| "connections, and if it is installed Evolution will use it to detect if "
-#| "the network is up. However NM can be installed but not properly "
-#| "configured, leaving the network working but not detectable by Evolution. "
-#| "(Note that other GNOME-based applications may also fail for the same "
-#| "reason.) The solution is to configure NM to manage your network "
-#| "interface. This is usually easy to do but is outside the scope of this "
-#| "document. For more information please take a look at the <link href="
-#| "\"ghelp:gnome-help#net\">Desktop help</link> or seek help from your "
-#| "distribution support forums, mailing lists etc."
 msgid ""
 "If the problem persists and you are sure you have not clicked the icon, but "
 "you can still reach the network from other apps on your system (browsers, "
@@ -12244,13 +12231,6 @@ msgid "How to get help"
 msgstr "Cómo obtener ayuda"
 
 #: C/problems-getting-help.page:24(page/p)
-#| msgid ""
-#| "To receive help on problems you can send an email to the <link href="
-#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
-#| "mailing list</link> or talk to developers and other users in the IRC chat "
-#| "channel #evolution on the server irc.gimp.net. To connect to an IRC "
-#| "server you can for example <link href=\"ghelp:empathy#irc-manage\">use "
-#| "the internet messenger application <app>Empathy</app></link>."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
@@ -12969,6 +12949,97 @@ msgstr ""
 "ello pulse el botón <gui style=\"button\">Editar</gui> en la parte inferior "
 "de la ventana de <gui>Categorías</gui>. Pulse el botón <gui style=\"button"
 "\">Eliminar</gui> para eliminar categorías de la lista."
+
+#~ msgid ""
+#~ "Alternately, you can also drag an image into the text area of the message "
+#~ "composer."
+#~ msgstr ""
+#~ "Alternativamente también puede arrastrar una imagen al área de texto del "
+#~ "editor de mensajes."
+
+#~ msgid "Format emails by using HTML instead of plain text."
+#~ msgstr "Formatee correos electrónicos usando HTML en lugar de texto plano."
+
+#~ msgid "Using HTML format to enhance emails"
+#~ msgstr "Usar HTML para mejorar el formato de los correos"
+
+#~ msgid ""
+#~ "You can change the format of an email message from plain text to HTML in "
+#~ "the email composer by choosing <guiseq><gui>Format</gui><gui>HTML</gui></"
+#~ "guiseq> from the menu bar."
+#~ msgstr ""
+#~ "Puede cambiar el formato de un mensaje de correo electrónico de texto "
+#~ "plano a HTML eligiendo <guiseq><gui>Formato</gui><gui>HTML</gui></guiseq> "
+#~ "desde la barra de menú."
+
+#~ msgid ""
+#~ "To send all your mail as HTML by default, enable <guiseq><gui>Edit</"
+#~ "gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Default "
+#~ "Behavior</gui><gui>Format messages in HTML</gui></guiseq>."
+#~ msgstr ""
+#~ "Para enviar todos sus correos en HTML de forma predeterminada actíve "
+#~ "<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
+#~ "editor</gui><gui>Comportamiento predeterminado</gui><gui>Dar formato HTML "
+#~ "a los mensajes</gui></guiseq>."
+
+#~ msgid "Format Text in the mail composer."
+#~ msgstr "Formatear texto en el editor de correo."
+
+#~ msgid "Headers and Lists:"
+#~ msgstr "Cabeceras y listas:"
+
+#~ msgid ""
+#~ "At the left of the upper tool bar, you can choose <gui>Normal</gui> for a "
+#~ "default text style or <gui>Header 1</gui> through <gui>Header 6</gui> for "
+#~ "varying sizes of header from large (1) to tiny (6). Other styles include "
+#~ "<gui>Preformat</gui>, to use the HTML tag for preformatted blocks of "
+#~ "text, and three types of bullet points for lists."
+#~ msgstr ""
+#~ "En la parte izquierda de la barra superior puede elegir el estilo de "
+#~ "texto predeterminado, <gui>Normal</gui> <gui>Cabecera 1</gui> hasta "
+#~ "<gui>Cabecera 6</gui> para tamaños variables de la cabecera, desde grande "
+#~ "(1) hasta pequeño (6). Otros estilos incluyen el <gui>Preformato</gui>, "
+#~ "para usar la etiqueta de HTML para bloques de texto preformateados, y "
+#~ "tres tipos de topos para las listas."
+
+#~ msgid ""
+#~ "For instance, instead of using asterisks to mark a bulleted list, you can "
+#~ "use the <gui>Bulleted List</gui> style from the style dropdown list. "
+#~ "Evolution uses different bullet styles, and handles word wrap and "
+#~ "multiple levels of indentation."
+#~ msgstr ""
+#~ "Por ejemplo, en lugar de usar asteriscos para marcar una lista de puntos, "
+#~ "puede usar el estilo <gui>Lista de topos</gui> desde el menú desplegable "
+#~ "de estilos. Evolution distintos estilos para las listas de topos y maneja "
+#~ "varios niveles de sangría y de ajuste para las palabras."
+
+#~ msgid "Alignment:"
+#~ msgstr "Alineación:"
+
+#~ msgid ""
+#~ "Located next to the Headers and Lists dropdown, the three paragraph icons "
+#~ "should be familiar to users of most word processing software. The left-"
+#~ "most button aligns your text to the left, the center button centers text, "
+#~ "and the right button aligns the text to the right."
+#~ msgstr ""
+#~ "Situado junto a la lista desplegable de Cabeceras y Listas, los tres "
+#~ "iconos de párrafo deberían ser familiares para los usuarios de "
+#~ "procesadores de textos. El que está más a la izquierda alinea el texto a "
+#~ "la izquierda, el del centro, lo centra y el de la derecha lo alinea hacia "
+#~ "el lado derecho."
+
+#~ msgid "Indentation Rules:"
+#~ msgstr "Reglas de sangrado:"
+
+#~ msgid ""
+#~ "The button with the arrow pointing left decreases a paragraph's "
+#~ "indentation, and the right arrow increases its indentation."
+#~ msgstr ""
+#~ "El botón con la flecha que apunta a la izquierda reducirá la sangría de "
+#~ "un párrafo y el de la derecha la aumentará."
+
+#~ msgid "Color Selection:"
+#~ msgstr "Selección de color:"
 
 #~ msgid "Andre Klapper"
 #~ msgstr "Andre Klapper"
