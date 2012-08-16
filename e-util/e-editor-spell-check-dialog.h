@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 /*
  * e-editor-spell-check-dialog.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+=======
+/* e-editor-spell-check-dialog.h
+>>>>>>> Port spell-checking
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -54,6 +58,10 @@ typedef struct _EEditorSpellCheckDialogPrivate EEditorSpellCheckDialogPrivate;
 
 struct _EEditorSpellCheckDialog {
 	EEditorDialog parent;
+<<<<<<< HEAD
+=======
+
+>>>>>>> Port spell-checking
 	EEditorSpellCheckDialogPrivate *priv;
 };
 
@@ -61,12 +69,23 @@ struct _EEditorSpellCheckDialogClass {
 	EEditorDialogClass parent_class;
 };
 
+<<<<<<< HEAD
 GType		e_editor_spell_check_dialog_get_type
 					(void) G_GNUC_CONST;
 GtkWidget *	e_editor_spell_check_dialog_new
 					(EEditor *editor);
 void		e_editor_spell_check_dialog_update_dictionaries
 					(EEditorSpellCheckDialog *dialog);
+=======
+GType		e_editor_spell_check_dialog_get_type	(void);
+GtkWidget *	e_editor_spell_check_dialog_new		(EEditor *editor);
+
+GList *		e_editor_spell_check_dialog_get_dictionaries
+							(EEditorSpellCheckDialog *dialog);
+void		e_editor_spell_check_dialog_set_dictionaries
+							(EEditorSpellCheckDialog *dialog,
+						 	 GList *dictionaries);
+>>>>>>> Port spell-checking
 
 G_END_DECLS
 

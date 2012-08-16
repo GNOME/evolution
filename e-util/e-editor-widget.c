@@ -23,6 +23,7 @@
 #include "e-editor-widget.h"
 #include "e-editor.h"
 #include "e-emoticon-chooser.h"
+#include "e-editor-spell-checker.h"
 
 #include <e-util/e-util.h>
 #include <e-util/e-marshal.h>
@@ -642,6 +643,7 @@ e_editor_widget_init (EEditorWidget *editor)
 	WebKitDOMDocument *document;
 	GSettings *g_settings;
 	GSettingsSchema *settings_schema;
+	EEditorSpellChecker *checker;
 
 	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		editor, E_TYPE_EDITOR_WIDGET, EEditorWidgetPrivate);
@@ -656,9 +658,14 @@ e_editor_widget_init (EEditorWidget *editor)
 		"enable-file-access-from-file-uris", TRUE,
 	        "enable-plugins", FALSE,
 	        "enable-scripts", FALSE,
+	        "enable-spell-checking", TRUE,
 		NULL);
 
 	webkit_web_view_set_settings (WEBKIT_WEB_VIEW (editor), settings);
+
+	/* Override the spell-checker, use our own */
+	checker = g_object_new (E_TYPE_EDITOR_SPELL_CHECKER, NULL);
+	webkit_set_text_checker (G_OBJECT (checker));
 
 	/* Don't use CSS when possible to preserve compatibility with older
 	 * versions of Evolution or other MUAs */

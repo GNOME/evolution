@@ -575,6 +575,85 @@ e_editor_selection_new (WebKitWebView *parent_view)
 			"webview", parent_view, NULL);
 }
 
+gboolean
+e_editor_selection_has_text (EEditorSelection *selection)
+{
+	WebKitDOMRange *range;
+	WebKitDOMNode *node;
+
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	range = editor_selection_get_current_range (selection);
+
+	node = webkit_dom_range_get_start_container (range, NULL);
+	if (webkit_dom_node_get_node_type (node) == 3) {
+		return TRUE;
+	}
+
+	node = webkit_dom_range_get_end_container (range, NULL);
+	if (webkit_dom_node_get_node_type (node) == 3) {
+		return TRUE;
+	}
+
+	node = WEBKIT_DOM_NODE (webkit_dom_range_clone_contents (range, NULL));
+	while (node) {
+		if (webkit_dom_node_get_node_type (node) == 3) {
+			return TRUE;
+		}
+
+		if (webkit_dom_node_has_child_nodes (node)) {
+			node = webkit_dom_node_get_first_child (node);
+		} else if (webkit_dom_node_get_next_sibling (node)) {
+			node = webkit_dom_node_get_next_sibling (node);
+		} else {
+			node = webkit_dom_node_get_parent_node (node);
+			if (node) {
+				node = webkit_dom_node_get_next_sibling (node);
+			}
+		}
+	}
+
+	return FALSE;
+}
+
+gchar *
+e_editor_selection_get_caret_word (EEditorSelection *selection)
+{
+	WebKitDOMRange *range;
+
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+
+	range = editor_selection_get_current_range (selection);
+
+	/* Don't operate on the visible selection */
+	range = webkit_dom_range_clone_range (range, NULL);
+	webkit_dom_range_expand (range, "word", NULL);
+
+	return webkit_dom_range_to_string (range, NULL);
+}
+
+void
+e_editor_selection_replace_caret_word (EEditorSelection *selection,
+				       const gchar *replacement)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMRange *range;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (replacement);
+
+	range = editor_selection_get_current_range (selection);
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (window);
+
+	webkit_dom_range_expand (range, "word", NULL);
+	webkit_dom_dom_selection_add_range (dom_selection, range);
+
+	e_editor_selection_insert_html (selection, replacement);
+}
 
 const gchar *
 e_editor_selection_get_string(EEditorSelection *selection)

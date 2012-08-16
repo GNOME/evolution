@@ -102,6 +102,8 @@
 #include <e-util/e-editor-paragraph-dialog.h>
 #include <e-util/e-editor-replace-dialog.h>
 #include <e-util/e-editor-selection.h>
+#include <e-util/e-editor-spell-check-dialog.h>
+#include <e-util/e-editor-spell-checker.h>
 #include <e-util/e-editor-table-dialog.h>
 #include <e-util/e-editor-text-dialog.h>
 #include <e-util/e-editor-utils.h>
@@ -192,8 +194,6 @@
 #include <e-util/e-source-selector-dialog.h>
 #include <e-util/e-source-selector.h>
 #include <e-util/e-source-util.h>
-#include <e-util/e-spell-dialog.h>
-#include <e-util/e-spell-dictionary.h>
 #include <e-util/e-spell-entry.h>
 #include <e-util/e-spell-text-view.h>
 #include <e-util/e-stock-request.h>
