@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#common-mail-problems" />
 
-    <revision pkgversion="3.5.5" version="0.1" date="2012-08-08" status="review"/>
+    <revision pkgversion="3.5.90" version="0.2" date="2012-08-16" status="review"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -27,6 +27,7 @@
 <item><p>Open the <app>Terminal</app> application.</p></item>
 <item><p>Run the command <cmd>gsettings set org.gnome.evolution.mail drag-and-drop-save-file-format 'pdf'</cmd></p></item>
 </list>
+<p>You can also use the <app>dconf-editor</app> application to do this.</p>
 </note>
 <!-- As per https://mail.gnome.org/archives/evolution-list/2012-June/msg00174.html -->
 
