@@ -5,9 +5,6 @@
 # Proxecto Trasno - Adaptación do software libre á lingua galega:  Se desexas
 # colaborar connosco, podes atopar máis información en http://www.trasno.net
 #
-# First Version: 2000-04-07 22:14+0200
-#
-#
 # Jesús Bravo Álvarez <jba@pobox.com>, 2000.
 # Manuel A. Fernández Montecelo <manuel@sindominio.net>, 2001, 2005.
 # Ignacio Casal Quinteiro <nacho.resa@gmail.com>, 2005, 2006.
@@ -15,24 +12,23 @@
 # Mancomún - Centro de Referencia e Servizos de Software Libre <g11n@mancomun.org>, 2009.
 # Antón Méixome <meixome@mancomun.org>, 2009.
 # Antón Méixome <meixome@certima.net>, 2010.
-# Fran Diéguez <frandieguez@gnome.org>, 2009, 2010, 2011.
-# Fran Dieguez <frandieguez@gnome.org>, 2010, 2011, 2012.
-#
+# Fran Diéguez <frandieguez@gnome.org>, 2009, 2010, 2011, 2012.
+# Leandro Regueiro <leandro.regueiro@gmail.com>, 2012.
 #: ../shell/main.c:556
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-14 11:34+0200\n"
-"PO-Revision-Date: 2012-08-14 11:40+0200\n"
-"Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
-"Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
+"POT-Creation-Date: 2012-08-17 00:26+0200\n"
+"PO-Revision-Date: 2012-08-16 14:57+0200\n"
+"Last-Translator: Leandro Regueiro <leandro.regueiro@gmail.com>\n"
+"Language-Team: Galego <kde-i18n-doc@kde.org>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: Gtranslator 2.91.5\n"
+"X-Generator: Lokalize 1.0\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
@@ -49,7 +45,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid "Failed to authenticate with LDAP server."
-msgstr "Produciuse un fallo ao autenticarse no servidor LDAP."
+msgstr "Produciuse un erro ao autenticarse no servidor LDAP."
 
 #: ../addressbook/addressbook.error.xml.h:4
 msgid ""
@@ -91,7 +87,7 @@ msgstr "O servidor LDAP non respondeu cunha información do esquema correcta."
 
 #: ../addressbook/addressbook.error.xml.h:10
 msgid "Could not remove address book."
-msgstr "Non foi posíbel eliminar a axenda de enderezos."
+msgstr "Non foi posíbel retirar a axenda de enderezos."
 
 #: ../addressbook/addressbook.error.xml.h:11
 msgid "Delete address book '{0}'?"
@@ -99,7 +95,7 @@ msgstr "Desexa eliminar a axenda de enderezos «{0}»?"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "This address book will be removed permanently."
-msgstr "Esta axenda de enderezos eliminarase permanentemente."
+msgstr "Esta axenda de enderezos retirarase permanentemente."
 
 #: ../addressbook/addressbook.error.xml.h:13
 #: ../calendar/calendar.error.xml.h:7 ../mail/mail.error.xml.h:66
@@ -115,7 +111,7 @@ msgid ""
 "This will permanently remove the address book &quot;{0}&quot; from the "
 "server. Are you sure you want to proceed?"
 msgstr ""
-"Isto quitará permanentemente a axenda de enderezos «{0}» do servidor. Ten "
+"Isto retirará permanentemente a axenda de enderezos «{0}» do servidor. Ten "
 "certeza de querer continuar?"
 
 #: ../addressbook/addressbook.error.xml.h:16
@@ -159,7 +155,7 @@ msgid ""
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
 "Está tentando mover un contacto dunha axenda de enderezos a outra pero non é "
-"posíbel eliminalo da fonte. No seu lugar desexa gardar unha copia?"
+"posíbel retiralo da fonte. No seu lugar desexa gardar unha copia?"
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid ""
@@ -249,7 +245,7 @@ msgstr ""
 #: ../addressbook/addressbook.error.xml.h:43
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1264
 msgid "Failed to delete contact"
-msgstr "Produciuse un fallo ao eliminar o contacto"
+msgstr "Produciuse un erro ao eliminar o contacto"
 
 #: ../addressbook/addressbook.error.xml.h:44
 msgid "You do not have permission to delete contacts in this address book."
@@ -566,7 +562,7 @@ msgstr "Produciuse un erro ao modificar o contacto"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:247
 msgid "Error removing contact"
-msgstr "Produciuse un erro ao eliminar o contacto"
+msgstr "Produciuse un erro ao retirar o contacto"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:641
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2929
@@ -728,7 +724,7 @@ msgstr "Engadir un enderezo de correo-e á lista"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:8
 msgid "Remove an email address from the List"
-msgstr "Quitar un enderezo de correo-e da lista"
+msgstr "Retirar un enderezo de correo-e da lista"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 msgid "Insert email addresses from Address Book"
@@ -756,7 +752,7 @@ msgstr "Produciuse un erro ao modificar a lista"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1561
 msgid "Error removing list"
-msgstr "Produciuse un erro ao eliminar a lista"
+msgstr "Produciuse un erro ao retirar a lista"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.ui.h:1
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.ui.h:1
@@ -1045,21 +1041,21 @@ msgstr ""
 #, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
 msgstr ""
-"Non foi posíbel que o backend desta axenda de enderezos analizase esta "
+"A infraestrutura desta axenda de enderezos non conseguiu analizar esta "
 "consulta. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:230
 #, c-format
 msgid "The backend for this address book refused to perform this query. %s"
-msgstr "O backend desta axenda de enderezos rexeitou esta consulta. %s"
+msgstr "A infraestrutura desta axenda de enderezos rexeitou esta consulta. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:236
 #: ../addressbook/gui/widgets/eab-gui-util.c:242
 #, c-format
 msgid "This query did not complete successfully. %s"
-msgstr "Esta consulta non terminou correctamente. %s"
+msgstr "Esta consulta non rematou correctamente. %s"
 
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:264
@@ -1103,7 +1099,7 @@ msgstr[1] "%d contactos"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:371
 msgid "Error getting book view"
-msgstr "Produciuse un erro a vista da axenda"
+msgstr "Produciuse un erro ao obter a vista da axenda"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:805
 msgid "Search Interrupted"
@@ -1546,7 +1542,7 @@ msgstr "Non foi posíbel abrir o ficheiro"
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:74
 #, c-format
 msgid "Failed to open client '%s': %s"
-msgstr "Produciuse un fallo ao abrir o cliente «%s» (%s)"
+msgstr "Produciuse un erro ao abrir o cliente «%s» (%s)"
 
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:108
 msgid "minute"
@@ -2032,7 +2028,7 @@ msgstr "Desexa eliminar o calendario «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:61
 msgid "This calendar will be removed permanently."
-msgstr "Este calendario eliminarase permanentemente."
+msgstr "Este calendario retirarase permanentemente."
 
 #: ../calendar/calendar.error.xml.h:62
 msgid "Delete task list '{0}'?"
@@ -2040,7 +2036,7 @@ msgstr "Desexa eliminar a lista de tarefas «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:63
 msgid "This task list will be removed permanently."
-msgstr "Esta lista de tarefas eliminarase permanentemente."
+msgstr "Esta lista de tarefas retirarase permanentemente."
 
 #: ../calendar/calendar.error.xml.h:64
 msgid "Delete memo list '{0}'?"
@@ -2048,7 +2044,7 @@ msgstr "Desexa eliminar a lista de notas «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:65
 msgid "This memo list will be removed permanently."
-msgstr "Esta lista de notas eliminarase permanentemente."
+msgstr "Esta lista de notas retirarase permanentemente."
 
 #: ../calendar/calendar.error.xml.h:66
 msgid "Delete remote calendar &quot;{0}&quot;?"
@@ -2059,7 +2055,7 @@ msgid ""
 "This will permanently remove the calendar &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
 msgstr ""
-"Isto eliminará permanentemente o calendario {0} do servidor. Ten certeza de "
+"Isto retirará permanentemente o calendario {0} do servidor. Ten certeza de "
 "querer continuar?"
 
 #: ../calendar/calendar.error.xml.h:69
@@ -2071,7 +2067,7 @@ msgid ""
 "This will permanently remove the task list &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
 msgstr ""
-"Isto eliminará permanentemente a lista de tarefas «{0}» do servidor. Ten "
+"Isto retirará permanentemente a lista de tarefas «{0}» do servidor. Ten "
 "certeza de querer continuar?"
 
 #: ../calendar/calendar.error.xml.h:71
@@ -2083,8 +2079,8 @@ msgid ""
 "This will permanently remote the memo list &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
 msgstr ""
-"Isto eliminará permanentemente a lista de notas remota «{0}» do servidor. "
-"Ten certeza de querer continuar?"
+"Isto retirará permanentemente a lista de notas remota «{0}» do servidor. Ten "
+"certeza de querer continuar?"
 
 #: ../calendar/calendar.error.xml.h:73
 msgid "Are you sure you want to save the appointment without a summary?"
@@ -2365,7 +2361,7 @@ msgstr "Executar un programa"
 #: ../calendar/gui/dialogs/alarm-dialog.c:826
 #: ../calendar/gui/e-alarm-list.c:416
 msgid "Send an email"
-msgstr "Enviar un correo"
+msgstr "Enviar unha mensaxe de correo-e"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:1
 msgid "minute(s)"
@@ -3175,7 +3171,7 @@ msgstr "Imprimir esta nota"
 
 #: ../calendar/gui/dialogs/memo-page.c:429
 msgid "Memo's start date is in the past"
-msgstr "A hora de inicio da nota xa pasou"
+msgstr "A data de inicio da nota xa pasou"
 
 #: ../calendar/gui/dialogs/memo-page.c:465
 msgid "Memo cannot be edited, because the selected memo list is read only"
@@ -6909,8 +6905,7 @@ msgstr "Escribir unha mensaxe"
 #: ../composer/e-msg-composer.c:4198
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
-"O editor contén un corpo de mensaxe sen texto, polo que non é posíbel a "
-"edición."
+"O editor contén un corpo de mensaxe sen texto, polo que non é posíbel editar."
 
 #: ../composer/e-msg-composer.c:4875
 msgid "Untitled Message"
@@ -6959,7 +6954,7 @@ msgstr "Non foi posíbel gardar no ficheiro de gardado automático «{0}»."
 
 #: ../composer/mail-composer.error.xml.h:10
 msgid "Error saving to autosave because &quot;{1}&quot;."
-msgstr "Produciuse un erro no gardado automático debido a «{1}»."
+msgstr "Produciuse un erro ao gardar automaticamente debido a «{1}»."
 
 #: ../composer/mail-composer.error.xml.h:11
 msgid "Download in progress. Do you want to send the mail?"
@@ -7015,7 +7010,7 @@ msgstr "Non foi posíbel ler o ficheiro da sinatura «{0}»."
 
 #: ../composer/mail-composer.error.xml.h:23
 msgid "All accounts have been removed."
-msgstr "Elimináronse todas as contas."
+msgstr "Retiráronse todas as contas."
 
 #: ../composer/mail-composer.error.xml.h:24
 msgid "You need to configure an account before you can compose mail."
@@ -7041,7 +7036,7 @@ msgstr "O erro devolto foi «{0}». É moi posíbel que non se gardase a mensaxe
 
 #: ../composer/mail-composer.error.xml.h:29
 msgid "An error occurred while sending. How do you want to proceed?"
-msgstr "Produciuse un erro durante o envío. Que desexa facer?"
+msgstr "Produciuse un erro ao enviar. Que desexa facer?"
 
 #: ../composer/mail-composer.error.xml.h:30 ../mail/mail.error.xml.h:152
 msgid "The reported error was &quot;{0}&quot;."
@@ -7443,11 +7438,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
 msgid "Hide completed tasks"
-msgstr "Ocultar as tarefas terminadas"
+msgstr "Ocultar as tarefas rematadas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
 msgid "Whether to hide completed tasks in the tasks view"
-msgstr "Indica se se ocultan as tarefas terminadas na vista de tarefas"
+msgstr "Indica se se ocultan as tarefas rematadas na vista de tarefas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 msgid "Hide task units"
@@ -7737,7 +7732,7 @@ msgid ""
 "together with task-due-today-highlight"
 msgstr ""
 "Cor de fondo para as tarefas que vencen hoxe, no formato «#rrggbb». Usado "
-"xunto ao resaltado de tarefas que vencen hoxe."
+"xunto ao realce de tarefas que vencen hoxe."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 msgid "Task preview pane position (horizontal)"
@@ -8073,7 +8068,7 @@ msgstr "Cor da comprobación ortográfica"
 msgid "Underline color for misspelled words when using inline spelling."
 msgstr ""
 "Cor de subliñado para as palabras escritas incorrectamente cando se usa a "
-"comprobación ortográfica en liña."
+"corrección ortográfica en liña."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:29
 msgid "Spell checking languages"
@@ -8495,15 +8490,15 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Hides the per-folder preview and removes the selection"
-msgstr "Oculta a vista previa por cartafol e elimina a selección"
+msgstr "Oculta a vista previa por cartafol e retira a selección"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
-"Esta chave só se le unha vez e restabelécese como «falso» despois de a ler. "
-"Isto deselecciona o correo da lista e elimina a vista previa de ese cartafol."
+"Esta clave só se le unha vez e restabelécese como «falso» despois de a ler. "
+"Isto deselecciona o correo da lista e retira a vista previa de ese cartafol."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid "Height of the message-list pane"
@@ -8598,19 +8593,19 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid "Thread the message-list based on Subject"
-msgstr "Lista de mensaxes por conversas baseadas no asunto"
+msgstr "Listar o fíos de mensaxes por asunto"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
-"Indica se debe retroceder no agrupamento de conversas polo asunto cando as "
-"mensaxes non conteñen cabeceiras «En resposta a» ou «Referencias»."
+"Indica se debe retroceder no agrupamento polo asunto cando as mensaxes non "
+"conteñen cabeceiras «En resposta a» ou «Referencias»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid "Default value for thread expand state"
-msgstr "Valor predeterminado para o estado despregado da conversa"
+msgstr "Valor predeterminado para o estado despregado do fío"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid ""
@@ -8622,7 +8617,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid "Whether sort threads based on latest message in that thread"
-msgstr "Indica se ordenar as conversa pola última mensaxe que aparece"
+msgstr "Indica se ordenar os fíos pola última mensaxe que aparece"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid ""
@@ -8630,9 +8625,8 @@ msgid ""
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
 msgstr ""
-"Esta opción indica se as conversas deben estar clasificadas pola última "
-"mensaxe de cada conversa en vez de pola data das mensaxes. É necesario "
-"reiniciar o Evolution."
+"Esta opción indica se os fíos deben clasificarse pola última mensaxe de cada "
+"fío en vez de pola data das mensaxes. É necesario reiniciar o Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Sort accounts alphabetically in a folder tree"
@@ -8736,7 +8730,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid "Prompt when user tries to send unwanted HTML"
-msgstr "Avisar cando o usuario tente enviar un HTML non desexado"
+msgstr "Avisar cando o usuario tente enviar HTML non desexado"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid ""
@@ -8775,8 +8769,8 @@ msgid ""
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
-"Activa/desactiva as preguntas que avisan de que ao borrar as mensaxes dun "
-"cartafol de busca bórranse as mensaxes permanentemente, non só dos "
+"Activa/desactiva as preguntas que avisan de que ao eliminar as mensaxes dun "
+"cartafol de busca elimínanse as mensaxes permanentemente, non só dos "
 "resultados da busca."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
@@ -9378,7 +9372,7 @@ msgid ""
 "The key specifies the list of destinations to where publish calendars. Each "
 "values specifies an XML with setup for publishing to one destination."
 msgstr ""
-"A chave específica a lista de destinos onde publicar calendarios. Cada valor "
+"A chave especifica a lista de destinos onde publicar calendarios. Cada valor "
 "especifica un ficheiro XML con configuración para publicar nun destino"
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
@@ -10161,7 +10155,7 @@ msgstr "Non é posíbel abrir o ficheiro «{0}»."
 
 #: ../e-util/e-system.error.xml.h:7
 msgid "Failed to remove data source &quot;{0}&quot;."
-msgstr "Produciuse un fallo ao quitar a fonte de datos «{0}»."
+msgstr "Produciuse un erro ao retirar a fonte de datos «{0}»."
 
 #: ../e-util/e-system.error.xml.h:8 ../mail/mail.error.xml.h:61
 msgid "The reported error was &quot;{1}&quot;."
@@ -10169,11 +10163,11 @@ msgstr "O informe de erro foi &quot;{1}&quot;."
 
 #: ../e-util/e-system.error.xml.h:9
 msgid "Failed to update data source &quot;{0}&quot;."
-msgstr "Produciuse un fallo ao actualizar a fonte de datos «{0}»."
+msgstr "Produciuse un erro ao actualizar a fonte de datos «{0}»."
 
 #: ../e-util/e-system.error.xml.h:10
 msgid "Failed to delete resource &quot;{0}&quot;."
-msgstr "Produciuse un fallo ao eliminar o recurso «{0}»."
+msgstr "Produciuse un erro ao eliminar o recurso «{0}»."
 
 #: ../e-util/e-util.c:243
 msgid "Could not open the link."
@@ -10345,7 +10339,7 @@ msgstr "Encontrar os elementos que cumpran as seguintes condicións"
 #: ../filter/e-filter-rule.c:835 ../libemail-engine/camel-null-store.c:28
 #: ../mail/e-mail-config-summary-page.c:139
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:616
-#: ../widgets/misc/e-mail-signature-combo-box.c:318
+#: ../widgets/misc/e-mail-signature-combo-box.c:369
 msgid "None"
 msgstr "Ningunha"
 
@@ -10536,20 +10530,20 @@ msgstr "Buscando mensaxes duplicadas"
 #: ../libemail-engine/e-mail-folder-utils.c:1177
 #, c-format
 msgid "Removing folder '%s'"
-msgstr "Eliminando o cartafol «%s»"
+msgstr "Retirando o cartafol «%s»"
 
 #: ../libemail-engine/e-mail-folder-utils.c:1314
 #, c-format
 msgid "File \"%s\" has been removed."
-msgstr "Eliminouse o ficheiro «%s»."
+msgstr "Retirouse o ficheiro «%s»."
 
 #: ../libemail-engine/e-mail-folder-utils.c:1318
 msgid "File has been removed."
-msgstr "Quitouse o ficheiro."
+msgstr "Retirouse o ficheiro."
 
 #: ../libemail-engine/e-mail-folder-utils.c:1377
 msgid "Removing attachments"
-msgstr "Eliminando os anexos"
+msgstr "Retirando os anexos"
 
 #: ../libemail-engine/e-mail-folder-utils.c:1541
 #, c-format
@@ -10592,8 +10586,8 @@ msgstr "Enviados"
 #: ../libemail-engine/e-mail-session.c:120 ../mail/em-folder-tree-model.c:761
 #: ../modules/mail/e-mail-shell-view-private.c:1039
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
-#: ../plugins/templates/templates.c:1049 ../plugins/templates/templates.c:1349
-#: ../plugins/templates/templates.c:1359
+#: ../plugins/templates/templates.c:1048 ../plugins/templates/templates.c:1345
+#: ../plugins/templates/templates.c:1355
 msgid "Templates"
 msgstr "Modelos"
 
@@ -10626,40 +10620,40 @@ msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "Non se atopou ningunha identidade que usar, cancelouse o reenvío do mensaxe."
 
-#: ../libemail-engine/e-mail-session-utils.c:420
+#: ../libemail-engine/e-mail-session-utils.c:540
 #, c-format
 msgid "No mail service found with UID '%s'"
 msgstr "Non foi posíbel atopar ningún servizo de correo co UID «%s»"
 
-#: ../libemail-engine/e-mail-session-utils.c:429
+#: ../libemail-engine/e-mail-session-utils.c:549
 #, c-format
 msgid "UID '%s' is not a mail transport"
 msgstr "UID «%s» non é un transporte de correo"
 
-#: ../libemail-engine/e-mail-session-utils.c:521
+#: ../libemail-engine/e-mail-session-utils.c:641
 #: ../libemail-engine/mail-ops.c:697
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
-msgstr "Produciuse un fallo ao aplicar os filtros ao correo saínte: %s"
+msgstr "Produciuse un erro ao aplicar os filtros ao correo saínte: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:550
-#: ../libemail-engine/e-mail-session-utils.c:584
+#: ../libemail-engine/e-mail-session-utils.c:670
+#: ../libemail-engine/e-mail-session-utils.c:704
 #: ../libemail-engine/mail-ops.c:714 ../libemail-engine/mail-ops.c:750
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local 'Sent' folder instead."
 msgstr ""
-"Produciuse un fallo ao anexar a %s: %s\n"
+"Produciuse un erro ao anexar a %s: %s\n"
 "No seu lugar anexaranse ao cartafol local «Enviados»."
 
-#: ../libemail-engine/e-mail-session-utils.c:604
+#: ../libemail-engine/e-mail-session-utils.c:724
 #: ../libemail-engine/mail-ops.c:772
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
-msgstr "Produciuse un fallo ao anexar ao cartafol local «Enviados»: %s"
+msgstr "Produciuse un erro ao anexar ao cartafol local «Enviados»: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:834
+#: ../libemail-engine/e-mail-session-utils.c:954
 #: ../libemail-engine/mail-ops.c:904 ../libemail-engine/mail-ops.c:1005
 msgid "Sending message"
 msgstr "Enviando a mensaxe"
@@ -10704,8 +10698,8 @@ msgstr "Enviando a mensaxe %d de %d"
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
-msgstr[0] "Produciuse un fallo ao enviar unha mensaxe"
-msgstr[1] "Produciuse un fallo ao enviar %d de %d mensaxes"
+msgstr[0] "Produciuse un erro ao enviar unha mensaxe"
+msgstr[1] "Produciuse un erro ao enviar %d de %d mensaxes"
 
 #: ../libemail-engine/mail-ops.c:972
 msgid "Canceled."
@@ -11383,7 +11377,7 @@ msgstr "_Ignorar sempre «Responder a:» para as listas de correo."
 
 #: ../mail/e-mail-reader.c:1725
 msgid "Failed to retrieve message:"
-msgstr "Produciuse un fallo ao obter a mensaxe:"
+msgstr "Produciuse un erro ao obter a mensaxe:"
 
 #: ../mail/e-mail-reader.c:1771 ../mail/e-mail-reader.c:2860
 #, c-format
@@ -11476,7 +11470,7 @@ msgstr "E_liminar a marca"
 
 #: ../mail/e-mail-reader.c:2019
 msgid "Remove the follow-up flag from the selected messages"
-msgstr "Eliminar as marcas de seguimento das mensaxes seleccionadas"
+msgstr "Retirar as marcas de seguimento das mensaxes seleccionadas"
 
 #: ../mail/e-mail-reader.c:2024
 msgid "_Flag Completed"
@@ -11669,11 +11663,11 @@ msgstr "Mostrar a seguinte mensaxe importante"
 
 #: ../mail/e-mail-reader.c:2199
 msgid "Next _Thread"
-msgstr "Seguin_te conversa"
+msgstr "Seguin_te fío"
 
 #: ../mail/e-mail-reader.c:2201
 msgid "Display the next thread"
-msgstr "Mostrar a seguinte conversa"
+msgstr "Mostrar o seguinte fío"
 
 #: ../mail/e-mail-reader.c:2206
 msgid "Next _Unread Message"
@@ -11705,7 +11699,7 @@ msgstr "_Conversa anterior"
 
 #: ../mail/e-mail-reader.c:2229
 msgid "Display the previous thread"
-msgstr "Mostrar a conversa anterior"
+msgstr "Mostrar o fío anterior"
 
 #: ../mail/e-mail-reader.c:2234
 msgid "P_revious Unread Message"
@@ -11737,11 +11731,11 @@ msgstr "Eliminar os _anexos"
 
 #: ../mail/e-mail-reader.c:2264
 msgid "Remove attachments"
-msgstr "Eliminar os anexos"
+msgstr "Retirar os anexos"
 
 #: ../mail/e-mail-reader.c:2269
 msgid "Remove Du_plicate Messages"
-msgstr "Eliminar as mensaxes du_plicadas"
+msgstr "Retirar as mensaxes du_plicadas"
 
 #: ../mail/e-mail-reader.c:2271
 msgid "Checks selected messages for duplicates"
@@ -12024,7 +12018,7 @@ msgstr "Analizando mensaxe"
 #: ../mail/e-mail-request.c:152
 #, c-format
 msgid "Failed to load part '%s'"
-msgstr "Produciuse un fallo ao cargar a parte «%s»"
+msgstr "Produciuse un erro ao cargar a parte «%s»"
 
 #: ../mail/e-mail-tag-editor.c:293
 msgid "Flag to Follow Up"
@@ -12034,7 +12028,7 @@ msgstr "Marcar para facer seguimento"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../mail/em-composer-utils.c:1287
+#: ../mail/em-composer-utils.c:1281
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -12042,23 +12036,23 @@ msgstr ""
 "O ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} ás ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} escribiu:"
 
-#: ../mail/em-composer-utils.c:1293
+#: ../mail/em-composer-utils.c:1287
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Mensaxe reencamiñada --------"
 
-#: ../mail/em-composer-utils.c:1298
+#: ../mail/em-composer-utils.c:1292
 msgid "-----Original Message-----"
 msgstr "-----Mensaxe orixinal-----"
 
-#: ../mail/em-composer-utils.c:2578
+#: ../mail/em-composer-utils.c:2572
 msgid "an unknown sender"
 msgstr "un remitente descoñecido"
 
-#: ../mail/em-composer-utils.c:2996
+#: ../mail/em-composer-utils.c:2990
 msgid "Posting destination"
 msgstr "Destino da publicación"
 
-#: ../mail/em-composer-utils.c:2997
+#: ../mail/em-composer-utils.c:2991
 msgid "Choose folders to post the message to."
 msgstr "Escolla os cartafoles nos que publicar a mensaxe."
 
@@ -13387,7 +13381,7 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder \"{0}\"?"
 msgstr ""
-"Está seguro de que desexa eliminar permanentemente todas as mensaxes "
+"Está seguro de que desexa retirar permanentemente todas as mensaxes "
 "eliminadas do cartafol «{0}»?"
 
 #: ../mail/mail.error.xml.h:36
@@ -13403,7 +13397,7 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
 msgstr ""
-"Está seguro de que desexa eliminar permanentemente todas as mensaxes "
+"Está seguro de que desexa retirar permanentemente todas as mensaxes "
 "eliminadas de todos os cartafoles?"
 
 #: ../mail/mail.error.xml.h:39
@@ -13492,11 +13486,11 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:60
 msgid "Failed to expunge folder &quot;{0}&quot;."
-msgstr "Produciuse un fallo ao expurgar o cartafol &quot;{0}&quot;."
+msgstr "Produciuse un erro ao expurgar o cartafol &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:62
 msgid "Failed to refresh folder &quot;{0}&quot;."
-msgstr "Produciuse un fallo ao actualizar o cartafol &quot;{0}&quot;."
+msgstr "Produciuse un erro ao actualizar o cartafol &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:63
 msgid "Cannot rename or move system folder \"{0}\"."
@@ -13764,7 +13758,7 @@ msgstr ""
 msgid ""
 "Failed to query server for a list of supported authentication mechanisms."
 msgstr ""
-"Produciuse un fallo ao solicitar a lista de mecanismos de autenticación "
+"Produciuse un erro ao solicitar a lista de mecanismos de autenticación "
 "admitidos polo servidor."
 
 #: ../mail/mail.error.xml.h:123
@@ -13877,7 +13871,7 @@ msgstr "Produciuse un fallo ao informar do que non é correo lixo"
 
 #: ../mail/mail.error.xml.h:147
 msgid "Remove duplicate messages?"
-msgstr "Desexa eliminar as mensaxes duplicadas?"
+msgstr "Desexa retirar as mensaxes duplicadas?"
 
 #: ../mail/mail.error.xml.h:148
 msgid "No duplicate messages found."
@@ -13890,11 +13884,11 @@ msgstr "O cartafol «{0}» non contén ningunha mensaxe duplicada."
 
 #: ../mail/mail.error.xml.h:151
 msgid "Failed to disconnect account &quot;{0}&quot;."
-msgstr "Produciuse un fallo ao desconectar a conta &quot;{0}&quot;."
+msgstr "Produciuse un erro ao desconectar a conta &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:153
 msgid "Failed to unsubscribe from folder &quot;{0}&quot;."
-msgstr "Produciuse un fallo ao desuscribirse do cartafol &quot;{0}&quot;."
+msgstr "Produciuse un erro ao desuscribirse do cartafol &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:154
 msgid "Unable to retrieve message."
@@ -13910,24 +13904,24 @@ msgstr "Produciuse un erro ao abrir o cartafol."
 
 #: ../mail/mail.error.xml.h:157
 msgid "Failed to find duplicate messages."
-msgstr "Produciuse un fallo ao buscar as mensaxes duplicadas."
+msgstr "Produciuse un erro ao buscar as mensaxes duplicadas."
 
 #: ../mail/mail.error.xml.h:158
 msgid "Failed to retrieve messages."
-msgstr "Produciuse un fallo ao obter as mensaxes."
+msgstr "Produciuse un erro ao obter as mensaxes."
 
 #: ../mail/mail.error.xml.h:159
 msgid "Failed to remove attachments from messages."
-msgstr "Produciuse un fallo ao quitar os anexos das mensaxes."
+msgstr "Produciuse un erro ao retirar os anexos das mensaxes."
 
 #: ../mail/mail.error.xml.h:160
 msgid "Failed to download messages for offline viewing."
 msgstr ""
-"Produciuse un fallo ao descargar as mensaxes para traballar sen conexión"
+"Produciuse un erro ao descargar as mensaxes para traballar sen conexión"
 
 #: ../mail/mail.error.xml.h:161
 msgid "Failed to save messages to disk."
-msgstr "Produciuse un fallo ao gardar as mensaxes ao disco."
+msgstr "Produciuse un erro ao gardar as mensaxes ao disco."
 
 #: ../mail/mail.error.xml.h:162
 msgid "Hidden file is attached."
@@ -14740,7 +14734,7 @@ msgstr "Cargando os axustes do Evolution"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:624
 msgid "Removing temporary back up files"
-msgstr "Eliminando os ficheiros temporais da copia de seguranza"
+msgstr "Retirando os ficheiros temporais da copia de seguranza"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:636
 msgid "Reloading registry service"
@@ -14843,12 +14837,12 @@ msgstr "O cartafol seleccionado non é escribíbel."
 #: ../modules/bogofilter/evolution-bogofilter.c:149
 #, c-format
 msgid "Failed to spawn Bogofilter (%s): "
-msgstr "Produciuse un fallo ao iniciar Bogofilter (%s): "
+msgstr "Produciuse un erro ao iniciar Bogofilter (%s): "
 
 #: ../modules/bogofilter/evolution-bogofilter.c:167
 msgid "Failed to stream mail message content to Bogofilter: "
 msgstr ""
-"Produciuse un fallo ao enviar o fluxo do contido dos correos a Bogofilter: "
+"Produciuse un erro ao enviar o fluxo do contido dos correos a Bogofilter: "
 
 #: ../modules/bogofilter/evolution-bogofilter.c:216
 msgid "Bogofilter either crashed or failed to process a mail message"
@@ -16676,7 +16670,7 @@ msgstr "_Notas:"
 #: ../modules/itip-formatter/itip-view.c:3477
 #, c-format
 msgid "Failed to load the calendar '%s' (%s)"
-msgstr "Produciuse un fallo ao cargar o calendario «%s» (%s)"
+msgstr "Produciuse un erro ao cargar o calendario «%s» (%s)"
 
 #: ../modules/itip-formatter/itip-view.c:3634
 #, c-format
@@ -16750,7 +16744,7 @@ msgstr "Non é posíbel analizar o elemento"
 #: ../modules/itip-formatter/itip-view.c:4778
 #, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr "O organizador eliminou o delegado %s "
+msgstr "O organizador retirou o delegado %s "
 
 #: ../modules/itip-formatter/itip-view.c:4793
 msgid "Sent a cancelation notice to the delegate"
@@ -17093,7 +17087,7 @@ msgstr "Desactivar esta conta"
 #: ../modules/mail/e-mail-shell-view-actions.c:1233
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr ""
-"Eliminar permanentemente todas as mensaxes eliminadas de todos os cartafoles"
+"Retirar permanentemente todas as mensaxes eliminadas de todos os cartafoles"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1240
 msgid "Edit properties of this account"
@@ -17122,7 +17116,7 @@ msgstr "Copiar o cartafol seleccionado noutro cartafol"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1268
 msgid "Permanently remove this folder"
-msgstr "Eliminar permanentemente este cartafol"
+msgstr "Retirar permanentemente este cartafol"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1273
 msgid "E_xpunge"
@@ -17130,7 +17124,7 @@ msgstr "Com_pactar"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1275
 msgid "Permanently remove all deleted messages from this folder"
-msgstr "Eliminar permanentemente as mensaxes eliminadas deste cartafol"
+msgstr "Retirar permanentemente as mensaxes eliminadas deste cartafol"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1280
 msgid "Mar_k All Messages as Read"
@@ -17170,16 +17164,15 @@ msgstr "Modificar o nome deste cartafol"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1322
 msgid "Select Message _Thread"
-msgstr "Seleccionar a _conversa desta mensaxe"
+msgstr "Seleccionar o _fío desta mensaxe"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1324
 msgid "Select all messages in the same thread as the selected message"
-msgstr ""
-"Seleccionar todas as mensaxes da mesma conversa que a mensaxe seleccionada"
+msgstr "Seleccionar todas as mensaxes do mesmo fío que a mensaxe seleccionada"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1329
 msgid "Select Message S_ubthread"
-msgstr "Seleccionar a conversa sec_undaria desta mensaxe"
+msgstr "Seleccionar o fío sec_undario desta mensaxe"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1331
 msgid "Select all replies to the currently selected message"
@@ -17192,7 +17185,7 @@ msgstr "Baleirar o _lixo"
 #: ../modules/mail/e-mail-shell-view-actions.c:1345
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr ""
-"Eliminar permanentemente todas as mensaxes eliminadas de todas as contas"
+"Retirar permanentemente todas as mensaxes eliminadas de todas as contas"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1350
 msgid "_New Label"
@@ -17248,19 +17241,19 @@ msgstr "Cancelar a operación de correo actual"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1429
 msgid "Collapse All _Threads"
-msgstr "Pregar todos as _conversas"
+msgstr "Pregar todos os _fíos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1431
 msgid "Collapse all message threads"
-msgstr "Pregar todos as conversas da mensaxe"
+msgstr "Pregar todos os fíos de mensaxes"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1436
 msgid "E_xpand All Threads"
-msgstr "D_espregar todas as conversas"
+msgstr "D_espregar todos os fíos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1438
 msgid "Expand all message threads"
-msgstr "Despregar todas as conversas da mensaxe"
+msgstr "Despregar todas as conversas do fío"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1443
 msgid "_Message Filters"
@@ -17316,11 +17309,11 @@ msgstr "Mostrar as mensaxes eliminadas riscándoas."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1571
 msgid "_Group By Threads"
-msgstr "A_grupar por conversas"
+msgstr "A_grupar por fíos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1573
 msgid "Threaded message list"
-msgstr "Lista de mensaxes por conversas"
+msgstr "Lista de mensaxes por fío"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1579
 msgid "_Unmatched Folder Enabled"
@@ -17328,7 +17321,7 @@ msgstr "Cartafol non _coincidente activado"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1581
 msgid "Toggles whether Unmatched search folder is enabled"
-msgstr "Conmutador que indica se o cartafol non coincidente está activado"
+msgstr "Conmuta cando se activa o cartafol de busca non coincidente"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1601
 msgid "Show message preview below the message list"
@@ -17396,7 +17389,7 @@ msgstr "Buscar na conta"
 
 #: ../modules/mail/e-mail-shell-view.c:972
 msgid "Proxy _Logout"
-msgstr "_Terminar a sesión proxy"
+msgstr "_Saír da sesión proxy"
 
 #: ../modules/mail/e-mail-shell-view-private.c:961
 #, c-format
@@ -17508,24 +17501,24 @@ msgstr ""
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
-#: ../modules/mdn/evolution-mdn.c:318
+#: ../modules/mdn/evolution-mdn.c:323
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "A mensaxe a %s sobre «%s» o %s leuse."
 
 #. Translators: %s is the subject of the email message.
-#: ../modules/mdn/evolution-mdn.c:385
+#: ../modules/mdn/evolution-mdn.c:390
 #, c-format
 msgid "Delivery Notification for \"%s\""
 msgstr "Notificación de recepción para «%s»"
 
-#: ../modules/mdn/evolution-mdn.c:540
+#: ../modules/mdn/evolution-mdn.c:543
 #, c-format
 msgid "Send a read receipt to '%s'"
 msgstr "Enviar unha confirmación de recepción a «%s»"
 
 #. name doesn't matter
-#: ../modules/mdn/evolution-mdn.c:545
+#: ../modules/mdn/evolution-mdn.c:548
 msgid "_Notify Sender"
 msgstr "_Notificar ao emisor"
 
@@ -17684,21 +17677,21 @@ msgstr "Ver as mensaxes de correo como texto plano aínda que conteñan HTML."
 #: ../modules/spamassassin/evolution-spamassassin.c:192
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
-msgstr "Produciuse un fallo ao iniciar SpamAssassin (%s) "
+msgstr "Produciuse un erro ao iniciar SpamAssassin (%s) "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:215
 msgid "Failed to stream mail message content to SpamAssassin: "
 msgstr ""
-"Produciuse un fallo ao enviar o fluxo do contido dos correos a SpamAssassin: "
+"Produciuse un erro ao enviar o fluxo do contido dos correos a SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:234
 #, c-format
 msgid "Failed to write '%s' to SpamAssassin: "
-msgstr "Produciuse un fallo ao escribir «%s» a SpamAssasin: "
+msgstr "Produciuse un erro ao escribir «%s» a SpamAssasin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:262
 msgid "Failed to read output from SpamAssassin: "
-msgstr "Produciuse un fallo ao ler a saída de SpamAssassin: "
+msgstr "Produciuse un erro ao ler a saída de SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:317
 msgid "SpamAssassin either crashed or failed to process a mail message"
@@ -18046,7 +18039,7 @@ msgid "_Do not show this message again."
 msgstr "_Non mostrar esta mensaxe outra vez."
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:590
-#: ../plugins/templates/templates.c:470
+#: ../plugins/templates/templates.c:469
 msgid "Keywords"
 msgstr "Palabras chave"
 
@@ -18204,7 +18197,7 @@ msgid "Key"
 msgstr "Chave"
 
 #: ../plugins/email-custom-header/email-custom-header.c:867
-#: ../plugins/templates/templates.c:478
+#: ../plugins/templates/templates.c:477
 msgid "Values"
 msgstr "Valores"
 
@@ -18256,8 +18249,8 @@ msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
 msgstr ""
-"Non é posíbel iniciar o editor externo configurado nas súas preferencias. "
-"Tente configurar un editor diferente."
+"Non é posíbel iniciar o editor externo configurado nas preferencias do "
+"complemento. Tente configurar un editor diferente."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:3
 msgid "Cannot create Temporary File"
@@ -18444,7 +18437,7 @@ msgstr ""
 "Enviarase unha mensaxe de correo ao URL «{0}». Pode enviar a mensaxe "
 "automaticamente ou revisala e modificala primeiro.\n"
 "\n"
-"Debería recibir unha resposta desde a rolda de correo pouco despois de que "
+"Debería recibir unha resposta desde a lista de correo pouco despois de que "
 "se envíe esta mensaxe."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
@@ -18640,7 +18633,7 @@ msgstr "O obxecto devolto por un servidor non é válido"
 #: ../plugins/mail-to-task/mail-to-task.c:819
 #, c-format
 msgid "An error occurred during processing: %s"
-msgstr "Produciuse un erro no proceso: %s"
+msgstr "Produciuse un erro ao procesar: %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:844
 #, c-format
@@ -18825,7 +18818,7 @@ msgstr "Rematouse con éxito a publicación en %s"
 #: ../plugins/publish-calendar/publish-calendar.c:279
 #, c-format
 msgid "Mount of %s failed:"
-msgstr "Produciuse un fallo ao montar %s:"
+msgstr "Produciuse un erro ao montar %s:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:626
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
@@ -18834,14 +18827,14 @@ msgstr "A_ctivar"
 
 #: ../plugins/publish-calendar/publish-calendar.c:774
 msgid "Are you sure you want to remove this location?"
-msgstr "Está seguro de que desexa eliminar esta localización?"
+msgstr "Está seguro de que desexa retirar esta localización?"
 
 #. To Translators: This is shown to a user when creation of a new thread,
 #. * where the publishing should be done, fails. Basically, this shouldn't
 #. * ever happen, and if so, then something is really wrong.
 #: ../plugins/publish-calendar/publish-calendar.c:1104
 msgid "Could not create publish thread."
-msgstr "Non foi posíbel crear a conversa para publicar."
+msgstr "Non foi posíbel crear o fío para publicar."
 
 #: ../plugins/publish-calendar/publish-calendar.c:1112
 msgid "_Publish Calendar Information"
@@ -18940,7 +18933,8 @@ msgstr "Localización da publicación"
 #, c-format
 msgid "Could not publish calendar: Calendar backend no longer exists"
 msgstr ""
-"Non foi posíbel publicar o calendario: o backend do calendario xa non existe"
+"Non foi posíbel publicar o calendario: a infraestrutura do calendario xa non "
+"existe"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:539
 msgid "New Location"
@@ -19084,15 +19078,15 @@ msgstr ""
 "[subject], $ORIG[from], $ORIG[to] ou $ORIG[body], que se substituirán cos "
 "valores do correo electrónico ao que está respondendo."
 
-#: ../plugins/templates/templates.c:1113
+#: ../plugins/templates/templates.c:1112
 msgid "No Title"
 msgstr "Sen título"
 
-#: ../plugins/templates/templates.c:1225
+#: ../plugins/templates/templates.c:1221
 msgid "Save as _Template"
 msgstr "Gardar como un _modelo"
 
-#: ../plugins/templates/templates.c:1227
+#: ../plugins/templates/templates.c:1223
 msgid "Save as Template"
 msgstr "Gardar como un modelo"
 
@@ -19154,12 +19148,23 @@ msgstr "Gardando o estado da interface do usuario"
 #: ../shell/e-shell-window-actions.c:642
 msgid "translator-credits"
 msgstr ""
-"Suso Baleato <suso.baleato@xunta.es>, 2009;\n"
+"Leandro Regueiro <leandro.regueiro@gmail.com>, 2012.\n"
+"Fran Diéguez <frandieguez@gnome.org>, 2009, 2010, 2011, 2012.\n"
+"Antón Méixome <meixome@certima.net>, 2010.\n"
 "Antón Méixome <meixome@mancomun.org>, 2009.\n"
+"Suso Baleato <suso.baleato@xunta.es>, 2009;\n"
+"Mancomún - Centro de Referencia e Servizos de Software Libre <g11n@mancomun."
+"org>, 2009.\n"
+"Ignacio Casal Quinteiro <icq@svn.gnome.org>, 2007, 2008.\n"
+"Ignacio Casal Quinteiro <nacho.resa@gmail.com>, 2005, 2006.\n"
+"Manuel A. Fernández Montecelo <manuel@sindominio.net>, 2001, 2005.\n"
+"Jesús Bravo Álvarez <jba@pobox.com>, 2000.\n"
 "\n"
-"Launchpad Contributions:\n"
-"  Fran Diéguez https://launchpad.net/~frandieguez\n"
-"  Miguel Anxo Bouzada https://launchpad.net/~mbouzada"
+"Contribucións de Launchpad:\n"
+"  Miguel Anxo Bouzada https://launchpad.net/~mbouzada\n"
+"\n"
+"Proxecto Trasno - Adaptación do software libre á lingua galega:  Se desexas\n"
+"colaborar connosco, podes atopar máis información en http://www.trasno.net"
 
 #: ../shell/e-shell-window-actions.c:653
 msgid "Evolution Website"
@@ -19273,11 +19278,11 @@ msgstr "Gardar os parámetros de busca actuais"
 
 #: ../shell/e-shell-window-actions.c:1563
 msgid "Submit _Bug Report..."
-msgstr "Enviar un _informe de erro…"
+msgstr "Enviar un _informe de fallo…"
 
 #: ../shell/e-shell-window-actions.c:1565
 msgid "Submit a bug report using Bug Buddy"
-msgstr "Enviar un informe de erro usando o Bug Buddy"
+msgstr "Enviar un informe de fallo usando o Bug Buddy"
 
 #: ../shell/e-shell-window-actions.c:1570
 msgid "_Work Offline"
@@ -19457,23 +19462,22 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"Ola. Grazas por tomar o tempo para descargar esta versión de avaliación\n"
-"da suite de traballo en grupo Evolution.\n"
+"Ola. Grazas por tomar o tempo para descargar esta versión de \n"
+"avaliación da suite de traballo en grupo Evolution.\n"
 "\n"
-"Esta versión do Evolution aínda non está terminada. Aproxímase,\n"
-"pero algunhas características están sen finalizar ou non traballan "
+"Esta versión do Evolution aínda non está rematada. Aproxímase,\n"
+"pero algunhas características están sen finalizar ou non funcionan\n"
 "axeitadamente.\n"
 "\n"
-"Se desexa unha versión estábel do Evolution, é mellor que desinstale esta "
-"versión\n"
-"e instale a versión %s no seu lugar.\n"
+"Se desexa unha versión estábel do Evolution, é mellor que\n"
+"desinstale esta versión e instale a versión %s no seu lugar.\n"
 "\n"
-"Se localiza erros, infórmenos deles en bugzilla.ximian.com\n"
-"Este produto non ten garantía e non se recomenda que o empreguen\n"
-"individuos propensos a ataques de ira.\n"
+"Se localiza fallos, infórmenos deles en bugzilla.ximian.com\n"
+"Este produto non ten garantía e non se recomenda que o\n"
+"empreguen individuos propensos a ataques de ira.\n"
 "\n"
-"Esperamos que lles sexa de proveito o resultado do noso duro traballo, e\n"
-"agardamos con ansias as súas colaboracións!\n"
+"Esperamos que lles sexa de proveito o resultado do noso duro\n"
+"traballo, e agardamos con ansias as súas colaboracións!\n"
 
 #: ../shell/main.c:208
 msgid ""
@@ -19543,7 +19547,7 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
 msgstr ""
-"%s: --online e --offline non poden usarse á vez.\n"
+"%s: non é posíbel usar á vez --online e --offline.\n"
 "  Use «%s --help» para máis información.\n"
 
 #: ../shell/main.c:575
@@ -19552,12 +19556,12 @@ msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
 msgstr ""
-"%s: --force-online e --offline non poden usarse á vez.\n"
+"%s: non é posíbel usar á vez --force-online e --offline.\n"
 "  Use «%s --help» para máis información.\n"
 
 #: ../shell/shell.error.xml.h:2
 msgid "Upgrade from previous version failed:"
-msgstr "Produciuse un fallo ao anovar desde a versión anterior:"
+msgstr "Produciuse un erro ao anovar desde a versión anterior:"
 
 #: ../shell/shell.error.xml.h:3
 msgid ""
@@ -19589,9 +19593,9 @@ msgid ""
 "a workaround you might try first upgrading to Evolution 2, and then "
 "upgrading to Evolution 3."
 msgstr ""
-"O Evolution xa non admite a actualización directamente desde a versión {0}. "
-"Porén, como solución pode intentar actualizar primeiro a Evolution 2 e "
-"despois a Evolution 3."
+"O Evolution xa non admite a anovación directamente desde a versión {0}. "
+"Porén, como solución pode intentar anovar primeiro a Evolution 2 e despois a "
+"Evolution 3."
 
 #: ../shell/test/e-test-shell-backend.c:52
 msgctxt "New"
@@ -19769,7 +19773,7 @@ msgstr "Todos os ficheiros"
 
 #: ../smime/gui/certificate-manager.c:637
 msgid "Failed to import certificate"
-msgstr "Produciuse un fallo ao importar o certificado"
+msgstr "Produciuse un erro ao importar o certificado"
 
 #: ../smime/gui/certificate-manager.c:1013
 msgid "All PKCS12 files"
@@ -20375,7 +20379,7 @@ msgstr "elemento de calendario do Evolution"
 
 #: ../widgets/misc/e-alert-bar.c:120
 msgid "Close this message"
-msgstr "Pehcar esta mensaxe"
+msgstr "Pechar esta mensaxe"
 
 #: ../widgets/misc/e-attachment-bar.c:658
 #: ../widgets/misc/e-attachment-paned.c:703
@@ -20464,7 +20468,7 @@ msgstr "_Suxerir automaticamente a vista do anexo"
 
 #: ../widgets/misc/e-attachment-handler-image.c:99
 msgid "Could not set as background"
-msgstr "Non foi posíbel establecela como fondo"
+msgstr "Non foi posíbel definir como fondo"
 
 #: ../widgets/misc/e-attachment-handler-image.c:149
 msgid "Set as _Background"
@@ -20806,7 +20810,7 @@ msgstr "Seleccionar un ficheiro"
 msgid "Click \"Apply\" to begin importing the file into Evolution."
 msgstr "Prema en «Aplicar» para comezar a importar o ficheiro ao Evolution."
 
-#: ../widgets/misc/e-mail-signature-combo-box.c:327
+#: ../widgets/misc/e-mail-signature-combo-box.c:378
 msgid "Autogenerated"
 msgstr "Xerado automaticamente"
 
@@ -20816,7 +20820,7 @@ msgstr "Pechar"
 
 #: ../widgets/misc/e-mail-signature-editor.c:292
 msgid "_Save and Close"
-msgstr "Gardar e _saír"
+msgstr "G_ardar e pechar"
 
 #: ../widgets/misc/e-mail-signature-editor.c:506
 msgid "Edit Signature"
@@ -21230,7 +21234,7 @@ msgstr "Aceptar"
 #: ../widgets/table/e-cell-date-edit.c:873
 #, c-format
 msgid "The time must be in the format: %s"
-msgstr "A data ten que introducirse no formato: %s"
+msgstr "O tempo ten que ter o formato: %s"
 
 #: ../widgets/table/e-cell-percent.c:80
 msgid "The percent value must be between 0 and 100, inclusive"
@@ -21286,7 +21290,7 @@ msgstr "Mover _abaixo"
 
 #: ../widgets/table/e-table-config.ui.h:7
 msgid "_Remove"
-msgstr "Elimina_r"
+msgstr "_Retirar"
 
 #: ../widgets/table/e-table-config.ui.h:9
 msgid "_Show field in View"
@@ -21415,7 +21419,7 @@ msgstr "Agrupar por cai_xa"
 
 #: ../widgets/table/e-table-header-item.c:1612
 msgid "Remove This _Column"
-msgstr "Eliminar esta _columna"
+msgstr "Retirar esta _columna"
 
 #: ../widgets/table/e-table-header-item.c:1615
 msgid "Add a C_olumn..."
