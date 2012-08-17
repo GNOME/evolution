@@ -6,7 +6,7 @@ type="topic" id="mail-composer-message-templates">
 
  <link type="guide" xref="index#mail-composing-advanced" />
 
- <revision pkgversion="3.5.2" version="0.2" date="2012-06-09" status="draft"/>
+ <revision pkgversion="3.5.90" version="0.3" date="2012-08-17" status="draft"/>
  <credit type="author">
    <name its:translate="no">Andre Klapper</name>
    <email its:translate="no">ak-47@gmx.net</email>
@@ -26,8 +26,8 @@ type="topic" id="mail-composer-message-templates">
 
 <!-- TODO:POST-3-4: Split this into subpages maybe, and turn this into a guide page! -->
 
-<section id="create">
-<title>Creating a Message Template from an existing Message</title>
+<section id="save-existing">
+<title>Saving an Existing Message as a Template</title>
 <steps>
   <item><p>Select the message.</p></item>
   <item><p>Right-click the message and choose <gui>Move to folder</gui> or <gui>Copy to folder</gui>.</p></item>
@@ -41,7 +41,7 @@ type="topic" id="mail-composer-message-templates">
  </steps>
 </section>
 
-<section id="save">
+<section id="save-new">
  <title>Saving a New Message as a Template</title>
  <steps>
   <item>
@@ -54,7 +54,7 @@ type="topic" id="mail-composer-message-templates">
 </section>
 
 <section id="reply-templates">
- <title>Using a Message Template as a Reply</title>
+ <title>Using a Template as a Reply</title>
  <steps>
   <item>
 <p>Right-click the message you are replying to, then click <gui>Templates</gui>.</p>
@@ -71,7 +71,7 @@ type="topic" id="mail-composer-message-templates">
 </section>
 
 <section id="configure">	
-<title>Configuring Message Templates</title>
+<title>Configuring Variables for Message Templates</title>
 <steps>
 <item><p>Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>.</p></item>
 <item><p>Click <gui>Templates</gui>.</p></item>
@@ -95,15 +95,16 @@ type="topic" id="mail-composer-message-templates">
  </steps>
 </section>
 
-<section id="reply-variables">
 <!-- as per https://bugzilla.gnome.org/show_bug.cgi?id=641845 - available since 3.2-->
-<title>Reusing message elements when replying</title>
+<section id="reply-variables">
+<title>Using Elements From a Message in a Template When Replying</title>
 <p>Templates can contain more than just the predefined set of <link xref="#configure">key-value pairs</link>. You can also get any message header values from the email that you are applying the template on, plus the complete message body.</p>
 
 <!-- TRANSLATORS: Do NOT translate "$ORIG[subject]" and "$ORIG[body]" in this sentence. -->
 <p its:locNote="TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this sentence!">In order to do this, use the format <code>$ORIG[header_name]</code> and replace the variable <code>header_name</code> by the actual header. For example, if you would like to insert the subject line of the message that you reply to, use <code>$ORIG[subject]</code>. To insert the complete body, use <code>$ORIG[body]</code>.</p>
 
-<p>If no replacement for a variable is found, the variable is not removed (except for <code>$ORIG[body]</code>) but left in place so that you see that something went wrong. This could happen when trying to use headers that are not necessarily always available in the original message (for example <code>$ORIG[reply-to]</code>).</p>
+<!-- TRANSLATORS: Do NOT translate "$ORIG[body]" and "$ORIG[reply-to]" in this sentence. -->
+<p its:locNote="TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in this sentence!">If no replacement for a variable is found, the variable is not removed (except for <code>$ORIG[body]</code>) but left in place so that you see that something went wrong. This could happen when trying to use headers that are not necessarily always available in the original message (for example <code>$ORIG[reply-to]</code>).</p>
 
 </section>
 
