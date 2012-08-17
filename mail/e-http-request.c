@@ -49,123 +49,6 @@ struct _EHTTPRequestPrivate {
 
 G_DEFINE_TYPE (EHTTPRequest, e_http_request, SOUP_TYPE_REQUEST)
 
-struct http_request_async_data {
-	EFlag *flag;
-
-	GMainLoop *loop;
-	GCancellable *cancellable;
-	CamelDataCache *cache;
-	gchar *cache_key;
-
-	CamelStream *cache_stream;
-	gchar *content_type;
-	goffset content_length;
-
-	gchar *buff;
-};
-
-static void
-http_request_write_to_cache (GInputStream *stream,
-                             GAsyncResult *res,
-                             struct http_request_async_data *data)
-{
-	GError *error;
-	gssize len;
-
-	error = NULL;
-	len = g_input_stream_read_finish (stream, res, &error);
-
-	/* Error while reading data */
-	if (len == -1) {
-		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-			g_message ("Error while reading input stream: %s",
-				error ? error->message : "Unknown error");
-			g_clear_error (&error);
-		}
-
-		/* Don't keep broken data in cache */
-		camel_data_cache_remove (data->cache, "http", data->cache_key, NULL);
-
-		goto cleanup;
-	}
-
-	/* EOF */
-	if (len == 0) {
-		goto cleanup;
-	}
-
-	/* Write chunk to cache and read another block of data. */
-	camel_stream_write (data->cache_stream, data->buff, len,
-		data->cancellable, NULL);
-
-	g_input_stream_read_async (stream, data->buff, 4096,
-		G_PRIORITY_DEFAULT, data->cancellable,
-		(GAsyncReadyCallback) http_request_write_to_cache, data);
-
-	return;
-
- cleanup:
-	if (data->buff)
-		g_free (data->buff);
-
-	g_object_unref (stream);
-
-	g_main_loop_quit (data->loop);
-	e_flag_set (data->flag);
-}
-
-static void
-http_request_finished (SoupRequest *request,
-                       GAsyncResult *res,
-                       struct http_request_async_data *data)
-{
-	GError *error;
-	SoupMessage *message;
-	GInputStream *stream;
-
-	error = NULL;
-	stream = soup_request_send_finish (request, res, &error);
-	/* If there is an error or the operation was canceled, do nothing */
-	if (error) {
-		g_main_loop_quit (data->loop);
-		e_flag_set (data->flag);
-		g_error_free (error);
-		return;
-	}
-
-	if (!stream) {
-		g_warning("HTTP request failed: %s", error ? error->message: "Unknown error");
-		g_clear_error (&error);
-		g_main_loop_quit (data->loop);
-		e_flag_set (data->flag);
-		return;
-	}
-
-	message = soup_request_http_get_message (SOUP_REQUEST_HTTP (request));
-	if (!SOUP_STATUS_IS_SUCCESSFUL (message->status_code)) {
-		g_warning ("HTTP request failed: HTTP code %d", message->status_code);
-		g_object_unref (message);
-		g_main_loop_quit (data->loop);
-		e_flag_set (data->flag);
-		return;
-	}
-
-	g_object_unref (message);
-
-	data->content_length = soup_request_get_content_length (request);
-	data->content_type = g_strdup (soup_request_get_content_type (request));
-
-	if (!data->cache_stream || g_cancellable_is_cancelled (data->cancellable)) {
-		g_main_loop_quit (data->loop);
-		e_flag_set (data->flag);
-		return;
-	}
-
-	data->buff = g_malloc (4096);
-	g_input_stream_read_async (stream, data->buff, 4096,
-		G_PRIORITY_DEFAULT, data->cancellable,
-		(GAsyncReadyCallback) http_request_write_to_cache, data);
-}
 
 static gssize
 copy_stream_to_stream (CamelStream *input,
@@ -194,13 +77,12 @@ copy_stream_to_stream (CamelStream *input,
 	return total_len;
 }
 
-static void
-quit_main_loop (GCancellable *cancellable,
-                GMainLoop *loop)
+static gboolean
+unref_soup_session (SoupSession *session)
 {
-	if (g_main_loop_is_running (loop)) {
-		g_main_loop_quit (loop);
-	}
+	g_object_unref (session);
+
+	return FALSE;
 }
 
 static void
@@ -368,33 +250,47 @@ handle_http_request (GSimpleAsyncResult *res,
 		SoupRequester *requester;
 		SoupRequest *http_request;
 		SoupSession *session;
-		GMainContext *context;
+		SoupMessage *msg;
+		CamelStream *cache_stream;
 		GError *error;
-		gulong id;
+		gssize nread;
+		SoupURI *soup_uri;
+		gsize real_content_length;
+		GInputStream *http_stream;
 
-		struct http_request_async_data data = { 0 };
-
-		context = g_main_context_get_thread_default ();
-		session = soup_session_async_new_with_options (
-					SOUP_SESSION_USE_THREAD_CONTEXT, TRUE,
-					SOUP_SESSION_ASYNC_CONTEXT, context,
-					SOUP_SESSION_TIMEOUT, 90,
-					NULL);
+		session = soup_session_sync_new_with_options (
+				SOUP_SESSION_TIMEOUT, 90,
+				NULL);
 
 		requester = soup_requester_new ();
 		soup_session_add_feature (session, SOUP_SESSION_FEATURE (requester));
-
-		http_request = soup_requester_request (requester, uri, NULL);
+		g_object_unref (requester);
 
 		error = NULL;
-		data.flag = e_flag_new ();
-		data.loop = g_main_loop_new (context, TRUE);
-		data.cancellable = cancellable;
-		data.cache = cache;
-		data.cache_key = uri_md5;
-		data.cache_stream = camel_data_cache_add (cache, "http", uri_md5, &error);
+		soup_uri = soup_uri_new (uri);
+		http_request = soup_requester_request_uri (requester, soup_uri, &error);
+		soup_uri_free (soup_uri);
+		if (error) {
+			g_warning ("Failed to request %s: %s", uri, error->message);
+			g_clear_error (&error);
+			goto cleanup;
+		}
 
-		if (!data.cache_stream) {
+		error = NULL;
+		http_stream = soup_request_send (http_request, cancellable, &error);
+		msg = soup_request_http_get_message (SOUP_REQUEST_HTTP (http_request));
+		if (!msg || msg->status_code != SOUP_STATUS_OK) {
+			g_warning (
+				"Failed to retrieve data from %s: %s (code %d)",
+				uri, error ? error->message : "Unknown error",
+				msg->status_code);
+			g_clear_error (&error);
+			goto cleanup;
+		}
+
+		error = NULL;
+		cache_stream = camel_data_cache_add (cache, "http", uri_md5, &error);
+		if (!cache_stream) {
 			g_warning ("Failed to create cache file for '%s': %s",
 				uri, error ? error->message : "Unknown error");
 			g_clear_error (&error);
@@ -402,59 +298,82 @@ handle_http_request (GSimpleAsyncResult *res,
 			/* We rely on existence of the stream. If CamelDataCache
 			 * failed to create a cache file, then store it at least
 			 * temporarily. */
-			data.cache_stream = camel_stream_mem_new ();
+			cache_stream = camel_stream_mem_new ();
 		}
 
-		/* Send the request and waint in mainloop until it's finished
-		 * and copied to cache */
-		d(printf(" '%s' not in cache, sending HTTP request\n", uri));
-		soup_request_send_async (http_request, cancellable,
-			(GAsyncReadyCallback) http_request_finished, &data);
+		real_content_length = 0;
+		do {
+			gchar buf[512];
 
-		id = g_cancellable_connect (cancellable,
-			G_CALLBACK (quit_main_loop), data.loop, NULL);
+			error = NULL;
+			nread = g_input_stream_read (
+					http_stream, buf, 512, cancellable, &error);
+			if (nread == -1) {
+				g_warning (
+					"Failed to read data from input stream: %s",
+					error ? error->message : "Unknown error");
+				g_clear_error (&error);
+				goto cleanup;
+			}
 
-		/* Wait for the asynchronous HTTP GET to finish */
-		g_main_loop_run (data.loop);
-		d(printf (" '%s' fetched from internet and (hopefully) stored in"
-			  " cache\n", uri));
+			error = NULL;
+			camel_stream_write (
+				cache_stream, buf, nread, cancellable, &error);
+			if (error) {
+				g_warning (
+					"Failed to write data to cache stream: %s",
+					error->message);
+				g_clear_error (&error);
+				goto cleanup;
+			}
 
-		g_cancellable_disconnect (cancellable, id);
+			real_content_length += nread;
 
-		/* Wait until all asynchronous operations are finished working
-		 * with the 'data' structure so that it's not free'd too early. */
-		e_flag_wait (data.flag);
-		e_flag_free (data.flag);
+		} while (nread > 0);
 
-		g_main_loop_unref (data.loop);
-
-		g_object_unref (session);
-		g_object_unref (http_request);
-		g_object_unref (requester);
-
-		/* Copy the content of cache stream to GInputStream that can be
-		 * returned to WebKit */
+		/* XXX For some reason, WebKit refuses to display content of
+		 * GInputStream we get from soup_request_send(), so create a
+		 * new input stream here and fill it with what's in the cache
+		 * stream. */
 		stream = g_memory_input_stream_new ();
-		copy_stream_to_stream (data.cache_stream,
-			G_MEMORY_INPUT_STREAM (stream), cancellable);
+		copy_stream_to_stream (
+			cache_stream, G_MEMORY_INPUT_STREAM (stream), cancellable);
 
-		camel_stream_close (data.cache_stream, cancellable, NULL);
-		g_object_unref (data.cache_stream);
+		g_input_stream_close (http_stream, cancellable, NULL);
+		g_object_unref (http_stream);
 
-		request->priv->content_length = data.content_length;
-		request->priv->content_type = data.content_type;
+		/* Don't use the content-length header as it is sometimes missing
+		 * or invalid */
+		request->priv->content_length = real_content_length;
+		request->priv->content_type =
+			g_strdup (
+				soup_message_headers_get_content_type (
+					msg->response_headers, NULL));
+
+		camel_stream_close (cache_stream, cancellable, NULL);
+		g_object_unref (cache_stream);
+		g_object_unref (http_request);
+		g_object_unref (msg);
+		g_idle_add ((GSourceFunc) unref_soup_session, session);
+
+		d(printf ("Received image from %s\n"
+			  "Content-Type: %s\n"
+			  "Content-Length: %d bytes\n"
+			  "URI MD5: %s:\n",
+			  uri, request->priv->content_type,
+			  request->priv->content_length, uri_md5));
 
 		g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
-
 		goto cleanup;
-
 	}
 
  cleanup:
+	if (cache) {
+		g_object_unref (cache);
+	}
 	g_free (uri);
 	g_free (uri_md5);
-	if (mail_uri)
-		g_free (mail_uri);
+	g_free (mail_uri);
 }
 
 static void
@@ -477,8 +396,8 @@ http_request_finalize (GObject *object)
 
 static gboolean
 http_request_check_uri (SoupRequest *request,
-                       SoupURI *uri,
-                       GError **error)
+			SoupURI *uri,
+			GError **error)
 {
 	return ((strcmp (uri->scheme, "evo-http") == 0) ||
 		(strcmp (uri->scheme, "evo-https") == 0));
@@ -502,7 +421,11 @@ http_request_send_async (SoupRequest *request,
 	uri = soup_request_get_uri (request);
 	query = soup_form_decode (uri->query);
 
-	d(printf("received request for %s\n", soup_uri_to_string (uri, FALSE)));
+	d({
+		gchar *uri_str = soup_uri_to_string (uri, FALSE);
+		printf("received request for %s\n", uri_str);
+		g_free (uri_str);
+	});
 
 	enc = g_hash_table_lookup (query, "__evo-mail");
 
