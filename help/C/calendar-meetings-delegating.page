@@ -18,7 +18,7 @@
       <p>Creative Commons Share Alike 3.0</p>
     </license>  
 
-<!-- TODO: Check if all these steps are still correct in 3.1 -->
+<!-- TODO: These steps are WRONG in 3.2 - option is only shown if COMP_EDITOR_DELEGATE is true - see https://bugzilla.gnome.org/show_bug.cgi?id=682119 -->
 
   </info>
 
