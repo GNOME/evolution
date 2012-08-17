@@ -1052,7 +1052,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 
 		if (local_error != NULL) {
 			if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-				g_warning ("Failed to refresh folders: %s", local_error->message);
+				g_warning ("Failed to refresh folder: %s: %s", (const gchar *) m->folders->pdata[i], local_error->message);
 			g_clear_error (&local_error);
 		}
 
