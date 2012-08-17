@@ -26,6 +26,15 @@
   </info>
  
 <title>Searching Mail</title>
+
+<section id="search-single">
+<title>Searching in a Single Message</title>
+<p>To find text in the displayed message, select <guiseq><gui>Edit</gui><gui>Find in Message...</gui></guiseq> from the main menu.</p>
+</section>
+
+<section id="search-many">
+<title>Searching Across Messages</title>
+
 <section id="quick-search">
 <title>Quick Search</title>
 <p>In the mail view, you can quickly search for messages by defining conditions.</p>
@@ -74,5 +83,6 @@
 <item><p>Click <gui>OK</gui>.</p></item>
 </steps>
 </section>
- 
+
+</section> 
 </page>
