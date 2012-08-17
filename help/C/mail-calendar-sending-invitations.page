@@ -6,7 +6,7 @@
 
     <link type="guide" xref="index#mail-advanced" />
     <link type="guide" xref="index#calendar" />
-    <!-- TODO:POST-3-2: Finding a better place to link this against would be welcome. -->
+    <!-- TODO:NICETOHAVE: Find a better place to link this against. Also I cannot link into two anchors on index so only the first one is shown? -->
 
     <revision pkgversion="2.32.1" version="0.1" date="2011-07-21" status="draft"/>
     <credit type="author">
