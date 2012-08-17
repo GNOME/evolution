@@ -5,6 +5,7 @@ SUBDIRS = quickref
 HELP_ID = evolution
 
 HELP_MEDIA = \
+	figures/color-000000.png \
 	figures/color-204a87.png \
 	figures/color-2e3436.png \
 	figures/color-4e9a06.png \
@@ -14,6 +15,10 @@ HELP_MEDIA = \
 	figures/color-c4a000.png \
 	figures/color-ce5c00.png \
 	figures/evolutionlogo.png \
+	figures/html-composer-insert-image.png \
+	figures/html-composer-insert-link.png \
+	figures/html-composer-insert-rule.png \
+	figures/html-composer-insert-table.png \
 	figures/minus-icon.png \
 	figures/new-mail-notification.png \
 	figures/new-mail-switcher.png \
@@ -118,7 +123,9 @@ HELP_FILES = \
 	mail-composer-change-quotation-string.page \
 	mail-composer-custom-header-lines.page \
 	mail-composer-forward-as-attachment.page \
+	mail-composer-enable-html-format.page \
 	mail-composer-forward.page \
+	mail-composer-forward-as-attachment.page \
 	mail-composer-html-image.page \
 	mail-composer-html-link.page \
 	mail-composer-html.page \
@@ -129,6 +136,10 @@ HELP_FILES = \
 	mail-composer-mail-signatures.page \
 	mail-composer-mail-signatures-per-account.page \
 	mail-composer-message-templates.page \
+	mail-composer-message-templates-reply.page \
+	mail-composer-message-templates-save.page \
+	mail-composer-message-templates-variables.page \
+	mail-composer-plain-text.page \
 	mail-composer-priority.page \
 	mail-composer-reply.page \
 	mail-composer-search.page \
@@ -144,6 +155,7 @@ HELP_FILES = \
 	mail-displaying-message.page \
 	mail-displaying-no-css.page \
 	mail-displaying-sender-photograph.page \
+	mail-display-message-source.page \
 	mail-duplicates.page \
 	mail-encryption-gpg-create-key.page \
 	mail-encryption-gpg-decrypting.page \
@@ -165,6 +177,7 @@ HELP_FILES = \
 	mail-imap-subscriptions.page \
 	mail-labels.page \
 	mail-layout-changing.page \
+	mail-localized-re-subjects.page \
 	mail-moving-emails.page \
 	mail-not-sent.page \
 	mail-organizing.page \
@@ -187,8 +200,10 @@ HELP_FILES = \
 	mail-receiving-options-usenet-news.page \
 	mail-recognized-thread-related-headers.page \
 	mail-refresh-folders.page \
+	mail-save-as-pdf.page \
 	mail-search-folders-add.page \
 	mail-search-folders-conditions.page \
+	mail-search-folders-enable.page \
 	mail-search-folders.page \
 	mail-search-folders-refresh.page \
 	mail-searching-attachment-type.page \
@@ -199,11 +214,6 @@ HELP_FILES = \
 	mail-sending-options-smtp.page \
 	mail-several-pop-accounts.page \
 	mail-sorting-message-list.page \
-	mail-spam-groupwise-add-to-list.page \
-	mail-spam-groupwise-manage-list.page \
-	mail-spam-groupwise-mark-message.page \
-	mail-spam-groupwise-remove-from-list.page \
-	mail-spam-groupwise-unmark-message.page \
 	mail-spam-marking.page \
 	mail-spam.page \
 	mail-spam-settings.page \
