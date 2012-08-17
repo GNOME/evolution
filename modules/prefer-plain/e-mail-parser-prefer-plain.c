@@ -181,6 +181,8 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	gint i, nparts, partidlen;
 	GSList *parts;
 	CamelContentType *ct;
+	gboolean has_html;
+	GSList *plain_text_parts;
 
 	emp_pp = (EMailParserPreferPlain *) extension;
 
@@ -222,6 +224,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	}
 
 	nparts = camel_multipart_get_number (mp);
+	has_html = FALSE;
 	for (i = 0; i < nparts; i++) {
 
 		CamelMimePart *sp;
@@ -243,27 +246,21 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 				} else {
 					sparts = e_mail_parser_parse_part (
 						parser, sp, part_id, cancellable);
-					hide_parts (sparts);
 				}
 			} else {
 				sparts = e_mail_parser_parse_part (
 					parser, sp, part_id, cancellable);
 			}
 
+			has_html = TRUE;
 			parts = g_slist_concat (parts, sparts);
 			continue;
 		}
 
 		if (camel_content_type_is (ct, "text", "plain")) {
 
-			sparts = e_mail_parser_parse_part (
-					parser, sp, part_id, cancellable);
-
-			if (emp_pp->mode == PREFER_HTML) {
-				hide_parts (sparts);
-			}
-
-			parts = g_slist_concat (parts, sparts);
+			plain_text_parts = e_mail_parser_parse_part (
+						parser, sp, part_id, cancellable);
 			continue;
 		}
 
@@ -324,6 +321,14 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 					parser, sp, sparts, part_id,
 					cancellable));
 	}
+
+	/* Don't hide the plain text if there's nothing else to display */
+	if ((emp_pp->mode == PREFER_HTML) && has_html) {
+		hide_parts (plain_text_parts);
+	}
+
+	parts = g_slist_concat (parts, plain_text_parts);
+
 
 	g_string_truncate (part_id, partidlen);
 
