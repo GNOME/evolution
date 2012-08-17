@@ -7,7 +7,7 @@
     <link type="guide" xref="searching-items" />
     <link type="guide" xref="contacts-organizing" />
 
-    <revision pkgversion="3.3.91" version="0.3" date="2012-02-19" status="draft"/>
+    <revision pkgversion="3.5.90" version="0.4" date="2012-08-17" status="draft"/>
     <credit type="author">
       <name its:translate="no">Max Vorobuov</name>
       <email its:translate="no">vmax0770@gmail.com</email>
@@ -26,6 +26,16 @@
   </info>
 
 <title>Searching Contacts</title>
+
+<section id="search-single">
+<title>Searching in a Single Contact</title>
+<p>To find text in the displayed contact, select <guiseq><gui>Edit</gui><gui>Find in Contact...</gui></guiseq> from the main menu.</p>
+</section>
+
+<section id="search-many">
+<title>Searching Across Contacts</title>
+
+
 <section id="quick-search">
 <title>Quick Search</title>
 <p>In the Contacts view, you can quickly search for contacts either by category or by contact's info.</p>
@@ -76,5 +86,6 @@
 <item><p>Click <gui>OK</gui>.</p></item>
 </steps>
 </section>
- 
+
+</section>
 </page>
