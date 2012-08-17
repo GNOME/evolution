@@ -19,9 +19,4 @@
 
 <title>Junk and Spam Mail Handling</title>
 
-  <section id="mail-spam-groupwise" style="2column">
-    <title>Novell Groupwise specific differences</title>
-<!-- TODO:POST-3-2: Not sure if that is a good place for Groupwise stuff, plus should depend on whether Groupwise is actually installed -->
-  </section>
-
 </page>
