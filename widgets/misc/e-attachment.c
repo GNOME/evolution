@@ -405,40 +405,6 @@ attachment_update_progress_columns (EAttachment *attachment)
 		-1);
 }
 
-void
-e_attachment_set_file_info (EAttachment *attachment,
-                            GFileInfo *file_info)
-{
-	GtkTreeRowReference *reference;
-	GIcon *icon;
-
-	reference = e_attachment_get_reference (attachment);
-
-	if (file_info != NULL)
-		g_object_ref (file_info);
-
-	if (attachment->priv->file_info != NULL)
-		g_object_unref (attachment->priv->file_info);
-
-	attachment->priv->file_info = file_info;
-
-	/* If the GFileInfo contains a GThemedIcon, append a
-	 * fallback icon name to ensure we display something. */
-	icon = g_file_info_get_icon (file_info);
-	if (G_IS_THEMED_ICON (icon))
-		g_themed_icon_append_name (
-			G_THEMED_ICON (icon), DEFAULT_ICON_NAME);
-
-	g_object_notify (G_OBJECT (attachment), "file-info");
-
-	/* Tell the EAttachmentStore its total size changed. */
-	if (gtk_tree_row_reference_valid (reference)) {
-		GtkTreeModel *model;
-		model = gtk_tree_row_reference_get_model (reference);
-		g_object_notify (G_OBJECT (model), "total-size");
-	}
-}
-
 static void
 attachment_set_loading (EAttachment *attachment,
                         gboolean loading)
@@ -1184,6 +1150,73 @@ e_attachment_get_file_info (EAttachment *attachment)
 	return attachment->priv->file_info;
 }
 
+void
+e_attachment_set_file_info (EAttachment *attachment,
+                            GFileInfo *file_info)
+{
+	GtkTreeRowReference *reference;
+	GIcon *icon;
+
+	reference = e_attachment_get_reference (attachment);
+
+	if (file_info != NULL)
+		g_object_ref (file_info);
+
+	if (attachment->priv->file_info != NULL)
+		g_object_unref (attachment->priv->file_info);
+
+	attachment->priv->file_info = file_info;
+
+	/* If the GFileInfo contains a GThemedIcon, append a
+	 * fallback icon name to ensure we display something. */
+	icon = g_file_info_get_icon (file_info);
+	if (G_IS_THEMED_ICON (icon))
+		g_themed_icon_append_name (
+			G_THEMED_ICON (icon), DEFAULT_ICON_NAME);
+
+	g_object_notify (G_OBJECT (attachment), "file-info");
+
+	/* Tell the EAttachmentStore its total size changed. */
+	if (gtk_tree_row_reference_valid (reference)) {
+		GtkTreeModel *model;
+		model = gtk_tree_row_reference_get_model (reference);
+		g_object_notify (G_OBJECT (model), "total-size");
+	}
+}
+
+/**
+ * e_attachment_get_mime_type:
+ *
+ * Returns mime_type part of the file_info as a newly allocated string,
+ * which should be freed with g_free().
+ * Returns NULL, if mime_type not found or set on the attachment.
+ **/
+gchar *
+e_attachment_get_mime_type (EAttachment *attachment)
+{
+	GFileInfo *file_info;
+	const gchar *content_type;
+	gchar *mime_type;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
+
+	file_info = e_attachment_get_file_info (attachment);
+	if (file_info == NULL)
+		return NULL;
+
+	content_type = g_file_info_get_content_type (file_info);
+	if (content_type == NULL)
+		return NULL;
+
+	mime_type = g_content_type_get_mime_type (content_type);
+	if (!mime_type)
+		return NULL;
+
+	camel_strdown (mime_type);
+
+	return mime_type;
+}
+
 GIcon *
 e_attachment_get_icon (EAttachment *attachment)
 {
@@ -1359,39 +1392,6 @@ e_attachment_get_thumbnail_path (EAttachment *attachment)
 		return NULL;
 
 	return g_file_info_get_attribute_byte_string (file_info, attribute);
-}
-
-/**
- * e_attachment_get_mime_type:
- *
- * Returns mime_type part of the file_info as a newly allocated string,
- * which should be freed with g_free().
- * Returns NULL, if mime_type not found or set on the attachment.
- **/
-gchar *
-e_attachment_get_mime_type (EAttachment *attachment)
-{
-	GFileInfo *file_info;
-	const gchar *content_type;
-	gchar *mime_type;
-
-	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
-
-	file_info = e_attachment_get_file_info (attachment);
-	if (file_info == NULL)
-		return NULL;
-
-	content_type = g_file_info_get_content_type (file_info);
-	if (content_type == NULL)
-		return NULL;
-
-	mime_type = g_content_type_get_mime_type (content_type);
-	if (!mime_type)
-		return NULL;
-
-	camel_strdown (mime_type);
-
-	return mime_type;
 }
 
 gboolean
