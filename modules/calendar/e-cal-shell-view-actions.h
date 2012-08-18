@@ -85,6 +85,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "event-open")
 #define E_SHELL_WINDOW_ACTION_EVENT_PRINT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "event-print")
+#define E_SHELL_WINDOW_ACTION_EVENT_SAVE_AS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-save-as")
 #define E_SHELL_WINDOW_ACTION_EVENT_SCHEDULE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "event-schedule")
 #define E_SHELL_WINDOW_ACTION_EVENT_SCHEDULE_APPOINTMENT(window) \

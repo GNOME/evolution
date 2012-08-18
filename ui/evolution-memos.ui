@@ -3,6 +3,7 @@
     <menu action='file-menu'>
       <placeholder name='file-actions'>
         <menuitem action='memo-open'/>
+        <menuitem action='memo-save-as'/>
       </placeholder>
       <placeholder name='print-actions'>
         <menuitem action='memo-list-print-preview'/>

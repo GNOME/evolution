@@ -3,6 +3,7 @@
     <menu action='file-menu'>
       <placeholder name='file-actions'>
         <menuitem action='task-open'/>
+        <menuitem action='task-save-as'/>
       </placeholder>
       <placeholder name='print-actions'>
         <menuitem action='task-list-print-preview'/>

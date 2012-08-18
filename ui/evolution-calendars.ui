@@ -3,6 +3,7 @@
     <menu action='file-menu'>
       <placeholder name='file-actions'>
         <menuitem action='event-open'/>
+        <menuitem action='event-save-as'/>
       </placeholder>
       <placeholder name='print-actions'>
 #if !EXPRESS
