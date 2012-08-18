@@ -558,6 +558,219 @@ cal_shell_content_map (GtkWidget *widget)
 	GTK_WIDGET_CLASS (e_cal_shell_content_parent_class)->map (widget);
 }
 
+/* Helper for cal_shell_content_check_state() */
+static icalproperty *
+cal_shell_content_get_attendee_prop (icalcomponent *icalcomp,
+                                     const gchar *address)
+{
+	icalproperty *prop;
+
+	if (address == NULL || *address == '\0')
+		return NULL;
+
+	prop = icalcomponent_get_first_property (
+		icalcomp, ICAL_ATTENDEE_PROPERTY);
+
+	while (prop != NULL) {
+		const gchar *attendee;
+
+		attendee = icalproperty_get_attendee (prop);
+
+		if (g_str_equal (itip_strip_mailto (attendee), address))
+			return prop;
+
+		prop = icalcomponent_get_next_property (
+			icalcomp, ICAL_ATTENDEE_PROPERTY);
+	}
+
+	return NULL;
+}
+
+/* Helper for cal_shell_content_check_state() */
+static gboolean
+cal_shell_content_icalcomp_is_delegated (icalcomponent *icalcomp,
+                                         const gchar *user_email)
+{
+	icalproperty *prop;
+	icalparameter *param;
+	const gchar *delto = NULL;
+	gboolean is_delegated = FALSE;
+
+	prop = cal_shell_content_get_attendee_prop (icalcomp, user_email);
+
+	if (prop != NULL) {
+		param = icalproperty_get_first_parameter (
+			prop, ICAL_DELEGATEDTO_PARAMETER);
+		if (param != NULL) {
+			delto = icalparameter_get_delegatedto (param);
+			delto = itip_strip_mailto (delto);
+		}
+	} else
+		return FALSE;
+
+	prop = cal_shell_content_get_attendee_prop (icalcomp, delto);
+
+	if (prop != NULL) {
+		const gchar *delfrom = NULL;
+		icalparameter_partstat status = ICAL_PARTSTAT_NONE;
+
+		param = icalproperty_get_first_parameter (
+			prop, ICAL_DELEGATEDFROM_PARAMETER);
+		if (param != NULL) {
+			delfrom = icalparameter_get_delegatedfrom (param);
+			delfrom = itip_strip_mailto (delfrom);
+		}
+		param = icalproperty_get_first_parameter (
+			prop, ICAL_PARTSTAT_PARAMETER);
+		if (param != NULL)
+			status = icalparameter_get_partstat (param);
+		is_delegated =
+			(status != ICAL_PARTSTAT_DECLINED) &&
+			(g_strcmp0 (delfrom, user_email) == 0);
+	}
+
+	return is_delegated;
+}
+
+static guint32
+cal_shell_content_check_state (EShellContent *shell_content)
+{
+	EShell *shell;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	ESourceRegistry *registry;
+	ECalShellContent *cal_shell_content;
+	GnomeCalendar *calendar;
+	ECalendarView *calendar_view;
+	GnomeCalendarViewType view_type;
+	gboolean selection_is_editable = FALSE;
+	gboolean selection_is_instance = FALSE;
+	gboolean selection_is_meeting = FALSE;
+	gboolean selection_is_organizer = FALSE;
+	gboolean selection_is_recurring = FALSE;
+	gboolean selection_can_delegate = FALSE;
+	guint32 state = 0;
+	GList *selected;
+	GList *link;
+	guint n_selected;
+
+	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
+
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
+	registry = e_shell_get_registry (shell);
+
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	selected = e_calendar_view_get_selected_events (calendar_view);
+	n_selected = g_list_length (selected);
+
+	/* If we have a selection, assume it's
+	 * editable until we learn otherwise. */
+	if (n_selected > 0)
+		selection_is_editable = TRUE;
+
+	for (link = selected; link != NULL; link = g_list_next (link)) {
+		ECalendarViewEvent *event = link->data;
+		ECalClient *client;
+		ECalComponent *comp;
+		gchar *user_email;
+		icalcomponent *icalcomp;
+		const gchar *capability;
+		gboolean cap_delegate_supported;
+		gboolean cap_delegate_to_many;
+		gboolean icalcomp_is_delegated;
+		gboolean read_only;
+
+		if (!is_comp_data_valid (event))
+			continue;
+
+		client = event->comp_data->client;
+		icalcomp = event->comp_data->icalcomp;
+
+		read_only = e_client_is_readonly (E_CLIENT (client));
+		selection_is_editable &= !read_only;
+
+		selection_is_instance |=
+			e_cal_util_component_is_instance (icalcomp);
+
+		selection_is_meeting =
+			(n_selected == 1) &&
+			e_cal_util_component_has_attendee (icalcomp);
+
+		selection_is_recurring |=
+			e_cal_util_component_is_instance (icalcomp) ||
+			e_cal_util_component_has_recurrences (icalcomp);
+
+		/* XXX The rest of this is rather expensive and
+		 *     only applies if a single event is selected,
+		 *     so continue with the loop iteration if the
+		 *     rest of this is not applicable. */
+		if (n_selected > 1)
+			continue;
+
+		/* XXX This probably belongs in comp-util.c. */
+
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (
+			comp, icalcomponent_new_clone (icalcomp));
+		user_email = itip_get_comp_attendee (
+			registry, comp, client);
+
+		selection_is_organizer =
+			e_cal_util_component_has_organizer (icalcomp) &&
+			itip_organizer_is_user (registry, comp, client);
+
+		capability = CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED;
+		cap_delegate_supported =
+			e_client_check_capability (
+			E_CLIENT (client), capability);
+
+		capability = CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY;
+		cap_delegate_to_many =
+			e_client_check_capability (
+			E_CLIENT (client), capability);
+
+		icalcomp_is_delegated =
+			(user_email != NULL) &&
+			cal_shell_content_icalcomp_is_delegated (
+			icalcomp, user_email);
+
+		selection_can_delegate =
+			cap_delegate_supported &&
+			(cap_delegate_to_many ||
+			(!selection_is_organizer &&
+			 !icalcomp_is_delegated));
+
+		g_free (user_email);
+		g_object_unref (comp);
+	}
+
+	g_list_free (selected);
+
+	if (n_selected == 1)
+		state |= E_CAL_SHELL_CONTENT_SELECTION_SINGLE;
+	if (n_selected > 1)
+		state |= E_CAL_SHELL_CONTENT_SELECTION_MULTIPLE;
+	if (selection_is_editable)
+		state |= E_CAL_SHELL_CONTENT_SELECTION_IS_EDITABLE;
+	if (selection_is_instance)
+		state |= E_CAL_SHELL_CONTENT_SELECTION_IS_INSTANCE;
+	if (selection_is_meeting)
+		state |= E_CAL_SHELL_CONTENT_SELECTION_IS_MEETING;
+	if (selection_is_organizer)
+		state |= E_CAL_SHELL_CONTENT_SELECTION_IS_ORGANIZER;
+	if (selection_is_recurring)
+		state |= E_CAL_SHELL_CONTENT_SELECTION_IS_RECURRING;
+	if (selection_can_delegate)
+		state |= E_CAL_SHELL_CONTENT_SELECTION_CAN_DELEGATE;
+
+	return state;
+}
+
 static void
 cal_shell_content_focus_search_results (EShellContent *shell_content)
 {
@@ -593,6 +806,7 @@ e_cal_shell_content_class_init (ECalShellContentClass *class)
 	widget_class->map = cal_shell_content_map;
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
+	shell_content_class->check_state = cal_shell_content_check_state;
 	shell_content_class->focus_search_results = cal_shell_content_focus_search_results;
 
 	g_object_class_install_property (
