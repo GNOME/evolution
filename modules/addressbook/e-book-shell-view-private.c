@@ -412,23 +412,6 @@ book_shell_view_selector_popup_menu_cb (EShellView *shell_view)
 	return book_shell_view_show_popup_menu (NULL, shell_view);
 }
 
-static gboolean
-book_shell_view_selector_key_press_event_cb (EShellView *shell_view,
-                                             GdkEventKey *event)
-{
-	EShellWindow *shell_window;
-
-	/* Needed for the ACTION() macro. */
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	if (event->keyval == GDK_KEY_Delete) {
-		gtk_action_activate (ACTION (ADDRESS_BOOK_DELETE));
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
 static void
 book_shell_view_source_removed_cb (ESourceRegistry *registry,
                                    ESource *source,
@@ -573,11 +556,6 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	g_signal_connect_object (
 		selector, "button-press-event",
 		G_CALLBACK (book_shell_view_selector_button_press_event_cb),
-		book_shell_view, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
-		selector, "key-press-event",
-		G_CALLBACK (book_shell_view_selector_key_press_event_cb),
 		book_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
