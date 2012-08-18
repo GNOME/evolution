@@ -21,5 +21,6 @@
 
 <p>To export a complete calendar, right-click on the calendar in the list of calendars and click <gui>Save as</gui>. Available formats are iCalendar format (ICS, recommended), comma separated values (CSV), and RDF format.</p>
 <p>If you want to export only one appointment, right-click on the appointment and click <gui>Save as iCalendar...</gui>.</p>
+<!-- TODO: This might need an update for >=3.5.90 thanks to http://git.gnome.org/browse/evolution/commit/?id=e1f45e288a00334bc52844f6656cf0f7bb54ddd7 -->
 
 </page>
