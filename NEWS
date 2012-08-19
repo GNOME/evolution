@@ -1,3 +1,65 @@
+Evolution 3.5.90 2012-08-20
+---------------------------
+
+Bug Fixes:
+	Bug 246530 - Rules editor lacks "Label is (not) 'None'" (Milan Crha)
+	Bug 555325 - Delete key should not delete a whole address book
+	             (Matthew Barnes)
+	Bug 559815 - Empty Reminders editor when opened second time
+	             (Milan Crha)
+	Bug 676785 - Enables wrong calendar after saving appointment
+	             (Milan Crha)
+	Bug 677695 - Crash on quit under emu_free_mail_cache() (Milan Crha)
+	Bug 678408 - Mail view is very small for some mails (Milan Crha)
+	Bug 680702 - Freeze/crash when loading remote images (Dan Vrátil)
+	Bug 680724 - Attachment bar regression (Dan Vrátil)
+	Bug 680786 - [text-highlight] Prefer Content-Type header over file
+	             name extension (Dan Vrátil)
+	Bug 680947 - Multiselect doesn't clear message preview panel
+	             (Dan Vrátil)
+	Bug 681017 - Bogus SMTP port in the account manager UI (Milan Crha)
+	Bug 681279 - Reply on selection doesn't work (Dan Vrátil)
+	Bug 681318 - Filter by Source account doesn't show accounts (Milan Crha)
+	Bug 681321 - Support both old and new-buf libxml2 APIs (Matthew Barnes)
+	Bug 681400 - Fix build against WebKitGtk+ 1.9.6 (Dan Vrátil)
+	Bug 681432 - Runtime warnings from e_mail_display_reload() (Dan Vrátil)
+	Bug 681641 - Port to new documentation infrastructure (Javier Jardón)
+	Bug 681783 - Critical warning and freeze with libsoup-2.39 and
+	             webkitgtk-1.9.2 (Dan Vrátil)
+	Bug 681882 - Account signature not selected in new composer window
+	             (Matthew Barnes)
+	Bug 682019 - Always display text/plain when there's nothing else in
+	             multipart/alternative (Dan Vrátil)
+	Bug 682102 - Upstream Debian's 04_gettext_intltool.patch
+	             (Matthew Barnes)
+
+Other Changes:
+	* User documentation improvements. (Andre Klapper)
+	* Return of the "mark messages as read" preference. (Matthew Barnes)
+	* Remove all references to JavaScriptCore and use of JavaScript
+	  (Dan Vrátil)
+	* EDayView: Hide tooltip on context menu popup (Milan Crha)
+	* backup-restore: Add version info to evolution.dirs file.
+	  (Matthew Barnes)
+	* Run mbox-to-Maildir conversion before loading modules.
+	  (Matthew Barnes)
+	* Remove the settings capplet. (Matthew Barnes)
+	* express: Remove clutter-based email tabs. (Matthew Barnes)
+	* Add e_mail_session_append_to_local_folder(). (Matthew Barnes)
+	* Add event/memo/task "Save As" item to File menu. (Matthew Barnes)
+
+Translations:
+	Andre Klapper (cs)
+	Dimitris Spingos (el)
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Sweta Kothari (gu)
+	Sandeep Sheshrao Shedmake (mr)
+	A S Alam (pa)
+	Мирослав Николић (sr)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 3.5.5 2012-08-06
 --------------------------
 
