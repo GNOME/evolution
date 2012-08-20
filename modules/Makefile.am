@@ -1,3 +1,7 @@
+if ENABLE_BOGOFILTER
+BOGOFILTER_DIR = bogofilter
+endif
+
 if ENABLE_LDAP
 CONFIG_LDAP_DIR = book-config-ldap
 endif
@@ -20,7 +24,6 @@ endif
 
 SUBDIRS = \
 	addressbook \
-	bogofilter \
 	calendar \
 	mail \
 	backup-restore \
@@ -49,6 +52,7 @@ SUBDIRS = \
 	text-highlight \
 	vcard-inline \
 	web-inspector \
+	$(BOGOFILTER_DIR) \
 	$(ONLINE_ACCOUNTS_DIR) \
 	$(TNEF_ATTACHMENT_DIR) \
 	$(AUDIO_INLINE_DIR)

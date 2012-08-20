@@ -36,10 +36,6 @@
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_BOGOFILTER, EBogofilter))
 
-#ifndef BOGOFILTER_BINARY
-#define BOGOFILTER_BINARY "/usr/bin/bogofilter"
-#endif
-
 #define BOGOFILTER_EXIT_STATUS_SPAM		0
 #define BOGOFILTER_EXIT_STATUS_HAM		1
 #define BOGOFILTER_EXIT_STATUS_UNSURE		2
@@ -302,7 +298,7 @@ bogofilter_get_property (GObject *object,
 static gboolean
 bogofilter_available (EMailJunkFilter *junk_filter)
 {
-	return g_file_test (BOGOFILTER_BINARY, G_FILE_TEST_IS_EXECUTABLE);
+	return g_file_test (BOGOFILTER_COMMAND, G_FILE_TEST_IS_EXECUTABLE);
 }
 
 static GtkWidget *
@@ -350,7 +346,7 @@ bogofilter_classify (CamelJunkFilter *junk_filter,
 	gint exit_code;
 
 	const gchar *argv[] = {
-		BOGOFILTER_BINARY,
+		BOGOFILTER_COMMAND,
 		NULL,  /* leave room for unicode option */
 		NULL
 	};
@@ -408,7 +404,7 @@ bogofilter_learn_junk (CamelJunkFilter *junk_filter,
 	gint exit_code;
 
 	const gchar *argv[] = {
-		BOGOFILTER_BINARY,
+		BOGOFILTER_COMMAND,
 		"--register-spam",
 		NULL,  /* leave room for unicode option */
 		NULL
@@ -443,7 +439,7 @@ bogofilter_learn_not_junk (CamelJunkFilter *junk_filter,
 	gint exit_code;
 
 	const gchar *argv[] = {
-		BOGOFILTER_BINARY,
+		BOGOFILTER_COMMAND,
 		"--register-ham",
 		NULL,  /* leave room for unicode option */
 		NULL

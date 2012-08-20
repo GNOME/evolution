@@ -1044,6 +1044,34 @@ else
 	fi
 fi
 
+dnl **********************************
+dnl Check for Bogofilter (spam filter)
+dnl **********************************
+AC_ARG_ENABLE([bogofilter],
+	[AS_HELP_STRING([--enable-bogofilter],
+	[enable spam filtering using Bogofilter (default=yes)])],
+	[enable_bogofilter=$enableval], [enable_bogofilter=yes])
+AC_MSG_CHECKING([if Bogofilter support is enabled])
+AC_MSG_RESULT([$enable_bogofilter])
+msg_bogofilter="$enable_bogofilter"
+if test "x$enable_bogofilter" = "xyes"; then
+	AC_ARG_VAR([BOGOFILTER], [Bogofilter spam filtering program])
+	AC_PATH_PROG([BOGOFILTER], [bogofilter])
+	if test "x$BOGOFILTER" == "x"; then
+		AC_MSG_ERROR([
+
+	Bogofilter spam filtering program not found.
+
+	If you want to disable spam filtering using Bogofilter,
+	please append --disable-bogofilter to configure.])
+	fi
+	AC_DEFINE_UNQUOTED(
+		BOGOFILTER_COMMAND, "$BOGOFILTER",
+		[Bogofilter spam filtering program])
+	msg_bogofilter="$msg_bogofilter ($BOGOFILTER)"
+fi
+AM_CONDITIONAL([ENABLE_BOGOFILTER], [test "x$enable_bogofilter" = "xyes"])
+
 dnl ******************************
 dnl CERT_UI Flags
 dnl ******************************
@@ -1571,6 +1599,7 @@ echo "
 	Kerberos 5:		$msg_krb5
 	SSL support:		$msg_ssl
 	SMIME support:		$msg_smime
+	Bogofilter support:	$msg_bogofilter
 	Plugins:		$msg_plugins
 	User documentation:	$with_help
 "
