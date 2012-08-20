@@ -759,8 +759,8 @@ memo_page_fill_component (CompEditorPage *page,
 
 		gchar *backend_addr = NULL;
 		gchar *backend_mailto = NULL;
-		gchar *name;
-		gchar *mailto;
+		gchar *name = NULL;
+		gchar *mailto = NULL;
 
 		e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 

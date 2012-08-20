@@ -1320,7 +1320,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	EMailBackend *backend;
 	EShellBackend *shell_backend;
 	EMailDisplay *display;
-	EMailPartList *part_list;
+	EMailPartList *part_list = NULL;
 	GtkWidget *message_list;
 	CamelMimeMessage *new_message;
 	CamelInternetAddress *address = NULL;

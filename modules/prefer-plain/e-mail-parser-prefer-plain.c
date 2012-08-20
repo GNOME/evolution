@@ -225,6 +225,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	}
 
 	nparts = camel_multipart_get_number (mp);
+	plain_text_parts = NULL;
 	has_html = FALSE;
 	for (i = 0; i < nparts; i++) {
 

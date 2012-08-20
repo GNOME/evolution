@@ -652,6 +652,8 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 
 		if (camel_mime_part_get_encoding (part) == CAMEL_TRANSFER_ENCODING_BASE64)
 			size = size / 1.37;
+	} else {
+		size = 0;
 	}
 
 	/* e_attachment_load_async must be called from main thread */

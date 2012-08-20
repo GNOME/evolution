@@ -133,6 +133,7 @@ handle_http_request (GSimpleAsyncResult *res,
 
 	/* Remove the "evo-" prefix from scheme */
 	uri_len = strlen (evo_uri);
+	uri = NULL;
 	if (evo_uri && (uri_len > 5)) {
 
 		/* Remove trailing "?" if there is no URI query */

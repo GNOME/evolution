@@ -69,6 +69,7 @@ get_tag (const gchar *utf8_string,
 	gunichar c;
 	gboolean has_end;
 
+	c = '\0';
 	t = g_utf8_find_prev_char (utf8_string, closing);
 	while (t != opening) {
 
@@ -90,6 +91,7 @@ get_tag (const gchar *utf8_string,
 		t = g_utf8_find_next_char (t, NULL);
 	}
 
+	has_end = FALSE;
 	do {
 		c = g_utf8_get_char (t);
 

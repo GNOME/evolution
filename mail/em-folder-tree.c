@@ -3507,7 +3507,7 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 		const gchar *group_name = group->data;
 		const gchar *key = STATE_KEY_EXPANDED;
 		gchar *folder_name = NULL;
-		gboolean expanded;
+		gboolean expanded = FALSE;
 		gboolean success = FALSE;
 
 		if (g_str_has_prefix (group_name, "Store ")) {
