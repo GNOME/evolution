@@ -60,6 +60,8 @@ static void
 editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
 				    const gchar *word)
 {
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	GtkListStore *store;
 	gchar *markup;
 	gchar **suggestions;
@@ -95,16 +97,28 @@ editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
 	}
 
 	g_strfreev (suggestions);
+
+	/* We give focus to WebKit so that the currently selected word
+	 * is highlited. Without focus selection is not visible (at
+	 * least with my default color scheme). The focus in fact is not
+	 * given to WebKit, because this dialog is modal, but it satisfies
+	 * it in a way that it paints the selection :) */
+	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor_widget = e_editor_get_editor_widget (editor);
+	gtk_widget_grab_focus (GTK_WIDGET (editor_widget));
 }
 
 static gboolean
 select_next_word (EEditorSpellCheckDialog *dialog)
 {
-	WebKitDOMNode *anchor;
-	gulong anchor_offset;
+	WebKitDOMNode *anchor, *focus;
+	gulong anchor_offset, focus_offset;
 
 	anchor = webkit_dom_dom_selection_get_anchor_node (dialog->priv->selection);
 	anchor_offset = webkit_dom_dom_selection_get_anchor_offset (dialog->priv->selection);
+
+	focus = webkit_dom_dom_selection_get_focus_node (dialog->priv->selection);
+	focus_offset = webkit_dom_dom_selection_get_focus_offset (dialog->priv->selection);
 
 	/* Jump _behind_ next word */
 	webkit_dom_dom_selection_modify (
@@ -116,16 +130,20 @@ select_next_word (EEditorSpellCheckDialog *dialog)
 	webkit_dom_dom_selection_modify (
 		dialog->priv->selection, "extend", "forward", "word");
 
-	/* If the selection start didn't change, then we have most probably
+	/* If the selection didn't change, then we have most probably
 	 * reached the end of document - return FALSE */
-	return ((anchor != webkit_dom_dom_selection_get_anchor_node (
-				dialog->priv->selection)) ||
-		(anchor_offset != webkit_dom_dom_selection_get_anchor_offset (
+	return !((anchor == webkit_dom_dom_selection_get_anchor_node (
+				dialog->priv->selection)) &&
+		 (anchor_offset == webkit_dom_dom_selection_get_anchor_offset (
+				dialog->priv->selection)) &&
+		 (focus == webkit_dom_dom_selection_get_focus_node (
+				dialog->priv->selection)) &&
+		 (focus_offset == webkit_dom_dom_selection_get_focus_offset (
 				dialog->priv->selection)));
 }
 
 
-static void
+static gboolean
 editor_spell_check_dialog_next (EEditorSpellCheckDialog *dialog)
 {
 	WebKitDOMNode *start = NULL, *end = NULL;
@@ -163,7 +181,7 @@ editor_spell_check_dialog_next (EEditorSpellCheckDialog *dialog)
 		if (loc != -1) {
 			editor_spell_check_dialog_set_word (dialog, word);
 			g_free (word);
-			return;
+			return TRUE;
 		}
 
 		g_free (word);
@@ -179,6 +197,7 @@ editor_spell_check_dialog_next (EEditorSpellCheckDialog *dialog)
 
 	/* Close the dialog */
  	gtk_widget_hide (GTK_WIDGET (dialog));
+	return FALSE;
 }
 
 static gboolean
@@ -208,7 +227,7 @@ select_previous_word (EEditorSpellCheckDialog *dialog)
 				dialog->priv->selection)));
 }
 
-static void
+static gboolean
 editor_spell_check_dialog_prev (EEditorSpellCheckDialog *dialog)
 {
 	WebKitDOMNode *start = NULL, *end = NULL;
@@ -248,7 +267,7 @@ editor_spell_check_dialog_prev (EEditorSpellCheckDialog *dialog)
 		if (loc != -1) {
 			editor_spell_check_dialog_set_word (dialog, word);
 			g_free (word);
-			return;
+			return TRUE;
 		}
 
 		g_free (word);
@@ -264,6 +283,7 @@ editor_spell_check_dialog_prev (EEditorSpellCheckDialog *dialog)
 
 	/* Close the dialog */
 	gtk_widget_hide (GTK_WIDGET (dialog));
+	return FALSE;
 }
 
 static void
@@ -395,10 +415,10 @@ editor_spell_check_dialog_show (GtkWidget *gtk_widget)
 	window = webkit_dom_document_get_default_view (document);
 	dialog->priv->selection = webkit_dom_dom_window_get_selection (window);
 
-	/* Select the first word */
-	editor_spell_check_dialog_next (dialog);
-
-	GTK_WIDGET_CLASS (e_editor_spell_check_dialog_parent_class)->show (gtk_widget);
+	/* Select the first word or quit */
+	if (editor_spell_check_dialog_next (dialog)) {
+		GTK_WIDGET_CLASS (e_editor_spell_check_dialog_parent_class)->show (gtk_widget);
+	}
 }
 
 static void
