@@ -295,12 +295,6 @@ bogofilter_get_property (GObject *object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
-static gboolean
-bogofilter_available (EMailJunkFilter *junk_filter)
-{
-	return g_file_test (BOGOFILTER_COMMAND, G_FILE_TEST_IS_EXECUTABLE);
-}
-
 static GtkWidget *
 bogofilter_new_config_widget (EMailJunkFilter *junk_filter)
 {
@@ -477,7 +471,6 @@ e_bogofilter_class_init (EBogofilterClass *class)
 	junk_filter_class = E_MAIL_JUNK_FILTER_CLASS (class);
 	junk_filter_class->filter_name = "Bogofilter";
 	junk_filter_class->display_name = _("Bogofilter");
-	junk_filter_class->available = bogofilter_available;
 	junk_filter_class->new_config_widget = bogofilter_new_config_widget;
 
 	g_object_class_install_property (

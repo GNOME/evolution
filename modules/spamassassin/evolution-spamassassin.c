@@ -379,55 +379,6 @@ spam_assassin_set_use_daemon (ESpamAssassin *extension,
 	g_object_notify (G_OBJECT (extension), "use-daemon");
 }
 
-static gboolean
-spam_assassin_get_version (ESpamAssassin *extension,
-                           gint *spam_assassin_version,
-                           GCancellable *cancellable,
-                           GError **error)
-{
-	GByteArray *output_buffer;
-	gint exit_code;
-	guint ii;
-
-	const gchar *argv[] = {
-		SA_LEARN_COMMAND,
-		"--version",
-		NULL
-	};
-
-	if (extension->version_set) {
-		if (spam_assassin_version != NULL)
-			*spam_assassin_version = extension->version;
-		return TRUE;
-	}
-
-	output_buffer = g_byte_array_new ();
-
-	exit_code = spam_assassin_command_full (
-		argv, NULL, NULL, output_buffer, TRUE, cancellable, error);
-
-	if (exit_code != 0) {
-		g_byte_array_free (output_buffer, TRUE);
-		return FALSE;
-	}
-
-	for (ii = 0; ii < output_buffer->len; ii++) {
-		if (g_ascii_isdigit (output_buffer->data[ii])) {
-			guint8 ch = output_buffer->data[ii];
-			extension->version = (ch - '0');
-			extension->version_set = TRUE;
-			break;
-		}
-	}
-
-	if (spam_assassin_version != NULL)
-		*spam_assassin_version = extension->version;
-
-	g_byte_array_free (output_buffer, TRUE);
-
-	return TRUE;
-}
-
 #ifdef HAVE_SPAM_DAEMON
 static void
 spam_assassin_test_spamd_allow_tell (ESpamAssassin *extension)
@@ -783,23 +734,6 @@ spam_assassin_finalize (GObject *object)
 	G_OBJECT_CLASS (e_spam_assassin_parent_class)->finalize (object);
 }
 
-static gboolean
-spam_assassin_available (EMailJunkFilter *junk_filter)
-{
-	ESpamAssassin *extension = E_SPAM_ASSASSIN (junk_filter);
-	gboolean available;
-	GError *error = NULL;
-
-	available = spam_assassin_get_version (extension, NULL, NULL, &error);
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
-
-	return available;
-}
-
 static GtkWidget *
 spam_assassin_new_config_widget (EMailJunkFilter *junk_filter)
 {
@@ -1094,7 +1028,6 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 	junk_filter_class = E_MAIL_JUNK_FILTER_CLASS (class);
 	junk_filter_class->filter_name = "SpamAssassin";
 	junk_filter_class->display_name = _("SpamAssassin");
-	junk_filter_class->available = spam_assassin_available;
 	junk_filter_class->new_config_widget = spam_assassin_new_config_widget;
 
 	g_object_class_install_property (

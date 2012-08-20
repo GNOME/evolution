@@ -421,11 +421,7 @@ mail_session_set_junk_filter_name (EMailSession *session,
 	if (junk_filter_name != NULL) {
 		junk_filter = g_hash_table_lookup (
 			session->priv->junk_filters, junk_filter_name);
-		if (junk_filter != NULL) {
-			if (!e_mail_junk_filter_available (
-				E_MAIL_JUNK_FILTER (junk_filter)))
-				junk_filter = NULL;
-		} else {
+		if (junk_filter == NULL) {
 			g_warning (
 				"Unrecognized junk filter name "
 				"'%s' in GSettings", junk_filter_name);
@@ -1996,30 +1992,13 @@ e_mail_session_get_local_folder_uri (EMailSession *session,
 GList *
 e_mail_session_get_available_junk_filters (EMailSession *session)
 {
-	GList *list, *link;
-	GQueue trash = G_QUEUE_INIT;
+	GList *list;
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
 	list = g_hash_table_get_values (session->priv->junk_filters);
 
-	/* Discard unavailable junk filters.  (e.g. Junk filter
-	 * requires Bogofilter but Bogofilter is not installed,
-	 * hence the junk filter is unavailable.) */
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		EMailJunkFilter *junk_filter;
-
-		junk_filter = E_MAIL_JUNK_FILTER (link->data);
-		if (!e_mail_junk_filter_available (junk_filter))
-			g_queue_push_tail (&trash, link);
-	}
-
-	while ((link = g_queue_pop_head (&trash)) != NULL)
-		list = g_list_delete_link (list, link);
-
-	/* Sort the remaining junk filters by display name. */
-
+	/* Sort the available junk filters by display name. */
 	return g_list_sort (list, (GCompareFunc) e_mail_junk_filter_compare);
 }
 
