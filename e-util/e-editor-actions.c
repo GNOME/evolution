@@ -618,6 +618,8 @@ action_language_cb (GtkToggleAction *action,
 	gtk_action_set_sensitive (ACTION (SPELL_CHECK), length > 0);
 
 	e_editor_emit_spell_languages_changed (editor);
+
+	e_editor_spell_checker_free_dict (checker, dictionary);
 }
 
 struct _ModeChanged {
@@ -1686,7 +1688,7 @@ editor_actions_setup_languages_menu (EEditor *editor)
 	EEditorSpellChecker *checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
-	const GList *available_dicts;
+	GList *available_dicts, *iter;
 	guint merge_id;
 
 	manager = editor->priv->manager;
@@ -1695,8 +1697,8 @@ editor_actions_setup_languages_menu (EEditor *editor)
 	available_dicts = e_editor_spell_checker_get_available_dicts (checker);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
-	while (available_dicts != NULL) {
-		EnchantDict *dictionary = available_dicts->data;
+	for (iter = available_dicts; iter; iter = iter->next) {
+		EnchantDict *dictionary = iter->data;
 		GtkToggleAction *action;
 
 		action = gtk_toggle_action_new (
@@ -1720,8 +1722,10 @@ editor_actions_setup_languages_menu (EEditor *editor)
 			e_editor_spell_checker_get_dict_code (dictionary),
 			GTK_UI_MANAGER_AUTO, FALSE);
 
-		available_dicts = g_list_next (available_dicts);
+		e_editor_spell_checker_free_dict (checker, dictionary);
 	}
+
+	g_list_free (available_dicts);
 }
 
 static void
@@ -1730,7 +1734,7 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 	EEditorSpellChecker *checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
-	const GList *available_dicts;
+	GList *available_dicts, *iter;
 	guint merge_id;
 
 	manager = editor->priv->manager;
@@ -1739,8 +1743,8 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 	available_dicts = e_editor_spell_checker_get_available_dicts (checker);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
-	while (available_dicts != NULL) {
-		EnchantDict *dictionary = available_dicts->data;
+	for (iter = available_dicts; iter; iter = iter->next) {
+		EnchantDict *dictionary = iter->data;
 		GtkAction *action;
 		const gchar *code;
 		const gchar *name;
@@ -1794,11 +1798,12 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 			action_name, action_name,
 			GTK_UI_MANAGER_AUTO, FALSE);
 
+		e_editor_spell_checker_free_dict (checker, dictionary);
 		g_free (action_label);
 		g_free (action_name);
-
-		available_dicts = g_list_next (available_dicts);
 	}
+
+	g_list_free (available_dicts);
 }
 
 void

@@ -268,6 +268,8 @@ editor_page_dialog_set_background_image (EEditorPageDialog *dialog)
 
 	webkit_dom_html_body_element_set_background (
 		(WebKitDOMHTMLBodyElement *) body, uri ? uri : "");
+
+	g_free (uri);
 }
 
 static void
@@ -308,6 +310,7 @@ editor_page_dialog_show (GtkWidget *widget)
 		gtk_combo_box_set_active (
 			GTK_COMBO_BOX (dialog->priv->background_template_combo), 0);
 	}
+	g_free (tmp);
 
 	tmp = webkit_dom_html_body_element_get_text (
 			(WebKitDOMHTMLBodyElement *) body);
@@ -322,8 +325,8 @@ editor_page_dialog_show (GtkWidget *widget)
 		rgba.blue = ((gdouble) color->blue) / G_MAXUINT16;
 	} else {
 		gdk_rgba_parse (&rgba, tmp);
-		g_free (tmp);
 	}
+	g_free (tmp);
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
 
@@ -340,8 +343,8 @@ editor_page_dialog_show (GtkWidget *widget)
 		rgba.blue = ((gdouble) color.blue) / G_MAXUINT16;
 	} else {
 		gdk_rgba_parse (&rgba, tmp);
-		g_free (tmp);
 	}
+	g_free (tmp);
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
 
@@ -359,8 +362,8 @@ editor_page_dialog_show (GtkWidget *widget)
 
 	} else {
 		gdk_rgba_parse (&rgba, tmp);
-		g_free (tmp);
 	}
+	g_free (tmp);
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
 

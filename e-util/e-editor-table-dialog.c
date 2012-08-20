@@ -201,13 +201,16 @@ editor_table_dialog_set_width (EEditorTableDialog *dialog)
 
 	if (gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->width_check))) {
+		gchar *units;
 
+		units = gtk_combo_box_text_get_active_text (
+				GTK_COMBO_BOX_TEXT (dialog->priv->width_units));
 		width = g_strdup_printf (
 			"%d%s",
 			gtk_spin_button_get_value_as_int (
 				GTK_SPIN_BUTTON (dialog->priv->width_edit)),
-			gtk_combo_box_text_get_active_text (
-				GTK_COMBO_BOX_TEXT (dialog->priv->width_units)));
+			units);
+		g_free (units);
 
 		gtk_widget_set_sensitive (dialog->priv->width_edit, TRUE);
 		gtk_widget_set_sensitive (dialog->priv->width_units, TRUE);
@@ -248,6 +251,7 @@ editor_table_dialog_get_width (EEditorTableDialog *dialog)
 			((strstr (width, "%") == NULL) ?
 				"units-px" : "units-percent"));
 	}
+	g_free (width);
 }
 
 static void

@@ -239,6 +239,8 @@ editor_cell_dialog_set_valign (EEditorCellDialog *dialog)
 
 	editor_cell_dialog_set_attribute (
 		dialog, webkit_dom_html_table_cell_element_set_v_align, &val, NULL);
+
+	g_value_unset (&val);
 }
 
 static void
@@ -254,6 +256,8 @@ editor_cell_dialog_set_halign (EEditorCellDialog *dialog)
 
 	editor_cell_dialog_set_attribute (
 		dialog, webkit_dom_html_table_cell_element_set_align, &val, NULL);
+
+	g_value_unset (&val);
 }
 
 static void
@@ -295,6 +299,7 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 		new_cell = webkit_dom_document_create_element (document, "TD", NULL);
 
 	} else {
+		g_free (tagname);
 		return;
 	}
 
@@ -321,6 +326,8 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 		WEBKIT_DOM_NODE (cell), NULL);
 
 	dialog->priv->cell = new_cell;
+
+	g_free (tagname);
 }
 
 static void

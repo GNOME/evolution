@@ -457,8 +457,12 @@ check_spelling_of_string (WebKitSpellChecker *webkit_checker,
                     			break;
                 		}
             		}
+
+            		g_free (new_word);
         	}
     	}
+
+    	g_free (attrs);
 }
 
 static gchar **

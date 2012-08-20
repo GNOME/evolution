@@ -50,7 +50,7 @@ editor_hrule_dialog_set_alignment (EEditorHRuleDialog *dialog)
 
 	g_return_if_fail (WEBKIT_DOM_IS_HTMLHR_ELEMENT (dialog->priv->hr_element));
 
-	alignment = gtk_combo_box_text_get_active_text (
+	alignment = gtk_combo_box_get_active_id (
 			GTK_COMBO_BOX_TEXT (dialog->priv->alignment_combo));
 
 	webkit_dom_htmlhr_element_set_align (dialog->priv->hr_element, alignment);
@@ -113,19 +113,21 @@ editor_hrule_dialog_get_size (EEditorHRuleDialog *dialog)
 static void
 editor_hrule_dialog_set_width (EEditorHRuleDialog *dialog)
 {
-	gchar *width;
+	gchar *width, *units;
 
 	g_return_if_fail (WEBKIT_DOM_IS_HTMLHR_ELEMENT (dialog->priv->hr_element));
 
+	units = gtk_combo_box_text_get_active_text (
+			GTK_COMBO_BOX_TEXT (dialog->priv->unit_combo));
 	width = g_strdup_printf (
 		"%d%s",
 		(gint) gtk_spin_button_get_value (
 			GTK_SPIN_BUTTON (dialog->priv->width_edit)),
-		gtk_combo_box_text_get_active_text (
-			GTK_COMBO_BOX_TEXT (dialog->priv->unit_combo)));
+		units);
 
 	webkit_dom_htmlhr_element_set_width (dialog->priv->hr_element, width);
 
+	g_free (units);
 	g_free (width);
 }
 

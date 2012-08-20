@@ -308,6 +308,7 @@ editor_update_actions (EEditor *editor,
 		G_OBJECT (hit_test),
 		"context", &context,
 	        "inner-node", &node, NULL);
+	g_object_unref (hit_test);
 
 	visible = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_IMAGE), visible);
@@ -686,12 +687,18 @@ editor_constructed (GObject *object)
 }
 
 static void
+free_dict (gpointer dict,
+	   gpointer checker)
+{
+	e_editor_spell_checker_free_dict (checker, dict);
+}
+
+static void
 editor_dispose (GObject *object)
 {
 	EEditor *editor = E_EDITOR (object);
 	EEditorPrivate *priv = editor->priv;
 
-	g_clear_object (&priv->manager);
 	g_clear_object (&priv->manager);
 	g_clear_object (&priv->core_actions);
 	g_clear_object (&priv->html_actions);
@@ -701,6 +708,9 @@ editor_dispose (GObject *object)
 	g_clear_object (&priv->spell_check_actions);
 	g_clear_object (&priv->suggestion_actions);
 
+	g_list_foreach (
+		priv->active_dictionaries, free_dict,
+		webkit_get_text_checker());
 	g_list_free (priv->active_dictionaries);
 	priv->active_dictionaries = NULL;
 
@@ -715,6 +725,8 @@ editor_dispose (GObject *object)
 	g_clear_object (&priv->size_combo_box);
 	g_clear_object (&priv->style_combo_box);
 	g_clear_object (&priv->scrolled_window);
+
+	g_clear_object (&priv->editor_widget);
 }
 
 static void
