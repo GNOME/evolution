@@ -514,6 +514,22 @@ editor_find_ui_file (const gchar *basename)
 }
 
 static void
+editor_parent_changed (GtkWidget *widget,
+		       GtkWidget *previous_parent)
+{
+	GtkWidget *top_level;
+	EEditor *editor = E_EDITOR (widget);
+
+	/* If he now have a window, then install our accelators to it */
+	top_level = gtk_widget_get_toplevel (widget);
+	if (GTK_IS_WINDOW (top_level)) {
+		gtk_window_add_accel_group (
+			GTK_WINDOW (top_level),
+			gtk_ui_manager_get_accel_group (editor->priv->manager));
+	}
+}
+
+static void
 editor_set_property (GObject *object,
 		     guint property_id,
 		     const GValue *value,
@@ -680,7 +696,6 @@ editor_dispose (GObject *object)
 	g_clear_object (&priv->language_actions);
 	g_clear_object (&priv->spell_check_actions);
 	g_clear_object (&priv->suggestion_actions);
-	g_clear_object (&priv->builder);
 
 	g_list_free (priv->active_dictionaries);
 	priv->active_dictionaries = NULL;
@@ -702,6 +717,7 @@ static void
 e_editor_class_init (EEditorClass *klass)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (klass, sizeof (EEditorPrivate));
 
@@ -710,6 +726,9 @@ e_editor_class_init (EEditorClass *klass)
 	object_class->get_property = editor_get_property;
 	object_class->constructed = editor_constructed;
 	object_class->dispose = editor_dispose;
+
+	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class->parent_set = editor_parent_changed;
 
 	klass->update_actions = editor_update_actions;
 	klass->spell_languages_changed = editor_spell_languages_changed;
@@ -778,19 +797,6 @@ e_editor_init (EEditor *editor)
 
 	g_free (filename);
 
-	filename = editor_find_ui_file ("e-editor-builder.ui");
-
-	priv->builder = gtk_builder_new ();
-	/* To keep translated strings in subclasses */
-	gtk_builder_set_translation_domain (priv->builder, GETTEXT_PACKAGE);
-	error = NULL;
-	if (!gtk_builder_add_from_file (priv->builder, filename, &error)) {
-		g_critical ("Couldn't load builder file: %s\n", error->message);
-		g_clear_error (&error);
-	}
-
-	g_free (filename);
-
 	editor_actions_init (editor);
 }
 
@@ -808,15 +814,6 @@ e_editor_get_editor_widget (EEditor *editor)
 	g_return_val_if_fail (E_IS_EDITOR (editor), NULL);
 
 	return editor->priv->editor_widget;
-}
-
-
-GtkBuilder *
-e_editor_get_builder (EEditor *editor)
-{
-	g_return_val_if_fail (E_IS_EDITOR (editor), NULL);
-
-	return editor->priv->builder;
 }
 
 GtkUIManager *
@@ -879,23 +876,6 @@ e_editor_get_action_group (EEditor *editor,
 	}
 
 	return NULL;
-}
-
-GtkWidget *
-e_editor_get_widget (EEditor *editor,
-                           const gchar *widget_name)
-{
-	GtkBuilder *builder;
-	GObject *object;
-
-	g_return_val_if_fail (E_IS_EDITOR (editor), NULL);
-	g_return_val_if_fail (widget_name != NULL, NULL);
-
-	builder = e_editor_get_builder (editor);
-	object = gtk_builder_get_object (builder, widget_name);
-	g_return_val_if_fail (GTK_IS_WIDGET (object), NULL);
-
-	return GTK_WIDGET (object);
 }
 
 GtkWidget *

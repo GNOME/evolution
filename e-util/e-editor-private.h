@@ -54,7 +54,6 @@ struct _EEditorPrivate {
 	GtkActionGroup *language_actions;
 	GtkActionGroup *spell_check_actions;
 	GtkActionGroup *suggestion_actions;
-	GtkBuilder *builder;
 
 	GtkWidget *main_menu;
 	GtkWidget *main_toolbar;
