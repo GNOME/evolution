@@ -22,7 +22,6 @@
 #include <e-action-combo-box.h>
 #include <e-color-combo.h>
 #include <e-editor-actions.h>
-#include <e-editor-widgets.h>
 #include <e-editor-widget.h>
 #include <e-editor-find-dialog.h>
 #include <e-editor-replace-dialog.h>

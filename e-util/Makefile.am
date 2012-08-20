@@ -194,7 +194,6 @@ evolution_util_include_HEADERS =  \
 	e-editor-text-dialog.h \
 	e-editor-utils.h \
 	e-editor-widget.h \
-	e-editor-widgets.h \
 	e-editor.h \
 	e-emoticon-action.h \
 	e-emoticon-chooser-menu.h \
