@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-16 11:37+0000\n"
-"PO-Revision-Date: 2012-08-16 17:00+0200\n"
+"POT-Creation-Date: 2012-08-17 18:38+0000\n"
+"PO-Revision-Date: 2012-08-20 19:58+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Generator: Gtranslator 2.91.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -154,6 +154,7 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-composer-change-quotation-string.page:19(license/p)
 #: C/mail-composer-custom-header-lines.page:18(license/p)
 #: C/mail-composer-forward-as-attachment.page:16(license/p)
+#: C/mail-composer-enable-html-format.page:17(license/p)
 #: C/mail-composer-forward.page:18(license/p)
 #: C/mail-composer-html-image.page:17(license/p)
 #: C/mail-composer-html-link.page:17(license/p)
@@ -165,6 +166,10 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-composer-mail-signatures.page:15(license/p)
 #: C/mail-composer-mail-signatures-per-account.page:27(license/p)
 #: C/mail-composer-message-templates.page:18(license/p)
+#: C/mail-composer-message-templates-reply.page:18(license/p)
+#: C/mail-composer-message-templates-save.page:18(license/p)
+#: C/mail-composer-message-templates-variables.page:18(license/p)
+#: C/mail-composer-plain-text.page:17(license/p)
 #: C/mail-composer-priority.page:18(license/p)
 #: C/mail-composer-reply.page:18(license/p)
 #: C/mail-composer-search.page:16(license/p)
@@ -180,6 +185,7 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-displaying-message.page:15(license/p)
 #: C/mail-displaying-no-css.page:16(license/p)
 #: C/mail-displaying-sender-photograph.page:18(license/p)
+#: C/mail-display-message-source.page:15(license/p)
 #: C/mail-duplicates.page:19(license/p)
 #: C/mail-encryption-gpg-create-key.page:18(license/p)
 #: C/mail-encryption-gpg-decrypting.page:18(license/p)
@@ -199,6 +205,7 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-imap-headers.page:19(license/p)
 #: C/mail-imap-subscriptions.page:20(license/p)
 #: C/mail-labels.page:16(license/p) C/mail-layout-changing.page:15(license/p)
+#: C/mail-localized-re-subjects.page:15(license/p)
 #: C/mail-moving-emails.page:19(license/p) C/mail-not-sent.page:15(license/p)
 #: C/mail-organizing.page:16(license/p)
 #: C/mail-reading-keyboard-shortcuts.page:19(license/p)
@@ -220,8 +227,10 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-receiving-options-usenet-news.page:18(license/p)
 #: C/mail-recognized-thread-related-headers.page:15(license/p)
 #: C/mail-refresh-folders.page:15(license/p)
+#: C/mail-save-as-pdf.page:15(license/p)
 #: C/mail-search-folders-add.page:18(license/p)
 #: C/mail-search-folders-conditions.page:18(license/p)
+#: C/mail-search-folders-enable.page:15(license/p)
 #: C/mail-search-folders.page:18(license/p)
 #: C/mail-search-folders-refresh.page:19(license/p)
 #: C/mail-searching-attachment-type.page:16(license/p)
@@ -232,11 +241,6 @@ msgstr "Correo y calendario de Evolution"
 #: C/mail-sending-options-smtp.page:22(license/p)
 #: C/mail-several-pop-accounts.page:17(license/p)
 #: C/mail-sorting-message-list.page:23(license/p)
-#: C/mail-spam-groupwise-add-to-list.page:22(license/p)
-#: C/mail-spam-groupwise-manage-list.page:22(license/p)
-#: C/mail-spam-groupwise-mark-message.page:18(license/p)
-#: C/mail-spam-groupwise-remove-from-list.page:18(license/p)
-#: C/mail-spam-groupwise-unmark-message.page:18(license/p)
 #: C/mail-spam-marking.page:25(license/p) C/mail-spam.page:15(license/p)
 #: C/mail-spam-settings.page:31(license/p)
 #: C/mail-two-trash-folders.page:15(license/p)
@@ -1149,7 +1153,6 @@ msgstr "Seleccione los contactos a los que quiere delegar la reunión."
 #: C/mail-encryption-s-mime-signing-encrypting.page:34(item/p)
 #: C/mail-filters.page:50(item/p) C/mail-filters.page:71(item/p)
 #: C/mail-search-folders-add.page:46(item/p)
-#: C/mail-spam-groupwise-remove-from-list.page:28(item/p)
 #: C/using-categories.page:51(item/p) C/using-categories.page:53(item/p)
 msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Pulse <gui style=\"button\">Aceptar</gui>."
@@ -1497,9 +1500,9 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/calendar-searching.page:34(media) C/contacts-searching.page:34(media)
-#: C/mail-searching.page:33(media) C/memos-searching.page:34(media)
-#: C/tasks-searching.page:34(media)
+#: C/calendar-searching.page:34(media) C/contacts-searching.page:44(media)
+#: C/mail-searching.page:42(media) C/memos-searching.page:43(media)
+#: C/tasks-searching.page:43(media)
 msgctxt "_"
 msgid ""
 "external ref='figures/search-icon.png' md5='cd4b82c84c628bfbbfa39d1e0d1eae89'"
@@ -1515,10 +1518,10 @@ msgid "Searching for Calendar Items"
 msgstr "Buscar elementos del calendario"
 
 #: C/calendar-searching.page:30(section/title)
-#: C/contacts-searching.page:30(section/title)
-#: C/mail-searching.page:30(section/title)
-#: C/memos-searching.page:30(section/title)
-#: C/tasks-searching.page:30(section/title)
+#: C/contacts-searching.page:40(section/title)
+#: C/mail-searching.page:39(section/title)
+#: C/memos-searching.page:39(section/title)
+#: C/tasks-searching.page:39(section/title)
 msgid "Quick Search"
 msgstr "Búsqueda rápida"
 
@@ -1531,12 +1534,12 @@ msgstr ""
 "resumen o categoría."
 
 #: C/calendar-searching.page:32(section/p)
-#: C/memos-searching.page:32(section/p) C/tasks-searching.page:32(section/p)
+#: C/memos-searching.page:41(section/p) C/tasks-searching.page:41(section/p)
 msgid "Searching by summary:"
 msgstr "Buscar por resumen:"
 
-#: C/calendar-searching.page:34(item/p) C/contacts-searching.page:34(item/p)
-#: C/memos-searching.page:34(item/p) C/tasks-searching.page:34(item/p)
+#: C/calendar-searching.page:34(item/p) C/contacts-searching.page:44(item/p)
+#: C/memos-searching.page:43(item/p) C/tasks-searching.page:43(item/p)
 msgid ""
 "Click the search icon <media type=\"image\" mime=\"image/png\" src=\"figures/"
 "search-icon.png\"/> to expand the drop-down list."
@@ -1544,39 +1547,39 @@ msgstr ""
 "Pulse el icono de búsqueda <media type=\"image\" mime=\"image/png\" src="
 "\"figures/search-icon.png\"/> para expandir la dista desplegable."
 
-#: C/calendar-searching.page:35(item/p) C/contacts-searching.page:35(item/p)
-#: C/mail-searching.page:34(item/p) C/memos-searching.page:35(item/p)
-#: C/tasks-searching.page:35(item/p)
+#: C/calendar-searching.page:35(item/p) C/contacts-searching.page:45(item/p)
+#: C/mail-searching.page:43(item/p) C/memos-searching.page:44(item/p)
+#: C/tasks-searching.page:44(item/p)
 msgid "Select the search condition from the list."
 msgstr "Seleccione el criterio de búsqueda de la lista."
 
-#: C/calendar-searching.page:36(item/p) C/contacts-searching.page:36(item/p)
-#: C/mail-searching.page:38(item/p) C/memos-searching.page:36(item/p)
-#: C/tasks-searching.page:36(item/p)
+#: C/calendar-searching.page:36(item/p) C/contacts-searching.page:46(item/p)
+#: C/mail-searching.page:47(item/p) C/memos-searching.page:45(item/p)
+#: C/tasks-searching.page:45(item/p)
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr "Escriba el texto que quiere buscar y pulse <key>Intro</key>."
 
 #: C/calendar-searching.page:37(item/p) C/calendar-searching.page:43(item/p)
-#: C/contacts-searching.page:37(item/p) C/contacts-searching.page:43(item/p)
-#: C/mail-searching.page:39(item/p) C/memos-searching.page:37(item/p)
-#: C/memos-searching.page:43(item/p) C/tasks-searching.page:37(item/p)
-#: C/tasks-searching.page:43(item/p)
+#: C/contacts-searching.page:47(item/p) C/contacts-searching.page:53(item/p)
+#: C/mail-searching.page:48(item/p) C/memos-searching.page:46(item/p)
+#: C/memos-searching.page:52(item/p) C/tasks-searching.page:46(item/p)
+#: C/tasks-searching.page:52(item/p)
 msgid "Evolution displays the search results."
 msgstr "Evolution muestra los resultados de la búsqueda."
 
 #: C/calendar-searching.page:39(section/p)
-#: C/contacts-searching.page:39(section/p)
-#: C/memos-searching.page:39(section/p) C/tasks-searching.page:39(section/p)
+#: C/contacts-searching.page:49(section/p)
+#: C/memos-searching.page:48(section/p) C/tasks-searching.page:48(section/p)
 msgid "Searching by category:"
 msgstr "Buscar por categoría:"
 
-#: C/calendar-searching.page:41(item/p) C/contacts-searching.page:41(item/p)
-#: C/memos-searching.page:41(item/p) C/tasks-searching.page:41(item/p)
+#: C/calendar-searching.page:41(item/p) C/contacts-searching.page:51(item/p)
+#: C/memos-searching.page:50(item/p) C/tasks-searching.page:50(item/p)
 msgid "Click the <gui>Show</gui> drop-down list."
 msgstr "Pulse la lista desplegable <gui>Mostrar</gui>."
 
-#: C/calendar-searching.page:42(item/p) C/contacts-searching.page:42(item/p)
-#: C/memos-searching.page:42(item/p) C/tasks-searching.page:42(item/p)
+#: C/calendar-searching.page:42(item/p) C/contacts-searching.page:52(item/p)
+#: C/memos-searching.page:51(item/p) C/tasks-searching.page:51(item/p)
 msgid "Select the category from the list."
 msgstr "Seleccione la categoría de la lista."
 
@@ -1589,8 +1592,8 @@ msgid ""
 msgstr ""
 
 #: C/calendar-searching.page:48(section/p)
-#: C/contacts-searching.page:45(section/p) C/mail-searching.page:43(section/p)
-#: C/memos-searching.page:45(section/p) C/tasks-searching.page:45(section/p)
+#: C/contacts-searching.page:55(section/p) C/mail-searching.page:52(section/p)
+#: C/memos-searching.page:54(section/p) C/tasks-searching.page:54(section/p)
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
 "search, which is described below."
@@ -1599,15 +1602,15 @@ msgstr ""
 "avanzada, descrita debajo."
 
 #: C/calendar-searching.page:52(section/title)
-#: C/contacts-searching.page:49(section/title)
-#: C/memos-searching.page:49(section/title)
-#: C/tasks-searching.page:49(section/title)
+#: C/contacts-searching.page:59(section/title)
+#: C/memos-searching.page:58(section/title)
+#: C/tasks-searching.page:58(section/title)
 msgid "Advanced Search"
 msgstr "Búsqueda avanzada"
 
-#: C/calendar-searching.page:54(item/p) C/contacts-searching.page:51(item/p)
-#: C/mail-searching.page:49(item/p) C/memos-searching.page:51(item/p)
-#: C/tasks-searching.page:51(item/p)
+#: C/calendar-searching.page:54(item/p) C/contacts-searching.page:61(item/p)
+#: C/mail-searching.page:58(item/p) C/memos-searching.page:60(item/p)
+#: C/tasks-searching.page:60(item/p)
 msgid ""
 "Select the <guiseq><gui>Search</gui><gui>Advanced Search</gui></guiseq> menu "
 "to open the dialog box."
@@ -1615,18 +1618,18 @@ msgstr ""
 "Seleccione el menú <guiseq><gui>Buscar</gui><gui>Búsqueda avanzada</gui></"
 "guiseq> para abrir el cuadro de diálogo."
 
-#: C/calendar-searching.page:55(item/p) C/contacts-searching.page:52(item/p)
-#: C/mail-searching.page:50(item/p) C/memos-searching.page:52(item/p)
-#: C/tasks-searching.page:52(item/p)
+#: C/calendar-searching.page:55(item/p) C/contacts-searching.page:62(item/p)
+#: C/mail-searching.page:59(item/p) C/memos-searching.page:61(item/p)
+#: C/tasks-searching.page:61(item/p)
 msgid ""
 "Click <gui style=\"button\">Add Condition</gui> to add any number of rules."
 msgstr ""
 "Pulse <gui style=\"button\">Añadir condición</gui> para añadir cualquier "
 "número de reglas."
 
-#: C/calendar-searching.page:56(item/p) C/contacts-searching.page:53(item/p)
-#: C/mail-searching.page:51(item/p) C/memos-searching.page:53(item/p)
-#: C/tasks-searching.page:53(item/p)
+#: C/calendar-searching.page:56(item/p) C/contacts-searching.page:63(item/p)
+#: C/mail-searching.page:60(item/p) C/memos-searching.page:62(item/p)
+#: C/tasks-searching.page:62(item/p)
 msgid ""
 "Select the condition from the dropdown list, and then type a search entry in "
 "the field."
@@ -1634,9 +1637,9 @@ msgstr ""
 "Seleccione el criterio de la lista desplegable y después escriba una entrada "
 "de búsqueda en el campo."
 
-#: C/calendar-searching.page:57(item/p) C/contacts-searching.page:54(item/p)
-#: C/mail-searching.page:52(item/p) C/memos-searching.page:54(item/p)
-#: C/tasks-searching.page:54(item/p)
+#: C/calendar-searching.page:57(item/p) C/contacts-searching.page:64(item/p)
+#: C/mail-searching.page:61(item/p) C/memos-searching.page:63(item/p)
+#: C/tasks-searching.page:63(item/p)
 msgid ""
 "Click <gui style=\"button\">OK</gui> to get the search results displayed."
 msgstr ""
@@ -1644,16 +1647,16 @@ msgstr ""
 "búsqueda."
 
 #: C/calendar-searching.page:63(section/title)
-#: C/contacts-searching.page:60(section/title)
-#: C/mail-searching.page:58(section/title)
-#: C/memos-searching.page:60(section/title)
-#: C/tasks-searching.page:60(section/title)
+#: C/contacts-searching.page:70(section/title)
+#: C/mail-searching.page:67(section/title)
+#: C/memos-searching.page:69(section/title)
+#: C/tasks-searching.page:69(section/title)
 msgid "Clearing the Search results"
 msgstr "Limpiar los resultados de la búsqueda"
 
 #: C/calendar-searching.page:64(section/p)
-#: C/contacts-searching.page:61(section/p) C/mail-searching.page:59(section/p)
-#: C/memos-searching.page:61(section/p) C/tasks-searching.page:61(section/p)
+#: C/contacts-searching.page:71(section/p) C/mail-searching.page:68(section/p)
+#: C/memos-searching.page:70(section/p) C/tasks-searching.page:70(section/p)
 msgid ""
 "To clear your search view and get back to the default view, click the "
 "<gui>Clear</gui> icon in the search string field, or choose "
@@ -1668,16 +1671,16 @@ msgstr ""
 "key><key>Q</key></keyseq> para limpiar la búsqueda."
 
 #: C/calendar-searching.page:68(section/title)
-#: C/contacts-searching.page:65(section/title)
-#: C/mail-searching.page:63(section/title)
-#: C/memos-searching.page:65(section/title)
-#: C/tasks-searching.page:65(section/title)
+#: C/contacts-searching.page:75(section/title)
+#: C/mail-searching.page:72(section/title)
+#: C/memos-searching.page:74(section/title)
+#: C/tasks-searching.page:74(section/title)
 msgid "Saved Searches"
 msgstr "Búsquedas guardadas"
 
 #: C/calendar-searching.page:69(section/p)
-#: C/contacts-searching.page:66(section/p) C/mail-searching.page:64(section/p)
-#: C/memos-searching.page:66(section/p) C/tasks-searching.page:66(section/p)
+#: C/contacts-searching.page:76(section/p) C/mail-searching.page:73(section/p)
+#: C/memos-searching.page:75(section/p) C/tasks-searching.page:75(section/p)
 msgid ""
 "If you search for something rather often, you will prefer not to type it "
 "many times. In this case you can use saved searches."
@@ -1686,8 +1689,8 @@ msgstr ""
 "tantas veces. En ese caso puede usar las búsquedas guardadas."
 
 #: C/calendar-searching.page:70(section/p)
-#: C/contacts-searching.page:67(section/p) C/mail-searching.page:65(section/p)
-#: C/memos-searching.page:67(section/p) C/tasks-searching.page:67(section/p)
+#: C/contacts-searching.page:77(section/p) C/mail-searching.page:74(section/p)
+#: C/memos-searching.page:76(section/p) C/tasks-searching.page:76(section/p)
 msgid ""
 "To save your search results, either click <gui>Save</gui> instead of "
 "<gui>OK</gui> in the Search dialog, or in case the search results are "
@@ -1702,16 +1705,16 @@ msgstr ""
 "directamente disponible desde el menú <gui>Buscar</gui>."
 
 #: C/calendar-searching.page:74(section/title)
-#: C/contacts-searching.page:71(section/title)
-#: C/mail-searching.page:69(section/title)
-#: C/memos-searching.page:71(section/title)
-#: C/tasks-searching.page:71(section/title)
+#: C/contacts-searching.page:81(section/title)
+#: C/mail-searching.page:78(section/title)
+#: C/memos-searching.page:80(section/title)
+#: C/tasks-searching.page:80(section/title)
 msgid "Editing a Saved Search"
 msgstr "Editar una búsqueda guardada"
 
-#: C/calendar-searching.page:76(item/p) C/contacts-searching.page:73(item/p)
-#: C/mail-searching.page:71(item/p) C/memos-searching.page:73(item/p)
-#: C/tasks-searching.page:73(item/p)
+#: C/calendar-searching.page:76(item/p) C/contacts-searching.page:83(item/p)
+#: C/mail-searching.page:80(item/p) C/memos-searching.page:82(item/p)
+#: C/tasks-searching.page:82(item/p)
 msgid ""
 "Select <guiseq><gui>Search</gui><gui>Edit Saved Searches</gui></guiseq> from "
 "the menu bar to open the window."
@@ -1719,9 +1722,9 @@ msgstr ""
 "Para abrir la ventana seleccione <guiseq><gui>Buscar</gui><gui>Editar "
 "búsquedas guardadas</gui></guiseq> de la barra de menú."
 
-#: C/calendar-searching.page:77(item/p) C/contacts-searching.page:74(item/p)
-#: C/mail-searching.page:72(item/p) C/memos-searching.page:74(item/p)
-#: C/tasks-searching.page:74(item/p)
+#: C/calendar-searching.page:77(item/p) C/contacts-searching.page:84(item/p)
+#: C/mail-searching.page:81(item/p) C/memos-searching.page:83(item/p)
+#: C/tasks-searching.page:83(item/p)
 msgid ""
 "Click the <gui style=\"button\">Edit</gui> button to open the <gui>Edit "
 "Rule</gui> window."
@@ -1729,15 +1732,15 @@ msgstr ""
 "Pulse el botón <gui style=\"button\">Editar</gui> para abrir la ventana "
 "<gui>Editar regla</gui>."
 
-#: C/calendar-searching.page:78(item/p) C/contacts-searching.page:75(item/p)
-#: C/mail-searching.page:73(item/p) C/memos-searching.page:75(item/p)
-#: C/tasks-searching.page:75(item/p)
+#: C/calendar-searching.page:78(item/p) C/contacts-searching.page:85(item/p)
+#: C/mail-searching.page:82(item/p) C/memos-searching.page:84(item/p)
+#: C/tasks-searching.page:84(item/p)
 msgid "Edit the title or search conditions from the dialog box."
 msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo."
 
-#: C/calendar-searching.page:79(item/p) C/contacts-searching.page:76(item/p)
-#: C/mail-searching.page:74(item/p) C/memos-searching.page:76(item/p)
-#: C/tasks-searching.page:76(item/p)
+#: C/calendar-searching.page:79(item/p) C/contacts-searching.page:86(item/p)
+#: C/mail-searching.page:83(item/p) C/memos-searching.page:85(item/p)
+#: C/tasks-searching.page:85(item/p)
 msgid "Click <gui>OK</gui>."
 msgstr "Pulse <gui>Aceptar</gui>."
 
@@ -2023,6 +2026,8 @@ msgstr "Cambiar los atajos de teclado"
 
 #: C/change-keyboard-shortcuts.page:21(item/p)
 #: C/mail-filters-not-working.page:46(item/p)
+#: C/mail-localized-re-subjects.page:25(item/p)
+#: C/mail-save-as-pdf.page:27(item/p)
 #: C/mail-sorting-message-list.page:39(item/p)
 msgid "Open the <app>Terminal</app> application."
 msgstr "Abra la aplicación <app>Terminal</app>."
@@ -2066,6 +2071,8 @@ msgstr ""
 
 #: C/change-keyboard-shortcuts.page:30(page/p)
 #: C/mail-filters-not-working.page:56(section/p)
+#: C/mail-localized-re-subjects.page:28(page/p)
+#: C/mail-save-as-pdf.page:30(note/p)
 msgid "You can also use the <app>dconf-editor</app> application to do this."
 msgstr ""
 "También puede usar la aplicación <gui>dconf-editor</gui> para hacer esto."
@@ -2550,7 +2557,30 @@ msgstr "Buscar contactos."
 msgid "Searching Contacts"
 msgstr "Buscar contactos"
 
-#: C/contacts-searching.page:31(section/p)
+#: C/contacts-searching.page:31(section/title)
+#| msgid "Searching Contacts"
+msgid "Searching in a Single Contact"
+msgstr "Buscar un único contacto"
+
+#: C/contacts-searching.page:32(section/p)
+#, fuzzy
+#| msgid ""
+#| "To immediately publish calendar information, click <guiseq><gui>Actions</"
+#| "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
+msgid ""
+"To find text in the displayed contact, select <guiseq><gui>Edit</"
+"gui><gui>Find in Contact...</gui></guiseq> from the main menu."
+msgstr ""
+"Para publicar inmediatamente la información del calendario, pulse "
+"<guiseq><gui>Acciones</gui><gui>Publicar información del calendario</gui></"
+"guiseq> en el calendario."
+
+#: C/contacts-searching.page:36(section/title)
+#| msgid "Searching Contacts"
+msgid "Searching Across Contacts"
+msgstr "Buscar entre los contactos"
+
+#: C/contacts-searching.page:41(section/p)
 msgid ""
 "In the Contacts view, you can quickly search for contacts either by category "
 "or by contact's info."
@@ -2558,7 +2588,7 @@ msgstr ""
 "En la vista de Contactos puede buscar rápidamente los contactos tanto por "
 "categoría como por la información del contacto."
 
-#: C/contacts-searching.page:32(section/p)
+#: C/contacts-searching.page:42(section/p)
 msgid "Searching by contact's info:"
 msgstr "Buscar por la información del contacto:"
 
@@ -4851,8 +4881,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(note/p)
 msgid ""
 "To access Gmail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">Gmail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">Gmail Help</link> for more information."
 msgstr ""
 "Para acceder a Gmail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -5416,7 +5446,7 @@ msgstr "Para activar el Recuerdo de adjuntos:"
 
 #: C/mail-attachments-sending.page:46(item/p)
 #: C/mail-composer-custom-header-lines.page:31(item/p)
-#: C/mail-composer-message-templates.page:76(item/p)
+#: C/mail-composer-message-templates-variables.page:28(item/p)
 msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
 msgstr "Seleccione <guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq>."
 
@@ -5426,7 +5456,7 @@ msgstr "Actíve <gui>Recuerdo de adjuntos</gui>."
 
 #: C/mail-attachments-sending.page:48(item/p)
 #: C/mail-composer-custom-header-lines.page:33(item/p)
-#: C/mail-composer-message-templates.page:78(item/p)
+#: C/mail-composer-message-templates-variables.page:30(item/p)
 msgid "Click the <gui>Configuration</gui> tab."
 msgstr "Pulse la pestaña <gui>Configuración</gui>."
 
@@ -5811,6 +5841,49 @@ msgstr ""
 "<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
 "editor</gui><gui>Estilo de reenvío</gui></guiseq> a <gui>Adjunto</gui>."
 
+#: C/mail-composer-enable-html-format.page:5(info/desc)
+#, fuzzy
+#| msgid "Format Text in the mail composer."
+msgid "Enable HTML format in the mail composer."
+msgstr "Formatear texto en el editor de correo."
+
+#: C/mail-composer-enable-html-format.page:21(page/title)
+msgid "Enabling HTML format"
+msgstr "Activar el formato HTML"
+
+#: C/mail-composer-enable-html-format.page:23(page/p)
+msgid ""
+"You can change the format of an email message from plain text to HTML in the "
+"email composer by choosing <guiseq><gui>Format</gui><gui>HTML</gui></guiseq> "
+"from the menu bar."
+msgstr ""
+"Puede cambiar el formato de un mensaje de correo electrónico de texto plano "
+"a HTML eligiendo <guiseq><gui>Formato</gui><gui>HTML</gui></guiseq> desde la "
+"barra de menú."
+
+#: C/mail-composer-enable-html-format.page:24(page/p)
+msgid ""
+"Alternately, you also can change the first dropdown list below the "
+"<gui>Subject</gui> line from <gui>Plain Text</gui> to <gui>HTML</gui>."
+msgstr ""
+
+#: C/mail-composer-enable-html-format.page:25(page/p)
+msgid ""
+"If you choose HTML format, a second tool bar will be displayed below the "
+"<gui>Subject</gui> line with HTML-only options."
+msgstr ""
+
+#: C/mail-composer-enable-html-format.page:26(page/p)
+msgid ""
+"To send all your mail as HTML by default, enable <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Default "
+"Behavior</gui><gui>Format messages in HTML</gui></guiseq>."
+msgstr ""
+"Para enviar todos sus correos en HTML de forma predeterminada actíve "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
+"editor</gui><gui>Comportamiento predeterminado</gui><gui>Dar formato HTML a "
+"los mensajes</gui></guiseq>."
+
 #: C/mail-composer-forward.page:5(info/desc)
 msgid "Forwarding a received email to somebody."
 msgstr "Reenvía a alguien el mensaje seleccionado."
@@ -5926,10 +5999,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-composer-html-image.page:30(media)
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/color-5c3566.png' "
-#| "md5='7c001a57237acc2ff61ee61e05ad3168'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/html-composer-insert-image.png' "
@@ -5975,16 +6044,16 @@ msgid ""
 "composer-insert-image.png\"/> icon in the second bar below the <gui>Subject</"
 "gui> line, or drag an image into the text area of the message composer."
 msgstr ""
+"Alternativamente, puede usar el icono <media type=\"image\" src=\"./figures/"
+"html-composer-insert-image.png\"/> en la segunda barra, debajo de la línea "
+"del <gui>Asunto</gui>, o arrastrar una imagen en el área de texto del editor "
+"de mensajes."
 
 #. This is a reference to an external file such as an image or video. When
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-composer-html-link.page:32(media)
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/plus-icon.png' "
-#| "md5='57bf83c4ab8585c30897a6cf89c5949c'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/html-composer-insert-link.png' "
@@ -6049,7 +6118,6 @@ msgid "Changing fonts, using colors, and inserting images, tables and links."
 msgstr ""
 
 #: C/mail-composer-html.page:21(page/title)
-#| msgid "Formatting Text in HTML"
 msgid "Formatting emails (in Plain Text and HTML)"
 msgstr "Formatear correo-e (en texto plano y en HTML)"
 
@@ -6070,6 +6138,7 @@ msgstr ""
 
 #: C/mail-composer-html.page:26(page/p)
 #: C/mail-composer-html-text.page:24(page/p)
+#: C/mail-composer-plain-text.page:24(page/p)
 #, fuzzy
 #| msgid ""
 #| "The icons in the tool bar are explained in tooltips which appear when you "
@@ -6120,7 +6189,6 @@ msgstr ""
 "texto plano a menos que le pida explícitamenteque los componga con HTML."
 
 #: C/mail-composer-html.page:33(section/title)
-#| msgid "HTML Formatting Options"
 msgid "Plain Text Formatting Options"
 msgstr "Opciones de formateo en texto plano"
 
@@ -6135,10 +6203,6 @@ msgstr "Opciones de formateo HTML"
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-composer-html-rule.page:31(media)
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/color-5c3566.png' "
-#| "md5='7c001a57237acc2ff61ee61e05ad3168'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/html-composer-insert-rule.png' "
@@ -6190,10 +6254,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-composer-html-table.page:32(media)
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/color-c4a000.png' "
-#| "md5='9db17d2d5e9013501aeab2e165c6a6c9'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/html-composer-insert-table.png' "
@@ -6248,10 +6308,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-composer-html-text.page:40(media)
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/color-a40000.png' "
-#| "md5='19195da020e059dab33aa37788763a97'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/color-000000.png' "
@@ -6390,6 +6446,8 @@ msgid ""
 "The other buttons are explained under <link xref=\"mail-composer-"
 "html#formatting-options-html\"/>."
 msgstr ""
+"El resto de botones se explican en <link xref=\"mail-composer-"
+"html#formatting-options-html\"/>."
 
 #: C/mail-composer-mail-signatures-manage.page:5(info/desc)
 msgid "Add, change, edit or delete email signatures."
@@ -6487,6 +6545,7 @@ msgid "Message templates to reuse in the composer."
 msgstr "Plantillas de correos para reusar en el editor."
 
 #: C/mail-composer-message-templates.page:23(page/title)
+#: C/mail-composer-message-templates.page:28(section/title)
 msgid "Message Templates"
 msgstr "Plantillas de correo"
 
@@ -6507,73 +6566,24 @@ msgstr ""
 "<guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq> y actíve "
 "<gui>Plantillas</gui>."
 
-#: C/mail-composer-message-templates.page:30(section/title)
-msgid "Creating a Message Template from an existing Message"
-msgstr "Crear una plantilla de correo desde un mensaje existente"
+#: C/mail-composer-message-templates-reply.page:5(info/desc)
+msgid "Use one of your templates for replying to a message"
+msgstr "Usar una de sus plantillas para responder a un mensaje"
 
-#: C/mail-composer-message-templates.page:32(item/p)
-msgid "Select the message."
-msgstr "Seleccione el mensaje."
-
-#: C/mail-composer-message-templates.page:33(item/p)
-msgid ""
-"Right-click the message and choose <gui>Move to folder</gui> or <gui>Copy to "
-"folder</gui>."
-msgstr ""
-"Pulse con el botón derecho del ratón y seleccione <gui>Mover a la carpeta</"
-"gui> o <gui>Copiar a la carpeta</gui>."
-
-#: C/mail-composer-message-templates.page:34(item/p)
-msgid ""
-"Select the <gui>Templates</gui> folder under <gui>On This Computer</gui>."
-msgstr ""
-"Seleccione la carpeta <gui>Plantillas</gui> bajo <gui>En este equipo</gui>."
-
-#: C/mail-composer-message-templates.page:36(section/p)
-msgid "You can also edit an existing message and save it as a template:"
-msgstr ""
-"También puede editar un correo existente y guardarlo como una plantilla:"
-
-#: C/mail-composer-message-templates.page:38(item/p)
-msgid "Open the message and click <gui>Reply</gui>."
-msgstr "Abra el correo y pulse <gui>Responder</gui>."
-
-#: C/mail-composer-message-templates.page:39(item/p)
-msgid "Edit the message body or the addresses according to your requirements."
-msgstr ""
-"Edite el cuerpo del mensaje o las direcciones de acuerdo con sus necesidades."
-
-#: C/mail-composer-message-templates.page:40(item/p)
-#: C/mail-composer-message-templates.page:51(item/p)
-msgid "Select <guiseq><gui>File</gui><gui>Save as Template</gui></guiseq>."
-msgstr ""
-"Seleccione <guiseq><gui>Archivo</gui><gui>Guardar como plantilla</gui></"
-"guiseq>."
-
-#: C/mail-composer-message-templates.page:45(section/title)
-msgid "Saving a New Message as a Template"
-msgstr "Guardar un mensaje nuevo como plantilla"
-
-#: C/mail-composer-message-templates.page:48(item/p)
-msgid ""
-"Click <gui>New</gui> and enter in the composer window what you need for the "
-"template."
-msgstr ""
-"Pulse <gui>Nuevo</gui> para entrar en la ventana del editor que necesita "
-"para la plantilla."
-
-#: C/mail-composer-message-templates.page:57(section/title)
-msgid "Using a Message Template as a Reply"
+#: C/mail-composer-message-templates-reply.page:23(page/title)
+#, fuzzy
+#| msgid "Using a Message Template as a Reply"
+msgid "Using a Template as a Reply"
 msgstr "Usar una plantilla de mensaje como respuesta"
 
-#: C/mail-composer-message-templates.page:60(item/p)
+#: C/mail-composer-message-templates-reply.page:27(item/p)
 msgid ""
 "Right-click the message you are replying to, then click <gui>Templates</gui>."
 msgstr ""
 "Pulse con el botón derecho del ratón sobre el correo al que está "
 "respondiendo, después pulse <gui>Plantillas</gui>."
 
-#: C/mail-composer-message-templates.page:61(item/p)
+#: C/mail-composer-message-templates-reply.page:28(item/p)
 msgid ""
 "This option lists all the message templates in the <gui>Templates</gui> "
 "folder."
@@ -6581,7 +6591,7 @@ msgstr ""
 "Esta opción lista todas las plantillas de mensajes en la carpeta "
 "<gui>Plantillas</gui>."
 
-#: C/mail-composer-message-templates.page:64(item/p)
+#: C/mail-composer-message-templates-reply.page:31(item/p)
 msgid ""
 "Select the message template of your choice. Make changes if required in the "
 "email composer window that will open."
@@ -6589,11 +6599,11 @@ msgstr ""
 "Seleccione un mensaje de plantilla a su elección. Realice los cambios que "
 "quiera en la ventana del editor de mensajes que se abrirá."
 
-#: C/mail-composer-message-templates.page:67(item/p)
+#: C/mail-composer-message-templates-reply.page:34(item/p)
 msgid "Click <gui>Send</gui>."
 msgstr "Pulse <gui>Enviar</gui>."
 
-#: C/mail-composer-message-templates.page:68(item/p)
+#: C/mail-composer-message-templates-reply.page:35(item/p)
 msgid ""
 "When you select a message template for replying, the subject of the reply is "
 "preserved."
@@ -6601,15 +6611,100 @@ msgstr ""
 "Al seleccionar una plantilla de mensaje para responder, el asunto de la "
 "respuesta se mantiene."
 
-#: C/mail-composer-message-templates.page:74(section/title)
-msgid "Configuring Message Templates"
+#: C/mail-composer-message-templates-save.page:5(info/desc)
+#, fuzzy
+#| msgid "Saving a New Message as a Template"
+msgid "Store an existing or new message as a template"
+msgstr "Guardar un mensaje nuevo como plantilla"
+
+#: C/mail-composer-message-templates-save.page:23(page/title)
+#, fuzzy
+#| msgid "Saving a New Message as a Template"
+msgid "Saving Messages as Templates"
+msgstr "Guardar un mensaje nuevo como plantilla"
+
+#: C/mail-composer-message-templates-save.page:26(section/title)
+#, fuzzy
+#| msgid "Saving a New Message as a Template"
+msgid "Saving an Existing Message as a Template"
+msgstr "Guardar un mensaje nuevo como plantilla"
+
+#: C/mail-composer-message-templates-save.page:28(item/p)
+msgid "Select the message."
+msgstr "Seleccione el mensaje."
+
+#: C/mail-composer-message-templates-save.page:29(item/p)
+msgid ""
+"Right-click the message and choose <gui>Move to folder</gui> or <gui>Copy to "
+"folder</gui>."
+msgstr ""
+"Pulse con el botón derecho del ratón y seleccione <gui>Mover a la carpeta</"
+"gui> o <gui>Copiar a la carpeta</gui>."
+
+#: C/mail-composer-message-templates-save.page:30(item/p)
+msgid ""
+"Select the <gui>Templates</gui> folder under <gui>On This Computer</gui>."
+msgstr ""
+"Seleccione la carpeta <gui>Plantillas</gui> bajo <gui>En este equipo</gui>."
+
+#: C/mail-composer-message-templates-save.page:32(section/p)
+msgid "You can also edit an existing message and save it as a template:"
+msgstr ""
+"También puede editar un correo existente y guardarlo como una plantilla:"
+
+#: C/mail-composer-message-templates-save.page:34(item/p)
+msgid "Open the message and click <gui>Reply</gui>."
+msgstr "Abra el correo y pulse <gui>Responder</gui>."
+
+#: C/mail-composer-message-templates-save.page:35(item/p)
+msgid "Edit the message body or the addresses according to your requirements."
+msgstr ""
+"Edite el cuerpo del mensaje o las direcciones de acuerdo con sus necesidades."
+
+#: C/mail-composer-message-templates-save.page:36(item/p)
+#: C/mail-composer-message-templates-save.page:47(item/p)
+msgid "Select <guiseq><gui>File</gui><gui>Save as Template</gui></guiseq>."
+msgstr ""
+"Seleccione <guiseq><gui>Archivo</gui><gui>Guardar como plantilla</gui></"
+"guiseq>."
+
+#: C/mail-composer-message-templates-save.page:41(section/title)
+msgid "Saving a New Message as a Template"
+msgstr "Guardar un mensaje nuevo como plantilla"
+
+#: C/mail-composer-message-templates-save.page:44(item/p)
+msgid ""
+"Click <gui>New</gui> and enter in the composer window what you need for the "
+"template."
+msgstr ""
+"Pulse <gui>Nuevo</gui> para entrar en la ventana del editor que necesita "
+"para la plantilla."
+
+#: C/mail-composer-message-templates-variables.page:5(info/desc)
+msgid ""
+"Configure variables in templates and reuse items from the message you reply "
+"to"
+msgstr ""
+"Configurar las variables en plantillas y reutilizar los elementos del "
+"mensaje al que responde"
+
+#: C/mail-composer-message-templates-variables.page:23(page/title)
+#, fuzzy
+#| msgid "Using a Message Template as a Reply"
+msgid "Using Variables in Templates"
+msgstr "Usar una plantilla de mensaje como respuesta"
+
+#: C/mail-composer-message-templates-variables.page:26(section/title)
+#, fuzzy
+#| msgid "Configuring Message Templates"
+msgid "Configuring Variables for Message Templates"
 msgstr "Configurar plantillas de mensajes"
 
-#: C/mail-composer-message-templates.page:77(item/p)
+#: C/mail-composer-message-templates-variables.page:29(item/p)
 msgid "Click <gui>Templates</gui>."
 msgstr "Pulse <gui>Plantilas</gui>."
 
-#: C/mail-composer-message-templates.page:79(item/p)
+#: C/mail-composer-message-templates-variables.page:31(item/p)
 msgid ""
 "You can add, edit or remove the key-value pairs. You can specify any number "
 "of key-value pairs."
@@ -6617,7 +6712,7 @@ msgstr ""
 "Puede añadir, editar o quitar los pares de claves y valores. Puede "
 "especificar cualquier número de pares de claves y valores."
 
-#: C/mail-composer-message-templates.page:81(section/p)
+#: C/mail-composer-message-templates-variables.page:33(section/p)
 msgid ""
 "In any template, the occurrence of every $key is replaced by the value it "
 "has in the configuration. For example, if you set the key to Manager and the "
@@ -6629,7 +6724,7 @@ msgstr ""
 "Director y el valor a Tomás, cualquier aparición de $Director se reemplaza "
 "con Tomás en el mensaje."
 
-#: C/mail-composer-message-templates.page:82(section/p)
+#: C/mail-composer-message-templates-variables.page:34(section/p)
 msgid ""
 "Assume that you have 1000 message templates with your current manager's name "
 "in them. When the current manager is replaced by a new one, it is not easy "
@@ -6643,7 +6738,7 @@ msgstr ""
 "mensajes tienen un valor de clave $Jefe, puede cambiar el valor en la "
 "pestaña Configuración de este complemento."
 
-#: C/mail-composer-message-templates.page:83(section/p)
+#: C/mail-composer-message-templates-variables.page:35(section/p)
 msgid ""
 "By default, the entire environment variables are used as a key-value pair. "
 "An occurrence of $env_variable is replaced by the value it carries. For "
@@ -6655,11 +6750,11 @@ msgstr ""
 "lleva. Por ejemplo, una aparición de $PATH en su plantilla se reemplaza por "
 "su valor al usar la plantilla."
 
-#: C/mail-composer-message-templates.page:84(section/p)
+#: C/mail-composer-message-templates-variables.page:36(section/p)
 msgid "The replacement process uses the following order of precedence:"
 msgstr "El proceso de reemplazo usa el siguiente orden de precedencia:"
 
-#: C/mail-composer-message-templates.page:87(item/p)
+#: C/mail-composer-message-templates-variables.page:39(item/p)
 msgid ""
 "$key is replaced by the value set for it in the Configuration tab of the "
 "Templates plugin."
@@ -6667,7 +6762,7 @@ msgstr ""
 "$key se reemplaza por el valor ajustado para ello en la pestaña "
 "Configuración del complemento Plantillas."
 
-#: C/mail-composer-message-templates.page:90(item/p)
+#: C/mail-composer-message-templates-variables.page:42(item/p)
 msgid ""
 "If the key is not found, it is then replaced with the value of its "
 "environment variable."
@@ -6675,7 +6770,7 @@ msgstr ""
 "Si no se encuentra la clave, se reemplaza con el valor de su variable de "
 "entorno."
 
-#: C/mail-composer-message-templates.page:93(item/p)
+#: C/mail-composer-message-templates-variables.page:45(item/p)
 msgid ""
 "If key is neither a configuration option nor an environment variable, no "
 "changes are made."
@@ -6683,11 +6778,13 @@ msgstr ""
 "Si la clave no es una opción de configuración ni una variable de entorno, "
 "entonces no se hacen cambios."
 
-#: C/mail-composer-message-templates.page:100(section/title)
-msgid "Reusing message elements when replying"
-msgstr "Reutilizar elementos del mensaje al responder"
+#: C/mail-composer-message-templates-variables.page:52(section/title)
+#, fuzzy
+#| msgid "Using a Message Template as a Reply"
+msgid "Using Elements From a Message in a Template When Replying"
+msgstr "Usar una plantilla de mensaje como respuesta"
 
-#: C/mail-composer-message-templates.page:101(section/p)
+#: C/mail-composer-message-templates-variables.page:53(section/p)
 msgid ""
 "Templates can contain more than just the predefined set of <link xref="
 "\"#configure\">key-value pairs</link>. You can also get any message header "
@@ -6701,7 +6798,7 @@ msgstr ""
 
 #. TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this
 #. sentence!
-#: C/mail-composer-message-templates.page:104(section/p)
+#: C/mail-composer-message-templates-variables.page:56(section/p)
 msgid ""
 "In order to do this, use the format <code>$ORIG[header_name]</code> and "
 "replace the variable <code>header_name</code> by the actual header. For "
@@ -6715,7 +6812,9 @@ msgstr ""
 "respondiendo, use <code>$ORIG[subject]</code>. Para insertar el cuerpo "
 "completo, use <code>$ORIG[body]</code>."
 
-#: C/mail-composer-message-templates.page:106(section/p)
+#. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
+#. this sentence!
+#: C/mail-composer-message-templates-variables.page:59(section/p)
 msgid ""
 "If no replacement for a variable is found, the variable is not removed "
 "(except for <code>$ORIG[body]</code>) but left in place so that you see that "
@@ -6728,6 +6827,92 @@ msgstr ""
 "un error. Esto podría pasar al intentar usar cabeceras que no siempre están "
 "disponibles en el mensaje original (por ejemplo, <code>$ORIG[reply-to]</"
 "code>)."
+
+#: C/mail-composer-plain-text.page:5(info/desc)
+#, fuzzy
+#| msgid "Insert a table in the mail composer."
+msgid "Change font alignment and paragraph formatting in the mail composer."
+msgstr "Insertar una tabla en el editor de correo."
+
+#: C/mail-composer-plain-text.page:21(page/title)
+#, fuzzy
+#| msgid "Formatting emails (in Plain Text and HTML)"
+msgid "Formatting Text in Plain Text Format"
+msgstr "Formatear correo-e (en texto plano y en HTML)"
+
+#: C/mail-composer-plain-text.page:23(page/p)
+#, fuzzy
+#| msgid ""
+#| "HTML formatting tools are located in the two tool bars just above the "
+#| "area where you actually write the message. They also appear in the "
+#| "<gui>Insert</gui> and <gui>Format</gui> menus."
+msgid ""
+"Text formatting tools are located in the tool bar below the <gui>Subject</"
+"gui> line. They also appear in the <gui>Insert</gui> and <gui>Format</gui> "
+"menus."
+msgstr ""
+"Las herramientas de formateo HTML se encuentran en la barra de herramientas "
+"justo encima del espacio en el que realmente compone su mensaje y también "
+"aparecen en los menús <gui>Insertar</gui> y <gui>Formato</gui>."
+
+#: C/mail-composer-plain-text.page:27(section/title)
+msgid "Headers and Lists:"
+msgstr "Cabeceras y listas:"
+
+#: C/mail-composer-plain-text.page:28(section/p)
+msgid ""
+"At the left of the upper tool bar, you can choose <gui>Normal</gui> for a "
+"default text style or <gui>Header 1</gui> through <gui>Header 6</gui> for "
+"varying sizes of header from large (1) to tiny (6). Other styles include "
+"<gui>Preformat</gui>, to use the HTML tag for preformatted blocks of text, "
+"and three types of bullet points for lists."
+msgstr ""
+"En la parte izquierda de la barra superior puede elegir el estilo de texto "
+"predeterminado, <gui>Normal</gui> <gui>Cabecera 1</gui> hasta <gui>Cabecera "
+"6</gui> para tamaños variables de la cabecera, desde grande (1) hasta "
+"pequeño (6). Otros estilos incluyen el <gui>Preformato</gui>, para usar la "
+"etiqueta de HTML para bloques de texto preformateados, y tres tipos de topos "
+"para las listas."
+
+#: C/mail-composer-plain-text.page:29(section/p)
+msgid ""
+"For instance, instead of using asterisks to mark a bulleted list, you can "
+"use the <gui>Bulleted List</gui> style from the style dropdown list. "
+"Evolution uses different bullet styles, and handles word wrap and multiple "
+"levels of indentation."
+msgstr ""
+"Por ejemplo, en lugar de usar asteriscos para marcar una lista de puntos, "
+"puede usar el estilo <gui>Lista de topos</gui> desde el menú desplegable de "
+"estilos. Evolution distintos estilos para las listas de topos y maneja "
+"varios niveles de sangría y de ajuste para las palabras."
+
+#: C/mail-composer-plain-text.page:33(section/title)
+msgid "Alignment:"
+msgstr "Alineación:"
+
+#: C/mail-composer-plain-text.page:34(section/p)
+msgid ""
+"Located next to the Headers and Lists dropdown, the three paragraph icons "
+"should be familiar to users of most word processing software. The left-most "
+"button aligns your text to the left, the center button centers text, and the "
+"right button aligns the text to the right."
+msgstr ""
+"Situado junto a la lista desplegable de Cabeceras y Listas, los tres iconos "
+"de párrafo deberían ser familiares para los usuarios de procesadores de "
+"textos. El que está más a la izquierda alinea el texto a la izquierda, el "
+"del centro, lo centra y el de la derecha lo alinea hacia el lado derecho."
+
+#: C/mail-composer-plain-text.page:38(section/title)
+msgid "Indentation Rules:"
+msgstr "Reglas de sangrado:"
+
+#: C/mail-composer-plain-text.page:39(section/p)
+msgid ""
+"The button with the arrow pointing left decreases a paragraph's indentation, "
+"and the right arrow increases its indentation."
+msgstr ""
+"El botón con la flecha que apunta a la izquierda reducirá la sangría de un "
+"párrafo y el de la derecha la aumentará."
 
 #: C/mail-composer-priority.page:5(info/desc)
 msgid "Setting a priority for messages to be sent."
@@ -7569,9 +7754,9 @@ msgid ""
 "Evolution's code repository to test."
 msgstr ""
 "Sólo para desarrolladores: en versiones futuras, Evolution usará WebKit en "
-"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href=\"http://"
-"git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el repositorio "
-"de código de Evolution para pruebas."
+"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href="
+"\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el "
+"repositorio de código de Evolution para pruebas."
 
 #: C/mail-displaying-no-css.page:27(note/p)
 msgid ""
@@ -7630,6 +7815,46 @@ msgid ""
 msgstr ""
 "Se usará siempre la primera coincidencia si existen múltiples coincidencias "
 "para un contacto."
+
+#: C/mail-display-message-source.page:5(info/desc)
+msgid "Displaying the raw source of a message or all header lines."
+msgstr ""
+
+#: C/mail-display-message-source.page:20(page/title)
+#, fuzzy
+msgid "Message Source"
+msgstr "Me_nsaje en bruto"
+
+#: C/mail-display-message-source.page:22(page/p)
+#, fuzzy
+#| msgid ""
+#| "To view the message data, click on <guiseq><gui>View</gui><gui>Message "
+#| "Source</gui></guiseq> or press <keyseq><key>Ctrl</key><key>U</key></"
+#| "keyseq>. This will display the message data in a pop-up window."
+msgid ""
+"To view the message data, click on <guiseq><gui>View</gui><gui>Message "
+"Source</gui></guiseq> or press <keyseq><key>Ctrl</key><key>U</key></keyseq>. "
+"This will display the message data in a new window."
+msgstr ""
+"Para ver todos los datos del correo pulse en <guiseq><gui>Ver</"
+"gui><gui>Mensaje en bruto</gui></guiseq> o pulse <keyseq><key>Ctrl</"
+"key><key>U</key></keyseq>. Se mostrarán todos los datos del mensaje en una "
+"ventana emergente."
+
+#: C/mail-display-message-source.page:24(page/p)
+#, fuzzy
+#| msgid ""
+#| "To view the complete headers for a message, click <guiseq><gui>View</"
+#| "gui><gui>All Message Headers</gui></guiseq>. This will display the "
+#| "complete header data on the viewing pane."
+msgid ""
+"To only view the complete headers for a message, click <guiseq><gui>View</"
+"gui><gui>All Message Headers</gui></guiseq>. This will display the complete "
+"header data on the viewing pane."
+msgstr ""
+"Para ver todas las cabeceras de un mensaje, pulse <guiseq><gui>Ver</"
+"gui><gui>Todas las cabeceras del mensaje</gui></guiseq>. Esto mostrará todos "
+"los datos de las cabeceras en el panel de visualización."
 
 #: C/mail-duplicates.page:5(info/desc)
 msgid "How to handle duplicated email messages"
@@ -8933,8 +9158,8 @@ msgid ""
 "can enable logging filter actions. <_:list-2/> <_:p-3/> <_:p-4/>"
 msgstr ""
 "<_:title-1/> Si todavía no tiene claro porqué los filtros no funcionan como "
-"esperaba, puede activar el registro de las acciones de los filtros. <_:list-"
-"2/> <_:p-3/> <_:p-4/>"
+"esperaba, puede activar el registro de las acciones de los filtros. <_:"
+"list-2/> <_:p-3/> <_:p-4/>"
 
 #: C/mail-filters.page:5(info/desc)
 msgid "Use filter rules to sort your mail automatically into folders."
@@ -9588,6 +9813,40 @@ msgstr ""
 #: C/mail-layout-changing.page:20(page/title)
 msgid "Changing the mail window layout"
 msgstr "Cambiar la distribución de la ventana"
+
+#: C/mail-localized-re-subjects.page:5(info/desc)
+msgid "Avoid long subject lines due to translated \"Re:\" prefixes."
+msgstr ""
+
+#: C/mail-localized-re-subjects.page:20(page/title)
+msgid "Handling localized \"Re:\" in subjects"
+msgstr "Manejar el «Re:» traducido en los asuntos"
+
+#: C/mail-localized-re-subjects.page:22(page/p)
+msgid ""
+"Traditionally a \"Re:\" prefix is added to a subject line when replying to "
+"an email. Some email applications use localized terms for this (like \"SV:\" "
+"in Danish or \"AW: in German). <app>Evolution</app> can recognize these "
+"terms to avoid subject lines getting longer as the conversation continues."
+msgstr ""
+"Generalmente se añade un prefijo «Re:» a la línea del asunto cuando se "
+"responde a un correo. Algunas aplicaciones usan términos traducidos para "
+"esto (por ejemplo, «SV» en danés o «AW» en alemán). <app>Evolution</app> "
+"puede reconocer estos términos para evitar que el sujeto se haga muy largo a "
+"medida que avanza la conversación."
+
+#: C/mail-localized-re-subjects.page:26(item/p)
+#, fuzzy
+#| msgid ""
+#| "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
+#| "actions true</cmd>"
+msgid ""
+"Run the command <cmd>gsettings set org.gnome.evolution.mail.composer-"
+"localized-re 'AW:,SV:'</cmd> (in case that you want \"AW:\" and \"SV:\" to "
+"be recognized)."
+msgstr ""
+"Ejecute el comando <cmd>gsettings set org.gnome.evolution.mail filters-log-"
+"actions true</cmd>"
 
 #: C/mail-moving-emails.page:5(info/desc)
 msgid "Moving emails from one folder to another."
@@ -10536,6 +10795,43 @@ msgstr ""
 "También puede pulsar dos veces en el nombre de la carpeta para actualizarla, "
 "o pulsar <key>F5</key>."
 
+#: C/mail-save-as-pdf.page:5(info/desc)
+#, fuzzy
+#| msgid "Importing single files."
+msgid "Converting emails into PDF files."
+msgstr "Importar archivos individuales."
+
+#: C/mail-save-as-pdf.page:20(page/title)
+#, fuzzy
+msgid "Save messages as PDF"
+msgstr "¿Borrar los mensajes en la carpeta de búsqueda?"
+
+#: C/mail-save-as-pdf.page:22(page/p)
+msgid ""
+"In order to save emails in the PDF file format, select <guiseq><gui>File</"
+"gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. See "
+"<link href=\"help:gnome-help#printing\">the desktop help</link> for general "
+"information on printing."
+msgstr ""
+
+#: C/mail-save-as-pdf.page:25(note/p)
+msgid ""
+"You can also export messages as PDF by dragging and dropping them to the "
+"file manager, instead of dropping them in mbox (text) format by default."
+msgstr ""
+
+#: C/mail-save-as-pdf.page:28(item/p)
+#, fuzzy
+#| msgid ""
+#| "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
+#| "actions true</cmd>"
+msgid ""
+"Run the command <cmd>gsettings set org.gnome.evolution.mail drag-and-drop-"
+"save-file-format 'pdf'</cmd>"
+msgstr ""
+"Ejecute el comando <cmd>gsettings set org.gnome.evolution.mail filters-log-"
+"actions true</cmd>"
+
 #: C/mail-search-folders-add.page:5(info/desc)
 msgid "Setting up a search folder."
 msgstr "Configurar una carpeta de búsqueda."
@@ -10638,6 +10934,25 @@ msgstr "Condiciones disponibles para las Carpetas de búsqueda"
 #: C/mail-search-folders-conditions.page:87(item/p)
 msgid "Message Location:"
 msgstr "Ubicación del mensaje:"
+
+#: C/mail-search-folders-enable.page:5(info/desc)
+#, fuzzy
+msgid "Activate search folders."
+msgstr "carpeta de búsqueda"
+
+#: C/mail-search-folders-enable.page:20(page/title)
+#, fuzzy
+msgid "Enable the Search Folders Functionality"
+msgstr "Activar las Carpetas de _búsqueda"
+
+#: C/mail-search-folders-enable.page:22(page/p)
+msgid ""
+"In the unlikely case that there is no <gui>Search folders</gui> top-level "
+"node displayed at the bottom of the <link xref=\"intro-main-window#e-mail"
+"\">mail folder list</link> you have to enable <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></"
+"guiseq>."
+msgstr ""
 
 #: C/mail-search-folders.page:5(info/desc)
 msgid ""
@@ -10764,14 +11079,38 @@ msgstr "Buscar mensajes."
 msgid "Searching Mail"
 msgstr "Buscar correos"
 
-#: C/mail-searching.page:31(section/p)
+#: C/mail-searching.page:31(section/title)
+#, fuzzy
+#| msgid "Searching messages."
+msgid "Searching in a Single Message"
+msgstr "Buscar mensajes."
+
+#: C/mail-searching.page:32(section/p)
+#, fuzzy
+#| msgid ""
+#| "To enable the Message Template Plugin, click <guiseq><gui>Edit</"
+#| "gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
+msgid ""
+"To find text in the displayed message, select <guiseq><gui>Edit</"
+"gui><gui>Find in Message...</gui></guiseq> from the main menu."
+msgstr ""
+"Para activar el complemento de plantillas de correo pulse "
+"<guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq> y actíve "
+"<gui>Plantillas</gui>."
+
+#: C/mail-searching.page:36(section/title)
+#| msgid "Searching messages."
+msgid "Searching Across Messages"
+msgstr "Buscar entre los mensajes"
+
+#: C/mail-searching.page:40(section/p)
 msgid ""
 "In the mail view, you can quickly search for messages by defining conditions."
 msgstr ""
 "En la vista de correo puede buscar rápidamente mensajes definiendo las "
 "condiciones."
 
-#: C/mail-searching.page:33(item/p)
+#: C/mail-searching.page:42(item/p)
 msgid ""
 "Click on the search icon <media type=\"image\" mime=\"image/png\" src="
 "\"figures/search-icon.png\"/> to expand the drop-down list."
@@ -10779,13 +11118,13 @@ msgstr ""
 "Pulse el icono de búsqueda <media type=\"image\" mime=\"image/png\" src="
 "\"figures/search-icon.png\"/> para expandir la dista desplegable."
 
-#: C/mail-searching.page:35(item/p)
+#: C/mail-searching.page:44(item/p)
 msgid "Select the scope from the drop-down list right to the text box."
 msgstr ""
 "Seleccione el rango desde la lista desplegable a la derecha de la caja de "
 "texto."
 
-#: C/mail-searching.page:36(note/p)
+#: C/mail-searching.page:45(note/p)
 msgid ""
 "For the <gui>Current Account</gui> scope, the term \"account\" refers to top-"
 "level nodes in the <link xref=\"intro-main-window#e-mail\"> mail folder "
@@ -10796,7 +11135,7 @@ msgstr ""
 "window#e-mail\">lista de carpetas de correo</link>, similar a \"En este "
 "equipo\" y las cuentas de correo remotas."
 
-#: C/mail-searching.page:41(note/p)
+#: C/mail-searching.page:50(note/p)
 msgid ""
 "If you start directly from the fourth step, text will be searched in mail's "
 "subjects and addresses and scope will be \"Current folder\"."
@@ -10804,7 +11143,7 @@ msgstr ""
 "Si comienza directamente desde el cuarto paso, se buscará el texto en el "
 "asunto y direcciones de los correos y el rango será la «Carpeta actual»."
 
-#: C/mail-searching.page:42(note/p)
+#: C/mail-searching.page:51(note/p)
 msgid ""
 "If you search for messages that are not in the same folder rather often you "
 "might want to create a search folder instead; see <link xref=\"mail-search-"
@@ -10814,7 +11153,7 @@ msgstr ""
 "crear una carpeta de búsqueda en su lugar; para obtener más detalles "
 "consulte <link xref=\"mail-search-folders\">Usar carpetas de búsqueda</link>."
 
-#: C/mail-searching.page:47(section/title)
+#: C/mail-searching.page:56(section/title)
 msgid "Advanced Search:"
 msgstr "Búsqueda avanzada:"
 
@@ -11261,147 +11600,6 @@ msgstr ""
 "Esto elimina la ordenación para esta columna, revirtiendo el orden de los "
 "mensajes según se añadieron a la carpeta."
 
-#: C/mail-spam-groupwise-add-to-list.page:5(info/desc)
-msgid "How to add an email address to your junk mail list in Novell Groupwise."
-msgstr ""
-"Cómo añadir una dirección de correo electrónico a su lista de correo de SPAM "
-"en Novell Groupwise."
-
-#: C/mail-spam-groupwise-add-to-list.page:27(page/title)
-msgid "Adding an Email Address to Your Junk List"
-msgstr "Añadir una dirección de correo electrónico a su lista de correo basura"
-
-#: C/mail-spam-groupwise-add-to-list.page:29(item/p)
-#: C/mail-spam-groupwise-manage-list.page:29(item/p)
-msgid ""
-"Right-click on a message and select the <gui>Junk Mail Settings</gui> option."
-msgstr ""
-"Pulse con el botón derecho del ratón sobre el mensaje y seleccione la opción "
-"<gui>Configuración de SPAM</gui>."
-
-#: C/mail-spam-groupwise-add-to-list.page:30(item/p)
-msgid ""
-"Type in the email address you wish to block in the <gui>Email</gui> field."
-msgstr ""
-"Escriba la dirección de correo electrónico que quiere bloquear en el campo "
-"<gui>Correo-e</gui>."
-
-#: C/mail-spam-groupwise-add-to-list.page:31(item/p)
-msgid ""
-"Click <gui style=\"button\">Add</gui> and then click on the <gui style="
-"\"button\">OK</gui> button."
-msgstr ""
-"Pulse <gui style=\"button\">Añadir</gui> y después pulse el botón <gui style="
-"\"button\">Aceptar</gui>."
-
-#: C/mail-spam-groupwise-add-to-list.page:34(page/p)
-msgid ""
-"Note that when you mark an item as junk in GroupWise, that item is added to "
-"your junk list in the GroupWise system. The settings in the GroupWise system "
-"are applied from computer to computer."
-msgstr ""
-"Recuerde, cuando marca un elemento como spam en GroupWise, ese elemento se "
-"añade a su lista de SPAM en el sistema GroupWise. Debido a que estos ajustes "
-"están en el sistema GroupWise, su lista de SPAM se aplica de equipo en "
-"equipo."
-
-#: C/mail-spam-groupwise-manage-list.page:5(info/desc)
-msgid "How to manage your junk mail list in Novell Groupwise."
-msgstr "Cómo gestionar su lista de correo de SPAM en Novell Groupwise."
-
-#: C/mail-spam-groupwise-manage-list.page:27(page/title)
-msgid "Enabling or Disabling Your Junk Mail List"
-msgstr "Activar o desactivar su lista de correo basura"
-
-#: C/mail-spam-groupwise-manage-list.page:30(item/p)
-msgid "Specify whether you wish to Enable or Disable junk mail handling."
-msgstr ""
-"Especifique si quiere Activar o Desactivar la gestión del correo basura."
-
-#: C/mail-spam-groupwise-manage-list.page:31(item/p)
-msgid "Click on the <gui style=\"button\">OK</gui> button."
-msgstr "Pulse el botón <gui style=\"button\">Aceptar</gui>."
-
-#: C/mail-spam-groupwise-mark-message.page:5(info/desc)
-msgid "How to mark a message in Novell Groupwise as junk."
-msgstr "Cómo marcar un mensaje en Novell Groupwise como SPAM."
-
-#: C/mail-spam-groupwise-mark-message.page:23(page/title)
-msgid "Marking a Message As Junk Mail"
-msgstr "Marcar un mensaje como spam"
-
-#: C/mail-spam-groupwise-mark-message.page:25(page/p)
-msgid ""
-"Select the message to mark as junk, then click the <gui>Junk</gui> button or "
-"press <keyseq><key>Ctrl</key><key>J</key></keyseq>."
-msgstr ""
-"Seleccione el mensaje que marcar como spam, después pulse el botón "
-"<gui>SPAM</gui> o pulse <keyseq><key>Ctrl</key><key>J</key></keyseq>."
-
-#: C/mail-spam-groupwise-mark-message.page:26(page/p)
-msgid ""
-"The message is moved to your Junk Mail folder and the user is added to your "
-"junk list."
-msgstr ""
-"El mensaje se moverá a su carpeta de correo basura y el usuario se añadirá a "
-"su lista de spam."
-
-#: C/mail-spam-groupwise-remove-from-list.page:5(info/desc)
-msgid ""
-"How to remove an email address from your junk mail list in Novell Groupwise."
-msgstr ""
-"Cómo quitar una dirección de correo electrónico de su lista de corrreo SPAM "
-"en Novell Groupwise"
-
-#: C/mail-spam-groupwise-remove-from-list.page:23(page/title)
-msgid "Removing an Email Address from Your Junk List"
-msgstr ""
-"Quitar una dirección de correo electrónico de su lista de correo basura"
-
-#: C/mail-spam-groupwise-remove-from-list.page:26(item/p)
-msgid "Right-click a message, then click <gui>Junk Mail Settings</gui>."
-msgstr ""
-"Pulse con el botón derecho sobre un correo, después pulse <gui>Opciones de "
-"SPAM</gui>."
-
-#: C/mail-spam-groupwise-remove-from-list.page:27(item/p)
-msgid "Select the email address to remove, then click <gui>Remove</gui>."
-msgstr ""
-"Seleccione la dirección de correo electrónico que quitar, después pulse "
-"<gui>Quitar</gui>."
-
-#: C/mail-spam-groupwise-unmark-message.page:5(info/desc)
-msgid "How to mark a message in Novell Groupwise as not junk."
-msgstr "Cómo marcar un mensaje en Novell Groupwise como no SPAM."
-
-#: C/mail-spam-groupwise-unmark-message.page:23(page/title)
-msgid "Marking a Message As Not Junk Mail"
-msgstr "Marcar un mensaje como no spam"
-
-#: C/mail-spam-groupwise-unmark-message.page:26(item/p)
-msgid "Select the message to mark as not junk in your Junk Mail folder."
-msgstr ""
-"Seleccione el mensaje para marcarlo como no spam en su Carpeta de correo "
-"basura."
-
-#: C/mail-spam-groupwise-unmark-message.page:27(item/p)
-msgid ""
-"Right-click the message, then click <gui>Mark as Not Junk</gui>, or select "
-"the message and press <keyseq><key>Shift</key><key>Ctrl</key><key>J</key></"
-"keyseq>."
-msgstr ""
-"Pulse con el botón derecho del ratón en el correo, después pulse <gui>Marcar "
-"como no SPAM</gui>, o seleccione el mensaje y pulse <keyseq><key>Mayús</"
-"key><key>Ctrl</key><key>J</key></keyseq>."
-
-#: C/mail-spam-groupwise-unmark-message.page:30(page/p)
-msgid ""
-"The message is moved to your Mailbox folder and the name is removed from "
-"your junk list."
-msgstr ""
-"El mensaje se moverá a su Bandeja de entrada y el nombre se eliminará de su "
-"lista de correo basura."
-
 #: C/mail-spam-marking.page:5(info/desc)
 msgid "How to mark unwanted junk and spam mail."
 msgstr "Cómo marcar el correo no deseado y SPAM."
@@ -11469,9 +11667,20 @@ msgstr "Cómo automatizar la gestión de correo no deseado."
 msgid "Junk and Spam Mail Handling"
 msgstr "Gestión de correo basura"
 
-#: C/mail-spam.page:23(section/title)
-msgid "Novell Groupwise specific differences"
-msgstr "Diferencias específicas de Novell Groupwise"
+#: C/mail-spam.page:22(page/p)
+#, fuzzy
+#| msgid ""
+#| "For topics not covered here please refer to the <link href=\"http://"
+#| "library.gnome.org/users/evolution/2.32/usage-exchange.html.en\">old "
+#| "Evolution manual</link>."
+msgid ""
+"Please note that Novell GroupWise accounts have <link href=\"http://library."
+"gnome.org/users/evolution/2.32/bxqwde6.html\">specific differences in Junk "
+"handling</link>."
+msgstr ""
+"Consulte el <link href=\"http://library.gnome.org/users/evolution/2.32/usage-"
+"exchange.html.en\">antiguo manual de Evolution</link> para temas que no "
+"estén cubiertos aquí."
 
 #: C/mail-spam-settings.page:7(info/desc)
 msgid "How to set up handling unwanted junk/spam mail."
@@ -11902,7 +12111,30 @@ msgstr "Buscar notas."
 msgid "Searching Memos"
 msgstr "Buscar notas"
 
-#: C/memos-searching.page:31(section/p)
+#: C/memos-searching.page:31(section/title)
+#| msgid "Searching Memos"
+msgid "Searching in a Single Memo"
+msgstr "Buscar una única nota"
+
+#: C/memos-searching.page:32(section/p)
+#, fuzzy
+#| msgid ""
+#| "To enable the Message Template Plugin, click <guiseq><gui>Edit</"
+#| "gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
+msgid ""
+"To find text in the displayed memo, select <guiseq><gui>Edit</gui><gui>Find "
+"in Memo...</gui></guiseq> from the main menu."
+msgstr ""
+"Para activar el complemento de plantillas de correo pulse "
+"<guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq> y actíve "
+"<gui>Plantillas</gui>."
+
+#: C/memos-searching.page:36(section/title)
+#| msgid "Searching Memos"
+msgid "Searching Across Memos"
+msgstr "Buscar entre las notas"
+
+#: C/memos-searching.page:40(section/p)
 msgid ""
 "In the Memos view, you can quickly search for memos either by summary or by "
 "category."
@@ -12646,7 +12878,29 @@ msgstr "Buscar tareas"
 msgid "Searching Tasks"
 msgstr "Buscar tareas"
 
-#: C/tasks-searching.page:31(section/p)
+#: C/tasks-searching.page:31(section/title)
+#| msgid "Searching Tasks"
+msgid "Searching in a Single Task"
+msgstr "Buscar una única tarea"
+
+#: C/tasks-searching.page:32(section/p)
+#, fuzzy
+#| msgid ""
+#| "To create an Assigned Task, click <guiseq><gui>File</gui><gui>New</"
+#| "gui><gui>Assigned Task</gui></guiseq>."
+msgid ""
+"To find text in the displayed task, select <guiseq><gui>Edit</gui><gui>Find "
+"in Task...</gui></guiseq> from the main menu."
+msgstr ""
+"Para crear una tarea asignada pulse <guiseq><gui>Archivo</gui><gui>Nuevo</"
+"gui><gui>Tarea asignada</gui></guiseq>."
+
+#: C/tasks-searching.page:36(section/title)
+#| msgid "Searching Tasks"
+msgid "Searching Across Tasks"
+msgstr "Buscar entre las tareas"
+
+#: C/tasks-searching.page:40(section/p)
 msgid ""
 "In the Tasks view, you can quickly search for tasks either by summary or by "
 "category."
@@ -12950,6 +13204,136 @@ msgstr ""
 "de la ventana de <gui>Categorías</gui>. Pulse el botón <gui style=\"button"
 "\">Eliminar</gui> para eliminar categorías de la lista."
 
+#~ msgid "Creating a Message Template from an existing Message"
+#~ msgstr "Crear una plantilla de correo desde un mensaje existente"
+
+#~ msgid "Reusing message elements when replying"
+#~ msgstr "Reutilizar elementos del mensaje al responder"
+
+#~ msgid ""
+#~ "How to add an email address to your junk mail list in Novell Groupwise."
+#~ msgstr ""
+#~ "Cómo añadir una dirección de correo electrónico a su lista de correo de "
+#~ "SPAM en Novell Groupwise."
+
+#~ msgid "Adding an Email Address to Your Junk List"
+#~ msgstr ""
+#~ "Añadir una dirección de correo electrónico a su lista de correo basura"
+
+#~ msgid ""
+#~ "Right-click on a message and select the <gui>Junk Mail Settings</gui> "
+#~ "option."
+#~ msgstr ""
+#~ "Pulse con el botón derecho del ratón sobre el mensaje y seleccione la "
+#~ "opción <gui>Configuración de SPAM</gui>."
+
+#~ msgid ""
+#~ "Type in the email address you wish to block in the <gui>Email</gui> field."
+#~ msgstr ""
+#~ "Escriba la dirección de correo electrónico que quiere bloquear en el "
+#~ "campo <gui>Correo-e</gui>."
+
+#~ msgid ""
+#~ "Click <gui style=\"button\">Add</gui> and then click on the <gui style="
+#~ "\"button\">OK</gui> button."
+#~ msgstr ""
+#~ "Pulse <gui style=\"button\">Añadir</gui> y después pulse el botón <gui "
+#~ "style=\"button\">Aceptar</gui>."
+
+#~ msgid ""
+#~ "Note that when you mark an item as junk in GroupWise, that item is added "
+#~ "to your junk list in the GroupWise system. The settings in the GroupWise "
+#~ "system are applied from computer to computer."
+#~ msgstr ""
+#~ "Recuerde, cuando marca un elemento como spam en GroupWise, ese elemento "
+#~ "se añade a su lista de SPAM en el sistema GroupWise. Debido a que estos "
+#~ "ajustes están en el sistema GroupWise, su lista de SPAM se aplica de "
+#~ "equipo en equipo."
+
+#~ msgid "How to manage your junk mail list in Novell Groupwise."
+#~ msgstr "Cómo gestionar su lista de correo de SPAM en Novell Groupwise."
+
+#~ msgid "Enabling or Disabling Your Junk Mail List"
+#~ msgstr "Activar o desactivar su lista de correo basura"
+
+#~ msgid "Specify whether you wish to Enable or Disable junk mail handling."
+#~ msgstr ""
+#~ "Especifique si quiere Activar o Desactivar la gestión del correo basura."
+
+#~ msgid "Click on the <gui style=\"button\">OK</gui> button."
+#~ msgstr "Pulse el botón <gui style=\"button\">Aceptar</gui>."
+
+#~ msgid "How to mark a message in Novell Groupwise as junk."
+#~ msgstr "Cómo marcar un mensaje en Novell Groupwise como SPAM."
+
+#~ msgid "Marking a Message As Junk Mail"
+#~ msgstr "Marcar un mensaje como spam"
+
+#~ msgid ""
+#~ "Select the message to mark as junk, then click the <gui>Junk</gui> button "
+#~ "or press <keyseq><key>Ctrl</key><key>J</key></keyseq>."
+#~ msgstr ""
+#~ "Seleccione el mensaje que marcar como spam, después pulse el botón "
+#~ "<gui>SPAM</gui> o pulse <keyseq><key>Ctrl</key><key>J</key></keyseq>."
+
+#~ msgid ""
+#~ "The message is moved to your Junk Mail folder and the user is added to "
+#~ "your junk list."
+#~ msgstr ""
+#~ "El mensaje se moverá a su carpeta de correo basura y el usuario se "
+#~ "añadirá a su lista de spam."
+
+#~ msgid ""
+#~ "How to remove an email address from your junk mail list in Novell "
+#~ "Groupwise."
+#~ msgstr ""
+#~ "Cómo quitar una dirección de correo electrónico de su lista de corrreo "
+#~ "SPAM en Novell Groupwise"
+
+#~ msgid "Removing an Email Address from Your Junk List"
+#~ msgstr ""
+#~ "Quitar una dirección de correo electrónico de su lista de correo basura"
+
+#~ msgid "Right-click a message, then click <gui>Junk Mail Settings</gui>."
+#~ msgstr ""
+#~ "Pulse con el botón derecho sobre un correo, después pulse <gui>Opciones "
+#~ "de SPAM</gui>."
+
+#~ msgid "Select the email address to remove, then click <gui>Remove</gui>."
+#~ msgstr ""
+#~ "Seleccione la dirección de correo electrónico que quitar, después pulse "
+#~ "<gui>Quitar</gui>."
+
+#~ msgid "How to mark a message in Novell Groupwise as not junk."
+#~ msgstr "Cómo marcar un mensaje en Novell Groupwise como no SPAM."
+
+#~ msgid "Marking a Message As Not Junk Mail"
+#~ msgstr "Marcar un mensaje como no spam"
+
+#~ msgid "Select the message to mark as not junk in your Junk Mail folder."
+#~ msgstr ""
+#~ "Seleccione el mensaje para marcarlo como no spam en su Carpeta de correo "
+#~ "basura."
+
+#~ msgid ""
+#~ "Right-click the message, then click <gui>Mark as Not Junk</gui>, or "
+#~ "select the message and press <keyseq><key>Shift</key><key>Ctrl</"
+#~ "key><key>J</key></keyseq>."
+#~ msgstr ""
+#~ "Pulse con el botón derecho del ratón en el correo, después pulse "
+#~ "<gui>Marcar como no SPAM</gui>, o seleccione el mensaje y pulse "
+#~ "<keyseq><key>Mayús</key><key>Ctrl</key><key>J</key></keyseq>."
+
+#~ msgid ""
+#~ "The message is moved to your Mailbox folder and the name is removed from "
+#~ "your junk list."
+#~ msgstr ""
+#~ "El mensaje se moverá a su Bandeja de entrada y el nombre se eliminará de "
+#~ "su lista de correo basura."
+
+#~ msgid "Novell Groupwise specific differences"
+#~ msgstr "Diferencias específicas de Novell Groupwise"
+
 #~ msgid ""
 #~ "Alternately, you can also drag an image into the text area of the message "
 #~ "composer."
@@ -12962,81 +13346,6 @@ msgstr ""
 
 #~ msgid "Using HTML format to enhance emails"
 #~ msgstr "Usar HTML para mejorar el formato de los correos"
-
-#~ msgid ""
-#~ "You can change the format of an email message from plain text to HTML in "
-#~ "the email composer by choosing <guiseq><gui>Format</gui><gui>HTML</gui></"
-#~ "guiseq> from the menu bar."
-#~ msgstr ""
-#~ "Puede cambiar el formato de un mensaje de correo electrónico de texto "
-#~ "plano a HTML eligiendo <guiseq><gui>Formato</gui><gui>HTML</gui></guiseq> "
-#~ "desde la barra de menú."
-
-#~ msgid ""
-#~ "To send all your mail as HTML by default, enable <guiseq><gui>Edit</"
-#~ "gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Default "
-#~ "Behavior</gui><gui>Format messages in HTML</gui></guiseq>."
-#~ msgstr ""
-#~ "Para enviar todos sus correos en HTML de forma predeterminada actíve "
-#~ "<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
-#~ "editor</gui><gui>Comportamiento predeterminado</gui><gui>Dar formato HTML "
-#~ "a los mensajes</gui></guiseq>."
-
-#~ msgid "Format Text in the mail composer."
-#~ msgstr "Formatear texto en el editor de correo."
-
-#~ msgid "Headers and Lists:"
-#~ msgstr "Cabeceras y listas:"
-
-#~ msgid ""
-#~ "At the left of the upper tool bar, you can choose <gui>Normal</gui> for a "
-#~ "default text style or <gui>Header 1</gui> through <gui>Header 6</gui> for "
-#~ "varying sizes of header from large (1) to tiny (6). Other styles include "
-#~ "<gui>Preformat</gui>, to use the HTML tag for preformatted blocks of "
-#~ "text, and three types of bullet points for lists."
-#~ msgstr ""
-#~ "En la parte izquierda de la barra superior puede elegir el estilo de "
-#~ "texto predeterminado, <gui>Normal</gui> <gui>Cabecera 1</gui> hasta "
-#~ "<gui>Cabecera 6</gui> para tamaños variables de la cabecera, desde grande "
-#~ "(1) hasta pequeño (6). Otros estilos incluyen el <gui>Preformato</gui>, "
-#~ "para usar la etiqueta de HTML para bloques de texto preformateados, y "
-#~ "tres tipos de topos para las listas."
-
-#~ msgid ""
-#~ "For instance, instead of using asterisks to mark a bulleted list, you can "
-#~ "use the <gui>Bulleted List</gui> style from the style dropdown list. "
-#~ "Evolution uses different bullet styles, and handles word wrap and "
-#~ "multiple levels of indentation."
-#~ msgstr ""
-#~ "Por ejemplo, en lugar de usar asteriscos para marcar una lista de puntos, "
-#~ "puede usar el estilo <gui>Lista de topos</gui> desde el menú desplegable "
-#~ "de estilos. Evolution distintos estilos para las listas de topos y maneja "
-#~ "varios niveles de sangría y de ajuste para las palabras."
-
-#~ msgid "Alignment:"
-#~ msgstr "Alineación:"
-
-#~ msgid ""
-#~ "Located next to the Headers and Lists dropdown, the three paragraph icons "
-#~ "should be familiar to users of most word processing software. The left-"
-#~ "most button aligns your text to the left, the center button centers text, "
-#~ "and the right button aligns the text to the right."
-#~ msgstr ""
-#~ "Situado junto a la lista desplegable de Cabeceras y Listas, los tres "
-#~ "iconos de párrafo deberían ser familiares para los usuarios de "
-#~ "procesadores de textos. El que está más a la izquierda alinea el texto a "
-#~ "la izquierda, el del centro, lo centra y el de la derecha lo alinea hacia "
-#~ "el lado derecho."
-
-#~ msgid "Indentation Rules:"
-#~ msgstr "Reglas de sangrado:"
-
-#~ msgid ""
-#~ "The button with the arrow pointing left decreases a paragraph's "
-#~ "indentation, and the right arrow increases its indentation."
-#~ msgstr ""
-#~ "El botón con la flecha que apunta a la izquierda reducirá la sangría de "
-#~ "un párrafo y el de la derecha la aumentará."
 
 #~ msgid "Color Selection:"
 #~ msgstr "Selección de color:"
@@ -13226,25 +13535,6 @@ msgstr ""
 #~ "Cada vez que marca un correo como SPAM se añade el remitente a su lista "
 #~ "de SPAM; cada vez que marca un mensaje como válido, el remitente se quita "
 #~ "de su lista de SPAM."
-
-#~ msgid ""
-#~ "To view the complete headers for a message, click <guiseq><gui>View</"
-#~ "gui><gui>All Message Headers</gui></guiseq>. This will display the "
-#~ "complete header data on the viewing pane."
-#~ msgstr ""
-#~ "Para ver todas las cabeceras de un mensaje, pulse <guiseq><gui>Ver</"
-#~ "gui><gui>Todas las cabeceras del mensaje</gui></guiseq>. Esto mostrará "
-#~ "todos los datos de las cabeceras en el panel de visualización."
-
-#~ msgid ""
-#~ "To view the message data, click on <guiseq><gui>View</gui><gui>Message "
-#~ "Source</gui></guiseq> or press <keyseq><key>Ctrl</key><key>U</key></"
-#~ "keyseq>. This will display the message data in a pop-up window."
-#~ msgstr ""
-#~ "Para ver todos los datos del correo pulse en <guiseq><gui>Ver</"
-#~ "gui><gui>Mensaje en bruto</gui></guiseq> o pulse <keyseq><key>Ctrl</"
-#~ "key><key>U</key></keyseq>. Se mostrarán todos los datos del mensaje en "
-#~ "una ventana emergente."
 
 #~ msgid ""
 #~ "Run the command <command>gsettings set org.gnome.desktop.interface can-"
@@ -13835,10 +14125,6 @@ msgstr ""
 #~ msgid "All Message Headers"
 #~ msgstr "_Todas las cabeceras del mensaje"
 
-#, fuzzy
-#~ msgid "Message Source"
-#~ msgstr "Me_nsaje en bruto"
-
 #~ msgid "U"
 #~ msgstr "U"
 
@@ -13946,10 +14232,6 @@ msgstr ""
 #~ msgstr "Nombre de la regla"
 
 #, fuzzy
-#~ msgid "Available Search Folder conditions"
-#~ msgstr "Activar las Carpetas de _búsqueda"
-
-#, fuzzy
 #~ msgid "Find items"
 #~ msgstr "_Buscar elementos:"
 
@@ -13986,10 +14268,6 @@ msgstr ""
 
 #~ msgid "Other..."
 #~ msgstr "Otro…"
-
-#, fuzzy
-#~ msgid "Leave messages on server"
-#~ msgstr "¿Borrar los mensajes en la carpeta de búsqueda?"
 
 #, fuzzy
 #~ msgid "subscribed folders"
@@ -14060,10 +14338,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "deleting emails"
 #~ msgstr "Borrado de correo"
-
-#, fuzzy
-#~ msgid "search folders"
-#~ msgstr "carpeta de búsqueda"
 
 #~ msgid "Label"
 #~ msgstr "Etiqueta"
