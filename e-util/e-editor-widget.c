@@ -365,7 +365,8 @@ editor_widget_key_press_event (GtkWidget *gtk_widget,
 			E_EDITOR_WIDGET (gtk_widget), TRUE);
 	}
 
-	return FALSE;
+	/* Propagate the event to WebKit */
+	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->key_press_event (gtk_widget, event);
 }
 
 static gboolean
@@ -388,7 +389,7 @@ editor_widget_key_release_event (GtkWidget *gtk_widget,
 	}
 
 	/* Propagate the event to WebKit */
-	return FALSE;
+	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->key_release_event (gtk_widget, event);
 }
 
 static gboolean
@@ -426,7 +427,8 @@ editor_widget_button_release_event (GtkWidget *gtk_widget,
 		return TRUE;
 	}
 
-	return FALSE;
+	/* Propagate the event to WebKit */
+	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->button_release_event (gtk_widget, event);
 }
 
 static void
