@@ -321,6 +321,53 @@ editor_widget_check_magic_smileys (EEditorWidget *widget,
 	}
 }
 
+static void
+editor_widget_set_links_active (EEditorWidget *widget,
+			        gboolean active)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *style;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+
+	if (active) {
+		style = webkit_dom_document_get_element_by_id (
+				document, "--evolution-editor-style-a");
+		if (style) {
+			webkit_dom_node_remove_child (
+				webkit_dom_node_get_parent_node (
+					WEBKIT_DOM_NODE (style)),
+				WEBKIT_DOM_NODE (style), NULL);
+		}
+	} else {
+		WebKitDOMHTMLHeadElement *head;
+		head = webkit_dom_document_get_head (document);
+
+		style = webkit_dom_document_create_element (document, "STYLE", NULL);
+		webkit_dom_html_element_set_id (
+			WEBKIT_DOM_HTML_ELEMENT (style), "--evolution-editor-style-a");
+		webkit_dom_html_element_set_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (style), "a { cursor: text; }", NULL);
+
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (head), WEBKIT_DOM_NODE (style), NULL);
+	}
+}
+
+static gboolean
+editor_widget_key_press_event (GtkWidget *gtk_widget,
+			       GdkEventKey *event)
+{
+	if ((event->keyval == GDK_KEY_Control_L) ||
+	    (event->keyval == GDK_KEY_Control_R)) {
+
+		editor_widget_set_links_active (
+			E_EDITOR_WIDGET (gtk_widget), TRUE);
+	}
+
+	return FALSE;
+}
+
 static gboolean
 editor_widget_key_release_event (GtkWidget *gtk_widget,
 				 GdkEventKey *event)
@@ -334,7 +381,51 @@ editor_widget_key_release_event (GtkWidget *gtk_widget,
 		editor_widget_check_magic_smileys (widget, range);
 	}
 
+	if ((event->keyval == GDK_KEY_Control_L) ||
+	    (event->keyval == GDK_KEY_Control_R)) {
+
+		editor_widget_set_links_active (widget, FALSE);
+	}
+
 	/* Propagate the event to WebKit */
+	return FALSE;
+}
+
+static gboolean
+editor_widget_button_release_event (GtkWidget *gtk_widget,
+				    GdkEventButton *event)
+{
+	WebKitWebView *webview;
+	WebKitHitTestResult *hit_test;
+	WebKitHitTestResultContext context;
+	gchar *uri;
+
+	webview = WEBKIT_WEB_VIEW (gtk_widget);
+	hit_test = webkit_web_view_get_hit_test_result (webview, event);
+
+	g_object_get (
+		hit_test,
+	       	"context", &context,
+	        "link-uri", &uri,
+	       	NULL);
+
+	/* Left click on a link */
+	if ((context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK) &&
+	    (event->button == 1)) {
+
+		/* Ctrl + Left Click on link opens it, otherwise ignore the
+		 * click completely */
+		if (event->state & GDK_CONTROL_MASK) {
+
+			gtk_show_uri (
+				gtk_window_get_screen (
+					GTK_WINDOW (gtk_widget_get_toplevel (gtk_widget))),
+					uri, event->time, NULL);
+		}
+
+		return TRUE;
+	}
+
 	return FALSE;
 }
 
@@ -515,6 +606,8 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->button_press_event = editor_widget_button_press_event;
+	widget_class->button_release_event = editor_widget_button_release_event;
+	widget_class->key_press_event = editor_widget_key_press_event;
 	widget_class->key_release_event = editor_widget_key_release_event;
 
 	klass->paste_clipboard_quoted = editor_widget_paste_clipboard_quoted;
@@ -711,6 +804,8 @@ e_editor_widget_init (EEditorWidget *editor)
 	 * does not block loading resources from file:// protocol */
 	webkit_web_view_load_string (
 		WEBKIT_WEB_VIEW (editor), "", "text/html", "UTF-8", "file://");
+
+	editor_widget_set_links_active (editor, FALSE);
 }
 
 EEditorWidget *
