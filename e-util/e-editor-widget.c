@@ -291,8 +291,10 @@ editor_widget_check_magic_smileys (EEditorWidget *widget,
 
 		if (pos > 0) {
 			uc = g_utf8_get_char (g_utf8_offset_to_pointer (node_text, pos - 1));
-			if (uc != ' ' && uc != '\t')
+			if (uc != ' ' && uc != '\t') {
+				g_free (node_text);
 				return;
+			}
 		}
 
 		/* Select the text-smiley and replace it by <img> */
@@ -319,6 +321,8 @@ editor_widget_check_magic_smileys (EEditorWidget *widget,
 		g_free (filename_uri);
 		gtk_icon_info_free (icon_info);
 	}
+
+	g_free (node_text);
 }
 
 static void
@@ -409,6 +413,8 @@ editor_widget_button_release_event (GtkWidget *gtk_widget,
 	       	"context", &context,
 	        "link-uri", &uri,
 	       	NULL);
+
+	g_object_unref (hit_test);
 
 	/* Left click on a link */
 	if ((context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK) &&
@@ -761,6 +767,7 @@ e_editor_widget_init (EEditorWidget *editor)
 	/* Override the spell-checker, use our own */
 	checker = g_object_new (E_TYPE_EDITOR_SPELL_CHECKER, NULL);
 	webkit_set_text_checker (G_OBJECT (checker));
+	g_object_unref (checker);
 
 	/* Don't use CSS when possible to preserve compatibility with older
 	 * versions of Evolution or other MUAs */
