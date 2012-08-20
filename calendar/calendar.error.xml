@@ -235,7 +235,7 @@
 
   <error id="prompt-delete-remote-memo-list" type="question" default="GTK_RESPONSE_CANCEL">
     <_primary>Delete remote memo list &quot;{0}&quot;?</_primary>
-    <_secondary>This will permanently remote the memo list &quot;{0}&quot; from the server.  Are you sure you want to proceed?</_secondary>
+    <_secondary>This will permanently remove the memo list &quot;{0}&quot; from the server.  Are you sure you want to proceed?</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
   </error>
