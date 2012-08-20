@@ -51,7 +51,7 @@ editor_hrule_dialog_set_alignment (EEditorHRuleDialog *dialog)
 	g_return_if_fail (WEBKIT_DOM_IS_HTMLHR_ELEMENT (dialog->priv->hr_element));
 
 	alignment = gtk_combo_box_get_active_id (
-			GTK_COMBO_BOX_TEXT (dialog->priv->alignment_combo));
+			GTK_COMBO_BOX (dialog->priv->alignment_combo));
 
 	webkit_dom_htmlhr_element_set_align (dialog->priv->hr_element, alignment);
 }

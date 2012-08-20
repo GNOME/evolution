@@ -255,7 +255,7 @@ editor_page_dialog_set_background_image (EEditorPageDialog *dialog)
 	EEditorWidget *widget;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
-	const gchar *uri;
+	gchar *uri;
 
 	editor = e_editor_dialog_get_editor(E_EDITOR_DIALOG (dialog));
 	widget = e_editor_get_editor_widget (editor);

@@ -85,6 +85,13 @@ editor_find_dialog_find_cb (EEditorFindDialog *dialog)
 
 	gtk_widget_set_sensitive (dialog->priv->find_button, found);
 
+	/* We give focus to WebKit so that the selection is highlited.
+	 * Without focus selection is not visible (at least with my default
+	 * color scheme). The focus in fact is not given to WebKit, because
+	 * this dialog is modal, but it satisfies it in a way that it paints
+	 * the selection :) */
+	gtk_widget_grab_focus (GTK_WIDGET (editor_widget));
+
 	if (!found) {
 		gtk_label_set_label (
 			GTK_LABEL (dialog->priv->result_label),

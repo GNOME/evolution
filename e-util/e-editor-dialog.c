@@ -39,15 +39,12 @@ enum {
 	PROP_EDITOR,
 };
 
+
 static void
 editor_dialog_set_editor (EEditorDialog *dialog,
 			  EEditor *editor)
 {
 	dialog->priv->editor = g_object_ref (editor);
-
-	gtk_window_set_transient_for (
-		GTK_WINDOW (dialog),
-		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (editor))));
 
 	g_object_notify (G_OBJECT (dialog), "editor");
 }
@@ -86,6 +83,29 @@ editor_dialog_set_property (GObject *object,
 }
 
 static void
+editor_dialog_constructed (GObject *object)
+{
+	EEditorDialog *dialog = E_EDITOR_DIALOG (object);
+
+	/* Chain up to parent implementation first */
+	G_OBJECT_CLASS (e_editor_dialog_parent_class)->constructed (object);
+
+	gtk_window_set_transient_for (
+		GTK_WINDOW (dialog),
+		GTK_WINDOW (gtk_widget_get_toplevel (
+				GTK_WIDGET (dialog->priv->editor))));
+}
+
+static void
+editor_dialog_show (GtkWidget *widget)
+{
+	gtk_widget_show_all (GTK_WIDGET (E_EDITOR_DIALOG (widget)->priv->container));
+	gtk_widget_show_all (GTK_WIDGET (E_EDITOR_DIALOG (widget)->priv->button_box));
+
+	GTK_WIDGET_CLASS (e_editor_dialog_parent_class)->show (widget);
+}
+
+static void
 editor_dialog_dispose (GObject *object)
 {
 	EEditorDialogPrivate *priv = E_EDITOR_DIALOG (object)->priv;
@@ -109,6 +129,7 @@ e_editor_dialog_class_init (EEditorDialogClass *klass)
 	object_class->get_property = editor_dialog_get_property;
 	object_class->set_property = editor_dialog_set_property;
 	object_class->dispose = editor_dialog_dispose;
+	object_class->constructed = editor_dialog_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->show = editor_dialog_show;
@@ -158,6 +179,7 @@ e_editor_dialog_init (EEditorDialog *dialog)
 	g_object_set (
 		G_OBJECT (dialog),
 		"destroy-with-parent", TRUE,
+	        "modal", TRUE,
 		"resizable", FALSE,
 		"type-hint", GDK_WINDOW_TYPE_HINT_POPUP_MENU,
 		"window-position", GTK_WIN_POS_CENTER_ON_PARENT,
