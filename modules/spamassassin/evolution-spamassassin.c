@@ -62,6 +62,7 @@ typedef struct _ESpamAssassinClass ESpamAssassinClass;
 struct _ESpamAssassin {
 	EMailJunkFilter parent;
 
+	GOnce spamd_testing;
 	GMutex *socket_path_mutex;
 
 	gchar *pid_file;
@@ -72,8 +73,7 @@ struct _ESpamAssassin {
 	gboolean use_daemon;
 	gboolean version_set;
 
-	/* spamc/spamd state */
-	gboolean spamd_tested;
+	/* spamd_testing results */
 	gboolean spamd_using_allow_tell;
 	gboolean system_spamd_available;
 	gboolean use_spamc;
@@ -698,6 +698,17 @@ spam_assassin_test_spamd (ESpamAssassin *extension)
 			spam_assassin_test_spamd_running (extension, FALSE);
 	}
 }
+
+static gpointer
+spam_assassin_test_spamd_once (gpointer user_data)
+{
+	ESpamAssassin *extension = E_SPAM_ASSASSIN (user_data);
+
+	spam_assassin_test_spamd (extension);
+	spam_assassin_test_spamd_allow_tell (extension);
+
+	return NULL;
+}
 #endif /* HAVE_SPAM_DAEMON */
 
 static void
@@ -781,18 +792,6 @@ spam_assassin_available (EMailJunkFilter *junk_filter)
 
 	available = spam_assassin_get_version (extension, NULL, NULL, &error);
 
-#ifdef HAVE_SPAM_DAEMON
-	/* XXX These tests block like crazy so maybe this isn't the best
-	 *     place to be doing this, but the first available() call is
-	 *     done at startup before the UI is shown.  So hopefully the
-	 *     delay will not be noticeable. */
-	if (available && extension->use_daemon && !extension->spamd_tested) {
-		extension->spamd_tested = TRUE;
-		spam_assassin_test_spamd (extension);
-		spam_assassin_test_spamd_allow_tell (extension);
-	}
-#endif /* HAVE_SPAM_DAEMON */
-
 	if (error != NULL) {
 		g_warning ("%s", error->message);
 		g_error_free (error);
@@ -862,15 +861,23 @@ spam_assassin_classify (CamelJunkFilter *junk_filter,
 {
 	ESpamAssassin *extension = E_SPAM_ASSASSIN (junk_filter);
 	const gchar *argv[7];
-	gboolean using_spamc;
 	gint exit_code;
 	gint ii = 0;
 
+#ifdef HAVE_SPAM_DAEMON
+	if (extension->use_daemon)
+		g_once (
+			&extension->spamd_testing,
+			spam_assassin_test_spamd_once,
+			extension);
+#endif /* HAVE_SPAM_DAEMON */
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		return FALSE;
+
 	g_mutex_lock (extension->socket_path_mutex);
 
-	using_spamc = (extension->use_spamc && extension->use_daemon);
-
-	if (using_spamc) {
+	if (extension->use_spamc) {
 		g_assert (SPAMC_COMMAND != NULL);
 		argv[ii++] = SPAMC_COMMAND;
 		argv[ii++] = "--check";
@@ -897,7 +904,7 @@ spam_assassin_classify (CamelJunkFilter *junk_filter,
 		*status = CAMEL_JUNK_STATUS_MESSAGE_IS_NOT_JUNK;
 
 	/* spamassassin(1) only specifies zero and non-zero exit codes. */
-	else if (!using_spamc)
+	else if (!extension->use_spamc)
 		*status = CAMEL_JUNK_STATUS_MESSAGE_IS_JUNK;
 
 	/* Whereas spamc(1) explicitly states exit code 1 means spam. */
@@ -930,6 +937,17 @@ spam_assassin_learn_junk (CamelJunkFilter *junk_filter,
 	const gchar *argv[5];
 	gint exit_code;
 	gint ii = 0;
+
+#ifdef HAVE_SPAM_DAEMON
+	if (extension->use_daemon)
+		g_once (
+			&extension->spamd_testing,
+			spam_assassin_test_spamd_once,
+			extension);
+#endif /* HAVE_SPAM_DAEMON */
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		return FALSE;
 
 	if (extension->spamd_using_allow_tell) {
 		g_assert (SPAMC_COMMAND != NULL);
@@ -972,6 +990,17 @@ spam_assassin_learn_not_junk (CamelJunkFilter *junk_filter,
 	gint exit_code;
 	gint ii = 0;
 
+#ifdef HAVE_SPAM_DAEMON
+	if (extension->use_daemon)
+		g_once (
+			&extension->spamd_testing,
+			spam_assassin_test_spamd_once,
+			extension);
+#endif /* HAVE_SPAM_DAEMON */
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		return FALSE;
+
 	if (extension->spamd_using_allow_tell) {
 		g_assert (SPAMC_COMMAND != NULL);
 		argv[ii++] = SPAMC_COMMAND;
@@ -1011,6 +1040,17 @@ spam_assassin_synchronize (CamelJunkFilter *junk_filter,
 	const gchar *argv[4];
 	gint exit_code;
 	gint ii = 0;
+
+#ifdef HAVE_SPAM_DAEMON
+	if (extension->use_daemon)
+		g_once (
+			&extension->spamd_testing,
+			spam_assassin_test_spamd_once,
+			extension);
+#endif /* HAVE_SPAM_DAEMON */
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		return FALSE;
 
 	/* If we're using a spamd that allows learning,
 	 * there's no need to synchronize anything. */
