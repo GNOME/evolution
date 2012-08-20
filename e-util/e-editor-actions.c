@@ -27,7 +27,6 @@
 #include "e-editor-private.h"
 #include "e-editor-actions.h"
 #include "e-editor-spell-checker.h"
-#include "e-editor-widgets.h"
 #include "e-editor-utils.h"
 #include "e-emoticon-action.h"
 #include "e-emoticon-chooser.h"
