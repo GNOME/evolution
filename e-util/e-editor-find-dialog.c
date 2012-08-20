@@ -37,7 +37,6 @@ struct _EEditorFindDialogPrivate {
 	GtkWidget *wrap_search;
 
 	GtkWidget *find_button;
-	GtkWidget *cancel_button;
 
 	GtkWidget *result_label;
 };
@@ -59,12 +58,6 @@ editor_find_dialog_show (GtkWidget *widget)
 
 	/* Chain up to parent's implementation */
 	GTK_WIDGET_CLASS (e_editor_find_dialog_parent_class)->show (widget);
-}
-
-static void
-editor_find_dialog_close_cb (EEditorFindDialog *dialog)
-{
-	gtk_widget_hide (GTK_WIDGET (dialog));
 }
 
 static void
@@ -132,25 +125,25 @@ e_editor_find_dialog_class_init (EEditorFindDialogClass *klass)
 static void
 e_editor_find_dialog_init (EEditorFindDialog *dialog)
 {
-	GtkBox *main_layout, *box;
+	GtkGrid *main_layout;
+	GtkBox *box;
 	GtkWidget *widget;
 
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		dialog, E_TYPE_EDITOR_FIND_DIALOG, EEditorFindDialogPrivate);
 
-	main_layout = GTK_BOX (gtk_vbox_new (FALSE, 5));
-	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
 	widget = gtk_entry_new ();
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 	dialog->priv->entry = widget;
 	g_signal_connect (
 		widget, "key-release-event",
 		G_CALLBACK (entry_key_release_event), dialog);
 
 	box = GTK_BOX (gtk_hbox_new (FALSE, 5));
-	gtk_box_pack_start (main_layout, GTK_WIDGET (box), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (box), 0, 1, 1, 1);
 
 	widget = gtk_check_button_new_with_mnemonic (N_("Search _backwards"));
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
@@ -174,7 +167,7 @@ e_editor_find_dialog_init (EEditorFindDialog *dialog)
 		G_CALLBACK (reset_dialog), dialog);
 
 	box = GTK_BOX (gtk_hbox_new (FALSE, 5));
-	gtk_box_pack_start (main_layout, GTK_WIDGET (box), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (box), 0, 2, 1, 1);
 
 	widget = gtk_label_new ("");
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
@@ -186,13 +179,7 @@ e_editor_find_dialog_init (EEditorFindDialog *dialog)
 	gtk_box_pack_end (box, widget, TRUE, TRUE, 0);
 	box = GTK_BOX (widget);
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-	gtk_box_pack_start (box, widget, FALSE, FALSE, 5);
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (editor_find_dialog_close_cb), dialog);
-	dialog->priv->cancel_button = widget;
-
+	box = e_editor_dialog_get_button_box (E_EDITOR_DIALOG (dialog));
 	widget = gtk_button_new_from_stock (GTK_STOCK_FIND);
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 5);
 	g_signal_connect_swapped (

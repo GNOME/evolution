@@ -50,8 +50,6 @@ struct _EEditorImageDialogPrivate {
 	GtkWidget *url_edit;
 	GtkWidget *test_url_button;
 
-	GtkWidget *close_button;
-
 	WebKitDOMHTMLImageElement *image;
 };
 
@@ -391,11 +389,11 @@ editor_image_dialog_show (GtkWidget *gtk_widget)
 }
 
 static void
-editor_image_dialog_close (EEditorImageDialog *dialog)
+editor_image_dialog_hide (GtkWidget *gtk_widget)
 {
-	dialog->priv->image = NULL;
+	E_EDITOR_IMAGE_DIALOG (gtk_widget)->priv->image = NULL;
 
-	gtk_widget_hide (GTK_WIDGET (dialog));
+	GTK_WIDGET_CLASS (e_editor_image_dialog_parent_class)->hide (gtk_widget);
 }
 
 static void
@@ -408,33 +406,31 @@ e_editor_image_dialog_class_init (EEditorImageDialogClass *klass)
 
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->show = editor_image_dialog_show;
+	widget_class->hide = editor_image_dialog_hide;
 }
 
 static void
 e_editor_image_dialog_init (EEditorImageDialog *dialog)
 {
-	GtkBox *main_layout;
-	GtkGrid *grid;
+	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
 	GtkFileFilter *file_filter;
 
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		dialog, E_TYPE_EDITOR_IMAGE_DIALOG, EEditorImageDialogPrivate);
 
-	main_layout = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 5));
-	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
 	/* == General == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>General</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Source */
@@ -456,7 +452,8 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_src), dialog);
 	dialog->priv->file_chooser = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Source:"));
+	widget = gtk_label_new_with_mnemonic (_("_Source:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->file_chooser);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
@@ -469,7 +466,8 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_alt), dialog);
 	dialog->priv->description_edit = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Description:"));
+	widget = gtk_label_new_with_mnemonic (_("_Description:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->description_edit);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
@@ -478,12 +476,12 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Layout</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Width */
@@ -494,7 +492,8 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_width), dialog);
 	dialog->priv->width_edit = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Width:"));
+	widget = gtk_label_new_with_mnemonic (_("_Width:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->width_edit);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
@@ -517,7 +516,8 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_height), dialog);
 	dialog->priv->height_edit = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Height:"));
+	widget = gtk_label_new_with_mnemonic (_("_Height:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->height_edit);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
@@ -544,7 +544,8 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_alignment), dialog);
 	dialog->priv->alignment = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Alignment"));
+	widget = gtk_label_new_with_mnemonic (_("_Alignment"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->alignment);
 	gtk_grid_attach (grid, widget, 0, 2, 1, 1);
 
@@ -556,7 +557,8 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_x_padding), dialog);
 	dialog->priv->x_padding_edit = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("X-Padding:"));
+	widget = gtk_label_new_with_mnemonic (_("_X-Padding:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->x_padding_edit);
 	gtk_grid_attach (grid, widget, 4, 0, 1, 1);
 
@@ -571,7 +573,8 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_y_padding), dialog);
 	dialog->priv->y_padding_edit = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Y-Padding:"));
+	widget = gtk_label_new_with_mnemonic (_("_Y-Padding:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->y_padding_edit);
 	gtk_grid_attach (grid, widget, 4, 1, 1, 1);
 
@@ -586,7 +589,8 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_border), dialog);
 	dialog->priv->border_edit = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Border:"));
+	widget = gtk_label_new_with_mnemonic (_("_Border:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->border_edit);
 	gtk_grid_attach (grid, widget, 4, 2, 1, 1);
 
@@ -597,12 +601,12 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Link</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 4, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 5, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	widget = gtk_entry_new ();
@@ -613,27 +617,17 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 		G_CALLBACK (editor_image_dialog_set_url), dialog);
 	dialog->priv->url_edit = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("URL:"));
+	widget = gtk_label_new_with_mnemonic (_("_URL:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->url_edit);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
-	widget = gtk_button_new_with_label (_("Test URL..."));
+	widget = gtk_button_new_with_label (_("_Test URL..."));
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (editor_image_dialog_test_url), dialog);
 	dialog->priv->test_url_button = widget;
-
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (editor_image_dialog_close), dialog);
-	dialog->priv->close_button = widget;
-
-	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
-	gtk_box_pack_start (GTK_BOX (widget), dialog->priv->close_button, FALSE, FALSE, 5);
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }

@@ -39,7 +39,6 @@ struct _EEditorReplaceDialogPrivate {
 
 	GtkWidget *result_label;
 
-	GtkWidget *close_button;
 	GtkWidget *skip_button;
 	GtkWidget *replace_button;
 	GtkWidget *replace_all_button;
@@ -137,12 +136,6 @@ editor_replace_dialog_replace_all_cb (EEditorReplaceDialog *dialog)
 }
 
 static void
-editor_replace_dialog_close_cb (EEditorReplaceDialog *dialog)
-{
-	gtk_widget_hide (GTK_WIDGET (dialog));
-}
-
-static void
 editor_replace_dialog_entry_changed (EEditorReplaceDialog *dialog)
 {
 	gboolean ready;
@@ -227,16 +220,13 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 {
 	GtkGrid *main_layout;
 	GtkWidget *widget, *layout;
+	GtkBox *button_box;
 
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 				dialog, E_TYPE_EDITOR_REPLACE_DIALOG,
 				EEditorReplaceDialogPrivate);
 
-	main_layout = GTK_GRID (gtk_grid_new ());
-	gtk_grid_set_row_spacing (main_layout, 10);
-	gtk_grid_set_column_spacing (main_layout, 10);
-	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
 	widget = gtk_entry_new ();
 	gtk_grid_attach (main_layout, widget, 1, 0, 2, 1);
@@ -281,20 +271,10 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 0, 3, 2, 1);
 	dialog->priv->result_label = widget;
 
-	layout = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_box_set_spacing (GTK_BOX (layout), 5);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (layout), GTK_BUTTONBOX_START);
-	gtk_grid_attach (main_layout, layout, 2, 3, 1, 1);
-
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, FALSE, 5);
-	dialog->priv->close_button = widget;
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (editor_replace_dialog_close_cb), dialog);
+	button_box = e_editor_dialog_get_button_box (E_EDITOR_DIALOG (dialog));
 
 	widget = gtk_button_new_with_mnemonic (_("_Skip"));
-	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, FALSE, 5);
+	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
 	gtk_widget_set_sensitive (widget, FALSE);
 	dialog->priv->skip_button = widget;
 	g_signal_connect_swapped (
@@ -302,7 +282,7 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 		G_CALLBACK (editor_replace_dialog_skip_cb), dialog);
 
 	widget = gtk_button_new_with_mnemonic (_("_Replace"));
-	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, FALSE, 5);
+	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
 	gtk_widget_set_sensitive (widget, FALSE);
 	dialog->priv->replace_button = widget;
 	g_signal_connect_swapped (
@@ -310,7 +290,7 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 		G_CALLBACK (editor_replace_dialog_replace_cb), dialog);
 
 	widget = gtk_button_new_with_mnemonic (_("Replace _All"));
-	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, FALSE, 5);
+	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
 	gtk_widget_set_sensitive (widget, FALSE);
 	dialog->priv->replace_all_button = widget;
 	g_signal_connect_swapped (

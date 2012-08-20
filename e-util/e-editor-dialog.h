@@ -80,6 +80,10 @@ GType		e_editor_dialog_get_type	(void);
 EEditor *	e_editor_dialog_get_editor	(EEditorDialog *dialog);
 >>>>>>> Refactor EEditorDialog... classes
 
+GtkBox *	e_editor_dialog_get_button_box	(EEditorDialog *dialog);
+
+GtkGrid *	e_editor_dialog_get_container	(EEditorDialog *dialog);
+
 G_END_DECLS
 
 #endif /* E_EDITOR_DIALOG_H */
