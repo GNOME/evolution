@@ -36,28 +36,25 @@
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_SPAM_ASSASSIN, ESpamAssassin))
 
-#ifndef SPAMASSASSIN_BINARY
-#define SPAMASSASSIN_BINARY "/usr/bin/spamassassin"
-#endif
-
-#ifndef SA_LEARN_BINARY
-#define SA_LEARN_BINARY "/usr/bin/sa-learn"
-#endif
-
-#ifndef SPAMC_BINARY
-#define SPAMC_BINARY "/usr/bin/spamc"
-#endif
-
-#ifndef SPAMD_BINARY
-#define SPAMD_BINARY "/usr/bin/spamd"
-#endif
-
 /* For starting our own daemon. */
 #define DAEMON_MAX_RETRIES 100
 #define DAEMON_RETRY_DELAY 0.05  /* seconds */
 
 #define SPAM_ASSASSIN_EXIT_STATUS_SUCCESS	0
 #define SPAM_ASSASSIN_EXIT_STATUS_ERROR		-1
+
+#if defined(SPAMC_COMMAND) && defined(SPAMD_COMMAND)
+#define HAVE_SPAM_DAEMON 1
+#endif
+
+/* This is to reduce the number of #if tests in the code.
+ * The logic should never actually use these fallbacks. */
+#ifndef SPAMC_COMMAND
+#define SPAMC_COMMAND NULL
+#endif
+#ifndef SPAMD_COMMAND
+#define SPAMD_COMMAND NULL
+#endif
 
 typedef struct _ESpamAssassin ESpamAssassin;
 typedef struct _ESpamAssassinClass ESpamAssassinClass;
@@ -69,8 +66,6 @@ struct _ESpamAssassin {
 
 	gchar *pid_file;
 	gchar *socket_path;
-	gchar *spamc_binary;
-	gchar *spamd_binary;
 	gint version;
 
 	gboolean local_only;
@@ -91,8 +86,6 @@ struct _ESpamAssassinClass {
 enum {
 	PROP_0,
 	PROP_LOCAL_ONLY,
-	PROP_SPAMC_BINARY,
-	PROP_SPAMD_BINARY,
 	PROP_SOCKET_PATH,
 	PROP_USE_DAEMON
 };
@@ -350,44 +343,6 @@ spam_assassin_set_local_only (ESpamAssassin *extension,
 }
 
 static const gchar *
-spam_assassin_get_spamc_binary (ESpamAssassin *extension)
-{
-	return extension->spamc_binary;
-}
-
-static void
-spam_assassin_set_spamc_binary (ESpamAssassin *extension,
-                                const gchar *spamc_binary)
-{
-	if (g_strcmp0 (extension->spamc_binary, spamc_binary) == 0)
-		return;
-
-	g_free (extension->spamc_binary);
-	extension->spamc_binary = g_strdup (spamc_binary);
-
-	g_object_notify (G_OBJECT (extension), "spamc-binary");
-}
-
-static const gchar *
-spam_assassin_get_spamd_binary (ESpamAssassin *extension)
-{
-	return extension->spamd_binary;
-}
-
-static void
-spam_assassin_set_spamd_binary (ESpamAssassin *extension,
-                                const gchar *spamd_binary)
-{
-	if (g_strcmp0 (extension->spamd_binary, spamd_binary) == 0)
-		return;
-
-	g_free (extension->spamd_binary);
-	extension->spamd_binary = g_strdup (spamd_binary);
-
-	g_object_notify (G_OBJECT (extension), "spamd-binary");
-}
-
-static const gchar *
 spam_assassin_get_socket_path (ESpamAssassin *extension)
 {
 	return extension->socket_path;
@@ -416,7 +371,7 @@ static void
 spam_assassin_set_use_daemon (ESpamAssassin *extension,
                               gboolean use_daemon)
 {
-	if ((extension->use_daemon ? 1 : 0) == (use_daemon ? 1 : 0))
+	if (extension->use_daemon == use_daemon)
 		return;
 
 	extension->use_daemon = use_daemon;
@@ -435,7 +390,7 @@ spam_assassin_get_version (ESpamAssassin *extension,
 	guint ii;
 
 	const gchar *argv[] = {
-		SA_LEARN_BINARY,
+		SA_LEARN_COMMAND,
 		"--version",
 		NULL
 	};
@@ -473,6 +428,7 @@ spam_assassin_get_version (ESpamAssassin *extension,
 	return TRUE;
 }
 
+#ifdef HAVE_SPAM_DAEMON
 static void
 spam_assassin_test_spamd_allow_tell (ESpamAssassin *extension)
 {
@@ -480,7 +436,7 @@ spam_assassin_test_spamd_allow_tell (ESpamAssassin *extension)
 	GError *error = NULL;
 
 	const gchar *argv[] = {
-		SPAMC_BINARY,
+		SPAMC_COMMAND,
 		"--learntype=forget",
 		NULL
 	};
@@ -507,7 +463,7 @@ spam_assassin_test_spamd_running (ESpamAssassin *extension,
 
 	g_mutex_lock (extension->socket_path_mutex);
 
-	argv[ii++] = extension->spamc_binary;
+	argv[ii++] = SPAMC_COMMAND;
 	argv[ii++] = "--no-safe-fallback";
 	if (!system_spamd) {
 		argv[ii++] = "--socket";
@@ -623,7 +579,7 @@ spam_assassin_start_our_own_daemon (ESpamAssassin *extension)
 		goto exit;
 	}
 
-	argv[ii++] = extension->spamd_binary;
+	argv[ii++] = SPAMD_COMMAND;
 	argv[ii++] = "--socketpath";
 	argv[ii++] = socket_path;
 
@@ -689,16 +645,13 @@ exit:
 static void
 spam_assassin_test_spamd (ESpamAssassin *extension)
 {
-	const gchar *spamd_binary;
-	gboolean try_system_spamd;
+	gboolean try_system_spamd = TRUE;
 
 	/* XXX SpamAssassin could really benefit from a D-Bus interface
 	 *     these days.  These tests are just needlessly painful for
 	 *     clients trying to talk to an already-running spamd. */
 
 	extension->use_spamc = FALSE;
-	spamd_binary = extension->spamd_binary;
-	try_system_spamd = (g_strcmp0 (spamd_binary, SPAMD_BINARY) == 0);
 
 	if (extension->local_only && try_system_spamd) {
 		gint exit_code;
@@ -745,6 +698,7 @@ spam_assassin_test_spamd (ESpamAssassin *extension)
 			spam_assassin_test_spamd_running (extension, FALSE);
 	}
 }
+#endif /* HAVE_SPAM_DAEMON */
 
 static void
 spam_assassin_set_property (GObject *object,
@@ -757,18 +711,6 @@ spam_assassin_set_property (GObject *object,
 			spam_assassin_set_local_only (
 				E_SPAM_ASSASSIN (object),
 				g_value_get_boolean (value));
-			return;
-
-		case PROP_SPAMC_BINARY:
-			spam_assassin_set_spamc_binary (
-				E_SPAM_ASSASSIN (object),
-				g_value_get_string (value));
-			return;
-
-		case PROP_SPAMD_BINARY:
-			spam_assassin_set_spamd_binary (
-				E_SPAM_ASSASSIN (object),
-				g_value_get_string (value));
 			return;
 
 		case PROP_SOCKET_PATH:
@@ -800,18 +742,6 @@ spam_assassin_get_property (GObject *object,
 				E_SPAM_ASSASSIN (object)));
 			return;
 
-		case PROP_SPAMC_BINARY:
-			g_value_set_string (
-				value, spam_assassin_get_spamc_binary (
-				E_SPAM_ASSASSIN (object)));
-			return;
-
-		case PROP_SPAMD_BINARY:
-			g_value_set_string (
-				value, spam_assassin_get_spamd_binary (
-				E_SPAM_ASSASSIN (object)));
-			return;
-
 		case PROP_SOCKET_PATH:
 			g_value_set_string (
 				value, spam_assassin_get_socket_path (
@@ -837,8 +767,6 @@ spam_assassin_finalize (GObject *object)
 
 	g_free (extension->pid_file);
 	g_free (extension->socket_path);
-	g_free (extension->spamc_binary);
-	g_free (extension->spamd_binary);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_spam_assassin_parent_class)->finalize (object);
@@ -853,6 +781,7 @@ spam_assassin_available (EMailJunkFilter *junk_filter)
 
 	available = spam_assassin_get_version (extension, NULL, NULL, &error);
 
+#ifdef HAVE_SPAM_DAEMON
 	/* XXX These tests block like crazy so maybe this isn't the best
 	 *     place to be doing this, but the first available() call is
 	 *     done at startup before the UI is shown.  So hopefully the
@@ -862,6 +791,7 @@ spam_assassin_available (EMailJunkFilter *junk_filter)
 		spam_assassin_test_spamd (extension);
 		spam_assassin_test_spamd_allow_tell (extension);
 	}
+#endif /* HAVE_SPAM_DAEMON */
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);
@@ -941,7 +871,8 @@ spam_assassin_classify (CamelJunkFilter *junk_filter,
 	using_spamc = (extension->use_spamc && extension->use_daemon);
 
 	if (using_spamc) {
-		argv[ii++] = extension->spamc_binary;
+		g_assert (SPAMC_COMMAND != NULL);
+		argv[ii++] = SPAMC_COMMAND;
 		argv[ii++] = "--check";
 		argv[ii++] = "--timeout=60";
 		if (!extension->system_spamd_available) {
@@ -949,7 +880,7 @@ spam_assassin_classify (CamelJunkFilter *junk_filter,
 			argv[ii++] = extension->socket_path;
 		}
 	} else {
-		argv[ii++] = SPAMASSASSIN_BINARY;
+		argv[ii++] = SPAMASSASSIN_COMMAND;
 		argv[ii++] = "--exit-code";
 		if (extension->local_only)
 			argv[ii++] = "--local";
@@ -1001,10 +932,11 @@ spam_assassin_learn_junk (CamelJunkFilter *junk_filter,
 	gint ii = 0;
 
 	if (extension->spamd_using_allow_tell) {
-		argv[ii++] = extension->spamc_binary;
+		g_assert (SPAMC_COMMAND != NULL);
+		argv[ii++] = SPAMC_COMMAND;
 		argv[ii++] = "--learntype=spam";
 	} else {
-		argv[ii++] = SA_LEARN_BINARY;
+		argv[ii++] = SA_LEARN_COMMAND;
 		argv[ii++] = "--spam";
 		if (extension->version >= 3)
 			argv[ii++] = "--no-sync";
@@ -1041,10 +973,11 @@ spam_assassin_learn_not_junk (CamelJunkFilter *junk_filter,
 	gint ii = 0;
 
 	if (extension->spamd_using_allow_tell) {
-		argv[ii++] = extension->spamc_binary;
+		g_assert (SPAMC_COMMAND != NULL);
+		argv[ii++] = SPAMC_COMMAND;
 		argv[ii++] = "--learntype=ham";
 	} else {
-		argv[ii++] = SA_LEARN_BINARY;
+		argv[ii++] = SA_LEARN_COMMAND;
 		argv[ii++] = "--ham";
 		if (extension->version >= 3)
 			argv[ii++] = "--no-sync";
@@ -1084,7 +1017,7 @@ spam_assassin_synchronize (CamelJunkFilter *junk_filter,
 	if (extension->spamd_using_allow_tell)
 		return TRUE;
 
-	argv[ii++] = SA_LEARN_BINARY;
+	argv[ii++] = SA_LEARN_COMMAND;
 	if (extension->version >= 3)
 		argv[ii++] = "--sync";
 	else
@@ -1136,26 +1069,6 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SPAMC_BINARY,
-		g_param_spec_string (
-			"spamc-binary",
-			"spamc Binary",
-			"File path for the spamc binary",
-			NULL,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SPAMD_BINARY,
-		g_param_spec_string (
-			"spamd-binary",
-			"spamd Binary",
-			"File path for the spamd binary",
-			NULL,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_SOCKET_PATH,
 		g_param_spec_string (
 			"socket-path",
@@ -1203,29 +1116,17 @@ e_spam_assassin_init (ESpamAssassin *extension)
 		G_OBJECT (extension), "local-only",
 		G_SETTINGS_BIND_DEFAULT);
 	g_settings_bind (
-		settings, "spamc-binary",
-		G_OBJECT (extension), "spamc-binary",
-		G_SETTINGS_BIND_DEFAULT);
-	g_settings_bind (
-		settings, "spamd-binary",
-		G_OBJECT (extension), "spamd-binary",
-		G_SETTINGS_BIND_DEFAULT);
-	g_settings_bind (
 		settings, "socket-path",
 		G_OBJECT (extension), "socket-path",
 		G_SETTINGS_BIND_DEFAULT);
+#ifdef HAVE_SPAM_DAEMON
 	g_settings_bind (
 		settings, "use-daemon",
 		G_OBJECT (extension), "use-daemon",
 		G_SETTINGS_BIND_DEFAULT);
+#endif /* HAVE_SPAM_DAEMON */
 
 	g_object_unref (settings);
-
-	if (extension->spamc_binary == NULL)
-		extension->spamc_binary = g_strdup (SPAMC_BINARY);
-
-	if (extension->spamd_binary == NULL)
-		extension->spamd_binary = g_strdup (SPAMD_BINARY);
 }
 
 G_MODULE_EXPORT void

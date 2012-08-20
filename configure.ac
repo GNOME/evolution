@@ -1072,6 +1072,67 @@ if test "x$enable_bogofilter" = "xyes"; then
 fi
 AM_CONDITIONAL([ENABLE_BOGOFILTER], [test "x$enable_bogofilter" = "xyes"])
 
+dnl ************************************
+dnl Check for SpamAssassin (spam filter)
+dnl ************************************
+AC_ARG_ENABLE([spamassassin],
+	[AS_HELP_STRING([--enable-spamassassin],
+	[enable spam filtering using SpamAssassin (default=yes)])],
+	[enable spamassassin=$enableval], [enable_spamassassin=yes])
+AC_MSG_CHECKING([if SpamAssassin support is enabled])
+AC_MSG_RESULT([$enable_spamassassin])
+msg_spamassassin="$enable_spamassassin"
+if test "x$enable_spamassassin" = "xyes"; then
+	AC_ARG_VAR([SPAMASSASSIN], [SpamAssassin spam filtering program])
+	AC_PATH_PROG([SPAMASSASSIN], [spamassassin])
+	if test "x$SPAMASSASSIN" == "x"; then
+		AC_MSG_ERROR([
+
+	SpamAssassin spam filtering program not found.
+
+	If you want to disable spam filtering using SpamAssassin,
+	please append --disable-spamassassin to configure.])
+	fi
+	AC_DEFINE_UNQUOTED(
+		SPAMASSASSIN_COMMAND, "$SPAMASSASSIN",
+		[SpamAssassin spam filtering program])
+
+	AC_ARG_VAR([SA_LEARN], [SpamAssassin spam training program])
+	AC_PATH_PROG([SA_LEARN], [sa-learn])
+	if test "x$SA_LEARN" = "x"; then
+		AC_MSG_ERROR([
+
+	SpamAssassin training program (sa-learn) not found.
+
+	If you want to disable spam filtering using SpamAssassin,
+	please append --disable-spamassassin to configure.])
+	fi
+	AC_DEFINE_UNQUOTED(
+		SA_LEARN_COMMAND, "$SA_LEARN",
+		[SpamAssassin spam training program])
+
+	dnl The spamc/spamd programs are optional.
+	AC_ARG_VAR([SPAMC], [SpamAssassin client])
+	AC_PATH_PROG([SPAMC], [spamc])
+	if test "x$SPAMC" != "x"; then
+		AC_DEFINE_UNQUOTED(
+			SPAMC_COMMAND, "$SPAMC",
+			[SpamAssassin client])
+	fi
+
+	dnl The spamc/spamd programs are optional.
+	AC_ARG_VAR([SPAMD], [SpamAssassin daemon])
+	AC_PATH_PROG([SPAMD], [spamd])
+	if test "x$SPAMD" != "x"; then
+		AC_DEFINE_UNQUOTED(
+			SPAMD_COMMAND, "$SPAMD",
+			[SpamAssassin daemon])
+	fi
+
+	msg_spamassassin="$msg_spamassassin ($SPAMASSASSIN)"
+fi
+AM_CONDITIONAL([ENABLE_SPAMASSASSIN], [test "x$enable_spamassassin" = "xyes"])
+
 dnl ******************************
 dnl CERT_UI Flags
 dnl ******************************
@@ -1600,6 +1661,7 @@ echo "
 	SSL support:		$msg_ssl
 	SMIME support:		$msg_smime
 	Bogofilter support:	$msg_bogofilter
+	SpamAssassin support:	$msg_spamassassin
 	Plugins:		$msg_plugins
 	User documentation:	$with_help
 "

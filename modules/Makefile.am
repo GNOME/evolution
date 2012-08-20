@@ -14,6 +14,10 @@ if ENABLE_ONLINE_ACCOUNTS
 ONLINE_ACCOUNTS_DIR = online-accounts
 endif
 
+if ENABLE_SPAMASSASSIN
+SPAMASSASSIN_DIR = spamassassin
+endif
+
 if ENABLE_TNEF
 TNEF_ATTACHMENT_DIR = tnef-attachment
 endif
@@ -47,13 +51,13 @@ SUBDIRS = \
 	plugin-lib \
 	plugin-manager \
 	prefer-plain \
-	spamassassin \
 	startup-wizard \
 	text-highlight \
 	vcard-inline \
 	web-inspector \
 	$(BOGOFILTER_DIR) \
 	$(ONLINE_ACCOUNTS_DIR) \
+	$(SPAMASSASSIN_DIR) \
 	$(TNEF_ATTACHMENT_DIR) \
 	$(AUDIO_INLINE_DIR)
 

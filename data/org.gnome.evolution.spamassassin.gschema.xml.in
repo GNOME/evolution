@@ -13,17 +13,7 @@
     <key name="use-daemon" type="b">
       <default>true</default>
       <_summary>Use SpamAssassin daemon and client</_summary>
-      <_description>Use SpamAssassin daemon and client (spamc/spamd).</_description>
-    </key>
-    <key name="spamc-binary" type="s">
-      <default>'/usr/bin/spamc'</default>
-      <_summary>SpamAssassin client binary</_summary>
-      <_description>SpamAssassin client binary</_description>
-    </key>
-    <key name="spamd-binary" type="s">
-      <default>'/usr/bin/spamd'</default>
-      <_summary>SpamAssassin daemon binary</_summary>
-      <_description>SpamAssassin daemon binary</_description>
+      <_description>Use spamc and spamd programs, if available.</_description>
     </key>
   </schema>
 </schemalist>
