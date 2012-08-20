@@ -38,6 +38,8 @@ struct _EEditorLinkDialogPrivate {
 
 	GtkWidget *remove_link_button;
 	GtkWidget *ok_button;
+
+	gboolean label_autofill;
 };
 
 static void
@@ -51,9 +53,28 @@ editor_link_dialog_test_link (EEditorLinkDialog *dialog)
 }
 
 static void
-editor_link_dialog_close (EEditorLinkDialog *dialog)
+editor_link_dialog_url_changed (EEditorLinkDialog *dialog)
 {
-	gtk_widget_hide (GTK_WIDGET (dialog));
+	if (dialog->priv->label_autofill &&
+	    gtk_widget_is_sensitive (dialog->priv->label_edit)) {
+		const gchar *text;
+
+		text = gtk_entry_get_text (
+			GTK_ENTRY (dialog->priv->url_edit));
+		gtk_entry_set_text (
+			GTK_ENTRY (dialog->priv->label_edit), text);
+	}
+}
+
+static gboolean
+editor_link_dialog_description_changed (EEditorLinkDialog *dialog)
+{
+	const gchar *text;
+
+	text = gtk_entry_get_text (GTK_ENTRY (dialog->priv->label_edit));
+	dialog->priv->label_autofill = (*text == '\0');
+
+	return FALSE;
 }
 
 static void
@@ -68,7 +89,7 @@ editor_link_dialog_remove_link (EEditorLinkDialog *dialog)
 	selection = e_editor_widget_get_selection (widget);
 	e_editor_selection_unlink (selection);
 
-	editor_link_dialog_close (dialog);
+	gtk_widget_hide (GTK_WIDGET (dialog));
 }
 
 static void
@@ -93,7 +114,7 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 
 	if (!dom_selection ||
 	    (webkit_dom_dom_selection_get_range_count (dom_selection) == 0)) {
-		editor_link_dialog_close (dialog);
+		gtk_widget_hide (GTK_WIDGET (dialog));
 		return;
 	}
 
@@ -155,7 +176,7 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 		g_free (text);
 	}
 
-	editor_link_dialog_close (dialog);
+	gtk_widget_hide (GTK_WIDGET (dialog));
 }
 
 static void
@@ -183,6 +204,7 @@ editor_link_dialog_show (GtkWidget *widget)
 	gtk_entry_set_text (GTK_ENTRY (dialog->priv->label_edit), "");
 	gtk_widget_set_sensitive (dialog->priv->label_edit, TRUE);
 	gtk_widget_set_sensitive (dialog->priv->remove_link_button, TRUE);
+	dialog->priv->label_autofill = TRUE;
 
 	/* No selection at all */
 	if (!dom_selection ||
@@ -270,6 +292,9 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 
 	widget = gtk_entry_new ();
 	gtk_grid_attach (main_layout, widget, 1, 0, 1, 1);
+	g_signal_connect_swapped (
+		widget, "notify::text",
+		G_CALLBACK (editor_link_dialog_url_changed), dialog);
 	dialog->priv->url_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_URL:"));
@@ -286,6 +311,9 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 
 	widget = gtk_entry_new ();
 	gtk_grid_attach (main_layout, widget, 1, 1, 2, 1);
+	g_signal_connect_swapped (
+		widget, "key-release-event",
+		G_CALLBACK (editor_link_dialog_description_changed), dialog);
 	dialog->priv->label_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Description:"));
@@ -294,7 +322,7 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 0, 1, 1, 1);
 
 	button_box = e_editor_dialog_get_button_box (E_EDITOR_DIALOG (dialog));
-	
+
 	widget = gtk_button_new_with_mnemonic (_("_Remove Link"));
 	g_signal_connect_swapped (
 		widget, "clicked",
