@@ -48,7 +48,6 @@ struct _EEditorSpellCheckDialogPrivate {
 	GtkWidget *skip_button;
 	GtkWidget *suggestion_label;
 	GtkWidget *tree_view;
-	GtkWidget *close_button;
 
 	GList *dictionaries;
 	WebKitDOMDOMSelection *selection;
@@ -441,11 +440,7 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		dialog, E_TYPE_EDITOR_SPELL_CHECK_DIALOG, EEditorSpellCheckDialogPrivate);
 
-	main_layout = GTK_GRID (gtk_grid_new ());
-	gtk_grid_set_row_spacing (main_layout, 10);
-	gtk_grid_set_column_spacing (main_layout, 10);
-	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
 	/* == Suggestions == */
 	widget = gtk_label_new ("");
@@ -580,19 +575,6 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (editor_spell_check_dialog_learn), dialog);
-
-	/* Close Button */
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-	dialog->priv->close_button = widget;
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (gtk_widget_hide), dialog);
-
-	/* Button box */
-	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);
-	gtk_grid_attach (main_layout, widget, 0, 8, 2, 1);
-	gtk_box_pack_start (GTK_BOX (widget), dialog->priv->close_button, FALSE, FALSE, 5);
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }

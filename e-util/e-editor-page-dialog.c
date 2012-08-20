@@ -39,8 +39,6 @@ struct _EEditorPageDialogPrivate {
 
 	GtkWidget *background_template_combo;
 	GtkWidget *background_image_filechooser;
-
-	GtkWidget *close_button;
 };
 
 typedef struct _Template {
@@ -273,12 +271,6 @@ editor_page_dialog_set_background_image (EEditorPageDialog *dialog)
 }
 
 static void
-editor_page_dialog_close (EEditorPageDialog *dialog)
-{
-	gtk_widget_hide (GTK_WIDGET (dialog));
-}
-
-static void
 editor_page_dialog_show (GtkWidget *widget)
 {
 	EEditor *editor;
@@ -391,28 +383,25 @@ e_editor_page_dialog_class_init (EEditorPageDialogClass *klass)
 static void
 e_editor_page_dialog_init (EEditorPageDialog *dialog)
 {
-	GtkBox *main_layout;
-	GtkGrid *grid;
+	GtkGrid *grid, *main_layout;
 	GtkWidget *widget;
 	gint ii;
 
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		dialog, E_TYPE_EDITOR_PAGE_DIALOG, EEditorPageDialogPrivate);
 
-	main_layout = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 5));
-	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
 	/* == Colors == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Colors</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Text */
@@ -424,7 +413,8 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	dialog->priv->text_color_picker = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Text:"));
+	widget = gtk_label_new_with_mnemonic (_("_Text:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);	
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->text_color_picker);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
@@ -438,7 +428,8 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 	dialog->priv->link_color_picker = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Link:"));
+	widget = gtk_label_new_with_mnemonic (_("_Link:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->link_color_picker);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
@@ -452,7 +443,8 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 2, 1, 1);
 	dialog->priv->background_color_picker = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Background:"));
+	widget = gtk_label_new_with_mnemonic (_("_Background:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_color_picker);
 	gtk_grid_attach (grid, widget, 0, 2, 1, 1);
@@ -461,12 +453,12 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Background Image</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Template */
@@ -481,7 +473,8 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	dialog->priv->background_template_combo = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Template:"));
+	widget = gtk_label_new_with_mnemonic (_("_Template:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_template_combo);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
@@ -495,23 +488,11 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 	dialog->priv->background_image_filechooser = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Custom:"));
+	widget = gtk_label_new_with_mnemonic (_("_Custom:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_image_filechooser);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
-
-
-	/* == Button box == */
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (editor_page_dialog_close), dialog);
-	dialog->priv->close_button = widget;
-
-	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (widget), dialog->priv->close_button, FALSE, FALSE, 5);
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }

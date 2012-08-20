@@ -39,8 +39,6 @@ struct _EEditorTextDialogPrivate {
 
 	GtkWidget *color_check;
 	GtkWidget *size_check;
-
-	GtkWidget *close_button;
 };
 
 
@@ -204,17 +202,13 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		dialog, E_TYPE_EDITOR_TEXT_DIALOG, EEditorTextDialogPrivate);
 
-	main_layout = GTK_GRID (gtk_grid_new ());
-	gtk_grid_set_row_spacing (main_layout, 5);
-	gtk_grid_set_column_spacing (main_layout, 5);
-	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
 	/* Bold */
 	widget = gtk_image_new_from_stock (GTK_STOCK_BOLD, GTK_ICON_SIZE_BUTTON);
 	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
-	widget = gtk_check_button_new_with_mnemonic (_("Bold"));
+	widget = gtk_check_button_new_with_mnemonic (_("_Bold"));
 	gtk_grid_attach (main_layout, widget, 1, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "toggled",
@@ -225,7 +219,7 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 	widget = gtk_image_new_from_stock (GTK_STOCK_ITALIC, GTK_ICON_SIZE_BUTTON);
 	gtk_grid_attach (main_layout, widget, 0, 1, 1, 1);
 
-	widget = gtk_check_button_new_with_mnemonic (_("Italic"));
+	widget = gtk_check_button_new_with_mnemonic (_("_Italic"));
 	gtk_grid_attach (main_layout, widget, 1, 1, 1, 1);
 	g_signal_connect_swapped (
 		widget, "toggled",
@@ -236,7 +230,7 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 	widget = gtk_image_new_from_stock (GTK_STOCK_UNDERLINE, GTK_ICON_SIZE_BUTTON);
 	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
 
-	widget = gtk_check_button_new_with_mnemonic (_("Underline"));
+	widget = gtk_check_button_new_with_mnemonic (_("_Underline"));
 	gtk_grid_attach (main_layout, widget, 1, 2, 1, 1);
 	g_signal_connect_swapped (
 		widget, "toggled",
@@ -246,7 +240,7 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 	widget = gtk_image_new_from_stock (GTK_STOCK_STRIKETHROUGH, GTK_ICON_SIZE_BUTTON);
 	gtk_grid_attach (main_layout, widget, 0, 3, 1, 1);
 
-	widget = gtk_check_button_new_with_mnemonic (_("Strikethrough"));
+	widget = gtk_check_button_new_with_mnemonic (_("_Strikethrough"));
 	gtk_grid_attach (main_layout, widget, 1, 3, 1, 1);
 	g_signal_connect_swapped (
 		widget, "toggled",
@@ -261,7 +255,8 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 		G_CALLBACK (editor_text_dialog_set_color), dialog);
 	dialog->priv->color_check = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Color:"));
+	widget = gtk_label_new_with_mnemonic (_("_Color:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->color_check);
 	gtk_grid_attach (main_layout, widget, 2, 0, 1, 1);
 
@@ -280,22 +275,10 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 		G_CALLBACK (editor_text_dialog_set_size), dialog);
 	dialog->priv->size_check = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Size:"));
+	widget = gtk_label_new_with_mnemonic (_("Si_ze:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->size_check);
 	gtk_grid_attach (main_layout, widget, 2, 1, 1, 1);
-
-	/* Close button */
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (gtk_widget_hide), dialog);
-	dialog->priv->close_button = widget;
-
-	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);
-	gtk_container_set_border_width (GTK_CONTAINER (widget), 5);
-	gtk_grid_attach (main_layout, widget, 0, 4, 4, 1);
-	gtk_box_pack_start (GTK_BOX (widget), dialog->priv->close_button, FALSE, FALSE, 5);
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }

@@ -64,8 +64,6 @@ struct _EEditorCellDialogPrivate {
 	GtkWidget *background_color_picker;
 	GtkWidget *background_image_chooser;
 
-	GtkWidget *close_button;
-
 	WebKitDOMElement *cell;
 	guint scope;
 };
@@ -562,35 +560,32 @@ e_editor_cell_dialog_class_init (EEditorCellDialogClass *klass)
 static void
 e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 {
-	GtkBox *main_layout;
-	GtkGrid *grid;
+	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
 	GtkFileFilter *file_filter;
 
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		dialog, E_TYPE_EDITOR_CELL_DIALOG, EEditorCellDialogPrivate);
 
-	main_layout = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 5));
-	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
 	/* == Scope == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Scope</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Scope: cell */
 	widget = gtk_image_new_from_icon_name ("stock_select-cell", GTK_ICON_SIZE_BUTTON);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
-	widget = gtk_radio_button_new_with_mnemonic(NULL, _("Cell"));
+	widget = gtk_radio_button_new_with_mnemonic(NULL, _("C_ell"));
  	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	dialog->priv->scope_cell_button = widget;
 
@@ -603,7 +598,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 
 	widget = gtk_radio_button_new_with_mnemonic_from_widget (
-		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("Row"));
+		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("_Row"));
 	gtk_grid_attach (grid, widget, 3, 0, 1, 1);
 	dialog->priv->scope_row_button = widget;
 
@@ -616,7 +611,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
 	widget = gtk_radio_button_new_with_mnemonic_from_widget (
-		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("Table"));
+		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("_Table"));
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 	dialog->priv->scope_table_button = widget;
 
@@ -629,7 +624,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 	gtk_grid_attach (grid, widget, 2, 1, 1, 1);
 
 	widget = gtk_radio_button_new_with_mnemonic_from_widget (
-		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("Column"));
+		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("Col_umn"));
 	gtk_grid_attach (grid, widget, 3, 1, 1, 1);
 	dialog->priv->scope_column_button = widget;
 
@@ -641,12 +636,12 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Alignment &amp; Behavior</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Horizontal */
@@ -662,7 +657,8 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		widget, "changed",
 		G_CALLBACK (editor_cell_dialog_set_halign), dialog);
 
-	widget = gtk_label_new_with_mnemonic (_("Horizontal:"));
+	widget = gtk_label_new_with_mnemonic (_("_Horizontal:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->halign_combo);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
@@ -679,12 +675,13 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		widget, "changed",
 		G_CALLBACK (editor_cell_dialog_set_valign), dialog);
 
-	widget = gtk_label_new_with_mnemonic (_("Vertical:"));
+	widget = gtk_label_new_with_mnemonic (_("_Vertical:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->valign_combo);
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 
 	/* Wrap Text */
-	widget = gtk_check_button_new_with_mnemonic (_("Wrap Text"));
+	widget = gtk_check_button_new_with_mnemonic (_("_Wrap Text"));
 	dialog->priv->wrap_text_check = widget;
 
 	g_signal_connect_swapped (
@@ -692,7 +689,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		G_CALLBACK (editor_cell_dialog_set_wrap_text), dialog);
 
 	/* Header Style */
-	widget = gtk_check_button_new_with_mnemonic (_("Header Style"));
+	widget = gtk_check_button_new_with_mnemonic (_("_Header Style"));
 	dialog->priv->header_style_check = widget;
 
 	g_signal_connect_swapped (
@@ -708,16 +705,16 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Layout</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 4, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 5, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Width */
-	widget = gtk_check_button_new_with_mnemonic (_("Width"));
+	widget = gtk_check_button_new_with_mnemonic (_("_Width"));
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 	dialog->priv->width_check = widget;
 
@@ -756,7 +753,8 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		widget, "value-changed",
 		G_CALLBACK (editor_cell_dialog_set_row_span), dialog);
 
-	widget = gtk_label_new_with_mnemonic (_("Row Span:"));
+	widget = gtk_label_new_with_mnemonic (_("Row S_pan:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->row_span_edit);
 	gtk_grid_attach (grid, widget, 3, 0, 1, 1);
 
@@ -769,7 +767,8 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		widget, "value-changed",
 		G_CALLBACK (editor_cell_dialog_set_column_span), dialog);
 
-	widget = gtk_label_new_with_mnemonic (_("Column Span:"));
+	widget = gtk_label_new_with_mnemonic (_("Co_lumn Span:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->col_span_edit);
 	gtk_grid_attach (grid, widget, 3, 1, 1, 1);
 
@@ -777,12 +776,12 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Background</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 6, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 7, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Color */
@@ -795,7 +794,8 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 		G_CALLBACK (editor_cell_dialog_set_background_color), dialog);
 	dialog->priv->background_color_picker = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("_Color:"));
+	widget = gtk_label_new_with_mnemonic (_("C_olor:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_color_picker);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
@@ -821,23 +821,11 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 	dialog->priv->background_image_chooser = widget;
 
 
-	widget =gtk_label_new_with_mnemonic (_("Image:"));
+	widget =gtk_label_new_with_mnemonic (_("_Image:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_image_chooser);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
-
-	/* == Button box == */
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (gtk_widget_hide), dialog);
-	dialog->priv->close_button = widget;
-
-	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (widget), TRUE, TRUE, 0);
-	gtk_box_pack_start (
-		GTK_BOX (widget), dialog->priv->close_button, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }

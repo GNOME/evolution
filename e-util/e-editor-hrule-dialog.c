@@ -40,8 +40,6 @@ struct _EEditorHRuleDialogPrivate {
 	GtkWidget *alignment_combo;
 	GtkWidget *shaded_check;
 
-	GtkWidget *close_button;
-
 	WebKitDOMHTMLHRElement *hr_element;
 };
 
@@ -188,11 +186,11 @@ editor_hrule_dialog_get_shading (EEditorHRuleDialog *dialog)
 }
 
 static void
-editor_hrule_dialog_close (EEditorHRuleDialog *dialog)
+editor_hrule_dialog_hide (GtkWidget *gtk_widget)
 {
-	gtk_widget_hide (GTK_WIDGET (dialog));
+	E_EDITOR_HRULE_DIALOG (gtk_widget)->priv->hr_element = NULL;
 
-	dialog->priv->hr_element = NULL;
+	GTK_WIDGET_CLASS (e_editor_hrule_dialog_parent_class)->hide (gtk_widget);
 }
 
 static void
@@ -278,34 +276,31 @@ e_editor_hrule_dialog_class_init (EEditorHRuleDialogClass *klass)
 
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->show = editor_hrule_dialog_show;
+	widget_class->hide = editor_hrule_dialog_hide;
 }
 
 static void
 e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 {
-	GtkBox *main_layout;
-	GtkGrid *grid;
+	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
 
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		dialog, E_TYPE_EDITOR_HRULE_DIALOG, EEditorHRuleDialogPrivate);
 
-	main_layout = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 5));
-	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
-
+	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
 	/* == Size == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Size</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
 
 	/* Width */
 	widget = gtk_spin_button_new_with_range (0.0, 100.0, 1.0);
@@ -317,7 +312,8 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 	dialog->priv->width_edit = widget;
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 
-	widget = gtk_label_new_with_mnemonic (_("Width:"));
+	widget = gtk_label_new_with_mnemonic (_("_Width:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->size_edit);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
@@ -341,7 +337,8 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 	dialog->priv->size_edit = widget;
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 
-	widget = gtk_label_new_with_mnemonic (_("Size:"));
+	widget = gtk_label_new_with_mnemonic (_("_Size:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->size_edit);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
@@ -350,13 +347,13 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Style</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
 
 	/* Alignment */
 	widget = gtk_combo_box_text_new ();
@@ -373,30 +370,18 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 	dialog->priv->alignment_combo = widget;
 	gtk_grid_attach (grid, widget, 1, 0, 2, 1);
 
-	widget = gtk_label_new_with_mnemonic (_("Alignment:"));
+	widget = gtk_label_new_with_mnemonic (_("_Alignment:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), widget);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
 	/* Shaded */
-	widget = gtk_check_button_new_with_mnemonic (_("Shaded"));
+	widget = gtk_check_button_new_with_mnemonic (_("S_haded"));
 	g_signal_connect_swapped (
 		widget, "toggled",
 		G_CALLBACK (editor_hrule_dialog_set_shading), dialog);
 	dialog->priv->shaded_check = widget;
 	gtk_grid_attach (grid, widget, 0, 1, 2, 1);
-
-
-	/* == Button box == */
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (editor_hrule_dialog_close), dialog);
-	dialog->priv->close_button = widget;
-
-	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (widget), dialog->priv->close_button, FALSE, FALSE, 5);
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }

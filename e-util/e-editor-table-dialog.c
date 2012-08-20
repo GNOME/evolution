@@ -52,8 +52,6 @@ struct _EEditorTableDialogPrivate {
 	GtkWidget *background_image_button;
 	GtkWidget *image_chooser_dialog;
 
-	GtkWidget *close_button;
-
 	WebKitDOMHTMLTableElement *table_element;
 };
 
@@ -481,14 +479,6 @@ editor_table_dialog_get_background_image (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_close (EEditorTableDialog *dialog)
-{
-	gtk_widget_hide (GTK_WIDGET (dialog));
-
-	dialog->priv->table_element = NULL;
-}
-
-static void
 editor_table_dialog_get_values (EEditorTableDialog *dialog)
 {
 	editor_table_dialog_get_row_count (dialog);
@@ -584,6 +574,14 @@ editor_table_dialog_show (GtkWidget *widget)
 }
 
 static void
+editor_table_dialog_hide (GtkWidget *widget)
+{
+	E_EDITOR_TABLE_DIALOG (widget)->priv->table_element = NULL;
+
+	GTK_WIDGET_CLASS (e_editor_table_dialog_parent_class)->hide (widget);
+}
+
+static void
 e_editor_table_dialog_class_init (EEditorTableDialogClass *klass)
 {
 	GtkWidgetClass *widget_class;
@@ -593,33 +591,31 @@ e_editor_table_dialog_class_init (EEditorTableDialogClass *klass)
 
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->show = editor_table_dialog_show;
+	widget_class->hide = editor_table_dialog_hide;
 }
 
 static void
 e_editor_table_dialog_init (EEditorTableDialog *dialog)
 {
-	GtkBox *main_layout, *box;
-	GtkGrid *grid;
+	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
 	GtkFileFilter *file_filter;
 
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		dialog, E_TYPE_EDITOR_TABLE_DIALOG, EEditorTableDialogPrivate);
 
-	main_layout = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 5));
-	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
 	/* == General == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>General</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Rows */
@@ -635,6 +631,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->rows_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Rows:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->rows_edit);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 
@@ -651,6 +648,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->columns_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("C_olumns:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->columns_edit);
 	gtk_grid_attach (grid, widget, 4, 0, 1, 1);
 
@@ -659,16 +657,17 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Layout</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Width */
-	widget = gtk_check_button_new_with_mnemonic (_("Width:"));
+	widget = gtk_check_button_new_with_mnemonic (_("_Width:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "toggled",
@@ -702,6 +701,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->spacing_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Spacing:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->spacing_edit);
 	gtk_grid_attach (grid, widget, 4, 0, 1, 1);
 
@@ -718,6 +718,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->padding_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Padding:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->padding_edit);
 	gtk_grid_attach (grid, widget, 4, 1, 1, 1);
 
@@ -734,6 +735,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->border_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Border:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->border_edit);
 	gtk_grid_attach (grid, widget, 4, 2, 1, 1);
 
@@ -752,6 +754,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->alignment_combo = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Alignment:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->alignment_combo);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
@@ -759,12 +762,12 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Background</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 4, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 5, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Color */
@@ -778,6 +781,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	dialog->priv->background_color_button = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Color:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_color_button);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
@@ -804,21 +808,10 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 
 
 	widget =gtk_label_new_with_mnemonic (_("Image:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_image_button);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
-
-	/* == Button box == */
-	box = GTK_BOX (gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL));
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (box), GTK_BUTTONBOX_END);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (box), TRUE, TRUE, 0);
-
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (editor_table_dialog_close), dialog);
-	dialog->priv->close_button = widget;
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }

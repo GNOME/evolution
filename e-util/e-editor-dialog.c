@@ -29,6 +29,9 @@ G_DEFINE_ABSTRACT_TYPE (
 
 struct _EEditorDialogPrivate {
 	EEditor *editor;
+
+	GtkBox *button_box;
+	GtkGrid *container;
 };
 
 enum {
@@ -83,6 +86,15 @@ editor_dialog_set_property (GObject *object,
 }
 
 static void
+editor_dialog_show (GtkWidget *widget)
+{
+	gtk_widget_show_all (GTK_WIDGET (E_EDITOR_DIALOG (widget)->priv->container));
+	gtk_widget_show_all (GTK_WIDGET (E_EDITOR_DIALOG (widget)->priv->button_box));
+
+	GTK_WIDGET_CLASS (e_editor_dialog_parent_class)->show (widget);
+}
+
+static void
 editor_dialog_dispose (GObject *object)
 {
 	EEditorDialogPrivate *priv = E_EDITOR_DIALOG (object)->priv;
@@ -97,6 +109,7 @@ static void
 e_editor_dialog_class_init (EEditorDialogClass *klass)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (EEditorDialogPrivate));
@@ -105,6 +118,9 @@ e_editor_dialog_class_init (EEditorDialogClass *klass)
 	object_class->get_property = editor_dialog_get_property;
 	object_class->set_property = editor_dialog_set_property;
 	object_class->dispose = editor_dialog_dispose;
+
+	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class->show = editor_dialog_show;
 
 	g_object_class_install_property (
 		object_class,
@@ -120,8 +136,37 @@ e_editor_dialog_class_init (EEditorDialogClass *klass)
 static void
 e_editor_dialog_init (EEditorDialog *dialog)
 {
+	GtkBox *main_layout;
+	GtkGrid *grid;
+	GtkWidget *widget, *button_box;
+
 	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		dialog, E_TYPE_EDITOR_DIALOG, EEditorDialogPrivate);
+
+	main_layout = GTK_BOX (gtk_vbox_new (FALSE, 5));
+	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+
+	grid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_row_spacing (grid, 10);
+	gtk_grid_set_column_spacing (grid, 10);
+	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 5);
+	dialog->priv->container = grid;
+
+	/* == Button box == */
+	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (gtk_widget_hide), dialog);
+
+	button_box = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (button_box), GTK_BUTTONBOX_END);
+	gtk_box_set_spacing (GTK_BOX (button_box), 5);
+	gtk_box_pack_start (main_layout, button_box, TRUE, TRUE, 5);
+	gtk_box_pack_start (GTK_BOX (button_box), widget, FALSE, FALSE, 5);
+	dialog->priv->button_box = GTK_BOX (button_box);
+
+	gtk_widget_show_all (GTK_WIDGET (main_layout));
 
 	g_object_set (
 		G_OBJECT (dialog),
@@ -146,3 +191,20 @@ e_editor_dialog_get_editor (EEditorDialog *dialog)
 
 	return dialog->priv->editor;
 }
+
+GtkGrid *
+e_editor_dialog_get_container (EEditorDialog *dialog)
+{
+	g_return_val_if_fail (E_IS_EDITOR_DIALOG (dialog), NULL);
+
+	return dialog->priv->container;
+}
+
+GtkBox *
+e_editor_dialog_get_button_box (EEditorDialog *dialog)
+{
+	g_return_val_if_fail (E_IS_EDITOR_DIALOG (dialog), NULL);
+
+	return dialog->priv->button_box;
+}
+

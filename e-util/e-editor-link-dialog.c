@@ -37,7 +37,6 @@ struct _EEditorLinkDialogPrivate {
 	GtkWidget *test_button;
 
 	GtkWidget *remove_link_button;
-	GtkWidget *close_button;
 	GtkWidget *ok_button;
 };
 
@@ -267,21 +266,18 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 				dialog, E_TYPE_EDITOR_LINK_DIALOG,
 				EEditorLinkDialogPrivate);
 
-	main_layout = GTK_GRID (gtk_grid_new ());
-	gtk_grid_set_row_spacing (main_layout, 10);
-	gtk_grid_set_column_spacing (main_layout, 10);
-	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
 	widget = gtk_entry_new ();
 	gtk_grid_attach (main_layout, widget, 1, 0, 1, 1);
 	dialog->priv->url_edit = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("URL:"));
+	widget = gtk_label_new_with_mnemonic (_("_URL:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->url_edit);
 	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
-	widget = gtk_button_new_with_label (_("Test URL..."));
+	widget = gtk_button_new_with_mnemonic (_("_Test URL..."));
 	gtk_grid_attach (main_layout, widget, 2, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "clicked",
@@ -292,23 +288,14 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 1, 1, 2, 1);
 	dialog->priv->label_edit = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Description:"));
+	widget = gtk_label_new_with_mnemonic (_("_Description:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->label_edit);
 	gtk_grid_attach (main_layout, widget, 0, 1, 1, 1);
 
-	button_box = GTK_BOX (gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL));
-	gtk_box_set_spacing (button_box, 5);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (button_box), GTK_BUTTONBOX_END);
-	gtk_grid_attach (main_layout, GTK_WIDGET (button_box), 0, 2, 3, 1);
-
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (editor_link_dialog_close), dialog);
-	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
-	dialog->priv->close_button = widget;
-
-	widget = gtk_button_new_with_label (_("Remove Link"));
+	button_box = e_editor_dialog_get_button_box (E_EDITOR_DIALOG (dialog));
+	
+	widget = gtk_button_new_with_mnemonic (_("_Remove Link"));
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (editor_link_dialog_remove_link), dialog);
@@ -319,7 +306,7 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (editor_link_dialog_ok), dialog);
-	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
+	gtk_box_pack_end (button_box, widget, FALSE, FALSE, 5);
 	dialog->priv->ok_button = widget;
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));

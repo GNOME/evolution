@@ -37,15 +37,12 @@ struct _EEditorParagraphDialogPrivate {
 	GtkWidget *left_button;
 	GtkWidget *center_button;
 	GtkWidget *right_button;
-
-	GtkWidget *close_button;
 };
 
 static void
 editor_paragraph_dialog_constructed (GObject *object)
 {
-	GtkBox *main_layout;
-	GtkGrid *grid;
+	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
 	EEditor *editor;
 	EEditorParagraphDialog *dialog;
@@ -53,20 +50,18 @@ editor_paragraph_dialog_constructed (GObject *object)
 	dialog = E_EDITOR_PARAGRAPH_DIALOG (object);
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
 
-	main_layout = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 5));
-	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 10);
+	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
 
 	/* == General == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>General</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Style */
@@ -76,7 +71,8 @@ editor_paragraph_dialog_constructed (GObject *object)
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	dialog->priv->style_combo = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Style:"));
+	widget = gtk_label_new_with_mnemonic (_("_Style:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->style_combo);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
@@ -84,12 +80,12 @@ editor_paragraph_dialog_constructed (GObject *object)
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Alignment</b>"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
+	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_box_pack_start (main_layout, GTK_WIDGET (grid), TRUE, TRUE, 0);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Left */
@@ -118,18 +114,6 @@ editor_paragraph_dialog_constructed (GObject *object)
 		GTK_ACTIVATABLE (widget),
 		e_editor_get_action (editor, "justify-right"));
 	dialog->priv->right_button = widget;
-
-	/* == Button box == */
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (gtk_widget_hide), dialog);
-	dialog->priv->close_button = widget;
-
-	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);
-	gtk_box_pack_start (main_layout, widget, TRUE, TRUE, 5);
-	gtk_box_pack_start (GTK_BOX (widget), dialog->priv->close_button, FALSE, FALSE, 5);
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }
