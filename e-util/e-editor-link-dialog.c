@@ -179,6 +179,21 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 	gtk_widget_hide (GTK_WIDGET (dialog));
 }
 
+static gboolean
+editor_link_dialog_entry_key_pressed (EEditorLinkDialog *dialog,
+				      GdkEventKey *event)
+{
+	/* We can't do thins in key_released, because then you could not open
+	 * this dialog from main menu by pressing enter on Insert->Link action */
+	if (event->keyval == GDK_KEY_Return) {
+		editor_link_dialog_ok (dialog);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
 static void
 editor_link_dialog_show (GtkWidget *widget)
 {
@@ -295,6 +310,9 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 	g_signal_connect_swapped (
 		widget, "notify::text",
 		G_CALLBACK (editor_link_dialog_url_changed), dialog);
+	g_signal_connect_swapped (
+		widget, "key-press-event",
+		G_CALLBACK (editor_link_dialog_entry_key_pressed), dialog);
 	dialog->priv->url_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_URL:"));
@@ -314,6 +332,9 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 	g_signal_connect_swapped (
 		widget, "key-release-event",
 		G_CALLBACK (editor_link_dialog_description_changed), dialog);
+	g_signal_connect_swapped (
+		widget, "key-press-event",
+		G_CALLBACK (editor_link_dialog_entry_key_pressed), dialog);	
 	dialog->priv->label_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Description:"));
