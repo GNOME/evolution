@@ -3438,7 +3438,10 @@ e_cal_model_set_search_query (ECalModel *model,
 	if (priv->search_sexp)
 		g_free (priv->search_sexp);
 
-	priv->search_sexp = g_strdup (sexp);
+	if (!sexp || !*sexp)
+		priv->search_sexp = NULL;
+	else
+		priv->search_sexp = g_strdup (sexp);
 
 	redo_queries (model);
 }
@@ -3463,7 +3466,10 @@ e_cal_model_set_search_query_with_time_range (ECalModel *model,
 		if (priv->search_sexp)
 			g_free (priv->search_sexp);
 
-		priv->search_sexp = g_strdup (sexp);
+		if (!sexp || !*sexp)
+			priv->search_sexp = NULL;
+		else
+			priv->search_sexp = g_strdup (sexp);
 		do_query = TRUE;
 	}
 

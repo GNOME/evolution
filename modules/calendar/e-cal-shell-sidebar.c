@@ -61,6 +61,8 @@ struct _ECalShellSidebarPrivate {
 	 * which is bound by an EBinding to ECalModel. */
 	ECalClient *default_client;
 
+	ESource *loading_default_source_instance; /* not-reffed, only for comparison */
+
 	GCancellable *loading_default_client;
 	GCancellable *loading_clients;
 };
@@ -368,6 +370,14 @@ cal_shell_sidebar_default_loaded_cb (GObject *source_object,
 
 	e_client_utils_open_new_finish (source, result, &client, &error);
 
+	if (priv->loading_default_client) {
+		g_object_unref (priv->loading_default_client);
+		priv->loading_default_client = NULL;
+	}
+
+	if (source == priv->loading_default_source_instance)
+		priv->loading_default_source_instance = NULL;
+
 	/* Ignore cancellations. */
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -412,6 +422,10 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
 
 	priv = cal_shell_sidebar->priv;
 
+	/* already loading that source as default source */
+	if (source == priv->loading_default_source_instance)
+		return;
+
 	/* FIXME Sidebar should not be accessing the EShellContent.
 	 *       This probably needs to be moved to ECalShellView. */
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
@@ -436,6 +450,8 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
 		return;
 	}
 
+	/* it's only for pointer comparison, no need to ref it */
+	priv->loading_default_source_instance = source;
 	priv->loading_default_client = g_cancellable_new ();
 
 	e_client_utils_open_new (
