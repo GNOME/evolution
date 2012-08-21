@@ -152,7 +152,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="ENameSelectorEntry" type-func="e_name_selector_entry_get_type" id="email-entry">
+                          <object class="GtkEntry" id="email-entry">
                             <property name="visible">True</property>
                           </object>
                           <packing>
