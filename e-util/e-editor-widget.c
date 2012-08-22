@@ -382,7 +382,8 @@ editor_widget_key_release_event (GtkWidget *gtk_widget,
 
 	range = editor_widget_get_dom_range (widget);
 
-	if (widget->priv->magic_smileys) {
+	if (widget->priv->magic_smileys &&
+	    widget->priv->mode == E_EDITOR_WIDGET_MODE_HTML) {
 		editor_widget_check_magic_smileys (widget, range);
 	}
 
