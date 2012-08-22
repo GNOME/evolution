@@ -86,9 +86,14 @@ editor_selection_get_current_range (EEditorSelection *selection)
 
 	document = webkit_web_view_get_dom_document (selection->priv->webview);
 	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1)
+	if (!window) {
 		return NULL;
+	}
+
+	dom_selection = webkit_dom_dom_window_get_selection (window);
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
+		return NULL;
+	}
 
 	return webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 }

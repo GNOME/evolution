@@ -66,6 +66,10 @@ void		e_emoticon_chooser_item_activated
 
 GList *		e_emoticon_chooser_get_items	(void);
 
+const EEmoticon *
+		e_emoticon_chooser_lookup_emoticon
+						(const gchar *icon_name);
+
 G_END_DECLS
 
 #endif /* E_EMOTICON_CHOOSER_H */

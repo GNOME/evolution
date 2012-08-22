@@ -178,3 +178,20 @@ e_emoticon_chooser_get_items (void)
 
 	return g_list_reverse (list);
 }
+
+const EEmoticon *
+e_emoticon_chooser_lookup_emoticon (const gchar *icon_name)
+{
+	gint ii;
+
+	g_return_val_if_fail (icon_name && *icon_name, NULL);
+
+	for (ii = 0; ii < G_N_ELEMENTS (available_emoticons); ii++) {
+		if (strcmp (available_emoticons[ii].icon_name, icon_name) == 0) {
+			return (const EEmoticon *) &available_emoticons[ii];
+		}
+	}
+
+	return NULL;
+}
+
