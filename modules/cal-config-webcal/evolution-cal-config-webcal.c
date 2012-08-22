@@ -162,6 +162,7 @@ cal_config_webcal_check_complete (ESourceConfigBackend *backend,
 	GtkEntry *entry;
 	Context *context;
 	const gchar *uri_string;
+	const gchar *scheme;
 	const gchar *uid;
 	gboolean complete;
 
@@ -173,6 +174,13 @@ cal_config_webcal_check_complete (ESourceConfigBackend *backend,
 	uri_string = gtk_entry_get_text (entry);
 
 	soup_uri = soup_uri_new (uri_string);
+
+	/* XXX webcal:// is a non-standard scheme, but we accept it.
+	 *     Just convert it to http:// for the URI validity test. */
+	scheme = soup_uri_get_scheme (soup_uri);
+	if (g_strcmp0 (scheme, "webcal") == 0)
+		soup_uri_set_scheme (soup_uri, SOUP_URI_SCHEME_HTTP);
+
 	complete = SOUP_URI_VALID_FOR_HTTP (soup_uri);
 
 	if (soup_uri != NULL)
