@@ -93,11 +93,16 @@ et_get_extents (AtkComponent *component,
 static const gchar *
 et_get_full_text (AtkText *text)
 {
-	EText *etext = E_TEXT (atk_gobject_accessible_get_object (
-		ATK_GOBJECT_ACCESSIBLE (text)));
+	GObject *obj;
+	EText *etext;
 	ETextModel *model;
 	const gchar *full_text;
 
+	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+	if (obj == NULL)
+		return "";
+
+	etext = E_TEXT (obj);
 	g_object_get (etext, "model", &model, NULL);
 
 	full_text = e_text_model_get_text (model);
@@ -109,10 +114,15 @@ static void
 et_set_full_text (AtkEditableText *text,
                   const gchar *full_text)
 {
-	EText *etext = E_TEXT (atk_gobject_accessible_get_object (
-		ATK_GOBJECT_ACCESSIBLE (text)));
+	GObject *obj;
+	EText *etext;
 	ETextModel *model;
 
+	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+	if (obj == NULL)
+		return;
+
+	etext = E_TEXT (obj);
 	g_object_get (etext, "model", &model, NULL);
 
 	e_text_model_set_text (model, full_text);
@@ -648,8 +658,13 @@ et_get_offset_at_point (AtkText *text,
 static gint
 et_get_n_selections (AtkText *text)
 {
-	EText *etext = E_TEXT (atk_gobject_accessible_get_object (
-		ATK_GOBJECT_ACCESSIBLE (text)));
+	EText *etext;
+	GObject *obj =  atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+
+	if (obj == NULL)
+		return -1;
+	etext = E_TEXT (obj);
+
 	if (etext->selection_start !=
 	    etext->selection_end)
 		return 1;
