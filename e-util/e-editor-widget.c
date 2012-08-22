@@ -40,6 +40,7 @@ struct _EEditorWidgetPrivate {
 	gint can_paste		: 1;
 	gint can_redo		: 1;
 	gint can_undo		: 1;
+	gint reload_in_progress : 1;
 
 	EEditorSelection *selection;
 
@@ -50,6 +51,8 @@ struct _EEditorWidgetPrivate {
 
 	GSettings *font_settings;
 	GSettings *aliasing_settings;
+
+	GQueue *postreload_operations;
 };
 
 G_DEFINE_TYPE (
@@ -77,7 +80,37 @@ enum {
 	LAST_SIGNAL
 };
 
+typedef void (*PostReloadOperationFunc)	(EEditorWidget *widget,
+				 	 gpointer data);
+
+typedef struct  {
+	PostReloadOperationFunc	func;
+	gpointer		data;
+	GDestroyNotify		data_free_func;
+} PostReloadOperation;
+
 static guint signals[LAST_SIGNAL] = { 0 };
+
+static void
+editor_widget_queue_postreload_operation (EEditorWidget *widget,
+					  PostReloadOperationFunc func,
+					  gpointer data,
+					  GDestroyNotify data_free_func)
+{
+	PostReloadOperation *op;
+
+	g_return_if_fail (func != NULL);
+
+	if (widget->priv->postreload_operations == NULL)
+		widget->priv->postreload_operations = g_queue_new ();
+
+	op = g_new0 (PostReloadOperation, 1);
+	op->func = func;
+	op->data = data;
+	op->data_free_func = data_free_func;
+
+	g_queue_push_head (widget->priv->postreload_operations, op);
+}
 
 static WebKitDOMRange *
 editor_widget_get_dom_range (EEditorWidget *widget)
@@ -100,19 +133,11 @@ editor_widget_get_dom_range (EEditorWidget *widget)
 static void
 editor_widget_strip_formatting (EEditorWidget *widget)
 {
-	gchar *plain, *html;
-	GRegex *regex;
+	gchar *plain;
 
 	plain = e_editor_widget_get_text_plain (widget);
-
-	/* Convert \n to <br> */
-	regex = g_regex_new ("\n", 0, 0, NULL);
-	html = g_regex_replace (regex, plain, strlen (plain), 0, "<br>", 0, NULL);
-
-	e_editor_widget_set_text_html (widget, html);
-
+	e_editor_widget_set_text_plain (widget, plain);
 	g_free (plain);
-	g_free (html);
 }
 
 static void
@@ -142,6 +167,14 @@ editor_widget_selection_changed_cb (EEditorWidget *widget,
 {
 	gboolean can_copy, can_cut, can_paste;
 
+	/* When the webview is being (re)loaded, the document is in inconsitant
+	 * state and there is no selection, so don't propagate the signal further
+	 * to EEditorSelection and others and wait until the load is finished */
+	if (widget->priv->reload_in_progress) {
+		g_signal_stop_emission_by_name (widget, "selection-changed");
+		return;
+	}
+
 	can_copy = webkit_web_view_can_copy_clipboard (WEBKIT_WEB_VIEW (widget));
 	if ((widget->priv->can_copy ? TRUE : FALSE) != (can_copy ? TRUE : FALSE)) {
 		widget->priv->can_copy = can_copy;
@@ -166,6 +199,53 @@ editor_widget_should_show_delete_interface_for_element (EEditorWidget *widget,
 							WebKitDOMHTMLElement *element)
 {
 	return FALSE;
+}
+
+static void
+editor_widget_load_status_changed (EEditorWidget *widget)
+{
+	WebKitLoadStatus status;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *selection;
+	WebKitDOMRange *range;
+
+	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (widget));
+	if (status != WEBKIT_LOAD_FINISHED) {
+		return;
+	}
+
+	widget->priv->reload_in_progress = FALSE;
+
+ 	/* After reload, there is no selection in the document. Fix it. */
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	window = webkit_dom_document_get_default_view (document);
+	selection = webkit_dom_dom_window_get_selection (window);
+
+	range = webkit_dom_document_create_range (document);
+	webkit_dom_range_set_start (
+		range, WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
+		0, NULL);
+	webkit_dom_range_set_end (
+		range, WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
+		0, NULL);
+
+	webkit_dom_dom_selection_add_range (selection, range);
+
+	/* Dispatch queued operations */
+	while (widget->priv->postreload_operations &&
+	       !g_queue_is_empty (widget->priv->postreload_operations)) {
+
+		PostReloadOperation *op;
+
+		op = g_queue_pop_head (widget->priv->postreload_operations);
+
+		op->func (widget, op->data);
+
+		if (op->data_free_func)
+			op->data_free_func (op->data);
+		g_free (op);
+	}
 }
 
 static gboolean
@@ -284,10 +364,11 @@ editor_widget_check_magic_smileys (EEditorWidget *widget,
 	if (state < 0) {
 		GtkIconInfo *icon_info;
 		const gchar *filename;
-		gchar *filename_uri;
+		gchar *filename_uri, *html;
 		WebKitDOMDocument *document;
 		WebKitDOMDOMWindow *window;
 		WebKitDOMDOMSelection *selection;
+		const EEmoticon *emoticon;
 
 		if (pos > 0) {
 			uc = g_utf8_get_char (g_utf8_offset_to_pointer (node_text, pos - 1));
@@ -306,6 +387,9 @@ editor_widget_check_magic_smileys (EEditorWidget *widget,
 			pos, webkit_dom_range_get_end_container (range, NULL),
 			start + 1, NULL);
 
+		emoticon = e_emoticon_chooser_lookup_emoticon (
+				emoticons_icon_names[-state - 1]);
+
 		/* Convert a named icon to a file URI. */
 		icon_info = gtk_icon_theme_lookup_icon (
 			gtk_icon_theme_get_default (),
@@ -315,9 +399,15 @@ editor_widget_check_magic_smileys (EEditorWidget *widget,
 		g_return_if_fail (filename != NULL);
 		filename_uri = g_filename_to_uri (filename, NULL, NULL);
 
-		e_editor_selection_insert_image (
-			widget->priv->selection, filename_uri);
+		html = g_strdup_printf (
+			"<img src=\"%s\" alt=\"%s\" x-evo-smiley=\"%s\" />",
+			filename_uri, emoticon ? emoticon->text_face : "",
+			emoticons_icon_names[-state - 1]);
 
+		e_editor_selection_insert_html (
+			widget->priv->selection, html);
+
+		g_free (html);
 		g_free (filename_uri);
 		gtk_icon_info_free (icon_info);
 	}
@@ -782,6 +872,8 @@ e_editor_widget_init (EEditorWidget *editor)
 		G_CALLBACK (editor_widget_selection_changed_cb), NULL);
 	g_signal_connect (editor, "should-show-delete-interface-for-element",
 		G_CALLBACK (editor_widget_should_show_delete_interface_for_element), NULL);
+	g_signal_connect (editor, "notify::load-status",
+		G_CALLBACK (editor_widget_load_status_changed), NULL);
 
 	editor->priv->selection = e_editor_selection_new (
 					WEBKIT_WEB_VIEW (editor));
@@ -991,18 +1083,90 @@ gchar *
 e_editor_widget_get_text_plain (EEditorWidget *widget)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *element;
+	WebKitDOMNode *body;
+	WebKitDOMNodeList *imgs;
+	gulong ii, length;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-	element = webkit_dom_document_get_body (document);
-	return webkit_dom_html_element_get_inner_text (element);
+	body = (WebKitDOMNode *) webkit_dom_document_get_body (document);
+	body = webkit_dom_node_clone_node (body, TRUE);
+
+	imgs = webkit_dom_element_get_elements_by_tag_name (
+			(WebKitDOMElement *) body, "IMG");
+	length = webkit_dom_node_list_get_length (imgs);
+
+	/* Replace all smiley images with their text representation */
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *img;
+
+		img = webkit_dom_node_list_item (imgs, ii);
+
+		if (webkit_dom_element_has_attribute (
+				WEBKIT_DOM_ELEMENT (img), "x-evo-smiley")) {
+
+			gchar *name;
+			const EEmoticon *emoticon;
+
+			name = webkit_dom_element_get_attribute (
+				WEBKIT_DOM_ELEMENT (img), "x-evo-smiley");
+			emoticon = e_emoticon_chooser_lookup_emoticon (name);
+			if (emoticon) {
+				WebKitDOMText *text;
+
+				text = webkit_dom_document_create_text_node (
+					document, emoticon->text_face);
+
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (img),
+					WEBKIT_DOM_NODE (text), img, NULL);
+				webkit_dom_node_remove_child (
+					webkit_dom_node_get_parent_node (img),
+					img, NULL);
+			}
+
+			g_free (name);
+		}
+	}
+
+	return webkit_dom_html_element_get_inner_text ((WebKitDOMHTMLElement *) body);
 }
 
 void
 e_editor_widget_set_text_html (EEditorWidget *widget,
 			       const gchar *text)
 {
-	webkit_web_view_load_html_string (WEBKIT_WEB_VIEW (widget), text, NULL);
+	webkit_web_view_load_html_string (
+		WEBKIT_WEB_VIEW (widget), text, "file://");
+}
+
+static void
+do_set_text_plain (EEditorWidget *widget,
+		   gpointer data)
+{
+	WebKitDOMDocument *document;
+
+	document =
+		webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+
+	webkit_dom_document_exec_command (
+		document, "insertText", FALSE, data);
+}
+
+void
+e_editor_widget_set_text_plain (EEditorWidget *widget,
+				const gchar *text)
+{
+	widget->priv->reload_in_progress = TRUE;
+
+	webkit_web_view_load_html_string (
+		WEBKIT_WEB_VIEW (widget), "", "file://");
+
+	/* webkit_web_view_load_html_string() is actually performed
+	 * when this functions returns, so the operation below would get
+	 * overwritten. Instead queue the insert operation and insert the
+	 * actual text when the webview is reloaded */
+	editor_widget_queue_postreload_operation (
+		widget, do_set_text_plain, g_strdup (text), g_free);
 }
 
 void
