@@ -231,6 +231,10 @@ source_config_add_candidate (ESourceConfig *config,
 static void
 source_config_free_candidate (Candidate *candidate)
 {
+	g_signal_handlers_disconnect_matched (
+		candidate->scratch_source, G_SIGNAL_MATCH_FUNC,
+		0, 0, NULL, G_CALLBACK (e_source_config_check_complete), NULL);
+
 	g_object_unref (candidate->page);
 	g_object_unref (candidate->scratch_source);
 	g_object_unref (candidate->backend);
