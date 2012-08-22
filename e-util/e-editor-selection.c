@@ -1345,23 +1345,14 @@ e_editor_selection_insert_text (EEditorSelection *selection,
 				const gchar *plain_text)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMRange *range;
-	WebKitDOMElement *element;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 	g_return_if_fail (plain_text != NULL);
 
-	range = editor_selection_get_current_range (selection);
 	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	element = webkit_dom_document_create_element (document, "DIV", NULL);
-	webkit_dom_html_element_set_inner_text (
-		WEBKIT_DOM_HTML_ELEMENT (element), plain_text, NULL);
 
-	webkit_dom_range_insert_node (
-		range, webkit_dom_node_get_first_child (
-			WEBKIT_DOM_NODE (element)), NULL);
-
-	g_object_unref (element);
+	webkit_dom_document_exec_command (
+		document, "insertText", FALSE, plain_text);
 }
 
 void
