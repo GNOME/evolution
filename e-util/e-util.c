@@ -353,11 +353,6 @@ e_restore_window (GtkWindow *window,
 
 		if (g_settings_get_boolean (settings, "maximized")) {
 			GdkScreen *screen;
-			GdkRectangle monitor_area;
-			gint x, y, monitor;
-
-			x = g_settings_get_int (settings, "x");
-			y = g_settings_get_int (settings, "y");
 
 			screen = gtk_window_get_screen (window);
 			gtk_window_get_size (window, &width, &height);
@@ -365,13 +360,10 @@ e_restore_window (GtkWindow *window,
 			data->premax_width = width;
 			data->premax_height = height;
 
-			monitor = gdk_screen_get_monitor_at_point (screen, x, y);
-			if (monitor < 0 || monitor >= gdk_screen_get_n_monitors (screen))
-				monitor = 0;
+			width = gdk_screen_get_width (screen);
+			height = gdk_screen_get_height (screen);
 
-			gdk_screen_get_monitor_workarea (screen, monitor, &monitor_area);
-
-			gtk_window_resize (window, monitor_area.width, monitor_area.height);
+			gtk_window_resize (window, width, height);
 			gtk_window_maximize (window);
 		}
 	}
