@@ -78,7 +78,6 @@ cal_config_webcal_text_to_uri (GBinding *binding,
                                GValue *target_value,
                                gpointer user_data)
 {
-	GObject *target;
 	ESource *source;
 	SoupURI *soup_uri;
 	ESourceAuthentication *extension;
@@ -92,9 +91,7 @@ cal_config_webcal_text_to_uri (GBinding *binding,
 	if (soup_uri == NULL)
 		return FALSE;
 
-	target = g_binding_get_target (binding);
-	source = e_source_extension_get_source (E_SOURCE_EXTENSION (target));
-
+	source = E_SOURCE (user_data);
 	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
 	extension = e_source_get_extension (source, extension_name);
 	user = e_source_authentication_get_user (extension);
@@ -151,7 +148,8 @@ cal_config_webcal_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_SYNC_CREATE,
 		cal_config_webcal_uri_to_text,
 		cal_config_webcal_text_to_uri,
-		NULL, (GDestroyNotify) NULL);
+		g_object_ref (scratch_source),
+		(GDestroyNotify) g_object_unref);
 }
 
 static gboolean
