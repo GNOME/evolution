@@ -657,9 +657,14 @@ mode_changed (struct _ModeChanged *data)
 				parent ? GTK_WINDOW (parent) : NULL,
 				GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_MESSAGE_WARNING,
-				GTK_BUTTONS_OK_CANCEL,
+				GTK_BUTTONS_NONE,
 				_("Turning HTML mode off will cause the text "
-				  "to loose all formatting. Do you want to continue?"));
+				  "to lose all formatting. Do you want to continue?"));
+		gtk_dialog_add_buttons (
+			GTK_DIALOG (dialog),
+			_("_Don't lose formatting"), GTK_RESPONSE_CANCEL,
+			_("_Lose formatting"), GTK_RESPONSE_OK,
+			NULL);
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_CANCEL) {
 			gtk_radio_action_set_current_value (
 				data->action, E_EDITOR_WIDGET_MODE_HTML);
