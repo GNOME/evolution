@@ -131,16 +131,6 @@ editor_widget_get_dom_range (EEditorWidget *widget)
 }
 
 static void
-editor_widget_strip_formatting (EEditorWidget *widget)
-{
-	gchar *plain;
-
-	plain = e_editor_widget_get_text_plain (widget);
-	e_editor_widget_set_text_plain (widget, plain);
-	g_free (plain);
-}
-
-static void
 editor_widget_user_changed_contents_cb (EEditorWidget *widget,
 					gpointer user_data)
 {
@@ -965,8 +955,34 @@ e_editor_widget_set_mode (EEditorWidget *widget,
 
 	widget->priv->mode = mode;
 
-	if (widget->priv->mode == E_EDITOR_WIDGET_MODE_PLAIN_TEXT)
-		editor_widget_strip_formatting (widget);
+	if (widget->priv->mode == E_EDITOR_WIDGET_MODE_PLAIN_TEXT) {
+		gchar *plain;
+
+		plain = e_editor_widget_get_text_plain (widget);
+		e_editor_widget_set_text_plain (widget, plain);
+
+		g_free (plain);
+	} else {
+		gchar *plain_text, *html;
+
+		plain_text = e_editor_widget_get_text_plain (widget);
+
+		/* FIXME WEBKIT: This does not process smileys! */
+		html = camel_text_to_html (
+			plain_text,
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+			CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES |
+			CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED,
+			0);
+
+		e_editor_widget_set_text_html (widget, html);
+
+		g_free (plain_text);
+		g_free (html);
+	}
 
 	g_object_notify (G_OBJECT (widget), "mode");
 }
@@ -1079,62 +1095,115 @@ e_editor_widget_get_text_html (EEditorWidget *widget)
 			WEBKIT_DOM_HTML_ELEMENT (element));
 }
 
+static void
+process_elements (WebKitDOMNode *node,
+		  GString *buffer)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMNodeList *nodes;
+	WebKitDOMCSSStyleDeclaration *style;
+	gchar *display, *tagname;
+	gulong ii, length;
+	GRegex *regex;
+
+	document = webkit_dom_node_get_owner_document (node);
+	window = webkit_dom_document_get_default_view (document);
+
+	/* Is this a block element? */
+	style = webkit_dom_dom_window_get_computed_style (
+			window, WEBKIT_DOM_ELEMENT (node), "");
+	display = webkit_dom_css_style_declaration_get_property_value (
+			style, "display");
+
+	tagname = webkit_dom_element_get_tag_name (WEBKIT_DOM_ELEMENT (node));
+
+	/* Replace images with smileys by their text representation */
+	if (g_ascii_strncasecmp (tagname, "IMG", 3) == 0) {
+		if (webkit_dom_element_has_attribute (
+				WEBKIT_DOM_ELEMENT (node), "x-evo-smiley")) {
+
+			gchar *smiley_name;
+			const EEmoticon *emoticon;
+
+			smiley_name = webkit_dom_element_get_attribute (
+					WEBKIT_DOM_ELEMENT (node), "x-evo-smiley");
+			emoticon = e_emoticon_chooser_lookup_emoticon (smiley_name);
+			if (emoticon) {
+				g_string_append_printf (
+					buffer, " %s ", emoticon->text_face);
+			}
+			g_free (smiley_name);
+			g_free (display);
+
+			/* IMG can't have child elements, so we return now */
+			return;
+		}
+	}
+
+
+	nodes = webkit_dom_node_get_child_nodes (node);
+	length = webkit_dom_node_list_get_length (nodes);
+	regex = g_regex_new ("\x9", 0, 0, NULL);
+
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *child;
+
+		child = webkit_dom_node_list_item (nodes, ii);
+		if (webkit_dom_node_get_node_type (child) == 3) {
+			gchar *content, *tmp;
+
+			tmp = webkit_dom_node_get_text_content (child);
+
+			/* Replace tabs with 4 whitespaces, otherwise they got
+			   replaced by single whitespace */
+			content = g_regex_replace (
+				regex, tmp, -1, 0, "    ",
+				0, NULL);
+
+			g_string_append (buffer, content);
+			g_free (tmp);
+			g_free (content);
+		}
+
+		if (webkit_dom_node_has_child_nodes (child)) {
+			process_elements (child, buffer);
+		}
+	}
+
+	if (g_strcmp0 (display, "block") == 0) {
+		g_string_append (buffer, "\n");
+	}
+
+	g_free (display);
+	g_regex_unref (regex);
+}
+
 gchar *
 e_editor_widget_get_text_plain (EEditorWidget *widget)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNode *body;
-	WebKitDOMNodeList *imgs;
-	gulong ii, length;
+	GString *plain_text;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	body = (WebKitDOMNode *) webkit_dom_document_get_body (document);
-	body = webkit_dom_node_clone_node (body, TRUE);
 
-	imgs = webkit_dom_element_get_elements_by_tag_name (
-			(WebKitDOMElement *) body, "IMG");
-	length = webkit_dom_node_list_get_length (imgs);
+	plain_text = g_string_sized_new (1024);
+	process_elements (body, plain_text);
 
-	/* Replace all smiley images with their text representation */
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *img;
+	printf("%s\n", plain_text->str);
 
-		img = webkit_dom_node_list_item (imgs, ii);
-
-		if (webkit_dom_element_has_attribute (
-				WEBKIT_DOM_ELEMENT (img), "x-evo-smiley")) {
-
-			gchar *name;
-			const EEmoticon *emoticon;
-
-			name = webkit_dom_element_get_attribute (
-				WEBKIT_DOM_ELEMENT (img), "x-evo-smiley");
-			emoticon = e_emoticon_chooser_lookup_emoticon (name);
-			if (emoticon) {
-				WebKitDOMText *text;
-
-				text = webkit_dom_document_create_text_node (
-					document, emoticon->text_face);
-
-				webkit_dom_node_insert_before (
-					webkit_dom_node_get_parent_node (img),
-					WEBKIT_DOM_NODE (text), img, NULL);
-				webkit_dom_node_remove_child (
-					webkit_dom_node_get_parent_node (img),
-					img, NULL);
-			}
-
-			g_free (name);
-		}
-	}
-
-	return webkit_dom_html_element_get_inner_text ((WebKitDOMHTMLElement *) body);
+	/* Return text content between <body> and </body> */
+	return g_string_free (plain_text, FALSE);
 }
 
 void
 e_editor_widget_set_text_html (EEditorWidget *widget,
 			       const gchar *text)
 {
+	widget->priv->reload_in_progress = TRUE;
+
 	webkit_web_view_load_html_string (
 		WEBKIT_WEB_VIEW (widget), text, "file://");
 }
