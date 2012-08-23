@@ -165,7 +165,7 @@ window_state_event_cb (GtkWindow *window,
 			gtk_window_resize (window, width, height);
 	}
 
-	window_update_settings (data);
+	window_configure_event_cb (window, NULL, data);
 
 	return FALSE;
 }
