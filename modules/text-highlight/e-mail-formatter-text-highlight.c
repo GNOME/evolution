@@ -113,9 +113,10 @@ get_syntax (EMailPart *part,
 
 	/* If it fails or the content type too generic, try to detect it by
 	 * filename extension */
-	if (syntax == NULL || ct == NULL ||
-	    camel_content_type_is (ct, "application", "octet-stream") ||
-	    camel_content_type_is (ct, "text", "plain")) {
+	if (syntax == NULL ||
+	    (ct != NULL &&
+	     (camel_content_type_is (ct, "application", "octet-stream") ||
+	     (camel_content_type_is (ct, "text", "plain"))))) {
 		const gchar *filename = camel_mime_part_get_filename (part->part);
 		if (filename) {
 			gchar *ext = g_strrstr (filename, ".");
@@ -188,9 +189,10 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
 		gint stdin, stdout;
 		GPid pid;
-		CamelStream *read, *write;
+		CamelStream *read, *write, *utf8;
 		CamelDataWrapper *dw;
-		gchar *font_family, *font_size, *syntax;
+		gchar *font_family, *font_size, *syntax, *tmp;
+		GByteArray *ba;
 		gboolean use_custom_font;
 		EShell *shell;
 		EShellSettings *settings;
@@ -267,8 +269,19 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		write = camel_stream_fs_new_with_fd (stdin);
 		read = camel_stream_fs_new_with_fd (stdout);
 
+		/* Decode the content of mime part to the 'utf8' stream */
+		utf8 = camel_stream_mem_new ();
 		camel_data_wrapper_decode_to_stream_sync (
-			dw, write, cancellable, NULL);
+			dw, utf8, cancellable, NULL);
+
+		/* Convert the binary data do someting displayable */
+		ba = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (utf8));
+		tmp = e_util_utf8_data_make_valid ((gchar *) ba->data, ba->len);
+
+		/* Send the sanitized data to the highlighter */
+		camel_stream_write_string (write, tmp, cancellable, NULL);
+		g_free (tmp);
+		g_object_unref (utf8);
 		g_object_unref (write);
 
 		g_spawn_close_pid (pid);
