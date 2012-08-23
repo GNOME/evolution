@@ -1208,12 +1208,14 @@ void
 e_editor_selection_set_monospaced (EEditorSelection *selection,
 				   gboolean monospaced)
 {
+	WebKitDOMDocument *document;
 	WebKitDOMRange *range;
+	gboolean is_monospaced;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	if ((e_editor_selection_get_monospaced (selection) ? TRUE : FALSE)
-				== (monospaced ? TRUE : FALSE)) {
+	is_monospaced = e_editor_selection_get_monospaced (selection) ? TRUE : FALSE;
+	if ((is_monospaced ? TRUE : FALSE) == (monospaced ? TRUE : FALSE)) {
 		return;
 	}
 
@@ -1222,16 +1224,27 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 		return;
 	}
 
-	/* FIXME WEBKIT Although we can implement applying and
-	 * removing style on our own by advanced DOM manipulation,
-	 * this change will not be recorded in UNDO and REDO history
-	 * TODO: Think of something..... */
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
 	if (monospaced) {
+		WebKitDOMElement *wrapper;
+		gchar *html;
 
-		/* apply_format (selection, "TT"); */
+		wrapper = webkit_dom_document_create_element (document, "TT", NULL);
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (wrapper),
+			WEBKIT_DOM_NODE (webkit_dom_range_clone_contents (range, NULL)),
+			NULL);
 
+		html = webkit_dom_html_element_get_outer_html (
+				WEBKIT_DOM_HTML_ELEMENT (wrapper));
+		e_editor_selection_insert_html (selection, html);
 	} else {
-		/* remove_format (selection, "TT"); */
+		/* XXX This removes _all_ formatting that the selection has.
+		 *     In theory it's possible to write a code that would remove
+		 *     the <TT> from selection using advanced DOM manipulation,
+		 *     but right now I don't really feel like writing it all... */
+		webkit_dom_document_exec_command (
+			document, "removeFormat", FALSE, "");
 	}
 
 	g_object_notify (G_OBJECT (selection), "monospaced");
