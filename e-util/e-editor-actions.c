@@ -842,19 +842,6 @@ action_properties_text_cb (GtkAction *action,
 }
 
 static void
-action_style_cb (GtkRadioAction *action,
-                 GtkRadioAction *current,
-                 EEditor *editor)
-{
-	EEditorSelection *selection;
-
-	selection = e_editor_widget_get_selection (
-			e_editor_get_editor_widget (editor));
-	e_editor_selection_set_block_format (
-		selection, gtk_radio_action_get_current_value (current));
-}
-
-static void
 action_redo_cb (GtkAction *action,
                 EEditor *editor)
 {
@@ -1846,7 +1833,7 @@ editor_actions_init (EEditor *editor)
 		action_group, core_style_entries,
 		G_N_ELEMENTS (core_style_entries),
 		E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH,
-		G_CALLBACK (action_style_cb), editor);
+		NULL, NULL);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* Synchronize wiget mode with the button */
@@ -1972,6 +1959,10 @@ editor_actions_init (EEditor *editor)
 	g_object_bind_property (
 		editor->priv->selection, "font-size",
 		ACTION (FONT_SIZE_GROUP), "current-value",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+	g_object_bind_property (
+		editor->priv->selection, "block-format",
+		ACTION (STYLE_NORMAL), "current-value",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	g_object_bind_property (
 		editor->priv->selection, "indented",

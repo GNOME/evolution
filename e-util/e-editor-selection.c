@@ -339,6 +339,11 @@ e_editor_selection_set_property (GObject *object,
 				selection, g_value_get_boxed (value));
 			return;
 
+		case PROP_BLOCK_FORMAT:
+			e_editor_selection_set_block_format (
+				selection, g_value_get_int (value));
+			return;
+
 		case PROP_FONT_NAME:
 			e_editor_selection_set_font_name (
 				selection, g_value_get_string (value));
@@ -483,12 +488,12 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 	g_object_class_install_property (
 		object_class,
 		PROP_BLOCK_FORMAT,
-		g_param_spec_uint (
+		g_param_spec_int (
 			"block-format",
 			NULL,
 			NULL,
 			0,
-			G_MAXUINT,
+			G_MAXINT,
 			0,
 			G_PARAM_READWRITE));
 
@@ -829,43 +834,62 @@ e_editor_selection_get_block_format (EEditorSelection *selection)
 {
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
-	gchar *tmp, *node_name;
+	WebKitDOMElement *element;
 	EEditorSelectionBlockFormat result;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection),
-			      E_EDITOR_SELECTION_BLOCK_FORMAT_NONE);
+			      E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH);
 
 	range = editor_selection_get_current_range (selection);
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	if (!range) {
+		return E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+	}
 
-	tmp = webkit_dom_node_get_node_name (node);
-	node_name = g_ascii_strdown (tmp, -1);
-	g_free (tmp);
+	node = webkit_dom_range_get_start_container (range, NULL);
 
-	if (g_strcmp0 (node_name, "blockquote") == 0)
+	if (e_editor_dom_node_find_parent_element (node, "UL")) {
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
+	} else if ((element = e_editor_dom_node_find_parent_element (node, "OL")) != NULL) {
+		if (webkit_dom_element_has_attribute (element, "type")) {
+			gchar *type;
+
+			type = webkit_dom_element_get_attribute(element, "type");
+			if (type && ((*type == 'a') || (*type == 'A'))) {
+				result = E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA;
+			} else if (type && ((*type == 'i') || (*type == 'I'))) {
+				result = E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN;
+			} else {
+				result = E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
+			}
+
+			g_free (type);
+		} else {
+			result = E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
+		}
+	} else if (e_editor_dom_node_find_parent_element (node, "BLOCKQUOTE")) {
 		result = E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
-	else if (g_strcmp0 (node_name, "h1") == 0)
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H1;
-	else if (g_strcmp0 (node_name, "h2") == 0)
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H2;
-	else if (g_strcmp0 (node_name, "h3") == 0)
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H3;
-	else if (g_strcmp0 (node_name, "h4") == 0)
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H4;
-	else if (g_strcmp0 (node_name, "h5") == 0)
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H5;
-	else if (g_strcmp0 (node_name, "h6") == 0)
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H6;
-	else if (g_strcmp0 (node_name, "p") == 0)
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
-	else if (g_strcmp0 (node_name, "pre") == 0)
+	} else if (e_editor_dom_node_find_parent_element (node, "PRE")) {
 		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PRE;
-	else if (g_strcmp0 (node_name, "address") == 0)
+	} else if (e_editor_dom_node_find_parent_element (node, "ADDRESS")) {
 		result = E_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS;
-	else
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_NONE;
+	} else if (e_editor_dom_node_find_parent_element (node, "H1")) {
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H1;
+	} else if (e_editor_dom_node_find_parent_element (node, "H2")) {
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H2;
+	} else if (e_editor_dom_node_find_parent_element (node, "H3")) {
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H3;
+	} else if (e_editor_dom_node_find_parent_element (node, "H4")) {
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H4;
+	} else if (e_editor_dom_node_find_parent_element (node, "H5")) {
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H5;
+	} else if (e_editor_dom_node_find_parent_element (node, "H6")) {
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H6;
+	} else if (e_editor_dom_node_find_parent_element (node, "P")) {
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+	} else {
+		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+	}
 
-	g_free (node_name);
 	return result;
 }
 
@@ -873,55 +897,114 @@ void
 e_editor_selection_set_block_format (EEditorSelection *selection,
 				     EEditorSelectionBlockFormat format)
 {
+	EEditorSelectionBlockFormat current_format;
 	WebKitDOMDocument *document;
+	const gchar *command;
 	const gchar *value;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	switch (format) {
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE:
-			value = "BLOCKQUOTE";
-			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_H1:
-			value = "H1";
-			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_H2:
-			value = "H2";
-			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_H3:
-			value = "H3";
-			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_H4:
-			value = "H4";
-			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_H5:
-			value = "H5";
-			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_H6:
-			value = "H6";
-			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH:
-			value = "P";
-			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_PRE:
-			value = "PRE";
-			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS:
-			value = "ADDRESS";
-			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_NONE:
-		default:
-			value = NULL;
-			break;
+	current_format = e_editor_selection_get_block_format (selection);
+	if (current_format == format) {
+		return;
 	}
 
 	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	if (value) {
+
+	switch (format) {
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE:
+			command = "formatBlock";
+			value = "BLOCKQUOTE";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_H1:
+			command = "formatBlock";
+			value = "H1";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_H2:
+			command = "formatBlock";
+			value = "H2";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_H3:
+			command = "formatBlock";
+			value = "H3";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_H4:
+			command = "formatBlock";
+			value = "H4";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_H5:
+			command = "formatBlock";
+			value = "H5";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_H6:
+			command = "formatBlock";
+			value = "H6";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH:
+			command = "formatBlock";
+			value = "P";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_PRE:
+			command = "formatBlock";
+			value = "PRE";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS:
+			command = "formatBlock";
+			value = "ADDRESS";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST:
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA:
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN:
+			command = "insertOrderedList";
+			value = "";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST:
+			command = "insertUnorderedList";
+			value = "";
+			break;
+		case E_EDITOR_SELECTION_BLOCK_FORMAT_NONE:
+		default:
+			command = "removeFormat";
+			value = "";
+			break;
+	}
+
+
+	/* First remove (un)ordered list before changing formatting */
+	if (current_format == E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST) {
 		webkit_dom_document_exec_command (
-			document, "formatBlock", FALSE, value);
-	} else {
+			document, "insertUnorderedList", FALSE, "");
+		/*		    ^-- not a typo, "insert" toggles the formatting
+		 * 			if already present */
+	} else if (current_format >= E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST) {
 		webkit_dom_document_exec_command (
-			document, "removeFormat", FALSE, "");
+			document, "insertOrderedList", FALSE ,"");
+	}
+
+	webkit_dom_document_exec_command (
+		document, command, FALSE, value);
+
+	/* Fine tuning - set the specific marker type for ordered lists */
+	if ((format == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA) ||
+	    (format == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN)) {
+
+		WebKitDOMRange *range = editor_selection_get_current_range (selection);
+		WebKitDOMNode *node;
+		WebKitDOMElement *list;
+
+		node = webkit_dom_range_get_start_container (range, NULL);
+
+		list = e_editor_dom_node_find_child_element (node, "OL");
+		if (!list) {
+			list = e_editor_dom_node_find_parent_element (node, "OL");
+		}
+
+		if (list) {
+			webkit_dom_element_set_attribute (
+				list, "type",
+				(format == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA) ?
+					"A" : "I", NULL);
+		}
 	}
 
 	g_object_notify (G_OBJECT (selection), "block-format");
