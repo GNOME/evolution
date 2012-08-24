@@ -920,11 +920,11 @@ get_times_for_views (GnomeCalendar *gcal,
 		/* The start of the work-week is the first working day after the
 		 * week start day. */
 
-		/* Get the weekday corresponding to start_time, 0 (Sun) to 6 (Sat). */
-		weekday = g_date_get_weekday (&date) % 7;
+		/* Get the weekday corresponding to start_time, 0 (Mon) to 6 (Sun). */
+		weekday = (g_date_get_weekday (&date) + 6) % 7;
 
-		/* Find the first working day in the week, 0 (Sun) to 6 (Sat). */
-		first_day = (week_start_day + 1) % 7;
+		/* Find the first working day in the week, 0 (Mon) to 6 (Sun). */
+		first_day = week_start_day % 7;
 		for (i = 0; i < 7; i++) {
 			if (day_view->working_days & (1 << first_day)) {
 				has_working_days = TRUE;
@@ -935,7 +935,7 @@ get_times_for_views (GnomeCalendar *gcal,
 
 		if (has_working_days) {
 			/* Now find the last working day of the week, backwards. */
-			last_day = week_start_day % 7;
+			last_day = (first_day + 6) % 7;
 			for (i = 0; i < 7; i++) {
 				if (day_view->working_days & (1 << last_day))
 					break;
@@ -951,12 +951,12 @@ get_times_for_views (GnomeCalendar *gcal,
 
 		/* Calculate how many days we need to go back to the first workday. */
 		if (weekday < first_day) {
-			offset = (first_day - weekday) % 7;
-			g_date_add_days (&date, offset);
+			offset = (7 - first_day + weekday) % 7;
 		} else {
 			offset = (weekday - first_day) % 7;
-			g_date_subtract_days (&date, offset);
 		}
+		if (offset)
+			g_date_subtract_days (&date, offset);
 
 		tt.year = g_date_get_year (&date);
 		tt.month = g_date_get_month (&date);
