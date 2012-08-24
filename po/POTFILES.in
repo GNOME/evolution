@@ -419,7 +419,6 @@ shell/e-shell-window.c
 shell/e-shell-window-private.c
 shell/main.c
 shell/shell.error.xml
-shell/test/e-test-shell-backend.c
 smclient/eggdesktopfile.c
 smclient/eggsmclient.c
 smime/gui/ca-trust-dialog.c

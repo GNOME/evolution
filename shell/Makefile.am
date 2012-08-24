@@ -1,7 +1,3 @@
-if ENABLE_TEST_COMPONENT
-SUBDIRS = . test
-endif
-
 # Executable
 bin_PROGRAMS = evolution
 

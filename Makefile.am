@@ -147,7 +147,6 @@ MAINTAINERCLEANFILES =			\
 DISTCHECK_CONFIGURE_FLAGS =		\
 	--enable-gtk-doc		\
 	--disable-goa			\
-	--enable-test-component		\
 	--disable-image-inline		\
 	--disable-pst-import		\
 	--disable-weather		\

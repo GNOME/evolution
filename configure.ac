@@ -410,16 +410,6 @@ dnl Purify support
 dnl ***************
 EVO_PURIFY_SUPPORT
 
-dnl **************
-dnl Test Component
-dnl **************
-AC_ARG_ENABLE([test-component],
-	AS_HELP_STRING([--enable-test-component],
-	[Enable test component.]),
-	[enable_test_comp=$enableval],[enable_test_comp=no])
-
-AM_CONDITIONAL(ENABLE_TEST_COMPONENT, [test x$enable_test_comp = xyes])
-
 dnl ***************
 dnl Timezone checks
 dnl ***************
@@ -1441,7 +1431,6 @@ libemail-engine/libemail-engine.pc
 libgnomecanvas/Makefile
 shell/Makefile
 shell/evo-version.h
-shell/test/Makefile
 ui/Makefile
 views/Makefile
 views/addressbook/Makefile
