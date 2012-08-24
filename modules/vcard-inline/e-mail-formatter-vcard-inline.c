@@ -193,7 +193,7 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 static const gchar *
 emfe_vcard_inline_get_display_name (EMailFormatterExtension *extension)
 {
-	return _("Addressbok Contact");
+	return _("Addressbook Contact");
 }
 
 static const gchar *
