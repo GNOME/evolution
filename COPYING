@@ -1,20 +1,15 @@
-Code in Evolution is available under a variety of licenses.  Each file should have a license header stating the license. In the absence of that code is available under the LGPLv2 or (at your choice) LGPLv3. See COPYING.LGPL2 and COPYING.LGPL3 for the full license texts.
+Code in Evolution is available under a variety of licenses.  Each file should
+have a license header stating the license.  In the absence of that code is
+available under the LGPLv2 or (at your choice) LGPLv3. See COPYING.LGPL2 and
+COPYING.LGPL3 for the full license texts.
 
-There are a few exceptions to this rule that have an impact on overall licensing. At the present, the code seems GPLv2+ clean.
+There are a few exceptions to this rule that have an impact on overall
+licensing. At the present, the code seems GPLv2+ clean.
 
 OpenLDAP license
         addressbook/gui/component/openldap-extract.h
 
-GPLv2+
-        widgets/misc/e-spinner.c
-        plugins/calendar-http/calendar-http.c
-        plugins/calendar-weather/calendar-weather.c
-
-LGPLv2 only
-        plugins/webdav-account-setup/webdav-contacts-source.c
-
 LGPLv2+
-        widgets/misc/e-icon-entry.[ch]
         widgets/text/e-text.[ch]
         widgets/table/e-cell-tree.[ch]
         widgets/misc/e-dateedit.[ch]
@@ -25,8 +20,3 @@ MPL/GPL/LGPLv2+
         smime/lib/e-cert-db.c
         smime/lib/e-cert-trust.c
         smime/lib/e-pkcs12.c
-
-In addition there are a few pieces that lurk in the tree, but are not linked as part of evolution, eg. test code:
-
-GPLv2 only
-        addressbook/gui/widgets/test-reflow.c
