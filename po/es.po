@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-08-20 06:02+0000\n"
-"PO-Revision-Date: 2012-08-20 13:13+0200\n"
+"POT-Creation-Date: 2012-08-24 22:06+0000\n"
+"PO-Revision-Date: 2012-08-25 12:06+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -499,7 +499,7 @@ msgstr "Trabajo"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:194
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:76
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:384
-#: ../calendar/gui/e-cal-model.c:3564
+#: ../calendar/gui/e-cal-model.c:3570
 msgid "Other"
 msgstr "Otro"
 
@@ -852,7 +852,7 @@ msgid "Send a mail message to this address"
 msgstr "Enviar un correo a esta dirección"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:333
-#: ../widgets/misc/e-web-view.c:1097 ../widgets/misc/e-web-view-gtkhtml.c:973
+#: ../widgets/misc/e-web-view.c:1102 ../widgets/misc/e-web-view-gtkhtml.c:973
 #, c-format
 msgid "Click to mail %s"
 msgstr "Pulse para enviar correo a %s"
@@ -2072,9 +2072,6 @@ msgid "Delete remote memo list &quot;{0}&quot;?"
 msgstr "¿Eliminar la lista de notas remota «{0}»?"
 
 #: ../calendar/calendar.error.xml.h:72
-#| msgid ""
-#| "This will permanently remote the memo list &quot;{0}&quot; from the "
-#| "server. Are you sure you want to proceed?"
 msgid ""
 "This will permanently remove the memo list &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
@@ -2561,7 +2558,7 @@ msgstr "Cerrar la ventana actual"
 #: ../calendar/gui/dialogs/comp-editor.c:1164 ../mail/e-mail-browser.c:134
 #: ../shell/e-shell-window-actions.c:1446
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
-#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1423
+#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1428
 #: ../widgets/misc/e-web-view-gtkhtml.c:456
 #: ../widgets/misc/e-web-view-gtkhtml.c:1299
 msgid "Copy the selection"
@@ -2570,7 +2567,7 @@ msgstr "Copiar la selección"
 #: ../calendar/gui/dialogs/comp-editor.c:1171 ../mail/e-mail-browser.c:141
 #: ../shell/e-shell-window-actions.c:1453
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1417 ../widgets/misc/e-web-view-gtkhtml.c:1293
+#: ../widgets/misc/e-web-view.c:1422 ../widgets/misc/e-web-view-gtkhtml.c:1293
 msgid "Cut the selection"
 msgstr "Cortar la selección"
 
@@ -2587,7 +2584,7 @@ msgstr "Ver la ayuda"
 #: ../calendar/gui/dialogs/comp-editor.c:1192 ../mail/e-mail-browser.c:148
 #: ../shell/e-shell-window-actions.c:1481
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1429 ../widgets/misc/e-web-view-gtkhtml.c:1305
+#: ../widgets/misc/e-web-view.c:1434 ../widgets/misc/e-web-view-gtkhtml.c:1305
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
 
@@ -3586,7 +3583,7 @@ msgstr "Cancelado"
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../calendar/gui/dialogs/task-details-page.ui.h:17
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-cal-model.c:3618
+#: ../calendar/gui/e-cal-model.c:3624
 #: ../calendar/gui/e-meeting-list-view.c:684
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../calendar/gui/tasktypes.xml.h:8 ../mail/em-filter-i18n.h:74
@@ -4129,35 +4126,35 @@ msgstr "No"
 msgid "Opening %s"
 msgstr "Abriendo %s"
 
-#: ../calendar/gui/e-cal-model.c:3559
+#: ../calendar/gui/e-cal-model.c:3565
 #: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:201 ../calendar/gui/e-meeting-store.c:224
 #: ../modules/itip-formatter/itip-view.c:5950
 msgid "Accepted"
 msgstr "Aceptado"
 
-#: ../calendar/gui/e-cal-model.c:3560
+#: ../calendar/gui/e-cal-model.c:3566
 #: ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:203 ../calendar/gui/e-meeting-store.c:226
 #: ../modules/itip-formatter/itip-view.c:5956
 msgid "Declined"
 msgstr "Rehusado"
 
-#: ../calendar/gui/e-cal-model.c:3561
+#: ../calendar/gui/e-cal-model.c:3567
 #: ../calendar/gui/e-meeting-list-view.c:224
 #: ../calendar/gui/e-meeting-store.c:205 ../calendar/gui/e-meeting-store.c:228
 #: ../calendar/gui/e-meeting-time-sel.c:561
 msgid "Tentative"
 msgstr "Provisional"
 
-#: ../calendar/gui/e-cal-model.c:3562
+#: ../calendar/gui/e-cal-model.c:3568
 #: ../calendar/gui/e-meeting-list-view.c:225
 #: ../calendar/gui/e-meeting-store.c:207 ../calendar/gui/e-meeting-store.c:230
 #: ../modules/itip-formatter/itip-view.c:5959
 msgid "Delegated"
 msgstr "Delegado"
 
-#: ../calendar/gui/e-cal-model.c:3563
+#: ../calendar/gui/e-cal-model.c:3569
 msgid "Needs action"
 msgstr "Necesita una acción"
 
@@ -9698,12 +9695,12 @@ msgid "Display part as enriched text"
 msgstr "Mostrar parte como texto enriquecido"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:104
-#: ../em-format/e-mail-formatter-text-html.c:338
+#: ../em-format/e-mail-formatter-text-html.c:340
 msgid "HTML"
 msgstr "HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:110
-#: ../em-format/e-mail-formatter-text-html.c:344
+#: ../em-format/e-mail-formatter-text-html.c:346
 msgid "Format part as HTML"
 msgstr "Formatear parte como HTML"
 
@@ -14973,7 +14970,7 @@ msgid "Browse until limit is reached"
 msgstr "Examinar hasta llegar al final"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:134
-#: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:133
+#: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:130
 msgid "URL:"
 msgstr "URL:"
 
@@ -15384,15 +15381,15 @@ msgstr "Crea un calendario nuevo"
 msgid "Calendar and Tasks"
 msgstr "Calendario y tareas"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:209
+#: ../modules/calendar/e-cal-shell-sidebar.c:211
 msgid "Loading calendars"
 msgstr "Cargando calendarios"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:715
+#: ../modules/calendar/e-cal-shell-sidebar.c:731
 msgid "Calendar Selector"
 msgstr "Selector de calendarios"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:1074
+#: ../modules/calendar/e-cal-shell-sidebar.c:1090
 #, c-format
 msgid "Opening calendar '%s'"
 msgstr "Abriendo calendario «%s»"
@@ -15861,15 +15858,15 @@ msgstr "Li_sta de notas"
 msgid "Create a new memo list"
 msgstr "Crea una lista de notas nueva"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:204
+#: ../modules/calendar/e-memo-shell-sidebar.c:206
 msgid "Loading memos"
 msgstr "Cargando notas"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:647
+#: ../modules/calendar/e-memo-shell-sidebar.c:663
 msgid "Memo List Selector"
 msgstr "Selector de lista de notas"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:959
+#: ../modules/calendar/e-memo-shell-sidebar.c:975
 #, c-format
 msgid "Opening memo list '%s'"
 msgstr "Abriendo lista de notas «%s»"
@@ -15993,15 +15990,15 @@ msgstr "Lista de _tareas"
 msgid "Create a new task list"
 msgstr "Crea una lista de tareas nueva"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:204
+#: ../modules/calendar/e-task-shell-sidebar.c:206
 msgid "Loading tasks"
 msgstr "Cargando tareas"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:647
+#: ../modules/calendar/e-task-shell-sidebar.c:663
 msgid "Task List Selector"
 msgstr "Selector de listas de tareas"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:959
+#: ../modules/calendar/e-task-shell-sidebar.c:975
 #, c-format
 msgid "Opening task list '%s'"
 msgstr "Abriendo lista de tareas «%s»"
@@ -17758,11 +17755,11 @@ msgstr "Formatear como…"
 msgid "_Other languages"
 msgstr "_Otros lenguajes"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:329
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:342
 msgid "Text Highlight"
 msgstr "Resaltado del texto"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:335
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:348
 msgid "Syntax highlighting of mail parts"
 msgstr "Resaltado de sintaxis de las partes del correo"
 
@@ -18008,8 +18005,9 @@ msgstr[0] "Hay %d contacto más."
 msgstr[1] "Hay otros %d contactos."
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:196
-msgid "Addressbok Contact"
-msgstr "Libreta de direcciones de contactos"
+#| msgid "Addressbok Contact"
+msgid "Addressbook Contact"
+msgstr "Contacto de la libreta de direcciones"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:202
 msgid "Display the part as an addressbook contact"
@@ -19588,24 +19586,6 @@ msgstr ""
 "obstante, como solución puede intentar actualizar primero a Evolution 2 y "
 "después a Evolution 3."
 
-#: ../shell/test/e-test-shell-backend.c:52
-msgctxt "New"
-msgid "_Test Item"
-msgstr "_Probar elemento"
-
-#: ../shell/test/e-test-shell-backend.c:54
-msgid "Create a new test item"
-msgstr "Crea una elemento de prueba nuevo"
-
-#: ../shell/test/e-test-shell-backend.c:62
-msgctxt "New"
-msgid "Test _Source"
-msgstr "Probar _recurso"
-
-#: ../shell/test/e-test-shell-backend.c:64
-msgid "Create a new test source"
-msgstr "Crea una recurso de prueba nuevo"
-
 #: ../smclient/eggdesktopfile.c:166
 #, c-format
 msgid "File is not a valid .desktop file"
@@ -21070,30 +21050,30 @@ msgstr "Devolver notificación"
 msgid "Sta_tus Tracking"
 msgstr "Seguimiento de es_tado"
 
-#: ../widgets/misc/e-source-config.c:671 ../widgets/misc/e-source-config.c:675
+#: ../widgets/misc/e-source-config.c:675 ../widgets/misc/e-source-config.c:679
 msgid "Type:"
 msgstr "Tipo:"
 
-#: ../widgets/misc/e-source-config.c:683 ../widgets/misc/e-source-config.c:687
+#: ../widgets/misc/e-source-config.c:687 ../widgets/misc/e-source-config.c:691
 msgid "Name:"
 msgstr "Nombre:"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../widgets/misc/e-source-config.c:1285
+#: ../widgets/misc/e-source-config.c:1289
 msgid "Refresh every"
 msgstr "Actualizar cada"
 
-#: ../widgets/misc/e-source-config.c:1315
-#: ../widgets/misc/e-source-config.c:1343
+#: ../widgets/misc/e-source-config.c:1319
+#: ../widgets/misc/e-source-config.c:1347
 msgid "Use a secure connection"
 msgstr "Usar una conexión segura"
 
-#: ../widgets/misc/e-source-config.c:1357
+#: ../widgets/misc/e-source-config.c:1361
 msgid "Ignore invalid SSL certificate"
 msgstr "Ignorar certificado SSL no válido"
 
-#: ../widgets/misc/e-source-config.c:1394
+#: ../widgets/misc/e-source-config.c:1398
 msgid "User"
 msgstr "_Usuario"
 
@@ -21153,25 +21133,25 @@ msgstr "_Copiar imagen"
 msgid "Copy the image to the clipboard"
 msgstr "Copiar la imagen al portapapeles"
 
-#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1435
+#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1440
 #: ../widgets/misc/e-web-view-gtkhtml.c:466
 #: ../widgets/misc/e-web-view-gtkhtml.c:1311
 msgid "Select all text and images"
 msgstr "Seleccionar todo el texto y las imágenes"
 
-#: ../widgets/misc/e-web-view.c:1099 ../widgets/misc/e-web-view.c:1101
-#: ../widgets/misc/e-web-view.c:1103 ../widgets/misc/e-web-view-gtkhtml.c:975
+#: ../widgets/misc/e-web-view.c:1104 ../widgets/misc/e-web-view.c:1106
+#: ../widgets/misc/e-web-view.c:1108 ../widgets/misc/e-web-view-gtkhtml.c:975
 #: ../widgets/misc/e-web-view-gtkhtml.c:977
 #: ../widgets/misc/e-web-view-gtkhtml.c:979
 #, c-format
 msgid "Click to call %s"
 msgstr "Pulse para llamar a %s"
 
-#: ../widgets/misc/e-web-view.c:1105 ../widgets/misc/e-web-view-gtkhtml.c:981
+#: ../widgets/misc/e-web-view.c:1110 ../widgets/misc/e-web-view-gtkhtml.c:981
 msgid "Click to hide/unhide addresses"
 msgstr "Pulse para ocultar/mostrar las direcciones"
 
-#: ../widgets/misc/e-web-view.c:1107 ../widgets/misc/e-web-view-gtkhtml.c:983
+#: ../widgets/misc/e-web-view.c:1112 ../widgets/misc/e-web-view-gtkhtml.c:983
 #, c-format
 msgid "Click to open %s"
 msgstr "Pulse para abrir %s"
@@ -21480,6 +21460,20 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2087
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgctxt "New"
+#~ msgid "_Test Item"
+#~ msgstr "_Probar elemento"
+
+#~ msgid "Create a new test item"
+#~ msgstr "Crea una elemento de prueba nuevo"
+
+#~ msgctxt "New"
+#~ msgid "Test _Source"
+#~ msgstr "Probar _recurso"
+
+#~ msgid "Create a new test source"
+#~ msgstr "Crea una recurso de prueba nuevo"
 
 #~ msgid "ID of the socket to embed in"
 #~ msgstr "El ID del socket en el que empotrarse"
