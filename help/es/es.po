@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-17 18:38+0000\n"
-"PO-Revision-Date: 2012-08-20 19:58+0200\n"
+"POT-Creation-Date: 2012-08-22 11:32+0000\n"
+"PO-Revision-Date: 2012-08-25 18:41+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -1500,7 +1500,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/calendar-searching.page:34(media) C/contacts-searching.page:44(media)
+#: C/calendar-searching.page:34(media) C/contacts-searching.page:43(media)
 #: C/mail-searching.page:42(media) C/memos-searching.page:43(media)
 #: C/tasks-searching.page:43(media)
 msgctxt "_"
@@ -1518,7 +1518,7 @@ msgid "Searching for Calendar Items"
 msgstr "Buscar elementos del calendario"
 
 #: C/calendar-searching.page:30(section/title)
-#: C/contacts-searching.page:40(section/title)
+#: C/contacts-searching.page:39(section/title)
 #: C/mail-searching.page:39(section/title)
 #: C/memos-searching.page:39(section/title)
 #: C/tasks-searching.page:39(section/title)
@@ -1538,7 +1538,7 @@ msgstr ""
 msgid "Searching by summary:"
 msgstr "Buscar por resumen:"
 
-#: C/calendar-searching.page:34(item/p) C/contacts-searching.page:44(item/p)
+#: C/calendar-searching.page:34(item/p) C/contacts-searching.page:43(item/p)
 #: C/memos-searching.page:43(item/p) C/tasks-searching.page:43(item/p)
 msgid ""
 "Click the search icon <media type=\"image\" mime=\"image/png\" src=\"figures/"
@@ -1547,20 +1547,20 @@ msgstr ""
 "Pulse el icono de búsqueda <media type=\"image\" mime=\"image/png\" src="
 "\"figures/search-icon.png\"/> para expandir la dista desplegable."
 
-#: C/calendar-searching.page:35(item/p) C/contacts-searching.page:45(item/p)
+#: C/calendar-searching.page:35(item/p) C/contacts-searching.page:44(item/p)
 #: C/mail-searching.page:43(item/p) C/memos-searching.page:44(item/p)
 #: C/tasks-searching.page:44(item/p)
 msgid "Select the search condition from the list."
 msgstr "Seleccione el criterio de búsqueda de la lista."
 
-#: C/calendar-searching.page:36(item/p) C/contacts-searching.page:46(item/p)
+#: C/calendar-searching.page:36(item/p) C/contacts-searching.page:45(item/p)
 #: C/mail-searching.page:47(item/p) C/memos-searching.page:45(item/p)
 #: C/tasks-searching.page:45(item/p)
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr "Escriba el texto que quiere buscar y pulse <key>Intro</key>."
 
 #: C/calendar-searching.page:37(item/p) C/calendar-searching.page:43(item/p)
-#: C/contacts-searching.page:47(item/p) C/contacts-searching.page:53(item/p)
+#: C/contacts-searching.page:46(item/p) C/contacts-searching.page:52(item/p)
 #: C/mail-searching.page:48(item/p) C/memos-searching.page:46(item/p)
 #: C/memos-searching.page:52(item/p) C/tasks-searching.page:46(item/p)
 #: C/tasks-searching.page:52(item/p)
@@ -1568,17 +1568,17 @@ msgid "Evolution displays the search results."
 msgstr "Evolution muestra los resultados de la búsqueda."
 
 #: C/calendar-searching.page:39(section/p)
-#: C/contacts-searching.page:49(section/p)
+#: C/contacts-searching.page:48(section/p)
 #: C/memos-searching.page:48(section/p) C/tasks-searching.page:48(section/p)
 msgid "Searching by category:"
 msgstr "Buscar por categoría:"
 
-#: C/calendar-searching.page:41(item/p) C/contacts-searching.page:51(item/p)
+#: C/calendar-searching.page:41(item/p) C/contacts-searching.page:50(item/p)
 #: C/memos-searching.page:50(item/p) C/tasks-searching.page:50(item/p)
 msgid "Click the <gui>Show</gui> drop-down list."
 msgstr "Pulse la lista desplegable <gui>Mostrar</gui>."
 
-#: C/calendar-searching.page:42(item/p) C/contacts-searching.page:52(item/p)
+#: C/calendar-searching.page:42(item/p) C/contacts-searching.page:51(item/p)
 #: C/memos-searching.page:51(item/p) C/tasks-searching.page:51(item/p)
 msgid "Select the category from the list."
 msgstr "Seleccione la categoría de la lista."
@@ -1590,9 +1590,13 @@ msgid ""
 "the currently selected day in the given direction, in a range of 10 years by "
 "default."
 msgstr ""
+"Para moverse por los resultados puede usar los botones de flechas junto al "
+"campo de búsqueda. Esto busca en los calendarios activos actualmente. Busca "
+"desde el día seleccionado actualmente en la dirección dada, en un rango "
+"predeterminado de 10 años."
 
 #: C/calendar-searching.page:48(section/p)
-#: C/contacts-searching.page:55(section/p) C/mail-searching.page:52(section/p)
+#: C/contacts-searching.page:54(section/p) C/mail-searching.page:52(section/p)
 #: C/memos-searching.page:54(section/p) C/tasks-searching.page:54(section/p)
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
@@ -1602,13 +1606,13 @@ msgstr ""
 "avanzada, descrita debajo."
 
 #: C/calendar-searching.page:52(section/title)
-#: C/contacts-searching.page:59(section/title)
+#: C/contacts-searching.page:58(section/title)
 #: C/memos-searching.page:58(section/title)
 #: C/tasks-searching.page:58(section/title)
 msgid "Advanced Search"
 msgstr "Búsqueda avanzada"
 
-#: C/calendar-searching.page:54(item/p) C/contacts-searching.page:61(item/p)
+#: C/calendar-searching.page:54(item/p) C/contacts-searching.page:60(item/p)
 #: C/mail-searching.page:58(item/p) C/memos-searching.page:60(item/p)
 #: C/tasks-searching.page:60(item/p)
 msgid ""
@@ -1618,7 +1622,7 @@ msgstr ""
 "Seleccione el menú <guiseq><gui>Buscar</gui><gui>Búsqueda avanzada</gui></"
 "guiseq> para abrir el cuadro de diálogo."
 
-#: C/calendar-searching.page:55(item/p) C/contacts-searching.page:62(item/p)
+#: C/calendar-searching.page:55(item/p) C/contacts-searching.page:61(item/p)
 #: C/mail-searching.page:59(item/p) C/memos-searching.page:61(item/p)
 #: C/tasks-searching.page:61(item/p)
 msgid ""
@@ -1627,7 +1631,7 @@ msgstr ""
 "Pulse <gui style=\"button\">Añadir condición</gui> para añadir cualquier "
 "número de reglas."
 
-#: C/calendar-searching.page:56(item/p) C/contacts-searching.page:63(item/p)
+#: C/calendar-searching.page:56(item/p) C/contacts-searching.page:62(item/p)
 #: C/mail-searching.page:60(item/p) C/memos-searching.page:62(item/p)
 #: C/tasks-searching.page:62(item/p)
 msgid ""
@@ -1637,7 +1641,7 @@ msgstr ""
 "Seleccione el criterio de la lista desplegable y después escriba una entrada "
 "de búsqueda en el campo."
 
-#: C/calendar-searching.page:57(item/p) C/contacts-searching.page:64(item/p)
+#: C/calendar-searching.page:57(item/p) C/contacts-searching.page:63(item/p)
 #: C/mail-searching.page:61(item/p) C/memos-searching.page:63(item/p)
 #: C/tasks-searching.page:63(item/p)
 msgid ""
@@ -1647,7 +1651,7 @@ msgstr ""
 "búsqueda."
 
 #: C/calendar-searching.page:63(section/title)
-#: C/contacts-searching.page:70(section/title)
+#: C/contacts-searching.page:69(section/title)
 #: C/mail-searching.page:67(section/title)
 #: C/memos-searching.page:69(section/title)
 #: C/tasks-searching.page:69(section/title)
@@ -1655,7 +1659,7 @@ msgid "Clearing the Search results"
 msgstr "Limpiar los resultados de la búsqueda"
 
 #: C/calendar-searching.page:64(section/p)
-#: C/contacts-searching.page:71(section/p) C/mail-searching.page:68(section/p)
+#: C/contacts-searching.page:70(section/p) C/mail-searching.page:68(section/p)
 #: C/memos-searching.page:70(section/p) C/tasks-searching.page:70(section/p)
 msgid ""
 "To clear your search view and get back to the default view, click the "
@@ -1671,7 +1675,7 @@ msgstr ""
 "key><key>Q</key></keyseq> para limpiar la búsqueda."
 
 #: C/calendar-searching.page:68(section/title)
-#: C/contacts-searching.page:75(section/title)
+#: C/contacts-searching.page:74(section/title)
 #: C/mail-searching.page:72(section/title)
 #: C/memos-searching.page:74(section/title)
 #: C/tasks-searching.page:74(section/title)
@@ -1679,7 +1683,7 @@ msgid "Saved Searches"
 msgstr "Búsquedas guardadas"
 
 #: C/calendar-searching.page:69(section/p)
-#: C/contacts-searching.page:76(section/p) C/mail-searching.page:73(section/p)
+#: C/contacts-searching.page:75(section/p) C/mail-searching.page:73(section/p)
 #: C/memos-searching.page:75(section/p) C/tasks-searching.page:75(section/p)
 msgid ""
 "If you search for something rather often, you will prefer not to type it "
@@ -1689,7 +1693,7 @@ msgstr ""
 "tantas veces. En ese caso puede usar las búsquedas guardadas."
 
 #: C/calendar-searching.page:70(section/p)
-#: C/contacts-searching.page:77(section/p) C/mail-searching.page:74(section/p)
+#: C/contacts-searching.page:76(section/p) C/mail-searching.page:74(section/p)
 #: C/memos-searching.page:76(section/p) C/tasks-searching.page:76(section/p)
 msgid ""
 "To save your search results, either click <gui>Save</gui> instead of "
@@ -1705,14 +1709,14 @@ msgstr ""
 "directamente disponible desde el menú <gui>Buscar</gui>."
 
 #: C/calendar-searching.page:74(section/title)
-#: C/contacts-searching.page:81(section/title)
+#: C/contacts-searching.page:80(section/title)
 #: C/mail-searching.page:78(section/title)
 #: C/memos-searching.page:80(section/title)
 #: C/tasks-searching.page:80(section/title)
 msgid "Editing a Saved Search"
 msgstr "Editar una búsqueda guardada"
 
-#: C/calendar-searching.page:76(item/p) C/contacts-searching.page:83(item/p)
+#: C/calendar-searching.page:76(item/p) C/contacts-searching.page:82(item/p)
 #: C/mail-searching.page:80(item/p) C/memos-searching.page:82(item/p)
 #: C/tasks-searching.page:82(item/p)
 msgid ""
@@ -1722,7 +1726,7 @@ msgstr ""
 "Para abrir la ventana seleccione <guiseq><gui>Buscar</gui><gui>Editar "
 "búsquedas guardadas</gui></guiseq> de la barra de menú."
 
-#: C/calendar-searching.page:77(item/p) C/contacts-searching.page:84(item/p)
+#: C/calendar-searching.page:77(item/p) C/contacts-searching.page:83(item/p)
 #: C/mail-searching.page:81(item/p) C/memos-searching.page:83(item/p)
 #: C/tasks-searching.page:83(item/p)
 msgid ""
@@ -1732,13 +1736,13 @@ msgstr ""
 "Pulse el botón <gui style=\"button\">Editar</gui> para abrir la ventana "
 "<gui>Editar regla</gui>."
 
-#: C/calendar-searching.page:78(item/p) C/contacts-searching.page:85(item/p)
+#: C/calendar-searching.page:78(item/p) C/contacts-searching.page:84(item/p)
 #: C/mail-searching.page:82(item/p) C/memos-searching.page:84(item/p)
 #: C/tasks-searching.page:84(item/p)
 msgid "Edit the title or search conditions from the dialog box."
 msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo."
 
-#: C/calendar-searching.page:79(item/p) C/contacts-searching.page:86(item/p)
+#: C/calendar-searching.page:79(item/p) C/contacts-searching.page:85(item/p)
 #: C/mail-searching.page:83(item/p) C/memos-searching.page:85(item/p)
 #: C/tasks-searching.page:85(item/p)
 msgid "Click <gui>OK</gui>."
@@ -2553,17 +2557,15 @@ msgstr ""
 msgid "Searching contacts."
 msgstr "Buscar contactos."
 
-#: C/contacts-searching.page:28(page/title)
+#: C/contacts-searching.page:27(page/title)
 msgid "Searching Contacts"
 msgstr "Buscar contactos"
 
-#: C/contacts-searching.page:31(section/title)
-#| msgid "Searching Contacts"
+#: C/contacts-searching.page:30(section/title)
 msgid "Searching in a Single Contact"
 msgstr "Buscar un único contacto"
 
-#: C/contacts-searching.page:32(section/p)
-#, fuzzy
+#: C/contacts-searching.page:31(section/p)
 #| msgid ""
 #| "To immediately publish calendar information, click <guiseq><gui>Actions</"
 #| "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
@@ -2571,16 +2573,14 @@ msgid ""
 "To find text in the displayed contact, select <guiseq><gui>Edit</"
 "gui><gui>Find in Contact...</gui></guiseq> from the main menu."
 msgstr ""
-"Para publicar inmediatamente la información del calendario, pulse "
-"<guiseq><gui>Acciones</gui><gui>Publicar información del calendario</gui></"
-"guiseq> en el calendario."
+"Para buscar texto en el contacto mostrado, pulse <guiseq><gui>Editar</"
+"gui><gui>Buscar en el contacto...</gui></guiseq> en el menú principal."
 
-#: C/contacts-searching.page:36(section/title)
-#| msgid "Searching Contacts"
+#: C/contacts-searching.page:35(section/title)
 msgid "Searching Across Contacts"
 msgstr "Buscar entre los contactos"
 
-#: C/contacts-searching.page:41(section/p)
+#: C/contacts-searching.page:40(section/p)
 msgid ""
 "In the Contacts view, you can quickly search for contacts either by category "
 "or by contact's info."
@@ -2588,7 +2588,7 @@ msgstr ""
 "En la vista de Contactos puede buscar rápidamente los contactos tanto por "
 "categoría como por la información del contacto."
 
-#: C/contacts-searching.page:42(section/p)
+#: C/contacts-searching.page:41(section/p)
 msgid "Searching by contact's info:"
 msgstr "Buscar por la información del contacto:"
 
@@ -5842,10 +5842,9 @@ msgstr ""
 "editor</gui><gui>Estilo de reenvío</gui></guiseq> a <gui>Adjunto</gui>."
 
 #: C/mail-composer-enable-html-format.page:5(info/desc)
-#, fuzzy
 #| msgid "Format Text in the mail composer."
 msgid "Enable HTML format in the mail composer."
-msgstr "Formatear texto en el editor de correo."
+msgstr "Activar el formato HTML en el editor de correos."
 
 #: C/mail-composer-enable-html-format.page:21(page/title)
 msgid "Enabling HTML format"
@@ -5866,12 +5865,16 @@ msgid ""
 "Alternately, you also can change the first dropdown list below the "
 "<gui>Subject</gui> line from <gui>Plain Text</gui> to <gui>HTML</gui>."
 msgstr ""
+"Alternativamente, puede cambiar la primera lista desplegable de debajo de la "
+"línea del <gui>Asunto</gui> de <gui>Texto plano</gui> a <gui>HTML</gui>."
 
 #: C/mail-composer-enable-html-format.page:25(page/p)
 msgid ""
 "If you choose HTML format, a second tool bar will be displayed below the "
 "<gui>Subject</gui> line with HTML-only options."
 msgstr ""
+"Si elige el formato HTML, se mostrará una segunda barra de herramientas "
+"debajo de la línea del <gui>Asunto</gui> sólo con opciones para HTML."
 
 #: C/mail-composer-enable-html-format.page:26(page/p)
 msgid ""
@@ -6104,6 +6107,9 @@ msgid ""
 "composer-insert-link.png\"/> icon in the second bar below the <gui>Subject</"
 "gui> line."
 msgstr ""
+"Alternativamente, puede usar el icono <media type=\"image\" src=\"./figures/"
+"html-composer-insert-link.png\"/> en la segunda barra, debajo de la línea "
+"del <gui>Asunto</gui>."
 
 #: C/mail-composer-html-link.page:34(page/p)
 msgid ""
@@ -6116,13 +6122,13 @@ msgstr ""
 #: C/mail-composer-html.page:5(info/desc)
 msgid "Changing fonts, using colors, and inserting images, tables and links."
 msgstr ""
+"Cambiar la tipografía, usar colores e insertar imágenes, tablas y enlaces."
 
 #: C/mail-composer-html.page:21(page/title)
 msgid "Formatting emails (in Plain Text and HTML)"
 msgstr "Formatear correo-e (en texto plano y en HTML)"
 
 #: C/mail-composer-html.page:25(page/p)
-#, fuzzy
 #| msgid ""
 #| "HTML formatting tools are located in the two tool bars just above the "
 #| "area where you actually write the message. They also appear in the "
@@ -6132,14 +6138,14 @@ msgid ""
 "located in the tool bar below the <gui>Subject</gui> line. They also appear "
 "in the <gui>Insert</gui> and <gui>Format</gui> menus."
 msgstr ""
-"Las herramientas de formateo HTML se encuentran en la barra de herramientas "
-"justo encima del espacio en el que realmente compone su mensaje y también "
-"aparecen en los menús <gui>Insertar</gui> y <gui>Formato</gui>."
+"Las herramientas de formateo de texto para alineación básica y formateo de "
+"párrafos se encuentran en la barra de herramientas de debajo de la línea del "
+"<gui>Asunto</gui> y también aparecen en los menús <gui>Insertar</gui> y "
+"<gui>Formato</gui>."
 
 #: C/mail-composer-html.page:26(page/p)
 #: C/mail-composer-html-text.page:24(page/p)
 #: C/mail-composer-plain-text.page:24(page/p)
-#, fuzzy
 #| msgid ""
 #| "The icons in the tool bar are explained in tooltips which appear when you "
 #| "hold your mouse pointer over the buttons. The buttons fall into five "
@@ -6149,11 +6155,9 @@ msgid ""
 "hold your mouse pointer over the buttons."
 msgstr ""
 "Los iconos de la barra de herramientas se explican con consejos que aparecen "
-"cuando mantiene el ratón sobre los botones. Estos se clasifican en cinco "
-"categorías:"
+"cuando mantiene el ratón sobre los botones"
 
 #: C/mail-composer-html.page:28(page/p)
-#, fuzzy
 #| msgid ""
 #| "Normally, you cannot set text styles or insert pictures in email. "
 #| "However, most newer email applications can display images and text styles "
@@ -6164,14 +6168,11 @@ msgid ""
 "However, most newer email applications can do this by using HTML format, "
 "which is the format that also web pages use."
 msgstr ""
-"Normalmente no se pueden aplicar estilos o insertar imágenes en mensajes de "
-"correo electrónico. Sin embargo la mayoría de los clientes de correo "
-"modernos pueden mostrar imágenes y estilos en el texto, además del alineado "
-"básico y el formateo de párrafos. Esto es posible usando HTML al igual que "
-"las páginas web."
+"Normalmente no se pueden establecer el color o el tamaño del texto en "
+"mensajes de correo electrónico. Sin embargo la mayoría de las aplicaciones "
+"de correo puede hacerlo usando HTML al igual que las páginas web."
 
 #: C/mail-composer-html.page:30(page/p)
-#, fuzzy
 #| msgid ""
 #| "Some people do not have HTML-capable mail clients, or prefer not to "
 #| "receive HTML-enhanced mail because it is slower to download and display. "
@@ -6185,18 +6186,18 @@ msgid ""
 msgstr ""
 "Algunas personas no tienen clientes de correo capaces de leer HTML o "
 "prefieren no recibir mensajes enriquecidos con HTML porque son más lentos de "
-"descargar y de mostrar en pantalla. Por ello Evolution envía mensajes de "
-"texto plano a menos que le pida explícitamenteque los componga con HTML."
+"descargar y de mostrar en pantalla. Por ello <app>Evolution</app> envía "
+"mensajes de texto plano a menos que le pida explícitamente que los componga "
+"con HTML."
 
 #: C/mail-composer-html.page:33(section/title)
 msgid "Plain Text Formatting Options"
 msgstr "Opciones de formateo en texto plano"
 
 #: C/mail-composer-html.page:37(section/title)
-#, fuzzy
 #| msgid "HTML Formatting Options"
 msgid "HTML-only Formatting Options"
-msgstr "Opciones de formateo HTML"
+msgstr "Opciones de formateo sólo para HTML"
 
 #. This is a reference to an external file such as an image or video. When
 #. the file changes, the md5 hash will change to let you know you need to
@@ -6248,6 +6249,9 @@ msgid ""
 "composer-insert-rule.png\"/> icon in the second bar below the <gui>Subject</"
 "gui> line."
 msgstr ""
+"Alternativamente, también puede usar el icono <media type=\"image\" src=\"./"
+"figures/html-composer-insert-rule.png\"/> en la segunda barra de debajo de "
+"la línea del <gui>Asunto</gui>."
 
 #. This is a reference to an external file such as an image or video. When
 #. the file changes, the md5 hash will change to let you know you need to
@@ -6302,6 +6306,9 @@ msgid ""
 "composer-insert-table.png\"/> icon in the second bar below the <gui>Subject</"
 "gui> line."
 msgstr ""
+"Alternativamente, también puede usar el icono <media type=\"image\" src=\"./"
+"figures/html-composer-insert-table.png\"/> en la segunda barra de debajo de "
+"la línea del <gui>Asunto</gui>."
 
 #. This is a reference to an external file such as an image or video. When
 #. the file changes, the md5 hash will change to let you know you need to
@@ -6327,7 +6334,6 @@ msgid "Formatting Text in HTML"
 msgstr "Formatear texto en HTML"
 
 #: C/mail-composer-html-text.page:23(page/p)
-#, fuzzy
 #| msgid ""
 #| "HTML formatting tools are located in the two tool bars just above the "
 #| "area where you actually write the message. They also appear in the "
@@ -6338,9 +6344,10 @@ msgid ""
 "format. They also appear in the <gui>Insert</gui> and <gui>Format</gui> "
 "menus."
 msgstr ""
-"Las herramientas de formateo HTML se encuentran en la barra de herramientas "
-"justo encima del espacio en el que realmente compone su mensaje y también "
-"aparecen en los menús <gui>Insertar</gui> y <gui>Formato</gui>."
+"Las herramientas de formateo HTML se encuentran en la segunda barra de "
+"herramientas de debajo e la línea del <gui>Asunto</gui>, después de activar "
+"el formato HTML. También aparecen en los menús <gui>Insertar</gui> y "
+"<gui>Formato</gui>."
 
 #: C/mail-composer-html-text.page:27(section/title)
 msgid "Text Styles:"
@@ -6571,7 +6578,6 @@ msgid "Use one of your templates for replying to a message"
 msgstr "Usar una de sus plantillas para responder a un mensaje"
 
 #: C/mail-composer-message-templates-reply.page:23(page/title)
-#, fuzzy
 #| msgid "Using a Message Template as a Reply"
 msgid "Using a Template as a Reply"
 msgstr "Usar una plantilla de mensaje como respuesta"
@@ -6612,22 +6618,19 @@ msgstr ""
 "respuesta se mantiene."
 
 #: C/mail-composer-message-templates-save.page:5(info/desc)
-#, fuzzy
 #| msgid "Saving a New Message as a Template"
 msgid "Store an existing or new message as a template"
-msgstr "Guardar un mensaje nuevo como plantilla"
+msgstr "Guardar un mensaje existente o uno nuevo como plantilla"
 
 #: C/mail-composer-message-templates-save.page:23(page/title)
-#, fuzzy
 #| msgid "Saving a New Message as a Template"
 msgid "Saving Messages as Templates"
-msgstr "Guardar un mensaje nuevo como plantilla"
+msgstr "Guardar mensajes como plantillas"
 
 #: C/mail-composer-message-templates-save.page:26(section/title)
-#, fuzzy
 #| msgid "Saving a New Message as a Template"
 msgid "Saving an Existing Message as a Template"
-msgstr "Guardar un mensaje nuevo como plantilla"
+msgstr "Guardar un mensaje existente como plantilla"
 
 #: C/mail-composer-message-templates-save.page:28(item/p)
 msgid "Select the message."
@@ -6689,16 +6692,14 @@ msgstr ""
 "mensaje al que responde"
 
 #: C/mail-composer-message-templates-variables.page:23(page/title)
-#, fuzzy
 #| msgid "Using a Message Template as a Reply"
 msgid "Using Variables in Templates"
-msgstr "Usar una plantilla de mensaje como respuesta"
+msgstr "Usar variables en plantillas"
 
 #: C/mail-composer-message-templates-variables.page:26(section/title)
-#, fuzzy
 #| msgid "Configuring Message Templates"
 msgid "Configuring Variables for Message Templates"
-msgstr "Configurar plantillas de mensajes"
+msgstr "Configurar variables para plantillas de mensajes"
 
 #: C/mail-composer-message-templates-variables.page:29(item/p)
 msgid "Click <gui>Templates</gui>."
@@ -6779,10 +6780,9 @@ msgstr ""
 "entonces no se hacen cambios."
 
 #: C/mail-composer-message-templates-variables.page:52(section/title)
-#, fuzzy
 #| msgid "Using a Message Template as a Reply"
 msgid "Using Elements From a Message in a Template When Replying"
-msgstr "Usar una plantilla de mensaje como respuesta"
+msgstr "Usar elementos de un mensaje en una plantilla al responder"
 
 #: C/mail-composer-message-templates-variables.page:53(section/p)
 msgid ""
@@ -6829,16 +6829,16 @@ msgstr ""
 "code>)."
 
 #: C/mail-composer-plain-text.page:5(info/desc)
-#, fuzzy
 #| msgid "Insert a table in the mail composer."
 msgid "Change font alignment and paragraph formatting in the mail composer."
-msgstr "Insertar una tabla en el editor de correo."
+msgstr ""
+"Cambiar la alineación de la tipografía y el formato del párrafo en el editor "
+"de correo."
 
 #: C/mail-composer-plain-text.page:21(page/title)
-#, fuzzy
 #| msgid "Formatting emails (in Plain Text and HTML)"
 msgid "Formatting Text in Plain Text Format"
-msgstr "Formatear correo-e (en texto plano y en HTML)"
+msgstr "Formatear en texto plano"
 
 #: C/mail-composer-plain-text.page:23(page/p)
 #, fuzzy
@@ -7818,15 +7818,13 @@ msgstr ""
 
 #: C/mail-display-message-source.page:5(info/desc)
 msgid "Displaying the raw source of a message or all header lines."
-msgstr ""
+msgstr "Mostrar la fuente en bruto de un mensaje o todas las cabeceras."
 
 #: C/mail-display-message-source.page:20(page/title)
-#, fuzzy
 msgid "Message Source"
-msgstr "Me_nsaje en bruto"
+msgstr "Fuente del mensaje"
 
 #: C/mail-display-message-source.page:22(page/p)
-#, fuzzy
 #| msgid ""
 #| "To view the message data, click on <guiseq><gui>View</gui><gui>Message "
 #| "Source</gui></guiseq> or press <keyseq><key>Ctrl</key><key>U</key></"
@@ -7839,10 +7837,9 @@ msgstr ""
 "Para ver todos los datos del correo pulse en <guiseq><gui>Ver</"
 "gui><gui>Mensaje en bruto</gui></guiseq> o pulse <keyseq><key>Ctrl</"
 "key><key>U</key></keyseq>. Se mostrarán todos los datos del mensaje en una "
-"ventana emergente."
+"ventana nueva."
 
 #: C/mail-display-message-source.page:24(page/p)
-#, fuzzy
 #| msgid ""
 #| "To view the complete headers for a message, click <guiseq><gui>View</"
 #| "gui><gui>All Message Headers</gui></guiseq>. This will display the "
@@ -7854,7 +7851,7 @@ msgid ""
 msgstr ""
 "Para ver todas las cabeceras de un mensaje, pulse <guiseq><gui>Ver</"
 "gui><gui>Todas las cabeceras del mensaje</gui></guiseq>. Esto mostrará todos "
-"los datos de las cabeceras en el panel de visualización."
+"los datos de las cabeceras de datos en el panel de visualización."
 
 #: C/mail-duplicates.page:5(info/desc)
 msgid "How to handle duplicated email messages"
@@ -9836,7 +9833,6 @@ msgstr ""
 "medida que avanza la conversación."
 
 #: C/mail-localized-re-subjects.page:26(item/p)
-#, fuzzy
 #| msgid ""
 #| "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
 #| "actions true</cmd>"
@@ -9845,8 +9841,9 @@ msgid ""
 "localized-re 'AW:,SV:'</cmd> (in case that you want \"AW:\" and \"SV:\" to "
 "be recognized)."
 msgstr ""
-"Ejecute el comando <cmd>gsettings set org.gnome.evolution.mail filters-log-"
-"actions true</cmd>"
+"Ejecute el comando <cmd>gsettings set org.gnome.evolution.mail.composer-"
+"localized-re 'AW:,SV:'</cmd> (en el caso de que quiera que se reconozcan "
+"«AW:» y «SV:»)"
 
 #: C/mail-moving-emails.page:5(info/desc)
 msgid "Moving emails from one folder to another."
@@ -10796,15 +10793,13 @@ msgstr ""
 "o pulsar <key>F5</key>."
 
 #: C/mail-save-as-pdf.page:5(info/desc)
-#, fuzzy
 #| msgid "Importing single files."
 msgid "Converting emails into PDF files."
-msgstr "Importar archivos individuales."
+msgstr "Convertir correos en archivos PDF."
 
 #: C/mail-save-as-pdf.page:20(page/title)
-#, fuzzy
 msgid "Save messages as PDF"
-msgstr "¿Borrar los mensajes en la carpeta de búsqueda?"
+msgstr "Guardar el mensaje como PDF"
 
 #: C/mail-save-as-pdf.page:22(page/p)
 msgid ""
@@ -10813,6 +10808,10 @@ msgid ""
 "<link href=\"help:gnome-help#printing\">the desktop help</link> for general "
 "information on printing."
 msgstr ""
+"Para guardar correos en formato PDF, seleccione <guiseq><gui>Archivo</"
+"gui><gui>Imprimir</gui></guiseq> y elija <gui>Imprimir a un archivo</gui>. "
+"Consulte <link href=\"help:gnome-help#printing\">la ayuda del escritorio</"
+"link> para obtener información general sobre la impresión."
 
 #: C/mail-save-as-pdf.page:25(note/p)
 msgid ""
@@ -10821,7 +10820,6 @@ msgid ""
 msgstr ""
 
 #: C/mail-save-as-pdf.page:28(item/p)
-#, fuzzy
 #| msgid ""
 #| "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
 #| "actions true</cmd>"
@@ -10829,8 +10827,8 @@ msgid ""
 "Run the command <cmd>gsettings set org.gnome.evolution.mail drag-and-drop-"
 "save-file-format 'pdf'</cmd>"
 msgstr ""
-"Ejecute el comando <cmd>gsettings set org.gnome.evolution.mail filters-log-"
-"actions true</cmd>"
+"Ejecute el comando <cmd>gsettings set org.gnome.evolution.mail drag-and-drop-"
+"save-file-format 'pdf'</cmd>"
 
 #: C/mail-search-folders-add.page:5(info/desc)
 msgid "Setting up a search folder."
@@ -10936,14 +10934,12 @@ msgid "Message Location:"
 msgstr "Ubicación del mensaje:"
 
 #: C/mail-search-folders-enable.page:5(info/desc)
-#, fuzzy
 msgid "Activate search folders."
-msgstr "carpeta de búsqueda"
+msgstr "Activar carpetas de búsqueda."
 
 #: C/mail-search-folders-enable.page:20(page/title)
-#, fuzzy
 msgid "Enable the Search Folders Functionality"
-msgstr "Activar las Carpetas de _búsqueda"
+msgstr "Activar la funcionalidad «Carpetas de búsqueda»"
 
 #: C/mail-search-folders-enable.page:22(page/p)
 msgid ""
@@ -11080,10 +11076,9 @@ msgid "Searching Mail"
 msgstr "Buscar correos"
 
 #: C/mail-searching.page:31(section/title)
-#, fuzzy
 #| msgid "Searching messages."
 msgid "Searching in a Single Message"
-msgstr "Buscar mensajes."
+msgstr "Buscar en un único mensaje"
 
 #: C/mail-searching.page:32(section/p)
 #, fuzzy
@@ -11099,7 +11094,6 @@ msgstr ""
 "<gui>Plantillas</gui>."
 
 #: C/mail-searching.page:36(section/title)
-#| msgid "Searching messages."
 msgid "Searching Across Messages"
 msgstr "Buscar entre los mensajes"
 
@@ -11668,7 +11662,6 @@ msgid "Junk and Spam Mail Handling"
 msgstr "Gestión de correo basura"
 
 #: C/mail-spam.page:22(page/p)
-#, fuzzy
 #| msgid ""
 #| "For topics not covered here please refer to the <link href=\"http://"
 #| "library.gnome.org/users/evolution/2.32/usage-exchange.html.en\">old "
@@ -11678,9 +11671,9 @@ msgid ""
 "gnome.org/users/evolution/2.32/bxqwde6.html\">specific differences in Junk "
 "handling</link>."
 msgstr ""
-"Consulte el <link href=\"http://library.gnome.org/users/evolution/2.32/usage-"
-"exchange.html.en\">antiguo manual de Evolution</link> para temas que no "
-"estén cubiertos aquí."
+"Recuerde que las cuentas de Novell GroupWise tienen algunas <link href="
+"\"http://library.gnome.org/users/evolution/2.32/bxqwde6.html\">diferencias "
+"específicas en el manejo del spam</link>."
 
 #: C/mail-spam-settings.page:7(info/desc)
 msgid "How to set up handling unwanted junk/spam mail."
@@ -12112,7 +12105,6 @@ msgid "Searching Memos"
 msgstr "Buscar notas"
 
 #: C/memos-searching.page:31(section/title)
-#| msgid "Searching Memos"
 msgid "Searching in a Single Memo"
 msgstr "Buscar una única nota"
 
@@ -12130,7 +12122,6 @@ msgstr ""
 "<gui>Plantillas</gui>."
 
 #: C/memos-searching.page:36(section/title)
-#| msgid "Searching Memos"
 msgid "Searching Across Memos"
 msgstr "Buscar entre las notas"
 
@@ -12573,12 +12564,20 @@ msgstr ""
 "wikipedia/en/wiki/SyncML\">SyncML</link>."
 
 #: C/sync-with-other-devices.page:29(page/p)
+#, fuzzy
+#| msgid ""
+#| "Another option might be to use applications and devices that both support "
+#| "the <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/ActiveSync"
+#| "\">ActiveSync protocol</link>. A <link href=\"https://secure.wikimedia."
+#| "org/wikipedia/en/wiki/List_of_collaborative_software\">list of "
+#| "collaborative software</link> is available on Wikipedia."
 msgid ""
-"Another option might be to use applications and devices that both support "
-"the <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/ActiveSync"
-"\">ActiveSync protocol</link>. A <link href=\"https://secure.wikimedia.org/"
-"wikipedia/en/wiki/List_of_collaborative_software\">list of collaborative "
-"software</link> is available on Wikipedia."
+"In general it is recommended to use applications and devices that both "
+"support the <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
+"ActiveSync\">ActiveSync protocol</link> (such as <app>SyncEvolution</app>). "
+"A <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
+"List_of_collaborative_software\">list of collaborative software</link> is "
+"available on Wikipedia."
 msgstr ""
 "Otra opción puede ser usar las aplicaciones y dispositivos que soporten el "
 "<link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/ActiveSync"
@@ -12879,7 +12878,6 @@ msgid "Searching Tasks"
 msgstr "Buscar tareas"
 
 #: C/tasks-searching.page:31(section/title)
-#| msgid "Searching Tasks"
 msgid "Searching in a Single Task"
 msgstr "Buscar una única tarea"
 
@@ -12896,7 +12894,6 @@ msgstr ""
 "gui><gui>Tarea asignada</gui></guiseq>."
 
 #: C/tasks-searching.page:36(section/title)
-#| msgid "Searching Tasks"
 msgid "Searching Across Tasks"
 msgstr "Buscar entre las tareas"
 
