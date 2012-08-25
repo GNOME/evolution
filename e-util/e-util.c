@@ -121,16 +121,22 @@ window_update_settings (WindowData *data)
 	return FALSE;
 }
 
-static gboolean
-window_configure_event_cb (GtkWindow *window,
-                           GdkEventConfigure *event,
-                           WindowData *data)
+static void
+window_delayed_update_settings (WindowData *data)
 {
 	if (data->timeout_id > 0)
 		g_source_remove (data->timeout_id);
 
 	data->timeout_id = g_timeout_add_seconds (
 		1, (GSourceFunc) window_update_settings, data);
+}
+
+static gboolean
+window_configure_event_cb (GtkWindow *window,
+                           GdkEventConfigure *event,
+                           WindowData *data)
+{
+	window_delayed_update_settings (data);
 
 	return FALSE;
 }
@@ -165,7 +171,7 @@ window_state_event_cb (GtkWindow *window,
 			gtk_window_resize (window, width, height);
 	}
 
-	window_configure_event_cb (window, NULL, data);
+	window_delayed_update_settings (data);
 
 	return FALSE;
 }

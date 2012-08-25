@@ -60,7 +60,8 @@ filter_color_xml_encode (EFilterElement *element)
 	xmlNodePtr value;
 	gchar spec[16];
 
-	g_snprintf (spec, sizeof (spec), "#%04x%04x%04x",
+	g_snprintf (
+		spec, sizeof (spec), "#%04x%04x%04x",
 		fc->color.red, fc->color.green, fc->color.blue);
 
 	value = xmlNewNode (NULL, (xmlChar *)"value");
@@ -124,7 +125,8 @@ filter_color_format_sexp (EFilterElement *element,
 	EFilterColor *fc = E_FILTER_COLOR (element);
 	gchar spec[16];
 
-	g_snprintf (spec, sizeof (spec), "#%04x%04x%04x",
+	g_snprintf (
+		spec, sizeof (spec), "#%04x%04x%04x",
 		fc->color.red, fc->color.green, fc->color.blue);
 	camel_sexp_encode_string (out, spec);
 }

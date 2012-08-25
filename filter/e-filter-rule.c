@@ -214,16 +214,18 @@ attach_rule (GtkWidget *rule,
 {
 	GtkWidget *remove;
 
-	gtk_table_attach (GTK_TABLE (data->parts), rule, 0, 1, row, row + 1,
-			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (data->parts), rule, 0, 1, row, row + 1,
+		GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	remove = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
 	g_object_set_data ((GObject *) remove, "rule", rule);
 	g_signal_connect (
 		remove, "clicked",
 		G_CALLBACK (less_parts), data);
-	gtk_table_attach (GTK_TABLE (data->parts), remove, 1, 2, row, row + 1,
-			  0, 0, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (data->parts), remove, 1, 2, row, row + 1,
+		0, 0, 0, 0);
 
 	gtk_widget_show (remove);
 }
@@ -660,7 +662,8 @@ ensure_scrolled_width_cb (GtkAdjustment *adj,
                           GParamSpec *param_spec,
                           GtkScrolledWindow *scrolled_window)
 {
-	gtk_scrolled_window_set_min_content_width (scrolled_window,
+	gtk_scrolled_window_set_min_content_width (
+		scrolled_window,
 		gtk_adjustment_get_upper (adj));
 }
 
@@ -816,7 +819,8 @@ filter_rule_get_widget (EFilterRule *rule,
 
 		gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (hgrid));
 	} else {
-		text = g_strdup_printf ("<b>%s</b>",
+		text = g_strdup_printf (
+			"<b>%s</b>",
 			_("Find items that meet the following conditions"));
 		label = gtk_label_new (text);
 		gtk_label_set_use_markup (GTK_LABEL (label), TRUE);

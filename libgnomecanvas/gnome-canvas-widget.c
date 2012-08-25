@@ -211,9 +211,10 @@ recalc_bounds (GnomeCanvasWidget *witem)
 	item->y2 = witem->cy + witem->cheight;
 
 	if (witem->widget)
-		gtk_layout_move (GTK_LAYOUT (item->canvas), witem->widget,
-				 witem->cx + item->canvas->zoom_xofs,
-				 witem->cy + item->canvas->zoom_yofs);
+		gtk_layout_move (
+			GTK_LAYOUT (item->canvas), witem->widget,
+			witem->cx + item->canvas->zoom_xofs,
+			witem->cy + item->canvas->zoom_yofs);
 }
 
 static void
@@ -248,9 +249,10 @@ gnome_canvas_widget_set_property (GObject *object,
 		if (obj) {
 			witem->widget = GTK_WIDGET (obj);
 			g_object_weak_ref (obj, do_destroy, witem);
-			gtk_layout_put (GTK_LAYOUT (item->canvas), witem->widget,
-					witem->cx + item->canvas->zoom_xofs,
-					witem->cy + item->canvas->zoom_yofs);
+			gtk_layout_put (
+				GTK_LAYOUT (item->canvas), witem->widget,
+				witem->cx + item->canvas->zoom_xofs,
+				witem->cy + item->canvas->zoom_yofs);
 		}
 
 		update = TRUE;

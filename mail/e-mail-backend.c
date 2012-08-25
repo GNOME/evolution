@@ -562,6 +562,7 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 		ESource *source = E_SOURCE (link->data);
 		ESourceExtension *extension;
 		const gchar *drafts_folder_uri;
+		gboolean need_update;
 
 		extension = e_source_get_extension (source, extension_name);
 
@@ -569,7 +570,11 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 			e_source_mail_composition_get_drafts_folder (
 			E_SOURCE_MAIL_COMPOSITION (extension));
 
-		if (class->equal_folder_name (drafts_folder_uri, old_uri)) {
+		need_update =
+			(drafts_folder_uri != NULL) &&
+			class->equal_folder_name (drafts_folder_uri, old_uri);
+
+		if (need_update) {
 			GError *error = NULL;
 
 			e_source_mail_composition_set_drafts_folder (
@@ -593,6 +598,7 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 		ESource *source = E_SOURCE (link->data);
 		ESourceExtension *extension;
 		const gchar *sent_folder_uri;
+		gboolean need_update;
 
 		extension = e_source_get_extension (source, extension_name);
 
@@ -600,7 +606,11 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 			e_source_mail_submission_get_sent_folder (
 			E_SOURCE_MAIL_SUBMISSION (extension));
 
-		if (sent_folder_uri && class->equal_folder_name (sent_folder_uri, old_uri)) {
+		need_update =
+			(sent_folder_uri != NULL) &&
+			class->equal_folder_name (sent_folder_uri, old_uri);
+
+		if (need_update) {
 			GError *error = NULL;
 
 			e_source_mail_submission_set_sent_folder (

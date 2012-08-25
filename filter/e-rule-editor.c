@@ -156,30 +156,44 @@ add_editor_response (GtkWidget *dialog,
 		}
 
 		if (e_rule_context_find_rule (editor->context, editor->edit->name, editor->edit->source)) {
-			e_alert_run_dialog_for_args ((GtkWindow *) dialog,
-						     "filter:bad-name-notunique",
-						     editor->edit->name, NULL);
+			e_alert_run_dialog_for_args (
+				GTK_WINDOW (dialog),
+				"filter:bad-name-notunique",
+				editor->edit->name, NULL);
 			return;
 		}
 
 		g_object_ref (editor->edit);
 
 		gtk_list_store_append (editor->model, &iter);
-		gtk_list_store_set (editor->model, &iter, 0, editor->edit->name, 1, editor->edit, 2, editor->edit->enabled, -1);
+		gtk_list_store_set (
+			editor->model, &iter,
+			0, editor->edit->name,
+			1, editor->edit,
+			2, editor->edit->enabled, -1);
 		selection = gtk_tree_view_get_selection (editor->list);
 		gtk_tree_selection_select_iter (selection, &iter);
 
 		/* scroll to the newly added row */
-		path = gtk_tree_model_get_path ((GtkTreeModel *) editor->model, &iter);
-		gtk_tree_view_scroll_to_cell (editor->list, path, NULL, TRUE, 1.0, 0.0);
+		path = gtk_tree_model_get_path (
+			GTK_TREE_MODEL (editor->model), &iter);
+		gtk_tree_view_scroll_to_cell (
+			editor->list, path, NULL, TRUE, 1.0, 0.0);
 		gtk_tree_path_free (path);
 
 		editor->current = editor->edit;
 		e_rule_context_add_rule (editor->context, editor->current);
 
 		g_object_ref (editor->current);
-		rule_editor_add_undo (editor, E_RULE_EDITOR_LOG_ADD, editor->current,
-				      e_rule_context_get_rank_rule (editor->context, editor->current, editor->current->source), 0);
+		rule_editor_add_undo (
+			editor,
+			E_RULE_EDITOR_LOG_ADD,
+			editor->current,
+			e_rule_context_get_rank_rule (
+				editor->context,
+				editor->current,
+				editor->current->source),
+			0);
 	}
 
 	gtk_widget_destroy (dialog);
@@ -265,10 +279,11 @@ rule_add (GtkWidget *widget,
 	rules = e_filter_rule_get_widget (editor->edit, editor->context);
 
 	editor->dialog = gtk_dialog_new ();
-	gtk_dialog_add_buttons ((GtkDialog *) editor->dialog,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
-				NULL);
+	gtk_dialog_add_buttons (
+		GTK_DIALOG (editor->dialog),
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
 
 	gtk_window_set_title ((GtkWindow *) editor->dialog, _("Add Rule"));
 	gtk_window_set_default_size (GTK_WINDOW (editor->dialog), 650, 400);
@@ -312,26 +327,39 @@ edit_editor_response (GtkWidget *dialog,
 			return;
 		}
 
-		rule = e_rule_context_find_rule (editor->context, editor->edit->name, editor->edit->source);
-		if (rule != NULL && rule != editor->current) {
-			e_alert_run_dialog_for_args ((GtkWindow *) dialog,
-						     "filter:bad-name-notunique",
-						     rule->name, NULL);
+		rule = e_rule_context_find_rule (
+			editor->context,
+			editor->edit->name,
+			editor->edit->source);
 
+		if (rule != NULL && rule != editor->current) {
+			e_alert_run_dialog_for_args (
+				GTK_WINDOW (dialog),
+				"filter:bad-name-notunique",
+				rule->name, NULL);
 			return;
 		}
 
-		pos = e_rule_context_get_rank_rule (editor->context, editor->current, editor->source);
+		pos = e_rule_context_get_rank_rule (
+			editor->context,
+			editor->current,
+			editor->source);
+
 		if (pos != -1) {
 			path = gtk_tree_path_new ();
 			gtk_tree_path_append_index (path, pos);
-			gtk_tree_model_get_iter (GTK_TREE_MODEL (editor->model), &iter, path);
+			gtk_tree_model_get_iter (
+				GTK_TREE_MODEL (editor->model), &iter, path);
 			gtk_tree_path_free (path);
 
-			gtk_list_store_set (editor->model, &iter, 0, editor->edit->name, -1);
+			gtk_list_store_set (
+				editor->model, &iter,
+				0, editor->edit->name, -1);
 
-			rule_editor_add_undo (editor, E_RULE_EDITOR_LOG_EDIT, e_filter_rule_clone (editor->current),
-					      pos, 0);
+			rule_editor_add_undo (
+				editor, E_RULE_EDITOR_LOG_EDIT,
+				e_filter_rule_clone (editor->current),
+				pos, 0);
 
 			/* replace the old rule with the new rule */
 			e_filter_rule_copy (editor->current, editor->edit);
@@ -358,7 +386,8 @@ rule_edit (GtkWidget *widget,
 	rules = e_filter_rule_get_widget (editor->edit, editor->context);
 
 	editor->dialog = gtk_dialog_new ();
-	gtk_dialog_add_buttons ((GtkDialog *) editor->dialog,
+	gtk_dialog_add_buttons (
+		(GtkDialog *) editor->dialog,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
@@ -412,8 +441,15 @@ rule_delete (GtkWidget *widget,
 		gtk_list_store_remove (editor->model, &iter);
 		gtk_tree_path_free (path);
 
-		rule_editor_add_undo (editor, E_RULE_EDITOR_LOG_REMOVE, delete_rule,
-				      e_rule_context_get_rank_rule (editor->context, delete_rule, delete_rule->source), 0);
+		rule_editor_add_undo (
+			editor,
+			E_RULE_EDITOR_LOG_REMOVE,
+			delete_rule,
+			e_rule_context_get_rank_rule (
+				editor->context,
+				delete_rule,
+				delete_rule->source),
+			0);
 #if 0
 		g_object_unref (delete_rule);
 #endif
@@ -876,8 +912,9 @@ e_rule_editor_construct (ERuleEditor *editor,
 		G_CALLBACK (editor_response), editor);
 	rule_editor_set_source (editor, source);
 
-	gtk_dialog_add_buttons ((GtkDialog *) editor,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
-				NULL);
+	gtk_dialog_add_buttons (
+		GTK_DIALOG (editor),
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
 }

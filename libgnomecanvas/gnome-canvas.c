@@ -854,12 +854,9 @@ gnome_canvas_item_grab (GnomeCanvasItem *item,
 	layout = GTK_LAYOUT (item->canvas);
 	bin_window = gtk_layout_get_bin_window (layout);
 
-	retval = gdk_pointer_grab (bin_window,
-				   FALSE,
-				   event_mask,
-				   NULL,
-				   cursor,
-				   etime);
+	retval = gdk_pointer_grab (
+		bin_window, FALSE, event_mask,
+		NULL, cursor, etime);
 
 	if (retval != GDK_GRAB_SUCCESS)
 		return retval;
@@ -1225,20 +1222,31 @@ gnome_canvas_group_class_init (GnomeCanvasGroupClass *class)
 	object_class->set_property = gnome_canvas_group_set_property;
 	object_class->get_property = gnome_canvas_group_get_property;
 
-	g_object_class_install_property
-		(object_class, GROUP_PROP_X,
-		 g_param_spec_double ("x",
-				      "X",
-				      "X",
-				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-	g_object_class_install_property
-		(object_class, GROUP_PROP_Y,
-		 g_param_spec_double ("y",
-				      "Y",
-				      "Y",
-				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	g_object_class_install_property (
+		object_class,
+		GROUP_PROP_X,
+		g_param_spec_double (
+			"x",
+			"X",
+			"X",
+			-G_MAXDOUBLE,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		object_class,
+		GROUP_PROP_Y,
+		g_param_spec_double (
+			"y",
+			"Y",
+			"Y",
+			-G_MAXDOUBLE,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
 	item_class->dispose = gnome_canvas_group_dispose;
 	item_class->update = gnome_canvas_group_update;
@@ -1827,19 +1835,29 @@ gnome_canvas_class_init (GnomeCanvasClass *class)
 	class->draw_background = gnome_canvas_draw_background;
 	class->request_update = gnome_canvas_request_update_real;
 
-	g_object_class_install_property (object_class, PROP_FOCUSED_ITEM,
-					 g_param_spec_object ("focused_item", NULL, NULL,
-					 GNOME_TYPE_CANVAS_ITEM,
-					 (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	g_object_class_install_property (
+		object_class,
+		PROP_FOCUSED_ITEM,
+		g_param_spec_object (
+			"focused_item",
+			NULL,
+			NULL,
+			GNOME_TYPE_CANVAS_ITEM,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	canvas_signals[DRAW_BACKGROUND] =
-		g_signal_new ("draw_background",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GnomeCanvasClass, draw_background),
-			      NULL, NULL, NULL,
-			      G_TYPE_NONE, 5, CAIRO_GOBJECT_TYPE_CONTEXT,
-			      G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT);
+	canvas_signals[DRAW_BACKGROUND] = g_signal_new (
+		"draw_background",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnomeCanvasClass, draw_background),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 5,
+		CAIRO_GOBJECT_TYPE_CONTEXT,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		G_TYPE_INT);
 
 	gail_canvas_init ();
 }
@@ -2018,18 +2036,19 @@ gnome_canvas_realize (GtkWidget *widget)
 	layout = GTK_LAYOUT (canvas);
 	bin_window = gtk_layout_get_bin_window (layout);
 
-	gdk_window_set_events (bin_window,
-			       (gdk_window_get_events (bin_window)
-				 | GDK_EXPOSURE_MASK
-				 | GDK_SCROLL_MASK
-				 | GDK_BUTTON_PRESS_MASK
-				 | GDK_BUTTON_RELEASE_MASK
-				 | GDK_POINTER_MOTION_MASK
-				 | GDK_KEY_PRESS_MASK
-				 | GDK_KEY_RELEASE_MASK
-				 | GDK_ENTER_NOTIFY_MASK
-				 | GDK_LEAVE_NOTIFY_MASK
-				 | GDK_FOCUS_CHANGE_MASK));
+	gdk_window_set_events (
+		bin_window,
+		(gdk_window_get_events (bin_window)
+		| GDK_EXPOSURE_MASK
+		| GDK_SCROLL_MASK
+		| GDK_BUTTON_PRESS_MASK
+		| GDK_BUTTON_RELEASE_MASK
+		| GDK_POINTER_MOTION_MASK
+		| GDK_KEY_PRESS_MASK
+		| GDK_KEY_RELEASE_MASK
+		| GDK_ENTER_NOTIFY_MASK
+		| GDK_LEAVE_NOTIFY_MASK
+		| GDK_FOCUS_CHANGE_MASK));
 
 	/* Create our own temporary pixmap gc and realize all the items */
 
@@ -2181,9 +2200,10 @@ gnome_canvas_size_allocate (GtkWidget *widget,
 	gtk_adjustment_set_page_size (vadjustment, allocation->height);
 	gtk_adjustment_set_page_increment (vadjustment, allocation->height / 2);
 
-	scroll_to (GNOME_CANVAS (widget),
-		   gtk_adjustment_get_value (hadjustment),
-		   gtk_adjustment_get_value (vadjustment));
+	scroll_to (
+		GNOME_CANVAS (widget),
+		gtk_adjustment_get_value (hadjustment),
+		gtk_adjustment_get_value (vadjustment));
 
 	g_object_thaw_notify (G_OBJECT (hadjustment));
 	g_object_thaw_notify (G_OBJECT (vadjustment));
@@ -2222,18 +2242,20 @@ gnome_canvas_draw (GtkWidget *widget,
 	}
 
 	cairo_save (cr);
-	cairo_translate (cr,
-			 -canvas->zoom_xofs + rect.x,
-			 -canvas->zoom_yofs + rect.y);
+	cairo_translate (
+		cr,
+		-canvas->zoom_xofs + rect.x,
+		-canvas->zoom_yofs + rect.y);
 
 	rect.x += hadjustment_value;
 	rect.y += vadjustment_value;
 
 	/* No pending updates, draw exposed area immediately */
-	gnome_canvas_paint_rect (canvas, cr,
-				 rect.x, rect.y,
-				 rect.x + rect.width,
-				 rect.y + rect.height);
+	gnome_canvas_paint_rect (
+		canvas, cr,
+		rect.x, rect.y,
+		rect.x + rect.width,
+		rect.y + rect.height);
 	cairo_restore (cr);
 
 	/* And call expose on parent container class */
@@ -2322,9 +2344,10 @@ emit_event (GnomeCanvas *canvas,
 	{
 	case GDK_ENTER_NOTIFY:
 	case GDK_LEAVE_NOTIFY:
-		gnome_canvas_window_to_world (canvas,
-					      ev->crossing.x, ev->crossing.y,
-					      &ev->crossing.x, &ev->crossing.y);
+		gnome_canvas_window_to_world (
+			canvas,
+			ev->crossing.x, ev->crossing.y,
+			&ev->crossing.x, &ev->crossing.y);
 		break;
 
 	case GDK_MOTION_NOTIFY:
@@ -2332,9 +2355,10 @@ emit_event (GnomeCanvas *canvas,
 	case GDK_2BUTTON_PRESS:
 	case GDK_3BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
-		gnome_canvas_window_to_world (canvas,
-					      ev->motion.x, ev->motion.y,
-					      &ev->motion.x, &ev->motion.y);
+		gnome_canvas_window_to_world (
+			canvas,
+			ev->motion.x, ev->motion.y,
+			&ev->motion.x, &ev->motion.y);
 		break;
 
 	default:
@@ -2361,8 +2385,9 @@ emit_event (GnomeCanvas *canvas,
 	while (item && !finished) {
 		g_object_ref (G_OBJECT (item));
 
-		g_signal_emit (item, item_signals[ITEM_EVENT], 0,
-			       ev, &finished);
+		g_signal_emit (
+			item, item_signals[ITEM_EVENT], 0,
+			ev, &finished);
 
 		parent = item->parent;
 		g_object_unref (G_OBJECT (item));
@@ -2805,10 +2830,11 @@ add_idle (GnomeCanvas *canvas)
 	g_return_if_fail (canvas->need_update);
 
 	if (!canvas->idle_id)
-		canvas->idle_id = g_idle_add_full (CANVAS_IDLE_PRIORITY,
-						   idle_handler,
-						   canvas,
-						   NULL);
+		canvas->idle_id = g_idle_add_full (
+			CANVAS_IDLE_PRIORITY,
+			idle_handler,
+			canvas,
+			NULL);
 
 /*	canvas->idle_id = gtk_idle_add (idle_handler, canvas); */
 }
@@ -2870,12 +2896,11 @@ gnome_canvas_set_scroll_region (GnomeCanvas *canvas,
 	 * visible contents of the canvas.
 	 */
 
-	gnome_canvas_c2w (canvas,
-			  hadjustment_value + canvas->zoom_xofs,
-			  vadjustment_value + canvas->zoom_yofs,
-			  /*canvas->zoom_xofs,
-			  canvas->zoom_yofs,*/
-			  &wxofs, &wyofs);
+	gnome_canvas_c2w (
+		canvas,
+		hadjustment_value + canvas->zoom_xofs,
+		vadjustment_value + canvas->zoom_yofs,
+		&wxofs, &wyofs);
 
 	canvas->scroll_x1 = x1;
 	canvas->scroll_y1 = y1;
@@ -3084,8 +3109,9 @@ gnome_canvas_request_redraw (GnomeCanvas *canvas,
 	if (!gdk_rectangle_intersect (&area, &clip, &area))
 		return;
 
-	gdk_window_invalidate_rect (gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
-				    &area, FALSE);
+	gdk_window_invalidate_rect (
+		gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
+		&area, FALSE);
 }
 
 /**
@@ -3302,20 +3328,25 @@ gnome_canvas_item_class_init (GnomeCanvasItemClass *class)
 	gobject_class->set_property = gnome_canvas_item_set_property;
 	gobject_class->get_property = gnome_canvas_item_get_property;
 
-	g_object_class_install_property
-		(gobject_class, ITEM_PROP_PARENT,
-		 g_param_spec_object ("parent", NULL, NULL,
-				      GNOME_TYPE_CANVAS_ITEM,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	g_object_class_install_property (
+		gobject_class,
+		ITEM_PROP_PARENT,
+		g_param_spec_object (
+			"parent",
+			NULL,
+			NULL,
+			GNOME_TYPE_CANVAS_ITEM,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	item_signals[ITEM_EVENT] =
-		g_signal_new ("event",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GnomeCanvasItemClass, event),
-			      boolean_handled_accumulator, NULL, NULL,
-			      G_TYPE_BOOLEAN, 1,
-			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	item_signals[ITEM_EVENT] = g_signal_new (
+		"event",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnomeCanvasItemClass, event),
+		boolean_handled_accumulator, NULL, NULL,
+		G_TYPE_BOOLEAN, 1,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	gobject_class->dispose = gnome_canvas_item_dispose;
 

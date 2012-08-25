@@ -148,305 +148,420 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	gobject_class->get_property = gnome_canvas_text_get_property;
 
 	/* Text */
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_TEXT,
-		 g_param_spec_string ("text",
-				      "Text",
-				      "Text to render",
-				      NULL,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_TEXT,
+		g_param_spec_string (
+			"text",
+			"Text",
+			"Text to render",
+			NULL,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_MARKUP,
-		 g_param_spec_string ("markup",
-				      "Markup",
-				      "Marked up text to render",
-				      NULL,
-				      (G_PARAM_WRITABLE)));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_MARKUP,
+		g_param_spec_string (
+			"markup",
+			"Markup",
+			"Marked up text to render",
+			NULL,
+			G_PARAM_WRITABLE));
 
 	/* Position */
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_X,
-		 g_param_spec_double ("x", NULL, NULL,
-				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_X,
+		g_param_spec_double (
+			"x",
+			NULL,
+			NULL,
+			-G_MAXDOUBLE,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_Y,
-		 g_param_spec_double ("y", NULL, NULL,
-				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_Y,
+		g_param_spec_double (
+			"y",
+			NULL,
+			NULL,
+			-G_MAXDOUBLE,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
 	/* Font */
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_FONT,
-		 g_param_spec_string ("font",
-				      "Font",
-				      "Font description as a string",
-				      NULL,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_FONT,
+		g_param_spec_string (
+			"font",
+			"Font",
+			"Font description as a string",
+			NULL,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_FONT_DESC,
-		 g_param_spec_boxed ("font_desc",
-				     "Font description",
-				     "Font description as a PangoFontDescription struct",
-				     PANGO_TYPE_FONT_DESCRIPTION,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_FONT_DESC,
+		g_param_spec_boxed (
+			"font_desc",
+			"Font description",
+			"Font description as a PangoFontDescription struct",
+			PANGO_TYPE_FONT_DESCRIPTION,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_FAMILY,
-		 g_param_spec_string ("family",
-				      "Font family",
-				      "Name of the font family, e.g. "
-				      "Sans, Helvetica, Times, Monospace",
-				      NULL,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_FAMILY,
+		g_param_spec_string (
+			"family",
+			"Font family",
+			"Name of the font family, e.g. "
+			"Sans, Helvetica, Times, Monospace",
+			NULL,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
 	/* Style */
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_ATTRIBUTES,
-		 g_param_spec_boxed ("attributes", NULL, NULL,
-				     PANGO_TYPE_ATTR_LIST,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_ATTRIBUTES,
+		g_param_spec_boxed (
+			"attributes",
+			NULL,
+			NULL,
+			PANGO_TYPE_ATTR_LIST,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_STYLE,
-		 g_param_spec_enum ("style",
-				    "Font style",
-				    "Font style",
-				    PANGO_TYPE_STYLE,
-				    PANGO_STYLE_NORMAL,
-				    G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_STYLE,
+		g_param_spec_enum (
+			"style",
+			"Font style",
+			"Font style",
+			PANGO_TYPE_STYLE,
+			PANGO_STYLE_NORMAL,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_VARIANT,
-		 g_param_spec_enum ("variant",
-				    "Font variant",
-				    "Font variant",
-				    PANGO_TYPE_VARIANT,
-				    PANGO_VARIANT_NORMAL,
-				    G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_VARIANT,
+		g_param_spec_enum (
+			"variant",
+			"Font variant",
+			"Font variant",
+			PANGO_TYPE_VARIANT,
+			PANGO_VARIANT_NORMAL,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_WEIGHT,
-		 g_param_spec_int ("weight",
-				   "Font weight",
-				   "Font weight",
-				   0,
-				   G_MAXINT,
-				   PANGO_WEIGHT_NORMAL,
-				   G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_WEIGHT,
+		g_param_spec_int (
+			"weight",
+			"Font weight",
+			"Font weight",
+			0,
+			G_MAXINT,
+			PANGO_WEIGHT_NORMAL,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_STRETCH,
-		 g_param_spec_enum ("stretch",
-				    "Font stretch",
-				    "Font stretch",
-				    PANGO_TYPE_STRETCH,
-				    PANGO_STRETCH_NORMAL,
-				    G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_STRETCH,
+		g_param_spec_enum (
+			"stretch",
+			"Font stretch",
+			"Font stretch",
+			PANGO_TYPE_STRETCH,
+			PANGO_STRETCH_NORMAL,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_SIZE,
-		 g_param_spec_int ("size",
-				   "Font size",
-				   "Font size (as a multiple of PANGO_SCALE, "
-				   "eg. 12*PANGO_SCALE for a 12pt font size)",
-				   0,
-				   G_MAXINT,
-				   0,
-				   G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_SIZE,
+		g_param_spec_int (
+			"size",
+			"Font size",
+			"Font size (as a multiple of PANGO_SCALE, "
+			"eg. 12*PANGO_SCALE for a 12pt font size)",
+			0,
+			G_MAXINT,
+			0,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
+	g_object_class_install_property (
+		gobject_class,
 		PROP_SIZE_POINTS,
-		g_param_spec_double ("size_points",
-				     "Font points",
-				     "Font size in points (eg. 12 for a 12pt font size)",
-				     0.0,
-				     G_MAXDOUBLE,
-				     0.0,
-				     G_PARAM_READABLE | G_PARAM_WRITABLE));
+		g_param_spec_double (
+			"size_points",
+			"Font points",
+			"Font size in points (eg. 12 for a 12pt font size)",
+			0.0,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_RISE,
-		 g_param_spec_int ("rise",
-				   "Rise",
-				   "Offset of text above the baseline "
-				   "(below the baseline if rise is negative)",
-				   -G_MAXINT,
-				   G_MAXINT,
-				   0,
-				   G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_RISE,
+		g_param_spec_int (
+			"rise",
+			"Rise",
+			"Offset of text above the baseline "
+			"(below the baseline if rise is negative)",
+			-G_MAXINT,
+			G_MAXINT,
+			0,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_STRIKETHROUGH,
-		 g_param_spec_boolean ("strikethrough",
-				       "Strikethrough",
-				       "Whether to strike through the text",
-				       FALSE,
-				       G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_STRIKETHROUGH,
+		g_param_spec_boolean (
+			"strikethrough",
+			"Strikethrough",
+			"Whether to strike through the text",
+			FALSE,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_UNDERLINE,
-		 g_param_spec_enum ("underline",
-				    "Underline",
-				    "Style of underline for this text",
-				    PANGO_TYPE_UNDERLINE,
-				    PANGO_UNDERLINE_NONE,
-				    G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_UNDERLINE,
+		g_param_spec_enum (
+			"underline",
+			"Underline",
+			"Style of underline for this text",
+			PANGO_TYPE_UNDERLINE,
+			PANGO_UNDERLINE_NONE,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_SCALE,
-		 g_param_spec_double ("scale",
-				      "Scale",
-				      "Size of font, relative to default size",
-				      0.0,
-				      G_MAXDOUBLE,
-				      1.0,
-				      G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_SCALE,
+		g_param_spec_double (
+			"scale",
+			"Scale",
+			"Size of font, relative to default size",
+			0.0,
+			G_MAXDOUBLE,
+			1.0,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_JUSTIFICATION,
-		 g_param_spec_enum ("justification", NULL, NULL,
-				    GTK_TYPE_JUSTIFICATION,
-				    GTK_JUSTIFY_LEFT,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_CLIP_WIDTH,
-		 g_param_spec_double ("clip_width", NULL, NULL,
-				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_CLIP_HEIGHT,
-		 g_param_spec_double ("clip_height", NULL, NULL,
-				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_CLIP,
-		 g_param_spec_boolean ("clip", NULL, NULL,
-				       FALSE,
-				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_X_OFFSET,
-		 g_param_spec_double ("x_offset", NULL, NULL,
-				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_Y_OFFSET,
-		 g_param_spec_double ("y_offset", NULL, NULL,
-				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_FILL_COLOR,
-		 g_param_spec_string ("fill_color",
-				      "Color",
-				      "Text color, as string",
-				      NULL,
-				      G_PARAM_WRITABLE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_FILL_COLOR_GDK,
-		 g_param_spec_boxed ("fill_color_gdk",
-				     "Color",
-				     "Text color, as a GdkColor",
-				     GDK_TYPE_COLOR,
-				     G_PARAM_WRITABLE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_FILL_COLOR_RGBA,
-		 g_param_spec_uint ("fill_color_rgba",
-				    "Color",
-				    "Text color, as an R/G/B/A combined integer",
-				    0, G_MAXUINT, 0,
-				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_TEXT_WIDTH,
-		 g_param_spec_double ("text_width",
-				      "Text width",
-				      "Width of the rendered text",
-				      0.0, G_MAXDOUBLE, 0.0,
-				      G_PARAM_READABLE));
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_TEXT_HEIGHT,
-		 g_param_spec_double ("text_height",
-				      "Text height",
-				      "Height of the rendered text",
-				      0.0, G_MAXDOUBLE, 0.0,
-				      G_PARAM_READABLE));
+	g_object_class_install_property (
+		gobject_class,
+		PROP_JUSTIFICATION,
+		g_param_spec_enum (
+			"justification",
+			NULL,
+			NULL,
+			GTK_TYPE_JUSTIFICATION,
+			GTK_JUSTIFY_LEFT,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		gobject_class,
+		PROP_CLIP_WIDTH,
+		g_param_spec_double (
+			"clip_width",
+			NULL,
+			NULL,
+			-G_MAXDOUBLE,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		gobject_class,
+		PROP_CLIP_HEIGHT,
+		g_param_spec_double (
+			"clip_height",
+			NULL,
+			NULL,
+			-G_MAXDOUBLE,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		gobject_class,
+		PROP_CLIP,
+		g_param_spec_boolean (
+			"clip",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		gobject_class,
+		PROP_X_OFFSET,
+		g_param_spec_double (
+			"x_offset",
+			NULL,
+			NULL,
+			-G_MAXDOUBLE,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		gobject_class,
+		PROP_Y_OFFSET,
+		g_param_spec_double (
+			"y_offset",
+			NULL,
+			NULL,
+			-G_MAXDOUBLE,
+			G_MAXDOUBLE,
+			0.0,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		gobject_class,
+		PROP_FILL_COLOR,
+		g_param_spec_string (
+			"fill_color",
+			"Color",
+			"Text color, as string",
+			NULL,
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		gobject_class,
+		PROP_FILL_COLOR_GDK,
+		g_param_spec_boxed (
+			"fill_color_gdk",
+			"Color",
+			"Text color, as a GdkColor",
+			GDK_TYPE_COLOR,
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		gobject_class,
+		PROP_FILL_COLOR_RGBA,
+		g_param_spec_uint (
+			"fill_color_rgba",
+			"Color",
+			"Text color, as an R/G/B/A combined integer",
+			0, G_MAXUINT, 0,
+			G_PARAM_READABLE |
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		gobject_class,
+		PROP_TEXT_WIDTH,
+		g_param_spec_double (
+			"text_width",
+			"Text width",
+			"Width of the rendered text",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		gobject_class,
+		PROP_TEXT_HEIGHT,
+		g_param_spec_double (
+			"text_height",
+			"Text height",
+			"Height of the rendered text",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READABLE));
 
 	/* Style props are set (explicitly applied) or not */
 #define ADD_SET_PROP(propname, propval, nick, blurb) \
 	g_object_class_install_property ( \
-	gobject_class, propval, g_param_spec_boolean ( \
-	propname, nick, blurb, FALSE, G_PARAM_READABLE | G_PARAM_WRITABLE))
+		gobject_class, propval, \
+		g_param_spec_boolean ( \
+			propname, nick, blurb, FALSE, \
+			G_PARAM_READABLE | G_PARAM_WRITABLE))
 
-	ADD_SET_PROP ("family_set", PROP_FAMILY_SET,
-		      "Font family set",
-		      "Whether this tag affects the font family");
+	ADD_SET_PROP (
+		"family_set",
+		PROP_FAMILY_SET,
+		"Font family set",
+		"Whether this tag affects the font family");
 
-	ADD_SET_PROP ("style_set", PROP_STYLE_SET,
-		      "Font style set",
-		      "Whether this tag affects the font style");
+	ADD_SET_PROP (
+		"style_set",
+		PROP_STYLE_SET,
+		"Font style set",
+		"Whether this tag affects the font style");
 
-	ADD_SET_PROP ("variant_set", PROP_VARIANT_SET,
-		      "Font variant set",
-		      "Whether this tag affects the font variant");
+	ADD_SET_PROP (
+		"variant_set",
+		PROP_VARIANT_SET,
+		"Font variant set",
+		"Whether this tag affects the font variant");
 
-	ADD_SET_PROP ("weight_set", PROP_WEIGHT_SET,
-		      "Font weight set",
-		      "Whether this tag affects the font weight");
+	ADD_SET_PROP (
+		"weight_set",
+		PROP_WEIGHT_SET,
+		"Font weight set",
+		"Whether this tag affects the font weight");
 
-	ADD_SET_PROP ("stretch_set", PROP_STRETCH_SET,
-		      "Font stretch set",
-		      "Whether this tag affects the font stretch");
+	ADD_SET_PROP (
+		"stretch_set",
+		PROP_STRETCH_SET,
+		"Font stretch set",
+		"Whether this tag affects the font stretch");
 
-	ADD_SET_PROP ("size_set", PROP_SIZE_SET,
-		      "Font size set",
-		      "Whether this tag affects the font size");
+	ADD_SET_PROP (
+		"size_set",
+		PROP_SIZE_SET,
+		"Font size set",
+		"Whether this tag affects the font size");
 
-	ADD_SET_PROP ("rise_set", PROP_RISE_SET,
-		      "Rise set",
-		      "Whether this tag affects the rise");
+	ADD_SET_PROP (
+		"rise_set",
+		PROP_RISE_SET,
+		"Rise set",
+		"Whether this tag affects the rise");
 
-	ADD_SET_PROP ("strikethrough_set", PROP_STRIKETHROUGH_SET,
-		      "Strikethrough set",
-		      "Whether this tag affects strikethrough");
+	ADD_SET_PROP (
+		"strikethrough_set",
+		PROP_STRIKETHROUGH_SET,
+		"Strikethrough set",
+		"Whether this tag affects strikethrough");
 
-	ADD_SET_PROP ("underline_set", PROP_UNDERLINE_SET,
-		      "Underline set",
-		      "Whether this tag affects underlining");
+	ADD_SET_PROP (
+		"underline_set",
+		PROP_UNDERLINE_SET,
+		"Underline set",
+		"Whether this tag affects underlining");
 
-	ADD_SET_PROP ("scale_set", PROP_SCALE_SET,
-		      "Scale set",
-		      "Whether this tag affects font scaling");
+	ADD_SET_PROP (
+		"scale_set",
+		PROP_SCALE_SET,
+		"Scale set",
+		"Whether this tag affects font scaling");
 #undef ADD_SET_PROP
 
 	item_class->dispose = gnome_canvas_text_dispose;
@@ -557,23 +672,22 @@ get_bounds (GnomeCanvasText *text,
 static PangoFontMask
 get_property_font_set_mask (guint property_id)
 {
-  switch (property_id)
-    {
-    case PROP_FAMILY_SET:
-      return PANGO_FONT_MASK_FAMILY;
-    case PROP_STYLE_SET:
-      return PANGO_FONT_MASK_STYLE;
-    case PROP_VARIANT_SET:
-      return PANGO_FONT_MASK_VARIANT;
-    case PROP_WEIGHT_SET:
-      return PANGO_FONT_MASK_WEIGHT;
-    case PROP_STRETCH_SET:
-      return PANGO_FONT_MASK_STRETCH;
-    case PROP_SIZE_SET:
-      return PANGO_FONT_MASK_SIZE;
-    }
+	switch (property_id) {
+		case PROP_FAMILY_SET:
+			return PANGO_FONT_MASK_FAMILY;
+		case PROP_STYLE_SET:
+			return PANGO_FONT_MASK_STYLE;
+		case PROP_VARIANT_SET:
+			return PANGO_FONT_MASK_VARIANT;
+		case PROP_WEIGHT_SET:
+			return PANGO_FONT_MASK_WEIGHT;
+		case PROP_STRETCH_SET:
+			return PANGO_FONT_MASK_STRETCH;
+		case PROP_SIZE_SET:
+			return PANGO_FONT_MASK_SIZE;
+	}
 
-  return 0;
+	return 0;
 }
 
 static void
@@ -616,8 +730,8 @@ gnome_canvas_text_set_property (GObject *object,
 		break;
 
 	case PROP_MARKUP:
-		gnome_canvas_text_set_markup (text,
-					      g_value_get_string (value));
+		gnome_canvas_text_set_markup (
+			text, g_value_get_string (value));
 		break;
 
 	case PROP_X:
@@ -660,33 +774,40 @@ gnome_canvas_text_set_property (GObject *object,
 
 		switch (param_id) {
 		case PROP_FAMILY:
-			pango_font_description_set_family (text->font_desc,
-							   g_value_get_string (value));
+			pango_font_description_set_family (
+				text->font_desc,
+				g_value_get_string (value));
 			break;
 		case PROP_STYLE:
-			pango_font_description_set_style (text->font_desc,
-							  g_value_get_enum (value));
+			pango_font_description_set_style (
+				text->font_desc,
+				g_value_get_enum (value));
 			break;
 		case PROP_VARIANT:
-			pango_font_description_set_variant (text->font_desc,
-							    g_value_get_enum (value));
+			pango_font_description_set_variant (
+				text->font_desc,
+				g_value_get_enum (value));
 			break;
 		case PROP_WEIGHT:
-			pango_font_description_set_weight (text->font_desc,
-							   g_value_get_int (value));
+			pango_font_description_set_weight (
+				text->font_desc,
+				g_value_get_int (value));
 			break;
 		case PROP_STRETCH:
-			pango_font_description_set_stretch (text->font_desc,
-							    g_value_get_enum (value));
+			pango_font_description_set_stretch (
+				text->font_desc,
+				g_value_get_enum (value));
 			break;
 		case PROP_SIZE:
 			/* FIXME: This is bogus! It should be pixels, not points/PANGO_SCALE! */
-			pango_font_description_set_size (text->font_desc,
-							 g_value_get_int (value));
+			pango_font_description_set_size (
+				text->font_desc,
+				g_value_get_int (value));
 			break;
 		case PROP_SIZE_POINTS:
-			pango_font_description_set_size (text->font_desc,
-							 g_value_get_double (value) * PANGO_SCALE);
+			pango_font_description_set_size (
+				text->font_desc,
+				g_value_get_double (value) * PANGO_SCALE);
 			break;
 		}
 
@@ -700,8 +821,9 @@ gnome_canvas_text_set_property (GObject *object,
 	case PROP_STRETCH_SET:
 	case PROP_SIZE_SET:
 		if (!g_value_get_boolean (value) && text->font_desc)
-			pango_font_description_unset_fields (text->font_desc,
-							     get_property_font_set_mask (param_id));
+			pango_font_description_unset_fields (
+				text->font_desc,
+				get_property_font_set_mask (param_id));
 		break;
 
 	case PROP_SCALE:
@@ -847,9 +969,10 @@ gnome_canvas_text_set_property (GObject *object,
 	/* Calculate text dimensions */
 
 	if (text->layout)
-		pango_layout_get_pixel_size (text->layout,
-					     &text->max_width,
-					     &text->height);
+		pango_layout_get_pixel_size (
+			text->layout,
+			&text->max_width,
+			&text->height);
 	else {
 		text->max_width = 0;
 		text->height = 0;
@@ -1170,9 +1293,10 @@ gnome_canvas_text_update (GnomeCanvasItem *item,
 
 	get_bounds (text, &x1, &y1, &x2, &y2);
 
-	gnome_canvas_update_bbox (item,
-				  floor (x1), floor (y1),
-				  ceil (x2), ceil (y2));
+	gnome_canvas_update_bbox (
+		item,
+		floor (x1), floor (y1),
+		ceil (x2), ceil (y2));
 }
 
 /* Draw handler for the text item */
@@ -1192,19 +1316,21 @@ gnome_canvas_text_draw (GnomeCanvasItem *item,
 	cairo_save (cr);
 
 	if (text->clip) {
-		cairo_rectangle (cr,
-				 text->clip_cx - x,
-				 text->clip_cy - y,
-				 text->clip_cwidth,
-				 text->clip_cheight);
+		cairo_rectangle (
+			cr,
+			text->clip_cx - x,
+			text->clip_cy - y,
+			text->clip_cwidth,
+			text->clip_cheight);
 		cairo_clip (cr);
 	}
 
-	cairo_set_source_rgba (cr,
-			       ((text->rgba >> 24) & 0xff) / 255.0,
-			       ((text->rgba >> 16) & 0xff) / 255.0,
-			       ((text->rgba >>  8) & 0xff) / 255.0,
-			       ( text->rgba        & 0xff) / 255.0);
+	cairo_set_source_rgba (
+		cr,
+		((text->rgba >> 24) & 0xff) / 255.0,
+		((text->rgba >> 16) & 0xff) / 255.0,
+		((text->rgba >>  8) & 0xff) / 255.0,
+		( text->rgba        & 0xff) / 255.0);
 
 	cairo_move_to (cr, text->cx - x, text->cy - y);
 	pango_cairo_show_layout (cr, text->layout);

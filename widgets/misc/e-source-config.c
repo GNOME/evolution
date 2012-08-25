@@ -56,6 +56,7 @@ struct _Candidate {
 	GtkWidget *page;
 	ESource *scratch_source;
 	ESourceConfigBackend *backend;
+	gulong changed_handler_id;
 };
 
 enum {
@@ -178,6 +179,7 @@ source_config_add_candidate (ESourceConfig *config,
 	ESourceRegistry *registry;
 	const gchar *display_name;
 	const gchar *parent_uid;
+	gulong handler_id;
 
 	backend_box = GTK_BOX (config->priv->backend_box);
 	type_label = GTK_LABEL (config->priv->type_label);
@@ -217,9 +219,11 @@ source_config_add_candidate (ESourceConfig *config,
 	e_source_config_backend_insert_widgets (
 		candidate->backend, candidate->scratch_source);
 
-	g_signal_connect_swapped (
+	handler_id = g_signal_connect_swapped (
 		candidate->scratch_source, "changed",
 		G_CALLBACK (e_source_config_check_complete), config);
+
+	candidate->changed_handler_id = handler_id;
 
 	/* Trigger the "changed" handler we just connected to set the
 	 * initial "complete" state based on the widgets we just added. */
@@ -231,9 +235,9 @@ source_config_add_candidate (ESourceConfig *config,
 static void
 source_config_free_candidate (Candidate *candidate)
 {
-	g_signal_handlers_disconnect_matched (
-		candidate->scratch_source, G_SIGNAL_MATCH_FUNC,
-		0, 0, NULL, G_CALLBACK (e_source_config_check_complete), NULL);
+	g_signal_handler_disconnect (
+		candidate->scratch_source,
+		candidate->changed_handler_id);
 
 	g_object_unref (candidate->page);
 	g_object_unref (candidate->scratch_source);

@@ -286,11 +286,14 @@ button_clicked (GtkButton *button,
 	toplevel = e_builder_get_widget (builder, "filter_datespec");
 
 	dialog = (GtkDialog *) gtk_dialog_new ();
-	gtk_window_set_title ((GtkWindow *) dialog, _("Select a time to compare against"));
-	gtk_dialog_add_buttons (dialog,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
-				NULL);
+	gtk_window_set_title (
+		GTK_WINDOW (dialog),
+		_("Select a time to compare against"));
+	gtk_dialog_add_buttons (
+		dialog,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
 
 	p->notebook_type = e_builder_get_widget (builder, "notebook_type");
 	p->combobox_type = e_builder_get_widget (builder, "combobox_type");

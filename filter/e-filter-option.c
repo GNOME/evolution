@@ -117,8 +117,9 @@ filter_option_generate_code (EFilterOption *option,
 	if (g_module_symbol (module, option->current->code_gen_func, (gpointer) &code_gen_func)) {
 		code_gen_func (E_FILTER_ELEMENT (option), out, part);
 	} else {
-		g_warning ("optionlist dynamic code function '%s' not found",
-			   option->current->code_gen_func);
+		g_warning (
+			"optionlist dynamic code function '%s' not found",
+			option->current->code_gen_func);
 	}
 
 	g_module_close (module);
@@ -189,7 +190,8 @@ filter_option_xml_create (EFilterElement *element,
 					}
 				} else if (!strcmp ((gchar *) work->name, "code")) {
 					if (code || code_gen_func) {
-						g_warning ("Element 'code' defined twice in '%s'",
+						g_warning (
+							"Element 'code' defined twice in '%s'",
 							element->name);
 					} else {
 						xmlChar *fn;

@@ -854,8 +854,8 @@ composer_build_message_smime (AsyncContext *context,
 		g_set_error (
 			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			_("Cannot sign outgoing message: "
-			  "No signing certificate set for "
-			  "this account"));
+			"No signing certificate set for "
+			"this account"));
 		return FALSE;
 	}
 
@@ -863,8 +863,8 @@ composer_build_message_smime (AsyncContext *context,
 		g_set_error (
 			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			_("Cannot encrypt outgoing message: "
-			  "No encryption certificate set for "
-			  "this account"));
+			"No encryption certificate set for "
+			"this account"));
 		return FALSE;
 	}
 
@@ -4026,8 +4026,9 @@ handle_mailto (EMsgComposer *composer,
 					subject = content;
 					content = NULL;
 				} else {
-					subject = g_locale_to_utf8 (content, clen, &nread,
-								    &nwritten, NULL);
+					subject = g_locale_to_utf8 (
+						content, clen, &nread,
+						&nwritten, NULL);
 					if (subject) {
 						subject = g_realloc (subject, nwritten + 1);
 						subject[nwritten] = '\0';
@@ -4196,7 +4197,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	buff = g_markup_printf_escaped (
 		"<b>%s</b>",
 		_("The composer contains a non-text "
-		  "message body, which cannot be edited."));
+		"message body, which cannot be edited."));
 	set_editor_text (composer, buff, FALSE);
 	g_free (buff);
 

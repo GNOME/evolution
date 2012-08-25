@@ -278,14 +278,16 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	header = e_composer_header_table_get_header (E_COMPOSER_HEADER_TABLE (widget),
+	header = e_composer_header_table_get_header (
+		E_COMPOSER_HEADER_TABLE (widget),
 		E_COMPOSER_HEADER_SUBJECT);
 	g_object_bind_property (
 		shell_settings, "composer-inline-spelling",
 		header->input_widget, "checking-enabled",
 		G_BINDING_SYNC_CREATE);
 
-	g_signal_connect (G_OBJECT (composer), "spell-languages-changed",
+	g_signal_connect (
+		G_OBJECT (composer), "spell-languages-changed",
 		G_CALLBACK (composer_spell_languages_changed), NULL);
 
 	/* Construct the attachment paned. */
