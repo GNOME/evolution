@@ -575,21 +575,6 @@ editor_constructed (GObject *object)
 	GtkToolItem *tool_item;
 
 	/* Construct main window widgets. */
-
-	widget = e_editor_get_managed_widget (editor, "/main-menu");
-	gtk_box_pack_start (GTK_BOX (editor), widget, FALSE, FALSE, 0);
-	priv->main_menu = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = e_editor_get_managed_widget (editor, "/main-toolbar");
-	gtk_box_pack_start (GTK_BOX (editor), widget, FALSE, FALSE, 0);
-	priv->main_toolbar = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	gtk_style_context_add_class (
-		gtk_widget_get_style_context (widget),
-		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
-
 	widget = e_editor_get_managed_widget (editor, "/edit-toolbar");
 	gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
 	gtk_box_pack_start (GTK_BOX (editor), widget, FALSE, FALSE, 0);
