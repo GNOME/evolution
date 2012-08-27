@@ -162,6 +162,20 @@ mail_account_manager_default_cb (EMailAccountManager *manager)
 }
 
 static void
+mail_account_manager_row_activated_cb (GtkTreeView *tree_view,
+                                       GtkTreePath *path,
+                                       GtkTreeViewColumn *column,
+                                       EMailAccountManager *manager)
+{
+	GtkWidget *edit_button;
+
+	edit_button = manager->priv->edit_button;
+
+	if (gtk_widget_is_sensitive (edit_button))
+		gtk_button_clicked (GTK_BUTTON (edit_button));
+}
+
+static void
 mail_account_manager_info_bar_response_cb (EMailAccountManager *manager,
                                            gint response)
 {
@@ -415,9 +429,9 @@ mail_account_manager_constructed (GObject *object)
 		G_CALLBACK (mail_account_manager_key_press_event_cb),
 		manager);
 
-	g_signal_connect_swapped (
+	g_signal_connect (
 		widget, "row-activated",
-		G_CALLBACK (mail_account_manager_edit_cb), manager);
+		G_CALLBACK (mail_account_manager_row_activated_cb), manager);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
 
