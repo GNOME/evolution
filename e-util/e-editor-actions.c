@@ -22,15 +22,16 @@
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
+#include <enchant/enchant.h>
 
 #include "e-editor.h"
 #include "e-editor-private.h"
 #include "e-editor-actions.h"
-#include "e-editor-spell-checker.h"
 #include "e-editor-utils.h"
 #include "e-emoticon-action.h"
 #include "e-emoticon-chooser.h"
 #include "e-image-chooser-dialog.h"
+#include "e-spell-checker.h"
 
 static void
 insert_html_file_ready_cb (GFile *file,
@@ -367,16 +368,16 @@ static void
 action_context_spell_add_cb (GtkAction *action,
                              EEditor *editor)
 {
-	WebKitSpellChecker *spell_checker;
+	ESpellChecker *spell_checker;
 	EEditorSelection *selection;
 	gchar *word;
 
-	spell_checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
+	spell_checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
 	selection = e_editor_widget_get_selection (editor->priv->editor_widget);
 
 	word = e_editor_selection_get_caret_word (selection);
 	if (word && *word) {
-		webkit_spell_checker_learn_word (spell_checker, word);
+		e_spell_checker_learn_word (spell_checker, word);
 	}
 }
 
@@ -384,16 +385,16 @@ static void
 action_context_spell_ignore_cb (GtkAction *action,
                                 EEditor *editor)
 {
-	WebKitSpellChecker *spell_checker;
+	ESpellChecker *spell_checker;
 	EEditorSelection *selection;
 	gchar *word;
 
-	spell_checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
+	spell_checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
 	selection = e_editor_widget_get_selection (editor->priv->editor_widget);
 
 	word = e_editor_selection_get_caret_word (selection);
 	if (word && *word) {
-		webkit_spell_checker_ignore_word (spell_checker, word);
+		e_spell_checker_ignore_word (spell_checker, word);
 	}
 }
 
@@ -574,8 +575,8 @@ static void
 action_language_cb (GtkToggleAction *action,
                     EEditor *editor)
 {
-	EEditorSpellChecker *checker;
-	EnchantDict *dictionary;
+	ESpellChecker *checker;
+	ESpellDictionary *dictionary;
 	const gchar *language_code;
 	GtkAction *add_action;
 	GList *list;
@@ -583,23 +584,23 @@ action_language_cb (GtkToggleAction *action,
 	gchar *action_name;
 	gboolean active;
 
-	checker = E_EDITOR_SPELL_CHECKER (webkit_get_text_checker ());
+	checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
 	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
 	language_code = gtk_action_get_name (GTK_ACTION (action));
-	dictionary = e_editor_spell_checker_lookup_dict (checker, language_code);
+	dictionary = e_spell_checker_lookup_dictionary (checker, language_code);
 
 	/* Update the list of active dictionaries */
 	list = editor->priv->active_dictionaries;
 	if (active)
 		list = g_list_insert_sorted (
 			list, (EnchantDict *) dictionary,
-			(GCompareFunc) e_editor_spell_checker_dict_compare);
+			(GCompareFunc) e_spell_dictionary_compare);
 	else {
 		GList *link;
 
 		link = g_list_find (list, dictionary);
 		g_return_if_fail (link != NULL);
-		e_editor_spell_checker_free_dict (checker, link->data);
+		g_object_unref (link->data);
 		list = g_list_delete_link (list, link);
 	}
 	editor->priv->active_dictionaries = list;
@@ -619,7 +620,7 @@ action_language_cb (GtkToggleAction *action,
 
 	e_editor_emit_spell_languages_changed (editor);
 
-	e_editor_spell_checker_free_dict (checker, dictionary);
+	g_object_unref (dictionary);
 }
 
 struct _ModeChanged {
@@ -1677,7 +1678,7 @@ static GtkActionEntry spell_context_entries[] = {
 static void
 editor_actions_setup_languages_menu (EEditor *editor)
 {
-	EEditorSpellChecker *checker;
+	ESpellChecker *checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
 	GList *available_dicts, *iter;
@@ -1685,17 +1686,17 @@ editor_actions_setup_languages_menu (EEditor *editor)
 
 	manager = editor->priv->manager;
 	action_group = editor->priv->language_actions;
-	checker = E_EDITOR_SPELL_CHECKER (webkit_get_text_checker ());
-	available_dicts = e_editor_spell_checker_get_available_dicts (checker);
+	checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
+	available_dicts = e_spell_checker_list_available_dicts (checker);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
 	for (iter = available_dicts; iter; iter = iter->next) {
-		EnchantDict *dictionary = iter->data;
+		ESpellDictionary *dictionary = iter->data;
 		GtkToggleAction *action;
 
 		action = gtk_toggle_action_new (
-			e_editor_spell_checker_get_dict_code (dictionary),
-			e_editor_spell_checker_get_dict_name (dictionary),
+			e_spell_dictionary_get_code (dictionary),
+			e_spell_dictionary_get_name (dictionary),
 			NULL, NULL);
 
 		g_signal_connect (
@@ -1710,11 +1711,11 @@ editor_actions_setup_languages_menu (EEditor *editor)
 		gtk_ui_manager_add_ui (
 			manager, merge_id,
 			"/main-menu/edit-menu/language-menu",
-			e_editor_spell_checker_get_dict_code (dictionary),
-			e_editor_spell_checker_get_dict_code (dictionary),
+			e_spell_dictionary_get_code (dictionary),
+			e_spell_dictionary_get_code (dictionary),
 			GTK_UI_MANAGER_AUTO, FALSE);
 
-		e_editor_spell_checker_free_dict (checker, dictionary);
+		g_object_unref (dictionary);
 	}
 
 	g_list_free (available_dicts);
@@ -1723,7 +1724,7 @@ editor_actions_setup_languages_menu (EEditor *editor)
 static void
 editor_actions_setup_spell_check_menu (EEditor *editor)
 {
-	EEditorSpellChecker *checker;
+	ESpellChecker *checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
 	GList *available_dicts, *iter;
@@ -1731,20 +1732,20 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 
 	manager = editor->priv->manager;
 	action_group = editor->priv->spell_check_actions;;
-	checker = E_EDITOR_SPELL_CHECKER (webkit_get_text_checker ());
-	available_dicts = e_editor_spell_checker_get_available_dicts (checker);
+	checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
+	available_dicts = e_spell_checker_list_available_dicts (checker);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
 	for (iter = available_dicts; iter; iter = iter->next) {
-		EnchantDict *dictionary = iter->data;
+		ESpellDictionary *dictionary = iter->data;
 		GtkAction *action;
 		const gchar *code;
 		const gchar *name;
 		gchar *action_label;
 		gchar *action_name;
 
-		code = e_editor_spell_checker_get_dict_code (dictionary);
-		name = e_editor_spell_checker_get_dict_name (dictionary);
+		code = e_spell_dictionary_get_code (dictionary);
+		name = e_spell_dictionary_get_name (dictionary);
 
 		/* Add a suggestion menu. */
 		action_name = g_strdup_printf (
@@ -1790,7 +1791,7 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 			action_name, action_name,
 			GTK_UI_MANAGER_AUTO, FALSE);
 
-		e_editor_spell_checker_free_dict (checker, dictionary);
+		g_object_unref (dictionary);
 		g_free (action_label);
 		g_free (action_name);
 	}

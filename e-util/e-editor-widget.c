@@ -23,7 +23,6 @@
 #include "e-editor-widget.h"
 #include "e-editor.h"
 #include "e-emoticon-chooser.h"
-#include "e-editor-spell-checker.h"
 
 #include <e-util/e-util.h>
 #include <e-util/e-marshal.h>
@@ -825,7 +824,7 @@ e_editor_widget_init (EEditorWidget *editor)
 	WebKitDOMDocument *document;
 	GSettings *g_settings;
 	GSettingsSchema *settings_schema;
-	EEditorSpellChecker *checker;
+	ESpellChecker *checker;
 
 	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		editor, E_TYPE_EDITOR_WIDGET, EEditorWidgetPrivate);
@@ -846,7 +845,7 @@ e_editor_widget_init (EEditorWidget *editor)
 	webkit_web_view_set_settings (WEBKIT_WEB_VIEW (editor), settings);
 
 	/* Override the spell-checker, use our own */
-	checker = g_object_new (E_TYPE_EDITOR_SPELL_CHECKER, NULL);
+	checker = g_object_new (E_TYPE_SPELL_CHECKER, NULL);
 	webkit_set_text_checker (G_OBJECT (checker));
 	g_object_unref (checker);
 
@@ -1082,6 +1081,13 @@ e_editor_widget_set_spell_languages (EEditorWidget *widget,
 
 	g_object_notify (G_OBJECT (widget), "spell-languages");
 }
+
+ESpellChecker *
+e_editor_widget_get_spell_checker (EEditorWidget *widget)
+{
+	return E_SPELL_CHECKER (webkit_get_text_checker ());
+}
+
 
 gchar *
 e_editor_widget_get_text_html (EEditorWidget *widget)

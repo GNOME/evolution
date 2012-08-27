@@ -103,7 +103,6 @@
 #include <e-util/e-editor-replace-dialog.h>
 #include <e-util/e-editor-selection.h>
 #include <e-util/e-editor-spell-check-dialog.h>
-#include <e-util/e-editor-spell-checker.h>
 #include <e-util/e-editor-table-dialog.h>
 #include <e-util/e-editor-text-dialog.h>
 #include <e-util/e-editor-utils.h>
