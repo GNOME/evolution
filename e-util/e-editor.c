@@ -23,7 +23,6 @@
 #include "e-editor-private.h"
 #include "e-editor-utils.h"
 #include "e-editor-selection.h"
-#include "e-editor-spell-checker.h"
 
 #include <glib/gi18n-lib.h>
 #include <enchant/enchant.h>
@@ -191,33 +190,30 @@ editor_inline_spelling_suggestions (EEditor *editor,
 
 /* Helper for editor_update_actions() */
 static void
-editor_spell_checkers_foreach (EnchantDict *dictionary,
+editor_spell_checkers_foreach (ESpellDictionary *dictionary,
                                EEditor *editor)
 {
-	EEditorSpellChecker *checker;
 	EEditorWidget *widget;
 	EEditorSelection *selection;
 	const gchar *language_code;
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
-	gchar **suggestions;
+	GList *suggestions, *iter;
 	gchar *path;
 	gchar *word;
 	gint ii = 0;
 	guint merge_id;
 
-	language_code = e_editor_spell_checker_get_dict_code (dictionary);
+	language_code = e_spell_dictionary_get_code (dictionary);
 
 	widget = e_editor_get_editor_widget (editor);
 	selection = e_editor_widget_get_selection (widget);
-	checker = E_EDITOR_SPELL_CHECKER (webkit_get_text_checker ());
 	word = e_editor_selection_get_caret_word (selection);
 	if (!word || !*word) {
 		return;
 	}
 
-	suggestions = webkit_spell_checker_get_guesses_for_word (
-			WEBKIT_SPELL_CHECKER (checker), word, NULL);
+	suggestions = e_spell_dictionary_get_suggestions (dictionary, word, -1);
 
 	manager = e_editor_get_ui_manager (editor);
 	action_group = editor->priv->suggestion_actions;
@@ -227,8 +223,8 @@ editor_spell_checkers_foreach (EnchantDict *dictionary,
 		"/context-menu/context-spell-suggest/"
 		"context-spell-suggest-%s-menu", language_code);
 
-	for (ii = 0; suggestions && suggestions[ii]; ii++) {
-		gchar *suggestion = suggestions[ii];
+	for (iter = suggestions; iter; iter = iter->next) {
+		gchar *suggestion = iter->data;
 		gchar *action_name;
 		gchar *action_label;
 		GtkAction *action;
@@ -272,9 +268,10 @@ editor_spell_checkers_foreach (EnchantDict *dictionary,
 		g_free (action_label);
 	}
 
+	e_spell_dictionary_free_suggestions (suggestions);
+
 	g_free (path);
 	g_free (word);
-	g_strfreev (suggestions);
 }
 
 static void
@@ -426,16 +423,20 @@ static void
 editor_spell_languages_changed (EEditor *editor,
 				GList *dictionaries)
 {
-	WebKitSpellChecker *checker;
+	ESpellChecker *checker;
 	WebKitWebSettings *settings;
 	GString *languages;
 	const GList *iter;
+
+	/* Set the languages for spell-checker to use for suggestions etc. */
+	checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
+	e_spell_checker_set_active_dictionaries (checker, dictionaries);
 
 	languages = g_string_new ("");
 
 	/* Join the languages codes to comma-separated list */
 	for (iter = dictionaries; iter; iter = iter->next) {
-		EnchantDict *dictionary = iter->data;
+		ESpellDictionary *dictionary = iter->data;
 
 		if (iter != dictionaries) {
 			g_string_append (languages, ",");
@@ -443,12 +444,8 @@ editor_spell_languages_changed (EEditor *editor,
 
 		g_string_append (
 			languages,
-		   	e_editor_spell_checker_get_dict_code (dictionary));
+			e_spell_dictionary_get_code (dictionary));
 	}
-
-	/* Set the languages for spell-checker to use for suggestions etc. */
-	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker());
-	webkit_spell_checker_update_spell_checking_languages (checker, languages->str);
 
 	/* Set the languages for webview to highlight misspelled words */
 	settings = webkit_web_view_get_settings (
@@ -687,13 +684,6 @@ editor_constructed (GObject *object)
 }
 
 static void
-free_dict (gpointer dict,
-	   gpointer checker)
-{
-	e_editor_spell_checker_free_dict (checker, dict);
-}
-
-static void
 editor_dispose (GObject *object)
 {
 	EEditor *editor = E_EDITOR (object);
@@ -708,10 +698,7 @@ editor_dispose (GObject *object)
 	g_clear_object (&priv->spell_check_actions);
 	g_clear_object (&priv->suggestion_actions);
 
-	g_list_foreach (
-		priv->active_dictionaries, free_dict,
-		webkit_get_text_checker());
-	g_list_free (priv->active_dictionaries);
+	g_list_free_full (priv->active_dictionaries, g_object_unref);
 	priv->active_dictionaries = NULL;
 
 	g_clear_object (&priv->main_menu);

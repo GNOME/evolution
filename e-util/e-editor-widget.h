@@ -26,6 +26,7 @@
 #include <webkit/webkit.h>
 
 #include <e-util/e-editor-selection.h>
+#include <e-util/e-spell-checker.h>
 
 /* Standard GObject macros */
 #define E_TYPE_EDITOR_WIDGET \
@@ -115,6 +116,9 @@ GList *		e_editor_widget_get_spell_languages
 void		e_editor_widget_set_spell_languages
 						(EEditorWidget *widget,
 						 GList *spell_languages);
+
+ESpellChecker *	e_editor_widget_get_spell_checker
+						(EEditorWidget *widget);
 
 gchar *		e_editor_widget_get_text_html	(EEditorWidget *widget);
 gchar *		e_editor_widget_get_text_plain	(EEditorWidget *widget);

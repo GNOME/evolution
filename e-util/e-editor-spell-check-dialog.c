@@ -24,8 +24,9 @@
 #include <glib/gi18n-lib.h>
 #include <enchant/enchant.h>
 
-#include "e-editor-spell-checker.h"
 #include "e-editor-widget.h"
+#include "e-spell-checker.h"
+#include "e-spell-dictionary.h"
 
 G_DEFINE_TYPE (
 	EEditorSpellCheckDialog,
@@ -636,20 +637,20 @@ e_editor_spell_check_dialog_set_dictionaries (EEditorSpellCheckDialog *dialog,
 	/* Copy and sort the new list of spell checkers. */
 	list = g_list_sort (
 		g_list_copy (dictionaries),
-		(GCompareFunc) e_editor_spell_checker_dict_compare);
+		(GCompareFunc) e_spell_dictionary_compare);
 	dialog->priv->dictionaries = list;
 
 	/* Populate a list store for the combo box. */
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 
 	while (list != NULL) {
-		EnchantDict *dictionary = list->data;
+		ESpellDictionary *dictionary = list->data;
 		GtkTreeIter iter;
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (
 			store, &iter,
-		      	0, e_editor_spell_checker_get_dict_name (dictionary),
+			0, e_spell_dictionary_get_name (dictionary),
 			1, dictionary, -1);
 
 		list = g_list_next (list);
