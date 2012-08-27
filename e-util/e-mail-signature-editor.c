@@ -28,7 +28,6 @@
 #include "e-alert-dialog.h"
 #include "e-alert-sink.h"
 #include "e-alert-bar.h"
-#include "e-editor.h"
 
 #define E_MAIL_SIGNATURE_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -44,8 +43,6 @@ struct _EMailSignatureEditorPrivate {
 	ESourceRegistry *registry;
 	ESource *source;
 	gchar *original_name;
-
-	EEditor *editor;
 
 	GtkWidget *entry;		/* not referenced */
 };
@@ -86,7 +83,7 @@ static const gchar *ui =
 G_DEFINE_TYPE (
 	EMailSignatureEditor,
 	e_mail_signature_editor,
-	GTK_TYPE_WINDOW,
+	E_TYPE_EDITOR_WINDOW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ALERT_SINK,
 		e_mail_signature_editor_alert_sink_init))
@@ -110,6 +107,7 @@ mail_signature_editor_loaded_cb (GObject *object,
                                  GAsyncResult *result,
                                  gpointer user_data)
 {
+	EEditor *editor;
 	EEditorWidget *editor_widget;
 	EEditorSelection *editor_selection;
 	ESource *source;
@@ -153,7 +151,8 @@ mail_signature_editor_loaded_cb (GObject *object,
 	mime_type = e_source_mail_signature_get_mime_type (extension);
 	is_html = (g_strcmp0 (mime_type, "text/html") == 0);
 
-	editor_widget = e_editor_get_editor_widget (editor->priv->editor);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (object));
+	editor_widget = e_editor_get_editor_widget (editor);
 	e_editor_widget_set_mode (editor_widget,
 		(is_html) ? E_EDITOR_WIDGET_MODE_HTML : E_EDITOR_WIDGET_MODE_PLAIN_TEXT);
 
@@ -187,14 +186,16 @@ static void
 action_close_cb (GtkAction *action,
                  EMailSignatureEditor *window)
 {
+	EEditor *editor;
 	EEditorWidget *editor_widget;
 	gboolean something_changed = FALSE;
 	const gchar *original_name;
 	const gchar *signature_name;
 
-	original_name = editor->priv->original_name;
-	signature_name = gtk_entry_get_text (GTK_ENTRY (editor->priv->entry));
-	editor_widget = e_editor_get_editor_widget (editor->priv->editor);
+	original_name = window->priv->original_name;
+	signature_name = gtk_entry_get_text (GTK_ENTRY (window->priv->entry));
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
+	editor_widget = e_editor_get_editor_widget (editor);
 
 	something_changed |= webkit_web_view_can_undo (WEBKIT_WEB_VIEW (editor_widget));
 	something_changed |= (strcmp (signature_name, original_name) != 0);
@@ -489,6 +490,7 @@ mail_signature_editor_constructed (GObject *object)
 	EMailSignatureEditor *window;
 	GtkActionGroup *action_group;
 	EFocusTracker *focus_tracker;
+	EEditor *editor;
 	EEditorWidget *editor_widget;
 	GtkUIManager *ui_manager;
 	GDBusObject *dbus_object;
@@ -504,11 +506,11 @@ mail_signature_editor_constructed (GObject *object)
 	G_OBJECT_CLASS (e_mail_signature_editor_parent_class)->
 		constructed (object);
 
-	editor = E_MAIL_SIGNATURE_EDITOR (object);
-	editor->priv->editor = E_EDITOR (e_editor_new ());
-	editor_widget = e_editor_get_editor_widget (editor->priv->editor);
+	window = E_MAIL_SIGNATURE_EDITOR (object);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
+	editor_widget = e_editor_get_editor_widget (editor);
 
-	ui_manager = e_editor_get_ui_manager (editor->priv->editor);
+	ui_manager = e_editor_get_ui_manager (editor);
 
 	/* Because we are loading from a hard-coded string, there is
 	 * no chance of I/O errors.  Failure here implies a malformed
@@ -527,35 +529,22 @@ mail_signature_editor_constructed (GObject *object)
 	window->priv->action_group = g_object_ref (action_group);
 
 	/* Hide page properties because it is not inherited in the mail. */
-	action = e_editor_get_action (editor->priv->editor, "properties-page");
+	action = e_editor_get_action (editor, "properties-page");
 	gtk_action_set_visible (action, FALSE);
 
-	action = e_editor_get_action (editor->priv->editor, "context-properties-page");
+	action = e_editor_get_action (editor, "context-properties-page");
 	gtk_action_set_visible (action, FALSE);
 
 	gtk_ui_manager_ensure_update (ui_manager);
 
 	gtk_window_set_title (GTK_WINDOW (window), _("Edit Signature"));
-	gtk_window_set_default_size (GTK_WINDOW (window), 600, 440);
-
-	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_container_add (GTK_CONTAINER (window), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	/* Construct the main menu and toolbar. */
-
-	widget = e_editor_get_managed_widget (editor, "/main-menu");
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
 
 	widget = e_editor_get_managed_widget (editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
-	gtk_container_add (GTK_CONTAINER (editor), container);
+	e_editor_window_pack_above (E_EDITOR_WINDOW (window), container);
 	gtk_widget_show (container);
 
 	/* Construct the alert bar for errors. */
@@ -563,53 +552,44 @@ mail_signature_editor_constructed (GObject *object)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	/* Position 5 should be between the style toolbar and editing area. */
 	gtk_box_reorder_child (GTK_BOX (container), widget, 5);
-	editor->priv->alert_bar = widget;  /* not referenced */
+	window->priv->alert_bar = widget;  /* not referenced */
 	/* EAlertBar controls its own visibility. */
-
-	gtk_box_pack_end (
-		GTK_BOX (container), GTK_WIDGET (editor->priv->editor), TRUE, TRUE, 0);
-	gtk_widget_show (GTK_WIDGET (editor->priv->editor));
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	e_editor_window_pack_above (E_EDITOR_WINDOW (window), widget);
 	gtk_widget_show (widget);
 
 	container = widget;
-	gtk_widget_show (container);
 
 	widget = gtk_entry_new ();
-	gtk_box_pack_end (GTK_BOX (hbox), widget, TRUE, TRUE, 0);
+	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	window->priv->entry = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new_with_mnemonic (_("_Signature Name:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), window->priv->entry);
-	gtk_box_pack_end (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
-
-	g_signal_connect (
-		editor, "delete-event",
-		G_CALLBACK (mail_signature_editor_delete_event_cb), NULL);
-
 
 	g_signal_connect (
 		window, "delete-event",
 		G_CALLBACK (mail_signature_editor_delete_event_cb), NULL);
 
+
 	/* Configure an EFocusTracker to manage selection actions. */
 	focus_tracker = e_focus_tracker_new (GTK_WINDOW (window));
 
-	action = e_editor_get_action (editor->priv->editor, "cut");
+	action = e_editor_get_action (editor, "cut");
 	e_focus_tracker_set_cut_clipboard_action (focus_tracker, action);
 
-	action = e_editor_get_action (editor->priv->editor, "copy");
+	action = e_editor_get_action (editor, "copy");
 	e_focus_tracker_set_copy_clipboard_action (focus_tracker, action);
 
-	action = e_editor_get_action (editor->priv->editor, "paste");
+	action = e_editor_get_action (editor, "paste");
 	e_focus_tracker_set_paste_clipboard_action (focus_tracker, action);
 
-	action = e_editor_get_action (editor->priv->editor, "select-all");
+	action = e_editor_get_action (editor, "select-all");
 	e_focus_tracker_set_select_all_action (focus_tracker, action);
 
 	window->priv->focus_tracker = focus_tracker;
@@ -860,14 +840,16 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	const gchar *extension_name;
 	const gchar *mime_type;
 	gchar *contents;
+	EEditor  *editor;
 	EEditorWidget *editor_widget;
 	EEditorWidgetMode mode;
 
 	g_return_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (window));
 
-	registry = e_mail_signature_editor_get_registry (editor);
-	source = e_mail_signature_editor_get_source (editor);
-	editor_widget = e_editor_get_editor_widget (editor->priv->editor);
+	registry = e_mail_signature_editor_get_registry (window);
+	source = e_mail_signature_editor_get_source (window);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
+	editor_widget = e_editor_get_editor_widget (editor);
 	mode = e_editor_widget_get_mode (editor_widget);
 
 	if (mode == E_EDITOR_WIDGET_MODE_HTML) {
@@ -923,9 +905,12 @@ e_mail_signature_editor_commit_finish (EMailSignatureEditor *editor,
 }
 
 EEditorWidget *
-e_mail_signature_editor_get_editor_widget (EMailSignatureEditor *editor)
+e_mail_signature_editor_get_editor_widget (EMailSignatureEditor *window)
 {
-	g_return_val_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (editor), NULL);
+	EEditor *editor;
 
-	return e_editor_get_editor_widget (editor->priv->editor);
+	g_return_val_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (window), NULL);
+
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
+	return e_editor_get_editor_widget (editor);
 }

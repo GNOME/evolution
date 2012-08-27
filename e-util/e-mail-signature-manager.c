@@ -445,7 +445,6 @@ mail_signature_manager_editor_created (EMailSignatureManager *manager,
 	gtk_window_set_position (GTK_WINDOW (editor), position);
 	gtk_widget_set_size_request (GTK_WIDGET (editor), 450, 300);
 	gtk_widget_show (GTK_WIDGET (editor));
-	gtk_widget_set_size_request (GTK_WIDGET (editor), 450, 300);
 }
 
 static void
