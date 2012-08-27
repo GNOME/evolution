@@ -107,6 +107,7 @@
 #include <e-util/e-editor-text-dialog.h>
 #include <e-util/e-editor-utils.h>
 #include <e-util/e-editor-widget.h>
+#include <e-util/e-editor-window.h>
 #include <e-util/e-editor.h>
 #include <e-util/e-emoticon-action.h>
 #include <e-util/e-emoticon-chooser-menu.h>

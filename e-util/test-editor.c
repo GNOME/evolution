@@ -386,7 +386,8 @@ gint main (gint argc,
 {
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
-	GtkWidget *window, *editor;
+	GtkWidget *window;
+	EEditor *editor;
 	WebKitWebInspector *inspector;
 
 	GError *error = NULL;
@@ -397,15 +398,12 @@ gint main (gint argc,
 
 	gtk_init (&argc, &argv);
 
-        window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+        window = g_object_new (E_TYPE_EDITOR_WINDOW, GTK_WINDOW_TOPLEVEL, NULL);
         gtk_widget_set_size_request (window, 600, 400);
         g_signal_connect_swapped (window, "destroy",
                 G_CALLBACK (gtk_main_quit), NULL);
 
-	editor = e_editor_new ();
-	gtk_container_add (GTK_CONTAINER (window), editor);
-	gtk_widget_show (editor);
-
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
 	inspector = webkit_web_view_get_inspector (
 			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (
 				E_EDITOR (editor))));
