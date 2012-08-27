@@ -399,13 +399,19 @@ static void
 mail_signature_manager_add_signature (EMailSignatureManager *manager)
 {
 	ESourceRegistry *registry;
+	EEditorWidget *editor_widget;
 	GtkWidget *editor;
 
 	registry = e_mail_signature_manager_get_registry (manager);
 
 	editor = e_mail_signature_editor_new (registry, NULL);
-	gtkhtml_editor_set_html_mode (
-		GTKHTML_EDITOR (editor), manager->priv->prefer_html);
+	editor_widget = e_mail_signature_editor_get_editor_widget (
+				E_MAIL_SIGNATURE_EDITOR (editor));
+	e_editor_widget_set_mode (
+		editor_widget,
+		manager->priv->prefer_html ?
+			E_EDITOR_WIDGET_MODE_HTML :
+			E_EDITOR_WIDGET_MODE_PLAIN_TEXT);
 	mail_signature_manager_emit_editor_created (manager, editor);
 
 	gtk_widget_grab_focus (manager->priv->tree_view);
@@ -436,6 +442,7 @@ mail_signature_manager_editor_created (EMailSignatureManager *manager,
 	gtk_window_set_transient_for (GTK_WINDOW (editor), parent);
 	gtk_window_set_position (GTK_WINDOW (editor), position);
 	gtk_widget_show (GTK_WIDGET (editor));
+	gtk_widget_set_size_request (GTK_WIDGET (editor), 450, 300);
 }
 
 static void
