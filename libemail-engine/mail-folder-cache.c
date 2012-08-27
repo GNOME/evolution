@@ -43,13 +43,10 @@
 #include <libemail-utils/mail-mt.h>
 
 #include "mail-folder-cache.h"
-#include "mail-ops.h"
-#include "mail-tools.h"
 #include "e-mail-utils.h"
 #include "e-mail-folder-utils.h"
 #include "e-mail-session.h"
 #include "e-mail-store-utils.h"
-#include "mail-config.h"
 
 #define w(x)
 #define d(x)
