@@ -45,6 +45,7 @@ struct _ESpellCheckerPrivate {
 };
 
 enum {
+	PROP_0,
 	PROP_ACTIVE_DICTIONARIES
 };
 
@@ -341,6 +342,8 @@ e_spell_checker_init (ESpellChecker *checker)
 {
 	checker->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		checker, E_TYPE_SPELL_CHECKER, ESpellCheckerPrivate);
+
+	checker->priv->broker = enchant_broker_init ();
 }
 
 typedef struct  {
@@ -383,7 +386,9 @@ GList *
 e_spell_checker_list_available_dicts (ESpellChecker *checker)
 {
 	ESpellChecker *e_checker;
-	ListAvailDictsData data;
+	ListAvailDictsData data = { 0 };
+
+	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), NULL);
 
 	e_checker = E_SPELL_CHECKER (checker);
 
@@ -410,6 +415,8 @@ e_spell_checker_lookup_dictionary (ESpellChecker *checker,
 {
 	ESpellChecker *e_checker;
 	ESpellDictionary *e_dict;
+
+	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), NULL);
 
 	e_checker = E_SPELL_CHECKER (checker);
 

@@ -39,6 +39,7 @@ G_DEFINE_TYPE (
 
 
 enum {
+	PROP_0,
 	PROP_SPELLCHECKER
 };
 
@@ -317,6 +318,7 @@ spell_dictionary_set_enchant_dict (ESpellDictionary *dictionary,
 
 	enchant_dict_describe (enchant_dict, describe_dictionary, &data);
 
+	dictionary->priv->dict = enchant_dict;
 	dictionary->priv->code = data.language_tag;
 	dictionary->priv->name = data.dict_name;
 	dictionary->priv->collate_key = g_utf8_collate_key (data.dict_name, -1);
@@ -364,9 +366,7 @@ spell_dictionary_dispose (GObject *object)
 {
 	ESpellDictionaryPrivate *priv = E_SPELL_DICTIONARY (object)->priv;
 
-	e_spell_checker_free_dict (
-		e_spell_dictionary_get_parent_checker (E_SPELL_DICTIONARY (object)),
-		priv->dict);
+	e_spell_checker_free_dict (priv->spell_checker, priv->dict);
 	priv->dict = NULL;
 
 	g_free (priv->name);
