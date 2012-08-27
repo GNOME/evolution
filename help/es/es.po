@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-22 11:32+0000\n"
-"PO-Revision-Date: 2012-08-25 18:41+0200\n"
+"POT-Creation-Date: 2012-08-25 16:43+0000\n"
+"PO-Revision-Date: 2012-08-27 17:51+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Gtranslator 2.91.5\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -2566,9 +2566,6 @@ msgid "Searching in a Single Contact"
 msgstr "Buscar un único contacto"
 
 #: C/contacts-searching.page:31(section/p)
-#| msgid ""
-#| "To immediately publish calendar information, click <guiseq><gui>Actions</"
-#| "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
 msgid ""
 "To find text in the displayed contact, select <guiseq><gui>Edit</"
 "gui><gui>Find in Contact...</gui></guiseq> from the main menu."
@@ -4881,8 +4878,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(note/p)
 msgid ""
 "To access Gmail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695\">Gmail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
+"\">Gmail Help</link> for more information."
 msgstr ""
 "Para acceder a Gmail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -5842,7 +5839,6 @@ msgstr ""
 "editor</gui><gui>Estilo de reenvío</gui></guiseq> a <gui>Adjunto</gui>."
 
 #: C/mail-composer-enable-html-format.page:5(info/desc)
-#| msgid "Format Text in the mail composer."
 msgid "Enable HTML format in the mail composer."
 msgstr "Activar el formato HTML en el editor de correos."
 
@@ -6129,10 +6125,6 @@ msgid "Formatting emails (in Plain Text and HTML)"
 msgstr "Formatear correo-e (en texto plano y en HTML)"
 
 #: C/mail-composer-html.page:25(page/p)
-#| msgid ""
-#| "HTML formatting tools are located in the two tool bars just above the "
-#| "area where you actually write the message. They also appear in the "
-#| "<gui>Insert</gui> and <gui>Format</gui> menus."
 msgid ""
 "Text formatting tools for basic alignment and paragraph formatting are "
 "located in the tool bar below the <gui>Subject</gui> line. They also appear "
@@ -6146,10 +6138,6 @@ msgstr ""
 #: C/mail-composer-html.page:26(page/p)
 #: C/mail-composer-html-text.page:24(page/p)
 #: C/mail-composer-plain-text.page:24(page/p)
-#| msgid ""
-#| "The icons in the tool bar are explained in tooltips which appear when you "
-#| "hold your mouse pointer over the buttons. The buttons fall into five "
-#| "categories:"
 msgid ""
 "The icons in the tool bar are explained in tooltips which appear when you "
 "hold your mouse pointer over the buttons."
@@ -6158,11 +6146,6 @@ msgstr ""
 "cuando mantiene el ratón sobre los botones"
 
 #: C/mail-composer-html.page:28(page/p)
-#| msgid ""
-#| "Normally, you cannot set text styles or insert pictures in email. "
-#| "However, most newer email applications can display images and text styles "
-#| "in addition to basic alignment and paragraph formatting. They do this "
-#| "with HTML, just like web pages do."
 msgid ""
 "Normally, you cannot set text color or size or embed pictures in messages. "
 "However, most newer email applications can do this by using HTML format, "
@@ -6173,11 +6156,6 @@ msgstr ""
 "de correo puede hacerlo usando HTML al igual que las páginas web."
 
 #: C/mail-composer-html.page:30(page/p)
-#| msgid ""
-#| "Some people do not have HTML-capable mail clients, or prefer not to "
-#| "receive HTML-enhanced mail because it is slower to download and display. "
-#| "Because of this, Evolution sends plain text unless you explicitly ask for "
-#| "HTML."
 msgid ""
 "Some people do not have HTML-capable mail clients, or prefer not to receive "
 "HTML-enhanced mail because it is slower to download and display. Because of "
@@ -6195,7 +6173,6 @@ msgid "Plain Text Formatting Options"
 msgstr "Opciones de formateo en texto plano"
 
 #: C/mail-composer-html.page:37(section/title)
-#| msgid "HTML Formatting Options"
 msgid "HTML-only Formatting Options"
 msgstr "Opciones de formateo sólo para HTML"
 
@@ -6324,20 +6301,17 @@ msgstr ""
 "md5='2d416af8bfaec805470e5d2980d90a68'"
 
 #: C/mail-composer-html-text.page:5(info/desc)
-#, fuzzy
 #| msgid "Insert a table in the mail composer."
 msgid "Change font sizes, styles and colors in the mail composer."
-msgstr "Insertar una tabla en el editor de correo."
+msgstr ""
+"Cambiar el tamaño de la tipografía, el estilo y el color en el editor de "
+"correo."
 
 #: C/mail-composer-html-text.page:21(page/title)
 msgid "Formatting Text in HTML"
 msgstr "Formatear texto en HTML"
 
 #: C/mail-composer-html-text.page:23(page/p)
-#| msgid ""
-#| "HTML formatting tools are located in the two tool bars just above the "
-#| "area where you actually write the message. They also appear in the "
-#| "<gui>Insert</gui> and <gui>Format</gui> menus."
 msgid ""
 "Text formatting tools that are available in HTML format only are located in "
 "the second tool bar below the <gui>Subject</gui> line after enabling HTML "
@@ -6380,7 +6354,6 @@ msgid "Font size."
 msgstr "Tamaño de la tipografía."
 
 #: C/mail-composer-html-text.page:41(td/p)
-#, fuzzy
 #| msgid ""
 #| "At the left in the lower tool bar is the color section tool, where a box "
 #| "displays the current text color. To choose a new color, click the arrow "
@@ -6397,11 +6370,10 @@ msgid ""
 "color or image by right-clicking the message background, then selecting "
 "<guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
 msgstr ""
-"En parte izquierda de la barra inferior está la herramienta de selección del "
-"color, donde una caja muestra el color actual del texto. Para elegir uno "
-"nuevo pulse sobre el botón de la flecha que está a su derecha. Si tiene un "
-"texto seleccionado el color se aplicará al mismo. Si no, el color se "
-"aplicará a lo que escriba después. Puede seleccionar un color o imagen de "
+"Selector de color del texto. La caja muestra el color actual del texto. Para "
+"elegir uno nuevo pulse sobre el botón de la flecha que está a su derecha. Si "
+"tiene un texto seleccionado el color se aplicará al mismo. Si no, el color "
+"se aplicará a lo que escriba después. Puede seleccionar un color o imagen de "
 "fondo pulsando con el botón derecho del ratón sobre el fondo del mensaje, "
 "para después seleccionar <guiseq><gui>Estilo</gui><gui>Estilo de la página</"
 "gui></guiseq>."
@@ -6578,7 +6550,6 @@ msgid "Use one of your templates for replying to a message"
 msgstr "Usar una de sus plantillas para responder a un mensaje"
 
 #: C/mail-composer-message-templates-reply.page:23(page/title)
-#| msgid "Using a Message Template as a Reply"
 msgid "Using a Template as a Reply"
 msgstr "Usar una plantilla de mensaje como respuesta"
 
@@ -6618,17 +6589,14 @@ msgstr ""
 "respuesta se mantiene."
 
 #: C/mail-composer-message-templates-save.page:5(info/desc)
-#| msgid "Saving a New Message as a Template"
 msgid "Store an existing or new message as a template"
 msgstr "Guardar un mensaje existente o uno nuevo como plantilla"
 
 #: C/mail-composer-message-templates-save.page:23(page/title)
-#| msgid "Saving a New Message as a Template"
 msgid "Saving Messages as Templates"
 msgstr "Guardar mensajes como plantillas"
 
 #: C/mail-composer-message-templates-save.page:26(section/title)
-#| msgid "Saving a New Message as a Template"
 msgid "Saving an Existing Message as a Template"
 msgstr "Guardar un mensaje existente como plantilla"
 
@@ -6692,12 +6660,10 @@ msgstr ""
 "mensaje al que responde"
 
 #: C/mail-composer-message-templates-variables.page:23(page/title)
-#| msgid "Using a Message Template as a Reply"
 msgid "Using Variables in Templates"
 msgstr "Usar variables en plantillas"
 
 #: C/mail-composer-message-templates-variables.page:26(section/title)
-#| msgid "Configuring Message Templates"
 msgid "Configuring Variables for Message Templates"
 msgstr "Configurar variables para plantillas de mensajes"
 
@@ -6780,7 +6746,6 @@ msgstr ""
 "entonces no se hacen cambios."
 
 #: C/mail-composer-message-templates-variables.page:52(section/title)
-#| msgid "Using a Message Template as a Reply"
 msgid "Using Elements From a Message in a Template When Replying"
 msgstr "Usar elementos de un mensaje en una plantilla al responder"
 
@@ -6829,19 +6794,16 @@ msgstr ""
 "code>)."
 
 #: C/mail-composer-plain-text.page:5(info/desc)
-#| msgid "Insert a table in the mail composer."
 msgid "Change font alignment and paragraph formatting in the mail composer."
 msgstr ""
 "Cambiar la alineación de la tipografía y el formato del párrafo en el editor "
 "de correo."
 
 #: C/mail-composer-plain-text.page:21(page/title)
-#| msgid "Formatting emails (in Plain Text and HTML)"
 msgid "Formatting Text in Plain Text Format"
 msgstr "Formatear en texto plano"
 
 #: C/mail-composer-plain-text.page:23(page/p)
-#, fuzzy
 #| msgid ""
 #| "HTML formatting tools are located in the two tool bars just above the "
 #| "area where you actually write the message. They also appear in the "
@@ -6851,9 +6813,9 @@ msgid ""
 "gui> line. They also appear in the <gui>Insert</gui> and <gui>Format</gui> "
 "menus."
 msgstr ""
-"Las herramientas de formateo HTML se encuentran en la barra de herramientas "
-"justo encima del espacio en el que realmente compone su mensaje y también "
-"aparecen en los menús <gui>Insertar</gui> y <gui>Formato</gui>."
+"Las herramientas de formateo de texto se encuentran en la barra de "
+"herramientas debajo de la línea del <gui>Asunto</gui>, También aparecen en "
+"los menús <gui>Insertar</gui> y <gui>Formato</gui>."
 
 #: C/mail-composer-plain-text.page:27(section/title)
 msgid "Headers and Lists:"
@@ -7754,9 +7716,9 @@ msgid ""
 "Evolution's code repository to test."
 msgstr ""
 "Sólo para desarrolladores: en versiones futuras, Evolution usará WebKit en "
-"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href="
-"\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el "
-"repositorio de código de Evolution para pruebas."
+"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href=\"http://"
+"git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el repositorio "
+"de código de Evolution para pruebas."
 
 #: C/mail-displaying-no-css.page:27(note/p)
 msgid ""
@@ -7825,10 +7787,6 @@ msgid "Message Source"
 msgstr "Fuente del mensaje"
 
 #: C/mail-display-message-source.page:22(page/p)
-#| msgid ""
-#| "To view the message data, click on <guiseq><gui>View</gui><gui>Message "
-#| "Source</gui></guiseq> or press <keyseq><key>Ctrl</key><key>U</key></"
-#| "keyseq>. This will display the message data in a pop-up window."
 msgid ""
 "To view the message data, click on <guiseq><gui>View</gui><gui>Message "
 "Source</gui></guiseq> or press <keyseq><key>Ctrl</key><key>U</key></keyseq>. "
@@ -7840,10 +7798,6 @@ msgstr ""
 "ventana nueva."
 
 #: C/mail-display-message-source.page:24(page/p)
-#| msgid ""
-#| "To view the complete headers for a message, click <guiseq><gui>View</"
-#| "gui><gui>All Message Headers</gui></guiseq>. This will display the "
-#| "complete header data on the viewing pane."
 msgid ""
 "To only view the complete headers for a message, click <guiseq><gui>View</"
 "gui><gui>All Message Headers</gui></guiseq>. This will display the complete "
@@ -9155,8 +9109,8 @@ msgid ""
 "can enable logging filter actions. <_:list-2/> <_:p-3/> <_:p-4/>"
 msgstr ""
 "<_:title-1/> Si todavía no tiene claro porqué los filtros no funcionan como "
-"esperaba, puede activar el registro de las acciones de los filtros. <_:"
-"list-2/> <_:p-3/> <_:p-4/>"
+"esperaba, puede activar el registro de las acciones de los filtros. <_:list-"
+"2/> <_:p-3/> <_:p-4/>"
 
 #: C/mail-filters.page:5(info/desc)
 msgid "Use filter rules to sort your mail automatically into folders."
@@ -9814,6 +9768,7 @@ msgstr "Cambiar la distribución de la ventana"
 #: C/mail-localized-re-subjects.page:5(info/desc)
 msgid "Avoid long subject lines due to translated \"Re:\" prefixes."
 msgstr ""
+"Evite las líneas de asunto largas debido a los prefijos «Re:» traducidos."
 
 #: C/mail-localized-re-subjects.page:20(page/title)
 msgid "Handling localized \"Re:\" in subjects"
@@ -9828,14 +9783,11 @@ msgid ""
 msgstr ""
 "Generalmente se añade un prefijo «Re:» a la línea del asunto cuando se "
 "responde a un correo. Algunas aplicaciones usan términos traducidos para "
-"esto (por ejemplo, «SV» en danés o «AW» en alemán). <app>Evolution</app> "
-"puede reconocer estos términos para evitar que el sujeto se haga muy largo a "
+"esto (por ejemplo, «SV» en danés o «AW» en alemán). <app>Evolution</app> puede "
+"reconocer estos términos para evitar que el sujeto se haga muy largo a "
 "medida que avanza la conversación."
 
 #: C/mail-localized-re-subjects.page:26(item/p)
-#| msgid ""
-#| "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
-#| "actions true</cmd>"
 msgid ""
 "Run the command <cmd>gsettings set org.gnome.evolution.mail.composer-"
 "localized-re 'AW:,SV:'</cmd> (in case that you want \"AW:\" and \"SV:\" to "
@@ -10793,7 +10745,6 @@ msgstr ""
 "o pulsar <key>F5</key>."
 
 #: C/mail-save-as-pdf.page:5(info/desc)
-#| msgid "Importing single files."
 msgid "Converting emails into PDF files."
 msgstr "Convertir correos en archivos PDF."
 
@@ -10818,11 +10769,11 @@ msgid ""
 "You can also export messages as PDF by dragging and dropping them to the "
 "file manager, instead of dropping them in mbox (text) format by default."
 msgstr ""
+"También puede exportar mensajes a PDF arrastrando y soltando en el gestor de "
+"archivos, en lugar de arrastrarlos en formato mbox (texto) de manera "
+"predeterminada."
 
 #: C/mail-save-as-pdf.page:28(item/p)
-#| msgid ""
-#| "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
-#| "actions true</cmd>"
 msgid ""
 "Run the command <cmd>gsettings set org.gnome.evolution.mail drag-and-drop-"
 "save-file-format 'pdf'</cmd>"
@@ -10949,6 +10900,11 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></"
 "guiseq>."
 msgstr ""
+"En el poco probable caso de que no se muestre un nodo <gui>Carpetas de "
+"búsqueda</gui> de nivel superior en la parte inferior de la <link xref="
+"\"intro-main-window#e-mail\">lista de carpetas de correo</link> debe "
+"activarlo en <guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Cuentas de "
+"correo-e</gui><gui>Carpetas de búsqueda</gui></guiseq>."
 
 #: C/mail-search-folders.page:5(info/desc)
 msgid ""
@@ -11076,12 +11032,10 @@ msgid "Searching Mail"
 msgstr "Buscar correos"
 
 #: C/mail-searching.page:31(section/title)
-#| msgid "Searching messages."
 msgid "Searching in a Single Message"
 msgstr "Buscar en un único mensaje"
 
 #: C/mail-searching.page:32(section/p)
-#, fuzzy
 #| msgid ""
 #| "To enable the Message Template Plugin, click <guiseq><gui>Edit</"
 #| "gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
@@ -11089,9 +11043,8 @@ msgid ""
 "To find text in the displayed message, select <guiseq><gui>Edit</"
 "gui><gui>Find in Message...</gui></guiseq> from the main menu."
 msgstr ""
-"Para activar el complemento de plantillas de correo pulse "
-"<guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq> y actíve "
-"<gui>Plantillas</gui>."
+"Para buscar texto en el mensaje mostrado, seleccione <guiseq><gui>Editar</"
+"gui><gui>Buscar en el mensaje...</gui></guiseq> en el menú principal."
 
 #: C/mail-searching.page:36(section/title)
 msgid "Searching Across Messages"
@@ -11662,10 +11615,6 @@ msgid "Junk and Spam Mail Handling"
 msgstr "Gestión de correo basura"
 
 #: C/mail-spam.page:22(page/p)
-#| msgid ""
-#| "For topics not covered here please refer to the <link href=\"http://"
-#| "library.gnome.org/users/evolution/2.32/usage-exchange.html.en\">old "
-#| "Evolution manual</link>."
 msgid ""
 "Please note that Novell GroupWise accounts have <link href=\"http://library."
 "gnome.org/users/evolution/2.32/bxqwde6.html\">specific differences in Junk "
@@ -12109,7 +12058,6 @@ msgid "Searching in a Single Memo"
 msgstr "Buscar una única nota"
 
 #: C/memos-searching.page:32(section/p)
-#, fuzzy
 #| msgid ""
 #| "To enable the Message Template Plugin, click <guiseq><gui>Edit</"
 #| "gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
@@ -12117,9 +12065,8 @@ msgid ""
 "To find text in the displayed memo, select <guiseq><gui>Edit</gui><gui>Find "
 "in Memo...</gui></guiseq> from the main menu."
 msgstr ""
-"Para activar el complemento de plantillas de correo pulse "
-"<guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq> y actíve "
-"<gui>Plantillas</gui>."
+"Para buscar texto en la nota mostrada, seleccione <guiseq><gui>Editar</"
+"gui><gui>Buscar en la nota...</gui></guiseq> en el menú principal."
 
 #: C/memos-searching.page:36(section/title)
 msgid "Searching Across Memos"
@@ -12564,7 +12511,6 @@ msgstr ""
 "wikipedia/en/wiki/SyncML\">SyncML</link>."
 
 #: C/sync-with-other-devices.page:29(page/p)
-#, fuzzy
 #| msgid ""
 #| "Another option might be to use applications and devices that both support "
 #| "the <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/ActiveSync"
@@ -12579,11 +12525,12 @@ msgid ""
 "List_of_collaborative_software\">list of collaborative software</link> is "
 "available on Wikipedia."
 msgstr ""
-"Otra opción puede ser usar las aplicaciones y dispositivos que soporten el "
+"En general, se recomienda usar aplicaciones y dispositivos que soporten el "
 "<link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/ActiveSync"
-"\">protocolo ActiveSync</link>. Existe una <link href=\"https://secure."
-"wikimedia.org/wikipedia/en/wiki/List_of_collaborative_software\">lista de "
-"software colaborativo</link> disponible en Wikipedia."
+"\">protocolo ActiveSync</link> (como <app>SyncEvolution</app>). Hay "
+"disponible una <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
+"List_of_collaborative_software\">lista de software colaborativo</link> en la "
+"Wikipedia."
 
 #: C/sync-with-other-devices.page:31(page/p)
 msgid ""
@@ -12882,7 +12829,6 @@ msgid "Searching in a Single Task"
 msgstr "Buscar una única tarea"
 
 #: C/tasks-searching.page:32(section/p)
-#, fuzzy
 #| msgid ""
 #| "To create an Assigned Task, click <guiseq><gui>File</gui><gui>New</"
 #| "gui><gui>Assigned Task</gui></guiseq>."
@@ -12890,8 +12836,8 @@ msgid ""
 "To find text in the displayed task, select <guiseq><gui>Edit</gui><gui>Find "
 "in Task...</gui></guiseq> from the main menu."
 msgstr ""
-"Para crear una tarea asignada pulse <guiseq><gui>Archivo</gui><gui>Nuevo</"
-"gui><gui>Tarea asignada</gui></guiseq>."
+"Para buscar texto en la tarea mostrada, seleccione <guiseq><gui>Editar</"
+"gui><gui>Buscar en la tarea...</gui></guiseq> en el menú principal."
 
 #: C/tasks-searching.page:36(section/title)
 msgid "Searching Across Tasks"
