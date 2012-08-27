@@ -699,12 +699,6 @@ rename_folders (MailFolderCache *cache,
 
 	g_queue_push_tail (&cache->priv->updates, up);
 	flush_updates (cache);
-#if 0
-	if (fi->sibling)
-		rename_folders (cache, si, oldbase, newbase, fi->sibling, folders);
-	if (fi->child)
-		rename_folders (cache, si, oldbase, newbase, fi->child, folders);
-#endif
 
 	/* rename the meta-data we maintain ourselves */
 	config_dir = mail_session_get_config_dir ();
