@@ -346,6 +346,13 @@ e_spell_checker_init (ESpellChecker *checker)
 	checker->priv->broker = enchant_broker_init ();
 }
 
+ESpellChecker *
+e_spell_checker_new (void)
+{
+	return g_object_new (E_TYPE_SPELL_CHECKER, NULL);
+}
+
+
 typedef struct  {
 	ESpellChecker *checker;
 	GList *dicts;
