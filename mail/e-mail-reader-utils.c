@@ -28,7 +28,6 @@
 
 #include <glib/gi18n.h>
 #include <libxml/tree.h>
-#include <gtkhtml/gtkhtml.h>
 #include <camel/camel.h>
 
 #include <shell/e-shell-utils.h>
