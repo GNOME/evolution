@@ -448,7 +448,7 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 	EComposerHeaderTable *table;
 	GSettings *settings;
 	gboolean check_passed = TRUE;
-	gboolean html_mode;
+	EEditorWidgetMode html_mode;
 	gboolean send_html;
 	gboolean confirm_html;
 	gint ii;
@@ -461,6 +461,9 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 
 	table = e_msg_composer_get_header_table (composer);
 	recipients = e_composer_header_table_get_destinations (table);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+	html_mode = e_editor_widget_get_mode (editor_widget);
 
 	send_html = g_settings_get_boolean (settings, "composer-send-html");
 	confirm_html = g_settings_get_boolean (settings, "prompt-on-unwanted-html");
@@ -468,7 +471,8 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 	/* Only show this warning if our default is to send html.  If it
 	 * isn't, we've manually switched into html mode in the composer
 	 * and (presumably) had a good reason for doing this. */
-	if (html_mode && send_html && confirm_html && recipients != NULL) {
+	if (html_mode == E_EDITOR_WIDGET_MODE_HTML && send_html &&
+	    confirm_html && recipients != NULL) {
 		gboolean html_problem = FALSE;
 
 		for (ii = 0; recipients[ii] != NULL; ii++) {
@@ -593,10 +597,10 @@ exit:
 		EEditor *editor;
 		EEditorWidget *editor_widget;
 
-		editor = e_msg_composer_get_editor (async_context->composer);
+		editor = e_editor_window_get_editor (
+			E_EDITOR_WINDOW (async_context->composer));
 		editor_widget = e_editor_get_editor_widget (editor);
 		e_editor_widget_set_changed (editor_widget, TRUE);
-
 		gtk_window_present (GTK_WINDOW (async_context->composer));
 	}
 
@@ -635,7 +639,7 @@ composer_set_no_change (EMsgComposer *composer)
 
 	g_return_if_fail (composer != NULL);
 
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	e_editor_widget_set_changed (editor_widget, FALSE);
@@ -700,6 +704,10 @@ composer_save_to_drafts_complete (GObject *source_object,
 
 	activity = async_context->activity;
 
+	editor = e_editor_window_get_editor (
+		E_EDITOR_WINDOW (async_context->composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+
 	e_mail_session_handle_draft_headers_finish (
 		E_MAIL_SESSION (source_object), result, &local_error);
 
@@ -743,7 +751,8 @@ composer_save_to_drafts_cleanup (GObject *source_object,
 
 	async_context = (AsyncContext *) user_data;
 
-	editor = e_msg_composer_get_editor (async_context->composer);
+	editor = e_editor_window_get_editor (
+		E_EDITOR_WINDOW (async_context->composer));
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	activity = async_context->activity;
@@ -834,7 +843,8 @@ composer_save_to_drafts_got_folder (GObject *source_object,
 
 	activity = async_context->activity;
 
-	editor = e_msg_composer_get_editor (async_context->composer);
+	editor = e_editor_window_get_editor (
+		E_EDITOR_WINDOW (async_context->composer));
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	drafts_folder = e_mail_session_uri_to_folder_finish (
@@ -2817,6 +2827,11 @@ composer_set_body (EMsgComposer *composer,
 	gchar *text, *credits, *original;
 	CamelMimePart *part;
 	CamelSession *session;
+	GSettings *settings;
+	gboolean start_bottom;
+#if 0
+	gboolean has_body_text = FALSE;
+#endif
 	guint32 validity_found = 0;
 
 	session = e_msg_composer_ref_session (composer);
@@ -2838,6 +2853,9 @@ composer_set_body (EMsgComposer *composer,
 			parts_list, "<span id=\"-x-evolution-reply-citation\">",
 			"</span>", &validity_found);
 		e_msg_composer_set_body_text (composer, text, TRUE);
+#if 0
+		has_body_text = text && *text;
+#endif
 		g_free (text);
 		g_free (original);
 		emu_update_composers_security (composer, validity_found);
@@ -2853,10 +2871,41 @@ composer_set_body (EMsgComposer *composer,
 			"</span>", &validity_found);
 		g_free (credits);
 		e_msg_composer_set_body_text (composer, text, TRUE);
+#if 0
+		has_body_text = text && *text;
+#endif
 		g_free (text);
 		emu_update_composers_security (composer, validity_found);
 		break;
 	}
+
+	/* FIXME WEBKIT No signature yet...
+	if (has_body_text && start_bottom) {
+		GtkhtmlEditor *editor = GTKHTML_EDITOR (composer);
+		gboolean move_cursor_to_end;
+		gboolean top_signature;
+
+		// If we are placing signature on top, then move cursor to the end,
+		// otherwise try to find the signature place and place cursor just
+		// before the signature. We added there an empty line already.
+		gtkhtml_editor_run_command (editor, "block-selection");
+		gtkhtml_editor_run_command (editor, "cursor-bod");
+
+		top_signature = g_settings_get_boolean (settings, "composer-top-signature");
+
+		move_cursor_to_end = top_signature ||
+			!gtkhtml_editor_search_by_data (
+				editor, 1, "ClueFlow", "signature", "1");
+
+		if (move_cursor_to_end)
+			gtkhtml_editor_run_command (editor, "cursor-eod");
+		else
+			gtkhtml_editor_run_command (editor, "selection-move-left");
+		gtkhtml_editor_run_command (editor, "unblock-selection");
+	}
+	*/
+
+	g_object_unref (settings);
 
 	g_object_unref (session);
 }
