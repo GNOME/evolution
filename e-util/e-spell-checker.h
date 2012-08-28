@@ -108,6 +108,8 @@ G_END_DECLS
 =======
 GType			e_spell_checker_get_type	(void);
 
+ESpellChecker *		e_spell_checker_new		(void);
+
 GList *			e_spell_checker_list_available_dicts
 							(ESpellChecker *checker);
 ESpellDictionary *	e_spell_checker_lookup_dictionary
