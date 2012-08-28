@@ -181,8 +181,8 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	gint i, nparts, partidlen;
 	GSList *parts;
 	CamelContentType *ct;
-	gboolean has_html;
-	GSList *plain_text_parts;
+	gboolean has_preferred_alternative;
+	GSList *plain_text_parts, *plain_text_placeholder, *iter;
 
 	emp_pp = (EMailParserPreferPlain *) extension;
 
@@ -226,7 +226,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 	nparts = camel_multipart_get_number (mp);
 	plain_text_parts = NULL;
-	has_html = FALSE;
+	has_preferred_alternative = FALSE;
 	for (i = 0; i < nparts; i++) {
 
 		CamelMimePart *sp;
@@ -254,7 +254,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 					parser, sp, part_id, cancellable);
 			}
 
-			has_html = TRUE;
+			has_preferred_alternative = TRUE;
 			parts = g_slist_concat (parts, sparts);
 			continue;
 		}
@@ -263,6 +263,11 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 			plain_text_parts = e_mail_parser_parse_part (
 						parser, sp, part_id, cancellable);
+
+			/* Placeholder - we will replace it by the actual text/plain
+			 * parts later */
+			plain_text_placeholder = g_slist_alloc ();
+			parts = g_slist_concat (parts, plain_text_placeholder);
 			continue;
 		}
 
@@ -277,6 +282,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 					parser, sp, part_id, cancellable);
 
 			parts = g_slist_concat (parts, sparts);
+			has_preferred_alternative = TRUE;
 			continue;
 		}
 
@@ -310,6 +316,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 				}
 			}
 
+			has_preferred_alternative = TRUE;
 			parts = g_slist_concat (parts, sparts);
 			continue;
 		}
@@ -325,11 +332,18 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	}
 
 	/* Don't hide the plain text if there's nothing else to display */
-	if ((emp_pp->mode == PREFER_HTML) && has_html) {
+	if ((emp_pp->mode == PREFER_HTML) && has_preferred_alternative) {
 		hide_parts (plain_text_parts);
 	}
 
-	parts = g_slist_concat (parts, plain_text_parts);
+	/* Replace the plain_text_placeholder by the actual plain_text_parts */
+	for (iter = parts; iter; iter = iter->next) {
+		if (iter && iter->next == plain_text_placeholder) {
+			break;
+		}
+	}
+	plain_text_parts = g_slist_concat (plain_text_parts, plain_text_placeholder);
+	parts = g_slist_concat (iter, plain_text_parts);
 
 	g_string_truncate (part_id, partidlen);
 
