@@ -125,13 +125,15 @@ composer_autosave_timeout_cb (gpointer user_data)
 static void
 composer_autosave_changed_cb (EComposerAutosave *autosave)
 {
-	GtkhtmlEditor *editor;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	EExtensible *extensible;
 
 	extensible = e_extension_get_extensible (E_EXTENSION (autosave));
 
-	editor = GTKHTML_EDITOR (extensible);
-	autosave->priv->changed = gtkhtml_editor_get_changed (editor);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (extensible));
+	editor_widget = e_editor_get_editor_widget (editor);
+	autosave->changed = e_editor_widget_get_changed (editor_widget);
 
 	if (autosave->priv->changed && autosave->priv->timeout_id == 0) {
 		autosave->priv->timeout_id = e_named_timeout_add_seconds (

@@ -28,7 +28,6 @@
 
 #include "em-mailer-prefs.h"
 
-#include <gtkhtml/gtkhtml-properties.h>
 #include <libxml/tree.h>
 
 #include <shell/e-shell-utils.h>

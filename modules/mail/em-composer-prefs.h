@@ -23,7 +23,6 @@
 #define EM_COMPOSER_PREFS_H
 
 #include <gtk/gtk.h>
-#include <gtkhtml/gtkhtml.h>
 
 #include <shell/e-shell.h>
 
@@ -54,7 +53,7 @@ typedef struct _EMComposerPrefsClass EMComposerPrefsClass;
 struct _ESignature;
 
 struct _EMComposerPrefs {
-	GtkBox parent;
+	GtkVBox parent;
 
 	GtkBuilder *builder;
 
@@ -67,11 +66,13 @@ struct _EMComposerPrefs {
 	GtkComboBox *reply_style;
 
 	/* Signatures */
-	GtkHTML *sig_preview;
+	EWebViewPreview *sig_preview;
+
+	ESpellChecker *spell_checker;
 };
 
 struct _EMComposerPrefsClass {
-	GtkBoxClass parent_class;
+	GtkVBoxClass parent_class;
 };
 
 GType		em_composer_prefs_get_type	(void);

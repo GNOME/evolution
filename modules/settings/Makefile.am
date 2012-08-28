@@ -50,8 +50,6 @@ module_settings_la_SOURCES = \
 	e-settings-spell-entry.h \
 	e-settings-web-view.c \
 	e-settings-web-view.h \
-	e-settings-web-view-gtkhtml.c \
-	e-settings-web-view-gtkhtml.h \
 	e-settings-weekday-chooser.c \
 	e-settings-weekday-chooser.h \
 	$(NULL)
