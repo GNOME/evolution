@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-08-20 06:02+0000\n"
-"PO-Revision-Date: 2012-08-21 22:44+0300\n"
+"POT-Creation-Date: 2012-08-24 22:06+0000\n"
+"PO-Revision-Date: 2012-08-28 23:26+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <>\n"
 "Language: lt\n"
@@ -76,7 +76,6 @@ msgid "Do _Not Delete"
 msgstr "_Neištrinti"
 
 #: ../addressbook/addressbook.error.xml.h:14
-#| msgid "Delete address book '{0}'?"
 msgid "Delete remote address book &quot;{0}&quot;?"
 msgstr "Ištrinti nutolusią adresų knygą &quot;{0}&quot;?"
 
@@ -86,7 +85,6 @@ msgstr "Tai visiškai pašalins adresų knygą &quot;{0}&quot; iš serverio. Ar 
 
 #: ../addressbook/addressbook.error.xml.h:16
 #: ../calendar/calendar.error.xml.h:68
-#| msgid "Delegated From"
 msgid "_Delete From Server"
 msgstr "Iš_trinti iš serverio"
 
@@ -442,7 +440,7 @@ msgstr "Darbinis"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:194
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:76
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:384
-#: ../calendar/gui/e-cal-model.c:3564
+#: ../calendar/gui/e-cal-model.c:3570
 msgid "Other"
 msgstr "Kitas"
 
@@ -794,7 +792,7 @@ msgid "Send a mail message to this address"
 msgstr "Siųsti el. laišką šiuo adresu"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:333
-#: ../widgets/misc/e-web-view.c:1097
+#: ../widgets/misc/e-web-view.c:1102
 #: ../widgets/misc/e-web-view-gtkhtml.c:973
 #, c-format
 msgid "Click to mail %s"
@@ -1926,7 +1924,6 @@ msgid "This memo list will be removed permanently."
 msgstr "Šis raštelių sąrašas bus ištrintas visam laikui."
 
 #: ../calendar/calendar.error.xml.h:66
-#| msgid "Failed to refresh folder &quot;{0}&quot;."
 msgid "Delete remote calendar &quot;{0}&quot;?"
 msgstr "Ištrinti nutolusį kalendorių &quot;{0}&quot;?"
 
@@ -1935,7 +1932,6 @@ msgid "This will permanently remove the calendar &quot;{0}&quot; from the server
 msgstr "Tai visiškai pašalins kalendorių &quot;{0}&quot; iš serverio. Ar tikrai norite tęsti?"
 
 #: ../calendar/calendar.error.xml.h:69
-#| msgid "Delete task list '{0}'?"
 msgid "Delete remote task list &quot;{0}&quot;?"
 msgstr "Ištrinti nutolusį užduočių sąrašą &quot;{0}&quot;?"
 
@@ -1944,7 +1940,6 @@ msgid "This will permanently remove the task list &quot;{0}&quot; from the serve
 msgstr "Tai visiškai pašalins užduočių sąrašą &quot;{0}&quot; iš serverio. Ar tikrai norite tęsti?"
 
 #: ../calendar/calendar.error.xml.h:71
-#| msgid "The reported error was &quot;{0}&quot;."
 msgid "Delete remote memo list &quot;{0}&quot;?"
 msgstr "Ištrinti nutolusį raštelių sąrašą &quot;{0}&quot;?"
 
@@ -2448,7 +2443,7 @@ msgstr "Užverti esamą langą"
 #: ../widgets/misc/e-focus-tracker.c:121
 #: ../widgets/misc/e-focus-tracker.c:558
 #: ../widgets/misc/e-web-view.c:323
-#: ../widgets/misc/e-web-view.c:1423
+#: ../widgets/misc/e-web-view.c:1428
 #: ../widgets/misc/e-web-view-gtkhtml.c:456
 #: ../widgets/misc/e-web-view-gtkhtml.c:1299
 msgid "Copy the selection"
@@ -2459,7 +2454,7 @@ msgstr "Kopijuoti pažymėjimą"
 #: ../shell/e-shell-window-actions.c:1453
 #: ../widgets/misc/e-focus-tracker.c:114
 #: ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1417
+#: ../widgets/misc/e-web-view.c:1422
 #: ../widgets/misc/e-web-view-gtkhtml.c:1293
 msgid "Cut the selection"
 msgstr "Iškirpti pažymėjimą"
@@ -2480,7 +2475,7 @@ msgstr "Rodyti pagalbą"
 #: ../shell/e-shell-window-actions.c:1481
 #: ../widgets/misc/e-focus-tracker.c:128
 #: ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1429
+#: ../widgets/misc/e-web-view.c:1434
 #: ../widgets/misc/e-web-view-gtkhtml.c:1305
 msgid "Paste the clipboard"
 msgstr "Įdėti iš krepšio"
@@ -3507,7 +3502,7 @@ msgstr "Atšaukta"
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../calendar/gui/dialogs/task-details-page.ui.h:17
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-cal-model.c:3618
+#: ../calendar/gui/e-cal-model.c:3624
 #: ../calendar/gui/e-meeting-list-view.c:684
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../calendar/gui/tasktypes.xml.h:8
@@ -4069,7 +4064,7 @@ msgstr "Ne"
 msgid "Opening %s"
 msgstr "Atveriama %s"
 
-#: ../calendar/gui/e-cal-model.c:3559
+#: ../calendar/gui/e-cal-model.c:3565
 #: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:201
 #: ../calendar/gui/e-meeting-store.c:224
@@ -4077,7 +4072,7 @@ msgstr "Atveriama %s"
 msgid "Accepted"
 msgstr "Priimtas"
 
-#: ../calendar/gui/e-cal-model.c:3560
+#: ../calendar/gui/e-cal-model.c:3566
 #: ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:203
 #: ../calendar/gui/e-meeting-store.c:226
@@ -4085,7 +4080,7 @@ msgstr "Priimtas"
 msgid "Declined"
 msgstr "Atmestas"
 
-#: ../calendar/gui/e-cal-model.c:3561
+#: ../calendar/gui/e-cal-model.c:3567
 #: ../calendar/gui/e-meeting-list-view.c:224
 #: ../calendar/gui/e-meeting-store.c:205
 #: ../calendar/gui/e-meeting-store.c:228
@@ -4093,7 +4088,7 @@ msgstr "Atmestas"
 msgid "Tentative"
 msgstr "Negalutinis"
 
-#: ../calendar/gui/e-cal-model.c:3562
+#: ../calendar/gui/e-cal-model.c:3568
 #: ../calendar/gui/e-meeting-list-view.c:225
 #: ../calendar/gui/e-meeting-store.c:207
 #: ../calendar/gui/e-meeting-store.c:230
@@ -4101,7 +4096,7 @@ msgstr "Negalutinis"
 msgid "Delegated"
 msgstr "Pavestas"
 
-#: ../calendar/gui/e-cal-model.c:3563
+#: ../calendar/gui/e-cal-model.c:3569
 msgid "Needs action"
 msgstr "Reikalauja veiksmo"
 
@@ -9000,12 +8995,12 @@ msgid "Display part as enriched text"
 msgstr "Rodyti dalį kaip raiškų tekstą"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:104
-#: ../em-format/e-mail-formatter-text-html.c:338
+#: ../em-format/e-mail-formatter-text-html.c:340
 msgid "HTML"
 msgstr "HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:110
-#: ../em-format/e-mail-formatter-text-html.c:344
+#: ../em-format/e-mail-formatter-text-html.c:346
 msgid "Format part as HTML"
 msgstr "Formuoti dalį kaip HTML"
 
@@ -9435,7 +9430,6 @@ msgid "Cannot open file \"{0}\"."
 msgstr "Nepavyko atverti failo „{0}“."
 
 #: ../e-util/e-system.error.xml.h:7
-#| msgid "Failed to refresh folder &quot;{0}&quot;."
 msgid "Failed to remove data source &quot;{0}&quot;."
 msgstr "Nepavyko pašalinti duomenų šaltinio &quot;{0}&quot;."
 
@@ -9445,12 +9439,10 @@ msgid "The reported error was &quot;{1}&quot;."
 msgstr "Buvo pranešta apie klaidą „{1}“."
 
 #: ../e-util/e-system.error.xml.h:9
-#| msgid "Failed to expunge folder &quot;{0}&quot;."
 msgid "Failed to update data source &quot;{0}&quot;."
 msgstr "Nepavyko atnaujinti duomenų šaltinio &quot;{0}&quot;."
 
 #: ../e-util/e-system.error.xml.h:10
-#| msgid "Failed to refresh folder &quot;{0}&quot;."
 msgid "Failed to delete resource &quot;{0}&quot;."
 msgstr "Nepavyko ištrinti resurso &quot;{0}&quot;."
 
@@ -9922,7 +9914,6 @@ msgstr "Nerastas naudotinas identifikatorius, laiško persiuntimas buvo atšaukt
 
 #: ../libemail-engine/e-mail-session-utils.c:540
 #, c-format
-#| msgid "No data source found for UID '%s'"
 msgid "No mail service found with UID '%s'"
 msgstr "Nerasta pašto tarnyba su UID „%s“"
 
@@ -12288,7 +12279,6 @@ msgid "Fix_ed Width Font:"
 msgstr "_Fiksuoto pločio šriftas:"
 
 #: ../mail/mail-config.ui.h:77
-#| msgid "Mark Me_ssages as Read"
 msgid "_Mark messages as read after"
 msgstr "Pažy_mėti laiškus skaitytais po"
 
@@ -14106,7 +14096,7 @@ msgid "Browse until limit is reached"
 msgstr "Naršyti šią knygą iki bus pasiekta riba"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:134
-#: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:133
+#: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:130
 msgid "URL:"
 msgstr "URL:"
 
@@ -14512,15 +14502,15 @@ msgstr "Sukurti naują kalendorių"
 msgid "Calendar and Tasks"
 msgstr "Kalendorius ir užduotys"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:209
+#: ../modules/calendar/e-cal-shell-sidebar.c:211
 msgid "Loading calendars"
 msgstr "Įkeliami kalendoriai"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:715
+#: ../modules/calendar/e-cal-shell-sidebar.c:731
 msgid "Calendar Selector"
 msgstr "Kalendoriaus parinkiklis"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:1074
+#: ../modules/calendar/e-cal-shell-sidebar.c:1090
 #, c-format
 msgid "Opening calendar '%s'"
 msgstr "Atveriamas kalendorius „%s“"
@@ -14985,15 +14975,15 @@ msgstr "Raštelių _sąrašas"
 msgid "Create a new memo list"
 msgstr "Sukurti naują raštelių sąrašą"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:204
+#: ../modules/calendar/e-memo-shell-sidebar.c:206
 msgid "Loading memos"
 msgstr "Įkeliami rašteliai"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:647
+#: ../modules/calendar/e-memo-shell-sidebar.c:663
 msgid "Memo List Selector"
 msgstr "Raštelių sąrašo parinkiklis"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:959
+#: ../modules/calendar/e-memo-shell-sidebar.c:975
 #, c-format
 msgid "Opening memo list '%s'"
 msgstr "Atveriamas raštelių sąrašas „%s“"
@@ -15118,15 +15108,15 @@ msgstr "_Užduočių sąrašas"
 msgid "Create a new task list"
 msgstr "Sukurti naują užduočių sąrašą"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:204
+#: ../modules/calendar/e-task-shell-sidebar.c:206
 msgid "Loading tasks"
 msgstr "Įkeliamos užduotys"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:647
+#: ../modules/calendar/e-task-shell-sidebar.c:663
 msgid "Task List Selector"
 msgstr "Užduočių sąrašo parinkiklis"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:959
+#: ../modules/calendar/e-task-shell-sidebar.c:975
 #, c-format
 msgid "Opening task list '%s'"
 msgstr "Atveriamas užduočių sąrašas „%s“"
@@ -16155,7 +16145,6 @@ msgstr "Tinklo nustatymai"
 
 #. Translators: The first item in the list, to be able to set rule: [Label] [is/is-not] [None]
 #: ../modules/mail/e-mail-shell-backend.c:890
-#| msgid "None"
 msgctxt "label"
 msgid "None"
 msgstr "Nėra"
@@ -16820,25 +16809,22 @@ msgid "Loading accounts..."
 msgstr "Įkeliamos paskyros..."
 
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:95
-#| msgid "Format Column_s..."
 msgid "_Format as..."
 msgstr "_Formatuoti kaip..."
 
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:103
-#| msgid "_Languages"
 msgid "_Other languages"
 msgstr "Kit_os kalbos"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:329
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:342
 msgid "Text Highlight"
 msgstr "Teskto žymėjimas"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:335
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:348
 msgid "Syntax highlighting of mail parts"
 msgstr "Sintaksės paryškinimas pašto dalims"
 
 #: ../modules/text-highlight/languages.c:32
-#| msgid "Plain Text"
 msgid "_Plain text"
 msgstr "Grynasis _tekstas"
 
@@ -16863,7 +16849,6 @@ msgid "_Cascade Style Sheet"
 msgstr "_Cascade Style Sheet"
 
 #: ../modules/text-highlight/languages.c:73
-#| msgid "HTML"
 msgid "_HTML"
 msgstr "_HTML"
 
@@ -16872,17 +16857,14 @@ msgid "_Java"
 msgstr "_Java"
 
 #: ../modules/text-highlight/languages.c:87
-#| msgid "Add _Script"
 msgid "_JavaScript"
 msgstr "_JavaScript"
 
 #: ../modules/text-highlight/languages.c:93
-#| msgid "Patch"
 msgid "_Patch/diff"
 msgstr "_Patch/diff"
 
 #: ../modules/text-highlight/languages.c:99
-#| msgid "_Personal"
 msgid "_Perl"
 msgstr "_Perl"
 
@@ -16911,7 +16893,6 @@ msgid "_Vala"
 msgstr "_Vala"
 
 #: ../modules/text-highlight/languages.c:152
-#| msgid "Visual"
 msgid "_Visual Basic"
 msgstr "_Visual Basic"
 
@@ -16920,7 +16901,6 @@ msgid "_XML"
 msgstr "_XML"
 
 #: ../modules/text-highlight/languages.c:177
-#| msgid "_Actions"
 msgid "_ActionScript"
 msgstr "_ActionScript"
 
@@ -16965,7 +16945,6 @@ msgid "_F#"
 msgstr "_F#"
 
 #: ../modules/text-highlight/languages.c:235
-#| msgid "_No"
 msgid "_Go"
 msgstr "_Go"
 
@@ -16978,7 +16957,6 @@ msgid "_JSP"
 msgstr "_JSP"
 
 #: ../modules/text-highlight/languages.c:250
-#| msgid "_List:"
 msgid "_Lisp"
 msgstr "_Lisp"
 
@@ -17007,7 +16985,6 @@ msgid "_Oberon"
 msgstr "_Oberon"
 
 #: ../modules/text-highlight/languages.c:288
-#| msgid "Object Signer"
 msgid "_Objective C"
 msgstr "_Objective C"
 
@@ -17020,7 +16997,6 @@ msgid "_Octave"
 msgstr "_Octave"
 
 #: ../modules/text-highlight/languages.c:304
-#| msgid "Object Signer"
 msgid "_Object Script"
 msgstr "_Object Script"
 
@@ -17033,12 +17009,10 @@ msgid "_POV-Ray"
 msgstr "_POV-Ray"
 
 #: ../modules/text-highlight/languages.c:319
-#| msgid "_Program:"
 msgid "_Prolog"
 msgstr "_Prolog"
 
 #: ../modules/text-highlight/languages.c:324
-#| msgid "Add _Script"
 msgid "_PostScript"
 msgstr "_PostScript"
 
@@ -17093,7 +17067,8 @@ msgstr[1] "Yra dar %d kiti kontaktai."
 msgstr[2] "Yra dar %d kitų kontaktų."
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:196
-msgid "Addressbok Contact"
+#| msgid "Addressbok Contact"
+msgid "Addressbook Contact"
 msgstr "Adresų knygos kontaktas"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:202
@@ -18559,24 +18534,6 @@ msgstr "Negalima atnaujinti tiesiogiai iš versijos {0}"
 msgid "Evolution no longer supports upgrading directly from version {0}. However as a workaround you might try first upgrading to Evolution 2, and then upgrading to Evolution 3."
 msgstr "Evolution programoje nebegalima atnaujinti tiesiogiai iš versijos {0}. Tačiau galite pabandyti išspręsti šią problemą atnaujindami Evolution programą į 2 versiją, o tada į 3 versiją."
 
-#: ../shell/test/e-test-shell-backend.c:52
-msgctxt "New"
-msgid "_Test Item"
-msgstr "_Bandomasis elementas"
-
-#: ../shell/test/e-test-shell-backend.c:54
-msgid "Create a new test item"
-msgstr "Sukurti naują bandomąjį elementą"
-
-#: ../shell/test/e-test-shell-backend.c:62
-msgctxt "New"
-msgid "Test _Source"
-msgstr "Bandomasis ša_ltinis"
-
-#: ../shell/test/e-test-shell-backend.c:64
-msgid "Create a new test source"
-msgstr "Sukurti naują bandomąjį šaltinį"
-
 #: ../smclient/eggdesktopfile.c:166
 #, c-format
 msgid "File is not a valid .desktop file"
@@ -19759,7 +19716,6 @@ msgid "Autogenerated"
 msgstr "Autogeneruotas"
 
 #: ../widgets/misc/e-mail-signature-editor.c:287
-#| msgid "_Close"
 msgid "Close"
 msgstr "Užverti"
 
@@ -20013,32 +19969,32 @@ msgstr "Pranešimas apie grįžimą"
 msgid "Sta_tus Tracking"
 msgstr "_Būklės sekimas"
 
-#: ../widgets/misc/e-source-config.c:671
 #: ../widgets/misc/e-source-config.c:675
+#: ../widgets/misc/e-source-config.c:679
 msgid "Type:"
 msgstr "Tipas:"
 
-#: ../widgets/misc/e-source-config.c:683
 #: ../widgets/misc/e-source-config.c:687
+#: ../widgets/misc/e-source-config.c:691
 msgid "Name:"
 msgstr "Vardas:"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../widgets/misc/e-source-config.c:1285
+#: ../widgets/misc/e-source-config.c:1289
 msgid "Refresh every"
 msgstr "Atnaujinti kas"
 
-#: ../widgets/misc/e-source-config.c:1315
-#: ../widgets/misc/e-source-config.c:1343
+#: ../widgets/misc/e-source-config.c:1319
+#: ../widgets/misc/e-source-config.c:1347
 msgid "Use a secure connection"
 msgstr "Naudoti saugų ryšį"
 
-#: ../widgets/misc/e-source-config.c:1357
+#: ../widgets/misc/e-source-config.c:1361
 msgid "Ignore invalid SSL certificate"
 msgstr "Nepaisyti netinkamo SSL liudijimo"
 
-#: ../widgets/misc/e-source-config.c:1394
+#: ../widgets/misc/e-source-config.c:1398
 msgid "User"
 msgstr "Naudotojas"
 
@@ -20106,15 +20062,15 @@ msgid "Copy the image to the clipboard"
 msgstr "Kopijuoti paveikslėlį į iškarpinę"
 
 #: ../widgets/misc/e-web-view.c:333
-#: ../widgets/misc/e-web-view.c:1435
+#: ../widgets/misc/e-web-view.c:1440
 #: ../widgets/misc/e-web-view-gtkhtml.c:466
 #: ../widgets/misc/e-web-view-gtkhtml.c:1311
 msgid "Select all text and images"
 msgstr "Pažymėti visą tekstą ir paveikslėlius"
 
-#: ../widgets/misc/e-web-view.c:1099
-#: ../widgets/misc/e-web-view.c:1101
-#: ../widgets/misc/e-web-view.c:1103
+#: ../widgets/misc/e-web-view.c:1104
+#: ../widgets/misc/e-web-view.c:1106
+#: ../widgets/misc/e-web-view.c:1108
 #: ../widgets/misc/e-web-view-gtkhtml.c:975
 #: ../widgets/misc/e-web-view-gtkhtml.c:977
 #: ../widgets/misc/e-web-view-gtkhtml.c:979
@@ -20122,12 +20078,12 @@ msgstr "Pažymėti visą tekstą ir paveikslėlius"
 msgid "Click to call %s"
 msgstr "Spustelėkite, norėdami skambinti %s"
 
-#: ../widgets/misc/e-web-view.c:1105
+#: ../widgets/misc/e-web-view.c:1110
 #: ../widgets/misc/e-web-view-gtkhtml.c:981
 msgid "Click to hide/unhide addresses"
 msgstr "Spustelėkite, norėdami slėpti / rodyti adresus"
 
-#: ../widgets/misc/e-web-view.c:1107
+#: ../widgets/misc/e-web-view.c:1112
 #: ../widgets/misc/e-web-view-gtkhtml.c:983
 #, c-format
 msgid "Click to open %s"
@@ -20442,3 +20398,17 @@ msgstr "Pažymėti visus"
 msgid "Input Methods"
 msgstr "Įvesties metodai"
 
+#~ msgctxt "New"
+
+#~ msgid "_Test Item"
+#~ msgstr "_Bandomasis elementas"
+
+#~ msgid "Create a new test item"
+#~ msgstr "Sukurti naują bandomąjį elementą"
+#~ msgctxt "New"
+
+#~ msgid "Test _Source"
+#~ msgstr "Bandomasis ša_ltinis"
+
+#~ msgid "Create a new test source"
+#~ msgstr "Sukurti naują bandomąjį šaltinį"
