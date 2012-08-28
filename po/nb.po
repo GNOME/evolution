@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.5.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-22 19:06+0200\n"
-"PO-Revision-Date: 2012-08-22 19:16+0200\n"
+"POT-Creation-Date: 2012-08-28 07:25+0200\n"
+"PO-Revision-Date: 2012-08-28 07:26+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -96,7 +96,9 @@ msgstr "Slett ekstern adressebok &quot;{0}&quot;?"
 msgid ""
 "This will permanently remove the address book &quot;{0}&quot; from the "
 "server. Are you sure you want to proceed?"
-msgstr "Dette vil fjerne adressebok &quot;{0}&quot; fra tjeneren. Er du sikker på at du vil fortsette?"
+msgstr ""
+"Dette vil fjerne adressebok &quot;{0}&quot; fra tjeneren. Er du sikker på at "
+"du vil fortsette?"
 
 #: ../addressbook/addressbook.error.xml.h:16
 #: ../calendar/calendar.error.xml.h:68
@@ -832,7 +834,7 @@ msgid "Send a mail message to this address"
 msgstr "Send en e-postmelding til denne adressen"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:333
-#: ../widgets/misc/e-web-view.c:1097 ../widgets/misc/e-web-view-gtkhtml.c:973
+#: ../widgets/misc/e-web-view.c:1102 ../widgets/misc/e-web-view-gtkhtml.c:973
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klikk for å sende melding til %s"
@@ -2023,7 +2025,9 @@ msgstr "Slett ekstern kalender &quot;{0}&quot;?"
 msgid ""
 "This will permanently remove the calendar &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
-msgstr "Dette vil fjerne kalender &quot;{0}&quot; fra tjener permanent. Er du sikker på at du vil fortsette?"
+msgstr ""
+"Dette vil fjerne kalender &quot;{0}&quot; fra tjener permanent. Er du sikker "
+"på at du vil fortsette?"
 
 #: ../calendar/calendar.error.xml.h:69
 msgid "Delete remote task list &quot;{0}&quot;?"
@@ -2033,7 +2037,9 @@ msgstr "Slett ekstern oppgaveliste &quot;{0}&quot;?"
 msgid ""
 "This will permanently remove the task list &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
-msgstr "Dette vil fjerne oppgavelisten &quot;{0}&quot; fra tjeneren permanent. Er du sikker på at du vil fortsette?"
+msgstr ""
+"Dette vil fjerne oppgavelisten &quot;{0}&quot; fra tjeneren permanent. Er du "
+"sikker på at du vil fortsette?"
 
 #: ../calendar/calendar.error.xml.h:71
 msgid "Delete remote memo list &quot;{0}&quot;?"
@@ -2043,7 +2049,9 @@ msgstr "Slett ekstern notatliste &quot;{0}&quot;?"
 msgid ""
 "This will permanently remove the memo list &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
-msgstr "Dette vil fjerne notatlisten &quot;{0}&quot; fra tjeneren permanent. Er du sikker på at du vil fortsette?"
+msgstr ""
+"Dette vil fjerne notatlisten &quot;{0}&quot; fra tjeneren permanent. Er du "
+"sikker på at du vil fortsette?"
 
 #: ../calendar/calendar.error.xml.h:73
 msgid "Are you sure you want to save the appointment without a summary?"
@@ -2523,7 +2531,7 @@ msgstr "Lukk aktiv vindu"
 #: ../calendar/gui/dialogs/comp-editor.c:1164 ../mail/e-mail-browser.c:134
 #: ../shell/e-shell-window-actions.c:1446
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
-#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1423
+#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1428
 #: ../widgets/misc/e-web-view-gtkhtml.c:456
 #: ../widgets/misc/e-web-view-gtkhtml.c:1299
 msgid "Copy the selection"
@@ -2532,7 +2540,7 @@ msgstr "Kopier utvalget"
 #: ../calendar/gui/dialogs/comp-editor.c:1171 ../mail/e-mail-browser.c:141
 #: ../shell/e-shell-window-actions.c:1453
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1417 ../widgets/misc/e-web-view-gtkhtml.c:1293
+#: ../widgets/misc/e-web-view.c:1422 ../widgets/misc/e-web-view-gtkhtml.c:1293
 msgid "Cut the selection"
 msgstr "Klipp ut utvalget"
 
@@ -2549,7 +2557,7 @@ msgstr "Vis hjelp"
 #: ../calendar/gui/dialogs/comp-editor.c:1192 ../mail/e-mail-browser.c:148
 #: ../shell/e-shell-window-actions.c:1481
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1429 ../widgets/misc/e-web-view-gtkhtml.c:1305
+#: ../widgets/misc/e-web-view.c:1434 ../widgets/misc/e-web-view-gtkhtml.c:1305
 msgid "Paste the clipboard"
 msgstr "Lim inn fra utklippstavlen"
 
@@ -10406,7 +10414,7 @@ msgstr "Kobler til «%s» på nytt"
 msgid "Preparing account '%s' for offline"
 msgstr "Forbereder konto «%s» for frakoblet bruk"
 
-#: ../libemail-engine/mail-folder-cache.c:885
+#: ../libemail-engine/mail-folder-cache.c:876
 #, c-format
 msgid "Pinging %s"
 msgstr "Pinger %s"
@@ -10521,15 +10529,15 @@ msgstr[1] ""
 "%s ble oppdatert fordi de brukte en mappe som ble slettet\n"
 "«%s»."
 
-#: ../mail/e-mail-account-manager.c:446
+#: ../mail/e-mail-account-manager.c:460
 msgid "_Restore Default"
 msgstr "Gjenopp_rett forvalg"
 
-#: ../mail/e-mail-account-manager.c:459
+#: ../mail/e-mail-account-manager.c:473
 msgid "You can drag and drop account names to reorder them."
 msgstr "Du kan dra og slippe kontonavn for å endre rekkefølge."
 
-#: ../mail/e-mail-account-manager.c:504
+#: ../mail/e-mail-account-manager.c:518
 msgid "De_fault"
 msgstr "_Forvalgt"
 
@@ -14666,7 +14674,7 @@ msgid "Browse until limit is reached"
 msgstr "Bla gjennom til grensen nås"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:134
-#: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:133
+#: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:130
 msgid "URL:"
 msgstr "URL:"
 
@@ -17430,11 +17438,11 @@ msgstr "_Formater som …"
 msgid "_Other languages"
 msgstr "_Andre språk"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:329
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:342
 msgid "Text Highlight"
 msgstr "Tekstutheving"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:335
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:348
 msgid "Syntax highlighting of mail parts"
 msgstr "Syntaksutheving for e-postdeler"
 
@@ -17681,7 +17689,7 @@ msgstr[0] "Det finnes %d annen kontakt."
 msgstr[1] "Det finnes %d andre kontakter."
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:196
-msgid "Addressbok Contact"
+msgid "Addressbook Contact"
 msgstr "Kontakt i adressebok"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:202
@@ -19237,24 +19245,6 @@ msgstr ""
 "Evolution støtter ikke lenger å oppgradere direkte fra versjon {0}. Du kan "
 "prøve å oppgradere til Evolution 2 for så å oppgradere til Evolution 3."
 
-#: ../shell/test/e-test-shell-backend.c:52
-msgctxt "New"
-msgid "_Test Item"
-msgstr "_Testoppføring"
-
-#: ../shell/test/e-test-shell-backend.c:54
-msgid "Create a new test item"
-msgstr "Opprett en ny testoppføring"
-
-#: ../shell/test/e-test-shell-backend.c:62
-msgctxt "New"
-msgid "Test _Source"
-msgstr "Te_stkilde"
-
-#: ../shell/test/e-test-shell-backend.c:64
-msgid "Create a new test source"
-msgstr "Opprett en ny testkilde"
-
 #: ../smclient/eggdesktopfile.c:166
 #, c-format
 msgid "File is not a valid .desktop file"
@@ -20708,30 +20698,30 @@ msgstr "Returvarsling"
 msgid "Sta_tus Tracking"
 msgstr "Sta_tusoppfølging"
 
-#: ../widgets/misc/e-source-config.c:671 ../widgets/misc/e-source-config.c:675
+#: ../widgets/misc/e-source-config.c:675 ../widgets/misc/e-source-config.c:679
 msgid "Type:"
 msgstr "Type:"
 
-#: ../widgets/misc/e-source-config.c:683 ../widgets/misc/e-source-config.c:687
+#: ../widgets/misc/e-source-config.c:687 ../widgets/misc/e-source-config.c:691
 msgid "Name:"
 msgstr "Navn:"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../widgets/misc/e-source-config.c:1285
+#: ../widgets/misc/e-source-config.c:1289
 msgid "Refresh every"
 msgstr "Oppdater hver"
 
-#: ../widgets/misc/e-source-config.c:1315
-#: ../widgets/misc/e-source-config.c:1343
+#: ../widgets/misc/e-source-config.c:1319
+#: ../widgets/misc/e-source-config.c:1347
 msgid "Use a secure connection"
 msgstr "Bruk sikker forbindelse"
 
-#: ../widgets/misc/e-source-config.c:1357
+#: ../widgets/misc/e-source-config.c:1361
 msgid "Ignore invalid SSL certificate"
 msgstr "Ignorer ugyldig SSL-sertifikat"
 
-#: ../widgets/misc/e-source-config.c:1394
+#: ../widgets/misc/e-source-config.c:1398
 msgid "User"
 msgstr "Bruker"
 
@@ -20791,25 +20781,25 @@ msgstr "_Kopier bilde"
 msgid "Copy the image to the clipboard"
 msgstr "Kopier bildet til utklippstavlen"
 
-#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1435
+#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1440
 #: ../widgets/misc/e-web-view-gtkhtml.c:466
 #: ../widgets/misc/e-web-view-gtkhtml.c:1311
 msgid "Select all text and images"
 msgstr "Velg all tekst og alle bilder"
 
-#: ../widgets/misc/e-web-view.c:1099 ../widgets/misc/e-web-view.c:1101
-#: ../widgets/misc/e-web-view.c:1103 ../widgets/misc/e-web-view-gtkhtml.c:975
+#: ../widgets/misc/e-web-view.c:1104 ../widgets/misc/e-web-view.c:1106
+#: ../widgets/misc/e-web-view.c:1108 ../widgets/misc/e-web-view-gtkhtml.c:975
 #: ../widgets/misc/e-web-view-gtkhtml.c:977
 #: ../widgets/misc/e-web-view-gtkhtml.c:979
 #, c-format
 msgid "Click to call %s"
 msgstr "Klikk for å ringe %s"
 
-#: ../widgets/misc/e-web-view.c:1105 ../widgets/misc/e-web-view-gtkhtml.c:981
+#: ../widgets/misc/e-web-view.c:1110 ../widgets/misc/e-web-view-gtkhtml.c:981
 msgid "Click to hide/unhide addresses"
 msgstr "Klikk for å skjule/vise adresser"
 
-#: ../widgets/misc/e-web-view.c:1107 ../widgets/misc/e-web-view-gtkhtml.c:983
+#: ../widgets/misc/e-web-view.c:1112 ../widgets/misc/e-web-view-gtkhtml.c:983
 #, c-format
 msgid "Click to open %s"
 msgstr "Klikk for å åpne %s"
