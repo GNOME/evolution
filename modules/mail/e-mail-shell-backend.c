@@ -489,12 +489,19 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 			E_MAIL_SIGNATURE_EDITOR (window));
 
 	/* This applies to both the composer and signature editor. */
-	if (editor != NULL) {
+	if (E_IS_EDITOR_WINDOW (window)) {
+		EEditor *editor;
 		EEditorWidget *editor_widget;
 		GSettings *settings;
 		gboolean active = TRUE;
 
+		editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
 		editor_widget = e_editor_get_editor_widget (editor);
+
+		spell_languages = e_load_spell_languages ();
+
+		e_editor_widget_set_spell_languages (editor_widget, spell_languages);
+		g_list_free (spell_languages);
 
 		settings = g_settings_new ("org.gnome.evolution.mail");
 
@@ -503,7 +510,11 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 
 		g_object_unref (settings);
 
-		e_editor_widget_set_html_mode (editor_widget, active);
+		e_editor_widget_set_mode (
+			editor_widget,
+			active ?
+				E_EDITOR_WIDGET_MODE_HTML :
+				E_EDITOR_WIDGET_MODE_PLAIN_TEXT);
 	}
 
 	if (E_IS_MSG_COMPOSER (window)) {

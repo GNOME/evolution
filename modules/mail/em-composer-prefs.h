@@ -53,7 +53,7 @@ typedef struct _EMComposerPrefsClass EMComposerPrefsClass;
 struct _ESignature;
 
 struct _EMComposerPrefs {
-	GtkBox parent;
+	GtkVBox parent;
 
 	GtkBuilder *builder;
 
@@ -72,7 +72,7 @@ struct _EMComposerPrefs {
 };
 
 struct _EMComposerPrefsClass {
-	GtkBoxClass parent_class;
+	GtkVBoxClass parent_class;
 };
 
 GType		em_composer_prefs_get_type	(void);

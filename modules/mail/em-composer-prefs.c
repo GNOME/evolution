@@ -57,10 +57,8 @@ composer_prefs_dispose (GObject *object)
 {
 	EMComposerPrefs *prefs = (EMComposerPrefs *) object;
 
-	if (prefs->builder != NULL) {
-		g_object_unref (prefs->builder);
-		prefs->builder = NULL;
-	}
+	g_clear_object (&prefs->builder);
+	g_clear_object (&prefs->spell_checker);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_composer_prefs_parent_class)->dispose (object);
@@ -145,22 +143,22 @@ spell_setup (EMComposerPrefs *prefs)
 
 	store = GTK_LIST_STORE (prefs->language_model);
 
+	available_languages =
+		e_spell_checker_list_available_dicts (prefs->spell_checker);
+
 	list = e_spell_checker_list_available_dicts (prefs->spell_checker);
 
 	/* Populate the GtkListStore. */
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ESpellDictionary *dictionary;
+	while (available_languages != NULL) {
+		ESpellDictionary *language;
 		GtkTreeIter tree_iter;
 		const gchar *name;
 		const gchar *code;
 		gboolean active;
 
-		dictionary = E_SPELL_DICTIONARY (link->data);
-		name = e_spell_dictionary_get_name (dictionary);
-		code = e_spell_dictionary_get_code (dictionary);
-
-		active = e_spell_checker_get_language_active (
-			prefs->spell_checker, code);
+		language = available_languages->data;
+		name = e_spell_dictionary_get_name (language);
+		active = (g_list_find (active_languages, language) != NULL);
 
 		gtk_list_store_append (store, &tree_iter);
 
@@ -169,7 +167,7 @@ spell_setup (EMComposerPrefs *prefs)
 			0, active, 1, name, 2, dictionary, -1);
 	}
 
-	g_list_free (list);
+	g_list_free_full (active_languages, g_object_unref);
 }
 
 #define MAIL_SEND_ACCOUNT_OVERRIDE_KEY "sao-mail-send-account-override"
@@ -1006,7 +1004,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	prefs->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (prefs->builder, "mail-config.ui");
 
-	prefs->spell_checker = e_spell_checker_new ();
+
+	prefs->spell_checker = g_object_new (E_TYPE_SPELL_CHECKER, NULL);
 
 	/** @HookPoint-EMConfig: Mail Composer Preferences
 	 * @Id: org.gnome.evolution.mail.composerPrefs
