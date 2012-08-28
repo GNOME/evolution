@@ -53,6 +53,7 @@ static void	ee_editor_command_changed
 						(GtkWidget *textbox);
 static void	ee_editor_immediate_launch_changed
 						(GtkWidget *checkbox);
+static void	async_external_editor		(EMsgComposer *composer);
 static gboolean	editor_running			(void);
 static gboolean	key_press_cb			(GtkWidget *widget,
 						 GdkEventKey *event,
@@ -150,16 +151,18 @@ enable_disable_composer (EMsgComposer *composer,
                          gboolean enable)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
 	GtkAction *action;
 	GtkActionGroup *action_group;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	editor = e_msg_composer_get_editor (composer);
-	editor_widget = e_editor_get_editor_widget (editor);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), enable);
+	if (enable) {
+		webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor), TRUE);
+	} else {
+		webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor), FALSE);
+	}
 
 	action = E_EDITOR_ACTION_EDIT_MENU (editor);
 	gtk_action_set_sensitive (action, enable);
@@ -261,16 +264,16 @@ get_caret_position (EEditorWidget *widget)
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	window = webkit_dom_document_get_default_view (document);
 	selection = webkit_dom_dom_window_get_selection (window);
-
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
+	if (webkit_dom_dom_selection_get_range_count (selection) < 1) {
 		return 0;
+	}
 
 	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
 	range_count = 0;
 	nodes = webkit_dom_node_get_child_nodes (
-		webkit_dom_node_get_parent_node (
-			webkit_dom_dom_selection_get_anchor_node (
-				selection)));
+			webkit_dom_node_get_parent_node (
+				webkit_dom_dom_selection_get_anchor_node (
+					selection)));
 	length = webkit_dom_node_list_get_length (nodes);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node;
@@ -290,13 +293,9 @@ get_caret_position (EEditorWidget *widget)
 	return webkit_dom_range_get_start_offset (range, NULL) + range_count;
 }
 
-static gboolean external_editor_running = FALSE;
-static GMutex external_editor_running_lock;
-
-static gpointer
-external_editor_thread (gpointer user_data)
+void
+async_external_editor (EMsgComposer *composer)
 {
-	EMsgComposer *composer = user_data;
 	gchar *filename = NULL;
 	gint status = 0;
 	GSettings *settings;
@@ -305,7 +304,7 @@ external_editor_thread (gpointer user_data)
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	/* prefix temp files with evo so .*vimrc can be setup to recognize them */
@@ -328,8 +327,7 @@ external_editor_thread (gpointer user_data)
 
 		/* run_error_dialog also calls enable_composer */
 		g_idle_add ((GSourceFunc) run_error_dialog, data);
-
-		goto finished;
+		return;
 	}
 
 	settings = g_settings_new ("org.gnome.evolution.plugin.external-editor");
@@ -385,7 +383,7 @@ external_editor_thread (gpointer user_data)
 		g_free (filename);
 		g_free (editor_cmd_line);
 		g_free (editor_cmd);
-		goto finished;
+		return;
 	}
 	g_free (editor_cmd_line);
 	g_free (editor_cmd);
@@ -397,7 +395,7 @@ external_editor_thread (gpointer user_data)
 #endif
 		d (printf ("\n\nsome problem here with external editor\n\n"));
 		g_idle_add ((GSourceFunc) enable_composer, composer);
-		goto finished;
+		return;
 	} else {
 		gchar *buf;
 
@@ -408,9 +406,8 @@ external_editor_thread (gpointer user_data)
 			htmltext = camel_text_to_html (
 				buf, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 
-			array = g_array_sized_new (
-				TRUE, TRUE,
-				sizeof (gpointer), 2 * sizeof (gpointer));
+			array = g_array_sized_new (TRUE, TRUE,
+						   sizeof (gpointer), 2 * sizeof (gpointer));
 			array = g_array_append_val (array, composer);
 			array = g_array_append_val (array, htmltext);
 
@@ -424,13 +421,6 @@ external_editor_thread (gpointer user_data)
 			g_free (filename);
 		}
 	}
-
-finished:
-	g_mutex_lock (&external_editor_running_lock);
-	external_editor_running = FALSE;
-	g_mutex_unlock (&external_editor_running_lock);
-
-	return NULL;
 }
 
 static void launch_editor (GtkAction *action, EMsgComposer *composer)
@@ -444,13 +434,8 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 
 	disable_composer (composer);
 
-	g_mutex_lock (&external_editor_running_lock);
-	external_editor_running = TRUE;
-	g_mutex_unlock (&external_editor_running_lock);
-
-	editor_thread = g_thread_new (
-		NULL, external_editor_thread, composer);
-	g_thread_unref (editor_thread);
+	editor_thread = g_thread_create (
+		(GThreadFunc) async_external_editor, composer, FALSE, NULL);
 }
 
 static GtkActionEntry entries[] = {
@@ -494,14 +479,21 @@ key_press_cb (GtkWidget *widget,
 	return TRUE;
 }
 
+static void
+editor_running_thread_func (GThread *thread,
+                            gpointer running)
+{
+	if (thread == editor_thread)
+		*(gboolean*)running = TRUE;
+}
+
+/* Racy? */
 static gboolean
 editor_running (void)
 {
-	gboolean running;
+	gboolean running = FALSE;
 
-	g_mutex_lock (&external_editor_running_lock);
-	running = external_editor_running;
-	g_mutex_unlock (&external_editor_running_lock);
+	g_thread_foreach ((GFunc) editor_running_thread_func, &running);
 
 	return running;
 }
@@ -527,7 +519,7 @@ e_plugin_ui_init (GtkUIManager *manager,
 	EEditor *editor;
 	EEditorWidget *editor_widget;
 
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
 
 	/* Add actions to the "composer" action group. */
