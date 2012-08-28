@@ -17,48 +17,48 @@
 #ifndef E_COMPOSER_ACTIONS_H
 #define E_COMPOSER_ACTIONS_H
 
-#define E_COMPOSER_ACTION(composer, name) \
-	(gtkhtml_editor_get_action (GTKHTML_EDITOR (composer), (name)))
+#define E_COMPOSER_ACTION(editor, name) \
+	(e_editor_get_action (E_EDITOR (editor), (name)))
 
-#define E_COMPOSER_ACTION_ATTACH(composer) \
-	E_COMPOSER_ACTION ((composer), "attach")
-#define E_COMPOSER_ACTION_CLOSE(composer) \
-	E_COMPOSER_ACTION ((composer), "close")
-#define E_COMPOSER_ACTION_PGP_ENCRYPT(composer) \
-	E_COMPOSER_ACTION ((composer), "pgp-encrypt")
-#define E_COMPOSER_ACTION_PGP_SIGN(composer) \
-	E_COMPOSER_ACTION ((composer), "pgp-sign")
-#define E_COMPOSER_ACTION_PICTURE_GALLERY(composer) \
-	E_COMPOSER_ACTION ((composer), "picture-gallery")
-#define E_COMPOSER_ACTION_PRINT(composer) \
-	E_COMPOSER_ACTION ((composer), "print")
-#define E_COMPOSER_ACTION_PRINT_PREVIEW(composer) \
-	E_COMPOSER_ACTION ((composer), "print-preview")
-#define E_COMPOSER_ACTION_PRIORITIZE_MESSAGE(composer) \
-	E_COMPOSER_ACTION ((composer), "prioritize-message")
-#define E_COMPOSER_ACTION_REQUEST_READ_RECEIPT(composer) \
-	E_COMPOSER_ACTION ((composer), "request-read-receipt")
-#define E_COMPOSER_ACTION_SAVE(composer) \
-	E_COMPOSER_ACTION ((composer), "save")
-#define E_COMPOSER_ACTION_SAVE_AS(composer) \
-	E_COMPOSER_ACTION ((composer), "save-as")
-#define E_COMPOSER_ACTION_SAVE_DRAFT(composer) \
-	E_COMPOSER_ACTION ((composer), "save-draft")
-#define E_COMPOSER_ACTION_SECURITY_MENU(composer) \
-	E_COMPOSER_ACTION ((composer), "security-menu")
-#define E_COMPOSER_ACTION_SEND(composer) \
-	E_COMPOSER_ACTION ((composer), "send")
-#define E_COMPOSER_ACTION_NEW_MESSAGE(composer) \
-	E_COMPOSER_ACTION ((composer), "new-message")
-#define E_COMPOSER_ACTION_SMIME_ENCRYPT(composer) \
-	E_COMPOSER_ACTION ((composer), "smime-encrypt")
-#define E_COMPOSER_ACTION_SMIME_SIGN(composer) \
-	E_COMPOSER_ACTION ((composer), "smime-sign")
-#define E_COMPOSER_ACTION_VIEW_BCC(composer) \
-	E_COMPOSER_ACTION ((composer), "view-bcc")
-#define E_COMPOSER_ACTION_VIEW_CC(composer) \
-	E_COMPOSER_ACTION ((composer), "view-cc")
-#define E_COMPOSER_ACTION_VIEW_REPLY_TO(composer) \
-	E_COMPOSER_ACTION ((composer), "view-reply-to")
+#define E_COMPOSER_ACTION_ATTACH(editor) \
+	E_COMPOSER_ACTION ((editor), "attach")
+#define E_COMPOSER_ACTION_CLOSE(editor) \
+	E_COMPOSER_ACTION ((editor), "close")
+#define E_COMPOSER_ACTION_PGP_ENCRYPT(editor) \
+	E_COMPOSER_ACTION ((editor), "pgp-encrypt")
+#define E_COMPOSER_ACTION_PGP_SIGN(editor) \
+	E_COMPOSER_ACTION ((editor), "pgp-sign")
+#define E_COMPOSER_ACTION_PICTURE_GALLERY(editor) \
+	E_COMPOSER_ACTION ((editor), "picture-gallery")
+#define E_COMPOSER_ACTION_PRINT(editor) \
+	E_COMPOSER_ACTION ((editor), "print")
+#define E_COMPOSER_ACTION_PRINT_PREVIEW(editor) \
+	E_COMPOSER_ACTION ((editor), "print-preview")
+#define E_COMPOSER_ACTION_PRIORITIZE_MESSAGE(editor) \
+	E_COMPOSER_ACTION ((editor), "prioritize-message")
+#define E_COMPOSER_ACTION_REQUEST_READ_RECEIPT(editor) \
+	E_COMPOSER_ACTION ((editor), "request-read-receipt")
+#define E_COMPOSER_ACTION_SAVE(editor) \
+	E_COMPOSER_ACTION ((editor), "save")
+#define E_COMPOSER_ACTION_SAVE_AS(editor) \
+	E_COMPOSER_ACTION ((editor), "save-as")
+#define E_COMPOSER_ACTION_SAVE_DRAFT(editor) \
+	E_COMPOSER_ACTION ((editor), "save-draft")
+#define E_COMPOSER_ACTION_SECURITY_MENU(editor) \
+	E_COMPOSER_ACTION ((editor), "security-menu")
+#define E_COMPOSER_ACTION_SEND(editor) \
+	E_COMPOSER_ACTION ((editor), "send")
+#define E_COMPOSER_ACTION_NEW_MESSAGE(editor) \
+	E_COMPOSER_ACTION ((editor), "new-message")
+#define E_COMPOSER_ACTION_SMIME_ENCRYPT(editor) \
+	E_COMPOSER_ACTION ((editor), "smime-encrypt")
+#define E_COMPOSER_ACTION_SMIME_SIGN(editor) \
+	E_COMPOSER_ACTION ((editor), "smime-sign")
+#define E_COMPOSER_ACTION_VIEW_BCC(editor) \
+	E_COMPOSER_ACTION ((editor), "view-bcc")
+#define E_COMPOSER_ACTION_VIEW_CC(editor) \
+	E_COMPOSER_ACTION ((editor), "view-cc")
+#define E_COMPOSER_ACTION_VIEW_REPLY_TO(editor) \
+	E_COMPOSER_ACTION ((editor), "view-reply-to")
 
 #endif /* E_COMPOSER_ACTIONS_H */

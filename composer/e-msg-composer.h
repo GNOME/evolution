@@ -24,7 +24,6 @@
 #define E_MSG_COMPOSER_H
 
 #include <camel/camel.h>
-#include <gtkhtml-editor.h>
 #include <libebook/libebook.h>
 
 #include <shell/e-shell.h>
@@ -57,12 +56,12 @@ typedef struct _EMsgComposerClass EMsgComposerClass;
 typedef struct _EMsgComposerPrivate EMsgComposerPrivate;
 
 struct _EMsgComposer {
-	GtkhtmlEditor parent;
+	EEditorWindow parent;
 	EMsgComposerPrivate *priv;
 };
 
 struct _EMsgComposerClass {
-	GtkhtmlEditorClass parent_class;
+	EEditorWindowClass parent_class;
 
 	/* Signals */
 	gboolean	(*presend)		(EMsgComposer *composer);
@@ -97,8 +96,8 @@ EFocusTracker *	e_msg_composer_get_focus_tracker
 						(EMsgComposer *composer);
 CamelSession *	e_msg_composer_ref_session	(EMsgComposer *composer);
 EShell *	e_msg_composer_get_shell	(EMsgComposer *composer);
-EWebViewGtkHTML *
-		e_msg_composer_get_web_view	(EMsgComposer *composer);
+EEditor *
+		e_msg_composer_get_editor	(EMsgComposer *composer);
 
 void		e_msg_composer_send		(EMsgComposer *composer);
 void		e_msg_composer_save_to_drafts	(EMsgComposer *composer);
@@ -198,8 +197,8 @@ GByteArray *	e_msg_composer_get_raw_message_text
 
 gboolean	e_msg_composer_is_exiting	(EMsgComposer *composer);
 
-GList *		e_load_spell_languages		(void);
-void		e_save_spell_languages		(GList *spell_languages);
+GList *		e_load_spell_languages		(ESpellChecker *spell_checker);
+void		e_save_spell_languages		(const GList *spell_languages);
 
 G_END_DECLS
 

@@ -94,7 +94,6 @@
     <title>HTML Rendering</title>
     <xi:include href="xml/e-web-view.xml"/>
     <xi:include href="xml/e-web-view-preview.xml"/>
-    <xi:include href="xml/e-web-view-gtkhtml.xml"/>
     <xi:include href="xml/e-file-request.xml"/>
     <xi:include href="xml/e-stock-request.xml"/>
   </chapter>

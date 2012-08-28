@@ -163,7 +163,6 @@ e_tree_table_adapter_get_type
 e_tree_view_frame_get_type
 e_url_entry_get_type
 e_web_view_get_type
-e_web_view_gtkhtml_get_type
 e_web_view_preview_get_type
 gal_view_collection_get_type
 gal_view_etable_get_type

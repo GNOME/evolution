@@ -35,12 +35,15 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <fcntl.h>
+#include <enchant/enchant.h>
 
 #include "e-composer-private.h"
 
 #include <em-format/e-mail-part.h>
 #include <em-format/e-mail-parser.h>
 #include <em-format/e-mail-formatter-quote.h>
+
+#include <e-util/e-spell-checker.h>
 
 #include <shell/e-shell.h>
 
@@ -133,7 +136,7 @@ static void	e_msg_composer_alert_sink_init	(EAlertSinkInterface *iface);
 G_DEFINE_TYPE_WITH_CODE (
 	EMsgComposer,
 	e_msg_composer,
-	GTKHTML_TYPE_EDITOR,
+	E_TYPE_EDITOR_WINDOW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ALERT_SINK, e_msg_composer_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
@@ -1082,7 +1085,6 @@ composer_build_message (EMsgComposer *composer,
 	EMsgComposerPrivate *priv;
 	GSimpleAsyncResult *simple;
 	AsyncContext *context;
-	GtkhtmlEditor *editor;
 	EAttachmentView *view;
 	EAttachmentStore *store;
 	EComposerHeaderTable *table;
@@ -1103,7 +1105,6 @@ composer_build_message (EMsgComposer *composer,
 	gint i;
 
 	priv = composer->priv;
-	editor = GTKHTML_EDITOR (composer);
 	table = e_msg_composer_get_header_table (composer);
 	view = e_msg_composer_get_attachment_view (composer);
 	store = e_attachment_view_get_store (view);
@@ -1235,11 +1236,14 @@ composer_build_message (EMsgComposer *composer,
 
 	} else {
 		gchar *text;
-		gsize length;
+		EEditor *editor;
+		EEditorWidget *editor_widget;
 
+		editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+		editor_widget = e_editor_get_editor_widget (editor);
 		data = g_byte_array_new ();
-		text = gtkhtml_editor_get_text_plain (editor, &length);
-		g_byte_array_append (data, (guint8 *) text, (guint) length);
+		text = e_editor_widget_get_text_plain (editor_widget);
+		g_byte_array_append (data, (guint8 *) text, strlen (text));
 		g_free (text);
 
 		type = camel_content_type_new ("text", "plain");
@@ -1302,20 +1306,29 @@ composer_build_message (EMsgComposer *composer,
 		gchar *text;
 		gsize length;
 		gboolean pre_encode;
+		EEditor *editor;
+		EEditorWidget *editor_widget;
 
 		clear_current_images (composer);
 
+		/* FIXME WEBKIT Can this go away?
 		if (flags & COMPOSER_FLAG_SAVE_OBJECT_DATA)
 			gtkhtml_editor_run_command (editor, "save-data-on");
+		*/
 
+		editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+		editor_widget = e_editor_get_editor_widget (editor);
 		data = g_byte_array_new ();
-		text = gtkhtml_editor_get_text_html (editor, &length);
+		text = e_editor_widget_get_text_html (editor_widget);
+		length = strlen (text);
 		g_byte_array_append (data, (guint8 *) text, (guint) length);
 		pre_encode = text_requires_quoted_printable (text, length);
 		g_free (text);
 
+		/* FIXME WEBKIT And this as well?
 		if (flags & COMPOSER_FLAG_SAVE_OBJECT_DATA)
 			gtkhtml_editor_run_command (editor, "save-data-off");
+		*/
 
 		mem_stream = camel_stream_mem_new_with_byte_array (data);
 		stream = camel_stream_filter_new (mem_stream);
@@ -1493,7 +1506,8 @@ use_top_signature (EMsgComposer *composer)
 	return top_signature;
 }
 
-#define NO_SIGNATURE_TEXT \
+/* FIXME WEBKIT Nope....*/
+#define NO_SIGNATURE_TEXT	\
 	"<!--+GtkHTML:<DATA class=\"ClueFlow\" " \
 	"                     key=\"signature\" " \
 	"                   value=\"1\">-->" \
@@ -1507,6 +1521,8 @@ set_editor_text (EMsgComposer *composer,
                  gboolean set_signature)
 {
 	gchar *body = NULL;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (text != NULL);
@@ -1535,7 +1551,9 @@ set_editor_text (EMsgComposer *composer,
 		body = g_strdup_printf ("%s<BR>", text);
 	}
 
-	gtkhtml_editor_set_text_html (GTKHTML_EDITOR (composer), body, -1);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+	e_editor_widget_set_text_html (editor_widget, body);
 
 	if (set_signature)
 		e_composer_update_signature (composer);
@@ -1548,12 +1566,14 @@ set_editor_text (EMsgComposer *composer,
 static void
 attachment_store_changed_cb (EMsgComposer *composer)
 {
-	GtkhtmlEditor *editor;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 
 	/* Mark the editor as changed so it prompts about unsaved
 	 * changes on close. */
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, TRUE);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+	e_editor_widget_set_changed (editor_widget, TRUE);
 }
 
 static void
@@ -1648,11 +1668,13 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
                                          gint n_targets,
                                          EMsgComposer *composer)
 {
-	GtkhtmlEditor *editor;
-	gboolean html_mode;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
+	EEditorWidgetMode mode;
 
-	editor = GTKHTML_EDITOR (composer);
-	html_mode = gtkhtml_editor_get_html_mode (editor);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+	mode = e_editor_widget_get_mode (editor_widget);
 
 	/* Order is important here to ensure common use cases are
 	 * handled correctly.  See GNOME bug #603715 for details. */
@@ -1663,7 +1685,7 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	}
 
 	/* Only paste HTML content in HTML mode. */
-	if (html_mode) {
+	if (mode == E_EDITOR_WIDGET_MODE_HTML) {
 		if (e_targets_include_html (targets, n_targets)) {
 			e_composer_paste_html (composer, clipboard);
 			return;
@@ -1682,7 +1704,7 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 }
 
 static void
-msg_composer_paste_clipboard_cb (EWebViewGtkHTML *web_view,
+msg_composer_paste_clipboard_cb (EEditorWidget *web_view,
                                  EMsgComposer *composer)
 {
 	GtkClipboard *clipboard;
@@ -1696,6 +1718,7 @@ msg_composer_paste_clipboard_cb (EWebViewGtkHTML *web_view,
 	g_signal_stop_emission_by_name (web_view, "paste-clipboard");
 }
 
+/* FIXME WEBKIT Is this still valid problem? */
 static void
 msg_composer_realize_gtkhtml_cb (GtkWidget *widget,
                                  EMsgComposer *composer)
@@ -1712,8 +1735,10 @@ msg_composer_realize_gtkhtml_cb (GtkWidget *widget,
 
 	/* When redirecting a message, the message body is not
 	 * editable and therefore cannot be a drag destination. */
+	/*
 	if (!e_web_view_gtkhtml_get_editable (E_WEB_VIEW_GTKHTML (widget)))
 		return;
+	*/
 
 	view = e_msg_composer_get_attachment_view (composer);
 
@@ -1755,9 +1780,16 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
                                     EMsgComposer *composer)
 {
 	EAttachmentView *view;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
+	EEditorWidgetMode mode;
+
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+	mode = e_editor_widget_get_mode (editor_widget);
 
 	/* HTML mode has a few special cases for drops... */
-	if (gtkhtml_editor_get_html_mode (GTKHTML_EDITOR (composer))) {
+	if (mode == E_EDITOR_WIDGET_MODE_HTML) {
 
 		/* If we're receiving an image, we want the image to be
 		 * inserted in the message body.  Let GtkHtml handle it. */
@@ -1788,10 +1820,12 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 static void
 msg_composer_notify_header_cb (EMsgComposer *composer)
 {
-	GtkhtmlEditor *editor;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, TRUE);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+	e_editor_widget_set_changed(editor_widget, TRUE);
 }
 
 static gboolean
@@ -1954,27 +1988,27 @@ static void
 msg_composer_constructed (GObject *object)
 {
 	EShell *shell;
-	GtkhtmlEditor *editor;
 	EMsgComposer *composer;
 	EAttachmentView *view;
 	EAttachmentStore *store;
 	EComposerHeaderTable *table;
-	EWebViewGtkHTML *web_view;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	GtkUIManager *ui_manager;
 	GtkToggleAction *action;
 	GSettings *settings;
 	const gchar *id;
 	gboolean active;
 
-	editor = GTKHTML_EDITOR (object);
 	composer = E_MSG_COMPOSER (object);
 
 	shell = e_msg_composer_get_shell (composer);
 
 	e_composer_private_constructed (composer);
 
-	web_view = e_msg_composer_get_web_view (composer);
-	ui_manager = gtkhtml_editor_get_ui_manager (editor);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+	ui_manager = e_editor_get_ui_manager (editor);
 	view = e_msg_composer_get_attachment_view (composer);
 	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
 
@@ -2016,21 +2050,21 @@ msg_composer_constructed (GObject *object)
 	/* Clipboard Support */
 
 	g_signal_connect (
-		web_view, "paste-clipboard",
+		editor_widget, "paste-clipboard",
 		G_CALLBACK (msg_composer_paste_clipboard_cb), composer);
 
 	/* Drag-and-Drop Support */
 
 	g_signal_connect (
-		web_view, "realize",
+		editor_widget, "realize",
 		G_CALLBACK (msg_composer_realize_gtkhtml_cb), composer);
 
 	g_signal_connect (
-		web_view, "drag-motion",
+		editor_widget, "drag-motion",
 		G_CALLBACK (msg_composer_drag_motion_cb), composer);
 
 	g_signal_connect (
-		web_view, "drag-data-received",
+		editor_widget, "drag-data-received",
 		G_CALLBACK (msg_composer_drag_data_received_cb), composer);
 
 	g_signal_connect (
@@ -2079,7 +2113,7 @@ msg_composer_constructed (GObject *object)
 		G_CALLBACK (attachment_store_changed_cb), composer);
 
 	/* Initialization may have tripped the "changed" state. */
-	gtkhtml_editor_set_changed (editor, FALSE);
+	e_editor_widget_set_changed (editor_widget, FALSE);
 
 	id = "org.gnome.evolution.composer";
 	e_plugin_ui_register_manager (ui_manager, id, composer);
@@ -2121,6 +2155,8 @@ msg_composer_map (GtkWidget *widget)
 {
 	EComposerHeaderTable *table;
 	GtkWidget *input_widget;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	const gchar *text;
 
 	/* Chain up to parent's map() method. */
@@ -2149,7 +2185,9 @@ msg_composer_map (GtkWidget *widget)
 	}
 
 	/* Jump to the editor as a last resort. */
-	gtkhtml_editor_run_command (GTKHTML_EDITOR (widget), "grab-focus");
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (widget));
+	editor_widget = e_editor_get_editor_widget (editor);
+	gtk_widget_grab_focus (GTK_WIDGET (editor_widget));
 }
 
 static gboolean
@@ -2158,12 +2196,12 @@ msg_composer_key_press_event (GtkWidget *widget,
 {
 	EMsgComposer *composer;
 	GtkWidget *input_widget;
-	GtkhtmlEditor *editor;
-	EWebViewGtkHTML *web_view;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 
-	editor = GTKHTML_EDITOR (widget);
 	composer = E_MSG_COMPOSER (widget);
-	web_view = e_msg_composer_get_web_view (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
 
 	input_widget =
 		e_composer_header_table_get_header (
@@ -2183,12 +2221,12 @@ msg_composer_key_press_event (GtkWidget *widget,
 	}
 
 	if (event->keyval == GDK_KEY_Tab && gtk_widget_is_focus (input_widget)) {
-		gtkhtml_editor_run_command (editor, "grab-focus");
+		gtk_widget_grab_focus (GTK_WIDGET (editor_widget));
 		return TRUE;
 	}
 
 	if (event->keyval == GDK_KEY_ISO_Left_Tab &&
-		gtk_widget_is_focus (GTK_WIDGET (web_view))) {
+		gtk_widget_is_focus (GTK_WIDGET (editor_widget))) {
 		gtk_widget_grab_focus (input_widget);
 		return TRUE;
 	}
@@ -2199,33 +2237,36 @@ msg_composer_key_press_event (GtkWidget *widget,
 }
 
 static void
-msg_composer_cut_clipboard (GtkhtmlEditor *editor)
+msg_composer_cut_clipboard (EMsgComposer *composer)
 {
 	/* Do nothing.  EFocusTracker handles this. */
 }
 
 static void
-msg_composer_copy_clipboard (GtkhtmlEditor *editor)
+msg_composer_copy_clipboard (EMsgComposer *composer)
 {
 	/* Do nothing.  EFocusTracker handles this. */
 }
 
 static void
-msg_composer_paste_clipboard (GtkhtmlEditor *editor)
+msg_composer_paste_clipboard (EMsgComposer *composer)
 {
 	/* Do nothing.  EFocusTracker handles this. */
 }
 
 static void
-msg_composer_select_all (GtkhtmlEditor *editor)
+msg_composer_select_all (EMsgComposer *composer)
 {
 	/* Do nothing.  EFocusTracker handles this. */
 }
 
+/* FIXME WEBKIT We can effectively hack around this by DOM manipulation
+ * when inserting signature, right?..or when is this usefull ?? */
 static void
-msg_composer_command_before (GtkhtmlEditor *editor,
+msg_composer_command_before (EMsgComposer *composer,
                              const gchar *command)
 {
+	/*
 	EMsgComposer *composer;
 	const gchar *data;
 
@@ -2249,12 +2290,14 @@ msg_composer_command_before (GtkhtmlEditor *editor,
 		gtkhtml_editor_run_command (editor, "text-default-color");
 		gtkhtml_editor_run_command (editor, "italic-off");
 	}
+	*/
 }
 
 static void
-msg_composer_command_after (GtkhtmlEditor *editor,
+msg_composer_command_after (EMsgComposer *composer,
                             const gchar *command)
 {
+	/*
 	EMsgComposer *composer;
 	const gchar *data;
 
@@ -2277,7 +2320,7 @@ msg_composer_command_after (GtkhtmlEditor *editor,
 	if (data == NULL || *data != '1')
 		return;
 
-	/* Clear the signature. */
+	// Clear the signature.
 	if (gtkhtml_editor_is_paragraph_empty (editor))
 		gtkhtml_editor_set_paragraph_data (editor, "signature" ,"0");
 
@@ -2290,18 +2333,16 @@ msg_composer_command_after (GtkhtmlEditor *editor,
 
 	gtkhtml_editor_run_command (editor, "text-default-color");
 	gtkhtml_editor_run_command (editor, "italic-off");
+	*/
 }
 
 static gchar *
-msg_composer_image_uri (GtkhtmlEditor *editor,
+msg_composer_image_uri (EMsgComposer *composer,
                         const gchar *uri)
 {
-	EMsgComposer *composer;
 	GHashTable *hash_table;
 	CamelMimePart *part;
 	const gchar *cid;
-
-	composer = E_MSG_COMPOSER (editor);
 
 	hash_table = composer->priv->inline_images_by_url;
 	part = g_hash_table_lookup (hash_table, uri);
@@ -2328,9 +2369,11 @@ msg_composer_image_uri (GtkhtmlEditor *editor,
 	return g_strconcat ("cid:", cid, NULL);
 }
 
+/* FIXME WEBKIT We don't need this, do we? */
 static void
-msg_composer_object_deleted (GtkhtmlEditor *editor)
+msg_composer_object_deleted (EMsgComposer *composer)
 {
+	/*
 	const gchar *data;
 
 	if (!gtkhtml_editor_is_paragraph_empty (editor))
@@ -2350,6 +2393,7 @@ msg_composer_object_deleted (GtkhtmlEditor *editor)
 	data = gtkhtml_editor_get_paragraph_data (editor, "signature");
 	if (data != NULL && *data == '1')
 		gtkhtml_editor_set_paragraph_data (editor, "signature", "0");
+	*/
 }
 
 static gboolean
@@ -2403,37 +2447,25 @@ msg_composer_accumulator_false_abort (GSignalInvocationHint *ihint,
 }
 
 static void
-e_msg_composer_class_init (EMsgComposerClass *class)
+e_msg_composer_class_init (EMsgComposerClass *klass)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-	GtkhtmlEditorClass *editor_class;
 
-	g_type_class_add_private (class, sizeof (EMsgComposerPrivate));
+	g_type_class_add_private (klass, sizeof (EMsgComposerPrivate));
 
-	object_class = G_OBJECT_CLASS (class);
+	object_class = G_OBJECT_CLASS (klass);
 	object_class->set_property = msg_composer_set_property;
 	object_class->get_property = msg_composer_get_property;
 	object_class->dispose = msg_composer_dispose;
 	object_class->finalize = msg_composer_finalize;
 	object_class->constructed = msg_composer_constructed;
 
-	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->map = msg_composer_map;
 	widget_class->key_press_event = msg_composer_key_press_event;
 
-	editor_class = GTKHTML_EDITOR_CLASS (class);
-	editor_class->cut_clipboard = msg_composer_cut_clipboard;
-	editor_class->copy_clipboard = msg_composer_copy_clipboard;
-	editor_class->paste_clipboard = msg_composer_paste_clipboard;
-	editor_class->select_all = msg_composer_select_all;
-	editor_class->command_before = msg_composer_command_before;
-	editor_class->command_after = msg_composer_command_after;
-	editor_class->image_uri = msg_composer_image_uri;
-	editor_class->link_clicked = NULL; /* EWebView handles this */
-	editor_class->object_deleted = msg_composer_object_deleted;
-
-	class->presend = msg_composer_presend;
+	klass->presend = msg_composer_presend;
 
 	g_object_class_install_property (
 		object_class,
@@ -2458,7 +2490,7 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 
 	signals[PRESEND] = g_signal_new (
 		"presend",
-		G_OBJECT_CLASS_TYPE (class),
+		G_OBJECT_CLASS_TYPE (klass),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EMsgComposerClass, presend),
 		msg_composer_accumulator_false_abort,
@@ -2468,7 +2500,7 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 
 	signals[SEND] = g_signal_new (
 		"send",
-		G_OBJECT_CLASS_TYPE (class),
+		G_OBJECT_CLASS_TYPE (klass),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EMsgComposerClass, send),
 		NULL, NULL,
@@ -2479,7 +2511,7 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 
 	signals[SAVE_TO_DRAFTS] = g_signal_new (
 		"save-to-drafts",
-		G_OBJECT_CLASS_TYPE (class),
+		G_OBJECT_CLASS_TYPE (klass),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EMsgComposerClass, save_to_drafts),
 		NULL, NULL,
@@ -2490,7 +2522,7 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 
 	signals[SAVE_TO_OUTBOX] = g_signal_new (
 		"save-to-outbox",
-		G_OBJECT_CLASS_TYPE (class),
+		G_OBJECT_CLASS_TYPE (klass),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EMsgComposerClass, save_to_outbox),
 		NULL, NULL,
@@ -2501,7 +2533,7 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 
 	signals[PRINT] = g_signal_new (
 		"print",
-		G_OBJECT_CLASS_TYPE (class),
+		G_OBJECT_CLASS_TYPE (klass),
 		G_SIGNAL_RUN_LAST,
 		0, NULL, NULL,
 		e_marshal_VOID__ENUM_OBJECT_OBJECT,
@@ -2538,7 +2570,7 @@ e_msg_composer_new (EShell *shell)
 
 	return g_object_new (
 		E_TYPE_MSG_COMPOSER,
-		"html", e_web_view_gtkhtml_new (), "shell", shell, NULL);
+		"shell", shell, NULL);
 }
 
 EFocusTracker *
@@ -3009,6 +3041,7 @@ handle_multipart (EMsgComposer *composer,
 static void
 set_signature_gui (EMsgComposer *composer)
 {
+	/*FIXME WEBKIT We don't support signatures yet....
 	GtkhtmlEditor *editor;
 	EComposerHeaderTable *table;
 	EMailSignatureComboBox *combo_box;
@@ -3027,10 +3060,11 @@ set_signature_gui (EMsgComposer *composer)
 	if (!g_str_has_prefix (data, "uid:"))
 		return;
 
-	/* The combo box active ID is the signature's ESource UID. */
+	// The combo box active ID is the signature's ESource UID.
 	uid = e_composer_decode_clue_value (data + 4);
 	gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), uid);
 	g_free (uid);
+	*/
 }
 
 static void
@@ -3110,6 +3144,8 @@ e_msg_composer_new_with_message (EShell *shell,
 	EMsgComposerPrivate *priv;
 	EComposerHeaderTable *table;
 	ESource *source = NULL;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	GtkToggleAction *action;
 	struct _camel_header_raw *xev;
 	gchar *identity_uid;
@@ -3132,6 +3168,8 @@ e_msg_composer_new_with_message (EShell *shell,
 	composer = e_msg_composer_new (shell);
 	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 	table = e_msg_composer_get_header_table (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
 
 	if (postto) {
 		e_composer_header_table_set_post_to_list (table, postto);
@@ -3259,11 +3297,11 @@ e_msg_composer_new_with_message (EShell *shell,
 		flags = g_strsplit (format, ", ", 0);
 		for (i = 0; flags[i]; i++) {
 			if (g_ascii_strcasecmp (flags[i], "text/html") == 0) {
-				gtkhtml_editor_set_html_mode (
-					GTKHTML_EDITOR (composer), TRUE);
+				e_editor_widget_set_mode (
+					editor_widget, E_EDITOR_WIDGET_MODE_HTML);
 			} else if (g_ascii_strcasecmp (flags[i], "text/plain") == 0) {
-				gtkhtml_editor_set_html_mode (
-					GTKHTML_EDITOR (composer), FALSE);
+				e_editor_widget_set_mode (
+					editor_widget, E_EDITOR_WIDGET_MODE_PLAIN_TEXT);
 			} else if (g_ascii_strcasecmp (flags[i], "pgp-sign") == 0) {
 				action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
 				gtk_toggle_action_set_active (action, TRUE);
@@ -3403,7 +3441,8 @@ e_msg_composer_new_redirect (EShell *shell,
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
-	EWebViewGtkHTML *web_view;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	const gchar *subject;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
@@ -3421,8 +3460,9 @@ e_msg_composer_new_redirect (EShell *shell,
 	e_composer_header_table_set_identity_uid (table, identity_uid);
 	e_composer_header_table_set_subject (table, subject);
 
-	web_view = e_msg_composer_get_web_view (composer);
-	e_web_view_gtkhtml_set_editable (web_view, FALSE);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), FALSE);
 
 	return composer;
 }
@@ -3474,27 +3514,19 @@ e_msg_composer_get_shell (EMsgComposer *composer)
 }
 
 /**
- * e_msg_composer_get_web_view:
+ * e_msg_composer_get_editor:
  * @composer: an #EMsgComposer
  *
- * Returns the #EWebView widget in @composer.
+ * Returns the #EEditor widget in @composer.
  *
- * Returns: the #EWebView
+ * Returns: the #EEditor
  **/
-EWebViewGtkHTML *
-e_msg_composer_get_web_view (EMsgComposer *composer)
+EEditor *
+e_msg_composer_get_editor (EMsgComposer *composer)
 {
-	GtkHTML *html;
-	GtkhtmlEditor *editor;
-
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
-	/* This is a convenience function to avoid
-	 * repeating this awkwardness everywhere */
-	editor = GTKHTML_EDITOR (composer);
-	html = gtkhtml_editor_get_html (editor);
-
-	return E_WEB_VIEW_GTKHTML (html);
+	return e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 }
 
 static void
@@ -3504,7 +3536,8 @@ msg_composer_send_cb (EMsgComposer *composer,
 {
 	CamelMimeMessage *message;
 	EAlertSink *alert_sink;
-	GtkhtmlEditor *editor;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
@@ -3536,8 +3569,9 @@ msg_composer_send_cb (EMsgComposer *composer,
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	/* The callback can set editor 'changed' if anything failed. */
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, FALSE);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+	e_editor_widget_set_changed (editor_widget, TRUE);
 
 	g_signal_emit (
 		composer, signals[SEND], 0,
@@ -3599,7 +3633,8 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 {
 	CamelMimeMessage *message;
 	EAlertSink *alert_sink;
-	GtkhtmlEditor *editor;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
@@ -3640,8 +3675,9 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	/* The callback can set editor 'changed' if anything failed. */
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, FALSE);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+	e_editor_widget_set_changed (editor_widget, FALSE);
 
 	g_signal_emit (
 		composer, signals[SAVE_TO_DRAFTS],
@@ -3699,7 +3735,8 @@ msg_composer_save_to_outbox_cb (EMsgComposer *composer,
 {
 	CamelMimeMessage *message;
 	EAlertSink *alert_sink;
-	GtkhtmlEditor *editor;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
@@ -3734,9 +3771,9 @@ msg_composer_save_to_outbox_cb (EMsgComposer *composer,
 
 	async_context_free (context);
 
-	/* XXX This should be elsewhere. */
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_set_changed (editor, FALSE);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+	e_editor_widget_set_changed (editor_widget, FALSE);
 }
 
 /**
@@ -4226,13 +4263,16 @@ e_msg_composer_set_body (EMsgComposer *composer,
 {
 	EMsgComposerPrivate *priv = composer->priv;
 	EComposerHeaderTable *table;
-	EWebViewGtkHTML *web_view;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	ESource *source;
 	const gchar *identity_uid;
 	gchar *buff;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
 	table = e_msg_composer_get_header_table (composer);
 
 	identity_uid = e_composer_header_table_get_identity_uid (table);
@@ -4245,10 +4285,8 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	set_editor_text (composer, buff, FALSE);
 	g_free (buff);
 
-	gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (composer), FALSE);
-
-	web_view = e_msg_composer_get_web_view (composer);
-	e_web_view_gtkhtml_set_editable (web_view, FALSE);
+	e_editor_widget_set_mode (editor_widget, E_EDITOR_WIDGET_MODE_PLAIN_TEXT);
+	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), FALSE);
 
 	g_free (priv->mime_body);
 	priv->mime_body = g_strdup (body);
@@ -4604,8 +4642,13 @@ e_msg_composer_get_message (EMsgComposer *composer,
 	GSimpleAsyncResult *simple;
 	GtkAction *action;
 	ComposerFlags flags = 0;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (composer), callback,
@@ -4613,7 +4656,7 @@ e_msg_composer_get_message (EMsgComposer *composer,
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	if (gtkhtml_editor_get_html_mode (GTKHTML_EDITOR (composer)))
+	if (e_editor_widget_get_mode (editor_widget) == E_EDITOR_WIDGET_MODE_HTML)
 		flags |= COMPOSER_FLAG_HTML_CONTENT;
 
 	action = ACTION (PRIORITIZE_MESSAGE);
@@ -4730,6 +4773,8 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
                                   GAsyncReadyCallback callback,
                                   gpointer user_data)
 {
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	GSimpleAsyncResult *simple;
 	ComposerFlags flags = COMPOSER_FLAG_DRAFT;
 	GtkAction *action;
@@ -4742,7 +4787,9 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	if (gtkhtml_editor_get_html_mode (GTKHTML_EDITOR (composer)))
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+	if (e_editor_widget_get_mode (editor_widget) == E_EDITOR_WIDGET_MODE_HTML)
 		flags |= COMPOSER_FLAG_HTML_CONTENT;
 
 	action = ACTION (PRIORITIZE_MESSAGE);
@@ -4872,17 +4919,19 @@ e_msg_composer_get_reply_to (EMsgComposer *composer)
 GByteArray *
 e_msg_composer_get_raw_message_text (EMsgComposer *composer)
 {
-	GtkhtmlEditor *editor;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	GByteArray *array;
 	gchar *text;
-	gsize length;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
+
 	array = g_byte_array_new ();
-	editor = GTKHTML_EDITOR (composer);
-	text = gtkhtml_editor_get_text_plain (editor, &length);
-	g_byte_array_append (array, (guint8 *) text, (guint) length);
+	text = e_editor_widget_get_text_plain (editor_widget);
+	g_byte_array_append (array, (guint8 *) text, strlen (text));
 	g_free (text);
 
 	return array;
@@ -4915,22 +4964,24 @@ e_msg_composer_can_close (EMsgComposer *composer,
                           gboolean can_save_draft)
 {
 	gboolean res = FALSE;
-	GtkhtmlEditor *editor;
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	EComposerHeaderTable *table;
 	GdkWindow *window;
 	GtkWidget *widget;
 	const gchar *subject;
 	gint response;
 
-	editor = GTKHTML_EDITOR (composer);
 	widget = GTK_WIDGET (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
 
 	/* this means that there is an async operation running,
 	 * in which case the composer cannot be closed */
 	if (!gtk_action_group_get_sensitive (composer->priv->async_actions))
 		return FALSE;
 
-	if (!gtkhtml_editor_get_changed (editor))
+	if (!e_editor_widget_get_changed (editor_widget))
 		return TRUE;
 
 	window = gtk_widget_get_window (widget);
@@ -4969,6 +5020,8 @@ e_msg_composer_can_close (EMsgComposer *composer,
 void
 e_msg_composer_reply_indent (EMsgComposer *composer)
 {
+	/* FIXME WEBKIT We already have indentation implementation. Why
+	 * is this done? 
 	GtkhtmlEditor *editor;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
@@ -4990,6 +5043,7 @@ e_msg_composer_reply_indent (EMsgComposer *composer)
 	gtkhtml_editor_run_command (editor, "indent-zero");
 	gtkhtml_editor_run_command (editor, "text-default-color");
 	gtkhtml_editor_run_command (editor, "italic-off");
+	*/
 }
 
 EComposerHeaderTable *
@@ -5009,10 +5063,10 @@ e_msg_composer_get_attachment_view (EMsgComposer *composer)
 }
 
 GList *
-e_load_spell_languages (void)
+e_load_spell_languages (ESpellChecker *spell_checker)
 {
 	GSettings *settings;
-	GList *spell_languages = NULL;
+	GList *spell_dicts = NULL;
 	gchar **strv;
 	gint ii;
 
@@ -5024,50 +5078,49 @@ e_load_spell_languages (void)
 	/* Convert the codes to spell language structs. */
 	for (ii = 0; strv[ii] != NULL; ii++) {
 		gchar *language_code = strv[ii];
-		const GtkhtmlSpellLanguage *language;
+		ESpellDictionary *dict;
 
-		language = gtkhtml_spell_language_lookup (language_code);
-		if (language != NULL)
-			spell_languages = g_list_prepend (
-				spell_languages, (gpointer) language);
+		dict = e_spell_checker_lookup_dictionary (spell_checker, language_code);
+		if (dict != NULL)
+			spell_dicts = g_list_prepend (
+				spell_dicts, (gpointer) dict);
 	}
 
 	g_strfreev (strv);
 
-	spell_languages = g_list_reverse (spell_languages);
+	spell_dicts = g_list_reverse (spell_dicts);
 
 	/* Pick a default spell language if it came back empty. */
-	if (spell_languages == NULL) {
-		const GtkhtmlSpellLanguage *language;
+	if (spell_dicts == NULL) {
+		ESpellDictionary *dict;
 
-		language = gtkhtml_spell_language_lookup (NULL);
+		dict = e_spell_checker_lookup_dictionary (spell_checker, NULL);
 
-		if (language) {
-			spell_languages = g_list_prepend (
-				spell_languages, (gpointer) language);
+		if (dict) {
+			spell_dicts = g_list_prepend (
+				spell_dicts, (gpointer) dict);
 		}
 	}
 
-	return spell_languages;
+	return spell_dicts;
 }
 
 void
-e_save_spell_languages (GList *spell_languages)
+e_save_spell_languages (const GList *spell_dicts)
 {
 	GSettings *settings;
 	GPtrArray *lang_array;
 
 	/* Build a list of spell check language codes. */
 	lang_array = g_ptr_array_new ();
-	while (spell_languages != NULL) {
-		const GtkhtmlSpellLanguage *language;
+	while (spell_dicts != NULL) {
+		ESpellDictionary *dict = spell_dicts->data;
 		const gchar *language_code;
 
-		language = spell_languages->data;
-		language_code = gtkhtml_spell_language_get_code (language);
+		language_code = e_spell_dictionary_get_code (dict);
 		g_ptr_array_add (lang_array, (gpointer) language_code);
 
-		spell_languages = g_list_next (spell_languages);
+		spell_dicts = g_list_next (spell_dicts);
 	}
 
 	g_ptr_array_add (lang_array, NULL);

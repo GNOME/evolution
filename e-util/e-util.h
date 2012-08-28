@@ -245,7 +245,6 @@
 #include <e-util/e-url-entry.h>
 #include <e-util/e-util-enums.h>
 #include <e-util/e-util-enumtypes.h>
-#include <e-util/e-web-view-gtkhtml.h>
 #include <e-util/e-web-view-preview.h>
 #include <e-util/e-web-view.h>
 #include <e-util/e-widget-undo.h>

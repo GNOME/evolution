@@ -336,7 +336,6 @@ evolution_util_include_HEADERS =  \
 	e-url-entry.h \
 	e-util-enums.h \
 	e-util-enumtypes.h \
-	e-web-view-gtkhtml.h \
 	e-web-view-preview.h \
 	e-web-view.h \
 	e-widget-undo.h \
@@ -607,7 +606,6 @@ libevolution_util_la_SOURCES = \
 	e-url-entry.c \
 	e-util-enumtypes.c \
 	e-util-private.h \
-	e-web-view-gtkhtml.c \
 	e-web-view-preview.c \
 	e-web-view.c \
 	e-widget-undo.c \
