@@ -68,7 +68,9 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar * parser_mime_types[] = { "text/calendar", NULL };
+static const gchar * parser_mime_types[] = { "text/calendar",
+					     "application/ics",
+					     NULL };
 
 static void
 mail_part_itip_free (EMailPart *mail_part)
@@ -192,6 +194,8 @@ empe_itip_parse (EMailParserExtension *extension,
 	CamelStream *stream;
 	GByteArray *byte_array;
 	gint len;
+	const CamelContentDisposition *disposition;
+	GSList *parts;
 
 	len = part_id->len;
 	g_string_append_printf (part_id, ".itip");
@@ -204,6 +208,7 @@ empe_itip_parse (EMailParserExtension *extension,
 					(GFreeFunc)	mail_part_itip_free);
 	itip_part->parent.mime_type = g_strdup ("text/calendar");
 	itip_part->parent.bind_func = bind_itip_view;
+	itip_part->parent.force_collapse = TRUE;
 	itip_part->delete_message = g_settings_get_boolean (settings, CONF_KEY_DELETE);
 	itip_part->has_organizer = FALSE;
 	itip_part->no_reply_wanted = FALSE;
@@ -228,9 +233,19 @@ empe_itip_parse (EMailParserExtension *extension,
 			(gchar *) byte_array->data, byte_array->len);
 
 	g_object_unref (stream);
+
+	parts = g_slist_append (NULL, itip_part);
+
+	disposition = camel_mime_part_get_content_disposition (part);
+	if (disposition &&
+	    (g_strcmp0 (disposition->disposition, "attachment") == 0)) {
+		parts = e_mail_parser_wrap_as_attachment (
+			parser, part, parts, part_id, cancellable);
+	}
+
 	g_string_truncate (part_id, len);
 
-	return g_slist_append (NULL, itip_part);
+	return parts;
 }
 
 static guint32

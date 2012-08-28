@@ -58,7 +58,9 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
 
-static const gchar * formatter_mime_types[] = { "text/calendar" , NULL };
+static const gchar * formatter_mime_types[] = { "text/calendar",
+						"application/ics",
+						NULL };
 
 static gboolean
 emfe_itip_format (EMailFormatterExtension *extension,
