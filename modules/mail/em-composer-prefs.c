@@ -146,7 +146,7 @@ spell_setup (EMComposerPrefs *prefs)
 	available_languages =
 		e_spell_checker_list_available_dicts (prefs->spell_checker);
 
-	list = e_spell_checker_list_available_dicts (prefs->spell_checker);
+	active_languages = e_load_spell_languages (prefs->spell_checker);
 
 	/* Populate the GtkListStore. */
 	while (available_languages != NULL) {

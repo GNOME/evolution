@@ -56,12 +56,12 @@ typedef struct _EMsgComposerClass EMsgComposerClass;
 typedef struct _EMsgComposerPrivate EMsgComposerPrivate;
 
 struct _EMsgComposer {
-	GtkWindow parent;
+	EEditorWindow parent;
 	EMsgComposerPrivate *priv;
 };
 
 struct _EMsgComposerClass {
-	GtkWindowClass parent_class;
+	EEditorWindowClass parent_class;
 
 	/* Signals */
 	gboolean	(*presend)		(EMsgComposer *composer);
@@ -97,6 +97,8 @@ EFocusTracker *	e_msg_composer_get_focus_tracker
 						(EMsgComposer *composer);
 CamelSession *	e_msg_composer_ref_session	(EMsgComposer *composer);
 EShell *	e_msg_composer_get_shell	(EMsgComposer *composer);
+EEditor *
+		e_msg_composer_get_editor	(EMsgComposer *composer);
 
 void		e_msg_composer_send		(EMsgComposer *composer);
 void		e_msg_composer_save_to_drafts	(EMsgComposer *composer);
@@ -188,10 +190,9 @@ GByteArray *	e_msg_composer_get_raw_message_text
 
 gboolean	e_msg_composer_is_exiting	(EMsgComposer *composer);
 
+GList *		e_load_spell_languages		(ESpellChecker *spell_checker);
 void		e_save_spell_languages		(const GList *spell_languages);
-void		e_msg_composer_is_from_new_message
-						(EMsgComposer *composer,
-						 gboolean is_from_new_message);
+
 G_END_DECLS
 
 #endif /* E_MSG_COMPOSER_H */

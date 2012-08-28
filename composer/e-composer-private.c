@@ -32,13 +32,13 @@
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
 {
-	EEditor *editor;
+ 	EEditor *editor;
 	GtkUIManager *ui_manager;
 	const gchar *path;
 	GList *list;
 	guint merge_id;
 
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	ui_manager = e_editor_get_ui_manager (editor);
 	path = "/main-menu/options-menu/charset-menu";
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
@@ -61,6 +61,50 @@ composer_setup_charset_menu (EMsgComposer *composer)
 	gtk_ui_manager_ensure_update (ui_manager);
 }
 
+/* FIXME WEBKIT We don't need to control this anymore....
+static void
+msg_composer_url_requested_cb (GtkHTML *html,
+                               const gchar *uri,
+                               GtkHTMLStream *stream,
+                               EMsgComposer *composer)
+{
+	GByteArray *array;
+	GHashTable *hash_table;
+	CamelDataWrapper *wrapper;
+	CamelStream *camel_stream;
+	CamelMimePart *mime_part;
+
+	hash_table = composer->priv->inline_images_by_url;
+	mime_part = g_hash_table_lookup (hash_table, uri);
+
+	if (mime_part == NULL) {
+		hash_table = composer->priv->inline_images;
+		mime_part = g_hash_table_lookup (hash_table, uri);
+	}
+
+	// If this is not an inline image request,
+	// allow the signal emission to continue. 
+	if (mime_part == NULL)
+		return;
+
+	array = g_byte_array_new ();
+	camel_stream = camel_stream_mem_new_with_byte_array (array);
+	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+	camel_data_wrapper_decode_to_stream_sync (
+		wrapper, camel_stream, NULL, NULL);
+
+	gtk_html_write (html, stream, (gchar *) array->data, array->len);
+
+	gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
+
+	g_object_unref (camel_stream);
+
+	// gtk_html_end() destroys the GtkHTMLStream, so we need to
+	// stop the signal emission so nothing else tries to use it.
+	g_signal_stop_emission_by_name (html, "url-requested");
+}
+*/
+
 static void
 composer_update_gallery_visibility (EMsgComposer *composer)
 {
@@ -68,16 +112,16 @@ composer_update_gallery_visibility (EMsgComposer *composer)
 	EEditorWidget *editor_widget;
 	GtkToggleAction *toggle_action;
 	gboolean gallery_active;
-	gboolean is_html;
+	EEditorWidgetMode mode;
 
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
-	is_html = e_editor_widget_get_html_mode (editor_widget);
+	mode = e_editor_widget_get_mode (editor_widget);
 
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (PICTURE_GALLERY));
 	gallery_active = gtk_toggle_action_get_active (toggle_action);
 
-	if (is_html && gallery_active) {
+	if ((mode == E_EDITOR_WIDGET_MODE_HTML) && gallery_active) {
 		gtk_widget_show (composer->priv->gallery_scrolled_window);
 		gtk_widget_show (composer->priv->gallery_icon_view);
 	} else {
@@ -108,7 +152,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gint ii;
 	GError *error = NULL;
 
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	ui_manager = e_editor_get_ui_manager (editor);
 	editor_widget = e_editor_get_editor_widget (editor);
 
@@ -172,9 +216,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	priv->focus_tracker = focus_tracker;
 
-	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_container_add (GTK_CONTAINER (composer), widget);
-	gtk_widget_show (widget);
+	container = gtk_hbox_new (FALSE, 0);
+	e_editor_window_pack_above (E_EDITOR_WINDOW (composer), container);
 
 	container = widget;
 
@@ -225,7 +268,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	g_object_bind_property (
 		editor_widget, "editable",
-		widget, "sensitive",
+		widget, "editable",
 		G_BINDING_SYNC_CREATE);
 
 	container = e_attachment_paned_get_content_area (
@@ -248,13 +291,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->gallery_scrolled_window = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	/* Reparent the scrolled window containing the web view
-	 * widget into the content area of the top attachment pane. */
-
-	widget = GTK_WIDGET (editor_widget);
-	widget = gtk_widget_get_parent (widget);
-	gtk_widget_reparent (widget, container);
-
 	/* Construct the picture gallery. */
 
 	container = priv->gallery_scrolled_window;
@@ -275,8 +311,10 @@ e_composer_private_constructed (EMsgComposer *composer)
 		ACTION (PICTURE_GALLERY), "toggled",
 		G_CALLBACK (composer_update_gallery_visibility), composer);
 
-	/* Initial sync */
-	composer_update_gallery_visibility (composer);
+	/* XXX What is this for? */
+	/* FIXME WEBKIT Yes, what is this for?
+	g_object_set_data (G_OBJECT (composer), "vbox", editor->vbox);
+	*/
 
 	/* Bind headers to their corresponding actions. */
 
@@ -322,11 +360,19 @@ e_composer_private_constructed (EMsgComposer *composer)
 	 * asynchronous activity is in progress.  We enforce this with
 	 * a simple inverted binding to EEditor's "busy" property. */
 
-	g_object_bind_property (
-		editor, "busy",
-		priv->async_actions, "sensitive",
-		G_BINDING_SYNC_CREATE |
-		G_BINDING_INVERT_BOOLEAN);
+	/* XXX We no longer use GtkhtmlEditor::uri-requested because it
+	 *     conflicts with EWebView's url_requested() method, which
+	 *     unconditionally launches an async operation.  I changed
+	 *     GtkHTML::url-requested to be a G_SIGNAL_RUN_LAST so that
+	 *     our handler runs first.  If we can handle the request
+	 *     we'll stop the signal emission to prevent EWebView from
+	 *     launching an async operation.  Messy, but works until we
+	 *     switch to WebKit.  --mbarnes */
+	/* FIXME WEBKIT So...we don't need this anymore, right?
+	g_signal_connect (
+		web_view, "url-requested",
+		G_CALLBACK (msg_composer_url_requested_cb), composer);
+	*/
 
 	g_object_unref (settings);
 }
@@ -480,7 +526,7 @@ e_composer_paste_html (EMsgComposer *composer,
 	html = e_clipboard_wait_for_html (clipboard);
 	g_return_val_if_fail (html != NULL, FALSE);
 
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
 	editor_selection = e_editor_widget_get_selection (editor_widget);
 	e_editor_selection_insert_html (editor_selection, html);
@@ -536,9 +582,9 @@ e_composer_paste_image (EMsgComposer *composer,
 
 	/* In HTML mode, paste the image into the message body.
 	 * In text mode, add the image to the attachment store. */
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
-	if (e_editor_widget_get_html_mode (editor_widget)) {
+	if (e_editor_widget_get_mode (editor_widget) == E_EDITOR_WIDGET_MODE_HTML) {
 		EEditorSelection *selection;
 
 		selection = e_editor_widget_get_selection (editor_widget);
@@ -584,12 +630,10 @@ e_composer_paste_text (EMsgComposer *composer,
 	text = gtk_clipboard_wait_for_text (clipboard);
 	g_return_val_if_fail (text != NULL, FALSE);
 
-	editor = e_msg_composer_get_editor (composer);
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
 	editor_selection = e_editor_widget_get_selection (editor_widget);
 	e_editor_selection_insert_text (editor_selection, text);
-
-	e_editor_widget_check_magic_links (editor_widget, FALSE);
 
 	g_free (text);
 
@@ -973,6 +1017,8 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
                             GAsyncResult *result,
                             EMsgComposer *composer)
 {
+	/* FIXME WEBKIT Uuuhm, yeah...we don't support signatures yet */
+#if 0
 	GString *html_buffer = NULL;
 	gchar *contents = NULL;
 	gsize length = 0;
@@ -991,15 +1037,15 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	e_mail_signature_combo_box_load_selected_finish (
 		combo_box, result, &contents, &length, &is_html, &error);
 
-	/* FIXME Use an EAlert here. */
+	// FIXME Use an EAlert here.
 	if (error != NULL) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 		goto exit;
 	}
 
-	/* "Edit as New Message" sets "priv->is_from_message".
-	 * Always put the signature at the bottom for that case. */
+	// "Edit as New Message" sets "priv->is_from_message".
+	//Always put the signature at the bottom for that case. 
 	top_signature =
 		use_top_signature (composer) &&
 		!composer->priv->is_from_message &&
@@ -1028,7 +1074,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 
 	html_buffer = g_string_sized_new (1024);
 
-	/* The combo box active ID is the signature's ESource UID. */
+	// The combo box active ID is the signature's ESource UID.
 	active_id = gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box));
 
 	g_string_append_printf (
@@ -1039,10 +1085,9 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	if (!is_html)
 		g_string_append (html_buffer, "<PRE>\n");
 
-	/* The signature dash convention ("-- \n") is specified
-	 * in the "Son of RFC 1036", section 4.3.2.
-	 * http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html
-	 */
+	// The signature dash convention ("-- \n") is specified
+	//in the "Son of RFC 1036", section 4.3.2.
+	//http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html
 	if (add_signature_delimiter (composer)) {
 		const gchar *delim;
 		const gchar *delim_nl;
@@ -1055,11 +1100,11 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 			delim_nl = "\n-- \n";
 		}
 
-		/* Skip the delimiter if the signature already has one. */
+		// Skip the delimiter if the signature already has one.
 		if (g_ascii_strncasecmp (contents, delim, strlen (delim)) == 0)
-			;  /* skip */
+			;  // skip
 		else if (e_util_strstrcase (contents, delim_nl) != NULL)
-			;  /* skip */
+			;  // skip
 		else
 			g_string_append (html_buffer, delim);
 	}
@@ -1073,7 +1118,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	g_free (contents);
 
 insert:
-	/* Remove the old signature and insert the new one. */
+	// Remove the old signature and insert the new one.
 
 	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
@@ -1100,10 +1145,9 @@ insert:
 			composer->priv->set_signature_from_message = FALSE;
 		}
 
-		if (id && (strlen (id) == 1) && (*id == '1')) {
-			/* We have to remove the div containing the span with signature */
-			WebKitDOMNode *next_sibling;
-			WebKitDOMNode *parent;
+	// This prevents our command before/after callbacks from
+	   screwing around with the signature as we insert it.
+	composer->priv->in_signature_insert = TRUE;
 
 			parent = webkit_dom_node_get_parent_node (node);
 			next_sibling = webkit_dom_node_get_next_sibling (parent);
@@ -1171,12 +1215,18 @@ insert:
 		}
 
 		g_string_free (html_buffer, TRUE);
+
+	} else if (top_signature) {
+		// Insert paragraph after the signature ClueFlow stuff. 
+		if (gtkhtml_editor_run_command (editor, "cursor-forward"))
+			gtkhtml_editor_run_command (editor, "insert-paragraph");
 	}
 
 	composer_move_caret (composer);
 
 exit:
 	g_object_unref (composer);
+#endif
 }
 
 static void
@@ -1202,6 +1252,7 @@ composer_web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
 void
 e_composer_update_signature (EMsgComposer *composer)
 {
+	/* FIXME WEBKIT As said above...no signatures yet
 	EComposerHeaderTable *table;
 	EMailSignatureComboBox *combo_box;
 	EEditor *editor;
@@ -1210,7 +1261,7 @@ e_composer_update_signature (EMsgComposer *composer)
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	/* Do nothing if we're redirecting a message. */
+	// Do nothing if we're redirecting a message.
 	if (composer->priv->redirect)
 		return;
 
@@ -1232,13 +1283,14 @@ e_composer_update_signature (EMsgComposer *composer)
 		return;
 	}
 
-	/* XXX Signature files should be local and therefore load quickly,
-	 *     so while we do load them asynchronously we don't allow for
-	 *     user cancellation and we keep the composer alive until the
-	 *     asynchronous loading is complete. */
+	//XXX Signature files should be local and therefore load quickly,
+	//	so while we do load them asynchronously we don't allow for
+	//	user cancellation and we keep the composer alive until the
+	//	asynchronous loading is complete.
 	e_mail_signature_combo_box_load_selected (
 		combo_box, G_PRIORITY_DEFAULT, NULL,
 		(GAsyncReadyCallback) composer_load_signature_cb,
 		g_object_ref (composer));
+	*/
 }
 
