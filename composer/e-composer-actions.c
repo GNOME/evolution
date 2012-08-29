@@ -513,17 +513,17 @@ e_composer_actions_init (EMsgComposer *composer)
 	/* FIXME WEBKIT Make sure this works */
 	g_object_bind_property (
 		editor_widget, "editable",
-		e_editor_get_action (editor, "edit"), "sensitive",
+		e_editor_get_action (editor, "edit-menu"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
 		editor_widget, "editable",
-		e_editor_get_action (editor, "format"), "sensitive",
+		e_editor_get_action (editor, "format-menu"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
 		editor_widget, "editable",
-		e_editor_get_action (editor, "insert"), "sensitive",
+		e_editor_get_action (editor, "insert-menu"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 #if defined (HAVE_NSS)

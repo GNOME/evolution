@@ -151,17 +151,19 @@ enable_disable_composer (EMsgComposer *composer,
                          gboolean enable)
 {
 	EEditor *editor;
+	EEditorWidget *editor_widget;
 	GtkAction *action;
 	GtkActionGroup *action_group;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	editor_widget = e_editor_get_editor_widget (editor);
 
 	if (enable) {
-		webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor), TRUE);
+		webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), TRUE);
 	} else {
-		webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor), FALSE);
+		webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), FALSE);
 	}
 
 	action = E_EDITOR_ACTION_EDIT_MENU (editor);

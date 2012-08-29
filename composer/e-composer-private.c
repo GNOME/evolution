@@ -242,17 +242,17 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->focus_tracker = focus_tracker;
 
 	container = gtk_hbox_new (FALSE, 0);
+	gtk_widget_set_hexpand (container, TRUE);
+	gtk_widget_show (container);
 	e_editor_window_pack_above (E_EDITOR_WINDOW (composer), container);
 
 	/* Construct the activity bar. */
-
 	widget = e_activity_bar_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->activity_bar = g_object_ref_sink (widget);
 	/* EActivityBar controls its own visibility. */
 
 	/* Construct the alert bar for errors. */
-
 	widget = e_alert_bar_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->alert_bar = g_object_ref_sink (widget);
@@ -262,9 +262,9 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	widget = e_composer_header_table_new (client_cache);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_box_reorder_child (GTK_BOX (container), widget, 2);
-	priv->header_table = g_object_ref_sink (widget);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	g_signal_connect_swapped (
@@ -315,13 +315,15 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->gallery_icon_view = g_object_ref_sink (widget);
 	g_free (gallery_path);
 
-	g_signal_connect (
-		composer, "notify::html-mode",
-		G_CALLBACK (composer_update_gallery_visibility), NULL);
-
+	g_signal_connect_swapped (
+		editor_widget, "notify::mode",
+		G_CALLBACK (composer_update_gallery_visibility), composer);
 	g_signal_connect_swapped (
 		ACTION (PICTURE_GALLERY), "toggled",
 		G_CALLBACK (composer_update_gallery_visibility), composer);
+
+	/* Initial sync */
+	composer_update_gallery_visibility (composer);
 
 	/* XXX What is this for? */
 	/* FIXME WEBKIT Yes, what is this for?
