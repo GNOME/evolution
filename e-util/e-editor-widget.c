@@ -1199,8 +1199,6 @@ e_editor_widget_get_text_plain (EEditorWidget *widget)
 	plain_text = g_string_sized_new (1024);
 	process_elements (body, plain_text);
 
-	printf("%s\n", plain_text->str);
-
 	/* Return text content between <body> and </body> */
 	return g_string_free (plain_text, FALSE);
 }
