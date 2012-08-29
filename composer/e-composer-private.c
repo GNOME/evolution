@@ -130,6 +130,26 @@ composer_update_gallery_visibility (EMsgComposer *composer)
 	}
 }
 
+static void
+composer_spell_languages_changed (EMsgComposer *composer,
+				  GParamSpec *pspec,
+				  EEditorWidget *editor_widget)
+{
+	GList *languages;
+	EComposerHeader *header;
+	EComposerHeaderTable *table;
+
+	table = e_msg_composer_get_header_table (composer);
+	header = e_composer_header_table_get_header (
+		table, E_COMPOSER_HEADER_SUBJECT);
+
+	languages = e_editor_widget_get_spell_languages (editor_widget);
+	header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_SUBJECT);
+	e_composer_spell_header_set_languages (E_COMPOSER_SPELL_HEADER (header), languages);
+
+	g_list_free (languages);
+}
+
 void
 e_composer_private_constructed (EMsgComposer *composer)
 {
@@ -239,25 +259,9 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
-		editor_widget, "editable",
-		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	header = e_composer_header_table_get_header (
-		E_COMPOSER_HEADER_TABLE (widget),
-		E_COMPOSER_HEADER_SUBJECT);
-	g_object_bind_property (
-		editor_widget, "spell-checker",
-		header->input_widget, "spell-checker",
-		G_BINDING_SYNC_CREATE);
-
-	/* Construct the editing toolbars.  We'll have to reparent
-	 * the embedded EEditorWidget a little further down. */
-
-	widget = GTK_WIDGET (editor);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
+	g_signal_connect_swapped (
+		editor_widget, "notify::spell-languages",
+		G_CALLBACK (composer_spell_languages_changed), composer);
 
 	/* Construct the attachment paned. */
 
@@ -1079,8 +1083,16 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 
 	g_string_append_printf (
 		html_buffer,
-		"<SPAN class=\"-x-evolution-signature\" id=\"1\" name=\"%s\">",
-		(active_id != NULL) ? active_id : "");
+		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
+		"    key=\"signature\" value=\"1\">-->"
+		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
+		"    key=\"signature_name\" value=\"uid:%s\"-->",
+		(encoded_uid != NULL) ? encoded_uid : "");
+
+	g_string_append (
+		html_buffer,
+		"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\""
+		" CELLPADDING=\"0\"><TR><TD>");
 
 	if (!is_html)
 		g_string_append (html_buffer, "<PRE>\n");

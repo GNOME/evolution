@@ -806,6 +806,15 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 			FALSE,
 			G_PARAM_READABLE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_SPELL_LANGUAGES,
+		g_param_spec_pointer (
+			"spell-languages",
+			"Active spell checking languages",
+			NULL,
+			G_PARAM_READWRITE));
+
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
 		G_TYPE_FROM_CLASS (klass),
@@ -1064,20 +1073,12 @@ void
 e_editor_widget_set_spell_languages (EEditorWidget *widget,
 				     GList *spell_languages)
 {
-	GList *iter;
-
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
 	g_return_if_fail (spell_languages);
 
-	g_list_free_full (widget->priv->spelling_langs, g_free);
-
-	widget->priv->spelling_langs = NULL;
-	for (iter = spell_languages; iter; iter = g_list_next (iter)) {
-		widget->priv->spelling_langs =
-			g_list_append (
-				widget->priv->spelling_langs,
-		  		g_strdup (iter->data));
-	}
+	g_list_free_full (widget->priv->spelling_langs, g_object_unref);
+	widget->priv->spelling_langs = g_list_copy (spell_languages);
+	g_list_foreach (widget->priv->spelling_langs, (GFunc) g_object_ref, NULL);
 
 	g_object_notify (G_OBJECT (widget), "spell-languages");
 }

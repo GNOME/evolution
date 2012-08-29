@@ -37,7 +37,7 @@ struct _ESpellEntryPrivate {
 	gint entry_scroll_offset;
 	gboolean custom_checkers;
 	gboolean checking_enabled;
-	GSList *dictionaries;
+	GList *dictionaries;
 	gchar **words;
 	gint *word_starts;
 	gint *word_ends;
@@ -76,12 +76,12 @@ word_misspelled (ESpellEntry *entry,
 	g_strlcpy (word, text + start, end - start + 1);
 
 	if (g_unichar_isalpha (*word)) {
-		ESpellChecker *spell_checker;
+		GList *li;
 		gssize wlen = strlen (word);
 
-		for (li = entry->priv->dictionaries; li; li = g_slist_next (li)) {
-			EnchantDict *dict = li->data;
-			if (enchant_dict_check (dict, word, wlen)) {
+		for (li = entry->priv->dictionaries; li; li = g_list_next (li)) {
+			ESpellDictionary *dict = li->data;
+			if (e_spell_dictionary_check (dict, word, wlen)) {
 				result = FALSE;
 				break;
 			}
@@ -269,7 +269,7 @@ add_to_dictionary (GtkWidget *menuitem,
 {
 	gchar *word;
 	gint start, end;
-	EnchantDict *dict;
+	ESpellDictionary *dict;
 
 	get_word_extents_from_position (
 		entry, &start, &end, entry->priv->mark_character);
@@ -277,7 +277,7 @@ add_to_dictionary (GtkWidget *menuitem,
 
 	dict = g_object_get_data (G_OBJECT (menuitem), "spell-entry-checker");
 	if (dict != NULL)
-		enchant_dict_add_to_personal (dict, word, -1);
+		e_spell_dictionary_learn_word (dict, word, -1);
 
 	g_free (word);
 
@@ -303,14 +303,15 @@ ignore_all (GtkWidget *menuitem,
 	ESpellChecker *spell_checker;
 	gchar *word;
 	gint start, end;
+	GList *li;
 
 	get_word_extents_from_position (
 		entry, &start, &end, entry->priv->mark_character);
 	word = gtk_editable_get_chars (GTK_EDITABLE (entry), start, end);
 
-	for (li = entry->priv->dictionaries; li; li = g_slist_next (li)) {
-		EnchantDict *dict = li->data;
-		enchant_dict_add_to_session (dict, word, -1);
+	for (li = entry->priv->dictionaries; li; li = g_list_next (li)) {
+		ESpellDictionary *dict = li->data;
+		e_spell_dictionary_ignore_word (dict, word, -1);
 	}
 
 	g_free (word);
@@ -338,7 +339,7 @@ replace_word (GtkWidget *menuitem,
 	const gchar *newword;
 	gint start, end;
 	gint cursor;
-	EnchantDict *dict;
+	ESpellDictionary *dict;
 
 	get_word_extents_from_position (
 		entry, &start, &end, entry->priv->mark_character);
@@ -362,7 +363,7 @@ replace_word (GtkWidget *menuitem,
 	dict = g_object_get_data (G_OBJECT (menuitem), "spell-entry-checker");
 
 	if (dict != NULL)
-		enchant_dict_store_replacement (
+		e_spell_dictionary_store_correction (
 			dict, oldword, -1, newword, -1);
 
 	g_free (oldword);
@@ -448,10 +449,11 @@ build_spelling_menu (ESpellEntry *entry,
 		dict = entry->priv->dictionaries->data;
 		build_suggestion_menu (entry, topmenu, dict, word);
 	} else {
+		GList *li;
 		GtkWidget *menu;
 		GList *list, *link;
 
-		for (li = entry->priv->dictionaries; li; li = g_slist_next (li)) {
+		for (li = entry->priv->dictionaries; li; li = g_list_next (li)) {
 			dict = li->data;
 
 			lang_name = e_spell_dictionary_get_name (dict);
@@ -491,13 +493,14 @@ build_spelling_menu (ESpellEntry *entry,
 			mi, "activate",
 			G_CALLBACK (add_to_dictionary), entry);
 	} else {
+		GList *li;
 		GtkWidget *menu, *submi;
 		GList *list, *link;
 
 		menu = gtk_menu_new ();
 		gtk_menu_item_set_submenu (GTK_MENU_ITEM (mi), menu);
 
-		for (li = entry->priv->dictionaries; li; li = g_slist_next (li)) {
+		for (li = entry->priv->dictionaries; li; li = g_list_next (li)) {
 			dict = li->data;
 
 			lang_name = e_spell_dictionary_get_name (dict);
@@ -791,7 +794,7 @@ spell_entry_dispose (GObject *object)
 	g_clear_object (&priv->settings);
 	g_clear_object (&priv->spell_checker);
 
-	g_slist_free_full (
+	g_list_free_full (
 		priv->dictionaries, (GDestroyNotify) g_object_unref);
 	priv->dictionaries = NULL;
 
@@ -944,30 +947,23 @@ e_spell_entry_new (void)
 
 void
 e_spell_entry_set_languages (ESpellEntry *spell_entry,
-                             GList *languages)
+                             GList *dictionaries)
 {
-	GList *iter;
-
-	g_return_if_fail (spell_entry != NULL);
+	g_return_if_fail (E_IS_SPELL_ENTRY (spell_entry));
 
 	spell_entry->priv->custom_checkers = TRUE;
 
-	if (spell_entry->priv->dictionaries)
-		g_slist_free_full (spell_entry->priv->dictionaries, g_object_unref);
+	if (spell_entry->priv->dictionaries) {
+		g_list_free_full (spell_entry->priv->dictionaries, g_object_unref);
+	}
 	spell_entry->priv->dictionaries = NULL;
 
-	for (iter = languages; iter; iter = g_list_next (iter)) {
-		ESpellDictionary *dict = iter->data;
+	spell_entry->priv->dictionaries = g_list_copy (dictionaries);
+	g_list_foreach (spell_entry->priv->dictionaries, (GFunc) g_object_ref, NULL);
 
-		if (dict)
-			spell_entry->priv->dictionaries =
-				g_slist_prepend (spell_entry->priv->dictionaries, dict);
-	}
-
-	spell_entry->priv->dictionaries = g_slist_reverse (spell_entry->priv->dictionaries);
-
-	if (gtk_widget_get_realized (GTK_WIDGET (spell_entry)))
+	if (gtk_widget_get_realized (GTK_WIDGET (spell_entry))) {
 		spell_entry_recheck_all (spell_entry);
+	}
 }
 
 gboolean
