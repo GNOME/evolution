@@ -632,7 +632,7 @@ mail_display_plugin_widget_resize (GObject *object,
 	GtkWidget *widget;
 	WebKitDOMElement *parent_element;
 	gchar *dim;
-	gint height;
+	gint height, width;
 
 	widget = GTK_WIDGET (object);
 	parent_element = g_object_get_data (object, "parent_element");
@@ -644,7 +644,8 @@ mail_display_plugin_widget_resize (GObject *object,
 		return;
 	}
 
-	gtk_widget_get_preferred_height (widget, &height, NULL);
+	width = gtk_widget_get_allocated_width (widget);
+	gtk_widget_get_preferred_height_for_width (widget, width, &height, NULL);
 
         /* Int -> Str */
 	dim = g_strdup_printf ("%d", height);
@@ -1524,7 +1525,6 @@ e_mail_display_init (EMailDisplay *display)
 	g_signal_connect (
 		main_frame, "notify::load-status",
 		G_CALLBACK (setup_DOM_bindings), NULL);
-	main_frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (display));
 	g_signal_connect (
 		main_frame, "notify::load-status",
 		G_CALLBACK (mail_parts_bind_dom), NULL);
@@ -1849,8 +1849,6 @@ e_mail_display_set_status (EMailDisplay *display,
 
 	e_web_view_load_string (E_WEB_VIEW (display), str);
 	g_free (str);
-
-	gtk_widget_show_all (GTK_WIDGET (display));
 }
 
 static gchar *
