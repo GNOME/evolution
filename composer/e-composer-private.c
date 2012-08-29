@@ -130,8 +130,10 @@ composer_update_gallery_visibility (EMsgComposer *composer)
 
 static void
 composer_spell_languages_changed (EMsgComposer *composer,
-                                  GList *languages)
+				  GParamSpec *pspec,
+				  EEditorWidget *editor_widget)
 {
+	GList *languages;
 	EComposerHeader *header;
 	EComposerHeaderTable *table;
 
@@ -139,8 +141,11 @@ composer_spell_languages_changed (EMsgComposer *composer,
 	header = e_composer_header_table_get_header (
 		table, E_COMPOSER_HEADER_SUBJECT);
 
-	e_composer_spell_header_set_languages (
-		E_COMPOSER_SPELL_HEADER (header), languages);
+	languages = e_editor_widget_get_spell_languages (editor_widget);
+	header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_SUBJECT);
+	e_composer_spell_header_set_languages (E_COMPOSER_SPELL_HEADER (header), languages);
+
+	g_list_free (languages);
 }
 
 void
@@ -262,9 +267,9 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->header_table = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
-	g_signal_connect (
-		G_OBJECT (composer), "spell-languages-changed",
-		G_CALLBACK (composer_spell_languages_changed), NULL);
+	g_signal_connect_swapped (
+		editor_widget, "notify::spell-languages",
+		G_CALLBACK (composer_spell_languages_changed), composer);
 
 	/* Construct the attachment paned. */
 
@@ -937,7 +942,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
 		"    key=\"signature\" value=\"1\">-->"
 		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
-		"    key=\"signature_name\" value=\"uid:%s\">-->",
+		"    key=\"signature_name\" value=\"uid:%s\"-->",
 		(encoded_uid != NULL) ? encoded_uid : "");
 
 	g_string_append (

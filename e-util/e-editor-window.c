@@ -147,8 +147,10 @@ e_editor_window_pack_above (EEditorWindow *window,
 	g_return_if_fail (E_IS_EDITOR_WINDOW (window));
 	g_return_if_fail (GTK_IS_WIDGET (child));
 
-	gtk_grid_insert_row (window->priv->main_layout, window->priv->editor_row);
+	gtk_grid_insert_row (
+		window->priv->main_layout, window->priv->editor_row);
 	window->priv->editor_row++;
+
 	gtk_grid_attach_next_to (
 		window->priv->main_layout, child,
 		GTK_WIDGET (window->priv->editor),

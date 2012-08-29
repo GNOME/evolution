@@ -647,5 +647,8 @@ gint
 e_spell_dictionary_compare (ESpellDictionary *dict1,
 			    ESpellDictionary *dict2)
 {
+	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dict1), 0);
+	g_return_val_if_fail (E_IS_SPELL_DICTIONARY (dict2), 0);
+
 	return strcmp (dict1->priv->collate_key, dict2->priv->collate_key);
 }
