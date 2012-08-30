@@ -3,6 +3,8 @@ module_LTLIBRARIES = module-calendar.la
 module_calendar_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)					\
 	-DG_LOG_DOMAIN=\"calendar-modules\"		\
+	-DEVOLUTION_BINDIR=\""$(bindir)"\"		\
+	-DEVOLUTION_PRIVLIBEXECDIR=\""$(PRIVLIBEXECDIR)"\" \
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\

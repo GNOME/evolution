@@ -99,6 +99,20 @@ main (gint argc,
 		exit (EXIT_FAILURE);
 	}
 
+	g_application_register (G_APPLICATION (alarm_notify_service), NULL, &error);
+
+	if (error != NULL) {
+		g_printerr ("%s\n", error->message);
+		g_error_free (error);
+		g_object_unref (alarm_notify_service);
+		exit (EXIT_FAILURE);
+	}
+
+	if (g_application_get_is_remote (G_APPLICATION (alarm_notify_service))) {
+		g_object_unref (alarm_notify_service);
+		return 0;
+	}
+
 	exit_status = g_application_run (
 		G_APPLICATION (alarm_notify_service), argc, argv);
 

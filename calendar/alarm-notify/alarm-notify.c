@@ -135,19 +135,12 @@ alarm_notify_startup (GApplication *application)
 static void
 alarm_notify_activate (GApplication *application)
 {
-	/* Disregard.  This is just here to prevent the default
-	 * activate method from running, which issues a warning
-	 * if there are no handlers connected to this signal. */
-}
+	AlarmNotify *an = ALARM_NOTIFY (application);
 
-static gboolean
-alarm_notify_initable (GInitable *initable,
-                       GCancellable *cancellable,
-                       GError **error)
-{
-	AlarmNotify *an = ALARM_NOTIFY (initable);
-
-	an->priv->registry = e_source_registry_new_sync (cancellable, error);
+	if (g_application_get_is_remote (application)) {
+		g_application_quit (application);
+		return;
+	}
 
 	if (an->priv->registry != NULL) {
 		alarm_notify_load_calendars (an);
@@ -160,6 +153,16 @@ alarm_notify_initable (GInitable *initable,
 			an->priv->registry, "source-removed",
 			G_CALLBACK (alarm_notify_remove_calendar), an);
 	}
+}
+
+static gboolean
+alarm_notify_initable (GInitable *initable,
+                       GCancellable *cancellable,
+                       GError **error)
+{
+	AlarmNotify *an = ALARM_NOTIFY (initable);
+
+	an->priv->registry = e_source_registry_new_sync (cancellable, error);
 
 	return (an->priv->registry != NULL);
 }

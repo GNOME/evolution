@@ -564,6 +564,36 @@ cal_shell_backend_window_added_cb (EShellBackend *shell_backend,
 }
 
 static void
+ensure_alarm_notify_is_running (void)
+{
+	const gchar *base_dir;
+	gchar *filename;
+
+	#ifdef G_OS_WIN32
+	base_dir = EVOLUTION_BINDIR;
+	#else
+	base_dir = EVOLUTION_PRIVLIBEXECDIR;
+	#endif
+
+	filename = g_build_filename (base_dir, "evolution-alarm-notify", NULL);
+
+	if (g_file_test (filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_EXECUTABLE)) {
+		gchar *argv[2];
+		GError *error = NULL;
+
+		argv[0] = filename;
+		argv[1] = NULL;
+
+		if (!g_spawn_async (base_dir, argv, NULL, 0, NULL, NULL, NULL, &error))
+			g_message ("Failed to start '%s': %s", filename, error ? error->message : "Unknown error");
+
+		g_clear_error (&error);
+	}
+
+	g_free (filename);
+}
+
+static void
 cal_shell_backend_constructed (GObject *object)
 {
 	EShell *shell;
@@ -607,6 +637,8 @@ cal_shell_backend_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_cal_shell_backend_parent_class)->constructed (object);
+
+	ensure_alarm_notify_is_running ();
 }
 
 static void
