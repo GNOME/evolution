@@ -1198,14 +1198,16 @@ AC_ARG_ENABLE([audio-inline],
 	[enable_audio_inline="$enableval"], [enable_audio_inline=yes])
 
 if test "x$enable_audio_inline" = "xyes"; then
-	PKG_CHECK_MODULES(GSTREAMER, gstreamer-0.10, have_gst=yes, have_gst=no)
+	PKG_CHECK_MODULES([GSTREAMER], [gstreamer-1.0], have_gst=yes,
+		 [PKG_CHECK_MODULES([GSTREAMER], [gstreamer-0.10], have_gst=yes, have_gst=no)],
+		 have_gst=no)
 	AC_SUBST(GSTREAMER_CFLAGS)
 	AC_SUBST(GSTREAMER_LIBS)
 
 	if test "x$have_gst" = "xyes"; then
 		AC_DEFINE(ENABLE_AUDIO_INLINE, 1, [Define to add support for inlining audio attachments])
 	else
-		AC_MSG_ERROR([gstreamer-0.10 is required for the audio-inline plugin.  Use --disable-audio-inline to exclude the plugin.])
+		AC_MSG_ERROR([gstreamer-1.0 or 0.10 is required for the audio-inline plugin.  Use --disable-audio-inline to exclude the plugin.])
 	fi
 fi
 
