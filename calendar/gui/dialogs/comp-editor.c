@@ -2626,14 +2626,17 @@ comp_editor_set_changed (CompEditor *editor,
 
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
-	if ((editor->priv->changed ? 1 : 0) == (changed ? 1 : 0))
-		return;
+	/* always process below changes, because other parts of
+	   the editor listen for 'changed' notifications to update
+	   its widgets, thus do it even the value actually didn't change
+	 */
+	if ((editor->priv->changed ? 1 : 0) != (changed ? 1 : 0)) {
+		editor->priv->changed = changed;
 
-	editor->priv->changed = changed;
-
-	action = comp_editor_get_action (editor, "save");
-	g_return_if_fail (action != NULL);
-	gtk_action_set_sensitive (action, changed);
+		action = comp_editor_get_action (editor, "save");
+		g_return_if_fail (action != NULL);
+		gtk_action_set_sensitive (action, changed);
+	}
 
 	show_warning =
 		changed && !editor->priv->warned &&

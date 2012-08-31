@@ -1000,6 +1000,10 @@ fill_component (RecurrencePage *rpage,
 
 				if (!ok)
 					e_date_edit_set_date (E_DATE_EDIT (priv->ending_date_edit), dtstart.value->year, dtstart.value->month, dtstart.value->day);
+				else {
+					/* to have the date shown in "normalized" format */
+					e_date_edit_set_date (E_DATE_EDIT (priv->ending_date_edit), tt.year, tt.month, tt.day);
+				}
 			}
 
 			e_cal_component_free_datetime (&dtstart);
@@ -1465,7 +1469,7 @@ make_ending_until_special (RecurrencePage *rpage)
 	}
 
 	g_signal_connect_swapped (
-		de, "changed",
+		e_date_edit_get_entry (de), "focus-out-event",
 		G_CALLBACK (comp_editor_page_changed), rpage);
 
 	/* Make sure the EDateEdit widget uses our timezones to get the
