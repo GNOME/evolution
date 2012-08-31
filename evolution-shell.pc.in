@@ -19,5 +19,5 @@ Description: libraries needed for Evolution shell components
 Version: @VERSION@
 Requires: gtk+-3.0 libebackend-1.2 libedataserverui-3.0 webkitgtk-3.0
 Requires.private: gnome-desktop-3.0
-Libs: -L${privlibdir} -leshell -Wl,-R${privlibdir}
+Libs: -L${privlibdir} -leshell -lemiscwidgets -leutil -Wl,-R${privlibdir}
 Cflags: -I${privincludedir}
