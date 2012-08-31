@@ -114,6 +114,19 @@ config_data_get_notify_with_tray (void)
 	return g_settings_get_boolean (calendar_settings, "notify-with-tray");
 }
 
+static void
+source_written_cb (GObject *source_object,
+		   GAsyncResult *result,
+		   gpointer user_data)
+{
+	GError *error = NULL;
+
+	if (!e_source_write_finish (E_SOURCE (source_object), result, &error)) {
+		g_warning ("Failed to write source changes: %s", error ? error->message : "Unknown error");
+		g_clear_error (&error);
+	}
+}
+
 /**
  * config_data_set_last_notification_time:
  * @t: A time value.
@@ -150,6 +163,8 @@ config_data_set_last_notification_time (ECalClient *cal,
 			iso8601 = g_time_val_to_iso8601 (&tv);
 			e_source_alarms_set_last_notified (extension, iso8601);
 			g_free (iso8601);
+
+			e_source_write (source, NULL, source_written_cb, NULL);
 		}
 	}
 
