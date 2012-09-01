@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-08-24 22:06+0000\n"
-"PO-Revision-Date: 2012-09-01 18:12+0700\n"
+"PO-Revision-Date: 2012-09-01 18:18+0700\n"
 "Last-Translator: Nguyễn Thái Ngọc Duy <pclouds@gmail.com>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "Language: vi\n"
@@ -99,6 +99,8 @@ msgid ""
 "This will permanently remove the address book &quot;{0}&quot; from the "
 "server. Are you sure you want to proceed?"
 msgstr ""
+"Hành động này sẽ loại bỏ vĩnh viễn sổ địa chỉ &quot;{0}&quot; khỏi máy chủ. "
+"Bạn có chắc muốn tiếp tục?"
 
 #: ../addressbook/addressbook.error.xml.h:16
 #: ../calendar/calendar.error.xml.h:68
@@ -715,7 +717,7 @@ msgstr "Xoá địa chỉ thư khỏi danh sách"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 msgid "Insert email addresses from Address Book"
-msgstr ""
+msgstr "Chèn địa chỉ email từ sổ địa chỉ"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
 msgid "_Select..."
@@ -2019,6 +2021,8 @@ msgid ""
 "This will permanently remove the calendar &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
 msgstr ""
+"Hành động này sẽ loại bỏ vĩnh viễn lịch &quot;{0}&quot; khỏi máy chủ. Bạn có "
+"chắc muốn tiếp tục?"
 
 #: ../calendar/calendar.error.xml.h:69
 msgid "Delete remote task list &quot;{0}&quot;?"
@@ -2029,6 +2033,8 @@ msgid ""
 "This will permanently remove the task list &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
 msgstr ""
+"Hành động này sẽ loại bỏ vĩnh viễn danh sách tác vụ &quot;{0}&quot; khỏi máy "
+"chủ. Bạn có chắc muốn tiếp tục?"
 
 #: ../calendar/calendar.error.xml.h:71
 msgid "Delete remote memo list &quot;{0}&quot;?"
@@ -2039,6 +2045,8 @@ msgid ""
 "This will permanently remove the memo list &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
 msgstr ""
+"Hành động này sẽ loại bỏ vĩnh viễn danh sách ghi nhớ &quot;{0}&quot; khỏi "
+"máy chủ. Bạn có chắc muốn tiếp tục?"
 
 #: ../calendar/calendar.error.xml.h:73
 msgid "Are you sure you want to save the appointment without a summary?"
@@ -8647,20 +8655,19 @@ msgid "Sound filename to be played."
 msgstr "Tên của tập tin âm thanh cần phát."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
-#, fuzzy
 #| msgid ""
 #| "Sound file to be played when new messages arrive, if not in beep mode."
 msgid ""
 "Sound file to be played when new messages arrive, if \"notify-sound-play-file"
 "\" is \"true\"."
 msgstr ""
-"Tập tin âm thanh cần phát khi nhận thư mới, nếu không phải ở chế độ kêu bíp."
+"Tập tin âm thanh cần phát khi nhận thư mới, nếu bật \"notify-sound-play-file"
+"\"."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
-#, fuzzy
 #| msgid "Beep or play sound file."
 msgid "Whether to play a sound file."
-msgstr "Kêu bíp hay phát tập tin âm thanh."
+msgstr "Có phát tập tin âm thanh không."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:17
 msgid "Use sound theme"
@@ -8680,10 +8687,9 @@ msgid "Whether to show suppressed HTML output"
 msgstr "Có hiện đầu ra HTML bị chặn không"
 
 #: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:1
-#, fuzzy
 #| msgid "List of server URLs for free/busy publishing."
 msgid "List of Destinations for publishing"
-msgstr "Danh sách các địa chỉ mạng máy chủ để công bố thông tin Rảnh/Bận."
+msgstr "Danh sách các địa chỉ chủ để công bố"
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
@@ -11775,7 +11781,7 @@ msgstr "Nguồn thư mục tìm kiếm"
 
 #: ../mail/em-vfolder-editor-rule.c:549
 msgid "Automatically update on any _source folder change"
-msgstr ""
+msgstr "Tự động cập nhật khi bất kỳ thư mục _nguồn nào thay đổi"
 
 #: ../mail/em-vfolder-editor-rule.c:561
 msgid "All local folders"
@@ -14136,7 +14142,6 @@ msgid "Search Scope:"
 msgstr "Phạm vi tìm:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:777
-#, fuzzy
 #| msgid ""
 #| "The search scope defines how deep you would like the search to extend "
 #| "down the directory tree. A search scope of \"sub\" will include all "
@@ -14149,8 +14154,8 @@ msgid ""
 "the entries one level beneath your search base."
 msgstr ""
 "Phạm vi tìm cho biết độ sâu tìm kiếm đi xuống trong cây thư mục. Phạm vi tìm "
-"kiếm «con» sẽ bao gồm mọi mục dưới cơ sở tìm. Phạm vi tìm kiếm «một» sẽ chỉ "
-"tìm những mục nằm một mức độ dưới trong cơ sở tìm thôi."
+"kiếm \"Subtree\" sẽ bao gồm mọi mục dưới cơ sở tìm. Phạm vi tìm kiếm \"One "
+"level\" sẽ chỉ tìm những mục nằm một mức độ dưới trong cơ sở tìm thôi."
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:786
 msgid "Search Filter:"
@@ -14258,7 +14263,7 @@ msgstr "Nhập mật khẩu Google cho người dùng '%s'."
 
 #: ../modules/cal-config-google/e-google-chooser.c:525
 msgid "User declined to provide a password"
-msgstr ""
+msgstr "Người dùng từ chối cung cấp mật khẩu"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:161
 msgid "Use an existing iCalendar (ics) file"
@@ -14696,7 +14701,7 @@ msgstr "Tìm _tiếp"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1457
 msgid "Find next occurrence of the current search string"
-msgstr ""
+msgstr "Tìm lần xuất hiện kế"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1462
 msgid "Find _previous"
@@ -14704,7 +14709,7 @@ msgstr "Tìm _ngược"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1464
 msgid "Find previous occurrence of the current search string"
-msgstr ""
+msgstr "Tìm lần xuất hiện trước"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1469
 msgid "Stop _running search"
@@ -14712,7 +14717,7 @@ msgstr "Dùng _chạy tìm kiếm"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1471
 msgid "Stop currently running search"
-msgstr ""
+msgstr "Dùng tìm kiếm"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1476
 msgid "Show _Only This Calendar"
@@ -15349,14 +15354,11 @@ msgid "_Basic Headers (fastest)"
 msgstr "Dòng đầu cơ bản (nhanh nhất)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:271
-#, fuzzy
 #| msgid ""
 #| "_Basic Headers (Fastest) \n"
 #| "Use this if you do not have filters based on mailing lists"
 msgid "Use this if you are not filtering any mailing lists."
-msgstr ""
-"_Dòng đầu cơ bản - (Nhanh nhất)\n"
-"Dùng nếu bạn không lọc hộp thư chung"
+msgstr "Dùng nếu bạn không lọc hộp thư chung."
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:281
 msgid "Basic and _Mailing List Headers (default)"
@@ -17164,10 +17166,9 @@ msgid_plural "There are %d other contacts."
 msgstr[0] "Có %d liên lạc khác."
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:196
-#, fuzzy
 #| msgid "Address book source"
 msgid "Addressbook Contact"
-msgstr "Nguồn sổ địa chỉ"
+msgstr "Liên lạc sổ địa chỉ"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:202
 msgid "Display the part as an addressbook contact"
