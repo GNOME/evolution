@@ -1,3 +1,45 @@
+Evolution 3.5.91 2012-09-03
+---------------------------
+
+Bug Fixes:
+	Bug 586186 - Calendar print uses too small font (Conrad Steenberg)
+	Bug 678476 - Critical warnings on calendar factory console (Milan Crha)
+	Bug 679862 - Do not use ENameSelectorEntry in .ui files (Milan Crha)
+	Bug 680786 - [text-highlight] Correctly display binary patches
+	             (Dan Vrátil)
+	Bug 681431 - Expanded attachment bar hides headers (Dan Vrátil)
+	Bug 681669 - 'Select today' in work week view goes to wrong week
+	             (Milan Crha)
+	Bug 681877 - Postpone window changes saving for a second (Milan Crha)
+	Bug 682494 - Add some defensive checks in gal-a11y-e-text.c (Mike Gorse)
+	Bug 682519 - vcard-inline: Typo in translatable string (Matthew Barnes)
+	Bug 682678 - Entering the end date for a recurring event is very
+	             difficult (Milan Crha)
+	Bug 682811 - Can edit properties of local/vfolder stores
+	             (Matthew Barnes)
+	Bug 682955 - Support GStreamer 1.0 (Dominique Leuenberger)
+
+Other Changes:
+	* cal-config-webcal: Accept URIs with webcal:// scheme.
+	  (Matthew Barnes)
+	* Adjust for webkit 1.9.90 API change. (Dominique Leuenberger)
+	* Fix visibility of parts in prefer-plain (Dan Vrátil)
+	* Add support for application/ics to ITIP formatter (Dan Vrátil)
+	* Make sure evolution-alarm-notify is running on Evolution's start
+	  (Milan Crha)
+
+Translations:
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Andika Triwidada (id)
+	Aurimas Černius (lt)
+	Kjartan Maraas (nb)
+	Piotr Drąg (pl)
+	Yuri Myasoedov (ru)
+	Nguyễn Thái Ngọc Duy (vi)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 3.5.90 2012-08-20
 ---------------------------
 
