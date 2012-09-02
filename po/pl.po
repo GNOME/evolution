@@ -4,13 +4,22 @@
 # pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Zbigniew Chyla <chyla@alice.ci.pwr.wroc.pl>, 2000-2002.
+# Artur Flinta <aflinta@at.kernel.pl>, 2003-2005.
+# Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>, 2005.
+# Stanisław Małolepszy <smalolepszy@aviary.pl>, 2007.
+# Wadim Dziedzic <wdziedzic@aviary.pl>, 2007-2009.
+# Wojciech Kapusta <wkapusta@aviary.pl>, 2009.
+# Tomasz Dominikowski <dominikowski@gmail.com>, 2010.
+# Piotr Drąg <piotrdrag@gmail.com>, 2010-2012.
+# Aviary.pl <gnomepl@aviary.pl>, 2007-2012.
 #: ../shell/main.c:555
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-25 04:32+0200\n"
-"PO-Revision-Date: 2012-08-25 04:33+0200\n"
+"POT-Creation-Date: 2012-09-02 22:43+0200\n"
+"PO-Revision-Date: 2012-09-02 22:44+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -1553,7 +1562,7 @@ msgstr[2] "godzin"
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:134
-#: ../calendar/gui/dialogs/recurrence-page.c:1195
+#: ../calendar/gui/dialogs/recurrence-page.c:1199
 msgid "day"
 msgid_plural "days"
 msgstr[0] "dzień"
@@ -2722,19 +2731,19 @@ msgid "Attach"
 msgstr "Załącz"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2463
-#: ../calendar/gui/dialogs/comp-editor.c:2647
-#: ../calendar/gui/dialogs/comp-editor.c:3651
+#: ../calendar/gui/dialogs/comp-editor.c:2650
+#: ../calendar/gui/dialogs/comp-editor.c:3654
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Zmiany dokonane w tym elemencie mogą zostać porzucone, jeśli nadejdzie "
 "aktualizacja"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3615
+#: ../calendar/gui/dialogs/comp-editor.c:3618
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:118
 msgid "attachment"
 msgstr "załącznik"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3683
+#: ../calendar/gui/dialogs/comp-editor.c:3686
 msgid "Unable to use current version!"
 msgstr "Nie można użyć bieżącej wersji."
 
@@ -2893,7 +2902,7 @@ msgstr "_Wolny/zajęty"
 msgid "Query free / busy information for the attendees"
 msgstr "Sprawdź stan wolny/zajęty dla uczestników"
 
-#: ../calendar/gui/dialogs/event-editor.c:318 ../calendar/gui/print.c:3324
+#: ../calendar/gui/dialogs/event-editor.c:318 ../calendar/gui/print.c:3391
 msgid "Appointment"
 msgstr "Spotkanie"
 
@@ -3145,7 +3154,7 @@ msgstr "Wybór daty"
 msgid "Select _Today"
 msgstr "_Dzisiaj"
 
-#: ../calendar/gui/dialogs/memo-editor.c:109 ../calendar/gui/print.c:3328
+#: ../calendar/gui/dialogs/memo-editor.c:109 ../calendar/gui/print.c:3395
 msgid "Memo"
 msgstr "Notatka"
 
@@ -3266,7 +3275,7 @@ msgstr ""
 msgid "Recurrence date is invalid"
 msgstr "Okresowa data jest nieprawidłowa"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1009
+#: ../calendar/gui/dialogs/recurrence-page.c:1013
 msgid "End time of the recurrence was before event's start"
 msgstr ""
 "Czas zakończenia powtarzania jest wcześniejszy od czasu rozpoczęcia "
@@ -3274,7 +3283,7 @@ msgstr ""
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/dialogs/recurrence-page.c:1039
+#: ../calendar/gui/dialogs/recurrence-page.c:1043
 msgid "on"
 msgstr "w"
 
@@ -3282,7 +3291,7 @@ msgstr "w"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1102
+#: ../calendar/gui/dialogs/recurrence-page.c:1106
 msgid "first"
 msgstr "pierwszy"
 
@@ -3291,7 +3300,7 @@ msgstr "pierwszy"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1108
+#: ../calendar/gui/dialogs/recurrence-page.c:1112
 msgid "second"
 msgstr "drugi"
 
@@ -3299,7 +3308,7 @@ msgstr "drugi"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1113
+#: ../calendar/gui/dialogs/recurrence-page.c:1117
 msgid "third"
 msgstr "trzeci"
 
@@ -3307,7 +3316,7 @@ msgstr "trzeci"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1118
+#: ../calendar/gui/dialogs/recurrence-page.c:1122
 msgid "fourth"
 msgstr "czwarty"
 
@@ -3315,7 +3324,7 @@ msgstr "czwarty"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1123
+#: ../calendar/gui/dialogs/recurrence-page.c:1127
 msgid "fifth"
 msgstr "piąty"
 
@@ -3323,13 +3332,13 @@ msgstr "piąty"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1128
+#: ../calendar/gui/dialogs/recurrence-page.c:1132
 msgid "last"
 msgstr "ostatni"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/dialogs/recurrence-page.c:1152
+#: ../calendar/gui/dialogs/recurrence-page.c:1156
 msgid "Other Date"
 msgstr "Inna data"
 
@@ -3337,7 +3346,7 @@ msgstr "Inna data"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1158
+#: ../calendar/gui/dialogs/recurrence-page.c:1162
 msgid "1st to 10th"
 msgstr "1. do 10."
 
@@ -3345,7 +3354,7 @@ msgstr "1. do 10."
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1164
+#: ../calendar/gui/dialogs/recurrence-page.c:1168
 msgid "11th to 20th"
 msgstr "11. do 20."
 
@@ -3353,41 +3362,41 @@ msgstr "11. do 20."
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1170
+#: ../calendar/gui/dialogs/recurrence-page.c:1174
 msgid "21st to 31st"
 msgstr "21. do 31."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1196
+#: ../calendar/gui/dialogs/recurrence-page.c:1200
 #: ../modules/calendar/e-calendar-preferences.ui.h:1
 msgid "Monday"
 msgstr "Poniedziałek"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1197
+#: ../calendar/gui/dialogs/recurrence-page.c:1201
 #: ../modules/calendar/e-calendar-preferences.ui.h:2
 msgid "Tuesday"
 msgstr "wtorek"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1198
+#: ../calendar/gui/dialogs/recurrence-page.c:1202
 #: ../modules/calendar/e-calendar-preferences.ui.h:3
 msgid "Wednesday"
 msgstr "środa"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1199
+#: ../calendar/gui/dialogs/recurrence-page.c:1203
 #: ../modules/calendar/e-calendar-preferences.ui.h:4
 msgid "Thursday"
 msgstr "czwartek"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1200
+#: ../calendar/gui/dialogs/recurrence-page.c:1204
 #: ../modules/calendar/e-calendar-preferences.ui.h:5
 msgid "Friday"
 msgstr "Piątek"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1201
+#: ../calendar/gui/dialogs/recurrence-page.c:1205
 #: ../modules/calendar/e-calendar-preferences.ui.h:6
 msgid "Saturday"
 msgstr "sobota"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1202
+#: ../calendar/gui/dialogs/recurrence-page.c:1206
 #: ../modules/calendar/e-calendar-preferences.ui.h:7
 msgid "Sunday"
 msgstr "niedziela"
@@ -3395,31 +3404,31 @@ msgstr "niedziela"
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1326
+#: ../calendar/gui/dialogs/recurrence-page.c:1330
 msgid "on the"
 msgstr "w"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1505
+#: ../calendar/gui/dialogs/recurrence-page.c:1509
 msgid "occurrences"
 msgstr "wystąpień"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2221
+#: ../calendar/gui/dialogs/recurrence-page.c:2225
 msgid "Add exception"
 msgstr "Dodanie wyjątku"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2262
+#: ../calendar/gui/dialogs/recurrence-page.c:2266
 msgid "Could not get a selection to modify."
 msgstr "Nie można pobrać zaznaczenia do modyfikacji."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2268
+#: ../calendar/gui/dialogs/recurrence-page.c:2272
 msgid "Modify exception"
 msgstr "Modyfikacja wyjątku"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2312
+#: ../calendar/gui/dialogs/recurrence-page.c:2316
 msgid "Could not get a selection to delete."
 msgstr "Nie można pobrać zaznaczenia do usunięcia."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2451
+#: ../calendar/gui/dialogs/recurrence-page.c:2455
 msgid "Date/Time"
 msgstr "Data/czas"
 
@@ -3536,7 +3545,7 @@ msgstr "Nieokreślony"
 #: ../calendar/gui/e-cal-model-tasks.c:489
 #: ../calendar/gui/e-cal-model-tasks.c:774 ../calendar/gui/e-task-table.c:227
 #: ../calendar/gui/e-task-table.c:242 ../calendar/gui/e-task-table.c:656
-#: ../calendar/gui/print.c:3405 ../calendar/gui/tasktypes.xml.h:11
+#: ../calendar/gui/print.c:3472 ../calendar/gui/tasktypes.xml.h:11
 msgid "Not Started"
 msgstr "Nierozpoczęte"
 
@@ -3547,7 +3556,7 @@ msgstr "Nierozpoczęte"
 #: ../calendar/gui/e-cal-model-tasks.c:776
 #: ../calendar/gui/e-cal-model-tasks.c:854 ../calendar/gui/e-task-table.c:229
 #: ../calendar/gui/e-task-table.c:244 ../calendar/gui/e-task-table.c:657
-#: ../calendar/gui/print.c:3408
+#: ../calendar/gui/print.c:3475
 msgid "In Progress"
 msgstr "W trakcie"
 
@@ -3558,7 +3567,7 @@ msgstr "W trakcie"
 #: ../calendar/gui/e-cal-model-tasks.c:778
 #: ../calendar/gui/e-meeting-store.c:209 ../calendar/gui/e-meeting-store.c:232
 #: ../calendar/gui/e-task-table.c:231 ../calendar/gui/e-task-table.c:246
-#: ../calendar/gui/e-task-table.c:658 ../calendar/gui/print.c:3411
+#: ../calendar/gui/e-task-table.c:658 ../calendar/gui/print.c:3478
 #: ../calendar/gui/tasktypes.xml.h:13
 #: ../plugins/save-calendar/csv-format.c:376
 msgid "Completed"
@@ -3570,7 +3579,7 @@ msgstr "Ukończono"
 #: ../calendar/gui/e-cal-model-tasks.c:495
 #: ../calendar/gui/e-cal-model-tasks.c:780 ../calendar/gui/e-task-table.c:233
 #: ../calendar/gui/e-task-table.c:248 ../calendar/gui/e-task-table.c:659
-#: ../calendar/gui/print.c:3414 ../mail/mail-send-recv.c:879
+#: ../calendar/gui/print.c:3481 ../mail/mail-send-recv.c:879
 msgid "Canceled"
 msgstr "Anulowano"
 
@@ -3619,7 +3628,7 @@ msgstr "Kliknięcie zmienia lub wyświetla szczegóły stanu zadania"
 msgid "_Send Options"
 msgstr "Opcje _wysyłania"
 
-#: ../calendar/gui/dialogs/task-editor.c:186 ../calendar/gui/print.c:3326
+#: ../calendar/gui/dialogs/task-editor.c:186 ../calendar/gui/print.c:3393
 #: ../widgets/misc/e-send-options.c:553
 msgid "Task"
 msgstr "Zadanie"
@@ -3928,7 +3937,7 @@ msgstr "widok kalendarza dla miesiąca"
 msgid "calendar view for one or more weeks"
 msgstr "widok kalendarza dla jednego lub więcej tygodni"
 
-#: ../calendar/gui/e-cal-component-preview.c:237 ../filter/e-filter-rule.c:748
+#: ../calendar/gui/e-cal-component-preview.c:237 ../filter/e-filter-rule.c:751
 #: ../mail/e-mail-config-page.c:126
 msgid "Untitled"
 msgstr "Bez nazwy"
@@ -4070,7 +4079,7 @@ msgid "Organizer: %s"
 msgstr "Organizator: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2012 ../calendar/gui/print.c:3360
+#: ../calendar/gui/e-calendar-view.c:2012 ../calendar/gui/print.c:3427
 #, c-format
 msgid "Location: %s"
 msgstr "Miejsce: %s"
@@ -4093,8 +4102,8 @@ msgstr "Data ukończenia"
 #: ../calendar/gui/e-cal-model.c:842 ../calendar/gui/e-meeting-list-view.c:186
 #: ../calendar/gui/e-meeting-list-view.c:200
 #: ../calendar/gui/e-meeting-store.c:139 ../calendar/gui/e-meeting-store.c:174
-#: ../calendar/gui/e-meeting-store.c:237 ../calendar/gui/print.c:1159
-#: ../calendar/gui/print.c:1176 ../e-util/e-charset.c:52
+#: ../calendar/gui/e-meeting-store.c:237 ../calendar/gui/print.c:1222
+#: ../calendar/gui/print.c:1239 ../e-util/e-charset.c:52
 #: ../modules/itip-formatter/itip-view.c:3462
 #: ../modules/itip-formatter/itip-view.c:5962
 #: ../modules/plugin-manager/evolution-plugin-manager.c:101
@@ -4206,15 +4215,15 @@ msgstr ""
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:1027 ../calendar/gui/e-week-view.c:773
-#: ../calendar/gui/print.c:985 ../calendar/gui/print.c:1004
-#: ../calendar/gui/print.c:2495 ../calendar/gui/print.c:2515
+#: ../calendar/gui/print.c:1048 ../calendar/gui/print.c:1067
+#: ../calendar/gui/print.c:2564 ../calendar/gui/print.c:2584
 msgid "am"
 msgstr "AM"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:1030 ../calendar/gui/e-week-view.c:776
-#: ../calendar/gui/print.c:990 ../calendar/gui/print.c:1006
-#: ../calendar/gui/print.c:2500 ../calendar/gui/print.c:2517
+#: ../calendar/gui/print.c:1053 ../calendar/gui/print.c:1069
+#: ../calendar/gui/print.c:2569 ../calendar/gui/print.c:2586
 msgid "pm"
 msgstr "PM"
 
@@ -4225,7 +4234,7 @@ msgstr "PM"
 #. * order but don't change the specifiers or add
 #. * anything.
 #: ../calendar/gui/e-day-view.c:1836 ../calendar/gui/e-day-view-top-item.c:831
-#: ../calendar/gui/e-week-view-main-item.c:222 ../calendar/gui/print.c:1979
+#: ../calendar/gui/e-week-view-main-item.c:222 ../calendar/gui/print.c:2044
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
@@ -4283,49 +4292,49 @@ msgstr "Zasoby"
 
 #: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:114 ../calendar/gui/e-meeting-store.c:131
-#: ../calendar/gui/e-meeting-store.c:1069 ../calendar/gui/print.c:1155
+#: ../calendar/gui/e-meeting-store.c:1069 ../calendar/gui/print.c:1218
 msgid "Individual"
 msgstr "Osoba"
 
 #: ../calendar/gui/e-meeting-list-view.c:183
 #: ../calendar/gui/e-meeting-store.c:116 ../calendar/gui/e-meeting-store.c:133
-#: ../calendar/gui/print.c:1156 ../widgets/table/e-table-config.ui.h:8
+#: ../calendar/gui/print.c:1219 ../widgets/table/e-table-config.ui.h:8
 msgid "Group"
 msgstr "Grupa"
 
 #: ../calendar/gui/e-meeting-list-view.c:184
 #: ../calendar/gui/e-meeting-store.c:118 ../calendar/gui/e-meeting-store.c:135
-#: ../calendar/gui/print.c:1157
+#: ../calendar/gui/print.c:1220
 msgid "Resource"
 msgstr "Zasób"
 
 #: ../calendar/gui/e-meeting-list-view.c:185
 #: ../calendar/gui/e-meeting-store.c:120 ../calendar/gui/e-meeting-store.c:137
-#: ../calendar/gui/print.c:1158
+#: ../calendar/gui/print.c:1221
 msgid "Room"
 msgstr "Pokój"
 
 #: ../calendar/gui/e-meeting-list-view.c:196
 #: ../calendar/gui/e-meeting-store.c:149 ../calendar/gui/e-meeting-store.c:166
-#: ../calendar/gui/print.c:1172
+#: ../calendar/gui/print.c:1235
 msgid "Chair"
 msgstr "Prowadzący"
 
 #: ../calendar/gui/e-meeting-list-view.c:197
 #: ../calendar/gui/e-meeting-store.c:151 ../calendar/gui/e-meeting-store.c:168
-#: ../calendar/gui/e-meeting-store.c:1072 ../calendar/gui/print.c:1173
+#: ../calendar/gui/e-meeting-store.c:1072 ../calendar/gui/print.c:1236
 msgid "Required Participant"
 msgstr "Wymagany"
 
 #: ../calendar/gui/e-meeting-list-view.c:198
 #: ../calendar/gui/e-meeting-store.c:153 ../calendar/gui/e-meeting-store.c:170
-#: ../calendar/gui/print.c:1174
+#: ../calendar/gui/print.c:1237
 msgid "Optional Participant"
 msgstr "Opcjonalny"
 
 #: ../calendar/gui/e-meeting-list-view.c:199
 #: ../calendar/gui/e-meeting-store.c:155 ../calendar/gui/e-meeting-store.c:172
-#: ../calendar/gui/print.c:1175
+#: ../calendar/gui/print.c:1238
 msgid "Non-Participant"
 msgstr "Nieuczestniczący"
 
@@ -4508,7 +4517,7 @@ msgstr "Kliknięcie pozwoli dodać notatkę"
 msgid "%d%%"
 msgstr "%d%%"
 
-#: ../calendar/gui/e-task-table.c:705 ../calendar/gui/print.c:2284
+#: ../calendar/gui/e-task-table.c:705 ../calendar/gui/print.c:2353
 #: ../calendar/importers/icalendar-importer.c:84
 #: ../calendar/importers/icalendar-importer.c:1082
 #: ../modules/calendar/e-calendar-preferences.ui.h:61
@@ -4547,7 +4556,7 @@ msgstr "Strefa czasowa"
 #. strftime format %d = day of month, %B = full
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:239 ../calendar/gui/print.c:1960
+#: ../calendar/gui/e-week-view-main-item.c:239 ../calendar/gui/print.c:2025
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -4676,226 +4685,226 @@ msgstr "Nie można zarezerwować zasobu. Błąd: "
 msgid "You must be an attendee of the event."
 msgstr "Trzeba należeć do uczestników wydarzenia."
 
-#: ../calendar/gui/print.c:589
+#: ../calendar/gui/print.c:652
 msgid "1st"
 msgstr "1."
 
-#: ../calendar/gui/print.c:589
+#: ../calendar/gui/print.c:652
 msgid "2nd"
 msgstr "2."
 
-#: ../calendar/gui/print.c:589
+#: ../calendar/gui/print.c:652
 msgid "3rd"
 msgstr "3."
 
-#: ../calendar/gui/print.c:589
+#: ../calendar/gui/print.c:652
 msgid "4th"
 msgstr "4."
 
-#: ../calendar/gui/print.c:589
+#: ../calendar/gui/print.c:652
 msgid "5th"
 msgstr "5."
 
-#: ../calendar/gui/print.c:590
+#: ../calendar/gui/print.c:653
 msgid "6th"
 msgstr "6."
 
-#: ../calendar/gui/print.c:590
+#: ../calendar/gui/print.c:653
 msgid "7th"
 msgstr "7."
 
-#: ../calendar/gui/print.c:590
+#: ../calendar/gui/print.c:653
 msgid "8th"
 msgstr "8."
 
-#: ../calendar/gui/print.c:590
+#: ../calendar/gui/print.c:653
 msgid "9th"
 msgstr "9."
 
-#: ../calendar/gui/print.c:590
+#: ../calendar/gui/print.c:653
 msgid "10th"
 msgstr "10."
 
-#: ../calendar/gui/print.c:591
+#: ../calendar/gui/print.c:654
 msgid "11th"
 msgstr "11."
 
-#: ../calendar/gui/print.c:591
+#: ../calendar/gui/print.c:654
 msgid "12th"
 msgstr "12."
 
-#: ../calendar/gui/print.c:591
+#: ../calendar/gui/print.c:654
 msgid "13th"
 msgstr "13."
 
-#: ../calendar/gui/print.c:591
+#: ../calendar/gui/print.c:654
 msgid "14th"
 msgstr "14."
 
-#: ../calendar/gui/print.c:591
+#: ../calendar/gui/print.c:654
 msgid "15th"
 msgstr "15."
 
-#: ../calendar/gui/print.c:592
+#: ../calendar/gui/print.c:655
 msgid "16th"
 msgstr "16."
 
-#: ../calendar/gui/print.c:592
+#: ../calendar/gui/print.c:655
 msgid "17th"
 msgstr "17."
 
-#: ../calendar/gui/print.c:592
+#: ../calendar/gui/print.c:655
 msgid "18th"
 msgstr "18."
 
-#: ../calendar/gui/print.c:592
+#: ../calendar/gui/print.c:655
 msgid "19th"
 msgstr "19."
 
-#: ../calendar/gui/print.c:592
+#: ../calendar/gui/print.c:655
 msgid "20th"
 msgstr "20."
 
-#: ../calendar/gui/print.c:593
+#: ../calendar/gui/print.c:656
 msgid "21st"
 msgstr "21."
 
-#: ../calendar/gui/print.c:593
+#: ../calendar/gui/print.c:656
 msgid "22nd"
 msgstr "22."
 
-#: ../calendar/gui/print.c:593
+#: ../calendar/gui/print.c:656
 msgid "23rd"
 msgstr "23."
 
-#: ../calendar/gui/print.c:593
+#: ../calendar/gui/print.c:656
 msgid "24th"
 msgstr "24."
 
-#: ../calendar/gui/print.c:593
+#: ../calendar/gui/print.c:656
 msgid "25th"
 msgstr "25."
 
-#: ../calendar/gui/print.c:594
+#: ../calendar/gui/print.c:657
 msgid "26th"
 msgstr "26."
 
-#: ../calendar/gui/print.c:594
+#: ../calendar/gui/print.c:657
 msgid "27th"
 msgstr "27."
 
-#: ../calendar/gui/print.c:594
+#: ../calendar/gui/print.c:657
 msgid "28th"
 msgstr "28."
 
-#: ../calendar/gui/print.c:594
+#: ../calendar/gui/print.c:657
 msgid "29th"
 msgstr "29."
 
-#: ../calendar/gui/print.c:594
+#: ../calendar/gui/print.c:657
 msgid "30th"
 msgstr "30."
 
-#: ../calendar/gui/print.c:595
+#: ../calendar/gui/print.c:658
 msgid "31st"
 msgstr "31."
 
 #. Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday
-#: ../calendar/gui/print.c:652
+#: ../calendar/gui/print.c:715
 msgid "Su"
 msgstr "ni"
 
-#: ../calendar/gui/print.c:652
+#: ../calendar/gui/print.c:715
 msgid "Mo"
 msgstr "po"
 
-#: ../calendar/gui/print.c:652
+#: ../calendar/gui/print.c:715
 msgid "Tu"
 msgstr "wt"
 
-#: ../calendar/gui/print.c:652
+#: ../calendar/gui/print.c:715
 msgid "We"
 msgstr "śr"
 
-#: ../calendar/gui/print.c:653
+#: ../calendar/gui/print.c:716
 msgid "Th"
 msgstr "cz"
 
-#: ../calendar/gui/print.c:653
+#: ../calendar/gui/print.c:716
 msgid "Fr"
 msgstr "pt"
 
-#: ../calendar/gui/print.c:653
+#: ../calendar/gui/print.c:716
 msgid "Sa"
 msgstr "so"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../calendar/gui/print.c:3153
+#: ../calendar/gui/print.c:3220
 msgid " to "
 msgstr " do "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../calendar/gui/print.c:3163
+#: ../calendar/gui/print.c:3230
 msgid " (Completed "
 msgstr " (Ukończono "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../calendar/gui/print.c:3169
+#: ../calendar/gui/print.c:3236
 msgid "Completed "
 msgstr "Ukończono "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../calendar/gui/print.c:3179
+#: ../calendar/gui/print.c:3246
 msgid " (Due "
 msgstr " (Termin "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../calendar/gui/print.c:3186
+#: ../calendar/gui/print.c:3253
 msgid "Due "
 msgstr "Termin "
 
-#: ../calendar/gui/print.c:3351
+#: ../calendar/gui/print.c:3418
 #, c-format
 msgid "Summary: %s"
 msgstr "Podsumowanie: %s"
 
-#: ../calendar/gui/print.c:3378
+#: ../calendar/gui/print.c:3445
 msgid "Attendees: "
 msgstr "Uczestnicy: "
 
-#: ../calendar/gui/print.c:3421
+#: ../calendar/gui/print.c:3488
 #, c-format
 msgid "Status: %s"
 msgstr "Stan: %s"
 
-#: ../calendar/gui/print.c:3436
+#: ../calendar/gui/print.c:3503
 #, c-format
 msgid "Priority: %s"
 msgstr "Priorytet: %s"
 
-#: ../calendar/gui/print.c:3454
+#: ../calendar/gui/print.c:3521
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Procent ukończenia: %i"
 
-#: ../calendar/gui/print.c:3465
+#: ../calendar/gui/print.c:3532
 #, c-format
 msgid "URL: %s"
 msgstr "Adres URL: %s"
 
-#: ../calendar/gui/print.c:3478
+#: ../calendar/gui/print.c:3545
 #, c-format
 msgid "Categories: %s"
 msgstr "Kategorie: %s"
 
-#: ../calendar/gui/print.c:3489
+#: ../calendar/gui/print.c:3556
 msgid "Contacts: "
 msgstr "Kontakty: "
 
@@ -6708,7 +6717,7 @@ msgstr "Zapisz jako s_zkic"
 msgid "Save as draft"
 msgstr "Zapisz jako szkic"
 
-#: ../composer/e-composer-actions.c:370 ../composer/e-composer-private.c:325
+#: ../composer/e-composer-actions.c:370 ../composer/e-composer-private.c:327
 msgid "S_end"
 msgstr "_Wyślij"
 
@@ -6857,7 +6866,7 @@ msgstr "Kliknięcie otworzy książkę adresową"
 msgid "Click here to select folders to post to"
 msgstr "Kliknięcie wybierze katalogi docelowe wysyłki"
 
-#: ../composer/e-composer-private.c:345
+#: ../composer/e-composer-private.c:347
 msgid "Save draft"
 msgstr "Zapisz szkic"
 
@@ -6882,13 +6891,13 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Tworzenie wiadomości"
 
-#: ../composer/e-msg-composer.c:4198
+#: ../composer/e-msg-composer.c:4199
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Edytor wiadomości zawiera treść niebędącą tekstem, która nie może podlegać "
 "modyfikacjom."
 
-#: ../composer/e-msg-composer.c:4875
+#: ../composer/e-msg-composer.c:4876
 msgid "Untitled Message"
 msgstr "Wiadomość bez tytułu"
 
@@ -10125,11 +10134,11 @@ msgstr "Zaktualizowanie źródła danych \"{0}\" się nie powiodło."
 msgid "Failed to delete resource &quot;{0}&quot;."
 msgstr "Usunięcie zasobu \"{0}\" się nie powiodło."
 
-#: ../e-util/e-util.c:243
+#: ../e-util/e-util.c:249
 msgid "Could not open the link."
 msgstr "Nie można otworzyć tego odnośnika."
 
-#: ../e-util/e-util.c:290
+#: ../e-util/e-util.c:296
 msgid "Could not display help for Evolution."
 msgstr "Nie można wyświetlić pomocy programu Evolution."
 
@@ -10261,7 +10270,7 @@ msgstr "teraz"
 msgid "%d-%b-%Y"
 msgstr "%d %b %Y"
 
-#: ../filter/e-filter-datespec.c:289
+#: ../filter/e-filter-datespec.c:291
 msgid "Select a time to compare against"
 msgstr "Proszę wybrać czas do porównywania"
 
@@ -10269,23 +10278,23 @@ msgstr "Proszę wybrać czas do porównywania"
 msgid "Choose a File"
 msgstr "Wybór pliku"
 
-#: ../filter/e-filter-rule.c:741
+#: ../filter/e-filter-rule.c:744
 msgid "R_ule name:"
 msgstr "Nazwa _reguły:"
 
-#: ../filter/e-filter-rule.c:791
+#: ../filter/e-filter-rule.c:794
 msgid "all the following conditions"
 msgstr "wszystkich poniższych kryteriów"
 
-#: ../filter/e-filter-rule.c:792
+#: ../filter/e-filter-rule.c:795
 msgid "any of the following conditions"
 msgstr "dowolnych z poniższych kryteriów"
 
-#: ../filter/e-filter-rule.c:798
+#: ../filter/e-filter-rule.c:801
 msgid "_Find items which match:"
 msgstr "Wys_zukanie elementów pasujących do:"
 
-#: ../filter/e-filter-rule.c:820
+#: ../filter/e-filter-rule.c:824
 msgid "Find items that meet the following conditions"
 msgstr "Wyszukuje obiekty spełniające poniższe kryteria"
 
@@ -10293,51 +10302,51 @@ msgstr "Wyszukuje obiekty spełniające poniższe kryteria"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../filter/e-filter-rule.c:835 ../libemail-engine/camel-null-store.c:28
+#: ../filter/e-filter-rule.c:839 ../libemail-engine/camel-null-store.c:28
 #: ../mail/e-mail-config-summary-page.c:139
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:616
 #: ../widgets/misc/e-mail-signature-combo-box.c:369
 msgid "None"
 msgstr "Brak"
 
-#: ../filter/e-filter-rule.c:836
+#: ../filter/e-filter-rule.c:840
 msgid "All related"
 msgstr "Wszystkie powiązane"
 
-#: ../filter/e-filter-rule.c:837 ../widgets/misc/e-send-options.ui.h:19
+#: ../filter/e-filter-rule.c:841 ../widgets/misc/e-send-options.ui.h:19
 msgid "Replies"
 msgstr "Odpowiedzi"
 
-#: ../filter/e-filter-rule.c:838
+#: ../filter/e-filter-rule.c:842
 msgid "Replies and parents"
 msgstr "Odpowiedzi i nadrzędne"
 
-#: ../filter/e-filter-rule.c:839
+#: ../filter/e-filter-rule.c:843
 msgid "No reply or parent"
 msgstr "Bez odpowiedzi lub obiektu nadrzędnego"
 
-#: ../filter/e-filter-rule.c:842
+#: ../filter/e-filter-rule.c:846
 msgid "I_nclude threads:"
 msgstr "Dołączenie _wątków:"
 
-#: ../filter/e-filter-rule.c:919
+#: ../filter/e-filter-rule.c:923
 msgid "A_dd Condition"
 msgstr "_Dodaj kryterium"
 
-#: ../filter/e-filter-rule.c:1236 ../filter/filter.ui.h:1
+#: ../filter/e-filter-rule.c:1240 ../filter/filter.ui.h:1
 #: ../mail/em-utils.c:302
 msgid "Incoming"
 msgstr "Przychodzące"
 
-#: ../filter/e-filter-rule.c:1236 ../mail/em-utils.c:303
+#: ../filter/e-filter-rule.c:1240 ../mail/em-utils.c:303
 msgid "Outgoing"
 msgstr "Wychodzące"
 
-#: ../filter/e-rule-editor.c:273
+#: ../filter/e-rule-editor.c:288
 msgid "Add Rule"
 msgstr "Dodawanie reguły"
 
-#: ../filter/e-rule-editor.c:366
+#: ../filter/e-rule-editor.c:395
 msgid "Edit Rule"
 msgstr "Modyfikacja reguły"
 
@@ -10632,7 +10641,7 @@ msgstr "Ponowne łączenie z \"%s\""
 msgid "Preparing account '%s' for offline"
 msgstr "Przygotowywanie konta \"%s\" do trybu offline"
 
-#: ../libemail-engine/mail-folder-cache.c:885
+#: ../libemail-engine/mail-folder-cache.c:876
 #, c-format
 msgid "Pinging %s"
 msgstr "Odpytywanie %s"
@@ -10753,15 +10762,15 @@ msgstr[2] ""
 "%s zostały zmodyfikowane na koncie z powodu usuniętego katalogu\n"
 "\"%s\"."
 
-#: ../mail/e-mail-account-manager.c:446
+#: ../mail/e-mail-account-manager.c:460
 msgid "_Restore Default"
 msgstr "_Przywróć domyślne"
 
-#: ../mail/e-mail-account-manager.c:459
+#: ../mail/e-mail-account-manager.c:473
 msgid "You can drag and drop account names to reorder them."
 msgstr "Można przeciągać i upuszczać nazwy kont, aby zmienić ich kolejność."
 
-#: ../mail/e-mail-account-manager.c:504
+#: ../mail/e-mail-account-manager.c:518
 msgid "De_fault"
 msgstr "D_omyślne"
 
@@ -10811,7 +10820,7 @@ msgstr "Nie podano adresu e-mail"
 msgid "Missing domain in email address"
 msgstr "Brak domeny w adresie e-mail"
 
-#: ../mail/e-mail-backend.c:734
+#: ../mail/e-mail-backend.c:744
 msgid "Unknown background operation"
 msgstr "Nieznane działanie w tle"
 
@@ -15338,7 +15347,7 @@ msgstr "Kal_endarz"
 msgid "Create a new calendar"
 msgstr "Tworzy nowy kalendarz"
 
-#: ../modules/calendar/e-cal-shell-backend.c:597
+#: ../modules/calendar/e-cal-shell-backend.c:627
 msgid "Calendar and Tasks"
 msgstr "Kalendarz i zadania"
 
@@ -16148,11 +16157,11 @@ msgstr ""
 "Proszę określić dodatkowe nagłówki do pobrania, jako dodatek do wcześniej "
 "określonego zestawu nagłówków wybranego powyżej."
 
-#: ../modules/itip-formatter/e-mail-formatter-itip.c:137
+#: ../modules/itip-formatter/e-mail-formatter-itip.c:139
 msgid "ITIP"
 msgstr "ITIP"
 
-#: ../modules/itip-formatter/e-mail-formatter-itip.c:143
+#: ../modules/itip-formatter/e-mail-formatter-itip.c:145
 msgid "Display part as an invitation"
 msgstr "Wyświetlanie części jako zaproszenie"
 
@@ -19117,7 +19126,16 @@ msgstr "Zapisywanie stanu interfejsu użytkownika"
 #. * about dialog.
 #: ../shell/e-shell-window-actions.c:642
 msgid "translator-credits"
-msgstr "Aviary.pl <gnomepl@aviary.pl>, 2006, 2007, 2008, 2009, 2010, 2011, 2012"
+msgstr ""
+"Zbigniew Chyla <chyla@alice.ci.pwr.wroc.pl>, 2000-2002\n"
+"Artur Flinta <aflinta@at.kernel.pl>, 2003-2005\n"
+"Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>, 2005\n"
+"Stanisław Małolepszy <smalolepszy@aviary.pl>, 2007\n"
+"Wadim Dziedzic <wdziedzic@aviary.pl>, 2007-2009\n"
+"Wojciech Kapusta <wkapusta@aviary.pl>, 2009\n"
+"Tomasz Dominikowski <dominikowski@gmail.com>, 2010\n"
+"Piotr Drąg <piotrdrag@gmail.com>, 2010-2012\n"
+"Aviary.pl <gnomepl@aviary.pl>, 2007-2012"
 
 #: ../shell/e-shell-window-actions.c:653
 msgid "Evolution Website"
@@ -21011,30 +21029,30 @@ msgstr "Powiadomienie zwrotne"
 msgid "Sta_tus Tracking"
 msgstr "Śledzenie s_tanu"
 
-#: ../widgets/misc/e-source-config.c:675 ../widgets/misc/e-source-config.c:679
+#: ../widgets/misc/e-source-config.c:679 ../widgets/misc/e-source-config.c:683
 msgid "Type:"
 msgstr "Typ:"
 
-#: ../widgets/misc/e-source-config.c:687 ../widgets/misc/e-source-config.c:691
+#: ../widgets/misc/e-source-config.c:691 ../widgets/misc/e-source-config.c:695
 msgid "Name:"
 msgstr "Nazwa:"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../widgets/misc/e-source-config.c:1289
+#: ../widgets/misc/e-source-config.c:1293
 msgid "Refresh every"
 msgstr "Odświeżanie co"
 
-#: ../widgets/misc/e-source-config.c:1319
-#: ../widgets/misc/e-source-config.c:1347
+#: ../widgets/misc/e-source-config.c:1323
+#: ../widgets/misc/e-source-config.c:1351
 msgid "Use a secure connection"
 msgstr "Użycie bezpiecznego połączenia"
 
-#: ../widgets/misc/e-source-config.c:1361
+#: ../widgets/misc/e-source-config.c:1365
 msgid "Ignore invalid SSL certificate"
 msgstr "Ignorowanie nieprawidłowych certyfikatów SSL"
 
-#: ../widgets/misc/e-source-config.c:1398
+#: ../widgets/misc/e-source-config.c:1402
 msgid "User"
 msgstr "Użytkownik"
 
