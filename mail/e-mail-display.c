@@ -625,17 +625,16 @@ find_element_by_id (WebKitDOMDocument *document,
 }
 
 static void
-mail_display_plugin_widget_resize (GObject *object,
+mail_display_plugin_widget_resize (GtkWidget *widget,
                                    gpointer dummy,
                                    EMailDisplay *display)
 {
-	GtkWidget *widget;
 	WebKitDOMElement *parent_element;
 	gchar *dim;
 	gint height, width;
+	gfloat scale;
 
-	widget = GTK_WIDGET (object);
-	parent_element = g_object_get_data (object, "parent_element");
+	parent_element = g_object_get_data (G_OBJECT (widget), "parent_element");
 
 	if (!parent_element || !WEBKIT_DOM_IS_ELEMENT (parent_element)) {
 		d (
@@ -644,8 +643,17 @@ mail_display_plugin_widget_resize (GObject *object,
 		return;
 	}
 
+	scale = webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (display));
 	width = gtk_widget_get_allocated_width (widget);
 	gtk_widget_get_preferred_height_for_width (widget, width, &height, NULL);
+
+	/* When zooming WebKit does not change dimensions of the elements, but
+	 * only scales them on the canvas. GtkWidget can't be scaled though
+	 * so we need to cope with the dimensions changes to keep the widgets
+	 * still the correct size. Due to inaccuracy in rounding (float -> int)
+	 * it still acts a bit funny, but at least it does not cause widgets in
+	 * WebKit to go crazy when zooming. */
+	height = height * (1 / scale);
 
         /* Int -> Str */
 	dim = g_strdup_printf ("%d", height);
@@ -688,7 +696,7 @@ mail_display_plugin_widget_realize_cb (GtkWidget *widget,
 
         /* Initial resize of the <object> element when the widget
          * is displayed for the first time. */
-	mail_display_plugin_widget_resize (G_OBJECT (widget), NULL, user_data);
+	mail_display_plugin_widget_resize (widget, NULL, user_data);
 }
 
 static void
