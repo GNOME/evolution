@@ -1288,11 +1288,11 @@ em_folder_tree_model_get_folder_name (EMFolderTreeModel *model,
 
 	si = em_folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL)
-		return NULL;
+		return g_strdup (full);
 
 	reference = g_hash_table_lookup (si->full_hash, full);
 	if (!gtk_tree_row_reference_valid (reference))
-		return NULL;
+		return g_strdup (full);
 
 	path = gtk_tree_row_reference_get_path (reference);
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
