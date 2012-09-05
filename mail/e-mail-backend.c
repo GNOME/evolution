@@ -1039,11 +1039,6 @@ mail_backend_constructed (GObject *object)
 		priv->session, "flush-outbox",
 		G_CALLBACK (mail_send), priv->session);
 
-	g_object_bind_property (
-		shell, "online",
-		priv->session, "online",
-		G_BINDING_SYNC_CREATE);
-
 	/* Propagate "activity-added" signals from
 	 * the mail session to the shell backend. */
 	g_signal_connect_swapped (

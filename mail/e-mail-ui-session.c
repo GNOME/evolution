@@ -540,8 +540,16 @@ mail_ui_session_constructed (GObject *object)
 	EMFolderTreeModel *folder_tree_model;
 	ESourceRegistry *registry;
 	EMailSession *session;
+	EShell *shell;
 
 	session = E_MAIL_SESSION (object);
+	shell = e_shell_get_default ();
+
+	/* synchronize online state first, before any CamelService is created */
+	g_object_bind_property (
+		shell, "online",
+		session, "online",
+		G_BINDING_SYNC_CREATE);
 
 	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
 	priv->account_store = e_mail_account_store_new (session);
