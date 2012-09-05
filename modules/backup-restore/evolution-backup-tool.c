@@ -578,6 +578,8 @@ restore (const gchar *filename,
 				EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE,
 				EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
 			run_cmd ("gconftool-2 --load " EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE);
+			/* do not forget to convert GConf keys into GSettings */
+			run_cmd ("gsettings-data-convert");
 			run_cmd ("rm " EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE);
 		} else {
 			replace_in_file (
@@ -610,6 +612,9 @@ restore (const gchar *filename,
 			"gconftool-2 --load ", gconf_dump_file, NULL);
 		run_cmd (command);
 		g_free (command);
+
+		/* do not forget to convert GConf keys into GSettings */
+		run_cmd ("gsettings-data-convert");
 
 		command = g_strconcat ("rm ", gconf_dump_file, NULL);
 		run_cmd (command);
