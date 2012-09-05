@@ -575,8 +575,8 @@ build_message_headers (EMsgComposer *composer,
 			camel_mime_message_set_from (message, addr);
 		g_object_unref (addr);
 
-		/* X-Evolution-Account */
-		header_name = "X-Evolution-Account";
+		/* X-Evolution-Identity */
+		header_name = "X-Evolution-Identity";
 		camel_medium_set_header (medium, header_name, uid);
 
 		/* X-Evolution-Fcc */
@@ -3108,6 +3108,11 @@ e_msg_composer_new_with_message (EShell *shell,
 	/* Restore the mail identity preference. */
 	identity_uid = (gchar *) camel_medium_get_header (
 		CAMEL_MEDIUM (message), "X-Evolution-Identity");
+	if (!identity_uid) {
+		/* for backward compatibility */
+		identity_uid = (gchar *) camel_medium_get_header (
+			CAMEL_MEDIUM (message), "X-Evolution-Account");
+	}
 	if (identity_uid != NULL) {
 		identity_uid = g_strstrip (g_strdup (identity_uid));
 		source = e_source_registry_ref_source (registry, identity_uid);

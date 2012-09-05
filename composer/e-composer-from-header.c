@@ -107,7 +107,44 @@ e_composer_from_header_set_active_id (EComposerFromHeader *header,
 
 	g_return_if_fail (E_IS_COMPOSER_FROM_HEADER (header));
 
+	if (!active_id)
+		return;
+
 	combo_box = GTK_COMBO_BOX (E_COMPOSER_HEADER (header)->input_widget);
 
-	gtk_combo_box_set_active_id (combo_box, active_id);
+	if (!gtk_combo_box_set_active_id (combo_box, active_id) && active_id && *active_id) {
+		ESourceRegistry *registry;
+		GtkTreeModel *model;
+		GtkTreeIter iter;
+		gint id_column;
+
+		registry = e_composer_header_get_registry (E_COMPOSER_HEADER (header));
+		id_column = gtk_combo_box_get_id_column (combo_box);
+		model = gtk_combo_box_get_model (combo_box);
+
+		if (gtk_tree_model_get_iter_first (model, &iter)) {
+			do {
+				gchar *identity_uid = NULL;
+
+				gtk_tree_model_get (model, &iter, id_column, &identity_uid, -1);
+
+				if (identity_uid) {
+					ESource *source;
+
+					source = e_source_registry_ref_source (registry, identity_uid);
+					if (source) {
+						if (g_strcmp0 (e_source_get_parent (source), active_id) == 0) {
+							g_object_unref (source);
+							gtk_combo_box_set_active_id (combo_box, identity_uid);
+							g_free (identity_uid);
+							break;
+						}
+						g_object_unref (source);
+					}
+
+					g_free (identity_uid);
+				}
+			} while (gtk_tree_model_iter_next (model, &iter));
+		}
+	}
 }
