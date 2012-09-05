@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-08-22 11:29+0000\n"
-"PO-Revision-Date: 2012-08-24 14:42+0400\n"
+"PO-Revision-Date: 2012-08-24 20:21+0400\n"
 "Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
 "Language-Team: русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -14944,7 +14944,7 @@ msgstr "Стандартный порт LDAP"
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:448
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:619
 msgid "LDAP over SSL (deprecated)"
-msgstr ""
+msgstr "LDAP через SSL (устарело)"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:454
 msgid "Microsoft Global Catalog"
@@ -15090,16 +15090,15 @@ msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "_Избегать IfMatch (требуется для сервера Apache версии < 2.2.8)"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:417
-#, fuzzy, c-format
+#, c-format
 #| msgid "GConf error: %s"
 msgid "HTTP Error: %s"
-msgstr "Ошибка GConf: %s"
+msgstr "Ошибка HTTP: %s"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:447
-#, fuzzy
 #| msgid "Could not parse PGP message: "
 msgid "Could not parse response"
-msgstr "Не удалось разобрать сообщение PGP:"
+msgstr "Не удалось разобрать ответ"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:456
 #, fuzzy
@@ -15108,10 +15107,9 @@ msgid "Empty response"
 msgstr "О_чистить корзину"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:464
-#, fuzzy
 #| msgid "Send _reply to sender"
 msgid "Unexpected reply from server"
-msgstr "Ответить отп_равителю"
+msgstr "Неожиданный ответ от сервера"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1051
 #, fuzzy
@@ -15120,10 +15118,9 @@ msgid "Could not locate user's calendars"
 msgstr "Не удалось найти ни одного календаря."
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1275
-#, fuzzy
 #| msgid "_Path:"
 msgid "Path"
-msgstr "_Путь:"
+msgstr "Путь"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:264
 #: ../modules/cal-config-google/e-google-chooser-dialog.c:200
@@ -15163,16 +15160,14 @@ msgid "Find Task Lists"
 msgstr "Список задач"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:293
-#, fuzzy
 #| msgid "_Path:"
 msgid "Path:"
-msgstr "_Путь:"
+msgstr "Путь:"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:299
-#, fuzzy
 #| msgid "Email"
 msgid "Email:"
-msgstr "Эл. почта"
+msgstr "Эл. почта:"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:304
 #, fuzzy
@@ -15181,10 +15176,9 @@ msgid "Server handles meeting invitations"
 msgstr "Сервер о_брабатывает приглашения на встречи"
 
 #: ../modules/cal-config-contacts/evolution-cal-config-contacts.c:73
-#, fuzzy
 #| msgid "Add local address books to Evolution."
 msgid "Choose which address books to use."
-msgstr "Добавляет локальные адресные книги в Evolution."
+msgstr "Выберите используемую адресную книгу."
 
 #: ../modules/cal-config-contacts/evolution-cal-config-contacts.c:203
 #, fuzzy
@@ -15213,28 +15207,25 @@ msgid "Use an existing iCalendar (ics) file"
 msgstr ""
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:186
-#, fuzzy
 #| msgid "iCalendar (.ics)"
 msgid "iCalendar File"
-msgstr "iCalendar (.ics)"
+msgstr "Файл iCalendar"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:198
-#, fuzzy
 #| msgid "Choose calendar file"
 msgid "Choose an iCalendar file"
-msgstr "Выберите файл календаря"
+msgstr "Выберите файл iCalendar"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:201
-#, fuzzy
 #| msgid "_File:"
 msgid "File:"
-msgstr "_Файл:"
+msgstr "Файл:"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:216
 #, fuzzy
 #| msgid "Invalid Evolution backup file"
 msgid "Allow Evolution to update the file"
-msgstr "Некорректный файл резервной копии Evolution"
+msgstr "Разрешить Evolution обновлять файл"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:323
 #: ../smime/gui/smime-ui.ui.h:32
@@ -15543,10 +15534,10 @@ msgid "Calendar Selector"
 msgstr "Выбор календаря"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:1090
-#, fuzzy, c-format
+#, c-format
 #| msgid "Opening calendar at %s"
 msgid "Opening calendar '%s'"
-msgstr "Открывается календарь %s"
+msgstr "Открывается календарь «%s»"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:292
 msgid "Calendar Properties"
@@ -16030,10 +16021,10 @@ msgid "Memo List Selector"
 msgstr "Выбор списка заметок"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:975
-#, fuzzy, c-format
+#, c-format
 #| msgid "Opening memos at %s"
 msgid "Opening memo list '%s'"
-msgstr "Открываются заметки в %s"
+msgstr "Открывается список заметок «%s»"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:233
 #: ../modules/calendar/e-memo-shell-view-actions.c:248
@@ -16166,10 +16157,10 @@ msgid "Task List Selector"
 msgstr "Выбор списка задач"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:975
-#, fuzzy, c-format
+#, c-format
 #| msgid "Opening tasks at %s"
 msgid "Opening task list '%s'"
-msgstr "Открытие задач %s"
+msgstr "Открывается список задач «%s»"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:256
 #: ../modules/calendar/e-task-shell-view-actions.c:271
@@ -16358,7 +16349,7 @@ msgstr ""
 
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:137
 msgid "ITIP"
-msgstr ""
+msgstr "ITIP"
 
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:143
 msgid "Display part as an invitation"
@@ -16796,10 +16787,9 @@ msgstr "Комментарий:"
 
 #. RSVP area
 #: ../modules/itip-formatter/itip-view.c:1500
-#, fuzzy
 #| msgid "Send _reply to sender"
 msgid "Send reply to sender"
-msgstr "Ответить отп_равителю"
+msgstr "Отправить ответ отправителю"
 
 #. Updates
 #: ../modules/itip-formatter/itip-view.c:1515
@@ -17202,10 +17192,9 @@ msgid "T_ype:"
 msgstr "_Тип:"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:247
-#, fuzzy
 #| msgid "IMAP Features"
 msgid "Yahoo! Features"
-msgstr "Возможности IMAP"
+msgstr "Возможности Yahoo!"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:256
 #, fuzzy
@@ -17980,16 +17969,14 @@ msgid "Loading accounts..."
 msgstr "Загрузка учётных записей…"
 
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:95
-#, fuzzy
 #| msgid "Format Column_s..."
 msgid "_Format as..."
-msgstr "Формат столбцо_в…"
+msgstr "_Форматировать как…"
 
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:103
-#, fuzzy
 #| msgid "_Languages"
 msgid "_Other languages"
-msgstr "_Языки"
+msgstr "_Другие языки"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:329
 msgid "Text Highlight"
@@ -18000,112 +17987,106 @@ msgid "Syntax highlighting of mail parts"
 msgstr ""
 
 #: ../modules/text-highlight/languages.c:32
-#, fuzzy
 #| msgid "Plain Text Mode"
 msgid "_Plain text"
-msgstr "Режим обычного текста"
+msgstr "_Обычный текст"
 
 #: ../modules/text-highlight/languages.c:38
 msgid "_Assembler"
-msgstr ""
+msgstr "_Assembler"
 
 #: ../modules/text-highlight/languages.c:43
 msgid "_Bash"
-msgstr ""
+msgstr "_Bash"
 
 #: ../modules/text-highlight/languages.c:54
 msgid "_C/C++"
-msgstr ""
+msgstr "_C/C++"
 
 #: ../modules/text-highlight/languages.c:63
 msgid "_C#"
-msgstr ""
+msgstr "_C#"
 
 #: ../modules/text-highlight/languages.c:68
 msgid "_Cascade Style Sheet"
-msgstr ""
+msgstr "_Каскадная таблица стилей"
 
 #: ../modules/text-highlight/languages.c:73
 msgid "_HTML"
-msgstr ""
+msgstr "_HTML"
 
 #: ../modules/text-highlight/languages.c:81
 msgid "_Java"
-msgstr ""
+msgstr "_Java"
 
 #: ../modules/text-highlight/languages.c:87
-#, fuzzy
 #| msgid "_Script:"
 msgid "_JavaScript"
-msgstr "_Скрипт:"
+msgstr "_JavaScript"
 
 #: ../modules/text-highlight/languages.c:93
 msgid "_Patch/diff"
-msgstr ""
+msgstr "_Patch/diff"
 
 #: ../modules/text-highlight/languages.c:99
-#, fuzzy
 #| msgid "_Personal"
 msgid "_Perl"
-msgstr "_Личное"
+msgstr "_Perl"
 
 #: ../modules/text-highlight/languages.c:110
 msgid "_PHP"
-msgstr ""
+msgstr "_PHP"
 
 #: ../modules/text-highlight/languages.c:123
-#, fuzzy
 #| msgid "Hello Python"
 msgid "_Python"
-msgstr "Hello Python"
+msgstr "_Python"
 
 #: ../modules/text-highlight/languages.c:128
 msgid "_Ruby"
-msgstr ""
+msgstr "_Ruby"
 
 #: ../modules/text-highlight/languages.c:135
 msgid "_Tcl/Tk"
-msgstr ""
+msgstr "_Tcl/Tk"
 
 #: ../modules/text-highlight/languages.c:141
 msgid "_TeX/LaTeX"
-msgstr ""
+msgstr "_TeX/LaTeX"
 
 #: ../modules/text-highlight/languages.c:147
 msgid "_Vala"
-msgstr ""
+msgstr "_Vala"
 
 #: ../modules/text-highlight/languages.c:152
-#, fuzzy
 #| msgid "Visual"
 msgid "_Visual Basic"
-msgstr "Визуально"
+msgstr "_Visual Basic"
 
 #: ../modules/text-highlight/languages.c:159
 msgid "_XML"
-msgstr ""
+msgstr "_XML"
 
 #: ../modules/text-highlight/languages.c:177
-#, fuzzy
 #| msgid "_Actions"
 msgid "_ActionScript"
-msgstr "_Действия"
+msgstr "_ActionScript"
 
 #: ../modules/text-highlight/languages.c:182
 msgid "_ADA95"
-msgstr ""
+msgstr "_ADA95"
 
 #: ../modules/text-highlight/languages.c:189
 msgid "_ALGOL 68"
-msgstr ""
+msgstr "_ALGOL 68"
 
 #: ../modules/text-highlight/languages.c:194
 msgid "(_G)AWK"
-msgstr ""
+msgstr "(_G)AWK"
 
 #: ../modules/text-highlight/languages.c:199
 msgid "_COBOL"
-msgstr ""
+msgstr "_COBOL"
 
 #: ../modules/text-highlight/languages.c:204
 msgid "_DOS Batch"
@@ -18113,81 +18094,78 @@ msgstr ""
 
 #: ../modules/text-highlight/languages.c:209
 msgid "_D"
-msgstr ""
+msgstr "_D"
 
 #: ../modules/text-highlight/languages.c:214
 msgid "_Erlang"
-msgstr ""
+msgstr "_Erlang"
 
 #: ../modules/text-highlight/languages.c:219
 msgid "_FORTRAN 77"
-msgstr ""
+msgstr "_FORTRAN 77"
 
 #: ../modules/text-highlight/languages.c:225
 msgid "_FORTRAN 90"
-msgstr ""
+msgstr "_FORTRAN 90"
 
 #: ../modules/text-highlight/languages.c:230
 msgid "_F#"
-msgstr ""
+msgstr "_F#"
 
 #: ../modules/text-highlight/languages.c:235
-#, fuzzy
 #| msgid "_No"
 msgid "_Go"
-msgstr "_Нет"
+msgstr "_Go"
 
 #: ../modules/text-highlight/languages.c:240
 msgid "_Haskell"
-msgstr ""
+msgstr "_Haskell"
 
 #: ../modules/text-highlight/languages.c:245
 msgid "_JSP"
-msgstr ""
+msgstr "_JSP"
 
 #: ../modules/text-highlight/languages.c:250
-#, fuzzy
 #| msgid "_List:"
 msgid "_Lisp"
-msgstr "_Список:"
+msgstr "_Lisp"
 
 #: ../modules/text-highlight/languages.c:258
 msgid "_Lotus"
-msgstr ""
+msgstr "_Lotus"
 
 #: ../modules/text-highlight/languages.c:263
 msgid "_Lua"
-msgstr ""
+msgstr "_Lua"
 
 #: ../modules/text-highlight/languages.c:268
 msgid "_Maple"
-msgstr ""
+msgstr "_Maple"
 
 #: ../modules/text-highlight/languages.c:273
 msgid "_Matlab"
-msgstr ""
+msgstr "_Matlab"
 
 #: ../modules/text-highlight/languages.c:278
 msgid "_Maya"
-msgstr ""
+msgstr "_Maya"
 
 #: ../modules/text-highlight/languages.c:283
 msgid "_Oberon"
-msgstr ""
+msgstr "_Oberon"
 
 #: ../modules/text-highlight/languages.c:288
-#, fuzzy
 #| msgid "Object Signer"
 msgid "_Objective C"
-msgstr "Объект подписан"
+msgstr "_Objective C"
 
 #: ../modules/text-highlight/languages.c:294
 msgid "_OCaml"
-msgstr ""
+msgstr "_OCaml"
 
 #: ../modules/text-highlight/languages.c:299
 msgid "_Octave"
-msgstr ""
+msgstr "_Octave"
 
 #: ../modules/text-highlight/languages.c:304
 #, fuzzy
@@ -18197,47 +18175,45 @@ msgstr "Объект подписан"
 
 #: ../modules/text-highlight/languages.c:309
 msgid "_Pascal"
-msgstr ""
+msgstr "_Pascal"
 
 #: ../modules/text-highlight/languages.c:314
 msgid "_POV-Ray"
-msgstr ""
+msgstr "_POV-Ray"
 
 #: ../modules/text-highlight/languages.c:319
-#, fuzzy
 #| msgid "_Program:"
 msgid "_Prolog"
-msgstr "_Программа:"
+msgstr "_Prolog"
 
 #: ../modules/text-highlight/languages.c:324
-#, fuzzy
 #| msgid "_Script:"
 msgid "_PostScript"
-msgstr "_Скрипт:"
+msgstr "_PostScript"
 
 #: ../modules/text-highlight/languages.c:329
 msgid "_R"
-msgstr ""
+msgstr "_R"
 
 #: ../modules/text-highlight/languages.c:334
 msgid "_RPM Spec"
-msgstr ""
+msgstr "_RPM Spec"
 
 #: ../modules/text-highlight/languages.c:339
 msgid "_Scala"
-msgstr ""
+msgstr "_Scala"
 
 #: ../modules/text-highlight/languages.c:344
 msgid "_Smalltalk"
-msgstr ""
+msgstr "_Smalltalk"
 
 #: ../modules/text-highlight/languages.c:350
 msgid "_TCSH"
-msgstr ""
+msgstr "_TCSH"
 
 #: ../modules/text-highlight/languages.c:355
 msgid "_VHDL"
-msgstr ""
+msgstr "_VHDL"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:118
 #: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:201
@@ -18254,10 +18230,9 @@ msgid "Show Com_pact vCard"
 msgstr "Показывать компактную карточку vCard"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:145
-#, fuzzy
 #| msgid "Save in Address Book"
 msgid "Save _To Addressbook"
-msgstr "Сохранить в адресной книге"
+msgstr "Сохранить в _адресной книге"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:165
 msgid "There is one other contact."
@@ -18272,30 +18247,27 @@ msgstr[1] "Имеется %d других контакта."
 msgstr[2] "Имеется %d других контактов."
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:196
-#, fuzzy
 #| msgid "Address book source"
 msgid "Addressbok Contact"
-msgstr "Источник адресной книги"
+msgstr "Контакт адресной книги"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:202
 msgid "Display the part as an addressbook contact"
 msgstr ""
 
 #: ../modules/web-inspector/evolution-web-inspector.c:88
-#, fuzzy
 #| msgid "_Select..."
 msgid "_Inspect..."
-msgstr "В_ыбрать…"
+msgstr "_Инспектировать…"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:90
 msgid "Inspect the HTML content (debugging feature)"
-msgstr ""
+msgstr "Инспектировать содержимое HTML (возможность отладки)"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:102
-#, fuzzy
 #| msgid "Evolution Restore"
 msgid "Evolution Web Inspector"
-msgstr "Восстановление Evolution"
+msgstr "Веб-инспектор Evolution"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:128
 msgid "_Do not show this message again."
@@ -20812,22 +20784,19 @@ msgid "Open this attachment in %s"
 msgstr "Открыть это вложение в %s"
 
 #: ../widgets/misc/e-book-source-config.c:98
-#, fuzzy
 #| msgid "Mark as _default address book"
 msgid "Mark as default address book"
-msgstr "_Пометить как адресную книгу по умолчанию"
+msgstr "Пометить как адресную книгу по умолчанию"
 
 #: ../widgets/misc/e-book-source-config.c:103
-#, fuzzy
 #| msgid "A_utocomplete with this address book"
 msgid "Autocomplete with this address book"
-msgstr "_Использовать автодополнение с помощью этой адресной книги"
+msgstr "Автодополнение с помощью этой адресной книги"
 
 #: ../widgets/misc/e-book-source-config.c:277
-#, fuzzy
 #| msgid "Copy _book content locally for offline operation"
 msgid "Copy book content locally for offline operation"
-msgstr "_Скопировать книгу локально для автономной работы"
+msgstr "Скопировать книгу локально для автономной работы"
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
 #: ../widgets/misc/e-buffer-tagger.c:389
@@ -20835,30 +20804,26 @@ msgid "Ctrl-click to open a link"
 msgstr "Ctrl-щелчок, чтобы открыть ссылку"
 
 #: ../widgets/misc/e-calendar.c:187
-#, fuzzy
 #| msgid "Previous"
 msgid "Previous month"
-msgstr "Назад"
+msgstr "Предыдущий месяц"
 
 #: ../widgets/misc/e-calendar.c:211
-#, fuzzy
 #| msgctxt "DateFmt"
 #| msgid "Next Mon"
 msgid "Next month"
-msgstr "След. пн"
+msgstr "Следующий месяц"
 
 #: ../widgets/misc/e-calendar.c:233
-#, fuzzy
 #| msgid "Previous"
 msgid "Previous year"
-msgstr "Назад"
+msgstr "Предыдущий год"
 
 #: ../widgets/misc/e-calendar.c:254
-#, fuzzy
 #| msgctxt "DateFmt"
 #| msgid "Next Tue"
 msgid "Next year"
-msgstr "След. вт"
+msgstr "Следующий год"
 
 #: ../widgets/misc/e-calendar.c:278
 msgid "Month Calendar"
@@ -20886,46 +20851,39 @@ msgid "%B %Y"
 msgstr "%B %Y"
 
 #: ../widgets/misc/e-cal-source-config.c:170
-#, fuzzy
 #| msgid "Mark as _default calendar"
 msgid "Mark as default calendar"
-msgstr "_Пометить как календарь по умолчанию"
+msgstr "Пометить как календарь по умолчанию"
 
 #: ../widgets/misc/e-cal-source-config.c:173
-#, fuzzy
 #| msgid "Mark as _default task list"
 msgid "Mark as default task list"
-msgstr "_Пометить как список задач по умолчанию"
+msgstr "Пометить как список задач по умолчанию"
 
 #: ../widgets/misc/e-cal-source-config.c:176
-#, fuzzy
 #| msgid "Mark as _default memo list"
 msgid "Mark as default memo list"
-msgstr "_Пометить как список заметок по умолчанию"
+msgstr "Пометить как список заметок по умолчанию"
 
 #: ../widgets/misc/e-cal-source-config.c:201
-#, fuzzy
 #| msgid "Colo_r:"
 msgid "Color:"
-msgstr "_Цвет:"
+msgstr "Цвет:"
 
 #: ../widgets/misc/e-cal-source-config.c:406
-#, fuzzy
 #| msgid "Cop_y calendar contents locally for offline operation"
 msgid "Copy calendar contents locally for offline operation"
-msgstr "_Копировать содержимое календаря локально для автономных операций"
+msgstr "Копировать содержимое календаря локально для автономных операций"
 
 #: ../widgets/misc/e-cal-source-config.c:410
-#, fuzzy
 #| msgid "Cop_y task list contents locally for offline operation"
 msgid "Copy task list contents locally for offline operation"
-msgstr "_Копировать содержимое списка задач локально для автономной работы"
+msgstr "Копировать содержимое списка задач локально для автономной работы"
 
 #: ../widgets/misc/e-cal-source-config.c:414
-#, fuzzy
 #| msgid "Cop_y memo list contents locally for offline operation"
 msgid "Copy memo list contents locally for offline operation"
-msgstr "Коп_ировать список заметок локально для автономной работы"
+msgstr "Копировать список заметок локально для автономной работы"
 
 #: ../widgets/misc/e-charset-combo-box.c:100
 msgid "Character Encoding"
@@ -21092,10 +21050,9 @@ msgid "Autogenerated"
 msgstr "Создана автоматически"
 
 #: ../widgets/misc/e-mail-signature-editor.c:287
-#, fuzzy
 #| msgid "_Close"
 msgid "Close"
-msgstr "_Закрыть"
+msgstr "Закрыть"
 
 #: ../widgets/misc/e-mail-signature-editor.c:292
 msgid "_Save and Close"
@@ -21375,29 +21332,25 @@ msgstr "Обновить папку"
 
 #: ../widgets/misc/e-source-config.c:1315
 #: ../widgets/misc/e-source-config.c:1343
-#, fuzzy
 #| msgid "Use _secure connection"
 msgid "Use a secure connection"
-msgstr "Использовать _безопасное соединение"
+msgstr "Использовать безопасное соединение"
 
 #: ../widgets/misc/e-source-config.c:1357
-#, fuzzy
 #| msgid "Imported Certificate"
 msgid "Ignore invalid SSL certificate"
-msgstr "Импортированный сертификат"
+msgstr "Игнорировать неверный сертификат SSL"
 
 #: ../widgets/misc/e-source-config.c:1394
-#, fuzzy
 #| msgid "Username:"
 msgid "User"
-msgstr "Имя пользователя:"
+msgstr "Пользователь"
 
 #. no suggestions. Put something in the menu anyway...
 #: ../widgets/misc/e-spell-entry.c:351
-#, fuzzy
 #| msgid "(no subject)"
 msgid "(no suggestions)"
-msgstr "(без темы)"
+msgstr "(нет вариантов)"
 
 #: ../widgets/misc/e-spell-entry.c:375
 #, fuzzy
@@ -21409,14 +21362,13 @@ msgstr "_Упорядочить…"
 #: ../widgets/misc/e-spell-entry.c:444
 #, c-format
 msgid "Add \"%s\" to Dictionary"
-msgstr ""
+msgstr "Добавить «%s» в словарь"
 
 #. - Ignore All
 #: ../widgets/misc/e-spell-entry.c:487
-#, fuzzy
 #| msgid "Ignore"
 msgid "Ignore All"
-msgstr "Игнорировать"
+msgstr "Игнорировать всё"
 
 #: ../widgets/misc/e-spell-entry.c:513
 msgid "Spelling Suggestions"
@@ -21498,16 +21450,14 @@ msgid "Please provide an unique name to identify this signature."
 msgstr "Введите уникальное имя для идентификации этой подписи."
 
 #: ../widgets/misc/widgets.error.xml.h:6
-#, fuzzy
 #| msgid "Could not save signature file."
 msgid "Could not load signature."
-msgstr "Не удалось сохранить файл подписи."
+msgstr "Не удалось загрузить подпись."
 
 #: ../widgets/misc/widgets.error.xml.h:7
-#, fuzzy
 #| msgid "Could not save signature file."
 msgid "Could not save signature."
-msgstr "Не удалось сохранить файл подписи."
+msgstr "Не удалось сохранить подпись."
 
 #: ../widgets/table/e-cell-combo.c:187
 msgid "popup list"
