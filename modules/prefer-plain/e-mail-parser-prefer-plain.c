@@ -181,7 +181,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	gint i, nparts, partidlen;
 	GSList *parts;
 	CamelContentType *ct;
-	gboolean has_preferred_alternative;
+	gboolean has_calendar = FALSE;
 	GSList *plain_text_parts, *plain_text_placeholder, *iter;
 
 	emp_pp = (EMailParserPreferPlain *) extension;
@@ -226,7 +226,6 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 	nparts = camel_multipart_get_number (mp);
 	plain_text_parts = NULL;
-	has_preferred_alternative = FALSE;
 	for (i = 0; i < nparts; i++) {
 
 		CamelMimePart *sp;
@@ -245,16 +244,12 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 					sparts = make_part_attachment (
 						parser, sp, part_id,
 						FALSE, cancellable);
-				} else {
-					sparts = e_mail_parser_parse_part (
-						parser, sp, part_id, cancellable);
 				}
 			} else {
 				sparts = e_mail_parser_parse_part (
 					parser, sp, part_id, cancellable);
 			}
 
-			has_preferred_alternative = TRUE;
 			parts = g_slist_concat (parts, sparts);
 			continue;
 		}
@@ -282,7 +277,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 					parser, sp, part_id, cancellable);
 
 			parts = g_slist_concat (parts, sparts);
-			has_preferred_alternative = TRUE;
+			has_calendar = TRUE;
 			continue;
 		}
 
@@ -316,7 +311,6 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 				}
 			}
 
-			has_preferred_alternative = TRUE;
 			parts = g_slist_concat (parts, sparts);
 			continue;
 		}
@@ -332,7 +326,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	}
 
 	/* Don't hide the plain text if there's nothing else to display */
-	if ((emp_pp->mode == PREFER_HTML) && has_preferred_alternative) {
+	if (has_calendar || (nparts > 1 && emp_pp->mode == PREFER_HTML)) {
 		hide_parts (plain_text_parts);
 	}
 
