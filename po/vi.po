@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: evolution 1.4 GNOME TRUNK\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-08-24 22:06+0000\n"
-"PO-Revision-Date: 2012-09-01 18:18+0700\n"
+"POT-Creation-Date: 2012-09-01 11:25+0000\n"
+"PO-Revision-Date: 2012-09-05 18:21+0700\n"
 "Last-Translator: Nguyễn Thái Ngọc Duy <pclouds@gmail.com>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "Language: vi\n"
@@ -1546,7 +1546,7 @@ msgstr[0] "giờ"
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:134
-#: ../calendar/gui/dialogs/recurrence-page.c:1195
+#: ../calendar/gui/dialogs/recurrence-page.c:1199
 msgid "day"
 msgid_plural "days"
 msgstr[0] "ngày"
@@ -2704,17 +2704,17 @@ msgid "Attach"
 msgstr "Đính kèm"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2463
-#: ../calendar/gui/dialogs/comp-editor.c:2647
-#: ../calendar/gui/dialogs/comp-editor.c:3651
+#: ../calendar/gui/dialogs/comp-editor.c:2650
+#: ../calendar/gui/dialogs/comp-editor.c:3654
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "Thay đổi trên mục này có thể bị hủy nếu bản cập nhật đến vào."
 
-#: ../calendar/gui/dialogs/comp-editor.c:3615
+#: ../calendar/gui/dialogs/comp-editor.c:3618
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:118
 msgid "attachment"
 msgstr "đính kèm"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3683
+#: ../calendar/gui/dialogs/comp-editor.c:3686
 msgid "Unable to use current version!"
 msgstr "Không thể dùng phiên bản hiện thời."
 
@@ -2873,7 +2873,7 @@ msgstr "Rảnh/_Bận"
 msgid "Query free / busy information for the attendees"
 msgstr "Truy vấn thông tin Rảnh/Bận cho các người dự"
 
-#: ../calendar/gui/dialogs/event-editor.c:318 ../calendar/gui/print.c:3324
+#: ../calendar/gui/dialogs/event-editor.c:318 ../calendar/gui/print.c:3391
 msgid "Appointment"
 msgstr "Cuộc hẹn"
 
@@ -3116,7 +3116,7 @@ msgstr "Chọn ngày"
 msgid "Select _Today"
 msgstr "Chọn _hôm nay"
 
-#: ../calendar/gui/dialogs/memo-editor.c:109 ../calendar/gui/print.c:3328
+#: ../calendar/gui/dialogs/memo-editor.c:109 ../calendar/gui/print.c:3395
 msgid "Memo"
 msgstr "Ghi nhớ"
 
@@ -3233,13 +3233,13 @@ msgstr "Cuộc hẹn chứa nhiều lần lặp lại mà Evolution không thể
 msgid "Recurrence date is invalid"
 msgstr "Ngày lặp không hợp lệ"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1009
+#: ../calendar/gui/dialogs/recurrence-page.c:1013
 msgid "End time of the recurrence was before event's start"
 msgstr "Giờ cuối của sự kiện lặp lại nằm trước giờ đầu"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/dialogs/recurrence-page.c:1039
+#: ../calendar/gui/dialogs/recurrence-page.c:1043
 msgid "on"
 msgstr "vào"
 
@@ -3247,7 +3247,7 @@ msgstr "vào"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1102
+#: ../calendar/gui/dialogs/recurrence-page.c:1106
 msgid "first"
 msgstr "thứ nhắt"
 
@@ -3256,7 +3256,7 @@ msgstr "thứ nhắt"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1108
+#: ../calendar/gui/dialogs/recurrence-page.c:1112
 msgid "second"
 msgstr "giây"
 
@@ -3264,7 +3264,7 @@ msgstr "giây"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1113
+#: ../calendar/gui/dialogs/recurrence-page.c:1117
 msgid "third"
 msgstr "thứ ba"
 
@@ -3272,7 +3272,7 @@ msgstr "thứ ba"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1118
+#: ../calendar/gui/dialogs/recurrence-page.c:1122
 msgid "fourth"
 msgstr "thứ tư"
 
@@ -3280,7 +3280,7 @@ msgstr "thứ tư"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1123
+#: ../calendar/gui/dialogs/recurrence-page.c:1127
 msgid "fifth"
 msgstr "thứ năm"
 
@@ -3288,13 +3288,13 @@ msgstr "thứ năm"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1128
+#: ../calendar/gui/dialogs/recurrence-page.c:1132
 msgid "last"
 msgstr "cuối cùng"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/dialogs/recurrence-page.c:1152
+#: ../calendar/gui/dialogs/recurrence-page.c:1156
 msgid "Other Date"
 msgstr "Ngày khác"
 
@@ -3302,7 +3302,7 @@ msgstr "Ngày khác"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1158
+#: ../calendar/gui/dialogs/recurrence-page.c:1162
 msgid "1st to 10th"
 msgstr "ngày mồng 1 đến 10"
 
@@ -3310,7 +3310,7 @@ msgstr "ngày mồng 1 đến 10"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1164
+#: ../calendar/gui/dialogs/recurrence-page.c:1168
 msgid "11th to 20th"
 msgstr "ngày 11 đến 20"
 
@@ -3318,41 +3318,41 @@ msgstr "ngày 11 đến 20"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1170
+#: ../calendar/gui/dialogs/recurrence-page.c:1174
 msgid "21st to 31st"
 msgstr "ngày 21 đến 31"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1196
+#: ../calendar/gui/dialogs/recurrence-page.c:1200
 #: ../modules/calendar/e-calendar-preferences.ui.h:1
 msgid "Monday"
 msgstr "Thứ Hai"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1197
+#: ../calendar/gui/dialogs/recurrence-page.c:1201
 #: ../modules/calendar/e-calendar-preferences.ui.h:2
 msgid "Tuesday"
 msgstr "Thứ Ba"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1198
+#: ../calendar/gui/dialogs/recurrence-page.c:1202
 #: ../modules/calendar/e-calendar-preferences.ui.h:3
 msgid "Wednesday"
 msgstr "Thứ Tư"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1199
+#: ../calendar/gui/dialogs/recurrence-page.c:1203
 #: ../modules/calendar/e-calendar-preferences.ui.h:4
 msgid "Thursday"
 msgstr "Thứ Năm"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1200
+#: ../calendar/gui/dialogs/recurrence-page.c:1204
 #: ../modules/calendar/e-calendar-preferences.ui.h:5
 msgid "Friday"
 msgstr "Thứ Sáu"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1201
+#: ../calendar/gui/dialogs/recurrence-page.c:1205
 #: ../modules/calendar/e-calendar-preferences.ui.h:6
 msgid "Saturday"
 msgstr "Thứ Bảy"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1202
+#: ../calendar/gui/dialogs/recurrence-page.c:1206
 #: ../modules/calendar/e-calendar-preferences.ui.h:7
 msgid "Sunday"
 msgstr "Chủ Nhật"
@@ -3360,31 +3360,31 @@ msgstr "Chủ Nhật"
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1326
+#: ../calendar/gui/dialogs/recurrence-page.c:1330
 msgid "on the"
 msgstr "vào"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1505
+#: ../calendar/gui/dialogs/recurrence-page.c:1509
 msgid "occurrences"
 msgstr "lần"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2221
+#: ../calendar/gui/dialogs/recurrence-page.c:2225
 msgid "Add exception"
 msgstr "Thêm ngoại lệ"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2262
+#: ../calendar/gui/dialogs/recurrence-page.c:2266
 msgid "Could not get a selection to modify."
 msgstr "Không thể lấy vùng chọn cần sửa đổi."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2268
+#: ../calendar/gui/dialogs/recurrence-page.c:2272
 msgid "Modify exception"
 msgstr "Sửa đổi ngoại lệ"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2312
+#: ../calendar/gui/dialogs/recurrence-page.c:2316
 msgid "Could not get a selection to delete."
 msgstr "Không thể lấy vùng chọn cần xoá."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2451
+#: ../calendar/gui/dialogs/recurrence-page.c:2455
 msgid "Date/Time"
 msgstr "Ngày/Giờ"
 
@@ -3501,7 +3501,7 @@ msgstr "Chưa định nghĩa"
 #: ../calendar/gui/e-cal-model-tasks.c:489
 #: ../calendar/gui/e-cal-model-tasks.c:774 ../calendar/gui/e-task-table.c:227
 #: ../calendar/gui/e-task-table.c:242 ../calendar/gui/e-task-table.c:656
-#: ../calendar/gui/print.c:3405 ../calendar/gui/tasktypes.xml.h:11
+#: ../calendar/gui/print.c:3472 ../calendar/gui/tasktypes.xml.h:11
 msgid "Not Started"
 msgstr "Chưa bắt đầu"
 
@@ -3512,7 +3512,7 @@ msgstr "Chưa bắt đầu"
 #: ../calendar/gui/e-cal-model-tasks.c:776
 #: ../calendar/gui/e-cal-model-tasks.c:854 ../calendar/gui/e-task-table.c:229
 #: ../calendar/gui/e-task-table.c:244 ../calendar/gui/e-task-table.c:657
-#: ../calendar/gui/print.c:3408
+#: ../calendar/gui/print.c:3475
 msgid "In Progress"
 msgstr "Đang tiến hành"
 
@@ -3523,7 +3523,7 @@ msgstr "Đang tiến hành"
 #: ../calendar/gui/e-cal-model-tasks.c:778
 #: ../calendar/gui/e-meeting-store.c:209 ../calendar/gui/e-meeting-store.c:232
 #: ../calendar/gui/e-task-table.c:231 ../calendar/gui/e-task-table.c:246
-#: ../calendar/gui/e-task-table.c:658 ../calendar/gui/print.c:3411
+#: ../calendar/gui/e-task-table.c:658 ../calendar/gui/print.c:3478
 #: ../calendar/gui/tasktypes.xml.h:13
 #: ../plugins/save-calendar/csv-format.c:376
 msgid "Completed"
@@ -3535,7 +3535,7 @@ msgstr "Hoàn tất"
 #: ../calendar/gui/e-cal-model-tasks.c:495
 #: ../calendar/gui/e-cal-model-tasks.c:780 ../calendar/gui/e-task-table.c:233
 #: ../calendar/gui/e-task-table.c:248 ../calendar/gui/e-task-table.c:659
-#: ../calendar/gui/print.c:3414 ../mail/mail-send-recv.c:879
+#: ../calendar/gui/print.c:3481 ../mail/mail-send-recv.c:879
 msgid "Canceled"
 msgstr "Bị thôi"
 
@@ -3584,7 +3584,7 @@ msgstr "Nhấn để thay đổi hay xem chi tiết trạng thái về tác vụ
 msgid "_Send Options"
 msgstr "Tùy chọn _Gửi"
 
-#: ../calendar/gui/dialogs/task-editor.c:186 ../calendar/gui/print.c:3326
+#: ../calendar/gui/dialogs/task-editor.c:186 ../calendar/gui/print.c:3393
 #: ../widgets/misc/e-send-options.c:553
 msgid "Task"
 msgstr "Tác vụ"
@@ -4025,7 +4025,7 @@ msgid "Organizer: %s"
 msgstr "Tổ chức: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2012 ../calendar/gui/print.c:3360
+#: ../calendar/gui/e-calendar-view.c:2012 ../calendar/gui/print.c:3427
 #, c-format
 msgid "Location: %s"
 msgstr "Địa điểm: %s"
@@ -4048,8 +4048,8 @@ msgstr "Ngày kết thúc"
 #: ../calendar/gui/e-cal-model.c:842 ../calendar/gui/e-meeting-list-view.c:186
 #: ../calendar/gui/e-meeting-list-view.c:200
 #: ../calendar/gui/e-meeting-store.c:139 ../calendar/gui/e-meeting-store.c:174
-#: ../calendar/gui/e-meeting-store.c:237 ../calendar/gui/print.c:1159
-#: ../calendar/gui/print.c:1176 ../e-util/e-charset.c:52
+#: ../calendar/gui/e-meeting-store.c:237 ../calendar/gui/print.c:1222
+#: ../calendar/gui/print.c:1239 ../e-util/e-charset.c:52
 #: ../modules/itip-formatter/itip-view.c:3462
 #: ../modules/itip-formatter/itip-view.c:5962
 #: ../modules/plugin-manager/evolution-plugin-manager.c:101
@@ -4161,15 +4161,15 @@ msgstr ""
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:1027 ../calendar/gui/e-week-view.c:773
-#: ../calendar/gui/print.c:985 ../calendar/gui/print.c:1004
-#: ../calendar/gui/print.c:2495 ../calendar/gui/print.c:2515
+#: ../calendar/gui/print.c:1048 ../calendar/gui/print.c:1067
+#: ../calendar/gui/print.c:2564 ../calendar/gui/print.c:2584
 msgid "am"
 msgstr "sáng"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:1030 ../calendar/gui/e-week-view.c:776
-#: ../calendar/gui/print.c:990 ../calendar/gui/print.c:1006
-#: ../calendar/gui/print.c:2500 ../calendar/gui/print.c:2517
+#: ../calendar/gui/print.c:1053 ../calendar/gui/print.c:1069
+#: ../calendar/gui/print.c:2569 ../calendar/gui/print.c:2586
 msgid "pm"
 msgstr "chiều/tối"
 
@@ -4180,7 +4180,7 @@ msgstr "chiều/tối"
 #. * order but don't change the specifiers or add
 #. * anything.
 #: ../calendar/gui/e-day-view.c:1836 ../calendar/gui/e-day-view-top-item.c:831
-#: ../calendar/gui/e-week-view-main-item.c:222 ../calendar/gui/print.c:1979
+#: ../calendar/gui/e-week-view-main-item.c:222 ../calendar/gui/print.c:2044
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
@@ -4238,49 +4238,49 @@ msgstr "Tài nguyên"
 
 #: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:114 ../calendar/gui/e-meeting-store.c:131
-#: ../calendar/gui/e-meeting-store.c:1069 ../calendar/gui/print.c:1155
+#: ../calendar/gui/e-meeting-store.c:1069 ../calendar/gui/print.c:1218
 msgid "Individual"
 msgstr "Riêng lẻ"
 
 #: ../calendar/gui/e-meeting-list-view.c:183
 #: ../calendar/gui/e-meeting-store.c:116 ../calendar/gui/e-meeting-store.c:133
-#: ../calendar/gui/print.c:1156 ../widgets/table/e-table-config.ui.h:8
+#: ../calendar/gui/print.c:1219 ../widgets/table/e-table-config.ui.h:8
 msgid "Group"
 msgstr "Nhóm"
 
 #: ../calendar/gui/e-meeting-list-view.c:184
 #: ../calendar/gui/e-meeting-store.c:118 ../calendar/gui/e-meeting-store.c:135
-#: ../calendar/gui/print.c:1157
+#: ../calendar/gui/print.c:1220
 msgid "Resource"
 msgstr "Tài nguyên"
 
 #: ../calendar/gui/e-meeting-list-view.c:185
 #: ../calendar/gui/e-meeting-store.c:120 ../calendar/gui/e-meeting-store.c:137
-#: ../calendar/gui/print.c:1158
+#: ../calendar/gui/print.c:1221
 msgid "Room"
 msgstr "Phòng"
 
 #: ../calendar/gui/e-meeting-list-view.c:196
 #: ../calendar/gui/e-meeting-store.c:149 ../calendar/gui/e-meeting-store.c:166
-#: ../calendar/gui/print.c:1172
+#: ../calendar/gui/print.c:1235
 msgid "Chair"
 msgstr "Chủ trì"
 
 #: ../calendar/gui/e-meeting-list-view.c:197
 #: ../calendar/gui/e-meeting-store.c:151 ../calendar/gui/e-meeting-store.c:168
-#: ../calendar/gui/e-meeting-store.c:1072 ../calendar/gui/print.c:1173
+#: ../calendar/gui/e-meeting-store.c:1072 ../calendar/gui/print.c:1236
 msgid "Required Participant"
 msgstr "Người dự cần thiết"
 
 #: ../calendar/gui/e-meeting-list-view.c:198
 #: ../calendar/gui/e-meeting-store.c:153 ../calendar/gui/e-meeting-store.c:170
-#: ../calendar/gui/print.c:1174
+#: ../calendar/gui/print.c:1237
 msgid "Optional Participant"
 msgstr "Người dự tùy chọn"
 
 #: ../calendar/gui/e-meeting-list-view.c:199
 #: ../calendar/gui/e-meeting-store.c:155 ../calendar/gui/e-meeting-store.c:172
-#: ../calendar/gui/print.c:1175
+#: ../calendar/gui/print.c:1238
 msgid "Non-Participant"
 msgstr "Người không tham dự"
 
@@ -4463,7 +4463,7 @@ msgstr "Nhấn để thêm ghi nhớ"
 msgid "%d%%"
 msgstr "%d%%"
 
-#: ../calendar/gui/e-task-table.c:705 ../calendar/gui/print.c:2284
+#: ../calendar/gui/e-task-table.c:705 ../calendar/gui/print.c:2353
 #: ../calendar/importers/icalendar-importer.c:84
 #: ../calendar/importers/icalendar-importer.c:1082
 #: ../modules/calendar/e-calendar-preferences.ui.h:61
@@ -4502,7 +4502,7 @@ msgstr "Chọn múi giờ"
 #. strftime format %d = day of month, %B = full
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:239 ../calendar/gui/print.c:1960
+#: ../calendar/gui/e-week-view-main-item.c:239 ../calendar/gui/print.c:2025
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -4633,226 +4633,226 @@ msgstr "Không thể đặt trước tài nguyên, lỗi: "
 msgid "You must be an attendee of the event."
 msgstr "Bạn phải là người dự sự kiện ấy."
 
-#: ../calendar/gui/print.c:589
+#: ../calendar/gui/print.c:652
 msgid "1st"
 msgstr "mồng 1"
 
-#: ../calendar/gui/print.c:589
+#: ../calendar/gui/print.c:652
 msgid "2nd"
 msgstr "mồng 2"
 
-#: ../calendar/gui/print.c:589
+#: ../calendar/gui/print.c:652
 msgid "3rd"
 msgstr "mồng 3"
 
-#: ../calendar/gui/print.c:589
+#: ../calendar/gui/print.c:652
 msgid "4th"
 msgstr "mồng 4"
 
-#: ../calendar/gui/print.c:589
+#: ../calendar/gui/print.c:652
 msgid "5th"
 msgstr "mồng 5"
 
-#: ../calendar/gui/print.c:590
+#: ../calendar/gui/print.c:653
 msgid "6th"
 msgstr "mồng 6"
 
-#: ../calendar/gui/print.c:590
+#: ../calendar/gui/print.c:653
 msgid "7th"
 msgstr "mồng 7"
 
-#: ../calendar/gui/print.c:590
+#: ../calendar/gui/print.c:653
 msgid "8th"
 msgstr "mồng 8"
 
-#: ../calendar/gui/print.c:590
+#: ../calendar/gui/print.c:653
 msgid "9th"
 msgstr "mồng 9"
 
-#: ../calendar/gui/print.c:590
+#: ../calendar/gui/print.c:653
 msgid "10th"
 msgstr "mồng 10"
 
-#: ../calendar/gui/print.c:591
+#: ../calendar/gui/print.c:654
 msgid "11th"
 msgstr "11"
 
-#: ../calendar/gui/print.c:591
+#: ../calendar/gui/print.c:654
 msgid "12th"
 msgstr "12"
 
-#: ../calendar/gui/print.c:591
+#: ../calendar/gui/print.c:654
 msgid "13th"
 msgstr "13"
 
-#: ../calendar/gui/print.c:591
+#: ../calendar/gui/print.c:654
 msgid "14th"
 msgstr "14"
 
-#: ../calendar/gui/print.c:591
+#: ../calendar/gui/print.c:654
 msgid "15th"
 msgstr "15"
 
-#: ../calendar/gui/print.c:592
+#: ../calendar/gui/print.c:655
 msgid "16th"
 msgstr "16"
 
-#: ../calendar/gui/print.c:592
+#: ../calendar/gui/print.c:655
 msgid "17th"
 msgstr "17"
 
-#: ../calendar/gui/print.c:592
+#: ../calendar/gui/print.c:655
 msgid "18th"
 msgstr "18"
 
-#: ../calendar/gui/print.c:592
+#: ../calendar/gui/print.c:655
 msgid "19th"
 msgstr "19"
 
-#: ../calendar/gui/print.c:592
+#: ../calendar/gui/print.c:655
 msgid "20th"
 msgstr "20"
 
-#: ../calendar/gui/print.c:593
+#: ../calendar/gui/print.c:656
 msgid "21st"
 msgstr "21"
 
-#: ../calendar/gui/print.c:593
+#: ../calendar/gui/print.c:656
 msgid "22nd"
 msgstr "22"
 
-#: ../calendar/gui/print.c:593
+#: ../calendar/gui/print.c:656
 msgid "23rd"
 msgstr "23"
 
-#: ../calendar/gui/print.c:593
+#: ../calendar/gui/print.c:656
 msgid "24th"
 msgstr "24"
 
-#: ../calendar/gui/print.c:593
+#: ../calendar/gui/print.c:656
 msgid "25th"
 msgstr "25"
 
-#: ../calendar/gui/print.c:594
+#: ../calendar/gui/print.c:657
 msgid "26th"
 msgstr "26"
 
-#: ../calendar/gui/print.c:594
+#: ../calendar/gui/print.c:657
 msgid "27th"
 msgstr "27"
 
-#: ../calendar/gui/print.c:594
+#: ../calendar/gui/print.c:657
 msgid "28th"
 msgstr "28"
 
-#: ../calendar/gui/print.c:594
+#: ../calendar/gui/print.c:657
 msgid "29th"
 msgstr "29"
 
-#: ../calendar/gui/print.c:594
+#: ../calendar/gui/print.c:657
 msgid "30th"
 msgstr "30"
 
-#: ../calendar/gui/print.c:595
+#: ../calendar/gui/print.c:658
 msgid "31st"
 msgstr "31"
 
 #. Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday
-#: ../calendar/gui/print.c:652
+#: ../calendar/gui/print.c:715
 msgid "Su"
 msgstr "CN"
 
-#: ../calendar/gui/print.c:652
+#: ../calendar/gui/print.c:715
 msgid "Mo"
 msgstr "T2"
 
-#: ../calendar/gui/print.c:652
+#: ../calendar/gui/print.c:715
 msgid "Tu"
 msgstr "T3"
 
-#: ../calendar/gui/print.c:652
+#: ../calendar/gui/print.c:715
 msgid "We"
 msgstr "T4"
 
-#: ../calendar/gui/print.c:653
+#: ../calendar/gui/print.c:716
 msgid "Th"
 msgstr "T5"
 
-#: ../calendar/gui/print.c:653
+#: ../calendar/gui/print.c:716
 msgid "Fr"
 msgstr "T6"
 
-#: ../calendar/gui/print.c:653
+#: ../calendar/gui/print.c:716
 msgid "Sa"
 msgstr "T7"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../calendar/gui/print.c:3153
+#: ../calendar/gui/print.c:3220
 msgid " to "
 msgstr " tới "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../calendar/gui/print.c:3163
+#: ../calendar/gui/print.c:3230
 msgid " (Completed "
 msgstr " (Hoàn tất "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../calendar/gui/print.c:3169
+#: ../calendar/gui/print.c:3236
 msgid "Completed "
 msgstr "Hoàn tất "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../calendar/gui/print.c:3179
+#: ../calendar/gui/print.c:3246
 msgid " (Due "
 msgstr " (Đến hạn "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../calendar/gui/print.c:3186
+#: ../calendar/gui/print.c:3253
 msgid "Due "
 msgstr "Đến hạn "
 
-#: ../calendar/gui/print.c:3351
+#: ../calendar/gui/print.c:3418
 #, c-format
 msgid "Summary: %s"
 msgstr "Tóm tắt: %s"
 
-#: ../calendar/gui/print.c:3378
+#: ../calendar/gui/print.c:3445
 msgid "Attendees: "
 msgstr "Người dự:"
 
-#: ../calendar/gui/print.c:3421
+#: ../calendar/gui/print.c:3488
 #, c-format
 msgid "Status: %s"
 msgstr "Trạng thái: %s"
 
-#: ../calendar/gui/print.c:3436
+#: ../calendar/gui/print.c:3503
 #, c-format
 msgid "Priority: %s"
 msgstr "Độ ưu tiên: %s"
 
-#: ../calendar/gui/print.c:3454
+#: ../calendar/gui/print.c:3521
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Phần trăm hoàn tất: %i"
 
-#: ../calendar/gui/print.c:3465
+#: ../calendar/gui/print.c:3532
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:3478
+#: ../calendar/gui/print.c:3545
 #, c-format
 msgid "Categories: %s"
 msgstr "Loại: %s"
 
-#: ../calendar/gui/print.c:3489
+#: ../calendar/gui/print.c:3556
 msgid "Contacts: "
 msgstr "Liên lạc: "
 
@@ -7423,6 +7423,12 @@ msgid ""
 msgstr ""
 "Có nên vẽ Dòng Marcus Bains (dòng tại giờ hiện có) trong lịch hay không"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
+#, fuzzy
+#| msgid "Task preview pane position (horizontal)"
+msgid "Memo preview pane position (horizontal)"
+msgstr "Vị trí ô xem trước công việc (ngang)"
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
 msgid "Position of the task preview pane when oriented horizontally"
 msgstr "Vị trí khung tác vụ xem trước khi định hướng ngang"
@@ -7430,6 +7436,22 @@ msgstr "Vị trí khung tác vụ xem trước khi định hướng ngang"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 msgid "Memo layout style"
 msgstr "Kiểu bố trỉ bản ghi nhớ"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
+#, fuzzy
+#| msgid ""
+#| "The layout style determines where to place the preview pane in relation "
+#| "to the contact list. \"0\" (Classic View) places the preview pane below "
+#| "the contact list. \"1\" (Vertical View) places the preview pane next to "
+#| "the contact list."
+msgid ""
+"The layout style determines where to place the preview pane in relation to "
+"the memo list. \"0\" (Classic View) places the preview pane below the memo "
+"list. \"1\" (Vertical View) places the preview pane next to the memo list"
+msgstr ""
+"Kiểu bố cục quyết định nơi đặt khung xem trước so với danh sách liên lạc. "
+"\"0\" (trình bày cổ điển) đặt khung xem trước bên dưới danh sách liên lạc. "
+"\"1\" (trình bày dọc) đặt khung xem trước kế bên danh sách liên lạc."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Memo preview pane position (vertical)"
@@ -7475,17 +7497,61 @@ msgstr "Hiển thị nhắc nhở trong khay thông báo"
 msgid "Whether or not to use the notification tray for display reminders"
 msgstr "Có nên dùng khay thông báo để hiển thị nhắc nhở hay không"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
+msgid "Preferred New button item"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
+msgid "Name of the preferred New toolbar button item"
+msgstr ""
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
 msgid "Primary calendar"
 msgstr "Lịch chính"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
+#, fuzzy
+#| msgid ""
+#| "The UID of the selected (or \"primary\") address book in the sidebar of "
+#| "the \"Contacts\" view"
+msgid ""
+"The UID of the selected (or \"primary\") calendar in the sidebar of the "
+"\"Calendar\" view"
+msgstr ""
+"UID của sổ địa chỉ được chọn (hoặc \"sổ địa chỉ chính\") ở khung bên trong "
+"khung trình bày \"Liên lạc\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
 msgid "Primary memo list"
 msgstr "Danh sách ghi nhớ chính"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
+#, fuzzy
+#| msgid ""
+#| "The UID of the selected (or \"primary\") address book in the sidebar of "
+#| "the \"Contacts\" view"
+msgid ""
+"The UID of the selected (or \"primary\") memo list in the sidebar of the "
+"\"Memos\" view"
+msgstr ""
+"UID của sổ địa chỉ được chọn (hoặc \"sổ địa chỉ chính\") ở khung bên trong "
+"khung trình bày \"Liên lạc\""
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 msgid "Primary task list"
 msgstr "Danh sách tác vụ chính"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
+#, fuzzy
+#| msgid ""
+#| "The UID of the selected (or \"primary\") address book in the sidebar of "
+#| "the \"Contacts\" view"
+msgid ""
+"The UID of the selected (or \"primary\") task list in the sidebar of the "
+"\"Tasks\" view"
+msgstr ""
+"UID của sổ địa chỉ được chọn (hoặc \"sổ địa chỉ chính\") ở khung bên trong "
+"khung trình bày \"Liên lạc\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
 msgid "Free/busy template URL"
@@ -7509,6 +7575,17 @@ msgstr "Sự kiện lặp lại chữ nghiêng"
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr "Hiện ngày với sự kiện lặp lại bằng chữ nghiêng ở đáy trái lịch"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
+msgid "Search range for time-based searching in years"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
+msgid ""
+"How many years can the time-based search go forward or backward from "
+"currently selected day when searching for another occurrence; default is ten "
+"years"
+msgstr ""
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "Show appointment end times in week and month views"
 msgstr "Hiện thời điểm kết thúc cuộc hẹn trong ô xem tuần và tháng đều"
@@ -7518,6 +7595,26 @@ msgid "Whether to display the end time of events in the week and month views"
 msgstr ""
 "Có nên hiển thị thời điểm kết thúc sự kiện trong ô xem tuần và tháng đều hay "
 "không"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
+#, fuzzy
+#| msgid "Show memo preview pane"
+msgid "Show the memo preview pane"
+msgstr "Khung xem thử"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
+msgid "If \"true\", show the memo preview pane in the main window"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
+#, fuzzy
+#| msgid "Show task preview pane"
+msgid "Show the task preview pane"
+msgstr "Hiện khung xem trước"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
+msgid "If \"true\", show the task preview pane in the main window"
+msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
@@ -7535,6 +7632,11 @@ msgstr "Vị trí dọc của khung thẻ"
 msgid "Highlight tasks due today"
 msgstr "Tô sáng tác vụ đến hạn"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
+msgid ""
+"Whether highlight tasks due today with a special color (task-due-today-color)"
+msgstr ""
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
 msgid "Tasks due today color"
 msgstr "Màu của tác vụ hết hạn vào hôm nay"
@@ -7551,6 +7653,28 @@ msgstr ""
 msgid "Task preview pane position (horizontal)"
 msgstr "Vị trí ô xem trước công việc (ngang)"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
+#, fuzzy
+#| msgid "Memo layout style"
+msgid "Task layout style"
+msgstr "Kiểu bố trỉ bản ghi nhớ"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
+#, fuzzy
+#| msgid ""
+#| "The layout style determines where to place the preview pane in relation "
+#| "to the contact list. \"0\" (Classic View) places the preview pane below "
+#| "the contact list. \"1\" (Vertical View) places the preview pane next to "
+#| "the contact list."
+msgid ""
+"The layout style determines where to place the preview pane in relation to "
+"the task list. \"0\" (Classic View) places the preview pane below the task "
+"list. \"1\" (Vertical View) places the preview pane next to the task list"
+msgstr ""
+"Kiểu bố cục quyết định nơi đặt khung xem trước so với danh sách liên lạc. "
+"\"0\" (trình bày cổ điển) đặt khung xem trước bên dưới danh sách liên lạc. "
+"\"1\" (trình bày dọc) đặt khung xem trước kế bên danh sách liên lạc."
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid "Task preview pane position (vertical)"
 msgstr "Vị trí ô xem trước công việc (dọc)"
@@ -7562,6 +7686,11 @@ msgstr "Vị trí khung liên lạc xem trước theo hướng ngang"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 msgid "Highlight overdue tasks"
 msgstr "Tô sáng tác vụ quá hạn"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
+msgid ""
+"Whether highlight overdue tasks with a special color (task-overdue-color)"
+msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 msgid "Overdue tasks color"
@@ -7625,6 +7754,10 @@ msgstr "Có nên lập bộ nhắc nhở mặc định cho mọi cuộc hẹn ha
 msgid "Use system timezone"
 msgstr "Dùng múi giờ hệ thống"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
+msgid "Use the system timezone instead of the timezone selected in Evolution"
+msgstr ""
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 msgid "Week start"
 msgstr "Tuần bắt đầu"
@@ -7645,6 +7778,13 @@ msgstr "Ngày cần ngụ ý giờ bắt đầu và kết thúc đều làm vi�
 msgid "Previous Evolution version"
 msgstr "Phiên bản Evolution trước"
 
+#: ../data/org.gnome.evolution.gschema.xml.in.h:2
+msgid ""
+"The most recently used version of Evolution, expressed as \"major.minor.micro"
+"\". This is used for data and settings migration from older to newer "
+"versions."
+msgstr ""
+
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
 msgid "List of disabled plugins"
 msgstr "Danh sách phần bổ sung bị tắt"
@@ -7661,6 +7801,12 @@ msgstr "Toạ độ X của cửa sổ"
 msgid "The window's Y coordinate"
 msgstr "Toạ độ Y của cửa sổ"
 
+#: ../data/org.gnome.evolution.gschema.xml.in.h:7
+#, fuzzy
+#| msgid "The window's height in pixels"
+msgid "The window's width in pixels"
+msgstr "Chiều cao (theo điểm) của cửa sổ"
+
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
 msgid "The window's height in pixels"
 msgstr "Chiều cao (theo điểm) của cửa sổ"
@@ -7668,6 +7814,22 @@ msgstr "Chiều cao (theo điểm) của cửa sổ"
 #: ../data/org.gnome.evolution.gschema.xml.in.h:9
 msgid "Whether the window is maximized"
 msgstr "Cửa sổ có phóng tối đa không"
+
+#: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
+msgid "Gnome Calendar's calendar import done"
+msgstr ""
+
+#: ../data/org.gnome.evolution.importer.gschema.xml.in.h:2
+msgid "Whether calendar from Gnome Calendar has been imported or not"
+msgstr ""
+
+#: ../data/org.gnome.evolution.importer.gschema.xml.in.h:3
+msgid "Gnome Calendar's tasks import done"
+msgstr ""
+
+#: ../data/org.gnome.evolution.importer.gschema.xml.in.h:4
+msgid "Whether tasks from Gnome Calendar have been imported or not"
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -7686,6 +7848,17 @@ msgstr "Bộ ký tự mặc định để soạn thảo thư."
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:4
 msgid "Default charset in which to compose messages."
 msgstr "Bộ ký tự mặc định để soạn thảo thư."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
+msgid "Path where picture gallery should search for its content"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
+msgid ""
+"This value can be an empty string, which means it'll use the system Picture "
+"folder, usually set to ~/Pictures. This folder will be also used when the "
+"set path is not pointing to the existent folder"
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
 msgid "Spell check inline"
@@ -7715,21 +7888,54 @@ msgstr "Nhận dạng hình cười trong văn bản và thay thế bằng ảnh
 msgid "Attribute message"
 msgstr "Thông điệp thuộc tính"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
+msgid ""
+"The text that is inserted when replying to a message, attributing the "
+"message to the original author"
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
 msgid "Forward message"
 msgstr "Thư chuyển"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:16
+msgid ""
+"The text that is inserted when forwarding a message, saying that the "
+"forwarded message follows"
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:17
 msgid "Original message"
 msgstr "Thư gốc"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:18
+msgid ""
+"The text that is inserted when replying to a message (top posting), saying "
+"that the original message follows"
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:19
 msgid "Group Reply replies to list"
 msgstr "Trả lời nhóm đến danh sách"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:20
+msgid ""
+"Instead of the normal \"Reply to All\" behaviour, this option will make the "
+"'Group Reply' toolbar button try to reply only to the mailing list through "
+"which you happened to receive the copy of the message to which you're "
+"replying."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:21
 msgid "Put the cursor at the bottom of replies"
 msgstr "Đặt con trỏ ở phần cuối của trả lời"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:22
+msgid ""
+"Users get all up in arms over where the cursor should go when replying to a "
+"message. This determines whether the cursor is placed at the top of the "
+"message or the bottom."
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:23
 msgid "Always request read receipt"
@@ -7769,25 +7975,61 @@ msgstr "Danh sách các mã ngôn ngữ từ điển được dùng để kiểm
 msgid "Show \"Bcc\" field when sending a mail message"
 msgstr "Hiện trường \"Bcc\" khi gửi thư"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:32
+msgid ""
+"Show the \"Bcc\" field when sending a mail message. This is controlled from "
+"the View menu when a mail account is chosen."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:33
 msgid "Show \"Cc\" field when sending a mail message"
 msgstr "Hiện trường \"Cc\" khi gửi thư"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:34
+msgid ""
+"Show the \"Cc\" field when sending a mail message. This is controlled from "
+"the View menu when a mail account is chosen."
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
 msgid "Show \"Reply To\" field when sending a mail message"
 msgstr "Hiện trường \"Reply To\" khi gửi thư"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
+msgid ""
+"Show the \"Reply To\" field when sending a mail message. This is controlled "
+"from the View menu when a mail account is chosen."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:37
 msgid "Show \"From\" field when posting to a newsgroup"
 msgstr "Hiện trường \"From\" (từ) khi gửi thư"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:38
+msgid ""
+"Show the \"From\" field when posting to a newsgroup. This is controlled from "
+"the View menu when a news account is chosen."
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:39
 msgid "Show \"Reply To\" field when posting to a newsgroup"
 msgstr "Hiện trường \"Reply To\" (trả lời cho) khi gửi thư"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:40
+msgid ""
+"Show the \"Reply To\" field when posting to a newsgroup. This is controlled "
+"from the View menu when a news account is chosen."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
 msgid "Digitally sign replies when the original message is signed"
 msgstr "Ký điện tử thư trả lời nếu thư gốc cũng ký"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
+msgid ""
+"Automatically enable PGP or S/MIME signatures when replying to a message "
+"which is also PGP or S/MIME signed."
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 msgid "Encode filenames in an Outlook/GMail way"
@@ -7805,9 +8047,72 @@ msgstr ""
 "gửi, vì tập tin như vậy không tùy theo RFC 2231, chỉ dùng tiêu chuẩn RFC "
 "2047 không đúng."
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
+#, fuzzy
+#| msgid "Put the cursor at the bottom of replies"
+msgid "Put personalized signatures at the top of replies"
+msgstr "Đặt con trỏ ở phần cuối của trả lời"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
+msgid ""
+"Users get all up in arms over where their signature should go when replying "
+"to a message. This determines whether the signature is placed at the top of "
+"the message or the bottom."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
 msgid "Do not add signature delimiter"
 msgstr "Không thêm phân cách chữ ký"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
+msgid ""
+"Set to TRUE in case you do not want to add signature delimiter before your "
+"signature when composing a mail."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
+msgid "Ignore list Reply-To:"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:50
+msgid ""
+"Some mailing lists set a Reply-To: header to trick users into sending "
+"replies to the list, even when they ask Evolution to make a private reply. "
+"Setting this option to TRUE will attempt to ignore such Reply-To: headers, "
+"so that Evolution will do as you ask it. If you use the private reply "
+"action, it will reply privately, while if you use the 'Reply to List' action "
+"it will do that. It works by comparing the Reply-To: header with a List-"
+"Post: header, if there is one."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
+msgid "List of localized 'Re'"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
+msgid ""
+"Comma-separated list of localized 'Re' abbreviations to skip in a subject "
+"text when replying to a message, as an addition to the standard \"Re\" "
+"prefix. An example is 'SV,AV'."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
+msgid "Save file format for drag-and-drop operation"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
+msgid "Can be either 'mbox' or 'pdf'."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
+msgid "Save name format for drag-and-drop operation"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
+msgid ""
+"Can be either 2 to use current date and time or any other value for sent "
+"date of the message. This has a meaning only when dropping just one message."
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "Show image animations"
@@ -7854,6 +8159,18 @@ msgid ""
 msgstr ""
 "Bật tùy chọn này để sử dụng phím dài để cuộn qua ô xem thử thư, danh sách "
 "thư và các thư mục."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
+#, fuzzy
+#| msgid "Apply the same _view settings to all folders"
+msgid "Enable to use a similar message list view settings for all folders"
+msgstr "Dùng _cùng thiết lập cho mọi thư mục"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
+#, fuzzy
+#| msgid "Apply the same _view settings to all folders"
+msgid "Enable to use a similar message list view settings for all folders."
+msgstr "Dùng _cùng thiết lập cho mọi thư mục"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Mark citations in the message \"Preview\""
@@ -8020,6 +8337,12 @@ msgstr "Hiển thị mọi thư bị xoá (kiểu gạch đè) trong danh sách 
 msgid "Enable Unmatched search folder"
 msgstr "Bật thư mục tìm kiếm không khớp"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
+msgid ""
+"Enable Unmatched search folder within Search Folders. It does nothing if "
+"Search Folders are disabled."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Hides the per-folder preview and removes the selection"
 msgstr "Ẩn ô xem thử từng thư mục và gỡ bỏ vùng chọn"
@@ -8041,6 +8364,10 @@ msgstr "Độ cao ô cửa sổ danh sách thư"
 msgid "Height of the message-list pane."
 msgstr "Độ cao ô cửa sổ danh sách thư."
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
+msgid "State of message headers in paned view"
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid ""
 "Describes whether message headers in paned view should be collapsed or "
@@ -8060,6 +8387,23 @@ msgstr "Độ rộng của ô cửa sổ danh sách thư."
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Layout style"
 msgstr "Kiểu bố cục"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
+#, fuzzy
+#| msgid ""
+#| "The layout style determines where to place the preview pane in relation "
+#| "to the contact list. \"0\" (Classic View) places the preview pane below "
+#| "the contact list. \"1\" (Vertical View) places the preview pane next to "
+#| "the contact list."
+msgid ""
+"The layout style determines where to place the preview pane in relation to "
+"the message list. \"0\" (Classic View) places the preview pane below the "
+"message list. \"1\" (Vertical View) places the preview pane next to the "
+"message list."
+msgstr ""
+"Kiểu bố cục quyết định nơi đặt khung xem trước so với danh sách liên lạc. "
+"\"0\" (trình bày cổ điển) đặt khung xem trước bên dưới danh sách liên lạc. "
+"\"1\" (trình bày dọc) đặt khung xem trước kế bên danh sách liên lạc."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid "Variable width font"
@@ -8146,6 +8490,18 @@ msgstr ""
 "Thiết lập này xác định các nhánh nên được sắp xếp dựa vào thư mới nhất trong "
 "mỗi nhánh, hơn là theo ngày tháng nhận thư. Cần phải khởi chạy lại Evolution."
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+msgid "Sort accounts alphabetically in a folder tree"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+msgid ""
+"Tells how to sort accounts in a folder tree used in a Mail view. When set to "
+"true accounts are sorted alphabetically, with an exception of On This "
+"Computer and Search folders, otherwise accounts are sorted based on an order "
+"given by a user"
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Log filter actions"
 msgstr "Ghi lưu các hành động lọc"
@@ -8161,6 +8517,17 @@ msgstr "Tập tin bản ghi nơi cần ghi lưu các hành động lọc."
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid "Logfile to log filter actions."
 msgstr "Tập tin bản ghi nơi cần ghi lưu các hành động lọc."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+msgid "Flush Outbox after filtering"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+msgid ""
+"Whether to flush Outbox after filtering is done. Outbox flush will happen "
+"only when there was used any 'Forward to' filter action and approximately "
+"one minute after the last action invocation."
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Default forward style"
@@ -8256,6 +8623,30 @@ msgstr ""
 "kiếm sẽ xoá hoàn toàn thư đó, không phải đơn giản gỡ bỏ nó khỏi kết quả tìm "
 "kiếm."
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
+msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+msgid ""
+"Possible values are: 'never' - do not allow copy with drag &amp; drop of "
+"folders in folder tree, 'always' - allow copy with drag &amp; drop of "
+"folders in folder tree without asking, or 'ask' - (or any other value) will "
+"ask user."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
+msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+msgid ""
+"Possible values are: 'never' - do not allow move with drag &amp; drop of "
+"folders in folder tree, 'always' - allow move with drag &amp; drop of "
+"folders in folder tree without asking, or 'ask' - (or any other value) will "
+"ask user."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid "Prompt when replying privately to list messages"
 msgstr "Hỏi khi trả lời riêng cho hộp thư chung"
@@ -8271,6 +8662,19 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "Hỏi khi có trả lời riêng trong hộp thư chung"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#, fuzzy
+#| msgid ""
+#| "It disables/enables the repeated prompts to warn that you are sending a "
+#| "private reply to a message which arrived via a mailing list."
+msgid ""
+"It disables/enables the repeated prompts to warn that you are trying sending "
+"a private reply to a message which arrived via a mailing list, but the list "
+"sets a Reply-To: header which redirects your reply back to the list"
+msgstr ""
+"Nó bật/tắt tính năng cứ nhắc cảnh báo rằng việc gửi thư trả lời riêng tư cho "
+"một thông điệp đến từ hộp thư chung."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid "Prompt when replying to many recipients"
@@ -8291,6 +8695,12 @@ msgid ""
 msgstr ""
 "Hỏi có đóng cửa sổ thư khi người dùng chuyển thư hoặc trả lời thư của thư "
 "trong cửa sổ đang xem không."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+msgid ""
+"Possible values are: 'never' - to never close browser window, 'always' - to "
+"always close browser window or 'ask' - (or any other value) will ask user."
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Empty Trash folders on exit"
@@ -8334,6 +8744,19 @@ msgstr ""
 " • 0\t\tlỗi\n"
 " • 1\t\tcảnh báo\n"
 " • 2\t\tthông điệp gỡ lỗi."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#, fuzzy
+#| msgid "Show _original header value"
+msgid "Show original \"Date\" header value."
+msgstr "Hiện giá trị dòng đầu _gốc"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+msgid ""
+"Show the original \"Date\" header (with a local time only if the time zone "
+"differs). Otherwise always show \"Date\" header value in a user preferred "
+"format and local time zone."
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "List of Labels and their associated colors"
@@ -8484,9 +8907,22 @@ msgstr "Thư mục từ đó cần nạp/đính tập tin vào bộ cấu tạo.
 msgid "Check for new messages on start"
 msgstr "Kiểm tra thư mới lúc khởi động"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+msgid ""
+"Whether to check for new messages when Evolution is started. This includes "
+"also sending messages from Outbox."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Check for new messages in all active accounts"
 msgstr "Kiểm tra thư mới cho mọi tài khoản hoạt động"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+msgid ""
+"Whether to check for new messages in all active accounts regardless of the "
+"account \"Check for new messages every X minutes\" option when Evolution is "
+"started. This option is used only together with 'send_recv_on_start' option."
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid "Server synchronization interval"
@@ -8499,6 +8935,13 @@ msgid ""
 msgstr ""
 "Điều khiển khoảng đợi giữa hai lần đồng bộ các thay đổi cục bộ với máy phục "
 "vụ từ xa. Khoảng thời gian tối thiểu là 30 giây."
+
+#. Translators: This is the a list of words for the attach reminder plugin to look
+#. for in a message body. Please use any number of words here in your language that might
+#. indicate that an attachment should have been attached to the message.
+#: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
+msgid "['attachment','attaching','attached','enclosed']"
+msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -8528,9 +8971,18 @@ msgstr "Sổ địa chỉ để lưu liên lạc đồng bộ tự động."
 msgid "Auto sync Pidgin contacts"
 msgstr "Liên lạc tự động đồng bộ Pidgin"
 
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
+msgid "Whether Pidgin contacts should be automatically synced."
+msgstr ""
+
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
 msgid "Enable autocontacts"
 msgstr "Bật liên lạc tự động"
+
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
+msgid ""
+"Whether contacts should be automatically added to the user's address book."
+msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
 msgid "Pidgin address book source"
@@ -8601,9 +9053,21 @@ msgstr "Tự động chạy trình biên soạn khi nhấn phím trong trình so
 msgid "Insert Face picture by default"
 msgstr "Chèn ảnh chân dung mặc định"
 
+#: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:2
+msgid ""
+"Whether insert Face picture to outgoing messages by default. The picture "
+"should be set before checking this, otherwise nothing happens."
+msgstr ""
+
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
 msgid "Delete processed"
 msgstr "Xoá đã xử lý"
+
+#: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
+#, fuzzy
+#| msgid "Whether to show suppressed HTML output"
+msgid "Whether to delete processed iTip objects"
+msgstr "Có hiện đầu ra HTML bị chặn không"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -8642,6 +9106,13 @@ msgstr ""
 msgid "Enable audible notifications when new messages arrive."
 msgstr "Bật thông báo âm thanh khi nhận thư mới."
 
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:10
+msgid ""
+"Whether to make a sound of any kind when new messages arrive. If \"false\", "
+"the \"notify-sound-beep\", \"notify-sound-file\", \"notify-sound-play-file\" "
+"and \"notify-sound-use-theme\" keys are disregarded."
+msgstr ""
+
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
 msgid "Whether to emit a beep."
 msgstr "Có kêu bíp không."
@@ -8655,8 +9126,6 @@ msgid "Sound filename to be played."
 msgstr "Tên của tập tin âm thanh cần phát."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
-#| msgid ""
-#| "Sound file to be played when new messages arrive, if not in beep mode."
 msgid ""
 "Sound file to be played when new messages arrive, if \"notify-sound-play-file"
 "\" is \"true\"."
@@ -8665,9 +9134,14 @@ msgstr ""
 "\"."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
-#| msgid "Beep or play sound file."
 msgid "Whether to play a sound file."
 msgstr "Có phát tập tin âm thanh không."
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:16
+msgid ""
+"Whether to play a sound file when new messages arrive. The name of the sound "
+"file is given by the 'notify-sound-file' key."
+msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:17
 msgid "Use sound theme"
@@ -8682,14 +9156,26 @@ msgstr ""
 msgid "Mode to use when displaying mails"
 msgstr "Chế độ cần dùng khi hiển thị thư"
 
+#: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
+msgid ""
+"The mode to use for displaying mails. \"normal\" makes Evolution choose the "
+"best part to show, \"prefer_plain\" makes it use the text part, if present, "
+"and \"only_plain\" forces Evolution to only show plain text"
+msgstr ""
+
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
 msgstr "Có hiện đầu ra HTML bị chặn không"
 
 #: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:1
-#| msgid "List of server URLs for free/busy publishing."
 msgid "List of Destinations for publishing"
 msgstr "Danh sách các địa chỉ chủ để công bố"
+
+#: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:2
+msgid ""
+"The key specifies the list of destinations to where publish calendars. Each "
+"values specifies an XML with setup for publishing to one destination."
+msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
@@ -8713,6 +9199,12 @@ msgstr ""
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:3
 msgid "Initial attachment view"
 msgstr "Khung xem đinh kèm ban đầu"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:4
+msgid ""
+"Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
+"View."
+msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:5
 msgid "Initial file chooser folder"
@@ -8746,6 +9238,10 @@ msgstr ""
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
 msgid "Enable express mode"
 msgstr "Bật tìm nhanh"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
+msgid "Flag that enables a much simplified user interface."
+msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
 msgid "Window buttons are visible"
@@ -9936,7 +10432,7 @@ msgstr "Đang tái kết nối tới '%s'"
 msgid "Preparing account '%s' for offline"
 msgstr "Đang chuẩn bị tài khoản '%s' để ra ngoại tuyến"
 
-#: ../libemail-engine/mail-folder-cache.c:885
+#: ../libemail-engine/mail-folder-cache.c:876
 #, c-format
 msgid "Pinging %s"
 msgstr "Đang 'ping' %s..."
@@ -10046,15 +10542,15 @@ msgstr[0] ""
 "Thư mục tìm \"%s\" đã thay đổi vì thư mục bị xoá\n"
 "\"%s\""
 
-#: ../mail/e-mail-account-manager.c:446
+#: ../mail/e-mail-account-manager.c:460
 msgid "_Restore Default"
 msgstr "_Phục hồi mặc định"
 
-#: ../mail/e-mail-account-manager.c:459
+#: ../mail/e-mail-account-manager.c:473
 msgid "You can drag and drop account names to reorder them."
 msgstr "Bạn có thể kéo thả tên tài khoản để thay đổi thứ tự."
 
-#: ../mail/e-mail-account-manager.c:504
+#: ../mail/e-mail-account-manager.c:518
 msgid "De_fault"
 msgstr "_Mặc định"
 
@@ -14142,11 +14638,6 @@ msgid "Search Scope:"
 msgstr "Phạm vi tìm:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:777
-#| msgid ""
-#| "The search scope defines how deep you would like the search to extend "
-#| "down the directory tree. A search scope of \"sub\" will include all "
-#| "entries below your search base. A search scope of \"one\" will only "
-#| "include the entries one level beneath your base."
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree.  A search scope of \"Subtree\" will include all entries "
@@ -14577,7 +15068,7 @@ msgstr "Lịc_h"
 msgid "Create a new calendar"
 msgstr "Tạo lịch mới"
 
-#: ../modules/calendar/e-cal-shell-backend.c:597
+#: ../modules/calendar/e-cal-shell-backend.c:627
 msgid "Calendar and Tasks"
 msgstr "Tác vụ và Lịch"
 
@@ -15354,9 +15845,6 @@ msgid "_Basic Headers (fastest)"
 msgstr "Dòng đầu cơ bản (nhanh nhất)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:271
-#| msgid ""
-#| "_Basic Headers (Fastest) \n"
-#| "Use this if you do not have filters based on mailing lists"
 msgid "Use this if you are not filtering any mailing lists."
 msgstr "Dùng nếu bạn không lọc hộp thư chung."
 
@@ -15374,11 +15862,11 @@ msgid ""
 "headers selected above."
 msgstr ""
 
-#: ../modules/itip-formatter/e-mail-formatter-itip.c:137
+#: ../modules/itip-formatter/e-mail-formatter-itip.c:139
 msgid "ITIP"
 msgstr "ITIP"
 
-#: ../modules/itip-formatter/e-mail-formatter-itip.c:143
+#: ../modules/itip-formatter/e-mail-formatter-itip.c:145
 msgid "Display part as an invitation"
 msgstr "Hiện phần dạng thư mời"
 
@@ -17166,7 +17654,6 @@ msgid_plural "There are %d other contacts."
 msgstr[0] "Có %d liên lạc khác."
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:196
-#| msgid "Address book source"
 msgid "Addressbook Contact"
 msgstr "Liên lạc sổ địa chỉ"
 
