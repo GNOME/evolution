@@ -1176,7 +1176,8 @@ second_preference:
 	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
 		ESource *temp = E_SOURCE (iter->data);
 
-		if (mail_account_in_recipients (registry, temp, recipients)) {
+		if (em_utils_is_source_enabled_with_parents (registry, temp) &&
+		    mail_account_in_recipients (registry, temp, recipients)) {
 			source = g_object_ref (temp);
 			break;
 		}
@@ -1270,6 +1271,41 @@ em_utils_ref_mail_identity_for_store (ESourceRegistry *registry,
 	}
 
 	return source;
+}
+
+gboolean
+em_utils_is_source_enabled_with_parents (ESourceRegistry *registry,
+					 ESource *source)
+{
+	ESource *parent;
+	const gchar *parent_uid;
+
+	g_return_val_if_fail (registry != NULL, FALSE);
+	g_return_val_if_fail (source != NULL, FALSE);
+
+	if (!e_source_get_enabled (source))
+		return FALSE;
+
+	parent = g_object_ref (source);
+	while (parent_uid = e_source_get_parent (parent), parent_uid) {
+		ESource *next = e_source_registry_ref_source (registry, parent_uid);
+
+		if (!next)
+			break;
+
+		g_object_unref (parent);
+
+		if (!e_source_get_enabled (next)) {
+			g_object_unref (next);
+			return FALSE;
+		}
+
+		parent = next;
+	}
+
+	g_object_unref (parent);
+
+	return TRUE;
 }
 
 /**

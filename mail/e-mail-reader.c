@@ -48,6 +48,7 @@
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-browser.h"
 #include "mail/e-mail-reader-utils.h"
+#include "mail/e-mail-ui-session.h"
 #include "mail/e-mail-view.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-event.h"
@@ -4118,8 +4119,8 @@ e_mail_reader_check_state (EMailReader *reader)
 	CamelStore *store = NULL;
 	EMailBackend *backend;
 	ESourceRegistry *registry;
-	GList *list, *iter;
-	const gchar *extension_name;
+	EMailSession *mail_session;
+	EMailAccountStore *account_store;
 	const gchar *tag;
 	gboolean can_clear_flags = FALSE;
 	gboolean can_flag_completed = FALSE;
@@ -4146,6 +4147,8 @@ e_mail_reader_check_state (EMailReader *reader)
 	backend = e_mail_reader_get_backend (reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 	registry = e_shell_get_registry (shell);
+	mail_session = e_mail_backend_get_session (backend);
+	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (mail_session));
 
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
@@ -4242,19 +4245,7 @@ e_mail_reader_check_state (EMailReader *reader)
 		camel_folder_free_message_info (folder, info);
 	}
 
-	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
-	list = e_source_registry_list_sources (registry, extension_name);
-
-	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
-		ESource *source = E_SOURCE (iter->data);
-
-		if (e_source_get_enabled (source)) {
-			have_enabled_account = TRUE;
-			break;
-		}
-	}
-
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+	have_enabled_account = e_mail_account_store_have_enabled_service (account_store, CAMEL_TYPE_STORE);
 
 	if (have_enabled_account)
 		state |= E_MAIL_READER_HAVE_ENABLED_ACCOUNT;

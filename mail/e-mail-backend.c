@@ -137,14 +137,25 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 {
 	GtkWindow *window;
 	EMailSession *session;
-	ESourceRegistry *registry;
-	GList *list, *link;
-	const gchar *extension_name;
+	EMailAccountStore *account_store;
+	GQueue queue = G_QUEUE_INIT;
 	gboolean synchronize = FALSE;
+
+	if (e_shell_backend_is_started (E_SHELL_BACKEND (backend))) {
+		if (!e_activity_get_cancellable (activity)) {
+			GCancellable *cancellable;
+
+			cancellable = camel_operation_new ();
+			e_activity_set_cancellable (activity, cancellable);
+			g_object_unref (cancellable);
+		}
+
+		e_shell_backend_add_activity (E_SHELL_BACKEND (backend), activity);
+	}
 
 	window = e_shell_get_active_window (shell);
 	session = e_mail_backend_get_session (backend);
-	registry = e_mail_session_get_registry (session);
+	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
 	if (e_shell_get_network_available (shell) &&
 		e_shell_backend_is_started (E_SHELL_BACKEND (backend)))
@@ -157,34 +168,21 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 			CAMEL_SESSION (session), FALSE);
 	}
 
-	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
-	list = e_source_registry_list_sources (registry, extension_name);
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ESource *source = E_SOURCE (link->data);
+	e_mail_account_store_queue_enabled_services (account_store, &queue);
+	while (!g_queue_is_empty (&queue)) {
 		CamelService *service;
-		const gchar *uid;
 
-		uid = e_source_get_uid (source);
-		service = camel_session_ref_service (
-			CAMEL_SESSION (session), uid);
-
+		service = g_queue_pop_head (&queue);
 		if (service == NULL)
 			continue;
 
-		/* FIXME Not passing a GCancellable. */
 		if (CAMEL_IS_STORE (service))
 			e_mail_store_go_offline (
-				CAMEL_STORE (service),
-				G_PRIORITY_DEFAULT,
-				NULL, (GAsyncReadyCallback)
-				mail_backend_store_operation_done_cb,
+				CAMEL_STORE (service), G_PRIORITY_DEFAULT,
+				e_activity_get_cancellable (activity),
+				(GAsyncReadyCallback) mail_backend_store_operation_done_cb,
 				g_object_ref (activity));
-
-		g_object_unref (service);
 	}
-
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
 static void
@@ -193,46 +191,41 @@ mail_backend_prepare_for_online_cb (EShell *shell,
                                     EMailBackend *backend)
 {
 	EMailSession *session;
-	ESourceRegistry *registry;
-	GList *list, *link;
-	const gchar *extension_name;
+	EMailAccountStore *account_store;
+	GQueue queue = G_QUEUE_INIT;
+
+	if (e_shell_backend_is_started (E_SHELL_BACKEND (backend))) {
+		if (!e_activity_get_cancellable (activity)) {
+			GCancellable *cancellable;
+
+			cancellable = camel_operation_new ();
+			e_activity_set_cancellable (activity, cancellable);
+			g_object_unref (cancellable);
+		}
+
+		e_shell_backend_add_activity (E_SHELL_BACKEND (backend), activity);
+	}
 
 	session = e_mail_backend_get_session (backend);
-	registry = e_mail_session_get_registry (session);
+	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
 	camel_session_set_online (CAMEL_SESSION (session), TRUE);
 
-	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
-	list = e_source_registry_list_sources (registry, extension_name);
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ESource *source = E_SOURCE (link->data);
+	e_mail_account_store_queue_enabled_services (account_store, &queue);
+	while (!g_queue_is_empty (&queue)) {
 		CamelService *service;
-		const gchar *uid;
 
-		if (!e_source_get_enabled (source))
-			continue;
-
-		uid = e_source_get_uid (source);
-		service = camel_session_ref_service (
-			CAMEL_SESSION (session), uid);
-
+		service = g_queue_pop_head (&queue);
 		if (service == NULL)
 			continue;
 
-		/* FIXME Not passing a GCancellable. */
 		if (CAMEL_IS_STORE (service))
 			e_mail_store_go_online (
-				CAMEL_STORE (service),
-				G_PRIORITY_DEFAULT,
-				NULL, (GAsyncReadyCallback)
-				mail_backend_store_operation_done_cb,
+				CAMEL_STORE (service), G_PRIORITY_DEFAULT,
+				e_activity_get_cancellable (activity),
+				(GAsyncReadyCallback) mail_backend_store_operation_done_cb,
 				g_object_ref (activity));
-
-		g_object_unref (service);
 	}
-
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
 /* Helper for mail_backend_prepare_for_quit_cb() */

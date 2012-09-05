@@ -1365,6 +1365,47 @@ e_mail_account_store_queue_enabled_services (EMailAccountStore *store,
 	}
 }
 
+gboolean
+e_mail_account_store_have_enabled_service (EMailAccountStore *store,
+                                           GType service_type)
+{
+	GtkTreeModel *tree_model;
+	GtkTreeIter iter;
+	gboolean iter_set;
+	gint column;
+	gboolean found = FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_ACCOUNT_STORE (store), FALSE);
+
+	tree_model = GTK_TREE_MODEL (store);
+
+	iter_set = gtk_tree_model_get_iter_first (tree_model, &iter);
+
+	while (iter_set && !found) {
+		GValue value = G_VALUE_INIT;
+		gboolean enabled;
+
+		column = E_MAIL_ACCOUNT_STORE_COLUMN_ENABLED;
+		gtk_tree_model_get_value (tree_model, &iter, column, &value);
+		enabled = g_value_get_boolean (&value);
+		g_value_unset (&value);
+
+		if (enabled) {
+			CamelService *service;
+
+			column = E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE;
+			gtk_tree_model_get_value (tree_model, &iter, column, &value);
+			service = g_value_get_object (&value);
+			found = service && G_TYPE_CHECK_INSTANCE_TYPE (service, service_type);
+			g_value_unset (&value);
+		}
+
+		iter_set = gtk_tree_model_iter_next (tree_model, &iter);
+	}
+
+	return found;
+}
+
 void
 e_mail_account_store_reorder_services (EMailAccountStore *store,
                                        GQueue *ordered_services)

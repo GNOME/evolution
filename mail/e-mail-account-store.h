@@ -134,6 +134,9 @@ void		e_mail_account_store_queue_services
 void		e_mail_account_store_queue_enabled_services
 						(EMailAccountStore *store,
 						 GQueue *out_queue);
+gboolean	e_mail_account_store_have_enabled_service
+						(EMailAccountStore *store,
+						 GType service_type);
 void		e_mail_account_store_reorder_services
 						(EMailAccountStore *store,
 						 GQueue *ordered_services);

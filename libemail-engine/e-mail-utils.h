@@ -62,6 +62,9 @@ ESource *	em_utils_guess_mail_identity_with_recipients
 ESource *	em_utils_ref_mail_identity_for_store
 						(ESourceRegistry *registry,
 						 CamelStore *store);
+gboolean	em_utils_is_source_enabled_with_parents
+						(ESourceRegistry *registry,
+						 ESource *source);
 void		emu_remove_from_mail_cache	(const GSList *addresses);
 void		emu_remove_from_mail_cache_1	(const gchar *address);
 void		emu_free_mail_cache		(GDestroyNotify done_cb,

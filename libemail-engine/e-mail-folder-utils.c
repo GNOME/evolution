@@ -29,6 +29,8 @@
 #include <libemail-engine/e-mail-session.h>
 #include <libemail-engine/mail-tools.h>
 
+#include "e-mail-utils.h"
+
 /* X-Mailer header value */
 #define X_MAILER ("Evolution " VERSION SUB_VERSION " " VERSION_COMMENT)
 
@@ -298,15 +300,14 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 		gboolean any_found = FALSE;
 		gboolean delete_expunged = FALSE;
 		gboolean keep_on_server = FALSE;
-		gboolean enabled;
 
 		source_uid = e_source_get_uid (source);
-		enabled = e_source_get_enabled (source);
 
 		extension = e_source_get_extension (source, extension_name);
 		backend_name = e_source_backend_get_backend_name (extension);
 
-		if (!enabled || g_strcmp0 (backend_name, "pop") != 0)
+		if (!em_utils_is_source_enabled_with_parents (registry, source) ||
+		    g_strcmp0 (backend_name, "pop") != 0)
 			continue;
 
 		service = camel_session_ref_service (
