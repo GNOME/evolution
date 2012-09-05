@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-09-01 11:25+0000\n"
-"PO-Revision-Date: 2012-09-05 18:21+0700\n"
+"PO-Revision-Date: 2012-09-05 18:38+0700\n"
 "Last-Translator: Nguyễn Thái Ngọc Duy <pclouds@gmail.com>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "Language: vi\n"
@@ -7424,10 +7424,9 @@ msgstr ""
 "Có nên vẽ Dòng Marcus Bains (dòng tại giờ hiện có) trong lịch hay không"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
-#, fuzzy
 #| msgid "Task preview pane position (horizontal)"
 msgid "Memo preview pane position (horizontal)"
-msgstr "Vị trí ô xem trước công việc (ngang)"
+msgstr "Vị trí ô xem trước bản ghi nhớ (ngang)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
 msgid "Position of the task preview pane when oriented horizontally"
@@ -7435,10 +7434,9 @@ msgstr "Vị trí khung tác vụ xem trước khi định hướng ngang"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 msgid "Memo layout style"
-msgstr "Kiểu bố trỉ bản ghi nhớ"
+msgstr "Kiểu bố trí bản ghi nhớ"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
-#, fuzzy
 #| msgid ""
 #| "The layout style determines where to place the preview pane in relation "
 #| "to the contact list. \"0\" (Classic View) places the preview pane below "
@@ -7449,9 +7447,9 @@ msgid ""
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list"
 msgstr ""
-"Kiểu bố cục quyết định nơi đặt khung xem trước so với danh sách liên lạc. "
-"\"0\" (trình bày cổ điển) đặt khung xem trước bên dưới danh sách liên lạc. "
-"\"1\" (trình bày dọc) đặt khung xem trước kế bên danh sách liên lạc."
+"Kiểu bố cục quyết định nơi đặt khung xem trước so với danh sách ghi nhớ. "
+"\"0\" (trình bày cổ điển) đặt khung xem trước bên dưới danh sách ghi nhớ. "
+"\"1\" (trình bày dọc) đặt khung xem trước kế bên danh sách ghi nhớ."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Memo preview pane position (vertical)"
@@ -7510,7 +7508,6 @@ msgid "Primary calendar"
 msgstr "Lịch chính"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
-#, fuzzy
 #| msgid ""
 #| "The UID of the selected (or \"primary\") address book in the sidebar of "
 #| "the \"Contacts\" view"
@@ -7518,15 +7515,14 @@ msgid ""
 "The UID of the selected (or \"primary\") calendar in the sidebar of the "
 "\"Calendar\" view"
 msgstr ""
-"UID của sổ địa chỉ được chọn (hoặc \"sổ địa chỉ chính\") ở khung bên trong "
-"khung trình bày \"Liên lạc\""
+"UID của lịch được chọn (hoặc \"lịch chính\") ở khung bên trong khung trình "
+"bày \"Lịch\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
 msgid "Primary memo list"
 msgstr "Danh sách ghi nhớ chính"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
-#, fuzzy
 #| msgid ""
 #| "The UID of the selected (or \"primary\") address book in the sidebar of "
 #| "the \"Contacts\" view"
@@ -7534,15 +7530,14 @@ msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view"
 msgstr ""
-"UID của sổ địa chỉ được chọn (hoặc \"sổ địa chỉ chính\") ở khung bên trong "
-"khung trình bày \"Liên lạc\""
+"UID của danh sách ghi nhớ được chọn (hoặc \"danh sách chính\") ở khung bên "
+"trong khung trình bày \"Ghi nhớ\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 msgid "Primary task list"
 msgstr "Danh sách tác vụ chính"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
-#, fuzzy
 #| msgid ""
 #| "The UID of the selected (or \"primary\") address book in the sidebar of "
 #| "the \"Contacts\" view"
@@ -7550,8 +7545,8 @@ msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view"
 msgstr ""
-"UID của sổ địa chỉ được chọn (hoặc \"sổ địa chỉ chính\") ở khung bên trong "
-"khung trình bày \"Liên lạc\""
+"UID của danh sách công việc được chọn (hoặc \"danh sách chính\") ở khung bên "
+"trong khung trình bày \"Công việc\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
 msgid "Free/busy template URL"
@@ -7597,20 +7592,18 @@ msgstr ""
 "không"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
-#, fuzzy
 #| msgid "Show memo preview pane"
 msgid "Show the memo preview pane"
-msgstr "Khung xem thử"
+msgstr "Hiện khung xem thử ghi nhớ"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid "If \"true\", show the memo preview pane in the main window"
 msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
-#, fuzzy
 #| msgid "Show task preview pane"
 msgid "Show the task preview pane"
-msgstr "Hiện khung xem trước"
+msgstr "Hiện khung xem thử công việc"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
 msgid "If \"true\", show the task preview pane in the main window"
@@ -7654,13 +7647,11 @@ msgid "Task preview pane position (horizontal)"
 msgstr "Vị trí ô xem trước công việc (ngang)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
-#, fuzzy
 #| msgid "Memo layout style"
 msgid "Task layout style"
-msgstr "Kiểu bố trỉ bản ghi nhớ"
+msgstr "Kiểu bố trí công việc"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
-#, fuzzy
 #| msgid ""
 #| "The layout style determines where to place the preview pane in relation "
 #| "to the contact list. \"0\" (Classic View) places the preview pane below "
@@ -7671,9 +7662,9 @@ msgid ""
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list"
 msgstr ""
-"Kiểu bố cục quyết định nơi đặt khung xem trước so với danh sách liên lạc. "
-"\"0\" (trình bày cổ điển) đặt khung xem trước bên dưới danh sách liên lạc. "
-"\"1\" (trình bày dọc) đặt khung xem trước kế bên danh sách liên lạc."
+"Kiểu bố cục quyết định nơi đặt khung xem trước so với danh sách công việc. "
+"\"0\" (trình bày cổ điển) đặt khung xem trước bên dưới danh sách công việc. "
+"\"1\" (trình bày dọc) đặt khung xem trước kế bên danh sách công việc."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid "Task preview pane position (vertical)"
@@ -7802,10 +7793,9 @@ msgid "The window's Y coordinate"
 msgstr "Toạ độ Y của cửa sổ"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
-#, fuzzy
 #| msgid "The window's height in pixels"
 msgid "The window's width in pixels"
-msgstr "Chiều cao (theo điểm) của cửa sổ"
+msgstr "Chiều rộng (theo điểm) của cửa sổ"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
 msgid "The window's height in pixels"
@@ -8048,10 +8038,9 @@ msgstr ""
 "2047 không đúng."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
-#, fuzzy
 #| msgid "Put the cursor at the bottom of replies"
 msgid "Put personalized signatures at the top of replies"
-msgstr "Đặt con trỏ ở phần cuối của trả lời"
+msgstr "Đặt chữ ký ở đầu phần trả lời"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
 msgid ""
@@ -8161,16 +8150,14 @@ msgstr ""
 "thư và các thư mục."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
-#, fuzzy
 #| msgid "Apply the same _view settings to all folders"
 msgid "Enable to use a similar message list view settings for all folders"
-msgstr "Dùng _cùng thiết lập cho mọi thư mục"
+msgstr "Bật dùng cùng thiết lập xem cho mọi thư mục"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
-#, fuzzy
 #| msgid "Apply the same _view settings to all folders"
 msgid "Enable to use a similar message list view settings for all folders."
-msgstr "Dùng _cùng thiết lập cho mọi thư mục"
+msgstr "Bật dùng cùng thiết lập xem cho mọi thư mục."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Mark citations in the message \"Preview\""
@@ -8389,7 +8376,6 @@ msgid "Layout style"
 msgstr "Kiểu bố cục"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
-#, fuzzy
 #| msgid ""
 #| "The layout style determines where to place the preview pane in relation "
 #| "to the contact list. \"0\" (Classic View) places the preview pane below "
@@ -8401,9 +8387,9 @@ msgid ""
 "message list. \"1\" (Vertical View) places the preview pane next to the "
 "message list."
 msgstr ""
-"Kiểu bố cục quyết định nơi đặt khung xem trước so với danh sách liên lạc. "
-"\"0\" (trình bày cổ điển) đặt khung xem trước bên dưới danh sách liên lạc. "
-"\"1\" (trình bày dọc) đặt khung xem trước kế bên danh sách liên lạc."
+"Kiểu bố cục quyết định nơi đặt khung xem trước so với danh sách thư. "
+"\"0\" (trình bày cổ điển) đặt khung xem trước bên dưới danh sách thư. "
+"\"1\" (trình bày dọc) đặt khung xem trước kế bên danh sách thư."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid "Variable width font"
@@ -8664,7 +8650,6 @@ msgid "Prompt when mailing list hijacks private replies"
 msgstr "Hỏi khi có trả lời riêng trong hộp thư chung"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
-#, fuzzy
 #| msgid ""
 #| "It disables/enables the repeated prompts to warn that you are sending a "
 #| "private reply to a message which arrived via a mailing list."
@@ -8673,8 +8658,9 @@ msgid ""
 "a private reply to a message which arrived via a mailing list, but the list "
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr ""
-"Nó bật/tắt tính năng cứ nhắc cảnh báo rằng việc gửi thư trả lời riêng tư cho "
-"một thông điệp đến từ hộp thư chung."
+"Nó bật/tắt tính năng nhắc cảnh báo liên tục rằng việc gửi thư trả lời riêng "
+"tư cho một thông điệp đến từ hộp thư chung, nhưng hộp thư chung đặt dòng đầu "
+"Reply-To: để tái định hướng câu trả lời về hộp thư chung."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid "Prompt when replying to many recipients"
@@ -8746,10 +8732,9 @@ msgstr ""
 " • 2\t\tthông điệp gỡ lỗi."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
-#, fuzzy
 #| msgid "Show _original header value"
 msgid "Show original \"Date\" header value."
-msgstr "Hiện giá trị dòng đầu _gốc"
+msgstr "Hiện giá trị dòng đầu \"Date\" gốc."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
@@ -8941,7 +8926,7 @@ msgstr ""
 #. indicate that an attachment should have been attached to the message.
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
-msgstr ""
+msgstr "['attachment','attaching','attached','enclosed','đính','kèm','gắn','gửi']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -9064,10 +9049,9 @@ msgid "Delete processed"
 msgstr "Xoá đã xử lý"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
-#, fuzzy
 #| msgid "Whether to show suppressed HTML output"
 msgid "Whether to delete processed iTip objects"
-msgstr "Có hiện đầu ra HTML bị chặn không"
+msgstr "Có xoá đối tượng iTip đã xử lý không"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -9476,7 +9460,7 @@ msgstr ""
 #: ../em-format/e-mail-formatter-quote-text-enriched.c:108
 #: ../em-format/e-mail-formatter-text-enriched.c:121
 msgid "Display part as enriched text"
-msgstr ""
+msgstr "Hiện phần dạng richtext"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:104
 #: ../em-format/e-mail-formatter-text-html.c:340
@@ -10580,7 +10564,7 @@ msgstr ""
 #: ../mail/e-mail-autoconfig.c:201
 #, c-format
 msgid "Temporarily unable to resolve '%s'"
-msgstr ""
+msgstr "Tạm thời không thể phân giải '%s'"
 
 #: ../mail/e-mail-autoconfig.c:208
 #, c-format
@@ -13654,15 +13638,15 @@ msgstr "Không thể thực hiện thao tác này trên {0}."
 
 #: ../mail/mail-send-recv.c:203
 msgid "Canceling..."
-msgstr "Đang thôi..."
+msgstr "Đang huỷ..."
 
 #: ../mail/mail-send-recv.c:547
 msgid "Send & Receive Mail"
-msgstr "Gửi và Nhận Thư"
+msgstr "Gửi và nhận Thư"
 
 #: ../mail/mail-send-recv.c:563
 msgid "Cancel _All"
-msgstr "Thôi _tất cả"
+msgstr "Thôi _hết"
 
 #: ../mail/mail-send-recv.c:656 ../mail/mail-send-recv.c:1040
 msgid "Updating..."
@@ -13675,7 +13659,7 @@ msgstr "Đang chờ..."
 #: ../mail/mail-send-recv.c:1020
 #, c-format
 msgid "Checking for new mail"
-msgstr "Đang kiểm tra tìm thư mới..."
+msgstr "Kiểm tra tìm thư mới"
 
 #: ../mail/mail-vfolder-ui.c:79
 msgid "Search Folders"
@@ -13780,6 +13764,10 @@ msgid ""
 "running a new search either by clearing it with Search->Clear menu item or "
 "by changing the query above."
 msgstr ""
+"Không có thư nào thoả mãn tiêu chí tìm đưa ra. Hãy thay đổi tiêu chí tìm "
+"kiếm bằng cách chọn Hiện bộ lọc thư mới từ danh sách thả xuống ở trên hoặc "
+"tìm mới bằng cách xoá trắng bằng trình đơn Tìm/Xoá hoặc thay đổi câu truy "
+"vấn."
 
 #: ../mail/message-list.c:4873
 msgid "There are no messages in this folder."
@@ -13854,7 +13842,7 @@ msgstr "Định dạng địa chỉ"
 
 #: ../modules/addressbook/autocompletion-config.c:102
 msgid "_Format address according to standard of its destination country"
-msgstr ""
+msgstr "Đị_nh dạng địa chỉ theo chuẩn của quốc gia nhận"
 
 #: ../modules/addressbook/autocompletion-config.c:111
 msgid "Autocompletion"
@@ -14310,7 +14298,7 @@ msgstr "Trình phát nhạc"
 
 #: ../modules/audio-inline/e-mail-formatter-audio-inline.c:316
 msgid "Play the attachment in embedded audio player"
-msgstr ""
+msgstr "Phát đính kèm âm thanh bằng trình phát nhúng"
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:167
 msgid ""
@@ -17410,7 +17398,7 @@ msgstr "Tô sáng văn bản"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:348
 msgid "Syntax highlighting of mail parts"
-msgstr ""
+msgstr "Tô sáng cú pháp mọi phần thư"
 
 #: ../modules/text-highlight/languages.c:32
 msgid "_Plain text"
@@ -17659,7 +17647,7 @@ msgstr "Liên lạc sổ địa chỉ"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:202
 msgid "Display the part as an addressbook contact"
-msgstr ""
+msgstr "Hiện phần dạng liên lạc"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:88
 msgid "_Inspect..."
