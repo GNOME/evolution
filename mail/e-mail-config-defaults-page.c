@@ -267,10 +267,12 @@ mail_config_defaults_page_restore_folders (EMailConfigDefaultsPage *page)
 	folder_uri = e_mail_session_get_local_folder_uri (session, type);
 	em_folder_selection_button_set_folder_uri (button, folder_uri);
 
-	type = E_MAIL_LOCAL_FOLDER_SENT;
-	button = EM_FOLDER_SELECTION_BUTTON (page->priv->sent_button);
-	folder_uri = e_mail_session_get_local_folder_uri (session, type);
-	em_folder_selection_button_set_folder_uri (button, folder_uri);
+	if (gtk_widget_is_sensitive (page->priv->sent_button)) {
+		type = E_MAIL_LOCAL_FOLDER_SENT;
+		button = EM_FOLDER_SELECTION_BUTTON (page->priv->sent_button);
+		folder_uri = e_mail_session_get_local_folder_uri (session, type);
+		em_folder_selection_button_set_folder_uri (button, folder_uri);
+	}
 }
 
 static void
@@ -486,6 +488,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	EMailConfigDefaultsPage *page;
 	EMailSession *session;
 	ESource *source;
+	ESourceBackend *account_ext;
 	ESourceMailComposition *composition_ext;
 	ESourceMailSubmission *submission_ext;
 	ESourceMDN *mdn_ext;
@@ -497,6 +500,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	GEnumClass *enum_class;
 	GEnumValue *enum_value;
 	EMdnResponsePolicy policy;
+	CamelProvider *provider = NULL;
 	const gchar *extension_name;
 	const gchar *text;
 	gchar *markup;
@@ -506,6 +510,12 @@ mail_config_defaults_page_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_config_defaults_page_parent_class)->
 		constructed (object);
+
+	source = e_mail_config_defaults_page_get_account_source (page);
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	account_ext = e_source_get_extension (source, extension_name);
+	if (e_source_backend_get_backend_name (account_ext))
+		provider = camel_provider_get (e_source_backend_get_backend_name (account_ext), NULL);
 
 	session = e_mail_config_defaults_page_get_session (page);
 	source = e_mail_config_defaults_page_get_identity_source (page);
@@ -586,6 +596,11 @@ mail_config_defaults_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
 	page->priv->sent_button = widget;  /* not referenced */
 	gtk_widget_show (widget);
+
+	if (provider && (provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER) != 0) {
+		gtk_widget_set_sensitive (GTK_WIDGET (label), FALSE);
+		gtk_widget_set_sensitive (widget, FALSE);
+	}
 
 	g_object_bind_property (
 		submission_ext, "sent-folder",
