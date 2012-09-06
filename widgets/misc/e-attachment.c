@@ -66,6 +66,7 @@ struct _EAttachmentPrivate {
 	guint emblem_timeout_id;
 	gchar *disposition;
 	gint percent;
+	gint64 last_percent_notify; /* to avoid excessive notifications */
 
 	guint can_show : 1;
 	guint loading  : 1;
@@ -415,6 +416,7 @@ attachment_set_loading (EAttachment *attachment,
 
 	attachment->priv->percent = 0;
 	attachment->priv->loading = loading;
+	attachment->priv->last_percent_notify = 0;
 
 	g_object_freeze_notify (G_OBJECT (attachment));
 	g_object_notify (G_OBJECT (attachment), "percent");
@@ -434,6 +436,7 @@ attachment_set_saving (EAttachment *attachment,
 {
 	attachment->priv->percent = 0;
 	attachment->priv->saving = saving;
+	attachment->priv->last_percent_notify = 0;
 
 	g_object_freeze_notify (G_OBJECT (attachment));
 	g_object_notify (G_OBJECT (attachment), "percent");
@@ -446,14 +449,24 @@ attachment_progress_cb (goffset current_num_bytes,
                         goffset total_num_bytes,
                         EAttachment *attachment)
 {
+	gint new_percent;
+
 	/* Avoid dividing by zero. */
 	if (total_num_bytes == 0)
 		return;
 
-	attachment->priv->percent =
-		(current_num_bytes * 100) / total_num_bytes;
+	/* do not notify too often, 5 times per second is sufficient */
+	if (g_get_monotonic_time () - attachment->priv->last_percent_notify < 200000)
+		return;
 
-	g_object_notify (G_OBJECT (attachment), "percent");
+	attachment->priv->last_percent_notify = g_get_monotonic_time ();
+
+	new_percent = (current_num_bytes * 100) / total_num_bytes;
+
+	if (new_percent != attachment->priv->percent) {
+		attachment->priv->percent = new_percent;
+		g_object_notify (G_OBJECT (attachment), "percent");
+	}
 }
 
 static gboolean
