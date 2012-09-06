@@ -390,13 +390,8 @@ replace_text (WebKitDOMNode *node,
 			}
 
 			split_offset = offset - node_data + text_length;
-			#if WEBKIT_CHECK_VERSION (1, 9, 90)
-			replacement_node =
-				webkit_dom_node_clone_node (replacement, TRUE, NULL);
-			#else
 			replacement_node =
 				webkit_dom_node_clone_node (replacement, TRUE);
-			#endif
 
 			data_length = webkit_dom_character_data_get_length (
 					(WebKitDOMCharacterData *) node);
