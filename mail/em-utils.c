@@ -1305,6 +1305,19 @@ em_utils_message_to_html (CamelSession *session,
 			if (!part)
 				continue;
 
+			/* Prefer-plain can hide text parts, thus show them */
+			if (part->is_hidden && part->mime_type) {
+				CamelContentType *ct;
+
+				ct = camel_content_type_decode (part->mime_type);
+				if (ct) {
+					if (camel_content_type_is (ct, "text", "*"))
+						part->is_hidden = FALSE;
+
+					camel_content_type_unref (ct);
+				}
+			}
+
 			if (*validity_found && part->validity_type)
 				*validity_found |= part->validity_type;
 		}
