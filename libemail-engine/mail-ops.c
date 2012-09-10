@@ -1051,7 +1051,7 @@ mail_send_queue (EMailSession *session,
 	m->queue = g_object_ref (queue);
 	m->transport = g_object_ref (transport);
 	if (G_IS_CANCELLABLE (cancellable))
-		m->base.cancellable = cancellable;
+		m->base.cancellable = g_object_ref (cancellable);
 	m->status = status;
 	m->status_data = status_data;
 	m->done = done;
