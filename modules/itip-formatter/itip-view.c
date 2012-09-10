@@ -2614,7 +2614,7 @@ itip_view_get_rsvp (ItipView *view)
 		return FALSE;
 
 	el = webkit_dom_document_get_element_by_id (
-		view->priv->dom_document, CHECKBOX_UPDATE);
+		view->priv->dom_document, CHECKBOX_RSVP);
 	return webkit_dom_html_input_element_get_checked (WEBKIT_DOM_HTML_INPUT_ELEMENT (el));
 }
 
