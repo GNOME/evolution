@@ -3118,7 +3118,9 @@ itip_view_set_error (ItipView *view,
 typedef struct {
 	EMailPartItip *puri;
         ItipView *view;
+	GCancellable *itip_cancellable;
 	GCancellable *cancellable;
+	gulong cancelled_id;
 	gboolean keep_alarm_check;
 	GHashTable *conflicts;
 
@@ -3656,6 +3658,8 @@ find_cal_update_ui (FormatItipFindData *fd,
 
 	/* search for a master object if the detached object doesn't exist in the calendar */
 	if (pitip->current_client && pitip->current_client == cal_client) {
+		gboolean rsvp_enabled = FALSE;
+
 		itip_view_set_show_keep_alarm_check (view, fd->keep_alarm_check);
 
 		pitip->current_client = cal_client;
@@ -3678,7 +3682,25 @@ find_cal_update_ui (FormatItipFindData *fd,
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
 			_("Found the appointment in the calendar '%s'"), e_source_get_display_name (source));
 
+		/*
+		 * Only allow replies if backend doesn't do that automatically.
+		 * Only enable it for forwarded invitiations (PUBLISH) or direct
+		 * invitiations (REQUEST), but not replies (REPLY).
+		 * Replies only make sense for events with an organizer.
+		 */
+		if ((!pitip->current_client || !e_cal_client_check_save_schedules (pitip->current_client)) &&
+		    (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) &&
+		    pitip->has_organizer) {
+			rsvp_enabled = TRUE;
+		}
+		itip_view_set_show_rsvp_check (view, rsvp_enabled);
+
+		/* default is chosen in extract_itip_data() based on content of the VEVENT */
+		itip_view_set_rsvp (view, !pitip->no_reply_wanted);
+
 		set_buttons_sensitive (pitip, view);
+
+		g_cancellable_cancel (fd->cancellable);
 	} else if (!pitip->current_client)
 		itip_view_set_show_keep_alarm_check (view, FALSE);
 
@@ -3722,8 +3744,8 @@ decrease_find_data (FormatItipFindData *fd)
 
 		/*
 		 * Only allow replies if backend doesn't do that automatically.
- *               * Only enable it for forwarded invitiations (PUBLISH) or direct
- *               * invitiations (REQUEST), but not replies (REPLY).
+		 * Only enable it for forwarded invitiations (PUBLISH) or direct
+		 * invitiations (REQUEST), but not replies (REPLY).
 		 * Replies only make sense for events with an organizer.
 		 */
 		if ((!pitip->current_client || !e_cal_client_check_save_schedules (pitip->current_client)) &&
@@ -3800,7 +3822,9 @@ decrease_find_data (FormatItipFindData *fd)
 
 	if (fd->count == 0) {
 		g_hash_table_destroy (fd->conflicts);
+		g_cancellable_disconnect (fd->itip_cancellable, fd->cancelled_id);
 		g_object_unref (fd->cancellable);
+		g_object_unref (fd->itip_cancellable);
 		g_free (fd->uid);
 		g_free (fd->rid);
 		if (fd->sexp)
@@ -4046,6 +4070,13 @@ find_cal_opened_cb (GObject *source_object,
 }
 
 static void
+itip_cancellable_cancelled (GCancellable *itip_cancellable,
+			    GCancellable *fd_cancellable)
+{
+	g_cancellable_cancel (fd_cancellable);
+}
+
+static void
 find_server (EMailPartItip *pitip,
              ItipView *view,
              ECalComponent *comp)
@@ -4146,7 +4177,10 @@ find_server (EMailPartItip *pitip,
 			fd = g_new0 (FormatItipFindData, 1);
 			fd->puri = pitip;
 			fd->view = view;
-			fd->cancellable = g_object_ref (pitip->cancellable);
+			fd->itip_cancellable = g_object_ref (pitip->cancellable);
+			fd->cancellable = g_cancellable_new ();
+			fd->cancelled_id = g_cancellable_connect (fd->itip_cancellable,
+				G_CALLBACK (itip_cancellable_cancelled), fd->cancellable, NULL);
 			fd->conflicts = g_hash_table_new (g_direct_hash, g_direct_equal);
 			fd->uid = g_strdup (uid);
 			fd->rid = rid;
