@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: evolution.gnome-2-28\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-29 17:23+0530\n"
-"PO-Revision-Date: 2012-02-29 17:24+0530\n"
+"PO-Revision-Date: 2012-09-05 09:33+0530\n"
 "Last-Translator: Dr.T.Vasudevan <agnihot3@gmail.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -10353,8 +10353,8 @@ msgstr[1] "எதிர்காலத்தில் %d நாட்களி�
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] "எதிர்காலத்தில் ஒரு வாரத்தில்"
-msgstr[1] "எதிர்காலத்தில் %d வாரங்களில்"
+msgstr[0] "ஒரு வாரம் முன்"
+msgstr[1] "%d வாரங்கள் முன்"
 
 #: ../filter/e-filter-datespec.c:79
 #, c-format
@@ -12618,7 +12618,7 @@ msgstr "\"மின்னஞ்சலை அனுப்பு & பெறு\" 
 
 #: ../mail/evolution-mail.schemas.in.h:16
 msgid "Attribute message."
-msgstr "செய்தி பண்புக்கூறு"
+msgstr "பண்புக்கூறு செய்தி "
 
 #: ../mail/evolution-mail.schemas.in.h:25
 msgid "Composer Window default height"
