@@ -45,7 +45,7 @@ static GMutex *mail_msg_lock;
 static GCond *mail_msg_cond;
 
 static MailMsgCreateActivityFunc create_activity = NULL;
-static MailMsgSubmitActivityFunc submit_acitivity = NULL;
+static MailMsgSubmitActivityFunc submit_activity = NULL;
 static MailMsgFreeActivityFunc free_activity = NULL;
 static MailMsgCompleteActivityFunc complete_activity = NULL;
 static MailMsgAlertErrorFunc alert_error = NULL;
@@ -64,7 +64,7 @@ mail_msg_register_activities (MailMsgCreateActivityFunc acreate,
 	/* XXX This is an utter hack to keep EActivity out
 	 *     of EDS and still let Evolution do EActivity. */
 	create_activity = acreate;
-	submit_acitivity = asubmit;
+	submit_activity = asubmit;
 	free_activity = freeact;
 	complete_activity = comp_act;
 	cancel_activity = cancel_act;
@@ -92,8 +92,8 @@ static gboolean
 mail_msg_submit (CamelOperation *cancellable)
 {
 
-	if (submit_acitivity)
-		submit_acitivity ((GCancellable *) cancellable);
+	if (submit_activity)
+		submit_activity ((GCancellable *) cancellable);
 	return FALSE;
 }
 

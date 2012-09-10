@@ -891,9 +891,9 @@ mail_backend_remove_store (EMailSession *session,
 	em_folder_tree_model_remove_store (model, store);
 }
 
-#define SET_ACITIVITY(cancellable, activity) \
+#define SET_ACTIVITY(cancellable, activity) \
 	g_object_set_data (G_OBJECT (cancellable), "e-activity", activity)
-#define GET_ACITIVITY(cancellable) \
+#define GET_ACTIVITY(cancellable) \
         g_object_get_data (G_OBJECT (cancellable), "e-activity")
 
 static void
@@ -904,7 +904,7 @@ mail_mt_create_activity (GCancellable *cancellable)
 	activity = e_activity_new ();
 	e_activity_set_percent (activity, 0.0);
 	e_activity_set_cancellable (activity, cancellable);
-	SET_ACITIVITY (cancellable, activity);
+	SET_ACTIVITY (cancellable, activity);
 }
 
 static void
@@ -918,7 +918,7 @@ mail_mt_submit_activity (GCancellable *cancellable)
 	shell_backend = e_shell_get_backend_by_name (
 		shell, "mail");
 
-	activity = GET_ACITIVITY (cancellable);
+	activity = GET_ACTIVITY (cancellable);
 	if (activity)
 		e_shell_backend_add_activity (shell_backend, activity);
 
@@ -927,16 +927,16 @@ mail_mt_submit_activity (GCancellable *cancellable)
 static void
 mail_mt_free_activity (GCancellable *cancellable)
 {
-	EActivity *activity = GET_ACITIVITY (cancellable);
+	EActivity *activity = GET_ACTIVITY (cancellable);
 
 	if (activity)
 		g_object_unref (activity);
 }
 
 static void
-mail_mt_complete_acitivity (GCancellable *cancellable)
+mail_mt_complete_activity (GCancellable *cancellable)
 {
-	EActivity *activity = GET_ACITIVITY (cancellable);
+	EActivity *activity = GET_ACTIVITY (cancellable);
 
 	if (activity)
 		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
@@ -945,7 +945,7 @@ mail_mt_complete_acitivity (GCancellable *cancellable)
 static void
 mail_mt_cancel_activity (GCancellable *cancellable)
 {
-	EActivity *activity = GET_ACITIVITY (cancellable);
+	EActivity *activity = GET_ACTIVITY (cancellable);
 
 	if (activity)
 		e_activity_set_state (activity, E_ACTIVITY_CANCELLED);
@@ -1101,7 +1101,7 @@ mail_backend_constructed (GObject *object)
 		mail_mt_create_activity,
 		mail_mt_submit_activity,
 		mail_mt_free_activity,
-		mail_mt_complete_acitivity,
+		mail_mt_complete_activity,
 		mail_mt_cancel_activity,
 		mail_mt_alert_error,
 		mail_mt_get_alert_sink);
