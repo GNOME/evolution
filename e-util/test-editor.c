@@ -31,6 +31,8 @@ static const gchar *file_ui =
 "     <menuitem action='print-preview'/>\n"
 "     <menuitem action='print'/>\n"
 "     <separator/>\n"
+"     <menuitem action='disable-editor'/>\n"
+"     <separator/>\n"
 "     <menuitem action='quit'/>\n"
 "    </menu>\n"
 "  </menubar>\n"
@@ -248,6 +250,18 @@ action_save_as_cb (GtkAction *action,
 }
 
 static void
+action_toggle_editor (GtkAction *action,
+		      EEditor *editor)
+{
+	EEditorWidget *widget;
+
+	widget = e_editor_get_editor_widget (editor);
+	webkit_web_view_set_editable (
+		WEBKIT_WEB_VIEW (widget),
+		! webkit_web_view_get_editable (WEBKIT_WEB_VIEW (widget)));
+}
+
+static void
 action_view_html_output (GtkAction *action,
                          EEditor *editor)
 {
@@ -317,6 +331,13 @@ static GtkActionEntry file_entries[] = {
 	  NULL,
 	  NULL,
 	  G_CALLBACK (action_save_as_cb) },
+
+	{ "disable-editor",
+	  NULL,
+	  N_("Disable/Enable Editor"),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_toggle_editor) },
 
 	{ "file-menu",
 	  NULL,

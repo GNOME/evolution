@@ -1985,4 +1985,22 @@ editor_actions_init (EEditor *editor)
 		editor->priv->selection, "underline",
 		ACTION (UNDERLINE), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+
+	/* Disable all actions and toolbars when editor is not editable */
+	g_object_bind_property (
+		editor_widget, "editable",
+		editor->priv->core_actions, "sensitive",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		editor_widget, "editable",
+		editor->priv->html_actions, "sensitive",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		editor_widget, "editable",
+		editor->priv->spell_check_actions, "sensitive",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		editor_widget, "editable",
+		editor->priv->suggestion_actions, "sensitive",
+		G_BINDING_SYNC_CREATE);
 }
