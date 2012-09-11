@@ -148,7 +148,7 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 				"name=\"save-to-addressbook\" "
 				"class=\"org-gnome-vcard-inline-save-button\" "
 				"value=\"%s\" "
-				"accesskey=\"%s\">%s</button><br/>"
+				"accesskey=\"%s\">%s</button><br>"
 			"<iframe width=\"100%%\" height=\"auto\" frameborder=\"0\""
 				"src=\"%s\" name=\"%s\"></iframe>"
 			"</div>",

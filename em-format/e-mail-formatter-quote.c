@@ -85,11 +85,11 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	g_object_unref (settings);
 
 	if (qf->priv->credits && *qf->priv->credits) {
-		gchar *credits = g_strdup_printf ("%s<br/>", qf->priv->credits);
+		gchar *credits = g_strdup_printf ("%s<br>", qf->priv->credits);
 		camel_stream_write_string (stream, credits, cancellable, NULL);
 		g_free (credits);
 	} else {
-		camel_stream_write_string (stream, "<br/>", cancellable, NULL);
+		camel_stream_write_string (stream, "<br>", cancellable, NULL);
 	}
 
 	if (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_CITE) {
