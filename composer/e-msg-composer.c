@@ -2226,30 +2226,6 @@ msg_composer_key_press_event (GtkWidget *widget,
 		key_press_event (widget, event);
 }
 
-static void
-msg_composer_cut_clipboard (EMsgComposer *composer)
-{
-	/* Do nothing.  EFocusTracker handles this. */
-}
-
-static void
-msg_composer_copy_clipboard (EMsgComposer *composer)
-{
-	/* Do nothing.  EFocusTracker handles this. */
-}
-
-static void
-msg_composer_paste_clipboard (EMsgComposer *composer)
-{
-	/* Do nothing.  EFocusTracker handles this. */
-}
-
-static void
-msg_composer_select_all (EMsgComposer *composer)
-{
-	/* Do nothing.  EFocusTracker handles this. */
-}
-
 /* FIXME WEBKIT We can effectively hack around this by DOM manipulation
  * when inserting signature, right?..or when is this usefull ?? */
 static void
@@ -2357,33 +2333,6 @@ msg_composer_image_uri (EMsgComposer *composer,
 		return NULL;
 
 	return g_strconcat ("cid:", cid, NULL);
-}
-
-/* FIXME WEBKIT We don't need this, do we? */
-static void
-msg_composer_object_deleted (EMsgComposer *composer)
-{
-	/*
-	const gchar *data;
-
-	if (!gtkhtml_editor_is_paragraph_empty (editor))
-		return;
-
-	data = gtkhtml_editor_get_paragraph_data (editor, "orig");
-	if (data != NULL && *data == '1') {
-		gtkhtml_editor_set_paragraph_data (editor, "orig", "0");
-		gtkhtml_editor_run_command (editor, "indent-zero");
-		gtkhtml_editor_run_command (editor, "style-normal");
-		gtkhtml_editor_run_command (editor, "text-default-color");
-		gtkhtml_editor_run_command (editor, "italic-off");
-		gtkhtml_editor_run_command (editor, "insert-paragraph");
-		gtkhtml_editor_run_command (editor, "delete-back");
-	}
-
-	data = gtkhtml_editor_get_paragraph_data (editor, "signature");
-	if (data != NULL && *data == '1')
-		gtkhtml_editor_set_paragraph_data (editor, "signature", "0");
-	*/
 }
 
 static gboolean
