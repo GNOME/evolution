@@ -1842,7 +1842,8 @@ gnome_calendar_set_view (GnomeCalendar *gcal,
 
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
-	if (gcal->priv->current_view_type == view_type)
+	if (gcal->priv->current_view_type == view_type &&
+	    E_CALENDAR_VIEW (gcal->priv->views[view_type])->in_focus)
 		return;
 
 	gcal->priv->current_view_type = view_type;
