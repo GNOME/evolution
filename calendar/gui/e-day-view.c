@@ -2484,27 +2484,29 @@ e_day_view_find_work_week_start (EDayView *day_view,
 	/* The start of the work-week is the first working day after the
 	 * week start day. */
 
-	/* Get the weekday corresponding to start_time, 0 (Sun) to 6 (Sat). */
-	weekday = g_date_get_weekday (&date) % 7;
+	/* Get the weekday corresponding to start_time, 0 (Mon) to 6 (Sun). */
+	weekday = (g_date_get_weekday (&date) + 6) % 7;
 
-	/* Calculate the first working day of the week, 0 (Sun) to 6 (Sat).
+	/* Calculate the first working day of the week, 0 (Mon) to 6 (Sun).
 	 * It will automatically default to the week start day if no days
 	 * are set as working days. */
-	day = (week_start_day + 1) % 7;
+	day = week_start_day % 7;
 	for (i = 0; i < 7; i++) {
-		if (day_view->working_days & (1 << day))
+		/* the working_days has stored 0 (Sun) to 6 (Sat) */
+		if (day_view->working_days & (1 << ((day + 1) % 7)))
 			break;
 		day = (day + 1) % 7;
 	}
 
 	/* Calculate how many days we need to go back to the first workday. */
 	if (weekday < day) {
-		offset = (day - weekday) % 7;
-		g_date_add_days (&date, offset);
+		offset = (7 - day + weekday) % 7;
 	} else {
 		offset = (weekday - day) % 7;
-		g_date_subtract_days (&date, offset);
 	}
+
+	if (offset)
+		g_date_subtract_days (&date, offset);
 
 	tt.year = g_date_get_year (&date);
 	tt.month = g_date_get_month (&date);
@@ -2774,10 +2776,11 @@ e_day_view_recalc_work_week_days_shown (EDayView *day_view)
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 	week_start_day = e_cal_model_get_week_start_day (model);
 
-	/* Find the first working day in the week, 0 (Sun) to 6 (Sat). */
-	first_day = (week_start_day + 1) % 7;
+	/* Find the first working day in the week, 0 (Mon) to 6 (Sun). */
+	first_day = week_start_day % 7;
 	for (i = 0; i < 7; i++) {
-		if (day_view->working_days & (1 << first_day)) {
+		/* the working_days has stored 0 (Sun) to 6 (Sat) */
+		if (day_view->working_days & (1 << ((first_day + 1) % 7))) {
 			has_working_days = TRUE;
 			break;
 		}
@@ -2786,9 +2789,10 @@ e_day_view_recalc_work_week_days_shown (EDayView *day_view)
 
 	if (has_working_days) {
 		/* Now find the last working day of the week, backwards. */
-		last_day = week_start_day % 7;
+		last_day = (first_day + 6) % 7;
 		for (i = 0; i < 7; i++) {
-			if (day_view->working_days & (1 << last_day))
+			/* the working_days has stored 0 (Sun) to 6 (Sat) */
+			if (day_view->working_days & (1 << ((last_day + 1) % 7)))
 				break;
 			last_day = (last_day + 6) % 7;
 		}

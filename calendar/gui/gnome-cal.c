@@ -926,7 +926,8 @@ get_times_for_views (GnomeCalendar *gcal,
 		/* Find the first working day in the week, 0 (Mon) to 6 (Sun). */
 		first_day = week_start_day % 7;
 		for (i = 0; i < 7; i++) {
-			if (day_view->working_days & (1 << first_day)) {
+			/* the working_days has stored 0 (Sun) to 6 (Sat) */
+			if (day_view->working_days & (1 << ((first_day + 1) % 7))) {
 				has_working_days = TRUE;
 				break;
 			}
@@ -937,7 +938,8 @@ get_times_for_views (GnomeCalendar *gcal,
 			/* Now find the last working day of the week, backwards. */
 			last_day = (first_day + 6) % 7;
 			for (i = 0; i < 7; i++) {
-				if (day_view->working_days & (1 << last_day))
+				/* the working_days has stored 0 (Sun) to 6 (Sat) */
+				if (day_view->working_days & (1 << ((last_day + 1) % 7)))
 					break;
 				last_day = (last_day + 6) % 7;
 			}
