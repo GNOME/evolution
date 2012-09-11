@@ -1311,11 +1311,6 @@ composer_build_message (EMsgComposer *composer,
 
 		clear_current_images (composer);
 
-		/* FIXME WEBKIT Can this go away?
-		if (flags & COMPOSER_FLAG_SAVE_OBJECT_DATA)
-			gtkhtml_editor_run_command (editor, "save-data-on");
-		*/
-
 		editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 		editor_widget = e_editor_get_editor_widget (editor);
 		data = g_byte_array_new ();
@@ -1324,11 +1319,6 @@ composer_build_message (EMsgComposer *composer,
 		g_byte_array_append (data, (guint8 *) text, (guint) length);
 		pre_encode = text_requires_quoted_printable (text, length);
 		g_free (text);
-
-		/* FIXME WEBKIT And this as well?
-		if (flags & COMPOSER_FLAG_SAVE_OBJECT_DATA)
-			gtkhtml_editor_run_command (editor, "save-data-off");
-		*/
 
 		mem_stream = camel_stream_mem_new_with_byte_array (data);
 		stream = camel_stream_filter_new (mem_stream);
