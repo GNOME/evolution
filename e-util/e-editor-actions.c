@@ -1985,5 +1985,4 @@ editor_actions_init (EEditor *editor)
 		editor->priv->selection, "underline",
 		ACTION (UNDERLINE), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-
 }
