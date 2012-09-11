@@ -61,50 +61,6 @@ composer_setup_charset_menu (EMsgComposer *composer)
 	gtk_ui_manager_ensure_update (ui_manager);
 }
 
-/* FIXME WEBKIT We don't need to control this anymore....
-static void
-msg_composer_url_requested_cb (GtkHTML *html,
-                               const gchar *uri,
-                               GtkHTMLStream *stream,
-                               EMsgComposer *composer)
-{
-	GByteArray *array;
-	GHashTable *hash_table;
-	CamelDataWrapper *wrapper;
-	CamelStream *camel_stream;
-	CamelMimePart *mime_part;
-
-	hash_table = composer->priv->inline_images_by_url;
-	mime_part = g_hash_table_lookup (hash_table, uri);
-
-	if (mime_part == NULL) {
-		hash_table = composer->priv->inline_images;
-		mime_part = g_hash_table_lookup (hash_table, uri);
-	}
-
-	// If this is not an inline image request,
-	// allow the signal emission to continue. 
-	if (mime_part == NULL)
-		return;
-
-	array = g_byte_array_new ();
-	camel_stream = camel_stream_mem_new_with_byte_array (array);
-	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
-	camel_data_wrapper_decode_to_stream_sync (
-		wrapper, camel_stream, NULL, NULL);
-
-	gtk_html_write (html, stream, (gchar *) array->data, array->len);
-
-	gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
-
-	g_object_unref (camel_stream);
-
-	// gtk_html_end() destroys the GtkHTMLStream, so we need to
-	// stop the signal emission so nothing else tries to use it.
-	g_signal_stop_emission_by_name (html, "url-requested");
-}
-*/
-
 static void
 composer_update_gallery_visibility (EMsgComposer *composer)
 {
@@ -324,11 +280,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	/* Initial sync */
 	composer_update_gallery_visibility (composer);
 
-	/* XXX What is this for? */
-	/* FIXME WEBKIT Yes, what is this for?
-	g_object_set_data (G_OBJECT (composer), "vbox", editor->vbox);
-	*/
-
 	/* Bind headers to their corresponding actions. */
 
 	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
@@ -368,24 +319,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 			G_BINDING_BIDIRECTIONAL |
 			G_BINDING_SYNC_CREATE);
 	}
-
-	/* Disable actions that start asynchronous activities while an
-	 * asynchronous activity is in progress.  We enforce this with
-	 * a simple inverted binding to EEditor's "busy" property. */
-
-	/* XXX We no longer use GtkhtmlEditor::uri-requested because it
-	 *     conflicts with EWebView's url_requested() method, which
-	 *     unconditionally launches an async operation.  I changed
-	 *     GtkHTML::url-requested to be a G_SIGNAL_RUN_LAST so that
-	 *     our handler runs first.  If we can handle the request
-	 *     we'll stop the signal emission to prevent EWebView from
-	 *     launching an async operation.  Messy, but works until we
-	 *     switch to WebKit.  --mbarnes */
-	/* FIXME WEBKIT So...we don't need this anymore, right?
-	g_signal_connect (
-		web_view, "url-requested",
-		G_CALLBACK (msg_composer_url_requested_cb), composer);
-	*/
 
 	g_object_unref (settings);
 }
