@@ -264,6 +264,26 @@ mail_display_update_formatter_colors (EMailDisplay *display)
 }
 
 static void
+mail_display_plugin_widget_disconnect_children (GtkWidget *widget,
+						gpointer mail_display)
+{
+	g_signal_handlers_disconnect_by_data (widget, mail_display);
+}
+
+static void
+mail_display_plugin_widget_disconnect (gpointer widget_uri,
+				       gpointer widget,
+				       gpointer mail_display)
+{
+	if (E_IS_ATTACHMENT_BAR (widget) ||
+	    E_IS_ATTACHMENT_BUTTON (widget)) {
+		g_signal_handlers_disconnect_by_data (widget, mail_display);
+	} else if (GTK_IS_CONTAINER (widget)) {
+		gtk_container_foreach (widget, mail_display_plugin_widget_disconnect_children, mail_display);
+	}
+}
+
+static void
 mail_display_constructed (GObject *object)
 {
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
@@ -349,6 +369,7 @@ mail_display_dispose (GObject *object)
 	}
 
 	if (priv->widgets) {
+		g_hash_table_foreach (priv->widgets, mail_display_plugin_widget_disconnect, object);
 		g_hash_table_destroy (priv->widgets);
 		priv->widgets = NULL;
 	}
@@ -1368,8 +1389,10 @@ mail_display_uri_changed (EMailDisplay *display,
 {
 	d (printf ("EMailDisplay URI changed, recreating widgets hashtable\n"));
 
-	if (display->priv->widgets)
+	if (display->priv->widgets) {
+		g_hash_table_foreach (display->priv->widgets, mail_display_plugin_widget_disconnect, display);
 		g_hash_table_destroy (display->priv->widgets);
+	}
 
 	display->priv->widgets = g_hash_table_new_full (
 					g_str_hash, g_str_equal,
