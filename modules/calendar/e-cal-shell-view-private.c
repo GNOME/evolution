@@ -177,9 +177,12 @@ cal_shell_view_date_navigator_selection_changed_cb (ECalShellView *cal_shell_vie
 				(new_days_shown + 6) / 7);
 			switch_to = GNOME_CAL_MONTH_VIEW;
 		}
-	} else if (new_days_shown == 7 && starts_on_week_start_day)
+	} else if (new_days_shown == 7 && starts_on_week_start_day) {
 		switch_to = GNOME_CAL_WEEK_VIEW;
-	else {
+	} else if (new_days_shown == 1 && (view_type == GNOME_CAL_WORK_WEEK_VIEW || view_type == GNOME_CAL_WEEK_VIEW)) {
+		/* preserve week views when clicking on one day */
+		switch_to = view_type;
+	} else {
 		ECalendarView *calendar_view;
 
 		calendar_view = gnome_calendar_get_calendar_view (
