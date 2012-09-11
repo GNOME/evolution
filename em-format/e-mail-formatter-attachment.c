@@ -138,7 +138,8 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	empa = (EMailPartAttachment *) part;
 
 	if ((context->mode == E_MAIL_FORMATTER_MODE_NORMAL) ||
-	    (context->mode == E_MAIL_FORMATTER_MODE_PRINTING)) {
+	    (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) ||
+	    (context->mode == E_MAIL_FORMATTER_MODE_ALL_HEADERS)) {
 		if (part->validity) {
 			e_attachment_set_signed (
 				empa->attachment, part->validity->sign.status);

@@ -64,7 +64,8 @@ emfe_attachment_bar_format (EMailFormatterExtension *extension,
 	gchar *str;
 
 	if ((context->mode != E_MAIL_FORMATTER_MODE_NORMAL) &&
-	    (context->mode != E_MAIL_FORMATTER_MODE_RAW))
+	    (context->mode != E_MAIL_FORMATTER_MODE_RAW) &&
+	    (context->mode != E_MAIL_FORMATTER_MODE_ALL_HEADERS))
 		return FALSE;
 
 	str = g_strdup_printf (
