@@ -203,6 +203,22 @@ cal_shell_view_date_navigator_selection_changed_cb (ECalShellView *cal_shell_vie
 	gnome_calendar_set_range_selected (calendar, TRUE);
 
 	gnome_calendar_notify_dates_shown_changed (calendar);
+
+	g_signal_handlers_block_by_func (calitem,
+		cal_shell_view_date_navigator_selection_changed_cb, cal_shell_view);
+
+	/* make sure the selected days in the calendar matches shown days */
+	e_cal_model_get_time_range (model, &start, &end);
+
+	time_to_gdate_with_zone (&start_date, start, timezone);
+	time_to_gdate_with_zone (&end_date, end, timezone);
+
+	g_date_subtract_days (&end_date, 1);
+
+	e_calendar_item_set_selection (calitem, &start_date, &end_date);
+
+	g_signal_handlers_unblock_by_func (calitem,
+		cal_shell_view_date_navigator_selection_changed_cb, cal_shell_view);
 }
 
 static gboolean
