@@ -128,7 +128,7 @@ save_dialog (EEditor *editor)
 static void
 view_source_dialog (EEditor *editor,
                     const gchar *title,
-                    const gchar *content_type,
+                    gboolean plain_text,
 		    gboolean show_source)
 {
 	GtkWidget *dialog;
@@ -160,9 +160,16 @@ view_source_dialog (EEditor *editor,
 	gtk_container_set_border_width (GTK_CONTAINER (scrolled_window), 6);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
 
-	html = e_editor_widget_get_text_html (
-		e_editor_get_editor_widget (editor));
-	if (show_source) {
+
+	if (plain_text) {
+		html = e_editor_widget_get_text_plain (
+				e_editor_get_editor_widget (editor));
+	} else {
+		html = e_editor_widget_get_text_html (
+			e_editor_get_editor_widget (editor));
+	}
+
+	if (show_source || plain_text) {
 		GtkTextBuffer *buffer;
 
 
@@ -248,21 +255,21 @@ static void
 action_view_html_output (GtkAction *action,
                          EEditor *editor)
 {
-	view_source_dialog (editor, _("HTML Output"), "text/html", FALSE);
+	view_source_dialog (editor, _("HTML Output"), FALSE, FALSE);
 }
 
 static void
 action_view_html_source (GtkAction *action,
                          EEditor *editor)
 {
-	view_source_dialog (editor, _("HTML Source"), "text/html", TRUE);
+	view_source_dialog (editor, _("HTML Source"), FALSE, TRUE);
 }
 
 static void
 action_view_plain_source (GtkAction *action,
                           EEditor *editor)
 {
-	view_source_dialog (editor, _("Plain Source"), "text/plain", FALSE);
+	view_source_dialog (editor, _("Plain Source"), TRUE, FALSE);
 }
 
 static void
