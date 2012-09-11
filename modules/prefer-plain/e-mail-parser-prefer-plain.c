@@ -182,7 +182,8 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	GSList *parts;
 	CamelContentType *ct;
 	gboolean has_calendar = FALSE;
-	GSList *plain_text_parts, *plain_text_placeholder, *iter;
+	GSList *plain_text_parts, *iter;
+	GSList *plain_text_placeholder = NULL;
 
 	emp_pp = (EMailParserPreferPlain *) extension;
 
