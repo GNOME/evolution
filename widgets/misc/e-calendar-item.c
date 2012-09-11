@@ -2192,6 +2192,13 @@ e_calendar_item_get_day_style (ECalendarItem *calitem,
 		} else {
 			*fg_color = &style->text[GTK_STATE_ACTIVE];
 			*bg_color = &style->base[GTK_STATE_ACTIVE];
+
+			if ((*bg_color)->red == style->base[GTK_STATE_NORMAL].red &&
+			    (*bg_color)->green == style->base[GTK_STATE_NORMAL].green &&
+			    (*bg_color)->blue == style->base[GTK_STATE_NORMAL].blue) {
+				*fg_color = &style->text[GTK_STATE_SELECTED];
+				*bg_color = &style->base[GTK_STATE_SELECTED];
+			}
 		}
 	}
 }
