@@ -620,9 +620,11 @@ mail_send_message (struct _send_queue_msg *m,
 		provider = camel_service_get_provider (service);
 
 	if (CAMEL_IS_TRANSPORT (service)) {
+		const gchar *tuid;
+
 		/* Let the dialog know the right account it is using. */
-		uid = camel_service_get_uid (CAMEL_SERVICE (transport));
-		report_status (m, CAMEL_FILTER_STATUS_ACTION, 0, uid);
+		tuid = camel_service_get_uid (CAMEL_SERVICE (transport));
+		report_status (m, CAMEL_FILTER_STATUS_ACTION, 0, tuid);
 	}
 
 	/* Check for email sending */
