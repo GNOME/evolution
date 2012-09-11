@@ -510,7 +510,6 @@ e_composer_actions_init (EMsgComposer *composer)
 		ACTION (PICTURE_GALLERY), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	/* FIXME WEBKIT Make sure this works */
 	g_object_bind_property (
 		editor_widget, "editable",
 		e_editor_get_action (editor, "edit-menu"), "sensitive",

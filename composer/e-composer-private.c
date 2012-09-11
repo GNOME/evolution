@@ -241,8 +241,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	priv->focus_tracker = focus_tracker;
 
-	container = gtk_hbox_new (FALSE, 0);
-	gtk_widget_set_hexpand (container, TRUE);
+	container = gtk_vbox_new (FALSE, 0);
+	gtk_widget_set_vexpand (container, FALSE);
 	gtk_widget_show (container);
 	e_editor_window_pack_above (E_EDITOR_WINDOW (composer), container);
 
@@ -267,6 +267,11 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	g_object_bind_property (
+		editor_widget, "editable",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
 	g_signal_connect_swapped (
 		editor_widget, "notify::spell-languages",
 		G_CALLBACK (composer_spell_languages_changed), composer);
@@ -280,7 +285,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	g_object_bind_property (
 		editor_widget, "editable",
-		widget, "editable",
+		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	container = e_attachment_paned_get_content_area (

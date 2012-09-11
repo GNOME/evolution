@@ -646,6 +646,10 @@ editor_constructed (GObject *object)
 		priv->color_combo_box, "current-color",
 		priv->selection, "font-color",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+	g_object_bind_property (
+		priv->editor_widget, "editable",
+		priv->color_combo_box, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	tool_item = gtk_tool_item_new ();
 	widget = e_action_combo_box_new_with_action (
