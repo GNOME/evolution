@@ -217,6 +217,9 @@ e_mail_extension_registry_get_fallback (EMailExtensionRegistry *reg,
 	g_return_val_if_fail (mime_type && *mime_type, NULL);
 
 	s = strchr (mime_type, '/');
+	if (!s)
+		return NULL;
+
 	len = s - mime_type;
 
 	s = g_alloca (len);
