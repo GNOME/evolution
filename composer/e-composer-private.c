@@ -427,14 +427,16 @@ e_composer_find_data_file (const gchar *basename)
 
 	/* Support running directly from the source tree. */
 	filename = g_build_filename (".", basename, NULL);
-	if (g_file_test (filename, G_FILE_TEST_EXISTS))
+	if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
 		return filename;
+	}
 	g_free (filename);
 
 	/* XXX This is kinda broken. */
 	filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
-	if (g_file_test (filename, G_FILE_TEST_EXISTS))
+	if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
 		return filename;
+	}
 	g_free (filename);
 
 	g_critical ("Could not locate '%s'", basename);
@@ -466,11 +468,13 @@ e_composer_get_default_charset (void)
 
 	g_object_unref (settings);
 
-	if (charset == NULL)
+	if (charset == NULL) {
 		charset = g_strdup (camel_iconv_locale_charset ());
+	}
 
-	if (charset == NULL)
+	if (charset == NULL) {
 		charset = g_strdup ("us-ascii");
+	}
 
 	return charset;
 }
@@ -617,13 +621,15 @@ e_composer_paste_image (EMsgComposer *composer,
 	}
 
 	/* Save the pixbuf as a temporary file in image/png format. */
-	if (!gdk_pixbuf_save (pixbuf, filename, "png", &error, NULL))
+	if (!gdk_pixbuf_save (pixbuf, filename, "png", &error, NULL)) {
 		goto exit;
+	}
 
 	/* Convert the filename to a URI. */
 	uri = g_filename_to_uri (filename, NULL, &error);
-	if (uri == NULL)
+	if (uri == NULL) {
 		goto exit;
+	}
 
 	/* In HTML mode, paste the image into the message body.
 	 * In text mode, add the image to the attachment store. */
@@ -732,8 +738,9 @@ e_composer_selection_is_image_uris (EMsgComposer *composer,
 
 	uris = gtk_selection_data_get_uris (selection);
 
-	if (uris == NULL)
+	if (uris == NULL) {
 		return FALSE;
+	}
 
 	for (ii = 0; uris[ii] != NULL; ii++) {
 		GFile *file;

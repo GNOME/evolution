@@ -591,11 +591,11 @@ action_language_cb (GtkToggleAction *action,
 
 	/* Update the list of active dictionaries */
 	list = editor->priv->active_dictionaries;
-	if (active)
+	if (active) {
 		list = g_list_insert_sorted (
 			list, (EnchantDict *) dictionary,
 			(GCompareFunc) e_spell_dictionary_compare);
-	else {
+	} else {
 		GList *link;
 
 		link = g_list_find (list, dictionary);

@@ -4436,7 +4436,9 @@ e_msg_composer_attach (EMsgComposer *composer,
 	attachment = e_attachment_new ();
 	e_attachment_set_mime_part (attachment, mime_part);
 	e_attachment_store_add_attachment (store, attachment);
-	e_attachment_load (attachment, NULL);
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		e_attachment_load_handle_error, composer);
 	g_object_unref (attachment);
 }
 

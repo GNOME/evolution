@@ -45,8 +45,9 @@ action_charset_cb (GtkRadioAction *action,
 {
 	const gchar *charset;
 
-	if (action != current)
+	if (action != current) {
 		return;
+	}
 
 	charset = g_object_get_data (G_OBJECT (action), "charset");
 
@@ -58,8 +59,9 @@ static void
 action_close_cb (GtkAction *action,
                  EMsgComposer *composer)
 {
-	if (e_msg_composer_can_close (composer, TRUE))
+	if (e_msg_composer_can_close (composer, TRUE)) {
 		gtk_widget_destroy (GTK_WIDGET (composer));
+	}
 }
 
 static void
@@ -222,8 +224,9 @@ action_save_as_cb (GtkAction *action,
 
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
-	if (response != GTK_RESPONSE_OK)
+	if (response != GTK_RESPONSE_OK) {
 		goto exit;
+	}
 
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
