@@ -99,9 +99,11 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 
 		ct = camel_mime_part_get_content_type (subpart);
 
-		/* Display parts with CID as attachments */
+		/* Display parts with CID as attachments (unless they already are
+		 * attachments) */
 		if (new_parts && new_parts->data &&
-			(E_MAIL_PART (new_parts->data)->cid != NULL)) {
+			(E_MAIL_PART (new_parts->data)->cid != NULL) &&
+			!E_MAIL_PART (new_parts->data)->is_attachment) {
 
 			parts = g_slist_concat (parts,
 					e_mail_parser_wrap_as_attachment (
