@@ -871,16 +871,28 @@ append_text_table_row (GString *buffer,
 		g_string_append_printf (
 			buffer,
 			"<tr id=\"%s\" %s><th>%s</th><td>%s</td></tr>\n",
-			id, (value && *value) ? "" : "hidden=\"\"", label, value);
+			id, (value && *value) ? "" : "hidden=\"\"", label, value ? value : "");
 
 	} else {
 
 		g_string_append_printf (
 			buffer,
-			"<tr id=\"%s\" hidden=\"\"><td colspan=\"2\"></td></tr>\n",
-			id);
+			"<tr id=\"%s\"%s><td colspan=\"2\">%s</td></tr>\n",
+			id, g_strcmp0 (id, TABLE_ROW_SUMMARY) == 0 ? "" : " hidden=\"\"", value ? value : "");
 
 	}
+}
+
+static void
+append_text_table_row_nonempty (GString *buffer,
+				const gchar *id,
+				const gchar *label,
+				const gchar *value)
+{
+	if (!value || !*value)
+		return;
+
+	append_text_table_row (buffer, id, label, value);
 }
 
 static void
@@ -1547,13 +1559,15 @@ itip_view_write_for_printing (ItipView *view,
 		"<div class=\"itip print_content\" id=\"" DIV_ITIP_CONTENT "\">\n");
 
         /* The first section listing the sender */
-        /* FIXME What to do if the send and organizer do not match */
-	g_string_append_printf (
-		buffer,
-		"<div id=\"" TEXT_ROW_SENDER "\" class=\"itip sender\">%s</div>\n",
-		view->priv->sender ? view->priv->sender : "");
+	if (view->priv->sender && *view->priv->sender) {
+		/* FIXME What to do if the send and organizer do not match */
+		g_string_append_printf (
+			buffer,
+			"<div id=\"" TEXT_ROW_SENDER "\" class=\"itip sender\">%s</div>\n",
+			view->priv->sender);
 
-	g_string_append (buffer, "<hr>\n");
+		g_string_append (buffer, "<hr>\n");
+	}
 
         /* Elementary event information */
 	g_string_append (
@@ -1561,35 +1575,37 @@ itip_view_write_for_printing (ItipView *view,
 		"<table class=\"itip table\" border=\"0\" "
 		"cellspacing=\"5\" cellpadding=\"0\">\n");
 
-	append_text_table_row (
+	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_SUMMARY,
 		NULL, view->priv->summary);
-	append_text_table_row (
+	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_LOCATION,
 		_("Location:"), view->priv->location);
-	append_text_table_row (
+	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_START_DATE,
 		view->priv->start_header, view->priv->start_label);
-	append_text_table_row (
+	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_END_DATE,
 		view->priv->end_header, view->priv->end_label);
-	append_text_table_row (
+	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_STATUS,
 		_("Status:"), view->priv->status);
-	append_text_table_row (
+	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_COMMENT,
 		_("Comment:"), view->priv->comment);
 
-	g_string_append (buffer, "</table>\n");
+	g_string_append (buffer, "</table><br>\n");
 
         /* Description */
-	g_string_append_printf (
-		buffer,
-		"<div id=\"" TABLE_ROW_DESCRIPTION "\" "
-		"class=\"itip description\" %s>%s</div>\n",
-		view->priv->description ? "" : "hidden=\"\"", view->priv->description);
+	if (view->priv->description && *view->priv->description) {
+		g_string_append_printf (
+			buffer,
+			"<div id=\"" TABLE_ROW_DESCRIPTION "\" "
+			"class=\"itip description\" %s>%s</div>\n",
+			view->priv->description ? "" : "hidden=\"\"", view->priv->description);
 
-	g_string_append (buffer, "</div>");
+		g_string_append (buffer, "</div>");
+	}
 }
 
 void
