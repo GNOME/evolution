@@ -1692,6 +1692,11 @@ action_mail_show_all_headers_cb (GtkToggleAction *action,
 
 	display = e_mail_reader_get_mail_display (reader);
 
+	/* mode change when viewing message source is ignored */
+	if (e_mail_display_get_mode (display) == E_MAIL_FORMATTER_MODE_SOURCE ||
+	    e_mail_display_get_mode (display) == E_MAIL_FORMATTER_MODE_RAW)
+		return;
+
 	if (gtk_toggle_action_get_active (action))
 		e_mail_display_set_mode (display, E_MAIL_FORMATTER_MODE_ALL_HEADERS);
 	else
@@ -3821,10 +3826,7 @@ e_mail_reader_init (EMailReader *reader,
 	gboolean sensitive;
 	const gchar *action_name;
 	EMailDisplay *display;
-
-#ifndef G_OS_WIN32
 	GSettings *settings;
-#endif
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
@@ -3905,6 +3907,8 @@ e_mail_reader_init (EMailReader *reader,
 		action_group, mail_reader_search_folder_entries,
 		G_N_ELEMENTS (mail_reader_search_folder_entries), reader);
 
+	display = e_mail_reader_get_mail_display (reader);
+
 	/* Bind GObject properties to GSettings keys. */
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
@@ -3920,6 +3924,13 @@ e_mail_reader_init (EMailReader *reader,
 	g_settings_bind (
 		settings, "show-all-headers",
 		action, "active", G_SETTINGS_BIND_DEFAULT);
+
+	/* mode change when viewing message source is ignored */
+	if (e_mail_display_get_mode (display) == E_MAIL_FORMATTER_MODE_SOURCE ||
+	    e_mail_display_get_mode (display) == E_MAIL_FORMATTER_MODE_RAW) {
+		gtk_action_set_sensitive (action, FALSE);
+		gtk_action_set_visible (action, FALSE);
+	}
 
 	g_object_unref (settings);
 
@@ -3974,8 +3985,6 @@ e_mail_reader_init (EMailReader *reader,
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_is_important (action, TRUE);
 	gtk_action_set_short_label (action, _("Reply"));
-
-	display = e_mail_reader_get_mail_display (reader);
 
 	action_name = "add-to-address-book";
 	action = e_mail_display_get_action (display, action_name);
