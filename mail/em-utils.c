@@ -1290,7 +1290,7 @@ em_utils_message_to_html (CamelSession *session,
                           guint32 *validity_found)
 {
 	EMailFormatter *formatter;
-	EMailParser *parser;
+	EMailParser *parser = NULL;
 	CamelStream *mem;
 	GByteArray *buf;
 	EShell *shell;
@@ -1328,6 +1328,8 @@ em_utils_message_to_html (CamelSession *session,
 
 		parser = e_mail_parser_new (session);
 		parts_list = e_mail_parser_parse_sync (parser, NULL, NULL, message, NULL);
+	} else {
+		g_object_ref (parts_list);
 	}
 
 	/* Return all found validities and possibly show hidden prefer-plain part */
@@ -1361,6 +1363,10 @@ em_utils_message_to_html (CamelSession *session,
 
 	if (hidden_text_html_part)
 		hidden_text_html_part->is_hidden = TRUE;
+
+	g_object_unref (parts_list);
+	if (parser)
+		g_object_unref (parser);
 
 	if (append && *append)
 		camel_stream_write_string (mem, append, NULL, NULL);

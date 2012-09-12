@@ -1271,6 +1271,7 @@ mail_reader_reply_message_parsed (GObject *object,
 		context->reply_type, context->reply_style,
 		part_list, context->address);
 
+	g_object_unref (part_list);
 	async_context_free (context);
 }
 
@@ -1396,10 +1397,12 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 			g_object_ref (src_message);
 
 		g_object_unref (part_list);
+		part_list = NULL;
 
 		g_return_if_fail (src_message != NULL);
 	} else {
 		g_object_unref (part_list);
+		part_list = NULL;
 	}
 
 	if (!e_web_view_is_selection_active (web_view))
