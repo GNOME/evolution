@@ -662,7 +662,9 @@ load_alarms_for_today (ClientAlarms *ca)
 	if (from <= 0)
 		from = MAX (from, day_start);
 
-	day_end = time_day_end_with_zone (now, zone);
+	/* Add one hour after midnight, just to cover the delay in 30 minutes
+	   midnight checking. */
+	day_end = time_day_end_with_zone (now, zone) + (60 * 60);
 	debug (("From %s to %s", e_ctime (&from), e_ctime (&day_end)));
 	load_alarms (ca, from, day_end);
 }
@@ -2021,6 +2023,31 @@ check_midnight_refresh (gpointer user_data)
 	return TRUE;
 }
 
+static gboolean
+check_wall_clock_time_changed (gpointer user_data)
+{
+	static gint64 expected_wall_clock_time = 0;
+	gint64 wall_clock_time;
+
+	#define ADD_SECONDS(to, secs) ((to) + ((secs) * 1000000))
+
+	wall_clock_time = g_get_real_time ();
+
+	/* use one second margin */
+	if (wall_clock_time > ADD_SECONDS (expected_wall_clock_time, 1) ||
+	    wall_clock_time < ADD_SECONDS (expected_wall_clock_time, -1)) {
+		debug (("Current wall-clock time differs from expected, rescheduling alarms"));
+		check_midnight_refresh (NULL);
+		alarm_reschedule_timeout ();
+	}
+
+	expected_wall_clock_time = ADD_SECONDS (wall_clock_time, 60);
+
+	#undef ADD_SECONDS
+
+	return TRUE;
+}
+
 /**
  * alarm_queue_init:
  *
@@ -2045,7 +2072,11 @@ alarm_queue_init (gpointer data)
 	}
 
 	/* install timeout handler (every 30 mins) for not missing the midnight refresh */
-	g_timeout_add_seconds (1800, (GSourceFunc) check_midnight_refresh, NULL);
+	g_timeout_add_seconds (1800, check_midnight_refresh, NULL);
+
+	/* monotonic time doesn't change during hibernation, while the wall clock time does,
+	   thus check for wall clock time changes and reschedule alarms when it changes */
+	g_timeout_add_seconds (60, check_wall_clock_time_changed, NULL);
 
 #ifdef HAVE_LIBNOTIFY
 	notify_init ("Evolution Alarms");

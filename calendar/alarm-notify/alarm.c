@@ -322,3 +322,15 @@ alarm_done (void)
 	g_list_free (alarms);
 	alarms = NULL;
 }
+
+/**
+ * alarm_reschedule_timeout:
+ *
+ * Re-sets timeout for alarms, if any.
+ **/
+void
+alarm_reschedule_timeout (void)
+{
+	if (alarms)
+		setup_timeout ();
+}

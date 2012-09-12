@@ -38,4 +38,6 @@ gpointer alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
 		    AlarmDestroyNotify destroy_notify_fn);
 void alarm_remove (gpointer alarm);
 
+void alarm_reschedule_timeout (void);
+
 #endif
