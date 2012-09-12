@@ -140,13 +140,17 @@ empe_app_mbox_parse (EMailParserExtension *extension,
 
 		g_string_append_printf (part_id, ".mbox.%d", messages);
 
+		opart = camel_mime_part_new ();
+		camel_medium_set_content (CAMEL_MEDIUM (opart), CAMEL_DATA_WRAPPER (message));
+		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (opart), "message/rfc822");
+
 		new_parts = e_mail_parser_parse_part_as (
-				parser, CAMEL_MIME_PART (message),
+				parser, opart,
 				part_id, "message/rfc822", cancellable);
 
 		/* Wrap every message as attachment */
 		new_parts = e_mail_parser_wrap_as_attachment (
-				parser, CAMEL_MIME_PART (message),
+				parser, opart,
 				new_parts, part_id, cancellable);
 
 		/* Inline all messages in mbox */
@@ -161,6 +165,7 @@ empe_app_mbox_parse (EMailParserExtension *extension,
 		g_string_truncate (part_id, old_len);
 
 		g_object_unref (message);
+		g_object_unref (opart);
 
 		/* Skip past CAMEL_MIME_PARSER_STATE_FROM_END. */
 		camel_mime_parser_step (mime_parser, NULL, NULL);
