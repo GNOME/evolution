@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the evolution package.
 #
 # Andraž Tori <andraz.tori1@guest.arnes.si>, 2002.
-# Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009 - 2010, 2010.
+# Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009 - 2010.
 # Matej Urbančič <mateju@svn.gnome.org>, 2006 - 2012.
 #
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-09-06 12:35+0000\n"
-"PO-Revision-Date: 2012-09-06 21:45+0100\n"
+"PO-Revision-Date: 2012-09-12 21:19+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -2511,9 +2511,8 @@ msgid "Save and Close"
 msgstr "Shrani in zapri"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1220
-#, fuzzy
 msgid "Save current changes and close editor"
-msgstr "%s Narejene so bile spremembe. Ali naj se urejevalnik zapre brez shranjevanja?"
+msgstr "Shrani trenutne spremembe in zapri urejevalnik"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1227
 #: ../mail/e-mail-browser.c:155
@@ -7645,9 +7644,8 @@ msgid "Days on which the start and end of work hours should be indicated"
 msgstr "Dnevi, ko naj bosta označena začetek in konec delovnih ur."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
-#, fuzzy
 msgid "Previous Evolution version"
-msgstr "Nadgradnja iz prejšnje različice ni uspela:"
+msgstr "Predhodna različica programa Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:2
 msgid "The most recently used version of Evolution, expressed as \"major.minor.micro\". This is used for data and settings migration from older to newer versions."
@@ -8982,9 +8980,8 @@ msgid "Display part as an image"
 msgstr "Shrani kot sliko png"
 
 #: ../em-format/e-mail-formatter-message-rfc822.c:237
-#, fuzzy
 msgid "RFC822 message"
-msgstr "sporočilo rfc822"
+msgstr "Pporočilo RFC822"
 
 #: ../em-format/e-mail-formatter-message-rfc822.c:243
 #, fuzzy
@@ -9016,24 +9013,20 @@ msgid "Security"
 msgstr "Varnost"
 
 #: ../em-format/e-mail-formatter-print-headers.c:147
-#, fuzzy
 msgid "GPG signed"
-msgstr "podpisani deli"
+msgstr "Podpisani GPG"
 
 #: ../em-format/e-mail-formatter-print-headers.c:152
-#, fuzzy
 msgid "GPG encrpyted"
-msgstr "GPG agent gesel"
+msgstr "Šifrirani GPG"
 
 #: ../em-format/e-mail-formatter-print-headers.c:158
-#, fuzzy
 msgid "S/MIME signed"
-msgstr "podpisani deli"
+msgstr "Podpisani S/MIME"
 
 #: ../em-format/e-mail-formatter-print-headers.c:164
-#, fuzzy
 msgid "S/MIME encrpyted"
-msgstr "Podpis S/MIME: "
+msgstr "Šifrirani S/MIME"
 
 #. pseudo-header
 #: ../em-format/e-mail-formatter-quote-headers.c:176
@@ -9226,9 +9219,9 @@ msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Nepodprta vrsta šifriranja za večdelno/šifrirano"
 
 #: ../em-format/e-mail-parser-multipart-encrypted.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Could not parse PGP/MIME message: %s"
-msgstr "Ni mogoče razčleniti sporočila PGP/MIME"
+msgstr "Ni mogoče razčleniti sporočila PGP/MIME: %s"
 
 #: ../em-format/e-mail-parser-multipart-signed.c:129
 msgid "Unsupported signature format"
@@ -10229,12 +10222,10 @@ msgid "No authoritative name server for '%s'"
 msgstr "Ime poštnega strežnika _prihajajoče pošte:"
 
 #: ../mail/e-mail-autoconfig.c:661
-#, fuzzy
 msgid "No email address provided"
-msgstr "Stika z elektronskim naslovom %s ni mogoče najti"
+msgstr "Elektronski naslov ni naveden"
 
 #: ../mail/e-mail-autoconfig.c:670
-#, fuzzy
 msgid "Missing domain in email address"
 msgstr "V elektronskem naslovu manjka del z domeno"
 
@@ -10258,9 +10249,8 @@ msgid "Evolution Account Assistant"
 msgstr "Pomočnik za račune Evolutiona"
 
 #: ../mail/e-mail-config-auth-check.c:348
-#, fuzzy
 msgid "Check for Supported Types"
-msgstr "Pr_everi podprte vrste"
+msgstr "Preveri za podprte vrste"
 
 #: ../mail/e-mail-config-confirm-page.c:157
 msgid ""
@@ -10290,23 +10280,20 @@ msgid "Draft Messages _Folder:"
 msgstr "_Mapa poslanih sporočil:"
 
 #: ../mail/e-mail-config-defaults-page.c:568
-#, fuzzy
 msgid "Choose a folder for saving draft messages."
-msgstr "Izberite mape, v katere želite objaviti sporočilo."
+msgstr "Izbor mape za shranjevanje osnutkov sporočil."
 
 #: ../mail/e-mail-config-defaults-page.c:582
 msgid "Sent _Messages Folder:"
 msgstr "_Mapa poslanih sporočil:"
 
 #: ../mail/e-mail-config-defaults-page.c:592
-#, fuzzy
 msgid "Choose a folder for saving sent messages."
-msgstr "Izberite mape, v katere želite objaviti sporočilo."
+msgstr "Izbor mape za shranjevanje poslanih sporočil."
 
 #: ../mail/e-mail-config-defaults-page.c:611
-#, fuzzy
 msgid "_Restore Defaults"
-msgstr "_Obnovi privzeto"
+msgstr "_Obnovi privzete nastavitve"
 
 #: ../mail/e-mail-config-defaults-page.c:625
 msgid "Use a Real Folder for _Trash:"
@@ -11232,9 +11219,8 @@ msgid "Decrease the text size"
 msgstr "Zmanjša velikost besedila"
 
 #: ../mail/e-mail-reader.c:2351
-#, fuzzy
 msgid "Cre_ate"
-msgstr "Pojed-el/la si napačno število.\n"
+msgstr "Ust_vari"
 
 #: ../mail/e-mail-reader.c:2358
 msgid "Ch_aracter Encoding"
@@ -11994,9 +11980,8 @@ msgid "Specific folders"
 msgstr "Določene mape"
 
 #: ../mail/em-vfolder-editor-rule.c:602
-#, fuzzy
 msgid "include subfolders"
-msgstr "_Upoštevaj podmape"
+msgstr "upoštevaj podmape"
 
 #: ../mail/importers/elm-importer.c:179
 msgid "Importing Elm data"
@@ -14194,9 +14179,8 @@ msgstr "To je način, ki ga bo Evolution uporabil za vašo overitev. V primeru, 
 
 #. Page 2
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:699
-#, fuzzy
 msgid "Using LDAP"
-msgstr "Strežniki LDAP"
+msgstr "Uporaba LDAP"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:716
 #: ../modules/mail/e-mail-shell-view.c:116
@@ -14214,19 +14198,16 @@ msgid "Find Possible Search Bases"
 msgstr "_Najdi mogoče iskalne zbirke"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:768
-#, fuzzy
 msgid "One Level"
 msgstr "Prva reven"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:770
-#, fuzzy
 msgid "Subtree"
 msgstr "Poddrevo"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:772
-#, fuzzy
 msgid "Search Scope:"
-msgstr "_Območje iskanja"
+msgstr "Območje iskanja:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:777
 #, fuzzy
@@ -14243,9 +14224,8 @@ msgid "Downloading"
 msgstr "Prejemanje"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:819
-#, fuzzy
 msgid "Limit:"
-msgstr "Omeji"
+msgstr "Omeji:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:835
 #, fuzzy
@@ -14373,7 +14353,6 @@ msgid "Choose an iCalendar file"
 msgstr "Izbor datoteke koledarja"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:201
-#, fuzzy
 msgid "File:"
 msgstr "Datoteka:"
 
@@ -17038,28 +17017,24 @@ msgid "_Format as..."
 msgstr "Formatiraj %1 kot %2"
 
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:103
-#, fuzzy
 msgid "_Other languages"
-msgstr "GNOME jeziki"
+msgstr "_Drugi jeziki"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:342
-#, fuzzy
 msgid "Text Highlight"
-msgstr "Poudarjeno besedilo"
+msgstr "Poudarjanje besedila"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:348
-#, fuzzy
 msgid "Syntax highlighting of mail parts"
-msgstr "Urejanje slogov poudarjanja skladnje"
+msgstr "Poudarjanje skladnje delov sporočila"
 
 #: ../modules/text-highlight/languages.c:32
-#, fuzzy
 msgid "_Plain text"
 msgstr "_Običajno besedilo"
 
 #: ../modules/text-highlight/languages.c:38
 msgid "_Assembler"
-msgstr ""
+msgstr "_Zbirnik"
 
 #: ../modules/text-highlight/languages.c:43
 msgid "_Bash"
@@ -17074,79 +17049,64 @@ msgid "_C#"
 msgstr "_C#"
 
 #: ../modules/text-highlight/languages.c:68
-#, fuzzy
 msgid "_Cascade Style Sheet"
-msgstr "Izgrajevalnik CSS"
+msgstr "_CSS"
 
 #: ../modules/text-highlight/languages.c:73
-#, fuzzy
 msgid "_HTML"
 msgstr "_HTML"
 
 #: ../modules/text-highlight/languages.c:81
-#, fuzzy
 msgid "_Java"
-msgstr "Java"
+msgstr "_Java"
 
 #: ../modules/text-highlight/languages.c:87
-#, fuzzy
 msgid "_JavaScript"
-msgstr "JavaScript"
+msgstr "_JavaScript"
 
 #: ../modules/text-highlight/languages.c:93
-#, fuzzy
 msgid "_Patch/diff"
-msgstr "Primerjava popravkov"
+msgstr "_Patch/diff"
 
 #: ../modules/text-highlight/languages.c:99
-#, fuzzy
 msgid "_Perl"
-msgstr "Perl"
+msgstr "_Perl"
 
 #: ../modules/text-highlight/languages.c:110
-#, fuzzy
 msgid "_PHP"
-msgstr "PHP"
+msgstr "_PHP"
 
 #: ../modules/text-highlight/languages.c:123
-#, fuzzy
 msgid "_Python"
-msgstr "Python"
+msgstr "_Python"
 
 #: ../modules/text-highlight/languages.c:128
-#, fuzzy
 msgid "_Ruby"
-msgstr "rubinska"
+msgstr "_Ruby"
 
 #: ../modules/text-highlight/languages.c:135
-#, fuzzy
 msgid "_Tcl/Tk"
-msgstr "Skriptna datoteka Tcl"
+msgstr "_Tcl/Tk"
 
 #: ../modules/text-highlight/languages.c:141
-#, fuzzy
 msgid "_TeX/LaTeX"
-msgstr "LaTeX 2e (*.tex)"
+msgstr "_TeX/LaTeX"
 
 #: ../modules/text-highlight/languages.c:147
-#, fuzzy
 msgid "_Vala"
-msgstr "Vala"
+msgstr "_Vala"
 
 #: ../modules/text-highlight/languages.c:152
-#, fuzzy
 msgid "_Visual Basic"
-msgstr "Osnovne podrobnosti"
+msgstr "_Visual Basic"
 
 #: ../modules/text-highlight/languages.c:159
-#, fuzzy
 msgid "_XML"
-msgstr "XML"
+msgstr "_XML"
 
 #: ../modules/text-highlight/languages.c:177
-#, fuzzy
 msgid "_ActionScript"
-msgstr "Skript"
+msgstr "_ActionScript"
 
 #: ../modules/text-highlight/languages.c:182
 msgid "_ADA95"
@@ -17157,81 +17117,68 @@ msgid "_ALGOL 68"
 msgstr "_ALGOL 68"
 
 #: ../modules/text-highlight/languages.c:194
-#, fuzzy
 msgid "(_G)AWK"
-msgstr "awk"
+msgstr "(_G)AWK"
 
 #: ../modules/text-highlight/languages.c:199
-#, fuzzy
 msgid "_COBOL"
-msgstr "Cobol"
+msgstr "_COBOL"
 
 #: ../modules/text-highlight/languages.c:204
-#, fuzzy
 msgid "_DOS Batch"
-msgstr "Paketni ukazi DOS"
+msgstr "Paketni ukazi _DOS"
 
 #: ../modules/text-highlight/languages.c:209
 msgid "_D"
 msgstr "_D"
 
 #: ../modules/text-highlight/languages.c:214
-#, fuzzy
 msgid "_Erlang"
-msgstr "Erlang"
+msgstr "_Erlang"
 
 #: ../modules/text-highlight/languages.c:219
-#, fuzzy
 msgid "_FORTRAN 77"
-msgstr "Fortran 95"
+msgstr "_FORTRAN 77"
 
 #: ../modules/text-highlight/languages.c:225
-#, fuzzy
 msgid "_FORTRAN 90"
-msgstr "Zavrti 90"
+msgstr "_FORTRAN 90"
 
 #: ../modules/text-highlight/languages.c:230
 msgid "_F#"
 msgstr "_F#"
 
 #: ../modules/text-highlight/languages.c:235
-#, fuzzy
 msgid "_Go"
-msgstr "Po_jdi"
+msgstr "_Go"
 
 #: ../modules/text-highlight/languages.c:240
-#, fuzzy
 msgid "_Haskell"
-msgstr "Haskell"
+msgstr "_Haskell"
 
 #: ../modules/text-highlight/languages.c:245
 msgid "_JSP"
 msgstr "_JSP"
 
 #: ../modules/text-highlight/languages.c:250
-#, fuzzy
 msgid "_Lisp"
-msgstr "Modul Lisp"
+msgstr "_Lisp"
 
 #: ../modules/text-highlight/languages.c:258
-#, fuzzy
 msgid "_Lotus"
-msgstr "Razpredelnica Lotus 1-2-3"
+msgstr "_Lotus"
 
 #: ../modules/text-highlight/languages.c:263
-#, fuzzy
 msgid "_Lua"
-msgstr "Lua"
+msgstr "_Lua"
 
 #: ../modules/text-highlight/languages.c:268
-#, fuzzy
 msgid "_Maple"
-msgstr "Maple Creek"
+msgstr "_Maple"
 
 #: ../modules/text-highlight/languages.c:273
-#, fuzzy
 msgid "_Matlab"
-msgstr "Matlab"
+msgstr "_Matlab"
 
 #: ../modules/text-highlight/languages.c:278
 msgid "_Maya"
@@ -17242,58 +17189,48 @@ msgid "_Oberon"
 msgstr "_Oberon"
 
 #: ../modules/text-highlight/languages.c:288
-#, fuzzy
 msgid "_Objective C"
-msgstr "Predmetni-C"
+msgstr "Predmetni-_C"
 
 #: ../modules/text-highlight/languages.c:294
-#, fuzzy
 msgid "_OCaml"
-msgstr "Datoteka izvorne kode OCaml"
+msgstr "_OCaml"
 
 #: ../modules/text-highlight/languages.c:299
-#, fuzzy
 msgid "_Octave"
-msgstr "Octave"
+msgstr "_Octave"
 
 #: ../modules/text-highlight/languages.c:304
-#, fuzzy
 msgid "_Object Script"
-msgstr "script-fu"
+msgstr "_Predmetni Script"
 
 #: ../modules/text-highlight/languages.c:309
-#, fuzzy
 msgid "_Pascal"
-msgstr "Pascal"
+msgstr "_Pascal"
 
 #: ../modules/text-highlight/languages.c:314
-#, fuzzy
 msgid "_POV-Ray"
-msgstr "POV-Ray"
+msgstr "_POV-Ray"
 
 #: ../modules/text-highlight/languages.c:319
-#, fuzzy
 msgid "_Prolog"
-msgstr "Prolog"
+msgstr "_Prolog"
 
 #: ../modules/text-highlight/languages.c:324
-#, fuzzy
 msgid "_PostScript"
-msgstr "PostScript"
+msgstr "_PostScript"
 
 #: ../modules/text-highlight/languages.c:329
 msgid "_R"
 msgstr "_R"
 
 #: ../modules/text-highlight/languages.c:334
-#, fuzzy
 msgid "_RPM Spec"
-msgstr "RPM določila"
+msgstr "_RPM Spec"
 
 #: ../modules/text-highlight/languages.c:339
-#, fuzzy
 msgid "_Scala"
-msgstr "Izvorna koda Scala"
+msgstr "_Scala"
 
 #: ../modules/text-highlight/languages.c:344
 msgid "_Smalltalk"
@@ -17304,9 +17241,8 @@ msgid "_TCSH"
 msgstr "_TCSH"
 
 #: ../modules/text-highlight/languages.c:355
-#, fuzzy
 msgid "_VHDL"
-msgstr "VHDL"
+msgstr "_VHDL"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:118
 #: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:201
@@ -17345,16 +17281,16 @@ msgstr "Čas stika"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:202
 msgid "Display the part as an addressbook contact"
-msgstr ""
+msgstr "Displtact"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:88
-#, fuzzy
 msgid "_Inspect..."
-msgstr "Preveri"
+msgstr "_Preveri ..."
 
 #: ../modules/web-inspector/evolution-web-inspector.c:90
+#, fuzzy
 msgid "Inspect the HTML content (debugging feature)"
-msgstr ""
+msgstr "Insp"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:102
 #, fuzzy
@@ -19774,24 +19710,20 @@ msgid "Ctrl-click to open a link"
 msgstr "S Ctrl+klikom se odpre povezava"
 
 #: ../widgets/misc/e-calendar.c:187
-#, fuzzy
 msgid "Previous month"
-msgstr "pred {0} meseci"
+msgstr "Predhodni mesec"
 
 #: ../widgets/misc/e-calendar.c:211
-#, fuzzy
 msgid "Next month"
-msgstr "za naslednji mesec"
+msgstr "Naslednji mesec"
 
 #: ../widgets/misc/e-calendar.c:233
-#, fuzzy
 msgid "Previous year"
-msgstr "Neznano leto"
+msgstr "Predhodno leto"
 
 #: ../widgets/misc/e-calendar.c:254
-#, fuzzy
 msgid "Next year"
-msgstr "Neznano leto"
+msgstr "Maslednje leto"
 
 #: ../widgets/misc/e-calendar.c:278
 msgid "Month Calendar"
@@ -19806,51 +19738,43 @@ msgstr "%B"
 
 #. This is a strftime() format. %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1285
-#, fuzzy
 msgctxt "CalItem"
 msgid "%Y"
 msgstr "%Y"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1322
-#, fuzzy
 msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%B %Y"
 
 #: ../widgets/misc/e-cal-source-config.c:170
-#, fuzzy
 msgid "Mark as default calendar"
-msgstr "Označi kot _privzeti koledar"
+msgstr "Označi kot privzeti koledar"
 
 #: ../widgets/misc/e-cal-source-config.c:173
-#, fuzzy
 msgid "Mark as default task list"
-msgstr "Označi kot _privzeti seznam nalog"
+msgstr "Označi kot privzeti seznam nalog"
 
 #: ../widgets/misc/e-cal-source-config.c:176
-#, fuzzy
 msgid "Mark as default memo list"
-msgstr "Označi kot _privzeti seznam opomnikov"
+msgstr "Označi kot privzeti seznam opomnikov"
 
 #: ../widgets/misc/e-cal-source-config.c:201
 msgid "Color:"
 msgstr "Barva:"
 
 #: ../widgets/misc/e-cal-source-config.c:406
-#, fuzzy
 msgid "Copy calendar contents locally for offline operation"
-msgstr "Kopira_j vsebino koledarja krajevno za delo brez povezave"
+msgstr "Kopiraj vsebino koledarja krajevno za delo brez povezave"
 
 #: ../widgets/misc/e-cal-source-config.c:410
-#, fuzzy
 msgid "Copy task list contents locally for offline operation"
-msgstr "Kopira_j vsebino seznama nalog krajevno za delo brez povezave"
+msgstr "Kopiraj vsebino seznama nalog krajevno za delo brez povezave"
 
 #: ../widgets/misc/e-cal-source-config.c:414
-#, fuzzy
 msgid "Copy memo list contents locally for offline operation"
-msgstr "Kopira_j vsebino opomnikov krajevno za delo brez povezave"
+msgstr "Kopiraj vsebino opomnikov krajevno za delo brez povezave"
 
 #: ../widgets/misc/e-charset-combo-box.c:100
 msgid "Character Encoding"
@@ -20008,7 +19932,6 @@ msgid "Autogenerated"
 msgstr "Samodejno ustvarjeno"
 
 #: ../widgets/misc/e-mail-signature-editor.c:287
-#, fuzzy
 msgid "Close"
 msgstr "Zapri"
 
@@ -20083,9 +20006,9 @@ msgid "Evolution Preferences"
 msgstr "Možnosti Evolution"
 
 #: ../widgets/misc/e-search-bar.c:79
-#, fuzzy, c-format
+#, c-format
 msgid "Matches: %u"
-msgstr "Zadetki: %d"
+msgstr "Zadetki: %u"
 
 #: ../widgets/misc/e-search-bar.c:527
 msgid "Close the find bar"
@@ -20275,53 +20198,45 @@ msgstr "Ime:"
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
 #: ../widgets/misc/e-source-config.c:1293
-#, fuzzy
 msgid "Refresh every"
-msgstr "_Osveži vsakih:"
+msgstr "Osveži vsakih"
 
 #: ../widgets/misc/e-source-config.c:1323
 #: ../widgets/misc/e-source-config.c:1351
-#, fuzzy
 msgid "Use a secure connection"
 msgstr "Uporabi varno povezavo"
 
 #: ../widgets/misc/e-source-config.c:1365
-#, fuzzy
 msgid "Ignore invalid SSL certificate"
-msgstr "Sprejeto je bil neveljavno digitalno potrdilo _SSL"
+msgstr "Prezri neveljavno digitalno potrdilo SSL"
 
 #: ../widgets/misc/e-source-config.c:1402
-#, fuzzy
 msgid "User"
 msgstr "Uporabnik"
 
 #. no suggestions. Put something in the menu anyway...
 #: ../widgets/misc/e-spell-entry.c:351
-#, fuzzy
 msgid "(no suggestions)"
-msgstr "(Ni predlogov)"
+msgstr "(ni predlogov)"
 
 #: ../widgets/misc/e-spell-entry.c:375
-#, fuzzy
 msgid "More..."
-msgstr "Več ..."
+msgstr "Dodatno ..."
 
 #. + Add to Dictionary
 #: ../widgets/misc/e-spell-entry.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "Add \"%s\" to Dictionary"
-msgstr "Dodaj '%s' v slovar"
+msgstr "Dodaj \"%s\" v slovar"
 
 #. - Ignore All
 #: ../widgets/misc/e-spell-entry.c:487
-#, fuzzy
 msgid "Ignore All"
-msgstr "_Prezri vse"
+msgstr "Prezri vse"
 
 #: ../widgets/misc/e-spell-entry.c:513
-#, fuzzy
 msgid "Spelling Suggestions"
-msgstr "Predlogi čr_kovalnika"
+msgstr "Predlogi črkovalnika"
 
 #: ../widgets/misc/e-url-entry.c:78
 msgid "Click here to go to URL"
@@ -20411,14 +20326,12 @@ msgid "Please provide an unique name to identify this signature."
 msgstr "Izberite edinstveno ime za ugotovitev istovetnosti tega podpisa."
 
 #: ../widgets/misc/widgets.error.xml.h:6
-#, fuzzy
 msgid "Could not load signature."
-msgstr "Ni mogoče odpreti slike `%s'."
+msgstr "Ni mogoče naložiti datoteke s podpisom."
 
 #: ../widgets/misc/widgets.error.xml.h:7
-#, fuzzy
 msgid "Could not save signature."
-msgstr "Datoteke s podpisom ni mogoče shraniti."
+msgstr "Ni mogoče shraniti datoteke s podpisom."
 
 #: ../widgets/table/e-cell-combo.c:187
 msgid "popup list"
