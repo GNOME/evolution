@@ -1228,6 +1228,41 @@ em_utils_get_proxy (void)
 	return emu_proxy;
 }
 
+static gboolean
+is_only_text_part_in_this_level (GSList *parts,
+				 EMailPart *text_html_part)
+{
+	const gchar *dot;
+	gint level_len;
+	GSList *iter;
+
+	g_return_val_if_fail (parts != NULL, FALSE);
+	g_return_val_if_fail (text_html_part != NULL, FALSE);
+
+	dot = strrchr (text_html_part->id, '.');
+	if (!dot)
+		return FALSE;
+
+	level_len = dot - text_html_part->id;
+	for (iter = parts; iter; iter = iter->next) {
+		EMailPart *part = iter->data;
+
+		if (!part || !part->mime_type || part == text_html_part ||
+		    part->is_hidden || part->is_attachment)
+			continue;
+
+		dot = strrchr (part->id, '.');
+		if (dot - part->id != level_len ||
+		    strncmp (text_html_part->id, part->id, level_len) != 0)
+			continue;
+
+		if (g_ascii_strncasecmp (part->mime_type, "text/", 5) == 0)
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
 /**
  * em_utils_message_to_html:
  * @session: a #CamelSession
@@ -1260,6 +1295,9 @@ em_utils_message_to_html (CamelSession *session,
 	GByteArray *buf;
 	EShell *shell;
 	GtkWindow *window;
+	EMailPart *hidden_text_html_part = NULL;
+	guint32 is_validity_found = 0;
+	GSList *iter;
 
 	shell = e_shell_get_default ();
 	window = e_shell_get_active_window (shell);
@@ -1292,29 +1330,37 @@ em_utils_message_to_html (CamelSession *session,
 		parts_list = e_mail_parser_parse_sync (parser, NULL, NULL, message, NULL);
 	}
 
-	if (validity_found) {
-		GSList *iter;
+	/* Return all found validities and possibly show hidden prefer-plain part */
+	for (iter = parts_list->list; iter; iter = iter->next) {
 
-		if (validity_found)
-			*validity_found = 0;
+		EMailPart *part = iter->data;
+		if (!part)
+			continue;
 
-		/* Return all found validities */
-		for (iter = parts_list->list; iter; iter = iter->next) {
-
-			EMailPart *part = iter->data;
-			if (!part)
-				continue;
-
-			if (*validity_found && part->validity_type)
-				*validity_found |= part->validity_type;
+		/* prefer-plain can hide HTML parts, even when it's the only
+		   text part in the email, thus show it (and hide again later) */
+		if (part->is_hidden && !hidden_text_html_part &&
+		    part->mime_type && !part->is_attachment &&
+		    g_ascii_strcasecmp (part->mime_type, "text/html") == 0 &&
+		    is_only_text_part_in_this_level (parts_list->list, part)) {
+			part->is_hidden = FALSE;
+			hidden_text_html_part = part;
 		}
 
+		if (part->validity_type)
+			is_validity_found |= part->validity_type;
 	}
+
+	if (validity_found)
+		*validity_found = is_validity_found;
 
 	e_mail_formatter_format_sync (
 		formatter, parts_list, mem, 0,
 		E_MAIL_FORMATTER_MODE_PRINTING, NULL);
 	g_object_unref (formatter);
+
+	if (hidden_text_html_part)
+		hidden_text_html_part->is_hidden = TRUE;
 
 	if (append && *append)
 		camel_stream_write_string (mem, append, NULL, NULL);
