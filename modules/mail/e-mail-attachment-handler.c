@@ -97,8 +97,8 @@ mail_attachment_handler_forward (GtkAction *action,
 }
 
 static void
-mail_attachment_handler_reply_all (GtkAction *action,
-                                   EAttachmentHandler *handler)
+mail_attachment_handler_reply (EAttachmentHandler *handler,
+			       EMailReplyType reply_type)
 {
 	EMailAttachmentHandlerPrivate *priv;
 	EShellSettings *shell_settings;
@@ -126,46 +126,24 @@ mail_attachment_handler_reply_all (GtkAction *action,
 
 	em_utils_reply_to_message (
 		priv->shell, CAMEL_MIME_MESSAGE (wrapper),
-		NULL, NULL, E_MAIL_REPLY_TO_ALL, style, NULL, NULL);
+		NULL, NULL, reply_type, style, NULL, NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
 }
 
 static void
+mail_attachment_handler_reply_all (GtkAction *action,
+                                   EAttachmentHandler *handler)
+{
+	mail_attachment_handler_reply (handler, E_MAIL_REPLY_TO_ALL);
+}
+
+static void
 mail_attachment_handler_reply_sender (GtkAction *action,
                                       EAttachmentHandler *handler)
 {
-	EMailAttachmentHandlerPrivate *priv;
-	EShellSettings *shell_settings;
-	EAttachment *attachment;
-	EAttachmentView *view;
-	CamelMimePart *mime_part;
-	CamelDataWrapper *wrapper;
-	EMailForwardStyle style;
-	const gchar *property_name;
-	GList *selected;
-
-	view = e_attachment_handler_get_view (handler);
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
-
-	selected = e_attachment_view_get_selected_attachments (view);
-	g_return_if_fail (g_list_length (selected) == 1);
-
-	attachment = E_ATTACHMENT (selected->data);
-	mime_part = e_attachment_get_mime_part (attachment);
-	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
-
-	property_name = "mail-reply-style";
-	shell_settings = e_shell_get_shell_settings (priv->shell);
-	style = e_shell_settings_get_int (shell_settings, property_name);
-
-	em_utils_reply_to_message (
-		priv->shell, CAMEL_MIME_MESSAGE (wrapper),
-		NULL, NULL, E_MAIL_REPLY_TO_SENDER, style, NULL, NULL);
-
-	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-	g_list_free (selected);
+	mail_attachment_handler_reply (handler, E_MAIL_REPLY_TO_SENDER);
 }
 
 static GtkActionEntry standard_entries[] = {
