@@ -88,6 +88,20 @@ empe_message_parse (EMailParserExtension *extension,
 	ct = camel_mime_part_get_content_type (part);
 	mime_type = camel_content_type_simple (ct);
 
+	if (mime_type && g_ascii_strcasecmp (mime_type, "message/rfc822") == 0) {
+		/* get mime type of the content of the message,
+		   instead of using a generic message/rfc822 */
+		CamelDataWrapper *content;
+
+		content = camel_medium_get_content (CAMEL_MEDIUM (part));
+		if (content) {
+			ct = camel_data_wrapper_get_mime_type_field (content);
+
+			g_free (mime_type);
+			mime_type = camel_content_type_simple (ct);
+		}
+	}
+
 	/* Actual message body */
 	parts = g_slist_concat (parts, e_mail_parser_parse_part_as (
 					parser, part, part_id, mime_type,
