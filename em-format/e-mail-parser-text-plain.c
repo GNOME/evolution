@@ -186,7 +186,11 @@ empe_text_plain_parse (EMailParserExtension *extension,
 	null = camel_stream_null_new ();
 	filtered_stream = camel_stream_filter_new (null);
 	g_object_unref (null);
-	inline_filter = e_mail_inline_filter_new (camel_mime_part_get_encoding (part), type);
+	inline_filter = e_mail_inline_filter_new (
+		camel_mime_part_get_encoding (part),
+		type,
+		camel_mime_part_get_filename (part));
+
 	camel_stream_filter_add (
 		CAMEL_STREAM_FILTER (filtered_stream),
 		CAMEL_MIME_FILTER (inline_filter));
@@ -194,6 +198,15 @@ empe_text_plain_parse (EMailParserExtension *extension,
 		dw, (CamelStream *) filtered_stream, cancellable, NULL);
 	camel_stream_close ((CamelStream *) filtered_stream, cancellable, NULL);
 	g_object_unref (filtered_stream);
+
+	if (!e_mail_inline_filter_found_any (inline_filter)) {
+		g_object_unref (inline_filter);
+		camel_content_type_unref (type);
+
+		return process_part (parser, part_id, 0,
+				     part, e_mail_part_is_attachment (part),
+				     cancellable);
+	}
 
 	mp = e_mail_inline_filter_get_multipart (inline_filter);
 

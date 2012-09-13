@@ -72,7 +72,8 @@ struct _EMailInlineFilterClass {
 GType		e_mail_inline_filter_get_type	(void);
 EMailInlineFilter *
 		e_mail_inline_filter_new	(CamelTransferEncoding base_encoding,
-						 CamelContentType *type);
+						 CamelContentType *type,
+						 const gchar *filename);
 CamelMultipart *e_mail_inline_filter_get_multipart
 						(EMailInlineFilter *emif);
 gboolean	e_mail_inline_filter_found_any	(EMailInlineFilter *emif);

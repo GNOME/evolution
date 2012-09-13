@@ -415,6 +415,7 @@ e_mail_inline_filter_init (EMailInlineFilter *emif)
  * raw data being processed.
  * @base_type: The base content-type of the raw data, should always be
  * text/plain.
+ * @filename: Filename of the part, or NULL
  *
  * Create a filter which will scan a (text) stream for
  * embedded parts.  You can then retrieve the contents
@@ -424,7 +425,8 @@ e_mail_inline_filter_init (EMailInlineFilter *emif)
  **/
 EMailInlineFilter *
 e_mail_inline_filter_new (CamelTransferEncoding base_encoding,
-                          CamelContentType *base_type)
+                          CamelContentType *base_type,
+			  const gchar *filename)
 {
 	EMailInlineFilter *emif;
 
@@ -434,6 +436,9 @@ e_mail_inline_filter_new (CamelTransferEncoding base_encoding,
 		emif->base_type = base_type;
 		camel_content_type_ref (emif->base_type);
 	}
+
+	if (filename && *filename)
+		emif->filename = g_strdup (filename);
 
 	return emif;
 }
