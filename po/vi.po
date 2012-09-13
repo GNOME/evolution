@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-09-01 11:25+0000\n"
-"PO-Revision-Date: 2012-09-05 18:38+0700\n"
+"PO-Revision-Date: 2012-09-13 20:31+0700\n"
 "Last-Translator: Nguyễn Thái Ngọc Duy <pclouds@gmail.com>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "Language: vi\n"
@@ -12982,8 +12982,8 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
-"Nhiều hệ thống thư điện tử thêm một dòng đầu « Có vẻ là Cho » (Apparently-"
-"To) vào mọi thư chỉ có người nhận BCC (Bí mật Chép Cho). Nếu thêm dòng đầu "
+"Nhiều hệ thống thư điện tử thêm một dòng đầu Apparently-"
+"To vào mọi thư chỉ có người nhận BCC (Bí mật Chép Cho). Nếu thêm dòng đầu "
 "ấy, nó sẽ liệt kê mọi người nhận trong thư của bạn. Để tránh người gửi thư "
 "rác ăn cắp các địa chỉ trong danh sách ấy, bạn hãy thêm ít nhất một người "
 "nhận Cho (To) hay Chép Cho (Cc), v.d. địa chỉ mình."
@@ -16331,12 +16331,12 @@ msgstr "Lỗi nạp lịch '%s' (%s)"
 #: ../modules/itip-formatter/itip-view.c:3652
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
-msgstr "Có cuộc hẹn trong lịch « %s » xung đột với cuộc họp này."
+msgstr "Có cuộc hẹn trong lịch \"%s\" xung đột với cuộc họp này."
 
 #: ../modules/itip-formatter/itip-view.c:3679
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
-msgstr "Tìm thấy cuộc hẹn trong lịch « %s »"
+msgstr "Tìm thấy cuộc hẹn trong lịch \"%s\""
 
 #: ../modules/itip-formatter/itip-view.c:3774
 msgid "Unable to find any calendars"
@@ -16365,27 +16365,27 @@ msgstr "Đang tìm kiếm một phiên bản hiện thời của cuộc hẹn n�
 #: ../modules/itip-formatter/itip-view.c:4523
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
-msgstr "Không gửi được mục cho lịch « %s ». %s"
+msgstr "Không gửi được mục cho lịch \"%s\". %s"
 
 #: ../modules/itip-formatter/itip-view.c:4538
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
-msgstr "Đã gửi cho lịch « %s » như đã chấp nhận"
+msgstr "Đã gửi cho lịch \"%s\" như đã chấp nhận"
 
 #: ../modules/itip-formatter/itip-view.c:4543
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
-msgstr "Đã gửi cho lịch « %s » như dự định"
+msgstr "Đã gửi cho lịch \"%s\" như dự định"
 
 #: ../modules/itip-formatter/itip-view.c:4549
 #, c-format
 msgid "Sent to calendar '%s' as declined"
-msgstr "Đã gửi cho lịch « %s » như bị từ chối"
+msgstr "Đã gửi cho lịch \"%s\" như bị từ chối"
 
 #: ../modules/itip-formatter/itip-view.c:4555
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
-msgstr "Đã gửi cho lịch « %s » với trạng thái « bị thôi »"
+msgstr "Đã gửi cho lịch \"%s\" với trạng thái huỷ"
 
 #: ../modules/itip-formatter/itip-view.c:4576
 #: ../modules/itip-formatter/itip-view.c:5016
@@ -16779,7 +16779,7 @@ msgstr "Đánh dấu mọi thư Đã đọ_c"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1284
 msgid "Mark all messages in the folder as read"
-msgstr "Đánh dấu « Đã đọc » mọi thư nằm trong thư mục này"
+msgstr "Đánh dấu đã đọc mọi thư nằm trong thư mục này"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1289
 msgid "_Move Folder To..."
@@ -19257,7 +19257,7 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
-"Chức nhận « %s » là một chứng nhận CA (nhà cầm quyền chứng nhận).\n"
+"Chức nhận \"%s\" là một chứng nhận CA (nhà cầm quyền chứng nhận).\n"
 "\n"
 "Sửa đổi thiết lập tin cậy:"
 
