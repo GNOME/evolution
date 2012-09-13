@@ -163,6 +163,7 @@ handle_mail_request (GSimpleAsyncResult *res,
 
 	g_free (part_id);
 	g_object_unref (part_list);
+	g_object_unref (formatter);
 
 	stream = g_memory_input_stream_new_from_data (
 			(gchar *) ba->data, ba->len, NULL);

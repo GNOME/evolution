@@ -31,7 +31,6 @@
 
 #include <string.h>
 
-#include <em-format/e-mail-formatter.h>
 #include <shell/e-shell.h>
 
 #define d(x)
@@ -97,21 +96,17 @@ handle_http_request (GSimpleAsyncResult *res,
 	gboolean force_load_images = FALSE;
 	EMailImageLoadingPolicy image_policy;
 	gchar *uri_md5;
-	EMailFormatter *formatter;
 	EShell *shell;
-
+	EShellSettings *shell_settings;
 	const gchar *user_cache_dir;
 	CamelDataCache *cache;
 	CamelStream *cache_stream;
-
 	GHashTable *query;
 	gint uri_len;
 
 	if (g_cancellable_is_cancelled (cancellable)) {
 		return;
 	}
-
-	formatter = e_mail_formatter_new ();
 
 	/* Remove the __evo-mail query */
 	soup_uri = soup_request_get_uri (SOUP_REQUEST (request));
@@ -217,9 +212,11 @@ handle_http_request (GSimpleAsyncResult *res,
 		goto cleanup;
 	}
 
+	shell_settings = e_shell_get_shell_settings (shell);
+	image_policy =  e_shell_settings_get_int (shell_settings, "mail-image-loading-policy");
+
 	/* Item not found in cache, but image loading policy allows us to fetch
 	 * it from the interwebs */
-	image_policy = e_mail_formatter_get_image_loading_policy (formatter);
 	if (!force_load_images && mail_uri &&
 	    (image_policy == E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES)) {
 		CamelObjectBag *registry;
