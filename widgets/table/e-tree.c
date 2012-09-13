@@ -484,10 +484,8 @@ et_dispose (GObject *object)
 		priv->table_canvas = NULL;
 	}
 
-	if (priv->item != NULL) {
-		g_object_unref (G_OBJECT (priv->item));
-		priv->item = NULL;
-	}
+	/* do not unref it, it was owned by priv->table_canvas */
+	priv->item = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_tree_parent_class)->dispose (object);
