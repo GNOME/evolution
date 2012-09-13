@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-08-24 22:06+0000\n"
-"PO-Revision-Date: 2012-09-12 23:51+0530\n"
+"PO-Revision-Date: 2012-09-13 13:53+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -11683,20 +11683,18 @@ msgid "Create a rule to filter messages to these recipients"
 msgstr "ಈ ಕಳುಹಿಸುವವರಿಗಾಗಿನ ಸಂದೇಶಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡಲು ಒಂದು ನಿಯಮವನ್ನು ರಚಿಸು"
 
 #: ../mail/e-mail-reader.c:1991
-#, fuzzy
 #| msgid "Filter on Se_nder..."
 msgid "Create a Filter Rule for Se_nder..."
-msgstr "ಕಳುಹಿಸಿದವರ ಆಧಾರದ ಮೇಲೆ ಫಿಲ್ಟರ್ ಮಾಡು (_R)..."
+msgstr "ಕಳುಹಿಸುವವರಿಗಾಗಿ ಫಿಲ್ಟರ್ ನಿಯಮವನ್ನು ರಚಿಸು (_n)..."
 
 #: ../mail/e-mail-reader.c:1993
 msgid "Create a rule to filter messages from this sender"
 msgstr "ಈ ಕಳುಹಿಸುವವರಿಂದ ಬರುವ ಸಂದೇಶಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡಲು ಒಂದು ನಿಯಮವನ್ನು ರಚಿಸು"
 
 #: ../mail/e-mail-reader.c:1998
-#, fuzzy
 #| msgid "Filter on _Subject..."
 msgid "Create a Filter Rule for _Subject..."
-msgstr "ವಿಷಯದ ಆಧಾರದ ಮೇಲೆ ಫಿಲ್ಟರ್ ಮಾಡು (_S)..."
+msgstr "ವಿಷಯಕ್ಕಾಗಿ ಫಿಲ್ಟರ್ ನಿಯಮವನ್ನು ರಚಿಸು (_S)..."
 
 #: ../mail/e-mail-reader.c:2000
 msgid "Create a rule to filter messages with this subject"
@@ -11723,9 +11721,8 @@ msgid "_Clear Flag"
 msgstr "ಗುರುತನ್ನು ತೆರವುಗೊಳಿಸು (_C)"
 
 #: ../mail/e-mail-reader.c:2021
-#, fuzzy
 msgid "Remove the follow-up flag from the selected messages"
-msgstr "ಆರಿಸಲಾದ ಸಂದೇಶದಿಂದ ಒಂದು ಹೊಸ ಕಾರ್ಯವನ್ನು ರಚಿಸು"
+msgstr "ಆರಿಸಲಾದ ಸಂದೇಶಗಳಿಗಾಗಿ ಹಿಂಬಾಲಿಸು (ಫಾಲೋಅಪ್) ಎನ್ನುವ ಗುರುತನ್ನು ತೆಗೆದುಹಾಕು"
 
 #: ../mail/e-mail-reader.c:2026
 msgid "_Flag Completed"
@@ -11873,16 +11870,14 @@ msgid "Move selected messages to another folder"
 msgstr "ಆಯ್ದ ಸಂದೇಶಗಳನ್ನು ಇನ್ನೊಂದು ಫೋಲ್ಡರಿಗೆ ಜರುಗಿಸು"
 
 #: ../mail/e-mail-reader.c:2159
-#, fuzzy
 #| msgid "Switch to %s"
 msgid "_Switch to Folder"
-msgstr "%s ಗೆ ಬದಲಾಯಿಸು"
+msgstr "ಕಡತಕೋಶಕ್ಕೆ ಬದಲಾಯಿಸು (_S)"
 
 #: ../mail/e-mail-reader.c:2161
-#, fuzzy
 #| msgid "Install the shared folder"
 msgid "Display the parent folder"
-msgstr "ಹಂಚಲಾದ ಫೋಲ್ಡರನ್ನು ಅನುಸ್ಥಾಪಿಸು"
+msgstr "ಮೂಲ ಕಡತಕೋಶವನ್ನು ತೋರಿಸು"
 
 #: ../mail/e-mail-reader.c:2166
 #, fuzzy
@@ -12459,10 +12454,9 @@ msgid "Forward to"
 msgstr "ಇಲ್ಲಿಗೆ ಫಾರ್ವಾರ್ಡ್ ಮಾಡು"
 
 #: ../mail/em-filter-i18n.h:31
-#, fuzzy
 #| msgid "Password:"
 msgid "has words"
-msgstr "ಗುಪ್ತಪದ:"
+msgstr "ಪದಗಳನ್ನು ಹೊಂದಿರುವ"
 
 #: ../mail/em-filter-i18n.h:32
 msgid "Important"
@@ -15008,13 +15002,11 @@ msgstr ""
 "ಸ್ಥಾಪಿಸುತ್ತದೆ."
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:182
-#, fuzzy
 #| msgid "Restore from backup"
 msgid "_Restore from a backup file:"
-msgstr "ಬ್ಯಾಕ್ಅಪ್‌ನಿಂದ ಮರಳಿ ಸ್ಥಾಪಿಸು"
+msgstr "ಬ್ಯಾಕ್ಅಪ್‌ನಿಂದ ಮರಳಿ ಸ್ಥಾಪಿಸು (_R):"
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:193
-#, fuzzy
 #| msgid "Choose a file to restore"
 msgid "Choose a backup file to restore"
 msgstr "ಮರಳಿ ಸ್ಥಾಪಿಸಲು ಒಂದು ಕಡತವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ"
@@ -15023,7 +15015,6 @@ msgstr "ಮರಳಿ ಸ್ಥಾಪಿಸಲು ಒಂದು ಕಡತವನ್
 #. * so it's only shown once in the assistant sidebar.
 #: ../modules/backup-restore/e-mail-config-restore-page.c:313
 #: ../modules/backup-restore/e-mail-config-restore-ready-page.c:57
-#, fuzzy
 #| msgid "Restore from backup"
 msgid "Restore from Backup"
 msgstr "ಬ್ಯಾಕ್ಅಪ್‌ನಿಂದ ಮರಳಿ ಸ್ಥಾಪಿಸು"
@@ -15286,16 +15277,14 @@ msgid "Authentication"
 msgstr "ದೃಢೀಕರಣ"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:671
-#, fuzzy
 #| msgid "Anonymously"
 msgid "Anonymous"
-msgstr "ಅನಾಮಧೇಯವಾಗಿ"
+msgstr "ಅನಾಮಧೇಯ"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:679
-#, fuzzy
 #| msgid "Input Methods"
 msgid "Method:"
-msgstr "ಆದಾನ ಕ್ರಮಗಳು"
+msgstr "ವಿಧಾನ:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:684
 #, fuzzy
@@ -15323,10 +15312,9 @@ msgid "Searching"
 msgstr "ಹುಡುಕಲಾಗುತ್ತಿದೆ"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:738
-#, fuzzy
 #| msgid "Search _base:"
 msgid "Search Base:"
-msgstr "ಹುಡುಕು ಮೂಲಗಳು (_b):"
+msgstr "ಹುಡುಕು ಮೂಲ:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:743
 #, fuzzy
@@ -15345,10 +15333,9 @@ msgid "Subtree"
 msgstr ""
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:772
-#, fuzzy
 #| msgid "_Search scope:"
 msgid "Search Scope:"
-msgstr "ಹುಡುಕು ವ್ಯಾಪ್ತಿ (_S):"
+msgstr "ಹುಡುಕು ವ್ಯಾಪ್ತಿ:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:777
 #, fuzzy
@@ -15370,10 +15357,9 @@ msgstr ""
 "ವ್ಯಾಪ್ತಿಯು ನಿಮ್ಮ ಹುಡುಕು ಮೂಲಕ್ಕಿಂತ ಒಂದು ಹಂತ ಕೆಳಗಿನದನ್ನು ಮಾತ್ರ ಒಳಗೊಂಡಿರುತ್ತದೆ."
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:786
-#, fuzzy
 #| msgid "Search Filter"
 msgid "Search Filter:"
-msgstr "ಹುಡುಕು ಫಿಲ್ಟರ್"
+msgstr "ಹುಡುಕು ಫಿಲ್ಟರ್:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:798
 msgid "Downloading"
@@ -15381,7 +15367,7 @@ msgstr "ಡೌನ್‍ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:819
 msgid "Limit:"
-msgstr ""
+msgstr "ಮಿತಿ:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:835
 #, fuzzy
@@ -15401,10 +15387,10 @@ msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "IfMatch ಅನ್ನು ತಪ್ಪಿಸು(Apache < 2.2.8 ಯಲ್ಲಿ ಅಗತ್ಯವಿದೆ) (_A)"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:417
-#, fuzzy, c-format
+#, c-format
 #| msgid "GConf error: %s"
 msgid "HTTP Error: %s"
-msgstr "GConf ದೋಷ: %s"
+msgstr "HTTP ದೋಷ: %s"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:447
 #, fuzzy
@@ -15431,10 +15417,9 @@ msgid "Could not locate user's calendars"
 msgstr "ಯಾವುದೆ ಬಳಕೆದಾರ ಕ್ಯಾಲೆಂಡರು ಕಂಡು ಬಂದಿಲ್ಲ."
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1275
-#, fuzzy
 #| msgid "_Path:"
 msgid "Path"
-msgstr "ಪಥ (_P):"
+msgstr "ಪಥ"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:264
 #: ../modules/cal-config-google/e-google-chooser-dialog.c:200
@@ -15444,22 +15429,19 @@ msgid "Choose a Calendar"
 msgstr "ಒಂದು ಕ್ಯಾಲೆಂಡರ್ ಕಡತವನ್ನು ಆರಿಸಿ"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:267
-#, fuzzy
 #| msgid "New Memo List"
 msgid "Choose a Memo List"
-msgstr "ಹೊಸ ಮೆಮೊ ಪಟ್ಟಿ"
+msgstr "ಮೆಮೊ ಪಟ್ಟಿಯನ್ನು ಆರಿಸಿ"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:270
-#, fuzzy
 #| msgid "Select a Task List"
 msgid "Choose a Task List"
 msgstr "ಒಂದು ಕಾರ್ಯ ಪಟ್ಟಿಯನ್ನು ಆರಿಸಿ"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:269
-#, fuzzy
 #| msgid "_Calendars"
 msgid "Find Calendars"
-msgstr "ಕ್ಯಾಲೆಂಡರುಗಳು (_C)"
+msgstr "ಕ್ಯಾಲೆಂಡರುಗಳನ್ನು ಹುಡುಕು"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:272
 #, fuzzy
@@ -15474,10 +15456,9 @@ msgid "Find Task Lists"
 msgstr "ಕಾರ್ಯಗಳ ಪಟ್ಟಿ"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:293
-#, fuzzy
 #| msgid "_Path:"
 msgid "Path:"
-msgstr "ಪಥ (_P):"
+msgstr "ಪಥ:"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:299
 msgid "Email:"
@@ -15522,10 +15503,9 @@ msgid "Use an existing iCalendar (ics) file"
 msgstr ""
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:186
-#, fuzzy
 #| msgid "iCalendar (.ics)"
 msgid "iCalendar File"
-msgstr "iCalendar (.ics)"
+msgstr "iCalendar ಕಡತ"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:198
 #, fuzzy
@@ -15534,10 +15514,9 @@ msgid "Choose an iCalendar file"
 msgstr "ಒಂದು ಕ್ಯಾಲೆಂಡರ್ ಕಡತವನ್ನು ಆರಿಸಿ"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:201
-#, fuzzy
 #| msgid "_File:"
 msgid "File:"
-msgstr "ಕಡತ (_F):"
+msgstr "ಕಡತ:"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:216
 #, fuzzy
@@ -15973,10 +15952,9 @@ msgid "Find next occurrence of the current search string"
 msgstr "ಪದಪುಂಜವು ಈ ಮುಂದೆ ಎಲ್ಲಿದೆ ಎಂದು ಪತ್ತೆ ಹಚ್ಚು"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1462
-#, fuzzy
 #| msgid "_Previous"
 msgid "Find _previous"
-msgstr "ಹಿಂದಿನ (_P)"
+msgstr "ಹಿಂದಿನದನ್ನು ಹುಡುಕು (_P)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1464
 #, fuzzy
@@ -16665,7 +16643,7 @@ msgstr ""
 
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:137
 msgid "ITIP"
-msgstr ""
+msgstr "ITIP"
 
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:143
 msgid "Display part as an invitation"
@@ -17518,10 +17496,9 @@ msgid "T_ype:"
 msgstr "ಬಗೆ (_y):"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:247
-#, fuzzy
 #| msgid "IMAP Features"
 msgid "Yahoo! Features"
-msgstr "IMAP ವೈಶಿಷ್ಟ್ಯಗಳು"
+msgstr "Yahoo! ವೈಶಿಷ್ಟ್ಯಗಳು"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:256
 #, fuzzy
@@ -17581,7 +17558,6 @@ msgstr "ಜಾಲಬಂಧ ಆದ್ಯತೆಗಳು"
 
 #. Translators: The first item in the list, to be able to set rule: [Label] [is/is-not] [None]
 #: ../modules/mail/e-mail-shell-backend.c:890
-#, fuzzy
 #| msgid "None"
 msgctxt "label"
 msgid "None"
@@ -18284,10 +18260,9 @@ msgid "_Format as..."
 msgstr "ಕಾಲಂಗಳನ್ನು ಫಾರ್ಮಾಟ್ ಮಾಡು (_s)..."
 
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:103
-#, fuzzy
 #| msgid "_Languages"
 msgid "_Other languages"
-msgstr "ಭಾಷೆಗಳು (_L)"
+msgstr "ಇತರೆ ಭಾಷೆಗಳು (_O)"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:342
 #, fuzzy
@@ -18300,10 +18275,9 @@ msgid "Syntax highlighting of mail parts"
 msgstr ""
 
 #: ../modules/text-highlight/languages.c:32
-#, fuzzy
 #| msgid "Plain Text Mode"
 msgid "_Plain text"
-msgstr "ಸರಳ ಪಠ್ಯದ ಕ್ರಮ"
+msgstr "ಸರಳ ಪಠ್ಯ (_P)"
 
 #: ../modules/text-highlight/languages.c:38
 msgid "_Assembler"
@@ -18315,11 +18289,11 @@ msgstr ""
 
 #: ../modules/text-highlight/languages.c:54
 msgid "_C/C++"
-msgstr ""
+msgstr "_C/C++"
 
 #: ../modules/text-highlight/languages.c:63
 msgid "_C#"
-msgstr ""
+msgstr "_C#"
 
 #: ../modules/text-highlight/languages.c:68
 msgid "_Cascade Style Sheet"
@@ -18327,7 +18301,7 @@ msgstr ""
 
 #: ../modules/text-highlight/languages.c:73
 msgid "_HTML"
-msgstr ""
+msgstr "_HTML"
 
 #: ../modules/text-highlight/languages.c:81
 msgid "_Java"
@@ -18351,25 +18325,24 @@ msgstr "ವೈಯಕ್ತಿಕ (_P)"
 
 #: ../modules/text-highlight/languages.c:110
 msgid "_PHP"
-msgstr ""
+msgstr "_PHP"
 
 #: ../modules/text-highlight/languages.c:123
-#, fuzzy
 #| msgid "Hello Python"
 msgid "_Python"
-msgstr "ಹೆಲೋ ಪೈಥಾನ್"
+msgstr "ಪೈಥಾನ್ (_P)"
 
 #: ../modules/text-highlight/languages.c:128
 msgid "_Ruby"
-msgstr ""
+msgstr "ರೂಬಿ (_R)"
 
 #: ../modules/text-highlight/languages.c:135
 msgid "_Tcl/Tk"
-msgstr ""
+msgstr "_Tcl/Tk"
 
 #: ../modules/text-highlight/languages.c:141
 msgid "_TeX/LaTeX"
-msgstr ""
+msgstr "_TeX/LaTeX"
 
 #: ../modules/text-highlight/languages.c:147
 msgid "_Vala"
@@ -18383,7 +18356,7 @@ msgstr "ದೃಷ್ಟಿಗೋಚರ"
 
 #: ../modules/text-highlight/languages.c:159
 msgid "_XML"
-msgstr ""
+msgstr "_XML"
 
 #: ../modules/text-highlight/languages.c:177
 #, fuzzy
@@ -18393,19 +18366,19 @@ msgstr "ಕೆಲಸಗಳು (_A)"
 
 #: ../modules/text-highlight/languages.c:182
 msgid "_ADA95"
-msgstr ""
+msgstr "_ADA95"
 
 #: ../modules/text-highlight/languages.c:189
 msgid "_ALGOL 68"
-msgstr ""
+msgstr "_ALGOL 68"
 
 #: ../modules/text-highlight/languages.c:194
 msgid "(_G)AWK"
-msgstr ""
+msgstr "(_G)AWK"
 
 #: ../modules/text-highlight/languages.c:199
 msgid "_COBOL"
-msgstr ""
+msgstr "_COBOL"
 
 #: ../modules/text-highlight/languages.c:204
 msgid "_DOS Batch"
@@ -18413,7 +18386,7 @@ msgstr ""
 
 #: ../modules/text-highlight/languages.c:209
 msgid "_D"
-msgstr ""
+msgstr "_D"
 
 #: ../modules/text-highlight/languages.c:214
 msgid "_Erlang"
@@ -18429,27 +18402,25 @@ msgstr ""
 
 #: ../modules/text-highlight/languages.c:230
 msgid "_F#"
-msgstr ""
+msgstr "_F#"
 
 #: ../modules/text-highlight/languages.c:235
-#, fuzzy
 #| msgid "_No"
 msgid "_Go"
-msgstr "ಇಲ್ಲ (_N)"
+msgstr "ಗೋ (_G)"
 
 #: ../modules/text-highlight/languages.c:240
 msgid "_Haskell"
-msgstr ""
+msgstr "ಹ್ಯಾಸ್ಕೆಲ್ (_H)"
 
 #: ../modules/text-highlight/languages.c:245
 msgid "_JSP"
-msgstr ""
+msgstr "_JSP"
 
 #: ../modules/text-highlight/languages.c:250
-#, fuzzy
 #| msgid "_List:"
 msgid "_Lisp"
-msgstr "ಪಟ್ಟಿ (_L):"
+msgstr "ಲಿಸ್ಪ್‍ (_L):"
 
 #: ../modules/text-highlight/languages.c:258
 msgid "_Lotus"
@@ -18476,54 +18447,49 @@ msgid "_Oberon"
 msgstr ""
 
 #: ../modules/text-highlight/languages.c:288
-#, fuzzy
 #| msgid "Object Signer"
 msgid "_Objective C"
-msgstr "ಆಬ್ಜೆಕ್ಟ್‍ ಸೈನರ್"
+msgstr "ಆಬ್ಜೆಕ್ಟೀವ್ C (_O)"
 
 #: ../modules/text-highlight/languages.c:294
 msgid "_OCaml"
-msgstr ""
+msgstr "_OCaml"
 
 #: ../modules/text-highlight/languages.c:299
 msgid "_Octave"
-msgstr ""
+msgstr "ಆಕ್ಟೇವ್ (_O)"
 
 #: ../modules/text-highlight/languages.c:304
-#, fuzzy
 #| msgid "Object Signer"
 msgid "_Object Script"
-msgstr "ಆಬ್ಜೆಕ್ಟ್‍ ಸೈನರ್"
+msgstr "ಆಬ್ಜೆಕ್ಟ್‍ ಸ್ಕ್ರಿಪ್ಟ್‍ (_O)"
 
 #: ../modules/text-highlight/languages.c:309
-#, fuzzy
 #| msgid "_Paste"
 msgid "_Pascal"
-msgstr "ಅಂಟಿಸು(_P)"
+msgstr "ಪಾಸ್ಕಲ್ (_P)"
 
 #: ../modules/text-highlight/languages.c:314
 msgid "_POV-Ray"
-msgstr ""
+msgstr "_POV-ರೇ"
 
 #: ../modules/text-highlight/languages.c:319
-#, fuzzy
 #| msgid "_Program:"
 msgid "_Prolog"
-msgstr "ಪ್ರೋಗ್ರಾಂ (_P):"
+msgstr "ಪ್ರೊಲಾಗ್ (_P)"
 
 #: ../modules/text-highlight/languages.c:324
-#, fuzzy
 #| msgid "_Script:"
 msgid "_PostScript"
-msgstr "ಸ್ಕ್ರಿಪ್ಟ್‍ (_S):"
+msgstr "ಪೋಸ್ಟ್‍ಸ್ಕ್ರಿ ಪ್ಟ್‍ (_S):"
 
 #: ../modules/text-highlight/languages.c:329
 msgid "_R"
-msgstr ""
+msgstr "_R"
 
 #: ../modules/text-highlight/languages.c:334
 msgid "_RPM Spec"
-msgstr ""
+msgstr "_RPM ಸ್ಪೆಕ್"
 
 #: ../modules/text-highlight/languages.c:339
 msgid "_Scala"
@@ -18535,31 +18501,28 @@ msgstr ""
 
 #: ../modules/text-highlight/languages.c:350
 msgid "_TCSH"
-msgstr ""
+msgstr "_TCSH"
 
 #: ../modules/text-highlight/languages.c:355
 msgid "_VHDL"
-msgstr ""
+msgstr "_VHDL"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:118
 #: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:201
-#, fuzzy
 #| msgid "Show Full vCard"
 msgid "Show F_ull vCard"
-msgstr "ಸಂಪೂರ್ಣ ವಿಕಾರ್ಡನ್ನು ತೋರಿಸು"
+msgstr "ಸಂಪೂರ್ಣ ವಿಕಾರ್ಡನ್ನು ತೋರಿಸು (_u)"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:121
 #: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:219
-#, fuzzy
 #| msgid "Show Compact vCard"
 msgid "Show Com_pact vCard"
-msgstr "ಚಿಕ್ಕದಾದ ವಿಕಾರ್ಡನ್ನು ತೋರಿಸು"
+msgstr "ಸಂಕುಚಿತ ವಿಕಾರ್ಡನ್ನು ತೋರಿಸು (_p)"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:145
-#, fuzzy
 #| msgid "Save in Address Book"
 msgid "Save _To Addressbook"
-msgstr "ವಿಳಾಸ ಪುಸ್ತಕದಲ್ಲಿ ಉಳಿಸಿ"
+msgstr "ವಿಳಾಸ ಪುಸ್ತಕದಲ್ಲಿ ಉಳಿಸು (_T)"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:165
 msgid "There is one other contact."
@@ -18573,30 +18536,27 @@ msgstr[0] "%d ಇತರೆ ಸಂಪರ್ಕವಿಳಾಸವಿದೆ."
 msgstr[1] "%d ಇತರೆ ಸಂಪರ್ಕವಿಳಾಸಗಳಿವೆ."
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:196
-#, fuzzy
 #| msgid "Address Book Properties"
 msgid "Addressbook Contact"
-msgstr "ವಿಳಾಸ ಪುಸ್ತಕದ ಗುಣಲಕ್ಷಣಗಳು"
+msgstr "ವಿಳಾಸಪುಸ್ತಕದ ಸಂಪರ್ಕ"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:202
 msgid "Display the part as an addressbook contact"
-msgstr ""
+msgstr "ಒಂದು ವಿಳಾಸಪುಸ್ತಕದ ಸಂಪರ್ಕವಾಗಿ ತೋರಿಸು"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:88
-#, fuzzy
 #| msgid "_Select..."
 msgid "_Inspect..."
-msgstr "ಆರಿಸು (_S)..."
+msgstr "ಪರಿಶೀಲಿಸು (_S)..."
 
 #: ../modules/web-inspector/evolution-web-inspector.c:90
 msgid "Inspect the HTML content (debugging feature)"
 msgstr ""
 
 #: ../modules/web-inspector/evolution-web-inspector.c:102
-#, fuzzy
 #| msgid "Evolution Website"
 msgid "Evolution Web Inspector"
-msgstr "Evolution ಜಾಲತಾಣ"
+msgstr "Evolution ಜಾಲ ಪರೀಕ್ಷಕ"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:128
 msgid "_Do not show this message again."
@@ -18868,9 +18828,8 @@ msgid "Attach a small picture of your face to outgoing messages."
 msgstr "ಹೊರಹೋಗುವ ಸಂದೇಶಗಳಿಗೆ ನಿಮ್ಮ ಸಣ್ಣ ಚಿತ್ರವೊಂದನ್ನು ಲಗತ್ತಿಸಿ."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:1
-#, fuzzy
 msgid "Failed Read"
-msgstr "ಟೇಬಲ್ ಹೆಡರ್"
+msgstr "ಓದುವಲ್ಲಿ ವಿಫಲತೆ"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:2
 msgid "The file cannot be read"
@@ -19060,10 +19019,9 @@ msgid "Subject: %s"
 msgstr "ವಿಷಯ: %s"
 
 #: ../plugins/mail-notification/mail-notification.c:427
-#, fuzzy
 #| msgid "Restarting Evolution"
 msgid "New email in Evolution"
-msgstr "Evolution ಅನ್ನು ಮರಳಿಸ್ಥಾಪಿಸಲಾಗುತ್ತಿದೆ"
+msgstr "Evolution ನಲ್ಲಿ ಹೊಸ ಅಂಚೆ"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
@@ -19252,10 +19210,9 @@ msgid "No writable calendar is available."
 msgstr "ಯಾವುದೆ ಬರೆಯಬಹುದಾದ ಕ್ಯಾಲೆಂಡರು ಲಭ್ಯವಿಲ್ಲ."
 
 #: ../plugins/mail-to-task/mail-to-task.c:1270
-#, fuzzy
 #| msgid "Create a new appointment"
 msgid "Create an _Appointment"
-msgstr "ಒಂದು ಹೊಸ ಅಪಾಯಿಂಟ್‍ಮೆಟನ್ನು ನಿರ್ಮಿಸು"
+msgstr "ಒಂದು ಹೊಸ ಅಪಾಯಿಂಟ್‍ಮೆಟನ್ನು ರಚಿಸು (_A)"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1272
 msgid "Create a new event from the selected message"
@@ -19340,7 +19297,7 @@ msgstr "ಮೈಲ್ (_M)"
 
 #: ../plugins/pst-import/pst-importer.c:584
 msgid "Destination folder:"
-msgstr "ನಿರ್ದೇಶಿತ ಫೋಲ್ಡರ್:"
+msgstr "ನಿರ್ದೇಶಿತ ಪತ್ರಕೋಶ:"
 
 #: ../plugins/pst-import/pst-importer.c:594
 msgid "_Address Book"
@@ -19759,7 +19716,7 @@ msgstr "ವಿಷಯಗಳು (_C)"
 #: ../shell/e-shell-window-actions.c:1439
 #, fuzzy
 msgid "Open the Evolution User Guide"
-msgstr "ಇತರೆ ಬಳಕೆದಾರದ ಫೋಲ್ಡರನ್ನು ತೆರೆಯಿರಿ"
+msgstr "ಇತರೆ ಬಳಕೆದಾರದ ಪತ್ರಕೋಶವನ್ನು ತೆರೆಯಿರಿ"
 
 #: ../shell/e-shell-window-actions.c:1465
 msgid "I_mport..."
@@ -20782,7 +20739,7 @@ msgstr "ಸಂದೇಶಗಳು (_M)"
 
 #: ../views/mail/galview.xml.h:2
 msgid "As _Sent Folder"
-msgstr "ಕಳುಹಿಸಿದ ಫೋಲ್ಡರ್ ಆಗಿ (_S)"
+msgstr "ಕಳುಹಿಸಿದ ಪತ್ರಕೋಶವಾಗಿ (_S)"
 
 #: ../views/mail/galview.xml.h:3
 msgid "By Su_bject"
@@ -21100,16 +21057,14 @@ msgid "Open this attachment in %s"
 msgstr "ಈ ಲಗತ್ತುಗಳನ್ನು %s ನಲ್ಲಿ ತೆರೆ"
 
 #: ../widgets/misc/e-book-source-config.c:98
-#, fuzzy
 #| msgid "Mark as _default address book"
 msgid "Mark as default address book"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ವಿಳಾಸ ಪುಸ್ತಕ ಎಂದು ಗುರುತು ಹಾಕು (_d)"
+msgstr "ಪೂರ್ವನಿಯೋಜಿತ ವಿಳಾಸ ಪುಸ್ತಕ ಎಂದು ಗುರುತು ಹಾಕು"
 
 #: ../widgets/misc/e-book-source-config.c:103
-#, fuzzy
 #| msgid "A_utocomplete with this address book"
 msgid "Autocomplete with this address book"
-msgstr "ಈ ವಿಳಾಸ ಪುಸ್ತಕದೊಂದಿಗೆ ಸ್ವಯಂಪೂರ್ಣಗೊಳಿಸು (_u)"
+msgstr "ಈ ವಿಳಾಸ ಪುಸ್ತಕದೊಂದಿಗೆ ಸ್ವಯಂಪೂರ್ಣಗೊಳಿಸು"
 
 #: ../widgets/misc/e-book-source-config.c:277
 #, fuzzy
@@ -21123,30 +21078,26 @@ msgid "Ctrl-click to open a link"
 msgstr "ಕೊಂಡಿಯನ್ನು ತೆರೆಯಲು Ctrl-ಕ್ಲಿಕ್ ಮಾಡಿ"
 
 #: ../widgets/misc/e-calendar.c:187
-#, fuzzy
 #| msgid "Previous"
 msgid "Previous month"
-msgstr "ಹಿಂದಿನ"
+msgstr "ಹಿಂದಿನ ತಿಂಗಳು"
 
 #: ../widgets/misc/e-calendar.c:211
-#, fuzzy
 #| msgctxt "DateFmt"
 #| msgid "Next Mon"
 msgid "Next month"
-msgstr "ಮುಂದಿನ ಸೋಮ"
+msgstr "ಮುಂದಿನ ತಿಂಗಳು"
 
 #: ../widgets/misc/e-calendar.c:233
-#, fuzzy
 #| msgid "Previous"
 msgid "Previous year"
-msgstr "ಹಿಂದಿನ"
+msgstr "ಹಿಂದಿನ ವರ್ಷ"
 
 #: ../widgets/misc/e-calendar.c:254
-#, fuzzy
 #| msgctxt "DateFmt"
 #| msgid "Next Tue"
 msgid "Next year"
-msgstr "ಮುಂದಿನ ಮಂಗಳ"
+msgstr "ಮುಂದಿನ ವರ್ಷ"
 
 #: ../widgets/misc/e-calendar.c:278
 msgid "Month Calendar"
@@ -21157,45 +21108,40 @@ msgstr "ತಿಂಗಳ ಕ್ಯಾಲೆಂಡರ್"
 #: ../widgets/misc/e-calendar-item.c:2136
 msgctxt "CalItem"
 msgid "%B"
-msgstr ""
+msgstr "%B"
 
 #. This is a strftime() format. %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1285
 msgctxt "CalItem"
 msgid "%Y"
-msgstr ""
+msgstr "%Y"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1322
-#, fuzzy
 #| msgid "%B %Y"
 msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%B %Y"
 
 #: ../widgets/misc/e-cal-source-config.c:170
-#, fuzzy
 #| msgid "Mark as _default calendar"
 msgid "Mark as default calendar"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಕ್ಯಾಲೆಂಡರ್ ಎಂದು ಗುರುತು ಹಾಕು (_d)"
+msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಕ್ಯಾಲೆಂಡರ್ ಎಂದು ಗುರುತು ಹಾಕು"
 
 #: ../widgets/misc/e-cal-source-config.c:173
-#, fuzzy
 #| msgid "Mark as _default task list"
 msgid "Mark as default task list"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಕಾರ್ಯಪಟ್ಟಿ ಎಂದು ಗುರುತು ಹಾಕು (_d)"
+msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಕಾರ್ಯಪಟ್ಟಿ ಎಂದು ಗುರುತು ಹಾಕು"
 
 #: ../widgets/misc/e-cal-source-config.c:176
-#, fuzzy
 #| msgid "Mark as _default memo list"
 msgid "Mark as default memo list"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಮೆಮೊ ಪಟ್ಟಿ ಎಂದು ಗುರುತು ಹಾಕು (_d)"
+msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಮೆಮೊ ಪಟ್ಟಿ ಎಂದು ಗುರುತು ಹಾಕು"
 
 #: ../widgets/misc/e-cal-source-config.c:201
-#, fuzzy
 #| msgid "Colo_r:"
 msgid "Color:"
-msgstr "ಬಣ್ಣ (_r):"
+msgstr "ಬಣ್ಣ :"
 
 #: ../widgets/misc/e-cal-source-config.c:406
 #, fuzzy
@@ -21390,10 +21336,9 @@ msgid "Autogenerated"
 msgstr "ತಾನಾಗಿಯೆ ಉತ್ಪತ್ತಿಯಾದ"
 
 #: ../widgets/misc/e-mail-signature-editor.c:287
-#, fuzzy
 #| msgid "_Close"
 msgid "Close"
-msgstr "ಮುಚ್ಚು (_C)"
+msgstr "ಮುಚ್ಚು"
 
 #: ../widgets/misc/e-mail-signature-editor.c:292
 msgid "_Save and Close"
@@ -21475,10 +21420,10 @@ msgid "Evolution Preferences"
 msgstr "Evolution ಆದ್ಯತೆಗಳು"
 
 #: ../widgets/misc/e-search-bar.c:79
-#, fuzzy, c-format
+#, c-format
 #| msgid "Matches: %d"
 msgid "Matches: %u"
-msgstr "ತಾಳೆಗಳು: %d"
+msgstr "ಹೊಂದಿಕೆಯಾದವು: %d"
 
 #: ../widgets/misc/e-search-bar.c:527
 msgid "Close the find bar"
@@ -21529,9 +21474,8 @@ msgid "Standard"
 msgstr "ಸಾಮಾನ್ಯ"
 
 #: ../widgets/misc/e-send-options.ui.h:6
-#, fuzzy
 msgid "Proprietary"
-msgstr "ಆದ್ಯತೆ"
+msgstr ""
 
 #: ../widgets/misc/e-send-options.ui.h:8
 msgid "Secret"
@@ -21667,23 +21611,20 @@ msgstr "ಹೆಸರು:"
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
 #: ../widgets/misc/e-source-config.c:1289
-#, fuzzy
 #| msgid "Refresh the folder"
 msgid "Refresh every"
-msgstr "ಫೋಲ್ಡರನ್ನು ಪುನಶ್ಚೇತನಗೊಳಿಸು"
+msgstr "ಪ್ರತಿಯೊಂದನ್ನೂ ಸಹ ಪುನಶ್ಚೇತನಗೊಳಿಸು"
 
 #: ../widgets/misc/e-source-config.c:1319
 #: ../widgets/misc/e-source-config.c:1347
-#, fuzzy
 #| msgid "Use _secure connection"
 msgid "Use a secure connection"
-msgstr "ಸುರಕ್ಷತಾ ಸಂಪರ್ಕವನ್ನು ಬಳಸು (_s)"
+msgstr "ಒಂದು ಸುರಕ್ಷತಿ ಸಂಪರ್ಕವನ್ನು ಬಳಸು"
 
 #: ../widgets/misc/e-source-config.c:1361
-#, fuzzy
 #| msgid "Imported Certificate"
 msgid "Ignore invalid SSL certificate"
-msgstr "ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾದ ಪ್ರಮಾಣಪತ್ರ"
+msgstr "ಅಮಾನ್ಯವಾದ SSL ಪ್ರಮಾಣಪತ್ರವನ್ನು ಕಡೆಗಣಿಸು"
 
 #: ../widgets/misc/e-source-config.c:1398
 msgid "User"
@@ -21691,33 +21632,30 @@ msgstr "ಬಳಕೆದಾರ"
 
 #. no suggestions. Put something in the menu anyway...
 #: ../widgets/misc/e-spell-entry.c:351
-#, fuzzy
 #| msgid "(No Subject)"
 msgid "(no suggestions)"
-msgstr "(ಯಾವುದೆ ವಿಷಯವಿಲ್ಲ)"
+msgstr "(ಯಾವುದೆ ಸಲಹೆಗಳಿಲ್ಲ)"
 
 #: ../widgets/misc/e-spell-entry.c:375
-#, fuzzy
 #| msgid "_Move..."
 msgid "More..."
-msgstr "ಸ್ಥಳಾಂತರಿಸು(_M)..."
+msgstr "ಇನ್ನಷ್ಟು ..."
 
 #. + Add to Dictionary
 #: ../widgets/misc/e-spell-entry.c:444
 #, c-format
 msgid "Add \"%s\" to Dictionary"
-msgstr ""
+msgstr "\"%s\" ಅನ್ನು ಶಬ್ಧಕೋಶಕ್ಕೆ ಸೇರಿಸಿ"
 
 #. - Ignore All
 #: ../widgets/misc/e-spell-entry.c:487
-#, fuzzy
 #| msgid "Ignore"
 msgid "Ignore All"
-msgstr "ಅಲಕ್ಷಿಸು"
+msgstr "ಎಲ್ಲವನ್ನೂ ಕಡೆಗಣಿಸು"
 
 #: ../widgets/misc/e-spell-entry.c:513
 msgid "Spelling Suggestions"
-msgstr ""
+msgstr "ಕಾಗುಣಿತದ ಸಲಹೆಗಳು"
 
 #: ../widgets/misc/e-url-entry.c:78
 msgid "Click here to go to URL"
@@ -21795,16 +21733,14 @@ msgid "Please provide an unique name to identify this signature."
 msgstr "ಈ ಸಹಿಯನ್ನು ಗುರುತಿಸಲು ದಯವಿಟ್ಟು ಒಂದು ವಿಶಿಷ್ಟವಾದ ಹೆಸರನ್ನು ಒದಗಿಸಿ."
 
 #: ../widgets/misc/widgets.error.xml.h:6
-#, fuzzy
 #| msgid "Could not save signature file."
 msgid "Could not load signature."
-msgstr "ಸಹಿ ಕಡತವನ್ನು ಉಳಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ."
+msgstr "ಸಹಿಯನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ."
 
 #: ../widgets/misc/widgets.error.xml.h:7
-#, fuzzy
 #| msgid "Could not save signature file."
 msgid "Could not save signature."
-msgstr "ಸಹಿ ಕಡತವನ್ನು ಉಳಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ."
+msgstr "ಸಹಿಯನ್ನು ಉಳಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ."
 
 #: ../widgets/table/e-cell-combo.c:187
 msgid "popup list"
@@ -22081,7 +22017,7 @@ msgstr "ಎಲ್ಲವನ್ನೂ ಆರಿಸು"
 
 #: ../widgets/text/e-text.c:2087
 msgid "Input Methods"
-msgstr "ಆದಾನ ಕ್ರಮಗಳು"
+msgstr "ಇನ್‌ಪುಟ್ ವಿಧಾನಗಳು"
 
 #~ msgid "Some features may not work properly with your current server"
 #~ msgstr "ನಿಮ್ಮ ಪ್ರಸಕ್ತ ಪರಿಚಾರಕದಲ್ಲಿ ಕೆಲವೊಂದು ವೈಶಿಷ್ಟ್ಯಗಳು ಕೆಲಸ ಮಾಡುವುದಿಲ್ಲ"
