@@ -21423,7 +21423,7 @@ msgstr "Evolution ಆದ್ಯತೆಗಳು"
 #, c-format
 #| msgid "Matches: %d"
 msgid "Matches: %u"
-msgstr "ಹೊಂದಿಕೆಯಾದವು: %d"
+msgstr "ಹೊಂದಿಕೆಯಾದವು: %u"
 
 #: ../widgets/misc/e-search-bar.c:527
 msgid "Close the find bar"
