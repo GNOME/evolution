@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-08-24 22:06+0000\n"
-"PO-Revision-Date: 2012-09-14 16:05+0530\n"
+"PO-Revision-Date: 2012-09-14 18:30+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -12704,16 +12704,14 @@ msgid "_Subscribe"
 msgstr "ಚಂದಾದಾರಗೊಳಿಸು (_S)"
 
 #: ../mail/em-subscription-editor.c:878
-#, fuzzy
 #| msgid "Subscribed"
 msgid "Su_bscribe To Shown"
-msgstr "ಚಂದಾದಾರಗೊಳಿಸಲಾಗಿದೆ"
+msgstr "ತೋರಿಸಲಾಗಿದೆ ಎನ್ನುವದಕ್ಕೆ ಚಂದಾದಾರಗೊಳಿಸು (_b)"
 
 #: ../mail/em-subscription-editor.c:886
-#, fuzzy
 #| msgid "_Subscribe to list"
 msgid "Subscribe To _All"
-msgstr "ಲಿಸ್ಟಿಗೆ ಚಂದಾದಾರನಾಗು(_S)"
+msgstr "ಎಲ್ಲದಕ್ಕೂ ಚಂದಾದಾರನಾಗಿಸು (_A)"
 
 #: ../mail/em-subscription-editor.c:986 ../mail/em-subscription-editor.c:1847
 #: ../modules/mail/e-mail-shell-view-actions.c:1338
@@ -12721,16 +12719,14 @@ msgid "_Unsubscribe"
 msgstr "ಚಂದಾದಾರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸು (_U)"
 
 #: ../mail/em-subscription-editor.c:995
-#, fuzzy
 #| msgid "Unsubscribe Folders"
 msgid "Unsu_bscribe From Hidden"
-msgstr "ಫೋಲ್ಡರುಗಳಿಗೆ ಚಂದಾದಾರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸು"
+msgstr "ಅಡಗಿಸಲಾಗಿದುದರಿಂದ ಚಂದಾದಾರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸು (_b)"
 
 #: ../mail/em-subscription-editor.c:1003
-#, fuzzy
 #| msgid "Unsubscribe from \"%s\""
 msgid "Unsubscribe From _All"
-msgstr "\"%s\" ಕ್ಕೆ ಚಂದಾದಾರನಾಗಿಸಿರುವುದನ್ನು ತೆಗೆದು ಹಾಕು"
+msgstr "ಎಲ್ಲದರಿಂದಲೂ ಚಂದಾದಾರರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸು (_A)"
 
 #: ../mail/em-subscription-editor.c:1682
 msgid "Folder Subscriptions"
@@ -12738,72 +12734,61 @@ msgstr "ಫೋಲ್ಡರ್ ಚಂದಾದಾರಿಕೆಗಳು"
 
 #: ../mail/em-subscription-editor.c:1722
 msgid "_Account:"
-msgstr "ಖಾತೆ(_A):"
+msgstr "ಖಾತೆ (_A):"
 
 #: ../mail/em-subscription-editor.c:1737
-#, fuzzy
 #| msgid "Clear the search"
 msgid "Clear Search"
-msgstr "ಹುಡುಕನ್ನು ತೆರವುಗೊಳಿಸು"
+msgstr "ಹುಡುಕಾಟವನ್ನು ತೆರವುಗೊಳಿಸು"
 
 #: ../mail/em-subscription-editor.c:1755
-#, fuzzy
 #| msgid "does not contain"
 msgid "Sho_w items that contain:"
-msgstr "ಹೊಂದಿಲ್ಲ"
+msgstr "ಇದನ್ನು ಹೊಂದಿರುವ ಅಂಶಗಳನ್ನು ಹೊಂದಿಸು (_w):"
 
 #: ../mail/em-subscription-editor.c:1800
-#, fuzzy
 msgid "Subscribe to the selected folder"
-msgstr "ಆಯ್ದ ಫೋಲ್ಡರಿನ ಹೆಸರನ್ನು ಬದಲಾಯಿಸು"
+msgstr "ಆಯ್ದ ಪತ್ರಕೋಶಕ್ಕೆ ಚಂದಾದಾರನಾಗಿಸು"
 
 #: ../mail/em-subscription-editor.c:1801
-#, fuzzy
 #| msgid "Subscribed"
 msgid "Su_bscribe"
-msgstr "ಚಂದಾದಾರಗೊಳಿಸಲಾಗಿದೆ"
+msgstr "ಚಂದಾದಾರನಾಗಿಸು (_b)"
 
 #: ../mail/em-subscription-editor.c:1846
 #: ../modules/mail/e-mail-shell-view-actions.c:1340
-#, fuzzy
 msgid "Unsubscribe from the selected folder"
-msgstr "ಆಯ್ದ ಫೋಲ್ಡರಿನ ಹೆಸರನ್ನು ಬದಲಾಯಿಸು"
+msgstr "ಆಯ್ದ ಪತ್ರಕೋಶದಿಂದ ಚಂದಾದಾರಿಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸು"
 
 #: ../mail/em-subscription-editor.c:1886
-#, fuzzy
 #| msgid "All local folders"
 msgid "Collapse all folders"
-msgstr "ಎಲ್ಲಾ ಸ್ಥಳೀಯ ಫೋಲ್ಡರುಗಳು"
+msgstr "ಎಲ್ಲಾ ಪತ್ರಕೋಶಗಳನ್ನು ಬೀಳಿಸು"
 
 #: ../mail/em-subscription-editor.c:1887
-#, fuzzy
 #| msgid "Collapse All _Threads"
 msgid "C_ollapse All"
-msgstr "ಎಲ್ಲಾ ಸಂದೇಶ ತ್ರೆಡ್‌ಗಳನ್ನು ಅಡಗಿಸು (_T)"
+msgstr "ಎಲ್ಲವನ್ನೂ ಬೀಳಿಸು (_o)"
 
 #: ../mail/em-subscription-editor.c:1897
-#, fuzzy
 #| msgid "E_xpand All Threads"
 msgid "Expand all folders"
-msgstr "ಎಲ್ಲಾ ತ್ರೆಡ್‌ಗಳ ವಿಸ್ತೃತ ರೂಪಗಳನ್ನು ತೋರಿಸು (_x)"
+msgstr "ಎಲ್ಲಾ ಪತ್ರಕೋಶಗಳನ್ನು ವಿಸ್ತರಿಸು"
 
 #: ../mail/em-subscription-editor.c:1898
-#, fuzzy
 #| msgid "E_xpand All Threads"
 msgid "E_xpand All"
-msgstr "ಎಲ್ಲಾ ತ್ರೆಡ್‌ಗಳ ವಿಸ್ತೃತ ರೂಪಗಳನ್ನು ತೋರಿಸು (_x)"
+msgstr "ಎಲ್ಲವನ್ನೂ ವಿಸ್ತರಿಸು (_x)"
 
 #: ../mail/em-subscription-editor.c:1908
-#, fuzzy
 #| msgid "Refresh the folder"
 msgid "Refresh the folder list"
-msgstr "ಫೋಲ್ಡರನ್ನು ಪುನಶ್ಚೇತನಗೊಳಿಸು"
+msgstr "ಪತ್ರಕೋಶದ ಪಟ್ಟಿಯನ್ನು ತಾಜಾಗೊಳಿಸು"
 
 #: ../mail/em-subscription-editor.c:1920
-#, fuzzy
 #| msgid "Cancel the current mail operation"
 msgid "Stop the current operation"
-msgstr "ಪ್ರಸಕ್ತ ಮೈಲ್ ಕಾರ್ಯವನ್ನು ರದ್ದು ಮಾಡು"
+msgstr "ಪ್ರಸಕ್ತ ಕಾರ್ಯವನ್ನು ನಿಲ್ಲಿಸು"
 
 #. Translators: This message is shown only for ten or more
 #. * messages to be opened.  The %d is replaced with the actual
@@ -12820,10 +12805,9 @@ msgstr[1] "%d ಸಂದೇಶಗಳನ್ನು ಒಂದೇ ಬಾರಿಗೆ 
 
 #: ../mail/em-utils.c:162
 #: ../modules/mailto-handler/evolution-mailto-handler.c:154
-#, fuzzy
 #| msgid "_Do not show this message again."
 msgid "_Do not show this message again"
-msgstr "ಈ ಸಂದೇಶವನ್ನು ಪುನಃ ತೋರಿಸಬೇಡ (_D)."
+msgstr "ಈ ಸಂದೇಶವನ್ನು ಪುನಃ ತೋರಿಸಬೇಡ (_D)"
 
 #: ../mail/em-utils.c:314
 msgid "Message Filters"
@@ -12867,10 +12851,9 @@ msgid "Specific folders"
 msgstr "ನಿಗದಿತ ಫೋಲ್ಡರುಗಳು"
 
 #: ../mail/em-vfolder-editor-rule.c:602
-#, fuzzy
 #| msgid "Create subfolders"
 msgid "include subfolders"
-msgstr "ಉಲಫೋಲ್ಡರ್ ನಿರ್ಮಿಸಿ"
+msgstr "ಉಲಪತ್ರಕೋಶವನ್ನು ಸೇರಿಸು"
 
 #: ../mail/importers/elm-importer.c:179
 msgid "Importing Elm data"
