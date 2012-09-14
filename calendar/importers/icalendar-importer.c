@@ -321,10 +321,10 @@ ivcal_getwidget (EImport *ei,
 		GList *list;
 
 		switch (import_type_map[i]) {
-			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			case E_CLIENT_SOURCE_TYPE_EVENTS:
 				extension_name = E_SOURCE_EXTENSION_CALENDAR;
 				break;
-			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			case E_CLIENT_SOURCE_TYPE_TASKS:
 				extension_name = E_SOURCE_EXTENSION_TASK_LIST;
 				break;
 			default:
