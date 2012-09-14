@@ -314,16 +314,16 @@ book_config_ldap_active_to_port (GBinding *binding,
 	}
 
 	if (active == -1) {
-		GObject *source;
+		GObject *target;
 		GtkWidget *entry;
 		const gchar *text;
 		glong v_long;
 
-		source = g_binding_get_source (binding);
-		entry = gtk_bin_get_child (GTK_BIN (source));
+		target = g_binding_get_target (binding);
+		entry = gtk_bin_get_child (GTK_BIN (target));
 		text = gtk_entry_get_text (GTK_ENTRY (entry));
 
-		v_long = strtol (text, NULL, 10);
+		v_long = text ? strtol (text, NULL, 10) : 0;
 		if (v_long != 0 && v_long == CLAMP (v_long, 0, G_MAXUINT16))
 			port = (guint) v_long;
 	}
@@ -331,6 +331,13 @@ book_config_ldap_active_to_port (GBinding *binding,
 	g_value_set_uint (target_value, port);
 
 	return TRUE;
+}
+
+static void
+book_config_ldap_port_combo_changed (GtkComboBox *combo_box)
+{
+	if (gtk_combo_box_get_active (combo_box) == -1)
+		g_object_notify (G_OBJECT (combo_box), "active");
 }
 
 static gboolean
@@ -863,6 +870,11 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 		book_config_ldap_port_to_active,
 		book_config_ldap_active_to_port,
 		NULL, (GDestroyNotify) NULL);
+
+	/* "active" doesn't change when setting custom port in entry,
+	   thus check also on the "changed" signal */
+	g_signal_connect (context->port_combo, "changed",
+		G_CALLBACK (book_config_ldap_port_combo_changed), NULL);
 
 	g_object_bind_property (
 		extension, "user",
