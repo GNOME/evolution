@@ -526,6 +526,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	const gchar *extension_name;
 	const gchar *tab_label;
 	const gchar *uid;
+	gboolean is_new_source;
 
 	context = g_slice_new (Context);
 	uid = e_source_get_uid (scratch_source);
@@ -845,6 +846,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	/* Bind widgets to extension properties. */
 
 	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
+	is_new_source = !e_source_has_extension (scratch_source, extension_name);
 	extension = e_source_get_extension (scratch_source, extension_name);
 
 	g_object_bind_property (
@@ -914,6 +916,17 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 		context->security_combo, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
+
+	/* initialize values from UI into extension, if the source
+	   is a fresh new source; bindings will take care of proper
+	   values setting into extension properties
+	*/
+	if (is_new_source) {
+		g_object_notify (G_OBJECT (context->host_entry), "text");
+		g_object_notify (G_OBJECT (context->port_combo), "active");
+		g_object_notify (G_OBJECT (context->auth_entry), "text");
+		g_object_notify (G_OBJECT (context->auth_combo), "active");
+	}
 }
 
 static gboolean

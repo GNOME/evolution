@@ -281,6 +281,7 @@ source_config_type_combo_changed_cb (GtkComboBox *type_combo,
 	}
 
 	e_source_config_resize_window (config);
+	e_source_config_check_complete (config);
 }
 
 static gboolean
