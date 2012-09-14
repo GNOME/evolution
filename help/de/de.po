@@ -4163,7 +4163,7 @@ msgid ""
 "configuration."
 msgstr ""
 "Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-exchange-ews"
-"\"hier</link> fort."
+"\">hier</link> fort."
 
 #: C/intro-first-run.page:62(note/p)
 msgid "This requires having the <sys>evolution-ews</sys> package installed."
