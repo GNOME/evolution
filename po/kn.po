@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-08-24 22:06+0000\n"
-"PO-Revision-Date: 2012-09-13 13:53+0530\n"
+"PO-Revision-Date: 2012-09-14 16:05+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -11473,20 +11473,18 @@ msgid "Send _Reply To..."
 msgstr "ಇಲ್ಲಿಗೆ ಕಳುಹಿಸು (_S)..."
 
 #: ../mail/e-mail-display.c:142
-#, fuzzy
 #| msgid "Send a mail message to this address"
 msgid "Send a reply message to this address"
-msgstr "ಮೈಲ್ ಸಂದೇಶವನ್ನು ಒಂದು ವಿಳಾಸಕ್ಕೆ ಕಳುಹಿಸು"
+msgstr "ಈ ವಿಳಾಸಕ್ಕೆ ಒಂದು ಉತ್ತರದ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸು"
 
 #: ../mail/e-mail-display.c:149
 msgid "Create Search _Folder"
 msgstr "ಹುಡುಕು ಕಡತಕೋಶವನ್ನು ನಿರ್ಮಿಸು (_F)"
 
 #: ../mail/e-mail-display.c:159
-#, fuzzy
 #| msgid "Save as..."
 msgid "Save _Image..."
-msgstr "ಹೀಗೆ ಉಳಿಸು..."
+msgstr "ಚಿತ್ರವನ್ನು ಉಳಿಸು (_I)..."
 
 #: ../mail/e-mail-display.c:161
 msgid "Save the image to a file"
@@ -11553,10 +11551,9 @@ msgid "Unable to create local mail folders at '%s': %s"
 msgstr "ಸ್ಥಳೀಯ ಮೈಲ್ ಫೋಲ್ಡರುಗಳ ಶೇಖರಣೆ '%s' ಅನ್ನು ರಚಿಸಲು ವಿಫಲಗೊಂಡಿದೆ: %s"
 
 #: ../mail/e-mail-notebook-view.c:269
-#, fuzzy
 #| msgid "Please select a user."
 msgid "Please select a folder"
-msgstr "ದಯವಿಟ್ಟು ಒಬ್ಬ ಬಳಕೆದಾರನನ್ನು ಆರಿಸಿ."
+msgstr "ದಯವಿಟ್ಟು ಒಂದು ಪತ್ರಕೋಶವನ್ನು ಆರಿಸಿ"
 
 #: ../mail/e-mail-printer.c:124
 #, c-format
@@ -11570,27 +11567,24 @@ msgid "Print"
 msgstr "ಮುದ್ರಿಸು"
 
 #: ../mail/e-mail-printer.c:555
-#, fuzzy
 #| msgid "Header name"
 msgid "Header Name"
 msgstr "ತಲೆಬರಹದ ಹೆಸರು"
 
 #: ../mail/e-mail-printer.c:561
-#, fuzzy
 #| msgid "Header name"
 msgid "Header Value"
-msgstr "ತಲೆಬರಹದ ಹೆಸರು"
+msgstr "ತಲೆಬರಹದ ಮೌಲ್ಯ"
 
 #: ../mail/e-mail-printer.c:615 ../mail/mail-config.ui.h:102
 msgid "Headers"
 msgstr "ಹೆಡರ್‌ಗಳು"
 
 #: ../mail/e-mail-reader.c:349
-#, fuzzy
 #| msgid "Save Message"
 #| msgid_plural "Save Messages"
 msgid "Save Image"
-msgstr "ಸಂದೇಶವನ್ನು ಉಳಿಸು"
+msgstr "ಚಿತ್ರವನ್ನು ಉಳಿಸು"
 
 #: ../mail/e-mail-reader.c:431 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
@@ -11610,20 +11604,18 @@ msgstr "ಜರುಗಿಸು (_M)"
 
 #: ../mail/e-mail-reader.c:1313 ../mail/e-mail-reader.c:1495
 #: ../mail/e-mail-reader.c:1535
-#, fuzzy
 #| msgid "Do not ask me again"
 msgid "_Do not ask me again."
-msgstr "ಪುನಃ ನನ್ನನ್ನು ಕೇಳಬೇಡ."
+msgstr "ಪುನಃ ನನ್ನನ್ನು ಕೇಳಬೇಡ (_D)."
 
 #: ../mail/e-mail-reader.c:1541
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr ""
 
 #: ../mail/e-mail-reader.c:1726
-#, fuzzy
 #| msgid "Failed to retrieve messages."
 msgid "Failed to retrieve message:"
-msgstr "ಸಂದೇಶವನ್ನು ಮರಳಿಪಡೆಯಲು ವಿಫಲಗೊಂಡಿದೆ."
+msgstr "ಸಂದೇಶವನ್ನು ಮರಳಿಪಡೆಯಲು ವಿಫಲಗೊಂಡಿದೆ:"
 
 #: ../mail/e-mail-reader.c:1772 ../mail/e-mail-reader.c:2862
 #, c-format
@@ -11763,13 +11755,12 @@ msgid "Forward the selected message in the body of a new message"
 msgstr "ಆರಿಸಲಾದ ಸಂದೇಶವನ್ನು ಒಂದು ಹೊಸ ಸಂದೇಶದ ಮುಖ್ಯಭಾಗದಲ್ಲಿ ಕಳುಹಿಸು"
 
 #: ../mail/e-mail-reader.c:2061
-#, fuzzy
 msgid "Forward As _Inline"
-msgstr "ಫಾರ್ವಾರ್ಡ್ ಶೈಲಿ (_F):"
+msgstr "ಸಾಲಿನೊಳಗೆ ಇರುವಂತೆ ಮುಂದೆ ಕಳಿಸು (_I)"
 
 #: ../mail/e-mail-reader.c:2068
 msgid "_Quoted"
-msgstr "ಕೋಟ್ ಮಾಡಲಾದ (_Q)"
+msgstr "ಉಲ್ಲೇಖದಂತೆ (_Q)"
 
 #: ../mail/e-mail-reader.c:2070 ../mail/e-mail-reader.c:2077
 msgid "Forward the selected message quoted like a reply"
@@ -11777,9 +11768,8 @@ msgstr ""
 "ಆರಿಸಲಾದ ಸಂದೇಶವನ್ನು ಬೇರೊಬ್ಬರಿಗೆ ಒಂದು ಮಾರುತ್ತರ ಎಂದು ಉಲ್ಲೇಖಿಸಿದಂತೆ ಕಳುಹಿಸು"
 
 #: ../mail/e-mail-reader.c:2075
-#, fuzzy
 msgid "Forward As _Quoted"
-msgstr "ಫಾರ್ವಾರ್ಡ್ ಶೈಲಿ (_F):"
+msgstr "ಉಲ್ಲೇಖದಂತೆ ಮುಂದೆ ಕಳಿಸು (_Q)"
 
 #: ../mail/e-mail-reader.c:2082
 msgid "_Load Images"
@@ -11880,36 +11870,32 @@ msgid "Display the parent folder"
 msgstr "ಮೂಲ ಕಡತಕೋಶವನ್ನು ತೋರಿಸು"
 
 #: ../mail/e-mail-reader.c:2166
-#, fuzzy
 #| msgid "Switch to %s"
 msgid "Switch to _next tab"
-msgstr "%s ಗೆ ಬದಲಾಯಿಸು"
+msgstr "ಮುಂದಿನ ಟ್ಯಾಬ್‌ಗೆ ಬದಲಾಯಿಸು (_n)"
 
 #: ../mail/e-mail-reader.c:2168
 msgid "Switch to the next tab"
-msgstr ""
+msgstr "ಮುಂದಿನ ಟ್ಯಾಬ್‌ಗೆ ಬದಲಾಯಿಸು"
 
 #: ../mail/e-mail-reader.c:2173
-#, fuzzy
 #| msgid "Switch to %s"
 msgid "Switch to _previous tab"
-msgstr "%s ಗೆ ಬದಲಾಯಿಸು"
+msgstr "ಹಿಂದಿನ ಟ್ಯಾಬ್‌ಗೆ ಬದಲಾಯಿಸು (_p)"
 
 #: ../mail/e-mail-reader.c:2175
 msgid "Switch to the previous tab"
-msgstr ""
+msgstr "ಹಿಂದಿನ ಟ್ಯಾಬ್‌ಗೆ ಬದಲಾಯಿಸಿ"
 
 #: ../mail/e-mail-reader.c:2180
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Cl_ose current tab"
-msgstr "ಪ್ರಸಕ್ತ ಕಡತವನ್ನು ಮುಚ್ಚು"
+msgstr "ಪ್ರಸಕ್ತ ಟ್ಯಾಬ್ ಅನ್ನು ಮುಚ್ಚು (_o)"
 
 #: ../mail/e-mail-reader.c:2182
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Close current tab"
-msgstr "ಪ್ರಸಕ್ತ ಕಡತವನ್ನು ಮುಚ್ಚು"
+msgstr "ಪ್ರಸಕ್ತ ಟ್ಯಾಬ್ ಅನ್ನು ಮುಚ್ಚಿ"
 
 #: ../mail/e-mail-reader.c:2187
 msgid "_Next Message"
@@ -11960,16 +11946,14 @@ msgid "Display the previous important message"
 msgstr "ಹಿಂದಿನ ಪ್ರಮುಖ ಸಂದೇಶವನ್ನು ತೋರಿಸು"
 
 #: ../mail/e-mail-reader.c:2229
-#, fuzzy
 #| msgid "_Previous Message"
 msgid "Previous T_hread"
-msgstr "ಹಿಂದಿನ ಸಂದೇಶ (_P)"
+msgstr "ಹಿಂದಿನ ಎಳೆ (_h)"
 
 #: ../mail/e-mail-reader.c:2231
-#, fuzzy
 #| msgid "Display the previous message"
 msgid "Display the previous thread"
-msgstr "ಹಿಂದಿನ ಸಂದೇಶವನ್ನು ತೋರಿಸು"
+msgstr "ಹಿಂದಿನ ಎಳೆಯನ್ನು ತೋರಿಸು"
 
 #: ../mail/e-mail-reader.c:2236
 msgid "P_revious Unread Message"
@@ -11996,30 +11980,26 @@ msgid "Redirect (bounce) the selected message to someone"
 msgstr "ಆರಿಸಲಾದ ಸಂದೇಶವನ್ನು ಬೇರೊಬ್ಬರಿಗೆ ಮರಳಿ ನಿರ್ದೇಶಿಸು(ಬೌನ್ಸ್‍)"
 
 #: ../mail/e-mail-reader.c:2264
-#, fuzzy
 #| msgid "Save Attachment"
 #| msgid_plural "Save Attachments"
 msgid "Remo_ve Attachments"
-msgstr "ಲಗತ್ತನ್ನು ಉಳಿಸು"
+msgstr "ಲಗತ್ತುಗಳನ್ನು ತೆಗೆದುಹಾಕು (_v)"
 
 #: ../mail/e-mail-reader.c:2266
-#, fuzzy
 #| msgid "Save Attachment"
 #| msgid_plural "Save Attachments"
 msgid "Remove attachments"
-msgstr "ಲಗತ್ತನ್ನು ಉಳಿಸು"
+msgstr "ಲಗತ್ತುಗಳನ್ನು ತೆಗೆದುಹಾಕು"
 
 #: ../mail/e-mail-reader.c:2271
-#, fuzzy
 #| msgid "Hide S_elected Messages"
 msgid "Remove Du_plicate Messages"
-msgstr "ಆರಿಸಲಾದ ಸಂದೇಶಗಳನ್ನು ಅಡಗಿಸಿಡು(_e)"
+msgstr "ಸಂದೇಶಗಳ ದ್ವಿಪ್ರತಿಯನ್ನು ತೆಗೆದುಹಾಕುತ್ತದೆ (_p)"
 
 #: ../mail/e-mail-reader.c:2273
-#, fuzzy
 #| msgid "Mark the selected messages for deletion"
 msgid "Checks selected messages for duplicates"
-msgstr "ಆಯ್ದ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಲು ಗುರುತು ಹಾಕು"
+msgstr "ಆಯ್ದ ಸಂದೇಶಗಳಲ್ಲಿ ದ್ವಿಪ್ರತಿ ಇದೆಯೆ ಎಂದು ಪರೀಕ್ಷಿಸುತ್ತದೆ"
 
 #: ../mail/e-mail-reader.c:2278 ../mail/mail.error.xml.h:27
 #: ../modules/calendar/e-cal-shell-view-actions.c:1574
@@ -12028,9 +12008,8 @@ msgid "Reply to _All"
 msgstr "ಎಲ್ಲರಿಗೂ ಉತ್ತರಿಸು (_R)"
 
 #: ../mail/e-mail-reader.c:2280
-#, fuzzy
 msgid "Compose a reply to all the recipients of the selected message"
-msgstr "ಆರಿಸಲಾದ ಸಂದೇಶವನ್ನು ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲರಿಗೂ ಒಂದು ಮಾರುತ್ತರವನ್ನು ಬರೆ"
+msgstr "ಆರಿಸಲಾದ ಸಂದೇಶವನ್ನು ಸ್ವೀಕರಿಸುವ ಎಲ್ಲರಿಗೂ ಒಂದು ಉತ್ತರವನ್ನು ಬರೆ"
 
 #: ../mail/e-mail-reader.c:2285 ../mail/mail.error.xml.h:25
 msgid "Reply to _List"
@@ -12099,7 +12078,7 @@ msgstr "ಪಠ್ಯದ ಗಾತ್ರವನ್ನು ಕುಗ್ಗಿಸು"
 
 #: ../mail/e-mail-reader.c:2350
 msgid "Cre_ate"
-msgstr ""
+msgstr "ರಚಿಸು (_a)"
 
 #: ../mail/e-mail-reader.c:2357
 msgid "Ch_aracter Encoding"
@@ -12110,10 +12089,9 @@ msgid "F_orward As"
 msgstr "ಹೀಗೆ ಫಾರ್ವಾರ್ಡ್ ಮಾಡು (_o)"
 
 #: ../mail/e-mail-reader.c:2371
-#, fuzzy
 #| msgid "_Reply"
 msgid "_Group Reply"
-msgstr "ಉತ್ತರಿಸು (_R)"
+msgstr "ಗುಂಪಿಗೆ ಉತ್ತರ (_G)"
 
 #: ../mail/e-mail-reader.c:2378
 msgid "_Go To"
@@ -12132,40 +12110,36 @@ msgid "_Zoom"
 msgstr "ಗಾತ್ರ ಬದಲಾಯಿಸು (_Z)"
 
 #: ../mail/e-mail-reader.c:2409
-#, fuzzy
 #| msgid "Search Folder from Mailing _List..."
 msgid "Create a Search Folder from Mailing _List..."
-msgstr "ಮೈಲಿಂಗ್ ಲಿಸ್ಟಿನ ಆಧಾರದ ಮೇಲೆ ಫೋಲ್ಡರನ್ನು ಹುಡುಕು (_L)..."
+msgstr "ಮೈಲಿಂಗ್ ಲಿಸ್ಟಿನ ಮೇರೆಗೆ ಹುಡುಕು ಕಡತಕೋಶವನ್ನು ರಚಿಸು (_L)..."
 
 #: ../mail/e-mail-reader.c:2411
 msgid "Create a search folder for this mailing list"
 msgstr "ಈ ಮೈಲಿಂಗ್ ಲಿಸ್ಟ್‍ಗಾಗಿ ಒಂದು ಹುಡುಕು ಫೋಲ್ಡರನ್ನು ರಚಿಸು"
 
 #: ../mail/e-mail-reader.c:2416
-#, fuzzy
 #| msgid "Search Folder from Recipien_ts..."
 msgid "Create a Search Folder from Recipien_ts..."
-msgstr "ಪಡೆದುಕೊಂಡವರ ಆಧಾರದ ಮೇಲೆ ಫೋಲ್ಡರನ್ನು ಹುಡುಕು (_t)..."
+msgstr "ಸ್ವೀಕರಿಸುವವರ ಮೇರೆಗೆ ಹುಡುಕು ಕಡತಕೋಶವನ್ನು ರಚಿಸು (_t)..."
 
 #: ../mail/e-mail-reader.c:2418
 msgid "Create a search folder for these recipients"
 msgstr "ಈ ಸಂದೇಶಕ್ಕಾಗಿ ಒಂದು ಹುಡುಕು ಕಡತಕೋಶವನ್ನು ರಚಿಸು"
 
 #: ../mail/e-mail-reader.c:2423
-#, fuzzy
 #| msgid "Search Folder from Sen_der..."
 msgid "Create a Search Folder from Sen_der..."
-msgstr "ಕಳುಹಿಸಲಾದವರ ಆಧಾರದ ಮೇಲೆ ಫೋಲ್ಡರನ್ನು ಹುಡುಕು (_d)..."
+msgstr "ಕಳುಹಿಸಿದವರ ಮೇರೆಗೆ ಹುಡುಕು ಕಡತಕೋಶವನ್ನು ರಚಿಸು (_d)..."
 
 #: ../mail/e-mail-reader.c:2425
 msgid "Create a search folder for this sender"
 msgstr "ಈ ಕಳುಹಿಸುವವನಿಗಾಗಿ ಒಂದು ಹುಡುಕು ಕಡತಕೋಶವನ್ನು ರಚಿಸು"
 
 #: ../mail/e-mail-reader.c:2430
-#, fuzzy
 #| msgid "Search Folder from S_ubject..."
 msgid "Create a Search Folder from S_ubject..."
-msgstr "ವಿಷಯದ ಆಧಾರದ ಮೇಲೆ ಫೋಲ್ಡರನ್ನು ಹುಡುಕು (_u)..."
+msgstr "ವಿಷಯದ ಆಧಾರದ ಮೇಲೆ ಹುಡುಕು ಕಡತಕೋಶವನ್ನು ರಚಿಸು (_u)..."
 
 #: ../mail/e-mail-reader.c:2432
 msgid "Create a search folder for this subject"
@@ -12216,11 +12190,10 @@ msgid "Show messages with all email headers"
 msgstr "ಎಲ್ಲಾ ಇಮೇಲ್ ಹೆಡರ್‌ಗಳನ್ನು ಹೊಂದಿದ ಸಂದೇಶಗಳನ್ನು ತೋರಿಸು"
 
 #: ../mail/e-mail-reader.c:2868
-#, fuzzy
 #| msgid "Retrieving %d message"
 #| msgid_plural "Retrieving %d messages"
 msgid "Retrieving message"
-msgstr "%d ಸಂದೇಶವನ್ನು ಮರಳಿ ಪಡೆಯಲಾಗುತ್ತಿದೆ"
+msgstr "ಸಂದೇಶವನ್ನು ಮರಳಿ ಪಡೆಯಲಾಗುತ್ತಿದೆ"
 
 #: ../mail/e-mail-reader.c:3851
 #: ../modules/mail/e-mail-attachment-handler.c:175
@@ -12232,16 +12205,14 @@ msgid "Forward the selected message to someone"
 msgstr "ಆರಿಸಲಾದ ಸಂದೇಶವನ್ನು ಬೇರೊಬ್ಬರಿಗೆ ಕಳುಹಿಸು"
 
 #: ../mail/e-mail-reader.c:3871
-#, fuzzy
 #| msgid "Group Items By"
 msgid "Group Reply"
-msgstr "ಅಂಶಗಳನ್ನು ಹೀಗೆ ಗುಂಪುಮಾಡು"
+msgstr "ಗುಂಪಿಗೆ ಉತ್ತರ"
 
 #: ../mail/e-mail-reader.c:3872
-#, fuzzy
 #| msgid "Compose a reply to the mailing list of the selected message"
 msgid "Reply to the mailing list, or to all recipients"
-msgstr "ಆರಿಸಲಾದ ಸಂದೇಶದ ಮೈಲಿಂಗ್ ಲಿಸ್ಟ್‍ಗೆ ಒಂದು ಮಾರುತ್ತರವನ್ನು ಬರೆ"
+msgstr "ಮೈಲಿಂಗ್ ಲಿಸ್ಟ್‍ಗೆ ಅಥವ ಸ್ವೀಕರಿಸುವ ಎಲ್ಲರಿಗೂ ಉತ್ತರಿಸು"
 
 #: ../mail/e-mail-reader.c:3929 ../mail/em-filter-i18n.h:14
 msgid "Delete"
@@ -12262,22 +12233,20 @@ msgid "Reply"
 msgstr "ಉತ್ತರಿಸು"
 
 #: ../mail/e-mail-reader.c:4705
-#, fuzzy, c-format
+#, c-format
 #| msgid "Folder"
 msgid "Folder '%s'"
-msgstr "ಫೋಲ್ಡರ್"
+msgstr "ಪತ್ರಕೋಶ '%s'"
 
 #: ../mail/e-mail-reader-utils.c:154
-#, fuzzy
 #| msgid "Do not ask me again"
 msgid "Do not warn me again"
-msgstr "ಪುನಃ ನನ್ನನ್ನು ಕೇಳಬೇಡ."
+msgstr "ಪುನಃ ನನ್ನನ್ನು ಎಚ್ಚರಿಸಬೇಡ."
 
 #: ../mail/e-mail-reader-utils.c:954
-#, fuzzy
 #| msgid "Print"
 msgid "Printing"
-msgstr "ಮುದ್ರಿಸು"
+msgstr "ಮುದ್ರಣ"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
@@ -12310,17 +12279,16 @@ msgstr[0] "ಸಂದೇಶ"
 msgstr[1] "ಸಂದೇಶ"
 
 #: ../mail/e-mail-reader-utils.c:2017
-#, fuzzy
 #| msgid "Saving %d message"
 #| msgid_plural "Saving %d messages"
 msgid "Parsing message"
-msgstr "%d ಸಂದೇಶವನ್ನು ಉಳಿಸಲಾಗುತ್ತಿದೆ"
+msgstr "ಪಾರ್ಸ್ ಮಾಡುವ ಸಂದೇಶ"
 
 #: ../mail/e-mail-request.c:152
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to load the calendar '%s' (%s)"
 msgid "Failed to load part '%s'"
-msgstr "'%s' ಕ್ಯಾಲೆಂಡರನ್ನು ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ವಿಫಲವಾಗಿದೆ (%s)"
+msgstr "'%s' ಭಾಗವನ್ನು ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ"
 
 #: ../mail/e-mail-tag-editor.c:293
 msgid "Flag to Follow Up"
@@ -12412,10 +12380,9 @@ msgid "does not exist"
 msgstr "ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ"
 
 #: ../mail/em-filter-i18n.h:19
-#, fuzzy
 #| msgid "does not end with"
 msgid "does not have words"
-msgstr "ಇದರೊಂದಿಗೆ ಅಂತ್ಯಗೊಳ್ಳುವುದಿಲ್ಲ"
+msgstr "ಪದಗಳನ್ನು ಹೊಂದಿರುವುದಿಲ್ಲ"
 
 #: ../mail/em-filter-i18n.h:20
 msgid "does not return"
@@ -12612,10 +12579,9 @@ msgid "Stop Processing"
 msgstr "ಸಂಸ್ಕರಿಸುವುದನ್ನು ನಿಲ್ಲಿಸು"
 
 #: ../mail/em-filter-i18n.h:78
-#, fuzzy
 #| msgid "Unselected Column"
 msgid "Unset Color"
-msgstr "ಆರಿಸದೆ ಇರುವ ಕಾಲಂ"
+msgstr "ಬಣ್ಣವನ್ನು ಹೊಂದಿಸದಿರು"
 
 #: ../mail/em-filter-i18n.h:79
 msgid "Unset Status"
@@ -12733,10 +12699,9 @@ msgid "Specify where to create the folder:"
 msgstr "ಫೋಲ್ಡರನ್ನು ಎಲ್ಲಿ ರಚಿಸಬೇಕು ಎಂದು ನಿಗದಿಪಡಿಸಿ:"
 
 #: ../mail/em-subscription-editor.c:869
-#, fuzzy
 #| msgid "Subscribed"
 msgid "_Subscribe"
-msgstr "ಚಂದಾದಾರಗೊಳಿಸಲಾಗಿದೆ"
+msgstr "ಚಂದಾದಾರಗೊಳಿಸು (_S)"
 
 #: ../mail/em-subscription-editor.c:878
 #, fuzzy
