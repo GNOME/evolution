@@ -16,6 +16,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-http-request.h"
 
 #define LIBSOUP_USE_UNSTABLE_REQUEST_API
@@ -75,12 +79,65 @@ copy_stream_to_stream (CamelStream *input,
 	return total_len;
 }
 
-static gboolean
-unref_soup_session (SoupSession *session)
+static void
+redirect_handler (SoupMessage *msg,
+                  gpointer user_data)
 {
-	g_object_unref (session);
+	if (SOUP_STATUS_IS_REDIRECTION (msg->status_code)) {
+		SoupSession *soup_session = user_data;
+		SoupURI *new_uri;
+		const gchar *new_loc;
 
-	return FALSE;
+		new_loc = soup_message_headers_get (msg->response_headers, "Location");
+		if (!new_loc)
+			return;
+
+		new_uri = soup_uri_new_with_base (soup_message_get_uri (msg), new_loc);
+		if (!new_uri) {
+			soup_message_set_status_full (msg,
+						      SOUP_STATUS_MALFORMED,
+						      "Invalid Redirect URL");
+			return;
+		}
+
+		soup_message_set_uri (msg, new_uri);
+		soup_session_requeue_message (soup_session, msg);
+
+		soup_uri_free (new_uri);
+	}
+}
+
+static void
+send_and_handle_redirection (SoupSession *session,
+			     SoupMessage *message,
+			     gchar **new_location)
+{
+	gchar *old_uri = NULL;
+
+	g_return_if_fail (message != NULL);
+
+	if (new_location) {
+		old_uri = soup_uri_to_string (soup_message_get_uri (message), FALSE);
+	}
+
+	soup_message_set_flags (message, SOUP_MESSAGE_NO_REDIRECT);
+	soup_message_add_header_handler (
+		message, "got_body", "Location",
+		G_CALLBACK (redirect_handler), session);
+	soup_message_headers_append (message->request_headers, "Connection", "close");
+	soup_session_send_message (session, message);
+
+	if (new_location) {
+		gchar *new_loc = soup_uri_to_string (soup_message_get_uri (message), FALSE);
+
+		if (new_loc && old_uri && !g_str_equal (new_loc, old_uri)) {
+			*new_location = new_loc;
+		} else {
+			g_free (new_loc);
+		}
+	}
+
+	g_free (old_uri);
 }
 
 static void
@@ -247,47 +304,31 @@ handle_http_request (GSimpleAsyncResult *res,
 	if ((image_policy == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS) ||
 	    force_load_images) {
 
-		SoupRequester *requester;
-		SoupRequest *http_request;
 		SoupSession *session;
-		SoupMessage *msg;
+		SoupMessage *message;
 		CamelStream *cache_stream;
 		GError *error;
-		gssize nread;
-		SoupURI *soup_uri;
-		gsize real_content_length;
-		GInputStream *http_stream;
+		GMainContext *context;
+
+		context = g_main_context_new ();
+		g_main_context_push_thread_default (context);
 
 		session = soup_session_sync_new_with_options (
 				SOUP_SESSION_TIMEOUT, 90,
 				NULL);
 
-		requester = soup_requester_new ();
-		soup_session_add_feature (session, SOUP_SESSION_FEATURE (requester));
-		g_object_unref (requester);
+		message = soup_message_new (SOUP_METHOD_GET, uri);
+		soup_message_headers_append (
+			message->request_headers, "User-Agent", "Evolution/" VERSION);
 
-		error = NULL;
-		soup_uri = soup_uri_new (uri);
-		http_request = soup_requester_request_uri (requester, soup_uri, &error);
-		soup_uri_free (soup_uri);
-		if (error) {
-			g_warning ("Failed to request %s: %s", uri, error->message);
-			g_clear_error (&error);
+		send_and_handle_redirection (session, message, NULL);
+
+		if (!SOUP_STATUS_IS_SUCCESSFUL (message->status_code)) {
+			g_warning ("Failed to request %s (code %d)", uri, message->status_code);
 			goto cleanup;
 		}
 
-		error = NULL;
-		http_stream = soup_request_send (http_request, cancellable, &error);
-		msg = soup_request_http_get_message (SOUP_REQUEST_HTTP (http_request));
-		if (!msg || msg->status_code != SOUP_STATUS_OK) {
-			g_warning (
-				"Failed to retrieve data from %s: %s (code %d)",
-				uri, error ? error->message : "Unknown error",
-				msg->status_code);
-			g_clear_error (&error);
-			goto cleanup;
-		}
-
+		/* Write the response body to cache */
 		error = NULL;
 		cache_stream = camel_data_cache_add (cache, "http", uri_md5, &error);
 		if (!cache_stream) {
@@ -295,31 +336,11 @@ handle_http_request (GSimpleAsyncResult *res,
 				"Failed to create cache file for '%s': %s",
 				uri, error ? error->message : "Unknown error");
 			g_clear_error (&error);
-
-			/* We rely on existence of the stream. If CamelDataCache
-			 * failed to create a cache file, then store it at least
-			 * temporarily. */
-			cache_stream = camel_stream_mem_new ();
-		}
-
-		real_content_length = 0;
-		do {
-			gchar buf[512];
-
-			error = NULL;
-			nread = g_input_stream_read (
-					http_stream, buf, 512, cancellable, &error);
-			if (nread == -1) {
-				g_warning (
-					"Failed to read data from input stream: %s",
-					error ? error->message : "Unknown error");
-				g_clear_error (&error);
-				goto cleanup;
-			}
-
+		} else {
 			error = NULL;
 			camel_stream_write (
-				cache_stream, buf, nread, cancellable, &error);
+				cache_stream, message->response_body->data,
+				message->response_body->length, cancellable, &error);
 			if (error) {
 				g_warning (
 					"Failed to write data to cache stream: %s",
@@ -328,34 +349,25 @@ handle_http_request (GSimpleAsyncResult *res,
 				goto cleanup;
 			}
 
-			real_content_length += nread;
+			camel_stream_close (cache_stream, cancellable, NULL);
+			g_object_unref (cache_stream);
+		}
 
-		} while (nread > 0);
+		/* Send the response body to WebKit */
+		stream = g_memory_input_stream_new_from_data (
+			g_memdup (message->response_body->data, message->response_body->length),
+			message->response_body->length,
+			(GDestroyNotify) g_free);
 
-		/* XXX For some reason, WebKit refuses to display content of
-		 * GInputStream we get from soup_request_send(), so create a
-		 * new input stream here and fill it with what's in the cache
-		 * stream. */
-		stream = g_memory_input_stream_new ();
-		copy_stream_to_stream (
-			cache_stream, G_MEMORY_INPUT_STREAM (stream), cancellable);
-
-		g_input_stream_close (http_stream, cancellable, NULL);
-		g_object_unref (http_stream);
-
-		/* Don't use the content-length header as it is sometimes missing
-		 * or invalid */
-		request->priv->content_length = real_content_length;
+		request->priv->content_length = message->response_body->length;
 		request->priv->content_type =
 			g_strdup (
 				soup_message_headers_get_content_type (
-					msg->response_headers, NULL));
+					message->response_headers, NULL));
 
-		camel_stream_close (cache_stream, cancellable, NULL);
-		g_object_unref (cache_stream);
-		g_object_unref (http_request);
-		g_object_unref (msg);
-		g_idle_add ((GSourceFunc) unref_soup_session, session);
+		g_object_unref (message);
+		g_object_unref (session);
+		g_main_context_unref (context);
 
 		d (printf ("Received image from %s\n"
 			"Content-Type: %s\n"
