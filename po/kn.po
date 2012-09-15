@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-08-24 22:06+0000\n"
-"PO-Revision-Date: 2012-09-14 18:30+0530\n"
+"PO-Revision-Date: 2012-09-15 17:19+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -11234,16 +11234,14 @@ msgid "Identity"
 msgstr "ಗುರುತು"
 
 #: ../mail/e-mail-config-lookup-page.c:68
-#, fuzzy
 #| msgid "Loading accounts..."
 msgid "Looking up account details..."
-msgstr "ಖಾತೆಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ..."
+msgstr "ಖಾತೆಯ ವಿವರಗಳಿಗಾಗಿ ನೋಡಲಾಗುತ್ತಿದೆ..."
 
 #: ../mail/e-mail-config-provider-page.c:485
-#, fuzzy
 #| msgid "Checking for new mail"
 msgid "Checking for New Mail"
-msgstr "ಹೊಸ ಮೈಲ್‍ಗಾಗಿ ಕಾಯಲಾಗುತ್ತಿದೆ"
+msgstr "ಹೊಸ ಅಂಚೆಗಾಗಿ ಪರೀಕ್ಷಿಸಲಾಗುತ್ತಿದೆ"
 
 #: ../mail/e-mail-config-provider-page.c:501
 msgid "Check for _new messages every"
@@ -11271,16 +11269,14 @@ msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "ಮೀಟಿಂಗ್ ಮನವಿಗಳಿಗೆ ಸಹಿ ಮಾಡಬೇಡ (ಔಟ್‌ಲುಕ್‌ಗೆ ಹೊಂದಿಕೊಳ್ಳಲು) (_D)"
 
 #: ../mail/e-mail-config-security-page.c:290
-#, fuzzy
 #| msgid "Pretty Good Privacy (PGP/GPG)"
 msgid "Pretty Good Privacy (OpenPGP)"
-msgstr "ಪ್ರೆಟಿ ಗುಡ್ ಪ್ರೈವೆಸಿ (PGP/GPG)"
+msgstr "ಪ್ರೆಟಿ ಗುಡ್ ಪ್ರೈವೆಸಿ (OpenGPG)"
 
 #: ../mail/e-mail-config-security-page.c:298
-#, fuzzy
 #| msgid "PGP/GPG _Key ID:"
 msgid "OpenPGP _Key ID:"
-msgstr "PGP/GPG ಕೀಲಿ ID (_K):"
+msgstr "OpenGPG ಕೀಲಿ ID (_K):"
 
 #: ../mail/e-mail-config-security-page.c:320
 msgid "Si_gning algorithm:"
@@ -11337,28 +11333,24 @@ msgid "Signing _algorithm:"
 msgstr "ಸಹಿ ಮಾಡುವ ಅಲ್ಗಾರಿತಮ್ (_a):"
 
 #: ../mail/e-mail-config-security-page.c:500
-#, fuzzy
 #| msgid "Al_ways sign outgoing messages when using this account"
 msgid "Always sign outgoing messages when using this account"
-msgstr "ಈ ಖಾತೆಯನ್ನು ಬಳಸುವಾಗ, ಹೊರಹೋಗುವ ಸಂದೇಶಗಳನ್ನು ಸಹಿ ಮಾಡು (_w)"
+msgstr "ಈ ಖಾತೆಯನ್ನು ಬಳಸುವಾಗ, ಪ್ರತಿ ಬಾರಿಯೂ ಸಹ ಹೊರಹೋಗುವ ಸಂದೇಶಗಳನ್ನು ಸಹಿ ಮಾಡು"
 
 #: ../mail/e-mail-config-security-page.c:523
-#, fuzzy
 #| msgid "Encry_ption certificate:"
 msgid "Encryption certificate:"
-msgstr "ಗೂಢಲಿಪೀಕರಣ ಪ್ರಮಾಣಪತ್ರ (_p):"
+msgstr "ಗೂಢಲಿಪೀಕರಣ ಪ್ರಮಾಣಪತ್ರ:"
 
 #: ../mail/e-mail-config-security-page.c:565
-#, fuzzy
 #| msgid "Al_ways sign outgoing messages when using this account"
 msgid "Always encrypt outgoing messages when using this account"
-msgstr "ಈ ಖಾತೆಯನ್ನು ಬಳಸುವಾಗ, ಹೊರಹೋಗುವ ಸಂದೇಶಗಳನ್ನು ಸಹಿ ಮಾಡು (_w)"
+msgstr "ಈ ಖಾತೆಯನ್ನು ಬಳಸುವಾಗ, ಪ್ರತಿ ಬಾರಿಯೂ ಸಹ ಹೊರಹೋಗುವ ಸಂದೇಶಗಳನ್ನು ಗೂಢಲಿಪೀಕರಿಸು"
 
 #: ../mail/e-mail-config-security-page.c:585
-#, fuzzy
 #| msgid "Always encrypt to _myself when sending encrypted messages"
 msgid "Always encrypt to myself when sending encrypted messages"
-msgstr "ಗೂಢಲಿಪೀಕರಣಗೊಂಡ ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸುವಾಗ ನನಗೂ ಸಹ ಗೂಢಲಿಪೀಕರಿಸು (_f)"
+msgstr "ಗೂಢಲಿಪೀಕರಣಗೊಂಡ ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸುವಾಗ ನನಗೂ ಸಹ ಗೂಢಲಿಪೀಕರಿಸು"
 
 #: ../mail/e-mail-config-sending-page.c:50
 msgid "Sending Email"
@@ -11405,18 +11397,16 @@ msgid "Sending"
 msgstr "ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ"
 
 #: ../mail/e-mail-config-summary-page.c:433
-#, fuzzy
 #| msgid "Server _Type:"
 msgid "Server Type:"
-msgstr "ಪರಿಚಾರಕದ ಬಗೆ:"
+msgstr "ಪೂರೈಕೆಗಣಕದ ಬಗೆ:"
 
 #: ../mail/e-mail-config-summary-page.c:454
-#, fuzzy
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:602
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:244
 #| msgid "_Server:"
 msgid "Server:"
-msgstr "ಪರಿಚಾರಕ:"
+msgstr "ಪೂರೈಕೆಗಣಕ:"
 
 #: ../mail/e-mail-config-summary-page.c:475
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:691
@@ -11430,10 +11420,9 @@ msgid "Security:"
 msgstr "ಸುರಕ್ಷತೆ:"
 
 #: ../mail/e-mail-config-summary-page.c:787
-#, fuzzy
 #| msgid "Account Search"
 msgid "Account Summary"
-msgstr "ಖಾತೆಯ ಹುಡುಕಾಟ"
+msgstr "ಖಾತೆಯ ಸಾರಾಂಶ"
 
 #: ../mail/e-mail-config-welcome-page.c:157
 msgid ""
@@ -11467,10 +11456,9 @@ msgid "_From This Address"
 msgstr "ಈ ವಿಳಾಸದಿಂದ (_F)"
 
 #: ../mail/e-mail-display.c:140
-#, fuzzy
 #| msgid "_Send To..."
 msgid "Send _Reply To..."
-msgstr "ಇಲ್ಲಿಗೆ ಕಳುಹಿಸು (_S)..."
+msgstr "ಇಲ್ಲಿಗೆ ಉತ್ತರವನ್ನು ಕಳುಹಿಸು (_R)..."
 
 #: ../mail/e-mail-display.c:142
 #| msgid "Send a mail message to this address"
@@ -11494,7 +11482,7 @@ msgstr "ಚಿತ್ರವನ್ನು ಕಡತವನ್ನು ಉಳಿಸು"
 #. * aligned with the junk mail options above it.
 #: ../mail/e-mail-junk-options.c:252
 msgid "Junk filtering software:"
-msgstr ""
+msgstr "ರದ್ಧಿಯನ್ನು ಸೋಸುವ ತಂತ್ರಾಂಶ:"
 
 #: ../mail/e-mail-label-dialog.c:225
 msgid "_Label name:"
