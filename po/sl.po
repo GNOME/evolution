@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-09-06 12:35+0000\n"
-"PO-Revision-Date: 2012-09-12 21:19+0100\n"
+"PO-Revision-Date: 2012-09-15 22:49+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -14215,9 +14215,8 @@ msgid "The search scope defines how deep you would like the search to extend dow
 msgstr "Doseg iskanja določa, kako daleč po drevesu map naj se razširi iskanje. Doseg \"pod\" vključi vse vnose pod vašo iskalno zbirko, doseg \"en\" pa le vnose, ki so eno raven pod vašo zbirko."
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:786
-#, fuzzy
 msgid "Search Filter:"
-msgstr "Filter iskanja"
+msgstr "Filter iskanja:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:798
 msgid "Downloading"
@@ -14271,34 +14270,28 @@ msgstr "Pot"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:264
 #: ../modules/cal-config-google/e-google-chooser-dialog.c:200
-#, fuzzy
 msgid "Choose a Calendar"
-msgstr "Izbor datoteke koledarja"
+msgstr "Izbor seznama koledarjev"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:267
-#, fuzzy
 msgid "Choose a Memo List"
-msgstr "Ali želite izbrisati seznam opomnikov '{0}'?"
+msgstr "Izbor seznama opomnikov"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:270
-#, fuzzy
 msgid "Choose a Task List"
-msgstr "Ali želite izbrisati seznam nalog '{0}'?"
+msgstr "Izbor seznama nalog"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:269
-#, fuzzy
 msgid "Find Calendars"
-msgstr "Nalaganje koledarjev"
+msgstr "Najdi koledarje"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:272
-#, fuzzy
 msgid "Find Memo Lists"
-msgstr "_Najdi v opomniku ..."
+msgstr "Najdi opomnika"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:275
-#, fuzzy
 msgid "Find Task Lists"
-msgstr "_Najdi v nalogi ..."
+msgstr "Najdi naloge"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:293
 msgid "Path:"
@@ -14343,9 +14336,8 @@ msgid "Use an existing iCalendar (ics) file"
 msgstr ""
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:186
-#, fuzzy
 msgid "iCalendar File"
-msgstr "Shrani datoteko"
+msgstr "Datoteko iCalendar"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:198
 #, fuzzy
@@ -15914,12 +15906,10 @@ msgid "Show time as _free"
 msgstr "Pokaži čas kot _prosto"
 
 #: ../modules/itip-formatter/itip-view.c:1520
-#, fuzzy
 msgid "_Preserve my reminder"
-msgstr "_Ohrani moj opomnik"
+msgstr "_Ohrani opomnik"
 
 #: ../modules/itip-formatter/itip-view.c:1521
-#, fuzzy
 msgid "_Inherit reminder"
 msgstr "_Prevzemi opomnik"
 
