@@ -1,3 +1,84 @@
+Evolution 3.5.92 2012-09-17
+---------------------------
+
+Bug Fixes:
+	Bug 678291 - Identifies application/mbox as text/plain attachment
+	             (Milan Crha)
+	Bug 678806 - Flush Outbox doesn't remove sent messages (Milan Crha)
+	Bug 678835 - Disconnect signal handlers from WebKit plugin widgets on
+	             dispose (Milan Crha)
+	Bug 679382 - Saving attachments takes too long, maxes CPU usage
+	             (Milan Crha)
+	Bug 679780 - Offline mode doesn't work in mailer (Milan Crha)
+	Bug 680537 - Reply to individual message in digest generates empty body
+	             (Milan Crha)
+	Bug 680611 - Hibernation shifts alarm notification time (Milan Crha)
+	Bug 681279 - Reply on selection doesn't work (Milan Crha)
+	Bug 682295 - Fix deadlock in EHttpRequest (Dan Vrátil)
+	Bug 682425 - Can do network operations on disabled accounts
+	             (Milan Crha)
+	Bug 682820 - Settings not converted on backup restore (Milan Crha)
+	Bug 682873 - Prefer-plain shows text plain in meeting invite
+	             (Milan Crha)
+	Bug 683130 - Folder hangs when reading mail with an attachment
+	             (Dan Vrátil)
+	Bug 683349 - Crash when sending a mail from the Outbox folder
+	             (Milan Crha)
+	Bug 683407 - Preserve week views in calendar when clicking one day
+	             (Milan Crha)
+	Bug 683548 - Initialize webkit's web view before other threads are
+	             run (Milan Crha)
+	Bug 683663 - Attachment bar missing when showing 'All Message Headers'
+	             (Lucian Langa)
+	Bug 683665 - Crash on displaying message with broken Content-Type
+	             attachment (Lucian Langa)
+	Bug 683676 - Message source does not work when 'All Message Headers'
+	             enabled (Milan Crha)
+	Bug 683736 - Calendar work week view drops Monday's entries
+	             (Milan Crha)
+	Bug 683758 - Crash on display meeting invite (Lucian Langa)
+	Bug 683866 - Leaks of EMailFormatter object (Milan Crha)
+	Bug 683949 - Cannot create new LDAP Addressbook (Milan Crha)
+	Bug 684021 - EBookConfigWebdav: Invalid callback on property binding
+	             (Matthew Barnes)
+
+Other Changes:
+	* Honor CAMEL_PROVIDER_DISABLE_SENT_FOLDER in account preferences
+	  (Milan Crha)
+	* Blacklist WebKitGTK+ 1.9.90. (Matthew Barnes)
+	* Make sure selection in ECalendar is visible (Milan Crha)
+	* Make sure the selected days in the calendar matches shown days
+	  (Milan Crha)
+	* Autocompletion in meeting editor doesn't work (Milan Crha)
+	* Could not set custom port for LDAP addressbook (Milan Crha)
+	* Fails to import calendar events due to used incorrect enum values
+	  (Milan Crha)
+
+Translations:
+	Ihar Hrachyshka (be)
+	Mario Blättermann (de)
+	Christian Kirbach (de)
+	Dimitris Spingos (el)
+	Tom Tryfonidis (el)
+	Bruce Cowan (en_GB)
+	Daniel Mustieles (es)
+	Alexandre Franke (fr)
+	chandankumar (hi)
+	Gabor Kelemen (hu)
+	Dirgita (id)
+	Shankar Prasad (kn)
+	Changwoo Ryu (ko)
+	Sandeep Sheshrao Shedmake (mr)
+	Piotr Drąg (pl)
+	Duarte Loreto (pt)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+	Мирослав Николић (sr)
+	Daniel Nylander (sv)
+	Nguyễn Thái Ngọc Duy (vi)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 3.5.91 2012-09-03
 ---------------------------
 
