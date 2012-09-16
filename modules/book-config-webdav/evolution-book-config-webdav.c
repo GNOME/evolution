@@ -163,7 +163,7 @@ book_config_webdav_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_SYNC_CREATE,
 		book_config_webdav_uri_to_text,
 		book_config_webdav_text_to_uri,
-		NULL, (GDestroyNotify) g_object_unref);
+		NULL, (GDestroyNotify) NULL);
 }
 
 static gboolean
