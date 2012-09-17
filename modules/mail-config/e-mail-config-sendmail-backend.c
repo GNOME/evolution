@@ -16,6 +16,15 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif 
+
+#include <glib/gi18n-lib.h>
+
+#include <camel/camel.h>
+#include <libebackend/libebackend.h>
+
 #include "e-mail-config-sendmail-backend.h"
 
 G_DEFINE_DYNAMIC_TYPE (
@@ -24,14 +33,111 @@ G_DEFINE_DYNAMIC_TYPE (
 	E_TYPE_MAIL_CONFIG_SERVICE_BACKEND)
 
 static void
+mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
+					     GtkBox *parent)
+{
+	CamelSettings *settings;
+	GtkLabel *label;
+	GtkWidget *widget;
+	GtkWidget *container;
+	GtkWidget *use_custom_binary_check;
+	GtkWidget *custom_binary_entry;
+	gchar *markup;
+
+	settings = e_mail_config_service_backend_get_settings (backend);
+
+	markup = g_markup_printf_escaped ("<b>%s</b>", _("Configuration"));
+	widget = gtk_label_new (markup);
+	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (parent), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+	g_free (markup);
+
+	widget = gtk_grid_new ();
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
+	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
+	gtk_box_pack_start (GTK_BOX (parent), widget, FALSE, FALSE, 0);
+
+	container = widget;
+
+	widget = gtk_check_button_new_with_mnemonic (_("_Use custom binary, instead of 'sendmail'"));
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 2, 1);
+	use_custom_binary_check = widget;
+
+	widget = gtk_label_new_with_mnemonic (_("_Custom binary:"));
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
+	label = GTK_LABEL (widget);
+
+	widget = gtk_entry_new ();
+	gtk_label_set_mnemonic_widget (label, widget);
+	gtk_widget_set_halign (widget, GTK_ALIGN_FILL);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 1, 1);
+	custom_binary_entry = widget;
+
+	g_object_bind_property (
+		use_custom_binary_check, "active",
+		label, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		use_custom_binary_check, "active",
+		custom_binary_entry, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		settings, "use-custom-binary",
+		use_custom_binary_check, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		settings, "custom-binary",
+		custom_binary_entry, "text",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	gtk_widget_show_all (container);
+}
+
+static gboolean
+mail_config_sendmail_backend_check_complete (EMailConfigServiceBackend *backend)
+{
+	CamelSettings *settings;
+	gboolean use_custom_binary = FALSE;
+	gchar *custom_binary = NULL;
+	gboolean res = TRUE;
+
+	settings = e_mail_config_service_backend_get_settings (backend);
+
+	g_object_get (G_OBJECT (settings),
+		"use-custom-binary", &use_custom_binary,
+		"custom-binary", &custom_binary,
+		NULL);
+
+	if (custom_binary)
+		g_strstrip (custom_binary);
+
+	if (use_custom_binary && (!custom_binary || !*custom_binary))
+		res = FALSE;
+
+	g_free (custom_binary);
+
+	return res;
+}
+
+static void
 e_mail_config_sendmail_backend_class_init (EMailConfigSendmailBackendClass *class)
 {
 	EMailConfigServiceBackendClass *backend_class;
 
 	backend_class = E_MAIL_CONFIG_SERVICE_BACKEND_CLASS (class);
 	backend_class->backend_name = "sendmail";
-
-	/* No extra widgets for this backend. */
+	backend_class->insert_widgets = mail_config_sendmail_backend_insert_widgets;
+	backend_class->check_complete = mail_config_sendmail_backend_check_complete;
 }
 
 static void

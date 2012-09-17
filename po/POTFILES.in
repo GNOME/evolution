@@ -333,6 +333,7 @@ modules/itip-formatter/plugin/org-gnome-itip-formatter.eplug.xml
 modules/mail-config/e-mail-config-google-summary.c
 modules/mail-config/e-mail-config-local-accounts.c
 modules/mail-config/e-mail-config-remote-accounts.c
+modules/mail-config/e-mail-config-sendmail-backend.c
 modules/mail-config/e-mail-config-smtp-backend.c
 modules/mail-config/e-mail-config-yahoo-summary.c
 modules/mail/em-account-prefs.c
