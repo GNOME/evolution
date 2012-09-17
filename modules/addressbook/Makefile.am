@@ -82,11 +82,7 @@ module_addressbook_la_LIBADD = \
 module_addressbook_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 
-ui_DATA =			\
-	ldap-config.ui
-
 EXTRA_DIST =			\
-	$(ui_DATA)		\
 	openldap-extract.h
 
 dist-hook:
