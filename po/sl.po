@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-09-17 18:06+0000\n"
-"PO-Revision-Date: 2012-09-17 21:31+0100\n"
+"POT-Creation-Date: 2012-09-17 16:37+0000\n"
+"PO-Revision-Date: 2012-09-17 21:36+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -16105,6 +16105,7 @@ msgid "Choose a mbox spool directory"
 msgstr "Izbor vrstilne mape poštnega predala mbox"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:149
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:49
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:82
 #: ../modules/plugin-manager/evolution-plugin-manager.c:160
 msgid "Configuration"
@@ -16135,6 +16136,14 @@ msgstr "STARTTLS po povezovanju"
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:169
 msgid "SSL on a dedicated port"
 msgstr "SSL na namenskih vratih"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:65
+msgid "_Use custom binary, instead of 'sendmail'"
+msgstr "Uporabi program po _meri, namesto programa 'sendmail'"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:69
+msgid "_Custom binary:"
+msgstr "_Program po meri:"
 
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:125
 msgid "Ser_ver requires authentication"
