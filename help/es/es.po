@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-25 16:43+0000\n"
+"POT-Creation-Date: 2012-09-16 17:16+0000\n"
 "PO-Revision-Date: 2012-08-27 17:51+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -1122,27 +1122,31 @@ msgstr ""
 msgid "Ask somebody else to run the meeting."
 msgstr "Pregunte a alquien para que lleve la reunión."
 
-#: C/calendar-meetings-delegating.page:25(page/title)
+#: C/calendar-meetings-delegating.page:23(page/title)
 msgid "Delegating Meetings"
 msgstr "Eliminar reuniones"
 
-#: C/calendar-meetings-delegating.page:26(page/p)
-msgid "Only attendees of a meeting can delegate a meeting."
+#: C/calendar-meetings-delegating.page:24(page/p)
+#, fuzzy
+#| msgid "Only attendees of a meeting can delegate a meeting."
+msgid ""
+"Only attendees of a meeting can delegate a meeting, but not the organizer of "
+"a meeting."
 msgstr "Sólo los asistentes a una reunión pueden delegar una reunión."
 
-#: C/calendar-meetings-delegating.page:29(item/p)
+#: C/calendar-meetings-delegating.page:27(item/p)
 msgid "Right-click on the meeting that you want to delegate."
 msgstr "Pulse con el botón derecho en la reunión que quiere delegar."
 
-#: C/calendar-meetings-delegating.page:32(item/p)
+#: C/calendar-meetings-delegating.page:30(item/p)
 msgid "Click <gui>Delegate Meeting</gui>."
 msgstr "Pulse<gui>Delegar reunión</gui>."
 
-#: C/calendar-meetings-delegating.page:35(item/p)
+#: C/calendar-meetings-delegating.page:33(item/p)
 msgid "Select the contacts you want to delegate the meeting to."
 msgstr "Seleccione los contactos a los que quiere delegar la reunión."
 
-#: C/calendar-meetings-delegating.page:38(item/p)
+#: C/calendar-meetings-delegating.page:36(item/p)
 #: C/contacts-usage-add-contact.page:27(item/p)
 #: C/contacts-usage-edit-contact.page:27(item/p)
 #: C/contacts-using-contact-lists.page:37(item/p)
@@ -1157,7 +1161,7 @@ msgstr "Seleccione los contactos a los que quiere delegar la reunión."
 msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Pulse <gui style=\"button\">Aceptar</gui>."
 
-#: C/calendar-meetings-delegating.page:41(page/p)
+#: C/calendar-meetings-delegating.page:39(page/p)
 msgid "Each contact receives a copy of the meeting invitation."
 msgstr "Cada contacto recibe una copia de la invitación a la reunión."
 
@@ -1396,7 +1400,7 @@ msgstr ""
 "Una reunión sólo puede tener un organizador, y sólo el organizador puede "
 "añadir participantes a esa reunión. Aunque se puede cambiar el organizador "
 "de una reunión, no se recomienda porque puede provocar confusión en el "
-"proceso de planificación. Si desea invitar a personas adicionales y no son "
+"proceso de planificación. Si quiere invitar a personas adicionales y no son "
 "los que ha invitado el organizador, es recomendable que reenvíe el mensaje "
 "de invitación que recibió del organizador original a los asistentes."
 
@@ -2405,7 +2409,7 @@ msgstr ""
 "Las carpetas de red sólo están disponibles cuando se conecta a la red. Si "
 "usa un equipo portátil o una conexión telefónica, conviene hacer una copia "
 "de la carpeta de red o colocar en caché algún directorio de red. Para ello, "
-"arrastre los contactos deseados dentro de la lista de contactos local."
+"arrastre los contactos que quiera dentro de la lista de contactos local."
 
 #: C/contacts-ldap.page:70(item/p)
 msgid ""
@@ -4878,8 +4882,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(note/p)
 msgid ""
 "To access Gmail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">Gmail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">Gmail Help</link> for more information."
 msgstr ""
 "Para acceder a Gmail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -5661,11 +5665,20 @@ msgstr ""
 "el nombre del remitente."
 
 #: C/mail-change-columns-in-message-list.page:25(note/p)
+#, fuzzy
+#| msgid ""
+#| "If you would like to have the same column layout in all mail folders "
+#| "except for the <gui>Sent</gui> folder, you can enable <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
+#| "gui><gui>Apply the same view settings to all folders</gui></guiseq>."
 msgid ""
 "If you would like to have the same column layout in all mail folders except "
 "for the <gui>Sent</gui> folder, you can enable <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
-"gui><gui>Apply the same view settings to all folders</gui></guiseq>."
+"gui><gui>Apply the same view settings to all folders</gui></guiseq>. Note "
+"that this setting also influences <link xref=\"mail-sorting-message-"
+"list#email-threads\"><gui>Group by Threads</gui></link> and the <gui>Message "
+"Preview</gui> visibility in all folders."
 msgstr ""
 "Si quiere tener la misma distribución de columnas en todas las carpetas de "
 "correos excepto en la carpeta <gui>Enviados</gui>, puede activar "
@@ -6218,7 +6231,7 @@ msgstr "Seleccione la anchura, tamaño y la alineación."
 
 #: C/mail-composer-html-rule.page:27(item/p)
 msgid "Select <gui>Shaded</gui> if wanted."
-msgstr "Seleccione <gui>Enrollada</gui> si lo desea."
+msgstr "Seleccione <gui>Enrollada</gui> si quiere."
 
 #: C/mail-composer-html-rule.page:31(page/p)
 msgid ""
@@ -6301,7 +6314,6 @@ msgstr ""
 "md5='2d416af8bfaec805470e5d2980d90a68'"
 
 #: C/mail-composer-html-text.page:5(info/desc)
-#| msgid "Insert a table in the mail composer."
 msgid "Change font sizes, styles and colors in the mail composer."
 msgstr ""
 "Cambiar el tamaño de la tipografía, el estilo y el color en el editor de "
@@ -6354,14 +6366,6 @@ msgid "Font size."
 msgstr "Tamaño de la tipografía."
 
 #: C/mail-composer-html-text.page:41(td/p)
-#| msgid ""
-#| "At the left in the lower tool bar is the color section tool, where a box "
-#| "displays the current text color. To choose a new color, click the arrow "
-#| "button to the right. If you have text selected, the color applies to the "
-#| "selected text. If you do not have text selected, the color applies to "
-#| "whatever you type next. You can select a background color or image by "
-#| "right-clicking the message background, then selecting <guiseq><gui>Style</"
-#| "gui><gui>Page Style</gui></guiseq>."
 msgid ""
 "Color chooser for text. The box displays the current text color. To choose a "
 "new color, click the arrow button to the right. If you have text selected, "
@@ -6804,10 +6808,6 @@ msgid "Formatting Text in Plain Text Format"
 msgstr "Formatear en texto plano"
 
 #: C/mail-composer-plain-text.page:23(page/p)
-#| msgid ""
-#| "HTML formatting tools are located in the two tool bars just above the "
-#| "area where you actually write the message. They also appear in the "
-#| "<gui>Insert</gui> and <gui>Format</gui> menus."
 msgid ""
 "Text formatting tools are located in the tool bar below the <gui>Subject</"
 "gui> line. They also appear in the <gui>Insert</gui> and <gui>Format</gui> "
@@ -7416,7 +7416,7 @@ msgid ""
 "<guiseq><gui>Folder</gui><gui>Expunge</gui></guiseq> or press "
 "<keyseq><key>Ctrl</key><key>E</key></keyseq>."
 msgstr ""
-"Para borrar permanentemente todos los mensajes borrados en una carpeta, "
+"Para borrar permanentemente todos los mensajes eliminados en una carpeta, "
 "pulse <guiseq><gui>Carpeta</gui><gui>Purgar</gui></guiseq> o pulse "
 "<keyseq><key>Ctrl</key><key>E</key></keyseq>."
 
@@ -7716,9 +7716,9 @@ msgid ""
 "Evolution's code repository to test."
 msgstr ""
 "Sólo para desarrolladores: en versiones futuras, Evolution usará WebKit en "
-"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href=\"http://"
-"git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el repositorio "
-"de código de Evolution para pruebas."
+"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href="
+"\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el "
+"repositorio de código de Evolution para pruebas."
 
 #: C/mail-displaying-no-css.page:27(note/p)
 msgid ""
@@ -8498,14 +8498,14 @@ msgstr "Pone una copia del mensaje en la carpeta que especifique."
 
 #: C/mail-filters-actions.page:32(item/p)
 msgid "Delete:"
-msgstr "Borrar:"
+msgstr "Eliminar:"
 
 #: C/mail-filters-actions.page:33(item/p)
 msgid ""
 "Marks the message for deletion. The message can be undeleted until you "
 "expunge or empty the trash."
 msgstr ""
-"Marca el mensaje para borrarlo. Sigue siendo posible recuperar el mensaje de "
+"Marca el mensaje para eliminarlo. Sigue siendo posible recuperar el mensaje de "
 "nuevo, al menos hasta que seleccione Purgar el correo."
 
 #: C/mail-filters-actions.page:35(item/p)
@@ -8783,7 +8783,7 @@ msgid ""
 "four days ago."
 msgstr ""
 "Filtra los mensajes en función de la fecha de envío. En primer lugar, defina "
-"las condiciones que desea ver cumplidas con un mensaje, tales como antes de "
+"las condiciones que quiere ver cumplidas con un mensaje, tales como antes de "
 "una hora determinada o después de de ella, etc. A continuación, especifique "
 "la fecha y hora. La fecha y hora del mensaje se compara con la hora del "
 "sistema al ejecutarse el filtro, o con una hora y fecha específica elegida "
@@ -9109,8 +9109,8 @@ msgid ""
 "can enable logging filter actions. <_:list-2/> <_:p-3/> <_:p-4/>"
 msgstr ""
 "<_:title-1/> Si todavía no tiene claro porqué los filtros no funcionan como "
-"esperaba, puede activar el registro de las acciones de los filtros. <_:list-"
-"2/> <_:p-3/> <_:p-4/>"
+"esperaba, puede activar el registro de las acciones de los filtros. <_:"
+"list-2/> <_:p-3/> <_:p-4/>"
 
 #: C/mail-filters.page:5(info/desc)
 msgid "Use filter rules to sort your mail automatically into folders."
@@ -9275,7 +9275,7 @@ msgstr ""
 
 #: C/mail-filters.page:66(section/title)
 msgid "Deleting Filters"
-msgstr "Borrar filtros"
+msgstr "Eliminar filtros"
 
 #: C/mail-filters.page:70(item/p)
 msgid "Click <gui style=\"button\">Remove</gui>."
@@ -9783,8 +9783,8 @@ msgid ""
 msgstr ""
 "Generalmente se añade un prefijo «Re:» a la línea del asunto cuando se "
 "responde a un correo. Algunas aplicaciones usan términos traducidos para "
-"esto (por ejemplo, «SV» en danés o «AW» en alemán). <app>Evolution</app> puede "
-"reconocer estos términos para evitar que el sujeto se haga muy largo a "
+"esto (por ejemplo, «SV» en danés o «AW» en alemán). <app>Evolution</app> "
+"puede reconocer estos términos para evitar que el sujeto se haga muy largo a "
 "medida que avanza la conversación."
 
 #: C/mail-localized-re-subjects.page:26(item/p)
@@ -11036,9 +11036,6 @@ msgid "Searching in a Single Message"
 msgstr "Buscar en un único mensaje"
 
 #: C/mail-searching.page:32(section/p)
-#| msgid ""
-#| "To enable the Message Template Plugin, click <guiseq><gui>Edit</"
-#| "gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
 msgid ""
 "To find text in the displayed message, select <guiseq><gui>Edit</"
 "gui><gui>Find in Message...</gui></guiseq> from the main menu."
@@ -12058,9 +12055,6 @@ msgid "Searching in a Single Memo"
 msgstr "Buscar una única nota"
 
 #: C/memos-searching.page:32(section/p)
-#| msgid ""
-#| "To enable the Message Template Plugin, click <guiseq><gui>Edit</"
-#| "gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
 msgid ""
 "To find text in the displayed memo, select <guiseq><gui>Edit</gui><gui>Find "
 "in Memo...</gui></guiseq> from the main menu."
@@ -12511,12 +12505,6 @@ msgstr ""
 "wikipedia/en/wiki/SyncML\">SyncML</link>."
 
 #: C/sync-with-other-devices.page:29(page/p)
-#| msgid ""
-#| "Another option might be to use applications and devices that both support "
-#| "the <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/ActiveSync"
-#| "\">ActiveSync protocol</link>. A <link href=\"https://secure.wikimedia."
-#| "org/wikipedia/en/wiki/List_of_collaborative_software\">list of "
-#| "collaborative software</link> is available on Wikipedia."
 msgid ""
 "In general it is recommended to use applications and devices that both "
 "support the <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
@@ -12829,9 +12817,6 @@ msgid "Searching in a Single Task"
 msgstr "Buscar una única tarea"
 
 #: C/tasks-searching.page:32(section/p)
-#| msgid ""
-#| "To create an Assigned Task, click <guiseq><gui>File</gui><gui>New</"
-#| "gui><gui>Assigned Task</gui></guiseq>."
 msgid ""
 "To find text in the displayed task, select <guiseq><gui>Edit</gui><gui>Find "
 "in Task...</gui></guiseq> from the main menu."
