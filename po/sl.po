@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-09-17 18:06+0000\n"
-"PO-Revision-Date: 2012-09-17 21:26+0100\n"
+"PO-Revision-Date: 2012-09-17 21:31+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -8668,7 +8668,7 @@ msgstr "Ko prispejo nova sporočila, pokaži ikono nove pošte v obvestilnem pod
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:10
 msgid "Whether to make a sound of any kind when new messages arrive. If \"false\", the \"notify-sound-beep\", \"notify-sound-file\", \"notify-sound-play-file\" and \"notify-sound-use-theme\" keys are disregarded."
-msgstr "Ali naj se predvaja zvok ob prispelem novem poštnem sporočilu. Z izbiro logičnega \"napak\", so možnosti \"notify-sound-beep\ (glasovni pisk)\", \"notify-sound-file\" (zvočna datoteka), \"notify-sound-play-file\" (predvajanje datoteke) in \"notify-sound-use-theme\" (zvočna tema) prezrte."
+msgstr "Ali naj se predvaja zvok ob prispelem novem poštnem sporočilu. Z izbiro logičnega \"napak\", so možnosti \"notify-sound-beep\" (glasovni pisk), \"notify-sound-file\" (zvočna datoteka), \"notify-sound-play-file\" (predvajanje datoteke) in \"notify-sound-use-theme\" (zvočna tema) prezrte."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
 msgid "Whether to emit a beep."
