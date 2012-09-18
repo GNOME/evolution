@@ -276,7 +276,6 @@ modules/addressbook/e-book-shell-migrate.c
 modules/addressbook/e-book-shell-sidebar.c
 modules/addressbook/e-book-shell-view-actions.c
 modules/addressbook/e-book-shell-view.c
-[type: gettext/glade]modules/addressbook/ldap-config.ui
 modules/audio-inline/e-mail-formatter-audio-inline.c
 modules/backup-restore/e-mail-config-restore-page.c
 modules/backup-restore/e-mail-config-restore-ready-page.c
