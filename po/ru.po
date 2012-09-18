@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-08-22 11:29+0000\n"
-"PO-Revision-Date: 2012-08-24 20:21+0400\n"
+"PO-Revision-Date: 2012-09-05 11:58+0400\n"
 "Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
 "Language-Team: русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -15084,10 +15084,9 @@ msgid "URL:"
 msgstr "URL:"
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:144
-#, fuzzy
 #| msgid "_Avoid IfMatch (needed on Apache < 2.2.8)"
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
-msgstr "_Избегать IfMatch (требуется для сервера Apache версии < 2.2.8)"
+msgstr "Избегать IfMatch (требуется для сервера Apache версии < 2.2.8)"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:417
 #, c-format
@@ -15101,10 +15100,9 @@ msgid "Could not parse response"
 msgstr "Не удалось разобрать ответ"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:456
-#, fuzzy
 #| msgid "_Empty Trash"
 msgid "Empty response"
-msgstr "О_чистить корзину"
+msgstr "Ответ пуст"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:464
 #| msgid "Send _reply to sender"
@@ -15112,10 +15110,9 @@ msgid "Unexpected reply from server"
 msgstr "Неожиданный ответ от сервера"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1051
-#, fuzzy
 #| msgid "Could not find any user calendar."
 msgid "Could not locate user's calendars"
-msgstr "Не удалось найти ни одного календаря."
+msgstr "Не удалось найти календари пользователя."
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1275
 #| msgid "_Path:"
@@ -15124,22 +15121,19 @@ msgstr "Путь"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:264
 #: ../modules/cal-config-google/e-google-chooser-dialog.c:200
-#, fuzzy
 #| msgid "Choose calendar file"
 msgid "Choose a Calendar"
-msgstr "Выберите файл календаря"
+msgstr "Выберите календарь"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:267
-#, fuzzy
 #| msgid "New Memo List"
 msgid "Choose a Memo List"
-msgstr "Создать список заметок"
+msgstr "Выберите список заметок"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:270
-#, fuzzy
 #| msgid "Select a Task List"
 msgid "Choose a Task List"
-msgstr "Выбор списка задач"
+msgstr "Выберите список задач"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:269
 #, fuzzy
@@ -15187,16 +15181,15 @@ msgid "Use in Birthdays & Anniversaries calendar"
 msgstr "_Использовать в календаре дней рождений и годовщин"
 
 #: ../modules/cal-config-google/e-google-chooser-button.c:127
-#, fuzzy
 #| msgid "D_elete Calendar"
 msgid "Default User Calendar"
-msgstr "_Удалить календарь"
+msgstr "Календарь пользователя по умолчанию"
 
 #: ../modules/cal-config-google/e-google-chooser.c:508
-#, fuzzy, c-format
+#, c-format
 #| msgid "Enter the password for '%s'"
 msgid "Enter Google password for user '%s'."
-msgstr "Введите пароль для «%s»"
+msgstr "Введите пароль Google для «%s»."
 
 #: ../modules/cal-config-google/e-google-chooser.c:525
 msgid "User declined to provide a password"
@@ -15642,33 +15635,30 @@ msgstr "Переименовать выделенный календарь"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1455
 msgid "Find _next"
-msgstr ""
+msgstr "Найте _следующее"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1457
-#, fuzzy
 #| msgid "Find the next occurrence of the phrase"
 msgid "Find next occurrence of the current search string"
-msgstr "Найти следующее совпадение с фразой"
+msgstr "Найти следующее совпадение с текущей строкой поиска"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1462
-#, fuzzy
 #| msgid "_Previous"
 msgid "Find _previous"
-msgstr "_Предыдущее"
+msgstr "Найти _предыдущее"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1464
-#, fuzzy
 #| msgid "Find the previous occurrence of the phrase"
 msgid "Find previous occurrence of the current search string"
-msgstr "Найти предыдущее совпадение с фразой"
+msgstr "Найти предыдущее совпадение с текущей строкой поиска"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1469
 msgid "Stop _running search"
-msgstr ""
+msgstr "_Остановить поиск"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1471
 msgid "Stop currently running search"
-msgstr ""
+msgstr "Остановить выполняемый поиск"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1476
 msgid "Show _Only This Calendar"
@@ -17073,28 +17063,24 @@ msgid "Display \"text/calendar\" MIME parts in mail messages."
 msgstr "Отображает в сообщениях MIME-части «text/calendar»."
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:252
-#, fuzzy
 #| msgid "Google Calendars"
 msgid "Google Features"
-msgstr "Календари Google"
+msgstr "Возможности Google"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:261
-#, fuzzy
 #| msgid "Add Google Calendars to Evolution."
 msgid "Add Google Ca_lendar to this account"
-msgstr "Добавляет поддержку Google Calendars в Evolution."
+msgstr "Добавить в учётной записи поддержку _календаря Google"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:269
-#, fuzzy
 #| msgid "Add Google Calendars to Evolution."
 msgid "Add Google Con_tacts to this account"
-msgstr "Добавляет поддержку Google Calendars в Evolution."
+msgstr "Добавить в учётной записи поддержку к_онтактов Google"
 
 #: ../modules/mail-config/e-mail-config-google-summary.c:277
-#, fuzzy
 #| msgid "You may need to enable IMAP access."
 msgid "You may need to enable IMAP access"
-msgstr "Возможно, требуется включить доступ IMAP."
+msgstr "Возможно, требуется включить доступ IMAP"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:246
 #: ../modules/mail-config/e-mail-config-local-accounts.c:292
@@ -17801,26 +17787,23 @@ msgid "Enable and disable plugins"
 msgstr "Включает и отключает модули"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:140
-#, fuzzy
 #| msgid "Display the next message"
 msgid "Display plain text version"
-msgstr "Показать следующее сообщение"
+msgstr "Показывать в виде обычного текста"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:142
-#, fuzzy
 #| msgid "Display the next important message"
 msgid "Display plain text version of multipart/alternative message"
-msgstr "Показать следующее важное сообщение"
+msgstr "Показывать сообщение multipart/alternative в виде обычного текста"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:148
 msgid "Display HTML version"
-msgstr ""
+msgstr "Показывать в виде HTML"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:150
-#, fuzzy
 #| msgid "Display the previous important message"
 msgid "Display HTML version of multipart/alternative message"
-msgstr "Показать предыдущее важное сообщение"
+msgstr "Показывать сообщение multipart/alternative в виде HTML"
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:82
 #: ../modules/prefer-plain/plugin/config-ui.c:46
@@ -17950,7 +17933,6 @@ msgid "Import complete."
 msgstr "Импортирование завершено."
 
 #: ../modules/startup-wizard/e-startup-assistant.c:154
-#, fuzzy
 #| msgid ""
 #| "Welcome to Evolution. The next few screens will allow Evolution to "
 #| "connect to your email accounts, and to import files from other "
@@ -17961,8 +17943,10 @@ msgid ""
 "The next few screens will allow Evolution to connect to your email accounts, "
 "and to import files from other applications."
 msgstr ""
-"Добро пожаловать в Evolution. Далее вы можете настроить подключение к вашим "
-"учётным записям электронной почты и импортировать файлы из других приложений."
+"Добро пожаловать в Evolution.\n"
+"\n"
+"Далее вы можете настроить учётные записи для работы с электронной почтой и "
+"импортировать файлы из других приложений."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:242
 msgid "Loading accounts..."
@@ -17980,11 +17964,11 @@ msgstr "_Другие языки"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:329
 msgid "Text Highlight"
-msgstr ""
+msgstr "Подсветка текста"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:335
 msgid "Syntax highlighting of mail parts"
-msgstr ""
+msgstr "Синтаксическая подсветка письма"
 
 #: ../modules/text-highlight/languages.c:32
 #| msgid "Plain Text Mode"
@@ -18168,10 +18152,9 @@ msgid "_Octave"
 msgstr "_Octave"
 
 #: ../modules/text-highlight/languages.c:304
-#, fuzzy
 #| msgid "Object Signer"
 msgid "_Object Script"
-msgstr "Объект подписан"
+msgstr "_Object Script"
 
 #: ../modules/text-highlight/languages.c:309
 msgid "_Pascal"
@@ -18253,7 +18236,7 @@ msgstr "Контакт адресной книги"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:202
 msgid "Display the part as an addressbook contact"
-msgstr ""
+msgstr "Показать часть в виде контакта адресной книги"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:88
 #| msgid "_Select..."
