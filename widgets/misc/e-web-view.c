@@ -578,26 +578,23 @@ web_view_navigation_policy_decision_requested_cb (EWebView *web_view,
 }
 
 static void
-web_view_load_status_changed_cb (WebKitWebView *web_view,
+web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
                                  GParamSpec *pspec,
                                  gpointer user_data)
 {
 	WebKitLoadStatus status;
-	GtkAllocation allocation, allocation_copy;
+	EWebView *web_view;
 
-	status = webkit_web_view_get_load_status (web_view);
+	status = webkit_web_view_get_load_status (webkit_web_view);
 	if (status != WEBKIT_LOAD_FINISHED)
 		return;
 
-	/* Workaround webkit bug https://bugs.webkit.org/show_bug.cgi?id=89553 */
-	gtk_widget_get_allocation (GTK_WIDGET (web_view), &allocation_copy);
-	allocation = allocation_copy;
-	allocation.width -= 10;
-	allocation.height -= 10;
-	gtk_widget_size_allocate (GTK_WIDGET (web_view), &allocation);
-	gtk_widget_size_allocate (GTK_WIDGET (web_view), &allocation_copy);
+	web_view = E_WEB_VIEW (webkit_web_view);
+	web_view_update_document_highlights (web_view);
 
-	web_view_update_document_highlights (E_WEB_VIEW (web_view));
+	/* Workaround webkit bug https://bugs.webkit.org/show_bug.cgi?id=89553 */
+	e_web_view_zoom_in (web_view);
+	e_web_view_zoom_out (web_view);
 }
 
 static void
