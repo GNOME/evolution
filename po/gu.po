@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
 "cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-09-17 12:14+0000\n"
-"PO-Revision-Date: 2012-09-20 12:44+0530\n"
+"PO-Revision-Date: 2012-09-20 12:54+0530\n"
 "Last-Translator: \n"
 "Language-Team: gu_IN <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -7698,7 +7698,7 @@ msgstr "આજ સુધીની બાબતોને પ્રકાશિત
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 msgid "Whether highlight tasks due today with a special color (task-due-today-color)"
-msgstr ""
+msgstr "શું ખાસ રંગ સાથે આજ સુધીની બાબતોને પ્રકાશિત કરવી છે (task-due-today-color)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
 msgid "Tasks due today color"
