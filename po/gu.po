@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
 "cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-09-17 12:14+0000\n"
-"PO-Revision-Date: 2012-09-21 17:27+0530\n"
+"PO-Revision-Date: 2012-09-21 22:34+0530\n"
 "Last-Translator: \n"
 "Language-Team: gu_IN <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -7040,6 +7040,9 @@ msgid ""
 "Outbox folder. When you are back online you can send the message by clicking "
 "the Send/Receive button in Evolution's toolbar."
 msgstr ""
+"કારણ કે તમે ઓફલાઇન તરીકે કામ કરી રહ્યા હોય, તો સંદેશો તમારી સ્થાનિક આઉટબોક્સ ફોલ્ડરમાં સંગ્રહાશે. "
+"જ્યારે તમે પાછા ઓનલાઇન થાવ ત્યારે તમે Evolution ની સાધનપટ્ટીમાં મોકલો/પ્રાપ્ત કરો બટનને ક્લિક "
+"કરીને સંદેશાને મોકલી શકો છો."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -7124,6 +7127,9 @@ msgid ""
 "contact list. \"1\" (Vertical View) places the preview pane next to the "
 "contact list."
 msgstr ""
+"લેઆઉટ શૈલી નક્કી કરે છે ક્યાં સંપર્ક યાદીને સંબંધિત પૂર્વદર્શન તકતીને સ્થિત કરવી. \"0\" (ક્લાસિક "
+"દૃશ્ય) સંપર્ક યાદીની નીચે પૂર્વદર્શન તકતીને સ્થિત કરે છે. \"1\" (આડુ દૃશ્ય)  એ સંપર્ક યાદીમાં આગળ "
+"પૂર્વદર્શન તકતીને સ્થિત કરે છે."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:11
 msgid "Contact preview pane position (horizontal)"
@@ -7495,6 +7501,9 @@ msgid ""
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list"
 msgstr ""
+"લેઆઉટ શૈલી નક્કી કરે છે ક્યાં મેમો યાદીને સંબંધિત પૂર્વદર્શન તકતીને સ્થિત કરવી. \"0\" (ક્લાસિક "
+"દૃશ્ય) મેમો યાદીની નીચે પૂર્વદર્શન તકતીને સ્થિત કરે છે. \"1\" (આડુ દૃશ્ય)  એ મેમો યાદીમાં આગળ "
+"પૂર્વદર્શન તકતીને સ્થિત કરે છે."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Memo preview pane position (vertical)"
@@ -7697,6 +7706,9 @@ msgid ""
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list"
 msgstr ""
+"લેઆઉટ શૈલી નક્કી કરે છે ક્યાં કાર્ય યાદીને સંબંધિત પૂર્વદર્શન તકતીને સ્થિત કરવી. \"0\" (ક્લાસિક "
+"દૃશ્ય) કાર્ય યાદીની નીચે પૂર્વદર્શન તકતીને સ્થિત કરે છે. \"1\" (આડુ દૃશ્ય)  એ કાર્ય યાદીમાં આગળ "
+"પૂર્વદર્શન તકતીને સ્થિત કરે છે."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid "Task preview pane position (vertical)"
@@ -8441,6 +8453,9 @@ msgid ""
 "message list. \"1\" (Vertical View) places the preview pane next to the "
 "message list."
 msgstr ""
+"લેઆઉટ શૈલી નક્કી કરે છે ક્યાં સંદેશા યાદીને સંબંધિત પૂર્વદર્શન તકતીને સ્થિત કરવી. \"0\" (ક્લાસિક "
+"દૃશ્ય) સંદેશા યાદીની નીચે પૂર્વદર્શન તકતીને સ્થિત કરે છે. \"1\" (આડુ દૃશ્ય)  એ સંદેશા યાદીમાં આગળ "
+"પૂર્વદર્શન તકતીને સ્થિત કરે છે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid "Variable width font"
@@ -9035,7 +9050,7 @@ msgstr "Pidgin છેલ્લો સુમેળ સમય"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:14
 msgid "Pidgin last sync time."
-msgstr ""
+msgstr "Pidgin છેલ્લો સુમેળ સમય."
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:1
 msgid "List of Custom Headers"
@@ -9071,7 +9086,7 @@ msgstr "આપમેળે સંપાદકને શરૂ કરો જ્�
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:1
 msgid "Insert Face picture by default"
-msgstr ""
+msgstr "મૂળભૂત રીતે ચહેરાનાં ચિત્રને સમાવો"
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:2
 msgid ""
@@ -9086,7 +9101,7 @@ msgstr "પ્રક્રિયા કાઢી નાંખો"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
 msgid "Whether to delete processed iTip objects"
-msgstr ""
+msgstr "શું પ્રક્રિયા થયેલ iTip ઑબ્જેક્ટને કાઢવુ છે"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -9164,6 +9179,8 @@ msgid ""
 "Whether to play a sound file when new messages arrive. The name of the sound "
 "file is given by the 'notify-sound-file' key."
 msgstr ""
+"શું સાઉન્ડ ફાઇલને વગાડવી જ્યારે નવાં સંદેશા પ્રાપ્ત થાય. સાઉન્ડ ફાઇલનું નામ 'notify-sound-file' "
+"કી દ્દારા આપેલ છે."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:17
 msgid "Use sound theme"
@@ -9931,7 +9948,7 @@ msgstr "\"{0}\" નામવાળી ફાઇલ પહેલાથી જ હ
 
 #: ../e-util/e-system.error.xml.h:2
 msgid "The file already exists in \"{0}\". Replacing it will overwrite its contents."
-msgstr ""
+msgstr "ફાઇલ પહેલેથી \"{0}\" માં અસ્તિત્વ ધરાવે છે તેને બદલવાનું તેનાં સમાવિષ્ટો ઉપર લખાઇ જશે."
 
 #: ../e-util/e-system.error.xml.h:3
 msgid "_Replace"
@@ -10571,7 +10588,11 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
+"શોધ ફોલ્ડર \"%s\" કાઢી નાંખેલ ફોલ્ડર માટે ખાતામાં બદલી દેવામાં આવ્યુ છે\n"
+"\"%s\"."
 msgstr[1] ""
+"શોધ ફોલ્ડરો \"%s\" કાઢી નાંખેલ ફોલ્ડર માટે ખાતામાં બદલી દેવામાં આવ્યુ છે\n"
+"\"%s\"."
 
 #: ../mail/e-mail-account-manager.c:460
 msgid "_Restore Default"
@@ -10700,7 +10721,7 @@ msgstr "મૂળભૂત પુન:સંગ્રહો (_R)"
 
 #: ../mail/e-mail-config-defaults-page.c:625
 msgid "Use a Real Folder for _Trash:"
-msgstr ""
+msgstr "કચરાપેટી માટે એક વાસ્તવિક ફોલ્ડર ઉપયોગ કરો (_T):"
 
 #: ../mail/e-mail-config-defaults-page.c:626
 msgid "Choose a folder for deleted messages."
@@ -10708,7 +10729,7 @@ msgstr "કાઢી નાંખેલ સંદેશા માટે ફો�
 
 #: ../mail/e-mail-config-defaults-page.c:635
 msgid "Use a Real Folder for _Junk:"
-msgstr ""
+msgstr "ભંગાર માટે વાસ્તવિક ફોલ્ડરને વાપરો (_J):"
 
 #: ../mail/e-mail-config-defaults-page.c:636
 #| msgid "Choose folders to post the message to."
@@ -12636,7 +12657,7 @@ msgstr "પ્રાપ્તકર્તાની વિશાળ સંખ્�
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:40
 msgid "Allowing a _mailing list to redirect a private reply to the list"
-msgstr ""
+msgstr "યાદીમાં ખાનગી જવાબને દિશામાન કરવા માટે મેઇલીંગ યાદીને પરવિનગી આપી રહ્યા છે (_m)"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:42
@@ -13065,6 +13086,8 @@ msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
 msgstr ""
+"નીચેનાં પ્રાપ્તકર્તા યોગ્ય મેઇલ સરનામાં તરીકે ઓળખાયેલ હતા નહિં:\n"
+"{0}"
 
 #: ../mail/mail.error.xml.h:19
 msgid "Are you sure you want to send a message with invalid addresses?"
@@ -13075,6 +13098,8 @@ msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
 msgstr ""
+"નીચેનાં પ્રાપ્તકર્તાઓ યોગ્ય મેઇલ સરનામાં તરીકે ઓળખાયેલ હતા નહિં:\n"
+"{0}"
 
 #: ../mail/mail.error.xml.h:22
 msgid "Send private reply?"
@@ -13097,6 +13122,8 @@ msgid ""
 "replying privately to the sender; not to the list. Are you sure you want to "
 "proceed?"
 msgstr ""
+"તમે સંદેશાનો જવાબ આપી રહ્યા છે કે જે મેઇલીંગ યાદી મારફતે પ્રાપ્ત થયેલ છે, પરંતુ તમે મોકલનારમાં "
+"ખાનગી રીતે જવાબ આપી રહ્યા છે; યાદીમાં નહિં. શું તમે આગળ ધપવા માંગો છો?"
 
 #: ../mail/mail.error.xml.h:28
 msgid "Send reply to all recipients?"
@@ -13677,6 +13704,8 @@ msgid ""
 "The attachment named {0} is a hidden file and may contain sensitive data. "
 "Please review it before sending."
 msgstr ""
+"નામવાળા જોડાણ {0} એ છુપાયેલ ફાઇલ છે અને સંવેદનશીલ માહિતીને સમાવી શકે છે. મહેરબાની કરીને મોકલતા "
+"પહેલાં તેને રિવ્યૂ કરો."
 
 #: ../mail/mail.error.xml.h:164
 msgid "Printing failed."
@@ -14348,7 +14377,7 @@ msgstr "ઓડિયો પ્લેયર"
 
 #: ../modules/audio-inline/e-mail-formatter-audio-inline.c:316
 msgid "Play the attachment in embedded audio player"
-msgstr ""
+msgstr "એમ્બેડેડ ઑડિયો પ્લેયરમાં જોડાણ વગાડો"
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:167
 #| msgid ""
@@ -20407,16 +20436,14 @@ msgid "Import a _single file"
 msgstr "એક ફાઈલ જ આયાત કરો (_s)"
 
 #: ../widgets/misc/e-import-assistant.c:533
-#, fuzzy
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
 "like to try again, please click the \"Back\" button."
 msgstr ""
-"નીચેના કાર્યક્રમોમાંથી આયાત કરવા માટે Evolution ને સુયોજનો\n"
-"ચકાસ્યા: Pine, Netscape, Elm, iCalendar. આયાત કરી શકાય તેવા કોઈ\n"
-"સુયોજનો મળ્યા નથી. જો તમે ફરીથી પ્રયત્ન કરવા\n"
-"માંગતા હોય, તો મહેરબાની કરીને \"પાછળ\" બટન ક્લિક કરો.\n"
+"નીચેના કાર્યક્રમોમાંથી આયાત કરવા માટે Evolution ને સુયોજનો ચકાસ્યા: Pine, Netscape, Elm, "
+"iCalendar. આયાત કરી શકાય તેવા કોઈ સુયોજનો મળ્યા નથી. જો તમે ફરીથી પ્રયત્ન કરવા"
+"માંગતા હોય, તો મહેરબાની કરીને \"પાછળ\" બટન ક્લિક કરો."
 
 #. Install a custom "Cancel Import" button.
 #: ../widgets/misc/e-import-assistant.c:775
