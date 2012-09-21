@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
 "cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-09-17 12:14+0000\n"
-"PO-Revision-Date: 2012-09-21 21:03+0530\n"
+"PO-Revision-Date: 2012-09-21 23:05+0530\n"
 "Last-Translator: Nilamdyuti Goswami <ngoswami@redhat.com>\n"
 "Language-Team: as_IN <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -8707,7 +8707,6 @@ msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr "এটা ফোল্ডাৰক ফোল্ডাৰ ট্ৰিত ড্ৰেগ &amp; ড্ৰপৰ সহায়ত স্থানান্তৰ কৰা হব নে প্ৰশ্ন কৰে"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
-#, fuzzy
 #| msgid ""
 #| "Possible values are: never - to never close browser window always - to "
 #| "always close browser window ask - (or any other value) will ask user"
@@ -10521,30 +10520,30 @@ msgid "No data source found for UID '%s'"
 msgstr "UID '%s' ৰ বাবে কোনো তথ্য উৎস পোৱা নগল"
 
 #: ../libemail-engine/e-mail-session.c:1585
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "No destination address provided, forward of the message has been "
 #| "cancelled."
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
-msgstr "উদ্দিষ্ট ঠিকনা উল্লিখিত না হওয়ার ফলে, বার্তা অনুবর্তন বাতিল করা হয়েছে।"
+msgstr "কোনো গন্তব্য ঠিকনা প্ৰদান কৰা হোৱা নাই, বাৰ্তা আগবঢ়োৱা বাতিল কৰা হৈছে।"
 
 #: ../libemail-engine/e-mail-session.c:1598
-#, fuzzy, c-format
+#, c-format
 #| msgid "No account found to use, forward of the message has been cancelled."
 msgid "No identity found to use, forwarding of the message has been cancelled."
-msgstr "ব্যৱহাৰ কৰিবলে কোনো একাওন্ট পোৱা নগল, বাৰ্তাৰ আগবঢ়োৱা বাতিল কৰা হৈছে।"
+msgstr "ব্যৱহাৰ কৰিবলে কোনো পৰিচয় পোৱা নগল, বাৰ্তাৰ আগবঢ়োৱা বাতিল কৰা হৈছে।"
 
 #: ../libemail-engine/e-mail-session-utils.c:540
 #, c-format
 msgid "No mail service found with UID '%s'"
-msgstr ""
+msgstr "UID '%s' ৰ সৈতে কোনো ডিভাইচ পোৱা নগল"
 
 #: ../libemail-engine/e-mail-session-utils.c:549
 #, c-format
 msgid "UID '%s' is not a mail transport"
-msgstr ""
+msgstr "UID '%s' এটা মেইল পৰিবহন নহয়"
 
 #: ../libemail-engine/e-mail-session-utils.c:641
 #: ../libemail-engine/mail-ops.c:700
@@ -10608,12 +10607,12 @@ msgid "Sending message %d of %d"
 msgstr "বাৰ্তা %d , %d-ৰ, কে প্ৰেৰণ কৰা হচ্ছে"
 
 #: ../libemail-engine/mail-ops.c:970
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to send %d of %d messages"
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
-msgstr[0] "%d বাৰ্তা, %d-এৰ মাঝে থেকে প্ৰেৰণ কৰিবলৈ ব্যৰ্থ"
-msgstr[1] "%d বাৰ্তা, %d-এৰ মাঝে থেকে প্ৰেৰণ কৰিবলৈ ব্যৰ্থ"
+msgstr[0] "এটা বাৰ্তা পঠাবলে ব্যৰ্থ"
+msgstr[1] "%d বাৰ্তাসমূহৰ %d পঠাবলে ব্যৰ্থ"
 
 #: ../libemail-engine/mail-ops.c:976
 msgid "Canceled."
@@ -10697,18 +10696,23 @@ msgid_plural ""
 "The following Search Folders\n"
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
-msgstr[0] ""
+msgstr[0]""
+"The Search Folder \"%s\" has been modified to account for the deleted "
+"folder\n"
+"\"%s\"."
 msgstr[1] ""
+"The following Search Folders\n"
+"%s have been modified to account for the deleted folder\n"
+"\"%s\"."
 
 #: ../mail/e-mail-account-manager.c:460
-#, fuzzy
 #| msgid "Use _Default"
 msgid "_Restore Default"
-msgstr "ডিফল্ট মান ব্যৱহাৰ কৰা হ'ব (_D)"
+msgstr "অবিকল্পিতক পুনৰূদ্ধাৰ কৰক (_R)"
 
 #: ../mail/e-mail-account-manager.c:473
 msgid "You can drag and drop account names to reorder them."
-msgstr ""
+msgstr "আপুনি একাওন্ট নামসমূহ পুনৰ ক্ৰমত আনিবলে ড্ৰেগ আৰু ড্ৰপ কৰিব পাৰে।"
 
 #: ../mail/e-mail-account-manager.c:518
 msgid "De_fault"
@@ -10722,10 +10726,9 @@ msgid "Enabled"
 msgstr "সক্ৰিয়"
 
 #: ../mail/e-mail-account-tree-view.c:109
-#, fuzzy
 #| msgid "Account name"
 msgid "Account Name"
-msgstr "অ্যাকাউন্টেৰ নাম"
+msgstr "একাওন্ট নাম"
 
 #: ../mail/e-mail-account-tree-view.c:134
 #: ../mail/e-mail-config-security-page.c:333
@@ -10737,41 +10740,38 @@ msgstr "ডিফল্ট"
 #: ../mail/e-mail-autoconfig.c:194
 #, c-format
 msgid "No mail exchanger record for '%s'"
-msgstr ""
+msgstr "'%s' ৰ বাবে কোনো মেইল পৰিবৰ্তক নাই"
 
 #: ../mail/e-mail-autoconfig.c:201
 #, c-format
 msgid "Temporarily unable to resolve '%s'"
-msgstr ""
+msgstr "'%s' সমাধান কৰিবলে অস্থায়ীভাৱে অক্ষম"
 
 #: ../mail/e-mail-autoconfig.c:208
-#, fuzzy, c-format
+#, c-format
 #| msgid "Error removing list"
 msgid "Error resolving '%s'"
-msgstr "তালিকা আঁতৰাওঁতে সমস্যা হৈছে"
+msgstr "'%s' সমাধান কৰোতে ত্ৰুটি"
 
 #: ../mail/e-mail-autoconfig.c:264
 #, c-format
 msgid "No authoritative name server for '%s'"
-msgstr ""
+msgstr "'%s' ৰ বাবে কোনো কতৃপক্ষ নাম চাৰ্ভাৰ নাই"
 
 #: ../mail/e-mail-autoconfig.c:661
-#, fuzzy
 #| msgid "Your password has expired."
 msgid "No email address provided"
-msgstr "আপনাৰ গুপ্তশব্দেৰ মেয়াদ পূৰ্ণ হয়েছে।"
+msgstr "কোনো ই-মেইল ঠিকনা প্ৰদান কৰা হোৱা নাই"
 
 #: ../mail/e-mail-autoconfig.c:670
-#, fuzzy
 #| msgid "Using email address"
 msgid "Missing domain in email address"
-msgstr "ই-মেইল ঠিকনা ব্যৱহাৰ কৰি"
+msgstr "ই-মেইল ঠিকনাত সন্ধানহিন ডমেইন"
 
 #: ../mail/e-mail-backend.c:737
-#, fuzzy
 #| msgid "Unknown action to be performed"
 msgid "Unknown background operation"
-msgstr "যে অজানা কাৰ্য সম্পন্ন কৰিবলৈ হ'ব"
+msgstr "অজ্ঞাত পটভূমি কাৰ্য্য"
 
 #: ../mail/e-mail-browser.c:127 ../shell/e-shell-window-actions.c:1418
 #: ../shell/e-shell-window-actions.c:1425
@@ -10788,10 +10788,9 @@ msgid "Evolution Account Assistant"
 msgstr "Evolution অ্যাকাউন্টেৰ সাহায়ক"
 
 #: ../mail/e-mail-config-auth-check.c:348
-#, fuzzy
 #| msgid "Ch_eck for Supported Types"
 msgid "Check for Supported Types"
-msgstr "সমৰ্থিত ধৰন পৰীক্ষা কৰক (_e)"
+msgstr "সমৰ্থিত ধৰণসমূহৰ বাবে নীৰিক্ষণ কৰক"
 
 #: ../mail/e-mail-config-confirm-page.c:157
 msgid ""
@@ -10816,52 +10815,46 @@ msgid "Special Folders"
 msgstr "বিশেষ ফোল্ডাৰসমূহ"
 
 #: ../mail/e-mail-config-defaults-page.c:558
-#, fuzzy
 #| msgid "Sent _Messages Folder:"
 msgid "Draft Messages _Folder:"
-msgstr "প্ৰেৰিত বাৰ্তাৰ ফোল্ডাৰ (_M):"
+msgstr "বাৰ্তাসমূহ ফোল্ডাৰ ড্ৰাফ্ট কৰক (_F):"
 
 #: ../mail/e-mail-config-defaults-page.c:568
-#, fuzzy
 #| msgid "Choose folders to post the message to."
 msgid "Choose a folder for saving draft messages."
-msgstr "যে ফোল্ডাৰসমূহতে বাৰ্তা পোস্ট কৰা হ'ব তা নিৰ্বাচন কৰক।"
+msgstr "খচৰা বাৰ্তাসমূহ সংৰক্ষণ কৰিবলে এটা ফোল্ডাৰ বাছক।"
 
 #: ../mail/e-mail-config-defaults-page.c:582
 msgid "Sent _Messages Folder:"
 msgstr "প্ৰেৰিত বাৰ্তাৰ ফোল্ডাৰ (_M):"
 
 #: ../mail/e-mail-config-defaults-page.c:592
-#, fuzzy
 #| msgid "Choose folders to post the message to."
 msgid "Choose a folder for saving sent messages."
-msgstr "যে ফোল্ডাৰসমূহতে বাৰ্তা পোস্ট কৰা হ'ব তা নিৰ্বাচন কৰক।"
+msgstr "প্ৰেৰণ কৰা ফোল্ডাৰসমূহ সংৰক্ষণ কৰিবলে এটা ফোল্ডাৰ বাছক।"
 
 #: ../mail/e-mail-config-defaults-page.c:611
-#, fuzzy
 #| msgid "Use _Default"
 msgid "_Restore Defaults"
-msgstr "ডিফল্ট মান ব্যৱহাৰ কৰা হ'ব (_D)"
+msgstr "অবিকল্পিতসমূহ পুনৰুদ্ধাৰ কৰক (_R)"
 
 #: ../mail/e-mail-config-defaults-page.c:625
 msgid "Use a Real Folder for _Trash:"
-msgstr ""
+msgstr "আবৰ্জনাৰ বাবে এটা প্ৰকৃত ফোল্ডাৰ ব্যৱহাৰ কৰক (_T):"
 
 #: ../mail/e-mail-config-defaults-page.c:626
-#, fuzzy
 #| msgid "Choose folders to post the message to."
 msgid "Choose a folder for deleted messages."
-msgstr "যে ফোল্ডাৰসমূহতে বাৰ্তা পোস্ট কৰা হ'ব তা নিৰ্বাচন কৰক।"
+msgstr "মচি পেলোৱা বাৰ্তাসমূহৰ বাবে এটা ফোল্ডাৰ বাছক।"
 
 #: ../mail/e-mail-config-defaults-page.c:635
 msgid "Use a Real Folder for _Junk:"
-msgstr ""
+msgstr "আবৰ্জনাৰ বাবে এটা প্ৰকৃত ফোল্ডাৰ বাছক (_J):"
 
 #: ../mail/e-mail-config-defaults-page.c:636
-#, fuzzy
 #| msgid "Choose folders to post the message to."
 msgid "Choose a folder for junk messages."
-msgstr "যে ফোল্ডাৰসমূহতে বাৰ্তা পোস্ট কৰা হ'ব তা নিৰ্বাচন কৰক।"
+msgstr "আবৰ্জনা বাৰ্তাসমূহৰ বাবে এটা ফোল্ডাৰ বাছক।"
 
 #: ../mail/e-mail-config-defaults-page.c:653
 msgid "Composing Messages"
@@ -10915,7 +10908,6 @@ msgstr "একাওন্ট তথ্য"
 
 #: ../mail/e-mail-config-identity-page.c:291
 #: ../mail/e-mail-config-summary-page.c:333
-#, fuzzy
 #| msgid ""
 #| "Type the name by which you would like to refer to this account.\n"
 #| "For example: \"Work\" or \"Personal\""
@@ -10968,16 +10960,14 @@ msgid "Identity"
 msgstr "পৰিচয়"
 
 #: ../mail/e-mail-config-lookup-page.c:68
-#, fuzzy
 #| msgid "Loading accounts..."
 msgid "Looking up account details..."
-msgstr "একাওন্টসমূহ ল'ড কৰা হৈ আছে..."
+msgstr "একাওন্ট বিৱৰণসমূহ চোৱা হৈছে..."
 
 #: ../mail/e-mail-config-provider-page.c:485
-#, fuzzy
 #| msgid "Checking for new mail"
 msgid "Checking for New Mail"
-msgstr "নতুনপ্ৰাপ্ত মেইল অনুসন্ধান কৰা হচ্ছে"
+msgstr "নতুন বাৰ্তাৰ বাবে নীৰিক্ষণ কৰা হৈছে"
 
 #: ../mail/e-mail-config-provider-page.c:501
 msgid "Check for _new messages every"
@@ -11005,16 +10995,14 @@ msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "সভাৰ অনুৰোধ স্বাক্ষৰ কৰা ন'হ'ব (Outlook সাথে সামঞ্জস্য বজায় ৰাখাৰ উদ্দেশ্যে) (_D)"
 
 #: ../mail/e-mail-config-security-page.c:290
-#, fuzzy
 #| msgid "Pretty Good Privacy (PGP/GPG)"
 msgid "Pretty Good Privacy (OpenPGP)"
-msgstr "বেছ ভাল গোপনীয়তা (PGP/GPG)"
+msgstr "বেছ ভাল গোপনীয়তা (OpenPGP)"
 
 #: ../mail/e-mail-config-security-page.c:298
-#, fuzzy
 #| msgid "PGP/GPG _Key ID:"
 msgid "OpenPGP _Key ID:"
-msgstr "PGP/GPG _Key ID:"
+msgstr "OpenPGP Key ID (_K):"
 
 #: ../mail/e-mail-config-security-page.c:320
 msgid "Si_gning algorithm:"
@@ -11062,38 +11050,33 @@ msgstr "স্বাক্ষৰকাৰী সাৰ্টিফিকেট (
 
 #: ../mail/e-mail-config-security-page.c:441
 #: ../mail/e-mail-config-security-page.c:547
-#, fuzzy
 #| msgid "Selected"
 msgid "Select"
-msgstr "নিৰ্বাচিত"
+msgstr "বাছক"
 
 #: ../mail/e-mail-config-security-page.c:459
 msgid "Signing _algorithm:"
 msgstr "স্বাক্ষৰ কৰা এলগৰিথম (_a):"
 
 #: ../mail/e-mail-config-security-page.c:500
-#, fuzzy
 #| msgid "Al_ways sign outgoing messages when using this account"
 msgid "Always sign outgoing messages when using this account"
-msgstr "চিহ্নিত অ্যাকাউন্ট ব্যৱহাৰ কৰে প্ৰেৰিত বাৰ্তা সৰ্বদা স্বাক্ষৰ কৰা হ'ব (_w)"
+msgstr "এই একাওন্ট ব্যৱহাৰ কৰোতে সদায় বাহিৰ যোৱা বাৰ্তাসমূহ স্বাক্ষৰ কৰিব"
 
 #: ../mail/e-mail-config-security-page.c:523
-#, fuzzy
 #| msgid "Encry_ption certificate:"
 msgid "Encryption certificate:"
-msgstr "এনক্ৰিপশন সাৰ্টিফিকেট (_p):"
+msgstr "ইনক্ৰিপষণ প্ৰমাণপত্ৰ:"
 
 #: ../mail/e-mail-config-security-page.c:565
-#, fuzzy
 #| msgid "Al_ways sign outgoing messages when using this account"
 msgid "Always encrypt outgoing messages when using this account"
-msgstr "চিহ্নিত অ্যাকাউন্ট ব্যৱহাৰ কৰে প্ৰেৰিত বাৰ্তা সৰ্বদা স্বাক্ষৰ কৰা হ'ব (_w)"
+msgstr "এই একাওন্ট ব্যৱহাৰ কৰোতে সদায় বাহিৰ যোৱা বাৰ্তাসমূহ ইনক্ৰিপ্ট কৰিব"
 
 #: ../mail/e-mail-config-security-page.c:585
-#, fuzzy
 #| msgid "Always encrypt to _myself when sending encrypted messages"
 msgid "Always encrypt to myself when sending encrypted messages"
-msgstr "সৰ্বদা"
+msgstr "ইনক্ৰিপ্টেড বাৰ্তাসমূহ পঠাওতে সদায় নিজস্বলে ইনক্ৰিপ্ট কৰিব"
 
 #: ../mail/e-mail-config-sending-page.c:50
 msgid "Sending Email"
@@ -11105,33 +11088,30 @@ msgstr "চাৰ্ভাৰৰ ধৰণ (_T):"
 
 #: ../mail/e-mail-config-summary-page.c:142
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: ../mail/e-mail-config-summary-page.c:145
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: ../mail/e-mail-config-summary-page.c:307
 msgid "This is a summary of the settings which will be used to access your mail."
 msgstr ""
 
 #: ../mail/e-mail-config-summary-page.c:372
-#, fuzzy
 #| msgid "Personal Details:"
 msgid "Personal Details"
-msgstr "ব্যক্তিগত বিৱৰণসমূহ:"
+msgstr "ব্যক্তিগত বিৱৰণসমূহ"
 
 #: ../mail/e-mail-config-summary-page.c:381
-#, fuzzy
 #| msgid "Full Nam_e:"
 msgid "Full Name:"
-msgstr "সম্পূৰ্ণ নাম: (_e)"
+msgstr "সম্পূৰ্ণ নাম:"
 
 #: ../mail/e-mail-config-summary-page.c:395
-#, fuzzy
 #| msgid "Email _Address:"
 msgid "Email Address:"
-msgstr "ই-মেইল ঠিকনা (_A):"
+msgstr "ই-মেইল ঠিকনা:"
 
 #: ../mail/e-mail-config-summary-page.c:409
 msgid "Receiving"
@@ -11142,18 +11122,16 @@ msgid "Sending"
 msgstr "প্ৰেৰণ কৰা হৈছে"
 
 #: ../mail/e-mail-config-summary-page.c:433
-#, fuzzy
 #| msgid "Server _Type:"
 msgid "Server Type:"
-msgstr "চাৰ্ভাৰৰ ধৰণ (_T):"
+msgstr "চাৰ্ভাৰৰ ধৰণ:"
 
 #: ../mail/e-mail-config-summary-page.c:454
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:610
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:244
-#, fuzzy
 #| msgid "_Server:"
 msgid "Server:"
-msgstr "সেৱক: (_S)"
+msgstr "চাৰ্ভাৰ:"
 
 #: ../mail/e-mail-config-summary-page.c:475
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:699
@@ -11161,17 +11139,15 @@ msgid "Username:"
 msgstr "ব্যৱহাৰকাৰীৰ নাম:"
 
 #: ../mail/e-mail-config-summary-page.c:496
-#, fuzzy
 #| msgctxt "email-custom-header-Security"
 #| msgid "Security:"
 msgid "Security:"
-msgstr "সুৰক্ষা"
+msgstr "সুৰক্ষা:"
 
 #: ../mail/e-mail-config-summary-page.c:787
-#, fuzzy
 #| msgid "Account Search"
 msgid "Account Summary"
-msgstr "অ্যাকাউন্ট অনুসন্ধান"
+msgstr "একাওন্টৰ সাৰাংশ"
 
 #: ../mail/e-mail-config-welcome-page.c:157
 msgid ""
@@ -11300,16 +11276,14 @@ msgid "Print"
 msgstr "প্ৰিন্ট কৰক"
 
 #: ../mail/e-mail-printer.c:555
-#, fuzzy
 #| msgid "Header name"
 msgid "Header Name"
 msgstr "হেডাৰ নাম"
 
 #: ../mail/e-mail-printer.c:561
-#, fuzzy
 #| msgid "Header name"
 msgid "Header Value"
-msgstr "হেডাৰ নাম"
+msgstr "হেডাৰ মান"
 
 #: ../mail/e-mail-printer.c:615 ../mail/mail-config.ui.h:102
 msgid "Headers"
@@ -11345,10 +11319,9 @@ msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "মেইলিং তালিকাসমূহৰ বাবে Reply-To: -ক সদায় উপেক্ষা কৰিব (_A)।"
 
 #: ../mail/e-mail-reader.c:1732
-#, fuzzy
 #| msgid "Failed to retrieve messages."
 msgid "Failed to retrieve message:"
-msgstr "বাৰ্তাসমূহ উদ্ধাৰ কৰিবলে ব্যৰ্থ।"
+msgstr "বাৰ্তা উদ্ধাৰ কৰিবলে ব্যৰ্থ:"
 
 #: ../mail/e-mail-reader.c:1778 ../mail/e-mail-reader.c:2868
 #, c-format
@@ -11389,7 +11362,6 @@ msgid "Mark the selected messages for deletion"
 msgstr "নিৰ্বাচিত বাৰ্তাসমূহ আঁতৰুৱাৰ জন্য চিহ্নিত কৰক"
 
 #: ../mail/e-mail-reader.c:1983
-#, fuzzy
 #| msgid "Filter on Mailing _List..."
 msgid "Create a Filter Rule for Mailing _List..."
 msgstr "মেইলিং লিস্ট অনুসাৰে ফিল্টাৰ (_L)..."
@@ -11399,7 +11371,6 @@ msgid "Create a rule to filter messages to this mailing list"
 msgstr "এই মেইলিং লিস্টে প্ৰেৰিত বাৰ্তা ফিল্টাৰ কৰাৰ জন্য একটি নিয়ম তৈৰি কৰক"
 
 #: ../mail/e-mail-reader.c:1990
-#, fuzzy
 #| msgid "Filter on _Recipients..."
 msgid "Create a Filter Rule for _Recipients..."
 msgstr "প্ৰাপক অনুসাৰে ফিল্টাৰ (_R)..."
@@ -11409,7 +11380,6 @@ msgid "Create a rule to filter messages to these recipients"
 msgstr "এই প্ৰাপৰকে প্ৰেৰিত বাৰ্তা ফিল্টাৰ কৰাৰ জন্য একটি নিয়ম তৈৰি কৰক"
 
 #: ../mail/e-mail-reader.c:1997
-#, fuzzy
 #| msgid "Filter on Se_nder..."
 msgid "Create a Filter Rule for Se_nder..."
 msgstr "প্ৰেৰক অনুসাৰে ফিল্টাৰ (_n)..."
@@ -11419,7 +11389,6 @@ msgid "Create a rule to filter messages from this sender"
 msgstr "এই প্ৰেৰকেৰ থেকে প্ৰাপ্ত বাৰ্তা ফিল্টাৰ কৰাৰ জন্য একটি নিয়ম তৈৰি কৰক"
 
 #: ../mail/e-mail-reader.c:2004
-#, fuzzy
 #| msgid "Filter on _Subject..."
 msgid "Create a Filter Rule for _Subject..."
 msgstr "বিষয় অনুসাৰে ফিল্টাৰ (_S)..."
@@ -11797,7 +11766,7 @@ msgstr "টেক্সটেৰ মাপ হ্ৰাস কৰা হ'ব"
 
 #: ../mail/e-mail-reader.c:2356
 msgid "Cre_ate"
-msgstr ""
+msgstr "সৃষ্টি কৰক (_a)"
 
 #: ../mail/e-mail-reader.c:2363
 msgid "Ch_aracter Encoding"
@@ -11828,7 +11797,6 @@ msgid "_Zoom"
 msgstr "বড় কৰে প্ৰদৰ্শন (_Z)"
 
 #: ../mail/e-mail-reader.c:2415
-#, fuzzy
 #| msgid "Search Folder from Mailing _List..."
 msgid "Create a Search Folder from Mailing _List..."
 msgstr "মেইলিং লিস্ট ব্যৱহাৰ কৰে অনুসন্ধান ফোল্ডাৰ নিৰ্মাণ কৰক (_L)..."
@@ -11838,7 +11806,6 @@ msgid "Create a search folder for this mailing list"
 msgstr "এই মেইলিং তালিকাৰ বাবে এটা সন্ধান ফোল্ডাৰ সৃষ্টি কৰক"
 
 #: ../mail/e-mail-reader.c:2422
-#, fuzzy
 #| msgid "Search Folder from Recipien_ts..."
 msgid "Create a Search Folder from Recipien_ts..."
 msgstr "প্ৰাপকৰ তথ্য ব্যৱহাৰ কৰে অনুসন্ধান ফোল্ডাৰ নিৰ্মাণ কৰক...(_t)"
@@ -11848,7 +11815,6 @@ msgid "Create a search folder for these recipients"
 msgstr "এইসমূহ গ্ৰহণকাৰীৰ বাবে এটা সন্ধান ফোল্ডাৰ সৃষ্টি কৰক"
 
 #: ../mail/e-mail-reader.c:2429
-#, fuzzy
 #| msgid "Search Folder from Sen_der..."
 msgid "Create a Search Folder from Sen_der..."
 msgstr "প্ৰেৰকৰ তথ্য ব্যৱহাৰ কৰে অনুসন্ধান ফোল্ডাৰ নিৰ্মাণ কৰক (_d)..."
@@ -11858,7 +11824,6 @@ msgid "Create a search folder for this sender"
 msgstr "এইজন পঠাওতাৰ বাবে এটা সন্ধান ফোল্ডাৰ সৃষ্টি কৰক"
 
 #: ../mail/e-mail-reader.c:2436
-#, fuzzy
 #| msgid "Search Folder from S_ubject..."
 msgid "Create a Search Folder from S_ubject..."
 msgstr "বিষয় ব্যৱহাৰ কৰে অনুসন্ধান ফোল্ডাৰ নিৰ্মাণ কৰক (_u)..."
@@ -11912,11 +11877,10 @@ msgid "Show messages with all email headers"
 msgstr "সমস্ত ই-মেইল হেডাৰসহ বাৰ্তা প্ৰদৰ্শন কৰক"
 
 #: ../mail/e-mail-reader.c:2874
-#, fuzzy
 #| msgid "Retrieving %d message"
 #| msgid_plural "Retrieving %d messages"
 msgid "Retrieving message"
-msgstr "%d টি বাৰ্তা উদ্ধাৰ কৰা হচ্ছে"
+msgstr "বাৰ্তা উদ্ধাৰ কৰা হৈ আছে"
 
 #: ../mail/e-mail-reader.c:3854
 #: ../modules/mail/e-mail-attachment-handler.c:153
@@ -11963,10 +11927,9 @@ msgid "Do not warn me again"
 msgstr "মোক আকো সতৰ্ক নকৰিব"
 
 #: ../mail/e-mail-reader-utils.c:954
-#, fuzzy
 #| msgid "Print"
 msgid "Printing"
-msgstr "প্ৰিন্ট কৰক"
+msgstr "প্ৰিন্টিং"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
@@ -11997,24 +11960,22 @@ msgstr[1] "বাৰ্তা সংৰক্ষণ কৰক (_S)"
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
 #: ../mail/e-mail-reader-utils.c:1565
-#, fuzzy
 #| msgid "Message"
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "বাৰ্তা"
-msgstr[1] "বাৰ্তা"
+msgstr[1] "বাৰ্তাসমূহ"
 
 #: ../mail/e-mail-reader-utils.c:2020
-#, fuzzy
 #| msgid "Print Message"
 msgid "Parsing message"
-msgstr "বাৰ্তা প্ৰিন্ট কৰক"
+msgstr "বাৰ্তা বিশ্লেষণ কৰা"
 
 #: ../mail/e-mail-request.c:152
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to load the calendar '%s' (%s)"
 msgid "Failed to load part '%s'"
-msgstr "কেলেন্ডাৰ '%s' (%s) ল'ড কৰিবলে ব্যৰ্থ"
+msgstr "অংশ '%s' ল'ড কৰিবলে ব্যৰ্থ"
 
 #: ../mail/e-mail-tag-editor.c:293
 msgid "Flag to Follow Up"
@@ -12108,10 +12069,9 @@ msgid "does not exist"
 msgstr "অনুপস্থিত"
 
 #: ../mail/em-filter-i18n.h:19
-#, fuzzy
 #| msgid "does not end with"
 msgid "does not have words"
-msgstr "এটা সহ শেষ হয় না"
+msgstr "শব্দ নাই"
 
 #: ../mail/em-filter-i18n.h:20
 msgid "does not return"
@@ -12149,12 +12109,10 @@ msgstr "ফলো আপ"
 msgid "Forward to"
 msgstr "-লে আগবঢ়াওক"
 
-#
 #: ../mail/em-filter-i18n.h:31
-#, fuzzy
 #| msgid "Pass_word:"
 msgid "has words"
-msgstr "পাসওয়ার্ড: (_w)"
+msgstr "শব্দ আছে"
 
 #: ../mail/em-filter-i18n.h:32
 msgid "Important"
@@ -12311,10 +12269,9 @@ msgid "Stop Processing"
 msgstr "প্ৰসেস প্ৰক্ৰিয়া স্থগিত কৰা হ'ব"
 
 #: ../mail/em-filter-i18n.h:78
-#, fuzzy
 #| msgid "Unselected Column"
 msgid "Unset Color"
-msgstr "অনিৰ্বাচিত কলাম"
+msgstr "অসংহিত ৰঙ"
 
 #: ../mail/em-filter-i18n.h:79
 msgid "Unset Status"
@@ -12424,7 +12381,6 @@ msgid "Copy Folder To"
 msgstr "ফোল্ডাৰক কপি কৰক"
 
 #: ../mail/em-folder-utils.c:590
-#, fuzzy
 #| msgid "Create folder"
 msgid "Create Folder"
 msgstr "ফোল্ডাৰ তৈৰি কৰক"
@@ -12434,22 +12390,19 @@ msgid "Specify where to create the folder:"
 msgstr "ফোল্ডাৰ কোথায় তৈৰি কৰা হ'ব তা নিৰ্ধাৰণ কৰক:"
 
 #: ../mail/em-subscription-editor.c:869
-#, fuzzy
 #| msgid "Subscribe"
 msgid "_Subscribe"
-msgstr "সাবস্ক্ৰাইব কৰক"
+msgstr "স্বাক্ষৰ কৰক (_S)"
 
 #: ../mail/em-subscription-editor.c:878
-#, fuzzy
 #| msgid "_Subscribe to list"
 msgid "Su_bscribe To Shown"
-msgstr "লিস্টে সাবস্ক্ৰাইব কৰক (_S)"
+msgstr "Shown ত সাবস্ক্ৰাইব কৰক (_S)"
 
 #: ../mail/em-subscription-editor.c:886
-#, fuzzy
 #| msgid "_Subscribe to list"
 msgid "Subscribe To _All"
-msgstr "লিস্টে সাবস্ক্ৰাইব কৰক (_S)"
+msgstr "সকলোত সাবস্ক্ৰাইব কৰক (_S)"
 
 #: ../mail/em-subscription-editor.c:986 ../mail/em-subscription-editor.c:1847
 #: ../modules/mail/e-mail-shell-view-actions.c:1338
@@ -12457,16 +12410,14 @@ msgid "_Unsubscribe"
 msgstr "আনসাবস্ক্ৰাইব (_U)"
 
 #: ../mail/em-subscription-editor.c:995
-#, fuzzy
 #| msgid "Unsubscribe Folders"
 msgid "Unsu_bscribe From Hidden"
-msgstr "ফোল্ডাৰ থেকে আনসাবস্ক্ৰাইব কৰক"
+msgstr "লুকুৱাৰ পৰা আনসাবস্ক্ৰাইব কৰক"
 
 #: ../mail/em-subscription-editor.c:1003
-#, fuzzy
 #| msgid "Unsubscribe from \"%s\""
 msgid "Unsubscribe From _All"
-msgstr "\"%s\" থেকে আন-সবাস্ক্ৰাইব কৰক"
+msgstr "সকলোৰ পৰা আন-সবাস্ক্ৰাইব কৰক"
 
 #: ../mail/em-subscription-editor.c:1682
 msgid "Folder Subscriptions"
@@ -12526,12 +12477,12 @@ msgstr "বৰ্তমান কাৰ্য্য বন্ধ কৰক"
 #. * count of messages. If you need a '%' in your text, then
 #. * write it doubled, like '%%'.
 #: ../mail/em-utils.c:106
-#, fuzzy, c-format
+#, c-format
 #| msgid "Are you sure you want to open {0} messages at once?"
 msgid "Are you sure you want to open %d message at once?"
 msgid_plural "Are you sure you want to open %d messages at once?"
-msgstr[0] "আপুনিনিশ্চিতৰূপে {0}-টি বাৰ্তা খুলতে ইচ্ছুক?"
-msgstr[1] "আপুনিনিশ্চিতৰূপে {0}-টি বাৰ্তা খুলতে ইচ্ছুক?"
+msgstr[0] "আপুনি %d বাৰ্তাক তৎক্ষনাত খোলিবলে নিশ্চিত নে?"
+msgstr[1] "আপুনি %d বাৰ্তাসমূহক তৎক্ষনাত খোলিবলে নিশ্চিত নে?"
 
 #: ../mail/em-utils.c:162
 #: ../modules/mailto-handler/evolution-mailto-handler.c:154
@@ -12561,7 +12512,7 @@ msgstr "সন্ধান ফোল্ডাৰৰ উৎসসমূহ"
 
 #: ../mail/em-vfolder-editor-rule.c:549
 msgid "Automatically update on any _source folder change"
-msgstr ""
+msgstr "উৎস ফোল্ডাৰসমূহত পৰিবৰ্তন হলে স্বচালিতভাৱে আপডেইট কৰিব (_u)"
 
 #: ../mail/em-vfolder-editor-rule.c:561
 msgid "All local folders"
@@ -12580,10 +12531,9 @@ msgid "Specific folders"
 msgstr "সুনিৰ্দিষ্ট ফোল্ডাৰ"
 
 #: ../mail/em-vfolder-editor-rule.c:602
-#, fuzzy
 #| msgid "Create subfolders"
 msgid "include subfolders"
-msgstr "সাব-ফোল্ডাৰ নিৰ্মাণ কৰক"
+msgstr "উপফোল্ডাৰসমূহ অন্তৰ্ভুক্ত কৰক"
 
 #: ../mail/importers/elm-importer.c:179
 msgid "Importing Elm data"
@@ -12742,10 +12692,9 @@ msgid "Default Behavior"
 msgstr "অবিকল্পিত ব্যৱহাৰ"
 
 #: ../mail/mail-config.ui.h:6
-#, fuzzy
 #| msgid "Format messages in _HTML"
 msgid "For_mat messages in HTML"
-msgstr "HTML বিন্যাসে বাৰ্তা ফৰম্যাট কৰক(_H)"
+msgstr "HTML বিন্যাসত বাৰ্তা ফৰম্যাট কৰক (_m)"
 
 #: ../mail/mail-config.ui.h:7
 msgid "Automatically insert _emoticon images"
@@ -12757,13 +12706,12 @@ msgstr "সৰ্বদা"
 
 #: ../mail/mail-config.ui.h:9
 msgid "Encode filenames in an _Outlook/GMail way"
-msgstr ""
+msgstr "এটা Outlook/GMail পদ্ধতিত ফাইলনামসমূহ এনক'ড কৰক (_O)"
 
 #: ../mail/mail-config.ui.h:10
-#, fuzzy
 #| msgid "Ch_aracter Encoding"
 msgid "Ch_aracter encoding:"
-msgstr "ক্যাৰেক্টাৰ এনকোডিং (_a)"
+msgstr "ক্যাৰেক্টাৰ এনকোডিং (_a):"
 
 #: ../mail/mail-config.ui.h:11
 msgid "Replies and Forwards"
@@ -12787,15 +12735,15 @@ msgstr "উত্তৰ দিয়োতে স্বাক্ষৰক প্ৰ
 
 #: ../mail/mail-config.ui.h:16
 msgid "Ig_nore Reply-To: for mailing lists"
-msgstr ""
+msgstr "মেইলিং তালিকাসমূহৰ বাবে উত্তৰ দিয়ক: উপেক্ষা কৰক (_n)"
 
 #: ../mail/mail-config.ui.h:17
 msgid "Gro_up Reply goes only to mailing list, if possible"
-msgstr ""
+msgstr "দল উত্তৰ কেৱল মেইলিং তালিকালে যায়, যদি সম্ভব (_u)"
 
 #: ../mail/mail-config.ui.h:18
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
-msgstr ""
+msgstr "প্ৰকৃত বাৰ্তা স্বাক্ষৰ হওতে ডিজিটেলি স্বাক্ষৰ কৰা উত্তৰসমূহ (PGP অথবা S/MIME) (_s)"
 
 #: ../mail/mail-config.ui.h:20
 msgid "Sig_natures"
@@ -12885,37 +12833,31 @@ msgid "b"
 msgstr "b"
 
 #: ../mail/mail-config.ui.h:51
-#, fuzzy
 #| msgid "Attachment"
 #| msgid_plural "Attachments"
 msgctxt "ReplyForward"
 msgid "Attachment"
-msgstr "সংযুক্ত বস্তু"
+msgstr "এটাচমেন্ট"
 
 #: ../mail/mail-config.ui.h:52
-#, fuzzy
 #| msgid "Inline (Outlook style)"
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
-msgstr "ইনলাইন বাৰ্তা"
+msgstr "ইনলাইন (Outlook শৈলী)"
 
 #: ../mail/mail-config.ui.h:53
-#, fuzzy
 #| msgid "Quoted"
 msgctxt "ReplyForward"
 msgid "Quoted"
 msgstr "উদ্ধৃত"
 
-#
 #: ../mail/mail-config.ui.h:54
-#, fuzzy
 #| msgid "Do not quote"
 msgctxt "ReplyForward"
 msgid "Do not quote"
-msgstr "উদ্ধৃত করা হবে না"
+msgstr "উদ্ধৃত নকৰিব"
 
 #: ../mail/mail-config.ui.h:55
-#, fuzzy
 #| msgid "Inline"
 msgctxt "ReplyForward"
 msgid "Inline"
@@ -12949,10 +12891,9 @@ msgid "_Secure HTTP Proxy:"
 msgstr "নিরাপদ HTTP প্রক্সি: (_S)"
 
 #: ../mail/mail-config.ui.h:62
-#, fuzzy
 #| msgid "SOCKS proxy port"
 msgid "SOC_KS Proxy:"
-msgstr "SOCKS প্রক্সি পোর্ট"
+msgstr "SOCKS প্রক্সি (_K):"
 
 #: ../mail/mail-config.ui.h:63
 msgid "No _Proxy for:"
@@ -13226,10 +13167,9 @@ msgid "Digital Signature"
 msgstr "অঙ্কীয় স্বাক্ষৰ"
 
 #: ../mail/mail-dialogs.ui.h:23
-#, fuzzy
 #| msgid "Encrypt"
 msgid "Encryption"
-msgstr "এনক্ৰিপ্ট কৰক"
+msgstr "ইনক্ৰিপষণ"
 
 #: ../mail/mail.error.xml.h:1
 msgid "Invalid authentication"
@@ -13513,16 +13453,14 @@ msgstr ""
 "সৰানো, আঁতৰুৱা আৰু নাম পৰিবৰ্তন কৰা ন'হ'ব।"
 
 #: ../mail/mail.error.xml.h:60
-#, fuzzy
 #| msgid "Cannot open file &quot;{0}&quot;."
 msgid "Failed to expunge folder &quot;{0}&quot;."
-msgstr "&quot;{0}&quot; ফাইলটি খোলা যায়নি।"
+msgstr "&quot;{0}&quot; ফোল্ডাৰ এক্সপাঞ্জ কৰিবলে ব্যৰ্থ।"
 
 #: ../mail/mail.error.xml.h:62
-#, fuzzy
 #| msgid "Could not read signature file &quot;{0}&quot;."
 msgid "Failed to refresh folder &quot;{0}&quot;."
-msgstr "স্বাক্ষৰেৰ ফাইল &quot;{0}&quot; পড়া নাযায়।"
+msgstr "ফোল্ডাৰ &quot;{0}&quot; সতেজ কৰিবলে ব্যৰ্থ।"
 
 #
 #: ../mail/mail.error.xml.h:63
@@ -13555,7 +13493,6 @@ msgid "These messages are not copies."
 msgstr "এই বাৰ্তাসমূহ কপি নহয়।"
 
 #: ../mail/mail.error.xml.h:70
-#, fuzzy
 #| msgid ""
 #| "Warning: Deleting messages from a Search Folder will delete the actual "
 #| "message from one of your local or remote folders.\n"
@@ -13564,7 +13501,7 @@ msgid ""
 "Messages shown in Search Folders are not copies. Deleting them from a Search "
 "Folder will delete the actual messages from the folder or folders in which "
 "they physically reside. Do you really want to delete these messages?"
-msgstr "সতৰ্কবাণী ফোল্ডাৰ বাৰ্তা?"
+msgstr ""
 
 #
 #: ../mail/mail.error.xml.h:71
@@ -13852,28 +13789,24 @@ msgid "N_ever"
 msgstr "কেতিয়াও নহয় (_e)"
 
 #: ../mail/mail.error.xml.h:136
-#, fuzzy
 #| msgid "Copying folder %s"
 msgid "Copy folder in folder tree."
-msgstr "%s ফোল্ডাৰটি কপি কৰা হচ্ছে"
+msgstr "ফোল্ডাৰক ফোল্ডাৰ ট্ৰিত কপি কৰক।"
 
 #: ../mail/mail.error.xml.h:137
-#, fuzzy
 #| msgid "Are you sure you want to delete the memo '{0}'?"
 msgid "Are you sure you want to copy folder '{0}' to folder '{1}'?"
-msgstr "আপুনি'{0}' মেমো নিশ্চিতৰূপে আঁতৰাবলৈ ইচ্ছুক নে?"
+msgstr "আপুনি ফোল্ডাৰ '{0}' ক ফোল্ডাৰ '{1}' লে কপি কৰিবলে নিশ্চিত নে?"
 
 #: ../mail/mail.error.xml.h:138
-#, fuzzy
 #| msgid "Moving folder %s"
 msgid "Move folder in folder tree."
-msgstr "%s ফোল্ডাৰটি সৰিয়ে ফেলা হচ্ছে"
+msgstr "ফোল্ডাৰক ফোল্ডাৰ ট্ৰিত স্থানান্তৰ কৰক।"
 
 #: ../mail/mail.error.xml.h:139
-#, fuzzy
 #| msgid "Are you sure you want to delete the '{0}' task?"
 msgid "Are you sure you want to to move folder '{0}' to folder '{1}'?"
-msgstr "আপুনি '{0}' কৰ্ম নিশ্চিতৰূপে আঁতৰাবলৈ ইচ্ছুক নে?"
+msgstr "আপুনি ফোল্ডাৰ '{0}' ক ফোল্ডাৰ '{1}' লে স্থানান্তৰ কৰিবলে নিশ্চিত নে?"
 
 #: ../mail/mail.error.xml.h:140
 msgid ""
@@ -13919,16 +13852,14 @@ msgid "Folder '{0}' doesn't contain any duplicate message."
 msgstr "ফোল্ডাৰ '{0}' -য় কোনো প্ৰতিলিপিত বাৰ্তা অন্তৰ্ভুক্ত নকৰে।"
 
 #: ../mail/mail.error.xml.h:151
-#, fuzzy
 #| msgid "Could not save to autosave file &quot;{0}&quot;."
 msgid "Failed to disconnect account &quot;{0}&quot;."
-msgstr "অটোসেভ ফাইল &quot;{0}&quot;-এ সংৰক্ষণ কৰা নাযায়।"
+msgstr "একাওন্ট &quot;{0}&quot; বিচ্ছিন্ন কৰিবলে ব্যৰ্থ।"
 
 #: ../mail/mail.error.xml.h:153
-#, fuzzy
 #| msgid "Failed to unsubscribe from folder."
 msgid "Failed to unsubscribe from folder &quot;{0}&quot;."
-msgstr "ফোল্ডাৰৰ পৰা অস্বাক্ষৰ কৰিবলে ব্যৰ্থ।"
+msgstr "ফোল্ডাৰ &quot;{0}&quot; ৰ পৰা অস্বাক্ষৰ কৰিবলে ব্যৰ্থ।"
 
 #: ../mail/mail.error.xml.h:154
 msgid "Unable to retrieve message."
@@ -13964,7 +13895,7 @@ msgstr "ডিস্কলে বাৰ্তাসমূহ সংৰক্ষ�
 
 #: ../mail/mail.error.xml.h:162
 msgid "Hidden file is attached."
-msgstr ""
+msgstr "লুকুৱা ফাইল সংলগ্ন আছে।"
 
 #: ../mail/mail.error.xml.h:163
 msgid ""
@@ -13973,22 +13904,19 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:164
-#, fuzzy
 #| msgid "Print this calendar"
 msgid "Printing failed."
-msgstr "এই বৰ্ষপঞ্জিটি প্ৰিন্ট কৰক"
+msgstr "প্ৰিন্ট কৰা ব্যৰ্থ হল।"
 
 #: ../mail/mail.error.xml.h:165
-#, fuzzy
 #| msgid "The reported error was &quot;{0}&quot;."
 msgid "The printer replied &quot;{0}&quot;."
-msgstr "সংবাদিত ত্ৰুটি &quot;{0}&quot; আছিল।"
+msgstr "প্ৰিন্টাৰে উত্তৰ দিলে &quot;{0}&quot;।"
 
 #: ../mail/mail.error.xml.h:166
-#, fuzzy
 #| msgid "Cannot perform the operation."
 msgid "Could not perform this operation on {0}."
-msgstr "কৰ্মচালন কৰিবলৈ ব্যৰ্থ।"
+msgstr "এই কাৰ্য্য {0} ত পৰিৱেশন কৰিব নোৱাৰি।"
 
 #: ../mail/mail-send-recv.c:203
 msgid "Canceling..."
@@ -14189,14 +14117,13 @@ msgid "_Table column:"
 msgstr "টেবুলৰ স্তম্ভ (_T):"
 
 #: ../modules/addressbook/autocompletion-config.c:99
-#, fuzzy
 #| msgid "Free/Busy Information"
 msgid "Address formatting"
-msgstr "মুক্ত/ব্যস্ত তথ্য"
+msgstr "ঠিকনা ফৰমেটিং"
 
 #: ../modules/addressbook/autocompletion-config.c:102
 msgid "_Format address according to standard of its destination country"
-msgstr ""
+msgstr "ঠিকনাসমূহক সিহতৰ গন্তব্য দেশৰ প্ৰামাণিক হিচাপে ফৰমেট কৰক (_F)"
 
 #: ../modules/addressbook/autocompletion-config.c:111
 msgid "Autocompletion"
@@ -14580,16 +14507,14 @@ msgid "_Port:"
 msgstr "পোৰ্ট: (_P)"
 
 #: ../modules/addressbook/ldap-config.ui.h:14
-#, fuzzy
 #| msgid "_Server:"
 msgid "Ser_ver:"
-msgstr "সেৱক: (_S)"
+msgstr "চাৰ্ভাৰ (_v):"
 
 #: ../modules/addressbook/ldap-config.ui.h:15
-#, fuzzy
 #| msgid "_Use secure connection:"
 msgid "Use secure _connection:"
-msgstr "সুৰক্ষিত সংযোগ ব্যৱহাৰ কৰক: (_U)"
+msgstr "সুৰক্ষিত সংযোগ ব্যৱহাৰ কৰক: (_c)"
 
 #: ../modules/addressbook/ldap-config.ui.h:16
 msgid "_Login method:"
@@ -14612,17 +14537,15 @@ msgid "_Find Possible Search Bases"
 msgstr "সম্ভাব্য অনুসন্ধানৰ স্থান বিচাৰক (_F)"
 
 #: ../modules/addressbook/ldap-config.ui.h:21
-#, fuzzy
 #| msgid "Search _filter:"
 msgid "S_earch filter:"
-msgstr "অনুসন্ধানৰ ফিল্টাৰ:(_f)"
+msgstr "অনুসন্ধানৰ ফিল্টাৰ:(_e)"
 
 #: ../modules/addressbook/ldap-config.ui.h:22
 msgid "Search Filter"
 msgstr "অনুসন্ধানৰ ফিল্টাৰ"
 
 #: ../modules/addressbook/ldap-config.ui.h:23
-#, fuzzy
 #| msgid ""
 #| "Search filter is the type of the objects searched for, while performing "
 #| "the search. If this is not modified, by  default search will be performed "
@@ -14630,7 +14553,7 @@ msgstr "অনুসন্ধানৰ ফিল্টাৰ"
 msgid ""
 "Search filter is the type of object to be searched for. If this is not "
 "modified, the default search will be performed on the type \"person\"."
-msgstr "হলো উল্লেখিত সময় অবধি হলো উপৰ."
+msgstr ""
 
 #. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
 #: ../modules/addressbook/ldap-config.ui.h:25
@@ -14644,11 +14567,10 @@ msgstr "৫"
 
 #: ../modules/addressbook/ldap-config.ui.h:30
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:838
-#, fuzzy
 #| msgid "contact"
 #| msgid_plural "contacts"
 msgid "contacts"
-msgstr "পৰিচয়"
+msgstr "পৰিচয়সমূহ"
 
 #: ../modules/addressbook/ldap-config.ui.h:31
 msgid "_Timeout:"
@@ -14665,7 +14587,7 @@ msgstr "নির্ধারিত সীমা অতিক্রান্ত 
 
 #: ../modules/audio-inline/e-mail-formatter-audio-inline.c:310
 msgid "Audio Player"
-msgstr ""
+msgstr "অডিঅ' প্লেয়াৰ"
 
 #: ../modules/audio-inline/e-mail-formatter-audio-inline.c:316
 msgid "Play the attachment in embedded audio player"
