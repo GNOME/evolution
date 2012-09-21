@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
 "cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-09-17 12:14+0000\n"
-"PO-Revision-Date: 2012-09-20 12:54+0530\n"
+"PO-Revision-Date: 2012-09-21 14:20+0530\n"
 "Last-Translator: \n"
 "Language-Team: gu_IN <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -162,10 +162,9 @@ msgid "Do _Not Delete"
 msgstr "કાઢો નહિં (_N)"
 
 #: ../addressbook/addressbook.error.xml.h:14
-#, fuzzy
 #| msgid "Delete address book '{0}'?"
 msgid "Delete remote address book &quot;{0}&quot;?"
-msgstr "સરનામા પુસ્તિકા '{૦}' કાઢી નાંખવી છે?"
+msgstr "શું દૂરસ્થ સરનામાં પુસ્તિકા &quot;{0}&quot; ને કાઢવા માંગો છો?"
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid ""
@@ -177,10 +176,9 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:16
 #: ../calendar/calendar.error.xml.h:68
-#, fuzzy
 #| msgid "Delegated From"
 msgid "_Delete From Server"
-msgstr "ડિલિગેટવાળુ ફોર્મ"
+msgstr "સર્વરમાંથી કાઢી નાંખો (_D)"
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "Category editor not available."
@@ -1698,11 +1696,11 @@ msgid "No location information available."
 msgstr "કોઈ જગ્યા જાણકારી ઉપલબ્ધ નથી."
 
 #: ../calendar/alarm-notify/alarm-queue.c:1671
-#, fuzzy, c-format
+#, c-format
 msgid "You have %d reminder"
 msgid_plural "You have %d reminders"
-msgstr[0] "તમારી પાસે %d એલાર્મો છે"
-msgstr[1] "તમારી પાસે %d એલાર્મો છે"
+msgstr[0] "તમારી પાસે %d યાદ અપાવનાર છે"
+msgstr[1] "તમારી પાસે %d યાદ અપાવનારો છે"
 
 #: ../calendar/alarm-notify/alarm-queue.c:1867
 #: ../calendar/alarm-notify/alarm-queue.c:1902
@@ -2061,10 +2059,9 @@ msgid "This memo list will be removed permanently."
 msgstr "મેમો યાદી કાયમ માટે દૂર થઈ જશે."
 
 #: ../calendar/calendar.error.xml.h:66
-#, fuzzy
 #| msgid "Failed to refresh folder &quot;{0}&quot;."
 msgid "Delete remote calendar &quot;{0}&quot;?"
-msgstr "ફોલ્ડર &quot;{0}&quot; ને તાજુ કરવામાં નિષ્ફળતા."
+msgstr "શું દૂરસ્થ કૅલેન્ડર &quot;{0}&quot; ને કાઢવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:67
 msgid ""
@@ -2073,10 +2070,9 @@ msgid ""
 msgstr "આ કાયમ માટે સર્વરમાંથી કૅલેન્ડર &quot;{0}&quot; દૂર કરશે. શું તમે ખરેખર આગળ વધવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:69
-#, fuzzy
 #| msgid "Delete task list '{0}'?"
 msgid "Delete remote task list &quot;{0}&quot;?"
-msgstr "શું બાબત યાદી '{૦}' કાઢી નાંખવી છે?"
+msgstr "શું દૂરસ્થ કાર્ય યાદી &quot;{0}&quot; ને કાઢવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:70
 msgid ""
@@ -2086,10 +2082,9 @@ msgstr ""
 "આ કાયમ માટે સર્વરમાંથી કાર્ય યાદી &quot;{}&quot; ને દૂર કરશે. શું તમે ખરેખર આગળ વધવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:71
-#, fuzzy
 #| msgid "The reported error was &quot;{0}&quot;."
 msgid "Delete remote memo list &quot;{0}&quot;?"
-msgstr "અહેવાલ થયેલ ભૂલ &quot;{0}&quot; હતી."
+msgstr "શું દૂરસ્થ મેમો યાદી &quot;{0}&quot; ને કાઢવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:72
 msgid ""
@@ -2873,10 +2868,9 @@ msgid "_Reminders"
 msgstr "યાદ અપાવનાર (_R)"
 
 #: ../calendar/gui/dialogs/event-editor.c:218
-#, fuzzy
 #| msgid "Click here to set or unset alarms for this event"
 msgid "Set or unset reminders for this event"
-msgstr "આ ઘટના માટે એલાર્મો સુયોજિત અથવા અસુયોજિત કરવા માટે અંહિ ક્લિક કરો"
+msgstr "આ ઘટના માટે યાદ અપાવનારને સુયોજિત અથવા અસુયોજિત કરો"
 
 #: ../calendar/gui/dialogs/event-editor.c:226
 msgid "Show Time as _Busy"
@@ -3106,10 +3100,9 @@ msgid "_Reminder"
 msgstr "યાદ અપાવનાર (_R)"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:27
-#, fuzzy
 #| msgid "Custom Header"
 msgid "Custom Reminder:"
-msgstr "વૈવિધ્યપૂર્ણ હેડર"
+msgstr "વૈવિધ્ય યાદ અપાવનાર:"
 
 #: ../calendar/gui/dialogs/goto-dialog.ui.h:1
 msgid "January"
@@ -3499,10 +3492,9 @@ msgid "Preview"
 msgstr "પૂર્વદર્શન"
 
 #: ../calendar/gui/dialogs/send-comp.c:196
-#, fuzzy
 #| msgid "Send my alarms with this event"
 msgid "Send my reminders with this event"
-msgstr "આ ઘટના સાથે મારા એલાર્મોને મોકલો"
+msgstr "આ ઘટના સાથે મારાં યાદ અપાવનાર મોકલો"
 
 #: ../calendar/gui/dialogs/send-comp.c:198
 msgid "Notify new attendees _only"
@@ -7009,9 +7001,8 @@ msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
 msgstr "અહેવાલ થયેલ ભૂલ &quot;{0}&quot; હતી. સંદેશાને મોકલી દેવામાં આવ્યો નથી."
 
 #: ../composer/mail-composer.error.xml.h:27
-#, fuzzy
 msgid "An error occurred while saving to your Drafts folder."
-msgstr "%s પેદા કરતી વખતે ભૂલ ઉદ્ભવી: %s."
+msgstr "જ્યારે તમારાં ડ્રાફ્ટ ફોલ્ડરમાં સંગ્રહી રહ્યા હોય ત્યારે ભૂલ ઉદ્ભવી."
 
 #: ../composer/mail-composer.error.xml.h:28
 msgid ""
@@ -7051,9 +7042,8 @@ msgid ""
 msgstr ""
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
-#, fuzzy
 msgid "Evolution Alarm Notify"
-msgstr "Evolution Elm આયાત કરનાર"
+msgstr "Evolution એલાર્મ સૂચના"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:2
 msgid "Calendar event notifications"
@@ -7156,10 +7146,9 @@ msgid "Show maps"
 msgstr "નક્ષાને બતાવો"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:16
-#, fuzzy
 #| msgid "Whether to show the preview pane."
 msgid "Whether to show maps in preview pane"
-msgstr "શું પૂર્વદર્શન તકતી બતાવવી."
+msgstr "શું પૂર્વદર્શન તકતીમાં નક્ષાને બતાવવુ."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:17
 msgid "Primary address book"
@@ -7196,25 +7185,21 @@ msgid "Save directory for reminder audio"
 msgstr "યાદપત્ર ઓડિયો માટે ડિરેક્ટરીને સંગ્રહો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:2
-#, fuzzy
 #| msgid "Directory for saving alarm audio files"
 msgid "Directory for saving reminder audio files"
-msgstr "એલાર્મ ઓડિયો ફાઈલો સંગ્રહવા માટેની ડિરેક્ટરી"
+msgstr "યાદ અપાવનાર ઓડિયો ફાઈલો સંગ્રહવા માટેની ડિરેક્ટરી"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:3
-#, fuzzy
 msgid "Birthday and anniversary reminder value"
-msgstr "જન્મદિવસો અને સાલગીરીઓ"
+msgstr "જન્મદિવસ અને સાલગીરી યાદ અપાવનાર કિંમત"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:4
-#, fuzzy
 msgid "Number of units for determining a birthday or anniversary reminder"
-msgstr "મૂળભૂત યાદ અપાવનાર માટે નક્કી કરવાના એકમોની સંખ્યા."
+msgstr "જન્મદિવસ અથવા સાલગીરી યાદ અપાવનાર ને નક્કી કરવા માટે એકમોની સંખ્યા"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:5
-#, fuzzy
 msgid "Birthday and anniversary reminder units"
-msgstr "જન્મદિવસો અને સાલગીરીઓ"
+msgstr "જન્મદિવસ અને સાલગીરી યાદ અપાવનાર એકમો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:6
 msgid ""
@@ -7229,7 +7214,6 @@ msgid "Compress weekends in month view"
 msgstr "મહિના દેખાવમાં અઠવાડિયાઓ સંકોચો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:8
-#, fuzzy
 #| msgid ""
 #| "Whether to compress weekends in the month view, which puts Saturday and "
 #| "Sunday in the space of one weekday."
@@ -7237,54 +7221,50 @@ msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday"
 msgstr ""
-"શું મહિના દેખાવમાં અઠવાડિયાના અંતિમ દિવસો સંકોચવા, કે જે શનિવાર અને રવિવારને એક દિવસની "
-"જગ્યામાં મૂકે."
+"શું મહિના દેખાવમાં અઠવાડિયાના અંતિમ દિવસો સંકોચવા, કે જે શનિવાર અને રવિવારને એક અઠવાડિયાનાં દિવસ "
+"જગ્યામાં મૂકે"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:9
 msgid "Ask for confirmation when deleting items"
 msgstr "વસ્તુઓ કાઢી નાખતી વખતે ખાતરી માટે પૂછો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:10
-#, fuzzy
 #| msgid ""
 #| "Whether to ask for confirmation when deleting an appointment or task."
 msgid "Whether to ask for confirmation when deleting an appointment or task"
-msgstr "જ્યારે મુલાકાત અથવા બાબત કાઢી રહ્યા હોય ત્યારે શું ખાતરી માટે પૂછવું."
+msgstr "જ્યારે મુલાકાત અથવા બાબત કાઢી રહ્યા હોય ત્યારે શું ખાતરી માટે પૂછવું"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:11
 msgid "Confirm expunge"
 msgstr "સંપૂર્ણપણે દૂર કરવાની ખાતરી"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:12
-#, fuzzy
 #| msgid ""
 #| "Whether to ask for confirmation when expunging appointments and tasks."
 msgid "Whether to ask for confirmation when expunging appointments and tasks"
-msgstr "જ્યારે મુલાકાતો અને બાબતો સંપૂર્ણપણે દૂર કરી રહ્યા હોય ત્યારે શું ખાતરી માટે પૂછવું."
+msgstr "જ્યારે મુલાકાતો અને બાબતો સંપૂર્ણપણે દૂર કરી રહ્યા હોય ત્યારે શું ખાતરી માટે પૂછવું"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:13
 msgid "Month view vertical pane position"
 msgstr "ઊભી તકતીની સ્થિતિમાં મહિનાનો દેખાવ"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:14
-#, fuzzy
 #| msgid ""
 #| "Position of the vertical pane, between the calendar lists and the date "
 #| "navigator calendar."
 msgid ""
 "Position of the vertical pane, between the calendar lists and the date "
 "navigator calendar"
-msgstr "ઊભી તકતીનું સ્થાન, કેલેન્ડર યાદીઓ અને તારીખ સંશોધક કેલેન્ડર વચ્ચે."
+msgstr "ઊભી તકતીનું સ્થાન, કેલેન્ડર યાદીઓ અને તારીખ સંશોધક કેલેન્ડર વચ્ચે"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:15
 msgid "Workday end hour"
 msgstr "કામ કરવાનો દિવસ અંત થાય ત્યારનો કલાક"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:16
-#, fuzzy
 #| msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
-msgstr "કામ કરવાના દિવસનો અંત થાય તે કલાક, ચોવીસ કલાકના બંધારણમાં, ૦ થી ૨૩."
+msgstr "કામ કરવાના દિવસનો અંત થાય તે કલાક, ચોવીસ કલાકના બંધારણમાં, 0 થી 23 "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:17
 msgid "Workday end minute"
@@ -7418,22 +7398,20 @@ msgid "Hide completed tasks"
 msgstr "પછી પૂર્ણ થયેલ બાબતો છુપાવો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
-#, fuzzy
 #| msgid "Whether to hide completed tasks in the tasks view."
 msgid "Whether to hide completed tasks in the tasks view"
-msgstr "બાબતોના દેખાવમાં શું પૂર્ણ થયેલ બાબતો છુપાવવી."
+msgstr "બાબતોના દેખાવમાં શું પૂર્ણ થયેલ બાબતો છુપાવવી"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 msgid "Hide task units"
 msgstr "બાબત એકમો છુપાવો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
-#, fuzzy
 #| msgid ""
 #| "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days"
 #| "\"."
 msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\""
-msgstr "ક્યારે બાબતો છુપાવવી તે નક્કી કરવાનો એકમ, \"minutes\", \"hours\" અથવા \"days\"."
+msgstr "ક્યારે બાબતો છુપાવવી તે નક્કી કરવાનો એકમ, \"minutes\", \"hours\" અથવા \"days\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
 msgid "Hide task value"
@@ -7464,43 +7442,39 @@ msgid "Last reminder time"
 msgstr "છેલ્લે યાદ અપાવનાર"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
-#, fuzzy
 #| msgid "Time the last alarm ran, in time_t."
 msgid "Time the last reminder ran, in time_t"
-msgstr "છેલ્લે એલાર્મ ચાલ્યું ત્યારનો સમય, time_t માં."
+msgstr "છેલ્લે યાદ અપાવનાર ચાલ્યું ત્યારનો સમય, time_t માં"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
 msgid "Marcus Bains Line Color - Day View"
 msgstr "માર્કસ બેઈન્સ લીટી રંગ - દિવસ દેખાવ"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
-#, fuzzy
 #| msgid "Color to draw the Marcus Bains line in the Day View."
 msgid "Color to draw the Marcus Bains line in the Day View"
-msgstr "માર્કસ બેઈન્સ લીટી દિવસ દેખાવમાં દોરવા માટેનો રંગ."
+msgstr "માર્કસ બેઈન્સ લીટી દિવસ દેખાવમાં દોરવા માટેનો રંગ"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
 msgid "Marcus Bains Line Color - Time bar"
 msgstr "માર્કસ બેઈન્સ લીટી રંગ - ટાઈમ બાર"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
-#, fuzzy
 #| msgid ""
 #| "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
-msgstr "માર્કસ બેઈન્સ લીટી ટાઈમ બારમાં દોરવા માટેનો રંગ (મૂળભુત માટે ખાલી)."
+msgstr "માર્કસ બેઈન્સ લીટી ટાઈમ બારમાં દોરવા માટેનો રંગ (મૂળભુત માટે ખાલી)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
 msgid "Marcus Bains Line"
 msgstr "માર્કસ બેઈન્સ લીટી"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
-#, fuzzy
 #| msgid ""
 #| "Whether to draw the Marcus Bains Line (line at current time) in the "
 #| "calendar."
 msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar"
-msgstr "શું માર્કસ બેઈન્સ લીટી (વર્તમાન સમયમાં લીટી) કેલેન્ડરમાં દોરવી."
+msgstr "શું માર્કસ બેઈન્સ લીટી (વર્તમાન સમયમાં લીટી) કેલેન્ડરમાં દોરવી"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
 msgid "Memo preview pane position (horizontal)"
@@ -7535,7 +7509,6 @@ msgid "Month view horizontal pane position"
 msgstr "આડી તકતીની સ્થિતિમાં મહિનાનો દેખાવ"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
-#, fuzzy
 #| msgid ""
 #| "Position of the horizontal pane, between the view and the date navigator "
 #| "calendar and task list in the month view, in pixels."
@@ -7618,7 +7591,7 @@ msgid "Free/busy template URL"
 msgstr "મુક્ત/વ્યસ્ત ટેમ્પલેટ URL"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
-#, fuzzy, no-c-format
+#, no-c-format
 #| msgid ""
 #| "The URL template to use as a free/busy data fallback, %u is replaced by "
 #| "the user part of the mail address and %d is replaced by the domain."
@@ -7653,7 +7626,6 @@ msgid "Show appointment end times in week and month views"
 msgstr "અઠવાડિયા અને મહિના દેખાવોમાં મુલાકાત અંત સમયો બતાવો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
-#, fuzzy
 #| msgid ""
 #| "Whether to display the end time of events in the week and month views."
 msgid "Whether to display the end time of events in the week and month views"
@@ -7678,9 +7650,8 @@ msgid "If \"true\", show the task preview pane in the main window"
 msgstr "જો \"true\" હોય તો, મુખ્ય વિન્ડોમાં કાર્ય પૂર્વદર્શન તકતીને બતાવો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
-#, fuzzy
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
-msgstr "દિવસમાં અને કામ કરવાનાં અઠવાડિયા દર્શક માં અઠવાડિયા નંબર ને બતાવો"
+msgstr "દિવસ દેખાવમાં અને કામ કરવાનું અઠવાડિયુ દેખાવ, અને તરીખ સંશોધક માં અઠવાડિયા નંબર ને બતાવો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
 msgid "Whether to show week numbers in various places in the Calendar"
@@ -8747,13 +8718,12 @@ msgid "Prompt when replying to many recipients"
 msgstr "પૂછો જ્યારે ઘણાં પ્રાપ્તકર્તાઓ માટે પ્રત્યુત્તર આપી રહ્યા હોય"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
-#, fuzzy
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
 msgstr ""
-"તે પુનરાવર્તિ પ્રોમ્પ્ટને પૂછવાનું નિષ્ક્રિય/સક્રિય કરે છે જો ઓફલાઈન સુમેળ જરૂરી હોય ઓફલાઈન "
-"સ્થિતિમાં જવા પહેલાં."
+"તે ચેતવણી આપવા પુનરાવર્તિત પ્રોમ્પ્ટને નિષ્ક્રિય/સક્રિય કરે છે કે જે તમે ઘણાં લોકેને જવાબ મોકલી "
+"રહ્યા છે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid ""
@@ -9056,7 +9026,7 @@ msgstr "સંપર્કોનો સુમેળ કરવા માટે Pi
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
 msgid "Pidgin last sync MD5"
-msgstr ""
+msgstr "Pidgin છેલ્લુ સુમેળ MD5"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:12
 msgid "Pidgin last sync MD5."
@@ -9064,7 +9034,7 @@ msgstr "Pidgin છેલ્લુ સુમેળ MD5."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:13
 msgid "Pidgin last sync time"
-msgstr ""
+msgstr "Pidgin છેલ્લો સુમેળ સમય"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:14
 msgid "Pidgin last sync time."
@@ -9154,10 +9124,9 @@ msgid "Whether show message over the icon when new messages arrive."
 msgstr "જ્યારે નવા સંદેશાઓ આવે ત્યારે ચિહ્ન ઉપર સંદેશો બતાવવો કે નહિં."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:9
-#, fuzzy
 #| msgid "Show new mail icon in notification area when new messages arrive."
 msgid "Enable audible notifications when new messages arrive."
-msgstr "જ્યારે નવા સંદેશાઓ આવે ત્યારે સૂચન વિસ્તારમાં નવું મેઈલ ચિહ્ન બતાવો."
+msgstr "જ્યારે નવા સંદેશાઓ આવે ત્યારે સૂચન વિસ્તારમાં અવાજ સક્રિય કરો."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:10
 msgid ""
@@ -9167,10 +9136,9 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
-#, fuzzy
 #| msgid "Whether to show the preview pane."
 msgid "Whether to emit a beep."
-msgstr "શું પૂર્વદર્શન તકતી બતાવવી."
+msgstr "શું બીપને કાઢી નાંખવુ છે."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:12
 #, fuzzy
@@ -10713,10 +10681,9 @@ msgid "Special Folders"
 msgstr "વિશિષ્ટ ફોલ્ડરો"
 
 #: ../mail/e-mail-config-defaults-page.c:558
-#, fuzzy
 #| msgid "Sent _Messages Folder:"
 msgid "Draft Messages _Folder:"
-msgstr "મોકલાયેલ સંદેશાઓનું ફોલ્ડર (_M):"
+msgstr "ડ્રાફ્ટ સંદેશા ફોલ્ડર (_F):"
 
 #: ../mail/e-mail-config-defaults-page.c:568
 #| msgid "Choose folders to post the message to."
@@ -10952,26 +10919,23 @@ msgid "Signing _algorithm:"
 msgstr "અલ્ગોરિધમની સહી કરી રહ્યા છે (_a):"
 
 #: ../mail/e-mail-config-security-page.c:500
-#, fuzzy
 #| msgid "Al_ways sign outgoing messages when using this account"
 msgid "Always sign outgoing messages when using this account"
-msgstr "જ્યારે આ ખાતુ વાપરી રહ્યા હોય ત્યારે હંમેશા જતા સંદેશાઓને સહી કરો (_w)"
+msgstr "જ્યારે આ ખાતુ વાપરી રહ્યા હોય ત્યારે હંમેશા જતા સંદેશાઓને સહી કરો"
 
 #: ../mail/e-mail-config-security-page.c:523
 msgid "Encryption certificate:"
 msgstr "એનક્રિપ્શન પ્રમાણપત્ર:"
 
 #: ../mail/e-mail-config-security-page.c:565
-#, fuzzy
 #| msgid "Al_ways sign outgoing messages when using this account"
 msgid "Always encrypt outgoing messages when using this account"
-msgstr "જ્યારે આ ખાતુ વાપરી રહ્યા હોય ત્યારે હંમેશા જતા સંદેશાઓને સહી કરો (_w)"
+msgstr "જ્યારે આ ખાતુ વાપરી રહ્યા હોય ત્યારે હંમેશા જતા સંદેશાઓને એનક્રિપ્ટ કરો"
 
 #: ../mail/e-mail-config-security-page.c:585
-#, fuzzy
 #| msgid "Always encrypt to _myself when sending encrypted messages"
 msgid "Always encrypt to myself when sending encrypted messages"
-msgstr "જ્યારે એનક્રિપ્ટ થયેલ સંદેશાઓ મોકલી રહ્યા હોય ત્યારે હંમેશા પોતાને એનક્રિપ્ટ કરો (_m)"
+msgstr "જ્યારે એનક્રિપ્ટ થયેલ સંદેશાઓ મોકલી રહ્યા હોય ત્યારે હંમેશા પોતાને એનક્રિપ્ટ કરો"
 
 #: ../mail/e-mail-config-sending-page.c:50
 msgid "Sending Email"
@@ -11037,7 +11001,6 @@ msgid "Account Summary"
 msgstr "ખાતા સારાંશ"
 
 #: ../mail/e-mail-config-welcome-page.c:157
-#, fuzzy
 #| msgid ""
 #| "Welcome to the Evolution Mail Configuration Assistant.\n"
 #| "\n"
@@ -11047,9 +11010,9 @@ msgid ""
 "\n"
 "Click \"Continue\" to begin."
 msgstr ""
-"Evolution મેઈલ રુપરેખાંકન મદદનીશમાં તમારું સ્વાગત છે.\n"
+"Evolution મેઈલ રૂપરેખાંકન મદદનીશમાં તમારું સ્વાગત છે.\n"
 "\n"
-"શરુઆત કરવા માટે \"આગળ ધપાવો\" પર ક્લિક કરો."
+"શરુઆત કરવા માટે \"ચાલુ રાખો\" પર ક્લિક કરો."
 
 #: ../mail/e-mail-config-welcome-page.c:167
 #: ../modules/startup-wizard/e-startup-assistant.c:150
@@ -11079,10 +11042,9 @@ msgid "Send _Reply To..."
 msgstr "ને મોકલો (_S)..."
 
 #: ../mail/e-mail-display.c:142
-#, fuzzy
 #| msgid "Send a mail message to this address"
 msgid "Send a reply message to this address"
-msgstr "આ સરનામા માં મેઇલ સંદેશો મોકલો"
+msgstr "આ સરનામામાં જવાબ સંદેશો મોકલો"
 
 #: ../mail/e-mail-display.c:149
 msgid "Create Search _Folder"
@@ -11261,20 +11223,18 @@ msgid "Create a rule to filter messages to this mailing list"
 msgstr "આ મેઈલીંગ યાદીમાંથી સંદેશાઓ ગાળવા માટે નિયમ બનાવો"
 
 #: ../mail/e-mail-reader.c:1990
-#, fuzzy
 #| msgid "Filter on _Recipients..."
 msgid "Create a Filter Rule for _Recipients..."
-msgstr "મેળવનારાઓ પર ગાળો (_R)..."
+msgstr "પ્રાપ્તકર્તા માટે ફિલ્ટર નિયમ બનાવો (_R)..."
 
 #: ../mail/e-mail-reader.c:1992
 msgid "Create a rule to filter messages to these recipients"
 msgstr "આ મેળવનારાઓ માટે સંદેશાઓના ગાળક માટે નિયમ બનાવો"
 
 #: ../mail/e-mail-reader.c:1997
-#, fuzzy
 #| msgid "Filter on Se_nder..."
 msgid "Create a Filter Rule for Se_nder..."
-msgstr "મોકલનાર પર ગાળો (_n)..."
+msgstr "મોકનાર માટે ફિલ્ટર નિયમ બનાવો (_n)..."
 
 #: ../mail/e-mail-reader.c:1999
 msgid "Create a rule to filter messages from this sender"
@@ -12287,7 +12247,7 @@ msgstr "ઉમેદવારી દૂર કરો (_U)"
 #: ../mail/em-subscription-editor.c:995
 #| msgid "_Unsubscribe from List"
 msgid "Unsu_bscribe From Hidden"
-msgstr ""
+msgstr "છુપાયેલમાંથી ઉમેદવારી દૂર કરો (_b)"
 
 #: ../mail/em-subscription-editor.c:1003
 msgid "Unsubscribe From _All"
@@ -12579,9 +12539,8 @@ msgid "Ch_aracter encoding:"
 msgstr "અક્ષર એનકોડીંગ (_a):"
 
 #: ../mail/mail-config.ui.h:11
-#, fuzzy
 msgid "Replies and Forwards"
-msgstr "વળતા જવાબો અને પિતૃઓ"
+msgstr "જવાબો અને આગળ ધપાવવુ"
 
 #: ../mail/mail-config.ui.h:12
 msgid "_Reply style:"
@@ -12606,7 +12565,7 @@ msgstr ""
 
 #: ../mail/mail-config.ui.h:17
 msgid "Gro_up Reply goes only to mailing list, if possible"
-msgstr ""
+msgstr "જૂથ જવાબ ફક્ત મેઇલીંગ યાદીમાં જાય છે, જો શક્ય હોય તો (_u)"
 
 #: ../mail/mail-config.ui.h:18
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
@@ -12666,15 +12625,13 @@ msgstr "ખાલી વિષય વાક્ય સાથે સંદેશ�
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:34
-#, fuzzy
 msgid "Sending a message with only _Bcc recipients defined"
-msgstr "જ્યારે સંદેશાઓ આને પણ ખબર વિના દ્વારા મોકલો ત્યારે પૂછો"
+msgstr "ફક્ત વ્યાખ્યાયિત થયેલ Bcc પ્રાપ્તકર્તા સાથે સંદેશાને મોકલી રહ્યા છે (_B)"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:36
-#, fuzzy
 msgid "Sending a _private reply to a mailing list message"
-msgstr "પસંદ કરેલ સંદેશા માટે મેઈલીંગ યાદીનો વળતો જવાબ કમ્પોઝ કરો"
+msgstr "મેઇલીંગ યાદી સંદેશામાં ખાનગી જવાબ મોકલી રહયા છે (_p)"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:38
@@ -12833,7 +12790,7 @@ msgstr "અક્ષરોની મૂળભુત સંગ્રહપદ્�
 
 #: ../mail/mail-config.ui.h:82
 msgid "Apply the same _view settings to all folders"
-msgstr ""
+msgstr "બધા ફોલ્ડરમાં દૃશ્ય સુયોજનોને લાગુ કરો (_v)"
 
 #: ../mail/mail-config.ui.h:83
 msgid "F_all back to threading messages by subject"
@@ -13147,9 +13104,8 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:28
-#, fuzzy
 msgid "Send reply to all recipients?"
-msgstr "મોકલનાર અથવા રસીદો"
+msgstr "શું બધા પ્રાપ્તકર્તાને જવાબ મોકલવાનો છે?"
 
 #: ../mail/mail.error.xml.h:29
 #, fuzzy
@@ -13309,7 +13265,6 @@ msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "શું ખરેખર ફોલ્ડર \"{0}\" અને તેની બધી ઉપડિરેક્ટરીઓ કાઢી નાંખવી છે?"
 
 #: ../mail/mail.error.xml.h:65
-#, fuzzy
 msgid ""
 "If you delete the folder, all of its contents and its subfolders' contents "
 "will be deleted permanently."
@@ -14404,7 +14359,6 @@ msgid "Play the attachment in embedded audio player"
 msgstr ""
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:167
-#, fuzzy
 #| msgid ""
 #| "You can restore Evolution from your backup. It can restore all the Mails, "
 #| "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
@@ -14414,9 +14368,9 @@ msgid ""
 "\n"
 "This will restore all your personal data, settings mail filters, etc."
 msgstr ""
-"તમે બેકઅપમાંથી Evolution પુનઃસંગ્રહી શકો છો. તે બધા મેઈલો, કેલેન્ડરો, ક્રિયાઓ, મેમો, "
-"સંપર્કો પુનઃસંગ્રહી શકે છે. તે તમારા બધા વ્યક્તિગત સુયોજનો, મેઈલ ગાળકો વગેરે પણ પુનઃસંગ્રહી "
-"શકશે."
+"તમે બેકઅપમાંથી Evolution પુનઃસંગ્રહી શકો છો..\n"
+"\n "
+"તે બધી વ્યક્તિગત માહિતી, સુયોજન મેઇલ ફિલ્ટર, વગેરેને પુન:સંગ્રહી શકે છે."
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:182
 msgid "_Restore from a backup file:"
@@ -15086,10 +15040,9 @@ msgid "Highlight t_asks due today"
 msgstr "આજ સુધીની બાબતોને પ્રકાશિત કરો (_a)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:59
-#, fuzzy
 #| msgid "_Overdue tasks:"
 msgid "Highlight _overdue tasks"
-msgstr "પછીની બાબતો (_O):"
+msgstr "મુદતવીતી કાર્યોને પ્રકાશિત કરો (_o)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:60
 msgid "_Hide completed tasks after"
@@ -15567,8 +15520,8 @@ msgstr "પહેલાંની બંધબેસતી ઘટનાને શ
 #, c-format
 msgid "Cannot find matching event in the next %d year"
 msgid_plural "Cannot find matching event in the next %d years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "આગળનાં %d વર્ષમાં બંધબેસતી ઘટના શોધી શકાતી નથી"
+msgstr[1] "આગળનાં %d વર્ષોમાં બંધબેસતી ઘટના શોધી શકાતી નથી"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:1522
 #, c-format
@@ -15974,10 +15927,9 @@ msgid "Use this if you are not filtering any mailing lists."
 msgstr "આને વાપરો જો તમે કોઇપણ મેઇલીંગ યાદીને ફિલ્ટર ન કરી રહ્યા હોય તો."
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:281
-#, fuzzy
 #| msgid "Basic and _Mailing List Headers (Default)"
 msgid "Basic and _Mailing List Headers (default)"
-msgstr "મૂળભૂત અને મેઈલીંગ લિસ્ટ હેડરો (મૂળભૂત) (_M)"
+msgstr "મૂળભૂત અને મેઈલીંગ લિસ્ટ હેડરો (મૂળભૂત)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:330
 msgid "Custom Headers"
@@ -17307,11 +17259,11 @@ msgstr "મોકલનારને સૂચિત કરો (_N)"
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:1
 msgid "Sender wants to be notified when you have read this message."
-msgstr ""
+msgstr "મોકલનાર સૂચિત કરવાનું ઇચ્છે છે જ્યારે તમે આ સંદેશો વાંચેલ હોય."
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:2
 msgid "Sender has been notified that you have read this message."
-msgstr ""
+msgstr "મોકલનારને સૂચિત કરી દેવામાં આવ્યુ છે કે તમે આ સંદેશો વાંચેલ છે."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:1
 msgid "Evolution is currently offline."
@@ -18160,7 +18112,6 @@ msgid "_Unsubscribe from List"
 msgstr "યાદીમાંથી ઉમેદવારી દૂર કરો (_U)"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:402
-#, fuzzy
 msgid "Unsubscribe from the mailing list this message belongs to"
 msgstr "આ સંદેશો જે મેઈલિંગ યાદીને અનુસરે છે તેમાંથી ઉમેદવારી દૂર કરો"
 
@@ -19311,14 +19262,13 @@ msgid "Upgrade from previous version failed:"
 msgstr "નિષ્ફળ થયેલ પહેલાંની આવૃત્તિમાંથી સુધારો:"
 
 #: ../shell/shell.error.xml.h:3
-#, fuzzy
 msgid ""
 "{0}\n"
 "\n"
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
 msgstr ""
-"{1}\n"
+"{0}\n"
 "\n"
 "જો તમે ચાલુ રાખવાનું પસંદ કરો, તો તમને તમારી જૂની માહિતીના અમુક ભાગોને ચલાવવાની "
 "પરવાનગી નથી.\n"
