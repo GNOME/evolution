@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
 "cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-09-17 12:14+0000\n"
-"PO-Revision-Date: 2012-09-21 14:20+0530\n"
+"PO-Revision-Date: 2012-09-21 17:27+0530\n"
 "Last-Translator: \n"
 "Language-Team: gu_IN <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -7743,7 +7743,6 @@ msgid "Timezone"
 msgstr "ટાઈમઝોન"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
-#, fuzzy
 #| msgid ""
 #| "The default timezone to use for dates and times in the calendar, as an "
 #| "untranslated Olsen timezone database location like \"America/New York\"."
@@ -7751,7 +7750,7 @@ msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
 msgstr ""
-"કેલેન્ડરમાં તારીખો અને સમયો માટે વાપરવાનો મૂળભુત ટાઈમઝોન, \"America/New York\" જેવી "
+"કેલેન્ડરમાં તારીખો અને સમયો માટે વાપરવાનો મૂળભૂત ટાઈમઝોન, \"America/New York\" જેવી "
 "જગ્યા જેવી બિનભાષાંતરિક ઓલ્સન ટાઈમઝોન ડેટાબેઝની જેમ."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
@@ -8758,9 +8757,8 @@ msgid "Last time Empty Trash was run"
 msgstr "છેલ્લી વખતે ખાલી કચરાપેટી ચાલી હતી"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
-#, fuzzy
 msgid "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
-msgstr "છેલ્લે વખતે ખાલી કચરાપેટી ચાલી હતી, દિવસોમાં ઈપોકથી."
+msgstr "છેલ્લે વખતે ખાલી કચરાપેટી ચાલી હતી, જાન્યુઆરી 1st, 1970 (Epoch) સુધીનાં દિવસોમાં."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid "Amount of time in seconds the error should be shown on the status bar."
@@ -8830,9 +8828,8 @@ msgid "Last time Empty Junk was run"
 msgstr "છેલ્લા સમયે બગડેલ ખાલી કરો ચાલ્યું હતું"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
-#, fuzzy
 msgid "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
-msgstr "છેલ્લા સમયે બગડેલ ખાલી કરો ચાલ્યું હતું, ઈપોકથી દિવસોમાં."
+msgstr "છેલ્લા સમયે બગડેલ ખાલી કરો ચાલ્યું હતું, જાન્યુઆરી 1st, 1970 (Epoch) સુધીનાં દિવસોમાં."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "The default plugin for Junk hook"
@@ -9141,10 +9138,9 @@ msgid "Whether to emit a beep."
 msgstr "શું બીપને કાઢી નાંખવુ છે."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:12
-#, fuzzy
 #| msgid "Whether play sound or beep when new messages arrive."
 msgid "Whether to emit a beep when new messages arrive."
-msgstr "જ્યારે નવા સંદેશાઓ આવે ત્યારે ધ્વનિ વગાડવું કે બીપ વગાડવું."
+msgstr "જ્યારે નવા સંદેશાઓ આવે ત્યારે બીપ વગાડવું."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:13
 msgid "Sound filename to be played."
@@ -10772,7 +10768,6 @@ msgstr "ખાતા જાણકારી"
 
 #: ../mail/e-mail-config-identity-page.c:291
 #: ../mail/e-mail-config-summary-page.c:333
-#, fuzzy
 #| msgid ""
 #| "Type the name by which you would like to refer to this account.\n"
 #| "For example: \"Work\" or \"Personal\""
@@ -10781,7 +10776,7 @@ msgid ""
 "For example, \"Work\" or \"Personal\"."
 msgstr ""
 "નામ છાપો કે જેના દ્વારા તમે આ ખાતાને વાપરવા માંગો છો.\n"
-"ઉદાહરણ તરીકે: \"કામ\" અથવા \"ખાનગી\""
+"ઉદાહરણ તરીકે: \"Work\" અથવા \"Personal\"."
 
 #: ../mail/e-mail-config-identity-page.c:299
 #: ../mail/e-mail-config-summary-page.c:341
@@ -13247,10 +13242,9 @@ msgstr ""
 "નથી, તેમને ખસાડી શકાતા નથી, અથવા કાઢી શકાતા નથી."
 
 #: ../mail/mail.error.xml.h:60
-#, fuzzy
 #| msgid "Could not read signature file &quot;{0}&quot;."
 msgid "Failed to expunge folder &quot;{0}&quot;."
-msgstr "સહી ફાઈલ &quot;{0}&quot; વાંચી શક્યા નહિં."
+msgstr "ફોલ્ડર &quot;{0}&quot; કાઢી નાંખવાનુ નિષ્ફળ."
 
 #: ../mail/mail.error.xml.h:62
 msgid "Failed to refresh folder &quot;{0}&quot;."
@@ -13506,10 +13500,9 @@ msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "આધારભૂત સત્તાધિકરણ પદ્ધતિઓની યાદી માટે સર્વરને પૂછી રહ્યા છીએ."
 
 #: ../mail/mail.error.xml.h:122
-#, fuzzy
 #| msgid "Querying server for a list of supported authentication mechanisms."
 msgid "Failed to query server for a list of supported authentication mechanisms."
-msgstr "આધારભૂત સત્તાધિકરણ પદ્ધતિઓની યાદી માટે સર્વરને પૂછી રહ્યા છીએ."
+msgstr "આધારભૂત સત્તાધિકરણ પદ્ધતિઓની યાદી માટે સર્વરને પૂછતી વખતે નિષ્ફળતા."
 
 #: ../mail/mail.error.xml.h:123
 msgid "Synchronize folders locally for offline usage?"
@@ -13534,9 +13527,8 @@ msgid "Do you want to mark all messages as read?"
 msgstr "શું તમે બધા સંદેશાઓને વંચાયેલ એમ ચિહ્નિત કરવા માંગો છો?"
 
 #: ../mail/mail.error.xml.h:128
-#, fuzzy
 msgid "This will mark all messages as read in the selected folder."
-msgstr "આ બધા સંદેશાઓને પસંદિત ફોલ્ડર અને તેના ઉપફોલ્ડરોમાં વંચાયેલ એમ ચિહ્નિત કરશે."
+msgstr "આ બધા સંદેશાઓને પસંદિત ફોલ્ડરમાં વંચાયેલ એમ ચિહ્નિત કરશે."
 
 #: ../mail/mail.error.xml.h:129
 msgid ""
@@ -15087,9 +15079,9 @@ msgid "Template:"
 msgstr "ટેમ્પલેટ:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:76
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
-msgstr "<i>%u અને %d ઈમેઈલ સરનામામાંથી વપરાશકર્તા અને ડોમેઈન સાથે બદલાઈ જશે.</i>"
+msgstr "%u અને %d ઈમેઈલ સરનામામાંથી વપરાશકર્તા અને ડોમેઈન સાથે બદલાઈ જશે."
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:77
 msgid "Publishing Information"
@@ -16176,7 +16168,7 @@ msgid "%s through %s has proposed the following meeting changes."
 msgstr "%s એ %s મારફતે નીચેના મંત્રણા ફેરફારો મૂક્યા છે."
 
 #: ../modules/itip-formatter/itip-view.c:464
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s has proposed the following meeting changes."
 msgid "%s has proposed the following meeting changes:"
 msgstr "%s એ નીચેના મંત્રણા ફેરફારોનો પ્રસ્તાવ મૂક્યો છે."
@@ -20458,15 +20450,13 @@ msgid "Import Location"
 msgstr "જગ્યા આયાત કરો"
 
 #: ../widgets/misc/e-import-assistant.c:1309
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of importing "
 "external files into Evolution."
 msgstr ""
-"Evolution આયાત મદદનીશમાં તમારુ સ્વાગત છે.\n"
-"આ મદદનીશની મદદથી તમને બાહ્ય ફાઈલોને Evolution માં \n"
-"કેવી રીતે આયાત કરવી તે પ્રક્રિયાનું માર્ગદર્શન આપવામાં આવેલ છે."
+"Evolution આયાત મદદનીશમાં તમારુ સ્વાગત છે. આ મદદનીશની મદદથી તમને બાહ્ય ફાઈલોને Evolution માં કેવી "
+"રીતે આયાત કરવી તે પ્રક્રિયાનું માર્ગદર્શન આપવામાં આવેલ છે."
 
 #: ../widgets/misc/e-import-assistant.c:1326
 msgid "Importer Type"
@@ -20522,14 +20512,13 @@ msgid "Edit Signature Script"
 msgstr "સહી સ્ક્રિપ્ટમાં ફેરફાર કરો"
 
 #: ../widgets/misc/e-mail-signature-script-dialog.c:395
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only."
 msgstr ""
-"આ સ્ક્રિપ્ટનું આઉટપુટ તમારી સહી તરીકે કામ કરશે.\n"
-"તમે સ્પષ્ટ કરેલ નામ માત્ર ડિસ્પ્લેના હેતુ માટે વપરાશે."
+"આ સ્ક્રિપ્ટનું આઉટપુટ તમારી સહી તરીકે કામ કરશે. તમે સ્પષ્ટ કરેલ નામ માત્ર ડિસ્પ્લેના હેતુ માટે "
+"વપરાશે."
 
 #: ../widgets/misc/e-mail-signature-script-dialog.c:446
 msgid "S_cript:"
