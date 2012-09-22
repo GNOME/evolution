@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
 "cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-09-17 12:14+0000\n"
-"PO-Revision-Date: 2012-09-21 22:34+0530\n"
+"PO-Revision-Date: 2012-09-22 22:30+0530\n"
 "Last-Translator: \n"
 "Language-Team: gu_IN <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -1154,9 +1154,8 @@ msgid "Error getting book view"
 msgstr "પુસ્તક દેખાવ મેળવવામાં ભૂલ"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:805
-#, fuzzy
 msgid "Search Interrupted"
-msgstr "શોધ ગાળક"
+msgstr "શોધ અટકેલ"
 
 #: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:160
 msgid "Error modifying card"
@@ -1213,7 +1212,7 @@ msgstr "શું તમે ખરેખર આ સંપર્ક (%s) કા�
 
 #. Translators: This is shown for > 5 contacts.
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1490
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
@@ -3703,10 +3702,9 @@ msgid "Go to Date"
 msgstr "તારીખે જાઓ"
 
 #: ../calendar/gui/ea-cal-view-event.c:291
-#, fuzzy
 #| msgid "It has recurrences."
 msgid "It has reminders."
-msgstr "તેને ખૂબ વારાઓ છે."
+msgstr "તેની પાસે યાદ અપાવનાર છે."
 
 #: ../calendar/gui/ea-cal-view-event.c:294
 msgid "It has recurrences."
@@ -4986,23 +4984,20 @@ msgid "Memo"
 msgstr "મેમો"
 
 #: ../calendar/importers/icalendar-importer.c:1202
-#, fuzzy
 msgctxt "iCalImp"
 msgid "has recurrences"
-msgstr "તેને ખૂબ વારાઓ છે."
+msgstr "આમાં આવૃત્તિ છે"
 
 #: ../calendar/importers/icalendar-importer.c:1207
-#, fuzzy
 msgctxt "iCalImp"
 msgid "is an instance"
-msgstr "આ અને પહેલાની પળો"
+msgstr "એક નમૂનો છે"
 
 #: ../calendar/importers/icalendar-importer.c:1212
-#, fuzzy
 #| msgid "Sh_ow a reminder"
 msgctxt "iCalImp"
 msgid "has reminders"
-msgstr "રીમાઈન્ડર બતાવો (_o)"
+msgstr "તેની પાસે યાદ અપાવનાર છે"
 
 #: ../calendar/importers/icalendar-importer.c:1217
 msgctxt "iCalImp"
@@ -5057,10 +5052,9 @@ msgstr "શરૂ કરો"
 
 #. Translators: 'Due' like the time due a task should be finished
 #: ../calendar/importers/icalendar-importer.c:1270
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Due"
-msgstr "પહેલા"
+msgstr "બાકી"
 
 #. Translators: Appointment's end time
 #: ../calendar/importers/icalendar-importer.c:1282
@@ -6884,9 +6878,8 @@ msgid "Compose Message"
 msgstr "સંદેશો બનાવો"
 
 #: ../composer/e-msg-composer.c:4204
-#, fuzzy
 msgid "The composer contains a non-text message body, which cannot be edited."
-msgstr "<b>(કમ્પોઝર લખાણ-વિહીન સંદેશાનો ભાગ જ સમાવે છે, કે જેમાં ફેરફાર કરી શકાતો નથી.)</b>"
+msgstr "કમ્પોઝર લખાણ-વિહીન સંદેશાનો ભાગ જ સમાવે છે, કે જેમાં ફેરફાર કરી શકાતો નથી."
 
 #: ../composer/e-msg-composer.c:4881
 msgid "Untitled Message"
@@ -7301,7 +7294,6 @@ msgid "The second timezone for a Day View"
 msgstr "દિવસ દેખાવ માટે બીજો ટાઇમઝોન"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
-#, fuzzy
 #| msgid ""
 #| "Shows the second time zone in a Day View, if set. Value is similar to one "
 #| "used in a 'timezone' key."
@@ -7310,7 +7302,7 @@ msgid ""
 "used in a 'timezone' key"
 msgstr ""
 "દિવસ દેખાવમાં સમય ઝોન સેકન્ડોમાં બતાવે છે, જો સુયોજીત હોય. 'timezone' કીમાં એકવાર "
-"વપરાયેલ કિંમત જેટલી જ છે."
+"વપરાયેલ કિંમત જેટલી જ છે"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:25
 msgid "Recently used second time zones in a Day View"
@@ -7432,7 +7424,6 @@ msgid "Horizontal pane position"
 msgstr "આડી તકતીની સ્થિતિ"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
-#, fuzzy
 #| msgid ""
 #| "Position of the horizontal pane, between the date navigator calendar and "
 #| "the task list when not in the month view, in pixels."
@@ -7685,12 +7676,13 @@ msgid "Tasks due today color"
 msgstr "આજ સુધીની બાબતો રંગ"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
-#, fuzzy
 #| msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
-msgstr "આજના દિવસે પૂર્વ કરવાની બાબતોના પાશ્વ ભાગનો રંગ, \"#rrggbb\" બંધારણમાં છે."
+msgstr ""
+"આજના દિવસે પૂર્વ કરવાની બાબતોના પાશ્વ ભાગનો રંગ, \"#rrggbb\" બંધારણમાં છે. આજે કરવાનુ પ્રકાશિત "
+"કાર્યને એકસાથે વાપરેલ છે"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 msgid "Task preview pane position (horizontal)"
@@ -7732,14 +7724,13 @@ msgid "Overdue tasks color"
 msgstr "પછીની બાબતોનો રંગ"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
-#, fuzzy
 #| msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
 msgstr ""
 "બાબતો કે જે પૂર્ણ કરવાની મર્યાદા જતી રહી છે તેમના પાશ્વ ભાગનો રંગ, \"#rrggbb\" "
-"બંધારણમાં છે."
+"બંધારણમાં છે. મર્યાદા જતી રહી હોય તેવા પ્રકાશિત કાર્ય સાથે એકસાથે વાપરેલ છે."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid "Time divisions"
@@ -8095,7 +8086,6 @@ msgid "Encode filenames in an Outlook/GMail way"
 msgstr "Outlook/GMail માર્ગે ફાઈલ નામોને એનકોડ કરો"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
-#, fuzzy
 #| msgid ""
 #| "Encode file names in the mail headers same as Outlook or GMail do, to let "
 #| "them display correctly file names with UTF-8 letters sent by Evolution, "
@@ -8108,7 +8098,8 @@ msgid ""
 "standard."
 msgstr ""
 "Outlook કે GMail જેમ રાખે છે તેમ જ ફાઈલ નામોને મેઈલ હેડરમાં સંગ્રહિત કરો, ઈવોલ્યુશન દ્વારા "
-"મોકલવામાં આવેલ સ્થાનીકૃત ફાઈલ નામો તેમને સમજવા માટે, કારણ કે તેઓ RFC 2231 અનુસરતા નથી, "
+"મોકલવામાં આવેલ UTF-8 અક્ષરો સાથે યોગ્ય રીતે ફાઇલનામોને દર્શાવવા દો, કારણ કે તેઓ RFC 2231 અનુસરતા "
+"નથી, "
 "પરંતુ અયોગ્ય RFC 2047 પ્રમાણ વાપરે છે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
@@ -8613,14 +8604,12 @@ msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr "પ્રાપ્તકર્તાઓને સંદેશ મોકલતા પહેલાં પૂછો કે જેનું ઇમેલ સરનામું દાખલ થયેલ નથી"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
-#, fuzzy
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
 msgstr ""
-"સંદેશાઓને શોધ ફોલ્ડરમાંથી કાઢી નાંખવાનું સંદેશાને કાયમી રીતે કાઢી નાંખે છે એ ચેતવણી આપવા માટે "
-"તે પુનરાવર્તિ પ્રોમ્પ્ટને પૂછવાનું નિષ્ક્રિય/સક્રિય કરે છે, તેને શોધ પરિણામોમાંથી ખાલી દૂર કરીને "
-"નહિં."
+"એ ચેતવણી આપવા માટે તે પુનરાવર્તિ પ્રોમ્પ્ટને પૂછવાનું નિષ્ક્રિય/સક્રિય કરે છે, કે જે તમે "
+"પ્રાપ્તકર્તાઓને સંદેશો મોકલવા માટે પ્રયત્ન કરી રહ્યા થે મેઇલ સંદેશા તરીકે દાખલ કરવા નહિં"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid "Prompt when user only fills Bcc"
@@ -8707,14 +8696,12 @@ msgid "Prompt when replying privately to list messages"
 msgstr "પૂછો જ્યારે સંદેશાને યાદીમાં ખાનગી રીતે જવાબ આપી રહ્યા હોય"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
-#, fuzzy
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
 msgstr ""
-"સંદેશાઓને શોધ ફોલ્ડરમાંથી કાઢી નાંખવાનું સંદેશાને કાયમી રીતે કાઢી નાંખે છે એ ચેતવણી આપવા માટે "
-"તે પુનરાવર્તિ પ્રોમ્પ્ટને પૂછવાનું નિષ્ક્રિય/સક્રિય કરે છે, તેને શોધ પરિણામોમાંથી ખાલી દૂર કરીને "
-"નહિં."
+"એ ચેતવણી આપવા માટે તે પુનરાવર્તિ પ્રોમ્પ્ટને પૂછવાનું નિષ્ક્રિય/સક્રિય કરે છે કે જે તમે સંદેશાનો "
+"ખાનગી જવાબ મોકલી રહ્યા થો કે જે મેઇલીંગ યાદી મારફતે આવેલ છે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid "Prompt when mailing list hijacks private replies"
@@ -8726,6 +8713,9 @@ msgid ""
 "a private reply to a message which arrived via a mailing list, but the list "
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr ""
+"એ ચેતવણી આપવા માટે તે પુનરાવર્તિ પ્રોમ્પ્ટને પૂછવાનું નિષ્ક્રિય/સક્રિય કરે છે કે જે તમે સંદેશાનો "
+"ખાનગી જવાબ મોકલી રહ્યા થો કે જે મેઇલીંગ યાદી મારફતે આવેલ છે, પરંતુ યાદી આને જવાબ આપો: શીર્ષક "
+"સુયોજિત કરે છે કે જે યાદીમાં પાછો તમારા જવાબને દિશામાન કરે છે"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid "Prompt when replying to many recipients"
@@ -8984,14 +8974,13 @@ msgid ""
 msgstr "જોડાણ યાદ અપાવનાર પ્લગઈનને સંદેશા ભાગમાં જોવા માટેના ઈશારાઓની યાદી"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:6
-#, fuzzy
 #| msgid ""
 #| "List of clues for the attachment reminder plugin to look for in a message "
 #| "body"
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
-msgstr "જોડાણ યાદ અપાવનાર પ્લગઈનને સંદેશા ભાગમાં જોવા માટેના ઈશારાઓની યાદી"
+msgstr "જોડાણ યાદ અપાવનાર પ્લગઈનને સંદેશા ભાગમાં જોવા માટેના ઈશારાઓની યાદી."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
 msgid "Address book source"
@@ -9162,13 +9151,14 @@ msgid "Sound filename to be played."
 msgstr "વગાડવા માટેની ધ્વનિ ફાઈલનું નામ."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
-#, fuzzy
 #| msgid ""
 #| "Sound file to be played when new messages arrive, if not in beep mode."
 msgid ""
 "Sound file to be played when new messages arrive, if \"notify-sound-play-file"
 "\" is \"true\"."
-msgstr "જ્યારે નવા સંદેશાઓ આવે ત્યારે વગાડવાની ધ્વનિ ફાઈલ, જો બીપ સ્થિતિમાં નહિં હોય."
+msgstr ""
+"જ્યારે નવા સંદેશાઓ આવે ત્યારે વગાડવાની ધ્વનિ ફાઈલ, જો \"notify-sound-play-file"
+"\" એ \"true\" છે."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
 msgid "Whether to play a sound file."
@@ -10549,9 +10539,9 @@ msgid "Could not create spool directory '%s': %s"
 msgstr "સ્પુલ ડિરેક્ટરી '%s' ને બનાવી શક્યા નહિં: %s"
 
 #: ../libemail-engine/mail-tools.c:111
-#, fuzzy, c-format
+#, c-format
 msgid "Trying to movemail a non-mbox source '%s'"
-msgstr "મેઈલબોક્સ સ્રોત ના હોય તેવા `%s' માં મેઈલને ખસેડવાનો પ્રયત્ન કરી રહ્યા છીએ"
+msgstr "મેઈલબોક્સ સ્રોત ના હોય તેવા '%s' માં મેઈલને ખસેડવાનો પ્રયત્ન કરી રહ્યા છીએ"
 
 #: ../libemail-engine/mail-tools.c:229
 #, c-format
@@ -10749,9 +10739,8 @@ msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "હંમેશા અંધ કાર્બન કોપી મોકલો (bcc) (_b):"
 
 #: ../mail/e-mail-config-defaults-page.c:722
-#, fuzzy
 msgid "Message Receipts"
-msgstr "સંદેશા પાછા ખેંચવા"
+msgstr "સંદેશ પ્રાપ્તકર્તા"
 
 #: ../mail/e-mail-config-defaults-page.c:731
 msgid "S_end message receipts:"
@@ -11052,10 +11041,9 @@ msgid "_From This Address"
 msgstr "આ સરનામા તરફથી (_F)"
 
 #: ../mail/e-mail-display.c:140
-#, fuzzy
 #| msgid "_Send To..."
 msgid "Send _Reply To..."
-msgstr "ને મોકલો (_S)..."
+msgstr "આને જવાબ મોકલો (_R)..."
 
 #: ../mail/e-mail-display.c:142
 #| msgid "Send a mail message to this address"
@@ -11118,7 +11106,6 @@ msgid "Edit Label"
 msgstr "લેબલમાં ફેરફાર કરો"
 
 #: ../mail/e-mail-label-manager.c:353
-#, fuzzy
 msgid ""
 "Note: Underscore in the label name is used\n"
 "as mnemonic identifier in menu."
@@ -11285,18 +11272,16 @@ msgid "_Clear Flag"
 msgstr "નિશાની સાફ કરો (_C)"
 
 #: ../mail/e-mail-reader.c:2027
-#, fuzzy
 msgid "Remove the follow-up flag from the selected messages"
-msgstr "પસંદ થયેલ સંદેશા માંથી નવા કાર્યને બનાવો"
+msgstr "પસંદ થયેલ સંદેશા માંથી અનૂસરતા ફ્લેગને દૂર કરો"
 
 #: ../mail/e-mail-reader.c:2032
 msgid "_Flag Completed"
 msgstr "નિશાની પૂર્ણ થયેલ છે (_F)"
 
 #: ../mail/e-mail-reader.c:2034
-#, fuzzy
 msgid "Set the follow-up flag to completed on the selected messages"
-msgstr "આ જ થ્રેડમાં બધા સંદેશાઓને પસંદ કરેલ સંદેશાઓને સંદેશા તરીકે પસંદ કરો"
+msgstr "પસંદિત સંદેશા પર સમાપ્ત કરવા અનૂસરતા ફ્લેગને સુયોજિત કરો"
 
 #: ../mail/e-mail-reader.c:2039
 msgid "Follow _Up..."
@@ -11315,9 +11300,8 @@ msgid "Forward the selected message to someone as an attachment"
 msgstr "પસંદ કરેલ સંદેશાને કોઈકને જોડાણ તરીકે આગળ ધપાવો"
 
 #: ../mail/e-mail-reader.c:2053
-#, fuzzy
 msgid "Forward As _Attached"
-msgstr "iCalendar તરીકે આગળ ધપાવો (_F)"
+msgstr "જોડાયેલ તરીકે આગળ ધપાવો (_A)"
 
 #: ../mail/e-mail-reader.c:2060
 msgid "_Inline"
@@ -11328,9 +11312,8 @@ msgid "Forward the selected message in the body of a new message"
 msgstr "પસંદ કરેલ સંદેશાને નવા સંદેશાના ભાગ તરીકે આગળ ધપાવો"
 
 #: ../mail/e-mail-reader.c:2067
-#, fuzzy
 msgid "Forward As _Inline"
-msgstr "આગળ ધપાવવાની શૈલી (_F):"
+msgstr "ઇનલાઇન તરીકે આગળ ધપાવો (_I)"
 
 #: ../mail/e-mail-reader.c:2074
 msgid "_Quoted"
@@ -11341,9 +11324,8 @@ msgid "Forward the selected message quoted like a reply"
 msgstr "પસંદ કરેલ સંદેશાને વળતા જવાબ તરીકે અવતરિત કરીને આગળ ધપાવો"
 
 #: ../mail/e-mail-reader.c:2081
-#, fuzzy
 msgid "Forward As _Quoted"
-msgstr "આગળ ધપાવવાની શૈલી (_F):"
+msgstr "અવતરણ ચિહ્નમાં રાખીને આગળ ધપાવો (_Q)"
 
 #: ../mail/e-mail-reader.c:2088
 msgid "_Load Images"
@@ -11558,9 +11540,8 @@ msgid "Remove Du_plicate Messages"
 msgstr "નકલી સંદેશાઓને દૂર કરો (_p)"
 
 #: ../mail/e-mail-reader.c:2279
-#, fuzzy
 msgid "Checks selected messages for duplicates"
-msgstr "પસદં કરેલા સંદેશાઓને કાઢી નાંખવા માટે ચિહ્નિત કરો"
+msgstr "નકલો માટે પસંદ થયેલ સંદેશાઓને ચકાસે છે"
 
 #: ../mail/e-mail-reader.c:2284 ../mail/mail.error.xml.h:27
 #: ../modules/calendar/e-cal-shell-view-actions.c:1574
@@ -11569,7 +11550,6 @@ msgid "Reply to _All"
 msgstr "બધાને વળતો જવાબ આપો (_A)"
 
 #: ../mail/e-mail-reader.c:2286
-#, fuzzy
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "પસંદ કરેલ સંદેશા માટે બધા મેળવનારાઓને વળતો જવાબ કમ્પોઝ કરો"
 
@@ -11764,9 +11744,8 @@ msgid "Group Reply"
 msgstr "જૂથ પ્રત્યુત્તર"
 
 #: ../mail/e-mail-reader.c:3875
-#, fuzzy
 msgid "Reply to the mailing list, or to all recipients"
-msgstr "પસંદ કરેલ સંદેશા માટે મેઈલીંગ યાદીનો વળતો જવાબ કમ્પોઝ કરો"
+msgstr "મેઇલિંગ યાદી અથવા બધા પ્રાપ્તકર્તાઓને જવાબ આપો"
 
 #: ../mail/e-mail-reader.c:3941 ../mail/em-filter-i18n.h:14
 msgid "Delete"
@@ -12282,9 +12261,8 @@ msgid "Clear Search"
 msgstr "શોધને સાફ કરો"
 
 #: ../mail/em-subscription-editor.c:1755
-#, fuzzy
 msgid "Sho_w items that contain:"
-msgstr "સમાવતું નથી"
+msgstr "વસ્તુઓને બતાવો કે જે સમાવે છે (_w): "
 
 #: ../mail/em-subscription-editor.c:1800
 msgid "Subscribe to the selected folder"
@@ -12301,7 +12279,7 @@ msgstr "પસંદ થયેલ ફોલ્ડરમાંથી ઉમેદ
 
 #: ../mail/em-subscription-editor.c:1886
 msgid "Collapse all folders"
-msgstr ""
+msgstr "બધા ફોલ્ડરોને સંકોચો"
 
 #: ../mail/em-subscription-editor.c:1887
 msgid "C_ollapse All"
@@ -12571,7 +12549,6 @@ msgid "Start _typing at the bottom on replying"
 msgstr "પ્રત્યુત્તર આપતી વખતે તળિયે લખવાનું શરૂ કરો (_t)"
 
 #: ../mail/mail-config.ui.h:15
-#, fuzzy
 msgid "_Keep signature above the original message on replying"
 msgstr "પ્રત્યુત્તર આપવા પર મૂળ સંદેશા ઉપર સહી રાખો (_K)"
 
@@ -12692,10 +12669,9 @@ msgid "Quoted"
 msgstr "અવતરણ ચિહ્ન થયેલ"
 
 #: ../mail/mail-config.ui.h:54
-#, fuzzy
 msgctxt "ReplyForward"
 msgid "Do not quote"
-msgstr "કાઢો નંહિ"
+msgstr "અવતરચિહ્ન લગાવો નહિં"
 
 #: ../mail/mail-config.ui.h:55
 msgctxt "ReplyForward"
@@ -13130,13 +13106,12 @@ msgid "Send reply to all recipients?"
 msgstr "શું બધા પ્રાપ્તકર્તાને જવાબ મોકલવાનો છે?"
 
 #: ../mail/mail.error.xml.h:29
-#, fuzzy
 msgid ""
 "You are replying to a message which was sent to many recipients. Are you "
 "sure you want to reply to ALL of them?"
 msgstr ""
-"સંદેશાને પાછા ખેંચવાનું તેને મેળવનારના મેઈલ બોક્સમાંથી દૂર કરી નાંખશે. શું તમે ખરેખર આવું કરવા "
-"માંગો છો?"
+"તમે સંદેશાને જવાબ આપી રહ્યા છે કે જે ઘણાં પ્રાપ્તકર્તામાં મોકલેલ છે. શું તમે ખરેખર તેઓનાં બધાને "
+"જવાબ આપવા માંગો છો?"
 
 #: ../mail/mail.error.xml.h:30
 msgid "This message cannot be sent because you have not specified any recipients"
@@ -13306,7 +13281,6 @@ msgid "These messages are not copies."
 msgstr "આ સંદેશાઓની નકલો નથી."
 
 #: ../mail/mail.error.xml.h:70
-#, fuzzy
 #| msgid ""
 #| "Warning: Deleting messages from a Search Folder will delete the actual "
 #| "message from one of your local or remote folders.\n"
@@ -13316,9 +13290,9 @@ msgid ""
 "Folder will delete the actual messages from the folder or folders in which "
 "they physically reside. Do you really want to delete these messages?"
 msgstr ""
-"ચેતવણી: શોધ ફોલ્ડરમાંથી સંદેશાઓ કાઢી નાંખવાનું તમારા સ્થાનિક અથવા દૂરસ્થ ફોલ્ડરોમાંના "
-"એકમાંથી વાસ્તવિક સંદેશાને કાઢી નાંખશે.\n"
-"શું તમે ખરેખર આવું કરવા માંગો છો?"
+"શોધ ફોલ્ડરમાં બતાવેલ સંદેશા નકલ નથી. શોધ ફોલ્ડરમાંથી સંદેશાઓ કાઢી નાંખવાનું તમારા સ્થાનિક અથવા "
+"દૂરસ્થ ફોલ્ડરોમાંના "
+"એકમાંથી વાસ્તવિક સંદેશાને કાઢી નાંખશે. શું તમે ખરેખર આ સંદેશાને કાઢી નાંખવા માંગો છો?"
 
 #: ../mail/mail.error.xml.h:71
 msgid "Cannot rename \"{0}\" to \"{1}\"."
@@ -13624,19 +13598,16 @@ msgid "You do not have sufficient permissions to delete this mail."
 msgstr "આ મેઈલ કાઢવા માટે તમારી પાસે પૂરતી પરવાનગીઓ નથી."
 
 #: ../mail/mail.error.xml.h:144
-#, fuzzy
 msgid "\"Check Junk\" Failed"
-msgstr "જંક નિષ્ફળતા માટે ચકાસો"
+msgstr "\"નકામુ ચકાસવાનું\" નિષ્ફળ"
 
 #: ../mail/mail.error.xml.h:145
-#, fuzzy
 msgid "\"Report Junk\" Failed"
-msgstr "જંક નિષ્ફળતાનો રિપોર્ટ કરો"
+msgstr "\"નકામાનો અહેવાલ કરવાનું\" નિષ્ફળ"
 
 #: ../mail/mail.error.xml.h:146
-#, fuzzy
 msgid "\"Report Not Junk\" Failed"
-msgstr "બગડેલ નહિં અહેવાલ નિષ્ફળ"
+msgstr "\"નકામાનો અહેવાલ ન કરવામાં\" નિષ્ફળતા"
 
 #: ../mail/mail.error.xml.h:147
 msgid "Remove duplicate messages?"
@@ -14570,7 +14541,6 @@ msgid "Are you sure you want to restore Evolution from the selected backup file?
 msgstr "શું તમે ખરેખર Evolution ને પસંદિત બેકઅપ ફાઈલમાંથી પુનઃસંગ્રહવા માંગો છો?"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:7
-#, fuzzy
 #| msgid ""
 #| "To restore your data and settings, you must first close Evolution. Please "
 #| "make sure that you save any unsaved data before proceeding. This will "
@@ -14582,7 +14552,7 @@ msgid ""
 "all your current Evolution data and settings and restore them from your "
 "backup."
 msgstr ""
-"તમારી માહિતી અને સુયોજનોનો બેકઅપ લેવા માટે, તમારે પહેલાં Evolution ને બંધ કરવુ જ જોઇએ. "
+"તમારી માહિતી અને સુયોજનોનો પુન:સંગ્રહવા માટે, તમારે પહેલાં Evolution ને બંધ કરવુ જ જોઇએ. "
 "મહેરબાની કરીને ખાતરી કરો કે તમે આગળ વધતા પહેલાં કોઇપણ ન સંગ્રહેલ માહિતીને સંગ્રહો. આ "
 "તમારાં હાલની Evolution માહિતી અને સુયોજનોને કાઢી નાંખશે અને તમારા બેકઅપમાંથી તેઓને પુન:"
 "સંગ્રહશે."
@@ -14600,10 +14570,10 @@ msgid "The selected folder is not writable."
 msgstr "પસંદિત ફોલ્ડર લખાતુ નથી."
 
 #: ../modules/bogofilter/evolution-bogofilter.c:149
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to apply outgoing filters: %s"
 msgid "Failed to spawn Bogofilter (%s): "
-msgstr "જતા ગાળકો અમલમાં મૂકવામાં નિષ્ફળ: %s"
+msgstr "બોગો ફિલ્ટર (%s) ને પેદા કરવામાં નિષ્ફળતા: "
 
 #: ../modules/bogofilter/evolution-bogofilter.c:167
 msgid "Failed to stream mail message content to Bogofilter: "
@@ -14674,7 +14644,6 @@ msgid "Method:"
 msgstr "પદ્દતિ:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:692
-#, fuzzy
 #| msgid ""
 #| "This is the method Evolution will use to authenticate you.  Note that "
 #| "setting this to \"Email Address\" requires anonymous access to your LDAP "
@@ -14684,7 +14653,8 @@ msgid ""
 "setting this to \"Using email address\" requires anonymous access to your "
 "LDAP server."
 msgstr ""
-"તમારું સત્તાધિકરણ કરવા માટે ઈવોલ્યુશન આ પદ્ધતિ વાપરશે.  નોંધ કરો કે આને \"ઈમેઈલ સરનામા\" "
+"તમારું સત્તાધિકરણ કરવા માટે Evolution આ પદ્ધતિ વાપરશે.  નોંધ કરો કે આને \"ઈમેઈલ સરનામાંની "
+"વાપરીને\" "
 "માં સુયોજીત કરવા માટે તમારા LDAP સર્વરનો અનામિક વપરાશ જરૂરી છે."
 
 #. Page 2
@@ -14719,7 +14689,6 @@ msgid "Search Scope:"
 msgstr "શોધની હદ:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:785
-#, fuzzy
 #| msgid ""
 #| "The search scope defines how deep you would like the search to extend "
 #| "down the directory tree. A search scope of \"sub\" will include all "
@@ -14731,8 +14700,8 @@ msgid ""
 "below your search base.  A search scope of \"One Level\" will only include "
 "the entries one level beneath your search base."
 msgstr ""
-"શોધની હદ વ્યાખ્યાયિત કરે છે કે તમે કેટલું ઊંડે સુધી શોધ કરવા માંગો છો.\"sub\" ની શોધની હદ "
-"તમારી શોધના આધારની નીચેના બધા પ્રવેશો માટે શોધે છે. \"one\" ની શોધની હદ તમારી "
+"શોધની હદ વ્યાખ્યાયિત કરે છે કે તમે કેટલું ઊંડે સુધી શોધ કરવા માંગો છો.\"Subtree\" ની શોધની હદ "
+"તમારી શોધના આધારની નીચેના બધા પ્રવેશો માટે શોધે છે. \"One Level\" ની શોધની હદ તમારી "
 "શોધના આધારની નીચેના એક સ્તરના પ્રવેશ સુધી જ શોધે છે."
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:794
@@ -15282,20 +15251,18 @@ msgid "Find _next"
 msgstr "આગળનાંને શોધો (_n)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1457
-#, fuzzy
 #| msgid "Find the next occurrence of the phrase"
 msgid "Find next occurrence of the current search string"
-msgstr "ફ્રેજ ની પછીની ઘટનાને શોધો"
+msgstr "હાલની શોધેલ શબ્દમાળા ની પછીની ઘટનાને શોધો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1462
 msgid "Find _previous"
 msgstr "પહેલાંનુ શોધો (_p)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1464
-#, fuzzy
 #| msgid "Find the previous occurrence of the phrase"
 msgid "Find previous occurrence of the current search string"
-msgstr "ફ્રેજની પહેલાંની ઘટનાને શોધો"
+msgstr "હાલની શોધેલ શબ્દમાળાની પહેલાંની ઘટનાને શોધો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1469
 msgid "Stop _running search"
@@ -17074,10 +17041,9 @@ msgid "_Unmatched Folder Enabled"
 msgstr "બંધબેસતા ન હોય તેવા સક્રિય થયેલ ફોલ્ડર (_U)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1583
-#, fuzzy
 #| msgid "Toggles whether the Role field is displayed"
 msgid "Toggles whether Unmatched search folder is enabled"
-msgstr "શું ભૂમિકા ક્ષેત્ર દર્શાવાયેલ છે તે બદલે છે"
+msgstr "બંધબેસતા ન હોય તેવા શોધ ફોલ્ડર સક્રિય છે કે નહિં તેને બદલે છે"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1603
 msgid "Show message preview below the message list"
@@ -17318,7 +17284,7 @@ msgstr "OAuth"
 msgid ""
 "This option will connect to the server by way of the GNOME Online Accounts "
 "service"
-msgstr ""
+msgstr "આ વિકલ્પ GNOME ઓનલાઇન ખાતુ સેવા દ્દારા સર્વરમાં જોડાશે"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:69
 msgid "Author(s)"
@@ -17354,20 +17320,18 @@ msgid "Display plain text version"
 msgstr "સાદુ લખાણ આવૃત્તિને દર્શાવો"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:142
-#, fuzzy
 #| msgid "Display the next important message"
 msgid "Display plain text version of multipart/alternative message"
-msgstr "પછીનો મહત્વનો સંદેસો પ્રદર્શિત કરો"
+msgstr "મલ્ટીપાર્ટ/વૈકલ્પિક સંદેશની સાદુ લખાણ આવૃત્તિને દર્શાવો"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:148
 msgid "Display HTML version"
 msgstr "HTML આવૃત્તિને દર્શાવો"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:150
-#, fuzzy
 #| msgid "Display the previous important message"
 msgid "Display HTML version of multipart/alternative message"
-msgstr "પહેલાનો મહત્વનો સંદેશો પ્રદર્શિત કરો"
+msgstr "મલ્ટીપાર્ટ/વૈકલ્પિક સંદેશની HTML આવૃત્તિને દર્શાવો"
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:82
 #: ../modules/prefer-plain/plugin/config-ui.c:46
@@ -17407,7 +17371,7 @@ msgstr "હંમેશા સાદા લખાણ ભાગને બતા�
 
 #: ../modules/prefer-plain/plugin/config-ui.c:107
 msgid "Show s_uppressed HTML parts as attachments"
-msgstr ""
+msgstr "જોડાણ તરીકે સંકોચાયેલ HTML ભાગોને બતાવો (_u)"
 
 #: ../modules/prefer-plain/plugin/config-ui.c:129
 msgid "HTML _Mode"
@@ -17429,13 +17393,12 @@ msgstr "સાદા લખાણ તરીકે મેઇલ સંદેશ�
 #: ../modules/spamassassin/evolution-spamassassin.c:192
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
-msgstr ""
+msgstr "SpamAssassin (%s) પેદા કરવામાં નિષ્ફળતા: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:215
-#, fuzzy
 #| msgid "Filter junk messages using SpamAssassin."
 msgid "Failed to stream mail message content to SpamAssassin: "
-msgstr "SpamAssassin મદદથી બગડેલા સંદેશાઓને ગાળો."
+msgstr "SpamAssassin માં મેઇલ સંદેશ સમાવિષ્ટને સ્ટ્રીમ કરવામાં નિષ્ફળતા: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:234
 #, c-format
@@ -17528,7 +17491,7 @@ msgstr "લખાણ પ્રકાશિત"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:348
 msgid "Syntax highlighting of mail parts"
-msgstr ""
+msgstr "મેઇલ ભાગમાં સિન્ટેક્ષ પ્રકાશિત કરી રહ્યા છે"
 
 #: ../modules/text-highlight/languages.c:32
 msgid "_Plain text"
