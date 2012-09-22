@@ -1,3 +1,28 @@
+Evolution 3.6.0 2012-09-24
+--------------------------
+
+Bug Fixes:
+	Bug 678408 - WebKit renders frames with plain/text parts too small
+	             (Dan Vrátil)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Krasimir Chonov (bg)
+	Tom Tryfonidis (el)
+	Daniel Mustieles (es)
+	Sweta Kothari (gu)
+	Gabor Kelemen (hu)
+	Shankar Prasad (kn)
+	Rūdolfs Mazurs (lv)
+	ManojKumar Giri (or)
+	A S Alam (pa)
+	Rafael Ferreira (pt_BR)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+	Krishnababu Krothapalli (te)
+	Daniel Korostil (uk)
+
+
 Evolution 3.5.92 2012-09-17
 ---------------------------
 
