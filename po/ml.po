@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: evolution.master.ml\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
 "cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-09-22 21:06+0000\n"
-"PO-Revision-Date: 2012-09-23 13:36+0000\n"
+"POT-Creation-Date: 2012-09-23 08:08+0000\n"
+"PO-Revision-Date: 2012-09-23 15:13+0000\n"
 "Last-Translator: Ani Peter <apeter@redhat.com>\n"
 "Language-Team: Malayalam <discuss@lists.smc.org.in>\n"
 "Language: ml\n"
@@ -1596,10 +1596,12 @@ msgstr "ദിവസങ്ങള്‍"
 msgid "hours"
 msgstr "മണിക്കൂറുകള്‍"
 
+#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
 #: ../calendar/alarm-notify/alarm-notify.ui.h:10
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:8
 #: ../calendar/gui/dialogs/event-page.ui.h:19 ../filter/filter.ui.h:6
 #: ../mail/e-mail-config-provider-page.c:527
+#: ../modules/addressbook/ldap-config.ui.h:29
 #: ../widgets/misc/e-interval-chooser.c:139
 msgid "minutes"
 msgstr "മിനിട്ടുകള്‍"
@@ -7051,9 +7053,19 @@ msgstr "പേരുകള്‍ തിരഞ്ഞെടുക്കുവാ�
 msgid "Contact layout style"
 msgstr "വിലാസങ്ങളുടെ ലിസ്റ്റ്"
 
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:11
+#, fuzzy
+msgid "Contact preview pane position (horizontal)"
+msgstr "മുകളില്‍ നിന്നും താഴേക്കുളള പാളിയുടെ സ്ഥാനം"
+
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:13
 #, fuzzy
 msgid "Contact preview pane position (vertical)"
+msgstr "മുകളില്‍ നിന്നും താഴേക്കുളള പാളിയുടെ സ്ഥാനം"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:14
+#, fuzzy
+msgid "Position of the contact preview pane when oriented vertically."
 msgstr "മുകളില്‍ നിന്നും താഴേക്കുളള പാളിയുടെ സ്ഥാനം"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:15
@@ -7324,6 +7336,11 @@ msgstr "Marcus Bains ലൈന്‍"
 msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar"
 msgstr "കലണ്ടറില്‍ Marcus Bains Line വരയ്ക്കണമോ എന്ന്."
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
+#, fuzzy
+msgid "Memo preview pane position (horizontal)"
+msgstr "മുകളില്‍ നിന്നും താഴേക്കുളള പാളിയുടെ സ്ഥാനം"
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 msgid "Memo layout style"
 msgstr "മെമ്മോ ആകൃതി ശൈലിയില്‍"
@@ -7331,6 +7348,11 @@ msgstr "മെമ്മോ ആകൃതി ശൈലിയില്‍"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 #, fuzzy
 msgid "Memo preview pane position (vertical)"
+msgstr "മുകളില്‍ നിന്നും താഴേക്കുളള പാളിയുടെ സ്ഥാനം"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
+#, fuzzy
+msgid "Position of the memo preview pane when oriented vertically"
 msgstr "മുകളില്‍ നിന്നും താഴേക്കുളള പാളിയുടെ സ്ഥാനം"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
@@ -7438,10 +7460,25 @@ msgid ""
 "together with task-due-today-highlight"
 msgstr "ഇന്ന് ചെയ്യേണ്ട ജോലികളുടെ പശ്ചാത്തല നിറം \"#rrggbb\" രീതിയിലാണ്."
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
+#, fuzzy
+msgid "Task preview pane position (horizontal)"
+msgstr "മുകളില്‍ നിന്നും താഴേക്കുളള പാളിയുടെ സ്ഥാനം"
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 #, fuzzy
 msgid "Task layout style"
 msgstr "മറുപടിയുടെ ശൈലി: (_R)"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
+#, fuzzy
+msgid "Task preview pane position (vertical)"
+msgstr "മുകളില്‍ നിന്നും താഴേക്കുളള പാളിയുടെ സ്ഥാനം"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
+#, fuzzy
+msgid "Position of the task preview pane when oriented vertically"
+msgstr "മുകളില്‍ നിന്നും താഴേക്കുളള പാളിയുടെ സ്ഥാനം"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 #, fuzzy
@@ -8099,6 +8136,11 @@ msgstr ""
 #, fuzzy
 msgid "Last time Empty Junk was run"
 msgstr "അവസാനമായി എപ്പോഴാണ് അനാവശ്യ മെയിലുകളുടെ ഫോള്‍ഡര്‍ കാലിയാക്കിയതു്"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#, fuzzy
+msgid "Determines whether to lookup in address book for sender email"
+msgstr "വരുന്ന മെയിലുകളില്‍ ആവശ്യമില്ലാത്തവയുടെ _സജ്ജമാക്കിയ ഹെഡര്‍ പരിശോധിക്കുക"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 #, fuzzy
@@ -9835,6 +9877,7 @@ msgstr ""
 
 #: ../mail/e-mail-config-identity-page.c:299
 #: ../mail/e-mail-config-summary-page.c:341
+#: ../modules/addressbook/ldap-config.ui.h:12
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
 #: ../widgets/misc/e-mail-signature-script-dialog.c:417
 msgid "_Name:"
@@ -11972,17 +12015,17 @@ msgstr "മേല്‍വിലാസങ്ങളുടെ ലോക്കല�
 msgid "Option is ignored if a match for custom junk headers is found."
 msgstr ""
 
-#: ../mail/mail-config.ui.h:110
+#: ../mail/mail-config.ui.h:110 ../modules/addressbook/ldap-config.ui.h:3
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:237
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:161
 msgid "No encryption"
 msgstr "രഹസ്യഭാഷ ലഭ്യമല്ല"
 
-#: ../mail/mail-config.ui.h:111
+#: ../mail/mail-config.ui.h:111 ../modules/addressbook/ldap-config.ui.h:1
 msgid "TLS encryption"
 msgstr "TLS രഹസ്യഭാഷ"
 
-#: ../mail/mail-config.ui.h:112
+#: ../mail/mail-config.ui.h:112 ../modules/addressbook/ldap-config.ui.h:2
 msgid "SSL encryption"
 msgstr "SSL രഹസ്യ ഭാഷ"
 
@@ -13318,6 +13361,112 @@ msgstr "ലിസ്റ്റിലേക്കു് സന്ദേശം _അ
 msgid "_Send Message to Contact"
 msgstr "വിലാസത്തിലേക്ക് സന്ദേശം _അയയ്ക്കുക"
 
+#: ../modules/addressbook/ldap-config.ui.h:4
+msgid "Anonymously"
+msgstr "അജ്ഞാതമായി"
+
+#: ../modules/addressbook/ldap-config.ui.h:5
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:682
+msgid "Using email address"
+msgstr "ഈമെയില്‍ വിലാസം ഉപയോഗിക്കുന്നു"
+
+#: ../modules/addressbook/ldap-config.ui.h:6
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:685
+msgid "Using distinguished name (DN)"
+msgstr "ഡിസ്റ്റിഗ്വിഷ്ഡ് നെയിം ഉപയോഗിക്കുന്നു (DN)"
+
+#. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
+#: ../modules/addressbook/ldap-config.ui.h:8
+msgid "One"
+msgstr "ഒന്ന്"
+
+#. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
+#: ../modules/addressbook/ldap-config.ui.h:10
+msgid "Sub"
+msgstr "വിഷയം"
+
+#: ../modules/addressbook/ldap-config.ui.h:11
+msgid "Supported Search Bases"
+msgstr "പിന്തുണയുളള തിരച്ചില്‍ അടിത്തറകള്‍"
+
+#: ../modules/addressbook/ldap-config.ui.h:13
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:181
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:113
+msgid "_Port:"
+msgstr "_പോര്‍ട്ട്: "
+
+#: ../modules/addressbook/ldap-config.ui.h:14
+msgid "Ser_ver:"
+msgstr "_സര്‍വര്‍: "
+
+#: ../modules/addressbook/ldap-config.ui.h:15
+msgid "Use secure _connection:"
+msgstr "സുരക്ഷിതമായ കണക്ഷന്‍ _ഉപയോഗിക്കുക: "
+
+#: ../modules/addressbook/ldap-config.ui.h:16
+msgid "_Login method:"
+msgstr "_ലോഗിന്‍ ചെയ്യുന്ന മാര്‍ഗ്ഗം: "
+
+#: ../modules/addressbook/ldap-config.ui.h:17
+msgid "Lo_gin:"
+msgstr "_ലോഗിന്‍: "
+
+#: ../modules/addressbook/ldap-config.ui.h:18
+msgid "Search _base:"
+msgstr "_തിരച്ചിലിനുളള അടിത്തറ: "
+
+#: ../modules/addressbook/ldap-config.ui.h:19
+msgid "_Search scope:"
+msgstr "_തിരച്ചില്‍ പരിധി: "
+
+#: ../modules/addressbook/ldap-config.ui.h:20
+msgid "_Find Possible Search Bases"
+msgstr "തിരച്ചിലിന് സാധ്യമായ അടിത്തറകള്‍ _കണ്ടുപിടിക്കുക "
+
+#: ../modules/addressbook/ldap-config.ui.h:21
+msgid "S_earch filter:"
+msgstr "_ഫില്‍റ്റര്‍ തിരയുക: "
+
+#: ../modules/addressbook/ldap-config.ui.h:22
+msgid "Search Filter"
+msgstr "ഫില്‍ട്ടര്‍ തിരയുക"
+
+#: ../modules/addressbook/ldap-config.ui.h:23
+msgid ""
+"Search filter is the type of object to be searched for. If this is not "
+"modified, the default search will be performed on the type \"person\"."
+msgstr ""
+
+#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
+#: ../modules/addressbook/ldap-config.ui.h:25
+msgid "1"
+msgstr "1"
+
+#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
+#: ../modules/addressbook/ldap-config.ui.h:27
+msgid "5"
+msgstr "5"
+
+#: ../modules/addressbook/ldap-config.ui.h:30
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:838
+msgid "contacts"
+msgstr "വിലാസങ്ങള്‍"
+
+#: ../modules/addressbook/ldap-config.ui.h:31
+msgid "_Timeout:"
+msgstr "_സമയപരിധി: "
+
+#: ../modules/addressbook/ldap-config.ui.h:32
+msgid "_Download limit:"
+msgstr "_ഡൌണ്‍‍ലോട് ചെയ്യുവാന്‍ സാധിക്കുന്ന പരിധി: "
+
+#. To translators: If enabled, addressbook will only fetch contacts from the server until either set time limit or amount of contacts limit reached
+#: ../modules/addressbook/ldap-config.ui.h:34
+#, fuzzy
+#| msgid "Browse until limit is reached"
+msgid "B_rowse this book until limit reached"
+msgstr "പരിധിയെത്തുന്നതു് വരെ പരുതുക"
+
 #: ../modules/audio-inline/e-mail-formatter-audio-inline.c:310
 msgid "Audio Player"
 msgstr "ഓഡിയോ പ്ലേയര്‍"
@@ -13601,14 +13750,6 @@ msgstr "ആധികാരകത ഉറപ്പുവരുത്തല്‍"
 msgid "Anonymous"
 msgstr "അജ്ഞാതം"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:682
-msgid "Using email address"
-msgstr "ഈമെയില്‍ വിലാസം ഉപയോഗിക്കുന്നു"
-
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:685
-msgid "Using distinguished name (DN)"
-msgstr "ഡിസ്റ്റിഗ്വിഷ്ഡ് നെയിം ഉപയോഗിക്കുന്നു (DN)"
-
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:687
 msgid "Method:"
 msgstr "രീതി:"
@@ -13677,10 +13818,6 @@ msgstr "ഡൊണ്‍‍ലോട് ചെയ്യുന്നു"
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:827
 msgid "Limit:"
 msgstr "പരിധി:"
-
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:838
-msgid "contacts"
-msgstr "വിലാസങ്ങള്‍"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:843
 msgid "Browse until limit is reached"
@@ -14892,9 +15029,8 @@ msgid ""
 msgstr ""
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:243
-#, fuzzy
 msgid "_Fetch All Headers"
-msgstr "മുഴുവന്‍ തലക്കെട്ടുകള്‍ ലഭ്യമാക്കുക (_l)"
+msgstr "മുഴുവന്‍ തലക്കെട്ടുകള്‍ _ലഭ്യമാക്കുക"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:257
 #, fuzzy
@@ -14931,7 +15067,7 @@ msgstr "ITIP"
 
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:145
 msgid "Display part as an invitation"
-msgstr ""
+msgstr "ക്ഷണത്തിന്റെ ഭാഗമായി കാണിയ്ക്കുക"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
@@ -15150,9 +15286,9 @@ msgid "%s through %s has canceled the following meeting:"
 msgstr "<b>%s</b> %s-ലൂടെ താഴെ പറയുന്ന മീറ്റിങ് റദ്ദാക്കിയിരിക്കുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "%s has canceled the following meeting:"
-msgstr "<b>%s</b> മീറ്റിങ് റദ്ദാക്കിയിരിക്കുന്നു."
+msgstr "%s മീറ്റിങ് റദ്ദാക്കിയിരിക്കുന്നു."
 
 #: ../modules/itip-formatter/itip-view.c:462
 #, fuzzy, c-format
@@ -15180,9 +15316,9 @@ msgid "%s through %s has published the following task:"
 msgstr "<b>%s</b> %s-ലൂടെ താഴെ പറയുന്ന ജോലി പബ്ലിഷ് ചെയ്തിരിക്കുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:512
-#, fuzzy, c-format
+#, c-format
 msgid "%s has published the following task:"
-msgstr "<b>%s</b> താഴെ പറയുന്ന ജോലി പബ്ലിഷ് ചെയ്തിരിക്കുന്നു:"
+msgstr "%s താഴെ പറയുന്ന ജോലി പബ്ലിഷ് ചെയ്തിരിക്കുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:517
 #, fuzzy, c-format
@@ -15195,9 +15331,9 @@ msgid "%s through %s has assigned you a task:"
 msgstr "<b>%s</b> %s-ലൂടെ നിങ്ങള്‍ക്കു് ഒരു ജോലി നല്‍കിയിരിക്കുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:522
-#, fuzzy, c-format
+#, c-format
 msgid "%s has assigned you a task:"
-msgstr "<b>%s</b> നിങ്ങള്‍ക്കു് ഒരു ജോലി നല്‍കിയിരിക്കുന്നു:"
+msgstr "%s നിങ്ങള്‍ക്കു് ഒരു ജോലി നല്‍കിയിരിക്കുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:528
 #, fuzzy, c-format
@@ -15205,9 +15341,9 @@ msgid "%s through %s wishes to add to an existing task:"
 msgstr "<b>%s</b>-നു് %s-ലൂടെ നിലവിലുള്ള ഒരു ജോലി ചേര്‍ക്കണമെന്നു് ആവശ്യപ്പെടുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:530
-#, fuzzy, c-format
+#, c-format
 msgid "%s wishes to add to an existing task:"
-msgstr "<b>%s</b>-നു് നിലവിലുള്ള ഒരു ജോലി ചേര്‍ക്കണമെന്നു് ആവശ്യപ്പെടുന്നു:"
+msgstr "%s-നു് നിലവിലുള്ള ഒരു ജോലി ചേര്‍ക്കണമെന്നു് ആവശ്യപ്പെടുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:534
 #, fuzzy, c-format
@@ -15239,9 +15375,9 @@ msgid "%s through %s has canceled the following assigned task:"
 msgstr "<b>%s</b> %s-ലൂടെ താഴെ പറയുന്ന ജോലി റദ്ദാക്കിയിരിക്കുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:548
-#, fuzzy, c-format
+#, c-format
 msgid "%s has canceled the following assigned task:"
-msgstr "<b>%s</b> താഴെ കാണിക്കുന്ന ജോലി റദ്ദാക്കിയിരിക്കുന്നു:"
+msgstr "%s താഴെ കാണിക്കുന്ന ജോലി റദ്ദാക്കിയിരിക്കുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:552
 #, fuzzy, c-format
@@ -15259,9 +15395,9 @@ msgid "%s through %s has declined the following assigned task:"
 msgstr "<b>%s</b> %s വഴി നല്‍കിയിരിക്കുന്ന ജോലി അവസാനപ്പിച്ചിരിക്കുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "%s has declined the following assigned task:"
-msgstr "<b>%s</b> നല്‍കിയിരിക്കുന്ന ജോലി അവസാനപ്പിച്ചിരിക്കുന്നു:"
+msgstr "%s നല്‍കിയിരിക്കുന്ന ജോലി അവസാനപ്പിച്ചിരിക്കുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:599
 #, fuzzy, c-format
@@ -15269,9 +15405,9 @@ msgid "%s through %s has published the following memo:"
 msgstr "<b>%s</b> %s വഴി താഴെ കാണിക്കുന്ന മെമ്മോ പ്രസദ്ധീകരിച്ചിരിക്കുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "%s has published the following memo:"
-msgstr "<b>%s</b> താഴെ കാണിക്കുന്ന മെമ്മോ പ്രസദ്ധീകരിച്ചിരിക്കുന്നു:"
+msgstr "%s താഴെ കാണിക്കുന്ന മെമ്മോ പ്രസദ്ധീകരിച്ചിരിക്കുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:606
 #, fuzzy, c-format
@@ -15289,18 +15425,17 @@ msgid "%s through %s has canceled the following shared memo:"
 msgstr "<b>%s</b> %s വഴി താഴെ കാണിക്കുന്ന ഷെയര്‍ഡ് മെമ്മോ റദ്ദാക്കിയിരിക്കുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:614
-#, fuzzy, c-format
+#, c-format
 msgid "%s has canceled the following shared memo:"
-msgstr "<b>%s</b> താഴെ കാണിക്കുന്ന ഷെയര്‍ഡ് മെമ്മോ റദ്ദാക്കിയിരിക്കുന്നു:"
+msgstr "%s താഴെ കാണിക്കുന്ന ഷെയര്‍ഡ് മെമ്മോ റദ്ദാക്കിയിരിക്കുന്നു:"
 
 #: ../modules/itip-formatter/itip-view.c:687
 msgid "All day:"
 msgstr "ദിവസം മുഴുവന്‍:"
 
 #: ../modules/itip-formatter/itip-view.c:693
-#, fuzzy
 msgid "Start day:"
-msgstr "ആരംഭിക്കുന്ന തീയതി: (_r)"
+msgstr "ആരംഭ ദിവസം:"
 
 #: ../modules/itip-formatter/itip-view.c:693
 #: ../modules/itip-formatter/itip-view.c:1473
@@ -15308,9 +15443,8 @@ msgid "Start time:"
 msgstr "തുടങ്ങുന്ന സമയം:"
 
 #: ../modules/itip-formatter/itip-view.c:702
-#, fuzzy
 msgid "End day:"
-msgstr "%d ദിവസം"
+msgstr "അവസാന ദിവസം: "
 
 #: ../modules/itip-formatter/itip-view.c:702
 #: ../modules/itip-formatter/itip-view.c:1474
@@ -15338,9 +15472,8 @@ msgid "_Tentative"
 msgstr "_താല്‍ക്കാലികമായി"
 
 #: ../modules/itip-formatter/itip-view.c:1037
-#, fuzzy
 msgid "A_ccept all"
-msgstr "എല്ലാം അംഗീകരിക്കുക (_A)"
+msgstr "_എല്ലാം അംഗീകരിക്കുക"
 
 #: ../modules/itip-formatter/itip-view.c:1040
 msgid "A_ccept"
@@ -15402,9 +15535,9 @@ msgstr "_മെമ്മോസ് "
 #. Translators: The first '%s' is replaced with a calendar name,
 #. * the second '%s' with an error message
 #: ../modules/itip-formatter/itip-view.c:3511
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load the calendar '%s' (%s)"
-msgstr "'%s' കലണ്ടര്‍ ലോഡ് ചെയ്യുന്നതില്‍ പരാജയപ്പെട്ടു"
+msgstr "കലണ്ടര്‍ '%s' ലഭ്യമാക്കുന്നതില്‍ പരാജയം (%s)"
 
 #: ../modules/itip-formatter/itip-view.c:3670
 #, c-format
@@ -15508,7 +15641,7 @@ msgstr "പങ്കെടുത്തയാളുടെ അവസ്ഥ പര�
 #: ../modules/itip-formatter/itip-view.c:5103
 #: ../modules/itip-formatter/itip-view.c:5143
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
+msgstr "വസ്തു ലഭ്യമല്ലാത്തതിനാല്‍ ഹാജരായവരുടെ അവസ്ഥ പരിഷ്കരിയ്ക്കുവാന്‍ സാധ്യമല്ല"
 
 #: ../modules/itip-formatter/itip-view.c:5206
 msgid "Meeting information sent"
@@ -15618,9 +15751,8 @@ msgstr ""
 "ചേര്‍ക്കണമോ?"
 
 #: ../modules/itip-formatter/plugin/config-ui.c:82
-#, fuzzy
 msgid "Meeting Invitations"
-msgstr "മീറ്റിങ് വിവരങ്ങള്‍ അയച്ചിരിക്കുന്നു"
+msgstr "മീറ്റിങ് ക്ഷണങ്ങള്‍"
 
 #: ../modules/itip-formatter/plugin/config-ui.c:108
 msgid "_Delete message after acting"
@@ -15699,7 +15831,6 @@ msgid "Choose a mbox spool directory"
 msgstr "ഒരു mbox സ്പൂള്‍ ഡയറക്ടറി തെരഞ്ഞെടുക്കുക"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:149
-#: ../modules/mail-config/e-mail-config-sendmail-backend.c:49
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:82
 #: ../modules/plugin-manager/evolution-plugin-manager.c:160
 msgid "Configuration"
@@ -15710,11 +15841,6 @@ msgstr "ക്രമീകരണങ്ങള്‍"
 #: ../plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "_Server:"
 msgstr "_സര്‍വര്‍: "
-
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:181
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:113
-msgid "_Port:"
-msgstr "_പോര്‍ട്ട്: "
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:193
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:229
@@ -15736,16 +15862,6 @@ msgstr "കണക്ട് ചെയ്ത ശേഷം STARTTLS"
 msgid "SSL on a dedicated port"
 msgstr ""
 
-#: ../modules/mail-config/e-mail-config-sendmail-backend.c:65
-msgid "_Use custom binary, instead of 'sendmail'"
-msgstr ""
-
-#: ../modules/mail-config/e-mail-config-sendmail-backend.c:69
-#, fuzzy
-#| msgid "Custom Alarm:"
-msgid "_Custom binary:"
-msgstr "അലാറം ഇഷ്ടമുളളപോലെ ക്രമീകരിക്കുക:"
-
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:125
 msgid "Ser_ver requires authentication"
 msgstr "_സര്‍വറില്‍ ആധികാരികത ഉറപ്പാക്കേണ്ടതുണ്ട് "
@@ -15760,7 +15876,7 @@ msgstr "യാഹൂ! വിശേഷതകള്‍"
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:256
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
-msgstr ""
+msgstr "ഈ അക്കൌണ്ടിലേക്കു് യാഹൂ! _കലണ്ടറും ജോലികളും ചേര്‍ക്കുക"
 
 #: ../modules/mail/e-mail-attachment-handler.c:368
 #, fuzzy, c-format
@@ -15828,9 +15944,8 @@ msgid "Disable this account"
 msgstr "അക്കൌണ്ട് അപ്രാപ്യമാക്കുക"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1235
-#, fuzzy
 msgid "Permanently remove all the deleted messages from all folders"
-msgstr "എല്ലാം ഫോള്‍ഡറുകളില്‍ നിന്നും എല്ലാ സന്ദേശങ്ങളും നീക്കം ചെയ്യുക"
+msgstr "എല്ലാ ഫോള്‍ഡറുകളില്‍ നിന്നും വെട്ടി നീക്കിയ എല്ലാ സന്ദേശങ്ങളും എന്നേക്കുമായി വെട്ടി നീക്കുക"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1242
 msgid "Edit properties of this account"
@@ -16234,19 +16349,16 @@ msgstr "വില ഉള്ളത്"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
 #: ../modules/mail/em-mailer-prefs.c:1145
-#, fuzzy
 msgid "_Date header:"
-msgstr "ടേബിളിന്‍റെ തലക്കെട്ട്"
+msgstr "_തീയതിയ്ക്കുള്ള തലക്കെട്ടു്:"
 
 #: ../modules/mail/em-mailer-prefs.c:1146
-#, fuzzy
 msgid "Show _original header value"
-msgstr "ശരിയായ വലിപ്പം കാണിക്കുക (_O)"
+msgstr "_യഥാര്‍ത്ഥ തലക്കെട്ട് മൂല്ല്യം കാണിയ്ക്കുക."
 
 #: ../modules/mailto-handler/evolution-mailto-handler.c:146
-#, fuzzy
 msgid "Do you want to make Evolution your default email client?"
-msgstr "Evolution നിങ്ങളുടെ ഡീഫോള്‍ട്ട് ഈ-മെയില്‍ ക്ളൈന്‍റ് ആയി സെറ്റ് ചെയ്യണമോ?"
+msgstr "ഇവല്യൂഷന്‍ നിങ്ങളുടെ സ്വതവേയുള്ള ഈ-മെയില്‍ ക്ലയന്റായി സജ്ജമാക്കണമോ?"
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
@@ -16268,9 +16380,8 @@ msgstr "സന്ദേശങ്ങള്‍ ലഭ്യമായി എന്�
 
 #. name doesn't matter
 #: ../modules/mdn/evolution-mdn.c:548
-#, fuzzy
 msgid "_Notify Sender"
-msgstr "അയയ്ക്കുവാന്‍ പാടില്ല (_n)"
+msgstr "അയച്ചയാളിനെ _അറിയിയ്ക്കുക"
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:1
 msgid "Sender wants to be notified when you have read this message."
@@ -16278,7 +16389,7 @@ msgstr ""
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:2
 msgid "Sender has been notified that you have read this message."
-msgstr ""
+msgstr "ഈ സന്ദേശം വായിച്ചു എന്നു് അയച്ചയാളിനെ അറിയിച്ചിരിയ്ക്കുന്നു."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:1
 msgid "Evolution is currently offline."
@@ -16286,20 +16397,19 @@ msgstr "ഇവല്യൂഷന്‍ ഇപ്പോള്‍ ഓഫ്‌ല�
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:2
 msgid "Click 'Work Online' to return to online mode."
-msgstr ""
+msgstr "ഓണ്‍ലൈന്‍ മോഡില്‍ തിരികെ പോകുന്നതിനായി 'ഓണ്‍ലൈനായി പ്രവര്‍ത്തിയ്ക്കുക' ക്ലിക്ക് ചെയ്യുക."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:3
-#, fuzzy
 msgid "Evolution is currently offline due to a network outage."
-msgstr ""
-"Evolution നിലവില്‍ ഓഫ്‌ലൈന്‍ ആണു്.\n"
-"ഓണ്‍ലൈന്‍ ആക്കുന്നതിനു് ഈ ബട്ടണ്‍ അമര്‍ത്തുക."
+msgstr "നെറ്റ്‌വര്‍ക്ക് ഔട്ടേജ് കാരണം ഇവല്യൂഷന്‍ ഇപ്പോള്‍ ഓഫ്‌ലൈന്‍ ആകുന്നു."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:4
 msgid ""
 "Evolution will return to online mode once a network connection is "
 "established."
 msgstr ""
+"നെറ്റ്‌വര്‍ക്ക് കണക്ഷന്‍ സ്ഥാപിച്ചാല്‍ ഇവല്യൂഷന്‍ ഓണ്‍ലൈന്‍ മോഡിലേക്കു് "
+"ലഭ്യമാകുന്നു."
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:417
 msgid ""
@@ -16316,6 +16426,8 @@ msgid ""
 "This option will connect to the server by way of the GNOME Online Accounts "
 "service"
 msgstr ""
+"ഗ്നോം ഓണ്‍ലൈന്‍ അക്കൌണ്ട് സര്‍വീസ് വഴി ഈ ഐച്ഛികം സര്‍വറിലേക്കു് കണക്ട് "
+"ചെയ്യുന്നു"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:69
 msgid "Author(s)"
@@ -16347,10 +16459,9 @@ msgid "Enable and disable plugins"
 msgstr "പ്ളഗിന്സ് പ്രവര്‍ത്തന സജ്ജമാക്കുകയും രഹിതമാക്കുകയും ചെയ്യുക"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:140
-#, fuzzy
 #| msgid "Display the next message"
 msgid "Display plain text version"
-msgstr "അടുത്ത സന്ദേശം കാണിക്കുക"
+msgstr "പ്ലെയിന്‍ ടെക്സ്റ്റ് പതിപ്പു് കാണിയ്ക്കുക"
 
 #: ../modules/prefer-plain/e-mail-display-popup-prefer-plain.c:142
 #, fuzzy
@@ -16376,13 +16487,12 @@ msgstr "HTML ഉണ്ടെങ്കില്‍ അത് കാണിക്�
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:83
 #: ../modules/prefer-plain/plugin/config-ui.c:47
 msgid "Let Evolution choose the best part to show."
-msgstr ""
+msgstr "കാണിയ്ക്കുവാന്‍ ഏറ്റവും ഉചിതമായ ഭാഗം ഇവല്യൂഷന്‍ തെരഞ്ഞെടുക്കുന്നു."
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:86
 #: ../modules/prefer-plain/plugin/config-ui.c:50
-#, fuzzy
 msgid "Show plain text if present"
-msgstr "HTML ഉണ്ടെങ്കില്‍ അത് കാണിക്കുക"
+msgstr "ഉണ്ടെങ്കില്‍ പ്ലെയിന്‍ ടെക്സ്റ്റ് കാണിയ്ക്കുക"
 
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:87
 #: ../modules/prefer-plain/plugin/config-ui.c:51
@@ -16413,9 +16523,8 @@ msgid "HTML _Mode"
 msgstr "HTML _രീതി "
 
 #: ../modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:1
-#, fuzzy
 msgid "Prefer Plain Text"
-msgstr "plain-text നിര്‍ദ്ദേശിക്കുന്നു"
+msgstr "പ്ലെയിന്‍ ടെക്സ്റ്റ് ഉചിതം"
 
 #. but then we also need to create our own section frame
 #: ../modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:3
@@ -16463,9 +16572,8 @@ msgid "This will make SpamAssassin more reliable, but slower."
 msgstr "ഇതു് SpamAssassin-നു് കൂടുതല്‍ സഹായകമാകുന്നു, പക്ഷേ വളരെ പതുക്കെ പ്രവര്‍ത്തിക്കുന്നു"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:1123
-#, fuzzy
 msgid "SpamAssassin"
-msgstr "SpamAssassin ഉപാധികള്‍"
+msgstr "സ്പാംഅസ്സാസ്സിന്‍"
 
 #: ../modules/startup-wizard/e-mail-config-import-page.c:204
 #: ../widgets/misc/e-import-assistant.c:403
@@ -16482,19 +16590,16 @@ msgstr "%s-ല്‍ നിന്ന്:"
 #. * so it's only shown once in the assistant sidebar.
 #: ../modules/startup-wizard/e-mail-config-import-page.c:264
 #: ../modules/startup-wizard/e-mail-config-import-progress-page.c:342
-#, fuzzy
 msgid "Importing Files"
-msgstr "ഫയലുകള്‍ ഇംപോര്‍ട്ട് ചെയ്യുക"
+msgstr "ഫയലുകള്‍ ഇംപോര്‍ട്ട് ചെയ്യുന്നു"
 
 #: ../modules/startup-wizard/e-mail-config-import-progress-page.c:261
-#, fuzzy
 msgid "Import cancelled."
-msgstr "റദ്ദാക്കപ്പെട്ടു "
+msgstr "ഇംപോര്‍ട്ട് റദ്ദാക്കപ്പെട്ടു."
 
 #: ../modules/startup-wizard/e-mail-config-import-progress-page.c:278
-#, fuzzy
 msgid "Import complete."
-msgstr "എത്ര _ശതമാനം പൂര്‍ത്തിയായി:"
+msgstr "ഇംപോര്‍ട്ട് പൂര്‍ത്തിയായി."
 
 #: ../modules/startup-wizard/e-startup-assistant.c:154
 #, fuzzy
@@ -16511,9 +16616,8 @@ msgstr ""
 "മുന്പോട്ട് പോകുന്നതിനായി \"മുന്പോട്ട്\" എന്ന ബട്ടണ്‍ ക്ളിക്ക് ചെയ്യുക."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:242
-#, fuzzy
 msgid "Loading accounts..."
-msgstr "ലോഡ് ചെയ്യുന്നു..."
+msgstr "അക്കൌണ്ടുകള്‍ ലഭ്യമാക്കുന്നു..."
 
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:95
 #, fuzzy
@@ -16522,9 +16626,8 @@ msgid "_Format as..."
 msgstr "_നിരകള്‍ ക്രമപ്പെടുത്തുക..."
 
 #: ../modules/text-highlight/e-mail-display-popup-text-highlight.c:103
-#, fuzzy
 msgid "_Other languages"
-msgstr "ഭാഷ"
+msgstr "_മറ്റു് ഭാഷകള്‍"
 
 #: ../modules/text-highlight/e-mail-formatter-text-highlight.c:342
 msgid "Text Highlight"
@@ -16535,18 +16638,17 @@ msgid "Syntax highlighting of mail parts"
 msgstr ""
 
 #: ../modules/text-highlight/languages.c:32
-#, fuzzy
 #| msgid "Plain Text Mode"
 msgid "_Plain text"
-msgstr "പ്ളെയിന്‍ ടെക്സ്റ്റ് മോഡ്"
+msgstr "പ്ളെ_യിന്‍ ടെക്സ്റ്റ്"
 
 #: ../modules/text-highlight/languages.c:38
 msgid "_Assembler"
-msgstr ""
+msgstr "_അസ്സംബ്ലര്‍"
 
 #: ../modules/text-highlight/languages.c:43
 msgid "_Bash"
-msgstr ""
+msgstr "_ബാഷ്"
 
 #: ../modules/text-highlight/languages.c:54
 msgid "_C/C++"
@@ -16605,20 +16707,18 @@ msgid "_Vala"
 msgstr "_Vala"
 
 #: ../modules/text-highlight/languages.c:152
-#, fuzzy
 #| msgid "Visual"
 msgid "_Visual Basic"
-msgstr "കാണുവാന്‍ സാധ്യമായ"
+msgstr "_വിഷ്വല്‍ ബേസിക്ക്"
 
 #: ../modules/text-highlight/languages.c:159
 msgid "_XML"
 msgstr "_XML"
 
 #: ../modules/text-highlight/languages.c:177
-#, fuzzy
 #| msgid "_Actions"
 msgid "_ActionScript"
-msgstr "_പ്രവര്‍ത്തനങ്ങള്‍ "
+msgstr "_ആക്ഷന്‍സ്ക്രിപ്റ്റ്"
 
 #: ../modules/text-highlight/languages.c:182
 msgid "_ADA95"
@@ -16662,85 +16762,80 @@ msgstr "_F#"
 
 #: ../modules/text-highlight/languages.c:235
 msgid "_Go"
-msgstr ""
+msgstr "പോകു_ക"
 
 #: ../modules/text-highlight/languages.c:240
 msgid "_Haskell"
-msgstr ""
+msgstr "_ഹാസ്ക്കല്‍"
 
 #: ../modules/text-highlight/languages.c:245
 msgid "_JSP"
 msgstr "_JSP"
 
 #: ../modules/text-highlight/languages.c:250
-#, fuzzy
 #| msgid "_List:"
 msgid "_Lisp"
-msgstr "_പട്ടിക:"
+msgstr "_ലിസ്പ്"
 
 #: ../modules/text-highlight/languages.c:258
 msgid "_Lotus"
-msgstr ""
+msgstr "_ലോട്ടസ്"
 
 #: ../modules/text-highlight/languages.c:263
 msgid "_Lua"
-msgstr ""
+msgstr "_ലുവാ"
 
 #: ../modules/text-highlight/languages.c:268
 msgid "_Maple"
-msgstr ""
+msgstr "_മേപ്പിള്‍"
 
 #: ../modules/text-highlight/languages.c:273
 msgid "_Matlab"
-msgstr ""
+msgstr "_മത്ലബ്"
 
 #: ../modules/text-highlight/languages.c:278
 msgid "_Maya"
-msgstr ""
+msgstr "_മായാ"
 
 #: ../modules/text-highlight/languages.c:283
 msgid "_Oberon"
-msgstr ""
+msgstr "_ഒബറോണ്‍"
 
 #: ../modules/text-highlight/languages.c:288
-#, fuzzy
 #| msgid "Object Signer"
 msgid "_Objective C"
-msgstr "ഒബ്ജക്ട് സൈനര്‍"
+msgstr "_ഒബ്ജക്ട് സി"
 
 #: ../modules/text-highlight/languages.c:294
 msgid "_OCaml"
-msgstr ""
+msgstr "_OCaml"
 
 #: ../modules/text-highlight/languages.c:299
 msgid "_Octave"
-msgstr ""
+msgstr "_ഒക്ടേവ്"
 
 #: ../modules/text-highlight/languages.c:304
-#, fuzzy
 #| msgid "Object Signer"
 msgid "_Object Script"
-msgstr "ഒബ്ജക്ട് സൈനര്‍"
+msgstr "_ഒബ്ജക്ട് സ്ക്രിപ്റ്റ്"
 
 #: ../modules/text-highlight/languages.c:309
 msgid "_Pascal"
-msgstr ""
+msgstr "_പാസ്ക്കല്‍"
 
 #: ../modules/text-highlight/languages.c:314
 msgid "_POV-Ray"
-msgstr ""
+msgstr "_പിഒവി-റേ"
 
 #: ../modules/text-highlight/languages.c:319
-#, fuzzy
 #| msgid "_Program:"
 msgid "_Prolog"
-msgstr "_പ്രോഗ്രാം:"
+msgstr "_പ്രോലോഗ്"
 
 #: ../modules/text-highlight/languages.c:324
-#, fuzzy
 #| msgid "_Script:"
 msgid "_PostScript"
-msgstr "_സ്ക്രിപ്റ്റ് : "
+msgstr "_പോസ്റ്റ്സ്ക്രിപ്റ്റ്"
 
 #: ../modules/text-highlight/languages.c:329
 msgid "_R"
@@ -16756,7 +16851,7 @@ msgstr "_സ്കാലാ"
 
 #: ../modules/text-highlight/languages.c:344
 msgid "_Smalltalk"
-msgstr ""
+msgstr "_സ്മോള്‍ടോക്ക്"
 
 #: ../modules/text-highlight/languages.c:350
 msgid "_TCSH"
@@ -16768,43 +16863,38 @@ msgstr "_VHDL"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:118
 #: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:201
-#, fuzzy
 #| msgid "Show Full vCard"
 msgid "Show F_ull vCard"
-msgstr "മുഴുവന്‍ vCard കാണിക്കുക"
+msgstr "മുഴു_വന്‍ vCard കാണിക്കുക"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:121
 #: ../modules/vcard-inline/e-mail-parser-vcard-inline.c:219
-#, fuzzy
 #| msgid "Show Compact vCard"
 msgid "Show Com_pact vCard"
-msgstr "കോംപാക്റ്റ് vCard കാണിക്കുക"
+msgstr "കോം_പാക്റ്റ് vCard കാണിക്കുക"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:145
-#, fuzzy
 msgid "Save _To Addressbook"
-msgstr "വിലാസപുസ്തകത്തില്‍ സംരക്ഷിക്കുക "
+msgstr "വിലാസപുസ്ത_കത്തിലേക്കു് സൂക്ഷിയ്ക്കുക"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:165
-#, fuzzy
 msgid "There is one other contact."
 msgstr "മറ്റൊരു വിലാസം കൂടിയുണ്ട്."
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] "മറ്റൊരു വിലാസം കൂടിയുണ്ട്."
-msgstr[1] "%d വിലാസങ്ങള്‍ കൂടിയുണ്ട്."
+msgstr[0] "മറ്റു് %d വിലാസമുണ്ടു്."
+msgstr[1] "മറ്റു് %d വിലാസങ്ങളുണ്ടു്."
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:196
-#, fuzzy
 msgid "Addressbook Contact"
-msgstr "മേല്‍വിലാസങ്ങളുടെ വിശേഷതകള്‍"
+msgstr "മേല്‍വിലാസപുസ്തക വിലാസം"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:202
 msgid "Display the part as an addressbook contact"
-msgstr ""
+msgstr "വിലാസപുസ്തകത്തിലെ വിലാസമായി ഭാഗം കാണിയ്ക്കുക"
 
 #: ../modules/web-inspector/evolution-web-inspector.c:88
 msgid "_Inspect..."
@@ -16815,10 +16905,9 @@ msgid "Inspect the HTML content (debugging feature)"
 msgstr ""
 
 #: ../modules/web-inspector/evolution-web-inspector.c:102
-#, fuzzy
 #| msgid "Evolution Website"
 msgid "Evolution Web Inspector"
-msgstr "Evolution വെബ്സൈറ്റ്"
+msgstr "ഇവല്യൂഷന്‍ വെബ് ഇന്‍സ്പെക്ടര്‍"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:128
 msgid "_Do not show this message again."
@@ -16840,7 +16929,6 @@ msgid ""
 msgstr ""
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
-#, fuzzy
 msgid "_Add Attachment..."
 msgstr "അറ്റാച്മെന്‍റ് _ചേര്‍ക്കുക..."
 
@@ -16863,9 +16951,8 @@ msgstr "ഓട്ടോമാറ്റിക്കായി ലഭ്യമാ�
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:674
-#, fuzzy
 msgid "Create _address book entries when sending mails"
-msgstr "മെയിലുകള്‍ക്കു് മറുപടി അയയ്ക്കുമ്പോള്‍ മേല്‍വിലാസങ്ങളുടെ പുസ്തകത്തില്‍ വിലാസങ്ങള്‍ _സ്വയം ചേര്‍ക്കുക"
+msgstr "മെയിലുകള്‍ അയയ്ക്കുമ്പോള്‍ മേല്‍വിലാസങ്ങളുടെ പുസ്തകത്തില്‍ വിലാസങ്ങല്‍ ചേര്‍ക്കു_ക"
 
 #: ../plugins/bbdb/bbdb.c:682
 msgid "Select Address book for Automatic Contacts"
@@ -16908,14 +16995,12 @@ msgstr ""
 "പൂര്‍ത്തിയാക്കുന്നു."
 
 #: ../plugins/dbx-import/dbx-importer.c:287
-#, fuzzy
 msgid "Importing Outlook Express data"
-msgstr "Outlook ഡേറ്റാ ഇംപോര്‍ട്ട് ചെയ്യുന്നു"
+msgstr "ഔട്ട്‌ലുക്ക് എക്സ്പ്രസ്സ് ഡേറ്റാ ഇംപോര്‍ട്ട് ചെയ്യുന്നു"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:1
-#, fuzzy
 msgid "Outlook DBX import"
-msgstr "Outlook PST ഇംപോര്‍ട്ട്"
+msgstr "ഔട്ട്‌ലുക്ക് ഡിബിഎക്സ ഇംപോര്‍ട്ട്"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:2
 #, fuzzy
@@ -16928,49 +17013,41 @@ msgid "Import Outlook Express messages from DBX file"
 msgstr "PST ഫയലില്‍ നിന്നും മെയില്‍ ഇംപോര്‍ട്ട് ചെയ്യുക."
 
 #: ../plugins/email-custom-header/email-custom-header.c:291
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Security:"
 msgstr "സുരക്ഷ:"
 
 #: ../plugins/email-custom-header/email-custom-header.c:295
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Personal"
 msgstr "വ്യക്തിപരം"
 
 #: ../plugins/email-custom-header/email-custom-header.c:296
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Unclassified"
 msgstr "വിഭാഗിച്ചിട്ടില്ലാത്ത"
 
 #: ../plugins/email-custom-header/email-custom-header.c:297
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Protected"
 msgstr "സംരക്ഷണമുള്ള"
 
 #: ../plugins/email-custom-header/email-custom-header.c:298
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Confidential"
 msgstr "വിശ്വസ്തം"
 
 #: ../plugins/email-custom-header/email-custom-header.c:299
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Secret"
 msgstr "രഹസ്യം"
 
 #: ../plugins/email-custom-header/email-custom-header.c:300
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Top secret"
 msgstr "രഹസ്യം"
 
 #: ../plugins/email-custom-header/email-custom-header.c:357
-#, fuzzy
 msgctxt "email-custom-header"
 msgid "None"
 msgstr "ഒന്നുമില്ല"
@@ -17078,9 +17155,8 @@ msgid "Select a Face Picture"
 msgstr "ഒരു ഫയല്‍ തിരഞ്ഞെടുക്കുക"
 
 #: ../plugins/face/face.c:302
-#, fuzzy
 msgid "Image files"
-msgstr "ഫയലുകള്‍ ഇംപോര്‍ട്ട് ചെയ്യുക"
+msgstr "ഇമേജ് ചിത്രങ്ങള്‍"
 
 #: ../plugins/face/face.c:361
 msgid "_Insert Face picture by default"
@@ -17096,9 +17172,8 @@ msgid "Include _Face"
 msgstr "ഉല്‍പ്പെടുത്തുക:"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
-#, fuzzy
 msgid "Attach a small picture of your face to outgoing messages."
-msgstr "പുറത്തേക്കു് പോകുന്ന സന്ദേശങ്ങള്‍ക്കു് നിങ്ങള്‍ തയ്യാറാക്കിയ ഹെഡര്‍ ചേര്‍ക്കുക."
+msgstr "പുറത്തേക്കു് പോകുന്ന സന്ദേശങ്ങള്‍ക്കു് നിങ്ങളുടെ ഒരു ചിത്രം കൂട്ടിച്ചേര്‍ക്കുക."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:1
 #, fuzzy
@@ -17106,33 +17181,28 @@ msgid "Failed Read"
 msgstr "ടേബിളിന്‍റെ തലക്കെട്ട്"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:2
-#, fuzzy
 msgid "The file cannot be read"
-msgstr "വസ്തു അയയ്ക്കുവാന്‍ സാധ്യമായില്ല!\n"
+msgstr "ഫയല്‍ ലഭ്യമാക്കുവാന്‍ സാധ്യമല്ല"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:3
-#, fuzzy
 msgid "Invalid Image Size"
-msgstr "തെറ്റായ തീയതി"
+msgstr "ഇമേജിന്റെ തെറ്റായ വലിപ്പം"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:4
-#, fuzzy
 msgid "Please select an image of size 48 * 48"
-msgstr "ദയവായി ഈ വിലാസത്തിന് ഒരു പ്രതിരൂപം തിരഞ്ഞെടുക്കുക"
+msgstr "48 * 48 വലിപ്പമുള്ളൊരു ചിത്രം ദയവായി തെരഞ്ഞെടുക്കുക"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:5
-#, fuzzy
 msgid "Not an image"
-msgstr "ഇമേജ് ഇല്ല (_N)"
+msgstr "ഇമേജ് അല്ല"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:6
 msgid "The file you selected does not look like a valid .png image. Error: {0}"
-msgstr ""
+msgstr "നിങ്ങള്‍ തെര‍ഞ്ഞെടുത്ത ഫയല്‍ ശരിയായൊരു .png ചിത്രം പോലെയല്ല. പിശക്: {0}"
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:1
-#, fuzzy
 msgid "Inline Image"
-msgstr "വരി വരിയായി"
+msgstr "ഇന്‍ലൈന്‍ ഇമേജ്"
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:2
 msgid "View image attachments directly in mail messages."
@@ -17290,41 +17360,37 @@ msgstr[1] "നിങ്ങള്‍ക്കു് %d പുതിയ സന്�
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
 #: ../plugins/mail-notification/mail-notification.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "Subject: %s"
-msgstr "വിഷയം: "
+msgstr "വിഷയം: %s"
 
 #: ../plugins/mail-notification/mail-notification.c:427
-#, fuzzy
 #| msgid "Restarting Evolution"
 msgid "New email in Evolution"
-msgstr "Evolution വീണ്ടും ആരംഭിക്കുന്നു"
+msgstr "ഇവല്യൂഷനില്‍ പുതിയ മെയില്‍"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
 #: ../plugins/mail-notification/mail-notification.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "Show %s"
-msgstr "ഫീള്‍ഡുകള്‍ കാണിക്കുക"
+msgstr "%s കാണിയ്ക്കുക"
 
 #: ../plugins/mail-notification/mail-notification.c:658
-#, fuzzy
 msgid "_Play sound when a new message arrives"
-msgstr "പുതിയ മെയില്‍ വരുമ്പോള്‍ ശബ്ദത്തിനുളള ശബ്ദം _ഉണ്ടാക്കുക"
+msgstr "പുതിയ മെയില്‍ വരുമ്പോള്‍ ശബ്ദത്തിനുളള ഫയല്‍ _ഉണ്ടാക്കുക"
 
 #: ../plugins/mail-notification/mail-notification.c:690
 msgid "_Beep"
 msgstr "_ബീപ്"
 
 #: ../plugins/mail-notification/mail-notification.c:703
-#, fuzzy
 msgid "Use sound _theme"
-msgstr "അടിവര ഉപയോഗിക്കുക"
+msgstr "ശബ്ദ പ്ര_മേയം ഉപയോഗിയ്ക്കുക"
 
 #: ../plugins/mail-notification/mail-notification.c:722
-#, fuzzy
 msgid "Play _file:"
-msgstr "_ശബ്ദത്തിനുളള ഫയല്‍ പ്ലെ ചെയ്യുക"
+msgstr "_ഫയല്‍ പ്ലെ ചെയ്യുക:"
 
 #: ../plugins/mail-notification/mail-notification.c:731
 msgid "Select sound file"
@@ -17335,18 +17401,16 @@ msgid "Notify new messages for _Inbox only"
 msgstr "_ഇന്‍ബോക്സില്‍ പുതിയ സന്ദേശങ്ങള്‍ എത്തുമ്പോള്‍ അറിയിക്കുക"
 
 #: ../plugins/mail-notification/mail-notification.c:797
-#, fuzzy
 msgid "Show _notification when a new message arrives"
-msgstr "നോട്ടിഫിക്കേഷന്‍ സ്ഥലത്തു് പുതിയ മെയില്‍ വരുമ്പോള്‍ പുതിയ സന്ദേശത്തിനുള്ള ചിഹ്നം കാണിക്കുക."
+msgstr "പുതിയ മെയില്‍ വരുമ്പോള്‍ _അറിയിയ്ക്കുക"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
 msgstr "പുതിയ മെയില്‍ വന്നു എന്ന അറിയിപ്പ് "
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
-#, fuzzy
 msgid "Notifies you when new mail messages arrive."
-msgstr "പുതിയ സന്ദേശങ്ങള്‍ വരുമ്പോള്‍ ശബ്ദം ഉണ്ടാക്കുക."
+msgstr "പുതിയ സന്ദേശങ്ങള്‍ വരുമ്പോള്‍ അറിയിയ്ക്കുക."
 
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
 #: ../plugins/mail-to-task/mail-to-task.c:239
@@ -17412,14 +17476,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../plugins/mail-to-task/mail-to-task.c:680
-#, fuzzy
 msgid "Do you wish to continue converting remaining mails?"
-msgstr "നിങ്ങള്‍ക്കിത് മാറ്റി എഴുതണമോ?"
+msgstr "ബാക്കിയുള്ള മെയിലുകള്‍ വേര്‍തിരിയ്ക്കണമെന്നുണ്ടോ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:755
-#, fuzzy
 msgid "[No Summary]"
-msgstr "ചുരുക്കത്തില്‍ ഇല്ല "
+msgstr "[ചുരുക്കത്തിലില്ല]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:767
 msgid "Invalid object returned from a server"
@@ -17463,50 +17525,41 @@ msgid "No writable calendar is available."
 msgstr "വിശദവിവരങ്ങള്‍ ലഭ്യമല്ല."
 
 #: ../plugins/mail-to-task/mail-to-task.c:1270
-#, fuzzy
 #| msgid "Create a new appointment"
 msgid "Create an _Appointment"
-msgstr "ഒരു പുതിയ അപ്പോയിന്‍റ്മെന്‍റ് ഉണ്ടാക്കുക"
+msgstr "ഒരു പുതിയ _അപ്പോയിന്‍റ്മെന്‍റ് തയ്യാറാക്കുക"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1272
-#, fuzzy
 msgid "Create a new event from the selected message"
-msgstr "തിരഞ്ഞെടുത്ത സന്ദേശം അയച്ച വിലാസത്തിലേക്ക് ഒരു മറുപടി തയ്യാറാക്കുക"
+msgstr "തെരഞ്ഞെടുത്ത സന്ദേശത്തില്‍ നിന്നും ഒരു പുതിയ ഇവന്റ് തയ്യാറാക്കുക"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1277
-#, fuzzy
 msgid "Create a Mem_o"
-msgstr "ഒരു പുതിയ മെമ്മോ ഉണ്ടാക്കുക"
+msgstr "ഒരു പുതിയ _മെമ്മോ തയ്യാറാക്കുക"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1279
-#, fuzzy
 msgid "Create a new memo from the selected message"
-msgstr "തിരഞ്ഞെടുത്ത സന്ദേശം അയച്ച വിലാസത്തിലേക്ക് ഒരു മറുപടി തയ്യാറാക്കുക"
+msgstr "തെരഞ്ഞെടുത്ത സന്ദേശത്തില്‍ നിന്നും ഒരു മെമ്മോ തയ്യാറാക്കുക"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1284
-#, fuzzy
 msgid "Create a _Task"
-msgstr "ഒരു പുതിയ ടാസ്ക് ഉണ്ടാക്കുക"
+msgstr "പുതിയ ജോ_ലി തയ്യാറാക്കുക"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1286
-#, fuzzy
 msgid "Create a new task from the selected message"
-msgstr "തിരഞ്ഞെടുത്ത സന്ദേശം അയച്ച വിലാസത്തിലേക്ക് ഒരു മറുപടി തയ്യാറാക്കുക"
+msgstr "തെരഞ്ഞെടുത്ത സന്ദേശത്തില്‍ നിന്നും ഒരു പുതിയ ജോലി തയ്യാറാക്കുക"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1294
-#, fuzzy
 msgid "Create a _Meeting"
-msgstr "പുതിയ മീറ്റിങ് (_M)"
+msgstr "പുതിയ _മീറ്റിങ് തയ്യാറാക്കുക"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1296
-#, fuzzy
 msgid "Create a new meeting from the selected message"
-msgstr "ഒരു പുതിയ മീറ്റിങിനായി ആവശ്യപ്പെടുക"
+msgstr "തെരഞ്ഞെടുത്ത സന്ദേശത്തില്‍ നിന്നും ഒരു പുതിയ മീറ്റിങ് തയ്യാറാക്കുക"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
-#, fuzzy
 msgid "Convert a mail message to a task."
-msgstr "തിരഞ്ഞെടുത്ത സന്ദേശം ഒരു പുതിയ ജോലി ആയി വേര്‍തിരിക്കുക"
+msgstr "തെരഞ്ഞെടുത്ത സന്ദേശം ഒരു ജോലി ആയി വേര്‍തിരിക്കുക."
 
 #: ../plugins/mark-all-read/mark-all-read.c:43
 msgid "Also mark messages in subfolders?"
@@ -17521,12 +17574,10 @@ msgstr ""
 "ഫോള്‍ഡറിലും ഉപഫോള്‍ഡറുകളിലും ചെയ്യണമോ?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:185
-#, fuzzy
 msgid "In Current Folder and _Subfolders"
 msgstr "നിലവിലുള്ള ഫോള്‍ഡറും _ഉപഫോള്‍ഡറുകളും ഉണ്ടാക്കുക"
 
 #: ../plugins/mark-all-read/mark-all-read.c:199
-#, fuzzy
 msgid "In Current _Folder Only"
 msgstr "നിലവിലുളള _ഫോള്‍ഡര്‍ മാത്രം"
 
@@ -17539,9 +17590,8 @@ msgid "Mark All Read"
 msgstr "എല്ലാം വായിച്ചതായി അടയാളപ്പെടുത്തുക"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
-#, fuzzy
 msgid "Mark all messages in a folder as read."
-msgstr "ഫോള്‍ഡറുകളിലുളള എല്ലാ മെയിലുകളും വായിച്ചതായി അടയാളപ്പെടുത്തുക"
+msgstr "ഫോള്‍ഡറുകളിലുളള എല്ലാ മെയിലുകളും വായിച്ചതായി അടയാളപ്പെടുത്തുക."
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
 msgid "Outlook PST import"
@@ -17594,35 +17644,34 @@ msgid "Locations"
 msgstr "സ്ഥാനങ്ങള്‍"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
-#, fuzzy
 msgid "Publish calendars to the web."
-msgstr "വെബിലേക്ക് കലണ്ടറുകള്‍ പ്രസിദ്ധീകരിക്കുവാന്‍ അനുവദിക്കുന്നു"
+msgstr "വെബിലേക്ക് കലണ്ടറുകള്‍ പ്രസിദ്ധീകരിക്കുക."
 
 #: ../plugins/publish-calendar/publish-calendar.c:211
 #: ../plugins/publish-calendar/publish-calendar.c:463
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open %s:"
-msgstr "ഉറവിടം തുറക്കുവാനായില്ല"
+msgstr "%s തുറക്കുവാന്‍ സാധ്യമല്ല:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:213
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open %s: Unknown error"
-msgstr "PGP സന്ദേശം പാഴ്സ് ചെയ്യുവാന്‍ സാധ്യമായില്ല: അപരിചിതമായ പിശക്"
+msgstr "%s തുറക്കുവാന്‍ സാധ്യമല്ല: അപരിചിതമായ പിശക്"
 
 #: ../plugins/publish-calendar/publish-calendar.c:233
 #, c-format
 msgid "There was an error while publishing to %s:"
-msgstr ""
+msgstr "%s-ലേക്കു് പ്രസദ്ധീകരിയ്ക്കുന്നതില്‍ പിശക്:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:235
 #, c-format
 msgid "Publishing to %s finished successfully"
-msgstr ""
+msgstr "%s-ലേക്കുള്ള പ്രസദ്ധീകരണം വിജയകരമായി പൂര്‍ത്തിയായി"
 
 #: ../plugins/publish-calendar/publish-calendar.c:279
 #, c-format
 msgid "Mount of %s failed:"
-msgstr ""
+msgstr "%s-ന്റെ മൌണ്ട് പരാജയപ്പെട്ടു:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:626
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
@@ -17646,19 +17695,16 @@ msgid "_Publish Calendar Information"
 msgstr "കലണ്ടര്‍ വിവരങ്ങള്‍ _പ്രസിദ്ധീകരിക്കുക "
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:1
-#, fuzzy
 msgid "iCal"
-msgstr "വിളി"
+msgstr "iCal"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:3
-#, fuzzy
 msgid "Daily"
-msgstr "ദിവസം"
+msgstr "ദിവസേന"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:4
-#, fuzzy
 msgid "Weekly"
-msgstr "ആഴ്ച"
+msgstr "ആഴ്ചതോറും"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:5
 #, fuzzy
@@ -17669,14 +17715,12 @@ msgstr ""
 "മാനുവല്‍ (പ്രവര്‍ത്തികളുടെ മെനു വഴി)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
-#, fuzzy
 msgid "Secure FTP (SFTP)"
-msgstr "_സെക്യുര്‍ HTTP പ്രോക്സി:"
+msgstr "സെക്യുര്‍ എഫ്‌ടിപി (എസ്എഫ്‌ടിപി)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:10
-#, fuzzy
 msgid "Public FTP"
-msgstr "പൊതു"
+msgstr "പബ്ലിക് എഫ്‌ടിപി"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:11
 msgid "FTP (with login)"
@@ -17688,9 +17732,8 @@ msgid "Windows share"
 msgstr "ജാലകം"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:13
-#, fuzzy
 msgid "WebDAV (HTTP)"
-msgstr "WebDAV"
+msgstr "WebDAV (HTTP)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:14
 msgid "Secure WebDAV (HTTPS)"
@@ -17715,9 +17758,8 @@ msgid "Time _duration:"
 msgstr "സമയമേഖല: (_z)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:20
-#, fuzzy
 msgid "Sources"
-msgstr "ഉറവിടം"
+msgstr "ഉറവിടങ്ങള്‍"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
 msgid "Service _type:"
@@ -17846,9 +17888,8 @@ msgid "Comma separated values (.csv)"
 msgstr "കോമ്മാ ഉപയോഗിച്ച് മൂല്ല്യം വേര്‍പെടുത്തിയ രീതി (.csv)"
 
 #: ../plugins/save-calendar/ical-format.c:165 ../shell/e-shell-utils.c:199
-#, fuzzy
 msgid "iCalendar (.ics)"
-msgstr "iCalendar ഫയലുകള്‍ (.ics)"
+msgstr "iCalendar (.ics)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
 msgid "Save Selected"
@@ -17869,33 +17910,28 @@ msgid "%FT%T"
 msgstr "%FT%T"
 
 #: ../plugins/save-calendar/rdf-format.c:377
-#, fuzzy
 msgid "RDF (.rdf)"
-msgstr "RDF രീതി (.rdf)"
+msgstr "RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:123
-#, fuzzy
 msgid "_Format:"
-msgstr "രീതി"
+msgstr "_ശൈലി"
 
 #: ../plugins/save-calendar/save-calendar.c:185
 msgid "Select destination file"
 msgstr "ലക്ഷ്യസ്ഥാന ഫയല്‍ തിരഞ്ഞെടുക്കുക"
 
 #: ../plugins/save-calendar/save-calendar.c:340
-#, fuzzy
 msgid "Save the selected calendar to disk"
-msgstr "കലണ്ടര്‍ അല്ലെങ്കില്‍ ജോലികളുടെ ലിസ്റ്റ് ഡിസ്കിലേക്ക് സൂക്ഷിക്കുക."
+msgstr "തെരഞ്ഞെടുത്ത കലണ്ടര്‍ ഡിസ്കിലേക്കു് സൂക്ഷിയ്ക്കുക"
 
 #: ../plugins/save-calendar/save-calendar.c:371
-#, fuzzy
 msgid "Save the selected memo list to disk"
-msgstr "കലണ്ടര്‍ അല്ലെങ്കില്‍ ജോലികളുടെ ലിസ്റ്റ് ഡിസ്കിലേക്ക് സൂക്ഷിക്കുക."
+msgstr "തെരഞ്ഞെടുത്ത മെമ്മോ ലിസ്റ്റ് ഡിസ്കിലേക്കു് സൂക്ഷിയ്ക്കുക"
 
 #: ../plugins/save-calendar/save-calendar.c:402
-#, fuzzy
 msgid "Save the selected task list to disk"
-msgstr "കലണ്ടര്‍ അല്ലെങ്കില്‍ ജോലികളുടെ ലിസ്റ്റ് ഡിസ്കിലേക്ക് സൂക്ഷിക്കുക."
+msgstr "തെരഞ്ഞെടുത്ത ടാസ്റ്റ് ലിസ്റ്റ് ഡിസ്കിലേക്കു് സൂക്ഷിയ്ക്കുക"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
 msgid ""
@@ -17905,7 +17941,6 @@ msgid ""
 msgstr ""
 
 #: ../plugins/templates/templates.c:1112
-#, fuzzy
 msgid "No Title"
 msgstr "തലക്കെട്ടില്ല"
 
@@ -17918,18 +17953,16 @@ msgid "Save as Template"
 msgstr "മാതൃകയായി സൂക്ഷിക്കുക"
 
 #: ../shell/e-shell.c:313
-#, fuzzy
 msgid "Preparing to go offline..."
-msgstr "ഓഫ്‌ലൈന്‍ ആകുന്നതിനായി '%s' അക്കൌണ്ട് തയ്യാറാക്കുന്നു"
+msgstr "ഓഫ്‌ലൈന്‍ ആകുവാന്‍ തയ്യാറാകുന്നു..."
 
 #: ../shell/e-shell.c:366
-#, fuzzy
 msgid "Preparing to go online..."
-msgstr "ഓഫ്‌ലൈന്‍ ആകുന്നതിനായി '%s' അക്കൌണ്ട് തയ്യാറാക്കുന്നു"
+msgstr "ഓണ്‍ലൈന്‍ ആകുവാന്‍ തയ്യാറാകുന്നു..."
 
 #: ../shell/e-shell.c:437
 msgid "Preparing to quit..."
-msgstr ""
+msgstr "പുറത്തു് കടക്കുന്നതിനു് തയ്യാറാകുന്നു..."
 
 #: ../shell/e-shell-content.c:727 ../shell/e-shell-content.c:728
 msgid "Searches"
@@ -17944,16 +17977,14 @@ msgstr "തിരച്ചില്‍ സംരക്ഷിക്കുക"
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
 #: ../shell/e-shell-searchbar.c:940
-#, fuzzy
 msgid "Sho_w:"
-msgstr "കാണിക്കുക: (_w)"
+msgstr "_കാണിക്കുക:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-searchbar.c:973
-#, fuzzy
 msgid "Sear_ch:"
-msgstr "തിരച്ചില്‍: (_c)"
+msgstr "തെ_രയുക:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
@@ -17963,14 +17994,12 @@ msgid "i_n"
 msgstr " i_n "
 
 #: ../shell/e-shell-utils.c:197
-#, fuzzy
 msgid "vCard (.vcf)"
-msgstr "vCard (.vcf, .gcrd)"
+msgstr "vCard (.vcf)"
 
 #: ../shell/e-shell-utils.c:220
-#, fuzzy
 msgid "All Files (*)"
-msgstr "എല്ലാ ഫയലുകള്‍"
+msgstr "എല്ലാ ഫയലുകളും (*)"
 
 #: ../shell/e-shell-view.c:304
 msgid "Saving user interface state"
@@ -18012,9 +18041,8 @@ msgid "_Close Window"
 msgstr "ജാലകം _അടയ്ക്കുക"
 
 #: ../shell/e-shell-window-actions.c:1437
-#, fuzzy
 msgid "_Contents"
-msgstr "_മുന്‍കൂട്ടി നിര്‍ണ്ണയിച്ച ജോലികള്‍"
+msgstr "_ഉള്ളടക്കം"
 
 #: ../shell/e-shell-window-actions.c:1439
 #, fuzzy
@@ -18068,18 +18096,16 @@ msgid "Construct a more advanced search"
 msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1523
-#, fuzzy
 msgid "Clear the current search parameters"
-msgstr "നിലവിലുളള മെയില്‍ പ്രക്രിയകള്‍ റദ്ദാക്കുക"
+msgstr "നിലവിലുള്ള തെരച്ചില്‍ പരാമീറ്ററുകള്‍ വെടിപ്പാക്കുക"
 
 #: ../shell/e-shell-window-actions.c:1528
 msgid "_Edit Saved Searches..."
 msgstr "സംരക്ഷിച്ച തിരച്ചിലുകളില്‍ _മാറ്റം വരുത്തുക..."
 
 #: ../shell/e-shell-window-actions.c:1530
-#, fuzzy
 msgid "Manage your saved searches"
-msgstr "നിങ്ങളുടെ ഈ മെയില്‍ , കോണ്ടാക്റ്റുകള്‍, ഷെഡ്യൂള്‍ ഇവിടെ ക്രമീകരിക്കുക"
+msgstr "നിങ്ങളുടെ സൂക്ഷിച്ച തെരച്ചില്‍ കൈകാര്യം ചെയ്യുക"
 
 #: ../shell/e-shell-window-actions.c:1537
 msgid "Click here to change the search type"
@@ -18091,18 +18117,16 @@ msgstr "ഉടന്‍ _തിരയുക "
 
 #. Block the default Ctrl+F.
 #: ../shell/e-shell-window-actions.c:1544
-#, fuzzy
 msgid "Execute the current search parameters"
-msgstr "നിലവിലുളള മെയില്‍ പ്രക്രിയകള്‍ റദ്ദാക്കുക"
+msgstr "നിലവിലുള്ള തെരച്ചില്‍ പരാമീറ്ററുകള്‍ നടപ്പിലാക്കുക"
 
 #: ../shell/e-shell-window-actions.c:1549
 msgid "_Save Search..."
 msgstr "തിരച്ചില്‍ _സംരക്ഷിക്കുക..."
 
 #: ../shell/e-shell-window-actions.c:1551
-#, fuzzy
 msgid "Save the current search parameters"
-msgstr "ഇപ്പോഴത്തെ ഫയല്‍ സംരക്ഷിക്കുക"
+msgstr "നിലവിലുള്ള തെരച്ചില്‍ പരാമീറ്ററുകള്‍ സൂക്ഷിയ്ക്കുക"
 
 #: ../shell/e-shell-window-actions.c:1563
 msgid "Submit _Bug Report..."
@@ -18117,18 +18141,16 @@ msgid "_Work Offline"
 msgstr "ഓഫ്‌ലൈനായി്‍ ആയി ജോലി ചെയ്യുക"
 
 #: ../shell/e-shell-window-actions.c:1572
-#, fuzzy
 msgid "Put Evolution into offline mode"
-msgstr "ഓഫ്‍ലൈന്‍ മോഡില്‍ ആരംഭിക്കുക"
+msgstr "ഇവല്യൂഷന്‍ ഓഫ്‌ലൈന്‍ മോഡിലേക്കു് ലഭ്യമാക്കുക"
 
 #: ../shell/e-shell-window-actions.c:1577
 msgid "_Work Online"
 msgstr "ഓണ്‍ലൈനായി _ജോലി ചെയ്യുക "
 
 #: ../shell/e-shell-window-actions.c:1579
-#, fuzzy
 msgid "Put Evolution into online mode"
-msgstr "ഓണ്‍‍ലൈന്‍ മോഡില്‍ ആരംഭിക്കുക"
+msgstr "ഇവല്യൂഷന്‍ ഓണ്‍ലൈന്‍ മോഡിലേക്കു് ലഭ്യമാക്കുക"
 
 #: ../shell/e-shell-window-actions.c:1607
 msgid "Lay_out"
@@ -18155,28 +18177,24 @@ msgid "Show Side _Bar"
 msgstr "സൈഡ് _ബാര്‍ കാണിക്കുക "
 
 #: ../shell/e-shell-window-actions.c:1673
-#, fuzzy
 msgid "Show the side bar"
-msgstr "സൈഡ് ബാര്‍ കാണിക്കുക (_B)"
+msgstr "സൈഡ് ബാര്‍ കാണിക്കുക"
 
 #: ../shell/e-shell-window-actions.c:1679
-#, fuzzy
 msgid "Show _Buttons"
-msgstr "ആനിമേഷനുകള്‍ കാണിക്കുക"
+msgstr "_ബട്ടണുകള്‍ കാണിയ്ക്കുക"
 
 #: ../shell/e-shell-window-actions.c:1681
-#, fuzzy
 msgid "Show the switcher buttons"
-msgstr "രണ്ടാമത്തെ സമയമേഘല കാണിക്കുക"
+msgstr "സ്വിച്ചര്‍ ബട്ടണുകള്‍ കാണിയ്ക്കുക"
 
 #: ../shell/e-shell-window-actions.c:1687
 msgid "Show _Status Bar"
 msgstr "_സ്റ്റേറ്റസ് ബാര്‍ കാണിക്കുക "
 
 #: ../shell/e-shell-window-actions.c:1689
-#, fuzzy
 msgid "Show the status bar"
-msgstr "സ്റ്റേറ്റസ് ബാര്‍ കാണിക്കുക (_S)"
+msgstr "സ്റ്റേറ്റസ് ബാര്‍ കാണിക്കുക"
 
 #: ../shell/e-shell-window-actions.c:1695
 msgid "Show _Tool Bar"
@@ -19359,7 +19377,6 @@ msgid "Open this attachment in %s"
 msgstr "%s-ല്‍ ഈ അറ്റാച്മെന്റ് തുറക്കുക"
 
 #: ../widgets/misc/e-book-source-config.c:98
-#| msgid "Mark as _default address book"
 msgid "Mark as default address book"
 msgstr "സ്വതവേയുള്ള വിലാസപുസ്തകമായി അടയാളപ്പെടുത്തുക"
 
@@ -19368,7 +19385,6 @@ msgid "Autocomplete with this address book"
 msgstr "ഈ വിലാസപുസ്തകം ഉപയോഗിച്ചു് സ്വയംപൂര്‍ത്തിയാക്കുക"
 
 #: ../widgets/misc/e-book-source-config.c:277
-#| msgid "Copy _book content locally for offline operation"
 msgid "Copy book content locally for offline operation"
 msgstr "ഓഫ്‌ലൈന്‍ പ്രക്രിയയ്ക്കായി നിങ്ങളുടെ സിസ്റ്റത്തിലേക്കു് പുസ്തകം പകര്‍ത്തുക"
 
@@ -19378,7 +19394,6 @@ msgid "Ctrl-click to open a link"
 msgstr "ഒരു കണ്ണി തുറക്കുന്നതിനായി Ctrl-click ചെയ്യുക"
 
 #: ../widgets/misc/e-calendar.c:187
-#| msgid "Previous"
 msgid "Previous month"
 msgstr "മുമ്പുള്ള മാസം"
 
@@ -19387,7 +19402,6 @@ msgid "Next month"
 msgstr "അടുത്ത മാസം"
 
 #: ../widgets/misc/e-calendar.c:233
-#| msgid "Previous"
 msgid "Previous year"
 msgstr "മുമ്പുള്ള വര്‍ഷം"
 
@@ -19414,43 +19428,35 @@ msgstr "%Y"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1322
-#| msgid "%B %Y"
 msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%B %Y"
 
 #: ../widgets/misc/e-cal-source-config.c:170
-#| msgid "Mark as _default calendar"
 msgid "Mark as default calendar"
 msgstr "സ്വതവേയുള്ള കലണ്ടറായി അടയാളപ്പെടുത്തുക"
 
 #: ../widgets/misc/e-cal-source-config.c:173
-#| msgid "Mark as _default task list"
 msgid "Mark as default task list"
 msgstr "സ്വതവേയുള്ള ജോലികളുടെ ലിസ്റ്റ് ആയി അടയാളപ്പെടുത്തുക"
 
 #: ../widgets/misc/e-cal-source-config.c:176
-#| msgid "Mark as _default memo list"
 msgid "Mark as default memo list"
 msgstr "സ്വതവേയുള്ള മെമ്മോ ലിസ്റ്റ് ആയി അടയാളപ്പെടുത്തുക"
 
 #: ../widgets/misc/e-cal-source-config.c:201
-#| msgid "Colo_r:"
 msgid "Color:"
 msgstr "നിറം:"
 
 #: ../widgets/misc/e-cal-source-config.c:406
-#| msgid "Cop_y calendar contents locally for offline operation"
 msgid "Copy calendar contents locally for offline operation"
 msgstr "ഓഫ്‌ലൈന്‍ പ്രക്രിയയ്ക്കായി നിങ്ങളുടെ സിസ്റ്റത്തിലേക്കു് കലണ്ടര്‍ പകര്‍ത്തുക"
 
 #: ../widgets/misc/e-cal-source-config.c:410
-#| msgid "Cop_y task list contents locally for offline operation"
 msgid "Copy task list contents locally for offline operation"
 msgstr "ഓഫ്‌ലൈന്‍ പ്രക്രിയയ്ക്കായി നിങ്ങളുടെ സിസ്റ്റത്തിലേക്കു് ടാസ്ക്ക് ലിസ്റ്റ് പകര്‍ത്തുക"
 
 #: ../widgets/misc/e-cal-source-config.c:414
-#| msgid "Cop_y memo list contents locally for offline operation"
 msgid "Copy memo list contents locally for offline operation"
 msgstr "ഓഫ്‌ലൈന്‍ പ്രക്രിയയ്ക്കായി നിങ്ങളുടെ സിസ്റ്റത്തിലേക്കു് മെമ്മോ ലിസ്റ്റ് പകര്‍ത്തുക"
 
@@ -19624,7 +19630,6 @@ msgid "Autogenerated"
 msgstr "സ്വയം ഉണ്ടാകുന്നത്"
 
 #: ../widgets/misc/e-mail-signature-editor.c:287
-#| msgid "_Close"
 msgid "Close"
 msgstr "അടയ്ക്കുക"
 
@@ -19705,7 +19710,6 @@ msgstr "Evolution ഇഷ്ടാനിഷ്ടങ്ങള്‍"
 
 #: ../widgets/misc/e-search-bar.c:79
 #, c-format
-#| msgid "Matches: %d"
 msgid "Matches: %u"
 msgstr "പൊരുത്തങ്ങള്‍: %u"
 
@@ -19897,7 +19901,6 @@ msgstr "പേര്:"
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
 #: ../widgets/misc/e-source-config.c:1294
-#| msgid "Refresh the folder"
 msgid "Refresh every"
 msgstr ""
 
@@ -19907,12 +19910,10 @@ msgid "Use a secure connection"
 msgstr "ഒരു സുരക്ഷിതമായ കണക്ഷന്‍ ഉപയോഗിക്കുക"
 
 #: ../widgets/misc/e-source-config.c:1366
-#| msgid "Imported Certificate"
 msgid "Ignore invalid SSL certificate"
 msgstr "തെറ്റായ എസ്എസ്എല്‍ സമ്മതപത്രം അവഗണിയ്ക്കുക"
 
 #: ../widgets/misc/e-source-config.c:1403
-#| msgid "Users"
 msgid "User"
 msgstr "ഉപയോക്താവു്"
 
@@ -19933,7 +19934,6 @@ msgstr "\"%s\" നിഘണ്ടുവിലേക്കു് ചേര്‍�
 
 #. - Ignore All
 #: ../widgets/misc/e-spell-entry.c:487
-#| msgid "Ignore"
 msgid "Ignore All"
 msgstr "എല്ലാം അവഗണിക്കുക"
 
@@ -20017,12 +20017,10 @@ msgid "Please provide an unique name to identify this signature."
 msgstr "ഈ ഒപ്പ് തിരിച്ചറിയുന്നതിനായി ഒരു സമാനമില്ലാത്ത പേര് നല്‍കുക."
 
 #: ../widgets/misc/widgets.error.xml.h:6
-#| msgid "Could not save signature file."
 msgid "Could not load signature."
 msgstr "ഒപ്പു് ലഭ്യമാക്കുവാന്‍ സാധ്യമല്ല."
 
 #: ../widgets/misc/widgets.error.xml.h:7
-#| msgid "Could not save signature file."
 msgid "Could not save signature."
 msgstr "ഒപ്പു് സൂക്ഷിയ്ക്കുവാന്‍ സാധ്യമല്ല."
 
@@ -20303,56 +20301,10 @@ msgstr "എല്ലാം തിരഞ്ഞെടുക്കുക"
 msgid "Input Methods"
 msgstr "ഇന്‍പുട്ട് രീതികള്‍"
 
-#~ msgid "Anonymously"
-#~ msgstr "അജ്ഞാതമായി"
-
-#~ msgid "One"
-#~ msgstr "ഒന്ന്"
-
-#~ msgid "Sub"
-#~ msgstr "വിഷയം"
-
-#~ msgid "Supported Search Bases"
-#~ msgstr "പിന്തുണയുളള തിരച്ചില്‍ അടിത്തറകള്‍"
-
-#~ msgid "Ser_ver:"
-#~ msgstr "_സര്‍വര്‍: "
-
-#~ msgid "Use secure _connection:"
-#~ msgstr "സുരക്ഷിതമായ കണക്ഷന്‍ _ഉപയോഗിക്കുക: "
-
-#~ msgid "_Login method:"
-#~ msgstr "_ലോഗിന്‍ ചെയ്യുന്ന മാര്‍ഗ്ഗം: "
-
-#~ msgid "Lo_gin:"
-#~ msgstr "_ലോഗിന്‍: "
-
-#~ msgid "Search _base:"
-#~ msgstr "_തിരച്ചിലിനുളള അടിത്തറ: "
-
-#~ msgid "_Search scope:"
-#~ msgstr "_തിരച്ചില്‍ പരിധി: "
-
-#~ msgid "_Find Possible Search Bases"
-#~ msgstr "തിരച്ചിലിന് സാധ്യമായ അടിത്തറകള്‍ _കണ്ടുപിടിക്കുക "
-
-#~ msgid "S_earch filter:"
-#~ msgstr "_ഫില്‍റ്റര്‍ തിരയുക: "
-
-#~ msgid "Search Filter"
-#~ msgstr "ഫില്‍ട്ടര്‍ തിരയുക"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "5"
-#~ msgstr "5"
-
-#~ msgid "_Timeout:"
-#~ msgstr "_സമയപരിധി: "
-
-#~ msgid "_Download limit:"
-#~ msgstr "_ഡൌണ്‍‍ലോട് ചെയ്യുവാന്‍ സാധിക്കുന്ന പരിധി: "
+#, fuzzy
+#~| msgid "Custom Alarm:"
+#~ msgid "_Custom binary:"
+#~ msgstr "അലാറം ഇഷ്ടമുളളപോലെ ക്രമീകരിക്കുക:"
 
 #~ msgid "GroupWise Address book creation:"
 #~ msgstr "ഓരോ ഗ്രൂപ്പായി മേല്‍വിലാസങ്ങള്‍ തിരിക്കുക:"
