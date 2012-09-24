@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
 "cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2012-09-17 12:14+0000\n"
-"PO-Revision-Date: 2012-09-22 22:30+0530\n"
+"PO-Revision-Date: 2012-09-24 14:37+0530\n"
 "Last-Translator: \n"
 "Language-Team: gu_IN <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -2321,7 +2321,7 @@ msgstr "વળતર"
 
 #: ../calendar/gui/caltypes.xml.h:20
 msgid "Occurs"
-msgstr ""
+msgstr "ત્યારે થાય છે"
 
 #: ../calendar/gui/caltypes.xml.h:21
 msgid "Less Than"
@@ -7620,6 +7620,8 @@ msgid ""
 "currently selected day when searching for another occurrence; default is ten "
 "years"
 msgstr ""
+"હાલમાં પસંદ થયેલ દિવસમાંથી આગળ જવા કે પાછળ જવા કેટલાં વર્ષો સમય આધારિત શોધી શકાય છે જ્યારે આગળની "
+"આવૃત્તિ માટે શોધી રહ્યા હોય; મૂળભૂત દસ વર્ષો છે"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "Show appointment end times in week and month views"
@@ -7717,7 +7719,7 @@ msgstr "મુદતવીતી કાર્યોને પ્રકાશિ�
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
 msgid "Whether highlight overdue tasks with a special color (task-overdue-color)"
-msgstr ""
+msgstr "શું ખાસ રંગ (મુદતવીતી કાર્યનો રંગ) સાથે મુદતવીતી કાર્યોને પ્રકાશિત કરવુ"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 msgid "Overdue tasks color"
@@ -7822,6 +7824,8 @@ msgid ""
 "\". This is used for data and settings migration from older to newer "
 "versions."
 msgstr ""
+"Evolution ની મોટેભાગે તાજેતરમાં વાપરેલ આવૃત્તિ, \"major.minor.micro\" તરીકે વ્યક્ત કરેલ છે. આ "
+"જૂનીમાંથી નવી આવૃત્તિઓની માહિતી અથવા સ્થળાંતર સુયોજનો માટે વાપરેલ છે."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
 #| msgid "Enable and disable plugins"
@@ -7894,6 +7898,8 @@ msgid ""
 "folder, usually set to ~/Pictures. This folder will be also used when the "
 "set path is not pointing to the existent folder"
 msgstr ""
+"આ કિંમત ખાલી શબ્દમાળા છે, એનો મતલબ એ કે સિસ્ટમ ચિત્ર ફોલ્ડરને તે વાપરશે, સામાન્ય રીતે ~/Pictures "
+"માં સુયોજિત કરો. આ ફોલ્ડર પણ વાપરેલ હશે જયારે સુયોજન પાથ હાલનાં ફોલ્ડરને નિર્દેશીત કરતુ નથી"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
 msgid "Spell check inline"
@@ -7927,7 +7933,7 @@ msgstr "ગુણધર્મ સંદેશો"
 msgid ""
 "The text that is inserted when replying to a message, attributing the "
 "message to the original author"
-msgstr ""
+msgstr "લખાણ કે દાખલ થયેલ છે જ્યારે સંદેશાનો જવાબ આપી રહ્યા હોય, મૂળભૂત લેખક સંદેશાનો દર્શાવે છે"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
 msgid "Forward message"
@@ -7938,6 +7944,7 @@ msgid ""
 "The text that is inserted when forwarding a message, saying that the "
 "forwarded message follows"
 msgstr ""
+"લખાણ કે જે દાખલ થયેલ છે જ્યારે સંદેશાને આગળ વધારી રહ્યા હોય, આગળ ધપાવેલ સંદેશો આ રીતે કહે છે"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:17
 msgid "Original message"
@@ -7948,6 +7955,8 @@ msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows"
 msgstr ""
+"લખાણ કે જે દાખલ થયેલ છે જ્યારે સંદેશાનો જવાબ આપી રહ્યા હોય (ઉચ્ચ પોસ્ટીંગ), મૂળભૂત સંદેશો આ "
+"પ્રકાર વિશે કહે છે"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:19
 msgid "Group Reply replies to list"
@@ -7960,6 +7969,9 @@ msgid ""
 "which you happened to receive the copy of the message to which you're "
 "replying."
 msgstr ""
+"સામાન્ય \"બધાને જવાબ આપો\" વર્ણતૂકને બદલે, આ વિકલ્પ મેઇલીંગ યાદીમાં ફક્ત જવાબ આપવા માટે 'જૂથ "
+"જવાબ' સાધનપટ્ટી બટનનો પ્રયત્ન કરશે જેની મારફતે તમે સંદેશાની નકલને પ્રાપ્ત થશે કે જેમાં તમે જવાબ "
+"આપી રહ્યા છો."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:21
 msgid "Put the cursor at the bottom of replies"
@@ -8124,10 +8136,12 @@ msgid ""
 "Set to TRUE in case you do not want to add signature delimiter before your "
 "signature when composing a mail."
 msgstr ""
+"તમારાં હસ્તાક્ષર પહેલાં હસ્તાક્ષર સીમાંકનને ઉમેરવા માટે તમે ઇચ્છતા ન હોય તો આવી સ્થિતિમાં TRUE "
+"તરીકે સુયોજિત કરો જ્યારે મેઇલ લખી રહ્યા હોય."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
 msgid "Ignore list Reply-To:"
-msgstr ""
+msgstr "માં જવાબ આપવો યાદીને અવગણો:"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:50
 msgid ""
@@ -8139,6 +8153,12 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
+"અમુક મેઇલીંગ યાદી આને જવાબ આપો સુયોજિત કરે છે: યાદીમાં સંદેશાને મોકલવા વપરાશકર્તાઓ અડપલા કરે છે, "
+"જ્યારે તેઓ ખાનગી જવાબ મોકલવા માટે Evolution ને પૂછશે. આને જવાબ આપો એને અવગણવા માટે આ વિકલ્પને "
+"TRUE તરીકે સુયોજિત કરવાનો પ્રયત્ન કરશે: હેડરો, તેથી તે Evolution તે કરેશે તે તમે તેને પૂછશો, જો "
+"તમે ખાનગી જવાબ ક્રિયાને વાપરો તો, તે ખાનગી રીતે જવાબ આપશે, જ્યારે તમે 'યાદીમાં જવાબ આપો' ક્રિયાને "
+"વાપરો તો તે રીતે કરશે. તે આને જવાબ આપો તેને સરખાવીને કામ કરે છે: યાદી-પોસ્ટ સાથે હેડર, જો ત્યાં "
+"એક હોય."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
 msgid "List of localized 'Re'"
@@ -8150,6 +8170,8 @@ msgid ""
 "text when replying to a message, as an addition to the standard \"Re\" "
 "prefix. An example is 'SV,AV'."
 msgstr ""
+"વિષય લખાણમાં છોડવા માટે સ્થાનિક 'Re' સંક્ષેપની અલ્પવિરામથી અલગ થયેલ યાદી જ્યારે સંદેશાનો જવાબ આપી "
+"રહ્યુ હોય, વધુમાં મૂળભૂત \"Re\" ઉપસર્ગમાં. ઉદાહરણ 'SV,AV' છે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "Save file format for drag-and-drop operation"
@@ -8168,6 +8190,8 @@ msgid ""
 "Can be either 2 to use current date and time or any other value for sent "
 "date of the message. This has a meaning only when dropping just one message."
 msgstr ""
+"ક્યાંતો સંદેશાની મોકલેલ તારીખ માટે કોઇપણ બીજી કિંમત અથવા વર્તમાન તારીખ અને સમય માટે 2  ને વાપરી "
+"શકાય છે. આનો મતલબ એ કે જ્યારે ફક્ત એક સંદેશને પડતો મૂકી રહ્યા હોય."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "Show image animations"
@@ -8424,6 +8448,8 @@ msgid ""
 "Describes whether message headers in paned view should be collapsed or "
 "expanded by default. \"0\" = expanded and \"1\" = collapsed"
 msgstr ""
+"વર્ણન કરે છે કે ક્યાંતો સંદેશા હેડર તકતી દૃશ્યમાં મૂળભૂત રીતે સંકોચાયેલ કે વિસ્તરેલ હોવા જોઇએ. "
+"\"0\" = વિસ્તરેલ અને \"1\" = સંકોચાયેલ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid "Width of the message-list pane"
@@ -8542,6 +8568,9 @@ msgid ""
 "Computer and Search folders, otherwise accounts are sorted based on an order "
 "given by a user"
 msgstr ""
+"કહો કે મેઇલ દૃશ્યમાં વાપરેલ ફોલ્ડર ટ્રીમાં ખાતાને કેવી રીતે ક્રમમાં કરવુ. જ્યારે મૂળાક્ષરો "
+"પ્રમાણે ક્રમમાં ખાતાને true તરીકે સુયોજિત કરે. આ ક્મ્પ્યૂટર પર અને શોધ ફોલ્ડરનાં અપવાદ સાથે, "
+"નહિંતો ખાતુ વપરાશકર્તા દ્દારા આપેલ ક્રમ પર આધારિત છે"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Log filter actions"
@@ -8569,6 +8598,8 @@ msgid ""
 "only when there was used any 'Forward to' filter action and approximately "
 "one minute after the last action invocation."
 msgstr ""
+"શું ફિલ્ટર કર્યા પછી આઉટબોક્સને ફ્લશ કરવાનું સમાપ્ત થઇ ગયુ. આઉટબોક્સ ફ્લશ ત્યારે જ થશે જ્યારે "
+"કોઇપણ 'માં આગળ ધપાવો' ફિલ્ટર ક્રિયા વાપરેલ હોય અને આશરે છેલ્લી ક્રિયાનાં એક મિનિટ પછી."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Default forward style"
@@ -8678,6 +8709,9 @@ msgid ""
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
 msgstr ""
+"શક્ય કિંમતો આ છે: 'never' - ફોલ્ડર ટ્રીમાં ફોલ્ડરોને ડ્રેગ અને ડ્રોપ સાથે નકલ કરવાની પરવાનગી આપતુ "
+"નથી, 'always' - પૂછ્યા વગર ફોલ્ડર ટ્રીમાં ફોલ્ડરોને ડ્રેગ અને ડ્રોપ સાથે નકલ કરવાની પરવાનગી આપે "
+"છે, અથવા 'ask' - (કોઇપણ બીજી કિંમતો) વપરાશકર્તાને પૂછશે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
@@ -8690,6 +8724,9 @@ msgid ""
 "folders in folder tree without asking, or 'ask' - (or any other value) will "
 "ask user."
 msgstr ""
+"શક્ય કિંમતો આ છે: 'never' - ફોલ્ડર ટ્રીમાં ફોલ્ડરોને ડ્રેગ અને ડ્રોપ સાથે ખસેડવા પરવાનગી આપતુ "
+"નથી, 'always' - પૂછ્યા વગર ફોલ્ડર ટ્રીમાં ફોલ્ડરોને ડ્રેગ અને ડ્રોપ સાથે ખસેડવાની પરવાનગી આપે છે, "
+"અથવા 'ask' - (કોઇપણ બીજી કિંમતો) વપરાશકર્તાને પૂછશે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid "Prompt when replying privately to list messages"
@@ -8734,12 +8771,16 @@ msgid ""
 "Asks whether to close the message window when the user forwards or replies "
 "to the message shown in the window"
 msgstr ""
+"શું સંદેશની વિન્ડોને બંધ કરવુ તે પૂછે છે જ્યારે વપરાશકર્તા વિન્ડોમાં બતાવેલ પ્રમાણે સંદેશામાં આગળ "
+"ધપાવે અથવા જવાબ આપે"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
 msgstr ""
+"શક્ય કિંમતો આ છે: 'never' - કદી બ્રાઉઝર વિન્ડોને બંધ કરવી નહિં કરવા, 'always' - હંમેશા બ્રાઉઝર "
+"વિન્ડોને બંધ કરવા 'ask' - (અથવા કોઇ બીજી કિંમત) વપરાશકર્તાને પૂછશે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Empty Trash folders on exit"
@@ -8791,6 +8832,8 @@ msgid ""
 "differs). Otherwise always show \"Date\" header value in a user preferred "
 "format and local time zone."
 msgstr ""
+"મૂળભૂત \"Date\" હેડરને બતાવો (ફક્ત સ્થાનિક સમય સાથે જો ટાઇમઝોન અલગ પડે તો). નહિં તો હંમેશા "
+"વપરાશકર્તા પસંદ થયેલ બંધારણ અને સ્થાનિક ટાઇમ ઝોનમાં \"Date\" હેડરને બતાવો."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "List of Labels and their associated colors"
@@ -8936,6 +8979,8 @@ msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
 msgstr ""
+"શું નવા સંદેશા માટે ચકાસવુ છે જ્યારે Evolution શરૂ થયેલ હોય. આ આઉટબોક્સમાંથી પણ સંદેશાને મોકલાવું "
+"સમાવે છે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Check for new messages in all active accounts"
@@ -8947,6 +8992,9 @@ msgid ""
 "account \"Check for new messages every X minutes\" option when Evolution is "
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
+"જ્યારે Evolution શરૂ થાય ત્યારે શું ખાતુ \"નવાં સંદેશા માટે દરેક X મિનિટે ચકાસો\" વિકલ્પની પરવાહ "
+"કર્યા વગર બધા સક્રિય ખાતામાં નવા સંદેશાને ચકાસવા. આ વિકલ્પ ફક્ત 'send_recv_on_start' વિકલ્પ સાથે "
+"ભેગું વાપરેલ છે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid "Server synchronization interval"
@@ -8965,7 +9013,7 @@ msgstr ""
 #. indicate that an attachment should have been attached to the message.
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
-msgstr ""
+msgstr "['જોડાણ','જોડાઇ રહ્યા છે','જોડાયેલ','બંધ']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -9082,6 +9130,8 @@ msgid ""
 "Whether insert Face picture to outgoing messages by default. The picture "
 "should be set before checking this, otherwise nothing happens."
 msgstr ""
+"શું મૂળભૂત રીતે બહાર જતા સંદેશા માટે ચહેરા ચિક્ષને દાખ કરવુ છે. ચિત્ર આ ચકાસતા પહેલાં સુયોજિત "
+"હોવુ જોઇએ, નહિંતો કઇ નહિં થાય."
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
 #| msgid "_Delete Message"
@@ -9135,6 +9185,9 @@ msgid ""
 "the \"notify-sound-beep\", \"notify-sound-file\", \"notify-sound-play-file\" "
 "and \"notify-sound-use-theme\" keys are disregarded."
 msgstr ""
+"શું કોઇપણ પ્રકારનાં સાઉન્ડને બનાવવુ જ્યારે નવો સંદેશો પ્રાપ્ત થાય. જો \"false\" હોય તો, "
+"\"notify-sound-beep\", \"notify-sound-file\", \"notify-sound-play-file\" "
+"અને \"notify-sound-use-theme\" કીઓ ઉપેક્ષિત થયેલ છે."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
 #| msgid "Whether to show the preview pane."
@@ -9190,6 +9243,9 @@ msgid ""
 "best part to show, \"prefer_plain\" makes it use the text part, if present, "
 "and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
+"મેઇલને દર્શાવવા માટે સ્થિતિ. \"normal\" એ Evolution ને સારામાં સારા ભાગ તરીકે પસંદ કરે છ તેવુ "
+"બનાવે છે,  \"prefer_plain\" એ તે આ લખાણ ભાગનો ઉપયોગ કરો, જો હાજર હોય તો અને \"only_plain\" એ "
+"Evolution ને દબાણ કરે છે કે ફક્ત સાદા લખાણને બતાવો"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 #| msgid "Whether to show the preview pane."
@@ -9206,6 +9262,8 @@ msgid ""
 "The key specifies the list of destinations to where publish calendars. Each "
 "values specifies an XML with setup for publishing to one destination."
 msgstr ""
+"કી લક્ષ્યોની યાદી સ્પષ્ટ કરે છે કે જેમાં કૅલેન્ડર પ્રકાશિત થાય છે. દરેક કિંમતો એક લક્ષ્યને "
+"પ્રકાશિત કરવા માટે સુયોજન સાથે XML ને સ્પષ્ટ કરે છે."
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
@@ -9263,7 +9321,7 @@ msgstr "એક્સપ્રેસ સ્થિતિને સક્રિય 
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
 msgid "Flag that enables a much simplified user interface."
-msgstr ""
+msgstr "ફ્લેગ કે જે વધારે સાદુ વપરાશકર્તા ઇન્ટરફેસને સક્રિય કરે છે."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
 msgid "Window buttons are visible"
@@ -9499,7 +9557,7 @@ msgstr "Richtext"
 #: ../em-format/e-mail-formatter-quote-text-enriched.c:108
 #: ../em-format/e-mail-formatter-text-enriched.c:121
 msgid "Display part as enriched text"
-msgstr ""
+msgstr "સઘન લખાણ તરીકે ભાગ દર્શાવો"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:104
 #: ../em-format/e-mail-formatter-text-html.c:340
@@ -10590,7 +10648,7 @@ msgstr "મૂળભૂત પુન:સંગ્રહો (_R)"
 
 #: ../mail/e-mail-account-manager.c:473
 msgid "You can drag and drop account names to reorder them."
-msgstr ""
+msgstr "તમે તેઓને ફરી ક્રમમાં કરીને ખાતા નામોને ડ્રેગ અને ડ્રોપ કરી શકો છો."
 
 #: ../mail/e-mail-account-manager.c:518
 msgid "De_fault"
@@ -10617,7 +10675,7 @@ msgstr "મૂળભુત"
 #: ../mail/e-mail-autoconfig.c:194
 #, c-format
 msgid "No mail exchanger record for '%s'"
-msgstr ""
+msgstr "'%s' માટે મેઇલ ઍક્સચેન્જર રેકોર્ડ નથી"
 
 #: ../mail/e-mail-autoconfig.c:201
 #, c-format
@@ -11174,7 +11232,7 @@ msgstr "મને ફરી વાર પૂછશો નહિં (_D)."
 
 #: ../mail/e-mail-reader.c:1542
 msgid "_Always ignore Reply-To: for mailing lists."
-msgstr ""
+msgstr "હંમેશા આને જવાબ આપવો અવગણો: મેઇલીંગ યાદી માટે (_A)"
 
 #: ../mail/e-mail-reader.c:1732
 msgid "Failed to retrieve message:"
@@ -12499,6 +12557,7 @@ msgid ""
 "All new emails with header that matches given content will be automatically "
 "filtered as junk"
 msgstr ""
+"હેડર સાથે બધા નવાં ઇમેઇલ કે જે આપેલ સમાવિષ્ટ સાથે બંધબેસે છે જે આપમેળે નકામા તરીકે ફિલ્ટર થશે"
 
 #: ../mail/mail-config.ui.h:3
 msgid "Header name"
@@ -12554,7 +12613,7 @@ msgstr "પ્રત્યુત્તર આપવા પર મૂળ સં�
 
 #: ../mail/mail-config.ui.h:16
 msgid "Ig_nore Reply-To: for mailing lists"
-msgstr ""
+msgstr "આને જવાબ આપવો અવગણો: મેઇલીંગ યાદી માટે"
 
 #: ../mail/mail-config.ui.h:17
 msgid "Gro_up Reply goes only to mailing list, if possible"
@@ -12562,7 +12621,7 @@ msgstr "જૂથ જવાબ ફક્ત મેઇલીંગ યાદી�
 
 #: ../mail/mail-config.ui.h:18
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
-msgstr ""
+msgstr "ડિઝીટલ હસ્તાક્ષર સંદેશા જ્યારે મૂળભૂત સંદેશો હસ્તાક્ષર થયેલ હોય (PGP અથવા S/MIME) (_s)"
 
 #: ../mail/mail-config.ui.h:20
 msgid "Sig_natures"
@@ -12610,6 +12669,8 @@ msgid ""
 "To help avoid email accidents and embarrassments, ask for confirmation "
 "before taking the following checkmarked actions:"
 msgstr ""
+"ઇમેઇલ અકસ્માતો અને શરમજનક વસ્તુને અવગણવાનું મદદ કરવા માટે, નીચેની ચકાસેલ ક્રિયાઓને લેતા પહેલાં "
+"ખાતરી માટે પૂછો:"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:32
@@ -12639,7 +12700,7 @@ msgstr "યાદીમાં ખાનગી જવાબને દિશામ
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:42
 msgid "Sending a message with _recipients not entered as mail addresses"
-msgstr ""
+msgstr "મેઇલ સરનામું તરીકે દાખલ ન થયેલ પ્રાપ્તકર્તાઓ સાથે સંદેશાને મોકલી રહ્યા છે (_r)"
 
 #: ../mail/mail-config.ui.h:43
 msgid "Confirmations"
@@ -13087,6 +13148,8 @@ msgid ""
 "but the list is trying to redirect your reply to go back to the list. Are "
 "you sure you want to proceed?"
 msgstr ""
+"તમે ખાનગી રીતે સંદેશાને જવાબ આપી રહ્યા છે કે જે મેઇલીંગ યાદી મારફતે મળેલ છે, પરંતુ યાદીમાં પાછા "
+"જવા માટે તમારા જવાબને દિશામાન કરવા પ્રયત્ન કરી રહ્યા છે. શું તમે ખરેખર આગળ ધપવા માંગો છો?"
 
 #: ../mail/mail.error.xml.h:24
 msgid "Reply _Privately"
@@ -13471,6 +13534,12 @@ msgid ""
 "delete the account after ensuring the data is safely migrated. Please make "
 "sure there is enough disk space if you choose to migrate now."
 msgstr ""
+"Evolution નું સ્થાનિક મેઇલ બંધારણ mbox થી Maildir માં બદલેલ છે. Evolution આગળ જાય તે પહેલાં તમારુ "
+"સ્થાનિક મેઇલ નવા બંધારણમાં સ્થળાંતર થયેલ હોવુ જ જોઇએ. શું તમે હવે સ્થળાંતર કરવા માંગો છો?\n"
+"\n"
+"mbox ખાતુ જૂનાં mbox ફોલ્ડરને સાચવવા માટે બનાવેલ હશે. માહિતી સલામત રીતે સ્થળાંતર થયેલ છે તેની "
+"ખાતરી કર્યા પછી તમે ખાતાને કાઢી શકો છો. મહેરબાની કરીને ખાતરી કરો કે ત્યાં ડિસ્ક જગ્યા પૂરતી છે જો "
+"તમે હવે સ્થળાંતર કવાનું પસંદ કરો તો."
 
 #: ../mail/mail.error.xml.h:116
 msgid "_Exit Evolution"
@@ -13818,6 +13887,8 @@ msgid ""
 "running a new search either by clearing it with Search->Clear menu item or "
 "by changing the query above."
 msgstr ""
+"સંદેશો તમારી શોધ સાથે સંતુષ્ટ નથી. ઉપર ડ્રોપ ડાઉન યાદીમાંથી નવું સંદેશા ફિલ્ટર બતાવાનુ પસંદ કરીને "
+"શોધ બદલો અથવા  શોધ->મેનુ વસ્તુને સાફ કરો સાથે ક્યાંતો તેને સાફ કરીને અથવા ઉપર પ્રશ્ર્નને બદલીને."
 
 #: ../mail/message-list.c:4873
 msgid "There are no messages in this folder."
@@ -13892,7 +13963,7 @@ msgstr "સરનામુ બંધારણ"
 
 #: ../modules/addressbook/autocompletion-config.c:102
 msgid "_Format address according to standard of its destination country"
-msgstr ""
+msgstr "તેનાં લક્ષ્ય દેશની મૂળભૂતને અનુસાર સરનામાંને બંધારિત કરો (_F)"
 
 #: ../modules/addressbook/autocompletion-config.c:111
 msgid "Autocompletion"
@@ -14577,11 +14648,11 @@ msgstr "બોગો ફિલ્ટર (%s) ને પેદા કરવામ
 
 #: ../modules/bogofilter/evolution-bogofilter.c:167
 msgid "Failed to stream mail message content to Bogofilter: "
-msgstr ""
+msgstr "બોગોફિલ્ટર માં મેઇલ સંદેશ સમાવિષ્ટને સ્ટ્રીમ કરવામાં નિષ્ફળતા: "
 
 #: ../modules/bogofilter/evolution-bogofilter.c:216
 msgid "Bogofilter either crashed or failed to process a mail message"
-msgstr ""
+msgstr "બોગોફિલ્ટર એ મેઇલ સંદેશાની પ્રક્રિયા કરવા ક્યાંતો ભાંગી જાય છે અથવા નિષ્ફળ જાય છે"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:318
 msgid "Bogofilter Options"
@@ -15010,7 +15081,7 @@ msgstr "અઠવાડિયાનો ક્રમાંક બતાવો (_n
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:52
 msgid "Show r_ecurring events in italic in bottom left calendar"
-msgstr ""
+msgstr "નીચે ડાબે કૅલેન્ડરમાં ઇટાલિકમાં પૂનરાવર્તિત ઘટનાને બતાવો (_e)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:53
 msgid "Sc_roll Month View by a week"
@@ -15422,7 +15493,7 @@ msgstr "આગળના ૭ દિવસની મુલાકાતો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1774
 msgid "Occurs Less Than 5 Times"
-msgstr ""
+msgstr "5 વખત કરતા ઓછુ વાર થયુ"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1805
 #: ../modules/calendar/e-memo-shell-view-actions.c:820
@@ -15901,6 +15972,8 @@ msgid ""
 "Select a predefined set of IMAP headers to fetch.\n"
 "Note, larger sets of headers take longer to download."
 msgstr ""
+"લાવવા માટે IMAP હેડરનું પહેલેથી વ્યાખ્યાયિત થયેલ સુયોજનને પસંદ કરો.\n"
+"નોંધ, હેડરોનું વિશાળ સુયોજન ડાઉનલોડ કરવા માટે લાંબો સમય લે છે."
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:243
 msgid "_Fetch All Headers"
@@ -15928,6 +16001,8 @@ msgid ""
 "Specify any extra headers to fetch in addition to the predefined set of "
 "headers selected above."
 msgstr ""
+"ઉપર પસંદ થયેલ હેડરોનુ પહેલેથી વ્યાખ્યાયિત થયેલ સુયોજનને લાવવા માટે કોઇપણ વધારાનાં હેડરને સ્પષ્ટ "
+"કરો."
 
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:139
 msgid "ITIP"
@@ -17224,7 +17299,7 @@ msgstr "શું તમે Evolution ને તમારું મૂળભૂ�
 #: ../modules/mdn/evolution-mdn.c:323
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
-msgstr ""
+msgstr "%s પર \"%s\" વિશે %s માં તમારો સંદેશને વાંચી દેવામાં આવ્યો છે."
 
 #. Translators: %s is the subject of the email message.
 #: ../modules/mdn/evolution-mdn.c:390
@@ -17275,6 +17350,8 @@ msgid ""
 "Cannot find a corresponding account in the org.gnome.OnlineAccounts service "
 "from which to obtain an authentication token."
 msgstr ""
+"org.gnome.OnlineAccounts સેવામાં સંકળાયેલ ખાતુ શોધી શકાતુ નથી કે જેમાંથી સત્તાધિકરણ ટોકનને "
+"પ્રાપ્ત કરેલ છે."
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:504
 msgid "OAuth"
@@ -17531,7 +17608,7 @@ msgstr "JavaScript (_J)"
 
 #: ../modules/text-highlight/languages.c:93
 msgid "_Patch/diff"
-msgstr ""
+msgstr "Patch/diff (_P)"
 
 #: ../modules/text-highlight/languages.c:99
 msgid "_Perl"
@@ -18781,6 +18858,8 @@ msgid ""
 "$ORIG[from], $ORIG[to] or $ORIG[body], which will be replaced by values from "
 "an email you are replying to."
 msgstr ""
+"ડ્રાફ્ટ આધારિત ટૅમ્પલેટ પ્લગઇન. તમે $ORIG[subject], $ORIG[from], $ORIG[to] અથવા $ORIG[body] ને "
+"વાપરી શકો છો, કે જે ઇમેઇલમાંથી કિંમતો દ્દારા બદલાયેલ હશે જ્યારે તમે જવાબ આપી રહ્યા હોય."
 
 #: ../plugins/templates/templates.c:1112
 msgid "No Title"
@@ -19182,6 +19261,8 @@ msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
 msgstr ""
+"ખાસ ઘટકને દેખીને Evolution ની શરૂઆત કરો. ઉપલબ્ધ વિકલ્પો 'મેઇલ', 'કૅલેન્ડર', 'સંપર્કો', 'કાર્યો', "
+"અને 'મેમો' છે"
 
 #: ../shell/main.c:311
 msgid "Apply the given geometry to the main window"
@@ -19213,7 +19294,7 @@ msgstr "મેઈલ, સંપર્કો અને ક્રિયાઓન�
 
 #: ../shell/main.c:331
 msgid "Import URIs or filenames given as rest of arguments."
-msgstr ""
+msgstr "બાકીની દલીલો તરીકે આપેલ URIs અથવા ફાઇલનામ આયાત કરો."
 
 #: ../shell/main.c:333
 msgid "Request a running Evolution process to quit"
@@ -19275,6 +19356,8 @@ msgid ""
 "a workaround you might try first upgrading to Evolution 2, and then "
 "upgrading to Evolution 3."
 msgstr ""
+"Evolution એ આવૃત્તિ {0} માંથી સીધુ સુધારવાનું લાંબો સમય આધાર આપતુ નથી. છતાંપણ ઉકેલ પ્રમાણ તમે "
+"Evolution 2 માં પહેલાં સુધારવાનો પ્રયત્ન કરી શકો છો, અને પછી Evolution 3 માં સુધારવાનુ."
 
 #: ../smclient/eggdesktopfile.c:166
 #, c-format
@@ -19299,7 +19382,7 @@ msgstr "કાર્યક્રમ આદેશ વાક્ય પર દસ�
 #: ../smclient/eggdesktopfile.c:1170
 #, c-format
 msgid "Unrecognized launch option: %d"
-msgstr ""
+msgstr "બિનઓળખાયેલ લૉન્ચ વિકલ્પ: %d"
 
 #: ../smclient/eggdesktopfile.c:1370
 #, c-format
