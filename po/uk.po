@@ -6,23 +6,23 @@
 # Maxim Dubovoy <max@mylinux.com.ua>, 2003
 # wanderlust <wanderlust@ukr.net>, 2009.
 # Korostil Daniel <ted.korostiled@gmail.com>, 2011, 2012.
+# Re. <ted.korostiled@gmail.com>, 2012.
 #: ../shell/main.c:568
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-09-18 01:43+0000\n"
-"PO-Revision-Date: 2012-09-12 18:40-0700\n"
-"Last-Translator: Daniel <ted.korostiled@gmail.com>\n"
-"Language-Team: translation@linux.org.ua\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-25 22:03+0300\n"
+"PO-Revision-Date: 2012-09-25 22:57+0300\n"
+"Last-Translator: Re. <ted.korostiled@gmail.com>\n"
+"Language-Team: linux.org.ua\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Virtaal 0.7.0\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Virtaal 0.7.1\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
@@ -836,7 +836,7 @@ msgid "Send a mail message to this address"
 msgstr "Перетворити виділене повідомлення на завдання"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:333
-#: ../widgets/misc/e-web-view.c:1097 ../widgets/misc/e-web-view-gtkhtml.c:973
+#: ../widgets/misc/e-web-view.c:1094 ../widgets/misc/e-web-view-gtkhtml.c:973
 #, c-format
 msgid "Click to mail %s"
 msgstr "Клацніть, щоб надіслати лист %s"
@@ -1614,12 +1614,10 @@ msgstr "діб"
 msgid "hours"
 msgstr "годин"
 
-#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
 #: ../calendar/alarm-notify/alarm-notify.ui.h:10
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:8
 #: ../calendar/gui/dialogs/event-page.ui.h:19 ../filter/filter.ui.h:6
 #: ../mail/e-mail-config-provider-page.c:527
-#: ../modules/addressbook/ldap-config.ui.h:29
 #: ../widgets/misc/e-interval-chooser.c:139
 msgid "minutes"
 msgstr "хвилини"
@@ -2533,7 +2531,7 @@ msgstr "Закрити поточне вікно"
 #: ../calendar/gui/dialogs/comp-editor.c:1164 ../mail/e-mail-browser.c:134
 #: ../shell/e-shell-window-actions.c:1446
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
-#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1423
+#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1420
 #: ../widgets/misc/e-web-view-gtkhtml.c:456
 #: ../widgets/misc/e-web-view-gtkhtml.c:1299
 msgid "Copy the selection"
@@ -2542,7 +2540,7 @@ msgstr "Копіювати виділене"
 #: ../calendar/gui/dialogs/comp-editor.c:1171 ../mail/e-mail-browser.c:141
 #: ../shell/e-shell-window-actions.c:1453
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1417 ../widgets/misc/e-web-view-gtkhtml.c:1293
+#: ../widgets/misc/e-web-view.c:1414 ../widgets/misc/e-web-view-gtkhtml.c:1293
 msgid "Cut the selection"
 msgstr "Вирізати виділене"
 
@@ -2559,7 +2557,7 @@ msgstr "Переглянути довідку"
 #: ../calendar/gui/dialogs/comp-editor.c:1192 ../mail/e-mail-browser.c:148
 #: ../shell/e-shell-window-actions.c:1481
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1429 ../widgets/misc/e-web-view-gtkhtml.c:1305
+#: ../widgets/misc/e-web-view.c:1426 ../widgets/misc/e-web-view-gtkhtml.c:1305
 msgid "Paste the clipboard"
 msgstr "Вставити з буфера обміну"
 
@@ -10877,7 +10875,6 @@ msgstr ""
 
 #: ../mail/e-mail-config-identity-page.c:299
 #: ../mail/e-mail-config-summary-page.c:341
-#: ../modules/addressbook/ldap-config.ui.h:12
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
 #: ../widgets/misc/e-mail-signature-script-dialog.c:417
 msgid "_Name:"
@@ -12983,17 +12980,17 @@ msgstr ""
 "Цей параметр ігнорується, якщо буде виявлено відповідність для інших "
 "заголовків для спаму."
 
-#: ../mail/mail-config.ui.h:110 ../modules/addressbook/ldap-config.ui.h:3
+#: ../mail/mail-config.ui.h:110
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:237
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:161
 msgid "No encryption"
 msgstr "Без шифрування"
 
-#: ../mail/mail-config.ui.h:111 ../modules/addressbook/ldap-config.ui.h:1
+#: ../mail/mail-config.ui.h:111
 msgid "TLS encryption"
 msgstr "Шифрування TLS"
 
-#: ../mail/mail-config.ui.h:112 ../modules/addressbook/ldap-config.ui.h:2
+#: ../mail/mail-config.ui.h:112
 msgid "SSL encryption"
 msgstr "Шифрування SSL"
 
@@ -13939,6 +13936,9 @@ msgid ""
 "running a new search either by clearing it with Search->Clear menu item or "
 "by changing the query above."
 msgstr ""
+"Жоден лист не задовольняє ваших критеріїв. Змініть критерії пошуку вибравши "
+"новий фільтр з спадного списку вище або виконавши новий пошук через очищення "
+"з пункту меню Пошук->Очистити або змінення запиту вище."
 
 #: ../mail/message-list.c:4873
 msgid "There are no messages in this folder."
@@ -14357,112 +14357,6 @@ msgstr "Надіслати _повідомлення у список"
 msgid "_Send Message to Contact"
 msgstr "Надіслати _повідомлення контакту"
 
-#: ../modules/addressbook/ldap-config.ui.h:4
-msgid "Anonymously"
-msgstr "Анонімно"
-
-#: ../modules/addressbook/ldap-config.ui.h:5
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:682
-msgid "Using email address"
-msgstr "За електронною адресою"
-
-#: ../modules/addressbook/ldap-config.ui.h:6
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:685
-msgid "Using distinguished name (DN)"
-msgstr "Використовуючи відокремлене ім'я (DN)"
-
-#. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
-#: ../modules/addressbook/ldap-config.ui.h:8
-msgid "One"
-msgstr "Один"
-
-#. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
-#: ../modules/addressbook/ldap-config.ui.h:10
-msgid "Sub"
-msgstr "Всі нижчі рівні"
-
-#: ../modules/addressbook/ldap-config.ui.h:11
-msgid "Supported Search Bases"
-msgstr "Підтримувані бази пошуку"
-
-#: ../modules/addressbook/ldap-config.ui.h:13
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:181
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:113
-msgid "_Port:"
-msgstr "_Порт:"
-
-#: ../modules/addressbook/ldap-config.ui.h:14
-msgid "Ser_ver:"
-msgstr "_Сервер:"
-
-#: ../modules/addressbook/ldap-config.ui.h:15
-msgid "Use secure _connection:"
-msgstr "Використовувати захищене _з'єднання:"
-
-#: ../modules/addressbook/ldap-config.ui.h:16
-msgid "_Login method:"
-msgstr "_Метод авторизації:"
-
-#: ../modules/addressbook/ldap-config.ui.h:17
-msgid "Lo_gin:"
-msgstr "_Ім'я:"
-
-#: ../modules/addressbook/ldap-config.ui.h:18
-msgid "Search _base:"
-msgstr "_База пошуку:"
-
-#: ../modules/addressbook/ldap-config.ui.h:19
-msgid "_Search scope:"
-msgstr "Діапазон по_шуку:"
-
-#: ../modules/addressbook/ldap-config.ui.h:20
-msgid "_Find Possible Search Bases"
-msgstr "З_найти можливі бази пошуку"
-
-#: ../modules/addressbook/ldap-config.ui.h:21
-msgid "S_earch filter:"
-msgstr "Фільтр по_шуку:"
-
-#: ../modules/addressbook/ldap-config.ui.h:22
-msgid "Search Filter"
-msgstr "Фільтр пошуку"
-
-#: ../modules/addressbook/ldap-config.ui.h:23
-msgid ""
-"Search filter is the type of object to be searched for. If this is not "
-"modified, the default search will be performed on the type \"person\"."
-msgstr ""
-"Фільтр пошуку - це тип об'єкту, який треба знайти. Якщо не змінювати, типово "
-"буде виконуватись пошук об'єкту типу \"person\"."
-
-#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
-#: ../modules/addressbook/ldap-config.ui.h:25
-msgid "1"
-msgstr "1"
-
-#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
-#: ../modules/addressbook/ldap-config.ui.h:27
-msgid "5"
-msgstr "5"
-
-#: ../modules/addressbook/ldap-config.ui.h:30
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:838
-msgid "contacts"
-msgstr "контакти"
-
-#: ../modules/addressbook/ldap-config.ui.h:31
-msgid "_Timeout:"
-msgstr "_Затримка:"
-
-#: ../modules/addressbook/ldap-config.ui.h:32
-msgid "_Download limit:"
-msgstr "_Обмеження завантаження:"
-
-#. To translators: If enabled, addressbook will only fetch contacts from the server until either set time limit or amount of contacts limit reached
-#: ../modules/addressbook/ldap-config.ui.h:34
-msgid "B_rowse this book until limit reached"
-msgstr "Пере_глядати книгу до досягнення ліміту часу"
-
 #: ../modules/audio-inline/e-mail-formatter-audio-inline.c:310
 msgid "Audio Player"
 msgstr "Звуковий програвач"
@@ -14472,15 +14366,14 @@ msgid "Play the attachment in embedded audio player"
 msgstr "Програти долучення у вбудованим програвачем"
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:167
-#, fuzzy
 msgid ""
 "You can restore Evolution from a backup file.\n"
 "\n"
 "This will restore all your personal data, settings mail filters, etc."
 msgstr ""
-"Дозволяє відновити Evolution з архіву. Таким чином можна відновлювати пошту, "
-"календарі, завдання, примітки та контакти. Будуть відновлені також особисті "
-"параметри, фільтри пошти та таке інше."
+"Можете відновити Evolution із резервної копії.\n"
+"\n"
+"Так можна відновити всі особисті дані, параметри поштових фільтрів, тощо."
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:182
 msgid "_Restore from a backup file:"
@@ -14754,6 +14647,14 @@ msgstr "Автентифікація"
 msgid "Anonymous"
 msgstr "Анонімно"
 
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:682
+msgid "Using email address"
+msgstr "За електронною адресою"
+
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:685
+msgid "Using distinguished name (DN)"
+msgstr "Використовуючи відокремлене ім'я (DN)"
+
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:687
 msgid "Method:"
 msgstr "Спосіб:"
@@ -14821,6 +14722,10 @@ msgstr "Завантаження"
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:827
 msgid "Limit:"
 msgstr "Обмеження:"
+
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:838
+msgid "contacts"
+msgstr "контакти"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:843
 msgid "Browse until limit is reached"
@@ -16005,6 +15910,8 @@ msgid ""
 "Select a predefined set of IMAP headers to fetch.\n"
 "Note, larger sets of headers take longer to download."
 msgstr ""
+"Вибрати попередньо визначений набір заголовків IMAP для одержання.\n"
+"Зауважте, великі набори заголовків забирають більше часу."
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:243
 msgid "_Fetch All Headers"
@@ -16015,16 +15922,12 @@ msgid "_Basic Headers (fastest)"
 msgstr "_Основні заголовки (найшвидше)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:271
-#, fuzzy
 msgid "Use this if you are not filtering any mailing lists."
-msgstr ""
-"_Основні заголовки (найшвидший) \n"
-"Використовуйте, якщо у вас немає фільтрів на основі списків листування"
+msgstr "Використовувати це, коли ви не фільтруєте жоден список листування."
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:281
-#, fuzzy
 msgid "Basic and _Mailing List Headers (default)"
-msgstr "Основні заголовки та заголовки списків _розсилки (типово)"
+msgstr "Основні заголовки та заголовки списків _листування (типово)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:330
 msgid "Custom Headers"
@@ -16035,6 +15938,8 @@ msgid ""
 "Specify any extra headers to fetch in addition to the predefined set of "
 "headers selected above."
 msgstr ""
+"Вказати будь-які додаткові заголовки для одержання того ж попередньо "
+"визначеного набору заголовків, котрий вибрано вище."
 
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:139
 msgid "ITIP"
@@ -16807,6 +16712,7 @@ msgid "Choose a mbox spool directory"
 msgstr "Вибрати розвантажувальний каталог mbox"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:149
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:49
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:82
 #: ../modules/plugin-manager/evolution-plugin-manager.c:160
 msgid "Configuration"
@@ -16817,6 +16723,11 @@ msgstr "Налаштовування"
 #: ../plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "_Server:"
 msgstr "_Сервер:"
+
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:181
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:113
+msgid "_Port:"
+msgstr "_Порт:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:193
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:229
@@ -16837,6 +16748,14 @@ msgstr "STARTTLS після з'єднання"
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:169
 msgid "SSL on a dedicated port"
 msgstr "SSL на особливому порті"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:65
+msgid "_Use custom binary, instead of 'sendmail'"
+msgstr "_Використовувати власний бінарний файл, замість «sendmail»"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:69
+msgid "_Custom binary:"
+msgstr "_Власний бінарний файл:"
 
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:125
 msgid "Ser_ver requires authentication"
@@ -17583,16 +17502,16 @@ msgid "Import complete."
 msgstr "Імпортування завершено."
 
 #: ../modules/startup-wizard/e-startup-assistant.c:154
-#, fuzzy
 msgid ""
 "Welcome to Evolution.\n"
 "\n"
 "The next few screens will allow Evolution to connect to your email accounts, "
 "and to import files from other applications."
 msgstr ""
-"Ласкаво просимо до Evolution. Декілька наступних екранів допоможуть "
-"Evolution налаштувати ваші поштові облікові записи та імпортувати файли з "
-"інших програм."
+"Ласкаво просимо до Evolution. \n"
+"\n"
+"Декілька наступних екранів допоможуть Evolution налаштувати ваші поштові "
+"облікові записи та імпортувати файли з інших програм."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:242
 msgid "Loading accounts..."
@@ -20945,25 +20864,25 @@ msgstr "_копіювати зображення"
 msgid "Copy the image to the clipboard"
 msgstr "Копіювати зображення в буфер"
 
-#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1435
+#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1432
 #: ../widgets/misc/e-web-view-gtkhtml.c:466
 #: ../widgets/misc/e-web-view-gtkhtml.c:1311
 msgid "Select all text and images"
 msgstr "Виділити весь текст та зображення"
 
-#: ../widgets/misc/e-web-view.c:1099 ../widgets/misc/e-web-view.c:1101
-#: ../widgets/misc/e-web-view.c:1103 ../widgets/misc/e-web-view-gtkhtml.c:975
+#: ../widgets/misc/e-web-view.c:1096 ../widgets/misc/e-web-view.c:1098
+#: ../widgets/misc/e-web-view.c:1100 ../widgets/misc/e-web-view-gtkhtml.c:975
 #: ../widgets/misc/e-web-view-gtkhtml.c:977
 #: ../widgets/misc/e-web-view-gtkhtml.c:979
 #, c-format
 msgid "Click to call %s"
 msgstr "Клацніть, щоб подзвонити %s"
 
-#: ../widgets/misc/e-web-view.c:1105 ../widgets/misc/e-web-view-gtkhtml.c:981
+#: ../widgets/misc/e-web-view.c:1102 ../widgets/misc/e-web-view-gtkhtml.c:981
 msgid "Click to hide/unhide addresses"
 msgstr "Клацніть, щоб показати/сховати адреси "
 
-#: ../widgets/misc/e-web-view.c:1107 ../widgets/misc/e-web-view-gtkhtml.c:983
+#: ../widgets/misc/e-web-view.c:1104 ../widgets/misc/e-web-view-gtkhtml.c:983
 #, c-format
 msgid "Click to open %s"
 msgstr "Клацніть щоб відкрити %s"
@@ -21274,6 +21193,67 @@ msgstr "Виділити все"
 #: ../widgets/text/e-text.c:2087
 msgid "Input Methods"
 msgstr "Спосіб вводу"
+
+#~ msgid "Anonymously"
+#~ msgstr "Анонімно"
+
+#~ msgid "One"
+#~ msgstr "Один"
+
+#~ msgid "Sub"
+#~ msgstr "Всі нижчі рівні"
+
+#~ msgid "Supported Search Bases"
+#~ msgstr "Підтримувані бази пошуку"
+
+#~ msgid "Ser_ver:"
+#~ msgstr "_Сервер:"
+
+#~ msgid "Use secure _connection:"
+#~ msgstr "Використовувати захищене _з'єднання:"
+
+#~ msgid "_Login method:"
+#~ msgstr "_Метод авторизації:"
+
+#~ msgid "Lo_gin:"
+#~ msgstr "_Ім'я:"
+
+#~ msgid "Search _base:"
+#~ msgstr "_База пошуку:"
+
+#~ msgid "_Search scope:"
+#~ msgstr "Діапазон по_шуку:"
+
+#~ msgid "_Find Possible Search Bases"
+#~ msgstr "З_найти можливі бази пошуку"
+
+#~ msgid "S_earch filter:"
+#~ msgstr "Фільтр по_шуку:"
+
+#~ msgid "Search Filter"
+#~ msgstr "Фільтр пошуку"
+
+#~ msgid ""
+#~ "Search filter is the type of object to be searched for. If this is not "
+#~ "modified, the default search will be performed on the type \"person\"."
+#~ msgstr ""
+#~ "Фільтр пошуку - це тип об'єкту, який треба знайти. Якщо не змінювати, "
+#~ "типово буде виконуватись пошук об'єкту типу \"person\"."
+
+#~ msgid "1"
+#~ msgstr "1"
+
+#~ msgid "5"
+#~ msgstr "5"
+
+#~ msgid "_Timeout:"
+#~ msgstr "_Затримка:"
+
+#~ msgid "_Download limit:"
+#~ msgstr "_Обмеження завантаження:"
+
+#~ msgid "B_rowse this book until limit reached"
+#~ msgstr "Пере_глядати книгу до досягнення ліміту часу"
 
 #~ msgid "Some features may not work properly with your current server"
 #~ msgstr "Деякі функції можуть працювати некоректно з цією версією сервера"
@@ -23013,9 +22993,6 @@ msgstr "Спосіб вводу"
 #~ msgctxt "cal-alarms"
 #~ msgid "None"
 #~ msgstr "Немає"
-
-#~ msgid "Custom Alarm:"
-#~ msgstr "Інший сигнал:"
 
 #~ msgid "_Alarm"
 #~ msgstr "_Сигнал"
