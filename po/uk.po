@@ -6,22 +6,23 @@
 # Maxim Dubovoy <max@mylinux.com.ua>, 2003
 # wanderlust <wanderlust@ukr.net>, 2009.
 # Korostil Daniel <ted.korostiled@gmail.com>, 2011, 2012.
+# Re. <ted.korostiled@gmail.com>, 2012.
 #: ../shell/main.c:568
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-11 20:52+0300\n"
-"PO-Revision-Date: 2012-09-12 18:40-0700\n"
-"Last-Translator: Daniel <ted.korostiled@gmail.com>\n"
-"Language-Team: translation@linux.org.ua\n"
+"POT-Creation-Date: 2012-09-25 22:03+0300\n"
+"PO-Revision-Date: 2012-09-25 22:57+0300\n"
+"Last-Translator: Re. <ted.korostiled@gmail.com>\n"
+"Language-Team: linux.org.ua\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Virtaal 0.7.0\n"
+"X-Generator: Virtaal 0.7.1\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
@@ -321,7 +322,7 @@ msgstr "_Домашня сторінка:"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:14
 #: ../calendar/gui/dialogs/event-page.c:722
 #: ../calendar/gui/dialogs/event-page.ui.h:22
-#: ../modules/itip-formatter/itip-view.c:1842
+#: ../modules/itip-formatter/itip-view.c:1858
 msgid "_Calendar:"
 msgstr "_Календар:"
 
@@ -835,7 +836,7 @@ msgid "Send a mail message to this address"
 msgstr "Перетворити виділене повідомлення на завдання"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:333
-#: ../widgets/misc/e-web-view.c:1097 ../widgets/misc/e-web-view-gtkhtml.c:973
+#: ../widgets/misc/e-web-view.c:1094 ../widgets/misc/e-web-view-gtkhtml.c:973
 #, c-format
 msgid "Click to mail %s"
 msgstr "Клацніть, щоб надіслати лист %s"
@@ -1580,11 +1581,11 @@ msgid "_Dismiss"
 msgstr "_Скасувати"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:5
-#: ../calendar/alarm-notify/alarm-queue.c:1755
-#: ../calendar/alarm-notify/alarm-queue.c:1765
+#: ../calendar/alarm-notify/alarm-queue.c:1757
+#: ../calendar/alarm-notify/alarm-queue.c:1767
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:191
-#: ../modules/itip-formatter/itip-view.c:1460
-#: ../modules/itip-formatter/itip-view.c:1569
+#: ../modules/itip-formatter/itip-view.c:1472
+#: ../modules/itip-formatter/itip-view.c:1583
 msgid "Location:"
 msgstr "Адреса:"
 
@@ -1613,31 +1614,29 @@ msgstr "діб"
 msgid "hours"
 msgstr "годин"
 
-#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
 #: ../calendar/alarm-notify/alarm-notify.ui.h:10
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:8
 #: ../calendar/gui/dialogs/event-page.ui.h:19 ../filter/filter.ui.h:6
 #: ../mail/e-mail-config-provider-page.c:527
-#: ../modules/addressbook/ldap-config.ui.h:29
 #: ../widgets/misc/e-interval-chooser.c:139
 msgid "minutes"
 msgstr "хвилини"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1604
-#: ../calendar/alarm-notify/alarm-queue.c:1736
+#: ../calendar/alarm-notify/alarm-queue.c:1606
+#: ../calendar/alarm-notify/alarm-queue.c:1738
 msgid "No summary available."
 msgstr "Немає зведення."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1613
 #: ../calendar/alarm-notify/alarm-queue.c:1615
+#: ../calendar/alarm-notify/alarm-queue.c:1617
 msgid "No description available."
 msgstr "Немає опису."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1623
+#: ../calendar/alarm-notify/alarm-queue.c:1625
 msgid "No location information available."
 msgstr "Немає даних про адресу."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1669
+#: ../calendar/alarm-notify/alarm-queue.c:1671
 #, c-format
 msgid "You have %d reminder"
 msgid_plural "You have %d reminders"
@@ -1645,12 +1644,12 @@ msgstr[0] "У вас є %d нагадування"
 msgstr[1] "У вас є %d нагадувань"
 msgstr[2] "У вас є %d нагадувань"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1865
-#: ../calendar/alarm-notify/alarm-queue.c:1900
+#: ../calendar/alarm-notify/alarm-queue.c:1867
+#: ../calendar/alarm-notify/alarm-queue.c:1902
 msgid "Warning"
 msgstr "Попередження"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1869
+#: ../calendar/alarm-notify/alarm-queue.c:1871
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -1662,7 +1661,7 @@ msgstr ""
 "Замість цього Evolution буде показувати звичайне вікно\n"
 "нагадування."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1906
+#: ../calendar/alarm-notify/alarm-queue.c:1908
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -1679,7 +1678,7 @@ msgstr ""
 "\n"
 "Ви впевнені, що бажаєте виконати цю програму?"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1921
+#: ../calendar/alarm-notify/alarm-queue.c:1923
 msgid "Do not ask me about this program again."
 msgstr "Не задавати це питання знову."
 
@@ -1940,7 +1939,7 @@ msgstr ""
 "її буде збережено без цих долучень."
 
 #: ../calendar/calendar.error.xml.h:47 ../composer/e-composer-actions.c:316
-#: ../modules/itip-formatter/itip-view.c:3078
+#: ../modules/itip-formatter/itip-view.c:3094
 msgid "_Save"
 msgstr "З_берегти"
 
@@ -2532,7 +2531,7 @@ msgstr "Закрити поточне вікно"
 #: ../calendar/gui/dialogs/comp-editor.c:1164 ../mail/e-mail-browser.c:134
 #: ../shell/e-shell-window-actions.c:1446
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
-#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1423
+#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1420
 #: ../widgets/misc/e-web-view-gtkhtml.c:456
 #: ../widgets/misc/e-web-view-gtkhtml.c:1299
 msgid "Copy the selection"
@@ -2541,7 +2540,7 @@ msgstr "Копіювати виділене"
 #: ../calendar/gui/dialogs/comp-editor.c:1171 ../mail/e-mail-browser.c:141
 #: ../shell/e-shell-window-actions.c:1453
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1417 ../widgets/misc/e-web-view-gtkhtml.c:1293
+#: ../widgets/misc/e-web-view.c:1414 ../widgets/misc/e-web-view-gtkhtml.c:1293
 msgid "Cut the selection"
 msgstr "Вирізати виділене"
 
@@ -2558,7 +2557,7 @@ msgstr "Переглянути довідку"
 #: ../calendar/gui/dialogs/comp-editor.c:1192 ../mail/e-mail-browser.c:148
 #: ../shell/e-shell-window-actions.c:1481
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1429 ../widgets/misc/e-web-view-gtkhtml.c:1305
+#: ../widgets/misc/e-web-view.c:1426 ../widgets/misc/e-web-view-gtkhtml.c:1305
 msgid "Paste the clipboard"
 msgstr "Вставити з буфера обміну"
 
@@ -3162,9 +3161,9 @@ msgstr "Неможливо відкрити примітки у «%s»: %s"
 #: ../em-format/e-mail-parser-inlinepgp-signed.c:96
 #: ../em-format/e-mail-parser-multipart-encrypted.c:122
 #: ../em-format/e-mail-parser-multipart-signed.c:147
-#: ../libemail-engine/mail-ops.c:722 ../mail/e-mail-reader.c:1728
-#: ../mail/em-folder-tree.c:675 ../modules/itip-formatter/itip-view.c:4558
-#: ../modules/itip-formatter/itip-view.c:4909 ../plugins/face/face.c:174
+#: ../libemail-engine/mail-ops.c:722 ../mail/e-mail-reader.c:1733
+#: ../mail/em-folder-tree.c:675 ../modules/itip-formatter/itip-view.c:4574
+#: ../modules/itip-formatter/itip-view.c:4925 ../plugins/face/face.c:174
 #: ../smime/gui/certificate-manager.c:317
 msgid "Unknown error"
 msgstr "Невідома помилка"
@@ -3933,8 +3932,8 @@ msgid "Due Date:"
 msgstr "Дата завершення:"
 
 #: ../calendar/gui/e-cal-component-preview.c:317
-#: ../modules/itip-formatter/itip-view.c:1463
-#: ../modules/itip-formatter/itip-view.c:1578
+#: ../modules/itip-formatter/itip-view.c:1475
+#: ../modules/itip-formatter/itip-view.c:1592
 msgid "Status:"
 msgstr "Стан:"
 
@@ -4074,8 +4073,8 @@ msgstr "Дата завершення"
 #: ../calendar/gui/e-meeting-store.c:139 ../calendar/gui/e-meeting-store.c:174
 #: ../calendar/gui/e-meeting-store.c:237 ../calendar/gui/print.c:1222
 #: ../calendar/gui/print.c:1239 ../e-util/e-charset.c:52
-#: ../modules/itip-formatter/itip-view.c:3464
-#: ../modules/itip-formatter/itip-view.c:5996
+#: ../modules/itip-formatter/itip-view.c:3480
+#: ../modules/itip-formatter/itip-view.c:6012
 #: ../modules/plugin-manager/evolution-plugin-manager.c:101
 msgid "Unknown"
 msgstr "Невідоме"
@@ -4109,14 +4108,14 @@ msgstr "Відкривається %s"
 #: ../calendar/gui/e-cal-model.c:3565
 #: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:201 ../calendar/gui/e-meeting-store.c:224
-#: ../modules/itip-formatter/itip-view.c:5984
+#: ../modules/itip-formatter/itip-view.c:6000
 msgid "Accepted"
 msgstr "Прийнято"
 
 #: ../calendar/gui/e-cal-model.c:3566
 #: ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:203 ../calendar/gui/e-meeting-store.c:226
-#: ../modules/itip-formatter/itip-view.c:5990
+#: ../modules/itip-formatter/itip-view.c:6006
 msgid "Declined"
 msgstr "Відхилено"
 
@@ -4130,7 +4129,7 @@ msgstr "Експериментальний"
 #: ../calendar/gui/e-cal-model.c:3568
 #: ../calendar/gui/e-meeting-list-view.c:225
 #: ../calendar/gui/e-meeting-store.c:207 ../calendar/gui/e-meeting-store.c:230
-#: ../modules/itip-formatter/itip-view.c:5993
+#: ../modules/itip-formatter/itip-view.c:6009
 msgid "Delegated"
 msgstr "Доручено"
 
@@ -4905,7 +4904,7 @@ msgstr "Зустрічі та засідання"
 
 #: ../calendar/importers/icalendar-importer.c:468
 #: ../calendar/importers/icalendar-importer.c:905
-#: ../modules/itip-formatter/itip-view.c:5598
+#: ../modules/itip-formatter/itip-view.c:5614
 msgid "Opening calendar"
 msgstr "Відкривання календаря"
 
@@ -9010,9 +9009,7 @@ msgstr ""
 #. indicate that an attachment should have been attached to the message.
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
-msgstr ""
-"['долучення','вкладення','долучено','долучив','долучила','долучило','вкладен"
-"о','вклав','вклали','долучили','вклала','вклали']"
+msgstr "['долучення','вкладення','долучено','долучив','долучила','долучило','вкладено','вклав','вклали','долучили','вклала','вклали']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -9185,8 +9182,8 @@ msgid ""
 "and \"notify-sound-use-theme\" keys are disregarded."
 msgstr ""
 "Чи подавати звук, коли одержано нові листи. Якщо значення «false», на ключі "
-"«notify-sound-beep», «notify-sound-file», «notify-sound-play-file» і "
-"«notify-sound-use-theme» не буде звертатись уваги."
+"«notify-sound-beep», «notify-sound-file», «notify-sound-play-file» і «notify-"
+"sound-use-theme» не буде звертатись уваги."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
 msgid "Whether to emit a beep."
@@ -10222,7 +10219,7 @@ msgstr "Знайти елементи, що відповідають вказа�
 #. name:
 #: ../filter/e-filter-rule.c:839 ../libemail-engine/camel-null-store.c:28
 #: ../mail/e-mail-config-summary-page.c:139
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:616
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:624
 #: ../widgets/misc/e-mail-signature-combo-box.c:369
 msgid "None"
 msgstr "Немає"
@@ -10702,7 +10699,7 @@ msgstr "Назва облікового запису"
 
 #: ../mail/e-mail-account-tree-view.c:134
 #: ../mail/e-mail-config-security-page.c:333
-#: ../mail/e-mail-config-security-page.c:472 ../mail/e-mail-reader.c:3656
+#: ../mail/e-mail-config-security-page.c:472 ../mail/e-mail-reader.c:3661
 #: ../mail/mail-config.ui.h:44
 msgid "Default"
 msgstr "Типовий"
@@ -10878,7 +10875,6 @@ msgstr ""
 
 #: ../mail/e-mail-config-identity-page.c:299
 #: ../mail/e-mail-config-summary-page.c:341
-#: ../modules/addressbook/ldap-config.ui.h:12
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
 #: ../widgets/misc/e-mail-signature-script-dialog.c:417
 msgid "_Name:"
@@ -11074,13 +11070,13 @@ msgid "Server Type:"
 msgstr "Тип сервера: "
 
 #: ../mail/e-mail-config-summary-page.c:454
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:602
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:610
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:244
 msgid "Server:"
 msgstr "Сервер:"
 
 #: ../mail/e-mail-config-summary-page.c:475
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:691
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:699
 msgid "Username:"
 msgstr "Ім'я користувача:"
 
@@ -11259,594 +11255,594 @@ msgstr "_Не питати знову."
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "_Завжди ігнорувати відповісти на: для списків листування."
 
-#: ../mail/e-mail-reader.c:1727
+#: ../mail/e-mail-reader.c:1732
 msgid "Failed to retrieve message:"
 msgstr "Не вдалося одержати лист:"
 
-#: ../mail/e-mail-reader.c:1773 ../mail/e-mail-reader.c:2863
+#: ../mail/e-mail-reader.c:1778 ../mail/e-mail-reader.c:2868
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "Отримання повідомлення «%s»"
 
-#: ../mail/e-mail-reader.c:1950
+#: ../mail/e-mail-reader.c:1955
 msgid "A_dd Sender to Address Book"
 msgstr "_Додати відправника до адресної книги"
 
-#: ../mail/e-mail-reader.c:1952
+#: ../mail/e-mail-reader.c:1957
 msgid "Add sender to address book"
 msgstr "Додати відправника до адресної книги"
 
-#: ../mail/e-mail-reader.c:1957
+#: ../mail/e-mail-reader.c:1962
 msgid "Check for _Junk"
 msgstr "Перевіряти на _спам"
 
-#: ../mail/e-mail-reader.c:1959
+#: ../mail/e-mail-reader.c:1964
 msgid "Filter the selected messages for junk status"
 msgstr "Фільтрувати виділені повідомлення за ознакою \"спам\""
 
-#: ../mail/e-mail-reader.c:1964
+#: ../mail/e-mail-reader.c:1969
 msgid "_Copy to Folder..."
 msgstr "_Копіювати в теку..."
 
-#: ../mail/e-mail-reader.c:1966
+#: ../mail/e-mail-reader.c:1971
 msgid "Copy selected messages to another folder"
 msgstr "Скопіювати вибрані повідомлення у іншу теку"
 
-#: ../mail/e-mail-reader.c:1971
+#: ../mail/e-mail-reader.c:1976
 msgid "_Delete Message"
 msgstr "В_илучити повідомлення"
 
-#: ../mail/e-mail-reader.c:1973
+#: ../mail/e-mail-reader.c:1978
 msgid "Mark the selected messages for deletion"
 msgstr "Позначити вибрані повідомлення до вилучення"
 
-#: ../mail/e-mail-reader.c:1978
+#: ../mail/e-mail-reader.c:1983
 msgid "Create a Filter Rule for Mailing _List..."
 msgstr "Створити правило відсіювання для списків _листування…"
 
-#: ../mail/e-mail-reader.c:1980
+#: ../mail/e-mail-reader.c:1985
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Створити правило фільтрування повідомлень у цей список листування"
 
-#: ../mail/e-mail-reader.c:1985
+#: ../mail/e-mail-reader.c:1990
 msgid "Create a Filter Rule for _Recipients..."
 msgstr "Створити правило відсіювання для _одержувачів…"
 
-#: ../mail/e-mail-reader.c:1987
+#: ../mail/e-mail-reader.c:1992
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Створити правило фільтрування повідомлень до цих отримувачів"
 
-#: ../mail/e-mail-reader.c:1992
+#: ../mail/e-mail-reader.c:1997
 msgid "Create a Filter Rule for Se_nder..."
 msgstr "Створити правило відсіювання для _відправників…"
 
-#: ../mail/e-mail-reader.c:1994
+#: ../mail/e-mail-reader.c:1999
 msgid "Create a rule to filter messages from this sender"
 msgstr "Створити правило фільтрування повідомлень від цього відправника"
 
-#: ../mail/e-mail-reader.c:1999
+#: ../mail/e-mail-reader.c:2004
 msgid "Create a Filter Rule for _Subject..."
 msgstr "Створити правило відсіювання для _тем…"
 
-#: ../mail/e-mail-reader.c:2001
+#: ../mail/e-mail-reader.c:2006
 msgid "Create a rule to filter messages with this subject"
 msgstr "Створити правило фільтрування повідомлень з цією темою"
 
-#: ../mail/e-mail-reader.c:2006
+#: ../mail/e-mail-reader.c:2011
 msgid "A_pply Filters"
 msgstr "Заст_осувати фільтри"
 
-#: ../mail/e-mail-reader.c:2008
+#: ../mail/e-mail-reader.c:2013
 msgid "Apply filter rules to the selected messages"
 msgstr "Застосувати правила фільтрування до виділених повідомлень"
 
-#: ../mail/e-mail-reader.c:2013
+#: ../mail/e-mail-reader.c:2018
 msgid "_Find in Message..."
 msgstr "З_найти у повідомленні..."
 
-#: ../mail/e-mail-reader.c:2015
+#: ../mail/e-mail-reader.c:2020
 msgid "Search for text in the body of the displayed message"
 msgstr "Пошук у тексті відображеного повідомлення"
 
-#: ../mail/e-mail-reader.c:2020
+#: ../mail/e-mail-reader.c:2025
 msgid "_Clear Flag"
 msgstr "О_чистити ознаку"
 
-#: ../mail/e-mail-reader.c:2022
+#: ../mail/e-mail-reader.c:2027
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "Вилучити прапорець «до виконання» з вибраних повідомлень"
 
-#: ../mail/e-mail-reader.c:2027
+#: ../mail/e-mail-reader.c:2032
 msgid "_Flag Completed"
 msgstr "_Прапорець «Завершено»"
 
-#: ../mail/e-mail-reader.c:2029
+#: ../mail/e-mail-reader.c:2034
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Виділити всі повідомлення у гілці вибраного повідомлення"
 
-#: ../mail/e-mail-reader.c:2034
+#: ../mail/e-mail-reader.c:2039
 msgid "Follow _Up..."
 msgstr "_До виконання…"
 
-#: ../mail/e-mail-reader.c:2036
+#: ../mail/e-mail-reader.c:2041
 msgid "Flag the selected messages for follow-up"
 msgstr "Позначити «до виконання» обрані повідомлення"
 
-#: ../mail/e-mail-reader.c:2041
+#: ../mail/e-mail-reader.c:2046
 msgid "_Attached"
 msgstr "До_лучено"
 
-#: ../mail/e-mail-reader.c:2043 ../mail/e-mail-reader.c:2050
+#: ../mail/e-mail-reader.c:2048 ../mail/e-mail-reader.c:2055
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Переслати вибране повідомлення до когось як долучення"
 
-#: ../mail/e-mail-reader.c:2048
+#: ../mail/e-mail-reader.c:2053
 msgid "Forward As _Attached"
 msgstr "Переслати як до_лучення"
 
-#: ../mail/e-mail-reader.c:2055
+#: ../mail/e-mail-reader.c:2060
 msgid "_Inline"
 msgstr "В_будоване"
 
-#: ../mail/e-mail-reader.c:2057 ../mail/e-mail-reader.c:2064
+#: ../mail/e-mail-reader.c:2062 ../mail/e-mail-reader.c:2069
 msgid "Forward the selected message in the body of a new message"
 msgstr "Переслати вибране повідомлення в тілі нового повідомлення"
 
-#: ../mail/e-mail-reader.c:2062
+#: ../mail/e-mail-reader.c:2067
 msgid "Forward As _Inline"
 msgstr "Переслати як в_будоване"
 
-#: ../mail/e-mail-reader.c:2069
+#: ../mail/e-mail-reader.c:2074
 msgid "_Quoted"
 msgstr "_Цитування"
 
-#: ../mail/e-mail-reader.c:2071 ../mail/e-mail-reader.c:2078
+#: ../mail/e-mail-reader.c:2076 ../mail/e-mail-reader.c:2083
 msgid "Forward the selected message quoted like a reply"
 msgstr "Переслати вибране повідомлення процитоване як відповідь"
 
-#: ../mail/e-mail-reader.c:2076
+#: ../mail/e-mail-reader.c:2081
 msgid "Forward As _Quoted"
 msgstr "Переслати як _цитоване"
 
-#: ../mail/e-mail-reader.c:2083
+#: ../mail/e-mail-reader.c:2088
 msgid "_Load Images"
 msgstr "_Завантажити зображення"
 
-#: ../mail/e-mail-reader.c:2085
+#: ../mail/e-mail-reader.c:2090
 msgid "Force images in HTML mail to be loaded"
 msgstr "Ввімкнути завантаження зображень у пошті в форматі HTML"
 
-#: ../mail/e-mail-reader.c:2090
+#: ../mail/e-mail-reader.c:2095
 msgid "_Important"
 msgstr "Ва_жливе"
 
-#: ../mail/e-mail-reader.c:2092
+#: ../mail/e-mail-reader.c:2097
 msgid "Mark the selected messages as important"
 msgstr "Позначити виділені повідомлення як важливі"
 
-#: ../mail/e-mail-reader.c:2097
+#: ../mail/e-mail-reader.c:2102
 msgid "_Junk"
 msgstr "_Спам"
 
-#: ../mail/e-mail-reader.c:2099
+#: ../mail/e-mail-reader.c:2104
 msgid "Mark the selected messages as junk"
 msgstr "Позначити виділені повідомлення як спам"
 
-#: ../mail/e-mail-reader.c:2104
+#: ../mail/e-mail-reader.c:2109
 msgid "_Not Junk"
 msgstr "Н_е спам"
 
-#: ../mail/e-mail-reader.c:2106
+#: ../mail/e-mail-reader.c:2111
 msgid "Mark the selected messages as not being junk"
 msgstr "Позначити вибрані повідомлення як не спам"
 
-#: ../mail/e-mail-reader.c:2111
+#: ../mail/e-mail-reader.c:2116
 msgid "_Read"
 msgstr "_Читання"
 
-#: ../mail/e-mail-reader.c:2113
+#: ../mail/e-mail-reader.c:2118
 msgid "Mark the selected messages as having been read"
 msgstr "Позначити виділені повідомлення як прочитані"
 
-#: ../mail/e-mail-reader.c:2118
+#: ../mail/e-mail-reader.c:2123
 msgid "Uni_mportant"
 msgstr "_Неважливе"
 
-#: ../mail/e-mail-reader.c:2120
+#: ../mail/e-mail-reader.c:2125
 msgid "Mark the selected messages as unimportant"
 msgstr "Позначити вибрані повідомлення як неважливі"
 
-#: ../mail/e-mail-reader.c:2125
+#: ../mail/e-mail-reader.c:2130
 msgid "_Unread"
 msgstr "_Непрочитане"
 
-#: ../mail/e-mail-reader.c:2127
+#: ../mail/e-mail-reader.c:2132
 msgid "Mark the selected messages as not having been read"
 msgstr "Позначити вибрані повідомлення як непрочитані"
 
-#: ../mail/e-mail-reader.c:2132
+#: ../mail/e-mail-reader.c:2137
 msgid "_Edit as New Message..."
 msgstr "_Правити як нове повідомлення..."
 
-#: ../mail/e-mail-reader.c:2134
+#: ../mail/e-mail-reader.c:2139
 msgid "Open the selected messages in the composer for editing"
 msgstr "Відкрити виділені повідомлення у редакторі для редагування"
 
-#: ../mail/e-mail-reader.c:2139
+#: ../mail/e-mail-reader.c:2144
 msgid "Compose _New Message"
 msgstr "Створити _нове повідомлення"
 
-#: ../mail/e-mail-reader.c:2141
+#: ../mail/e-mail-reader.c:2146
 msgid "Open a window for composing a mail message"
 msgstr "Відкрити вікно для написання нового повідомлення"
 
-#: ../mail/e-mail-reader.c:2146
+#: ../mail/e-mail-reader.c:2151
 msgid "_Open in New Window"
 msgstr "_Відкрити у новому вікні"
 
-#: ../mail/e-mail-reader.c:2148
+#: ../mail/e-mail-reader.c:2153
 msgid "Open the selected messages in a new window"
 msgstr "Відкрити виділені повідомлення у новому вікні"
 
-#: ../mail/e-mail-reader.c:2153
+#: ../mail/e-mail-reader.c:2158
 msgid "_Move to Folder..."
 msgstr "Пере_містити в теку..."
 
-#: ../mail/e-mail-reader.c:2155
+#: ../mail/e-mail-reader.c:2160
 msgid "Move selected messages to another folder"
 msgstr "Перемістити вибрані повідомлення у іншу теку"
 
-#: ../mail/e-mail-reader.c:2160
+#: ../mail/e-mail-reader.c:2165
 msgid "_Switch to Folder"
 msgstr "_Перейти до теки"
 
-#: ../mail/e-mail-reader.c:2162
+#: ../mail/e-mail-reader.c:2167
 msgid "Display the parent folder"
 msgstr "Показати батьківську теку"
 
-#: ../mail/e-mail-reader.c:2167
+#: ../mail/e-mail-reader.c:2172
 msgid "Switch to _next tab"
 msgstr "Перемикнутись на _наступну вкладку"
 
-#: ../mail/e-mail-reader.c:2169
+#: ../mail/e-mail-reader.c:2174
 msgid "Switch to the next tab"
 msgstr "Перемкнутись на наступну вкладку"
 
-#: ../mail/e-mail-reader.c:2174
+#: ../mail/e-mail-reader.c:2179
 msgid "Switch to _previous tab"
 msgstr "Перемикнутись на _попередню вкладку %s"
 
-#: ../mail/e-mail-reader.c:2176
+#: ../mail/e-mail-reader.c:2181
 msgid "Switch to the previous tab"
 msgstr "Перемкнутись до попередньої вкладки"
 
-#: ../mail/e-mail-reader.c:2181
+#: ../mail/e-mail-reader.c:2186
 msgid "Cl_ose current tab"
 msgstr "_Закрити поточну вкладку"
 
-#: ../mail/e-mail-reader.c:2183
+#: ../mail/e-mail-reader.c:2188
 msgid "Close current tab"
 msgstr "Закрити поточний вкладку"
 
-#: ../mail/e-mail-reader.c:2188
+#: ../mail/e-mail-reader.c:2193
 msgid "_Next Message"
 msgstr "_Наступне повідомлення"
 
-#: ../mail/e-mail-reader.c:2190
+#: ../mail/e-mail-reader.c:2195
 msgid "Display the next message"
 msgstr "Показати наступне повідомлення"
 
-#: ../mail/e-mail-reader.c:2195
+#: ../mail/e-mail-reader.c:2200
 msgid "Next _Important Message"
 msgstr "Наступне _важливе повідомлення"
 
-#: ../mail/e-mail-reader.c:2197
+#: ../mail/e-mail-reader.c:2202
 msgid "Display the next important message"
 msgstr "Показати наступне важливе повідомлення"
 
-#: ../mail/e-mail-reader.c:2202
+#: ../mail/e-mail-reader.c:2207
 msgid "Next _Thread"
 msgstr "Наступна _гілка"
 
-#: ../mail/e-mail-reader.c:2204
+#: ../mail/e-mail-reader.c:2209
 msgid "Display the next thread"
 msgstr "Показати наступну гілку"
 
-#: ../mail/e-mail-reader.c:2209
+#: ../mail/e-mail-reader.c:2214
 msgid "Next _Unread Message"
 msgstr "Наступне н_епрочитане повідомлення"
 
-#: ../mail/e-mail-reader.c:2211
+#: ../mail/e-mail-reader.c:2216
 msgid "Display the next unread message"
 msgstr "Показати попереднє повідомлення"
 
-#: ../mail/e-mail-reader.c:2216
+#: ../mail/e-mail-reader.c:2221
 msgid "_Previous Message"
 msgstr "_Попереднє повідомлення"
 
-#: ../mail/e-mail-reader.c:2218
+#: ../mail/e-mail-reader.c:2223
 msgid "Display the previous message"
 msgstr "Показати попереднє повідомлення"
 
-#: ../mail/e-mail-reader.c:2223
+#: ../mail/e-mail-reader.c:2228
 msgid "Pr_evious Important Message"
 msgstr "Попе_реднє важливе повідомлення"
 
-#: ../mail/e-mail-reader.c:2225
+#: ../mail/e-mail-reader.c:2230
 msgid "Display the previous important message"
 msgstr "Показати попереднє важливе повідомлення"
 
-#: ../mail/e-mail-reader.c:2230
+#: ../mail/e-mail-reader.c:2235
 msgid "Previous T_hread"
 msgstr "Попередня _гілка"
 
-#: ../mail/e-mail-reader.c:2232
+#: ../mail/e-mail-reader.c:2237
 msgid "Display the previous thread"
 msgstr "Показати попередню гілку"
 
-#: ../mail/e-mail-reader.c:2237
+#: ../mail/e-mail-reader.c:2242
 msgid "P_revious Unread Message"
 msgstr "П_опереднє непрочитане повідомлення"
 
-#: ../mail/e-mail-reader.c:2239
+#: ../mail/e-mail-reader.c:2244
 msgid "Display the previous unread message"
 msgstr "Показати попереднє непрочитане повідомлення"
 
-#: ../mail/e-mail-reader.c:2246
+#: ../mail/e-mail-reader.c:2251
 msgid "Print this message"
 msgstr "Надрукувати це повідомлення"
 
-#: ../mail/e-mail-reader.c:2253
+#: ../mail/e-mail-reader.c:2258
 msgid "Preview the message to be printed"
 msgstr "Переглянути вигляд повідомлення при друку"
 
-#: ../mail/e-mail-reader.c:2258
+#: ../mail/e-mail-reader.c:2263
 msgid "Re_direct"
 msgstr "_Перенаправити"
 
-#: ../mail/e-mail-reader.c:2260
+#: ../mail/e-mail-reader.c:2265
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Перенаправити вибране повідомлення до когось"
 
-#: ../mail/e-mail-reader.c:2265
+#: ../mail/e-mail-reader.c:2270
 msgid "Remo_ve Attachments"
 msgstr "Ви_лучити долучення"
 
-#: ../mail/e-mail-reader.c:2267
+#: ../mail/e-mail-reader.c:2272
 msgid "Remove attachments"
 msgstr "Вилучити долучення"
 
-#: ../mail/e-mail-reader.c:2272
+#: ../mail/e-mail-reader.c:2277
 msgid "Remove Du_plicate Messages"
 msgstr "Вилучити п_одвійні повідомлення"
 
-#: ../mail/e-mail-reader.c:2274
+#: ../mail/e-mail-reader.c:2279
 msgid "Checks selected messages for duplicates"
 msgstr "Перевіряє, чи не повторювались вибрані повідомлення"
 
-#: ../mail/e-mail-reader.c:2279 ../mail/mail.error.xml.h:27
+#: ../mail/e-mail-reader.c:2284 ../mail/mail.error.xml.h:27
 #: ../modules/calendar/e-cal-shell-view-actions.c:1574
-#: ../modules/mail/e-mail-attachment-handler.c:182
+#: ../modules/mail/e-mail-attachment-handler.c:160
 msgid "Reply to _All"
 msgstr "Відповісти _усім"
 
-#: ../mail/e-mail-reader.c:2281
+#: ../mail/e-mail-reader.c:2286
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Відповісти усім отримувачам виділеного повідомлення"
 
-#: ../mail/e-mail-reader.c:2286 ../mail/mail.error.xml.h:25
+#: ../mail/e-mail-reader.c:2291 ../mail/mail.error.xml.h:25
 msgid "Reply to _List"
 msgstr "Відповісти у _список"
 
-#: ../mail/e-mail-reader.c:2288
+#: ../mail/e-mail-reader.c:2293
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Відповісти у список розсилки цього повідомлення"
 
-#: ../mail/e-mail-reader.c:2293
-#: ../modules/mail/e-mail-attachment-handler.c:189
+#: ../mail/e-mail-reader.c:2298
+#: ../modules/mail/e-mail-attachment-handler.c:167
 msgid "_Reply to Sender"
 msgstr "В_ідповісти відправнику"
 
-#: ../mail/e-mail-reader.c:2295
+#: ../mail/e-mail-reader.c:2300
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Відповісти відправнику цього повідомлення"
 
-#: ../mail/e-mail-reader.c:2300
+#: ../mail/e-mail-reader.c:2305
 msgid "_Save as mbox..."
 msgstr "З_берегти як mbox..."
 
-#: ../mail/e-mail-reader.c:2302
+#: ../mail/e-mail-reader.c:2307
 msgid "Save selected messages as an mbox file"
 msgstr "Зберегти виділені повідомлення як файл mbox"
 
-#: ../mail/e-mail-reader.c:2307
+#: ../mail/e-mail-reader.c:2312
 msgid "_Message Source"
 msgstr "Джерело _повідомлення"
 
-#: ../mail/e-mail-reader.c:2309
+#: ../mail/e-mail-reader.c:2314
 msgid "Show the raw email source of the message"
 msgstr "Показати повний вихідний текст повідомлення"
 
-#: ../mail/e-mail-reader.c:2321
+#: ../mail/e-mail-reader.c:2326
 msgid "_Undelete Message"
 msgstr "Від_новити повідомлення"
 
-#: ../mail/e-mail-reader.c:2323
+#: ../mail/e-mail-reader.c:2328
 msgid "Undelete the selected messages"
 msgstr "Відновити вибрані повідомлення"
 
-#: ../mail/e-mail-reader.c:2328
+#: ../mail/e-mail-reader.c:2333
 msgid "_Normal Size"
 msgstr "З_вичайний розмір"
 
-#: ../mail/e-mail-reader.c:2330
+#: ../mail/e-mail-reader.c:2335
 msgid "Reset the text to its original size"
 msgstr "Повернути оригінальний розмір тексту"
 
-#: ../mail/e-mail-reader.c:2335
+#: ../mail/e-mail-reader.c:2340
 msgid "_Zoom In"
 msgstr "З_більшити"
 
-#: ../mail/e-mail-reader.c:2337
+#: ../mail/e-mail-reader.c:2342
 msgid "Increase the text size"
 msgstr "Збільшити розмір тексту"
 
-#: ../mail/e-mail-reader.c:2342
+#: ../mail/e-mail-reader.c:2347
 msgid "Zoom _Out"
 msgstr "З_меншити"
 
-#: ../mail/e-mail-reader.c:2344
+#: ../mail/e-mail-reader.c:2349
 msgid "Decrease the text size"
 msgstr "Зменшити розмір тексту"
 
-#: ../mail/e-mail-reader.c:2351
+#: ../mail/e-mail-reader.c:2356
 msgid "Cre_ate"
 msgstr "С_творити"
 
-#: ../mail/e-mail-reader.c:2358
+#: ../mail/e-mail-reader.c:2363
 msgid "Ch_aracter Encoding"
 msgstr "Набір си_мволів"
 
-#: ../mail/e-mail-reader.c:2365
+#: ../mail/e-mail-reader.c:2370
 msgid "F_orward As"
 msgstr "_Переслати як…"
 
-#: ../mail/e-mail-reader.c:2372
+#: ../mail/e-mail-reader.c:2377
 msgid "_Group Reply"
 msgstr "_Групувати відповіді"
 
-#: ../mail/e-mail-reader.c:2379
+#: ../mail/e-mail-reader.c:2384
 msgid "_Go To"
 msgstr "Пере_йти до"
 
-#: ../mail/e-mail-reader.c:2386
+#: ../mail/e-mail-reader.c:2391
 msgid "Mar_k As"
 msgstr "По_значити як"
 
-#: ../mail/e-mail-reader.c:2393
+#: ../mail/e-mail-reader.c:2398
 msgid "_Message"
 msgstr "П_овідомлення"
 
-#: ../mail/e-mail-reader.c:2400
+#: ../mail/e-mail-reader.c:2405
 msgid "_Zoom"
 msgstr "Зміна _масштабу"
 
-#: ../mail/e-mail-reader.c:2410
+#: ../mail/e-mail-reader.c:2415
 msgid "Create a Search Folder from Mailing _List..."
 msgstr "Створити теку пошуку зі списків _листування…"
 
-#: ../mail/e-mail-reader.c:2412
+#: ../mail/e-mail-reader.c:2417
 msgid "Create a search folder for this mailing list"
 msgstr "Створити теку пошуку для цього списку листування"
 
-#: ../mail/e-mail-reader.c:2417
+#: ../mail/e-mail-reader.c:2422
 msgid "Create a Search Folder from Recipien_ts..."
 msgstr "Створити теку пошуку з _одержувачів…"
 
-#: ../mail/e-mail-reader.c:2419
+#: ../mail/e-mail-reader.c:2424
 msgid "Create a search folder for these recipients"
 msgstr "Створити теку пошуку для цих отримувачів"
 
-#: ../mail/e-mail-reader.c:2424
+#: ../mail/e-mail-reader.c:2429
 msgid "Create a Search Folder from Sen_der..."
 msgstr "Створити теку пошуку з _відправників…"
 
-#: ../mail/e-mail-reader.c:2426
+#: ../mail/e-mail-reader.c:2431
 msgid "Create a search folder for this sender"
 msgstr "Створити теку пошуку для цього відправника"
 
-#: ../mail/e-mail-reader.c:2431
+#: ../mail/e-mail-reader.c:2436
 msgid "Create a Search Folder from S_ubject..."
 msgstr "Створити теку пошуку з _теми…"
 
-#: ../mail/e-mail-reader.c:2433
+#: ../mail/e-mail-reader.c:2438
 msgid "Create a search folder for this subject"
 msgstr "Створити теку пошуку для цієї теми"
 
-#: ../mail/e-mail-reader.c:2456
+#: ../mail/e-mail-reader.c:2461
 msgid "Mark for Follo_w Up..."
 msgstr "_До виконання..."
 
-#: ../mail/e-mail-reader.c:2464
+#: ../mail/e-mail-reader.c:2469
 msgid "Mark as _Important"
 msgstr "Позначити як ва_жливе"
 
-#: ../mail/e-mail-reader.c:2468
+#: ../mail/e-mail-reader.c:2473
 msgid "Mark as _Junk"
 msgstr "Зазначити як _спам"
 
-#: ../mail/e-mail-reader.c:2472
+#: ../mail/e-mail-reader.c:2477
 msgid "Mark as _Not Junk"
 msgstr "Позначити як _не спам"
 
-#: ../mail/e-mail-reader.c:2476
+#: ../mail/e-mail-reader.c:2481
 msgid "Mar_k as Read"
 msgstr "Позначити як _прочитане"
 
-#: ../mail/e-mail-reader.c:2480
+#: ../mail/e-mail-reader.c:2485
 msgid "Mark as Uni_mportant"
 msgstr "Позначити як н_еважливе"
 
-#: ../mail/e-mail-reader.c:2484
+#: ../mail/e-mail-reader.c:2489
 msgid "Mark as _Unread"
 msgstr "Позначити як непро_читане"
 
-#: ../mail/e-mail-reader.c:2528
+#: ../mail/e-mail-reader.c:2533
 msgid "_Caret Mode"
 msgstr "Режим _каретки"
 
-#: ../mail/e-mail-reader.c:2530
+#: ../mail/e-mail-reader.c:2535
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Показувати блимаючий курсор у тілі повідомлень, що відображаються"
 
-#: ../mail/e-mail-reader.c:2536
+#: ../mail/e-mail-reader.c:2541
 msgid "All Message _Headers"
 msgstr "Усі заг_оловки повідомлень"
 
-#: ../mail/e-mail-reader.c:2538
+#: ../mail/e-mail-reader.c:2543
 msgid "Show messages with all email headers"
 msgstr "Показати повідомлення з усіма заголовками"
 
-#: ../mail/e-mail-reader.c:2869
+#: ../mail/e-mail-reader.c:2874
 msgid "Retrieving message"
 msgstr "Одержання листа"
 
-#: ../mail/e-mail-reader.c:3852
-#: ../modules/mail/e-mail-attachment-handler.c:175
+#: ../mail/e-mail-reader.c:3854
+#: ../modules/mail/e-mail-attachment-handler.c:153
 msgid "_Forward"
 msgstr "_Переслати"
 
-#: ../mail/e-mail-reader.c:3853
+#: ../mail/e-mail-reader.c:3855
 msgid "Forward the selected message to someone"
 msgstr "Переслати вибране повідомлення до когось"
 
-#: ../mail/e-mail-reader.c:3872
+#: ../mail/e-mail-reader.c:3874
 msgid "Group Reply"
 msgstr "Групувати відповіді"
 
-#: ../mail/e-mail-reader.c:3873
+#: ../mail/e-mail-reader.c:3875
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Відповісти у список листування або всім одержувачам"
 
-#: ../mail/e-mail-reader.c:3930 ../mail/em-filter-i18n.h:14
+#: ../mail/e-mail-reader.c:3941 ../mail/em-filter-i18n.h:14
 msgid "Delete"
 msgstr "Вилучити"
 
-#: ../mail/e-mail-reader.c:3963
+#: ../mail/e-mail-reader.c:3974
 #: ../modules/calendar/e-cal-shell-view-actions.c:1399
 msgid "Next"
 msgstr "Далі"
 
-#: ../mail/e-mail-reader.c:3967
+#: ../mail/e-mail-reader.c:3978
 #: ../modules/calendar/e-cal-shell-view-actions.c:1392
 msgid "Previous"
 msgstr "Попереднє"
 
-#: ../mail/e-mail-reader.c:3976 ../mail/mail-dialogs.ui.h:15
+#: ../mail/e-mail-reader.c:3987 ../mail/mail-dialogs.ui.h:15
 msgid "Reply"
 msgstr "Відповісти"
 
-#: ../mail/e-mail-reader.c:4696
+#: ../mail/e-mail-reader.c:4705
 #, c-format
 msgid "Folder '%s'"
 msgstr "Тека «%s»"
@@ -11873,7 +11869,7 @@ msgstr[0] "Тека «%s» містить %u повторений лист. Ви
 msgstr[1] "Тека «%s» містить %u повторених листа. Вилучити їх?"
 msgstr[2] "Тека «%s» містить %u повторених листів. Вилучити їх?"
 
-#: ../mail/e-mail-reader-utils.c:1541
+#: ../mail/e-mail-reader-utils.c:1544
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Зберегти повідомлення"
@@ -11885,14 +11881,14 @@ msgstr[2] "Зберегти повідомлення"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:1562
+#: ../mail/e-mail-reader-utils.c:1565
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Повідомлення"
 msgstr[1] "Повідомлення"
 msgstr[2] "Повідомлення"
 
-#: ../mail/e-mail-reader-utils.c:2017
+#: ../mail/e-mail-reader-utils.c:2020
 msgid "Parsing message"
 msgstr "Розбирання листа"
 
@@ -12810,7 +12806,7 @@ msgid "No _Proxy for:"
 msgstr "Не використовувати _проксі для:"
 
 #: ../mail/mail-config.ui.h:64
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:608
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:616
 msgid "Port:"
 msgstr "_Порт:"
 
@@ -12984,17 +12980,17 @@ msgstr ""
 "Цей параметр ігнорується, якщо буде виявлено відповідність для інших "
 "заголовків для спаму."
 
-#: ../mail/mail-config.ui.h:110 ../modules/addressbook/ldap-config.ui.h:3
+#: ../mail/mail-config.ui.h:110
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:237
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:161
 msgid "No encryption"
 msgstr "Без шифрування"
 
-#: ../mail/mail-config.ui.h:111 ../modules/addressbook/ldap-config.ui.h:1
+#: ../mail/mail-config.ui.h:111
 msgid "TLS encryption"
 msgstr "Шифрування TLS"
 
-#: ../mail/mail-config.ui.h:112 ../modules/addressbook/ldap-config.ui.h:2
+#: ../mail/mail-config.ui.h:112
 msgid "SSL encryption"
 msgstr "Шифрування SSL"
 
@@ -13940,6 +13936,9 @@ msgid ""
 "running a new search either by clearing it with Search->Clear menu item or "
 "by changing the query above."
 msgstr ""
+"Жоден лист не задовольняє ваших критеріїв. Змініть критерії пошуку вибравши "
+"новий фільтр з спадного списку вище або виконавши новий пошук через очищення "
+"з пункту меню Пошук->Очистити або змінення запиту вище."
 
 #: ../mail/message-list.c:4873
 msgid "There are no messages in this folder."
@@ -14358,112 +14357,6 @@ msgstr "Надіслати _повідомлення у список"
 msgid "_Send Message to Contact"
 msgstr "Надіслати _повідомлення контакту"
 
-#: ../modules/addressbook/ldap-config.ui.h:4
-msgid "Anonymously"
-msgstr "Анонімно"
-
-#: ../modules/addressbook/ldap-config.ui.h:5
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:674
-msgid "Using email address"
-msgstr "За електронною адресою"
-
-#: ../modules/addressbook/ldap-config.ui.h:6
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:677
-msgid "Using distinguished name (DN)"
-msgstr "Використовуючи відокремлене ім'я (DN)"
-
-#. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
-#: ../modules/addressbook/ldap-config.ui.h:8
-msgid "One"
-msgstr "Один"
-
-#. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
-#: ../modules/addressbook/ldap-config.ui.h:10
-msgid "Sub"
-msgstr "Всі нижчі рівні"
-
-#: ../modules/addressbook/ldap-config.ui.h:11
-msgid "Supported Search Bases"
-msgstr "Підтримувані бази пошуку"
-
-#: ../modules/addressbook/ldap-config.ui.h:13
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:181
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:113
-msgid "_Port:"
-msgstr "_Порт:"
-
-#: ../modules/addressbook/ldap-config.ui.h:14
-msgid "Ser_ver:"
-msgstr "_Сервер:"
-
-#: ../modules/addressbook/ldap-config.ui.h:15
-msgid "Use secure _connection:"
-msgstr "Використовувати захищене _з'єднання:"
-
-#: ../modules/addressbook/ldap-config.ui.h:16
-msgid "_Login method:"
-msgstr "_Метод авторизації:"
-
-#: ../modules/addressbook/ldap-config.ui.h:17
-msgid "Lo_gin:"
-msgstr "_Ім'я:"
-
-#: ../modules/addressbook/ldap-config.ui.h:18
-msgid "Search _base:"
-msgstr "_База пошуку:"
-
-#: ../modules/addressbook/ldap-config.ui.h:19
-msgid "_Search scope:"
-msgstr "Діапазон по_шуку:"
-
-#: ../modules/addressbook/ldap-config.ui.h:20
-msgid "_Find Possible Search Bases"
-msgstr "З_найти можливі бази пошуку"
-
-#: ../modules/addressbook/ldap-config.ui.h:21
-msgid "S_earch filter:"
-msgstr "Фільтр по_шуку:"
-
-#: ../modules/addressbook/ldap-config.ui.h:22
-msgid "Search Filter"
-msgstr "Фільтр пошуку"
-
-#: ../modules/addressbook/ldap-config.ui.h:23
-msgid ""
-"Search filter is the type of object to be searched for. If this is not "
-"modified, the default search will be performed on the type \"person\"."
-msgstr ""
-"Фільтр пошуку - це тип об'єкту, який треба знайти. Якщо не змінювати, типово "
-"буде виконуватись пошук об'єкту типу \"person\"."
-
-#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
-#: ../modules/addressbook/ldap-config.ui.h:25
-msgid "1"
-msgstr "1"
-
-#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
-#: ../modules/addressbook/ldap-config.ui.h:27
-msgid "5"
-msgstr "5"
-
-#: ../modules/addressbook/ldap-config.ui.h:30
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:830
-msgid "contacts"
-msgstr "контакти"
-
-#: ../modules/addressbook/ldap-config.ui.h:31
-msgid "_Timeout:"
-msgstr "_Затримка:"
-
-#: ../modules/addressbook/ldap-config.ui.h:32
-msgid "_Download limit:"
-msgstr "_Обмеження завантаження:"
-
-#. To translators: If enabled, addressbook will only fetch contacts from the server until either set time limit or amount of contacts limit reached
-#: ../modules/addressbook/ldap-config.ui.h:34
-msgid "B_rowse this book until limit reached"
-msgstr "Пере_глядати книгу до досягнення ліміту часу"
-
 #: ../modules/audio-inline/e-mail-formatter-audio-inline.c:310
 msgid "Audio Player"
 msgstr "Звуковий програвач"
@@ -14473,15 +14366,14 @@ msgid "Play the attachment in embedded audio player"
 msgstr "Програти долучення у вбудованим програвачем"
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:167
-#, fuzzy
 msgid ""
 "You can restore Evolution from a backup file.\n"
 "\n"
 "This will restore all your personal data, settings mail filters, etc."
 msgstr ""
-"Дозволяє відновити Evolution з архіву. Таким чином можна відновлювати пошту, "
-"календарі, завдання, примітки та контакти. Будуть відновлені також особисті "
-"параметри, фільтри пошти та таке інше."
+"Можете відновити Evolution із резервної копії.\n"
+"\n"
+"Так можна відновити всі особисті дані, параметри поштових фільтрів, тощо."
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:182
 msgid "_Restore from a backup file:"
@@ -14711,55 +14603,63 @@ msgstr "Перетворити текст листа на _Unicode"
 msgid "Bogofilter"
 msgstr "Bogofilter"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:442
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:449
 msgid "Standard LDAP Port"
 msgstr "Стандартний порт LDAP"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:448
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:619
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:455
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:627
 msgid "LDAP over SSL (deprecated)"
 msgstr "LDAP над SSL (застаріло)"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:454
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:461
 msgid "Microsoft Global Catalog"
 msgstr "Microsoft Global Catalog"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:460
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:467
 msgid "Microsoft Global Catalog over SSL"
 msgstr "Microsoft Global Catalog над SSL"
 
 #. Page 1
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:564
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:572
 msgid "Connecting to LDAP"
 msgstr "З'єднання з LDAP"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:581
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:589
 msgid "Server Information"
 msgstr "Інформація про сервер"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:622
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:630
 msgid "StartTLS (recommended)"
 msgstr "StartTLS (рекомендовано)"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:624
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:632
 msgid "Encryption:"
 msgstr "Шифрування:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:648
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:656
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:258
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:182
 msgid "Authentication"
 msgstr "Автентифікація"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:671
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:679
 msgid "Anonymous"
 msgstr "Анонімно"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:679
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:682
+msgid "Using email address"
+msgstr "За електронною адресою"
+
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:685
+msgid "Using distinguished name (DN)"
+msgstr "Використовуючи відокремлене ім'я (DN)"
+
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:687
 msgid "Method:"
 msgstr "Спосіб:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:684
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:692
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Using email address\" requires anonymous access to your "
@@ -14770,36 +14670,36 @@ msgstr ""
 "вимагає анонімного доступу до вашого сервера LDAP."
 
 #. Page 2
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:699
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:707
 msgid "Using LDAP"
 msgstr "Використання LDAP"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:716
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:724
 #: ../modules/mail/e-mail-shell-view.c:116
 msgid "Searching"
 msgstr "Пошук"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:738
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:746
 msgid "Search Base:"
 msgstr "База пошуку:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:743
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:751
 msgid "Find Possible Search Bases"
 msgstr "Знайти можливі бази пошуку"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:768
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:776
 msgid "One Level"
 msgstr "Один рівень"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:770
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:778
 msgid "Subtree"
 msgstr "Піддерево"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:772
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:780
 msgid "Search Scope:"
 msgstr "Діапазон пошуку:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:777
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:785
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree.  A search scope of \"Subtree\" will include all entries "
@@ -14811,19 +14711,23 @@ msgstr ""
 "розміщено нижче за базу пошуку. Діапазон пошуку «Один рівень» охоплює тільки "
 "елементи, які розміщено на один рівень нижче каталогу від початку пошуку."
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:786
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:794
 msgid "Search Filter:"
 msgstr "Фільтр пошуку:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:798
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:806
 msgid "Downloading"
 msgstr "Завантаження"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:819
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:827
 msgid "Limit:"
 msgstr "Обмеження:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:835
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:838
+msgid "contacts"
+msgstr "контакти"
+
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:843
 msgid "Browse until limit is reached"
 msgstr "Переглядати, поки не буде досягнуто обмеження"
 
@@ -16006,6 +15910,8 @@ msgid ""
 "Select a predefined set of IMAP headers to fetch.\n"
 "Note, larger sets of headers take longer to download."
 msgstr ""
+"Вибрати попередньо визначений набір заголовків IMAP для одержання.\n"
+"Зауважте, великі набори заголовків забирають більше часу."
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:243
 msgid "_Fetch All Headers"
@@ -16016,16 +15922,12 @@ msgid "_Basic Headers (fastest)"
 msgstr "_Основні заголовки (найшвидше)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:271
-#, fuzzy
 msgid "Use this if you are not filtering any mailing lists."
-msgstr ""
-"_Основні заголовки (найшвидший) \n"
-"Використовуйте, якщо у вас немає фільтрів на основі списків листування"
+msgstr "Використовувати це, коли ви не фільтруєте жоден список листування."
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:281
-#, fuzzy
 msgid "Basic and _Mailing List Headers (default)"
-msgstr "Основні заголовки та заголовки списків _розсилки (типово)"
+msgstr "Основні заголовки та заголовки списків _листування (типово)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:330
 msgid "Custom Headers"
@@ -16036,6 +15938,8 @@ msgid ""
 "Specify any extra headers to fetch in addition to the predefined set of "
 "headers selected above."
 msgstr ""
+"Вказати будь-які додаткові заголовки для одержання того ж попередньо "
+"визначеного набору заголовків, котрий вибрано вище."
 
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:139
 msgid "ITIP"
@@ -16414,7 +16318,7 @@ msgid "Start day:"
 msgstr "День початку:"
 
 #: ../modules/itip-formatter/itip-view.c:693
-#: ../modules/itip-formatter/itip-view.c:1461
+#: ../modules/itip-formatter/itip-view.c:1473
 msgid "Start time:"
 msgstr "Час початку:"
 
@@ -16423,244 +16327,244 @@ msgid "End day:"
 msgstr "День завершення:"
 
 #: ../modules/itip-formatter/itip-view.c:702
-#: ../modules/itip-formatter/itip-view.c:1462
+#: ../modules/itip-formatter/itip-view.c:1474
 msgid "End time:"
 msgstr "Час завершення:"
 
 #
-#: ../modules/itip-formatter/itip-view.c:1010
+#: ../modules/itip-formatter/itip-view.c:1022
 msgid "_Open Calendar"
 msgstr "_Відкрити календар"
 
-#: ../modules/itip-formatter/itip-view.c:1013
+#: ../modules/itip-formatter/itip-view.c:1025
 msgid "_Decline all"
 msgstr "Від_хилити все"
 
-#: ../modules/itip-formatter/itip-view.c:1016
+#: ../modules/itip-formatter/itip-view.c:1028
 msgid "_Decline"
 msgstr "Від_хилити"
 
-#: ../modules/itip-formatter/itip-view.c:1019
+#: ../modules/itip-formatter/itip-view.c:1031
 msgid "_Tentative all"
 msgstr "_Невизначені усі"
 
-#: ../modules/itip-formatter/itip-view.c:1022
+#: ../modules/itip-formatter/itip-view.c:1034
 msgid "_Tentative"
 msgstr "_Невизначені"
 
-#: ../modules/itip-formatter/itip-view.c:1025
+#: ../modules/itip-formatter/itip-view.c:1037
 msgid "A_ccept all"
 msgstr "У_хвалити все"
 
-#: ../modules/itip-formatter/itip-view.c:1028
+#: ../modules/itip-formatter/itip-view.c:1040
 msgid "A_ccept"
 msgstr "_Ухвалити"
 
-#: ../modules/itip-formatter/itip-view.c:1031
+#: ../modules/itip-formatter/itip-view.c:1043
 msgid "_Send Information"
 msgstr "_Надіслати інформацію"
 
-#: ../modules/itip-formatter/itip-view.c:1034
+#: ../modules/itip-formatter/itip-view.c:1046
 msgid "_Update Attendee Status"
 msgstr "_Оновити стан учасника"
 
-#: ../modules/itip-formatter/itip-view.c:1037
+#: ../modules/itip-formatter/itip-view.c:1049
 msgid "_Update"
 msgstr "_Оновити"
 
-#: ../modules/itip-formatter/itip-view.c:1464
-#: ../modules/itip-formatter/itip-view.c:1512
-#: ../modules/itip-formatter/itip-view.c:1581
+#: ../modules/itip-formatter/itip-view.c:1476
+#: ../modules/itip-formatter/itip-view.c:1524
+#: ../modules/itip-formatter/itip-view.c:1595
 msgid "Comment:"
 msgstr "Коментар:"
 
 #. RSVP area
-#: ../modules/itip-formatter/itip-view.c:1500
+#: ../modules/itip-formatter/itip-view.c:1512
 msgid "Send reply to sender"
 msgstr "Надіслати відповідь відправнику"
 
 #. Updates
-#: ../modules/itip-formatter/itip-view.c:1515
+#: ../modules/itip-formatter/itip-view.c:1527
 msgid "Send _updates to attendees"
 msgstr "Надіслати _оновлення учасникам"
 
 #. The recurrence check button
-#: ../modules/itip-formatter/itip-view.c:1518
+#: ../modules/itip-formatter/itip-view.c:1530
 msgid "_Apply to all instances"
 msgstr "Застосувати до усіх _записів"
 
-#: ../modules/itip-formatter/itip-view.c:1519
+#: ../modules/itip-formatter/itip-view.c:1531
 msgid "Show time as _free"
 msgstr "Показувати час як _зайнятий"
 
-#: ../modules/itip-formatter/itip-view.c:1520
+#: ../modules/itip-formatter/itip-view.c:1532
 msgid "_Preserve my reminder"
 msgstr "З_берегти нагадування"
 
-#: ../modules/itip-formatter/itip-view.c:1521
+#: ../modules/itip-formatter/itip-view.c:1533
 msgid "_Inherit reminder"
 msgstr "_Успадковувати нагадування"
 
-#: ../modules/itip-formatter/itip-view.c:1845
+#: ../modules/itip-formatter/itip-view.c:1861
 msgid "_Tasks:"
 msgstr "_Завдання"
 
-#: ../modules/itip-formatter/itip-view.c:1848
+#: ../modules/itip-formatter/itip-view.c:1864
 msgid "_Memos:"
 msgstr "_Примітки:"
 
 #. Translators: The first '%s' is replaced with a calendar name,
 #. * the second '%s' with an error message
-#: ../modules/itip-formatter/itip-view.c:3495
+#: ../modules/itip-formatter/itip-view.c:3511
 #, c-format
 msgid "Failed to load the calendar '%s' (%s)"
 msgstr "Не вдалося завантажити календар «%s» (%s)"
 
-#: ../modules/itip-formatter/itip-view.c:3654
+#: ../modules/itip-formatter/itip-view.c:3670
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "Зустріч у календарі '%s' конфліктує з цим зібранням"
 
-#: ../modules/itip-formatter/itip-view.c:3683
+#: ../modules/itip-formatter/itip-view.c:3699
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "Зустріч знайдено у календарі '%s'"
 
-#: ../modules/itip-formatter/itip-view.c:3796
+#: ../modules/itip-formatter/itip-view.c:3812
 msgid "Unable to find any calendars"
 msgstr "Не вдається знайти жоден календар"
 
-#: ../modules/itip-formatter/itip-view.c:3804
+#: ../modules/itip-formatter/itip-view.c:3820
 msgid "Unable to find this meeting in any calendar"
 msgstr "Не вдається знайти цю зустріч у жодному календарі"
 
-#: ../modules/itip-formatter/itip-view.c:3809
+#: ../modules/itip-formatter/itip-view.c:3825
 msgid "Unable to find this task in any task list"
 msgstr "Не вдається знайти це завдання у жодному списку завдань"
 
-#: ../modules/itip-formatter/itip-view.c:3814
+#: ../modules/itip-formatter/itip-view.c:3830
 msgid "Unable to find this memo in any memo list"
 msgstr "Не вдається знайти цю примітку у жодному списку приміток"
 
-#: ../modules/itip-formatter/itip-view.c:4163
+#: ../modules/itip-formatter/itip-view.c:4179
 msgid "Opening the calendar. Please wait..."
 msgstr "Відкривання календарю. Заждіть…"
 
-#: ../modules/itip-formatter/itip-view.c:4168
+#: ../modules/itip-formatter/itip-view.c:4184
 msgid "Searching for an existing version of this appointment"
 msgstr "Пошук наявної версії цієї зустрічі"
 
-#: ../modules/itip-formatter/itip-view.c:4557
+#: ../modules/itip-formatter/itip-view.c:4573
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Не вдається надіслати календар '%s'.  %s"
 
-#: ../modules/itip-formatter/itip-view.c:4572
+#: ../modules/itip-formatter/itip-view.c:4588
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Надіслано у календар '%s' як прийнятий"
 
-#: ../modules/itip-formatter/itip-view.c:4577
+#: ../modules/itip-formatter/itip-view.c:4593
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Надіслано у календар '%s' як пробний"
 
-#: ../modules/itip-formatter/itip-view.c:4583
+#: ../modules/itip-formatter/itip-view.c:4599
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Надіслано у календар '%s' як відхилений"
 
-#: ../modules/itip-formatter/itip-view.c:4589
+#: ../modules/itip-formatter/itip-view.c:4605
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Надіслано у календар '%s' як скасований"
 
-#: ../modules/itip-formatter/itip-view.c:4610
-#: ../modules/itip-formatter/itip-view.c:5050
-#: ../modules/itip-formatter/itip-view.c:5157
+#: ../modules/itip-formatter/itip-view.c:4626
+#: ../modules/itip-formatter/itip-view.c:5066
+#: ../modules/itip-formatter/itip-view.c:5173
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "Збереження змін у календар. Заждіть…"
 
-#: ../modules/itip-formatter/itip-view.c:4651
+#: ../modules/itip-formatter/itip-view.c:4667
 msgid "Unable to parse item"
 msgstr "Не вдається розібрати елемент"
 
-#: ../modules/itip-formatter/itip-view.c:4841
+#: ../modules/itip-formatter/itip-view.c:4857
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Організатор вилучив уповноваженого %s "
 
-#: ../modules/itip-formatter/itip-view.c:4856
+#: ../modules/itip-formatter/itip-view.c:4872
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Надіслано уповноваженому сповіщення про скасування"
 
-#: ../modules/itip-formatter/itip-view.c:4860
+#: ../modules/itip-formatter/itip-view.c:4876
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Не вдається надіслати сповіщення про скасування"
 
-#: ../modules/itip-formatter/itip-view.c:4908
+#: ../modules/itip-formatter/itip-view.c:4924
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Не вдається оновити учасника. %s"
 
-#: ../modules/itip-formatter/itip-view.c:4916
+#: ../modules/itip-formatter/itip-view.c:4932
 msgid "Attendee status updated"
 msgstr "Стан учасника оновлено!"
 
-#: ../modules/itip-formatter/itip-view.c:4939
+#: ../modules/itip-formatter/itip-view.c:4955
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Засідання неправильне і його неможливо оновити"
 
-#: ../modules/itip-formatter/itip-view.c:5015
+#: ../modules/itip-formatter/itip-view.c:5031
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Не вдається оновити стан відвідувача, тому що поточний стан не правильний"
 
-#: ../modules/itip-formatter/itip-view.c:5087
-#: ../modules/itip-formatter/itip-view.c:5127
+#: ../modules/itip-formatter/itip-view.c:5103
+#: ../modules/itip-formatter/itip-view.c:5143
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Не вдається оновити стан відвідувача, тому що елемент вже не існує"
 
-#: ../modules/itip-formatter/itip-view.c:5190
+#: ../modules/itip-formatter/itip-view.c:5206
 msgid "Meeting information sent"
 msgstr "Інформацію про засідання надіслано"
 
-#: ../modules/itip-formatter/itip-view.c:5195
+#: ../modules/itip-formatter/itip-view.c:5211
 msgid "Task information sent"
 msgstr "Інформацію про завдання надіслано"
 
-#: ../modules/itip-formatter/itip-view.c:5200
+#: ../modules/itip-formatter/itip-view.c:5216
 msgid "Memo information sent"
 msgstr "Інформацію про примітку надіслано"
 
-#: ../modules/itip-formatter/itip-view.c:5211
+#: ../modules/itip-formatter/itip-view.c:5227
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Не вдається надіслати інформацію про зустріч, зустріч не існує"
 
-#: ../modules/itip-formatter/itip-view.c:5216
+#: ../modules/itip-formatter/itip-view.c:5232
 msgid "Unable to send task information, the task does not exist"
 msgstr "Не вдається надіслати інформацію про завдання, завдання не існує"
 
-#: ../modules/itip-formatter/itip-view.c:5221
+#: ../modules/itip-formatter/itip-view.c:5237
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Не вдається надіслати інформацію про примітку, примітка не існує"
 
 #. Translators: This is a default filename for a calendar.
-#: ../modules/itip-formatter/itip-view.c:5286
+#: ../modules/itip-formatter/itip-view.c:5302
 msgid "calendar.ics"
 msgstr "календар.ics"
 
-#: ../modules/itip-formatter/itip-view.c:5291
+#: ../modules/itip-formatter/itip-view.c:5307
 msgid "Save Calendar"
 msgstr "Зберегти календар"
 
-#: ../modules/itip-formatter/itip-view.c:5344
-#: ../modules/itip-formatter/itip-view.c:5357
+#: ../modules/itip-formatter/itip-view.c:5360
+#: ../modules/itip-formatter/itip-view.c:5373
 msgid "The calendar attached is not valid"
 msgstr "Долучений календар недійсний"
 
-#: ../modules/itip-formatter/itip-view.c:5345
-#: ../modules/itip-formatter/itip-view.c:5358
+#: ../modules/itip-formatter/itip-view.c:5361
+#: ../modules/itip-formatter/itip-view.c:5374
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -16668,15 +16572,15 @@ msgstr ""
 "Це повідомлення заявляє, що містить календар, але календар не є дійсним "
 "iCalendar."
 
-#: ../modules/itip-formatter/itip-view.c:5400
-#: ../modules/itip-formatter/itip-view.c:5430
-#: ../modules/itip-formatter/itip-view.c:5530
+#: ../modules/itip-formatter/itip-view.c:5416
+#: ../modules/itip-formatter/itip-view.c:5446
+#: ../modules/itip-formatter/itip-view.c:5546
 msgid "The item in the calendar is not valid"
 msgstr "Елемент календаря - недійсний"
 
-#: ../modules/itip-formatter/itip-view.c:5401
-#: ../modules/itip-formatter/itip-view.c:5431
-#: ../modules/itip-formatter/itip-view.c:5531
+#: ../modules/itip-formatter/itip-view.c:5417
+#: ../modules/itip-formatter/itip-view.c:5447
+#: ../modules/itip-formatter/itip-view.c:5547
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -16684,34 +16588,34 @@ msgstr ""
 "Це повідомлення містить календар, але календар не містить подій, задач або "
 "відомостей про зайнятість."
 
-#: ../modules/itip-formatter/itip-view.c:5446
+#: ../modules/itip-formatter/itip-view.c:5462
 msgid "The calendar attached contains multiple items"
 msgstr "Долучений календар містить декілька об'єктів"
 
-#: ../modules/itip-formatter/itip-view.c:5447
+#: ../modules/itip-formatter/itip-view.c:5463
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr "Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
 
-#: ../modules/itip-formatter/itip-view.c:5971
+#: ../modules/itip-formatter/itip-view.c:5987
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Немає"
 
-#: ../modules/itip-formatter/itip-view.c:5987
+#: ../modules/itip-formatter/itip-view.c:6003
 msgid "Tentatively Accepted"
 msgstr "Експериментально прийнято"
 
-#: ../modules/itip-formatter/itip-view.c:6130
+#: ../modules/itip-formatter/itip-view.c:6146
 msgid "This meeting recurs"
 msgstr "Ця зустріч повторюється"
 
-#: ../modules/itip-formatter/itip-view.c:6133
+#: ../modules/itip-formatter/itip-view.c:6149
 msgid "This task recurs"
 msgstr "Це завдання повторюється"
 
-#: ../modules/itip-formatter/itip-view.c:6136
+#: ../modules/itip-formatter/itip-view.c:6152
 msgid "This memo recurs"
 msgstr "Ця примітка повторюється"
 
@@ -16808,6 +16712,7 @@ msgid "Choose a mbox spool directory"
 msgstr "Вибрати розвантажувальний каталог mbox"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:149
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:49
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:82
 #: ../modules/plugin-manager/evolution-plugin-manager.c:160
 msgid "Configuration"
@@ -16818,6 +16723,11 @@ msgstr "Налаштовування"
 #: ../plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "_Server:"
 msgstr "_Сервер:"
+
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:181
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:113
+msgid "_Port:"
+msgstr "_Порт:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:193
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:229
@@ -16839,6 +16749,14 @@ msgstr "STARTTLS після з'єднання"
 msgid "SSL on a dedicated port"
 msgstr "SSL на особливому порті"
 
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:65
+msgid "_Use custom binary, instead of 'sendmail'"
+msgstr "_Використовувати власний бінарний файл, замість «sendmail»"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:69
+msgid "_Custom binary:"
+msgstr "_Власний бінарний файл:"
+
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:125
 msgid "Ser_ver requires authentication"
 msgstr "Потрібна ав_тентифікація"
@@ -16855,7 +16773,7 @@ msgstr "Можливості Yahoo!"
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
 msgstr "Додати ка_лендар і завдання Yahoo! до цього облікового запису"
 
-#: ../modules/mail/e-mail-attachment-handler.c:390
+#: ../modules/mail/e-mail-attachment-handler.c:368
 #, c-format
 msgid "%d attached message"
 msgid_plural "%d attached messages"
@@ -17584,16 +17502,16 @@ msgid "Import complete."
 msgstr "Імпортування завершено."
 
 #: ../modules/startup-wizard/e-startup-assistant.c:154
-#, fuzzy
 msgid ""
 "Welcome to Evolution.\n"
 "\n"
 "The next few screens will allow Evolution to connect to your email accounts, "
 "and to import files from other applications."
 msgstr ""
-"Ласкаво просимо до Evolution. Декілька наступних екранів допоможуть "
-"Evolution налаштувати ваші поштові облікові записи та імпортувати файли з "
-"інших програм."
+"Ласкаво просимо до Evolution. \n"
+"\n"
+"Декілька наступних екранів допоможуть Evolution налаштувати ваші поштові "
+"облікові записи та імпортувати файли з інших програм."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:242
 msgid "Loading accounts..."
@@ -20863,30 +20781,30 @@ msgstr "Сповіщення про повернення"
 msgid "Sta_tus Tracking"
 msgstr "Відстеження с_татусу"
 
-#: ../widgets/misc/e-source-config.c:679 ../widgets/misc/e-source-config.c:683
+#: ../widgets/misc/e-source-config.c:680 ../widgets/misc/e-source-config.c:684
 msgid "Type:"
 msgstr "Тип:"
 
-#: ../widgets/misc/e-source-config.c:691 ../widgets/misc/e-source-config.c:695
+#: ../widgets/misc/e-source-config.c:692 ../widgets/misc/e-source-config.c:696
 msgid "Name:"
 msgstr "Назва:"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../widgets/misc/e-source-config.c:1293
+#: ../widgets/misc/e-source-config.c:1294
 msgid "Refresh every"
 msgstr "Оновлювати кожні"
 
-#: ../widgets/misc/e-source-config.c:1323
-#: ../widgets/misc/e-source-config.c:1351
+#: ../widgets/misc/e-source-config.c:1324
+#: ../widgets/misc/e-source-config.c:1352
 msgid "Use a secure connection"
 msgstr "Використовувати безпечне з'єднання"
 
-#: ../widgets/misc/e-source-config.c:1365
+#: ../widgets/misc/e-source-config.c:1366
 msgid "Ignore invalid SSL certificate"
 msgstr "Ігнорувати неправильні сертифікати SSL"
 
-#: ../widgets/misc/e-source-config.c:1402
+#: ../widgets/misc/e-source-config.c:1403
 msgid "User"
 msgstr "Користувач"
 
@@ -20946,25 +20864,25 @@ msgstr "_копіювати зображення"
 msgid "Copy the image to the clipboard"
 msgstr "Копіювати зображення в буфер"
 
-#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1435
+#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1432
 #: ../widgets/misc/e-web-view-gtkhtml.c:466
 #: ../widgets/misc/e-web-view-gtkhtml.c:1311
 msgid "Select all text and images"
 msgstr "Виділити весь текст та зображення"
 
-#: ../widgets/misc/e-web-view.c:1099 ../widgets/misc/e-web-view.c:1101
-#: ../widgets/misc/e-web-view.c:1103 ../widgets/misc/e-web-view-gtkhtml.c:975
+#: ../widgets/misc/e-web-view.c:1096 ../widgets/misc/e-web-view.c:1098
+#: ../widgets/misc/e-web-view.c:1100 ../widgets/misc/e-web-view-gtkhtml.c:975
 #: ../widgets/misc/e-web-view-gtkhtml.c:977
 #: ../widgets/misc/e-web-view-gtkhtml.c:979
 #, c-format
 msgid "Click to call %s"
 msgstr "Клацніть, щоб подзвонити %s"
 
-#: ../widgets/misc/e-web-view.c:1105 ../widgets/misc/e-web-view-gtkhtml.c:981
+#: ../widgets/misc/e-web-view.c:1102 ../widgets/misc/e-web-view-gtkhtml.c:981
 msgid "Click to hide/unhide addresses"
 msgstr "Клацніть, щоб показати/сховати адреси "
 
-#: ../widgets/misc/e-web-view.c:1107 ../widgets/misc/e-web-view-gtkhtml.c:983
+#: ../widgets/misc/e-web-view.c:1104 ../widgets/misc/e-web-view-gtkhtml.c:983
 #, c-format
 msgid "Click to open %s"
 msgstr "Клацніть щоб відкрити %s"
@@ -21275,6 +21193,67 @@ msgstr "Виділити все"
 #: ../widgets/text/e-text.c:2087
 msgid "Input Methods"
 msgstr "Спосіб вводу"
+
+#~ msgid "Anonymously"
+#~ msgstr "Анонімно"
+
+#~ msgid "One"
+#~ msgstr "Один"
+
+#~ msgid "Sub"
+#~ msgstr "Всі нижчі рівні"
+
+#~ msgid "Supported Search Bases"
+#~ msgstr "Підтримувані бази пошуку"
+
+#~ msgid "Ser_ver:"
+#~ msgstr "_Сервер:"
+
+#~ msgid "Use secure _connection:"
+#~ msgstr "Використовувати захищене _з'єднання:"
+
+#~ msgid "_Login method:"
+#~ msgstr "_Метод авторизації:"
+
+#~ msgid "Lo_gin:"
+#~ msgstr "_Ім'я:"
+
+#~ msgid "Search _base:"
+#~ msgstr "_База пошуку:"
+
+#~ msgid "_Search scope:"
+#~ msgstr "Діапазон по_шуку:"
+
+#~ msgid "_Find Possible Search Bases"
+#~ msgstr "З_найти можливі бази пошуку"
+
+#~ msgid "S_earch filter:"
+#~ msgstr "Фільтр по_шуку:"
+
+#~ msgid "Search Filter"
+#~ msgstr "Фільтр пошуку"
+
+#~ msgid ""
+#~ "Search filter is the type of object to be searched for. If this is not "
+#~ "modified, the default search will be performed on the type \"person\"."
+#~ msgstr ""
+#~ "Фільтр пошуку - це тип об'єкту, який треба знайти. Якщо не змінювати, "
+#~ "типово буде виконуватись пошук об'єкту типу \"person\"."
+
+#~ msgid "1"
+#~ msgstr "1"
+
+#~ msgid "5"
+#~ msgstr "5"
+
+#~ msgid "_Timeout:"
+#~ msgstr "_Затримка:"
+
+#~ msgid "_Download limit:"
+#~ msgstr "_Обмеження завантаження:"
+
+#~ msgid "B_rowse this book until limit reached"
+#~ msgstr "Пере_глядати книгу до досягнення ліміту часу"
 
 #~ msgid "Some features may not work properly with your current server"
 #~ msgstr "Деякі функції можуть працювати некоректно з цією версією сервера"
@@ -23014,9 +22993,6 @@ msgstr "Спосіб вводу"
 #~ msgctxt "cal-alarms"
 #~ msgid "None"
 #~ msgstr "Немає"
-
-#~ msgid "Custom Alarm:"
-#~ msgstr "Інший сигнал:"
 
 #~ msgid "_Alarm"
 #~ msgstr "_Сигнал"
