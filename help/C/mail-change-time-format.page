@@ -18,6 +18,6 @@
 
   <title>Format of dates and time</title>
 <p>You can change the format of the <gui>Date</gui> column by setting your preferred format under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Headers</gui><gui>Date/Time format</gui></guiseq>.</p>
-<p>The placeholders in the format expression are strftime formats. For a complete list of available strftime formats, run <cmd>date --help</cmd> in a terminal window.</p>
+<p>The placeholders in the format expression are strftime formats. For a complete list of available strftime formats, run <cmd>date --help</cmd> in the <app>Terminal</app> application.</p>
 <!-- TODO: Time formats settings for Calendar (calendar-layout-appointment-display), Contacts (Edit>Prefs>Contacts) are split everywhere, probably introduce a guide page linking to these three pages -->
 </page>

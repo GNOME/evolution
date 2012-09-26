@@ -35,6 +35,6 @@
 <item><p>Click <gui style="button">OK</gui>.</p></item>
 <item><p>Click <gui style="button">Close</gui>.</p></item>
 </steps>
-<p>Evolution requires that you know your key ID. If you do not remember it, you can find it by typing <cmd>gpg --list-keys</cmd> in a terminal window. Your key ID is an eight-character string with random numbers and letters.</p>
+<p>Evolution requires that you know your key ID. If you do not remember it, you can find it by typing <cmd>gpg --list-keys</cmd> in the <app>Terminal</app> application. Your key ID is an eight-character string with random numbers and letters.</p>
 
 </page>

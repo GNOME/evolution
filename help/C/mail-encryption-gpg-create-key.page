@@ -27,7 +27,7 @@
 
 <p>Before you can get or send GPG encrypted mail, you need to generate your public and private keys with GPG.</p>
 <steps>
-<item><p>Open a terminal window and enter <cmd>gpg --gen-key</cmd>.</p></item>
+<item><p>Open the <app>Terminal</app> application and enter <cmd>gpg --gen-key</cmd>.</p></item>
 <item><p>Select an algorithm, then press Enter.</p></item>
 <item><p>Select a key length, then press Enter.</p></item>
 <item><p>Enter how long your key should be valid for.</p></item>

@@ -47,7 +47,7 @@
 <section id="date-time">
 <title>Date/Time Format</title>
 <p>You can change the format of the <gui>Date</gui> column by setting your preferred format.</p>
-<p>The placeholders in the format expression are strftime formats. For a complete list of available strftime formats, run <cmd>date --help</cmd> in a terminal window.</p>
+<p>The placeholders in the format expression are strftime formats. For a complete list of available strftime formats, run <cmd>date --help</cmd> in the <app>Terminal</app> application.</p>
 </section>
 
 </page>
