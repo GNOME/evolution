@@ -6,7 +6,7 @@
 
      <link type="guide" xref="index#getting-started"/>
 
-    <revision pkgversion="3.2.1" version="0.1" date="2012-01-12" status="draft"/>
+    <revision pkgversion="3.6.0" version="0.2" date="2012-09-26" status="draft"/>
     <credit type="author">
       <name its:translate="no">Brian Grohe</name>
       <email its:translate="no">grohe43@gmail.com</email>
@@ -22,8 +22,10 @@
   </info>
 
 <title>Getting Started</title>
-<p>Evolution is a stable and versatile personal information manager for the GNOME project. Evolution allows you to keep your calendar, email, address book and tasks in one place. Evolution has the ability to <link type="topic" xref="mail-spam">filter Junk/Spam Mail</link>, add your favorite web calenders, and <link type="topic" xref="mail-encryption">to keep your information safe and secure</link>.</p>
+<p>Evolution is a stable and versatile personal information manager for the GNOME project. Evolution allows you to keep your calendars, mail, address books and tasks in one place.</p>
 
-<p>By default Evolution opens the mail client view. This is were you can view all your mail. You can change to other aspects of the application by going to the bottom of the left pane in the window (the so-called "switcher") and selecting the desired view. <link type="topic" xref="intro-main-window">Click here</link> for more information on the elements of the window.</p>
+<p>By default Evolution opens the mail view. This is were you can view all your mail. You can change to other views of the application by going to the bottom of the left pane in the window (the so-called "switcher") and selecting the desired view. <link type="topic" xref="intro-main-window">Click here</link> for more information on the elements of the window.</p>
+
+<note style="advanced"><p>When Evolution starts, it remembers the last view that you used. However you can also explicitly start Evolution in a specific view. For the calendar view, use the command <cmd>evolution --component=calendar</cmd> in the <app>Terminal</app> application. Other available options are "mail", "contacts", "tasks", and "memos".</p></note>
 
 </page>
