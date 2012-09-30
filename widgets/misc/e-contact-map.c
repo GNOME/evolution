@@ -32,7 +32,7 @@
 #include <champlain-gtk/champlain-gtk.h>
 #include <geoclue/geoclue-address.h>
 #include <geoclue/geoclue-position.h>
-#include <geoclue/geoclue-geocode.h>
+#include <geocode-glib.h>
 
 #include <clutter/clutter.h>
 
@@ -41,10 +41,10 @@
 #include <math.h>
 
 #define E_CONTACT_MAP_GET_PRIVATE(obj) \
-        (G_TYPE_INSTANCE_GET_PRIVATE \
-        ((obj), E_TYPE_CONTACT_MAP, EContactMapPrivate))
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CONTACT_MAP, EContactMapPrivate))
 
-G_DEFINE_TYPE (EContactMap, e_contact_map, GTK_CHAMPLAIN_TYPE_EMBED)
+typedef struct _AsyncContext AsyncContext;
 
 struct _EContactMapPrivate {
 	GHashTable *markers; /* Hash table contact-name -> marker */
@@ -52,7 +52,7 @@ struct _EContactMapPrivate {
 	ChamplainMarkerLayer *marker_layer;
 };
 
-struct GeoclueCallbackData {
+struct _AsyncContext {
 	EContactMap *map;
 	EContactMarker *marker;
 };
@@ -67,88 +67,88 @@ enum {
 
 static gint signals[LAST_SIGNAL] = {0};
 
-static GHashTable *
-contact_map_geocode_address (EContactAddress *address)
+G_DEFINE_TYPE (EContactMap, e_contact_map, GTK_CHAMPLAIN_TYPE_EMBED)
+
+static void
+async_context_free (AsyncContext *async_context)
 {
-	GHashTable *details;
+	if (async_context->map != NULL)
+		g_object_unref (async_context->map);
 
-	g_return_val_if_fail (address, NULL);
-
-	details = geoclue_address_details_new ();
-	g_hash_table_insert (details, g_strdup (GEOCLUE_ADDRESS_KEY_POSTALCODE), g_strdup (address->code));
-	g_hash_table_insert (details, g_strdup (GEOCLUE_ADDRESS_KEY_COUNTRY), g_strdup (address->country));
-	g_hash_table_insert (details, g_strdup (GEOCLUE_ADDRESS_KEY_REGION), g_strdup (address->region));
-	g_hash_table_insert (details, g_strdup (GEOCLUE_ADDRESS_KEY_LOCALITY), g_strdup (address->locality));
-	g_hash_table_insert (details, g_strdup (GEOCLUE_ADDRESS_KEY_STREET), g_strdup (address->street));
-
-	return details;
+	g_slice_free (AsyncContext, async_context);
 }
 
 static void
-contact_map_address_resolved_cb (GeoclueGeocode *geocode,
-                                 GeocluePositionFields fields,
-                                 double latitude,
-                                 double longitude,
-                                 double altitude,
-                                 GeoclueAccuracy *accuracy,
-                                 GError *error,
-                                 struct GeoclueCallbackData *data)
+contact_map_address_resolved_cb (GObject *source,
+                                 GAsyncResult *result,
+                                 gpointer user_data)
 {
-	EContactMapPrivate *priv;
+	GHashTable *resolved = NULL;
 	gpointer marker_ptr;
 	const gchar *name;
+	gdouble latitude, longitude;
+	AsyncContext *async_context = user_data;
+	ChamplainMarkerLayer *marker_layer;
+	ChamplainMarker *marker;
+	GError *error = NULL;
 
-	g_return_if_fail (data);
-	g_return_if_fail (data->map && E_IS_CONTACT_MAP (data->map));
-	g_return_if_fail (data->map->priv);
-	g_return_if_fail (data->marker && E_IS_CONTACT_MARKER (data->marker));
+	g_return_if_fail (async_context != NULL);
+	g_return_if_fail (E_IS_CONTACT_MAP (async_context->map));
+	g_return_if_fail (E_IS_CONTACT_MARKER (async_context->marker));
 
-	/* If the marker_layer does not exist anymore, the map has probably been destroyed before this
-	 * callback was launched. It's not a failure, just silently clean up what was left behind
-	 * a pretend nothing happend */
+	marker = CHAMPLAIN_MARKER (async_context->marker);
+	marker_layer = async_context->map->priv->marker_layer;
 
-	if (!data->map->priv->marker_layer || !CHAMPLAIN_IS_MARKER_LAYER (data->map->priv->marker_layer)) {
+	/* If the marker_layer does not exist anymore, the map has
+	 * probably been destroyed before this callback was launched.
+	 * It's not a failure, just silently clean up what was left
+	 * behind and pretend nothing happened. */
+
+	if (!CHAMPLAIN_IS_MARKER_LAYER (marker_layer))
 		goto exit;
-	}
 
-	if (error ||
-	    (((fields & GEOCLUE_POSITION_FIELDS_LATITUDE) == 0) && ((fields & GEOCLUE_POSITION_FIELDS_LONGITUDE) == 0))) {
+	resolved = geocode_object_resolve_finish (
+		GEOCODE_OBJECT (source), result, &error);
+
+	if (resolved == NULL ||
+	    !geocode_object_get_coords (resolved, &longitude, &latitude)) {
 		const gchar *name;
 		if (error)
 			g_error_free (error);
-		name = champlain_label_get_text (CHAMPLAIN_LABEL (data->marker));
-		g_signal_emit (data->map, signals[GEOCODING_FAILED], 0, name);
+		name = champlain_label_get_text (CHAMPLAIN_LABEL (marker));
+		g_signal_emit (
+			async_context->map,
+			signals[GEOCODING_FAILED], 0, name);
 		goto exit;
 	}
 
-	priv = data->map->priv;
-
 	/* Move the marker to resolved position */
-	champlain_location_set_location (CHAMPLAIN_LOCATION (data->marker),
-		latitude, longitude);
-	champlain_marker_layer_add_marker (data->map->priv->marker_layer,
-		CHAMPLAIN_MARKER (data->marker));
-	champlain_marker_set_selected (CHAMPLAIN_MARKER (data->marker), FALSE);
+	champlain_location_set_location (
+		CHAMPLAIN_LOCATION (marker), latitude, longitude);
+	champlain_marker_layer_add_marker (marker_layer, marker);
+	champlain_marker_set_selected (marker, FALSE);
 
 	/* Store the marker in the hash table. Use it's label as key */
-	name = champlain_label_get_text (CHAMPLAIN_LABEL (data->marker));
-	marker_ptr = g_hash_table_lookup (priv->markers, name);
-
-	if (marker_ptr) {
-		g_hash_table_remove (priv->markers, name);
-		champlain_marker_layer_remove_marker (priv->marker_layer, marker_ptr);
+	name = champlain_label_get_text (CHAMPLAIN_LABEL (marker));
+	marker_ptr = g_hash_table_lookup (
+		async_context->map->priv->markers, name);
+	if (marker_ptr != NULL) {
+		g_hash_table_remove (async_context->map->priv->markers, name);
+		champlain_marker_layer_remove_marker (marker_layer, marker_ptr);
 	}
-	g_hash_table_insert (priv->markers,
-		g_strdup (name), data->marker);
+	g_hash_table_insert (
+		async_context->map->priv->markers,
+		g_strdup (name), marker);
 
-	g_signal_emit (data->map, signals[CONTACT_ADDED], 0, data->marker);
+	g_signal_emit (
+		async_context->map,
+		signals[CONTACT_ADDED], 0, marker);
 
 exit:
-	g_object_unref (data->map);
-	g_free (data);
+	async_context_free (async_context);
 
-	if (geocode)
-		g_object_unref (geocode);
+	if (resolved != NULL)
+		g_hash_table_unref (resolved);
 }
 
 static void
@@ -156,34 +156,42 @@ resolve_marker_position (EContactMap *map,
                          EContactMarker *marker,
                          EContactAddress *address)
 {
-	GHashTable *details;
+	GeocodeObject *geocoder;
+	AsyncContext *async_context;
+	const gchar *key;
 
-	g_return_if_fail (map && E_IS_CONTACT_MAP (map));
-	details = contact_map_geocode_address (address);
+	g_return_if_fail (E_IS_CONTACT_MAP (map));
+	g_return_if_fail (address != NULL);
 
-	if (details) {
-		GeoclueGeocode *geocoder;
-		struct GeoclueCallbackData *callback_data = g_new0 (struct GeoclueCallbackData, 1);
+	geocoder = geocode_object_new ();
 
-		callback_data->map = map;
-		callback_data->marker = marker;
+	key = GEOCODE_OBJECT_FIELD_POSTAL;
+	geocode_object_add (geocoder, key, address->code);
 
-		/* Make sure the map won't cease to exist before the address
-		 * is resolved */
-		g_object_ref (map);
+	key = GEOCODE_OBJECT_FIELD_COUNTRY;
+	geocode_object_add (geocoder, key, address->country);
 
-		geocoder = geoclue_geocode_new (
-			"org.freedesktop.Geoclue.Providers.Nominatim",
-			"/org/freedesktop/Geoclue/Providers/Nominatim");
+	key = GEOCODE_OBJECT_FIELD_STATE;
+	geocode_object_add (geocoder, key, address->region);
 
-		geoclue_geocode_address_to_position_async (geocoder, details,
-			(GeoclueGeocodeCallback) contact_map_address_resolved_cb,
-			callback_data);
+	key = GEOCODE_OBJECT_FIELD_CITY;
+	geocode_object_add (geocoder, key, address->locality);
 
-		g_hash_table_destroy (details);
+	key = GEOCODE_OBJECT_FIELD_STREET;
+	geocode_object_add (geocoder, key, address->street);
 
-		g_signal_emit (map, signals[GEOCODING_STARTED], 0, marker);
-	}
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->map = g_object_ref (map);
+	async_context->marker = marker;
+
+	geocode_object_resolve_async (
+		geocoder, NULL,
+		contact_map_address_resolved_cb,
+		async_context);
+
+	g_object_unref (geocoder);
+
+	g_signal_emit (map, signals[GEOCODING_STARTED], 0, marker);
 }
 
 static void

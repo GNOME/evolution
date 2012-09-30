@@ -1,3 +1,10 @@
+Evolution 3.7.1 2012-10-15
+--------------------------
+
+Dependency Changes:
+	* Both geocode-glib and geoclue now required for contact maps.
+
+
 Evolution 3.5.92 2012-09-17
 ---------------------------
 

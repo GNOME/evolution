@@ -1341,26 +1341,49 @@ AC_ARG_ENABLE([contact-maps],
 	[enable_contact_maps="$enableval"], [enable_contact_maps="no"])
 
 if test "x$enable_contact_maps" = "xyes"; then
-	PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.12 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
+	PKG_CHECK_MODULES([CHAMPLAIN],
+		[champlain-gtk-0.12 >= champlain_minimum_version],
+		[have_champlain=yes], [have_champlain=no])
 	AC_SUBST(CHAMPLAIN_CFLAGS)
 	AC_SUBST(CHAMPLAIN_LIBS)
 
 	if test "x$have_champlain" = "xno"; then
-		AC_MSG_ERROR([champlain-gtk-0.12 >= champlain_minimum_version is required for maps in contacts preview.])
+		AC_MSG_ERROR([
+
+	champlain-gtk-0.12 is required for contact maps.
+
+	If you want to disable the contact maps feature,
+	please append --disable-contact-maps to configure.
+	])
 	fi
 
-	PKG_CHECK_MODULES([GEOCLUE], [geoclue >= geoclue_minimum_version], [have_geoclue=yes], [have_geoclue=no])
-	AC_SUBST(GEOCLUE_CFLAGS)
-	AC_SUBST(GEOCLUE_LIBS)
+	PKG_CHECK_MODULES([GEO],
+		[geoclue >= geoclue_minimum_version
+		 geocode-glib],
+		[have_geo=yes], [have_geo=no])
 
-	if test "x$have_geoclue" = "xno"; then
-		AC_MSG_ERROR([geoclue is required for maps in contacts preview.])
+	if test "x$have_geo" = "xno"; then
+		AC_MSG_ERROR([
+
+	geoclue and geocode-glib are required for contact maps.
+
+	If you want to disable the contact maps feature,
+	please append --disable-contact-maps to configure.
+	])
 	fi
 
-	PKG_CHECK_MODULES([CLUTTER_GTK], [clutter-gtk-1.0 >= clutter_gtk_minimum_version], [have_clutter_gtk="yes"], [have_clutter_gtk="no"] )
+	PKG_CHECK_MODULES([CLUTTER_GTK],
+		[clutter-gtk-1.0 >= clutter_gtk_minimum_version],
+		[have_clutter_gtk="yes"], [have_clutter_gtk="no"])
 
 	if test "x$have_clutter_gtk" = "xno"; then
-		AC_MSG_ERROR([clutter-gtk-1.0 is required for maps in contacts preview.])
+		AC_MSG_ERROR([
+
+	clutter-gtk-1.0 is required for contact maps.
+
+	If you want to disable the contact maps feature,
+	please append --disable-contact-maps to configure.
+	])
 	fi
 
 	AC_DEFINE(WITH_CONTACT_MAPS, 1, [When defined contacts preview will contain maps])
