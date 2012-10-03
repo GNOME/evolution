@@ -30,6 +30,10 @@
 #include <glib-unix.h>
 #endif
 
+#ifdef WITH_CONTACT_MAPS
+#include <clutter-gtk/clutter-gtk.h>
+#endif
+
 #ifdef G_OS_WIN32
 #define WIN32_LEAN_AND_MEAN
 #ifdef DATADIR
@@ -512,10 +516,19 @@ main (gint argc,
 		return 0;
 	}
 
+	/* The contact maps feature uses clutter-gtk. */
+#ifdef WITH_CONTACT_MAPS
+	gtk_clutter_init_with_args (
+		&argc, &argv,
+		_("- The Evolution PIM and Email Client"),
+		entries, (gchar *) GETTEXT_PACKAGE, &error);
+#else
 	gtk_init_with_args (
 		&argc, &argv,
 		_("- The Evolution PIM and Email Client"),
 		entries, (gchar *) GETTEXT_PACKAGE, &error);
+#endif /* WITH_CONTACT_MAPS */
+
 	if (error != NULL) {
 		g_printerr ("%s\n", error->message);
 		g_error_free (error);

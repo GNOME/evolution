@@ -62,7 +62,7 @@ libeshell_la_CPPFLAGS =						\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(EGG_SMCLIENT_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
-	$(CLUTTER_CFLAGS)
+	$(CLUTTER_GTK_CFLAGS)
 
 libeshell_la_SOURCES =				\
 	$(eshellinclude_HEADERS)		\
@@ -101,7 +101,7 @@ libeshell_la_LIBADD =					\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(EGG_SMCLIENT_LIBS)				\
-	$(CLUTTER_LIBS)
+	$(CLUTTER_GTK_LIBS)
 
 # Evolution executable
 
@@ -136,7 +136,7 @@ evolution_CPPFLAGS =						\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)					\
 	$(DBUS_GLIB_CFLAGS)					\
-	$(CLUTTER_CFLAGS)
+	$(CLUTTER_GTK_CFLAGS)
 
 evolution_SOURCES =				\
 	main.c					\
@@ -154,7 +154,7 @@ evolution_LDADD =							\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(DBUS_GLIB_LIBS)						\
-	$(CLUTTER_LIBS)							\
+	$(CLUTTER_GTK_LIBS)						\
 	$(EVOLUTIONICON)
 
 if OS_WIN32
