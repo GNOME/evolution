@@ -4164,14 +4164,14 @@ msgstr ""
 #: ../calendar/gui/print.c:1048 ../calendar/gui/print.c:1067
 #: ../calendar/gui/print.c:2564 ../calendar/gui/print.c:2584
 msgid "am"
-msgstr "sáng"
+msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:1030 ../calendar/gui/e-week-view.c:776
 #: ../calendar/gui/print.c:1053 ../calendar/gui/print.c:1069
 #: ../calendar/gui/print.c:2569 ../calendar/gui/print.c:2586
 msgid "pm"
-msgstr "chiều/tối"
+msgstr "pm"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. * %B = full month name. Don't use any other specifiers.
