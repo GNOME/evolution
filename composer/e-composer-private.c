@@ -997,7 +997,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
 		"    key=\"signature\" value=\"1\">-->"
 		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
-		"    key=\"signature_name\" value=\"uid:%s\"-->",
+		"    key=\"signature_name\" value=\"uid:%s\">-->",
 		(encoded_uid != NULL) ? encoded_uid : "");
 
 	g_string_append (
