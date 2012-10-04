@@ -187,7 +187,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		return TRUE;
 
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
-		gint stdin, stdout;
+		gint pipe_stdin, pipe_stdout;
 		GPid pid;
 		CamelStream *read, *write, *utf8;
 		CamelDataWrapper *dw;
@@ -262,12 +262,12 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			NULL, (gchar **) argv, NULL,
 			G_SPAWN_SEARCH_PATH |
 			G_SPAWN_DO_NOT_REAP_CHILD,
-			NULL, NULL, &pid, &stdin, &stdout, NULL, NULL)) {
+			NULL, NULL, &pid, &pipe_stdin, &pipe_stdout, NULL, NULL)) {
 			return FALSE;
 		}
 
-		write = camel_stream_fs_new_with_fd (stdin);
-		read = camel_stream_fs_new_with_fd (stdout);
+		write = camel_stream_fs_new_with_fd (pipe_stdin);
+		read = camel_stream_fs_new_with_fd (pipe_stdout);
 
 		/* Decode the content of mime part to the 'utf8' stream */
 		utf8 = camel_stream_mem_new ();
