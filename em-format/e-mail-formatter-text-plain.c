@@ -34,6 +34,7 @@
 static const gchar *formatter_mime_types[] = { "text/plain",
 					       "text/*",
 					       "message/*",
+					       "application/vnd.evolution.plaintext",
 					       NULL };
 
 typedef struct _EMailFormatterTextPlain {
