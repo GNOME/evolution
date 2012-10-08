@@ -197,7 +197,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		EShell *shell;
 		EShellSettings *settings;
 		PangoFontDescription *fd;
-		const gchar *argv[] = { "highlight",
+		const gchar *argv[] = { HIGHLIGHT_COMMAND,
 					NULL,	/* --font= */
 					NULL,   /* --font-size= */
 					NULL,   /* --syntax= */
