@@ -258,43 +258,66 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		argv[3] = g_strdup_printf ("--syntax=%s", syntax);
 		g_free (syntax);
 
-		if (!g_spawn_async_with_pipes (
-			NULL, (gchar **) argv, NULL,
-			G_SPAWN_SEARCH_PATH |
-			G_SPAWN_DO_NOT_REAP_CHILD,
-			NULL, NULL, &pid, &pipe_stdin, &pipe_stdout, NULL, NULL)) {
-			return FALSE;
+		if (g_spawn_async_with_pipes (
+				NULL, (gchar **) argv, NULL,
+				G_SPAWN_SEARCH_PATH |
+				G_SPAWN_DO_NOT_REAP_CHILD,
+				NULL, NULL, &pid, &pipe_stdin, &pipe_stdout, NULL, NULL)) {
+
+			write = camel_stream_fs_new_with_fd (pipe_stdin);
+			read = camel_stream_fs_new_with_fd (pipe_stdout);
+
+			/* Decode the content of mime part to the 'utf8' stream */
+			utf8 = camel_stream_mem_new ();
+			camel_data_wrapper_decode_to_stream_sync (
+				dw, utf8, cancellable, NULL);
+
+			/* Convert the binary data do someting displayable */
+			ba = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (utf8));
+			tmp = e_util_utf8_data_make_valid ((gchar *) ba->data, ba->len);
+
+			/* Send the sanitized data to the highlighter */
+			camel_stream_write_string (write, tmp, cancellable, NULL);
+			g_free (tmp);
+			g_object_unref (utf8);
+			g_object_unref (write);
+
+			g_spawn_close_pid (pid);
+
+			g_seekable_seek (G_SEEKABLE (read), 0, G_SEEK_SET, cancellable, NULL);
+			camel_stream_write_to_stream (read, stream, cancellable, NULL);
+			g_object_unref (read);
+		} else {
+			/* We can't call e_mail_formatter_format_as on text/plain,
+			 * because text-highlight is registered as an handler for
+			 * text/plain, so we would end up in an endless recursion.
+			 *
+			 * Just return FALSE here and EMailFormatter will automatically
+			 * fall back to the default text/plain formatter */
+			if (camel_content_type_is (ct, "text", "plain")) {
+				g_free (font_family);
+				g_free (font_size);
+				g_free ((gchar *) argv[3]);
+				pango_font_description_free (fd);
+
+				return FALSE;
+			} else {
+				/* In case of any other content, force use of
+				 * text/plain formatter, because returning FALSE
+				 * for text/x-patch or application/php would show
+				 * an error, as there is no other handler registered
+				 * for these */
+				e_mail_formatter_format_as (
+					formatter, context, part, stream,
+					"application/vnd.evolution.plaintext",
+					cancellable);
+			}
 		}
-
-		write = camel_stream_fs_new_with_fd (pipe_stdin);
-		read = camel_stream_fs_new_with_fd (pipe_stdout);
-
-		/* Decode the content of mime part to the 'utf8' stream */
-		utf8 = camel_stream_mem_new ();
-		camel_data_wrapper_decode_to_stream_sync (
-			dw, utf8, cancellable, NULL);
-
-		/* Convert the binary data do someting displayable */
-		ba = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (utf8));
-		tmp = e_util_utf8_data_make_valid ((gchar *) ba->data, ba->len);
-
-		/* Send the sanitized data to the highlighter */
-		camel_stream_write_string (write, tmp, cancellable, NULL);
-		g_free (tmp);
-		g_object_unref (utf8);
-		g_object_unref (write);
-
-		g_spawn_close_pid (pid);
-
-		g_seekable_seek (G_SEEKABLE (read), 0, G_SEEK_SET, cancellable, NULL);
-		camel_stream_write_to_stream (read, stream, cancellable, NULL);
-		g_object_unref (read);
 
 		g_free (font_family);
 		g_free (font_size);
 		g_free ((gchar *) argv[3]);
 		pango_font_description_free (fd);
-
 	} else {
 		gchar *uri, *str;
 		gchar *syntax;

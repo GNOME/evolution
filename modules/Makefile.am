@@ -26,6 +26,10 @@ if ENABLE_AUDIO_INLINE
 AUDIO_INLINE_DIR = audio-inline
 endif
 
+if ENABLE_TEXT_HIGHLIGHT
+TEXT_HIGHLIGHT_DIR = text-highlight
+endif
+
 SUBDIRS = \
 	addressbook \
 	calendar \
@@ -52,13 +56,13 @@ SUBDIRS = \
 	plugin-manager \
 	prefer-plain \
 	startup-wizard \
-	text-highlight \
 	vcard-inline \
 	web-inspector \
 	$(BOGOFILTER_DIR) \
 	$(ONLINE_ACCOUNTS_DIR) \
 	$(SPAMASSASSIN_DIR) \
 	$(TNEF_ATTACHMENT_DIR) \
-	$(AUDIO_INLINE_DIR)
+	$(AUDIO_INLINE_DIR) \
+	$(TEXT_HIGHLIGHT_DIR)
 
 -include $(top_srcdir)/git.mk

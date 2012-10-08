@@ -1312,6 +1312,35 @@ fi
 
 AM_CONDITIONAL([ENABLE_AUDIO_INLINE], [test "x$enable_audio_inline" = "xyes"])
 
+dnl **************************************************
+dnl text-highlight plugins requires highlight utility
+dnl **************************************************
+AC_ARG_ENABLE([text-highlight],
+	[AS_HELP_STRING([--enable-text-highlight],
+	[Enable text-highlight plugin (default=yes)])],
+	[enable_text_highlight="$enableval"], [enable_text_highlight=yes])
+AC_MSG_CHECKING([if source code highlighting support is enabled])
+AC_MSG_RESULT([$enable_text_highlight])
+msg_text_highlight="$enable_text_highlight"
+if test "x$enable_text_highlight" = "xyes"; then
+	AC_ARG_VAR([HIGHLIGHT], [Source code highlighting utility])
+	AC_PATH_PROG([HIGHLIGHT], [highlight])
+	if test "x$HIGHLIGHT" == "x"; then
+		AC_MSG_ERROR([
+
+	Highlight utility not found.
+
+	If you want to disable text-highlight plugin,
+	please append --disable-text-highlight to configure.])
+	fi
+	AC_DEFINE_UNQUOTED(
+		HIGHLIGHT_COMMAND, "$HIGHLIGHT",
+		[Source code highlighting utility])
+
+	msg_text_highlight="$msg_text_highlight ($HIGHLIGHT)"
+fi
+AM_CONDITIONAL([ENABLE_TEXT_HIGHLIGHT], [test "x$enable_text_highlight" = "xyes"])
+
 dnl **************************************
 dnl Weather calendars require gweather-3.0
 dnl **************************************
@@ -1685,6 +1714,7 @@ echo "
 	SMIME support:		$msg_smime
 	Bogofilter support:	$msg_bogofilter
 	SpamAssassin support:	$msg_spamassassin
+	Highlight support:	$msg_text_highlight
 	Plugins:		$msg_plugins
 	User documentation:	$with_help
 "
