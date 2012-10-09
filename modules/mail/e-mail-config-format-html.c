@@ -32,7 +32,8 @@
 	((obj), E_TYPE_MAIL_CONFIG_FORMAT_HTML, EMailConfigFormatHTMLPrivate))
 
 struct _EMailConfigFormatHTMLPrivate {
-	gint placeholder;
+	GSettings *settings;
+	gulong headers_changed_id;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
@@ -40,23 +41,26 @@ G_DEFINE_DYNAMIC_TYPE (
 	e_mail_config_format_html,
 	E_TYPE_EXTENSION)
 
-static void
-headers_changed_cb (GSettings *settings,
-                    const gchar *key,
-                    gpointer user_data)
+static EMailFormatter *
+mail_config_format_html_get_formatter (EMailConfigFormatHTML *extension)
 {
-	gint ii;
-	gchar **headers;
-	EExtension *extension;
+	EExtensible *extensible;
+
+	extensible = e_extension_get_extensible (E_EXTENSION (extension));
+
+	return E_MAIL_FORMATTER (extensible);
+}
+
+static void
+mail_config_format_html_headers_changed_cb (GSettings *settings,
+                                            const gchar *key,
+                                            EMailConfigFormatHTML *extension)
+{
 	EMailFormatter *formatter;
+	gchar **headers;
+	gint ii;
 
-	g_return_if_fail (settings != NULL);
-
-	if (key && !g_str_equal (key, "headers"))
-		return;
-
-	extension = user_data;
-	formatter = E_MAIL_FORMATTER (e_extension_get_extensible (extension));
+	formatter = mail_config_format_html_get_formatter (extension);
 
 	headers = g_settings_get_strv (settings, "headers");
 
@@ -81,66 +85,84 @@ headers_changed_cb (GSettings *settings,
 }
 
 static void
+mail_config_format_html_dispose (GObject *object)
+{
+	EMailConfigFormatHTMLPrivate *priv;
+
+	priv = E_MAIL_CONFIG_FORMAT_HTML_GET_PRIVATE (object);
+
+	if (priv->settings != NULL) {
+		g_signal_handler_disconnect (
+			priv->settings,
+			priv->headers_changed_id);
+		g_object_unref (priv->settings);
+		priv->settings = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_config_format_html_parent_class)->
+		dispose (object);
+}
+
+static void
 mail_config_format_html_constructed (GObject *object)
 {
-	EExtension *extension;
-	EExtensible *extensible;
+	EMailConfigFormatHTML *extension;
+	EMailFormatter *formatter;
 	EShellSettings *shell_settings;
 	EShell *shell;
-	GSettings *settings;
 
-	extension = E_EXTENSION (object);
-	extensible = e_extension_get_extensible (extension);
+	extension = E_MAIL_CONFIG_FORMAT_HTML (object);
+	formatter = mail_config_format_html_get_formatter (extension);
 
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	g_object_bind_property_full (
 		shell_settings, "mail-citation-color",
-		extensible, "citation-color",
+		formatter, "citation-color",
 		G_BINDING_SYNC_CREATE,
 		e_binding_transform_string_to_color,
 		NULL, NULL, (GDestroyNotify) NULL);
 
 	g_object_bind_property (
 		shell_settings, "mail-mark-citations",
-		extensible, "mark-citations",
+		formatter, "mark-citations",
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
 		shell_settings, "mail-image-loading-policy",
-		extensible, "image-loading-policy",
+		formatter, "image-loading-policy",
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
 		shell_settings, "mail-only-local-photos",
-		extensible, "only-local-photos",
+		formatter, "only-local-photos",
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
 		shell_settings, "mail-show-sender-photo",
-		extensible, "show-sender-photo",
+		formatter, "show-sender-photo",
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
 		shell_settings, "mail-show-real-date",
-		extensible, "show-real-date",
+		formatter, "show-real-date",
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
 		shell_settings, "mail-show-animated-images",
-		extensible, "animate-images",
+		formatter, "animate-images",
 		G_BINDING_SYNC_CREATE);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	g_signal_connect (settings, "changed", G_CALLBACK (headers_changed_cb), object);
-
-	g_object_set_data_full (
-		G_OBJECT (extensible), "reader-header-settings",
-		settings, g_object_unref);
+	extension->priv->headers_changed_id = g_signal_connect (
+		extension->priv->settings, "changed::headers",
+		G_CALLBACK (mail_config_format_html_headers_changed_cb),
+		extension);
 
 	/* Initial synchronization */
-	headers_changed_cb (settings, NULL, object);
+	mail_config_format_html_headers_changed_cb (
+		extension->priv->settings, NULL, extension);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_config_format_html_parent_class)->
@@ -157,6 +179,7 @@ e_mail_config_format_html_class_init (EMailConfigFormatHTMLClass *class)
 		class, sizeof (EMailConfigFormatHTMLPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = mail_config_format_html_dispose;
 	object_class->constructed = mail_config_format_html_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
@@ -172,6 +195,9 @@ static void
 e_mail_config_format_html_init (EMailConfigFormatHTML *extension)
 {
 	extension->priv = E_MAIL_CONFIG_FORMAT_HTML_GET_PRIVATE (extension);
+
+	extension->priv->settings =
+		g_settings_new ("org.gnome.evolution.mail");
 }
 
 void
