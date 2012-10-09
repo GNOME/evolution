@@ -19,12 +19,48 @@
 #ifndef E_BOOK_CONFIG_NAME_SELECTOR_ENTRY_H
 #define E_BOOK_CONFIG_NAME_SELECTOR_ENTRY_H
 
-#include <glib-object.h>
+#include <libebackend/libebackend.h>
+
+/* Standard GObject macros */
+#define E_TYPE_BOOK_CONFIG_NAME_SELECTOR_ENTRY \
+	(e_book_config_name_selector_entry_get_type ())
+#define E_BOOK_CONFIG_NAME_SELECTOR_ENTRY(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_BOOK_CONFIG_NAME_SELECTOR_ENTRY, EBookConfigNameSelectorEntry))
+#define E_BOOK_CONFIG_NAME_SELECTOR_ENTRY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_BOOK_CONFIG_NAME_SELECTOR_ENTRY, EBookConfigNameSelectorEntryClass))
+#define E_IS_BOOK_CONFIG_NAME_SELECTOR_ENTRY(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_BOOK_CONFIG_NAME_SELECTOR_ENTRY))
+#define E_IS_BOOK_CONFIG_NAME_SELECTOR_ENTRY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_BOOK_CONFIG_NAME_SELECTOR_ENTRY))
+#define E_BOOK_CONFIG_NAME_SELECTOR_ENTRY_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_BOOK_CONFIG_NAME_SELECTOR_ENTRY, EBookConfigNameSelectorEntryClass))
 
 G_BEGIN_DECLS
 
-void e_book_config_name_selector_entry_register_type (GTypeModule *type_module);
+typedef struct _EBookConfigNameSelectorEntry EBookConfigNameSelectorEntry;
+typedef struct _EBookConfigNameSelectorEntryClass EBookConfigNameSelectorEntryClass;
+typedef struct _EBookConfigNameSelectorEntryPrivate EBookConfigNameSelectorEntryPrivate;
+
+struct _EBookConfigNameSelectorEntry {
+	EExtension parent;
+	EBookConfigNameSelectorEntryPrivate *priv;
+};
+
+struct _EBookConfigNameSelectorEntryClass {
+	EExtensionClass parent_class;
+};
+
+GType		e_book_config_name_selector_entry_get_type
+						(void) G_GNUC_CONST;
+void		e_book_config_name_selector_entry_type_register
+						(GTypeModule *type_module);
 
 G_END_DECLS
 
 #endif /* E_BOOK_CONFIG_NAME_SELECTOR_ENTRY_H */
+
