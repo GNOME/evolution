@@ -88,7 +88,7 @@ e_module_load (GTypeModule *type_module)
 	e_cal_config_meeting_store_type_register (type_module);
 	e_cal_config_meeting_time_selector_type_register (type_module);
 	e_cal_config_model_type_register (type_module);
-	e_cal_config_view_register_type (type_module);
+	e_cal_config_view_type_register (type_module);
 
 	e_calendar_preferences_type_register (type_module);
 }
