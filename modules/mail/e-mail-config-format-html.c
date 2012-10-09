@@ -22,14 +22,23 @@
 
 #include "e-mail-config-format-html.h"
 
-#include <libebackend/libebackend.h>
-
 #include <shell/e-shell.h>
 #include <e-util/e-util.h>
 #include <em-format/e-mail-formatter.h>
 #include <mail/e-mail-reader-utils.h>
 
-static gpointer parent_class;
+#define E_MAIL_CONFIG_FORMAT_HTML_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_CONFIG_FORMAT_HTML, EMailConfigFormatHTMLPrivate))
+
+struct _EMailConfigFormatHTMLPrivate {
+	gint placeholder;
+};
+
+G_DEFINE_DYNAMIC_TYPE (
+	EMailConfigFormatHTML,
+	e_mail_config_format_html,
+	E_TYPE_EXTENSION)
 
 static void
 headers_changed_cb (GSettings *settings,
@@ -134,39 +143,43 @@ mail_config_format_html_constructed (GObject *object)
 	headers_changed_cb (settings, NULL, object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_mail_config_format_html_parent_class)->
+		constructed (object);
 }
 
 static void
-mail_config_format_html_class_init (EExtensionClass *class)
+e_mail_config_format_html_class_init (EMailConfigFormatHTMLClass *class)
 {
 	GObjectClass *object_class;
+	EExtensionClass *extension_class;
 
-	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (
+		class, sizeof (EMailConfigFormatHTMLPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_config_format_html_constructed;
 
-	class->extensible_type = E_TYPE_MAIL_FORMATTER;
+	extension_class = E_EXTENSION_CLASS (class);
+	extension_class->extensible_type = E_TYPE_MAIL_FORMATTER;
+}
+
+static void
+e_mail_config_format_html_class_finalize (EMailConfigFormatHTMLClass *class)
+{
+}
+
+static void
+e_mail_config_format_html_init (EMailConfigFormatHTML *extension)
+{
+	extension->priv = E_MAIL_CONFIG_FORMAT_HTML_GET_PRIVATE (extension);
 }
 
 void
-e_mail_config_format_html_register_type (GTypeModule *type_module)
+e_mail_config_format_html_type_register (GTypeModule *type_module)
 {
-	static const GTypeInfo type_info = {
-		sizeof (EExtensionClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) mail_config_format_html_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EExtension),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) NULL,
-		NULL   /* value_table */
-	};
-
-	g_type_module_register_type (
-		type_module, E_TYPE_EXTENSION,
-		"EMailConfigFormatHTML", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_mail_config_format_html_register_type (type_module);
 }
+
