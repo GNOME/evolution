@@ -59,7 +59,7 @@ e_module_load (GTypeModule *type_module)
 	e_mail_shell_sidebar_type_register (type_module);
 	e_mail_shell_view_register_type (type_module);
 
-	e_mail_config_format_html_register_type (type_module);
+	e_mail_config_format_html_type_register (type_module);
 	e_mail_config_reader_register_type (type_module);
 	e_mail_config_web_view_register_type (type_module);
 
