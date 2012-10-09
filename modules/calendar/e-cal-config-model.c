@@ -22,13 +22,22 @@
 
 #include "e-cal-config-model.h"
 
-#include <libebackend/libebackend.h>
-
 #include <shell/e-shell.h>
 #include <calendar/gui/e-cal-model.h>
 #include <calendar/gui/e-cal-model-tasks.h>
 
-static gpointer parent_class;
+#define E_CAL_CONFIG_MODEL_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_CONFIG_MODEL, ECalConfigModelPrivate))
+
+struct _ECalConfigModelPrivate {
+	gint placeholder;
+};
+
+G_DEFINE_DYNAMIC_TYPE (
+	ECalConfigModel,
+	e_cal_config_model,
+	E_TYPE_EXTENSION)
 
 static void
 cal_config_model_constructed (GObject *object)
@@ -132,39 +141,41 @@ cal_config_model_constructed (GObject *object)
 	}
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_cal_config_model_parent_class)->constructed (object);
 }
 
 static void
-cal_config_model_class_init (EExtensionClass *class)
+e_cal_config_model_class_init (ECalConfigModelClass *class)
 {
 	GObjectClass *object_class;
+	EExtensionClass *extension_class;
 
-	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (ECalConfigModelPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = cal_config_model_constructed;
 
-	class->extensible_type = E_TYPE_CAL_MODEL;
+	extension_class = E_EXTENSION_CLASS (class);
+	extension_class->extensible_type = E_TYPE_CAL_MODEL;
+}
+
+static void
+e_cal_config_model_class_finalize (ECalConfigModelClass *class)
+{
+}
+
+static void
+e_cal_config_model_init (ECalConfigModel *extension)
+{
+	extension->priv = E_CAL_CONFIG_MODEL_GET_PRIVATE (extension);
 }
 
 void
-e_cal_config_model_register_type (GTypeModule *type_module)
+e_cal_config_model_type_register (GTypeModule *type_module)
 {
-	static const GTypeInfo type_info = {
-		sizeof (EExtensionClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) cal_config_model_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EExtension),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) NULL,
-		NULL   /* value_table */
-	};
-
-	g_type_module_register_type (
-		type_module, E_TYPE_EXTENSION,
-		"ECalConfigModel", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_cal_config_model_register_type (type_module);
 }
+
