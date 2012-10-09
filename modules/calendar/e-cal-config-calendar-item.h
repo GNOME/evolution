@@ -19,12 +19,48 @@
 #ifndef E_CAL_CONFIG_CALENDAR_ITEM_H
 #define E_CAL_CONFIG_CALENDAR_ITEM_H
 
-#include <glib-object.h>
+#include <libebackend/libebackend.h>
+
+/* Standard GObject macros */
+#define E_TYPE_CAL_CONFIG_CALENDAR_ITEM \
+	(e_cal_config_calendar_item_get_type ())
+#define E_CAL_CONFIG_CALENDAR_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CAL_CONFIG_CALENDAR_ITEM, ECalConfigCalendarItem))
+#define E_CAL_CONFIG_CALENDAR_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CAL_CONFIG_CALENDAR_ITEM, ECalConfigCalendarItemClass))
+#define E_IS_CAL_CONFIG_CALENDAR_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CAL_CONFIG_CALENDAR_ITEM))
+#define E_IS_CAL_CONFIG_CALENDAR_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CAL_CONFIG_CALENDAR_ITEM))
+#define E_CAL_CONFIG_CALENDAR_ITEM_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CAL_CONFIG_CALENDAR_ITEM, ECalConfigCalendarItemClass))
 
 G_BEGIN_DECLS
 
-void e_cal_config_calendar_item_register_type (GTypeModule *type_module);
+typedef struct _ECalConfigCalendarItem ECalConfigCalendarItem;
+typedef struct _ECalConfigCalendarItemClass ECalConfigCalendarItemClass;
+typedef struct _ECalConfigCalendarItemPrivate ECalConfigCalendarItemPrivate;
+
+struct _ECalConfigCalendarItem {
+	EExtension parent;
+	ECalConfigCalendarItemPrivate *priv;
+};
+
+struct _ECalConfigCalendarItemClass {
+	EExtensionClass parent_class;
+};
+
+GType		e_cal_config_calendar_item_get_type
+						(void) G_GNUC_CONST;
+void		e_cal_config_calendar_item_type_register
+						(GTypeModule *type_module);
 
 G_END_DECLS
 
 #endif /* E_CAL_CONFIG_CALENDAR_ITEM_H */
+
