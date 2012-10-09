@@ -19,11 +19,44 @@
 #ifndef E_CAL_CONFIG_VIEW_H
 #define E_CAL_CONFIG_VIEW_H
 
-#include <glib-object.h>
+#include <libebackend/libebackend.h>
+
+/* Standard GObject macros */
+#define E_TYPE_CAL_CONFIG_VIEW \
+	(e_cal_config_view_get_type ())
+#define E_CAL_CONFIG_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CAL_CONFIG_VIEW, ECalConfigView))
+#define E_CAL_CONFIG_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CAL_CONFIG_VIEW, ECalConfigViewClass))
+#define E_IS_CAL_CONFIG_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CAL_CONFIG_VIEW))
+#define E_IS_CAL_CONFIG_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CAL_CONFIG_VIEW))
+#define E_CAL_CONFIG_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CAL_CONFIG_VIEW, ECalConfigViewClass))
 
 G_BEGIN_DECLS
 
-void e_cal_config_view_register_type (GTypeModule *type_module);
+typedef struct _ECalConfigView ECalConfigView;
+typedef struct _ECalConfigViewClass ECalConfigViewClass;
+typedef struct _ECalConfigViewPrivate ECalConfigViewPrivate;
+
+struct _ECalConfigView {
+	EExtension parent;
+	ECalConfigViewPrivate *priv;
+};
+
+struct _ECalConfigViewClass {
+	EExtensionClass parent_class;
+};
+
+GType		e_cal_config_view_get_type	(void) G_GNUC_CONST;
+void		e_cal_config_view_type_register	(GTypeModule *type_module);
 
 G_END_DECLS
 
