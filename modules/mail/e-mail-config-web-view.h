@@ -19,11 +19,45 @@
 #ifndef E_MAIL_CONFIG_WEB_VIEW_H
 #define E_MAIL_CONFIG_WEB_VIEW_H
 
-#include <glib-object.h>
+#include <libebackend/libebackend.h>
+
+/* Standard GObject macros */
+#define E_TYPE_MAIL_CONFIG_WEB_VIEW \
+	(e_mail_config_web_view_get_type ())
+#define E_MAIL_CONFIG_WEB_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MAIL_CONFIG_WEB_VIEW, EMailConfigWebView))
+#define E_MAIL_CONFIG_WEB_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MAIL_CONFIG_WEB_VIEW, EMailConfigWebViewClass))
+#define E_IS_MAIL_CONFIG_WEB_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MAIL_CONFIG_WEB_VIEW))
+#define E_IS_MAIL_CONFIG_WEB_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_MAIL_CONFIG_WEB_VIEW))
+#define E_MAIL_CONFIG_WEB_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MAIL_CONFIG_WEB_VIEW, EMailConfigWebViewClass))
 
 G_BEGIN_DECLS
 
-void e_mail_config_web_view_register_type (GTypeModule *type_module);
+typedef struct _EMailConfigWebView EMailConfigWebView;
+typedef struct _EMailConfigWebViewClass EMailConfigWebViewClass;
+typedef struct _EMailConfigWebViewPrivate EMailConfigWebViewPrivate;
+
+struct _EMailConfigWebView {
+	EExtension parent;
+	EMailConfigWebViewPrivate *priv;
+};
+
+struct _EMailConfigWebViewClass {
+	EExtensionClass parent_class;
+};
+
+GType		e_mail_config_web_view_get_type	(void) G_GNUC_CONST;
+void		e_mail_config_web_view_type_register
+						(GTypeModule *type_module);
 
 G_END_DECLS
 
