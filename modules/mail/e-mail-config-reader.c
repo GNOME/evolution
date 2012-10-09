@@ -22,12 +22,21 @@
 
 #include "e-mail-config-reader.h"
 
-#include <libebackend/libebackend.h>
-
 #include <shell/e-shell.h>
 #include <mail/e-mail-reader.h>
 
-static gpointer parent_class;
+#define E_MAIL_CONFIG_READER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_CONFIG_READER, EMailConfigReaderPrivate))
+
+struct _EMailConfigReaderPrivate {
+	gint placeholder;
+};
+
+G_DEFINE_DYNAMIC_TYPE (
+	EMailConfigReader,
+	e_mail_config_reader,
+	E_TYPE_EXTENSION)
 
 static gboolean
 mail_config_reader_idle_cb (EExtension *extension)
@@ -83,39 +92,42 @@ mail_config_reader_constructed (GObject *object)
 		(GDestroyNotify) g_object_unref);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_mail_config_reader_parent_class)->
+		constructed (object);
 }
 
 static void
-mail_config_reader_class_init (EExtensionClass *class)
+e_mail_config_reader_class_init (EMailConfigReaderClass *class)
 {
 	GObjectClass *object_class;
+	EExtensionClass *extension_class;
 
-	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMailConfigReaderPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_config_reader_constructed;
 
-	class->extensible_type = E_TYPE_MAIL_READER;
+	extension_class = E_EXTENSION_CLASS (class);
+	extension_class->extensible_type = E_TYPE_MAIL_READER;
+}
+
+static void
+e_mail_config_reader_class_finalize (EMailConfigReaderClass *class)
+{
+}
+
+static void
+e_mail_config_reader_init (EMailConfigReader *extension)
+{
+	extension->priv = E_MAIL_CONFIG_READER_GET_PRIVATE (extension);
 }
 
 void
-e_mail_config_reader_register_type (GTypeModule *type_module)
+e_mail_config_reader_type_register (GTypeModule *type_module)
 {
-	static const GTypeInfo type_info = {
-		sizeof (EExtensionClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) mail_config_reader_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EExtension),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) NULL,
-		NULL   /* value_table */
-	};
-
-	g_type_module_register_type (
-		type_module, E_TYPE_EXTENSION,
-		"EMailConfigReader", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_mail_config_reader_register_type (type_module);
 }
+
