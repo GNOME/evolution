@@ -32,10 +32,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), CAMEL_TYPE_SASL_XOAUTH, CamelSaslXOAuthPrivate))
 
-/* This is the property name or URL parameter under which we
- * embed the GoaAccount ID into an EAccount or ESource object. */
-#define GOA_KEY "goa-account-id"
-
 struct _CamelSaslXOAuthPrivate {
 	gint placeholder;
 };
