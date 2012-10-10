@@ -2879,32 +2879,6 @@ composer_set_body (EMsgComposer *composer,
 		break;
 	}
 
-	/* FIXME WEBKIT No signature yet...
-	if (has_body_text && start_bottom) {
-		GtkhtmlEditor *editor = GTKHTML_EDITOR (composer);
-		gboolean move_cursor_to_end;
-		gboolean top_signature;
-
-		// If we are placing signature on top, then move cursor to the end,
-		// otherwise try to find the signature place and place cursor just
-		// before the signature. We added there an empty line already.
-		gtkhtml_editor_run_command (editor, "block-selection");
-		gtkhtml_editor_run_command (editor, "cursor-bod");
-
-		top_signature = g_settings_get_boolean (settings, "composer-top-signature");
-
-		move_cursor_to_end = top_signature ||
-			!gtkhtml_editor_search_by_data (
-				editor, 1, "ClueFlow", "signature", "1");
-
-		if (move_cursor_to_end)
-			gtkhtml_editor_run_command (editor, "cursor-eod");
-		else
-			gtkhtml_editor_run_command (editor, "selection-move-left");
-		gtkhtml_editor_run_command (editor, "unblock-selection");
-	}
-	*/
-
 	g_object_unref (settings);
 
 	g_object_unref (session);

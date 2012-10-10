@@ -1191,7 +1191,7 @@ em_utils_message_to_html (CamelSession *session,
                           const gchar *credits,
                           guint32 flags,
                           EMailPartList *parts_list,
-                          const gchar *prepend,
+			  const gchar *prepend,
                           const gchar *append,
                           EMailPartValidityFlags *validity_found)
 {

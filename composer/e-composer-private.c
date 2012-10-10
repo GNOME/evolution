@@ -970,8 +970,6 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
                             GAsyncResult *result,
                             EMsgComposer *composer)
 {
-	/* FIXME WEBKIT Uuuhm, yeah...we don't support signatures yet */
-#if 0
 	GString *html_buffer = NULL;
 	gchar *contents = NULL;
 	gsize length = 0;
@@ -981,24 +979,25 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	GError *error = NULL;
 	EEditor *editor;
 	EEditorWidget *editor_widget;
+	EEditorSelection *selection;
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *signatures;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *dom_selection;
 	gulong list_length, ii;
-	GSettings *settings;
-	gboolean start_bottom;
 
 	e_mail_signature_combo_box_load_selected_finish (
 		combo_box, result, &contents, &length, &is_html, &error);
 
-	// FIXME Use an EAlert here.
+	/* FIXME Use an EAlert here.*/
 	if (error != NULL) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 		goto exit;
 	}
 
-	// "Edit as New Message" sets "priv->is_from_message".
-	//Always put the signature at the bottom for that case. 
+	/* "Edit as New Message" sets "priv->is_from_message".
+	   Always put the signature at the bottom for that case. */
 	top_signature =
 		use_top_signature (composer) &&
 		!composer->priv->is_from_message &&
@@ -1027,28 +1026,20 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 
 	html_buffer = g_string_sized_new (1024);
 
-	// The combo box active ID is the signature's ESource UID.
+	/* The combo box active ID is the signature's ESource UID. */
 	active_id = gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box));
 
 	g_string_append_printf (
 		html_buffer,
-		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
-		"    key=\"signature\" value=\"1\">-->"
-		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
-		"    key=\"signature_name\" value=\"uid:%s\"-->",
-		(encoded_uid != NULL) ? encoded_uid : "");
-
-	g_string_append (
-		html_buffer,
-		"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\""
-		" CELLPADDING=\"0\"><TR><TD>");
+		"<SPAN class=\"-x-evolution-signature\" id=\"1\" name=\"%s\">",
+		(active_id != NULL) ? active_id : "");
 
 	if (!is_html)
 		g_string_append (html_buffer, "<PRE>\n");
 
-	// The signature dash convention ("-- \n") is specified
-	//in the "Son of RFC 1036", section 4.3.2.
-	//http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html
+	/* The signature dash convention ("-- \n") is specified
+	   in the "Son of RFC 1036", section 4.3.2.
+	   http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html */
 	if (add_signature_delimiter (composer)) {
 		const gchar *delim;
 		const gchar *delim_nl;
@@ -1061,7 +1052,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 			delim_nl = "\n-- \n";
 		}
 
-		// Skip the delimiter if the signature already has one.
+		/* Skip the delimiter if the signature already has one. */
 		if (g_ascii_strncasecmp (contents, delim, strlen (delim)) == 0)
 			;  // skip
 		else if (e_util_strstrcase (contents, delim_nl) != NULL)
@@ -1075,119 +1066,85 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	if (!is_html)
 		g_string_append (html_buffer, "</PRE>\n");
 
+	if (top_signature)
+		g_string_append (html_buffer, "<BR>");
+
 	g_string_append (html_buffer, "</SPAN>");
 	g_free (contents);
 
-insert:
-	// Remove the old signature and insert the new one.
+	g_message ("Inserting signature: %s", html_buffer->str);
 
-	editor = e_msg_composer_get_editor (composer);
+insert:
+	/* Remove the old signature and insert the new one. */
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
+	selection = e_editor_widget_get_selection (editor_widget);
+
+	e_editor_selection_save (selection);
+
+	/* This prevents our command before/after callbacks from
+	   screwing around with the signature as we insert it. */
+	composer->priv->in_signature_insert = TRUE;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (window);
 
-	signatures = webkit_dom_document_get_elements_by_class_name (
-		document, "-x-evolution-signature");
+	signatures = webkit_dom_document_get_elements_by_class_name (document, "-x-evolution-signature");
 	list_length = webkit_dom_node_list_get_length (signatures);
 	for (ii = 0; ii < list_length; ii++) {
 		WebKitDOMNode *node;
 		gchar *id;
 
 		node = webkit_dom_node_list_item (signatures, ii);
-		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (node));
+		id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (node));
 
-		/* When we are editing a message with signature we need to set active
-		 * signature id in signature combo box otherwise no signature will be
-		 * added but we have to do it just once when the composer opens */
-		if (composer->priv->is_from_message && composer->priv->set_signature_from_message) {
-			gchar *name = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "name");
-			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), name);
-			g_free (name);
-			composer->priv->set_signature_from_message = FALSE;
-		}
-
-	// This prevents our command before/after callbacks from
-	   screwing around with the signature as we insert it.
-	composer->priv->in_signature_insert = TRUE;
-
-			parent = webkit_dom_node_get_parent_node (node);
-			next_sibling = webkit_dom_node_get_next_sibling (parent);
-
-			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling))
-				webkit_dom_node_remove_child (
-					webkit_dom_node_get_parent_node (next_sibling),
-					next_sibling,
-					NULL);
-
-			webkit_dom_node_remove_child (
-				webkit_dom_node_get_parent_node (parent),
-				parent,
-				NULL);
-
-			g_free (id);
-			break;
+		if (id && (strlen (id) == 1) && (*id == '1')) {
+		      webkit_dom_node_remove_child (
+			    webkit_dom_node_get_parent_node (node), node, NULL);
+		      g_free (id);
+		      break;
 		}
 
 		g_free (id);
 	}
 
+	if (top_signature) {
+	      WebKitDOMElement *citation;
+
+	      citation = webkit_dom_document_get_element_by_id (
+				   document, "-x-evolution-reply-citation");
+	      if (!citation) {
+		      webkit_dom_dom_selection_modify (
+			      dom_selection, "move", "forward", "documentBoundary");
+	      } else {
+		      webkit_dom_dom_selection_set_base_and_extent (
+			      dom_selection, WEBKIT_DOM_NODE (citation), 0,
+			      WEBKIT_DOM_NODE (citation), 0, NULL);
+	      }
+	} else {
+	      webkit_dom_dom_selection_modify (
+		      dom_selection, "move", "forward", "documentBoundary");
+	}
+
 	if (html_buffer != NULL) {
 		if (*html_buffer->str) {
-			WebKitDOMElement *element;
-			WebKitDOMHTMLElement *body;
-
-			body = webkit_dom_document_get_body (document);
-			element = webkit_dom_document_create_element (document, "DIV", NULL);
-
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (element), html_buffer->str, NULL);
-
-			if (top_signature) {
-				WebKitDOMNode *child =
-					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
-
-				if (start_bottom) {
-					webkit_dom_node_insert_before (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (element),
-						child,
-						NULL);
-				} else {
-					WebKitDOMElement *input_start =
-						webkit_dom_document_get_element_by_id (
-							document, "-x-evo-input-start");
-					/* When we are using signature on top the caret
-					 * should be before the signature */
-					webkit_dom_node_insert_before (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (element),
-						input_start ?
-							webkit_dom_node_get_next_sibling (
-								WEBKIT_DOM_NODE (input_start)) :
-							child,
-						NULL);
-				}
-			} else {
-				webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					NULL);
-			}
+			webkit_dom_document_exec_command (
+				  document, "insertParagraph", FALSE, "");
+			e_editor_selection_insert_html (selection, html_buffer->str);
+			webkit_dom_document_exec_command (
+				  document, "insertParagraph", FALSE, "");
 		}
 
 		g_string_free (html_buffer, TRUE);
-
-	} else if (top_signature) {
-		// Insert paragraph after the signature ClueFlow stuff. 
-		if (gtkhtml_editor_run_command (editor, "cursor-forward"))
-			gtkhtml_editor_run_command (editor, "insert-paragraph");
 	}
 
-	composer_move_caret (composer);
+	e_editor_selection_restore (selection);
+
+	composer->priv->in_signature_insert = FALSE;
 
 exit:
 	g_object_unref (composer);
-#endif
 }
 
 static void
@@ -1213,7 +1170,6 @@ composer_web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
 void
 e_composer_update_signature (EMsgComposer *composer)
 {
-	/* FIXME WEBKIT As said above...no signatures yet
 	EComposerHeaderTable *table;
 	EMailSignatureComboBox *combo_box;
 	EEditor *editor;
@@ -1222,7 +1178,7 @@ e_composer_update_signature (EMsgComposer *composer)
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	// Do nothing if we're redirecting a message.
+	/* Do nothing if we're redirecting a message. */
 	if (composer->priv->redirect)
 		return;
 
@@ -1244,14 +1200,13 @@ e_composer_update_signature (EMsgComposer *composer)
 		return;
 	}
 
-	//XXX Signature files should be local and therefore load quickly,
-	//	so while we do load them asynchronously we don't allow for
-	//	user cancellation and we keep the composer alive until the
-	//	asynchronous loading is complete.
+	/*XXX Signature files should be local and therefore load quickly,
+	      so while we do load them asynchronously we don't allow for
+	      user cancellation and we keep the composer alive until the
+	      asynchronous loading is complete. */
 	e_mail_signature_combo_box_load_selected (
 		combo_box, G_PRIORITY_DEFAULT, NULL,
 		(GAsyncReadyCallback) composer_load_signature_cb,
 		g_object_ref (composer));
-	*/
 }
 
