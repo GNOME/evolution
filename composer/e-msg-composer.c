@@ -2980,30 +2980,48 @@ handle_multipart (EMsgComposer *composer,
 static void
 set_signature_gui (EMsgComposer *composer)
 {
-	/*FIXME WEBKIT We don't support signatures yet....
-	GtkhtmlEditor *editor;
+	EEditor *editor;
+	EEditorWidget *widget;
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *nodes;
 	EComposerHeaderTable *table;
 	EMailSignatureComboBox *combo_box;
-	const gchar *data;
 	gchar *uid;
+	gulong ii, length;
 
-	editor = GTKHTML_EDITOR (composer);
 	table = e_msg_composer_get_header_table (composer);
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
 
-	if (!gtkhtml_editor_search_by_data (editor, 1, "ClueFlow", "signature", "1"))
-		return;
 
-	data = gtkhtml_editor_get_paragraph_data (editor, "signature_name");
+	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
+	widget = e_editor_get_editor_widget (editor);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 
-	if (!g_str_has_prefix (data, "uid:"))
+	uid = NULL;
+	nodes = webkit_dom_document_get_elements_by_class_name (
+		      document, "-x-evolution-signature");
+	length = webkit_dom_node_list_get_length (nodes);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node;
+		gchar *id;
+
+		node = webkit_dom_node_list_item (nodes, ii);
+		id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (node));
+		if (id && (strlen (id) == 1) && (*id == '1')) {
+		      uid = webkit_dom_element_get_attribute (
+			      WEBKIT_DOM_ELEMENT (node), "name");
+		      g_free (id);
+		      break;
+		}
+		g_free (id);
+	}
+	if (!uid) {
 		return;
+	}
 
 	// The combo box active ID is the signature's ESource UID.
-	uid = e_composer_decode_clue_value (data + 4);
 	gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), uid);
 	g_free (uid);
-	*/
 }
 
 static void
@@ -4962,7 +4980,7 @@ void
 e_msg_composer_reply_indent (EMsgComposer *composer)
 {
 	/* FIXME WEBKIT We already have indentation implementation. Why
-	 * is this done? 
+	 * is this done?
 	GtkhtmlEditor *editor;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));

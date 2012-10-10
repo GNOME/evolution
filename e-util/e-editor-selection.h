@@ -206,6 +206,9 @@ void			e_editor_selection_insert_text	(EEditorSelection *selection,
 							 const gchar *plain_text);
 void			e_editor_selection_wrap_lines	(EEditorSelection *selection);
 
+void			e_editor_selection_save		(EEditorSelection *selection);
+void			e_editor_selection_restore	(EEditorSelection *selection);
+
 G_END_DECLS
 
 #endif /* E_EDITOR_SELECTION_H */

@@ -94,9 +94,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 		stream, "<br>", 4, NULL, cancellable, NULL);
 
 	if (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_CITE) {
-		string = "<!--+GtkHTML:<DATA class=\"ClueFlow\" "
-			"key=\"orig\" value=\"1\">-->\n"
-			"<blockquote type=cite>\n";
+		string = "<blockquote type=cite>\n";
 		g_output_stream_write_all (
 			stream, string, strlen (string),
 			NULL, cancellable, NULL);
@@ -137,8 +135,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 		g_object_unref (g_queue_pop_head (&queue));
 
 	if (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_CITE) {
-		string = "</blockquote><!--+GtkHTML:"
-			"<DATA class=\"ClueFlow\" clear=\"orig\">-->";
+		string = "</blockquote>";
 		g_output_stream_write_all (
 			stream, string, strlen (string),
 			NULL, cancellable, NULL);
