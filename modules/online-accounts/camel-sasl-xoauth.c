@@ -40,12 +40,13 @@ struct _CamelSaslXOAuthPrivate {
 
 G_DEFINE_DYNAMIC_TYPE (CamelSaslXOAuth, camel_sasl_xoauth, CAMEL_TYPE_SASL)
 
-static gchar *
-sasl_xoauth_build_request (const gchar *request_uri,
-                           const gchar *consumer_key,
-                           const gchar *consumer_secret,
-                           const gchar *access_token,
-                           const gchar *access_token_secret)
+static void
+sasl_xoauth_append_request (GByteArray *byte_array,
+                            const gchar *request_uri,
+                            const gchar *consumer_key,
+                            const gchar *consumer_secret,
+                            const gchar *access_token,
+                            const gchar *access_token_secret)
 {
 	GString *query;
 	GString *base_string;
@@ -160,9 +161,10 @@ sasl_xoauth_build_request (const gchar *request_uri,
 
 	/* Build the formal request string. */
 
-	request = g_string_new ("GET ");
-	g_string_append (request, request_uri);
-	g_string_append_c (request, ' ');
+	/* The request is easier to assemble with a GString. */
+	request = g_string_sized_new (512);
+
+	g_string_append_printf (request, "GET %s ", request_uri);
 
 	for (ii = 0; ii < G_N_ELEMENTS (oauth_keys); ii++) {
 		key = (gpointer) oauth_keys[ii];
@@ -178,6 +180,12 @@ sasl_xoauth_build_request (const gchar *request_uri,
 		g_string_append_c (request, '"');
 	}
 
+	/* Copy the GString content to the GByteArray. */
+	g_byte_array_append (
+		byte_array, (guint8 *) request->str, request->len + 1);
+
+	g_string_free (request, TRUE);
+
 	/* Clean up. */
 
 	g_string_free (query, TRUE);
@@ -185,8 +193,6 @@ sasl_xoauth_build_request (const gchar *request_uri,
 	g_string_free (signing_key, TRUE);
 
 	g_hash_table_unref (parameters);
-
-	return g_string_free (request, FALSE);
 }
 
 /****************************************************************************/
@@ -196,32 +202,30 @@ sasl_xoauth_find_account_id (ESourceRegistry *registry,
                              const gchar *uid)
 {
 	ESource *source;
+	ESource *ancestor;
 	const gchar *extension_name;
+	gchar *account_id = NULL;
 
 	extension_name = E_SOURCE_EXTENSION_GOA;
 
-	while (uid != NULL) {
+	source = e_source_registry_ref_source (registry, uid);
+	g_return_val_if_fail (source != NULL, NULL);
+
+	ancestor = e_source_registry_find_extension (
+		registry, source, extension_name);
+
+	if (ancestor != NULL) {
 		ESourceGoa *extension;
-		gchar *account_id;
 
-		source = e_source_registry_ref_source (registry, uid);
-		g_return_val_if_fail (source != NULL, NULL);
-
-		if (!e_source_has_extension (source, extension_name)) {
-			uid = e_source_get_parent (source);
-			g_object_unref (source);
-			continue;
-		}
-
-		extension = e_source_get_extension (source, extension_name);
+		extension = e_source_get_extension (ancestor, extension_name);
 		account_id = e_source_goa_dup_account_id (extension);
 
-		g_object_unref (source);
-
-		return account_id;
+		g_object_unref (ancestor);
 	}
 
-	return NULL;
+	g_object_unref (source);
+
+	return account_id;
 }
 
 static GoaObject *
@@ -271,7 +275,6 @@ sasl_xoauth_challenge_sync (CamelSasl *sasl,
 	ESourceRegistry *registry;
 	const gchar *uid;
 	gchar *account_id;
-	gchar *request = NULL;
 	gboolean success;
 
 	service = camel_sasl_get_service (sasl);
@@ -337,13 +340,16 @@ sasl_xoauth_challenge_sync (CamelSasl *sasl,
 			cancellable,
 			error);
 
-		if (success)
-			request = sasl_xoauth_build_request (
+		if (success) {
+			byte_array = g_byte_array_new ();
+			sasl_xoauth_append_request (
+				byte_array,
 				request_uri,
 				consumer_key,
 				consumer_secret,
 				access_token,
 				access_token_secret);
+		}
 
 		g_free (access_token);
 		g_free (access_token_secret);
@@ -355,17 +361,6 @@ sasl_xoauth_challenge_sync (CamelSasl *sasl,
 	g_object_unref (goa_account);
 	g_object_unref (goa_object);
 	g_object_unref (goa_client);
-
-	if (success) {
-		/* Sanity check. */
-		g_return_val_if_fail (request != NULL, NULL);
-
-		byte_array = g_byte_array_new ();
-		g_byte_array_append (
-			byte_array, (guint8 *) request,
-			strlen (request) + 1);
-		g_free (request);
-	}
 
 	/* IMAP and SMTP services will Base64-encode the request. */
 
