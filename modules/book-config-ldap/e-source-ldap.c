@@ -20,8 +20,6 @@
 
 #include <ldap.h>
 
-#include <libedataserver/libedataserver.h>
-
 #define E_SOURCE_LDAP_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SOURCE_LDAP, ESourceLDAPPrivate))
@@ -245,7 +243,7 @@ source_ldap_constructed (GObject *object)
 	const gchar *extension_name;
 
 	this_extension = E_SOURCE_EXTENSION (object);
-	source = e_source_extension_get_source (this_extension);
+	source = e_source_extension_ref_source (this_extension);
 
 	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
 	other_extension = e_source_get_extension (source, extension_name);
@@ -270,6 +268,8 @@ source_ldap_constructed (GObject *object)
 		source_ldap_transform_enum_nick_to_value,
 		source_ldap_transform_enum_value_to_nick,
 		NULL, (GDestroyNotify) NULL);
+
+	g_object_unref (source);
 }
 
 static void

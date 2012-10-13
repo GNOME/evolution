@@ -86,7 +86,7 @@ source_contacts_constructed (GObject *object)
 	G_OBJECT_CLASS (e_source_contacts_parent_class)->constructed (object);
 
 	extension = E_SOURCE_EXTENSION (object);
-	source = e_source_extension_get_source (extension);
+	source = e_source_extension_ref_source (extension);
 
 	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
 	backend_extension = e_source_get_extension (source, extension_name);
@@ -97,6 +97,8 @@ source_contacts_constructed (GObject *object)
 
 	contacts_extension = E_SOURCE_CONTACTS (extension);
 	e_source_contacts_set_include_me (contacts_extension, include_me);
+
+	g_object_unref (source);
 }
 
 static void

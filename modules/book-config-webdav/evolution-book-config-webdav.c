@@ -94,7 +94,7 @@ book_config_webdav_text_to_uri (GBinding *binding,
 		return FALSE;
 
 	target = g_binding_get_target (binding);
-	source = e_source_extension_get_source (E_SOURCE_EXTENSION (target));
+	source = e_source_extension_ref_source (E_SOURCE_EXTENSION (target));
 
 	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
 	extension = e_source_get_extension (source, extension_name);
@@ -103,6 +103,8 @@ book_config_webdav_text_to_uri (GBinding *binding,
 	soup_uri_set_user (soup_uri, user);
 
 	g_value_take_boxed (target_value, soup_uri);
+
+	g_object_unref (source);
 
 	return TRUE;
 }
