@@ -1,3 +1,37 @@
+Evolution 3.6.1 2012-10-15
+--------------------------
+
+Bug Fixes:
+	Bug 684249 - Signatures get compounded, not replaced (Matthew Barnes)
+	Bug 684447 - Fallback to text/plain when highlight program is missing
+	             or fails (Dan Vrátil)
+	Bug 684691 - EMailConfigFormatHTML: Signal handler never disconnected
+	             (Matthew Barnes)
+	Bug 685675 - Fix packing of spell check language options
+	             (Matthew Barnes)
+
+Other Changes:
+	* Make contact maps work again. (Matthew Barnes)
+
+Translations:
+	Alexander Shopov (bg)
+	Gil Forcada (ca)
+	Carles Ferrando (ca@valencia)
+	Jiri Eischmann (cs)
+	Flemming Christensen (da)
+	Jiri Grönroos (fi)
+	Alexandre Franke (fr)
+	Sweta Kothari (gu)
+	Žygimantas Beručka (lt)
+	Ani Peter (ml)
+	Kjartan Maraas (nb)
+	Sasi Bhushan Boddepalli (te)
+	Akom Chotiphantawanon (th)
+	Theppitak Karoonboonyanan (th)
+	Daniel Korostil (uk)
+	Nguyễn Thái Ngọc Duy (vi)
+
+
 Evolution 3.6.0 2012-09-24
 --------------------------
 
