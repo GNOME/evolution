@@ -1313,8 +1313,15 @@ mail_display_dispose (GObject *object)
 		priv->widgets = NULL;
 	}
 
+	if (priv->settings != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->settings, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
+		g_object_unref (priv->settings);
+		priv->settings = NULL;
+	}
+
 	g_clear_object (&priv->part_list);
-	g_clear_object (&priv->settings);
 	g_clear_object (&priv->formatter);
 
 	/* Chain up to parent's dispose() method. */

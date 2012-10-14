@@ -803,11 +803,17 @@ web_view_dispose (GObject *object)
 	}
 
 	if (priv->aliasing_settings != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->aliasing_settings, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
 		g_object_unref (priv->aliasing_settings);
 		priv->aliasing_settings = NULL;
 	}
 
 	if (priv->font_settings != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->font_settings, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
 		g_object_unref (priv->font_settings);
 		priv->font_settings = NULL;
 	}
