@@ -213,7 +213,8 @@ mail_filter_folder (EMailSession *session,
 static gchar *
 fetch_mail_desc (struct _fetch_mail_msg *m)
 {
-	return g_strdup (_("Fetching Mail"));
+	return g_strdup_printf (_("Fetching mail from '%s'"),
+		camel_service_get_display_name (CAMEL_SERVICE (m->store)));
 }
 
 static void
