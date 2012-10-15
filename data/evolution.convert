@@ -139,7 +139,6 @@ error-timeout = /apps/evolution/mail/display/error_timeout
 filters-log-actions = /apps/evolution/mail/filters/log
 filters-log-file = /apps/evolution/mail/filters/logfile
 flush-outbox = /apps/evolution/mail/filters/flush-outbox
-force-message-limit = /apps/evolution/mail/display/force_message_limit
 forward-style = /apps/evolution/mail/format/forward_style
 global-view-setting = /apps/evolution/mail/display/global_view_setting
 headers = /apps/evolution/mail/display/headers
