@@ -99,7 +99,7 @@ static void	e_caldav_chooser_authenticator_init
 static void	caldav_chooser_get_collection_details
 				(SoupSession *session,
 				 SoupMessage *message,
-				 const gchar *path,
+				 const gchar *path_or_uri,
 				 GSimpleAsyncResult *simple);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
@@ -884,13 +884,25 @@ exit:
 static void
 caldav_chooser_get_collection_details (SoupSession *session,
                                        SoupMessage *message,
-                                       const gchar *path,
+                                       const gchar *path_or_uri,
                                        GSimpleAsyncResult *simple)
 {
 	SoupURI *soup_uri;
 
-	soup_uri = soup_uri_copy (soup_message_get_uri (message));
-	soup_uri_set_path (soup_uri, path);
+	soup_uri = soup_uri_new (path_or_uri);
+	if (!soup_uri ||
+	    !soup_uri_get_scheme (soup_uri) ||
+	    !soup_uri_get_host (soup_uri) ||
+	    !soup_uri_get_path (soup_uri) ||
+	    !*soup_uri_get_scheme (soup_uri) ||
+	    !*soup_uri_get_host (soup_uri) ||
+	    !*soup_uri_get_path (soup_uri)) {
+		/* it's a path only, not full uri */
+		if (soup_uri)
+			soup_uri_free (soup_uri);
+		soup_uri = soup_uri_copy (soup_message_get_uri (message));
+		soup_uri_set_path (soup_uri, path_or_uri);
+	}
 
 	message = caldav_chooser_new_propfind (
 		session, soup_uri, DEPTH_1,
