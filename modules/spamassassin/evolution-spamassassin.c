@@ -786,14 +786,14 @@ spam_assassin_new_config_widget (EMailJunkFilter *junk_filter)
 	return box;
 }
 
-static gboolean
+static CamelJunkStatus
 spam_assassin_classify (CamelJunkFilter *junk_filter,
                         CamelMimeMessage *message,
-                        CamelJunkStatus *status,
                         GCancellable *cancellable,
                         GError **error)
 {
 	ESpamAssassin *extension = E_SPAM_ASSASSIN (junk_filter);
+	CamelJunkStatus status;
 	const gchar *argv[7];
 	gint exit_code;
 	gint ii = 0;
@@ -833,32 +833,36 @@ spam_assassin_classify (CamelJunkFilter *junk_filter,
 	exit_code = spam_assassin_command (
 		argv, message, NULL, cancellable, error);
 
+	/* Check for an error while spawning the program. */
+	if (exit_code == SPAM_ASSASSIN_EXIT_STATUS_ERROR)
+		status = CAMEL_JUNK_STATUS_ERROR;
+
 	/* For either program, exit code 0 means the message is ham. */
-	if (exit_code == 0)
-		*status = CAMEL_JUNK_STATUS_MESSAGE_IS_NOT_JUNK;
+	else if (exit_code == 0)
+		status = CAMEL_JUNK_STATUS_MESSAGE_IS_NOT_JUNK;
 
 	/* spamassassin(1) only specifies zero and non-zero exit codes. */
 	else if (!extension->use_spamc)
-		*status = CAMEL_JUNK_STATUS_MESSAGE_IS_JUNK;
+		status = CAMEL_JUNK_STATUS_MESSAGE_IS_JUNK;
 
 	/* Whereas spamc(1) explicitly states exit code 1 means spam. */
 	else if (exit_code == 1)
-		*status = CAMEL_JUNK_STATUS_MESSAGE_IS_JUNK;
+		status = CAMEL_JUNK_STATUS_MESSAGE_IS_JUNK;
 
 	/* Consider any other spamc(1) exit code to be inconclusive
 	 * since it most likely failed to process the message. */
 	else
-		*status = CAMEL_JUNK_STATUS_INCONCLUSIVE;
+		status = CAMEL_JUNK_STATUS_INCONCLUSIVE;
 
 	/* Check that the return value and GError agree. */
-	if (exit_code != SPAM_ASSASSIN_EXIT_STATUS_ERROR)
+	if (status != CAMEL_JUNK_STATUS_ERROR)
 		g_warn_if_fail (error == NULL || *error == NULL);
 	else
 		g_warn_if_fail (error == NULL || *error != NULL);
 
 	g_mutex_unlock (extension->socket_path_mutex);
 
-	return (exit_code != SPAM_ASSASSIN_EXIT_STATUS_ERROR);
+	return status;
 }
 
 static gboolean

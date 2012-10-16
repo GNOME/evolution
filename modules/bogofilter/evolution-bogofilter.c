@@ -328,15 +328,15 @@ bogofilter_new_config_widget (EMailJunkFilter *junk_filter)
 	return box;
 }
 
-static gboolean
+static CamelJunkStatus
 bogofilter_classify (CamelJunkFilter *junk_filter,
                      CamelMimeMessage *message,
-                     CamelJunkStatus *status,
                      GCancellable *cancellable,
                      GError **error)
 {
 	EBogofilter *extension = E_BOGOFILTER (junk_filter);
 	static gboolean wordlist_initialized = FALSE;
+	CamelJunkStatus status;
 	gint exit_code;
 
 	const gchar *argv[] = {
@@ -353,18 +353,19 @@ retry:
 
 	switch (exit_code) {
 		case BOGOFILTER_EXIT_STATUS_SPAM:
-			*status = CAMEL_JUNK_STATUS_MESSAGE_IS_JUNK;
+			status = CAMEL_JUNK_STATUS_MESSAGE_IS_JUNK;
 			break;
 
 		case BOGOFILTER_EXIT_STATUS_HAM:
-			*status = CAMEL_JUNK_STATUS_MESSAGE_IS_NOT_JUNK;
+			status = CAMEL_JUNK_STATUS_MESSAGE_IS_NOT_JUNK;
 			break;
 
 		case BOGOFILTER_EXIT_STATUS_UNSURE:
-			*status = CAMEL_JUNK_STATUS_INCONCLUSIVE;
+			status = CAMEL_JUNK_STATUS_INCONCLUSIVE;
 			break;
 
 		case BOGOFILTER_EXIT_STATUS_ERROR:
+			status = CAMEL_JUNK_STATUS_ERROR;
 			if (!wordlist_initialized) {
 				wordlist_initialized = TRUE;
 				bogofilter_init_wordlist (extension);
@@ -380,12 +381,12 @@ retry:
 	}
 
 	/* Check that the return value and GError agree. */
-	if (exit_code != BOGOFILTER_EXIT_STATUS_ERROR)
+	if (status != CAMEL_JUNK_STATUS_ERROR)
 		g_warn_if_fail (error == NULL || *error == NULL);
 	else
 		g_warn_if_fail (error == NULL || *error != NULL);
 
-	return (exit_code != BOGOFILTER_EXIT_STATUS_ERROR);
+	return status;
 }
 
 static gboolean
