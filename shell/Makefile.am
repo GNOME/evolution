@@ -93,7 +93,6 @@ libeshell_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 libeshell_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/filter/libfilter.la		\
-	$(top_builddir)/smclient/libeggsmclient.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(top_builddir)/libemail-utils/libemail-utils.la \

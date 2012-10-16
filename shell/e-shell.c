@@ -37,7 +37,6 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
-#include "smclient/eggsmclient.h"
 #include "widgets/misc/e-preferences-window.h"
 
 #include "e-shell-backend.h"
@@ -68,6 +67,8 @@ struct _EShellPrivate {
 	gchar *module_directory;
 
 	gchar *startup_view;
+
+	guint inhibit_cookie;
 
 	guint auto_reconnect		: 1;
 	guint express_mode		: 1;
@@ -406,6 +407,8 @@ shell_ready_for_quit (EShell *shell,
 	/* Finalize the activity. */
 	g_object_unref (activity);
 
+	gtk_application_uninhibit (application, shell->priv->inhibit_cookie);
+
 	/* Destroy all watched windows.  Note, we iterate over a -copy-
 	 * of the watched windows list because the act of destroying a
 	 * watched window will modify the watched windows list, which
@@ -429,6 +432,13 @@ shell_prepare_for_quit (EShell *shell)
 		return;
 
 	application = GTK_APPLICATION (shell);
+
+	shell->priv->inhibit_cookie = gtk_application_inhibit (
+		application, NULL,
+		GTK_APPLICATION_INHIBIT_SWITCH |
+		GTK_APPLICATION_INHIBIT_LOGOUT |
+		GTK_APPLICATION_INHIBIT_SUSPEND,
+		_("Preparing to quit"));
 
 	shell->priv->preparing_for_quit = e_activity_new ();
 
@@ -519,32 +529,8 @@ shell_process_backend (EShellBackend *shell_backend,
 }
 
 static void
-shell_sm_quit_requested_cb (EShell *shell,
-                            EggSMClient *sm_client)
-{
-	EShellQuitReason reason = E_SHELL_QUIT_SESSION_REQUEST;
-	gboolean will_quit;
-
-	/* If preparations are already in progress then we have already
-	 * committed ourselves to quitting, and can answer 'yes'. */
-	if (shell->priv->preparing_for_quit == NULL)
-		will_quit = shell_request_quit (shell, reason);
-	else
-		will_quit = TRUE;
-
-	egg_sm_client_will_quit (sm_client, will_quit);
-}
-
-static void
-shell_sm_quit_cancelled_cb (EShell *shell,
-                            EggSMClient *sm_client)
-{
-	/* Nothing to do.  This is just to aid debugging. */
-}
-
-static void
 shell_sm_quit_cb (EShell *shell,
-                  EggSMClient *sm_client)
+                  gpointer user_data)
 {
 	shell_prepare_for_quit (shell);
 }
@@ -1208,7 +1194,6 @@ e_shell_init (EShell *shell)
 	GHashTable *backends_by_name;
 	GHashTable *backends_by_scheme;
 	GtkIconTheme *icon_theme;
-	EggSMClient *sm_client;
 
 	shell->priv = E_SHELL_GET_PRIVATE (shell);
 
@@ -1246,23 +1231,8 @@ e_shell_init (EShell *shell)
 		"org.gnome.evolution.shell",
 		"start-offline");
 
-	/*** Session Management ***/
-
-	sm_client = egg_sm_client_get ();
-
-	/* Not participating in session saving yet. */
-	egg_sm_client_set_mode (EGG_SM_CLIENT_MODE_NO_RESTART);
-
 	g_signal_connect_swapped (
-		sm_client, "quit-requested",
-		G_CALLBACK (shell_sm_quit_requested_cb), shell);
-
-	g_signal_connect_swapped (
-		sm_client, "quit-cancelled",
-		G_CALLBACK (shell_sm_quit_cancelled_cb), shell);
-
-	g_signal_connect_swapped (
-		sm_client, "quit",
+		G_APPLICATION (shell), "shutdown",
 		G_CALLBACK (shell_sm_quit_cb), shell);
 }
 

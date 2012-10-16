@@ -50,7 +50,6 @@ endif
 SUBDIRS = 			\
 	m4			\
 	data			\
-	smclient		\
 	libgnomecanvas		\
 	libevolution-utils	\
 	filter			\

@@ -59,8 +59,6 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/filter/libfilter.la				\
-	$(top_builddir)/smclient/libeggsmclient.la			\
-	$(top_builddir)/smclient/libeggdesktopfile.la			\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\

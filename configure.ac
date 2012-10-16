@@ -1188,17 +1188,6 @@ CFLAGS=$save_cflags
 LIBS=$save_libs
 AC_MSG_RESULT([$ac_cv_have_iuth])
 
-dnl *****************
-dnl EggSMClient Flags
-dnl *****************
-if test "x$os_win32" = "xyes"; then
-	PKG_CHECK_MODULES([EGG_SMCLIENT], [gtk+-3.0])
-else
-	PKG_CHECK_MODULES([EGG_SMCLIENT], [gtk+-3.0 ice sm])
-fi
-AC_SUBST(EGG_SMCLIENT_CFLAGS)
-AC_SUBST(EGG_SMCLIENT_LIBS)
-
 dnl *******************
 dnl Special directories
 dnl *******************
@@ -1682,7 +1671,6 @@ plugins/pst-import/Makefile
 plugins/publish-calendar/Makefile
 plugins/save-calendar/Makefile
 plugins/templates/Makefile
-smclient/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile

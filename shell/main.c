@@ -417,6 +417,7 @@ create_default_shell (void)
 		"express-mode", express_mode,
 		"small-screen-mode", small_screen,
 		"online", online,
+		"register-session", TRUE,
 		NULL);
 
 	/* Failure to register is fatal. */
