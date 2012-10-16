@@ -420,8 +420,6 @@ shell/e-shell-window.c
 shell/e-shell-window-private.c
 shell/main.c
 shell/shell.error.xml
-smclient/eggdesktopfile.c
-smclient/eggsmclient.c
 smime/gui/ca-trust-dialog.c
 smime/gui/certificate-manager.c
 smime/gui/certificate-viewer.c
