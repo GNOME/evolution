@@ -28,6 +28,6 @@
 void		e_notice			(gpointer parent,
 						 GtkMessageType type,
 						 const gchar *format,
-						 ...);
+						 ...) G_GNUC_PRINTF (3, 4);
 
 #endif /* E_DIALOG_UTILS_H */

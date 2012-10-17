@@ -1123,11 +1123,8 @@ comp_server_send (ECalComponentItipMethod method,
 					_("Unable to book a resource, the "
 					  "new event collides with some other."));
 			} else {
-				gchar *msg = g_strconcat (
-					_("Unable to book a resource, error: "),
-					error->message, NULL);
-				e_notice (NULL, GTK_MESSAGE_ERROR, msg);
-				g_free (msg);
+				e_notice (NULL, GTK_MESSAGE_ERROR,
+					_("Unable to book a resource, error: %s"), error->message);
 			}
 
 			retval = FALSE;
