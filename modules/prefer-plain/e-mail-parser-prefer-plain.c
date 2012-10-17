@@ -182,8 +182,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	GSList *parts;
 	CamelContentType *ct;
 	gboolean has_calendar = FALSE;
-	GSList *plain_text_parts, *iter;
-	GSList *plain_text_placeholder = NULL;
+	GSList *plain_text_parts = NULL;
 
 	emp_pp = (EMailParserPreferPlain *) extension;
 
@@ -220,7 +219,6 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	}
 
 	nparts = camel_multipart_get_number (mp);
-	plain_text_parts = NULL;
 	for (i = 0; i < nparts; i++) {
 
 		CamelMimePart *sp;
@@ -251,13 +249,10 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 		if (camel_content_type_is (ct, "text", "plain")) {
 
-			plain_text_parts = e_mail_parser_parse_part (
-						parser, sp, part_id, cancellable);
+			sparts = e_mail_parser_parse_part (
+					parser, sp, part_id, cancellable);
 
-			/* Placeholder - we will replace it by the actual text/plain
-			 * parts later */
-			plain_text_placeholder = g_slist_alloc ();
-			parts = g_slist_concat (parts, plain_text_placeholder);
+			plain_text_parts = g_slist_concat (plain_text_parts, sparts);
 			continue;
 		}
 
@@ -325,14 +320,10 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 		hide_parts (plain_text_parts);
 	}
 
-	/* Replace the plain_text_placeholder by the actual plain_text_parts */
-	for (iter = parts; iter; iter = iter->next) {
-		if (iter && iter->next == plain_text_placeholder) {
-			break;
-		}
+	if (plain_text_parts) {
+		/* plain_text parts should be always first */
+		parts = g_slist_concat (plain_text_parts, parts);
 	}
-	plain_text_parts = g_slist_concat (plain_text_parts, plain_text_placeholder);
-	parts = g_slist_concat (iter, plain_text_parts);
 
 	g_string_truncate (part_id, partidlen);
 
