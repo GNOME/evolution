@@ -420,10 +420,13 @@ create_default_shell (void)
 		NULL);
 
 	/* Failure to register is fatal. */
-	if (error != NULL)
-		g_error ("%s", error->message);
+	if (error != NULL) {
+		g_warning ("Cannot start Evolution, other instance is probably running and is unresponsive. System error: %s",
+			error->message);
+		g_clear_error (&error);
+	}
 
-	if (force_online)
+	if (force_online && shell)
 		e_shell_lock_network_available (shell);
 
 	g_object_unref (settings);
@@ -656,6 +659,8 @@ main (gint argc,
 		e_ensure_type (WEBKIT_TYPE_WEB_VIEW);
 
 	shell = create_default_shell ();
+	if (!shell)
+		return 1;
 
 	if (quit) {
 		e_shell_quit (shell, E_SHELL_QUIT_OPTION);
