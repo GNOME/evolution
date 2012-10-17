@@ -42,7 +42,11 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	GtkWidget *container;
 	GtkWidget *use_custom_binary_check;
 	GtkWidget *custom_binary_entry;
+	GtkWidget *use_custom_args_check;
+	GtkWidget *custom_args_entry;
 	gchar *markup;
+	PangoAttribute *attr;
+	PangoAttrList *attr_list;
 
 	settings = e_mail_config_service_backend_get_settings (backend);
 
@@ -83,6 +87,43 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		label, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
+	widget = gtk_check_button_new_with_mnemonic (_("U_se custom arguments"));
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 2, 1);
+	use_custom_args_check = widget;
+
+	widget = gtk_label_new_with_mnemonic (_("Cus_tom arguments:"));
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 1, 1);
+	label = GTK_LABEL (widget);
+
+	widget = gtk_entry_new ();
+	gtk_label_set_mnemonic_widget (label, widget);
+	gtk_widget_set_halign (widget, GTK_ALIGN_FILL);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 3, 1, 1);
+	custom_args_entry = widget;
+
+	g_object_bind_property (
+		use_custom_args_check, "active",
+		label, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	widget = gtk_label_new (_(
+		"Default arguments are '-i -f %F -- %R', where\n"
+		"   %F - stands for the From address\n"
+		"   %R - stands for the recipient addresses"));
+	gtk_widget_set_halign (widget, GTK_ALIGN_FILL);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
+	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 4, 1, 1);
+
+	attr_list = pango_attr_list_new ();
+	attr = pango_attr_style_new (PANGO_STYLE_ITALIC);
+	pango_attr_list_insert (attr_list, attr);
+	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
+	pango_attr_list_unref (attr_list);
+
 	g_object_bind_property (
 		use_custom_binary_check, "active",
 		custom_binary_entry, "sensitive",
@@ -97,6 +138,23 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	g_object_bind_property (
 		settings, "custom-binary",
 		custom_binary_entry, "text",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		use_custom_args_check, "active",
+		custom_args_entry, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		settings, "use-custom-args",
+		use_custom_args_check, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		settings, "custom-args",
+		custom_args_entry, "text",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
