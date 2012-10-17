@@ -1466,6 +1466,16 @@ web_view_selectable_select_all (ESelectable *selectable)
 	e_web_view_select_all (E_WEB_VIEW (selectable));
 }
 
+static gboolean
+web_view_drag_motion (GtkWidget *widget,
+		      GdkDragContext *context,
+		      gint x,
+		      gint y,
+		      guint time_)
+{
+	return FALSE;
+}
+
 static void
 e_web_view_class_init (EWebViewClass *class)
 {
@@ -1487,6 +1497,7 @@ e_web_view_class_init (EWebViewClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->button_press_event = web_view_button_press_event;
 	widget_class->scroll_event = web_view_scroll_event;
+	widget_class->drag_motion = web_view_drag_motion;
 
 #if 0  /* WEBKIT */
 	html_class = GTK_HTML_CLASS (class);
