@@ -340,7 +340,8 @@ mail_request_send_async (SoupRequest *request,
 	emr->priv->full_uri = soup_uri_to_string (uri, FALSE);
 	uri_str = g_strdup_printf (
 		"%s://%s%s", uri->scheme, uri->host, uri->path);
-	emr->priv->uri_base = uri_str;
+	emr->priv->uri_base = soup_uri_decode (uri_str);
+	g_free (uri_str);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (request), callback,
