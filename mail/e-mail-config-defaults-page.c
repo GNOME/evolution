@@ -39,6 +39,7 @@ struct _EMailConfigDefaultsPagePrivate {
 
 	GtkWidget *drafts_button;  /* not referenced */
 	GtkWidget *sent_button;    /* not referenced */
+	GtkWidget *replies_toggle; /* not referenced */
 	GtkWidget *trash_toggle;   /* not referenced */
 	GtkWidget *junk_toggle;    /* not referenced */
 };
@@ -272,6 +273,8 @@ mail_config_defaults_page_restore_folders (EMailConfigDefaultsPage *page)
 		button = EM_FOLDER_SELECTION_BUTTON (page->priv->sent_button);
 		folder_uri = e_mail_session_get_local_folder_uri (session, type);
 		em_folder_selection_button_set_folder_uri (button, folder_uri);
+
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page->priv->replies_toggle), FALSE);
 	}
 }
 
@@ -608,9 +611,26 @@ mail_config_defaults_page_constructed (GObject *object)
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
+	widget = gtk_check_button_new_with_mnemonic (_("S_ave replies in the folder of the message being replied to"));
+	g_object_set (widget, "xalign", 0.0, NULL);
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 2, 1);
+	page->priv->replies_toggle = widget; /* not referenced */
+	gtk_widget_show (widget);
+
+	if (provider && (provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER) != 0) {
+		gtk_widget_set_sensitive (widget, FALSE);
+	}
+
+	g_object_bind_property (
+		submission_ext, "replies-to-origin-folder",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
 	widget = gtk_button_new_with_mnemonic (_("_Restore Defaults"));
 	gtk_widget_set_halign (widget, GTK_ALIGN_START);
-	gtk_grid_attach (GTK_GRID (container), widget, 1, 5, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 6, 1, 1);
 	gtk_widget_show (widget);
 
 	g_signal_connect_swapped (
@@ -626,7 +646,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		_("Choose a folder for deleted messages."),
 		"real-trash-path", "use-real-trash-path");
 	if (widget != NULL) {
-		gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 2, 1);
+		gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 2, 1);
 		gtk_widget_show (widget);
 	}
 
@@ -636,7 +656,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		_("Choose a folder for junk messages."),
 		"real-junk-path", "use-real-junk-path");
 	if (widget != NULL) {
-		gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 2, 1);
+		gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 2, 1);
 		gtk_widget_show (widget);
 	}
 

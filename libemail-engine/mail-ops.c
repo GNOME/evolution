@@ -527,7 +527,8 @@ static gboolean
 get_submission_details_from_identity (EMailSession *session,
                                       const gchar *identity_uid,
                                       gchar **out_transport_uid,
-                                      gchar **out_sent_folder_uri)
+                                      gchar **out_sent_folder_uri,
+				      gboolean *out_replies_to_origin_folder)
 {
 	ESource *source;
 	ESourceRegistry *registry;
@@ -556,6 +557,10 @@ get_submission_details_from_identity (EMailSession *session,
 		e_source_mail_submission_dup_transport_uid (
 		E_SOURCE_MAIL_SUBMISSION (extension));
 
+	*out_replies_to_origin_folder =
+		e_source_mail_submission_get_replies_to_origin_folder (
+		E_SOURCE_MAIL_SUBMISSION (extension));
+
 	g_object_unref (source);
 
 	return TRUE;
@@ -579,6 +584,7 @@ mail_send_message (struct _send_queue_msg *m,
 	gchar *transport_uid = NULL;
 	gchar *sent_folder_uri = NULL;
 	const gchar *resent_from, *tmp;
+	gboolean replies_to_origin_folder = FALSE;
 	CamelFolder *folder = NULL;
 	GString *err = NULL;
 	struct _camel_header_raw *xev, *header;
@@ -603,7 +609,8 @@ mail_send_message (struct _send_queue_msg *m,
 		identity_uid = g_strstrip (g_strdup (tmp));
 		get_submission_details_from_identity (
 			m->session, identity_uid,
-			&transport_uid, &sent_folder_uri);
+			&transport_uid, &sent_folder_uri,
+			&replies_to_origin_folder);
 		g_free (identity_uid);
 	}
 
@@ -614,6 +621,14 @@ mail_send_message (struct _send_queue_msg *m,
 	tmp = camel_header_raw_find (&xev, "X-Evolution-Fcc", NULL);
 	if (sent_folder_uri == NULL && tmp != NULL)
 		sent_folder_uri = g_strstrip (g_strdup (tmp));
+
+	if (replies_to_origin_folder) {
+		tmp = camel_header_raw_find (&xev, "X-Evolution-Source-Folder", NULL);
+		if (tmp != NULL && camel_header_raw_find (&xev, "X-Evolution-Source-Message", NULL) != NULL) {
+			g_free (sent_folder_uri);
+			sent_folder_uri = g_strstrip (g_strdup (tmp));
+		}
+	}
 
 	service = camel_session_ref_service (
 		CAMEL_SESSION (m->session), transport_uid);

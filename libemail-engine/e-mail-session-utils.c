@@ -813,6 +813,7 @@ e_mail_session_send_to (EMailSession *session,
 	const gchar *resent_from;
 	gchar *transport_uid = NULL;
 	gchar *sent_folder_uri = NULL;
+	gboolean replies_to_origin_folder = FALSE;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
@@ -848,6 +849,8 @@ e_mail_session_send_to (EMailSession *session,
 		string = e_source_mail_submission_get_transport_uid (extension);
 		transport_uid = g_strdup (string);
 
+		replies_to_origin_folder = e_source_mail_submission_get_replies_to_origin_folder (extension);
+
 		g_object_unref (source);
 	}
 
@@ -858,6 +861,14 @@ e_mail_session_send_to (EMailSession *session,
 	string = camel_header_raw_find (&xev, "X-Evolution-Transport", NULL);
 	if (transport_uid == NULL && string != NULL)
 		transport_uid = g_strstrip (g_strdup (string));
+
+	if (replies_to_origin_folder) {
+		string = camel_header_raw_find (&xev, "X-Evolution-Source-Folder", NULL);
+		if (string != NULL && camel_header_raw_find (&xev, "X-Evolution-Source-Message", NULL) != NULL) {
+			g_free (sent_folder_uri);
+			sent_folder_uri = g_strstrip (g_strdup (string));
+		}
+	}
 
 	post_to_uris = g_ptr_array_new ();
 	for (header = xev; header != NULL; header = header->next) {
