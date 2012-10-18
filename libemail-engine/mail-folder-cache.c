@@ -826,7 +826,11 @@ update_folders (CamelStore *store,
 
 	fi = camel_store_get_folder_info_finish (store, result, &error);
 
-	if (error != NULL) {
+	/* Silently ignore cancellation errors. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
 		g_warning ("%s", error->message);
 		g_error_free (error);
 	}
