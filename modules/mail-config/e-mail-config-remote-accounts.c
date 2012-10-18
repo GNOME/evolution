@@ -318,6 +318,7 @@ mail_config_remote_backend_check_complete (EMailConfigServiceBackend *backend)
 	EMailConfigRemoteBackend *remote_backend;
 	CamelSettings *settings;
 	CamelNetworkSettings *network_settings;
+	CamelProvider *provider;
 	EPortEntry *port_entry;
 	const gchar *host;
 	const gchar *user;
@@ -325,19 +326,25 @@ mail_config_remote_backend_check_complete (EMailConfigServiceBackend *backend)
 	remote_backend = E_MAIL_CONFIG_REMOTE_BACKEND (backend);
 
 	settings = e_mail_config_service_backend_get_settings (backend);
+	provider = e_mail_config_service_backend_get_provider (backend);
+
+	g_return_val_if_fail (provider != NULL, FALSE);
 
 	network_settings = CAMEL_NETWORK_SETTINGS (settings);
 	host = camel_network_settings_get_host (network_settings);
 	user = camel_network_settings_get_user (network_settings);
 
-	if (host == NULL || *host == '\0')
+	if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_HOST) &&
+	    (host == NULL || *host == '\0'))
 		return FALSE;
 
 	port_entry = E_PORT_ENTRY (remote_backend->port_entry);
-	if (!e_port_entry_is_valid (port_entry))
+	if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_PORT) &&
+	    !e_port_entry_is_valid (port_entry))
 		return FALSE;
 
-	if (user == NULL || *user == '\0')
+	if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_USER) &&
+	    (user == NULL || *user == '\0'))
 		return FALSE;
 
 	return TRUE;
