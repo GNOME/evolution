@@ -358,7 +358,7 @@ e_mail_part_animation_extract_frame (const GByteArray *anim,
 /**
  * e_mail_part_build_url:
  * @folder: (allow-none) a #CamelFolder with the message or %NULL
- * @message_uid: (allow-none) uid of the message within the @folder or %NULL
+ * @message_uid: uid of the message within the @folder
  * @first_param_name: Name of first query parameter followed by GType of it's value and value
  * terminated by %NULL.
  *
@@ -380,6 +380,7 @@ e_mail_part_build_uri (CamelFolder *folder,
 	va_list ap;
 	const gchar *name;
 	const gchar *service_uid, *folder_name;
+	gchar *encoded_message_uid;
 	gchar separator;
 
 	g_return_val_if_fail (message_uid && *message_uid, NULL);
@@ -397,10 +398,12 @@ e_mail_part_build_uri (CamelFolder *folder,
 			service_uid = "generic";
 	}
 
+	encoded_message_uid = soup_uri_encode (message_uid, NULL);
 	tmp = g_strdup_printf ("mail://%s/%s/%s",
 			service_uid,
 			folder_name,
-			message_uid);
+			encoded_message_uid);
+	g_free (encoded_message_uid);
 
 	if (folder) {
 		g_free ((gchar *) folder_name);
