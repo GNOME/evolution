@@ -815,23 +815,17 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
-	EShell *shell;
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model;
 	EMailReader *reader;
 	EMailView *mail_view;
-	CamelStore *store;
-	ESourceRegistry *registry;
-	ESource *source = NULL;
 	GtkAction *action;
 	GList *list, *link;
-	const gchar *label;
 	gchar *uri;
 	gboolean sensitive;
 	guint32 state;
 
 	/* Be descriptive. */
-	gboolean account_is_groupwise = FALSE;
 	gboolean folder_allows_children;
 	gboolean folder_can_be_deleted;
 	gboolean folder_is_outbox;
@@ -849,8 +843,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
-	registry = e_shell_get_registry (shell);
 
 	mail_shell_view = E_MAIL_SHELL_VIEW (shell_view);
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
@@ -888,36 +880,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MAIL_SIDEBAR_STORE_CAN_BE_DISABLED);
 
 	uri = em_folder_tree_get_selected_uri (folder_tree);
-	store = em_folder_tree_get_selected_store (folder_tree);
-
-	if (store != NULL) {
-		CamelService *service;
-		const gchar *uid;
-
-		service = CAMEL_SERVICE (store);
-		uid = camel_service_get_uid (service);
-		source = e_source_registry_ref_source (registry, uid);
-	}
-
-	if (source != NULL) {
-		ESourceExtension *extension;
-		const gchar *backend_name;
-		const gchar *extension_name;
-
-		extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
-		extension = e_source_get_extension (source, extension_name);
-
-		backend_name =
-			e_source_backend_get_backend_name (
-			E_SOURCE_BACKEND (extension));
-
-		/* FIXME This belongs in a GroupWise plugin. */
-		account_is_groupwise =
-			(g_strcmp0 (backend_name, "groupwise") == 0) &&
-			(e_source_get_parent (source) != NULL);
-
-		g_object_unref (source);
-	}
 
 	if (uri != NULL) {
 		GtkTreeRowReference *reference;
@@ -972,12 +934,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (MAIL_ACCOUNT_DISABLE);
 	sensitive = folder_is_store && store_can_be_disabled;
-	if (account_is_groupwise)
-		label = _("Proxy _Logout");
-	else
-		label = _("_Disable Account");
 	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_label (action, label);
 
 	action = ACTION (MAIL_ACCOUNT_EXPUNGE);
 	sensitive = folder_is_trash;
