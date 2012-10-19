@@ -842,6 +842,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_tree_and_message_list_agree = TRUE;
 	gboolean store_is_builtin;
 	gboolean store_is_subscribable;
+	gboolean store_can_be_disabled;
 	gboolean any_store_is_subscribable = FALSE;
 
 	/* Chain up to parent's update_actions() method. */
@@ -883,6 +884,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MAIL_SIDEBAR_STORE_IS_BUILTIN);
 	store_is_subscribable =
 		(state & E_MAIL_SIDEBAR_STORE_IS_SUBSCRIBABLE);
+	store_can_be_disabled =
+		(state & E_MAIL_SIDEBAR_STORE_CAN_BE_DISABLED);
 
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 	store = em_folder_tree_get_selected_store (folder_tree);
@@ -968,7 +971,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	g_list_free (list);
 
 	action = ACTION (MAIL_ACCOUNT_DISABLE);
-	sensitive = (store != NULL) && folder_is_store;
+	sensitive = folder_is_store && store_can_be_disabled;
 	if (account_is_groupwise)
 		label = _("Proxy _Logout");
 	else
