@@ -6430,6 +6430,9 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 				break;
 
 			pevent = tooltip_get_view_event (day_view, day, event_num);
+			if (!pevent)
+				break;
+
 			g_object_set_data (G_OBJECT (item), "event-num", GINT_TO_POINTER (event_num));
 			g_object_set_data (G_OBJECT (item), "event-day", GINT_TO_POINTER (day));
 
@@ -6459,6 +6462,8 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			gint day = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-day"));
 
 			pevent = tooltip_get_view_event (day_view, day, event_num);
+			if (!pevent)
+				break;
 
 			pevent->x = ((GdkEventMotion *) event)->x_root;
 			pevent->y = ((GdkEventMotion *) event)->y_root;
