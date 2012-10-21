@@ -4,6 +4,104 @@ Evolution 3.7.1 2012-10-15
 Dependency Changes:
 	* Both geocode-glib and geoclue now required for contact maps.
 
+Bug Fixes:
+	Bug 201807 - Cannot specify sendmail parameters (Milan Crha)
+	Bug 268618 - Add: Save replies in the folder of the message being
+	             replied to (Milan Crha)
+	Bug 310978 - USENET always requires authentication (Milan Crha)
+	Bug 344579 - Vertical view: Drafts column header states "Sent Messages"
+	             (Milan Crha)
+	Bug 549819 - Cannot specify a custom sendmail program (Milan Crha)
+	Bug 588959 - Expanding appointment crashes Evolution (Vibha Yadav)
+	Bug 663844 - [CalDAV] calendar-home-set/href may contain full URI
+	             (Milan Crha)
+	Bug 676141 - Use GtkApplication for session management (Matthew Barnes)
+	Bug 678408 - WebKit renders frames with plain/text parts too small
+	             (Dan Vrátil)
+	Bug 678750 - Use geocode-glib instead of geoclue (Matthew Barnes)
+	Bug 681314 - Add address dialog should follow composer's view settings
+	             (Milan Crha)
+	Bug 683849 - Add account name to »Checking for new mail« (Milan Crha)
+	Bug 684249 - Signatures get compounded, not replaced (Matthew Barnes)
+	Bug 684447 - Check for highlight during configure. (Dan Vrátil)
+	Bug 684691 - EMailConfigFormatHTML: Signal handler never disconnected
+	             (Matthew Barnes)
+	Bug 685262 - Attachments disappear when dragged in message preview
+	             (Milan Crha)
+	Bug 685675 - Fix packing of spell check language options
+	             (Matthew Barnes)
+	Bug 685786 - EWebView: Signal handlers never disconnected
+	             (Matthew Barnes)
+	Bug 686278 - Prefer-plain can break parts list (Milan Crha)
+
+Other Changes:
+	* User documentation improvements. (Andre Klapper)
+	* Check for Bogofilter during configure. (Matthew Barnes)
+	* Check for SpamAssassin during configure. (Matthew Barnes)
+	* Fix contact maps. (Matthew Barnes)
+	* Don't rely on user's $PATH, use HIGHLIGHT_COMMAND defined by
+	  configure (Dan Vrátil)
+	* CamelSaslXOAuth: Use GHmac to sign the client request.
+	  (Matthew Barnes)
+	* Prototype CamelSaslXOAuth2. (Matthew Barnes)
+	* evolution.convert: Remove leftover "force-message-limit" entry.
+	  (Matthew Barnes)
+	* Do not crash in create_default_shell() (Milan Crha)
+	* Remove "Disable Account" menu item for GOA-based accounts.
+	  (Matthew Barnes)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Alexander Shopov (bg)
+	Krasimir Chonov (bg)
+	Gil Forcada (ca)
+	Carles Ferrando (ca@valencia)
+	Jiri Eischmann (cs)
+	Flemming Christensen (da)
+	Tom Tryfonidis (el)
+	Jiri Grönroos (fi)
+	Alexandre Franke (fr)
+	Gabor Kelemen (hu)
+	Shankar Prasad (kn)
+	Žygimantas Beručka (lt)
+	Rūdolfs Mazurs (lv)
+	Ani Peter (ml)
+	Rafael Ferreira (pt_BR)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+	Dr.T.Vasudevan (ta)
+	Krishnababu Krothapalli (te)
+	Sasi Bhushan Boddepalli (te)
+	Akom Chotiphantawanon (th)
+	Theppitak Karoonboonyanan (th)
+	Daniel Korostil (uk)
+	Nguyễn Thái Ngọc Duy (vi)
+
+
+Evolution 3.6.0 2012-09-24
+--------------------------
+
+Bug Fixes:
+	Bug 678408 - WebKit renders frames with plain/text parts too small
+	             (Dan Vrátil)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Krasimir Chonov (bg)
+	Tom Tryfonidis (el)
+	Daniel Mustieles (es)
+	Sweta Kothari (gu)
+	Gabor Kelemen (hu)
+	Shankar Prasad (kn)
+	Rūdolfs Mazurs (lv)
+	ManojKumar Giri (or)
+	A S Alam (pa)
+	Rafael Ferreira (pt_BR)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+	Krishnababu Krothapalli (te)
+	Daniel Korostil (uk)
+
 
 Evolution 3.5.92 2012-09-17
 ---------------------------
