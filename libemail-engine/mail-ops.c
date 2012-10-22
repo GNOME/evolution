@@ -623,10 +623,13 @@ mail_send_message (struct _send_queue_msg *m,
 		sent_folder_uri = g_strstrip (g_strdup (tmp));
 
 	if (replies_to_origin_folder) {
-		tmp = camel_header_raw_find (&xev, "X-Evolution-Source-Folder", NULL);
-		if (tmp != NULL && camel_header_raw_find (&xev, "X-Evolution-Source-Message", NULL) != NULL) {
-			g_free (sent_folder_uri);
-			sent_folder_uri = g_strstrip (g_strdup (tmp));
+		tmp = camel_header_raw_find (&xev, "X-Evolution-Source-Flags", NULL);
+		if (tmp != NULL && strstr (tmp, "FORWARDED") == NULL) {
+			tmp = camel_header_raw_find (&xev, "X-Evolution-Source-Folder", NULL);
+			if (tmp != NULL && camel_header_raw_find (&xev, "X-Evolution-Source-Message", NULL) != NULL) {
+				g_free (sent_folder_uri);
+				sent_folder_uri = g_strstrip (g_strdup (tmp));
+			}
 		}
 	}
 

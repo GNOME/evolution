@@ -863,10 +863,13 @@ e_mail_session_send_to (EMailSession *session,
 		transport_uid = g_strstrip (g_strdup (string));
 
 	if (replies_to_origin_folder) {
-		string = camel_header_raw_find (&xev, "X-Evolution-Source-Folder", NULL);
-		if (string != NULL && camel_header_raw_find (&xev, "X-Evolution-Source-Message", NULL) != NULL) {
-			g_free (sent_folder_uri);
-			sent_folder_uri = g_strstrip (g_strdup (string));
+		string = camel_header_raw_find (&xev, "X-Evolution-Source-Flags", NULL);
+		if (string != NULL && strstr (string, "FORWARDED") == NULL) {
+			string = camel_header_raw_find (&xev, "X-Evolution-Source-Folder", NULL);
+			if (string != NULL && camel_header_raw_find (&xev, "X-Evolution-Source-Message", NULL) != NULL) {
+				g_free (sent_folder_uri);
+				sent_folder_uri = g_strstrip (g_strdup (string));
+			}
 		}
 	}
 

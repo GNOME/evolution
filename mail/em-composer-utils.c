@@ -1563,6 +1563,47 @@ emu_update_composers_security (EMsgComposer *composer,
 }
 
 static void
+get_real_folder_uri_and_message_uid (CamelFolder *folder,
+				     const gchar *uid,
+				     gchar **folder_uri,
+				     gchar **message_uid)
+{
+	g_return_if_fail (folder != NULL);
+	g_return_if_fail (uid != NULL);
+	g_return_if_fail (folder_uri != NULL);
+	g_return_if_fail (message_uid != NULL);
+
+	if (CAMEL_IS_VEE_FOLDER (folder)) {
+		CamelMessageInfo *mi;
+
+		mi = camel_folder_get_message_info (folder, uid);
+		if (mi) {
+			CamelFolder *real_folder;
+			gchar *real_uid = NULL;
+
+			real_folder = camel_vee_folder_get_location (
+				CAMEL_VEE_FOLDER (folder),
+				(CamelVeeMessageInfo *) mi,
+				&real_uid);
+
+			if (real_folder) {
+				*folder_uri = e_mail_folder_uri_from_folder (real_folder);
+				*message_uid = real_uid;
+
+				camel_folder_free_message_info (folder, mi);
+
+				return;
+			}
+
+			camel_folder_free_message_info (folder, mi);
+		}
+	}
+
+	*folder_uri = e_mail_folder_uri_from_folder (folder);
+	*message_uid = g_strdup (uid);
+}
+
+static void
 real_update_forwarded_flag (gpointer uid,
                             gpointer folder)
 {
@@ -1721,15 +1762,16 @@ forward_non_attached (EShell *shell,
 		e_msg_composer_set_body_text (composer, text, TRUE);
 
 		if (uid != NULL) {
-			gchar *folder_uri;
+			gchar *folder_uri = NULL, *tmp_message_uid = NULL;
 
-			folder_uri = e_mail_folder_uri_from_folder (folder);
+			get_real_folder_uri_and_message_uid (folder, uid, &folder_uri, &tmp_message_uid);
 
 			e_msg_composer_set_source_headers (
-				composer, folder_uri, uid,
+				composer, folder_uri, tmp_message_uid,
 				CAMEL_MESSAGE_FORWARDED);
 
 			g_free (folder_uri);
+			g_free (tmp_message_uid);
 		}
 
 		emu_update_composers_security (
@@ -2952,14 +2994,15 @@ em_utils_reply_to_message (EShell *shell,
 	composer_set_body (composer, message, style, parts_list);
 
 	if (folder != NULL) {
-		gchar *folder_uri;
+		gchar *folder_uri = NULL, *tmp_message_uid = NULL;
 
-		folder_uri = e_mail_folder_uri_from_folder (folder);
+		get_real_folder_uri_and_message_uid (folder, message_uid, &folder_uri, &tmp_message_uid);
 
 		e_msg_composer_set_source_headers (
-			composer, folder_uri, message_uid, flags);
+			composer, folder_uri, tmp_message_uid, flags);
 
 		g_free (folder_uri);
+		g_free (tmp_message_uid);
 	}
 
 	composer_set_no_change (composer);
