@@ -1333,6 +1333,26 @@ e_source_config_add_secure_connection (ESourceConfig *config,
 		G_BINDING_SYNC_CREATE);
 }
 
+static gboolean
+secure_to_port_cb (GBinding *binding,
+		   const GValue *source_value,
+		   GValue *target_value,
+		   gpointer user_data)
+{
+	GObject *authentication_extension;
+	guint16 port;
+
+	authentication_extension = g_binding_get_target (binding);
+	g_object_get (authentication_extension, "port", &port, NULL);
+
+	if (port == 80 || port == 443 || port == 0)
+		port = g_value_get_boolean (source_value) ? 443 : 80;
+
+	g_value_set_uint (target_value, port);
+
+	return TRUE;
+}
+
 void
 e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
                                                   ESource *scratch_source)
@@ -1340,6 +1360,7 @@ e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
 	GtkWidget *widget1;
 	GtkWidget *widget2;
 	ESourceExtension *extension;
+	ESourceAuthentication *authentication_extension;
 	const gchar *extension_name;
 	const gchar *label;
 
@@ -1359,6 +1380,16 @@ e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
 		widget1, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
+
+	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
+	authentication_extension = e_source_get_extension (scratch_source, extension_name);
+
+	g_object_bind_property_full (
+		extension, "secure",
+		authentication_extension, "port",
+		G_BINDING_DEFAULT,
+		secure_to_port_cb,
+		NULL, NULL, NULL);
 
 	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
