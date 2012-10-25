@@ -96,18 +96,19 @@ em_filter_folder_element_desc (struct _filter_mail_msg *m)
 
 /* filter a folder, or a subset thereof, uses source_folder/source_uids */
 /* this is shared with fetch_mail */
-static void
+static gboolean
 em_filter_folder_element_exec (struct _filter_mail_msg *m,
                                GCancellable *cancellable,
                                GError **error)
 {
 	CamelFolder *folder;
 	GPtrArray *uids, *folder_uids = NULL;
+	gboolean success = TRUE;
 
 	folder = m->source_folder;
 
 	if (folder == NULL || camel_folder_get_message_count (folder) == 0)
-		return;
+		return success;
 
 	if (m->destination) {
 		camel_folder_freeze (m->destination);
@@ -121,9 +122,9 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m,
 	else
 		folder_uids = uids = camel_folder_get_uids (folder);
 
-	camel_filter_driver_filter_folder (
+	success = camel_filter_driver_filter_folder (
 		m->driver, folder, m->cache, uids, m->delete,
-		cancellable, error);
+		cancellable, error) == 0;
 	camel_filter_driver_flush (m->driver, error);
 
 	if (folder_uids)
@@ -142,6 +143,8 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m,
 	 * it in the main thread see also fetch_mail_fetch () below */
 	g_object_unref (m->driver);
 	m->driver = NULL;
+
+	return success;
 }
 
 static void
@@ -320,62 +323,78 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 	if (cache) {
 		GPtrArray *folder_uids, *cache_uids, *uids;
+		GError *local_error = NULL;
 
-			if (m->provider_fetch_inbox) {
-				g_object_unref (fm->destination);
-				fm->destination = m->provider_fetch_inbox (uid, cancellable, error);
-				if (fm->destination == NULL)
-					goto exit;
-				g_object_ref (fm->destination);
-			}
+		if (m->provider_fetch_inbox) {
+			g_object_unref (fm->destination);
+			fm->destination = m->provider_fetch_inbox (uid, cancellable, &local_error);
+			if (fm->destination == NULL)
+				goto exit;
+			g_object_ref (fm->destination);
+		}
 
+		if (!local_error) {
 			folder_uids = camel_folder_get_uids (folder);
 			cache_uids = camel_uid_cache_get_new_uids (cache, folder_uids);
 
 			if (cache_uids) {
+				gboolean success;
+
 				/* need to copy this, sigh */
 				fm->source_uids = uids = g_ptr_array_new ();
 				g_ptr_array_set_size (uids, cache_uids->len);
 
 				/* Reverse it so that we fetch the latest as first, while fetching POP  */
-				for (i = 0; i < cache_uids->len; i++)
+				for (i = 0; i < cache_uids->len; i++) {
 					uids->pdata[cache_uids->len - i - 1] = g_strdup (cache_uids->pdata[i]);
+				}
+
+				fm->cache = cache;
+
+				success = em_filter_folder_element_exec (fm, cancellable, &local_error);
+
+				/* need to uncancel so writes/etc. don't fail */
+				if (g_cancellable_is_cancelled (m->cancellable))
+					g_cancellable_reset (m->cancellable);
+
+				if (!success) {
+					/* re-enter known UIDs, thus they are not
+					   re-fetched next time */
+					for (i = 0; i < cache_uids->len; i++) {
+						camel_uid_cache_save_uid (cache, cache_uids->pdata[i]);
+					}
+				}
+
+				/* save the cache of uids that we've just downloaded */
+				camel_uid_cache_save (cache);
 
 				camel_uid_cache_free_uids (cache_uids);
-
-			fm->cache = cache;
-
-			/* FIXME Should return a success/failure flag. */
-			em_filter_folder_element_exec (fm, cancellable, error);
-
-			/* need to uncancel so writes/etc. don't fail */
-			if (g_cancellable_is_cancelled (m->cancellable))
-				g_cancellable_reset (m->cancellable);
-
-			/* save the cache of uids that we've just downloaded */
-			camel_uid_cache_save (cache);
-		}
-
-		if (delete_fetched && (!error || !*error)) {
-			/* not keep on server - just delete all
-			 * the actual messages on the server */
-			for (i = 0; i < folder_uids->len; i++) {
-				camel_folder_delete_message (
-					folder, folder_uids->pdata[i]);
 			}
-		}
 
-		if ((delete_fetched || cache_uids) && (!error || !*error)) {
-			/* expunge messages (downloaded so far) */
-			/* FIXME Not passing a GCancellable or GError here. */
-			camel_folder_synchronize_sync (
-				folder, delete_fetched, NULL, NULL);
+			if (delete_fetched && !local_error) {
+				/* not keep on server - just delete all
+				 * the actual messages on the server */
+				for (i = 0; i < folder_uids->len; i++) {
+					camel_folder_delete_message (
+						folder, folder_uids->pdata[i]);
+				}
+			}
+
+			if ((delete_fetched || cache_uids) && !local_error) {
+				/* expunge messages (downloaded so far) */
+				/* FIXME Not passing a GCancellable or GError here. */
+				camel_folder_synchronize_sync (
+					folder, delete_fetched, NULL, NULL);
+			}
+
+			camel_folder_free_uids (folder, folder_uids);
 		}
 
 		camel_uid_cache_destroy (cache);
-		camel_folder_free_uids (folder, folder_uids);
+
+		if (local_error)
+			g_propagate_error (error, local_error);
 	} else {
-		/* FIXME Should return a success/failure flag. */
 		em_filter_folder_element_exec (fm, cancellable, error);
 	}
 
