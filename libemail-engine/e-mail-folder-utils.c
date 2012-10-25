@@ -306,7 +306,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 		extension = e_source_get_extension (source, extension_name);
 		backend_name = e_source_backend_get_backend_name (extension);
 
-		if (!em_utils_is_source_enabled_with_parents (registry, source) ||
+		if (!e_source_registry_check_enabled (registry, source) ||
 		    g_strcmp0 (backend_name, "pop") != 0)
 			continue;
 

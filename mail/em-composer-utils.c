@@ -378,7 +378,7 @@ composer_presend_check_identity (EMsgComposer *composer,
 	source = e_source_registry_ref_source (registry, uid);
 	g_return_val_if_fail (source != NULL, FALSE);
 
-	if (!e_source_get_enabled (source)) {
+	if (!e_source_registry_check_enabled (registry, source)) {
 		e_alert_submit (
 			E_ALERT_SINK (composer),
 			"mail:send-no-account-enabled", NULL);
@@ -2450,8 +2450,10 @@ generate_recipient_hash (ESourceRegistry *registry)
 		 * identities at all and so we should never get here. */
 		g_warn_if_fail (default_source != NULL);
 
-		source_is_default = e_source_equal (source, default_source);
-		source_is_enabled = e_source_get_enabled (source);
+		source_is_default =
+			e_source_equal (source, default_source);
+		source_is_enabled =
+			e_source_registry_check_enabled (registry, source);
 
 		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 		extension = e_source_get_extension (source, extension_name);
@@ -2466,8 +2468,8 @@ generate_recipient_hash (ESourceRegistry *registry)
 		if (cached_source != NULL) {
 			cached_is_default = e_source_equal (
 				cached_source, default_source);
-			cached_is_enabled =
-				e_source_get_enabled (cached_source);
+			cached_is_enabled = e_source_registry_check_enabled (
+				registry, cached_source);
 		} else {
 			cached_is_default = FALSE;
 			cached_is_enabled = FALSE;

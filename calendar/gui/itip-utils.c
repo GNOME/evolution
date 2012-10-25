@@ -188,7 +188,7 @@ itip_get_fallback_identity (ESourceRegistry *registry)
 	if (source == NULL)
 		return NULL;
 
-	if (!e_source_get_enabled (source)) {
+	if (!e_source_registry_check_enabled (registry, source)) {
 		g_object_unref (source);
 		return NULL;
 	}
@@ -439,7 +439,7 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 
 		source = E_SOURCE (link->data);
 
-		if (!e_source_get_enabled (source))
+		if (!e_source_registry_check_enabled (registry, source))
 			continue;
 
 		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
@@ -1583,7 +1583,7 @@ find_enabled_identity (ESourceRegistry *registry,
 		ESourceMailIdentity *extension;
 		const gchar *address;
 
-		if (!e_source_get_enabled (source))
+		if (!e_source_registry_check_enabled (registry, source))
 			continue;
 
 		extension = e_source_get_extension (source, extension_name);

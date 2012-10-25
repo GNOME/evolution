@@ -325,7 +325,8 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 		const gchar *uid;
 
 		source = E_SOURCE (link->data);
-		if (!e_source_get_enabled (source))
+
+		if (!e_source_registry_check_enabled (registry, source))
 			continue;
 
 		extension = e_source_get_extension (source, extension_name);

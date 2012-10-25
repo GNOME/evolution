@@ -3265,7 +3265,7 @@ find_to_address (EMailPartItip *itip_part,
 		const gchar *address;
 		gchar *text;
 
-		if (!e_source_get_enabled (source))
+		if (!e_source_registry_check_enabled (registry, source))
 			continue;
 
 		extension = e_source_get_extension (source, extension_name);
@@ -3326,7 +3326,7 @@ find_to_address (EMailPartItip *itip_part,
 		const gchar *address;
 		gchar *text;
 
-		if (!e_source_get_enabled (source))
+		if (!e_source_registry_check_enabled (registry, source))
 			continue;
 
 		extension = e_source_get_extension (source, extension_name);
@@ -3415,7 +3415,7 @@ find_from_address (EMailPartItip *pitip,
 		ESourceMailIdentity *extension;
 		const gchar *address;
 
-		if (!e_source_get_enabled (source))
+		if (!e_source_registry_check_enabled (pitip->registry, source))
 			continue;
 
 		extension = e_source_get_extension (source, extension_name);

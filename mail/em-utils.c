@@ -1424,7 +1424,8 @@ em_utils_empty_trash (GtkWidget *parent,
 		source = e_source_registry_ref_source (registry, uid);
 
 		if (source != NULL) {
-			enabled = e_source_get_enabled (source);
+			enabled = e_source_registry_check_enabled (
+				registry, source);
 			g_object_unref (source);
 		}
 
