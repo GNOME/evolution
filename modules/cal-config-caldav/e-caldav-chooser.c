@@ -940,9 +940,14 @@ caldav_chooser_calendar_home_set_cb (SoupSession *session,
 
 	doc = caldav_chooser_parse_xml (message, "multistatus", &error);
 
+	/* If we were cancelled then we're in a GCancellable::cancelled
+	 * signal handler right now and GCancellable has its mutex locked,
+	 * which means calling g_cancellable_disconnect() now will deadlock
+	 * when it too tries to acquire the mutex.  So defer the GAsyncResult
+	 * completion to an idle callback to avoid this deadlock. */
 	if (error != NULL) {
 		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
+		g_simple_async_result_complete_in_idle (simple);
 		g_object_unref (simple);
 		g_error_free (error);
 		return;
