@@ -3316,8 +3316,12 @@ e_calendar_item_set_selection_if_emission (ECalendarItem *calitem,
 		calitem->selection_from_full_week = FALSE;
 	}
 
-	if (need_update)
+	if (need_update) {
+		g_signal_emit (
+			calitem,
+			e_calendar_item_signals[DATE_RANGE_CHANGED], 0);
 		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (calitem));
+	}
 }
 
 void
