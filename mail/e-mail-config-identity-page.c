@@ -35,6 +35,7 @@ struct _EMailConfigIdentityPagePrivate {
 	ESource *identity_source;
 	ESourceRegistry *registry;
 	gboolean show_account_info;
+	gboolean show_email_address;
 	gboolean show_instructions;
 	gboolean show_signatures;
 };
@@ -44,6 +45,7 @@ enum {
 	PROP_IDENTITY_SOURCE,
 	PROP_REGISTRY,
 	PROP_SHOW_ACCOUNT_INFO,
+	PROP_SHOW_EMAIL_ADDRESS,
 	PROP_SHOW_INSTRUCTIONS,
 	PROP_SHOW_SIGNATURES
 };
@@ -132,6 +134,12 @@ mail_config_identity_page_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_SHOW_EMAIL_ADDRESS:
+			e_mail_config_identity_page_set_show_email_address (
+				E_MAIL_CONFIG_IDENTITY_PAGE (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_SHOW_INSTRUCTIONS:
 			e_mail_config_identity_page_set_show_instructions (
 				E_MAIL_CONFIG_IDENTITY_PAGE (object),
@@ -173,6 +181,13 @@ mail_config_identity_page_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_mail_config_identity_page_get_show_account_info (
+				E_MAIL_CONFIG_IDENTITY_PAGE (object)));
+			return;
+
+		case PROP_SHOW_EMAIL_ADDRESS:
+			g_value_set_boolean (
+				value,
+				e_mail_config_identity_page_get_show_email_address (
 				E_MAIL_CONFIG_IDENTITY_PAGE (object)));
 			return;
 
@@ -377,6 +392,11 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
 	gtk_widget_show (widget);
 
+	g_object_bind_property (
+		page, "show-email-address",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
+
 	label = GTK_LABEL (widget);
 
 	widget = gtk_entry_new ();
@@ -389,6 +409,11 @@ mail_config_identity_page_constructed (GObject *object)
 		extension, "address",
 		widget, "text",
 		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		page, "show-email-address",
+		widget, "visible",
 		G_BINDING_SYNC_CREATE);
 
 	/* This entry affects the "check-complete" result. */
@@ -541,11 +566,14 @@ mail_config_identity_page_check_complete (EMailConfigPage *page)
 	if (name == NULL)
 		return FALSE;
 
-	if (address == NULL)
-		return FALSE;
+	/* Only enforce when the email address is visible. */
+	if (e_mail_config_identity_page_get_show_email_address (id_page)) {
+		if (address == NULL)
+			return FALSE;
 
-	if (!mail_config_identity_page_is_email (address))
-		return FALSE;
+		if (!mail_config_identity_page_is_email (address))
+			return FALSE;
+	}
 
 	/* A NULL reply_to string is allowed. */
 	if (reply_to != NULL && !mail_config_identity_page_is_email (reply_to))
@@ -604,6 +632,18 @@ e_mail_config_identity_page_class_init (EMailConfigIdentityPageClass *class)
 			"show-account-info",
 			"Show Account Info",
 			"Show the \"Account Information\" section",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_EMAIL_ADDRESS,
+		g_param_spec_boolean (
+			"show-email-address",
+			"Show Email Address",
+			"Show the \"Email Address\" field",
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
@@ -698,6 +738,28 @@ e_mail_config_identity_page_set_show_account_info (EMailConfigIdentityPage *page
 	page->priv->show_account_info = show_account_info;
 
 	g_object_notify (G_OBJECT (page), "show-account-info");
+}
+
+gboolean
+e_mail_config_identity_page_get_show_email_address (EMailConfigIdentityPage *page)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page), FALSE);
+
+	return page->priv->show_email_address;
+}
+
+void
+e_mail_config_identity_page_set_show_email_address (EMailConfigIdentityPage *page,
+                                                    gboolean show_email_address)
+{
+	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page));
+
+	if (page->priv->show_email_address == show_email_address)
+		return;
+
+	page->priv->show_email_address = show_email_address;
+
+	g_object_notify (G_OBJECT (page), "show-email-address");
 }
 
 gboolean

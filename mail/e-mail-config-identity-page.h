@@ -75,6 +75,11 @@ gboolean	e_mail_config_identity_page_get_show_account_info
 void		e_mail_config_identity_page_set_show_account_info
 						(EMailConfigIdentityPage *page,
 						 gboolean show_account_info);
+gboolean	e_mail_config_identity_page_get_show_email_address
+						(EMailConfigIdentityPage *page);
+void		e_mail_config_identity_page_set_show_email_address
+						(EMailConfigIdentityPage *page,
+						 gboolean show_email_address);
 gboolean	e_mail_config_identity_page_get_show_instructions
 						(EMailConfigIdentityPage *page);
 void		e_mail_config_identity_page_set_show_instructions
