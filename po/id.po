@@ -11,11 +11,11 @@
 # Andika Triwidada <andika@gmail.com>, 2010, 2011, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution gnome-3-6\n"
+"Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-10-28 12:13+0000\n"
-"PO-Revision-Date: 2012-10-28 20:39+0700\n"
+"POT-Creation-Date: 2012-10-28 13:41+0000\n"
+"PO-Revision-Date: 2012-10-28 20:50+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -471,7 +471,7 @@ msgstr "_Alamat:"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:193
 #: ../addressbook/gui/widgets/eab-contact-display.c:399
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:75
-#: ../widgets/misc/e-contact-map.c:298
+#: ../widgets/misc/e-contact-map.c:306
 msgid "Home"
 msgstr "Rumah"
 
@@ -480,7 +480,7 @@ msgstr "Rumah"
 #: ../addressbook/gui/widgets/eab-contact-display.c:396
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:74
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:687
-#: ../widgets/misc/e-contact-map.c:306
+#: ../widgets/misc/e-contact-map.c:314
 msgid "Work"
 msgstr "Kantor"
 
@@ -1606,12 +1606,10 @@ msgstr "hari"
 msgid "hours"
 msgstr "jam"
 
-#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
 #: ../calendar/alarm-notify/alarm-notify.ui.h:10
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:8
 #: ../calendar/gui/dialogs/event-page.ui.h:19 ../filter/filter.ui.h:6
 #: ../mail/e-mail-config-provider-page.c:527
-#: ../modules/addressbook/ldap-config.ui.h:29
 #: ../widgets/misc/e-interval-chooser.c:139
 msgid "minutes"
 msgstr "menit"
@@ -2538,7 +2536,7 @@ msgid "Close the current window"
 msgstr "Tutup jendela ini"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1164 ../mail/e-mail-browser.c:134
-#: ../shell/e-shell-window-actions.c:1446
+#: ../shell/e-shell-window-actions.c:1443
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
 #: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1428
 #: ../widgets/misc/e-web-view-gtkhtml.c:456
@@ -2547,14 +2545,14 @@ msgid "Copy the selection"
 msgstr "Salin bagian yang dipilih"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1171 ../mail/e-mail-browser.c:141
-#: ../shell/e-shell-window-actions.c:1453
+#: ../shell/e-shell-window-actions.c:1450
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
 #: ../widgets/misc/e-web-view.c:1422 ../widgets/misc/e-web-view-gtkhtml.c:1293
 msgid "Cut the selection"
 msgstr "Potong bagian yang dipilih"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1178
-#: ../shell/e-shell-window-actions.c:1460
+#: ../shell/e-shell-window-actions.c:1457
 #: ../widgets/misc/e-focus-tracker.c:135 ../widgets/misc/e-focus-tracker.c:568
 msgid "Delete the selection"
 msgstr "Hapus yang dipilih"
@@ -2564,7 +2562,7 @@ msgid "View help"
 msgstr "Tilik bantuan"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1192 ../mail/e-mail-browser.c:148
-#: ../shell/e-shell-window-actions.c:1481
+#: ../shell/e-shell-window-actions.c:1478
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
 #: ../widgets/misc/e-web-view.c:1434 ../widgets/misc/e-web-view-gtkhtml.c:1305
 msgid "Paste the clipboard"
@@ -2584,7 +2582,7 @@ msgid "Save current changes and close editor"
 msgstr "Simpan perubahan kini dan tutup penyunting"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1227 ../mail/e-mail-browser.c:155
-#: ../shell/e-shell-window-actions.c:1558
+#: ../shell/e-shell-window-actions.c:1555
 #: ../widgets/misc/e-focus-tracker.c:142 ../widgets/misc/e-focus-tracker.c:573
 msgid "Select all text"
 msgstr "Pilih semua teks"
@@ -2597,19 +2595,19 @@ msgstr "K_lasifikasi"
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:19 ../filter/filter.ui.h:16
 #: ../mail/e-mail-browser.c:169
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
-#: ../shell/e-shell-window-actions.c:1586
+#: ../shell/e-shell-window-actions.c:1583
 #: ../widgets/menus/gal-define-views.ui.h:5
 msgid "_Edit"
 msgstr "_Sunting"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1248 ../mail/e-mail-browser.c:162
-#: ../shell/e-shell-window-actions.c:1593
+#: ../shell/e-shell-window-actions.c:1590
 #: ../widgets/misc/e-mail-signature-editor.c:299
 msgid "_File"
 msgstr "_Berkas"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1255
-#: ../shell/e-shell-window-actions.c:1600
+#: ../shell/e-shell-window-actions.c:1597
 msgid "_Help"
 msgstr "Ba_ntuan"
 
@@ -2623,7 +2621,7 @@ msgid "_Options"
 msgstr "_Opsi"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1276 ../mail/e-mail-browser.c:176
-#: ../shell/e-shell-window-actions.c:1635 ../smime/gui/smime-ui.ui.h:28
+#: ../shell/e-shell-window-actions.c:1632 ../smime/gui/smime-ui.ui.h:28
 msgid "_View"
 msgstr "_Tampilan"
 
@@ -3165,7 +3163,7 @@ msgstr "Tidak dapat membuka memo dalam '%s': %s"
 #: ../em-format/e-mail-parser-inlinepgp-signed.c:96
 #: ../em-format/e-mail-parser-multipart-encrypted.c:122
 #: ../em-format/e-mail-parser-multipart-signed.c:147
-#: ../libemail-engine/mail-ops.c:741 ../mail/e-mail-reader.c:1733
+#: ../libemail-engine/mail-ops.c:760 ../mail/e-mail-reader.c:1733
 #: ../mail/em-folder-tree.c:675 ../modules/itip-formatter/itip-view.c:4574
 #: ../modules/itip-formatter/itip-view.c:4925 ../plugins/face/face.c:174
 #: ../smime/gui/certificate-manager.c:317
@@ -4648,10 +4646,12 @@ msgstr ""
 "Tak bisa memesan suatu sumber daya, acara baru bersamaan dengan lainnya."
 
 #: ../calendar/gui/itip-utils.c:1127
-msgid "Unable to book a resource, error: "
-msgstr "Buku dapat buku sumber, kesalahan: "
+#, c-format
+#| msgid "Unable to book a resource, error: "
+msgid "Unable to book a resource, error: %s"
+msgstr "Tak bisa memesan suatu sumber daya, galat: %s"
 
-#: ../calendar/gui/itip-utils.c:1306
+#: ../calendar/gui/itip-utils.c:1303
 msgid "You must be an attendee of the event."
 msgstr "Anda harus menjadi peserta acara ini."
 
@@ -6656,7 +6656,7 @@ msgstr "_Pesan Baru"
 msgid "Open New Message window"
 msgstr "Buka jendela pesan baru"
 
-#: ../composer/e-composer-actions.c:311 ../shell/e-shell-window-actions.c:1495
+#: ../composer/e-composer-actions.c:311 ../shell/e-shell-window-actions.c:1492
 msgid "Configure Evolution"
 msgstr "Konfigurasi Evolution"
 
@@ -6835,7 +6835,7 @@ msgid "Si_gnature:"
 msgstr "Tanda tan_gan:"
 
 # Yang muncul di baris status.
-#: ../composer/e-composer-name-header.c:215
+#: ../composer/e-composer-name-header.c:233
 msgid "Click here for the address book"
 msgstr "Klik untuk membuka buku alamat"
 
@@ -9414,16 +9414,8 @@ msgid "Use SpamAssassin daemon and client"
 msgstr "Menggunakan daemon dan klien SpamAssassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:5
-msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-msgstr "Menggunakan daemon dan klien SpamAssassin (spamc/spamd)."
-
-#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
-msgid "SpamAssassin client binary"
-msgstr "Biner klien SpamAssasin"
-
-#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:7
-msgid "SpamAssassin daemon binary"
-msgstr "Biner daemon SpamAssassin"
+msgid "Use spamc and spamd programs, if available."
+msgstr "Pakai program spamc dan spamd, bila tersedia."
 
 #: ../em-format/e-mail-formatter-attachment.c:364
 #: ../mail/message-list.etspec.h:4 ../widgets/misc/e-attachment-bar.c:101
@@ -10450,29 +10442,29 @@ msgstr "Terkirim"
 msgid "Templates"
 msgstr "Palet"
 
-#: ../libemail-engine/e-mail-session.c:1319
+#: ../libemail-engine/e-mail-session.c:1315
 #, c-format
 msgid "User cancelled operation"
 msgstr "Pengguna membatalkan operasi"
 
-#: ../libemail-engine/e-mail-session.c:1489
+#: ../libemail-engine/e-mail-session.c:1485
 #, c-format
 msgid "%s authentication failed"
 msgstr "otentikasi %s gagal"
 
-#: ../libemail-engine/e-mail-session.c:1534
+#: ../libemail-engine/e-mail-session.c:1530
 #, c-format
 msgid "No data source found for UID '%s'"
 msgstr "Tak ditemukan sumber data bagi UID '%s'"
 
-#: ../libemail-engine/e-mail-session.c:1585
+#: ../libemail-engine/e-mail-session.c:1581
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr "Tak diberikan alamat tujuan, penerusan pesan telah dibatalkan."
 
-#: ../libemail-engine/e-mail-session.c:1598
+#: ../libemail-engine/e-mail-session.c:1594
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr "Tak ditemukan identitas untuk dipakai, pesan batal diteruskan."
@@ -10488,14 +10480,14 @@ msgid "UID '%s' is not a mail transport"
 msgstr "UID '%s' bukan suatu transport surel"
 
 #: ../libemail-engine/e-mail-session-utils.c:641
-#: ../libemail-engine/mail-ops.c:719
+#: ../libemail-engine/mail-ops.c:738
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Gagal untuk melakukan filter keluar: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:670
 #: ../libemail-engine/e-mail-session-utils.c:704
-#: ../libemail-engine/mail-ops.c:736 ../libemail-engine/mail-ops.c:772
+#: ../libemail-engine/mail-ops.c:755 ../libemail-engine/mail-ops.c:791
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -10505,13 +10497,13 @@ msgstr ""
 "Ganti menambah ke folder lokal 'Terkirim'."
 
 #: ../libemail-engine/e-mail-session-utils.c:724
-#: ../libemail-engine/mail-ops.c:794
+#: ../libemail-engine/mail-ops.c:813
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Gagal menambah ke folder 'Terkirim' lokal: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:954
-#: ../libemail-engine/mail-ops.c:926 ../libemail-engine/mail-ops.c:1028
+#: ../libemail-engine/e-mail-session-utils.c:968
+#: ../libemail-engine/mail-ops.c:945 ../libemail-engine/mail-ops.c:1047
 msgid "Sending message"
 msgstr "Mengirim pesan"
 
@@ -10540,54 +10532,56 @@ msgid "Filtering Selected Messages"
 msgstr "Penyaringan Pesan yang Dipilih"
 
 #: ../libemail-engine/mail-ops.c:219
-msgid "Fetching Mail"
-msgstr "Mengambil Surat"
+#, c-format
+#| msgid "Fetching Mail"
+msgid "Fetching mail from '%s'"
+msgstr "Mengambil surel dari '%s'"
 
-#: ../libemail-engine/mail-ops.c:937
+#: ../libemail-engine/mail-ops.c:956
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Mengirim %d dari %d pesan"
 
-#: ../libemail-engine/mail-ops.c:989
+#: ../libemail-engine/mail-ops.c:1008
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "Gagal mengirim pesan ke-%d dari %d"
 
-#: ../libemail-engine/mail-ops.c:995
+#: ../libemail-engine/mail-ops.c:1014
 msgid "Canceled."
 msgstr "Dibatalkan."
 
-#: ../libemail-engine/mail-ops.c:997
+#: ../libemail-engine/mail-ops.c:1016
 msgid "Complete."
 msgstr "Selesai."
 
-#: ../libemail-engine/mail-ops.c:1109
+#: ../libemail-engine/mail-ops.c:1128
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Pindahkan pesan ke '%s'"
 
-#: ../libemail-engine/mail-ops.c:1110
+#: ../libemail-engine/mail-ops.c:1129
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Menyalin pesan ke '%s'"
 
-#: ../libemail-engine/mail-ops.c:1228
+#: ../libemail-engine/mail-ops.c:1247
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Menyimpan folder '%s'"
 
-#: ../libemail-engine/mail-ops.c:1302
+#: ../libemail-engine/mail-ops.c:1321
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Menghapus dan menyimpan akun '%s'"
 
-#: ../libemail-engine/mail-ops.c:1303
+#: ../libemail-engine/mail-ops.c:1322
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Menyimpan akun '%s'"
 
-#: ../libemail-engine/mail-ops.c:1377
+#: ../libemail-engine/mail-ops.c:1396
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Mengosongkan tempat sampah pada '%s'"
@@ -10704,9 +10698,9 @@ msgstr "Kurang domain dalam alamat surel"
 msgid "Unknown background operation"
 msgstr "Operasi latar belakang yang tak diketahui"
 
-#: ../mail/e-mail-browser.c:127 ../shell/e-shell-window-actions.c:1418
-#: ../shell/e-shell-window-actions.c:1425
-#: ../shell/e-shell-window-actions.c:1432
+#: ../mail/e-mail-browser.c:127 ../shell/e-shell-window-actions.c:1415
+#: ../shell/e-shell-window-actions.c:1422
+#: ../shell/e-shell-window-actions.c:1429
 msgid "Close this window"
 msgstr "Menutup jendela ini"
 
@@ -10741,79 +10735,83 @@ msgstr ""
 msgid "Done"
 msgstr "Selesai"
 
-#: ../mail/e-mail-config-defaults-page.c:549
+#: ../mail/e-mail-config-defaults-page.c:552
 msgid "Special Folders"
 msgstr "Folder Khusus"
 
-#: ../mail/e-mail-config-defaults-page.c:558
+#: ../mail/e-mail-config-defaults-page.c:561
 msgid "Draft Messages _Folder:"
 msgstr "_Folder Pesan Draft:"
 
-#: ../mail/e-mail-config-defaults-page.c:568
+#: ../mail/e-mail-config-defaults-page.c:571
 msgid "Choose a folder for saving draft messages."
 msgstr "Pilih folder tempat menyimpan pesan draft."
 
-#: ../mail/e-mail-config-defaults-page.c:582
+#: ../mail/e-mail-config-defaults-page.c:585
 msgid "Sent _Messages Folder:"
 msgstr "Folder E_mail Terkirim:"
 
-#: ../mail/e-mail-config-defaults-page.c:592
+#: ../mail/e-mail-config-defaults-page.c:595
 msgid "Choose a folder for saving sent messages."
 msgstr "Pilih folder tempat menyimpan pesan yang telah terkirim."
 
-#: ../mail/e-mail-config-defaults-page.c:611
+#: ../mail/e-mail-config-defaults-page.c:614
+msgid "S_ave replies in the folder of the message being replied to"
+msgstr "Simp_an jawaban dalam folder pesan yang dijawab"
+
+#: ../mail/e-mail-config-defaults-page.c:631
 msgid "_Restore Defaults"
 msgstr "Kembalikan _Baku"
 
-#: ../mail/e-mail-config-defaults-page.c:625
+#: ../mail/e-mail-config-defaults-page.c:645
 msgid "Use a Real Folder for _Trash:"
 msgstr "Pakai Folder Nyata bagi _Tong Sampah:"
 
-#: ../mail/e-mail-config-defaults-page.c:626
+#: ../mail/e-mail-config-defaults-page.c:646
 msgid "Choose a folder for deleted messages."
 msgstr "Pilih folder bagi pesan yang dihapus."
 
-#: ../mail/e-mail-config-defaults-page.c:635
+#: ../mail/e-mail-config-defaults-page.c:655
 msgid "Use a Real Folder for _Junk:"
 msgstr "Pakai Folder Nyata bagi _Spam:"
 
-#: ../mail/e-mail-config-defaults-page.c:636
+#: ../mail/e-mail-config-defaults-page.c:656
 msgid "Choose a folder for junk messages."
 msgstr "Pilih folder bagi pesan sampah."
 
-#: ../mail/e-mail-config-defaults-page.c:653
+#: ../mail/e-mail-config-defaults-page.c:673
 msgid "Composing Messages"
 msgstr "Menulis Pesan Baru"
 
-#: ../mail/e-mail-config-defaults-page.c:662
+#: ../mail/e-mail-config-defaults-page.c:682
 msgid "Alway_s carbon-copy (cc) to:"
 msgstr "_Selalu kirim tembusan (cc) ke:"
 
-#: ../mail/e-mail-config-defaults-page.c:687
+#: ../mail/e-mail-config-defaults-page.c:707
 msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Selalu kirimkan tem_busan bayangan (bcc) ke:"
 
-#: ../mail/e-mail-config-defaults-page.c:722
+#: ../mail/e-mail-config-defaults-page.c:742
 msgid "Message Receipts"
 msgstr "Pesan Penerimaan"
 
-#: ../mail/e-mail-config-defaults-page.c:731
+#: ../mail/e-mail-config-defaults-page.c:751
 msgid "S_end message receipts:"
 msgstr "Kirim nota p_esan:"
 
-#: ../mail/e-mail-config-defaults-page.c:756
+#: ../mail/e-mail-config-defaults-page.c:776
 msgid "Never"
 msgstr "Jangan pernah"
 
-#: ../mail/e-mail-config-defaults-page.c:762
+#: ../mail/e-mail-config-defaults-page.c:782
 msgid "Always"
 msgstr "Selalu"
 
-#: ../mail/e-mail-config-defaults-page.c:768
+#: ../mail/e-mail-config-defaults-page.c:788
 msgid "Ask for each message"
 msgstr "Konfirmasi dulu untuk setiap surel yang dikirim"
 
-#: ../mail/e-mail-config-defaults-page.c:839
+#: ../mail/e-mail-config-defaults-page.c:859
 msgid "Defaults"
 msgstr "Standar"
 
@@ -10843,7 +10841,6 @@ msgstr ""
 
 #: ../mail/e-mail-config-identity-page.c:299
 #: ../mail/e-mail-config-summary-page.c:341
-#: ../modules/addressbook/ldap-config.ui.h:12
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
 #: ../widgets/misc/e-mail-signature-script-dialog.c:417
 msgid "_Name:"
@@ -11892,15 +11889,15 @@ msgstr "-------- Isi Pesan Asli --------"
 msgid "-----Original Message-----"
 msgstr "-----Isi Pesan Asli-----"
 
-#: ../mail/em-composer-utils.c:2573
+#: ../mail/em-composer-utils.c:2617
 msgid "an unknown sender"
 msgstr "pengirim tidak diketahui"
 
-#: ../mail/em-composer-utils.c:2991
+#: ../mail/em-composer-utils.c:3036
 msgid "Posting destination"
 msgstr "Tujuan posting"
 
-#: ../mail/em-composer-utils.c:2992
+#: ../mail/em-composer-utils.c:3037
 msgid "Choose folders to post the message to."
 msgstr "Pilih folder tempat melakukan posting."
 
@@ -12942,17 +12939,17 @@ msgstr "_Lihat di buku alamat lokal saja"
 msgid "Option is ignored if a match for custom junk headers is found."
 msgstr "Opsi diabaikan bila tajuk spam ubahan yang cocok ditemukan."
 
-#: ../mail/mail-config.ui.h:110 ../modules/addressbook/ldap-config.ui.h:3
+#: ../mail/mail-config.ui.h:110
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:237
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:161
 msgid "No encryption"
 msgstr "Tanpa enkripsi"
 
-#: ../mail/mail-config.ui.h:111 ../modules/addressbook/ldap-config.ui.h:1
+#: ../mail/mail-config.ui.h:111
 msgid "TLS encryption"
 msgstr "Enkripsi TLS"
 
-#: ../mail/mail-config.ui.h:112 ../modules/addressbook/ldap-config.ui.h:2
+#: ../mail/mail-config.ui.h:112
 msgid "SSL encryption"
 msgstr "Enkripsi SSL"
 
@@ -13786,7 +13783,7 @@ msgstr "Kirim & Ambil Surat"
 msgid "Cancel _All"
 msgstr "B_atalkan Semua"
 
-#: ../mail/mail-send-recv.c:656 ../mail/mail-send-recv.c:1040
+#: ../mail/mail-send-recv.c:656 ../mail/mail-send-recv.c:1041
 msgid "Updating..."
 msgstr "Memperbarui..."
 
@@ -13796,8 +13793,9 @@ msgstr "Menunggu..."
 
 #: ../mail/mail-send-recv.c:1020
 #, c-format
-msgid "Checking for new mail"
-msgstr "Periksa surel baru"
+#| msgid "Checking for new mail"
+msgid "Checking for new mail at '%s'"
+msgstr "Periksa surel baru pada '%s'"
 
 #: ../mail/mail-vfolder-ui.c:79
 msgid "Search Folders"
@@ -13932,8 +13930,9 @@ msgid "Due By"
 msgstr "Tiba Saatnya Pada"
 
 #: ../mail/message-list.etspec.h:18
-msgid "Sent Messages"
-msgstr "Kirim Pesan"
+#| msgid "Messages"
+msgid "Messages To"
+msgstr "Pesan Ke"
 
 #: ../mail/message-list.etspec.h:20
 msgid "Subject - Trimmed"
@@ -14328,113 +14327,6 @@ msgstr "_Kirim Pesan ke Daftar"
 msgid "_Send Message to Contact"
 msgstr "_Kirim Pesan ke Kontak"
 
-#: ../modules/addressbook/ldap-config.ui.h:4
-msgid "Anonymously"
-msgstr "Anonim"
-
-#: ../modules/addressbook/ldap-config.ui.h:5
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:682
-msgid "Using email address"
-msgstr "Menggunakan alamat surel"
-
-#: ../modules/addressbook/ldap-config.ui.h:6
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:685
-msgid "Using distinguished name (DN)"
-msgstr "Menggunakan distinguished name (DN)"
-
-#. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
-#: ../modules/addressbook/ldap-config.ui.h:8
-msgid "One"
-msgstr "Satu"
-
-#. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
-#: ../modules/addressbook/ldap-config.ui.h:10
-msgid "Sub"
-msgstr "Sub"
-
-#: ../modules/addressbook/ldap-config.ui.h:11
-msgid "Supported Search Bases"
-msgstr "Basis Pencarian Yang Didukung"
-
-#: ../modules/addressbook/ldap-config.ui.h:13
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:181
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:113
-msgid "_Port:"
-msgstr "_Port:"
-
-#: ../modules/addressbook/ldap-config.ui.h:14
-msgid "Ser_ver:"
-msgstr "Ser_ver:"
-
-#: ../modules/addressbook/ldap-config.ui.h:15
-msgid "Use secure _connection:"
-msgstr "Gunakan _koneksi yang aman:"
-
-#: ../modules/addressbook/ldap-config.ui.h:16
-msgid "_Login method:"
-msgstr "Metoda _login:"
-
-#: ../modules/addressbook/ldap-config.ui.h:17
-msgid "Lo_gin:"
-msgstr "Lo_gin:"
-
-#: ../modules/addressbook/ldap-config.ui.h:18
-msgid "Search _base:"
-msgstr "_Basis pencarian:"
-
-#: ../modules/addressbook/ldap-config.ui.h:19
-msgid "_Search scope:"
-msgstr "Lingku_p pencarian:"
-
-#: ../modules/addressbook/ldap-config.ui.h:20
-msgid "_Find Possible Search Bases"
-msgstr "_Cari Basis Pencarian Yang Mungkin"
-
-#: ../modules/addressbook/ldap-config.ui.h:21
-msgid "S_earch filter:"
-msgstr "Saringan p_encarian:"
-
-#: ../modules/addressbook/ldap-config.ui.h:22
-msgid "Search Filter"
-msgstr "Saringan Pencarian"
-
-#: ../modules/addressbook/ldap-config.ui.h:23
-msgid ""
-"Search filter is the type of object to be searched for. If this is not "
-"modified, the default search will be performed on the type \"person\"."
-msgstr ""
-"Cari saring adalah jenis pencarian objek, ketika menjalankan pencarian. Jika "
-"hal ini tidak dimodifikasi,   pencarian default akan dilaksanakan dari jenis "
-"\"orang\"."
-
-#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
-#: ../modules/addressbook/ldap-config.ui.h:25
-msgid "1"
-msgstr "1"
-
-#. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
-#: ../modules/addressbook/ldap-config.ui.h:27
-msgid "5"
-msgstr "5"
-
-#: ../modules/addressbook/ldap-config.ui.h:30
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:838
-msgid "contacts"
-msgstr "kontak"
-
-#: ../modules/addressbook/ldap-config.ui.h:31
-msgid "_Timeout:"
-msgstr "Waktu _timeout:"
-
-#: ../modules/addressbook/ldap-config.ui.h:32
-msgid "_Download limit:"
-msgstr "Batasan mengun_duh:"
-
-#. To translators: If enabled, addressbook will only fetch contacts from the server until either set time limit or amount of contacts limit reached
-#: ../modules/addressbook/ldap-config.ui.h:34
-msgid "B_rowse this book until limit reached"
-msgstr "_Ramban buku ini sampai batas tercapai"
-
 #: ../modules/audio-inline/e-mail-formatter-audio-inline.c:310
 msgid "Audio Player"
 msgstr "Pemutar Audio"
@@ -14663,28 +14555,28 @@ msgstr "Hak akses tidak cukup"
 msgid "The selected folder is not writable."
 msgstr "Folder yang dipilih tidak dapat ditulis."
 
-#: ../modules/bogofilter/evolution-bogofilter.c:149
+#: ../modules/bogofilter/evolution-bogofilter.c:145
 #, c-format
 msgid "Failed to spawn Bogofilter (%s): "
 msgstr "Gagal menspawn BogoFilter (%s): "
 
-#: ../modules/bogofilter/evolution-bogofilter.c:167
+#: ../modules/bogofilter/evolution-bogofilter.c:163
 msgid "Failed to stream mail message content to Bogofilter: "
 msgstr "Gagal menstream isi pesan surat ke Bogofilter: "
 
-#: ../modules/bogofilter/evolution-bogofilter.c:216
+#: ../modules/bogofilter/evolution-bogofilter.c:212
 msgid "Bogofilter either crashed or failed to process a mail message"
 msgstr "BogoFilter mungkin crash atau gagal memroses suatu pesan surat"
 
-#: ../modules/bogofilter/evolution-bogofilter.c:318
+#: ../modules/bogofilter/evolution-bogofilter.c:308
 msgid "Bogofilter Options"
 msgstr "Opsi Bogofilter"
 
-#: ../modules/bogofilter/evolution-bogofilter.c:327
+#: ../modules/bogofilter/evolution-bogofilter.c:317
 msgid "Convert message text to _Unicode"
 msgstr "Konversi teks pesan ke _Unikode"
 
-#: ../modules/bogofilter/evolution-bogofilter.c:483
+#: ../modules/bogofilter/evolution-bogofilter.c:474
 msgid "Bogofilter"
 msgstr "Bogofilter"
 
@@ -14731,6 +14623,14 @@ msgstr "Otentikasi"
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:679
 msgid "Anonymous"
 msgstr "Anonim"
+
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:682
+msgid "Using email address"
+msgstr "Menggunakan alamat surel"
+
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:685
+msgid "Using distinguished name (DN)"
+msgstr "Menggunakan distinguished name (DN)"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:687
 msgid "Method:"
@@ -14800,16 +14700,20 @@ msgstr "Mengunduh"
 msgid "Limit:"
 msgstr "Batas:"
 
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:838
+msgid "contacts"
+msgstr "kontak"
+
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:843
 msgid "Browse until limit is reached"
 msgstr "Ramban ini sampai batas tercapai"
 
-#: ../modules/book-config-webdav/evolution-book-config-webdav.c:134
+#: ../modules/book-config-webdav/evolution-book-config-webdav.c:136
 #: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:130
 msgid "URL:"
 msgstr "URL:"
 
-#: ../modules/book-config-webdav/evolution-book-config-webdav.c:144
+#: ../modules/book-config-webdav/evolution-book-config-webdav.c:146
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Hindari IfMatch (diperlukan pada Apache < 2.2.8)"
 
@@ -16786,6 +16690,7 @@ msgid "Choose a mbox spool directory"
 msgstr "Pilih direktori spool mbox"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:149
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:53
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:82
 #: ../modules/plugin-manager/evolution-plugin-manager.c:160
 msgid "Configuration"
@@ -16796,6 +16701,11 @@ msgstr "Konfigurasi"
 #: ../plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "_Server:"
 msgstr "_Server:"
+
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:181
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:113
+msgid "_Port:"
+msgstr "_Port:"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:193
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:229
@@ -16816,6 +16726,35 @@ msgstr "STARTTLS setelah menyambung"
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:169
 msgid "SSL on a dedicated port"
 msgstr "SSL pada port tersendiri"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:69
+msgid "_Use custom binary, instead of 'sendmail'"
+msgstr "G_unakan biner gubahan, menggantikan 'sendmail'"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:73
+#| msgid "Custom Reminder:"
+msgid "_Custom binary:"
+msgstr "_Biner ubahan:"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:90
+#| msgid "Use custom fonts"
+msgid "U_se custom arguments"
+msgstr "_Gunakan argumen ubahan"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:94
+#| msgid "_Arguments:"
+msgid "Cus_tom arguments:"
+msgstr "_Argumen ubahan:"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:112
+msgid ""
+"Default arguments are '-i -f %F -- %R', where\n"
+"   %F - stands for the From address\n"
+"   %R - stands for the recipient addresses"
+msgstr ""
+"Argumen baku adalah '-i -f %F -- %R', dimana\n"
+"   %F - adalah singkatan dari alamat sumber\n"
+"   %R - adalah singkatan dari alamat penerima"
 
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:125
 msgid "Ser_ver requires authentication"
@@ -17345,7 +17284,8 @@ msgid ""
 msgstr ""
 "Evolution akan kembali ke modus daring ketika koneksi jaringan terjalin."
 
-#: ../modules/online-accounts/camel-sasl-xoauth.c:417
+#: ../modules/online-accounts/camel-sasl-xoauth2.c:166
+#: ../modules/online-accounts/camel-sasl-xoauth.c:298
 msgid ""
 "Cannot find a corresponding account in the org.gnome.OnlineAccounts service "
 "from which to obtain an authentication token."
@@ -17353,15 +17293,21 @@ msgstr ""
 "Tak bisa menemukan akun yang bersesuain dalam layanan org.gnome."
 "OnlineAccounts tempat memperoleh token otentikasi."
 
-#: ../modules/online-accounts/camel-sasl-xoauth.c:504
-msgid "OAuth"
-msgstr "OAuth"
+#: ../modules/online-accounts/camel-sasl-xoauth2.c:222
+#| msgid "OAuth"
+msgid "OAuth2"
+msgstr "OAuth2"
 
-#: ../modules/online-accounts/camel-sasl-xoauth.c:506
+#: ../modules/online-accounts/camel-sasl-xoauth2.c:224
+#: ../modules/online-accounts/camel-sasl-xoauth.c:379
 msgid ""
 "This option will connect to the server by way of the GNOME Online Accounts "
 "service"
 msgstr "Opsi ini akan menyambung ke server melalui layanan Akun Daring GNOME"
+
+#: ../modules/online-accounts/camel-sasl-xoauth.c:377
+msgid "OAuth"
+msgstr "OAuth"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:69
 msgid "Author(s)"
@@ -17469,41 +17415,41 @@ msgstr "Moda Teks"
 msgid "View mail messages as plain text, even if they contain HTML content."
 msgstr "Menampilkan pesan sebagai teks biasa, meskipun mengandung isi HTML."
 
-#: ../modules/spamassassin/evolution-spamassassin.c:192
+#: ../modules/spamassassin/evolution-spamassassin.c:185
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
 msgstr "Gagal menspawn SpamAssassin (%s): "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:215
+#: ../modules/spamassassin/evolution-spamassassin.c:208
 msgid "Failed to stream mail message content to SpamAssassin: "
 msgstr "Gagal menstream isi pesan surat ke SpamAssassin: "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:234
+#: ../modules/spamassassin/evolution-spamassassin.c:227
 #, c-format
 msgid "Failed to write '%s' to SpamAssassin: "
 msgstr "Gagal menulis'%s' ke SpamAssassin: "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:262
+#: ../modules/spamassassin/evolution-spamassassin.c:255
 msgid "Failed to read output from SpamAssassin: "
 msgstr "Gagal membaca keluaran dari SpamAssassin: "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:317
+#: ../modules/spamassassin/evolution-spamassassin.c:310
 msgid "SpamAssassin either crashed or failed to process a mail message"
 msgstr "SpamAssassin mungkin crash atau gagal memroses suatu pesan surat"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:885
+#: ../modules/spamassassin/evolution-spamassassin.c:748
 msgid "SpamAssassin Options"
 msgstr "Opsi SpamAssasin"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:900
+#: ../modules/spamassassin/evolution-spamassassin.c:763
 msgid "I_nclude remote tests"
 msgstr "Lakuka_n penyaringan dari server"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:914
+#: ../modules/spamassassin/evolution-spamassassin.c:777
 msgid "This will make SpamAssassin more reliable, but slower."
 msgstr "Ini akan membuat SpamAssasin bekerja lebih baik, namun lebih lambat."
 
-#: ../modules/spamassassin/evolution-spamassassin.c:1123
+#: ../modules/spamassassin/evolution-spamassassin.c:1034
 msgid "SpamAssassin"
 msgstr "SpamAssassin"
 
@@ -18863,15 +18809,20 @@ msgstr "Simpan sebagai Pale_t"
 msgid "Save as Template"
 msgstr "Menyimpan sebegai Palet"
 
-#: ../shell/e-shell.c:313
+#: ../shell/e-shell.c:314
 msgid "Preparing to go offline..."
 msgstr "Bersiap untuk meninggalkan jaringan..."
 
-#: ../shell/e-shell.c:366
+#: ../shell/e-shell.c:367
 msgid "Preparing to go online..."
 msgstr "Bersiap untuk terhubung ke jaringan..."
 
-#: ../shell/e-shell.c:437
+#: ../shell/e-shell.c:441
+#| msgid "Preparing to quit..."
+msgid "Preparing to quit"
+msgstr "Bersiap untuk keluar"
+
+#: ../shell/e-shell.c:447
 msgid "Preparing to quit..."
 msgstr "Bersiap untuk keluar..."
 
@@ -18936,260 +18887,260 @@ msgstr "Situs Web Evolution"
 msgid "Categories Editor"
 msgstr "Penyunting Kategori"
 
-#: ../shell/e-shell-window-actions.c:1228
+#: ../shell/e-shell-window-actions.c:1227
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy belum dipasang."
 
-#: ../shell/e-shell-window-actions.c:1230
+#: ../shell/e-shell-window-actions.c:1228
 msgid "Bug Buddy could not be run."
 msgstr "Bug Buddy tidak dapat dijalankan."
 
-#: ../shell/e-shell-window-actions.c:1411
+#: ../shell/e-shell-window-actions.c:1408
 msgid "Show information about Evolution"
 msgstr "Tampilkan informasi tentang Evolution"
 
-#: ../shell/e-shell-window-actions.c:1416
-#: ../shell/e-shell-window-actions.c:1430
+#: ../shell/e-shell-window-actions.c:1413
+#: ../shell/e-shell-window-actions.c:1427
 msgid "_Close Window"
 msgstr "Tutup _Jendela"
 
-#: ../shell/e-shell-window-actions.c:1437
+#: ../shell/e-shell-window-actions.c:1434
 msgid "_Contents"
 msgstr "_Isi"
 
-#: ../shell/e-shell-window-actions.c:1439
+#: ../shell/e-shell-window-actions.c:1436
 msgid "Open the Evolution User Guide"
 msgstr "Buka Evolution Groupware Suite"
 
-#: ../shell/e-shell-window-actions.c:1465
+#: ../shell/e-shell-window-actions.c:1462
 msgid "I_mport..."
 msgstr "I_mpor..."
 
-#: ../shell/e-shell-window-actions.c:1467
+#: ../shell/e-shell-window-actions.c:1464
 msgid "Import data from other programs"
 msgstr "Mengimpor data dari program yang lain"
 
-#: ../shell/e-shell-window-actions.c:1472
+#: ../shell/e-shell-window-actions.c:1469
 msgid "New _Window"
 msgstr "_Jendela Baru"
 
-#: ../shell/e-shell-window-actions.c:1474
+#: ../shell/e-shell-window-actions.c:1471
 msgid "Create a new window displaying this view"
 msgstr "Buat jendela baru untuk menampilkan tampilan ini"
 
-#: ../shell/e-shell-window-actions.c:1486
+#: ../shell/e-shell-window-actions.c:1483
 msgid "Available Cate_gories"
 msgstr "Kate_gori Yang Tersedia"
 
-#: ../shell/e-shell-window-actions.c:1488
+#: ../shell/e-shell-window-actions.c:1485
 msgid "Manage available categories"
 msgstr "Kelola kategori yang tersedia"
 
-#: ../shell/e-shell-window-actions.c:1500
+#: ../shell/e-shell-window-actions.c:1497
 msgid "_Quick Reference"
 msgstr "_Jalur Cepat"
 
-#: ../shell/e-shell-window-actions.c:1502
+#: ../shell/e-shell-window-actions.c:1499
 msgid "Show Evolution's shortcut keys"
 msgstr "Tampilkan tombol pintas Evolution"
 
-#: ../shell/e-shell-window-actions.c:1509
+#: ../shell/e-shell-window-actions.c:1506
 msgid "Exit the program"
 msgstr "Keluar dari Evolution"
 
-#: ../shell/e-shell-window-actions.c:1514
+#: ../shell/e-shell-window-actions.c:1511
 msgid "_Advanced Search..."
 msgstr "Penc_arian Lebih Lanjut..."
 
-#: ../shell/e-shell-window-actions.c:1516
+#: ../shell/e-shell-window-actions.c:1513
 msgid "Construct a more advanced search"
 msgstr "Bangun suatu pencarian dengan tingkat lebih lanjut"
 
-#: ../shell/e-shell-window-actions.c:1523
+#: ../shell/e-shell-window-actions.c:1520
 msgid "Clear the current search parameters"
 msgstr "Bersihkan paramater pencarian saat ini"
 
-#: ../shell/e-shell-window-actions.c:1528
+#: ../shell/e-shell-window-actions.c:1525
 msgid "_Edit Saved Searches..."
 msgstr "Ubah P_encarian Tersimpan..."
 
-#: ../shell/e-shell-window-actions.c:1530
+#: ../shell/e-shell-window-actions.c:1527
 msgid "Manage your saved searches"
 msgstr "Kelola pencarian Anda yang disimpan"
 
-#: ../shell/e-shell-window-actions.c:1537
+#: ../shell/e-shell-window-actions.c:1534
 msgid "Click here to change the search type"
 msgstr "Klik di sini untuk mengubah tipe pencarian"
 
-#: ../shell/e-shell-window-actions.c:1542
+#: ../shell/e-shell-window-actions.c:1539
 msgid "_Find Now"
 msgstr "_Cari"
 
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1544
+#: ../shell/e-shell-window-actions.c:1541
 msgid "Execute the current search parameters"
 msgstr "Eksekusi parameter pencarian saat ini"
 
-#: ../shell/e-shell-window-actions.c:1549
+#: ../shell/e-shell-window-actions.c:1546
 msgid "_Save Search..."
 msgstr "_Simpan Pencarian..."
 
-#: ../shell/e-shell-window-actions.c:1551
+#: ../shell/e-shell-window-actions.c:1548
 msgid "Save the current search parameters"
 msgstr "Simpan parameter pencarian saat ini"
 
-#: ../shell/e-shell-window-actions.c:1563
+#: ../shell/e-shell-window-actions.c:1560
 msgid "Submit _Bug Report..."
 msgstr "Kirim Laporan _Bug..."
 
-#: ../shell/e-shell-window-actions.c:1565
+#: ../shell/e-shell-window-actions.c:1562
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Kirim laporan bug dengan menggunakan program Bug Buddy"
 
-#: ../shell/e-shell-window-actions.c:1570
+#: ../shell/e-shell-window-actions.c:1567
 msgid "_Work Offline"
 msgstr "Bekerja _Luring"
 
-#: ../shell/e-shell-window-actions.c:1572
+#: ../shell/e-shell-window-actions.c:1569
 msgid "Put Evolution into offline mode"
 msgstr "Jalankan Evolution dalam mode luring"
 
-#: ../shell/e-shell-window-actions.c:1577
+#: ../shell/e-shell-window-actions.c:1574
 msgid "_Work Online"
 msgstr "Bekerja _Daring"
 
-#: ../shell/e-shell-window-actions.c:1579
+#: ../shell/e-shell-window-actions.c:1576
 msgid "Put Evolution into online mode"
 msgstr "Jalankan Evolution dalam mode online"
 
-#: ../shell/e-shell-window-actions.c:1607
+#: ../shell/e-shell-window-actions.c:1604
 msgid "Lay_out"
 msgstr "Su_sunan"
 
-#: ../shell/e-shell-window-actions.c:1614
+#: ../shell/e-shell-window-actions.c:1611
 msgid "_New"
 msgstr "_Baru"
 
-#: ../shell/e-shell-window-actions.c:1621
+#: ../shell/e-shell-window-actions.c:1618
 msgid "_Search"
 msgstr "_Cari"
 
-#: ../shell/e-shell-window-actions.c:1628
+#: ../shell/e-shell-window-actions.c:1625
 msgid "_Switcher Appearance"
 msgstr "_Tampilan Modul"
 
-#: ../shell/e-shell-window-actions.c:1642
+#: ../shell/e-shell-window-actions.c:1639
 msgid "_Window"
 msgstr "_Jendela"
 
-#: ../shell/e-shell-window-actions.c:1671
+#: ../shell/e-shell-window-actions.c:1668
 msgid "Show Side _Bar"
 msgstr "Tampilkan _Panel Samping"
 
-#: ../shell/e-shell-window-actions.c:1673
+#: ../shell/e-shell-window-actions.c:1670
 msgid "Show the side bar"
 msgstr "Tampilkan Panel Samping"
 
-#: ../shell/e-shell-window-actions.c:1679
+#: ../shell/e-shell-window-actions.c:1676
 msgid "Show _Buttons"
 msgstr "Tampilkan Button"
 
-#: ../shell/e-shell-window-actions.c:1681
+#: ../shell/e-shell-window-actions.c:1678
 msgid "Show the switcher buttons"
 msgstr "Menampilkan tombol pengganti"
 
-#: ../shell/e-shell-window-actions.c:1687
+#: ../shell/e-shell-window-actions.c:1684
 msgid "Show _Status Bar"
 msgstr "Tampilkan Baris _Status"
 
-#: ../shell/e-shell-window-actions.c:1689
+#: ../shell/e-shell-window-actions.c:1686
 msgid "Show the status bar"
 msgstr "Tampilkan baris status"
 
-#: ../shell/e-shell-window-actions.c:1695
+#: ../shell/e-shell-window-actions.c:1692
 msgid "Show _Tool Bar"
 msgstr "Tampilkan Bilah Ala_t"
 
-#: ../shell/e-shell-window-actions.c:1697
+#: ../shell/e-shell-window-actions.c:1694
 msgid "Show the tool bar"
 msgstr "Menampilkan bilah alat"
 
-#: ../shell/e-shell-window-actions.c:1719
+#: ../shell/e-shell-window-actions.c:1716
 msgid "_Icons Only"
 msgstr "Hanya _Ikon"
 
-#: ../shell/e-shell-window-actions.c:1721
+#: ../shell/e-shell-window-actions.c:1718
 msgid "Display window buttons with icons only"
 msgstr "Tampilkan tombol-tombol pada jendela menggunakan ikon saja"
 
-#: ../shell/e-shell-window-actions.c:1726
+#: ../shell/e-shell-window-actions.c:1723
 msgid "_Text Only"
 msgstr "Hanya _Teks"
 
-#: ../shell/e-shell-window-actions.c:1728
+#: ../shell/e-shell-window-actions.c:1725
 msgid "Display window buttons with text only"
 msgstr "Tampilkan tombol-tombol pada jendela menggunakan teks saja"
 
-#: ../shell/e-shell-window-actions.c:1733
+#: ../shell/e-shell-window-actions.c:1730
 msgid "Icons _and Text"
 msgstr "Ikon d_an Teks"
 
-#: ../shell/e-shell-window-actions.c:1735
+#: ../shell/e-shell-window-actions.c:1732
 msgid "Display window buttons with icons and text"
 msgstr "Tampilkan tombol-tombol pada jendela menggunakan ikon dan teks"
 
-#: ../shell/e-shell-window-actions.c:1740
+#: ../shell/e-shell-window-actions.c:1737
 msgid "Tool_bar Style"
 msgstr "Tool_bar Style"
 
-#: ../shell/e-shell-window-actions.c:1742
+#: ../shell/e-shell-window-actions.c:1739
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Tampilkan tombol pada jendela dengan menggunakan setelan kotak tombol desktop"
 
-#: ../shell/e-shell-window-actions.c:1750
+#: ../shell/e-shell-window-actions.c:1747
 msgid "Define Views..."
 msgstr "Definisikan Tampilan..."
 
-#: ../shell/e-shell-window-actions.c:1752
+#: ../shell/e-shell-window-actions.c:1749
 msgid "Create or edit views"
 msgstr "Buat atau edit tampilan"
 
-#: ../shell/e-shell-window-actions.c:1757
+#: ../shell/e-shell-window-actions.c:1754
 msgid "Save Custom View..."
 msgstr "Simpan Tampilan Kustom..."
 
-#: ../shell/e-shell-window-actions.c:1759
+#: ../shell/e-shell-window-actions.c:1756
 msgid "Save current custom view"
 msgstr "Simpan tampilan kustom saat ini"
 
-#: ../shell/e-shell-window-actions.c:1766
+#: ../shell/e-shell-window-actions.c:1763
 msgid "C_urrent View"
 msgstr "T_ampilan Saat Ini"
 
-#: ../shell/e-shell-window-actions.c:1776
+#: ../shell/e-shell-window-actions.c:1773
 msgid "Custom View"
 msgstr "Tampilan Sendiri"
 
-#: ../shell/e-shell-window-actions.c:1778
+#: ../shell/e-shell-window-actions.c:1775
 msgid "Current view is a customized view"
 msgstr "Tilikan kini adalah tilikan ubahan"
 
-#: ../shell/e-shell-window-actions.c:1788
+#: ../shell/e-shell-window-actions.c:1785
 msgid "Change the page settings for your current printer"
 msgstr "Sesuaikan pengaturan halaman dengan printer saat ini"
 
-#: ../shell/e-shell-window-actions.c:2178
+#: ../shell/e-shell-window-actions.c:2175
 #, c-format
 msgid "Switch to %s"
 msgstr "Berpindah ke %s"
 
-#: ../shell/e-shell-window-actions.c:2299
+#: ../shell/e-shell-window-actions.c:2296
 #, c-format
 msgid "Select view: %s"
 msgstr "Pilih tampilan: %s"
 
-#: ../shell/e-shell-window-actions.c:2400
+#: ../shell/e-shell-window-actions.c:2397
 msgid "Execute these search parameters"
 msgstr "Eksekusi parameter pencarian"
 
@@ -19297,11 +19248,20 @@ msgstr "URI impor atau nama berkas diberikan sebagai sisa argumen."
 msgid "Request a running Evolution process to quit"
 msgstr "Menutup proses Evolution yang tengah berjalan"
 
-#: ../shell/main.c:526 ../shell/main.c:531
+#: ../shell/main.c:426
+#, c-format
+msgid ""
+"Cannot start Evolution, other instance is probably running and is "
+"unresponsive. System error: %s"
+msgstr ""
+"Tak bisa memulai Evolution, instansi lain mungkin sedang berjalan dan tak "
+"responsif. Galat sistem: %s"
+
+#: ../shell/main.c:528 ../shell/main.c:533
 msgid "- The Evolution PIM and Email Client"
 msgstr "- PIM dan Klien Surel Evolution"
 
-#: ../shell/main.c:598
+#: ../shell/main.c:600
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19310,7 +19270,7 @@ msgstr ""
 "%s: --online dan --offline tidak dapat digunakan bersamaan.\n"
 "  Jalankan %s --help untuk membaca informasi lengkapnya.\n"
 
-#: ../shell/main.c:604
+#: ../shell/main.c:606
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -19356,69 +19316,6 @@ msgstr ""
 "Evolution tak lagi mendukung peningkatan langsung dari versi {0}. Namun Anda "
 "dapat mencoba terlebih dahulu meningkatkan ke Evolution 2, lalu meningkatkan "
 "ke Evolution 3."
-
-#: ../smclient/eggdesktopfile.c:166
-#, c-format
-msgid "File is not a valid .desktop file"
-msgstr "Ini bukan berkas .desktop yang sah"
-
-#: ../smclient/eggdesktopfile.c:189
-#, c-format
-msgid "Unrecognized desktop file Version '%s'"
-msgstr "Berkas desktop Versi '%s' tak dikenal"
-
-#: ../smclient/eggdesktopfile.c:959
-#, c-format
-msgid "Starting %s"
-msgstr "Memulai %s"
-
-#: ../smclient/eggdesktopfile.c:1102
-#, c-format
-msgid "Application does not accept documents on command line"
-msgstr "Aplikasi tidak menerima dokumen pada baris perintah"
-
-#: ../smclient/eggdesktopfile.c:1170
-#, c-format
-msgid "Unrecognized launch option: %d"
-msgstr "Opsi peluncuran tak dikenal: %d"
-
-#: ../smclient/eggdesktopfile.c:1370
-#, c-format
-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr "Tidak dapat melewatkan URI dokumen pada entri desktop 'Type=Link'"
-
-#: ../smclient/eggdesktopfile.c:1391
-#, c-format
-msgid "Not a launchable item"
-msgstr "Bukan objek yang dapat diluncurkan"
-
-#: ../smclient/eggsmclient.c:229
-msgid "Disable connection to session manager"
-msgstr "Menonaktifkan koneksi ke manajer sesi"
-
-#: ../smclient/eggsmclient.c:232
-msgid "Specify file containing saved configuration"
-msgstr "Menentukan berkas yang memuat konfigurasi"
-
-#: ../smclient/eggsmclient.c:232
-msgid "FILE"
-msgstr "BERKAS"
-
-#: ../smclient/eggsmclient.c:235
-msgid "Specify session management ID"
-msgstr "Menentukan ID manajemen sesi"
-
-#: ../smclient/eggsmclient.c:235
-msgid "ID"
-msgstr "ID"
-
-#: ../smclient/eggsmclient.c:256
-msgid "Session management options:"
-msgstr "Opsi manajemen sesi:"
-
-#: ../smclient/eggsmclient.c:257
-msgid "Show session management options"
-msgstr "Menampilkan opsi manajemen sesi"
 
 #: ../smime/gui/ca-trust-dialog.c:107
 #, c-format
