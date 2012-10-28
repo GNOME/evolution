@@ -311,6 +311,7 @@ mail_config_notebook_constructed (GObject *object)
 	gboolean add_receiving_page = TRUE;
 	gboolean add_sending_page = TRUE;
 	gboolean add_transport_source;
+	gboolean gnome_online_account = FALSE;
 
 	notebook = E_MAIL_CONFIG_NOTEBOOK (object);
 
@@ -333,6 +334,7 @@ mail_config_notebook_constructed (GObject *object)
 	if (source != NULL) {
 		extension_name = E_SOURCE_EXTENSION_GOA;
 		if (e_source_has_extension (source, extension_name)) {
+			gnome_online_account = TRUE;
 			add_receiving_page = FALSE;
 			add_sending_page = FALSE;
 		}
@@ -365,6 +367,12 @@ mail_config_notebook_constructed (GObject *object)
 		registry, notebook->priv->identity_source);
 	e_mail_config_identity_page_set_show_instructions (
 		E_MAIL_CONFIG_IDENTITY_PAGE (page), FALSE);
+	if (gnome_online_account) {
+		e_mail_config_identity_page_set_show_account_info (
+			E_MAIL_CONFIG_IDENTITY_PAGE (page), FALSE);
+		e_mail_config_identity_page_set_show_email_address (
+			E_MAIL_CONFIG_IDENTITY_PAGE (page), FALSE);
+	}
 	e_mail_config_notebook_add_page (notebook, page);
 
 	/*** Receiving Page ***/
