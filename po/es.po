@@ -12,16 +12,16 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011, 2012.
 #
-#: ../shell/main.c:568
+#: ../shell/main.c:584
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-09-13 21:33+0000\n"
-"PO-Revision-Date: 2012-08-25 12:06+0200\n"
+"POT-Creation-Date: 2012-10-28 12:13+0000\n"
+"PO-Revision-Date: 2012-10-28 13:34+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -441,7 +441,7 @@ msgstr "Aniversario"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:705
-#: ../calendar/gui/e-calendar-view.c:2149 ../shell/main.c:131
+#: ../calendar/gui/e-calendar-view.c:2149 ../shell/main.c:135
 msgid "Birthday"
 msgstr "Cumpleaños"
 
@@ -2558,7 +2558,7 @@ msgstr "Cerrar la ventana actual"
 #: ../calendar/gui/dialogs/comp-editor.c:1164 ../mail/e-mail-browser.c:134
 #: ../shell/e-shell-window-actions.c:1446
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
-#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1423
+#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1428
 #: ../widgets/misc/e-web-view-gtkhtml.c:456
 #: ../widgets/misc/e-web-view-gtkhtml.c:1299
 msgid "Copy the selection"
@@ -2567,7 +2567,7 @@ msgstr "Copiar la selección"
 #: ../calendar/gui/dialogs/comp-editor.c:1171 ../mail/e-mail-browser.c:141
 #: ../shell/e-shell-window-actions.c:1453
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1417 ../widgets/misc/e-web-view-gtkhtml.c:1293
+#: ../widgets/misc/e-web-view.c:1422 ../widgets/misc/e-web-view-gtkhtml.c:1293
 msgid "Cut the selection"
 msgstr "Cortar la selección"
 
@@ -2584,7 +2584,7 @@ msgstr "Ver la ayuda"
 #: ../calendar/gui/dialogs/comp-editor.c:1192 ../mail/e-mail-browser.c:148
 #: ../shell/e-shell-window-actions.c:1481
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1429 ../widgets/misc/e-web-view-gtkhtml.c:1305
+#: ../widgets/misc/e-web-view.c:1434 ../widgets/misc/e-web-view-gtkhtml.c:1305
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
 
@@ -3185,7 +3185,7 @@ msgstr "No es posible abrir las notas en «%s»: %s"
 #: ../em-format/e-mail-parser-inlinepgp-signed.c:96
 #: ../em-format/e-mail-parser-multipart-encrypted.c:122
 #: ../em-format/e-mail-parser-multipart-signed.c:147
-#: ../libemail-engine/mail-ops.c:722 ../mail/e-mail-reader.c:1733
+#: ../libemail-engine/mail-ops.c:741 ../mail/e-mail-reader.c:1733
 #: ../mail/em-folder-tree.c:675 ../modules/itip-formatter/itip-view.c:4574
 #: ../modules/itip-formatter/itip-view.c:4925 ../plugins/face/face.c:174
 #: ../smime/gui/certificate-manager.c:317
@@ -7075,6 +7075,10 @@ msgstr "Correo y calendario de Evolution"
 msgid "Manage your email, contacts and schedule"
 msgstr "Gestione su correo-e, contactos y calendario"
 
+#: ../data/evolution.desktop.in.in.h:5
+msgid "mail;calendar;contact;addressbook;task;"
+msgstr "correo;calendario;contacto;libreta de direcciones;tarea;"
+
 #: ../data/evolution-settings.desktop.in.in.h:1
 msgid "Email Settings"
 msgstr "Ajustes del correo"
@@ -8779,8 +8783,8 @@ msgid ""
 "the search results."
 msgstr ""
 "Desactiva o activa los mensajes repetitivos de advertencia de que eliminar "
-"correos de una carpeta de búsqueda elimina permanentemente el correo, no sólo "
-"los elimina de los resultados de la búsqueda."
+"correos de una carpeta de búsqueda elimina permanentemente el correo, no "
+"sólo los elimina de los resultados de la búsqueda."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
@@ -9429,7 +9433,7 @@ msgid "Initial folder for GtkFileChooser dialogs."
 msgstr ""
 "La carpeta inicial para los diálogos GtkFileChooser (selector de archivos)."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:313
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:317
 msgid "Start in offline mode"
 msgstr "Iniciar en modo desconectado"
 
@@ -9640,7 +9644,7 @@ msgstr "Formatear parte como un mensaje RFC822"
 
 #: ../em-format/e-mail-formatter-print.c:53
 #: ../mail/e-mail-label-tree-view.c:99
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1255
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1272
 #: ../modules/cal-config-google/e-google-chooser.c:209
 #: ../modules/plugin-manager/evolution-plugin-manager.c:68
 #: ../widgets/menus/gal-define-views-dialog.c:352
@@ -9705,12 +9709,12 @@ msgid "Format part as HTML"
 msgstr "Formatear parte como HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:123
-#: ../em-format/e-mail-formatter-text-plain.c:182
+#: ../em-format/e-mail-formatter-text-plain.c:183
 msgid "Plain Text"
 msgstr "Texto plano"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:129
-#: ../em-format/e-mail-formatter-text-plain.c:188
+#: ../em-format/e-mail-formatter-text-plain.c:189
 msgid "Format part as plain text"
 msgstr "Formatear parte como texto plano"
 
@@ -9911,7 +9915,7 @@ msgstr "No se pudo analizar el mensaje PGP/MIME: %s"
 msgid "Unsupported signature format"
 msgstr "Formato de firma no soportado"
 
-#: ../em-format/e-mail-part-utils.c:493
+#: ../em-format/e-mail-part-utils.c:496
 #, c-format
 msgid "%s attachment"
 msgstr "%s adjunto"
@@ -10342,7 +10346,7 @@ msgstr "Buscar elementos que cumplen con estos criterios"
 #. name:
 #: ../filter/e-filter-rule.c:839 ../libemail-engine/camel-null-store.c:28
 #: ../mail/e-mail-config-summary-page.c:139
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:616
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:624
 #: ../widgets/misc/e-mail-signature-combo-box.c:369
 msgid "None"
 msgstr "Ninguna"
@@ -10636,14 +10640,14 @@ msgid "UID '%s' is not a mail transport"
 msgstr "el UDI «%s» no es un transporte de correo"
 
 #: ../libemail-engine/e-mail-session-utils.c:641
-#: ../libemail-engine/mail-ops.c:700
+#: ../libemail-engine/mail-ops.c:719
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "No se pudieron aplicar los filtros al correo saliente: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:670
 #: ../libemail-engine/e-mail-session-utils.c:704
-#: ../libemail-engine/mail-ops.c:717 ../libemail-engine/mail-ops.c:753
+#: ../libemail-engine/mail-ops.c:736 ../libemail-engine/mail-ops.c:772
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -10653,13 +10657,13 @@ msgstr ""
 "En su lugar se anexará a la carpeta local «Correo enviado»."
 
 #: ../libemail-engine/e-mail-session-utils.c:724
-#: ../libemail-engine/mail-ops.c:775
+#: ../libemail-engine/mail-ops.c:794
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Falló anexar a la carpeta local «Correo enviado»: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:954
-#: ../libemail-engine/mail-ops.c:907 ../libemail-engine/mail-ops.c:1009
+#: ../libemail-engine/mail-ops.c:926 ../libemail-engine/mail-ops.c:1028
 msgid "Sending message"
 msgstr "Enviando mensaje"
 
@@ -10678,7 +10682,7 @@ msgstr "Reconectándose con «%s»"
 msgid "Preparing account '%s' for offline"
 msgstr "Preparando la cuenta «%s» para desconexión"
 
-#: ../libemail-engine/mail-folder-cache.c:876
+#: ../libemail-engine/mail-folder-cache.c:880
 #, c-format
 msgid "Pinging %s"
 msgstr "Haciendo ping a %s"
@@ -10687,56 +10691,56 @@ msgstr "Haciendo ping a %s"
 msgid "Filtering Selected Messages"
 msgstr "Filtrado de mensajes seleccionados"
 
-#: ../libemail-engine/mail-ops.c:216
+#: ../libemail-engine/mail-ops.c:219
 msgid "Fetching Mail"
 msgstr "Obteniendo mensajes"
 
-#: ../libemail-engine/mail-ops.c:918
+#: ../libemail-engine/mail-ops.c:937
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando mensaje %d de %d"
 
-#: ../libemail-engine/mail-ops.c:970
+#: ../libemail-engine/mail-ops.c:989
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "Falló al enviar un mensaje"
 msgstr[1] "Falló al enviar %d de %d mensajes"
 
-#: ../libemail-engine/mail-ops.c:976
+#: ../libemail-engine/mail-ops.c:995
 msgid "Canceled."
 msgstr "Cancelado."
 
-#: ../libemail-engine/mail-ops.c:978
+#: ../libemail-engine/mail-ops.c:997
 msgid "Complete."
 msgstr "Completado."
 
-#: ../libemail-engine/mail-ops.c:1090
+#: ../libemail-engine/mail-ops.c:1109
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Moviendo mensajes a «%s»"
 
-#: ../libemail-engine/mail-ops.c:1091
+#: ../libemail-engine/mail-ops.c:1110
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Copiando mensajes a «%s»"
 
-#: ../libemail-engine/mail-ops.c:1209
+#: ../libemail-engine/mail-ops.c:1228
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Guardando carpeta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1283
+#: ../libemail-engine/mail-ops.c:1302
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Compactando y almacenando cuenta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1284
+#: ../libemail-engine/mail-ops.c:1303
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Almacenando cuenta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1358
+#: ../libemail-engine/mail-ops.c:1377
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vaciando papelera en «%s»"
@@ -10806,7 +10810,7 @@ msgid "De_fault"
 msgstr "_Predeterminada"
 
 #: ../mail/e-mail-account-tree-view.c:85
-#: ../modules/mail/em-composer-prefs.c:505
+#: ../modules/mail/em-composer-prefs.c:495
 #: ../modules/plugin-manager/evolution-plugin-manager.c:360
 #: ../plugins/publish-calendar/publish-calendar.c:864
 msgid "Enabled"
@@ -11190,13 +11194,13 @@ msgid "Server Type:"
 msgstr "Tipo de servidor:"
 
 #: ../mail/e-mail-config-summary-page.c:454
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:602
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:610
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:244
 msgid "Server:"
 msgstr "Servidor:"
 
 #: ../mail/e-mail-config-summary-page.c:475
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:691
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:699
 msgid "Username:"
 msgstr "Nombre de usuario:"
 
@@ -12569,7 +12573,7 @@ msgid "Importing Elm data"
 msgstr "Importando datos de Elm"
 
 #: ../mail/importers/elm-importer.c:332 ../mail/importers/pine-importer.c:423
-#: ../modules/mail/e-mail-shell-view.c:1074
+#: ../modules/mail/e-mail-shell-view.c:1034
 #: ../widgets/misc/e-send-options.c:538
 msgid "Mail"
 msgstr "Correo"
@@ -12788,16 +12792,16 @@ msgid "_Languages"
 msgstr "_Idiomas"
 
 #: ../mail/mail-config.ui.h:23
+msgid "Languages Table"
+msgstr "Tabla de idiomas"
+
+#: ../mail/mail-config.ui.h:24
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
 "La lista de idiomas de aquí refleja únicamente los idiomas para los cuáles "
 "hay instalado un diccionario."
-
-#: ../mail/mail-config.ui.h:24
-msgid "Languages Table"
-msgstr "Tabla de idiomas"
 
 #: ../mail/mail-config.ui.h:26
 msgid "Check spelling while I _type"
@@ -12928,7 +12932,7 @@ msgid "No _Proxy for:"
 msgstr "Sin _proxy para:"
 
 #: ../mail/mail-config.ui.h:64
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:608
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:616
 msgid "Port:"
 msgstr "Puerto:"
 
@@ -14500,12 +14504,12 @@ msgid "Anonymously"
 msgstr "Anónimamente"
 
 #: ../modules/addressbook/ldap-config.ui.h:5
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:674
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:682
 msgid "Using email address"
 msgstr "Usando dirección de correo-e"
 
 #: ../modules/addressbook/ldap-config.ui.h:6
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:677
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:685
 msgid "Using distinguished name (DN)"
 msgstr "Usando Nombre distintivo (DN)"
 
@@ -14585,7 +14589,7 @@ msgid "5"
 msgstr "5"
 
 #: ../modules/addressbook/ldap-config.ui.h:30
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:830
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:838
 msgid "contacts"
 msgstr "contactos"
 
@@ -14853,55 +14857,55 @@ msgstr "Convertir el texto del correo a _Unicode"
 msgid "Bogofilter"
 msgstr "Bogofilter"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:442
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:449
 msgid "Standard LDAP Port"
 msgstr "Puerto LDAP estándar"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:448
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:619
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:455
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:627
 msgid "LDAP over SSL (deprecated)"
 msgstr "LDAP sobre SSL (obsoleto)"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:454
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:461
 msgid "Microsoft Global Catalog"
 msgstr "Catálogo global de Microsoft"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:460
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:467
 msgid "Microsoft Global Catalog over SSL"
 msgstr "Catálogo global de Microsoft sobre SSL"
 
 #. Page 1
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:564
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:572
 msgid "Connecting to LDAP"
 msgstr "Conectando a LDAP"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:581
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:589
 msgid "Server Information"
 msgstr "Información del servidor"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:622
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:630
 msgid "StartTLS (recommended)"
 msgstr "StartTLS (recomendado)"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:624
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:632
 msgid "Encryption:"
 msgstr "Cifrado:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:648
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:656
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:258
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:182
 msgid "Authentication"
 msgstr "Autenticación"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:671
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:679
 msgid "Anonymous"
 msgstr "Anónimo"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:679
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:687
 msgid "Method:"
 msgstr "Métodos:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:684
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:692
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Using email address\" requires anonymous access to your "
@@ -14912,36 +14916,36 @@ msgstr ""
 "su servidor LDAP."
 
 #. Page 2
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:699
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:707
 msgid "Using LDAP"
 msgstr "Usando LDAP"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:716
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:724
 #: ../modules/mail/e-mail-shell-view.c:116
 msgid "Searching"
 msgstr "Búsqueda"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:738
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:746
 msgid "Search Base:"
 msgstr "Base de búsqueda:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:743
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:751
 msgid "Find Possible Search Bases"
 msgstr "Buscar bases de búsqueda posibles"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:768
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:776
 msgid "One Level"
 msgstr "Un nivel"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:770
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:778
 msgid "Subtree"
 msgstr "Subárbol"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:772
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:780
 msgid "Search Scope:"
 msgstr "Ámbito de búsqueda:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:777
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:785
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree.  A search scope of \"Subtree\" will include all entries "
@@ -14953,19 +14957,19 @@ msgstr ""
 "«subárbol» incluirá todas las entradas por debajo de su base de búsqueda. Un "
 "ámbito de «un nivel» sólo incluirá las entradas un nivel bajo su base."
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:786
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:794
 msgid "Search Filter:"
 msgstr "Filtro de búsqueda:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:798
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:806
 msgid "Downloading"
 msgstr "Descargando"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:819
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:827
 msgid "Limit:"
 msgstr "Límite:"
 
-#: ../modules/book-config-ldap/evolution-book-config-ldap.c:835
+#: ../modules/book-config-ldap/evolution-book-config-ldap.c:843
 msgid "Browse until limit is reached"
 msgstr "Examinar hasta llegar al final"
 
@@ -14995,11 +14999,11 @@ msgstr "Respuesta vacía"
 msgid "Unexpected reply from server"
 msgstr "Respuesta inesperada del servidor"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1051
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1068
 msgid "Could not locate user's calendars"
 msgstr "No se pudo encontrar ningún calendario del usuario"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1275
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1292
 msgid "Path"
 msgstr "Ruta"
 
@@ -17068,7 +17072,6 @@ msgid "None"
 msgstr "Ninguno"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1226
-#: ../modules/mail/e-mail-shell-view.c:975
 msgid "_Disable Account"
 msgstr "_Desactivar cuenta"
 
@@ -17380,10 +17383,6 @@ msgstr "Búsqueda en todas las cuentas"
 msgid "Account Search"
 msgstr "Búsqueda en la cuenta"
 
-#: ../modules/mail/e-mail-shell-view.c:973
-msgid "Proxy _Logout"
-msgstr "_Cerrar sesión proxy"
-
 #: ../modules/mail/e-mail-shell-view-private.c:962
 #, c-format
 msgid "%d selected, "
@@ -17449,7 +17448,7 @@ msgstr "Papelera"
 msgid "Send / Receive"
 msgstr "Enviar / Recibir"
 
-#: ../modules/mail/em-composer-prefs.c:509
+#: ../modules/mail/em-composer-prefs.c:499
 msgid "Language(s)"
 msgstr "Idioma(s)"
 
@@ -17755,11 +17754,11 @@ msgstr "Formatear como…"
 msgid "_Other languages"
 msgstr "_Otros lenguajes"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:342
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:365
 msgid "Text Highlight"
 msgstr "Resaltado del texto"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:348
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:371
 msgid "Syntax highlighting of mail parts"
 msgstr "Resaltado de sintaxis de las partes del correo"
 
@@ -19432,7 +19431,7 @@ msgid "%s - Evolution"
 msgstr "%s - Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:186
+#: ../shell/main.c:190
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -19468,7 +19467,7 @@ msgstr ""
 "Esperamos que disfrute del resultado de nuestro duro trabajo y \n"
 "esperamos su contribución.\n"
 
-#: ../shell/main.c:210
+#: ../shell/main.c:214
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -19476,13 +19475,13 @@ msgstr ""
 "Gracias\n"
 "El equipo de Evolution\n"
 
-#: ../shell/main.c:216
+#: ../shell/main.c:220
 msgid "Do not tell me again"
 msgstr "No preguntarme más veces"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../shell/main.c:307
+#: ../shell/main.c:311
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
@@ -19490,47 +19489,47 @@ msgstr ""
 "Iniciar Evolution mostrando el componente especificado. Las opciones "
 "disponibles son «mail», «calendar», «contacts», «tasks» y «memos»."
 
-#: ../shell/main.c:311
+#: ../shell/main.c:315
 msgid "Apply the given geometry to the main window"
 msgstr "Aplicar la geometría proporcionada a la ventana principal"
 
-#: ../shell/main.c:315
+#: ../shell/main.c:319
 msgid "Start in online mode"
 msgstr "Iniciar en modo conectado"
 
-#: ../shell/main.c:317
+#: ../shell/main.c:321
 msgid "Ignore network availability"
 msgstr "Ignorar la disponibilidad de la red"
 
-#: ../shell/main.c:319
+#: ../shell/main.c:323
 msgid "Start in \"express\" mode"
 msgstr "Iniciar en modo «exprés»"
 
-#: ../shell/main.c:322
+#: ../shell/main.c:326
 msgid "Forcibly shut down Evolution"
 msgstr "Forzar el cierre de Evolution"
 
-#: ../shell/main.c:325
+#: ../shell/main.c:329
 msgid "Disable loading of any plugins."
 msgstr "Desactivar la carga de cualquier complemento."
 
-#: ../shell/main.c:327
+#: ../shell/main.c:331
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Desactivar la vista previa del correo, contactos y tareas."
 
-#: ../shell/main.c:331
+#: ../shell/main.c:335
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Importar URI o nombres de archivos proporcionados como argumentos."
 
-#: ../shell/main.c:333
+#: ../shell/main.c:337
 msgid "Request a running Evolution process to quit"
 msgstr "Solicitar que el proceso de ejecución de Evolution finalice"
 
-#: ../shell/main.c:517
+#: ../shell/main.c:526 ../shell/main.c:531
 msgid "- The Evolution PIM and Email Client"
 msgstr "El cliente de correo-e y GIP Evolution"
 
-#: ../shell/main.c:582
+#: ../shell/main.c:598
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19539,7 +19538,7 @@ msgstr ""
 "%s: --online y --offline no se pueden usar a la vez.\n"
 "  Ejecute «%s --help» para obtener más información\n"
 
-#: ../shell/main.c:588
+#: ../shell/main.c:604
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -21049,30 +21048,30 @@ msgstr "Devolver notificación"
 msgid "Sta_tus Tracking"
 msgstr "Seguimiento de es_tado"
 
-#: ../widgets/misc/e-source-config.c:679 ../widgets/misc/e-source-config.c:683
+#: ../widgets/misc/e-source-config.c:680 ../widgets/misc/e-source-config.c:684
 msgid "Type:"
 msgstr "Tipo:"
 
-#: ../widgets/misc/e-source-config.c:691 ../widgets/misc/e-source-config.c:695
+#: ../widgets/misc/e-source-config.c:692 ../widgets/misc/e-source-config.c:696
 msgid "Name:"
 msgstr "Nombre:"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../widgets/misc/e-source-config.c:1293
+#: ../widgets/misc/e-source-config.c:1294
 msgid "Refresh every"
 msgstr "Actualizar cada"
 
-#: ../widgets/misc/e-source-config.c:1323
-#: ../widgets/misc/e-source-config.c:1351
+#: ../widgets/misc/e-source-config.c:1324
+#: ../widgets/misc/e-source-config.c:1373
 msgid "Use a secure connection"
 msgstr "Usar una conexión segura"
 
-#: ../widgets/misc/e-source-config.c:1365
+#: ../widgets/misc/e-source-config.c:1397
 msgid "Ignore invalid SSL certificate"
 msgstr "Ignorar certificado SSL no válido"
 
-#: ../widgets/misc/e-source-config.c:1402
+#: ../widgets/misc/e-source-config.c:1434
 msgid "User"
 msgstr "_Usuario"
 
@@ -21132,7 +21131,7 @@ msgstr "_Copiar imagen"
 msgid "Copy the image to the clipboard"
 msgstr "Copiar la imagen al portapapeles"
 
-#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1435
+#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1440
 #: ../widgets/misc/e-web-view-gtkhtml.c:466
 #: ../widgets/misc/e-web-view-gtkhtml.c:1311
 msgid "Select all text and images"
@@ -21459,6 +21458,9 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2087
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "Proxy _Logout"
+#~ msgstr "_Cerrar sesión proxy"
 
 #~ msgctxt "New"
 #~ msgid "_Test Item"
