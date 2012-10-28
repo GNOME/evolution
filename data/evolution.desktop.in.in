@@ -3,6 +3,7 @@ _Name=Evolution
 _GenericName=Groupware Suite
 _X-GNOME-FullName=Evolution Mail and Calendar
 _Comment=Manage your email, contacts and schedule
+_Keywords=mail;calendar;contact;addressbook;task;
 Exec=evolution %U
 Icon=evolution
 Terminal=false
