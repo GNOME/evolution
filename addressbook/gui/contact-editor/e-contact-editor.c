@@ -3026,7 +3026,9 @@ sensitize_all (EContactEditor *editor)
 static void
 init_all (EContactEditor *editor)
 {
-	GtkRequisition tab_req;
+	const gchar *contents[] = { "viewport1", "viewport2", "viewport3", "text-comments" };
+	gint ii;
+	GtkRequisition tab_req, requisition;
 	GtkWidget *widget;
 
 	init_simple   (editor);
@@ -3038,13 +3040,50 @@ init_all (EContactEditor *editor)
 
 	/* with so many scrolled windows, we need to
 	 * do some manual sizing */
-	widget = e_builder_get_widget (editor->builder, "vbox-size-leader");
-	gtk_widget_get_preferred_size (widget, &tab_req, NULL);
+	requisition.width = -1;
+	requisition.height = -1;
 
-	widget = e_builder_get_widget (
-		editor->builder, "scrolledwindow-size-leader"),
-	gtk_widget_set_size_request (
-		widget, tab_req.width, tab_req.height + 8);
+	for (ii = 0; ii < G_N_ELEMENTS (contents); ii++) {
+		widget = e_builder_get_widget (editor->builder, contents[ii]);
+
+		gtk_widget_get_preferred_size (widget, NULL, &tab_req);
+
+		if (tab_req.width > requisition.width)
+			requisition.width = tab_req.width;
+		if (tab_req.height > requisition.height)
+			requisition.height = tab_req.height;
+	}
+
+	if (requisition.width > 0 && requisition.height > 0) {
+		GtkWindow *window;
+		GdkScreen *screen;
+		GdkRectangle monitor_area;
+		gint x = 0, y = 0, monitor, width, height;
+
+		window = GTK_WINDOW (e_builder_get_widget (editor->builder, "contact editor"));
+
+		gtk_widget_get_preferred_size (GTK_WIDGET (window), &tab_req, NULL);
+		width = tab_req.width - 320 + 24;
+		height = tab_req.height - 240 + 24;
+
+		screen = gtk_window_get_screen (window);
+		gtk_window_get_position (window, &x, &y);
+
+		monitor = gdk_screen_get_monitor_at_point (screen, x, y);
+		if (monitor < 0 || monitor >= gdk_screen_get_n_monitors (screen))
+			monitor = 0;
+
+		gdk_screen_get_monitor_workarea (screen, monitor, &monitor_area);
+
+		if (requisition.width > monitor_area.width - width)
+			requisition.width = monitor_area.width - width;
+
+		if (requisition.height > monitor_area.height - height)
+			requisition.height = monitor_area.height - height;
+
+		if (requisition.width > 0 && requisition.height > 0)
+			gtk_window_set_default_size (window, width + requisition.width, height + requisition.height);
+	}
 }
 
 static void
