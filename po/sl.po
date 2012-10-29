@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-09-17 18:06+0000\n"
-"PO-Revision-Date: 2012-09-17 21:31+0100\n"
+"POT-Creation-Date: 2012-10-29 18:42+0000\n"
+"PO-Revision-Date: 2012-10-29 22:17+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -385,7 +385,7 @@ msgstr "Obletnica"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:705
 #: ../calendar/gui/e-calendar-view.c:2149
-#: ../shell/main.c:131
+#: ../shell/main.c:135
 msgid "Birthday"
 msgstr "Rojstni dan"
 
@@ -2459,7 +2459,7 @@ msgstr "Zapri trenutno okno"
 #: ../widgets/misc/e-focus-tracker.c:121
 #: ../widgets/misc/e-focus-tracker.c:558
 #: ../widgets/misc/e-web-view.c:323
-#: ../widgets/misc/e-web-view.c:1423
+#: ../widgets/misc/e-web-view.c:1428
 #: ../widgets/misc/e-web-view-gtkhtml.c:456
 #: ../widgets/misc/e-web-view-gtkhtml.c:1299
 msgid "Copy the selection"
@@ -2470,7 +2470,7 @@ msgstr "Kopiraj izbor"
 #: ../shell/e-shell-window-actions.c:1453
 #: ../widgets/misc/e-focus-tracker.c:114
 #: ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1417
+#: ../widgets/misc/e-web-view.c:1422
 #: ../widgets/misc/e-web-view-gtkhtml.c:1293
 msgid "Cut the selection"
 msgstr "Izreži izbor"
@@ -2491,7 +2491,7 @@ msgstr "Poglejte pomoč"
 #: ../shell/e-shell-window-actions.c:1481
 #: ../widgets/misc/e-focus-tracker.c:128
 #: ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1429
+#: ../widgets/misc/e-web-view.c:1434
 #: ../widgets/misc/e-web-view-gtkhtml.c:1305
 msgid "Paste the clipboard"
 msgstr "Prilepi iz odložišča"
@@ -3103,7 +3103,7 @@ msgstr "Ni mogoče odpreti opomnikov v '%s': %s"
 #: ../em-format/e-mail-parser-inlinepgp-signed.c:96
 #: ../em-format/e-mail-parser-multipart-encrypted.c:122
 #: ../em-format/e-mail-parser-multipart-signed.c:147
-#: ../libemail-engine/mail-ops.c:722
+#: ../libemail-engine/mail-ops.c:741
 #: ../mail/e-mail-reader.c:1733
 #: ../mail/em-folder-tree.c:675
 #: ../modules/itip-formatter/itip-view.c:4574
@@ -6839,7 +6839,7 @@ msgid "S_ubject:"
 msgstr "Z_adeva:"
 
 #: ../composer/e-composer-header-table.c:890
-#: ../mail/e-mail-config-identity-page.c:466
+#: ../mail/e-mail-config-identity-page.c:491
 msgid "Si_gnature:"
 msgstr "_Podpis:"
 
@@ -7036,6 +7036,10 @@ msgstr "Evolution koledar in pošta"
 #: ../data/evolution.desktop.in.in.h:4
 msgid "Manage your email, contacts and schedule"
 msgstr "Upravljajte s pošto, stiki in razporedi"
+
+#: ../data/evolution.desktop.in.in.h:5
+msgid "mail;calendar;contact;addressbook;task;"
+msgstr "elektronska pošta;koledar;stiki;imenik;naloge;"
 
 #: ../data/evolution-settings.desktop.in.in.h:1
 msgid "Email Settings"
@@ -8751,7 +8755,7 @@ msgid "Initial folder for GtkFileChooser dialogs."
 msgstr "Začetna mapa za pogovorna okna GtkFileChooser."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7
-#: ../shell/main.c:313
+#: ../shell/main.c:317
 msgid "Start in offline mode"
 msgstr "Začni v načinu brez povezave"
 
@@ -8963,7 +8967,7 @@ msgstr "Oblikuj del kot sporočilo RFC822"
 
 #: ../em-format/e-mail-formatter-print.c:53
 #: ../mail/e-mail-label-tree-view.c:99
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1255
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1270
 #: ../modules/cal-config-google/e-google-chooser.c:209
 #: ../modules/plugin-manager/evolution-plugin-manager.c:68
 #: ../widgets/menus/gal-define-views-dialog.c:352
@@ -9029,12 +9033,12 @@ msgid "Format part as HTML"
 msgstr "Oblikuj del kot HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:123
-#: ../em-format/e-mail-formatter-text-plain.c:182
+#: ../em-format/e-mail-formatter-text-plain.c:183
 msgid "Plain Text"
 msgstr "Običajno besedilo"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:129
-#: ../em-format/e-mail-formatter-text-plain.c:188
+#: ../em-format/e-mail-formatter-text-plain.c:189
 msgid "Format part as plain text"
 msgstr "Oblikuj del kot običajno besedilo"
 
@@ -9195,7 +9199,7 @@ msgstr "Ni mogoče razčleniti sporočila PGP/MIME: %s"
 msgid "Unsupported signature format"
 msgstr "Nepodprta oblika podpisa"
 
-#: ../em-format/e-mail-part-utils.c:493
+#: ../em-format/e-mail-part-utils.c:496
 #, c-format
 msgid "%s attachment"
 msgstr "priloga %s"
@@ -9963,15 +9967,15 @@ msgid "UID '%s' is not a mail transport"
 msgstr "UID '%s' ni poštni prenos"
 
 #: ../libemail-engine/e-mail-session-utils.c:641
-#: ../libemail-engine/mail-ops.c:700
+#: ../libemail-engine/mail-ops.c:719
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Uveljavljanje izhodnih filtrov ni uspelo: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:670
 #: ../libemail-engine/e-mail-session-utils.c:704
-#: ../libemail-engine/mail-ops.c:717
-#: ../libemail-engine/mail-ops.c:753
+#: ../libemail-engine/mail-ops.c:736
+#: ../libemail-engine/mail-ops.c:772
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -9981,14 +9985,14 @@ msgstr ""
 "Pripenjanje v krajevno mapo 'Poslano'."
 
 #: ../libemail-engine/e-mail-session-utils.c:724
-#: ../libemail-engine/mail-ops.c:775
+#: ../libemail-engine/mail-ops.c:794
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Pripenjanje v krajevno mapo 'Poslano' ni uspelo: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:954
-#: ../libemail-engine/mail-ops.c:907
-#: ../libemail-engine/mail-ops.c:1009
+#: ../libemail-engine/mail-ops.c:926
+#: ../libemail-engine/mail-ops.c:1028
 msgid "Sending message"
 msgstr "Pošiljanje sporočila"
 
@@ -10007,7 +10011,7 @@ msgstr "Ponovno povezovanje s strežnikom '%s'"
 msgid "Preparing account '%s' for offline"
 msgstr "Pripravljanje računa '%s' za delo brez povezave"
 
-#: ../libemail-engine/mail-folder-cache.c:876
+#: ../libemail-engine/mail-folder-cache.c:880
 #, c-format
 msgid "Pinging %s"
 msgstr "Pošiljanje pinga %s"
@@ -10016,16 +10020,16 @@ msgstr "Pošiljanje pinga %s"
 msgid "Filtering Selected Messages"
 msgstr "Filtriranje izbranih sporočil"
 
-#: ../libemail-engine/mail-ops.c:216
+#: ../libemail-engine/mail-ops.c:219
 msgid "Fetching Mail"
 msgstr "Pridobivanje pošte"
 
-#: ../libemail-engine/mail-ops.c:918
+#: ../libemail-engine/mail-ops.c:937
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Pošiljanje sporočila %d od %d"
 
-#: ../libemail-engine/mail-ops.c:970
+#: ../libemail-engine/mail-ops.c:989
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
@@ -10034,40 +10038,40 @@ msgstr[1] "Pošiljanje %d od %d sporočila je spodletelo."
 msgstr[2] "Pošiljanje %d od %d sporočil je spodletelo."
 msgstr[3] "Pošiljanje %d od %d sporočil je spodletelo."
 
-#: ../libemail-engine/mail-ops.c:976
+#: ../libemail-engine/mail-ops.c:995
 msgid "Canceled."
 msgstr "Preklicano."
 
-#: ../libemail-engine/mail-ops.c:978
+#: ../libemail-engine/mail-ops.c:997
 msgid "Complete."
 msgstr "Končano."
 
-#: ../libemail-engine/mail-ops.c:1090
+#: ../libemail-engine/mail-ops.c:1109
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Premikanje sporočil v '%s'"
 
-#: ../libemail-engine/mail-ops.c:1091
+#: ../libemail-engine/mail-ops.c:1110
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Kopiranje sporočil v '%s'"
 
-#: ../libemail-engine/mail-ops.c:1209
+#: ../libemail-engine/mail-ops.c:1228
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Shranjevanje mape '%s'"
 
-#: ../libemail-engine/mail-ops.c:1283
+#: ../libemail-engine/mail-ops.c:1302
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Uničevanje in shranjevanje računa '%s'"
 
-#: ../libemail-engine/mail-ops.c:1284
+#: ../libemail-engine/mail-ops.c:1303
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Shranjevanje računa '%s'"
 
-#: ../libemail-engine/mail-ops.c:1358
+#: ../libemail-engine/mail-ops.c:1377
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Praznjenje smeti v '%s'"
@@ -10144,7 +10148,7 @@ msgid "De_fault"
 msgstr "_Privzeto"
 
 #: ../mail/e-mail-account-tree-view.c:85
-#: ../modules/mail/em-composer-prefs.c:505
+#: ../modules/mail/em-composer-prefs.c:495
 #: ../modules/plugin-manager/evolution-plugin-manager.c:360
 #: ../plugins/publish-calendar/publish-calendar.c:864
 msgid "Enabled"
@@ -10307,16 +10311,16 @@ msgstr "Vprašaj za vsako sporočilo"
 msgid "Defaults"
 msgstr "Privzeto"
 
-#: ../mail/e-mail-config-identity-page.c:254
+#: ../mail/e-mail-config-identity-page.c:269
 msgid "Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send."
 msgstr "Spodaj vnesite svoje ime in naslov elektronske pošte. Polj \"dodatno\" ni treba izpolnjevati, razen če želite tudi te podatke vključiti v elektronsko pošto, ki jo boste pošiljali."
 
-#: ../mail/e-mail-config-identity-page.c:282
+#: ../mail/e-mail-config-identity-page.c:297
 #: ../mail/e-mail-config-summary-page.c:324
 msgid "Account Information"
 msgstr "Podrobnosti računa"
 
-#: ../mail/e-mail-config-identity-page.c:291
+#: ../mail/e-mail-config-identity-page.c:306
 #: ../mail/e-mail-config-summary-page.c:333
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
@@ -10325,7 +10329,7 @@ msgstr ""
 "Vtipkajte ime, ki bi ga radi uporabili za ta račun.\n"
 "Na primer, \"Delo\" ali \"Osebno\"."
 
-#: ../mail/e-mail-config-identity-page.c:299
+#: ../mail/e-mail-config-identity-page.c:314
 #: ../mail/e-mail-config-summary-page.c:341
 #: ../modules/addressbook/ldap-config.ui.h:12
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
@@ -10333,36 +10337,36 @@ msgstr ""
 msgid "_Name:"
 msgstr "_Ime:"
 
-#: ../mail/e-mail-config-identity-page.c:336
+#: ../mail/e-mail-config-identity-page.c:351
 msgid "Required Information"
 msgstr "Zahtevani podatki"
 
-#: ../mail/e-mail-config-identity-page.c:345
+#: ../mail/e-mail-config-identity-page.c:360
 msgid "Full Nam_e:"
 msgstr "Polno im_e:"
 
-#: ../mail/e-mail-config-identity-page.c:372
+#: ../mail/e-mail-config-identity-page.c:387
 msgid "Email _Address:"
 msgstr "_Elektronski naslov:"
 
-#: ../mail/e-mail-config-identity-page.c:409
+#: ../mail/e-mail-config-identity-page.c:434
 #: ../plugins/publish-calendar/publish-calendar.ui.h:26
 msgid "Optional Information"
 msgstr "Dodatne podrobnosti"
 
-#: ../mail/e-mail-config-identity-page.c:417
+#: ../mail/e-mail-config-identity-page.c:442
 msgid "Re_ply-To:"
 msgstr "Od_govori-na:"
 
-#: ../mail/e-mail-config-identity-page.c:444
+#: ../mail/e-mail-config-identity-page.c:469
 msgid "Or_ganization:"
 msgstr "Or_ganizacija:"
 
-#: ../mail/e-mail-config-identity-page.c:499
+#: ../mail/e-mail-config-identity-page.c:524
 msgid "Add Ne_w Signature..."
 msgstr "Dodaj no_v podpis ..."
 
-#: ../mail/e-mail-config-identity-page.c:640
+#: ../mail/e-mail-config-identity-page.c:680
 msgid "Identity"
 msgstr "Istovetnost"
 
@@ -11930,7 +11934,7 @@ msgstr "Uvažanje podatkov Elm"
 
 #: ../mail/importers/elm-importer.c:332
 #: ../mail/importers/pine-importer.c:423
-#: ../modules/mail/e-mail-shell-view.c:1074
+#: ../modules/mail/e-mail-shell-view.c:1034
 #: ../widgets/misc/e-send-options.c:538
 msgid "Mail"
 msgstr "Pošta"
@@ -12152,12 +12156,12 @@ msgid "_Languages"
 msgstr "_Jeziki"
 
 #: ../mail/mail-config.ui.h:23
-msgid "The list of languages here reflects only the languages for which you have a dictionary installed."
-msgstr "Ta seznam jezikov vsebuje le jezike, katerih slovar imate nameščen."
-
-#: ../mail/mail-config.ui.h:24
 msgid "Languages Table"
 msgstr "Razpredelnica jezikov"
+
+#: ../mail/mail-config.ui.h:24
+msgid "The list of languages here reflects only the languages for which you have a dictionary installed."
+msgstr "Ta seznam jezikov vsebuje le jezike, katerih slovar imate nameščen."
 
 #: ../mail/mail-config.ui.h:26
 msgid "Check spelling while I _type"
@@ -14165,23 +14169,23 @@ msgstr "Izogibajte se IfMatch (zahtevano na Apache < 2.2.8)"
 msgid "HTTP Error: %s"
 msgstr "Napaka HTTP: %s"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:447
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:445
 msgid "Could not parse response"
 msgstr "Ni mogoče razčleniti odgovora"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:456
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:454
 msgid "Empty response"
 msgstr "Odziv brez vsebine"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:464
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:462
 msgid "Unexpected reply from server"
 msgstr "Nepričakovan odgovor strežnika"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1051
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1066
 msgid "Could not locate user's calendars"
 msgstr "Uporbnikovega koledarja ni mogoče najti"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1275
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1290
 msgid "Path"
 msgstr "Pot"
 
@@ -16211,7 +16215,6 @@ msgid "None"
 msgstr "Brez"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1226
-#: ../modules/mail/e-mail-shell-view.c:975
 msgid "_Disable Account"
 msgstr "_Onemogoči račun"
 
@@ -16518,10 +16521,6 @@ msgstr "Iskanje po vseh računih"
 msgid "Account Search"
 msgstr "Iskanje računa"
 
-#: ../modules/mail/e-mail-shell-view.c:973
-msgid "Proxy _Logout"
-msgstr "_Odjavi se iz posredniškega strežnika"
-
 #: ../modules/mail/e-mail-shell-view-private.c:962
 #, c-format
 msgid "%d selected, "
@@ -16603,7 +16602,7 @@ msgstr "Smeti"
 msgid "Send / Receive"
 msgstr "Oddaja / sprejem"
 
-#: ../modules/mail/em-composer-prefs.c:509
+#: ../modules/mail/em-composer-prefs.c:499
 msgid "Language(s)"
 msgstr "Jezik(i)"
 
@@ -16885,11 +16884,11 @@ msgstr "_Oblikuj kot ..."
 msgid "_Other languages"
 msgstr "_Drugi jeziki"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:342
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:365
 msgid "Text Highlight"
 msgstr "Poudarjanje besedila"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:348
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:371
 msgid "Syntax highlighting of mail parts"
 msgstr "Poudarjanje skladnje delov sporočila"
 
@@ -18461,7 +18460,7 @@ msgid "%s - Evolution"
 msgstr "%s - Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:186
+#: ../shell/main.c:190
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -18496,7 +18495,7 @@ msgstr ""
 "Upamo, da boste uživali sadove našega trdega dela, in nestrpno\n"
 "pričakujemo vaše prispevke!\n"
 
-#: ../shell/main.c:210
+#: ../shell/main.c:214
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -18504,57 +18503,58 @@ msgstr ""
 "Hvala!\n"
 "Ekipa Evolution\n"
 
-#: ../shell/main.c:216
+#: ../shell/main.c:220
 msgid "Do not tell me again"
 msgstr "Ne opozarjaj več"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../shell/main.c:307
+#: ../shell/main.c:311
 msgid "Start Evolution showing the specified component. Available options are 'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
 msgstr "Zaženi Evolution, ki prikazuje določen sestavni del. Razpoložljive možnosti so 'pošta', 'koledar', 'stiki', 'naloge' in 'opomniki'"
 
-#: ../shell/main.c:311
+#: ../shell/main.c:315
 msgid "Apply the given geometry to the main window"
 msgstr "Uveljavi podane nastavitve velikosti na glavnem oknu"
 
-#: ../shell/main.c:315
+#: ../shell/main.c:319
 msgid "Start in online mode"
 msgstr "Začni v povezanemu načinu"
 
-#: ../shell/main.c:317
+#: ../shell/main.c:321
 msgid "Ignore network availability"
 msgstr "Prezri razpoložljivost omrežja"
 
-#: ../shell/main.c:319
+#: ../shell/main.c:323
 msgid "Start in \"express\" mode"
 msgstr "Začni v  \"hitrem\" načinu"
 
-#: ../shell/main.c:322
+#: ../shell/main.c:326
 msgid "Forcibly shut down Evolution"
 msgstr "Vsiljeno končaj program Evolution"
 
-#: ../shell/main.c:325
+#: ../shell/main.c:329
 msgid "Disable loading of any plugins."
 msgstr "Onemogoči nalaganje vseh vstavkov."
 
-#: ../shell/main.c:327
+#: ../shell/main.c:331
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Onemogoči pladenj predogleda za pošto, stike in naloge."
 
-#: ../shell/main.c:331
+#: ../shell/main.c:335
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Uvozi naslove URI ali imena datotek podana kot argumenti."
 
-#: ../shell/main.c:333
+#: ../shell/main.c:337
 msgid "Request a running Evolution process to quit"
 msgstr "Zahteva po končanju programa Evolution"
 
-#: ../shell/main.c:517
+#: ../shell/main.c:526
+#: ../shell/main.c:531
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Poštni odjemalec in PIM Evolution"
 
-#: ../shell/main.c:582
+#: ../shell/main.c:598
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -18563,7 +18563,7 @@ msgstr ""
 "%s: --online in --offline ne moreta biti uporabljena sočasno.\n"
 " Uporabite '%s --help' za več podrobnosti.\n"
 
-#: ../shell/main.c:588
+#: ../shell/main.c:604
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -20056,15 +20056,15 @@ msgid "Refresh every"
 msgstr "Osveži vsakih"
 
 #: ../widgets/misc/e-source-config.c:1324
-#: ../widgets/misc/e-source-config.c:1352
+#: ../widgets/misc/e-source-config.c:1373
 msgid "Use a secure connection"
 msgstr "Uporabi varno povezavo"
 
-#: ../widgets/misc/e-source-config.c:1366
+#: ../widgets/misc/e-source-config.c:1397
 msgid "Ignore invalid SSL certificate"
 msgstr "Prezri neveljavno potrdilo SSL"
 
-#: ../widgets/misc/e-source-config.c:1403
+#: ../widgets/misc/e-source-config.c:1434
 msgid "User"
 msgstr "Uporabnik"
 
@@ -20132,7 +20132,7 @@ msgid "Copy the image to the clipboard"
 msgstr "Kopira sliko v odložišče"
 
 #: ../widgets/misc/e-web-view.c:333
-#: ../widgets/misc/e-web-view.c:1435
+#: ../widgets/misc/e-web-view.c:1440
 #: ../widgets/misc/e-web-view-gtkhtml.c:466
 #: ../widgets/misc/e-web-view-gtkhtml.c:1311
 msgid "Select all text and images"
@@ -20470,3 +20470,5 @@ msgstr "Izberi vse"
 msgid "Input Methods"
 msgstr "Načini vnosa"
 
+#~ msgid "Proxy _Logout"
+#~ msgstr "_Odjavi se iz posredniškega strežnika"
