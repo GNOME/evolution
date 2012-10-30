@@ -391,10 +391,11 @@ mail_signature_manager_constructed (GObject *object)
 	container = widget;
 
 	widget = e_mail_signature_preview_new (registry);
-	gtk_widget_set_size_request (widget, -1, PREVIEW_HEIGHT);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	manager->priv->preview = widget;  /* not referenced */
 	gtk_widget_show (widget);
+
+	gtk_paned_set_position (GTK_PANED (manager), PREVIEW_HEIGHT);
 }
 
 static void
