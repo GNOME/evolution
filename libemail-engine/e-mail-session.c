@@ -435,13 +435,21 @@ mail_session_set_junk_filter_name (EMailSession *session,
 
 static void
 mail_session_refresh_cb (ESource *source,
-                         CamelSession *session)
+                         EMailSession *session)
 {
+	ESourceRegistry *registry;
 	CamelService *service;
 	const gchar *uid;
 
+	registry = e_mail_session_get_registry (session);
+
+	/* Skip the signal emission if the source
+	 * or any of its ancestors are disabled. */
+	if (!e_source_registry_check_enabled (registry, source))
+		return;
+
 	uid = e_source_get_uid (source);
-	service = camel_session_ref_service (session, uid);
+	service = camel_session_ref_service (CAMEL_SESSION (session), uid);
 	g_return_if_fail (service != NULL);
 
 	g_signal_emit (session, signals[REFRESH_SERVICE], 0, service);
