@@ -58,12 +58,12 @@ typedef struct _EShellSearchbarPrivate EShellSearchbarPrivate;
  * functions below.
  **/
 struct _EShellSearchbar {
-	GtkBox parent;
+	GtkGrid parent;
 	EShellSearchbarPrivate *priv;
 };
 
 struct _EShellSearchbarClass {
-	GtkBoxClass parent_class;
+	GtkGridClass parent_class;
 };
 
 GType		e_shell_searchbar_get_type	(void);

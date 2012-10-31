@@ -67,7 +67,6 @@ struct _EShellViewPrivate {
 	guint merge_id;
 
 	GtkAction *action;
-	GtkSizeGroup *size_group;
 	GtkWidget *shell_content;
 	GtkWidget *shell_sidebar;
 	GtkWidget *shell_taskbar;
@@ -622,10 +621,6 @@ shell_view_constructed (GObject *object)
 		shell_view->priv->searchbar = g_object_ref_sink (widget);
 	}
 
-	/* Size group should be safe to unreference now. */
-	g_object_unref (shell_view->priv->size_group);
-	shell_view->priv->size_group = NULL;
-
 	/* Update actions whenever the Preferences window is closed. */
 	widget = e_shell_get_preferences_window (shell);
 	shell_view->priv->preferences_window = g_object_ref (widget);
@@ -1102,8 +1097,6 @@ static void
 e_shell_view_init (EShellView *shell_view,
                    EShellViewClass *class)
 {
-	GtkSizeGroup *size_group;
-
 	/* XXX Our use of GInstanceInitFunc's 'class' parameter
 	 *     prevents us from using G_DEFINE_ABSTRACT_TYPE. */
 
@@ -1113,11 +1106,8 @@ e_shell_view_init (EShellView *shell_view,
 	if (class->view_collection == NULL)
 		shell_view_init_view_collection (class);
 
-	size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);
-
 	shell_view->priv = E_SHELL_VIEW_GET_PRIVATE (shell_view);
 	shell_view->priv->state_key_file = g_key_file_new ();
-	shell_view->priv->size_group = size_group;
 }
 
 GType
@@ -1485,26 +1475,6 @@ e_shell_view_get_search_query (EShellView *shell_view)
 	e_filter_rule_build_code (rule, string);
 
 	return g_string_free (string, FALSE);
-}
-
-/**
- * e_shell_view_get_size_group:
- * @shell_view: an #EShellView
- *
- * Returns a #GtkSizeGroup that #EShellContent and #EShellSidebar use
- * to keep the search bar and sidebar banner vertically aligned.  The
- * rest of the application should have no need for this.
- *
- * Note, this is only available during #EShellView construction.
- *
- * Returns: a #GtkSizeGroup for internal use
- **/
-GtkSizeGroup *
-e_shell_view_get_size_group (EShellView *shell_view)
-{
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
-
-	return shell_view->priv->size_group;
 }
 
 /**

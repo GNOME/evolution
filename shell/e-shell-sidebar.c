@@ -203,19 +203,13 @@ shell_sidebar_constructed (GObject *object)
 {
 	EShellView *shell_view;
 	EShellSidebar *shell_sidebar;
-	GtkSizeGroup *size_group;
 	GtkAction *action;
-	GtkWidget *widget;
 	gchar *label;
 	gchar *icon_name;
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	size_group = e_shell_view_get_size_group (shell_view);
 	action = e_shell_view_get_action (shell_view);
-
-	widget = shell_sidebar->priv->event_box;
-	gtk_size_group_add_widget (size_group, widget);
 
 	g_object_get (action, "icon-name", &icon_name, NULL);
 	e_shell_sidebar_set_icon_name (shell_sidebar, icon_name);
