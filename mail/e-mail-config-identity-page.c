@@ -264,7 +264,6 @@ mail_config_identity_page_constructed (GObject *object)
 
 	/* This keeps all mnemonic labels the same width. */
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
-	gtk_size_group_set_ignore_hidden (size_group, TRUE);
 
 	text = _("Please enter your name and email address below. "
 		 "The \"optional\" fields below do not need to be filled "
