@@ -995,7 +995,7 @@ buttons_table_write_button (GString *buffer,
 
 	g_string_append_printf (
 		buffer,
-		"<td><button type=\"button\" name=\"%s\" value=\"%d\" id=\"%s\" accesskey=\"%s\" hidden>"
+		"<td><button type=\"button\" name=\"%s\" value=\"%d\" id=\"%s\" accesskey=\"%s\" hidden disabled>"
 		"<div><img src=\"gtk-stock://%s?size=%d\"> <span>%s</span></div>"
 		"</button></td>\n",
 		name, response, name, access_key ? access_key : "" , icon,

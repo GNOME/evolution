@@ -262,12 +262,16 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	EMailView *mail_view;
+	EMailReader *reader;
+	EMailDisplay *mail_display;
 	GtkAction *action;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	if ((event->state & GDK_CONTROL_MASK) != 0)
+	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0)
 		return FALSE;
 
 	switch (event->keyval) {
@@ -281,6 +285,34 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 
 		default:
 			return FALSE;
+	}
+
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	mail_view = e_mail_shell_content_get_mail_view (E_MAIL_SHELL_CONTENT (shell_content));
+	reader = E_MAIL_READER (mail_view);
+	mail_display = e_mail_reader_get_mail_display (reader);
+
+	if (gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
+		WebKitWebFrame *frame;
+		WebKitDOMDocument *dom;
+		WebKitDOMElement *element;
+		gchar *name = NULL;
+
+		frame = webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display));
+		dom = webkit_web_frame_get_dom_document (frame);
+		/* intentionally used "static_cast" */
+		element = webkit_dom_html_document_get_active_element ((WebKitDOMHTMLDocument *) dom);
+
+		if (element)
+			name = webkit_dom_node_get_node_name (WEBKIT_DOM_NODE (element));
+
+		/* if INPUT or TEXTAREA has focus, then any key press should go there */
+		if (name && (g_ascii_strcasecmp (name, "INPUT") == 0 || g_ascii_strcasecmp (name, "TEXTAREA") == 0)) {
+			g_free (name);
+			return FALSE;
+		}
+
+		g_free (name);
 	}
 
 	gtk_action_activate (action);
