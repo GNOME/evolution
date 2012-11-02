@@ -995,7 +995,7 @@ buttons_table_write_button (GString *buffer,
 
 	g_string_append_printf (
 		buffer,
-		"<td><button type=\"button\" name=\"%s\" value=\"%d\" id=\"%s\" accesskey=\"%s\" hidden>"
+		"<td><button type=\"button\" name=\"%s\" value=\"%d\" id=\"%s\" accesskey=\"%s\" hidden disabled>"
 		"<div><img src=\"gtk-stock://%s?size=%d\"> <span>%s</span></div>"
 		"</button></td>\n",
 		name, response, name, access_key ? access_key : "" , icon,
@@ -1019,7 +1019,7 @@ append_buttons_table (GString *buffer)
 
         /* Everything gets the open button */
 	buttons_table_write_button (
-		buffer, BUTTON_OPEN_CALENDAR, _("_Open Calendar"),
+		buffer, BUTTON_OPEN_CALENDAR, _("Ope_n Calendar"),
 		GTK_STOCK_JUMP_TO, ITIP_VIEW_RESPONSE_OPEN);
 	buttons_table_write_button (
 		buffer, BUTTON_DECLINE_ALL, _("_Decline all"),
@@ -1034,13 +1034,13 @@ append_buttons_table (GString *buffer)
 		buffer, BUTTON_TENTATIVE, _("_Tentative"),
 		GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
 	buttons_table_write_button (
-		buffer, BUTTON_ACCEPT_ALL, _("A_ccept all"),
+		buffer, BUTTON_ACCEPT_ALL, _("Acce_pt all"),
 		GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 	buttons_table_write_button (
-		buffer, BUTTON_ACCEPT, _("A_ccept"),
+		buffer, BUTTON_ACCEPT, _("Acce_pt"),
 		GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 	buttons_table_write_button (
-		buffer, BUTTON_SEND_INFORMATION, _("_Send Information"),
+		buffer, BUTTON_SEND_INFORMATION, _("Send _Information"),
 		GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_REFRESH);
 	buttons_table_write_button (
 		buffer, BUTTON_UPDATE_ATTENDEE_STATUS, _("_Update Attendee Status"),
@@ -3091,7 +3091,7 @@ itip_view_set_error (ItipView *view,
 			"<tr width=\"100%\" id=\"" TABLE_ROW_BUTTONS "\">");
 
 		buttons_table_write_button (
-			str, BUTTON_SAVE, _("_Save"),
+			str, BUTTON_SAVE, _("Sa_ve"),
 			GTK_STOCK_SAVE, ITIP_VIEW_RESPONSE_SAVE);
 
 		g_string_append (str, "</tr></table>");
