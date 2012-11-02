@@ -61,11 +61,6 @@ struct _EMailShellViewClass {
 GType		e_mail_shell_view_get_type	(void);
 void		e_mail_shell_view_register_type
 					(GTypeModule *type_module);
-gboolean	e_mail_shell_view_get_show_deleted
-					(EMailShellView *mail_shell_view);
-void		e_mail_shell_view_set_show_deleted
-					(EMailShellView *mail_shell_view,
-					 gboolean show_deleted);
 
 G_END_DECLS
 
