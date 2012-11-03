@@ -24,6 +24,8 @@ module_mail_la_SOURCES = \
 	e-mail-config-reader.h						\
 	e-mail-config-web-view.c					\
 	e-mail-config-web-view.h					\
+	e-mail-config-web-view-gtkhtml.c				\
+	e-mail-config-web-view-gtkhtml.h				\
 	e-mail-event-hook.c						\
 	e-mail-event-hook.h						\
 	e-mail-shell-backend.c						\
