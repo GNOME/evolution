@@ -36,6 +36,7 @@
 #include "e-mail-config-format-html.h"
 #include "e-mail-config-reader.h"
 #include "e-mail-config-web-view.h"
+#include "e-mail-config-web-view-gtkhtml.h"
 
 #include "em-account-prefs.h"
 
@@ -62,6 +63,7 @@ e_module_load (GTypeModule *type_module)
 	e_mail_config_format_html_type_register (type_module);
 	e_mail_config_reader_type_register (type_module);
 	e_mail_config_web_view_type_register (type_module);
+	e_mail_config_web_view_gtkhtml_type_register (type_module);
 
 	em_account_prefs_type_register (type_module);
 }
