@@ -12,20 +12,20 @@
 # David Planella Molas <david.planella@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012.
 # Jordi Serratosa <jordis@softcatala.cat>, 2012.
 #
-#: ../shell/main.c:568
+#: ../shell/main.c:584
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-09-24 13:29+0000\n"
-"PO-Revision-Date: 2012-09-25 08:38+0100\n"
-"Last-Translator: cubells <vicent@vcubells.net>\n"
+"POT-Creation-Date: 2012-10-28 12:13+0000\n"
+"PO-Revision-Date: 2012-11-03 16:17+0100\n"
+"Last-Translator: Gil Forcada <gilforcada@guifi.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bits\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
@@ -439,7 +439,7 @@ msgstr "Commemoració"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:705
-#: ../calendar/gui/e-calendar-view.c:2149 ../shell/main.c:131
+#: ../calendar/gui/e-calendar-view.c:2149 ../shell/main.c:135
 msgid "Birthday"
 msgstr "Aniversari"
 
@@ -853,7 +853,7 @@ msgid "Send a mail message to this address"
 msgstr "Envia un missatge de correu a aquesta adreça"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:333
-#: ../widgets/misc/e-web-view.c:1094 ../widgets/misc/e-web-view-gtkhtml.c:973
+#: ../widgets/misc/e-web-view.c:1097 ../widgets/misc/e-web-view-gtkhtml.c:973
 #, c-format
 msgid "Click to mail %s"
 msgstr "Feu clic per enviar un correu a en/na %s"
@@ -2566,7 +2566,7 @@ msgstr "Tanca la finestra actual"
 #: ../calendar/gui/dialogs/comp-editor.c:1164 ../mail/e-mail-browser.c:134
 #: ../shell/e-shell-window-actions.c:1446
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
-#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1420
+#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1428
 #: ../widgets/misc/e-web-view-gtkhtml.c:456
 #: ../widgets/misc/e-web-view-gtkhtml.c:1299
 msgid "Copy the selection"
@@ -2575,7 +2575,7 @@ msgstr "Copia la selecció"
 #: ../calendar/gui/dialogs/comp-editor.c:1171 ../mail/e-mail-browser.c:141
 #: ../shell/e-shell-window-actions.c:1453
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1414 ../widgets/misc/e-web-view-gtkhtml.c:1293
+#: ../widgets/misc/e-web-view.c:1422 ../widgets/misc/e-web-view-gtkhtml.c:1293
 msgid "Cut the selection"
 msgstr "Retalla la selecció"
 
@@ -2592,7 +2592,7 @@ msgstr "Visualitza l'ajuda"
 #: ../calendar/gui/dialogs/comp-editor.c:1192 ../mail/e-mail-browser.c:148
 #: ../shell/e-shell-window-actions.c:1481
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1426 ../widgets/misc/e-web-view-gtkhtml.c:1305
+#: ../widgets/misc/e-web-view.c:1434 ../widgets/misc/e-web-view-gtkhtml.c:1305
 msgid "Paste the clipboard"
 msgstr "Enganxa el porta-retalls"
 
@@ -3205,7 +3205,7 @@ msgstr "No s'han pogut obrir les anotacions a «%s»: %s"
 #: ../em-format/e-mail-parser-inlinepgp-signed.c:96
 #: ../em-format/e-mail-parser-multipart-encrypted.c:122
 #: ../em-format/e-mail-parser-multipart-signed.c:147
-#: ../libemail-engine/mail-ops.c:722 ../mail/e-mail-reader.c:1733
+#: ../libemail-engine/mail-ops.c:741 ../mail/e-mail-reader.c:1733
 #: ../mail/em-folder-tree.c:675 ../modules/itip-formatter/itip-view.c:4574
 #: ../modules/itip-formatter/itip-view.c:4925 ../plugins/face/face.c:174
 #: ../smime/gui/certificate-manager.c:317
@@ -7101,6 +7101,10 @@ msgstr "Correu i calendari de l'Evolution"
 msgid "Manage your email, contacts and schedule"
 msgstr "Gestioneu els correus electrònics, contactes i horaris"
 
+#: ../data/evolution.desktop.in.in.h:5
+msgid "mail;calendar;contact;addressbook;task;"
+msgstr "correu;calendari;contacte;llibreta d'adreces;tasca;"
+
 #: ../data/evolution-settings.desktop.in.in.h:1
 msgid "Email Settings"
 msgstr "Paràmetres del correu electrònic"
@@ -9472,7 +9476,7 @@ msgstr "Carpeta inicial del selector de fitxers"
 msgid "Initial folder for GtkFileChooser dialogs."
 msgstr "Carpeta inicial dels diàlegs de tipus GtkFileChooser."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:313
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:317
 msgid "Start in offline mode"
 msgstr "Inicia en mode fora de línia"
 
@@ -9684,7 +9688,7 @@ msgstr "Formata la part com a missatge RFC822"
 
 #: ../em-format/e-mail-formatter-print.c:53
 #: ../mail/e-mail-label-tree-view.c:99
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1255
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1272
 #: ../modules/cal-config-google/e-google-chooser.c:209
 #: ../modules/plugin-manager/evolution-plugin-manager.c:68
 #: ../widgets/menus/gal-define-views-dialog.c:352
@@ -9749,12 +9753,12 @@ msgid "Format part as HTML"
 msgstr "Formata la part com a HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:123
-#: ../em-format/e-mail-formatter-text-plain.c:182
+#: ../em-format/e-mail-formatter-text-plain.c:183
 msgid "Plain Text"
 msgstr "Text sense format"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:129
-#: ../em-format/e-mail-formatter-text-plain.c:188
+#: ../em-format/e-mail-formatter-text-plain.c:189
 msgid "Format part as plain text"
 msgstr "No formatis la part"
 
@@ -9956,7 +9960,7 @@ msgstr "No s'ha pogut analitzar el missatge PGP/MIME: %s"
 msgid "Unsupported signature format"
 msgstr "El format de la signatura no està implementat"
 
-#: ../em-format/e-mail-part-utils.c:493
+#: ../em-format/e-mail-part-utils.c:496
 #, c-format
 msgid "%s attachment"
 msgstr "fitxer adjunt %s"
@@ -10682,14 +10686,14 @@ msgid "UID '%s' is not a mail transport"
 msgstr "L'UID «%s» no és un transport de correu"
 
 #: ../libemail-engine/e-mail-session-utils.c:641
-#: ../libemail-engine/mail-ops.c:700
+#: ../libemail-engine/mail-ops.c:719
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "No s'han pogut aplicar els filtres de sortida: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:670
 #: ../libemail-engine/e-mail-session-utils.c:704
-#: ../libemail-engine/mail-ops.c:717 ../libemail-engine/mail-ops.c:753
+#: ../libemail-engine/mail-ops.c:736 ../libemail-engine/mail-ops.c:772
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -10699,13 +10703,13 @@ msgstr ""
 "S'afegirà a la carpeta local «Enviat» en lloc d'això."
 
 #: ../libemail-engine/e-mail-session-utils.c:724
-#: ../libemail-engine/mail-ops.c:775
+#: ../libemail-engine/mail-ops.c:794
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "No s'han pogut afegir a la carpeta local «Enviat»: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:954
-#: ../libemail-engine/mail-ops.c:907 ../libemail-engine/mail-ops.c:1009
+#: ../libemail-engine/mail-ops.c:926 ../libemail-engine/mail-ops.c:1028
 msgid "Sending message"
 msgstr "S'està enviant el missatge"
 
@@ -10724,7 +10728,7 @@ msgstr "S'està tornant a connectar a «%s»"
 msgid "Preparing account '%s' for offline"
 msgstr "S'està preparant el compte «%s» per treballar fora de línia"
 
-#: ../libemail-engine/mail-folder-cache.c:876
+#: ../libemail-engine/mail-folder-cache.c:880
 #, c-format
 msgid "Pinging %s"
 msgstr "S'està enviant un ping a %s"
@@ -10733,56 +10737,56 @@ msgstr "S'està enviant un ping a %s"
 msgid "Filtering Selected Messages"
 msgstr "S'estan filtrant els missatges seleccionats"
 
-#: ../libemail-engine/mail-ops.c:216
+#: ../libemail-engine/mail-ops.c:219
 msgid "Fetching Mail"
 msgstr "S'està recollint el correu electrònic"
 
-#: ../libemail-engine/mail-ops.c:918
+#: ../libemail-engine/mail-ops.c:937
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "S'està enviant el missatge %d de %d"
 
-#: ../libemail-engine/mail-ops.c:970
+#: ../libemail-engine/mail-ops.c:989
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "No s'ha pogut enviar el missatge"
 msgstr[1] "No s'han pogut enviar %d de %d missatges"
 
-#: ../libemail-engine/mail-ops.c:976
+#: ../libemail-engine/mail-ops.c:995
 msgid "Canceled."
 msgstr "S'ha cancel·lat."
 
-#: ../libemail-engine/mail-ops.c:978
+#: ../libemail-engine/mail-ops.c:997
 msgid "Complete."
 msgstr "Completat."
 
-#: ../libemail-engine/mail-ops.c:1090
+#: ../libemail-engine/mail-ops.c:1109
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "S'estan movent els missatges a «%s»"
 
-#: ../libemail-engine/mail-ops.c:1091
+#: ../libemail-engine/mail-ops.c:1110
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "S'estan copiant els missatges a «%s»"
 
-#: ../libemail-engine/mail-ops.c:1209
+#: ../libemail-engine/mail-ops.c:1228
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "S'està emmagatzemant la carpeta «%s»"
 
-#: ../libemail-engine/mail-ops.c:1283
+#: ../libemail-engine/mail-ops.c:1302
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "S'està buidant i emmagatzemant el compte «%s»"
 
-#: ../libemail-engine/mail-ops.c:1284
+#: ../libemail-engine/mail-ops.c:1303
 #, c-format
 msgid "Storing account '%s'"
 msgstr "S'està emmagatzemant el compte «%s»"
 
-#: ../libemail-engine/mail-ops.c:1358
+#: ../libemail-engine/mail-ops.c:1377
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "S'està buidant la paperera a «%s»"
@@ -10853,7 +10857,7 @@ msgid "De_fault"
 msgstr "_Per defecte"
 
 #: ../mail/e-mail-account-tree-view.c:85
-#: ../modules/mail/em-composer-prefs.c:505
+#: ../modules/mail/em-composer-prefs.c:495
 #: ../modules/plugin-manager/evolution-plugin-manager.c:360
 #: ../plugins/publish-calendar/publish-calendar.c:864
 msgid "Enabled"
@@ -12630,7 +12634,7 @@ msgid "Importing Elm data"
 msgstr "S'estan important dades de l'Elm"
 
 #: ../mail/importers/elm-importer.c:332 ../mail/importers/pine-importer.c:423
-#: ../modules/mail/e-mail-shell-view.c:1074
+#: ../modules/mail/e-mail-shell-view.c:1034
 #: ../widgets/misc/e-send-options.c:538
 msgid "Mail"
 msgstr "Correu"
@@ -12853,16 +12857,16 @@ msgid "_Languages"
 msgstr "_Llengües"
 
 #: ../mail/mail-config.ui.h:23
+msgid "Languages Table"
+msgstr "Taula d'idiomes"
+
+#: ../mail/mail-config.ui.h:24
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
 "Aquesta llista reflecteix només els idiomes per als quals teniu instal·lat "
 "un diccionari."
-
-#: ../mail/mail-config.ui.h:24
-msgid "Languages Table"
-msgstr "Taula d'idiomes"
 
 #: ../mail/mail-config.ui.h:26
 msgid "Check spelling while I _type"
@@ -15083,11 +15087,11 @@ msgstr "La resposta és buida"
 msgid "Unexpected reply from server"
 msgstr "No s'esperava aquesta resposta del servidor"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1051
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1068
 msgid "Could not locate user's calendars"
 msgstr "No s'ha pogut trobat els calendaris de l'usuari"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1275
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1292
 msgid "Path"
 msgstr "Camí"
 
@@ -17165,7 +17169,6 @@ msgid "None"
 msgstr "Cap"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1226
-#: ../modules/mail/e-mail-shell-view.c:975
 msgid "_Disable Account"
 msgstr "_Inhabilita el compte"
 
@@ -17477,10 +17480,6 @@ msgstr "Cerca a tots els comptes"
 msgid "Account Search"
 msgstr "Cerca al compte"
 
-#: ../modules/mail/e-mail-shell-view.c:973
-msgid "Proxy _Logout"
-msgstr "Sortida de_l servidor intermediari"
-
 #: ../modules/mail/e-mail-shell-view-private.c:962
 #, c-format
 msgid "%d selected, "
@@ -17546,7 +17545,7 @@ msgstr "Paperera"
 msgid "Send / Receive"
 msgstr "Envia / rep"
 
-#: ../modules/mail/em-composer-prefs.c:509
+#: ../modules/mail/em-composer-prefs.c:499
 msgid "Language(s)"
 msgstr "Idiomes"
 
@@ -17864,11 +17863,11 @@ msgstr "_Formata com a..."
 msgid "_Other languages"
 msgstr "_Altres llengües"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:342
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:365
 msgid "Text Highlight"
 msgstr "Realçat del text"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:348
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:371
 msgid "Syntax highlighting of mail parts"
 msgstr "Realça la sintaxi de les parts del correu"
 
@@ -19543,7 +19542,7 @@ msgid "%s - Evolution"
 msgstr "%s - Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:186
+#: ../shell/main.c:190
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -19579,7 +19578,7 @@ msgstr ""
 "Esperem que gaudiu del resultat de la nostra feina, i esperem\n"
 "ansiosament les vostres contribucions.\n"
 
-#: ../shell/main.c:210
+#: ../shell/main.c:214
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -19587,13 +19586,13 @@ msgstr ""
 "Gràcies\n"
 "L'equip de l'Evolution\n"
 
-#: ../shell/main.c:216
+#: ../shell/main.c:220
 msgid "Do not tell me again"
 msgstr "No ho tornis a mostrar"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../shell/main.c:307
+#: ../shell/main.c:311
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
@@ -19602,51 +19601,51 @@ msgstr ""
 "opcions disponibles són «mail» (correu), «calendar» (calendari), "
 "«contacts» (contactes), «tasks» (tasques) i «memos» (anotacions)"
 
-#: ../shell/main.c:311
+#: ../shell/main.c:315
 msgid "Apply the given geometry to the main window"
 msgstr "Aplica la geometria especificada a la finestra principal"
 
-#: ../shell/main.c:315
+#: ../shell/main.c:319
 msgid "Start in online mode"
 msgstr "Inicia en mode en línia"
 
-#: ../shell/main.c:317
+#: ../shell/main.c:321
 msgid "Ignore network availability"
 msgstr "Ignora la disponibilitat de la xarxa"
 
-#: ../shell/main.c:319
+#: ../shell/main.c:323
 msgid "Start in \"express\" mode"
 msgstr "Inicia en mode senzill"
 
-#: ../shell/main.c:322
+#: ../shell/main.c:326
 msgid "Forcibly shut down Evolution"
 msgstr "Força l'aturada de l'Evolution"
 
-#: ../shell/main.c:325
+#: ../shell/main.c:329
 msgid "Disable loading of any plugins."
 msgstr "Inhabilita la càrrega de connectors."
 
-#: ../shell/main.c:327
+#: ../shell/main.c:331
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr ""
 "Inhabilita la subfinestra de previsualització per al Correu, Contactes i "
 "Tasques."
 
-#: ../shell/main.c:331
+#: ../shell/main.c:335
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr ""
 "Importa els URI o noms de fitxers especificats com a resta d'arguments."
 
-#: ../shell/main.c:333
+#: ../shell/main.c:337
 msgid "Request a running Evolution process to quit"
 msgstr ""
 "Sol·licita que surti a un procés de l'Evolution que s'estigui executant"
 
-#: ../shell/main.c:517
+#: ../shell/main.c:526 ../shell/main.c:531
 msgid "- The Evolution PIM and Email Client"
 msgstr "El gestor d'informació personal i client de correu de l'Evolution"
 
-#: ../shell/main.c:582
+#: ../shell/main.c:598
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19655,7 +19654,7 @@ msgstr ""
 "%s: --online i --offline no es poden utilitzar junts.\n"
 "  Executeu l'ordre «%s --help» per obtenir més informació.\n"
 
-#: ../shell/main.c:588
+#: ../shell/main.c:604
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -21191,15 +21190,15 @@ msgid "Refresh every"
 msgstr "Refresca cada"
 
 #: ../widgets/misc/e-source-config.c:1324
-#: ../widgets/misc/e-source-config.c:1352
+#: ../widgets/misc/e-source-config.c:1373
 msgid "Use a secure connection"
 msgstr "Utilitza una connexió segura"
 
-#: ../widgets/misc/e-source-config.c:1366
+#: ../widgets/misc/e-source-config.c:1397
 msgid "Ignore invalid SSL certificate"
 msgstr "Ignora el certificat SSL no vàlid"
 
-#: ../widgets/misc/e-source-config.c:1403
+#: ../widgets/misc/e-source-config.c:1434
 msgid "User"
 msgstr "Usuari"
 
@@ -21259,25 +21258,25 @@ msgstr "_Copia la imatge"
 msgid "Copy the image to the clipboard"
 msgstr "Copia la imatge al porta-retalls"
 
-#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1432
+#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1440
 #: ../widgets/misc/e-web-view-gtkhtml.c:466
 #: ../widgets/misc/e-web-view-gtkhtml.c:1311
 msgid "Select all text and images"
 msgstr "Selecciona tot el text i les imatges"
 
-#: ../widgets/misc/e-web-view.c:1096 ../widgets/misc/e-web-view.c:1098
-#: ../widgets/misc/e-web-view.c:1100 ../widgets/misc/e-web-view-gtkhtml.c:975
+#: ../widgets/misc/e-web-view.c:1099 ../widgets/misc/e-web-view.c:1101
+#: ../widgets/misc/e-web-view.c:1103 ../widgets/misc/e-web-view-gtkhtml.c:975
 #: ../widgets/misc/e-web-view-gtkhtml.c:977
 #: ../widgets/misc/e-web-view-gtkhtml.c:979
 #, c-format
 msgid "Click to call %s"
 msgstr "Feu clic per trucar en/na %s"
 
-#: ../widgets/misc/e-web-view.c:1102 ../widgets/misc/e-web-view-gtkhtml.c:981
+#: ../widgets/misc/e-web-view.c:1105 ../widgets/misc/e-web-view-gtkhtml.c:981
 msgid "Click to hide/unhide addresses"
 msgstr "Feu clic per mostrar/amagar adreces"
 
-#: ../widgets/misc/e-web-view.c:1104 ../widgets/misc/e-web-view-gtkhtml.c:983
+#: ../widgets/misc/e-web-view.c:1107 ../widgets/misc/e-web-view-gtkhtml.c:983
 #, c-format
 msgid "Click to open %s"
 msgstr "Feu clic per obrir %s"
@@ -21615,6 +21614,9 @@ msgstr "Selecciona-ho tot"
 #: ../widgets/text/e-text.c:2087
 msgid "Input Methods"
 msgstr "Mètodes d'entrada"
+
+#~ msgid "Proxy _Logout"
+#~ msgstr "Sortida de_l servidor intermediari"
 
 #~ msgid "Some features may not work properly with your current server"
 #~ msgstr ""
