@@ -956,7 +956,7 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
 
 	/* If toggling from HTML to plain text mode, ask user first */
-	if (widget->priv->html_mode && !html_mode) {
+	if (widget->priv->html_mode && !html_mode && widget->priv->changed) {
 		GtkWidget *parent, *dialog;
 
 		parent = gtk_widget_get_toplevel (GTK_WIDGET (widget));
