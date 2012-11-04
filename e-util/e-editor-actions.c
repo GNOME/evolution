@@ -623,56 +623,39 @@ action_language_cb (GtkToggleAction *action,
 	g_object_unref (dictionary);
 }
 
-struct _ModeChanged {
-	GtkRadioAction *action;
-	EEditor *editor;
-};
-
 static gboolean
-mode_changed (struct _ModeChanged *data)
+update_mode_combobox (gpointer data)
 {
-	GtkActionGroup *action_group;
-	EEditor *editor = data->editor;
-	EEditorWidget *widget;
+	EEditor *editor = data;
+	EEditorWidget *editor_widget;
+	GtkAction *action;
 	gboolean is_html;
 
-	widget = e_editor_get_editor_widget (editor);
-	is_html = gtk_radio_action_get_current_value (data->action);
+	editor_widget = e_editor_get_editor_widget (editor);
+	is_html = e_editor_widget_get_html_mode (editor_widget);
 
-	if (is_html == e_editor_widget_get_html_mode (widget)) {
-		goto exit;
-	}
+	action = gtk_action_group_get_action (editor->priv->core_actions, "mode-html");
+	gtk_radio_action_set_current_value (GTK_RADIO_ACTION (action), (is_html ? TRUE : FALSE));
 
-	/* If switching from HTML to plain text */
-	if (!is_html) {
-		GtkWidget *dialog, *parent;
+	return FALSE;
+}
 
-		parent = gtk_widget_get_toplevel (GTK_WIDGET (editor));
-		if (!GTK_IS_WINDOW (parent)) {
-			parent = NULL;
-		}
+static void
+action_mode_cb (GtkRadioAction *action,
+                GtkRadioAction *current,
+                EEditor *editor)
+{
+	GtkActionGroup *action_group;
+	EEditorWidget *editor_widget;
+	gboolean is_html;
 
-		dialog = gtk_message_dialog_new (
-				parent ? GTK_WINDOW (parent) : NULL,
-				GTK_DIALOG_DESTROY_WITH_PARENT,
-				GTK_MESSAGE_WARNING,
-				GTK_BUTTONS_NONE,
-				_("Turning HTML mode off will cause the text "
-				  "to lose all formatting. Do you want to continue?"));
-		gtk_dialog_add_buttons (
-			GTK_DIALOG (dialog),
-			_("_Don't lose formatting"), GTK_RESPONSE_CANCEL,
-			_("_Lose formatting"), GTK_RESPONSE_OK,
-			NULL);
-		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_CANCEL) {
-			gtk_radio_action_set_current_value (
-				data->action, TRUE);
-			gtk_widget_destroy (dialog);
-			goto exit;
-		}
+	editor_widget = e_editor_get_editor_widget (editor);
+	is_html = e_editor_widget_get_html_mode (editor_widget);
+	printf("action_mode_cb: is_html = %d\n", is_html);
 
-		gtk_widget_destroy (dialog);
-	}
+	/* This must be done from idle callback, because apparently we can change
+	 * current value in callback of current value change */
+	g_idle_add (update_mode_combobox, editor);
 
 	action_group = editor->priv->html_actions;
 	gtk_action_group_set_sensitive (action_group, is_html);
@@ -696,33 +679,9 @@ mode_changed (struct _ModeChanged *data)
 	gtk_action_set_sensitive (ACTION (STYLE_H5), is_html);
 	gtk_action_set_sensitive (ACTION (STYLE_H6), is_html);
 	gtk_action_set_sensitive (ACTION (STYLE_ADDRESS), is_html);
-
-	e_editor_widget_set_html_mode (
-		e_editor_get_editor_widget (editor), is_html);
-
- exit:
-	g_clear_object (&data->editor);
-	g_clear_object (&data->action);
-	g_free (data);
-
-	return FALSE;
 }
 
-static void
-action_mode_cb (GtkRadioAction *action,
-                GtkRadioAction *current,
-                EEditor *editor)
-{
-	struct _ModeChanged *data;
 
-	data = g_new0 (struct _ModeChanged, 1);
-	data->action = g_object_ref (current);
-	data->editor = g_object_ref (editor);
-
-	/* We can't change group current value from this callback, so
-	 * let's do it all from an idle callback */
-	g_idle_add ((GSourceFunc) mode_changed, data);
-}
 
 static void
 action_paste_cb (GtkAction *action,
@@ -1833,9 +1792,15 @@ editor_actions_init (EEditor *editor)
 		G_N_ELEMENTS (core_style_entries),
 		E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH,
 		NULL, NULL);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+	gtk_ui_manager_insert_action_group (manager, action_group, 0);\
 
-	/* Synchronize wiget mode with the button */
+	action = gtk_action_group_get_action (action_group, "mode-html");
+	g_object_bind_property (
+		editor_widget, "html-mode",
+		action, "current-value",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	/* Synchronize wiget mode with the buttons */
 	e_editor_widget_set_html_mode (editor_widget, TRUE);
 
 	/* Face Action */
