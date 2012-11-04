@@ -706,7 +706,7 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 			"html-mode",
 			"HTML Mode",
 			"Edit HTML or plain text",
-			FALSE,
+			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -954,6 +954,39 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 			       gboolean html_mode)
 {
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
+
+	/* If toggling from HTML to plain text mode, ask user first */
+	if (widget->priv->html_mode && !html_mode) {
+		GtkWidget *parent, *dialog;
+
+		parent = gtk_widget_get_toplevel (GTK_WIDGET (widget));
+
+		if (!GTK_IS_WINDOW (parent)) {
+			parent = NULL;
+		}
+
+		dialog = gtk_message_dialog_new (
+				parent ? GTK_WINDOW (parent) : NULL,
+				GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_MESSAGE_WARNING,
+				GTK_BUTTONS_NONE,
+				_("Turning HTML mode off will cause the text "
+				  "to lose all formatting. Do you want to continue?"));
+		gtk_dialog_add_buttons (
+			GTK_DIALOG (dialog),
+			_("_Don't lose formatting"), GTK_RESPONSE_CANCEL,
+			_("_Lose formatting"), GTK_RESPONSE_OK,
+			NULL);
+
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_CANCEL) {
+			gtk_widget_destroy (dialog);
+			/* Nothing has changed, but notify anyway */
+			g_object_notify (G_OBJECT (widget), "html-mode");
+			return;
+		}
+
+		gtk_widget_destroy (dialog);
+	}
 
 	if ((widget->priv->html_mode ? 1 : 0) == (html_mode ? 1 : 0)) {
 		return;
