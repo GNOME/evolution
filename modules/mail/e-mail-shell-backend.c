@@ -512,11 +512,7 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 
 		g_object_unref (settings);
 
-		e_editor_widget_set_mode (
-			editor_widget,
-			active ?
-				E_EDITOR_WIDGET_MODE_HTML :
-				E_EDITOR_WIDGET_MODE_PLAIN_TEXT);
+		e_editor_widget_set_html_mode (editor_widget, active);
 	}
 
 	if (E_IS_MSG_COMPOSER (window)) {

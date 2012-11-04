@@ -68,16 +68,16 @@ composer_update_gallery_visibility (EMsgComposer *composer)
 	EEditorWidget *editor_widget;
 	GtkToggleAction *toggle_action;
 	gboolean gallery_active;
-	EEditorWidgetMode mode;
+	gboolean is_html;
 
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
-	mode = e_editor_widget_get_mode (editor_widget);
+	is_html = e_editor_widget_get_html_mode (editor_widget);
 
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (PICTURE_GALLERY));
 	gallery_active = gtk_toggle_action_get_active (toggle_action);
 
-	if ((mode == E_EDITOR_WIDGET_MODE_HTML) && gallery_active) {
+	if (is_html && gallery_active) {
 		gtk_widget_show (composer->priv->gallery_scrolled_window);
 		gtk_widget_show (composer->priv->gallery_icon_view);
 	} else {
@@ -536,7 +536,7 @@ e_composer_paste_image (EMsgComposer *composer,
 	 * In text mode, add the image to the attachment store. */
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
-	if (e_editor_widget_get_mode (editor_widget) == E_EDITOR_WIDGET_MODE_HTML) {
+	if (e_editor_widget_get_html_mode (editor_widget)) {
 		EEditorSelection *selection;
 
 		selection = e_editor_widget_get_selection (editor_widget);

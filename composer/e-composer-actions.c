@@ -509,7 +509,7 @@ e_composer_actions_init (EMsgComposer *composer)
 		ACTION (SAVE_DRAFT), "short-label", _("Save Draft"), NULL);
 
 	g_object_bind_property (
-		editor_widget, "mode",
+		editor_widget, "html-mode",
 		ACTION (PICTURE_GALLERY), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
