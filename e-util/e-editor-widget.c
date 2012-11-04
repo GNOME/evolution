@@ -40,10 +40,9 @@ struct _EEditorWidgetPrivate {
 	gint can_redo		: 1;
 	gint can_undo		: 1;
 	gint reload_in_progress : 1;
+	gint html_mode		: 1;
 
 	EEditorSelection *selection;
-
-	EEditorWidgetMode mode;
 
 	/* FIXME WEBKIT Is this in widget's competence? */
 	GList *spelling_langs;
@@ -62,7 +61,7 @@ G_DEFINE_TYPE (
 enum {
 	PROP_0,
 	PROP_CHANGED,
-	PROP_MODE,
+	PROP_HTML_MODE,
 	PROP_INLINE_SPELLING,
 	PROP_MAGIC_LINKS,
 	PROP_MAGIC_SMILEYS,
@@ -462,7 +461,7 @@ editor_widget_key_release_event (GtkWidget *gtk_widget,
 	range = editor_widget_get_dom_range (widget);
 
 	if (widget->priv->magic_smileys &&
-	    widget->priv->mode == E_EDITOR_WIDGET_MODE_HTML) {
+	    widget->priv->html_mode) {
 		editor_widget_check_magic_smileys (widget, range);
 	}
 
@@ -569,9 +568,9 @@ e_editor_widget_get_property (GObject *object,
 {
 	switch (property_id) {
 
-		case PROP_MODE:
-			g_value_set_int (
-				value, e_editor_widget_get_mode (
+		case PROP_HTML_MODE:
+			g_value_set_boolean (
+				value, e_editor_widget_get_html_mode (
 				E_EDITOR_WIDGET (object)));
 			return;
 
@@ -635,10 +634,10 @@ e_editor_widget_set_property (GObject *object,
 {
 	switch (property_id) {
 
-		case PROP_MODE:
-			e_editor_widget_set_mode (
+		case PROP_HTML_MODE:
+			e_editor_widget_set_html_mode (
 				E_EDITOR_WIDGET (object),
-				g_value_get_int (value));
+				g_value_get_boolean (value));
 			return;
 
 		case PROP_INLINE_SPELLING:
@@ -702,14 +701,12 @@ e_editor_widget_class_init (EEditorWidgetClass *klass)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_MODE,
-		g_param_spec_int (
-			"mode",
-			"Mode",
+		PROP_HTML_MODE,
+		g_param_spec_boolean (
+			"html-mode",
+			"HTML Mode",
 			"Edit HTML or plain text",
-			E_EDITOR_WIDGET_MODE_PLAIN_TEXT,
-		    	E_EDITOR_WIDGET_MODE_HTML,
-		    	E_EDITOR_WIDGET_MODE_PLAIN_TEXT,
+			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -944,33 +941,27 @@ e_editor_widget_set_changed (EEditorWidget *widget,
 	g_object_notify (G_OBJECT (widget), "changed");
 }
 
-EEditorWidgetMode
-e_editor_widget_get_mode (EEditorWidget *widget)
+gboolean
+e_editor_widget_get_html_mode (EEditorWidget *widget)
 {
 	g_return_val_if_fail (E_IS_EDITOR_WIDGET (widget), FALSE);
 
-	return widget->priv->mode;
+	return widget->priv->html_mode;
 }
 
 void
-e_editor_widget_set_mode (EEditorWidget *widget,
-			  EEditorWidgetMode mode)
+e_editor_widget_set_html_mode (EEditorWidget *widget,
+			       gboolean html_mode)
 {
 	g_return_if_fail (E_IS_EDITOR_WIDGET (widget));
 
-	if (widget->priv->mode == mode)
+	if ((widget->priv->html_mode ? 1 : 0) == (html_mode ? 1 : 0)) {
 		return;
+	}
 
-	widget->priv->mode = mode;
+	widget->priv->html_mode = html_mode;
 
-	if (widget->priv->mode == E_EDITOR_WIDGET_MODE_PLAIN_TEXT) {
-		gchar *plain;
-
-		plain = e_editor_widget_get_text_plain (widget);
-		e_editor_widget_set_text_plain (widget, plain);
-
-		g_free (plain);
-	} else {
+	if (widget->priv->html_mode) {
 		gchar *plain_text, *html;
 
 		plain_text = e_editor_widget_get_text_plain (widget);
@@ -990,9 +981,16 @@ e_editor_widget_set_mode (EEditorWidget *widget,
 
 		g_free (plain_text);
 		g_free (html);
+	} else {
+		gchar *plain;
+
+		plain = e_editor_widget_get_text_plain (widget);
+		e_editor_widget_set_text_plain (widget, plain);
+
+		g_free (plain);
 	}
 
-	g_object_notify (G_OBJECT (widget), "mode");
+	g_object_notify (G_OBJECT (widget), "html-mode");
 }
 
 gboolean

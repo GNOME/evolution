@@ -50,11 +50,6 @@
 G_BEGIN_DECLS
 
 typedef enum {
-	E_EDITOR_WIDGET_MODE_PLAIN_TEXT,
-	E_EDITOR_WIDGET_MODE_HTML,
-} EEditorWidgetMode;
-
-typedef enum {
 	E_EDITOR_WIDGET_REPLACE_ANSWER_REPLACE,
 	E_EDITOR_WIDGET_REPLACE_ANSWER_REPLACE_ALL,
 	E_EDITOR_WIDGET_REPLACE_ANSWER_CANCEL,
@@ -92,10 +87,9 @@ gboolean	e_editor_widget_get_changed	(EEditorWidget *widget);
 void		e_editor_widget_set_changed	(EEditorWidget *widget,
 						 gboolean changed);
 
-EEditorWidgetMode
-		e_editor_widget_get_mode	(EEditorWidget *widget);
-void		e_editor_widget_set_mode	(EEditorWidget *widget,
-						 EEditorWidgetMode mode);
+gboolean	e_editor_widget_get_html_mode	(EEditorWidget *widget);
+void		e_editor_widget_set_html_mode	(EEditorWidget *widget,
+						 gboolean html_mode);
 
 gboolean	e_editor_widget_get_inline_spelling
 						(EEditorWidget *widget);

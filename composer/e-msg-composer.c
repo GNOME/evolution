@@ -265,12 +265,15 @@ emcu_remove_xevolution_headers (CamelMimeMessage *message)
 {
 	struct _camel_header_raw *scan, *list = NULL;
 
-	for (scan = ((CamelMimePart *) message)->headers; scan; scan = scan->next)
-		if (!strncmp (scan->name, "X-Evolution", 11))
+	for (scan = ((CamelMimePart *) message)->headers; scan; scan = scan->next) {
+		if (!strncmp (scan->name, "X-Evolution", 11)) {
 			camel_header_raw_append (&list, scan->name, scan->value, scan->offset);
+		}
+	}
 
-	for (scan = list; scan; scan = scan->next)
+	for (scan = list; scan; scan = scan->next) {
 		camel_medium_remove_header ((CamelMedium *) message, scan->name);
+	}
 
 	return list;
 }
@@ -282,11 +285,13 @@ destination_list_to_vector_sized (GList *list,
 	EDestination **destv;
 	gint i = 0;
 
-	if (n == -1)
+	if (n == -1) {
 		n = g_list_length (list);
+	}
 
-	if (n == 0)
+	if (n == 0) {
 		return NULL;
+	}
 
 	destv = g_new (EDestination *, n + 1);
 	while (list != NULL && i < n) {
@@ -315,18 +320,22 @@ text_requires_quoted_printable (const gchar *text,
 	const gchar *p;
 	gsize pos;
 
-	if (!text)
+	if (!text) {
 		return FALSE;
+	}
 
-	if (len == -1)
+	if (len == -1) {
 		len = strlen (text);
+	}
 
-	if (len >= 5 && strncmp (text, "From ", 5) == 0)
+	if (len >= 5 && strncmp (text, "From ", 5) == 0) {
 		return TRUE;
+	}
 
 	for (p = text, pos = 0; pos + 6 <= len; pos++, p++) {
-		if (*p == '\n' && strncmp (p + 1, "From ", 5) == 0)
+		if (*p == '\n' && strncmp (p + 1, "From ", 5) == 0) {
 			return TRUE;
+		}
 	}
 
 	return FALSE;
@@ -341,12 +350,14 @@ best_encoding (GByteArray *buf,
 	gint status, count = 0;
 	iconv_t cd;
 
-	if (!charset)
+	if (!charset) {
 		return -1;
+	}
 
 	cd = camel_iconv_open (charset, "utf-8");
-	if (cd == (iconv_t) -1)
+	if (cd == (iconv_t) -1) {
 		return -1;
+	}
 
 	in = (gchar *) buf->data;
 	inlen = buf->len;
@@ -355,23 +366,26 @@ best_encoding (GByteArray *buf,
 		outlen = sizeof (outbuf);
 		status = camel_iconv (cd, (const gchar **) &in, &inlen, &out, &outlen);
 		for (ch = out - 1; ch >= outbuf; ch--) {
-			if ((guchar) *ch > 127)
+			if ((guchar) *ch > 127) {
 				count++;
+			}
 		}
 	} while (status == (gsize) -1 && errno == E2BIG);
 	camel_iconv_close (cd);
 
-	if (status == (gsize) -1 || status > 0)
+	if (status == (gsize) -1 || status > 0) {
 		return -1;
+	}
 
 	if ((count == 0) && (buf->len < LINE_LEN) &&
 		!text_requires_quoted_printable (
-		(const gchar *) buf->data, buf->len))
+		(const gchar *) buf->data, buf->len)) {
 		return CAMEL_TRANSFER_ENCODING_7BIT;
-	else if (count <= buf->len * 0.17)
+	} else if (count <= buf->len * 0.17) {
 		return CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
-	else
+	} else {
 		return CAMEL_TRANSFER_ENCODING_BASE64;
+	}
 }
 
 static gchar *
@@ -483,8 +497,9 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 				seen_hidden_list = TRUE;
 			}
 
-			if (camel_address_decode (CAMEL_ADDRESS (target), text_addr) <= 0)
+			if (camel_address_decode (CAMEL_ADDRESS (target), text_addr) <= 0) {
 				camel_internet_address_add (target, "", text_addr);
+			}
 		}
 	}
 
@@ -498,23 +513,26 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 				seen_hidden_list = TRUE;
 			}
 
-			if (camel_address_decode (CAMEL_ADDRESS (target), text_addr) <= 0)
+			if (camel_address_decode (CAMEL_ADDRESS (target), text_addr) <= 0) {
 				camel_internet_address_add (target, "", text_addr);
+			}
 		}
 	}
 
 	for (i = 0; bcc_destv != NULL && bcc_destv[i] != NULL; ++i) {
 		text_addr = e_destination_get_address (bcc_destv[i]);
 		if (text_addr && *text_addr) {
-			if (camel_address_decode (CAMEL_ADDRESS (bcc_addr), text_addr) <= 0)
+			if (camel_address_decode (CAMEL_ADDRESS (bcc_addr), text_addr) <= 0) {
 				camel_internet_address_add (bcc_addr, "", text_addr);
+			}
 		}
 	}
 
-	if (redirect)
+	if (redirect) {
 		header = CAMEL_RECIPIENT_TYPE_RESENT_TO;
-	else
+	} else {
 		header = CAMEL_RECIPIENT_TYPE_TO;
+	}
 
 	if (camel_address_length (CAMEL_ADDRESS (to_addr)) > 0) {
 		camel_mime_message_set_recipients (msg, header, to_addr);
@@ -623,8 +641,9 @@ build_message_headers (EMsgComposer *composer,
 
 		addr = camel_internet_address_new ();
 
-		if (camel_address_unformat (CAMEL_ADDRESS (addr), reply_to) > 0)
+		if (camel_address_unformat (CAMEL_ADDRESS (addr), reply_to) > 0) {
 			camel_mime_message_set_reply_to (message, addr);
+		}
 
 		g_object_unref (addr);
 	}
@@ -731,8 +750,9 @@ composer_build_message_pgp (AsyncContext *context,
 	gboolean encrypt_to_self;
 
 	/* Return silently if we're not signing or encrypting with PGP. */
-	if (!context->pgp_sign && !context->pgp_encrypt)
+	if (!context->pgp_sign && !context->pgp_encrypt) {
 		return TRUE;
+	}
 
 	extension_name = E_SOURCE_EXTENSION_OPENPGP;
 	extension = e_source_get_extension (context->source, extension_name);
@@ -748,16 +768,18 @@ composer_build_message_pgp (AsyncContext *context,
 		CAMEL_MEDIUM (mime_part),
 		context->top_level_part);
 
-	if (context->top_level_part == context->text_plain_part)
+	if (context->top_level_part == context->text_plain_part) {
 		camel_mime_part_set_encoding (
 			mime_part, context->plain_encoding);
+	}
 
 	g_object_unref (context->top_level_part);
 	context->top_level_part = NULL;
 
-	if (pgp_key_id == NULL || *pgp_key_id == '\0')
+	if (pgp_key_id == NULL || *pgp_key_id == '\0') {
 		camel_internet_address_get (
 			context->from, 0, NULL, &pgp_key_id);
+	}
 
 	if (context->pgp_sign) {
 		CamelMimePart *npart;
@@ -794,10 +816,11 @@ composer_build_message_pgp (AsyncContext *context,
 
 		/* Check to see if we should encrypt to self.
 		 * NB: Gets removed immediately after use. */
-		if (encrypt_to_self && pgp_key_id != NULL)
+		if (encrypt_to_self && pgp_key_id != NULL) {
 			g_ptr_array_add (
 				context->recipients,
 				g_strdup (pgp_key_id));
+		}
 
 		cipher = camel_gpg_context_new (context->session);
 		camel_gpg_context_set_always_trust (
@@ -809,10 +832,11 @@ composer_build_message_pgp (AsyncContext *context,
 
 		g_object_unref (cipher);
 
-		if (encrypt_to_self && pgp_key_id != NULL)
+		if (encrypt_to_self && pgp_key_id != NULL) {
 			g_ptr_array_set_size (
 				context->recipients,
 				context->recipients->len - 1);
+		}
 
 		g_object_unref (mime_part);
 
@@ -850,8 +874,9 @@ composer_build_message_smime (AsyncContext *context,
 	gboolean have_encryption_certificate;
 
 	/* Return silently if we're not signing or encrypting with S/MIME. */
-	if (!context->smime_sign && !context->smime_encrypt)
+	if (!context->smime_sign && !context->smime_encrypt) {
 		return TRUE;
+	}
 
 	extension_name = E_SOURCE_EXTENSION_SMIME;
 	extension = e_source_get_extension (context->source, extension_name);
@@ -900,9 +925,10 @@ composer_build_message_smime (AsyncContext *context,
 		CAMEL_MEDIUM (mime_part),
 		context->top_level_part);
 
-	if (context->top_level_part == context->text_plain_part)
+	if (context->top_level_part == context->text_plain_part) {
 		camel_mime_part_set_encoding (
 			mime_part, context->plain_encoding);
+	}
 
 	g_object_unref (context->top_level_part);
 	context->top_level_part = NULL;
@@ -951,10 +977,11 @@ composer_build_message_smime (AsyncContext *context,
 
 		/* Check to see if we should encrypt to self.
 		 * NB: Gets removed immediately after use. */
-		if (encrypt_to_self)
+		if (encrypt_to_self) {
 			g_ptr_array_add (
 				context->recipients, g_strdup (
 				encryption_certificate));
+		}
 
 		cipher = camel_smime_context_new (context->session);
 		camel_smime_context_set_encrypt_key (
@@ -972,10 +999,11 @@ composer_build_message_smime (AsyncContext *context,
 		if (!success)
 			return FALSE;
 
-		if (encrypt_to_self)
+		if (encrypt_to_self) {
 			g_ptr_array_set_size (
 				context->recipients,
 				context->recipients->len - 1);
+		}
 	}
 
 	/* we replaced the message directly, we don't want to do reparenting foo */
@@ -1051,22 +1079,27 @@ composer_add_evolution_format_header (CamelMedium *medium,
 
 	string = g_string_sized_new (128);
 
-	if (flags & COMPOSER_FLAG_HTML_CONTENT)
+	if (flags & COMPOSER_FLAG_HTML_CONTENT) {
 		g_string_append (string, "text/html");
-	else
+	} else {
 		g_string_append (string, "text/plain");
+	}
 
-	if (flags & COMPOSER_FLAG_PGP_SIGN)
+	if (flags & COMPOSER_FLAG_PGP_SIGN) {
 		g_string_append (string, ", pgp-sign");
+	}
 
-	if (flags & COMPOSER_FLAG_PGP_ENCRYPT)
+	if (flags & COMPOSER_FLAG_PGP_ENCRYPT) {
 		g_string_append (string, ", pgp-encrypt");
+	}
 
-	if (flags & COMPOSER_FLAG_SMIME_SIGN)
+	if (flags & COMPOSER_FLAG_SMIME_SIGN) {
 		g_string_append (string, ", smime-sign");
+	}
 
-	if (flags & COMPOSER_FLAG_SMIME_ENCRYPT)
+	if (flags & COMPOSER_FLAG_SMIME_ENCRYPT) {
 		g_string_append (string, ", smime-encrypt");
+	}
 
 	camel_medium_add_header (
 		medium, "X-Evolution-Format", string->str);
@@ -1121,18 +1154,20 @@ composer_build_message (EMsgComposer *composer,
 	context->session = e_msg_composer_ref_session (composer);
 	context->from = e_msg_composer_get_from (composer);
 
-	if ((flags & COMPOSER_FLAG_DRAFT) == 0) {
-		if ((flags & COMPOSER_FLAG_PGP_SIGN) != 0)
-			context->pgp_sign = TRUE;
+	if (flags & COMPOSER_FLAG_PGP_SIGN) {
+		context->pgp_sign = TRUE;
+	}
 
-		if ((flags & COMPOSER_FLAG_PGP_ENCRYPT) != 0)
-			context->pgp_encrypt = TRUE;
+	if (flags & COMPOSER_FLAG_PGP_ENCRYPT) {
+		context->pgp_encrypt = TRUE;
+	}
 
-		if ((flags & COMPOSER_FLAG_SMIME_SIGN) != 0)
-			context->smime_sign = TRUE;
+	if (flags & COMPOSER_FLAG_SMIME_SIGN) {
+		context->smime_sign = TRUE;
+	}
 
-		if ((flags & COMPOSER_FLAG_SMIME_ENCRYPT) != 0)
-			context->smime_encrypt = TRUE;
+	if (flags & COMPOSER_FLAG_SMIME_ENCRYPT) {
+		context->smime_encrypt = TRUE;
 	}
 
 	context->need_thread =
@@ -1181,19 +1216,22 @@ composer_build_message (EMsgComposer *composer,
 		const gchar *mdn_address;
 
 		mdn_address = e_source_mail_identity_get_reply_to (mi);
-		if (mdn_address == NULL)
+		if (mdn_address == NULL) {
 			mdn_address = e_source_mail_identity_get_address (mi);
-		if (mdn_address != NULL)
+		}
+		if (mdn_address != NULL) {
 			camel_medium_add_header (
 				CAMEL_MEDIUM (context->message),
 				"Disposition-Notification-To", mdn_address);
+		}
 	}
 
 	/* X-Priority */
-	if (flags & COMPOSER_FLAG_PRIORITIZE_MESSAGE)
+	if (flags & COMPOSER_FLAG_PRIORITIZE_MESSAGE) {
 		camel_medium_add_header (
 			CAMEL_MEDIUM (context->message),
 			"X-Priority", "1");
+	}
 
 	/* Organization */
 	if (organization != NULL && *organization != '\0') {
@@ -1261,12 +1299,14 @@ composer_build_message (EMsgComposer *composer,
 	g_object_unref (mem_stream);
 
 	/* Convert the stream to the appropriate charset. */
-	if (iconv_charset && g_ascii_strcasecmp (iconv_charset, "UTF-8") != 0)
+	if (iconv_charset && g_ascii_strcasecmp (iconv_charset, "UTF-8") != 0) {
 		composer_add_charset_filter (stream, iconv_charset);
+	}
 
 	/* Encode the stream to quoted-printable if necessary. */
-	if (context->plain_encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE)
+	if (context->plain_encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE) {
 		composer_add_quoted_printable_filter (stream);
+	}
 
 	/* Construct the content object.  This does not block since
 	 * we're constructing the data wrapper from a memory stream. */
@@ -1278,8 +1318,9 @@ composer_build_message (EMsgComposer *composer,
 	context->text_plain_part = g_object_ref (context->top_level_part);
 
 	/* Avoid re-encoding the data when adding it to a MIME part. */
-	if (context->plain_encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE)
+	if (context->plain_encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE) {
 		context->top_level_part->encoding = context->plain_encoding;
+	}
 
 	camel_data_wrapper_set_mime_type_field (
 		context->top_level_part, type);
@@ -1324,8 +1365,9 @@ composer_build_message (EMsgComposer *composer,
 		stream = camel_stream_filter_new (mem_stream);
 		g_object_unref (mem_stream);
 
-		if (pre_encode)
+		if (pre_encode) {
 			composer_add_quoted_printable_filter (stream);
+		}
 
 		/* Construct the content object.  This does not block since
 		 * we're constructing the data wrapper from a memory stream. */
@@ -1338,9 +1380,10 @@ composer_build_message (EMsgComposer *composer,
 			html, "text/html; charset=utf-8");
 
 		/* Avoid re-encoding the data when adding it to a MIME part. */
-		if (pre_encode)
+		if (pre_encode) {
 			html->encoding =
 				CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
+		}
 
 		/* Build the multipart/alternative */
 		body = camel_multipart_new ();
@@ -1411,9 +1454,10 @@ composer_build_message (EMsgComposer *composer,
 		camel_medium_set_content (
 			CAMEL_MEDIUM (part),
 			context->top_level_part);
-		if (context->top_level_part == context->text_plain_part)
+		if (context->top_level_part == context->text_plain_part) {
 			camel_mime_part_set_encoding (
 				part, context->plain_encoding);
+		}
 		camel_multipart_add_part (multipart, part);
 		g_object_unref (part);
 
@@ -1425,13 +1469,14 @@ composer_build_message (EMsgComposer *composer,
 	}
 
 	/* Run any blocking operations in a separate thread. */
-	if (context->need_thread)
+	if (context->need_thread) {
 		g_simple_async_result_run_in_thread (
 			simple, (GSimpleAsyncThreadFunc)
 			composer_build_message_thread,
 			io_priority, cancellable);
-	else
+	} else {
 		g_simple_async_result_complete (simple);
+	}
 
 	g_object_unref (simple);
 }
@@ -1451,20 +1496,23 @@ composer_build_message_finish (EMsgComposer *composer,
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 	context = g_simple_async_result_get_op_res_gpointer (simple);
 
-	if (g_simple_async_result_propagate_error (simple, error))
+	if (g_simple_async_result_propagate_error (simple, error)) {
 		return NULL;
+	}
 
 	/* Finalize some details before returning. */
 
-	if (!context->skip_content)
+	if (!context->skip_content) {
 		camel_medium_set_content (
 			CAMEL_MEDIUM (context->message),
 			context->top_level_part);
+	}
 
-	if (context->top_level_part == context->text_plain_part)
+	if (context->top_level_part == context->text_plain_part) {
 		camel_mime_part_set_encoding (
 			CAMEL_MIME_PART (context->message),
 			context->plain_encoding);
+	}
 
 	return g_object_ref (context->message);
 }
@@ -1484,8 +1532,9 @@ use_top_signature (EMsgComposer *composer)
 	 * signature placement is either there already, or pt it at the
 	 * bottom regardless of a preferences (which is for reply anyway,
 	 * not for Edit as new) */
-	if (priv->is_from_message)
+	if (priv->is_from_message) {
 		return FALSE;
+	}
 
 	/* FIXME This should be an EMsgComposer property. */
 	settings = g_settings_new ("org.gnome.evolution.mail");
@@ -1545,8 +1594,9 @@ set_editor_text (EMsgComposer *composer,
 	editor_widget = e_editor_get_editor_widget (editor);
 	e_editor_widget_set_text_html (editor_widget, body);
 
-	if (set_signature)
+	if (set_signature) {
 		e_composer_update_signature (composer);
+	}
 
 	g_free (body);
 }
@@ -1575,8 +1625,9 @@ msg_composer_subject_changed_cb (EMsgComposer *composer)
 	table = e_msg_composer_get_header_table (composer);
 	subject = e_composer_header_table_get_subject (table);
 
-	if (subject == NULL || *subject == '\0')
+	if (subject == NULL || *subject == '\0') {
 		subject = _("Compose Message");
+	}
 
 	gtk_window_set_title (GTK_WINDOW (composer), subject);
 }
@@ -1603,8 +1654,9 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	uid = e_composer_header_table_get_identity_uid (table);
 
 	/* Silently return if no identity is selected. */
-	if (uid == NULL)
+	if (uid == NULL) {
 		return;
+	}
 
 	source = e_composer_header_table_ref_source (table, uid);
 	g_return_if_fail (source != NULL);
@@ -1660,11 +1712,9 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 {
 	EEditor *editor;
 	EEditorWidget *editor_widget;
-	EEditorWidgetMode mode;
 
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
-	mode = e_editor_widget_get_mode (editor_widget);
 
 	/* Order is important here to ensure common use cases are
 	 * handled correctly.  See GNOME bug #603715 for details. */
@@ -1675,7 +1725,7 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	}
 
 	/* Only paste HTML content in HTML mode. */
-	if (mode == E_EDITOR_WIDGET_MODE_HTML) {
+	if (e_editor_widget_get_html_mode (editor_widget)) {
 		if (e_targets_include_html (targets, n_targets)) {
 			e_composer_paste_html (composer, clipboard);
 			return;
@@ -1772,25 +1822,25 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 	EAttachmentView *view;
 	EEditor *editor;
 	EEditorWidget *editor_widget;
-	EEditorWidgetMode mode;
 
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
-	mode = e_editor_widget_get_mode (editor_widget);
 
 	/* HTML mode has a few special cases for drops... */
-	if (mode == E_EDITOR_WIDGET_MODE_HTML) {
+	if (e_editor_widget_get_html_mode (editor_widget)) {
 
 		/* If we're receiving an image, we want the image to be
 		 * inserted in the message body.  Let GtkHtml handle it. */
-		if (gtk_selection_data_targets_include_image (selection, TRUE))
+		if (gtk_selection_data_targets_include_image (selection, TRUE)) {
 			return;
+		}
 
 		/* If we're receiving URIs and -all- the URIs point to
 		 * image files, we want the image(s) to be inserted in
 		 * the message body.  Let GtkHtml handle it. */
-		if (e_composer_selection_is_image_uris (composer, selection))
+		if (e_composer_selection_is_image_uris (composer, selection)) {
 			return;
+		}
 	}
 
 	view = e_msg_composer_get_attachment_view (composer);
@@ -1829,8 +1879,9 @@ msg_composer_delete_event_cb (EMsgComposer *composer)
 
 	/* If the "async" action group is insensitive, it means an
 	 * asynchronous operation is in progress.  Block the event. */
-	if (!gtk_action_group_get_sensitive (composer->priv->async_actions))
+	if (!gtk_action_group_get_sensitive (composer->priv->async_actions)) {
 		return TRUE;
+	}
 
 	application = GTK_APPLICATION (shell);
 	windows = gtk_application_get_windows (application);
@@ -1957,8 +2008,9 @@ msg_composer_gallery_drag_data_get (GtkIconView *icon_view,
 	GdkAtom target;
 	gchar *str_data;
 
-	if (!gtk_icon_view_get_cursor (icon_view, &path, &cell))
+	if (!gtk_icon_view_get_cursor (icon_view, &path, &cell)) {
 		return;
+	}
 
 	target = gtk_selection_data_get_target (selection_data);
 
@@ -2313,24 +2365,27 @@ msg_composer_image_uri (EMsgComposer *composer,
 	hash_table = composer->priv->inline_images_by_url;
 	part = g_hash_table_lookup (hash_table, uri);
 
-	if (part == NULL && g_str_has_prefix (uri, "file:"))
+	if (part == NULL && g_str_has_prefix (uri, "file:")) {
 		part = e_msg_composer_add_inline_image_from_file (
 			composer, uri + 5);
+	}
 
 	if (part == NULL && g_str_has_prefix (uri, "cid:")) {
 		hash_table = composer->priv->inline_images;
 		part = g_hash_table_lookup (hash_table, uri);
 	}
 
-	if (part == NULL)
+	if (part == NULL) {
 		return NULL;
+	}
 
 	composer->priv->current_images =
 		g_list_prepend (composer->priv->current_images, part);
 
 	cid = camel_mime_part_get_content_id (part);
-	if (cid == NULL)
+	if (cid == NULL) {
 		return NULL;
+	}
 
 	return g_strconcat ("cid:", cid, NULL);
 }
@@ -2537,8 +2592,9 @@ e_msg_composer_flush_pending_body (EMsgComposer *composer)
 
 	body = g_object_get_data (G_OBJECT (composer), "body:text");
 
-	if (body != NULL)
+	if (body != NULL) {
 		set_editor_text (composer, body, FALSE);
+	}
 
 	g_object_set_data (G_OBJECT (composer), "body:text", NULL);
 }
@@ -2553,8 +2609,9 @@ add_attachments_handle_mime_part (EMsgComposer *composer,
 	CamelContentType *content_type;
 	CamelDataWrapper *wrapper;
 
-	if (!mime_part)
+	if (!mime_part) {
 		return;
+	}
 
 	content_type = camel_mime_part_get_content_type (mime_part);
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
@@ -2632,8 +2689,9 @@ e_msg_composer_add_message_attachments (EMsgComposer *composer,
 	CamelDataWrapper *wrapper;
 
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (message));
-	if (!CAMEL_IS_MULTIPART (wrapper))
+	if (!CAMEL_IS_MULTIPART (wrapper)) {
 		return;
+	}
 
 	add_attachments_from_multipart (
 		composer, (CamelMultipart *) wrapper, just_inlines, 0);
@@ -2656,21 +2714,24 @@ handle_multipart_signed (EMsgComposer *composer,
 	content_type = camel_data_wrapper_get_mime_type_field (content);
 	protocol = camel_content_type_param (content_type, "protocol");
 
-	if (protocol == NULL)
+	if (protocol == NULL) {
 		action = NULL;
-	else if (g_ascii_strcasecmp (protocol, "application/pgp-signature") == 0)
+	} else if (g_ascii_strcasecmp (protocol, "application/pgp-signature") == 0) {
 		action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	else if (g_ascii_strcasecmp (protocol, "application/x-pkcs7-signature") == 0)
+	} else if (g_ascii_strcasecmp (protocol, "application/x-pkcs7-signature") == 0) {
 		action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
+	}
 
-	if (action)
+	if (action) {
 		gtk_toggle_action_set_active (action, TRUE);
+	}
 
 	mime_part = camel_multipart_get_part (
 		multipart, CAMEL_MULTIPART_SIGNED_CONTENT);
 
-	if (mime_part == NULL)
+	if (mime_part == NULL) {
 		return;
+	}
 
 	content_type = camel_mime_part_get_content_type (mime_part);
 	content = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
@@ -2740,15 +2801,17 @@ handle_multipart_encrypted (EMsgComposer *composer,
 	content_type = camel_mime_part_get_content_type (multipart);
 	protocol = camel_content_type_param (content_type, "protocol");
 
-	if (protocol && g_ascii_strcasecmp (protocol, "application/pgp-encrypted") == 0)
+	if (protocol && g_ascii_strcasecmp (protocol, "application/pgp-encrypted") == 0) {
 		action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
-	else if (content_type && (
+	} else if (content_type && (
 		    camel_content_type_is (content_type, "application", "x-pkcs7-mime")
-		 || camel_content_type_is (content_type, "application", "pkcs7-mime")))
+		 || camel_content_type_is (content_type, "application", "pkcs7-mime"))) {
 		action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
+	}
 
-	if (action)
+	if (action) {
 		gtk_toggle_action_set_active (action, TRUE);
+	}
 
 	session = e_msg_composer_ref_session (composer);
 	cipher = camel_gpg_context_new (session);
@@ -2758,8 +2821,9 @@ handle_multipart_encrypted (EMsgComposer *composer,
 	g_object_unref (cipher);
 	g_object_unref (session);
 
-	if (valid == NULL)
+	if (valid == NULL) {
 		return;
+	}
 
 	camel_cipher_validity_free (valid);
 
@@ -2835,8 +2899,9 @@ handle_multipart_alternative (EMsgComposer *composer,
 
 		mime_part = camel_multipart_get_part (multipart, i);
 
-		if (!mime_part)
+		if (!mime_part) {
 			continue;
+		}
 
 		content_type = camel_mime_part_get_content_type (mime_part);
 		content = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
@@ -2917,8 +2982,9 @@ handle_multipart (EMsgComposer *composer,
 
 		mime_part = camel_multipart_get_part (multipart, i);
 
-		if (!mime_part)
+		if (!mime_part) {
 			continue;
+		}
 
 		content_type = camel_mime_part_get_content_type (mime_part);
 		content = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
@@ -3225,8 +3291,9 @@ e_msg_composer_new_with_message (EShell *shell,
 	g_hash_table_destroy (auto_bcc);
 	g_list_free (Bcc);
 
-	if (source != NULL)
+	if (source != NULL) {
 		g_object_unref (source);
+	}
 
 	subject = camel_mime_message_get_subject (message);
 
@@ -3254,11 +3321,11 @@ e_msg_composer_new_with_message (EShell *shell,
 		flags = g_strsplit (format, ", ", 0);
 		for (i = 0; flags[i]; i++) {
 			if (g_ascii_strcasecmp (flags[i], "text/html") == 0) {
-				e_editor_widget_set_mode (
-					editor_widget, E_EDITOR_WIDGET_MODE_HTML);
+				e_editor_widget_set_html_mode (
+					editor_widget, TRUE);
 			} else if (g_ascii_strcasecmp (flags[i], "text/plain") == 0) {
-				e_editor_widget_set_mode (
-					editor_widget, E_EDITOR_WIDGET_MODE_PLAIN_TEXT);
+				e_editor_widget_set_html_mode (
+					editor_widget, FALSE);
 			} else if (g_ascii_strcasecmp (flags[i], "pgp-sign") == 0) {
 				action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
 				gtk_toggle_action_set_active (action, TRUE);
@@ -3642,10 +3709,9 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 
 	g_object_unref (message);
 
-	if (e_msg_composer_is_exiting (composer))
-		g_object_weak_ref (
-			G_OBJECT (context->activity),
-			(GWeakNotify) gtk_widget_destroy, composer);
+	if (e_msg_composer_is_exiting (composer)) {
+		g_object_weak_ref (G_OBJECT (context->activity), (GWeakNotify) gtk_widget_destroy, composer);
+	}
 
 	async_context_free (context);
 }
@@ -3753,8 +3819,9 @@ e_msg_composer_save_to_outbox (EMsgComposer *composer)
 	/* This gives the user a chance to abort the save. */
 	g_signal_emit (composer, signals[PRESEND], 0, &proceed_with_save);
 
-	if (!proceed_with_save)
+	if (!proceed_with_save) {
 		return;
+	}
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_composer_activity_new (composer);
@@ -3887,8 +3954,9 @@ list_contains_addr (const GList *list,
 	g_return_val_if_fail (dest != NULL, FALSE);
 
 	while (list != NULL) {
-		if (e_destination_equal (dest, list->data))
+		if (e_destination_equal (dest, list->data)) {
 			return TRUE;
+		}
 
 		list = list->next;
 	}
@@ -3953,8 +4021,9 @@ file_is_blacklisted (const gchar *argument)
 	filename = g_file_get_path (file);
 	g_object_unref (file);
 
-	if (filename == NULL)
+	if (filename == NULL) {
 		return FALSE;
+	}
 
 	parts = g_strsplit (filename, G_DIR_SEPARATOR_S, -1);
 	n_parts = g_strv_length (parts);
@@ -3972,25 +4041,30 @@ file_is_blacklisted (const gchar *argument)
 		gchar *base_dir;
 
 		/* Don't blacklist files in trusted base directories. */
-		if (g_str_has_prefix (filename, g_get_user_data_dir ()))
+		if (g_str_has_prefix (filename, g_get_user_data_dir ())) {
 			blacklisted = FALSE;
-		if (g_str_has_prefix (filename, g_get_user_cache_dir ()))
+		}
+		if (g_str_has_prefix (filename, g_get_user_cache_dir ())) {
 			blacklisted = FALSE;
-		if (g_str_has_prefix (filename, g_get_user_config_dir ()))
+		}
+		if (g_str_has_prefix (filename, g_get_user_config_dir ())) {
 			blacklisted = FALSE;
+		}
 
 		/* Apparently KDE still uses ~/.kde heavily, and some
 		 * distributions use ~/.kde4 to distinguish KDE4 data
 		 * from KDE3 data.  Trust these directories as well. */
 
 		base_dir = g_build_filename (g_get_home_dir (), ".kde", NULL);
-		if (g_str_has_prefix (filename, base_dir))
+		if (g_str_has_prefix (filename, base_dir)) {
 			blacklisted = FALSE;
+		}
 		g_free (base_dir);
 
 		base_dir = g_build_filename (g_get_home_dir (), ".kde4", NULL);
-		if (g_str_has_prefix (filename, base_dir))
+		if (g_str_has_prefix (filename, base_dir)) {
 			blacklisted = FALSE;
+		}
 		g_free (base_dir);
 	}
 
@@ -4099,10 +4173,11 @@ handle_mailto (EMsgComposer *composer,
 						E_ALERT_SINK (composer),
 						"mail:blacklisted-file",
 						content, NULL);
-				if (g_ascii_strncasecmp (content, "file:", 5) == 0)
+				if (g_ascii_strncasecmp (content, "file:", 5) == 0) {
 					attachment = e_attachment_new_for_uri (content);
-				else
+				} else {
 					attachment = e_attachment_new_for_path (content);
+				}
 				e_attachment_store_add_attachment (store, attachment);
 				e_attachment_load_async (
 					attachment, (GAsyncReadyCallback)
@@ -4123,8 +4198,9 @@ handle_mailto (EMsgComposer *composer,
 			p += clen;
 			if (*p == '&') {
 				p++;
-				if (!g_ascii_strncasecmp (p, "amp;", 4))
+				if (!g_ascii_strncasecmp (p, "amp;", 4)) {
 					p += 4;
+				}
 			}
 		}
 	}
@@ -4242,7 +4318,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	set_editor_text (composer, buff, FALSE);
 	g_free (buff);
 
-	e_editor_widget_set_mode (editor_widget, E_EDITOR_WIDGET_MODE_PLAIN_TEXT);
+	e_editor_widget_set_html_mode (editor_widget, FALSE);
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), FALSE);
 
 	g_free (priv->mime_body);
@@ -4484,13 +4560,15 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
 	dec_file_name = g_strdup (filename);
 	camel_url_decode (dec_file_name);
 
-	if (!g_file_test (dec_file_name, G_FILE_TEST_IS_REGULAR))
+	if (!g_file_test (dec_file_name, G_FILE_TEST_IS_REGULAR)) {
 		return NULL;
+	}
 
 	stream = camel_stream_fs_new_with_name (
 		dec_file_name, O_RDONLY, 0, NULL);
-	if (!stream)
+	if (!stream) {
 		return NULL;
+	}
 
 	wrapper = camel_data_wrapper_new ();
 	camel_data_wrapper_construct_from_stream_sync (
@@ -4498,8 +4576,9 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
 	g_object_unref (CAMEL_OBJECT (stream));
 
 	mime_type = e_util_guess_mime_type (dec_file_name, TRUE);
-	if (mime_type == NULL)
+	if (mime_type == NULL) {
 		mime_type = g_strdup ("application/octet-stream");
+	}
 	camel_data_wrapper_set_mime_type (wrapper, mime_type);
 	g_free (mime_type);
 
@@ -4553,10 +4632,11 @@ e_msg_composer_add_inline_image_from_mime_part (EMsgComposer *composer,
 	g_object_ref (part);
 
 	location = camel_mime_part_get_content_location (part);
-	if (location != NULL)
+	if (location != NULL) {
 		g_hash_table_insert (
 			p->inline_images_by_url,
 			g_strdup (location), part);
+	}
 }
 
 static void
@@ -4569,9 +4649,10 @@ composer_get_message_ready (EMsgComposer *composer,
 
 	message = composer_build_message_finish (composer, result, &error);
 
-	if (message != NULL)
+	if (message != NULL) {
 		g_simple_async_result_set_op_res_gpointer (
 			simple, message, (GDestroyNotify) g_object_unref);
+	}
 
 	if (error != NULL) {
 		g_warn_if_fail (message == NULL);
@@ -4615,33 +4696,40 @@ e_msg_composer_get_message (EMsgComposer *composer,
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	if (e_editor_widget_get_mode (editor_widget) == E_EDITOR_WIDGET_MODE_HTML)
+	if (e_editor_widget_get_html_mode (editor_widget)) {
 		flags |= COMPOSER_FLAG_HTML_CONTENT;
+	}
 
 	action = ACTION (PRIORITIZE_MESSAGE);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action))) {
 		flags |= COMPOSER_FLAG_PRIORITIZE_MESSAGE;
+	}
 
 	action = ACTION (REQUEST_READ_RECEIPT);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action))) {
 		flags |= COMPOSER_FLAG_REQUEST_READ_RECEIPT;
+	}
 
 	action = ACTION (PGP_SIGN);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action))) {
 		flags |= COMPOSER_FLAG_PGP_SIGN;
+	}
 
 	action = ACTION (PGP_ENCRYPT);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action))) {
 		flags |= COMPOSER_FLAG_PGP_ENCRYPT;
+	}
 
 #ifdef HAVE_NSS
 	action = ACTION (SMIME_SIGN);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action))) {
 		flags |= COMPOSER_FLAG_SMIME_SIGN;
+	}
 
 	action = ACTION (SMIME_ENCRYPT);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action))) {
 		flags |= COMPOSER_FLAG_SMIME_ENCRYPT;
+	}
 #endif
 
 	composer_build_message (
@@ -4666,8 +4754,9 @@ e_msg_composer_get_message_finish (EMsgComposer *composer,
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 	message = g_simple_async_result_get_op_res_gpointer (simple);
 
-	if (g_simple_async_result_propagate_error (simple, error))
+	if (g_simple_async_result_propagate_error (simple, error)) {
 		return NULL;
+	}
 
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
@@ -4717,8 +4806,9 @@ e_msg_composer_get_message_print_finish (EMsgComposer *composer,
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 	message = g_simple_async_result_get_op_res_gpointer (simple);
 
-	if (g_simple_async_result_propagate_error (simple, error))
+	if (g_simple_async_result_propagate_error (simple, error)) {
 		return NULL;
+	}
 
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
@@ -4748,8 +4838,9 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
 
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
-	if (e_editor_widget_get_mode (editor_widget) == E_EDITOR_WIDGET_MODE_HTML)
+	if (e_editor_widget_get_html_mode (editor_widget)) {
 		flags |= COMPOSER_FLAG_HTML_CONTENT;
+	}
 
 	action = ACTION (PRIORITIZE_MESSAGE);
 	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
@@ -4799,8 +4890,9 @@ e_msg_composer_get_message_draft_finish (EMsgComposer *composer,
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 	message = g_simple_async_result_get_op_res_gpointer (simple);
 
-	if (g_simple_async_result_propagate_error (simple, error))
+	if (g_simple_async_result_propagate_error (simple, error)) {
 		return NULL;
+	}
 
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
@@ -4858,8 +4950,9 @@ e_msg_composer_get_reply_to (EMsgComposer *composer)
 	table = e_msg_composer_get_header_table (composer);
 
 	reply_to = e_composer_header_table_get_reply_to (table);
-	if (reply_to == NULL || *reply_to == '\0')
+	if (reply_to == NULL || *reply_to == '\0') {
 		return NULL;
+	}
 
 	address = camel_internet_address_new ();
 	if (camel_address_unformat (CAMEL_ADDRESS (address), reply_to) == -1) {
@@ -4937,11 +5030,13 @@ e_msg_composer_can_close (EMsgComposer *composer,
 
 	/* this means that there is an async operation running,
 	 * in which case the composer cannot be closed */
-	if (!gtk_action_group_get_sensitive (composer->priv->async_actions))
+	if (!gtk_action_group_get_sensitive (composer->priv->async_actions)) {
 		return FALSE;
+	}
 
-	if (!e_editor_widget_get_changed (editor_widget))
+	if (!e_editor_widget_get_changed (editor_widget)) {
 		return TRUE;
+	}
 
 	window = gtk_widget_get_window (widget);
 	gdk_window_raise (window);
@@ -4949,8 +5044,9 @@ e_msg_composer_can_close (EMsgComposer *composer,
 	table = e_msg_composer_get_header_table (composer);
 	subject = e_composer_header_table_get_subject (table);
 
-	if (subject == NULL || *subject == '\0')
+	if (subject == NULL || *subject == '\0') {
 		subject = _("Untitled Message");
+	}
 
 	response = e_alert_run_dialog_for_args (
 		GTK_WINDOW (composer),
@@ -5040,9 +5136,10 @@ e_load_spell_languages (ESpellChecker *spell_checker)
 		ESpellDictionary *dict;
 
 		dict = e_spell_checker_lookup_dictionary (spell_checker, language_code);
-		if (dict != NULL)
+		if (dict != NULL) {
 			spell_dicts = g_list_prepend (
 				spell_dicts, (gpointer) dict);
+		}
 	}
 
 	g_strfreev (strv);

@@ -634,14 +634,12 @@ mode_changed (struct _ModeChanged *data)
 	GtkActionGroup *action_group;
 	EEditor *editor = data->editor;
 	EEditorWidget *widget;
-	EEditorWidgetMode mode;
 	gboolean is_html;
 
 	widget = e_editor_get_editor_widget (editor);
-	mode = gtk_radio_action_get_current_value (data->action);
-	is_html = (mode == E_EDITOR_WIDGET_MODE_HTML);
+	is_html = gtk_radio_action_get_current_value (data->action);
 
-	if (mode == e_editor_widget_get_mode (widget)) {
+	if (is_html == e_editor_widget_get_html_mode (widget)) {
 		goto exit;
 	}
 
@@ -668,7 +666,7 @@ mode_changed (struct _ModeChanged *data)
 			NULL);
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_CANCEL) {
 			gtk_radio_action_set_current_value (
-				data->action, E_EDITOR_WIDGET_MODE_HTML);
+				data->action, TRUE);
 			gtk_widget_destroy (dialog);
 			goto exit;
 		}
@@ -699,8 +697,8 @@ mode_changed (struct _ModeChanged *data)
 	gtk_action_set_sensitive (ACTION (STYLE_H6), is_html);
 	gtk_action_set_sensitive (ACTION (STYLE_ADDRESS), is_html);
 
-	e_editor_widget_set_mode (
-		e_editor_get_editor_widget (editor), mode);
+	e_editor_widget_set_html_mode (
+		e_editor_get_editor_widget (editor), is_html);
 
  exit:
 	g_clear_object (&data->editor);
@@ -1142,14 +1140,14 @@ static GtkRadioActionEntry core_mode_entries[] = {
 	  N_("_HTML"),
 	  NULL,
 	  N_("HTML editing mode"),
-	  E_EDITOR_WIDGET_MODE_HTML },
+	  TRUE },	/* e_editor_widget_set_html_mode */
 
 	{ "mode-plain",
 	  NULL,
 	  N_("Plain _Text"),
 	  NULL,
 	  N_("Plain text editing mode"),
-	  E_EDITOR_WIDGET_MODE_PLAIN_TEXT }
+	  FALSE }	/* e_editor_widget_set_html_mode */
 };
 
 static GtkRadioActionEntry core_style_entries[] = {
@@ -1828,7 +1826,7 @@ editor_actions_init (EEditor *editor)
 	gtk_action_group_add_radio_actions (
 		action_group, core_mode_entries,
 		G_N_ELEMENTS (core_mode_entries),
-		E_EDITOR_WIDGET_MODE_HTML,
+		TRUE,
 		G_CALLBACK (action_mode_cb), editor);
 	gtk_action_group_add_radio_actions (
 		action_group, core_style_entries,
@@ -1838,7 +1836,7 @@ editor_actions_init (EEditor *editor)
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* Synchronize wiget mode with the button */
-	e_editor_widget_set_mode (editor_widget, E_EDITOR_WIDGET_MODE_HTML);
+	e_editor_widget_set_html_mode (editor_widget, TRUE);
 
 	/* Face Action */
 	action = e_emoticon_action_new (

@@ -227,8 +227,7 @@ action_save_cb (GtkAction *action,
 			return;
 
 	filename = e_editor_get_filename (editor);
-	as_html = (e_editor_widget_get_mode (
-			e_editor_get_editor_widget (editor)) == E_EDITOR_WIDGET_MODE_HTML);
+	as_html = (e_editor_widget_get_html_mode (e_editor_get_editor_widget (editor)));
 
 	e_editor_save (editor, filename, as_html, &error);
 	handle_error (&error);
@@ -246,8 +245,7 @@ action_save_as_cb (GtkAction *action,
 		return;
 
 	filename = e_editor_get_filename (editor);
-	as_html = (e_editor_widget_get_mode (
-			e_editor_get_editor_widget (editor)) == E_EDITOR_WIDGET_MODE_HTML);
+	as_html = (e_editor_widget_get_html_mode (e_editor_get_editor_widget (editor)));
 
 	e_editor_save (editor, filename, as_html, &error);
 	handle_error (&error);

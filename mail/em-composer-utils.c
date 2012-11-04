@@ -448,7 +448,6 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 	EComposerHeaderTable *table;
 	GSettings *settings;
 	gboolean check_passed = TRUE;
-	EEditorWidgetMode html_mode;
 	gboolean send_html;
 	gboolean confirm_html;
 	gint ii;
@@ -459,7 +458,6 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 	recipients = e_composer_header_table_get_destinations (table);
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (composer));
 	editor_widget = e_editor_get_editor_widget (editor);
-	html_mode = e_editor_widget_get_mode (editor_widget);
 
 	send_html = g_settings_get_boolean (settings, "composer-send-html");
 	confirm_html = g_settings_get_boolean (settings, "prompt-on-unwanted-html");
@@ -467,7 +465,7 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 	/* Only show this warning if our default is to send html.  If it
 	 * isn't, we've manually switched into html mode in the composer
 	 * and (presumably) had a good reason for doing this. */
-	if (html_mode == E_EDITOR_WIDGET_MODE_HTML && send_html &&
+	if (e_editor_widget_get_html_mode (editor_widget) && send_html &&
 	    confirm_html && recipients != NULL) {
 		gboolean html_problem = FALSE;
 

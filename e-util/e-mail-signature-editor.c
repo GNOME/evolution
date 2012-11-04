@@ -155,8 +155,7 @@ mail_signature_editor_loaded_cb (GObject *object,
 
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (object));
 	editor_widget = e_editor_get_editor_widget (editor);
-	e_editor_widget_set_mode (editor_widget,
-		(is_html) ? E_EDITOR_WIDGET_MODE_HTML : E_EDITOR_WIDGET_MODE_PLAIN_TEXT);
+	e_editor_widget_set_html_mode (editor_widget, is_html);
 
 	editor_selection = e_editor_widget_get_selection (editor_widget);
 	if (is_html) {
@@ -826,7 +825,6 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	gchar *contents;
 	EEditor  *editor;
 	EEditorWidget *editor_widget;
-	EEditorWidgetMode mode;
 
 	g_return_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (window));
 
@@ -834,9 +832,8 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	source = e_mail_signature_editor_get_source (window);
 	editor = e_editor_window_get_editor (E_EDITOR_WINDOW (window));
 	editor_widget = e_editor_get_editor_widget (editor);
-	mode = e_editor_widget_get_mode (editor_widget);
 
-	if (mode == E_EDITOR_WIDGET_MODE_HTML) {
+	if (e_editor_widget_get_html_mode (editor_widget)) {
 		mime_type = "text/html";
 		contents = e_editor_widget_get_text_html (editor_widget);
 	} else {
