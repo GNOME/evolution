@@ -651,7 +651,6 @@ action_mode_cb (GtkRadioAction *action,
 
 	editor_widget = e_editor_get_editor_widget (editor);
 	is_html = e_editor_widget_get_html_mode (editor_widget);
-	printf("action_mode_cb: is_html = %d\n", is_html);
 
 	/* This must be done from idle callback, because apparently we can change
 	 * current value in callback of current value change */
