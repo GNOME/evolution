@@ -2,7 +2,7 @@
 # Copyright (C) 2004 THE evolution'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the evolution package.
 #
-#: ../shell/main.c:568
+#: ../shell/main.c:584
 # Punjab Linux Technology <punjablinux@netscape.net>, 2004.
 # A S Alam <aalam@users.sf.net>, 2004, 2005, 2006, 2007, 2009, 2010, 2011.
 # Amanpreet Singh Alam <aalam@users.sf.net>, 2008, 2009, 2012.
@@ -11,15 +11,15 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-09-17 12:14+0000\n"
-"PO-Revision-Date: 2012-09-19 20:02+0530\n"
+"POT-Creation-Date: 2012-11-03 15:04+0000\n"
+"PO-Revision-Date: 2012-11-04 09:20+0530\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
 "Language: pa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
@@ -437,7 +437,7 @@ msgstr "ਵਰ੍ਹੇ ਗੰਢ"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:705
-#: ../calendar/gui/e-calendar-view.c:2149 ../shell/main.c:131
+#: ../calendar/gui/e-calendar-view.c:2149 ../shell/main.c:135
 msgid "Birthday"
 msgstr "ਜਨਮ-ਦਿਨ"
 
@@ -571,15 +571,15 @@ msgstr "ਹਟਾਉਣ ਸੰਪਰਕ ਗਲਤੀ"
 msgid "Contact Editor - %s"
 msgstr "ਸਬੰਧ ਸੰਪਾਦਕ - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3411
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3450
 msgid "Please select an image for this contact"
 msgstr "ਇਸ ਸੰਪਰਕ ਲਈ ਚਿੱਤਰ ਚੁਣੋ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3412
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3451
 msgid "_No image"
 msgstr "ਕੋਈ ਚਿੱਤਰ ਨਹੀਂ(_N)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3745
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3784
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -587,28 +587,28 @@ msgstr ""
 "ਸੰਪਰਕ ਡਾਟਾ ਗਲਤ ਹੈ:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3751
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3790
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "'%s' ਇੱਕ ਗਲਤ ਫਾਰਮੈਟ ਹੈ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3758
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3797
 #, c-format
 msgid "'%s' cannot be a future date"
 msgstr "'%s' ਭਵਿੱਖ ਦੀ ਮਿਤੀ ਨਹੀਂ ਹੋ ਸਕਦੀ ਹੈ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3766
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3805
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s'%s' ਦਾ ਗਲਤ ਫਾਰਮੈਟ ਹੈ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3779
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3793
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3818
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3832
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s'%s' ਖਾਲੀ ਹੈ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3808
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3847
 msgid "Invalid contact."
 msgstr "ਗਲਤ ਸੰਬੰਧ"
 
@@ -2076,9 +2076,6 @@ msgid "Delete remote memo list &quot;{0}&quot;?"
 msgstr "ਕੀ ਮੀਮੋ &quot;{0}&quot; ਹਟਾਉਣਾ ਹੈ?"
 
 #: ../calendar/calendar.error.xml.h:72
-#| msgid ""
-#| "This will permanently remote the memo list &quot;{0}&quot; from the "
-#| "server. Are you sure you want to proceed?"
 msgid ""
 "This will permanently remove the memo list &quot;{0}&quot; from the server. "
 "Are you sure you want to proceed?"
@@ -2573,7 +2570,7 @@ msgstr "ਮੌਜੂਦਾ ਵਿੰਡੋ ਬੰਦ ਕਰੋ"
 #: ../calendar/gui/dialogs/comp-editor.c:1164 ../mail/e-mail-browser.c:134
 #: ../shell/e-shell-window-actions.c:1446
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
-#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1423
+#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1428
 #: ../widgets/misc/e-web-view-gtkhtml.c:456
 #: ../widgets/misc/e-web-view-gtkhtml.c:1299
 msgid "Copy the selection"
@@ -2582,7 +2579,7 @@ msgstr "ਚੁਣੇ ਦੀ ਕਾਪੀ ਕਰੋ"
 #: ../calendar/gui/dialogs/comp-editor.c:1171 ../mail/e-mail-browser.c:141
 #: ../shell/e-shell-window-actions.c:1453
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1417 ../widgets/misc/e-web-view-gtkhtml.c:1293
+#: ../widgets/misc/e-web-view.c:1422 ../widgets/misc/e-web-view-gtkhtml.c:1293
 msgid "Cut the selection"
 msgstr "ਚੁਣੇ ਕੱਟੋ"
 
@@ -2599,7 +2596,7 @@ msgstr "ਮੱਦਦ ਵੇਖੋ"
 #: ../calendar/gui/dialogs/comp-editor.c:1192 ../mail/e-mail-browser.c:148
 #: ../shell/e-shell-window-actions.c:1481
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1429 ../widgets/misc/e-web-view-gtkhtml.c:1305
+#: ../widgets/misc/e-web-view.c:1434 ../widgets/misc/e-web-view-gtkhtml.c:1305
 msgid "Paste the clipboard"
 msgstr "ਕਲਿੱਪਬੋਰਡ ਚੇਪੋ"
 
@@ -2608,7 +2605,7 @@ msgid "Save current changes"
 msgstr "ਮੌਜੂਦਾ ਬਦਲਾਅ ਸੰਭਾਲੋ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1218
-#: ../widgets/misc/e-mail-signature-editor.c:294
+#: ../widgets/misc/e-mail-signature-editor.c:301
 msgid "Save and Close"
 msgstr "ਸੰਭਾਲੋ ਤੇ ਬੰਦ ਕਰੋ"
 
@@ -2637,7 +2634,7 @@ msgstr "ਸੋਧ(_E)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1248 ../mail/e-mail-browser.c:162
 #: ../shell/e-shell-window-actions.c:1593
-#: ../widgets/misc/e-mail-signature-editor.c:299
+#: ../widgets/misc/e-mail-signature-editor.c:306
 msgid "_File"
 msgstr "ਫਾਇਲ(_F)"
 
@@ -3196,7 +3193,7 @@ msgstr "'%s' ਵਿੱਚ ਮੀਮੋ ਖੋਲਣ ਤੋਂ ਅਸਮਰੱਥ
 #: ../em-format/e-mail-parser-inlinepgp-signed.c:96
 #: ../em-format/e-mail-parser-multipart-encrypted.c:122
 #: ../em-format/e-mail-parser-multipart-signed.c:147
-#: ../libemail-engine/mail-ops.c:722 ../mail/e-mail-reader.c:1733
+#: ../libemail-engine/mail-ops.c:741 ../mail/e-mail-reader.c:1733
 #: ../mail/em-folder-tree.c:675 ../modules/itip-formatter/itip-view.c:4574
 #: ../modules/itip-formatter/itip-view.c:4925 ../plugins/face/face.c:174
 #: ../smime/gui/certificate-manager.c:317
@@ -6668,7 +6665,7 @@ msgid "Save as..."
 msgstr "ਇੰਝ ਸੰਭਾਲੋ..."
 
 #: ../composer/e-composer-actions.c:295
-#: ../widgets/misc/e-mail-signature-editor.c:285
+#: ../widgets/misc/e-mail-signature-editor.c:292
 msgid "_Close"
 msgstr "ਬੰਦ ਕਰੋ(_C)"
 
@@ -6860,7 +6857,7 @@ msgid "S_ubject:"
 msgstr "ਵਿਸ਼ਾ(_u):"
 
 #: ../composer/e-composer-header-table.c:890
-#: ../mail/e-mail-config-identity-page.c:466
+#: ../mail/e-mail-config-identity-page.c:490
 msgid "Si_gnature:"
 msgstr "ਦਸਤਖਤ(_g):"
 
@@ -7111,6 +7108,11 @@ msgstr "ਈਵੇਲੂਸ਼ਨ ਮੇਲ ਅਤੇ ਕੈਲੰਡਰ"
 #: ../data/evolution.desktop.in.in.h:4
 msgid "Manage your email, contacts and schedule"
 msgstr "ਆਪਣਾ ਈ-ਮੇਲ ਅਕਾਊਂਟ, ਸੰਪਰਕ ਅਤੇ ਸ਼ੈਡਿਊਲ ਦਾ ਪਰਬੰਧ ਕਰੋ"
+
+#: ../data/evolution.desktop.in.in.h:5
+msgid "mail;calendar;contact;addressbook;task;"
+msgstr ""
+"mail;calendar;contact;addressbook;task;ਮੇਲ;ਕੈਲੰਡਰ;ਸੰਪਰਕ;ਐਡਰੈਸਬੁੱਕ;ਕੰਮ;ਟਾਸਕ"
 
 #: ../data/evolution-settings.desktop.in.in.h:1
 msgid "Email Settings"
@@ -9358,7 +9360,7 @@ msgstr "ਸ਼ੁਰੂਆਤੀ ਫਾਇਲ ਚੋਣਕਾਰ ਫੋਲਡਰ
 msgid "Initial folder for GtkFileChooser dialogs."
 msgstr "GtkFileChooser ਡਾਈਲਾਗ ਲਈ ਸ਼ੁਰੂਆਤੀ ਫੋਲਡਰ"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:313
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:317
 msgid "Start in offline mode"
 msgstr "ਆਫਲਾਇਨ ਮੋਡ ਵਿੱਚ ਸ਼ੁਰੂ"
 
@@ -9565,7 +9567,7 @@ msgstr "RFC822 ਸੁਨੇਹੇ ਵਜੋਂ ਫਾਰਮੈਟ ਭਾਗ"
 
 #: ../em-format/e-mail-formatter-print.c:53
 #: ../mail/e-mail-label-tree-view.c:99
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1255
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1270
 #: ../modules/cal-config-google/e-google-chooser.c:209
 #: ../modules/plugin-manager/evolution-plugin-manager.c:68
 #: ../widgets/menus/gal-define-views-dialog.c:352
@@ -9631,12 +9633,12 @@ msgid "Format part as HTML"
 msgstr "HTML ਵਾਂਗ ਫਾਰਮੈਟ ਭਾਗ"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:123
-#: ../em-format/e-mail-formatter-text-plain.c:182
+#: ../em-format/e-mail-formatter-text-plain.c:183
 msgid "Plain Text"
 msgstr "ਪਲੇਨ ਟੈਕਸਟ"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:129
-#: ../em-format/e-mail-formatter-text-plain.c:188
+#: ../em-format/e-mail-formatter-text-plain.c:189
 msgid "Format part as plain text"
 msgstr "ਪਲੇਟ ਟੈਕਸਟ ਵਾਂਗ ਫਾਰਮੈਟ ਭਾਗ"
 
@@ -9832,7 +9834,7 @@ msgstr "ਸੁਨੇਹਾ PGP/MIME ਨੂੰ ਪਾਰਸ ਨਹੀਂ ਕੀ�
 msgid "Unsupported signature format"
 msgstr "ਨਾ-ਸਹਾਇਕ ਦਸਤਖਤ ਫਾਰਮੈਟ"
 
-#: ../em-format/e-mail-part-utils.c:493
+#: ../em-format/e-mail-part-utils.c:496
 #, c-format
 msgid "%s attachment"
 msgstr "%s ਨੱਥੀ"
@@ -10493,32 +10495,32 @@ msgstr "ਗਲਤ ਫੋਲਡਰ URI '%s'"
 
 #: ../libemail-engine/e-mail-session.c:116 ../mail/em-folder-properties.c:333
 #: ../mail/em-folder-tree-model.c:765
-#: ../modules/mail/e-mail-shell-view-private.c:1034
-#: ../modules/mail/e-mail-shell-view-private.c:1045
+#: ../modules/mail/e-mail-shell-view-private.c:1066
+#: ../modules/mail/e-mail-shell-view-private.c:1077
 msgid "Inbox"
 msgstr "ਆਉਣ-ਬਕਸਾ"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:117 ../mail/em-folder-tree-model.c:758
-#: ../modules/mail/e-mail-shell-view-private.c:1032
+#: ../modules/mail/e-mail-shell-view-private.c:1064
 msgid "Drafts"
 msgstr "ਡਰਾਫਟ"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:118 ../mail/em-folder-tree-model.c:769
-#: ../modules/mail/e-mail-shell-view-private.c:1036
+#: ../modules/mail/e-mail-shell-view-private.c:1068
 msgid "Outbox"
 msgstr "ਬਾਹਰ-ਬਕਸਾ"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:119 ../mail/em-folder-tree-model.c:773
-#: ../modules/mail/e-mail-shell-view-private.c:1038
+#: ../modules/mail/e-mail-shell-view-private.c:1070
 msgid "Sent"
 msgstr "ਭੇਜੇ"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:120 ../mail/em-folder-tree-model.c:761
-#: ../modules/mail/e-mail-shell-view-private.c:1040
+#: ../modules/mail/e-mail-shell-view-private.c:1072
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1048 ../plugins/templates/templates.c:1345
 #: ../plugins/templates/templates.c:1355
@@ -10563,14 +10565,14 @@ msgid "UID '%s' is not a mail transport"
 msgstr "UID '%s' ਮੇਲ ਟਰਾਂਸਪੋਰਟ ਨਹੀਂ ਹੈ"
 
 #: ../libemail-engine/e-mail-session-utils.c:641
-#: ../libemail-engine/mail-ops.c:700
+#: ../libemail-engine/mail-ops.c:719
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "ਬਾਹਰੀ ਫਿਲਟਰ ਲਾਗੂ ਕਰਨ ਤੋਂ ਫੇਲ੍ਹ: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:670
 #: ../libemail-engine/e-mail-session-utils.c:704
-#: ../libemail-engine/mail-ops.c:717 ../libemail-engine/mail-ops.c:753
+#: ../libemail-engine/mail-ops.c:736 ../libemail-engine/mail-ops.c:772
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -10580,13 +10582,13 @@ msgstr ""
 "ਇਸ ਦੀ ਬਜਾਏ ਲੋਕਲ 'ਭੇਜੇ (Sent)' ਫੋਲਡਰ ਸ਼ਾਮਿਲ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ।"
 
 #: ../libemail-engine/e-mail-session-utils.c:724
-#: ../libemail-engine/mail-ops.c:775
+#: ../libemail-engine/mail-ops.c:794
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "ਲੋਕਲ 'ਭੇਜੇ (Sent)' ਫੋਲਡਰ ਸ਼ਾਮਿਲ ਕਰਨ ਵਿੱਚ ਫੇਲ੍ਹ: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:954
-#: ../libemail-engine/mail-ops.c:907 ../libemail-engine/mail-ops.c:1009
+#: ../libemail-engine/mail-ops.c:926 ../libemail-engine/mail-ops.c:1028
 msgid "Sending message"
 msgstr "ਸੁਨੇਹਾ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
@@ -10605,7 +10607,7 @@ msgstr "'%s' ਨਾਲ ਮੁੜ ਕੁਨੈਕਟ ਕੀਤਾ ਜਾ ਰਿ�
 msgid "Preparing account '%s' for offline"
 msgstr "ਆਫਲਾਈਨ ਲਈ ਅਕਾਊਂਟ '%s' ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ../libemail-engine/mail-folder-cache.c:876
+#: ../libemail-engine/mail-folder-cache.c:880
 #, c-format
 msgid "Pinging %s"
 msgstr "%s ਪਿੰਗ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
@@ -10614,56 +10616,56 @@ msgstr "%s ਪਿੰਗ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 msgid "Filtering Selected Messages"
 msgstr "ਚੁਣੇ ਸੁਨੇਹੇ ਫਿਲਟਰ"
 
-#: ../libemail-engine/mail-ops.c:216
+#: ../libemail-engine/mail-ops.c:219
 msgid "Fetching Mail"
 msgstr "ਪੱਤਰ ਲਏ ਜਾ ਰਹੇ ਹਨ"
 
-#: ../libemail-engine/mail-ops.c:918
+#: ../libemail-engine/mail-ops.c:937
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "%2$d ਵਿੱਚੋਂ %1$d ਸੁਨੇਹਾ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ../libemail-engine/mail-ops.c:970
+#: ../libemail-engine/mail-ops.c:989
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "ਸੁਨੇਹਾ ਭੇਜਣ ਲਈ ਫੇਲ੍ਹ ਹੈ"
 msgstr[1] "%2$d ਵਿੱਚੋਂ %1$d ਸੁਨੇਹੇ ਭੇਜਣ ਵਿੱਚ ਫੇਲ੍ਹ"
 
-#: ../libemail-engine/mail-ops.c:976
+#: ../libemail-engine/mail-ops.c:995
 msgid "Canceled."
 msgstr "ਰੱਦ ਕੀਤਾ।"
 
-#: ../libemail-engine/mail-ops.c:978
+#: ../libemail-engine/mail-ops.c:997
 msgid "Complete."
 msgstr "ਸਮਾਪਤ"
 
-#: ../libemail-engine/mail-ops.c:1090
+#: ../libemail-engine/mail-ops.c:1109
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "ਸੁਨੇਹੇ '%s' ਵਿੱਚ ਭੇਜੇ ਜਾ ਰਹੇ ਹਨ"
 
-#: ../libemail-engine/mail-ops.c:1091
+#: ../libemail-engine/mail-ops.c:1110
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "ਸੁਨੇਹੇ '%s' ਵਿੱਚ ਕਾਪੀ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
 
-#: ../libemail-engine/mail-ops.c:1209
+#: ../libemail-engine/mail-ops.c:1228
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "ਫੋਲਡਰ '%s' ਸੰਭਾਲਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ../libemail-engine/mail-ops.c:1283
+#: ../libemail-engine/mail-ops.c:1302
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "ਅਕਾਊਂਟ '%s' ਸੁੰਘੜਿਆ ਜਾ ਰਿਹਾ ਹੈ ਅਤੇ ਸੰਭਾਲਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ../libemail-engine/mail-ops.c:1284
+#: ../libemail-engine/mail-ops.c:1303
 #, c-format
 msgid "Storing account '%s'"
 msgstr "ਅਕਾਊਂਟ '%s' ਸੰਭਾਲਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ../libemail-engine/mail-ops.c:1358
+#: ../libemail-engine/mail-ops.c:1377
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "'%s' ਵਿੱਚ ਰੱਦੀ ਖਾਲੀ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
@@ -10733,7 +10735,7 @@ msgid "De_fault"
 msgstr "ਮੂਲ(_f)"
 
 #: ../mail/e-mail-account-tree-view.c:85
-#: ../modules/mail/em-composer-prefs.c:505
+#: ../modules/mail/em-composer-prefs.c:495
 #: ../modules/plugin-manager/evolution-plugin-manager.c:360
 #: ../plugins/publish-calendar/publish-calendar.c:864
 msgid "Enabled"
@@ -10895,7 +10897,7 @@ msgstr "ਹਰ ਸੁਨੇਹੇ ਲਈ ਪੁੱਛੋ"
 msgid "Defaults"
 msgstr "ਮੂਲ"
 
-#: ../mail/e-mail-config-identity-page.c:254
+#: ../mail/e-mail-config-identity-page.c:268
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -10905,12 +10907,12 @@ msgstr ""
 "ਹੈ, ਜਦੋਂ ਤੱਕ ਕਿ "
 "ਤੁਸੀਂ ਈ-ਮੇਲ ਰਾਹੀ ਭੇਜੀ ਜਾਣ ਵਾਲੀ ਜਾਣਕਾਰੀ ਵਿੱਚ ਸ਼ਾਮਿਲ ਨਾ ਕਰ ਚਾਹੋ।"
 
-#: ../mail/e-mail-config-identity-page.c:282
+#: ../mail/e-mail-config-identity-page.c:296
 #: ../mail/e-mail-config-summary-page.c:324
 msgid "Account Information"
 msgstr "ਅਕਾਊਂਟ ਜਾਣਕਾਰੀ"
 
-#: ../mail/e-mail-config-identity-page.c:291
+#: ../mail/e-mail-config-identity-page.c:305
 #: ../mail/e-mail-config-summary-page.c:333
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
@@ -10919,7 +10921,7 @@ msgstr ""
 "ਨਾਂ ਲਿਖੋ, ਜਿਸ ਨਾਲ ਤੁਸੀਂ ਇਸ ਅਕਾਊਂਟ ਨੂੰ ਸੰਬੋਧਨ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ।\n"
 "ਉਦਾਹਰਨ ਲਈ: \"ਕੰਮਕਾਰੀ\" ਜਾਂ \"ਨਿੱਜੀ\"."
 
-#: ../mail/e-mail-config-identity-page.c:299
+#: ../mail/e-mail-config-identity-page.c:313
 #: ../mail/e-mail-config-summary-page.c:341
 #: ../modules/addressbook/ldap-config.ui.h:12
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
@@ -10927,36 +10929,36 @@ msgstr ""
 msgid "_Name:"
 msgstr "ਨਾਂ(_N):"
 
-#: ../mail/e-mail-config-identity-page.c:336
+#: ../mail/e-mail-config-identity-page.c:350
 msgid "Required Information"
 msgstr "ਲੋੜੀਦੀ ਜਾਣਕਾਰੀ"
 
-#: ../mail/e-mail-config-identity-page.c:345
+#: ../mail/e-mail-config-identity-page.c:359
 msgid "Full Nam_e:"
 msgstr "ਪੂਰਾ ਨਾਂ(_E):"
 
-#: ../mail/e-mail-config-identity-page.c:372
+#: ../mail/e-mail-config-identity-page.c:386
 msgid "Email _Address:"
 msgstr "ਈ-ਮੇਲ ਐਡਰੈੱਸ(_A):"
 
-#: ../mail/e-mail-config-identity-page.c:409
+#: ../mail/e-mail-config-identity-page.c:433
 #: ../plugins/publish-calendar/publish-calendar.ui.h:26
 msgid "Optional Information"
 msgstr "ਚੋਣਵੀਂ ਜਾਣਕਾਰੀ"
 
-#: ../mail/e-mail-config-identity-page.c:417
+#: ../mail/e-mail-config-identity-page.c:441
 msgid "Re_ply-To:"
 msgstr "ਇਸ ਨੂੰ ਜਵਾਬ(_p):"
 
-#: ../mail/e-mail-config-identity-page.c:444
+#: ../mail/e-mail-config-identity-page.c:468
 msgid "Or_ganization:"
 msgstr "ਸੰਗਠਨ(_g):"
 
-#: ../mail/e-mail-config-identity-page.c:499
+#: ../mail/e-mail-config-identity-page.c:523
 msgid "Add Ne_w Signature..."
 msgstr "ਨਵੇਂ ਦਸਤਖਤ ਸ਼ਾਮਿਲ ਕਰੋ(_w)..."
 
-#: ../mail/e-mail-config-identity-page.c:640
+#: ../mail/e-mail-config-identity-page.c:679
 msgid "Identity"
 msgstr "ਪਛਾਣ"
 
@@ -12497,7 +12499,7 @@ msgid "Importing Elm data"
 msgstr "ਈਲਮ ਡਾਟਾ ਇੰਪੋਰਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: ../mail/importers/elm-importer.c:332 ../mail/importers/pine-importer.c:423
-#: ../modules/mail/e-mail-shell-view.c:1074
+#: ../modules/mail/e-mail-shell-view.c:1034
 #: ../widgets/misc/e-send-options.c:538
 msgid "Mail"
 msgstr "ਪੱਤਰ"
@@ -12716,15 +12718,15 @@ msgid "_Languages"
 msgstr "ਭਾਸ਼ਾ(_L)"
 
 #: ../mail/mail-config.ui.h:23
+msgid "Languages Table"
+msgstr "ਭਾਸ਼ਾ ਟੇਬਲ"
+
+#: ../mail/mail-config.ui.h:24
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
 "ਭਾਸ਼ਾਵਾਂ ਦੀ ਲਿਸਟ, ਸਿਰਫ ਉਹਨਾਂ ਨੂੰ ਵੇਖਾਉਦੀ ਹੈ, ਜਿਨਾਂ ਲਈ ਸ਼ਬਦ-ਕੋਸ਼ ਇੰਸਟਾਲ ਹੈ।"
-
-#: ../mail/mail-config.ui.h:24
-msgid "Languages Table"
-msgstr "ਭਾਸ਼ਾ ਟੇਬਲ"
 
 #: ../mail/mail-config.ui.h:26
 msgid "Check spelling while I _type"
@@ -14935,24 +14937,24 @@ msgstr "ifMatch ਅਣਡਿੱਠਾ (Apache < 2.2.8 ਦੀ ਲੋੜ ਹੈ)"
 msgid "HTTP Error: %s"
 msgstr "HTTP ਗਲਤੀ: %s"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:447
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:445
 msgid "Could not parse response"
 msgstr "ਜਵਾਬ ਪਾਰਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:456
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:454
 msgid "Empty response"
 msgstr "ਖਾਲੀ ਸੁਨੇਹਾ"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:464
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:462
 msgid "Unexpected reply from server"
 msgstr "ਸਰਵਰ ਤੋਂ ਗਲਤ ਜਵਾਬ"
 
 #  FIXME: domain/code
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1051
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1066
 msgid "Could not locate user's calendars"
 msgstr "ਯੂਜ਼ਰ ਕੈਲੰਡਰ ਨਹੀਂ ਲੱਭਿਆ ਜਾ ਸਕਿਆ"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1275
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1290
 msgid "Path"
 msgstr "ਮਾਰਗ"
 
@@ -17010,7 +17012,6 @@ msgid "None"
 msgstr "ਕੋਈ ਨਹੀਂ"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1226
-#: ../modules/mail/e-mail-shell-view.c:975
 msgid "_Disable Account"
 msgstr "ਅਕਾਊਂਟ ਅਯੋਗ(_D)"
 
@@ -17317,76 +17318,72 @@ msgstr "ਸਭ ਅਕਾਊਂਟ ਖੋਜ"
 msgid "Account Search"
 msgstr "ਅਕਾਊਂਟ ਖੋਜ"
 
-#: ../modules/mail/e-mail-shell-view.c:973
-msgid "Proxy _Logout"
-msgstr "ਪਰਾਕਸੀ ਲਾਗਆਉਟ(_L)"
-
-#: ../modules/mail/e-mail-shell-view-private.c:962
+#: ../modules/mail/e-mail-shell-view-private.c:994
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] " %d ਚੁਣਿਆ, "
 msgstr[1] " %d ਚੁਣੇ, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:973
+#: ../modules/mail/e-mail-shell-view-private.c:1005
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d ਹਟਾਇਆ"
 msgstr[1] "%d ਹਟਾਏ"
 
-#: ../modules/mail/e-mail-shell-view-private.c:979
-#: ../modules/mail/e-mail-shell-view-private.c:986
+#: ../modules/mail/e-mail-shell-view-private.c:1011
+#: ../modules/mail/e-mail-shell-view-private.c:1018
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d ਜੰਕ"
 msgstr[1] "%d ਜੰਕ"
 
-#: ../modules/mail/e-mail-shell-view-private.c:992
+#: ../modules/mail/e-mail-shell-view-private.c:1024
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d ਡਰਾਫਟ"
 msgstr[1] "%d ਡਰਾਫਟ"
 
-#: ../modules/mail/e-mail-shell-view-private.c:998
+#: ../modules/mail/e-mail-shell-view-private.c:1030
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d ਨਾ-ਭੇਜਿਆ"
 msgstr[1] "%d ਨਾ-ਭੇਜੇ"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1004
+#: ../modules/mail/e-mail-shell-view-private.c:1036
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d ਭੇਜਿਆ"
 msgstr[1] "%d ਭੇਜੇ"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1016
+#: ../modules/mail/e-mail-shell-view-private.c:1048
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d ਨਾ-ਪੜ੍ਹੇ, "
 msgstr[1] "%d ਨਾ-ਪੜ੍ਹੇ, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:1019
+#: ../modules/mail/e-mail-shell-view-private.c:1051
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d ਕੁੱਲ"
 msgstr[1] "%d ਕੁੱਲ"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1042
+#: ../modules/mail/e-mail-shell-view-private.c:1074
 msgid "Trash"
 msgstr "ਰੱਦੀ"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1458
+#: ../modules/mail/e-mail-shell-view-private.c:1490
 msgid "Send / Receive"
 msgstr "ਭੇਜੋ / ਲਵੋ"
 
-#: ../modules/mail/em-composer-prefs.c:509
+#: ../modules/mail/em-composer-prefs.c:499
 msgid "Language(s)"
 msgstr "ਭਾਸ਼ਾ"
 
@@ -17693,11 +17690,11 @@ msgstr "... ਵਜੋਂ ਫਾਰਮੈਟ(_F)"
 msgid "_Other languages"
 msgstr "ਹੋਰ ਭਾਸ਼ਾ(_O)"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:342
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:365
 msgid "Text Highlight"
 msgstr "ਟੈਕਸਟ ਉਚਾਈ"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:348
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:371
 msgid "Syntax highlighting of mail parts"
 msgstr "ਮੇਲ ਭਾਗ ਵਿੱਚ ਸੰਟੈਕਸ ਉਭਾਰਨ"
 
@@ -17943,7 +17940,6 @@ msgstr[0] "%d ਹੋਰ ਸੰਪਰਕ ਹੈ।"
 msgstr[1] "%d ਹੋਰ ਸੰਪਰਕ ਹਨ।"
 
 #: ../modules/vcard-inline/e-mail-formatter-vcard-inline.c:196
-#| msgid "Addressbok Contact"
 msgid "Addressbook Contact"
 msgstr "ਐਡਰੈੱਸ ਕਿਤਾਬ ਸੰਪਰਕ"
 
@@ -19357,7 +19353,7 @@ msgid "%s - Evolution"
 msgstr "%s - ਈਵੇਲੂਸ਼ਨ"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:186
+#: ../shell/main.c:190
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -19392,7 +19388,7 @@ msgstr ""
 "ਸਾਨੂੰ ਉਮੀਦ ਹੈ ਮਿੱਤਰ ਤੂੰ ਸਾਡੀ ਮੇਹਨਤ ਦਾ ਆਨੰਦ ਮਾਣੇਗਾ ਅਤੇ ਅਸੀਂ ਤੇਰੇ ਇਸ ਸਹਿਯੋਗ ਦਾ\n"
 "ਤਹਿ ਦਿਲੋਂ ਧੰਨਵਾਦ ਕਰਦੇ ਹਾਂ\n"
 
-#: ../shell/main.c:210
+#: ../shell/main.c:214
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -19400,13 +19396,13 @@ msgstr ""
 "ਧੰਨਵਾਦ\n"
 "ਈਵੇਲੂਸ਼ਨ ਟੀਮ\n"
 
-#: ../shell/main.c:216
+#: ../shell/main.c:220
 msgid "Do not tell me again"
 msgstr "ਮੈਨੂੰ ਮੁੜ ਨਾ ਦੱਸੋ"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../shell/main.c:307
+#: ../shell/main.c:311
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
@@ -19415,47 +19411,47 @@ msgstr ""
 "'calendar(ਕੈਲੰਡਰ)', "
 "'contacts(ਸੰਪਰਕ)', 'tasks(ਟਾਸਕ)', ਅਤੇ 'memos(ਮੀਮੋ)'"
 
-#: ../shell/main.c:311
+#: ../shell/main.c:315
 msgid "Apply the given geometry to the main window"
 msgstr "ਦਿੱਤੀ ਜੁਮੈਟਰੀ ਮੁੱਖ ਵਿੰਡੋ ਉੱਤੇ ਲਾਗੂ ਕਰੋ"
 
-#: ../shell/main.c:315
+#: ../shell/main.c:319
 msgid "Start in online mode"
 msgstr "ਆਨਲਾਇਨ ਮੋਡ ਵਿੱਚ ਸ਼ੁਰੂ"
 
-#: ../shell/main.c:317
+#: ../shell/main.c:321
 msgid "Ignore network availability"
 msgstr "ਨੈੱਟਵਰਕ ਉਪਲੱਬਧਤਾ ਅਣਡਿੱਠੀ ਕਰੋ"
 
-#: ../shell/main.c:319
+#: ../shell/main.c:323
 msgid "Start in \"express\" mode"
 msgstr "\"ਐਕਸਪ੍ਰੈਸ\" ਮੋਡ ਵਿੱਚ ਸ਼ੁਰੂ"
 
-#: ../shell/main.c:322
+#: ../shell/main.c:326
 msgid "Forcibly shut down Evolution"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਧੱਕੇ ਨਾਲ ਬੰਦ ਕਰੋ"
 
-#: ../shell/main.c:325
+#: ../shell/main.c:329
 msgid "Disable loading of any plugins."
 msgstr "ਕੋਈ ਪਲੱਗ-ਇਨ ਲੋਡ ਤੋਂ ਰੋਕ ਹੈ।"
 
-#: ../shell/main.c:327
+#: ../shell/main.c:331
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "ਮੇਲ, ਸੰਪਰਕ ਅਤੇ ਕੰਮ ਲਈ ਝਲਕ ਪੈਨ ਆਯੋਗ ਕਰੋ।"
 
-#: ../shell/main.c:331
+#: ../shell/main.c:335
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "URI ਜਾਂ ਬਾਕੀ ਦੇ ਆਰਗੂਮੈਂਟ ਵਜੋਂ ਦਿੱਤੇ ਫਾਇਲ-ਨਾਂ ਇੰਪੋਰਟ ਕਰੋ"
 
-#: ../shell/main.c:333
+#: ../shell/main.c:337
 msgid "Request a running Evolution process to quit"
 msgstr "ਚੱਲਦੇ ਈਵੇਲਸ਼ਨ ਪਰੋਸੈਸ ਨੂੰ ਬੰਦ ਕਰਨ ਦੀ ਮੰਗ"
 
-#: ../shell/main.c:517
+#: ../shell/main.c:526 ../shell/main.c:531
 msgid "- The Evolution PIM and Email Client"
 msgstr "- ਈਵੇਲੂਸ਼ਨ PIM ਅਤੇ ਈ-ਮੇਲ ਕਲਾਇਟ"
 
-#: ../shell/main.c:582
+#: ../shell/main.c:598
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19464,7 +19460,7 @@ msgstr ""
 "%s: --online ਅਤੇ --offline ਇੱਕ ਸਮੇਂ ਨਹੀਂ ਵਰਤੇ ਜਾ ਸਕਦੇ ਹਨ।\n"
 " ਵਧੇਰੇ ਜਾਣਕਾਰੀ ਲਈ  '%s --help' ਚਲਾਓ।\n"
 
-#: ../shell/main.c:588
+#: ../shell/main.c:604
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -20708,23 +20704,23 @@ msgstr "ਈਵੇਲੂਸ਼ਨ ਵਿੱਚ ਫਾਇਲ ਇੰਪੋਰਟ ਕ�
 msgid "Autogenerated"
 msgstr "ਸਵੈ-ਨਿਰਮਤ"
 
-#: ../widgets/misc/e-mail-signature-editor.c:287
+#: ../widgets/misc/e-mail-signature-editor.c:294
 msgid "Close"
 msgstr "ਬੰਦ ਕਰੋ"
 
-#: ../widgets/misc/e-mail-signature-editor.c:292
+#: ../widgets/misc/e-mail-signature-editor.c:299
 msgid "_Save and Close"
 msgstr "ਸੰਭਾਲੋ ਤੇ ਬੰਦ ਕਰੋ(_S)"
 
-#: ../widgets/misc/e-mail-signature-editor.c:506
+#: ../widgets/misc/e-mail-signature-editor.c:513
 msgid "Edit Signature"
 msgstr "ਦਸਤਖਤ ਸੋਧ"
 
-#: ../widgets/misc/e-mail-signature-editor.c:526
+#: ../widgets/misc/e-mail-signature-editor.c:533
 msgid "_Signature Name:"
 msgstr "ਦਸਤਖਤ ਨਾਂ(_S):"
 
-#: ../widgets/misc/e-mail-signature-editor.c:572
+#: ../widgets/misc/e-mail-signature-editor.c:579
 msgid "Unnamed"
 msgstr "ਬੇ-ਨਾਂ"
 
@@ -20732,11 +20728,11 @@ msgstr "ਬੇ-ਨਾਂ"
 msgid "Add _Script"
 msgstr "ਸਕ੍ਰਿਪਟ ਜੋੜੋ(_S)"
 
-#: ../widgets/misc/e-mail-signature-manager.c:421
+#: ../widgets/misc/e-mail-signature-manager.c:422
 msgid "Add Signature Script"
 msgstr "ਦਸਤਖਤੀ ਸਕ੍ਰਿਪਟ ਸ਼ਾਮਿਲ"
 
-#: ../widgets/misc/e-mail-signature-manager.c:491
+#: ../widgets/misc/e-mail-signature-manager.c:492
 msgid "Edit Signature Script"
 msgstr "ਦਸਤਖਤ ਸਕ੍ਰਿਪਟ ਸੋਧ"
 
@@ -20984,15 +20980,15 @@ msgid "Refresh every"
 msgstr "ਤਾਜ਼ਾ ਕਰੋ ਹਰੇਕ"
 
 #: ../widgets/misc/e-source-config.c:1324
-#: ../widgets/misc/e-source-config.c:1352
+#: ../widgets/misc/e-source-config.c:1373
 msgid "Use a secure connection"
 msgstr "ਸੁਰੱਖਿਅਤ ਕੁਨੈਕਸ਼ਨ ਵਰਤੋਂ"
 
-#: ../widgets/misc/e-source-config.c:1366
+#: ../widgets/misc/e-source-config.c:1397
 msgid "Ignore invalid SSL certificate"
 msgstr "ਗਲਤ SSL ਸਰਟੀਫਿਕੇਟ ਅਣਡਿੱਠਾ"
 
-#: ../widgets/misc/e-source-config.c:1403
+#: ../widgets/misc/e-source-config.c:1434
 msgid "User"
 msgstr "ਯੂਜ਼ਰ"
 
@@ -21052,7 +21048,7 @@ msgstr "ਚਿੱਤਰ ਕਾਪੀ ਕਰੋ(_C)"
 msgid "Copy the image to the clipboard"
 msgstr "ਚਿੱਤਰ ਨੂੰ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
 
-#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1435
+#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1440
 #: ../widgets/misc/e-web-view-gtkhtml.c:466
 #: ../widgets/misc/e-web-view-gtkhtml.c:1311
 msgid "Select all text and images"
@@ -21379,6 +21375,9 @@ msgstr "ਸਭ ਚੁਣੋ"
 #: ../widgets/text/e-text.c:2087
 msgid "Input Methods"
 msgstr "ਇੰਪੁੱਟ ਢੰਗ"
+
+#~ msgid "Proxy _Logout"
+#~ msgstr "ਪਰਾਕਸੀ ਲਾਗਆਉਟ(_L)"
 
 #~ msgctxt "New"
 #~ msgid "_Test Item"
