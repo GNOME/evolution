@@ -109,7 +109,7 @@ cal_shell_view_constructed (GObject *object)
 
 	gtk_widget_show_all (box);
 
-	gtk_box_pack_start (GTK_BOX (e_shell_searchbar_get_search_box (searchbar)), box, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (e_shell_searchbar_get_search_box (searchbar)), box);
 }
 
 static void
