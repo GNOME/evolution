@@ -335,12 +335,12 @@ try_open_book_client (EBookClient *book_client,
 
 	while (canceled = g_cancellable_is_cancelled (cancellable),
 			!canceled && !e_flag_is_set (flag)) {
-		GTimeVal wait;
+		gint end_time;
 
-		g_get_current_time (&wait);
-		g_time_val_add (&wait, 250000); /* waits 250ms */
+		/* waits 250ms */
+		end_time = g_get_monotonic_time () + (G_TIME_SPAN_SECOND / 4);
 
-		e_flag_timed_wait (flag, &wait);
+		e_flag_wait_until (flag, end_time);
 	}
 
 	if (canceled) {
