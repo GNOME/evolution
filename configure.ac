@@ -1375,9 +1375,11 @@ if test "x$enable_contact_maps" = "xyes"; then
 	])
 	fi
 
+	dnl Restrict geocode-glib dependency to 0.99.0 so
+	dnl we don't have to chase subsequent API changes.
 	PKG_CHECK_MODULES([GEO],
 		[geoclue >= geoclue_minimum_version
-		 geocode-glib],
+		 geocode-glib = 0.99.0],
 		[have_geo=yes], [have_geo=no])
 
 	if test "x$have_geo" = "xno"; then
