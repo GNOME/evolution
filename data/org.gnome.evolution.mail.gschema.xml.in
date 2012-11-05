@@ -95,11 +95,6 @@
       <_summary>Send HTML mail by default</_summary>
       <_description>Send HTML mail by default.</_description>
     </key>
-    <key name="composer-spell-color" type="s">
-      <default>'#FFFF00000000'</default>
-      <_summary>Spell checking color</_summary>
-      <_description>Underline color for misspelled words when using inline spelling.</_description>
-    </key>
     <key name="composer-spell-languages" type="as">
       <default>[]</default>
       <_summary>Spell checking languages</_summary>

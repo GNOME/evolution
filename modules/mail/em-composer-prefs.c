@@ -52,53 +52,6 @@ G_DEFINE_TYPE (
 	em_composer_prefs,
 	GTK_TYPE_VBOX)
 
-static gboolean
-composer_prefs_map_string_to_color (GValue *value,
-                                    GVariant *variant,
-                                    gpointer user_data)
-{
-	GdkColor color;
-	const gchar *string;
-	gboolean success = FALSE;
-
-	string = g_variant_get_string (variant, NULL);
-	if (gdk_color_parse (string, &color)) {
-		g_value_set_boxed (value, &color);
-		success = TRUE;
-	}
-
-	return success;
-}
-
-static GVariant *
-composer_prefs_map_color_to_string (const GValue *value,
-                                    const GVariantType *expected_type,
-                                    gpointer user_data)
-{
-	GVariant *variant;
-	const GdkColor *color;
-
-	color = g_value_get_boxed (value);
-	if (color == NULL) {
-		variant = g_variant_new_string ("");
-	} else {
-		gchar *string;
-
-		/* Encode the color manually because CSS styles expect
-		 * color codes as #rrggbb, whereas gdk_color_to_string()
-		 * returns color codes as #rrrrggggbbbb. */
-		string = g_strdup_printf (
-			"#%02x%02x%02x",
-			(gint) color->red * 256 / 65536,
-			(gint) color->green * 256 / 65536,
-			(gint) color->blue * 256 / 65536);
-		variant = g_variant_new_string (string);
-		g_free (string);
-	}
-
-	return variant;
-}
-
 static void
 composer_prefs_dispose (GObject *object)
 {
@@ -1209,15 +1162,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	gtk_image_set_from_icon_name (
 		GTK_IMAGE (info_pixmap),
 		"dialog-information", GTK_ICON_SIZE_BUTTON);
-
-	widget = e_builder_get_widget (prefs->builder, "colorButtonSpellCheckColor");
-	g_settings_bind_with_mapping (
-		settings, "composer-spell-color",
-		widget, "color",
-		G_SETTINGS_BIND_DEFAULT,
-		composer_prefs_map_string_to_color,
-		composer_prefs_map_color_to_string,
-		NULL, (GDestroyNotify) NULL);
 
 	spell_setup (prefs);
 
