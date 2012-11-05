@@ -335,7 +335,7 @@ try_open_book_client (EBookClient *book_client,
 
 	while (canceled = g_cancellable_is_cancelled (cancellable),
 			!canceled && !e_flag_is_set (flag)) {
-		gint end_time;
+		gint64 end_time;
 
 		/* waits 250ms */
 		end_time = g_get_monotonic_time () + (G_TIME_SPAN_SECOND / 4);
