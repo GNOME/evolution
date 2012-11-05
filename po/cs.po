@@ -15,13 +15,13 @@
 # Marek Černocký <marek@manet.cz>, 2010.
 # Jiri Eischmann <jiri@eischmann.cz>, 2008, 2009, 2010, 2011, 2012.
 #
-#: ../shell/main.c:568
+#: ../shell/main.c:586
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-09-19 09:06+0000\n"
+"POT-Creation-Date: 2012-11-02 14:19+0000\n"
 "PO-Revision-Date: 2012-09-16 17:30+0200\n"
 "Last-Translator: Jiri Eischmann <jiri@eischmann.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
@@ -438,7 +438,7 @@ msgstr "Výročí"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:705
-#: ../calendar/gui/e-calendar-view.c:2149 ../shell/main.c:131
+#: ../calendar/gui/e-calendar-view.c:2149 ../shell/main.c:135
 msgid "Birthday"
 msgstr "Narozeniny"
 
@@ -479,7 +479,7 @@ msgstr "_Adresa:"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:193
 #: ../addressbook/gui/widgets/eab-contact-display.c:399
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:75
-#: ../widgets/misc/e-contact-map.c:298
+#: ../widgets/misc/e-contact-map.c:306
 msgid "Home"
 msgstr "Domů"
 
@@ -488,7 +488,7 @@ msgstr "Domů"
 #: ../addressbook/gui/widgets/eab-contact-display.c:396
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:74
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:687
-#: ../widgets/misc/e-contact-map.c:306
+#: ../widgets/misc/e-contact-map.c:314
 msgid "Work"
 msgstr "Pracovní"
 
@@ -572,15 +572,15 @@ msgstr "Chyba při odstraňování kontaktu"
 msgid "Contact Editor - %s"
 msgstr "Editor kontaktů – %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3411
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3450
 msgid "Please select an image for this contact"
 msgstr "Zvolte prosím obrázek pro tento kontakt"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3412
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3451
 msgid "_No image"
 msgstr "Žád_ný obrázek"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3745
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3784
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -588,28 +588,28 @@ msgstr ""
 "Data kontaktu nejsou platná:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3751
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3790
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "„%s“ je v neplatném formátu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3758
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3797
 #, c-format
 msgid "'%s' cannot be a future date"
 msgstr "„%s“ nemůže být budoucí datum"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3766
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3805
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s„%s“ je v neplatném formátu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3779
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3793
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3818
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3832
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s„%s“ je prázdný"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3808
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3847
 msgid "Invalid contact."
 msgstr "Neplatný kontakt."
 
@@ -848,7 +848,7 @@ msgid "Send a mail message to this address"
 msgstr "Odeslat e-mailovou zprávu na tuto adresu?"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:333
-#: ../widgets/misc/e-web-view.c:1094 ../widgets/misc/e-web-view-gtkhtml.c:973
+#: ../widgets/misc/e-web-view.c:1097 ../widgets/misc/e-web-view-gtkhtml.c:973
 #, c-format
 msgid "Click to mail %s"
 msgstr "Kliknutím sem pošlete e-mail %s"
@@ -1963,7 +1963,6 @@ msgstr ""
 "ztratí."
 
 #: ../calendar/calendar.error.xml.h:47 ../composer/e-composer-actions.c:316
-#: ../modules/itip-formatter/itip-view.c:3094
 msgid "_Save"
 msgstr "_Uložit"
 
@@ -2559,23 +2558,23 @@ msgid "Close the current window"
 msgstr "Zavřít aktuální okno"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1164 ../mail/e-mail-browser.c:134
-#: ../shell/e-shell-window-actions.c:1446
+#: ../shell/e-shell-window-actions.c:1443
 #: ../widgets/misc/e-focus-tracker.c:121 ../widgets/misc/e-focus-tracker.c:558
-#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1420
+#: ../widgets/misc/e-web-view.c:323 ../widgets/misc/e-web-view.c:1428
 #: ../widgets/misc/e-web-view-gtkhtml.c:456
 #: ../widgets/misc/e-web-view-gtkhtml.c:1299
 msgid "Copy the selection"
 msgstr "Kopírovat výběr"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1171 ../mail/e-mail-browser.c:141
-#: ../shell/e-shell-window-actions.c:1453
+#: ../shell/e-shell-window-actions.c:1450
 #: ../widgets/misc/e-focus-tracker.c:114 ../widgets/misc/e-focus-tracker.c:553
-#: ../widgets/misc/e-web-view.c:1414 ../widgets/misc/e-web-view-gtkhtml.c:1293
+#: ../widgets/misc/e-web-view.c:1422 ../widgets/misc/e-web-view-gtkhtml.c:1293
 msgid "Cut the selection"
 msgstr "Vyjmout výběr"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1178
-#: ../shell/e-shell-window-actions.c:1460
+#: ../shell/e-shell-window-actions.c:1457
 #: ../widgets/misc/e-focus-tracker.c:135 ../widgets/misc/e-focus-tracker.c:568
 msgid "Delete the selection"
 msgstr "Odstranit výběr"
@@ -2585,9 +2584,9 @@ msgid "View help"
 msgstr "Zobrazit nápovědu"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1192 ../mail/e-mail-browser.c:148
-#: ../shell/e-shell-window-actions.c:1481
+#: ../shell/e-shell-window-actions.c:1478
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:563
-#: ../widgets/misc/e-web-view.c:1426 ../widgets/misc/e-web-view-gtkhtml.c:1305
+#: ../widgets/misc/e-web-view.c:1434 ../widgets/misc/e-web-view-gtkhtml.c:1305
 msgid "Paste the clipboard"
 msgstr "Vložit schránku"
 
@@ -2596,7 +2595,7 @@ msgid "Save current changes"
 msgstr "Uložit aktuální změny"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1218
-#: ../widgets/misc/e-mail-signature-editor.c:294
+#: ../widgets/misc/e-mail-signature-editor.c:301
 msgid "Save and Close"
 msgstr "Uložit a zavřít"
 
@@ -2605,7 +2604,7 @@ msgid "Save current changes and close editor"
 msgstr "Uložit aktuální změny a zavřít"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1227 ../mail/e-mail-browser.c:155
-#: ../shell/e-shell-window-actions.c:1558
+#: ../shell/e-shell-window-actions.c:1555
 #: ../widgets/misc/e-focus-tracker.c:142 ../widgets/misc/e-focus-tracker.c:573
 msgid "Select all text"
 msgstr "Vybrat všechen text"
@@ -2618,19 +2617,19 @@ msgstr "Klasi_fikace"
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:19 ../filter/filter.ui.h:16
 #: ../mail/e-mail-browser.c:169
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
-#: ../shell/e-shell-window-actions.c:1586
+#: ../shell/e-shell-window-actions.c:1583
 #: ../widgets/menus/gal-define-views.ui.h:5
 msgid "_Edit"
 msgstr "_Upravit"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1248 ../mail/e-mail-browser.c:162
-#: ../shell/e-shell-window-actions.c:1593
-#: ../widgets/misc/e-mail-signature-editor.c:299
+#: ../shell/e-shell-window-actions.c:1590
+#: ../widgets/misc/e-mail-signature-editor.c:306
 msgid "_File"
 msgstr "_Soubor"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1255
-#: ../shell/e-shell-window-actions.c:1600
+#: ../shell/e-shell-window-actions.c:1597
 msgid "_Help"
 msgstr "Nápo_věda"
 
@@ -2644,7 +2643,7 @@ msgid "_Options"
 msgstr "V_olby"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1276 ../mail/e-mail-browser.c:176
-#: ../shell/e-shell-window-actions.c:1635 ../smime/gui/smime-ui.ui.h:28
+#: ../shell/e-shell-window-actions.c:1632 ../smime/gui/smime-ui.ui.h:28
 msgid "_View"
 msgstr "_Zobrazit"
 
@@ -3192,7 +3191,7 @@ msgstr "Nelze otevřít poznámky v „%s“: %s"
 #: ../em-format/e-mail-parser-inlinepgp-signed.c:96
 #: ../em-format/e-mail-parser-multipart-encrypted.c:122
 #: ../em-format/e-mail-parser-multipart-signed.c:147
-#: ../libemail-engine/mail-ops.c:722 ../mail/e-mail-reader.c:1733
+#: ../libemail-engine/mail-ops.c:760 ../mail/e-mail-reader.c:1733
 #: ../mail/em-folder-tree.c:675 ../modules/itip-formatter/itip-view.c:4574
 #: ../modules/itip-formatter/itip-view.c:4925 ../plugins/face/face.c:174
 #: ../smime/gui/certificate-manager.c:317
@@ -4677,10 +4676,11 @@ msgid "Unable to book a resource, the new event collides with some other."
 msgstr "Nelze rezervovat zdroj, událost koliduje s jinou."
 
 #: ../calendar/gui/itip-utils.c:1127
-msgid "Unable to book a resource, error: "
-msgstr "Nelze rezervovat zdroj, chyba:"
+#, c-format
+msgid "Unable to book a resource, error: %s"
+msgstr "Nelze rezervovat zdroj, chyba: %s"
 
-#: ../calendar/gui/itip-utils.c:1306
+#: ../calendar/gui/itip-utils.c:1303
 msgid "You must be an attendee of the event."
 msgstr "Musíte být účastníkem události."
 
@@ -6664,7 +6664,7 @@ msgid "Save as..."
 msgstr "Uložit jako…"
 
 #: ../composer/e-composer-actions.c:295
-#: ../widgets/misc/e-mail-signature-editor.c:285
+#: ../widgets/misc/e-mail-signature-editor.c:292
 msgid "_Close"
 msgstr "_Zavřít"
 
@@ -6680,7 +6680,7 @@ msgstr "Nová _zpráva"
 msgid "Open New Message window"
 msgstr "Otevřít okno nové zprávy"
 
-#: ../composer/e-composer-actions.c:311 ../shell/e-shell-window-actions.c:1495
+#: ../composer/e-composer-actions.c:311 ../shell/e-shell-window-actions.c:1492
 msgid "Configure Evolution"
 msgstr "Nastavit Evolution"
 
@@ -6853,11 +6853,11 @@ msgid "S_ubject:"
 msgstr "_Předmět:"
 
 #: ../composer/e-composer-header-table.c:890
-#: ../mail/e-mail-config-identity-page.c:466
+#: ../mail/e-mail-config-identity-page.c:490
 msgid "Si_gnature:"
 msgstr "_Podpis:"
 
-#: ../composer/e-composer-name-header.c:215
+#: ../composer/e-composer-name-header.c:233
 msgid "Click here for the address book"
 msgstr "Kliknutím zobrazíte adresář"
 
@@ -7078,6 +7078,10 @@ msgstr "Pošta a kalendář Evolution"
 #: ../data/evolution.desktop.in.in.h:4
 msgid "Manage your email, contacts and schedule"
 msgstr "Spravujte svůj e-mail, kontakty a rozvrh"
+
+#: ../data/evolution.desktop.in.in.h:5
+msgid "mail;calendar;contact;addressbook;task;"
+msgstr "pošta;kalendář;kontakt;adresář;úkol;"
 
 #: ../data/evolution-settings.desktop.in.in.h:1
 msgid "Email Settings"
@@ -9311,7 +9315,7 @@ msgstr "Počáteční složka při výběru souboru"
 msgid "Initial folder for GtkFileChooser dialogs."
 msgstr "Počáteční složka pro dialogy GtkFileChooser."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:313
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:317
 msgid "Start in offline mode"
 msgstr "Spustit v režimu odpojení"
 
@@ -9414,16 +9418,8 @@ msgid "Use SpamAssassin daemon and client"
 msgstr "Používat démona a klienta SpamAssassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:5
-msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-msgstr "Používat démona a klienta SpamAssassin (spamc/spamd)."
-
-#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
-msgid "SpamAssassin client binary"
-msgstr "Spustitelný soubor klienta SpamAssassin"
-
-#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:7
-msgid "SpamAssassin daemon binary"
-msgstr "Spustitelný soubor démona SpamAssassin"
+msgid "Use spamc and spamd programs, if available."
+msgstr "Používat programy spamc a spamd, pokud jsou k dispozici."
 
 #: ../em-format/e-mail-formatter-attachment.c:364
 #: ../mail/message-list.etspec.h:4 ../widgets/misc/e-attachment-bar.c:101
@@ -9523,7 +9519,7 @@ msgstr "Formátovat část jako zprávu RFC822"
 
 #: ../em-format/e-mail-formatter-print.c:53
 #: ../mail/e-mail-label-tree-view.c:99
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1255
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1270
 #: ../modules/cal-config-google/e-google-chooser.c:209
 #: ../modules/plugin-manager/evolution-plugin-manager.c:68
 #: ../widgets/menus/gal-define-views-dialog.c:352
@@ -9588,12 +9584,12 @@ msgid "Format part as HTML"
 msgstr "Formátovat část jako HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:123
-#: ../em-format/e-mail-formatter-text-plain.c:182
+#: ../em-format/e-mail-formatter-text-plain.c:183
 msgid "Plain Text"
 msgstr "Prostý text"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:129
-#: ../em-format/e-mail-formatter-text-plain.c:188
+#: ../em-format/e-mail-formatter-text-plain.c:189
 msgid "Format part as plain text"
 msgstr "Formátovat část jako prostý text"
 
@@ -9788,7 +9784,7 @@ msgstr "Nelze zpracovat zprávu PGP/MIME: %s"
 msgid "Unsupported signature format"
 msgstr "Nepodporovaný formát podpisu"
 
-#: ../em-format/e-mail-part-utils.c:493
+#: ../em-format/e-mail-part-utils.c:496
 #, c-format
 msgid "%s attachment"
 msgstr "%s příloha"
@@ -10451,61 +10447,61 @@ msgstr "Neplatná adresa URI složky: „%s“"
 
 #: ../libemail-engine/e-mail-session.c:116 ../mail/em-folder-properties.c:333
 #: ../mail/em-folder-tree-model.c:765
-#: ../modules/mail/e-mail-shell-view-private.c:1034
-#: ../modules/mail/e-mail-shell-view-private.c:1045
+#: ../modules/mail/e-mail-shell-view-private.c:1066
+#: ../modules/mail/e-mail-shell-view-private.c:1077
 msgid "Inbox"
 msgstr "Příchozí"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:117 ../mail/em-folder-tree-model.c:758
-#: ../modules/mail/e-mail-shell-view-private.c:1032
+#: ../modules/mail/e-mail-shell-view-private.c:1064
 msgid "Drafts"
 msgstr "Koncepty"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:118 ../mail/em-folder-tree-model.c:769
-#: ../modules/mail/e-mail-shell-view-private.c:1036
+#: ../modules/mail/e-mail-shell-view-private.c:1068
 msgid "Outbox"
 msgstr "K odeslání"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:119 ../mail/em-folder-tree-model.c:773
-#: ../modules/mail/e-mail-shell-view-private.c:1038
+#: ../modules/mail/e-mail-shell-view-private.c:1070
 msgid "Sent"
 msgstr "Odeslané"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:120 ../mail/em-folder-tree-model.c:761
-#: ../modules/mail/e-mail-shell-view-private.c:1040
+#: ../modules/mail/e-mail-shell-view-private.c:1072
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1048 ../plugins/templates/templates.c:1345
 #: ../plugins/templates/templates.c:1355
 msgid "Templates"
 msgstr "Šablony"
 
-#: ../libemail-engine/e-mail-session.c:1319
+#: ../libemail-engine/e-mail-session.c:1323
 #, c-format
 msgid "User cancelled operation"
 msgstr "Uživatel zrušil operaci"
 
-#: ../libemail-engine/e-mail-session.c:1489
+#: ../libemail-engine/e-mail-session.c:1493
 #, c-format
 msgid "%s authentication failed"
 msgstr "%s ověření selhalo"
 
-#: ../libemail-engine/e-mail-session.c:1534
+#: ../libemail-engine/e-mail-session.c:1538
 #, c-format
 msgid "No data source found for UID '%s'"
 msgstr "Nebyl nalezen žádný zdroj dat pro UID „%s“"
 
-#: ../libemail-engine/e-mail-session.c:1585
+#: ../libemail-engine/e-mail-session.c:1589
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr "Žádná cílová adresa neposkytnuta, přeposlání zprávy bylo zrušeno."
 
-#: ../libemail-engine/e-mail-session.c:1598
+#: ../libemail-engine/e-mail-session.c:1602
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
@@ -10523,14 +10519,14 @@ msgid "UID '%s' is not a mail transport"
 msgstr "UID „%s“ není poštovním přenosem"
 
 #: ../libemail-engine/e-mail-session-utils.c:641
-#: ../libemail-engine/mail-ops.c:700
+#: ../libemail-engine/mail-ops.c:738
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Nelze použít odchozí filtry: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:670
 #: ../libemail-engine/e-mail-session-utils.c:704
-#: ../libemail-engine/mail-ops.c:717 ../libemail-engine/mail-ops.c:753
+#: ../libemail-engine/mail-ops.c:755 ../libemail-engine/mail-ops.c:791
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -10540,13 +10536,13 @@ msgstr ""
 "Místo toho se připojí do místní složky „Odeslané“."
 
 #: ../libemail-engine/e-mail-session-utils.c:724
-#: ../libemail-engine/mail-ops.c:775
+#: ../libemail-engine/mail-ops.c:813
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Nelze připojit do místní složky „Odeslané“: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:954
-#: ../libemail-engine/mail-ops.c:907 ../libemail-engine/mail-ops.c:1009
+#: ../libemail-engine/e-mail-session-utils.c:968
+#: ../libemail-engine/mail-ops.c:945 ../libemail-engine/mail-ops.c:1047
 msgid "Sending message"
 msgstr "Odeslat zprávu"
 
@@ -10565,7 +10561,7 @@ msgstr "Probíhá opětovné připojování k „%s“"
 msgid "Preparing account '%s' for offline"
 msgstr "Příprava účtu „%s“ pro odpojení"
 
-#: ../libemail-engine/mail-folder-cache.c:876
+#: ../libemail-engine/mail-folder-cache.c:880
 #, c-format
 msgid "Pinging %s"
 msgstr "Probíhá kontaktování %s"
@@ -10574,16 +10570,17 @@ msgstr "Probíhá kontaktování %s"
 msgid "Filtering Selected Messages"
 msgstr "Filtrování vybraných zpráv"
 
-#: ../libemail-engine/mail-ops.c:216
-msgid "Fetching Mail"
-msgstr "Probíhá přijem pošty"
+#: ../libemail-engine/mail-ops.c:219
+#, c-format
+msgid "Fetching mail from '%s'"
+msgstr "Probíhá přijem pošty „%s“"
 
-#: ../libemail-engine/mail-ops.c:918
+#: ../libemail-engine/mail-ops.c:956
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Posílání zprávy %d z %d"
 
-#: ../libemail-engine/mail-ops.c:970
+#: ../libemail-engine/mail-ops.c:1008
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
@@ -10591,40 +10588,40 @@ msgstr[0] "Nelze zprávu odeslat"
 msgstr[1] "Nelze odeslat %d z %d zpráv"
 msgstr[2] "Nelze odeslat %d z %d zpráv"
 
-#: ../libemail-engine/mail-ops.c:976
+#: ../libemail-engine/mail-ops.c:1014
 msgid "Canceled."
 msgstr "Zrušeno."
 
-#: ../libemail-engine/mail-ops.c:978
+#: ../libemail-engine/mail-ops.c:1016
 msgid "Complete."
 msgstr "Dokončeno."
 
-#: ../libemail-engine/mail-ops.c:1090
+#: ../libemail-engine/mail-ops.c:1128
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Probíhá přesouvání zprávy do „%s“"
 
-#: ../libemail-engine/mail-ops.c:1091
+#: ../libemail-engine/mail-ops.c:1129
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Probíhá kopírování zprávy do „%s“"
 
-#: ../libemail-engine/mail-ops.c:1209
+#: ../libemail-engine/mail-ops.c:1247
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Ukládání složky „%s“"
 
-#: ../libemail-engine/mail-ops.c:1283
+#: ../libemail-engine/mail-ops.c:1321
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Čistění a ukládání účtu „%s“"
 
-#: ../libemail-engine/mail-ops.c:1284
+#: ../libemail-engine/mail-ops.c:1322
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Ukládání účtu „%s“"
 
-#: ../libemail-engine/mail-ops.c:1358
+#: ../libemail-engine/mail-ops.c:1396
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vyprazdňuje se koš v „%s“"
@@ -10698,7 +10695,7 @@ msgid "De_fault"
 msgstr "_Výchozí"
 
 #: ../mail/e-mail-account-tree-view.c:85
-#: ../modules/mail/em-composer-prefs.c:505
+#: ../modules/mail/em-composer-prefs.c:495
 #: ../modules/plugin-manager/evolution-plugin-manager.c:360
 #: ../plugins/publish-calendar/publish-calendar.c:864
 msgid "Enabled"
@@ -10747,9 +10744,9 @@ msgstr "Chybějící doména v e-mailové adrese"
 msgid "Unknown background operation"
 msgstr "Neznámá operace na pozadí"
 
-#: ../mail/e-mail-browser.c:127 ../shell/e-shell-window-actions.c:1418
-#: ../shell/e-shell-window-actions.c:1425
-#: ../shell/e-shell-window-actions.c:1432
+#: ../mail/e-mail-browser.c:127 ../shell/e-shell-window-actions.c:1415
+#: ../shell/e-shell-window-actions.c:1422
+#: ../shell/e-shell-window-actions.c:1429
 msgid "Close this window"
 msgstr "Zavřít toto okno"
 
@@ -10783,83 +10780,87 @@ msgstr ""
 msgid "Done"
 msgstr "Hotovo"
 
-#: ../mail/e-mail-config-defaults-page.c:549
+#: ../mail/e-mail-config-defaults-page.c:552
 msgid "Special Folders"
 msgstr "Speciální složky"
 
-#: ../mail/e-mail-config-defaults-page.c:558
+#: ../mail/e-mail-config-defaults-page.c:561
 msgid "Draft Messages _Folder:"
 msgstr "Složka s _koncepty:"
 
-#: ../mail/e-mail-config-defaults-page.c:568
+#: ../mail/e-mail-config-defaults-page.c:571
 msgid "Choose a folder for saving draft messages."
 msgstr "Zvolte složku pro ukládání konceptů zpráv."
 
-#: ../mail/e-mail-config-defaults-page.c:582
+#: ../mail/e-mail-config-defaults-page.c:585
 msgid "Sent _Messages Folder:"
 msgstr "Složka pro _odeslané zprávy:"
 
-#: ../mail/e-mail-config-defaults-page.c:592
+#: ../mail/e-mail-config-defaults-page.c:595
 msgid "Choose a folder for saving sent messages."
 msgstr "Zvolte složku pro ukládání odeslaných zpráv."
 
-#: ../mail/e-mail-config-defaults-page.c:611
+#: ../mail/e-mail-config-defaults-page.c:614
+msgid "S_ave replies in the folder of the message being replied to"
+msgstr "Uklád_at odpovědi do složky se zprávou, na kterou se odpovídá"
+
+#: ../mail/e-mail-config-defaults-page.c:631
 msgid "_Restore Defaults"
 msgstr "_Obnovit výchozí"
 
-#: ../mail/e-mail-config-defaults-page.c:625
+#: ../mail/e-mail-config-defaults-page.c:645
 msgid "Use a Real Folder for _Trash:"
 msgstr "Použít skutečnou složku pro _Koš:"
 
-#: ../mail/e-mail-config-defaults-page.c:626
+#: ../mail/e-mail-config-defaults-page.c:646
 msgid "Choose a folder for deleted messages."
 msgstr "Zvolte složku pro odstraněné zprávy."
 
-#: ../mail/e-mail-config-defaults-page.c:635
+#: ../mail/e-mail-config-defaults-page.c:655
 msgid "Use a Real Folder for _Junk:"
 msgstr "Použít skutečnou složku pro _Nevyžádanou poštu:"
 
-#: ../mail/e-mail-config-defaults-page.c:636
+#: ../mail/e-mail-config-defaults-page.c:656
 msgid "Choose a folder for junk messages."
 msgstr "Zvolte složku pro nevyžádanou poštu."
 
-#: ../mail/e-mail-config-defaults-page.c:653
+#: ../mail/e-mail-config-defaults-page.c:673
 msgid "Composing Messages"
 msgstr "Vytváření zpráv"
 
-#: ../mail/e-mail-config-defaults-page.c:662
+#: ../mail/e-mail-config-defaults-page.c:682
 msgid "Alway_s carbon-copy (cc) to:"
 msgstr "Vždy posílat _kopii (cc) na:"
 
-#: ../mail/e-mail-config-defaults-page.c:687
+#: ../mail/e-mail-config-defaults-page.c:707
 msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Vždy posílat _slepou kopii (bcc) na:"
 
-#: ../mail/e-mail-config-defaults-page.c:722
+#: ../mail/e-mail-config-defaults-page.c:742
 msgid "Message Receipts"
 msgstr "Příjemci zprávy"
 
-#: ../mail/e-mail-config-defaults-page.c:731
+#: ../mail/e-mail-config-defaults-page.c:751
 msgid "S_end message receipts:"
 msgstr "Od_eslat doručenky zpráv:"
 
-#: ../mail/e-mail-config-defaults-page.c:756
+#: ../mail/e-mail-config-defaults-page.c:776
 msgid "Never"
 msgstr "Nikdy"
 
-#: ../mail/e-mail-config-defaults-page.c:762
+#: ../mail/e-mail-config-defaults-page.c:782
 msgid "Always"
 msgstr "Vždy"
 
-#: ../mail/e-mail-config-defaults-page.c:768
+#: ../mail/e-mail-config-defaults-page.c:788
 msgid "Ask for each message"
 msgstr "Ptát se u každé zprávy"
 
-#: ../mail/e-mail-config-defaults-page.c:839
+#: ../mail/e-mail-config-defaults-page.c:859
 msgid "Defaults"
 msgstr "Výchozí hodnoty"
 
-#: ../mail/e-mail-config-identity-page.c:254
+#: ../mail/e-mail-config-identity-page.c:268
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -10869,12 +10870,12 @@ msgstr ""
 "být vyplněna, ledaže byste si přáli, aby byly tyto informace obsaženy v "
 "odesílaných e-mailech."
 
-#: ../mail/e-mail-config-identity-page.c:282
+#: ../mail/e-mail-config-identity-page.c:296
 #: ../mail/e-mail-config-summary-page.c:324
 msgid "Account Information"
 msgstr "Informace o účtu"
 
-#: ../mail/e-mail-config-identity-page.c:291
+#: ../mail/e-mail-config-identity-page.c:305
 #: ../mail/e-mail-config-summary-page.c:333
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
@@ -10883,43 +10884,43 @@ msgstr ""
 "Napište název, který má odkazovat na tento účet.\n"
 "Například „Práce“ nebo „Osobní“."
 
-#: ../mail/e-mail-config-identity-page.c:299
+#: ../mail/e-mail-config-identity-page.c:313
 #: ../mail/e-mail-config-summary-page.c:341
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
 #: ../widgets/misc/e-mail-signature-script-dialog.c:417
 msgid "_Name:"
 msgstr "_Název:"
 
-#: ../mail/e-mail-config-identity-page.c:336
+#: ../mail/e-mail-config-identity-page.c:350
 msgid "Required Information"
 msgstr "Požadované informace"
 
-#: ../mail/e-mail-config-identity-page.c:345
+#: ../mail/e-mail-config-identity-page.c:359
 msgid "Full Nam_e:"
 msgstr "_Celé jméno:"
 
-#: ../mail/e-mail-config-identity-page.c:372
+#: ../mail/e-mail-config-identity-page.c:386
 msgid "Email _Address:"
 msgstr "E-mailová _adresa:"
 
-#: ../mail/e-mail-config-identity-page.c:409
+#: ../mail/e-mail-config-identity-page.c:433
 #: ../plugins/publish-calendar/publish-calendar.ui.h:26
 msgid "Optional Information"
 msgstr "Nepovinné informace"
 
-#: ../mail/e-mail-config-identity-page.c:417
+#: ../mail/e-mail-config-identity-page.c:441
 msgid "Re_ply-To:"
 msgstr "O_dpovědět-komu:"
 
-#: ../mail/e-mail-config-identity-page.c:444
+#: ../mail/e-mail-config-identity-page.c:468
 msgid "Or_ganization:"
 msgstr "Or_ganizace:"
 
-#: ../mail/e-mail-config-identity-page.c:499
+#: ../mail/e-mail-config-identity-page.c:523
 msgid "Add Ne_w Signature..."
 msgstr "Přidat _nový podpis…"
 
-#: ../mail/e-mail-config-identity-page.c:640
+#: ../mail/e-mail-config-identity-page.c:679
 msgid "Identity"
 msgstr "Identita"
 
@@ -11933,15 +11934,15 @@ msgstr "-------- Přeposlaná zpráva --------"
 msgid "-----Original Message-----"
 msgstr "-------- Původní zpráva --------"
 
-#: ../mail/em-composer-utils.c:2573
+#: ../mail/em-composer-utils.c:2617
 msgid "an unknown sender"
 msgstr "neznámý odesílatel"
 
-#: ../mail/em-composer-utils.c:2991
+#: ../mail/em-composer-utils.c:3036
 msgid "Posting destination"
 msgstr "Cíl odeslání"
 
-#: ../mail/em-composer-utils.c:2992
+#: ../mail/em-composer-utils.c:3037
 msgid "Choose folders to post the message to."
 msgstr "Zvolte složky, kam poslat zprávu."
 
@@ -12461,7 +12462,7 @@ msgid "Importing Elm data"
 msgstr "Probíhá import dat Elm"
 
 #: ../mail/importers/elm-importer.c:332 ../mail/importers/pine-importer.c:423
-#: ../modules/mail/e-mail-shell-view.c:1074
+#: ../modules/mail/e-mail-shell-view.c:1034
 #: ../widgets/misc/e-send-options.c:538
 msgid "Mail"
 msgstr "Pošta"
@@ -12685,15 +12686,15 @@ msgid "_Languages"
 msgstr "_Jazyky"
 
 #: ../mail/mail-config.ui.h:23
+msgid "Languages Table"
+msgstr "Tabulka jazyků"
+
+#: ../mail/mail-config.ui.h:24
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
 "Seznam jazyků zde obsahuje jen jazyky, pro které máte nainstalován slovník."
-
-#: ../mail/mail-config.ui.h:24
-msgid "Languages Table"
-msgstr "Tabulka jazyků"
 
 #: ../mail/mail-config.ui.h:26
 msgid "Check spelling while I _type"
@@ -13839,7 +13840,7 @@ msgstr "Odeslat a přijmout poštu"
 msgid "Cancel _All"
 msgstr "Zrušit _vše"
 
-#: ../mail/mail-send-recv.c:656 ../mail/mail-send-recv.c:1040
+#: ../mail/mail-send-recv.c:656 ../mail/mail-send-recv.c:1041
 msgid "Updating..."
 msgstr "Aktualizuje se…"
 
@@ -13849,8 +13850,8 @@ msgstr "Čeká se…"
 
 #: ../mail/mail-send-recv.c:1020
 #, c-format
-msgid "Checking for new mail"
-msgstr "Probíhá kontrola nové pošty"
+msgid "Checking for new mail at '%s'"
+msgstr "Probíhá kontrola nové pošty „%s“"
 
 #: ../mail/mail-vfolder-ui.c:79
 msgid "Search Folders"
@@ -13985,12 +13986,12 @@ msgid "Due By"
 msgstr "Termín dokončení"
 
 #: ../mail/message-list.etspec.h:18
-msgid "Sent Messages"
-msgstr "Odeslané zprávy"
+msgid "Messages To"
+msgstr "Zprávy pro"
 
 #: ../mail/message-list.etspec.h:20
 msgid "Subject - Trimmed"
-msgstr "Předmět - oříznutý"
+msgstr "Předmět – oříznutý"
 
 #: ../mail/searchtypes.xml.h:1
 msgid "Subject or Addresses contains"
@@ -14601,28 +14602,28 @@ msgstr "Nedostatečná oprávnění"
 msgid "The selected folder is not writable."
 msgstr "Do vybrané složky nelze zapisovat."
 
-#: ../modules/bogofilter/evolution-bogofilter.c:149
+#: ../modules/bogofilter/evolution-bogofilter.c:145
 #, c-format
 msgid "Failed to spawn Bogofilter (%s): "
 msgstr "Selhalo spuštění Bogofilteru (%s): "
 
-#: ../modules/bogofilter/evolution-bogofilter.c:167
+#: ../modules/bogofilter/evolution-bogofilter.c:163
 msgid "Failed to stream mail message content to Bogofilter: "
 msgstr "Selhalo posílání obsahu zprávy do Bogofilteru:"
 
-#: ../modules/bogofilter/evolution-bogofilter.c:216
+#: ../modules/bogofilter/evolution-bogofilter.c:212
 msgid "Bogofilter either crashed or failed to process a mail message"
 msgstr "Bogofilter buď spadl nebo nebyl schopen zprávu zpracovat"
 
-#: ../modules/bogofilter/evolution-bogofilter.c:318
+#: ../modules/bogofilter/evolution-bogofilter.c:308
 msgid "Bogofilter Options"
 msgstr "Možnosti Bogofilter"
 
-#: ../modules/bogofilter/evolution-bogofilter.c:327
+#: ../modules/bogofilter/evolution-bogofilter.c:317
 msgid "Convert message text to _Unicode"
 msgstr "Převést text zprávy do _Unicode"
 
-#: ../modules/bogofilter/evolution-bogofilter.c:483
+#: ../modules/bogofilter/evolution-bogofilter.c:474
 msgid "Bogofilter"
 msgstr "Bogofilter"
 
@@ -14754,12 +14755,12 @@ msgstr "kontakty"
 msgid "Browse until limit is reached"
 msgstr "Prohlížet, dokud není dosaženo limitu"
 
-#: ../modules/book-config-webdav/evolution-book-config-webdav.c:134
+#: ../modules/book-config-webdav/evolution-book-config-webdav.c:136
 #: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:130
 msgid "URL:"
 msgstr "URL:"
 
-#: ../modules/book-config-webdav/evolution-book-config-webdav.c:144
+#: ../modules/book-config-webdav/evolution-book-config-webdav.c:146
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Vyhnout se If_Match (potřeba na Apache < 2.2.8)"
 
@@ -14768,23 +14769,23 @@ msgstr "Vyhnout se If_Match (potřeba na Apache < 2.2.8)"
 msgid "HTTP Error: %s"
 msgstr "Chyba HTTP: %s"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:447
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:445
 msgid "Could not parse response"
 msgstr "Nelze zpracovat odpověď"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:456
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:454
 msgid "Empty response"
 msgstr "Prázdná odpověď"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:464
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:462
 msgid "Unexpected reply from server"
 msgstr "Neočekávaná odpověď ze serveru"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1051
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1066
 msgid "Could not locate user's calendars"
 msgstr "Nelze najít žádné kalendáře uživatele"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1275
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1290
 msgid "Path"
 msgstr "Cesta"
 
@@ -16357,8 +16358,8 @@ msgid "End time:"
 msgstr "Čas konce:"
 
 #: ../modules/itip-formatter/itip-view.c:1022
-msgid "_Open Calendar"
-msgstr "_Otevřít kalendář"
+msgid "Ope_n Calendar"
+msgstr "Otevřít kale_ndář"
 
 #: ../modules/itip-formatter/itip-view.c:1025
 msgid "_Decline all"
@@ -16377,16 +16378,16 @@ msgid "_Tentative"
 msgstr "Před_běžné"
 
 #: ../modules/itip-formatter/itip-view.c:1037
-msgid "A_ccept all"
+msgid "Acce_pt all"
 msgstr "_Přijmout vše"
 
 #: ../modules/itip-formatter/itip-view.c:1040
-msgid "A_ccept"
+msgid "Acce_pt"
 msgstr "_Přijmout"
 
 #: ../modules/itip-formatter/itip-view.c:1043
-msgid "_Send Information"
-msgstr "Ode_slat informaci"
+msgid "Send _Information"
+msgstr "Odeslat _informaci"
 
 #: ../modules/itip-formatter/itip-view.c:1046
 msgid "_Update Attendee Status"
@@ -16436,6 +16437,10 @@ msgstr "Úkol_y:"
 #: ../modules/itip-formatter/itip-view.c:1864
 msgid "_Memos:"
 msgstr "_Poznámky:"
+
+#: ../modules/itip-formatter/itip-view.c:3094
+msgid "Sa_ve"
+msgstr "_Uložit"
 
 #. Translators: The first '%s' is replaced with a calendar name,
 #. * the second '%s' with an error message
@@ -16738,7 +16743,7 @@ msgid "Choose a mbox spool directory"
 msgstr "Vybrat adresář schránky mbox"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:149
-#: ../modules/mail-config/e-mail-config-sendmail-backend.c:49
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:53
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:82
 #: ../modules/plugin-manager/evolution-plugin-manager.c:160
 msgid "Configuration"
@@ -16775,15 +16780,31 @@ msgstr "STARTTLS po připojení"
 msgid "SSL on a dedicated port"
 msgstr "SSL na vyhrazeném portu"
 
-#: ../modules/mail-config/e-mail-config-sendmail-backend.c:65
-msgid "_Use custom binary, instead of 'sendmail'"
-msgstr ""
-
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:69
-#, fuzzy
-#| msgid "Custom Reminder:"
+msgid "_Use custom binary, instead of 'sendmail'"
+msgstr "P_užívat vlastní program namísto programu „sendmail“"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:73
 msgid "_Custom binary:"
-msgstr "Vlastní připomenutí:"
+msgstr "_Vlastní program:"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:90
+msgid "U_se custom arguments"
+msgstr "Používat vla_stní parametry"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:94
+msgid "Cus_tom arguments:"
+msgstr "Vlas_tní parametry:"
+
+#: ../modules/mail-config/e-mail-config-sendmail-backend.c:112
+msgid ""
+"Default arguments are '-i -f %F -- %R', where\n"
+"   %F - stands for the From address\n"
+"   %R - stands for the recipient addresses"
+msgstr ""
+"Výchozí parametry jsou „-i -f %F -- %R“, kde\n"
+"   %F – představuje adresu Od\n"
+"   %R – představuje adresy příjemců"
 
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:125
 msgid "Ser_ver requires authentication"
@@ -16859,7 +16880,6 @@ msgid "None"
 msgstr "Žádný"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1226
-#: ../modules/mail/e-mail-shell-view.c:975
 msgid "_Disable Account"
 msgstr "_Zakázat účet"
 
@@ -17166,11 +17186,7 @@ msgstr "Vyhledávání všech účtů"
 msgid "Account Search"
 msgstr "Vyhledávání účtu"
 
-#: ../modules/mail/e-mail-shell-view.c:973
-msgid "Proxy _Logout"
-msgstr "_Odhlášení ze zastoupení"
-
-#: ../modules/mail/e-mail-shell-view-private.c:962
+#: ../modules/mail/e-mail-shell-view-private.c:994
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
@@ -17178,7 +17194,7 @@ msgstr[0] "%d vybráno, "
 msgstr[1] "%d vybrány, "
 msgstr[2] "%d vybráno, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:973
+#: ../modules/mail/e-mail-shell-view-private.c:1005
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
@@ -17186,8 +17202,8 @@ msgstr[0] "%d odstraněna"
 msgstr[1] "%d odstraněny"
 msgstr[2] "%d odstraněno"
 
-#: ../modules/mail/e-mail-shell-view-private.c:979
-#: ../modules/mail/e-mail-shell-view-private.c:986
+#: ../modules/mail/e-mail-shell-view-private.c:1011
+#: ../modules/mail/e-mail-shell-view-private.c:1018
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
@@ -17195,7 +17211,7 @@ msgstr[0] "%d nevyžádaná zpráva"
 msgstr[1] "%d nevyžádané zprávy"
 msgstr[2] "%d nevyžádaných zpráv"
 
-#: ../modules/mail/e-mail-shell-view-private.c:992
+#: ../modules/mail/e-mail-shell-view-private.c:1024
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
@@ -17203,7 +17219,7 @@ msgstr[0] "%d koncept"
 msgstr[1] "%d koncepty"
 msgstr[2] "%d konceptů"
 
-#: ../modules/mail/e-mail-shell-view-private.c:998
+#: ../modules/mail/e-mail-shell-view-private.c:1030
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
@@ -17211,7 +17227,7 @@ msgstr[0] "%d neodeslána"
 msgstr[1] "%d neodeslány"
 msgstr[2] "%d neodesláno"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1004
+#: ../modules/mail/e-mail-shell-view-private.c:1036
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
@@ -17219,7 +17235,7 @@ msgstr[0] "%d odeslána"
 msgstr[1] "%d odeslány"
 msgstr[2] "%d odesláno"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1016
+#: ../modules/mail/e-mail-shell-view-private.c:1048
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
@@ -17227,7 +17243,7 @@ msgstr[0] "%d nepřečtena, "
 msgstr[1] "%d nepřečteny, "
 msgstr[2] "%d nepřečteno, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:1019
+#: ../modules/mail/e-mail-shell-view-private.c:1051
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -17235,15 +17251,15 @@ msgstr[0] "%d celkem"
 msgstr[1] "%d celkem"
 msgstr[2] "%d celkem"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1042
+#: ../modules/mail/e-mail-shell-view-private.c:1074
 msgid "Trash"
 msgstr "Koš"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1458
+#: ../modules/mail/e-mail-shell-view-private.c:1490
 msgid "Send / Receive"
 msgstr "Odeslat / přijmout"
 
-#: ../modules/mail/em-composer-prefs.c:509
+#: ../modules/mail/em-composer-prefs.c:499
 msgid "Language(s)"
 msgstr "Jazyky"
 
@@ -17334,7 +17350,8 @@ msgid ""
 msgstr ""
 "Evolution se vrátí do režimu on-line, jakmile bude navázáno síťové spojení."
 
-#: ../modules/online-accounts/camel-sasl-xoauth.c:417
+#: ../modules/online-accounts/camel-sasl-xoauth2.c:166
+#: ../modules/online-accounts/camel-sasl-xoauth.c:298
 msgid ""
 "Cannot find a corresponding account in the org.gnome.OnlineAccounts service "
 "from which to obtain an authentication token."
@@ -17342,15 +17359,20 @@ msgstr ""
 "Nelze nalézt odpovídající účet ve službě org.gnome.OnlineAccounts, z kterého "
 "by se měl získat autentizační token."
 
-#: ../modules/online-accounts/camel-sasl-xoauth.c:504
-msgid "OAuth"
-msgstr "OAuth"
+#: ../modules/online-accounts/camel-sasl-xoauth2.c:222
+msgid "OAuth2"
+msgstr "OAuth2"
 
-#: ../modules/online-accounts/camel-sasl-xoauth.c:506
+#: ../modules/online-accounts/camel-sasl-xoauth2.c:224
+#: ../modules/online-accounts/camel-sasl-xoauth.c:379
 msgid ""
 "This option will connect to the server by way of the GNOME Online Accounts "
 "service"
 msgstr "Touto volbou se spojí se serverem pomocí služby GNOME Online Accounts"
+
+#: ../modules/online-accounts/camel-sasl-xoauth.c:377
+msgid "OAuth"
+msgstr "OAuth"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:69
 msgid "Author(s)"
@@ -17457,41 +17479,41 @@ msgstr "Čistě textový model"
 msgid "View mail messages as plain text, even if they contain HTML content."
 msgstr "Zobrazuje e-mailové zprávy jako prostý text, i když obsahují HTML."
 
-#: ../modules/spamassassin/evolution-spamassassin.c:192
+#: ../modules/spamassassin/evolution-spamassassin.c:185
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
 msgstr "Selhalo spuštění SpamAssassin (%s):"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:215
+#: ../modules/spamassassin/evolution-spamassassin.c:208
 msgid "Failed to stream mail message content to SpamAssassin: "
 msgstr "Selhalo posílání obsahu zpráv do SpamAssassin: "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:234
+#: ../modules/spamassassin/evolution-spamassassin.c:227
 #, c-format
 msgid "Failed to write '%s' to SpamAssassin: "
 msgstr "Selhalo zapsání „%s“ do SpamAssassin:"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:262
+#: ../modules/spamassassin/evolution-spamassassin.c:255
 msgid "Failed to read output from SpamAssassin: "
 msgstr "Selhalo čtení výstupu ze SpamAssassin: "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:317
+#: ../modules/spamassassin/evolution-spamassassin.c:310
 msgid "SpamAssassin either crashed or failed to process a mail message"
 msgstr "SpamAssassin se buď zhroutil nebo nebyl schopen zprávu zpracovat"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:885
+#: ../modules/spamassassin/evolution-spamassassin.c:748
 msgid "SpamAssassin Options"
 msgstr "Možnosti SpamAssassin"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:900
+#: ../modules/spamassassin/evolution-spamassassin.c:763
 msgid "I_nclude remote tests"
 msgstr "_Včetně vzdálených testů"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:914
+#: ../modules/spamassassin/evolution-spamassassin.c:777
 msgid "This will make SpamAssassin more reliable, but slower."
 msgstr "Díky tomuto bude SpamAssassin spolehlivější, ale pomalejší."
 
-#: ../modules/spamassassin/evolution-spamassassin.c:1123
+#: ../modules/spamassassin/evolution-spamassassin.c:1034
 msgid "SpamAssassin"
 msgstr "SpamAssassin"
 
@@ -17545,11 +17567,11 @@ msgstr "_Formátovat jako..."
 msgid "_Other languages"
 msgstr "_Ostatní jazyky"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:342
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:365
 msgid "Text Highlight"
 msgstr "Zvýraznění textu"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:348
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:371
 msgid "Syntax highlighting of mail parts"
 msgstr "Zvýraznění syntaxe v poštovních částech"
 
@@ -18870,17 +18892,21 @@ msgstr "Uložit jako ša_blonu"
 msgid "Save as Template"
 msgstr "Uložit jako šablonu"
 
-#: ../shell/e-shell.c:313
+#: ../shell/e-shell.c:314
 msgid "Preparing to go offline..."
 msgstr "Probíhá příprava na odpojení…"
 
-#: ../shell/e-shell.c:366
+#: ../shell/e-shell.c:367
 msgid "Preparing to go online..."
 msgstr "Probíhá příprava na připojení…"
 
-#: ../shell/e-shell.c:437
+#: ../shell/e-shell.c:441
+msgid "Preparing to quit"
+msgstr "Připravuje se k ukončení"
+
+#: ../shell/e-shell.c:447
 msgid "Preparing to quit..."
-msgstr "Probíhá příprava na ukončení…"
+msgstr "Probíhá příprava k ukončení…"
 
 #: ../shell/e-shell-content.c:727 ../shell/e-shell-content.c:728
 msgid "Searches"
@@ -18894,19 +18920,19 @@ msgstr "Uložit vyhledávání"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../shell/e-shell-searchbar.c:940
+#: ../shell/e-shell-searchbar.c:1102
 msgid "Sho_w:"
 msgstr "_Zobrazit:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:973
+#: ../shell/e-shell-searchbar.c:1144
 msgid "Sear_ch:"
 msgstr "_Hledat:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:1036
+#: ../shell/e-shell-searchbar.c:1218
 msgid "i_n"
 msgstr "_v"
 
@@ -18918,7 +18944,7 @@ msgstr "vCard (.vcf)"
 msgid "All Files (*)"
 msgstr "Všechny soubory (*)"
 
-#: ../shell/e-shell-view.c:304
+#: ../shell/e-shell-view.c:303
 msgid "Saving user interface state"
 msgstr "Ukládání stavu uživatelského rozhraní"
 
@@ -18946,259 +18972,259 @@ msgstr "Webová stránka Evolution"
 msgid "Categories Editor"
 msgstr "Editor kategorií"
 
-#: ../shell/e-shell-window-actions.c:1228
+#: ../shell/e-shell-window-actions.c:1227
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy není nainstalován."
 
-#: ../shell/e-shell-window-actions.c:1230
+#: ../shell/e-shell-window-actions.c:1228
 msgid "Bug Buddy could not be run."
 msgstr "Nelze spustit bug Buddy."
 
-#: ../shell/e-shell-window-actions.c:1411
+#: ../shell/e-shell-window-actions.c:1408
 msgid "Show information about Evolution"
 msgstr "Zobrazit informace o Evolution"
 
-#: ../shell/e-shell-window-actions.c:1416
-#: ../shell/e-shell-window-actions.c:1430
+#: ../shell/e-shell-window-actions.c:1413
+#: ../shell/e-shell-window-actions.c:1427
 msgid "_Close Window"
 msgstr "_Zavřít okno"
 
-#: ../shell/e-shell-window-actions.c:1437
+#: ../shell/e-shell-window-actions.c:1434
 msgid "_Contents"
 msgstr "_Obsah"
 
-#: ../shell/e-shell-window-actions.c:1439
+#: ../shell/e-shell-window-actions.c:1436
 msgid "Open the Evolution User Guide"
 msgstr "Otevřít uživatelskou příručku aplikace Evolution"
 
-#: ../shell/e-shell-window-actions.c:1465
+#: ../shell/e-shell-window-actions.c:1462
 msgid "I_mport..."
 msgstr "_Importovat…"
 
-#: ../shell/e-shell-window-actions.c:1467
+#: ../shell/e-shell-window-actions.c:1464
 msgid "Import data from other programs"
 msgstr "Importovat data z jiných programů"
 
-#: ../shell/e-shell-window-actions.c:1472
+#: ../shell/e-shell-window-actions.c:1469
 msgid "New _Window"
 msgstr "Nové _okno"
 
-#: ../shell/e-shell-window-actions.c:1474
+#: ../shell/e-shell-window-actions.c:1471
 msgid "Create a new window displaying this view"
 msgstr "Vytvořit nové okno zobrazující tento pohled"
 
-#: ../shell/e-shell-window-actions.c:1486
+#: ../shell/e-shell-window-actions.c:1483
 msgid "Available Cate_gories"
 msgstr "Dostupné _kategorie"
 
-#: ../shell/e-shell-window-actions.c:1488
+#: ../shell/e-shell-window-actions.c:1485
 msgid "Manage available categories"
 msgstr "Spravovat dostupné kategorie"
 
-#: ../shell/e-shell-window-actions.c:1500
+#: ../shell/e-shell-window-actions.c:1497
 msgid "_Quick Reference"
 msgstr "_Stručná příručka"
 
-#: ../shell/e-shell-window-actions.c:1502
+#: ../shell/e-shell-window-actions.c:1499
 msgid "Show Evolution's shortcut keys"
 msgstr "Zobrazit klávesové zkratky aplikace Evolution"
 
-#: ../shell/e-shell-window-actions.c:1509
+#: ../shell/e-shell-window-actions.c:1506
 msgid "Exit the program"
 msgstr "Ukončit program"
 
-#: ../shell/e-shell-window-actions.c:1514
+#: ../shell/e-shell-window-actions.c:1511
 msgid "_Advanced Search..."
 msgstr "_Pokročilé hledání…"
 
-#: ../shell/e-shell-window-actions.c:1516
+#: ../shell/e-shell-window-actions.c:1513
 msgid "Construct a more advanced search"
 msgstr "Vytvořit více pokročilé hledání"
 
-#: ../shell/e-shell-window-actions.c:1523
+#: ../shell/e-shell-window-actions.c:1520
 msgid "Clear the current search parameters"
 msgstr "Ostranit parametry aktuálního hledání"
 
-#: ../shell/e-shell-window-actions.c:1528
+#: ../shell/e-shell-window-actions.c:1525
 msgid "_Edit Saved Searches..."
 msgstr "Upravit u_ložená vyhledávání…"
 
-#: ../shell/e-shell-window-actions.c:1530
+#: ../shell/e-shell-window-actions.c:1527
 msgid "Manage your saved searches"
 msgstr "Spravovat uložená hledání"
 
-#: ../shell/e-shell-window-actions.c:1537
+#: ../shell/e-shell-window-actions.c:1534
 msgid "Click here to change the search type"
 msgstr "Kliknutím zde změníte typ vyhledávání"
 
-#: ../shell/e-shell-window-actions.c:1542
+#: ../shell/e-shell-window-actions.c:1539
 msgid "_Find Now"
 msgstr "_Hledat"
 
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1544
+#: ../shell/e-shell-window-actions.c:1541
 msgid "Execute the current search parameters"
 msgstr "Spustit parametry aktuálního hledání"
 
-#: ../shell/e-shell-window-actions.c:1549
+#: ../shell/e-shell-window-actions.c:1546
 msgid "_Save Search..."
 msgstr "_Uložit vyhledávání…"
 
-#: ../shell/e-shell-window-actions.c:1551
+#: ../shell/e-shell-window-actions.c:1548
 msgid "Save the current search parameters"
 msgstr "Uložit parametry aktuálního hledání"
 
-#: ../shell/e-shell-window-actions.c:1563
+#: ../shell/e-shell-window-actions.c:1560
 msgid "Submit _Bug Report..."
 msgstr "_Poslat hlášení o chybě…"
 
-#: ../shell/e-shell-window-actions.c:1565
+#: ../shell/e-shell-window-actions.c:1562
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Poslat hlášení o chybě pomocí Bug Buddy"
 
-#: ../shell/e-shell-window-actions.c:1570
+#: ../shell/e-shell-window-actions.c:1567
 msgid "_Work Offline"
 msgstr "_Pracovat při odpojení"
 
-#: ../shell/e-shell-window-actions.c:1572
+#: ../shell/e-shell-window-actions.c:1569
 msgid "Put Evolution into offline mode"
 msgstr "Přepnout Evolution do režimu odpojení"
 
-#: ../shell/e-shell-window-actions.c:1577
+#: ../shell/e-shell-window-actions.c:1574
 msgid "_Work Online"
 msgstr "Pracovat _on-line"
 
-#: ../shell/e-shell-window-actions.c:1579
+#: ../shell/e-shell-window-actions.c:1576
 msgid "Put Evolution into online mode"
 msgstr "Přepnout Evolution do režimu on-line"
 
-#: ../shell/e-shell-window-actions.c:1607
+#: ../shell/e-shell-window-actions.c:1604
 msgid "Lay_out"
 msgstr "Rozlož_ení"
 
-#: ../shell/e-shell-window-actions.c:1614
+#: ../shell/e-shell-window-actions.c:1611
 msgid "_New"
 msgstr "_Nový"
 
-#: ../shell/e-shell-window-actions.c:1621
+#: ../shell/e-shell-window-actions.c:1618
 msgid "_Search"
 msgstr "_Hledat"
 
-#: ../shell/e-shell-window-actions.c:1628
+#: ../shell/e-shell-window-actions.c:1625
 msgid "_Switcher Appearance"
 msgstr "_Vzhled přepínače"
 
-#: ../shell/e-shell-window-actions.c:1642
+#: ../shell/e-shell-window-actions.c:1639
 msgid "_Window"
 msgstr "_Okno"
 
-#: ../shell/e-shell-window-actions.c:1671
+#: ../shell/e-shell-window-actions.c:1668
 msgid "Show Side _Bar"
 msgstr "Zobrazovat _boční panel"
 
-#: ../shell/e-shell-window-actions.c:1673
+#: ../shell/e-shell-window-actions.c:1670
 msgid "Show the side bar"
 msgstr "Zobrazovat boční panel"
 
-#: ../shell/e-shell-window-actions.c:1679
+#: ../shell/e-shell-window-actions.c:1676
 msgid "Show _Buttons"
 msgstr "Zobrazovat _tlačítka"
 
-#: ../shell/e-shell-window-actions.c:1681
+#: ../shell/e-shell-window-actions.c:1678
 msgid "Show the switcher buttons"
 msgstr "Zobrazovat tlačítka přepínače"
 
-#: ../shell/e-shell-window-actions.c:1687
+#: ../shell/e-shell-window-actions.c:1684
 msgid "Show _Status Bar"
 msgstr "Zobrazovat _stavový řádek"
 
-#: ../shell/e-shell-window-actions.c:1689
+#: ../shell/e-shell-window-actions.c:1686
 msgid "Show the status bar"
 msgstr "Zobrazovat stavový řádek"
 
-#: ../shell/e-shell-window-actions.c:1695
+#: ../shell/e-shell-window-actions.c:1692
 msgid "Show _Tool Bar"
 msgstr "Zobrazovat _lištu nástrojů"
 
-#: ../shell/e-shell-window-actions.c:1697
+#: ../shell/e-shell-window-actions.c:1694
 msgid "Show the tool bar"
 msgstr "Zobrazovat lištu nástrojů"
 
-#: ../shell/e-shell-window-actions.c:1719
+#: ../shell/e-shell-window-actions.c:1716
 msgid "_Icons Only"
 msgstr "Jen _ikony"
 
-#: ../shell/e-shell-window-actions.c:1721
+#: ../shell/e-shell-window-actions.c:1718
 msgid "Display window buttons with icons only"
 msgstr "Zobrazovat tlačítka okna jen s ikonami"
 
-#: ../shell/e-shell-window-actions.c:1726
+#: ../shell/e-shell-window-actions.c:1723
 msgid "_Text Only"
 msgstr "Jen _text"
 
-#: ../shell/e-shell-window-actions.c:1728
+#: ../shell/e-shell-window-actions.c:1725
 msgid "Display window buttons with text only"
 msgstr "Zobrazovat tlačítka okna jen s textem"
 
-#: ../shell/e-shell-window-actions.c:1733
+#: ../shell/e-shell-window-actions.c:1730
 msgid "Icons _and Text"
 msgstr "Ikony _a text"
 
-#: ../shell/e-shell-window-actions.c:1735
+#: ../shell/e-shell-window-actions.c:1732
 msgid "Display window buttons with icons and text"
 msgstr "Zobrazovat tlačítka okna s ikonami a textem"
 
-#: ../shell/e-shell-window-actions.c:1740
+#: ../shell/e-shell-window-actions.c:1737
 msgid "Tool_bar Style"
 msgstr "St_yl lišty nástrojů"
 
-#: ../shell/e-shell-window-actions.c:1742
+#: ../shell/e-shell-window-actions.c:1739
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "Zobrazovat tlačítka okna podle nastavení nástrojové lišty v prostředí"
 
-#: ../shell/e-shell-window-actions.c:1750
+#: ../shell/e-shell-window-actions.c:1747
 msgid "Define Views..."
 msgstr "Definovat zobrazení…"
 
-#: ../shell/e-shell-window-actions.c:1752
+#: ../shell/e-shell-window-actions.c:1749
 msgid "Create or edit views"
 msgstr "Vytvořit nebo upravit zobrazení"
 
-#: ../shell/e-shell-window-actions.c:1757
+#: ../shell/e-shell-window-actions.c:1754
 msgid "Save Custom View..."
 msgstr "Uložit vlastní zobrazení…"
 
-#: ../shell/e-shell-window-actions.c:1759
+#: ../shell/e-shell-window-actions.c:1756
 msgid "Save current custom view"
 msgstr "Uložit aktuální zobrazení"
 
-#: ../shell/e-shell-window-actions.c:1766
+#: ../shell/e-shell-window-actions.c:1763
 msgid "C_urrent View"
 msgstr "Akt_uální zobrazení"
 
-#: ../shell/e-shell-window-actions.c:1776
+#: ../shell/e-shell-window-actions.c:1773
 msgid "Custom View"
 msgstr "Vlastní zobrazení"
 
-#: ../shell/e-shell-window-actions.c:1778
+#: ../shell/e-shell-window-actions.c:1775
 msgid "Current view is a customized view"
 msgstr "Současné zobrazení je přizpůsobené zobrazení"
 
-#: ../shell/e-shell-window-actions.c:1788
+#: ../shell/e-shell-window-actions.c:1785
 msgid "Change the page settings for your current printer"
 msgstr "Nastavit stránku pro vaši aktuální tiskárnu"
 
-#: ../shell/e-shell-window-actions.c:2178
+#: ../shell/e-shell-window-actions.c:2175
 #, c-format
 msgid "Switch to %s"
 msgstr "Přepnout do %s"
 
-#: ../shell/e-shell-window-actions.c:2299
+#: ../shell/e-shell-window-actions.c:2296
 #, c-format
 msgid "Select view: %s"
 msgstr "Vyberte zobrazení: %s"
 
-#: ../shell/e-shell-window-actions.c:2400
+#: ../shell/e-shell-window-actions.c:2397
 msgid "Execute these search parameters"
 msgstr "Spustit tyto parametry hledání"
 
@@ -19213,7 +19239,7 @@ msgid "%s - Evolution"
 msgstr "%s - Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:186
+#: ../shell/main.c:190
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -19248,7 +19274,7 @@ msgstr ""
 "Doufáme, že si užijete výsledků naší tvrdé práce a nedočkavě čekáme\n"
 "na vaše přispění!\n"
 
-#: ../shell/main.c:210
+#: ../shell/main.c:214
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -19256,13 +19282,13 @@ msgstr ""
 "Děkujeme\n"
 "Tým Evolution\n"
 
-#: ../shell/main.c:216
+#: ../shell/main.c:220
 msgid "Do not tell me again"
 msgstr "Příště mě neupozorňovat"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../shell/main.c:307
+#: ../shell/main.c:311
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
@@ -19270,47 +19296,56 @@ msgstr ""
 "Spustit Evolution se zobrazením vybrané komponenty. K dispozici jsou volby "
 "'mail', 'calendar', 'contacts', 'tasks' a 'memos'."
 
-#: ../shell/main.c:311
+#: ../shell/main.c:315
 msgid "Apply the given geometry to the main window"
 msgstr "Použít danou geometrii na hlavní okno"
 
-#: ../shell/main.c:315
+#: ../shell/main.c:319
 msgid "Start in online mode"
 msgstr "Spustit v režimu on-line"
 
-#: ../shell/main.c:317
+#: ../shell/main.c:321
 msgid "Ignore network availability"
 msgstr "Ignorovat dostupnost sítě"
 
-#: ../shell/main.c:319
+#: ../shell/main.c:323
 msgid "Start in \"express\" mode"
 msgstr "Spustit v „expresním“ režimu"
 
-#: ../shell/main.c:322
+#: ../shell/main.c:326
 msgid "Forcibly shut down Evolution"
 msgstr "Vynuceně ukončit Evolution"
 
-#: ../shell/main.c:325
+#: ../shell/main.c:329
 msgid "Disable loading of any plugins."
 msgstr "Zakázat načítání všech zásuvných modulů."
 
-#: ../shell/main.c:327
+#: ../shell/main.c:331
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Zakázat panel náhledu pošty, kontaktů a úloh."
 
-#: ../shell/main.c:331
+#: ../shell/main.c:335
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Importovat adresu URI nebo názvy souborů dané jako zbytek argumentů."
 
-#: ../shell/main.c:333
+#: ../shell/main.c:337
 msgid "Request a running Evolution process to quit"
 msgstr "Vyžádat, aby se běžící proces Evolution ukončil"
 
-#: ../shell/main.c:517
+#: ../shell/main.c:426
+#, c-format
+msgid ""
+"Cannot start Evolution, other instance is probably running and is "
+"unresponsive. System error: %s"
+msgstr ""
+"Nelze spustit aplikaci Evolution, pravděpodobně již běží a neodpovídá. "
+"Systémová chyba: %s"
+
+#: ../shell/main.c:528 ../shell/main.c:533
 msgid "- The Evolution PIM and Email Client"
 msgstr "– PIM a poštovní klient Evolution"
 
-#: ../shell/main.c:582
+#: ../shell/main.c:600
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19319,7 +19354,7 @@ msgstr ""
 "%s: --online a --offline není možné použít najednou.\n"
 "  Použijte „%s --help“, chcete-li zobrazit více informací.\n"
 
-#: ../shell/main.c:588
+#: ../shell/main.c:606
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -19364,70 +19399,6 @@ msgid ""
 msgstr ""
 "Aplikace Evolution již nepodporuje přímé povýšení z verze {0}. Můžete to ale "
 "obejít tak, že nejdříve přejdete na Evolutin 2, a teprve poté na Evolution 3."
-
-#: ../smclient/eggdesktopfile.c:166
-#, c-format
-msgid "File is not a valid .desktop file"
-msgstr "Soubor není platným souborem .desktop"
-
-#: ../smclient/eggdesktopfile.c:189
-#, c-format
-msgid "Unrecognized desktop file Version '%s'"
-msgstr "Nerozpoznaná verze desktopového souboru „%s“"
-
-#: ../smclient/eggdesktopfile.c:959
-#, c-format
-msgid "Starting %s"
-msgstr "Probíhá spuštění %s"
-
-#: ../smclient/eggdesktopfile.c:1102
-#, c-format
-msgid "Application does not accept documents on command line"
-msgstr "Aplikace nepřijímá dokumenty v příkazové řádce"
-
-#: ../smclient/eggdesktopfile.c:1170
-#, c-format
-msgid "Unrecognized launch option: %d"
-msgstr "Nerozpoznaná volba spuštění: %d"
-
-#: ../smclient/eggdesktopfile.c:1370
-#, c-format
-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr ""
-"Nelze předat adresu URI dokumentů do položky pracovní plochy „Type=Link“"
-
-#: ../smclient/eggdesktopfile.c:1391
-#, c-format
-msgid "Not a launchable item"
-msgstr "Nespustitelná položka"
-
-#: ../smclient/eggsmclient.c:229
-msgid "Disable connection to session manager"
-msgstr "Zakázat spojení do správce sezení"
-
-#: ../smclient/eggsmclient.c:232
-msgid "Specify file containing saved configuration"
-msgstr "Zadejte soubor obsahující uložené nastavení"
-
-#: ../smclient/eggsmclient.c:232
-msgid "FILE"
-msgstr "FILE"
-
-#: ../smclient/eggsmclient.c:235
-msgid "Specify session management ID"
-msgstr "Zadejte ID správy sezení"
-
-#: ../smclient/eggsmclient.c:235
-msgid "ID"
-msgstr "ID"
-
-#: ../smclient/eggsmclient.c:256
-msgid "Session management options:"
-msgstr "Volby správy sezení:"
-
-#: ../smclient/eggsmclient.c:257
-msgid "Show session management options"
-msgstr "Zobrazit volby správy sezení"
 
 #: ../smime/gui/ca-trust-dialog.c:107
 #, c-format
@@ -20556,23 +20527,23 @@ msgstr "Spusťte import souboru do aplikace Evolution kliknutím na „Použít�
 msgid "Autogenerated"
 msgstr "automatický"
 
-#: ../widgets/misc/e-mail-signature-editor.c:287
+#: ../widgets/misc/e-mail-signature-editor.c:294
 msgid "Close"
 msgstr "Zavřít"
 
-#: ../widgets/misc/e-mail-signature-editor.c:292
+#: ../widgets/misc/e-mail-signature-editor.c:299
 msgid "_Save and Close"
 msgstr "_Uložit a zavřít"
 
-#: ../widgets/misc/e-mail-signature-editor.c:506
+#: ../widgets/misc/e-mail-signature-editor.c:513
 msgid "Edit Signature"
 msgstr "Upravit podpis"
 
-#: ../widgets/misc/e-mail-signature-editor.c:526
+#: ../widgets/misc/e-mail-signature-editor.c:533
 msgid "_Signature Name:"
 msgstr "_Název podpisu:"
 
-#: ../widgets/misc/e-mail-signature-editor.c:572
+#: ../widgets/misc/e-mail-signature-editor.c:579
 msgid "Unnamed"
 msgstr "Beze jména"
 
@@ -20580,11 +20551,11 @@ msgstr "Beze jména"
 msgid "Add _Script"
 msgstr "Přidat _skript"
 
-#: ../widgets/misc/e-mail-signature-manager.c:421
+#: ../widgets/misc/e-mail-signature-manager.c:422
 msgid "Add Signature Script"
 msgstr "Přidat skript podpisu"
 
-#: ../widgets/misc/e-mail-signature-manager.c:491
+#: ../widgets/misc/e-mail-signature-manager.c:492
 msgid "Edit Signature Script"
 msgstr "Upravit skript podpisu"
 
@@ -20833,15 +20804,15 @@ msgid "Refresh every"
 msgstr "Obnovit každých"
 
 #: ../widgets/misc/e-source-config.c:1324
-#: ../widgets/misc/e-source-config.c:1352
+#: ../widgets/misc/e-source-config.c:1373
 msgid "Use a secure connection"
 msgstr "Používat zabezpečené připojení"
 
-#: ../widgets/misc/e-source-config.c:1366
+#: ../widgets/misc/e-source-config.c:1397
 msgid "Ignore invalid SSL certificate"
 msgstr "Ignorovat neplatný certifikát SSL"
 
-#: ../widgets/misc/e-source-config.c:1403
+#: ../widgets/misc/e-source-config.c:1434
 msgid "User"
 msgstr "Uživatel"
 
@@ -20901,25 +20872,25 @@ msgstr "_Kopírovat obrázek"
 msgid "Copy the image to the clipboard"
 msgstr "Zkopírovat obrázek do schránky"
 
-#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1432
+#: ../widgets/misc/e-web-view.c:333 ../widgets/misc/e-web-view.c:1440
 #: ../widgets/misc/e-web-view-gtkhtml.c:466
 #: ../widgets/misc/e-web-view-gtkhtml.c:1311
 msgid "Select all text and images"
 msgstr "Vybrat celý text a obrázky"
 
-#: ../widgets/misc/e-web-view.c:1096 ../widgets/misc/e-web-view.c:1098
-#: ../widgets/misc/e-web-view.c:1100 ../widgets/misc/e-web-view-gtkhtml.c:975
+#: ../widgets/misc/e-web-view.c:1099 ../widgets/misc/e-web-view.c:1101
+#: ../widgets/misc/e-web-view.c:1103 ../widgets/misc/e-web-view-gtkhtml.c:975
 #: ../widgets/misc/e-web-view-gtkhtml.c:977
 #: ../widgets/misc/e-web-view-gtkhtml.c:979
 #, c-format
 msgid "Click to call %s"
 msgstr "Kliknutím zavoláte %s"
 
-#: ../widgets/misc/e-web-view.c:1102 ../widgets/misc/e-web-view-gtkhtml.c:981
+#: ../widgets/misc/e-web-view.c:1105 ../widgets/misc/e-web-view-gtkhtml.c:981
 msgid "Click to hide/unhide addresses"
 msgstr "Skrýt/odkrýt adresy"
 
-#: ../widgets/misc/e-web-view.c:1104 ../widgets/misc/e-web-view-gtkhtml.c:983
+#: ../widgets/misc/e-web-view.c:1107 ../widgets/misc/e-web-view-gtkhtml.c:983
 #, c-format
 msgid "Click to open %s"
 msgstr "Kliknutím sem otevřete %s"
@@ -21230,1752 +21201,3 @@ msgstr "Vybrat vše"
 #: ../widgets/text/e-text.c:2087
 msgid "Input Methods"
 msgstr "Vstupní metody"
-
-#~ msgid "Anonymously"
-#~ msgstr "Anonymně"
-
-#~ msgid "One"
-#~ msgstr "One"
-
-#~ msgid "Sub"
-#~ msgstr "Sub"
-
-#~ msgid "Supported Search Bases"
-#~ msgstr "Podporované základy vyhledávání"
-
-#~ msgid "Ser_ver:"
-#~ msgstr "S_erver:"
-
-#~ msgid "Use secure _connection:"
-#~ msgstr "Používat za_bezpečené připojení:"
-
-#~ msgid "_Login method:"
-#~ msgstr "_Metoda přihlašování:"
-
-#~ msgid "Lo_gin:"
-#~ msgstr "_Přihlášení:"
-
-#~ msgid "Search _base:"
-#~ msgstr "Základ _vyhledávání:"
-
-#~ msgid "_Search scope:"
-#~ msgstr "_Rozsah vyhledávání:"
-
-#~ msgid "_Find Possible Search Bases"
-#~ msgstr "_Hledat možné základy vyhledávání"
-
-#~ msgid "S_earch filter:"
-#~ msgstr "_Filtr hledání:"
-
-#~ msgid "Search Filter"
-#~ msgstr "Filtr hledání"
-
-#~ msgid ""
-#~ "Search filter is the type of object to be searched for. If this is not "
-#~ "modified, the default search will be performed on the type \"person\"."
-#~ msgstr ""
-#~ "Vyhledávací filtr je typ objektu pro vyhledávání. Není-li tento objekt "
-#~ "upravován, výchozí vyhledávání bude prováděno s pomocí typu "
-#~ "„person“ (osoba)."
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "5"
-#~ msgstr "5"
-
-#~ msgid "_Timeout:"
-#~ msgstr "Č_asový limit:"
-
-#~ msgid "_Download limit:"
-#~ msgstr "_Omezení stahování:"
-
-#~ msgid "B_rowse this book until limit reached"
-#~ msgstr "P_rohlížet tento adresář, dokud není dosaženo limitu"
-
-#~ msgid "Some features may not work properly with your current server"
-#~ msgstr ""
-#~ "Některé funkce možná nebudou pracovat správně s vaším současným serverem"
-
-#~ msgid ""
-#~ "You are connecting to an unsupported GroupWise server and may encounter "
-#~ "problems using Evolution. For best results the server should be upgraded "
-#~ "to a supported version"
-#~ msgstr ""
-#~ "Připojujete se k nepodporovanému serveru GroupWise a při používání "
-#~ "aplikace Evolution můžete narazit na problémy. Pro nejlepší výsledky by "
-#~ "měl být server aktualizován na podporovanou verzi"
-
-#~ msgid "GroupWise Address book creation:"
-#~ msgstr "Vytvořen adresář GroupWise:"
-
-#~ msgid ""
-#~ "Currently you can only access the GroupWise System Address Book from "
-#~ "Evolution. Please use some other GroupWise mail client once to get your "
-#~ "GroupWise Frequent Contacts and Groupwise Personal Contacts folders."
-#~ msgstr ""
-#~ "Nyní můžete z aplikace Evolution přistupovat pouze k systémovému adresáři "
-#~ "GroupWise. Použijte prosím některého jiného poštovního klienta GroupWise "
-#~ "k získání složek častých kontaktů GroupWise a osobních kontaktů GroupWise."
-
-#~ msgid "Couldn't get list of address books: %s"
-#~ msgstr "Nelze získat seznam adresářů: %s"
-
-#~ msgid "Some features may not work properly with your current server."
-#~ msgstr ""
-#~ "Některé funkce možná nebudou pracovat správně s vaším aktuálním serverem."
-
-#~ msgid ""
-#~ "You are connecting to an unsupported GroupWise server and may encounter "
-#~ "problems using Evolution. For best results, the server should be upgraded "
-#~ "to a supported version."
-#~ msgstr ""
-#~ "Připojujete se k nepodporovanému serveru GroupWise a při používání "
-#~ "Evolution můžete narazit na problémy. Pro nejlepší výsledky by měl být "
-#~ "server aktualizován na podporovanou verzi."
-
-#~ msgid "_Type:"
-#~ msgstr "_Typ:"
-
-#~ msgid "Sh_ow reminder notifications"
-#~ msgstr "Zobrazovat upozornění na připomínky"
-
-#~ msgid "You are acting on behalf of %s"
-#~ msgstr "Jednáte v zastoupení %s"
-
-#~ msgid "ID of the socket to embed in"
-#~ msgstr "ID socketu pro vložení"
-
-#~ msgid "socket"
-#~ msgstr "socket"
-
-#~ msgid "Please enter your full name."
-#~ msgstr "Zadejte prosím své celé jméno"
-
-#~ msgid "Please enter your email address."
-#~ msgstr "Zadejte prosím svoji e-mailovou adresu."
-
-#~ msgid "The email address you have entered is invalid."
-#~ msgstr "E-mailová adresa, kterou jste zadali, je neplatná."
-
-#~ msgid "Please enter your password."
-#~ msgstr "Zadejte prosím své heslo."
-
-#~ msgid "CalDAV"
-#~ msgstr "CalDAV"
-
-#~ msgid "Google"
-#~ msgstr "Google"
-
-#~ msgid "Always (SSL)"
-#~ msgstr "Vždy (SSL)"
-
-#~ msgid "When possible (TLS)"
-#~ msgstr "Když je to možné (TLS)"
-
-#~ msgid "Personal details:"
-#~ msgstr "Osobní údaje:"
-
-#~ msgid "Email address:"
-#~ msgstr "E-mailová adresa:"
-
-#~ msgid "Details:"
-#~ msgstr "Podrobnosti:"
-
-#~ msgid "Server type:"
-#~ msgstr "Typ serveru:"
-
-#~ msgid "Server address:"
-#~ msgstr "Adresa serveru:"
-
-#~ msgid "Use encryption:"
-#~ msgstr "Použít šifrování:"
-
-#~ msgid ""
-#~ "To use the email application you'll need to setup an account. Put your "
-#~ "email address and password in below and we'll try and work out all the "
-#~ "settings. If we can't do it automatically you'll need your server details "
-#~ "as well."
-#~ msgstr ""
-#~ "Chcete-li používat e-mailovou aplikaci, budete si muset nastavit účet. "
-#~ "Níže vložte e-mailovou adresu a heslo a my zkusíme veškerá nastavení. "
-#~ "Pokud to nebudeme schopní udělat automaticky, budete potřebovat i "
-#~ "informace o serveru."
-
-#~ msgid ""
-#~ "Sorry, we can't work out the settings to get your mail automatically. "
-#~ "Please enter them below. We've tried to make a start with the details you "
-#~ "just entered but you may need to change them."
-#~ msgstr ""
-#~ "Promiňte, bohužel nemůžeme zprovoznit nastavení pro vaši poštu "
-#~ "automaticky. Zadejte je prosím níže. Zkoušeli jsme to nahodit s "
-#~ "informacemi, které jste vložili, ale asi je budete muset změnit."
-
-#~ msgid "You can specify more options to configure the account."
-#~ msgstr "Můžete zadat více voleb pro nastavení účtu."
-
-#~ msgid ""
-#~ "Now we need your settings for sending mail. We've tried to make some "
-#~ "guesses but you should check them over to make sure."
-#~ msgstr ""
-#~ "Potřebujeme nyní vaše nastavení pro odesílání pošty. Zkusili jsme hádat, "
-#~ "ale měli byste to zkontrolovat, chcete-li si být jistí."
-
-#~ msgid "You can specify your default settings for your account."
-#~ msgstr "Můžete zadat výchozí nastavení pro svůj účet."
-
-#~ msgid ""
-#~ "Time to check things over before we try and connect to the server and "
-#~ "fetch your mail."
-#~ msgstr ""
-#~ "Čas na zkontrolování věcí před tím, než se zkusíme připojit k serveru a "
-#~ "stáhnout poštu."
-
-#~ msgid "Next - Receiving mail"
-#~ msgstr "Další - Příjem pošty"
-
-#~ msgid "Receiving mail"
-#~ msgstr "Příjem pošty"
-
-#~ msgid "Next - Sending mail"
-#~ msgstr "Další - Posílání pošty"
-
-#~ msgid "Back - Identity"
-#~ msgstr "Zpět - Identita"
-
-#~ msgid "Next - Receiving options"
-#~ msgstr "Další - Možnosti příjmu"
-
-#~ msgid "Receiving options"
-#~ msgstr "Možnosti příjmu"
-
-#~ msgid "Back - Receiving mail"
-#~ msgstr "Zpět - Příjem pošty"
-
-#~ msgid "Sending mail"
-#~ msgstr "Posílání pošty"
-
-#~ msgid "Next - Review account"
-#~ msgstr "Další - Zkontrolovat účet"
-
-#~ msgid "Next - Defaults"
-#~ msgstr "Další - Výchozí hodnoty"
-
-#~ msgid "Back - Receiving options"
-#~ msgstr "Zpět - Možnosti příjmu"
-
-#~ msgid "Back - Sending mail"
-#~ msgstr "Zpět - Posílání pošty"
-
-#~ msgid "Review account"
-#~ msgstr "Zkontrolovat účet"
-
-#~ msgid "Finish"
-#~ msgstr "Dokončit"
-
-#~ msgid "Back - Sending"
-#~ msgstr "Zpět - Posílání"
-
-#~ msgid "Setup Google contacts with Evolution"
-#~ msgstr "Nastavit kontakty Google s aplikací Evolution"
-
-#~ msgid "Setup Google calendar with Evolution"
-#~ msgstr "Nastavit kalendář Google s aplikací Evolution"
-
-#~ msgid "Google account settings:"
-#~ msgstr "Nastavení účtu Google:"
-
-#~ msgid "Setup Yahoo calendar with Evolution"
-#~ msgstr "Nastavit kalendář Yahoo s aplikací Evolution"
-
-#~ msgid ""
-#~ "Yahoo calendars are named as firstname_lastname. We have tried to form "
-#~ "the calendar name. So please confirm and re-enter the calendar name if it "
-#~ "is not correct."
-#~ msgstr ""
-#~ "Kalendáře Yahoo bývají pojmenované jako jméno_příjmení. Název kalendáře "
-#~ "se zkusí vytvořit v této podobě. Zkontrolujte jej prosím a potvrďte, "
-#~ "případně opravte."
-
-#~ msgid "Yahoo account settings:"
-#~ msgstr "Nastavení účtu Yahoo:"
-
-#~ msgid "Yahoo Calendar name:"
-#~ msgstr "Název kalendáře Yahoo:"
-
-#~ msgid "Password:"
-#~ msgstr "Heslo:"
-
-#~ msgid "Close Tab"
-#~ msgstr "Zavřít kartu"
-
-#~ msgid "Account Wizard"
-#~ msgstr "Průvodce vytvářením účtu"
-
-#~ msgid "Evolution account assistant"
-#~ msgstr "Asistent pro účet Evolution"
-
-#~ msgid "On This Computer"
-#~ msgstr "V tomto počítači"
-
-#~ msgid "Modify %s..."
-#~ msgstr "Změnit %s…"
-
-#~ msgid "Add a new account"
-#~ msgstr "Přidat nový účet"
-
-#~ msgid "Account management"
-#~ msgstr "Správa účtu"
-
-#~ msgid "Settings"
-#~ msgstr "Nastavení"
-
-#~ msgid "Undo the last action"
-#~ msgstr "Vrátit zpět poslední akci"
-
-#~ msgid "Redo the last undone action"
-#~ msgstr "Opakovat poslední vrácenou akci"
-
-#~ msgid "Search for text"
-#~ msgstr "Hledat text"
-
-#~ msgid "Search for and replace text"
-#~ msgstr "Hledat a nahradit text"
-
-#~ msgid "List of selected calendars"
-#~ msgstr "Seznam vybraných kalendářů"
-
-#~ msgid "List of calendars to load"
-#~ msgstr "Seznam kalendářů k načtení"
-
-#~ msgid "List of selected memo lists"
-#~ msgstr "Seznam vybraných seznamů poznámek"
-
-#~ msgid "List of memo lists to load"
-#~ msgstr "Seznam seznamů poznámek k načtení"
-
-#~ msgid "List of selected task lists"
-#~ msgstr "Seznam vybraných seznamů úkolů"
-
-#~ msgid "List of task lists to load"
-#~ msgstr "Seznam seznamů úkolů k načtení"
-
-#~ msgid "Configuration version"
-#~ msgstr "Verze nastavení"
-
-#~ msgid ""
-#~ "The configuration version of Evolution, with major/minor/configuration "
-#~ "level (for example \"2.6.0\")."
-#~ msgstr ""
-#~ "Verze nastavení aplikace Evolution, jako hlavní/vedlejší/úrovně nastavení "
-#~ "(například „2.6.0“)."
-
-#~ msgid "Last upgraded configuration version"
-#~ msgstr "Verze posledního aktualizovaného nastavení"
-
-#~ msgid ""
-#~ "The last upgraded configuration version of Evolution, with major/minor/"
-#~ "configuration level (for example \"2.6.0\")."
-#~ msgstr ""
-#~ "Poslední verze aktualizovaného nastavení aplikace Evolution, s hlavní/"
-#~ "vedlejší/úrovní nastavení (například „2.6.0“)."
-
-#~ msgid "Enable local folders"
-#~ msgstr "Povolit místní složky"
-
-#~ msgid "Enable search folders on startup."
-#~ msgstr "Zapnout vyhledávání složek při startu."
-
-#~ msgid "Display only message texts not exceeding certain size"
-#~ msgstr "Zobrazovat pouze zprávy, jejichž text nepřesahuje určitou velikost"
-
-#~ msgid ""
-#~ "Enable to display only message texts not exceeding size defined in "
-#~ "'message_text_part_limit' key."
-#~ msgstr ""
-#~ "Povolit zobrazit pouze texty zprávy, které nepřekračují velikost "
-#~ "definovanou v klíči „message_text_part_limit“."
-
-#~ msgid "Message text limit for display"
-#~ msgstr "Omezení textu zprávy pro zobrazení"
-
-#~ msgid ""
-#~ "This decides the max size of the message text that will be displayed "
-#~ "under Evolution, specified in terms of KB. The default is 4096 (4MB). "
-#~ "This value is used only when 'force_message_limit' key is activated."
-#~ msgstr ""
-#~ "Toto rozhoduje o maximální velikosti textu zprávy (údáno v kB), který "
-#~ "může být formátován v aplikaci Evolution. Výchozí hodnota je 4 096 kB "
-#~ "(4 MB). Tato hodnota se použije jen v případě, že je aktivní klíč "
-#~ "„force_message_limit“."
-
-#~ msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-#~ msgstr ""
-#~ "Styl zobrazování zprávy – „normal“ (normální), „full headers“ (úplné "
-#~ "hlavičky), „source“ (zdroj)"
-
-#~ msgid "Play sound when new messages arrive."
-#~ msgstr "Přehrát zvuk, když přijde nová pošta."
-
-#~ msgid ""
-#~ "If \"true\", then beep, otherwise will play sound file when new messages "
-#~ "arrive."
-#~ msgstr ""
-#~ "Platí-li „true“, potom pípne, jinak bude hrát zvukový soubor, když dorazí "
-#~ "nová zpráva."
-
-#~ msgid "FIXME"
-#~ msgstr "FIXME"
-
-#~ msgid "Could not parse S/MIME message: Unknown error"
-#~ msgstr "Nelze zpracovat zprávu S/MIME: Neznámá chyba"
-
-#~ msgid "Could not parse PGP/MIME message: Unknown error"
-#~ msgstr "Nelze zpracovat zprávu PGP/MIME: Neznámá chyba"
-
-#~ msgid "Unknown error verifying signature"
-#~ msgstr "Neznámá chyba při ověřování podpisu"
-
-#~ msgid "If all conditions are met"
-#~ msgstr "Pokud jsou splněny všechny podmínky"
-
-#~ msgid "If any conditions are met"
-#~ msgstr "Pokud je některá podmínka splněna"
-
-#~ msgid "Enter Passphrase for %s"
-#~ msgstr "Zadat heslo pro %s"
-
-#~ msgid "Enter Passphrase"
-#~ msgstr "Zadejte heslo"
-
-#~ msgid "Enter Password for %s"
-#~ msgstr "Zadat heslo pro %s"
-
-#~ msgid "Enter Password"
-#~ msgstr "Zadat heslo"
-
-#~ msgid "Cannot get transport for account '%s'"
-#~ msgstr "Nelze získat přenos pro účet „%s“"
-
-#~ msgid "Unsubscribing from folder '%s'"
-#~ msgstr "Odhlašování se od složky '%s'"
-
-#~ msgid "Refreshing folder '%s'"
-#~ msgstr "Probíhá obnovování složky „%s“"
-
-#~ msgid "Expunging folder '%s'"
-#~ msgstr "Probíhá čištění složky „%s“"
-
-#~ msgid "Disconnecting %s"
-#~ msgstr "Probíhá odpojování %s"
-
-#~ msgctxt "mail-signature"
-#~ msgid "None"
-#~ msgstr "Žádný"
-
-#~ msgid "Fil_e:"
-#~ msgstr "_Soubor:"
-
-#~ msgid "Mail Configuration"
-#~ msgstr "Nastavení pošty"
-
-#~ msgid "Please configure the following account settings."
-#~ msgstr "Nastavte prosím následující nastavení účtu."
-
-#~ msgid ""
-#~ "Please enter information about the way you will send mail. If you are not "
-#~ "sure, ask your system administrator or Internet Service Provider."
-#~ msgstr ""
-#~ "Zadejte prosím informace o způsobu odesílání pošty. Pokud si nejste "
-#~ "jisti, kontaktujte svého správce nebo poskytovatele připojení k Internetu."
-
-#~ msgid "minu_tes"
-#~ msgstr "minu_t"
-
-#~ msgid "Checking for New Messages"
-#~ msgstr "Kontrola nové pošty"
-
-#~ msgid "Setup Google con_tacts with Evolution"
-#~ msgstr "Nastavit _kontakty Google v aplikaci Evolution"
-
-#~ msgid "Setup Google ca_lendar with Evolution"
-#~ msgstr "Nastavit ka_lendář Google v aplikaci Evolution"
-
-#~ msgid "Setup _Yahoo calendar with Evolution"
-#~ msgstr "Nastavit kalendář _Yahoo v aplikaci Evolution"
-
-#~ msgid "Yahoo Calen_dar name:"
-#~ msgstr "Název _kalendáře Yahoo:"
-
-#~ msgid "Create R_ule"
-#~ msgstr "Vytvořit _pravidlo"
-
-#~ msgid "Formatting Message..."
-#~ msgstr "Formátuje se zpráva…"
-
-#~ msgid "Retrieving '%s'"
-#~ msgstr "Získává se „%s“"
-
-#~ msgid "Unknown external-body part."
-#~ msgstr "Neznámá část externího těla."
-
-#~ msgid ""
-#~ "Evolution cannot render this email as it is too large to process. You can "
-#~ "view it unformatted or with an external text editor."
-#~ msgstr ""
-#~ "Evolution nemůže tuto zprávu zobrazit, neboť je příliš velká. Můžete si "
-#~ "ji prohlédnout nezformátovanou nebo pomocí externího textového editoru."
-
-#~ msgid "Completed on"
-#~ msgstr "Dokončeno"
-
-#~ msgid "Overdue:"
-#~ msgstr "Již mělo být splněno:"
-
-#~ msgid "by"
-#~ msgstr "do"
-
-#~ msgid "View _Unformatted"
-#~ msgstr "Zobrazit _nezformátované"
-
-#~ msgid "Hide _Unformatted"
-#~ msgstr "Skrýt _nezformátované"
-
-#~ msgid "O_pen With"
-#~ msgstr "_Otevřít pomocí"
-
-#~ msgctxt "Button"
-#~ msgid "Attachment"
-#~ msgstr "Příloha"
-
-#~ msgid "No HTML stream available"
-#~ msgstr "Není k dispozici žádný proud HTML"
-
-#~ msgid "Digitally sign messages when original message signed (PGP or S/MIME)"
-#~ msgstr ""
-#~ "Digitálně podepsat zprávy, když je původní zpráva podepsána (PGP nebo S/"
-#~ "MIME)"
-
-#~ msgid "Composer Window default width"
-#~ msgstr "Výchozí šířka okna pro psaní zpráv"
-
-#~ msgid "Default width of the Composer Window."
-#~ msgstr "Výchozí šířka okna pro psaní zpráv."
-
-#~ msgid "Composer Window default height"
-#~ msgstr "Výchozí výška okna pro psaní zpráv"
-
-#~ msgid "Default height of the Composer Window."
-#~ msgstr "Výchozí výška okna pro psaní zpráv."
-
-#~ msgid "Attribute message."
-#~ msgstr "Připojit zprávu."
-
-#~ msgid ""
-#~ "The text that is inserted when replying to a message, attributing the "
-#~ "message to the original author."
-#~ msgstr ""
-#~ "Text je vložen při odpovědi na zprávu a připisuje zprávu původnímu "
-#~ "autorovi."
-
-# The original string may be incorrect (should be forwarded message).
-#~ msgid "Forward message."
-#~ msgstr "Přeposlaná zpráva."
-
-#~ msgid ""
-#~ "The text that is inserted when forwarding a message, saying that the "
-#~ "forwarded message follows."
-#~ msgstr ""
-#~ "Text je vložený, když se zpráva přeposílá, a uvádí, že přeposlaná zpráva "
-#~ "následuje."
-
-#~ msgid "Original message."
-#~ msgstr "Původní zpráva."
-
-#~ msgid ""
-#~ "The text that is inserted when replying to a message (top posting), "
-#~ "saying that the original message follows."
-#~ msgstr ""
-#~ "Text je vložený při odpovědi na zprávu (psaní odpovědi nahoře) a uvádí, "
-#~ "že původní zpráva následuje."
-
-#~ msgid ""
-#~ "This value can be an empty string, which means it'll use the system "
-#~ "Picture folder, usually set to ~/Pictures. This folder will be also used "
-#~ "when the set path is not pointing to the existent folder."
-#~ msgstr ""
-#~ "Tato hodnota může být prázdný řetězec, což znamená, že se použije "
-#~ "systémová složka Obrázky, většinou ~/Obrázky. Tato složka se použije také "
-#~ "v případě, kdy cesta neukazuje na existující složku. "
-
-#~ msgid "Whether to show local folders (On This Computer) in a folder tree."
-#~ msgstr "Zda zobrazovat místní složky (V tomto počítači) ve stromu složek."
-
-#~ msgid ""
-#~ "This setting specifies whether the threads should be in expanded or "
-#~ "collapsed state by default. Requires a restart to apply."
-#~ msgstr ""
-#~ "Toto nastavení určuje, zda mají být vlákna ve výchozím stavu rozbalena "
-#~ "nebo sbalena. Evolution vyžaduje restart, aby došlo ke změně."
-
-#~ msgid ""
-#~ "Describes whether message headers in paned view should be collapsed or "
-#~ "expanded by default. \"0\" = expanded \"1\" = collapsed"
-#~ msgstr ""
-#~ "Popisuje, zda mají být hlavičky zprávy v panelu náhledu ve výchozím "
-#~ "nastavení sbalené nebo rozbalené. „0“ = rozbalené „1“ = sbalené"
-
-#~ msgid ""
-#~ "Tells how to sort accounts in a folder tree used in a Mail view. When set "
-#~ "to true accounts are sorted alphabetically, with an exception of On This "
-#~ "Computer and Search folders, otherwise accounts are sorted based on an "
-#~ "order given by a user."
-#~ msgstr ""
-#~ "Říká, jak se řadí účty ve stromu složek v náhledu Pošta. Když je zapnuto, "
-#~ "účty jsou řazeny abecedně, s výjimkou složky V tomto počítači a složek "
-#~ "hledání. Jinak jsou účty řazeny na základě pořadí daného uživatelem. "
-
-#~ msgid "Mail browser width"
-#~ msgstr "Šířka prohlížeče pošty"
-
-#~ msgid "Default width of the mail browser window."
-#~ msgstr "Výchozí šířka okna prohlížeče pošty."
-
-#~ msgid "Mail browser height"
-#~ msgstr "Výška prohlížeče pošty"
-
-#~ msgid "Default height of the mail browser window."
-#~ msgstr "Výchozí výška okna prohlížeče pošty."
-
-#~ msgid "Mail browser maximized"
-#~ msgstr "Prohlížeč pošty maximalizován"
-
-#~ msgid "Default maximized state of the mail browser window."
-#~ msgstr "Výchozí maximalizace okna prohlížeče pošty."
-
-#~ msgid "\"Folder Subscriptions\" window height"
-#~ msgstr "Výška okna „Přihlášené složky“"
-
-#~ msgid ""
-#~ "Initial height of the \"Folder Subscriptions\" window. The value updates "
-#~ "as the user resizes the window vertically."
-#~ msgstr ""
-#~ "Počáteční výška okna „Přihlášené složky“. Hodnota se aktualizuje podle "
-#~ "toho, jak uživatel mění výšku okna."
-
-#~ msgid "\"Folder Subscriptions\" window maximize state"
-#~ msgstr "Maximalizace okna „Přihlášené složky“"
-
-#~ msgid ""
-#~ "Initial maximize state of the \"Folder Subscriptions\" window. The value "
-#~ "updates when the user maximizes or unmaximizes the window. Note, this "
-#~ "particular value is not used by Evolution since the \"Folder Subscriptions"
-#~ "\" window cannot be maximized. This key exists only as an implementation "
-#~ "detail."
-#~ msgstr ""
-#~ "Počáteční maximalizace okna „Přihlášené složky“. Hodnota se aktualizuje, "
-#~ "když uživatel maximalizuje nebo ruší maximalizaci okna. Všimněte si, že "
-#~ "tato konkrétní hodnota není aplikací Evolution používána od doby, kdy "
-#~ "okno „Editor filtrů“ nemůže být maximalizováno. Tento klíč existuje pouze "
-#~ "jako implementační detail."
-
-#~ msgid "\"Folder Subscriptions\" window width"
-#~ msgstr "Šířka okna „Přihlášené složky“"
-
-#~ msgid ""
-#~ "Initial width of the \"Folder Subscriptions\" window. The value updates "
-#~ "as the user resizes the window horizontally."
-#~ msgstr ""
-#~ "Počáteční šířka okna „Přihlášené složky“. Hodnota se aktualizuje podle "
-#~ "toho, jak uživatel roztahuje okno."
-
-#~ msgid "Default reply style"
-#~ msgstr "Výchozí styl odpovědí"
-
-#~ msgid ""
-#~ "Possible values are: never - to never close browser window always - to "
-#~ "always close browser window ask - (or any other value) will ask user"
-#~ msgstr ""
-#~ "Možné hodnoty jsou: nikdy - nikdy nezavřít okno, vždy - vždy zavřít okno, "
-#~ "ptát se (nebo jakákoliv jiná hodnota) - zeptá se uživatele "
-
-#~ msgid "List of accounts"
-#~ msgstr "Seznam účtů"
-
-#~ msgid ""
-#~ "List of accounts known to the mail component of Evolution. The list "
-#~ "contains strings naming subdirectories relative to /apps/evolution/mail/"
-#~ "accounts."
-#~ msgstr ""
-#~ "Seznam účtů, které zná komponenta pošty Evolution. Seznam obsahuje "
-#~ "řetězce určující podadresáře relativně k /apps/evolution/mail/accounts."
-
-#~ msgid "List of accepted licenses"
-#~ msgstr "Seznam přijatých licencí"
-
-#~ msgid "List of protocol names whose license has been accepted."
-#~ msgstr "Seznam názvů protokolů, jejichž licence byla přijata."
-
-#~ msgid "\"Filter Editor\" window height"
-#~ msgstr "Výška okna „Editor filtrů“"
-
-#~ msgid ""
-#~ "Initial height of the \"Filter Editor\" window. The value updates as the "
-#~ "user resizes the window vertically."
-#~ msgstr ""
-#~ "Počáteční výška okna „Editor filtrů“. Hodnota se aktualizuje podle toho, "
-#~ "jak uživatel mění výšku okna."
-
-#~ msgid "\"Filter Editor\" window maximize state"
-#~ msgstr "Maximalizace okna „Editor filtrů“"
-
-#~ msgid ""
-#~ "Initial maximize state of the \"Filter Editor\" window. The value updates "
-#~ "when the user maximizes or unmaximizes the window. Note, this particular "
-#~ "value is not used by Evolution since the \"Filter Editor\" window cannot "
-#~ "be maximized. This key exists only as an implementation detail."
-#~ msgstr ""
-#~ "Počáteční maximalizace okna „Editor filtrů“. Hodnota se aktualizuje, když "
-#~ "uživatel maximalizuje nebo ruší maximalizaci okna. Všimněte si, že tato "
-#~ "konkrétní hodnota není aplikací Evolution používána od doby, kdy okno "
-#~ "„Editor filtrů“ nemůže být maximalizováno. Tento klíč existuje pouze jako "
-#~ "implementační detail."
-
-#~ msgid "\"Filter Editor\" window width"
-#~ msgstr "Šířka okna „Editor filtrů“"
-
-#~ msgid ""
-#~ "Initial width of the \"Filter Editor\" window. The value updates as the "
-#~ "user resizes the window horizontally."
-#~ msgstr ""
-#~ "Počáteční šířka okna „Editor filtrů“. Hodnota se aktualizuje podle toho, "
-#~ "jak uživatel roztahuje okno."
-
-#~ msgid ""
-#~ "Whether check for new messages when Evolution is started. This includes "
-#~ "also sending messages from Outbox."
-#~ msgstr ""
-#~ "Zda kontrolovat nové zprávy při startu aplikace Evolution. Toto obsahuje "
-#~ "taktéž odesílání zpráv ze složky K odeslání."
-
-#~ msgid ""
-#~ "Whether check for new messages in all active accounts regardless of the "
-#~ "account \"Check for new messages every X minutes\" option when Evolution "
-#~ "is started. This option is used only together with 'send_recv_on_start' "
-#~ "option."
-#~ msgstr ""
-#~ "Zda probíhá kontrola nových zpráv ve všech aktivních účtech bez ohledu na "
-#~ "volbu \"Automaticky kontrolovat novou poštu každých X minut\", při startu "
-#~ "aplikace Evolution. Tato volba se používá pouze společně s volbou "
-#~ "'send_recv_on_start'."
-
-#~ msgid "\"Send and Receive Mail\" window height"
-#~ msgstr "Výška okna „Odeslat a přijmout poštu“"
-
-#~ msgid ""
-#~ "Initial height of the \"Send and Receive Mail\" window. The value updates "
-#~ "as the user resizes the window vertically."
-#~ msgstr ""
-#~ "Počáteční výška okna „Odeslat a přijmout poštu“. Hodnota se aktualizuje "
-#~ "podle toho, jak uživatel mění výšku okna."
-
-#~ msgid "\"Send and Receive Mail\" window maximize state"
-#~ msgstr "Maximalizace okna „Odeslat a přijmout poštu“"
-
-#~ msgid ""
-#~ "Initial maximize state of the \"Send and Receive Mail\" window. The value "
-#~ "updates when the user maximizes or unmaximizes the window. Note, this "
-#~ "particular value is not used by Evolution since the \"Send and Receive "
-#~ "Mail\" window cannot be maximized. This key exists only as an "
-#~ "implementation detail."
-#~ msgstr ""
-#~ "Počáteční maximalizace okna „Odeslat a přijmout poštu“. Hodnota se "
-#~ "aktualizuje, když uživatel maximalizuje nebo ruší maximalizaci okna. "
-#~ "Všimněte si, že tato konkrétní hodnota není aplikací Evolution používána "
-#~ "od doby, kdy okno „Odeslat a přijmout poštu“ nemůže být maximalizováno. "
-#~ "Tento klíč existuje pouze jako implementační detail."
-
-#~ msgid "\"Send and Receive Mail\" window width"
-#~ msgstr "Šířka okna „Odeslat a přijmout poštu“"
-
-#~ msgid ""
-#~ "Initial width of the \"Send and Receive Mail\" window. The value updates "
-#~ "as the user resizes the window horizontally."
-#~ msgstr ""
-#~ "Počáteční šířka okna „Odeslat a přijmout poštu“. Hodnota se aktualizuje "
-#~ "podle toho, jak uživatel roztahuje okno."
-
-#~ msgid "\"Search Folder Editor\" window height"
-#~ msgstr "Výchozí výška okna „Editor složek hledání“"
-
-#~ msgid ""
-#~ "Initial height of the \"Search Folder Editor\" window. The value updates "
-#~ "as the user resizes the window vertically."
-#~ msgstr ""
-#~ "Počáteční výška okna „Editoru složek hledání“. Hodnota se aktualizuje "
-#~ "podle toho, jak uživatel mění výšku okna."
-
-#~ msgid "\"Search Folder Editor\" window maximize state"
-#~ msgstr "Maximalizace okna „Editor složek hledání“"
-
-#~ msgid ""
-#~ "Initial maximize state of the \"Search Folder Editor\" window. The value "
-#~ "updates when the user maximizes or unmaximizes the window. Note, this "
-#~ "particular value is not used by Evolution since the \"Search Folder Editor"
-#~ "\" window cannot be maximized. This key exists only as an implementation "
-#~ "detail."
-#~ msgstr ""
-#~ "Počáteční maximalizace okna „Editor složek hledání“. Hodnota se "
-#~ "aktualizuje, když uživatel maximalizuje nebo ruší maximalizaci okna. "
-#~ "Všimněte si, že tato konkrétní hodnota není aplikací Evolution používána "
-#~ "od doby, kdy okno „Editor složek hledání“ nemůže být maximalizováno. "
-#~ "Tento klíč existuje pouze jako implementační detail."
-
-#~ msgid "\"Search Folder Editor\" window width"
-#~ msgstr "Šířka okna „Editor složek hledání“"
-
-#~ msgid ""
-#~ "Initial width of the \"Search Folder Editor\" window. The value updates "
-#~ "as the user resizes the window horizontally."
-#~ msgstr ""
-#~ "Počáteční šířka okna „Editor složek hledání“. Hodnota se aktualizuje "
-#~ "podle toho, jak uživatel roztahuje okno."
-
-#~ msgid "Drag'n'drop export format"
-#~ msgstr "Formát pro export přetažením"
-
-#~ msgid ""
-#~ "Define the email export format when doing drag'n'drop. Possible values "
-#~ "are mbox or pdf"
-#~ msgstr ""
-#~ "Definuje formát pro export pošty, když se export provádí přetahováním. "
-#~ "Možné hodnoty jsou mbox nebo pdf"
-
-#~ msgid "Format of the drag'n'drop export filename"
-#~ msgstr "Formátu názvu souboru exportovaného přetažením"
-
-#~ msgid ""
-#~ "Exported filename will be YYYYmmDDHHMMSS_email_title Possible values: 1 "
-#~ "(: email sent date), 2 (: drag'n'drop date)"
-#~ msgstr ""
-#~ "Název exportovaného souboru bude RRRRmmDDHHMMSS_název_e-mailu Možné "
-#~ "hodnoty: 1 (: datum odeslání zprávy), 2 (: datum přetažení zprávy)"
-
-#~ msgid "_Add Signature"
-#~ msgstr "Přid_at podpis"
-
-#~ msgid ""
-#~ "The output of this script will be used as your\n"
-#~ "signature. The name you specify will be used\n"
-#~ "for display purposes only. "
-#~ msgstr ""
-#~ "Výstup tohoto skriptu bude použit jako\n"
-#~ "váš podpis. Název, který zadáte, bude použit\n"
-#~ "pouze pro zobrazení. "
-
-#~ msgid "Drafts _Folder:"
-#~ msgstr "_Složka „Koncepty“:"
-
-#~ msgid "_Trash Folder:"
-#~ msgstr "Složka „_Koš“:"
-
-#~ msgid "_Junk Folder:"
-#~ msgstr "Složka „Nev_yžádané“:"
-
-#~ msgid "Signat_ure:"
-#~ msgstr "_Podpis:"
-
-#~ msgid "_Make this my default account"
-#~ msgstr "Používat tento účet jako _výchozí"
-
-#~ msgid "Also encrypt to sel_f when sending encrypted messages"
-#~ msgstr "_Také šifrovat sobě při odesílání šifrované zprávy"
-
-#~ msgid "Encrypt out_going messages (by default)"
-#~ msgstr "Ši_frovat odchozí zprávy (standardně)"
-
-#~ msgid "Digitally sign o_utgoing messages (by default)"
-#~ msgstr "Digitálně _podepisovat odchozí zprávy (standardně)"
-
-#~ msgid "S_elect..."
-#~ msgstr "_Vybrat…"
-
-#~ msgid "Clea_r"
-#~ msgstr "Vy_mazat"
-
-#~ msgid "Cle_ar"
-#~ msgstr "Vy_mazat"
-
-#~ msgid "description"
-#~ msgstr "popis"
-
-#~ msgid "Mailbox location"
-#~ msgstr "Umístění poštovní schránky"
-
-#~ msgid "_Use secure connection:"
-#~ msgstr "Používat za_bezpečené připojení:"
-
-#~ msgid "SSL is not supported in this build of Evolution"
-#~ msgstr "Toto sestavení evolution nepodporuje SSL"
-
-#~ msgid "_Authentication Type"
-#~ msgstr "Typ _ověření totožnosti"
-
-#~ msgid "Re_member password"
-#~ msgstr "Za_pamatovat si heslo"
-
-#~ msgid "Server Configuration"
-#~ msgstr "Nastavení serveru"
-
-#~ msgid "User _Name:"
-#~ msgstr "_Uživatelské jméno:"
-
-#~ msgid "Remember _password"
-#~ msgstr "Za_pamatovat si heslo"
-
-#~ msgid "none"
-#~ msgstr "žádný"
-
-#~ msgid "label"
-#~ msgstr "štítek"
-
-#~ msgid "Cannot set signature script \"{0}\"."
-#~ msgstr "Nelze nastavit skript podpisu „{0}“."
-
-#~ msgid "The script file must exist and be executable."
-#~ msgstr "Soubor skriptu musí existovat a musí být spustitelný."
-
-#~ msgid "Unable to connect to the GroupWise server."
-#~ msgstr "Nelze se připojit k serveru GroupWise."
-
-#~ msgid "Please check your account settings and try again."
-#~ msgstr "Zkontrolujte prosím své nastavení účtu a zkuste to znovu."
-
-#~ msgid "Signature Already Exists"
-#~ msgstr "Podpisy již existují"
-
-#~ msgid ""
-#~ "A signature already exists with the name \"{0}\". Please specify a "
-#~ "different name."
-#~ msgstr "Podpis nazvaný „{0}“ již existuje. Použijte prosím jiný název."
-
-#~ msgid ""
-#~ "No message satisfies your search criteria. Either clear search with "
-#~ "Search->Clear menu item or change it."
-#~ msgstr ""
-#~ "Žádná zpráva nevyhovuje kritériu hledání. Buďto zrušte hledání pomocí "
-#~ "položky v nabídce Hledat->Vymazat, nebo jej změňte."
-
-#~ msgid ""
-#~ "Selecting this option means that Evolution will only connect to your LDAP "
-#~ "server if your LDAP server supports SSL."
-#~ msgstr ""
-#~ "Po výběru této volby se Evolution k serveru LDAP připojí pouze tehdy, "
-#~ "pokud LDAP server podporuje SSL."
-
-#~ msgid ""
-#~ "Selecting this option means that Evolution will only connect to your LDAP "
-#~ "server if your LDAP server supports TLS."
-#~ msgstr ""
-#~ "Po výběru této volby se Evolution k serveru LDAP připojí pouze tehdy, "
-#~ "pokud LDAP server podporuje TLS."
-
-#~ msgid ""
-#~ "Selecting this option means that your server does not support either SSL "
-#~ "or TLS. This means that your connection will be insecure, and that you "
-#~ "will be vulnerable to security exploits."
-#~ msgstr ""
-#~ "Výběr této volby znamená, že váš server nepodporuje SSL ani TLS. To "
-#~ "znamená, že vaše spojení nebude zabezpečené a můžete se stát terčem "
-#~ "bezpečnostního útoku."
-
-#~ msgid ""
-#~ "This is the port on the LDAP server that Evolution will try to connect "
-#~ "to. A list of standard ports has been provided. Ask your system "
-#~ "administrator what port you should specify."
-#~ msgstr ""
-#~ "Toto je port na LDAP serveru, ke kterému se Evolution má připojovat. "
-#~ "Seznam standardních portů je předvyplněn. Váš správce systému vám sdělí, "
-#~ "které číslo portu máte zadat."
-
-#~ msgid "EFolderList XML for the list of completion URIs"
-#~ msgstr "XML EFolderList pro seznam URI doplňování"
-
-#~ msgid "EFolderList XML for the list of completion URIs."
-#~ msgstr "XML EFolderList pro seznam URI doplňování."
-
-#~ msgid ""
-#~ "The UID of the selected (or \"primary\") address book in the sidebar of "
-#~ "the \"Contacts\" view."
-#~ msgstr ""
-#~ "UID vybraného (nebo „hlavního“) adresáře v postranním panelu zobrazení "
-#~ "„Kontakty“."
-
-#~ msgid "Whether to show maps in preview pane."
-#~ msgstr "Jestli zobrazovat mapy v panelu náhledu."
-
-#~ msgid ""
-#~ "Whether addresses should be formatted according to standard in their "
-#~ "destination country."
-#~ msgstr "Zda mají být adresy formátovány podle standardu v dané zemi."
-
-#~ msgid "On LDAP Servers"
-#~ msgstr "Na serverech LDAP"
-
-#~ msgid ""
-#~ "The UID of the selected (or \"primary\") calendar in the sidebar of the "
-#~ "\"Calendar\" view."
-#~ msgstr ""
-#~ "UID vybraného (nebo „hlavního“) kalendáře v postranním panelu zobrazení "
-#~ "„Kalendář“."
-
-#~ msgid ""
-#~ "The default timezone to use for dates and times in the calendar, as an "
-#~ "untranslated Olsen timezone database location like \"America/New York\"."
-#~ msgstr ""
-#~ "Výchozí časové pásmo, které se má používat pro data a časy v kalendáři, "
-#~ "jako nepřeložené umístění z Olsenovy databáze časových pásem, např. "
-#~ "„America/New York“."
-
-#~ msgid ""
-#~ "Use the system timezone instead of the timezone selected in Evolution."
-#~ msgstr ""
-#~ "Použít systémové časové pásmo místo časového pásma vybraného v aplikaci "
-#~ "Evolution."
-
-#~ msgid ""
-#~ "Shows the second time zone in a Day View, if set. Value is similar to one "
-#~ "used in a 'timezone' key."
-#~ msgstr ""
-#~ "Zobrazuje druhá časová pásma v Zobrazení dne, pokud jsou nastavena. "
-#~ "Hodnota je podobná té na tlačítku „timezone“."
-
-#~ msgid "List of recently used second time zones in a Day View."
-#~ msgstr "Seznam naposledy použitých druhých časových pásem v Zobrazení dne."
-
-#~ msgid "Maximum number of recently used timezones to remember."
-#~ msgstr ""
-#~ "Maximální počet naposledy použitých časových pásem, které se mají uchovat."
-
-#~ msgid ""
-#~ "Maximum number of recently used timezones to remember in a "
-#~ "'day_second_zones' list."
-#~ msgstr ""
-#~ "Maximální počet naposledy použitých časových pásem, které mají uchovat v "
-#~ "seznamu „day_second_zones“."
-
-#~ msgid ""
-#~ "Whether to show times in twenty four hour format instead of using am/pm."
-#~ msgstr ""
-#~ "Jestli zobrazovat časy ve dvacetičtyřhodinovém formátu místo používání am/"
-#~ "pm."
-
-#~ msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
-#~ msgstr "Den v týdnu, kdy začíná týden, od neděle (0) do soboty (6)."
-
-#~ msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
-#~ msgstr ""
-#~ "Hodina, kdy končí pracovní den, ve dvacetičtyřhodinovém formátu, 0 až 23."
-
-#~ msgid "Intervals shown in Day and Work Week views, in minutes."
-#~ msgstr ""
-#~ "Intervaly zobrazované v zobrazeních dne a pracovního týdne v minutách."
-
-#~ msgid ""
-#~ "Position of the horizontal pane, between the date navigator calendar and "
-#~ "the task list when not in the month view, in pixels."
-#~ msgstr ""
-#~ "Umístění vodorovného panelu mezi kalendářem navigátoru data a seznamem "
-#~ "úkolů mimo zobrazení měsíce v pixelech."
-
-#~ msgid "Vertical pane position"
-#~ msgstr "Umístění svislého panelu"
-
-#~ msgid ""
-#~ "Position of the vertical pane, between the view and the date navigator "
-#~ "calendar and task list when not in the month view, in pixels."
-#~ msgstr ""
-#~ "Umístění svislého panelu mezi zobrazením a kalendářem navigátoru data a "
-#~ "seznamem úkolů mimo zobrazení měsíce v pixelech."
-
-#~ msgid ""
-#~ "Position of the horizontal pane, between the view and the date navigator "
-#~ "calendar and task list in the month view, in pixels."
-#~ msgstr ""
-#~ "Umístění vodorovného panelu mezi kalendářem navigátoru data a seznamem "
-#~ "úkolů v zobrazení měsíce v pixelech."
-
-#~ msgid ""
-#~ "Position of the vertical pane, between the view and the date navigator "
-#~ "calendar and task list in the month view, in pixels."
-#~ msgstr ""
-#~ "Umístění svislého panelu mezi zobrazením a kalendářem navigátoru data a "
-#~ "seznamem úkolů v zobrazení měsíce v pixelech."
-
-#~ msgid ""
-#~ "Position of the vertical pane, between the calendar lists and the date "
-#~ "navigator calendar."
-#~ msgstr ""
-#~ "Umístění svislého panelu mezi seznamem kalendářů a kalendářem navigátoru "
-#~ "data."
-
-#~ msgid ""
-#~ "The layout style determines where to place the preview pane in relation "
-#~ "to the memo list. \"0\" (Classic View) places the preview pane below the "
-#~ "memo list. \"1\" (Vertical View) places the preview pane next to the memo "
-#~ "list."
-#~ msgstr ""
-#~ "Styl rozložení určuje, kde je umístěn panel náhledu vzhledem k seznamu "
-#~ "poznámek. „0“ (klasické zobrazení) umísťuje panel náhledu pod seznam "
-#~ "poznámek. „1“ (svislé zobrazení) umísťuje panel náhledu vedle seznamu "
-#~ "poznámek."
-
-#~ msgid "If \"true\", show the memo preview pane in the main window."
-#~ msgstr "Pokud je „true“, zobrazit panel náhledu poznámek v hlavním okně."
-
-#~ msgid "Position of the task preview pane when oriented horizontally."
-#~ msgstr "Poloha panelu náhledu úkolů, když je orientován vodorovně."
-
-#~ msgid "Position of the memo preview pane when oriented vertically."
-#~ msgstr "Poloha panelu náhledu poznámek, když je orientován svisle."
-
-#~ msgid ""
-#~ "The layout style determines where to place the preview pane in relation "
-#~ "to the task list. \"0\" (Classic View) places the preview pane below the "
-#~ "task list. \"1\" (Vertical View) places the preview pane next to the task "
-#~ "list."
-#~ msgstr ""
-#~ "Styl rozložení určuje, kde je umístěn panel náhledu vzhledem k seznamu "
-#~ "úkolů. „0“ (klasické zobrazení) umísťuje panel náhledu pod seznam úkolů. "
-#~ "„1“ (svislé zobrazení) umísťuje panel náhledu vedle seznam úkolů."
-
-#~ msgid "If \"true\", show the task preview pane in the main window."
-#~ msgstr "Pokud je „true“, zobrazit panel náhledu úkolů v hlavním okně."
-
-#~ msgid "Position of the task preview pane when oriented vertically."
-#~ msgstr "Poloha panelu náhledu úkolů, když je orientován svisle."
-
-#~ msgid ""
-#~ "Whether to compress weekends in the month view, which puts Saturday and "
-#~ "Sunday in the space of one weekday."
-#~ msgstr ""
-#~ "Jestli komprimovat víkendy v zobrazení měsíce, což umístí sobotu a neděli "
-#~ "do místa jednoho dne v týdnu."
-
-#~ msgid ""
-#~ "Whether to display the end time of events in the week and month views."
-#~ msgstr "Jestli zobrazovat časy konců událostí v zobrazení týdne a měsíce."
-
-#~ msgid "Days on which the start and end of work hours should be indicated."
-#~ msgstr "Dny, kdy má být označen začátek a konec pracovní doby."
-
-#~ msgid ""
-#~ "Whether to draw the Marcus Bains Line (line at current time) in the "
-#~ "calendar."
-#~ msgstr "Jestli v kalendáři kreslit čáru Marca Bainse (čáru v aktuální čas)."
-
-#~ msgid "Color to draw the Marcus Bains line in the Day View."
-#~ msgstr "Barva, kterou kreslit čáru Marca Bainse v zobrazení dne."
-
-#~ msgid ""
-#~ "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
-#~ msgstr ""
-#~ "Barva, kterou kreslit čáru Marca Bainse v liště času (prázdné pro "
-#~ "výchozí)."
-
-#~ msgid ""
-#~ "Show days with recurrent events in italic font in bottom left calendar."
-#~ msgstr ""
-#~ "Zobrazit dny s opakujícími se událostmi kurzívou v kalendáři vlevo dole."
-
-#~ msgid ""
-#~ "The UID of the selected (or \"primary\") memo list in the sidebar of the "
-#~ "\"Memos\" view."
-#~ msgstr ""
-#~ "UID vybraného (nebo „hlavního“) seznamu poznámek v postranním panelu "
-#~ "zobrazení „Poznámky“."
-
-#~ msgid ""
-#~ "The UID of the selected (or \"primary\") task list in the sidebar of the "
-#~ "\"Tasks\" view."
-#~ msgstr ""
-#~ "UID vybraného (nebo „hlavního“) seznamu úkolů v postranním panelu "
-#~ "zobrazení „Úkoly“."
-
-#~ msgid "Whether to hide completed tasks in the tasks view."
-#~ msgstr "Jestli skrývat dokončené úkoly v zobrazení úkolů."
-
-#~ msgid ""
-#~ "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days"
-#~ "\"."
-#~ msgstr ""
-#~ "Jednotky pro určení, kdy skrývat úkoly, „minutes“ (minuty), "
-#~ "„hours“ (hodiny) nebo „days“ (dny)."
-
-#~ msgid "Number of units for determining when to hide tasks."
-#~ msgstr "Počet jednotek pro určení, kdy skrývat úkoly."
-
-#~ msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-#~ msgstr ""
-#~ "Barva pozadí úkolů, které mají být splněny dnes, ve formátu „#rrggbb“."
-
-#~ msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
-#~ msgstr ""
-#~ "Barva pozadí úkolů, které již měly být splněny, ve formátu „#rrggbb“."
-
-#~ msgid ""
-#~ "Whether to ask for confirmation when deleting an appointment or task."
-#~ msgstr "Jestli vyžadovat potvrzení před odstraňováním události nebo úkolu."
-
-#~ msgid ""
-#~ "Whether to ask for confirmation when expunging appointments and tasks."
-#~ msgstr "Jestli vyžadovat potvrzení před čištěním událostí a úkolů."
-
-#~ msgid "Whether to set a default reminder for appointments."
-#~ msgstr "Jestli nastavovat výchozí připomínku událostí."
-
-#~ msgid "Number of units for determining a default reminder."
-#~ msgstr "Počet jednotek pro výchozí připomínku."
-
-#~ msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-#~ msgstr ""
-#~ "Jednotky výchozí připomínky, „minutes“ (minuty), „hours“ (hodiny) nebo "
-#~ "„days“ (dny)."
-
-#~ msgid "Whether to set a reminder for birthdays and anniversaries."
-#~ msgstr "Jestli nastavovat připomínku narozenin a výročí."
-
-#~ msgid "Number of units for determining a birthday or anniversary reminder."
-#~ msgstr "Počet jednotek pro určení připomínky narozenin nebo výročí."
-
-#~ msgid ""
-#~ "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
-#~ "\"days\"."
-#~ msgstr ""
-#~ "Jednotky pro připomínku narozenin a výročí, „minutes“ (minuty), "
-#~ "„hours“ (hodiny) nebo „days“ (dny)."
-
-#~ msgid "Whether to show week numbers in various places in the Calendar."
-#~ msgstr "Zda zobrazovat čísla týdnů na různých místech v Kalendáři."
-
-#~ msgid "Scroll Month View by a week"
-#~ msgstr "Posunovat měsíční zobrazení po týdnech"
-
-#~ msgid "Whether to scroll a Month View by a week, not by a month."
-#~ msgstr "Zda posouvat zobrazení měsíce po týdnech místo po měsících."
-
-#~ msgid "Time the last reminder ran, in time_t."
-#~ msgstr "Čas, kdy běželo poslední připomenutí, v podobě time_t."
-
-#~ msgid "Calendars to run reminders for"
-#~ msgstr "Kalendáře, pro které se mají spouštět připomenutí"
-
-#~ msgid "Programs that are allowed to be run by reminders."
-#~ msgstr "Programy, které mohou být spouštěny připomenutími."
-
-#~ msgid "Whether or not to use the notification tray for display reminders."
-#~ msgstr "Jestli používat oznamovací oblast pro zobrazování připomenutí."
-
-#~ msgid "Free/busy server URLs"
-#~ msgstr "Adresa URL serveru s volnými/obsazenými termíny"
-
-#~ msgid ""
-#~ "The URL template to use as a free/busy data fallback, %u is replaced by "
-#~ "the user part of the mail address and %d is replaced by the domain."
-#~ msgstr ""
-#~ "Šablona adresy URL, která se má používat jako data s volnými/obsazenými "
-#~ "termíny, %u je nahrazeno uživatelskou částí e-mailové adresy a %d je "
-#~ "nahrazeno doménou."
-
-#~ msgid ""
-#~ "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
-#~ "debug messages."
-#~ msgstr ""
-#~ "Toto může mít tři možné hodnoty. 0 pro chyby. 1 pro varování a 2 pro "
-#~ "ladicí zprávy."
-
-#~ msgid "On The Web"
-#~ msgstr "Na WWW"
-
-#~ msgid "Weather"
-#~ msgstr "Počasí"
-
-#~ msgid "Birthdays & Anniversaries"
-#~ msgstr "Narozeniny a výročí"
-
-#~ msgid "_New Calendar..."
-#~ msgstr "_Nový kalendář…"
-
-#~ msgid "Recent Messages"
-#~ msgstr "Nedávné zprávy"
-
-#~ msgid "Python Test Plugin"
-#~ msgstr "Zkušební zásuvný modul v Pythonu"
-
-#~ msgid "Test Plugin for Python EPlugin loader."
-#~ msgstr "Zkušební zásuvný modul pro Python EPlugin."
-
-#~ msgid "Python Plugin Loader tests"
-#~ msgstr "Testy zavaděče zásuvných modulů v Pythonu"
-
-#~ msgid "Evolution Setup Assistant"
-#~ msgstr "Asistent Evolution pro nastavení"
-
-#~ msgid "Local Address Books"
-#~ msgstr "Místní adresáře"
-
-#~ msgid "Inline Audio"
-#~ msgstr "Vložený zvuk"
-
-#~ msgid "Play audio attachments directly in mail messages."
-#~ msgstr "Přehrávat zvukové přílohy přímo v e-mailových zprávách."
-
-#~ msgid "Ensuring local sources"
-#~ msgstr "Ověřují se místní zdroje"
-
-#~ msgid "_Restore Evolution from the backup file"
-#~ msgstr "_Obnovit Evolution ze záložního souboru"
-
-#~ msgid "Please select an Evolution Archive to restore:"
-#~ msgstr "Zvolte, který archiv Evolution obnovit:"
-
-#~ msgid "Back up and Restore"
-#~ msgstr "Zálohovat a obnovit"
-
-#~ msgid "Back up and restore your Evolution data and settings."
-#~ msgstr "Zálohuje a obnovuje vaše data a nastavení aplikace Evolution."
-
-#~ msgid "Authentication failed. Server requires correct login."
-#~ msgstr ""
-#~ "Ověření totožnosti selhalo. Server požaduje správné přihlašovací údaje."
-
-#~ msgid "Given URL cannot be found."
-#~ msgstr "Danou adresu URL nelze nalézt."
-
-#~ msgid ""
-#~ "Server returned unexpected data.\n"
-#~ "%d - %s"
-#~ msgstr ""
-#~ "Server vrátil neočekávaná data.\n"
-#~ "%d - %s"
-
-#~ msgid "Failed to parse server response."
-#~ msgstr "Selhalo zpracování odpovědi ze serveru."
-
-#~ msgid "Events"
-#~ msgstr "Události"
-
-#~ msgid "User's calendars"
-#~ msgstr "Kalendáře uživatele"
-
-#~ msgid "Failed to get server URL."
-#~ msgstr "Selhalo získání adresy URL serveru."
-
-#~ msgid "Searching for user's calendars..."
-#~ msgstr "Probíhá hledání kalendářů uživatele…"
-
-#~ msgid "Previous attempt failed: %s"
-#~ msgstr "Předchozí pokus selhal: %s"
-
-#~ msgid "Previous attempt failed with code %d"
-#~ msgstr "Předchozí pokus selhal s kódem %d"
-
-#~ msgid "Enter password for user %s on server %s"
-#~ msgstr "Zadejte heslo pro uživatele %s na serveru %s."
-
-#~ msgid "Cannot create soup message for URL '%s'"
-#~ msgstr "Nelze vytvořit zprávu soup pro adresu URL „%s“"
-
-#~ msgid "Searching folder content..."
-#~ msgstr "Prohledává se obsah složky…"
-
-#~ msgid "List of available calendars:"
-#~ msgstr "Seznam dostupných kalendářů:"
-
-#~ msgid "Supports"
-#~ msgstr "Podporuje"
-
-#~ msgid "User e_mail:"
-#~ msgstr "E-_mail uživatele:"
-
-#~ msgid "Failed to create thread: %s"
-#~ msgstr "Selhalo vytvoření vlákna: %s"
-
-#~ msgid "Server URL '%s' is not a valid URL"
-#~ msgstr "Adresa URL serveru „%s“ není platná adresa URL"
-
-#~ msgid "Browse for a CalDAV calendar"
-#~ msgstr "Procházet pro kalendář CalDAV"
-
-#~ msgid "Brows_e server for a calendar"
-#~ msgstr "Procház_et server kvůli nalezení kalendáře"
-
-#~ msgid "Re_fresh:"
-#~ msgstr "_Obnovit:"
-
-#~ msgid "CalDAV Support"
-#~ msgstr "Podpora CalDAV"
-
-#~ msgid "Add CalDAV support to Evolution."
-#~ msgstr "Přidat do aplikace Evolution podporu CalDAV."
-
-#~ msgid "C_ustomize options"
-#~ msgstr "_Přizpůsobit volby"
-
-#~ msgid "On open"
-#~ msgstr "Na otevřeném"
-
-#~ msgid "On file change"
-#~ msgstr "Na změně souboru"
-
-#~ msgid "Periodically"
-#~ msgstr "Pravidelně"
-
-#~ msgid "Force read _only"
-#~ msgstr "Vynutit pouze pro č_tení"
-
-#~ msgid "Local Calendars"
-#~ msgstr "Místní kalendáře"
-
-#~ msgid "Add local calendars to Evolution."
-#~ msgstr "Přidává do aplikace Evolution místní kalendáře."
-
-#~ msgid "Userna_me:"
-#~ msgstr "_Uživatelské jméno:"
-
-#~ msgid "Add web calendars to Evolution."
-#~ msgstr "Přidává do aplikace Evolution webové kalendáře."
-
-#~ msgid "Weather: Fog"
-#~ msgstr "Počasí: Mlha"
-
-#~ msgid "Weather: Cloudy"
-#~ msgstr "Počasí: Zataženo"
-
-#~ msgid "Weather: Cloudy Night"
-#~ msgstr "Počasí: zatažená noc"
-
-#~ msgid "Weather: Overcast"
-#~ msgstr "Počasí: zataženo"
-
-#~ msgid "Weather: Showers"
-#~ msgstr "Počasí: přeháňky"
-
-#~ msgid "Weather: Snow"
-#~ msgstr "Počasí: Sníh"
-
-#~ msgid "Weather: Sunny"
-#~ msgstr "Počasí: Slunečno"
-
-#~ msgid "Weather: Clear Night"
-#~ msgstr "Počasí: jasná noc"
-
-#~ msgid "Weather: Thunderstorms"
-#~ msgstr "Počasí: Bouřky"
-
-#~ msgid "Select a location"
-#~ msgstr "Vyberte umístění"
-
-#~ msgctxt "weather-cal-location"
-#~ msgid "None"
-#~ msgstr "Žádné"
-
-#~ msgid "_Units:"
-#~ msgstr "_Jednotky:"
-
-#~ msgid "Metric (Celsius, cm, etc)"
-#~ msgstr "Metrické (Celsius, cm atd.)"
-
-#~ msgid "Imperial (Fahrenheit, inches, etc)"
-#~ msgstr "Imperiální (Fahrenheit, palce atd.)"
-
-#~ msgid "Weather Calendars"
-#~ msgstr "Kalendáře počasí"
-
-#~ msgid "Add weather calendars to Evolution."
-#~ msgstr "Přidává do aplikace Evolution kalendáře počasí."
-
-#~ msgid "Default Sources"
-#~ msgstr "Výchozí zdroje"
-
-#~ msgid "Mark your preferred address book and calendar as default."
-#~ msgstr "Označuje preferované adresáře a kalendáře jako výchozí."
-
-#~ msgid "Automatically launch editor when key is pressed in the mail composer"
-#~ msgstr ""
-#~ "Automaticky spustit editor, když je klávesa stisknuta v editoru zpráv"
-
-#~ msgid "Server"
-#~ msgstr "Server"
-
-#~ msgid "Enter password for user %s to access list of subscribed calendars."
-#~ msgstr ""
-#~ "Vložte heslo pro uživatele %s, abyste získali přístup k seznamu "
-#~ "přihlášených kalendářů."
-
-#~ msgid ""
-#~ "Cannot read data from Google server.\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Nelze číst data ze serveru Googlu.\n"
-#~ "%s"
-
-#~ msgid "Cal_endar:"
-#~ msgstr "Kal_endář:"
-
-#~ msgid "Retrieve _List"
-#~ msgstr "Získat _seznam"
-
-#~ msgid ""
-#~ "Select your IMAP Header Preferences. \n"
-#~ "The more headers you have the more time it will take to download."
-#~ msgstr ""
-#~ "Vyberte své nastavení hlaviček IMAP. \n"
-#~ "Čím více hlaviček, tím více času zabere stahování."
-
-#~ msgid ""
-#~ "Give the extra headers that you need to fetch in addition to the above "
-#~ "standard headers. \n"
-#~ "You can ignore this if you choose \"All Headers\"."
-#~ msgstr ""
-#~ "Přidat extra hlavičky, které musíte stáhnout navíc ke standardním "
-#~ "hlavičkám. \n"
-#~ "Můžete to ignorovat, pokud vyberete „Všechny hlavičky“."
-
-#~ msgid "Fine-tune your IMAP accounts."
-#~ msgstr "Dolaďuje účty IMAP."
-
-#~ msgid ""
-#~ "You have received %d new message\n"
-#~ "in %s."
-#~ msgid_plural ""
-#~ "You have received %d new messages\n"
-#~ "in %s."
-#~ msgstr[0] ""
-#~ "Přijata %d nová zpráva\n"
-#~ "ve složce %s."
-#~ msgstr[1] ""
-#~ "Přijaty %d nové zprávy\n"
-#~ "ve složce %s."
-#~ msgstr[2] ""
-#~ "Přijato %d nových zpráv\n"
-#~ "ve složce %s."
-
-#~ msgid "New email"
-#~ msgstr "Nový e-mail"
-
-#~ msgid "Cannot get source list. %s"
-#~ msgstr "Nelze získat zdrojový seznam. %s"
-
-#~ msgid "Create an _Event"
-#~ msgstr "Vytvořit _událost"
-
-#~ msgid "TNEF Decoder"
-#~ msgstr "Dekodér TNEF"
-
-#~ msgid "Decode TNEF (winmail.dat) attachments from Microsoft Outlook."
-#~ msgstr "Dekódovat přílohy TNEF (winmail.dat) z Microsoft Outlooku."
-
-#~ msgid "Inline vCards"
-#~ msgstr "Neplatné VCard"
-
-#~ msgid "Show vCards directly in mail messages."
-#~ msgstr "Zobrazit vCard přímo v e-mailové zprávě."
-
-#~ msgid "WebDAV contacts"
-#~ msgstr "Kontakty WebDAV"
-
-#~ msgid "Add WebDAV contacts to Evolution."
-#~ msgstr "Přidává do aplikace Evolution kontakty WebDAV."
-
-#~ msgid "WebDAV"
-#~ msgstr "WebDAV"
-
-#~ msgid ""
-#~ "List of paths for the folders to be synchronized to disk for offline usage"
-#~ msgstr ""
-#~ "Seznam cest ke složkám, které synchronizovat na disk pro používání při "
-#~ "odpojení"
-
-#~ msgid "Default window Y coordinate"
-#~ msgstr "Výchozí souřadnice y pro okno"
-
-#~ msgid "The default Y coordinate for the main window."
-#~ msgstr "Výchozí souřadnice y pro hlavní okno."
-
-#~ msgid "Default window X coordinate"
-#~ msgstr "Výchozí souřadnice x pro okno"
-
-#~ msgid "The default X coordinate for the main window."
-#~ msgstr "Výchozí souřadnice x pro hlavní okno."
-
-#~ msgid "Default window width"
-#~ msgstr "Výchozí šířka okna"
-
-#~ msgid "The default width for the main window, in pixels."
-#~ msgstr "Výchozí šířka hlavního okna v pixelech."
-
-#~ msgid "Default window height"
-#~ msgstr "Výchozí výška okna"
-
-#~ msgid "The default height for the main window, in pixels."
-#~ msgstr "Výchozí výška hlavního okna v pixelech."
-
-#~ msgid "Default window state"
-#~ msgstr "Výchozí stav okna"
-
-#~ msgid "Whether or not the window should be maximized."
-#~ msgstr "Jestli mají být okna maximalizovaná."
-
-#~ msgid "Proxy configuration mode"
-#~ msgstr "Režim pro nastavení proxy"
-
-#~ msgid ""
-#~ "Select the proxy configuration mode. Supported values are 0, 1, 2, and 3 "
-#~ "representing \"use system settings\", \"no proxy\", \"use manual proxy "
-#~ "configuration\" and \"use proxy configuration provided in the autoconfig "
-#~ "url\" respectively."
-#~ msgstr ""
-#~ "Vyberte režim pro nastavení proxy. Podporované hodnoty jsou 0, 1, 2 a 3 "
-#~ "představující „použít systémové nastavení“, „žádná proxy“, „použít ruční "
-#~ "nastavení proxy“ a „použít nastavení proxy pomocí adresy URL pro "
-#~ "automatické nastavení“."
-
-#~ msgid "HTTP proxy port"
-#~ msgstr "Port HTTP proxy"
-
-#~ msgid ""
-#~ "The port on the machine defined by \"/apps/evolution/shell/network_config/"
-#~ "http_host\" that you proxy through."
-#~ msgstr ""
-#~ "Port na počítači definovaném v „/apps/evolution/shell/network_config/"
-#~ "http_host“, který používat jako proxy."
-
-#~ msgid "HTTP proxy host name"
-#~ msgstr "Jméno hostitele HTTP proxy"
-
-#~ msgid "The machine name to proxy HTTP through."
-#~ msgstr "Jméno počítače, který používat jako HTTP proxy."
-
-#~ msgid "Secure HTTP proxy port"
-#~ msgstr "Port proxy zabezpečeného HTTP"
-
-#~ msgid ""
-#~ "The port on the machine defined by \"/apps/evolution/shell/network_config/"
-#~ "secure_host\" that you proxy through."
-#~ msgstr ""
-#~ "Port na počítači definovaném v „/apps/evolution/shell/network_config/"
-#~ "secure_host“, který používat jako proxy."
-
-#~ msgid "Secure HTTP proxy host name"
-#~ msgstr "Jméno hostitele proxy zabezpečeného HTTP"
-
-#~ msgid "The machine name to proxy secure HTTP through."
-#~ msgstr "Jméno počítače, který používat jako proxy zabezpečeného HTTP."
-
-#~ msgid "SOCKS proxy port"
-#~ msgstr "Port SOCKS proxy"
-
-#~ msgid ""
-#~ "The port on the machine defined by \"/apps/evolution/shell/network_config/"
-#~ "socks_host\" that you proxy through."
-#~ msgstr ""
-#~ "Port na počítači definovaném v „/apps/evolution/shell/network_config/"
-#~ "sock_host“, který používat jako proxy."
-
-#~ msgid "SOCKS proxy host name"
-#~ msgstr "Jméno hostitele SOCKS proxy"
-
-#~ msgid "The machine name to proxy socks through."
-#~ msgstr "Jméno počítače, který používat jako socks proxy."
-
-#~ msgid "Use HTTP proxy"
-#~ msgstr "Použít HTTP proxy"
-
-#~ msgid ""
-#~ "Enables the proxy settings when accessing HTTP/Secure HTTP over the "
-#~ "Internet."
-#~ msgstr ""
-#~ "Povolit nastavení proxy, když se přistupuje k HTTP/zabezpečenému HTTP "
-#~ "přes internet."
-
-#~ msgid "Authenticate proxy server connections"
-#~ msgstr "Autentizovat připojení přes proxy server"
-
-#~ msgid ""
-#~ "If true, then connections to the proxy server require authentication. The "
-#~ "username is retrieved from the \"/apps/evolution/shell/network_config/"
-#~ "authentication_user\" GConf key, and the password is retrieved from "
-#~ "either gnome-keyring or the ~/.gnome2_private/Evolution password file."
-#~ msgstr ""
-#~ "Pokud platí, připojení do proxy serveru vyžadují ověření totožnosti. "
-#~ "Uživatelské jméno je získáno z klíče GConf „/apps/evolution/shell/"
-#~ "network_config/authentication_user“ a heslo je získáno buď z gnome-"
-#~ "keyring nebo ze souboru hesla ~/.gnome2_private/Evolution."
-
-#~ msgid "HTTP proxy username"
-#~ msgstr "Uživatelské jméno HTTP proxy"
-
-#~ msgid "Username to pass as authentication when doing HTTP proxying."
-#~ msgstr "Uživatelské jméno pro ověření totožnosti při používání HTTP proxy."
-
-#~ msgid "HTTP proxy password"
-#~ msgstr "Heslo pro HTTP proxy"
-
-#~ msgid "Password to pass as authentication when doing HTTP proxying."
-#~ msgstr "Heslo pro ověření totožnosti při používání HTTP proxy."
-
-#~ msgid "Non-proxy hosts"
-#~ msgstr "Počítače bez proxy"
-
-#~ msgid ""
-#~ "This key contains a list of hosts which are connected to directly, rather "
-#~ "than via the proxy (if it is active). The values can be hostnames, "
-#~ "domains (using an initial wildcard like *.foo.com), IP host addresses "
-#~ "(both IPv4 and IPv6) and network addresses with a netmask (something like "
-#~ "192.168.0.0/24)."
-#~ msgstr ""
-#~ "Tento klíč obsahuje seznam počítačů, kteří jsou spojeni přímo, místo "
-#~ "pomocí proxy (pokud je to aktivováno). Hodnoty mohou být jména počítačů, "
-#~ "domény (využívajíce počáteční divokou kartu jako *.foo.com), IP adresy "
-#~ "počítačů (jak IPv4, tak IPv6) a adresy sítí s maskou sítě (něco jako "
-#~ "192.168.0.0/24)."
-
-#~ msgid "Automatic proxy configuration URL"
-#~ msgstr "Adresa URL pro automatické nastavení proxy"
-
-#~ msgid "URL that provides proxy configuration values."
-#~ msgstr "Adresa URL, která poskytuje hodnoty pro nastavení proxy."
-
-#~ msgid "_Forget Passwords"
-#~ msgstr "Zapo_menout hesla"
-
-#~ msgid "Forget all remembered passwords"
-#~ msgstr "Zapomenout všechna uložená hesla"
-
-#~ msgid "Are you sure you want to forget all remembered passwords?"
-#~ msgstr "Opravdu chcete zakázat všechna zapamatovaná hesla?"
-
-#~ msgid ""
-#~ "Forgetting your passwords will clear all remembered passwords. You will "
-#~ "be reprompted next time they are needed."
-#~ msgstr ""
-#~ "Zapomenutí hesel vymaže všechna zapamatovaná hesla. Až budou příště "
-#~ "potřeba, budete vyzváni k jejich opětovnému zadání."
-
-#~ msgid "_Forget"
-#~ msgstr "_Zapomenout"
-
-#~ msgctxt "New"
-#~ msgid "_Test Item"
-#~ msgstr "_Testovací položka"
-
-#~ msgid "Create a new test item"
-#~ msgstr "Vytvořit novou položku testu"
-
-#~ msgctxt "New"
-#~ msgid "Test _Source"
-#~ msgstr "Testovací _zdroj"
-
-#~ msgid "Create a new test source"
-#~ msgstr "Vytvořit nový testovací zdroj"
