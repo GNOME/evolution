@@ -256,6 +256,49 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 		shell_view, G_CONNECT_SWAPPED);
 }
 
+#if !WEBKIT_CHECK_VERSION(1,10,0)
+static WebKitDOMDocument *
+find_dom_for_frame (WebKitDOMDocument *document,
+		    const gchar *frame_name)
+{
+	WebKitDOMNodeList *frames;
+	gulong ii, length;
+
+	g_return_val_if_fail (frame_name != NULL, NULL);
+
+	if (!WEBKIT_DOM_IS_DOCUMENT (document))
+		return NULL;
+
+	frames = webkit_dom_document_get_elements_by_tag_name (
+		document, "iframe");
+	length = webkit_dom_node_list_get_length (frames);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMHTMLIFrameElement *iframe;
+		WebKitDOMDocument *frame_doc;
+		gchar *name;
+
+		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
+			webkit_dom_node_list_item (frames, ii));
+
+		frame_doc = webkit_dom_html_iframe_element_get_content_document (iframe);
+		name = webkit_dom_html_iframe_element_get_name (iframe);
+
+		if (g_strcmp0 (name, frame_name) == 0) {
+			g_free (name);
+			return frame_doc;
+		}
+
+		g_free (name);
+
+		frame_doc = find_dom_for_frame (frame_doc, frame_name);
+		if (frame_doc)
+			return frame_doc;
+	}
+
+	return NULL;
+}
+#endif
+
 static gboolean
 mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
                                     GdkEventKey *event)
@@ -299,7 +342,12 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 		gchar *name = NULL;
 
 		frame = webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display));
+		#if WEBKIT_CHECK_VERSION(1,10,0)
 		dom = webkit_web_frame_get_dom_document (frame);
+		#else
+		dom = find_dom_for_frame (webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (mail_display)),
+			webkit_web_frame_get_name (frame));
+		#endif
 		/* intentionally used "static_cast" */
 		element = webkit_dom_html_document_get_active_element ((WebKitDOMHTMLDocument *) dom);
 
