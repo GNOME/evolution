@@ -181,7 +181,7 @@ caldav_chooser_redirect (SoupMessage *message,
 	if (!SOUP_STATUS_IS_REDIRECTION (message->status_code))
 		return;
 
-	location = soup_message_headers_get (
+	location = soup_message_headers_get_list (
 		message->response_headers, "Location");
 
 	if (location == NULL)

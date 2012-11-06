@@ -1949,7 +1949,7 @@ redirect_handler (SoupMessage *msg,
 		SoupURI *new_uri;
 		const gchar *new_loc;
 
-		new_loc = soup_message_headers_get (msg->response_headers, "Location");
+		new_loc = soup_message_headers_get_list (msg->response_headers, "Location");
 		if (!new_loc)
 			return;
 
