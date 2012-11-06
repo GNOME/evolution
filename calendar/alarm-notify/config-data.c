@@ -31,7 +31,6 @@
 
 /* Whether we have initied ourselves by reading
  * the data from the configuration engine. */
-static gboolean inited = FALSE;
 static GSettings *calendar_settings = NULL;
 
 /* Copied from ../calendar-config.c; returns whether the locale has 'am' and
@@ -47,27 +46,22 @@ locale_supports_12_hour_format (void)
 	return s[0] != '\0';
 }
 
-static void
-do_cleanup (void)
+void
+config_data_cleanup (void)
 {
-	g_object_unref (calendar_settings);
-	calendar_settings = FALSE;
-
-	inited = FALSE;
+	if (calendar_settings)
+		g_object_unref (calendar_settings);
+	calendar_settings = NULL;
 }
 
 /* Ensures that the configuration values have been read */
 static void
 ensure_inited (void)
 {
-	if (inited)
+	if (calendar_settings)
 		return;
 
-	inited = TRUE;
-
 	calendar_settings = g_settings_new ("org.gnome.evolution.calendar");
-
-	g_atexit ((GVoidFunc) do_cleanup);
 }
 
 icaltimezone *
@@ -287,7 +281,7 @@ config_data_is_blessed_program (const gchar *program)
 }
 
 static gboolean can_debug = FALSE;
-static GStaticRecMutex rec_mutex = G_STATIC_REC_MUTEX_INIT;
+static GRecMutex rec_mutex;
 
 void
 config_data_init_debugging (void)
@@ -301,12 +295,12 @@ config_data_init_debugging (void)
 gboolean
 config_data_start_debugging (void)
 {
-	g_static_rec_mutex_lock (&rec_mutex);
+	g_rec_mutex_lock (&rec_mutex);
 
 	if (can_debug)
 		return TRUE;
 
-	g_static_rec_mutex_unlock (&rec_mutex);
+	g_rec_mutex_unlock (&rec_mutex);
 
 	return FALSE;
 }
@@ -314,5 +308,5 @@ config_data_start_debugging (void)
 void
 config_data_stop_debugging (void)
 {
-	g_static_rec_mutex_unlock (&rec_mutex);
+	g_rec_mutex_unlock (&rec_mutex);
 }

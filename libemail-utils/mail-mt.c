@@ -41,8 +41,8 @@ static guint mail_msg_seq; /* sequence number of each message */
 
 /* Table of active messages.  Must hold mail_msg_lock to access. */
 static GHashTable *mail_msg_active_table;
-static GMutex *mail_msg_lock;
-static GCond *mail_msg_cond;
+static GMutex mail_msg_lock;
+static GCond mail_msg_cond;
 
 static MailMsgCreateActivityFunc create_activity = NULL;
 static MailMsgSubmitActivityFunc submit_activity = NULL;
@@ -102,7 +102,7 @@ mail_msg_new (MailMsgInfo *info)
 {
 	MailMsg *msg;
 
-	g_mutex_lock (mail_msg_lock);
+	g_mutex_lock (&mail_msg_lock);
 
 	msg = g_slice_alloc0 (info->size);
 	msg->info = info;
@@ -124,7 +124,7 @@ mail_msg_new (MailMsgInfo *info)
 
 	d (printf ("New message %p\n", msg));
 
-	g_mutex_unlock (mail_msg_lock);
+	g_mutex_unlock (&mail_msg_lock);
 
 	return msg;
 }
@@ -205,14 +205,14 @@ mail_msg_unref (gpointer msg)
 		if (mail_msg->info->free)
 			mail_msg->info->free (mail_msg);
 
-		g_mutex_lock (mail_msg_lock);
+		g_mutex_lock (&mail_msg_lock);
 
 		g_hash_table_remove (
 			mail_msg_active_table,
 			GINT_TO_POINTER (mail_msg->seq));
-		g_cond_broadcast (mail_msg_cond);
+		g_cond_broadcast (&mail_msg_cond);
 
-		g_mutex_unlock (mail_msg_lock);
+		g_mutex_unlock (&mail_msg_lock);
 
 		/* Destroy the message from an idle callback
 		 * so we know we're in the main loop thread. */
@@ -270,7 +270,7 @@ mail_msg_cancel (guint msgid)
 	MailMsg *msg;
 	GCancellable *cancellable = NULL;
 
-	g_mutex_lock (mail_msg_lock);
+	g_mutex_lock (&mail_msg_lock);
 
 	msg = g_hash_table_lookup (
 		mail_msg_active_table, GINT_TO_POINTER (msgid));
@@ -285,7 +285,7 @@ mail_msg_cancel (guint msgid)
 			g_object_ref (cancellable);
 	}
 
-	g_mutex_unlock (mail_msg_lock);
+	g_mutex_unlock (&mail_msg_lock);
 
 	if (cancellable != NULL) {
 		g_cancellable_cancel (cancellable);
@@ -298,9 +298,9 @@ mail_msg_active (void)
 {
 	gboolean active;
 
-	g_mutex_lock (mail_msg_lock);
+	g_mutex_lock (&mail_msg_lock);
 	active = g_hash_table_size (mail_msg_active_table) > 0;
-	g_mutex_unlock (mail_msg_lock);
+	g_mutex_unlock (&mail_msg_lock);
 
 	return active;
 }
@@ -315,7 +315,7 @@ mail_cancel_hook_add (GHookFunc func,
 {
 	GHook *hook;
 
-	g_mutex_lock (mail_msg_lock);
+	g_mutex_lock (&mail_msg_lock);
 
 	if (!cancel_hook_list.is_setup)
 		g_hook_list_init (&cancel_hook_list, sizeof (GHook));
@@ -326,7 +326,7 @@ mail_cancel_hook_add (GHookFunc func,
 
 	g_hook_append (&cancel_hook_list, hook);
 
-	g_mutex_unlock (mail_msg_lock);
+	g_mutex_unlock (&mail_msg_lock);
 
 	return hook;
 }
@@ -334,12 +334,12 @@ mail_cancel_hook_add (GHookFunc func,
 void
 mail_cancel_hook_remove (GHook *hook)
 {
-	g_mutex_lock (mail_msg_lock);
+	g_mutex_lock (&mail_msg_lock);
 
 	g_return_if_fail (cancel_hook_list.is_setup);
 	g_hook_destroy_link (&cancel_hook_list, hook);
 
-	g_mutex_unlock (mail_msg_lock);
+	g_mutex_unlock (&mail_msg_lock);
 }
 
 void
@@ -347,12 +347,12 @@ mail_cancel_all (void)
 {
 	camel_operation_cancel_all ();
 
-	g_mutex_lock (mail_msg_lock);
+	g_mutex_lock (&mail_msg_lock);
 
 	if (cancel_hook_list.is_setup)
 		g_hook_list_invoke (&cancel_hook_list, FALSE);
 
-	g_mutex_unlock (mail_msg_lock);
+	g_mutex_unlock (&mail_msg_lock);
 }
 
 static guint idle_source_id = 0;
@@ -437,8 +437,8 @@ mail_msg_proxy (MailMsg *msg)
 void
 mail_msg_init (void)
 {
-	mail_msg_lock = g_mutex_new ();
-	mail_msg_cond = g_cond_new ();
+	g_mutex_init (&mail_msg_lock);
+	g_cond_init (&mail_msg_cond);
 
 	main_loop_queue = g_async_queue_new ();
 	msg_reply_queue = g_async_queue_new ();

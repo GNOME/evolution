@@ -182,10 +182,12 @@ publish_uri_async (EPublishUri *uri)
 	GThread *thread = NULL;
 	GError *error = NULL;
 
-	thread = g_thread_create ((GThreadFunc) publish_no_succ_info, uri, FALSE, &error);
+	thread = g_thread_try_new (NULL, (GThreadFunc) publish_no_succ_info, uri, &error);
 	if (!thread) {
-		g_warning (G_STRLOC ": %s", error->message);
+		g_warning (G_STRLOC ": %s", error ? error->message : "Unknown error");
 		g_error_free (error);
+	} else {
+		g_thread_unref (thread);
 	}
 }
 
@@ -993,10 +995,12 @@ e_plugin_lib_enable (EPlugin *ep,
 		uris = g_settings_get_strv (settings, PC_SETTINGS_URIS);
 		g_object_unref (settings);
 
-		thread = g_thread_create ((GThreadFunc) publish_uris_set_timeout, uris, FALSE, &error);
+		thread = g_thread_try_new (NULL, (GThreadFunc) publish_uris_set_timeout, uris, &error);
 		if (!thread) {
-			g_warning ("Could create thread to set timeout for publishing uris : %s", error->message);
+			g_warning ("Could create thread to set timeout for publishing uris : %s", error ? error->message : "Unknown error");
 			g_error_free (error);
+		} else {
+			g_thread_unref (thread);
 		}
 	}
 
@@ -1096,12 +1100,14 @@ action_calendar_publish_cb (GtkAction *action,
 	GThread *thread = NULL;
 	GError *error = NULL;
 
-	thread = g_thread_create ((GThreadFunc) publish_urls, NULL, FALSE, &error);
+	thread = g_thread_try_new (NULL, (GThreadFunc) publish_urls, NULL, &error);
 	if (!thread) {
 		/* To Translators: This is shown to a user when creation of a new thread,
 		 * where the publishing should be done, fails. Basically, this shouldn't
 		 * ever happen, and if so, then something is really wrong. */
 		error_queue_add (g_strdup (_("Could not create publish thread.")), error);
+	} else {
+		g_thread_unref (thread);
 	}
 }
 

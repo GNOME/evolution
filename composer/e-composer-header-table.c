@@ -86,37 +86,33 @@ static void
 g_value_set_destinations (GValue *value,
                           EDestination **destinations)
 {
-	GValueArray *value_array;
-	GValue element = G_VALUE_INIT;
+	GPtrArray *array;
 	gint ii;
 
-	g_value_init (&element, E_TYPE_DESTINATION);
-
 	/* Preallocate some reasonable number. */
-	value_array = g_value_array_new (64);
+	array = g_ptr_array_new_full (64, g_object_unref);
 
 	for (ii = 0; destinations[ii] != NULL; ii++) {
-		g_value_set_object (&element, destinations[ii]);
-		g_value_array_append (value_array, &element);
+		g_ptr_array_add (array, e_destination_copy (destinations[ii]));
 	}
 
-	g_value_take_boxed (value, value_array);
+	g_value_take_boxed (value, array);
 }
 
 static EDestination **
 g_value_dup_destinations (const GValue *value)
 {
 	EDestination **destinations;
-	GValueArray *value_array;
-	GValue *element;
-	gint ii;
+	const EDestination *dest;
+	GPtrArray *array;
+	guint ii;
 
-	value_array = g_value_get_boxed (value);
-	destinations = g_new0 (EDestination *, value_array->n_values + 1);
+	array = g_value_get_boxed (value);
+	destinations = g_new0 (EDestination *, array->len + 1);
 
-	for (ii = 0; ii < value_array->n_values; ii++) {
-		element = g_value_array_get_nth (value_array, ii);
-		destinations[ii] = g_value_dup_object (element);
+	for (ii = 0; ii < array->len; ii++) {
+		dest = g_ptr_array_index (array, ii);
+		destinations[ii] = e_destination_copy (dest);
 	}
 
 	return destinations;
@@ -126,34 +122,30 @@ static void
 g_value_set_string_list (GValue *value,
                          GList *list)
 {
-	GValueArray *value_array;
-	GValue element = G_VALUE_INIT;
+	GPtrArray *array;
 
-	g_value_init (&element, G_TYPE_STRING);
-
-	value_array = g_value_array_new (g_list_length (list));
+	array = g_ptr_array_new_full (g_list_length (list), g_free);
 
 	while (list != NULL) {
-		g_value_set_string (&element, list->data);
-		g_value_array_append (value_array, &element);
+		g_ptr_array_add (array, g_strdup (list->data));
+		list = list->next;
 	}
 
-	g_value_take_boxed (value, value_array);
+	g_value_take_boxed (value, array);
 }
 
 static GList *
 g_value_dup_string_list (const GValue *value)
 {
-	GValueArray *value_array;
+	GPtrArray *array;
 	GList *list = NULL;
-	GValue *element;
 	gint ii;
 
-	value_array = g_value_get_boxed (value);
+	array = g_value_get_boxed (value);
 
-	for (ii = 0; ii < value_array->n_values; ii++) {
-		element = g_value_array_get_nth (value_array, ii);
-		list = g_list_prepend (list, g_value_dup_string (element));
+	for (ii = 0; ii < array->len; ii++) {
+		const gchar *element = g_ptr_array_index (array, ii);
+		list = g_list_prepend (list, g_strdup (element));
 	}
 
 	return g_list_reverse (list);
@@ -963,7 +955,6 @@ static void
 e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 {
 	GObjectClass *object_class;
-	GParamSpec *element_spec;
 
 	g_type_class_add_private (class, sizeof (EComposerHeaderTablePrivate));
 
@@ -973,45 +964,36 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 	object_class->dispose = composer_header_table_dispose;
 	object_class->constructed = composer_header_table_constructed;
 
-	/* floating reference */
-	element_spec = g_param_spec_object (
-		"value-array-element",
-		NULL,
-		NULL,
-		E_TYPE_DESTINATION,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS);
-
 	g_object_class_install_property (
 		object_class,
 		PROP_DESTINATIONS_BCC,
-		g_param_spec_value_array (
+		g_param_spec_boxed (
 			"destinations-bcc",
 			NULL,
 			NULL,
-			element_spec,
+			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
 		PROP_DESTINATIONS_CC,
-		g_param_spec_value_array (
+		g_param_spec_boxed (
 			"destinations-cc",
 			NULL,
 			NULL,
-			element_spec,
+			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
 		PROP_DESTINATIONS_TO,
-		g_param_spec_value_array (
+		g_param_spec_boxed (
 			"destinations-to",
 			NULL,
 			NULL,
-			element_spec,
+			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -1026,23 +1008,14 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
-	/* floating reference */
-	element_spec = g_param_spec_string (
-		"value-array-element",
-		NULL,
-		NULL,
-		NULL,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS);
-
 	g_object_class_install_property (
 		object_class,
 		PROP_POST_TO,
-		g_param_spec_value_array (
+		g_param_spec_boxed (
 			"post-to",
 			NULL,
 			NULL,
-			element_spec,
+			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 

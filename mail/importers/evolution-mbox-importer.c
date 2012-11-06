@@ -59,7 +59,7 @@ typedef struct {
 	EImport *import;
 	EImportTarget *target;
 
-	GMutex *status_lock;
+	GMutex status_lock;
 	gchar *status_what;
 	gint status_pc;
 	gint status_timeout_id;
@@ -207,11 +207,11 @@ mbox_status (CamelOperation *op,
 {
 	MboxImporter *importer = data;
 
-	g_mutex_lock (importer->status_lock);
+	g_mutex_lock (&importer->status_lock);
 	g_free (importer->status_what);
 	importer->status_what = g_strdup (what);
 	importer->status_pc = pc;
-	g_mutex_unlock (importer->status_lock);
+	g_mutex_unlock (&importer->status_lock);
 }
 
 static gboolean
@@ -222,11 +222,11 @@ mbox_status_timeout (gpointer data)
 	gchar *what;
 
 	if (importer->status_what) {
-		g_mutex_lock (importer->status_lock);
+		g_mutex_lock (&importer->status_lock);
 		what = importer->status_what;
 		importer->status_what = NULL;
 		pc = importer->status_pc;
-		g_mutex_unlock (importer->status_lock);
+		g_mutex_unlock (&importer->status_lock);
 
 		e_import_status (
 			importer->import, (EImportTarget *)
@@ -244,7 +244,7 @@ mbox_import_done (gpointer data,
 
 	g_source_remove (importer->status_timeout_id);
 	g_free (importer->status_what);
-	g_mutex_free (importer->status_lock);
+	g_mutex_clear (&importer->status_lock);
 	g_object_unref (importer->cancellable);
 
 	e_import_complete (importer->import, importer->target);
@@ -275,7 +275,7 @@ mbox_import (EImport *ei,
 	g_datalist_set_data (&target->data, "mbox-data", importer);
 	importer->import = ei;
 	importer->target = target;
-	importer->status_lock = g_mutex_new ();
+	g_mutex_init (&importer->status_lock);
 	importer->status_timeout_id = g_timeout_add (100, mbox_status_timeout, importer);
 	importer->cancellable = camel_operation_new ();
 

@@ -63,7 +63,7 @@ struct _ESpamAssassin {
 	EMailJunkFilter parent;
 
 	GOnce spamd_testing;
-	GMutex *socket_path_mutex;
+	GMutex socket_path_mutex;
 
 	gchar *pid_file;
 	gchar *socket_path;
@@ -412,7 +412,7 @@ spam_assassin_test_spamd_running (ESpamAssassin *extension,
 	gint ii = 0;
 	GError *error = NULL;
 
-	g_mutex_lock (extension->socket_path_mutex);
+	g_mutex_lock (&extension->socket_path_mutex);
 
 	argv[ii++] = SPAMC_COMMAND;
 	argv[ii++] = "--no-safe-fallback";
@@ -432,7 +432,7 @@ spam_assassin_test_spamd_running (ESpamAssassin *extension,
 		g_error_free (error);
 	}
 
-	g_mutex_unlock (extension->socket_path_mutex);
+	g_mutex_unlock (&extension->socket_path_mutex);
 
 	return (exit_code == 0);
 }
@@ -444,12 +444,12 @@ spam_assassin_kill_our_own_daemon (ESpamAssassin *extension)
 	gchar *contents = NULL;
 	GError *error = NULL;
 
-	g_mutex_lock (extension->socket_path_mutex);
+	g_mutex_lock (&extension->socket_path_mutex);
 
 	g_free (extension->socket_path);
 	extension->socket_path = NULL;
 
-	g_mutex_unlock (extension->socket_path_mutex);
+	g_mutex_unlock (&extension->socket_path_mutex);
 
 	if (extension->pid_file == NULL)
 		return;
@@ -493,7 +493,7 @@ spam_assassin_start_our_own_daemon (ESpamAssassin *extension)
 	gint fd;
 	GError *error = NULL;
 
-	g_mutex_lock (extension->socket_path_mutex);
+	g_mutex_lock (&extension->socket_path_mutex);
 
 	/* Don't put the PID files in Evolution's tmp directory
 	 * (as defined in e-mktemp.c) because that gets cleaned
@@ -588,7 +588,7 @@ exit:
 	g_free (pid_file);
 	g_free (socket_path);
 
-	g_mutex_unlock (extension->socket_path_mutex);
+	g_mutex_unlock (&extension->socket_path_mutex);
 
 	return started;
 }
@@ -725,7 +725,7 @@ spam_assassin_finalize (GObject *object)
 {
 	ESpamAssassin *extension = E_SPAM_ASSASSIN (object);
 
-	g_mutex_free (extension->socket_path_mutex);
+	g_mutex_clear (&extension->socket_path_mutex);
 
 	g_free (extension->pid_file);
 	g_free (extension->socket_path);
@@ -809,7 +809,7 @@ spam_assassin_classify (CamelJunkFilter *junk_filter,
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return FALSE;
 
-	g_mutex_lock (extension->socket_path_mutex);
+	g_mutex_lock (&extension->socket_path_mutex);
 
 	if (extension->use_spamc) {
 		g_assert (SPAMC_COMMAND != NULL);
@@ -860,7 +860,7 @@ spam_assassin_classify (CamelJunkFilter *junk_filter,
 	else
 		g_warn_if_fail (error == NULL || *error != NULL);
 
-	g_mutex_unlock (extension->socket_path_mutex);
+	g_mutex_unlock (&extension->socket_path_mutex);
 
 	return status;
 }
@@ -1084,7 +1084,7 @@ e_spam_assassin_init (ESpamAssassin *extension)
 {
 	GSettings *settings;
 
-	extension->socket_path_mutex = g_mutex_new ();
+	g_mutex_init (&extension->socket_path_mutex);
 
 	settings = g_settings_new ("org.gnome.evolution.spamassassin");
 

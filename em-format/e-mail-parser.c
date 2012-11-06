@@ -37,7 +37,7 @@
 static gpointer parent_class = 0;
 
 struct _EMailParserPrivate {
-	GMutex *mutex;
+	GMutex mutex;
 
 	gint last_error;
 
@@ -176,10 +176,7 @@ e_mail_parser_finalize (GObject *object)
 
 	priv = E_MAIL_PARSER (object)->priv;
 
-	if (priv->mutex) {
-		g_mutex_free (priv->mutex);
-		priv->mutex = NULL;
-	}
+	g_mutex_clear (&priv->mutex);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -188,7 +185,7 @@ e_mail_parser_init (EMailParser *parser)
 {
 	parser->priv = E_MAIL_PARSER_GET_PRIVATE (parser);
 
-	parser->priv->mutex = g_mutex_new ();
+	g_mutex_init (&parser->priv->mutex);
 }
 
 static void
@@ -529,10 +526,10 @@ e_mail_parser_error (EMailParser *parser,
 	g_free (errmsg);
 	va_end (ap);
 
-	g_mutex_lock (parser->priv->mutex);
+	g_mutex_lock (&parser->priv->mutex);
 	parser->priv->last_error++;
 	uri = g_strdup_printf (".error.%d", parser->priv->last_error);
-	g_mutex_unlock (parser->priv->mutex);
+	g_mutex_unlock (&parser->priv->mutex);
 
 	mail_part = e_mail_part_new (part, uri);
 	mail_part->mime_type = g_strdup ("application/vnd.evolution.error");

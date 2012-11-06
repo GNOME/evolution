@@ -52,7 +52,6 @@ struct _EShellPrivate {
 	GQueue alerts;
 	EShellSettings *settings;
 	ESourceRegistry *registry;
-	GActionGroup *action_group;
 	GtkWidget *preferences_window;
 
 	/* Shell Backends */
@@ -238,19 +237,18 @@ shell_action_quit_cb (GSimpleAction *action,
 static void
 shell_add_actions (GApplication *application)
 {
-	EShell *shell;
-	GSimpleActionGroup *action_group;
+	GActionMap *action_map;
 	GSimpleAction *action;
 
-	/* Add actions that remote instances can invoke. */
+	action_map = G_ACTION_MAP (application);
 
-	action_group = g_simple_action_group_new ();
+	/* Add actions that remote instances can invoke. */
 
 	action = g_simple_action_new ("new-window", G_VARIANT_TYPE_STRING);
 	g_signal_connect (
 		action, "activate",
 		G_CALLBACK (shell_action_new_window_cb), application);
-	g_simple_action_group_insert (action_group, G_ACTION (action));
+	g_action_map_add_action (action_map, G_ACTION (action));
 	g_object_unref (action);
 
 	action = g_simple_action_new (
@@ -258,21 +256,15 @@ shell_add_actions (GApplication *application)
 	g_signal_connect (
 		action, "activate",
 		G_CALLBACK (shell_action_handle_uris_cb), application);
-	g_simple_action_group_insert (action_group, G_ACTION (action));
+	g_action_map_add_action (action_map, G_ACTION (action));
 	g_object_unref (action);
 
 	action = g_simple_action_new ("quit", NULL);
 	g_signal_connect (
 		action, "activate",
 		G_CALLBACK (shell_action_quit_cb), application);
-	g_simple_action_group_insert (action_group, G_ACTION (action));
+	g_action_map_add_action (action_map, G_ACTION (action));
 	g_object_unref (action);
-
-	shell = E_SHELL (application);
-	shell->priv->action_group = G_ACTION_GROUP (action_group);
-
-	g_application_set_action_group (
-		application, shell->priv->action_group);
 }
 
 static void
@@ -719,11 +711,6 @@ shell_dispose (GObject *object)
 	if (priv->registry != NULL) {
 		g_object_unref (priv->registry);
 		priv->registry = NULL;
-	}
-
-	if (priv->action_group != NULL) {
-		g_object_unref (priv->action_group);
-		priv->action_group = NULL;
 	}
 
 	if (priv->preferences_window != NULL) {

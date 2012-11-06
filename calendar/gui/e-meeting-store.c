@@ -64,7 +64,7 @@ struct _EMeetingStorePrivate {
 
 	GPtrArray *refresh_queue;
 	GHashTable *refresh_data;
-	GMutex *mutex;
+	GMutex mutex;
 	guint refresh_idle_id;
 
 	guint num_threads;
@@ -617,11 +617,11 @@ refresh_queue_remove (EMeetingStore *store,
 	}
 
 	if (qdata) {
-		g_mutex_lock (priv->mutex);
+		g_mutex_lock (&priv->mutex);
 		g_hash_table_remove (
 			priv->refresh_data, itip_strip_mailto (
 			e_meeting_attendee_get_address (attendee)));
-		g_mutex_unlock (priv->mutex);
+		g_mutex_unlock (&priv->mutex);
 		g_ptr_array_free (qdata->call_backs, TRUE);
 		g_ptr_array_free (qdata->data, TRUE);
 		g_free (qdata);
@@ -759,7 +759,7 @@ meeting_store_finalize (GObject *object)
 
 	g_free (priv->fb_uri);
 
-	g_mutex_free (priv->mutex);
+	g_mutex_clear (&priv->mutex);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_meeting_store_parent_class)->finalize (object);
@@ -852,7 +852,7 @@ e_meeting_store_init (EMeetingStore *store)
 	store->priv->refresh_data = g_hash_table_new_full (
 		g_str_hash, g_str_equal, g_free, NULL);
 
-	store->priv->mutex = g_mutex_new ();
+	g_mutex_init (&store->priv->mutex);
 
 	store->priv->num_queries = 0;
 
@@ -1331,9 +1331,9 @@ process_callbacks (EMeetingStoreQueueData *qdata)
 		g_idle_add ((GSourceFunc) call_back, data);
 	}
 
-	g_mutex_lock (store->priv->mutex);
+	g_mutex_lock (&store->priv->mutex);
 	store->priv->num_threads--;
-	g_mutex_unlock (store->priv->mutex);
+	g_mutex_unlock (&store->priv->mutex);
 
 	refresh_queue_remove (qdata->store, qdata->attendee);
 	g_object_unref (store);
@@ -1710,11 +1710,11 @@ refresh_busy_periods (gpointer data)
 
 	}
 
-	g_mutex_lock (store->priv->mutex);
+	g_mutex_lock (&store->priv->mutex);
 	store->priv->num_threads++;
-	g_mutex_unlock (store->priv->mutex);
+	g_mutex_unlock (&store->priv->mutex);
 
-	thread = g_thread_create ((GThreadFunc) freebusy_async, fbd, FALSE, &error);
+	thread = g_thread_try_new (NULL, (GThreadFunc) freebusy_async, fbd, &error);
 	if (!thread) {
 		/* do clean up stuff here */
 		g_slist_foreach (fbd->users, (GFunc) g_free, NULL);
@@ -1722,12 +1722,14 @@ refresh_busy_periods (gpointer data)
 		g_free (fbd->email);
 		priv->refresh_idle_id = 0;
 
-		g_mutex_lock (store->priv->mutex);
+		g_mutex_lock (&store->priv->mutex);
 		store->priv->num_threads--;
-		g_mutex_unlock (store->priv->mutex);
+		g_mutex_unlock (&store->priv->mutex);
 
 		return FALSE;
 	}
+
+	g_thread_unref (thread);
 
 	return TRUE;
 }
@@ -1763,7 +1765,7 @@ refresh_queue_add (EMeetingStore *store,
 			return;
 	}
 
-	g_mutex_lock (priv->mutex);
+	g_mutex_lock (&priv->mutex);
 	qdata = g_hash_table_lookup (
 		priv->refresh_data, itip_strip_mailto (
 		e_meeting_attendee_get_address (attendee)));
@@ -1795,7 +1797,7 @@ refresh_queue_add (EMeetingStore *store,
 		g_ptr_array_add (qdata->call_backs, call_back);
 		g_ptr_array_add (qdata->data, data);
 	}
-	g_mutex_unlock (priv->mutex);
+	g_mutex_unlock (&priv->mutex);
 
 	g_object_ref (attendee);
 	g_ptr_array_add (priv->refresh_queue, attendee);

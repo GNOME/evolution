@@ -31,6 +31,7 @@
 #include <glib/gi18n.h>
 
 #include "alarm-notify.h"
+#include "config-data.h"
 
 #ifdef G_OS_WIN32
 #include <windows.h>
@@ -117,6 +118,7 @@ main (gint argc,
 		G_APPLICATION (alarm_notify_service), argc, argv);
 
 	g_object_unref (alarm_notify_service);
+	config_data_cleanup ();
 
 	return exit_status;
 }

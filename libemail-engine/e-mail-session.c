@@ -90,7 +90,7 @@ struct _EMailSessionPrivate {
 	GPtrArray *local_folder_uris;
 
 	guint preparing_flush;
-	GMutex *preparing_flush_lock;
+	GMutex preparing_flush_lock;
 };
 
 struct _AsyncContext {
@@ -275,9 +275,9 @@ session_forward_to_flush_outbox_cb (gpointer user_data)
 {
 	EMailSession *session = E_MAIL_SESSION (user_data);
 
-	g_mutex_lock (session->priv->preparing_flush_lock);
-	session->priv->preparing_flush_lock = 0;
-	g_mutex_unlock (session->priv->preparing_flush_lock);
+	g_mutex_lock (&session->priv->preparing_flush_lock);
+	session->priv->preparing_flush = 0;
+	g_mutex_unlock (&session->priv->preparing_flush_lock);
 
 	/* Connect to this and call mail_send in the main email client.*/
 	g_signal_emit (session, signals[FLUSH_OUTBOX], 0);
@@ -1012,7 +1012,7 @@ mail_session_finalize (GObject *object)
 	g_ptr_array_free (priv->local_folders, TRUE);
 	g_ptr_array_free (priv->local_folder_uris, TRUE);
 
-	g_mutex_free (priv->preparing_flush_lock);
+	g_mutex_clear (&priv->preparing_flush_lock);
 
 	g_free (mail_data_dir);
 	g_free (mail_config_dir);
@@ -1685,7 +1685,7 @@ mail_session_forward_to_sync (CamelSession *session,
 		flush_outbox = g_settings_get_boolean (settings, "flush-outbox");
 		g_object_unref (settings);
 
-		g_mutex_lock (priv->preparing_flush_lock);
+		g_mutex_lock (&priv->preparing_flush_lock);
 
 		if (priv->preparing_flush > 0) {
 			g_source_remove (priv->preparing_flush);
@@ -1710,7 +1710,7 @@ mail_session_forward_to_sync (CamelSession *session,
 			g_source_unref (timeout_source);
 		}
 
-		g_mutex_unlock (priv->preparing_flush_lock);
+		g_mutex_unlock (&priv->preparing_flush_lock);
 	}
 
 	camel_message_info_free (info);
@@ -1915,7 +1915,7 @@ e_mail_session_init (EMailSession *session)
 		g_ptr_array_new_with_free_func (
 		(GDestroyNotify) g_free);
 
-	session->priv->preparing_flush_lock = g_mutex_new ();
+	g_mutex_init (&session->priv->preparing_flush_lock);
 }
 
 EMailSession *

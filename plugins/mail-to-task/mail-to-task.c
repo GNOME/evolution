@@ -559,8 +559,8 @@ struct _manage_comp
 	ECalClient *client;
 	ECalComponent *comp;
 	icalcomponent *stored_comp; /* the one in client already */
-	GCond *cond;
-	GMutex *mutex;
+	GCond cond;
+	GMutex mutex;
 	gint mails_count;
 	gint mails_done;
 	gchar *editor_title;
@@ -576,10 +576,8 @@ free_manage_comp_struct (struct _manage_comp *mc)
 	g_object_unref (mc->client);
 	if (mc->stored_comp)
 		icalcomponent_free (mc->stored_comp);
-	if (mc->mutex)
-		g_mutex_free (mc->mutex);
-	if (mc->cond)
-		g_cond_free (mc->cond);
+	g_mutex_clear (&mc->mutex);
+	g_cond_clear (&mc->cond);
 	if (mc->editor_title)
 		g_free (mc->editor_title);
 
@@ -681,7 +679,7 @@ comp_editor_closed (CompEditor *editor,
 
 	/* Signal the do_mail_to_event thread that editor was closed and editor
 	 * for next event can be displayed (if any) */
-	g_cond_signal (mc->cond);
+	g_cond_signal (&mc->cond);
 }
 
 /*
@@ -807,12 +805,12 @@ do_manage_comp_idle (struct _manage_comp *mc)
 				g_object_unref (edit_comp);
 		} else {
 			g_warning ("Failed to create event editor: %s", error ? error->message : "Unknown error");
-			g_cond_signal (mc->cond);
+			g_cond_signal (&mc->cond);
 		}
 	} else {
 		/* User canceled editing already existing event, so treat it as if he just closed the editor window */
 		comp_editor_closed (NULL, FALSE, mc);
-		g_cond_signal (mc->cond);
+		g_cond_signal (&mc->cond);
 	}
 
 	if (error) {
@@ -979,8 +977,8 @@ do_mail_to_event (AsyncData *data)
 			mc = g_new0 (struct _manage_comp, 1);
 			mc->client = g_object_ref (client);
 			mc->comp = g_object_ref (comp);
-			mc->mutex = g_mutex_new ();
-			mc->cond = g_cond_new ();
+			g_mutex_init (&mc->mutex);
+			g_cond_init (&mc->cond);
 			mc->mails_count = uids->len;
 			mc->mails_done = i + 1; /* Current task */
 			mc->editor_title = NULL;
@@ -990,9 +988,9 @@ do_mail_to_event (AsyncData *data)
 				/* Wait for user to quit the editor created in previous iteration
 				 * before displaying next one */
 				gboolean can_continue;
-				g_mutex_lock (oldmc->mutex);
-				g_cond_wait (oldmc->cond, oldmc->mutex);
-				g_mutex_unlock (oldmc->mutex);
+				g_mutex_lock (&oldmc->mutex);
+				g_cond_wait (&oldmc->cond, &oldmc->mutex);
+				g_mutex_unlock (&oldmc->mutex);
 				can_continue = oldmc->can_continue;
 				free_manage_comp_struct (oldmc);
 				oldmc = NULL;
@@ -1015,9 +1013,9 @@ do_mail_to_event (AsyncData *data)
 
 		/* Wait for the last editor and then clean up */
 		if (oldmc) {
-			g_mutex_lock (oldmc->mutex);
-			g_cond_wait (oldmc->cond, oldmc->mutex);
-			g_mutex_unlock (oldmc->mutex);
+			g_mutex_lock (&oldmc->mutex);
+			g_cond_wait (&oldmc->cond, &oldmc->mutex);
+			g_mutex_unlock (&oldmc->mutex);
 			free_manage_comp_struct (oldmc);
 		}
 	}
@@ -1220,10 +1218,12 @@ mail_to_event (ECalClientSourceType source_type,
 		else
 			data->selected_text = NULL;
 
-		thread = g_thread_create ((GThreadFunc) do_mail_to_event, data, FALSE, &error);
+		thread = g_thread_try_new (NULL, (GThreadFunc) do_mail_to_event, data, &error);
 		if (!thread) {
-			g_warning (G_STRLOC ": %s", error->message);
+			g_warning (G_STRLOC ": %s", error ? error->message : "Unknown error");
 			g_error_free (error);
+		} else {
+			g_thread_unref (thread);
 		}
 	}
 

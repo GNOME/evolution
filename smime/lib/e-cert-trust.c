@@ -127,7 +127,7 @@ e_cert_trust_set_ssl_trust (CERTCertTrust *trust,
 {
 	trust->sslFlags = 0;
 	if (peer || tPeer)
-		e_cert_trust_add_trust (&trust->sslFlags, CERTDB_VALID_PEER);
+		e_cert_trust_add_trust (&trust->sslFlags, CERTDB_TERMINAL_RECORD);
 	if (tPeer)
 		e_cert_trust_add_trust (&trust->sslFlags, CERTDB_TRUSTED);
 	if (ca || tCA)
@@ -154,7 +154,7 @@ e_cert_trust_set_email_trust (CERTCertTrust *trust,
 {
 	trust->emailFlags = 0;
 	if (peer || tPeer)
-		e_cert_trust_add_trust (&trust->emailFlags, CERTDB_VALID_PEER);
+		e_cert_trust_add_trust (&trust->emailFlags, CERTDB_TERMINAL_RECORD);
 	if (tPeer)
 		e_cert_trust_add_trust (&trust->emailFlags, CERTDB_TRUSTED);
 	if (ca || tCA)
@@ -183,7 +183,7 @@ e_cert_trust_set_objsign_trust (CERTCertTrust *trust,
 	if (peer || tPeer)
 		e_cert_trust_add_trust (
 			&trust->objectSigningFlags,
-			CERTDB_VALID_PEER);
+			CERTDB_TERMINAL_RECORD);
 	if (tPeer)
 		e_cert_trust_add_trust (
 			&trust->objectSigningFlags,
@@ -361,15 +361,15 @@ e_cert_trust_has_peer (CERTCertTrust *trust,
                        PRBool checkObjSign)
 {
 	if (checkSSL && !e_cert_trust_has_trust (
-		trust->sslFlags, CERTDB_VALID_PEER))
+		trust->sslFlags, CERTDB_TERMINAL_RECORD))
 		return PR_FALSE;
 
 	if (checkEmail && !e_cert_trust_has_trust (
-		trust->emailFlags, CERTDB_VALID_PEER))
+		trust->emailFlags, CERTDB_TERMINAL_RECORD))
 		return PR_FALSE;
 
 	if (checkObjSign && !e_cert_trust_has_trust (
-		trust->objectSigningFlags, CERTDB_VALID_PEER))
+		trust->objectSigningFlags, CERTDB_TERMINAL_RECORD))
 		return PR_FALSE;
 
 	return PR_TRUE;

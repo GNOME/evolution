@@ -192,12 +192,13 @@ bbdb_do_thread (const gchar *name,
 		 * care of that, thus just add it to the queue */
 		todo = g_slist_append (todo, td);
 	} else {
+		GThread *thread;
 		GError *error = NULL;
 		EBookClient *client = bbdb_create_book_client (AUTOMATIC_CONTACTS_ADDRESSBOOK);
 
 		/* list was empty, add item and create a thread */
 		todo = g_slist_append (todo, td);
-		g_thread_create (bbdb_do_in_thread, client, FALSE, &error);
+		thread = g_thread_try_new (NULL, bbdb_do_in_thread, client, &error);
 
 		if (error) {
 			g_warning ("%s: Creation of the thread failed with error: %s", G_STRFUNC, error->message);
@@ -206,6 +207,8 @@ bbdb_do_thread (const gchar *name,
 			G_UNLOCK (todo);
 			bbdb_do_in_thread (client);
 			G_LOCK (todo);
+		} else {
+			g_thread_unref (thread);
 		}
 	}
 	G_UNLOCK (todo);

@@ -289,13 +289,15 @@ mail_autoconfig_resolve_authority (const gchar *domain,
 	 * So use a reference count on the thread closure and always
 	 * let the thread run to completion even if we're not around
 	 * any longer to pick up the result. */
-	resolver_thread = g_thread_create (
+	resolver_thread = g_thread_try_new (NULL,
 		mail_autoconfig_resolver_thread,
 		resolver_closure_ref (closure),
-		FALSE /* not joinable */, error);
+		error);
 
 	if (resolver_thread == NULL)
 		return FALSE;
+
+	g_thread_unref (resolver_thread);
 
 	if (G_IS_CANCELLABLE (cancellable))
 		cancel_id = g_cancellable_connect (

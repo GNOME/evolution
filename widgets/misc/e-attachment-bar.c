@@ -93,7 +93,7 @@ attachment_bar_update_status (EAttachmentBar *bar)
 
 	num_attachments = e_attachment_store_get_num_attachments (store);
 	total_size = e_attachment_store_get_total_size (store);
-	display_size = g_format_size_for_display (total_size);
+	display_size = g_format_size (total_size);
 
 	if (total_size > 0)
 		markup = g_strdup_printf (

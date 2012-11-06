@@ -88,7 +88,7 @@ struct _send_data {
 	CamelFolder *inbox;
 	time_t inbox_update;
 
-	GMutex *lock;
+	GMutex lock;
 	GHashTable *folders;
 
 	GHashTable *active;	/* send_info's by uri */
@@ -173,7 +173,7 @@ setup_send_data (EMailSession *session)
 
 	if (send_data == NULL) {
 		send_data = data = g_malloc0 (sizeof (*data));
-		data->lock = g_mutex_new ();
+		g_mutex_init (&data->lock);
 		data->folders = g_hash_table_new_full (
 			g_str_hash, g_str_equal,
 			(GDestroyNotify) NULL,
@@ -223,7 +223,7 @@ free_send_data (void)
 	g_list_free (data->infos);
 	g_hash_table_destroy (data->active);
 	g_hash_table_destroy (data->folders);
-	g_mutex_free (data->lock);
+	g_mutex_clear (&data->lock);
 	g_free (data);
 	send_data = NULL;
 }
@@ -937,9 +937,9 @@ receive_get_folder (CamelFilterDriver *d,
 	struct _folder_info *oldinfo;
 	gpointer oldkey, oldinfoptr;
 
-	g_mutex_lock (info->data->lock);
+	g_mutex_lock (&info->data->lock);
 	oldinfo = g_hash_table_lookup (info->data->folders, uri);
-	g_mutex_unlock (info->data->lock);
+	g_mutex_unlock (&info->data->lock);
 
 	if (oldinfo) {
 		g_object_ref (oldinfo->folder);
@@ -954,7 +954,7 @@ receive_get_folder (CamelFilterDriver *d,
 
 	/* we recheck that the folder hasn't snuck in while we were loading it... */
 	/* and we assume the newer one is the same, but unref the old one anyway */
-	g_mutex_lock (info->data->lock);
+	g_mutex_lock (&info->data->lock);
 
 	if (g_hash_table_lookup_extended (
 			info->data->folders, uri, &oldkey, &oldinfoptr)) {
@@ -970,7 +970,7 @@ receive_get_folder (CamelFilterDriver *d,
 
 	g_object_ref (folder);
 
-	g_mutex_unlock (info->data->lock);
+	g_mutex_unlock (&info->data->lock);
 
 	return folder;
 }

@@ -123,7 +123,7 @@ struct _ECalModelPrivate {
 	GHashTable *notify_modified;
 	GHashTable *notify_removed;
 
-	GMutex *notify_lock;
+	GMutex notify_lock;
 
 	GCancellable *loading_clients;
 };
@@ -484,7 +484,7 @@ cal_model_finalize (GObject *object)
 	}
 	g_ptr_array_free (priv->objects, FALSE);
 
-	g_mutex_free (priv->notify_lock);
+	g_mutex_clear (&priv->notify_lock);
 
 	g_hash_table_destroy (priv->notify_added);
 	g_hash_table_destroy (priv->notify_modified);
@@ -767,7 +767,7 @@ e_cal_model_init (ECalModel *model)
 	model->priv->notify_added = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, NULL);
 	model->priv->notify_modified = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, NULL);
 	model->priv->notify_removed = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, NULL);
-	model->priv->notify_lock = g_mutex_new ();
+	g_mutex_init (&model->priv->notify_lock);
 
 	model->priv->loading_clients = g_cancellable_new ();
 }
@@ -2652,7 +2652,7 @@ process_event (ECalClientView *view,
 
 	g_return_if_fail (save_hash != NULL);
 
-	g_mutex_lock (model->priv->notify_lock);
+	g_mutex_lock (&model->priv->notify_lock);
 	if (*in) {
 		GSList *save_list = g_hash_table_lookup (save_hash, view);
 
@@ -2667,7 +2667,7 @@ process_event (ECalClientView *view,
 		*in = TRUE;
 	}
 
-	g_mutex_unlock (model->priv->notify_lock);
+	g_mutex_unlock (&model->priv->notify_lock);
 
 	if (skip)
 		return;
@@ -2675,7 +2675,7 @@ process_event (ECalClientView *view,
 	/* do it */
 	process_fn (view, objects, model);
 
-	g_mutex_lock (model->priv->notify_lock);
+	g_mutex_lock (&model->priv->notify_lock);
 	while (g_hash_table_size (save_hash)) {
 		gpointer key = NULL, value = NULL;
 		GHashTableIter iter;
@@ -2692,7 +2692,7 @@ process_event (ECalClientView *view,
 
 		g_hash_table_remove (save_hash, view);
 
-		g_mutex_unlock (model->priv->notify_lock);
+		g_mutex_unlock (&model->priv->notify_lock);
 
 		/* do it */
 		process_fn (view, save_list, model);
@@ -2705,11 +2705,11 @@ process_event (ECalClientView *view,
 		g_slist_free (save_list);
 		g_object_unref (view);
 
-		g_mutex_lock (model->priv->notify_lock);
+		g_mutex_lock (&model->priv->notify_lock);
 	}
 
 	*in = FALSE;
-	g_mutex_unlock (model->priv->notify_lock);
+	g_mutex_unlock (&model->priv->notify_lock);
 }
 
 static void

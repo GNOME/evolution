@@ -89,7 +89,7 @@ struct _GnomeCalendarPrivate {
 	GtkWidget   *task_table; /* ETaskTable, but can be NULL */
 
 	/* Calendar query for the date navigator */
-	GMutex      *dn_query_lock;
+	GMutex       dn_query_lock;
 	GList       *dn_queries; /* list of CalQueries */
 	gchar        *sexp;
 	gchar        *todo_sexp;
@@ -128,7 +128,7 @@ struct _GnomeCalendarPrivate {
 
 	/* Used in update_todo_view, to prevent interleaving when
 	 * called in separate thread. */
-	GMutex *todo_update_lock;
+	GMutex todo_update_lock;
 
 	GCancellable *cancellable;
 };
@@ -1118,7 +1118,7 @@ free_dn_queries (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	g_mutex_lock (priv->dn_query_lock);
+	g_mutex_lock (&priv->dn_query_lock);
 
 	for (l = priv->dn_queries; l != NULL; l = l->next) {
 		if (!l->data)
@@ -1131,7 +1131,7 @@ free_dn_queries (GnomeCalendar *gcal)
 	g_list_free (priv->dn_queries);
 	priv->dn_queries = NULL;
 
-	g_mutex_unlock (priv->dn_query_lock);
+	g_mutex_unlock (&priv->dn_query_lock);
 }
 
 static void
@@ -1200,7 +1200,7 @@ update_query_async (struct _date_query_msg *msg)
 			new_view, "complete",
 			G_CALLBACK (dn_client_view_complete_cb), gcal);
 
-		g_mutex_lock (priv->dn_query_lock);
+		g_mutex_lock (&priv->dn_query_lock);
 		priv->dn_queries = g_list_append (priv->dn_queries, new_view);
 		e_cal_client_view_start (new_view, &error);
 		if (error != NULL) {
@@ -1209,7 +1209,7 @@ update_query_async (struct _date_query_msg *msg)
 				G_STRFUNC, error->message);
 			g_clear_error (&error);
 		}
-		g_mutex_unlock (priv->dn_query_lock);
+		g_mutex_unlock (&priv->dn_query_lock);
 	}
 
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
@@ -1315,7 +1315,7 @@ update_todo_view_async (struct _mupdate_todo_msg *msg)
 
 	g_return_if_fail (priv->task_table != NULL);
 
-	g_mutex_lock (priv->todo_update_lock);
+	g_mutex_lock (&priv->todo_update_lock);
 
 	/* Set the query on the task pad */
 	if (priv->todo_sexp) {
@@ -1337,7 +1337,7 @@ update_todo_view_async (struct _mupdate_todo_msg *msg)
 
 	update_memo_view (msg->gcal);
 
-	g_mutex_unlock (priv->todo_update_lock);
+	g_mutex_unlock (&priv->todo_update_lock);
 }
 
 static gboolean
@@ -1494,8 +1494,8 @@ gnome_calendar_init (GnomeCalendar *gcal)
 {
 	gcal->priv = GNOME_CALENDAR_GET_PRIVATE (gcal);
 
-	gcal->priv->todo_update_lock = g_mutex_new ();
-	gcal->priv->dn_query_lock = g_mutex_new ();
+	g_mutex_init (&gcal->priv->todo_update_lock);
+	g_mutex_init (&gcal->priv->dn_query_lock);
 
 	gcal->priv->current_view_type = GNOME_CAL_WORK_WEEK_VIEW;
 	gcal->priv->range_selected = FALSE;
@@ -1578,8 +1578,8 @@ gnome_calendar_finalize (GObject *object)
 
 	priv = GNOME_CALENDAR_GET_PRIVATE (object);
 
-	g_mutex_free (priv->todo_update_lock);
-	g_mutex_free (priv->dn_query_lock);
+	g_mutex_clear (&priv->todo_update_lock);
+	g_mutex_clear (&priv->dn_query_lock);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (gnome_calendar_parent_class)->finalize (object);

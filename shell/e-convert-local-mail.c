@@ -190,6 +190,7 @@ migrate_mbox_to_maildir (EShell *shell,
 	const gchar *mbox_uid;
 	gchar *path;
 	struct MigrateStore ms;
+	GThread *thread;
 	GError *error = NULL;
 
 	registry = e_shell_get_registry (shell);
@@ -255,12 +256,13 @@ migrate_mbox_to_maildir (EShell *shell,
 	ms.session = session;
 	ms.complete = FALSE;
 
-	g_thread_create ((GThreadFunc) migrate_stores, &ms, TRUE, NULL);
+	thread = g_thread_new (NULL, (GThreadFunc) migrate_stores, &ms);
 	while (!ms.complete)
 		g_main_context_iteration (NULL, TRUE);
 
 	g_object_unref (mbox_service);
 	g_object_unref (maildir_service);
+	g_thread_unref (thread);
 
 	return TRUE;
 }

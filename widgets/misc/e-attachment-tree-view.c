@@ -138,7 +138,7 @@ attachment_tree_view_render_size (GtkTreeViewColumn *column,
 	gtk_tree_model_get (model, iter, column_id, &size, -1);
 
 	if (size > 0)
-		display_size = g_format_size_for_display ((goffset) size);
+		display_size = g_format_size ((goffset) size);
 
 	g_object_set (renderer, "text", display_size, NULL);
 

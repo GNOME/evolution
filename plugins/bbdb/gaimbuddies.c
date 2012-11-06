@@ -307,6 +307,7 @@ void
 bbdb_sync_buddy_list (void)
 {
 	GList *blist;
+	GThread *thread;
 	GError *error = NULL;
 	EBookClient *client = NULL;
 	struct sync_thread_data *std;
@@ -339,7 +340,7 @@ bbdb_sync_buddy_list (void)
 
 	syncing = TRUE;
 
-	g_thread_create (bbdb_sync_buddy_list_in_thread, std, FALSE, &error);
+	thread = g_thread_try_new (NULL, bbdb_sync_buddy_list_in_thread, std, &error);
 	if (error) {
 		g_warning (
 			"%s: Creation of the thread failed with error: %s",
@@ -349,6 +350,8 @@ bbdb_sync_buddy_list (void)
 		G_UNLOCK (syncing);
 		bbdb_sync_buddy_list_in_thread (std);
 		G_LOCK (syncing);
+	} else {
+		g_thread_unref (thread);
 	}
 
 	G_UNLOCK (syncing);

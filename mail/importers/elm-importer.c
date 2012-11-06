@@ -51,7 +51,7 @@ struct _elm_import_msg {
 	EImport *import;
 	EImportTargetHome *target;
 
-	GMutex *status_lock;
+	GMutex status_lock;
 	gchar *status_what;
 	gint status_pc;
 	gint status_timeout_id;
@@ -228,7 +228,7 @@ elm_import_free (struct _elm_import_msg *m)
 	g_object_unref (m->status);
 
 	g_free (m->status_what);
-	g_mutex_free (m->status_lock);
+	g_mutex_clear (&m->status_lock);
 
 	g_source_remove (m->status_timeout_id);
 	m->status_timeout_id = 0;
@@ -244,11 +244,11 @@ elm_status (CamelOperation *op,
 {
 	struct _elm_import_msg *importer = data;
 
-	g_mutex_lock (importer->status_lock);
+	g_mutex_lock (&importer->status_lock);
 	g_free (importer->status_what);
 	importer->status_what = g_strdup (what);
 	importer->status_pc = pc;
-	g_mutex_unlock (importer->status_lock);
+	g_mutex_unlock (&importer->status_lock);
 }
 
 static gboolean
@@ -259,11 +259,11 @@ elm_status_timeout (gpointer data)
 	gchar *what;
 
 	if (importer->status_what) {
-		g_mutex_lock (importer->status_lock);
+		g_mutex_lock (&importer->status_lock);
 		what = importer->status_what;
 		importer->status_what = NULL;
 		pc = importer->status_pc;
-		g_mutex_unlock (importer->status_lock);
+		g_mutex_unlock (&importer->status_lock);
 
 		e_import_status (
 			importer->import, (EImportTarget *)
@@ -294,7 +294,7 @@ mail_importer_elm_import (EImport *ei,
 	g_object_ref (m->import);
 	m->target = (EImportTargetHome *) target;
 	m->status_timeout_id = g_timeout_add (100, elm_status_timeout, m);
-	m->status_lock = g_mutex_new ();
+	g_mutex_init (&m->status_lock);
 	m->status = camel_operation_new ();
 
 	g_signal_connect (

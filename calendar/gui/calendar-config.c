@@ -55,7 +55,11 @@ calendar_config_init (void)
 		return;
 
 	config = g_settings_new ("org.gnome.evolution.calendar");
-	g_atexit ((GVoidFunc) do_cleanup);
+
+	/* will be freed together with EShell */
+	g_object_set_data_full (G_OBJECT (e_shell_get_default ()),
+		"calendar-config-config-cleanup", (gpointer) "1",
+		(GDestroyNotify) do_cleanup);
 }
 
 void

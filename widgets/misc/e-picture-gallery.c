@@ -105,7 +105,7 @@ update_file_iter (GtkListStore *list_store,
 				if (filename) {
 					filesize = g_file_info_get_attribute_uint64 (file_info, G_FILE_ATTRIBUTE_STANDARD_SIZE);
 					if (filesize) {
-						gchar *tmp = g_format_size_for_display ((goffset) filesize);
+						gchar *tmp = g_format_size ((goffset) filesize);
 						filename_text = g_strdup_printf ("%s (%s)", filename, tmp);
 						g_free (tmp);
 					}

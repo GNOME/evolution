@@ -67,7 +67,7 @@ struct _MailFolderCachePrivate {
 	/* Store to storeinfo table, active stores */
 	GHashTable *stores;
 	/* mutex to protect access to the stores hash */
-	GStaticRecMutex stores_mutex;
+	GRecMutex stores_mutex;
 	/* List of folder changes to be executed in gui thread */
 	GQueue updates;
 	/* idle source id for flushing all pending updates */
@@ -228,9 +228,9 @@ flush_updates_idle_cb (MailFolderCache *cache)
 {
 	struct _folder_update *up;
 
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 	while ((up = g_queue_pop_head (&cache->priv->updates)) != NULL) {
-		g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+		g_rec_mutex_unlock (&cache->priv->stores_mutex);
 
 		if (up->remove) {
 			if (up->delete) {
@@ -287,10 +287,10 @@ flush_updates_idle_cb (MailFolderCache *cache)
 
 		free_update (up);
 
-		g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+		g_rec_mutex_lock (&cache->priv->stores_mutex);
 	}
 	cache->priv->update_id = 0;
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 
 	return FALSE;
 }
@@ -490,14 +490,14 @@ folder_changed_cb (CamelFolder *folder,
 			last_newmail_per_folder, folder,
 			GINT_TO_POINTER (new_latest_received));
 
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 	if (cache->priv->stores != NULL
 	    && (si = g_hash_table_lookup (cache->priv->stores, parent_store)) != NULL
 	    && (mfi = g_hash_table_lookup (si->folders, full_name)) != NULL
 	    && mfi->folder == folder) {
 		update_1folder (cache, mfi, new, uid, sender, subject, NULL);
 	}
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 
 	g_free (uid);
 	g_free (sender);
@@ -593,11 +593,11 @@ store_folder_subscribed_cb (CamelStore *store,
 {
 	StoreInfo *si;
 
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 	si = g_hash_table_lookup (cache->priv->stores, store);
 	if (si)
 		setup_folder (cache, info, si);
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 }
 
 static void
@@ -627,7 +627,7 @@ store_folder_unsubscribed_cb (CamelStore *store,
 	StoreInfo *si;
 	struct _folder_info *mfi;
 
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 	si = g_hash_table_lookup (cache->priv->stores, store);
 	if (si) {
 		mfi = g_hash_table_lookup (si->folders, info->full_name);
@@ -636,7 +636,7 @@ store_folder_unsubscribed_cb (CamelStore *store,
 			g_hash_table_remove (si->folders, mfi->full_name);
 		}
 	}
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 }
 
 static void
@@ -754,7 +754,7 @@ store_folder_renamed_cb (CamelStore *store,
 {
 	StoreInfo *si;
 
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 	si = g_hash_table_lookup (cache->priv->stores, store);
 	if (si) {
 		GPtrArray *folders = g_ptr_array_new ();
@@ -774,7 +774,7 @@ store_folder_renamed_cb (CamelStore *store,
 		g_ptr_array_free (folders, TRUE);
 
 	}
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 }
 
 static void
@@ -835,7 +835,7 @@ update_folders (CamelStore *store,
 		g_error_free (error);
 	}
 
-	g_static_rec_mutex_lock (&ud->cache->priv->stores_mutex);
+	g_rec_mutex_lock (&ud->cache->priv->stores_mutex);
 	si = g_hash_table_lookup (ud->cache->priv->stores, store);
 	if (si && !g_cancellable_is_cancelled (ud->cancellable)) {
 		/* The 'si' is still there, so we can remove ourselves from
@@ -846,7 +846,7 @@ update_folders (CamelStore *store,
 		if (fi != NULL)
 			create_folders (ud->cache, fi, si);
 	}
-	g_static_rec_mutex_unlock (&ud->cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&ud->cache->priv->stores_mutex);
 
 	/* Do some extra work for the first update. */
 	if (si != NULL && si->first_update) {
@@ -945,11 +945,11 @@ ping_store (CamelStore *store)
 static gboolean
 ping_cb (MailFolderCache *cache)
 {
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 
 	g_hash_table_foreach (cache->priv->stores, (GHFunc) ping_store, NULL);
 
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 
 	return TRUE;
 }
@@ -980,7 +980,7 @@ store_go_online_cb (CamelStore *store,
 {
 	/* FIXME Not checking result for error. */
 
-	g_static_rec_mutex_lock (&ud->cache->priv->stores_mutex);
+	g_rec_mutex_lock (&ud->cache->priv->stores_mutex);
 
 	if (g_hash_table_lookup (ud->cache->priv->stores, store) != NULL &&
 		!g_cancellable_is_cancelled (ud->cancellable)) {
@@ -1001,7 +1001,7 @@ store_go_online_cb (CamelStore *store,
 		g_free (ud);
 	}
 
-	g_static_rec_mutex_unlock (&ud->cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&ud->cache->priv->stores_mutex);
 }
 
 static GList *
@@ -1120,7 +1120,7 @@ mail_folder_cache_finalize (GObject *object)
 	priv = MAIL_FOLDER_CACHE_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->stores);
-	g_static_rec_mutex_free (&priv->stores_mutex);
+	g_rec_mutex_clear (&priv->stores_mutex);
 
 	if (priv->ping_id > 0) {
 		g_source_remove (priv->ping_id);
@@ -1172,7 +1172,7 @@ mail_folder_cache_folder_available (MailFolderCache *cache,
 	provider = camel_service_get_provider (service);
 
 	/* Reuse the stores mutex just because it's handy. */
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 
 	folder_uri = e_mail_folder_uri_build (store, folder_name);
 
@@ -1186,7 +1186,7 @@ mail_folder_cache_folder_available (MailFolderCache *cache,
 	else
 		g_free (folder_uri);
 
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 }
 
 static void
@@ -1220,7 +1220,7 @@ mail_folder_cache_folder_unavailable (MailFolderCache *cache,
 	provider = camel_service_get_provider (service);
 
 	/* Reuse the stores mutex just because it's handy. */
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 
 	folder_uri = e_mail_folder_uri_build (store, folder_name);
 
@@ -1237,7 +1237,7 @@ mail_folder_cache_folder_unavailable (MailFolderCache *cache,
 
 	g_free (folder_uri);
 
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 }
 
 static void
@@ -1269,7 +1269,7 @@ mail_folder_cache_folder_deleted (MailFolderCache *cache,
 	session = camel_service_get_session (service);
 
 	/* Reuse the stores mutex just because it's handy. */
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 
 	folder_uri = e_mail_folder_uri_build (store, folder_name);
 
@@ -1289,7 +1289,7 @@ mail_folder_cache_folder_deleted (MailFolderCache *cache,
 
 	g_free (folder_uri);
 
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 }
 
 static void
@@ -1450,7 +1450,7 @@ mail_folder_cache_init (MailFolderCache *cache)
 
 	/* initialize values */
 	cache->priv->stores = g_hash_table_new (NULL, NULL);
-	g_static_rec_mutex_init (&cache->priv->stores_mutex);
+	g_rec_mutex_init (&cache->priv->stores_mutex);
 
 	g_queue_init (&cache->priv->updates);
 	cache->priv->count_sent = getenv ("EVOLUTION_COUNT_SENT") != NULL;
@@ -1507,7 +1507,7 @@ mail_folder_cache_note_store (MailFolderCache *cache,
 
 	session = camel_service_get_session (CAMEL_SERVICE (store));
 
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 
 	si = g_hash_table_lookup (cache->priv->stores, store);
 	if (si == NULL) {
@@ -1561,7 +1561,7 @@ mail_folder_cache_note_store (MailFolderCache *cache,
 
 	g_queue_push_tail (&si->folderinfo_updates, ud);
 
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 
 	/* there is potential for race here, but it is safe as we check
 	 * for the store anyway */
@@ -1612,18 +1612,18 @@ mail_folder_cache_note_folder (MailFolderCache *cache,
 	full_name = camel_folder_get_full_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
 
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 	if (cache->priv->stores == NULL
 	    || (si = g_hash_table_lookup (cache->priv->stores, parent_store)) == NULL
 	    || (mfi = g_hash_table_lookup (si->folders, full_name)) == NULL) {
 		w (g_warning ("Noting folder before store initialised"));
-		g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+		g_rec_mutex_unlock (&cache->priv->stores_mutex);
 		return;
 	}
 
 	/* dont do anything if we already have this */
 	if (mfi->folder == folder) {
-		g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+		g_rec_mutex_unlock (&cache->priv->stores_mutex);
 		return;
 	}
 
@@ -1633,7 +1633,7 @@ mail_folder_cache_note_folder (MailFolderCache *cache,
 
 	update_1folder (cache, mfi, 0, NULL, NULL, NULL, NULL);
 
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 
 	g_signal_connect (
 		folder, "changed",
@@ -1658,7 +1658,7 @@ mail_folder_cache_get_folder_from_uri (MailFolderCache *cache,
 	if (cache->priv->stores == NULL)
 		return FALSE;
 
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 	g_hash_table_foreach (
 		cache->priv->stores, (GHFunc)
 		storeinfo_find_folder_info, &fi);
@@ -1668,7 +1668,7 @@ mail_folder_cache_get_folder_from_uri (MailFolderCache *cache,
 		else
 			*folderp = NULL;
 	}
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 
 	return fi.fi != NULL;
 }
@@ -1687,7 +1687,7 @@ mail_folder_cache_get_folder_info_flags (MailFolderCache *cache,
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 	fi.folder_uri = folder_uri;
 
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 	g_hash_table_foreach (
 		cache->priv->stores, (GHFunc)
 		storeinfo_find_folder_info, &fi);
@@ -1697,7 +1697,7 @@ mail_folder_cache_get_folder_info_flags (MailFolderCache *cache,
 		else
 			*flags = 0;
 	}
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 
 	g_free (folder_uri);
 
@@ -1723,13 +1723,13 @@ mail_folder_cache_get_folder_has_children (MailFolderCache *cache,
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 	fi.folder_uri = folder_uri;
 
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 	g_hash_table_foreach (
 		cache->priv->stores, (GHFunc)
 		storeinfo_find_folder_info, &fi);
 	if (found != NULL)
 		*found = fi.fi != NULL;
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 
 	g_free (folder_uri);
 
@@ -1746,14 +1746,14 @@ mail_folder_cache_get_local_folder_uris (MailFolderCache *self,
 	g_return_if_fail (out_queue != NULL);
 
 	/* Reuse the stores mutex just because it's handy. */
-	g_static_rec_mutex_lock (&self->priv->stores_mutex);
+	g_rec_mutex_lock (&self->priv->stores_mutex);
 
 	head = g_queue_peek_head_link (&self->priv->local_folder_uris);
 
 	for (link = head; link != NULL; link = g_list_next (link))
 		g_queue_push_tail (out_queue, g_strdup (link->data));
 
-	g_static_rec_mutex_unlock (&self->priv->stores_mutex);
+	g_rec_mutex_unlock (&self->priv->stores_mutex);
 }
 
 void
@@ -1766,14 +1766,14 @@ mail_folder_cache_get_remote_folder_uris (MailFolderCache *self,
 	g_return_if_fail (out_queue != NULL);
 
 	/* Reuse the stores mutex just because it's handy. */
-	g_static_rec_mutex_lock (&self->priv->stores_mutex);
+	g_rec_mutex_lock (&self->priv->stores_mutex);
 
 	head = g_queue_peek_head_link (&self->priv->remote_folder_uris);
 
 	for (link = head; link != NULL; link = g_list_next (link))
 		g_queue_push_tail (out_queue, g_strdup (link->data));
 
-	g_static_rec_mutex_unlock (&self->priv->stores_mutex);
+	g_rec_mutex_unlock (&self->priv->stores_mutex);
 }
 
 void
@@ -1788,7 +1788,7 @@ mail_folder_cache_service_removed (MailFolderCache *cache,
 	if (cache->priv->stores == NULL)
 		return;
 
-	g_static_rec_mutex_lock (&cache->priv->stores_mutex);
+	g_rec_mutex_lock (&cache->priv->stores_mutex);
 
 	si = g_hash_table_lookup (cache->priv->stores, service);
 	if (si != NULL) {
@@ -1805,7 +1805,7 @@ mail_folder_cache_service_removed (MailFolderCache *cache,
 		store_info_free (si);
 	}
 
-	g_static_rec_mutex_unlock (&cache->priv->stores_mutex);
+	g_rec_mutex_unlock (&cache->priv->stores_mutex);
 }
 
 void

@@ -220,7 +220,7 @@ attachment_update_file_info_columns (EAttachment *attachment)
 	size = g_file_info_get_size (file_info);
 
 	content_desc = g_content_type_get_description (content_type);
-	display_size = g_format_size_for_display (size);
+	display_size = g_format_size (size);
 
 	description = e_attachment_get_description (attachment);
 	if (description == NULL || *description == '\0')
