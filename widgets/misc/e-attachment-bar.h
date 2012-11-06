@@ -51,12 +51,12 @@ typedef struct _EAttachmentBarClass EAttachmentBarClass;
 typedef struct _EAttachmentBarPrivate EAttachmentBarPrivate;
 
 struct _EAttachmentBar {
-	GtkVBox parent;
+	GtkBox parent;
 	EAttachmentBarPrivate *priv;
 };
 
 struct _EAttachmentBarClass {
-	GtkVBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType		e_attachment_bar_get_type	(void);

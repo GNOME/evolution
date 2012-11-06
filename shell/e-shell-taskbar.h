@@ -59,12 +59,12 @@ typedef struct _EShellTaskbarPrivate EShellTaskbarPrivate;
  * functions below.
  **/
 struct _EShellTaskbar {
-	GtkHBox parent;
+	GtkBox parent;
 	EShellTaskbarPrivate *priv;
 };
 
 struct _EShellTaskbarClass {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType		e_shell_taskbar_get_type	(void);

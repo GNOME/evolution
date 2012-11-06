@@ -38,13 +38,13 @@ typedef struct _EUrlEntryPrivate EUrlEntryPrivate;
 typedef struct _EUrlEntryClass   EUrlEntryClass;
 
 struct _EUrlEntry {
-	GtkHBox parent;
+	GtkBox parent;
 
 	EUrlEntryPrivate *priv;
 };
 
 struct _EUrlEntryClass {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType      e_url_entry_get_type  (void);

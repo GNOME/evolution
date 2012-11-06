@@ -122,9 +122,9 @@ enum _e_config_target_change_t {
  * @E_CONFIG_SECTION: A section in the configuration page.  A page for
  * this section must have already been defined.  The item @label if
  * supplied will be setup as a borderless hig-compliant frame title.
- * The content of the section will be a GtkVBox.  If a factory is used
+ * The content of the section will be a GtkBox.  If a factory is used
  * then it is up to the factory method to create the section and add
- * it to the parent page, and return a GtkVBox for following sections.
+ * it to the parent page, and return a GtkBox for following sections.
  * @E_CONFIG_SECTION_TABLE: A table section.  The same as an
  * @E_CONFIG_SECTION but the content object is a GtkTable instead.
  * @E_CONFIG_ITEM: A configuration item.  It must have a parent

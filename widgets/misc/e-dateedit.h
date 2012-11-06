@@ -76,12 +76,12 @@ typedef struct tm	(*EDateEditGetTimeCallback)
 						 gpointer data);
 
 struct _EDateEdit {
-	GtkHBox hbox;
+	GtkBox hbox;
 	EDateEditPrivate *priv;
 };
 
 struct _EDateEditClass {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	/* Signals */
 	void		(*changed)		(EDateEdit *dedit);

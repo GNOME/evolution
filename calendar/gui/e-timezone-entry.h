@@ -61,12 +61,12 @@ typedef struct _ETimezoneEntryClass ETimezoneEntryClass;
 typedef struct _ETimezoneEntryPrivate ETimezoneEntryPrivate;
 
 struct _ETimezoneEntry {
-	GtkHBox parent;
+	GtkBox parent;
 	ETimezoneEntryPrivate *priv;
 };
 
 struct _ETimezoneEntryClass {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	void		(*changed)		(ETimezoneEntry *timezone_entry);
 };

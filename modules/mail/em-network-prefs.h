@@ -58,7 +58,7 @@ typedef enum {
 } NetworkConfigProxyType;
 
 struct _EMNetworkPrefs {
-	GtkVBox parent_object;
+	GtkBox parent_object;
 
 	GSettings *proxy_settings;
 
@@ -93,7 +93,7 @@ struct _EMNetworkPrefs {
 };
 
 struct _EMNetworkPrefsClass {
-	GtkVBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType	   em_network_prefs_get_type (void);

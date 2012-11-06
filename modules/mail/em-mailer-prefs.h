@@ -53,7 +53,7 @@ typedef struct _EMMailerPrefs EMMailerPrefs;
 typedef struct _EMMailerPrefsClass EMMailerPrefsClass;
 
 struct _EMMailerPrefs {
-	GtkVBox parent_object;
+	GtkBox parent_object;
 
 	GtkBuilder *builder;
 	GSettings *settings;
@@ -102,7 +102,7 @@ struct _EMMailerPrefs {
 };
 
 struct _EMMailerPrefsClass {
-	GtkVBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType      em_mailer_prefs_get_type (void);

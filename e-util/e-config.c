@@ -1443,7 +1443,7 @@ e_config_page_check (EConfig *config,
  * Retrieve the page widget corresponding to @pageid.
  *
  * Return value: The page widget.  It will be the root GtkNotebook
- * container or the GtkVBox object inside the assistant.
+ * container or the GtkBox object inside the assistant.
  **/
 GtkWidget *
 e_config_page_get (EConfig *ec,

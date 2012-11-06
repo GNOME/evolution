@@ -53,7 +53,7 @@ typedef struct _ETableFieldChooser ETableFieldChooser;
 typedef struct _ETableFieldChooserClass ETableFieldChooserClass;
 
 struct _ETableFieldChooser {
-	GtkVBox parent;
+	GtkBox parent;
 
 	/* item specific fields */
 	GnomeCanvas *canvas;
@@ -68,7 +68,7 @@ struct _ETableFieldChooser {
 };
 
 struct _ETableFieldChooserClass {
-	GtkVBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType		e_table_field_chooser_get_type	(void) G_GNUC_CONST;

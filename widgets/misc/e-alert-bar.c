@@ -292,7 +292,7 @@ alert_bar_constructed (GObject *object)
 static GtkSizeRequestMode
 alert_bar_get_request_mode (GtkWidget *widget)
 {
-	/* GtkHBox does width-for-height by default.  But we
+	/* GtkBox does width-for-height by default.  But we
 	 * want the alert bar to be as short as possible. */
 	return GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH;
 }

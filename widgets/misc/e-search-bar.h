@@ -51,12 +51,12 @@ typedef struct _ESearchBarClass ESearchBarClass;
 typedef struct _ESearchBarPrivate ESearchBarPrivate;
 
 struct _ESearchBar {
-	GtkHBox parent;
+	GtkBox parent;
 	ESearchBarPrivate *priv;
 };
 
 struct _ESearchBarClass {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	/* Signals */
 	void		(*changed)		(ESearchBar *search_bar);

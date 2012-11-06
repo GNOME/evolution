@@ -50,12 +50,12 @@ typedef struct _EImageChooserClass EImageChooserClass;
 typedef struct _EImageChooserPrivate EImageChooserPrivate;
 
 struct _EImageChooser {
-	GtkVBox parent;
+	GtkBox parent;
 	EImageChooserPrivate *priv;
 };
 
 struct _EImageChooserClass {
-	GtkVBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	/* signals */
 	void (*changed) (EImageChooser *chooser);

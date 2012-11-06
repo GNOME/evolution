@@ -52,12 +52,12 @@ typedef struct _EPreviewPaneClass EPreviewPaneClass;
 typedef struct _EPreviewPanePrivate EPreviewPanePrivate;
 
 struct _EPreviewPane {
-	GtkVBox parent;
+	GtkBox parent;
 	EPreviewPanePrivate *priv;
 };
 
 struct _EPreviewPaneClass {
-	GtkVBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	/* Signals */
 	void		(*show_search_bar)	(EPreviewPane *preview_pane);

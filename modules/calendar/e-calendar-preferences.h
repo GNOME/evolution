@@ -54,7 +54,7 @@ typedef struct _ECalendarPreferences ECalendarPreferences;
 typedef struct _ECalendarPreferencesClass ECalendarPreferencesClass;
 
 struct _ECalendarPreferences {
-	GtkVBox parent;
+	GtkBox parent;
 
 	GtkBuilder *builder;
 
@@ -75,7 +75,7 @@ struct _ECalendarPreferences {
 };
 
 struct _ECalendarPreferencesClass {
-	GtkVBoxClass parent;
+	GtkBoxClass parent;
 };
 
 GType		e_calendar_preferences_get_type (void);

@@ -53,12 +53,12 @@ typedef struct _EMailViewClass EMailViewClass;
 typedef struct _EMailViewPrivate EMailViewPrivate;
 
 struct _EMailView {
-	GtkVBox parent;
+	GtkBox parent;
 	EMailViewPrivate *priv;
 };
 
 struct _EMailViewClass {
-	GtkVBoxClass parent_class;
+	GtkBoxClass parent_class;
 
 	/* Signals */
 	void		(*pane_close)		(EMailView *view);

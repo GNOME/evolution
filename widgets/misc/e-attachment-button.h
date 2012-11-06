@@ -52,12 +52,12 @@ typedef struct _EAttachmentButtonClass EAttachmentButtonClass;
 typedef struct _EAttachmentButtonPrivate EAttachmentButtonPrivate;
 
 struct _EAttachmentButton {
-	GtkHBox parent;
+	GtkBox parent;
 	EAttachmentButtonPrivate *priv;
 };
 
 struct _EAttachmentButtonClass {
-	GtkHBoxClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType		e_attachment_button_get_type	(void);
