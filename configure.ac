@@ -64,9 +64,7 @@ dnl ******************************
 dnl Compiler Warning Flags
 dnl ******************************
 AS_COMPILER_FLAGS(WARNING_FLAGS,
-	"-DE_BOOK_DISABLE_DEPRECATED
-	-DE_CAL_DISABLE_DEPRECATED
-	-Wall -Wextra
+	"-Wall -Wextra
 	-Wno-missing-field-initializers
 	-Wno-sign-compare
 	-Wno-unused-parameter
@@ -90,10 +88,32 @@ dnl	-Wmissing-format-attribute
 dnl	-Wshadow
 dnl	-Wformat-nonliteral
 dnl	-Wstrict-aliasing=2
-dnl	-DE_BOOK_DISABLE_DEPRECATED
-dnl	-DE_CAL_DISABLE_DEPRECATED
 
 AM_CPPFLAGS="$WARNING_FLAGS -fno-strict-aliasing"
+
+dnl *******************************
+dnl Check for --enable-strict
+dnl *******************************
+AC_ARG_ENABLE([strict],
+	[AS_HELP_STRING([--enable-strict],
+	[enable strict building, like without deprecated symbols (default=auto); auto enables strict building only if .git subdirectory exists])],
+	[enable_strict=$enableval], [enable_strict=auto])
+
+AC_MSG_CHECKING([if strict building is enabled])
+if test "x$enable_strict" = xauto; then
+	dnl Be strict when compiling with .git subdirectory
+	if test -d .git ; then
+		enable_strict=yes
+	else
+		enable_strict=no
+	fi
+fi
+AC_MSG_RESULT([$enable_strict])
+
+if test "x$enable_strict" = xyes; then
+	AM_CPPFLAGS="$AM_CPPFLAGS -DG_DISABLE_DEPRECATED -DE_BOOK_DISABLE_DEPRECATED -DE_CAL_DISABLE_DEPRECATED"
+fi
+
 AC_SUBST(AM_CPPFLAGS)
 
 AC_CANONICAL_HOST
@@ -1707,4 +1727,5 @@ echo "
 	Highlight support:	$msg_text_highlight
 	Plugins:		$msg_plugins
 	User documentation:	$with_help
+	Strict building:	$enable_strict
 "
