@@ -46,6 +46,7 @@ struct _EMailConfigAssistantPrivate {
 	EMailConfigServicePage *receiving_page;
 	EMailConfigServicePage *sending_page;
 	EMailConfigSummaryPage *summary_page;
+	EMailConfigPage *identity_page;
 	EMailConfigPage *lookup_page;
 	GHashTable *visited_pages;
 	gboolean auto_configure_done;
@@ -451,6 +452,11 @@ mail_config_assistant_dispose (GObject *object)
 		priv->lookup_page = NULL;
 	}
 
+	if (priv->identity_page != NULL) {
+		g_object_unref (priv->identity_page);
+		priv->identity_page = NULL;
+	}
+
 	g_ptr_array_set_size (priv->account_sources, 0);
 	g_ptr_array_set_size (priv->transport_sources, 0);
 
@@ -488,6 +494,7 @@ mail_config_assistant_constructed (GObject *object)
 	ESourceMailSubmission *mail_submission_extension;
 	EMailSession *session;
 	EMailConfigPage *page;
+	GtkWidget *autodiscover_check;
 	GList *list, *link;
 	const gchar *extension_name;
 	const gchar *title;
@@ -550,13 +557,23 @@ mail_config_assistant_constructed (GObject *object)
 		E_MAIL_CONFIG_IDENTITY_PAGE (page), FALSE);
 	e_mail_config_identity_page_set_show_signatures (
 		E_MAIL_CONFIG_IDENTITY_PAGE (page), FALSE);
+	e_mail_config_identity_page_set_show_autodiscover_check (
+		E_MAIL_CONFIG_IDENTITY_PAGE (page), TRUE);
+	autodiscover_check = e_mail_config_identity_page_get_autodiscover_check (
+		E_MAIL_CONFIG_IDENTITY_PAGE (page));
 	e_mail_config_assistant_add_page (assistant, page);
+	assistant->priv->identity_page = g_object_ref (page);
 
 	/*** Lookup Page ***/
 
 	page = e_mail_config_lookup_page_new ();
 	e_mail_config_assistant_add_page (assistant, page);
 	assistant->priv->lookup_page = g_object_ref (page);
+
+	g_object_bind_property (
+		autodiscover_check, "active",
+		page, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	/*** Receiving Page ***/
 
@@ -792,6 +809,12 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 		email_address = e_source_mail_identity_get_address (extension);
 		e_source_set_display_name (source, email_address);
 	}
+
+	if (first_visit && (
+	    E_IS_MAIL_CONFIG_LOOKUP_PAGE (page) ||
+	    E_IS_MAIL_CONFIG_RECEIVING_PAGE (page)))
+		e_mail_config_identity_page_set_show_autodiscover_check (
+			E_MAIL_CONFIG_IDENTITY_PAGE (priv->identity_page), FALSE);
 }
 
 static void
