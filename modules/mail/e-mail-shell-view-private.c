@@ -300,40 +300,10 @@ find_dom_for_frame (WebKitDOMDocument *document,
 #endif
 
 static gboolean
-mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
-                                    GdkEventKey *event)
+mail_shell_view_mail_display_needs_key (EMailDisplay *mail_display,
+					gboolean with_input)
 {
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	EShellContent *shell_content;
-	EMailView *mail_view;
-	EMailReader *reader;
-	EMailDisplay *mail_display;
-	GtkAction *action;
-
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0)
-		return FALSE;
-
-	switch (event->keyval) {
-		case GDK_KEY_space:
-			action = ACTION (MAIL_SMART_FORWARD);
-			break;
-
-		case GDK_KEY_BackSpace:
-			action = ACTION (MAIL_SMART_BACKWARD);
-			break;
-
-		default:
-			return FALSE;
-	}
-
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	mail_view = e_mail_shell_content_get_mail_view (E_MAIL_SHELL_CONTENT (shell_content));
-	reader = E_MAIL_READER (mail_view);
-	mail_display = e_mail_reader_get_mail_display (reader);
+	gboolean needs_key = FALSE;
 
 	if (gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
 		WebKitWebFrame *frame;
@@ -355,13 +325,82 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 			name = webkit_dom_node_get_node_name (WEBKIT_DOM_NODE (element));
 
 		/* if INPUT or TEXTAREA has focus, then any key press should go there */
-		if (name && (g_ascii_strcasecmp (name, "INPUT") == 0 || g_ascii_strcasecmp (name, "TEXTAREA") == 0)) {
-			g_free (name);
-			return FALSE;
+		if (name && ((with_input && g_ascii_strcasecmp (name, "INPUT") == 0) || g_ascii_strcasecmp (name, "TEXTAREA") == 0)) {
+			needs_key = TRUE;
 		}
 
 		g_free (name);
 	}
+
+	return needs_key;
+}
+
+static gboolean
+mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
+                                    GdkEventKey *event)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	EMailView *mail_view;
+	EMailReader *reader;
+	EMailDisplay *mail_display;
+	GtkAction *action;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0)
+		return FALSE;
+
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	mail_view = e_mail_shell_content_get_mail_view (E_MAIL_SHELL_CONTENT (shell_content));
+	reader = E_MAIL_READER (mail_view);
+	mail_display = e_mail_reader_get_mail_display (reader);
+
+	switch (event->keyval) {
+		case GDK_KEY_space:
+			action = ACTION (MAIL_SMART_FORWARD);
+			break;
+
+		case GDK_KEY_BackSpace:
+			action = ACTION (MAIL_SMART_BACKWARD);
+			break;
+
+		case GDK_KEY_Home:
+		case GDK_KEY_Left:
+		case GDK_KEY_Up:
+		case GDK_KEY_Right:
+		case GDK_KEY_Down:
+		case GDK_KEY_Prior:
+		case GDK_KEY_Next:
+		case GDK_KEY_End:
+		case GDK_KEY_Begin:
+			if (!mail_shell_view_mail_display_needs_key (mail_display, FALSE) &&
+			    webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (mail_display)) !=
+			    webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display))) {
+				WebKitDOMDocument *document;
+				WebKitDOMDOMWindow *window;
+
+				document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (mail_display));
+				window = webkit_dom_document_get_default_view (document);
+
+				/* Workaround WebKit bug for key navigation, when inner IFRAME is focused.
+				   EMailView's inner IFRAMEs have disabled scrolling, but WebKit doesn't post
+				   key navigation events to parent's frame, thus the view doesn't scroll.
+				   This is a poor workaround for this issue, the main frame is focused,
+				   which has scrolling enabled.
+				*/
+				webkit_dom_dom_window_focus (window);
+			}
+
+			return FALSE;
+		default:
+			return FALSE;
+	}
+
+	if (mail_shell_view_mail_display_needs_key (mail_display, TRUE))
+		return FALSE;
 
 	gtk_action_activate (action);
 
