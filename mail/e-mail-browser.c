@@ -311,7 +311,6 @@ mail_browser_message_list_built_cb (EMailBrowser *browser,
 
 static gboolean
 mail_browser_popup_event_cb (EMailBrowser *browser,
-                             GdkEventButton *event,
                              const gchar *uri)
 {
 	EMailReader *reader;
@@ -333,14 +332,9 @@ mail_browser_popup_event_cb (EMailBrowser *browser,
 	state = e_mail_reader_check_state (reader);
 	e_mail_reader_update_actions (reader, state);
 
-	if (event == NULL)
-		gtk_menu_popup (
-			menu, NULL, NULL, NULL, NULL,
-			0, gtk_get_current_event_time ());
-	else
-		gtk_menu_popup (
-			menu, NULL, NULL, NULL, NULL,
-			event->button, event->time);
+	gtk_menu_popup (
+		menu, NULL, NULL, NULL, NULL,
+		0, gtk_get_current_event_time ());
 
 	return TRUE;
 }

@@ -867,110 +867,97 @@ web_view_constructed (GObject *object)
 }
 
 static gboolean
-web_view_button_press_event (GtkWidget *widget,
-                             GdkEventButton *event)
+web_view_context_menu_cb (WebKitWebView *webkit_web_view,
+			  GtkWidget *default_menu,
+			  WebKitHitTestResult *hit_test_result,
+			  gboolean triggered_with_keyboard)
 {
-	GtkWidgetClass *widget_class;
+	WebKitHitTestResultContext context;
 	EWebView *web_view;
 	gboolean event_handled = FALSE;
 	gchar *uri;
 
-	web_view = E_WEB_VIEW (widget);
+	web_view = E_WEB_VIEW (webkit_web_view);
 
-	if (event != NULL) {
-		WebKitHitTestResult *test;
-		WebKitHitTestResultContext context;
+	if (web_view->priv->cursor_image != NULL) {
+		g_object_unref (web_view->priv->cursor_image);
+		web_view->priv->cursor_image = NULL;
+	}
 
-		if (web_view->priv->cursor_image != NULL) {
-			g_object_unref (web_view->priv->cursor_image);
-			web_view->priv->cursor_image = NULL;
-		}
+	if (web_view->priv->cursor_image_src != NULL) {
+		g_free (web_view->priv->cursor_image_src);
+		web_view->priv->cursor_image_src = NULL;
+	}
 
-		if (web_view->priv->cursor_image_src != NULL) {
-			g_free (web_view->priv->cursor_image_src);
-			web_view->priv->cursor_image_src = NULL;
-		}
+	if (hit_test_result == NULL)
+		return FALSE;
 
-		test = webkit_web_view_get_hit_test_result (
-			WEBKIT_WEB_VIEW (web_view), event);
-		if (test == NULL)
-			goto chainup;
+	g_object_get (G_OBJECT (hit_test_result), "context", &context, NULL);
 
-		g_object_get (G_OBJECT (test), "context", &context, NULL);
+	if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE) {
+		WebKitWebDataSource *data_source;
+		WebKitWebFrame *frame;
+		GList *subresources, *res;
 
-		if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE) {
-			WebKitWebDataSource *data_source;
-			WebKitWebFrame *frame;
-			GList *subresources, *res;
+		g_object_get (
+			G_OBJECT (hit_test_result), "image-uri", &uri, NULL);
 
-			g_object_get (
-				G_OBJECT (test), "image-uri", &uri, NULL);
+		if (uri == NULL)
+			return FALSE;
 
-			if (uri == NULL)
-				goto chainup;
+		g_free (web_view->priv->cursor_image_src);
+		web_view->priv->cursor_image_src = uri;
 
-			g_free (web_view->priv->cursor_image_src);
-			web_view->priv->cursor_image_src = uri;
+		/* Iterate through all resources of the loaded webpage and
+		 * try to find resource with URI matching cursor_image_src */
+		frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (web_view));
+		data_source = webkit_web_frame_get_data_source (frame);
+		subresources = webkit_web_data_source_get_subresources (data_source);
+		for (res = subresources; res; res = res->next) {
+			WebKitWebResource *src = res->data;
+			GdkPixbufLoader *loader;
+			GString *data;
 
-			/* Iterate through all resources of the loaded webpage and
-			 * try to find resource with URI matching cursor_image_src */
-			frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (web_view));
-			data_source = webkit_web_frame_get_data_source (frame);
-			subresources = webkit_web_data_source_get_subresources (data_source);
-			for (res = subresources; res; res = res->next) {
-				WebKitWebResource *src = res->data;
-				GdkPixbufLoader *loader;
-				GString *data;
+			if (g_strcmp0 (webkit_web_resource_get_uri (src),
+				web_view->priv->cursor_image_src) != 0)
+				continue;
 
-				if (g_strcmp0 (webkit_web_resource_get_uri (src),
-					web_view->priv->cursor_image_src) != 0)
-					continue;
+			data = webkit_web_resource_get_data (src);
+			if (data == NULL)
+				break;
 
-				data = webkit_web_resource_get_data (src);
-				if (data == NULL)
-					break;
-
-				loader = gdk_pixbuf_loader_new ();
-				if (!gdk_pixbuf_loader_write (loader,
-					(guchar *) data->str, data->len, NULL)) {
-					g_object_unref (loader);
-					break;
-				}
-				gdk_pixbuf_loader_close (loader, NULL);
-
-				if (web_view->priv->cursor_image != NULL)
-					g_object_unref (web_view->priv->cursor_image);
-
-				web_view->priv->cursor_image =
-					g_object_ref (gdk_pixbuf_loader_get_animation (loader));
-
+			loader = gdk_pixbuf_loader_new ();
+			if (!gdk_pixbuf_loader_write (loader,
+				(guchar *) data->str, data->len, NULL)) {
 				g_object_unref (loader);
 				break;
 			}
-			g_list_free (subresources);
-		}
+			gdk_pixbuf_loader_close (loader, NULL);
 
-		g_object_unref (test);
+			if (web_view->priv->cursor_image != NULL)
+				g_object_unref (web_view->priv->cursor_image);
+
+			web_view->priv->cursor_image =
+				g_object_ref (gdk_pixbuf_loader_get_animation (loader));
+
+			g_object_unref (loader);
+			break;
+		}
+		g_list_free (subresources);
 	}
 
-	if (event != NULL && event->button != 3)
-		goto chainup;
+	g_object_get (hit_test_result, "link-uri", &uri, NULL);
 
-	uri = e_web_view_extract_uri (web_view, event);
+	if (!(context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK)) {
+		g_free (uri);
+		uri = NULL;
+	}
 
-	g_signal_emit (
-		web_view, signals[POPUP_EVENT], 0,
-		event, uri, &event_handled);
+	g_signal_emit (web_view, signals[POPUP_EVENT], 0, uri, &event_handled);
 
 	g_free (uri);
 
-	if (event_handled)
-		return TRUE;
-
-chainup:
-	/* Chain up to parent's button_press_event() method. */
-	widget_class = GTK_WIDGET_CLASS (e_web_view_parent_class);
-	return widget_class->button_press_event (widget, event);
+	return event_handled;
 }
 
 static gboolean
@@ -1221,11 +1208,10 @@ web_view_frame_load_uri (EWebView *web_view,
 
 static gboolean
 web_view_popup_event (EWebView *web_view,
-                      GdkEventButton *event,
                       const gchar *uri)
 {
 	e_web_view_set_selected_uri (web_view, uri);
-	e_web_view_show_popup_menu (web_view, event, NULL, NULL);
+	e_web_view_show_popup_menu (web_view);
 
 	return TRUE;
 }
@@ -1237,8 +1223,7 @@ web_view_stop_loading (EWebView *web_view)
 }
 
 static void
-web_view_update_actions (EWebView *web_view,
-                         GdkEventButton *event)
+web_view_update_actions (EWebView *web_view)
 {
 	GtkActionGroup *action_group;
 	gboolean can_copy;
@@ -1247,19 +1232,13 @@ web_view_update_actions (EWebView *web_view,
 	gboolean uri_is_valid = FALSE;
 	gboolean has_cursor_image;
 	gboolean visible;
-	WebKitHitTestResult *hit_test;
-	WebKitHitTestResultContext context;
 	const gchar *group_name;
 	const gchar *uri;
 
 	uri = e_web_view_get_selected_uri (web_view);
-	can_copy = webkit_web_view_can_copy_clipboard (
-				WEBKIT_WEB_VIEW (web_view));
-	hit_test = webkit_web_view_get_hit_test_result (
-			WEBKIT_WEB_VIEW (web_view), event);
-	g_object_get (G_OBJECT (hit_test), "context", &context, NULL);
-
-	has_cursor_image = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE);
+	can_copy = webkit_web_view_can_copy_clipboard (WEBKIT_WEB_VIEW (web_view));
+	has_cursor_image = e_web_view_get_cursor_image_src (web_view) ||
+			   e_web_view_get_cursor_image (web_view);
 
 	/* Parse the URI early so we know if the actions will work. */
 	if (uri != NULL) {
@@ -1481,9 +1460,6 @@ e_web_view_class_init (EWebViewClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-#if 0  /* WEBKIT */
-	GtkHTMLClass *html_class;
-#endif
 
 	g_type_class_add_private (class, sizeof (EWebViewPrivate));
 
@@ -1495,7 +1471,6 @@ e_web_view_class_init (EWebViewClass *class)
 	object_class->constructed = web_view_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->button_press_event = web_view_button_press_event;
 	widget_class->scroll_event = web_view_scroll_event;
 	widget_class->drag_motion = web_view_drag_motion;
 
@@ -1644,10 +1619,8 @@ e_web_view_class_init (EWebViewClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EWebViewClass, popup_event),
 		g_signal_accumulator_true_handled, NULL,
-		e_marshal_BOOLEAN__BOXED_STRING,
-		G_TYPE_BOOLEAN, 2,
-		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE,
-		G_TYPE_STRING);
+		e_marshal_BOOLEAN__STRING,
+		G_TYPE_BOOLEAN, 1, G_TYPE_STRING);
 
 	signals[STATUS_MESSAGE] = g_signal_new (
 		"status-message",
@@ -1674,8 +1647,8 @@ e_web_view_class_init (EWebViewClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EWebViewClass, update_actions),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__POINTER,
-		G_TYPE_NONE, 1, G_TYPE_POINTER);
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	/* return TRUE when a signal handler processed the mailto URI */
 	signals[PROCESS_MAILTO] = g_signal_new (
@@ -1738,6 +1711,10 @@ e_web_view_init (EWebView *web_view)
 		web_view, "new-window-policy-decision-requested",
 		G_CALLBACK (web_view_navigation_policy_decision_requested_cb),
 		NULL);
+
+	g_signal_connect (
+		web_view, "context-menu",
+		G_CALLBACK (web_view_context_menu_cb), NULL);
 
 	g_signal_connect (
 		web_view, "notify::load-status",
@@ -2618,27 +2595,19 @@ e_web_view_get_popup_menu (EWebView *web_view)
 }
 
 void
-e_web_view_show_popup_menu (EWebView *web_view,
-                            GdkEventButton *event,
-                            GtkMenuPositionFunc func,
-                            gpointer user_data)
+e_web_view_show_popup_menu (EWebView *web_view)
 {
 	GtkWidget *menu;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	e_web_view_update_actions (web_view, event);
+	e_web_view_update_actions (web_view);
 
 	menu = e_web_view_get_popup_menu (web_view);
 
-	if (event != NULL)
-		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, func,
-			user_data, event->button, event->time);
-	else
-		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, func,
-			user_data, 0, gtk_get_current_event_time ());
+	gtk_menu_popup (
+		GTK_MENU (menu), NULL, NULL, NULL, NULL,
+		0, gtk_get_current_event_time ());
 }
 
 void
@@ -2659,12 +2628,11 @@ e_web_view_stop_loading (EWebView *web_view)
 }
 
 void
-e_web_view_update_actions (EWebView *web_view,
-                           GdkEventButton *event)
+e_web_view_update_actions (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	g_signal_emit (web_view, signals[UPDATE_ACTIONS], 0, event);
+	g_signal_emit (web_view, signals[UPDATE_ACTIONS], 0);
 }
 
 static gchar *

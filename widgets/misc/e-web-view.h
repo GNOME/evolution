@@ -96,13 +96,11 @@ struct _EWebViewClass {
 
 	/* Signals */
 	gboolean	(*popup_event)		(EWebView *web_view,
-						 GdkEventButton *event,
 						 const gchar *uri);
 	void		(*status_message)	(EWebView *web_view,
 						 const gchar *status_message);
 	void		(*stop_loading)		(EWebView *web_view);
-	void		(*update_actions)	(EWebView *web_view,
-						 GdkEventButton *event);
+	void		(*update_actions)	(EWebView *web_view);
 	gboolean	(*process_mailto)	(EWebView *web_view,
 						 const gchar *mailto_uri);
 };
@@ -198,16 +196,12 @@ void		e_web_view_zoom_in		(EWebView *web_view);
 void		e_web_view_zoom_out		(EWebView *web_view);
 GtkUIManager *	e_web_view_get_ui_manager	(EWebView *web_view);
 GtkWidget *	e_web_view_get_popup_menu	(EWebView *web_view);
-void		e_web_view_show_popup_menu	(EWebView *web_view,
-						 GdkEventButton *event,
-						 GtkMenuPositionFunc func,
-						 gpointer user_data);
+void		e_web_view_show_popup_menu	(EWebView *web_view);
 void		e_web_view_status_message	(EWebView *web_view,
 						 const gchar *status_message);
 void		e_web_view_stop_loading		(EWebView *web_view);
-void		e_web_view_update_actions	(EWebView *web_view,
-						 GdkEventButton *button);
-gchar *          e_web_view_get_selection_html   (EWebView *web_view);
+void		e_web_view_update_actions	(EWebView *web_view);
+gchar *         e_web_view_get_selection_html   (EWebView *web_view);
 
 void		e_web_view_set_settings		(EWebView *web_view,
 						 WebKitWebSettings *settings);
