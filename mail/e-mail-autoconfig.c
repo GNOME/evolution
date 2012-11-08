@@ -41,9 +41,6 @@
 #define AUTOCONFIG_BASE_URI \
 	"http://api.gnome.org/evolution/autoconfig/1.1/"
 
-/* XXX g_file_load_contents() on an "http://" URI returns error codes
- *     in the SOUP_HTTP_ERROR domain instead of the G_IO_ERROR domain.
- *     That is both undocumented and unexpected. */
 #define ERROR_IS_NOT_FOUND(error) \
 	(g_error_matches ((error), SOUP_HTTP_ERROR, SOUP_STATUS_NOT_FOUND))
 
