@@ -16,6 +16,52 @@
  *
  */
 
+/* XXX Thoughts on RFC 6186: Use of SRV Records for Locating Email
+ *                           Submission/Access Services
+ *
+ *     RFC 6186 specifies using SRV DNS lookups to aid in automatic
+ *     configuration of mail accounts.  While it may be tempting to
+ *     implement the RFC here (I was tempted at least), upon closer
+ *     examination I find the RFC to be insufficient.
+ *
+ *     An SRV DNS lookup only provides a host name and port number.
+ *     The RFC assumes the account's user name can be derived from
+ *     the email address, and suggests probing the mail server for
+ *     a valid user name by actually attempting authentication,
+ *     first with the user's full email address and then falling
+ *     back to only the local part.
+ *
+ *     I'm uncomfortable with this for a number of reasons:
+ *
+ *     1) I would prefer the user have a chance to manually review
+ *        the settings before transmitting credentials of any kind,
+ *        since DNS responses can be spoofed.
+ *
+ *     2) Authentication at this phase would require asking for
+ *        a password either before or during auto-configuration.
+ *        Asking before assumes a password-based authentication
+ *        mechanism is to be used, which is not always the case,
+ *        and asking during may raise the user's suspicion about
+ *        what's going on behind the scenes (it would mine).
+ *
+ *     3) For better or worse, our architecture isn't really built
+ *        to handle authentication at this stage.  EMailSession is
+ *        wired into too many other areas to be reused here without
+ *        risking unwanted side-effects, therefore it would require
+ *        a custom CamelSession subclass with an authenticate_sync()
+ *        implementation similar to EMailSession.
+ *
+ * While the technical limitations of (3) could be overcome, my concerns
+ * in (1) and (2) still stand.  I think for the time being a better solution
+ * is to have an administrator script on api.gnome.org that compares the host
+ * and port settings in each clientConfig file to the _imap._tcp, _pop3._tcp,
+ * and _submission._tcp SRV records for that service provider (if available)
+ * to help ensure the static XML content remains accurate.  It would also be
+ * instructive to track how many service providers even implement RFC 6186.
+ *
+ * Recording my thoughts here for posterity. -- mbarnes
+ */
+
 #include "e-mail-autoconfig.h"
 
 #include <config.h>
