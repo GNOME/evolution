@@ -38,6 +38,8 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_CONFIG_ASSISTANT, EMailConfigAssistantPrivate))
 
+typedef struct _AutoconfigContext AutoconfigContext;
+
 struct _EMailConfigAssistantPrivate {
 	EMailSession *session;
 	ESource *identity_source;
@@ -49,6 +51,12 @@ struct _EMailConfigAssistantPrivate {
 	EMailConfigPage *lookup_page;
 	GHashTable *visited_pages;
 	gboolean auto_configure_done;
+};
+
+struct _AutoconfigContext {
+	GtkAssistant *assistant;
+	GCancellable *cancellable;
+	GtkWidget *skip_button;  /* not referenced */
 };
 
 enum {
@@ -74,6 +82,50 @@ G_DEFINE_TYPE_WITH_CODE (
 		E_TYPE_ALERT_SINK, NULL)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
+
+static void
+autoconfig_skip_button_clicked_cb (GtkButton *button,
+                                   GCancellable *cancellable)
+{
+	g_cancellable_cancel (cancellable);
+}
+
+static AutoconfigContext *
+autoconfig_context_new (GtkAssistant *assistant)
+{
+	AutoconfigContext *context;
+	const gchar *text;
+
+	context = g_slice_new0 (AutoconfigContext);
+	context->assistant = g_object_ref (assistant);
+	context->cancellable = g_cancellable_new ();
+
+	/* GtkAssistant sinks the floating button reference. */
+	text = _("_Skip Lookup");
+	context->skip_button = gtk_button_new_with_mnemonic (text);
+	gtk_assistant_add_action_widget (
+		context->assistant, context->skip_button);
+	gtk_widget_show (context->skip_button);
+
+	g_signal_connect_object (
+		context->skip_button, "clicked",
+		G_CALLBACK (autoconfig_skip_button_clicked_cb),
+		context->cancellable, 0);
+
+	return context;
+}
+
+static void
+autoconfig_context_free (AutoconfigContext *context)
+{
+	gtk_assistant_remove_action_widget (
+		context->assistant, context->skip_button);
+
+	g_object_unref (context->assistant);
+	g_object_unref (context->cancellable);
+
+	g_slice_free (AutoconfigContext, context);
+}
 
 static gint
 mail_config_assistant_provider_compare (gconstpointer data1,
@@ -215,14 +267,14 @@ mail_config_assistant_autoconfigure_cb (GObject *source_object,
                                         gpointer user_data)
 {
 	EMailConfigAssistantPrivate *priv;
-	GtkAssistant *assistant;
+	AutoconfigContext *context;
 	EMailAutoconfig *autoconfig;
 	const gchar *email_address;
 	gint n_pages, ii;
 	GError *error = NULL;
 
-	assistant = GTK_ASSISTANT (user_data);
-	priv = E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE (assistant);
+	context = (AutoconfigContext *) user_data;
+	priv = E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE (context->assistant);
 
 	/* Whether it works or not, we only do this once. */
 	priv->auto_configure_done = TRUE;
@@ -233,7 +285,7 @@ mail_config_assistant_autoconfigure_cb (GObject *source_object,
 	 * as a debugging aid.  If this doesn't work we simply proceed to
 	 * the Receiving Email page. */
 	if (error != NULL) {
-		gtk_assistant_next_page (assistant);
+		gtk_assistant_next_page (context->assistant);
 		g_error_free (error);
 		goto exit;
 	}
@@ -256,23 +308,23 @@ mail_config_assistant_autoconfigure_cb (GObject *source_object,
 
 	/* XXX Can't find a better way to learn the page number of
 	 *     the summary page.  Oh my god this API is horrible. */
-	n_pages = gtk_assistant_get_n_pages (assistant);
+	n_pages = gtk_assistant_get_n_pages (context->assistant);
 	for (ii = 0; ii < n_pages; ii++) {
-		GtkWidget *nth_page;
+		GtkWidget *page;
 
-		nth_page = gtk_assistant_get_nth_page (assistant, ii);
-		if (E_IS_MAIL_CONFIG_SUMMARY_PAGE (nth_page))
+		page = gtk_assistant_get_nth_page (context->assistant, ii);
+		if (E_IS_MAIL_CONFIG_SUMMARY_PAGE (page))
 			break;
 	}
 
 	g_warn_if_fail (ii < n_pages);
-	gtk_assistant_set_current_page (assistant, ii);
+	gtk_assistant_set_current_page (context->assistant, ii);
 
 exit:
 	/* Set the page invisible so we never revisit it. */
 	gtk_widget_set_visible (GTK_WIDGET (priv->lookup_page), FALSE);
 
-	g_object_unref (assistant);
+	autoconfig_context_free (context);
 }
 
 static gboolean
@@ -758,6 +810,7 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 	}
 
 	if (E_IS_MAIL_CONFIG_LOOKUP_PAGE (page)) {
+		AutoconfigContext *context;
 		ESource *source;
 		ESourceMailIdentity *extension;
 		const gchar *email_address;
@@ -768,11 +821,14 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 		extension = e_source_get_extension (source, extension_name);
 		email_address = e_source_mail_identity_get_address (extension);
 
-		/* XXX This operation is not cancellable. */
+		context = autoconfig_context_new (assistant);
+
 		e_mail_autoconfig_new (
-			email_address, G_PRIORITY_DEFAULT, NULL,
+			email_address,
+			G_PRIORITY_DEFAULT,
+			context->cancellable,
 			mail_config_assistant_autoconfigure_cb,
-			g_object_ref (assistant));
+			context);
 	}
 
 	if (E_IS_MAIL_CONFIG_RECEIVING_PAGE (page) && first_visit) {
