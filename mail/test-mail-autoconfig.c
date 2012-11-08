@@ -45,7 +45,7 @@ main (gint argc,
 
 	g_assert (E_IS_MAIL_AUTOCONFIG (autoconfig));
 
-	g_print ("%s\n", e_mail_autoconfig_get_markup_content (autoconfig));
+	e_mail_autoconfig_dump_results (autoconfig);
 
 	g_object_unref (autoconfig);
 

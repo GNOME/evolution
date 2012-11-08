@@ -35,23 +35,29 @@
 #define ERROR_IS_NOT_FOUND(error) \
 	(g_error_matches ((error), SOUP_HTTP_ERROR, SOUP_STATUS_NOT_FOUND))
 
+typedef struct _EMailAutoconfigResult EMailAutoconfigResult;
 typedef struct _ParserClosure ParserClosure;
+
+struct _EMailAutoconfigResult {
+	gboolean set;
+	gchar *user;
+	gchar *host;
+	guint16 port;
+	CamelNetworkSecurityMethod security_method;
+};
 
 struct _EMailAutoconfigPrivate {
 	gchar *email_address;
 	gchar *email_local_part;
 	gchar *email_domain_part;
-	gchar *markup_content;
+	EMailAutoconfigResult imap_result;
+	EMailAutoconfigResult pop3_result;
+	EMailAutoconfigResult smtp_result;
 };
 
 struct _ParserClosure {
-	CamelNetworkSettings *network_settings;
-	const gchar *expected_type;
-	const gchar *email_address;
-	const gchar *email_local_part;
-	const gchar *email_domain_part;
-	gboolean in_server_element;
-	gboolean settings_modified;
+	EMailAutoconfig *autoconfig;
+	EMailAutoconfigResult *result;
 };
 
 enum {
@@ -72,6 +78,176 @@ G_DEFINE_TYPE_WITH_CODE (
 		G_TYPE_INITABLE, e_mail_autoconfig_initable_init)
 	G_IMPLEMENT_INTERFACE (
 		G_TYPE_ASYNC_INITABLE, NULL))
+
+static void
+mail_autoconfig_parse_start_element (GMarkupParseContext *context,
+                                     const gchar *element_name,
+                                     const gchar **attribute_names,
+                                     const gchar **attribute_values,
+                                     gpointer user_data,
+                                     GError **error)
+{
+	ParserClosure *closure = user_data;
+	EMailAutoconfigPrivate *priv;
+	gboolean is_incoming_server;
+	gboolean is_outgoing_server;
+
+	priv = closure->autoconfig->priv;
+
+	is_incoming_server = g_str_equal (element_name, "incomingServer");
+	is_outgoing_server = g_str_equal (element_name, "outgoingServer");
+
+	if (is_incoming_server || is_outgoing_server) {
+		const gchar *type = NULL;
+
+		g_markup_collect_attributes (
+			element_name,
+			attribute_names,
+			attribute_values,
+			error,
+			G_MARKUP_COLLECT_STRING,
+			"type", &type,
+			G_MARKUP_COLLECT_INVALID);
+
+		if (g_strcmp0 (type, "imap") == 0)
+			closure->result = &priv->imap_result;
+		if (g_strcmp0 (type, "pop3") == 0)
+			closure->result = &priv->pop3_result;
+		if (g_strcmp0 (type, "smtp") == 0)
+			closure->result = &priv->smtp_result;
+	}
+}
+
+static void
+mail_autoconfig_parse_end_element (GMarkupParseContext *context,
+                                   const gchar *element_name,
+                                   gpointer user_data,
+                                   GError **error)
+{
+	ParserClosure *closure = user_data;
+	gboolean is_incoming_server;
+	gboolean is_outgoing_server;
+
+	is_incoming_server = g_str_equal (element_name, "incomingServer");
+	is_outgoing_server = g_str_equal (element_name, "outgoingServer");
+
+	if (is_incoming_server || is_outgoing_server)
+		closure->result = NULL;
+}
+
+static void
+mail_autoconfig_parse_text (GMarkupParseContext *context,
+                            const gchar *text,
+                            gsize text_length,
+                            gpointer user_data,
+                            GError **error)
+{
+	ParserClosure *closure = user_data;
+	EMailAutoconfigPrivate *priv;
+	const gchar *element_name;
+	GString *string;
+
+	priv = closure->autoconfig->priv;
+
+	if (closure->result == NULL)
+		return;
+
+	/* Perform the following text substitutions:
+	 *
+	 * %EMAILADDRESS%    :  closure->email_address
+	 * %EMAILLOCALPART%  :  closure->email_local_part
+	 * %EMAILDOMAIN%     :  closure->email_domain_part
+	 */
+	if (strchr (text, '%') == NULL)
+		string = g_string_new (text);
+	else {
+		const gchar *cp = text;
+
+		string = g_string_sized_new (256);
+		while (*cp != '\0') {
+			const gchar *variable;
+			const gchar *substitute;
+
+			if (*cp != '%') {
+				g_string_append_c (string, *cp++);
+				continue;
+			}
+
+			variable = "%EMAILADDRESS%";
+			substitute = priv->email_address;
+
+			if (strncmp (cp, variable, strlen (variable)) == 0) {
+				g_string_append (string, substitute);
+				cp += strlen (variable);
+				continue;
+			}
+
+			variable = "%EMAILLOCALPART%";
+			substitute = priv->email_local_part;
+
+			if (strncmp (cp, variable, strlen (variable)) == 0) {
+				g_string_append (string, substitute);
+				cp += strlen (variable);
+				continue;
+			}
+
+			variable = "%EMAILDOMAIN%";
+			substitute = priv->email_domain_part;
+
+			if (strncmp (cp, variable, strlen (variable)) == 0) {
+				g_string_append (string, substitute);
+				cp += strlen (variable);
+				continue;
+			}
+
+			g_string_append_c (string, *cp++);
+		}
+	}
+
+	element_name = g_markup_parse_context_get_element (context);
+
+	if (g_str_equal (element_name, "hostname")) {
+		closure->result->host = g_strdup (string->str);
+		closure->result->set = TRUE;
+
+	} else if (g_str_equal (element_name, "username")) {
+		closure->result->user = g_strdup (string->str);
+		closure->result->set = TRUE;
+
+	} else if (g_str_equal (element_name, "port")) {
+		glong port = strtol (string->str, NULL, 10);
+		if (port == CLAMP (port, 1, G_MAXUINT16)) {
+			closure->result->port = (guint16) port;
+			closure->result->set = TRUE;
+		}
+
+	} else if (g_str_equal (element_name, "socketType")) {
+		if (g_str_equal (string->str, "plain")) {
+			closure->result->security_method =
+				CAMEL_NETWORK_SECURITY_METHOD_NONE;
+			closure->result->set = TRUE;
+		} else if (g_str_equal (string->str, "SSL")) {
+			closure->result->security_method =
+				CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+			closure->result->set = TRUE;
+		} else if (g_str_equal (string->str, "STARTTLS")) {
+			closure->result->security_method =
+				CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
+			closure->result->set = TRUE;
+		}
+	}
+
+	/* FIXME Not handling <authentication> elements.
+	 *       Unclear how some map to SASL mechanisms. */
+
+	g_string_free (string, TRUE);
+}
+
+static GMarkupParser mail_autoconfig_parser = {
+	mail_autoconfig_parse_start_element,
+	mail_autoconfig_parse_end_element,
+	mail_autoconfig_parse_text
+};
 
 static gchar *
 mail_autoconfig_resolve_name_server (const gchar *domain,
@@ -113,9 +289,12 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
                         GCancellable *cancellable,
                         GError **error)
 {
+	GMarkupParseContext *context;
 	SoupMessage *soup_message;
 	SoupSession *soup_session;
+	ParserClosure closure;
 	gulong cancel_id = 0;
+	gboolean success;
 	guint status;
 	gchar *uri;
 
@@ -137,206 +316,56 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 	if (cancel_id > 0)
 		g_cancellable_disconnect (cancellable, cancel_id);
 
-	if (SOUP_STATUS_IS_SUCCESSFUL (status)) {
+	success = SOUP_STATUS_IS_SUCCESSFUL (status);
 
-		/* Just to make sure we don't leak. */
-		g_free (autoconfig->priv->markup_content);
-
-		autoconfig->priv->markup_content =
-			g_strdup (soup_message->response_body->data);
-	} else {
+	if (!success) {
 		g_set_error_literal (
 			error, SOUP_HTTP_ERROR,
 			soup_message->status_code,
 			soup_message->reason_phrase);
+		goto exit;
 	}
 
+	closure.autoconfig = autoconfig;
+	closure.result = NULL;
+
+	context = g_markup_parse_context_new (
+		&mail_autoconfig_parser, 0,
+		&closure, (GDestroyNotify) NULL);
+
+	success = g_markup_parse_context_parse (
+		context,
+		soup_message->response_body->data,
+		soup_message->response_body->length,
+		error);
+
+	if (success)
+		success = g_markup_parse_context_end_parse (context, error);
+
+	g_markup_parse_context_free (context);
+
+exit:
 	g_object_unref (soup_message);
 	g_object_unref (soup_session);
 
-	return SOUP_STATUS_IS_SUCCESSFUL (status);
+	return success;
 }
-
-static void
-mail_autoconfig_parse_start_element (GMarkupParseContext *context,
-                                     const gchar *element_name,
-                                     const gchar **attribute_names,
-                                     const gchar **attribute_values,
-                                     gpointer user_data,
-                                     GError **error)
-{
-	ParserClosure *closure = user_data;
-	gboolean is_incoming_server;
-	gboolean is_outgoing_server;
-
-	is_incoming_server = g_str_equal (element_name, "incomingServer");
-	is_outgoing_server = g_str_equal (element_name, "outgoingServer");
-
-	if (is_incoming_server || is_outgoing_server) {
-		const gchar *type = NULL;
-
-		g_markup_collect_attributes (
-			element_name,
-			attribute_names,
-			attribute_values,
-			error,
-			G_MARKUP_COLLECT_STRING,
-			"type", &type,
-			G_MARKUP_COLLECT_INVALID);
-
-		closure->in_server_element =
-			(g_strcmp0 (type, closure->expected_type) == 0);
-	}
-}
-
-static void
-mail_autoconfig_parse_end_element (GMarkupParseContext *context,
-                                   const gchar *element_name,
-                                   gpointer user_data,
-                                   GError **error)
-{
-	ParserClosure *closure = user_data;
-	gboolean is_incoming_server;
-	gboolean is_outgoing_server;
-
-	is_incoming_server = g_str_equal (element_name, "incomingServer");
-	is_outgoing_server = g_str_equal (element_name, "outgoingServer");
-
-	if (is_incoming_server || is_outgoing_server)
-		closure->in_server_element = FALSE;
-}
-
-static void
-mail_autoconfig_parse_text (GMarkupParseContext *context,
-                            const gchar *text,
-                            gsize text_length,
-                            gpointer user_data,
-                            GError **error)
-{
-	ParserClosure *closure = user_data;
-	const gchar *element_name;
-	GString *string;
-
-	if (!closure->in_server_element)
-		return;
-
-	/* Perform the following text substitutions:
-	 *
-	 * %EMAILADDRESS%    :  closure->email_address
-	 * %EMAILLOCALPART%  :  closure->email_local_part
-	 * %EMAILDOMAIN%     :  closure->email_domain_part
-	 */
-	if (strchr (text, '%') == NULL)
-		string = g_string_new (text);
-	else {
-		const gchar *cp = text;
-
-		string = g_string_sized_new (256);
-		while (*cp != '\0') {
-			const gchar *variable;
-			const gchar *substitute;
-
-			if (*cp != '%') {
-				g_string_append_c (string, *cp++);
-				continue;
-			}
-
-			variable = "%EMAILADDRESS%";
-			substitute = closure->email_address;
-
-			if (strncmp (cp, variable, strlen (variable)) == 0) {
-				g_string_append (string, substitute);
-				cp += strlen (variable);
-				continue;
-			}
-
-			variable = "%EMAILLOCALPART%";
-			substitute = closure->email_local_part;
-
-			if (strncmp (cp, variable, strlen (variable)) == 0) {
-				g_string_append (string, substitute);
-				cp += strlen (variable);
-				continue;
-			}
-
-			variable = "%EMAILDOMAIN%";
-			substitute = closure->email_domain_part;
-
-			if (strncmp (cp, variable, strlen (variable)) == 0) {
-				g_string_append (string, substitute);
-				cp += strlen (variable);
-				continue;
-			}
-
-			g_string_append_c (string, *cp++);
-		}
-	}
-
-	element_name = g_markup_parse_context_get_element (context);
-
-	if (g_str_equal (element_name, "hostname")) {
-		camel_network_settings_set_host (
-			closure->network_settings, string->str);
-		closure->settings_modified = TRUE;
-
-	} else if (g_str_equal (element_name, "username")) {
-		camel_network_settings_set_user (
-			closure->network_settings, string->str);
-		closure->settings_modified = TRUE;
-
-	} else if (g_str_equal (element_name, "port")) {
-		glong port = strtol (string->str, NULL, 10);
-		if (port == CLAMP (port, 1, G_MAXUINT16)) {
-			camel_network_settings_set_port (
-				closure->network_settings, (guint16) port);
-			closure->settings_modified = TRUE;
-		}
-
-	} else if (g_str_equal (element_name, "socketType")) {
-		if (g_str_equal (string->str, "plain")) {
-			camel_network_settings_set_security_method (
-				closure->network_settings,
-				CAMEL_NETWORK_SECURITY_METHOD_NONE);
-			closure->settings_modified = TRUE;
-		} else if (g_str_equal (string->str, "SSL")) {
-			camel_network_settings_set_security_method (
-				closure->network_settings,
-				CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT);
-			closure->settings_modified = TRUE;
-		} else if (g_str_equal (string->str, "STARTTLS")) {
-			camel_network_settings_set_security_method (
-				closure->network_settings,
-				CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT);
-			closure->settings_modified = TRUE;
-		}
-	}
-
-	/* FIXME Not handling <authentication> elements.
-	 *       Unclear how some map to SASL mechanisms. */
-
-	g_string_free (string, TRUE);
-}
-
-static GMarkupParser mail_autoconfig_parser = {
-	mail_autoconfig_parse_start_element,
-	mail_autoconfig_parse_end_element,
-	mail_autoconfig_parse_text
-};
 
 static gboolean
 mail_autoconfig_set_details (EMailAutoconfig *autoconfig,
-                             const gchar *expected_type,
+                             EMailAutoconfigResult *result,
                              ESource *source,
                              const gchar *extension_name)
 {
-	GMarkupParseContext *context;
 	ESourceCamel *camel_ext;
 	ESourceBackend *backend_ext;
 	CamelSettings *settings;
-	ParserClosure closure;
 	const gchar *backend_name;
-	const gchar *markup_content;
-	gboolean success;
+
+	g_return_val_if_fail (result != NULL, FALSE);
+
+	if (!result->set)
+		return FALSE;
 
 	if (!e_source_has_extension (source, extension_name))
 		return FALSE;
@@ -349,33 +378,15 @@ mail_autoconfig_set_details (EMailAutoconfig *autoconfig,
 	settings = e_source_camel_get_settings (camel_ext);
 	g_return_val_if_fail (CAMEL_IS_NETWORK_SETTINGS (settings), FALSE);
 
-	markup_content = e_mail_autoconfig_get_markup_content (autoconfig);
-	g_return_val_if_fail (markup_content != NULL, FALSE);
+	g_object_set (
+		settings,
+		"user", result->user,
+		"host", result->host,
+		"port", result->port,
+		"security-method", result->security_method,
+		NULL);
 
-	closure.network_settings = CAMEL_NETWORK_SETTINGS (settings);
-	closure.expected_type = expected_type;
-	closure.in_server_element = FALSE;
-	closure.settings_modified = FALSE;
-
-	/* These are used for text substitutions. */
-	closure.email_address = autoconfig->priv->email_address;
-	closure.email_local_part = autoconfig->priv->email_local_part;
-	closure.email_domain_part = autoconfig->priv->email_domain_part;
-
-	context = g_markup_parse_context_new (
-		&mail_autoconfig_parser, 0, &closure, (GDestroyNotify) NULL);
-
-	success = g_markup_parse_context_parse (
-		context, markup_content, strlen (markup_content), NULL);
-
-	success &= g_markup_parse_context_end_parse (context, NULL);
-
-	/* Did we actually configure anything? */
-	success &= closure.settings_modified;
-
-	g_markup_parse_context_free (context);
-
-	return success;
+	return TRUE;
 }
 
 static void
@@ -433,7 +444,13 @@ mail_autoconfig_finalize (GObject *object)
 	g_free (priv->email_address);
 	g_free (priv->email_local_part);
 	g_free (priv->email_domain_part);
-	g_free (priv->markup_content);
+
+	g_free (priv->imap_result.user);
+	g_free (priv->imap_result.host);
+	g_free (priv->pop3_result.user);
+	g_free (priv->pop3_result.host);
+	g_free (priv->smtp_result.user);
+	g_free (priv->smtp_result.host);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_autoconfig_parent_class)->finalize (object);
@@ -634,14 +651,6 @@ e_mail_autoconfig_get_email_address (EMailAutoconfig *autoconfig)
 	return autoconfig->priv->email_address;
 }
 
-const gchar *
-e_mail_autoconfig_get_markup_content (EMailAutoconfig *autoconfig)
-{
-	g_return_val_if_fail (E_IS_MAIL_AUTOCONFIG (autoconfig), NULL);
-
-	return autoconfig->priv->markup_content;
-}
-
 gboolean
 e_mail_autoconfig_set_imap_details (EMailAutoconfig *autoconfig,
                                     ESource *imap_source)
@@ -650,8 +659,8 @@ e_mail_autoconfig_set_imap_details (EMailAutoconfig *autoconfig,
 	g_return_val_if_fail (E_IS_SOURCE (imap_source), FALSE);
 
 	return mail_autoconfig_set_details (
-		autoconfig, "imap", imap_source,
-		E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+		autoconfig, &autoconfig->priv->imap_result,
+		imap_source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
 }
 
 gboolean
@@ -662,8 +671,8 @@ e_mail_autoconfig_set_pop3_details (EMailAutoconfig *autoconfig,
 	g_return_val_if_fail (E_IS_SOURCE (pop3_source), FALSE);
 
 	return mail_autoconfig_set_details (
-		autoconfig, "pop3", pop3_source,
-		E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+		autoconfig, &autoconfig->priv->pop3_result,
+		pop3_source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
 }
 
 gboolean
@@ -674,7 +683,54 @@ e_mail_autoconfig_set_smtp_details (EMailAutoconfig *autoconfig,
 	g_return_val_if_fail (E_IS_SOURCE (smtp_source), FALSE);
 
 	return mail_autoconfig_set_details (
-		autoconfig, "smtp", smtp_source,
-		E_SOURCE_EXTENSION_MAIL_TRANSPORT);
+		autoconfig, &autoconfig->priv->smtp_result,
+		smtp_source, E_SOURCE_EXTENSION_MAIL_TRANSPORT);
+}
+
+void
+e_mail_autoconfig_dump_results (EMailAutoconfig *autoconfig)
+{
+	const gchar *email_address;
+	gboolean have_results;
+
+	g_return_if_fail (E_IS_MAIL_AUTOCONFIG (autoconfig));
+
+	email_address = autoconfig->priv->email_address;
+
+	have_results =
+		autoconfig->priv->imap_result.set ||
+		autoconfig->priv->pop3_result.set ||
+		autoconfig->priv->smtp_result.set;
+
+	if (have_results) {
+		g_print ("Results for <%s>\n", email_address);
+
+		if (autoconfig->priv->imap_result.set) {
+			g_print (
+				"IMAP: %s@%s:%u\n",
+				autoconfig->priv->imap_result.user,
+				autoconfig->priv->imap_result.host,
+				autoconfig->priv->imap_result.port);
+		}
+
+		if (autoconfig->priv->pop3_result.set) {
+			g_print (
+				"POP3: %s@%s:%u\n",
+				autoconfig->priv->pop3_result.user,
+				autoconfig->priv->pop3_result.host,
+				autoconfig->priv->pop3_result.port);
+		}
+
+		if (autoconfig->priv->smtp_result.set) {
+			g_print (
+				"SMTP: %s@%s:%u\n",
+				autoconfig->priv->smtp_result.user,
+				autoconfig->priv->smtp_result.host,
+				autoconfig->priv->smtp_result.port);
+		}
+
+	} else {
+		g_print ("No results for <%s>\n", email_address);
+	}
 }
 

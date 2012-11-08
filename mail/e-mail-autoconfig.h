@@ -70,8 +70,6 @@ EMailAutoconfig *
 						 GError **error);
 const gchar *	e_mail_autoconfig_get_email_address
 						(EMailAutoconfig *autoconfig);
-const gchar *	e_mail_autoconfig_get_markup_content
-						(EMailAutoconfig *autoconfig);
 gboolean	e_mail_autoconfig_set_imap_details
 						(EMailAutoconfig *autoconfig,
 						 ESource *imap_source);
@@ -81,6 +79,7 @@ gboolean	e_mail_autoconfig_set_pop3_details
 gboolean	e_mail_autoconfig_set_smtp_details
 						(EMailAutoconfig *autoconfig,
 						 ESource *smtp_source);
+void		e_mail_autoconfig_dump_results	(EMailAutoconfig *autoconfig);
 
 G_END_DECLS
 
