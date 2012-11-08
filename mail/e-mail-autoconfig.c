@@ -22,15 +22,6 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-/* Stuff for DNS querying and message parsing. */
-#include <netdb.h>
-#include <netinet/in.h>
-#include <resolv.h>
-#include <arpa/nameser.h>
-#if defined(HAVE_ARPA_NAMESER_COMPAT_H) && !defined(GETSHORT)
-#include <arpa/nameser_compat.h>
-#endif
-
 /* For error codes. */
 #include <libsoup/soup.h>
 
@@ -45,7 +36,6 @@
 	(g_error_matches ((error), SOUP_HTTP_ERROR, SOUP_STATUS_NOT_FOUND))
 
 typedef struct _ParserClosure ParserClosure;
-typedef struct _ResolverClosure ResolverClosure;
 
 struct _EMailAutoconfigPrivate {
 	gchar *email_address;
@@ -62,15 +52,6 @@ struct _ParserClosure {
 	const gchar *email_domain_part;
 	gboolean in_server_element;
 	gboolean settings_modified;
-};
-
-struct _ResolverClosure {
-	volatile gint ref_count;
-	GMainContext *main_context;
-	GMainLoop *main_loop;
-	gchar *domain_name;
-	gchar *name_server;
-	GError *error;
 };
 
 enum {
@@ -92,237 +73,29 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (
 		G_TYPE_ASYNC_INITABLE, NULL))
 
-static ResolverClosure *
-resolver_closure_new (const gchar *domain_name)
-{
-	ResolverClosure *closure;
-
-	closure = g_slice_new0 (ResolverClosure);
-	closure->domain_name = g_strdup (domain_name);
-	closure->main_context = g_main_context_new ();
-	closure->main_loop = g_main_loop_new (closure->main_context, FALSE);
-	closure->ref_count = 1;
-
-	return closure;
-}
-
-static ResolverClosure *
-resolver_closure_ref (ResolverClosure *closure)
-{
-	g_return_val_if_fail (closure != NULL, NULL);
-	g_return_val_if_fail (closure->ref_count > 0, NULL);
-
-	g_atomic_int_inc (&closure->ref_count);
-
-	return closure;
-}
-
-static void
-resolver_closure_unref (ResolverClosure *closure)
-{
-	g_return_if_fail (closure != NULL);
-	g_return_if_fail (closure->ref_count > 0);
-
-	if (g_atomic_int_dec_and_test (&closure->ref_count)) {
-		g_main_context_unref (closure->main_context);
-		g_main_loop_unref (closure->main_loop);
-		g_free (closure->domain_name);
-		g_free (closure->name_server);
-		g_clear_error (&closure->error);
-		g_slice_free (ResolverClosure, closure);
-	}
-}
-
-static gboolean
-mail_autoconfig_resolver_idle_quit (gpointer user_data)
-{
-	GMainLoop *main_loop = user_data;
-
-	g_main_loop_quit (main_loop);
-
-	return FALSE;
-}
-
-static void
-mail_autoconfig_resolver_cancelled (GCancellable *cancellable,
-                                    ResolverClosure *closure)
-{
-	GSource *source;
-
-	source = g_idle_source_new ();
-	g_source_set_callback (
-		source,
-		mail_autoconfig_resolver_idle_quit,
-		g_main_loop_ref (closure->main_loop),
-		(GDestroyNotify) g_main_loop_unref);
-	g_source_attach (source, closure->main_context);
-	g_source_unref (source);
-}
-
-static gpointer
-mail_autoconfig_resolver_thread (gpointer user_data)
-{
-	ResolverClosure *closure = user_data;
-	HEADER *header;
-	guchar answer[1024];
-	gchar namebuf[1024];
-	guchar *end, *cp;
-	gint count;
-	gint length;
-	gint herr;
-
-	/* Query DNS for the MX record for the domain name given in the
-	 * email address.  We need an authoritative name server for it. */
-
-	length = res_query (
-		closure->domain_name, C_IN, T_MX,
-		answer, sizeof (answer));
-	herr = h_errno;  /* h_errno is defined in <netdb.h> */
-
-	/* Based heavily on _g_resolver_targets_from_res_query().
-	 * The binary DNS message format is described in RFC 1035. */
-
-	if (length <= 0) {
-		if (length == 0 || herr == HOST_NOT_FOUND || herr == NO_DATA)
-			g_set_error (
-				&closure->error,
-				G_RESOLVER_ERROR,
-				G_RESOLVER_ERROR_NOT_FOUND,
-				_("No mail exchanger record for '%s'"),
-				closure->domain_name);
-		else if (herr == TRY_AGAIN)
-			g_set_error (
-				&closure->error,
-				G_RESOLVER_ERROR,
-				G_RESOLVER_ERROR_TEMPORARY_FAILURE,
-				_("Temporarily unable to resolve '%s'"),
-				closure->domain_name);
-		else
-			g_set_error (
-				&closure->error,
-				G_RESOLVER_ERROR,
-				G_RESOLVER_ERROR_INTERNAL,
-				_("Error resolving '%s'"),
-				closure->domain_name);
-		goto exit;
-	}
-
-	header = (HEADER *) answer;
-	cp = answer + sizeof (HEADER);
-	end = answer + length;
-
-	/* Skip the 'question' section. */
-	count = ntohs (header->qdcount);
-	while (count-- && cp < end) {
-		cp += dn_expand (answer, end, cp, namebuf, sizeof (namebuf));
-		cp += 2;			/* skip QTYPE */
-		cp += 2;			/* skip QCLASS */
-	}
-
-	/* Skip the 'answers' section. */
-	count = ntohs (header->ancount);
-	while (count-- && cp < end) {
-		guint16 rdlength;
-		cp += dn_expand (answer, end, cp, namebuf, sizeof (namebuf));
-		cp += 2;			/* skip TYPE */
-		cp += 2;			/* skip CLASS */
-		cp += 4;			/* skip TTL */
-		GETSHORT (rdlength, cp);	/* read RDLENGTH */
-		cp += rdlength;			/* skip RDATA */
-	}
-
-	/* Read the 'authority' section. */
-	count = ntohs (header->nscount);
-	while (count-- && cp < end) {
-		guint16 type, qclass, rdlength;
-		cp += dn_expand (answer, end, cp, namebuf, sizeof (namebuf));
-		GETSHORT (type, cp);
-		GETSHORT (qclass, cp);
-		cp += 4;			/* skip TTL */
-		GETSHORT (rdlength, cp);
-
-		if (type != T_NS || qclass != C_IN) {
-			cp += rdlength;
-			continue;
-		}
-
-		cp += dn_expand (answer, end, cp, namebuf, sizeof (namebuf));
-
-		/* Pick the first T_NS record we find. */
-		closure->name_server = g_strdup (namebuf);
-		break;
-	}
-
-	if (closure->name_server == NULL)
-		g_set_error (
-			&closure->error,
-			G_RESOLVER_ERROR,
-			G_RESOLVER_ERROR_NOT_FOUND,
-			_("No authoritative name server for '%s'"),
-			closure->domain_name);
-
-exit:
-	g_main_loop_quit (closure->main_loop);
-	resolver_closure_unref (closure);
-
-	return NULL;  /* return value is not used */
-}
-
 static gchar *
-mail_autoconfig_resolve_authority (const gchar *domain,
-                                   GCancellable *cancellable,
-                                   GError **error)
+mail_autoconfig_resolve_name_server (const gchar *domain,
+                                     GCancellable *cancellable,
+                                     GError **error)
 {
-	ResolverClosure *closure;
-	GThread *resolver_thread;
+	GResolver *resolver;
+	GList *records;
 	gchar *name_server = NULL;
-	gulong cancel_id = 0;
 
-	closure = resolver_closure_new (domain);
+	resolver = g_resolver_get_default ();
 
-	/* DNS record lookup is not cancellable, so we run it in a
-	 * separate thread.  We don't join with the thread, however,
-	 * because if we get cancelled we want to return immediately.
-	 * So use a reference count on the thread closure and always
-	 * let the thread run to completion even if we're not around
-	 * any longer to pick up the result. */
-	resolver_thread = g_thread_try_new (NULL,
-		mail_autoconfig_resolver_thread,
-		resolver_closure_ref (closure),
-		error);
+	records = g_resolver_lookup_records (
+		resolver, domain, G_RESOLVER_RECORD_NS, cancellable, error);
 
-	if (resolver_thread == NULL)
-		return FALSE;
-
-	g_thread_unref (resolver_thread);
-
-	if (G_IS_CANCELLABLE (cancellable))
-		cancel_id = g_cancellable_connect (
-			cancellable,
-			G_CALLBACK (mail_autoconfig_resolver_cancelled),
-			resolver_closure_ref (closure),
-			(GDestroyNotify) resolver_closure_unref);
-
-	g_main_loop_run (closure->main_loop);
-
-	if (cancel_id > 0)
-		g_cancellable_disconnect (cancellable, cancel_id);
-
-	if (g_cancellable_set_error_if_cancelled (cancellable, error)) {
-		/* do nothing */
-
-	} else if (closure->error != NULL) {
-		g_warn_if_fail (closure->name_server == NULL);
-		g_propagate_error (error, closure->error);
-		closure->error = NULL;
-
-	} else {
-		g_warn_if_fail (closure->name_server != NULL);
-		name_server = closure->name_server;
-		closure->name_server = NULL;
+	/* This list is sorted per RFC 2782, so use the first item. */
+	if (records != NULL) {
+		GVariant *variant = records->data;
+		g_variant_get_child (variant, 0, "s", &name_server);
 	}
 
-	resolver_closure_unref (closure);
+	g_list_free_full (records, (GDestroyNotify) g_variant_unref);
+
+	g_object_unref (resolver);
 
 	return name_server;
 }
@@ -725,8 +498,8 @@ mail_autoconfig_initable_init (GInitable *initable,
 	}
 
 	/* Look up an authoritative name server for the email address
-	 * domain according to its "mail exchanger" (MX) DNS record. */
-	name_server = mail_autoconfig_resolve_authority (
+	 * domain according to its "name server" (NS) DNS record. */
+	name_server = mail_autoconfig_resolve_name_server (
 		domain, cancellable, error);
 
 	if (name_server == NULL)
