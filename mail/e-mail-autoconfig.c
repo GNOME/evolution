@@ -330,32 +330,61 @@ mail_autoconfig_resolve_authority (const gchar *domain,
 	return name_server;
 }
 
+static void
+mail_autoconfig_abort_soup_session_cb (GCancellable *cancellable,
+                                       SoupSession *soup_session)
+{
+	soup_session_abort (soup_session);
+}
+
 static gboolean
 mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
                         const gchar *domain,
                         GCancellable *cancellable,
                         GError **error)
 {
-	GFile *file;
+	SoupMessage *soup_message;
+	SoupSession *soup_session;
+	gulong cancel_id = 0;
+	guint status;
 	gchar *uri;
-	gboolean success;
+
+	soup_session = soup_session_sync_new ();
 
 	uri = g_strconcat (AUTOCONFIG_BASE_URI, domain, NULL);
-	file = g_file_new_for_uri (uri);
+	soup_message = soup_message_new (SOUP_METHOD_GET, uri);
 	g_free (uri);
 
-	/* Just to make sure we don't leak. */
-	g_free (autoconfig->priv->markup_content);
-	autoconfig->priv->markup_content = NULL;
+	if (G_IS_CANCELLABLE (cancellable))
+		cancel_id = g_cancellable_connect (
+			cancellable,
+			G_CALLBACK (mail_autoconfig_abort_soup_session_cb),
+			g_object_ref (soup_session),
+			(GDestroyNotify) g_object_unref);
 
-	success = g_file_load_contents (
-		file, cancellable,
-		&autoconfig->priv->markup_content,
-		NULL, NULL, error);
+	status = soup_session_send_message (soup_session, soup_message);
 
-	g_object_unref (file);
+	if (cancel_id > 0)
+		g_cancellable_disconnect (cancellable, cancel_id);
 
-	return success;
+	if (SOUP_STATUS_IS_SUCCESSFUL (status)) {
+
+		/* Just to make sure we don't leak. */
+		g_free (autoconfig->priv->markup_content);
+
+		autoconfig->priv->markup_content =
+			g_strdup (soup_message->response_body->data);
+	} else {
+		g_set_error_literal (
+			error, SOUP_HTTP_ERROR,
+			soup_message->status_code,
+			soup_message->reason_phrase);
+	}
+
+	g_object_unref (soup_message);
+	g_object_unref (soup_session);
+
+	return SOUP_STATUS_IS_SUCCESSFUL (status);
 }
 
 static void
