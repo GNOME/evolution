@@ -257,7 +257,7 @@ mail_config_assistant_autoconfigure_cb (GObject *source_object,
 	/* Go to the next page (Receiving Email) before skipping to the
 	 * Summary Page to get it into GtkAssistant visited page history.
 	 * We want the back button to return to Receiving Email. */
-	gtk_assistant_next_page (context->assistant);
+	gtk_assistant_next_page (assistant);
 
 	/* XXX Can't find a better way to learn the page number of
 	 *     the summary page.  Oh my god this API is horrible. */
