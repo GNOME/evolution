@@ -2704,8 +2704,6 @@ e_meeting_time_selector_on_canvas_query_tooltip (GtkWidget *widget,
 	gint first_idx = 0;
 	gint ii = 0;
 	gchar *tt_text = NULL;
-	gchar *summary = NULL;
-	gchar *location = NULL;
 	
 	g_return_val_if_fail (GNOME_IS_CANVAS (widget), FALSE);
 	g_return_val_if_fail (GTK_IS_TOOLTIP (tooltip), FALSE);
@@ -2729,7 +2727,7 @@ e_meeting_time_selector_on_canvas_query_tooltip (GtkWidget *widget,
 	/* no tooltip if attendee has no calendar info */
 	attendee = e_meeting_store_find_attendee_at_row (mts->model, row);
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (attendee), FALSE);
-	if (! e_meeting_attendee_get_has_calendar_info (attendee))
+	if (!e_meeting_attendee_get_has_calendar_info (attendee))
 		return FALSE;
 
 	/* get the attendee's busy times array */
@@ -2790,11 +2788,9 @@ e_meeting_time_selector_on_canvas_query_tooltip (GtkWidget *widget,
 	 * e_meeting_xfb_utf8_string_new_from_ical() function in
 	 * process_free_busy_comp_get_xfb() (e-meeting-store.c)
 	 */
-	summary = (xfb->summary == NULL) ? g_strdup ("") : g_strdup (xfb->summary);
-	location = (xfb->location == NULL) ? g_strdup ("") : g_strdup (xfb->location);
-	tt_text = g_strdup_printf ("%s\n\n%s", summary, location);
-	g_free (summary);
-	g_free (location);
+	tt_text = g_strdup_printf ("%s\n\n%s",
+	                           (xfb->summary == NULL) ? "" : xfb->summary,
+	                           (xfb->location == NULL) ? "" : xfb->location);
 
 	/* set XFB information as tooltip text */
 	gtk_tooltip_set_text (tooltip, tt_text);
