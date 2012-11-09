@@ -436,17 +436,6 @@ create_default_shell (void)
 	return shell;
 }
 
-/* this workarounds https://bugzilla.gnome.org/show_bug.cgi?id=683548
-   and is a replacement of g_type_ensure(), which is part of GLib 2.34,
-   on which Evolution doesn't depend yet
-*/
-static void
-e_ensure_type (GType type)
-{
-	if (G_UNLIKELY (type == (GType) -1))
-		g_warning ("can't happen");
-}
-
 gint
 main (gint argc,
       gchar **argv)
@@ -658,7 +647,7 @@ main (gint argc,
 
 	/* Workaround https://bugzilla.gnome.org/show_bug.cgi?id=683548 */
 	if (!quit)
-		e_ensure_type (WEBKIT_TYPE_WEB_VIEW);
+		g_type_ensure (WEBKIT_TYPE_WEB_VIEW);
 
 	shell = create_default_shell ();
 	if (!shell)
