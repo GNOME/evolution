@@ -179,8 +179,7 @@ e_meeting_xfb_utf8_string_new_from_ical (const gchar *icalstring,
 		u_tmp = (guchar *) g_strdup (icalstring);
 
 	/* ical does not carry charset hints, so we
-	 * try utf-8 first, then conversion to locale.
-	 * If both fail we retrieve as many 
+	 * try UTF-8 first, then conversion to locale.
 	 */
 
 	/* if we have valid UTF-8, we're done converting */
