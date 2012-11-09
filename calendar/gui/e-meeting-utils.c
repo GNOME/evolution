@@ -218,8 +218,6 @@ e_meeting_xfb_utf8_string_new_from_ical (const gchar *icalstring,
 	 */
 
 	if (g_utf8_strlen (tmp, -1) > (glong) max_len) {
-		g_warning ("%s() XFB string longer than %i characters, clipping",
-		           __func__, (gint) max_len);
 		/* insert NULL termination to where we want to
 		 * clip, take care to hit UTF-8 character boundary
 		 */
