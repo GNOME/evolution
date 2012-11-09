@@ -114,10 +114,10 @@ mail_config_google_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 {
 	ESource *source;
 	ESourceCollection *collection_extension;
-	ESourceMailIdentity *identity_extension;
+	ESourceAuthentication *auth_extension;
 	GtkToggleButton *toggle_button;
 	GList *head, *link;
-	const gchar *address;
+	const gchar *user;
 	const gchar *parent_uid;
 	const gchar *display_name;
 	const gchar *extension_name;
@@ -138,20 +138,20 @@ mail_config_google_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 	if (!calendar_active && !contacts_active)
 		return;
 
-	source = e_mail_config_summary_page_get_identity_source (page);
+	source = e_mail_config_summary_page_get_account_source (page);
 	display_name = e_source_get_display_name (source);
 
-	/* The collection identity is the user's email address. */
-	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
-	identity_extension = e_source_get_extension (source, extension_name);
-	address = e_source_mail_identity_get_address (identity_extension);
+	/* The collection identity is the mail account user name. */
+	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
+	auth_extension = e_source_get_extension (source, extension_name);
+	user = e_source_authentication_get_user (auth_extension);
 
 	source = extension->priv->collection_source;
 	e_source_set_display_name (source, display_name);
 
 	extension_name = E_SOURCE_EXTENSION_COLLECTION;
 	collection_extension = e_source_get_extension (source, extension_name);
-	e_source_collection_set_identity (collection_extension, address);
+	e_source_collection_set_identity (collection_extension, user);
 
 	/* All queued sources become children of the collection source. */
 	parent_uid = e_source_get_uid (source);
