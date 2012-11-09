@@ -26,55 +26,9 @@
 #endif
 
 #include <string.h>
+#include <libedataserver/libedataserver.h>
 
 #include "e-meeting-utils.h"
-
-
-/* this is a dupe of e_util_utf8_data_make_valid()
- * from libedataserver (which we do not link to
- * in this module presently). _g_utf8_make_valid()
- * really should be a public function...
- */
-static gchar*
-util_utf8_data_make_valid (const gchar *data,
-                           gsize data_bytes)
-{
-	/* almost identical copy of glib's _g_utf8_make_valid() */
-	GString *string;
-	const gchar *remainder, *invalid;
-	gint remaining_bytes, valid_bytes;
-
-	g_return_val_if_fail (data != NULL, NULL);
-
-	string = NULL;
-	remainder = (gchar *) data,
-	remaining_bytes = data_bytes;
-
-	while (remaining_bytes != 0) {
-		if (g_utf8_validate (remainder, remaining_bytes, &invalid))
-			break;
-		valid_bytes = invalid - remainder;
-
-		if (string == NULL)
-			string = g_string_sized_new (remaining_bytes);
-
-		g_string_append_len (string, remainder, valid_bytes);
-		/* append U+FFFD REPLACEMENT CHARACTER */
-		g_string_append (string, "\357\277\275");
-
-		remaining_bytes -= valid_bytes + 1;
-		remainder = invalid + 1;
-	}
-
-	if (string == NULL)
-		return g_strndup ((gchar *) data, data_bytes);
-
-	g_string_append (string, remainder);
-
-	g_warn_if_fail (g_utf8_validate (string->str, -1, NULL));
-
-	return g_string_free (string, FALSE);
-}
 
 gint
 e_meeting_time_compare_times (EMeetingTime *time1,
@@ -179,7 +133,8 @@ e_meeting_xfb_utf8_string_new_from_ical (const gchar *icalstring,
 		u_tmp = (guchar *) g_strdup (icalstring);
 
 	/* ical does not carry charset hints, so we
-	 * try UTF-8 first, then conversion to locale.
+	 * try UTF-8 first, then conversion using
+	 * system locale info.
 	 */
 
 	/* if we have valid UTF-8, we're done converting */
@@ -198,14 +153,14 @@ e_meeting_xfb_utf8_string_new_from_ical (const gchar *icalstring,
 	if (tmp_err == NULL)
 		goto valid;
 
-	g_warning ("%s() %s", __func__, tmp_err->message);
+	g_warning ("%s: %s", G_STRFUNC, tmp_err->message);
 	g_error_free (tmp_err);
 
 	/* still no success, forcing it into UTF-8, using
 	 * replacement chars to replace invalid ones
 	 */
-	tmp = util_utf8_data_make_valid ((const gchar *) u_tmp,
-	                                 strlen ((const gchar *) u_tmp));
+	tmp = e_util_utf8_data_make_valid ((const gchar *) u_tmp,
+	                                   strlen ((const gchar *) u_tmp));
  valid:
 	if (tmp == NULL)
 		tmp = (gchar *) u_tmp;
