@@ -382,7 +382,7 @@ e_mail_tag_editor_set_completed (EMailTagEditor *editor,
 {
 	g_return_if_fail (E_IS_MAIL_TAG_EDITOR (editor));
 
-	if ((completed ? 1 : 0) == (editor->priv->completed ? 1 : 0))
+	if (editor->priv->completed == completed)
 		return;
 
 	editor->priv->completed = completed;
@@ -428,7 +428,7 @@ e_mail_tag_editor_set_use_24_hour_format (EMailTagEditor *editor,
 {
 	g_return_if_fail (E_IS_MAIL_TAG_EDITOR (editor));
 
-	if ((use_24_hour_format ? 1 : 0) == (editor->priv->use_24_hour_format ? 1 : 0))
+	if (editor->priv->use_24_hour_format == use_24_hour_format)
 		return;
 
 	editor->priv->use_24_hour_format = use_24_hour_format;

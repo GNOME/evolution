@@ -129,8 +129,9 @@ e_mail_extension_registry_add_extension (EMailExtensionRegistry *reg,
 		}
 
 		if (camel_debug ("emformat:registry")) {
-			printf ("Added extension '%s' for type '%s'\n",
-				 G_OBJECT_TYPE_NAME (extension), types[i]);
+			printf (
+				"Added extension '%s' for type '%s'\n",
+				G_OBJECT_TYPE_NAME (extension), types[i]);
 		}
 	}
 }
@@ -165,7 +166,8 @@ e_mail_extension_registry_remove_extension (EMailExtensionRegistry *reg,
 		g_queue_remove (queue, extension);
 
 		if (camel_debug ("emformat:registry")) {
-			printf ("Removed extension '%s' from type '%s'\n",
+			printf (
+				"Removed extension '%s' from type '%s'\n",
 				G_OBJECT_TYPE_NAME (extension), types[i]);
 		}
 	}

@@ -258,7 +258,7 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 
 static gboolean
 mail_shell_view_mail_display_needs_key (EMailDisplay *mail_display,
-					gboolean with_input)
+                                        gboolean with_input)
 {
 	gboolean needs_key = FALSE;
 
@@ -338,10 +338,10 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 				window = webkit_dom_document_get_default_view (document);
 
 				/* Workaround WebKit bug for key navigation, when inner IFRAME is focused.
-				   EMailView's inner IFRAMEs have disabled scrolling, but WebKit doesn't post
-				   key navigation events to parent's frame, thus the view doesn't scroll.
-				   This is a poor workaround for this issue, the main frame is focused,
-				   which has scrolling enabled.
+				 * EMailView's inner IFRAMEs have disabled scrolling, but WebKit doesn't post
+				 * key navigation events to parent's frame, thus the view doesn't scroll.
+				 * This is a poor workaround for this issue, the main frame is focused,
+				 * which has scrolling enabled.
 				*/
 				webkit_dom_dom_window_focus (window);
 			}

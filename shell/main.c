@@ -422,8 +422,10 @@ create_default_shell (void)
 
 	/* Failure to register is fatal. */
 	if (error != NULL) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-			_("Cannot start Evolution, other instance is probably running and is unresponsive. System error: %s"),
+		e_notice (
+			NULL, GTK_MESSAGE_ERROR,
+			_("Cannot start Evolution.  Another Evolution "
+			"instance may be unresponsive. System error: %s"),
 			error->message);
 		g_clear_error (&error);
 	}

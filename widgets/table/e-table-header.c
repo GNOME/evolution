@@ -151,8 +151,9 @@ eth_do_remove (ETableHeader *eth,
 	if (do_unref)
 		g_object_unref (eth->columns[idx]);
 
-	memmove (&eth->columns[idx], &eth->columns[idx + 1],
-		 sizeof (ETableCol *) * (eth->col_count - idx - 1));
+	memmove (
+		&eth->columns[idx], &eth->columns[idx + 1],
+		sizeof (ETableCol *) * (eth->col_count - idx - 1));
 	eth->col_count--;
 }
 
@@ -165,8 +166,9 @@ eth_finalize (GObject *object)
 
 	if (eth->sort_info) {
 		if (eth->sort_info_group_change_id)
-			g_signal_handler_disconnect (G_OBJECT (eth->sort_info),
-						    eth->sort_info_group_change_id);
+			g_signal_handler_disconnect (
+				eth->sort_info,
+				eth->sort_info_group_change_id);
 		g_object_unref (eth->sort_info);
 		eth->sort_info = NULL;
 	}
@@ -224,7 +226,7 @@ eth_set_property (GObject *object,
 		if (eth->sort_info) {
 			if (eth->sort_info_group_change_id)
 				g_signal_handler_disconnect (
-					G_OBJECT (eth->sort_info),
+					eth->sort_info,
 					eth->sort_info_group_change_id);
 			g_object_unref (eth->sort_info);
 		}
@@ -252,7 +254,7 @@ eth_get_property (GObject *object,
 
 	switch (property_id) {
 	case PROP_SORT_INFO:
-		g_value_set_object (val, G_OBJECT (eth->sort_info));
+		g_value_set_object (val, eth->sort_info);
 		break;
 	case PROP_WIDTH:
 		g_value_set_double (val, eth->nominal_width);
@@ -276,55 +278,70 @@ e_table_header_class_init (ETableHeaderClass *class)
 	object_class->get_property = eth_get_property;
 
 	g_object_class_install_property (
-		object_class, PROP_WIDTH,
-		g_param_spec_double ("width", "Width", "Width",
-				     0.0, G_MAXDOUBLE, 0.0,
-				     G_PARAM_READWRITE));
+		object_class,
+		PROP_WIDTH,
+		g_param_spec_double (
+			"width", "Width", "Width",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
-		object_class, PROP_WIDTH_EXTRAS,
-		g_param_spec_double ("width_extras", "Width of Extras", "Width of Extras",
-				     0.0, G_MAXDOUBLE, 0.0,
-				     G_PARAM_READWRITE));
+		object_class,
+		PROP_WIDTH_EXTRAS,
+		g_param_spec_double (
+			"width_extras",
+			"Width of Extras",
+			"Width of Extras",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
-		object_class, PROP_SORT_INFO,
-		g_param_spec_object ("sort_info", "Sort Info", "Sort Info",
-				     E_TYPE_TABLE_SORT_INFO,
-				     G_PARAM_READWRITE));
+		object_class,
+		PROP_SORT_INFO,
+		g_param_spec_object (
+			"sort_info",
+			"Sort Info",
+			"Sort Info",
+			E_TYPE_TABLE_SORT_INFO,
+			G_PARAM_READWRITE));
 
-	eth_signals[STRUCTURE_CHANGE] =
-		g_signal_new ("structure_change",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableHeaderClass, structure_change),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-	eth_signals[DIMENSION_CHANGE] =
-		g_signal_new ("dimension_change",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableHeaderClass, dimension_change),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE, 1, G_TYPE_INT);
-	eth_signals[EXPANSION_CHANGE] =
-		g_signal_new ("expansion_change",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableHeaderClass, expansion_change),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-	eth_signals[REQUEST_WIDTH] =
-		g_signal_new ("request_width",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableHeaderClass, request_width),
-			      (GSignalAccumulator) NULL, NULL,
-			      e_marshal_INT__INT,
-			      G_TYPE_INT, 1, G_TYPE_INT);
+	eth_signals[STRUCTURE_CHANGE] = g_signal_new (
+		"structure_change",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableHeaderClass, structure_change),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	eth_signals[DIMENSION_CHANGE] = g_signal_new (
+		"dimension_change",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableHeaderClass, dimension_change),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1,
+		G_TYPE_INT);
+
+	eth_signals[EXPANSION_CHANGE] = g_signal_new (
+		"expansion_change",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableHeaderClass, expansion_change),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	eth_signals[REQUEST_WIDTH] = g_signal_new (
+		"request_width",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableHeaderClass, request_width),
+		(GSignalAccumulator) NULL, NULL,
+		e_marshal_INT__INT,
+		G_TYPE_INT, 1,
+		G_TYPE_INT);
 
 	class->structure_change = NULL;
 	class->dimension_change = NULL;
@@ -380,7 +397,8 @@ eth_do_insert (ETableHeader *eth,
                gint pos,
                ETableCol *val)
 {
-	memmove (&eth->columns[pos + 1], &eth->columns[pos],
+	memmove (
+		&eth->columns[pos + 1], &eth->columns[pos],
 		sizeof (ETableCol *) * (eth->col_count - pos));
 	eth->columns[pos] = val;
 	eth->col_count++;
@@ -424,7 +442,7 @@ e_table_header_add_column (ETableHeader *eth,
 	eth_do_insert (eth, pos, tc);
 
 	enqueue (eth, -1, eth->nominal_width);
-	g_signal_emit (G_OBJECT (eth), eth_signals[STRUCTURE_CHANGE], 0);
+	g_signal_emit (eth, eth_signals[STRUCTURE_CHANGE], 0);
 }
 
 /**
@@ -673,8 +691,8 @@ e_table_header_move (ETableHeader *eth,
 	eth_do_insert (eth, target_index, old);
 	eth_update_offsets (eth);
 
-	g_signal_emit (G_OBJECT (eth), eth_signals[DIMENSION_CHANGE], 0, eth->width);
-	g_signal_emit (G_OBJECT (eth), eth_signals[STRUCTURE_CHANGE], 0);
+	g_signal_emit (eth, eth_signals[DIMENSION_CHANGE], 0, eth->width);
+	g_signal_emit (eth, eth_signals[STRUCTURE_CHANGE], 0);
 }
 
 /**
@@ -696,7 +714,7 @@ e_table_header_remove (ETableHeader *eth,
 
 	eth_do_remove (eth, idx, TRUE);
 	enqueue (eth, -1, eth->nominal_width);
-	g_signal_emit (G_OBJECT (eth), eth_signals[STRUCTURE_CHANGE], 0);
+	g_signal_emit (eth, eth_signals[STRUCTURE_CHANGE], 0);
 }
 
 /*
@@ -771,7 +789,7 @@ eth_set_size (ETableHeader *eth,
 			eth->columns[i]->expansion = 0;
 		}
 
-		g_signal_emit (G_OBJECT (eth), eth_signals[EXPANSION_CHANGE], 0);
+		g_signal_emit (eth, eth_signals[EXPANSION_CHANGE], 0);
 		return;
 	}
 
@@ -781,7 +799,7 @@ eth_set_size (ETableHeader *eth,
 		for (i = idx; i < eth->col_count; i++) {
 			eth->columns[i]->expansion = 0;
 		}
-		g_signal_emit (G_OBJECT (eth), eth_signals[EXPANSION_CHANGE], 0);
+		g_signal_emit (eth, eth_signals[EXPANSION_CHANGE], 0);
 		return;
 	}
 
@@ -798,7 +816,7 @@ eth_set_size (ETableHeader *eth,
 		for (i = idx + 1; i < eth->col_count; i++) {
 			eth->columns[i]->expansion = 0;
 		}
-		g_signal_emit (G_OBJECT (eth), eth_signals[EXPANSION_CHANGE], 0);
+		g_signal_emit (eth, eth_signals[EXPANSION_CHANGE], 0);
 		return;
 	}
 
@@ -825,7 +843,7 @@ eth_set_size (ETableHeader *eth,
 				eth->columns[i]->expansion = expansion / expandable_count;
 			}
 		}
-		g_signal_emit (G_OBJECT (eth), eth_signals[EXPANSION_CHANGE], 0);
+		g_signal_emit (eth, eth_signals[EXPANSION_CHANGE], 0);
 		return;
 	}
 
@@ -835,7 +853,7 @@ eth_set_size (ETableHeader *eth,
 			eth->columns[i]->expansion *= expansion / old_expansion;
 		}
 	}
-	g_signal_emit (G_OBJECT (eth), eth_signals[EXPANSION_CHANGE], 0);
+	g_signal_emit (eth, eth_signals[EXPANSION_CHANGE], 0);
 }
 
 /**
@@ -922,7 +940,7 @@ eth_calc_widths (ETableHeader *eth)
 	}
 	g_free (widths);
 	if (changed)
-		g_signal_emit (G_OBJECT (eth), eth_signals[DIMENSION_CHANGE], 0, eth->width);
+		g_signal_emit (eth, eth_signals[DIMENSION_CHANGE], 0, eth->width);
 	eth_update_offsets (eth);
 }
 
@@ -937,14 +955,13 @@ e_table_header_update_horizontal (ETableHeader *eth)
 	for (i = 0; i < cols; i++) {
 		gint width = 0;
 
-		g_signal_emit_by_name (G_OBJECT (eth),
-					 "request_width",
-					 i, &width);
+		g_signal_emit_by_name (
+			eth, "request_width", i, &width);
 		eth->columns[i]->min_width = width + 10;
 		eth->columns[i]->expansion = 1;
 	}
 	enqueue (eth, -1, eth->nominal_width);
-	g_signal_emit (G_OBJECT (eth), eth_signals[EXPANSION_CHANGE], 0);
+	g_signal_emit (eth, eth_signals[EXPANSION_CHANGE], 0);
 }
 
 gint

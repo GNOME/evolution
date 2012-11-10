@@ -114,7 +114,8 @@ emfe_source_format (EMailFormatterExtension *extension,
 	camel_stream_write_string (
 		stream, "<code class=\"pre\">", cancellable, NULL);
 
-	camel_data_wrapper_write_to_stream_sync (dw, filtered_stream,
+	camel_data_wrapper_write_to_stream_sync (
+		dw, filtered_stream,
 		cancellable, NULL);
 	camel_stream_flush (filtered_stream, cancellable, NULL);
 	g_object_unref (filtered_stream);

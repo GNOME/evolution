@@ -163,7 +163,7 @@ e_source_contacts_set_include_me (ESourceContacts *extension,
 {
 	g_return_if_fail (E_IS_SOURCE_CONTACTS (extension));
 
-	if ((extension->priv->include_me ? 1 : 0) == (include_me ? 1 : 0))
+	if (extension->priv->include_me == include_me)
 		return;
 
 	extension->priv->include_me = include_me;

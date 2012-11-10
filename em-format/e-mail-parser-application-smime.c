@@ -93,19 +93,18 @@ empe_app_smime_parse (EMailParserExtension *extension,
 
 	opart = camel_mime_part_new ();
 	valid = camel_cipher_context_decrypt_sync (
-			context, part, opart,
-			cancellable, &local_error);
+		context, part, opart,
+		cancellable, &local_error);
 
 	e_mail_part_preserve_charset_in_content_type (part, opart);
 
-	if (valid == NULL) {
+	if (local_error != NULL) {
 		parts = e_mail_parser_error (
 			parser, cancellable,
 			_("Could not parse S/MIME message: %s"),
-			local_error->message ?
-				local_error->message :
-				_("Unknown error"));
-		g_clear_error (&local_error);
+			local_error->message);
+		g_error_free (local_error);
+
 	} else {
 		gint len = part_id->len;
 
@@ -123,7 +122,8 @@ empe_app_smime_parse (EMailParserExtension *extension,
 			if (!mail_part)
 				continue;
 
-			e_mail_part_update_validity (mail_part, valid,
+			e_mail_part_update_validity (
+				mail_part, valid,
 				E_MAIL_PART_VALIDITY_ENCRYPTED |
 				E_MAIL_PART_VALIDITY_SMIME);
 
@@ -144,7 +144,8 @@ empe_app_smime_parse (EMailParserExtension *extension,
 			if (button && button->data) {
 				mail_part = button->data;
 
-				e_mail_part_update_validity (mail_part, valid,
+				e_mail_part_update_validity (
+					mail_part, valid,
 					E_MAIL_PART_VALIDITY_ENCRYPTED |
 					E_MAIL_PART_VALIDITY_SMIME);
 			}

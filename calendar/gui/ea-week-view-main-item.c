@@ -229,22 +229,27 @@ ea_week_view_main_item_get_type (void)
 		 *
 		 */
 
-		factory = atk_registry_get_factory (atk_get_default_registry (),
-						    e_week_view_main_item_get_type ());
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (),
+			e_week_view_main_item_get_type ());
 		derived_atk_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 
 		tinfo.class_size = query.class_size;
 		tinfo.instance_size = query.instance_size;
 
-		type = g_type_register_static (derived_atk_type,
-					       "EaWeekViewMainItem", &tinfo, 0);
-		g_type_add_interface_static (type, ATK_TYPE_COMPONENT,
-					     &atk_component_info);
-		g_type_add_interface_static (type, ATK_TYPE_TABLE,
-					     &atk_table_info);
-		g_type_add_interface_static (type, ATK_TYPE_SELECTION,
-					     &atk_selection_info);
+		type = g_type_register_static (
+			derived_atk_type,
+			"EaWeekViewMainItem", &tinfo, 0);
+		g_type_add_interface_static (
+			type, ATK_TYPE_COMPONENT,
+			&atk_component_info);
+		g_type_add_interface_static (
+			type, ATK_TYPE_TABLE,
+			&atk_table_info);
+		g_type_add_interface_static (
+			type, ATK_TYPE_SELECTION,
+			&atk_selection_info);
 	}
 
 	return type;
@@ -278,15 +283,17 @@ ea_week_view_main_item_new (GObject *obj)
 
 	g_return_val_if_fail (E_IS_WEEK_VIEW_MAIN_ITEM (obj), NULL);
 
-	accessible = ATK_OBJECT (g_object_new (EA_TYPE_WEEK_VIEW_MAIN_ITEM,
-					       NULL));
+	accessible = ATK_OBJECT (
+		g_object_new (EA_TYPE_WEEK_VIEW_MAIN_ITEM,
+		NULL));
 
 	atk_object_initialize (accessible, obj);
 	accessible->role = ATK_ROLE_TABLE;
 
 #ifdef ACC_DEBUG
 	++n_ea_week_view_main_item_created;
-	printf ("ACC_DEBUG: n_ea_week_view_main_item_created = %d\n",
+	printf (
+		"ACC_DEBUG: n_ea_week_view_main_item_created = %d\n",
 		n_ea_week_view_main_item_created);
 #endif
 
@@ -324,7 +331,8 @@ ea_week_view_main_item_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 #ifdef ACC_DEBUG
 	++n_ea_week_view_main_item_destroyed;
-	printf ("ACC_DEBUG: n_ea_week_view_main_item_destroyed = %d\n",
+	printf (
+		"ACC_DEBUG: n_ea_week_view_main_item_destroyed = %d\n",
 		n_ea_week_view_main_item_destroyed);
 #endif
 }
@@ -490,17 +498,19 @@ ea_week_view_main_item_time_change_cb (EWeekView *week_view,
 	printf ("EvoAcc: ea_week_view_main_item time changed cb\n");
 #endif
 	/* only deal with the first selected child, for now */
-	item_cell = atk_selection_ref_selection (ATK_SELECTION (ea_main_item),
-						 0);
+	item_cell = atk_selection_ref_selection (
+		ATK_SELECTION (ea_main_item),
+		0);
 	if (item_cell) {
 		AtkStateSet *state_set;
 		state_set = atk_object_ref_state_set (item_cell);
 		atk_state_set_add_state (state_set, ATK_STATE_FOCUSED);
 		g_object_unref (state_set);
 
-		g_signal_emit_by_name (ea_main_item,
-			       "active-descendant-changed",
-			       item_cell);
+		g_signal_emit_by_name (
+			ea_main_item,
+			"active-descendant-changed",
+			item_cell);
 		g_signal_emit_by_name (data, "selection_changed");
 		atk_focus_tracker_notify (item_cell);
 		g_object_unref (item_cell);
@@ -594,8 +604,9 @@ ea_week_view_main_item_get_row_label (EaWeekViewMainItem *ea_main_item,
 	if (!g_obj)
 		return 0;
 
-	return g_snprintf (buffer, buffer_size, "the %i week",
-			   row + 1);
+	return g_snprintf (
+		buffer, buffer_size, "the %i week",
+		row + 1);
 
 }
 
@@ -618,12 +629,14 @@ ea_week_view_main_item_get_cell_data (EaWeekViewMainItem *ea_main_item)
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
 	week_view = e_week_view_main_item_get_week_view (main_item);
 
-	cell_data = g_object_get_data (G_OBJECT (ea_main_item),
-				       "ea-week-view-cell-table");
+	cell_data = g_object_get_data (
+		G_OBJECT (ea_main_item),
+		"ea-week-view-cell-table");
 	if (!cell_data) {
 		cell_data = ea_cell_table_create (week_view->weeks_shown, 7, TRUE);
-		g_object_set_data (G_OBJECT (ea_main_item),
-				   "ea-week-view-cell-table", cell_data);
+		g_object_set_data (
+			G_OBJECT (ea_main_item),
+			"ea-week-view-cell-table", cell_data);
 	}
 	return cell_data;
 }
@@ -635,11 +648,13 @@ ea_week_view_main_item_destory_cell_data (EaWeekViewMainItem *ea_main_item)
 
 	g_return_if_fail (ea_main_item);
 
-	cell_data = g_object_get_data (G_OBJECT (ea_main_item),
-				       "ea-week-view-cell-table");
+	cell_data = g_object_get_data (
+		G_OBJECT (ea_main_item),
+		"ea-week-view-cell-table");
 	if (cell_data) {
-		g_object_set_data (G_OBJECT (ea_main_item),
-				   "ea-week-view-cell-table", NULL);
+		g_object_set_data (
+			G_OBJECT (ea_main_item),
+			"ea-week-view-cell-table", NULL);
 		ea_cell_table_destroy (cell_data);
 	}
 }
@@ -679,8 +694,9 @@ component_interface_get_extents (AtkComponent *component,
 	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	ea_canvas = gtk_widget_get_accessible (week_view->main_canvas);
-	atk_component_get_extents (ATK_COMPONENT (ea_canvas), x, y,
-				   width, height, coord_type);
+	atk_component_get_extents (
+		ATK_COMPONENT (ea_canvas), x, y,
+		width, height, coord_type);
 }
 
 /* atk table interface */
@@ -726,8 +742,9 @@ table_interface_ref_at (AtkTable *table,
 	gint index;
 
 	EaWeekViewMainItem * ea_main_item = EA_WEEK_VIEW_MAIN_ITEM (table);
-	index = ea_week_view_main_item_get_child_index_at (ea_main_item,
-							  row, column);
+	index = ea_week_view_main_item_get_child_index_at (
+		ea_main_item,
+		row, column);
 	return ea_week_view_main_item_ref_child (ATK_OBJECT (ea_main_item), index);
 }
 
@@ -772,8 +789,9 @@ table_interface_get_index_at (AtkTable *table,
                               gint column)
 {
 	EaWeekViewMainItem * ea_main_item = EA_WEEK_VIEW_MAIN_ITEM (table);
-	return ea_week_view_main_item_get_child_index_at (ea_main_item,
-							 row, column);
+	return ea_week_view_main_item_get_child_index_at (
+		ea_main_item,
+		row, column);
 }
 
 static gint
@@ -802,13 +820,13 @@ table_interface_get_column_extent_at (AtkTable *table,
 	AtkObject *child;
 	EaWeekViewMainItem * ea_main_item = EA_WEEK_VIEW_MAIN_ITEM (table);
 
-	index = ea_week_view_main_item_get_child_index_at (ea_main_item,
-							  row, column);
-	child = atk_object_ref_accessible_child (ATK_OBJECT (ea_main_item),
-						 index);
+	index = ea_week_view_main_item_get_child_index_at (
+		ea_main_item, row, column);
+	child = atk_object_ref_accessible_child (
+		ATK_OBJECT (ea_main_item), index);
 	if (child)
-		atk_component_get_size (ATK_COMPONENT (child),
-					&width, &height);
+		atk_component_get_size (
+			ATK_COMPONENT (child), &width, &height);
 
 	return width;
 }
@@ -823,13 +841,13 @@ table_interface_get_row_extent_at (AtkTable *table,
 	AtkObject *child;
 	EaWeekViewMainItem * ea_main_item = EA_WEEK_VIEW_MAIN_ITEM (table);
 
-	index = ea_week_view_main_item_get_child_index_at (ea_main_item,
-							  row, column);
-	child = atk_object_ref_accessible_child (ATK_OBJECT (ea_main_item),
-						 index);
+	index = ea_week_view_main_item_get_child_index_at (
+		ea_main_item, row, column);
+	child = atk_object_ref_accessible_child (
+		ATK_OBJECT (ea_main_item), index);
 	if (child)
-		atk_component_get_size (ATK_COMPONENT (child),
-					&width, &height);
+		atk_component_get_size (
+			ATK_COMPONENT (child), &width, &height);
 
 	return height;
 }
@@ -855,7 +873,7 @@ table_interface_is_row_selected (AtkTable *table,
 	if (week_view->selection_start_day == -1)
 		/* no selection */
 		return FALSE;
-	if ((row < 0) && (row + 1 > week_view->weeks_shown ))
+	if ((row < 0) && (row + 1 > week_view->weeks_shown))
 		return FALSE;
 	if (((week_view->selection_start_day < row * 7) &&
 		(week_view->selection_end_day < row * 7)) ||
@@ -898,7 +916,7 @@ table_interface_is_column_selected (AtkTable *table,
 	else {
 		gint i;
 		for (i = 0; i < week_view->weeks_shown; i++)
-			if ((column + i *7>= week_view->selection_start_day ) &&
+			if ((column + i *7>= week_view->selection_start_day) &&
 			    (column + i *7<= week_view->selection_end_day))
 				return TRUE;
 		return FALSE;
@@ -961,7 +979,7 @@ table_interface_get_selected_columns (AtkTable *table,
 
 	if (week_view->selection_start_day == -1)
 		return 0;
-	if (week_view->selection_end_day - week_view->selection_start_day >= 6 ) {
+	if (week_view->selection_end_day - week_view->selection_start_day >= 6) {
 		start_column = 0;
 		n_columns =7;
 	} else {
@@ -1159,8 +1177,7 @@ table_interface_get_row_description (AtkTable *table,
 		ea_week_view_main_item_get_row_label (
 			ea_main_item, row, buffer, sizeof (buffer));
 		ea_cell_table_set_row_label (cell_data, row, buffer);
-		description = ea_cell_table_get_row_label (cell_data,
-								row);
+		description = ea_cell_table_get_row_label (cell_data, row);
 	}
 	return description;
 }
@@ -1260,9 +1277,10 @@ selection_interface_ref_selection (AtkSelection *selection,
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
 	week_view = e_week_view_main_item_get_week_view (main_item);
 
-	start_index = ea_week_view_main_item_get_child_index_at (ea_main_item,
-								week_view->selection_start_day / 7,
-								week_view->selection_start_day % 7);
+	start_index = ea_week_view_main_item_get_child_index_at (
+		ea_main_item,
+		week_view->selection_start_day / 7,
+		week_view->selection_start_day % 7);
 
 	return ea_week_view_main_item_ref_child (ATK_OBJECT (selection), start_index + i);
 }

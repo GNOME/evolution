@@ -71,16 +71,18 @@ ea_week_view_get_type (void)
 		 * our parent class EaCalView is run-time deriving.
 		 */
 
-		factory = atk_registry_get_factory (atk_get_default_registry (),
-						    e_calendar_view_get_type ());
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (),
+			e_calendar_view_get_type ());
 		derived_atk_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 
 		tinfo.class_size = query.class_size;
 		tinfo.instance_size = query.instance_size;
 
-		type = g_type_register_static (derived_atk_type,
-					       "EaWeekView", &tinfo, 0);
+		type = g_type_register_static (
+			derived_atk_type,
+			"EaWeekView", &tinfo, 0);
 
 	}
 
@@ -156,12 +158,14 @@ ea_week_view_get_name (AtkObject *accessible)
 	view_type = gnome_calendar_get_view (gcal);
 
 	if (view_type == GNOME_CAL_MONTH_VIEW)
-		name_str = g_strdup_printf (_("Month View: %s. %s"),
-						label_text, event_str);
+		name_str = g_strdup_printf (
+			_("Month View: %s. %s"),
+			label_text, event_str);
 
 	else
-		name_str = g_strdup_printf (_("Week View: %s. %s"),
-						label_text, event_str);
+		name_str = g_strdup_printf (
+			_("Week View: %s. %s"),
+			label_text, event_str);
 
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name_str);
 	g_free (name_str);
@@ -337,7 +341,8 @@ ea_week_view_ref_child (AtkObject *accessible,
 	}
 
 #ifdef ACC_DEBUG
-	printf ("EvoAcc: ea_week_view_ref_child [%d]=%p\n",
+	printf (
+		"EvoAcc: ea_week_view_ref_child [%d]=%p\n",
 		index, (gpointer) atk_object);
 #endif
 	return atk_object;

@@ -80,9 +80,10 @@ model_pre_change (ETableModel *etm,
 			(GDestroyNotify) NULL);
 		e_selection_model_foreach (E_SELECTION_MODEL (etsm), save_to_hash, etsm);
 
-		g_object_get (etsm,
-			     "cursor_row", &cursor_row,
-			     NULL);
+		g_object_get (
+			etsm,
+			"cursor_row", &cursor_row,
+			NULL);
 		g_free (etsm->cursor_id);
 		if (cursor_row != -1)
 			etsm->cursor_id = e_table_model_get_save_id (etm, cursor_row);
@@ -234,18 +235,24 @@ inline static void
 drop_model (ETableSelectionModel *etsm)
 {
 	if (etsm->model) {
-		g_signal_handler_disconnect (G_OBJECT (etsm->model),
-					    etsm->model_pre_change_id);
-		g_signal_handler_disconnect (G_OBJECT (etsm->model),
-					    etsm->model_changed_id);
-		g_signal_handler_disconnect (G_OBJECT (etsm->model),
-					    etsm->model_row_changed_id);
-		g_signal_handler_disconnect (G_OBJECT (etsm->model),
-					    etsm->model_cell_changed_id);
-		g_signal_handler_disconnect (G_OBJECT (etsm->model),
-					    etsm->model_rows_inserted_id);
-		g_signal_handler_disconnect (G_OBJECT (etsm->model),
-					    etsm->model_rows_deleted_id);
+		g_signal_handler_disconnect (
+			etsm->model,
+			etsm->model_pre_change_id);
+		g_signal_handler_disconnect (
+			etsm->model,
+			etsm->model_changed_id);
+		g_signal_handler_disconnect (
+			etsm->model,
+			etsm->model_row_changed_id);
+		g_signal_handler_disconnect (
+			etsm->model,
+			etsm->model_cell_changed_id);
+		g_signal_handler_disconnect (
+			etsm->model,
+			etsm->model_rows_inserted_id);
+		g_signal_handler_disconnect (
+			etsm->model,
+			etsm->model_rows_deleted_id);
 
 		g_object_unref (etsm->model);
 	}
@@ -332,19 +339,25 @@ e_table_selection_model_class_init (ETableSelectionModelClass *class)
 
 	esma_class->get_row_count = etsm_get_row_count;
 
-	g_object_class_install_property (object_class, PROP_MODEL,
-					 g_param_spec_object ("model",
-							      "Model",
-							      NULL,
-							      E_TYPE_TABLE_MODEL,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_MODEL,
+		g_param_spec_object (
+			"model",
+			"Model",
+			NULL,
+			E_TYPE_TABLE_MODEL,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_HEADER,
-					 g_param_spec_object ("header",
-							      "Header",
-							      NULL,
-							      E_TYPE_TABLE_HEADER,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_HEADER,
+		g_param_spec_object (
+			"header",
+			"Header",
+			NULL,
+			E_TYPE_TABLE_HEADER,
+			G_PARAM_READWRITE));
 }
 
 /**

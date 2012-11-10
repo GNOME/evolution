@@ -761,7 +761,7 @@ button_clicked_cb (WebKitDOMElement *element,
 	response = atoi (responseStr);
 
 	//d (printf ("Clicked btton %d\n", response));
-	g_signal_emit (G_OBJECT (data), signals[RESPONSE], 0, response);
+	g_signal_emit (data, signals[RESPONSE], 0, response);
 }
 
 static void
@@ -885,9 +885,9 @@ append_text_table_row (GString *buffer,
 
 static void
 append_text_table_row_nonempty (GString *buffer,
-				const gchar *id,
-				const gchar *label,
-				const gchar *value)
+                                const gchar *id,
+                                const gchar *label,
+                                const gchar *value)
 {
 	if (!value || !*value)
 		return;
@@ -4087,7 +4087,7 @@ find_cal_opened_cb (GObject *source_object,
 
 static void
 itip_cancellable_cancelled (GCancellable *itip_cancellable,
-			    GCancellable *fd_cancellable)
+                            GCancellable *fd_cancellable)
 {
 	g_cancellable_cancel (fd_cancellable);
 }
@@ -4195,7 +4195,8 @@ find_server (EMailPartItip *pitip,
 			fd->view = view;
 			fd->itip_cancellable = g_object_ref (pitip->cancellable);
 			fd->cancellable = g_cancellable_new ();
-			fd->cancelled_id = g_cancellable_connect (fd->itip_cancellable,
+			fd->cancelled_id = g_cancellable_connect (
+				fd->itip_cancellable,
 				G_CALLBACK (itip_cancellable_cancelled), fd->cancellable, NULL);
 			fd->conflicts = g_hash_table_new (g_direct_hash, g_direct_equal);
 			fd->uid = g_strdup (uid);
@@ -4563,7 +4564,9 @@ receive_objects_ready_cb (GObject *ecalclient,
 	EMailPartItip *pitip = itip_view_get_mail_part (view);
 	GError *error = NULL;
 
-	if (!e_cal_client_receive_objects_finish (client, result, &error)) {
+	e_cal_client_receive_objects_finish (client, result, &error);
+
+	if (error != NULL) {
 		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
 		    !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
 			update_item_progress_info (pitip, view, NULL);
@@ -4571,9 +4574,10 @@ receive_objects_ready_cb (GObject *ecalclient,
 				itip_view_add_lower_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
 					_("Unable to send item to calendar '%s'.  %s"),
-					e_source_get_display_name (source), error ? error->message : _("Unknown error"));
+					e_source_get_display_name (source),
+					error->message);
 		}
-		g_clear_error (&error);
+		g_error_free (error);
 		return;
 	}
 
@@ -4910,21 +4914,22 @@ modify_object_cb (GObject *ecalclient,
 	EMailPartItip *pitip = itip_view_get_mail_part (view);
 	GError *error = NULL;
 
-	if (!e_cal_client_modify_object_finish (client, result, &error)) {
-		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
-		    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
-			g_clear_error (&error);
-			return;
-		}
+	e_cal_client_modify_object_finish (client, result, &error);
 
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
+	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+		g_error_free (error);
+		return;
+	}
+
+	if (error != NULL) {
 		update_item_progress_info (pitip, view, NULL);
 		pitip->update_item_error_info_id =
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
 				_("Unable to update attendee. %s"),
-				error ? error->message : _("Unknown error"));
-
-		g_clear_error (&error);
+				error->message);
+		g_error_free (error);
 	} else {
 		update_item_progress_info (pitip, view, NULL);
 		itip_view_add_lower_info_item (
@@ -5803,7 +5808,7 @@ in_proper_folder (ESourceRegistry *registry,
 		res = ((flags & CAMEL_FOLDER_TYPE_MASK) !=  CAMEL_FOLDER_TYPE_TRASH &&
 		       (flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_JUNK &&
 			  /* it can be Inbox */
-			( (flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX ||
+			((flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX ||
 			  /* or any other virtual folder */
 			  CAMEL_IS_VEE_FOLDER (folder) ||
 			  /* or anything else except of sent, outbox or drafts folder */

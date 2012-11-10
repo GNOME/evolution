@@ -90,7 +90,7 @@ shell_settings_value_equal (const GValue *v1,
 		return g_value_get_double (v1) == g_value_get_double (v2);
 	} else if (G_VALUE_HOLDS_BOOLEAN (v1) &&
 		   G_VALUE_HOLDS_BOOLEAN (v2)) {
-		return (g_value_get_boolean (v1) ? 1 : 0) == (g_value_get_boolean (v2) ? 1 : 0);
+		return g_value_get_boolean (v1) == g_value_get_boolean (v2);
 	} else if (G_VALUE_HOLDS_POINTER (v1) &&
 		   G_VALUE_HOLDS_POINTER (v2)) {
 		return g_value_get_pointer (v1) == g_value_get_pointer (v2);

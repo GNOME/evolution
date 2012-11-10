@@ -57,7 +57,8 @@ calendar_config_init (void)
 	config = g_settings_new ("org.gnome.evolution.calendar");
 
 	/* will be freed together with EShell */
-	g_object_set_data_full (G_OBJECT (e_shell_get_default ()),
+	g_object_set_data_full (
+		G_OBJECT (e_shell_get_default ()),
 		"calendar-config-config-cleanup", (gpointer) "1",
 		(GDestroyNotify) do_cleanup);
 }
@@ -68,7 +69,7 @@ calendar_config_remove_notification (CalendarConfigChangedFunc func,
 {
 	calendar_config_init ();
 
-	g_signal_handlers_disconnect_by_func (G_OBJECT (config), G_CALLBACK (func), data);
+	g_signal_handlers_disconnect_by_func (config, G_CALLBACK (func), data);
 }
 
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, in which

@@ -264,7 +264,7 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 			}
 		}
 
-		if (document_end ) {
+		if (document_end) {
 			length = strlen (document_end);
 			tag = string->str + string->len - 1;
 			i = 0;

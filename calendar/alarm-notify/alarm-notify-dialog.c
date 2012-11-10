@@ -327,11 +327,13 @@ notified_alarms_dialog_new (void)
 
 	gtk_window_set_keep_above (GTK_WINDOW (an->dialog), TRUE);
 
-	column = gtk_tree_view_column_new_with_attributes (_("Start time"),
-					renderer, "text", ALARM_DISPLAY_COLUMN, NULL);
+	column = gtk_tree_view_column_new_with_attributes (
+		_("Start time"),
+		renderer, "text", ALARM_DISPLAY_COLUMN, NULL);
 
-	gtk_tree_view_column_set_attributes (column, renderer,
-				       "markup", ALARM_DISPLAY_COLUMN, NULL);
+	gtk_tree_view_column_set_attributes (
+		column, renderer,
+		"markup", ALARM_DISPLAY_COLUMN, NULL);
 
 	gtk_tree_view_append_column (GTK_TREE_VIEW (an->treeview), column);
 
@@ -458,11 +460,13 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na,
 	start = timet_to_str_with_zone (occur_start, current_zone);
 	end = timet_to_str_with_zone (occur_end, current_zone);
 	str_time = calculate_time (occur_start, occur_end);
-	to_display = g_markup_printf_escaped ("<big><b>%s</b></big>\n%s %s",
+	to_display = g_markup_printf_escaped (
+		"<big><b>%s</b></big>\n%s %s",
 		summary, start, str_time);
 	g_free (start);
 	g_free (end);
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
 		ALARM_DISPLAY_COLUMN, to_display, -1);
 	g_free (to_display);
 	g_free (str_time);

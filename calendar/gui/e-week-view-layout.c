@@ -83,11 +83,12 @@ e_week_view_layout_events (GArray *events,
 	 * them in the first free row available. */
 	for (event_num = 0; event_num < events->len; event_num++) {
 		event = &g_array_index (events, EWeekViewEvent, event_num);
-		e_week_view_layout_event (event, grid, spans, old_spans,
-					  multi_week_view,
-					  weeks_shown, compress_weekend,
-					  start_weekday, day_starts,
-					  rows_per_day);
+		e_week_view_layout_event (
+			event, grid, spans, old_spans,
+			multi_week_view,
+			weeks_shown, compress_weekend,
+			start_weekday, day_starts,
+			rows_per_day);
 	}
 
 	/* Free the grid. */
@@ -126,16 +127,19 @@ e_week_view_layout_event (EWeekViewEvent *event,
 	EWeekViewEventSpan span, *old_span;
 
 	days_shown = multi_week_view ? weeks_shown * 7 : 7;
-	start_day = e_week_view_find_day (event->start, FALSE, days_shown,
-					  day_starts);
-	end_day = e_week_view_find_day (event->end, TRUE, days_shown,
+	start_day = e_week_view_find_day (
+		event->start, FALSE, days_shown,
+		day_starts);
+	end_day = e_week_view_find_day (
+		event->end, TRUE, days_shown,
 					day_starts);
 	start_day = CLAMP (start_day, 0, days_shown - 1);
 	end_day = CLAMP (end_day, 0, days_shown - 1);
 
 #if 0
-	g_print ("In e_week_view_layout_event Start:%i End: %i\n",
-		 start_day, end_day);
+	g_print (
+		"In e_week_view_layout_event Start:%i End: %i\n",
+		start_day, end_day);
 #endif
 
 	/* Iterate through each of the spans of the event, where each span
@@ -146,14 +150,16 @@ e_week_view_layout_event (EWeekViewEvent *event,
 	spans_index = spans->len;
 	num_spans = 0;
 	while (span_start_day <= end_day) {
-		span_end_day = e_week_view_find_span_end (multi_week_view,
-							  compress_weekend,
-							  start_weekday,
-							  span_start_day);
+		span_end_day = e_week_view_find_span_end (
+			multi_week_view,
+			compress_weekend,
+			start_weekday,
+			span_start_day);
 		span_end_day = MIN (span_end_day, end_day);
 #if 0
-		g_print ("  Span start:%i end:%i\n", span_start_day,
-			 span_end_day);
+		g_print (
+			"  Span start:%i end:%i\n", span_start_day,
+			span_end_day);
 #endif
 		/* Try each row until we find a free one or we fall off the
 		 * bottom of the available rows. */
@@ -176,12 +182,14 @@ e_week_view_layout_event (EWeekViewEvent *event,
 			for (day = span_start_day; day <= span_end_day;
 			     day++) {
 				grid[day * rows_per_cell + free_row] = 1;
-				rows_per_day[day] = MAX (rows_per_day[day],
-							 free_row + 1);
+				rows_per_day[day] = MAX (
+					rows_per_day[day],
+					free_row + 1);
 			}
 #if 0
-			g_print ("  Span start:%i end:%i row:%i\n",
-				 span_start_day, span_end_day, free_row);
+			g_print (
+				"  Span start:%i end:%i row:%i\n",
+				span_start_day, span_end_day, free_row);
 #endif
 			/* Add the span to the array, and try to reuse any
 			 * canvas items from the old spans. */

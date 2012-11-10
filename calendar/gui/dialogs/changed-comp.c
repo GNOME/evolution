@@ -69,8 +69,9 @@ changed_component_dialog (GtkWindow *parent,
 			break;
 
 		default:
-			g_message ("changed_component_dialog(): "
-				   "Cannot handle object of type %d", vtype);
+			g_message (
+				"changed_component_dialog(): "
+				"Cannot handle object of type %d", vtype);
 			return FALSE;
 		}
 		if (changed)
@@ -93,8 +94,9 @@ changed_component_dialog (GtkWindow *parent,
 			break;
 
 		default:
-			g_message ("changed_component_dialog(): "
-				   "Cannot handle object of type %d", vtype);
+			g_message (
+				"changed_component_dialog(): "
+				"Cannot handle object of type %d", vtype);
 			return FALSE;
 		}
 		if (changed)
@@ -103,9 +105,10 @@ changed_component_dialog (GtkWindow *parent,
 			str = g_strdup_printf (_("%s  You have made no changes, update the editor?"), str);
 	}
 
-	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
-					 GTK_MESSAGE_QUESTION,
-					 GTK_BUTTONS_YES_NO, "%s", str);
+	dialog = gtk_message_dialog_new (
+		parent, GTK_DIALOG_MODAL,
+		GTK_MESSAGE_QUESTION,
+		GTK_BUTTONS_YES_NO, "%s", str);
 
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), "x-office-calendar");
 

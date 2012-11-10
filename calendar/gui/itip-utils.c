@@ -646,8 +646,9 @@ comp_from (ECalComponentItipMethod method,
 
 		e_cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
-				  _("An organizer must be set."));
+			e_notice (
+				NULL, GTK_MESSAGE_ERROR,
+				_("An organizer must be set."));
 			return NULL;
 		}
 		return g_strdup (itip_strip_mailto (organizer.value));
@@ -694,16 +695,18 @@ comp_to_list (ESourceRegistry *registry,
 		e_cal_component_get_attendee_list (comp, &attendees);
 		len = g_slist_length (attendees);
 		if (len <= 0) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
-				  _("At least one attendee is necessary"));
+			e_notice (
+				NULL, GTK_MESSAGE_ERROR,
+				_("At least one attendee is necessary"));
 			e_cal_component_free_attendee_list (attendees);
 			return NULL;
 		}
 
 		e_cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
-				  _("An organizer must be set."));
+			e_notice (
+				NULL, GTK_MESSAGE_ERROR,
+				_("An organizer must be set."));
 			return NULL;
 		}
 
@@ -753,9 +756,6 @@ comp_to_list (ESourceRegistry *registry,
 			e_destination_set_email (
 				destination, itip_strip_mailto (att->value));
 			g_ptr_array_add (array, destination);
-			d (printf ("itip-utils.c: comp_to_list: name: %s, email: %s\n",
-				  e_destination_get_name (destination),
-				  e_destination_get_email (destination)));
 		}
 		g_free (sender);
 		e_cal_component_free_attendee_list (attendees);
@@ -815,8 +815,9 @@ comp_to_list (ESourceRegistry *registry,
 	case E_CAL_COMPONENT_METHOD_DECLINECOUNTER:
 		e_cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
-				  _("An organizer must be set."));
+			e_notice (
+				NULL, GTK_MESSAGE_ERROR,
+				_("An organizer must be set."));
 			return NULL;
 		}
 
@@ -1121,9 +1122,10 @@ comp_server_send (ECalComponentItipMethod method,
 				e_notice (
 					NULL, GTK_MESSAGE_ERROR,
 					_("Unable to book a resource, the "
-					  "new event collides with some other."));
+					"new event collides with some other."));
 			} else {
-				e_notice (NULL, GTK_MESSAGE_ERROR,
+				e_notice (
+					NULL, GTK_MESSAGE_ERROR,
 					_("Unable to book a resource, error: %s"), error->message);
 			}
 
@@ -1299,14 +1301,16 @@ comp_minimal (ESourceRegistry *registry,
 		e_cal_component_set_attendee_list (clone, attendees);
 
 		if (!comp_limit_attendees (registry, clone)) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
-				  _("You must be an attendee of the event."));
+			e_notice (
+				NULL, GTK_MESSAGE_ERROR,
+				_("You must be an attendee of the event."));
 			goto error;
 		}
 	}
 
-	itt = icaltime_from_timet_with_zone (time (NULL), FALSE,
-					     icaltimezone_get_utc_timezone ());
+	itt = icaltime_from_timet_with_zone (
+		time (NULL), FALSE,
+		icaltimezone_get_utc_timezone ());
 	e_cal_component_set_dtstamp (clone, &itt);
 
 	e_cal_component_get_organizer (comp, &organizer);
@@ -1397,8 +1401,9 @@ comp_compliant (ESourceRegistry *registry,
 	struct icaltimetype itt;
 
 	clone = e_cal_component_clone (comp);
-	itt = icaltime_from_timet_with_zone (time (NULL), FALSE,
-					     icaltimezone_get_utc_timezone ());
+	itt = icaltime_from_timet_with_zone (
+		time (NULL), FALSE,
+		icaltimezone_get_utc_timezone ());
 	e_cal_component_set_dtstamp (clone, &itt);
 
 	/* Make UNTIL date a datetime in a simple recurrence */
@@ -1694,7 +1699,8 @@ itip_send_comp (ESourceRegistry *registry,
 
 	/* check whether backend could handle sending requests/updates */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH &&
-		e_client_check_capability (E_CLIENT (cal_client),
+		e_client_check_capability (
+			E_CLIENT (cal_client),
 		CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		if (users) {
 			g_slist_foreach (users, (GFunc) g_free, NULL);
@@ -1932,23 +1938,27 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 			"</b><br><br><table>");
 
 		if (orig_from && *orig_from)
-			g_string_append_printf (body,
+			g_string_append_printf (
+				body,
 				"<tr><td><b>From</b></td>"
 				"<td>:</td><td>%s</td></tr>", orig_from);
 		g_free (orig_from);
 
 		if (subject)
-			g_string_append_printf (body,
+			g_string_append_printf (
+				body,
 				"<tr><td><b>Subject</b></td>"
 				"<td>:</td><td>%s</td></tr>", subject);
 		g_free (subject);
 
-		g_string_append_printf (body,
+		g_string_append_printf (
+			body,
 			"<tr><td><b>Location</b></td>"
 			"<td>:</td><td>%s</td></tr>", location);
 
 		if (time)
-			g_string_append_printf (body,
+			g_string_append_printf (
+				body,
 				"<tr><td><b>Time</b></td>"
 				"<td>:</td><td>%s</td></tr>", time);
 		g_free (time);
@@ -2004,8 +2014,9 @@ itip_publish_begin (ECalComponent *pub_comp,
 			for (prop = icalcomponent_get_first_property (icomp,
 						      ICAL_FREEBUSY_PROPERTY);
 				prop != NULL;
-				prop = icalcomponent_get_next_property (icomp,
-						       ICAL_FREEBUSY_PROPERTY))
+				prop = icalcomponent_get_next_property (
+					icomp,
+					ICAL_FREEBUSY_PROPERTY))
 			{
 				icalproperty *p;
 
@@ -2058,8 +2069,8 @@ comp_fb_normalize (icalcomponent *icomp)
 
 	iclone = icalcomponent_new (ICAL_VFREEBUSY_COMPONENT);
 
-	prop = icalcomponent_get_first_property (icomp,
-						 ICAL_ORGANIZER_PROPERTY);
+	prop = icalcomponent_get_first_property (
+		icomp, ICAL_ORGANIZER_PROPERTY);
 	if (prop) {
 		p = icalproperty_new_clone (prop);
 		icalcomponent_add_property (iclone, p);
@@ -2071,15 +2082,13 @@ comp_fb_normalize (icalcomponent *icomp)
 	itt = icalcomponent_get_dtend (icomp);
 	icalcomponent_set_dtend (iclone, itt);
 
-	fb_count =  icalcomponent_count_properties (icomp,
-						    ICAL_FREEBUSY_PROPERTY);
+	fb_count = icalcomponent_count_properties (
+		icomp, ICAL_FREEBUSY_PROPERTY);
 	ipt = g_new0 (struct icalperiodtype, fb_count + 1);
 
-	for (prop = icalcomponent_get_first_property (icomp,
-						      ICAL_FREEBUSY_PROPERTY);
+	for (prop = icalcomponent_get_first_property (icomp, ICAL_FREEBUSY_PROPERTY);
 		prop != NULL;
-		prop = icalcomponent_get_next_property (icomp,
-							ICAL_FREEBUSY_PROPERTY))
+		prop = icalcomponent_get_next_property (icomp, ICAL_FREEBUSY_PROPERTY))
 	{
 		ipt[i] = icalproperty_get_freebusy (prop);
 		i++;
@@ -2103,8 +2112,9 @@ comp_fb_normalize (icalcomponent *icomp)
 	if (uid)
 		icalcomponent_set_uid (iclone, uid);
 
-	itt = icaltime_from_timet_with_zone (time (NULL), FALSE,
-					     icaltimezone_get_utc_timezone ());
+	itt = icaltime_from_timet_with_zone (
+		time (NULL), FALSE,
+		icaltimezone_get_utc_timezone ());
 	icalcomponent_set_dtstamp (iclone, itt);
 
 	prop = icalcomponent_get_first_property (icomp, ICAL_URL_PROPERTY);
@@ -2178,15 +2188,17 @@ itip_publish_comp (ECalClient *cal_client,
 
 	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
 	ical_string = icalcomponent_as_ical_string_r (toplevel);
-	soup_message_set_request (msg, "text/calendar", SOUP_MEMORY_TEMPORARY,
-				  ical_string, strlen (ical_string));
+	soup_message_set_request (
+		msg, "text/calendar", SOUP_MEMORY_TEMPORARY,
+		ical_string, strlen (ical_string));
 
 	/* send message to server */
 	soup_session_send_message (session, msg);
 	if (!SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
-		g_warning (G_STRLOC ": Could not publish Free/Busy: %d: %s",
-			  msg->status_code,
-			  msg->reason_phrase);
+		g_warning (
+			G_STRLOC ": Could not publish Free/Busy: %d: %s",
+			msg->status_code,
+			msg->reason_phrase);
 		g_object_unref (msg);
 		g_object_unref (session);
 		g_free (ical_string);

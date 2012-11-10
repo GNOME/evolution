@@ -203,9 +203,10 @@ empe_text_plain_parse (EMailParserExtension *extension,
 		g_object_unref (inline_filter);
 		camel_content_type_unref (type);
 
-		return process_part (parser, part_id, 0,
-				     part, e_mail_part_is_attachment (part),
-				     cancellable);
+		return process_part (
+			parser, part_id, 0,
+			part, e_mail_part_is_attachment (part),
+			cancellable);
 	}
 
 	mp = e_mail_inline_filter_get_multipart (inline_filter);
@@ -229,11 +230,12 @@ empe_text_plain_parse (EMailParserExtension *extension,
 		if (!newpart)
 			continue;
 
-		parts = g_slist_concat (parts,
-				process_part (
-					parser, part_id, i,
-					newpart, is_attachment,
-					cancellable));
+		parts = g_slist_concat (
+			parts,
+			process_part (
+				parser, part_id, i,
+				newpart, is_attachment,
+				cancellable));
 	}
 
 	g_object_unref (mp);

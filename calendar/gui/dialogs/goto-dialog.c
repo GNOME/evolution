@@ -164,17 +164,19 @@ create_ecal (GoToDialog *dlg)
 	dlg->ecal = E_CALENDAR (e_calendar_new ());
 	calitem = dlg->ecal->calitem;
 
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (calitem),
-			"move_selection_when_moving", FALSE,
-			NULL);
+	gnome_canvas_item_set (
+		GNOME_CANVAS_ITEM (calitem),
+		"move_selection_when_moving", FALSE,
+		NULL);
 	e_calendar_item_set_display_popup (calitem, FALSE);
 	gtk_widget_show (GTK_WIDGET (dlg->ecal));
 	gtk_box_pack_start (GTK_BOX (dlg->vbox), GTK_WIDGET (dlg->ecal), TRUE, TRUE, 0);
 
 	e_calendar_item_set_first_month (calitem, dlg->year_val, dlg->month_val);
-	e_calendar_item_set_get_time_callback (calitem,
-					       get_current_time,
-					       dlg, NULL);
+	e_calendar_item_set_get_time_callback (
+		calitem,
+		get_current_time,
+		dlg, NULL);
 
 	ecal_date_range_changed (calitem, dlg);
 }

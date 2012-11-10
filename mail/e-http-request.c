@@ -94,9 +94,10 @@ redirect_handler (SoupMessage *msg,
 
 		new_uri = soup_uri_new_with_base (soup_message_get_uri (msg), new_loc);
 		if (!new_uri) {
-			soup_message_set_status_full (msg,
-						      SOUP_STATUS_MALFORMED,
-						      "Invalid Redirect URL");
+			soup_message_set_status_full (
+				msg,
+				SOUP_STATUS_MALFORMED,
+				"Invalid Redirect URL");
 			return;
 		}
 
@@ -109,8 +110,8 @@ redirect_handler (SoupMessage *msg,
 
 static void
 send_and_handle_redirection (SoupSession *session,
-			     SoupMessage *message,
-			     gchar **new_location)
+                             SoupMessage *message,
+                             gchar **new_location)
 {
 	gchar *old_uri = NULL;
 
@@ -331,17 +332,16 @@ handle_http_request (GSimpleAsyncResult *res,
 		/* Write the response body to cache */
 		error = NULL;
 		cache_stream = camel_data_cache_add (cache, "http", uri_md5, &error);
-		if (!cache_stream) {
+		if (error != NULL) {
 			g_warning (
 				"Failed to create cache file for '%s': %s",
-				uri, error ? error->message : "Unknown error");
+				uri, error->message);
 			g_clear_error (&error);
 		} else {
-			error = NULL;
 			camel_stream_write (
 				cache_stream, message->response_body->data,
 				message->response_body->length, cancellable, &error);
-			if (error) {
+			if (error != NULL) {
 				g_warning (
 					"Failed to write data to cache stream: %s",
 					error->message);

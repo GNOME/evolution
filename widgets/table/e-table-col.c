@@ -124,12 +124,15 @@ e_table_col_class_init (ETableColClass *class)
 	object_class->set_property = etc_set_property;
 	object_class->get_property = etc_get_property;
 
-	g_object_class_install_property (object_class, PROP_COMPARE_COL,
-					 g_param_spec_int ("compare_col",
-							   "Width",
-							   "Width",
-							   0, G_MAXINT, 0,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_COMPARE_COL,
+		g_param_spec_int (
+			"compare_col",
+			"Width",
+			"Width",
+			0, G_MAXINT, 0,
+			G_PARAM_READWRITE));
 }
 
 static void

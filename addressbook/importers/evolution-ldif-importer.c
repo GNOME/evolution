@@ -257,7 +257,7 @@ parseLine (GHashTable *dn_contact_hash,
 		return FALSE;
 	}
 
-	colon = (gchar *) strchr ( ptr, ':' );
+	colon = (gchar *) strchr (ptr, ':');
 	if (colon) {
 		gint i;
 
@@ -266,7 +266,7 @@ parseLine (GHashTable *dn_contact_hash,
 		while (isspace (*value))
 			value++;
 
-		ldif_value = getValue (&value );
+		ldif_value = getValue (&value);
 
 		field_handled = FALSE;
 		for (i = 0; i < G_N_ELEMENTS (ldif_fields); i++) {
@@ -475,11 +475,12 @@ add_to_notes (EContact *contact,
 	if (!field_text || !*field_text)
 		return;
 
-	new_text = g_strdup_printf ("%s%s%s: %s",
-				    old_text ? old_text : "",
-				    old_text && *old_text &&
-				    *(old_text + strlen (old_text) - 1) != '\n' ? "\n" : "",
-				    e_contact_pretty_name (field), field_text);
+	new_text = g_strdup_printf (
+		"%s%s%s: %s",
+		old_text ? old_text : "",
+		old_text && *old_text &&
+		*(old_text + strlen (old_text) - 1) != '\n' ? "\n" : "",
+		e_contact_pretty_name (field), field_text);
 	e_contact_set (contact, E_CONTACT_NOTE, new_text);
 	g_free (new_text);
 }

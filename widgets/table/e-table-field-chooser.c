@@ -60,26 +60,35 @@ e_table_field_chooser_class_init (ETableFieldChooserClass *class)
 	object_class->get_property = e_table_field_chooser_get_property;
 	object_class->dispose      = e_table_field_chooser_dispose;
 
-	g_object_class_install_property (object_class, PROP_DND_CODE,
-					 g_param_spec_string ("dnd_code",
-							      "DnD code",
-							      NULL,
-							      NULL,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_DND_CODE,
+		g_param_spec_string (
+			"dnd_code",
+			"DnD code",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FULL_HEADER,
-					 g_param_spec_object ("full_header",
-							      "Full Header",
-							      NULL,
-							      E_TYPE_TABLE_HEADER,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_FULL_HEADER,
+		g_param_spec_object (
+			"full_header",
+			"Full Header",
+			NULL,
+			E_TYPE_TABLE_HEADER,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_HEADER,
-					 g_param_spec_object ("header",
-							      "Header",
-							      NULL,
-							      E_TYPE_TABLE_HEADER,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_HEADER,
+		g_param_spec_object (
+			"header",
+			"Header",
+			NULL,
+			E_TYPE_TABLE_HEADER,
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -104,35 +113,40 @@ static void allocate_callback (GtkWidget *canvas, GtkAllocation *allocation, ETa
 {
 	gdouble height;
 	etfc->last_alloc = *allocation;
-	gnome_canvas_item_set ( etfc->item,
-			       "width", (gdouble) allocation->width,
-			       NULL );
-	g_object_get (etfc->item,
-		     "height", &height,
-		     NULL);
+	gnome_canvas_item_set (
+		etfc->item,
+		"width", (gdouble) allocation->width,
+		NULL);
+	g_object_get (
+		etfc->item,
+		"height", &height,
+		NULL);
 	height = MAX (height, allocation->height);
-	gnome_canvas_set_scroll_region (GNOME_CANVAS ( etfc->canvas ), 0, 0, allocation->width - 1, height - 1);
-	gnome_canvas_item_set ( etfc->rect,
-			       "x2", (gdouble) allocation->width,
-			       "y2", (gdouble) height,
-			       NULL );
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (etfc->canvas), 0, 0, allocation->width - 1, height - 1);
+	gnome_canvas_item_set (
+		etfc->rect,
+		"x2", (gdouble) allocation->width,
+		"y2", (gdouble) height,
+		NULL);
 	ensure_nonzero_step_increments (etfc);
 }
 
 static void resize (GnomeCanvas *canvas, ETableFieldChooser *etfc)
 {
 	gdouble height;
-	g_object_get (etfc->item,
-		     "height", &height,
-		     NULL);
+	g_object_get (
+		etfc->item,
+		"height", &height,
+		NULL);
 
 	height = MAX (height, etfc->last_alloc.height);
 
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (etfc->canvas), 0, 0, etfc->last_alloc.width - 1, height - 1);
-	gnome_canvas_item_set ( etfc->rect,
-			       "x2", (gdouble) etfc->last_alloc.width,
-			       "y2", (gdouble) height,
-			       NULL );
+	gnome_canvas_item_set (
+		etfc->rect,
+		"x2", (gdouble) etfc->last_alloc.width,
+		"y2", (gdouble) height,
+		NULL);
 	ensure_nonzero_step_increments (etfc);
 }
 
@@ -184,22 +198,24 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 	gtk_widget_set_size_request (widget, -1, 250);
 	gtk_box_pack_start (GTK_BOX (etfc), widget, TRUE, TRUE, 0);
 
-	etfc->rect = gnome_canvas_item_new (gnome_canvas_root ( GNOME_CANVAS ( etfc->canvas ) ),
-					   gnome_canvas_rect_get_type (),
-					   "x1", (gdouble) 0,
-					   "y1", (gdouble) 0,
-					   "x2", (gdouble) 100,
-					   "y2", (gdouble) 100,
-					   "fill_color", "white",
-					   NULL );
+	etfc->rect = gnome_canvas_item_new (
+		gnome_canvas_root (GNOME_CANVAS (etfc->canvas)),
+		gnome_canvas_rect_get_type (),
+		"x1", (gdouble) 0,
+		"y1", (gdouble) 0,
+		"x2", (gdouble) 100,
+		"y2", (gdouble) 100,
+		"fill_color", "white",
+		NULL);
 
-	etfc->item = gnome_canvas_item_new (gnome_canvas_root (etfc->canvas),
-					   e_table_field_chooser_item_get_type (),
-					   "width", (gdouble) 100,
-					   "full_header", etfc->full_header,
-					   "header", etfc->header,
-					   "dnd_code", etfc->dnd_code,
-					   NULL );
+	etfc->item = gnome_canvas_item_new (
+		gnome_canvas_root (etfc->canvas),
+		e_table_field_chooser_item_get_type (),
+		"width", (gdouble) 100,
+		"full_header", etfc->full_header,
+		"header", etfc->header,
+		"dnd_code", etfc->dnd_code,
+		NULL);
 
 	g_signal_connect (
 		etfc->canvas, "reflow",
@@ -207,7 +223,7 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 
 	gnome_canvas_set_scroll_region (
 		GNOME_CANVAS (etfc->canvas),
-		0, 0, 100, 100 );
+		0, 0, 100, 100);
 
 	/* Connect the signals */
 	g_signal_connect (
@@ -256,9 +272,10 @@ e_table_field_chooser_set_property (GObject *object,
 		g_free (etfc->dnd_code);
 		etfc->dnd_code = g_strdup (g_value_get_string (value));
 		if (etfc->item)
-			g_object_set (etfc->item,
-				     "dnd_code", etfc->dnd_code,
-				     NULL);
+			g_object_set (
+				etfc->item,
+				"dnd_code", etfc->dnd_code,
+				NULL);
 		break;
 	case PROP_FULL_HEADER:
 		if (etfc->full_header)
@@ -270,9 +287,10 @@ e_table_field_chooser_set_property (GObject *object,
 		if (etfc->full_header)
 			g_object_ref (etfc->full_header);
 		if (etfc->item)
-			g_object_set (etfc->item,
-				     "full_header", etfc->full_header,
-				     NULL);
+			g_object_set (
+				etfc->item,
+				"full_header", etfc->full_header,
+				NULL);
 		break;
 	case PROP_HEADER:
 		if (etfc->header)
@@ -284,9 +302,10 @@ e_table_field_chooser_set_property (GObject *object,
 		if (etfc->header)
 			g_object_ref (etfc->header);
 		if (etfc->item)
-			g_object_set (etfc->item,
-				     "header", etfc->header,
-				     NULL);
+			g_object_set (
+				etfc->item,
+				"header", etfc->header,
+				NULL);
 		break;
 	default:
 		break;

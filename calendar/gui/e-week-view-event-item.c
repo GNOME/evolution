@@ -210,8 +210,9 @@ week_view_event_item_button_press (EWeekViewEventItem *event_item,
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + event_item->priv->span_num);
 
-	pos = week_view_event_item_get_position (event_item, bevent->button.x,
-						   bevent->button.y);
+	pos = week_view_event_item_get_position (
+		event_item, bevent->button.x,
+		bevent->button.y);
 	if (pos == E_CALENDAR_VIEW_POS_NONE)
 		return FALSE;
 
@@ -275,10 +276,11 @@ week_view_event_item_button_release (EWeekViewEventItem *event_item,
 	if (week_view->pressed_event_num != -1
 	    && week_view->pressed_event_num == event_item->priv->event_num
 	    && week_view->pressed_span_num == event_item->priv->span_num) {
-		e_week_view_start_editing_event (week_view,
-						 event_item->priv->event_num,
-						 event_item->priv->span_num,
-						 NULL);
+		e_week_view_start_editing_event (
+			week_view,
+			event_item->priv->event_num,
+			event_item->priv->span_num,
+			NULL);
 		week_view->pressed_event_num = -1;
 		return TRUE;
 	}
@@ -320,25 +322,29 @@ week_view_draw_time (EWeekView *week_view,
 	if (small_font_desc)
 		time_y_small_font = time_y;
 
-	e_week_view_convert_time_to_display (week_view, hour, &hour_to_display,
-					     &suffix, &suffix_width);
+	e_week_view_convert_time_to_display (
+		week_view, hour, &hour_to_display,
+		&suffix, &suffix_width);
 
 	if (week_view->use_small_font && week_view->small_font_desc) {
-		g_snprintf (buffer, sizeof (buffer), "%2i:%02i",
-			    hour_to_display, minute);
+		g_snprintf (
+			buffer, sizeof (buffer), "%2i:%02i",
+			hour_to_display, minute);
 
 		/* Draw the hour. */
 		if (hour_to_display < 10) {
 			pango_layout_set_text (layout, buffer + 1, 1);
-			cairo_move_to (cr,
-				       time_x + week_view->digit_width,
-				       time_y_normal_font);
+			cairo_move_to (
+				cr,
+				time_x + week_view->digit_width,
+				time_y_normal_font);
 			pango_cairo_show_layout (cr, layout);
 		} else {
 			pango_layout_set_text (layout, buffer, 2);
-			cairo_move_to (cr,
-				       time_x,
-				       time_y_normal_font);
+			cairo_move_to (
+				cr,
+				time_x,
+				time_y_normal_font);
 			pango_cairo_show_layout (cr, layout);
 		}
 
@@ -347,9 +353,10 @@ week_view_draw_time (EWeekView *week_view,
 		/* Draw the start minute, in the small font. */
 		pango_layout_set_font_description (layout, week_view->small_font_desc);
 		pango_layout_set_text (layout, buffer + 3, 2);
-		cairo_move_to (cr,
-			       time_x,
-			       time_y_small_font);
+		cairo_move_to (
+			cr,
+			time_x,
+			time_y_small_font);
 		pango_cairo_show_layout (cr, layout);
 
 		pango_layout_set_font_description (layout, style->font_desc);
@@ -360,26 +367,30 @@ week_view_draw_time (EWeekView *week_view,
 		if (!e_cal_model_get_use_24_hour_format (model)) {
 			pango_layout_set_text (layout, suffix, -1);
 
-			cairo_move_to (cr,
-				       time_x,
-				       time_y_normal_font);
+			cairo_move_to (
+				cr,
+				time_x,
+				time_y_normal_font);
 			pango_cairo_show_layout (cr, layout);
 		}
 	} else {
 		/* Draw the start time in one go. */
-		g_snprintf (buffer, sizeof (buffer), "%2i:%02i%s",
-			    hour_to_display, minute, suffix);
+		g_snprintf (
+			buffer, sizeof (buffer), "%2i:%02i%s",
+			hour_to_display, minute, suffix);
 		if (hour_to_display < 10) {
 			pango_layout_set_text (layout, buffer + 1, -1);
-			cairo_move_to (cr,
-				       time_x + week_view->digit_width,
-				       time_y_normal_font);
+			cairo_move_to (
+				cr,
+				time_x + week_view->digit_width,
+				time_y_normal_font);
 			pango_cairo_show_layout (cr, layout);
 		} else {
 			pango_layout_set_text (layout, buffer, -1);
-			cairo_move_to (cr,
-				       time_x,
-				       time_y_normal_font);
+			cairo_move_to (
+				cr,
+				time_x,
+				time_y_normal_font);
 			pango_cairo_show_layout (cr, layout);
 		}
 
@@ -1035,11 +1046,12 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 			cairo_save (cr);
 
-			cairo_rectangle (cr,
-					 x1, y1,
-					 x2 - x1 - E_WEEK_VIEW_EVENT_R_PAD
-					  - E_WEEK_VIEW_EVENT_BORDER_WIDTH + 1,
-					 y2 - y1 + 1);
+			cairo_rectangle (
+				cr,
+				x1, y1,
+				x2 - x1 - E_WEEK_VIEW_EVENT_R_PAD
+				- E_WEEK_VIEW_EVENT_BORDER_WIDTH + 1,
+				y2 - y1 + 1);
 			cairo_clip (cr);
 
 			week_view_draw_time (

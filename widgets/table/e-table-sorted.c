@@ -65,8 +65,9 @@ ets_dispose (GObject *object)
 	ets->insert_idle_id = 0;
 
 	if (ets->sort_info) {
-		g_signal_handler_disconnect (G_OBJECT (ets->sort_info),
-					     ets->sort_info_changed_id);
+		g_signal_handler_disconnect (
+			ets->sort_info,
+			ets->sort_info_changed_id);
 		g_object_unref (ets->sort_info);
 		ets->sort_info = NULL;
 	}

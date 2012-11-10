@@ -1358,12 +1358,13 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 		else
 			ds_zone = icaltimezone_get_utc_timezone ();
 		icaltimezone_convert_time (&dtstart, ds_zone, zone);
-		e_meeting_attendee_set_start_busy_range (attendee,
-							 dtstart.year,
-							 dtstart.month,
-							 dtstart.day,
-							 dtstart.hour,
-							 dtstart.minute);
+		e_meeting_attendee_set_start_busy_range (
+			attendee,
+			dtstart.year,
+			dtstart.month,
+			dtstart.day,
+			dtstart.hour,
+			dtstart.minute);
 	}
 
 	ip = icalcomponent_get_first_property (fb_comp, ICAL_DTEND_PROPERTY);
@@ -1377,12 +1378,13 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 		else
 			de_zone = icaltimezone_get_utc_timezone ();
 		icaltimezone_convert_time (&dtend, de_zone, zone);
-		e_meeting_attendee_set_end_busy_range (attendee,
-						       dtend.year,
-						       dtend.month,
-						       dtend.day,
-						       dtend.hour,
-						       dtend.minute);
+		e_meeting_attendee_set_end_busy_range (
+			attendee,
+			dtend.year,
+			dtend.month,
+			dtend.day,
+			dtend.hour,
+			dtend.minute);
 	}
 
 	ip = icalcomponent_get_first_property (fb_comp, ICAL_FREEBUSY_PROPERTY);
@@ -1423,18 +1425,19 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 
 			icaltimezone_convert_time (&fb.start, utc_zone, zone);
 			icaltimezone_convert_time (&fb.end, utc_zone, zone);
-			e_meeting_attendee_add_busy_period (attendee,
-							    fb.start.year,
-							    fb.start.month,
-							    fb.start.day,
-							    fb.start.hour,
-							    fb.start.minute,
-							    fb.end.year,
-							    fb.end.month,
-							    fb.end.day,
-							    fb.end.hour,
-							    fb.end.minute,
-							    busy_type);
+			e_meeting_attendee_add_busy_period (
+				attendee,
+				fb.start.year,
+				fb.start.month,
+				fb.start.day,
+				fb.start.hour,
+				fb.start.minute,
+				fb.end.year,
+				fb.end.month,
+				fb.end.day,
+				fb.end.hour,
+				fb.end.minute,
+				busy_type);
 		}
 
 		ip = icalcomponent_get_next_property (fb_comp, ICAL_FREEBUSY_PROPERTY);
@@ -1955,9 +1958,10 @@ redirect_handler (SoupMessage *msg,
 
 		new_uri = soup_uri_new_with_base (soup_message_get_uri (msg), new_loc);
 		if (!new_uri) {
-			soup_message_set_status_full (msg,
-						      SOUP_STATUS_MALFORMED,
-						      "Invalid Redirect URL");
+			soup_message_set_status_full (
+				msg,
+				SOUP_STATUS_MALFORMED,
+				"Invalid Redirect URL");
 			return;
 		}
 

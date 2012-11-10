@@ -1716,24 +1716,29 @@ mail_source_retrieved (GObject *object,
 {
 	CamelMimeMessage *message;
 	EMailDisplay *display;
-	GError *error;
+	GError *error = NULL;
 	struct _source_retrieval_closure *data;
 
 	data = user_data;
 	display = e_mail_reader_get_mail_display (data->browser);
 
-	error = NULL;
 	message = camel_folder_get_message_finish (
 		CAMEL_FOLDER (object), result, &error);
-	if (error || !message) {
+
+	/* Sanity check. */
+	g_return_if_fail (
+		((message != NULL) && (error == NULL)) ||
+		((message == NULL) && (error != NULL)));
+
+	if (error != NULL) {
 		gchar *status;
 		status = g_strdup_printf (
 			"%s<br>%s",
 			_("Failed to retrieve message:"),
-			error ? error->message : _("Unknown error"));
+			error->message);
 		e_mail_display_set_status (display, status);
+		g_error_free (error);
 		g_free (status);
-		g_clear_error (&error);
 		goto free_data;
 	}
 
@@ -4597,7 +4602,7 @@ e_mail_reader_set_group_by_threads (EMailReader *reader,
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
-	if ((group_by_threads ? 1 : 0) == (priv->group_by_threads ? 1 : 0))
+	if (priv->group_by_threads == group_by_threads)
 		return;
 
 	priv->group_by_threads = group_by_threads;

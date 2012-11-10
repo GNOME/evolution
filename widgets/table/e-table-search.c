@@ -63,9 +63,10 @@ e_table_search_search (ETableSearch *e_table_search,
 	gboolean ret_val;
 	g_return_val_if_fail (E_IS_TABLE_SEARCH (e_table_search), FALSE);
 
-	g_signal_emit (G_OBJECT (e_table_search),
-		       e_table_search_signals[SEARCH_SEARCH],
-		       0, string, flags, &ret_val);
+	g_signal_emit (
+		e_table_search,
+		e_table_search_signals[SEARCH_SEARCH], 0,
+		string, flags, &ret_val);
 
 	return ret_val;
 }
@@ -75,8 +76,9 @@ e_table_search_accept (ETableSearch *e_table_search)
 {
 	g_return_if_fail (E_IS_TABLE_SEARCH (e_table_search));
 
-	g_signal_emit (G_OBJECT (e_table_search),
-		       e_table_search_signals[SEARCH_ACCEPT], 0);
+	g_signal_emit (
+		e_table_search,
+		e_table_search_signals[SEARCH_ACCEPT], 0);
 }
 
 static gboolean
@@ -134,23 +136,25 @@ e_table_search_class_init (ETableSearchClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_table_search_finalize;
 
-	e_table_search_signals[SEARCH_SEARCH] =
-		g_signal_new ("search",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableSearchClass, search),
-			      (GSignalAccumulator) NULL, NULL,
-			      e_marshal_BOOLEAN__STRING_INT,
-			      G_TYPE_BOOLEAN, 2, G_TYPE_STRING, G_TYPE_INT);
+	e_table_search_signals[SEARCH_SEARCH] = g_signal_new (
+		"search",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableSearchClass, search),
+		(GSignalAccumulator) NULL, NULL,
+		e_marshal_BOOLEAN__STRING_INT,
+		G_TYPE_BOOLEAN, 2,
+		G_TYPE_STRING,
+		G_TYPE_INT);
 
-	e_table_search_signals[SEARCH_ACCEPT] =
-		g_signal_new ("accept",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableSearchClass, accept),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	e_table_search_signals[SEARCH_ACCEPT] = g_signal_new (
+		"accept",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableSearchClass, accept),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	class->search = NULL;
 	class->accept = NULL;

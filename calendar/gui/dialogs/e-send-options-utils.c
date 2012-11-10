@@ -194,13 +194,13 @@ e_send_options_utils_fill_component (ESendOptionsDialog *sod,
 			if (gopts->reply_convenient)
 				prop = icalproperty_new_x ("convenient");
 			else
-				prop = icalproperty_new_x ((const gchar *) g_strdup_printf ( "%d", gopts->reply_within));
+				prop = icalproperty_new_x ((const gchar *) g_strdup_printf ("%d", gopts->reply_within));
 			icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-REPLY");
 			icalcomponent_add_property (icalcomp, prop);
 		}
 
 		if (gopts->expiration_enabled && gopts->expire_after) {
-			prop = icalproperty_new_x ((const gchar *) g_strdup_printf ( "%d", gopts->expire_after));
+			prop = icalproperty_new_x ((const gchar *) g_strdup_printf ("%d", gopts->expire_after));
 			icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-EXPIRE");
 			icalcomponent_add_property (icalcomp, prop);
 		}
@@ -220,7 +220,7 @@ e_send_options_utils_fill_component (ESendOptionsDialog *sod,
 	}
 
 	if (sopts->tracking_enabled)
-		prop = icalproperty_new_x ((const gchar *) g_strdup_printf ( "%d", sopts->track_when));
+		prop = icalproperty_new_x ((const gchar *) g_strdup_printf ("%d", sopts->track_when));
 	else
 		prop = icalproperty_new_x ("0");
 

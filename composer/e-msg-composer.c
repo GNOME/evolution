@@ -3612,7 +3612,9 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 	g_object_unref (message);
 
 	if (e_msg_composer_is_exiting (composer))
-		g_object_weak_ref (G_OBJECT (context->activity), (GWeakNotify) gtk_widget_destroy, composer);
+		g_object_weak_ref (
+			G_OBJECT (context->activity),
+			(GWeakNotify) gtk_widget_destroy, composer);
 
 	async_context_free (context);
 }

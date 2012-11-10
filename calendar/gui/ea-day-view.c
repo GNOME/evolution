@@ -70,16 +70,18 @@ ea_day_view_get_type (void)
 		 * our parent class EaCalView is run-time deriving.
 		 */
 
-		factory = atk_registry_get_factory (atk_get_default_registry (),
-						    e_calendar_view_get_type ());
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (),
+			e_calendar_view_get_type ());
 		derived_atk_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 
 		tinfo.class_size = query.class_size;
 		tinfo.instance_size = query.instance_size;
 
-		type = g_type_register_static (derived_atk_type,
-					       "EaDayView", &tinfo, 0);
+		type = g_type_register_static (
+			derived_atk_type,
+			"EaDayView", &tinfo, 0);
 	}
 
 	return type;
@@ -148,8 +150,11 @@ ea_day_view_get_name (AtkObject *accessible)
 		/* To translators: Here, "It" is either like "Work Week View: July
 		10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006." */
 		event_str = g_strdup_printf (
-			ngettext ("It has %d event.",
-			"It has %d events.", n_events), n_events);
+			ngettext (
+				"It has %d event.",
+				"It has %d events.",
+				n_events),
+			n_events);
 	else
 		/* To translators: Here, "It" is either like "Work Week View: July
 		10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006." */
@@ -160,14 +165,16 @@ ea_day_view_get_name (AtkObject *accessible)
 		/* To translators: First %s is the week, for example "July 10th -
 		July 14th, 2006". Second %s is the number of events in this work
 		week, for example "It has %d event/events." or  "It has no events." */
-		name_str = g_strdup_printf (_("Work Week View: %s. %s"),
-						label_text, event_str);
+		name_str = g_strdup_printf (
+			_("Work Week View: %s. %s"),
+			label_text, event_str);
 	else
 		/* To translators: First %s is the day, for example "Thursday July
 		13th, 2006". Second %s is the number of events on this day, for
 		example "It has %d event/events." or  "It has no events." */
-		name_str = g_strdup_printf (_("Day View: %s. %s"),
-						label_text, event_str);
+		name_str = g_strdup_printf (
+			_("Day View: %s. %s"),
+			label_text, event_str);
 
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name_str);
 	g_free (name_str);

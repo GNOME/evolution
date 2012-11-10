@@ -304,9 +304,11 @@ eti_get_extents (AtkComponent *component,
 
 	parent = ATK_OBJECT (component)->accessible_parent;
 	if (parent && ATK_IS_COMPONENT (parent))
-		atk_component_get_extents (ATK_COMPONENT (parent), x, y,
-					width, height,
-					coord_type);
+		atk_component_get_extents (
+			ATK_COMPONENT (parent),
+			x, y,
+			width, height,
+			coord_type);
 
 	if (parent && GAL_A11Y_IS_E_TABLE_CLICK_TO_ADD (parent)) {
 		ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (
@@ -335,10 +337,11 @@ eti_ref_accessible_at_point (AtkComponent *component,
 	if (!item)
 		return NULL;
 
-	atk_component_get_position (component,
-				    &x_origin,
-				    &y_origin,
-				    coord_type);
+	atk_component_get_position (
+		component,
+		&x_origin,
+		&y_origin,
+		coord_type);
 	x -= x_origin;
 	y -= y_origin;
 
@@ -397,17 +400,19 @@ eti_ref_at (AtkTable *table,
 	    item->cell_views_realized) {
 		ECellView *cell_view = item->cell_views[column];
 		ETableCol *ecol = e_table_header_get_column (item->header, column);
-		ret = gal_a11y_e_cell_registry_get_object (NULL,
-							    item,
-							    cell_view,
-							    ATK_OBJECT (table),
-							    ecol->col_idx,
-							    column,
-							    row);
+		ret = gal_a11y_e_cell_registry_get_object (
+			NULL,
+			item,
+			cell_view,
+			ATK_OBJECT (table),
+			ecol->col_idx,
+			column,
+			row);
 		if (ATK_IS_OBJECT (ret)) {
-			g_object_weak_ref (G_OBJECT (ret),
-					   (GWeakNotify) cell_destroyed,
-					   ret);
+			g_object_weak_ref (
+				G_OBJECT (ret),
+				(GWeakNotify) cell_destroyed,
+				ret);
 			/* if current cell is focused, add FOCUSED state */
 			if (e_selection_model_cursor_row (item->selection) ==
 				GAL_A11Y_E_CELL (ret)->row &&
@@ -501,13 +506,14 @@ eti_get_column_extent_at (AtkTable *table,
 	if (!item)
 		return -1;
 
-	e_table_item_get_cell_geometry (item,
-					&row,
-					&column,
-					NULL,
-					NULL,
-					&width,
-					NULL);
+	e_table_item_get_cell_geometry (
+		item,
+		&row,
+		&column,
+		NULL,
+		NULL,
+		&width,
+		NULL);
 
 	return width;
 }
@@ -524,13 +530,14 @@ eti_get_row_extent_at (AtkTable *table,
 	if (!item)
 		return -1;
 
-	e_table_item_get_cell_geometry (item,
-					&row,
-					&column,
-					NULL,
-					NULL,
-					NULL,
-					&height);
+	e_table_item_get_cell_geometry (
+		item,
+		&row,
+		&column,
+		NULL,
+		NULL,
+		NULL,
+		&height);
 
 	return height;
 }
@@ -672,8 +679,9 @@ table_add_row_selection (AtkTable *table,
 
 	if (table_is_row_selected (table, row))
 		return TRUE;
-	e_selection_model_toggle_single_row (item->selection,
-					     view_to_model_row (item, row));
+	e_selection_model_toggle_single_row (
+		item->selection,
+		view_to_model_row (item, row));
 
 	return TRUE;
 }
@@ -758,14 +766,16 @@ eti_rows_inserted (ETableModel *model,
 
 	GET_PRIVATE (table_item)->rows = n_rows;
 
-	g_signal_emit_by_name (table_item, "row-inserted", row,
-			       count, NULL);
+	g_signal_emit_by_name (
+		table_item, "row-inserted", row,
+		count, NULL);
 
 	for (i = row; i < (row + count); i++) {
 		for (j = 0; j < n_cols; j++) {
-			g_signal_emit_by_name (table_item,
-					       "children_changed::add",
-					       ( ((i + 1) * n_cols) + j), NULL, NULL);
+			g_signal_emit_by_name (
+				table_item,
+				"children_changed::add",
+				(((i + 1) * n_cols) + j), NULL, NULL);
 		}
 	}
 
@@ -788,18 +798,20 @@ eti_rows_deleted (ETableModel *model,
 
 	old_nrows = GET_PRIVATE (table_item)->rows;
 
-	g_return_if_fail ( row + count <= old_nrows);
+	g_return_if_fail (row + count <= old_nrows);
 	g_return_if_fail (old_nrows == n_rows + count);
 	GET_PRIVATE (table_item)->rows = n_rows;
 
-	g_signal_emit_by_name (table_item, "row-deleted", row,
-			       count, NULL);
+	g_signal_emit_by_name (
+		table_item, "row-deleted", row,
+		count, NULL);
 
 	for (i = row; i < (row + count); i++) {
 		for (j = 0; j < n_cols; j++) {
-			g_signal_emit_by_name (table_item,
-					       "children_changed::remove",
-					       ( ((i + 1) * n_cols) + j), NULL, NULL);
+			g_signal_emit_by_name (
+				table_item,
+				"children_changed::remove",
+				(((i + 1) * n_cols) + j), NULL, NULL);
 		}
 	}
 	g_signal_emit_by_name (table_item, "visible-data-changed");
@@ -909,17 +921,16 @@ eti_header_structure_changed (ETableHeader *eth,
 
 	/* Emit signals */
 	if (reorder_found)
-		g_signal_emit_by_name (G_OBJECT (a11y_item), "column_reordered");
+		g_signal_emit_by_name (a11y_item, "column_reordered");
 
 	if (removed_found) {
-		for (i = 0; i < prev_n_cols; i ++ ) {
+		for (i = 0; i < prev_n_cols; i++) {
 			if (prev_state[i] == ETI_HEADER_REMOVED) {
 				g_signal_emit_by_name (
-					G_OBJECT (a11y_item),
-					"column-deleted", i, 1);
+					a11y_item, "column-deleted", i, 1);
 				for (j = 0; j < n_rows; j++)
 					g_signal_emit_by_name (
-						G_OBJECT (a11y_item),
+						a11y_item,
 						"children_changed::remove",
 						((j + 1) * prev_n_cols + i),
 						NULL, NULL);
@@ -931,11 +942,10 @@ eti_header_structure_changed (ETableHeader *eth,
 		for (i = 0; i < n_cols; i++) {
 			if (state[i] == ETI_HEADER_NEW_ADDED) {
 				g_signal_emit_by_name (
-					G_OBJECT (a11y_item),
-					"column-inserted", i, 1);
+					a11y_item, "column-inserted", i, 1);
 				for (j = 0; j < n_rows; j++)
 					g_signal_emit_by_name (
-						G_OBJECT (a11y_item),
+						a11y_item,
 						"children_changed::add",
 						((j + 1) * n_cols + i),
 						NULL, NULL);
@@ -1127,7 +1137,7 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	GET_PRIVATE (a11y)->rows = item->rows;
 
 	GET_PRIVATE (a11y)->columns = e_table_header_get_columns (item->header);
-	if ( GET_PRIVATE (a11y)->columns == NULL)
+	if (GET_PRIVATE (a11y)->columns == NULL)
 		return NULL;
 
 	if (item) {
@@ -1138,8 +1148,9 @@ gal_a11y_e_table_item_new (ETableItem *item)
 			item, "selection_model_added",
 			G_CALLBACK (eti_a11y_selection_model_added_cb), NULL);
 		if (item->selection)
-			gal_a11y_e_table_item_ref_selection (a11y,
-							     item->selection);
+			gal_a11y_e_table_item_ref_selection (
+				a11y,
+				item->selection);
 
 		/* find the TableItem's parent: table or tree */
 		GET_PRIVATE (a11y)->widget = gtk_widget_get_parent (
@@ -1184,11 +1195,11 @@ gal_a11y_e_table_item_ref_selection (GalA11yETableItem *a11y,
 
 	priv = GET_PRIVATE (a11y);
 	priv->selection_change_id = g_signal_connect (
-	    G_OBJECT (selection), "selection_changed",
-	    G_CALLBACK (eti_a11y_selection_changed_cb), a11y);
+		selection, "selection_changed",
+		G_CALLBACK (eti_a11y_selection_changed_cb), a11y);
 	priv->cursor_change_id = g_signal_connect (
-	    G_OBJECT (selection), "cursor_changed",
-	    G_CALLBACK (eti_a11y_cursor_changed_cb), a11y);
+		selection, "cursor_changed",
+		G_CALLBACK (eti_a11y_cursor_changed_cb), a11y);
 
 	priv->selection = selection;
 	g_object_ref (selection);
@@ -1208,10 +1219,12 @@ gal_a11y_e_table_item_unref_selection (GalA11yETableItem *a11y)
 	g_return_val_if_fail (priv->selection_change_id != 0, FALSE);
 	g_return_val_if_fail (priv->cursor_change_id != 0, FALSE);
 
-	g_signal_handler_disconnect (priv->selection,
-				     priv->selection_change_id);
-	g_signal_handler_disconnect (priv->selection,
-				     priv->cursor_change_id);
+	g_signal_handler_disconnect (
+		priv->selection,
+		priv->selection_change_id);
+	g_signal_handler_disconnect (
+		priv->selection,
+		priv->cursor_change_id);
 	priv->cursor_change_id = 0;
 	priv->selection_change_id = 0;
 
@@ -1345,15 +1358,18 @@ selection_add_selection (AtkSelection *selection,
 		atk_table_add_row_selection (table, row);
 	}
 
-	e_selection_model_change_cursor (item->selection,
-					 model_row,
-					 model_col);
-	e_selection_model_cursor_changed (item->selection,
-					  model_row,
-					  model_col);
-	e_selection_model_cursor_activated (item->selection,
-					    model_row,
-					    model_col);
+	e_selection_model_change_cursor (
+		item->selection,
+		model_row,
+		model_col);
+	e_selection_model_cursor_changed (
+		item->selection,
+		model_row,
+		model_col);
+	e_selection_model_cursor_activated (
+		item->selection,
+		model_row,
+		model_col);
 	return TRUE;
 }
 
@@ -1413,8 +1429,9 @@ void
 gal_a11y_e_table_item_init (void)
 {
 	if (atk_get_root ())
-		atk_registry_set_factory_type (atk_get_default_registry (),
-					E_TYPE_TABLE_ITEM,
-					gal_a11y_e_table_item_factory_get_type ());
+		atk_registry_set_factory_type (
+			atk_get_default_registry (),
+			E_TYPE_TABLE_ITEM,
+			gal_a11y_e_table_item_factory_get_type ());
 }
 

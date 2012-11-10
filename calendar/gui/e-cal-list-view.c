@@ -178,9 +178,10 @@ setup_e_table (ECalListView *cal_list_view)
 	/* Normal string fields */
 
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (cell,
-		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		      NULL);
+	g_object_set (
+		cell,
+		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		NULL);
 
 	e_table_extras_add_cell (extras, "calstring", cell);
 	g_object_unref (cell);
@@ -188,9 +189,10 @@ setup_e_table (ECalListView *cal_list_view)
 	/* Date fields */
 
 	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (cell,
-		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		      NULL);
+	g_object_set (
+		cell,
+		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		NULL);
 
 	g_object_bind_property (
 		model, "timezone",
@@ -220,17 +222,19 @@ setup_e_table (ECalListView *cal_list_view)
 
 	gtk_widget_hide (E_CELL_DATE_EDIT (popup_cell)->none_button);
 
-	e_cell_date_edit_set_get_time_callback (E_CELL_DATE_EDIT (popup_cell),
-						get_current_time_cb,
-						cal_list_view, NULL);
+	e_cell_date_edit_set_get_time_callback (
+		E_CELL_DATE_EDIT (popup_cell),
+		get_current_time_cb,
+		cal_list_view, NULL);
 
 	/* Combo fields */
 
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (cell,
-		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		      "editable", FALSE,
-		      NULL);
+	g_object_set (
+		cell,
+		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"editable", FALSE,
+		NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
@@ -240,8 +244,9 @@ setup_e_table (ECalListView *cal_list_view)
 	strings = g_list_append (strings, (gchar *) _("Public"));
 	strings = g_list_append (strings, (gchar *) _("Private"));
 	strings = g_list_append (strings, (gchar *) _("Confidential"));
-	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
-					  strings);
+	e_cell_combo_set_popdown_strings (
+		E_CELL_COMBO (popup_cell),
+		strings);
 	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "classification", popup_cell);
@@ -249,8 +254,9 @@ setup_e_table (ECalListView *cal_list_view)
 
 	/* Sorting */
 
-	e_table_extras_add_compare (extras, "date-compare",
-				    e_cell_date_edit_compare_cb);
+	e_table_extras_add_compare (
+		extras, "date-compare",
+		e_cell_date_edit_compare_cb);
 
 	/* set proper format component for a default 'date' cell renderer */
 	cell = e_table_extras_get_cell (extras, "date");
@@ -474,8 +480,9 @@ e_cal_list_view_get_selected_events (ECalendarView *cal_view)
 
 		event = E_CAL_LIST_VIEW (cal_view)->cursor_event = g_new0 (ECalendarViewEvent, 1);
 		event->comp_data =
-			e_cal_model_get_component_at (e_calendar_view_get_model (cal_view),
-						      cursor_row);
+			e_cal_model_get_component_at (
+				e_calendar_view_get_model (cal_view),
+				cursor_row);
 		event_list = g_list_prepend (event_list, event);
 	}
 

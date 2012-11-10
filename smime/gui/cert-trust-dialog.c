@@ -72,9 +72,10 @@ ctd_response (GtkWidget *w,
 		icert = e_cert_get_internal_cert (data->cert);
 		e_cert_trust_init (&trust);
 		e_cert_trust_set_valid_peer (&trust);
-		e_cert_trust_add_peer_trust (&trust, FALSE,
-					     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->trust_button)),
-					     FALSE);
+		e_cert_trust_add_peer_trust (
+			&trust, FALSE,
+			gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->trust_button)),
+			FALSE);
 		e_cert_db_change_cert_trust (icert, &trust);
 		break;
 	case GTK_RESPONSE_ACCEPT: {
@@ -85,23 +86,26 @@ ctd_response (GtkWidget *w,
 
 		g_signal_stop_emission_by_name (w, "response");
 
-		ca_trust_dialog_set_trust (dialog,
-					   e_cert_trust_has_trusted_ca (icert->trust, TRUE,  FALSE, FALSE),
-					   e_cert_trust_has_trusted_ca (icert->trust, FALSE, TRUE,  FALSE),
-					   e_cert_trust_has_trusted_ca (icert->trust, FALSE, FALSE, TRUE));
+		ca_trust_dialog_set_trust (
+			dialog,
+			e_cert_trust_has_trusted_ca (icert->trust, TRUE,  FALSE, FALSE),
+			e_cert_trust_has_trusted_ca (icert->trust, FALSE, TRUE,  FALSE),
+			e_cert_trust_has_trusted_ca (icert->trust, FALSE, FALSE, TRUE));
 
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 			gboolean trust_ssl, trust_email, trust_objsign;
 
-			ca_trust_dialog_get_trust (dialog,
-						   &trust_ssl, &trust_email, &trust_objsign);
+			ca_trust_dialog_get_trust (
+				dialog,
+				&trust_ssl, &trust_email, &trust_objsign);
 
 			e_cert_trust_init (&trust);
 			e_cert_trust_set_valid_ca (&trust);
-			e_cert_trust_add_ca_trust (&trust,
-						   trust_ssl,
-						   trust_email,
-						   trust_objsign);
+			e_cert_trust_add_ca_trust (
+				&trust,
+				trust_ssl,
+				trust_email,
+				trust_objsign);
 
 			e_cert_db_change_cert_trust (icert, &trust);
 		}
@@ -144,13 +148,15 @@ cert_trust_dialog_show (ECert *cert)
 
 	icert = e_cert_get_internal_cert (ctd_data->cacert);
 	if (e_cert_trust_has_trusted_ca (icert->trust, FALSE, TRUE, FALSE))
-		gtk_label_set_text ((GtkLabel *) ctd_data->label,
-				   _("Because you trust the certificate authority that issued this certificate, "
-				     "then you trust the authenticity of this certificate unless otherwise indicated here"));
+		gtk_label_set_text (
+			(GtkLabel *) ctd_data->label,
+			_("Because you trust the certificate authority that issued this certificate, "
+			"then you trust the authenticity of this certificate unless otherwise indicated here"));
 	else
-		gtk_label_set_text ((GtkLabel *) ctd_data->label,
-				   _("Because you do not trust the certificate authority that issued this certificate, "
-				     "then you do not trust the authenticity of this certificate unless otherwise indicated here"));
+		gtk_label_set_text (
+			(GtkLabel *) ctd_data->label,
+			_("Because you do not trust the certificate authority that issued this certificate, "
+			"then you do not trust the authenticity of this certificate unless otherwise indicated here"));
 
 	return ctd_data->dialog;
 }

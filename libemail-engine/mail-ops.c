@@ -216,7 +216,8 @@ mail_filter_folder (EMailSession *session,
 static gchar *
 fetch_mail_desc (struct _fetch_mail_msg *m)
 {
-	return g_strdup_printf (_("Fetching mail from '%s'"),
+	return g_strdup_printf (
+		_("Fetching mail from '%s'"),
 		camel_service_get_display_name (CAMEL_SERVICE (m->store)));
 }
 
@@ -360,7 +361,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 				if (!success) {
 					/* re-enter known UIDs, thus they are not
-					   re-fetched next time */
+					 * re-fetched next time */
 					for (i = 0; i < cache_uids->len; i++) {
 						camel_uid_cache_save_uid (cache, cache_uids->pdata[i]);
 					}
@@ -547,7 +548,7 @@ get_submission_details_from_identity (EMailSession *session,
                                       const gchar *identity_uid,
                                       gchar **out_transport_uid,
                                       gchar **out_sent_folder_uri,
-				      gboolean *out_replies_to_origin_folder)
+                                      gboolean *out_replies_to_origin_folder)
 {
 	ESource *source;
 	ESourceRegistry *registry;
@@ -750,16 +751,14 @@ mail_send_message (struct _send_queue_msg *m,
 			folder = e_mail_session_uri_to_folder_sync (
 				m->session, sent_folder_uri, 0,
 				cancellable, &local_error);
-			if (folder == NULL) {
+
+			if (local_error != NULL) {
 				g_string_append_printf (
 					err, _("Failed to append to %s: %s\n"
 					"Appending to local 'Sent' folder instead."),
 					sent_folder_uri,
-					local_error ?
-						local_error->message :
-						_("Unknown error"));
-				if (local_error)
-					g_clear_error (&local_error);
+					local_error->message);
+				g_clear_error (&local_error);
 			}
 		}
 

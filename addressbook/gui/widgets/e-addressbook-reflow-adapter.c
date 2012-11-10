@@ -73,23 +73,29 @@ unlink_model (EAddressbookReflowAdapter *adapter)
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
 	if (priv->model && priv->create_contact_id)
-		g_signal_handler_disconnect (priv->model,
-					     priv->create_contact_id);
+		g_signal_handler_disconnect (
+			priv->model,
+			priv->create_contact_id);
 	if (priv->model && priv->remove_contact_id)
-		g_signal_handler_disconnect (priv->model,
-					     priv->remove_contact_id);
+		g_signal_handler_disconnect (
+			priv->model,
+			priv->remove_contact_id);
 	if (priv->model && priv->modify_contact_id)
-		g_signal_handler_disconnect (priv->model,
-					     priv->modify_contact_id);
+		g_signal_handler_disconnect (
+			priv->model,
+			priv->modify_contact_id);
 	if (priv->model && priv->model_changed_id)
-		g_signal_handler_disconnect (priv->model,
-					     priv->model_changed_id);
+		g_signal_handler_disconnect (
+			priv->model,
+			priv->model_changed_id);
 	if (priv->model && priv->search_started_id)
-		g_signal_handler_disconnect (priv->model,
-					     priv->search_started_id);
+		g_signal_handler_disconnect (
+			priv->model,
+			priv->search_started_id);
 	if (priv->model && priv->search_result_id)
-		g_signal_handler_disconnect (priv->model,
-					     priv->search_result_id);
+		g_signal_handler_disconnect (
+			priv->model,
+			priv->search_result_id);
 
 	priv->create_contact_id = 0;
 	priv->remove_contact_id = 0;
@@ -289,9 +295,10 @@ adapter_drag_begin (EMinicard *card,
 {
 	gint ret_val = 0;
 
-	g_signal_emit (adapter,
-		       signals[DRAG_BEGIN], 0,
-		       event, &ret_val);
+	g_signal_emit (
+		adapter,
+		signals[DRAG_BEGIN], 0,
+		event, &ret_val);
 
 	return ret_val;
 }
@@ -338,9 +345,10 @@ addressbook_reincarnate (EReflowModel *erm,
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
-	gnome_canvas_item_set (item,
-			      "contact", e_addressbook_model_contact_at (priv->model, i),
-			      NULL);
+	gnome_canvas_item_set (
+		item,
+		"contact", e_addressbook_model_contact_at (priv->model, i),
+		NULL);
 }
 
 static void
@@ -349,9 +357,10 @@ create_contact (EAddressbookModel *model,
                 gint count,
                 EAddressbookReflowAdapter *adapter)
 {
-	e_reflow_model_items_inserted (E_REFLOW_MODEL (adapter),
-				       index,
-				       count);
+	e_reflow_model_items_inserted (
+		E_REFLOW_MODEL (adapter),
+		index,
+		count);
 }
 
 static void
@@ -418,19 +427,22 @@ addressbook_set_property (GObject *object,
 
 	switch (property_id) {
 	case PROP_CLIENT:
-		g_object_set (priv->model,
-			      "client", g_value_get_object (value),
-			      NULL);
+		g_object_set (
+			priv->model,
+			"client", g_value_get_object (value),
+			NULL);
 		break;
 	case PROP_QUERY:
-		g_object_set (priv->model,
-			      "query", g_value_get_string (value),
-			      NULL);
+		g_object_set (
+			priv->model,
+			"query", g_value_get_string (value),
+			NULL);
 		break;
 	case PROP_EDITABLE:
-		g_object_set (priv->model,
-			      "editable", g_value_get_boolean (value),
-			      NULL);
+		g_object_set (
+			priv->model,
+			"editable", g_value_get_boolean (value),
+			NULL);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -449,18 +461,21 @@ addressbook_get_property (GObject *object,
 
 	switch (property_id) {
 	case PROP_CLIENT: {
-		g_object_get_property (G_OBJECT (priv->model),
-				       "client", value);
+		g_object_get_property (
+			G_OBJECT (priv->model),
+			"client", value);
 		break;
 	}
 	case PROP_QUERY: {
-		g_object_get_property (G_OBJECT (priv->model),
-				       "query", value);
+		g_object_get_property (
+			G_OBJECT (priv->model),
+			"query", value);
 		break;
 	}
 	case PROP_EDITABLE: {
-		g_object_get_property (G_OBJECT (priv->model),
-				       "editable", value);
+		g_object_get_property (
+			G_OBJECT (priv->model),
+			"editable", value);
 		break;
 	}
 	case PROP_MODEL:
@@ -495,52 +510,65 @@ e_addressbook_reflow_adapter_class_init (EAddressbookReflowAdapterClass *class)
 	reflow_model_class->incarnate = addressbook_incarnate;
 	reflow_model_class->reincarnate = addressbook_reincarnate;
 
-	g_object_class_install_property (object_class, PROP_CLIENT,
-					 g_param_spec_object ("client",
-							      "EBookClient",
-							      NULL,
-							      E_TYPE_BOOK_CLIENT,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_CLIENT,
+		g_param_spec_object (
+			"client",
+			"EBookClient",
+			NULL,
+			E_TYPE_BOOK_CLIENT,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_QUERY,
-					 g_param_spec_string ("query",
-							      "Query",
-							      NULL,
-							      NULL,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_QUERY,
+		g_param_spec_string (
+			"query",
+			"Query",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_EDITABLE,
-					 g_param_spec_boolean ("editable",
-							       "Editable",
-							       NULL,
-							       FALSE,
-							       G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_EDITABLE,
+		g_param_spec_boolean (
+			"editable",
+			"Editable",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_MODEL,
-					 g_param_spec_object ("model",
-							      "Model",
-							      NULL,
-							      E_TYPE_ADDRESSBOOK_MODEL,
-							      G_PARAM_READABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_MODEL,
+		g_param_spec_object (
+			"model",
+			"Model",
+			NULL,
+			E_TYPE_ADDRESSBOOK_MODEL,
+			G_PARAM_READABLE));
 
-	signals[DRAG_BEGIN] =
-		g_signal_new ("drag_begin",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EAddressbookReflowAdapterClass, drag_begin),
-			      NULL, NULL,
-			      e_marshal_INT__POINTER,
-			      G_TYPE_INT, 1, G_TYPE_POINTER);
+	signals[DRAG_BEGIN] = g_signal_new (
+		"drag_begin",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookReflowAdapterClass, drag_begin),
+		NULL, NULL,
+		e_marshal_INT__POINTER,
+		G_TYPE_INT, 1,
+		G_TYPE_POINTER);
 
-	signals[OPEN_CONTACT] =
-		g_signal_new ("open-contact",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EAddressbookReflowAdapterClass, open_contact),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1,
-			      E_TYPE_CONTACT);
+	signals[OPEN_CONTACT] = g_signal_new (
+		"open-contact",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookReflowAdapterClass, open_contact),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_CONTACT);
 }
 
 static void

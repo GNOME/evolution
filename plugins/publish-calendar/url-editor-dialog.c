@@ -87,12 +87,13 @@ create_uri (UrlEditorDialog *dialog)
 
 		if (uri->location)
 			g_free (uri->location);
-		uri->location = g_strdup_printf ("%s://%s%s%s%s%s%s%s",
-						 method,
-						 username, (username[0] != '\0') ? "@" : "",
-						 server,
-						 (port[0] != '\0') ? ":" : "", port,
-						 (file[0] != '/') ? "/" : "", file);
+		uri->location = g_strdup_printf (
+			"%s://%s%s%s%s%s%s%s",
+			method,
+			username, (username[0] != '\0') ? "@" : "",
+			server,
+			(port[0] != '\0') ? ":" : "", port,
+			(file[0] != '/') ? "/" : "", file);
 
 		g_free (server);
 		g_free (file);

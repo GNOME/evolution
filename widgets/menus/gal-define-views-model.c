@@ -245,19 +245,25 @@ gal_define_views_model_class_init (GalDefineViewsModelClass *class)
 	object_class->set_property   = gal_define_views_model_set_property;
 	object_class->get_property   = gal_define_views_model_get_property;
 
-	g_object_class_install_property (object_class, PROP_EDITABLE,
-					 g_param_spec_boolean ("editable",
-							       "Editable",
-							       NULL,
-							       FALSE,
-							       G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_EDITABLE,
+		g_param_spec_boolean (
+			"editable",
+			"Editable",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_COLLECTION,
-					 g_param_spec_object ("collection",
-							      "Collection",
-							      NULL,
-							      GAL_VIEW_COLLECTION_TYPE,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_COLLECTION,
+		g_param_spec_object (
+			"collection",
+			"Collection",
+			NULL,
+			GAL_VIEW_COLLECTION_TYPE,
+			G_PARAM_READWRITE));
 
 	model_class->column_count     = gdvm_col_count;
 	model_class->row_count        = gdvm_row_count;

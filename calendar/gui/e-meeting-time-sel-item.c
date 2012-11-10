@@ -250,17 +250,20 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item,
 		? TRUE : FALSE;
 
 	/* Calculate the first and last visible days and positions. */
-	e_meeting_time_selector_calculate_day_and_position (mts, x,
-							    &date, &day_x);
-	e_meeting_time_selector_calculate_day_and_position (mts, x + width,
-							    &last_date, NULL);
+	e_meeting_time_selector_calculate_day_and_position (
+		mts, x,
+		&date, &day_x);
+	e_meeting_time_selector_calculate_day_and_position (
+		mts, x + width,
+		&last_date, NULL);
 
 	/* For the top display draw the 'All Attendees' row background. */
 	cairo_save (cr);
 	if (is_display_top) {
 		gdk_cairo_set_source_color (cr, &mts->all_attendees_bg_color);
-		cairo_rectangle (cr, 0, mts->row_height * 2 - y,
-				    width, mts->row_height);
+		cairo_rectangle (
+			cr, 0, mts->row_height * 2 - y,
+			width, mts->row_height);
 		cairo_fill (cr);
 	} else {
 		gdk_cairo_set_source_color (cr, &mts->bg_color);
@@ -279,12 +282,14 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item,
 		cairo_save (cr);
 		gdk_cairo_set_source_color (cr, &mts->meeting_time_bg_color);
 		if (is_display_top) {
-			cairo_rectangle (cr, meeting_start_x + 1 - x, mts->row_height * 2 - y,
-					    meeting_end_x - meeting_start_x - 2, mts->row_height);
+			cairo_rectangle (
+				cr, meeting_start_x + 1 - x, mts->row_height * 2 - y,
+				meeting_end_x - meeting_start_x - 2, mts->row_height);
 			cairo_fill (cr);
 		} else {
-			cairo_rectangle (cr, meeting_start_x + 1 - x, 0,
-					    meeting_end_x - meeting_start_x - 2, height);
+			cairo_rectangle (
+				cr, meeting_start_x + 1 - x, 0,
+				meeting_end_x - meeting_start_x - 2, height);
 			cairo_fill (cr);
 		}
 		cairo_restore (cr);
@@ -364,15 +369,17 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item,
 
 		if ((meeting_start_x + 2 >= x)
 		    && (meeting_start_x - 2 < x + width)) {
-			cairo_rectangle (cr, meeting_start_x - 2 - x, bar_y,
-					    5, bar_height);
+			cairo_rectangle (
+				cr, meeting_start_x - 2 - x, bar_y,
+				5, bar_height);
 			cairo_fill (cr);
 		}
 
 		if ((meeting_end_x + 2 >= x)
 		    && (meeting_end_x - 2 < x + width)) {
-			cairo_rectangle (cr, meeting_end_x - 2 - x, bar_y,
-					    5, bar_height);
+			cairo_rectangle (
+				cr, meeting_end_x - 2 - x, bar_y,
+				5, bar_height);
 			cairo_fill (cr);
 
 		}
@@ -587,9 +594,10 @@ e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 			}
 		cairo_stroke (cr);
 
-		cairo_rectangle (cr,
-				 x + mts->day_width - 2, 0,
-				 2, unused_y);
+		cairo_rectangle (
+			cr,
+			x + mts->day_width - 2, 0,
+			2, unused_y);
 		cairo_fill (cr);
 	}
 
@@ -604,9 +612,10 @@ e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 			}
 		cairo_stroke (cr);
 
-		cairo_rectangle (cr,
-				 x + mts->day_width - 2, unused_y,
-				 2, height - unused_y);
+		cairo_rectangle (
+			cr,
+			x + mts->day_width - 2, unused_y,
+			2, height - unused_y);
 		cairo_fill (cr);
 	}
 
@@ -755,11 +764,13 @@ e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorIt
 		 * the top/bottom line of each row. */
 		if (x2 - x1 > 0) {
 #if E_MEETING_TIME_SELECTOR_DRAW_GRID_LINES_AT_BOTTOM
-			cairo_rectangle (cr, x1 - x, y + 2,
-					    x2 - x1, mts->row_height - 5);
+			cairo_rectangle (
+				cr, x1 - x, y + 2,
+				x2 - x1, mts->row_height - 5);
 #else
-			cairo_rectangle (cr, x1 - x, y + 3,
-					    x2 - x1, mts->row_height - 5);
+			cairo_rectangle (
+				cr, x1 - x, y + 3,
+				x2 - x1, mts->row_height - 5);
 #endif
 			cairo_fill (cr);
 		}
@@ -790,14 +801,17 @@ e_meeting_time_selector_item_event (GnomeCanvasItem *item,
 
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
-		return e_meeting_time_selector_item_button_press (mts_item,
-								  event);
+		return e_meeting_time_selector_item_button_press (
+			mts_item,
+			event);
 	case GDK_BUTTON_RELEASE:
-		return e_meeting_time_selector_item_button_release (mts_item,
-								    event);
+		return e_meeting_time_selector_item_button_release (
+			mts_item,
+			event);
 	case GDK_MOTION_NOTIFY:
-		return e_meeting_time_selector_item_motion_notify (mts_item,
-								   event);
+		return e_meeting_time_selector_item_motion_notify (
+			mts_item,
+			event);
 	default:
 		break;
 	}
@@ -825,8 +839,9 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 	y = (gint) event->button.y;
 
 	/* Check if we are starting a drag of the vertical meeting time bars.*/
-	position = e_meeting_time_selector_item_get_drag_position (mts_item,
-								   x, y);
+	position = e_meeting_time_selector_item_get_drag_position (
+		mts_item,
+		x, y);
 	if (position != E_MEETING_TIME_SELECTOR_POS_NONE) {
 		if (gnome_canvas_item_grab (GNOME_CANVAS_ITEM (mts_item),
 					    GDK_POINTER_MOTION_MASK
@@ -851,17 +866,18 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 		gint hdiff, mdiff;
 		GDate asdate, aedate;
 
-		e_meeting_time_selector_get_meeting_time (mts_item->mts,
-					       &astart_year,
-					       &astart_month,
-					       &astart_day,
-					       &astart_hour,
-					       &astart_minute,
-					       &aend_year,
-					       &aend_month,
-					       &aend_day,
-					       &aend_hour,
-					       &aend_minute);
+		e_meeting_time_selector_get_meeting_time (
+			mts_item->mts,
+			&astart_year,
+			&astart_month,
+			&astart_day,
+			&astart_hour,
+			&astart_minute,
+			&aend_year,
+			&aend_month,
+			&aend_day,
+			&aend_hour,
+			&aend_minute);
 		if (mts->zoomed_out)
 			start_time.minute = 0;
 		else
@@ -901,17 +917,18 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 	e_meeting_time_selector_fix_time_overflows (&end_time);
 
 	/* Set the new meeting time. */
-	e_meeting_time_selector_set_meeting_time (mts_item->mts,
-						  g_date_get_year (start_date),
-						  g_date_get_month (start_date),
-						  g_date_get_day (start_date),
-						  start_time.hour,
-						  start_time.minute,
-						  g_date_get_year (end_date),
-						  g_date_get_month (end_date),
-						  g_date_get_day (end_date),
-						  end_time.hour,
-						  end_time.minute);
+	e_meeting_time_selector_set_meeting_time (
+		mts_item->mts,
+		g_date_get_year (start_date),
+		g_date_get_month (start_date),
+		g_date_get_day (start_date),
+		start_time.hour,
+		start_time.minute,
+		g_date_get_year (end_date),
+		g_date_get_month (end_date),
+		g_date_get_day (end_date),
+		end_time.hour,
+		end_time.minute);
 
 	return FALSE;
 }
@@ -930,8 +947,9 @@ e_meeting_time_selector_item_button_release (EMeetingTimeSelectorItem *mts_item,
 	if (mts->dragging_position != E_MEETING_TIME_SELECTOR_POS_NONE) {
 		mts->dragging_position = E_MEETING_TIME_SELECTOR_POS_NONE;
 		e_meeting_time_selector_remove_timeout (mts);
-		gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM (mts_item),
-					  event->button.time);
+		gnome_canvas_item_ungrab (
+			GNOME_CANVAS_ITEM (mts_item),
+			event->button.time);
 	}
 
 	return FALSE;
@@ -959,8 +977,9 @@ e_meeting_time_selector_item_motion_notify (EMeetingTimeSelectorItem *mts_item,
 		return TRUE;
 	}
 
-	position = e_meeting_time_selector_item_get_drag_position (mts_item,
-								   x, y);
+	position = e_meeting_time_selector_item_get_drag_position (
+		mts_item,
+		x, y);
 
 	/* Determine which cursor should be used. */
 	if (position != E_MEETING_TIME_SELECTOR_POS_NONE)

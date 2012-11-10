@@ -136,10 +136,12 @@ zoom_level_changed_cb (ChamplainView *view,
 	EContactMapWindow *window = user_data;
 	gint zoom_level = champlain_view_get_zoom_level (view);
 
-	gtk_widget_set_sensitive (window->priv->zoom_in_btn,
+	gtk_widget_set_sensitive (
+		window->priv->zoom_in_btn,
 		(zoom_level < champlain_view_get_max_zoom_level (view)));
 
-	gtk_widget_set_sensitive (window->priv->zoom_out_btn,
+	gtk_widget_set_sensitive (
+		window->priv->zoom_out_btn,
 		(zoom_level > champlain_view_get_min_zoom_level (view)));
 }
 
@@ -158,11 +160,13 @@ map_contact_added_cb (EContactMap *map,
 
 	name = champlain_label_get_text (CHAMPLAIN_LABEL (marker));
 
-	g_hash_table_insert (priv->hash_table,
+	g_hash_table_insert (
+		priv->hash_table,
 		g_strdup (name), marker);
 
 	gtk_list_store_append (priv->completion_model, &iter);
-	gtk_list_store_set (priv->completion_model, &iter,
+	gtk_list_store_set (
+		priv->completion_model, &iter,
 		0, name, -1);
 
 	g_signal_connect (
@@ -236,8 +240,9 @@ contact_map_window_find_contact_cb (GtkButton *button,
 	EContactMapWindowPrivate *priv = E_CONTACT_MAP_WINDOW (user_data)->priv;
 	ClutterActor *marker;
 
-	marker = g_hash_table_lookup (priv->hash_table,
-				gtk_entry_get_text (GTK_ENTRY (priv->search_entry)));
+	marker = g_hash_table_lookup (
+		priv->hash_table,
+		gtk_entry_get_text (GTK_ENTRY (priv->search_entry)));
 
 	if (marker)
 		e_contact_map_zoom_on_marker (priv->map, marker);
@@ -349,8 +354,11 @@ e_contact_map_window_init (EContactMapWindow *window)
 
 	priv->tasks_cnt = 0;
 
-	hash_table = g_hash_table_new_full (g_str_hash, g_str_equal,
-			(GDestroyNotify) g_free, NULL);
+	hash_table = g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) NULL);
 	priv->hash_table = hash_table;
 
 	gtk_window_set_title (GTK_WINDOW (window), _("Contacts Map"));

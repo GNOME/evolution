@@ -85,7 +85,7 @@ filter_file_validate (EFilterElement *element,
 	if (g_strcmp0 (file->type, "file") == 0) {
 		if (!g_file_test (file->path, G_FILE_TEST_IS_REGULAR)) {
 			if (alert)
-				*alert = e_alert_new ( "filter:bad-file",
+				*alert = e_alert_new ("filter:bad-file",
 						       file->path, NULL);
 			return FALSE;
 		}

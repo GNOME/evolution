@@ -154,14 +154,15 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 			FALSE,
 			G_PARAM_READWRITE));
 
-	comp_editor_page_signals[DATES_CHANGED] =
-		g_signal_new ("dates_changed",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CompEditorPageClass, dates_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	comp_editor_page_signals[DATES_CHANGED] = g_signal_new (
+		"dates_changed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (CompEditorPageClass, dates_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 }
 
 static void
@@ -222,7 +223,7 @@ comp_editor_page_set_updating (CompEditorPage *page,
 {
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
-	if ((page->priv->updating ? 1 : 0) == (updating ? 1 : 0))
+	if (page->priv->updating == updating)
 		return;
 
 	page->priv->updating = updating;
@@ -406,9 +407,10 @@ comp_editor_page_notify_dates_changed (CompEditorPage *page,
 {
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
-	g_signal_emit (page,
-		       comp_editor_page_signals[DATES_CHANGED], 0,
-		       dates);
+	g_signal_emit (
+		page,
+		comp_editor_page_signals[DATES_CHANGED], 0,
+		dates);
 }
 
 /**

@@ -323,8 +323,9 @@ replace_word (GtkWidget *menuitem,
 
 	gtk_editable_delete_text (GTK_EDITABLE (entry), start, end);
 	gtk_editable_set_position (GTK_EDITABLE (entry), start);
-	gtk_editable_insert_text (GTK_EDITABLE (entry), newword, strlen (newword),
-							 &start);
+	gtk_editable_insert_text (
+		GTK_EDITABLE (entry), newword, strlen (newword),
+		&start);
 	gtk_editable_set_position (GTK_EDITABLE (entry), cursor);
 
 	checker = g_object_get_data (G_OBJECT (menuitem), "spell-entry-checker");
@@ -382,7 +383,7 @@ build_suggestion_menu (ESpellEntry *entry,
 
 			mi = gtk_menu_item_new_with_label (iter->data);
 			g_object_set_data (G_OBJECT (mi), "spell-entry-checker", checker);
-			g_signal_connect (G_OBJECT (mi), "activate", G_CALLBACK (replace_word), entry);
+			g_signal_connect (mi, "activate", G_CALLBACK (replace_word), entry);
 			gtk_widget_show (mi);
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), mi);
 		}
@@ -450,7 +451,7 @@ build_spelling_menu (ESpellEntry *entry,
 	if (!entry->priv->checkers->next) {
 		checker = entry->priv->checkers->data;
 		g_object_set_data (G_OBJECT (mi), "spell-entry-checker", checker);
-		g_signal_connect (G_OBJECT (mi), "activate", G_CALLBACK (add_to_dictionary), entry);
+		g_signal_connect (mi, "activate", G_CALLBACK (add_to_dictionary), entry);
 	} else {
 		GSList *li;
 		GtkWidget *menu, *submi;
@@ -473,7 +474,7 @@ build_spelling_menu (ESpellEntry *entry,
 
 			submi = gtk_menu_item_new_with_label (lang_name ? lang_name : "???");
 			g_object_set_data (G_OBJECT (submi), "spell-entry-checker", checker);
-			g_signal_connect (G_OBJECT (submi), "activate", G_CALLBACK (add_to_dictionary), entry);
+			g_signal_connect (submi, "activate", G_CALLBACK (add_to_dictionary), entry);
 
 			gtk_widget_show (submi);
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), submi);
@@ -486,7 +487,7 @@ build_spelling_menu (ESpellEntry *entry,
 	/* - Ignore All */
 	mi = gtk_image_menu_item_new_with_label (_("Ignore All"));
 	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (mi), gtk_image_new_from_stock (GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU));
-	g_signal_connect (G_OBJECT (mi), "activate", G_CALLBACK (ignore_all), entry);
+	g_signal_connect (mi, "activate", G_CALLBACK (ignore_all), entry);
 	gtk_widget_show_all (mi);
 	gtk_menu_shell_append (GTK_MENU_SHELL (topmenu), mi);
 
@@ -829,7 +830,8 @@ e_spell_entry_set_languages (ESpellEntry *spell_entry,
 		const GtkhtmlSpellLanguage *language = iter->data;
 
 		if (language)
-			spell_entry->priv->checkers = g_slist_prepend (spell_entry->priv->checkers,
+			spell_entry->priv->checkers = g_slist_prepend (
+				spell_entry->priv->checkers,
 				gtkhtml_spell_checker_new (language));
 	}
 
@@ -853,7 +855,7 @@ e_spell_entry_set_checking_enabled (ESpellEntry *spell_entry,
 {
 	g_return_if_fail (spell_entry != NULL);
 
-	if ((enable_checking ? 1 : 0) == (spell_entry->priv->checking_enabled ? 1 : 0))
+	if (spell_entry->priv->checking_enabled == enable_checking)
 		return;
 
 	spell_entry->priv->checking_enabled = enable_checking;

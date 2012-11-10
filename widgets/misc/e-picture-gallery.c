@@ -66,7 +66,8 @@ update_file_iter (GtkListStore *list_store,
 
 	uri = g_file_get_uri (file);
 
-	file_info = g_file_query_info (file,
+	file_info = g_file_query_info (
+		file,
 		G_FILE_ATTRIBUTE_THUMBNAIL_PATH ","
 		G_FILE_ATTRIBUTE_THUMBNAILING_FAILED ","
 		G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME ","
@@ -111,7 +112,8 @@ update_file_iter (GtkListStore *list_store,
 					}
 
 					res = TRUE;
-					gtk_list_store_set (list_store, iter,
+					gtk_list_store_set (
+						list_store, iter,
 						COL_PIXBUF, pixbuf,
 						COL_URI, uri,
 						COL_FILENAME_TEXT, filename_text ? filename_text : filename,
@@ -165,7 +167,8 @@ find_file_uri (GtkListStore *list_store,
 	do {
 		gchar *iter_uri = NULL;
 
-		gtk_tree_model_get (model, iter,
+		gtk_tree_model_get (
+			model, iter,
 			COL_URI, &iter_uri,
 			-1);
 

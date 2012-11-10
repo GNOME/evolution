@@ -240,7 +240,8 @@ calendar_view_delete_event (ECalendarView *cal_view,
 		}
 		rid = e_cal_component_get_recurid_as_string (comp);
 		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
-			e_cal_client_remove_object_sync (event->comp_data->client, uid,
+			e_cal_client_remove_object_sync (
+				event->comp_data->client, uid,
 				rid, CALOBJ_MOD_ALL, NULL, &error);
 		else
 			e_cal_client_remove_object_sync (event->comp_data->client, uid, NULL, CALOBJ_MOD_THIS, NULL, &error);
@@ -1191,8 +1192,9 @@ e_calendar_view_set_timezone (ECalendarView *cal_view,
 		return;
 
 	e_cal_model_set_timezone (cal_view->priv->model, zone);
-	g_signal_emit (G_OBJECT (cal_view), signals[TIMEZONE_CHANGED], 0,
-		       old_zone, zone);
+	g_signal_emit (
+		cal_view, signals[TIMEZONE_CHANGED], 0,
+		old_zone, zone);
 }
 
 const gchar *
@@ -1445,8 +1447,9 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 		else {
 			struct icaltimetype instance_rid;
 
-			instance_rid = icaltime_from_timet_with_zone (event->comp_data->instance_start,
-					TRUE, zone ? zone : icaltimezone_get_utc_timezone ());
+			instance_rid = icaltime_from_timet_with_zone (
+				event->comp_data->instance_start,
+				TRUE, zone ? zone : icaltimezone_get_utc_timezone ());
 			e_cal_util_remove_instances (event->comp_data->icalcomp, instance_rid, CALOBJ_MOD_THIS);
 			e_cal_client_modify_object_sync (event->comp_data->client, event->comp_data->icalcomp, CALOBJ_MOD_THIS, NULL, &error);
 		}
@@ -1583,8 +1586,8 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 		flags |= COMP_EDITOR_USER_ORG;
 	}
 
-	e_calendar_view_open_event_with_flags (cal_view, default_client,
-			icalcomp, flags);
+	e_calendar_view_open_event_with_flags (
+		cal_view, default_client, icalcomp, flags);
 
 	g_object_unref (comp);
 }
@@ -1780,7 +1783,11 @@ e_calendar_view_modify_and_send (ECalendarView *cal_view,
 
 	e_cal_component_commit_sequence (comp);
 
-	if (e_cal_client_modify_object_sync (client, e_cal_component_get_icalcomponent (comp), mod, NULL, &error)) {
+	e_cal_client_modify_object_sync (
+		client, e_cal_component_get_icalcomponent (comp),
+		mod, NULL, &error);
+
+	if (error == NULL) {
 		gboolean strip_alarms = TRUE;
 
 		if ((itip_organizer_is_user (registry, comp, client) ||
@@ -1816,10 +1823,11 @@ e_calendar_view_modify_and_send (ECalendarView *cal_view,
 				g_object_unref (send_comp);
 		}
 	} else {
-		g_message (G_STRLOC ": Could not update the object! %s", error ? error->message : "Unknown error");
+		g_message (
+			G_STRLOC ": Could not update the object! %s",
+			error->message);
 
-		if (error)
-			g_error_free (error);
+		g_error_free (error);
 	}
 }
 

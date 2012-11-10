@@ -359,7 +359,8 @@ static gboolean dbx_load_index_table (DbxImporter *m, guint32 pos, guint32 *inde
 		return FALSE;
 	}
 
-	d (printf ("Index at %x: indexCount %x, anotherTablePtr %x\n",
+	d (
+		printf ("Index at %x: indexCount %x, anotherTablePtr %x\n",
 		pos, tindex.indexCount, tindex.anotherTablePtr));
 
 	if (tindex.indexCount > 0) {
@@ -658,8 +659,9 @@ dbx_import_file (DbxImporter *m)
 		camel_operation_progress (cancellable, 100 * i / m->index_count);
 
 		if (!dbx_read_email (m, m->indices[i], tmpfile, &dbx_flags)) {
-			d (printf ("Cannot read email index %d at %x\n",
-				 i, m->indices[i]));
+			d (
+				printf ("Cannot read email index %d at %x\n",
+				i, m->indices[i]));
 			if (m->base.error != NULL)
 				goto out;
 			missing++;

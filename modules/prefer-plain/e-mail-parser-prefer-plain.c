@@ -200,8 +200,9 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 		if (emp_pp->mode != ONLY_PLAIN)
 			return NULL;
 
-		/* Enforcing text/plain, but got only HTML part, thus add it as attachment,
-		   to not show empty message preview, which is confusing */
+		/* Enforcing text/plain, but got only HTML part, so add it
+		 * as attachment, to not show empty message preview, which
+		 * is confusing. */
 		return make_part_attachment (
 			parser, part, part_id,
 			FALSE, cancellable);

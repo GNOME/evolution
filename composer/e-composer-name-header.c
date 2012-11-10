@@ -121,7 +121,8 @@ composer_name_header_visible_changed_cb (EComposerNameHeader *header)
 	label = e_composer_header_get_label (E_COMPOSER_HEADER (header));
 	dialog = e_name_selector_peek_dialog (priv->name_selector);
 
-	e_name_selector_dialog_set_section_visible (dialog, label,
+	e_name_selector_dialog_set_section_visible (
+		dialog, label,
 		e_composer_header_get_visible (E_COMPOSER_HEADER (header)));
 }
 
@@ -221,7 +222,8 @@ composer_name_header_constructed (GObject *object)
 		NULL);
 	E_COMPOSER_HEADER (object)->input_widget = g_object_ref_sink (entry);
 
-	g_signal_connect_swapped (object, "notify::visible",
+	g_signal_connect_swapped (
+		object, "notify::visible",
 		G_CALLBACK (composer_name_header_visible_changed_cb), object);
 
 	/* Chain up to parent's constructed() method. */

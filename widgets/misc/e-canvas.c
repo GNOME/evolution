@@ -356,7 +356,7 @@ canvas_style_set_recursive (GnomeCanvasItem *item,
 		}
 	}
 
-	if (GNOME_IS_CANVAS_GROUP (item) ) {
+	if (GNOME_IS_CANVAS_GROUP (item)) {
 		GList *items = GNOME_CANVAS_GROUP (item)->item_list;
 		for (; items; items = items->next)
 			canvas_style_set_recursive (
@@ -379,8 +379,9 @@ canvas_dispose (GObject *object)
 
 	if (canvas->toplevel) {
 		if (canvas->visibility_notify_id)
-			g_signal_handler_disconnect (canvas->toplevel,
-						     canvas->visibility_notify_id);
+			g_signal_handler_disconnect (
+				canvas->toplevel,
+				canvas->visibility_notify_id);
 		canvas->visibility_notify_id = 0;
 
 		g_object_unref (canvas->toplevel);
@@ -454,11 +455,12 @@ canvas_button_event (GtkWidget *widget,
 	canvas = GNOME_CANVAS (widget);
 	bin_window = gtk_layout_get_bin_window (GTK_LAYOUT (canvas));
 
-	d (g_print ("button %d, event type %d, grabbed=%p, current=%p\n",
-		   event->button,
-		   event->type,
-		   canvas->grabbed_item,
-		   canvas->current_item));
+	d (
+		g_print ("button %d, event type %d, grabbed=%p, current=%p\n",
+		event->button,
+		event->type,
+		canvas->grabbed_item,
+		canvas->current_item));
 
         /* dispatch normally regardless of the event's window if an item has
 	   has a pointer grab in effect */
@@ -709,8 +711,9 @@ e_canvas_item_invoke_reflow (GnomeCanvasItem *item,
 	if (item->flags & E_CANVAS_ITEM_NEEDS_REFLOW) {
 		ECanvasItemReflowFunc func;
 		func = (ECanvasItemReflowFunc)
-			g_object_get_data (G_OBJECT (item),
-					   "ECanvasItem::reflow_callback");
+			g_object_get_data (
+				G_OBJECT (item),
+				"ECanvasItem::reflow_callback");
 		if (func)
 			func (item, flags);
 	}

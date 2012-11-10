@@ -356,25 +356,34 @@ e_cell_pixbuf_class_init (ECellPixbufClass *class)
 	ecc->print_height = pixbuf_print_height;
 	ecc->max_width = pixbuf_max_width;
 
-	g_object_class_install_property (object_class, PROP_SELECTED_COLUMN,
-					 g_param_spec_int ("selected_column",
-							   "Selected Column",
-							   NULL,
-							   0, G_MAXINT, 0,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_SELECTED_COLUMN,
+		g_param_spec_int (
+			"selected_column",
+			"Selected Column",
+			NULL,
+			0, G_MAXINT, 0,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FOCUSED_COLUMN,
-					 g_param_spec_int ("focused_column",
-							   "Focused Column",
-							   NULL,
-							   0, G_MAXINT, 0,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_FOCUSED_COLUMN,
+		g_param_spec_int (
+			"focused_column",
+			"Focused Column",
+			NULL,
+			0, G_MAXINT, 0,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_UNSELECTED_COLUMN,
-					 g_param_spec_int ("unselected_column",
-							   "Unselected Column",
-							   NULL,
-							   0, G_MAXINT, 0,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_UNSELECTED_COLUMN,
+		g_param_spec_int (
+			"unselected_column",
+			"Unselected Column",
+			NULL,
+			0, G_MAXINT, 0,
+			G_PARAM_READWRITE));
 }
 

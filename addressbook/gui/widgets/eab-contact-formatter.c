@@ -333,9 +333,10 @@ accum_time_attribute (GString *buffer,
 
 	date = e_contact_get (contact, field);
 	if (date) {
-		gdate = g_date_new_dmy ( date->day,
-					 date->month,
-					 date->year );
+		gdate = g_date_new_dmy (
+			date->day,
+			date->month,
+			date->year);
 		g_date_strftime (sdate, 100, "%x", gdate);
 		g_date_free (gdate);
 		render_table_row (buffer, html_label, sdate, icon, html_flags);
@@ -477,8 +478,8 @@ render_contact_list_row (EABContactFormatter *formatter,
 			buffer,
 			"<td width=" IMAGE_COL_WIDTH " valign=\"top\" align=\"left\">"
 			"<img src=\"evo-file://%s/minus.png\" "
-			     "id=\"%s\" "
-			     "class=\"navigable _evo_collapse_button\">"
+			"id=\"%s\" "
+			"class=\"navigable _evo_collapse_button\">"
 			"</td><td width=\"100%%\" align=\"left\">%s",
 			evolution_imagesdir,
 			e_destination_get_contact_uid (destination),
@@ -642,13 +643,15 @@ accum_address_map (GString *buffer,
 	g_string_append (buffer, "<tr><td colspan=\"3\">");
 
 	if (map_type == E_CONTACT_ADDRESS_WORK) {
-		g_string_append (buffer,
-				 "<object type=\"application/x-work-map-widget\" "
-				 "width=\"250\" height=\"250\"></object>");
+		g_string_append (
+			buffer,
+			"<object type=\"application/x-work-map-widget\" "
+			"width=\"250\" height=\"250\"></object>");
 	} else {
-		g_string_append (buffer,
-				 "<object type=\"application/x-home-map-widget\" "
-				 "width=\"250\" height=\"250\"></object>");
+		g_string_append (
+			buffer,
+			"<object type=\"application/x-home-map-widget\" "
+			"width=\"250\" height=\"250\"></object>");
 	}
 
 	g_string_append (buffer, "</td></tr>");
@@ -869,8 +872,8 @@ render_compact (EABContactFormatter *formatter,
 				max_dimension = calced_height;
 
 			if (max_dimension > MAX_COMPACT_IMAGE_DIMENSION) {
-				calced_width *= ( (gfloat) MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
-				calced_height *= ( (gfloat) MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
+				calced_width *= ((gfloat) MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
+				calced_height *= ((gfloat) MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
 			}
 
 			g_object_unref (pixbuf);
@@ -892,7 +895,8 @@ render_compact (EABContactFormatter *formatter,
 			photo_data = g_base64_encode (
 					photo->data.inlined.data,
 					photo->data.inlined.length);
-			g_string_append_printf (buffer,
+			g_string_append_printf (
+				buffer,
 				"<img border=\"1\" src=\"data:%s;base64,%s\" "
 					"width=\"%d\" height=\"%d\">",
 				photo->data.inlined.mime_type,
@@ -1093,22 +1097,26 @@ eab_contact_formatter_get_property (GObject *object,
 
 	switch (property_id) {
 		case PROP_DISPLAY_MODE:
-			g_value_set_int (value,
+			g_value_set_int (
+				value,
 				eab_contact_formatter_get_display_mode (
 					formatter));
 			return;
 		case PROP_RENDER_MAPS:
-			g_value_set_boolean (value,
+			g_value_set_boolean (
+				value,
 				eab_contact_formatter_get_render_maps (
 					formatter));
 			return;
 		case PROP_STYLE:
-			g_value_set_object (value,
+			g_value_set_object (
+				value,
 				eab_contact_formatter_get_style (
 					formatter));
 			return;
 		case PROP_STATE:
-			g_value_set_uint (value,
+			g_value_set_uint (
+				value,
 				eab_contact_formatter_get_state (
 					formatter));
 			return;
@@ -1203,10 +1211,11 @@ EABContactFormatter *
 eab_contact_formatter_new (EABContactDisplayMode mode,
                            gboolean render_maps)
 {
-	return g_object_new (EAB_TYPE_CONTACT_FORMATTER,
-			     "display-mode", mode,
-			     "render-maps", render_maps,
-			     NULL);
+	return g_object_new (
+		EAB_TYPE_CONTACT_FORMATTER,
+		"display-mode", mode,
+		"render-maps", render_maps,
+		NULL);
 }
 
 void

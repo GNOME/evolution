@@ -103,8 +103,9 @@ emfe_attachment_bar_get_widget (EMailFormatterExtension *extension,
 	empab = (EMailPartAttachmentBar *) part;
 	widget = e_attachment_bar_new (empab->store);
 	g_object_set_data (G_OBJECT (empab->store), "attachment-bar", widget);
-	g_object_weak_ref (G_OBJECT (widget),
-			(GWeakNotify) unset_bar_from_store_data, empab->store);
+	g_object_weak_ref (
+		G_OBJECT (widget),
+		(GWeakNotify) unset_bar_from_store_data, empab->store);
 
 	return widget;
 }

@@ -131,12 +131,17 @@ ecmm_set_value_at (ETableModel *etm,
 	}
 
 	/* TODO ask about mod type */
-	if (!e_cal_client_modify_object_sync (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL, &error)) {
-		g_warning (G_STRLOC ": Could not modify the object! %s", error ? error->message : "Unknown error");
+	e_cal_client_modify_object_sync (
+		comp_data->client, comp_data->icalcomp,
+		CALOBJ_MOD_ALL, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			G_STRLOC ": Could not modify the object! %s",
+			error->message);
 
 		/* TODO Show error dialog */
-		if (error)
-			g_error_free (error);
+		g_error_free (error);
 	}
 }
 

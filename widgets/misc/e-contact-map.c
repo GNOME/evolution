@@ -266,7 +266,8 @@ e_contact_map_init (EContactMap *map)
 
 	map->priv = E_CONTACT_MAP_GET_PRIVATE (map);
 
-	hash_table = g_hash_table_new_full (g_str_hash, g_str_equal,
+	hash_table = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
 			(GDestroyNotify) g_free, NULL);
 
 	map->priv->markers = hash_table;

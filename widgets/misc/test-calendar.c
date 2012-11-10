@@ -85,10 +85,11 @@ main (gint argc,
 		calitem, "selection_changed",
 		G_CALLBACK (on_selection_changed), NULL);
 
-	gtk_drag_dest_set (cal,
-			   GTK_DEST_DEFAULT_ALL,
-			   target_table, G_N_ELEMENTS (target_table),
-			   GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	gtk_drag_dest_set (
+		cal,
+		GTK_DEST_DEFAULT_ALL,
+		target_table, G_N_ELEMENTS (target_table),
+		GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), cal, TRUE, TRUE, 0);
@@ -108,19 +109,23 @@ on_date_range_changed (ECalendarItem *calitem)
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
 
-	e_calendar_item_get_date_range (calitem,
-					 &start_year, &start_month, &start_day,
-					 &end_year, &end_month, &end_day);
+	e_calendar_item_get_date_range (
+		calitem,
+		&start_year, &start_month, &start_day,
+		&end_year, &end_month, &end_day);
 
-	g_print ("Date range changed (D/M/Y): %i/%i/%i - %i/%i/%i\n",
-		 start_day, start_month + 1, start_year,
-		 end_day, end_month + 1, end_year);
+	g_print (
+		"Date range changed (D/M/Y): %i/%i/%i - %i/%i/%i\n",
+		start_day, start_month + 1, start_year,
+		end_day, end_month + 1, end_year);
 
 	/* These days should windowear bold. Remember month is 0 to 11. */
-	e_calendar_item_mark_day (calitem, 2000, 7, 26, /* 26th Aug 2000. */
-				  E_CALENDAR_ITEM_MARK_BOLD, FALSE);
-	e_calendar_item_mark_day (calitem, 2000, 8, 13, /* 13th Sep 2000. */
-				  E_CALENDAR_ITEM_MARK_BOLD, FALSE);
+	e_calendar_item_mark_day (
+		calitem, 2000, 7, 26, /* 26th Aug 2000. */
+		E_CALENDAR_ITEM_MARK_BOLD, FALSE);
+	e_calendar_item_mark_day (
+		calitem, 2000, 8, 13, /* 13th Sep 2000. */
+		E_CALENDAR_ITEM_MARK_BOLD, FALSE);
 }
 
 static void
@@ -130,11 +135,12 @@ on_selection_changed (ECalendarItem *calitem)
 
 	e_calendar_item_get_selection (calitem, &start_date, &end_date);
 
-	g_print ("Selection changed (D/M/Y): %i/%i/%i - %i/%i/%i\n",
-		 g_date_get_day (&start_date),
-		 g_date_get_month (&start_date),
-		 g_date_get_year (&start_date),
-		 g_date_get_day (&end_date),
-		 g_date_get_month (&end_date),
-		 g_date_get_year (&end_date));
+	g_print (
+		"Selection changed (D/M/Y): %i/%i/%i - %i/%i/%i\n",
+		g_date_get_day (&start_date),
+		g_date_get_month (&start_date),
+		g_date_get_year (&start_date),
+		g_date_get_day (&end_date),
+		g_date_get_month (&end_date),
+		g_date_get_year (&end_date));
 }

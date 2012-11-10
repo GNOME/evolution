@@ -1222,7 +1222,8 @@ action_submit_bug_cb (GtkAction *action,
 	g_spawn_command_line_async (command_line, &error);
 
 	if (error != NULL) {
-		e_notice (shell_window, GTK_MESSAGE_ERROR,
+		e_notice (
+			shell_window, GTK_MESSAGE_ERROR,
 			error->code == G_SPAWN_ERROR_NOENT ?
 			_("Bug Buddy is not installed.") :
 			_("Bug Buddy could not be run."));

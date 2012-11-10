@@ -83,15 +83,17 @@ ea_gnome_calendar_get_type (void)
 		 * we are run-time deriving from (GailWidget, in this case)
 		 */
 
-		factory = atk_registry_get_factory (atk_get_default_registry (),
-						    GTK_TYPE_WIDGET);
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (),
+			GTK_TYPE_WIDGET);
 		derived_atk_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 		tinfo.class_size = query.class_size;
 		tinfo.instance_size = query.instance_size;
 
-		type = g_type_register_static (derived_atk_type,
-					       "EaGnomeCalendar", &tinfo, 0);
+		type = g_type_register_static (
+			derived_atk_type,
+			"EaGnomeCalendar", &tinfo, 0);
 
 	}
 
@@ -171,8 +173,9 @@ ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
 	start_tm.tm_min = start_tt.minute;
 	start_tm.tm_sec = start_tt.second;
 	start_tm.tm_isdst = -1;
-	start_tm.tm_wday = time_day_of_week (start_tt.day, start_tt.month - 1,
-					     start_tt.year);
+	start_tm.tm_wday = time_day_of_week (
+		start_tt.day, start_tt.month - 1,
+		start_tt.year);
 
 	/* Take one off end_time so we don't get an extra day. */
 	end_tt = icaltime_from_timet_with_zone (end_time - 1, FALSE, zone);
@@ -183,8 +186,9 @@ ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
 	end_tm.tm_min = end_tt.minute;
 	end_tm.tm_sec = end_tt.second;
 	end_tm.tm_isdst = -1;
-	end_tm.tm_wday = time_day_of_week (end_tt.day, end_tt.month - 1,
-					   end_tt.year);
+	end_tm.tm_wday = time_day_of_week (
+		end_tt.day, end_tt.month - 1,
+		end_tt.year);
 
 	view = gnome_calendar_get_view (gcal);
 
@@ -195,20 +199,25 @@ ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
 		if (start_tm.tm_year == end_tm.tm_year
 		    && start_tm.tm_mon == end_tm.tm_mon
 		    && start_tm.tm_mday == end_tm.tm_mday) {
-			e_utf8_strftime (buffer, sizeof (buffer),
-					_("%A %d %b %Y"), &start_tm);
+			e_utf8_strftime (
+				buffer, sizeof (buffer),
+				_("%A %d %b %Y"), &start_tm);
 		} else if (start_tm.tm_year == end_tm.tm_year) {
-			e_utf8_strftime (buffer, sizeof (buffer),
-					_("%a %d %b"), &start_tm);
-			e_utf8_strftime (end_buffer, sizeof (end_buffer),
-					_("%a %d %b %Y"), &end_tm);
+			e_utf8_strftime (
+				buffer, sizeof (buffer),
+				_("%a %d %b"), &start_tm);
+			e_utf8_strftime (
+				end_buffer, sizeof (end_buffer),
+				_("%a %d %b %Y"), &end_tm);
 			strcat (buffer, " - ");
 			strcat (buffer, end_buffer);
 		} else {
-			e_utf8_strftime (buffer, sizeof (buffer),
-					_("%a %d %b %Y"), &start_tm);
-			e_utf8_strftime (end_buffer, sizeof (end_buffer),
-					_("%a %d %b %Y"), &end_tm);
+			e_utf8_strftime (
+				buffer, sizeof (buffer),
+				_("%a %d %b %Y"), &start_tm);
+			e_utf8_strftime (
+				end_buffer, sizeof (end_buffer),
+				_("%a %d %b %Y"), &end_tm);
 			strcat (buffer, " - ");
 			strcat (buffer, end_buffer);
 		}
@@ -220,26 +229,32 @@ ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
 				if (start_tm.tm_mday == end_tm.tm_mday) {
 					buffer[0] = '\0';
 				} else {
-					e_utf8_strftime (buffer, sizeof (buffer),
-							"%d", &start_tm);
+					e_utf8_strftime (
+						buffer, sizeof (buffer),
+						"%d", &start_tm);
 					strcat (buffer, " - ");
 				}
-				e_utf8_strftime (end_buffer, sizeof (end_buffer),
-						_("%d %b %Y"), &end_tm);
+				e_utf8_strftime (
+					end_buffer, sizeof (end_buffer),
+					_("%d %b %Y"), &end_tm);
 				strcat (buffer, end_buffer);
 			} else {
-				e_utf8_strftime (buffer, sizeof (buffer),
-						_("%d %b"), &start_tm);
-				e_utf8_strftime (end_buffer, sizeof (end_buffer),
-						_("%d %b %Y"), &end_tm);
+				e_utf8_strftime (
+					buffer, sizeof (buffer),
+					_("%d %b"), &start_tm);
+				e_utf8_strftime (
+					end_buffer, sizeof (end_buffer),
+					_("%d %b %Y"), &end_tm);
 				strcat (buffer, " - ");
 				strcat (buffer, end_buffer);
 			}
 		} else {
-			e_utf8_strftime (buffer, sizeof (buffer),
-					_("%d %b %Y"), &start_tm);
-			e_utf8_strftime (end_buffer, sizeof (end_buffer),
-					_("%d %b %Y"), &end_tm);
+			e_utf8_strftime (
+				buffer, sizeof (buffer),
+				_("%d %b %Y"), &start_tm);
+			e_utf8_strftime (
+				end_buffer, sizeof (end_buffer),
+				_("%d %b %Y"), &end_tm);
 			strcat (buffer, " - ");
 			strcat (buffer, end_buffer);
 		}
@@ -275,7 +290,7 @@ ea_gnome_calendar_ref_child (AtkObject *obj,
 
 	g_return_val_if_fail (EA_IS_GNOME_CALENDAR (obj), NULL);
 	/* valid child index range is [0-3] */
-	if (i < 0 || i >3 )
+	if (i < 0 || i >3)
 		return NULL;
 
 	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (obj));

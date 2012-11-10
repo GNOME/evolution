@@ -163,8 +163,9 @@ gal_a11y_e_tree_get_type (void)
 		factory = atk_registry_get_factory (atk_get_default_registry (), GTK_TYPE_WIDGET);
 		parent_type = atk_object_factory_get_accessible_type (factory);
 
-		type = gal_a11y_type_register_static_with_private (PARENT_TYPE, "GalA11yETree", &info, 0,
-								   sizeof (GalA11yETreePrivate), &priv_offset);
+		type = gal_a11y_type_register_static_with_private (
+			PARENT_TYPE, "GalA11yETree", &info, 0,
+			sizeof (GalA11yETreePrivate), &priv_offset);
 		g_type_add_interface_static (type, ATK_TYPE_COMPONENT, &atk_component_info);
 	}
 
@@ -187,9 +188,9 @@ void
 gal_a11y_e_tree_init (void)
 {
 	if (atk_get_root ())
-		atk_registry_set_factory_type (atk_get_default_registry (),
-					E_TYPE_TREE,
-					gal_a11y_e_tree_factory_get_type ());
-
+		atk_registry_set_factory_type (
+			atk_get_default_registry (),
+			E_TYPE_TREE,
+			gal_a11y_e_tree_factory_get_type ());
 }
 

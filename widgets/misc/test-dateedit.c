@@ -78,8 +78,9 @@ main (gint argc,
 
 	/* EDateEdit 1. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
-	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (dedit),
-			  0, 1, 0, 1, GTK_FILL, GTK_EXPAND, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), GTK_WIDGET (dedit),
+		0, 1, 0, 1, GTK_FILL, GTK_EXPAND, 0, 0);
 	gtk_widget_show (GTK_WIDGET (dedit));
 
 #if 0
@@ -96,8 +97,9 @@ main (gint argc,
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
-	gtk_table_attach (GTK_TABLE (table), button,
-			  1, 2, 0, 1, 0, 0, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), button,
+		1, 2, 0, 1, 0, 0, 0, 0);
 	gtk_widget_show (button);
 	g_signal_connect (
 		button, "clicked",
@@ -105,8 +107,9 @@ main (gint argc,
 
 	/* EDateEdit 2. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
-	gtk_table_attach (GTK_TABLE (table), (GtkWidget *) dedit,
-			  0, 1, 1, 2, GTK_FILL, GTK_EXPAND, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), (GtkWidget *) dedit,
+		0, 1, 1, 2, GTK_FILL, GTK_EXPAND, 0, 0);
 	gtk_widget_show ((GtkWidget *) (dedit));
 	e_date_edit_set_week_start_day (dedit, 1);
 	e_date_edit_set_show_week_numbers (dedit, TRUE);
@@ -128,8 +131,9 @@ main (gint argc,
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
-	gtk_table_attach (GTK_TABLE (table), button,
-			  1, 2, 1, 2, 0, 0, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), button,
+		1, 2, 1, 2, 0, 0, 0, 0);
 	gtk_widget_show (button);
 	g_signal_connect (
 		button, "clicked",
@@ -137,8 +141,9 @@ main (gint argc,
 
 	/* EDateEdit 3. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
-	gtk_table_attach (GTK_TABLE (table), (GtkWidget *) dedit,
-			  0, 1, 2, 3, GTK_FILL, GTK_EXPAND, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), (GtkWidget *) dedit,
+		0, 1, 2, 3, GTK_FILL, GTK_EXPAND, 0, 0);
 	gtk_widget_show ((GtkWidget *) (dedit));
 	e_date_edit_set_week_start_day (dedit, 1);
 	e_date_edit_set_show_week_numbers (dedit, TRUE);
@@ -160,16 +165,18 @@ main (gint argc,
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
-	gtk_table_attach (GTK_TABLE (table), button,
-			  1, 2, 2, 3, 0, 0, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), button,
+		1, 2, 2, 3, 0, 0, 0, 0);
 	gtk_widget_show (button);
 	g_signal_connect (
 		button, "clicked",
 		G_CALLBACK (on_get_date_clicked), dedit);
 
 	button = gtk_button_new_with_label ("Toggle 24-hour");
-	gtk_table_attach (GTK_TABLE (table), button,
-			  2, 3, 2, 3, 0, 0, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), button,
+		2, 3, 2, 3, 0, 0, 0, 0);
 	gtk_widget_show (button);
 	g_signal_connect (
 		button, "clicked",
@@ -230,8 +237,9 @@ on_date_changed (EDateEdit *dedit,
 
 	if (e_date_edit_date_is_valid (dedit)) {
 		if (e_date_edit_get_date (dedit, &year, &month, &day)) {
-			g_print ("Date %s changed to: %i/%i/%i (M/D/Y)\n",
-				 name, month, day, year);
+			g_print (
+				"Date %s changed to: %i/%i/%i (M/D/Y)\n",
+				name, month, day, year);
 		} else {
 			g_print ("Date %s changed to: None\n", name);
 		}
@@ -248,8 +256,9 @@ on_time_changed (EDateEdit *dedit,
 
 	if (e_date_edit_time_is_valid (dedit)) {
 		if (e_date_edit_get_time_of_day (dedit, &hour, &minute)) {
-			g_print ("Time %s changed to: %02i:%02i\n", name,
-				 hour, minute);
+			g_print (
+				"Time %s changed to: %02i:%02i\n", name,
+				hour, minute);
 		} else {
 			g_print ("Time %s changed to: None\n", name);
 		}

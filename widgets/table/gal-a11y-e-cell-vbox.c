@@ -80,7 +80,8 @@ ecv_ref_child (AtkObject *a11y,
 			subcell_view = ecvv->subcell_views[i];
 			/* FIXME Should the view column use a fake
 			 *       one or the same as its parent? */
-			ret = gal_a11y_e_cell_registry_get_object (NULL,
+			ret = gal_a11y_e_cell_registry_get_object (
+				NULL,
 				gaec->item,
 				subcell_view,
 				a11y,
@@ -89,9 +90,10 @@ ecv_ref_child (AtkObject *a11y,
 				row);
 			gaev->a11y_subcells[i] = ret;
 			g_object_ref (ret);
-			g_object_weak_ref (G_OBJECT (ret),
-					(GWeakNotify) subcell_destroyed,
-					ret);
+			g_object_weak_ref (
+				G_OBJECT (ret),
+				(GWeakNotify) subcell_destroyed,
+				ret);
 		} else {
 			ret = (AtkObject *) gaev->a11y_subcells[i];
 			if (ATK_IS_OBJECT (ret))
@@ -140,7 +142,7 @@ ecv_ref_accessible_at_point (AtkComponent *component,
 		subcell_height = e_cell_height (
 			ecvv->subcell_views[i], ecvv->model_cols[i],
 			gaec->view_col, gaec->row);
-		if ( 0 <= y && y <= subcell_height) {
+		if (0 <= y && y <= subcell_height) {
 			return ecv_ref_child ((AtkObject *) component, i);
 		} else
 			y -= subcell_height;

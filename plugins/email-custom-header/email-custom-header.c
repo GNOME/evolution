@@ -151,7 +151,8 @@ epech_fill_widgets_with_data (CustomHeaderOptionsDialog *mch)
 		if (priv->flag == 0) {
 			gtk_combo_box_set_active ((GtkComboBox *) sub_combo_box_fill->header_value_combo_box,0);
 		} else {
-			gtk_combo_box_set_active ((GtkComboBox *) sub_combo_box_fill->header_value_combo_box,
+			gtk_combo_box_set_active (
+				(GtkComboBox *) sub_combo_box_fill->header_value_combo_box,
 				g_array_index (priv->header_index_type, gint, set_index_column));
 		}
 	}
@@ -189,7 +190,7 @@ epech_header_options_cb (GtkDialog *dialog,
 			break;
 	}
 
-	g_signal_emit (G_OBJECT (func_data), signals[MCH_RESPONSE], 0, state);
+	g_signal_emit (func_data, signals[MCH_RESPONSE], 0, state);
 }
 
 static gboolean
@@ -315,7 +316,9 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 			str = g_dpgettext2 (GETTEXT_PACKAGE, "email-custom-header-Security", security_field);
 		gtk_label_set_markup (GTK_LABEL (priv->header_type_name_label), str);
 
-		gtk_table_attach (GTK_TABLE (priv->header_table), priv->header_type_name_label, 0, 1, row, column,
+		gtk_table_attach (
+			GTK_TABLE (priv->header_table),
+			priv->header_type_name_label, 0, 1, row, column,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (0), 0, 0);
 
@@ -330,7 +333,8 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 		temp = &g_array_index (priv->email_custom_header_details, EmailCustomHeaderDetails,sub_index);
 
 		sub_combo_box_ptr = &g_array_index (priv->combo_box_header_value, HeaderValueComboBox,sub_index);
-		gtk_table_attach (GTK_TABLE (priv->header_table),
+		gtk_table_attach (
+			GTK_TABLE (priv->header_table),
 			sub_combo_box_ptr->header_value_combo_box, 1, 2, row_combo, column_combo,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (GTK_FILL), 0, 0);
@@ -424,7 +428,8 @@ epech_append_to_custom_header (CustomHeaderOptionsDialog *dialog,
 				temp_header_value_ptr = &g_array_index (temp_header_ptr->sub_header_type_value, CustomSubHeader,sub_type_index);
 
 				if (sub_type_index == g_array_index (priv->header_index_type, gint, index_subtype)) {
-					e_msg_composer_set_header (composer, (temp_header_ptr->header_type_value)->str,
+					e_msg_composer_set_header (
+						composer, (temp_header_ptr->header_type_value)->str,
 						(temp_header_value_ptr->sub_header_string_value)->str);
 				}
 			}
@@ -566,7 +571,8 @@ commit_changes (ConfigData *cd)
 	while (valid) {
 		gchar *keyword = NULL, *value = NULL;
 
-		gtk_tree_model_get (model, &iter,
+		gtk_tree_model_get (
+			model, &iter,
 			HEADER_KEY_COLUMN, &keyword,
 			HEADER_VALUE_COLUMN, &value,
 			-1);
@@ -848,8 +854,9 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_tree_view_set_model (GTK_TREE_VIEW (cd->treeview), GTK_TREE_MODEL (cd->store));
 
 	renderer = gtk_cell_renderer_text_new ();
-	col_pos = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cd->treeview), -1, _("Key"),
-			renderer, "text", HEADER_KEY_COLUMN, NULL);
+	col_pos = gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (cd->treeview), -1, _("Key"),
+		renderer, "text", HEADER_KEY_COLUMN, NULL);
 	col = gtk_tree_view_get_column (GTK_TREE_VIEW (cd->treeview), col_pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable (col, TRUE);
@@ -864,7 +871,8 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 		G_CALLBACK (cell_editing_canceled_cb), cd);
 
 	renderer = gtk_cell_renderer_text_new ();
-	col_pos = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cd->treeview), -1, _("Values"),
+	col_pos = gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (cd->treeview), -1, _("Values"),
 			renderer, "text", HEADER_VALUE_COLUMN, NULL);
 	col = gtk_tree_view_get_column (GTK_TREE_VIEW (cd->treeview), col_pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);

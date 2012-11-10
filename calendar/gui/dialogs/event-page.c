@@ -204,10 +204,10 @@ static void notify_dates_changed (EventPage *epage, struct icaltimetype *start_t
 static gboolean check_start_before_end (struct icaltimetype *start_tt, icaltimezone *start_zone,
 					struct icaltimetype *end_tt, icaltimezone *end_zone, gboolean adjust_end_time);
 static void set_attendees (ECalComponent *comp, const GPtrArray *attendees);
-static void hour_sel_changed ( GtkSpinButton *widget, EventPage *epage);
-static void minute_sel_changed ( GtkSpinButton *widget, EventPage *epage);
-static void hour_minute_changed ( EventPage *epage);
-static void update_end_time_combo ( EventPage *epage);
+static void hour_sel_changed (GtkSpinButton *widget, EventPage *epage);
+static void minute_sel_changed (GtkSpinButton *widget, EventPage *epage);
+static void hour_minute_changed (EventPage *epage);
+static void update_end_time_combo (EventPage *epage);
 static void event_page_select_organizer (EventPage *epage, const gchar *backend_address);
 static void set_subscriber_info_string (EventPage *epage, const gchar *backend_address);
 
@@ -755,11 +755,17 @@ update_time (EventPage *epage,
 		if (!start_zone) {
 			/* FIXME: Handle error better. */
 			GError *error = NULL;
-			if (!e_cal_client_get_timezone_sync (client, start_date->tzid, &start_zone, NULL, &error)) {
-				g_warning ("Couldn't get timezone '%s' from server: %s",
-					start_date->tzid ? start_date->tzid : "", error ? error->message : "Unknown error");
-				if (error)
-					g_error_free (error);
+
+			e_cal_client_get_timezone_sync (
+				client, start_date->tzid,
+				&start_zone, NULL, &error);
+
+			if (error != NULL) {
+				g_warning (
+					"Couldn't get timezone '%s' from server: %s",
+					start_date->tzid ? start_date->tzid : "",
+					error->message);
+				g_error_free (error);
 			}
 		}
 	}
@@ -1167,11 +1173,13 @@ event_page_fill_widgets (CompEditorPage *page,
 		ECalComponentText *dtext;
 
 		dtext = l->data;
-		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
-					  dtext->value ? dtext->value : "", -1);
+		gtk_text_buffer_set_text (
+			gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
+			dtext->value ? dtext->value : "", -1);
 	} else {
-		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
-					  "", 0);
+		gtk_text_buffer_set_text (
+			gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
+			"", 0);
 	}
 	e_cal_component_free_text_list (l);
 	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (priv->description));
@@ -1216,7 +1224,7 @@ event_page_fill_widgets (CompEditorPage *page,
 
 				if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_ORGANIZER) && (flags & COMP_EDITOR_DELEGATE))
 					string = g_strdup (backend_addr);
-				else if ( organizer.cn != NULL)
+				else if (organizer.cn != NULL)
 					string = g_strdup_printf ("%s <%s>", organizer.cn, strip);
 				else
 					string = g_strdup (strip);
@@ -1477,20 +1485,22 @@ event_page_fill_component (CompEditorPage *page,
 		comp_editor_page_display_validation_error (page, _("Start date is wrong"), priv->start_time);
 		return FALSE;
 	}
-	start_date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
-					       &start_tt.year,
-					       &start_tt.month,
-					       &start_tt.day);
+	start_date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->start_time),
+		&start_tt.year,
+		&start_tt.month,
+		&start_tt.day);
 	g_return_val_if_fail (start_date_set, FALSE);
 
 	if (!e_date_edit_date_is_valid (E_DATE_EDIT (priv->end_time))) {
 		comp_editor_page_display_validation_error (page, _("End date is wrong"), priv->end_time);
 		return FALSE;
 	}
-	end_date_set = e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
-					     &end_tt.year,
-					     &end_tt.month,
-					     &end_tt.day);
+	end_date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->end_time),
+		&end_tt.year,
+		&end_tt.month,
+		&end_tt.day);
 	g_return_val_if_fail (end_date_set, FALSE);
 
 	/* If the all_day toggle is set, we use DATE values for DTSTART and
@@ -1510,16 +1520,18 @@ event_page_fill_component (CompEditorPage *page,
 			comp_editor_page_display_validation_error (page, _("Start time is wrong"), priv->start_time);
 			return FALSE;
 		}
-		e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
-					     &start_tt.hour,
-					     &start_tt.minute);
+		e_date_edit_get_time_of_day (
+			E_DATE_EDIT (priv->start_time),
+			&start_tt.hour,
+			&start_tt.minute);
 		if (!e_date_edit_time_is_valid (E_DATE_EDIT (priv->end_time))) {
 			comp_editor_page_display_validation_error (page, _("End time is wrong"), priv->end_time);
 			return FALSE;
 		}
-		e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_time),
-					     &end_tt.hour,
-					     &end_tt.minute);
+		e_date_edit_get_time_of_day (
+			E_DATE_EDIT (priv->end_time),
+			&end_tt.hour,
+			&end_tt.minute);
 		start_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
 		start_date.tzid = icaltimezone_get_tzid (start_zone);
 		end_date.tzid = icaltimezone_get_tzid (start_zone);
@@ -1710,8 +1722,9 @@ event_page_fill_component (CompEditorPage *page,
 		}
 
 		if (e_meeting_store_count_actual_attendees (priv->meeting_store) < 1) {
-			e_notice (priv->main, GTK_MESSAGE_ERROR,
-					_("At least one attendee is required."));
+			e_notice (
+				priv->main, GTK_MESSAGE_ERROR,
+				_("At least one attendee is required."));
 			return FALSE;
 		}
 
@@ -1941,7 +1954,7 @@ time_sel_changed (GtkComboBox *combo,
 		gtk_widget_show (priv->time_hour);
 		gtk_widget_hide (priv->end_time);
 
-		update_end_time_combo ( epage);
+		update_end_time_combo (epage);
 	}
 }
 
@@ -1956,27 +1969,31 @@ void update_end_time_combo (EventPage *epage)
 
 	priv = epage->priv;
 
-	e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
-			     &start_tt.year,
-			     &start_tt.month,
-			     &start_tt.day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
-				     &start_tt.hour,
-				     &start_tt.minute);
-	e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
-			     &end_tt.year,
-			     &end_tt.month,
-			     &end_tt.day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_time),
-				     &end_tt.hour,
-				     &end_tt.minute);
+	e_date_edit_get_date (
+		E_DATE_EDIT (priv->start_time),
+		&start_tt.year,
+		&start_tt.month,
+		&start_tt.day);
+	e_date_edit_get_time_of_day (
+		E_DATE_EDIT (priv->start_time),
+		&start_tt.hour,
+		&start_tt.minute);
+	e_date_edit_get_date (
+		E_DATE_EDIT (priv->end_time),
+		&end_tt.year,
+		&end_tt.month,
+		&end_tt.day);
+	e_date_edit_get_time_of_day (
+		E_DATE_EDIT (priv->end_time),
+		&end_tt.hour,
+		&end_tt.minute);
 
 	end_timet = icaltime_as_timet (end_tt);
 	start_timet = icaltime_as_timet (start_tt);
 
 	end_timet -= start_timet;
-	hours = end_timet / ( 60 * 60 );
-	minutes = (end_timet / 60) - ( hours * 60 );
+	hours = end_timet / (60 * 60);
+	minutes = (end_timet / 60) - (hours * 60);
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->hour_selector), hours);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->minute_selector), minutes);
@@ -2030,25 +2047,28 @@ hour_minute_changed (EventPage *epage)
 
 	priv = epage->priv;
 
-	e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
-			      &end_tt.year,
-			      &end_tt.month,
-			      &end_tt.day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
-				     &end_tt.hour,
-				     &end_tt.minute);
+	e_date_edit_get_date (
+		E_DATE_EDIT (priv->start_time),
+		&end_tt.year,
+		&end_tt.month,
+		&end_tt.day);
+	e_date_edit_get_time_of_day (
+		E_DATE_EDIT (priv->start_time),
+		&end_tt.hour,
+		&end_tt.minute);
 
 	for_hours = gtk_spin_button_get_value (GTK_SPIN_BUTTON (priv->hour_selector));
 	for_minutes = gtk_spin_button_get_value (GTK_SPIN_BUTTON (priv->minute_selector));
 
 	icaltime_adjust (&end_tt, 0, for_hours, for_minutes, 0);
 
-	e_date_edit_set_date_and_time_of_day (E_DATE_EDIT (priv->end_time),
-					      end_tt.year,
-					      end_tt.month,
-					      end_tt.day,
-					      end_tt.hour,
-					      end_tt.minute);
+	e_date_edit_set_date_and_time_of_day (
+		E_DATE_EDIT (priv->end_time),
+		end_tt.year,
+		end_tt.month,
+		end_tt.day,
+		end_tt.hour,
+		end_tt.minute);
 }
 
 static void
@@ -2205,7 +2225,7 @@ remove_clicked_cb (GtkButton *btn,
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
 	model = GTK_TREE_MODEL (priv->meeting_store);
-	if (!(paths = gtk_tree_selection_get_selected_rows (selection, &model ))) {
+	if (!(paths = gtk_tree_selection_get_selected_rows (selection, &model))) {
 		g_warning ("Could not get a selection to delete.");
 		return;
 	}
@@ -2354,22 +2374,26 @@ event_page_set_all_day_event (EventPage *epage,
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->end_time), !all_day);
 
-	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
-					 &start_tt.year,
-					 &start_tt.month,
-					 &start_tt.day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
-				     &start_tt.hour,
-				     &start_tt.minute);
+	date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->start_time),
+		&start_tt.year,
+		&start_tt.month,
+		&start_tt.day);
+	e_date_edit_get_time_of_day (
+		E_DATE_EDIT (priv->start_time),
+		&start_tt.hour,
+		&start_tt.minute);
 	g_return_if_fail (date_set);
 
-	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
-					 &end_tt.year,
-					 &end_tt.month,
-					 &end_tt.day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_time),
-				     &end_tt.hour,
-				     &end_tt.minute);
+	date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->end_time),
+		&end_tt.year,
+		&end_tt.month,
+		&end_tt.day);
+	e_date_edit_get_time_of_day (
+		E_DATE_EDIT (priv->end_time),
+		&end_tt.hour,
+		&end_tt.minute);
 	g_return_if_fail (date_set);
 
 	/* TODO implement the for portion in end time selector */
@@ -2434,15 +2458,19 @@ event_page_set_all_day_event (EventPage *epage,
 	g_signal_handlers_block_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	g_signal_handlers_block_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
-	e_date_edit_set_date (E_DATE_EDIT (priv->start_time), start_tt.year,
-			      start_tt.month, start_tt.day);
-	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_time),
-				     start_tt.hour, start_tt.minute);
+	e_date_edit_set_date (
+		E_DATE_EDIT (priv->start_time), start_tt.year,
+		start_tt.month, start_tt.day);
+	e_date_edit_set_time_of_day (
+		E_DATE_EDIT (priv->start_time),
+		start_tt.hour, start_tt.minute);
 
-	e_date_edit_set_date (E_DATE_EDIT (priv->end_time), end_tt.year,
-			      end_tt.month, end_tt.day);
-	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->end_time),
-				     end_tt.hour, end_tt.minute);
+	e_date_edit_set_date (
+		E_DATE_EDIT (priv->end_time), end_tt.year,
+		end_tt.month, end_tt.day);
+	e_date_edit_set_time_of_day (
+		E_DATE_EDIT (priv->end_time),
+		end_tt.hour, end_tt.minute);
 
 	g_signal_handlers_unblock_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	g_signal_handlers_unblock_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
@@ -2651,7 +2679,7 @@ get_widgets (EventPage *epage)
 		&& priv->location
 		&& priv->start_time
 		&& priv->end_time
-		&& priv->description );
+		&& priv->description);
 }
 
 static void
@@ -2734,14 +2762,16 @@ check_start_before_end (struct icaltimetype *start_tt,
 			/* Modify the end time, to be the start + 1 hour. */
 			*end_tt = *start_tt;
 			icaltime_adjust (end_tt, 0, 1, 0, 0);
-			icaltimezone_convert_time (end_tt, start_zone,
-						   end_zone);
+			icaltimezone_convert_time (
+				end_tt, start_zone,
+				end_zone);
 		} else {
 			/* Modify the start time, to be the end - 1 hour. */
 			*start_tt = *end_tt;
 			icaltime_adjust (start_tt, 0, -1, 0, 0);
-			icaltimezone_convert_time (start_tt, end_zone,
-						   start_zone);
+			icaltimezone_convert_time (
+				start_tt, end_zone,
+				start_zone);
 		}
 		return TRUE;
 	}
@@ -2777,16 +2807,18 @@ times_updated (EventPage *epage,
 	/* Fetch the start and end times and timezones from the widgets. */
 	all_day_event = priv->all_day_event;
 
-	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
-					 &start_tt.year,
-					 &start_tt.month,
-					 &start_tt.day);
+	date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->start_time),
+		&start_tt.year,
+		&start_tt.month,
+		&start_tt.day);
 	g_return_if_fail (date_set);
 
-	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
-					 &end_tt.year,
-					 &end_tt.month,
-					 &end_tt.day);
+	date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->end_time),
+		&end_tt.year,
+		&end_tt.month,
+		&end_tt.day);
 	g_return_if_fail (date_set);
 
 	if (all_day_event) {
@@ -2808,12 +2840,14 @@ times_updated (EventPage *epage,
 	} else {
 		/* For DATE-TIME events, we have to convert to the same
 		 * timezone before comparing. */
-		e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
-					     &start_tt.hour,
-					     &start_tt.minute);
-		e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_time),
-					     &end_tt.hour,
-					     &end_tt.minute);
+		e_date_edit_get_time_of_day (
+			E_DATE_EDIT (priv->start_time),
+			&start_tt.hour,
+			&start_tt.minute);
+		e_date_edit_get_time_of_day (
+			E_DATE_EDIT (priv->end_time),
+			&end_tt.hour,
+			&end_tt.minute);
 
 		start_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
 
@@ -2829,20 +2863,24 @@ times_updated (EventPage *epage,
 
 	if (set_start_date) {
 		g_signal_handlers_block_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
-		e_date_edit_set_date (E_DATE_EDIT (priv->start_time),
-				      start_tt.year, start_tt.month,
-				      start_tt.day);
-		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_time),
-					     start_tt.hour, start_tt.minute);
+		e_date_edit_set_date (
+			E_DATE_EDIT (priv->start_time),
+			start_tt.year, start_tt.month,
+			start_tt.day);
+		e_date_edit_set_time_of_day (
+			E_DATE_EDIT (priv->start_time),
+			start_tt.hour, start_tt.minute);
 		g_signal_handlers_unblock_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	}
 
 	if (set_end_date) {
 		g_signal_handlers_block_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
-		e_date_edit_set_date (E_DATE_EDIT (priv->end_time),
-				      end_tt.year, end_tt.month, end_tt.day);
-		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->end_time),
-					     end_tt.hour, end_tt.minute);
+		e_date_edit_set_date (
+			E_DATE_EDIT (priv->end_time),
+			end_tt.year, end_tt.month, end_tt.day);
+		e_date_edit_set_time_of_day (
+			E_DATE_EDIT (priv->end_time),
+			end_tt.hour, end_tt.minute);
 		g_signal_handlers_unblock_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	}
 
@@ -3393,10 +3431,10 @@ init_widgets (EventPage *epage)
 	g_signal_connect (
 		priv->end_time_combo, "changed",
 		G_CALLBACK (time_sel_changed), epage);
-	update_end_time_combo ( epage);
+	update_end_time_combo (epage);
 
 	/* Hour and Minute selector */
-	gtk_spin_button_set_range ( (GtkSpinButton *) priv->hour_selector, 0, G_MAXINT);
+	gtk_spin_button_set_range ((GtkSpinButton *) priv->hour_selector, 0, G_MAXINT);
 	g_signal_connect (
 		priv->hour_selector, "value-changed",
 		G_CALLBACK (hour_sel_changed), epage);
@@ -3440,7 +3478,8 @@ init_widgets (EventPage *epage)
 	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->alarm_time_combo)));
 	if (combo_label) {
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
+		gtk_list_store_set (
+			store, &iter,
 			0, combo_label,
 			-1);
 		g_free (combo_label);
@@ -3450,12 +3489,14 @@ init_widgets (EventPage *epage)
 	}
 
 	gtk_list_store_append (store, &iter);
-	gtk_list_store_set (store, &iter,
+	gtk_list_store_set (
+		store, &iter,
 		0, _("Customize"),
 		-1);
 
 	gtk_list_store_insert (store, &iter, 0);
-	gtk_list_store_set (store, &iter,
+	gtk_list_store_set (
+		store, &iter,
 		/* Translators: "None" for "No reminder set" */
 		0, C_("cal-reminders", "None"),
 		-1);
@@ -3579,19 +3620,22 @@ event_page_construct (EventPage *epage,
 	e_load_ui_builder_definition (priv->builder, "event-page.ui");
 
 	if (!get_widgets (epage)) {
-		g_message ("event_page_construct(): "
-			   "Could not find all widgets in the XML file!");
+		g_message (
+			"event_page_construct(): "
+			"Could not find all widgets in the XML file!");
 		return NULL;
 	}
 
 	/* Create entry completion and attach it to the entry */
 	priv->location_completion = gtk_entry_completion_new ();
-	gtk_entry_set_completion (GTK_ENTRY (priv->location),
+	gtk_entry_set_completion (
+		GTK_ENTRY (priv->location),
 		priv->location_completion);
 
 	/* Initialize completino model */
 	list_store = gtk_list_store_new (1, G_TYPE_STRING);
-	gtk_entry_completion_set_model (priv->location_completion,
+	gtk_entry_completion_set_model (
+		priv->location_completion,
 		GTK_TREE_MODEL (list_store));
 	gtk_entry_completion_set_text_column (priv->location_completion, 0);
 
@@ -3618,8 +3662,9 @@ event_page_construct (EventPage *epage,
 		G_CALLBACK (organizer_changed_cb), epage);
 
 	if (!init_widgets (epage)) {
-		g_message ("event_page_construct(): "
-			   "Could not initialize the widgets!");
+		g_message (
+			"event_page_construct(): "
+			"Could not initialize the widgets!");
 		return NULL;
 	}
 

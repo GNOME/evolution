@@ -1095,7 +1095,7 @@ e_mail_account_store_set_express_mode (EMailAccountStore *store,
 {
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (store));
 
-	if ((store->priv->express_mode ? 1 : 0) == (express_mode ? 1 : 0))
+	if (store->priv->express_mode == express_mode)
 		return;
 
 	store->priv->express_mode = express_mode;

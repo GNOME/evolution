@@ -577,17 +577,22 @@ ensure_alarm_notify_is_running (void)
 
 	filename = g_build_filename (base_dir, "evolution-alarm-notify", NULL);
 
-	if (g_file_test (filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_EXECUTABLE)) {
+	if (g_file_test (filename, G_FILE_TEST_IS_EXECUTABLE)) {
 		gchar *argv[2];
 		GError *error = NULL;
 
 		argv[0] = filename;
 		argv[1] = NULL;
 
-		if (!g_spawn_async (base_dir, argv, NULL, 0, NULL, NULL, NULL, &error))
-			g_message ("Failed to start '%s': %s", filename, error ? error->message : "Unknown error");
+		g_spawn_async (
+			base_dir, argv, NULL, 0, NULL, NULL, NULL, &error);
 
-		g_clear_error (&error);
+		if (error != NULL) {
+			g_message (
+				"Failed to start '%s': %s",
+				filename, error->message);
+			g_error_free (error);
+		}
 	}
 
 	g_free (filename);

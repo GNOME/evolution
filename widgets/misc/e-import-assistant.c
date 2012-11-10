@@ -914,7 +914,8 @@ prepare_simple_page (GtkAssistant *assistant,
 		gchar *title;
 
 		/* only one importer found, make it even simpler */
-		gtk_label_set_text (GTK_LABEL (page->actionlabel),
+		gtk_label_set_text (
+			GTK_LABEL (page->actionlabel),
 			page->has_preview ?
 				_("Preview data to be imported") :
 				_("Choose the destination for this import"));
@@ -931,7 +932,7 @@ prepare_simple_page (GtkAssistant *assistant,
 		gtk_label_set_text (
 			GTK_LABEL (page->actionlabel),
 			_("Select what type of file you "
-			  "want to import from the list."));
+			"want to import from the list."));
 
 		gtk_widget_show (page->filetypetable);
 

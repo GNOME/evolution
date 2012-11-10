@@ -182,20 +182,24 @@ ea_calendar_item_get_type (void)
 		 * we are run-time deriving from (GailCanvasItem, in this case)
 		 */
 
-		factory = atk_registry_get_factory (atk_get_default_registry (),
-						    GNOME_TYPE_CANVAS_ITEM);
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (),
+			GNOME_TYPE_CANVAS_ITEM);
 		derived_atk_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 
 		tinfo.class_size = query.class_size;
 		tinfo.instance_size = query.instance_size;
 
-		type = g_type_register_static (derived_atk_type,
-					       "EaCalendarItem", &tinfo, 0);
-		g_type_add_interface_static (type, ATK_TYPE_TABLE,
-					     &atk_table_info);
-		g_type_add_interface_static (type, ATK_TYPE_SELECTION,
-					     &atk_selection_info);
+		type = g_type_register_static (
+			derived_atk_type,
+			"EaCalendarItem", &tinfo, 0);
+		g_type_add_interface_static (
+			type, ATK_TYPE_TABLE,
+			&atk_table_info);
+		g_type_add_interface_static (
+			type, ATK_TYPE_SELECTION,
+			&atk_selection_info);
 	}
 
 	return type;
@@ -231,14 +235,15 @@ ea_calendar_item_new (GObject *obj)
 	atk_object_initialize (atk_object, obj);
 	atk_object->role = ATK_ROLE_CALENDAR;
 
-	item_cell = atk_selection_ref_selection (ATK_SELECTION (atk_object),
-							0);
+	item_cell = atk_selection_ref_selection (
+		ATK_SELECTION (atk_object), 0);
 	if (item_cell)
 		ea_calendar_set_focus_object (EA_CALENDAR_ITEM (atk_object), item_cell);
 
 #ifdef ACC_DEBUG
 	++n_ea_calendar_item_created;
-	g_print ("ACC_DEBUG: n_ea_calendar_item_created = %d\n",
+	g_print (
+		"ACC_DEBUG: n_ea_calendar_item_created = %d\n",
 		n_ea_calendar_item_created);
 #endif
 	/* connect signal handlers */
@@ -267,7 +272,8 @@ ea_calendar_item_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 #ifdef ACC_DEBUG
 	++n_ea_calendar_item_destroyed;
-	printf ("ACC_DEBUG: n_ea_calendar_item_destroyed = %d\n",
+	printf (
+		"ACC_DEBUG: n_ea_calendar_item_destroyed = %d\n",
 		n_ea_calendar_item_destroyed);
 #endif
 }
@@ -334,10 +340,11 @@ ea_calendar_item_get_name (AtkObject *accessible)
 		month2  = g_date_get_month (&select_end);
 		day2 = g_date_get_day (&select_end);
 
-		sprintf (new_name + strlen (new_name),
-			 " : current selection: from %d-%d-%d to %d-%d-%d.",
-			 year1, month1, day1,
-			 year2, month2, day2);
+		sprintf (
+			new_name + strlen (new_name),
+			" : current selection: from %d-%d-%d to %d-%d-%d.",
+			year1, month1, day1,
+			year2, month2, day2);
 	}
 #endif
 
@@ -440,16 +447,18 @@ ea_calendar_item_ref_child (AtkObject *accessible,
 
 	cell = ea_cell_table_get_cell_at_index (cell_data, index);
 	if (!cell) {
-		cell = e_calendar_cell_new (calitem,
-					    index / EA_CALENDAR_COLUMN_NUM,
-					    index % EA_CALENDAR_COLUMN_NUM);
+		cell = e_calendar_cell_new (
+			calitem,
+			index / EA_CALENDAR_COLUMN_NUM,
+			index % EA_CALENDAR_COLUMN_NUM);
 		ea_cell_table_set_cell_at_index (cell_data, index, cell);
 		g_object_unref (cell);
 	}
 
 #ifdef ACC_DEBUG
-	g_print ("AccDebug: ea_calendar_item children[%d]=%p\n", index,
-		 (gpointer) cell);
+	g_print (
+		"AccDebug: ea_calendar_item children[%d]=%p\n", index,
+		(gpointer) cell);
 #endif
 	return g_object_ref (atk_gobject_accessible_for_object (G_OBJECT (cell)));
 }
@@ -829,11 +838,12 @@ table_interface_get_column_description (AtkTable *table,
 	description = ea_cell_table_get_column_label (cell_data, in_col);
 	if (!description) {
 		gchar buffer[128] = "column description";
-		ea_calendar_item_get_column_label (ea_calitem, in_col,
-						   buffer, sizeof (buffer));
+		ea_calendar_item_get_column_label (
+			ea_calitem, in_col,
+			buffer, sizeof (buffer));
 		ea_cell_table_set_column_label (cell_data, in_col, buffer);
-		description = ea_cell_table_get_column_label (cell_data,
-							      in_col);
+		description = ea_cell_table_get_column_label (
+			cell_data, in_col);
 	}
 	return description;
 }
@@ -864,11 +874,13 @@ table_interface_get_row_description (AtkTable *table,
 	description = ea_cell_table_get_row_label (cell_data, row);
 	if (!description) {
 		gchar buffer[128] = "row description";
-		ea_calendar_item_get_row_label (ea_calitem, row,
+		ea_calendar_item_get_row_label (
+			ea_calitem, row,
 						buffer, sizeof (buffer));
 		ea_cell_table_set_row_label (cell_data, row, buffer);
-		description = ea_cell_table_get_row_label (cell_data,
-							   row);
+		description = ea_cell_table_get_row_label (
+			cell_data,
+			row);
 	}
 	return description;
 }
@@ -1028,15 +1040,16 @@ selection_preview_change_cb (ECalendarItem *calitem)
 	ea_calendar_item_destory_cell_data (EA_CALENDAR_ITEM (atk_obj));
 
 	/* only deal with the first selected child, for now */
-	item_cell = atk_selection_ref_selection (ATK_SELECTION (atk_obj),
-						 0);
+	item_cell = atk_selection_ref_selection (
+		ATK_SELECTION (atk_obj), 0);
 
 	if (item_cell)
 		ea_calendar_set_focus_object (EA_CALENDAR_ITEM (atk_obj), item_cell);
 
-	g_signal_emit_by_name (atk_obj,
-			       "active-descendant-changed",
-			       item_cell);
+	g_signal_emit_by_name (
+		atk_obj,
+		"active-descendant-changed",
+		item_cell);
 	g_signal_emit_by_name (atk_obj, "selection_changed");
 }
 
@@ -1050,8 +1063,8 @@ date_range_changed_cb (ECalendarItem *calitem)
 	atk_obj = atk_gobject_accessible_for_object (G_OBJECT (calitem));
 	ea_calendar_item_destory_cell_data (EA_CALENDAR_ITEM (atk_obj));
 
-	item_cell = atk_selection_ref_selection (ATK_SELECTION (atk_obj),
-							0);
+	item_cell = atk_selection_ref_selection (
+		ATK_SELECTION (atk_obj), 0);
 	if (item_cell)
 		ea_calendar_set_focus_object (EA_CALENDAR_ITEM (atk_obj), item_cell);
 
@@ -1074,16 +1087,19 @@ ea_calendar_item_get_cell_data (EaCalendarItem *ea_calitem)
 	if (!g_obj)
 		return NULL;
 
-	cell_data = g_object_get_data (G_OBJECT (ea_calitem),
-				       "ea-calendar-cell-table");
+	cell_data = g_object_get_data (
+		G_OBJECT (ea_calitem),
+		"ea-calendar-cell-table");
 
 	if (!cell_data) {
 		gint n_cells = ea_calendar_item_get_n_children (ATK_OBJECT (ea_calitem));
-		cell_data = ea_cell_table_create (n_cells / EA_CALENDAR_COLUMN_NUM,
-						  EA_CALENDAR_COLUMN_NUM,
-						  FALSE);
-		g_object_set_data (G_OBJECT (ea_calitem),
-				   "ea-calendar-cell-table", cell_data);
+		cell_data = ea_cell_table_create (
+			n_cells / EA_CALENDAR_COLUMN_NUM,
+			EA_CALENDAR_COLUMN_NUM,
+			FALSE);
+		g_object_set_data (
+			G_OBJECT (ea_calitem),
+			"ea-calendar-cell-table", cell_data);
 	}
 	return cell_data;
 }
@@ -1095,11 +1111,13 @@ ea_calendar_item_destory_cell_data (EaCalendarItem *ea_calitem)
 
 	g_return_if_fail (ea_calitem);
 
-	cell_data = g_object_get_data (G_OBJECT (ea_calitem),
-				       "ea-calendar-cell-table");
+	cell_data = g_object_get_data (
+		G_OBJECT (ea_calitem),
+		"ea-calendar-cell-table");
 	if (cell_data) {
-		g_object_set_data (G_OBJECT (ea_calitem),
-				   "ea-calendar-cell-table", NULL);
+		g_object_set_data (
+			G_OBJECT (ea_calitem),
+			"ea-calendar-cell-table", NULL);
 		ea_cell_table_destroy (cell_data);
 	}
 }
@@ -1130,8 +1148,8 @@ ea_calendar_item_get_row_label (EaCalendarItem *ea_calitem,
 						  &year, &month, &day))
 		return FALSE;
 
-	week_num = e_calendar_item_get_week_number (calitem,
-						    day, month, year);
+	week_num = e_calendar_item_get_week_number (
+		calitem, day, month, year);
 
 	g_snprintf (buffer, buffer_size, "week number : %d", week_num);
 	return TRUE;
@@ -1196,8 +1214,9 @@ e_calendar_item_get_day_extents (ECalendarItem *calitem,
 	if (!font_desc)
 		font_desc = style->font_desc;
 	pango_context = gtk_widget_get_pango_context (widget);
-	font_metrics = pango_context_get_metrics (pango_context, font_desc,
-						  pango_context_get_language (pango_context));
+	font_metrics = pango_context_get_metrics (
+		pango_context, font_desc,
+		pango_context_get_language (pango_context));
 
 	char_height =
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
@@ -1234,9 +1253,8 @@ e_calendar_item_get_day_extents (ECalendarItem *calitem,
 		+ E_CALENDAR_ITEM_YPAD_BELOW_DAY_LETTERS + 1
 		+ E_CALENDAR_ITEM_YPAD_ABOVE_CELLS;
 
-	days_from_week_start =
-		e_calendar_item_get_n_days_from_week_start (calitem, new_year,
-							    new_month);
+	days_from_week_start = e_calendar_item_get_n_days_from_week_start (
+		calitem, new_year, new_month);
 	day_row = (date + days_from_week_start - 1) / EA_CALENDAR_COLUMN_NUM;
 	day_col = (date + days_from_week_start - 1) % EA_CALENDAR_COLUMN_NUM;
 

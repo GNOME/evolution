@@ -779,14 +779,15 @@ etta_class_init (ETreeTableAdapterClass *class)
 
 	class->sorting_changed = NULL;
 
-	signals[SORTING_CHANGED] =
-		g_signal_new ("sorting_changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeTableAdapterClass, sorting_changed),
-			      NULL, NULL,
-			      e_marshal_BOOLEAN__NONE,
-			      G_TYPE_BOOLEAN, 0, G_TYPE_NONE);
+	signals[SORTING_CHANGED] = g_signal_new (
+		"sorting_changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeTableAdapterClass, sorting_changed),
+		NULL, NULL,
+		e_marshal_BOOLEAN__NONE,
+		G_TYPE_BOOLEAN, 0,
+		G_TYPE_NONE);
 }
 
 static void
@@ -1360,8 +1361,9 @@ e_tree_table_adapter_set_sort_info (ETreeTableAdapter *etta,
                                     ETableSortInfo *sort_info)
 {
 	if (etta->priv->sort_info) {
-		g_signal_handler_disconnect (G_OBJECT (etta->priv->sort_info),
-					    etta->priv->sort_info_changed_id);
+		g_signal_handler_disconnect (
+			etta->priv->sort_info,
+			etta->priv->sort_info_changed_id);
 		g_object_unref (etta->priv->sort_info);
 	}
 

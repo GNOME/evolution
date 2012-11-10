@@ -56,8 +56,9 @@ e_calendar_cell_get_type (void)
 			NULL /* value table */
 		};
 
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "ECalendarCell", &tinfo, 0);
+		type = g_type_register_static (
+			G_TYPE_OBJECT,
+			"ECalendarCell", &tinfo, 0);
 	}
 
 	return type;
@@ -143,10 +144,12 @@ ea_calendar_cell_get_type (void)
 			NULL
 		};
 
-		type = g_type_register_static (ATK_TYPE_GOBJECT_ACCESSIBLE,
-					       "EaCalendarCell", &tinfo, 0);
-		g_type_add_interface_static (type, ATK_TYPE_COMPONENT,
-					     &atk_component_info);
+		type = g_type_register_static (
+			ATK_TYPE_GOBJECT_ACCESSIBLE,
+			"EaCalendarCell", &tinfo, 0);
+		g_type_add_interface_static (
+			type, ATK_TYPE_COMPONENT,
+			&atk_component_info);
 	}
 
 	return type;
@@ -198,7 +201,8 @@ ea_calendar_cell_new (GObject *obj)
 
 #ifdef ACC_DEBUG
 	++n_ea_calendar_cell_created;
-	g_print ("ACC_DEBUG: n_ea_calendar_cell_created = %d\n",
+	g_print (
+		"ACC_DEBUG: n_ea_calendar_cell_created = %d\n",
 		n_ea_calendar_cell_created);
 #endif
 	return atk_object;
@@ -210,7 +214,8 @@ static void ea_calendar_cell_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 
 	++n_ea_calendar_cell_destroyed;
-	g_print ("ACC_DEBUG: n_ea_calendar_cell_destroyed = %d\n",
+	g_print (
+		"ACC_DEBUG: n_ea_calendar_cell_destroyed = %d\n",
 		n_ea_calendar_cell_destroyed);
 }
 #endif
@@ -238,8 +243,9 @@ ea_calendar_cell_get_name (AtkObject *accessible)
 		cell = E_CALENDAR_CELL (g_obj);
 		atk_obj = ea_calendar_cell_get_parent (accessible);
 		ea_calitem = EA_CALENDAR_ITEM (atk_obj);
-		day_index = atk_table_get_index_at (ATK_TABLE (ea_calitem),
-						    cell->row, cell->column);
+		day_index = atk_table_get_index_at (
+			ATK_TABLE (ea_calitem),
+			cell->row, cell->column);
 		e_calendar_item_get_date_for_offset (cell->calitem, day_index,
 						     &year, &month, &day);
 
@@ -288,8 +294,9 @@ ea_calendar_cell_get_index_in_parent (AtkObject *accessible)
 		return -1;
 	cell = E_CALENDAR_CELL (g_obj);
 	parent = atk_object_get_parent (accessible);
-	return atk_table_get_index_at (ATK_TABLE (parent),
-				       cell->row, cell->column);
+	return atk_table_get_index_at (
+		ATK_TABLE (parent),
+		cell->row, cell->column);
 }
 
 static AtkStateSet *
@@ -346,8 +353,9 @@ component_interface_get_extents (AtkComponent *component,
 	calitem = cell->calitem;
 	atk_obj = atk_gobject_accessible_for_object (G_OBJECT (calitem));
 	ea_calitem = EA_CALENDAR_ITEM (atk_obj);
-	day_index = atk_table_get_index_at (ATK_TABLE (ea_calitem),
-					    cell->row, cell->column);
+	day_index = atk_table_get_index_at (
+		ATK_TABLE (ea_calitem),
+		cell->row, cell->column);
 	e_calendar_item_get_date_for_offset (calitem, day_index,
 					     &year, &month, &day);
 
@@ -356,10 +364,11 @@ component_interface_get_extents (AtkComponent *component,
 					      x, y, width, height))
 	    return;
 	atk_canvas = atk_object_get_parent (ATK_OBJECT (ea_calitem));
-	atk_component_get_extents (ATK_COMPONENT (atk_canvas),
-					     &canvas_x, &canvas_y,
-					     &canvas_width, &canvas_height,
-					     coord_type);
+	atk_component_get_extents (
+		ATK_COMPONENT (atk_canvas),
+		&canvas_x, &canvas_y,
+		&canvas_width, &canvas_height,
+		coord_type);
 	*x += canvas_x;
 	*y += canvas_y;
 }

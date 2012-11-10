@@ -1564,9 +1564,9 @@ emu_update_composers_security (EMsgComposer *composer,
 
 static void
 get_real_folder_uri_and_message_uid (CamelFolder *folder,
-				     const gchar *uid,
-				     gchar **folder_uri,
-				     gchar **message_uid)
+                                     const gchar *uid,
+                                     gchar **folder_uri,
+                                     gchar **message_uid)
 {
 	g_return_if_fail (folder != NULL);
 	g_return_if_fail (uid != NULL);

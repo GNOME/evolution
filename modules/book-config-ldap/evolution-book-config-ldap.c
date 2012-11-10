@@ -871,9 +871,10 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 		book_config_ldap_active_to_port,
 		NULL, (GDestroyNotify) NULL);
 
-	/* "active" doesn't change when setting custom port in entry,
-	   thus check also on the "changed" signal */
-	g_signal_connect (context->port_combo, "changed",
+	/* "active" doesn't change when setting custom port
+	 * in entry, so check also on the "changed" signal. */
+	g_signal_connect (
+		context->port_combo, "changed",
 		G_CALLBACK (book_config_ldap_port_combo_changed), NULL);
 
 	g_object_bind_property (
@@ -929,10 +930,9 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	/* initialize values from UI into extension, if the source
-	   is a fresh new source; bindings will take care of proper
-	   values setting into extension properties
-	*/
+	/* Initialize values from UI into extension, if the source
+	 * is a fresh new source; bindings will take care of proper
+	 * values setting into extension properties. */
 	if (is_new_source) {
 		g_object_notify (G_OBJECT (context->host_entry), "text");
 		g_object_notify (G_OBJECT (context->port_combo), "active");

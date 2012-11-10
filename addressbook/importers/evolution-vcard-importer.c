@@ -95,11 +95,12 @@ add_to_notes (EContact *contact,
 	if (!field_text || !*field_text)
 		return;
 
-	new_text = g_strdup_printf ("%s%s%s: %s",
-				    old_text ? old_text : "",
-				    old_text && *old_text &&
-				    *(old_text + strlen (old_text) - 1) != '\n' ? "\n" : "",
-				    e_contact_pretty_name (field), field_text);
+	new_text = g_strdup_printf (
+		"%s%s%s: %s",
+		old_text ? old_text : "",
+		old_text && *old_text &&
+		*(old_text + strlen (old_text) - 1) != '\n' ? "\n" : "",
+		e_contact_pretty_name (field), field_text);
 	e_contact_set (contact, E_CONTACT_NOTE, new_text);
 	g_free (new_text);
 }
@@ -191,15 +192,17 @@ vcard_import_contact (VCardImporter *gci,
 			 * the rest should be kept as is */
 			if (location_only) {
 				/* add VOICE */
-				e_vcard_attribute_add_param_with_value (a,
-									e_vcard_attribute_param_new (EVC_TYPE),
-									"VOICE");
+				e_vcard_attribute_add_param_with_value (
+					a,
+					e_vcard_attribute_param_new (EVC_TYPE),
+					"VOICE");
 			}
 			if (no_location) {
 				/* add OTHER */
-				e_vcard_attribute_add_param_with_value (a,
-									e_vcard_attribute_param_new (EVC_TYPE),
-									"OTHER");
+				e_vcard_attribute_add_param_with_value (
+					a,
+					e_vcard_attribute_param_new (EVC_TYPE),
+					"OTHER");
 			}
 		}
 	}
@@ -235,7 +238,8 @@ vcard_import_contact (VCardImporter *gci,
 
 		if (no_location) {
 			/* add OTHER */
-			e_vcard_attribute_add_param_with_value (a,
+			e_vcard_attribute_add_param_with_value (
+				a,
 								e_vcard_attribute_param_new (EVC_TYPE),
 								"OTHER");
 		}
@@ -977,10 +981,11 @@ evolution_contact_importer_get_preview_widget (const GSList *contacts)
 		}
 
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
+		gtk_list_store_set (
+			store, &iter,
 			0, description ? description : "",
 			1, contact,
-			-1 );
+			-1);
 
 		g_free (free_description);
 	}
@@ -999,7 +1004,8 @@ evolution_contact_importer_get_preview_widget (const GSList *contacts)
 	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (store));
 	g_object_unref (store);
 
-	gtk_tree_view_insert_column_with_attributes (tree_view, -1, _("Contact"),
+	gtk_tree_view_insert_column_with_attributes (
+		tree_view, -1, _("Contact"),
 		gtk_cell_renderer_text_new (), "text", 0, NULL);
 
 	if (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (store), NULL) > 1)

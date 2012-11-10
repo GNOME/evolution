@@ -1204,7 +1204,7 @@ void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
         if ((filename = MAPIFindUserProp (&(tnef->MapiProperties),
                         PROP_TAG (PT_BOOLEAN, 0x8506))) != MAPI_UNDEFINED) {
             dword_ptr = (DWORD *) filename->data;
-            fprintf (fptr, "CLASS:" );
+            fprintf (fptr, "CLASS:");
             if (*dword_ptr == 1) {
                 fprintf (fptr,"PRIVATE\n");
             } else {
@@ -1338,7 +1338,7 @@ void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
                         PROP_TAG (PT_BOOLEAN, 0x8506));
         if (filename != MAPI_UNDEFINED) {
             dword_ptr = (DWORD *) filename->data;
-            fprintf (fptr, "CLASS:" );
+            fprintf (fptr, "CLASS:");
             if (*dword_ptr == 1) {
                 fprintf (fptr,"PRIVATE\n");
             } else {

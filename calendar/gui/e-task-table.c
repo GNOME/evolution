@@ -484,11 +484,12 @@ task_table_constructed (GObject *object)
 	 * Normal string fields.
 	 */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (cell,
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		      NULL);
+	g_object_set (
+		cell,
+		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		NULL);
 
 	e_table_extras_add_cell (extras, "calstring", cell);
 	g_object_unref (cell);
@@ -497,11 +498,12 @@ task_table_constructed (GObject *object)
 	 * Date fields.
 	 */
 	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (cell,
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		      NULL);
+	g_object_set (
+		cell,
+		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		NULL);
 
 	g_object_bind_property (
 		model, "timezone",
@@ -540,12 +542,13 @@ task_table_constructed (GObject *object)
 
 	/* Classification field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (cell,
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		      "editable", FALSE,
-		      NULL);
+	g_object_set (
+		cell,
+		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"editable", FALSE,
+		NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
@@ -555,8 +558,9 @@ task_table_constructed (GObject *object)
 	strings = g_list_append (strings, (gchar *) _("Public"));
 	strings = g_list_append (strings, (gchar *) _("Private"));
 	strings = g_list_append (strings, (gchar *) _("Confidential"));
-	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
-					  strings);
+	e_cell_combo_set_popdown_strings (
+		E_CELL_COMBO (popup_cell),
+		strings);
 	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "classification", popup_cell);
@@ -564,12 +568,13 @@ task_table_constructed (GObject *object)
 
 	/* Priority field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (cell,
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		      "editable", FALSE,
-		      NULL);
+	g_object_set (
+		cell,
+		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"editable", FALSE,
+		NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
@@ -580,8 +585,9 @@ task_table_constructed (GObject *object)
 	strings = g_list_append (strings, (gchar *) _("Normal"));
 	strings = g_list_append (strings, (gchar *) _("Low"));
 	strings = g_list_append (strings, (gchar *) _("Undefined"));
-	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
-					  strings);
+	e_cell_combo_set_popdown_strings (
+		E_CELL_COMBO (popup_cell),
+		strings);
 	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "priority", popup_cell);
@@ -589,11 +595,12 @@ task_table_constructed (GObject *object)
 
 	/* Percent field. */
 	cell = e_cell_percent_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (cell,
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		      NULL);
+	g_object_set (
+		cell,
+		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
@@ -607,8 +614,9 @@ task_table_constructed (GObject *object)
 		*/
 		strings = g_list_append (strings, g_strdup_printf (_("%d%%"), percent));
 	}
-	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
-					  strings);
+	e_cell_combo_set_popdown_strings (
+		E_CELL_COMBO (popup_cell),
+		strings);
 
 	g_list_foreach (strings, (GFunc) g_free, NULL);
 	g_list_free (strings);
@@ -618,12 +626,13 @@ task_table_constructed (GObject *object)
 
 	/* Transparency field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (cell,
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		      "editable", FALSE,
-		      NULL);
+	g_object_set (
+		cell,
+		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"editable", FALSE,
+		NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
@@ -632,8 +641,9 @@ task_table_constructed (GObject *object)
 	strings = NULL;
 	strings = g_list_append (strings, (gchar *) _("Free"));
 	strings = g_list_append (strings, (gchar *) _("Busy"));
-	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
-					  strings);
+	e_cell_combo_set_popdown_strings (
+		E_CELL_COMBO (popup_cell),
+		strings);
 	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "transparency", popup_cell);
@@ -641,12 +651,13 @@ task_table_constructed (GObject *object)
 
 	/* Status field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (cell,
-		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		      "editable", FALSE,
-		      NULL);
+	g_object_set (
+		cell,
+		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"editable", FALSE,
+		NULL);
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
@@ -657,21 +668,26 @@ task_table_constructed (GObject *object)
 	strings = g_list_append (strings, (gchar *) _("In Progress"));
 	strings = g_list_append (strings, (gchar *) _("Completed"));
 	strings = g_list_append (strings, (gchar *) _("Canceled"));
-	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
-					  strings);
+	e_cell_combo_set_popdown_strings (
+		E_CELL_COMBO (popup_cell),
+		strings);
 	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "calstatus", popup_cell);
 	g_object_unref (popup_cell);
 
-	e_table_extras_add_compare (extras, "date-compare",
-				    e_cell_date_edit_compare_cb);
-	e_table_extras_add_compare (extras, "percent-compare",
-				    task_table_percent_compare_cb);
-	e_table_extras_add_compare (extras, "priority-compare",
-				    task_table_priority_compare_cb);
-	e_table_extras_add_compare (extras, "status-compare",
-				    task_table_status_compare_cb);
+	e_table_extras_add_compare (
+		extras, "date-compare",
+		e_cell_date_edit_compare_cb);
+	e_table_extras_add_compare (
+		extras, "percent-compare",
+		task_table_percent_compare_cb);
+	e_table_extras_add_compare (
+		extras, "priority-compare",
+		task_table_priority_compare_cb);
+	e_table_extras_add_compare (
+		extras, "status-compare",
+		task_table_status_compare_cb);
 
 	/* Create pixmaps */
 
@@ -815,7 +831,7 @@ task_table_query_tooltip (GtkWidget *widget,
 	e_cal_component_get_organizer (new_comp, &organizer);
 	if (organizer.cn) {
 		gchar *ptr;
-		ptr = strchr ( organizer.value, ':');
+		ptr = strchr (organizer.value, ':');
 
 		if (ptr) {
 			ptr++;
@@ -1681,17 +1697,21 @@ hide_completed_rows_ready (GObject *source_object,
 	GPtrArray *comp_objects;
 	GError *error = NULL;
 
-	if (!e_cal_client_get_object_list_finish (E_CAL_CLIENT (source_object), result, &objects, &error)) {
+	e_cal_client_get_object_list_finish (
+		E_CAL_CLIENT (source_object), result, &objects, &error);
+
+	if (error != NULL) {
 		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
 		    !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
 			ESource *source = e_client_get_source (E_CLIENT (source_object));
 
-			g_debug ("%s: Could not get the objects from '%s': %s",
+			g_debug (
+				"%s: Could not get the objects from '%s': %s",
 				G_STRFUNC,
 				e_source_get_display_name (source),
-				error ? error->message : "Unknown error");
+				error->message);
 		}
-		g_clear_error (&error);
+		g_error_free (error);
 		return;
 	}
 
@@ -1743,17 +1763,21 @@ show_completed_rows_ready (GObject *source_object,
 	GPtrArray *comp_objects;
 	GError *error = NULL;
 
-	if (!e_cal_client_get_object_list_finish (E_CAL_CLIENT (source_object), result, &objects, &error)) {
+	e_cal_client_get_object_list_finish (
+		E_CAL_CLIENT (source_object), result, &objects, &error);
+
+	if (error != NULL) {
 		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
 		    !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
 			ESource *source = e_client_get_source (E_CLIENT (source_object));
 
-			g_debug ("%s: Could not get the objects from '%s': %s",
+			g_debug (
+				"%s: Could not get the objects from '%s': %s",
 				G_STRFUNC,
 				e_source_get_display_name (source),
-				error ? error->message : "Unknown error");
+				error->message);
 		}
-		g_clear_error (&error);
+		g_error_free (error);
 		return;
 	}
 
@@ -1865,13 +1889,15 @@ e_task_table_process_completed_tasks (ETaskTable *task_table,
 
 	/* Delete rows from model*/
 	if (hide_sexp) {
-		task_table_get_object_list_async (clients_list, hide_sexp, cancellable,
+		task_table_get_object_list_async (
+			clients_list, hide_sexp, cancellable,
 			hide_completed_rows_ready, model);
 	}
 
 	/* Insert rows into model */
 	if (config_changed) {
-		task_table_get_object_list_async (clients_list, show_sexp, cancellable,
+		task_table_get_object_list_async (
+			clients_list, show_sexp, cancellable,
 			show_completed_rows_ready, model);
 	}
 

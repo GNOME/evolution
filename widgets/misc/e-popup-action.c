@@ -139,7 +139,7 @@ popup_action_set_use_action_appearance (EPopupAction *popup_action,
 	GtkActivatable *activatable;
 	GtkAction *related_action;
 
-	if ((popup_action->priv->use_action_appearance ? 1 : 0) == (use_action_appearance ? 1 : 0))
+	if (popup_action->priv->use_action_appearance == use_action_appearance)
 		return;
 
 	popup_action->priv->use_action_appearance = use_action_appearance;

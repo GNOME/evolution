@@ -58,15 +58,18 @@ create_page_two (EPreferencesWindow *preferences_window)
 static void
 add_pages (EPreferencesWindow *preferences_window)
 {
-	e_preferences_window_add_page (preferences_window, "page-0",
-				       "gtk-properties", "title 0", NULL,
-				       create_page_zero, 0);
-	e_preferences_window_add_page (preferences_window, "page-1",
-				       "gtk-properties", "title 1", NULL,
-				       create_page_one, 1);
-	e_preferences_window_add_page (preferences_window, "page-2",
-				       "gtk-properties", "title 2", NULL,
-				       create_page_two, 2);
+	e_preferences_window_add_page (
+		preferences_window, "page-0",
+		"gtk-properties", "title 0", NULL,
+		create_page_zero, 0);
+	e_preferences_window_add_page (
+		preferences_window, "page-1",
+		"gtk-properties", "title 1", NULL,
+		create_page_one, 1);
+	e_preferences_window_add_page (
+		preferences_window, "page-2",
+		"gtk-properties", "title 2", NULL,
+		create_page_two, 2);
 }
 
 static gint

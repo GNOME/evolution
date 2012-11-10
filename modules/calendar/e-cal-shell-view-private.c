@@ -204,7 +204,8 @@ cal_shell_view_date_navigator_selection_changed_cb (ECalShellView *cal_shell_vie
 
 	gnome_calendar_notify_dates_shown_changed (calendar);
 
-	g_signal_handlers_block_by_func (calitem,
+	g_signal_handlers_block_by_func (
+		calitem,
 		cal_shell_view_date_navigator_selection_changed_cb, cal_shell_view);
 
 	/* make sure the selected days in the calendar matches shown days */
@@ -217,7 +218,8 @@ cal_shell_view_date_navigator_selection_changed_cb (ECalShellView *cal_shell_vie
 
 	e_calendar_item_set_selection (calitem, &start_date, &end_date);
 
-	g_signal_handlers_unblock_by_func (calitem,
+	g_signal_handlers_unblock_by_func (
+		calitem,
 		cal_shell_view_date_navigator_selection_changed_cb, cal_shell_view);
 }
 

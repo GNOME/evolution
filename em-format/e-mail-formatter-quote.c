@@ -93,7 +93,8 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	}
 
 	if (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_CITE) {
-		camel_stream_write_string (stream,
+		camel_stream_write_string (
+			stream,
 			"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
 			"key=\"orig\" value=\"1\">-->\n"
 			"<blockquote type=cite>\n", cancellable, NULL);
@@ -215,8 +216,9 @@ e_mail_formatter_quote_get_type (void)
 			NULL	/* value_table */
 		};
 
-		type = g_type_register_static (E_TYPE_MAIL_FORMATTER,
-				"EMailFormatterQuote", &type_info, 0);
+		type = g_type_register_static (
+			E_TYPE_MAIL_FORMATTER,
+			"EMailFormatterQuote", &type_info, 0);
 	}
 
 	return type;

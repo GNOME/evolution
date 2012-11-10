@@ -433,11 +433,13 @@ cal_model_dispose (GObject *object)
 		while (priv->clients != NULL) {
 			ECalModelClient *client_data = (ECalModelClient *) priv->clients->data;
 
-			g_signal_handlers_disconnect_matched (client_data->client, G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, object);
+			g_signal_handlers_disconnect_matched (
+				client_data->client, G_SIGNAL_MATCH_DATA,
+				0, 0, NULL, NULL, object);
 			if (client_data->view)
-				g_signal_handlers_disconnect_matched (client_data->view, G_SIGNAL_MATCH_DATA,
-								      0, 0, NULL, NULL, object);
+				g_signal_handlers_disconnect_matched (
+					client_data->view, G_SIGNAL_MATCH_DATA,
+					0, 0, NULL, NULL, object);
 
 			priv->clients = g_list_remove (priv->clients, client_data);
 
@@ -678,50 +680,58 @@ e_cal_model_class_init (ECalModelClass *class)
 			0,
 			G_PARAM_READWRITE));
 
-	signals[TIME_RANGE_CHANGED] =
-		g_signal_new ("time_range_changed",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalModelClass, time_range_changed),
-			      NULL, NULL,
-			      e_marshal_VOID__LONG_LONG,
-			      G_TYPE_NONE, 2, G_TYPE_LONG, G_TYPE_LONG);
+	signals[TIME_RANGE_CHANGED] = g_signal_new (
+		"time_range_changed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECalModelClass, time_range_changed),
+		NULL, NULL,
+		e_marshal_VOID__LONG_LONG,
+		G_TYPE_NONE, 2,
+		G_TYPE_LONG,
+		G_TYPE_LONG);
 
-	signals[ROW_APPENDED] =
-		g_signal_new ("row_appended",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalModelClass, row_appended),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[ROW_APPENDED] = g_signal_new (
+		"row_appended",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECalModelClass, row_appended),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[COMPS_DELETED] =
-		g_signal_new ("comps_deleted",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalModelClass, comps_deleted),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[COMPS_DELETED] = g_signal_new (
+		"comps_deleted",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECalModelClass, comps_deleted),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 
-	signals[CAL_VIEW_PROGRESS] =
-		g_signal_new ("cal_view_progress",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalModelClass, cal_view_progress),
-			      NULL, NULL,
-			      e_marshal_VOID__STRING_INT_INT,
-			      G_TYPE_NONE, 3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT);
+	signals[CAL_VIEW_PROGRESS] = g_signal_new (
+		"cal_view_progress",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECalModelClass, cal_view_progress),
+		NULL, NULL,
+		e_marshal_VOID__STRING_INT_INT,
+		G_TYPE_NONE, 3,
+		G_TYPE_STRING,
+		G_TYPE_INT,
+		G_TYPE_INT);
 
-	signals[CAL_VIEW_COMPLETE] =
-		g_signal_new ("cal_view_complete",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalModelClass, cal_view_complete),
-			      NULL, NULL,
-			      e_marshal_VOID__BOXED_INT,
-			      G_TYPE_NONE, 2, G_TYPE_ERROR, G_TYPE_INT);
+	signals[CAL_VIEW_COMPLETE] = g_signal_new (
+		"cal_view_complete",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECalModelClass, cal_view_complete),
+		NULL, NULL,
+		e_marshal_VOID__BOXED_INT,
+		G_TYPE_NONE, 2,
+		G_TYPE_ERROR,
+		G_TYPE_INT);
 
 	signals[STATUS_MESSAGE] = g_signal_new (
 		"status-message",
@@ -731,7 +741,9 @@ e_cal_model_class_init (ECalModelClass *class)
 		NULL, NULL,
 		e_marshal_VOID__STRING_DOUBLE,
 		G_TYPE_NONE, 2,
-		G_TYPE_STRING, G_TYPE_DOUBLE);
+		G_TYPE_STRING,
+		G_TYPE_DOUBLE);
+
 	signals[TIMEZONE_CHANGED] = g_signal_new (
 		"timezone-changed",
 		G_TYPE_FROM_CLASS (class),
@@ -1021,12 +1033,18 @@ ecm_value_at (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_DTSTART :
 		return (gpointer) get_dtstart (model, comp_data);
 	case E_CAL_MODEL_FIELD_CREATED :
-		return (gpointer) get_datetime_from_utc (model, comp_data, ICAL_CREATED_PROPERTY, icalproperty_get_created, &comp_data->created);
+		return (gpointer) get_datetime_from_utc (
+			model, comp_data, ICAL_CREATED_PROPERTY,
+			icalproperty_get_created, &comp_data->created);
 	case E_CAL_MODEL_FIELD_LASTMODIFIED :
-		return (gpointer) get_datetime_from_utc (model, comp_data, ICAL_LASTMODIFIED_PROPERTY, icalproperty_get_lastmodified, &comp_data->lastmodified);
+		return (gpointer) get_datetime_from_utc (
+			model, comp_data, ICAL_LASTMODIFIED_PROPERTY,
+			icalproperty_get_lastmodified, &comp_data->lastmodified);
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
-		return GINT_TO_POINTER ((icalcomponent_get_first_component (comp_data->icalcomp,
-									    ICAL_VALARM_COMPONENT) != NULL));
+		return GINT_TO_POINTER (
+			icalcomponent_get_first_component (
+				comp_data->icalcomp,
+				ICAL_VALARM_COMPONENT) != NULL);
 	case E_CAL_MODEL_FIELD_ICON :
 	{
 		ECalComponent *comp;
@@ -1337,12 +1355,17 @@ ecm_set_value_at (ETableModel *etm,
 	}
 
 	/* FIXME ask about mod type */
-	if (!e_cal_client_modify_object_sync (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL, &error)) {
-		g_warning (G_STRLOC ": Could not modify the object! %s", error ? error->message : "Unknown error");
+	e_cal_client_modify_object_sync (
+		comp_data->client, comp_data->icalcomp,
+		CALOBJ_MOD_ALL, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			G_STRLOC ": Could not modify the object! %s",
+			error->message);
 
 		/* FIXME Show error dialog */
-		if (error)
-			g_error_free (error);
+		g_error_free (error);
 	}
 }
 
@@ -1472,17 +1495,21 @@ ecm_append_row (ETableModel *etm,
 		model_class->fill_component_from_model (model, comp_data, source, row);
 	}
 
-	if (!e_cal_client_create_object_sync (comp_data->client, comp_data->icalcomp, &uid, NULL, &error)) {
-		g_warning (G_STRLOC ": Could not create the object! %s", error ? error->message : "Unknown error");
+	e_cal_client_create_object_sync (
+		comp_data->client, comp_data->icalcomp, &uid, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			G_STRLOC ": Could not create the object! %s",
+			error->message);
 
 		/* FIXME: show error dialog */
-		if (error)
-			g_error_free (error);
+		g_error_free (error);
 	} else {
 		if (uid)
 			icalcomponent_set_uid (comp_data->icalcomp, uid);
 
-		g_signal_emit (G_OBJECT (model), signals[ROW_APPENDED], 0);
+		g_signal_emit (model, signals[ROW_APPENDED], 0);
 	}
 
 	g_free (uid);
@@ -1760,7 +1787,7 @@ e_cal_model_set_confirm_delete (ECalModel *model,
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	if ((model->priv->confirm_delete ? 1 : 0) == (confirm_delete ? 1 : 0))
+	if (model->priv->confirm_delete == confirm_delete)
 		return;
 
 	model->priv->confirm_delete = confirm_delete;
@@ -1838,8 +1865,9 @@ e_cal_model_set_timezone (ECalModel *model,
 	redo_queries (model);
 
 	g_object_notify (G_OBJECT (model), "timezone");
-	g_signal_emit (G_OBJECT (model), signals[TIMEZONE_CHANGED], 0,
-		       old_zone, zone);
+	g_signal_emit (
+		model, signals[TIMEZONE_CHANGED], 0,
+		old_zone, zone);
 }
 
 gboolean
@@ -1856,7 +1884,7 @@ e_cal_model_set_compress_weekend (ECalModel *model,
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	if ((model->priv->compress_weekend ? 1 : 0) == (compress_weekend ? 1 : 0))
+	if (model->priv->compress_weekend == compress_weekend)
 		return;
 
 	model->priv->compress_weekend = compress_weekend;
@@ -1958,7 +1986,7 @@ e_cal_model_set_use_default_reminder (ECalModel *model,
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	if ((model->priv->use_default_reminder ? 1 : 0) == (use_default_reminder ? 1 : 0))
+	if (model->priv->use_default_reminder == use_default_reminder)
 		return;
 
 	model->priv->use_default_reminder = use_default_reminder;
@@ -2272,7 +2300,7 @@ remove_all_for_id_and_client (ECalModel *model,
 			continue;
 
 		list = g_slist_append (list, comp_data);
-		g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, list);
+		g_signal_emit (model, signals[COMPS_DELETED], 0, list);
 
 		g_slist_free (list);
 		g_object_unref (comp_data);
@@ -2595,7 +2623,7 @@ process_removed (ECalClientView *view,
 				continue;
 
 			l = g_slist_append (l, comp_data);
-			g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, l);
+			g_signal_emit (model, signals[COMPS_DELETED], 0, l);
 
 			g_slist_free (l);
 			g_object_unref (comp_data);
@@ -2776,8 +2804,9 @@ client_view_complete_cb (ECalClientView *view,
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	g_signal_emit (G_OBJECT (model), signals[CAL_VIEW_COMPLETE], 0, error,
-			e_cal_client_get_source_type (client));
+	g_signal_emit (
+		model, signals[CAL_VIEW_COMPLETE], 0, error,
+		e_cal_client_get_source_type (client));
 }
 
 struct get_view_data
@@ -2815,25 +2844,29 @@ get_view_cb (GObject *source_object,
 	g_return_if_fail (gvd->model != NULL);
 	g_return_if_fail (gvd->client_data != NULL);
 
-	if (!e_cal_client_get_view_finish (E_CAL_CLIENT (source_object), result, &view, &error)) {
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-			g_clear_error (&error);
+	e_cal_client_get_view_finish (
+		E_CAL_CLIENT (source_object), result, &view, &error);
 
-			free_get_view_data (gvd);
-			return;
-		}
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		free_get_view_data (gvd);
+		g_error_free (error);
+		return;
+	}
 
+	if (error != NULL) {
 		if (gvd->tries < 10) {
-			g_clear_error (&error);
 			gvd->tries++;
 			g_timeout_add (500, retry_get_view_timeout_cb, gvd);
+			g_error_free (error);
 			return;
 		}
 
-		g_debug ("%s: Failed to get view: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_warning (
+			"%s: Failed to get view: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 
-		g_clear_error (&error);
 	} else {
 		gvd->client_data->view = view;
 
@@ -2855,8 +2888,10 @@ get_view_cb (GObject *source_object,
 
 		e_cal_client_view_start (gvd->client_data->view, &error);
 
-		if (error) {
-			g_debug ("%s: Failed to start view: %s", G_STRFUNC, error->message);
+		if (error != NULL) {
+			g_warning (
+				"%s: Failed to start view: %s",
+				G_STRFUNC, error->message);
 			g_error_free (error);
 		}
 	}
@@ -2894,8 +2929,9 @@ update_e_cal_view_for_client (ECalModel *model,
 
 	/* free the previous view, if any */
 	if (client_data->view) {
-		g_signal_handlers_disconnect_matched (client_data->view, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, model);
+		g_signal_handlers_disconnect_matched (
+			client_data->view, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, model);
 		g_object_unref (client_data->view);
 		client_data->view = NULL;
 	}
@@ -3154,7 +3190,7 @@ remove_client_objects (ECalModel *model,
 			g_ptr_array_remove (model->priv->objects, comp_data);
 
 			l = g_slist_append (l, comp_data);
-			g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, l);
+			g_signal_emit (model, signals[COMPS_DELETED], 0, l);
 
 			g_slist_free (l);
 			g_object_unref (comp_data);
@@ -3285,7 +3321,7 @@ cleanup_content_cb (gpointer user_data)
 
 	slist = get_objects_as_list (model);
 	g_ptr_array_set_size (priv->objects, 0);
-	g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, slist);
+	g_signal_emit (model, signals[COMPS_DELETED], 0, slist);
 
 	e_table_model_rows_deleted (E_TABLE_MODEL (model), 0, len);
 
@@ -3323,12 +3359,13 @@ redo_queries (ECalModel *model)
 
 		if (priv->search_sexp) {
 			priv->full_sexp = g_strdup_printf (
-					"(and (occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\") %s)",
-					iso_start, iso_end, default_tzloc,
-					priv->search_sexp ? priv->search_sexp : "");
+				"(and (occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\") %s)",
+				iso_start, iso_end, default_tzloc,
+				priv->search_sexp ? priv->search_sexp : "");
 		} else {
-			priv->full_sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\")",
-					iso_start, iso_end, default_tzloc);
+			priv->full_sexp = g_strdup_printf (
+				"(occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\")",
+				iso_start, iso_end, default_tzloc);
 		}
 
 		g_free (iso_start);
@@ -3402,7 +3439,7 @@ e_cal_model_set_time_range (ECalModel *model,
 	priv->start = start;
 	priv->end = end;
 
-	g_signal_emit (G_OBJECT (model), signals[TIME_RANGE_CHANGED], 0, start, end);
+	g_signal_emit (model, signals[TIME_RANGE_CHANGED], 0, start, end);
 	redo_queries (model);
 }
 
@@ -3478,7 +3515,7 @@ e_cal_model_set_search_query_with_time_range (ECalModel *model,
 		priv->end = end;
 		do_query = TRUE;
 
-		g_signal_emit (G_OBJECT (model), signals[TIME_RANGE_CHANGED], 0, start, end);
+		g_signal_emit (model, signals[TIME_RANGE_CHANGED], 0, start, end);
 	}
 
 	if (do_query)
@@ -3672,11 +3709,11 @@ e_cal_model_get_rgb_color_for_component (ECalModel *model,
 	if (color && gdk_color_parse (color, &gdk_color)) {
 
 		if (red)
-			*red = ((double) gdk_color.red)/0xffff;
+			*red = ((gdouble) gdk_color.red)/0xffff;
 		if (green)
-			*green = ((double) gdk_color.green)/0xffff;
+			*green = ((gdouble) gdk_color.green)/0xffff;
 		if (blue)
-			*blue = ((double) gdk_color.blue)/0xffff;
+			*blue = ((gdouble) gdk_color.blue)/0xffff;
 
 		return TRUE;
 	}

@@ -130,14 +130,16 @@ colorize_items (WeekdayPicker *wp)
 		else
 			o = outline;
 
-		gnome_canvas_item_set (priv->boxes[i],
-				       "fill_color_gdk", f,
-				       "outline_color_gdk", o,
-				       NULL);
+		gnome_canvas_item_set (
+			priv->boxes[i],
+			"fill_color_gdk", f,
+			"outline_color_gdk", o,
+			NULL);
 
-		gnome_canvas_item_set (priv->labels[i],
-				       "fill_color_gdk", t,
-				       NULL);
+		gnome_canvas_item_set (
+			priv->labels[i],
+			"fill_color_gdk", t,
+			NULL);
 	}
 }
 
@@ -167,20 +169,22 @@ configure_items (WeekdayPicker *wp)
 		if (day >= 7)
 			day -= 7;
 
-		gnome_canvas_item_set (priv->boxes[i],
-				       "x1", (double) (i * box_width),
-				       "y1", (double) 0,
-				       "x2", (double) ((i + 1) * box_width),
-				       "y2", (double) (height - 1),
-				       "line_width", 0.0,
-				       NULL);
+		gnome_canvas_item_set (
+			priv->boxes[i],
+			"x1", (gdouble) (i * box_width),
+			"y1", (gdouble) 0,
+			"x2", (gdouble) ((i + 1) * box_width),
+			"y2", (gdouble) (height - 1),
+			"line_width", 0.0,
+			NULL);
 
 		c = get_day_text (day);
-		gnome_canvas_item_set (priv->labels[i],
-				       "text", c,
-				       "x", (double) (i * box_width) + PADDING,
-				       "y", (double) (1 + PADDING),
-				       NULL);
+		gnome_canvas_item_set (
+			priv->labels[i],
+			"text", c,
+			"x", (gdouble) (i * box_width) + PADDING,
+			"y", (gdouble) (1 + PADDING),
+			NULL);
 		g_free (c);
 	}
 
@@ -467,16 +471,18 @@ create_items (WeekdayPicker *wp)
 	parent = gnome_canvas_root (GNOME_CANVAS (wp));
 
 	for (i = 0; i < 7; i++) {
-		priv->boxes[i] = gnome_canvas_item_new (parent,
-							GNOME_TYPE_CANVAS_RECT,
-							NULL);
+		priv->boxes[i] = gnome_canvas_item_new (
+			parent,
+			GNOME_TYPE_CANVAS_RECT,
+			NULL);
 		g_signal_connect (
 			priv->boxes[i], "event",
 			G_CALLBACK (day_event_cb), wp);
 
-		priv->labels[i] = gnome_canvas_item_new (parent,
-							 GNOME_TYPE_CANVAS_TEXT,
-							 NULL);
+		priv->labels[i] = gnome_canvas_item_new (
+			parent,
+			GNOME_TYPE_CANVAS_TEXT,
+			NULL);
 		g_signal_connect (
 			priv->labels[i], "event",
 			G_CALLBACK (day_event_cb), wp);
@@ -523,7 +529,7 @@ weekday_picker_set_days (WeekdayPicker *wp,
 	wp->priv->day_mask = day_mask;
 	colorize_items (wp);
 
-	g_signal_emit (G_OBJECT (wp), wp_signals[CHANGED], 0);
+	g_signal_emit (wp, wp_signals[CHANGED], 0);
 }
 
 /**

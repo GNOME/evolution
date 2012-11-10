@@ -421,7 +421,7 @@ esma_change_range (ESelectionModel *selection,
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (selection);
 	if (start != end) {
 		if (selection->sorter && e_sorter_needs_sorting (selection->sorter)) {
-			for ( i = start; i < end; i++) {
+			for (i = start; i < end; i++) {
 				e_bit_array_change_one_row (esma->eba, e_sorter_sorted_to_model (selection->sorter, i), grow);
 			}
 		} else {
@@ -503,14 +503,18 @@ esma_real_move_selection_end (ESelectionModel *selection,
 	gint new_start;
 	gint new_end;
 	if (selection->sorter && e_sorter_needs_sorting (selection->sorter)) {
-		old_start = MIN (e_sorter_model_to_sorted (selection->sorter, esma->selection_start_row),
-				 e_sorter_model_to_sorted (selection->sorter, esma->cursor_row));
-		old_end = MAX (e_sorter_model_to_sorted (selection->sorter, esma->selection_start_row),
-			       e_sorter_model_to_sorted (selection->sorter, esma->cursor_row)) + 1;
-		new_start = MIN (e_sorter_model_to_sorted (selection->sorter, esma->selection_start_row),
-				 e_sorter_model_to_sorted (selection->sorter, row));
-		new_end = MAX (e_sorter_model_to_sorted (selection->sorter, esma->selection_start_row),
-			       e_sorter_model_to_sorted (selection->sorter, row)) + 1;
+		old_start = MIN (
+			e_sorter_model_to_sorted (selection->sorter, esma->selection_start_row),
+			e_sorter_model_to_sorted (selection->sorter, esma->cursor_row));
+		old_end = MAX (
+			e_sorter_model_to_sorted (selection->sorter, esma->selection_start_row),
+			e_sorter_model_to_sorted (selection->sorter, esma->cursor_row)) + 1;
+		new_start = MIN (
+			e_sorter_model_to_sorted (selection->sorter, esma->selection_start_row),
+			e_sorter_model_to_sorted (selection->sorter, row));
+		new_end = MAX (
+			e_sorter_model_to_sorted (selection->sorter, esma->selection_start_row),
+			e_sorter_model_to_sorted (selection->sorter, row)) + 1;
 	} else {
 		old_start = MIN (esma->selection_start_row, esma->cursor_row);
 		old_end = MAX (esma->selection_start_row, esma->cursor_row) + 1;
@@ -620,18 +624,24 @@ e_selection_model_array_class_init (ESelectionModelArrayClass *class)
 
 	class->get_row_count          = NULL;
 
-	g_object_class_install_property (object_class, PROP_CURSOR_ROW,
-					 g_param_spec_int ("cursor_row",
-							   "Cursor Row",
-							   NULL,
-							   0, G_MAXINT, 0,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_CURSOR_ROW,
+		g_param_spec_int (
+			"cursor_row",
+			"Cursor Row",
+			NULL,
+			0, G_MAXINT, 0,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_CURSOR_COL,
-					 g_param_spec_int ("cursor_col",
-							   "Cursor Column",
-							   NULL,
-							   0, G_MAXINT, 0,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_CURSOR_COL,
+		g_param_spec_int (
+			"cursor_col",
+			"Cursor Column",
+			NULL,
+			0, G_MAXINT, 0,
+			G_PARAM_READWRITE));
 }
 

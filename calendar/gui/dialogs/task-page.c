@@ -256,7 +256,8 @@ check_starts_in_the_past (TaskPage *tpage)
 	due_in_past = date_in_past (tpage, E_DATE_EDIT (priv->due_date));
 
 	if (start_in_past || due_in_past) {
-		gchar *tmp = g_strconcat ("<b>", start_in_past ? _("Task's start date is in the past") : "",
+		gchar *tmp = g_strconcat (
+			"<b>", start_in_past ? _("Task's start date is in the past") : "",
 			start_in_past && due_in_past ? "\n" : "", due_in_past ? _("Task's due date is in the past") : "", "</b>", NULL);
 		task_page_set_info_string (tpage, GTK_STOCK_DIALOG_WARNING, tmp);
 		g_free (tmp);
@@ -544,11 +545,13 @@ task_page_fill_widgets (CompEditorPage *page,
 		ECalComponentText *dtext;
 
 		dtext = l->data;
-		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
-					  dtext->value ? dtext->value : "", -1);
+		gtk_text_buffer_set_text (
+			gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
+			dtext->value ? dtext->value : "", -1);
 	} else {
-		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
-					  "", 0);
+		gtk_text_buffer_set_text (
+			gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
+			"", 0);
 	}
 	e_cal_component_free_text_list (l);
 	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (priv->description));
@@ -560,9 +563,10 @@ task_page_fill_widgets (CompEditorPage *page,
 	zone = NULL;
 	if (d.value) {
 		struct icaltimetype *due_tt = d.value;
-		e_date_edit_set_date (E_DATE_EDIT (priv->due_date),
-				      due_tt->year, due_tt->month,
-				      due_tt->day);
+		e_date_edit_set_date (
+			E_DATE_EDIT (priv->due_date),
+			due_tt->year, due_tt->month,
+			due_tt->day);
 		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date), -1, -1);
 	} else {
 		e_date_edit_set_time (E_DATE_EDIT (priv->due_date), -1);
@@ -578,16 +582,22 @@ task_page_fill_widgets (CompEditorPage *page,
 	 * first. */
 	if (!zone && d.tzid) {
 		GError *error = NULL;
-		if (!e_cal_client_get_timezone_sync (client, d.tzid, &zone, NULL, &error))
+
+		e_cal_client_get_timezone_sync (
+			client, d.tzid, &zone, NULL, &error);
+
+		if (error != NULL) {
 			/* FIXME: Handle error better. */
-			g_warning ("Couldn't get timezone '%s' from server: %s",
-				   d.tzid ? d.tzid : "", error ? error->message : "Unknown error");
-			if (error)
-				g_error_free (error);
+			g_warning (
+				"Couldn't get timezone '%s' from server: %s",
+				d.tzid ? d.tzid : "", error->message);
+			g_error_free (error);
+		}
 	}
 
-	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->timezone),
-				       zone ? zone : default_zone);
+	e_timezone_entry_set_timezone (
+		E_TIMEZONE_ENTRY (priv->timezone),
+		zone ? zone : default_zone);
 
 	action = comp_editor_get_action (editor, "view-time-zone");
 	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
@@ -608,9 +618,10 @@ task_page_fill_widgets (CompEditorPage *page,
 	zone = NULL;
 	if (d.value) {
 		struct icaltimetype *start_tt = d.value;
-		e_date_edit_set_date (E_DATE_EDIT (priv->start_date),
-				      start_tt->year, start_tt->month,
-				      start_tt->day);
+		e_date_edit_set_date (
+			E_DATE_EDIT (priv->start_date),
+			start_tt->year, start_tt->month,
+			start_tt->day);
 		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_date), -1, -1);
 	} else {
 		e_date_edit_set_time (E_DATE_EDIT (priv->start_date), -1);
@@ -676,7 +687,7 @@ task_page_fill_widgets (CompEditorPage *page,
 
 				if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_ORGANIZER) && (flags & COMP_EDITOR_DELEGATE))
 					string = g_strdup (priv->user_add);
-				else if ( organizer.cn != NULL)
+				else if (organizer.cn != NULL)
 					string = g_strdup_printf ("%s <%s>", organizer.cn, strip);
 				else
 					string = g_strdup (strip);
@@ -835,10 +846,11 @@ task_page_fill_component (CompEditorPage *page,
 		return FALSE;
 	}
 
-	due_date_set = e_date_edit_get_date (E_DATE_EDIT (priv->due_date),
-					 &due_tt.year,
-					 &due_tt.month,
-					 &due_tt.day);
+	due_date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->due_date),
+		&due_tt.year,
+		&due_tt.month,
+		&due_tt.day);
 	if (due_date_set) {
 		due_tt.is_date = TRUE;
 		date.tzid = NULL;
@@ -855,10 +867,11 @@ task_page_fill_component (CompEditorPage *page,
 
 	start_tt = icaltime_null_time ();
 	date.value = &start_tt;
-	start_date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_date),
-					 &start_tt.year,
-					 &start_tt.month,
-					 &start_tt.day);
+	start_date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->start_date),
+		&start_tt.year,
+		&start_tt.month,
+		&start_tt.day);
 	if (start_date_set) {
 		start_tt.is_date = TRUE;
 		date.tzid = NULL;
@@ -935,12 +948,13 @@ task_page_fill_component (CompEditorPage *page,
 		}
 
 		if (e_meeting_store_count_actual_attendees (priv->meeting_store) < 1) {
-			e_notice (priv->main, GTK_MESSAGE_ERROR,
-					_("At least one attendee is required."));
+			e_notice (
+				priv->main, GTK_MESSAGE_ERROR,
+				_("At least one attendee is required."));
 			return FALSE;
 		}
 
-		if (flags & COMP_EDITOR_DELEGATE ) {
+		if (flags & COMP_EDITOR_DELEGATE) {
 			GSList *attendee_list, *l;
 			gint i;
 			const GPtrArray *attendees = e_meeting_store_get_attendees (priv->meeting_store);
@@ -1595,10 +1609,11 @@ date_changed_cb (EDateEdit *dedit,
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tpage)))
 		return;
 
-	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_date),
-					 &start_tt.year,
-					 &start_tt.month,
-					 &start_tt.day);
+	date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->start_date),
+		&start_tt.year,
+		&start_tt.month,
+		&start_tt.day);
 	if (date_set) {
 		start_tt.is_date = TRUE;
 		start_dt.tzid = NULL;
@@ -1607,10 +1622,11 @@ date_changed_cb (EDateEdit *dedit,
 		start_dt.tzid = NULL;
 	}
 
-	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->due_date),
-					 &due_tt.year,
-					 &due_tt.month,
-					 &due_tt.day);
+	date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->due_date),
+		&due_tt.year,
+		&due_tt.month,
+		&due_tt.day);
 	if (date_set) {
 		due_tt.is_date = TRUE;
 		due_dt.tzid = NULL;
@@ -1677,14 +1693,16 @@ check_start_before_end (struct icaltimetype *start_tt,
 			/* Modify the end time, to be the start + 1 hour/day. */
 			*end_tt = *start_tt;
 			icaltime_adjust (end_tt, 0, adjust_by_hour ? 1 : 24, 0, 0);
-			icaltimezone_convert_time (end_tt, start_zone,
-						   end_zone);
+			icaltimezone_convert_time (
+				end_tt, start_zone,
+				end_zone);
 		} else {
 			/* Modify the start time, to be the end - 1 hour/day. */
 			*start_tt = *end_tt;
 			icaltime_adjust (start_tt, 0, adjust_by_hour ? -1 : -24, 0, 0);
-			icaltimezone_convert_time (start_tt, end_zone,
-						   start_zone);
+			icaltimezone_convert_time (
+				start_tt, end_zone,
+				start_zone);
 		}
 		return TRUE;
 	}
@@ -1720,17 +1738,19 @@ times_updated (TaskPage *tpage,
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tpage)))
 		return;
 
-	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_date),
-					 &start_tt.year,
-					 &start_tt.month,
-					 &start_tt.day);
+	date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->start_date),
+		&start_tt.year,
+		&start_tt.month,
+		&start_tt.day);
 	if (!date_set)
 		return;
 
-	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->due_date),
-					 &end_tt.year,
-					 &end_tt.month,
-					 &end_tt.day);
+	date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->due_date),
+		&end_tt.year,
+		&end_tt.month,
+		&end_tt.day);
 	if (!date_set)
 		return;
 
@@ -2156,8 +2176,9 @@ task_page_construct (TaskPage *tpage,
 	e_load_ui_builder_definition (priv->builder, "task-page.ui");
 
 	if (!get_widgets (tpage)) {
-		g_message ("task_page_construct(): "
-			   "Could not find all widgets in the XML file!");
+		g_message (
+			"task_page_construct(): "
+			"Could not find all widgets in the XML file!");
 		return NULL;
 	}
 
@@ -2184,8 +2205,9 @@ task_page_construct (TaskPage *tpage,
 		G_CALLBACK (organizer_changed_cb), tpage);
 
 	if (!init_widgets (tpage)) {
-		g_message ("task_page_construct(): "
-			   "Could not initialize the widgets!");
+		g_message (
+			"task_page_construct(): "
+			"Could not initialize the widgets!");
 		return NULL;
 	}
 

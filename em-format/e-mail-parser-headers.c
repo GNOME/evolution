@@ -77,7 +77,8 @@ empe_headers_bind_dom (EMailPart *part,
 	addr = webkit_dom_element_get_attribute (photo, "data-mailaddr");
 	only_local = webkit_dom_element_has_attribute (photo, "data-onlylocal");
 
-	uri = g_strdup_printf ("mail://contact-photo?mailaddr=%s%s",
+	uri = g_strdup_printf (
+		"mail://contact-photo?mailaddr=%s%s",
 		addr, only_local ? "&only-local-photo=1" : "");
 
 	webkit_dom_html_image_element_set_src (

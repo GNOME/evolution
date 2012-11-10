@@ -272,7 +272,8 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	/* write location */
 	e_cal_component_get_location (comp, &location);
 	if (location)
-		g_string_append_printf (buffer, "<tr><th>%s</th><td>%s</td></tr>",
+		g_string_append_printf (
+			buffer, "<tr><th>%s</th><td>%s</td></tr>",
 			_("Summary:"), text.value);
 
 	/* write start date */
@@ -280,7 +281,8 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (
 			&dt, client, default_zone, use_24_hour_format);
-		g_string_append_printf (buffer, "<tr><th>%s</th><td>%s</td></tr>",
+		g_string_append_printf (
+			buffer, "<tr><th>%s</th><td>%s</td></tr>",
 			_("Start Date:"), str);
 		g_free (str);
 	}
@@ -291,7 +293,8 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (
 			&dt, client, default_zone, use_24_hour_format);
-		g_string_append_printf (buffer,"<tr><th>%s</th><td>%s</td></tr>",
+		g_string_append_printf (
+			buffer,"<tr><th>%s</th><td>%s</td></tr>",
 			_("End Date:"), str);
 		g_free (str);
 	}
@@ -302,7 +305,8 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (
 			&dt, client, default_zone, use_24_hour_format);
-		g_string_append_printf (buffer, "<tr><th>%s</th><td>%s</td></tr>",
+		g_string_append_printf (
+			buffer, "<tr><th>%s</th><td>%s</td></tr>",
 			_("Due Date:"), str);
 		g_free (str);
 	}
@@ -313,7 +317,8 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	icalprop = icalcomponent_get_first_property (
 		icalcomp, ICAL_STATUS_PROPERTY);
 	if (icalprop != NULL) {
-		g_string_append_printf (buffer, "<tr><th>%s</th>",
+		g_string_append_printf (
+			buffer, "<tr><th>%s</th>",
 			_("Status:"));
 		e_cal_component_get_status (comp, &status);
 		switch (status) {
@@ -339,7 +344,8 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	/* write priority */
 	e_cal_component_get_priority (comp, &priority_value);
 	if (priority_value && *priority_value != 0) {
-		g_string_append_printf (buffer, "<tr><th>%s</th>",
+		g_string_append_printf (
+			buffer, "<tr><th>%s</th>",
 			_("Priority:"));
 		if (*priority_value <= 4)
 			str = g_strdup (_("High"));
@@ -363,7 +369,8 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	if (list) {
 		GSList *node;
 
-		g_string_append_printf (buffer, "<tr><th>%s</th>",
+		g_string_append_printf (
+			buffer, "<tr><th>%s</th>",
 			_("Description:"));
 
 		g_string_append (buffer, "<td class=\"description\">");
@@ -393,7 +400,8 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	/* URL */
 	e_cal_component_get_url (comp, (const gchar **) &str);
 	if (str) {
-		g_string_append_printf (buffer, "<tr><th>%s</th><td><a href=\"%s\">%s</a></td></tr>",
+		g_string_append_printf (
+			buffer, "<tr><th>%s</th><td><a href=\"%s\">%s</a></td></tr>",
 			_("Web Page:"), str, str);
 	}
 
@@ -444,7 +452,8 @@ e_cal_component_preview_init (ECalComponentPreview *preview)
 {
 	preview->priv = E_CAL_COMPONENT_PREVIEW_GET_PRIVATE (preview);
 
-	g_signal_connect (preview, "style-set",
+	g_signal_connect (
+		preview, "style-set",
 		G_CALLBACK (load_comp), NULL);
 }
 

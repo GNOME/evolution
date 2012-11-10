@@ -82,7 +82,7 @@ idle_do_action (gpointer data)
 	ETableClickToAdd * etcta;
 	gint finished;
 
-	g_return_val_if_fail ( data!= NULL, FALSE);
+	g_return_val_if_fail (data!= NULL, FALSE);
 
 	etcta = E_TABLE_CLICK_TO_ADD (
 		atk_gobject_accessible_get_object (
@@ -242,9 +242,9 @@ gal_a11y_e_table_click_to_add_get_type (void)
 			GNOME_TYPE_CANVAS_ITEM);
 
 		parent_type = atk_object_factory_get_accessible_type (factory);
-		type = gal_a11y_type_register_static_with_private (PARENT_TYPE,
-				"GalA11yETableClickToAdd", &info, 0,
-				sizeof (GalA11yETableClickToAddPrivate), &priv_offset);
+		type = gal_a11y_type_register_static_with_private (
+			PARENT_TYPE, "GalA11yETableClickToAdd", &info, 0,
+			sizeof (GalA11yETableClickToAddPrivate), &priv_offset);
 
 		g_type_add_interface_static (type, ATK_TYPE_ACTION, &atk_action_info);
 

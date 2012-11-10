@@ -65,7 +65,7 @@
 #include "secerr.h"
 
 /* static callback functions for the NSS PKCS#12 library */
-static SECItem * PR_CALLBACK nickname_collision (SECItem *, PRBool *, gpointer );
+static SECItem * PR_CALLBACK nickname_collision (SECItem *, PRBool *, gpointer);
 
 static gboolean handle_error (gint myerr);
 
@@ -123,9 +123,8 @@ input_to_decoder (SEC_PKCS12DecoderContext *dcx,
 		}
 
 		/* feed the file data into the decoder */
-		srv = SEC_PKCS12DecoderUpdate (dcx,
-					      (guchar *) buf,
-					      amount);
+		srv = SEC_PKCS12DecoderUpdate (
+			dcx, (guchar *) buf, amount);
 		if (srv) {
 			/* XXX g_error */
 			fclose (fp);
@@ -206,13 +205,14 @@ import_from_file_helper (EPKCS12 *pkcs12,
 	}
 
 	/* initialize the decoder */
-	dcx = SEC_PKCS12DecoderStart (&passwd,
-				      slot,
-				      /* we specify NULL for all the
-					 funcs + data so it'll use the
-					 default pk11wrap functions */
-				      NULL, NULL, NULL,
-				      NULL, NULL, NULL);
+	dcx = SEC_PKCS12DecoderStart (
+		&passwd,
+		slot,
+		/* we specify NULL for all the
+		 * funcs + data so it'll use the
+		 * default pk11wrap functions */
+		NULL, NULL, NULL,
+		NULL, NULL, NULL);
 	if (!dcx) {
 		srv = SECFailure;
 		goto finish;
@@ -345,8 +345,9 @@ nickname_collision (SECItem *oldNick,
 			g_free (nickname);
 			nickname = g_strdup (default_nickname);
 		}
-		cert = CERT_FindCertByNickname (CERT_GetDefaultCertDB (),
-					       nickname);
+		cert = CERT_FindCertByNickname (
+			CERT_GetDefaultCertDB (),
+			nickname);
 		if (!cert) {
 			break;
 		}

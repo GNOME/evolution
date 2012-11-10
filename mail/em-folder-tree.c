@@ -667,14 +667,15 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 	}
 
 	/* FIXME camel_store_rename_folder_sync() may block. */
-	if (!camel_store_rename_folder_sync (
-		store, old_full_name, new_full_name, NULL, &local_error)) {
+	camel_store_rename_folder_sync (
+		store, old_full_name, new_full_name, NULL, &local_error);
+
+	if (local_error != NULL) {
 		e_alert_run_dialog_for_args (
 			parent, "mail:no-rename-folder",
 			old_full_name, new_full_name,
-			local_error ? local_error->message : _("Unknown error"), NULL);
-		if (local_error)
-			g_clear_error (&local_error);
+			local_error->message, NULL);
+		g_error_free (local_error);
 		goto exit;
 	}
 
@@ -2003,13 +2004,17 @@ ask_drop_folder (EMFolderTree *folder_tree,
 	g_free (set_value);
 
 	session = em_folder_tree_get_session (folder_tree);
-	if (!e_mail_folder_uri_parse (CAMEL_SESSION (session),
-				      src_folder_uri, NULL, &src_folder_name, &error)) {
-		g_debug (
+
+	e_mail_folder_uri_parse (
+		CAMEL_SESSION (session),
+		src_folder_uri, NULL, &src_folder_name, &error);
+
+	if (error != NULL) {
+		g_warning (
 			"%s: Failed to convert '%s' to folder name: %s",
-			G_STRFUNC, src_folder_uri, error ? error->message : "Unknown error");
-		g_clear_error (&error);
+			G_STRFUNC, src_folder_uri, error->message);
 		g_object_unref (settings);
+		g_error_free (error);
 
 		return FALSE;
 	}

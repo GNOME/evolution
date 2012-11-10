@@ -377,9 +377,10 @@ e_table_memory_store_insert_array (ETableMemoryStore *etms,
 	if (row == -1)
 		row = row_count - 1;
 	etms->priv->store = g_realloc (etms->priv->store, etms->priv->col_count * row_count * sizeof (gpointer));
-	memmove (etms->priv->store + etms->priv->col_count * (row + 1),
-		 etms->priv->store + etms->priv->col_count * row,
-		 etms->priv->col_count * (row_count - row - 1) * sizeof (gpointer));
+	memmove (
+		etms->priv->store + etms->priv->col_count * (row + 1),
+		etms->priv->store + etms->priv->col_count * row,
+		etms->priv->col_count * (row_count - row - 1) * sizeof (gpointer));
 
 	for (i = 0; i < etms->priv->col_count; i++) {
 		STORE_LOCATOR (etms, i, row) = duplicate_value (etms, i, store[i]);
@@ -402,7 +403,7 @@ e_table_memory_store_insert (ETableMemoryStore *etms,
 
 	va_start (args, data);
 	for (i = 0; i < etms->priv->col_count; i++) {
-		store[i] = va_arg (args, gpointer );
+		store[i] = va_arg (args, gpointer);
 	}
 	va_end (args);
 
@@ -424,9 +425,10 @@ e_table_memory_store_insert_adopt_array (ETableMemoryStore *etms,
 	if (row == -1)
 		row = row_count - 1;
 	etms->priv->store = g_realloc (etms->priv->store, etms->priv->col_count * row_count * sizeof (gpointer));
-	memmove (etms->priv->store + etms->priv->col_count * (row + 1),
-		 etms->priv->store + etms->priv->col_count * row,
-		 etms->priv->col_count * (row_count - row - 1) * sizeof (gpointer));
+	memmove (
+		etms->priv->store + etms->priv->col_count * (row + 1),
+		etms->priv->store + etms->priv->col_count * row,
+		etms->priv->col_count * (row_count - row - 1) * sizeof (gpointer));
 
 	for (i = 0; i < etms->priv->col_count; i++) {
 		STORE_LOCATOR (etms, i, row) = store[i];
@@ -449,7 +451,7 @@ e_table_memory_store_insert_adopt (ETableMemoryStore *etms,
 
 	va_start (args, data);
 	for (i = 0; i < etms->priv->col_count; i++) {
-		store[i] = va_arg (args, gpointer );
+		store[i] = va_arg (args, gpointer);
 	}
 	va_end (args);
 
@@ -515,7 +517,7 @@ e_table_memory_store_change (ETableMemoryStore *etms,
 
 	va_start (args, data);
 	for (i = 0; i < etms->priv->col_count; i++) {
-		store[i] = va_arg (args, gpointer );
+		store[i] = va_arg (args, gpointer);
 	}
 	va_end (args);
 
@@ -580,7 +582,7 @@ e_table_memory_store_change_adopt (ETableMemoryStore *etms,
 
 	va_start (args, data);
 	for (i = 0; i < etms->priv->col_count; i++) {
-		store[i] = va_arg (args, gpointer );
+		store[i] = va_arg (args, gpointer);
 	}
 	va_end (args);
 
@@ -604,9 +606,10 @@ e_table_memory_store_remove (ETableMemoryStore *etms,
 		e_table_model_free_value (model, i, e_table_model_value_at (model, i, row));
 
 	row_count = e_table_model_row_count (E_TABLE_MODEL (etms)) - 1;
-	memmove (etms->priv->store + etms->priv->col_count * row,
-		 etms->priv->store + etms->priv->col_count * (row + 1),
-		 etms->priv->col_count * (row_count - row) * sizeof (gpointer));
+	memmove (
+		etms->priv->store + etms->priv->col_count * row,
+		etms->priv->store + etms->priv->col_count * (row + 1),
+		etms->priv->col_count * (row_count - row) * sizeof (gpointer));
 	etms->priv->store = g_realloc (etms->priv->store, etms->priv->col_count * row_count * sizeof (gpointer));
 
 	e_table_memory_remove (E_TABLE_MEMORY (etms), row);

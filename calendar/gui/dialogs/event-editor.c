@@ -664,8 +664,8 @@ event_editor_edit_comp (CompEditor *editor,
 				EMeetingAttendee *ia;
 				gboolean addresses_match;
 
-				addresses_match =
-					g_str_equal (user_email,
+				addresses_match = g_str_equal (
+					user_email,
 					itip_strip_mailto (ca->value));
 
 				if (delegate && !addresses_match)

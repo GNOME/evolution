@@ -74,8 +74,9 @@ e_table_group_container_child_node_free (ETableGroupContainer *etgc,
 	ETableGroup *child = child_node->child;
 
 	g_object_run_dispose (G_OBJECT (child));
-	e_table_model_free_value (etg->model, etgc->ecol->col_idx,
-				  child_node->key);
+	e_table_model_free_value (
+		etg->model, etgc->ecol->col_idx,
+		child_node->key);
 	g_free (child_node->string);
 	g_object_run_dispose (G_OBJECT (child_node->text));
 	g_object_run_dispose (G_OBJECT (child_node->rect));
@@ -201,8 +202,9 @@ e_table_group_container_new (GnomeCanvasGroup *parent,
 
 	etgc = g_object_new (E_TYPE_TABLE_GROUP_CONTAINER, NULL);
 
-	e_table_group_container_construct (parent, etgc, full_header, header,
-					   model, sort_info, n);
+	e_table_group_container_construct (
+		parent, etgc, full_header, header,
+		model, sort_info, n);
 	return E_TABLE_GROUP (etgc);
 }
 
@@ -357,11 +359,13 @@ compute_text (ETableGroupContainer *etgc,
 		 * Finally the %d is replaced with count of items in this group.
 		 * Example: "Family name: Smith (13 items)"
 		*/
-		text = g_strdup_printf (ngettext ("%s: %s (%d item)",
-						 "%s: %s (%d items)",
-						 child_node->count),
-					etgc->ecol->text, child_node->string,
-					(gint) child_node->count);
+		text = g_strdup_printf (
+			ngettext (
+				"%s: %s (%d item)",
+				"%s: %s (%d items)",
+				child_node->count),
+			etgc->ecol->text, child_node->string,
+			(gint) child_node->count);
 	} else {
 		/* Translators: This text is used as a special row when an ETable
 		 * has turned on grouping on a column, which doesn't have set a title.
@@ -369,15 +373,18 @@ compute_text (ETableGroupContainer *etgc,
 		 * The %d is replaced with count of items in this group.
 		 * Example: "Smith (13 items)"
 		*/
-		text = g_strdup_printf (ngettext ("%s (%d item)",
-						 "%s (%d items)",
-						 child_node->count),
-					child_node->string,
-					(gint) child_node->count);
+		text = g_strdup_printf (
+			ngettext (
+				"%s (%d item)",
+				"%s (%d items)",
+				child_node->count),
+			child_node->string,
+			(gint) child_node->count);
 	}
-	gnome_canvas_item_set (child_node->text,
-			       "text", text,
-			       NULL);
+	gnome_canvas_item_set (
+		child_node->text,
+		"text", text,
+		NULL);
 	g_free (text);
 }
 
@@ -456,28 +463,32 @@ create_child_node (ETableGroupContainer *etgc,
 	ETableGroup *etg = E_TABLE_GROUP (etgc);
 
 	child_node = g_new (ETableGroupContainerChildNode, 1);
-	child_node->rect = gnome_canvas_item_new (GNOME_CANVAS_GROUP (etgc),
-						  gnome_canvas_rect_get_type (),
-						  "fill_color", "grey70",
-						  "outline_color", "grey50",
-						  NULL);
-	child_node->text = gnome_canvas_item_new (GNOME_CANVAS_GROUP (etgc),
-						  e_text_get_type (),
-						  "fill_color", "black",
-						  NULL);
-	child = e_table_group_new (GNOME_CANVAS_GROUP (etgc), etg->full_header,
-				   etg->header, etg->model, etgc->sort_info, etgc->n + 1);
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (child),
-			      "alternating_row_colors", etgc->alternating_row_colors,
-			      "horizontal_draw_grid", etgc->horizontal_draw_grid,
-			      "vertical_draw_grid", etgc->vertical_draw_grid,
-			      "drawfocus", etgc->draw_focus,
-			      "cursor_mode", etgc->cursor_mode,
-			      "selection_model", etgc->selection_model,
-			      "length_threshold", etgc->length_threshold,
-			      "uniform_row_height", etgc->uniform_row_height,
-			      "minimum_width", etgc->minimum_width - GROUP_INDENT,
-			      NULL);
+	child_node->rect = gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (etgc),
+		gnome_canvas_rect_get_type (),
+		"fill_color", "grey70",
+		"outline_color", "grey50",
+		NULL);
+	child_node->text = gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (etgc),
+		e_text_get_type (),
+		"fill_color", "black",
+		NULL);
+	child = e_table_group_new (
+		GNOME_CANVAS_GROUP (etgc), etg->full_header,
+		etg->header, etg->model, etgc->sort_info, etgc->n + 1);
+	gnome_canvas_item_set (
+		GNOME_CANVAS_ITEM (child),
+		"alternating_row_colors", etgc->alternating_row_colors,
+		"horizontal_draw_grid", etgc->horizontal_draw_grid,
+		"vertical_draw_grid", etgc->vertical_draw_grid,
+		"drawfocus", etgc->draw_focus,
+		"cursor_mode", etgc->cursor_mode,
+		"selection_model", etgc->selection_model,
+		"length_threshold", etgc->length_threshold,
+		"uniform_row_height", etgc->uniform_row_height,
+		"minimum_width", etgc->minimum_width - GROUP_INDENT,
+		NULL);
 
 	g_signal_connect (
 		child, "cursor_change",
@@ -673,8 +684,9 @@ etgc_increment (ETableGroup *etg,
 	GList *list;
 
 	for (list = etgc->children; list; list = g_list_next (list))
-		e_table_group_increment (((ETableGroupContainerChildNode *) list->data)->child,
-					 position, amount);
+		e_table_group_increment (
+			((ETableGroupContainerChildNode *) list->data)->child,
+			position, amount);
 }
 
 static void
@@ -686,8 +698,9 @@ etgc_decrement (ETableGroup *etg,
 	GList *list;
 
 	for (list = etgc->children; list; list = g_list_next (list))
-		e_table_group_decrement (((ETableGroupContainerChildNode *) list->data)->child,
-					 position, amount);
+		e_table_group_decrement (
+			((ETableGroupContainerChildNode *) list->data)->child,
+			position, amount);
 }
 
 static void
@@ -698,11 +711,13 @@ etgc_set_focus (ETableGroup *etg,
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	if (etgc->children) {
 		if (direction == E_FOCUS_END)
-			e_table_group_set_focus (((ETableGroupContainerChildNode *) g_list_last (etgc->children)->data)->child,
-						 direction, view_col);
+			e_table_group_set_focus (
+				((ETableGroupContainerChildNode *) g_list_last (etgc->children)->data)->child,
+				direction, view_col);
 		else
-			e_table_group_set_focus (((ETableGroupContainerChildNode *) etgc->children->data)->child,
-						 direction, view_col);
+			e_table_group_set_focus (
+				((ETableGroupContainerChildNode *) etgc->children->data)->child,
+				direction, view_col);
 	}
 }
 
@@ -850,27 +865,30 @@ etgc_set_property (GObject *object,
 
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
-			g_object_set (child_node->child,
-				      "minimum_width", etgc->minimum_width - GROUP_INDENT,
-				      NULL);
+			g_object_set (
+				child_node->child,
+				"minimum_width", etgc->minimum_width - GROUP_INDENT,
+				NULL);
 		}
 		break;
 	case PROP_LENGTH_THRESHOLD:
 		etgc->length_threshold = g_value_get_int (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
-			g_object_set (child_node->child,
-				      "length_threshold", etgc->length_threshold,
-				      NULL);
+			g_object_set (
+				child_node->child,
+				"length_threshold", etgc->length_threshold,
+				NULL);
 		}
 		break;
 	case PROP_UNIFORM_ROW_HEIGHT:
 		etgc->uniform_row_height = g_value_get_boolean (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
-			g_object_set (child_node->child,
-				      "uniform_row_height", etgc->uniform_row_height,
-				      NULL);
+			g_object_set (
+				child_node->child,
+				"uniform_row_height", etgc->uniform_row_height,
+				NULL);
 		}
 		break;
 
@@ -882,9 +900,10 @@ etgc_set_property (GObject *object,
 			g_object_ref (etgc->selection_model);
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
-			g_object_set (child_node->child,
-				      "selection_model", etgc->selection_model,
-				      NULL);
+			g_object_set (
+				child_node->child,
+				"selection_model", etgc->selection_model,
+				NULL);
 		}
 		break;
 
@@ -892,9 +911,10 @@ etgc_set_property (GObject *object,
 		etgc->alternating_row_colors = g_value_get_boolean (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
-			g_object_set (child_node->child,
-				      "alternating_row_colors", etgc->alternating_row_colors,
-				      NULL);
+			g_object_set (
+				child_node->child,
+				"alternating_row_colors", etgc->alternating_row_colors,
+				NULL);
 		}
 		break;
 
@@ -902,9 +922,10 @@ etgc_set_property (GObject *object,
 		etgc->horizontal_draw_grid = g_value_get_boolean (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
-			g_object_set (child_node->child,
-				      "horizontal_draw_grid", etgc->horizontal_draw_grid,
-				      NULL);
+			g_object_set (
+				child_node->child,
+				"horizontal_draw_grid", etgc->horizontal_draw_grid,
+				NULL);
 		}
 		break;
 
@@ -912,9 +933,10 @@ etgc_set_property (GObject *object,
 		etgc->vertical_draw_grid = g_value_get_boolean (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
-			g_object_set (child_node->child,
-				      "vertical_draw_grid", etgc->vertical_draw_grid,
-				      NULL);
+			g_object_set (
+				child_node->child,
+				"vertical_draw_grid", etgc->vertical_draw_grid,
+				NULL);
 		}
 		break;
 
@@ -922,9 +944,10 @@ etgc_set_property (GObject *object,
 		etgc->draw_focus = g_value_get_boolean (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
-			g_object_set (child_node->child,
-				      "drawfocus", etgc->draw_focus,
-				      NULL);
+			g_object_set (
+				child_node->child,
+				"drawfocus", etgc->draw_focus,
+				NULL);
 		}
 		break;
 
@@ -932,9 +955,10 @@ etgc_set_property (GObject *object,
 		etgc->cursor_mode = g_value_get_int (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
-			g_object_set (child_node->child,
-				      "cursor_mode", etgc->cursor_mode,
-				      NULL);
+			g_object_set (
+				child_node->child,
+				"cursor_mode", etgc->cursor_mode,
+				NULL);
 		}
 		break;
 	default:
@@ -1002,89 +1026,127 @@ etgc_class_init (ETableGroupContainerClass *class)
 	e_group_class->get_mouse_over = etgc_get_mouse_over;
 	e_group_class->get_cell_geometry = etgc_get_cell_geometry;
 
-	g_object_class_install_property (object_class, PROP_TABLE_ALTERNATING_ROW_COLORS,
-					 g_param_spec_boolean ("alternating_row_colors",
-							       "Alternating Row Colors",
-							       "Alternating Row Colors",
-							       FALSE,
-							       G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_TABLE_ALTERNATING_ROW_COLORS,
+		g_param_spec_boolean (
+			"alternating_row_colors",
+			"Alternating Row Colors",
+			"Alternating Row Colors",
+			FALSE,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_TABLE_HORIZONTAL_DRAW_GRID,
-					 g_param_spec_boolean ("horizontal_draw_grid",
-							       "Horizontal Draw Grid",
-							       "Horizontal Draw Grid",
-							       FALSE,
-							       G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_TABLE_HORIZONTAL_DRAW_GRID,
+		g_param_spec_boolean (
+			"horizontal_draw_grid",
+			"Horizontal Draw Grid",
+			"Horizontal Draw Grid",
+			FALSE,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_TABLE_VERTICAL_DRAW_GRID,
-					 g_param_spec_boolean ("vertical_draw_grid",
-							       "Vertical Draw Grid",
-							       "Vertical Draw Grid",
-							       FALSE,
-							       G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_TABLE_VERTICAL_DRAW_GRID,
+		g_param_spec_boolean (
+			"vertical_draw_grid",
+			"Vertical Draw Grid",
+			"Vertical Draw Grid",
+			FALSE,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_TABLE_DRAW_FOCUS,
-					 g_param_spec_boolean ("drawfocus",
-							       "Draw focus",
-							       "Draw focus",
-							       FALSE,
-							       G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_TABLE_DRAW_FOCUS,
+		g_param_spec_boolean (
+			"drawfocus",
+			"Draw focus",
+			"Draw focus",
+			FALSE,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_CURSOR_MODE,
-					 g_param_spec_int ("cursor_mode",
-							   "Cursor mode",
-							   "Cursor mode",
-							   E_CURSOR_LINE, E_CURSOR_SPREADSHEET, E_CURSOR_LINE,
-							   G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_CURSOR_MODE,
+		g_param_spec_int (
+			"cursor_mode",
+			"Cursor mode",
+			"Cursor mode",
+			E_CURSOR_LINE,
+			E_CURSOR_SPREADSHEET,
+			E_CURSOR_LINE,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_SELECTION_MODEL,
-					 g_param_spec_object ("selection_model",
-							      "Selection model",
-							      "Selection model",
-							      E_TYPE_SELECTION_MODEL,
-							      G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_SELECTION_MODEL,
+		g_param_spec_object (
+			"selection_model",
+			"Selection model",
+			"Selection model",
+			E_TYPE_SELECTION_MODEL,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_LENGTH_THRESHOLD,
-					 g_param_spec_int ("length_threshold",
-							   "Length Threshold",
-							   "Length Threshold",
-							   -1, G_MAXINT, 0,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_LENGTH_THRESHOLD,
+		g_param_spec_int (
+			"length_threshold",
+			"Length Threshold",
+			"Length Threshold",
+			-1, G_MAXINT, 0,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_UNIFORM_ROW_HEIGHT,
-					 g_param_spec_boolean ("uniform_row_height",
-							       "Uniform row height",
-							       "Uniform row height",
-							       FALSE,
-							       G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_UNIFORM_ROW_HEIGHT,
+		g_param_spec_boolean (
+			"uniform_row_height",
+			"Uniform row height",
+			"Uniform row height",
+			FALSE,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FROZEN,
-					 g_param_spec_boolean ("frozen",
-							       "Frozen",
-							       "Frozen",
-							       FALSE,
-							       G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_FROZEN,
+		g_param_spec_boolean (
+			"frozen",
+			"Frozen",
+			"Frozen",
+			FALSE,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_HEIGHT,
-					 g_param_spec_double ("height",
-							      "Height",
-							      "Height",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_HEIGHT,
+		g_param_spec_double (
+			"height",
+			"Height",
+			"Height",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_WIDTH,
-					 g_param_spec_double ("width",
-							      "Width",
-							      "Width",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_WIDTH,
+		g_param_spec_double (
+			"width",
+			"Width",
+			"Width",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_MINIMUM_WIDTH,
-					 g_param_spec_double ("minimum_width",
-							      "Minimum width",
-							      "Minimum Width",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_MINIMUM_WIDTH,
+		g_param_spec_double (
+			"minimum_width",
+			"Minimum width",
+			"Minimum Width",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -1094,9 +1156,10 @@ etgc_reflow (GnomeCanvasItem *item,
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (item);
 	gboolean frozen;
 
-	g_object_get (etgc,
-		      "frozen", &frozen,
-		      NULL);
+	g_object_get (
+		etgc,
+		"frozen", &frozen,
+		NULL);
 
 	if (frozen)
 		return;
@@ -1133,38 +1196,43 @@ etgc_reflow (GnomeCanvasItem *item,
 
 			running_height = extra_height;
 
-			for ( list = etgc->children; list; list = g_list_next (list)) {
+			for (list = etgc->children; list; list = g_list_next (list)) {
 				ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 				ETableGroup *child = child_node->child;
 
-				g_object_get (child,
-					      "width", &item_width,
-					      NULL);
+				g_object_get (
+					child,
+					"width", &item_width,
+					NULL);
 
 				if (item_width > running_width)
 					running_width = item_width;
 			}
-			for ( list = etgc->children; list; list = g_list_next (list)) {
+			for (list = etgc->children; list; list = g_list_next (list)) {
 				ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 				ETableGroup *child = child_node->child;
-				g_object_get (child,
-					      "height", &item_height,
-					      NULL);
+				g_object_get (
+					child,
+					"height", &item_height,
+					NULL);
 
-				e_canvas_item_move_absolute (GNOME_CANVAS_ITEM (child_node->text),
-							    GROUP_INDENT,
-							    running_height - GROUP_INDENT - BUTTON_PADDING);
+				e_canvas_item_move_absolute (
+					GNOME_CANVAS_ITEM (child_node->text),
+					GROUP_INDENT,
+					running_height - GROUP_INDENT - BUTTON_PADDING);
 
-				e_canvas_item_move_absolute (GNOME_CANVAS_ITEM (child),
-							    GROUP_INDENT,
-							    running_height);
+				e_canvas_item_move_absolute (
+					GNOME_CANVAS_ITEM (child),
+					GROUP_INDENT,
+					running_height);
 
-				gnome_canvas_item_set (GNOME_CANVAS_ITEM (child_node->rect),
-						      "x1", (gdouble) 0,
-						      "x2", (gdouble) running_width + GROUP_INDENT,
-						      "y1", (gdouble) running_height - extra_height,
-						      "y2", (gdouble) running_height + item_height,
-						      NULL);
+				gnome_canvas_item_set (
+					GNOME_CANVAS_ITEM (child_node->rect),
+					"x1", (gdouble) 0,
+					"x2", (gdouble) running_width + GROUP_INDENT,
+					"y1", (gdouble) running_height - extra_height,
+					"y2", (gdouble) running_height + item_height,
+					NULL);
 
 				running_height += item_height + extra_height;
 			}
@@ -1217,8 +1285,9 @@ e_table_group_apply_to_leafs (ETableGroup *etg,
 	} else if (E_IS_TABLE_GROUP_LEAF (etg)) {
 		(*fn) (E_TABLE_GROUP_LEAF (etg)->item, closure);
 	} else {
-		g_error ("Unknown ETableGroup found: %s",
-			 g_type_name (G_TYPE_FROM_INSTANCE (etg)));
+		g_error (
+			"Unknown ETableGroup found: %s",
+			g_type_name (G_TYPE_FROM_INSTANCE (etg)));
 	}
 }
 
@@ -1328,16 +1397,18 @@ e_table_group_container_print_page (EPrintable *ep,
 
 		cairo_move_to (cr, 0, 0);
 		if (groupcontext->etgc->ecol->text)
-			string = g_strdup_printf ("%s : %s (%d item%s)",
-						  groupcontext->etgc->ecol->text,
-						  child_node->string,
-						  (gint) child_node->count,
-						  child_node->count == 1 ? "" : "s");
+			string = g_strdup_printf (
+				"%s : %s (%d item%s)",
+				groupcontext->etgc->ecol->text,
+				child_node->string,
+				(gint) child_node->count,
+				child_node->count == 1 ? "" : "s");
 		else
-			string = g_strdup_printf ("%s (%d item%s)",
-						  child_node->string,
-						  (gint) child_node->count,
-						  child_node->count == 1 ? "" : "s");
+			string = g_strdup_printf (
+				"%s (%d item%s)",
+				child_node->string,
+				(gint) child_node->count,
+				child_node->count == 1 ? "" : "s");
 		pango_layout_set_text (layout, string, -1);
 		pango_cairo_show_layout (cr, layout);
 		g_free (string);

@@ -513,7 +513,8 @@ shell_searchbar_resize_idle_cb (gpointer user_data)
 			column = 0;
 		}
 
-		gtk_container_child_get (GTK_CONTAINER (widget), child,
+		gtk_container_child_get (
+			GTK_CONTAINER (widget), child,
 			"left-attach", &child_left,
 			"top-attach", &child_top,
 			NULL);
@@ -866,7 +867,7 @@ shell_searchbar_map (GtkWidget *widget)
 
 static void
 shell_searchbar_size_allocate (GtkWidget *widget,
-			       GdkRectangle *allocation)
+                               GdkRectangle *allocation)
 {
 	EShellSearchbar *searchbar;
 
@@ -880,8 +881,8 @@ shell_searchbar_size_allocate (GtkWidget *widget,
 
 static void
 shell_searchbar_get_preferred_width (GtkWidget *widget,
-				     gint *minimum_width,
-				     gint *natural_width)
+                                     gint *minimum_width,
+                                     gint *natural_width)
 {
 	GList *children, *iter;
 	gint max_minimum = 0, max_natural = 0;
@@ -1079,7 +1080,8 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	grid = GTK_GRID (searchbar);
 
 	widget = gtk_grid_new ();
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		"column-spacing", 3,
 		"valign", GTK_ALIGN_CENTER,
@@ -1121,7 +1123,8 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	grid = GTK_GRID (searchbar);
 
 	widget = gtk_grid_new ();
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		"column-spacing", 3,
 		"valign", GTK_ALIGN_CENTER,
@@ -1154,7 +1157,8 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 
 	widget = gtk_entry_new ();
 	gtk_label_set_mnemonic_widget (label, widget);
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"halign", GTK_ALIGN_FILL,
 		"hexpand", TRUE,
 		NULL);
@@ -1197,7 +1201,8 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	grid = GTK_GRID (searchbar);
 
 	widget = gtk_grid_new ();
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		"column-spacing", 3,
 		"valign", GTK_ALIGN_CENTER,
@@ -1250,7 +1255,8 @@ e_shell_searchbar_new (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return g_object_new (E_TYPE_SHELL_SEARCHBAR,
+	return g_object_new (
+		E_TYPE_SHELL_SEARCHBAR,
 		"shell-view", shell_view,
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		NULL);
@@ -1286,7 +1292,7 @@ e_shell_searchbar_set_express_mode (EShellSearchbar *searchbar,
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
-	if ((searchbar->priv->express_mode ? 1 : 0) == (express_mode ? 1 : 0))
+	if (searchbar->priv->express_mode == express_mode)
 		return;
 
 	searchbar->priv->express_mode = express_mode;
@@ -1326,7 +1332,7 @@ e_shell_searchbar_set_labels_visible (EShellSearchbar *searchbar,
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
-	if ((searchbar->priv->labels_visible ? 1 : 0) == (labels_visible ? 1 : 0))
+	if (searchbar->priv->labels_visible == labels_visible)
 		return;
 
 	searchbar->priv->labels_visible = labels_visible;
@@ -1352,7 +1358,7 @@ e_shell_searchbar_set_filter_visible (EShellSearchbar *searchbar,
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
-	if ((searchbar->priv->filter_visible ? 1 : 0) == (filter_visible ? 1 : 0))
+	if (searchbar->priv->filter_visible == filter_visible)
 		return;
 
 	searchbar->priv->filter_visible = filter_visible;
@@ -1482,7 +1488,7 @@ e_shell_searchbar_set_search_visible (EShellSearchbar *searchbar,
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
-	if ((searchbar->priv->search_visible ? 1 : 0) == (search_visible ? 1 : 0))
+	if (searchbar->priv->search_visible == search_visible)
 		return;
 
 	searchbar->priv->search_visible = search_visible;
@@ -1526,7 +1532,7 @@ e_shell_searchbar_set_scope_visible (EShellSearchbar *searchbar,
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
-	if ((searchbar->priv->scope_visible ? 1 : 0) == (scope_visible ? 1 : 0))
+	if (searchbar->priv->scope_visible == scope_visible)
 		return;
 
 	searchbar->priv->scope_visible = scope_visible;

@@ -1017,7 +1017,8 @@ struct _refresh_folders_msg {
 static gchar *
 refresh_folders_desc (struct _refresh_folders_msg *m)
 {
-	return g_strdup_printf (_("Checking for new mail at '%s'"),
+	return g_strdup_printf (
+		_("Checking for new mail at '%s'"),
 		camel_service_get_display_name (CAMEL_SERVICE (m->store)));
 }
 

@@ -90,30 +90,33 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 
 	text_format_flags =
 		e_mail_formatter_get_text_format_flags (formatter);
-	text = e_mail_part_describe (part->part,
-			empa ? empa->snoop_mime_type : part->mime_type);
+	text = e_mail_part_describe (
+		part->part,
+		empa ? empa->snoop_mime_type : part->mime_type);
 
 	html = camel_text_to_html (
-			text,
-			text_format_flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS,
-			0);
+		text,
+		text_format_flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS,
+		0);
 	camel_stream_write_string (stream, html, cancellable, NULL);
 	camel_stream_write_string (stream, "<br>", cancellable, NULL);
 	g_free (html);
 	g_free (text);
 
-	camel_stream_write_string (stream,
-			"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
-			"key=\"orig\" value=\"1\">-->\n"
-			"<blockquote type=cite>\n", cancellable, NULL);
+	camel_stream_write_string (
+		stream,
+		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
+		"key=\"orig\" value=\"1\">-->\n"
+		"<blockquote type=cite>\n", cancellable, NULL);
 
 	e_mail_formatter_format_as (
 		formatter, context, att_part, stream, NULL, cancellable);
 
-	camel_stream_write_string (stream,
-			"</blockquote><!--+GtkHTML:"
-			"<DATA class=\"ClueFlow\" clear=\"orig\">-->",
-			cancellable, NULL);
+	camel_stream_write_string (
+		stream,
+		"</blockquote><!--+GtkHTML:"
+		"<DATA class=\"ClueFlow\" clear=\"orig\">-->",
+		cancellable, NULL);
 
 	return TRUE;
 }

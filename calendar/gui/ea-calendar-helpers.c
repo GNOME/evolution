@@ -123,8 +123,9 @@ ea_calendar_helpers_get_cal_view_event_from (GnomeCanvasItem *canvas_item)
 		gint event_day, event_num;
 		EDayViewEvent *day_view_event;
 		EDayView *day_view = E_DAY_VIEW (cal_view);
-		event_found = e_day_view_find_event_from_item (day_view, canvas_item,
-							       &event_day, &event_num);
+		event_found = e_day_view_find_event_from_item (
+			day_view, canvas_item,
+			&event_day, &event_num);
 		if (!event_found)
 			return NULL;
 		if (event_day == E_DAY_VIEW_LONG_EVENT) {
@@ -143,15 +144,16 @@ ea_calendar_helpers_get_cal_view_event_from (GnomeCanvasItem *canvas_item)
 		gint event_num, span_num;
 		EWeekViewEvent *week_view_event;
 		EWeekView *week_view = E_WEEK_VIEW (cal_view);
-		event_found = e_week_view_find_event_from_item (week_view,
-								canvas_item,
-								&event_num,
-								&span_num);
+		event_found = e_week_view_find_event_from_item (
+			week_view,
+			canvas_item,
+			&event_num,
+			&span_num);
 		if (!event_found)
 			return NULL;
 
-		week_view_event = &g_array_index (week_view->events, EWeekViewEvent,
-						  event_num);
+		week_view_event = &g_array_index (
+			week_view->events, EWeekViewEvent, event_num);
 
 		cal_view_event = (ECalendarViewEvent *) week_view_event;
 	}

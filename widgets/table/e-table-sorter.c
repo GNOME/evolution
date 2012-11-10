@@ -69,26 +69,33 @@ ets_dispose (GObject *object)
 
 	if (ets->sort_info) {
 		if (ets->table_model_changed_id)
-			g_signal_handler_disconnect (ets->source,
-						     ets->table_model_changed_id);
+			g_signal_handler_disconnect (
+				ets->source,
+				ets->table_model_changed_id);
 		if (ets->table_model_row_changed_id)
-			g_signal_handler_disconnect (ets->source,
-						     ets->table_model_row_changed_id);
+			g_signal_handler_disconnect (
+				ets->source,
+				ets->table_model_row_changed_id);
 		if (ets->table_model_cell_changed_id)
-			g_signal_handler_disconnect (ets->source,
-						     ets->table_model_cell_changed_id);
+			g_signal_handler_disconnect (
+				ets->source,
+				ets->table_model_cell_changed_id);
 		if (ets->table_model_rows_inserted_id)
-			g_signal_handler_disconnect (ets->source,
-						     ets->table_model_rows_inserted_id);
+			g_signal_handler_disconnect (
+				ets->source,
+				ets->table_model_rows_inserted_id);
 		if (ets->table_model_rows_deleted_id)
-			g_signal_handler_disconnect (ets->source,
-						     ets->table_model_rows_deleted_id);
+			g_signal_handler_disconnect (
+				ets->source,
+				ets->table_model_rows_deleted_id);
 		if (ets->sort_info_changed_id)
-			g_signal_handler_disconnect (ets->sort_info,
-						     ets->sort_info_changed_id);
+			g_signal_handler_disconnect (
+				ets->sort_info,
+				ets->sort_info_changed_id);
 		if (ets->group_info_changed_id)
-			g_signal_handler_disconnect (ets->sort_info,
-						     ets->group_info_changed_id);
+			g_signal_handler_disconnect (
+				ets->sort_info,
+				ets->group_info_changed_id);
 
 		ets->table_model_changed_id = 0;
 		ets->table_model_row_changed_id = 0;
@@ -177,12 +184,15 @@ ets_class_init (ETableSorterClass *class)
 	sorter_class->get_sorted_to_model_array = ets_get_sorted_to_model_array;
 	sorter_class->needs_sorting             = ets_needs_sorting;
 
-	g_object_class_install_property (object_class, PROP_SORT_INFO,
-					 g_param_spec_object ("sort_info",
-							      "Sort Info",
-							      NULL,
-							      E_TYPE_TABLE_SORT_INFO,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_SORT_INFO,
+		g_param_spec_object (
+			"sort_info",
+			"Sort Info",
+			NULL,
+			E_TYPE_TABLE_SORT_INFO,
+			G_PARAM_READWRITE));
 }
 
 static void

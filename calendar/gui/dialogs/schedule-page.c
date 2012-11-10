@@ -104,13 +104,17 @@ update_time (SchedulePage *spage,
 		if (!start_zone) {
 			GError *error = NULL;
 
-			if (!e_cal_client_get_timezone_sync (client, start_date->tzid, &start_zone, NULL, &error)) {
+			e_cal_client_get_timezone_sync (
+				client, start_date->tzid,
+				&start_zone, NULL, &error);
+
+			if (error != NULL) {
 				/* FIXME: Handle error better. */
-				g_warning ("Couldn't get timezone '%s' from server: %s",
-					   start_date->tzid ? start_date->tzid : "",
-					   error ? error->message : "Unknown error");
-				if (error)
-					g_error_free (error);
+				g_warning (
+					"Couldn't get timezone '%s' from server: %s",
+					start_date->tzid ? start_date->tzid : "",
+					error->message);
+				g_error_free (error);
 			}
 		}
 	}
@@ -119,13 +123,18 @@ update_time (SchedulePage *spage,
 		end_zone = icaltimezone_get_builtin_timezone_from_tzid (end_date->tzid);
 		if (!end_zone) {
 			GError *error = NULL;
-			if (!e_cal_client_get_timezone_sync (client, end_date->tzid, &end_zone, NULL, &error)) {
+
+			e_cal_client_get_timezone_sync (
+				client, end_date->tzid,
+				&end_zone, NULL, &error);
+
+			if (error != NULL) {
 				/* FIXME: Handle error better. */
-				g_warning ("Couldn't get timezone '%s' from server: %s",
-					   end_date->tzid ? end_date->tzid : "",
-					   error ? error->message : "Unknown error");
-				if (error)
-					g_error_free (error);
+				g_warning (
+					"Couldn't get timezone '%s' from server: %s",
+					end_date->tzid ? end_date->tzid : "",
+					error->message);
+				g_error_free (error);
 			}
 		}
 	}
@@ -155,15 +164,19 @@ update_time (SchedulePage *spage,
 		}
 	}
 
-	e_date_edit_set_date (E_DATE_EDIT (priv->sel->start_date_edit), start_tt.year,
-			      start_tt.month, start_tt.day);
-	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->sel->start_date_edit),
-				     start_tt.hour, start_tt.minute);
+	e_date_edit_set_date (
+		E_DATE_EDIT (priv->sel->start_date_edit), start_tt.year,
+		start_tt.month, start_tt.day);
+	e_date_edit_set_time_of_day (
+		E_DATE_EDIT (priv->sel->start_date_edit),
+		start_tt.hour, start_tt.minute);
 
-	e_date_edit_set_date (E_DATE_EDIT (priv->sel->end_date_edit), end_tt.year,
-			      end_tt.month, end_tt.day);
-	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->sel->end_date_edit),
-				     end_tt.hour, end_tt.minute);
+	e_date_edit_set_date (
+		E_DATE_EDIT (priv->sel->end_date_edit), end_tt.year,
+		end_tt.month, end_tt.day);
+	e_date_edit_set_time_of_day (
+		E_DATE_EDIT (priv->sel->end_date_edit),
+		end_tt.hour, end_tt.minute);
 
 }
 
@@ -387,8 +400,9 @@ schedule_page_construct (SchedulePage *spage,
 	e_load_ui_builder_definition (priv->builder, "schedule-page.ui");
 
 	if (!get_widgets (spage)) {
-		g_message ("schedule_page_construct(): "
-			   "Could not find all widgets in the XML file!");
+		g_message (
+			"schedule_page_construct(): "
+			"Could not find all widgets in the XML file!");
 		return NULL;
 	}
 
@@ -409,8 +423,9 @@ schedule_page_construct (SchedulePage *spage,
 	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->sel), TRUE, TRUE, 6);
 
 	if (!init_widgets (spage)) {
-		g_message ("schedule_page_construct(): "
-			   "Could not initialize the widgets!");
+		g_message (
+			"schedule_page_construct(): "
+			"Could not initialize the widgets!");
 		return NULL;
 	}
 
@@ -489,20 +504,24 @@ times_changed_cb (GtkWidget *widget,
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (spage));
 
-	e_date_edit_get_date (E_DATE_EDIT (priv->sel->start_date_edit),
-			      &start_tt.year,
-			      &start_tt.month,
-			      &start_tt.day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->sel->start_date_edit),
-				     &start_tt.hour,
-				     &start_tt.minute);
-	e_date_edit_get_date (E_DATE_EDIT (priv->sel->end_date_edit),
-			      &end_tt.year,
-			      &end_tt.month,
-			      &end_tt.day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->sel->end_date_edit),
-				     &end_tt.hour,
-				     &end_tt.minute);
+	e_date_edit_get_date (
+		E_DATE_EDIT (priv->sel->start_date_edit),
+		&start_tt.year,
+		&start_tt.month,
+		&start_tt.day);
+	e_date_edit_get_time_of_day (
+		E_DATE_EDIT (priv->sel->start_date_edit),
+		&start_tt.hour,
+		&start_tt.minute);
+	e_date_edit_get_date (
+		E_DATE_EDIT (priv->sel->end_date_edit),
+		&end_tt.year,
+		&end_tt.month,
+		&end_tt.day);
+	e_date_edit_get_time_of_day (
+		E_DATE_EDIT (priv->sel->end_date_edit),
+		&end_tt.hour,
+		&end_tt.minute);
 
 	start_dt.value = &start_tt;
 	end_dt.value = &end_tt;

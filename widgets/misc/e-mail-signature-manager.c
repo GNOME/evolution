@@ -691,7 +691,7 @@ e_mail_signature_manager_set_prefer_html (EMailSignatureManager *manager,
 {
 	g_return_if_fail (E_IS_MAIL_SIGNATURE_MANAGER (manager));
 
-	if ((manager->priv->prefer_html ? 1 : 0) == (prefer_html ? 1 : 0))
+	if (manager->priv->prefer_html == prefer_html)
 		return;
 
 	manager->priv->prefer_html = prefer_html;

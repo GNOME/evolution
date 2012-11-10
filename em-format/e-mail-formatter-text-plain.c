@@ -89,7 +89,8 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 			g_free (header);
 
 			/* No need for body margins within <iframe> */
-			camel_stream_write_string (stream,
+			camel_stream_write_string (
+				stream,
 				"<style>body{ margin: 0; }</style>",
 				cancellable, NULL);
 		}
@@ -137,8 +138,9 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 		camel_stream_write_string (stream, "</div>\n", cancellable, NULL);
 
 		if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
-			camel_stream_write_string (stream, "</body></html>",
-						   cancellable, NULL);
+			camel_stream_write_string (
+				stream, "</body></html>",
+				cancellable, NULL);
 		}
 
 		return TRUE;

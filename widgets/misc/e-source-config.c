@@ -1335,9 +1335,9 @@ e_source_config_add_secure_connection (ESourceConfig *config,
 
 static gboolean
 secure_to_port_cb (GBinding *binding,
-		   const GValue *source_value,
-		   GValue *target_value,
-		   gpointer user_data)
+                   const GValue *source_value,
+                   GValue *target_value,
+                   gpointer user_data)
 {
 	GObject *authentication_extension;
 	guint16 port;

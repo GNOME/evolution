@@ -437,13 +437,15 @@ get_alarm_string (ECalComponentAlarm *alarm)
 			if (trigger.u.rel_duration.is_neg)
 				/*Translator: The first %s refers to the base, which would be actions like
 				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"*/
-				 str = g_strdup_printf (_("%s %s before the start of the appointment"),
-						       base, dur);
+				str = g_strdup_printf (
+					_("%s %s before the start of the appointment"),
+					base, dur);
 			else
 				/*Translator: The first %s refers to the base, which would be actions like
 				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"*/
-				str = g_strdup_printf (_("%s %s after the start of the appointment"),
-						       base, dur);
+				str = g_strdup_printf (
+					_("%s %s after the start of the appointment"),
+					base, dur);
 
 			g_free (dur);
 		} else
@@ -460,13 +462,15 @@ get_alarm_string (ECalComponentAlarm *alarm)
 			if (trigger.u.rel_duration.is_neg)
 				/* Translator: The first %s refers to the base, which would be actions like
 				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes" */
-				str = g_strdup_printf (_("%s %s before the end of the appointment"),
-						       base, dur);
+				str = g_strdup_printf (
+					_("%s %s before the end of the appointment"),
+					base, dur);
 			else
 				/* Translator: The first %s refers to the base, which would be actions like
 				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes" */
-				str = g_strdup_printf (_("%s %s after the end of the appointment"),
-						       base, dur);
+				str = g_strdup_printf (
+					_("%s %s after the end of the appointment"),
+					base, dur);
 
 			g_free (dur);
 		} else

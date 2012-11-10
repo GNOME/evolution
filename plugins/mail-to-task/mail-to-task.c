@@ -291,9 +291,10 @@ set_description (ECalComponent *comp,
 
 	/* convert to UTF-8 string */
 	if (str && content->mime_type->params && content->mime_type->params->value) {
-		convert_str = g_convert (str, strlen (str),
-					 "UTF-8", content->mime_type->params->value,
-					 &bytes_read, &bytes_written, NULL);
+		convert_str = g_convert (
+			str, strlen (str),
+			"UTF-8", content->mime_type->params->value,
+			&bytes_read, &bytes_written, NULL);
 	}
 
 	text = g_new0 (ECalComponentText, 1);
@@ -589,14 +590,16 @@ do_ask (const gchar *text,
         gboolean is_create_edit_add)
 {
 	gint res;
-	GtkWidget *dialog = gtk_message_dialog_new (NULL,
+	GtkWidget *dialog = gtk_message_dialog_new (
+		NULL,
 		GTK_DIALOG_MODAL,
 		GTK_MESSAGE_QUESTION,
 		is_create_edit_add ? GTK_BUTTONS_NONE : GTK_BUTTONS_YES_NO,
 		"%s", text);
 
 	if (is_create_edit_add) {
-		gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+		gtk_dialog_add_buttons (
+			GTK_DIALOG (dialog),
 			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 			GTK_STOCK_EDIT, GTK_RESPONSE_YES,
 			GTK_STOCK_NEW, GTK_RESPONSE_NO,
@@ -642,21 +645,24 @@ get_question_add_all_mails (ECalClientSourceType source_type,
 	switch (source_type) {
 	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 		/* Translators: Note there are always more than 10 mails selected */
-		ask = ngettext ("You have selected %d mails to be converted to events. Do you really want to add them all?",
-				"You have selected %d mails to be converted to events. Do you really want to add them all?",
-				count);
+		ask = ngettext (
+			"You have selected %d mails to be converted to events. Do you really want to add them all?",
+			"You have selected %d mails to be converted to events. Do you really want to add them all?",
+			count);
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 		/* Translators: Note there are always more than 10 mails selected */
-		ask = ngettext ("You have selected %d mails to be converted to tasks. Do you really want to add them all?",
-				"You have selected %d mails to be converted to tasks. Do you really want to add them all?",
-				count);
+		ask = ngettext (
+			"You have selected %d mails to be converted to tasks. Do you really want to add them all?",
+			"You have selected %d mails to be converted to tasks. Do you really want to add them all?",
+			count);
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 		/* Translators: Note there are always more than 10 mails selected */
-		ask = ngettext ("You have selected %d mails to be converted to memos. Do you really want to add them all?",
-				"You have selected %d mails to be converted to memos. Do you really want to add them all?",
-				count);
+		ask = ngettext (
+			"You have selected %d mails to be converted to memos. Do you really want to add them all?",
+			"You have selected %d mails to be converted to memos. Do you really want to add them all?",
+			count);
 		break;
 	default:
 		g_assert_not_reached ();
@@ -712,8 +718,9 @@ comp_editor_title_changed (GtkWidget *widget,
 
 	comp_name = g_strndup (title, splitter - title - 1);
 	task_name = g_strdup (splitter + 2);
-	new_title = g_strdup_printf ("%s (%d/%d) - %s",
-			comp_name, mc->mails_done, mc->mails_count, task_name);
+	new_title = g_strdup_printf (
+		"%s (%d/%d) - %s",
+		comp_name, mc->mails_done, mc->mails_count, task_name);
 
 	/* Remember the new title, so that when gtk_window_set_title() causes
 	 * this handler to be recursively called, we can recognize that and
@@ -760,7 +767,8 @@ do_manage_comp_idle (struct _manage_comp *mc)
 				if (!e_cal_component_set_icalcomponent (edit_comp, icalcomponent_new_clone (mc->stored_comp))) {
 					g_object_unref (edit_comp);
 					edit_comp = NULL;
-					error = g_error_new (E_CAL_CLIENT_ERROR,
+					error = g_error_new (
+						E_CAL_CLIENT_ERROR,
 						E_CAL_CLIENT_ERROR_INVALID_OBJECT,
 						"%s", _("Invalid object returned from a server"));
 
@@ -785,8 +793,9 @@ do_manage_comp_idle (struct _manage_comp *mc)
 
 		/* FIXME Pass in the EShell instance. */
 		shell = e_shell_get_default ();
-		editor = get_component_editor (shell, mc->client, edit_comp,
-				edit_comp == mc->comp, &error);
+		editor = get_component_editor (
+			shell, mc->client, edit_comp,
+			edit_comp == mc->comp, &error);
 
 		if (editor && !error) {
 			/* Force editor's title change */
@@ -838,8 +847,10 @@ do_mail_to_event (AsyncData *data)
 	GError *err = NULL;
 
 	/* open the task client */
-	if (!e_client_open_sync (E_CLIENT (client), FALSE, NULL, &err)) {
-		report_error_idle (_("Cannot open calendar. %s"), err ? err->message : _("Unknown error."));
+	e_client_open_sync (E_CLIENT (client), FALSE, NULL, &err);
+
+	if (err != NULL) {
+		report_error_idle (_("Cannot open calendar. %s"), err->message);
 	} else if (e_client_is_readonly (E_CLIENT (client))) {
 		if (err)
 			report_error_idle ("Check readonly failed. %s", err->message);
@@ -1218,9 +1229,10 @@ mail_to_event (ECalClientSourceType source_type,
 		else
 			data->selected_text = NULL;
 
-		thread = g_thread_try_new (NULL, (GThreadFunc) do_mail_to_event, data, &error);
-		if (!thread) {
-			g_warning (G_STRLOC ": %s", error ? error->message : "Unknown error");
+		thread = g_thread_try_new (
+			NULL, (GThreadFunc) do_mail_to_event, data, &error);
+		if (error != NULL) {
+			g_warning (G_STRLOC ": %s", error->message);
 			g_error_free (error);
 		} else {
 			g_thread_unref (thread);

@@ -443,9 +443,10 @@ e_table_group_cursor_change (ETableGroup *e_table_group,
 	g_return_if_fail (e_table_group != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (e_table_group));
 
-	g_signal_emit (e_table_group,
-		       etg_signals[CURSOR_CHANGE], 0,
-		       row);
+	g_signal_emit (
+		e_table_group,
+		etg_signals[CURSOR_CHANGE], 0,
+		row);
 }
 
 /**
@@ -462,9 +463,10 @@ e_table_group_cursor_activated (ETableGroup *e_table_group,
 	g_return_if_fail (e_table_group != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (e_table_group));
 
-	g_signal_emit (e_table_group,
-		       etg_signals[CURSOR_ACTIVATED], 0,
-		       row);
+	g_signal_emit (
+		e_table_group,
+		etg_signals[CURSOR_ACTIVATED], 0,
+		row);
 }
 
 /**
@@ -485,9 +487,10 @@ e_table_group_double_click (ETableGroup *e_table_group,
 	g_return_if_fail (e_table_group != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (e_table_group));
 
-	g_signal_emit (e_table_group,
-		       etg_signals[DOUBLE_CLICK], 0,
-		       row, col, event);
+	g_signal_emit (
+		e_table_group,
+		etg_signals[DOUBLE_CLICK], 0,
+		row, col, event);
 }
 
 /**
@@ -510,9 +513,10 @@ e_table_group_right_click (ETableGroup *e_table_group,
 	g_return_val_if_fail (e_table_group != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), FALSE);
 
-	g_signal_emit (e_table_group,
-		       etg_signals[RIGHT_CLICK], 0,
-		       row, col, event, &return_val);
+	g_signal_emit (
+		e_table_group,
+		etg_signals[RIGHT_CLICK], 0,
+		row, col, event, &return_val);
 
 	return return_val;
 }
@@ -537,9 +541,10 @@ e_table_group_click (ETableGroup *e_table_group,
 	g_return_val_if_fail (e_table_group != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), FALSE);
 
-	g_signal_emit (e_table_group,
-		       etg_signals[CLICK], 0,
-		       row, col, event, &return_val);
+	g_signal_emit (
+		e_table_group,
+		etg_signals[CLICK], 0,
+		row, col, event, &return_val);
 
 	return return_val;
 }
@@ -564,9 +569,10 @@ e_table_group_key_press (ETableGroup *e_table_group,
 	g_return_val_if_fail (e_table_group != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), FALSE);
 
-	g_signal_emit (e_table_group,
-		       etg_signals[KEY_PRESS], 0,
-		       row, col, event, &return_val);
+	g_signal_emit (
+		e_table_group,
+		etg_signals[KEY_PRESS], 0,
+		row, col, event, &return_val);
 
 	return return_val;
 }
@@ -591,9 +597,10 @@ e_table_group_start_drag (ETableGroup *e_table_group,
 	g_return_val_if_fail (e_table_group != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), FALSE);
 
-	g_signal_emit (e_table_group,
-		       etg_signals[START_DRAG], 0,
-		       row, col, event, &return_val);
+	g_signal_emit (
+		e_table_group,
+		etg_signals[START_DRAG], 0,
+		row, col, event, &return_val);
 
 	return return_val;
 }
@@ -678,83 +685,85 @@ etg_class_init (ETableGroupClass *class)
 	class->get_mouse_over = NULL;
 	class->get_cell_geometry = NULL;
 
-	etg_signals[CURSOR_CHANGE] =
-		g_signal_new ("cursor_change",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableGroupClass, cursor_change),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE, 1, G_TYPE_INT);
+	etg_signals[CURSOR_CHANGE] = g_signal_new (
+		"cursor_change",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableGroupClass, cursor_change),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1,
+		G_TYPE_INT);
 
-	etg_signals[CURSOR_ACTIVATED] =
-		g_signal_new ("cursor_activated",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableGroupClass, cursor_activated),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE, 1, G_TYPE_INT);
+	etg_signals[CURSOR_ACTIVATED] = g_signal_new (
+		"cursor_activated",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableGroupClass, cursor_activated),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1,
+		G_TYPE_INT);
 
-	etg_signals[DOUBLE_CLICK] =
-		g_signal_new ("double_click",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableGroupClass, double_click),
-			      NULL, NULL,
-			      e_marshal_NONE__INT_INT_BOXED,
-			      G_TYPE_NONE, 3,
-			      G_TYPE_INT,
-			      G_TYPE_INT,
-			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	etg_signals[DOUBLE_CLICK] = g_signal_new (
+		"double_click",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableGroupClass, double_click),
+		NULL, NULL,
+		e_marshal_NONE__INT_INT_BOXED,
+		G_TYPE_NONE, 3,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	etg_signals[RIGHT_CLICK] =
-		g_signal_new ("right_click",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableGroupClass, right_click),
-			      g_signal_accumulator_true_handled, NULL,
-			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3,
-			      G_TYPE_INT,
-			      G_TYPE_INT,
-			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	etg_signals[RIGHT_CLICK] = g_signal_new (
+		"right_click",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableGroupClass, right_click),
+		g_signal_accumulator_true_handled, NULL,
+		e_marshal_BOOLEAN__INT_INT_BOXED,
+		G_TYPE_BOOLEAN, 3,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	etg_signals[CLICK] =
-		g_signal_new ("click",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableGroupClass, click),
-			      g_signal_accumulator_true_handled, NULL,
-			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3,
-			      G_TYPE_INT,
-			      G_TYPE_INT,
-			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	etg_signals[CLICK] = g_signal_new (
+		"click",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableGroupClass, click),
+		g_signal_accumulator_true_handled, NULL,
+		e_marshal_BOOLEAN__INT_INT_BOXED,
+		G_TYPE_BOOLEAN, 3,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	etg_signals[KEY_PRESS] =
-		g_signal_new ("key_press",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableGroupClass, key_press),
-			      g_signal_accumulator_true_handled, NULL,
-			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3,
-			      G_TYPE_INT,
-			      G_TYPE_INT,
-			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	etg_signals[KEY_PRESS] = g_signal_new (
+		"key_press",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableGroupClass, key_press),
+		g_signal_accumulator_true_handled, NULL,
+		e_marshal_BOOLEAN__INT_INT_BOXED,
+		G_TYPE_BOOLEAN, 3,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	etg_signals[START_DRAG] =
-		g_signal_new ("start_drag",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableGroupClass, start_drag),
-			      g_signal_accumulator_true_handled, NULL,
-			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3,
-			      G_TYPE_INT,
-			      G_TYPE_INT,
-			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	etg_signals[START_DRAG] = g_signal_new (
+		"start_drag",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableGroupClass, start_drag),
+		g_signal_accumulator_true_handled, NULL,
+		e_marshal_BOOLEAN__INT_INT_BOXED,
+		G_TYPE_BOOLEAN, 3,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 }
 
 static void

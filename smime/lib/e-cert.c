@@ -217,17 +217,19 @@ e_cert_populate (ECert *cert)
 	cert->priv->serial_number = CERT_Hexify (&cert->priv->cert->serialNumber, TRUE);
 
 	memset (fingerprint, 0, sizeof fingerprint);
-	PK11_HashBuf (SEC_OID_SHA1, fingerprint,
-		     cert->priv->cert->derCert.data,
-		     cert->priv->cert->derCert.len);
+	PK11_HashBuf (
+		SEC_OID_SHA1, fingerprint,
+		cert->priv->cert->derCert.data,
+		cert->priv->cert->derCert.len);
 	fpItem.data = fingerprint;
 	fpItem.len = SHA1_LENGTH;
 	cert->priv->sha1_fingerprint = CERT_Hexify (&fpItem, TRUE);
 
 	memset (fingerprint, 0, sizeof fingerprint);
-	PK11_HashBuf (SEC_OID_MD5, fingerprint,
-		     cert->priv->cert->derCert.data,
-		     cert->priv->cert->derCert.len);
+	PK11_HashBuf (
+		SEC_OID_MD5, fingerprint,
+		cert->priv->cert->derCert.data,
+		cert->priv->cert->derCert.len);
 	fpItem.data = fingerprint;
 	fpItem.len = MD5_LENGTH;
 	cert->priv->md5_fingerprint = CERT_Hexify (&fpItem, TRUE);

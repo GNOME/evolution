@@ -374,9 +374,10 @@ textview_query_tooltip (GtkTextView *text_view,
 		gchar *url;
 		GtkTextIter iter;
 
-		gtk_text_view_window_to_buffer_coords (text_view,
-						GTK_TEXT_WINDOW_WIDGET,
-						x, y, &x, &y);
+		gtk_text_view_window_to_buffer_coords (
+			text_view,
+			GTK_TEXT_WINDOW_WIDGET,
+			x, y, &x, &y);
 		gtk_text_view_get_iter_at_location (text_view, &iter, x, y);
 
 		url = get_url_at_iter (buffer, &iter);
@@ -493,9 +494,10 @@ textview_event_after (GtkTextView *textview,
 	if (gtk_text_iter_get_offset (&start) != gtk_text_iter_get_offset (&end))
 		return FALSE;
 
-	gtk_text_view_window_to_buffer_coords (textview,
-						GTK_TEXT_WINDOW_WIDGET,
-						event->x, event->y, &x, &y);
+	gtk_text_view_window_to_buffer_coords (
+		textview,
+		GTK_TEXT_WINDOW_WIDGET,
+		event->x, event->y, &x, &y);
 
 	gtk_text_view_get_iter_at_location (textview, &iter, x, y);
 
@@ -513,7 +515,8 @@ textview_motion_notify_event (GtkTextView *textview,
 
 	g_return_val_if_fail (GTK_IS_TEXT_VIEW (textview), FALSE);
 
-	gtk_text_view_window_to_buffer_coords (textview,
+	gtk_text_view_window_to_buffer_coords (
+		textview,
 		GTK_TEXT_WINDOW_WIDGET,
 		event->x, event->y, &x, &y);
 
@@ -532,7 +535,8 @@ textview_visibility_notify_event (GtkTextView *textview,
 
 	gdk_window_get_pointer (gtk_text_view_get_window (textview, GTK_TEXT_WINDOW_WIDGET), &wx, &wy, NULL);
 
-	gtk_text_view_window_to_buffer_coords (textview,
+	gtk_text_view_window_to_buffer_coords (
+		textview,
 		GTK_TEXT_WINDOW_WIDGET,
 		wx, wy, &bx, &by);
 
@@ -560,7 +564,8 @@ e_buffer_tagger_connect (GtkTextView *textview)
 	/* if tag is there already, then it is connected, thus claim */
 	g_return_if_fail (tag == NULL);
 
-	gtk_text_buffer_create_tag (buffer, E_BUFFER_TAGGER_LINK_TAG,
+	gtk_text_buffer_create_tag (
+		buffer, E_BUFFER_TAGGER_LINK_TAG,
 		"foreground", "blue",
 		"underline", PANGO_UNDERLINE_SINGLE,
 		NULL);

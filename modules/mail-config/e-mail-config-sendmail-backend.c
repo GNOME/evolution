@@ -34,7 +34,7 @@ G_DEFINE_DYNAMIC_TYPE (
 
 static void
 mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
-					     GtkBox *parent)
+                                             GtkBox *parent)
 {
 	CamelSettings *settings;
 	GtkLabel *label;
@@ -171,7 +171,8 @@ mail_config_sendmail_backend_check_complete (EMailConfigServiceBackend *backend)
 
 	settings = e_mail_config_service_backend_get_settings (backend);
 
-	g_object_get (G_OBJECT (settings),
+	g_object_get (
+		G_OBJECT (settings),
 		"use-custom-binary", &use_custom_binary,
 		"custom-binary", &custom_binary,
 		NULL);

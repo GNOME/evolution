@@ -595,7 +595,8 @@ e_preferences_window_setup (EPreferencesWindow *window)
 			gtk_scrolled_window_set_policy (scrolled, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 			gtk_scrolled_window_set_shadow_type (scrolled, GTK_SHADOW_NONE);
 
-			gtk_viewport_set_shadow_type (GTK_VIEWPORT (gtk_bin_get_child (GTK_BIN (scrolled))),
+			gtk_viewport_set_shadow_type (
+				GTK_VIEWPORT (gtk_bin_get_child (GTK_BIN (scrolled))),
 				GTK_SHADOW_NONE);
 
 			gtk_widget_show (content);

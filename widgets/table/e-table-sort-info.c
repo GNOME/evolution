@@ -79,23 +79,23 @@ e_table_sort_info_class_init (ETableSortInfoClass *class)
 
 	object_class->finalize = etsi_finalize;
 
-	e_table_sort_info_signals[SORT_INFO_CHANGED] =
-		g_signal_new ("sort_info_changed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableSortInfoClass, sort_info_changed),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	e_table_sort_info_signals[SORT_INFO_CHANGED] = g_signal_new (
+		"sort_info_changed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableSortInfoClass, sort_info_changed),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	e_table_sort_info_signals[GROUP_INFO_CHANGED] =
-		g_signal_new ("group_info_changed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableSortInfoClass, group_info_changed),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	e_table_sort_info_signals[GROUP_INFO_CHANGED] = g_signal_new (
+		"group_info_changed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableSortInfoClass, group_info_changed),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	class->sort_info_changed = NULL;
 	class->group_info_changed = NULL;
@@ -110,7 +110,7 @@ e_table_sort_info_sort_info_changed (ETableSortInfo *info)
 	if (info->frozen) {
 		info->sort_info_changed = 1;
 	} else {
-		g_signal_emit (G_OBJECT (info), e_table_sort_info_signals[SORT_INFO_CHANGED], 0);
+		g_signal_emit (info, e_table_sort_info_signals[SORT_INFO_CHANGED], 0);
 	}
 }
 
@@ -123,7 +123,7 @@ e_table_sort_info_group_info_changed (ETableSortInfo *info)
 	if (info->frozen) {
 		info->group_info_changed = 1;
 	} else {
-		g_signal_emit (G_OBJECT (info), e_table_sort_info_signals[GROUP_INFO_CHANGED], 0);
+		g_signal_emit (info, e_table_sort_info_signals[GROUP_INFO_CHANGED], 0);
 	}
 }
 
@@ -405,7 +405,7 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 			}
 		}
 	}
-	g_signal_emit (G_OBJECT (info), e_table_sort_info_signals[SORT_INFO_CHANGED], 0);
+	g_signal_emit (info, e_table_sort_info_signals[SORT_INFO_CHANGED], 0);
 }
 
 /**

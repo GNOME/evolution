@@ -144,8 +144,9 @@ e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter,
 
 	target_list = gtk_target_list_new (drag_types, G_N_ELEMENTS (drag_types));
 
-	context = gtk_drag_begin (GTK_WIDGET (GNOME_CANVAS_ITEM (view)->canvas),
-				  target_list, actions, 1/*XXX */, event);
+	context = gtk_drag_begin (
+		GTK_WIDGET (GNOME_CANVAS_ITEM (view)->canvas),
+		target_list, actions, 1/*XXX */, event);
 
 	if (!view->canvas_drag_data_get_id)
 		view->canvas_drag_data_get_id = g_signal_connect (
@@ -167,11 +168,12 @@ set_empty_message (EMinicardView *view)
 		EAddressbookModel *model = NULL;
 		EBookClient *book_client = NULL;
 
-		g_object_get (view->adapter,
-			      "editable", &editable,
-			      "model", &model,
-			      "client", &book_client,
-			      NULL);
+		g_object_get (
+			view->adapter,
+			"editable", &editable,
+			"model", &model,
+			"client", &book_client,
+			NULL);
 
 		if (book_client && !e_client_check_capability (E_CLIENT (book_client), "do-initial-query"))
 			perform_initial_query = TRUE;
@@ -200,9 +202,10 @@ set_empty_message (EMinicardView *view)
 			empty_message = _("\n\nThere are no items to show in this view.");
 	}
 
-	g_object_set (view,
-		      "empty_message", empty_message,
-		      NULL);
+	g_object_set (
+		view,
+		"empty_message", empty_message,
+		NULL);
 }
 
 static void
@@ -245,9 +248,10 @@ e_minicard_view_set_property (GObject *object,
 		if (view->adapter) {
 			if (view->writable_status_id || view->stop_state_id) {
 				EAddressbookModel *model;
-				g_object_get (view->adapter,
-					      "model", &model,
-					      NULL);
+				g_object_get (
+					view->adapter,
+					"model", &model,
+					NULL);
 				if (model) {
 					if (view->writable_status_id)
 						g_signal_handler_disconnect (model, view->writable_status_id);
@@ -263,14 +267,16 @@ e_minicard_view_set_property (GObject *object,
 		view->adapter = g_value_get_object (value);
 		g_object_ref (view->adapter);
 		adapter_changed (view);
-		g_object_set (view,
-			      "model", view->adapter,
-			      NULL);
+		g_object_set (
+			view,
+			"model", view->adapter,
+			NULL);
 		if (view->adapter) {
 			EAddressbookModel *model;
-			g_object_get (view->adapter,
-				      "model", &model,
-				      NULL);
+			g_object_get (
+				view->adapter,
+				"model", &model,
+				NULL);
 			if (model) {
 				view->writable_status_id = g_signal_connect (
 					model, "writable_status",
@@ -283,20 +289,23 @@ e_minicard_view_set_property (GObject *object,
 		}
 		break;
 	case PROP_CLIENT:
-		g_object_set (view->adapter,
-			      "client", g_value_get_object (value),
-			      NULL);
+		g_object_set (
+			view->adapter,
+			"client", g_value_get_object (value),
+			NULL);
 		set_empty_message (view);
 		break;
 	case PROP_QUERY:
-		g_object_set (view->adapter,
-			      "query", g_value_get_string (value),
-			      NULL);
+		g_object_set (
+			view->adapter,
+			"query", g_value_get_string (value),
+			NULL);
 		break;
 	case PROP_EDITABLE:
-		g_object_set (view->adapter,
-			      "editable", g_value_get_boolean (value),
-			      NULL);
+		g_object_set (
+			view->adapter,
+			"editable", g_value_get_boolean (value),
+			NULL);
 		set_empty_message (view);
 		break;
 	default:
@@ -320,16 +329,19 @@ e_minicard_view_get_property (GObject *object,
 		g_value_set_object (value, view->adapter);
 		break;
 	case PROP_CLIENT:
-		g_object_get_property (G_OBJECT (view->adapter),
-				       "client", value);
+		g_object_get_property (
+			G_OBJECT (view->adapter),
+			"client", value);
 		break;
 	case PROP_QUERY:
-		g_object_get_property (G_OBJECT (view->adapter),
-				       "query", value);
+		g_object_get_property (
+			G_OBJECT (view->adapter),
+			"query", value);
 		break;
 	case PROP_EDITABLE:
-		g_object_get_property (G_OBJECT (view->adapter),
-				       "editable", value);
+		g_object_get_property (
+			G_OBJECT (view->adapter),
+			"editable", value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -345,17 +357,19 @@ e_minicard_view_dispose (GObject *object)
 	clear_drag_data (view);
 
 	if (view->canvas_drag_data_get_id) {
-		g_signal_handler_disconnect (GNOME_CANVAS_ITEM (view)->canvas,
-					     view->canvas_drag_data_get_id);
+		g_signal_handler_disconnect (
+			GNOME_CANVAS_ITEM (view)->canvas,
+			view->canvas_drag_data_get_id);
 		view->canvas_drag_data_get_id = 0;
 	}
 
 	if (view->adapter) {
 		if (view->writable_status_id || view->stop_state_id) {
 			EAddressbookModel *model;
-			g_object_get (view->adapter,
-				      "model", &model,
-				      NULL);
+			g_object_get (
+				view->adapter,
+				"model", &model,
+				NULL);
 			if (model) {
 				if (view->writable_status_id)
 					g_signal_handler_disconnect (model, view->writable_status_id);
@@ -379,8 +393,9 @@ e_minicard_view_right_click (EMinicardView *view,
                              GdkEvent *event)
 {
 	guint ret_val = 0;
-	g_signal_emit (view, signals[RIGHT_CLICK], 0,
-		       event, &ret_val);
+	g_signal_emit (
+		view, signals[RIGHT_CLICK], 0,
+		event, &ret_val);
 	return ret_val;
 }
 
@@ -474,58 +489,71 @@ e_minicard_view_class_init (EMinicardViewClass *class)
 	object_class->get_property    = e_minicard_view_get_property;
 	object_class->dispose         = e_minicard_view_dispose;
 
-	g_object_class_install_property (object_class, PROP_ADAPTER,
-					 g_param_spec_object ("adapter",
-							      "Adapter",
-							      NULL,
-							      E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_ADAPTER,
+		g_param_spec_object (
+			"adapter",
+			"Adapter",
+			NULL,
+			E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_CLIENT,
-					 g_param_spec_object ("client",
-							      "EBookClient",
-							      NULL,
-							      E_TYPE_BOOK_CLIENT,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_CLIENT,
+		g_param_spec_object (
+			"client",
+			"EBookClient",
+			NULL,
+			E_TYPE_BOOK_CLIENT,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_QUERY,
-					 g_param_spec_string ("query",
-							      "Query",
-							      NULL,
-							      NULL,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_QUERY,
+		g_param_spec_string (
+			"query",
+			"Query",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_EDITABLE,
-					 g_param_spec_boolean ("editable",
-							       "Editable",
-							       NULL,
-							       FALSE,
-							       G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_EDITABLE,
+		g_param_spec_boolean (
+			"editable",
+			"Editable",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 
-	signals[CREATE_CONTACT] =
-		g_signal_new ("create-contact",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-			      0, NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[CREATE_CONTACT] = g_signal_new (
+		"create-contact",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[CREATE_CONTACT_LIST] =
-		g_signal_new ("create-contact-list",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-			      0, NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[CREATE_CONTACT_LIST] = g_signal_new (
+		"create-contact-list",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[RIGHT_CLICK] =
-		g_signal_new ("right_click",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMinicardViewClass, right_click),
-			      NULL, NULL,
-			      e_marshal_INT__POINTER,
-			      G_TYPE_INT, 1, G_TYPE_POINTER);
+	signals[RIGHT_CLICK] = g_signal_new (
+		"right_click",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMinicardViewClass, right_click),
+		NULL, NULL,
+		e_marshal_INT__POINTER,
+		G_TYPE_INT, 1,
+		G_TYPE_POINTER);
 
 	item_class->event             = e_minicard_view_event;
 
@@ -556,9 +584,10 @@ e_minicard_view_jump_to_letter (EMinicardView *view,
 	gchar uft_str[6 + 1];
 
 	utf_str[g_unichar_to_utf8 (letter, utf_str)] = '\0';
-	e_reflow_sorted_jump (E_REFLOW_SORTED (view),
-			      (GCompareFunc) compare_to_utf_str,
-			      utf_str);
+	e_reflow_sorted_jump (
+		E_REFLOW_SORTED (view),
+		(GCompareFunc) compare_to_utf_str,
+		utf_str);
 #endif
 }
 

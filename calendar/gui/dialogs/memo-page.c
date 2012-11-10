@@ -300,11 +300,13 @@ memo_page_fill_widgets (CompEditorPage *page,
 		ECalComponentText *dtext;
 
 		dtext = l->data;
-		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->memo_content)),
-					  dtext->value ? dtext->value : "", -1);
+		gtk_text_buffer_set_text (
+			gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->memo_content)),
+			dtext->value ? dtext->value : "", -1);
 	} else {
-		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->memo_content)),
-					  "", 0);
+		gtk_text_buffer_set_text (
+			gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->memo_content)),
+			"", 0);
 	}
 	e_cal_component_free_text_list (l);
 	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (priv->memo_content));
@@ -313,9 +315,10 @@ memo_page_fill_widgets (CompEditorPage *page,
 	e_cal_component_get_dtstart (comp, &d);
 	if (d.value) {
 		struct icaltimetype *start_tt = d.value;
-		e_date_edit_set_date (E_DATE_EDIT (priv->start_date),
-				      start_tt->year, start_tt->month,
-				      start_tt->day);
+		e_date_edit_set_date (
+			E_DATE_EDIT (priv->start_date),
+			start_tt->year, start_tt->month,
+			start_tt->day);
 	} else if (!(flags & COMP_EDITOR_NEW_ITEM))
 		e_date_edit_set_time (E_DATE_EDIT (priv->start_date), -1);
 	e_cal_component_free_datetime (&d);
@@ -342,7 +345,7 @@ memo_page_fill_widgets (CompEditorPage *page,
 			const gchar *strip = itip_strip_mailto (organizer.value);
 			gchar *string;
 
-			if ( organizer.cn != NULL)
+			if (organizer.cn != NULL)
 				string = g_strdup_printf ("%s <%s>", organizer.cn, strip);
 			else
 				string = g_strdup (strip);
@@ -536,8 +539,9 @@ fill_comp_with_recipients (ENameSelector *name_selector,
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
 
-	e_name_selector_model_peek_section (name_selector_model, "To",
-					    NULL, &destination_store);
+	e_name_selector_model_peek_section (
+		name_selector_model, "To",
+		NULL, &destination_store);
 
 	destinations = e_destination_store_list_destinations (destination_store);
 	for (l = destinations; l; l = g_list_next (l)) {
@@ -581,8 +585,9 @@ fill_comp_with_recipients (ENameSelector *name_selector,
 					EContact *n_con = NULL;
 					gchar *query;
 
-					query = g_strdup_printf ("(is \"full_name\" \"%s\")",
-							(gchar *) e_contact_get (contact, E_CONTACT_FULL_NAME));
+					query = g_strdup_printf (
+						"(is \"full_name\" \"%s\")",
+						(gchar *) e_contact_get (contact, E_CONTACT_FULL_NAME));
 
 					if (!e_book_client_get_contacts_sync (book_client, query, &contacts, NULL, NULL)) {
 						g_warning ("Could not get contact from the book \n");
@@ -966,7 +971,7 @@ mpage_client_opened_cb (GObject *source_object,
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
 	priv = mpage->priv;
 
-	if (error) {
+	if (error != NULL) {
 		GtkWidget *dialog;
 		ECalClient *old_client;
 
@@ -976,11 +981,12 @@ mpage_client_opened_cb (GObject *source_object,
 			E_SOURCE_COMBO_BOX (priv->source_combo_box),
 			e_client_get_source (E_CLIENT (old_client)));
 
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-						 _("Unable to open memos in '%s': %s"),
-						 e_source_get_display_name (source),
-						 error ? error->message : _("Unknown error"));
+		dialog = gtk_message_dialog_new (
+			NULL, GTK_DIALOG_MODAL,
+			GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
+			_("Unable to open memos in '%s': %s"),
+			e_source_get_display_name (source),
+			error->message);
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 
@@ -1068,8 +1074,9 @@ static void
 to_button_clicked_cb (GtkButton *button,
                       MemoPage *mpage)
 {
-	e_name_selector_show_dialog (mpage->priv->name_selector,
-				     mpage->priv->main);
+	e_name_selector_show_dialog (
+		mpage->priv->name_selector,
+		mpage->priv->main);
 }
 
 static void
@@ -1248,8 +1255,9 @@ memo_page_construct (MemoPage *mpage)
 	e_load_ui_builder_definition (priv->builder, "memo-page.ui");
 
 	if (!get_widgets (mpage)) {
-		g_message ("memo_page_construct(): "
-			   "Could not find all widgets in the XML file!");
+		g_message (
+			"memo_page_construct(): "
+			"Could not find all widgets in the XML file!");
 		return NULL;
 	}
 
@@ -1295,7 +1303,7 @@ memo_page_construct (MemoPage *mpage)
 
 	if (!init_widgets (mpage)) {
 		g_message ("memo_page_construct(): "
-			   "Could not initialize the widgets!");
+			"Could not initialize the widgets!");
 		return NULL;
 	}
 

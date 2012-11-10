@@ -689,7 +689,7 @@ sensitize_ok (EContactEditor *ce)
 	GtkWidget *widget;
 	gboolean   allow_save;
 	GtkWidget *entry_fullname =
-		e_builder_get_widget (ce->builder, "entry-fullname" );
+		e_builder_get_widget (ce->builder, "entry-fullname");
 	GtkWidget *entry_file_as =
 		gtk_bin_get_child (GTK_BIN (
 		e_builder_get_widget (ce->builder, "combo-file-as")));
@@ -808,7 +808,8 @@ init_email_record_location (EContactEditor *editor,
 
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
+		gtk_list_store_set (
+			store, &iter,
 			0, _(common_location[i].pretty_name),
 			-1);
 	}
@@ -1894,8 +1895,8 @@ extract_im (EContactEditor *editor)
 
 		old_service_attr_list = e_contact_get_attributes (
 			editor->contact, im_service[i].field);
-		filled_in_slots =
-			MIN (remaining_slots,
+		filled_in_slots = MIN (
+			remaining_slots,
 			g_list_length (old_service_attr_list));
 		remaining_slots -= filled_in_slots;
 
@@ -2289,9 +2290,11 @@ set_address_label (EContact *contact,
 	g_object_unref (settings);
 
 	if (format_address) {
-		address_label = eab_format_address (contact,
-					(field == E_CONTACT_ADDRESS_LABEL_WORK) ? E_CONTACT_ADDRESS_WORK :
-										  E_CONTACT_ADDRESS_HOME);
+		address_label = eab_format_address (
+			contact,
+			(field == E_CONTACT_ADDRESS_LABEL_WORK) ?
+				E_CONTACT_ADDRESS_WORK :
+				E_CONTACT_ADDRESS_HOME);
 	}
 
 	if (!format_address || !address_label) {
@@ -2702,7 +2705,8 @@ extract_simple_field (EContactEditor *editor,
 				gtk_combo_box_get_model (
 				GTK_COMBO_BOX (widget)));
 
-			gtk_tree_model_get (GTK_TREE_MODEL (store), &iter,
+			gtk_tree_model_get (
+				GTK_TREE_MODEL (store), &iter,
 				0, &text,
 				-1);
 		}
@@ -2776,7 +2780,7 @@ extract_simple_field (EContactEditor *editor,
 							 NULL);
 
 						if (prompt_response == GTK_RESPONSE_YES) {
-							if ( width > height) {
+							if (width > height) {
 								height = height * 96 / width;
 								width = 96;
 							} else {
@@ -3681,7 +3685,7 @@ save_contact (EContactEditor *ce,
 			return;
 	}
 
-	entry_fullname = e_builder_get_widget (ce->builder, "entry-fullname" );
+	entry_fullname = e_builder_get_widget (ce->builder, "entry-fullname");
 	entry_file_as = gtk_bin_get_child (
 		GTK_BIN (e_builder_get_widget (ce->builder, "combo-file-as")));
 	company_name = e_builder_get_widget (ce->builder, "entry-company");
@@ -3794,8 +3798,9 @@ e_contact_editor_is_valid (EABEditor *editor)
 	/* If valid, see if the birthday is a future date */
 	bday = e_date_edit_get_time (E_DATE_EDIT (widget));
 	if (bday > now) {
-		g_string_append_printf (errmsg, _("'%s' cannot be a future date"),
-					e_contact_pretty_name (E_CONTACT_BIRTH_DATE));
+		g_string_append_printf (
+			errmsg, _("'%s' cannot be a future date"),
+			e_contact_pretty_name (E_CONTACT_BIRTH_DATE));
 		validation_error = TRUE;
 	}
 

@@ -78,9 +78,10 @@ e_day_view_layout_long_events (GArray *events,
 	 * them in the first free row available. */
 	for (event_num = 0; event_num < events->len; event_num++) {
 		event = &g_array_index (events, EDayViewEvent, event_num);
-		e_day_view_layout_long_event (event, grid,
-					      days_shown, day_starts,
-					      rows_in_top_display);
+		e_day_view_layout_long_event (
+			event, grid,
+			days_shown, day_starts,
+			rows_in_top_display);
 	}
 
 	/* Free the grid. */
@@ -170,8 +171,9 @@ e_day_view_layout_day_events (GArray *events,
 	for (event_num = 0; event_num < events->len; event_num++) {
 		event = &g_array_index (events, EDayViewEvent, event_num);
 
-		e_day_view_layout_day_event (event, grid, group_starts,
-					     cols_per_row, rows, mins_per_row, max_cols);
+		e_day_view_layout_day_event (
+			event, grid, group_starts,
+			cols_per_row, rows, mins_per_row, max_cols);
 	}
 
 	/* Recalculate the number of columns needed in each row. */
@@ -181,8 +183,9 @@ e_day_view_layout_day_events (GArray *events,
 	 * if there is enough space. */
 	for (event_num = 0; event_num < events->len; event_num++) {
 		event = &g_array_index (events, EDayViewEvent, event_num);
-		e_day_view_expand_day_event (event, grid, cols_per_row,
-					     mins_per_row);
+		e_day_view_expand_day_event (
+			event, grid, cols_per_row,
+			mins_per_row);
 	}
 
 	/* Free the grid and compute maximum number of columns used. */

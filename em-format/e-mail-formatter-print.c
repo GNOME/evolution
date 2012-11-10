@@ -46,8 +46,9 @@ write_attachments_list (EMailFormatter *formatter,
 
 	str = g_string_new (
 		"<table border=\"0\" cellspacing=\"5\" cellpadding=\"0\" "
-		       "class=\"attachments-list\" >\n");
-	g_string_append_printf (str,
+		"class=\"attachments-list\" >\n");
+	g_string_append_printf (
+		str,
 		"<tr><th colspan=\"2\"><h1>%s</h1></td></tr>\n"
 		"<tr><th>%s</th><th>%s</th></tr>\n",
 		_("Attachments"), _("Name"), _("Size"));
@@ -68,7 +69,8 @@ write_attachments_list (EMailFormatter *formatter,
 
 		if (e_attachment_get_description (attachment) &&
                     *e_attachment_get_description (attachment)) {
-			name = g_strdup_printf ("%s (%s)",
+			name = g_strdup_printf (
+				"%s (%s)",
 				e_attachment_get_description (attachment),
 				g_file_info_get_display_name (fi));
 		} else {
@@ -77,7 +79,8 @@ write_attachments_list (EMailFormatter *formatter,
 
 		size = g_format_size (g_file_info_get_size (fi));
 
-		g_string_append_printf (str, "<tr><td>%s</td><td>%s</td></tr>\n",
+		g_string_append_printf (
+			str, "<tr><td>%s</td><td>%s</td></tr>\n",
 			name, size);
 
 		g_free (name);
@@ -101,12 +104,13 @@ mail_formatter_print_run (EMailFormatter *formatter,
 
 	context->mode = E_MAIL_FORMATTER_MODE_PRINTING;
 
-	camel_stream_write_string (stream,
+	camel_stream_write_string (
+		stream,
 		"<!DOCTYPE HTML>\n<html>\n"
 		"<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\" />\n"
 		"<title>Evolution Mail Display</title>\n"
 		"<link type=\"text/css\" rel=\"stylesheet\" media=\"print\" "
-		      "href=\"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview-print.css\" />\n"
+		"href=\"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview-print.css\" />\n"
 		"</head>\n"
 		"<body style=\"background: #FFF; color: #000;\">",
 		cancellable, NULL);
@@ -259,8 +263,9 @@ e_mail_formatter_print_get_type (void)
 			NULL	/* value_table */
 		};
 
-		type = g_type_register_static (E_TYPE_MAIL_FORMATTER,
-				"EMailFormatterPrint", &type_info, 0);
+		type = g_type_register_static (
+			E_TYPE_MAIL_FORMATTER,
+			"EMailFormatterPrint", &type_info, 0);
 	}
 
 	return type;

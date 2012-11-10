@@ -97,18 +97,21 @@ ea_cal_view_get_type (void)
 		 * we are run-time deriving from (GailWidget, in this case)
 		 */
 
-		factory = atk_registry_get_factory (atk_get_default_registry (),
-						    GTK_TYPE_WIDGET);
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (),
+			GTK_TYPE_WIDGET);
 		derived_atk_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 
 		tinfo.class_size = query.class_size;
 		tinfo.instance_size = query.instance_size;
 
-		type = g_type_register_static (derived_atk_type,
-					       "EaCalView", &tinfo, 0);
-		g_type_add_interface_static (type, ATK_TYPE_ACTION,
-					     &atk_action_info);
+		type = g_type_register_static (
+			derived_atk_type,
+			"EaCalView", &tinfo, 0);
+		g_type_add_interface_static (
+			type, ATK_TYPE_ACTION,
+			&atk_action_info);
 	}
 
 	return type;
@@ -276,8 +279,9 @@ ea_cal_view_event_added_cb (ECalendarView *cal_view,
 #ifdef ACC_DEBUG
 		printf ("AccDebug: event=%p added\n", (gpointer) event);
 #endif
-		g_signal_emit_by_name (atk_obj, "children_changed::add",
-				       index, event_atk_obj, NULL);
+		g_signal_emit_by_name (
+			atk_obj, "children_changed::add",
+			index, event_atk_obj, NULL);
 	}
 }
 

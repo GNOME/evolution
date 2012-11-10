@@ -114,20 +114,27 @@ etss_dispose (GObject *object)
 	ETableSubset *etss = E_TABLE_SUBSET (object);
 
 	if (etss->source) {
-		g_signal_handler_disconnect (G_OBJECT (etss->source),
-					     etss->table_model_pre_change_id);
-		g_signal_handler_disconnect (G_OBJECT (etss->source),
-					     etss->table_model_no_change_id);
-		g_signal_handler_disconnect (G_OBJECT (etss->source),
-					     etss->table_model_changed_id);
-		g_signal_handler_disconnect (G_OBJECT (etss->source),
-					     etss->table_model_row_changed_id);
-		g_signal_handler_disconnect (G_OBJECT (etss->source),
-					     etss->table_model_cell_changed_id);
-		g_signal_handler_disconnect (G_OBJECT (etss->source),
-					     etss->table_model_rows_inserted_id);
-		g_signal_handler_disconnect (G_OBJECT (etss->source),
-					     etss->table_model_rows_deleted_id);
+		g_signal_handler_disconnect (
+			etss->source,
+			etss->table_model_pre_change_id);
+		g_signal_handler_disconnect (
+			etss->source,
+			etss->table_model_no_change_id);
+		g_signal_handler_disconnect (
+			etss->source,
+			etss->table_model_changed_id);
+		g_signal_handler_disconnect (
+			etss->source,
+			etss->table_model_row_changed_id);
+		g_signal_handler_disconnect (
+			etss->source,
+			etss->table_model_cell_changed_id);
+		g_signal_handler_disconnect (
+			etss->source,
+			etss->table_model_rows_inserted_id);
+		g_signal_handler_disconnect (
+			etss->source,
+			etss->table_model_rows_deleted_id);
 
 		g_object_unref (etss->source);
 		etss->source = NULL;

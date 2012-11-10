@@ -126,8 +126,8 @@ ea_jump_button_new (GObject *obj)
 
 	if (!atk_obj) {
 		static AtkRole event_role = ATK_ROLE_INVALID;
-		atk_obj = ATK_OBJECT (g_object_new (EA_TYPE_JUMP_BUTTON,
-						    NULL));
+		atk_obj = ATK_OBJECT (
+			g_object_new (EA_TYPE_JUMP_BUTTON, NULL));
 		atk_object_initialize (atk_obj, target_obj);
 		if (event_role == ATK_ROLE_INVALID)
 			event_role = atk_role_register ("Jump Button");

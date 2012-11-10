@@ -152,8 +152,9 @@ e_contact_list_model_add_destination (EContactListModel *model,
 	if (e_destination_is_evolution_list (destination)) {
 		const GList *dest, *dests = e_destination_list_get_root_dests (destination);
 		/* Get number of instances of this list in the model */
-		gint list_refs = GPOINTER_TO_INT (g_hash_table_lookup (model->priv->uids_table,
-					e_destination_get_contact_uid (destination)));
+		gint list_refs = GPOINTER_TO_INT (
+			g_hash_table_lookup (model->priv->uids_table,
+			e_destination_get_contact_uid (destination)));
 
 		gtk_tree_store_append (GTK_TREE_STORE (model), &iter, parent);
 		gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, destination, -1);
@@ -170,7 +171,8 @@ e_contact_list_model_add_destination (EContactListModel *model,
 		if (!gtk_tree_model_iter_has_child (GTK_TREE_MODEL (model), &iter)) {
 			gtk_tree_store_remove (GTK_TREE_STORE (model), &iter);
 		} else {
-			g_hash_table_insert (model->priv->uids_table,
+			g_hash_table_insert (
+				model->priv->uids_table,
 				g_strdup (e_destination_get_contact_uid (destination)),
 				GINT_TO_POINTER (list_refs + 1));
 		}
@@ -182,10 +184,12 @@ e_contact_list_model_add_destination (EContactListModel *model,
 			return NULL;
 		}
 
-		dest_refs = GPOINTER_TO_INT (g_hash_table_lookup (model->priv->emails_table,
-				e_destination_get_email (destination)));
+		dest_refs = GPOINTER_TO_INT (
+			g_hash_table_lookup (model->priv->emails_table,
+			e_destination_get_email (destination)));
 
-		g_hash_table_insert (model->priv->emails_table,
+		g_hash_table_insert (
+			model->priv->emails_table,
 			g_strdup (e_destination_get_email (destination)),
 			GINT_TO_POINTER (dest_refs + 1));
 
@@ -225,16 +229,19 @@ contact_list_model_unref_row_dest (EContactListModel *model,
 
 	if (gtk_tree_model_iter_has_child (tree_model, iter)) {
 		GtkTreeIter child_iter;
-		gint list_refs = GPOINTER_TO_INT (g_hash_table_lookup (model->priv->uids_table,
+		gint list_refs = GPOINTER_TO_INT (
+			g_hash_table_lookup (model->priv->uids_table,
 			e_destination_get_contact_uid (dest)));
 
 		/* If the list is only once in the model, then remove it from the hash table,
 		 * otherwise decrease the counter by one */
 		if (list_refs <= 1) {
-			g_hash_table_remove (model->priv->uids_table,
+			g_hash_table_remove (
+				model->priv->uids_table,
 				e_destination_get_contact_uid (dest));
 		} else {
-			g_hash_table_insert (model->priv->uids_table,
+			g_hash_table_insert (
+				model->priv->uids_table,
 				g_strdup (e_destination_get_contact_uid (dest)),
 				GINT_TO_POINTER (list_refs - 1));
 		}
@@ -246,14 +253,18 @@ contact_list_model_unref_row_dest (EContactListModel *model,
 		}
 
 	} else {
-		gint dest_refs = GPOINTER_TO_INT (g_hash_table_lookup (model->priv->emails_table,
-			e_destination_get_email (dest)));
+		gint dest_refs = GPOINTER_TO_INT (
+			g_hash_table_lookup (
+				model->priv->emails_table,
+				e_destination_get_email (dest)));
 
 		if (dest_refs <= 1) {
-			g_hash_table_remove (model->priv->emails_table,
+			g_hash_table_remove (
+				model->priv->emails_table,
 				e_destination_get_email (dest));
 		} else {
-			g_hash_table_insert (model->priv->emails_table,
+			g_hash_table_insert (
+				model->priv->emails_table,
 				g_strdup (e_destination_get_email (dest)),
 				GINT_TO_POINTER (dest_refs - 1));
 		}

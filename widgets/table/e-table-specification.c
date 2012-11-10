@@ -159,7 +159,7 @@ e_table_specification_load_from_string (ETableSpecification *specification,
                                         const gchar *xml)
 {
 	xmlDoc *doc;
-	doc = xmlParseMemory ( (gchar *) xml, strlen (xml));
+	doc = xmlParseMemory ((gchar *) xml, strlen (xml));
 	if (doc) {
 		xmlNode *node = xmlDocGetRootElement (doc);
 		e_table_specification_load_from_node (specification, node);

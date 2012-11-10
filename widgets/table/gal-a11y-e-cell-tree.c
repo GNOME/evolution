@@ -94,8 +94,9 @@ ectr_subcell_weak_ref (GalA11yECellTree *a11y,
 	if (subcell_a11y && subcell_view && subcell_view->kill_view_cb_data)
 	    subcell_view->kill_view_cb_data = g_list_remove (subcell_view->kill_view_cb_data, subcell_a11y);
 
-	g_signal_handler_disconnect (GAL_A11Y_E_CELL (a11y)->item->table_model,
-				     a11y->model_row_changed_id);
+	g_signal_handler_disconnect (
+		GAL_A11Y_E_CELL (a11y)->item->table_model,
+		a11y->model_row_changed_id);
 	g_object_unref (a11y);
 }
 
@@ -115,9 +116,8 @@ ectr_do_action_expand (AtkAction *action)
 	tree_table_adapter = e_table_model_value_at (table_model, -3, a11y->row);
 
 	if (e_tree_model_node_is_expandable (tree_model, node)) {
-		e_tree_table_adapter_node_set_expanded (tree_table_adapter,
-							node,
-							TRUE);
+		e_tree_table_adapter_node_set_expanded (
+			tree_table_adapter, node, TRUE);
 		gal_a11y_e_cell_add_state (a11y, ATK_STATE_EXPANDED, TRUE);
 	}
 }
@@ -138,9 +138,8 @@ ectr_do_action_collapse (AtkAction *action)
 	tree_table_adapter = e_table_model_value_at (table_model, -3, a11y->row);
 
 	if (e_tree_model_node_is_expandable (tree_model, node)) {
-		e_tree_table_adapter_node_set_expanded (tree_table_adapter,
-							node,
-							FALSE);
+		e_tree_table_adapter_node_set_expanded (
+			tree_table_adapter, node, FALSE);
 		gal_a11y_e_cell_remove_state (a11y, ATK_STATE_EXPANDED, TRUE);
 	}
 }
@@ -201,26 +200,29 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 	subcell_view = e_cell_tree_view_get_subcell_view (cell_view);
 
 	if (subcell_view->ecell) {
-		subcell_a11y = gal_a11y_e_cell_registry_get_object (NULL,
-								    item,
-								    subcell_view,
-								    parent,
-								    model_col,
-								    view_col,
-								    row);
-		gal_a11y_e_cell_add_action (GAL_A11Y_E_CELL (subcell_a11y),
-					    "expand",
-					    /* Translators: description of an "expand" action */
-					    _("expands the row in the ETree containing this cell"),
-					    NULL,
-					    (ACTION_FUNC) ectr_do_action_expand);
+		subcell_a11y = gal_a11y_e_cell_registry_get_object (
+			NULL,
+			item,
+			subcell_view,
+			parent,
+			model_col,
+			view_col,
+			row);
+		gal_a11y_e_cell_add_action (
+			GAL_A11Y_E_CELL (subcell_a11y),
+			"expand",
+			/* Translators: description of an "expand" action */
+			_("expands the row in the ETree containing this cell"),
+			NULL,
+			(ACTION_FUNC) ectr_do_action_expand);
 
-		gal_a11y_e_cell_add_action (GAL_A11Y_E_CELL (subcell_a11y),
-					    "collapse",
-					    /* Translators: description of a "collapse" action */
-					    _("collapses the row in the ETree containing this cell"),
-					    NULL,
-					    (ACTION_FUNC) ectr_do_action_collapse);
+		gal_a11y_e_cell_add_action (
+			GAL_A11Y_E_CELL (subcell_a11y),
+			"collapse",
+			/* Translators: description of a "collapse" action */
+			_("collapses the row in the ETree containing this cell"),
+			NULL,
+			(ACTION_FUNC) ectr_do_action_collapse);
 
 		/* init AtkStates for the cell's a11y object */
 		node = e_table_model_value_at (item->table_model, -1, row);
@@ -239,13 +241,14 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 	 * and it connects to some signals to determine whether a tree cell is
 	 * expanded or collapsed */
 	a11y = g_object_new (gal_a11y_e_cell_tree_get_type (), NULL);
-	gal_a11y_e_cell_construct (ATK_OBJECT (a11y),
-				   item,
-				   cell_view,
-				   parent,
-				   model_col,
-				   view_col,
-				   row);
+	gal_a11y_e_cell_construct (
+		ATK_OBJECT (a11y),
+		item,
+		cell_view,
+		parent,
+		model_col,
+		view_col,
+		row);
 	a11y->model_row_changed_id = g_signal_connect (
 		item->table_model, "model_row_changed",
 		G_CALLBACK (ectr_model_row_changed_cb), subcell_a11y);

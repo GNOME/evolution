@@ -165,8 +165,8 @@ e_table_header_item_get_height (ETableHeaderItem *ethi)
 		ETableCol *ecol = e_table_header_get_column (eth, col);
 		gint height;
 
-		height = e_table_header_compute_height (ecol,
-							GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas));
+		height = e_table_header_compute_height (
+			ecol, GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas));
 
 		if (height > maxheight)
 			maxheight = height;
@@ -742,8 +742,8 @@ ethi_drag_motion (GtkWidget *widget,
 
 	targets = gdk_drag_context_list_targets (context);
 	droptype = gdk_atom_name (GDK_POINTER_TO_ATOM (targets->data));
-	headertype = g_strdup_printf ("%s-%s", TARGET_ETABLE_COL_TYPE,
-				      ethi->dnd_code);
+	headertype = g_strdup_printf (
+		"%s-%s", TARGET_ETABLE_COL_TYPE, ethi->dnd_code);
 
 	if (strcmp (droptype, headertype) != 0) {
 		g_free (headertype);
@@ -864,11 +864,12 @@ ethi_drag_data_get (GtkWidget *canvas,
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, ethi->drag_col);
 
 		gchar *string = g_strdup_printf ("%d", ecol->col_idx);
-		gtk_selection_data_set (selection_data,
-				       GDK_SELECTION_TYPE_STRING,
-				       sizeof (string[0]),
-				       (guchar *) string,
-				       strlen (string));
+		gtk_selection_data_set (
+			selection_data,
+			GDK_SELECTION_TYPE_STRING,
+			sizeof (string[0]),
+			(guchar *) string,
+			strlen (string));
 		g_free (string);
 	}
 }
@@ -1268,9 +1269,10 @@ ethi_start_drag (ETableHeaderItem *ethi,
 			g_hash_table_insert (
 				arrows,
 				GINT_TO_POINTER ((gint) column.column),
-				GINT_TO_POINTER (column.ascending ?
-						 E_TABLE_COL_ARROW_DOWN :
-						 E_TABLE_COL_ARROW_UP));
+				GINT_TO_POINTER (
+					column.ascending ?
+					E_TABLE_COL_ARROW_DOWN :
+					E_TABLE_COL_ARROW_UP));
 		}
 		length = e_table_sort_info_sorting_get_count (ethi->sort_info);
 		for (i = 0; i < length; i++) {
@@ -1281,9 +1283,10 @@ ethi_start_drag (ETableHeaderItem *ethi,
 			g_hash_table_insert (
 				arrows,
 				GINT_TO_POINTER ((gint) column.column),
-				GINT_TO_POINTER (column.ascending ?
-						 E_TABLE_COL_ARROW_DOWN :
-						 E_TABLE_COL_ARROW_UP));
+				GINT_TO_POINTER (
+					column.ascending ?
+					E_TABLE_COL_ARROW_DOWN :
+					E_TABLE_COL_ARROW_UP));
 		}
 	}
 
@@ -1488,11 +1491,12 @@ ethi_popup_field_chooser (GtkWidget *widget,
 
 	g_object_add_weak_pointer (G_OBJECT (etfcd), &info->ethi->etfcd.pointer);
 
-	g_object_set (info->ethi->etfcd.widget,
-		     "full_header", info->ethi->full_header,
-		     "header", info->ethi->eth,
-		     "dnd_code", info->ethi->dnd_code,
-		     NULL);
+	g_object_set (
+		info->ethi->etfcd.widget,
+		"full_header", info->ethi->full_header,
+		"header", info->ethi->eth,
+		"dnd_code", info->ethi->dnd_code,
+		NULL);
 
 	gtk_widget_show (etfcd);
 }
@@ -1510,9 +1514,10 @@ ethi_popup_best_fit (GtkWidget *widget,
 	ETableHeaderItem *ethi = info->ethi;
 	gint width;
 
-	g_signal_emit_by_name (ethi->eth,
-			       "request_width",
-			       info->col, &width);
+	g_signal_emit_by_name (
+		ethi->eth,
+		"request_width",
+		info->col, &width);
 	/* Add 10 to stop it from "..."ing */
 	e_table_header_set_size (ethi->eth, info->col, width + 10);
 
@@ -1546,8 +1551,9 @@ apply_changes (ETableConfig *config,
 		e_tree_set_state (ethi->tree, state);
 	g_free (state);
 
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (config->dialog_toplevel),
-					   GTK_RESPONSE_APPLY, FALSE);
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (config->dialog_toplevel),
+		GTK_RESPONSE_APPLY, FALSE);
 }
 
 static void
@@ -1573,8 +1579,9 @@ ethi_popup_customize_view (GtkWidget *widget,
 		ethi->config = e_table_config_new (
 				_("Customize Current View"),
 				spec, state, GTK_WINDOW (gtk_widget_get_toplevel (widget)));
-		g_object_weak_ref (G_OBJECT (ethi->config),
-				   config_destroyed, ethi);
+		g_object_weak_ref (
+			G_OBJECT (ethi->config),
+			config_destroyed, ethi);
 		g_signal_connect (
 			ethi->config, "changed",
 			G_CALLBACK (apply_changes), ethi);
@@ -1675,7 +1682,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 	GtkWidget *menu_item, *sub_menu;
 	ETableSortColumn column;
 	gboolean ascending = TRUE;
-	d ( g_print ("ethi_header_context_menu: \n") );
+	d (g_print ("ethi_header_context_menu: \n"));
 
 	info->ethi = ethi;
 	info->col = ethi_find_col_by_x (ethi, event->x);
@@ -1892,11 +1899,12 @@ ethi_event (GnomeCanvasItem *item,
 				/* Quick hack until I actually bind the views */
 				ethi->resize_guide = GINT_TO_POINTER (1);
 
-				gnome_canvas_item_grab (item,
-							GDK_POINTER_MOTION_MASK |
-							GDK_BUTTON_RELEASE_MASK,
-							ethi->resize_cursor,
-							e->button.time);
+				gnome_canvas_item_grab (
+					item,
+					GDK_POINTER_MOTION_MASK |
+					GDK_BUTTON_RELEASE_MASK,
+					ethi->resize_cursor,
+					e->button.time);
 			}
 
 			new_width = x - ethi->resize_start_pos;
@@ -1963,9 +1971,10 @@ ethi_event (GnomeCanvasItem *item,
 			break;
 		else {
 			gint width = 0;
-			g_signal_emit_by_name (ethi->eth,
-					       "request_width",
-					       (gint) ethi->resize_col, &width);
+			g_signal_emit_by_name (
+				ethi->eth,
+				"request_width",
+				(gint) ethi->resize_col, &width);
 			/* Add 10 to stop it from "..."ing */
 			e_table_header_set_size (ethi->eth, ethi->resize_col, width + 10);
 
@@ -2077,64 +2086,85 @@ ethi_class_init (ETableHeaderItemClass *class)
 	item_class->point       = ethi_point;
 	item_class->event       = ethi_event;
 
-	g_object_class_install_property (object_class, PROP_DND_CODE,
-					 g_param_spec_string ("dnd_code",
-							      "DnD code",
-							      NULL,
-							      NULL,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_DND_CODE,
+		g_param_spec_string (
+			"dnd_code",
+			"DnD code",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_TABLE_FONT_DESC,
-					 g_param_spec_boxed ("font-desc",
-							     "Font Description",
-							     NULL,
-							     PANGO_TYPE_FONT_DESCRIPTION,
-							     G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_TABLE_FONT_DESC,
+		g_param_spec_boxed (
+			"font-desc",
+			"Font Description",
+			NULL,
+			PANGO_TYPE_FONT_DESCRIPTION,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_FULL_HEADER,
-					 g_param_spec_object ("full_header",
-							      "Full Header",
-							      NULL,
-							      E_TYPE_TABLE_HEADER,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_FULL_HEADER,
+		g_param_spec_object (
+			"full_header",
+			"Full Header",
+			NULL,
+			E_TYPE_TABLE_HEADER,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_TABLE_HEADER,
-					 g_param_spec_object ("ETableHeader",
-							      "Header",
-							      NULL,
-							      E_TYPE_TABLE_HEADER,
-							      G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_TABLE_HEADER,
+		g_param_spec_object (
+			"ETableHeader",
+			"Header",
+			NULL,
+			E_TYPE_TABLE_HEADER,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_SORT_INFO,
-					 g_param_spec_object ("sort_info",
-							      "Sort Info",
-							      NULL,
-							      E_TYPE_TABLE_SORT_INFO,
-							      G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_SORT_INFO,
+		g_param_spec_object (
+			"sort_info",
+			"Sort Info",
+			NULL,
+			E_TYPE_TABLE_SORT_INFO,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_TABLE,
-					 g_param_spec_object ("table",
-							      "Table",
-							      NULL,
-							      E_TYPE_TABLE,
-							      G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_TABLE,
+		g_param_spec_object (
+			"table",
+			"Table",
+			NULL,
+			E_TYPE_TABLE,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_TREE,
-					 g_param_spec_object ("tree",
-							      "Tree",
-							      NULL,
-							      E_TYPE_TREE,
-							      G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_TREE,
+		g_param_spec_object (
+			"tree",
+			"Tree",
+			NULL,
+			E_TYPE_TREE,
+			G_PARAM_WRITABLE));
 
-	ethi_signals[BUTTON_PRESSED] =
-		g_signal_new ("button_pressed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableHeaderItemClass, button_pressed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__BOXED,
-			      G_TYPE_NONE, 1,
-			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	ethi_signals[BUTTON_PRESSED] = g_signal_new (
+		"button_pressed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableHeaderItemClass, button_pressed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOXED,
+		G_TYPE_NONE, 1,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 }
 
 static void

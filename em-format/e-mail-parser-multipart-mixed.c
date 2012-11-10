@@ -105,10 +105,11 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 			(E_MAIL_PART (new_parts->data)->cid != NULL) &&
 			!E_MAIL_PART (new_parts->data)->is_attachment) {
 
-			parts = g_slist_concat (parts,
-					e_mail_parser_wrap_as_attachment (
-						parser, subpart, new_parts,
-						part_id, cancellable));
+			parts = g_slist_concat (
+				parts,
+				e_mail_parser_wrap_as_attachment (
+					parser, subpart, new_parts,
+					part_id, cancellable));
 
 			/* Force messages to be expandable */
 		} else if (!new_parts ||
@@ -116,10 +117,11 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 		     new_parts && new_parts->data &&
 		     !E_MAIL_PART (new_parts->data)->is_attachment)) {
 
-			parts = g_slist_concat (parts,
-					e_mail_parser_wrap_as_attachment (
-						parser, subpart, new_parts,
-						part_id, cancellable));
+			parts = g_slist_concat (
+				parts,
+				e_mail_parser_wrap_as_attachment (
+					parser, subpart, new_parts,
+					part_id, cancellable));
 			if (parts && parts->data)
 				E_MAIL_PART (parts->data)->force_inline = TRUE;
 		} else {
@@ -165,5 +167,4 @@ e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
 static void
 e_mail_parser_multipart_mixed_init (EMailParserMultipartMixed *parser)
 {
-
 }

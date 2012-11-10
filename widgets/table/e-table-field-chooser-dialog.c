@@ -56,9 +56,10 @@ e_table_field_chooser_dialog_set_property (GObject *object,
 		g_free (etfcd->dnd_code);
 		etfcd->dnd_code = g_strdup (g_value_get_string (value));
 		if (etfcd->etfc)
-			g_object_set (etfcd->etfc,
-				     "dnd_code", etfcd->dnd_code,
-				     NULL);
+			g_object_set (
+				etfcd->etfc,
+				"dnd_code", etfcd->dnd_code,
+				NULL);
 		break;
 	case PROP_FULL_HEADER:
 		if (etfcd->full_header)
@@ -70,9 +71,10 @@ e_table_field_chooser_dialog_set_property (GObject *object,
 		if (etfcd->full_header)
 			g_object_ref (etfcd->full_header);
 		if (etfcd->etfc)
-			g_object_set (etfcd->etfc,
-				     "full_header", etfcd->full_header,
-				     NULL);
+			g_object_set (
+				etfcd->etfc,
+				"full_header", etfcd->full_header,
+				NULL);
 		break;
 	case PROP_HEADER:
 		if (etfcd->header)
@@ -84,9 +86,10 @@ e_table_field_chooser_dialog_set_property (GObject *object,
 		if (etfcd->header)
 			g_object_ref (etfcd->header);
 		if (etfcd->etfc)
-			g_object_set (etfcd->etfc,
-				     "header", etfcd->header,
-				     NULL);
+			g_object_set (
+				etfcd->etfc,
+				"header", etfcd->header,
+				NULL);
 		break;
 	default:
 		break;
@@ -210,11 +213,12 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 	widget = e_table_field_chooser_new ();
 	e_table_field_chooser_dialog->etfc = E_TABLE_FIELD_CHOOSER (widget);
 
-	g_object_set (widget,
-		     "dnd_code", e_table_field_chooser_dialog->dnd_code,
-		     "full_header", e_table_field_chooser_dialog->full_header,
-		     "header", e_table_field_chooser_dialog->header,
-		     NULL);
+	g_object_set (
+		widget,
+		"dnd_code", e_table_field_chooser_dialog->dnd_code,
+		"full_header", e_table_field_chooser_dialog->full_header,
+		"header", e_table_field_chooser_dialog->header,
+		NULL);
 
 	content_area = gtk_dialog_get_content_area (dialog);
 	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);

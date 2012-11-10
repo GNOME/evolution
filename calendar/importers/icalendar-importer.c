@@ -697,11 +697,13 @@ load_vcalendar_file (const gchar *filename)
 	gchar *contents;
 	gchar *default_alarm_filename;
 
-	default_alarm_filename = g_build_filename (EVOLUTION_SOUNDDIR,
-						   "default_alarm.wav",
-						   NULL);
-	defaults.alarm_audio_url = g_filename_to_uri (default_alarm_filename,
-						      NULL, NULL);
+	default_alarm_filename = g_build_filename (
+		EVOLUTION_SOUNDDIR,
+		"default_alarm.wav",
+		NULL);
+	defaults.alarm_audio_url = g_filename_to_uri (
+		default_alarm_filename,
+		NULL, NULL);
 	g_free (default_alarm_filename);
 	defaults.alarm_audio_fmttype = (gchar *) "audio/x-wav";
 	defaults.alarm_description = (gchar *) _("Reminder!");
@@ -714,8 +716,8 @@ load_vcalendar_file (const gchar *filename)
 		g_free (contents);
 
 		if (vcal) {
-			icalcomp = icalvcal_convert_with_defaults (vcal,
-								   &defaults);
+			icalcomp = icalvcal_convert_with_defaults (
+				vcal, &defaults);
 			cleanVObject (vcal);
 		}
 	}
@@ -1501,10 +1503,11 @@ ical_get_preview (icalcomponent *icalcomp)
 			formatted_dt = format_dt (&dt, timezones, users_zone);
 
 			gtk_list_store_append (store, &iter);
-			gtk_list_store_set (store, &iter,
+			gtk_list_store_set (
+				store, &iter,
 				0, kind == ICAL_VEVENT_COMPONENT ? (e_cal_component_has_attendees (comp) ? C_("iCalImp", "Meeting") : C_("iCalImp", "Event")) :
-				   kind == ICAL_VTODO_COMPONENT ? C_("iCalImp", "Task") :
-				   kind == ICAL_VJOURNAL_COMPONENT ? C_("iCalImp", "Memo") : "??? Other ???",
+				kind == ICAL_VTODO_COMPONENT ? C_("iCalImp", "Task") :
+				kind == ICAL_VJOURNAL_COMPONENT ? C_("iCalImp", "Memo") : "??? Other ???",
 				1, formatted_dt ? formatted_dt : "",
 				2, summary.value && *summary.value ? summary.value : summary.altrep && *summary.altrep ? summary.altrep : "",
 				3, comp,
@@ -1535,15 +1538,18 @@ ical_get_preview (icalcomponent *icalcomp)
 	g_object_unref (store);
 
 	/* Translators: Column header for a component type; it can be Event, Task or Memo */
-	gtk_tree_view_insert_column_with_attributes (tree_view, -1, C_("iCalImp", "Type"),
+	gtk_tree_view_insert_column_with_attributes (
+		tree_view, -1, C_("iCalImp", "Type"),
 		gtk_cell_renderer_text_new (), "text", 0, NULL);
 
 	/* Translators: Column header for a component start date/time */
-	gtk_tree_view_insert_column_with_attributes (tree_view, -1, C_("iCalImp", "Start"),
+	gtk_tree_view_insert_column_with_attributes (
+		tree_view, -1, C_("iCalImp", "Start"),
 		gtk_cell_renderer_text_new (), "text", 1, NULL);
 
 	/* Translators: Column header for a component summary */
-	gtk_tree_view_insert_column_with_attributes (tree_view, -1, C_("iCalImp", "Summary"),
+	gtk_tree_view_insert_column_with_attributes (
+		tree_view, -1, C_("iCalImp", "Summary"),
 		gtk_cell_renderer_text_new (), "text", 2, NULL);
 
 	if (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (store), NULL) > 1)

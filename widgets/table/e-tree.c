@@ -266,17 +266,21 @@ static void
 et_disconnect_from_etta (ETree *et)
 {
 	if (et->priv->table_model_change_id != 0)
-		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
-					     et->priv->table_model_change_id);
+		g_signal_handler_disconnect (
+			et->priv->etta,
+			et->priv->table_model_change_id);
 	if (et->priv->table_row_change_id != 0)
-		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
-					     et->priv->table_row_change_id);
+		g_signal_handler_disconnect (
+			et->priv->etta,
+			et->priv->table_row_change_id);
 	if (et->priv->table_cell_change_id != 0)
-		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
-					     et->priv->table_cell_change_id);
+		g_signal_handler_disconnect (
+			et->priv->etta,
+			et->priv->table_cell_change_id);
 	if (et->priv->table_rows_delete_id != 0)
-		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
-					     et->priv->table_rows_delete_id);
+		g_signal_handler_disconnect (
+			et->priv->etta,
+			et->priv->table_rows_delete_id);
 
 	et->priv->table_model_change_id = 0;
 	et->priv->table_row_change_id = 0;
@@ -295,10 +299,11 @@ current_search_col (ETree *et)
 {
 	if (!et->priv->search_col_set) {
 		et->priv->current_search_col =
-			e_table_util_calculate_current_search_col (et->priv->header,
-								   et->priv->full_header,
-								   et->priv->sort_info,
-								   et->priv->always_search);
+			e_table_util_calculate_current_search_col (
+				et->priv->header,
+				et->priv->full_header,
+				et->priv->sort_info,
+				et->priv->always_search);
 		et->priv->search_col_set = TRUE;
 	}
 
@@ -311,7 +316,7 @@ e_tree_state_change (ETree *et)
 	if (et->priv->state_change_freeze)
 		et->priv->state_changed = TRUE;
 	else
-		g_signal_emit (G_OBJECT (et), et_signals[STATE_CHANGE], 0);
+		g_signal_emit (et, et_signals[STATE_CHANGE], 0);
 }
 
 static void
@@ -336,18 +341,22 @@ disconnect_header (ETree *e_tree)
 		return;
 
 	if (e_tree->priv->structure_change_id)
-		g_signal_handler_disconnect (G_OBJECT (e_tree->priv->header),
-					     e_tree->priv->structure_change_id);
+		g_signal_handler_disconnect (
+			e_tree->priv->header,
+			e_tree->priv->structure_change_id);
 	if (e_tree->priv->expansion_change_id)
-		g_signal_handler_disconnect (G_OBJECT (e_tree->priv->header),
-					     e_tree->priv->expansion_change_id);
+		g_signal_handler_disconnect (
+			e_tree->priv->header,
+			e_tree->priv->expansion_change_id);
 	if (e_tree->priv->sort_info) {
 		if (e_tree->priv->sort_info_change_id)
-			g_signal_handler_disconnect (G_OBJECT (e_tree->priv->sort_info),
-						     e_tree->priv->sort_info_change_id);
+			g_signal_handler_disconnect (
+				e_tree->priv->sort_info,
+				e_tree->priv->sort_info_change_id);
 		if (e_tree->priv->group_info_change_id)
-			g_signal_handler_disconnect (G_OBJECT (e_tree->priv->sort_info),
-						     e_tree->priv->group_info_change_id);
+			g_signal_handler_disconnect (
+				e_tree->priv->sort_info,
+				e_tree->priv->group_info_change_id);
 
 		g_object_unref (e_tree->priv->sort_info);
 	}
@@ -847,14 +856,16 @@ tree_canvas_size_allocate (GtkWidget *widget,
 
 	width = alloc->width;
 	g_value_set_double (val, width);
-	g_object_get (e_tree->priv->item,
-		      "height", &height,
-		      NULL);
+	g_object_get (
+		e_tree->priv->item,
+		"height", &height,
+		NULL);
 	height = MAX ((gint) height, alloc->height);
 
-	g_object_set (e_tree->priv->item,
-		      "width", width,
-		      NULL);
+	g_object_set (
+		e_tree->priv->item,
+		"width", width,
+		NULL);
 	g_object_set_property (G_OBJECT (e_tree->priv->header), "width", val);
 	g_free (val);
 
@@ -1051,9 +1062,10 @@ item_key_press (ETableItem *eti,
 			e_table_search_input_character (et->priv->search, key->keyval);
 		}
 		path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
-		g_signal_emit (et,
-			       et_signals[KEY_PRESS], 0,
-			       row, path, col, event, &return_val);
+		g_signal_emit (
+			et,
+			et_signals[KEY_PRESS], 0,
+			row, path, col, event, &return_val);
 		break;
 	}
 	return return_val;
@@ -1155,9 +1167,10 @@ white_item_event (GnomeCanvasItem *white_item,
                   ETree *e_tree)
 {
 	gboolean return_val = 0;
-	g_signal_emit (e_tree,
-		       et_signals[WHITE_SPACE_EVENT], 0,
-		       event, &return_val);
+	g_signal_emit (
+		e_tree,
+		et_signals[WHITE_SPACE_EVENT], 0,
+		event, &return_val);
 	return return_val;
 }
 
@@ -1327,15 +1340,17 @@ e_tree_set_state_object (ETree *e_tree,
 	g_free (val);
 
 	if (e_tree->priv->header_item)
-		g_object_set (e_tree->priv->header_item,
-			     "ETableHeader", e_tree->priv->header,
-			     "sort_info", e_tree->priv->sort_info,
-			     NULL);
+		g_object_set (
+			e_tree->priv->header_item,
+			"ETableHeader", e_tree->priv->header,
+			"sort_info", e_tree->priv->sort_info,
+			NULL);
 
 	if (e_tree->priv->item)
-		g_object_set (e_tree->priv->item,
-			     "ETableHeader", e_tree->priv->header,
-			     NULL);
+		g_object_set (
+			e_tree->priv->item,
+			"ETableHeader", e_tree->priv->header,
+			NULL);
 
 	if (e_tree->priv->etta)
 		e_tree_table_adapter_set_sort_info (
@@ -1607,17 +1622,18 @@ et_real_construct (ETree *e_tree,
 
 	e_tree->priv->sorter = e_sorter_new ();
 
-	g_object_set (e_tree->priv->selection,
-		      "sorter", e_tree->priv->sorter,
+	g_object_set (
+		e_tree->priv->selection,
+		"sorter", e_tree->priv->sorter,
 #ifdef E_TREE_USE_TREE_SELECTION
-		      "model", e_tree->priv->model,
-		      "etta", e_tree->priv->etta,
+		"model", e_tree->priv->model,
+		"etta", e_tree->priv->etta,
 #else
-		      "model", e_tree->priv->etta,
+		"model", e_tree->priv->etta,
 #endif
-		      "selection_mode", specification->selection_mode,
-		      "cursor_mode", specification->cursor_mode,
-		      NULL);
+		"selection_mode", specification->selection_mode,
+		"cursor_mode", specification->cursor_mode,
+		NULL);
 
 	g_signal_connect (
 		e_tree->priv->selection, "selection_changed",
@@ -1913,9 +1929,10 @@ e_tree_set_cursor (ETree *e_tree,
 	if (row == -1)
 		return;
 
-	g_object_set (e_tree->priv->selection,
-		     "cursor_row", row,
-		     NULL);
+	g_object_set (
+		e_tree->priv->selection,
+		"cursor_row", row,
+		NULL);
 #endif
 }
 
@@ -1930,9 +1947,10 @@ e_tree_get_cursor (ETree *e_tree)
 	g_return_val_if_fail (e_tree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE (e_tree), NULL);
 
-	g_object_get (e_tree->priv->selection,
-		     "cursor_row", &row,
-		     NULL);
+	g_object_get (
+		e_tree->priv->selection,
+		"cursor_row", &row,
+		NULL);
 	if (row == -1)
 		return NULL;
 
@@ -2622,10 +2640,11 @@ e_tree_drag_get_data (ETree *tree,
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (E_IS_TREE (tree));
 
-	gtk_drag_get_data (GTK_WIDGET (tree),
-			  context,
-			  target,
-			  time);
+	gtk_drag_get_data (
+		GTK_WIDGET (tree),
+		context,
+		target,
+		time);
 
 }
 
@@ -2712,11 +2731,12 @@ void e_tree_drag_dest_set   (ETree               *tree,
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (E_IS_TREE (tree));
 
-	gtk_drag_dest_set (GTK_WIDGET (tree),
-			  flags,
-			  targets,
-			  n_targets,
-			  actions);
+	gtk_drag_dest_set (
+		GTK_WIDGET (tree),
+		flags,
+		targets,
+		n_targets,
+		actions);
 }
 
 void e_tree_drag_dest_set_proxy (ETree         *tree,
@@ -2727,10 +2747,11 @@ void e_tree_drag_dest_set_proxy (ETree         *tree,
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (E_IS_TREE (tree));
 
-	gtk_drag_dest_set_proxy (GTK_WIDGET (tree),
-				proxy_window,
-				protocol,
-				use_coordinates);
+	gtk_drag_dest_set_proxy (
+		GTK_WIDGET (tree),
+		proxy_window,
+		protocol,
+		use_coordinates);
 }
 
 /*
@@ -2764,19 +2785,21 @@ et_real_start_drag (ETree *tree,
 		site = tree->priv->site;
 
 		site->state = 0;
-		context = e_tree_drag_begin (tree, row, col,
-					     site->target_list,
-					     site->actions,
-					     1, event);
+		context = e_tree_drag_begin (
+			tree, row, col,
+			site->target_list,
+			site->actions,
+			1, event);
 
 		if (context) {
 			info = g_dataset_get_data (context, "gtk-info");
 
 			if (info && !info->icon_window) {
 				if (site->pixbuf)
-					gtk_drag_set_icon_pixbuf (context,
-								  site->pixbuf,
-								  -2, -2);
+					gtk_drag_set_icon_pixbuf (
+						context,
+						site->pixbuf,
+						-2, -2);
 				else
 					gtk_drag_set_icon_default (context);
 			}
@@ -2804,10 +2827,11 @@ e_tree_drag_source_set (ETree *tree,
 
 	tree->priv->do_drag = TRUE;
 
-	gtk_widget_add_events (canvas,
-			       gtk_widget_get_events (canvas) |
-			       GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
-			       GDK_BUTTON_MOTION_MASK | GDK_STRUCTURE_MASK);
+	gtk_widget_add_events (
+		canvas,
+		gtk_widget_get_events (canvas) |
+		GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
+		GDK_BUTTON_MOTION_MASK | GDK_STRUCTURE_MASK);
 
 	if (site) {
 		if (site->target_list)
@@ -2868,11 +2892,12 @@ e_tree_drag_begin (ETree *tree,
 	tree->priv->drag_path = path;
 	tree->priv->drag_col = col;
 
-	return gtk_drag_begin (GTK_WIDGET (tree->priv->table_canvas),
-			      targets,
-			      actions,
-			      button,
-			      event);
+	return gtk_drag_begin (
+		GTK_WIDGET (tree->priv->table_canvas),
+		targets,
+		actions,
+		button,
+		event);
 }
 
 /**
@@ -2994,12 +3019,13 @@ et_drag_begin (GtkWidget *widget,
 {
 	et->priv->is_dragging = TRUE;
 
-	g_signal_emit (et,
-		       et_signals[TREE_DRAG_BEGIN], 0,
-		       et->priv->drag_row,
-		       et->priv->drag_path,
-		       et->priv->drag_col,
-		       context);
+	g_signal_emit (
+		et,
+		et_signals[TREE_DRAG_BEGIN], 0,
+		et->priv->drag_row,
+		et->priv->drag_path,
+		et->priv->drag_col,
+		context);
 }
 
 static void
@@ -3009,12 +3035,13 @@ et_drag_end (GtkWidget *widget,
 {
 	et->priv->is_dragging = FALSE;
 
-	g_signal_emit (et,
-		       et_signals[TREE_DRAG_END], 0,
-		       et->priv->drag_row,
-		       et->priv->drag_path,
-		       et->priv->drag_col,
-		       context);
+	g_signal_emit (
+		et,
+		et_signals[TREE_DRAG_END], 0,
+		et->priv->drag_row,
+		et->priv->drag_path,
+		et->priv->drag_col,
+		context);
 }
 
 static void
@@ -3025,15 +3052,16 @@ et_drag_data_get (GtkWidget *widget,
                   guint time,
                   ETree *et)
 {
-	g_signal_emit (et,
-		       et_signals[TREE_DRAG_DATA_GET], 0,
-		       et->priv->drag_row,
-		       et->priv->drag_path,
-		       et->priv->drag_col,
-		       context,
-		       selection_data,
-		       info,
-		       time);
+	g_signal_emit (
+		et,
+		et_signals[TREE_DRAG_DATA_GET], 0,
+		et->priv->drag_row,
+		et->priv->drag_path,
+		et->priv->drag_col,
+		context,
+		selection_data,
+		info,
+		time);
 }
 
 static void
@@ -3041,12 +3069,13 @@ et_drag_data_delete (GtkWidget *widget,
                      GdkDragContext *context,
                      ETree *et)
 {
-	g_signal_emit (et,
-		       et_signals[TREE_DRAG_DATA_DELETE], 0,
-		       et->priv->drag_row,
-		       et->priv->drag_path,
-		       et->priv->drag_col,
-		       context);
+	g_signal_emit (
+		et,
+		et_signals[TREE_DRAG_DATA_DELETE], 0,
+		et->priv->drag_row,
+		et->priv->drag_path,
+		et->priv->drag_col,
+		context);
 }
 
 static gboolean
@@ -3060,19 +3089,16 @@ do_drag_motion (ETree *et,
 	gint row, col;
 	ETreePath path;
 
-	e_tree_get_cell_at (et,
-			    x,
-			    y,
-			    &row,
-			    &col);
+	e_tree_get_cell_at (et, x, y, &row, &col);
+
 	if (row != et->priv->drop_row && col != et->priv->drop_col) {
-		g_signal_emit (et,
-			       et_signals[TREE_DRAG_LEAVE], 0,
-			       et->priv->drop_row,
-			       et->priv->drop_path,
-			       et->priv->drop_col,
-			       context,
-			       time);
+		g_signal_emit (
+			et, et_signals[TREE_DRAG_LEAVE], 0,
+			et->priv->drop_row,
+			et->priv->drop_path,
+			et->priv->drop_col,
+			context,
+			time);
 	}
 
 	path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
@@ -3080,16 +3106,15 @@ do_drag_motion (ETree *et,
 	et->priv->drop_row = row;
 	et->priv->drop_path = path;
 	et->priv->drop_col = col;
-	g_signal_emit (et,
-		       et_signals[TREE_DRAG_MOTION], 0,
-		       et->priv->drop_row,
-		       et->priv->drop_path,
-		       et->priv->drop_col,
-		       context,
-		       x,
-		       y,
-		       time,
-		       &ret_val);
+	g_signal_emit (
+		et, et_signals[TREE_DRAG_MOTION], 0,
+		et->priv->drop_row,
+		et->priv->drop_path,
+		et->priv->drop_col,
+		context,
+		x, y,
+		time,
+		&ret_val);
 
 	return ret_val;
 }
@@ -3185,11 +3210,7 @@ hover_timeout (gpointer data)
 	gint row, col;
 	ETreePath path;
 
-	e_tree_get_cell_at (et,
-			    x,
-			    y,
-			    &row,
-			    &col);
+	e_tree_get_cell_at (et, x, y, &row, &col);
 
 	path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
 	if (path && e_tree_model_node_is_expandable (et->priv->model, path)) {
@@ -3310,13 +3331,14 @@ et_drag_leave (GtkWidget *widget,
                guint time,
                ETree *et)
 {
-	g_signal_emit (et,
-		       et_signals[TREE_DRAG_LEAVE], 0,
-		       et->priv->drop_row,
-		       et->priv->drop_path,
-		       et->priv->drop_col,
-		       context,
-		       time);
+	g_signal_emit (
+		et,
+		et_signals[TREE_DRAG_LEAVE], 0,
+		et->priv->drop_row,
+		et->priv->drop_path,
+		et->priv->drop_col,
+		context,
+		time);
 	et->priv->drop_row = -1;
 	et->priv->drop_col = -1;
 
@@ -3383,46 +3405,44 @@ et_drag_drop (GtkWidget *widget,
 	gboolean ret_val = FALSE;
 	gint row, col;
 	ETreePath path;
-	e_tree_get_cell_at (et,
-			   x,
-			   y,
-			   &row,
-			   &col);
+
+	e_tree_get_cell_at (et, x, y, &row, &col);
+
 	path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
 
 	if (row != et->priv->drop_row && col != et->priv->drop_row) {
-		g_signal_emit (et,
-			       et_signals[TREE_DRAG_LEAVE], 0,
-			       et->priv->drop_row,
-			       et->priv->drop_path,
-			       et->priv->drop_col,
-			       context,
-			       time);
-		g_signal_emit (et,
-			       et_signals[TREE_DRAG_MOTION], 0,
-			       row,
-			       path,
-			       col,
-			       context,
-			       x,
-			       y,
-			       time,
-			       &ret_val);
+		g_signal_emit (
+			et, et_signals[TREE_DRAG_LEAVE], 0,
+			et->priv->drop_row,
+			et->priv->drop_path,
+			et->priv->drop_col,
+			context,
+			time);
+		g_signal_emit (
+			et, et_signals[TREE_DRAG_MOTION], 0,
+			row,
+			path,
+			col,
+			context,
+			x,
+			y,
+			time,
+			&ret_val);
 	}
 	et->priv->drop_row = row;
 	et->priv->drop_path = path;
 	et->priv->drop_col = col;
 
-	g_signal_emit (et,
-		       et_signals[TREE_DRAG_DROP], 0,
-		       et->priv->drop_row,
-		       et->priv->drop_path,
-		       et->priv->drop_col,
-		       context,
-		       x,
-		       y,
-		       time,
-		       &ret_val);
+	g_signal_emit (
+		et, et_signals[TREE_DRAG_DROP], 0,
+		et->priv->drop_row,
+		et->priv->drop_path,
+		et->priv->drop_col,
+		context,
+		x,
+		y,
+		time,
+		&ret_val);
 
 	et->priv->drop_row = -1;
 	et->priv->drop_path = NULL;
@@ -3446,23 +3466,21 @@ et_drag_data_received (GtkWidget *widget,
 {
 	gint row, col;
 	ETreePath path;
-	e_tree_get_cell_at (et,
-			   x,
-			   y,
-			   &row,
-			   &col);
+
+	e_tree_get_cell_at (et, x, y, &row, &col);
+
 	path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
-	g_signal_emit (et,
-		       et_signals[TREE_DRAG_DATA_RECEIVED], 0,
-		       row,
-		       path,
-		       col,
-		       context,
-		       x,
-		       y,
-		       selection_data,
-		       info,
-		       time);
+	g_signal_emit (
+		et, et_signals[TREE_DRAG_DATA_RECEIVED], 0,
+		row,
+		path,
+		col,
+		context,
+		x,
+		y,
+		selection_data,
+		info,
+		time);
 }
 
 static void
@@ -3486,284 +3504,318 @@ e_tree_class_init (ETreeClass *class)
 
 	class->start_drag = et_real_start_drag;
 
-	et_signals[CURSOR_CHANGE] =
-		g_signal_new ("cursor_change",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, cursor_change),
-			      NULL, NULL,
-			      e_marshal_NONE__INT_POINTER,
-			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_POINTER);
+	et_signals[CURSOR_CHANGE] = g_signal_new (
+		"cursor_change",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, cursor_change),
+		NULL, NULL,
+		e_marshal_NONE__INT_POINTER,
+		G_TYPE_NONE, 2,
+		G_TYPE_INT,
+		G_TYPE_POINTER);
 
-	et_signals[CURSOR_ACTIVATED] =
-		g_signal_new ("cursor_activated",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, cursor_activated),
-			      NULL, NULL,
-			      e_marshal_NONE__INT_POINTER,
-			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_POINTER);
+	et_signals[CURSOR_ACTIVATED] = g_signal_new (
+		"cursor_activated",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, cursor_activated),
+		NULL, NULL,
+		e_marshal_NONE__INT_POINTER,
+		G_TYPE_NONE, 2,
+		G_TYPE_INT,
+		G_TYPE_POINTER);
 
-	et_signals[SELECTION_CHANGE] =
-		g_signal_new ("selection_change",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, selection_change),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	et_signals[SELECTION_CHANGE] = g_signal_new (
+		"selection_change",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, selection_change),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	et_signals[DOUBLE_CLICK] =
-		g_signal_new ("double_click",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, double_click),
-			      NULL, NULL,
-			      e_marshal_NONE__INT_POINTER_INT_BOXED,
-			      G_TYPE_NONE, 4,
-			      G_TYPE_INT,
-			      G_TYPE_POINTER,
-			      G_TYPE_INT,
-			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	et_signals[DOUBLE_CLICK] = g_signal_new (
+		"double_click",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, double_click),
+		NULL, NULL,
+		e_marshal_NONE__INT_POINTER_INT_BOXED,
+		G_TYPE_NONE, 4,
+		G_TYPE_INT,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	et_signals[RIGHT_CLICK] =
-		g_signal_new ("right_click",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, right_click),
-			      g_signal_accumulator_true_handled, NULL,
-			      e_marshal_BOOLEAN__INT_POINTER_INT_BOXED,
-			      G_TYPE_BOOLEAN, 4,
-			      G_TYPE_INT,
-			      G_TYPE_POINTER,
-			      G_TYPE_INT,
-			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	et_signals[RIGHT_CLICK] = g_signal_new (
+		"right_click",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, right_click),
+		g_signal_accumulator_true_handled, NULL,
+		e_marshal_BOOLEAN__INT_POINTER_INT_BOXED,
+		G_TYPE_BOOLEAN, 4,
+		G_TYPE_INT,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	et_signals[CLICK] =
-		g_signal_new ("click",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, click),
-			      g_signal_accumulator_true_handled, NULL,
-			      e_marshal_BOOLEAN__INT_POINTER_INT_BOXED,
-			      G_TYPE_BOOLEAN, 4,
-			      G_TYPE_INT,
-			      G_TYPE_POINTER,
-			      G_TYPE_INT,
-			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	et_signals[CLICK] = g_signal_new (
+		"click",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, click),
+		g_signal_accumulator_true_handled, NULL,
+		e_marshal_BOOLEAN__INT_POINTER_INT_BOXED,
+		G_TYPE_BOOLEAN, 4,
+		G_TYPE_INT,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	et_signals[KEY_PRESS] =
-		g_signal_new ("key_press",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, key_press),
-			      g_signal_accumulator_true_handled, NULL,
-			      e_marshal_BOOLEAN__INT_POINTER_INT_BOXED,
-			      G_TYPE_BOOLEAN, 4,
-			      G_TYPE_INT,
-			      G_TYPE_POINTER,
-			      G_TYPE_INT,
-			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	et_signals[KEY_PRESS] = g_signal_new (
+		"key_press",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, key_press),
+		g_signal_accumulator_true_handled, NULL,
+		e_marshal_BOOLEAN__INT_POINTER_INT_BOXED,
+		G_TYPE_BOOLEAN, 4,
+		G_TYPE_INT,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	et_signals[START_DRAG] =
-		g_signal_new ("start_drag",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, start_drag),
-			      NULL, NULL,
-			      e_marshal_NONE__INT_POINTER_INT_BOXED,
-			      G_TYPE_NONE, 4,
-			      G_TYPE_INT,
-			      G_TYPE_POINTER,
-			      G_TYPE_INT,
-			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	et_signals[START_DRAG] = g_signal_new (
+		"start_drag",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, start_drag),
+		NULL, NULL,
+		e_marshal_NONE__INT_POINTER_INT_BOXED,
+		G_TYPE_NONE, 4,
+		G_TYPE_INT,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	et_signals[STATE_CHANGE] =
-		g_signal_new ("state_change",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, state_change),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	et_signals[STATE_CHANGE] = g_signal_new (
+		"state_change",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, state_change),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	et_signals[WHITE_SPACE_EVENT] =
-		g_signal_new ("white_space_event",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, white_space_event),
-			      g_signal_accumulator_true_handled, NULL,
-			      e_marshal_BOOLEAN__POINTER,
-			      G_TYPE_BOOLEAN, 1,
-			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	et_signals[WHITE_SPACE_EVENT] = g_signal_new (
+		"white_space_event",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, white_space_event),
+		g_signal_accumulator_true_handled, NULL,
+		e_marshal_BOOLEAN__POINTER,
+		G_TYPE_BOOLEAN, 1,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	et_signals[TREE_DRAG_BEGIN] =
-		g_signal_new ("tree_drag_begin",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, tree_drag_begin),
-			      NULL, NULL,
-			      e_marshal_NONE__INT_POINTER_INT_BOXED,
-			      G_TYPE_NONE, 4,
-			      G_TYPE_INT,
-			      G_TYPE_POINTER,
-			      G_TYPE_INT,
-			      GDK_TYPE_DRAG_CONTEXT);
-	et_signals[TREE_DRAG_END] =
-		g_signal_new ("tree_drag_end",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, tree_drag_end),
-			      NULL, NULL,
-			      e_marshal_NONE__INT_POINTER_INT_BOXED,
-			      G_TYPE_NONE, 4,
-			      G_TYPE_INT,
-			      G_TYPE_POINTER,
-			      G_TYPE_INT,
-			      GDK_TYPE_DRAG_CONTEXT);
-	et_signals[TREE_DRAG_DATA_GET] =
-		g_signal_new ("tree_drag_data_get",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, tree_drag_data_get),
-			      NULL, NULL,
-			      e_marshal_NONE__INT_POINTER_INT_OBJECT_BOXED_UINT_UINT,
-			      G_TYPE_NONE, 7,
-			      G_TYPE_INT,
-			      G_TYPE_POINTER,
-			      G_TYPE_INT,
-			      GDK_TYPE_DRAG_CONTEXT,
-			      GTK_TYPE_SELECTION_DATA | G_SIGNAL_TYPE_STATIC_SCOPE,
-			      G_TYPE_UINT,
-			      G_TYPE_UINT);
-	et_signals[TREE_DRAG_DATA_DELETE] =
-		g_signal_new ("tree_drag_data_delete",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, tree_drag_data_delete),
-			      NULL, NULL,
-			      e_marshal_NONE__INT_POINTER_INT_OBJECT,
-			      G_TYPE_NONE, 4,
-			      G_TYPE_INT,
-			      G_TYPE_POINTER,
-			      G_TYPE_INT,
-			      GDK_TYPE_DRAG_CONTEXT);
+	et_signals[TREE_DRAG_BEGIN] = g_signal_new (
+		"tree_drag_begin",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, tree_drag_begin),
+		NULL, NULL,
+		e_marshal_NONE__INT_POINTER_INT_BOXED,
+		G_TYPE_NONE, 4,
+		G_TYPE_INT,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		GDK_TYPE_DRAG_CONTEXT);
 
-	et_signals[TREE_DRAG_LEAVE] =
-		g_signal_new ("tree_drag_leave",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, tree_drag_leave),
-			      NULL, NULL,
-			      e_marshal_NONE__INT_POINTER_INT_OBJECT_UINT,
-			      G_TYPE_NONE, 5,
-			      G_TYPE_INT,
-			      G_TYPE_POINTER,
-			      G_TYPE_INT,
-			      GDK_TYPE_DRAG_CONTEXT,
-			      G_TYPE_UINT);
-	et_signals[TREE_DRAG_MOTION] =
-		g_signal_new ("tree_drag_motion",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, tree_drag_motion),
-			      NULL, NULL,
-			      e_marshal_BOOLEAN__INT_POINTER_INT_OBJECT_INT_INT_UINT,
-			      G_TYPE_BOOLEAN, 7,
-			      G_TYPE_INT,
-			      G_TYPE_POINTER,
-			      G_TYPE_INT,
-			      GDK_TYPE_DRAG_CONTEXT,
-			      G_TYPE_INT,
-			      G_TYPE_INT,
-			      G_TYPE_UINT);
-	et_signals[TREE_DRAG_DROP] =
-		g_signal_new ("tree_drag_drop",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, tree_drag_drop),
-			      NULL, NULL,
-			      e_marshal_BOOLEAN__INT_POINTER_INT_OBJECT_INT_INT_UINT,
-			      G_TYPE_BOOLEAN, 7,
-			      G_TYPE_INT,
-			      G_TYPE_POINTER,
-			      G_TYPE_INT,
-			      GDK_TYPE_DRAG_CONTEXT,
-			      G_TYPE_INT,
-			      G_TYPE_INT,
-			      G_TYPE_UINT);
-	et_signals[TREE_DRAG_DATA_RECEIVED] =
-		g_signal_new ("tree_drag_data_received",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeClass, tree_drag_data_received),
-			      NULL, NULL,
-			      e_marshal_NONE__INT_POINTER_INT_OBJECT_INT_INT_BOXED_UINT_UINT,
-			      G_TYPE_NONE, 9,
-			      G_TYPE_INT,
-			      G_TYPE_POINTER,
-			      G_TYPE_INT,
-			      GDK_TYPE_DRAG_CONTEXT,
-			      G_TYPE_INT,
-			      G_TYPE_INT,
-			      GTK_TYPE_SELECTION_DATA,
-			      G_TYPE_UINT,
-			      G_TYPE_UINT);
+	et_signals[TREE_DRAG_END] = g_signal_new (
+		"tree_drag_end",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, tree_drag_end),
+		NULL, NULL,
+		e_marshal_NONE__INT_POINTER_INT_BOXED,
+		G_TYPE_NONE, 4,
+		G_TYPE_INT,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		GDK_TYPE_DRAG_CONTEXT);
 
-	g_object_class_install_property (object_class, PROP_LENGTH_THRESHOLD,
-					 g_param_spec_int ("length_threshold",
-							   "Length Threshold",
-							   "Length Threshold",
-							   0, G_MAXINT, 0,
-							   G_PARAM_WRITABLE));
-	g_object_class_install_property (object_class, PROP_HORIZONTAL_DRAW_GRID,
-					 g_param_spec_boolean ("horizontal_draw_grid",
-							       "Horizontal Draw Grid",
-							       "Horizontal Draw Grid",
-							       FALSE,
-							       G_PARAM_WRITABLE));
-	g_object_class_install_property (object_class, PROP_VERTICAL_DRAW_GRID,
-					 g_param_spec_boolean ("vertical_draw_grid",
-							       "Vertical Draw Grid",
-							       "Vertical Draw Grid",
-							       FALSE,
-							       G_PARAM_WRITABLE));
-	g_object_class_install_property (object_class, PROP_DRAW_FOCUS,
-					 g_param_spec_boolean ("drawfocus",
-							       "Draw focus",
-							       "Draw focus",
-							       FALSE,
-							       G_PARAM_WRITABLE));
+	et_signals[TREE_DRAG_DATA_GET] = g_signal_new (
+		"tree_drag_data_get",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, tree_drag_data_get),
+		NULL, NULL,
+		e_marshal_NONE__INT_POINTER_INT_OBJECT_BOXED_UINT_UINT,
+		G_TYPE_NONE, 7,
+		G_TYPE_INT,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		GDK_TYPE_DRAG_CONTEXT,
+		GTK_TYPE_SELECTION_DATA | G_SIGNAL_TYPE_STATIC_SCOPE,
+		G_TYPE_UINT,
+		G_TYPE_UINT);
 
-	g_object_class_install_property (object_class, PROP_ETTA,
-					 g_param_spec_object ("ETreeTableAdapter",
-							      "ETree table adapter",
-							      "ETree table adapter",
-							      E_TYPE_TREE_TABLE_ADAPTER,
-							      G_PARAM_READABLE));
+	et_signals[TREE_DRAG_DATA_DELETE] = g_signal_new (
+		"tree_drag_data_delete",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, tree_drag_data_delete),
+		NULL, NULL,
+		e_marshal_NONE__INT_POINTER_INT_OBJECT,
+		G_TYPE_NONE, 4,
+		G_TYPE_INT,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		GDK_TYPE_DRAG_CONTEXT);
 
-	g_object_class_install_property (object_class, PROP_UNIFORM_ROW_HEIGHT,
-					 g_param_spec_boolean ("uniform_row_height",
-							       "Uniform row height",
-							       "Uniform row height",
-							       FALSE,
-							       G_PARAM_READWRITE));
+	et_signals[TREE_DRAG_LEAVE] = g_signal_new (
+		"tree_drag_leave",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, tree_drag_leave),
+		NULL, NULL,
+		e_marshal_NONE__INT_POINTER_INT_OBJECT_UINT,
+		G_TYPE_NONE, 5,
+		G_TYPE_INT,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		GDK_TYPE_DRAG_CONTEXT,
+		G_TYPE_UINT);
 
-	g_object_class_install_property (object_class, PROP_ALWAYS_SEARCH,
-					 g_param_spec_boolean ("always_search",
-							       "Always search",
-							       "Always search",
-							       FALSE,
-							       G_PARAM_READWRITE));
+	et_signals[TREE_DRAG_MOTION] = g_signal_new (
+		"tree_drag_motion",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, tree_drag_motion),
+		NULL, NULL,
+		e_marshal_BOOLEAN__INT_POINTER_INT_OBJECT_INT_INT_UINT,
+		G_TYPE_BOOLEAN, 7,
+		G_TYPE_INT,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		GDK_TYPE_DRAG_CONTEXT,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		G_TYPE_UINT);
 
-	gtk_widget_class_install_style_property (widget_class,
-			   g_param_spec_int ("expander_size",
-					     "Expander Size",
-					     "Size of the expander arrow",
-					     0,
-					     G_MAXINT,
-					     10,
-					     G_PARAM_READABLE));
+	et_signals[TREE_DRAG_DROP] = g_signal_new (
+		"tree_drag_drop",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, tree_drag_drop),
+		NULL, NULL,
+		e_marshal_BOOLEAN__INT_POINTER_INT_OBJECT_INT_INT_UINT,
+		G_TYPE_BOOLEAN, 7,
+		G_TYPE_INT,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		GDK_TYPE_DRAG_CONTEXT,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		G_TYPE_UINT);
+
+	et_signals[TREE_DRAG_DATA_RECEIVED] = g_signal_new (
+		"tree_drag_data_received",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeClass, tree_drag_data_received),
+		NULL, NULL,
+		e_marshal_NONE__INT_POINTER_INT_OBJECT_INT_INT_BOXED_UINT_UINT,
+		G_TYPE_NONE, 9,
+		G_TYPE_INT,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		GDK_TYPE_DRAG_CONTEXT,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		GTK_TYPE_SELECTION_DATA,
+		G_TYPE_UINT,
+		G_TYPE_UINT);
+
+	g_object_class_install_property (
+		object_class,
+		PROP_LENGTH_THRESHOLD,
+		g_param_spec_int (
+			"length_threshold",
+			"Length Threshold",
+			"Length Threshold",
+			0, G_MAXINT, 0,
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_HORIZONTAL_DRAW_GRID,
+		g_param_spec_boolean (
+			"horizontal_draw_grid",
+			"Horizontal Draw Grid",
+			"Horizontal Draw Grid",
+			FALSE,
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_VERTICAL_DRAW_GRID,
+		g_param_spec_boolean (
+			"vertical_draw_grid",
+			"Vertical Draw Grid",
+			"Vertical Draw Grid",
+			FALSE,
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DRAW_FOCUS,
+		g_param_spec_boolean (
+			"drawfocus",
+			"Draw focus",
+			"Draw focus",
+			FALSE,
+			G_PARAM_WRITABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ETTA,
+		g_param_spec_object (
+			"ETreeTableAdapter",
+			"ETree table adapter",
+			"ETree table adapter",
+			E_TYPE_TREE_TABLE_ADAPTER,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_UNIFORM_ROW_HEIGHT,
+		g_param_spec_boolean (
+			"uniform_row_height",
+			"Uniform row height",
+			"Uniform row height",
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ALWAYS_SEARCH,
+		g_param_spec_boolean (
+			"always_search",
+			"Always search",
+			"Always search",
+			FALSE,
+			G_PARAM_READWRITE));
+
+	gtk_widget_class_install_style_property (
+		widget_class,
+		g_param_spec_int (
+			"expander_size",
+			"Expander Size",
+			"Size of the expander arrow",
+			0, G_MAXINT, 10,
+			G_PARAM_READABLE));
 
 	gtk_widget_class_install_style_property (
 		widget_class,

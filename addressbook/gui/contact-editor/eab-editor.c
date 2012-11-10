@@ -175,44 +175,47 @@ eab_editor_class_init (EABEditorClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 
-	signals[CONTACT_ADDED] =
-		g_signal_new ("contact_added",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EABEditorClass, contact_added),
-			      NULL, NULL,
-			      e_marshal_NONE__POINTER_OBJECT,
-			      G_TYPE_NONE, 2,
-			      G_TYPE_POINTER, G_TYPE_OBJECT);
+	signals[CONTACT_ADDED] = g_signal_new (
+		"contact_added",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EABEditorClass, contact_added),
+		NULL, NULL,
+		e_marshal_NONE__POINTER_OBJECT,
+		G_TYPE_NONE, 2,
+		G_TYPE_POINTER,
+		G_TYPE_OBJECT);
 
-	signals[CONTACT_MODIFIED] =
-		g_signal_new ("contact_modified",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EABEditorClass, contact_modified),
-			      NULL, NULL,
-			      e_marshal_NONE__POINTER_OBJECT,
-			      G_TYPE_NONE, 2,
-			      G_TYPE_POINTER, G_TYPE_OBJECT);
+	signals[CONTACT_MODIFIED] = g_signal_new (
+		"contact_modified",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EABEditorClass, contact_modified),
+		NULL, NULL,
+		e_marshal_NONE__POINTER_OBJECT,
+		G_TYPE_NONE, 2,
+		G_TYPE_POINTER,
+		G_TYPE_OBJECT);
 
-	signals[CONTACT_DELETED] =
-		g_signal_new ("contact_deleted",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EABEditorClass, contact_deleted),
-			      NULL, NULL,
-			      e_marshal_NONE__POINTER_OBJECT,
-			      G_TYPE_NONE, 2,
-			      G_TYPE_POINTER, G_TYPE_OBJECT);
+	signals[CONTACT_DELETED] = g_signal_new (
+		"contact_deleted",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EABEditorClass, contact_deleted),
+		NULL, NULL,
+		e_marshal_NONE__POINTER_OBJECT,
+		G_TYPE_NONE, 2,
+		G_TYPE_POINTER,
+		G_TYPE_OBJECT);
 
-	signals[EDITOR_CLOSED] =
-		g_signal_new ("editor_closed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EABEditorClass, editor_closed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[EDITOR_CLOSED] = g_signal_new (
+		"editor_closed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EABEditorClass, editor_closed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void

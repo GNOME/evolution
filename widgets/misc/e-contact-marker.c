@@ -106,7 +106,8 @@ texture_new_from_pixbuf (GdkPixbuf *pixbuf,
 	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
 
 	texture = clutter_texture_new ();
-	success = clutter_texture_set_from_rgb_data (CLUTTER_TEXTURE (texture),
+	success = clutter_texture_set_from_rgb_data (
+		CLUTTER_TEXTURE (texture),
 		data, has_alpha, width, height, rowstride,
 		(has_alpha ? 4: 3), flags, NULL);
 
@@ -227,7 +228,8 @@ draw_shadow (EContactMarker *marker,
 	clutter_container_add_actor (CLUTTER_CONTAINER (priv->content_group), shadow);
 
 	if (priv->shadow != NULL) {
-		clutter_container_remove_actor (CLUTTER_CONTAINER (priv->content_group),
+		clutter_container_remove_actor (
+			CLUTTER_CONTAINER (priv->content_group),
 			priv->shadow);
 	}
 
@@ -263,7 +265,8 @@ draw_background (EContactMarker *marker,
 
 	clutter_color_darken (color, &darker_color);
 
-	cairo_set_source_rgba (cr,
+	cairo_set_source_rgba (
+		cr,
 		color->red / 255.0,
 		color->green / 255.0,
 		color->blue / 255.0,
@@ -271,7 +274,8 @@ draw_background (EContactMarker *marker,
 	cairo_fill_preserve (cr);
 
 	cairo_set_line_width (cr, 1.0);
-	cairo_set_source_rgba (cr,
+	cairo_set_source_rgba (
+		cr,
 		darker_color.red / 255.0,
 		darker_color.green / 255.0,
 		darker_color.blue / 255.0,
@@ -282,7 +286,8 @@ draw_background (EContactMarker *marker,
 	clutter_container_add_actor (CLUTTER_CONTAINER (priv->content_group), bg);
 
 	if (priv->background != NULL) {
-		clutter_container_remove_actor (CLUTTER_CONTAINER (priv->content_group),
+		clutter_container_remove_actor (
+			CLUTTER_CONTAINER (priv->content_group),
 			priv->background);
 	}
 
@@ -307,33 +312,41 @@ draw_marker (EContactMarker *marker)
 	}
 
 	if (priv->text_actor == NULL) {
-		priv->text_actor = clutter_text_new_with_text ("Serif 8",
-					champlain_label_get_text (label));
+		priv->text_actor = clutter_text_new_with_text (
+			"Serif 8",
+			champlain_label_get_text (label));
 		champlain_label_set_font_name (label, "Serif 8");
 	}
 
 	text = CLUTTER_TEXT (priv->text_actor);
-	clutter_text_set_text (text,
+	clutter_text_set_text (
+		text,
 		champlain_label_get_text (label));
-	clutter_text_set_font_name (text,
+	clutter_text_set_font_name (
+		text,
 		champlain_label_get_font_name (label));
 	clutter_text_set_line_alignment (text, PANGO_ALIGN_CENTER);
 	clutter_text_set_line_wrap (text, TRUE);
 	clutter_text_set_line_wrap_mode (text, PANGO_WRAP_WORD);
-	clutter_text_set_ellipsize (text,
+	clutter_text_set_ellipsize (
+		text,
 		champlain_label_get_ellipsize (label));
-	clutter_text_set_attributes (text,
+	clutter_text_set_attributes (
+		text,
 		champlain_label_get_attributes (label));
-	clutter_text_set_use_markup (text,
+	clutter_text_set_use_markup (
+		text,
 		champlain_label_get_use_markup (label));
 
 	if (priv->image) {
-		clutter_actor_set_width (priv->text_actor,
+		clutter_actor_set_width (
+			priv->text_actor,
 			clutter_actor_get_width (priv->image));
 		total_height = clutter_actor_get_height (priv->image) + 2 *PADDING +
 			       clutter_actor_get_height (priv->text_actor) + 2 *PADDING;
 		total_width = clutter_actor_get_width (priv->image) + 4 *PADDING;
-		clutter_actor_set_position (priv->text_actor, PADDING,
+		clutter_actor_set_position (
+			priv->text_actor, PADDING,
 			clutter_actor_get_height (priv->image) + 2 *PADDING + 3);
 	} else {
 		total_height = clutter_actor_get_height (priv->text_actor) + 2 *PADDING;
@@ -345,8 +358,9 @@ draw_marker (EContactMarker *marker)
 	if (height > total_height)
 		total_height = height;
 
-	clutter_text_set_color (CLUTTER_TEXT (priv->text_actor),
-		  (champlain_marker_get_selected (CHAMPLAIN_MARKER (marker)) ?
+	clutter_text_set_color (
+		CLUTTER_TEXT (priv->text_actor),
+		(champlain_marker_get_selected (CHAMPLAIN_MARKER (marker)) ?
 			champlain_marker_get_selection_text_color () :
 			champlain_label_get_text_color (CHAMPLAIN_LABEL (marker))));
 	if (clutter_actor_get_parent (priv->text_actor) == NULL)
@@ -390,7 +404,8 @@ queue_redraw (EContactMarker *marker)
 	EContactMarkerPrivate *priv = marker->priv;
 
 	if (!priv->redraw_id) {
-		priv->redraw_id = g_idle_add_full (G_PRIORITY_DEFAULT,
+		priv->redraw_id = g_idle_add_full (
+			G_PRIORITY_DEFAULT,
 			(GSourceFunc) redraw_on_idle,
 			g_object_ref (marker),
 			(GDestroyNotify) g_object_unref);
@@ -457,7 +472,8 @@ pick (ClutterActor *self,
 
 	cogl_path_new ();
 
-	cogl_set_source_color4ub (color->red,
+	cogl_set_source_color4ub (
+		color->red,
 		color->green,
 		color->blue,
 		color->alpha);

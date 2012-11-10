@@ -58,7 +58,8 @@ e_mail_formatter_format_text_header (EMailFormatter *formatter,
 		value++;
 
 	if (!(flags & E_MAIL_FORMATTER_HEADER_FLAG_HTML))
-		html = mhtml = camel_text_to_html (value,
+		html = mhtml = camel_text_to_html (
+			value,
 			e_mail_formatter_get_text_format_flags (formatter), 0);
 	else
 		html = value;
@@ -90,7 +91,8 @@ e_mail_formatter_format_text_header (EMailFormatter *formatter,
 		}
 	}
 
-	g_string_append_printf (buffer, fmt,
+	g_string_append_printf (
+		buffer, fmt,
 		(flags & E_MAIL_FORMATTER_HEADER_FLAG_HIDDEN ? "none" : "table-row"), label, html);
 
 	g_free (mhtml);
@@ -186,12 +188,13 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 			}
 
 			if (id) {
-				g_string_append_printf (out,
+				g_string_append_printf (
+					out,
 					"<span id=\"__evo-moreaddr-%s\" "
-					      "style=\"display: none;\">", id);
+					"style=\"display: none;\">", id);
 				str = g_strdup_printf (
 					"<img src=\"evo-file://%s/plus.png\" "
-					     "id=\"__evo-moreaddr-img-%s\" class=\"navigable\">",
+					"id=\"__evo-moreaddr-img-%s\" class=\"navigable\">",
 					EVOLUTION_IMAGESDIR, id);
 			}
 		}
@@ -209,7 +212,8 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 		}
 
 		if (id) {
-			g_string_append_printf (out,
+			g_string_append_printf (
+				out,
 				"</span>"
 				"<span class=\"navigable\" "
 					"id=\"__evo-moreaddr-ellipsis-%s\" "
@@ -289,7 +293,8 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		g_free (buf);
 
 		html = g_string_new ("");
-		img = e_mail_formatter_format_address (formatter, html, addrs, (gchar *) label,
+		img = e_mail_formatter_format_address (
+			formatter, html, addrs, (gchar *) label,
 			(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS),
 			!(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
 
@@ -329,7 +334,8 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		while (*txt == ' ' || *txt == '\t')
 			txt++;
 
-		html = camel_text_to_html (txt,
+		html = camel_text_to_html (
+			txt,
 			e_mail_formatter_get_text_format_flags (formatter), 0);
 
 		msg_date = camel_header_decode_date (txt, &msg_offset);
@@ -347,8 +353,9 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		} else {
 			gchar *date_str;
 
-			date_str = e_datetime_format_format ("mail", "header",
-							     DTFormatKindDateTime, msg_date);
+			date_str = e_datetime_format_format (
+				"mail", "header",
+				DTFormatKindDateTime, msg_date);
 
 			if (hide_real_date) {
 				/* Show only the local-formatted date, losing all timezone
@@ -382,7 +389,8 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 			if (flags & E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS)
 				g_string_append_printf (html, "%s", scan->newsgroup);
 			else
-				g_string_append_printf (html, "<a href=\"news:%s\">%s</a>",
+				g_string_append_printf (
+					html, "<a href=\"news:%s\">%s</a>",
 					scan->newsgroup, scan->newsgroup);
 			scan = scan->next;
 			if (scan)

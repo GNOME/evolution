@@ -141,7 +141,7 @@ eab_load_error_dialog (GtkWidget *parent,
 
 		label = g_strdup_printf (
 			_("This address book cannot be opened.  Please check that the "
-			  "path %s exists and that permissions are set to access it."), path);
+			"path %s exists and that permissions are set to access it."), path);
 
 		g_free (path);
 		label_string = label;
@@ -994,7 +994,8 @@ parse_address_template_section (const gchar *format,
 				if (address->street && *(address->street)) {
 					g_string_append (res, address->street);
 					if (address->ext && *(address->ext))
-						g_string_append_printf (res, "\n%s",
+						g_string_append_printf (
+							res, "\n%s",
 							address->ext);
 					ret = TRUE;
 				}
@@ -1136,11 +1137,13 @@ eab_format_address (EContact *contact,
 	 * and skip full names, as it's part of the EContact itself,
 	 * check this bug for reason: https://bugzilla.gnome.org/show_bug.cgi?id=667912
 	 */
-	parse_address_template_section (format,
-					NULL,
-					(address_type == E_CONTACT_ADDRESS_WORK) ? e_contact_get_const (contact, E_CONTACT_ORG): NULL,
-					addr,
-					&result);
+	parse_address_template_section (
+		format,
+		NULL,
+		(address_type == E_CONTACT_ADDRESS_WORK) ?
+			e_contact_get_const (contact, E_CONTACT_ORG) : NULL,
+		addr,
+		&result);
 
 	/* Add the country line. In some countries, the address can be located above the
 	 * rest of the address */
