@@ -87,21 +87,21 @@ empe_inlinepgp_signed_parse (EMailParserExtension *extension,
 	/* Verify the signature of the message */
 	valid = camel_cipher_context_verify_sync (
 		cipher, part, cancellable, &local_error);
-	if (!valid) {
+
+	if (local_error != NULL) {
 		parts = e_mail_parser_error (
-				parser, cancellable,
-				_("Error verifying signature: %s"),
-				local_error->message ?
-					local_error->message :
-					_("Unknown error"));
+			parser, cancellable,
+			_("Error verifying signature: %s"),
+			local_error->message);
 
-		g_clear_error (&local_error);
+		g_error_free (local_error);
 
-		parts = g_slist_concat (parts,
-				e_mail_parser_parse_part_as (
-					parser, part, part_id,
-					"application/vnd.evolution.source",
-					cancellable));
+		parts = g_slist_concat (
+			parts,
+			e_mail_parser_parse_part_as (
+				parser, part, part_id,
+				"application/vnd.evolution.source",
+				cancellable));
 
 		g_object_unref (cipher);
 		return parts;
@@ -148,7 +148,7 @@ empe_inlinepgp_signed_parse (EMailParserExtension *extension,
 	g_string_append (part_id, ".inlinepgp_signed");
 
 	parts = e_mail_parser_parse_part (
-			parser, opart, part_id, cancellable);
+		parser, opart, part_id, cancellable);
 
 	for (iter = parts; iter; iter = iter->next) {
 		EMailPart *mail_part;
@@ -157,7 +157,8 @@ empe_inlinepgp_signed_parse (EMailParserExtension *extension,
 		if (!mail_part)
 			continue;
 
-		e_mail_part_update_validity (mail_part, valid,
+		e_mail_part_update_validity (
+			mail_part, valid,
 			E_MAIL_PART_VALIDITY_SIGNED |
 			E_MAIL_PART_VALIDITY_PGP);
 	}
@@ -173,13 +174,14 @@ empe_inlinepgp_signed_parse (EMailParserExtension *extension,
 		g_string_append (part_id, ".inlinepgp_signed.button");
 
 		button = e_mail_parser_parse_part_as (
-				parser, part, part_id,
-				"application/vnd.evolution.widget.secure-button",
-				cancellable);
+			parser, part, part_id,
+			"application/vnd.evolution.widget.secure-button",
+			cancellable);
 		if (button && button->data) {
 			mail_part = button->data;
 
-			e_mail_part_update_validity (mail_part, valid,
+			e_mail_part_update_validity (
+				mail_part, valid,
 				E_MAIL_PART_VALIDITY_SIGNED |
 				E_MAIL_PART_VALIDITY_PGP);
 		}

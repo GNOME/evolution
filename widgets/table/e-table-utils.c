@@ -135,9 +135,10 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 		g_free (title);
 	}
 	if (col && col_spec->compare_col != col_spec->model_col)
-		g_object_set (col,
-			      "compare_col", col_spec->compare_col,
-			      NULL);
+		g_object_set (
+			col,
+			"compare_col", col_spec->compare_col,
+			NULL);
 	return col;
 }
 

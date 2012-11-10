@@ -512,11 +512,12 @@ resort_node (ETreeSorted *ets,
 				if (needs_regen)
 					regenerate_children (ets, path);
 				d (g_print ("Regened sort of node %p\n", path));
-				e_table_sorting_utils_tree_sort (E_TREE_MODEL (ets),
-								 ets->priv->sort_info,
-								 ets->priv->full_header,
-								 (ETreePath *) path->children,
-								 path->num_children);
+				e_table_sorting_utils_tree_sort (
+					E_TREE_MODEL (ets),
+					ets->priv->sort_info,
+					ets->priv->full_header,
+					(ETreePath *) path->children,
+					path->num_children);
 				d (g_print ("Renumbering sort of node %p\n", path));
 				for (i = 0; i < path->num_children; i++) {
 					path->children[i]->position = i;
@@ -1258,14 +1259,15 @@ e_tree_sorted_class_init (ETreeSortedClass *class)
 	tree_model_class->value_is_empty = ets_value_is_empty;
 	tree_model_class->value_to_string = ets_value_to_string;
 
-	signals[NODE_RESORTED] =
-		g_signal_new ("node_resorted",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeSortedClass, node_resorted),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[NODE_RESORTED] = g_signal_new (
+		"node_resorted",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeSortedClass, node_resorted),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 }
 
 static void
@@ -1393,7 +1395,7 @@ e_tree_sorted_node_resorted (ETreeSorted *sorted,
 	g_return_if_fail (sorted != NULL);
 	g_return_if_fail (E_IS_TREE_SORTED (sorted));
 
-	g_signal_emit (G_OBJECT (sorted), signals[NODE_RESORTED], 0, node);
+	g_signal_emit (sorted, signals[NODE_RESORTED], 0, node);
 }
 
 void
@@ -1405,8 +1407,9 @@ e_tree_sorted_set_sort_info (ETreeSorted *ets,
 
 	if (ets->priv->sort_info) {
 		if (ets->priv->sort_info_changed_id != 0)
-			g_signal_handler_disconnect (G_OBJECT (ets->priv->sort_info),
-						     ets->priv->sort_info_changed_id);
+			g_signal_handler_disconnect (
+				ets->priv->sort_info,
+				ets->priv->sort_info_changed_id);
 		ets->priv->sort_info_changed_id = 0;
 		g_object_unref (ets->priv->sort_info);
 	}

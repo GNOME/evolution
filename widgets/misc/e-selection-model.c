@@ -538,12 +538,14 @@ e_selection_model_do_something (ESelectionModel *selection,
 			break;
 		}
 		e_selection_model_change_cursor (selection, row, col);
-		g_signal_emit (selection,
-			      signals[CURSOR_CHANGED], 0,
-			      row, col);
-		g_signal_emit (selection,
-			      signals[CURSOR_ACTIVATED], 0,
-			      row, col);
+		g_signal_emit (
+			selection,
+			signals[CURSOR_CHANGED], 0,
+			row, col);
+		g_signal_emit (
+			selection,
+			signals[CURSOR_ACTIVATED], 0,
+			row, col);
 	}
 }
 
@@ -572,9 +574,10 @@ e_selection_model_maybe_do_something (ESelectionModel *selection,
 
 	if (e_selection_model_is_row_selected (selection, row)) {
 		e_selection_model_change_cursor (selection, row, col);
-		g_signal_emit (selection,
-			      signals[CURSOR_CHANGED], 0,
-			      row, col);
+		g_signal_emit (
+			selection,
+			signals[CURSOR_CHANGED], 0,
+			row, col);
 		return FALSE;
 	} else {
 		e_selection_model_do_something (selection, row, col, state);
@@ -649,13 +652,15 @@ e_selection_model_select_as_key_press (ESelectionModel *selection,
 	}
 	if (row != -1) {
 		e_selection_model_change_cursor (selection, row, col);
-		g_signal_emit (selection,
-			      signals[CURSOR_CHANGED], 0,
-			      row, col);
+		g_signal_emit (
+			selection,
+			signals[CURSOR_CHANGED], 0,
+			row, col);
 		if (cursor_activated)
-			g_signal_emit (selection,
-				      signals[CURSOR_ACTIVATED], 0,
-				      row, col);
+			g_signal_emit (
+				selection,
+				signals[CURSOR_ACTIVATED], 0,
+				row, col);
 	}
 }
 
@@ -722,9 +727,10 @@ e_selection_model_key_press (ESelectionModel *selection,
 				break;
 
 			e_selection_model_toggle_single_row (selection, row);
-			g_signal_emit (selection,
-				      signals[CURSOR_ACTIVATED], 0,
-				      row, col);
+			g_signal_emit (
+				selection,
+				signals[CURSOR_ACTIVATED], 0,
+				row, col);
 			return TRUE;
 		}
 		break;
@@ -734,9 +740,10 @@ e_selection_model_key_press (ESelectionModel *selection,
 			gint row = e_selection_model_cursor_row (selection);
 			gint col = e_selection_model_cursor_col (selection);
 			e_selection_model_select_single_row (selection, row);
-			g_signal_emit (selection,
-				      signals[CURSOR_ACTIVATED], 0,
-				      row, col);
+			g_signal_emit (
+				selection,
+				signals[CURSOR_ACTIVATED], 0,
+				row, col);
 			return TRUE;
 		}
 		break;

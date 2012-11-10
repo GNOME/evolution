@@ -190,10 +190,12 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 
 			description = e_attachment_get_description (attachment);
 			if (description && *description) {
-				name = g_strdup_printf ("<h2>Attachment: %s (%s)</h2>\n",
+				name = g_strdup_printf (
+					"<h2>Attachment: %s (%s)</h2>\n",
 					description, g_file_info_get_display_name (fi));
 			} else {
-				name = g_strdup_printf ("<h2>Attachment: %s</h2>\n",
+				name = g_strdup_printf (
+					"<h2>Attachment: %s</h2>\n",
 					g_file_info_get_display_name (fi));
 			}
 

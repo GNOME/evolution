@@ -66,95 +66,106 @@ e_tree_model_class_init (ETreeModelClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	signals[PRE_CHANGE] =
-		g_signal_new ("pre_change",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeModelClass, pre_change),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[PRE_CHANGE] = g_signal_new (
+		"pre_change",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeModelClass, pre_change),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[NO_CHANGE] =
-		g_signal_new ("no_change",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeModelClass, no_change),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[NO_CHANGE] = g_signal_new (
+		"no_change",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeModelClass, no_change),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[REBUILT] =
-		g_signal_new ("rebuilt",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeModelClass, rebuilt),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[REBUILT] = g_signal_new (
+		"rebuilt",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeModelClass, rebuilt),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[NODE_CHANGED] =
-		g_signal_new ("node_changed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeModelClass, node_changed),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[NODE_CHANGED] = g_signal_new (
+		"node_changed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeModelClass, node_changed),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 
-	signals[NODE_DATA_CHANGED] =
-		g_signal_new ("node_data_changed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeModelClass, node_data_changed),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[NODE_DATA_CHANGED] = g_signal_new (
+		"node_data_changed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeModelClass, node_data_changed),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 
-	signals[NODE_COL_CHANGED] =
-		g_signal_new ("node_col_changed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeModelClass, node_col_changed),
-			      (GSignalAccumulator) NULL, NULL,
-			      e_marshal_VOID__POINTER_INT,
-			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_INT);
+	signals[NODE_COL_CHANGED] = g_signal_new (
+		"node_col_changed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeModelClass, node_col_changed),
+		(GSignalAccumulator) NULL, NULL,
+		e_marshal_VOID__POINTER_INT,
+		G_TYPE_NONE, 2,
+		G_TYPE_POINTER,
+		G_TYPE_INT);
 
-	signals[NODE_INSERTED] =
-		g_signal_new ("node_inserted",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeModelClass, node_inserted),
-			      (GSignalAccumulator) NULL, NULL,
-			      e_marshal_VOID__POINTER_POINTER,
-			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+	signals[NODE_INSERTED] = g_signal_new (
+		"node_inserted",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeModelClass, node_inserted),
+		(GSignalAccumulator) NULL, NULL,
+		e_marshal_VOID__POINTER_POINTER,
+		G_TYPE_NONE, 2,
+		G_TYPE_POINTER,
+		G_TYPE_POINTER);
 
-	signals[NODE_REMOVED] =
-		g_signal_new ("node_removed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeModelClass, node_removed),
-			      (GSignalAccumulator) NULL, NULL,
-			      e_marshal_VOID__POINTER_POINTER_INT,
-			      G_TYPE_NONE, 3, G_TYPE_POINTER, G_TYPE_POINTER, G_TYPE_INT);
+	signals[NODE_REMOVED] = g_signal_new (
+		"node_removed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeModelClass, node_removed),
+		(GSignalAccumulator) NULL, NULL,
+		e_marshal_VOID__POINTER_POINTER_INT,
+		G_TYPE_NONE, 3,
+		G_TYPE_POINTER,
+		G_TYPE_POINTER,
+		G_TYPE_INT);
 
-	signals[NODE_DELETED] =
-		g_signal_new ("node_deleted",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeModelClass, node_deleted),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[NODE_DELETED] = g_signal_new (
+		"node_deleted",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeModelClass, node_deleted),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 
-	signals[NODE_REQUEST_COLLAPSE] =
-		g_signal_new ("node_request_collapse",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeModelClass, node_request_collapse),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[NODE_REQUEST_COLLAPSE] = g_signal_new (
+		"node_request_collapse",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeModelClass, node_request_collapse),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 
 	class->get_root              = NULL;
 

@@ -331,11 +331,13 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 		short_line_x1 = 0;
 		large_hour_x2 = 0;
 	} else {
-		max_suffix_width = MAX (day_view->am_string_width,
-					day_view->pm_string_width);
+		max_suffix_width = MAX (
+			day_view->am_string_width,
+			day_view->pm_string_width);
 
-		max_minute_or_suffix_width = MAX (max_suffix_width,
-						  day_view->max_minute_width);
+		max_minute_or_suffix_width = MAX (
+			max_suffix_width,
+			day_view->max_minute_width);
 
 		/* The start of the short horizontal line between the periods
 		 * within each hour. */
@@ -367,9 +369,8 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			day_view->day_starts[0], 0, cal_zone);
 
 		/* diff is number of minutes */
-		diff = (icaltimezone_get_utc_offset (use_zone, &tt, NULL) -
-			icaltimezone_get_utc_offset (cal_zone, &tt, NULL)
-		       ) / 60;
+		diff =(icaltimezone_get_utc_offset (use_zone, &tt, NULL) -
+			icaltimezone_get_utc_offset (cal_zone, &tt, NULL)) / 60;
 
 		tt = icaltime_from_timet_with_zone (day_view->day_starts[0], 0, cal_zone);
 		tt.is_date = FALSE;
@@ -480,9 +481,10 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 
 		/* Calculate the actual hour number to display. For 12-hour
 		 * format we convert 0-23 to 12-11am / 12 - 11pm. */
-		e_day_view_convert_time_to_display (day_view, hour,
-						    &display_hour,
-						    &suffix, &suffix_width);
+		e_day_view_convert_time_to_display (
+			day_view, hour,
+			&display_hour,
+			&suffix, &suffix_width);
 
 		if (time_divisions == 60) {
 			/* 60 minute intervals - draw a long horizontal line
@@ -502,11 +504,13 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				strcat (buffer, " ");
 				strcat (buffer, midnight_month);
 			} else if (e_cal_model_get_use_24_hour_format (model)) {
-				g_snprintf (buffer, sizeof (buffer), "%i:%02i",
-					    display_hour, minute);
+				g_snprintf (
+					buffer, sizeof (buffer), "%i:%02i",
+					display_hour, minute);
 			} else {
-				g_snprintf (buffer, sizeof (buffer), "%i %s",
-					    display_hour, suffix);
+				g_snprintf (
+					buffer, sizeof (buffer), "%i %s",
+					display_hour, suffix);
 			}
 
 			cairo_save (cr);
@@ -538,8 +542,9 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				if (show_midnight_date)
 					strcpy (buffer, midnight_day);
 				else
-					g_snprintf (buffer, sizeof (buffer), "%i",
-						    display_hour);
+					g_snprintf (
+						buffer, sizeof (buffer), "%i",
+						display_hour);
 
 				cairo_set_line_width (cr, 0.7);
 				cairo_move_to (cr, long_line_x1, row_y);
@@ -590,8 +595,9 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				    && !e_cal_model_get_use_24_hour_format (model)) {
 					strcpy (buffer, suffix);
 				} else {
-					g_snprintf (buffer, sizeof (buffer),
-						    "%02i", minute);
+					g_snprintf (
+						buffer, sizeof (buffer),
+						"%02i", minute);
 				}
 
 				cairo_save (cr);
@@ -616,8 +622,9 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			}
 		}
 
-		e_day_view_time_item_increment_time (&hour, &minute,
-						     time_divisions);
+		e_day_view_time_item_increment_time (
+			&hour, &minute,
+			time_divisions);
 	}
 
 	pango_font_metrics_unref (large_font_metrics);
@@ -695,8 +702,8 @@ e_day_view_time_item_event (GnomeCanvasItem *item,
 		break;
 	case GDK_BUTTON_RELEASE:
 		if (event->button.button == 1)
-			e_day_view_time_item_on_button_release (time_item,
-								event);
+			e_day_view_time_item_on_button_release (
+				time_item, event);
 		break;
 
 	case GDK_MOTION_NOTIFY:
@@ -787,7 +794,7 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 			 * day view, e.g. a day is displayed in
 			 * 24 "60 minute divisions" or
 			 * 48 "30 minute divisions". */
-			    _("%02i minute divisions"), divisions[i]);
+			_("%02i minute divisions"), divisions[i]);
 		item = gtk_radio_menu_item_new_with_label (group, buffer);
 		group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
 		gtk_widget_show (item);
@@ -871,8 +878,9 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 
 	gtk_widget_show_all (submenu);
 
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,
-			event->button.button, event->button.time);
+	gtk_menu_popup (
+		GTK_MENU (menu), NULL, NULL, NULL, NULL,
+		event->button.button, event->button.time);
 }
 
 static void
@@ -909,8 +917,9 @@ e_day_view_time_item_on_button_press (EDayViewTimeItem *time_item,
 
 	canvas = GNOME_CANVAS_ITEM (time_item)->canvas;
 
-	row = e_day_view_time_item_convert_position_to_row (time_item,
-							    event->button.y);
+	row = e_day_view_time_item_convert_position_to_row (
+		time_item,
+		event->button.y);
 
 	if (row == -1)
 		return;
@@ -968,8 +977,9 @@ e_day_view_time_item_on_motion_notify (EDayViewTimeItem *time_item,
 	row = e_day_view_time_item_convert_position_to_row (time_item, y);
 
 	if (row != -1) {
-		gnome_canvas_world_to_window (canvas, 0, event->motion.y,
-					      NULL, &window_y);
+		gnome_canvas_world_to_window (
+			canvas, 0, event->motion.y,
+			NULL, &window_y);
 		e_day_view_update_selection (day_view, -1, row);
 		e_day_view_check_auto_scroll (day_view, -1, (gint) window_y);
 	}
@@ -1056,18 +1066,21 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *time_item)
 
 		g_object_unref (layout);
 
-		max_large_digit_width = MAX (max_large_digit_width,
-					     large_digit_width);
+		max_large_digit_width = MAX (
+			max_large_digit_width,
+			large_digit_width);
 	}
 
 	/* Calculate the width of each time column, using the maximum of the
 	 * default format with large hour numbers, and the 60-min divisions
 	 * format which uses small text. */
-	max_suffix_width = MAX (day_view->am_string_width,
-				day_view->pm_string_width);
+	max_suffix_width = MAX (
+		day_view->am_string_width,
+		day_view->pm_string_width);
 
-	max_minute_or_suffix_width = MAX (max_suffix_width,
-					  day_view->max_minute_width);
+	max_minute_or_suffix_width = MAX (
+		max_suffix_width,
+		day_view->max_minute_width);
 
 	column_width_default = max_large_digit_width * 2
 		+ max_minute_or_suffix_width

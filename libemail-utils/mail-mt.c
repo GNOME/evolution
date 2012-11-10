@@ -550,42 +550,42 @@ do_call (struct _call_msg *m,
 
 	switch (m->type) {
 	case MAIL_CALL_p_p:
-		p1 = va_arg (ap, gpointer );
+		p1 = va_arg (ap, gpointer);
 		m->ret = m->func (p1);
 		break;
 	case MAIL_CALL_p_pp:
-		p1 = va_arg (ap, gpointer );
-		p2 = va_arg (ap, gpointer );
+		p1 = va_arg (ap, gpointer);
+		p2 = va_arg (ap, gpointer);
 		m->ret = m->func (p1, p2);
 		break;
 	case MAIL_CALL_p_ppp:
-		p1 = va_arg (ap, gpointer );
-		p2 = va_arg (ap, gpointer );
-		p3 = va_arg (ap, gpointer );
+		p1 = va_arg (ap, gpointer);
+		p2 = va_arg (ap, gpointer);
+		p3 = va_arg (ap, gpointer);
 		m->ret = m->func (p1, p2, p3);
 		break;
 	case MAIL_CALL_p_pppp:
-		p1 = va_arg (ap, gpointer );
-		p2 = va_arg (ap, gpointer );
-		p3 = va_arg (ap, gpointer );
-		p4 = va_arg (ap, gpointer );
+		p1 = va_arg (ap, gpointer);
+		p2 = va_arg (ap, gpointer);
+		p3 = va_arg (ap, gpointer);
+		p4 = va_arg (ap, gpointer);
 		m->ret = m->func (p1, p2, p3, p4);
 		break;
 	case MAIL_CALL_p_ppppp:
-		p1 = va_arg (ap, gpointer );
-		p2 = va_arg (ap, gpointer );
-		p3 = va_arg (ap, gpointer );
-		p4 = va_arg (ap, gpointer );
-		p5 = va_arg (ap, gpointer );
+		p1 = va_arg (ap, gpointer);
+		p2 = va_arg (ap, gpointer);
+		p3 = va_arg (ap, gpointer);
+		p4 = va_arg (ap, gpointer);
+		p5 = va_arg (ap, gpointer);
 		m->ret = m->func (p1, p2, p3, p4, p5);
 		break;
 	case MAIL_CALL_p_ppippp:
-		p1 = va_arg (ap, gpointer );
-		p2 = va_arg (ap, gpointer );
+		p1 = va_arg (ap, gpointer);
+		p2 = va_arg (ap, gpointer);
 		i1 = va_arg (ap, gint);
-		p3 = va_arg (ap, gpointer );
-		p4 = va_arg (ap, gpointer );
-		p5 = va_arg (ap, gpointer );
+		p3 = va_arg (ap, gpointer);
+		p4 = va_arg (ap, gpointer);
+		p5 = va_arg (ap, gpointer);
 		m->ret = m->func (p1, p2, i1, p3, p4, p5);
 		break;
 	}

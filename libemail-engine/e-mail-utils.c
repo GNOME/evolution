@@ -1275,7 +1275,7 @@ em_utils_ref_mail_identity_for_store (ESourceRegistry *registry,
 
 gboolean
 em_utils_is_source_enabled_with_parents (ESourceRegistry *registry,
-					 ESource *source)
+                                         ESource *source)
 {
 	ESource *parent;
 	const gchar *parent_uid;

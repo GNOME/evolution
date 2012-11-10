@@ -179,8 +179,9 @@ GtkWidget *
 gal_view_new_dialog_new (GalViewCollection *collection)
 {
 	GtkWidget *widget =
-		gal_view_new_dialog_construct (g_object_new (GAL_VIEW_NEW_DIALOG_TYPE, NULL),
-					      collection);
+		gal_view_new_dialog_construct (
+			g_object_new (GAL_VIEW_NEW_DIALOG_TYPE, NULL),
+			collection);
 	return widget;
 }
 
@@ -255,7 +256,7 @@ gal_view_new_dialog_construct (GalViewNewDialog *dialog,
 	gtk_tree_view_append_column (GTK_TREE_VIEW (dialog->list), column);
 
 	iterator = dialog->collection->factory_list;
-	for (; iterator; iterator = g_list_next (iterator) ) {
+	for (; iterator; iterator = g_list_next (iterator)) {
 		GalViewFactory *factory = iterator->data;
 		GtkTreeIter iter;
 

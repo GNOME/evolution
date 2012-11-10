@@ -159,10 +159,11 @@ populate_fields_tree (CertificateViewerData *cvm_data,
 
 	/* first insert a node for the current asn1 */
 	gtk_tree_store_insert (cvm_data->fields_store, &new_iter, root, -1);
-	gtk_tree_store_set (cvm_data->fields_store, &new_iter,
-			    0, e_asn1_object_get_display_name (asn1),
-			    1, asn1,
-			    -1);
+	gtk_tree_store_set (
+		cvm_data->fields_store, &new_iter,
+		0, e_asn1_object_get_display_name (asn1),
+		1, asn1,
+		-1);
 
 	if (e_asn1_object_is_valid_container (asn1)) {
 		GList *children = e_asn1_object_get_children (asn1);
@@ -191,10 +192,11 @@ hierarchy_selection_changed (GtkTreeSelection *selection,
 		EASN1Object *asn1_object;
 		ECert *cert;
 
-		gtk_tree_model_get (model,
-				    &iter,
-				    1, &cert,
-				    -1);
+		gtk_tree_model_get (
+			model,
+			&iter,
+			1, &cert,
+			-1);
 
 		if (!cert)
 			return;
@@ -204,8 +206,9 @@ hierarchy_selection_changed (GtkTreeSelection *selection,
 
 		/* wipe out the old model */
 		cvm_data->fields_store = gtk_tree_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
-		gtk_tree_view_set_model (GTK_TREE_VIEW (cvm_data->fields_tree),
-					 GTK_TREE_MODEL (cvm_data->fields_store));
+		gtk_tree_view_set_model (
+			GTK_TREE_VIEW (cvm_data->fields_tree),
+			GTK_TREE_MODEL (cvm_data->fields_store));
 
 		/* populate the fields from the newly selected cert */
 		populate_fields_tree (cvm_data, asn1_object, NULL);
@@ -213,8 +216,9 @@ hierarchy_selection_changed (GtkTreeSelection *selection,
 		g_object_unref (asn1_object);
 
 		/* and blow away the field value */
-		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
-					  "", 0);
+		gtk_text_buffer_set_text (
+			gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
+			"", 0);
 	}
 }
 
@@ -231,26 +235,30 @@ fields_selection_changed (GtkTreeSelection *selection,
 		EASN1Object *asn1_object;
 		const gchar *value;
 
-		gtk_tree_model_get (model,
-				    &iter,
-				    1, &asn1_object,
-				    -1);
+		gtk_tree_model_get (
+			model,
+			&iter,
+			1, &asn1_object,
+			-1);
 
 		value = e_asn1_object_get_display_value (asn1_object);
 
-		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
-					  "", 0);
+		gtk_text_buffer_set_text (
+			gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
+			"", 0);
 
 		if (value) {
 			GtkTextIter text_iter;
 
-			gtk_text_buffer_get_start_iter (gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
-							&text_iter);
+			gtk_text_buffer_get_start_iter (
+				gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
+				&text_iter);
 
-			gtk_text_buffer_insert_with_tags (gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
-							  &text_iter,
-							  value, strlen (value),
-							  cvm_data->text_tag, NULL);
+			gtk_text_buffer_insert_with_tags (
+				gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
+				&text_iter,
+				value, strlen (value),
+				cvm_data->text_tag, NULL);
 		}
 	}
 }
@@ -266,12 +274,14 @@ fill_in_details (CertificateViewerData *cvm_data,
 	/* hook up all the hierarchy tree foo */
 	cvm_data->hierarchy_store = gtk_tree_store_new (2, G_TYPE_STRING, G_TYPE_OBJECT);
 	cvm_data->hierarchy_tree = e_builder_get_widget (cvm_data->builder, "cert-hierarchy-treeview");
-	gtk_tree_view_set_model (GTK_TREE_VIEW (cvm_data->hierarchy_tree),
-				 GTK_TREE_MODEL (cvm_data->hierarchy_store));
+	gtk_tree_view_set_model (
+		GTK_TREE_VIEW (cvm_data->hierarchy_tree),
+		GTK_TREE_MODEL (cvm_data->hierarchy_store));
 
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cvm_data->hierarchy_tree),
-						     -1, "Cert", gtk_cell_renderer_text_new (),
-						     "text", 0, NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (cvm_data->hierarchy_tree),
+		-1, "Cert", gtk_cell_renderer_text_new (),
+		"text", 0, NULL);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cvm_data->hierarchy_tree));
 	g_signal_connect (
@@ -281,9 +291,10 @@ fill_in_details (CertificateViewerData *cvm_data,
 	/* hook up all the fields tree foo */
 	cvm_data->fields_tree = e_builder_get_widget (cvm_data->builder, "cert-fields-treeview");
 
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cvm_data->fields_tree),
-						     -1, "Field", gtk_cell_renderer_text_new (),
-						     "text", 0, NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (cvm_data->fields_tree),
+		-1, "Field", gtk_cell_renderer_text_new (),
+		"text", 0, NULL);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cvm_data->fields_tree));
 	g_signal_connect (
@@ -295,10 +306,11 @@ fill_in_details (CertificateViewerData *cvm_data,
 
 	/* set the font of the field value viewer to be some fixed
 	 * width font to the hex display doesn't look like ass. */
-	cvm_data->text_tag = gtk_text_buffer_create_tag (gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
-							 "mono",
-							 "font", "Mono",
-							 NULL);
+	cvm_data->text_tag = gtk_text_buffer_create_tag (
+		gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
+		"mono",
+		"font", "Mono",
+		NULL);
 
 	/* initially populate the hierarchy from the cert's chain */
 	cvm_data->cert_chain = e_cert_get_chain (cert);
@@ -313,10 +325,11 @@ fill_in_details (CertificateViewerData *cvm_data,
 			str = e_cert_get_subject_name (c);
 
 		gtk_tree_store_insert (cvm_data->hierarchy_store, &new_iter, root, -1);
-		gtk_tree_store_set (cvm_data->hierarchy_store, &new_iter,
-				    0, str,
-				    1, c,
-				    -1);
+		gtk_tree_store_set (
+			cvm_data->hierarchy_store, &new_iter,
+			0, str,
+			1, c,
+			-1);
 
 		root = &new_iter;
 	}

@@ -483,7 +483,7 @@ e_filter_part_expand_code (EFilterPart *part,
 	start = source;
 
 	while (start && (newstart = strstr (start, "${"))
-		&& (end = strstr (newstart + 2, "}")) ) {
+		&& (end = strstr (newstart + 2, "}"))) {
 		EFilterElement *element;
 
 		len = end - newstart - 2;

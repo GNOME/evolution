@@ -280,9 +280,10 @@ ect_draw (ECellView *ecell_view,
 		}
 
 		if (node_image) {
-			gdk_cairo_set_source_pixbuf (cr, node_image,
-						     x1 + subcell_offset,
-						     y1 + (y2 - y1) / 2 - node_image_height / 2);
+			gdk_cairo_set_source_pixbuf (
+				cr, node_image,
+				x1 + subcell_offset,
+				y1 + (y2 - y1) / 2 - node_image_height / 2);
 			cairo_paint (cr);
 
 			subcell_offset += node_image_width;
@@ -291,9 +292,10 @@ ect_draw (ECellView *ecell_view,
 
 	/* Now cause our subcell to draw its contents, shifted by
 	 * subcell_offset pixels */
-	e_cell_draw (tree_view->subcell_view, cr,
-		     model_col, view_col, row, flags,
-		     x1 + subcell_offset, y1, x2, y2);
+	e_cell_draw (
+		tree_view->subcell_view, cr,
+		model_col, view_col, row, flags,
+		x1 + subcell_offset, y1, x2, y2);
 
 	cairo_restore (cr);
 }
@@ -426,8 +428,9 @@ ect_event (ECellView *ecell_view,
 				cairo_t *cr;
 				gint hgt;
 
-				e_table_item_get_cell_geometry (tree_view->cell_view.e_table_item_view,
-							&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
+				e_table_item_get_cell_geometry (
+					tree_view->cell_view.e_table_item_view,
+					&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
 				area.width = offset - 2;
 				hgt = e_cell_height (ecell_view, model_col, view_col, row);
 
@@ -466,8 +469,9 @@ ect_event (ECellView *ecell_view,
 				gint tmp_row = row;
 				cairo_t *cr;
 
-				e_table_item_get_cell_geometry (tree_view->cell_view.e_table_item_view,
-								&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
+				e_table_item_get_cell_geometry (
+					tree_view->cell_view.e_table_item_view,
+					&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
 				area.width = offset - 2;
 
 				cr = gdk_cairo_create (window);
@@ -492,8 +496,9 @@ ect_event (ECellView *ecell_view,
 			GdkRectangle area;
 			cairo_t *cr;
 
-			e_table_item_get_cell_geometry (tree_view->cell_view.e_table_item_view,
-							&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
+			e_table_item_get_cell_geometry (
+				tree_view->cell_view.e_table_item_view,
+				&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
 			area.width = offset - 2;
 
 			cr = gdk_cairo_create (window);
@@ -666,16 +671,19 @@ ect_print (ECellView *ecell_view,
 
 			if (!e_tree_model_node_is_root (tree_model, node)
 			    || e_tree_model_node_get_children (tree_model, node, NULL) > 0) {
-				cairo_move_to (cr,
+				cairo_move_to (
+					cr,
 					offset - INDENT_AMOUNT / 2,
 					height / 2);
 				cairo_line_to (cr, offset, height / 2);
 			}
 
 			if (visible_depth_of_node (ecell_view->e_table_model, row) != 0) {
-				cairo_move_to (cr,
+				cairo_move_to (
+					cr,
 					offset - INDENT_AMOUNT / 2, height);
-				cairo_line_to (cr,
+				cairo_line_to (
+					cr,
 					offset - INDENT_AMOUNT / 2,
 					e_tree_table_adapter_node_get_next
 					(tree_table_adapter, node) ? 0 :
@@ -690,10 +698,12 @@ ect_print (ECellView *ecell_view,
 			offset -= INDENT_AMOUNT;
 			while (node && depth != 0) {
 				if (e_tree_table_adapter_node_get_next (tree_table_adapter, node)) {
-					cairo_move_to (cr,
+					cairo_move_to (
+						cr,
 						offset - INDENT_AMOUNT / 2,
 						height);
-					cairo_line_to (cr,
+					cairo_line_to (
+						cr,
 						offset - INDENT_AMOUNT / 2, 0);
 				}
 				node = e_tree_model_node_get_parent (tree_model, node);

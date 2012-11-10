@@ -341,7 +341,7 @@ static void
 spam_assassin_set_local_only (ESpamAssassin *extension,
                               gboolean local_only)
 {
-	if ((extension->local_only ? 1 : 0) == (local_only ? 1 : 0))
+	if (extension->local_only == local_only)
 		return;
 
 	extension->local_only = local_only;
@@ -1200,7 +1200,7 @@ e_spam_assassin_init (ESpamAssassin *extension)
 
 	g_settings_bind (
 		settings, "local-only",
-		G_OBJECT (extension), "local-only",
+		extension, "local-only",
 		G_SETTINGS_BIND_DEFAULT);
 	g_settings_bind (
 		settings, "spamc-binary",
@@ -1212,11 +1212,11 @@ e_spam_assassin_init (ESpamAssassin *extension)
 		G_SETTINGS_BIND_DEFAULT);
 	g_settings_bind (
 		settings, "socket-path",
-		G_OBJECT (extension), "socket-path",
+		extension, "socket-path",
 		G_SETTINGS_BIND_DEFAULT);
 	g_settings_bind (
 		settings, "use-daemon",
-		G_OBJECT (extension), "use-daemon",
+		extension, "use-daemon",
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);

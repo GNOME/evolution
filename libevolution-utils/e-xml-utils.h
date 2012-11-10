@@ -72,7 +72,7 @@ gdouble  e_xml_get_double_prop_by_name               (const xmlNode *parent,
 gdouble  e_xml_get_double_prop_by_name_with_default  (const xmlNode *parent,
                                                       const xmlChar *prop_name,
                                                       gdouble        def);
-void      e_xml_set_double_prop_by_name              ( xmlNode       *parent,
+void      e_xml_set_double_prop_by_name              (xmlNode       *parent,
                                                       const xmlChar *prop_name,
                                                       gdouble        value);
 

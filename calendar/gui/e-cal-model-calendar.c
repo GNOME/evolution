@@ -111,8 +111,9 @@ get_dtend (ECalModelCalendar *model,
 				if (model_zone)
 					icaltimezone_convert_time (&tt_end, zone, model_zone);
 			} else
-				tt_end = icaltime_from_timet_with_zone (comp_data->instance_end, tt_end.is_date,
-						model_zone);
+				tt_end = icaltime_from_timet_with_zone (
+					comp_data->instance_end,
+					tt_end.is_date, model_zone);
 		}
 
 		if (!icaltime_is_valid_time (tt_end) || icaltime_is_null_time (tt_end))
@@ -318,7 +319,10 @@ ecmc_set_value_at (ETableModel *etm,
 		break;
 	}
 
-	if (e_cal_client_modify_object_sync (comp_data->client, comp_data->icalcomp, mod, NULL, &error)) {
+	e_cal_client_modify_object_sync (
+		comp_data->client, comp_data->icalcomp, mod, NULL, &error);
+
+	if (error == NULL) {
 		gboolean strip_alarms = TRUE;
 
 		if (itip_organizer_is_user (registry, comp, comp_data->client) &&
@@ -350,11 +354,12 @@ ecmc_set_value_at (ETableModel *etm,
 				g_object_unref (send_comp);
 		}
 	} else {
-		g_warning (G_STRLOC ": Could not modify the object! %s", error ? error->message : "Unknown error");
+		g_warning (
+			G_STRLOC ": Could not modify the object! %s",
+			error->message);
 
 		/* FIXME Show error dialog */
-		if (error)
-			g_error_free (error);
+		g_error_free (error);
 	}
 
 	g_object_unref (comp);
@@ -513,12 +518,15 @@ ecmc_fill_component_from_model (ECalModel *model,
 	g_return_if_fail (comp_data != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
 
-	set_dtend (model, comp_data,
-		   e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_DTEND, row));
-	set_location (comp_data,
-		      e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_LOCATION, row));
-	set_transparency (comp_data,
-			  e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY, row));
+	set_dtend (
+		model, comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_DTEND, row));
+	set_location (
+		comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_LOCATION, row));
+	set_transparency (
+		comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY, row));
 }
 
 /**

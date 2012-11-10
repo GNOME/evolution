@@ -248,8 +248,9 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
 	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
-	pat = cairo_pattern_create_linear (item_x - x + 5.5, item_y + 2.5 - y,
-					item_x - x + 5, item_y - y + item_h + 7.5);
+	pat = cairo_pattern_create_linear (
+		item_x - x + 5.5, item_y + 2.5 - y,
+		item_x - x + 5, item_y - y + item_h + 7.5);
 	cairo_pattern_add_color_stop_rgba (pat, 1, red / cc, green / cc, blue / cc, 0.8);
 	cairo_pattern_add_color_stop_rgba (pat, 0, red / cc, green / cc, blue / cc, 0.4);
 	cairo_set_source (cr, pat);
@@ -318,22 +319,26 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 		minute = offset % 60;
 		/* Calculate the actual hour number to display. For 12-hour
 		 * format we convert 0-23 to 12-11am/12-11pm. */
-		e_day_view_convert_time_to_display (day_view, hour,
-						    &display_hour,
-						    &suffix, &suffix_width);
+		e_day_view_convert_time_to_display (
+			day_view, hour,
+			&display_hour,
+			&suffix, &suffix_width);
 		if (e_cal_model_get_use_24_hour_format (model)) {
-			g_snprintf (buffer, sizeof (buffer), "%i:%02i",
-				    display_hour, minute);
+			g_snprintf (
+				buffer, sizeof (buffer), "%i:%02i",
+				display_hour, minute);
 		} else {
-			g_snprintf (buffer, sizeof (buffer), "%i:%02i%s",
-				    display_hour, minute, suffix);
+			g_snprintf (
+				buffer, sizeof (buffer), "%i:%02i%s",
+				display_hour, minute, suffix);
 		}
 
 		cairo_save (cr);
 
-		cairo_rectangle (cr,
-				 item_x - x, item_y - y,
-				 item_w - E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH, item_h);
+		cairo_rectangle (
+			cr,
+			item_x - x, item_y - y,
+			item_w - E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH, item_h);
 		cairo_clip (cr);
 
 		time_x = item_x + E_DAY_VIEW_LONG_EVENT_X_PAD - x;
@@ -341,10 +346,11 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 			time_x += day_view->digit_width;
 
 		layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
-		cairo_move_to (cr,
-			       time_x,
-			       item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT +
-			       E_DAY_VIEW_LONG_EVENT_Y_PAD - y);
+		cairo_move_to (
+			cr,
+			time_x,
+			item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT +
+			E_DAY_VIEW_LONG_EVENT_Y_PAD - y);
 		pango_cairo_show_layout (cr, layout);
 		g_object_unref (layout);
 
@@ -369,26 +375,30 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
 		if (time_x >= min_end_time_x) {
 			/* Calculate the actual hour number to display. */
-			e_day_view_convert_time_to_display (day_view, hour,
-							    &display_hour,
-							    &suffix,
-							    &suffix_width);
+			e_day_view_convert_time_to_display (
+				day_view, hour,
+				&display_hour,
+				&suffix,
+				&suffix_width);
 			if (e_cal_model_get_use_24_hour_format (model)) {
-				g_snprintf (buffer, sizeof (buffer),
-					    "%i:%02i", display_hour, minute);
+				g_snprintf (
+					buffer, sizeof (buffer),
+					"%i:%02i", display_hour, minute);
 			} else {
-				g_snprintf (buffer, sizeof (buffer),
-					    "%i:%02i%s", display_hour, minute,
-					    suffix);
+				g_snprintf (
+					buffer, sizeof (buffer),
+					"%i:%02i%s", display_hour, minute,
+					suffix);
 			}
 
 			if (display_hour < 10)
 				time_x += day_view->digit_width;
 
 			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
-			cairo_move_to (cr,
-				       time_x,
-				       item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD + 1 - y);
+			cairo_move_to (
+				cr,
+				time_x,
+				item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD + 1 - y);
 			pango_cairo_show_layout (cr, layout);
 			g_object_unref (layout);
 
@@ -457,12 +467,14 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 			continue;
 
 		if (icon_x <= max_icon_x) {
-			gdk_cairo_set_source_pixbuf (cr, pixbuf,
-						     icon_x, icon_y);
-			cairo_rectangle (cr,
-					 icon_x, icon_y,
-					 E_DAY_VIEW_ICON_WIDTH,
-					 E_DAY_VIEW_ICON_HEIGHT);
+			gdk_cairo_set_source_pixbuf (
+				cr, pixbuf,
+				icon_x, icon_y);
+			cairo_rectangle (
+				cr,
+				icon_x, icon_y,
+				E_DAY_VIEW_ICON_WIDTH,
+				E_DAY_VIEW_ICON_HEIGHT);
 			cairo_fill (cr);
 			icon_x -= icon_x_inc;
 		}
@@ -616,9 +628,10 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 		/* Draw the background for the dates. */
 		cairo_save (cr);
 		gdk_cairo_set_source_color (cr, &bg);
-		cairo_rectangle (cr, left_edge + 2 - x, 2 - y,
-				 canvas_width - left_edge - 3,
-				 item_height - 3);
+		cairo_rectangle (
+			cr, left_edge + 2 - x, 2 - y,
+			canvas_width - left_edge - 3,
+			item_height - 3);
 		cairo_fill (cr);
 		cairo_restore (cr);
 	}
@@ -628,9 +641,10 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 		cairo_save (cr);
 		gdk_cairo_set_source_color (
 			cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS]);
-		cairo_rectangle (cr, left_edge - x, - y,
-				 canvas_width - left_edge,
-				 canvas_height);
+		cairo_rectangle (
+			cr, left_edge - x, - y,
+			canvas_width - left_edge,
+			canvas_height);
 		cairo_fill (cr);
 		cairo_restore (cr);
 
@@ -654,8 +668,9 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 				gdk_cairo_set_source_color (
 					cr, &day_view->colors
 					[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED]);
-				cairo_rectangle (cr, rect_x - x, rect_y - y,
-						 rect_w, rect_h);
+				cairo_rectangle (
+					cr, rect_x - x, rect_y - y,
+					rect_w, rect_h);
 				cairo_fill (cr);
 				cairo_restore (cr);
 			}
@@ -703,16 +718,20 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 			if (day != 0) {
 				cairo_save (cr);
 				gdk_cairo_set_source_color (cr, &light);
-				cairo_move_to (cr, day_view->day_offsets[day] - x,
-						4 - y);
-				cairo_line_to (cr, day_view->day_offsets[day] - x,
-						item_height - 4 - y);
+				cairo_move_to (
+					cr, day_view->day_offsets[day] - x,
+					4 - y);
+				cairo_line_to (
+					cr, day_view->day_offsets[day] - x,
+					item_height - 4 - y);
 				cairo_stroke (cr);
 				gdk_cairo_set_source_color (cr, &dark);
-				cairo_move_to (cr, day_view->day_offsets[day] - 1 - x,
-						4 - y);
-				cairo_line_to (cr, day_view->day_offsets[day] - 1 - x,
-						item_height - 4 - y);
+				cairo_move_to (
+					cr, day_view->day_offsets[day] - 1 - x,
+					4 - y);
+				cairo_line_to (
+					cr, day_view->day_offsets[day] - 1 - x,
+					item_height - 4 - y);
 				cairo_stroke (cr);
 				cairo_restore (cr);
 			}
@@ -723,10 +742,12 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 				gdk_cairo_set_source_color (
 					cr, &day_view->colors
 					[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID]);
-				cairo_move_to (cr, day_view->day_offsets[day] - x,
-						item_height - y);
-				cairo_line_to (cr, day_view->day_offsets[day] - x,
-						canvas_height - y);
+				cairo_move_to (
+					cr, day_view->day_offsets[day] - x,
+					item_height - y);
+				cairo_line_to (
+					cr, day_view->day_offsets[day] - x,
+					canvas_height - y);
 				cairo_stroke (cr);
 				cairo_restore (cr);
 			}
@@ -883,7 +904,7 @@ e_day_view_top_item_set_show_dates (EDayViewTopItem *top_item,
 {
 	g_return_if_fail (E_IS_DAY_VIEW_TOP_ITEM (top_item));
 
-	if ((top_item->priv->show_dates ? 1 : 0) == (show_dates ? 1 : 0))
+	if (top_item->priv->show_dates == show_dates)
 		return;
 
 	top_item->priv->show_dates = show_dates;

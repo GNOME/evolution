@@ -279,12 +279,14 @@ task_details_page_fill_widgets (CompEditorPage *page,
 
 		icaltimezone_convert_time (completed, utc_zone, zone);
 
-		e_date_edit_set_date (E_DATE_EDIT (priv->completed_date),
-				      completed->year, completed->month,
-				      completed->day);
-		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->completed_date),
-					     completed->hour,
-					     completed->minute);
+		e_date_edit_set_date (
+			E_DATE_EDIT (priv->completed_date),
+			completed->year, completed->month,
+			completed->day);
+		e_date_edit_set_time_of_day (
+			E_DATE_EDIT (priv->completed_date),
+			completed->hour,
+			completed->minute);
 
 		e_cal_component_free_icaltimetype (completed);
 	}
@@ -357,20 +359,23 @@ task_details_page_fill_component (CompEditorPage *page,
 		return FALSE;
 	}
 
-	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->completed_date),
-					 &icalcomplete.year,
-					 &icalcomplete.month,
-					 &icalcomplete.day);
+	date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->completed_date),
+		&icalcomplete.year,
+		&icalcomplete.month,
+		&icalcomplete.day);
 
 	if (date_set) {
-		e_date_edit_get_time_of_day (E_DATE_EDIT (priv->completed_date),
-				&icalcomplete.hour,
-				&icalcomplete.minute);
+		e_date_edit_get_time_of_day (
+			E_DATE_EDIT (priv->completed_date),
+			&icalcomplete.hour,
+			&icalcomplete.minute);
 
 		/* COMPLETED today or before */
 		icaltoday = icaltime_current_time_with_zone (zone);
-		icaltimezone_convert_time (&icaltoday, zone,
-				icaltimezone_get_utc_timezone ());
+		icaltimezone_convert_time (
+			&icaltoday, zone,
+			icaltimezone_get_utc_timezone ());
 
 		if (icaltime_compare_date_only (icalcomplete, icaltoday) > 0) {
 			comp_editor_page_display_validation_error (
@@ -385,7 +390,8 @@ task_details_page_fill_component (CompEditorPage *page,
 		 * entire time the dialog is shown. Otherwise if the user
 		 * changes the timezone, the COMPLETED date may get changed
 		 * as well. */
-		icaltimezone_convert_time (&icalcomplete, zone,
+		icaltimezone_convert_time (
+			&icalcomplete, zone,
 				icaltimezone_get_utc_timezone ());
 		e_cal_component_set_completed (comp, &icalcomplete);
 	} else {
@@ -539,30 +545,34 @@ date_changed_cb (EDateEdit *dedit,
 
 	comp_editor_page_set_updating (COMP_EDITOR_PAGE (tdpage), TRUE);
 
-	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->completed_date),
-					 &completed_tt.year,
-					 &completed_tt.month,
-					 &completed_tt.day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->completed_date),
-				     &completed_tt.hour,
-				     &completed_tt.minute);
+	date_set = e_date_edit_get_date (
+		E_DATE_EDIT (priv->completed_date),
+		&completed_tt.year,
+		&completed_tt.month,
+		&completed_tt.day);
+	e_date_edit_get_time_of_day (
+		E_DATE_EDIT (priv->completed_date),
+		&completed_tt.hour,
+		&completed_tt.minute);
 
 	status = e_dialog_combo_box_get (priv->status_combo, status_map);
 
 	if (!date_set) {
 		completed_tt = icaltime_null_time ();
 		if (status == ICAL_STATUS_COMPLETED) {
-			e_dialog_combo_box_set (priv->status_combo,
-						  ICAL_STATUS_NONE,
-						  status_map);
+			e_dialog_combo_box_set (
+				priv->status_combo,
+				ICAL_STATUS_NONE,
+				status_map);
 			gtk_spin_button_set_value (
 				GTK_SPIN_BUTTON (priv->percent_complete), 0);
 		}
 	} else {
 		if (status != ICAL_STATUS_COMPLETED) {
-			e_dialog_combo_box_set (priv->status_combo,
-						  ICAL_STATUS_COMPLETED,
-						  status_map);
+			e_dialog_combo_box_set (
+				priv->status_combo,
+				ICAL_STATUS_COMPLETED,
+				status_map);
 		}
 		gtk_spin_button_set_value (
 			GTK_SPIN_BUTTON (priv->percent_complete), 100);
@@ -746,8 +756,9 @@ task_details_page_construct (TaskDetailsPage *tdpage)
 	e_load_ui_builder_definition (priv->builder, "task-details-page.ui");
 
 	if (!get_widgets (tdpage)) {
-		g_message ("task_details_page_construct(): "
-			   "Could not find all widgets in the XML file!");
+		g_message (
+			"task_details_page_construct(): "
+			"Could not find all widgets in the XML file!");
 		return NULL;
 	}
 

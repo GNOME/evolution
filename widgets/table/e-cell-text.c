@@ -305,8 +305,9 @@ ect_stop_editing (ECellTextView *text_view,
 		ECellText *ect = (ECellText *) ecell_view->ecell;
 
 		if (strcmp (old_text, text)) {
-			e_cell_text_set_value (ect, ecell_view->e_table_model,
-					       model_col, row, text);
+			e_cell_text_set_value (
+				ect, ecell_view->e_table_model,
+				model_col, row, text);
 		}
 	}
 	g_free (text);
@@ -463,9 +464,10 @@ layout_with_preedit (ECellTextView *text_view,
 	gint text_length = strlen (text);
 	gint mlen = MIN (edit->selection_start,text_length);
 
-	gtk_im_context_get_preedit_string (edit->im_context,
-					&preedit_string,&preedit_attrs,
-					NULL);
+	gtk_im_context_get_preedit_string (
+		edit->im_context,
+		&preedit_string,&preedit_attrs,
+		NULL);
 	preedit_length = edit->preedit_length = strlen (preedit_string);;
 
 	layout = edit->layout;
@@ -770,9 +772,8 @@ ect_draw (ECellView *ecell_view,
 			indices[0] = MIN (edit->selection_start, edit->selection_end);
 			indices[1] = MAX (edit->selection_start, edit->selection_end);
 
-			clip_region = gdk_pango_layout_get_clip_region (layout,
-									x_origin, y_origin,
-									indices, 1);
+			clip_region = gdk_pango_layout_get_clip_region (
+				layout, x_origin, y_origin, indices, 1);
 			gdk_cairo_region (cr, clip_region);
 			cairo_clip (cr);
 			cairo_region_destroy (clip_region);
@@ -815,8 +816,9 @@ ect_get_bg_color (ECellView *ecell_view,
 	if (ect->bg_color_column == -1)
 		return NULL;
 
-	color_spec = e_table_model_value_at (ecell_view->e_table_model,
-					     ect->bg_color_column, row);
+	color_spec = e_table_model_value_at (
+		ecell_view->e_table_model,
+		ect->bg_color_column, row);
 
 	return color_spec;
 }
@@ -867,7 +869,7 @@ ect_event (ECellView *ecell_view,
 	if (!(flags & E_CELL_EDITING))
 		return 0;
 
-	if ( edit && !edit->preedit_length && flags & E_CELL_PREEDIT)
+	if (edit && !edit->preedit_length && flags & E_CELL_PREEDIT)
 		return 1;
 
 	if (edit && edit->view_col == view_col && edit->row == row) {
@@ -970,8 +972,8 @@ ect_event (ECellView *ecell_view,
 			e_tep_event.button.position = get_position_from_xy (edit, event->button.x, event->button.y);
 			_get_tep (edit);
 			edit->actions = 0;
-			return_val = e_text_event_processor_handle_event (edit->tep,
-									  &e_tep_event);
+			return_val = e_text_event_processor_handle_event (
+				edit->tep, &e_tep_event);
 			*actions = edit->actions;
 			if (event->button.button == 1) {
 				if (event->type == GDK_BUTTON_PRESS)
@@ -993,8 +995,8 @@ ect_event (ECellView *ecell_view,
 			e_tep_event.button.position = get_position_from_xy (edit, event->button.x, event->button.y);
 			_get_tep (edit);
 			edit->actions = 0;
-			return_val = e_text_event_processor_handle_event (edit->tep,
-									  &e_tep_event);
+			return_val = e_text_event_processor_handle_event (
+				edit->tep, &e_tep_event);
 			*actions = edit->actions;
 			if (event->button.button == 1) {
 				if (event->type == GDK_BUTTON_PRESS)
@@ -1017,8 +1019,8 @@ ect_event (ECellView *ecell_view,
 			e_tep_event.motion.position = get_position_from_xy (edit, event->motion.x, event->motion.y);
 			_get_tep (edit);
 			edit->actions = 0;
-			return_val = e_text_event_processor_handle_event (edit->tep,
-									  &e_tep_event);
+			return_val = e_text_event_processor_handle_event (
+				edit->tep, &e_tep_event);
 			*actions = edit->actions;
 			edit->lastx = motion.x;
 			edit->lasty = motion.y;
@@ -1421,7 +1423,7 @@ ect_print_height (ECellView *ecell_view,
 	/* Checking if the text width goes beyond the column width to increase the
 	 * number of lines.
 	 */
-	if ( text_width > width - 4)
+	if (text_width > width - 4)
 		lines = (text_width / (width - 4)) + 1;
 	return 16 *lines + 8;
 }
@@ -1603,69 +1605,93 @@ e_cell_text_class_init (ECellTextClass *class)
 	object_class->get_property = ect_get_property;
 	object_class->set_property = ect_set_property;
 
-	signals[TEXT_INSERTED] =
-		g_signal_new ("text_inserted",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (ECellTextClass, text_inserted),
-			      NULL, NULL,
-			      e_marshal_VOID__POINTER_INT_INT_INT_INT,
-			      G_TYPE_NONE, 5,
-			      G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT,
-			      G_TYPE_INT, G_TYPE_INT);
+	signals[TEXT_INSERTED] = g_signal_new (
+		"text_inserted",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (ECellTextClass, text_inserted),
+		NULL, NULL,
+		e_marshal_VOID__POINTER_INT_INT_INT_INT,
+		G_TYPE_NONE, 5,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		G_TYPE_INT);
 
-	signals[TEXT_DELETED] =
-		g_signal_new ("text_deleted",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (ECellTextClass, text_deleted),
-			      NULL, NULL,
-			      e_marshal_VOID__POINTER_INT_INT_INT_INT,
-			      G_TYPE_NONE, 5,
-			      G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT,
-			      G_TYPE_INT, G_TYPE_INT);
+	signals[TEXT_DELETED] = g_signal_new (
+		"text_deleted",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (ECellTextClass, text_deleted),
+		NULL, NULL,
+		e_marshal_VOID__POINTER_INT_INT_INT_INT,
+		G_TYPE_NONE, 5,
+		G_TYPE_POINTER,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		G_TYPE_INT,
+		G_TYPE_INT);
 
-	g_object_class_install_property (object_class, PROP_STRIKEOUT_COLUMN,
-					 g_param_spec_int ("strikeout_column",
-							   "Strikeout Column",
-							   NULL,
-							   -1, G_MAXINT, -1,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_STRIKEOUT_COLUMN,
+		g_param_spec_int (
+			"strikeout_column",
+			"Strikeout Column",
+			NULL,
+			-1, G_MAXINT, -1,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_UNDERLINE_COLUMN,
-					 g_param_spec_int ("underline_column",
-							   "Underline Column",
-							   NULL,
-							   -1, G_MAXINT, -1,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_UNDERLINE_COLUMN,
+		g_param_spec_int (
+			"underline_column",
+			"Underline Column",
+			NULL,
+			-1, G_MAXINT, -1,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_BOLD_COLUMN,
-					 g_param_spec_int ("bold_column",
-							   "Bold Column",
-							   NULL,
-							   -1, G_MAXINT, -1,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_BOLD_COLUMN,
+		g_param_spec_int (
+			"bold_column",
+			"Bold Column",
+			NULL,
+			-1, G_MAXINT, -1,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_COLOR_COLUMN,
-					 g_param_spec_int ("color_column",
-							   "Color Column",
-							   NULL,
-							   -1, G_MAXINT, -1,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_COLOR_COLUMN,
+		g_param_spec_int (
+			"color_column",
+			"Color Column",
+			NULL,
+			-1, G_MAXINT, -1,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_EDITABLE,
-					 g_param_spec_boolean ("editable",
-							       "Editable",
-							       NULL,
-							       FALSE,
-							       G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_EDITABLE,
+		g_param_spec_boolean (
+			"editable",
+			"Editable",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_BG_COLOR_COLUMN,
-					 g_param_spec_int ("bg_color_column",
-							   "BG Color Column",
-							   NULL,
-							   -1, G_MAXINT, -1,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_BG_COLOR_COLUMN,
+		g_param_spec_int (
+			"bg_color_column",
+			"BG Color Column",
+			NULL,
+			-1, G_MAXINT, -1,
+			G_PARAM_READWRITE));
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -1702,8 +1728,8 @@ e_cell_text_get_cursor_locations (ECellTextView *tv,
 	row = edit->row;
 	col = edit->view_col;
 
-	e_table_item_get_cell_geometry (item, &row, &col,
-					&x, &y, NULL, &area.height);
+	e_table_item_get_cell_geometry (
+		item, &row, &col, &x, &y, NULL, &area.height);
 
 	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (parent_item), &x1, &y1, NULL, NULL);
 
@@ -1711,10 +1737,11 @@ e_cell_text_get_cursor_locations (ECellTextView *tv,
 
 	index = edit->selection_end + edit->preedit_pos;
 
-	pango_layout_get_cursor_pos (edit->layout,
-				     index,
-				     strong_pos ? &pango_strong_pos : NULL,
-				     weak_pos ? &pango_weak_pos : NULL);
+	pango_layout_get_cursor_pos (
+		edit->layout,
+		index,
+		strong_pos ? &pango_strong_pos : NULL,
+		weak_pos ? &pango_weak_pos : NULL);
 
 	if (strong_pos) {
 		strong_pos->x = x + x1 - cx - edit->xofs_edit + pango_strong_pos.x / PANGO_SCALE;
@@ -1749,8 +1776,9 @@ e_cell_text_preedit_changed_cb (GtkIMContext *context,
 	gchar *preedit_string;
 	gint cursor_pos;
 	CellEdit *edit = tv->edit;
-	gtk_im_context_get_preedit_string (edit->im_context, &preedit_string,
-					NULL, &cursor_pos);
+	gtk_im_context_get_preedit_string (
+		edit->im_context, &preedit_string,
+		NULL, &cursor_pos);
 
 	edit->preedit_length = strlen (preedit_string);
 	cursor_pos = CLAMP (cursor_pos, 0, g_utf8_strlen (preedit_string, -1));
@@ -1784,11 +1812,11 @@ e_cell_text_retrieve_surrounding_cb (GtkIMContext *context,
 {
 	CellEdit *edit = tv->edit;
 
-	gtk_im_context_set_surrounding (context,
-					edit->text,
-					strlen (edit->text),
-					MIN (edit->selection_start, edit->selection_end)
-					);
+	gtk_im_context_set_surrounding (
+		context,
+		edit->text,
+		strlen (edit->text),
+		MIN (edit->selection_start, edit->selection_end));
 
 	return TRUE;
 }
@@ -1804,8 +1832,9 @@ e_cell_text_delete_surrounding_cb (GtkIMContext *context,
 	CellEdit *edit = tv->edit;
 
 	text_len = g_utf8_strlen (edit->text, -1);
-	begin_pos = g_utf8_pointer_to_offset (edit->text,
-					      edit->text + MIN (edit->selection_start, edit->selection_end));
+	begin_pos = g_utf8_pointer_to_offset (
+		edit->text,
+		edit->text + MIN (edit->selection_start, edit->selection_end));
 	begin_pos += offset;
 	end_pos = begin_pos + n_chars;
 	if (begin_pos < 0 || text_len < begin_pos)
@@ -2023,8 +2052,9 @@ _blink_scroll_timeout (gpointer data)
 			e_tep_event.motion.time = 0;
 			e_tep_event.motion.position = get_position_from_xy (edit, edit->lastx, edit->lasty);
 			_get_tep (edit);
-			e_text_event_processor_handle_event (edit->tep,
-							     &e_tep_event);
+			e_text_event_processor_handle_event (
+				edit->tep,
+				&e_tep_event);
 			edit->scroll_start = current_time;
 		}
 	}
@@ -2168,13 +2198,14 @@ _get_position (ECellTextView *text_view,
 		return 0;
 
 	case E_TEP_FORWARD_LINE:
-		pango_layout_move_cursor_visually (edit->layout,
-						   TRUE,
-						   edit->selection_end,
-						   0,
-						   TRUE,
-						   &index,
-						   &trailing);
+		pango_layout_move_cursor_visually (
+			edit->layout,
+			TRUE,
+			edit->selection_end,
+			0,
+			TRUE,
+			&index,
+			&trailing);
 		index = g_utf8_offset_to_pointer (edit->text + index, trailing) - edit->text;
 		if (index < 0)
 			return 0;
@@ -2183,13 +2214,14 @@ _get_position (ECellTextView *text_view,
 			return length;
 		return index;
 	case E_TEP_BACKWARD_LINE:
-		pango_layout_move_cursor_visually (edit->layout,
-						   TRUE,
-						   edit->selection_end,
-						   0,
-						   TRUE,
-						   &index,
-						   &trailing);
+		pango_layout_move_cursor_visually (
+			edit->layout,
+			TRUE,
+			edit->selection_end,
+			0,
+			TRUE,
+			&index,
+			&trailing);
 
 		index = g_utf8_offset_to_pointer (edit->text + index, trailing) - edit->text;
 		if (index < 0)
@@ -2360,9 +2392,10 @@ e_cell_text_view_command (ETextEventProcessor *tep,
 		sel_start = MIN (edit->selection_start, edit->selection_end);
 		sel_end = MAX (edit->selection_start, edit->selection_end);
 		if (sel_start != sel_end) {
-			e_cell_text_view_supply_selection (edit, command->time, GDK_SELECTION_PRIMARY,
-							   edit->text + sel_start,
-							   sel_end - sel_start);
+			e_cell_text_view_supply_selection (
+				edit, command->time, GDK_SELECTION_PRIMARY,
+				edit->text + sel_start,
+				sel_end - sel_start);
 		} else if (edit->timer) {
 			g_timer_reset (edit->timer);
 		}
@@ -2395,9 +2428,10 @@ e_cell_text_view_command (ETextEventProcessor *tep,
 		sel_start = MIN (edit->selection_start, edit->selection_end);
 		sel_end = MAX (edit->selection_start, edit->selection_end);
 		if (sel_start != sel_end) {
-			e_cell_text_view_supply_selection (edit, command->time, clipboard_atom,
-							   edit->text + sel_start,
-							   sel_end - sel_start);
+			e_cell_text_view_supply_selection (
+				edit, command->time, clipboard_atom,
+				edit->text + sel_start,
+				sel_end - sel_start);
 		}
 		if (edit->timer) {
 			g_timer_reset (edit->timer);
@@ -2520,9 +2554,10 @@ e_cell_text_view_get_selection (CellEdit *edit,
                                 guint32 time)
 {
 #if DO_SELECTION
-	gtk_clipboard_request_text (gtk_widget_get_clipboard (GTK_WIDGET (edit->text_view->canvas),
-							      selection),
-				    paste_received, edit);
+	gtk_clipboard_request_text (
+		gtk_widget_get_clipboard (GTK_WIDGET (edit->text_view->canvas),
+		selection),
+		paste_received, edit);
 #endif
 }
 
@@ -2764,8 +2799,9 @@ e_cell_text_get_text_by_view (ECellView *cell_view,
 	if (edit && ectv->edit->row == row && ectv->edit->model_col == col) { /* being editted now */
 		ret = g_strdup (edit->text);
 	} else{
-		model_text = e_cell_text_get_text (E_CELL_TEXT (cell_view->ecell),
-					     cell_view->e_table_model, col, row);
+		model_text = e_cell_text_get_text (
+			E_CELL_TEXT (cell_view->ecell),
+			cell_view->e_table_model, col, row);
 		ret = g_strdup (model_text);
 		e_cell_text_free_text (E_CELL_TEXT (cell_view->ecell), model_text);
 	}

@@ -186,7 +186,7 @@ cell_toggle_draw (ECellView *ecell_view,
 	gint x, y;
 
 	const gint value = GPOINTER_TO_INT (
-		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+		e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
 	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
 
@@ -307,9 +307,12 @@ cell_toggle_print (ECellView *ecell_view,
 		image = gdk_pixbuf_add_alpha (image, TRUE, 255, 255, 255);
 		image_width = (gdouble) gdk_pixbuf_get_width (image);
 		image_height = (gdouble) gdk_pixbuf_get_height (image);
-		cairo_rectangle (cr, image_width / 7, image_height / 3,
-				image_width - image_width / 4,
-				image_width - image_height / 7);
+		cairo_rectangle (
+			cr,
+			image_width / 7,
+			image_height / 3,
+			image_width - image_width / 4,
+			image_width - image_height / 7);
 		cairo_clip (cr);
 		gdk_cairo_set_source_pixbuf (cr, image, 0, image_height / 4);
 		cairo_paint (cr);

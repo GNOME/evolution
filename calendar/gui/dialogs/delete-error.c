@@ -109,9 +109,10 @@ delete_error_dialog (const GError *error,
 		return;
 	}
 
-	dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-					 GTK_MESSAGE_ERROR,
-					 GTK_BUTTONS_OK, str, error->message);
+	dialog = gtk_message_dialog_new (
+		NULL, GTK_DIALOG_MODAL,
+		GTK_MESSAGE_ERROR,
+		GTK_BUTTONS_OK, str, error->message);
 	if (vtype == E_CAL_COMPONENT_EVENT)
 		icon_name = "x-office-calendar";
 	else if (vtype == E_CAL_COMPONENT_TODO)

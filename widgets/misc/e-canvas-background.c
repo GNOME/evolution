@@ -188,11 +188,12 @@ ecb_draw (GnomeCanvasItem *item,
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
 
 	cairo_save (cr);
-	cairo_set_source_rgba (cr,
-			       ((ecb->priv->rgba >> 24) & 0xff) / 255.0,
-			       ((ecb->priv->rgba >> 16) & 0xff) / 255.0,
-			       ((ecb->priv->rgba >>  8) & 0xff) / 255.0,
-			       ( ecb->priv->rgba        & 0xff) / 255.0);
+	cairo_set_source_rgba (
+		cr,
+		((ecb->priv->rgba >> 24) & 0xff) / 255.0,
+		((ecb->priv->rgba >> 16) & 0xff) / 255.0,
+		((ecb->priv->rgba >>  8) & 0xff) / 255.0,
+		( ecb->priv->rgba        & 0xff) / 255.0);
 	cairo_paint (cr);
 	cairo_restore (cr);
 }
@@ -235,34 +236,44 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 
 	ecb_class->style_set	    = ecb_style_set;
 
-	g_object_class_install_property (object_class, PROP_FILL_COLOR,
-					 g_param_spec_string ("fill_color",
-							      "Fill color",
-							      "Fill color",
-							      NULL,
-							      G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_FILL_COLOR,
+		g_param_spec_string (
+			"fill_color",
+			"Fill color",
+			"Fill color",
+			NULL,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_FILL_COLOR_GDK,
-					 g_param_spec_boxed ("fill_color_gdk",
-							     "GDK fill color",
-							     "GDK fill color",
-							     GDK_TYPE_COLOR,
-							     G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_FILL_COLOR_GDK,
+		g_param_spec_boxed (
+			"fill_color_gdk",
+			"GDK fill color",
+			"GDK fill color",
+			GDK_TYPE_COLOR,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_FILL_COLOR_RGBA,
-					 g_param_spec_uint ("fill_color_rgba",
-							    "GDK fill color",
-							    "GDK fill color",
-							    0, G_MAXUINT, 0,
-							    G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_FILL_COLOR_RGBA,
+		g_param_spec_uint (
+			"fill_color_rgba",
+			"GDK fill color",
+			"GDK fill color",
+			0, G_MAXUINT, 0,
+			G_PARAM_READWRITE));
 
-	ecb_signals[STYLE_SET] =
-		g_signal_new ("style_set",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECanvasBackgroundClass, style_set),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1, GTK_TYPE_STYLE);
+	ecb_signals[STYLE_SET] = g_signal_new (
+		"style_set",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECanvasBackgroundClass, style_set),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		GTK_TYPE_STYLE);
 }
 

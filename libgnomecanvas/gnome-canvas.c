@@ -1025,7 +1025,7 @@ gnome_canvas_item_reparent (GnomeCanvasItem *item,
 
 	/* Everything is ok, now actually reparent the item */
 
-	g_object_ref (G_OBJECT (item)); /* protect it from the unref in group_remove */
+	g_object_ref (item); /* protect it from the unref in group_remove */
 
 	redraw_if_visible (item);
 
@@ -1038,7 +1038,7 @@ gnome_canvas_item_reparent (GnomeCanvasItem *item,
 	redraw_if_visible (item);
 	item->canvas->need_repick = TRUE;
 
-	g_object_unref (G_OBJECT (item));
+	g_object_unref (item);
 }
 
 /**
@@ -1606,7 +1606,7 @@ static void
 group_add (GnomeCanvasGroup *group,
            GnomeCanvasItem *item)
 {
-	g_object_ref_sink (G_OBJECT (item));
+	g_object_ref_sink (item);
 
 	if (!group->item_list) {
 		group->item_list = g_list_append (group->item_list, item);
@@ -1644,7 +1644,7 @@ group_remove (GnomeCanvasGroup *group,
 			/* Unparent the child */
 
 			item->parent = NULL;
-			g_object_unref (G_OBJECT (item));
+			g_object_unref (item);
 
 			/* Remove it from the list */
 
@@ -1949,7 +1949,7 @@ gnome_canvas_dispose (GObject *object)
 
 	if (canvas->root) {
 		g_object_weak_unref (G_OBJECT (canvas->root), panic_root_finalized, canvas);
-		g_object_unref (G_OBJECT (canvas->root));
+		g_object_unref (canvas->root);
 		canvas->root = NULL;
 	}
 
@@ -2383,14 +2383,14 @@ emit_event (GnomeCanvas *canvas,
 	finished = FALSE;
 
 	while (item && !finished) {
-		g_object_ref (G_OBJECT (item));
+		g_object_ref (item);
 
 		g_signal_emit (
 			item, item_signals[ITEM_EVENT], 0,
 			ev, &finished);
 
 		parent = item->parent;
-		g_object_unref (G_OBJECT (item));
+		g_object_unref (item);
 
 		item = parent;
 	}

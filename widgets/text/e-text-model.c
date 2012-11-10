@@ -98,43 +98,44 @@ e_text_model_class_init (ETextModelClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_text_model_finalize;
 
-	signals[E_TEXT_MODEL_CHANGED] =
-		g_signal_new ("changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETextModelClass, changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[E_TEXT_MODEL_CHANGED] = g_signal_new (
+		"changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETextModelClass, changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[E_TEXT_MODEL_REPOSITION] =
-		g_signal_new ("reposition",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETextModelClass, reposition),
-			      NULL, NULL,
-			      e_marshal_NONE__POINTER_POINTER,
-			      G_TYPE_NONE, 2,
-			      G_TYPE_POINTER, G_TYPE_POINTER);
+	signals[E_TEXT_MODEL_REPOSITION] = g_signal_new (
+		"reposition",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETextModelClass, reposition),
+		NULL, NULL,
+		e_marshal_NONE__POINTER_POINTER,
+		G_TYPE_NONE, 2,
+		G_TYPE_POINTER,
+		G_TYPE_POINTER);
 
-	signals[E_TEXT_MODEL_OBJECT_ACTIVATED] =
-		g_signal_new ("object_activated",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETextModelClass, object_activated),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_INT);
+	signals[E_TEXT_MODEL_OBJECT_ACTIVATED] = g_signal_new (
+		"object_activated",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETextModelClass, object_activated),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1,
+		G_TYPE_INT);
 
-	signals[E_TEXT_MODEL_CANCEL_COMPLETION] =
-		g_signal_new ("cancel_completion",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETextModelClass, cancel_completion),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[E_TEXT_MODEL_CANCEL_COMPLETION] = g_signal_new (
+		"cancel_completion",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETextModelClass, cancel_completion),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	/* No default signal handlers. */
 	class->changed          = NULL;
@@ -251,9 +252,10 @@ e_text_model_real_insert_length (ETextModel *model,
 
 	byte_length = p - text;
 
-	g_string_insert_len (model->priv->text,
-			     offs - model->priv->text->str,
-			     text, byte_length);
+	g_string_insert_len (
+		model->priv->text,
+		offs - model->priv->text->str,
+		text, byte_length);
 
 	e_text_model_changed (model);
 
@@ -283,8 +285,9 @@ e_text_model_real_delete (ETextModel *model,
 
 	byte_length = p - offs;
 
-	g_string_erase (model->priv->text,
-			byte_position, byte_length);
+	g_string_erase (
+		model->priv->text,
+		byte_position, byte_length);
 
 	e_text_model_changed (model);
 

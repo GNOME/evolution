@@ -61,7 +61,7 @@ typedef struct _EEventTarget EEventTarget;
 
 typedef void (*EEventItemsFunc)(EEvent *ee, GSList *items, gpointer data);
 typedef void (*EEventFunc)(EEvent *ee, EEventItem *item, gpointer data);
-typedef void (*EEventFactoryFunc)(EEvent *ee, gpointer );
+typedef void (*EEventFactoryFunc)(EEvent *ee, gpointer);
 
 /**
  * enum _e_event_t - Event type.

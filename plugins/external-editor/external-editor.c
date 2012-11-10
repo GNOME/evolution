@@ -286,7 +286,7 @@ async_external_editor (EMsgComposer *composer)
 	settings = g_settings_new ("org.gnome.evolution.plugin.external-editor");
 	editor_cmd = g_settings_get_string (settings, "command");
 	if (!editor_cmd) {
-		if (!(editor_cmd = g_strdup (g_getenv ("EDITOR"))) )
+		if (!(editor_cmd = g_strdup (g_getenv ("EDITOR"))))
 			/* Make gedit the default external editor,
 			 * if the default schemas are not installed
 			 * and no $EDITOR is set. */
@@ -298,7 +298,7 @@ async_external_editor (EMsgComposer *composer)
 	    && gtk_html_get_cursor_pos (
 			gtkhtml_editor_get_html (
 			GTKHTML_EDITOR (composer)), &position, &offset)
-	    && position >= 0 && offset >= 0) {
+				&& position >= 0 && offset >= 0) {
 		gchar *tmp = editor_cmd;
 		gint lineno;
 		gboolean set_nofork;
@@ -361,8 +361,9 @@ async_external_editor (EMsgComposer *composer)
 
 			htmltext = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 
-			array = g_array_sized_new (TRUE, TRUE,
-						   sizeof (gpointer), 2 * sizeof (gpointer));
+			array = g_array_sized_new (
+				TRUE, TRUE,
+				sizeof (gpointer), 2 * sizeof (gpointer));
 			array = g_array_append_val (array, composer);
 			array = g_array_append_val (array, htmltext);
 

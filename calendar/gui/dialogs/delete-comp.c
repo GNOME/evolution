@@ -115,8 +115,9 @@ delete_component_dialog (ECalComponent *comp,
 			break;
 
 		default:
-			g_message ("delete_component_dialog(): Cannot handle object of type %d",
-				   vtype);
+			g_message (
+				"delete_component_dialog(): Cannot handle object of type %d",
+				vtype);
 			g_free (arg0);
 			return FALSE;
 		}
@@ -144,8 +145,9 @@ delete_component_dialog (ECalComponent *comp,
 			break;
 
 		default:
-			g_message ("delete_component_dialog(): Cannot handle objects of type %d",
-				   vtype);
+			g_message (
+				"delete_component_dialog(): Cannot handle objects of type %d",
+				vtype);
 			return FALSE;
 		}
 

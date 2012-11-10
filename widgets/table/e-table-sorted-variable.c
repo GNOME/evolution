@@ -54,8 +54,9 @@ etsv_dispose (GObject *object)
 	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (object);
 
 	if (etsv->sort_info_changed_id)
-		g_signal_handler_disconnect (G_OBJECT (etsv->sort_info),
-					     etsv->sort_info_changed_id);
+		g_signal_handler_disconnect (
+			etsv->sort_info,
+			etsv->sort_info_changed_id);
 	etsv->sort_info_changed_id = 0;
 
 	if (etsv->sort_idle_id) {

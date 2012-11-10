@@ -71,12 +71,15 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *class)
 	object_class->get_property = gal_define_views_dialog_get_property;
 	object_class->dispose = gal_define_views_dialog_dispose;
 
-	g_object_class_install_property (object_class, PROP_COLLECTION,
-					 g_param_spec_object ("collection",
-							      "Collection",
-							      NULL,
-							      GAL_VIEW_COLLECTION_TYPE,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_COLLECTION,
+		g_param_spec_object (
+			"collection",
+			"Collection",
+			NULL,
+			GAL_VIEW_COLLECTION_TYPE,
+			G_PARAM_READWRITE));
 }
 
 /* Button callbacks */
@@ -94,10 +97,11 @@ gdvd_button_new_dialog_callback (GtkWidget *widget,
 
 	switch (id) {
 	case GTK_RESPONSE_OK:
-		g_object_get (widget,
-			     "name", &name,
-			     "factory", &factory,
-			     NULL);
+		g_object_get (
+			widget,
+			"name", &name,
+			"factory", &factory,
+			NULL);
 
 		if (name && factory) {
 			g_strchomp (name);
@@ -107,10 +111,11 @@ gdvd_button_new_dialog_callback (GtkWidget *widget,
 
 				item = dialog->collection->view_data[dialog->collection->view_count - 1];
 				gtk_list_store_append (GTK_LIST_STORE (dialog->model), &iter);
-				gtk_list_store_set (GTK_LIST_STORE (dialog->model), &iter,
-						    COL_GALVIEW_NAME, name,
-						    COL_GALVIEW_DATA, item,
-						    -1);
+				gtk_list_store_set (
+					GTK_LIST_STORE (dialog->model), &iter,
+					COL_GALVIEW_NAME, name,
+					COL_GALVIEW_DATA, item,
+					-1);
 
 				if (view && GAL_VIEW_GET_CLASS (view)->edit)
 					gal_view_edit (view, GTK_WINDOW (dialog));
@@ -268,9 +273,10 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 
 	g_object_unref (widget);
 
-	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-				NULL);
+	gtk_dialog_add_buttons (
+		GTK_DIALOG (dialog),
+		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+		NULL);
 
 	dialog->treeview = GTK_TREE_VIEW (e_builder_get_widget (dialog->builder, "treeview1"));
 	gtk_tree_view_set_reorderable (GTK_TREE_VIEW (dialog->treeview), FALSE);
@@ -330,16 +336,18 @@ gal_define_views_dialog_set_collection (GalDefineViewsDialog *dialog,
 		title = e_str_without_underscores (item->title);
 
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
-				    COL_GALVIEW_NAME, title,
-				    COL_GALVIEW_DATA, item,
-				    -1);
+		gtk_list_store_set (
+			store, &iter,
+			COL_GALVIEW_NAME, title,
+			COL_GALVIEW_DATA, item,
+			-1);
 
 		g_free (title);
 	}
 
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (store),
-					      COL_GALVIEW_NAME, GTK_SORT_ASCENDING);
+	gtk_tree_sortable_set_sort_column_id (
+		GTK_TREE_SORTABLE (store),
+		COL_GALVIEW_NAME, GTK_SORT_ASCENDING);
 
 	/* attaching treeview to model */
 	gtk_tree_view_set_model (dialog->treeview, GTK_TREE_MODEL (store));
@@ -348,30 +356,36 @@ gal_define_views_dialog_set_collection (GalDefineViewsDialog *dialog,
 	dialog->model = GTK_TREE_MODEL (store);
 
 	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (dialog->treeview,
-						    COL_GALVIEW_NAME, _("Name"),
-						    renderer, "text", COL_GALVIEW_NAME,
-						    NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		dialog->treeview,
+		COL_GALVIEW_NAME, _("Name"),
+		renderer, "text", COL_GALVIEW_NAME,
+		NULL);
 
 	/* set sort column */
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (dialog->model),
-					      COL_GALVIEW_NAME, GTK_SORT_ASCENDING);
+	gtk_tree_sortable_set_sort_column_id (
+		GTK_TREE_SORTABLE (dialog->model),
+		COL_GALVIEW_NAME, GTK_SORT_ASCENDING);
 
 	if (dialog->builder) {
 		GtkWidget *widget = e_builder_get_widget (dialog->builder, "label-views");
 		if (widget && GTK_IS_LABEL (widget)) {
 			if (collection->title) {
-				gchar *text = g_strdup_printf (_("Define Views for %s"),
-							      collection->title);
-				gtk_label_set_text (GTK_LABEL (widget),
-						    text);
+				gchar *text = g_strdup_printf (
+					_("Define Views for %s"),
+					collection->title);
+				gtk_label_set_text (
+					GTK_LABEL (widget),
+					text);
 				gtk_window_set_title (GTK_WINDOW (dialog), text);
 				g_free (text);
 			} else {
-				gtk_label_set_text (GTK_LABEL (widget),
-						    _("Define Views"));
-				gtk_window_set_title (GTK_WINDOW (dialog),
-						      _("Define Views"));
+				gtk_label_set_text (
+					GTK_LABEL (widget),
+					_("Define Views"));
+				gtk_window_set_title (
+					GTK_WINDOW (dialog),
+					_("Define Views"));
 			}
 		}
 	}

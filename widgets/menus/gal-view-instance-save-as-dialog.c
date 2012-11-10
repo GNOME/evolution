@@ -68,15 +68,17 @@ gal_view_instance_save_as_dialog_set_instance (GalViewInstanceSaveAsDialog *dial
 		title = e_str_without_underscores (item->title);
 
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
-				COL_GALVIEW_NAME, title,
-				COL_GALVIEW_DATA, item,
-				-1);
+		gtk_list_store_set (
+			store, &iter,
+			COL_GALVIEW_NAME, title,
+			COL_GALVIEW_DATA, item,
+			-1);
 
 		g_free (title);
 	}
 
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (store),
+	gtk_tree_sortable_set_sort_column_id (
+		GTK_TREE_SORTABLE (store),
 			COL_GALVIEW_NAME, GTK_SORT_ASCENDING);
 
 	/* attaching treeview to model */
@@ -87,14 +89,16 @@ gal_view_instance_save_as_dialog_set_instance (GalViewInstanceSaveAsDialog *dial
 
 	renderer = gtk_cell_renderer_text_new ();
 
-	gtk_tree_view_insert_column_with_attributes (dialog->treeview,
-			COL_GALVIEW_NAME, _("Name"),
-			renderer, "text", COL_GALVIEW_NAME,
-			NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		dialog->treeview,
+		COL_GALVIEW_NAME, _("Name"),
+		renderer, "text", COL_GALVIEW_NAME,
+		NULL);
 
 	/* set sort column */
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (dialog->model),
-			COL_GALVIEW_NAME, GTK_SORT_ASCENDING);
+	gtk_tree_sortable_set_sort_column_id (
+		GTK_TREE_SORTABLE (dialog->model),
+		COL_GALVIEW_NAME, GTK_SORT_ASCENDING);
 }
 
 static void
@@ -227,12 +231,15 @@ gal_view_instance_save_as_dialog_class_init (GalViewInstanceSaveAsDialogClass *c
 	object_class->get_property = gal_view_instance_save_as_dialog_get_property;
 	object_class->dispose      = gal_view_instance_save_as_dialog_dispose;
 
-	g_object_class_install_property (object_class, PROP_INSTANCE,
-					 g_param_spec_object ("instance",
-							      "Instance",
-							      NULL,
-							      GAL_VIEW_INSTANCE_TYPE,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_INSTANCE,
+		g_param_spec_object (
+			"instance",
+			"Instance",
+			NULL,
+			GAL_VIEW_INSTANCE_TYPE,
+			G_PARAM_READWRITE));
 }
 
 static void

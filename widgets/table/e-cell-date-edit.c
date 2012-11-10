@@ -222,8 +222,9 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	 * ever be one popup in use at a time. */
 	ecde->popup_window = gtk_window_new (GTK_WINDOW_POPUP);
 
-	gtk_window_set_type_hint (GTK_WINDOW (ecde->popup_window),
-				  GDK_WINDOW_TYPE_HINT_COMBO);
+	gtk_window_set_type_hint (
+		GTK_WINDOW (ecde->popup_window),
+		GDK_WINDOW_TYPE_HINT_COMBO);
 	gtk_window_set_resizable (GTK_WINDOW (ecde->popup_window), TRUE);
 
 	frame = gtk_frame_new (NULL);
@@ -240,9 +241,10 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	gtk_widget_show (hbox);
 
 	ecde->calendar = e_calendar_new ();
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (ecde->calendar)->calitem),
-			       "move_selection_when_moving", FALSE,
-			       NULL);
+	gnome_canvas_item_set (
+		GNOME_CANVAS_ITEM (E_CALENDAR (ecde->calendar)->calitem),
+		"move_selection_when_moving", FALSE,
+		NULL);
 	gtk_box_pack_start (GTK_BOX (hbox), ecde->calendar, TRUE, TRUE, 0);
 	gtk_widget_show (ecde->calendar);
 
@@ -252,15 +254,16 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 
 	ecde->time_entry = gtk_entry_new ();
 	gtk_widget_set_size_request (ecde->time_entry, 50, -1);
-	gtk_box_pack_start (GTK_BOX (vbox2), ecde->time_entry,
-			    FALSE, FALSE, 0);
+	gtk_box_pack_start (
+		GTK_BOX (vbox2), ecde->time_entry,
+		FALSE, FALSE, 0);
 	gtk_widget_show (ecde->time_entry);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_box_pack_start (GTK_BOX (vbox2), scrolled_window, TRUE, TRUE, 0);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_NEVER,
-					GTK_POLICY_ALWAYS);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (scrolled_window),
+		GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 	gtk_widget_show (scrolled_window);
 
 	store = gtk_list_store_new (1, G_TYPE_STRING);
@@ -541,14 +544,18 @@ e_cell_date_edit_set_popup_values (ECellDateEdit *ecde)
 		if (is_date) {
 			buffer[0] = '\0';
 		} else {
-			e_time_format_time (&date_tm, ecde->use_24_hour_format,
-					    FALSE, buffer, sizeof (buffer));
+			e_time_format_time (
+				&date_tm, ecde->use_24_hour_format,
+				FALSE, buffer, sizeof (buffer));
 		}
 		gtk_entry_set_text (GTK_ENTRY (ecde->time_entry), buffer);
 
 		g_date_clear (&date, 1);
-		g_date_set_dmy (&date, date_tm.tm_mday, date_tm.tm_mon + 1,
-				date_tm.tm_year + 1900);
+		g_date_set_dmy (
+			&date,
+			date_tm.tm_mday,
+			date_tm.tm_mon + 1,
+			date_tm.tm_year + 1900);
 		e_calendar_item_set_selection (calitem, &date, &date);
 
 		if (is_date) {
@@ -660,17 +667,13 @@ e_cell_date_edit_get_popup_pos (ECellDateEdit *ecde,
 
 	x1 = e_table_header_col_diff (eti->header, 0, view_col + 1);
 	y1 = e_table_item_row_diff (eti, 0, row + 1);
-	column_width = e_table_header_col_diff (eti->header, view_col,
-						view_col + 1);
-	row_height = e_table_item_row_diff (eti, row,
-					    row + 1);
+	column_width = e_table_header_col_diff (
+		eti->header, view_col, view_col + 1);
+	row_height = e_table_item_row_diff (eti, row, row + 1);
 	gnome_canvas_item_i2w (GNOME_CANVAS_ITEM (eti), &x1, &y1);
 
-	gnome_canvas_world_to_window (GNOME_CANVAS (canvas),
-				      x1,
-				      y1,
-				      &wx,
-				      &wy);
+	gnome_canvas_world_to_window (
+		GNOME_CANVAS (canvas), x1, y1, &wx, &wy);
 
 	x1 = wx;
 	y1 = wy;
@@ -816,8 +819,8 @@ e_cell_date_edit_on_ok_clicked (GtkWidget *button,
 	gboolean is_date = FALSE;
 
 	calitem = E_CALENDAR_ITEM (E_CALENDAR (ecde->calendar)->calitem);
-	day_selected = e_calendar_item_get_selection (calitem, &start_date,
-						      &end_date);
+	day_selected = e_calendar_item_get_selection (
+		calitem, &start_date, &end_date);
 
 	text = gtk_entry_get_text (GTK_ENTRY (ecde->time_entry));
 	status = e_time_parse_time (text, &date_tm);

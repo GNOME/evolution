@@ -648,7 +648,7 @@ e_send_options_cb (GtkDialog *dialog,
 			break;
 	}
 
-	g_signal_emit (G_OBJECT (func_data), signals[SOD_RESPONSE], 0, state);
+	g_signal_emit (func_data, signals[SOD_RESPONSE], 0, state);
 }
 
 gboolean

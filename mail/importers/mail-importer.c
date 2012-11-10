@@ -316,7 +316,7 @@ import_folders_rec (struct _import_folders_data *m,
 	camel_operation_push_message (m->cancellable, _("Scanning %s"), utf8_filename);
 	g_free (utf8_filename);
 
-	while ( (d = g_dir_read_name (dir))) {
+	while ((d = g_dir_read_name (dir))) {
 		if (d[0] == '.')
 			continue;
 

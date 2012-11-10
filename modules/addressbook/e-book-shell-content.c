@@ -703,7 +703,7 @@ e_book_shell_content_set_preview_visible (EBookShellContent *book_shell_content,
 {
 	g_return_if_fail (E_IS_BOOK_SHELL_CONTENT (book_shell_content));
 
-	if ((book_shell_content->priv->preview_visible ? 1 : 0) == (preview_visible ? 1 : 0))
+	if (book_shell_content->priv->preview_visible == preview_visible)
 		return;
 
 	book_shell_content->priv->preview_visible = preview_visible;
@@ -726,7 +726,7 @@ e_book_shell_content_set_preview_show_maps (EBookShellContent *book_shell_conten
 {
 	g_return_if_fail (E_IS_BOOK_SHELL_CONTENT (book_shell_content));
 
-	if ((book_shell_content->priv->preview_show_maps ? 1 : 0) == (show_maps ? 1 : 0))
+	if (book_shell_content->priv->preview_show_maps == show_maps)
 		return;
 
 	book_shell_content->priv->preview_show_maps = show_maps;

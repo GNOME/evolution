@@ -1137,7 +1137,8 @@ backend_died (EAddressbookView *view)
 	book_client = e_addressbook_model_get_client (model);
 	source = e_client_get_source (E_CLIENT (book_client));
 
-	e_alert_submit (alert_sink,
+	e_alert_submit (
+		alert_sink,
 		"addressbook:backend-died",
 		e_source_get_display_name (source), NULL);
 }
@@ -1310,29 +1311,29 @@ addressbook_view_confirm_delete (GtkWindow *parent,
 		if (plural) {
 			message = g_strdup (
 				_("Are you sure you want to "
-				  "delete these contact lists?"));
+				"delete these contact lists?"));
 		} else if (name == NULL) {
 			message = g_strdup (
 				_("Are you sure you want to "
-				  "delete this contact list?"));
+				"delete this contact list?"));
 		} else {
 			message = g_strdup_printf (
 				_("Are you sure you want to delete "
-				  "this contact list (%s)?"), name);
+				"this contact list (%s)?"), name);
 		}
 	} else {
 		if (plural) {
 			message = g_strdup (
 				_("Are you sure you want to "
-				  "delete these contacts?"));
+				"delete these contacts?"));
 		} else if (name == NULL) {
 			message = g_strdup (
 				_("Are you sure you want to "
-				  "delete this contact?"));
+				"delete this contact?"));
 		} else {
 			message = g_strdup_printf (
 				_("Are you sure you want to delete "
-				  "this contact (%s)?"), name);
+				"this contact (%s)?"), name);
 		}
 	}
 

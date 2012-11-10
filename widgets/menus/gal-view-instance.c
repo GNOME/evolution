@@ -65,8 +65,9 @@ gal_view_instance_changed (GalViewInstance *instance)
 	g_return_if_fail (instance != NULL);
 	g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
 
-	g_signal_emit (instance,
-		       gal_view_instance_signals[CHANGED], 0);
+	g_signal_emit (
+		instance,
+		gal_view_instance_signals[CHANGED], 0);
 }
 
 static void
@@ -76,9 +77,10 @@ gal_view_instance_display_view (GalViewInstance *instance,
 	g_return_if_fail (instance != NULL);
 	g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
 
-	g_signal_emit (instance,
-		       gal_view_instance_signals[DISPLAY_VIEW], 0,
-		       view);
+	g_signal_emit (
+		instance,
+		gal_view_instance_signals[DISPLAY_VIEW], 0,
+		view);
 }
 
 static void
@@ -120,8 +122,9 @@ disconnect_view (GalViewInstance *instance)
 {
 	if (instance->current_view) {
 		if (instance->view_changed_id) {
-			g_signal_handler_disconnect (instance->current_view,
-						     instance->view_changed_id);
+			g_signal_handler_disconnect (
+				instance->current_view,
+				instance->view_changed_id);
 		}
 
 		g_object_unref (instance->current_view);
@@ -158,8 +161,9 @@ gal_view_instance_dispose (GObject *object)
 
 	if (instance->collection) {
 		if (instance->collection_changed_id) {
-			g_signal_handler_disconnect (instance->collection,
-						     instance->collection_changed_id);
+			g_signal_handler_disconnect (
+				instance->collection,
+				instance->collection_changed_id);
 		}
 		g_object_unref (instance->collection);
 	}
@@ -184,32 +188,33 @@ gal_view_instance_class_init (GalViewInstanceClass *class)
 
 	object_class->dispose = gal_view_instance_dispose;
 
-	gal_view_instance_signals[DISPLAY_VIEW] =
-		g_signal_new ("display_view",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GalViewInstanceClass, display_view),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1, GAL_TYPE_VIEW);
+	gal_view_instance_signals[DISPLAY_VIEW] = g_signal_new (
+		"display_view",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GalViewInstanceClass, display_view),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		GAL_TYPE_VIEW);
 
-	gal_view_instance_signals[CHANGED] =
-		g_signal_new ("changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GalViewInstanceClass, changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	gal_view_instance_signals[CHANGED] = g_signal_new (
+		"changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GalViewInstanceClass, changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	gal_view_instance_signals[LOADED] =
-		g_signal_new ("loaded",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (GalViewInstanceClass, loaded),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	gal_view_instance_signals[LOADED] = g_signal_new (
+		"loaded",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (GalViewInstanceClass, loaded),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	class->display_view = NULL;
 	class->changed      = NULL;
@@ -270,12 +275,13 @@ load_current_view (GalViewInstance *instance)
 		instance->current_id = g_strdup (gal_view_instance_get_default_view (instance));
 
 		if (instance->current_id) {
-			gint index = gal_view_collection_get_view_index_by_id (instance->collection,
-									      instance->current_id);
+			gint index = gal_view_collection_get_view_index_by_id (
+				instance->collection,
+				instance->current_id);
 
 			if (index != -1) {
-				view = gal_view_collection_get_view (instance->collection,
-								     index);
+				view = gal_view_collection_get_view (
+					instance->collection, index);
 				view = gal_view_clone (view);
 				connect_view (instance, view);
 			}
@@ -287,21 +293,22 @@ load_current_view (GalViewInstance *instance)
 	instance->current_id = e_xml_get_string_prop_by_name_with_default (root, (const guchar *)"current_view", NULL);
 
 	if (instance->current_id != NULL) {
-		gint index = gal_view_collection_get_view_index_by_id (instance->collection,
-								      instance->current_id);
+		gint index = gal_view_collection_get_view_index_by_id (
+			instance->collection,
+			instance->current_id);
 
 		if (index != -1) {
-			view = gal_view_collection_get_view (instance->collection,
-							     index);
+			view = gal_view_collection_get_view (
+				instance->collection, index);
 			view = gal_view_clone (view);
 		}
 	}
 	if (view == NULL) {
 		gchar *type;
 		type = e_xml_get_string_prop_by_name_with_default (root, (const guchar *)"current_view_type", NULL);
-		view = gal_view_collection_load_view_from_file (instance->collection,
-								type,
-								instance->custom_filename);
+		view = gal_view_collection_load_view_from_file (
+			instance->collection, type,
+			instance->custom_filename);
 		g_free (type);
 	}
 

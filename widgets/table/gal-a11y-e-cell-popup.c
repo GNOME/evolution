@@ -100,31 +100,34 @@ gal_a11y_e_cell_popup_new (ETableItem *item,
 		child_view = popupcell->popup_cell_view->child_view;
 
 	if (child_view && child_view->ecell) {
-		a11y = gal_a11y_e_cell_registry_get_object (NULL,
-							    item,
-							    child_view,
-							    parent,
-							    model_col,
-							    view_col,
-							    row);
+		a11y = gal_a11y_e_cell_registry_get_object (
+			NULL,
+			item,
+			child_view,
+			parent,
+			model_col,
+			view_col,
+			row);
 	} else {
 		a11y = g_object_new (GAL_A11Y_TYPE_E_CELL_POPUP, NULL);
-		gal_a11y_e_cell_construct (a11y,
-					   item,
-					   cell_view,
-					   parent,
-					   model_col,
-					   view_col,
-					   row);
+		gal_a11y_e_cell_construct (
+			a11y,
+			item,
+			cell_view,
+			parent,
+			model_col,
+			view_col,
+			row);
 		}
 	g_return_val_if_fail (a11y != NULL, NULL);
 	cell = GAL_A11Y_E_CELL (a11y);
-	gal_a11y_e_cell_add_action (cell,
-				    "popup",
-				    /* Translators: description of a "popup" action */
-				    _("popup a child"),
-				    "<Alt>Down",              /* action keybinding */
-				    popup_cell_action);
+	gal_a11y_e_cell_add_action (
+		cell,
+		"popup",
+		/* Translators: description of a "popup" action */
+		_("popup a child"),
+		"<Alt>Down",              /* action keybinding */
+		popup_cell_action);
 
 	a11y->role  = ATK_ROLE_TABLE_CELL;
 	return a11y;

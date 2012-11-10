@@ -442,7 +442,7 @@ match_email_hostname (const gchar *addr1,
 		--addr1;
 		--addr2;
 	}
-	if ((*addr1 == '@' && *addr2 != '@' ) || (*addr2 == '@' && *addr1 != '@'))
+	if ((*addr1 == '@' && *addr2 != '@') || (*addr2 == '@' && *addr1 != '@'))
 	       return FALSE;
 
 	return TRUE;

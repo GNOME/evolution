@@ -143,8 +143,9 @@ e_mail_parser_set_property (GObject *object,
 
 	switch (property_id) {
 		case PROP_SESSION:
-			mail_parser_set_session (parser,
-			CAMEL_SESSION (g_value_get_object (value)));
+			mail_parser_set_session (
+				parser,
+				g_value_get_object (value));
 			return;
 	}
 
@@ -161,8 +162,9 @@ e_mail_parser_get_property (GObject *object,
 
 	switch (property_id) {
 		case PROP_SESSION:
-			g_value_set_object (value,
-			G_OBJECT (e_mail_parser_get_session (parser)));
+			g_value_set_object (
+				value,
+				e_mail_parser_get_session (parser));
 			return;
 	}
 
@@ -264,7 +266,8 @@ e_mail_parser_get_type (void)
 EMailParser *
 e_mail_parser_new (CamelSession *session)
 {
-	return g_object_new (E_TYPE_MAIL_PARSER,
+	return g_object_new (
+		E_TYPE_MAIL_PARSER,
 		"session", session, NULL);
 }
 
@@ -311,15 +314,18 @@ e_mail_parser_parse_sync (EMailParser *parser,
 	if (camel_debug_start ("emformat:parser")) {
 		GSList *iter;
 
-		printf ("%s finished with EMailPartList:\n",
-				G_OBJECT_TYPE_NAME (parser));
+		printf (
+			"%s finished with EMailPartList:\n",
+			G_OBJECT_TYPE_NAME (parser));
 
 		for (iter = parts_list->list; iter; iter = iter->next) {
 			EMailPart *part = iter->data;
 			if (!part) continue;
-			printf ("	id: %s | cid: %s | mime_type: %s | is_hidden: %d | is_attachment: %d\n",
+			printf (
+				"	id: %s | cid: %s | mime_type: %s | is_hidden: %d | is_attachment: %d\n",
 				part->id, part->cid, part->mime_type,
-				part->is_hidden ? 1 : 0, part->is_attachment ? 1 : 0);
+				part->is_hidden ? 1 : 0,
+				part->is_attachment ? 1 : 0);
 		}
 
 		camel_debug_end ();
@@ -402,15 +408,18 @@ e_mail_parser_parse_finish (EMailParser *parser,
 	if (camel_debug_start ("emformat:parser")) {
 		GSList *iter;
 
-		printf ("%s finished with EMailPartList:\n",
+		printf (
+			"%s finished with EMailPartList:\n",
 				G_OBJECT_TYPE_NAME (parser));
 
 		for (iter = parts_list->list; iter; iter = iter->next) {
 			EMailPart *part = iter->data;
 			if (!part) continue;
-			printf ("	id: %s | cid: %s | mime_type: %s | is_hidden: %d | is_attachment: %d\n",
+			printf (
+				"	id: %s | cid: %s | mime_type: %s | is_hidden: %d | is_attachment: %d\n",
 				part->id, part->cid, part->mime_type,
-				part->is_hidden ? 1 : 0, part->is_attachment ? 1 : 0);
+				part->is_hidden ? 1 : 0,
+				part->is_attachment ? 1 : 0);
 		}
 
 		camel_debug_end ();
@@ -523,7 +532,8 @@ e_mail_parser_error (EMailParser *parser,
 	errmsg = g_strdup_vprintf (format, ap);
 
 	part = camel_mime_part_new ();
-	camel_mime_part_set_content (part,
+	camel_mime_part_set_content (
+		part,
 		errmsg, strlen (errmsg),
 		"application/vnd.evolution.error");
 	g_free (errmsg);
@@ -564,7 +574,8 @@ attachment_loaded (EAttachment *attachment,
 static gboolean
 load_attachment_idle (EAttachment *attachment)
 {
-	e_attachment_load_async (attachment,
+	e_attachment_load_async (
+		attachment,
 		(GAsyncReadyCallback) attachment_loaded, NULL);
 
 	return FALSE;
@@ -641,7 +652,8 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 
 	e_attachment_set_mime_part (empa->attachment, part);
 	e_attachment_set_shown (empa->attachment, empa->shown);
-	e_attachment_set_can_show (empa->attachment,
+	e_attachment_set_can_show (
+		empa->attachment,
 		extensions && !g_queue_is_empty (extensions));
 
 	/* Try to guess size of the attachments */

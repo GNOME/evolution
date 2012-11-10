@@ -425,11 +425,12 @@ etfci_drag_data_get (GtkWidget *widget,
 {
 	if (etfci->drag_col != -1) {
 		gchar *string = g_strdup_printf ("%d", etfci->drag_col);
-		gtk_selection_data_set (selection_data,
-				       GDK_SELECTION_TYPE_STRING,
-				       sizeof (string[0]),
-				       (guchar *) string,
-				       strlen (string));
+		gtk_selection_data_set (
+			selection_data,
+			GDK_SELECTION_TYPE_STRING,
+			sizeof (string[0]),
+			(guchar *) string,
+			strlen (string));
 		g_free (string);
 	}
 }
@@ -518,12 +519,13 @@ etfci_draw (GnomeCanvasItem *item,
 
 		cairo_save (cr);
 
-		e_table_header_draw_button (cr, ecol,
-					    GTK_WIDGET (canvas),
-					    -x, y1 - y,
-					    width, height,
-					    etfci->width, y2 - y1,
-					    E_TABLE_COL_ARROW_NONE);
+		e_table_header_draw_button (
+			cr, ecol,
+			GTK_WIDGET (canvas),
+			-x, y1 - y,
+			width, height,
+			etfci->width, y2 - y1,
+			E_TABLE_COL_ARROW_NONE);
 
 		cairo_restore (cr);
 	}
@@ -596,8 +598,9 @@ etfci_start_drag (ETableFieldChooserItem *etfci,
 	g_free ((gpointer) etfci_drag_types[0].target);
 
 	button_height = e_table_header_compute_height (ecol, widget);
-	cs = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
-					 etfci->width, button_height);
+	cs = cairo_image_surface_create (
+		CAIRO_FORMAT_ARGB32,
+		etfci->width, button_height);
 	cr = cairo_create (cs);
 
 	e_table_header_draw_button (
@@ -671,40 +674,55 @@ etfci_class_init (ETableFieldChooserItemClass *class)
 	item_class->point       = etfci_point;
 	item_class->event       = etfci_event;
 
-	g_object_class_install_property (object_class, PROP_DND_CODE,
-					 g_param_spec_string ("dnd_code",
-							      "DnD code",
-							      NULL,
-							      NULL,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_DND_CODE,
+		g_param_spec_string (
+			"dnd_code",
+			"DnD code",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FULL_HEADER,
-					 g_param_spec_object ("full_header",
-							      "Full Header",
-							      NULL,
-							      E_TYPE_TABLE_HEADER,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_FULL_HEADER,
+		g_param_spec_object (
+			"full_header",
+			"Full Header",
+			NULL,
+			E_TYPE_TABLE_HEADER,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_HEADER,
-					 g_param_spec_object ("header",
-							      "Header",
-							      NULL,
-							      E_TYPE_TABLE_HEADER,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_HEADER,
+		g_param_spec_object (
+			"header",
+			"Header",
+			NULL,
+			E_TYPE_TABLE_HEADER,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_WIDTH,
-					 g_param_spec_double ("width",
-							      "Width",
-							      NULL,
-							      0, G_MAXDOUBLE, 0,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_WIDTH,
+		g_param_spec_double (
+			"width",
+			"Width",
+			NULL,
+			0, G_MAXDOUBLE, 0,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_HEIGHT,
-					 g_param_spec_double ("height",
-							      "Height",
-							      NULL,
-							      0, G_MAXDOUBLE, 0,
-							      G_PARAM_READABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_HEIGHT,
+		g_param_spec_double (
+			"height",
+			"Height",
+			NULL,
+			0, G_MAXDOUBLE, 0,
+			G_PARAM_READABLE));
 }
 
 static void

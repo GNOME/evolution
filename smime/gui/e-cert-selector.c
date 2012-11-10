@@ -195,7 +195,8 @@ e_cert_selector_new (gint type,
 		while (!CERT_LIST_END (node, certlist)) {
 			if (node->cert->nickname || node->cert->emailAddr) {
 				gtk_list_store_append (store, &iter);
-				gtk_list_store_set (store, &iter,
+				gtk_list_store_set (
+					store, &iter,
 					0, node->cert->nickname ? node->cert->nickname : node->cert->emailAddr,
 					-1);
 

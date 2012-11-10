@@ -508,7 +508,8 @@ contact_list_editor_add_button_clicked_cb (GtkWidget *widget)
 
 	editor = contact_list_editor_extract (widget);
 
-	contact_list_editor_add_email (editor,
+	contact_list_editor_add_email (
+		editor,
 		gtk_entry_get_text (GTK_ENTRY (WIDGET (EMAIL_ENTRY))));
 	gtk_entry_set_text (GTK_ENTRY (WIDGET (EMAIL_ENTRY)), "");
 }
@@ -1208,7 +1209,8 @@ setup_custom_widgets (EContactListEditor *editor)
 		gtk_widget_get_name (old));
 	parent = gtk_widget_get_parent (old);
 
-	gtk_container_child_get (GTK_CONTAINER (parent), old,
+	gtk_container_child_get (
+		GTK_CONTAINER (parent), old,
 		"bottom-attach", &ba,
 		"left-attach", &la,
 		"right-attach", &ra,
@@ -1660,12 +1662,13 @@ e_contact_list_editor_new (EShell *shell,
 		E_TYPE_CONTACT_LIST_EDITOR,
 		"shell", shell, NULL);
 
-	g_object_set (editor,
-		      "client", book_client,
-		      "contact", list_contact,
-		      "is_new_list", is_new_list,
-		      "editable", editable,
-		      NULL);
+	g_object_set (
+		editor,
+		"client", book_client,
+		"contact", list_contact,
+		"is_new_list", is_new_list,
+		"editable", editable,
+		NULL);
 
 	return editor;
 }
@@ -1721,9 +1724,11 @@ save_contact_list (GtkTreeModel *model,
 			uid = g_strdup_printf ("%d", *parent_id);
 
 			attr = e_vcard_attribute_new (NULL, EVC_CONTACT_LIST);
-			e_vcard_attribute_add_param_with_value (attr,
+			e_vcard_attribute_add_param_with_value (
+				attr,
 				e_vcard_attribute_param_new (EVC_CL_UID), uid);
-			e_vcard_attribute_add_value (attr,
+			e_vcard_attribute_add_value (
+				attr,
 				e_destination_get_name (dest));
 
 			g_free (uid);
@@ -1738,7 +1743,8 @@ save_contact_list (GtkTreeModel *model,
 			e_destination_export_to_vcard_attribute (dest, attr);
 		}
 
-		e_vcard_attribute_add_param_with_value (attr,
+		e_vcard_attribute_add_param_with_value (
+			attr,
 			e_vcard_attribute_param_new (EVC_PARENT_CL), pid_str);
 
 		*attrs = g_slist_prepend (*attrs, attr);
@@ -1889,7 +1895,7 @@ e_contact_list_editor_set_is_new_list (EContactListEditor *editor,
 
 	g_return_if_fail (E_IS_CONTACT_LIST_EDITOR (editor));
 
-	if ((editor->priv->is_new_list ? 1 : 0) == (is_new_list ? 1 : 0))
+	if (editor->priv->is_new_list == is_new_list)
 		return;
 
 	editor->priv->is_new_list = is_new_list;
@@ -1912,7 +1918,7 @@ e_contact_list_editor_set_editable (EContactListEditor *editor,
 {
 	g_return_if_fail (E_IS_CONTACT_LIST_EDITOR (editor));
 
-	if ((editor->priv->editable ? 1 : 0) == (editable ? 1 : 0))
+	if (editor->priv->editable == editable)
 		return;
 
 	editor->priv->editable = editable;

@@ -108,20 +108,24 @@ ea_minicard_view_get_type (void)
 		 * Figure out the size of the class and instance
 		 * we are run-time deriving from (GailWidget, in this case) */
 
-		factory = atk_registry_get_factory (atk_get_default_registry (),
-							GNOME_TYPE_CANVAS_GROUP);
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (),
+			GNOME_TYPE_CANVAS_GROUP);
 		derived_atk_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 
 		tinfo.class_size = query.class_size;
 		tinfo.instance_size = query.instance_size;
 
-		type = g_type_register_static (derived_atk_type,
-						"EaMinicardView", &tinfo, 0);
-		g_type_add_interface_static (type, ATK_TYPE_SELECTION,
-					     &atk_selection_info);
-		g_type_add_interface_static (type, ATK_TYPE_ACTION,
-					     &atk_action_info);
+		type = g_type_register_static (
+			derived_atk_type,
+			"EaMinicardView", &tinfo, 0);
+		g_type_add_interface_static (
+			type, ATK_TYPE_SELECTION,
+			&atk_selection_info);
+		g_type_add_interface_static (
+			type, ATK_TYPE_ACTION,
+			&atk_action_info);
 
 	}
 
@@ -169,9 +173,10 @@ ea_minicard_view_get_name (AtkObject *accessible)
 	if (display_name == NULL)
 		display_name = "";
 
-	string = g_strdup_printf (ngettext ("current address book folder %s has %d card",
-				  "current address book folder %s has %d cards",
-				  reflow->count), display_name, reflow->count);
+	string = g_strdup_printf (
+		ngettext ("current address book folder %s has %d card",
+		"current address book folder %s has %d cards",
+		reflow->count), display_name, reflow->count);
 
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, string);
 	g_free (string);
@@ -262,7 +267,7 @@ ea_minicard_view_ref_child (AtkObject *accessible,
 		ATK_GOBJECT_ACCESSIBLE (accessible)));
 	if (!reflow)
 		return NULL;
-	if (!reflow->items )
+	if (!reflow->items)
 		return NULL;
 		/* a minicard */
 	if (index < child_num) {
@@ -342,7 +347,7 @@ selection_interface_get_selection_count (AtkSelection *selection)
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (selection);
 	reflow = E_REFLOW (atk_gobject_accessible_get_object (atk_gobj));
 
-	if (!reflow )
+	if (!reflow)
 		return FALSE;
 
 	return e_selection_model_selected_count (reflow->selection);
@@ -426,7 +431,7 @@ static const gchar *
 atk_action_interface_get_name (AtkAction *iface,
                                gint i)
 {
-	if ( i >= G_N_ELEMENTS (action_name) || i < 0)
+	if (i >= G_N_ELEMENTS (action_name) || i < 0)
 		return NULL;
 
 	return action_name[i];

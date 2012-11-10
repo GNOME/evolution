@@ -353,10 +353,12 @@ alert_bar_find_duplicate_cb (EAlert *alert,
 	dd->found |= (
 		e_alert_get_message_type (alert) ==
 		e_alert_get_message_type (dd->looking_for) &&
-		g_strcmp0 (e_alert_get_primary_text (alert),
-		e_alert_get_primary_text (dd->looking_for)) == 0 &&
-		g_strcmp0 (e_alert_get_secondary_text (alert),
-		e_alert_get_secondary_text (dd->looking_for)) == 0);
+		g_strcmp0 (
+			e_alert_get_primary_text (alert),
+			e_alert_get_primary_text (dd->looking_for)) == 0 &&
+		g_strcmp0 (
+			e_alert_get_secondary_text (alert),
+			e_alert_get_secondary_text (dd->looking_for)) == 0);
 }
 
 void

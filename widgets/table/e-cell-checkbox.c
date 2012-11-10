@@ -52,10 +52,11 @@ ecc_print (ECellView *ecell_view,
 {
 	cairo_t *cr = gtk_print_context_get_cairo_context (context);
 	const gint value = GPOINTER_TO_INT (
-			  e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+		e_table_model_value_at (
+			ecell_view->e_table_model, model_col, row));
 	cairo_save (cr);
 
-	if ( value == 1) {
+	if (value == 1) {
 		cairo_set_line_width (cr, 2);
 		cairo_move_to (cr, 3, 11);
 		cairo_line_to (cr, 7, 14);

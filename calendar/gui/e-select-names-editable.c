@@ -54,11 +54,12 @@ e_select_names_editable_new (void)
 	EShell *shell;
 
 	/* Might be cleaner to have 'registry' passed in, but the call chain
-	   of this widget doesn't have access that low in the functions, thus
-	   making the change without (private) API break. */
+	 * of this widget doesn't have access that low in the functions, thus
+	 * making the change without (private) API break. */
 	shell = e_shell_get_default ();
 
-	return g_object_new (E_TYPE_SELECT_NAMES_EDITABLE,
+	return g_object_new (
+		E_TYPE_SELECT_NAMES_EDITABLE,
 		"registry", e_shell_get_registry (shell),
 		NULL);
 }

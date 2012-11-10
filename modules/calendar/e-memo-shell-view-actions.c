@@ -959,7 +959,7 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 		ACTION (MEMO_VIEW_VERTICAL), "current-value",
 		G_SETTINGS_BIND_DEFAULT);
 
-	g_object_unref (G_OBJECT (memo_settings));
+	g_object_unref (memo_settings);
 
 	/* Fine tuning. */
 

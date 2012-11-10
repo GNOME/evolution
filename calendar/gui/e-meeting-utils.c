@@ -33,8 +33,8 @@ e_meeting_time_compare_times (EMeetingTime *time1,
 {
 	gint day_comparison;
 
-	day_comparison = g_date_compare (&time1->date,
-					 &time2->date);
+	day_comparison = g_date_compare (&time1->date, &time2->date);
+
 	if (day_comparison != 0)
 		return day_comparison;
 

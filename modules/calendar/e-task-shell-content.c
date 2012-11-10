@@ -301,7 +301,7 @@ task_shell_content_restore_state_cb (EShellWindow *shell_window,
 		priv->paned, "vposition",
 		G_SETTINGS_BIND_DEFAULT);
 
-	g_object_unref (G_OBJECT (settings));
+	g_object_unref (settings);
 }
 
 static GtkOrientation
@@ -770,7 +770,7 @@ e_task_shell_content_set_preview_visible (ETaskShellContent *task_shell_content,
 {
 	g_return_if_fail (E_IS_TASK_SHELL_CONTENT (task_shell_content));
 
-	if ((task_shell_content->priv->preview_visible ? 1 : 0) == (preview_visible ? 1 : 0))
+	if (task_shell_content->priv->preview_visible == preview_visible)
 		return;
 
 	task_shell_content->priv->preview_visible = preview_visible;

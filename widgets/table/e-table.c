@@ -224,10 +224,11 @@ current_search_col (ETable *et)
 {
 	if (!et->search_col_set) {
 		et->current_search_col =
-			e_table_util_calculate_current_search_col (et->header,
-								   et->full_header,
-								   et->sort_info,
-								   et->always_search);
+			e_table_util_calculate_current_search_col (
+				et->header,
+				et->full_header,
+				et->sort_info,
+				et->always_search);
 		et->search_col_set = TRUE;
 	}
 
@@ -471,9 +472,10 @@ et_search_search (ETableSearch *search,
 
 	rows = e_table_model_row_count (et->model);
 
-	g_object_get (et->selection,
-		     "cursor_row", &cursor,
-		     NULL);
+	g_object_get (
+		et->selection,
+		"cursor_row", &cursor,
+		NULL);
 
 	if ((flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) &&
 		cursor < rows && cursor >= 0 &&
@@ -650,17 +652,19 @@ set_header_canvas_width (ETable *e_table)
 	if (!(e_table->header_item && e_table->header_canvas && e_table->table_canvas))
 		return;
 
-	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_table->table_canvas),
-					NULL, NULL, &width, NULL);
-	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_table->header_canvas),
-					NULL, NULL, &oldwidth, &oldheight);
+	gnome_canvas_get_scroll_region (
+		GNOME_CANVAS (e_table->table_canvas),
+		NULL, NULL, &width, NULL);
+	gnome_canvas_get_scroll_region (
+		GNOME_CANVAS (e_table->header_canvas),
+		NULL, NULL, &oldwidth, &oldheight);
 
 	if (oldwidth != width ||
 	    oldheight != E_TABLE_HEADER_ITEM (e_table->header_item)->height - 1)
 		gnome_canvas_set_scroll_region (
-						GNOME_CANVAS (e_table->header_canvas),
-						0, 0, width, /*  COLUMN_HEADER_HEIGHT - 1 */
-						E_TABLE_HEADER_ITEM (e_table->header_item)->height - 1);
+			GNOME_CANVAS (e_table->header_canvas),
+			0, 0, width, /*  COLUMN_HEADER_HEIGHT - 1 */
+			E_TABLE_HEADER_ITEM (e_table->header_item)->height - 1);
 
 }
 
@@ -759,13 +763,15 @@ table_canvas_reflow_idle (ETable *e_table)
 	height = MAX ((gint) height, allocation.height);
 	width = MAX ((gint) width, allocation.width);
 	/* I have no idea why this needs to be -1, but it works. */
-	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_table->table_canvas),
-					NULL, NULL, &oldwidth, &oldheight);
+	gnome_canvas_get_scroll_region (
+		GNOME_CANVAS (e_table->table_canvas),
+		NULL, NULL, &oldwidth, &oldheight);
 
 	if (oldwidth != width - 1 ||
 	    oldheight != height - 1) {
-		gnome_canvas_set_scroll_region (GNOME_CANVAS (e_table->table_canvas),
-						0, 0, width - 1, height - 1);
+		gnome_canvas_set_scroll_region (
+			GNOME_CANVAS (e_table->table_canvas),
+			0, 0, width - 1, height - 1);
 		set_header_canvas_width (e_table);
 	}
 	e_table->reflow_idle_id = 0;
@@ -784,14 +790,16 @@ table_canvas_size_allocate (GtkWidget *widget,
 
 	width = alloc->width;
 	g_value_set_double (val, width);
-	g_object_get (e_table->canvas_vbox,
-		      "height", &height,
-		      NULL);
+	g_object_get (
+		e_table->canvas_vbox,
+		"height", &height,
+		NULL);
 	height = MAX ((gint) height, alloc->height);
 
-	g_object_set (e_table->canvas_vbox,
-		      "width", width,
-		      NULL);
+	g_object_set (
+		e_table->canvas_vbox,
+		"width", width,
+		NULL);
 	g_object_set_property (G_OBJECT (e_table->header), "width", val);
 	g_free (val);
 	if (e_table->reflow_idle_id)
@@ -1065,12 +1073,13 @@ et_build_groups (ETable *et)
 
 	et->is_grouped = e_table_sort_info_grouping_get_count (et->sort_info) > 0;
 
-	et->group = e_table_group_new (GNOME_CANVAS_GROUP (et->canvas_vbox),
-				       et->full_header,
-				       et->header,
-				       et->model,
-				       et->sort_info,
-				       0);
+	et->group = e_table_group_new (
+		GNOME_CANVAS_GROUP (et->canvas_vbox),
+		et->full_header,
+		et->header,
+		et->model,
+		et->sort_info,
+		0);
 
 	if (et->use_click_to_add_end)
 		e_canvas_vbox_add_item_start (
@@ -1549,18 +1558,21 @@ e_table_set_state_object (ETable *e_table,
 		e_table->sort_info = NULL;
 
 	if (e_table->sorter)
-		g_object_set (e_table->sorter,
-			     "sort_info", e_table->sort_info,
-			     NULL);
+		g_object_set (
+			e_table->sorter,
+			"sort_info", e_table->sort_info,
+			NULL);
 	if (e_table->header_item)
-		g_object_set (e_table->header_item,
-			     "ETableHeader", e_table->header,
-			     "sort_info", e_table->sort_info,
-			     NULL);
+		g_object_set (
+			e_table->header_item,
+			"ETableHeader", e_table->header,
+			"sort_info", e_table->sort_info,
+			NULL);
 	if (e_table->click_to_add)
-		g_object_set (e_table->click_to_add,
-			     "header", e_table->header,
-			     NULL);
+		g_object_set (
+			e_table->click_to_add,
+			"header", e_table->header,
+			NULL);
 
 	e_table->need_rebuild = TRUE;
 	if (!e_table->rebuild_idle_id)
@@ -1746,7 +1758,8 @@ et_real_construct (ETable *e_table,
 	e_table->use_click_to_add = specification->click_to_add;
 	e_table->use_click_to_add_end = specification->click_to_add_end;
 	e_table->click_to_add_message = specification->click_to_add_message ?
-		g_strdup (dgettext (e_table->domain,
+		g_strdup (
+			dgettext (e_table->domain,
 		specification->click_to_add_message)) : NULL;
 	e_table->alternating_row_colors = specification->alternating_row_colors;
 	e_table->horizontal_draw_grid = specification->horizontal_draw_grid;
@@ -1826,17 +1839,19 @@ et_real_construct (ETable *e_table,
 
 	if (!specification->no_headers) {
 		/* The header */
-		gtk_table_attach (GTK_TABLE (e_table), GTK_WIDGET (e_table->header_canvas),
-				  0, 1, 0 + row, 1 + row,
-				  GTK_FILL | GTK_EXPAND,
-				  GTK_FILL, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (e_table), GTK_WIDGET (e_table->header_canvas),
+			0, 1, 0 + row, 1 + row,
+			GTK_FILL | GTK_EXPAND,
+			GTK_FILL, 0, 0);
 		row++;
 	}
-	gtk_table_attach (GTK_TABLE (e_table), GTK_WIDGET (e_table->table_canvas),
-			  0, 1, 0 + row, 1 + row,
-			  GTK_FILL | GTK_EXPAND,
-			  GTK_FILL | GTK_EXPAND,
-			  0, 0);
+	gtk_table_attach (
+		GTK_TABLE (e_table), GTK_WIDGET (e_table->table_canvas),
+		0, 1, 0 + row, 1 + row,
+		GTK_FILL | GTK_EXPAND,
+		GTK_FILL | GTK_EXPAND,
+		0, 0);
 
 	g_object_unref (ete);
 
@@ -2057,9 +2072,10 @@ e_table_set_cursor_row (ETable *e_table,
 	g_return_if_fail (E_IS_TABLE (e_table));
 	g_return_if_fail (row >= 0);
 
-	g_object_set (e_table->selection,
-		     "cursor_row", row,
-		     NULL);
+	g_object_set (
+		e_table->selection,
+		"cursor_row", row,
+		NULL);
 }
 
 /**
@@ -2077,9 +2093,10 @@ e_table_get_cursor_row (ETable *e_table)
 	gint row;
 	g_return_val_if_fail (E_IS_TABLE (e_table), -1);
 
-	g_object_get (e_table->selection,
-		     "cursor_row", &row,
-		     NULL);
+	g_object_get (
+		e_table->selection,
+		"cursor_row", &row,
+		NULL);
 	return row;
 }
 
@@ -2686,10 +2703,11 @@ e_table_drag_get_data (ETable *table,
 {
 	g_return_if_fail (E_IS_TABLE (table));
 
-	gtk_drag_get_data (GTK_WIDGET (table),
-			  context,
-			  target,
-			  time);
+	gtk_drag_get_data (
+		GTK_WIDGET (table),
+		context,
+		target,
+		time);
 }
 
 /**
@@ -2740,12 +2758,13 @@ e_table_drag_highlight (ETable *table,
 				"outline_color_gdk", &style->fg[GTK_STATE_NORMAL],
 				NULL);
 		}
-		gnome_canvas_item_set (table->drop_highlight,
-				       "x1", (gdouble) x,
-				       "x2", (gdouble) x + width - 1,
-				       "y1", (gdouble) y,
-				       "y2", (gdouble) y + height - 1,
-				       NULL);
+		gnome_canvas_item_set (
+			table->drop_highlight,
+			"x1", (gdouble) x,
+			"x2", (gdouble) x + width - 1,
+			"y1", (gdouble) y,
+			"y2", (gdouble) y + height - 1,
+			NULL);
 	} else {
 		if (table->drop_highlight) {
 			g_object_run_dispose (G_OBJECT (table->drop_highlight));
@@ -2825,19 +2844,21 @@ et_real_start_drag (ETable *table,
 		site = table->site;
 
 		site->state = 0;
-		context = e_table_drag_begin (table, row, col,
-					      site->target_list,
-					      site->actions,
-					      1, event);
+		context = e_table_drag_begin (
+			table, row, col,
+			site->target_list,
+			site->actions,
+			1, event);
 
 		if (context) {
 			info = g_dataset_get_data (context, "gtk-info");
 
 			if (info && !info->icon_window) {
 				if (site->pixbuf)
-					gtk_drag_set_icon_pixbuf (context,
-								  site->pixbuf,
-								  -2, -2);
+					gtk_drag_set_icon_pixbuf (
+						context,
+						site->pixbuf,
+						-2, -2);
 				else
 					gtk_drag_set_icon_default (context);
 			}
@@ -2872,10 +2893,11 @@ e_table_drag_source_set (ETable *table,
 	canvas = GTK_WIDGET (table->table_canvas);
 	site = table->site;
 
-	gtk_widget_add_events (canvas,
-			       gtk_widget_get_events (canvas) |
-			       GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
-			       GDK_BUTTON_MOTION_MASK | GDK_STRUCTURE_MASK);
+	gtk_widget_add_events (
+		canvas,
+		gtk_widget_get_events (canvas) |
+		GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
+		GDK_BUTTON_MOTION_MASK | GDK_STRUCTURE_MASK);
 
 	table->do_drag = TRUE;
 

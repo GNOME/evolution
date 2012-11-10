@@ -94,7 +94,7 @@ string_is_set (gchar *string)
 static void
 notify_changed (EMeetingAttendee *ia)
 {
-	g_signal_emit_by_name (G_OBJECT (ia), "changed");
+	g_signal_emit_by_name (ia, "changed");
 }
 
 static void
@@ -657,8 +657,9 @@ compare_times (EMeetingTime *time1,
 {
 	gint day_comparison;
 
-	day_comparison = g_date_compare (&time1->date,
-					 &time2->date);
+	day_comparison = g_date_compare (
+		&time1->date,
+		&time2->date);
 	if (day_comparison != 0)
 		return day_comparison;
 
@@ -698,9 +699,10 @@ ensure_periods_sorted (EMeetingAttendee *ia)
 	if (priv->busy_periods_sorted)
 		return;
 
-	qsort (priv->busy_periods->data, priv->busy_periods->len,
-	       sizeof (EMeetingFreeBusyPeriod),
-	       compare_period_starts);
+	qsort (
+		priv->busy_periods->data, priv->busy_periods->len,
+		sizeof (EMeetingFreeBusyPeriod),
+		compare_period_starts);
 
 	priv->busy_periods_sorted = TRUE;
 }
@@ -981,8 +983,9 @@ e_meeting_attendee_set_start_busy_range (EMeetingAttendee *ia,
 		return FALSE;
 
 	g_date_clear (&priv->busy_periods_start.date, 1);
-	g_date_set_dmy (&priv->busy_periods_start.date,
-			start_day, start_month, start_year);
+	g_date_set_dmy (
+		&priv->busy_periods_start.date,
+		start_day, start_month, start_year);
 	priv->busy_periods_start.hour = start_hour;
 	priv->busy_periods_start.minute = start_minute;
 
@@ -1014,8 +1017,9 @@ e_meeting_attendee_set_end_busy_range (EMeetingAttendee *ia,
 		return FALSE;
 
 	g_date_clear (&priv->busy_periods_end.date, 1);
-	g_date_set_dmy (&priv->busy_periods_end.date,
-			end_day, end_month, end_year);
+	g_date_set_dmy (
+		&priv->busy_periods_end.date,
+		end_day, end_month, end_year);
 	priv->busy_periods_end.hour = end_hour;
 	priv->busy_periods_end.minute = end_minute;
 

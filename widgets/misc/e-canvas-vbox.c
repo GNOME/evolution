@@ -82,30 +82,42 @@ e_canvas_vbox_class_init (ECanvasVboxClass *class)
 	item_class->event       = e_canvas_vbox_event;
 	item_class->realize     = e_canvas_vbox_realize;
 
-	g_object_class_install_property (object_class, PROP_WIDTH,
-					 g_param_spec_double ("width",
-							      "Width",
-							      "Width",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READWRITE));
-	g_object_class_install_property (object_class, PROP_MINIMUM_WIDTH,
-					 g_param_spec_double ("minimum_width",
-							      "Minimum width",
-							      "Minimum Width",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READWRITE));
-	g_object_class_install_property (object_class, PROP_HEIGHT,
-					 g_param_spec_double ("height",
-							      "Height",
-							      "Height",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READABLE));
-	g_object_class_install_property (object_class, PROP_SPACING,
-					 g_param_spec_double ("spacing",
-							      "Spacing",
-							      "Spacing",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_WIDTH,
+		g_param_spec_double (
+			"width",
+			"Width",
+			"Width",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_MINIMUM_WIDTH,
+		g_param_spec_double (
+			"minimum_width",
+			"Minimum width",
+			"Minimum Width",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_HEIGHT,
+		g_param_spec_double (
+			"height",
+			"Height",
+			"Height",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_SPACING,
+		g_param_spec_double (
+			"spacing",
+			"Spacing",
+			"Spacing",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -187,10 +199,11 @@ disconnect_item_cb (gpointer data,
 	vbox = E_CANVAS_VBOX (user_data);
 
 	item = GNOME_CANVAS_ITEM (data);
-	g_signal_handlers_disconnect_matched (item,
-					      G_SIGNAL_MATCH_DATA,
-					      0, 0, NULL, NULL,
-					      vbox);
+	g_signal_handlers_disconnect_matched (
+		item,
+		G_SIGNAL_MATCH_DATA,
+		0, 0, NULL, NULL,
+		vbox);
 }
 
 static void
@@ -268,12 +281,14 @@ e_canvas_vbox_real_add_item (ECanvasVbox *e_canvas_vbox,
                              GnomeCanvasItem *item)
 {
 	e_canvas_vbox->items = g_list_append (e_canvas_vbox->items, item);
-	g_object_weak_ref (G_OBJECT (item),
-			   e_canvas_vbox_remove_item, e_canvas_vbox);
+	g_object_weak_ref (
+		G_OBJECT (item),
+		e_canvas_vbox_remove_item, e_canvas_vbox);
 	if (GNOME_CANVAS_ITEM (e_canvas_vbox)->flags & GNOME_CANVAS_ITEM_REALIZED) {
-		gnome_canvas_item_set (item,
-				      "width", (gdouble) e_canvas_vbox->minimum_width,
-				      NULL);
+		gnome_canvas_item_set (
+			item,
+			"width", (gdouble) e_canvas_vbox->minimum_width,
+			NULL);
 		e_canvas_item_request_reflow (item);
 	}
 }
@@ -283,12 +298,14 @@ e_canvas_vbox_real_add_item_start (ECanvasVbox *e_canvas_vbox,
                                    GnomeCanvasItem *item)
 {
 	e_canvas_vbox->items = g_list_prepend (e_canvas_vbox->items, item);
-	g_object_weak_ref (G_OBJECT (item),
-			   e_canvas_vbox_remove_item, e_canvas_vbox);
+	g_object_weak_ref (
+		G_OBJECT (item),
+		e_canvas_vbox_remove_item, e_canvas_vbox);
 	if (GNOME_CANVAS_ITEM (e_canvas_vbox)->flags & GNOME_CANVAS_ITEM_REALIZED) {
-		gnome_canvas_item_set (item,
-				      "width", (gdouble) e_canvas_vbox->minimum_width,
-				      NULL);
+		gnome_canvas_item_set (
+			item,
+			"width", (gdouble) e_canvas_vbox->minimum_width,
+			NULL);
 		e_canvas_item_request_reflow (item);
 	}
 }
@@ -302,9 +319,10 @@ e_canvas_vbox_resize_children (GnomeCanvasItem *item)
 	e_canvas_vbox = E_CANVAS_VBOX (item);
 	for (list = e_canvas_vbox->items; list; list = list->next) {
 		GnomeCanvasItem *child = GNOME_CANVAS_ITEM (list->data);
-		gnome_canvas_item_set (child,
-				      "width", (gdouble) e_canvas_vbox->minimum_width,
-				      NULL);
+		gnome_canvas_item_set (
+			child,
+			"width", (gdouble) e_canvas_vbox->minimum_width,
+			NULL);
 	}
 }
 
@@ -333,13 +351,15 @@ e_canvas_vbox_reflow (GnomeCanvasItem *item,
 			gdouble item_width;
 
 			list = e_canvas_vbox->items;
-			g_object_get (list->data,
-				      "height", &item_height,
-				      "width", &item_width,
-				      NULL);
-			e_canvas_item_move_absolute (GNOME_CANVAS_ITEM (list->data),
-						    (gdouble) 0,
-						    (gdouble) running_height);
+			g_object_get (
+				list->data,
+				"height", &item_height,
+				"width", &item_width,
+				NULL);
+			e_canvas_item_move_absolute (
+				GNOME_CANVAS_ITEM (list->data),
+				(gdouble) 0,
+				(gdouble) running_height);
 			running_height += item_height;
 			if (max_width < item_width)
 				max_width = item_width;
@@ -348,14 +368,16 @@ e_canvas_vbox_reflow (GnomeCanvasItem *item,
 			for (; list; list = g_list_next (list)) {
 				running_height += e_canvas_vbox->spacing;
 
-				g_object_get (list->data,
-					      "height", &item_height,
-					      "width", &item_width,
-					      NULL);
+				g_object_get (
+					list->data,
+					"height", &item_height,
+					"width", &item_width,
+					NULL);
 
-				e_canvas_item_move_absolute (GNOME_CANVAS_ITEM (list->data),
-							    (gdouble) 0,
-							    (gdouble) running_height);
+				e_canvas_item_move_absolute (
+					GNOME_CANVAS_ITEM (list->data),
+					(gdouble) 0,
+					(gdouble) running_height);
 
 				running_height += item_height;
 				if (max_width < item_width)

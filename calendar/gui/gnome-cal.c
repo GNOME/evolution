@@ -596,67 +596,65 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			GNOME_CAL_DAY_VIEW,
 			G_PARAM_READWRITE));
 
-	signals[DATES_SHOWN_CHANGED] =
-		g_signal_new ("dates_shown_changed",
-				G_TYPE_FROM_CLASS (object_class),
-				G_SIGNAL_RUN_LAST,
-				G_STRUCT_OFFSET (GnomeCalendarClass, dates_shown_changed),
-				NULL, NULL,
-				g_cclosure_marshal_VOID__VOID,
-				G_TYPE_NONE, 0);
+	signals[DATES_SHOWN_CHANGED] = g_signal_new (
+		"dates_shown_changed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnomeCalendarClass, dates_shown_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[CALENDAR_SELECTION_CHANGED] =
-		g_signal_new ("calendar_selection_changed",
-				G_TYPE_FROM_CLASS (object_class),
-				G_SIGNAL_RUN_LAST,
-				G_STRUCT_OFFSET (GnomeCalendarClass, calendar_selection_changed),
-				NULL, NULL,
-				g_cclosure_marshal_VOID__VOID,
-				G_TYPE_NONE, 0);
+	signals[CALENDAR_SELECTION_CHANGED] = g_signal_new (
+		"calendar_selection_changed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnomeCalendarClass, calendar_selection_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[SOURCE_ADDED] =
-		g_signal_new ("source_added",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (GnomeCalendarClass, source_added),
-			      NULL, NULL,
-			      e_marshal_VOID__INT_OBJECT,
-			      G_TYPE_NONE,
-			      2,
-			      G_TYPE_INT, G_TYPE_OBJECT);
+	signals[SOURCE_ADDED] = g_signal_new (
+		"source_added",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (GnomeCalendarClass, source_added),
+		NULL, NULL,
+		e_marshal_VOID__INT_OBJECT,
+		G_TYPE_NONE, 2,
+		G_TYPE_INT,
+		G_TYPE_OBJECT);
 
-	signals[SOURCE_REMOVED] =
-		g_signal_new ("source_removed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (GnomeCalendarClass, source_removed),
-			      NULL, NULL,
-			      e_marshal_VOID__INT_OBJECT,
-			      G_TYPE_NONE,
-			      2,
-			      G_TYPE_INT, G_TYPE_OBJECT);
+	signals[SOURCE_REMOVED] = g_signal_new (
+		"source_removed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (GnomeCalendarClass, source_removed),
+		NULL, NULL,
+		e_marshal_VOID__INT_OBJECT,
+		G_TYPE_NONE, 2,
+		G_TYPE_INT,
+		G_TYPE_OBJECT);
 
-	signals[GOTO_DATE] =
-		g_signal_new ("goto_date",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-			      G_STRUCT_OFFSET (GnomeCalendarClass, goto_date),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE,
-			      1,
-			      G_TYPE_INT);
+	signals[GOTO_DATE] = g_signal_new (
+		"goto_date",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (GnomeCalendarClass, goto_date),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1,
+		G_TYPE_INT);
 
-	signals[CHANGE_VIEW] =
-		g_signal_new ("change_view",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-			      G_STRUCT_OFFSET (GnomeCalendarClass, change_view),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE,
-			      1,
-			      G_TYPE_INT);
+	signals[CHANGE_VIEW] = g_signal_new (
+		"change_view",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (GnomeCalendarClass, change_view),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1,
+		G_TYPE_INT);
 
 	/*
 	 * Key bindings
@@ -665,98 +663,115 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	binding_set = gtk_binding_set_new (G_OBJECT_CLASS_NAME (class));
 
 	/* Alt+PageUp/PageDown, go to the first/last day of the month */
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Page_Up,
-				      GDK_MOD1_MASK,
-				      "goto_date", 1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_GOTO_FIRST_DAY_OF_MONTH);
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Page_Up,
-				      GDK_MOD1_MASK,
-				      "goto_date", 1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_GOTO_FIRST_DAY_OF_MONTH);
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Page_Down,
-				      GDK_MOD1_MASK,
-				      "goto_date", 1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_GOTO_LAST_DAY_OF_MONTH);
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Page_Down,
-				      GDK_MOD1_MASK,
-				      "goto_date", 1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_GOTO_LAST_DAY_OF_MONTH);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_Page_Up,
+		GDK_MOD1_MASK,
+		"goto_date", 1,
+		G_TYPE_ENUM,
+		GNOME_CAL_GOTO_FIRST_DAY_OF_MONTH);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_KP_Page_Up,
+		GDK_MOD1_MASK,
+		"goto_date", 1,
+		G_TYPE_ENUM,
+		GNOME_CAL_GOTO_FIRST_DAY_OF_MONTH);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_Page_Down,
+		GDK_MOD1_MASK,
+		"goto_date", 1,
+		G_TYPE_ENUM,
+		GNOME_CAL_GOTO_LAST_DAY_OF_MONTH);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_KP_Page_Down,
+		GDK_MOD1_MASK,
+		"goto_date", 1,
+		G_TYPE_ENUM,
+		GNOME_CAL_GOTO_LAST_DAY_OF_MONTH);
 
 	/* Alt+Home/End, go to the first/last day of the week */
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Home,
-				      GDK_MOD1_MASK,
-				      "goto_date", 1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_GOTO_FIRST_DAY_OF_WEEK);
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_End,
-				      GDK_MOD1_MASK,
-				      "goto_date", 1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_GOTO_LAST_DAY_OF_WEEK);
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Home,
-				      GDK_MOD1_MASK,
-				      "goto_date", 1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_GOTO_FIRST_DAY_OF_WEEK);
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_End,
-				      GDK_MOD1_MASK,
-				      "goto_date", 1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_GOTO_LAST_DAY_OF_WEEK);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_Home,
+		GDK_MOD1_MASK,
+		"goto_date", 1,
+		G_TYPE_ENUM,
+		GNOME_CAL_GOTO_FIRST_DAY_OF_WEEK);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_End,
+		GDK_MOD1_MASK,
+		"goto_date", 1,
+		G_TYPE_ENUM,
+		GNOME_CAL_GOTO_LAST_DAY_OF_WEEK);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_KP_Home,
+		GDK_MOD1_MASK,
+		"goto_date", 1,
+		G_TYPE_ENUM,
+		GNOME_CAL_GOTO_FIRST_DAY_OF_WEEK);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_KP_End,
+		GDK_MOD1_MASK,
+		"goto_date", 1,
+		G_TYPE_ENUM,
+		GNOME_CAL_GOTO_LAST_DAY_OF_WEEK);
 
 	/*Alt+Left/Right, go to the same day of the previous/next week*/
-	gtk_binding_entry_add_signal (binding_set,GDK_KEY_Left,
-				      GDK_MOD1_MASK,
-				      "goto_date",1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_GOTO_SAME_DAY_OF_PREVIOUS_WEEK);
-	gtk_binding_entry_add_signal (binding_set,GDK_KEY_KP_Left,
-				      GDK_MOD1_MASK,
-				      "goto_date",1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_GOTO_SAME_DAY_OF_PREVIOUS_WEEK);
-	gtk_binding_entry_add_signal (binding_set,GDK_KEY_Right,
-				      GDK_MOD1_MASK,
-				      "goto_date",1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_GOTO_SAME_DAY_OF_NEXT_WEEK);
-	gtk_binding_entry_add_signal (binding_set,GDK_KEY_KP_Right,
-				      GDK_MOD1_MASK,
-				      "goto_date",1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_GOTO_SAME_DAY_OF_NEXT_WEEK);
+	gtk_binding_entry_add_signal (
+		binding_set,GDK_KEY_Left,
+		GDK_MOD1_MASK,
+		"goto_date",1,
+		G_TYPE_ENUM,
+		GNOME_CAL_GOTO_SAME_DAY_OF_PREVIOUS_WEEK);
+	gtk_binding_entry_add_signal (
+		binding_set,GDK_KEY_KP_Left,
+		GDK_MOD1_MASK,
+		"goto_date",1,
+		G_TYPE_ENUM,
+		GNOME_CAL_GOTO_SAME_DAY_OF_PREVIOUS_WEEK);
+	gtk_binding_entry_add_signal (
+		binding_set,GDK_KEY_Right,
+		GDK_MOD1_MASK,
+		"goto_date",1,
+		G_TYPE_ENUM,
+		GNOME_CAL_GOTO_SAME_DAY_OF_NEXT_WEEK);
+	gtk_binding_entry_add_signal (
+		binding_set,GDK_KEY_KP_Right,
+		GDK_MOD1_MASK,
+		"goto_date",1,
+		G_TYPE_ENUM,
+		GNOME_CAL_GOTO_SAME_DAY_OF_NEXT_WEEK);
 
 	/* Ctrl+Y/J/K/M/L to switch between
 	 * DayView/WorkWeekView/WeekView/MonthView/ListView */
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_y,
-				      GDK_CONTROL_MASK,
-				      "change_view", 1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_DAY_VIEW);
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_j,
-				      GDK_CONTROL_MASK,
-				      "change_view", 1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_WORK_WEEK_VIEW);
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_k,
-				      GDK_CONTROL_MASK,
-				      "change_view", 1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_WEEK_VIEW);
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_m,
-				      GDK_CONTROL_MASK,
-				      "change_view", 1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_MONTH_VIEW);
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_l,
-				      GDK_CONTROL_MASK,
-				      "change_view", 1,
-				      G_TYPE_ENUM,
-				      GNOME_CAL_LIST_VIEW);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_y,
+		GDK_CONTROL_MASK,
+		"change_view", 1,
+		G_TYPE_ENUM,
+		GNOME_CAL_DAY_VIEW);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_j,
+		GDK_CONTROL_MASK,
+		"change_view", 1,
+		G_TYPE_ENUM,
+		GNOME_CAL_WORK_WEEK_VIEW);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_k,
+		GDK_CONTROL_MASK,
+		"change_view", 1,
+		G_TYPE_ENUM,
+		GNOME_CAL_WEEK_VIEW);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_m,
+		GDK_CONTROL_MASK,
+		"change_view", 1,
+		G_TYPE_ENUM,
+		GNOME_CAL_MONTH_VIEW);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_KEY_l,
+		GDK_CONTROL_MASK,
+		"change_view", 1,
+		G_TYPE_ENUM,
+		GNOME_CAL_LIST_VIEW);
 
 	/* init the accessibility support for gnome_calendar */
 	gnome_calendar_a11y_init ();
@@ -1091,12 +1106,13 @@ adjust_client_view_sexp (GnomeCalendar *gcal,
 	end = isodate_from_time_t (end_time);
 
 	if (sexp) {
-		new_sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\") %s)",
-				start, end, gcal_get_default_tzloc (gcal),
-				sexp);
+		new_sexp = g_strdup_printf (
+			"(and (occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\") %s)",
+			start, end, gcal_get_default_tzloc (gcal), sexp);
 	} else {
-		new_sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\")",
-				start, end, gcal_get_default_tzloc (gcal));
+		new_sexp = g_strdup_printf (
+			"(occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\")",
+			start, end, gcal_get_default_tzloc (gcal));
 	}
 
 	g_free (start);
@@ -1326,8 +1342,9 @@ update_todo_view_async (struct _mupdate_todo_msg *msg)
 	model = e_task_table_get_model (E_TASK_TABLE (priv->task_table));
 
 	if ((sexp = calendar_config_get_hide_completed_tasks_sexp (FALSE)) != NULL) {
-		priv->todo_sexp = g_strdup_printf ("(and %s %s)", sexp,
-							priv->sexp ? priv->sexp : "");
+		priv->todo_sexp = g_strdup_printf (
+			"(and %s %s)", sexp,
+			priv->sexp ? priv->sexp : "");
 		e_cal_model_set_search_query (model, priv->todo_sexp);
 		g_free (sexp);
 	} else {
@@ -2221,8 +2238,9 @@ gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 	time_to_gdate_with_zone (&end_date, end, timezone);
 	g_date_subtract_days (&end_date, 1);
 
-	e_calendar_item_set_selection (priv->date_navigator->calitem,
-				       &start_date, &end_date);
+	e_calendar_item_set_selection (
+		priv->date_navigator->calitem,
+		&start_date, &end_date);
 }
 
 void
@@ -2312,8 +2330,9 @@ gnome_calendar_purge (GnomeCalendar *gcal,
 
 	start = isodate_from_time_t (0);
 	end = isodate_from_time_t (older_than);
-	sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\")",
-				start, end, gcal_get_default_tzloc (gcal));
+	sexp = g_strdup_printf (
+		"(occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\")",
+		start, end, gcal_get_default_tzloc (gcal));
 
 	gcal_update_status_message (gcal, _("Purging"), -1);
 
@@ -2370,7 +2389,7 @@ gnome_calendar_purge (GnomeCalendar *gcal,
 
 					recur_id = icalcomponent_get_recurrenceid (m->data);
 
-					if (!icaltime_is_null_time (recur_id) )
+					if (!icaltime_is_null_time (recur_id))
 						rid = icaltime_as_ical_string_r (recur_id);
 
 					e_cal_client_remove_object_sync (

@@ -180,15 +180,17 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 		}
 
 		if (week_view->multi_week_view) {
-			cairo_rectangle (cr, x + 2, y + 1,
-					    width - 5,
-					    E_WEEK_VIEW_DATE_T_PAD - 1 +
+			cairo_rectangle (
+				cr, x + 2, y + 1,
+				width - 5,
+				E_WEEK_VIEW_DATE_T_PAD - 1 +
 				PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
 				PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)));
 			cairo_fill (cr);
 		} else {
-			cairo_rectangle (cr, x + 2, y + 1,
-				    width - 5, line_y - y);
+			cairo_rectangle (
+				cr, x + 2, y + 1,
+				width - 5, line_y - y);
 			cairo_fill (cr);
 		}
 	}
@@ -265,15 +267,16 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	if (today) {
 		g_date_strftime (
 			buffer, sizeof (buffer),
-			 format_string ? format_string : "<b>%d</b>", date);
+			format_string ? format_string : "<b>%d</b>", date);
 		pango_cairo_update_context (cr, pango_context);
 		layout = pango_cairo_create_layout (cr);
 		pango_layout_set_font_description (layout, font_desc);
 		pango_layout_set_text (layout, buffer, -1);
 		pango_layout_set_markup (layout, buffer, strlen (buffer));
 	} else {
-		g_date_strftime (buffer, sizeof (buffer),
-				 format_string ? format_string : "%d", date);
+		g_date_strftime (
+			buffer, sizeof (buffer),
+			format_string ? format_string : "%d", date);
 		pango_cairo_update_context (cr, pango_context);
 		layout = pango_cairo_create_layout (cr);
 		pango_layout_set_font_description (layout, font_desc);
@@ -400,9 +403,10 @@ week_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
 	for (day = 0; day < num_days; day++) {
-		e_week_view_get_day_position (week_view, day,
-					      &day_x, &day_y,
-					      &day_w, &day_h);
+		e_week_view_get_day_position (
+			week_view, day,
+			&day_x, &day_y,
+			&day_w, &day_h);
 		/* Skip any days which are outside the area. */
 		if (day_x < x + width && day_x + day_w >= x
 		    && day_y < y + height && day_y + day_h >= y) {

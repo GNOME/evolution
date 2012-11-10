@@ -55,8 +55,9 @@ e_day_view_cell_get_type (void)
 			NULL /* value table */
 		};
 
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "EDayViewCell", &tinfo, 0);
+		type = g_type_register_static (
+			G_TYPE_OBJECT,
+			"EDayViewCell", &tinfo, 0);
 	}
 
 	return type;
@@ -141,10 +142,12 @@ ea_day_view_cell_get_type (void)
 			NULL
 		};
 
-		type = g_type_register_static (ATK_TYPE_GOBJECT_ACCESSIBLE,
-					       "EaDayViewCell", &tinfo, 0);
-		g_type_add_interface_static (type, ATK_TYPE_COMPONENT,
-					     &atk_component_info);
+		type = g_type_register_static (
+			ATK_TYPE_GOBJECT_ACCESSIBLE,
+			"EaDayViewCell", &tinfo, 0);
+		g_type_add_interface_static (
+			type, ATK_TYPE_COMPONENT,
+			&atk_component_info);
 	}
 
 	return type;
@@ -185,7 +188,8 @@ ea_day_view_cell_new (GObject *obj)
 
 #ifdef ACC_DEBUG
 	++n_ea_day_view_cell_created;
-	printf ("ACC_DEBUG: n_ea_day_view_cell_created = %d\n",
+	printf (
+		"ACC_DEBUG: n_ea_day_view_cell_created = %d\n",
 		n_ea_day_view_cell_created);
 #endif
 	return atk_object;
@@ -197,7 +201,8 @@ static void ea_day_view_cell_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 
 	++n_ea_day_view_cell_destroyed;
-	printf ("ACC_DEBUG: n_ea_day_view_cell_destroyed = %d\n",
+	printf (
+		"ACC_DEBUG: n_ea_day_view_cell_destroyed = %d\n",
 		n_ea_day_view_cell_destroyed);
 }
 #endif
@@ -225,10 +230,12 @@ ea_day_view_cell_get_name (AtkObject *accessible)
 		cell = E_DAY_VIEW_CELL (g_obj);
 		main_item = cell->day_view->main_canvas_item;
 		ea_main_item = atk_gobject_accessible_for_object (G_OBJECT (main_item));
-		column_label = atk_table_get_column_description (ATK_TABLE (ea_main_item),
-								 cell->column);
-		row_label = atk_table_get_row_description (ATK_TABLE (ea_main_item),
-							   cell->row);
+		column_label = atk_table_get_column_description (
+			ATK_TABLE (ea_main_item),
+			cell->column);
+		row_label = atk_table_get_row_description (
+			ATK_TABLE (ea_main_item),
+			cell->row);
 		new_name = g_strconcat (column_label, " ", row_label, NULL);
 		ATK_OBJECT_CLASS (parent_class)->set_name (accessible, new_name);
 		g_free (new_name);
@@ -311,8 +318,9 @@ ea_day_view_cell_get_index_in_parent (AtkObject *accessible)
 
 	cell = E_DAY_VIEW_CELL (g_obj);
 	parent = atk_object_get_parent (accessible);
-	return atk_table_get_index_at (ATK_TABLE (parent),
-				       cell->row, cell->column);
+	return atk_table_get_index_at (
+		ATK_TABLE (parent),
+		cell->row, cell->column);
 }
 
 /* Atk Component Interface */
@@ -356,12 +364,14 @@ component_interface_get_extents (AtkComponent *component,
 	main_canvas = cell->day_view->main_canvas;
 
 	atk_obj = atk_gobject_accessible_for_object (G_OBJECT (main_canvas));
-	atk_component_get_extents (ATK_COMPONENT (atk_obj),
-				   x, y,
-				   &day_view_width, &day_view_height,
-				   coord_type);
-	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (day_view->main_canvas),
-					 &scroll_x, &scroll_y);
+	atk_component_get_extents (
+		ATK_COMPONENT (atk_obj),
+		x, y,
+		&day_view_width, &day_view_height,
+		coord_type);
+	gnome_canvas_get_scroll_offsets (
+		GNOME_CANVAS (day_view->main_canvas),
+		&scroll_x, &scroll_y);
 	*x += day_view->day_offsets[cell->column] - scroll_x;
 	*y += day_view->row_height * cell->row
 		- scroll_y;
@@ -391,9 +401,10 @@ component_interface_grab_focus (AtkComponent *comp)
 	day_view->selection_start_row = cell->row;
 	day_view->selection_end_row = cell->row;
 
-	e_day_view_ensure_rows_visible (day_view,
-			day_view->selection_start_row,
-			day_view->selection_end_row);
+	e_day_view_ensure_rows_visible (
+		day_view,
+		day_view->selection_start_row,
+		day_view->selection_end_row);
 	e_day_view_update_calendar_selection_time (day_view);
 	gtk_widget_queue_draw (day_view->main_canvas);
 

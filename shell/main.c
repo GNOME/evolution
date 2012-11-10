@@ -421,7 +421,9 @@ create_default_shell (void)
 
 	/* Failure to register is fatal. */
 	if (error != NULL) {
-		g_warning ("Cannot start Evolution, other instance is probably running and is unresponsive. System error: %s",
+		g_warning (
+			"Cannot start Evolution.  Another Evolution "
+			"instance may be unresponsive. System error: %s",
 			error->message);
 		g_clear_error (&error);
 	}
@@ -435,8 +437,8 @@ create_default_shell (void)
 }
 
 /* this workarounds https://bugzilla.gnome.org/show_bug.cgi?id=683548
-   and is a replacement of g_type_ensure(), which is part of GLib 2.34,
-   on which Evolution doesn't depend yet
+ * and is a replacement of g_type_ensure(), which is part of GLib 2.34,
+ * on which Evolution doesn't depend yet
 */
 static void
 e_ensure_type (GType type)

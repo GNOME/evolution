@@ -319,8 +319,9 @@ e_cell_combo_select_matching_item (ECellCombo *ecc)
 	eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
 
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
-	cell_text = e_cell_text_get_text (ecell_text, ecv->e_table_model,
-					  ecol->col_idx, ecp->popup_row);
+	cell_text = e_cell_text_get_text (
+		ecell_text, ecv->e_table_model,
+		ecol->col_idx, ecp->popup_row);
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ecc->popup_tree_view));
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ecc->popup_tree_view));
@@ -432,25 +433,21 @@ e_cell_combo_get_popup_pos (ECellCombo *ecc,
 
 	x1 = e_table_header_col_diff (eti->header, 0, view_col + 1);
 	y1 = e_table_item_row_diff (eti, 0, row + 1);
-	column_width = e_table_header_col_diff (eti->header, view_col,
-						view_col + 1);
-	row_height = e_table_item_row_diff (eti, row,
-					    row + 1);
+	column_width = e_table_header_col_diff (
+		eti->header, view_col, view_col + 1);
+	row_height = e_table_item_row_diff (eti, row, row + 1);
 	gnome_canvas_item_i2w (GNOME_CANVAS_ITEM (eti), &x1, &y1);
 
-	gnome_canvas_world_to_window (GNOME_CANVAS (canvas),
-				      x1,
-				      y1,
-				      &wx,
-				      &wy);
+	gnome_canvas_world_to_window (
+		GNOME_CANVAS (canvas), x1, y1, &wx, &wy);
 
 	x1 = wx;
 	y1 = wy;
 
 	*x += x1;
 	/* The ETable positions don't include the grid lines, I think, so we add 1. */
-	*y += y1 + 1
-		- (gint) gtk_adjustment_get_value (
+	*y += y1 + 1 - (gint)
+		 gtk_adjustment_get_value (
 			gtk_scrollable_get_vadjustment (
 			GTK_SCROLLABLE (&((GnomeCanvas *) canvas)->layout)))
 		+ ((GnomeCanvas *) canvas)->zoom_yofs;
@@ -712,13 +709,15 @@ e_cell_combo_update_cell (ECellCombo *ecc)
 	/* Compare it with the existing cell contents. */
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
 
-	old_text = e_cell_text_get_text (ecell_text, ecv->e_table_model,
-					 ecol->col_idx, ecp->popup_row);
+	old_text = e_cell_text_get_text (
+		ecell_text, ecv->e_table_model,
+		ecol->col_idx, ecp->popup_row);
 
 	/* If they are different, update the cell contents. */
 	if (old_text && strcmp (old_text, text)) {
-		e_cell_text_set_value (ecell_text, ecv->e_table_model,
-				       ecol->col_idx, ecp->popup_row, text);
+		e_cell_text_set_value (
+			ecell_text, ecv->e_table_model,
+			ecol->col_idx, ecp->popup_row, text);
 	}
 
 	e_cell_text_free_text (ecell_text, old_text);

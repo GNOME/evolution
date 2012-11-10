@@ -193,10 +193,13 @@ emla_list_action_cb (CamelFolder *folder,
 	}
 
 	for (t = 0; t < G_N_ELEMENTS (emla_action_headers); t++) {
-		if (emla_action_headers[t].action == context->action &&
-		    (header = camel_medium_get_header (CAMEL_MEDIUM (message),
-			emla_action_headers[t].header)) != NULL)
-			break;
+		if (emla_action_headers[t].action == context->action) {
+			header = camel_medium_get_header (
+				CAMEL_MEDIUM (message),
+				emla_action_headers[t].header);
+			if (header != NULL)
+				break;
+		}
 	}
 
 	if (!header) {

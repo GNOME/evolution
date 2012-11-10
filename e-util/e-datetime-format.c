@@ -530,7 +530,7 @@ unref_setup_keyfile (gpointer ptr)
 	g_return_if_fail (setup_keyfile != NULL);
 	g_return_if_fail (setup_keyfile_instances > 0);
 
-	/* this is never called :( */
+	/* this is never called */
 	setup_keyfile_instances--;
 	if (setup_keyfile_instances == 0) {
 		save_keyfile (setup_keyfile);

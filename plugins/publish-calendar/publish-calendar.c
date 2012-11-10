@@ -179,11 +179,11 @@ publish_no_succ_info (EPublishUri *uri)
 static void
 publish_uri_async (EPublishUri *uri)
 {
-	GThread *thread = NULL;
 	GError *error = NULL;
 
-	thread = g_thread_create ((GThreadFunc) publish_no_succ_info, uri, FALSE, &error);
-	if (!thread) {
+	g_thread_create (
+		(GThreadFunc) publish_no_succ_info, uri, FALSE, &error);
+	if (error != NULL) {
 		g_warning (G_STRLOC ": %s", error->message);
 		g_error_free (error);
 	}
@@ -326,16 +326,21 @@ ask_password (GMountOperation *op,
 
 	username = soup_uri_get_user (soup_uri);
 	password = e_passwords_get_password (NULL, ms->uri->location);
-	req_pass = ((username && *username) && !(ms->uri->service_type == TYPE_ANON_FTP &&
-			!strcmp (username, "anonymous"))) ? TRUE : FALSE;
+	req_pass =
+		((username && *username) &&
+		!(ms->uri->service_type == TYPE_ANON_FTP &&
+		!strcmp (username, "anonymous")));
 
 	if (!password && req_pass) {
 		gboolean remember = FALSE;
 
-		password = e_passwords_ask_password (_("Enter password"), NULL, ms->uri->location, message,
-					     E_PASSWORDS_REMEMBER_FOREVER | E_PASSWORDS_SECRET | E_PASSWORDS_ONLINE,
-					     &remember,
-					     NULL);
+		password = e_passwords_ask_password (
+			_("Enter password"), NULL,
+			ms->uri->location, message,
+			E_PASSWORDS_REMEMBER_FOREVER |
+			E_PASSWORDS_SECRET |
+			E_PASSWORDS_ONLINE,
+			&remember, NULL);
 
 		if (!password) {
 			/* user canceled password dialog */
@@ -377,9 +382,10 @@ ask_question (GMountOperation *op,
 		primary = g_strndup (message, strlen (message) - strlen (primary));
 	}
 
-	dialog = gtk_message_dialog_new (NULL,
-					 0, GTK_MESSAGE_QUESTION,
-					 GTK_BUTTONS_NONE, "%s", primary);
+	dialog = gtk_message_dialog_new (
+		NULL,
+		0, GTK_MESSAGE_QUESTION,
+		GTK_BUTTONS_NONE, "%s", primary);
 	g_free (primary);
 
 	if (secondary) {
@@ -726,10 +732,11 @@ url_edit_clicked (GtkButton *button,
 		url_editor = url_editor_dialog_new (model, uri);
 
 		if (url_editor_dialog_run ((UrlEditorDialog *) url_editor)) {
-			gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-				    URL_LIST_ENABLED_COLUMN, uri->enabled,
-				    URL_LIST_LOCATION_COLUMN, uri->location,
-				    URL_LIST_URL_COLUMN, uri, -1);
+			gtk_list_store_set (
+				GTK_LIST_STORE (model), &iter,
+				URL_LIST_ENABLED_COLUMN, uri->enabled,
+				URL_LIST_LOCATION_COLUMN, uri->location,
+				URL_LIST_URL_COLUMN, uri, -1);
 
 			id = GPOINTER_TO_UINT (g_hash_table_lookup (uri_timeouts, uri));
 			if (id)
@@ -769,9 +776,10 @@ url_remove_clicked (GtkButton *button,
 
 	gtk_tree_model_get (model, &iter, URL_LIST_URL_COLUMN, &url, -1);
 
-	confirm = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					  GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-					  _("Are you sure you want to remove this location?"));
+	confirm = gtk_message_dialog_new (
+		NULL, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+		_("Are you sure you want to remove this location?"));
 	gtk_dialog_add_button (GTK_DIALOG (confirm), GTK_STOCK_CANCEL, GTK_RESPONSE_NO);
 	gtk_dialog_add_button (GTK_DIALOG (confirm), GTK_STOCK_REMOVE, GTK_RESPONSE_YES);
 	gtk_dialog_set_default_response (GTK_DIALOG (confirm), GTK_RESPONSE_CANCEL);
@@ -861,14 +869,16 @@ publish_calendar_locations (EPlugin *epl,
 
 	renderer = gtk_cell_renderer_toggle_new ();
 	g_object_set (renderer, "activatable", TRUE, NULL);
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Enabled"),
-						     renderer, "active", URL_LIST_ENABLED_COLUMN, NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (ui->treeview), -1, _("Enabled"),
+		renderer, "active", URL_LIST_ENABLED_COLUMN, NULL);
 	g_signal_connect (
 		renderer, "toggled",
 		G_CALLBACK (url_list_enable_toggled), ui);
 	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Location"),
-						     renderer, "text", URL_LIST_LOCATION_COLUMN, NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (ui->treeview), -1, _("Location"),
+		renderer, "text", URL_LIST_LOCATION_COLUMN, NULL);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	g_signal_connect (
@@ -908,10 +918,11 @@ publish_calendar_locations (EPlugin *epl,
 		EPublishUri *url = (EPublishUri *) l->data;
 
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
-				    URL_LIST_ENABLED_COLUMN, url->enabled,
-				    URL_LIST_LOCATION_COLUMN, url->location,
-				    URL_LIST_URL_COLUMN, url, -1);
+		gtk_list_store_set (
+			store, &iter,
+			URL_LIST_ENABLED_COLUMN, url->enabled,
+			URL_LIST_LOCATION_COLUMN, url->location,
+			URL_LIST_URL_COLUMN, url, -1);
 
 		l = g_slist_next (l);
 	}
@@ -986,15 +997,16 @@ e_plugin_lib_enable (EPlugin *ep,
 	if (enable) {
 		GSettings *settings;
 		gchar **uris;
-		GThread *thread = NULL;
 		GError *error = NULL;
 
 		settings = g_settings_new (PC_SETTINGS_ID);
 		uris = g_settings_get_strv (settings, PC_SETTINGS_URIS);
 		g_object_unref (settings);
 
-		thread = g_thread_create ((GThreadFunc) publish_uris_set_timeout, uris, FALSE, &error);
-		if (!thread) {
+		g_thread_create (
+			(GThreadFunc) publish_uris_set_timeout,
+			uris, FALSE, &error);
+		if (error != NULL) {
 			g_warning ("Could create thread to set timeout for publishing uris : %s", error->message);
 			g_error_free (error);
 		}
@@ -1093,11 +1105,10 @@ static void
 action_calendar_publish_cb (GtkAction *action,
                             EShellView *shell_view)
 {
-	GThread *thread = NULL;
 	GError *error = NULL;
 
-	thread = g_thread_create ((GThreadFunc) publish_urls, NULL, FALSE, &error);
-	if (!thread) {
+	g_thread_create ((GThreadFunc) publish_urls, NULL, FALSE, &error);
+	if (error != NULL) {
 		/* To Translators: This is shown to a user when creation of a new thread,
 		 * where the publishing should be done, fails. Basically, this shouldn't
 		 * ever happen, and if so, then something is really wrong. */

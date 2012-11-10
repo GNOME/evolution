@@ -235,10 +235,17 @@ client_opened_cb (GObject *source_object,
 
 	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (client == NULL) {
-		debug (("Failed to open '%s' (%s): %s", e_source_get_display_name (source),
-			e_source_get_uid (source), error ? error->message : "Unknown error"));
-		g_clear_error (&error);
+	/* Sanity check. */
+	g_return_if_fail (
+		((client != NULL) && (error == NULL)) ||
+		((client == NULL) && (error != NULL)));
+
+	if (error != NULL) {
+		debug (
+			("Failed to open '%s' (%s): %s",
+			e_source_get_display_name (source),
+			e_source_get_uid (source), error->message));
+		g_error_free (error);
 		return;
 	}
 

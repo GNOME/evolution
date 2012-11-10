@@ -87,7 +87,8 @@ on_type_combobox_changed (GtkComboBox *combobox,
 
 	gtk_combo_box_get_active_iter (combobox, &iter);
 
-	gtk_tree_model_get (model, &iter,
+	gtk_tree_model_get (
+		model, &iter,
 		DEST_HANDLER, &handler, -1);
 
 	if (handler->options_widget)
@@ -152,18 +153,21 @@ ask_destination_and_save (ESourceSelector *selector,
 	gtk_list_store_clear (store);
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, TRUE);
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo),
-			renderer, "text", DEST_NAME_COLUMN, NULL);
+	gtk_cell_layout_set_attributes (
+		GTK_CELL_LAYOUT (combo),
+		renderer, "text", DEST_NAME_COLUMN, NULL);
 
 	while (format_handlers) {
 		handler = format_handlers->data;
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, DEST_NAME_COLUMN,
+		gtk_list_store_set (
+			store, &iter, DEST_NAME_COLUMN,
 			handler->combo_label, -1);
 		gtk_list_store_set (store, &iter, DEST_HANDLER, handler, -1);
 
 		if (handler->options_widget) {
-			gtk_box_pack_start (GTK_BOX (extra_widget),
+			gtk_box_pack_start (
+				GTK_BOX (extra_widget),
 				GTK_WIDGET (handler->options_widget), TRUE, TRUE, 0);
 			gtk_widget_hide (handler->options_widget);
 		}
@@ -182,12 +186,13 @@ ask_destination_and_save (ESourceSelector *selector,
 		G_CALLBACK (on_type_combobox_changed), extra_widget);
 	g_object_set_data (G_OBJECT (combo), "format-box", hbox);
 
-	dialog = gtk_file_chooser_dialog_new (_("Select destination file"),
-					      NULL,
-					      GTK_FILE_CHOOSER_ACTION_SAVE,
-					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					      GTK_STOCK_SAVE_AS, GTK_RESPONSE_OK,
-					      NULL);
+	dialog = gtk_file_chooser_dialog_new (
+		_("Select destination file"),
+		NULL,
+		GTK_FILE_CHOOSER_ACTION_SAVE,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_SAVE_AS, GTK_RESPONSE_OK,
+		NULL);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (dialog), extra_widget);
@@ -201,7 +206,8 @@ ask_destination_and_save (ESourceSelector *selector,
 		gchar *tmp = NULL;
 
 		gtk_combo_box_get_active_iter (combo, &iter);
-		gtk_tree_model_get (model, &iter,
+		gtk_tree_model_get (
+			model, &iter,
 			DEST_HANDLER, &handler, -1);
 
 	       dest_uri = gtk_file_chooser_get_uri

@@ -85,7 +85,8 @@ emfe_text_enriched_format (EMailFormatterExtension *extension,
 
 	buffer = g_string_new ("");
 
-	g_string_append_printf (buffer,
+	g_string_append_printf (
+		buffer,
 		"<div class=\"part-container\" style=\"border-color: #%06x; "
 		"background-color: #%06x; color: #%06x;\">"
 		"<div class=\"part-container-inner-margin\">\n",

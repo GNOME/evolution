@@ -124,9 +124,11 @@ contact_map_address_resolved_cb (GeoclueGeocode *geocode,
 	priv = data->map->priv;
 
 	/* Move the marker to resolved position */
-	champlain_location_set_location (CHAMPLAIN_LOCATION (data->marker),
+	champlain_location_set_location (
+		CHAMPLAIN_LOCATION (data->marker),
 		latitude, longitude);
-	champlain_marker_layer_add_marker (data->map->priv->marker_layer,
+	champlain_marker_layer_add_marker (
+		data->map->priv->marker_layer,
 		CHAMPLAIN_MARKER (data->marker));
 	champlain_marker_set_selected (CHAMPLAIN_MARKER (data->marker), FALSE);
 
@@ -138,7 +140,8 @@ contact_map_address_resolved_cb (GeoclueGeocode *geocode,
 		g_hash_table_remove (priv->markers, name);
 		champlain_marker_layer_remove_marker (priv->marker_layer, marker_ptr);
 	}
-	g_hash_table_insert (priv->markers,
+	g_hash_table_insert (
+		priv->markers,
 		g_strdup (name), data->marker);
 
 	g_signal_emit (data->map, signals[CONTACT_ADDED], 0, data->marker);
@@ -176,7 +179,8 @@ resolve_marker_position (EContactMap *map,
 			"org.freedesktop.Geoclue.Providers.Nominatim",
 			"/org/freedesktop/Geoclue/Providers/Nominatim");
 
-		geoclue_geocode_address_to_position_async (geocoder, details,
+		geoclue_geocode_address_to_position_async (
+			geocoder, details,
 			(GeoclueGeocodeCallback) contact_map_address_resolved_cb,
 			callback_data);
 
@@ -258,7 +262,8 @@ e_contact_map_init (EContactMap *map)
 
 	map->priv = E_CONTACT_MAP_GET_PRIVATE (map);
 
-	hash_table = g_hash_table_new_full (g_str_hash, g_str_equal,
+	hash_table = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
 			(GDestroyNotify) g_free, NULL);
 
 	map->priv->markers = hash_table;

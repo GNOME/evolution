@@ -46,11 +46,11 @@ static void e_minicard_dispose (GObject *object);
 static void e_minicard_finalize (GObject *object);
 static gboolean e_minicard_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_minicard_realize (GnomeCanvasItem *item);
-static void e_minicard_reflow ( GnomeCanvasItem *item, gint flags );
+static void e_minicard_reflow (GnomeCanvasItem *item, gint flags);
 static void e_minicard_style_set (EMinicard *minicard, GtkStyle *previous_style);
 
-static void e_minicard_resize_children ( EMinicard *e_minicard );
-static void remodel ( EMinicard *e_minicard );
+static void e_minicard_resize_children (EMinicard *e_minicard);
+static void remodel (EMinicard *e_minicard);
 
 static gint e_minicard_drag_begin (EMinicard *minicard, GdkEvent *event);
 
@@ -118,94 +118,118 @@ e_minicard_class_init (EMinicardClass *class)
 	class->style_set = e_minicard_style_set;
 	class->selected = NULL;
 
-	g_object_class_install_property (object_class, PROP_WIDTH,
-					 g_param_spec_double ("width",
-							      "Width",
-							      NULL,
-							      0.0, G_MAXDOUBLE, 10.0,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_WIDTH,
+		g_param_spec_double (
+			"width",
+			"Width",
+			NULL,
+			0.0, G_MAXDOUBLE, 10.0,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_HEIGHT,
-					 g_param_spec_double ("height",
-							      "Height",
-							      NULL,
-							      0.0, G_MAXDOUBLE, 10.0,
-							      G_PARAM_READABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_HEIGHT,
+		g_param_spec_double (
+			"height",
+			"Height",
+			NULL,
+			0.0, G_MAXDOUBLE, 10.0,
+			G_PARAM_READABLE));
 
-	g_object_class_install_property (object_class, PROP_HAS_FOCUS,
-					 /* XXX should be _enum */
-					 g_param_spec_int ("has_focus",
-							   "Has Focus",
-							   NULL,
-							   E_MINICARD_FOCUS_TYPE_START, E_MINICARD_FOCUS_TYPE_END,
-							   E_MINICARD_FOCUS_TYPE_START,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_HAS_FOCUS,
+		/* XXX should be _enum */
+		g_param_spec_int (
+			"has_focus",
+			"Has Focus",
+			NULL,
+			E_MINICARD_FOCUS_TYPE_START,
+			E_MINICARD_FOCUS_TYPE_END,
+			E_MINICARD_FOCUS_TYPE_START,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_SELECTED,
-					 g_param_spec_boolean ("selected",
-							       "Selected",
-							       NULL,
-							       FALSE,
-							       G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_SELECTED,
+		g_param_spec_boolean (
+			"selected",
+			"Selected",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_HAS_CURSOR,
-					 g_param_spec_boolean ("has_cursor",
-							       "Has Cursor",
-							       NULL,
-							       FALSE,
-							       G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_HAS_CURSOR,
+		g_param_spec_boolean (
+			"has_cursor",
+			"Has Cursor",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_EDITABLE,
-					 g_param_spec_boolean ("editable",
-							       "Editable",
-							       NULL,
-							       FALSE,
-							       G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_EDITABLE,
+		g_param_spec_boolean (
+			"editable",
+			"Editable",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_CONTACT,
-					 g_param_spec_object ("contact",
-							      "Contact",
-							      NULL,
-							      E_TYPE_CONTACT,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_CONTACT,
+		g_param_spec_object (
+			"contact",
+			"Contact",
+			NULL,
+			E_TYPE_CONTACT,
+			G_PARAM_READWRITE));
 
-	signals[SELECTED] =
-		g_signal_new ("selected",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMinicardClass, selected),
-			      NULL, NULL,
-			      e_marshal_INT__POINTER,
-			      G_TYPE_INT, 1, G_TYPE_POINTER);
+	signals[SELECTED] = g_signal_new (
+		"selected",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMinicardClass, selected),
+		NULL, NULL,
+		e_marshal_INT__POINTER,
+		G_TYPE_INT, 1,
+		G_TYPE_POINTER);
 
-	signals[DRAG_BEGIN] =
-		g_signal_new ("drag_begin",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMinicardClass, drag_begin),
-			      NULL, NULL,
-			      e_marshal_INT__POINTER,
-			      G_TYPE_INT, 1, G_TYPE_POINTER);
+	signals[DRAG_BEGIN] = g_signal_new (
+		"drag_begin",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMinicardClass, drag_begin),
+		NULL, NULL,
+		e_marshal_INT__POINTER,
+		G_TYPE_INT, 1,
+		G_TYPE_POINTER);
 
-	signals[OPEN_CONTACT] =
-		g_signal_new ("open-contact",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMinicardClass, open_contact),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1,
-			      E_TYPE_CONTACT);
+	signals[OPEN_CONTACT] = g_signal_new (
+		"open-contact",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMinicardClass, open_contact),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_CONTACT);
 
-	signals[STYLE_SET] =
-		g_signal_new ("style_set",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EMinicardClass, style_set),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1,
-			      GTK_TYPE_STYLE);
+	signals[STYLE_SET] = g_signal_new (
+		"style_set",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMinicardClass, style_set),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		GTK_TYPE_STYLE);
 
 	/* init the accessibility support for e_minicard */
 	e_minicard_a11y_init ();
@@ -244,25 +268,31 @@ set_selected (EMinicard *minicard,
 	style = gtk_widget_get_style (GTK_WIDGET (canvas));
 
 	if (selected) {
-		gnome_canvas_item_set (minicard->rect,
-				       "outline_color_gdk", &style->bg[GTK_STATE_ACTIVE],
-				       NULL);
-		gnome_canvas_item_set (minicard->header_rect,
-				       "fill_color_gdk", &style->bg[GTK_STATE_SELECTED],
-				       NULL);
-		gnome_canvas_item_set (minicard->header_text,
-				       "fill_color_gdk", &style->text[GTK_STATE_SELECTED],
-				       NULL);
+		gnome_canvas_item_set (
+			minicard->rect,
+			"outline_color_gdk", &style->bg[GTK_STATE_ACTIVE],
+			NULL);
+		gnome_canvas_item_set (
+			minicard->header_rect,
+			"fill_color_gdk", &style->bg[GTK_STATE_SELECTED],
+			NULL);
+		gnome_canvas_item_set (
+			minicard->header_text,
+			"fill_color_gdk", &style->text[GTK_STATE_SELECTED],
+			NULL);
 	} else {
-		gnome_canvas_item_set (minicard->rect,
-				       "outline_color", NULL,
-				       NULL);
-		gnome_canvas_item_set (minicard->header_rect,
-				       "fill_color_gdk", &style->bg[GTK_STATE_NORMAL],
-				       NULL);
-		gnome_canvas_item_set (minicard->header_text,
-				       "fill_color_gdk", &style->text[GTK_STATE_NORMAL],
-				       NULL);
+		gnome_canvas_item_set (
+			minicard->rect,
+			"outline_color", NULL,
+			NULL);
+		gnome_canvas_item_set (
+			minicard->header_rect,
+			"fill_color_gdk", &style->bg[GTK_STATE_NORMAL],
+			NULL);
+		gnome_canvas_item_set (
+			minicard->header_text,
+			"fill_color_gdk", &style->text[GTK_STATE_NORMAL],
+			NULL);
 	}
 	minicard->selected = selected;
 }
@@ -301,15 +331,17 @@ e_minicard_set_property (GObject *object,
 	  break;
 	case PROP_HAS_FOCUS:
 		if (e_minicard->fields) {
-			if ( g_value_get_int (value) == E_FOCUS_START ||
+			if (g_value_get_int (value) == E_FOCUS_START ||
 			     g_value_get_int (value) == E_FOCUS_CURRENT) {
-				gnome_canvas_item_set (E_MINICARD_FIELD (e_minicard->fields->data)->label,
-						      "has_focus", g_value_get_int (value),
-						      NULL);
+				gnome_canvas_item_set (
+					E_MINICARD_FIELD (e_minicard->fields->data)->label,
+					"has_focus", g_value_get_int (value),
+					NULL);
 			} else if (g_value_get_int (value) == E_FOCUS_END) {
-				gnome_canvas_item_set (E_MINICARD_FIELD (g_list_last (e_minicard->fields)->data)->label,
-						      "has_focus", g_value_get_int (value),
-						      NULL);
+				gnome_canvas_item_set (
+					E_MINICARD_FIELD (g_list_last (e_minicard->fields)->data)->label,
+					"has_focus", g_value_get_int (value),
+					NULL);
 			}
 		}
 		else {
@@ -324,9 +356,10 @@ e_minicard_set_property (GObject *object,
 	case PROP_EDITABLE:
 		e_minicard->editable = g_value_get_boolean (value);
 		for (l = e_minicard->fields; l; l = l->next) {
-			g_object_set (E_MINICARD_FIELD (l->data)->label,
-				      "editable", FALSE /* e_minicard->editable */,
-				      NULL);
+			g_object_set (
+				E_MINICARD_FIELD (l->data)->label,
+				"editable", FALSE /* e_minicard->editable */,
+				NULL);
 		}
 		break;
 	case PROP_HAS_CURSOR:
@@ -467,43 +500,43 @@ e_minicard_realize (GnomeCanvasItem *item)
 
 	GNOME_CANVAS_ITEM_CLASS (e_minicard_parent_class)->realize (item);
 
-	e_minicard->rect =
-	  gnome_canvas_item_new ( group,
-				 gnome_canvas_rect_get_type (),
-				 "x1", (double) 0,
-				 "y1", (double) 0,
-				 "x2", (double) MAX (e_minicard->width - 1, 0),
-				 "y2", (double) MAX (e_minicard->height - 1, 0),
-				 "outline_color", NULL,
-				 NULL );
+	e_minicard->rect = gnome_canvas_item_new (
+		group,
+		gnome_canvas_rect_get_type (),
+		"x1", (gdouble) 0,
+		"y1", (gdouble) 0,
+		"x2", (gdouble) MAX (e_minicard->width - 1, 0),
+		"y2", (gdouble) MAX (e_minicard->height - 1, 0),
+		"outline_color", NULL,
+		NULL);
 
-	e_minicard->header_rect =
-	  gnome_canvas_item_new ( group,
-				 gnome_canvas_rect_get_type (),
-				 "x1", (double) 2,
-				 "y1", (double) 2,
-				 "x2", (double) MAX (e_minicard->width - 3, 0),
-				 "y2", (double) MAX (e_minicard->height - 3, 0),
-				 "fill_color_gdk", &style->bg[GTK_STATE_NORMAL],
-				 NULL );
+	e_minicard->header_rect = gnome_canvas_item_new (
+		group,
+		gnome_canvas_rect_get_type (),
+		"x1", (gdouble) 2,
+		"y1", (gdouble) 2,
+		"x2", (gdouble) MAX (e_minicard->width - 3, 0),
+		"y2", (gdouble) MAX (e_minicard->height - 3, 0),
+		"fill_color_gdk", &style->bg[GTK_STATE_NORMAL],
+		NULL);
 
-	e_minicard->header_text =
-	  gnome_canvas_item_new ( group,
-				 e_text_get_type (),
-				 "width", (double) MAX ( e_minicard->width - 12, 0 ),
-				 "clip", TRUE,
-				 "use_ellipsis", TRUE,
-				 "fill_color_gdk", &style->fg[GTK_STATE_NORMAL],
-				 "text", "",
-				 NULL );
+	e_minicard->header_text = gnome_canvas_item_new (
+		group,
+		e_text_get_type (),
+		"width", (gdouble) MAX (e_minicard->width - 12, 0),
+		"clip", TRUE,
+		"use_ellipsis", TRUE,
+		"fill_color_gdk", &style->fg[GTK_STATE_NORMAL],
+		"text", "",
+		NULL);
 
 	e_canvas_item_move_absolute (e_minicard->header_text, 6, 6);
 
-	e_minicard->list_icon =
-		gnome_canvas_item_new ( group,
-					gnome_canvas_pixbuf_get_type (),
-					"pixbuf", e_minicard->list_icon_pixbuf,
-					NULL);
+	e_minicard->list_icon = gnome_canvas_item_new (
+		group,
+		gnome_canvas_pixbuf_get_type (),
+		"pixbuf", e_minicard->list_icon_pixbuf,
+		NULL);
 
 	set_selected (e_minicard, e_minicard->selected);
 
@@ -634,9 +667,10 @@ e_minicard_event (GnomeCanvasItem *item,
 					model_index = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), view_index);
 					if (reflow->items[model_index] == NULL) {
 						reflow->items[model_index] = e_reflow_model_incarnate (reflow->model, model_index, GNOME_CANVAS_GROUP (reflow));
-						g_object_set (reflow->items[model_index],
-							      "width", (double) reflow->column_width,
-							      NULL);
+						g_object_set (
+							reflow->items[model_index],
+							"width", (gdouble) reflow->column_width,
+							NULL);
 
 					}
 					e_canvas_item_grab_focus (reflow->items[model_index], FALSE);
@@ -660,9 +694,10 @@ e_minicard_event (GnomeCanvasItem *item,
 					model_index = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), view_index);
 					if (reflow->items[model_index] == NULL) {
 						reflow->items[model_index] = e_reflow_model_incarnate (reflow->model, model_index, GNOME_CANVAS_GROUP (reflow));
-						g_object_set (reflow->items[model_index],
-							      "width", (double) reflow->column_width,
-							      NULL);
+						g_object_set (
+							reflow->items[model_index],
+							"width", (gdouble) reflow->column_width,
+							NULL);
 
 					}
 					e_canvas_item_grab_focus (reflow->items[model_index], FALSE);
@@ -690,20 +725,23 @@ e_minicard_resize_children (EMinicard *e_minicard)
 	gboolean is_list = GPOINTER_TO_INT (e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST));
 
 	if (e_minicard->header_text) {
-		gnome_canvas_item_set ( e_minicard->header_text,
-				       "width", ((double) e_minicard->width - 12
-						 - (is_list ? e_minicard->list_icon_size : 0.0)),
-				       NULL );
+		gnome_canvas_item_set (
+			e_minicard->header_text,
+			"width", ((gdouble) e_minicard->width - 12
+			- (is_list ? e_minicard->list_icon_size : 0.0)),
+			NULL);
 	}
 	if (e_minicard->list_icon) {
-		e_canvas_item_move_absolute (e_minicard->list_icon,
-					    e_minicard->width - e_minicard->list_icon_size - 3,
-					    3);
+		e_canvas_item_move_absolute (
+			e_minicard->list_icon,
+			e_minicard->width - e_minicard->list_icon_size - 3,
+			3);
 	}
-	for (list = e_minicard->fields; list; list = g_list_next ( list )) {
-		gnome_canvas_item_set ( E_MINICARD_FIELD ( list->data )->label,
-				       "width", (double) e_minicard->width - 4.0,
-				       NULL );
+	for (list = e_minicard->fields; list; list = g_list_next (list)) {
+		gnome_canvas_item_set (
+			E_MINICARD_FIELD (list->data)->label,
+			"width", (gdouble) e_minicard->width - 4.0,
+			NULL);
 	}
 }
 
@@ -719,7 +757,7 @@ add_field (EMinicard *e_minicard,
 	gchar *string;
 	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
 
-	group = GNOME_CANVAS_GROUP ( e_minicard );
+	group = GNOME_CANVAS_GROUP (e_minicard);
 
 	name = g_strdup_printf ("%s:", e_contact_pretty_name (field));
 	string = e_contact_get (e_minicard->contact, field);
@@ -727,36 +765,40 @@ add_field (EMinicard *e_minicard,
 	new_item = e_minicard_label_new (group);
 
 	if (e_minicard->contact && e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST))
-		gnome_canvas_item_set (new_item,
-					"fieldname", is_rtl ? "" : string,
-					"field", is_rtl ? string : "",
-					"max_field_name_length", left_width,
-					"editable", FALSE /* e_minicard->editable */,
-					"width", e_minicard->width - 4.0,
-					NULL );
+		gnome_canvas_item_set (
+			new_item,
+			"fieldname", is_rtl ? "" : string,
+			"field", is_rtl ? string : "",
+			"max_field_name_length", left_width,
+			"editable", FALSE /* e_minicard->editable */,
+			"width", e_minicard->width - 4.0,
+			NULL);
 	else
-		gnome_canvas_item_set (new_item,
-					"fieldname", is_rtl ? string : name,
-					"field", is_rtl ? name : string,
-					"max_field_name_length", left_width,
-					"editable", FALSE /* e_minicard->editable */,
-					"width", e_minicard->width - 4.0,
-					NULL );
+		gnome_canvas_item_set (
+			new_item,
+			"fieldname", is_rtl ? string : name,
+			"field", is_rtl ? name : string,
+			"max_field_name_length", left_width,
+			"editable", FALSE /* e_minicard->editable */,
+			"width", e_minicard->width - 4.0,
+			NULL);
 
 #ifdef notyet
-	g_object_set (E_MINICARD_LABEL (new_item)->field,
-		     "allow_newlines", e_card_simple_get_allow_newlines (e_minicard->contact, field),
-		     NULL);
+	g_object_set (
+		E_MINICARD_LABEL (new_item)->field,
+		"allow_newlines", e_card_simple_get_allow_newlines (e_minicard->contact, field),
+		NULL);
 #endif
-	g_object_set_data (G_OBJECT (E_MINICARD_LABEL (new_item)->field),
-			  "EMinicard:field",
-			  GINT_TO_POINTER (field));
+	g_object_set_data (
+		G_OBJECT (E_MINICARD_LABEL (new_item)->field),
+		"EMinicard:field",
+		GINT_TO_POINTER (field));
 
 	minicard_field = g_new (EMinicardField, 1);
 	minicard_field->field = field;
 	minicard_field->label = new_item;
 
-	e_minicard->fields = g_list_append ( e_minicard->fields, minicard_field);
+	e_minicard->fields = g_list_append (e_minicard->fields, minicard_field);
 	e_canvas_item_move_absolute (new_item, 2, e_minicard->height);
 	g_free (name);
 	g_free (string);
@@ -790,7 +832,7 @@ add_email_field (EMinicard *e_minicard,
 	gint count =0;
 	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
 	GList *emails = e_contact_get (e_minicard->contact, E_CONTACT_EMAIL);
-	group = GNOME_CANVAS_GROUP ( e_minicard );
+	group = GNOME_CANVAS_GROUP (e_minicard);
 
 	for (l = email_list, le = emails; l != NULL && count < limit && le != NULL; l = l->next, le = le->next) {
 		const gchar *tmp;
@@ -818,28 +860,31 @@ add_email_field (EMinicard *e_minicard,
 
 		new_item = e_minicard_label_new (group);
 
-		gnome_canvas_item_set (new_item,
-				       "fieldname", is_rtl ? string : name,
-				       "field", is_rtl ? name : string,
-				       "max_field_name_length", left_width,
-				       "editable", FALSE /* e_minicard->editable */,
-				       "width", e_minicard->width - 4.0,
-				       NULL );
+		gnome_canvas_item_set (
+			new_item,
+			"fieldname", is_rtl ? string : name,
+			"field", is_rtl ? name : string,
+			"max_field_name_length", left_width,
+			"editable", FALSE /* e_minicard->editable */,
+			"width", e_minicard->width - 4.0,
+			NULL);
 
 #ifdef notyet
-		g_object_set (E_MINICARD_LABEL (new_item)->field,
-			     "allow_newlines", e_card_simple_get_allow_newlines (e_minicard->contact, field),
-			     NULL);
+		g_object_set (
+			E_MINICARD_LABEL (new_item)->field,
+			"allow_newlines", e_card_simple_get_allow_newlines (e_minicard->contact, field),
+			NULL);
 #endif
-		g_object_set_data (G_OBJECT (E_MINICARD_LABEL (new_item)->field),
-				  "EMinicard:field",
-				  GINT_TO_POINTER (E_CONTACT_EMAIL));
+		g_object_set_data (
+			G_OBJECT (E_MINICARD_LABEL (new_item)->field),
+			"EMinicard:field",
+			GINT_TO_POINTER (E_CONTACT_EMAIL));
 
 		minicard_field = g_new (EMinicardField, 1);
 		minicard_field->field = E_CONTACT_EMAIL;
 		minicard_field->label = new_item;
 
-		e_minicard->fields = g_list_append ( e_minicard->fields, minicard_field);
+		e_minicard->fields = g_list_append (e_minicard->fields, minicard_field);
 		e_canvas_item_move_absolute (new_item, 2, e_minicard->height);
 		count++;
 		if (!is_list)
@@ -902,9 +947,10 @@ remodel (EMinicard *e_minicard)
 
 		if (e_minicard->header_text) {
 			file_as = e_contact_get (e_minicard->contact, E_CONTACT_FILE_AS);
-			gnome_canvas_item_set (e_minicard->header_text,
-					       "text", file_as ? file_as : "",
-					       NULL );
+			gnome_canvas_item_set (
+				e_minicard->header_text,
+				"text", file_as ? file_as : "",
+				NULL);
 			g_free (file_as);
 		}
 
@@ -947,9 +993,10 @@ remodel (EMinicard *e_minicard)
 				string = e_contact_get (e_minicard->contact, field);
 				if (string && *string) {
 					e_minicard->fields = g_list_append (e_minicard->fields, minicard_field);
-					g_object_set (minicard_field->label,
-						     "field", string,
-						     NULL);
+					g_object_set (
+						minicard_field->label,
+						"field", string,
+						NULL);
 					count++;
 				} else {
 					e_minicard_field_destroy (minicard_field);
@@ -1012,35 +1059,40 @@ e_minicard_reflow (GnomeCanvasItem *item,
 
 		old_height = e_minicard->height;
 
-		g_object_get (e_minicard->header_text,
-			      "text_height", &text_height,
-			      NULL);
+		g_object_get (
+			e_minicard->header_text,
+			"text_height", &text_height,
+			NULL);
 
 		e_minicard->height = text_height + 10.0;
 
-		gnome_canvas_item_set (e_minicard->header_rect,
-				       "y2", text_height + 9.0,
-				       NULL);
+		gnome_canvas_item_set (
+			e_minicard->header_rect,
+			"y2", text_height + 9.0,
+			NULL);
 
 		for (list = e_minicard->fields; list; list = g_list_next (list)) {
 			EMinicardField *field = E_MINICARD_FIELD (list->data);
 			/* Why not use the item that is passed in? */
 			GnomeCanvasItem *item = field->label;
-			g_object_get (item,
-				      "height", &text_height,
-				      NULL);
+			g_object_get (
+				item,
+				"height", &text_height,
+				NULL);
 			e_canvas_item_move_absolute (item, 2, e_minicard->height);
 			e_minicard->height += text_height;
 		}
 		e_minicard->height += 2;
 
-		gnome_canvas_item_set (e_minicard->rect,
-				       "x2", (double) e_minicard->width - 1.0,
-				       "y2", (double) e_minicard->height - 1.0,
-				       NULL);
-		gnome_canvas_item_set (e_minicard->header_rect,
-				       "x2", (double) e_minicard->width - 3.0,
-				       NULL);
+		gnome_canvas_item_set (
+			e_minicard->rect,
+			"x2", (gdouble) e_minicard->width - 1.0,
+			"y2", (gdouble) e_minicard->height - 1.0,
+			NULL);
+		gnome_canvas_item_set (
+			e_minicard->header_rect,
+			"x2", (gdouble) e_minicard->width - 3.0,
+			NULL);
 
 		if (old_height != e_minicard->height)
 			e_canvas_item_request_parent_reflow (item);
@@ -1073,12 +1125,14 @@ e_minicard_compare (EMinicard *minicard1,
 
 	if (minicard1->contact && minicard2->contact) {
 		gchar *file_as1, *file_as2;
-		g_object_get (minicard1->contact,
-			     "file_as", &file_as1,
-			     NULL);
-		g_object_get (minicard2->contact,
-			     "file_as", &file_as2,
-			     NULL);
+		g_object_get (
+			minicard1->contact,
+			"file_as", &file_as1,
+			NULL);
+		g_object_get (
+			minicard2->contact,
+			"file_as", &file_as2,
+			NULL);
 
 		if (file_as1 && file_as2)
 			cmp = g_utf8_collate (file_as1, file_as2);
@@ -1109,9 +1163,10 @@ e_minicard_selected (EMinicard *minicard,
 		 * it.
 		 */
 		if (signal_id != 0) {
-			g_signal_emit (item->parent,
-				      signal_id, 0,
-				      item, event, &ret_val);
+			g_signal_emit (
+				item->parent,
+				signal_id, 0,
+				item, event, &ret_val);
 		}
 	}
 	return ret_val;
@@ -1123,9 +1178,10 @@ e_minicard_drag_begin (EMinicard *minicard,
 {
 	gint ret_val = 0;
 	GnomeCanvasItem *parent;
-	g_signal_emit (minicard,
-		       signals[DRAG_BEGIN], 0,
-		       event, &ret_val);
+	g_signal_emit (
+		minicard,
+		signals[DRAG_BEGIN], 0,
+		event, &ret_val);
 
 	parent = GNOME_CANVAS_ITEM (minicard)->parent;
 	if (parent && E_IS_REFLOW (parent)) {

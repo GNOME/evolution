@@ -238,14 +238,15 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	if (!can_draw_in_region (draw_region, item_x, item_y, item_w, item_h))
 		return;
 
-	gdk_cairo_set_source_color (cr,
-			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
+	gdk_cairo_set_source_color (
+		cr,
+		&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
 	if (!is_array_index_in_bounds (day_view->events[day], event_num))
 		return;
 
-	event = &g_array_index (day_view->events[day], EDayViewEvent,
-				event_num);
+	event = &g_array_index (
+		day_view->events[day], EDayViewEvent, event_num);
 
 	if (!is_comp_data_valid (event))
 		return;
@@ -281,8 +282,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		if (MAX (0, item_w - 31.5) != 0) {
 			/* Vertical Line */
 			cairo_save (cr);
-			pat = cairo_pattern_create_linear (item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 6.5, item_y + 13.75,
-								item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 13.75, item_y + 13.75);
+			pat = cairo_pattern_create_linear (
+				item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 6.5, item_y + 13.75,
+				item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 13.75, item_y + 13.75);
 			cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
 			cairo_pattern_add_color_stop_rgba (pat, 0.7, 0, 0, 0, 0.2);
 			cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
@@ -292,8 +294,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			cairo_pattern_destroy (pat);
 
 			/* Arc at the right */
-			pat = cairo_pattern_create_radial (item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 3, item_y + 13.5, 5.0,
-						item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 5, item_y + 13.5, 12.0);
+			pat = cairo_pattern_create_radial (
+				item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 3, item_y + 13.5, 5.0,
+				item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 5, item_y + 13.5, 12.0);
 			cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
 			cairo_pattern_add_color_stop_rgba (pat, 0.25, 0, 0, 0, 0.2);
 			cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
@@ -309,8 +312,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			cairo_stroke (cr);
 
 			/* Horizontal line */
-			pat = cairo_pattern_create_linear (item_x + E_DAY_VIEW_BAR_WIDTH + 15, item_y + item_h,
-							item_x + E_DAY_VIEW_BAR_WIDTH + 15, item_y + item_h + 7);
+			pat = cairo_pattern_create_linear (
+				item_x + E_DAY_VIEW_BAR_WIDTH + 15, item_y + item_h,
+				item_x + E_DAY_VIEW_BAR_WIDTH + 15, item_y + item_h + 7);
 			cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
 			cairo_pattern_add_color_stop_rgba (pat, 0.7, 0, 0, 0, 0.2);
 			cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
@@ -320,8 +324,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			cairo_pattern_destroy (pat);
 
 			/* Bottom arc */
-			pat = cairo_pattern_create_radial (item_x + E_DAY_VIEW_BAR_WIDTH + 12.5, item_y + item_h - 5, 5.0,
-						item_x + E_DAY_VIEW_BAR_WIDTH + 12.5, item_y + item_h - 5, 12.0);
+			pat = cairo_pattern_create_radial (
+				item_x + E_DAY_VIEW_BAR_WIDTH + 12.5, item_y + item_h - 5, 5.0,
+				item_x + E_DAY_VIEW_BAR_WIDTH + 12.5, item_y + item_h - 5, 12.0);
 			cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
 			cairo_pattern_add_color_stop_rgba (pat, 0.7, 0, 0, 0, 0.2);
 			cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
@@ -341,7 +346,8 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			cairo_stroke (cr);
 
 			/* Arc in middle */
-			pat = cairo_pattern_create_radial (item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 1, item_y + item_h - 4.5, 1.0,
+			pat = cairo_pattern_create_radial (
+				item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 1, item_y + item_h - 4.5, 1.0,
 						item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 1, item_y + item_h - 4.5, 12.0);
 			cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.3);
 			cairo_pattern_add_color_stop_rgba (pat, 0.8, 0, 0, 0, 0.2);
@@ -393,7 +399,8 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			cairo_set_source_rgb (cr, 1, 1, 1);
 			cairo_fill (cr);
 
-			gdk_cairo_set_source_color (cr,
+			gdk_cairo_set_source_color (
+				cr,
 				&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
 
 			for (row_y = y0;
@@ -475,8 +482,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	if (is_editing)
 		short_event = TRUE;
 
-	pat = cairo_pattern_create_linear (item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 7.75,
-						item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + item_h - 7.75);
+	pat = cairo_pattern_create_linear (
+		item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 7.75,
+		item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + item_h - 7.75);
 	if (!short_event) {
 		cairo_pattern_add_color_stop_rgba (pat, 1, red / cc, green / cc, blue / cc, 0.8);
 		cairo_pattern_add_color_stop_rgba (pat, 1 / (date_fraction + (rect_height / 18)), red / cc, green / cc, blue / cc, 0.8);
@@ -497,16 +505,18 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 	/* Draw the right edge of the vertical bar. */
 	cairo_save (cr);
-	gdk_cairo_set_source_color (cr,
-			&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
+	gdk_cairo_set_source_color (
+		cr,
+		&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
 	cairo_set_line_width (cr, 0.7);
 	cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH - 1, item_y + 1);
 	cairo_line_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH - 1, item_y + item_h - 2);
 	cairo_stroke (cr);
 	cairo_restore (cr);
 
-	gdk_cairo_set_source_color (cr,
-			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
+	gdk_cairo_set_source_color (
+		cr,
+		&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
 	/* Draw the vertical colored bar showing when the appointment
 	 * begins & ends. */
@@ -532,13 +542,15 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			end_hour   = end_minute / 60;
 			end_minute = end_minute % 60;
 
-			e_day_view_convert_time_to_display (day_view, end_hour,
-							    &end_display_hour,
-							    &end_resize_suffix,
-							    &end_suffix_width);
+			e_day_view_convert_time_to_display (
+				day_view, end_hour,
+				&end_display_hour,
+				&end_resize_suffix,
+				&end_suffix_width);
 
 			cairo_save (cr);
-			cairo_rectangle (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 2.75,
+			cairo_rectangle (
+				cr, item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 2.75,
 				item_w - E_DAY_VIEW_BAR_WIDTH - 4.5,
 				item_h - 5.5);
 			cairo_clip (cr);
@@ -546,17 +558,19 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 			if (e_cal_model_get_use_24_hour_format (model)) {
 				cairo_translate (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH - 32, item_y + item_h - 8);
-				end_regsizeime = g_strdup_printf ("%2i:%02i",
-					 end_display_hour, end_minute);
+				end_regsizeime = g_strdup_printf (
+					"%2i:%02i",
+					end_display_hour, end_minute);
 
 			} else {
 				cairo_translate (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH - 48, item_y + item_h - 8);
-				end_regsizeime = g_strdup_printf ("%2i:%02i%s",
-						 end_display_hour, end_minute,
-						 end_resize_suffix);
+				end_regsizeime = g_strdup_printf (
+					"%2i:%02i%s",
+					end_display_hour, end_minute,
+					end_resize_suffix);
 			}
 			cairo_set_font_size (cr, 14);
-			if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7 ))
+			if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7))
 				cairo_set_source_rgb (cr, 0, 0, 0);
 			else
 				cairo_set_source_rgb (cr, 1, 1, 1);
@@ -578,14 +592,16 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	e_cal_component_get_transparency (comp, &transparency);
 	if (transparency != E_CAL_COMPONENT_TRANSP_TRANSPARENT) {
 		cairo_save (cr);
-		pat = cairo_pattern_create_linear (item_x + E_DAY_VIEW_BAR_WIDTH, item_y + 1,
-						item_x + E_DAY_VIEW_BAR_WIDTH, item_y + item_h - 1);
+		pat = cairo_pattern_create_linear (
+			item_x + E_DAY_VIEW_BAR_WIDTH, item_y + 1,
+			item_x + E_DAY_VIEW_BAR_WIDTH, item_y + item_h - 1);
 		cairo_pattern_add_color_stop_rgba (pat, 1, red / cc, green / cc, blue / cc, 0.7);
 		cairo_pattern_add_color_stop_rgba (pat, 0.5, red / cc, green / cc, blue / cc, 0.7);
 		cairo_pattern_add_color_stop_rgba (pat, 0, red / cc, green / cc, blue / cc, 0.2);
 
-		cairo_rectangle (cr, item_x + 1, bar_y1,
-			       E_DAY_VIEW_BAR_WIDTH - 2, bar_y2 - bar_y1);
+		cairo_rectangle (
+			cr, item_x + 1, bar_y1,
+			E_DAY_VIEW_BAR_WIDTH - 2, bar_y2 - bar_y1);
 
 		cairo_set_source (cr, pat);
 		cairo_fill (cr);
@@ -602,8 +618,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		}
 	}
 
-	gdk_cairo_set_source_color (cr,
-			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
+	gdk_cairo_set_source_color (
+		cr,
+		&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
 	/* Draw the reminder & recurrence icons, if needed. */
 	if (!resize_flag && (!is_editing || text_x_offset > E_DAY_VIEW_ICON_X_PAD)) {
@@ -734,14 +751,16 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		end_hour = end_minute / 60;
 		end_minute = end_minute % 60;
 
-		e_day_view_convert_time_to_display (day_view, start_hour,
-						    &start_display_hour,
-						    &start_suffix,
-						    &start_suffix_width);
-		e_day_view_convert_time_to_display (day_view, end_hour,
-						    &end_display_hour,
-						    &end_suffix,
-						    &end_suffix_width);
+		e_day_view_convert_time_to_display (
+			day_view, start_hour,
+			&start_display_hour,
+			&start_suffix,
+			&start_suffix_width);
+		e_day_view_convert_time_to_display (
+			day_view, end_hour,
+			&end_display_hour,
+			&end_suffix,
+			&end_suffix_width);
 
 		if (e_cal_model_get_use_24_hour_format (model)) {
 			if (day_view->show_event_end_times && show_span) {
@@ -776,7 +795,8 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		}
 
 		cairo_save (cr);
-		cairo_rectangle (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 2.75,
+		cairo_rectangle (
+			cr, item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 2.75,
 			item_w - E_DAY_VIEW_BAR_WIDTH - 4.5,
 			14);
 
@@ -790,7 +810,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 10, item_y + 13);
 		else
 			cairo_move_to (cr, icon_x, item_y + 13);
-		if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7 ))
+		if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7))
 			cairo_set_source_rgb (cr, 0, 0, 0);
 		else
 			cairo_set_source_rgb (cr, 1, 1, 1);
@@ -1019,12 +1039,14 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	work_day_end_y = e_day_view_convert_time_to_position (
 		day_view, work_day_end_hour, work_day_end_minute) - y;
 
-	today_tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
-						  e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	today_tt = icaltime_from_timet_with_zone (
+		time (NULL), FALSE,
+		e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
 	for (day = 0; day < day_view->days_shown; day++) {
-		day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE,
-							      e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+		day_start_tt = icaltime_from_timet_with_zone (
+			day_view->day_starts[day], FALSE,
+			e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 		weekday = icaltime_day_of_week (day_start_tt) - 1;
 
 		work_day = day_view->working_days & (1 << weekday);
@@ -1111,7 +1133,8 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	grid_x2 = day_view->day_offsets[day_view->days_shown] - x;
 
 	cairo_save (cr);
-	gdk_cairo_set_source_color (cr,
+	gdk_cairo_set_source_color (
+		cr,
 		&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
 
 	for (row = 0, row_y = 0 - y;
@@ -1137,13 +1160,15 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 			continue;
 		cairo_save (cr);
 
-		gdk_cairo_set_source_color (cr,
-		&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
+		gdk_cairo_set_source_color (
+			cr,
+			&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
 		cairo_move_to (cr, grid_x1, grid_y1);
 		cairo_line_to (cr, grid_x1, grid_y2);
 		cairo_stroke (cr);
 
-		gdk_cairo_set_source_color (cr,
+		gdk_cairo_set_source_color (
+			cr,
 			&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
 
 		cairo_move_to (cr, grid_x1 + E_DAY_VIEW_BAR_WIDTH - 1, grid_y1);
@@ -1152,8 +1177,9 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 		cairo_set_source_rgb (cr, 1, 1, 1);
 
-		cairo_rectangle (cr, grid_x1 + 1, grid_y1,
-			       E_DAY_VIEW_BAR_WIDTH - 2, grid_y2 - grid_y1);
+		cairo_rectangle (
+			cr, grid_x1 + 1, grid_y1,
+			E_DAY_VIEW_BAR_WIDTH - 2, grid_y2 - grid_y1);
 
 		cairo_fill (cr);
 
@@ -1184,8 +1210,9 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		GdkColor mb_color;
 
 		cairo_save (cr);
-		gdk_cairo_set_source_color (cr,
-				&day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
+		gdk_cairo_set_source_color (
+			cr,
+			&day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
 
 		if (day_view->marcus_bains_day_view_color && gdk_color_parse (day_view->marcus_bains_day_view_color, &mb_color)) {
 			gdk_cairo_set_source_color (cr, &mb_color);

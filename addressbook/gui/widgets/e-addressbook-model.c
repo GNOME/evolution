@@ -649,106 +649,113 @@ e_addressbook_model_class_init (EAddressbookModelClass *class)
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
 
-	signals[WRITABLE_STATUS] =
-		g_signal_new ("writable_status",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EAddressbookModelClass, writable_status),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__BOOLEAN,
-			      G_TYPE_NONE,
-			      1, G_TYPE_BOOLEAN);
+	signals[WRITABLE_STATUS] = g_signal_new (
+		"writable_status",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookModelClass, writable_status),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOOLEAN,
+		G_TYPE_NONE, 1,
+		G_TYPE_BOOLEAN);
 
-	signals[STATUS_MESSAGE] =
-		g_signal_new ("status_message",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EAddressbookModelClass, status_message),
-			      NULL, NULL,
-			      e_marshal_VOID__STRING_INT,
-			      G_TYPE_NONE,
-			      2, G_TYPE_STRING, G_TYPE_INT);
+	signals[STATUS_MESSAGE] = g_signal_new (
+		"status_message",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookModelClass, status_message),
+		NULL, NULL,
+		e_marshal_VOID__STRING_INT,
+		G_TYPE_NONE, 2,
+		G_TYPE_STRING,
+		G_TYPE_INT);
 
-	signals[SEARCH_STARTED] =
-		g_signal_new ("search_started",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EAddressbookModelClass, search_started),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[SEARCH_STARTED] = g_signal_new (
+		"search_started",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookModelClass, search_started),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[SEARCH_RESULT] =
-		g_signal_new ("search_result",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EAddressbookModelClass, search_result),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__BOXED,
-			      G_TYPE_NONE, 1, G_TYPE_ERROR);
+	signals[SEARCH_RESULT] = g_signal_new (
+		"search_result",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookModelClass, search_result),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOXED,
+		G_TYPE_NONE, 1,
+		G_TYPE_ERROR);
 
-	signals[FOLDER_BAR_MESSAGE] =
-		g_signal_new ("folder_bar_message",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EAddressbookModelClass, folder_bar_message),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[FOLDER_BAR_MESSAGE] = g_signal_new (
+		"folder_bar_message",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookModelClass, folder_bar_message),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 
-	signals[CONTACT_ADDED] =
-		g_signal_new ("contact_added",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EAddressbookModelClass, contact_added),
-			      NULL, NULL,
-			      e_marshal_NONE__INT_INT,
-			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
+	signals[CONTACT_ADDED] = g_signal_new (
+		"contact_added",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookModelClass, contact_added),
+		NULL, NULL,
+		e_marshal_NONE__INT_INT,
+		G_TYPE_NONE, 2,
+		G_TYPE_INT,
+		G_TYPE_INT);
 
-	signals[CONTACTS_REMOVED] =
-		g_signal_new ("contacts_removed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EAddressbookModelClass, contacts_removed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[CONTACTS_REMOVED] = g_signal_new (
+		"contacts_removed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookModelClass, contacts_removed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 
-	signals[CONTACT_CHANGED] =
-		g_signal_new ("contact_changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EAddressbookModelClass, contact_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE, 1, G_TYPE_INT);
+	signals[CONTACT_CHANGED] = g_signal_new (
+		"contact_changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookModelClass, contact_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1,
+		G_TYPE_INT);
 
-	signals[MODEL_CHANGED] =
-		g_signal_new ("model_changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EAddressbookModelClass, model_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[MODEL_CHANGED] = g_signal_new (
+		"model_changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookModelClass, model_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[STOP_STATE_CHANGED] =
-		g_signal_new ("stop_state_changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EAddressbookModelClass, stop_state_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[STOP_STATE_CHANGED] = g_signal_new (
+		"stop_state_changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookModelClass, stop_state_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[BACKEND_DIED] =
-		g_signal_new ("backend_died",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EAddressbookModelClass, backend_died),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[BACKEND_DIED] = g_signal_new (
+		"backend_died",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookModelClass, backend_died),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -945,7 +952,7 @@ e_addressbook_model_set_editable (EAddressbookModel *model,
 {
 	g_return_if_fail (E_IS_ADDRESSBOOK_MODEL (model));
 
-	if ((model->priv->editable ? 1 : 0) != (editable ? 1 : 0)) {
+	if (model->priv->editable != editable) {
 		model->priv->editable = editable;
 
 		g_signal_emit (

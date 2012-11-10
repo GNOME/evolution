@@ -532,7 +532,7 @@ alarm_to_malarm_widgets (Dialog *dialog,
 			e_destination_set_email (dest, a->value);
 		}
 		e_destination_store_append_destination (destination_store, dest);
-		g_object_unref (G_OBJECT (dest));
+		g_object_unref (dest);
 	}
 	e_cal_component_free_attendee_list (attendee_list);
 	}
@@ -620,11 +620,11 @@ populate_widgets_from_alarm (Dialog *dialog)
 
 	action = g_new0 (ECalComponentAlarmAction, 1);
 	e_cal_component_alarm_get_action (dialog->alarm, action);
-	g_return_if_fail ( action != NULL );
+	g_return_if_fail (action != NULL);
 
 	trigger = g_new0 (ECalComponentAlarmTrigger, 1);
 	e_cal_component_alarm_get_trigger (dialog->alarm, trigger);
-	g_return_if_fail ( trigger != NULL );
+	g_return_if_fail (trigger != NULL);
 
 	if (*action == E_CAL_COMPONENT_ALARM_NONE)
 		return;
@@ -842,10 +842,11 @@ get_widgets (Dialog *dialog)
 
 		cell = gtk_cell_renderer_text_new ();
 		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
-		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell,
-				"text", 0,
-				"sensitive", 1,
-				NULL);
+		gtk_cell_layout_set_attributes (
+			GTK_CELL_LAYOUT (combo), cell,
+			"text", 0,
+			"sensitive", 1,
+			NULL);
 
 		for (i = 0; i < G_N_ELEMENTS (actions); i++) {
 			GtkTreeIter iter;

@@ -272,8 +272,9 @@ e_meeting_list_view_add_attendee_to_name_selector (EMeetingListView *view,
 
 	name_selector_model = e_name_selector_peek_model (priv->name_selector);
 	i = get_index_from_role (e_meeting_attendee_get_role (ma));
-	e_name_selector_model_peek_section (name_selector_model, sections[i],
-					    NULL, &destination_store);
+	e_name_selector_model_peek_section (
+		name_selector_model, sections[i],
+		NULL, &destination_store);
 	des = e_destination_new ();
 	e_destination_set_email (des, itip_strip_mailto (e_meeting_attendee_get_address (ma)));
 	e_destination_set_name (des, e_meeting_attendee_get_cn (ma));
@@ -296,8 +297,9 @@ e_meeting_list_view_remove_attendee_from_name_selector (EMeetingListView *view,
 
 	name_selector_model = e_name_selector_peek_model (priv->name_selector);
 	i = get_index_from_role (e_meeting_attendee_get_role (ma));
-	e_name_selector_model_peek_section (name_selector_model, sections[i],
-					    NULL, &destination_store);
+	e_name_selector_model_peek_section (
+		name_selector_model, sections[i],
+		NULL, &destination_store);
 	destinations = e_destination_store_list_destinations (destination_store);
 	madd = itip_strip_mailto (e_meeting_attendee_get_address (ma));
 
@@ -344,8 +346,9 @@ e_meeting_list_view_remove_all_attendees_from_name_selector (EMeetingListView *v
 		EDestinationStore *destination_store = NULL;
 		GList             *destinations = NULL, *l = NULL;
 
-		e_name_selector_model_peek_section (name_selector_model, sections[i],
-						    NULL, &destination_store);
+		e_name_selector_model_peek_section (
+			name_selector_model, sections[i],
+			NULL, &destination_store);
 		if (!destination_store) {
 			g_warning ("destination store is NULL\n");
 			continue;
@@ -416,7 +419,7 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 				e_meeting_attendee_set_delfrom (attendee, (gchar *) e_meeting_attendee_get_delfrom (existing_attendee));
 			}
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
-			g_signal_emit_by_name (G_OBJECT (view), "attendee_added", (gpointer) attendee);
+			g_signal_emit_by_name (view, "attendee_added", (gpointer) attendee);
 		}
 
 		if (existing_attendee && can_remove) {
@@ -461,7 +464,7 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 			if (address_changed)
 				e_meeting_attendee_set_status (attendee, ICAL_PARTSTAT_NEEDSACTION);
 
-			g_signal_emit_by_name (G_OBJECT (view), "attendee_added", (gpointer) attendee);
+			g_signal_emit_by_name (view, "attendee_added", (gpointer) attendee);
 		}
 	} else if (existing_attendee) {
 		const gchar *address = e_meeting_attendee_get_address (existing_attendee);
@@ -585,7 +588,8 @@ create_combo_cell_renderer (GList *strings)
 
 	renderer = gtk_cell_renderer_combo_new ();
 
-	g_object_set (G_OBJECT (renderer),
+	g_object_set (
+		G_OBJECT (renderer),
 		"has-entry", FALSE,
 		"editable", TRUE,
 		"model", GTK_TREE_MODEL (store),
@@ -616,12 +620,13 @@ build_table (EMeetingListView *lview)
 	renderer = e_select_names_renderer_new ();
 	g_object_set (renderer, "editable", TRUE, NULL);
 	/* The extra space is just a hack to occupy more space for Attendee */
-	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("Attendee                          "), renderer,
-						     "text", E_MEETING_STORE_ATTENDEE_COL,
-						     "name", E_MEETING_STORE_CN_COL,
-						     "email", E_MEETING_STORE_ADDRESS_COL,
-						     "underline", E_MEETING_STORE_ATTENDEE_UNDERLINE_COL,
-						     NULL);
+	pos = gtk_tree_view_insert_column_with_attributes (
+		view, -1, _("Attendee                          "), renderer,
+		"text", E_MEETING_STORE_ATTENDEE_COL,
+		"name", E_MEETING_STORE_CN_COL,
+		"email", E_MEETING_STORE_ADDRESS_COL,
+		"underline", E_MEETING_STORE_ATTENDEE_UNDERLINE_COL,
+		NULL);
 	col = gtk_tree_view_get_column (view, pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable (col, TRUE);
@@ -641,9 +646,10 @@ build_table (EMeetingListView *lview)
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ATTENDEE_COL), renderer);
 
 	renderer = create_combo_cell_renderer (get_type_strings ());
-	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("Type"), renderer,
-						     "text", E_MEETING_STORE_TYPE_COL,
-						     NULL);
+	pos = gtk_tree_view_insert_column_with_attributes (
+		view, -1, _("Type"), renderer,
+		"text", E_MEETING_STORE_TYPE_COL,
+		NULL);
 	col = gtk_tree_view_get_column (view, pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable (col, TRUE);
@@ -654,9 +660,10 @@ build_table (EMeetingListView *lview)
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_TYPE_COL), renderer);
 
 	renderer = create_combo_cell_renderer (get_role_strings ());
-	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("Role"), renderer,
-						     "text", E_MEETING_STORE_ROLE_COL,
-						     NULL);
+	pos = gtk_tree_view_insert_column_with_attributes (
+		view, -1, _("Role"), renderer,
+		"text", E_MEETING_STORE_ROLE_COL,
+		NULL);
 	col = gtk_tree_view_get_column (view, pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable (col, TRUE);
@@ -668,9 +675,10 @@ build_table (EMeetingListView *lview)
 
 	renderer = create_combo_cell_renderer (get_rsvp_strings ());
 	/* To translators: RSVP means "please reply" */
-	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("RSVP"), renderer,
-						     "text", E_MEETING_STORE_RSVP_COL,
-						     NULL);
+	pos = gtk_tree_view_insert_column_with_attributes (
+		view, -1, _("RSVP"), renderer,
+		"text", E_MEETING_STORE_RSVP_COL,
+		NULL);
 	col = gtk_tree_view_get_column (view, pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable (col, TRUE);
@@ -681,9 +689,10 @@ build_table (EMeetingListView *lview)
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_RSVP_COL), renderer);
 
 	renderer = create_combo_cell_renderer (get_status_strings ());
-	pos = gtk_tree_view_insert_column_with_attributes (view, -1, _("Status"), renderer,
-						     "text", E_MEETING_STORE_STATUS_COL,
-						     NULL);
+	pos = gtk_tree_view_insert_column_with_attributes (
+		view, -1, _("Status"), renderer,
+		"text", E_MEETING_STORE_STATUS_COL,
+		NULL);
 	col = gtk_tree_view_get_column (view, pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable (col, TRUE);
@@ -903,8 +912,9 @@ process_section (EMeetingListView *view,
 					EContact *n_con = NULL;
 					gchar *query;
 
-					query = g_strdup_printf ("(is \"full_name\" \"%s\")",
-							(gchar *) e_contact_get (contact, E_CONTACT_FULL_NAME));
+					query = g_strdup_printf (
+						"(is \"full_name\" \"%s\")",
+						(gchar *) e_contact_get (contact, E_CONTACT_FULL_NAME));
 
 					if (!e_book_client_get_contacts_sync (book_client, query, &contacts, NULL, NULL)) {
 						g_warning ("Could not get contact from the book \n");
@@ -1010,8 +1020,9 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog,
 		EDestinationStore *destination_store;
 		GList             *destinations;
 
-		e_name_selector_model_peek_section (name_selector_model, sections[i],
-						    NULL, &destination_store);
+		e_name_selector_model_peek_section (
+			name_selector_model, sections[i],
+			NULL, &destination_store);
 		if (!destination_store) {
 			g_warning ("destination store is NULL\n");
 			continue;
@@ -1045,8 +1056,9 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog,
 void
 e_meeting_list_view_invite_others_dialog (EMeetingListView *view)
 {
-	e_name_selector_show_dialog (view->priv->name_selector,
-				     GTK_WIDGET (view));
+	e_name_selector_show_dialog (
+		view->priv->name_selector,
+		GTK_WIDGET (view));
 }
 
 void

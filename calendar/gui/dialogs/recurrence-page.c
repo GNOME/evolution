@@ -267,8 +267,9 @@ preview_recur (RecurrencePage *rpage)
 
 	fill_component (rpage, comp);
 
-	tag_calendar_by_comp (E_CALENDAR (priv->preview_calendar), comp,
-			      client, zone, TRUE, FALSE, FALSE, priv->cancellable);
+	tag_calendar_by_comp (
+		E_CALENDAR (priv->preview_calendar), comp,
+		client, zone, TRUE, FALSE, FALSE, priv->cancellable);
 	g_object_unref (comp);
 }
 
@@ -440,18 +441,20 @@ clear_widgets (RecurrencePage *rpage)
 	g_signal_handlers_unblock_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	g_signal_handlers_block_matched (priv->interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	e_dialog_combo_box_set (priv->interval_unit_combo,
-				  ICAL_DAILY_RECURRENCE,
-				  freq_map);
+	e_dialog_combo_box_set (
+		priv->interval_unit_combo,
+		ICAL_DAILY_RECURRENCE,
+		freq_map);
 	g_signal_handlers_unblock_matched (priv->interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	priv->ending_date_tt = icaltime_today ();
 	priv->ending_count = 2;
 
 	g_signal_handlers_block_matched (priv->ending_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	e_dialog_combo_box_set (priv->ending_combo,
-				  priv->ending_count == -1 ? ENDING_FOREVER : ENDING_FOR,
-				  ending_types_map);
+	e_dialog_combo_box_set (
+		priv->ending_combo,
+		priv->ending_count == -1 ? ENDING_FOREVER : ENDING_FOR,
+		ending_types_map);
 	g_signal_handlers_unblock_matched (priv->ending_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	if (priv->ending_count == -1)
 		priv->ending_count = 2;
@@ -571,11 +574,13 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 		gtk_widget_set_sensitive (priv->params, FALSE);
 		gtk_widget_hide (priv->params);
 
-		label = gtk_label_new (_("This appointment contains "
-					 "recurrences that Evolution "
-					 "cannot edit."));
-		gtk_container_add (GTK_CONTAINER (priv->custom_warning_bin),
-				   label);
+		label = gtk_label_new (
+			_("This appointment contains "
+			"recurrences that Evolution "
+			"cannot edit."));
+		gtk_container_add (
+			GTK_CONTAINER (priv->custom_warning_bin),
+			label);
 		gtk_widget_show_all (priv->custom_warning_bin);
 	} else if (recurs) {
 		gtk_widget_set_sensitive (priv->params, sens);
@@ -801,10 +806,12 @@ simple_recur_to_comp (RecurrencePage *rpage,
 		g_return_if_fail (priv->month_num_combo != NULL);
 		g_return_if_fail (GTK_IS_COMBO_BOX (priv->month_num_combo));
 
-		month_num = e_dialog_combo_box_get (priv->month_num_combo,
-						      month_num_options_map );
-		month_day = e_dialog_combo_box_get (priv->month_day_combo,
-						      month_day_options_map);
+		month_num = e_dialog_combo_box_get (
+			priv->month_num_combo,
+			month_num_options_map);
+		month_day = e_dialog_combo_box_get (
+			priv->month_day_combo,
+			month_day_options_map);
 
 		if (month_num == MONTH_NUM_LAST)
 			month_num = -1;
@@ -891,10 +898,11 @@ simple_recur_to_comp (RecurrencePage *rpage,
 
 		/* We only allow a DATE value to be set for the UNTIL property,
 		 * since we don't support sub-day recurrences. */
-		date_set = e_date_edit_get_date (E_DATE_EDIT (priv->ending_date_edit),
-						 &r.until.year,
-						 &r.until.month,
-						 &r.until.day);
+		date_set = e_date_edit_get_date (
+			E_DATE_EDIT (priv->ending_date_edit),
+			&r.until.year,
+			&r.until.month,
+			&r.until.day);
 		g_return_if_fail (date_set);
 
 		r.until.is_date = 1;
@@ -965,9 +973,10 @@ fill_component (RecurrencePage *rpage,
 		g_return_val_if_fail (dt != NULL, FALSE);
 
 		if (!icaltime_is_valid_time (*dt->value)) {
-			comp_editor_page_display_validation_error (COMP_EDITOR_PAGE (rpage),
-								   _("Recurrence date is invalid"),
-								   priv->exception_list);
+			comp_editor_page_display_validation_error (
+				COMP_EDITOR_PAGE (rpage),
+				_("Recurrence date is invalid"),
+				priv->exception_list);
 			return FALSE;
 		}
 
@@ -1180,10 +1189,11 @@ make_recur_month_num_combo (gint month_index)
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell, "text", 0, NULL);
 
-	gtk_cell_layout_set_cell_data_func (GTK_CELL_LAYOUT (combo),
-					cell,
-					only_leaf_sensitive,
-					NULL, NULL);
+	gtk_cell_layout_set_cell_data_func (
+		GTK_CELL_LAYOUT (combo),
+		cell,
+		only_leaf_sensitive,
+		NULL, NULL);
 
 	return combo;
 }
@@ -1229,8 +1239,9 @@ month_num_combo_changed_cb (GtkComboBox *combo,
 
 	priv = rpage->priv;
 
-	month_day = e_dialog_combo_box_get (priv->month_day_combo,
-					      month_day_options_map);
+	month_day = e_dialog_combo_box_get (
+		priv->month_day_combo,
+		month_day_options_map);
 
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (priv->month_num_combo), &iter)) {
 		gint value;
@@ -1264,13 +1275,15 @@ month_num_combo_changed_cb (GtkComboBox *combo,
 	}
 
 	if (month_num == MONTH_NUM_DAY && month_day != MONTH_DAY_NTH)
-		e_dialog_combo_box_set (priv->month_day_combo,
-					  MONTH_DAY_NTH,
-					  month_day_options_map);
+		e_dialog_combo_box_set (
+			priv->month_day_combo,
+			MONTH_DAY_NTH,
+			month_day_options_map);
 	else if (month_num != MONTH_NUM_DAY && month_num != MONTH_NUM_LAST && month_day == MONTH_DAY_NTH)
-		e_dialog_combo_box_set (priv->month_day_combo,
-					  MONTH_DAY_MON,
-					  month_num_options_map);
+		e_dialog_combo_box_set (
+			priv->month_day_combo,
+			MONTH_DAY_MON,
+			month_num_options_map);
 
 	comp_editor_page_changed (COMP_EDITOR_PAGE (rpage));
 }
@@ -1289,18 +1302,22 @@ month_day_combo_changed_cb (GtkComboBox *combo,
 
 	priv = rpage->priv;
 
-	month_num = e_dialog_combo_box_get (priv->month_num_combo,
-					      month_num_options_map);
-	month_day = e_dialog_combo_box_get (priv->month_day_combo,
-					      month_day_options_map);
+	month_num = e_dialog_combo_box_get (
+		priv->month_num_combo,
+		month_num_options_map);
+	month_day = e_dialog_combo_box_get (
+		priv->month_day_combo,
+		month_day_options_map);
 	if (month_day == MONTH_DAY_NTH && month_num != MONTH_NUM_LAST && month_num != MONTH_NUM_DAY)
-		e_dialog_combo_box_set (priv->month_num_combo,
-					  MONTH_NUM_DAY,
-					  month_num_options_map);
+		e_dialog_combo_box_set (
+			priv->month_num_combo,
+			MONTH_NUM_DAY,
+			month_num_options_map);
 	else if (month_day != MONTH_DAY_NTH && month_num == MONTH_NUM_DAY)
-		e_dialog_combo_box_set (priv->month_num_combo,
-					  MONTH_NUM_FIRST,
-					  month_num_options_map);
+		e_dialog_combo_box_set (
+			priv->month_num_combo,
+			MONTH_NUM_FIRST,
+			month_num_options_map);
 
 	comp_editor_page_changed (COMP_EDITOR_PAGE (rpage));
 }
@@ -1333,22 +1350,26 @@ make_monthly_special (RecurrencePage *rpage)
 	adj = GTK_ADJUSTMENT (gtk_adjustment_new (1, 1, 31, 1, 10, 10));
 
 	priv->month_num_combo = make_recur_month_num_combo (priv->month_index);
-	gtk_box_pack_start (GTK_BOX (hbox), priv->month_num_combo,
-			    FALSE, FALSE, 6);
+	gtk_box_pack_start (
+		GTK_BOX (hbox), priv->month_num_combo,
+		FALSE, FALSE, 6);
 
 	priv->month_day_combo = make_recur_month_combobox ();
-	gtk_box_pack_start (GTK_BOX (hbox), priv->month_day_combo,
-			    FALSE, FALSE, 6);
+	gtk_box_pack_start (
+		GTK_BOX (hbox), priv->month_day_combo,
+		FALSE, FALSE, 6);
 
 	gtk_widget_show_all (hbox);
 
 	/* Set the options */
-	e_dialog_combo_box_set (priv->month_num_combo,
-				  priv->month_num,
-				  month_num_options_map);
-	e_dialog_combo_box_set (priv->month_day_combo,
-				  priv->month_day,
-				  month_day_options_map);
+	e_dialog_combo_box_set (
+		priv->month_num_combo,
+		priv->month_num,
+		month_num_options_map);
+	e_dialog_combo_box_set (
+		priv->month_day_combo,
+		priv->month_day,
+		month_day_options_map);
 
 	g_signal_connect_swapped (
 		adj, "value-changed",
@@ -1452,8 +1473,9 @@ make_ending_until_special (RecurrencePage *rpage)
 	priv->ending_date_edit = comp_editor_new_date_edit (TRUE, FALSE, FALSE);
 	de = E_DATE_EDIT (priv->ending_date_edit);
 
-	gtk_container_add (GTK_CONTAINER (priv->ending_special),
-			   GTK_WIDGET (de));
+	gtk_container_add (
+		GTK_CONTAINER (priv->ending_special),
+		GTK_WIDGET (de));
 	gtk_widget_show_all (GTK_WIDGET (de));
 
 	/* Set the value */
@@ -1503,8 +1525,9 @@ make_ending_count_special (RecurrencePage *rpage)
 	adj = GTK_ADJUSTMENT (gtk_adjustment_new (1, 1, 10000, 1, 10, 0));
 	priv->ending_count_spin = gtk_spin_button_new (adj, 1, 0);
 	gtk_spin_button_set_numeric ((GtkSpinButton *) priv->ending_count_spin, TRUE);
-	gtk_box_pack_start (GTK_BOX (hbox), priv->ending_count_spin,
-			    FALSE, FALSE, 6);
+	gtk_box_pack_start (
+		GTK_BOX (hbox), priv->ending_count_spin,
+		FALSE, FALSE, 6);
 
 	label = gtk_label_new (_("occurrences"));
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
@@ -1587,9 +1610,10 @@ fill_ending_date (RecurrencePage *rpage,
 		if (r->until.year == 0) {
 			/* Forever */
 
-			e_dialog_combo_box_set (priv->ending_combo,
-						  ENDING_FOREVER,
-						  ending_types_map);
+			e_dialog_combo_box_set (
+				priv->ending_combo,
+				ENDING_FOREVER,
+				ending_types_map);
 		} else {
 			/* Ending date */
 
@@ -1629,17 +1653,19 @@ fill_ending_date (RecurrencePage *rpage,
 			}
 
 			priv->ending_date_tt = r->until;
-			e_dialog_combo_box_set (priv->ending_combo,
-						  ENDING_UNTIL,
-						  ending_types_map);
+			e_dialog_combo_box_set (
+				priv->ending_combo,
+				ENDING_UNTIL,
+				ending_types_map);
 		}
 	} else {
 		/* Count of occurrences */
 
 		priv->ending_count = r->count;
-		e_dialog_combo_box_set (priv->ending_combo,
-					  ENDING_FOR,
-					  ending_types_map);
+		e_dialog_combo_box_set (
+			priv->ending_combo,
+			ENDING_FOR,
+			ending_types_map);
 	}
 
 	g_signal_handlers_unblock_matched (priv->ending_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
@@ -1777,9 +1803,10 @@ recurrence_page_fill_widgets (CompEditorPage *page,
 			goto custom;
 
 		g_signal_handlers_block_matched (priv->interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-		e_dialog_combo_box_set (priv->interval_unit_combo,
-					  ICAL_DAILY_RECURRENCE,
-					  freq_map);
+		e_dialog_combo_box_set (
+			priv->interval_unit_combo,
+			ICAL_DAILY_RECURRENCE,
+			freq_map);
 		g_signal_handlers_unblock_matched (priv->interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 		break;
 
@@ -1843,9 +1870,10 @@ recurrence_page_fill_widgets (CompEditorPage *page,
 		priv->weekday_day_mask = day_mask;
 
 		g_signal_handlers_block_matched (priv->interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-		e_dialog_combo_box_set (priv->interval_unit_combo,
-					  ICAL_WEEKLY_RECURRENCE,
-					  freq_map);
+		e_dialog_combo_box_set (
+			priv->interval_unit_combo,
+			ICAL_WEEKLY_RECURRENCE,
+			freq_map);
 		g_signal_handlers_unblock_matched (priv->interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 		break;
 	}
@@ -1942,9 +1970,10 @@ recurrence_page_fill_widgets (CompEditorPage *page,
 			goto custom;
 
 		g_signal_handlers_block_matched (priv->interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-		e_dialog_combo_box_set (priv->interval_unit_combo,
-					  ICAL_MONTHLY_RECURRENCE,
-					  freq_map);
+		e_dialog_combo_box_set (
+			priv->interval_unit_combo,
+			ICAL_MONTHLY_RECURRENCE,
+			freq_map);
 		g_signal_handlers_unblock_matched (priv->interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 		break;
 
@@ -1958,9 +1987,10 @@ recurrence_page_fill_widgets (CompEditorPage *page,
 			goto custom;
 
 		g_signal_handlers_block_matched (priv->interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-		e_dialog_combo_box_set (priv->interval_unit_combo,
-					  ICAL_YEARLY_RECURRENCE,
-					  freq_map);
+		e_dialog_combo_box_set (
+			priv->interval_unit_combo,
+			ICAL_YEARLY_RECURRENCE,
+			freq_map);
 		g_signal_handlers_unblock_matched (priv->interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 		break;
 
@@ -2061,10 +2091,12 @@ recurrence_page_set_dates (CompEditorPage *page,
 		priv->weekday_blocked_day_mask = mask;
 
 		if (priv->weekday_picker != NULL) {
-			weekday_picker_set_days (WEEKDAY_PICKER (priv->weekday_picker),
-						 priv->weekday_day_mask);
-			weekday_picker_set_blocked_days (WEEKDAY_PICKER (priv->weekday_picker),
-							 priv->weekday_blocked_day_mask);
+			weekday_picker_set_days (
+				WEEKDAY_PICKER (priv->weekday_picker),
+				priv->weekday_day_mask);
+			weekday_picker_set_blocked_days (
+				WEEKDAY_PICKER (priv->weekday_picker),
+				priv->weekday_blocked_day_mask);
 		}
 	}
 
@@ -2200,11 +2232,12 @@ create_exception_dialog (RecurrencePage *rpage,
 	priv = rpage->priv;
 
 	toplevel = gtk_widget_get_toplevel (priv->main);
-	dialog = gtk_dialog_new_with_buttons (title, GTK_WINDOW (toplevel),
-					      GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					      GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-					      GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					      NULL);
+	dialog = gtk_dialog_new_with_buttons (
+		title, GTK_WINDOW (toplevel),
+		GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+		NULL);
 
 	*date_edit = comp_editor_new_date_edit (TRUE, FALSE, TRUE);
 	gtk_widget_show (*date_edit);
@@ -2234,10 +2267,11 @@ exception_add_cb (GtkWidget *widget,
 		dt.tzid = NULL;
 		icaltime.is_date = 1;
 
-		date_set = e_date_edit_get_date (E_DATE_EDIT (date_edit),
-						 &icaltime.year,
-						 &icaltime.month,
-						 &icaltime.day);
+		date_set = e_date_edit_get_date (
+			E_DATE_EDIT (date_edit),
+			&icaltime.year,
+			&icaltime.month,
+			&icaltime.day);
 		g_return_if_fail (date_set);
 
 		append_exception (rpage, &dt);
@@ -2270,8 +2304,9 @@ exception_modify_cb (GtkWidget *widget,
 	current_dt = e_date_time_list_get_date_time (priv->exception_list_store, &iter);
 
 	dialog = create_exception_dialog (rpage, _("Modify exception"), &date_edit);
-	e_date_edit_set_date (E_DATE_EDIT (date_edit),
-			      current_dt->value->year, current_dt->value->month, current_dt->value->day);
+	e_date_edit_set_date (
+		E_DATE_EDIT (date_edit),
+		current_dt->value->year, current_dt->value->month, current_dt->value->day);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		ECalComponentDateTime dt;
@@ -2280,8 +2315,9 @@ exception_modify_cb (GtkWidget *widget,
 
 		dt.value = &icaltime;
 		tt = dt.value;
-		e_date_edit_get_date (E_DATE_EDIT (date_edit),
-				      &tt->year, &tt->month, &tt->day);
+		e_date_edit_get_date (
+			E_DATE_EDIT (date_edit),
+			&tt->year, &tt->month, &tt->day);
 		tt->hour = 0;
 		tt->minute = 0;
 		tt->second = 0;
@@ -2382,8 +2418,9 @@ init_widgets (RecurrencePage *rpage)
 		ecal->calitem, "date_range_changed",
 		G_CALLBACK (preview_date_range_changed_cb), rpage);
 	e_calendar_item_set_max_days_sel (ecal->calitem, 0);
-	gtk_container_add (GTK_CONTAINER (priv->preview_bin),
-			   priv->preview_calendar);
+	gtk_container_add (
+		GTK_CONTAINER (priv->preview_bin),
+		priv->preview_calendar);
 	gtk_widget_show (priv->preview_calendar);
 
 	e_calendar_item_set_get_time_callback (
@@ -2442,8 +2479,9 @@ init_widgets (RecurrencePage *rpage)
 
 	/* Model */
 	priv->exception_list_store = e_date_time_list_new ();
-	gtk_tree_view_set_model (GTK_TREE_VIEW (priv->exception_list),
-				 GTK_TREE_MODEL (priv->exception_list_store));
+	gtk_tree_view_set_model (
+		GTK_TREE_VIEW (priv->exception_list),
+		GTK_TREE_MODEL (priv->exception_list_store));
 
 	g_object_bind_property (
 		editor, "use-24-hour-format",
@@ -2489,8 +2527,9 @@ recurrence_page_construct (RecurrencePage *rpage,
 	e_load_ui_builder_definition (priv->builder, "recurrence-page.ui");
 
 	if (!get_widgets (rpage)) {
-		g_message ("recurrence_page_construct(): "
-			   "Could not find all widgets in the XML file!");
+		g_message (
+			"recurrence_page_construct(): "
+			"Could not find all widgets in the XML file!");
 		return NULL;
 	}
 

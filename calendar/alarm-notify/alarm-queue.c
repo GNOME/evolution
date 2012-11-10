@@ -663,7 +663,7 @@ load_alarms_for_today (ClientAlarms *ca)
 		from = MAX (from, day_start);
 
 	/* Add one hour after midnight, just to cover the delay in 30 minutes
-	   midnight checking. */
+	 * midnight checking. */
 	day_end = time_day_end_with_zone (now, zone) + (60 * 60);
 	debug (("From %s to %s", e_ctime (&from), e_ctime (&day_end)));
 	load_alarms (ca, from, day_end);
@@ -1054,11 +1054,12 @@ static void
 print_component (ECalClient *cal_client,
                  ECalComponent *comp)
 {
-	print_comp (comp,
-		    cal_client,
-		    config_data_get_timezone (),
-		    config_data_get_24_hour_format (),
-		    GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+	print_comp (
+		comp,
+		cal_client,
+		config_data_get_timezone (),
+		config_data_get_24_hour_format (),
+		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 typedef struct {
@@ -1643,8 +1644,9 @@ display_notification (time_t trigger,
 	end_str = timet_to_str_with_zone (qa->instance->occur_end, current_zone);
 	time_str = calculate_time (qa->instance->occur_start, qa->instance->occur_end);
 
-	str = g_strdup_printf ("%s\n%s %s",
-			       summary, start_str, time_str);
+	str = g_strdup_printf (
+		"%s\n%s %s",
+		summary, start_str, time_str);
 
 	/* create the private structure */
 	tray_data = g_new0 (TrayIconData, 1);
@@ -1747,8 +1749,9 @@ popup_notification (time_t trigger,
 	end_str = timet_to_str_with_zone (qa->instance->occur_end, current_zone);
 	time_str = calculate_time (qa->instance->occur_start, qa->instance->occur_end);
 
-	str = g_strdup_printf ("%s %s",
-			       start_str, time_str);
+	str = g_strdup_printf (
+		"%s %s",
+		start_str, time_str);
 
 	if (organiser.cn) {
 		if (location)
@@ -2075,7 +2078,7 @@ alarm_queue_init (gpointer data)
 	g_timeout_add_seconds (1800, check_midnight_refresh, NULL);
 
 	/* monotonic time doesn't change during hibernation, while the wall clock time does,
-	   thus check for wall clock time changes and reschedule alarms when it changes */
+	 * thus check for wall clock time changes and reschedule alarms when it changes */
 	g_timeout_add_seconds (60, check_wall_clock_time_changed, NULL);
 
 #ifdef HAVE_LIBNOTIFY
@@ -2319,8 +2322,9 @@ alarm_queue_remove_async (struct _alarm_client_msg *msg)
 	if (ca->cal_client) {
 		debug (("Disconnecting Client"));
 
-		g_signal_handlers_disconnect_matched (ca->cal_client, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, ca);
+		g_signal_handlers_disconnect_matched (
+			ca->cal_client, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, ca);
 		g_object_unref (ca->cal_client);
 		ca->cal_client = NULL;
 	}
@@ -2328,8 +2332,9 @@ alarm_queue_remove_async (struct _alarm_client_msg *msg)
 	if (ca->view) {
 		debug (("Disconnecting Query"));
 
-		g_signal_handlers_disconnect_matched (ca->view, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, ca);
+		g_signal_handlers_disconnect_matched (
+			ca->view, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, ca);
 		g_object_unref (ca->view);
 		ca->view = NULL;
 	}
@@ -2419,7 +2424,7 @@ update_cqa (CompQueuedAlarms *cqa,
 	/* Update the actual component stored in CompQueuedAlarms structure */
 	g_object_unref (cqa->alarms->comp);
 	cqa->alarms->comp = newcomp;
-	if (alarms != NULL )
+	if (alarms != NULL)
 		e_cal_component_alarms_free (alarms);
 }
 

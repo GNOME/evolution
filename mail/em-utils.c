@@ -348,7 +348,7 @@ em_filename_make_safe (gchar *string)
 		 * achieve, and whether it does that as currently
 		 * written?
 		 */
-		if (!g_unichar_isprint (c) || ( c < 0xff && strchr (unsafe_chars, c&0xff ))) {
+		if (!g_unichar_isprint (c) || (c < 0xff && strchr (unsafe_chars, c&0xff))) {
 			while (ts < p)
 				*ts++ = '_';
 		}
@@ -1230,7 +1230,7 @@ em_utils_get_proxy (void)
 
 static gboolean
 is_only_text_part_in_this_level (GSList *parts,
-				 EMailPart *text_html_part)
+                                 EMailPart *text_html_part)
 {
 	const gchar *dot;
 	gint level_len;
@@ -1340,7 +1340,7 @@ em_utils_message_to_html (CamelSession *session,
 			continue;
 
 		/* prefer-plain can hide HTML parts, even when it's the only
-		   text part in the email, thus show it (and hide again later) */
+		 * text part in the email, thus show it (and hide again later) */
 		if (part->is_hidden && !hidden_text_html_part &&
 		    part->mime_type && !part->is_attachment &&
 		    g_ascii_strcasecmp (part->mime_type, "text/html") == 0 &&

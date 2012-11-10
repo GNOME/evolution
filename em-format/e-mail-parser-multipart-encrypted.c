@@ -77,15 +77,15 @@ empe_mp_encrypted_parse (EMailParserExtension *extension,
 	mpe = (CamelMultipartEncrypted *) camel_medium_get_content ((CamelMedium *) part);
 	if (!CAMEL_IS_MULTIPART_ENCRYPTED (mpe)) {
 		parts = e_mail_parser_error (
-				parser, cancellable,
-				_("Could not parse MIME message. "
-				  "Displaying as source."));
+			parser, cancellable,
+			_("Could not parse MIME message. "
+			"Displaying as source."));
 		parts = g_slist_concat (
-				parts,
-				e_mail_parser_parse_part_as (
-					parser, part, part_id,
-					"application/vnd.evolution/source",
-					cancellable));
+			parts,
+			e_mail_parser_parse_part_as (
+				parser, part, part_id,
+				"application/vnd.evolution/source",
+				cancellable));
 
 		return parts;
 	}
@@ -95,14 +95,14 @@ empe_mp_encrypted_parse (EMailParserExtension *extension,
 		((CamelDataWrapper *) mpe)->mime_type, "protocol");
 	if (!protocol || g_ascii_strcasecmp (protocol, "application/pgp-encrypted") != 0) {
 		parts = e_mail_parser_error (
-				parser, cancellable,
-			       _("Unsupported encryption type for multipart/encrypted"));
+			parser, cancellable,
+			_("Unsupported encryption type for multipart/encrypted"));
 
 		parts = g_slist_concat (
-				parts,
-				e_mail_parser_parse_part_as (
-					parser, part, part_id,
-					"multipart/mixed", cancellable));
+			parts,
+			e_mail_parser_parse_part_as (
+				parser, part, part_id,
+				"multipart/mixed", cancellable));
 		return parts;
 	}
 
@@ -110,23 +110,23 @@ empe_mp_encrypted_parse (EMailParserExtension *extension,
 
 	opart = camel_mime_part_new ();
 	valid = camel_cipher_context_decrypt_sync (
-			context, part, opart, cancellable, &local_error);
+		context, part, opart, cancellable, &local_error);
 
 	e_mail_part_preserve_charset_in_content_type (part, opart);
-	if (valid == NULL) {
+
+	if (local_error != NULL) {
 		parts = e_mail_parser_error (
-				parser, cancellable,
-				_("Could not parse PGP/MIME message: %s"),
-				local_error->message ?
-					local_error->message :
-					_("Unknown error"));
+			parser, cancellable,
+			_("Could not parse PGP/MIME message: %s"),
+			local_error->message);
 
-		g_clear_error (&local_error);
+		g_error_free (local_error);
 
-		parts = g_slist_concat (parts,
-				e_mail_parser_parse_part_as (
-					parser, part, part_id,
-					"multipart/mixed", cancellable));
+		parts = g_slist_concat (
+			parts,
+			e_mail_parser_parse_part_as (
+				parser, part, part_id,
+				"multipart/mixed", cancellable));
 
 		g_object_unref (opart);
 		g_object_unref (context);
@@ -138,7 +138,7 @@ empe_mp_encrypted_parse (EMailParserExtension *extension,
 	g_string_append (part_id, ".encrypted");
 
 	parts = e_mail_parser_parse_part (
-			parser, opart, part_id, cancellable);
+		parser, opart, part_id, cancellable);
 
 	g_string_truncate (part_id, len);
 
@@ -150,27 +150,29 @@ empe_mp_encrypted_parse (EMailParserExtension *extension,
 		if (!mail_part)
 			continue;
 
-		e_mail_part_update_validity (mail_part, valid,
+		e_mail_part_update_validity (
+			mail_part, valid,
 			E_MAIL_PART_VALIDITY_ENCRYPTED |
 			E_MAIL_PART_VALIDITY_PGP);
 	}
 
 	/* Add a widget with details about the encryption, but only when
-		* the decrypted part isn't itself secured, in that case it has created
-		* the button itself */
+	 * the decrypted part isn't itself secured, in that case it has
+	 * created the button itself. */
 	if (!e_mail_part_is_secured (opart)) {
 		GSList *button;
 		EMailPart *mail_part;
 		g_string_append (part_id, ".encrypted.button");
 
 		button = e_mail_parser_parse_part_as (
-				parser, part, part_id,
-				"application/vnd.evolution.widget.secure-button",
-				cancellable);
+			parser, part, part_id,
+			"application/vnd.evolution.widget.secure-button",
+			cancellable);
 		if (button && button->data) {
 			mail_part = button->data;
 
-			e_mail_part_update_validity (mail_part, valid,
+			e_mail_part_update_validity (
+				mail_part, valid,
 				E_MAIL_PART_VALIDITY_ENCRYPTED |
 				E_MAIL_PART_VALIDITY_PGP);
 		}

@@ -68,9 +68,10 @@ etcta_cursor_change (GObject *object,
                      gint col,
                      ETableClickToAdd *etcta)
 {
-	g_signal_emit (etcta,
-		       etcta_signals[CURSOR_CHANGE], 0,
-		       row, col);
+	g_signal_emit (
+		etcta,
+		etcta_signals[CURSOR_CHANGE], 0,
+		row, col);
 }
 
 static void
@@ -105,9 +106,10 @@ etcta_add_table_header (ETableClickToAdd *etcta,
 	if (etcta->eth)
 		g_object_ref (etcta->eth);
 	if (etcta->row)
-		gnome_canvas_item_set (GNOME_CANVAS_ITEM (etcta->row),
-				      "ETableHeader", header,
-				      NULL);
+		gnome_canvas_item_set (
+			GNOME_CANVAS_ITEM (etcta->row),
+			"ETableHeader", header,
+			NULL);
 }
 
 static void
@@ -128,12 +130,14 @@ etcta_add_one (ETableClickToAdd *etcta,
 	if (etcta->one)
 		g_object_ref (etcta->one);
 	if (etcta->row)
-		gnome_canvas_item_set (GNOME_CANVAS_ITEM (etcta->row),
-				      "ETableModel", one,
-				      NULL);
-	g_object_set (etcta->selection,
-		     "model", one,
-		     NULL);
+		gnome_canvas_item_set (
+			GNOME_CANVAS_ITEM (etcta->row),
+			"ETableModel", one,
+			NULL);
+	g_object_set (
+		etcta->selection,
+		"model", one,
+		NULL);
 }
 
 static void
@@ -143,9 +147,10 @@ etcta_drop_one (ETableClickToAdd *etcta)
 		return;
 	g_object_unref (etcta->one);
 	etcta->one = NULL;
-	g_object_set (etcta->selection,
-		     "model", NULL,
-		     NULL);
+	g_object_set (
+		etcta->selection,
+		"model", NULL,
+		NULL);
 }
 
 static void
@@ -225,17 +230,20 @@ etcta_set_property (GObject *object,
 	case PROP_WIDTH:
 		etcta->width = g_value_get_double (value);
 		if (etcta->row)
-			gnome_canvas_item_set (etcta->row,
-					      "minimum_width", etcta->width,
-					      NULL);
+			gnome_canvas_item_set (
+				etcta->row,
+				"minimum_width", etcta->width,
+				NULL);
 		if (etcta->text)
-			gnome_canvas_item_set (etcta->text,
-					      "width", (etcta->width < 4 ? 4 : etcta->width) - 4,
-					      NULL);
+			gnome_canvas_item_set (
+				etcta->text,
+				"width", (etcta->width < 4 ? 4 : etcta->width) - 4,
+				NULL);
 		if (etcta->rect)
-			gnome_canvas_item_set (etcta->rect,
-					      "x2", etcta->width - 1,
-					      NULL);
+			gnome_canvas_item_set (
+				etcta->rect,
+				"x2", etcta->width - 1,
+				NULL);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -352,9 +360,10 @@ item_key_press (ETableItem *item,
 static void
 set_initial_selection (ETableClickToAdd *etcta)
 {
-	e_selection_model_do_something (E_SELECTION_MODEL (etcta->selection),
-					0, e_table_header_prioritized_column (etcta->eth),
-					0);
+	e_selection_model_do_something (
+		E_SELECTION_MODEL (etcta->selection),
+		0, e_table_header_prioritized_column (etcta->eth),
+		0);
 }
 
 static void
@@ -375,16 +384,17 @@ finish_editing (ETableClickToAdd *etcta)
 
 		e_selection_model_clear (E_SELECTION_MODEL (etcta->selection));
 
-		etcta->row = gnome_canvas_item_new (GNOME_CANVAS_GROUP (etcta),
-						   e_table_item_get_type (),
-						   "ETableHeader", etcta->eth,
-						   "ETableModel", etcta->one,
-						   "minimum_width", etcta->width,
-						   "horizontal_draw_grid", TRUE,
-						   "vertical_draw_grid", TRUE,
-						   "selection_model", etcta->selection,
-						   "cursor_mode", E_CURSOR_SPREADSHEET,
-						   NULL);
+		etcta->row = gnome_canvas_item_new (
+			GNOME_CANVAS_GROUP (etcta),
+			e_table_item_get_type (),
+			"ETableHeader", etcta->eth,
+			"ETableModel", etcta->one,
+			"minimum_width", etcta->width,
+			"horizontal_draw_grid", TRUE,
+			"vertical_draw_grid", TRUE,
+			"selection_model", etcta->selection,
+			"cursor_mode", E_CURSOR_SPREADSHEET,
+			NULL);
 
 		g_signal_connect (
 			etcta->row, "key_press",
@@ -425,16 +435,17 @@ etcta_event (GnomeCanvasItem *item,
 
 			e_selection_model_clear (E_SELECTION_MODEL (etcta->selection));
 
-			etcta->row = gnome_canvas_item_new (GNOME_CANVAS_GROUP (item),
-							   e_table_item_get_type (),
-							   "ETableHeader", etcta->eth,
-							   "ETableModel", etcta->one,
-							   "minimum_width", etcta->width,
-							   "horizontal_draw_grid", TRUE,
-							   "vertical_draw_grid", TRUE,
-							   "selection_model", etcta->selection,
-							   "cursor_mode", E_CURSOR_SPREADSHEET,
-							   NULL);
+			etcta->row = gnome_canvas_item_new (
+				GNOME_CANVAS_GROUP (item),
+				e_table_item_get_type (),
+				"ETableHeader", etcta->eth,
+				"ETableModel", etcta->one,
+				"minimum_width", etcta->width,
+				"horizontal_draw_grid", TRUE,
+				"vertical_draw_grid", TRUE,
+				"selection_model", etcta->selection,
+				"cursor_mode", E_CURSOR_SPREADSHEET,
+				NULL);
 
 			g_signal_connect (
 				etcta->row, "key_press",
@@ -483,21 +494,24 @@ etcta_reflow (GnomeCanvasItem *item,
 	gdouble old_height = etcta->height;
 
 	if (etcta->text) {
-		g_object_get (etcta->text,
-			     "height", &etcta->height,
-			     NULL);
+		g_object_get (
+			etcta->text,
+			"height", &etcta->height,
+			NULL);
 		etcta->height += 6;
 	}
 	if (etcta->row) {
-		g_object_get (etcta->row,
-			     "height", &etcta->height,
-			     NULL);
+		g_object_get (
+			etcta->row,
+			"height", &etcta->height,
+			NULL);
 	}
 
 	if (etcta->rect) {
-		g_object_set (etcta->rect,
-			     "y2", etcta->height - 1,
-			     NULL);
+		g_object_set (
+			etcta->rect,
+			"y2", etcta->height - 1,
+			NULL);
 	}
 
 	if (old_height != etcta->height)
@@ -521,58 +535,78 @@ etcta_class_init (ETableClickToAddClass *class)
 	item_class->unrealize   = etcta_unrealize;
 	item_class->event       = etcta_event;
 
-	g_object_class_install_property (object_class, PROP_HEADER,
-					 g_param_spec_object ("header",
-							      "Header",
-							      NULL,
-							      E_TYPE_TABLE_HEADER,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_HEADER,
+		g_param_spec_object (
+			"header",
+			"Header",
+			NULL,
+			E_TYPE_TABLE_HEADER,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_MODEL,
-					 g_param_spec_object ("model",
-							      "Model",
-							      NULL,
-							      E_TYPE_TABLE_MODEL,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_MODEL,
+		g_param_spec_object (
+			"model",
+			"Model",
+			NULL,
+			E_TYPE_TABLE_MODEL,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_MESSAGE,
-					 g_param_spec_string ("message",
-							      "Message",
-							      NULL,
-							      NULL,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_MESSAGE,
+		g_param_spec_string (
+			"message",
+			"Message",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_WIDTH,
-					 g_param_spec_double ("width",
-							      "Width",
-							      NULL,
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READWRITE | G_PARAM_LAX_VALIDATION));
+	g_object_class_install_property (
+		object_class,
+		PROP_WIDTH,
+		g_param_spec_double (
+			"width",
+			"Width",
+			NULL,
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READWRITE |
+			G_PARAM_LAX_VALIDATION));
 
-	g_object_class_install_property (object_class, PROP_HEIGHT,
-					 g_param_spec_double ("height",
-							      "Height",
-							      NULL,
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READABLE | G_PARAM_LAX_VALIDATION));
+	g_object_class_install_property (
+		object_class,
+		PROP_HEIGHT,
+		g_param_spec_double (
+			"height",
+			"Height",
+			NULL,
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READABLE |
+			G_PARAM_LAX_VALIDATION));
 
-	etcta_signals[CURSOR_CHANGE] =
-		g_signal_new ("cursor_change",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableClickToAddClass, cursor_change),
-			      NULL, NULL,
-			      e_marshal_VOID__INT_INT,
-			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
+	etcta_signals[CURSOR_CHANGE] = g_signal_new (
+		"cursor_change",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableClickToAddClass, cursor_change),
+		NULL, NULL,
+		e_marshal_VOID__INT_INT,
+		G_TYPE_NONE, 2,
+		G_TYPE_INT,
+		G_TYPE_INT);
 
-	etcta_signals[STYLE_SET] =
-		g_signal_new ("style_set",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableClickToAddClass, style_set),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1, GTK_TYPE_STYLE);
+	etcta_signals[STYLE_SET] = g_signal_new (
+		"style_set",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableClickToAddClass, style_set),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		GTK_TYPE_STYLE);
 
 	gal_a11y_e_table_click_to_add_init ();
 }

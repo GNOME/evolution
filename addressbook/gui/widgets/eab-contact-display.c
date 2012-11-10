@@ -553,12 +553,15 @@ eab_contact_display_init (EABContactDisplay *display)
 	ui_manager = e_web_view_get_ui_manager (web_view);
 
 #ifdef WITH_CONTACT_MAPS
-	g_signal_connect (web_view, "create-plugin-widget",
+	g_signal_connect (
+		web_view, "create-plugin-widget",
 		G_CALLBACK (contact_display_object_requested), display);
 #endif
-	g_signal_connect (web_view, "notify::load-status",
+	g_signal_connect (
+		web_view, "notify::load-status",
 		G_CALLBACK (contact_display_load_status_changed), NULL);
-	g_signal_connect (web_view, "style-set",
+	g_signal_connect (
+		web_view, "style-set",
 		G_CALLBACK (load_contact), NULL);
 
 	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_FILE_REQUEST);
@@ -655,7 +658,7 @@ eab_contact_display_set_show_maps (EABContactDisplay *display,
 {
 	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
 
-	if ((display->priv->show_maps ? 1 : 0) == (show_maps ? 1 : 0))
+	if (display->priv->show_maps == show_maps)
 		return;
 
 	display->priv->show_maps = show_maps;

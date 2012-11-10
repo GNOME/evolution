@@ -92,9 +92,10 @@ format_short_headers (EMailFormatter *formatter,
 	evolution_imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
 	from = g_string_new ("");
 
-	g_string_append_printf (buffer,
+	g_string_append_printf (
+		buffer,
 		"<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" "
-		       "id=\"__evo-short-headers\" style=\"display: %s\">",
+		"id=\"__evo-short-headers\" style=\"display: %s\">",
 		flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED ? "block" : "none");
 
 	header = ((CamelMimePart *) part)->headers;
@@ -269,9 +270,10 @@ format_full_headers (EMailFormatter *formatter,
 
 	evolution_imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
 
-	g_string_append_printf (buffer,
+	g_string_append_printf (
+		buffer,
 		"<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" "
-		       "id=\"__evo-full-headers\" style=\"display: %s\" width=\"100%%\">",
+		"id=\"__evo-full-headers\" style=\"display: %s\" width=\"100%%\">",
 		flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED ? "none" : "block");
 
 	header = ((CamelMimePart *) part)->headers;
@@ -451,7 +453,8 @@ format_full_headers (EMailFormatter *formatter,
 		only_local_photo = e_mail_formatter_get_only_local_photos (formatter);
 		g_string_append (buffer, "<td align=\"right\" valign=\"top\">");
 
-		g_string_append_printf (buffer,
+		g_string_append_printf (
+			buffer,
 			"<img src=\"mail://contact-photo?mailaddr=&only-local-photo=1\" "
 			"data-mailaddr=\"%s\" %s id=\"__evo-contact-photo\"/>",
 			name, only_local_photo ? "data-onlylocal=1" : "");
@@ -543,9 +546,10 @@ emfe_headers_format (EMailFormatterExtension *extension,
 				E_MAIL_FORMATTER_COLOR_HEADER)));
 
 	if (context->flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSABLE) {
-		g_string_append_printf (buffer,
+		g_string_append_printf (
+			buffer,
 			"<img src=\"evo-file://%s/%s\" class=\"navigable\" "
-			     "id=\"__evo-collapse-headers-img\" />"
+			"id=\"__evo-collapse-headers-img\" />"
 			"</td><td>",
 			EVOLUTION_IMAGESDIR,
 			(context->flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED) ?

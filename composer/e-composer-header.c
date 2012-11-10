@@ -379,7 +379,7 @@ e_composer_header_set_sensitive (EComposerHeader *header,
 {
 	g_return_if_fail (E_IS_COMPOSER_HEADER (header));
 
-	if ((header->priv->sensitive ? 1 : 0) == (sensitive ? 1 : 0))
+	if (header->priv->sensitive == sensitive)
 		return;
 
 	header->priv->sensitive = sensitive;
@@ -401,7 +401,7 @@ e_composer_header_set_visible (EComposerHeader *header,
 {
 	g_return_if_fail (E_IS_COMPOSER_HEADER (header));
 
-	if ((header->priv->visible ? 1 : 0) == (visible ? 1 : 0))
+	if (header->priv->visible == visible)
 		return;
 
 	header->priv->visible = visible;

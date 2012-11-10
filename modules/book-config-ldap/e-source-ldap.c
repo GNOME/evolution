@@ -485,7 +485,7 @@ e_source_ldap_set_can_browse (ESourceLDAP *extension,
 {
 	g_return_if_fail (E_IS_SOURCE_LDAP (extension));
 
-	if ((extension->priv->can_browse ? 1 : 0) == (can_browse ? 1 : 0))
+	if (extension->priv->can_browse == can_browse)
 		return;
 
 	extension->priv->can_browse = can_browse;

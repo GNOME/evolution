@@ -745,7 +745,7 @@ e_memo_shell_content_set_preview_visible (EMemoShellContent *memo_shell_content,
 {
 	g_return_if_fail (E_IS_MEMO_SHELL_CONTENT (memo_shell_content));
 
-	if ((memo_shell_content->priv->preview_visible ? 1 : 0) == (preview_visible ? 1 : 0))
+	if (memo_shell_content->priv->preview_visible == preview_visible)
 		return;
 
 	memo_shell_content->priv->preview_visible = preview_visible;

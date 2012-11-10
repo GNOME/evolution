@@ -144,7 +144,7 @@ e_source_conflict_search_set_include_me (ESourceConflictSearch *extension,
 {
 	g_return_if_fail (E_IS_SOURCE_CONFLICT_SEARCH (extension));
 
-	if ((extension->priv->include_me ? 1 : 0) == (include_me ? 1 : 0))
+	if (extension->priv->include_me == include_me)
 		return;
 
 	extension->priv->include_me = include_me;

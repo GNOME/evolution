@@ -500,10 +500,11 @@ save_comp (CompEditor *editor)
 
 	/* Stop listening because we are about to change things */
 	if (priv->view) {
-		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
-						      G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL,
-						      editor);
+		g_signal_handlers_disconnect_matched (
+			priv->view,
+			G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL,
+			editor);
 
 		g_object_unref (priv->view);
 		priv->view = NULL;
@@ -949,15 +950,17 @@ save_and_close_editor (CompEditor *editor,
 		ECalComponentVType vtype = e_cal_component_get_vtype (editor->priv->comp);
 
 		if (vtype == E_CAL_COMPONENT_EVENT)
-			response = em_utils_prompt_user ((GtkWindow *) widget,
-							 NULL,
-							 "calendar:ask-send-event-pending-download",
-							  NULL);
+			response = em_utils_prompt_user (
+				(GtkWindow *) widget,
+				NULL,
+				"calendar:ask-send-event-pending-download",
+				NULL);
 		else
-			response = em_utils_prompt_user ((GtkWindow *) widget,
-							 NULL,
-							 "calendar:ask-send-task-pending-download",
-							  NULL);
+			response = em_utils_prompt_user (
+				(GtkWindow *) widget,
+				NULL,
+				"calendar:ask-send-task-pending-download",
+				NULL);
 #endif
 	if (!response)
 		return;
@@ -1602,7 +1605,7 @@ comp_editor_dispose (GObject *object)
 
 	if (priv->view) {
 		g_signal_handlers_disconnect_matched (
-			G_OBJECT (priv->view), G_SIGNAL_MATCH_DATA,
+			priv->view, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
 		g_object_unref (priv->view);
 		priv->view = NULL;
@@ -1614,7 +1617,7 @@ comp_editor_dispose (GObject *object)
 		store = e_attachment_view_get_store (
 			E_ATTACHMENT_VIEW (priv->attachment_view));
 		g_signal_handlers_disconnect_matched (
-			G_OBJECT (store), G_SIGNAL_MATCH_DATA,
+			store, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
 		g_object_unref (priv->attachment_view);
 		priv->attachment_view = NULL;
@@ -1672,28 +1675,40 @@ comp_editor_bind_settings (CompEditor *editor)
 	g_return_if_fail (editor != NULL);
 
 	action = comp_editor_get_action (editor, "view-categories");
-	g_settings_bind (editor->priv->calendar_settings, "editor-show-categories",
-			 G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		editor->priv->calendar_settings, "editor-show-categories",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT);
 
 	action = comp_editor_get_action (editor, "view-role");
-	g_settings_bind (editor->priv->calendar_settings, "editor-show-role",
-			 G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		editor->priv->calendar_settings, "editor-show-role",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT);
 
 	action = comp_editor_get_action (editor, "view-rsvp");
-	g_settings_bind (editor->priv->calendar_settings, "editor-show-rsvp",
-			 G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		editor->priv->calendar_settings, "editor-show-rsvp",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT);
 
 	action = comp_editor_get_action (editor, "view-status");
-	g_settings_bind (editor->priv->calendar_settings, "editor-show-status",
-			 G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		editor->priv->calendar_settings, "editor-show-status",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT);
 
 	action = comp_editor_get_action (editor, "view-time-zone");
-	g_settings_bind (editor->priv->calendar_settings, "editor-show-timezone",
-			 G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		editor->priv->calendar_settings, "editor-show-timezone",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT);
 
 	action = comp_editor_get_action (editor, "view-type");
-	g_settings_bind (editor->priv->calendar_settings, "editor-show-type",
-			 G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		editor->priv->calendar_settings, "editor-show-type",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT);
 }
 
 static gboolean
@@ -2327,8 +2342,9 @@ close_dialog (CompEditor *editor)
 	 * calls happen during destruction and we might get a change
 	 * notification back when we are in an inconsistent state */
 	if (priv->view)
-		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
-						      G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+		g_signal_handlers_disconnect_matched (
+			priv->view, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, editor);
 
 	gtk_widget_destroy (GTK_WIDGET (editor));
 }
@@ -2461,7 +2477,7 @@ comp_editor_set_summary (CompEditor *editor,
 		e_notice (
 			editor->priv->notebook, GTK_MESSAGE_INFO,
 			_("Changes made to this item may be "
-			  "discarded if an update arrives"));
+			"discarded if an update arrives"));
 		editor->priv->warned = TRUE;
 	}
 
@@ -2514,7 +2530,7 @@ comp_editor_set_use_24_hour_format (CompEditor *editor,
 {
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
-	if ((editor->priv->use_24_hour_format ? 1 : 0) == (use_24_hour_format ? 1 : 0))
+	if (editor->priv->use_24_hour_format == use_24_hour_format)
 		return;
 
 	editor->priv->use_24_hour_format = use_24_hour_format;
@@ -2627,10 +2643,10 @@ comp_editor_set_changed (CompEditor *editor,
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
 	/* always process below changes, because other parts of
-	   the editor listen for 'changed' notifications to update
-	   its widgets, thus do it even the value actually didn't change
+	 * the editor listen for 'changed' notifications to update
+	 * its widgets, thus do it even the value actually didn't change
 	 */
-	if ((editor->priv->changed ? 1 : 0) != (changed ? 1 : 0)) {
+	if (editor->priv->changed != changed) {
 		editor->priv->changed = changed;
 
 		action = comp_editor_get_action (editor, "save");
@@ -2648,7 +2664,7 @@ comp_editor_set_changed (CompEditor *editor,
 		e_notice (
 			editor->priv->notebook, GTK_MESSAGE_INFO,
 			_("Changes made to this item may be "
-			  "discarded if an update arrives"));
+			"discarded if an update arrives"));
 		editor->priv->warned = TRUE;
 	}
 
@@ -2814,8 +2830,9 @@ page_mapped_cb (GtkWidget *page_widget,
 		return;
 
 	if (page->accel_group) {
-		gtk_window_add_accel_group (GTK_WINDOW (toplevel),
-					    page->accel_group);
+		gtk_window_add_accel_group (
+			GTK_WINDOW (toplevel),
+			page->accel_group);
 	}
 }
 
@@ -3353,8 +3370,9 @@ real_send_comp (CompEditor *editor,
 	}
 
 	if (!e_cal_component_has_attachments (priv->comp) ||
-		e_client_check_capability (E_CLIENT (priv->cal_client),
-		CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
+		e_client_check_capability (
+			E_CLIENT (priv->cal_client),
+			CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		if (itip_send_comp (
 			registry, method, send_comp, priv->cal_client,
 			NULL, NULL, users, strip_alarms,
@@ -3652,7 +3670,7 @@ page_dates_changed_cb (CompEditor *editor,
 		e_notice (
 			priv->notebook, GTK_MESSAGE_INFO,
 			_("Changes made to this item may be discarded "
-			  "if an update arrives"));
+			"if an update arrives"));
 		priv->warned = TRUE;
 	}
 }

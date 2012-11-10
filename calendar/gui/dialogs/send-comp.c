@@ -170,8 +170,9 @@ send_component_dialog (GtkWindow *parent,
 	case E_CAL_COMPONENT_JOURNAL:
 		return TRUE;
 	default:
-		g_message ("send_component_dialog(): "
-			   "Cannot handle object of type %d", vtype);
+		g_message (
+			"send_component_dialog(): "
+			"Cannot handle object of type %d", vtype);
 		return FALSE;
 	}
 
@@ -232,8 +233,9 @@ send_component_prompt_subject (GtkWindow *parent,
 		break;
 
 	default:
-		g_message ("send_component_prompt_subject(): "
-			   "Cannot handle object of type %d", vtype);
+		g_message (
+			"send_component_prompt_subject(): "
+			"Cannot handle object of type %d", vtype);
 		return FALSE;
 	}
 

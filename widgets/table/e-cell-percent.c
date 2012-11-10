@@ -115,8 +115,9 @@ ecp_set_value (ECellText *cell,
 		}
 	}
 
-	e_table_model_set_value_at (model, col, row,
-				    GINT_TO_POINTER (percent));
+	e_table_model_set_value_at (
+		model, col, row,
+		GINT_TO_POINTER (percent));
 }
 
 static void

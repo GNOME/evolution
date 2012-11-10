@@ -73,7 +73,7 @@ empe_app_mbox_parse (EMailParserExtension *extension,
 	gint old_len;
 	gint messages;
 	GSList *parts;
-	GError *error;
+	GError *error = NULL;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return NULL;
@@ -101,17 +101,15 @@ empe_app_mbox_parse (EMailParserExtension *extension,
 		mem_stream, NULL, NULL);
 	g_seekable_seek (G_SEEKABLE (mem_stream), 0, G_SEEK_SET, cancellable, NULL);
 
-	error =  NULL;
 	camel_mime_parser_init_with_stream (mime_parser, mem_stream, &error);
-	if (error) {
-		parts = e_mail_parser_error (parser, cancellable,
-				_("Error parsing MBOX part: %s"),
-				error->message ?
-					error->message :
-					_("Unknown error"));
-		g_clear_error (&error);
+	if (error != NULL) {
+		parts = e_mail_parser_error (
+			parser, cancellable,
+			_("Error parsing MBOX part: %s"),
+			error->message);
 		g_object_unref (mem_stream);
 		g_object_unref (mime_parser);
+		g_error_free (error);
 		return parts;
 	}
 

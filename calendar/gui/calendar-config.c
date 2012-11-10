@@ -64,7 +64,7 @@ calendar_config_remove_notification (CalendarConfigChangedFunc func,
 {
 	calendar_config_init ();
 
-	g_signal_handlers_disconnect_by_func (G_OBJECT (config), G_CALLBACK (func), data);
+	g_signal_handlers_disconnect_by_func (config, G_CALLBACK (func), data);
 }
 
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, in which

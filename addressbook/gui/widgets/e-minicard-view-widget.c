@@ -104,78 +104,92 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 	class->column_width_changed = NULL;
 	class->right_click = NULL;
 
-	g_object_class_install_property (object_class, PROP_CLIENT,
-					 g_param_spec_object ("client",
-							      "EBookClient",
-							      NULL,
-							      E_TYPE_BOOK_CLIENT,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_CLIENT,
+		g_param_spec_object (
+			"client",
+			"EBookClient",
+			NULL,
+			E_TYPE_BOOK_CLIENT,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_QUERY,
-					 g_param_spec_string ("query",
-							      "Query",
-							      NULL,
-							      NULL,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_QUERY,
+		g_param_spec_string (
+			"query",
+			"Query",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_EDITABLE,
-					 g_param_spec_boolean ("editable",
-							       "Editable",
-							       NULL,
-							       FALSE,
-							       G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_EDITABLE,
+		g_param_spec_boolean (
+			"editable",
+			"Editable",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_COLUMN_WIDTH,
-					 g_param_spec_double ("column_width",
-							      "Column Width",
-							      NULL,
-							      0.0, G_MAXDOUBLE, 225.0,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_COLUMN_WIDTH,
+		g_param_spec_double (
+			"column_width",
+			"Column Width",
+			NULL,
+			0.0, G_MAXDOUBLE, 225.0,
+			G_PARAM_READWRITE));
 
-	signals[CREATE_CONTACT] =
-		g_signal_new ("create-contact",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, create_contact),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[CREATE_CONTACT] = g_signal_new (
+		"create-contact",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMinicardViewWidgetClass, create_contact),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[CREATE_CONTACT_LIST] =
-		g_signal_new ("create-contact-list",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, create_contact_list),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[CREATE_CONTACT_LIST] = g_signal_new (
+		"create-contact-list",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMinicardViewWidgetClass, create_contact_list),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[SELECTION_CHANGE] =
-		g_signal_new ("selection_change",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, selection_change),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[SELECTION_CHANGE] = g_signal_new (
+		"selection_change",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMinicardViewWidgetClass, selection_change),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[COLUMN_WIDTH_CHANGED] =
-		g_signal_new ("column_width_changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, column_width_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__DOUBLE,
-			      G_TYPE_NONE, 1, G_TYPE_DOUBLE);
+	signals[COLUMN_WIDTH_CHANGED] = g_signal_new (
+		"column_width_changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMinicardViewWidgetClass, column_width_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__DOUBLE,
+		G_TYPE_NONE, 1,
+		G_TYPE_DOUBLE);
 
-	signals[RIGHT_CLICK] =
-		g_signal_new ("right_click",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, right_click),
-			      NULL, NULL,
-			      e_marshal_INT__POINTER,
-			      G_TYPE_INT, 1, G_TYPE_POINTER);
+	signals[RIGHT_CLICK] = g_signal_new (
+		"right_click",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMinicardViewWidgetClass, right_click),
+		NULL, NULL,
+		e_marshal_INT__POINTER,
+		G_TYPE_INT, 1,
+		G_TYPE_POINTER);
 }
 
 static void
@@ -222,30 +236,34 @@ e_minicard_view_widget_set_property (GObject *object,
 		} else
 			emvw->book_client = NULL;
 		if (emvw->emv)
-			g_object_set (emvw->emv,
-				     "client", emvw->book_client,
-				       NULL);
+			g_object_set (
+				emvw->emv,
+				"client", emvw->book_client,
+				NULL);
 		break;
 	case PROP_QUERY:
 		emvw->query = g_strdup (g_value_get_string (value));
 		if (emvw->emv)
-			g_object_set (emvw->emv,
-				     "query", emvw->query,
-				     NULL);
+			g_object_set (
+				emvw->emv,
+				"query", emvw->query,
+				NULL);
 		break;
 	case PROP_EDITABLE:
 		emvw->editable = g_value_get_boolean (value);
 		if (emvw->emv)
-			g_object_set (emvw->emv,
-				      "editable", emvw->editable,
-				      NULL);
+			g_object_set (
+				emvw->emv,
+				"editable", emvw->editable,
+				NULL);
 		break;
 	case PROP_COLUMN_WIDTH:
 		emvw->column_width = g_value_get_double (value);
 		if (emvw->emv) {
-			g_object_set (emvw->emv,
-				      "column_width", emvw->column_width,
-				      NULL);
+			g_object_set (
+				emvw->emv,
+				"column_width", emvw->column_width,
+				NULL);
 		}
 		break;
 	default:
@@ -383,16 +401,16 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 		gnome_canvas_root (GNOME_CANVAS (view)),
 		e_canvas_background_get_type (),
 		"fill_color_gdk", &style->base[GTK_STATE_NORMAL],
-		NULL );
+		NULL);
 
 	view->emv = gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (view)),
 		e_minicard_view_get_type (),
-		"height", (double) 100,
-		"minimum_width", (double) 100,
+		"height", (gdouble) 100,
+		"minimum_width", (gdouble) 100,
 		"adapter", view->adapter,
 		"column_width", view->column_width,
-		NULL );
+		NULL);
 
 	g_signal_connect (
 		E_REFLOW (view->emv)->selection,

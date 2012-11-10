@@ -457,8 +457,7 @@ e_table_model_pre_change (ETableModel *e_table_model)
 
 	d (print_tabs ());
 	d (depth++);
-	g_signal_emit (G_OBJECT (e_table_model),
-		       signals[MODEL_PRE_CHANGE], 0);
+	g_signal_emit (e_table_model, signals[MODEL_PRE_CHANGE], 0);
 	d (depth--);
 }
 
@@ -485,8 +484,7 @@ e_table_model_no_change (ETableModel *e_table_model)
 
 	d (print_tabs ());
 	d (depth++);
-	g_signal_emit (G_OBJECT (e_table_model),
-		       signals[MODEL_NO_CHANGE], 0);
+	g_signal_emit (e_table_model, signals[MODEL_NO_CHANGE], 0);
 	d (depth--);
 }
 
@@ -513,8 +511,7 @@ e_table_model_changed (ETableModel *e_table_model)
 
 	d (print_tabs ());
 	d (depth++);
-	g_signal_emit (G_OBJECT (e_table_model),
-		       signals[MODEL_CHANGED], 0);
+	g_signal_emit (e_table_model, signals[MODEL_CHANGED], 0);
 	d (depth--);
 }
 
@@ -539,8 +536,7 @@ e_table_model_row_changed (ETableModel *e_table_model,
 
 	d (print_tabs ());
 	d (depth++);
-	g_signal_emit (G_OBJECT (e_table_model),
-		       signals[MODEL_ROW_CHANGED], 0, row);
+	g_signal_emit (e_table_model, signals[MODEL_ROW_CHANGED], 0, row);
 	d (depth--);
 }
 
@@ -567,8 +563,8 @@ e_table_model_cell_changed (ETableModel *e_table_model,
 
 	d (print_tabs ());
 	d (depth++);
-	g_signal_emit (G_OBJECT (e_table_model),
-		       signals[MODEL_CELL_CHANGED], 0, col, row);
+	g_signal_emit (
+		e_table_model, signals[MODEL_CELL_CHANGED], 0, col, row);
 	d (depth--);
 }
 
@@ -595,8 +591,8 @@ e_table_model_rows_inserted (ETableModel *e_table_model,
 
 	d (print_tabs ());
 	d (depth++);
-	g_signal_emit (G_OBJECT (e_table_model),
-		       signals[MODEL_ROWS_INSERTED], 0, row, count);
+	g_signal_emit (
+		e_table_model, signals[MODEL_ROWS_INSERTED], 0, row, count);
 	d (depth--);
 }
 

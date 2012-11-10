@@ -541,8 +541,9 @@ create_children (EDateEdit *dedit)
 	g_signal_connect (
 		priv->date_button, "clicked",
 		G_CALLBACK (on_date_button_clicked), dedit);
-	gtk_box_pack_start (GTK_BOX (dedit), priv->date_button,
-			    FALSE, FALSE, 0);
+	gtk_box_pack_start (
+		GTK_BOX (dedit), priv->date_button,
+		FALSE, FALSE, 0);
 	a11y = gtk_widget_get_accessible (priv->date_button);
 	atk_object_set_description (a11y, _("Click this button to show a calendar"));
 	atk_object_set_name (a11y, _("Date"));
@@ -618,11 +619,13 @@ create_children (EDateEdit *dedit)
 		gtk_widget_show (priv->space);
 
 	priv->cal_popup = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_window_set_type_hint (GTK_WINDOW (priv->cal_popup),
-				  GDK_WINDOW_TYPE_HINT_COMBO);
-	gtk_widget_set_events (priv->cal_popup,
-			       gtk_widget_get_events (priv->cal_popup)
-			       | GDK_KEY_PRESS_MASK);
+	gtk_window_set_type_hint (
+		GTK_WINDOW (priv->cal_popup),
+		GDK_WINDOW_TYPE_HINT_COMBO);
+	gtk_widget_set_events (
+		priv->cal_popup,
+		gtk_widget_get_events (priv->cal_popup)
+		| GDK_KEY_PRESS_MASK);
 	g_signal_connect (
 		priv->cal_popup, "delete_event",
 		G_CALLBACK (on_date_popup_delete_event), dedit);
@@ -645,10 +648,11 @@ create_children (EDateEdit *dedit)
 
 	priv->calendar = e_calendar_new ();
 	calendar = E_CALENDAR (priv->calendar);
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (calendar->calitem),
-			       "maximum_days_selected", 1,
-			       "move_selection_when_moving", FALSE,
-			       NULL);
+	gnome_canvas_item_set (
+		GNOME_CANVAS_ITEM (calendar->calitem),
+		"maximum_days_selected", 1,
+		"move_selection_when_moving", FALSE,
+		NULL);
 
 	g_signal_connect (
 		calendar->calitem, "selection_changed",
@@ -813,10 +817,12 @@ e_date_edit_set_time (EDateEdit *dedit,
 	priv = dedit->priv;
 
 	if (the_time == -1) {
-		date_changed = e_date_edit_set_date_internal (dedit, TRUE,
-							      TRUE, 0, 0, 0);
-		time_changed = e_date_edit_set_time_internal (dedit, TRUE,
-							      TRUE, 0, 0);
+		date_changed = e_date_edit_set_date_internal (
+			dedit, TRUE,
+			TRUE, 0, 0, 0);
+		time_changed = e_date_edit_set_time_internal (
+			dedit, TRUE,
+			TRUE, 0, 0);
 	} else {
 		if (the_time == 0) {
 			if (priv->time_callback) {
@@ -829,15 +835,17 @@ e_date_edit_set_time (EDateEdit *dedit,
 			tmp_tm = *localtime (&the_time);
 		}
 
-		date_changed = e_date_edit_set_date_internal (dedit, TRUE,
-							      FALSE,
-							      tmp_tm.tm_year,
-							      tmp_tm.tm_mon,
-							      tmp_tm.tm_mday);
-		time_changed = e_date_edit_set_time_internal (dedit, TRUE,
-							      FALSE,
-							      tmp_tm.tm_hour,
-							      tmp_tm.tm_min);
+		date_changed = e_date_edit_set_date_internal (
+			dedit, TRUE,
+			FALSE,
+			tmp_tm.tm_year,
+			tmp_tm.tm_mon,
+			tmp_tm.tm_mday);
+		time_changed = e_date_edit_set_time_internal (
+			dedit, TRUE,
+			FALSE,
+			tmp_tm.tm_hour,
+			tmp_tm.tm_min);
 	}
 
 	e_date_edit_update_date_entry (dedit);
@@ -904,9 +912,10 @@ e_date_edit_set_date (EDateEdit *dedit,
 
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	date_changed = e_date_edit_set_date_internal (dedit, TRUE, FALSE,
-						      year - 1900, month - 1,
-						      day);
+	date_changed = e_date_edit_set_date_internal (
+		dedit, TRUE, FALSE,
+		year - 1900, month - 1,
+		day);
 
 	e_date_edit_update_date_entry (dedit);
 	e_date_edit_update_time_combo_state (dedit);
@@ -1004,10 +1013,12 @@ e_date_edit_set_date_and_time_of_day (EDateEdit *dedit,
 
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	date_changed = e_date_edit_set_date_internal (dedit, TRUE, FALSE,
-						      year - 1900, month - 1, day);
-	time_changed = e_date_edit_set_time_internal (dedit, TRUE, FALSE,
-						      hour, minute);
+	date_changed = e_date_edit_set_date_internal (
+		dedit, TRUE, FALSE,
+		year - 1900, month - 1, day);
+	time_changed = e_date_edit_set_time_internal (
+		dedit, TRUE, FALSE,
+		hour, minute);
 
 	e_date_edit_update_date_entry (dedit);
 	e_date_edit_update_time_entry (dedit);
@@ -1050,7 +1061,7 @@ e_date_edit_set_show_date (EDateEdit *dedit,
 
 	priv = dedit->priv;
 
-	if ((priv->show_date ? 1 : 0) == (show_date ? 1 : 0))
+	if (priv->show_date == show_date)
 		return;
 
 	priv->show_date = show_date;
@@ -1107,7 +1118,7 @@ e_date_edit_set_show_time (EDateEdit *dedit,
 
 	priv = dedit->priv;
 
-	if ((priv->show_time ? 1 : 0) == (show_time ? 1 : 0))
+	if (priv->show_time == show_time)
 		return;
 
 	priv->show_time = show_time;
@@ -1250,7 +1261,7 @@ e_date_edit_set_use_24_hour_format (EDateEdit *dedit,
 {
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	if ((dedit->priv->use_24_hour_format ? 1 : 0) == (use_24_hour_format ? 1 : 0))
+	if (dedit->priv->use_24_hour_format == use_24_hour_format)
 		return;
 
 	dedit->priv->use_24_hour_format = use_24_hour_format;
@@ -1278,7 +1289,7 @@ e_date_edit_set_allow_no_date_set (EDateEdit *dedit,
 {
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	if ((dedit->priv->allow_no_date_set ? 1 : 0) == (allow_no_date_set ? 1 : 0))
+	if (dedit->priv->allow_no_date_set == allow_no_date_set)
 		return;
 
 	dedit->priv->allow_no_date_set = allow_no_date_set;
@@ -1369,10 +1380,12 @@ e_date_edit_show_date_popup (EDateEdit *dedit)
 		e_calendar_item_set_selection (calendar->calitem, NULL, NULL);
 	} else {
 		g_date_clear (&selected_day, 1);
-		g_date_set_dmy (&selected_day, mtm.tm_mday, mtm.tm_mon + 1,
-				mtm.tm_year + 1900);
-		e_calendar_item_set_selection (calendar->calitem,
-					       &selected_day, NULL);
+		g_date_set_dmy (
+			&selected_day, mtm.tm_mday, mtm.tm_mon + 1,
+			mtm.tm_year + 1900);
+		e_calendar_item_set_selection (
+			calendar->calitem,
+			&selected_day, NULL);
 	}
 
 	/* FIXME: Hack. Change ECalendarItem so it doesn't queue signal
@@ -1450,9 +1463,10 @@ on_date_popup_date_selected (ECalendarItem *calitem,
 	if (!e_calendar_item_get_selection (calitem, &start_date, &end_date))
 		return;
 
-	e_date_edit_set_date (dedit, g_date_get_year (&start_date),
-			      g_date_get_month (&start_date),
-			      g_date_get_day (&start_date));
+	e_date_edit_set_date (
+		dedit, g_date_get_year (&start_date),
+		g_date_get_month (&start_date),
+		g_date_get_day (&start_date));
 }
 
 static void
@@ -1482,8 +1496,9 @@ on_date_popup_today_button_clicked (GtkWidget *button,
 		tmp_tm = *localtime (&t);
 	}
 
-	e_date_edit_set_date (dedit, tmp_tm.tm_year + 1900,
-			      tmp_tm.tm_mon + 1, tmp_tm.tm_mday);
+	e_date_edit_set_date (
+		dedit, tmp_tm.tm_year + 1900,
+		tmp_tm.tm_mon + 1, tmp_tm.tm_mday);
 }
 
 static void
@@ -1728,8 +1743,8 @@ on_date_entry_key_press (GtkWidget *widget,
 	if (event->state & GDK_MOD1_MASK
 	    && (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down
 		|| event->keyval == GDK_KEY_Return)) {
-		g_signal_stop_emission_by_name (widget,
-						"key_press_event");
+		g_signal_stop_emission_by_name (
+			widget, "key_press_event");
 		e_date_edit_show_date_popup (dedit);
 		return TRUE;
 	}
@@ -1769,7 +1784,8 @@ on_time_entry_key_press (GtkWidget *widget,
 	/* Stop the return key from emitting the activate signal, and check
 	 * if we need to emit a "time_changed" signal. */
 	if (event->keyval == GDK_KEY_Return) {
-		g_signal_stop_emission_by_name (widget,
+		g_signal_stop_emission_by_name (
+			widget,
 						"key_press_event");
 		e_date_edit_check_time_changed (dedit);
 		return TRUE;
@@ -1793,7 +1809,8 @@ on_time_entry_key_release (GtkWidget *widget,
                            EDateEdit *dedit)
 {
 	if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down) {
-		g_signal_stop_emission_by_name (widget,
+		g_signal_stop_emission_by_name (
+			widget,
 						"key_release_event");
 		e_date_edit_check_time_changed (dedit);
 		return TRUE;
@@ -1817,11 +1834,12 @@ on_date_entry_focus_out (GtkEntry *entry,
 	e_date_edit_check_date_changed (dedit);
 
 	if (!e_date_edit_date_is_valid (dedit)) {
-		msg_dialog = gtk_message_dialog_new (NULL,
-						    GTK_DIALOG_MODAL,
-						    GTK_MESSAGE_WARNING,
-						    GTK_BUTTONS_OK,
-						    "%s", _("Invalid Date Value"));
+		msg_dialog = gtk_message_dialog_new (
+			NULL,
+			GTK_DIALOG_MODAL,
+			GTK_MESSAGE_WARNING,
+			GTK_BUTTONS_OK,
+			"%s", _("Invalid Date Value"));
 		gtk_dialog_run (GTK_DIALOG (msg_dialog));
 		gtk_widget_destroy (msg_dialog);
 		e_date_edit_get_date (
@@ -1861,11 +1879,12 @@ on_time_entry_focus_out (GtkEntry *entry,
 	e_date_edit_check_time_changed (dedit);
 
 	if (!e_date_edit_time_is_valid (dedit)) {
-		msg_dialog = gtk_message_dialog_new (NULL,
-						  GTK_DIALOG_MODAL,
-						  GTK_MESSAGE_WARNING,
-						  GTK_BUTTONS_OK,
-						  "%s", _("Invalid Time Value"));
+		msg_dialog = gtk_message_dialog_new (
+			NULL,
+			GTK_DIALOG_MODAL,
+			GTK_MESSAGE_WARNING,
+			GTK_BUTTONS_OK,
+			"%s", _("Invalid Time Value"));
 		gtk_dialog_run (GTK_DIALOG (msg_dialog));
 		gtk_widget_destroy (msg_dialog);
 		e_date_edit_set_time (dedit,e_date_edit_get_time (dedit));
@@ -1892,8 +1911,8 @@ add_relation (EDateEdit *dedit,
 
 	set = atk_object_ref_relation_set (a11yWidget);
 	if (set != NULL) {
-		relation = atk_relation_set_get_relation_by_type (set,
-				ATK_RELATION_LABELLED_BY);
+		relation = atk_relation_set_get_relation_by_type (
+			set, ATK_RELATION_LABELLED_BY);
 		/* check whether has a labelled_by relation already */
 		if (relation != NULL)
 			return;
@@ -1903,13 +1922,14 @@ add_relation (EDateEdit *dedit,
 	if (!set)
 		return;
 
-	relation = atk_relation_set_get_relation_by_type (set,
-			ATK_RELATION_LABELLED_BY);
+	relation = atk_relation_set_get_relation_by_type (
+		set, ATK_RELATION_LABELLED_BY);
 	if (relation != NULL) {
 		target = atk_relation_get_target (relation);
 		target_object = g_ptr_array_index (target, 0);
 		if (ATK_IS_OBJECT (target_object)) {
-			atk_object_add_relationship (a11yWidget,
+			atk_object_add_relationship (
+				a11yWidget,
 					ATK_RELATION_LABELLED_BY,
 					ATK_OBJECT (target_object));
 		}
@@ -2127,10 +2147,11 @@ e_date_edit_check_date_changed (EDateEdit *dedit)
 		tmp_tm.tm_mday = 0;
 	}
 
-	date_changed = e_date_edit_set_date_internal (dedit, valid, none,
-						      tmp_tm.tm_year,
-						      tmp_tm.tm_mon,
-						      tmp_tm.tm_mday);
+	date_changed = e_date_edit_set_date_internal (
+		dedit, valid, none,
+		tmp_tm.tm_year,
+		tmp_tm.tm_mon,
+		tmp_tm.tm_mday);
 
 	if (date_changed) {
 		priv->has_been_changed = TRUE;
@@ -2161,9 +2182,10 @@ e_date_edit_check_time_changed (EDateEdit *dedit)
 	else if (!e_date_edit_parse_time (dedit, time_text, &tmp_tm))
 		valid = FALSE;
 
-	time_changed = e_date_edit_set_time_internal (dedit, valid, none,
-						      tmp_tm.tm_hour,
-						      tmp_tm.tm_min);
+	time_changed = e_date_edit_set_time_internal (
+		dedit, valid, none,
+		tmp_tm.tm_hour,
+		tmp_tm.tm_min);
 
 	if (time_changed) {
 		e_date_edit_update_time_entry (dedit);

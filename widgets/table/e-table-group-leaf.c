@@ -69,26 +69,33 @@ etgl_dispose (GObject *object)
 
 	if (etgl->item) {
 		if (etgl->etgl_cursor_change_id != 0)
-			g_signal_handler_disconnect (etgl->item,
-						     etgl->etgl_cursor_change_id);
+			g_signal_handler_disconnect (
+				etgl->item,
+				etgl->etgl_cursor_change_id);
 		if (etgl->etgl_cursor_activated_id != 0)
-			g_signal_handler_disconnect (etgl->item,
-						     etgl->etgl_cursor_activated_id);
+			g_signal_handler_disconnect (
+				etgl->item,
+				etgl->etgl_cursor_activated_id);
 		if (etgl->etgl_double_click_id != 0)
-			g_signal_handler_disconnect (etgl->item,
-						     etgl->etgl_double_click_id);
+			g_signal_handler_disconnect (
+				etgl->item,
+				etgl->etgl_double_click_id);
 		if (etgl->etgl_right_click_id != 0)
-			g_signal_handler_disconnect (etgl->item,
-						     etgl->etgl_right_click_id);
+			g_signal_handler_disconnect (
+				etgl->item,
+				etgl->etgl_right_click_id);
 		if (etgl->etgl_click_id != 0)
-			g_signal_handler_disconnect (etgl->item,
-						     etgl->etgl_click_id);
+			g_signal_handler_disconnect (
+				etgl->item,
+				etgl->etgl_click_id);
 		if (etgl->etgl_key_press_id != 0)
-			g_signal_handler_disconnect (etgl->item,
-						     etgl->etgl_key_press_id);
+			g_signal_handler_disconnect (
+				etgl->item,
+				etgl->etgl_key_press_id);
 		if (etgl->etgl_start_drag_id != 0)
-			g_signal_handler_disconnect (etgl->item,
-						     etgl->etgl_start_drag_id);
+			g_signal_handler_disconnect (
+				etgl->item,
+				etgl->etgl_start_drag_id);
 
 		etgl->etgl_cursor_change_id = 0;
 		etgl->etgl_cursor_activated_id = 0;
@@ -502,17 +509,19 @@ etgl_set_property (GObject *object,
 	case PROP_WIDTH:
 		etgl->minimum_width = g_value_get_double (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
-					       "minimum_width", etgl->minimum_width,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etgl->item),
+				"minimum_width", etgl->minimum_width,
+				NULL);
 		}
 		break;
 	case PROP_LENGTH_THRESHOLD:
 		etgl->length_threshold = g_value_get_int (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
-					       "length_threshold", etgl->length_threshold,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etgl->item),
+				"length_threshold", etgl->length_threshold,
+				NULL);
 		}
 		break;
 	case PROP_SELECTION_MODEL:
@@ -523,63 +532,70 @@ etgl_set_property (GObject *object,
 			g_object_ref (etgl->selection_model);
 		}
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
-					       "selection_model", etgl->selection_model,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etgl->item),
+				"selection_model", etgl->selection_model,
+				NULL);
 		}
 		break;
 
 	case PROP_UNIFORM_ROW_HEIGHT:
 		etgl->uniform_row_height = g_value_get_boolean (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
-					       "uniform_row_height", etgl->uniform_row_height,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etgl->item),
+				"uniform_row_height", etgl->uniform_row_height,
+				NULL);
 		}
 		break;
 
 	case PROP_TABLE_ALTERNATING_ROW_COLORS:
 		etgl->alternating_row_colors = g_value_get_boolean (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
-					       "alternating_row_colors", etgl->alternating_row_colors,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etgl->item),
+				"alternating_row_colors", etgl->alternating_row_colors,
+				NULL);
 		}
 		break;
 
 	case PROP_TABLE_HORIZONTAL_DRAW_GRID:
 		etgl->horizontal_draw_grid = g_value_get_boolean (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
-					       "horizontal_draw_grid", etgl->horizontal_draw_grid,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etgl->item),
+				"horizontal_draw_grid", etgl->horizontal_draw_grid,
+				NULL);
 		}
 		break;
 
 	case PROP_TABLE_VERTICAL_DRAW_GRID:
 		etgl->vertical_draw_grid = g_value_get_boolean (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
-					       "vertical_draw_grid", etgl->vertical_draw_grid,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etgl->item),
+				"vertical_draw_grid", etgl->vertical_draw_grid,
+				NULL);
 		}
 		break;
 
 	case PROP_TABLE_DRAW_FOCUS:
 		etgl->draw_focus = g_value_get_boolean (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
-					       "drawfocus", etgl->draw_focus,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etgl->item),
+				"drawfocus", etgl->draw_focus,
+				NULL);
 		}
 		break;
 
 	case PROP_CURSOR_MODE:
 		etgl->cursor_mode = g_value_get_int (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
-					       "cursor_mode", etgl->cursor_mode,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etgl->item),
+				"cursor_mode", etgl->cursor_mode,
+				NULL);
 		}
 		break;
 	default:

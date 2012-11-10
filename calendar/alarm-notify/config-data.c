@@ -116,14 +116,18 @@ config_data_get_notify_with_tray (void)
 
 static void
 source_written_cb (GObject *source_object,
-		   GAsyncResult *result,
-		   gpointer user_data)
+                   GAsyncResult *result,
+                   gpointer user_data)
 {
 	GError *error = NULL;
 
-	if (!e_source_write_finish (E_SOURCE (source_object), result, &error)) {
-		g_warning ("Failed to write source changes: %s", error ? error->message : "Unknown error");
-		g_clear_error (&error);
+	e_source_write_finish (E_SOURCE (source_object), result, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"Failed to write source changes: %s",
+			error->message);
+		g_error_free (error);
 	}
 }
 

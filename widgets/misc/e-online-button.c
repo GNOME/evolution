@@ -190,7 +190,7 @@ e_online_button_set_online (EOnlineButton *button,
 
 	g_return_if_fail (E_IS_ONLINE_BUTTON (button));
 
-	if ((button->priv->online ? 1 : 0) == (online ? 1 : 0))
+	if (button->priv->online == online)
 		return;
 
 	button->priv->online = online;

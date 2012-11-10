@@ -185,9 +185,10 @@ mail_formatter_create_context (EMailFormatter *formatter)
 
 	if (formatter_class->create_context) {
 		if (!formatter_class->free_context) {
-			g_warning ("%s implements create_context() but "
-				   "does not implement free_context()!",
-				   G_OBJECT_TYPE_NAME (formatter));
+			g_warning (
+				"%s implements create_context() but "
+				"does not implement free_context()!",
+				G_OBJECT_TYPE_NAME (formatter));
 		}
 
 		return formatter_class->create_context (formatter);
@@ -353,36 +354,41 @@ e_mail_formatter_get_property (GObject *object,
 {
 	switch (property_id) {
 		case PROP_BODY_COLOR:
-			g_value_set_boxed (value,
-			e_mail_formatter_get_color (
+			g_value_set_boxed (
+				value,
+				e_mail_formatter_get_color (
 				E_MAIL_FORMATTER (object),
 				E_MAIL_FORMATTER_COLOR_BODY));
 			return;
 
 		case PROP_CITATION_COLOR:
-			g_value_set_boxed (value,
-			e_mail_formatter_get_color (
+			g_value_set_boxed (
+				value,
+				e_mail_formatter_get_color (
 				E_MAIL_FORMATTER (object),
 				E_MAIL_FORMATTER_COLOR_CITATION));
 			return;
 
 		case PROP_CONTENT_COLOR:
-			g_value_set_boxed (value,
-			e_mail_formatter_get_color (
+			g_value_set_boxed (
+				value,
+				e_mail_formatter_get_color (
 				E_MAIL_FORMATTER (object),
 				E_MAIL_FORMATTER_COLOR_CONTENT));
 			return;
 
 		case PROP_FRAME_COLOR:
-			g_value_set_boxed (value,
-			e_mail_formatter_get_color (
+			g_value_set_boxed (
+				value,
+				e_mail_formatter_get_color (
 				E_MAIL_FORMATTER (object),
 				E_MAIL_FORMATTER_COLOR_FRAME));
 			return;
 
 		case PROP_HEADER_COLOR:
-			g_value_set_boxed (value,
-			e_mail_formatter_get_color (
+			g_value_set_boxed (
+				value,
+				e_mail_formatter_get_color (
 				E_MAIL_FORMATTER (object),
 				E_MAIL_FORMATTER_COLOR_HEADER));
 			return;
@@ -396,50 +402,58 @@ e_mail_formatter_get_property (GObject *object,
 
 		case PROP_MARK_CITATIONS:
 			g_value_set_boolean (
-				value, e_mail_formatter_get_mark_citations (
+				value,
+				e_mail_formatter_get_mark_citations (
 				E_MAIL_FORMATTER (object)));
 			return;
 
 		case PROP_ONLY_LOCAL_PHOTOS:
 			g_value_set_boolean (
-				value, e_mail_formatter_get_only_local_photos (
+				value,
+				e_mail_formatter_get_only_local_photos (
 				E_MAIL_FORMATTER (object)));
 			return;
 
 		case PROP_SHOW_SENDER_PHOTO:
 			g_value_set_boolean (
-				value, e_mail_formatter_get_show_sender_photo (
+				value,
+				e_mail_formatter_get_show_sender_photo (
 				E_MAIL_FORMATTER (object)));
 			return;
 
 		case PROP_SHOW_REAL_DATE:
 			g_value_set_boolean (
-				value, e_mail_formatter_get_show_real_date (
+				value,
+				e_mail_formatter_get_show_real_date (
 				E_MAIL_FORMATTER (object)));
 			return;
 
 		case PROP_TEXT_COLOR:
-			g_value_set_boxed (value,
-			e_mail_formatter_get_color (
+			g_value_set_boxed (
+				value,
+				e_mail_formatter_get_color (
 				E_MAIL_FORMATTER (object),
 				E_MAIL_FORMATTER_COLOR_TEXT));
 			return;
 
 		case PROP_ANIMATE_IMAGES:
 			g_value_set_boolean (
-				value, e_mail_formatter_get_animate_images (
+				value,
+				e_mail_formatter_get_animate_images (
 				E_MAIL_FORMATTER (object)));
 			return;
 
 		case PROP_CHARSET:
 			g_value_set_string (
-				value, e_mail_formatter_get_charset (
+				value,
+				e_mail_formatter_get_charset (
 				E_MAIL_FORMATTER (object)));
 			return;
 
 		case PROP_DEFAULT_CHARSET:
 			g_value_set_string (
-				value, e_mail_formatter_get_default_charset (
+				value,
+				e_mail_formatter_get_default_charset (
 				E_MAIL_FORMATTER (object)));
 			return;
 	}
@@ -746,11 +760,12 @@ e_mail_formatter_get_type (void)
 			(GInterfaceInitFunc) e_mail_formatter_extensible_interface_init
 		};
 
-		type = g_type_register_static (G_TYPE_OBJECT,
-				"EMailFormatter", &type_info, 0);
+		type = g_type_register_static (
+			G_TYPE_OBJECT,
+			"EMailFormatter", &type_info, 0);
 
-		g_type_add_interface_static (type,
-			E_TYPE_EXTENSIBLE, &e_extensible_interface_info);
+		g_type_add_interface_static (
+			type, E_TYPE_EXTENSIBLE, &e_extensible_interface_info);
 	}
 
 	return type;
@@ -825,8 +840,8 @@ e_mail_formatter_format (EMailFormatter *formatter,
 	g_return_if_fail (formatter_class->run != NULL);
 
 	simple = g_simple_async_result_new (
-			G_OBJECT (formatter), callback,
-			user_data, e_mail_formatter_format);
+		G_OBJECT (formatter), callback,
+		user_data, e_mail_formatter_format);
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
@@ -935,9 +950,10 @@ e_mail_formatter_format_as (EMailFormatter *formatter,
 
 	ok = FALSE;
 
-	d (printf ("(%d) Formatting for part %s of type %s (found %d formatters)\n",
-		 _call_i, part->id, as_mime_type,
-		 formatters ? g_queue_get_length (formatters) : 0));
+	d (
+		printf ("(%d) Formatting for part %s of type %s (found %d formatters)\n",
+		_call_i, part->id, as_mime_type,
+		formatters ? g_queue_get_length (formatters) : 0));
 
 	if (formatters) {
 		for (iter = formatters->head; iter; iter = iter->next) {
@@ -952,7 +968,9 @@ e_mail_formatter_format_as (EMailFormatter *formatter,
 					extension, formatter, context,
 					part, stream, cancellable);
 
-			d (printf ("\t(%d) trying %s...%s\n", _call_i,
+			d (
+				printf (
+					"\t(%d) trying %s...%s\n", _call_i,
 					G_OBJECT_TYPE_NAME (extension),
 					ok ? "OK" : "failed"));
 
@@ -1206,10 +1224,6 @@ e_mail_formatter_set_mark_citations (EMailFormatter *formatter,
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 
-	if (((E_MAIL_FORMATTER_GET_CLASS (formatter)->text_html_flags
-	    & CAMEL_MIME_FILTER_TOHTML_MARK_CITATION) ? 1 : 0) == (mark_citations ? 1 : 0))
-		return;
-
 	if (mark_citations)
 		E_MAIL_FORMATTER_GET_CLASS (formatter)->text_html_flags |=
 			CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
@@ -1234,7 +1248,7 @@ e_mail_formatter_set_only_local_photos (EMailFormatter *formatter,
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 
-	if ((formatter->priv->only_local_photos ? 1 : 0) == (only_local_photos ? 1 : 0))
+	if (formatter->priv->only_local_photos == only_local_photos)
 		return;
 
 	formatter->priv->only_local_photos = only_local_photos;
@@ -1256,7 +1270,7 @@ e_mail_formatter_set_show_sender_photo (EMailFormatter *formatter,
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 
-	if ((formatter->priv->show_sender_photo ? 1 : 0) == (show_sender_photo ? 1 : 0))
+	if (formatter->priv->show_sender_photo == show_sender_photo)
 		return;
 
 	formatter->priv->show_sender_photo = show_sender_photo;
@@ -1278,7 +1292,7 @@ e_mail_formatter_set_show_real_date (EMailFormatter *formatter,
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 
-	if ((formatter->priv->show_real_date ? 1 : 0) == (show_real_date ? 1 : 0))
+	if (formatter->priv->show_real_date == show_real_date)
 		return;
 
 	formatter->priv->show_real_date = show_real_date;
@@ -1300,7 +1314,7 @@ e_mail_formatter_set_animate_images (EMailFormatter *formatter,
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 
-	if ((formatter->priv->animate_images ? 1 : 0) == (animate_images ? 1 : 0))
+	if (formatter->priv->animate_images == animate_images)
 		return;
 
 	formatter->priv->animate_images = animate_images;

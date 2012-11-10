@@ -89,7 +89,7 @@ check_children (ETreeMemory *memory,
 {
 	ETreeMemoryPath *path = node;
 	if (!path->children_computed) {
-		g_signal_emit (G_OBJECT (memory), signals[FILL_IN_CHILDREN], 0, node);
+		g_signal_emit (memory, signals[FILL_IN_CHILDREN], 0, node);
 		path->children_computed = TRUE;
 	}
 }
@@ -101,7 +101,7 @@ e_tree_memory_path_depth (ETreeMemoryPath *path)
 
 	g_return_val_if_fail (path != NULL, -1);
 
-	for ( path = path->parent; path; path = path->parent)
+	for (path = path->parent; path; path = path->parent)
 		depth++;
 	return depth;
 }
@@ -392,14 +392,15 @@ e_tree_memory_class_init (ETreeMemoryClass *class)
 
 	class->fill_in_children = NULL;
 
-	signals[FILL_IN_CHILDREN] =
-		g_signal_new ("fill_in_children",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETreeMemoryClass, fill_in_children),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[FILL_IN_CHILDREN] = g_signal_new (
+		"fill_in_children",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETreeMemoryClass, fill_in_children),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 }
 
 static void

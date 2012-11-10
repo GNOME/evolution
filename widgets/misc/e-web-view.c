@@ -480,7 +480,8 @@ web_view_update_document_highlights (EWebView *web_view)
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (frag), WEBKIT_DOM_NODE (span), NULL);
 
-		replace_text (WEBKIT_DOM_NODE (document),
+		replace_text (
+			WEBKIT_DOM_NODE (document),
 			iter->data, WEBKIT_DOM_NODE (frag));
 	}
 }
@@ -1468,10 +1469,10 @@ web_view_selectable_select_all (ESelectable *selectable)
 
 static gboolean
 web_view_drag_motion (GtkWidget *widget,
-		      GdkDragContext *context,
-		      gint x,
-		      gint y,
-		      guint time_)
+                      GdkDragContext *context,
+                      gint x,
+                      gint y,
+                      guint time_)
 {
 	return FALSE;
 }
@@ -2132,7 +2133,8 @@ e_web_view_set_enable_frame_flattening (EWebView *web_view,
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (web_view));
 	g_return_if_fail (settings != NULL);
 
-	g_object_set (G_OBJECT (settings), "enable-frame-flattening",
+	g_object_set (
+		G_OBJECT (settings), "enable-frame-flattening",
 		enable_frame_flattening, NULL);
 }
 
@@ -2848,7 +2850,8 @@ e_web_view_update_fonts (EWebView *web_view)
 	}
 
 	stylesheet = g_string_new ("");
-	g_string_append_printf (stylesheet,
+	g_string_append_printf (
+		stylesheet,
 		"body {\n"
 		"  font-family: '%s';\n"
 		"  font-size: %dpt;\n"
@@ -2880,7 +2883,8 @@ e_web_view_update_fonts (EWebView *web_view)
 
 	g_string_append (stylesheet, "}\n");
 
-	g_string_append_printf (stylesheet,
+	g_string_append_printf (
+		stylesheet,
 		"pre,code,.pre {\n"
 		"  font-family: '%s';\n"
 		"  font-size: %dpt;\n"
@@ -2893,7 +2897,8 @@ e_web_view_update_fonts (EWebView *web_view)
 		styles[pango_font_description_get_style (ms)]);
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (web_view));
-	gtk_style_context_get_style (context,
+	gtk_style_context_get_style (
+		context,
 		"link-color", &link,
 		"visited-link-color", &visited,
 		NULL);
@@ -2908,7 +2913,8 @@ e_web_view_update_fonts (EWebView *web_view)
 		visited->red = G_MAXINT16;
 	}
 
-	g_string_append_printf (stylesheet,
+	g_string_append_printf (
+		stylesheet,
 		"a {\n"
 		"  color: #%06x;\n"
 		"}\n"
@@ -2929,7 +2935,8 @@ e_web_view_update_fonts (EWebView *web_view)
 	g_free (base64);
 
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (web_view));
-	g_object_set (G_OBJECT (settings),
+	g_object_set (
+		G_OBJECT (settings),
 		"default-font-size", pango_font_description_get_size (vw) / PANGO_SCALE,
 		"default-font-family", pango_font_description_get_family (vw),
 		"monospace-font-family", pango_font_description_get_family (ms),

@@ -85,20 +85,19 @@ empe_inlinepgp_encrypted_parse (EMailParserExtension *extension,
 	valid = camel_cipher_context_decrypt_sync (
 		cipher, part, opart, cancellable, &local_error);
 
-	if (!valid) {
+	if (local_error != NULL) {
 		parts = e_mail_parser_error (
-				parser, cancellable,
-				_("Could not parse PGP message: %s"),
-				local_error->message ?
-					local_error->message :
-					_("Unknown error"));
-		g_clear_error (&local_error);
+			parser, cancellable,
+			_("Could not parse PGP message: %s"),
+			local_error->message);
+		g_error_free (local_error);
 
-		parts = g_slist_concat (parts,
-				e_mail_parser_parse_part_as (parser,
-					part, part_id,
-					"application/vnd.evolution.source",
-					cancellable));
+		parts = g_slist_concat (
+			parts,
+			e_mail_parser_parse_part_as (parser,
+				part, part_id,
+				"application/vnd.evolution.source",
+				cancellable));
 
 		g_object_unref (cipher);
 		g_object_unref (opart);
@@ -136,7 +135,8 @@ empe_inlinepgp_encrypted_parse (EMailParserExtension *extension,
 		if (!mail_part)
 			continue;
 
-		e_mail_part_update_validity (mail_part, valid,
+		e_mail_part_update_validity (
+			mail_part, valid,
 			E_MAIL_PART_VALIDITY_ENCRYPTED |
 			E_MAIL_PART_VALIDITY_PGP);
 	}
@@ -156,7 +156,8 @@ empe_inlinepgp_encrypted_parse (EMailParserExtension *extension,
 		if (button && button->data) {
 			mail_part = button->data;
 
-			e_mail_part_update_validity (mail_part, valid,
+			e_mail_part_update_validity (
+				mail_part, valid,
 				E_MAIL_PART_VALIDITY_ENCRYPTED |
 				E_MAIL_PART_VALIDITY_PGP);
 		}

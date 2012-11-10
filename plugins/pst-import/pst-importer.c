@@ -1403,8 +1403,9 @@ pst_process_email (PstImporter *m,
 	} else if (item->body.str) {
 		camel_mime_part_set_content (CAMEL_MIME_PART (msg), item->body.str, strlen (item->body.str), "text/plain");
 	} else {
-		g_warning ("Email without body. Subject:%s",
-				(item->subject.str ? item->subject.str : "(empty)"));
+		g_warning (
+			"Email without body. Subject:%s",
+			(item->subject.str ? item->subject.str : "(empty)"));
 		camel_mime_part_set_content (CAMEL_MIME_PART (msg), "\n", 1, "text/plain");
 	}
 
@@ -1510,7 +1511,7 @@ contact_set_date (EContact *contact,
                   EContactField id,
                   FILETIME *date)
 {
-	if (date && (date->dwLowDateTime || date->dwHighDateTime) ) {
+	if (date && (date->dwLowDateTime || date->dwHighDateTime)) {
 		time_t t1;
 		struct tm tm;
 		EContactDate *bday;
@@ -1580,17 +1581,20 @@ pst_process_contact (PstImporter *m,
 	contact_set_string (ec, E_CONTACT_ORG_UNIT, c->department.str);
 	contact_set_string (ec, E_CONTACT_TITLE, c->job_title.str);
 
-	contact_set_address (ec,E_CONTACT_ADDRESS_WORK,
-			    c->business_address.str, c->business_city.str, c->business_country.str,
-			    c->business_po_box.str, c->business_postal_code.str, c->business_state.str, c->business_street.str);
+	contact_set_address (
+		ec,E_CONTACT_ADDRESS_WORK,
+		c->business_address.str, c->business_city.str, c->business_country.str,
+		c->business_po_box.str, c->business_postal_code.str, c->business_state.str, c->business_street.str);
 
-	contact_set_address (ec,E_CONTACT_ADDRESS_HOME,
-			    c->home_address.str, c->home_city.str, c->home_country.str,
-			    c->home_po_box.str, c->home_postal_code.str, c->home_state.str, c->home_street.str);
+	contact_set_address (
+		ec,E_CONTACT_ADDRESS_HOME,
+		c->home_address.str, c->home_city.str, c->home_country.str,
+		c->home_po_box.str, c->home_postal_code.str, c->home_state.str, c->home_street.str);
 
-	contact_set_address (ec,E_CONTACT_ADDRESS_OTHER,
-			    c->other_address.str, c->other_city.str, c->other_country.str,
-			    c->other_po_box.str, c->other_postal_code.str, c->other_state.str, c->other_street.str);
+	contact_set_address (
+		ec,E_CONTACT_ADDRESS_OTHER,
+		c->other_address.str, c->other_city.str, c->other_country.str,
+		c->other_po_box.str, c->other_postal_code.str, c->other_state.str, c->other_street.str);
 
 	contact_set_string (ec, E_CONTACT_PHONE_ASSISTANT, c->assistant_phone.str);
 	contact_set_string (ec, E_CONTACT_PHONE_BUSINESS_FAX, c->business_fax.str);
@@ -1699,7 +1703,7 @@ struct icaltimetype
 get_ical_date (FILETIME *date,
                gboolean is_date)
 {
-	if (date && (date->dwLowDateTime || date->dwHighDateTime) ) {
+	if (date && (date->dwLowDateTime || date->dwHighDateTime)) {
 		time_t t;
 
 		t = pst_fileTimeToUnixTime (date);

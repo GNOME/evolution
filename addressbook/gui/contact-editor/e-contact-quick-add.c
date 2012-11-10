@@ -492,34 +492,40 @@ build_quick_add_dialog (QuickAdd *qa)
 	gtk_label_set_mnemonic_widget ((GtkLabel *) label, qa->name_entry);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
-	gtk_table_attach (table, label,
-			  0, 1, 0, 1,
-			  GTK_FILL, 0, xpad, ypad);
-	gtk_table_attach (table, qa->name_entry,
-			  1, 2, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
+	gtk_table_attach (
+		table, label,
+		0, 1, 0, 1,
+		GTK_FILL, 0, xpad, ypad);
+	gtk_table_attach (
+		table, qa->name_entry,
+		1, 2, 0, 1,
+		GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
 
 	label = gtk_label_new_with_mnemonic (_("E_mail"));
 	gtk_label_set_mnemonic_widget ((GtkLabel *) label, qa->email_entry);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
-	gtk_table_attach (table, label,
-			  0, 1, 1, 2,
-			  GTK_FILL, 0, xpad, ypad);
-	gtk_table_attach (table, qa->email_entry,
-			  1, 2, 1, 2,
-			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
+	gtk_table_attach (
+		table, label,
+		0, 1, 1, 2,
+		GTK_FILL, 0, xpad, ypad);
+	gtk_table_attach (
+		table, qa->email_entry,
+		1, 2, 1, 2,
+		GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
 
 	label = gtk_label_new_with_mnemonic (_("_Select Address Book"));
 	gtk_label_set_mnemonic_widget ((GtkLabel *) label, qa->combo_box);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
-	gtk_table_attach (table, label,
-			  0, 1, 2, 3,
-			  GTK_FILL, 0, xpad, ypad);
-	gtk_table_attach (table, qa->combo_box,
-			  1, 2, 2, 3,
-			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
+	gtk_table_attach (
+		table, label,
+		0, 1, 2, 3,
+		GTK_FILL, 0, xpad, ypad);
+	gtk_table_attach (
+		table, qa->combo_box,
+		1, 2, 2, 3,
+		GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
 
 	gtk_container_set_border_width (GTK_CONTAINER (table), 12);
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));

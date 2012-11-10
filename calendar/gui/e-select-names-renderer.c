@@ -79,7 +79,7 @@ e_select_names_renderer_editing_done (GtkCellEditable *editable,
 	names = e_select_names_editable_get_names (E_SELECT_NAMES_EDITABLE (editable));
 
 	/* remove empty addresses */
-	for (a = addresses, n = names; a && n; ) {
+	for (a = addresses, n = names; a && n;) {
 		gchar *addr = a->data, *nm = n->data;
 
 		if ((!addr || !*addr) && (!nm || !*nm)) {

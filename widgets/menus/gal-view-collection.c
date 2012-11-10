@@ -63,9 +63,10 @@ gal_view_collection_display_view (GalViewCollection *collection,
 	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
 	g_return_if_fail (GAL_IS_VIEW (view));
 
-	g_signal_emit (collection,
-		       gal_view_collection_signals[DISPLAY_VIEW], 0,
-		       view);
+	g_signal_emit (
+		collection,
+		gal_view_collection_signals[DISPLAY_VIEW], 0,
+		view);
 }
 
 static void
@@ -73,8 +74,9 @@ gal_view_collection_changed (GalViewCollection *collection)
 {
 	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
 
-	g_signal_emit (collection,
-		       gal_view_collection_signals[CHANGED], 0);
+	g_signal_emit (
+		collection,
+		gal_view_collection_signals[CHANGED], 0);
 }
 
 static void
@@ -83,8 +85,9 @@ gal_view_collection_item_free (GalViewCollectionItem *item)
 	g_free (item->id);
 	if (item->view) {
 		if (item->view_changed_id)
-			g_signal_handler_disconnect (item->view,
-						     item->view_changed_id);
+			g_signal_handler_disconnect (
+				item->view,
+				item->view_changed_id);
 		g_object_unref (item->view);
 	}
 	g_free (item);
@@ -196,23 +199,24 @@ gal_view_collection_class_init (GalViewCollectionClass *class)
 
 	object_class->dispose = gal_view_collection_dispose;
 
-	gal_view_collection_signals[DISPLAY_VIEW] =
-		g_signal_new ("display_view",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GalViewCollectionClass, display_view),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1, GAL_TYPE_VIEW);
+	gal_view_collection_signals[DISPLAY_VIEW] = g_signal_new (
+		"display_view",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GalViewCollectionClass, display_view),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		GAL_TYPE_VIEW);
 
-	gal_view_collection_signals[CHANGED] =
-		g_signal_new ("changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GalViewCollectionClass, changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	gal_view_collection_signals[CHANGED] = g_signal_new (
+		"changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GalViewCollectionClass, changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	class->display_view = NULL;
 	class->changed      = NULL;
@@ -310,9 +314,9 @@ view_changed (GalView *view,
 	item->changed = TRUE;
 	item->ever_changed = TRUE;
 
-	g_signal_handler_block (G_OBJECT (item->view), item->view_changed_id);
+	g_signal_handler_block (item->view, item->view_changed_id);
 	gal_view_collection_changed (item->collection);
-	g_signal_handler_unblock (G_OBJECT (item->view), item->view_changed_id);
+	g_signal_handler_unblock (item->view, item->view_changed_id);
 }
 
 /* Use factory list to load a GalView file. */
@@ -788,8 +792,9 @@ gal_view_collection_set_nth_view (GalViewCollection *collection,
 	gal_view_set_title (view, item->title);
 	g_object_ref (view);
 	if (item->view) {
-		g_signal_handler_disconnect (item->view,
-					     item->view_changed_id);
+		g_signal_handler_disconnect (
+			item->view,
+			item->view_changed_id);
 		g_object_unref (item->view);
 	}
 	item->view = view;

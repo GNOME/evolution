@@ -359,7 +359,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 				if (!success) {
 					/* re-enter known UIDs, thus they are not
-					   re-fetched next time */
+					 * re-fetched next time */
 					for (i = 0; i < cache_uids->len; i++) {
 						camel_uid_cache_save_uid (cache, cache_uids->pdata[i]);
 					}
@@ -731,16 +731,14 @@ mail_send_message (struct _send_queue_msg *m,
 			folder = e_mail_session_uri_to_folder_sync (
 				m->session, sent_folder_uri, 0,
 				cancellable, &local_error);
-			if (folder == NULL) {
+
+			if (local_error != NULL) {
 				g_string_append_printf (
 					err, _("Failed to append to %s: %s\n"
 					"Appending to local 'Sent' folder instead."),
 					sent_folder_uri,
-					local_error ?
-						local_error->message :
-						_("Unknown error"));
-				if (local_error)
-					g_clear_error (&local_error);
+					local_error->message);
+				g_clear_error (&local_error);
 			}
 		}
 

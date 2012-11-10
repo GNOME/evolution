@@ -391,7 +391,7 @@ ep_load (const gchar *filename,
 			plugin_load_level = NULL;
 			plugin_load_level = e_plugin_xml_prop (root, "load_level");
 			if (plugin_load_level) {
-				if ((atoi (plugin_load_level) == load_level) ) {
+				if ((atoi (plugin_load_level) == load_level)) {
 					ep = ep_load_plugin (root, pdoc);
 
 					if (ep && load_level == 1)

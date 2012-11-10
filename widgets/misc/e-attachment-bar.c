@@ -126,9 +126,11 @@ attachment_bar_set_store (EAttachmentBar *bar,
 
 	bar->priv->model = g_object_ref (store);
 
-	gtk_icon_view_set_model (GTK_ICON_VIEW (bar->priv->icon_view),
+	gtk_icon_view_set_model (
+		GTK_ICON_VIEW (bar->priv->icon_view),
 		bar->priv->model);
-	gtk_tree_view_set_model (GTK_TREE_VIEW (bar->priv->tree_view),
+	gtk_tree_view_set_model (
+		GTK_TREE_VIEW (bar->priv->tree_view),
 		bar->priv->model);
 
 	g_signal_connect_object (
@@ -759,7 +761,7 @@ e_attachment_bar_set_expanded (EAttachmentBar *bar,
 {
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
 
-	if ((bar->priv->expanded ? 1 : 0) == (expanded ? 1 : 0))
+	if (bar->priv->expanded == expanded)
 		return;
 
 	bar->priv->expanded = expanded;

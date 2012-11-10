@@ -201,7 +201,8 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 
 		p = iter->data;
 
-		uri = e_mail_part_build_uri (context->folder, context->message_uid,
+		uri = e_mail_part_build_uri (
+			context->folder, context->message_uid,
 			"part_id", G_TYPE_STRING, p->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			"headers_collapsable", G_TYPE_INT, 0,

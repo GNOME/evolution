@@ -36,8 +36,9 @@ detach_table (GalViewEtable *view)
 	if (view->table == NULL)
 		return;
 	if (view->table_state_changed_id) {
-		g_signal_handler_disconnect (view->table,
-					     view->table_state_changed_id);
+		g_signal_handler_disconnect (
+			view->table,
+			view->table_state_changed_id);
 		view->table_state_changed_id = 0;
 	}
 	g_object_unref (view->table);
@@ -50,8 +51,9 @@ detach_tree (GalViewEtable *view)
 	if (view->tree == NULL)
 		return;
 	if (view->tree_state_changed_id) {
-		g_signal_handler_disconnect (view->tree,
-					     view->tree_state_changed_id);
+		g_signal_handler_disconnect (
+			view->tree,
+			view->tree_state_changed_id);
 		view->tree_state_changed_id = 0;
 	}
 	g_object_unref (view->tree);
@@ -65,9 +67,10 @@ config_changed (ETableConfig *config,
 	ETableState *state;
 	if (view->state)
 		g_object_unref (view->state);
-	g_object_get (config,
-		      "state", &state,
-		      NULL);
+	g_object_get (
+		config,
+		"state", &state,
+		NULL);
 	view->state = e_table_state_duplicate (state);
 	g_object_unref (state);
 
@@ -81,10 +84,11 @@ gal_view_etable_edit (GalView *view,
 	GalViewEtable *etable_view = GAL_VIEW_ETABLE (view);
 	ETableConfig *config;
 
-	config = e_table_config_new (etable_view->title,
-				    etable_view->spec,
-				    etable_view->state,
-				    parent);
+	config = e_table_config_new (
+		etable_view->title,
+		etable_view->spec,
+		etable_view->state,
+		parent);
 
 	g_signal_connect (
 		config, "changed",

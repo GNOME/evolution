@@ -204,7 +204,7 @@ static void
 mail_view_set_preview_visible (EMailView *view,
                                gboolean preview_visible)
 {
-	if ((view->priv->preview_visible ? 1 : 0) == (preview_visible ? 1 : 0))
+	if (view->priv->preview_visible == preview_visible)
 		return;
 
 	view->priv->preview_visible = preview_visible;
@@ -222,7 +222,7 @@ static void
 mail_view_set_show_deleted (EMailView *view,
                             gboolean show_deleted)
 {
-	if ((view->priv->show_deleted ? 1 : 0) == (show_deleted ? 1 : 0))
+	if (view->priv->show_deleted == show_deleted)
 		return;
 
 	view->priv->show_deleted = show_deleted;

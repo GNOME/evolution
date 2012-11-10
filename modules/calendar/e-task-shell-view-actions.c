@@ -1158,7 +1158,7 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 		ACTION (TASK_VIEW_VERTICAL), "current-value",
 		G_SETTINGS_BIND_DEFAULT);
 
-	g_object_unref (G_OBJECT (settings));
+	g_object_unref (settings);
 
 	/* Fine tuning. */
 

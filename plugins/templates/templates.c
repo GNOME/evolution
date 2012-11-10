@@ -168,7 +168,8 @@ commit_changes (UIData *ui)
 		gchar *keyword, *value;
 		gchar *key;
 
-		gtk_tree_model_get (model, &iter,
+		gtk_tree_model_get (
+			model, &iter,
 			CLUE_KEYWORD_COLUMN, &keyword,
 			CLUE_VALUE_COLUMN, &value,
 			-1);
@@ -263,8 +264,9 @@ key_cell_edited_callback (GtkCellRendererText *cell,
 	gtk_tree_model_get_iter_from_string (model, &iter, path_string);
 
 	gtk_tree_model_get (model, &iter, CLUE_VALUE_COLUMN, &value, -1);
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-				    CLUE_KEYWORD_COLUMN, new_text, CLUE_VALUE_COLUMN, value, -1);
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
+		CLUE_KEYWORD_COLUMN, new_text, CLUE_VALUE_COLUMN, value, -1);
 	g_free (value);
 
 	commit_changes (ui);
@@ -286,8 +288,9 @@ value_cell_edited_callback (GtkCellRendererText *cell,
 
 	gtk_tree_model_get (model, &iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
 
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-				    CLUE_KEYWORD_COLUMN, keyword, CLUE_VALUE_COLUMN, new_text, -1);
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
+		CLUE_KEYWORD_COLUMN, keyword, CLUE_VALUE_COLUMN, new_text, -1);
 	g_free (keyword);
 
 	commit_changes (ui);
@@ -307,13 +310,16 @@ clue_add_clicked (GtkButton *button,
 	gtk_tree_model_foreach (model, (GtkTreeModelForeachFunc) clue_foreach_check_isempty, ui);
 
 	/* Disconnect from signal so that we can create an empty row */
-	g_signal_handlers_disconnect_matched (G_OBJECT (model), G_SIGNAL_MATCH_FUNC, 0, 0, NULL, clue_check_isempty, ui);
+	g_signal_handlers_disconnect_matched (
+		model, G_SIGNAL_MATCH_FUNC,
+		0, 0, NULL, clue_check_isempty, ui);
 
 	/* TODO : Trim and check for blank strings */
 	new_clue = g_strdup ("");
 	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-				    CLUE_KEYWORD_COLUMN, new_clue, CLUE_VALUE_COLUMN, new_clue, -1);
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
+		CLUE_KEYWORD_COLUMN, new_clue, CLUE_VALUE_COLUMN, new_clue, -1);
 
 	focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (ui->treeview), CLUE_KEYWORD_COLUMN);
 	path = gtk_tree_model_get_path (model, &iter);
@@ -466,16 +472,18 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_tree_view_set_model (GTK_TREE_VIEW (ui->treeview), GTK_TREE_MODEL (ui->store));
 
 	renderer_key = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Keywords"),
-			renderer_key, "text", CLUE_KEYWORD_COLUMN, NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (ui->treeview), -1, _("Keywords"),
+		renderer_key, "text", CLUE_KEYWORD_COLUMN, NULL);
 	g_object_set (renderer_key, "editable", TRUE, NULL);
 	g_signal_connect (
 		renderer_key, "edited",
 		(GCallback) key_cell_edited_callback, ui);
 
 	renderer_value = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Values"),
-			renderer_value, "text", CLUE_VALUE_COLUMN, NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (ui->treeview), -1, _("Values"),
+		renderer_value, "text", CLUE_VALUE_COLUMN, NULL);
 	g_object_set (renderer_value, "editable", TRUE, NULL);
 	g_signal_connect (
 		renderer_value, "edited",
@@ -732,11 +740,13 @@ fill_template (CamelMimeMessage *message,
 		g_object_unref (stream);
 
 		if (template_html && !message_html) {
-			gchar *html = camel_text_to_html (message_body->str, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
-									     CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
-									     CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-									     CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
-									     CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+			gchar *html = camel_text_to_html (
+				message_body->str,
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+				CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
 			g_string_assign (message_body, html);
 			g_free (html);
 		} else if (!template_html && message_html) {
@@ -882,30 +892,37 @@ create_new_message (CamelFolder *folder,
 					m_header = m_header->next;
 				}
 				/* Now replace $ORIG[subject] variable, handling possible base64 encryption */
-				replace_template_variable (subject, "subject",
+				replace_template_variable (
+					subject, "subject",
 					camel_mime_message_get_subject (message));
 				header->value = g_strdup (subject->str);
 				g_string_free (subject, TRUE);
 			}
 
-			camel_medium_add_header (CAMEL_MEDIUM (new),
-						 header->name,
-						 header->value);
+			camel_medium_add_header (
+				CAMEL_MEDIUM (new),
+				header->name,
+				header->value);
 		}
 
 		header = header->next;
 	}
 
 	/* Set the To: field to the same To: field of the message we are replying to. */
-	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_TO,
-			camel_mime_message_get_from (message));
+	camel_mime_message_set_recipients (
+		new, CAMEL_RECIPIENT_TYPE_TO,
+		camel_mime_message_get_from (message));
 
 	/* Copy the CC and BCC from the template.*/
-	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_CC,
-			camel_mime_message_get_recipients (template, CAMEL_RECIPIENT_TYPE_CC));
+	camel_mime_message_set_recipients (
+		new, CAMEL_RECIPIENT_TYPE_CC,
+		camel_mime_message_get_recipients (
+			template, CAMEL_RECIPIENT_TYPE_CC));
 
-	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_BCC,
-			camel_mime_message_get_recipients (template, CAMEL_RECIPIENT_TYPE_BCC));
+	camel_mime_message_set_recipients (
+		new, CAMEL_RECIPIENT_TYPE_BCC,
+		camel_mime_message_get_recipients (
+			template, CAMEL_RECIPIENT_TYPE_BCC));
 
 	/* Create the composer */
 	em_utils_edit_message (shell, folder, new, message_uid);

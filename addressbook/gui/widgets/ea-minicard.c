@@ -97,18 +97,21 @@ ea_minicard_get_type (void)
 		 * we are run-time deriving from (GailWidget, in this case)
 		 */
 
-		factory = atk_registry_get_factory (atk_get_default_registry (),
-						    GNOME_TYPE_CANVAS_GROUP);
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (),
+			GNOME_TYPE_CANVAS_GROUP);
 		derived_atk_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 
 		tinfo.class_size = query.class_size;
 		tinfo.instance_size = query.instance_size;
 
-		type = g_type_register_static ( derived_atk_type,
-						"EaMinicard", &tinfo, 0);
-		g_type_add_interface_static (type, ATK_TYPE_ACTION,
-					     &atk_action_info);
+		type = g_type_register_static (
+			derived_atk_type,
+			"EaMinicard", &tinfo, 0);
+		g_type_add_interface_static (
+			type, ATK_TYPE_ACTION,
+			&atk_action_info);
 	}
 
 	return type;
@@ -145,8 +148,9 @@ ea_minicard_get_name (AtkObject *accessible)
 	g_return_val_if_fail (EA_IS_MINICARD (accessible), NULL);
 	memset (name, '\0', BUFFERSIZE);
 
-	card = E_MINICARD (atk_gobject_accessible_get_object
-			 (ATK_GOBJECT_ACCESSIBLE (accessible)));
+	card = E_MINICARD (
+		atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (accessible)));
 	if (!card)
 		return NULL;
 
@@ -290,7 +294,7 @@ static const gchar *
 atk_action_interface_get_name (AtkAction *iface,
                                gint i)
 {
-	if ( i >= G_N_ELEMENTS (action_name) || i < 0)
+	if (i >= G_N_ELEMENTS (action_name) || i < 0)
 		return NULL;
 
 	return action_name[i];

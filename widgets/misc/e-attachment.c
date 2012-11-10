@@ -1916,7 +1916,8 @@ e_attachment_load_async (EAttachment *attachment,
 	} else if (mime_part != NULL) {
 		g_object_set_data (G_OBJECT (load_context->simple), ATTACHMENT_LOAD_CONTEXT, load_context);
 
-		g_simple_async_result_run_in_thread (load_context->simple,
+		g_simple_async_result_run_in_thread (
+			load_context->simple,
 			attachment_load_from_mime_part_thread,
 			G_PRIORITY_DEFAULT,
 			cancellable);

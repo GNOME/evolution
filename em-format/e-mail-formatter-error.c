@@ -104,7 +104,8 @@ emfe_error_format (EMailFormatterExtension *extension,
 	camel_stream_flush (filtered_stream, cancellable, NULL);
 	g_object_unref (filtered_stream);
 
-	camel_stream_write_string (stream,
+	camel_stream_write_string (
+		stream,
 		"</td>\n"
 		"</tr>\n"
 		"</table>\n"

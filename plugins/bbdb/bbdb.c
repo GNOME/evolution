@@ -358,7 +358,7 @@ bbdb_do_it (EBookClient *client,
 		g_error_free (error);
 	}
 
-	g_object_unref (G_OBJECT (contact));
+	g_object_unref (contact);
 	g_free (uid);
 }
 
@@ -380,7 +380,7 @@ bbdb_create_book_client (gint type)
 	if (type == AUTOMATIC_CONTACTS_ADDRESSBOOK)
 		enable = g_settings_get_boolean (settings, CONF_KEY_ENABLE);
 	if (!enable) {
-		g_object_unref (G_OBJECT (settings));
+		g_object_unref (settings);
 		return NULL;
 	}
 
@@ -391,7 +391,7 @@ bbdb_create_book_client (gint type)
 	else
 		uid = g_settings_get_string (
 			settings, CONF_KEY_WHICH_ADDRESSBOOK);
-	g_object_unref (G_OBJECT (settings));
+	g_object_unref (settings);
 
 	shell = e_shell_get_default ();
 	registry = e_shell_get_registry (shell);
@@ -425,11 +425,14 @@ bbdb_open_book_client (EBookClient *client)
 	if (!client)
 		return FALSE;
 
-	if (!e_client_open_sync (E_CLIENT (client), FALSE, NULL, &error)) {
-		g_warning ("bbdb: failed to open addressbook: %s", error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
+	e_client_open_sync (E_CLIENT (client), FALSE, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"bbdb: failed to open addressbook: %s",
+			error->message);
 		g_object_unref (client);
+		g_error_free (error);
 		return FALSE;
 	}
 
@@ -445,7 +448,7 @@ bbdb_check_gaim_enabled (void)
 	settings = g_settings_new (CONF_SCHEMA);
 	gaim_enabled = g_settings_get_boolean (settings, CONF_KEY_ENABLE_GAIM);
 
-	g_object_unref (G_OBJECT (settings));
+	g_object_unref (settings);
 
 	return gaim_enabled;
 }

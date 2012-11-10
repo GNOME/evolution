@@ -509,13 +509,15 @@ do_play_sound (gboolean beep,
 	if (!beep) {
 #ifdef HAVE_CANBERRA
 		if (!use_theme && file && *file)
-			ca_context_play (mailnotification, 0,
-			CA_PROP_MEDIA_FILENAME, file,
-			NULL);
+			ca_context_play (
+				mailnotification, 0,
+				CA_PROP_MEDIA_FILENAME, file,
+				NULL);
 		else
-			ca_context_play (mailnotification, 0,
-			CA_PROP_EVENT_ID,"message-new-email",
-			NULL);
+			ca_context_play (
+				mailnotification, 0,
+				CA_PROP_EVENT_ID,"message-new-email",
+				NULL);
 #endif
 	} else
 		gdk_beep ();

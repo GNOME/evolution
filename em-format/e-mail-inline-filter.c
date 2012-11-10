@@ -426,7 +426,7 @@ e_mail_inline_filter_init (EMailInlineFilter *emif)
 EMailInlineFilter *
 e_mail_inline_filter_new (CamelTransferEncoding base_encoding,
                           CamelContentType *base_type,
-			  const gchar *filename)
+                          const gchar *filename)
 {
 	EMailInlineFilter *emif;
 

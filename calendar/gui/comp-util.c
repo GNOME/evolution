@@ -157,12 +157,14 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 			goto out;
 
 		if (start_datetime.value) {
-			offset1 = icaltimezone_get_utc_offset (start_zone,
-							       start_datetime.value,
-							       NULL);
-			offset2 = icaltimezone_get_utc_offset (zone,
-							       start_datetime.value,
-							       NULL);
+			offset1 = icaltimezone_get_utc_offset (
+				start_zone,
+				start_datetime.value,
+				NULL);
+			offset2 = icaltimezone_get_utc_offset (
+				zone,
+				start_datetime.value,
+				NULL);
 			if (offset1 != offset2)
 				goto out;
 		}
@@ -172,12 +174,14 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 			goto out;
 
 		if (end_datetime.value) {
-			offset1 = icaltimezone_get_utc_offset (end_zone,
-							       end_datetime.value,
-							       NULL);
-			offset2 = icaltimezone_get_utc_offset (zone,
-							       end_datetime.value,
-							       NULL);
+			offset1 = icaltimezone_get_utc_offset (
+				end_zone,
+				end_datetime.value,
+				NULL);
+			offset2 = icaltimezone_get_utc_offset (
+				zone,
+				end_datetime.value,
+				NULL);
 			if (offset1 != offset2)
 				goto out;
 		}

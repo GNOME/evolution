@@ -87,9 +87,9 @@ gal_a11y_e_cell_dispose (GObject *object)
 
 #if 0
 	if (a11y->item)
-		g_object_unref (G_OBJECT (a11y->item));  /*, unref_item, a11y); */
+		g_object_unref (a11y->item);  /*, unref_item, a11y); */
 	if (a11y->cell_view)
-		g_object_unref (G_OBJECT (a11y->cell_view)); /*, unref_cell, a11y); */
+		g_object_unref (a11y->cell_view); /*, unref_cell, a11y); */
 	if (a11y->parent)
 		g_object_unref (a11y->parent);
 #endif
@@ -174,17 +174,20 @@ gal_a11y_e_cell_get_extents (AtkComponent *component,
 
 	tableOrTree = gtk_widget_get_parent (GTK_WIDGET (a11y->item->parent.canvas));
 	if (E_IS_TREE (tableOrTree)) {
-		e_tree_get_cell_geometry (E_TREE (tableOrTree),
-					row, col, &xval, &yval,
-					width, height);
+		e_tree_get_cell_geometry (
+			E_TREE (tableOrTree),
+			row, col, &xval, &yval,
+			width, height);
 	} else {
-		e_table_get_cell_geometry (E_TABLE (tableOrTree),
-					row, col, &xval, &yval,
-					width, height);
+		e_table_get_cell_geometry (
+			E_TABLE (tableOrTree),
+			row, col, &xval, &yval,
+			width, height);
 	}
 
-	atk_component_get_position (ATK_COMPONENT (a11y->parent),
-				    x, y, coord_type);
+	atk_component_get_position (
+		ATK_COMPONENT (a11y->parent),
+		x, y, coord_type);
 	if (x && *x != G_MININT)
 		*x += xval;
 	if (y && *y != G_MININT)
@@ -490,8 +493,9 @@ gal_a11y_e_cell_type_add_action_interface (GType type)
 	NULL
 	};
 
-	g_type_add_interface_static (type, ATK_TYPE_ACTION,
-				     &atk_action_info);
+	g_type_add_interface_static (
+		type, ATK_TYPE_ACTION,
+		&atk_action_info);
 }
 
 gboolean
@@ -604,13 +608,14 @@ gal_a11y_e_cell_new (ETableItem *item,
 
 	a11y = g_object_new (gal_a11y_e_cell_get_type (), NULL);
 
-	gal_a11y_e_cell_construct (a11y,
-				   item,
-				   cell_view,
-				   parent,
-				   model_col,
-				   view_col,
-				   row);
+	gal_a11y_e_cell_construct (
+		a11y,
+		item,
+		cell_view,
+		parent,
+		model_col,
+		view_col,
+		row);
 	return a11y;
 }
 
@@ -633,14 +638,14 @@ gal_a11y_e_cell_construct (AtkObject *object,
 	ATK_OBJECT (a11y) ->role	= ATK_ROLE_TABLE_CELL;
 
 	if (item)
-		g_object_ref (G_OBJECT (item));
+		g_object_ref (item);
 
 #if 0
 	if (parent)
 		g_object_ref (parent);
 
 	if (cell_view)
-		g_object_ref (G_OBJECT (cell_view));
+		g_object_ref (cell_view);
 
 #endif
 }

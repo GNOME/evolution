@@ -99,17 +99,19 @@ e_table_config_changed (ETableConfig *config,
 {
 	g_return_if_fail (E_IS_TABLE_CONFIG (config));
 
-	g_signal_emit (G_OBJECT (config), e_table_config_signals[CHANGED], 0, state);
+	g_signal_emit (config, e_table_config_signals[CHANGED], 0, state);
 }
 
 static void
 config_dialog_changed (ETableConfig *config)
 {
 	/* enable the apply/ok buttons */
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (config->dialog_toplevel),
-					   GTK_RESPONSE_APPLY, TRUE);
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (config->dialog_toplevel),
-					   GTK_RESPONSE_OK, TRUE);
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (config->dialog_toplevel),
+		GTK_RESPONSE_APPLY, TRUE);
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (config->dialog_toplevel),
+		GTK_RESPONSE_OK, TRUE);
 }
 
 static void
@@ -139,21 +141,24 @@ e_table_config_class_init (ETableConfigClass *class)
 	object_class->finalize = config_finalize;
 	object_class->get_property = config_get_property;
 
-	e_table_config_signals[CHANGED] =
-		g_signal_new ("changed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableConfigClass, changed),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	e_table_config_signals[CHANGED] = g_signal_new (
+		"changed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableConfigClass, changed),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	g_object_class_install_property (object_class, PROP_STATE,
-					 g_param_spec_object ("state",
-							      "State",
-							      NULL,
-							      E_TYPE_TABLE_STATE,
-							      G_PARAM_READABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_STATE,
+		g_param_spec_object (
+			"state",
+			"State",
+			NULL,
+			E_TYPE_TABLE_STATE,
+			G_PARAM_READABLE));
 }
 
 static void
@@ -1249,9 +1254,10 @@ configure_fields_dialog (ETableConfig *config,
 	scrolled = e_builder_get_widget (builder, "available-scrolled");
 	gtk_container_add (GTK_CONTAINER (scrolled), etable);
 	config->available = E_TABLE (etable);
-	g_object_get (config->available,
-		      "model", &config->available_model,
-		      NULL);
+	g_object_get (
+		config->available,
+		"model", &config->available_model,
+		NULL);
 	gtk_widget_show_all (etable);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (e_builder_get_widget (
@@ -1263,9 +1269,10 @@ configure_fields_dialog (ETableConfig *config,
 	scrolled = e_builder_get_widget (builder, "shown-scrolled");
 	gtk_container_add (GTK_CONTAINER (scrolled), etable);
 	config->shown = E_TABLE (etable);
-	g_object_get (config->shown,
-		      "model", &config->shown_model,
-		      NULL);
+	g_object_get (
+		config->shown,
+		"model", &config->shown_model,
+		NULL);
 	gtk_widget_show_all (etable);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (e_builder_get_widget (
@@ -1351,8 +1358,9 @@ setup_gui (ETableConfig *config)
 	configure_group_dialog (config, builder);
 	configure_fields_dialog (config, builder);
 
-	g_object_weak_ref (G_OBJECT (config->dialog_toplevel),
-			   dialog_destroyed, config);
+	g_object_weak_ref (
+		G_OBJECT (config->dialog_toplevel),
+		dialog_destroyed, config);
 
 	g_signal_connect (
 		config->dialog_toplevel, "response",
@@ -1449,8 +1457,9 @@ e_table_config_new (const gchar *header,
 	widget = gtk_dialog_get_action_area (dialog);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
 
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (config->dialog_toplevel),
-					   GTK_RESPONSE_APPLY, FALSE);
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (config->dialog_toplevel),
+		GTK_RESPONSE_APPLY, FALSE);
 	gtk_widget_show (config->dialog_toplevel);
 
 	return E_TABLE_CONFIG (config);

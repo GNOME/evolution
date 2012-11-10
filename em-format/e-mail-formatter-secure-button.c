@@ -135,7 +135,8 @@ viewcert_clicked (GtkWidget *button,
 
 		g_object_unref (ec);
 	} else {
-		g_warning ("can't find certificate for %s <%s>",
+		g_warning (
+			"can't find certificate for %s <%s>",
 			info->name ? info->name : "",
 			info->email ? info->email : "");
 	}
@@ -289,19 +290,20 @@ secure_button_clicked_cb (GtkWidget *widget,
 		gtk_text_buffer_set_text (
 			buffer, part->validity->sign.description,
 			strlen (part->validity->sign.description));
-		w = g_object_new (gtk_scrolled_window_get_type (),
-				 "hscrollbar_policy", GTK_POLICY_AUTOMATIC,
-				 "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
-				 "shadow_type", GTK_SHADOW_IN,
-				 "expand", TRUE,
-				 "child", g_object_new (gtk_text_view_get_type (),
-						       "buffer", buffer,
-						       "cursor_visible", FALSE,
-						       "editable", FALSE,
-						       "width_request", 500,
-						       "height_request", 160,
-						       NULL),
-				 NULL);
+		w = g_object_new (
+			gtk_scrolled_window_get_type (),
+			"hscrollbar_policy", GTK_POLICY_AUTOMATIC,
+			"vscrollbar_policy", GTK_POLICY_AUTOMATIC,
+			"shadow_type", GTK_SHADOW_IN,
+			"expand", TRUE,
+			"child", g_object_new (gtk_text_view_get_type (),
+			"buffer", buffer,
+			"cursor_visible", FALSE,
+			"editable", FALSE,
+			"width_request", 500,
+			"height_request", 160,
+			NULL),
+			NULL);
 		g_object_unref (buffer);
 
 		gtk_container_add (GTK_CONTAINER (grid), w);
@@ -325,19 +327,20 @@ secure_button_clicked_cb (GtkWidget *widget,
 		gtk_text_buffer_set_text (
 			buffer, part->validity->encrypt.description,
 			strlen (part->validity->encrypt.description));
-		w = g_object_new (gtk_scrolled_window_get_type (),
-				 "hscrollbar_policy", GTK_POLICY_AUTOMATIC,
-				 "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
-				 "shadow_type", GTK_SHADOW_IN,
-				 "expand", TRUE,
-				 "child", g_object_new (gtk_text_view_get_type (),
-						       "buffer", buffer,
-						       "cursor_visible", FALSE,
-						       "editable", FALSE,
-						       "width_request", 500,
-						       "height_request", 160,
-						       NULL),
-				 NULL);
+		w = g_object_new (
+			gtk_scrolled_window_get_type (),
+			"hscrollbar_policy", GTK_POLICY_AUTOMATIC,
+			"vscrollbar_policy", GTK_POLICY_AUTOMATIC,
+			"shadow_type", GTK_SHADOW_IN,
+			"expand", TRUE,
+			"child", g_object_new (gtk_text_view_get_type (),
+			"buffer", buffer,
+			"cursor_visible", FALSE,
+			"editable", FALSE,
+			"width_request", 500,
+			"height_request", 160,
+			NULL),
+			NULL);
 		g_object_unref (buffer);
 
 		gtk_container_add (GTK_CONTAINER (grid), w);
@@ -403,7 +406,8 @@ emfe_secure_button_get_widget (EMailFormatterExtension *extension,
 
 	box = gtk_event_box_new ();
 	if (part->validity->sign.status != 0)
-		gtk_widget_override_background_color (box, GTK_STATE_FLAG_NORMAL,
+		gtk_widget_override_background_color (
+			box, GTK_STATE_FLAG_NORMAL,
 			&smime_sign_colour[part->validity->sign.status]);
 
 	layout = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
@@ -411,7 +415,8 @@ emfe_secure_button_get_widget (EMailFormatterExtension *extension,
 
 	button = gtk_button_new ();
 	gtk_box_pack_start (GTK_BOX (layout), button, FALSE, FALSE, 0);
-	g_signal_connect (button, "clicked",
+	g_signal_connect (
+		button, "clicked",
 		G_CALLBACK (secure_button_clicked_cb), part);
 
 	widget = gtk_image_new_from_icon_name (

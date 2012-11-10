@@ -342,9 +342,10 @@ e_map_tweens_compute_matrix (EMap *map,
 	}
 
 	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
-	cairo_matrix_init_translate (matrix,
-				allocation.width / 2.0,
-				allocation.height / 2.0);
+	cairo_matrix_init_translate (
+		matrix,
+		allocation.width / 2.0,
+		allocation.height / 2.0);
 
 	e_map_world_to_render_surface (map, longitude, latitude, &x, &y);
 	cairo_matrix_scale (matrix, zoom, zoom);
@@ -385,7 +386,8 @@ e_map_set_hadjustment_values (EMap *map)
 	old_value = gtk_adjustment_get_value (adj);
 	new_upper = MAX (allocation.width, gdk_pixbuf_get_width (priv->map_pixbuf));
 
-	g_object_set (adj,
+	g_object_set (
+		adj,
 		"lower", 0.0,
 		"upper", new_upper,
 		"page-size", (gdouble) allocation.height,
@@ -413,7 +415,8 @@ e_map_set_vadjustment_values (EMap *map)
 	old_value = gtk_adjustment_get_value (adj);
 	new_upper = MAX (allocation.height, gdk_pixbuf_get_height (priv->map_pixbuf));
 
-	g_object_set (adj,
+	g_object_set (
+		adj,
 		"lower", 0.0,
 		"upper", new_upper,
 		"page-size", (gdouble) allocation.height,
@@ -1305,11 +1308,12 @@ update_render_point (EMap *map,
 	cairo_mask_surface (cr, mask, px - 2, py - 2);
 	cairo_surface_destroy (mask);
 
-	cairo_set_source_rgba (cr,
-			       ((point->rgba >> 24) & 0xff) / 255.0,
-			       ((point->rgba >> 16) & 0xff) / 255.0,
-			       ((point->rgba >>  8) & 0xff) / 255.0,
-			       ( point->rgba	& 0xff) / 255.0);
+	cairo_set_source_rgba (
+		cr,
+		((point->rgba >> 24) & 0xff) / 255.0,
+		((point->rgba >> 16) & 0xff) / 255.0,
+		((point->rgba >>  8) & 0xff) / 255.0,
+		( point->rgba	& 0xff) / 255.0);
 	mask = cairo_image_surface_create_for_data (mask2, CAIRO_FORMAT_A8, 3, 3, 4);
 	cairo_mask_surface (cr, mask, px - 1, py - 1);
 	cairo_surface_destroy (mask);
@@ -1330,9 +1334,10 @@ repaint_point (EMap *map,
 
 	e_map_world_to_window (map, point->longitude, point->latitude, &px, &py);
 
-	gtk_widget_queue_draw_area (GTK_WIDGET (map),
-				    (gint) px - 2, (gint) py - 2,
-				    5, 5);
+	gtk_widget_queue_draw_area (
+		GTK_WIDGET (map),
+		(gint) px - 2, (gint) py - 2,
+		5, 5);
 }
 
 static void
@@ -1407,18 +1412,20 @@ set_scroll_area (EMap *view,
 	priv->xofs = CLAMP (priv->xofs, 0, width - allocation.width);
 	priv->yofs = CLAMP (priv->yofs, 0, height - allocation.height);
 
-	gtk_adjustment_configure (priv->hadjustment,
-				  priv->xofs,
-				  0, width,
-				  SCROLL_STEP_SIZE,
-				  allocation.width / 2,
-				  allocation.width);
-	gtk_adjustment_configure (priv->vadjustment,
-				  priv->yofs,
-				  0, height,
-				  SCROLL_STEP_SIZE,
-				  allocation.height / 2,
-				  allocation.height);
+	gtk_adjustment_configure (
+		priv->hadjustment,
+		priv->xofs,
+		0, width,
+		SCROLL_STEP_SIZE,
+		allocation.width / 2,
+		allocation.width);
+	gtk_adjustment_configure (
+		priv->vadjustment,
+		priv->yofs,
+		0, height,
+		SCROLL_STEP_SIZE,
+		allocation.height / 2,
+		allocation.height);
 
 	g_object_thaw_notify (G_OBJECT (priv->hadjustment));
 	g_object_thaw_notify (G_OBJECT (priv->vadjustment));

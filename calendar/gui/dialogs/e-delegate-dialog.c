@@ -186,8 +186,9 @@ addressbook_clicked_cb (GtkWidget *widget,
 {
 	EDelegateDialog *edd = data;
 
-	e_name_selector_show_dialog (edd->priv->name_selector,
-				     e_delegate_dialog_get_toplevel (edd));
+	e_name_selector_show_dialog (
+		edd->priv->name_selector,
+		e_delegate_dialog_get_toplevel (edd));
 }
 
 static void

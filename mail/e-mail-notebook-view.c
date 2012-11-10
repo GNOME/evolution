@@ -904,7 +904,7 @@ emnv_show_prevtab (EMailNotebookView *view,
 		priv->current_view)->parent_folder_view);
 
 	pos = gtk_notebook_get_current_page (priv->book);
-	if (pos > 0 )
+	if (pos > 0)
 		gtk_notebook_set_current_page (priv->book, pos - 1);
 
 }

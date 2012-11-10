@@ -112,7 +112,7 @@ filter_color_get_widget (EFilterElement *element)
 	gtk_widget_show (color_button);
 
 	g_signal_connect (
-		G_OBJECT (color_button), "color_set",
+		color_button, "color_set",
 		G_CALLBACK (set_color), element);
 
 	return color_button;

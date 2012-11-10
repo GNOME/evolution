@@ -278,9 +278,10 @@ ensure_task_complete (ECalModelComponent *comp_data,
 
 		/* COMPLETED is stored in UTC. */
 		utc_zone = icaltimezone_get_utc_timezone ();
-		new_completed = icaltime_from_timet_with_zone (completed_date,
-							       FALSE,
-							       utc_zone);
+		new_completed = icaltime_from_timet_with_zone (
+			completed_date,
+			FALSE,
+			utc_zone);
 		if (prop)
 			icalproperty_set_completed (prop, new_completed);
 		else {
@@ -430,11 +431,12 @@ get_geo (ECalModelComponent *comp_data)
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_GEO_PROPERTY);
 	if (prop) {
 		geo = icalproperty_get_geo (prop);
-		g_snprintf (buf, sizeof (buf), "%g %s, %g %s",
-			    fabs (geo.lat),
-			    geo.lat >= 0.0 ? "N" : "S",
-			    fabs (geo.lon),
-			    geo.lon >= 0.0 ? "E" : "W");
+		g_snprintf (
+			buf, sizeof (buf), "%g %s, %g %s",
+			fabs (geo.lat),
+			geo.lat >= 0.0 ? "N" : "S",
+			fabs (geo.lon),
+			geo.lon >= 0.0 ? "E" : "W");
 		return buf;
 	}
 
@@ -716,9 +718,10 @@ show_geo_warning (void)
 {
 	GtkWidget *dialog;
 
-	dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-					 "%s", _("The geographical position must be entered "
-					   "in the format: \n\n45.436845,125.862501"));
+	dialog = gtk_message_dialog_new (
+		NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+		"%s", _("The geographical position must be entered "
+		"in the format: \n\n45.436845,125.862501"));
 	gtk_widget_show (dialog);
 }
 
@@ -1212,14 +1215,18 @@ ecmt_fill_component_from_model (ECalModel *model,
 			set_status (comp_data, e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_STATUS, row));
 	}
 
-	set_due (model, comp_data,
-		 e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_DUE, row));
-	set_geo (comp_data,
-		 e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_GEO, row));
-	set_priority (comp_data,
-		      e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_PRIORITY, row));
-	set_url (comp_data,
-		 e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_URL, row));
+	set_due (
+		model, comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_DUE, row));
+	set_geo (
+		comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_GEO, row));
+	set_priority (
+		comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_PRIORITY, row));
+	set_url (
+		comp_data,
+		e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_URL, row));
 }
 
 ECalModel *
@@ -1246,7 +1253,7 @@ e_cal_model_tasks_set_highlight_due_today (ECalModelTasks *model,
 {
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 
-	if ((highlight ? 1 : 0) == (model->priv->highlight_due_today ? 1 : 0))
+	if (model->priv->highlight_due_today == highlight)
 		return;
 
 	model->priv->highlight_due_today = highlight;
@@ -1292,7 +1299,7 @@ e_cal_model_tasks_set_highlight_overdue (ECalModelTasks *model,
 {
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 
-	if ((highlight ? 1 : 0) == (model->priv->highlight_overdue ? 1 : 0))
+	if (model->priv->highlight_overdue == highlight)
 		return;
 
 	model->priv->highlight_overdue = highlight;
@@ -1403,12 +1410,17 @@ commit_component_changes (ECalModelComponent *comp_data)
 	g_return_if_fail (comp_data != NULL);
 
 	/* FIXME ask about mod type */
-	if (!e_cal_client_modify_object_sync (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL, &error)) {
-		g_warning (G_STRLOC ": Could not modify the object! %s", error ? error->message : "Unknown error");
+	e_cal_client_modify_object_sync (
+		comp_data->client, comp_data->icalcomp,
+		CALOBJ_MOD_ALL, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			G_STRLOC ": Could not modify the object! %s",
+			error->message);
 
 		/* FIXME Show error dialog */
-		if (error)
-			g_error_free (error);
+		g_error_free (error);
 	}
 }
 

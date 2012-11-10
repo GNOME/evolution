@@ -354,7 +354,8 @@ e_cert_db_get_certs_from_package (PRArenaPool *arena,
 		return NULL;
 
 	collectArgs->arena = arena;
-	sec_rv = CERT_DecodeCertPackage (data,
+	sec_rv = CERT_DecodeCertPackage (
+		data,
 					length, collect_certs,
 					(gpointer) collectArgs);
 
@@ -388,12 +389,13 @@ pk11_password (PK11SlotInfo *slot,
 
 	gboolean rv = FALSE;
 
-	g_signal_emit (e_cert_db_peek (),
-		       e_cert_db_signals[PK11_PASSWD], 0,
-		       slot,
-		       retry,
-		       &pwd,
-		       &rv);
+	g_signal_emit (
+		e_cert_db_peek (),
+		e_cert_db_signals[PK11_PASSWD], 0,
+		slot,
+		retry,
+		&pwd,
+		&rv);
 
 	if (pwd == NULL)
 		return NULL;
@@ -530,35 +532,35 @@ e_cert_db_class_init (ECertDBClass *class)
 	/* check to see if you have a rootcert module installed */
 	install_loadable_roots ();
 
-	e_cert_db_signals[PK11_PASSWD] =
-		g_signal_new ("pk11_passwd",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECertDBClass, pk11_passwd),
-			      NULL, NULL,
-			      e_marshal_BOOLEAN__POINTER_BOOLEAN_POINTER,
-			      G_TYPE_BOOLEAN, 3,
-			      G_TYPE_POINTER, G_TYPE_BOOLEAN, G_TYPE_POINTER);
+	e_cert_db_signals[PK11_PASSWD] = g_signal_new (
+		"pk11_passwd",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECertDBClass, pk11_passwd),
+		NULL, NULL,
+		e_marshal_BOOLEAN__POINTER_BOOLEAN_POINTER,
+		G_TYPE_BOOLEAN, 3,
+		G_TYPE_POINTER, G_TYPE_BOOLEAN, G_TYPE_POINTER);
 
-	e_cert_db_signals[PK11_CHANGE_PASSWD] =
-		g_signal_new ("pk11_change_passwd",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECertDBClass, pk11_change_passwd),
-			      NULL, NULL,
-			      e_marshal_BOOLEAN__POINTER_POINTER,
-			      G_TYPE_BOOLEAN, 2,
-			      G_TYPE_POINTER, G_TYPE_POINTER);
+	e_cert_db_signals[PK11_CHANGE_PASSWD] = g_signal_new (
+		"pk11_change_passwd",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECertDBClass, pk11_change_passwd),
+		NULL, NULL,
+		e_marshal_BOOLEAN__POINTER_POINTER,
+		G_TYPE_BOOLEAN, 2,
+		G_TYPE_POINTER, G_TYPE_POINTER);
 
-	e_cert_db_signals[CONFIRM_CA_CERT_IMPORT] =
-		g_signal_new ("confirm_ca_cert_import",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECertDBClass, confirm_ca_cert_import),
-			      NULL, NULL,
-			      e_marshal_BOOLEAN__POINTER_POINTER_POINTER_POINTER,
-			      G_TYPE_BOOLEAN, 4,
-			      G_TYPE_POINTER, G_TYPE_POINTER, G_TYPE_POINTER, G_TYPE_POINTER);
+	e_cert_db_signals[CONFIRM_CA_CERT_IMPORT] = g_signal_new (
+		"confirm_ca_cert_import",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECertDBClass, confirm_ca_cert_import),
+		NULL, NULL,
+		e_marshal_BOOLEAN__POINTER_POINTER_POINTER_POINTER,
+		G_TYPE_BOOLEAN, 4,
+		G_TYPE_POINTER, G_TYPE_POINTER, G_TYPE_POINTER, G_TYPE_POINTER);
 }
 
 static void
@@ -630,8 +632,9 @@ e_cert_db_find_cert_by_key (ECertDB *certdb,
 		return NULL;
 	}
 
-	dummy = NSSBase64_DecodeBuffer (NULL, &keyItem, db_key,
-				       (PRUint32) PL_strlen (db_key));
+	dummy = NSSBase64_DecodeBuffer (
+		NULL, &keyItem, db_key,
+		(PRUint32) PL_strlen (db_key));
 
 	/* someday maybe we can speed up the search using the moduleID and slotID*/
 	moduleID = NS_NSS_GET_LONG (keyItem.data);
@@ -697,10 +700,11 @@ e_cert_db_find_cert_by_email_address (ECertDB *certdb,
 
 	/* any_cert now contains a cert with the right subject,
 	 * but it might not have the correct usage. */
-	certlist = CERT_CreateSubjectCertList (NULL,
-					      CERT_GetDefaultCertDB (),
-					      &any_cert->derSubject,
-					      PR_Now (), PR_TRUE);
+	certlist = CERT_CreateSubjectCertList (
+		NULL,
+		CERT_GetDefaultCertDB (),
+		&any_cert->derSubject,
+		PR_Now (), PR_TRUE);
 	if (!certlist) {
 		set_nss_error (error);
 		CERT_DestroyCertificate (any_cert);
@@ -743,13 +747,14 @@ confirm_download_ca_cert (ECertDB *cert_db,
 		*trust_email =
 		*trust_objsign = FALSE;
 
-	g_signal_emit (e_cert_db_peek (),
-		       e_cert_db_signals[CONFIRM_CA_CERT_IMPORT], 0,
-		       cert,
-		       trust_ssl,
-		       trust_email,
-		       trust_objsign,
-		       &rv);
+	g_signal_emit (
+		e_cert_db_peek (),
+		e_cert_db_signals[CONFIRM_CA_CERT_IMPORT], 0,
+		cert,
+		trust_ssl,
+		trust_email,
+		trust_objsign,
+		&rv);
 
 	return rv;
 }
@@ -841,8 +846,9 @@ handle_ca_cert_download (ECertDB *cert_db,
 		CERTCertDBHandle *certdb = CERT_GetDefaultCertDB ();
 		tmpCert = CERT_FindCertByDERCert (certdb, &der);
 		if (!tmpCert) {
-			tmpCert = CERT_NewTempCertificate (certdb, &der,
-							  NULL, PR_FALSE, PR_TRUE);
+			tmpCert = CERT_NewTempCertificate (
+				certdb, &der,
+				NULL, PR_FALSE, PR_TRUE);
 		}
 		if (!tmpCert) {
 			g_warning ("Couldn't create cert from DER blob");
@@ -881,14 +887,16 @@ handle_ca_cert_download (ECertDB *cert_db,
 
 		e_cert_trust_init (&trust);
 		e_cert_trust_set_valid_ca (&trust);
-		e_cert_trust_add_ca_trust (&trust,
-					   trust_ssl,
-					   trust_email,
-					   trust_objsign);
+		e_cert_trust_add_ca_trust (
+			&trust,
+			trust_ssl,
+			trust_email,
+			trust_objsign);
 
-		srv = CERT_AddTempCertToPerm (tmpCert,
-					     nickname,
-					     &trust);
+		srv = CERT_AddTempCertToPerm (
+			tmpCert,
+			nickname,
+			&trust);
 
 		/* If we aren't logged into the token, then what *should*
 		 * happen is the above call should fail, and we should
@@ -907,12 +915,14 @@ handle_ca_cert_download (ECertDB *cert_db,
 		if (srv != SECSuccess &&
 		    PORT_GetError () == SEC_ERROR_TOKEN_NOT_LOGGED_IN &&
 		    e_cert_db_login_to_slot (NULL, PK11_GetInternalKeySlot ())) {
-			srv = CERT_ChangeCertTrust (CERT_GetDefaultCertDB (),
-						    tmpCert, &trust);
+			srv = CERT_ChangeCertTrust (
+				CERT_GetDefaultCertDB (),
+				tmpCert, &trust);
 			if (srv != SECSuccess)
-				srv = CERT_AddTempCertToPerm (tmpCert,
-							      nickname,
-							      &trust);
+				srv = CERT_AddTempCertToPerm (
+					tmpCert,
+					nickname,
+					&trust);
 		}
 		if (srv != SECSuccess) {
 			set_nss_error (error);
@@ -941,8 +951,9 @@ handle_ca_cert_download (ECertDB *cert_db,
 				continue;  /* Let's try to import the rest of 'em */
 			}
 			nickname.Adopt (CERT_MakeCANickname (tmpCert2));
-			CERT_AddTempCertToPerm (tmpCert2, NS_CONST_CAST (gchar *,nickname.get ()),
-					       defaultTrust.GetTrust ());
+			CERT_AddTempCertToPerm (
+				tmpCert2, NS_CONST_CAST (gchar *,nickname.get ()),
+				defaultTrust.GetTrust ());
 			CERT_DestroyCertificate (tmpCert2);
 		}
 #endif
@@ -953,18 +964,21 @@ gboolean e_cert_db_change_cert_trust (CERTCertificate *cert, CERTCertTrust *trus
 {
 	SECStatus srv;
 
-	srv = CERT_ChangeCertTrust (CERT_GetDefaultCertDB (),
-				    cert, trust);
+	srv = CERT_ChangeCertTrust (
+		CERT_GetDefaultCertDB (),
+		cert, trust);
 	if (srv != SECSuccess &&
 	    PORT_GetError () == SEC_ERROR_TOKEN_NOT_LOGGED_IN &&
 	    e_cert_db_login_to_slot (NULL, PK11_GetInternalKeySlot ()))
-		srv = CERT_ChangeCertTrust (CERT_GetDefaultCertDB (),
-					    cert, trust);
+		srv = CERT_ChangeCertTrust (
+			CERT_GetDefaultCertDB (),
+			cert, trust);
 
 	if (srv != SECSuccess) {
 		glong err = PORT_GetError ();
-		g_warning ("CERT_ChangeCertTrust() failed: %s\n",
-			   nss_error_to_string (err));
+		g_warning (
+			"CERT_ChangeCertTrust() failed: %s\n",
+			nss_error_to_string (err));
 		return FALSE;
 	}
 	return TRUE;
@@ -1093,8 +1107,9 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 		return FALSE;
 	}
 
-	cert = CERT_NewTempCertificate (CERT_GetDefaultCertDB (), certCollection->rawCerts,
-				       (gchar *) NULL, PR_FALSE, PR_TRUE);
+	cert = CERT_NewTempCertificate (
+		CERT_GetDefaultCertDB (), certCollection->rawCerts,
+		(gchar *) NULL, PR_FALSE, PR_TRUE);
 	if (!cert) {
 		set_nss_error (error);
 		rv = FALSE;
@@ -1112,9 +1127,10 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 		rawCerts[i] = &certCollection->rawCerts[i];
 	}
 
-	srv = CERT_ImportCerts (CERT_GetDefaultCertDB (), certUsageEmailSigner,
-			       numcerts, rawCerts, NULL, PR_TRUE, PR_FALSE,
-			       NULL);
+	srv = CERT_ImportCerts (
+		CERT_GetDefaultCertDB (), certUsageEmailSigner,
+		numcerts, rawCerts, NULL, PR_TRUE, PR_FALSE,
+		NULL);
 	if (srv != SECSuccess) {
 		set_nss_error (error);
 		rv = FALSE;
@@ -1298,8 +1314,9 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 		goto loser;
 	}
 
-	cert = CERT_NewTempCertificate (CERT_GetDefaultCertDB (), collectArgs->rawCerts,
-				       (gchar *) NULL, PR_FALSE, PR_TRUE);
+	cert = CERT_NewTempCertificate (
+		CERT_GetDefaultCertDB (), collectArgs->rawCerts,
+		(gchar *) NULL, PR_FALSE, PR_TRUE);
 	if (!cert) {
 		set_nss_error (error);
 		goto loser;
@@ -1479,11 +1496,12 @@ e_cert_db_login_to_slot (ECertDB *cert_db,
 
 			printf ("initializing slot password\n");
 
-			g_signal_emit (e_cert_db_peek (),
-				       e_cert_db_signals[PK11_CHANGE_PASSWD], 0,
-				       NULL,
-				       &pwd,
-				       &rv);
+			g_signal_emit (
+				e_cert_db_peek (),
+				e_cert_db_signals[PK11_CHANGE_PASSWD], 0,
+				NULL,
+				&pwd,
+				&rv);
 
 			if (!rv)
 				return FALSE;
@@ -1494,7 +1512,8 @@ e_cert_db_login_to_slot (ECertDB *cert_db,
 
 		PK11_SetPasswordFunc (pk11_password);
 		if (PK11_Authenticate (slot, PR_TRUE, NULL) != SECSuccess) {
-			printf ("PK11_Authenticate failed (err = %d/%d)\n",
+			printf (
+				"PK11_Authenticate failed (err = %d/%d)\n",
 				PORT_GetError (), PORT_GetError () + 0x2000);
 			return FALSE;
 		}

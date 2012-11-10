@@ -1102,7 +1102,7 @@ e_shell_searchbar_set_express_mode (EShellSearchbar *searchbar,
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
-	if ((searchbar->priv->express_mode ? 1 : 0) == (express_mode ? 1 : 0))
+	if (searchbar->priv->express_mode == express_mode)
 		return;
 
 	searchbar->priv->express_mode = express_mode;
@@ -1142,7 +1142,7 @@ e_shell_searchbar_set_labels_visible (EShellSearchbar *searchbar,
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
-	if ((searchbar->priv->labels_visible ? 1 : 0) == (labels_visible ? 1 : 0))
+	if (searchbar->priv->labels_visible == labels_visible)
 		return;
 
 	searchbar->priv->labels_visible = labels_visible;
@@ -1168,7 +1168,7 @@ e_shell_searchbar_set_filter_visible (EShellSearchbar *searchbar,
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
-	if ((searchbar->priv->filter_visible ? 1 : 0) == (filter_visible ? 1 : 0))
+	if (searchbar->priv->filter_visible == filter_visible)
 		return;
 
 	searchbar->priv->filter_visible = filter_visible;
@@ -1298,7 +1298,7 @@ e_shell_searchbar_set_search_visible (EShellSearchbar *searchbar,
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
-	if ((searchbar->priv->search_visible ? 1 : 0) == (search_visible ? 1 : 0))
+	if (searchbar->priv->search_visible == search_visible)
 		return;
 
 	searchbar->priv->search_visible = search_visible;
@@ -1342,7 +1342,7 @@ e_shell_searchbar_set_scope_visible (EShellSearchbar *searchbar,
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
-	if ((searchbar->priv->scope_visible ? 1 : 0) == (scope_visible ? 1 : 0))
+	if (searchbar->priv->scope_visible == scope_visible)
 		return;
 
 	searchbar->priv->scope_visible = scope_visible;

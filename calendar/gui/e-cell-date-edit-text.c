@@ -334,7 +334,7 @@ e_cell_date_edit_text_set_use_24_hour_format (ECellDateEditText *ecd,
 {
 	g_return_if_fail (E_IS_CELL_DATE_EDIT_TEXT (ecd));
 
-	if ((ecd->priv->use_24_hour_format ? 1 : 0) == (use_24_hour ? 1 : 0))
+	if (ecd->priv->use_24_hour_format == use_24_hour)
 		return;
 
 	ecd->priv->use_24_hour_format = use_24_hour;

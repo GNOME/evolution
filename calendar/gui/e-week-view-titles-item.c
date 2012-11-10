@@ -184,9 +184,10 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 
 		cairo_save (cr);
 
-		cairo_rectangle (cr,
-				 week_view->col_offsets[col] - x, 2 - y,
-				 week_view->col_widths[col], allocation.height - 2);
+		cairo_rectangle (
+			cr,
+			week_view->col_offsets[col] - x, 2 - y,
+			week_view->col_widths[col], allocation.height - 2);
 		cairo_clip (cr);
 
 		if (weekday == 5 && week_view->compress_weekend)

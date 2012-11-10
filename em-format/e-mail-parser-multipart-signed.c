@@ -88,18 +88,21 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 
 	mps = (CamelMultipartSigned *) camel_medium_get_content ((CamelMedium *) part);
 	if (!CAMEL_IS_MULTIPART_SIGNED (mps)
-	    || (cpart = camel_multipart_get_part ((CamelMultipart *) mps,
+		|| (
+		cpart = camel_multipart_get_part (
+			(CamelMultipart *) mps,
 		CAMEL_MULTIPART_SIGNED_CONTENT)) == NULL) {
 		parts = e_mail_parser_error (
-				parser, cancellable,
-				_("Could not parse MIME message. "
-				"Displaying as source."));
+			parser, cancellable,
+			_("Could not parse MIME message. "
+			"Displaying as source."));
 
-		parts = g_slist_concat (parts,
-				e_mail_parser_parse_part_as (
-					parser, part, part_id,
-					"application/vnd.evolution.source",
-					cancellable));
+		parts = g_slist_concat (
+			parts,
+			e_mail_parser_parse_part_as (
+				parser, part, part_id,
+				"application/vnd.evolution.source",
+				cancellable));
 		return parts;
 	}
 
@@ -125,33 +128,34 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 
 	if (cipher == NULL) {
 		parts = e_mail_parser_error (
-				parser, cancellable,
-				_("Unsupported signature format"));
+			parser, cancellable,
+			_("Unsupported signature format"));
 
-		parts = g_slist_concat (parts,
-				e_mail_parser_parse_part_as (
-					parser, part, part_id,
-					"multipart/mixed", cancellable));
+		parts = g_slist_concat (
+			parts,
+			e_mail_parser_parse_part_as (
+				parser, part, part_id,
+				"multipart/mixed", cancellable));
 
 		return parts;
 	}
 
 	valid = camel_cipher_context_verify_sync (
 		cipher, part, cancellable, &local_error);
-	if (valid == NULL) {
+
+	if (local_error != NULL) {
 		parts = e_mail_parser_error (
-				parser, cancellable,
-				_("Error verifying signature: %s"),
-				local_error->message ?
-					local_error->message :
-					_("Unknown error"));
+			parser, cancellable,
+			_("Error verifying signature: %s"),
+			local_error->message);
 
-		g_clear_error (&local_error);
+		g_error_free (local_error);
 
-		parts = g_slist_concat (parts,
-				e_mail_parser_parse_part_as (
-					parser, part, part_id,
-					"multipart/mixed", cancellable));
+		parts = g_slist_concat (
+			parts,
+			e_mail_parser_parse_part_as (
+				parser, part, part_id,
+				"multipart/mixed", cancellable));
 
 		g_object_unref (cipher);
 		return parts;
@@ -169,7 +173,7 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 		g_string_append_printf (part_id, ".signed.%d", i);
 
 		mail_parts = e_mail_parser_parse_part (
-				parser, subpart, part_id, cancellable);
+			parser, subpart, part_id, cancellable);
 
 		g_string_truncate (part_id, len);
 
@@ -183,7 +187,8 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 			if (!mail_part)
 				continue;
 
-			e_mail_part_update_validity (mail_part, valid,
+			e_mail_part_update_validity (
+				mail_part, valid,
 				validity_type | E_MAIL_PART_VALIDITY_SIGNED);
 		}
 
@@ -199,13 +204,14 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 		g_string_append (part_id, ".signed.button");
 
 		button = e_mail_parser_parse_part_as (
-				parser, part, part_id,
-				"application/vnd.evolution.widget.secure-button",
-				cancellable);
+			parser, part, part_id,
+			"application/vnd.evolution.widget.secure-button",
+			cancellable);
 		if (button && button->data) {
 			mail_part = button->data;
 
-			e_mail_part_update_validity (mail_part, valid,
+			e_mail_part_update_validity (
+				mail_part, valid,
 				validity_type | E_MAIL_PART_VALIDITY_SIGNED);
 		}
 
@@ -247,5 +253,4 @@ e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
 static void
 e_mail_parser_multipart_signed_init (EMailParserMultipartSigned *parser)
 {
-
 }

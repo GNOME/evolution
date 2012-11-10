@@ -98,7 +98,7 @@ mail_attachment_handler_forward (GtkAction *action,
 
 static void
 mail_attachment_handler_reply (EAttachmentHandler *handler,
-			       EMailReplyType reply_type)
+                               EMailReplyType reply_type)
 {
 	EMailAttachmentHandlerPrivate *priv;
 	EShellSettings *shell_settings;

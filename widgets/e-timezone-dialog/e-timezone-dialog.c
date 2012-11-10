@@ -188,10 +188,11 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 
 		location = _(icaltimezone_get_location (zone));
 
-		e_map_add_point (priv->map, location,
-				 icaltimezone_get_longitude (zone),
-				 icaltimezone_get_latitude (zone),
-				 E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
+		e_map_add_point (
+			priv->map, location,
+			icaltimezone_get_longitude (zone),
+			icaltimezone_get_latitude (zone),
+			E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 
 		list_items = g_list_prepend (list_items, location);
 	}
@@ -268,9 +269,11 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 
 	g_object_weak_ref (G_OBJECT (map), map_destroy_cb, priv);
 
-	gtk_widget_set_events (map, gtk_widget_get_events (map)
-			       | GDK_LEAVE_NOTIFY_MASK
-			       | GDK_VISIBILITY_NOTIFY_MASK);
+	gtk_widget_set_events (
+		map,
+		gtk_widget_get_events (map) |
+		GDK_LEAVE_NOTIFY_MASK |
+		GDK_VISIBILITY_NOTIFY_MASK);
 
 	e_timezone_dialog_add_timezones (etd);
 
@@ -474,11 +477,13 @@ on_map_timeout (gpointer data)
 
 	if (e_map_point_get_color_rgba (priv->point_selected)
 	    == E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_1_RGBA)
-		e_map_point_set_color_rgba (priv->map, priv->point_selected,
-					    E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_2_RGBA);
+		e_map_point_set_color_rgba (
+			priv->map, priv->point_selected,
+			E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_2_RGBA);
 	else
-		e_map_point_set_color_rgba (priv->map, priv->point_selected,
-					    E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_1_RGBA);
+		e_map_point_set_color_rgba (
+			priv->map, priv->point_selected,
+			E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_1_RGBA);
 
 	return TRUE;
 }
@@ -497,19 +502,23 @@ on_map_motion (GtkWidget *widget,
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
-	e_map_window_to_world (priv->map, (gdouble) event->x, (gdouble) event->y,
-			       &longitude, &latitude);
+	e_map_window_to_world (
+		priv->map, (gdouble) event->x, (gdouble) event->y,
+		&longitude, &latitude);
 
 	if (priv->point_hover && priv->point_hover != priv->point_selected)
-		e_map_point_set_color_rgba (priv->map, priv->point_hover,
-					    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
+		e_map_point_set_color_rgba (
+			priv->map, priv->point_hover,
+			E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 
-	priv->point_hover = e_map_get_closest_point (priv->map, longitude,
-						     latitude, TRUE);
+	priv->point_hover = e_map_get_closest_point (
+		priv->map, longitude,
+		latitude, TRUE);
 
 	if (priv->point_hover != priv->point_selected)
-		e_map_point_set_color_rgba (priv->map, priv->point_hover,
-					    E_TIMEZONE_DIALOG_MAP_POINT_HOVER_RGBA);
+		e_map_point_set_color_rgba (
+			priv->map, priv->point_hover,
+			E_TIMEZONE_DIALOG_MAP_POINT_HOVER_RGBA);
 
 	new_zone = get_zone_from_point (etd, priv->point_hover);
 
@@ -539,11 +548,13 @@ on_map_leave (GtkWidget *widget,
 		return FALSE;
 
 	if (priv->point_hover && priv->point_hover != priv->point_selected)
-		e_map_point_set_color_rgba (priv->map, priv->point_hover,
-					    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
+		e_map_point_set_color_rgba (
+			priv->map, priv->point_hover,
+			E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 
-	timezone_combo_set_active_text (GTK_COMBO_BOX (priv->timezone_combo),
-					zone_display_name (priv->zone));
+	timezone_combo_set_active_text (
+		GTK_COMBO_BOX (priv->timezone_combo),
+		zone_display_name (priv->zone));
 	gtk_label_set_text (GTK_LABEL (priv->preview_label), "");
 
 	priv->point_hover = NULL;
@@ -590,25 +601,28 @@ on_map_button_pressed (GtkWidget *w,
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
-	e_map_window_to_world (priv->map, (gdouble) event->x, (gdouble) event->y,
-			       &longitude, &latitude);
+	e_map_window_to_world (
+		priv->map, (gdouble) event->x, (gdouble) event->y,
+		&longitude, &latitude);
 
 	if (event->button != 1) {
 		e_map_zoom_out (priv->map);
 	} else {
 		if (e_map_get_magnification (priv->map) <= 1.0)
-			e_map_zoom_to_location (priv->map, longitude,
-						latitude);
+			e_map_zoom_to_location (
+				priv->map, longitude, latitude);
 
 		if (priv->point_selected)
-			e_map_point_set_color_rgba (priv->map,
-						    priv->point_selected,
-						    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
+			e_map_point_set_color_rgba (
+				priv->map,
+				priv->point_selected,
+				E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 		priv->point_selected = priv->point_hover;
 
 		priv->zone = get_zone_from_point (etd, priv->point_selected);
-		timezone_combo_set_active_text (GTK_COMBO_BOX (priv->timezone_combo),
-						zone_display_name (priv->zone));
+		timezone_combo_set_active_text (
+			GTK_COMBO_BOX (priv->timezone_combo),
+			zone_display_name (priv->zone));
 	}
 
 	return TRUE;
@@ -700,10 +714,12 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 
 	priv->zone = zone;
 
-	gtk_label_set_text (GTK_LABEL (priv->preview_label),
-			    zone ? display : "");
-	timezone_combo_set_active_text (GTK_COMBO_BOX (priv->timezone_combo),
-					zone ? zone_display_name (zone) : "");
+	gtk_label_set_text (
+		GTK_LABEL (priv->preview_label),
+		zone ? display : "");
+	timezone_combo_set_active_text (
+		GTK_COMBO_BOX (priv->timezone_combo),
+		zone ? zone_display_name (zone) : "");
 
 	set_map_timezone (etd, zone);
 	g_free (display);
@@ -735,16 +751,18 @@ set_map_timezone (ETimezoneDialog *etd,
 	if (zone) {
 		zone_longitude = icaltimezone_get_longitude (zone);
 		zone_latitude = icaltimezone_get_latitude (zone);
-		point = e_map_get_closest_point (priv->map,
-						 zone_longitude,
-						 zone_latitude,
-						 FALSE);
+		point = e_map_get_closest_point (
+			priv->map,
+			zone_longitude,
+			zone_latitude,
+			FALSE);
 	} else
 		point = NULL;
 
 	if (priv->point_selected)
-		e_map_point_set_color_rgba (priv->map, priv->point_selected,
-					    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
+		e_map_point_set_color_rgba (
+			priv->map, priv->point_selected,
+			E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 
 	priv->point_selected = point;
 }

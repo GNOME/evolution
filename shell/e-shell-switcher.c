@@ -773,7 +773,7 @@ e_shell_switcher_set_visible (EShellSwitcher *switcher,
 
 	g_return_if_fail (E_IS_SHELL_SWITCHER (switcher));
 
-	if ((switcher->priv->toolbar_visible ? 1 : 0) == (visible ? 1 : 0))
+	if (switcher->priv->toolbar_visible == visible)
 		return;
 
 	switcher->priv->toolbar_visible = visible;

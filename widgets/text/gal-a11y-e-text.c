@@ -79,10 +79,11 @@ et_get_extents (AtkComponent *component,
 						     &fake_height,
 						     coord_type);
 
-	g_object_get (item,
-		      "text_width", &real_width,
-		      "text_height", &real_height,
-		      NULL);
+	g_object_get (
+		item,
+		"text_width", &real_width,
+		"text_height", &real_height,
+		NULL);
 
 	if (width)
 		*width = real_width;
@@ -646,11 +647,12 @@ et_get_offset_at_point (AtkText *text,
 	x -= etext->cx;
 	y -= etext->cy;
 
-	pango_layout_xy_to_index (etext->layout,
-				  x * PANGO_SCALE - PANGO_SCALE / 2,
-				  y * PANGO_SCALE - PANGO_SCALE / 2,
-				  &index,
-				  &trailing);
+	pango_layout_xy_to_index (
+		etext->layout,
+		x * PANGO_SCALE - PANGO_SCALE / 2,
+		y * PANGO_SCALE - PANGO_SCALE / 2,
+		&index,
+		&trailing);
 
 	return g_utf8_pointer_to_offset (etext->text, etext->text + index + trailing);
 }
@@ -1130,9 +1132,10 @@ void
 gal_a11y_e_text_init (void)
 {
 	if (atk_get_root ())
-		atk_registry_set_factory_type (atk_get_default_registry (),
-					E_TYPE_TEXT,
-					gal_a11y_e_text_factory_get_type ());
+		atk_registry_set_factory_type (
+			atk_get_default_registry (),
+			E_TYPE_TEXT,
+			gal_a11y_e_text_factory_get_type ());
 
 }
 

@@ -1744,7 +1744,7 @@ e_shell_set_network_available (EShell *shell,
 	if (shell->priv->network_available_locked)
 		return;
 
-	if ((network_available ? 1 : 0) == (shell->priv->network_available ? 1 : 0))
+	if (shell->priv->network_available == network_available)
 		return;
 
 	shell->priv->network_available = network_available;

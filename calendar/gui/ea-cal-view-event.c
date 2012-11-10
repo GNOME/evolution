@@ -111,8 +111,9 @@ ea_cal_view_event_get_type (void)
 		 * we are run-time deriving from (atk object for E_TEXT, in this case)
 		 */
 
-		factory = atk_registry_get_factory (atk_get_default_registry (),
-						    E_TYPE_TEXT);
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (),
+			E_TYPE_TEXT);
 		derived_atk_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 
@@ -120,12 +121,15 @@ ea_cal_view_event_get_type (void)
 		tinfo.instance_size = query.instance_size;
 
 		/* we inherit the component, text and other interfaces from E_TEXT */
-		type = g_type_register_static (derived_atk_type,
-					       "EaCalViewEvent", &tinfo, 0);
-		g_type_add_interface_static (type, ATK_TYPE_COMPONENT,
-					     &atk_component_info);
-		g_type_add_interface_static (type, ATK_TYPE_ACTION,
-					     &atk_action_info);
+		type = g_type_register_static (
+			derived_atk_type,
+			"EaCalViewEvent", &tinfo, 0);
+		g_type_add_interface_static (
+			type, ATK_TYPE_COMPONENT,
+			&atk_component_info);
+		g_type_add_interface_static (
+			type, ATK_TYPE_ACTION,
+			&atk_action_info);
 
 	}
 
@@ -171,7 +175,8 @@ static void ea_cal_view_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 
 	++n_ea_cal_view_event_destroyed;
-	printf ("ACC_DEBUG: n_ea_cal_view_event_destroyed = %d\n",
+	printf (
+		"ACC_DEBUG: n_ea_cal_view_event_destroyed = %d\n",
 		n_ea_cal_view_event_destroyed);
 }
 #endif
@@ -227,15 +232,17 @@ ea_cal_view_event_new (GObject *obj)
 
 	if (!atk_obj) {
 		static AtkRole event_role = ATK_ROLE_INVALID;
-		atk_obj = ATK_OBJECT (g_object_new (EA_TYPE_CAL_VIEW_EVENT,
-						    NULL));
+		atk_obj = ATK_OBJECT (
+			g_object_new (EA_TYPE_CAL_VIEW_EVENT,
+			NULL));
 		atk_object_initialize (atk_obj, target_obj);
 		if (event_role == ATK_ROLE_INVALID)
 			event_role = atk_role_register ("Calendar Event");
 		atk_obj->role = event_role;
 #ifdef ACC_DEBUG
 		++n_ea_cal_view_event_created;
-		printf ("ACC_DEBUG: n_ea_cal_view_event_created = %d\n",
+		printf (
+			"ACC_DEBUG: n_ea_cal_view_event_created = %d\n",
 			n_ea_cal_view_event_created);
 #endif
 	}
@@ -313,8 +320,9 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name_string);
 #ifdef ACC_DEBUG
-	printf ("EvoAcc:  name for event accobj=%p, is %s\n",
-	       (gpointer) accessible, new_name);
+	printf (
+		"EvoAcc:  name for event accobj=%p, is %s\n",
+		(gpointer) accessible, new_name);
 #endif
 	g_free (name_string);
 	return accessible->name;

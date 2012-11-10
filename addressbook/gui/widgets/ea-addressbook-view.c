@@ -58,16 +58,18 @@ ea_ab_view_get_type (void)
 		 * Figure out the size of the class and instance
 		 * we are run-time deriving from (GailWidget, in this case) */
 
-		factory = atk_registry_get_factory (atk_get_default_registry (),
-						    GTK_TYPE_EVENT_BOX);
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (),
+			GTK_TYPE_EVENT_BOX);
 		derived_atk_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 
 		tinfo.class_size = query.class_size;
 		tinfo.instance_size = query.instance_size;
 
-		type = g_type_register_static (derived_atk_type,
-						"EaABView", &tinfo, 0);
+		type = g_type_register_static (
+			derived_atk_type,
+			"EaABView", &tinfo, 0);
 	}
 
 	return type;

@@ -253,9 +253,10 @@ e_contact_editor_fullname_new (const EContactName *name)
 {
 	GtkWidget *widget = g_object_new (E_TYPE_CONTACT_EDITOR_FULLNAME, NULL);
 
-	g_object_set (widget,
-		      "name", name,
-		      NULL);
+	g_object_set (
+		widget,
+		"name", name,
+		NULL);
 	return widget;
 }
 
@@ -320,9 +321,9 @@ extract_info (EContactEditorFullname *editor)
 		editor->name = name;
 	}
 
-	name->prefixes   = extract_field (editor, "comboentry-title" );
-	name->given      = extract_field (editor, "entry-first" );
+	name->prefixes   = extract_field (editor, "comboentry-title");
+	name->given      = extract_field (editor, "entry-first");
 	name->additional = extract_field (editor, "entry-middle");
-	name->family     = extract_field (editor, "entry-last"  );
+	name->family     = extract_field (editor, "entry-last");
 	name->suffixes   = extract_field (editor, "comboentry-suffix");
 }

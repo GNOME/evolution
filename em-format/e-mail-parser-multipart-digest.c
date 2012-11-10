@@ -99,10 +99,11 @@ empe_mp_digest_parse (EMailParserExtension *extension,
 		if (ct && !camel_content_type_is (ct, "message", "rfc822")) {
 			cts = camel_content_type_simple (ct);
 
-			parts = g_slist_concat (parts,
-					e_mail_parser_parse_part_as (
-						parser, subpart, part_id,
-						cts, cancellable));
+			parts = g_slist_concat (
+				parts,
+				e_mail_parser_parse_part_as (
+					parser, subpart, part_id,
+					cts, cancellable));
 
 			g_free (cts);
 		} else {
