@@ -79,9 +79,9 @@ book_config_webdav_text_to_uri (GBinding *binding,
                                 GValue *target_value,
                                 gpointer user_data)
 {
-	GObject *target;
 	ESource *source;
 	SoupURI *soup_uri;
+	GObject *source_binding;
 	ESourceAuthentication *extension;
 	const gchar *extension_name;
 	const gchar *text;
@@ -93,8 +93,9 @@ book_config_webdav_text_to_uri (GBinding *binding,
 	if (soup_uri == NULL)
 		return FALSE;
 
-	target = g_binding_get_target (binding);
-	source = e_source_extension_ref_source (E_SOURCE_EXTENSION (target));
+	source_binding = g_binding_get_source (binding);
+	source = e_source_extension_ref_source (
+		E_SOURCE_EXTENSION (source_binding));
 
 	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
 	extension = e_source_get_extension (source, extension_name);
