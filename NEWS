@@ -1,3 +1,66 @@
+Evolution 3.6.2 2012-11-12
+--------------------------
+
+Bug Fixes:
+	Bug 267787 - Preferences too large for small screens (Milan Crha)
+	Bug 310978 - USENET always requires authentication (Milan Crha)
+	Bug 317153 - Contact editor too large for small screens (Milan Crha)
+	Bug 588959 - Expanding appointment crashes Evolution (Vibha Yadav)
+	Bug 627244 - Bold days in "Select Date" dialog not updated when
+	             changing month (Fabiano Fidêncio)
+	Bug 663844 - [CalDAV] Fails to parse iCloud XML response (Milan Crha)
+	Bug 663844 - [CalDAV] calendar-home-set/href may contain full URI
+	             (Milan Crha)
+	Bug 680497 - POP3 re-adds messages to local Inbox (Milan Crha)
+	Bug 685262 - Attachments disappear when dragged in message preview
+	             (Milan Crha)
+	Bug 685786 - EWebView: Signal handlers never disconnected
+	             (Matthew Barnes)
+	Bug 686278 - Prefer-plain can break parts list (Milan Crha)
+	Bug 686325 - Preview message window keyboard use severely limited
+	             (Milan Crha)
+	Bug 686785 - Port of WebDAV source doesn't match SSL check (Milan Crha)
+	Bug 686813 - ECaldavChooser: Deadlock on cancellation (Matthew Barnes)
+	Bug 687010 - Add keywords to the desktop file (Matthias Clasen)
+	Bug 687060 - Identity page shows read-only GOA properties as editable
+	             (Matthew Barnes)
+	Bug 687137 - Google account user name overwritten with email address
+	             (Matthew Barnes)
+	Bug 687155 - Text/plain signatures wrap in an editor (Milan Crha)
+	Bug 687400 - Composer settings not applied (Matthew Barnes)
+	Bug 687442 - Magic spacebar avoids iTip formatter comment write
+	             (Milan Crha)
+	Bug 688084 - Cannot configure connection to webdav address book
+	             (Alban Browaeys)
+
+Other Changes:
+	* evolution.convert: Remove leftover "force-message-limit" entry.
+	  (Matthew Barnes)
+	* Remove "Disable Account" menu item for GOA-based accounts.
+	  (Matthew Barnes)
+	* Fixed squished labels on Identity page of Account Assistant.
+	  (Matthew Barnes)
+	* EMailConfigAssistant: Make revising auto-configuration easier.
+	  (Matthew Barnes)
+
+Translations:
+	Ihar Hrachyshka (be)
+	Gil Forcada (ca)
+	Marek Černocký (cs)
+	Tom Tryfonidis (el)
+	Chris Leonard (en_GB)
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Andika Triwidada (id)
+	Aurimas Černius (lt)
+	Sandeep Sheshrao Shedmake (mr)
+	A S Alam (pa)
+	Piotr Drąg (pl)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+	Мирослав Николић (sr)
+
+
 Evolution 3.6.1 2012-10-15
 --------------------------
 
