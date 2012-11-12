@@ -115,6 +115,8 @@ void		e_attachment_load_async		(EAttachment *attachment,
 gboolean	e_attachment_load_finish	(EAttachment *attachment,
 						 GAsyncResult *result,
 						 GError **error);
+gboolean	e_attachment_load		(EAttachment *attachment,
+						 GError **error);
 void		e_attachment_open_async		(EAttachment *attachment,
 						 GAppInfo *app_info,
 						 GAsyncReadyCallback callback,
@@ -122,12 +124,19 @@ void		e_attachment_open_async		(EAttachment *attachment,
 gboolean	e_attachment_open_finish	(EAttachment *attachment,
 						 GAsyncResult *result,
 						 GError **error);
+gboolean	e_attachment_open		(EAttachment *attachment,
+						 GAppInfo *app_info,
+						 GError **error);
 void		e_attachment_save_async		(EAttachment *attachment,
 						 GFile *destination,
 						 GAsyncReadyCallback callback,
 						 gpointer user_data);
 GFile *		e_attachment_save_finish	(EAttachment *attachment,
 						 GAsyncResult *result,
+						 GError **error);
+gboolean	e_attachment_save		(EAttachment *attachment,
+						 GFile *in_destination,
+						 GFile **out_destination,
 						 GError **error);
 
 /* Handy GAsyncReadyCallback Functions */

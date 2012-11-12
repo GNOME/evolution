@@ -2019,6 +2019,29 @@ e_attachment_load_handle_error (EAttachment *attachment,
 	g_error_free (error);
 }
 
+gboolean
+e_attachment_load (EAttachment *attachment,
+		   GError **error)
+{
+	EAsyncClosure *closure;
+	GAsyncResult *result;
+	gboolean success;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+
+	closure = e_async_closure_new ();
+
+	e_attachment_load_async (attachment, e_async_closure_callback, closure);
+
+	result = e_async_closure_wait (closure);
+
+	success = e_attachment_load_finish (attachment, result, error);
+
+	e_async_closure_free (closure);
+
+	return success;
+}
+
 /************************* e_attachment_open_async() *************************/
 
 typedef struct _OpenContext OpenContext;
@@ -2293,6 +2316,30 @@ e_attachment_open_handle_error (EAttachment *attachment,
 
 	gtk_widget_destroy (dialog);
 	g_error_free (error);
+}
+
+gboolean
+e_attachment_open (EAttachment *attachment,
+		   GAppInfo *app_info,
+		   GError **error)
+{
+	EAsyncClosure *closure;
+	GAsyncResult *result;
+	gboolean success;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+
+	closure = e_async_closure_new ();
+
+	e_attachment_open_async (attachment, app_info, e_async_closure_callback, closure);
+
+	result = e_async_closure_wait (closure);
+
+	success = e_attachment_open_finish (attachment, result, error);
+
+	e_async_closure_free (closure);
+
+	return success;
 }
 
 /************************* e_attachment_save_async() *************************/
@@ -2806,4 +2853,29 @@ e_attachment_save_handle_error (EAttachment *attachment,
 
 	gtk_widget_destroy (dialog);
 	g_error_free (error);
+}
+
+gboolean
+e_attachment_save (EAttachment *attachment,
+		   GFile *in_destination,
+		   GFile **out_destination,
+		   GError **error)
+{
+	EAsyncClosure *closure;
+	GAsyncResult *result;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+	g_return_val_if_fail (out_destination != NULL, FALSE);
+
+	closure = e_async_closure_new ();
+
+	e_attachment_save_async (attachment, in_destination, e_async_closure_callback, closure);
+
+	result = e_async_closure_wait (closure);
+
+	*out_destination = e_attachment_save_finish (attachment, result, error);
+
+	e_async_closure_free (closure);
+
+	return *out_destination != NULL;
 }
