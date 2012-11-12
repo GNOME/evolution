@@ -760,7 +760,6 @@ button_clicked_cb (WebKitDOMElement *element,
 
 	response = atoi (responseStr);
 
-	//d (printf ("Clicked btton %d\n", response));
 	g_signal_emit (data, signals[RESPONSE], 0, response);
 }
 
@@ -5606,57 +5605,25 @@ extract_itip_data (EMailPartItip *pitip,
 	return TRUE;
 }
 
-struct _opencal_msg {
-	MailMsg base;
-
-	gchar *command; /* command line to run */
-};
-
-static gchar *
-open_calendar__desc (struct _opencal_msg *m,
-                     gint complete)
-{
-	return g_strdup (_("Opening calendar"));
-}
-
-static void
-open_calendar__exec (struct _opencal_msg *m,
-                     GCancellable *cancellable,
-                     GError **error)
-{
-	if (!g_spawn_command_line_async (m->command, NULL)) {
-		g_warning ("Could not launch %s", m->command);
-	}
-}
-
-static void
-open_calendar__free (struct _opencal_msg *m)
-{
-	g_free (m->command);
-	m->command = NULL;
-}
-
-static MailMsgInfo open_calendar_info = {
-	sizeof (struct _opencal_msg),
-	(MailMsgDescFunc) open_calendar__desc,
-	(MailMsgExecFunc) open_calendar__exec,
-	(MailMsgDoneFunc) NULL,
-	(MailMsgFreeFunc) open_calendar__free,
-};
-
 static gboolean
 idle_open_cb (gpointer data)
 {
 	EMailPartItip *pitip = data;
-	struct _opencal_msg *m;
-	gchar *start, *end;
+	EShell *shell;
+	const gchar *uris[2];
+	gchar *start, *end, *shell_uri;
 
-	start = isodate_from_time_t (pitip->start_time);
-	end = isodate_from_time_t (pitip->end_time);
-	m = mail_msg_new (&open_calendar_info);
-	m->command = g_strdup_printf ("evolution \"calendar:///?startdate=%s&enddate=%s\"", start, end);
-	mail_msg_slow_ordered_push (m);
+	start = isodate_from_time_t (pitip->start_time ? pitip->start_time : time (NULL));
+	end = isodate_from_time_t (pitip->end_time ? pitip->end_time : time (NULL));
+	shell_uri = g_strdup_printf ("calendar:///?startdate=%s&enddate=%s", start, end);
 
+	uris[0] = shell_uri;
+	uris[1] = NULL;
+
+	shell = e_shell_get_default ();
+	e_shell_handle_uris (shell, uris, FALSE);
+
+	g_free (shell_uri);
 	g_free (start);
 	g_free (end);
 
@@ -6162,11 +6129,11 @@ itip_view_init_view (ItipView *view)
 		}
 	}
 
-	if (response_enabled) {
-		g_signal_connect (
-			view, "response",
-			G_CALLBACK (view_response_cb), info);
+	g_signal_connect (
+		view, "response",
+		G_CALLBACK (view_response_cb), info);
 
+	if (response_enabled) {
 		itip_view_set_show_free_time_check (view, info->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS && (info->method == ICAL_METHOD_PUBLISH || info->method ==  ICAL_METHOD_REQUEST));
 
 		if (info->calendar_uid) {
@@ -6175,5 +6142,13 @@ itip_view_init_view (ItipView *view)
 			find_server (info, view, info->comp);
 			set_buttons_sensitive (info, view);
 		}
+	} else if (view->priv->dom_document) {
+		/* The Open Calendar button can be shown, thus enable it */
+		WebKitDOMElement *el;
+
+		el = webkit_dom_document_get_element_by_id (
+			view->priv->dom_document, BUTTON_OPEN_CALENDAR);
+		webkit_dom_html_button_element_set_disabled (
+			WEBKIT_DOM_HTML_BUTTON_ELEMENT (el), FALSE);
 	}
 }
