@@ -51,10 +51,35 @@ component_has_recipients (ECalComponent *comp)
 
 	g_return_val_if_fail (comp != NULL, FALSE);
 
+	e_cal_component_get_organizer (comp, &organizer);
 	e_cal_component_get_attendee_list (comp, &attendees);
 
-	if (!attendees)
-		return FALSE;
+	if (!attendees) {
+		if (organizer.value && e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
+			/* memos store recipients in an extra property */
+			icalcomponent *icalcomp;
+			icalproperty *icalprop;
+
+			icalcomp = e_cal_component_get_icalcomponent (comp);
+
+			for (icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+			     icalprop != NULL;
+			     icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY)) {
+				const gchar *x_name;
+
+				x_name = icalproperty_get_x_name (icalprop);
+
+				if (g_str_equal (x_name, "X-EVOLUTION-RECIPIENTS")) {
+					const gchar *str_recipients = icalproperty_get_x (icalprop);
+
+					res = str_recipients && g_ascii_strcasecmp (organizer.value, str_recipients) != 0;
+					break;
+				}
+			}
+		}
+
+		return res;
+	}
 
 	if (g_slist_length (attendees) > 1 || !e_cal_component_has_organizer (comp)) {
 		e_cal_component_free_attendee_list (attendees);
@@ -63,7 +88,6 @@ component_has_recipients (ECalComponent *comp)
 
 	attendee = attendees->data;
 
-	e_cal_component_get_organizer (comp, &organizer);
 	res = organizer.value && attendee && attendee->value && g_ascii_strcasecmp (organizer.value, attendee->value) != 0;
 
 	e_cal_component_free_attendee_list (attendees);

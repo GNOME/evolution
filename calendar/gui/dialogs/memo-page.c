@@ -808,6 +808,9 @@ memo_page_fill_component (CompEditorPage *page,
 		g_free (mailto);
 	}
 
+	comp_editor_set_needs_send (editor, (flags & COMP_EDITOR_IS_SHARED) != 0 &&
+		itip_organizer_is_user (e_shell_get_registry (comp_editor_get_shell (editor)), comp, client));
+
 	return TRUE;
 }
 
