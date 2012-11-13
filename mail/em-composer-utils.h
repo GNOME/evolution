@@ -84,6 +84,11 @@ EDestination **	em_utils_camel_address_to_destination
 						(CamelInternetAddress *iaddr);
 void		em_configure_new_composer	(EMsgComposer *composer,
 						 EMailSession *session);
+void		em_utils_get_real_folder_uri_and_message_uid
+						(CamelFolder *folder,
+						 const gchar *uid,
+						 gchar **folder_uri,
+						 gchar **message_uid);
 
 G_END_DECLS
 

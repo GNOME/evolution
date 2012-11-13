@@ -56,6 +56,7 @@ struct _AsyncContext {
 	EMailReader *reader;
 	CamelMimeMessage *message;
 	CamelFolder *template_folder;
+	gchar *source_folder_uri;
 	gchar *message_uid;
 	gchar *template_message_uid;
 };
@@ -117,6 +118,7 @@ async_context_free (AsyncContext *context)
 	if (context->template_folder != NULL)
 		g_object_unref (context->template_folder);
 
+	g_free (context->source_folder_uri);
 	g_free (context->message_uid);
 	g_free (context->template_message_uid);
 
@@ -790,6 +792,7 @@ create_new_message (CamelFolder *folder,
 	EShell *shell;
 	const gchar *message_uid;
 	gint i;
+	EMsgComposer *composer;
 	GError *error = NULL;
 
 	CamelMimePart *template_part = NULL;
@@ -925,7 +928,10 @@ create_new_message (CamelFolder *folder,
 			template, CAMEL_RECIPIENT_TYPE_BCC));
 
 	/* Create the composer */
-	em_utils_edit_message (shell, folder, new, message_uid);
+	composer = E_MSG_COMPOSER (em_utils_edit_message (shell, folder, new, message_uid));
+	if (composer && context->source_folder_uri && context->message_uid)
+		e_msg_composer_set_source_headers (composer, context->source_folder_uri,
+			context->message_uid, CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN);
 
 	g_object_unref (template);
 	g_object_unref (new_multipart);
@@ -1015,8 +1021,13 @@ action_reply_with_template_cb (GtkAction *action,
 	context->activity = activity;
 	context->reader = g_object_ref (reader);
 	context->template_folder = g_object_ref (template_folder);
-	context->message_uid = g_strdup (message_uid);
 	context->template_message_uid = g_strdup (template_message_uid);
+
+	em_utils_get_real_folder_uri_and_message_uid (folder, message_uid,
+		&context->source_folder_uri, &context->message_uid);
+
+	if (!context->message_uid)
+		context->message_uid = g_strdup (message_uid);
 
 	camel_folder_get_message (
 		folder, message_uid, G_PRIORITY_DEFAULT,

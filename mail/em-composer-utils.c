@@ -1562,11 +1562,11 @@ emu_update_composers_security (EMsgComposer *composer,
 	}
 }
 
-static void
-get_real_folder_uri_and_message_uid (CamelFolder *folder,
-                                     const gchar *uid,
-                                     gchar **folder_uri,
-                                     gchar **message_uid)
+void
+em_utils_get_real_folder_uri_and_message_uid (CamelFolder *folder,
+					      const gchar *uid,
+					      gchar **folder_uri,
+					      gchar **message_uid)
 {
 	g_return_if_fail (folder != NULL);
 	g_return_if_fail (uid != NULL);
@@ -1764,7 +1764,7 @@ forward_non_attached (EShell *shell,
 		if (uid != NULL) {
 			gchar *folder_uri = NULL, *tmp_message_uid = NULL;
 
-			get_real_folder_uri_and_message_uid (folder, uid, &folder_uri, &tmp_message_uid);
+			em_utils_get_real_folder_uri_and_message_uid (folder, uid, &folder_uri, &tmp_message_uid);
 
 			e_msg_composer_set_source_headers (
 				composer, folder_uri, tmp_message_uid,
@@ -2998,7 +2998,7 @@ em_utils_reply_to_message (EShell *shell,
 	if (folder != NULL) {
 		gchar *folder_uri = NULL, *tmp_message_uid = NULL;
 
-		get_real_folder_uri_and_message_uid (folder, message_uid, &folder_uri, &tmp_message_uid);
+		em_utils_get_real_folder_uri_and_message_uid (folder, message_uid, &folder_uri, &tmp_message_uid);
 
 		e_msg_composer_set_source_headers (
 			composer, folder_uri, tmp_message_uid, flags);
