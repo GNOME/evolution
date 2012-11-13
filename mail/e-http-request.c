@@ -168,7 +168,9 @@ handle_http_request (GSimpleAsyncResult *res,
 
 	/* Remove the __evo-mail query */
 	soup_uri = soup_request_get_uri (SOUP_REQUEST (request));
-	query = soup_form_decode (soup_uri->query);
+	g_return_if_fail (soup_uri_get_query (soup_uri) != NULL);
+
+	query = soup_form_decode (soup_uri_get_query (soup_uri));
 	mail_uri = g_hash_table_lookup (query, "__evo-mail");
 	if (mail_uri)
 		mail_uri = g_strdup (mail_uri);
@@ -432,7 +434,9 @@ http_request_send_async (SoupRequest *request,
 
 	ehr = E_HTTP_REQUEST (request);
 	uri = soup_request_get_uri (request);
-	query = soup_form_decode (uri->query);
+	g_return_if_fail (soup_uri_get_query (uri) != NULL);
+
+	query = soup_form_decode (soup_uri_get_query (uri));
 
 	d ({
 		gchar *uri_str = soup_uri_to_string (uri, FALSE);

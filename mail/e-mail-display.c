@@ -355,7 +355,8 @@ mail_display_resource_requested (WebKitWebView *web_view,
 
 	/* Redirect http(s) request to evo-http(s) protocol.
 	 * See EMailRequest for further details about this. */
-	} else if (g_str_has_prefix (uri, "http:") || g_str_has_prefix (uri, "https")) {
+	} else if (g_str_has_prefix (uri, "http:") || g_str_has_prefix (uri, "https:") ||
+	    g_str_has_prefix (uri, "evo-http:") || g_str_has_prefix (uri, "evo-https:")) {
 		gchar *new_uri, *mail_uri, *enc;
 		SoupURI *soup_uri;
 		GHashTable *query;
