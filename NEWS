@@ -1,3 +1,59 @@
+Evolution 3.7.2 2012-11-17
+--------------------------
+
+Bug Fixes:
+	Bug 267787 - Preferences too large for small screens (Milan Crha)
+	Bug 268618 - Add: Save replies in the folder of the message being
+	             replied to (Milan Crha)
+	Bug 317153 - Contact editor too large for small screens (Milan Crha)
+	Bug 422273 - Wrap searchbar widgets for smaller minimum width request
+	             (Milan Crha)
+	Bug 627244 - Bold days in "Select Date" dialog not updated when
+	             changing month (Fabiano Fidêncio)
+	Bug 656143 - Stop using deprecated Gtk[HV]Box(Class)
+	             (Dominique Leuenberger)
+	Bug 663844 - [CalDAV] Fails to parse iCloud XML response (Milan Crha)
+	Bug 680497 - POP3 re-adds messages to local Inbox (Milan Crha)
+	Bug 683877 - No more contextual menus for links (Milan Crha)
+	Bug 686325 - Preview message window keyboard use severely limited
+	             (Milan Crha)
+	Bug 686785 - Port of WebDAV source doesn't match SSL check (Milan Crha)
+	Bug 686813 - ECaldavChooser: Deadlock on cancellation (Matthew Barnes)
+	Bug 687010 - Add keywords to the desktop file (Matthias Clasen)
+	Bug 687060 - Identity page shows read-only GOA properties as editable
+	             (Matthew Barnes)
+	Bug 687137 - Google account user name overwritten with email address
+	             (Matthew Barnes)
+	Bug 687155 - Text/plain signatures wrap in an editor (Milan Crha)
+	Bug 687400 - Composer settings not applied (Matthew Barnes)
+	Bug 687442 - Magic spacebar avoids iTip formatter comment write
+	             (Milan Crha)
+	Bug 688084 - Cannot configure connection to webdav address book
+	             (Alban Browaeys)
+
+Other Changes:
+	* Fixed squished labels on Identity page of Account Assistant.
+	  (Matthew Barnes)
+	* Require WebKitGtk 1.10.0 for webkit_web_frame_get_dom_document()
+	  (Milan Crha)
+	* Restrict geocode-glib dependency to 0.99.0. (Matthew Barnes)
+	* Missing search buttons in Calendar view (Milan Crha)
+	* Make auto-configuration cancellable. (Matthew Barnes)
+	* EMailConfigAssistant: Make revising auto-configuration easier.
+	  (Matthew Barnes)
+	* Bump minimum GLib requirement to 2.34. (Matthew Barnes)
+
+Translations:
+	Marek Černocký (cs)
+	Tom Tryfonidis (el)
+	Chris Leonard (en_GB)
+	Fran Diéguez (gl)
+	Andika Triwidada (id)
+	Kjartan Maraas (nb)
+	Piotr Drąg (pl)
+	Yuri Myasoedov (ru)
+
+
 Evolution 3.7.1 2012-10-15
 --------------------------
 
