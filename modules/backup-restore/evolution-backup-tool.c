@@ -53,6 +53,7 @@
 #define EVOLUTION "evolution"
 #define EVOLUTION_DIR "$DATADIR/"
 #define EVOLUTION_DIR_FILE EVOLUTION ".dir"
+#define DBUS_SOURCE_REGISTRY_SERVICE_FILE "$DBUSDATADIR/org.gnome.evolution.dataserver.Sources.service"
 
 #define ANCIENT_GCONF_DUMP_FILE "backup-restore-gconf.xml"
 
@@ -178,6 +179,7 @@ replace_variables (const gchar *str)
 	repl ("$CONFIGDIR", e_get_user_config_dir ());
 	repl ("$STRIPDATADIR", strip_datadir);
 	repl ("$STRIPCONFIGDIR", strip_configdir);
+	repl ("$DBUSDATADIR", DBUS_SERVICES_DIR);
 
 	#undef repl
 
@@ -445,6 +447,46 @@ get_dir_level (const gchar *dir)
 	return res;
 }
 
+static gchar *
+get_source_manager_reload_command (void)
+{
+	GString *tmp;
+	gchar *command;
+
+	tmp = replace_variables (DBUS_SOURCE_REGISTRY_SERVICE_FILE);
+	if (tmp) {
+		GKeyFile *key_file;
+		gchar *str = NULL;
+
+		key_file = g_key_file_new ();
+		if (g_key_file_load_from_file (key_file, tmp->str, G_KEY_FILE_NONE, NULL)) {
+			str = g_key_file_get_string (key_file, "D-BUS Service", "Name", NULL);
+		}
+		g_key_file_free (key_file);
+
+		if (str && *str) {
+			g_string_assign (tmp, str);
+		} else {
+			g_string_free (tmp, TRUE);
+			tmp = NULL;
+		}
+
+		g_free (str);
+	}
+
+	if (!tmp)
+		tmp = g_string_new ("org.gnome.evolution.dataserver.Sources0");
+
+	command = g_strdup_printf ("gdbus call --session --dest %s "
+		"--object-path /org/gnome/evolution/dataserver/SourceManager "
+		"--method org.gnome.evolution.dataserver.SourceManager.Reload",
+		tmp->str);
+
+	g_string_free (tmp, TRUE);
+
+	return command;
+}
+
 static void
 restore (const gchar *filename,
          GCancellable *cancellable)
@@ -578,6 +620,10 @@ restore (const gchar *filename,
 				EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE,
 				EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
 			run_cmd ("gconftool-2 --load " EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE);
+
+			/* give a chance to GConf to save what was loaded into a disk */
+			g_usleep (G_USEC_PER_SEC * 5);
+
 			/* do not forget to convert GConf keys into GSettings */
 			run_cmd ("gsettings-data-convert");
 			run_cmd ("rm " EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE);
@@ -613,6 +659,9 @@ restore (const gchar *filename,
 		run_cmd (command);
 		g_free (command);
 
+		/* give a chance to GConf to save what was loaded into a disk */
+		g_usleep (G_USEC_PER_SEC * 5);
+
 		/* do not forget to convert GConf keys into GSettings */
 		run_cmd ("gsettings-data-convert");
 
@@ -640,16 +689,13 @@ restore (const gchar *filename,
 
 	txt = _("Reloading registry service");
 
-	/* This runs migration routines on the newly-restored data.
-	 *
-	 * XXX Hard-coding the whole command like this is not ideal
-	 *     because the "SourcesX" interface name will occasionally
-	 *     change and I guarantee we'll forget to update this. */
-	run_cmd (
-		"gdbus call --session "
-		"--dest org.gnome.evolution.dataserver.Sources0 "
-		"--object-path /org/gnome/evolution/dataserver/SourceManager "
-		"--method org.gnome.evolution.dataserver.SourceManager.Reload");
+	/* wait few seconds, till changes settle */
+	g_usleep (G_USEC_PER_SEC * 5);
+
+	command = get_source_manager_reload_command ();
+	/* This runs migration routines on the newly-restored data. */
+	run_cmd (command);
+	g_free (command);
 
 end:
 	if (restart_arg) {
@@ -657,6 +703,11 @@ end:
 			return;
 
 		txt = _("Restarting Evolution");
+
+		/* wait 5 seconds before restarting evolution, thus any
+		   changes being done are updated in source registry too */
+		g_usleep (G_USEC_PER_SEC * 5);
+
 		run_evolution_no_wait ();
 	}
 }

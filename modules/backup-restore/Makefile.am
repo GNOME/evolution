@@ -53,6 +53,7 @@ evolution_backup_CPPFLAGS =					\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"			\
 	-DDATADIR=\""$(datadir)"\"				\
 	-DLIBDIR=\""$(libdir)"\"				\
+	-DDBUS_SERVICES_DIR=\"'${datadir}'/dbus-1/services\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(NULL)
