@@ -85,6 +85,10 @@ EMailLabelListStore *
 						(EMailUISession *session);
 void		e_mail_ui_session_add_activity	(EMailUISession *session,
 						 EActivity *activity);
+gint		e_mail_ui_session_alert_user	(CamelSession *session,
+						 CamelSessionAlertType type,
+						 const gchar *prompt,
+						 GSList *button_captions);
 
 G_END_DECLS
 

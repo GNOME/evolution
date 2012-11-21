@@ -16,8 +16,6 @@
  *
  */
 
-#include "e-mail-config-auth-check.h"
-
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
@@ -25,6 +23,9 @@
 #include <e-util/e-mktemp.h>
 #include <misc/e-auth-combo-box.h>
 #include <mail/e-mail-config-service-page.h>
+#include "e-mail-ui-session.h"
+
+#include "e-mail-config-auth-check.h"
 
 #define E_MAIL_CONFIG_AUTH_CHECK_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -145,6 +146,9 @@ mail_config_auth_check_update (EMailConfigAuthCheck *auth_check)
 		"user-data-dir", temp_dir,
 		"user-cache-dir", temp_dir,
 		NULL);
+
+	/* to be able to answer for invalid/self-signed server certificates */
+	CAMEL_SESSION_GET_CLASS (session)->alert_user = e_mail_ui_session_alert_user;
 
 	service = camel_session_add_service (
 		session, "fake-uid",
