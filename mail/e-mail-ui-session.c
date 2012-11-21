@@ -620,11 +620,11 @@ mail_ui_session_remove_service (CamelSession *session,
 	e_mail_account_store_remove_service (store, NULL, service);
 }
 
-static gint
-mail_ui_session_alert_user (CamelSession *session,
-                            CamelSessionAlertType type,
-                            const gchar *prompt,
-                            GSList *button_captions)
+gint
+e_mail_ui_session_alert_user (CamelSession *session,
+                              CamelSessionAlertType type,
+                              const gchar *prompt,
+                              GSList *button_captions)
 {
 	struct _user_message_msg *m;
 	GCancellable *cancellable;
@@ -702,7 +702,7 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 	session_class = CAMEL_SESSION_CLASS (class);
 	session_class->add_service = mail_ui_session_add_service;
 	session_class->remove_service = mail_ui_session_remove_service;
-	session_class->alert_user = mail_ui_session_alert_user;
+	session_class->alert_user = e_mail_ui_session_alert_user;
 	session_class->get_filter_driver = mail_ui_session_get_filter_driver;
 
 	mail_session_class = E_MAIL_SESSION_CLASS (class);
