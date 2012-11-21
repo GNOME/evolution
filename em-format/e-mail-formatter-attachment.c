@@ -140,11 +140,21 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	if ((context->mode == E_MAIL_FORMATTER_MODE_NORMAL) ||
 	    (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) ||
 	    (context->mode == E_MAIL_FORMATTER_MODE_ALL_HEADERS)) {
-		if (part->validity) {
-			e_attachment_set_signed (
-				empa->attachment, part->validity->sign.status);
-			e_attachment_set_encrypted (
-				empa->attachment, part->validity->encrypt.status);
+		if (part->validities) {
+			GSList *lst;
+
+			for (lst = part->validities; lst; lst = lst->next) {
+				EMailPartValidityPair *pair = lst->data;
+
+				if (!pair)
+					continue;
+
+				if ((pair->validity_type & E_MAIL_PART_VALIDITY_SIGNED) != 0)
+					e_attachment_set_signed (empa->attachment, pair->validity->sign.status);
+
+				if ((pair->validity_type & E_MAIL_PART_VALIDITY_ENCRYPTED) != 0)
+					e_attachment_set_encrypted (empa->attachment, pair->validity->encrypt.status);
+			}
 		}
 
 		store = find_attachment_store (context->parts, part->id);

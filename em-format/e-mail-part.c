@@ -39,6 +39,18 @@ struct _EMailPartPrivate {
 };
 
 static void
+mail_part_validity_pair_free (gpointer ptr)
+{
+	EMailPartValidityPair *pair = ptr;
+
+	if (!pair)
+		return;
+
+	camel_cipher_validity_free (pair->validity);
+	g_free (pair);
+}
+
+static void
 mail_part_free (EMailPart *part)
 {
 	if (!part)
@@ -59,14 +71,9 @@ mail_part_free (EMailPart *part)
 		part->mime_type = NULL;
 	}
 
-	if (part->validity) {
-		camel_cipher_validity_free (part->validity);
-		part->validity = NULL;
-	}
-
-	if (part->validity_parent) {
-		camel_cipher_validity_free (part->validity_parent);
-		part->validity_parent = NULL;
+	if (part->validities) {
+		g_slist_free_full (part->validities, mail_part_validity_pair_free);
+		part->validities = NULL;
 	}
 
 	if (part->priv->free_func) {
@@ -169,6 +176,22 @@ e_mail_part_get_instance_size (EMailPart *part)
 	return part->priv->instance_size;
 }
 
+static EMailPartValidityPair *
+mail_part_find_validity_pair (EMailPart *part,
+			      guint32 validity_type)
+{
+	GSList *lst;
+
+	for (lst = part->validities; lst; lst = lst->next) {
+		EMailPartValidityPair *pair = lst->data;
+
+		if (pair && (pair->validity_type & validity_type) == validity_type)
+			return pair;
+	}
+
+	return NULL;
+}
+
 /**
  * e_mail_part_update_validity:
  * @part: An #EMailPart
@@ -177,20 +200,52 @@ e_mail_part_get_instance_size (EMailPart *part)
  *
  * Updates validity of the @part. When the part already has some validity
  * set, the new @validity and @validity_type are just appended, preserving
- * the original validity.
+ * the original validity. Validities of the same type (PGP or S/MIME) are
+ * merged together.
  */
 void
 e_mail_part_update_validity (EMailPart *part,
                              CamelCipherValidity *validity,
                              guint32 validity_type)
 {
+	EMailPartValidityPair *pair;
+
 	g_return_if_fail (part != NULL);
 
-	part->validity_type &= validity_type;
-
-	if (part->validity) {
-		camel_cipher_validity_envelope (part->validity, validity);
+	pair = mail_part_find_validity_pair (part, validity_type & (E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_SMIME));
+	if (pair) {
+		pair->validity_type |= validity_type;
+		camel_cipher_validity_envelope (pair->validity, validity);
 	} else {
-		part->validity = camel_cipher_validity_clone (validity);
+		pair = g_new0 (EMailPartValidityPair, 1);
+		pair->validity_type = validity_type;
+		pair->validity = camel_cipher_validity_clone (validity);
+
+		part->validities = g_slist_append (part->validities, pair);
 	}
+}
+
+/**
+ * e_mail_part_get_validity:
+ * @part: An #EMailPart
+ * @validity_type: E_MAIL_PART_VALIDITY_* flags
+ *
+ * Returns, validity of @part contains any validity with the same bits
+ * as @validity_type set. It should contain all bits of it.
+ *
+ * Returns: a #CamelCipherValidity of the given type, %NULL if not found
+ *
+ * Since: 3.8
+ */
+CamelCipherValidity *
+e_mail_part_get_validity (EMailPart *part,
+			  guint32 validity_type)
+{
+	EMailPartValidityPair *pair;
+
+	g_return_val_if_fail (part != NULL, NULL);
+
+	pair = mail_part_find_validity_pair (part, validity_type);
+
+	return pair ? pair->validity : NULL;
 }

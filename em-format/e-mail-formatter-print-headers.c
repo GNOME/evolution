@@ -136,31 +136,31 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 		if (mail_part == NULL)
 			continue;
 
-		if (mail_part->validity_type == 0)
+		if (!mail_part->validities)
 			continue;
 
 		if (!g_str_has_prefix (mail_part->id, part_id_prefix))
 			continue;
 
-		if ((mail_part->validity_type & E_MAIL_PART_VALIDITY_PGP) &&
-		    (mail_part->validity_type & E_MAIL_PART_VALIDITY_SIGNED)) {
+		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_SIGNED)) {
 			g_string_append (tmp, _("GPG signed"));
 		}
-		if ((mail_part->validity_type & E_MAIL_PART_VALIDITY_PGP) &&
-		    (mail_part->validity_type & E_MAIL_PART_VALIDITY_ENCRYPTED)) {
-			if (tmp->len > 0) g_string_append (tmp, ", ");
+
+		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_ENCRYPTED)) {
+			if (tmp->len > 0)
+				g_string_append (tmp, ", ");
 			g_string_append (tmp, _("GPG encrpyted"));
 		}
-		if ((mail_part->validity_type & E_MAIL_PART_VALIDITY_SMIME) &&
-		    (mail_part->validity_type & E_MAIL_PART_VALIDITY_SIGNED)) {
 
-			if (tmp->len > 0) g_string_append (tmp, ", ");
+		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_SMIME | E_MAIL_PART_VALIDITY_SIGNED)) {
+			if (tmp->len > 0)
+				g_string_append (tmp, ", ");
 			g_string_append (tmp, _("S/MIME signed"));
 		}
-		if ((mail_part->validity_type & E_MAIL_PART_VALIDITY_SMIME) &&
-		    (mail_part->validity_type & E_MAIL_PART_VALIDITY_ENCRYPTED)) {
 
-			if (tmp->len > 0) g_string_append (tmp, ", ");
+		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_SMIME | E_MAIL_PART_VALIDITY_ENCRYPTED)) {
+			if (tmp->len > 0)
+				g_string_append (tmp, ", ");
 			g_string_append (tmp, _("S/MIME encrpyted"));
 		}
 

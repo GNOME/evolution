@@ -43,6 +43,13 @@ enum {
 	E_MAIL_PART_VALIDITY_ENCRYPTED	=	1 << 3
 } EMailPartValidityFlags;
 
+typedef struct _EMailPartValidityPair EMailPartValidityPair;
+
+struct _EMailPartValidityPair {
+	guint32 validity_type;	/* E_MAIL_PART_VALIDITY_ * flags */
+	CamelCipherValidity *validity;
+};
+
 struct _EMailPart {
 	EMailPartPrivate *priv;
 
@@ -53,9 +60,7 @@ struct _EMailPart {
 	gchar *cid;
 	gchar *mime_type;
 
-	guint32 validity_type;	/* E_MAIL_PART_VALIDITY_ * flags */
-	CamelCipherValidity *validity;
-	CamelCipherValidity *validity_parent;
+	GSList *validities;	/* EMailPartValidityPair pointer */
 
 	gint is_attachment: 1;
 
@@ -91,6 +96,9 @@ gsize		e_mail_part_get_instance_size	(EMailPart *part);
 
 void		e_mail_part_update_validity	(EMailPart *part,
 						 CamelCipherValidity *validity,
+						 guint32 validity_type);
+CamelCipherValidity *
+		e_mail_part_get_validity	(EMailPart *part,
 						 guint32 validity_type);
 
 G_END_DECLS

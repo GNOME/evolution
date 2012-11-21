@@ -267,11 +267,13 @@ format_cert_infos (GQueue *cert_infos,
 
 static void
 secure_button_clicked_cb (GtkWidget *widget,
-                          EMailPart *part)
+                          CamelCipherValidity *validity)
 {
 	GtkBuilder *builder;
 	GtkWidget *grid, *w;
 	GtkWidget *dialog;
+
+	g_return_if_fail (validity != NULL);
 
 	builder = gtk_builder_new ();
 	e_load_ui_builder_definition (builder, "mail-dialogs.ui");
@@ -279,17 +281,17 @@ secure_button_clicked_cb (GtkWidget *widget,
 	dialog = e_builder_get_widget (builder, "message_security_dialog");
 
 	grid = e_builder_get_widget (builder, "signature_grid");
-	w = gtk_label_new (_(smime_sign_table[part->validity->sign.status].description));
+	w = gtk_label_new (_(smime_sign_table[validity->sign.status].description));
 	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
 	gtk_container_add (GTK_CONTAINER (grid), w);
-	if (part->validity->sign.description) {
+	if (validity->sign.description) {
 		GtkTextBuffer *buffer;
 
 		buffer = gtk_text_buffer_new (NULL);
 		gtk_text_buffer_set_text (
-			buffer, part->validity->sign.description,
-			strlen (part->validity->sign.description));
+			buffer, validity->sign.description,
+			strlen (validity->sign.description));
 		w = g_object_new (
 			gtk_scrolled_window_get_type (),
 			"hscrollbar_policy", GTK_POLICY_AUTOMATIC,
@@ -309,24 +311,24 @@ secure_button_clicked_cb (GtkWidget *widget,
 		gtk_container_add (GTK_CONTAINER (grid), w);
 	}
 
-	if (!g_queue_is_empty (&part->validity->sign.signers))
+	if (!g_queue_is_empty (&validity->sign.signers))
 		add_cert_table (
-			grid, &part->validity->sign.signers, NULL);
+			grid, &validity->sign.signers, NULL);
 
 	gtk_widget_show_all (grid);
 
 	grid = e_builder_get_widget (builder, "encryption_grid");
-	w = gtk_label_new (_(smime_encrypt_table[part->validity->encrypt.status].description));
+	w = gtk_label_new (_(smime_encrypt_table[validity->encrypt.status].description));
 	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
 	gtk_container_add (GTK_CONTAINER (grid), w);
-	if (part->validity->encrypt.description) {
+	if (validity->encrypt.description) {
 		GtkTextBuffer *buffer;
 
 		buffer = gtk_text_buffer_new (NULL);
 		gtk_text_buffer_set_text (
-			buffer, part->validity->encrypt.description,
-			strlen (part->validity->encrypt.description));
+			buffer, validity->encrypt.description,
+			strlen (validity->encrypt.description));
 		w = g_object_new (
 			gtk_scrolled_window_get_type (),
 			"hscrollbar_policy", GTK_POLICY_AUTOMATIC,
@@ -346,8 +348,8 @@ secure_button_clicked_cb (GtkWidget *widget,
 		gtk_container_add (GTK_CONTAINER (grid), w);
 	}
 
-	if (!g_queue_is_empty (&part->validity->encrypt.encrypters))
-		add_cert_table (grid, &part->validity->encrypt.encrypters, NULL);
+	if (!g_queue_is_empty (&validity->encrypt.encrypters))
+		add_cert_table (grid, &validity->encrypt.encrypters, NULL);
 
 	gtk_widget_show_all (grid);
 
@@ -361,37 +363,37 @@ secure_button_clicked_cb (GtkWidget *widget,
 }
 
 static GtkWidget *
-emfe_secure_button_get_widget (EMailFormatterExtension *extension,
-                               EMailPartList *context,
-                               EMailPart *part,
-                               GHashTable *params)
+secure_button_get_widget_for_validity (CamelCipherValidity *validity)
 {
 	GtkWidget *box, *button, *layout, *widget;
 	const gchar *icon_name;
 	gchar *description;
 	GString *buffer;
+
+	g_return_val_if_fail (validity != NULL, NULL);
+
 	buffer = g_string_new ("");
 
-	if (part->validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
+	if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
 		const gchar *desc;
 		gint status;
 
-		status = part->validity->sign.status;
+		status = validity->sign.status;
 		desc = smime_sign_table[status].shortdesc;
 
 		g_string_append (buffer, gettext (desc));
 
-		format_cert_infos (&part->validity->sign.signers, buffer);
+		format_cert_infos (&validity->sign.signers, buffer);
 	}
 
-	if (part->validity->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
+	if (validity->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
 		const gchar *desc;
 		gint status;
 
-		if (part->validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
+		if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
 			g_string_append (buffer, "\n");
 
-		status = part->validity->encrypt.status;
+		status = validity->encrypt.status;
 		desc = smime_encrypt_table[status].shortdesc;
 		g_string_append (buffer, gettext (desc));
 	}
@@ -399,16 +401,16 @@ emfe_secure_button_get_widget (EMailFormatterExtension *extension,
 	description = g_string_free (buffer, FALSE);
 
 	/* FIXME: need to have it based on encryption and signing too */
-	if (part->validity->sign.status != 0)
-		icon_name = smime_sign_table[part->validity->sign.status].icon;
+	if (validity->sign.status != 0)
+		icon_name = smime_sign_table[validity->sign.status].icon;
 	else
-		icon_name = smime_encrypt_table[part->validity->encrypt.status].icon;
+		icon_name = smime_encrypt_table[validity->encrypt.status].icon;
 
 	box = gtk_event_box_new ();
-	if (part->validity->sign.status != 0)
+	if (validity->sign.status != 0)
 		gtk_widget_override_background_color (
 			box, GTK_STATE_FLAG_NORMAL,
-			&smime_sign_colour[part->validity->sign.status]);
+			&smime_sign_colour[validity->sign.status]);
 
 	layout = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
 	gtk_container_add (GTK_CONTAINER (box), layout);
@@ -417,7 +419,7 @@ emfe_secure_button_get_widget (EMailFormatterExtension *extension,
 	gtk_box_pack_start (GTK_BOX (layout), button, FALSE, FALSE, 0);
 	g_signal_connect (
 		button, "clicked",
-		G_CALLBACK (secure_button_clicked_cb), part);
+		G_CALLBACK (secure_button_clicked_cb), validity);
 
 	widget = gtk_image_new_from_icon_name (
 			icon_name, GTK_ICON_SIZE_LARGE_TOOLBAR);
@@ -426,10 +428,47 @@ emfe_secure_button_get_widget (EMailFormatterExtension *extension,
 	widget = gtk_label_new (description);
 	gtk_box_pack_start (GTK_BOX (layout), widget, FALSE, FALSE, 0);
 
-	gtk_widget_show_all (box);
-
 	g_free (description);
+
 	return box;
+}
+
+static GtkWidget *
+emfe_secure_button_get_widget (EMailFormatterExtension *extension,
+                               EMailPartList *context,
+                               EMailPart *part,
+                               GHashTable *params)
+{
+	GtkWidget *grid;
+	GSList *lst;
+
+	g_return_val_if_fail (part != NULL, NULL);
+
+	grid = g_object_new (GTK_TYPE_GRID,
+		"orientation", GTK_ORIENTATION_VERTICAL,
+		"row-spacing", 2,
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		NULL);
+
+	for (lst = part->validities; lst; lst = lst->next) {
+		EMailPartValidityPair *pair = lst->data;
+		GtkWidget *widget;
+
+		if (!pair)
+			continue;
+
+		widget = secure_button_get_widget_for_validity (pair->validity);
+		if (widget) {
+			gtk_widget_set_halign (widget, GTK_ALIGN_FILL);
+			gtk_widget_set_hexpand (widget, TRUE);
+			gtk_container_add (GTK_CONTAINER (grid), widget);
+		}
+	}
+
+	gtk_widget_show_all (grid);
+
+	return grid;
 }
 
 static const gchar *

@@ -1349,8 +1349,16 @@ em_utils_message_to_html (CamelSession *session,
 			hidden_text_html_part = part;
 		}
 
-		if (part->validity_type)
-			is_validity_found |= part->validity_type;
+		if (part->validities) {
+			GSList *lst;
+
+			for (lst = part->validities; lst; lst = lst->next) {
+				EMailPartValidityPair *pair = lst->data;
+
+				if (pair)
+					is_validity_found |= pair->validity_type;
+			}
+		}
 	}
 
 	if (validity_found)
