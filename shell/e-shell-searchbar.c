@@ -62,6 +62,7 @@ struct _EShellSearchbarPrivate {
 
 	GtkRadioAction *search_option;
 	EFilterRule *search_rule;
+	GtkCssProvider *css_provider;
 
 	/* Child Widgets (not referenced) */
 	GtkWidget *filter_combo_box;
@@ -253,17 +254,27 @@ shell_searchbar_update_search_widgets (EShellSearchbar *searchbar)
 		(e_shell_view_get_search_rule (shell_view) != NULL);
 
 	if (sensitive) {
-		GtkStyle *style;
-		const GdkColor *color;
+		GtkStyleContext *style;
+		GdkRGBA bg, fg;
+		gchar *css;
 
-		style = gtk_widget_get_style (widget);
-		color = &style->mid[GTK_STATE_SELECTED];
+		style = gtk_widget_get_style_context (widget);
+		gtk_style_context_get_background_color (style, GTK_STATE_FLAG_SELECTED, &bg);
+		gtk_style_context_get_color (style, GTK_STATE_FLAG_SELECTED, &fg);
 
-		gtk_widget_modify_bg (widget, GTK_STATE_NORMAL, color);
-		gtk_widget_modify_text (widget, GTK_STATE_NORMAL, NULL);
+		css = g_strdup_printf ("GtkEntry#searchbar_searchentry_active { "
+					"   background:none; "
+					"   background-color:#%06x; "
+					"   color:#%06x; "
+					"}",
+					e_rgba_to_value (&bg),
+					e_rgba_to_value (&fg));
+		gtk_css_provider_load_from_data (searchbar->priv->css_provider, css, -1, NULL);
+		g_free (css);
+
+		gtk_widget_set_name (widget, "searchbar_searchentry_active");
 	} else {
-		/* Text color will be updated when we move the focus. */
-		gtk_widget_modify_bg (widget, GTK_STATE_NORMAL, NULL);
+		gtk_widget_set_name (widget, "searchbar_searchentry");
 	}
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
@@ -568,6 +579,27 @@ shell_searchbar_resize_idle_cb (gpointer user_data)
 	return FALSE;
 }
 
+static gboolean
+shell_searchbar_entry_focus_in_cb (GtkWidget *entry,
+				   GdkEvent *event,
+				   EShellSearchbar *searchbar)
+{
+	/* to not change background when user changes search entry content */
+	gtk_widget_set_name (entry, "searchbar_searchentry");
+
+	return FALSE;
+}
+
+static gboolean
+shell_searchbar_entry_focus_out_cb (GtkWidget *entry,
+				    GdkEvent *event,
+				    EShellSearchbar *searchbar)
+{
+	shell_searchbar_update_search_widgets (searchbar);
+
+	return FALSE;
+}
+
 static void
 shell_searchbar_set_shell_view (EShellSearchbar *searchbar,
                                 EShellView *shell_view)
@@ -771,6 +803,11 @@ shell_searchbar_dispose (GObject *object)
 		priv->state_group = NULL;
 	}
 
+	if (priv->css_provider) {
+		g_object_unref (priv->css_provider);
+		priv->css_provider = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_searchbar_parent_class)->dispose (object);
 }
@@ -815,7 +852,10 @@ shell_searchbar_constructed (GObject *object)
 		shell_view, (GClosureNotify) NULL,
 		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
 
+	searchbar->priv->css_provider = gtk_css_provider_new ();
 	widget = searchbar->priv->search_entry;
+	gtk_style_context_add_provider (gtk_widget_get_style_context (widget),
+		GTK_STYLE_PROVIDER (searchbar->priv->css_provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
 
@@ -1194,6 +1234,16 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	g_signal_connect_swapped (
 		widget, "key-press-event",
 		G_CALLBACK (shell_searchbar_entry_key_press_cb),
+		searchbar);
+
+	g_signal_connect (
+		widget, "focus-in-event",
+		G_CALLBACK (shell_searchbar_entry_focus_in_cb),
+		searchbar);
+
+	g_signal_connect (
+		widget, "focus-out-event",
+		G_CALLBACK (shell_searchbar_entry_focus_out_cb),
 		searchbar);
 
 	/* Scope Combo Widgets */
