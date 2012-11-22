@@ -85,7 +85,7 @@ enum {
 	PROP_HEADERS_COLLAPSED,
 };
 
-static CamelDataCache *emd_global_http_cache = 0;
+static CamelDataCache *emd_global_http_cache = NULL;
 
 static const gchar *ui =
 "<ui>"
@@ -177,6 +177,25 @@ formatter_image_loading_policy_changed_cb (GObject *object,
 		e_mail_display_load_images (display);
 	else
 		e_mail_display_reload (display);
+}
+
+static gboolean
+mail_display_image_exists_in_cache (const gchar *image_uri)
+{
+	gchar *image_filename, *uri_md5;
+	gboolean exists;
+
+	g_return_val_if_fail (emd_global_http_cache != NULL, FALSE);
+
+	uri_md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, image_uri, -1);
+	image_filename = camel_data_cache_get_filename (emd_global_http_cache, "http", uri_md5);
+
+	exists = image_filename && g_file_test (image_filename, G_FILE_TEST_EXISTS);
+
+	g_free (uri_md5);
+	g_free (image_filename);
+
+	return exists;
 }
 
 static void
@@ -360,23 +379,18 @@ mail_display_resource_requested (WebKitWebView *web_view,
 		gchar *new_uri, *mail_uri, *enc;
 		SoupURI *soup_uri;
 		GHashTable *query;
-		gchar *uri_md5;
-		CamelStream *stream;
+		gboolean image_exists;
 		EMailImageLoadingPolicy image_policy;
 
-		/* Open Evolution's cache */
-		uri_md5 = g_compute_checksum_for_string (
-			G_CHECKSUM_MD5, uri, -1);
-		stream = camel_data_cache_get (
-			emd_global_http_cache, "http", uri_md5, NULL);
-		g_free (uri_md5);
+		/* Check Evolution's cache */
+		image_exists = mail_display_image_exists_in_cache (uri);
 
 		/* If the URI is not cached and we are not allowed to load it
 		 * then redirect to invalid URI, so that webkit would display
 		 * a native placeholder for it. */
 		image_policy = e_mail_formatter_get_image_loading_policy (
 			display->priv->formatter);
-		if (!stream && !display->priv->force_image_load &&
+		if (!image_exists && !display->priv->force_image_load &&
 		    (image_policy == E_MAIL_IMAGE_LOADING_POLICY_NEVER)) {
 			webkit_network_request_set_uri (request, "about:blank");
 			return;
@@ -1386,18 +1400,8 @@ mail_display_button_press_event (GtkWidget *widget,
 
 	if ((context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE)) {
 		visible = image_src && g_str_has_prefix (image_src, "cid:");
-		if (!visible && image_src) {
-			CamelStream *image_stream;
-
-			image_stream = camel_data_cache_get (
-				emd_global_http_cache, "http",
-				image_src, NULL);
-
-			visible = (image_stream != NULL);
-
-			if (image_stream != NULL)
-				g_object_unref (image_stream);
-		}
+		if (!visible && image_src)
+			visible = mail_display_image_exists_in_cache (image_src);
 
 		if (image_src != NULL)
 			g_free (image_src);
