@@ -1628,6 +1628,7 @@ display_notification (time_t trigger,
 	/* create the tray icon */
 	if (tray_icon == NULL) {
 		tray_icon = gtk_status_icon_new ();
+		gtk_status_icon_set_title (tray_icon, _("Evolution Reminders"));
 		gtk_status_icon_set_from_icon_name (
 			tray_icon, "appointment-soon");
 		g_signal_connect (
@@ -1728,7 +1729,7 @@ popup_notification (time_t trigger,
 	if (!qa)
 		return;
 	if (!notify_is_initted ())
-		notify_init ("Evolution Alarm Notify");
+		notify_init (_("Evolution Reminders"));
 
 	/* get a sensible description for the event */
 	e_cal_component_get_summary (comp, &text);
@@ -2082,7 +2083,7 @@ alarm_queue_init (gpointer data)
 	g_timeout_add_seconds (60, check_wall_clock_time_changed, NULL);
 
 #ifdef HAVE_LIBNOTIFY
-	notify_init ("Evolution Alarms");
+	notify_init (_("Evolution Reminders"));
 #endif
 
 	alarm_queue_inited = TRUE;
