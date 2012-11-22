@@ -31,6 +31,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-account-expunge")
 #define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_PROPERTIES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-account-properties")
+#define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_REFRESH(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-account-refresh")
 #define E_SHELL_WINDOW_ACTION_MAIL_ADD_SENDER(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-add-sender")
 #define E_SHELL_WINDOW_ACTION_MAIL_CARET_MODE(window) \

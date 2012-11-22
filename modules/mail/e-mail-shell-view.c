@@ -944,6 +944,10 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	sensitive = folder_is_store && !store_is_builtin;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (MAIL_ACCOUNT_REFRESH);
+	sensitive = folder_is_store;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (MAIL_FLUSH_OUTBOX);
 	sensitive = folder_is_outbox;
 	gtk_action_set_sensitive (action, sensitive);

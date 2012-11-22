@@ -93,6 +93,7 @@
     <menuitem action='mail-popup-folder-rename'/>
     <menuitem action='mail-popup-folder-refresh'/>
     <menuitem action='mail-popup-flush-outbox'/>
+    <menuitem action='mail-popup-account-refresh'/>
     <menuitem action='mail-popup-manage-subscriptions'/>
     <menuitem action='mail-popup-account-expunge'/>
     <menuitem action='mail-popup-account-disable'/>

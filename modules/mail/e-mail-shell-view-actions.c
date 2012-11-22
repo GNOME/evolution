@@ -125,6 +125,58 @@ action_mail_account_properties_cb (GtkAction *action,
 }
 
 static void
+account_refresh_folder_info_received_cb (GObject *source,
+					 GAsyncResult *result,
+					 gpointer user_data)
+{
+	CamelStore *store;
+	CamelFolderInfo *info;
+	EActivity *activity;
+	GError *error = NULL;
+
+	store = CAMEL_STORE (source);
+	activity = user_data;
+	info = camel_store_get_folder_info_finish (store, result, &error);
+	if (info) {
+		/* provider takes care of notifications of new/removed folders,
+		   thus it's enough to free the returned list */
+		camel_store_free_folder_info (store, info);
+	}
+
+	if (error && !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		g_message ("%s: Failed: %s", G_STRFUNC, error->message);
+
+	g_clear_error (&error);
+
+	if (activity)
+		g_object_unref (activity);
+}
+
+static void
+action_mail_account_refresh_cb (GtkAction *action,
+                                EMailShellView *mail_shell_view)
+{
+	EMailShellSidebar *mail_shell_sidebar;
+	EMFolderTree *folder_tree;
+	EMailReader *reader;
+	EActivity *activity;
+	CamelStore *store;
+	GCancellable *cancellable;
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	store = em_folder_tree_get_selected_store (folder_tree);
+	g_return_if_fail (store != NULL);
+
+	reader = E_MAIL_READER (e_mail_shell_content_get_mail_view (mail_shell_view->priv->mail_shell_content));
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
+	camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE,
+		G_PRIORITY_DEFAULT, cancellable, account_refresh_folder_info_received_cb, activity);
+}
+
+static void
 action_mail_create_search_folder_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
 {
@@ -1242,6 +1294,13 @@ static GtkActionEntry mail_entries[] = {
 	  N_("Edit properties of this account"),
 	  G_CALLBACK (action_mail_account_properties_cb) },
 
+	{ "mail-account-refresh",
+	  GTK_STOCK_REFRESH,
+	  N_("_Refresh"),
+	  NULL,
+	  N_("Refresh list of folders of this account"),
+	  G_CALLBACK (action_mail_account_refresh_cb) },
+
 	{ "mail-download",
 	  NULL,
 	  N_("_Download Messages for Offline Usage"),
@@ -1504,6 +1563,10 @@ static EPopupActionEntry mail_popup_entries[] = {
 	{ "mail-popup-account-expunge",
 	  NULL,
 	  "mail-account-expunge" },
+
+	{ "mail-popup-account-refresh",
+	  NULL,
+	  "mail-account-refresh" },
 
 	{ "mail-popup-account-properties",
 	  NULL,
