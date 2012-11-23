@@ -576,10 +576,16 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 			context->message, context->from,
 			context->recipients, cancellable, &error);
 
-		if (did_connect)
+		if (did_connect) {
+			/* if the cancellable is cancelled, then the disconnect will not run,
+			   thus reset it to ensure the service will be properly disconnected */
+			if (cancellable)
+				g_cancellable_reset (cancellable);
+
 			camel_service_disconnect_sync (
 				service, error == NULL,
 				cancellable, error ? NULL : &error);
+		}
 
 		g_object_unref (service);
 
