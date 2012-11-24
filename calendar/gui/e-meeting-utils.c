@@ -70,7 +70,7 @@ e_meeting_xfb_data_set (EMeetingXfbData *xfb,
                         const gchar *location)
 {
 	g_return_if_fail (xfb != NULL);
-	
+
 	e_meeting_xfb_data_clear (xfb);
 	xfb->summary = g_strdup (summary);
 	xfb->location = g_strdup (location);
@@ -109,7 +109,6 @@ gchar*
 e_meeting_xfb_utf8_string_new_from_ical (const gchar *icalstring,
                                          gsize max_len)
 {
-	guchar *u_tmp = NULL;
 	gchar *tmp = NULL;
 	gchar *utf8s = NULL;
 	gsize in_len = 0;
@@ -117,20 +116,9 @@ e_meeting_xfb_utf8_string_new_from_ical (const gchar *icalstring,
 	GError *tmp_err = NULL;
 
 	g_return_val_if_fail (max_len > 4, NULL);
-	
+
 	if (icalstring == NULL)
 		return NULL;
-
-	/* The icalstring may or may not be base64 encoded,
-	 * which leaves us with guessing - we try decoding, if
-	 * that fails we try plain. If icalstring is meant to
-	 * be plain, but is valid base64 nonetheless, then we've
-	 * lost (since we cannot reliably detect that case)
-	 */
-
-	u_tmp = g_base64_decode (icalstring, &out_len);
-	if (u_tmp == NULL)
-		u_tmp = (guchar *) g_strdup (icalstring);
 
 	/* ical does not carry charset hints, so we
 	 * try UTF-8 first, then conversion using
@@ -138,13 +126,13 @@ e_meeting_xfb_utf8_string_new_from_ical (const gchar *icalstring,
 	 */
 
 	/* if we have valid UTF-8, we're done converting */
-	if (g_utf8_validate ((const gchar *) u_tmp, -1, NULL))
+	if (g_utf8_validate (icalstring, -1, NULL))
 		goto valid;
 
 	/* no valid UTF-8, trying to convert to it
 	 * according to system locale
 	 */
-	tmp = g_locale_to_utf8 ((const gchar *) u_tmp,
+	tmp = g_locale_to_utf8 (icalstring,
 	                        -1,
 	                        &in_len,
 	                        &out_len,
@@ -155,17 +143,16 @@ e_meeting_xfb_utf8_string_new_from_ical (const gchar *icalstring,
 
 	g_warning ("%s: %s", G_STRFUNC, tmp_err->message);
 	g_error_free (tmp_err);
+	g_free (tmp);
 
 	/* still no success, forcing it into UTF-8, using
 	 * replacement chars to replace invalid ones
 	 */
-	tmp = e_util_utf8_data_make_valid ((const gchar *) u_tmp,
-	                                   strlen ((const gchar *) u_tmp));
+	tmp = e_util_utf8_data_make_valid (icalstring,
+	                                   strlen (icalstring));
  valid:
 	if (tmp == NULL)
-		tmp = (gchar *) u_tmp;
-	else
-		g_free (u_tmp);
+		tmp = g_strdup (icalstring);
 
 	/* now that we're (forcibly) valid UTF-8, we can
 	 * limit the size of the UTF-8 string for display
@@ -183,6 +170,6 @@ e_meeting_xfb_utf8_string_new_from_ical (const gchar *icalstring,
 	} else {
 		utf8s = tmp;
 	}
-	
+
 	return utf8s;
 }
