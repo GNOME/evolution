@@ -3449,7 +3449,7 @@ msgstr "IMAP kann nicht »verschieben«. Evolution »verschiebt« Nachrichten du
 
 #: C/mail-moving-emails.page:28(p)
 msgid "See the topic on <link xref=\"mail-delete-and-undelete\">deleting emails</link> for instructions on how to expunge email messages. Note that this applies to other types of accounts as well."
-msgstr "Bitte lesen Sie das Thema <link xref=\"mail-delete-and-undelete\">E-Mails löschen</link> für weitere Informationen und Anweisungen zum Thema. Beachten Sie, dass dies auf anderen Kontentypen ebenfalls zutrifft."
+msgstr "Bitte lesen Sie das Thema <link xref=\"mail-delete-and-undelete\">E-Mails löschen</link> für weitere Informationen und Anweisungen zum Thema. Beachten Sie, dass dies auf andere Kontentypen ebenfalls zutrifft."
 
 #: C/mail-layout-changing.page:5(desc)
 msgid "Changing the display of the mail window (message list columns and widescreen)."
