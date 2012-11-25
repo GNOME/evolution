@@ -9955,7 +9955,7 @@ msgid ""
 msgstr ""
 "Bitte lesen Sie das Thema <link xref=\"mail-delete-and-undelete\">E-Mails "
 "löschen</link> für weitere Informationen und Anweisungen zum Thema. Beachten "
-"Sie, dass dies auf anderen Kontentypen ebenfalls zutrifft."
+"Sie, dass dies auf andere Kontentypen ebenfalls zutrifft."
 
 #: C/mail-not-sent.page:5(info/desc)
 msgid "Possible reasons why emails are not sent."
