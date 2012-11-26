@@ -85,8 +85,17 @@ get_tag (const gchar *utf8_string,
 	t = closing;
 	while (t) {
 		c = g_utf8_get_char (t);
-		if (c == '<')
-			break;
+		if (c == '<') {
+			if (t[1] == '!' && t[2] == '-' && t[3] == '-') {
+				/* it's a comment start, read until the end of "-->" */
+				gchar *end = strstr (t + 4, "-->");
+				if (end) {
+					t = end + 2;
+				} else
+					break;
+			} else
+				break;
+		}
 
 		t = g_utf8_find_next_char (t, NULL);
 	}
@@ -111,7 +120,7 @@ get_tag (const gchar *utf8_string,
 
 	/* Broken HTML? */
 	if (!has_end)
-		return g_strndup (opening, closing - opening + 1);
+		return NULL;
 
 	do {
 		c = g_utf8_get_char (t);
@@ -130,7 +139,7 @@ get_tag (const gchar *utf8_string,
 	}
 
 	/* Broken HTML? */
-	return g_strndup (opening, closing - opening + 1);
+	return NULL;
 }
 
 static gboolean
@@ -171,13 +180,18 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 
 		g_object_unref (decoded_stream);
 
+		if (!g_utf8_validate (string->str, -1, NULL)) {
+			gchar *valid_utf8;
+
+			valid_utf8 = e_util_utf8_make_valid (string->str);
+			g_string_free (string, TRUE);
+			string = g_string_new (valid_utf8);
+			g_free (valid_utf8);
+		}
+
 		tags = NULL;
 		pos = string->str;
 		valid = FALSE;
-
-		if (!g_utf8_validate (string->str, -1, NULL)) {
-			/* FIXME - What do we do if the string is not UTF-8 valid? */
-		}
 
 		do {
 			gchar *tmp;
@@ -220,9 +234,6 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 
 		} while (pos);
 
-		if (tags)
-			printf ("\n\n**%s**\n\n", (gchar *) tags->data);
-
 		/* Something's wrong, let's write the entire HTML and hope
 		 * that WebKit can handle it */
 		if (!valid) {
@@ -245,7 +256,8 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 		g_string_prepend (string, "<div ");
 
 		for (iter = tags; iter; iter = iter->next) {
-			g_string_prepend (string, iter->data);
+			if (iter->data)
+				g_string_prepend (string, iter->data);
 		}
 
 		g_list_free_full (tags, g_free);
