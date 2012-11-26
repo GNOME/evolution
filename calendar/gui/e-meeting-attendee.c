@@ -26,6 +26,7 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
+#include "e-meeting-utils.h"
 #include "e-meeting-attendee.h"
 
 #define E_MEETING_ATTENDEE_GET_PRIVATE(obj) \
@@ -89,6 +90,20 @@ string_is_set (gchar *string)
 		return TRUE;
 
 	return FALSE;
+}
+
+static void
+busy_periods_array_clear_func (gpointer data)
+{
+	EMeetingFreeBusyPeriod *period = (EMeetingFreeBusyPeriod *) data;
+
+	/* We're expected to clear the data segment,
+	 * but not deallocate the segment itself. The
+	 * XFB data possibly attached to the
+	 * EMeetingFreeBusyPeriod requires special
+	 * care when removing elements from the GArray
+	 */
+	e_meeting_xfb_data_clear (&(period->xfb));
 }
 
 static void
@@ -167,6 +182,7 @@ e_meeting_attendee_init (EMeetingAttendee *ia)
 	ia->priv->has_calendar_info = FALSE;
 
 	ia->priv->busy_periods = g_array_new (FALSE, FALSE, sizeof (EMeetingFreeBusyPeriod));
+	g_array_set_clear_func (ia->priv->busy_periods, busy_periods_array_clear_func);
 	ia->priv->busy_periods_sorted = FALSE;
 
 	g_date_clear (&ia->priv->busy_periods_start.date, 1);
@@ -816,7 +832,9 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
                                     gint end_day,
                                     gint end_hour,
                                     gint end_minute,
-                                    EMeetingFreeBusyType busy_type)
+                                    EMeetingFreeBusyType busy_type,
+                                    const gchar *summary,
+                                    const gchar *location)
 {
 	EMeetingAttendeePrivate *priv;
 	EMeetingFreeBusyPeriod period;
@@ -825,6 +843,8 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 	g_return_val_if_fail (ia != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 	g_return_val_if_fail (busy_type < E_MEETING_FREE_BUSY_LAST, FALSE);
+	/* summary may be NULL (optional XFB data)  */
+	/* location may be NULL (optional XFB data) */
 
 	priv = ia->priv;
 
@@ -924,6 +944,10 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 			}
 		}
 	}
+
+	/* Setting of extended free/busy (XFB) data, if we have any. */
+	e_meeting_xfb_data_init (&(period.xfb));
+	e_meeting_xfb_data_set (&(period.xfb), summary, location);
 
 	g_array_append_val (priv->busy_periods, period);
 

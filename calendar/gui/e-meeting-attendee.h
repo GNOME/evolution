@@ -142,7 +142,9 @@ gboolean e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 					gint end_day,
 					gint end_hour,
 					gint end_minute,
-					EMeetingFreeBusyType busy_type);
+					EMeetingFreeBusyType busy_type,
+					const gchar *summary,
+					const gchar *location);
 
 EMeetingTime e_meeting_attendee_get_start_busy_range (EMeetingAttendee *ia);
 EMeetingTime e_meeting_attendee_get_end_busy_range (EMeetingAttendee *ia);

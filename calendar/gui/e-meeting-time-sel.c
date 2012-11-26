@@ -196,6 +196,12 @@ static void e_meeting_time_selector_update_end_date_edit (EMeetingTimeSelector *
 static void e_meeting_time_selector_ensure_meeting_time_shown (EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_update_dates_shown (EMeetingTimeSelector *mts);
 static gboolean e_meeting_time_selector_on_canvas_scroll_event (GtkWidget *widget, GdkEventScroll *event, EMeetingTimeSelector *mts);
+static gboolean e_meeting_time_selector_on_canvas_query_tooltip (GtkWidget *widget,
+                                                                 gint x,
+                                                                 gint y,
+                                                                 gboolean keyboard_mode,
+                                                                 GtkTooltip *tooltip,
+                                                                 gpointer user_data);
 
 static void row_inserted_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
 static void row_changed_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
@@ -522,6 +528,15 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	g_signal_connect (
 		mts->display_main, "scroll-event",
 		G_CALLBACK (e_meeting_time_selector_on_canvas_scroll_event), mts);
+	/* used for displaying extended free/busy (XFB) display when hovering
+	 * over a busy period which carries XFB information */
+	g_signal_connect (mts->display_main,
+	                  "query-tooltip",
+	                  G_CALLBACK (e_meeting_time_selector_on_canvas_query_tooltip),
+	                  mts);
+	g_object_set (G_OBJECT (mts->display_main),
+	              "has-tooltip", TRUE,
+	              NULL);
 
 	scrollable = GTK_SCROLLABLE (mts->display_main);
 
@@ -2658,6 +2673,130 @@ e_meeting_time_selector_on_canvas_scroll_event (GtkWidget *widget,
 	g_signal_emit_by_name (gtk_widget_get_parent (GTK_WIDGET (mts->list_view)), "scroll-event", event, &return_val);
 
 	return return_val;
+}
+
+/* Sets a tooltip for the busy periods canvas. If the mouse pointer
+ * hovers over a busy period for which extended free/busy (XFB) data
+ * could be extracted from the vfreebusy calendar object, the tooltip
+ * will be shown (currently displays the summary and the location of
+ * for the busy period, if available). See EMeetingXfbData for a reference.
+ *
+ */
+static gboolean
+e_meeting_time_selector_on_canvas_query_tooltip (GtkWidget *widget,
+                                                 gint x,
+                                                 gint y,
+                                                 gboolean keyboard_mode,
+                                                 GtkTooltip *tooltip,
+                                                 gpointer user_data)
+{
+	EMeetingTimeSelector *mts = NULL;
+	EMeetingAttendee *attendee = NULL;
+	EMeetingFreeBusyPeriod *period = NULL;
+	EMeetingXfbData *xfb = NULL;
+	GtkScrollable *scrollable = NULL;
+	GtkAdjustment *adjustment = NULL;
+	const GArray *periods = NULL;
+	gint scroll_x = 0;
+	gint scroll_y = 0;
+	gint mouse_x = 0;
+	gint row = 0;
+	gint first_idx = 0;
+	gint ii = 0;
+	gchar *tt_text = NULL;
+	
+	g_return_val_if_fail (GNOME_IS_CANVAS (widget), FALSE);
+	g_return_val_if_fail (GTK_IS_TOOLTIP (tooltip), FALSE);
+	g_return_val_if_fail (E_IS_MEETING_TIME_SELECTOR (user_data), FALSE);
+
+	mts = E_MEETING_TIME_SELECTOR (user_data);
+	
+	scrollable = GTK_SCROLLABLE (widget);
+	adjustment = gtk_scrollable_get_hadjustment (scrollable);
+	scroll_x = (gint) gtk_adjustment_get_value (adjustment);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
+	scroll_y = (gint) gtk_adjustment_get_value (adjustment);
+	
+	/* calculate the attendee index (row) we're at */
+	row = (scroll_y + y) / mts->row_height;
+
+	/* no tooltip if we have no attendee in the row */
+	if (row > e_meeting_store_count_actual_attendees (mts->model) - 1)
+		return FALSE;
+
+	/* no tooltip if attendee has no calendar info */
+	attendee = e_meeting_store_find_attendee_at_row (mts->model, row);
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (attendee), FALSE);
+	if (!e_meeting_attendee_get_has_calendar_info (attendee))
+		return FALSE;
+
+	/* get the attendee's busy times array */
+	periods = e_meeting_attendee_get_busy_periods (attendee);
+	g_return_val_if_fail (periods != NULL, FALSE);
+	g_return_val_if_fail (periods->len > 0, FALSE);
+
+	/* no tooltip if no busy period reaches into the current canvas area */
+	first_idx = e_meeting_attendee_find_first_busy_period (attendee,
+	                                                       &(mts->first_date_shown));
+	if (first_idx < 0)
+		return FALSE;
+
+	/* calculate the mouse tip x position in the canvas area */
+	mouse_x = x + scroll_x;
+
+	/* find out whether mouse_x lies inside a busy
+	 * period (we start with the index of the first
+	 * one reaching into the current canvas area)
+	 */
+	for (ii = first_idx; ii < periods->len; ii++) {
+		EMeetingFreeBusyPeriod *p = NULL;
+		gint sx = 0;
+		gint ex = 0;
+		
+		p = &(g_array_index (periods,
+		                     EMeetingFreeBusyPeriod,
+		                     ii));
+		/* meeting start time x position */
+		sx = e_meeting_time_selector_calculate_time_position (mts,
+		                                                      &(p->start));
+		/* meeting end time x position */
+		ex = e_meeting_time_selector_calculate_time_position (mts,
+		                                                      &(p->end));
+		if ((mouse_x >= sx) && (mouse_x <= ex)) {
+			/* found busy period the mouse tip is over */
+			period = p;
+			break;
+		}
+	}
+
+	/* no tooltip if we did not find a busy period under
+	 * the mouse pointer
+	 */
+	if (period == NULL)
+		return FALSE;
+
+	/* get the extended free/busy data
+	 * (no tooltip if none available)
+	 */
+	xfb = &(period->xfb);
+	if ((xfb->summary == NULL) && (xfb->location == NULL))
+		return FALSE;
+
+	/* Create the tooltip text. The data sent by the server will
+	 * have been validated for UTF-8 conformance (and possibly
+	 * forced into) as well as length-limited by a call to the
+	 * e_meeting_xfb_utf8_string_new_from_ical() function in
+	 * process_free_busy_comp_get_xfb() (e-meeting-store.c)
+	 */
+	tt_text = g_strdup_printf ("%s\n\n%s",
+	                           (xfb->summary == NULL) ? "" : xfb->summary,
+	                           (xfb->location == NULL) ? "" : xfb->location);
+
+	/* set XFB information as tooltip text */
+	gtk_tooltip_set_text (tooltip, tt_text);
+	g_free (tt_text);
+	
+	return TRUE;
 }
 
 /* This updates the canvas scroll regions according to the number of attendees.
