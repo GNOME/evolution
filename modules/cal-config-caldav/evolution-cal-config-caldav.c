@@ -40,13 +40,10 @@ struct _Context {
 	ESourceConfigBackend *backend;		/* not referenced */
 	ESource *scratch_source;		/* not referenced */
 
-	GtkWidget *server_entry;
-	GtkWidget *path_entry;
+	GtkWidget *url_entry;
 	GtkWidget *email_entry;
 	GtkWidget *find_button;
 	GtkWidget *auto_schedule_toggle;
-
-	GSocketConnectable *connectable;
 };
 
 /* Module Entry Points */
@@ -77,94 +74,12 @@ cal_config_caldav_context_new (ESourceConfigBackend *backend,
 static void
 cal_config_caldav_context_free (Context *context)
 {
-	g_object_unref (context->server_entry);
-	g_object_unref (context->path_entry);
+	g_object_unref (context->url_entry);
 	g_object_unref (context->email_entry);
 	g_object_unref (context->find_button);
 	g_object_unref (context->auto_schedule_toggle);
 
-	if (context->connectable != NULL)
-		g_object_unref (context->connectable);
-
 	g_slice_free (Context, context);
-}
-
-static gchar *
-cal_config_caldav_get_server (ESource *scratch_source)
-{
-	ESourceAuthentication *authentication_extension;
-	ESourceSecurity *security_extension;
-	const gchar *host;
-	gboolean secure;
-	guint16 default_port;
-	guint16 port;
-
-	authentication_extension = e_source_get_extension (
-		scratch_source, E_SOURCE_EXTENSION_AUTHENTICATION);
-	host = e_source_authentication_get_host (authentication_extension);
-	port = e_source_authentication_get_port (authentication_extension);
-
-	security_extension = e_source_get_extension (
-		scratch_source, E_SOURCE_EXTENSION_SECURITY);
-	secure = e_source_security_get_secure (security_extension);
-	default_port = secure ? HTTPS_PORT: HTTP_PORT;
-
-	if (port == 0)
-		port = default_port;
-
-	if (host == NULL || *host == '\0')
-		return NULL;
-
-	if (port == default_port)
-		return g_strdup (host);
-
-	return g_strdup_printf ("%s:%u", host, port);
-}
-
-static void
-cal_config_caldav_server_changed_cb (GtkEntry *entry,
-                                     Context *context)
-{
-	ESourceAuthentication *authentication_extension;
-	ESourceSecurity *security_extension;
-	const gchar *host_and_port;
-	const gchar *host;
-	gboolean secure;
-	guint16 default_port;
-	guint16 port;
-
-	if (context->connectable != NULL) {
-		g_object_unref (context->connectable);
-		context->connectable = NULL;
-	}
-
-	authentication_extension = e_source_get_extension (
-		context->scratch_source, E_SOURCE_EXTENSION_AUTHENTICATION);
-
-	security_extension = e_source_get_extension (
-		context->scratch_source, E_SOURCE_EXTENSION_SECURITY);
-
-	host_and_port = gtk_entry_get_text (entry);
-	secure = e_source_security_get_secure (security_extension);
-	default_port = secure ? HTTPS_PORT : HTTP_PORT;
-
-	if (host_and_port != NULL && *host_and_port != '\0')
-		context->connectable = g_network_address_parse (
-			host_and_port, default_port, NULL);
-
-	if (context->connectable != NULL) {
-		GNetworkAddress *address;
-
-		address = G_NETWORK_ADDRESS (context->connectable);
-		host = g_network_address_get_hostname (address);
-		port = g_network_address_get_port (address);
-	} else {
-		host = NULL;
-		port = 0;
-	}
-
-	e_source_authentication_set_host (authentication_extension, host);
-	e_source_authentication_set_port (authentication_extension, port);
 }
 
 static void
@@ -204,6 +119,55 @@ cal_config_caldav_run_dialog (GtkButton *button,
 	gtk_widget_destroy (dialog);
 }
 
+static gboolean
+cal_config_caldav_uri_to_text (GBinding *binding,
+                               const GValue *source_value,
+                               GValue *target_value,
+                               gpointer user_data)
+{
+	SoupURI *soup_uri;
+	gchar *text;
+
+	soup_uri = g_value_get_boxed (source_value);
+	soup_uri_set_user (soup_uri, NULL);
+
+	text = soup_uri_to_string (soup_uri, FALSE);
+	g_value_take_string (target_value, text);
+
+	return TRUE;
+}
+
+static gboolean
+cal_config_caldav_text_to_uri (GBinding *binding,
+                               const GValue *source_value,
+                               GValue *target_value,
+                               gpointer user_data)
+{
+	ESource *source;
+	SoupURI *soup_uri;
+	ESourceAuthentication *extension;
+	const gchar *extension_name;
+	const gchar *text;
+	const gchar *user;
+
+	text = g_value_get_string (source_value);
+	soup_uri = soup_uri_new (text);
+
+	if (soup_uri == NULL)
+		return FALSE;
+
+	source = E_SOURCE (user_data);
+	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
+	extension = e_source_get_extension (source, extension_name);
+	user = e_source_authentication_get_user (extension);
+
+	soup_uri_set_user (soup_uri, user);
+
+	g_value_take_boxed (target_value, soup_uri);
+
+	return TRUE;
+}
+
 static void
 cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
                                   ESource *scratch_source)
@@ -214,7 +178,6 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 	ECalClientSourceType source_type;
 	GtkWidget *widget;
 	Context *context;
-	gchar *text;
 	const gchar *extension_name;
 	const gchar *label;
 	const gchar *uid;
@@ -241,20 +204,9 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 
 	widget = gtk_entry_new ();
 	e_source_config_insert_widget (
-		config, scratch_source, _("Server:"), widget);
-	context->server_entry = g_object_ref (widget);
+		config, scratch_source, _("URL:"), widget);
+	context->url_entry = g_object_ref (widget);
 	gtk_widget_show (widget);
-
-	/* Connect the signal before initializing the entry text. */
-	g_signal_connect (
-		widget, "changed",
-		G_CALLBACK (cal_config_caldav_server_changed_cb), context);
-
-	text = cal_config_caldav_get_server (scratch_source);
-	if (text != NULL) {
-		gtk_entry_set_text (GTK_ENTRY (context->server_entry), text);
-		g_free (text);
-	}
 
 	e_source_config_add_secure_connection_for_webdav (
 		config, scratch_source);
@@ -290,12 +242,6 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 
 	widget = gtk_entry_new ();
 	e_source_config_insert_widget (
-		config, scratch_source, _("Path:"), widget);
-	context->path_entry = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_entry_new ();
-	e_source_config_insert_widget (
 		config, scratch_source, _("Email:"), widget);
 	context->email_entry = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -324,11 +270,15 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
-		extension, "resource-path",
-		context->path_entry, "text",
+	g_object_bind_property_full (
+		extension, "soup-uri",
+		context->url_entry, "text",
 		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_BINDING_SYNC_CREATE,
+		cal_config_caldav_uri_to_text,
+		cal_config_caldav_text_to_uri,
+		g_object_ref (scratch_source),
+		(GDestroyNotify) g_object_unref);
 }
 
 static gboolean
@@ -339,6 +289,8 @@ cal_config_caldav_check_complete (ESourceConfigBackend *backend,
 	ESource *collection_source;
 	Context *context;
 	const gchar *uid;
+	const gchar *uri_string;
+	SoupURI *soup_uri;
 	gboolean complete;
 
 	config = e_source_config_backend_get_config (backend);
@@ -351,7 +303,20 @@ cal_config_caldav_check_complete (ESourceConfigBackend *backend,
 	context = g_object_get_data (G_OBJECT (backend), uid);
 	g_return_val_if_fail (context != NULL, FALSE);
 
-	complete = (context->connectable != NULL);
+	uri_string = gtk_entry_get_text (GTK_ENTRY (context->url_entry));
+	soup_uri = soup_uri_new (uri_string);
+
+	if (!soup_uri) {
+		complete = FALSE;
+	} else {
+		if (g_strcmp0 (soup_uri_get_scheme (soup_uri), "caldav") == 0)
+			soup_uri_set_scheme (soup_uri, SOUP_URI_SCHEME_HTTP);
+
+		complete = SOUP_URI_VALID_FOR_HTTP (soup_uri);
+	}
+
+	if (soup_uri != NULL)
+		soup_uri_free (soup_uri);
 
 	gtk_widget_set_sensitive (context->find_button, complete);
 
