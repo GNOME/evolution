@@ -42,6 +42,8 @@
 #include <libemail-engine/mail-ops.h>
 #include <libemail-engine/mail-tools.h>
 
+#include "composer/e-composer-actions.h"
+
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-browser.h"
 #include "mail/e-mail-printer.h"
@@ -1334,6 +1336,8 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	gint length;
 	gchar *mail_uri;
 	CamelObjectBag *registry;
+	EMsgComposer *composer;
+	guint32 validity_pgp_sum = 0, validity_smime_sum = 0;
 
 	/* This handles quoting only selected text in the reply.  If
 	 * nothing is selected or only whitespace is selected, fall
@@ -1388,8 +1392,30 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	part_list = camel_object_bag_get (registry, mail_uri);
 	g_free (mail_uri);
 
-	if (!part_list)
+	if (!part_list) {
 		goto whole_message;
+	} else {
+		GSList *piter;
+
+		for (piter = part_list->list; piter; piter = piter->next) {
+			EMailPart *part = piter->data;
+
+			if (part && part->validities) {
+				GSList *viter;
+
+				for (viter = part->validities; viter; viter = viter->next) {
+					EMailPartValidityPair *vpair = viter->data;
+
+					if (vpair) {
+						if ((vpair->validity_type & E_MAIL_PART_VALIDITY_PGP) != 0)
+							validity_pgp_sum |= vpair->validity_type;
+						if ((vpair->validity_type & E_MAIL_PART_VALIDITY_SMIME) != 0)
+							validity_smime_sum |= vpair->validity_type;
+					}
+				}
+			}
+		}
+	}
 
 	if (src_message == NULL) {
 		src_message = part_list->message;
@@ -1439,9 +1465,36 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 	g_object_unref (src_message);
 
-	em_utils_reply_to_message (
+	composer = em_utils_reply_to_message (
 		shell, new_message, folder, uid,
 		reply_type, reply_style, NULL, address);
+	if (composer && (validity_pgp_sum != 0 || validity_smime_sum != 0)) {
+		GtkToggleAction *action;
+
+		if ((validity_pgp_sum & E_MAIL_PART_VALIDITY_PGP) != 0) {
+			if ((validity_pgp_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
+				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer));
+				gtk_toggle_action_set_active (action, TRUE);
+			}
+
+			if ((validity_pgp_sum & E_MAIL_PART_VALIDITY_ENCRYPTED) != 0) {
+				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_ENCRYPT (composer));
+				gtk_toggle_action_set_active (action, TRUE);
+			}
+		}
+
+		if ((validity_smime_sum & E_MAIL_PART_VALIDITY_SMIME) != 0) {
+			if ((validity_smime_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
+				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer));
+				gtk_toggle_action_set_active (action, TRUE);
+			}
+
+			if ((validity_smime_sum & E_MAIL_PART_VALIDITY_ENCRYPTED) != 0) {
+				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer));
+				gtk_toggle_action_set_active (action, TRUE);
+			}
+		}
+	}
 
 	if (address)
 		g_object_unref (address);
