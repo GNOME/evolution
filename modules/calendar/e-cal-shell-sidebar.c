@@ -242,10 +242,11 @@ cal_shell_sidebar_client_opened_cb (GObject *source_object,
 {
 	ECalClient *client = E_CAL_CLIENT (source_object);
 	ECalShellSidebar *cal_shell_sidebar = user_data;
-	ESource *source;
+	ESource *source, *parent;
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
+	ESourceRegistry *registry;
 	GError *error = NULL;
 
 	source = e_client_get_source (E_CLIENT (client));
@@ -279,6 +280,8 @@ cal_shell_sidebar_client_opened_cb (GObject *source_object,
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
+	registry = e_shell_get_registry (e_shell_backend_get_shell (e_shell_view_get_shell_backend (shell_view)));
+	parent = e_source_registry_ref_source (registry, e_source_get_parent (source));
 
 	/* Handle errors. */
 	switch ((error && error->domain == E_CLIENT_ERROR) ? error->code : -1) {
@@ -291,13 +294,15 @@ cal_shell_sidebar_client_opened_cb (GObject *source_object,
 				G_STRFUNC, e_source_get_display_name (source),
 				error->message);
 			g_clear_error (&error);
+			g_object_unref (parent);
 			return;
 
 		case E_CLIENT_ERROR_REPOSITORY_OFFLINE:
 			e_alert_submit (
 				E_ALERT_SINK (shell_content),
 				"calendar:prompt-no-contents-offline-calendar",
-				NULL);
+				e_source_get_display_name (parent),
+				e_source_get_display_name (source), NULL);
 			/* fall through */
 
 		default:
@@ -305,6 +310,8 @@ cal_shell_sidebar_client_opened_cb (GObject *source_object,
 				e_alert_submit (
 					E_ALERT_SINK (shell_content),
 					"calendar:failed-open-calendar",
+					e_source_get_display_name (parent),
+					e_source_get_display_name (source),
 					error->message, NULL);
 			}
 
@@ -312,10 +319,12 @@ cal_shell_sidebar_client_opened_cb (GObject *source_object,
 				cal_shell_sidebar,
 				e_client_get_source (E_CLIENT (client)));
 			g_clear_error (&error);
+			g_object_unref (parent);
 			return;
 	}
 
 	g_clear_error (&error);
+	g_object_unref (parent);
 
 	/* to have them ready for later use */
 	e_client_retrieve_capabilities (
@@ -386,12 +395,21 @@ cal_shell_sidebar_default_loaded_cb (GObject *source_object,
 		goto exit;
 
 	} else if (error != NULL) {
+		ESourceRegistry *registry;
+		ESource *parent;
+
+		registry = e_shell_get_registry (e_shell_backend_get_shell (e_shell_view_get_shell_backend (shell_view)));
+		parent = e_source_registry_ref_source (registry, e_source_get_parent (source));
+
 		g_warn_if_fail (client == NULL);
 		e_alert_submit (
 			E_ALERT_SINK (shell_content),
 			"calendar:failed-open-calendar",
+			e_source_get_display_name (parent),
+			e_source_get_display_name (source),
 			error->message, NULL);
 		g_error_free (error);
+		g_object_unref (parent);
 		goto exit;
 	}
 

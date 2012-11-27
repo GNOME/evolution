@@ -220,22 +220,22 @@
   </error>
 
   <error id="prompt-delete-remote-calendar" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete remote calendar &quot;{0}&quot;?</_primary>
-    <_secondary>This will permanently remove the calendar &quot;{0}&quot; from the server.  Are you sure you want to proceed?</_secondary>
+    <_primary>Delete remote calendar '{0}'?</_primary>
+    <_secondary>This will permanently remove the calendar '{0}' from the server. Are you sure you want to proceed?</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-remote-task-list" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete remote task list &quot;{0}&quot;?</_primary>
-    <_secondary>This will permanently remove the task list &quot;{0}&quot; from the server.  Are you sure you want to proceed?</_secondary>
+    <_primary>Delete remote task list '{0}'?</_primary>
+    <_secondary>This will permanently remove the task list '{0}' from the server. Are you sure you want to proceed?</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
   </error>
 
   <error id="prompt-delete-remote-memo-list" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete remote memo list &quot;{0}&quot;?</_primary>
-    <_secondary>This will permanently remove the memo list &quot;{0}&quot; from the server.  Are you sure you want to proceed?</_secondary>
+    <_primary>Delete remote memo list '{0}'?</_primary>
+    <_secondary>This will permanently remove the memo list '{0}' from the server. Are you sure you want to proceed?</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
   </error>
@@ -261,62 +261,76 @@
   </error>
 
   <error id="prompt-no-contents-offline-calendar" type="error" default="GTK_RESPONSE_YES">
-    <_primary>Error loading calendar</_primary>
+    <!-- Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
+     {1} is replaced with a calendar/task/memo list name, where the error happened -->
+    <_primary>Error loading calendar '{0}: {1}'</_primary>
     <_secondary>The calendar is not marked for offline usage.</_secondary>
   </error>
 
   <error id="prompt-read-only-cal" type="error" default="GTK_RESPONSE_YES">
     <_primary>Cannot create a new event</_primary>
-    <!-- For Translators: {0} is the name of the calendar source -->
+    <!-- Translators: {0} is the name of the calendar source -->
     <_secondary>'{0}' is a read-only calendar and cannot be modified. Please select a different calendar from the side bar in the Calendar view.</_secondary>
   </error>
 
   <error id="prompt-read-only-cal-editor" type="error" default="GTK_RESPONSE_YES">
     <_primary>Cannot save event</_primary>
-    <!-- For Translators: {0} is the name of the calendar source -->
+    <!-- Translators: {0} is the name of the calendar source -->
     <_secondary>'{0}' is a read-only calendar and cannot be modified. Please select a different calendar that can accept appointments.</_secondary>
   </error>
 
   <error id="prompt-no-task-assignment-editor" type="error" default="GTK_RESPONSE_YES">
     <_primary>Cannot save task</_primary>
-    <!-- For Translators: {0} is the name of the calendar source -->
+    <!-- Translators: {0} is the name of the calendar source -->
     <_secondary>'{0}' does not support assigned tasks, please select a different task list.</_secondary>
   </error>
 
   <error id="prompt-no-contents-offline-tasks" type="error" default="GTK_RESPONSE_YES">
-    <_primary>Error loading task list</_primary>
+    <!-- Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
+     {1} is replaced with a calendar/task/memo list name, where the error happened -->
+    <_primary>Error loading task list '{0}: {1}'</_primary>
     <_secondary>The task list is not marked for offline usage.</_secondary>
   </error>
 
   <error id="prompt-no-contents-offline-memos" type="error" default="GTK_RESPONSE_YES">
-    <_primary>Error loading memo list</_primary>
+    <!-- Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
+     {1} is replaced with a calendar/task/memo list name, where the error happened -->
+    <_primary>Error loading memo list '{0}: {1}'</_primary>
     <_secondary>The memo list is not marked for offline usage.</_secondary>
   </error>
 
   <error id="failed-open-calendar" type="error" default="GTK_RESPONSE_YES">
-    <_primary>Error loading calendar</_primary>
-    <secondary>{0}</secondary>
+    <!-- Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
+     {1} is replaced with a calendar/task/memo list name, where the error happened -->
+    <_primary>Error loading calendar '{0}: {1}'</_primary>
+    <secondary>{2}</secondary>
   </error>
 
   <error id="failed-open-tasks" type="error" default="GTK_RESPONSE_YES">
-    <_primary>Error loading task list</_primary>
-    <secondary>{0}</secondary>
+    <!-- Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
+     {1} is replaced with a calendar/task/memo list name, where the error happened -->
+    <_primary>Error loading task list '{0}: {1}'</_primary>
+    <secondary>{2}</secondary>
   </error>
 
   <error id="failed-open-memos" type="error" default="GTK_RESPONSE_YES">
-    <_primary>Error loading memo list</_primary>
-    <secondary>{0}</secondary>
+    <!-- Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
+     {1} is replaced with a calendar/task/memo list name, where the error happened -->
+    <_primary>Error loading memo list '{0}: {1}'</_primary>
+    <secondary>{2}</secondary>
   </error>
 
   <error id="backend-error" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
      {1} is replaced with a calendar/task/memo list name, where the error happened -->
-    <_primary>Error on {0}: {1}</_primary>
+    <_primary>Error on '{0}: {1}'</_primary>
     <secondary>{2}</secondary>
   </error>
 
   <error id="online-operation" type="error">
-    <_primary>Could not perform this operation.</_primary>
+    <!-- Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
+     {1} is replaced with a calendar/task/memo list name, where the error happened -->
+    <_primary>Could not perform this operation on '{0}: {1}'.</_primary>
     <_secondary>You must be working online to complete this operation.</_secondary>
   </error>
 
