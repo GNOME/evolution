@@ -1429,6 +1429,21 @@ action_mail_reply_list_cb (GtkAction *action,
 	check_close_browser_reader (reader);
 }
 
+static gboolean
+message_is_list_administrative (CamelMimeMessage *message)
+{
+	const gchar *header;
+
+	header = camel_medium_get_header ((CamelMedium *) message, "X-List-Administrivia");
+	if (!header)
+		return FALSE;
+
+	while (*header == ' ' || *header == '\t')
+		header++;
+
+	return g_ascii_strncasecmp (header, "yes", 3) == 0;
+}
+
 static void
 action_mail_reply_sender_check (CamelFolder *folder,
                                 GAsyncResult *result,
@@ -1475,10 +1490,13 @@ action_mail_reply_sender_check (CamelFolder *folder,
 
 	munged_list_message = em_utils_is_munged_list_message (message);
 
-	/* Don't do the "Are you sure you want to reply in private?" pop-up
-	 * if it's a Reply-To: munged list message... unless we're ignoring
-	 * munging. */
-	if (ask_ignore_list_reply_to || !munged_list_message) {
+	if (message_is_list_administrative (message)) {
+		/* Do not ask for messages which are list administrative, like
+		   list confirmation messages */
+	} else if (ask_ignore_list_reply_to || !munged_list_message) {
+		/* Don't do the "Are you sure you want to reply in private?" pop-up
+		 * if it's a Reply-To: munged list message... unless we're ignoring
+		 * munging. */
 		GtkWidget *dialog;
 		GtkWidget *check;
 		GtkWidget *container;
