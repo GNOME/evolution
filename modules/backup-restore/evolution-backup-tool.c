@@ -953,8 +953,6 @@ main (gint argc,
 
 		gtk_container_set_border_width (
 			GTK_CONTAINER (progress_dialog), 12);
-		gtk_window_set_default_size (
-			GTK_WINDOW (progress_dialog), 450, 120);
 
 		action_area = gtk_dialog_get_action_area (
 			GTK_DIALOG (progress_dialog));
@@ -970,9 +968,9 @@ main (gint argc,
 		if (oper && file)
 			str = g_strdup_printf (oper, file);
 
-		container = gtk_table_new (2, 3, FALSE);
-		gtk_table_set_col_spacings (GTK_TABLE (container), 12);
-		gtk_table_set_row_spacings (GTK_TABLE (container), 12);
+		container = gtk_grid_new ();
+		gtk_grid_set_column_spacing (GTK_GRID (container), 6);
+		gtk_grid_set_row_spacing (GTK_GRID (container), 0);
 		gtk_widget_show (container);
 
 		gtk_box_pack_start (
@@ -983,9 +981,12 @@ main (gint argc,
 		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
 		gtk_widget_show (widget);
 
-		gtk_table_attach (
-			GTK_TABLE (container), widget, 0, 1, 0, 3,
-			GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+		gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 3);
+		g_object_set (G_OBJECT (widget),
+			"halign", GTK_ALIGN_FILL,
+			"valign", GTK_ALIGN_FILL,
+			"vexpand", TRUE,
+			NULL);
 
 		if (backup_op) {
 			txt = _("Backing up Evolution Data");
@@ -1005,9 +1006,12 @@ main (gint argc,
 		gtk_widget_show (widget);
 		g_free (markup);
 
-		gtk_table_attach (
-			GTK_TABLE (container), widget, 1, 2, 0, 1,
-			GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+		gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 1);
+		g_object_set (G_OBJECT (widget),
+			"halign", GTK_ALIGN_FILL,
+			"hexpand", TRUE,
+			"valign", GTK_ALIGN_FILL,
+			NULL);
 
 		markup = g_strconcat (
 			txt2, " ", _("This may take a while depending "
@@ -1018,9 +1022,12 @@ main (gint argc,
 		gtk_widget_show (widget);
 		g_free (markup);
 
-		gtk_table_attach (
-			GTK_TABLE (container), widget, 1, 2, 1, 2,
-			GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+		gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 1, 1);
+		g_object_set (G_OBJECT (widget),
+			"halign", GTK_ALIGN_FILL,
+			"hexpand", TRUE,
+			"valign", GTK_ALIGN_FILL,
+			NULL);
 
 		pbar = gtk_progress_bar_new ();
 
@@ -1032,18 +1039,22 @@ main (gint argc,
 			g_free (markup);
 			g_free (str);
 
-			gtk_table_attach (
-				GTK_TABLE (container), widget, 1, 2, 2, 3,
-				GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
-			gtk_table_set_row_spacing (GTK_TABLE (container), 2, 6);
+			gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
+			g_object_set (G_OBJECT (widget),
+				"halign", GTK_ALIGN_FILL,
+				"hexpand", TRUE,
+				"valign", GTK_ALIGN_FILL,
+				NULL);
 
-			gtk_table_attach (
-				GTK_TABLE (container), pbar, 1, 2, 3, 4,
-				GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+			gtk_grid_attach (GTK_GRID (container), pbar, 1, 3, 1, 1);
 		} else
-			gtk_table_attach (
-				GTK_TABLE (container), pbar, 1, 2, 2, 3,
-				GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+			gtk_grid_attach (GTK_GRID (container), pbar, 1, 2, 1, 1);
+
+		g_object_set (G_OBJECT (pbar),
+			"halign", GTK_ALIGN_FILL,
+			"hexpand", TRUE,
+			"valign", GTK_ALIGN_FILL,
+			NULL);
 
 		g_signal_connect (
 			progress_dialog, "response",
