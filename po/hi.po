@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: hi\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2012-11-10 21:38+0000\n"
-"PO-Revision-Date: 2012-11-23 13:41+0530\n"
+"POT-Creation-Date: 2012-11-26 23:50+0000\n"
+"PO-Revision-Date: 2012-11-28 15:14+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
 "Language: hi\n"
@@ -110,7 +110,7 @@ msgstr ""
 #: ../addressbook/addressbook.error.xml.h:16
 #: ../calendar/calendar.error.xml.h:68
 msgid "_Delete From Server"
-msgstr "सर्वर से हटायें (_D)"
+msgstr "सर्वर से मिटायें (_D)"
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "Category editor not available."
@@ -138,7 +138,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "_Discard"
-msgstr "त्यागें (_D)"
+msgstr "छोड़ें (_D)"
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid "Cannot move contact."
@@ -334,7 +334,7 @@ msgstr "गृह पृष्ठ: (_H)"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:14
 #: ../calendar/gui/dialogs/event-page.c:722
 #: ../calendar/gui/dialogs/event-page.ui.h:22
-#: ../modules/itip-formatter/itip-view.c:1858
+#: ../modules/itip-formatter/itip-view.c:1857
 msgid "_Calendar:"
 msgstr "पंचांग: (_C)"
 
@@ -1593,8 +1593,8 @@ msgstr "छोड़ें (_D)"
 #: ../calendar/alarm-notify/alarm-queue.c:1760
 #: ../calendar/alarm-notify/alarm-queue.c:1770
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:191
-#: ../modules/itip-formatter/itip-view.c:1472
-#: ../modules/itip-formatter/itip-view.c:1583
+#: ../modules/itip-formatter/itip-view.c:1471
+#: ../modules/itip-formatter/itip-view.c:1582
 msgid "Location:"
 msgstr "स्थानः"
 
@@ -1954,7 +1954,7 @@ msgstr ""
 "परिणाम देगा."
 
 #: ../calendar/calendar.error.xml.h:47 ../composer/e-composer-actions.c:316
-#: ../modules/itip-formatter/itip-view.c:3094
+#: ../modules/itip-formatter/itip-view.c:3093
 msgid "_Save"
 msgstr "सहेजें (_S)"
 
@@ -1989,15 +1989,15 @@ msgstr "एवोल्यूशन कार्य अप्रत्याश�
 
 #: ../calendar/calendar.error.xml.h:53
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr "एवोल्यूशनजबतक."
+msgstr "आपका कार्य उपलब्ध नहीं रहेगा जबतक कि एवोल्यूशन फिर आरंभ नहीं होता है."
 
 #: ../calendar/calendar.error.xml.h:54
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "एवोल्यूशनअप्रत्याशित"
+msgstr "एवोल्यूशन पंचांग अप्रत्याशित रूप से बाहर हो गया है."
 
 #: ../calendar/calendar.error.xml.h:55
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr "एवोल्यूशनजबतक."
+msgstr "आपका पंचांग उपलब्ध नहीं रहेगा जबतक कि एवोल्यूशन फिर आरंभ नहीं होता है."
 
 #: ../calendar/calendar.error.xml.h:56
 msgid "The Evolution memo has quit unexpectedly."
@@ -2351,7 +2351,7 @@ msgstr "एक चेतावनी पाप अप करें"
 #: ../calendar/gui/dialogs/alarm-dialog.c:824
 #: ../calendar/gui/e-alarm-list.c:408
 msgid "Play a sound"
-msgstr "एक ध्वनि चलाएं"
+msgstr "एक ध्वनि चलाएँ"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:825
 #: ../calendar/gui/e-alarm-list.c:420
@@ -3085,7 +3085,7 @@ msgstr "घटना विवरणः"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:23
 #: ../calendar/gui/dialogs/task-page.ui.h:8
-#: ../calendar/gui/e-meeting-time-sel.c:590
+#: ../calendar/gui/e-meeting-time-sel.c:605
 msgid "Atte_ndees..."
 msgstr "उपस्थित व्यक्ति... (_n)"
 
@@ -3176,12 +3176,12 @@ msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr ""
 "यह ज्ञापन पूरी तर से संपादित नहीं किया सकता है क्योंकि आप संगठनकर्ता नहीं है"
 
-#: ../calendar/gui/dialogs/memo-page.c:987
+#: ../calendar/gui/dialogs/memo-page.c:990
 #, c-format
 msgid "Unable to open memos in '%s': %s"
 msgstr "'%s' में ज्ञापन खोलने में अक्षम: %s"
 
-#: ../calendar/gui/dialogs/memo-page.c:1180
+#: ../calendar/gui/dialogs/memo-page.c:1183
 #: ../em-format/e-mail-formatter.c:1384
 #: ../em-format/e-mail-formatter-utils.c:182
 #: ../em-format/e-mail-formatter-utils.c:206 ../mail/em-filter-i18n.h:77
@@ -3479,11 +3479,11 @@ msgstr "अपवाद"
 msgid "Preview"
 msgstr "पूर्वावलोकन"
 
-#: ../calendar/gui/dialogs/send-comp.c:197
+#: ../calendar/gui/dialogs/send-comp.c:221
 msgid "Send my reminders with this event"
 msgstr "इस कार्यक्रम के साथ मेरा अनुस्मारक भेजें"
 
-#: ../calendar/gui/dialogs/send-comp.c:199
+#: ../calendar/gui/dialogs/send-comp.c:223
 msgid "Notify new attendees _only"
 msgstr "आई का के लिए केवल नया संदेश अधिसूचित करें (_o)"
 
@@ -3935,8 +3935,8 @@ msgid "Due Date:"
 msgstr "समाप्ति तिथि:"
 
 #: ../calendar/gui/e-cal-component-preview.c:322
-#: ../modules/itip-formatter/itip-view.c:1475
-#: ../modules/itip-formatter/itip-view.c:1592
+#: ../modules/itip-formatter/itip-view.c:1474
+#: ../modules/itip-formatter/itip-view.c:1591
 msgid "Status:"
 msgstr "स्थिति:"
 
@@ -4076,8 +4076,8 @@ msgstr "समाप्ति तिथि"
 #: ../calendar/gui/e-meeting-store.c:139 ../calendar/gui/e-meeting-store.c:174
 #: ../calendar/gui/e-meeting-store.c:237 ../calendar/gui/print.c:1234
 #: ../calendar/gui/print.c:1251 ../e-util/e-charset.c:52
-#: ../modules/itip-formatter/itip-view.c:3480
-#: ../modules/itip-formatter/itip-view.c:6017
+#: ../modules/itip-formatter/itip-view.c:3479
+#: ../modules/itip-formatter/itip-view.c:5984
 #: ../modules/plugin-manager/evolution-plugin-manager.c:101
 msgid "Unknown"
 msgstr "अज्ञात"
@@ -4111,28 +4111,28 @@ msgstr "\"%s\" खोल रहा है."
 #: ../calendar/gui/e-cal-model.c:3602
 #: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:201 ../calendar/gui/e-meeting-store.c:224
-#: ../modules/itip-formatter/itip-view.c:6005
+#: ../modules/itip-formatter/itip-view.c:5972
 msgid "Accepted"
 msgstr "स्वीकृत"
 
 #: ../calendar/gui/e-cal-model.c:3603
 #: ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:203 ../calendar/gui/e-meeting-store.c:226
-#: ../modules/itip-formatter/itip-view.c:6011
+#: ../modules/itip-formatter/itip-view.c:5978
 msgid "Declined"
 msgstr "मनाही की गई"
 
 #: ../calendar/gui/e-cal-model.c:3604
 #: ../calendar/gui/e-meeting-list-view.c:224
 #: ../calendar/gui/e-meeting-store.c:205 ../calendar/gui/e-meeting-store.c:228
-#: ../calendar/gui/e-meeting-time-sel.c:569
+#: ../calendar/gui/e-meeting-time-sel.c:584
 msgid "Tentative"
 msgstr "औपबंधिक"
 
 #: ../calendar/gui/e-cal-model.c:3605
 #: ../calendar/gui/e-meeting-list-view.c:225
 #: ../calendar/gui/e-meeting-store.c:207 ../calendar/gui/e-meeting-store.c:230
-#: ../modules/itip-formatter/itip-view.c:6014
+#: ../modules/itip-formatter/itip-view.c:5981
 msgid "Delegated"
 msgstr "प्रतिनिधित्व"
 
@@ -4146,7 +4146,7 @@ msgid "Free"
 msgstr "मुक्त"
 
 #: ../calendar/gui/e-cal-model-calendar.c:161
-#: ../calendar/gui/e-meeting-time-sel.c:570 ../calendar/gui/e-task-table.c:643
+#: ../calendar/gui/e-meeting-time-sel.c:585 ../calendar/gui/e-task-table.c:643
 msgid "Busy"
 msgstr "व्यस्त"
 
@@ -4329,81 +4329,81 @@ msgstr "संपर्क करें"
 msgid "In Process"
 msgstr "प्रक्रिया में"
 
-#: ../calendar/gui/e-meeting-store.c:1909
+#: ../calendar/gui/e-meeting-store.c:1950
 #, c-format
 msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr ""
 "कूटशब्द दर्ज करें उपयोगकर्ता %s के रूप में सर्वर %s पर मुक्त/व्यस्त सूचना तक "
 "पहुँच पाने के लिए"
 
-#: ../calendar/gui/e-meeting-store.c:1919
+#: ../calendar/gui/e-meeting-store.c:1960
 #, c-format
 msgid "Failure reason: %s"
 msgstr "विफलता कारण: %s"
 
-#: ../calendar/gui/e-meeting-store.c:1924
+#: ../calendar/gui/e-meeting-store.c:1965
 #: ../plugins/publish-calendar/publish-calendar.c:338
 #: ../smime/gui/component.c:54
 msgid "Enter password"
 msgstr "कूटशब्द दाखिल करें"
 
-#: ../calendar/gui/e-meeting-time-sel.c:571
+#: ../calendar/gui/e-meeting-time-sel.c:586
 msgid "Out of Office"
 msgstr "कार्यालय के बाहर"
 
-#: ../calendar/gui/e-meeting-time-sel.c:573
+#: ../calendar/gui/e-meeting-time-sel.c:588
 msgid "No Information"
 msgstr "कोई सूचना नहीं"
 
-#: ../calendar/gui/e-meeting-time-sel.c:613
+#: ../calendar/gui/e-meeting-time-sel.c:628
 msgid "O_ptions"
 msgstr "विकल्प (_p)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:633
+#: ../calendar/gui/e-meeting-time-sel.c:648
 msgid "Show _only working hours"
 msgstr "केवल कार्य घंटों को दिखाएँ (_o)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:646
+#: ../calendar/gui/e-meeting-time-sel.c:661
 msgid "Show _zoomed out"
 msgstr "आकार ह्रास दिखाएँ (_z)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:664
+#: ../calendar/gui/e-meeting-time-sel.c:679
 msgid "_Update free/busy"
 msgstr "रिक्त/व्यस्त को अद्यतन करें (_U)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:681
+#: ../calendar/gui/e-meeting-time-sel.c:696
 msgid "_<<"
 msgstr "_<<"
 
-#: ../calendar/gui/e-meeting-time-sel.c:701
+#: ../calendar/gui/e-meeting-time-sel.c:716
 msgid "_Autopick"
 msgstr "स्वतःचयन (_A)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:718
+#: ../calendar/gui/e-meeting-time-sel.c:733
 msgid ">_>"
 msgstr ">_>"
 
-#: ../calendar/gui/e-meeting-time-sel.c:739
+#: ../calendar/gui/e-meeting-time-sel.c:754
 msgid "_All people and resources"
 msgstr "सभी व्यक्ति एवं संसाधन (_A)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:750
+#: ../calendar/gui/e-meeting-time-sel.c:765
 msgid "All _people and one resource"
 msgstr "सभी व्यक्ति एवं एक संसाधन (_p)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:761
+#: ../calendar/gui/e-meeting-time-sel.c:776
 msgid "_Required people"
 msgstr "आवश्यक व्यक्ति (_R)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:771
+#: ../calendar/gui/e-meeting-time-sel.c:786
 msgid "Required people and _one resource"
 msgstr "आवश्यक व्यक्ति और एक संसाधन (_o)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:825
+#: ../calendar/gui/e-meeting-time-sel.c:840
 msgid "_Start time:"
 msgstr "प्रारंभ समय: (_S)"
 
-#: ../calendar/gui/e-meeting-time-sel.c:869
+#: ../calendar/gui/e-meeting-time-sel.c:884
 msgid "_End time:"
 msgstr "अंत्य समय: (_E)"
 
@@ -4641,7 +4641,7 @@ msgstr "रिक्त/व्यस्त सूचना (%s से %s)"
 
 #: ../calendar/gui/itip-utils.c:1097
 msgid "iCalendar information"
-msgstr "आईकैलेंडर सूचना"
+msgstr "आईपंचांग सूचना"
 
 #: ../calendar/gui/itip-utils.c:1124
 msgid "Unable to book a resource, the new event collides with some other."
@@ -4905,17 +4905,16 @@ msgstr "मुलाकात एवं बैठक"
 
 #: ../calendar/importers/icalendar-importer.c:468
 #: ../calendar/importers/icalendar-importer.c:907
-#: ../modules/itip-formatter/itip-view.c:5619
 msgid "Opening calendar"
 msgstr "पंचांग खोल रहा है"
 
 #: ../calendar/importers/icalendar-importer.c:616
 msgid "iCalendar files (.ics)"
-msgstr "आईकैलेंडर फ़ाइल (.ics)"
+msgstr "आईपंचांग फ़ाइल (.ics)"
 
 #: ../calendar/importers/icalendar-importer.c:617
 msgid "Evolution iCalendar importer"
-msgstr "एवोल्यूशन आईकैलेंडर आयातक"
+msgstr "एवोल्यूशन आईपंचांग आयातक"
 
 #: ../calendar/importers/icalendar-importer.c:709
 msgid "Reminder!"
@@ -4923,11 +4922,11 @@ msgstr "अनुस्मारक!"
 
 #: ../calendar/importers/icalendar-importer.c:793
 msgid "vCalendar files (.vcs)"
-msgstr "वीकैलेंडर फ़ाइल (.vcs)"
+msgstr "वीपंचांग फ़ाइल (.vcs)"
 
 #: ../calendar/importers/icalendar-importer.c:794
 msgid "Evolution vCalendar importer"
-msgstr "एवोल्यूशन वीकैलेंडर आयातक"
+msgstr "एवोल्यूशन वीपंचांग आयातक"
 
 #: ../calendar/importers/icalendar-importer.c:1077
 msgid "Calendar Events"
@@ -4935,7 +4934,7 @@ msgstr "पंचांग घटना"
 
 #: ../calendar/importers/icalendar-importer.c:1121
 msgid "Evolution Calendar intelligent importer"
-msgstr "एवोल्यूशनकैलेंडर"
+msgstr "एवोल्यूशन पंचांग मेधावी आयातक"
 
 #: ../calendar/importers/icalendar-importer.c:1189
 #: ../calendar/importers/icalendar-importer.c:1508
@@ -6865,7 +6864,7 @@ msgstr "संदेश लिखें"
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "कंपोजर में गैर पाठ संदेश बॉडी है, जिसे संपादित नहीं किया जा सकता है."
 
-#: ../composer/e-msg-composer.c:4883
+#: ../composer/e-msg-composer.c:4881
 msgid "Untitled Message"
 msgstr "शीर्षकविहीन संदेश"
 
@@ -8748,7 +8747,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr ""
-"पूछें कि क्या खिंच करके फोल्डर का खिसकाएँ &amp;  फ़ोल्डर पेड़ में डालें."
+"पूछें कि क्या खींच करके फोल्डर का खिसकाएँ &amp;  फ़ोल्डर तरू में डालें."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid ""
@@ -9163,7 +9162,7 @@ msgstr " पिडगिन आखरी सिंक्रनाइज़ेश
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:1
 msgid "List of Custom Headers"
-msgstr "कस्टम शीर्षिका की सूची"
+msgstr "मनपसंद शीर्षिका की सूची"
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:2
 msgid ""
@@ -9639,12 +9638,12 @@ msgid "Display part as enriched text"
 msgstr "समृद्ध पाठ के भाग के रूप में प्रदर्शित करें"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:104
-#: ../em-format/e-mail-formatter-text-html.c:340
+#: ../em-format/e-mail-formatter-text-html.c:352
 msgid "HTML"
 msgstr "एचटीएमएल"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:110
-#: ../em-format/e-mail-formatter-text-html.c:346
+#: ../em-format/e-mail-formatter-text-html.c:358
 msgid "Format part as HTML"
 msgstr " HTML के रूप में हिस्सा स्वरूपित करें"
 
@@ -9934,7 +9933,7 @@ msgstr "थाई"
 
 #: ../e-util/e-charset.c:63
 msgid "Turkish"
-msgstr "तुर्कीश"
+msgstr "तुर्किश"
 
 #: ../e-util/e-charset.c:64
 msgid "Unicode"
@@ -10570,14 +10569,14 @@ msgstr "कोई डाक सेवा यूआईडी '%s' के लि�
 msgid "UID '%s' is not a mail transport"
 msgstr "यूआईडी '%s' एक मेल परिवहन नहीं है"
 
-#: ../libemail-engine/e-mail-session-utils.c:641
+#: ../libemail-engine/e-mail-session-utils.c:647
 #: ../libemail-engine/mail-ops.c:719
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "बाहर जाने वाला फ़िल्टर चलाने में असफल: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:670
-#: ../libemail-engine/e-mail-session-utils.c:704
+#: ../libemail-engine/e-mail-session-utils.c:676
+#: ../libemail-engine/e-mail-session-utils.c:710
 #: ../libemail-engine/mail-ops.c:737 ../libemail-engine/mail-ops.c:770
 #, c-format
 msgid ""
@@ -10587,13 +10586,13 @@ msgstr ""
 "%s में जोड़ने में विफल: %s\n"
 "बदले में स्थानीय `प्रेषित' फ़ोल्डर में जोड़ रहा है."
 
-#: ../libemail-engine/e-mail-session-utils.c:724
+#: ../libemail-engine/e-mail-session-utils.c:730
 #: ../libemail-engine/mail-ops.c:792
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "स्थानीय `प्रेषित' फ़ोल्डर में जोड़ने में विफल: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:954
+#: ../libemail-engine/e-mail-session-utils.c:960
 #: ../libemail-engine/mail-ops.c:924 ../libemail-engine/mail-ops.c:1026
 msgid "Sending message"
 msgstr "संदेश भेज रहा है"
@@ -10640,7 +10639,7 @@ msgstr[1] "%d के %d संदेश भेजने में असफल"
 
 #: ../libemail-engine/mail-ops.c:993
 msgid "Canceled."
-msgstr "निरसित."
+msgstr "रद्द."
 
 #: ../libemail-engine/mail-ops.c:995
 msgid "Complete."
@@ -10804,7 +10803,7 @@ msgstr "(कोई विषय नहीं)"
 msgid "Evolution Account Assistant"
 msgstr "एवोल्यूशन खाता सहायक"
 
-#: ../mail/e-mail-config-auth-check.c:348
+#: ../mail/e-mail-config-auth-check.c:352
 msgid "Check for Supported Types"
 msgstr "समर्थित प्रकार के लिए जांचें"
 
@@ -10848,11 +10847,11 @@ msgstr "प्रेषित संदेश को सहेजने के �
 
 #: ../mail/e-mail-config-defaults-page.c:611
 msgid "_Restore Defaults"
-msgstr "मूलभूत रिस्टोर करें (_R)"
+msgstr "तयशुदा पुनर्बहाल करें (_R)"
 
 #: ../mail/e-mail-config-defaults-page.c:625
 msgid "Use a Real Folder for _Trash:"
-msgstr "ट्रैश के लिए एक वास्तविक फ़ोल्डर का उपयोग करें: (_T)"
+msgstr "रद्दी के लिए एक वास्तविक फ़ोल्डर का उपयोग करें: (_T)"
 
 #: ../mail/e-mail-config-defaults-page.c:626
 msgid "Choose a folder for deleted messages."
@@ -12070,7 +12069,7 @@ msgstr "उपस्थित है"
 
 #: ../mail/em-filter-i18n.h:28
 msgid "Expression"
-msgstr "एक्सप्रेशन"
+msgstr "अभिव्यक्ति"
 
 #: ../mail/em-filter-i18n.h:29
 msgid "Follow Up"
@@ -12976,7 +12975,7 @@ msgstr "एचटीएमएल संदेश"
 
 #: ../mail/mail-config.ui.h:95 ../mail/message-list.etspec.h:19
 msgid "Labels"
-msgstr "लेबिलें"
+msgstr "लेबल"
 
 #: ../mail/mail-config.ui.h:96
 msgid "Sender Photograph"
@@ -12996,7 +12995,7 @@ msgstr "प्रदर्शित संदेश शीर्षक"
 
 #: ../mail/mail-config.ui.h:100
 msgid "Mail Headers Table"
-msgstr "डाक हैटर सारणी"
+msgstr "डाक शीर्षिका सारणी"
 
 #: ../mail/mail-config.ui.h:101
 #: ../modules/addressbook/autocompletion-config.c:90
@@ -13121,7 +13120,7 @@ msgstr "अंकीय हस्ताक्षर"
 
 #: ../mail/mail-dialogs.ui.h:23
 msgid "Encryption"
-msgstr "एनक्रिप्शन"
+msgstr "गोपन"
 
 #: ../mail/mail.error.xml.h:1
 msgid "Invalid authentication"
@@ -13694,7 +13693,7 @@ msgid ""
 "Cannot read the license file \"{0}\", due to an installation problem. You "
 "will not be able to use this provider until you can accept its license."
 msgstr ""
-"अधिष्ठापन समस्या के कारण लाइसेंस फ़ाइल \"{0}\" न पढ़ सका.  आप इस उपलब्धकर्ता "
+"संस्थापन समस्या के कारण लाइसेंस फ़ाइल \"{0}\" न पढ़ सका.  आप इस उपलब्धकर्ता "
 "का उपयोग "
 "न कर पाएंगे जबतक कि आप लाइसेंस स्वीकार न कर लें."
 
@@ -14620,105 +14619,105 @@ msgstr "एवोल्यूशन डेटा पुनर्भंडार�
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "एवोल्यूशन डाटा व सेटिंग का बैकअप लें कोई संग्रह फ़ाइल से"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:83
+#: ../modules/backup-restore/evolution-backup-tool.c:84
 msgid "Back up Evolution directory"
 msgstr "बैकअप एवोल्यूशन निर्देशिका"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:85
+#: ../modules/backup-restore/evolution-backup-tool.c:86
 msgid "Restore Evolution directory"
 msgstr "एवोल्यूशन निर्देशिका पुनर्भंडारित करें"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:87
+#: ../modules/backup-restore/evolution-backup-tool.c:88
 msgid "Check Evolution Back up"
 msgstr "एवोल्यूशन बैकअप जांचें"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:89
+#: ../modules/backup-restore/evolution-backup-tool.c:90
 msgid "Restart Evolution"
 msgstr "एवोल्यूशन फिर आरंभ नहीं कर सकता"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:91
+#: ../modules/backup-restore/evolution-backup-tool.c:92
 msgid "With Graphical User Interface"
 msgstr "आलेखी उपयोक्ता अंतरफलक के साथ"
 
 #. FIXME Will the versioned setting always work?
-#: ../modules/backup-restore/evolution-backup-tool.c:315
-#: ../modules/backup-restore/evolution-backup-tool.c:469
+#: ../modules/backup-restore/evolution-backup-tool.c:317
+#: ../modules/backup-restore/evolution-backup-tool.c:511
 msgid "Shutting down Evolution"
 msgstr "एवोल्यूशन को बंद कर रहा है"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:324
+#: ../modules/backup-restore/evolution-backup-tool.c:326
 msgid "Backing Evolution accounts and settings"
 msgstr "एवोल्यूशन डाटा व सेटिंग का बैकअप ले रहा है"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:341
+#: ../modules/backup-restore/evolution-backup-tool.c:343
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "एवोल्यूशन डेटा का बैकिंग ले रहा है (Mails, Contacts, Calendar, Tasks, Memos)"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:357
+#: ../modules/backup-restore/evolution-backup-tool.c:359
 msgid "Back up complete"
 msgstr "बैक अप पूर्ण"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:364
-#: ../modules/backup-restore/evolution-backup-tool.c:659
+#: ../modules/backup-restore/evolution-backup-tool.c:366
+#: ../modules/backup-restore/evolution-backup-tool.c:705
 msgid "Restarting Evolution"
 msgstr "एवोल्यूशन फिर आरंभ कर रहा है"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:475
+#: ../modules/backup-restore/evolution-backup-tool.c:517
 msgid "Back up current Evolution data"
 msgstr "बैकअप मौजूदा एवोल्यूशन डेटा"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:483
+#: ../modules/backup-restore/evolution-backup-tool.c:525
 msgid "Extracting files from back up"
 msgstr "बैकअप से फाइलें निकाल रहे हैं"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:570
+#: ../modules/backup-restore/evolution-backup-tool.c:612
 msgid "Loading Evolution settings"
 msgstr "एवोल्यूशन सेटिंग में लोड कर रहा है"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:629
+#: ../modules/backup-restore/evolution-backup-tool.c:678
 msgid "Removing temporary back up files"
 msgstr "अस्थायी बैकअप फ़ाइल को मिटाया जा रहा है"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:641
+#: ../modules/backup-restore/evolution-backup-tool.c:690
 msgid "Reloading registry service"
 msgstr "रजिस्ट्री सेवा फिर से लोड करें"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:866
+#: ../modules/backup-restore/evolution-backup-tool.c:917
 msgid "Evolution Back Up"
 msgstr "एवोल्यूशन बैकअप"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:867
+#: ../modules/backup-restore/evolution-backup-tool.c:918
 #, c-format
 msgid "Backing up to the folder %s"
 msgstr "फ़ोल्डर %s में बैकअप ले रहा है"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:871
+#: ../modules/backup-restore/evolution-backup-tool.c:922
 msgid "Evolution Restore"
 msgstr "एवोल्यूशन पुनर्भंडारण"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:872
+#: ../modules/backup-restore/evolution-backup-tool.c:923
 #, c-format
 msgid "Restoring from the folder %s"
 msgstr "फ़ोल्डर %s से फिर भंडारित कर रहा है"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:940
+#: ../modules/backup-restore/evolution-backup-tool.c:991
 msgid "Backing up Evolution Data"
 msgstr "बैकअप एवोल्यूशन डाटा"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:941
+#: ../modules/backup-restore/evolution-backup-tool.c:992
 msgid "Please wait while Evolution is backing up your data."
 msgstr "कृपया प्रतीक्षा करें जब तक एवोल्यूशन आपके आँकड़े का बैकअप ले रहा है."
 
-#: ../modules/backup-restore/evolution-backup-tool.c:943
+#: ../modules/backup-restore/evolution-backup-tool.c:994
 msgid "Restoring Evolution Data"
 msgstr "एवोल्यूशन डेटा पुनर्भंडारित कर रहा है"
 
-#: ../modules/backup-restore/evolution-backup-tool.c:944
+#: ../modules/backup-restore/evolution-backup-tool.c:995
 msgid "Please wait while Evolution is restoring your data."
 msgstr "कृपया प्रतीक्षा करें जब तक एवोल्यूशन आपका आँकड़ा पुनर्बहाल कर रहा है."
 
-#: ../modules/backup-restore/evolution-backup-tool.c:962
+#: ../modules/backup-restore/evolution-backup-tool.c:1013
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "यह आपके खाते में आँकड़े की मात्रा के आधार पर कुछ समय ले सकता है."
 
@@ -14924,12 +14923,12 @@ msgstr "सीमा:"
 msgid "Browse until limit is reached"
 msgstr "ब्रॉउज करें जब तक कि सीमा नहीं पहुंच जाती है"
 
-#: ../modules/book-config-webdav/evolution-book-config-webdav.c:134
+#: ../modules/book-config-webdav/evolution-book-config-webdav.c:135
 #: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:130
 msgid "URL:"
 msgstr "यूआरएल:"
 
-#: ../modules/book-config-webdav/evolution-book-config-webdav.c:144
+#: ../modules/book-config-webdav/evolution-book-config-webdav.c:145
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "IfMatch (अपाचे पर जरूरत <2.2.8) करने से बचें"
 
@@ -15063,7 +15062,7 @@ msgstr "अलार्म के लिए चयनित पंचांग"
 
 #: ../modules/calendar/e-calendar-preferences.c:829
 msgid "Ti_me and date:"
-msgstr "तारीख़ और समय: (_m)"
+msgstr "समय और दिनांक: (_m)"
 
 #: ../modules/calendar/e-calendar-preferences.c:830
 msgid "_Date only:"
@@ -15071,7 +15070,7 @@ msgstr "केवल दिनांक: (_D)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:8
 msgid "Minutes"
-msgstr "मिनट्स"
+msgstr "मिनट"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Hours"
@@ -15124,11 +15123,11 @@ msgstr "समय प्ररूप:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:23
 msgid "_12 hour (AM/PM)"
-msgstr "१२ घंटे (पूर्वाह्न/अपराह्न) (_1)"
+msgstr "12 घंटे (पूर्वाह्न/अपराह्न) (_1)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:24
 msgid "_24 hour"
-msgstr "२४ घंटे (_2)"
+msgstr "२4 घंटे (_2)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:25
 #: ../modules/calendar/e-cal-shell-view-actions.c:1743
@@ -15166,7 +15165,7 @@ msgstr "बुध (_W)"
 #. Thursday
 #: ../modules/calendar/e-calendar-preferences.ui.h:37
 msgid "T_hu"
-msgstr "T_hu"
+msgstr "गुरू (_h)"
 
 #. Friday
 #: ../modules/calendar/e-calendar-preferences.ui.h:39
@@ -15205,7 +15204,7 @@ msgstr "सप्ताह और मासिक दृश्य में म�
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:50
 msgid "_Compress weekends in month view"
-msgstr "मासिक दृश्य में सप्ताहांतों को compress करें (_C)"
+msgstr "मासिक दृश्य में सप्ताहांतों को संकुचित करें (_C)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Show week _numbers"
@@ -16109,11 +16108,11 @@ msgstr "पूरा शीर्षक लाएँ (_F)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:257
 msgid "_Basic Headers (fastest)"
-msgstr "मूल हेडर (तीव्रतम) (_B)"
+msgstr "मूल शीर्षिक (तीव्रतम) (_B)"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:271
 msgid "Use this if you are not filtering any mailing lists."
-msgstr "अगर आपके पास फिल्टर आधारित डाक सूचि नहीं है तो इसका प्रयोग करें"
+msgstr "अगर आपके पास फिल्टर आधारित डाक सूची नहीं है तो इसका प्रयोग करें"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:281
 msgid "Basic and _Mailing List Headers (default)"
@@ -16121,7 +16120,7 @@ msgstr "मूल और डाक सूची शीर्षिका (तय
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:330
 msgid "Custom Headers"
-msgstr "कस्टम शीर्षिका"
+msgstr "मनपसंद शीर्षिका"
 
 #: ../modules/imap-features/e-mail-config-imap-headers-page.c:338
 msgid ""
@@ -16512,7 +16511,7 @@ msgid "Start day:"
 msgstr "प्रवर्तन तिथि:"
 
 #: ../modules/itip-formatter/itip-view.c:693
-#: ../modules/itip-formatter/itip-view.c:1473
+#: ../modules/itip-formatter/itip-view.c:1472
 msgid "Start time:"
 msgstr "प्रारंभ समय:"
 
@@ -16521,257 +16520,257 @@ msgid "End day:"
 msgstr "अंत दिन:"
 
 #: ../modules/itip-formatter/itip-view.c:702
-#: ../modules/itip-formatter/itip-view.c:1474
+#: ../modules/itip-formatter/itip-view.c:1473
 msgid "End time:"
 msgstr "अंत्य समय:"
 
-#: ../modules/itip-formatter/itip-view.c:1022
+#: ../modules/itip-formatter/itip-view.c:1021
 msgid "_Open Calendar"
 msgstr "पंचांग खोलें (_O)"
 
-#: ../modules/itip-formatter/itip-view.c:1025
+#: ../modules/itip-formatter/itip-view.c:1024
 msgid "_Decline all"
 msgstr "सबको मना करें (_D)"
 
-#: ../modules/itip-formatter/itip-view.c:1028
+#: ../modules/itip-formatter/itip-view.c:1027
 msgid "_Decline"
 msgstr "मनाही (_D)"
 
-#: ../modules/itip-formatter/itip-view.c:1031
+#: ../modules/itip-formatter/itip-view.c:1030
 msgid "_Tentative all"
 msgstr "सभी अंतरिम (_T)"
 
-#: ../modules/itip-formatter/itip-view.c:1034
+#: ../modules/itip-formatter/itip-view.c:1033
 msgid "_Tentative"
 msgstr "अंतरिम (_T)"
 
-#: ../modules/itip-formatter/itip-view.c:1037
+#: ../modules/itip-formatter/itip-view.c:1036
 msgid "A_ccept all"
 msgstr "सबको स्वीकारें (_c)"
 
-#: ../modules/itip-formatter/itip-view.c:1040
+#: ../modules/itip-formatter/itip-view.c:1039
 msgid "A_ccept"
 msgstr "स्वीकार (_c)"
 
-#: ../modules/itip-formatter/itip-view.c:1043
+#: ../modules/itip-formatter/itip-view.c:1042
 msgid "_Send Information"
 msgstr "सूचना भेजें (_S)"
 
-#: ../modules/itip-formatter/itip-view.c:1046
+#: ../modules/itip-formatter/itip-view.c:1045
 msgid "_Update Attendee Status"
 msgstr "उपस्थित प्रस्थिति अद्यतन करें (_U)"
 
-#: ../modules/itip-formatter/itip-view.c:1049
+#: ../modules/itip-formatter/itip-view.c:1048
 msgid "_Update"
 msgstr "अद्यतन करें (_U)"
 
-#: ../modules/itip-formatter/itip-view.c:1476
-#: ../modules/itip-formatter/itip-view.c:1524
-#: ../modules/itip-formatter/itip-view.c:1595
+#: ../modules/itip-formatter/itip-view.c:1475
+#: ../modules/itip-formatter/itip-view.c:1523
+#: ../modules/itip-formatter/itip-view.c:1594
 msgid "Comment:"
 msgstr "टिप्पणीः"
 
 #. RSVP area
-#: ../modules/itip-formatter/itip-view.c:1512
+#: ../modules/itip-formatter/itip-view.c:1511
 msgid "Send reply to sender"
 msgstr "प्रेषक को जवाब भेजें"
 
 #. Updates
-#: ../modules/itip-formatter/itip-view.c:1527
+#: ../modules/itip-formatter/itip-view.c:1526
 msgid "Send _updates to attendees"
 msgstr "श्रोता को अद्यतन भेजें (_u)"
 
 #. The recurrence check button
-#: ../modules/itip-formatter/itip-view.c:1530
+#: ../modules/itip-formatter/itip-view.c:1529
 msgid "_Apply to all instances"
 msgstr "सभी दृष्टांत में लागू करें (_A)"
 
-#: ../modules/itip-formatter/itip-view.c:1531
+#: ../modules/itip-formatter/itip-view.c:1530
 msgid "Show time as _free"
 msgstr "समय खाली के रूप में दिखाएँ (_ f)"
 
-#: ../modules/itip-formatter/itip-view.c:1532
+#: ../modules/itip-formatter/itip-view.c:1531
 msgid "_Preserve my reminder"
 msgstr "मेरा अनुस्मारक याद रखें (_P)"
 
-#: ../modules/itip-formatter/itip-view.c:1533
+#: ../modules/itip-formatter/itip-view.c:1532
 msgid "_Inherit reminder"
 msgstr "अनुस्मारक बनाए रखें (_I)"
 
-#: ../modules/itip-formatter/itip-view.c:1861
+#: ../modules/itip-formatter/itip-view.c:1860
 msgid "_Tasks:"
 msgstr "कार्य (_T)"
 
-#: ../modules/itip-formatter/itip-view.c:1864
+#: ../modules/itip-formatter/itip-view.c:1863
 msgid "_Memos:"
 msgstr "ज्ञापन: (_M)"
 
 #. Translators: The first '%s' is replaced with a calendar name,
 #. * the second '%s' with an error message
-#: ../modules/itip-formatter/itip-view.c:3511
+#: ../modules/itip-formatter/itip-view.c:3510
 #, c-format
 msgid "Failed to load the calendar '%s' (%s)"
 msgstr "लोड करने में विफल '%s' (%s) पंचांग को "
 
-#: ../modules/itip-formatter/itip-view.c:3670
+#: ../modules/itip-formatter/itip-view.c:3669
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "पंचांग '%s' में इस बैठक के साथ मुलाकात में विरोध"
 
-#: ../modules/itip-formatter/itip-view.c:3699
+#: ../modules/itip-formatter/itip-view.c:3698
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "'%s' पंचांग में मुलाकात मिली."
 
-#: ../modules/itip-formatter/itip-view.c:3812
+#: ../modules/itip-formatter/itip-view.c:3811
 msgid "Unable to find any calendars"
 msgstr "किसी पंचांग को पाने में विफल"
 
-#: ../modules/itip-formatter/itip-view.c:3820
+#: ../modules/itip-formatter/itip-view.c:3819
 msgid "Unable to find this meeting in any calendar"
 msgstr "किसी पंचांग इस बैठक को पाने में असमर्थ."
 
-#: ../modules/itip-formatter/itip-view.c:3825
+#: ../modules/itip-formatter/itip-view.c:3824
 msgid "Unable to find this task in any task list"
 msgstr "किसी कार्य सूची को इस कार्य में पाने में असमर्थ."
 
-#: ../modules/itip-formatter/itip-view.c:3830
+#: ../modules/itip-formatter/itip-view.c:3829
 msgid "Unable to find this memo in any memo list"
 msgstr "किसी ज्ञापन सूची में इस ज्ञापन को पाने में असमर्थ."
 
-#: ../modules/itip-formatter/itip-view.c:4179
+#: ../modules/itip-formatter/itip-view.c:4178
 msgid "Opening the calendar. Please wait..."
 msgstr "पंचांग खोल रहा है. कृपया प्रतीक्षा करें ..."
 
-#: ../modules/itip-formatter/itip-view.c:4184
+#: ../modules/itip-formatter/itip-view.c:4183
 msgid "Searching for an existing version of this appointment"
 msgstr "इस मुलाकात के मौजूदा संस्करण के लिए खोज कर रहा है"
 
-#: ../modules/itip-formatter/itip-view.c:4576
+#: ../modules/itip-formatter/itip-view.c:4575
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "'%s' में मद भेजने में असमर्थ.  %s"
 
-#: ../modules/itip-formatter/itip-view.c:4592
+#: ../modules/itip-formatter/itip-view.c:4591
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "'%s' पंचांग को प्रेषित स्वीकृत हुआ"
 
-#: ../modules/itip-formatter/itip-view.c:4597
+#: ../modules/itip-formatter/itip-view.c:4596
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "अस्थायी रूप से '%s' पंचांग में प्रेषित"
 
-#: ../modules/itip-formatter/itip-view.c:4603
+#: ../modules/itip-formatter/itip-view.c:4602
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "मनाही रूप से '%s' पंचांग में प्रेषित"
 
-#: ../modules/itip-formatter/itip-view.c:4609
+#: ../modules/itip-formatter/itip-view.c:4608
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "रद्द रूप से '%s' पंचांग में प्रेषित"
 
-#: ../modules/itip-formatter/itip-view.c:4630
-#: ../modules/itip-formatter/itip-view.c:5071
-#: ../modules/itip-formatter/itip-view.c:5178
+#: ../modules/itip-formatter/itip-view.c:4629
+#: ../modules/itip-formatter/itip-view.c:5070
+#: ../modules/itip-formatter/itip-view.c:5177
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "पंचांग में परिवर्तन सहेजा जा रहा है. कृपया प्रतीक्षा करें ..."
 
-#: ../modules/itip-formatter/itip-view.c:4671
+#: ../modules/itip-formatter/itip-view.c:4670
 msgid "Unable to parse item"
 msgstr "मद विश्लेषण में अक्षम"
 
-#: ../modules/itip-formatter/itip-view.c:4861
+#: ../modules/itip-formatter/itip-view.c:4860
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "संगठक ने %s डेलिगेट को हल कर लिया "
 
-#: ../modules/itip-formatter/itip-view.c:4876
+#: ../modules/itip-formatter/itip-view.c:4875
 msgid "Sent a cancelation notice to the delegate"
 msgstr "प्रतिनिधि को रद्द सूचना प्रेषित"
 
-#: ../modules/itip-formatter/itip-view.c:4880
+#: ../modules/itip-formatter/itip-view.c:4879
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "प्रतिनिधि को रद्द सूचना नहीं भेज सका"
 
-#: ../modules/itip-formatter/itip-view.c:4930
+#: ../modules/itip-formatter/itip-view.c:4929
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "उपस्थित के अद्यतन में असमर्थ. %s"
 
-#: ../modules/itip-formatter/itip-view.c:4937
+#: ../modules/itip-formatter/itip-view.c:4936
 msgid "Attendee status updated"
 msgstr "उपस्तिति प्रस्थति अद्यतन"
 
-#: ../modules/itip-formatter/itip-view.c:4960
+#: ../modules/itip-formatter/itip-view.c:4959
 msgid "The meeting is invalid and cannot be updated"
 msgstr "बैठक अवैध है और अद्यतन नहीं किया जा सकता है"
 
-#: ../modules/itip-formatter/itip-view.c:5036
+#: ../modules/itip-formatter/itip-view.c:5035
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "श्रोता स्थिति अद्यतन नहीं हो सकती क्योंकि स्थिति अमान्य है"
 
-#: ../modules/itip-formatter/itip-view.c:5108
-#: ../modules/itip-formatter/itip-view.c:5148
+#: ../modules/itip-formatter/itip-view.c:5107
+#: ../modules/itip-formatter/itip-view.c:5147
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "श्रोता स्थिति अद्यतन नहीं की जा सकती क्योंकि मद अब उपस्थित नहीं है"
 
-#: ../modules/itip-formatter/itip-view.c:5211
+#: ../modules/itip-formatter/itip-view.c:5210
 msgid "Meeting information sent"
 msgstr "बैठक सूचना प्रेषित"
 
-#: ../modules/itip-formatter/itip-view.c:5216
+#: ../modules/itip-formatter/itip-view.c:5215
 msgid "Task information sent"
 msgstr "कार्य सूचना प्रेषित"
 
-#: ../modules/itip-formatter/itip-view.c:5221
+#: ../modules/itip-formatter/itip-view.c:5220
 msgid "Memo information sent"
 msgstr "ज्ञापन सूचना प्रेषित"
 
-#: ../modules/itip-formatter/itip-view.c:5232
+#: ../modules/itip-formatter/itip-view.c:5231
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "बैठक सूचना भेजने में असमर्थ, बैठक मौजूद नहीं"
 
-#: ../modules/itip-formatter/itip-view.c:5237
+#: ../modules/itip-formatter/itip-view.c:5236
 msgid "Unable to send task information, the task does not exist"
 msgstr "किसी कार्य सूची को इस कार्य में पाने में असमर्थ, कार्य मौजूद नहीं"
 
-#: ../modules/itip-formatter/itip-view.c:5242
+#: ../modules/itip-formatter/itip-view.c:5241
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "ज्ञापन सूचना देने में असमर्थ, यह ज्ञापन मौजूद नहीं है"
 
 #. Translators: This is a default filename for a calendar.
-#: ../modules/itip-formatter/itip-view.c:5307
+#: ../modules/itip-formatter/itip-view.c:5306
 msgid "calendar.ics"
 msgstr "पंचांग.ics"
 
-#: ../modules/itip-formatter/itip-view.c:5312
+#: ../modules/itip-formatter/itip-view.c:5311
 msgid "Save Calendar"
 msgstr "पंचांग सहेजें"
 
-#: ../modules/itip-formatter/itip-view.c:5365
-#: ../modules/itip-formatter/itip-view.c:5378
+#: ../modules/itip-formatter/itip-view.c:5364
+#: ../modules/itip-formatter/itip-view.c:5377
 msgid "The calendar attached is not valid"
 msgstr "संलग्न पंचांग मान्य नहीं है"
 
-#: ../modules/itip-formatter/itip-view.c:5366
-#: ../modules/itip-formatter/itip-view.c:5379
+#: ../modules/itip-formatter/itip-view.c:5365
+#: ../modules/itip-formatter/itip-view.c:5378
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr ""
 "संदेश एक पंचांग रखने का दावा करता है, लेकिन पंचांग एक मान्य iCalendar नहीं है."
 
-#: ../modules/itip-formatter/itip-view.c:5421
-#: ../modules/itip-formatter/itip-view.c:5451
-#: ../modules/itip-formatter/itip-view.c:5551
+#: ../modules/itip-formatter/itip-view.c:5420
+#: ../modules/itip-formatter/itip-view.c:5450
+#: ../modules/itip-formatter/itip-view.c:5550
 msgid "The item in the calendar is not valid"
 msgstr "पंचांग का मद मान्य नहीं है"
 
-#: ../modules/itip-formatter/itip-view.c:5422
-#: ../modules/itip-formatter/itip-view.c:5452
-#: ../modules/itip-formatter/itip-view.c:5552
+#: ../modules/itip-formatter/itip-view.c:5421
+#: ../modules/itip-formatter/itip-view.c:5451
+#: ../modules/itip-formatter/itip-view.c:5551
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -16780,35 +16779,35 @@ msgstr ""
 "मुक्त/व्यस्त "
 "सूचना."
 
-#: ../modules/itip-formatter/itip-view.c:5467
+#: ../modules/itip-formatter/itip-view.c:5466
 msgid "The calendar attached contains multiple items"
 msgstr "संलग्न पंचांग में कई मद समाहित हैं"
 
-#: ../modules/itip-formatter/itip-view.c:5468
+#: ../modules/itip-formatter/itip-view.c:5467
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 "इन सभी मदों की प्रक्रिया के लिए फ़ाइल सहेजना चाहिए और पंचांग आयातित करना चाहिए"
 
-#: ../modules/itip-formatter/itip-view.c:5992
+#: ../modules/itip-formatter/itip-view.c:5959
 msgctxt "cal-itip"
 msgid "None"
 msgstr "कोई नहीं"
 
-#: ../modules/itip-formatter/itip-view.c:6008
+#: ../modules/itip-formatter/itip-view.c:5975
 msgid "Tentatively Accepted"
 msgstr "औपबंधिक रूप से स्वीकृत"
 
-#: ../modules/itip-formatter/itip-view.c:6151
+#: ../modules/itip-formatter/itip-view.c:6118
 msgid "This meeting recurs"
 msgstr "यह बैठक फिर आती है"
 
-#: ../modules/itip-formatter/itip-view.c:6154
+#: ../modules/itip-formatter/itip-view.c:6121
 msgid "This task recurs"
 msgstr "यह कार्य फिर आती है"
 
-#: ../modules/itip-formatter/itip-view.c:6157
+#: ../modules/itip-formatter/itip-view.c:6124
 msgid "This memo recurs"
 msgstr "यह ज्ञापन फिर आती है"
 
@@ -16847,7 +16846,7 @@ msgstr "बैठक विरोध के लिए ढ़ूंढ़ने �
 
 #: ../modules/itip-formatter/plugin/org-gnome-itip-formatter.eplug.xml.h:1
 msgid "Itip Formatter"
-msgstr "Itip Formatter"
+msgstr "Itip प्रारूपक"
 
 #: ../modules/itip-formatter/plugin/org-gnome-itip-formatter.eplug.xml.h:2
 msgid "Display \"text/calendar\" MIME parts in mail messages."
@@ -16910,7 +16909,7 @@ msgstr "एक mbox स्पूल निर्देशिका चुने�
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:82
 #: ../modules/plugin-manager/evolution-plugin-manager.c:160
 msgid "Configuration"
-msgstr "कॉन्फ़िगरेशन"
+msgstr "विन्यास"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:167
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:100
@@ -16921,12 +16920,12 @@ msgstr "सर्वर: (_S)"
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:193
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:229
 msgid "User_name:"
-msgstr "उपभोक्ता नाम: (_n)"
+msgstr "उपयोक्ता नाम: (_n)"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:226
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:150
 msgid "Encryption _method:"
-msgstr "एन्क्रिप्शन विधि: (_m)"
+msgstr "गोपन विधि: (_m)"
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:241
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:165
@@ -17504,7 +17503,7 @@ msgstr "नोट: फिर शुरू करने के पहले क�
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:299
 msgid "Overview"
-msgstr "ओवरव्यू"
+msgstr "सारांश"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:368
 #: ../modules/plugin-manager/evolution-plugin-manager.c:451
@@ -17697,11 +17696,11 @@ msgstr "सादा पाठ (_P)"
 
 #: ../modules/text-highlight/languages.c:38
 msgid "_Assembler"
-msgstr "Assembler (_A)"
+msgstr "असेंबलर (_A)"
 
 #: ../modules/text-highlight/languages.c:43
 msgid "_Bash"
-msgstr "Bash (_B)"
+msgstr "बैश (_B)"
 
 #: ../modules/text-highlight/languages.c:54
 msgid "_C/C++"
@@ -17853,7 +17852,7 @@ msgstr "Oberon (_O)"
 
 #: ../modules/text-highlight/languages.c:288
 msgid "_Objective C"
-msgstr "Objective C (_O)"
+msgstr "ऑब्जेक्टिव C (_O)"
 
 #: ../modules/text-highlight/languages.c:294
 msgid "_OCaml"
@@ -17865,11 +17864,11 @@ msgstr "ऑक्टेव (_O)"
 
 #: ../modules/text-highlight/languages.c:304
 msgid "_Object Script"
-msgstr "Object Script (_O)"
+msgstr "ऑब्जेक्ट स्क्रिप्ट (_O)"
 
 #: ../modules/text-highlight/languages.c:309
 msgid "_Pascal"
-msgstr "Pascal (_P)"
+msgstr "पास्कल (_P)"
 
 #: ../modules/text-highlight/languages.c:314
 msgid "_POV-Ray"
@@ -18370,7 +18369,7 @@ msgstr "संदेश संपादित करें (_E)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:11
 msgid "Malformed header"
-msgstr "कुरूप हस्ताक्षर "
+msgstr "विरूपित शीर्षिका"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:12
 msgid ""
@@ -18841,7 +18840,7 @@ msgstr "पोर्ट (_o):"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:28
 msgid "_Username:"
-msgstr "उपभोक्ता नाम (_U):"
+msgstr "उपयोक्तानाम (_U):"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:29
 msgid "_Password:"
@@ -19041,19 +19040,19 @@ msgstr "खोज सहेजें"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../shell/e-shell-searchbar.c:940
+#: ../shell/e-shell-searchbar.c:980
 msgid "Sho_w:"
 msgstr "दिखायें: (_w)"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:973
+#: ../shell/e-shell-searchbar.c:1013
 msgid "Sear_ch:"
 msgstr "खोजें: (_c) "
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:1036
+#: ../shell/e-shell-searchbar.c:1086
 msgid "i_n"
 msgstr "में (_n)"
 
@@ -20019,7 +20018,7 @@ msgstr "हस्ताक्षर कर रहा है"
 
 #: ../smime/lib/e-cert.c:857
 msgid "Non-repudiation"
-msgstr "Non-repudiation"
+msgstr "गैर रेपुडियेशन"
 
 #: ../smime/lib/e-cert.c:861
 msgid "Key Encipherment"
@@ -20136,7 +20135,7 @@ msgstr "संदेश (_M)"
 
 #: ../views/mail/galview.xml.h:2
 msgid "As _Sent Folder"
-msgstr "प्रेषित फ़ोल्डर के रूप में (_S)"
+msgstr "बतौर प्रेषित फ़ोल्डर (_S)"
 
 #: ../views/mail/galview.xml.h:3
 msgid "By Su_bject"
@@ -20295,16 +20294,16 @@ msgid "Attached message"
 msgstr "संलग्न संदेश"
 
 #. Translators: Default attachment filename.
-#: ../widgets/misc/e-attachment.c:1842 ../widgets/misc/e-attachment.c:2398
+#: ../widgets/misc/e-attachment.c:1842 ../widgets/misc/e-attachment.c:2445
 #: ../widgets/misc/e-attachment-store.c:525
 msgid "attachment.dat"
 msgstr "संलग्नक.dat"
 
-#: ../widgets/misc/e-attachment.c:1887 ../widgets/misc/e-attachment.c:2700
+#: ../widgets/misc/e-attachment.c:1887 ../widgets/misc/e-attachment.c:2747
 msgid "A load operation is already in progress"
 msgstr "लोड प्रक्रिया पहले से ही प्रगति में है"
 
-#: ../widgets/misc/e-attachment.c:1895 ../widgets/misc/e-attachment.c:2708
+#: ../widgets/misc/e-attachment.c:1895 ../widgets/misc/e-attachment.c:2755
 msgid "A save operation is already in progress"
 msgstr "सहेज प्रक्रिया पहले से ही प्रगति में है"
 
@@ -20318,26 +20317,26 @@ msgstr "'%s' लोड नहीं कर सका"
 msgid "Could not load the attachment"
 msgstr "अनुलग्नक लोड नहीं किया जा सका"
 
-#: ../widgets/misc/e-attachment.c:2279
+#: ../widgets/misc/e-attachment.c:2302
 #, c-format
 msgid "Could not open '%s'"
 msgstr "खोल नहीं सका '%s' को"
 
-#: ../widgets/misc/e-attachment.c:2282
+#: ../widgets/misc/e-attachment.c:2305
 #, c-format
 msgid "Could not open the attachment"
 msgstr "अनुलग्नक नहीं खोल सका"
 
-#: ../widgets/misc/e-attachment.c:2716
+#: ../widgets/misc/e-attachment.c:2763
 msgid "Attachment contents not loaded"
 msgstr "अनुलग्नक सामग्री लोड नहीं है"
 
-#: ../widgets/misc/e-attachment.c:2792
+#: ../widgets/misc/e-attachment.c:2839
 #, c-format
 msgid "Could not save '%s'"
 msgstr "'%s' को सहेज नहीं सका"
 
-#: ../widgets/misc/e-attachment.c:2795
+#: ../widgets/misc/e-attachment.c:2842
 #, c-format
 msgid "Could not save the attachment"
 msgstr "अनुलग्नक नहीं सहेज सका"
@@ -20990,7 +20989,7 @@ msgstr "अवैध SSL प्रमाणपत्र पर ध्यान �
 
 #: ../widgets/misc/e-source-config.c:1434
 msgid "User"
-msgstr "प्रयोक्ता"
+msgstr "उपयोक्ता"
 
 #. no suggestions. Put something in the menu anyway...
 #: ../widgets/misc/e-spell-entry.c:352
