@@ -31,8 +31,15 @@ dnl Automake 1.11 - Silent Build Rules
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 dnl Required Packages
+
+dnl Keep these two definitions in agreement.
 m4_define([glib_minimum_version], [2.34.0])
-m4_define([gtk_minimum_version], [3.4.0])
+m4_define([glib_encoded_version], [GLIB_VERSION_2_34])
+
+dnl Keep these two definitions in agreement.
+m4_define([gdk_minimum_version], [3.4.0])
+m4_define([gdk_encoded_version], [GDK_VERSION_3_4])
+
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gtkhtml_minimum_version], [4.5.2])
 m4_define([gnome_desktop_minimum_version], [2.91.3])
@@ -65,10 +72,10 @@ dnl Compiler Warning Flags
 dnl ******************************
 AS_COMPILER_FLAGS(WARNING_FLAGS,
 	"-Wall -Wextra
+	-Wdeprecated-declarations
 	-Wno-missing-field-initializers
 	-Wno-sign-compare
 	-Wno-unused-parameter
-	-Wno-deprecated-declarations
 	-Wdeclaration-after-statement
 	-Werror-implicit-function-declaration
 	-Wformat-security -Winit-self
@@ -113,6 +120,17 @@ AC_MSG_RESULT([$enable_strict])
 if test "x$enable_strict" = xyes; then
 	AM_CPPFLAGS="$AM_CPPFLAGS -DG_DISABLE_DEPRECATED -DE_BOOK_DISABLE_DEPRECATED -DE_CAL_DISABLE_DEPRECATED"
 fi
+
+dnl Warn about GLib/GTK+ API usage that violates our minimum requirements.
+AM_CPPFLAGS="$AM_CPPFLAGS -DGLIB_VERSION_MAX_ALLOWED=glib_encoded_version"
+AM_CPPFLAGS="$AM_CPPFLAGS -DGDK_VERSION_MAX_ALLOWED=gdk_encoded_version"
+
+dnl These will suppress warnings about newly-deprecated symbols.  Ideally
+dnl these settings should match our minimum requirements and we will clean
+dnl up any new deprecation warnings after bumping our minimum requirements.
+dnl But if the warnings get to be overwhelming, use fixed versions instead.
+AM_CPPFLAGS="$AM_CPPFLAGS -DGLIB_VERSION_MIN_REQUIRED=glib_encoded_version"
+AM_CPPFLAGS="$AM_CPPFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_0"
 
 AC_SUBST(AM_CPPFLAGS)
 
@@ -260,8 +278,8 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	[gio-2.0 >= glib_minimum_version
 	 gmodule-2.0 >= glib_minimum_version
 	 cairo-gobject
-	 gtk+-3.0 >= gtk_minimum_version
-	 gail-3.0 >= gtk_minimum_version
+	 gtk+-3.0 >= gdk_minimum_version
+	 gail-3.0 >= gdk_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
 	 gnome-desktop-3.0 >= gnome_desktop_minimum_version
