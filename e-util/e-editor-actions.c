@@ -888,6 +888,19 @@ action_wrap_lines_cb (GtkAction *action,
 	e_editor_selection_wrap_lines (editor->priv->selection);
 }
 
+static void
+action_show_webkit_inspector_cb (GtkAction *action,
+                                 EEditor *editor)
+{
+        WebKitWebInspector *inspector;
+        EEditorWidget *widget;
+
+        widget = e_editor_get_editor_widget (editor);
+        inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (widget));
+
+        webkit_web_inspector_show (inspector);
+}
+
 /*****************************************************************************
  * Core Actions
  *
@@ -1007,6 +1020,13 @@ static GtkActionEntry core_entries[] = {
 	  "<Control>k",
 	  NULL,
 	  G_CALLBACK (action_wrap_lines_cb) },
+
+	{ "webkit-inspector",
+          NULL,
+          N_("Open Inspector"),
+          NULL,
+          NULL,
+          G_CALLBACK (action_show_webkit_inspector_cb) },
 
 	/* Menus */
 
@@ -1770,6 +1790,7 @@ editor_actions_init (EEditor *editor)
 	GtkUIManager *manager;
 	const gchar *domain;
 	EEditorWidget *editor_widget;
+	GSettings *settings;
 
 	g_return_if_fail (E_IS_EDITOR (editor));
 
@@ -1972,4 +1993,10 @@ editor_actions_init (EEditor *editor)
 		editor_widget, "editable",
 		editor->priv->suggestion_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	gtk_action_set_visible (
+		ACTION (WEBKIT_INSPECTOR),
+		g_settings_get_boolean (settings, "composer-developer-mode"));
+	g_object_unref (settings);
 }
