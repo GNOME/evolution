@@ -293,7 +293,7 @@ google_chooser_dialog_realize (GtkWidget *widget)
 	display = gtk_widget_get_display (widget);
 	cursor = gdk_cursor_new_for_display (display, GDK_WATCH);
 	gdk_window_set_cursor (window, cursor);
-	gdk_cursor_unref (cursor);
+	g_object_unref (cursor);
 
 	e_google_chooser_populate (
 		priv->chooser, priv->cancellable, (GAsyncReadyCallback)
