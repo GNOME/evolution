@@ -2421,14 +2421,6 @@ e_week_view_on_button_press (GtkWidget *widget,
 {
 	gint x, y, day;
 
-#if 0
-	g_print ("In e_week_view_on_button_press\n");
-	if (event->type == GDK_2BUTTON_PRESS)
-		g_print (" is a double-click\n");
-	if (week_view->pressed_event_num != -1)
-		g_print (" item is pressed\n");
-#endif
-
 	/* Convert the mouse position to a week & day. */
 	x = event->x;
 	y = event->y;
@@ -2502,10 +2494,6 @@ e_week_view_on_button_release (GtkWidget *widget,
                                GdkEventButton *event,
                                EWeekView *week_view)
 {
-#if 0
-	g_print ("In e_week_view_on_button_release\n");
-#endif
-
 	if (week_view->selection_drag_pos != E_WEEK_VIEW_DRAG_NONE) {
 		week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_NONE;
 		gdk_pointer_ungrab (event->time);
@@ -2583,10 +2571,6 @@ e_week_view_on_motion (GtkWidget *widget,
                        EWeekView *week_view)
 {
 	gint x, y, day;
-
-#if 0
-	g_print ("In e_week_view_on_motion\n");
-#endif
 
 	/* Convert the mouse position to a week & day. */
 	x = mevent->x;
@@ -2673,10 +2657,6 @@ e_week_view_update_selection (EWeekView *week_view,
 {
 	gint tmp_day;
 	gboolean need_redraw = FALSE;
-
-#if 0
-	g_print ("Updating selection %i,%i\n", week, day);
-#endif
 
 	if (week_view->selection_drag_pos == E_WEEK_VIEW_DRAG_START) {
 		if (day != week_view->selection_start_day) {
@@ -3560,10 +3540,6 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 	pevent = tooltip_get_view_event (week_view, -1, nevent);
 
-#if 0
-	g_print ("In e_week_view_on_text_item_event\n");
-#endif
-
 	switch (gdkevent->type) {
 	case GDK_KEY_PRESS:
 		tooltip_destroy (week_view, item);
@@ -3984,10 +3960,6 @@ e_week_view_on_editing_started (EWeekView *week_view,
 	if (!e_week_view_find_event_from_item (week_view, item,
 					       &event_num, &span_num))
 		return;
-
-#if 0
-	g_print ("In e_week_view_on_editing_started event_num:%i span_num:%i\n", event_num, span_num);
-#endif
 
 	week_view->editing_event_num = event_num;
 	week_view->editing_span_num = span_num;
