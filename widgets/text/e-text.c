@@ -1785,6 +1785,8 @@ e_text_event (GnomeCanvasItem *item,
 			e_tep_event.button.position =
 				get_position_from_xy (
 				text, button.x, button.y);
+			e_tep_event.button.device =
+				gdk_event_get_device (event);
 			_get_tep (text);
 			return_val = e_text_event_processor_handle_event (
 				text->tep, &e_tep_event);

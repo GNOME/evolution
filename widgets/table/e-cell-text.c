@@ -970,6 +970,8 @@ ect_event (ECellView *ecell_view,
 			e_tep_event.button.state = button.state;
 			e_tep_event.button.button = button.button;
 			e_tep_event.button.position = get_position_from_xy (edit, event->button.x, event->button.y);
+			e_tep_event.button.device =
+				gdk_event_get_device (event);
 			_get_tep (edit);
 			edit->actions = 0;
 			return_val = e_text_event_processor_handle_event (
@@ -993,6 +995,8 @@ ect_event (ECellView *ecell_view,
 			e_tep_event.button.state = button.state;
 			e_tep_event.button.button = button.button;
 			e_tep_event.button.position = get_position_from_xy (edit, event->button.x, event->button.y);
+			e_tep_event.button.device =
+				gdk_event_get_device (event);
 			_get_tep (edit);
 			edit->actions = 0;
 			return_val = e_text_event_processor_handle_event (

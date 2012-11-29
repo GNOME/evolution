@@ -85,6 +85,7 @@ typedef struct {
 	ETextEventProcessorCommandAction action;
 	gint value;
 	const gchar *string;
+	GdkDevice *device;
 	guint32 time;
 } ETextEventProcessorCommand;
 
@@ -94,6 +95,7 @@ typedef struct {
 	guint state;
 	guint button;
 	gint position;
+	GdkDevice *device;
 } ETextEventProcessorEventButton;
 
 typedef struct {

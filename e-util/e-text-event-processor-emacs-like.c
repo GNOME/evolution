@@ -133,6 +133,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 	case GDK_BUTTON_PRESS:
 		if (event->button.button == 1 || event->button.button == 2) {
 			command.action = E_TEP_GRAB;
+			command.device = event->button.device;
 			command.time = event->button.time;
 			g_signal_emit_by_name (tep, "command", &command);
 			if (event->button.button == 1 && event->button.state & GDK_SHIFT_MASK)
