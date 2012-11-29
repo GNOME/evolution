@@ -144,8 +144,8 @@ G_DEFINE_TYPE_WITH_CODE (
 
 static EWebViewGtkHTMLRequest *
 web_view_gtkhtml_request_new (EWebViewGtkHTML *web_view,
-                      const gchar *uri,
-                      GtkHTMLStream *stream)
+                              const gchar *uri,
+                              GtkHTMLStream *stream)
 {
 	EWebViewGtkHTMLRequest *request;
 	GList *list;
@@ -197,7 +197,7 @@ web_view_gtkhtml_request_cancel (EWebViewGtkHTMLRequest *request)
 
 static gboolean
 web_view_gtkhtml_request_check_for_error (EWebViewGtkHTMLRequest *request,
-                                  GError *error)
+                                          GError *error)
 {
 	GtkHTML *html;
 	GtkHTMLStream *stream;
@@ -225,8 +225,8 @@ web_view_gtkhtml_request_check_for_error (EWebViewGtkHTMLRequest *request,
 
 static void
 web_view_gtkhtml_request_stream_read_cb (GInputStream *input_stream,
-                                 GAsyncResult *result,
-                                 EWebViewGtkHTMLRequest *request)
+                                         GAsyncResult *result,
+                                         EWebViewGtkHTMLRequest *request)
 {
 	gssize bytes_read;
 	GError *error = NULL;
@@ -257,8 +257,8 @@ web_view_gtkhtml_request_stream_read_cb (GInputStream *input_stream,
 
 static void
 web_view_gtkhtml_request_read_cb (GFile *file,
-                          GAsyncResult *result,
-                          EWebViewGtkHTMLRequest *request)
+                                  GAsyncResult *result,
+                                  EWebViewGtkHTMLRequest *request)
 {
 	GFileInputStream *input_stream;
 	GError *error = NULL;
@@ -382,7 +382,7 @@ action_uri_copy_cb (GtkAction *action,
 
 static void
 action_image_copy_cb (GtkAction *action,
-                    EWebViewGtkHTML *web_view)
+                      EWebViewGtkHTML *web_view)
 {
 	GtkClipboard *clipboard;
 	GdkPixbufAnimation *animation;
@@ -469,8 +469,8 @@ static GtkActionEntry standard_entries[] = {
 
 static gboolean
 web_view_gtkhtml_button_press_event_cb (EWebViewGtkHTML *web_view,
-                                GdkEventButton *event,
-                                GtkHTML *frame)
+                                        GdkEventButton *event,
+                                        GtkHTML *frame)
 {
 	gboolean event_handled = FALSE;
 	gchar *uri = NULL;
@@ -512,7 +512,7 @@ web_view_gtkhtml_button_press_event_cb (EWebViewGtkHTML *web_view,
 
 static void
 web_view_gtkhtml_menu_item_select_cb (EWebViewGtkHTML *web_view,
-                              GtkWidget *widget)
+                                      GtkWidget *widget)
 {
 	GtkAction *action;
 	GtkActivatable *activatable;
@@ -536,8 +536,8 @@ web_view_gtkhtml_menu_item_deselect_cb (EWebViewGtkHTML *web_view)
 
 static void
 web_view_gtkhtml_connect_proxy_cb (EWebViewGtkHTML *web_view,
-                           GtkAction *action,
-                           GtkWidget *proxy)
+                                   GtkAction *action,
+                                   GtkWidget *proxy)
 {
 	if (!GTK_IS_MENU_ITEM (proxy))
 		return;
@@ -553,9 +553,9 @@ web_view_gtkhtml_connect_proxy_cb (EWebViewGtkHTML *web_view,
 
 static void
 web_view_gtkhtml_set_property (GObject *object,
-                       guint property_id,
-                       const GValue *value,
-                       GParamSpec *pspec)
+                               guint property_id,
+                               const GValue *value,
+                               GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_ANIMATE:
@@ -641,9 +641,9 @@ web_view_gtkhtml_set_property (GObject *object,
 
 static void
 web_view_gtkhtml_get_property (GObject *object,
-                       guint property_id,
-                       GValue *value,
-                       GParamSpec *pspec)
+                               guint property_id,
+                               GValue *value,
+                               GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_ANIMATE:
@@ -830,7 +830,7 @@ web_view_gtkhtml_constructed (GObject *object)
 
 static gboolean
 web_view_gtkhtml_button_press_event (GtkWidget *widget,
-                             GdkEventButton *event)
+                                     GdkEventButton *event)
 {
 	GtkWidgetClass *widget_class;
 	EWebViewGtkHTML *web_view;
@@ -847,7 +847,7 @@ web_view_gtkhtml_button_press_event (GtkWidget *widget,
 
 static gboolean
 web_view_gtkhtml_scroll_event (GtkWidget *widget,
-                       GdkEventScroll *event)
+                               GdkEventScroll *event)
 {
 	if (event->state & GDK_CONTROL_MASK) {
 		GdkScrollDirection direction = event->direction;
@@ -887,8 +887,8 @@ web_view_gtkhtml_scroll_event (GtkWidget *widget,
 
 static void
 web_view_gtkhtml_url_requested (GtkHTML *html,
-                        const gchar *uri,
-                        GtkHTMLStream *stream)
+                                const gchar *uri,
+                                GtkHTMLStream *stream)
 {
 	EWebViewGtkHTMLRequest *request;
 
@@ -902,7 +902,7 @@ web_view_gtkhtml_url_requested (GtkHTML *html,
 
 static void
 web_view_gtkhtml_gtkhtml_link_clicked (GtkHTML *html,
-                               const gchar *uri)
+                                       const gchar *uri)
 {
 	EWebViewGtkHTMLClass *class;
 	EWebViewGtkHTML *web_view;
@@ -917,7 +917,7 @@ web_view_gtkhtml_gtkhtml_link_clicked (GtkHTML *html,
 
 static void
 web_view_gtkhtml_on_url (GtkHTML *html,
-                 const gchar *uri)
+                         const gchar *uri)
 {
 	EWebViewGtkHTMLClass *class;
 	EWebViewGtkHTML *web_view;
@@ -933,7 +933,7 @@ web_view_gtkhtml_on_url (GtkHTML *html,
 
 static void
 web_view_gtkhtml_iframe_created (GtkHTML *html,
-                         GtkHTML *iframe)
+                                 GtkHTML *iframe)
 {
 	g_signal_connect_swapped (
 		iframe, "button-press-event",
@@ -942,8 +942,8 @@ web_view_gtkhtml_iframe_created (GtkHTML *html,
 
 static gchar *
 web_view_gtkhtml_extract_uri (EWebViewGtkHTML *web_view,
-                      GdkEventButton *event,
-                      GtkHTML *html)
+                              GdkEventButton *event,
+                              GtkHTML *html)
 {
 	gchar *uri;
 
@@ -957,8 +957,8 @@ web_view_gtkhtml_extract_uri (EWebViewGtkHTML *web_view,
 
 static void
 web_view_gtkhtml_hovering_over_link (EWebViewGtkHTML *web_view,
-                             const gchar *title,
-                             const gchar *uri)
+                                     const gchar *title,
+                                     const gchar *uri)
 {
 	CamelInternetAddress *address;
 	CamelURL *curl;
@@ -1009,7 +1009,7 @@ exit:
 
 static void
 web_view_gtkhtml_link_clicked (EWebViewGtkHTML *web_view,
-                       const gchar *uri)
+                               const gchar *uri)
 {
 	gpointer parent;
 
@@ -1021,7 +1021,7 @@ web_view_gtkhtml_link_clicked (EWebViewGtkHTML *web_view,
 
 static void
 web_view_gtkhtml_load_string (EWebViewGtkHTML *web_view,
-                      const gchar *string)
+                              const gchar *string)
 {
 	if (string != NULL && *string != '\0')
 		gtk_html_load_from_string (GTK_HTML (web_view), string, -1);
@@ -1051,8 +1051,8 @@ web_view_gtkhtml_paste_clipboard (EWebViewGtkHTML *web_view)
 
 static gboolean
 web_view_gtkhtml_popup_event (EWebViewGtkHTML *web_view,
-                      GdkEventButton *event,
-                      const gchar *uri)
+                              GdkEventButton *event,
+                              const gchar *uri)
 {
 	e_web_view_gtkhtml_set_selected_uri (web_view, uri);
 	e_web_view_gtkhtml_show_popup_menu (web_view, event, NULL, NULL);
@@ -1147,7 +1147,7 @@ web_view_gtkhtml_update_actions (EWebViewGtkHTML *web_view)
 
 static void
 web_view_gtkhtml_submit_alert (EAlertSink *alert_sink,
-                       EAlert *alert)
+                               EAlert *alert)
 {
 	GtkIconInfo *icon_info;
 	EWebViewGtkHTML *web_view;
@@ -1256,9 +1256,9 @@ web_view_gtkhtml_submit_alert (EAlertSink *alert_sink,
 
 static void
 web_view_gtkhtml_selectable_update_actions (ESelectable *selectable,
-                                    EFocusTracker *focus_tracker,
-                                    GdkAtom *clipboard_targets,
-                                    gint n_clipboard_targets)
+                                            EFocusTracker *focus_tracker,
+                                            GdkAtom *clipboard_targets,
+                                            gint n_clipboard_targets)
 {
 	EWebViewGtkHTML *web_view;
 	GtkAction *action;
@@ -1763,7 +1763,7 @@ e_web_view_gtkhtml_clear (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_load_string (EWebViewGtkHTML *web_view,
-                        const gchar *string)
+                                const gchar *string)
 {
 	EWebViewGtkHTMLClass *class;
 
@@ -1788,7 +1788,7 @@ e_web_view_gtkhtml_get_animate (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_set_animate (EWebViewGtkHTML *web_view,
-                        gboolean animate)
+                                gboolean animate)
 {
 	/* XXX GtkHTML does not utilize GObject properties as well
 	 *     as it could.  This just wraps gtk_html_set_animate()
@@ -1814,7 +1814,7 @@ e_web_view_gtkhtml_get_caret_mode (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_set_caret_mode (EWebViewGtkHTML *web_view,
-                           gboolean caret_mode)
+                                   gboolean caret_mode)
 {
 	/* XXX GtkHTML does not utilize GObject properties as well
 	 *     as it could.  This just wraps gtk_html_set_caret_mode()
@@ -1845,7 +1845,7 @@ e_web_view_gtkhtml_get_disable_printing (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_set_disable_printing (EWebViewGtkHTML *web_view,
-                                 gboolean disable_printing)
+                                         gboolean disable_printing)
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
@@ -1864,7 +1864,7 @@ e_web_view_gtkhtml_get_disable_save_to_disk (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_set_disable_save_to_disk (EWebViewGtkHTML *web_view,
-                                     gboolean disable_save_to_disk)
+                                             gboolean disable_save_to_disk)
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
@@ -1886,7 +1886,7 @@ e_web_view_gtkhtml_get_editable (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_set_editable (EWebViewGtkHTML *web_view,
-                         gboolean editable)
+                                 gboolean editable)
 {
 	/* XXX GtkHTML does not utilize GObject properties as well
 	 *     as it could.  This just wraps gtk_html_set_editable()
@@ -1912,7 +1912,7 @@ e_web_view_gtkhtml_get_inline_spelling (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_set_inline_spelling (EWebViewGtkHTML *web_view,
-                                gboolean inline_spelling)
+                                        gboolean inline_spelling)
 {
 	/* XXX GtkHTML does not utilize GObject properties as well
 	 *     as it could.  This just wraps gtk_html_set_inline_spelling()
@@ -1938,7 +1938,7 @@ e_web_view_gtkhtml_get_magic_links (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_set_magic_links (EWebViewGtkHTML *web_view,
-                            gboolean magic_links)
+                                    gboolean magic_links)
 {
 	/* XXX GtkHTML does not utilize GObject properties as well
 	 *     as it could.  This just wraps gtk_html_set_magic_links()
@@ -1964,7 +1964,7 @@ e_web_view_gtkhtml_get_magic_smileys (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_set_magic_smileys (EWebViewGtkHTML *web_view,
-                              gboolean magic_smileys)
+                                      gboolean magic_smileys)
 {
 	/* XXX GtkHTML does not utilize GObject properties as well
 	 *     as it could.  This just wraps gtk_html_set_magic_smileys()
@@ -1987,7 +1987,7 @@ e_web_view_gtkhtml_get_selected_uri (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_set_selected_uri (EWebViewGtkHTML *web_view,
-                             const gchar *selected_uri)
+                                     const gchar *selected_uri)
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
@@ -2007,7 +2007,7 @@ e_web_view_gtkhtml_get_cursor_image (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_set_cursor_image (EWebViewGtkHTML *web_view,
-                             GdkPixbufAnimation *image)
+                                     GdkPixbufAnimation *image)
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
@@ -2032,7 +2032,7 @@ e_web_view_gtkhtml_get_open_proxy (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_set_open_proxy (EWebViewGtkHTML *web_view,
-                           GtkAction *open_proxy)
+                                   GtkAction *open_proxy)
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
@@ -2067,7 +2067,7 @@ e_web_view_gtkhtml_get_print_proxy (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_set_print_proxy (EWebViewGtkHTML *web_view,
-                            GtkAction *print_proxy)
+                                    GtkAction *print_proxy)
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
@@ -2094,7 +2094,7 @@ e_web_view_gtkhtml_get_save_as_proxy (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_set_save_as_proxy (EWebViewGtkHTML *web_view,
-                              GtkAction *save_as_proxy)
+                                      GtkAction *save_as_proxy)
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
@@ -2113,7 +2113,7 @@ e_web_view_gtkhtml_set_save_as_proxy (EWebViewGtkHTML *web_view,
 
 GtkAction *
 e_web_view_gtkhtml_get_action (EWebViewGtkHTML *web_view,
-                       const gchar *action_name)
+                               const gchar *action_name)
 {
 	GtkUIManager *ui_manager;
 
@@ -2127,7 +2127,7 @@ e_web_view_gtkhtml_get_action (EWebViewGtkHTML *web_view,
 
 GtkActionGroup *
 e_web_view_gtkhtml_get_action_group (EWebViewGtkHTML *web_view,
-                             const gchar *group_name)
+                                     const gchar *group_name)
 {
 	GtkUIManager *ui_manager;
 
@@ -2141,8 +2141,8 @@ e_web_view_gtkhtml_get_action_group (EWebViewGtkHTML *web_view,
 
 gchar *
 e_web_view_gtkhtml_extract_uri (EWebViewGtkHTML *web_view,
-                        GdkEventButton *event,
-                        GtkHTML *frame)
+                                GdkEventButton *event,
+                                GtkHTML *frame)
 {
 	EWebViewGtkHTMLClass *class;
 
@@ -2270,9 +2270,9 @@ e_web_view_gtkhtml_get_popup_menu (EWebViewGtkHTML *web_view)
 
 void
 e_web_view_gtkhtml_show_popup_menu (EWebViewGtkHTML *web_view,
-                            GdkEventButton *event,
-                            GtkMenuPositionFunc func,
-                            gpointer user_data)
+                                    GdkEventButton *event,
+                                    GtkMenuPositionFunc func,
+                                    gpointer user_data)
 {
 	GtkWidget *menu;
 
@@ -2294,7 +2294,7 @@ e_web_view_gtkhtml_show_popup_menu (EWebViewGtkHTML *web_view,
 
 void
 e_web_view_gtkhtml_status_message (EWebViewGtkHTML *web_view,
-                           const gchar *status_message)
+                                   const gchar *status_message)
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
