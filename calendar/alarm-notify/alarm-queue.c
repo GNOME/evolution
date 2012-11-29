@@ -1492,7 +1492,7 @@ tray_icon_clicked_cb (GtkWidget *widget,
 			}
 
 			return TRUE;
-		} else if (event->button == 3) {
+		} else if (event_button == 3) {
 			debug (("right click"));
 
 			remove_tray_icon ();
@@ -1506,11 +1506,11 @@ tray_icon_clicked_cb (GtkWidget *widget,
 static void
 icon_activated (GtkStatusIcon *icon)
 {
-	GdkEventButton event;
+	GdkEvent event;
 
 	event.type = GDK_BUTTON_PRESS;
-	event.button = 1;
-	event.time = gtk_get_current_event_time ();
+	event.button.button = 1;
+	event.button.time = gtk_get_current_event_time ();
 
 	tray_icon_clicked_cb (NULL, &event, NULL);
 }
@@ -1522,11 +1522,11 @@ popup_menu (GtkStatusIcon *icon,
 {
 	if (button == 3) {
 		/* right click */
-		GdkEventButton event;
+		GdkEvent event;
 
 		event.type = GDK_BUTTON_PRESS;
-		event.button = 3;
-		event.time = gtk_get_current_event_time ();
+		event.button.button = 3;
+		event.button.time = gtk_get_current_event_time ();
 
 		tray_icon_clicked_cb (NULL, &event, NULL);
 	}
