@@ -2057,12 +2057,6 @@ e_day_view_remove_event_cb (EDayView *day_view,
 {
 	EDayViewEvent *event;
 
-#if 0
-	g_print (
-		"In e_day_view_remove_event_cb day:%i event_num:%i\n",
-		day, event_num);
-#endif
-
 	if (day == E_DAY_VIEW_LONG_EVENT) {
 		if (!is_array_index_in_bounds (day_view->long_events, event_num))
 			return TRUE;
@@ -2695,11 +2689,6 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 		day_view->day_starts[day] = time_add_day_with_zone (day_view->day_starts[day - 1], 1, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 	}
 
-#if 0
-	for (day = 0; day <= day_view->days_shown; day++)
-		g_print ("Day Starts %i: %s", day, ctime (&day_view->day_starts[day]));
-#endif
-
 	day_view->lower = start_time;
 	day_view->upper = day_view->day_starts[day_view->days_shown];
 
@@ -3253,10 +3242,6 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 	ECalendarViewPosition pos;
 	GtkLayout *layout;
 	GdkWindow *window;
-
-#if 0
-	g_print ("In e_day_view_on_main_canvas_button_press\n");
-#endif
 
 	layout = GTK_LAYOUT (widget);
 	window = gtk_layout_get_bin_window (layout);
@@ -3857,10 +3842,6 @@ e_day_view_on_main_canvas_button_release (GtkWidget *widget,
                                           GdkEventButton *event,
                                           EDayView *day_view)
 {
-#if 0
-	g_print ("In e_day_view_on_main_canvas_button_release\n");
-#endif
-
 	if (day_view->selection_is_being_dragged) {
 		gdk_pointer_ungrab (event->time);
 		e_day_view_finish_selection (day_view);
@@ -3886,21 +3867,8 @@ void
 e_day_view_update_calendar_selection_time (EDayView *day_view)
 {
 	time_t start, end;
-#if 0
-	GnomeCalendar *calendar;
-#endif
+
 	e_day_view_get_selected_time_range ((ECalendarView *) day_view, &start, &end);
-
-#if 0
-	g_print ("Start: %s", ctime (&start));
-	g_print ("End  : %s", ctime (&end));
-#endif
-
-#if 0
-	calendar = e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view));
-	if (calendar)
-		gnome_calendar_set_selected_time_range (calendar, start);
-#endif
 }
 
 static gboolean
@@ -3914,10 +3882,6 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 	gint day, event_num;
 	GdkCursor *cursor;
 	GdkWindow *window;
-
-#if 0
-	g_print ("In e_day_view_on_top_canvas_motion\n");
-#endif
 
 	window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
 
@@ -4030,10 +3994,6 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 	gint row, day, event_num;
 	GdkWindow *window;
 	GdkCursor *cursor;
-
-#if 0
-	g_print ("In e_day_view_on_main_canvas_motion\n");
-#endif
 
 	window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
 
@@ -4177,10 +4137,6 @@ e_day_view_update_selection (EDayView *day_view,
 {
 	gboolean need_redraw = FALSE;
 
-#if 0
-	g_print ("Updating selection %i,%i\n", day, row);
-#endif
-
 	day_view->selection_in_top_canvas = (row == -1) ? TRUE : FALSE;
 
 	if (day == -1)
@@ -4249,10 +4205,6 @@ e_day_view_update_long_event_resize (EDayView *day_view,
 	gint event_num;
 	gboolean need_reshape = FALSE;
 
-#if 0
-	g_print ("Updating resize Day:%i\n", day);
-#endif
-
 	event_num = day_view->resize_event_num;
 
 	if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_LEFT_EDGE) {
@@ -4285,10 +4237,6 @@ e_day_view_update_resize (EDayView *day_view,
 	EDayViewEvent *event;
 	gint day, event_num;
 	gboolean need_reshape = FALSE;
-
-#if 0
-	g_print ("Updating resize Row:%i\n", row);
-#endif
 
 	if (day_view->resize_event_num == -1)
 		return;
@@ -6214,10 +6162,6 @@ e_day_view_start_editing_event (EDayView *day_view,
 	ETextEventProcessor *event_processor = NULL;
 	ETextEventProcessorCommand command;
 
-#if 0
-	g_print ("In e_day_view_start_editing_event\n");
-#endif
-
 	/* If we are already editing the event, just return. */
 	if (day == day_view->editing_event_day
 	    && event_num == day_view->editing_event_num)
@@ -6432,9 +6376,6 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 		}
 		break;
 	case GDK_2BUTTON_PRESS:
-#if 0
-		g_print ("Item got double-click\n");
-#endif
 		break;
 
 	case GDK_BUTTON_RELEASE:
@@ -6844,12 +6785,6 @@ e_day_view_on_editing_started (EDayView *day_view,
 					      &day, &event_num))
 		return;
 
-#if 0
-	g_print (
-		"In e_day_view_on_editing_started Day:%i Event:%i\n",
-		day, event_num);
-#endif
-
 	/* FIXME: This is a temporary workaround for a bug which seems to stop
 	 * us getting focus_out signals. It is not a complete fix since if we
 	 * don't get focus_out signals we don't save the appointment text so
@@ -6912,12 +6847,6 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	 * event twice for some reason. */
 	day = day_view->editing_event_day;
 	event_num = day_view->editing_event_num;
-
-#if 0
-	g_print (
-		"In e_day_view_on_editing_stopped Day:%i Event:%i\n",
-		day, event_num);
-#endif
 
 	/* If no item is being edited, just return. */
 	if (day == -1)
@@ -7385,13 +7314,11 @@ e_day_view_get_event_position (EDayView *day_view,
 		- E_DAY_VIEW_GAP_WIDTH;
 	*item_w = MAX (*item_w, 0);
 	*item_y = start_row * day_view->row_height;
-#if 0
-	*item_h = (end_row - start_row + 1) * day_view->row_height;
-#else
+
 	/* This makes the event end on the grid line of the next row,
 	 * which maybe looks nicer if you have 2 events on consecutive rows. */
 	*item_h = (end_row - start_row + 1) * day_view->row_height + 1;
-#endif
+
 	return TRUE;
 }
 
@@ -7535,10 +7462,6 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 {
 	gint day, row, col, event_num;
 	gint item_x, item_y, item_w, item_h;
-
-#if 0
-	g_print ("e_day_view_convert_position_in_main_canvas: (%d, %d)\n", x, y);
-#endif
 
 	*day_return = -1;
 	*row_return = -1;
