@@ -1343,11 +1343,11 @@ e_meeting_time_selector_vadjustment_changed (GtkAdjustment *adjustment,
                                              EMeetingTimeSelector *mts)
 {
 	GtkAdjustment *vadjustment;
-	GtkTreeView *tree_view;
+	GtkScrollable *scrollable;
 	gdouble value;
 
-	tree_view = GTK_TREE_VIEW (mts->list_view);
-	vadjustment = gtk_tree_view_get_vadjustment (tree_view);
+	scrollable = GTK_SCROLLABLE (mts->list_view);
+	vadjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	value = gtk_adjustment_get_value (adjustment);
 	gtk_adjustment_set_value (vadjustment, value);

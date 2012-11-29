@@ -2651,6 +2651,7 @@ tree_autoscroll (EMFolderTree *folder_tree)
 {
 	GtkAdjustment *adjustment;
 	GtkTreeView *tree_view;
+	GtkScrollable *scrollable;
 	GdkRectangle rect;
 	GdkWindow *window;
 	gdouble value;
@@ -2677,7 +2678,8 @@ tree_autoscroll (EMFolderTree *folder_tree)
 			return TRUE;
 	}
 
-	adjustment = gtk_tree_view_get_vadjustment (tree_view);
+	scrollable = GTK_SCROLLABLE (folder_tree);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	value = gtk_adjustment_get_value (adjustment);
 	gtk_adjustment_set_value (adjustment, MAX (value + offset, 0.0));
 
