@@ -2228,45 +2228,61 @@ e_calendar_item_get_day_style (ECalendarItem *calitem,
 
 static gboolean
 e_calendar_item_button_press (ECalendarItem *calitem,
-                              GdkEvent *event)
+                              GdkEvent *button_event)
 {
+	GdkGrabStatus grab_status;
+	GdkDevice *event_device;
+	guint event_button = 0;
+	guint32 event_time;
+	gdouble event_x_win = 0;
+	gdouble event_y_win = 0;
 	gint month_offset, day, add_days = 0;
 	gboolean all_week, round_up_end = FALSE, round_down_start = FALSE;
 
-	if (event->button.button == 4)
+	gdk_event_get_button (button_event, &event_button);
+	gdk_event_get_coords (button_event, &event_x_win, &event_y_win);
+	event_device = gdk_event_get_device (button_event);
+	event_time = gdk_event_get_time (button_event);
+
+	if (event_button == 4)
 		e_calendar_item_set_first_month (
 			calitem, calitem->year,
 			calitem->month - 1);
-	else if (event->button.button == 5)
+	else if (event_button == 5)
 		e_calendar_item_set_first_month (
 			calitem, calitem->year,
 			calitem->month + 1);
 
 	if (!e_calendar_item_convert_position_to_day (calitem,
-						      event->button.x,
-						      event->button.y,
+						      event_x_win,
+						      event_y_win,
 						      TRUE,
 						      &month_offset, &day,
 						      &all_week))
 		return FALSE;
 
-	if (event->button.button == 3 && day == -1
+	if (event_button == 3 && day == -1
 	    && e_calendar_item_get_display_popup (calitem)) {
 		e_calendar_item_show_popup_menu (
-			calitem, event, month_offset);
+			calitem, button_event, month_offset);
 		return TRUE;
 	}
 
-	if (event->button.button != 1 || day == -1)
+	if (event_button != 1 || day == -1)
 		return FALSE;
 
 	if (calitem->max_days_selected < 1)
 		return TRUE;
 
-	if (gnome_canvas_item_grab (GNOME_CANVAS_ITEM (calitem),
-				    GDK_POINTER_MOTION_MASK
-				    | GDK_BUTTON_RELEASE_MASK,
-				    NULL, event->button.time) != 0)
+	grab_status = gnome_canvas_item_grab (
+		GNOME_CANVAS_ITEM (calitem),
+		GDK_POINTER_MOTION_MASK |
+		GDK_BUTTON_RELEASE_MASK,
+		NULL,
+		event_device,
+		event_time);
+
+	if (grab_status != GDK_GRAB_SUCCESS)
 		return FALSE;
 
 	if (all_week && calitem->keep_wdays_on_weeknum_click) {
@@ -2341,9 +2357,13 @@ e_calendar_item_button_press (ECalendarItem *calitem,
 
 static gboolean
 e_calendar_item_button_release (ECalendarItem *calitem,
-                                GdkEvent *event)
+                                GdkEvent *button_event)
 {
-	e_calendar_item_stop_selecting (calitem, event->button.time);
+	guint32 event_time;
+
+	event_time = gdk_event_get_time (button_event);
+	e_calendar_item_stop_selecting (calitem, event_time);
+
 	return FALSE;
 }
 

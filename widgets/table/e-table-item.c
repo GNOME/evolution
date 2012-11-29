@@ -237,20 +237,32 @@ grab_cancelled (ECanvas *canvas,
 
 inline static void
 eti_grab (ETableItem *eti,
+          GdkDevice *device,
           guint32 time)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
 	d (g_print ("%s: time: %d\n", __FUNCTION__, time));
 	if (eti->grabbed_count == 0) {
+		GdkGrabStatus grab_status;
+
 		eti->gtk_grabbed = FALSE;
 		eti->grab_cancelled = FALSE;
-		if (e_canvas_item_grab (E_CANVAS (item->canvas),
-				       item,
-				       GDK_BUTTON1_MOTION_MASK | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK
-				       | GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK,
-				       NULL, time,
-				       grab_cancelled,
-				       eti) != GDK_GRAB_SUCCESS) {
+
+		grab_status = e_canvas_item_grab (
+			E_CANVAS (item->canvas),
+			item,
+			GDK_BUTTON1_MOTION_MASK |
+			GDK_BUTTON2_MOTION_MASK |
+			GDK_BUTTON3_MOTION_MASK |
+			GDK_POINTER_MOTION_MASK |
+			GDK_BUTTON_PRESS_MASK |
+			GDK_BUTTON_RELEASE_MASK,
+			NULL,
+			device, time,
+			grab_cancelled,
+			eti);
+
+		if (grab_status != GDK_GRAB_SUCCESS) {
 			d (g_print ("%s: gtk_grab_add\n", __FUNCTION__));
 			gtk_grab_add (GTK_WIDGET (item->canvas));
 			eti->gtk_grabbed = TRUE;
@@ -2298,7 +2310,6 @@ static gint
 eti_e_cell_event (ETableItem *item,
                   ECellView *ecell_view,
                   GdkEvent *event,
-                  gint time,
                   gint model_col,
                   gint view_col,
                   gint row,
@@ -2307,18 +2318,31 @@ eti_e_cell_event (ETableItem *item,
 	ECellActions actions = 0;
 	gint ret_val;
 
-	ret_val = e_cell_event (ecell_view, event, model_col, view_col, row, flags, &actions);
+	ret_val = e_cell_event (
+		ecell_view, event, model_col, view_col, row, flags, &actions);
 
 	if (actions & E_CELL_GRAB) {
+		GdkDevice *event_device;
+		guint32 event_time;
+
 		d (g_print ("%s: eti_grab\n", __FUNCTION__));
-		eti_grab (item, time);
+
+		event_device = gdk_event_get_device (event);
+		event_time = gdk_event_get_time (event);
+		eti_grab (item, event_device, event_time);
+
 		item->grabbed_col = view_col;
 		item->grabbed_row = row;
 	}
 
 	if (actions & E_CELL_UNGRAB) {
+		guint32 event_time;
+
 		d (g_print ("%s: eti_ungrab\n", __FUNCTION__));
-		eti_ungrab (item, time);
+
+		event_time = gdk_event_get_time (event);
+		eti_ungrab (item, event_time);
+
 		item->grabbed_col = -1;
 		item->grabbed_row = -1;
 	}
@@ -2329,10 +2353,19 @@ eti_e_cell_event (ETableItem *item,
 /* FIXME: cursor */
 static gint
 eti_event (GnomeCanvasItem *item,
-           GdkEvent *e)
+           GdkEvent *event)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
 	ECellView *ecell_view;
+	GdkModifierType event_state = 0;
+	GdkEvent *event_copy;
+	guint event_button = 0;
+	guint event_keyval = 0;
+	gdouble event_x_item = 0;
+	gdouble event_y_item = 0;
+	gdouble event_x_win = 0;
+	gdouble event_y_win = 0;
+	guint32 event_time;
 	gboolean return_val = TRUE;
 #if d(!)0
 	gboolean leave = FALSE;
@@ -2341,37 +2374,48 @@ eti_event (GnomeCanvasItem *item,
 	if (!eti->header)
 		return FALSE;
 
-	switch (e->type) {
+	/* Don't fetch the device here.  GnomeCanvas frequently emits
+	 * synthesized events, and calling gdk_event_get_device() on them
+	 * will trigger a runtime warning.  Fetch the device where needed. */
+	gdk_event_get_button (event, &event_button);
+	gdk_event_get_coords (event, &event_x_win, &event_y_win);
+	gdk_event_get_keyval (event, &event_keyval);
+	gdk_event_get_state (event, &event_state);
+	event_time = gdk_event_get_time (event);
+
+	switch (event->type) {
 	case GDK_BUTTON_PRESS: {
 		gdouble x1, y1;
-		gdouble realx, realy;
-		GdkEventButton button;
 		gint col, row;
 		gint cursor_row, cursor_col;
 		gint new_cursor_row, new_cursor_col;
 		ECellFlags flags = 0;
 
-		d (g_print ("%s: GDK_BUTTON_PRESS received, button %d\n", __FUNCTION__, e->button.button));
+		d (g_print ("%s: GDK_BUTTON_PRESS received, button %d\n", __FUNCTION__, event_button));
 
-		switch (e->button.button) {
+		switch (event_button) {
 		case 1: /* Fall through. */
 		case 2:
 			e_canvas_item_grab_focus (GNOME_CANVAS_ITEM (eti), TRUE);
-			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
 
-			realx = e->button.x;
-			realy = e->button.y;
+			event_x_item = event_x_win;
+			event_y_item = event_y_win;
 
-			if (!find_cell (eti, realx, realy, &col, &row, &x1, &y1)) {
+			gnome_canvas_item_w2i (
+				item, &event_x_item, &event_y_item);
+
+			if (!find_cell (eti, event_x_item, event_y_item, &col, &row, &x1, &y1)) {
 				if (eti_editing (eti))
 					e_table_item_leave_edit_(eti);
 				return TRUE;
 			}
 
 			ecell_view = eti->cell_views[col];
-			button = *(GdkEventButton *) e;
-			button.x = x1;
-			button.y = y1;
+
+			/* Clone the event and alter its position. */
+			event_copy = gdk_event_copy (event);
+			event_copy->button.x = x1;
+			event_copy->button.y = y1;
 
 			g_object_get (
 				eti->selection,
@@ -2385,13 +2429,21 @@ eti_event (GnomeCanvasItem *item,
 				flags = 0;
 			}
 
-			return_val = eti_e_cell_event (eti, ecell_view, (GdkEvent *) &button, button.time, view_to_model_col (eti, col), col, row, flags);
-			if (return_val)
+			return_val = eti_e_cell_event (
+				eti, ecell_view, event_copy,
+				view_to_model_col (eti, col),
+				col, row, flags);
+			if (return_val) {
+				gdk_event_free (event_copy);
 				return TRUE;
+			}
 
 			g_signal_emit (
 				eti, eti_signals[CLICK], 0,
-				row, view_to_model_col (eti, col), &button, &return_val);
+				row, view_to_model_col (eti, col),
+				event_copy, &return_val);
+
+			gdk_event_free (event_copy);
 
 			if (return_val) {
 				eti->click_count = 0;
@@ -2405,7 +2457,11 @@ eti_event (GnomeCanvasItem *item,
 				NULL);
 
 			eti->maybe_did_something =
-				e_selection_model_maybe_do_something (E_SELECTION_MODEL (eti->selection), view_to_model_row (eti, row), view_to_model_col (eti, col), button.state);
+				e_selection_model_maybe_do_something (
+				E_SELECTION_MODEL (eti->selection),
+				view_to_model_row (eti, row),
+				view_to_model_col (eti, col),
+				event_state);
 			g_object_get (
 				eti->selection,
 				"cursor_row", &new_cursor_row,
@@ -2428,39 +2484,64 @@ eti_event (GnomeCanvasItem *item,
 
 				if (eti_editing (eti)) {
 					return_val = eti_e_cell_event (
-						eti, ecell_view, (GdkEvent *) &button, button.time,
-						view_to_model_col (eti, col), col, row, E_CELL_EDITING | E_CELL_CURSOR);
+						eti, ecell_view, event,
+						view_to_model_col (eti, col),
+						col, row,
+						E_CELL_EDITING |
+						E_CELL_CURSOR);
 					if (return_val)
 						return TRUE;
 				}
 			}
 
-			if (e->button.button == 1) {
+			if (event_button == 1) {
+				GdkDevice *event_device;
+
 				return_val = TRUE;
+
+				event_device = gdk_event_get_device (event);
 
 				eti->maybe_in_drag = TRUE;
 				eti->drag_row      = new_cursor_row;
 				eti->drag_col      = new_cursor_col;
-				eti->drag_x        = realx;
-				eti->drag_y        = realy;
-				eti->drag_state    = e->button.state;
+				eti->drag_x        = event_x_item;
+				eti->drag_y        = event_y_item;
+				eti->drag_state    = event_state;
 				eti->grabbed       = TRUE;
 				d (g_print ("%s: eti_grab\n", __FUNCTION__));
-				eti_grab (eti, e->button.time);
+				eti_grab (eti, event_device, event_time);
 			}
 
 			break;
 		case 3:
 			e_canvas_item_grab_focus (GNOME_CANVAS_ITEM (eti), TRUE);
-			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
-			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
+
+			event_x_item = event_x_win;
+			event_y_item = event_y_win;
+
+			gnome_canvas_item_w2i (
+				item, &event_x_item, &event_y_item);
+
+			if (!find_cell (eti, event_x_item, event_y_item, &col, &row, &x1, &y1))
 				return TRUE;
 
-			e_selection_model_right_click_down (E_SELECTION_MODEL (eti->selection), view_to_model_row (eti, row), view_to_model_col (eti, col), 0);
+			e_selection_model_right_click_down (
+				E_SELECTION_MODEL (eti->selection),
+				view_to_model_row (eti, row),
+				view_to_model_col (eti, col), 0);
+
+			/* Clone the event and alter its position. */
+			event_copy = gdk_event_copy (event);
+			event_copy->button.x = event_x_item;
+			event_copy->button.y = event_y_item;
 
 			g_signal_emit (
 				eti, eti_signals[RIGHT_CLICK], 0,
-				row, view_to_model_col (eti, col), e, &return_val);
+				row, view_to_model_col (eti, col),
+				event, &return_val);
+
+			gdk_event_free (event_copy);
+
 			if (!return_val)
 				e_selection_model_right_click_up (E_SELECTION_MODEL (eti->selection));
 			break;
@@ -2477,14 +2558,14 @@ eti_event (GnomeCanvasItem *item,
 		gint col, row;
 		gint cursor_row, cursor_col;
 
-		d (g_print ("%s: GDK_BUTTON_RELEASE received, button %d\n", __FUNCTION__, e->button.button));
+		d (g_print ("%s: GDK_BUTTON_RELEASE received, button %d\n", __FUNCTION__, event_button));
 
 		if (eti->grabbed_count > 0) {
 			d (g_print ("%s: eti_ungrab\n", __FUNCTION__));
-			eti_ungrab (eti, e->button.time);
+			eti_ungrab (eti, event_time);
 		}
 
-		if (e->button.button == 1) {
+		if (event_button == 1) {
 			if (eti->maybe_in_drag) {
 				eti->maybe_in_drag = FALSE;
 				if (!eti->maybe_did_something)
@@ -2495,21 +2576,28 @@ eti_event (GnomeCanvasItem *item,
 			}
 		}
 
-		switch (e->button.button) {
+		switch (event_button) {
 		case 1: /* Fall through. */
 		case 2:
 
-			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
+			event_x_item = event_x_win;
+			event_y_item = event_y_win;
+
+			gnome_canvas_item_w2i (
+				item, &event_x_item, &event_y_item);
 #if d(!)0
 			{
-				gboolean cell_found = find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1);
+				gboolean cell_found = find_cell (
+					eti, event_x_item, event_y_item,
+					&col, &row, &x1, &y1);
 				g_print (
-					"%s: find_cell(%f, %f) = %s(%d, %d, %f, %f)\n", __FUNCTION__, e->button.x, e->button.y,
+					"%s: find_cell(%f, %f) = %s(%d, %d, %f, %f)\n",
+					__FUNCTION__, event_x_item, event_y_item,
 					cell_found?"true":"false", col, row, x1, y1);
 			}
 #endif
 
-			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
+			if (!find_cell (eti, event_x_item, event_y_item, &col, &row, &x1, &y1))
 				return TRUE;
 
 			g_object_get (
@@ -2520,20 +2608,24 @@ eti_event (GnomeCanvasItem *item,
 
 			if (eti_editing (eti) && cursor_row == view_to_model_row (eti, row) && cursor_col == view_to_model_col (eti, col)) {
 
-				d (g_print ("%s: GDK_BUTTON_RELEASE received, button %d, line: %d\n", __FUNCTION__, e->button.button, __LINE__))
+				d (g_print ("%s: GDK_BUTTON_RELEASE received, button %d, line: %d\n", __FUNCTION__, event_button, __LINE__))
 ;
 
 				ecell_view = eti->cell_views[col];
 
-				/*
-				 * Adjust the event positions
-				 */
-				e->button.x = x1;
-				e->button.y = y1;
+				/* Clone the event and alter its position. */
+				event_copy = gdk_event_copy (event);
+				event_copy->button.x = x1;
+				event_copy->button.y = y1;
 
 				return_val = eti_e_cell_event (
-					eti, ecell_view, e, e->button.time,
-					view_to_model_col (eti, col), col, row, E_CELL_EDITING | E_CELL_CURSOR);
+					eti, ecell_view, event_copy,
+					view_to_model_col (eti, col),
+					col, row,
+					E_CELL_EDITING |
+					E_CELL_CURSOR);
+
+				gdk_event_free (event_copy);
 			}
 			break;
 		case 3:
@@ -2554,7 +2646,7 @@ eti_event (GnomeCanvasItem *item,
 		gdouble x1, y1;
 #endif
 
-		d (g_print ("%s: GDK_2BUTTON_PRESS received, button %d\n", __FUNCTION__, e->button.button));
+		d (g_print ("%s: GDK_2BUTTON_PRESS received, button %d\n", __FUNCTION__, event_button));
 
 		/*
 		 * click_count is so that if you click on two
@@ -2563,12 +2655,11 @@ eti_event (GnomeCanvasItem *item,
 
 		if (eti->click_count >= 2) {
 
-			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
+			event_x_item = event_x_win;
+			event_y_item = event_y_win;
 
-#if 0
-			if (!find_cell (eti, e->button.x, e->button.y, &current_col, &current_row, &x1, &y1))
-				return TRUE;
-#endif
+			gnome_canvas_item_w2i (
+				item, &event_x_item, &event_y_item);
 
 			g_object_get (
 				eti->selection,
@@ -2576,10 +2667,18 @@ eti_event (GnomeCanvasItem *item,
 				"cursor_col", &model_col,
 				NULL);
 
-			e->button.x -= e_table_header_col_diff (eti->header, 0, model_to_view_col (eti, model_col));
-			e->button.y -= e_table_item_row_diff (eti, 0, model_to_view_row (eti, model_row));
+			/* Clone the event and alter its position. */
+			event_copy = gdk_event_copy (event);
+			event_copy->button.x = event_x_item -
+				e_table_header_col_diff (
+					eti->header, 0,
+					model_to_view_col (eti, model_col));
+			event_copy->button.y = event_y_item -
+				e_table_item_row_diff (
+					eti, 0,
+					model_to_view_row (eti, model_row));
 
-			if (e->button.button == 1) {
+			if (event_button == 1) {
 				if (eti->maybe_in_drag) {
 					eti->maybe_in_drag = FALSE;
 					if (!eti->maybe_did_something)
@@ -2595,14 +2694,16 @@ eti_event (GnomeCanvasItem *item,
 
 			if (eti->grabbed_count > 0) {
 				d (g_print ("%s: eti_ungrab\n", __FUNCTION__));
-				eti_ungrab (eti, e->button.time);
+				eti_ungrab (eti, event_time);
 			}
 
 			if (model_row != -1 && model_col != -1) {
 				g_signal_emit (
 					eti, eti_signals[DOUBLE_CLICK], 0,
-					model_row, model_col, e);
+					model_row, model_col, event_copy);
 			}
+
+			gdk_event_free (event_copy);
 		}
 		break;
 	}
@@ -2611,17 +2712,31 @@ eti_event (GnomeCanvasItem *item,
 		gdouble x1, y1;
 		gint cursor_col, cursor_row;
 
-		gnome_canvas_item_w2i (item, &e->motion.x, &e->motion.y);
+		event_x_item = event_x_win;
+		event_y_item = event_y_win;
+
+		gnome_canvas_item_w2i (item, &event_x_item, &event_y_item);
 
 		if (eti->maybe_in_drag) {
-			if (abs (e->motion.x - eti->drag_x) >= 3 ||
-			    abs (e->motion.y - eti->drag_y) >= 3) {
+			if (abs (event_x_item - eti->drag_x) >= 3 ||
+			    abs (event_y_item - eti->drag_y) >= 3) {
 				gboolean drag_handled;
 
 				eti->maybe_in_drag = 0;
+
+				/* Clone the event and
+				 * alter its position. */
+				event_copy = gdk_event_copy (event);
+				event_copy->motion.x = event_x_item;
+				event_copy->motion.y = event_y_item;
+
 				g_signal_emit (
 					eti, eti_signals[START_DRAG], 0,
-					eti->drag_row, eti->drag_col, e, &drag_handled);
+					eti->drag_row, eti->drag_col,
+					event_copy, &drag_handled);
+
+				gdk_event_free (event_copy);
+
 				if (drag_handled)
 					eti->in_drag = 1;
 				else
@@ -2629,16 +2744,16 @@ eti_event (GnomeCanvasItem *item,
 			}
 		}
 
-		if (!find_cell (eti, e->motion.x, e->motion.y, &col, &row, &x1, &y1))
+		if (!find_cell (eti, event_x_item, event_y_item, &col, &row, &x1, &y1))
 			return TRUE;
 
 		if (eti->motion_row != -1 && eti->motion_col != -1 &&
 		    (row != eti->motion_row || col != eti->motion_col)) {
 			GdkEvent *cross = gdk_event_new (GDK_LEAVE_NOTIFY);
-			cross->crossing.time = e->motion.time;
+			cross->crossing.time = event_time;
 			return_val = eti_e_cell_event (
 				eti, eti->cell_views[eti->motion_col],
-				cross, cross->crossing.time,
+				cross,
 				view_to_model_col (eti, eti->motion_col),
 				eti->motion_col, eti->motion_row, 0);
 		}
@@ -2659,15 +2774,17 @@ eti_event (GnomeCanvasItem *item,
 
 		ecell_view = eti->cell_views[col];
 
-		/*
-		 * Adjust the event positions
-		 */
-		e->motion.x = x1;
-		e->motion.y = y1;
+		/* Clone the event and alter its position. */
+		event_copy = gdk_event_copy (event);
+		event_copy->motion.x = x1;
+		event_copy->motion.y = y1;
 
 		return_val = eti_e_cell_event (
-			eti, ecell_view, e, e->motion.time,
+			eti, ecell_view, event_copy,
 			view_to_model_col (eti, col), col, row, flags);
+
+		gdk_event_free (event_copy);
+
 		break;
 	}
 
@@ -2688,7 +2805,7 @@ eti_event (GnomeCanvasItem *item,
 
 		eti->in_key_press = TRUE;
 
-		switch (e->key.keyval) {
+		switch (event_keyval) {
 		case GDK_KEY_Left:
 		case GDK_KEY_KP_Left:
 			if (eti_editing (eti)) {
@@ -2698,7 +2815,8 @@ eti_event (GnomeCanvasItem *item,
 
 			g_signal_emit (
 				eti, eti_signals[KEY_PRESS], 0,
-				model_to_view_row (eti, cursor_row), cursor_col, e, &return_val);
+				model_to_view_row (eti, cursor_row),
+				cursor_col, event, &return_val);
 			if ((!return_val) &&
 			   (atk_get_root () || eti->cursor_mode != E_CURSOR_LINE) &&
 			   cursor_col != view_to_model_col (eti, 0))
@@ -2715,7 +2833,8 @@ eti_event (GnomeCanvasItem *item,
 
 			g_signal_emit (
 				eti, eti_signals[KEY_PRESS], 0,
-				model_to_view_row (eti, cursor_row), cursor_col, e, &return_val);
+				model_to_view_row (eti, cursor_row),
+				cursor_col, event, &return_val);
 			if ((!return_val) &&
 			   (atk_get_root () || eti->cursor_mode != E_CURSOR_LINE) &&
 			   cursor_col != view_to_model_col (eti, eti->cols - 1))
@@ -2727,15 +2846,15 @@ eti_event (GnomeCanvasItem *item,
 		case GDK_KEY_KP_Up:
 		case GDK_KEY_Down:
 		case GDK_KEY_KP_Down:
-			if ((e->key.state & GDK_MOD1_MASK)
-			    && ((e->key.keyval == GDK_KEY_Down) || (e->key.keyval == GDK_KEY_KP_Down))) {
+			if ((event_state & GDK_MOD1_MASK)
+			    && ((event_keyval == GDK_KEY_Down) || (event_keyval == GDK_KEY_KP_Down))) {
 				gint view_col = model_to_view_col (eti, cursor_col);
 
 				if ((view_col >= 0) && (view_col < eti->cols))
-					if (eti_e_cell_event (eti, eti->cell_views[view_col], e, ((GdkEventKey *) e)->time, cursor_col, view_col, model_to_view_row (eti, cursor_row),  E_CELL_CURSOR))
+					if (eti_e_cell_event (eti, eti->cell_views[view_col], event, cursor_col, view_col, model_to_view_row (eti, cursor_row),  E_CELL_CURSOR))
 						return TRUE;
 			} else
-			return_val = e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
+			return_val = e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) event);
 			break;
 		case GDK_KEY_Home:
 		case GDK_KEY_KP_Home:
@@ -2748,7 +2867,7 @@ eti_event (GnomeCanvasItem *item,
 				eti_cursor_move (eti, model_to_view_row (eti, cursor_row), 0);
 				return_val = TRUE;
 			} else
-				return_val = e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
+				return_val = e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) event);
 			break;
 		case GDK_KEY_End:
 		case GDK_KEY_KP_End:
@@ -2761,17 +2880,17 @@ eti_event (GnomeCanvasItem *item,
 				eti_cursor_move (eti, model_to_view_row (eti, cursor_row), eti->cols - 1);
 				return_val = TRUE;
 			} else
-				return_val = e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
+				return_val = e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) event);
 			break;
 		case GDK_KEY_Tab:
 		case GDK_KEY_KP_Tab:
 		case GDK_KEY_ISO_Left_Tab:
-			if ((e->key.state & GDK_CONTROL_MASK) != 0) {
+			if ((event_state & GDK_CONTROL_MASK) != 0) {
 				return_val = FALSE;
 				break;
 			}
 			if (eti->cursor_mode == E_CURSOR_SPREADSHEET) {
-				if ((e->key.state & GDK_SHIFT_MASK) != 0) {
+				if ((event_state & GDK_SHIFT_MASK) != 0) {
 				/* shift tab */
 					if (cursor_col != view_to_model_col (eti, 0))
 						eti_cursor_move_left (eti);
@@ -2811,7 +2930,7 @@ eti_event (GnomeCanvasItem *item,
 			if (eti_editing (eti)) {
 				ecell_view = eti->cell_views[eti->editing_col];
 				return_val = eti_e_cell_event (
-					eti, ecell_view, e, e->key.time,
+					eti, ecell_view, event,
 					view_to_model_col (eti, eti->editing_col),
 					eti->editing_col, eti->editing_row, E_CELL_EDITING | E_CELL_CURSOR | E_CELL_PREEDIT);
 				if (!return_val)
@@ -2819,9 +2938,10 @@ eti_event (GnomeCanvasItem *item,
 			}
 			g_signal_emit (
 				eti, eti_signals[KEY_PRESS], 0,
-				model_to_view_row (eti, cursor_row), cursor_col, e, &return_val);
+				model_to_view_row (eti, cursor_row),
+				cursor_col, event, &return_val);
 			if (!return_val)
-				return_val = e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
+				return_val = e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) event);
 			break;
 
 		default:
@@ -2830,7 +2950,7 @@ eti_event (GnomeCanvasItem *item,
 		}
 
 		if (!handled) {
-			switch (e->key.keyval) {
+			switch (event_keyval) {
 			case GDK_KEY_Scroll_Lock:
 			case GDK_KEY_Sys_Req:
 			case GDK_KEY_Shift_L:
@@ -2862,17 +2982,18 @@ eti_event (GnomeCanvasItem *item,
 				if (!eti_editing (eti)) {
 					g_signal_emit (
 						eti, eti_signals[KEY_PRESS], 0,
-						model_to_view_row (eti, cursor_row), cursor_col, e, &return_val);
+						model_to_view_row (eti, cursor_row),
+						cursor_col, event, &return_val);
 					if (!return_val)
-						e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
+						e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) event);
 				} else {
 					ecell_view = eti->cell_views[eti->editing_col];
 					return_val = eti_e_cell_event (
-						eti, ecell_view, e, e->key.time,
+						eti, ecell_view, event,
 						view_to_model_col (eti, eti->editing_col),
 						eti->editing_col, eti->editing_row, E_CELL_EDITING | E_CELL_CURSOR);
 					if (!return_val)
-						e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
+						e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) event);
 				}
 				break;
 			}
@@ -2884,7 +3005,7 @@ eti_event (GnomeCanvasItem *item,
 	case GDK_KEY_RELEASE: {
 		gint cursor_row, cursor_col;
 
-		d (g_print ("%s: GDK_KEY_RELEASE received, keyval: %d\n", __FUNCTION__, (gint) e->key.keyval));
+		d (g_print ("%s: GDK_KEY_RELEASE received, keyval: %d\n", __FUNCTION__, (gint) event_keyval));
 
 		g_object_get (
 			eti->selection,
@@ -2898,7 +3019,7 @@ eti_event (GnomeCanvasItem *item,
 		if (eti_editing (eti)) {
 			ecell_view = eti->cell_views[eti->editing_col];
 			return_val = eti_e_cell_event (
-				eti, ecell_view, e, e->key.time,
+				eti, ecell_view, event,
 				view_to_model_col (eti, eti->editing_col),
 				eti->editing_col, eti->editing_row, E_CELL_EDITING | E_CELL_CURSOR);
 		}
@@ -2912,7 +3033,7 @@ eti_event (GnomeCanvasItem *item,
 		if (eti->motion_row != -1 && eti->motion_col != -1)
 			return_val = eti_e_cell_event (
 				eti, eti->cell_views[eti->motion_col],
-				e, e->crossing.time,
+				event,
 				view_to_model_col (eti, eti->motion_col),
 				eti->motion_col, eti->motion_row, 0);
 		eti->motion_row = -1;
@@ -2922,7 +3043,7 @@ eti_event (GnomeCanvasItem *item,
 
 	case GDK_FOCUS_CHANGE:
 		d (g_print ("%s: GDK_FOCUS_CHANGE received, %s\n", __FUNCTION__, e->focus_change.in ? "in": "out"));
-		if (e->focus_change.in) {
+		if (event->focus_change.in) {
 			if (eti->save_row != -1 &&
 			    eti->save_col != -1 &&
 			    !eti_editing (eti) &&

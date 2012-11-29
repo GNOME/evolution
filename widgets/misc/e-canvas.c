@@ -835,21 +835,23 @@ e_canvas_item_grab (ECanvas *canvas,
                     GnomeCanvasItem *item,
                     guint event_mask,
                     GdkCursor *cursor,
+                    GdkDevice *device,
                     guint32 etime,
                     ECanvasItemGrabCancelled cancelled_cb,
                     gpointer cancelled_data)
 {
-	gint ret_val;
+	GdkGrabStatus grab_status;
 
 	g_return_val_if_fail (E_IS_CANVAS (canvas), -1);
 	g_return_val_if_fail (GNOME_IS_CANVAS_ITEM (item), -1);
+	g_return_val_if_fail (GDK_IS_DEVICE (device), -1);
 
 	if (gtk_grab_get_current ())
 		return GDK_GRAB_ALREADY_GRABBED;
 
-	ret_val = gnome_canvas_item_grab (
-		item, event_mask, cursor, etime);
-	if (ret_val == GDK_GRAB_SUCCESS) {
+	grab_status = gnome_canvas_item_grab (
+		item, event_mask, cursor, device, etime);
+	if (grab_status == GDK_GRAB_SUCCESS) {
 		canvas->grab_cancelled_cb = cancelled_cb;
 		canvas->grab_cancelled_check_id = g_timeout_add_full (
 			G_PRIORITY_LOW, 100,
@@ -858,7 +860,7 @@ e_canvas_item_grab (ECanvas *canvas,
 		canvas->grab_cancelled_data = cancelled_data;
 	}
 
-	return ret_val;
+	return grab_status;
 }
 
 void

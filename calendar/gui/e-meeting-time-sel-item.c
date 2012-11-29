@@ -843,11 +843,22 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 		mts_item,
 		x, y);
 	if (position != E_MEETING_TIME_SELECTOR_POS_NONE) {
-		if (gnome_canvas_item_grab (GNOME_CANVAS_ITEM (mts_item),
-					    GDK_POINTER_MOTION_MASK
-					    | GDK_BUTTON_RELEASE_MASK,
-					    mts_item->resize_cursor,
-					    event->button.time) == 0 /*Success */) {
+		GdkGrabStatus grab_status;
+		GdkDevice *event_device;
+		guint32 event_time;
+
+		event_device = gdk_event_get_device (event);
+		event_time = gdk_event_get_time (event);
+
+		grab_status = gnome_canvas_item_grab (
+			GNOME_CANVAS_ITEM (mts_item),
+			GDK_POINTER_MOTION_MASK |
+			GDK_BUTTON_RELEASE_MASK,
+			mts_item->resize_cursor,
+			event_device,
+			event_time);
+
+		if (grab_status == GDK_GRAB_SUCCESS) {
 			mts->dragging_position = position;
 			return TRUE;
 		}

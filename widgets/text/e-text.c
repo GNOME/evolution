@@ -2772,6 +2772,7 @@ e_text_command (ETextEventProcessor *tep,
 			GNOME_CANVAS_ITEM (text),
 			GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
 			text->i_cursor,
+			command->device,
 			command->time,
 			NULL,
 			NULL);

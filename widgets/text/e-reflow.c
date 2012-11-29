@@ -1058,6 +1058,7 @@ e_reflow_event (GnomeCanvasItem *item,
 								item,
 								GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
 								reflow->arrow_cursor,
+								button->device,
 								button->time);
 
 							reflow->previous_temp_column_width = -1;

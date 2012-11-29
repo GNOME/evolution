@@ -580,17 +580,28 @@ e_minicard_event (GnomeCanvasItem *item,
 	case GDK_BUTTON_PRESS: {
 		if (1 <= event->button.button && event->button.button <= 2) {
 			gint ret_val = e_minicard_selected (e_minicard, event);
-			GdkEventMask mask = ((1 << (4 + event->button.button)) |
-					     GDK_POINTER_MOTION_MASK |
-					     GDK_BUTTON_PRESS_MASK |
-					     GDK_BUTTON_RELEASE_MASK);
+			GdkGrabStatus grab_status;
+			GdkDevice *event_device;
+			guint32 event_time;
 
 			e_canvas_item_grab_focus (item, TRUE);
 
-			if (gnome_canvas_item_grab (GNOME_CANVAS_ITEM (e_minicard),
-						    mask, NULL, event->button.time)) {
+			event_device = gdk_event_get_device (event);
+			event_time = gdk_event_get_time (event);
+
+			grab_status = gnome_canvas_item_grab (
+				GNOME_CANVAS_ITEM (e_minicard),
+				(1 << (4 + event->button.button)) |
+				GDK_POINTER_MOTION_MASK |
+				GDK_BUTTON_PRESS_MASK |
+				GDK_BUTTON_RELEASE_MASK,
+				NULL,
+				event_device,
+				event_time);
+
+			if (grab_status != GDK_GRAB_SUCCESS)
 				return FALSE;
-			}
+
 			gtk_grab_add (GTK_WIDGET (GNOME_CANVAS_ITEM (e_minicard)->canvas));
 			e_minicard->button_x = event->button.x;
 			e_minicard->button_y = event->button.y;

@@ -245,7 +245,8 @@ void gnome_canvas_item_hide (GnomeCanvasItem *item);
  * XGrabPointer().
  */
 gint gnome_canvas_item_grab (GnomeCanvasItem *item, guint event_mask,
-			    GdkCursor *cursor, guint32 etime);
+			    GdkCursor *cursor, GdkDevice *device,
+			    guint32 etime);
 
 /* Ungrabs the mouse -- the specified item must be the same that was passed to
  * gnome_canvas_item_grab().  Time is a proper X event time parameter.
@@ -361,6 +362,9 @@ struct _GnomeCanvas {
 
 	/* Item that holds a pointer grab, or NULL if none */
 	GnomeCanvasItem *grabbed_item;
+
+	/* The grabbed device for grabbed_item. */
+	GdkDevice *grabbed_device;
 
 	/* If non-NULL, the currently focused item */
 	GnomeCanvasItem *focused_item;

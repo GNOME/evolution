@@ -312,7 +312,11 @@ gnome_canvas_item_dispose (GObject *object)
 
 	if (item->canvas && item == item->canvas->grabbed_item) {
 		item->canvas->grabbed_item = NULL;
-		gdk_pointer_ungrab (GDK_CURRENT_TIME);
+
+		gdk_device_ungrab (
+			item->canvas->grabbed_device, GDK_CURRENT_TIME);
+		g_object_unref (item->canvas->grabbed_device);
+		item->canvas->grabbed_device = NULL;
 	}
 
 	if (item->canvas && item == item->canvas->focused_item)
@@ -816,23 +820,25 @@ gnome_canvas_item_hide (GnomeCanvasItem *item)
  * @item: A canvas item.
  * @event_mask: Mask of events that will be sent to this item.
  * @cursor: If non-NULL, the cursor that will be used while the grab is active.
- * @etime: The timestamp required for grabbing the mouse, or GDK_CURRENT_TIME.
+ * @device: The pointer device to grab.
+ * @etime: The timestamp required for grabbing @device, or GDK_CURRENT_TIME.
  *
  * Specifies that all events that match the specified event mask should be sent
- * to the specified item, and also grabs the mouse by calling
- * gdk_pointer_grab().  The event mask is also used when grabbing the pointer.
- * If @cursor is not NULL, then that cursor is used while the grab is active.
- * The @etime parameter is the timestamp required for grabbing the mouse.
+ * to the specified item, and also grabs @device by calling gdk_device_grab().
+ * The event mask is also used when grabbing the @device.  If @cursor is not
+ * NULL, then that cursor is used while the grab is active.  The @etime
+ * parameter is the timestamp required for grabbing the @device.
  *
  * Return value: If an item was already grabbed, it returns
  * %GDK_GRAB_ALREADY_GRABBED.  If the specified item was hidden by calling
  * gnome_canvas_item_hide(), then it returns %GDK_GRAB_NOT_VIEWABLE.  Else,
- * it returns the result of calling gdk_pointer_grab().
+ * it returns the result of calling gdk_device_grab().
  **/
 gint
 gnome_canvas_item_grab (GnomeCanvasItem *item,
                         guint event_mask,
                         GdkCursor *cursor,
+                        GdkDevice *device,
                         guint32 etime)
 {
 	GtkLayout *layout;
@@ -844,6 +850,8 @@ gnome_canvas_item_grab (GnomeCanvasItem *item,
 	g_return_val_if_fail (
 		gtk_widget_get_mapped (GTK_WIDGET (item->canvas)),
 		GDK_GRAB_NOT_VIEWABLE);
+	g_return_val_if_fail (
+		GDK_IS_DEVICE (device), GDK_GRAB_NOT_VIEWABLE);
 
 	if (item->canvas->grabbed_item)
 		return GDK_GRAB_ALREADY_GRABBED;
@@ -854,14 +862,15 @@ gnome_canvas_item_grab (GnomeCanvasItem *item,
 	layout = GTK_LAYOUT (item->canvas);
 	bin_window = gtk_layout_get_bin_window (layout);
 
-	retval = gdk_pointer_grab (
-		bin_window, FALSE, event_mask,
-		NULL, cursor, etime);
+	retval = gdk_device_grab (
+		device, bin_window, GDK_OWNERSHIP_NONE,
+		FALSE, event_mask, cursor, etime);
 
 	if (retval != GDK_GRAB_SUCCESS)
 		return retval;
 
 	item->canvas->grabbed_item = item;
+	item->canvas->grabbed_device = g_object_ref (device);
 	item->canvas->grabbed_event_mask = event_mask;
 	item->canvas->current_item = item; /* So that events go to the grabbed item */
 
@@ -887,7 +896,11 @@ gnome_canvas_item_ungrab (GnomeCanvasItem *item,
 
 	item->canvas->grabbed_item = NULL;
 
-	gdk_pointer_ungrab (etime);
+	g_return_if_fail (item->canvas->grabbed_device != NULL);
+	gdk_device_ungrab (item->canvas->grabbed_device, etime);
+
+	g_object_unref (item->canvas->grabbed_device);
+	item->canvas->grabbed_device = NULL;
 }
 
 void
@@ -1927,10 +1940,13 @@ remove_idle (GnomeCanvas *canvas)
 static void
 shutdown_transients (GnomeCanvas *canvas)
 {
-	if (canvas->grabbed_item) {
-		canvas->grabbed_item = NULL;
-		gdk_pointer_ungrab (GDK_CURRENT_TIME);
+	if (canvas->grabbed_device != NULL) {
+		gdk_device_ungrab (canvas->grabbed_device, GDK_CURRENT_TIME);
+		g_object_unref (canvas->grabbed_device);
+		canvas->grabbed_device = NULL;
 	}
+
+	canvas->grabbed_item = NULL;
 
 	remove_idle (canvas);
 }

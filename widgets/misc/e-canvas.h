@@ -124,6 +124,7 @@ gint		e_canvas_item_grab		(ECanvas *canvas,
 						 GnomeCanvasItem *item,
 						 guint event_mask,
 						 GdkCursor *cursor,
+						 GdkDevice *device,
 						 guint32 etime,
 						 ECanvasItemGrabCancelled cancelled,
 						 gpointer cancelled_data);
