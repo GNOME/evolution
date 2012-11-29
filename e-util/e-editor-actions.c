@@ -1159,6 +1159,13 @@ static GtkRadioActionEntry core_style_entries[] = {
 	  NULL,
 	  E_EDITOR_SELECTION_BLOCK_FORMAT_H6 },
 
+        { "style-preformat",
+          NULL,
+          N_("_Preformatted"),
+          "<Control>7",
+          NULL,
+          E_EDITOR_SELECTION_BLOCK_FORMAT_PRE },
+
 	{ "style-address",
 	  NULL,
 	  N_("A_ddress"),
@@ -1166,12 +1173,12 @@ static GtkRadioActionEntry core_style_entries[] = {
 	  NULL,
 	  E_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS },
 
-	{ "style-preformat",
-	  NULL,
-	  N_("_Preformatted"),
-	  "<Control>7",
-	  NULL,
-	  E_EDITOR_SELECTION_BLOCK_FORMAT_PRE },
+        { "style-blockquote",
+          NULL,
+          N_("_Blockquote"),
+          "<Control>9",
+          NULL,
+          E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE },
 
 	{ "style-list-bullet",
 	  NULL,
