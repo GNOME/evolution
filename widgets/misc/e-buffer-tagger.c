@@ -126,6 +126,24 @@ markup_text (GtkTextBuffer *buffer)
 	g_free (text);
 }
 
+static void
+get_pointer_position (GtkTextView *text_view,
+                      gint *x,
+                      gint *y)
+{
+	GdkWindow *window;
+	GdkDisplay *display;
+	GdkDeviceManager *device_manager;
+	GdkDevice *device;
+
+	window = gtk_text_view_get_window (text_view, GTK_TEXT_WINDOW_WIDGET);
+	display = gdk_window_get_display (window);
+	device_manager = gdk_display_get_device_manager (display);
+	device = gdk_device_manager_get_client_pointer (device_manager);
+
+	gdk_window_get_device_position (window, device, x, y, NULL);
+}
+
 static guint32
 get_state (GtkTextBuffer *buffer)
 {
@@ -338,7 +356,8 @@ update_mouse_cursor (GtkTextView *text_view,
 		else
 			gdk_window_set_cursor (gtk_text_view_get_window (text_view, GTK_TEXT_WINDOW_TEXT), regular_cursor);
 
-		gdk_window_get_pointer (gtk_text_view_get_window (text_view, GTK_TEXT_WINDOW_WIDGET), NULL, NULL, NULL);
+		/* XXX Is this necessary?  Appears to be a no-op. */
+		get_pointer_position (text_view, NULL, NULL);
 	}
 
 	hovering_over_link = (state & E_BUFFER_TAGGER_STATE_IS_HOVERING_TOOLTIP) != 0;
@@ -438,7 +457,7 @@ update_ctrl_state (GtkTextView *textview,
 			update_state (buffer, E_BUFFER_TAGGER_STATE_CTRL_DOWN, ctrl_is_down != FALSE);
 		}
 
-		gdk_window_get_pointer (gtk_text_view_get_window (textview, GTK_TEXT_WINDOW_WIDGET), &x, &y, NULL);
+		get_pointer_position (textview, &x, &y);
 		gtk_text_view_window_to_buffer_coords (textview, GTK_TEXT_WINDOW_WIDGET, x, y, &x, &y);
 		update_mouse_cursor (textview, x, y);
 	}
@@ -471,10 +490,17 @@ textview_event_after (GtkTextView *textview,
 	}
 
 	if (!gdk_event_get_state (ev, &mt)) {
-		GdkWindow *w = gtk_widget_get_parent_window (GTK_WIDGET (textview));
+		GdkWindow *window;
+		GdkDisplay *display;
+		GdkDeviceManager *device_manager;
+		GdkDevice *device;
 
-		if (w)
-			gdk_window_get_pointer (w, NULL, NULL, &mt);
+		window = gtk_widget_get_parent_window (GTK_WIDGET (textview));
+		display = gdk_window_get_display (window);
+		device_manager = gdk_display_get_device_manager (display);
+		device = gdk_device_manager_get_client_pointer (device_manager);
+
+		gdk_window_get_device_position (window, device, NULL, NULL, &mt);
 	}
 
 	update_ctrl_state (textview, (mt & GDK_CONTROL_MASK) != 0);
@@ -533,7 +559,7 @@ textview_visibility_notify_event (GtkTextView *textview,
 
 	g_return_val_if_fail (GTK_IS_TEXT_VIEW (textview), FALSE);
 
-	gdk_window_get_pointer (gtk_text_view_get_window (textview, GTK_TEXT_WINDOW_WIDGET), &wx, &wy, NULL);
+	get_pointer_position (textview, &wx, &wy);
 
 	gtk_text_view_window_to_buffer_coords (
 		textview,

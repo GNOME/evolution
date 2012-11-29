@@ -2654,13 +2654,19 @@ tree_autoscroll (EMFolderTree *folder_tree)
 	GtkScrollable *scrollable;
 	GdkRectangle rect;
 	GdkWindow *window;
+	GdkDisplay *display;
+	GdkDeviceManager *device_manager;
+	GdkDevice *device;
 	gdouble value;
 	gint offset, y;
 
 	/* Get the y pointer position relative to the treeview. */
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	window = gtk_tree_view_get_bin_window (tree_view);
-	gdk_window_get_pointer (window, NULL, &y, NULL);
+	display = gdk_window_get_display (window);
+	device_manager = gdk_display_get_device_manager (display);
+	device = gdk_device_manager_get_client_pointer (device_manager);
+	gdk_window_get_device_position (window, device, NULL, &y, NULL);
 
 	/* Rect is in coorinates relative to the scrolled window,
 	 * relative to the treeview. */
