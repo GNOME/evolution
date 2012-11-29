@@ -155,6 +155,11 @@
       <_summary>List of localized 'Re'</_summary>
       <_description>Comma-separated list of localized 'Re' abbreviations to skip in a subject text when replying to a message, as an addition to the standard "Re" prefix. An example is 'SV,AV'.</_description>
     </key>
+    <key name="composer-developer-mode" type="b">
+      <default>false</default>
+      <_summary>Enable developer mode</_summary>
+      <_description>Enables some hidden actions and tools aimed for development and debugging.</_description>
+    </key>
     <key name="drag-and-drop-save-file-format" type="s">
       <default>'mbox'</default>
       <_summary>Save file format for drag-and-drop operation</_summary>

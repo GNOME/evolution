@@ -236,6 +236,25 @@ editor_widget_load_status_changed (EEditorWidget *widget)
 	}
 }
 
+static WebKitWebView *
+editor_widget_open_inspector (WebKitWebInspector *inspector,
+			      WebKitWebView *webview,
+			      gpointer user_data)
+{
+	GtkWidget *window;
+	GtkWidget *inspector_view;
+
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	inspector_view = webkit_web_view_new ();
+
+	gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (inspector_view));
+
+	gtk_widget_set_size_request (window, 600, 480);
+	gtk_widget_show (window);
+
+	return WEBKIT_WEB_VIEW (inspector_view);
+}
+
 static gboolean
 editor_widget_button_press_event (GtkWidget *gtk_widget,
 				  GdkEventButton *event)
@@ -827,6 +846,7 @@ static void
 e_editor_widget_init (EEditorWidget *editor)
 {
 	WebKitWebSettings *settings;
+	WebKitWebInspector *inspector;
 	WebKitDOMDocument *document;
 	GSettings *g_settings;
 	GSettingsSchema *settings_schema;
@@ -869,6 +889,10 @@ e_editor_widget_init (EEditorWidget *editor)
 		G_CALLBACK (editor_widget_should_show_delete_interface_for_element), NULL);
 	g_signal_connect (editor, "notify::load-status",
 		G_CALLBACK (editor_widget_load_status_changed), NULL);
+
+	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (editor));
+	g_signal_connect (inspector, "inspect-web-view",
+		G_CALLBACK (editor_widget_open_inspector), NULL);
 
 	editor->priv->selection = e_editor_selection_new (
 					WEBKIT_WEB_VIEW (editor));

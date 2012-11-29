@@ -23,9 +23,13 @@
       <menuitem action='spell-check'/>
       <menu action='language-menu'/>
     </menu>
-    <placeholder name='pre-view-menu'/>
-    <menu action='view-menu'/>
-    <placeholder name='pre-insert-menu'/>
+    <placeholder name='pre-insert-menu'>
+      <menu action='view-menu'>
+        <placeholder name='view-menu-top'/>
+        <menuitem action='webkit-inspector'/>
+        <separator/>
+      </menu>
+    </placeholder>
     <menu action='insert-menu'>
       <placeholder name='insert-menu-top'/>
       <menuitem action='insert-image'/>
