@@ -3713,7 +3713,7 @@ e_day_view_on_event_click (EDayView *day_view,
 			NULL,
 			event_time);
 
-		if (grab_status != GDK_GRAB_SUCCESS) {
+		if (grab_status == GDK_GRAB_SUCCESS) {
 			day_view->resize_event_day = day;
 			day_view->resize_event_num = event_num;
 			day_view->resize_drag_pos = pos;
