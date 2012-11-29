@@ -1126,7 +1126,7 @@ eab_contact_formatter_get_property (GObject *object,
 }
 
 static void
-eab_contact_formatter_finalize (GObject *object)
+eab_contact_formatter_dispose (GObject *object)
 {
 	EABContactFormatter *formatter;
 
@@ -1137,7 +1137,12 @@ eab_contact_formatter_finalize (GObject *object)
 		formatter->priv->contact = NULL;
 	}
 
-	G_OBJECT_CLASS (eab_contact_formatter_parent_class)->finalize (object);
+	if (formatter->priv->style) {
+		g_object_unref (formatter->priv->style);
+		formatter->priv->style = NULL;
+	}
+
+	G_OBJECT_CLASS (eab_contact_formatter_parent_class)->dispose (object);
 }
 
 static void
@@ -1148,7 +1153,7 @@ eab_contact_formatter_class_init (EABContactFormatterClass *class)
 	g_type_class_add_private (class, sizeof (EABContactFormatterClass));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = eab_contact_formatter_finalize;
+	object_class->dispose = eab_contact_formatter_dispose;
 	object_class->set_property = eab_contact_formatter_set_property;
 	object_class->get_property = eab_contact_formatter_get_property;
 
