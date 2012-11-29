@@ -95,10 +95,10 @@ static void	e_cell_combo_get_popup_pos	(ECellCombo *ecc,
 static void	e_cell_combo_selection_changed	(GtkTreeSelection *selection,
 						 ECellCombo *ecc);
 static gint	e_cell_combo_button_press	(GtkWidget *popup_window,
-						 GdkEvent *event,
+						 GdkEvent *button_event,
 						 ECellCombo *ecc);
 static gint	e_cell_combo_button_release	(GtkWidget *popup_window,
-						 GdkEventButton *event,
+						 GdkEvent *button_event,
 						 ECellCombo *ecc);
 static gint	e_cell_combo_key_press		(GtkWidget *popup_window,
 						 GdkEventKey *event,
@@ -575,12 +575,14 @@ e_cell_combo_selection_changed (GtkTreeSelection *selection,
  * which we ignore. */
 static gint
 e_cell_combo_button_press (GtkWidget *popup_window,
-                           GdkEvent *event,
+                           GdkEvent *button_event,
                            ECellCombo *ecc)
 {
 	GtkWidget *event_widget;
+	guint32 event_time;
 
-	event_widget = gtk_get_event_widget (event);
+	event_time = gdk_event_get_time (button_event);
+	event_widget = gtk_get_event_widget (button_event);
 
 	/* If the button press was for a widget inside the popup list, but
 	 * not the popup window itself, then we ignore the event and return
@@ -595,8 +597,8 @@ e_cell_combo_button_press (GtkWidget *popup_window,
 	}
 
 	gtk_grab_remove (ecc->popup_window);
-	gdk_pointer_ungrab (event->button.time);
-	gdk_keyboard_ungrab (event->button.time);
+	gdk_pointer_ungrab (event_time);
+	gdk_keyboard_ungrab (event_time);
 	gtk_widget_hide (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
@@ -618,12 +620,14 @@ e_cell_combo_button_press (GtkWidget *popup_window,
  * cell with the new selection. */
 static gint
 e_cell_combo_button_release (GtkWidget *popup_window,
-                             GdkEventButton *event,
+                             GdkEvent *button_event,
                              ECellCombo *ecc)
 {
 	GtkWidget *event_widget;
+	guint32 event_time;
 
-	event_widget = gtk_get_event_widget ((GdkEvent *) event);
+	event_time = gdk_event_get_time (button_event);
+	event_widget = gtk_get_event_widget (button_event);
 
 	/* See if the button was released in the list (or its children). */
 	while (event_widget && event_widget != ecc->popup_tree_view)
@@ -636,8 +640,8 @@ e_cell_combo_button_release (GtkWidget *popup_window,
 	/* The button was released inside the list, so we hide the popup and
 	 * update the cell to reflect the new selection. */
 	gtk_grab_remove (ecc->popup_window);
-	gdk_pointer_ungrab (event->time);
-	gdk_keyboard_ungrab (event->time);
+	gdk_pointer_ungrab (event_time);
+	gdk_keyboard_ungrab (event_time);
 	gtk_widget_hide (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);

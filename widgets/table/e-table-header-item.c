@@ -1674,7 +1674,7 @@ popup_custom (GtkWidget *menu_item,
 
 static void
 ethi_header_context_menu (ETableHeaderItem *ethi,
-                          GdkEventButton *event)
+                          GdkEvent *button_event)
 {
 	EthiHeaderInfo *info = g_new (EthiHeaderInfo, 1);
 	GtkMenu *popup;
@@ -1682,10 +1682,19 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 	GtkWidget *menu_item, *sub_menu;
 	ETableSortColumn column;
 	gboolean ascending = TRUE;
+	gdouble event_x_win = 0;
+	gdouble event_y_win = 0;
+	guint event_button = 0;
+	guint32 event_time;
+
 	d (g_print ("ethi_header_context_menu: \n"));
 
+	gdk_event_get_button (button_event, &event_button);
+	gdk_event_get_coords (button_event, &event_x_win, &event_y_win);
+	event_time = gdk_event_get_time (button_event);
+
 	info->ethi = ethi;
-	info->col = ethi_find_col_by_x (ethi, event->x);
+	info->col = ethi_find_col_by_x (ethi, event_x_win);
 
 	popup = e_popup_menu_create_with_domain (
 		ethi_context_menu,
@@ -1771,14 +1780,14 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 	gtk_menu_popup (
 		GTK_MENU (popup),
 		NULL, NULL, NULL, NULL,
-		event->button, event->time);
+		event_button, event_time);
 }
 
 static void
 ethi_button_pressed (ETableHeaderItem *ethi,
-                     GdkEventButton *event)
+                     GdkEvent *button_event)
 {
-	g_signal_emit (ethi, ethi_signals[BUTTON_PRESSED], 0, event);
+	g_signal_emit (ethi, ethi_signals[BUTTON_PRESSED], 0, button_event);
 }
 
 void
@@ -1957,9 +1966,9 @@ ethi_event (GnomeCanvasItem *item,
 				if (gtk_widget_get_can_focus (GTK_WIDGET (item->canvas)))
 					e_canvas_item_grab_focus (item, TRUE);
 			} else if (e->button.button == 3) {
-				ethi_header_context_menu (ethi, &e->button);
+				ethi_header_context_menu (ethi, e);
 			} else
-				ethi_button_pressed (ethi, &e->button);
+				ethi_button_pressed (ethi, e);
 		}
 		break;
 

@@ -120,7 +120,7 @@ week_view_event_item_get_position (EWeekViewEventItem *event_item,
 
 static gboolean
 week_view_event_item_double_click (EWeekViewEventItem *event_item,
-                                   GdkEvent *bevent)
+                                   GdkEvent *button_event)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
@@ -179,7 +179,7 @@ week_view_event_item_double_click (EWeekViewEventItem *event_item,
 
 static gboolean
 week_view_event_item_button_press (EWeekViewEventItem *event_item,
-                                   GdkEvent *bevent)
+                                   GdkEvent *button_event)
 {
 	EWeekView *week_view;
 	ECalendarViewPosition pos;
@@ -187,6 +187,12 @@ week_view_event_item_button_press (EWeekViewEventItem *event_item,
 	EWeekViewEventSpan *span;
 	GnomeCanvasItem *item;
 	GtkWidget *parent;
+	guint event_button = 0;
+	gdouble event_x_win = 0;
+	gdouble event_y_win = 0;
+
+	gdk_event_get_button (button_event, &event_button);
+	gdk_event_get_coords (button_event, &event_x_win, &event_y_win);
 
 	item = GNOME_CANVAS_ITEM (event_item);
 
@@ -211,12 +217,11 @@ week_view_event_item_button_press (EWeekViewEventItem *event_item,
 			       event->spans_index + event_item->priv->span_num);
 
 	pos = week_view_event_item_get_position (
-		event_item, bevent->button.x,
-		bevent->button.y);
+		event_item, event_x_win, event_y_win);
 	if (pos == E_CALENDAR_VIEW_POS_NONE)
 		return FALSE;
 
-	if (bevent->button.button == 1) {
+	if (event_button == 1) {
 		week_view->pressed_event_num = event_item->priv->event_num;
 		week_view->pressed_span_num = event_item->priv->span_num;
 
@@ -226,14 +231,15 @@ week_view_event_item_button_press (EWeekViewEventItem *event_item,
 
 		/* Remember the item clicked and the mouse position,
 		 * so we can start a drag if the mouse moves. */
-		week_view->drag_event_x = bevent->button.x;
-		week_view->drag_event_y = bevent->button.y;
+		week_view->drag_event_x = event_x_win;
+		week_view->drag_event_y = event_y_win;
 
 		/* FIXME: Remember the day offset from the start of the event.
 		 */
 
 		return TRUE;
-	} else if (bevent->button.button == 3) {
+
+	} else if (event_button == 3) {
 		if (!gtk_widget_has_focus (GTK_WIDGET (week_view))) {
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 			if (week_view->event_destroyed) {
@@ -247,7 +253,7 @@ week_view_event_item_button_press (EWeekViewEventItem *event_item,
 			week_view, event->start, event->end);
 
 		e_week_view_show_popup_menu (
-			week_view, (GdkEventButton *) bevent,
+			week_view, button_event,
 			event_item->priv->event_num);
 		g_signal_stop_emission_by_name (
 			item->canvas, "button_press_event");

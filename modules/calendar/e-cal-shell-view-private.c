@@ -283,7 +283,7 @@ cal_shell_view_date_navigator_scroll_event_cb (ECalShellView *cal_shell_view,
 
 static void
 cal_shell_view_popup_event_cb (EShellView *shell_view,
-                               GdkEventButton *event)
+                               GdkEvent *button_event)
 {
 	GList *list;
 	GnomeCalendar *calendar;
@@ -309,18 +309,18 @@ cal_shell_view_popup_event_cb (EShellView *shell_view,
 	else
 		widget_path = "/calendar-event-popup";
 
-	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
 }
 
 static gboolean
 cal_shell_view_selector_popup_event_cb (EShellView *shell_view,
                                         ESource *primary_source,
-                                        GdkEventButton *event)
+                                        GdkEvent *button_event)
 {
 	const gchar *widget_path;
 
 	widget_path = "/calendar-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
 
 	return TRUE;
 }
@@ -361,22 +361,22 @@ cal_shell_view_selector_client_removed_cb (ECalShellView *cal_shell_view,
 
 static void
 cal_shell_view_memopad_popup_event_cb (EShellView *shell_view,
-                                       GdkEventButton *event)
+                                       GdkEvent *button_event)
 {
 	const gchar *widget_path;
 
 	widget_path = "/calendar-memopad-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
 }
 
 static void
 cal_shell_view_taskpad_popup_event_cb (EShellView *shell_view,
-                                       GdkEventButton *event)
+                                       GdkEvent *button_event)
 {
 	const gchar *widget_path;
 
 	widget_path = "/calendar-taskpad-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
 }
 
 static void

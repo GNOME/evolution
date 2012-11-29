@@ -2575,52 +2575,50 @@ gnome_canvas_button (GtkWidget *widget,
 		return retval;
 
 	switch (event->button) {
-	case 1:
-		mask = GDK_BUTTON1_MASK;
-		break;
-	case 2:
-		mask = GDK_BUTTON2_MASK;
-		break;
-	case 3:
-		mask = GDK_BUTTON3_MASK;
-		break;
-	case 4:
-		mask = GDK_BUTTON4_MASK;
-		break;
-	case 5:
-		mask = GDK_BUTTON5_MASK;
-		break;
-	default:
-		mask = 0;
+		case 1:
+			mask = GDK_BUTTON1_MASK;
+			break;
+		case 2:
+			mask = GDK_BUTTON2_MASK;
+			break;
+		case 3:
+			mask = GDK_BUTTON3_MASK;
+			break;
+		case 4:
+			mask = GDK_BUTTON4_MASK;
+			break;
+		case 5:
+			mask = GDK_BUTTON5_MASK;
+			break;
+		default:
+			mask = 0;
 	}
 
 	switch (event->type) {
-	case GDK_BUTTON_PRESS:
-	case GDK_2BUTTON_PRESS:
-	case GDK_3BUTTON_PRESS:
-		/* Pick the current item as if the button were not pressed, and
-		 * then process the event.
-		 */
-		canvas->state = event->state;
-		pick_current_item (canvas, (GdkEvent *) event);
-		canvas->state ^= mask;
-		retval = emit_event (canvas, (GdkEvent *) event);
-		break;
+		case GDK_BUTTON_PRESS:
+		case GDK_2BUTTON_PRESS:
+		case GDK_3BUTTON_PRESS:
+			/* Pick the current item as if the button were
+			 * not pressed, and then process the event. */
+			canvas->state = event->state;
+			pick_current_item (canvas, (GdkEvent *) event);
+			canvas->state ^= mask;
+			retval = emit_event (canvas, (GdkEvent *) event);
+			break;
 
-	case GDK_BUTTON_RELEASE:
-		/* Process the event as if the button were pressed, then repick
-		 * after the button has been released
-		 */
-		canvas->state = event->state;
-		retval = emit_event (canvas, (GdkEvent *) event);
-		event->state ^= mask;
-		canvas->state = event->state;
-		pick_current_item (canvas, (GdkEvent *) event);
-		event->state ^= mask;
-		break;
+		case GDK_BUTTON_RELEASE:
+			/* Process the event as if the button were pressed,
+			 * then repick after the button has been released. */
+			canvas->state = event->state;
+			retval = emit_event (canvas, (GdkEvent *) event);
+			event->state ^= mask;
+			canvas->state = event->state;
+			pick_current_item (canvas, (GdkEvent *) event);
+			event->state ^= mask;
+			break;
 
-	default:
-		g_warn_if_reached ();
+		default:
+			g_warn_if_reached ();
 	}
 
 	return retval;

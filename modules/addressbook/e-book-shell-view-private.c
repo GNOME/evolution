@@ -64,7 +64,7 @@ open_contact (EBookShellView *book_shell_view,
 
 static void
 popup_event (EBookShellView *book_shell_view,
-             GdkEventButton *event)
+             GdkEvent *button_event)
 {
 	EShellView *shell_view;
 	const gchar *widget_path;
@@ -72,7 +72,7 @@ popup_event (EBookShellView *book_shell_view,
 	widget_path = "/contact-popup";
 	shell_view = E_SHELL_VIEW (book_shell_view);
 
-	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
 }
 
 static void
@@ -381,27 +381,31 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 }
 
 static gboolean
-book_shell_view_show_popup_menu (GdkEventButton *event,
+book_shell_view_show_popup_menu (GdkEvent *button_event,
                                  EShellView *shell_view)
 {
 	const gchar *widget_path;
 
 	widget_path = "/address-book-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
 
 	return TRUE;
 }
 
 static gboolean
 book_shell_view_selector_button_press_event_cb (EShellView *shell_view,
-                                                GdkEventButton *event)
+                                                GdkEvent *button_event)
 {
+	guint event_button = 0;
+
 	/* XXX Use ESourceSelector's "popup-event" signal instead. */
 
-	if (event->button == 3 && event->type == GDK_BUTTON_PRESS)
-		return book_shell_view_show_popup_menu (event, shell_view);
+	gdk_event_get_button (button_event, &event_button);
 
-	return FALSE;
+	if (button_event->type != GDK_BUTTON_PRESS || event_button != 3)
+		return FALSE;
+
+	return book_shell_view_show_popup_menu (button_event, shell_view);
 }
 
 static gboolean

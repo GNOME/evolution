@@ -325,16 +325,21 @@ report_and_free_error (CertPage *cp,
 
 static gboolean
 treeview_header_clicked (GtkWidget *widget,
-                         GdkEventButton *event,
+                         GdkEvent *button_event,
                          gpointer user_data)
 {
 	GtkMenu *menu = user_data;
+	guint event_button = 0;
+	guint32 event_time;
 
-	if (event->button != 3)
+	gdk_event_get_button (button_event, &event_button);
+	event_time = gdk_event_get_time (button_event);
+
+	if (event_button != 3)
 		return FALSE;
 
 	gtk_widget_show_all (GTK_WIDGET (menu));
-	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
+	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event_button, event_time);
 
 	return TRUE;
 }

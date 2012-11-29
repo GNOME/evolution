@@ -120,7 +120,9 @@ static void calc_height (EText *text);
 
 static gboolean show_pango_rectangle (EText *text, PangoRectangle rect);
 
-static void e_text_do_popup (EText *text, GdkEventButton *button, gint position);
+static void	e_text_do_popup			(EText *text,
+						 GdkEvent *event_button,
+						 gint position);
 
 static void e_text_update_primary_selection (EText *text);
 static void e_text_paste (EText *text, GdkAtom selection);
@@ -1678,13 +1680,12 @@ e_text_event (GnomeCanvasItem *item,
 			/* Simulate a GdkEventButton here, so that we can
 			 * call e_text_do_popup directly */
 
-			GdkEventButton *button;
+			GdkEvent *button_event;
 
-			button = (GdkEventButton *)
-				gdk_event_new (GDK_BUTTON_PRESS);
-			button->time = event->key.time;
-			button->button = 0;
-			e_text_do_popup (text, button, 0);
+			button_event = gdk_event_new (GDK_BUTTON_PRESS);
+			button_event->button.time = event->key.time;
+			button_event->button.button = 0;
+			e_text_do_popup (text, button_event, 0);
 			return 1;
 		}
 
@@ -1748,7 +1749,7 @@ e_text_event (GnomeCanvasItem *item,
 		if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
 			if (text->handle_popup) {
 				e_text_do_popup (
-					text, &(event->button),
+					text, event,
 					get_position_from_xy (
 						text, event->button.x,
 						event->button.y));
@@ -2006,7 +2007,7 @@ e_text_paste (EText *text,
 
 typedef struct {
 	EText *text;
-	GdkEventButton *button;
+	GdkEvent *event;
 	gint position;
 } PopupClosure;
 
@@ -2046,10 +2047,15 @@ popup_targets_received (GtkClipboard *clipboard,
 {
 	PopupClosure *closure = user_data;
 	EText *text = closure->text;
-	GdkEventButton *button = closure->button;
+	GdkEvent *event = closure->event;
 	gint position = closure->position;
 	GtkWidget *popup_menu = gtk_menu_new ();
 	GtkWidget *menuitem, *submenu;
+	guint event_button = 0;
+	guint32 event_time;
+
+	gdk_event_get_button (event, &event_button);
+	event_time = gdk_event_get_time (event);
 
 	g_free (closure);
 
@@ -2114,36 +2120,40 @@ popup_targets_received (GtkClipboard *clipboard,
 			GTK_MENU_SHELL (submenu));
 	}
 
-      g_signal_emit (text,
-		     e_text_signals[E_TEXT_POPULATE_POPUP],
-		     0,
-		     button, position,
-		     popup_menu);
+	g_signal_emit (
+		text,
+		e_text_signals[E_TEXT_POPULATE_POPUP],
+		0,
+		event,
+		position,
+		popup_menu);
 
-      /* If invoked by S-F10 key binding, button will be 0. */
-      if (button->button == 0) {
-	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
-			      popup_menu_placement_cb, (gpointer) text,
-			      button->button, GDK_CURRENT_TIME);
-      } else {
-	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
-			      NULL, NULL,
-			      button->button, button->time);
-      }
+	/* If invoked by S-F10 key binding, button will be 0. */
+	if (event_button == 0) {
+		gtk_menu_popup (
+			GTK_MENU (popup_menu), NULL, NULL,
+			popup_menu_placement_cb, (gpointer) text,
+			event_button, GDK_CURRENT_TIME);
+	} else {
+		gtk_menu_popup (
+			GTK_MENU (popup_menu), NULL, NULL,
+			NULL, NULL,
+			event_button, event_time);
+	}
 
-      g_object_unref (text);
-      gdk_event_free ((GdkEvent *) button);
+	g_object_unref (text);
+	gdk_event_free (event);
 }
 
 static void
 e_text_do_popup (EText *text,
-                 GdkEventButton *button,
+                 GdkEvent *button_event,
                  gint position)
 {
 	PopupClosure *closure = g_new (PopupClosure, 1);
 
 	closure->text = g_object_ref (text);
-	closure->button = (GdkEventButton *) gdk_event_copy ((GdkEvent *) button);
+	closure->event = gdk_event_copy (button_event);
 	closure->position = position;
 
 	gtk_clipboard_request_contents (

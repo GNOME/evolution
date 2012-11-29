@@ -92,12 +92,12 @@ task_shell_view_schedule_process_completed_tasks (ETaskShellView *task_shell_vie
 
 static void
 task_shell_view_table_popup_event_cb (EShellView *shell_view,
-                                      GdkEventButton *event)
+                                      GdkEvent *button_event)
 {
 	const gchar *widget_path;
 
 	widget_path = "/task-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
 }
 
 static void
@@ -134,12 +134,12 @@ task_shell_view_selector_client_removed_cb (ETaskShellView *task_shell_view,
 static gboolean
 task_shell_view_selector_popup_event_cb (EShellView *shell_view,
                                          ESource *primary_source,
-                                         GdkEventButton *event)
+                                         GdkEvent *button_event)
 {
 	const gchar *widget_path;
 
 	widget_path = "/task-list-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
 
 	return TRUE;
 }

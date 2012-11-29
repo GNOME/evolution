@@ -466,30 +466,36 @@ update_ctrl_state (GtkTextView *textview,
 /* Links can also be activated by clicking. */
 static gboolean
 textview_event_after (GtkTextView *textview,
-                      GdkEvent *ev)
+                      GdkEvent *event)
 {
 	GtkTextIter start, end, iter;
 	GtkTextBuffer *buffer;
-	GdkEventButton *event;
 	gint x, y;
 	GdkModifierType mt = 0;
+	guint event_button = 0;
+	gdouble event_x_win = 0;
+	gdouble event_y_win = 0;
 
 	g_return_val_if_fail (GTK_IS_TEXT_VIEW (textview), FALSE);
 
-	if (ev->type == GDK_KEY_PRESS || ev->type == GDK_KEY_RELEASE) {
-		GdkEventKey *event_key = (GdkEventKey *) ev;
+	if (event->type == GDK_KEY_PRESS || event->type == GDK_KEY_RELEASE) {
+		guint event_keyval = 0;
 
-		switch (event_key->keyval) {
-		case GDK_KEY_Control_L:
-		case GDK_KEY_Control_R:
-			update_ctrl_state (textview, ev->type == GDK_KEY_PRESS);
-			break;
+		gdk_event_get_keyval (event, &event_keyval);
+
+		switch (event_keyval) {
+			case GDK_KEY_Control_L:
+			case GDK_KEY_Control_R:
+				update_ctrl_state (
+					textview,
+					event->type == GDK_KEY_PRESS);
+				break;
 		}
 
 		return FALSE;
 	}
 
-	if (!gdk_event_get_state (ev, &mt)) {
+	if (!gdk_event_get_state (event, &mt)) {
 		GdkWindow *window;
 		GdkDisplay *display;
 		GdkDeviceManager *device_manager;
@@ -505,12 +511,13 @@ textview_event_after (GtkTextView *textview,
 
 	update_ctrl_state (textview, (mt & GDK_CONTROL_MASK) != 0);
 
-	if (ev->type != GDK_BUTTON_RELEASE)
+	if (event->type != GDK_BUTTON_RELEASE)
 		return FALSE;
 
-	event = (GdkEventButton *) ev;
+	gdk_event_get_button (event, &event_button);
+	gdk_event_get_coords (event, &event_x_win, &event_y_win);
 
-	if (event->button != 1 || (event->state & GDK_CONTROL_MASK) == 0)
+	if (event_button != 1 || (mt & GDK_CONTROL_MASK) == 0)
 		return FALSE;
 
 	buffer = gtk_text_view_get_buffer (textview);
@@ -523,7 +530,7 @@ textview_event_after (GtkTextView *textview,
 	gtk_text_view_window_to_buffer_coords (
 		textview,
 		GTK_TEXT_WINDOW_WIDGET,
-		event->x, event->y, &x, &y);
+		event_x_win, event_y_win, &x, &y);
 
 	gtk_text_view_get_iter_at_location (textview, &iter, x, y);
 

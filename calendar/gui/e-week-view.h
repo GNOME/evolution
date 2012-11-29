@@ -438,7 +438,7 @@ gboolean	e_week_view_start_editing_event	(EWeekView *week_view,
 void		e_week_view_stop_editing_event	(EWeekView *week_view);
 
 void		e_week_view_show_popup_menu	(EWeekView *week_view,
-						 GdkEventButton *event,
+						 GdkEvent *button_event,
 						 gint event_num);
 
 void		e_week_view_convert_time_to_display

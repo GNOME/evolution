@@ -48,12 +48,12 @@ memo_shell_view_model_row_appended_cb (EMemoShellView *memo_shell_view,
 
 static void
 memo_shell_view_table_popup_event_cb (EShellView *shell_view,
-                                      GdkEventButton *event)
+                                      GdkEvent *button_event)
 {
 	const gchar *widget_path;
 
 	widget_path = "/memo-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
 }
 
 static void
@@ -90,12 +90,12 @@ memo_shell_view_selector_client_removed_cb (EMemoShellView *memo_shell_view,
 static gboolean
 memo_shell_view_selector_popup_event_cb (EShellView *shell_view,
                                          ESource *primary_source,
-                                         GdkEventButton *event)
+                                         GdkEvent *button_event)
 {
 	const gchar *widget_path;
 
 	widget_path = "/memo-list-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
 
 	return TRUE;
 }

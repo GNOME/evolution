@@ -188,7 +188,7 @@ static gboolean	e_calendar_item_ensure_days_visible
 						 gint end_day,
 						 gboolean emission);
 static void	e_calendar_item_show_popup_menu	(ECalendarItem *calitem,
-						 GdkEventButton *event,
+						 GdkEvent *button_event,
 						 gint month_offset);
 static void	e_calendar_item_on_menu_item_activate
 						(GtkWidget *menuitem,
@@ -2253,9 +2253,7 @@ e_calendar_item_button_press (ECalendarItem *calitem,
 	if (event->button.button == 3 && day == -1
 	    && e_calendar_item_get_display_popup (calitem)) {
 		e_calendar_item_show_popup_menu (
-			calitem,
-			(GdkEventButton *) event,
-			month_offset);
+			calitem, event, month_offset);
 		return TRUE;
 	}
 
@@ -3529,13 +3527,15 @@ deactivate_menu_cb (GtkWidget *menu)
 
 static void
 e_calendar_item_show_popup_menu (ECalendarItem *calitem,
-                                 GdkEventButton *event,
+                                 GdkEvent *button_event,
                                  gint month_offset)
 {
 	GtkWidget *menu, *submenu, *menuitem, *label;
 	gint year, month;
 	const gchar *name;
 	gchar buffer[64];
+	guint event_button = 0;
+	guint32 event_time;
 
 	menu = gtk_menu_new ();
 
@@ -3582,10 +3582,13 @@ e_calendar_item_show_popup_menu (ECalendarItem *calitem,
 		menu, "deactivate",
 		G_CALLBACK (deactivate_menu_cb), NULL);
 
+	gdk_event_get_button (button_event, &event_button);
+	event_time = gdk_event_get_time (button_event);
+
 	gtk_menu_popup (
 		GTK_MENU (menu), NULL, NULL,
 		e_calendar_item_position_menu, calitem,
-		event->button, event->time);
+		event_button, event_time);
 }
 
 static void

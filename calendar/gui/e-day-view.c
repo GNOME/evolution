@@ -175,20 +175,20 @@ static void e_day_view_on_canvas_realized (GtkWidget *widget,
 					   EDayView *day_view);
 
 static gboolean e_day_view_on_top_canvas_button_press (GtkWidget *widget,
-						       GdkEventButton *event,
+						       GdkEvent *button_event,
 						       EDayView *day_view);
 static gboolean e_day_view_on_top_canvas_button_release (GtkWidget *widget,
-							 GdkEventButton *event,
+							 GdkEvent *button_event,
 							 EDayView *day_view);
 static gboolean e_day_view_on_top_canvas_motion (GtkWidget *widget,
 						 GdkEventMotion *event,
 						 EDayView *day_view);
 
 static gboolean e_day_view_on_main_canvas_button_press (GtkWidget *widget,
-							GdkEventButton *event,
+							GdkEvent *button_event,
 							EDayView *day_view);
 static gboolean e_day_view_on_main_canvas_button_release (GtkWidget *widget,
-							  GdkEventButton *event,
+							  GdkEvent *button_event,
 							  EDayView *day_view);
 
 static gboolean e_day_view_on_top_canvas_scroll (GtkWidget *widget,
@@ -219,27 +219,27 @@ static void e_day_view_abort_resize (EDayView *day_view);
 
 static gboolean e_day_view_on_long_event_button_press (EDayView		*day_view,
 						       gint		 event_num,
-						       GdkEventButton	*event,
+						       GdkEvent *button_event,
 						       ECalendarViewPosition  pos,
 						       gint		 event_x,
 						       gint		 event_y);
 static gboolean e_day_view_on_event_button_press (EDayView	 *day_view,
 						  gint		  day,
 						  gint		  event_num,
-						  GdkEventButton *event,
+						  GdkEvent *button_event,
 						  ECalendarViewPosition pos,
 						  gint		  event_x,
 						  gint		  event_y);
 static void e_day_view_on_long_event_click (EDayView *day_view,
 					    gint event_num,
-					    GdkEventButton  *bevent,
+					    GdkEvent *button_event,
 					    ECalendarViewPosition pos,
 					    gint	     event_x,
 					    gint	     event_y);
 static void e_day_view_on_event_click (EDayView *day_view,
 				       gint day,
 				       gint event_num,
-				       GdkEventButton  *event,
+				       GdkEvent *button_event,
 				       ECalendarViewPosition pos,
 				       gint		event_x,
 				       gint		event_y);
@@ -247,11 +247,11 @@ static void e_day_view_on_event_double_click (EDayView *day_view,
 					      gint day,
 					      gint event_num);
 static void e_day_view_on_event_right_click (EDayView *day_view,
-					     GdkEventButton *bevent,
+					     GdkEvent *button_event,
 					     gint day,
 					     gint event_num);
 static void e_day_view_show_popup_menu (EDayView *day_view,
-					GdkEventButton *event,
+					GdkEvent *button_event,
 					gint day,
 					gint event_num);
 
@@ -3098,16 +3098,23 @@ e_day_view_convert_time_to_position (EDayView *day_view,
 
 static gboolean
 e_day_view_on_top_canvas_button_press (GtkWidget *widget,
-                                       GdkEventButton *event,
+                                       GdkEvent *button_event,
                                        EDayView *day_view)
 {
 	gint event_x, event_y, day, event_num;
 	ECalendarViewPosition pos;
 	GtkLayout *layout;
 	GdkWindow *window;
+	GdkDevice *event_device;
+	guint event_button = 0;
+	guint32 event_time;
 
 	layout = GTK_LAYOUT (widget);
 	window = gtk_layout_get_bin_window (layout);
+
+	gdk_event_get_button (button_event, &event_button);
+	event_device = gdk_event_get_device (button_event);
+	event_time = gdk_event_get_time (button_event);
 
 	if (day_view->resize_event_num != -1)
 		day_view->resize_event_num = -1;
@@ -3118,7 +3125,7 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 	/* Convert the coords to the main canvas window, or return if the
 	 * window is not found. */
 	if (!e_day_view_convert_event_coords (
-		day_view, (GdkEvent *) event, window, &event_x, &event_y))
+		day_view, button_event, window, &event_x, &event_y))
 		return FALSE;
 
 	pos = e_day_view_convert_position_in_top_canvas (
@@ -3133,14 +3140,17 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 		return e_day_view_on_long_event_button_press (
 			day_view,
 			event_num,
-			event, pos,
+			button_event,
+			pos,
 			event_x,
 			event_y);
 
 	e_day_view_stop_editing_event (day_view);
 
-	if (event->button == 1) {
-		if (event->type == GDK_2BUTTON_PRESS) {
+	if (event_button == 1) {
+		GdkGrabStatus grab_status;
+
+		if (button_event->type == GDK_2BUTTON_PRESS) {
 			time_t dtstart, dtend;
 
 			e_day_view_get_selected_time_range ((ECalendarView *) day_view, &dtstart, &dtend);
@@ -3150,25 +3160,36 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 				e_day_view_set_selected_time_range ((ECalendarView *) day_view, dtstart, dtend);
 			}
 
-			e_calendar_view_new_appointment_for (E_CALENDAR_VIEW (day_view),
-							dtstart, dtend,
-							TRUE, calendar_config_get_prefer_meeting ());
+			e_calendar_view_new_appointment_for (
+				E_CALENDAR_VIEW (day_view),
+				dtstart, dtend, TRUE,
+				calendar_config_get_prefer_meeting ());
 			return TRUE;
 		}
 
 		if (!gtk_widget_has_focus (GTK_WIDGET (day_view)))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
-		if (gdk_pointer_grab (window, FALSE,
-				      GDK_POINTER_MOTION_MASK
-				      | GDK_BUTTON_RELEASE_MASK,
-				      NULL, NULL, event->time) == 0) {
-			if (event->time - day_view->bc_event_time > 250)
-				e_day_view_get_selected_time_range ((ECalendarView *) day_view, &day_view->before_click_dtstart, &day_view->before_click_dtend);
-			day_view->bc_event_time = event->time;
+		grab_status = gdk_device_grab (
+			event_device,
+			window,
+			GDK_OWNERSHIP_NONE,
+			FALSE,
+			GDK_POINTER_MOTION_MASK |
+			GDK_BUTTON_RELEASE_MASK,
+			NULL,
+			event_time);
+
+		if (grab_status == GDK_GRAB_SUCCESS) {
+			if (event_time - day_view->bc_event_time > 250)
+				e_day_view_get_selected_time_range (
+					E_CALENDAR_VIEW (day_view),
+					&day_view->before_click_dtstart,
+					&day_view->before_click_dtend);
+			day_view->bc_event_time = event_time;
 			e_day_view_start_selection (day_view, day, -1);
 		}
-	} else if (event->button == 3) {
+	} else if (event_button == 3) {
 		if (!gtk_widget_has_focus (GTK_WIDGET (day_view)))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
@@ -3177,7 +3198,7 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 			e_day_view_finish_selection (day_view);
 		}
 
-		e_day_view_on_event_right_click (day_view, event, -1, -1);
+		e_day_view_on_event_right_click (day_view, button_event, -1, -1);
 	}
 
 	return TRUE;
@@ -3235,16 +3256,23 @@ e_day_view_convert_event_coords (EDayView *day_view,
 
 static gboolean
 e_day_view_on_main_canvas_button_press (GtkWidget *widget,
-                                        GdkEventButton *event,
+                                        GdkEvent *button_event,
                                         EDayView *day_view)
 {
 	gint event_x, event_y, row, day, event_num;
 	ECalendarViewPosition pos;
 	GtkLayout *layout;
 	GdkWindow *window;
+	GdkDevice *event_device;
+	guint event_button = 0;
+	guint32 event_time;
 
 	layout = GTK_LAYOUT (widget);
 	window = gtk_layout_get_bin_window (layout);
+
+	gdk_event_get_button (button_event, &event_button);
+	event_device = gdk_event_get_device (button_event);
+	event_time = gdk_event_get_time (button_event);
 
 	if (day_view->resize_event_num != -1)
 		day_view->resize_event_num = -1;
@@ -3255,7 +3283,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 	/* Convert the coords to the main canvas window, or return if the
 	 * window is not found. */
 	if (!e_day_view_convert_event_coords (
-		day_view, (GdkEvent *) event, window, &event_x, &event_y))
+		day_view, button_event, window, &event_x, &event_y))
 		return FALSE;
 
 	/* Find out where the mouse is. */
@@ -3270,15 +3298,21 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 
 	if (pos != E_CALENDAR_VIEW_POS_NONE)
 		return e_day_view_on_event_button_press (
-			day_view, day,
-			event_num, event, pos,
-			event_x, event_y);
+			day_view,
+			day,
+			event_num,
+			button_event,
+			pos,
+			event_x,
+			event_y);
 
 	e_day_view_stop_editing_event (day_view);
 
 	/* Start the selection drag. */
-	if (event->button == 1) {
-		if (event->type == GDK_2BUTTON_PRESS) {
+	if (event_button == 1) {
+		GdkGrabStatus grab_status;
+
+		if (button_event->type == GDK_2BUTTON_PRESS) {
 			time_t dtstart, dtend;
 
 			e_day_view_get_selected_time_range ((ECalendarView *) day_view, &dtstart, &dtend);
@@ -3287,26 +3321,37 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 				dtend = day_view->before_click_dtend;
 				e_day_view_set_selected_time_range ((ECalendarView *) day_view, dtstart, dtend);
 			}
-			e_calendar_view_new_appointment_for (E_CALENDAR_VIEW (day_view),
-							dtstart, dtend,
-							FALSE, calendar_config_get_prefer_meeting ());
+			e_calendar_view_new_appointment_for (
+				E_CALENDAR_VIEW (day_view),
+				dtstart, dtend, FALSE,
+				calendar_config_get_prefer_meeting ());
 			return TRUE;
 		}
 
 		if (!gtk_widget_has_focus (GTK_WIDGET (day_view)) && !gtk_widget_has_focus (GTK_WIDGET (day_view->main_canvas)))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
-		if (gdk_pointer_grab (window, FALSE,
-				      GDK_POINTER_MOTION_MASK
-				      | GDK_BUTTON_RELEASE_MASK,
-				      NULL, NULL, event->time) == 0) {
-			if (event->time - day_view->bc_event_time > 250)
-				e_day_view_get_selected_time_range ((ECalendarView *) day_view, &day_view->before_click_dtstart, &day_view->before_click_dtend);
-			day_view->bc_event_time = event->time;
+		grab_status = gdk_device_grab (
+			event_device,
+			window,
+			GDK_OWNERSHIP_NONE,
+			FALSE,
+			GDK_POINTER_MOTION_MASK |
+			GDK_BUTTON_RELEASE_MASK,
+			NULL,
+			event_time);
+
+		if (grab_status == GDK_GRAB_SUCCESS) {
+			if (event_time - day_view->bc_event_time > 250)
+				e_day_view_get_selected_time_range (
+					E_CALENDAR_VIEW (day_view),
+					&day_view->before_click_dtstart,
+					&day_view->before_click_dtend);
+			day_view->bc_event_time = event_time;
 			e_day_view_start_selection (day_view, day, row);
 			g_signal_emit_by_name (day_view, "selected_time_changed");
 		}
-	} else if (event->button == 3) {
+	} else if (event_button == 3) {
 		if (!gtk_widget_has_focus (GTK_WIDGET (day_view)))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
@@ -3317,7 +3362,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 			e_day_view_finish_selection (day_view);
 		}
 
-		e_day_view_on_event_right_click (day_view, event, -1, -1);
+		e_day_view_on_event_right_click (day_view, button_event, -1, -1);
 	}
 
 	return TRUE;
@@ -3414,26 +3459,30 @@ e_day_view_on_time_canvas_scroll (GtkWidget *widget,
 static gboolean
 e_day_view_on_long_event_button_press (EDayView *day_view,
                                        gint event_num,
-                                       GdkEventButton *event,
+                                       GdkEvent *button_event,
                                        ECalendarViewPosition pos,
                                        gint event_x,
                                        gint event_y)
 {
-	if (event->button == 1) {
-		if (event->type == GDK_BUTTON_PRESS) {
+	guint event_button = 0;
+
+	gdk_event_get_button (button_event, &event_button);
+
+	if (event_button == 1) {
+		if (button_event->type == GDK_BUTTON_PRESS) {
 			e_day_view_on_long_event_click (
 				day_view, event_num,
-				event, pos,
+				button_event, pos,
 				event_x, event_y);
 			return TRUE;
-		} else if (event->type == GDK_2BUTTON_PRESS) {
+		} else if (button_event->type == GDK_2BUTTON_PRESS) {
 			e_day_view_on_event_double_click (
 				day_view, -1,
 				event_num);
 			g_signal_stop_emission_by_name (day_view->top_canvas, "button_press_event");
 			return TRUE;
 		}
-	} else if (event->button == 3) {
+	} else if (event_button == 3) {
 		EDayViewEvent *e;
 
 		if (!is_array_index_in_bounds (day_view->long_events, event_num))
@@ -3444,7 +3493,7 @@ e_day_view_on_long_event_button_press (EDayView *day_view,
 		e_day_view_set_selected_time_range_in_top_visible (day_view, e->start, e->end);
 
 		e_day_view_on_event_right_click (
-			day_view, event,
+			day_view, button_event,
 			E_DAY_VIEW_LONG_EVENT,
 			event_num);
 
@@ -3457,19 +3506,23 @@ static gboolean
 e_day_view_on_event_button_press (EDayView *day_view,
                                   gint day,
                                   gint event_num,
-                                  GdkEventButton *event,
+                                  GdkEvent *button_event,
                                   ECalendarViewPosition pos,
                                   gint event_x,
                                   gint event_y)
 {
-	if (event->button == 1) {
-		if (event->type == GDK_BUTTON_PRESS) {
+	guint event_button = 0;
+
+	gdk_event_get_button (button_event, &event_button);
+
+	if (event_button == 1) {
+		if (button_event->type == GDK_BUTTON_PRESS) {
 			e_day_view_on_event_click (
 				day_view, day, event_num,
-				event, pos,
+				button_event, pos,
 				event_x, event_y);
 			return TRUE;
-		} else if (event->type == GDK_2BUTTON_PRESS) {
+		} else if (button_event->type == GDK_2BUTTON_PRESS) {
 			e_day_view_on_event_double_click (
 				day_view, day,
 				event_num);
@@ -3477,7 +3530,7 @@ e_day_view_on_event_button_press (EDayView *day_view,
 			g_signal_stop_emission_by_name (day_view->main_canvas, "button_press_event");
 			return TRUE;
 		}
-	} else if (event->button == 3) {
+	} else if (event_button == 3) {
 		EDayViewEvent *e;
 
 		if (!is_array_index_in_bounds (day_view->events[day], event_num))
@@ -3488,8 +3541,7 @@ e_day_view_on_event_button_press (EDayView *day_view,
 		e_day_view_set_selected_time_range_visible (day_view, e->start, e->end);
 
 		e_day_view_on_event_right_click (
-			day_view, event,
-			day, event_num);
+			day_view, button_event, day, event_num);
 
 		return TRUE;
 	}
@@ -3499,7 +3551,7 @@ e_day_view_on_event_button_press (EDayView *day_view,
 static void
 e_day_view_on_long_event_click (EDayView *day_view,
                                 gint event_num,
-                                GdkEventButton *bevent,
+                                GdkEvent *button_event,
                                 ECalendarViewPosition pos,
                                 gint event_x,
                                 gint event_y)
@@ -3522,7 +3574,8 @@ e_day_view_on_long_event_click (EDayView *day_view,
 	/* Ignore clicks on the EText while editing. */
 	if (pos == E_CALENDAR_VIEW_POS_EVENT
 	    && E_TEXT (event->canvas_item)->editing) {
-		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent *) bevent);
+		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (
+			event->canvas_item, button_event);
 		return;
 	}
 
@@ -3530,6 +3583,10 @@ e_day_view_on_long_event_click (EDayView *day_view,
 	     !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
 	    && (pos == E_CALENDAR_VIEW_POS_LEFT_EDGE
 		|| pos == E_CALENDAR_VIEW_POS_RIGHT_EDGE)) {
+		GdkGrabStatus grab_status;
+		GdkDevice *event_device;
+		guint32 event_time;
+
 		if (!e_day_view_find_long_event_days (event,
 						      day_view->days_shown,
 						      day_view->day_starts,
@@ -3544,11 +3601,20 @@ e_day_view_on_long_event_click (EDayView *day_view,
 		layout = GTK_LAYOUT (day_view->top_canvas);
 		window = gtk_layout_get_bin_window (layout);
 
-		if (gdk_pointer_grab (window, FALSE,
-				      GDK_POINTER_MOTION_MASK
-				      | GDK_BUTTON_RELEASE_MASK,
-				      NULL, NULL, bevent->time) == 0) {
+		event_device = gdk_event_get_device (button_event);
+		event_time = gdk_event_get_time (button_event);
 
+		grab_status = gdk_device_grab (
+			event_device,
+			window,
+			GDK_OWNERSHIP_NONE,
+			FALSE,
+			GDK_POINTER_MOTION_MASK |
+			GDK_BUTTON_RELEASE_MASK,
+			NULL,
+			event_time);
+
+		if (grab_status == GDK_GRAB_SUCCESS) {
 			day_view->resize_event_day = E_DAY_VIEW_LONG_EVENT;
 			day_view->resize_event_num = event_num;
 			day_view->resize_drag_pos = pos;
@@ -3582,7 +3648,7 @@ static void
 e_day_view_on_event_click (EDayView *day_view,
                            gint day,
                            gint event_num,
-                           GdkEventButton *bevent,
+                           GdkEvent *button_event,
                            ECalendarViewPosition pos,
                            gint event_x,
                            gint event_y)
@@ -3609,7 +3675,8 @@ e_day_view_on_event_click (EDayView *day_view,
 	/* Ignore clicks on the EText while editing. */
 	if (pos == E_CALENDAR_VIEW_POS_EVENT
 	    && E_TEXT (event->canvas_item)->editing) {
-		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent *) bevent);
+		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (
+			event->canvas_item, button_event);
 		return;
 	}
 
@@ -3617,6 +3684,10 @@ e_day_view_on_event_click (EDayView *day_view,
 	     !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
 	    && (pos == E_CALENDAR_VIEW_POS_TOP_EDGE
 		|| pos == E_CALENDAR_VIEW_POS_BOTTOM_EDGE)) {
+		GdkGrabStatus grab_status;
+		GdkDevice *event_device;
+		guint32 event_time;
+
 		if (event && (!event->is_editable || e_client_is_readonly (E_CLIENT (event->comp_data->client)))) {
 			return;
 		}
@@ -3629,11 +3700,20 @@ e_day_view_on_event_click (EDayView *day_view,
 		layout = GTK_LAYOUT (day_view->main_canvas);
 		window = gtk_layout_get_bin_window (layout);
 
-		if (gdk_pointer_grab (window, FALSE,
-				      GDK_POINTER_MOTION_MASK
-				      | GDK_BUTTON_RELEASE_MASK,
-				      NULL, NULL, bevent->time) == 0) {
+		event_device = gdk_event_get_device (button_event);
+		event_time = gdk_event_get_time (button_event);
 
+		grab_status = gdk_device_grab (
+			event_device,
+			window,
+			GDK_OWNERSHIP_NONE,
+			FALSE,
+			GDK_POINTER_MOTION_MASK |
+			GDK_BUTTON_RELEASE_MASK,
+			NULL,
+			event_time);
+
+		if (grab_status != GDK_GRAB_SUCCESS) {
 			day_view->resize_event_day = day;
 			day_view->resize_event_num = event_num;
 			day_view->resize_drag_pos = pos;
@@ -3699,7 +3779,7 @@ e_day_view_on_event_double_click (EDayView *day_view,
 
 static void
 e_day_view_show_popup_menu (EDayView *day_view,
-                            GdkEventButton *event,
+                            GdkEvent *button_event,
                             gint day,
                             gint event_num)
 {
@@ -3708,7 +3788,7 @@ e_day_view_show_popup_menu (EDayView *day_view,
 	day_view->popup_event_day = day;
 	day_view->popup_event_num = event_num;
 
-	e_calendar_view_popup_event (E_CALENDAR_VIEW (day_view), event);
+	e_calendar_view_popup_event (E_CALENDAR_VIEW (day_view), button_event);
 }
 
 static gboolean
@@ -3806,23 +3886,29 @@ e_day_view_update_query (EDayView *day_view)
 
 static void
 e_day_view_on_event_right_click (EDayView *day_view,
-                                 GdkEventButton *bevent,
+                                 GdkEvent *button_event,
                                  gint day,
                                  gint event_num)
 {
-	e_day_view_show_popup_menu (day_view, bevent, day, event_num);
+	e_day_view_show_popup_menu (day_view, button_event, day, event_num);
 }
 
 static gboolean
 e_day_view_on_top_canvas_button_release (GtkWidget *widget,
-                                         GdkEventButton *event,
+                                         GdkEvent *button_event,
                                          EDayView *day_view)
 {
+	GdkDevice *event_device;
+	guint32 event_time;
+
+	event_device = gdk_event_get_device (button_event);
+	event_time = gdk_event_get_time (button_event);
+
 	if (day_view->selection_is_being_dragged) {
-		gdk_pointer_ungrab (event->time);
+		gdk_device_ungrab (event_device, event_time);
 		e_day_view_finish_selection (day_view);
 	} else if (day_view->resize_drag_pos != E_CALENDAR_VIEW_POS_NONE) {
-		gdk_pointer_ungrab (event->time);
+		gdk_device_ungrab (event_device, event_time);
 		e_day_view_finish_long_event_resize (day_view);
 	} else if (day_view->pressed_event_day != -1) {
 		e_day_view_start_editing_event (
@@ -3839,23 +3925,29 @@ e_day_view_on_top_canvas_button_release (GtkWidget *widget,
 
 static gboolean
 e_day_view_on_main_canvas_button_release (GtkWidget *widget,
-                                          GdkEventButton *event,
+                                          GdkEvent *button_event,
                                           EDayView *day_view)
 {
+	GdkDevice *event_device;
+	guint32 event_time;
+
+	event_device = gdk_event_get_device (button_event);
+	event_time = gdk_event_get_time (button_event);
+
 	if (day_view->selection_is_being_dragged) {
-		gdk_pointer_ungrab (event->time);
+		gdk_device_ungrab (event_device, event_time);
 		e_day_view_finish_selection (day_view);
 		e_day_view_stop_auto_scroll (day_view);
 	} else if (day_view->resize_drag_pos != E_CALENDAR_VIEW_POS_NONE) {
-		gdk_pointer_ungrab (event->time);
+		gdk_device_ungrab (event_device, event_time);
 		e_day_view_finish_resize (day_view);
 		e_day_view_stop_auto_scroll (day_view);
 	} else if (day_view->pressed_event_day != -1) {
 		e_day_view_start_editing_event (
 			day_view,
-						day_view->pressed_event_day,
-						day_view->pressed_event_num,
-						NULL);
+			day_view->pressed_event_day,
+			day_view->pressed_event_num,
+			NULL);
 	}
 
 	day_view->pressed_event_day = -1;

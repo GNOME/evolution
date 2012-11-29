@@ -81,7 +81,7 @@ static gint e_cell_date_edit_key_press		(GtkWidget	*popup_window,
 						 GdkEventKey	*event,
 						 ECellDateEdit	*ecde);
 static gint  e_cell_date_edit_button_press	(GtkWidget	*popup_window,
-						 GdkEventButton	*event,
+						 GdkEvent	*button_event,
 						 ECellDateEdit	*ecde);
 static void e_cell_date_edit_on_ok_clicked	(GtkWidget	*button,
 						 ECellDateEdit	*ecde);
@@ -746,15 +746,15 @@ e_cell_date_edit_key_press (GtkWidget *popup_window,
 */
 static gint
 e_cell_date_edit_button_press (GtkWidget *popup_window,
-                               GdkEventButton *event,
+                               GdkEvent *button_event,
                                ECellDateEdit *ecde)
 {
 	GtkWidget *event_widget;
 
-	event_widget = gtk_get_event_widget ((GdkEvent *) event);
-	if (gtk_widget_get_toplevel (event_widget) != popup_window) {
+	event_widget = gtk_get_event_widget (button_event);
+
+	if (gtk_widget_get_toplevel (event_widget) != popup_window)
 		e_cell_date_edit_hide_popup (ecde);
-	}
 
 	return TRUE;
 }

@@ -212,7 +212,7 @@ struct _ETextClass {
 	void (* changed)         (EText *text);
 	void (* activate)        (EText *text);
 	void (* keypress)        (EText *text, guint keyval, guint state);
-	void (* populate_popup)  (EText *text, GdkEventButton *ev, gint pos, GtkMenu *menu);
+	void (* populate_popup)  (EText *text, GdkEvent *button_event, gint pos, GtkMenu *menu);
 	void (* style_set)       (EText *text, GtkStyle *previous_style);
 };
 

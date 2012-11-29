@@ -998,12 +998,12 @@ calendar_view_selectable_init (ESelectableInterface *interface)
 
 void
 e_calendar_view_popup_event (ECalendarView *calendar_view,
-                             GdkEventButton *event)
+                             GdkEvent *button_event)
 {
 	g_return_if_fail (E_IS_CALENDAR_VIEW (calendar_view));
-	g_return_if_fail (event != NULL);
+	g_return_if_fail (button_event != NULL);
 
-	g_signal_emit (calendar_view, signals[POPUP_EVENT], 0, event);
+	g_signal_emit (calendar_view, signals[POPUP_EVENT], 0, button_event);
 }
 
 gboolean

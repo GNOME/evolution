@@ -722,15 +722,18 @@ static gint
 e_map_button_press (GtkWidget *widget,
                     GdkEventButton *event)
 {
-	if (!gtk_widget_has_focus (widget)) gtk_widget_grab_focus (widget);
-		return TRUE;
+	if (!gtk_widget_has_focus (widget))
+		gtk_widget_grab_focus (widget);
+
+	return TRUE;
 }
 
 static gint
 e_map_button_release (GtkWidget *widget,
                       GdkEventButton *event)
 {
-	if (event->button != 1) return FALSE;
+	if (event->button != 1)
+		return FALSE;
 
 	gdk_pointer_ungrab (event->time);
 	return TRUE;

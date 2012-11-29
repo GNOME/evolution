@@ -609,15 +609,20 @@ tool_item_get_button (GtkWidget *widget)
 
 static gboolean
 tool_item_button_cb (GtkWidget *internal_widget,
-                     GdkEventButton *event,
+                     GdkEvent *button_event,
                      GtkAction *action)
 {
+	guint event_button = 0;
+
 	g_return_val_if_fail (GTK_IS_ACTION (action), FALSE);
 
-	if (event->button == 2) {
+	gdk_event_get_button (button_event, &event_button);
+
+	if (event_button == 2) {
 		gtk_action_activate (action);
 		return TRUE;
 	}
+
 	return FALSE;
 }
 

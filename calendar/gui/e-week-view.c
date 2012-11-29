@@ -112,10 +112,10 @@ static void e_week_view_paste_text (ECalendarView *week_view);
 static void e_week_view_update_query (EWeekView *week_view);
 
 static gboolean e_week_view_on_button_press (GtkWidget *widget,
-					     GdkEventButton *event,
+					     GdkEvent *button_event,
 					     EWeekView *week_view);
 static gboolean e_week_view_on_button_release (GtkWidget *widget,
-					       GdkEventButton *event,
+					       GdkEvent *button_event,
 					       EWeekView *week_view);
 static gboolean e_week_view_on_scroll (GtkWidget *widget,
 				       GdkEventScroll *scroll,
@@ -2416,26 +2416,32 @@ ewv_pass_gdkevent_to_etext (EWeekView *week_view,
 
 static gboolean
 e_week_view_on_button_press (GtkWidget *widget,
-                             GdkEventButton *event,
+                             GdkEvent *button_event,
                              EWeekView *week_view)
 {
+	guint event_button = 0;
+	gdouble event_x_win = 0;
+	gdouble event_y_win = 0;
 	gint x, y, day;
 
+	gdk_event_get_button (button_event, &event_button);
+	gdk_event_get_coords (button_event, &event_x_win, &event_y_win);
+
 	/* Convert the mouse position to a week & day. */
-	x = event->x;
-	y = event->y;
+	x = (gint) event_x_win;
+	y = (gint) event_y_win;
 	day = e_week_view_convert_position_to_day (week_view, x, y);
 	if (day == -1)
 		return FALSE;
 
-	if (ewv_pass_gdkevent_to_etext (week_view, (GdkEvent *) event))
+	if (ewv_pass_gdkevent_to_etext (week_view, button_event))
 		return TRUE;
 
 	/* If an event is pressed just return. */
 	if (week_view->pressed_event_num != -1)
 		return FALSE;
 
-	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
+	if (event_button == 1 && button_event->type == GDK_2BUTTON_PRESS) {
 		time_t dtstart, dtend;
 
 		e_calendar_view_get_selected_time_range ((ECalendarView *) week_view, &dtstart, &dtend);
@@ -2446,8 +2452,11 @@ e_week_view_on_button_press (GtkWidget *widget,
 		return TRUE;
 	}
 
-	if (event->button == 1) {
+	if (event_button == 1) {
+		GdkGrabStatus grab_status;
 		GdkWindow *window;
+		GdkDevice *event_device;
+		guint32 event_time;
 
 		/* Start the selection drag. */
 		if (!gtk_widget_has_focus (GTK_WIDGET (week_view)) &&  !gtk_widget_has_focus (GTK_WIDGET (week_view->main_canvas)))
@@ -2455,13 +2464,26 @@ e_week_view_on_button_press (GtkWidget *widget,
 
 		window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
 
-		if (gdk_pointer_grab (window, FALSE,
-				      GDK_POINTER_MOTION_MASK
-				      | GDK_BUTTON_RELEASE_MASK,
-				      NULL, NULL, event->time) == 0) {
-			if (event->time - week_view->bc_event_time > 250)
-				e_calendar_view_get_selected_time_range ((ECalendarView *) week_view, &week_view->before_click_dtstart, &week_view->before_click_dtend);
-			week_view->bc_event_time = event->time;
+		event_device = gdk_event_get_device (button_event);
+		event_time = gdk_event_get_time (button_event);
+
+		grab_status = gdk_device_grab (
+			event_device,
+			window,
+			GDK_OWNERSHIP_NONE,
+			FALSE,
+			GDK_POINTER_MOTION_MASK |
+			GDK_BUTTON_RELEASE_MASK,
+			NULL,
+			event_time);
+
+		if (grab_status == GDK_GRAB_SUCCESS) {
+			if (event_time - week_view->bc_event_time > 250)
+				e_calendar_view_get_selected_time_range (
+					E_CALENDAR_VIEW (week_view),
+					&week_view->before_click_dtstart,
+					&week_view->before_click_dtend);
+			week_view->bc_event_time = event_time;
 			week_view->selection_start_day = day;
 			week_view->selection_end_day = day;
 			week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_END;
@@ -2470,7 +2492,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 			/* FIXME: Optimise? */
 			gtk_widget_queue_draw (week_view->main_canvas);
 		}
-	} else if (event->button == 3) {
+	} else if (event_button == 3) {
 		if (!gtk_widget_has_focus (GTK_WIDGET (week_view)))
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
@@ -2483,7 +2505,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 			gtk_widget_queue_draw (week_view->main_canvas);
 		}
 
-		e_week_view_show_popup_menu (week_view, event, -1);
+		e_week_view_show_popup_menu (week_view, button_event, -1);
 	}
 
 	return TRUE;
@@ -2491,14 +2513,20 @@ e_week_view_on_button_press (GtkWidget *widget,
 
 static gboolean
 e_week_view_on_button_release (GtkWidget *widget,
-                               GdkEventButton *event,
+                               GdkEvent *button_event,
                                EWeekView *week_view)
 {
+	GdkDevice *event_device;
+	guint32 event_time;
+
+	event_device = gdk_event_get_device (button_event);
+	event_time = gdk_event_get_time (button_event);
+
 	if (week_view->selection_drag_pos != E_WEEK_VIEW_DRAG_NONE) {
 		week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_NONE;
-		gdk_pointer_ungrab (event->time);
+		gdk_device_ungrab (event_device, event_time);
 	} else {
-		ewv_pass_gdkevent_to_etext (week_view, (GdkEvent *) event);
+		ewv_pass_gdkevent_to_etext (week_view, button_event);
 	}
 
 	return FALSE;
@@ -3530,20 +3558,26 @@ cancel_editing (EWeekView *week_view)
 
 static gboolean
 e_week_view_on_text_item_event (GnomeCanvasItem *item,
-                                GdkEvent *gdkevent,
+                                GdkEvent *gdk_event,
                                 EWeekView *week_view)
 {
 	EWeekViewEvent *event;
 	gint event_num, span_num;
 	gint nevent = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
 	EWeekViewEvent *pevent;
+	guint event_button = 0;
+	guint event_keyval = 0;
+	gdouble event_x_root = 0;
+	gdouble event_y_root = 0;
 
 	pevent = tooltip_get_view_event (week_view, -1, nevent);
 
-	switch (gdkevent->type) {
+	switch (gdk_event->type) {
 	case GDK_KEY_PRESS:
 		tooltip_destroy (week_view, item);
-		if (!E_TEXT (item)->preedit_len && gdkevent && gdkevent->key.keyval == GDK_KEY_Return) {
+		gdk_event_get_keyval (gdk_event, &event_keyval);
+
+		if (!E_TEXT (item)->preedit_len && event_keyval == GDK_KEY_Return) {
 			/* We set the keyboard focus to the EDayView, so the
 			 * EText item loses it and stops the edit. */
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
@@ -3552,7 +3586,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			 * other events getting to the EText item. */
 			g_signal_stop_emission_by_name (item, "event");
 			return TRUE;
-		} else if (gdkevent->key.keyval == GDK_KEY_Escape) {
+		} else if (event_keyval == GDK_KEY_Escape) {
 			cancel_editing (week_view);
 			g_signal_stop_emission_by_name (item, "event");
 			/* focus should go to week view when stop editing */
@@ -3592,7 +3626,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 						       &event_num, &span_num))
 			return FALSE;
 
-		if (gdkevent->button.button == 3) {
+		gdk_event_get_button (gdk_event, &event_button);
+		if (event_button == 3) {
 			EWeekViewEvent *e;
 
 			if (E_TEXT (item)->editing) {
@@ -3612,29 +3647,30 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			e_week_view_set_selected_time_range_visible (week_view, e->start, e->end);
 
 			e_week_view_show_popup_menu (
-				week_view,
-				(GdkEventButton *) gdkevent,
-				event_num);
+				week_view, gdk_event, event_num);
 
 			g_signal_stop_emission_by_name (
 				item->canvas, "button_press_event");
 			return TRUE;
 		}
 
-		if (gdkevent->button.button != 3) {
+		if (event_button != 3) {
 			week_view->pressed_event_num = event_num;
 			week_view->pressed_span_num = span_num;
 		}
 
 		/* Only let the EText handle the event while editing. */
 		if (!E_TEXT (item)->editing) {
+			gdouble event_x_win = 0;
+			gdouble event_y_win = 0;
+
 			g_signal_stop_emission_by_name (item, "event");
 
-			if (gdkevent) {
-				week_view->drag_event_x = gdkevent->button.x;
-				week_view->drag_event_y = gdkevent->button.y;
-			} else
-				g_warning ("No GdkEvent");
+			gdk_event_get_coords (
+				gdk_event, &event_x_win, &event_y_win);
+
+			week_view->drag_event_x = (gint) event_x_win;
+			week_view->drag_event_y = (gint) event_y_win;
 
 			/* FIXME: Remember the day offset from the start of
 			 * the event, for DnD. */
@@ -3684,8 +3720,11 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 		data = g_malloc (sizeof (ECalendarViewEventData));
 
-		pevent->x = ((GdkEventCrossing *) gdkevent)->x_root;
-		pevent->y = ((GdkEventCrossing *) gdkevent)->y_root;
+		gdk_event_get_root_coords (
+			gdk_event, &event_x_root, &event_y_root);
+
+		pevent->x = (gint) event_x_root;
+		pevent->y = (gint) event_y_root;
 		pevent->tooltip = NULL;
 
 		data->cal_view = (ECalendarView *) week_view;
@@ -3705,8 +3744,11 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 		return FALSE;
 	case GDK_MOTION_NOTIFY:
-		pevent->x = ((GdkEventMotion *) gdkevent)->x_root;
-		pevent->y = ((GdkEventMotion *) gdkevent)->y_root;
+		gdk_event_get_root_coords (
+			gdk_event, &event_x_root, &event_y_root);
+
+		pevent->x = (gint) event_x_root;
+		pevent->y = (gint) event_y_root;
 		pevent->tooltip = (GtkWidget *) g_object_get_data (G_OBJECT (week_view), "tooltip-window");
 
 		if (pevent->tooltip) {
@@ -3714,7 +3756,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		}
 		return TRUE;
 	case GDK_FOCUS_CHANGE:
-		if (gdkevent->focus_change.in) {
+		if (gdk_event->focus_change.in) {
 			e_week_view_on_editing_started (week_view, item);
 		} else {
 			e_week_view_on_editing_stopped (week_view, item);
@@ -3728,7 +3770,9 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 	return FALSE;
 }
 
-static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
+static gboolean
+e_week_view_event_move (ECalendarView *cal_view,
+                        ECalViewMoveDirection direction)
 {
 	EWeekViewEvent *event;
 	gint event_num, adjust_days, current_start_day, current_end_day;
@@ -4584,12 +4628,12 @@ e_week_view_key_press (GtkWidget *widget,
 
 void
 e_week_view_show_popup_menu (EWeekView *week_view,
-                             GdkEventButton *bevent,
+                             GdkEvent *button_event,
                              gint event_num)
 {
 	week_view->popup_event_num = event_num;
 
-	e_calendar_view_popup_event (E_CALENDAR_VIEW (week_view), bevent);
+	e_calendar_view_popup_event (E_CALENDAR_VIEW (week_view), button_event);
 }
 
 static gboolean

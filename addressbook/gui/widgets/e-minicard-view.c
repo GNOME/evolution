@@ -404,12 +404,14 @@ e_minicard_view_event (GnomeCanvasItem *item,
                        GdkEvent *event)
 {
 	EMinicardView *view;
+	guint event_button = 0;
 
 	view = E_MINICARD_VIEW (item);
 
 	switch (event->type) {
 	case GDK_2BUTTON_PRESS:
-		if (((GdkEventButton *) event)->button == 1) {
+		gdk_event_get_button (event, &event_button);
+		if (event_button == 1) {
 			gboolean editable;
 
 			g_object_get (view->adapter, "editable", &editable, NULL);
@@ -419,9 +421,9 @@ e_minicard_view_event (GnomeCanvasItem *item,
 			return TRUE;
 		}
 	case GDK_BUTTON_PRESS:
-		if (event->button.button == 3) {
+		gdk_event_get_button (event, &event_button);
+		if (event_button == 3)
 			e_minicard_view_right_click (view, event);
-		}
 		break;
 	case GDK_KEY_PRESS:
 		if (event->key.keyval & GDK_SHIFT_MASK &&

@@ -144,7 +144,7 @@ set_drag_source (GtkImageView *image_view)
 
 static gboolean
 button_press_press_cb (GtkImageView *image_view,
-                       GdkEventButton *event,
+                       GdkEvent *button_event,
                        ImageInlinePObject *image_object)
 {
 	if (event->type != GDK_2BUTTON_PRESS)

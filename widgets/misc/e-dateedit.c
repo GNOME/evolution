@@ -161,7 +161,7 @@ static gint on_date_popup_key_press		(GtkWidget	*widget,
 						 GdkEventKey	*event,
 						 EDateEdit	*dedit);
 static gint on_date_popup_button_press		(GtkWidget	*widget,
-						 GdkEventButton *event,
+						 GdkEvent	*button_event,
 						 gpointer	 data);
 static void on_date_popup_date_selected		(ECalendarItem	*calitem,
 						 EDateEdit	*dedit);
@@ -1537,7 +1537,7 @@ on_date_popup_key_press (GtkWidget *widget,
  * (This function is yanked from gtkcombo.c) */
 static gint
 on_date_popup_button_press (GtkWidget *widget,
-                            GdkEventButton *event,
+                            GdkEvent *button_event,
                             gpointer data)
 {
 	EDateEdit *dedit;
@@ -1545,7 +1545,7 @@ on_date_popup_button_press (GtkWidget *widget,
 
 	dedit = data;
 
-	child = gtk_get_event_widget ((GdkEvent *) event);
+	child = gtk_get_event_widget (button_event);
 
 	/* We don't ask for button press events on the grab widget, so
 	 *  if an event is reported directly to the grab widget, it must

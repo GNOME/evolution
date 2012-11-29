@@ -1786,7 +1786,7 @@ e_shell_view_unblock_update_actions (EShellView *shell_view)
  * e_shell_view_show_popup_menu:
  * @shell_view: an #EShellView
  * @widget_path: path in the UI definition
- * @event: a #GdkEventButton
+ * @button_event: a #GdkEvent, or %NULL
  *
  * Displays a context-sensitive (or "popup") menu that is described in
  * the UI definition loaded into @shell_view<!-- -->'s user interface
@@ -1801,10 +1801,12 @@ e_shell_view_unblock_update_actions (EShellView *shell_view)
 GtkWidget *
 e_shell_view_show_popup_menu (EShellView *shell_view,
                               const gchar *widget_path,
-                              GdkEventButton *event)
+                              GdkEvent *button_event)
 {
 	EShellWindow *shell_window;
 	GtkWidget *menu;
+	guint event_button = 0;
+	guint32 event_time;
 
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
@@ -1814,14 +1816,17 @@ e_shell_view_show_popup_menu (EShellView *shell_view,
 	menu = e_shell_window_get_managed_widget (shell_window, widget_path);
 	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
 
-	if (event != NULL)
-		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, NULL, NULL,
-			event->button, event->time);
-	else
-		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, NULL, NULL,
-			0, gtk_get_current_event_time ());
+	if (button_event != NULL) {
+		gdk_event_get_button (button_event, &event_button);
+		event_time = gdk_event_get_time (button_event);
+	} else {
+		event_time = gtk_get_current_event_time ();
+	}
+
+	gtk_menu_popup (
+		GTK_MENU (menu),
+		NULL, NULL, NULL, NULL,
+		event_button, event_time);
 
 	return menu;
 }

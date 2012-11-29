@@ -242,13 +242,12 @@ mail_shell_view_folder_tree_selection_done_cb (EMailShellView *mail_shell_view,
 
 static void
 mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
-                                            GdkEventButton *event)
+                                            GdkEvent *button_event)
 {
 	GtkWidget *menu;
-	const gchar *widget_path;
 
-	widget_path = "/mail-folder-popup";
-	menu = e_shell_view_show_popup_menu (shell_view, widget_path, event);
+	menu = e_shell_view_show_popup_menu (
+		shell_view, "/mail-folder-popup", button_event);
 
 	g_signal_connect_object (
 		menu, "selection-done",
@@ -386,12 +385,12 @@ mail_shell_view_message_list_right_click_cb (EShellView *shell_view,
                                              gint row,
                                              ETreePath path,
                                              gint col,
-                                             GdkEventButton *event)
+                                             GdkEvent *button_event)
 {
 	const gchar *widget_path;
 
 	widget_path = "/mail-message-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
 
 	return TRUE;
 }

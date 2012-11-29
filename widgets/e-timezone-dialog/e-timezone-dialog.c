@@ -95,7 +95,7 @@ static gboolean on_map_visibility_changed	(GtkWidget	*w,
 						 GdkEventVisibility *event,
 						 gpointer	 data);
 static gboolean on_map_button_pressed		(GtkWidget	*w,
-						 GdkEventButton *event,
+						 GdkEvent	*button_event,
 						 gpointer	 data);
 
 static icaltimezone * get_zone_from_point	(ETimezoneDialog *etd,
@@ -591,21 +591,26 @@ on_map_visibility_changed (GtkWidget *w,
 
 static gboolean
 on_map_button_pressed (GtkWidget *w,
-                       GdkEventButton *event,
+                       GdkEvent *button_event,
                        gpointer data)
 {
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
+	guint event_button = 0;
+	gdouble event_x_win = 0;
+	gdouble event_y_win = 0;
 	gdouble longitude, latitude;
 
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
-	e_map_window_to_world (
-		priv->map, (gdouble) event->x, (gdouble) event->y,
-		&longitude, &latitude);
+	gdk_event_get_button (button_event, &event_button);
+	gdk_event_get_coords (button_event, &event_x_win, &event_y_win);
 
-	if (event->button != 1) {
+	e_map_window_to_world (
+		priv->map, event_x_win, event_y_win, &longitude, &latitude);
+
+	if (event_button != 1) {
 		e_map_zoom_out (priv->map);
 	} else {
 		if (e_map_get_magnification (priv->map) <= 1.0)

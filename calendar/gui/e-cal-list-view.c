@@ -68,7 +68,7 @@ static gboolean  e_cal_list_view_get_visible_time_range (ECalendarView *cal_view
 static gboolean  e_cal_list_view_popup_menu             (GtkWidget *widget);
 
 static void      e_cal_list_view_show_popup_menu        (ECalListView *cal_list_view, gint row,
-							 GdkEventButton *event);
+							 GdkEvent *event);
 static gboolean  e_cal_list_view_on_table_double_click   (GtkWidget *table, gint row, gint col,
 							 GdkEvent *event, gpointer data);
 static gboolean  e_cal_list_view_on_table_right_click   (GtkWidget *table, gint row, gint col,
@@ -359,7 +359,7 @@ e_cal_list_view_dispose (GObject *object)
 static void
 e_cal_list_view_show_popup_menu (ECalListView *cal_list_view,
                                  gint row,
-                                 GdkEventButton *event)
+                                 GdkEvent *event)
 {
 	e_calendar_view_popup_event (E_CALENDAR_VIEW (cal_list_view), event);
 }
@@ -398,7 +398,8 @@ e_cal_list_view_on_table_right_click (GtkWidget *table,
 {
 	ECalListView *cal_list_view = E_CAL_LIST_VIEW (data);
 
-	e_cal_list_view_show_popup_menu (cal_list_view, row, (GdkEventButton *) event);
+	e_cal_list_view_show_popup_menu (cal_list_view, row, event);
+
 	return TRUE;
 }
 

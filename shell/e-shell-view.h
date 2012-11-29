@@ -225,7 +225,7 @@ void		e_shell_view_unblock_update_actions
 						(EShellView *shell_view);
 GtkWidget *	e_shell_view_show_popup_menu	(EShellView *shell_view,
 						 const gchar *widget_path,
-						 GdkEventButton *event);
+						 GdkEvent *button_event);
 GalViewInstance *
 		e_shell_view_new_view_instance	(EShellView *shell_view,
 						 const gchar *instance_id);

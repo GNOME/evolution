@@ -1476,12 +1476,16 @@ open_alarm_dialog (TrayIconData *tray_data)
 
 static gint
 tray_icon_clicked_cb (GtkWidget *widget,
-                      GdkEventButton *event,
+                      GdkEvent *event,
                       gpointer user_data)
 {
 	if (event->type == GDK_BUTTON_PRESS) {
+		guint event_button = 0;
+
 		debug (("left click and %d alarms", g_list_length (tray_icons_list)));
-		if (event->button == 1 && g_list_length (tray_icons_list) > 0) {
+
+		gdk_event_get_button (event, &event_button);
+		if (event_button == 1 && g_list_length (tray_icons_list) > 0) {
 			GList *tmp;
 			for (tmp = tray_icons_list; tmp; tmp = tmp->next) {
 				open_alarm_dialog (tmp->data);

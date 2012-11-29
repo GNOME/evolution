@@ -230,9 +230,11 @@ table_white_space_event (ETable *table,
                          GdkEvent *event,
                          EAddressbookView *view)
 {
-	gint button = ((GdkEventButton *) event)->button;
+	guint event_button = 0;
 
-	if (event->type == GDK_BUTTON_PRESS && button == 3) {
+	gdk_event_get_button (event, &event_button);
+
+	if (event->type == GDK_BUTTON_PRESS && event_button == 3) {
 		addressbook_view_emit_popup_event (view, event);
 		return TRUE;
 	}
