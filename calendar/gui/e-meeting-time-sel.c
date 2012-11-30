@@ -967,17 +967,20 @@ e_meeting_time_selector_draw_key_color (GtkWidget *darea,
 {
 	EMeetingTimeSelector * mts;
 	GtkAllocation allocation;
-	GtkStyle *style;
-
-	style = gtk_widget_get_style (darea);
-	gtk_widget_get_allocation (darea, &allocation);
+	GtkStyleContext *style_context;
 
 	mts = g_object_get_data (G_OBJECT (darea), "data");
 
-	gtk_paint_shadow (
-		style, cr, GTK_STATE_NORMAL,
-		GTK_SHADOW_IN, NULL, NULL, 0, 0,
-		allocation.width, allocation.height);
+	style_context = gtk_widget_get_style_context (darea);
+
+	gtk_widget_get_allocation (darea, &allocation);
+
+	gtk_render_frame (
+		style_context, cr,
+		(gdouble) 0,
+		(gdouble) 0,
+		(gdouble) allocation.width,
+		(gdouble) allocation.height);
 
 	if (color) {
 		gdk_cairo_set_source_color (cr, color);
@@ -1301,23 +1304,21 @@ e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts,
                                      cairo_t *cr)
 {
 	GtkAllocation allocation;
-	GtkStyle *style;
-	gint x, y, w, h;
+	GtkStyleContext *style_context;
 
-	cairo_save (cr);
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (mts));
 
 	/* Draw the shadow around the graphical displays. */
 	gtk_widget_get_allocation (mts->display_top, &allocation);
-	x = allocation.x - 2;
-	y = allocation.y - 2;
-	w = allocation.width + 4;
-	h = allocation.height + allocation.height + 4;
 
-	style = gtk_widget_get_style (GTK_WIDGET (mts));
+	cairo_save (cr);
 
-	gtk_paint_shadow (
-		style, cr, GTK_STATE_NORMAL,
-		GTK_SHADOW_IN, NULL, NULL, x, y, w, h);
+	gtk_render_frame (
+		style_context, cr,
+		(gdouble) allocation.x - 2,
+		(gdouble) allocation.y - 2,
+		(gdouble) allocation.width + 4,
+		(gdouble) allocation.height + allocation.height + 4);
 
 	cairo_restore (cr);
 }

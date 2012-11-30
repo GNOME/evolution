@@ -203,19 +203,51 @@ draw_expander (ECellTreeView *ectv,
                GtkStateType state,
                GdkRectangle *rect)
 {
-	GtkStyle *style;
+	GtkStyleContext *style_context;
 	GtkWidget *tree;
+	GtkStateFlags flags = 0;
 	gint exp_size;
 
 	tree = gtk_widget_get_parent (GTK_WIDGET (ectv->canvas));
-	style = gtk_widget_get_style (tree);
+	style_context = gtk_widget_get_style_context (tree);
+
+	gtk_style_context_save (style_context);
+
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_EXPANDER);
+
+	switch (state) {
+		case GTK_STATE_PRELIGHT:
+			flags |= GTK_STATE_FLAG_PRELIGHT;
+			break;
+		case GTK_STATE_SELECTED:
+			flags |= GTK_STATE_FLAG_SELECTED;
+			break;
+		case GTK_STATE_INSENSITIVE:
+			flags |= GTK_STATE_FLAG_INSENSITIVE;
+			break;
+		default:
+			break;
+	}
+
+	if (expander_style == GTK_EXPANDER_EXPANDED)
+		flags |= GTK_STATE_FLAG_ACTIVE;
+
+	gtk_style_context_set_state (style_context, flags);
 
 	gtk_widget_style_get (tree, "expander_size", &exp_size, NULL);
 
-	gtk_paint_expander (
-		style, cr, state, tree, "treeview",
-		rect->x + rect->width - exp_size / 2,
-		rect->y + rect->height / 2, expander_style);
+	cairo_save (cr);
+
+	gtk_render_expander (
+		style_context, cr,
+		(gdouble) rect->x + rect->width - exp_size,
+		(gdouble) (rect->y + rect->height / 2) - (exp_size / 2),
+		(gdouble) exp_size,
+		(gdouble) exp_size);
+
+	cairo_restore (cr);
+
+	gtk_style_context_restore (style_context);
 }
 
 /*

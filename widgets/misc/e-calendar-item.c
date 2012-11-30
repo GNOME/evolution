@@ -1051,13 +1051,14 @@ e_calendar_item_draw (GnomeCanvasItem *canvas_item,
                       gint height)
 {
 	ECalendarItem *calitem;
-	GtkStyle *style;
+	GtkWidget *widget;
+	GtkStyleContext *style_context;
 	gint char_height, row, col, row_y, bar_height, col_x;
-	gint xthickness, ythickness;
-	PangoFontDescription *font_desc;
+	const PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
-	GdkColor base, bg;
+	GdkRGBA bg_color;
+	GtkBorder border;
 
 #if 0
 	g_print (
@@ -1065,13 +1066,17 @@ e_calendar_item_draw (GnomeCanvasItem *canvas_item,
 		x, y, width, height);
 #endif
 	calitem = E_CALENDAR_ITEM (canvas_item);
-	style = gtk_widget_get_style (GTK_WIDGET (canvas_item->canvas));
+
+	widget = GTK_WIDGET (canvas_item->canvas);
+	style_context = gtk_widget_get_style_context (widget);
 
 	/* Set up Pango prerequisites */
 	font_desc = calitem->font_desc;
 	if (!font_desc)
-		font_desc = style->font_desc;
-	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (canvas_item->canvas));
+		font_desc = gtk_style_context_get_font (
+			style_context, GTK_STATE_FLAG_NORMAL);
+	pango_context = gtk_widget_get_pango_context (
+		GTK_WIDGET (canvas_item->canvas));
 	font_metrics = pango_context_get_metrics (
 		pango_context, font_desc,
 		pango_context_get_language (pango_context));
@@ -1079,15 +1084,16 @@ e_calendar_item_draw (GnomeCanvasItem *canvas_item,
 	char_height =
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
-	xthickness = style->xthickness;
-	ythickness = style->ythickness;
 
-	base = style->base[GTK_STATE_NORMAL];
-	bg = style->bg[GTK_STATE_NORMAL];
+	gtk_style_context_get_background_color (
+		style_context, GTK_STATE_NORMAL, &bg_color);
+
+	gtk_style_context_get_border (
+		style_context, GTK_STATE_NORMAL, &border);
 
 	/* Clear the entire background. */
 	cairo_save (cr);
-	gdk_cairo_set_source_color (cr, &base);
+	gdk_cairo_set_source_rgba (cr, &bg_color);
 	cairo_rectangle (
 		cr, calitem->x1 - x, calitem->y1 - y,
 		calitem->x2 - calitem->x1 + 1,
@@ -1096,53 +1102,73 @@ e_calendar_item_draw (GnomeCanvasItem *canvas_item,
 	cairo_restore (cr);
 
 	/* Draw the shadow around the entire item. */
-	gtk_paint_shadow (
-		style, cr, GTK_STATE_NORMAL, GTK_SHADOW_IN,
-		NULL, "entry",
-		calitem->x1 - x, calitem->y1 - y,
-		calitem->x2 - calitem->x1 + 1,
-		calitem->y2 - calitem->y1 + 1);
+	gtk_style_context_save (style_context);
+	gtk_style_context_add_class (
+		style_context, GTK_STYLE_CLASS_ENTRY);
+	cairo_save (cr);
+	gtk_render_frame (
+		style_context, cr,
+		(gdouble) calitem->x1 - x,
+		(gdouble) calitem->y1 - y,
+		(gdouble) calitem->x2 - calitem->x1 + 1,
+		(gdouble) calitem->y2 - calitem->y1 + 1);
+	cairo_restore (cr);
+	gtk_style_context_restore (style_context);
 
-	row_y = canvas_item->y1 + ythickness;
-	bar_height = ythickness * 2
-		+ E_CALENDAR_ITEM_YPAD_ABOVE_MONTH_NAME + char_height
-		+ E_CALENDAR_ITEM_YPAD_BELOW_MONTH_NAME;
+	row_y = canvas_item->y1 + border.top;
+	bar_height =
+		border.top + border.bottom +
+		E_CALENDAR_ITEM_YPAD_ABOVE_MONTH_NAME + char_height +
+		E_CALENDAR_ITEM_YPAD_BELOW_MONTH_NAME;
 
 	for (row = 0; row < calitem->rows; row++) {
 		/* Draw the background for the title bars and the shadow around
 		 * it, and the vertical lines between columns. */
 
 		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &bg);
+		gdk_cairo_set_source_rgba (cr, &bg_color);
 		cairo_rectangle (
-			cr, calitem->x1 + xthickness - x, row_y - y,
-			calitem->x2 - calitem->x1 + 1
-			- xthickness * 2,
+			cr, calitem->x1 + border.left - x,
+			row_y - y,
+			calitem->x2 - calitem->x1 + 1 -
+			(border.left + border.right),
 			bar_height);
 		cairo_fill (cr);
 		cairo_restore (cr);
 
-		gtk_paint_shadow (
-			style, cr,
-			GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-			NULL, "calendar-header",
-			calitem->x1 + xthickness - x, row_y - y,
-			calitem->x2 - calitem->x1 + 1
-			- xthickness * 2,
-			bar_height);
+		gtk_style_context_save (style_context);
+		gtk_style_context_add_class (
+			style_context, GTK_STYLE_CLASS_HEADER);
+		cairo_save (cr);
+		gtk_render_frame (
+			style_context, cr,
+			(gdouble) calitem->x1 + border.left - x,
+			(gdouble) row_y - y,
+			(gdouble) calitem->x2 - calitem->x1 + 1 -
+				(border.left + border.right),
+			(gdouble) bar_height);
+		cairo_restore (cr);
+		gtk_style_context_restore (style_context);
 
 		for (col = 0; col < calitem->cols; col++) {
 			if (col != 0) {
 				col_x = calitem->x1 + calitem->x_offset
 					+ calitem->month_width * col;
-				gtk_paint_vline (
-					style, cr,
-					GTK_STATE_NORMAL, NULL,
-					"calendar-separator",
-					row_y + ythickness + 1 - y,
-					row_y + bar_height
-					- ythickness - 2 - y,
-					col_x - 1 - x);
+
+				gtk_style_context_save (style_context);
+				gtk_style_context_add_class (
+					style_context,
+					GTK_STYLE_CLASS_SEPARATOR);
+				cairo_save (cr);
+				gtk_render_line (
+					style_context, cr,
+					(gdouble) col_x - 1 - x,
+					(gdouble) row_y + border.top + 1 - y,
+					(gdouble) row_y + bar_height -
+						border.bottom - 2 - y,
+					(gdouble) col_x - x);
+				cairo_restore (cr);
+				gtk_style_context_restore (style_context);
 			}
 
 			e_calendar_item_draw_month (

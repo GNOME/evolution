@@ -1246,10 +1246,12 @@ e_reflow_draw (GnomeCanvasItem *item,
                gint width,
                gint height)
 {
-	GtkStyle *style;
+	GtkStyleContext *style_context;
+	GtkWidget *widget;
 	gint x_rect, y_rect, width_rect, height_rect;
 	gdouble running_width;
 	EReflow *reflow = E_REFLOW (item);
+	GdkRGBA color;
 	gint i;
 	gdouble column_width;
 
@@ -1266,25 +1268,32 @@ e_reflow_draw (GnomeCanvasItem *item,
 	i /= column_width + E_REFLOW_FULL_GUTTER;
 	running_width += i * (column_width + E_REFLOW_FULL_GUTTER);
 
-	style = gtk_widget_get_style (GTK_WIDGET (item->canvas));
+	widget = GTK_WIDGET (item->canvas);
+	style_context = gtk_widget_get_style_context (widget);
+
+	cairo_save (cr);
+
+	gtk_style_context_get_background_color (
+		style_context, GTK_STATE_FLAG_ACTIVE, &color);
+	gdk_cairo_set_source_rgba (cr, &color);
 
 	for (; i < reflow->column_count; i++) {
 		if (running_width > x + width)
 			break;
 		x_rect = running_width;
-		gtk_paint_flat_box (
-			style,
-			cr,
-			GTK_STATE_ACTIVE,
-			GTK_SHADOW_NONE,
-			GTK_WIDGET (item->canvas),
-			"reflow",
-			x_rect - x,
-			y_rect - y,
-			width_rect,
-			height_rect);
+
+		gtk_render_background (
+			style_context, cr,
+			(gdouble) x_rect - x,
+			(gdouble) y_rect - y,
+			(gdouble) width_rect,
+			(gdouble) height_rect);
+
 		running_width += E_REFLOW_DIVIDER_WIDTH + E_REFLOW_BORDER_WIDTH + column_width + E_REFLOW_BORDER_WIDTH;
 	}
+
+	cairo_restore (cr);
+
 	if (reflow->column_drag) {
 		GtkAdjustment *adjustment;
 		GtkLayout *layout;
@@ -1311,7 +1320,10 @@ e_reflow_draw (GnomeCanvasItem *item,
 		running_width += i * (column_width + E_REFLOW_FULL_GUTTER);
 
 		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
+
+		gtk_style_context_get_color (
+			style_context, GTK_STATE_FLAG_NORMAL, &color);
+		gdk_cairo_set_source_rgba (cr, &color);
 
 		for (; i < reflow->column_count; i++) {
 			if (running_width > x + width)
@@ -1326,6 +1338,7 @@ e_reflow_draw (GnomeCanvasItem *item,
 			cairo_fill (cr);
 			running_width += E_REFLOW_DIVIDER_WIDTH + E_REFLOW_BORDER_WIDTH + column_width + E_REFLOW_BORDER_WIDTH;
 		}
+
 		cairo_restore (cr);
 	}
 }

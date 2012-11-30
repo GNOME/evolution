@@ -43,9 +43,8 @@
 #include "e-table-item.h"
 #include <gtk/gtk.h>
 
-#define E_CELL_POPUP_ARROW_WIDTH	16
-#define E_CELL_POPUP_ARROW_XPAD		3
-#define E_CELL_POPUP_ARROW_YPAD		3
+#define E_CELL_POPUP_ARROW_SIZE		16
+#define E_CELL_POPUP_ARROW_PAD		3
 
 static void	e_cell_popup_dispose	(GObject	*object);
 
@@ -264,8 +263,6 @@ ecp_draw (ECellView *ecv,
 	ECellPopup *ecp = E_CELL_POPUP (ecv->ecell);
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 	GtkWidget *canvas;
-	GtkShadowType shadow;
-	GdkRectangle rect;
 	gboolean show_popup_arrow;
 
 	cairo_save (cr);
@@ -286,39 +283,57 @@ ecp_draw (ECellView *ecv,
 		ecp->popup_arrow_shown = show_popup_arrow;
 
 	if (show_popup_arrow) {
-		GtkStyle *style;
+		GtkStyleContext *style_context;
+		GdkRGBA color;
+		gint arrow_x;
+		gint arrow_y;
+		gint arrow_size;
+		gint midpoint_y;
 
 		e_cell_draw (
 			ecp_view->child_view, cr, model_col,
 			view_col, row, flags,
-			x1, y1, x2 - E_CELL_POPUP_ARROW_WIDTH, y2);
+			x1, y1, x2 - E_CELL_POPUP_ARROW_SIZE, y2);
 
-		rect.x = x2 - E_CELL_POPUP_ARROW_WIDTH;
-		rect.y = y1 + 1;
-		rect.width = E_CELL_POPUP_ARROW_WIDTH;
-		rect.height = y2 - y1 - 2;
+		midpoint_y = y1 + ((y2 - y1 + 1) / 2);
 
-		if (ecp->popup_shown)
-			shadow = GTK_SHADOW_IN;
-		else
-			shadow = GTK_SHADOW_OUT;
+		arrow_x = x2 - E_CELL_POPUP_ARROW_SIZE;
+		arrow_y = midpoint_y - E_CELL_POPUP_ARROW_SIZE / 2;
+		arrow_size = E_CELL_POPUP_ARROW_SIZE;
 
-		style = gtk_widget_get_style (canvas);
+		style_context = gtk_widget_get_style_context (canvas);
 
-		gtk_paint_box (
-			style, cr,
-			GTK_STATE_NORMAL, shadow,
-			canvas, "ecellpopup",
-			rect.x, rect.y, rect.width, rect.height);
-		gtk_paint_arrow (
-			style, cr,
-			GTK_STATE_NORMAL, GTK_SHADOW_NONE,
-			canvas, NULL,
-			GTK_ARROW_DOWN, TRUE,
-			rect.x + E_CELL_POPUP_ARROW_XPAD,
-			rect.y + E_CELL_POPUP_ARROW_YPAD,
-			rect.width - E_CELL_POPUP_ARROW_XPAD * 2,
-			rect.height - E_CELL_POPUP_ARROW_YPAD * 2);
+		gtk_style_context_save (style_context);
+
+		gtk_style_context_add_class (
+			style_context, GTK_STYLE_CLASS_CELL);
+
+		gtk_style_context_get_background_color (
+			style_context, GTK_STATE_FLAG_NORMAL, &color);
+
+		cairo_save (cr);
+		gdk_cairo_set_source_rgba (cr, &color);
+		gtk_render_background (
+			style_context, cr,
+			(gdouble) arrow_x,
+			(gdouble) arrow_y,
+			(gdouble) arrow_size,
+			(gdouble) arrow_size);
+		cairo_restore (cr);
+
+		arrow_x += E_CELL_POPUP_ARROW_PAD;
+		arrow_y += E_CELL_POPUP_ARROW_PAD;
+		arrow_size -= (E_CELL_POPUP_ARROW_PAD * 2);
+
+		cairo_save (cr);
+		gtk_render_arrow (
+			style_context, cr, G_PI,
+			(gdouble) arrow_x,
+			(gdouble) arrow_y,
+			(gdouble) arrow_size);
+		cairo_restore (cr);
+
+		gtk_style_context_restore (style_context);
 	} else {
 		e_cell_draw (
 			ecp_view->child_view, cr, model_col,
@@ -356,7 +371,7 @@ ecp_event (ECellView *ecv,
 
 			/* FIXME: The event coords seem to be relative to the
 			 * text within the cell, so we have to add 4. */
-			if (event->button.x + 4 >= width - E_CELL_POPUP_ARROW_WIDTH) {
+			if (event->button.x + 4 >= width - E_CELL_POPUP_ARROW_SIZE) {
 				return e_cell_popup_do_popup (ecp_view, event, row, view_col);
 			}
 		}
