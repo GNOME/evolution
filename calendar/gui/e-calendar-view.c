@@ -1888,21 +1888,25 @@ e_calendar_view_move_tip (GtkWidget *widget,
 {
 	GtkAllocation allocation;
 	GtkRequisition requisition;
-	gint w, h;
+	GdkDisplay *display;
 	GdkScreen *screen;
 	GdkScreen *pointer_screen;
-	gint monitor_num, px, py;
 	GdkRectangle monitor;
-
-	screen = gtk_widget_get_screen (widget);
+	GdkDeviceManager *device_manager;
+	GdkDevice *pointer;
+	gint monitor_num, px, py;
+	gint w, h;
 
 	gtk_widget_get_preferred_size (widget, &requisition, NULL);
 	w = requisition.width;
 	h = requisition.height;
 
-	gdk_display_get_pointer (
-		gdk_screen_get_display (screen),
-		&pointer_screen, &px, &py, NULL);
+	screen = gtk_widget_get_screen (widget);
+	display = gdk_screen_get_display (screen);
+	device_manager = gdk_display_get_device_manager (display);
+	pointer = gdk_device_manager_get_client_pointer (device_manager);
+
+	gdk_device_get_position (pointer, &pointer_screen, &px, &py);
 	if (pointer_screen != screen) {
 		px = x;
 		py = y;
