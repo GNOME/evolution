@@ -3645,7 +3645,7 @@ e_calendar_item_position_menu (GtkMenu *menu,
 	GtkRequisition requisition;
 	gint screen_width, screen_height;
 
-	gtk_widget_get_child_requisition (GTK_WIDGET (menu), &requisition);
+	gtk_widget_get_preferred_size (GTK_WIDGET (menu), &requisition, NULL);
 
 	*x -= (gtk_widget_get_direction(GTK_WIDGET(menu)) == GTK_TEXT_DIR_RTL)
 		? requisition.width - 2

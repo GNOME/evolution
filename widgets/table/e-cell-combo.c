@@ -510,7 +510,7 @@ e_cell_combo_get_popup_pos (ECellCombo *ecc,
 		+ ((GnomeCanvas *) canvas)->zoom_yofs;
 
 	widget = gtk_scrolled_window_get_vscrollbar (popup);
-	gtk_widget_get_child_requisition (widget, &requisition);
+	gtk_widget_get_preferred_size (widget, &requisition, NULL);
 
 	scrollbar_width =
 		requisition.width
@@ -524,7 +524,7 @@ e_cell_combo_get_popup_pos (ECellCombo *ecc,
 	avail_width = screen_width - scrollbar_width;
 
 	widget = gtk_scrolled_window_get_vscrollbar (popup);
-	gtk_widget_get_child_requisition (widget, &requisition);
+	gtk_widget_get_preferred_size (widget, &requisition, NULL);
 
 	gtk_widget_get_preferred_size (ecc->popup_tree_view, &list_requisition, NULL);
 	min_height = MIN (list_requisition.height, requisition.height);
@@ -566,7 +566,7 @@ e_cell_combo_get_popup_pos (ECellCombo *ecc,
 		       + 2 * popup_style->xthickness);
 
 	widget = gtk_scrolled_window_get_hscrollbar (popup);
-	gtk_widget_get_child_requisition (widget, &requisition);
+	gtk_widget_get_preferred_size (widget, &requisition, NULL);
 
 	/* Add on the height of the horizontal scrollbar if we need it. */
 	if (show_hscroll)
