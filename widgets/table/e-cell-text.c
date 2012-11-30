@@ -673,7 +673,6 @@ show_pango_rectangle (CellEdit *edit,
 static gint
 get_vertical_spacing (GtkWidget *canvas)
 {
-	GtkStyle *style;
 	GtkWidget *widget;
 	gint vspacing = 0;
 
@@ -681,11 +680,8 @@ get_vertical_spacing (GtkWidget *canvas)
 
 	/* The parent should be either an ETable or ETree. */
 	widget = gtk_widget_get_parent (canvas);
-	style = gtk_widget_get_style (widget);
 
-	gtk_style_get (
-		style, G_OBJECT_TYPE (widget),
-		"vertical-spacing", &vspacing, NULL);
+	gtk_widget_style_get (widget, "vertical-spacing", &vspacing, NULL);
 
 	return vspacing;
 }
