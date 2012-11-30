@@ -2108,12 +2108,14 @@ attachment_open_file (GFile *file,
 {
 	GdkAppLaunchContext *context;
 	GSimpleAsyncResult *simple;
+	GdkDisplay *display;
 	gboolean success;
 	GError *error = NULL;
 
 	simple = open_context->simple;
 
-	context = gdk_app_launch_context_new ();
+	display = gdk_display_get_default ();
+	context = gdk_display_get_app_launch_context (display);
 
 	if (open_context->app_info != NULL) {
 		GList *file_list;
