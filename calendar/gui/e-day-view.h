@@ -459,6 +459,9 @@ struct _EDayView {
 	GnomeCanvasItem *drag_bar_item;
 	GnomeCanvasItem *drag_item;
 
+	/* Grabbed pointer device while dragging. */
+	GdkDevice *grabbed_pointer;
+
 	/* "am" and "pm" in the current locale, and their widths. */
 	gchar *am_string;
 	gchar *pm_string;

@@ -735,7 +735,7 @@ e_map_button_release (GtkWidget *widget,
 	if (event->button != 1)
 		return FALSE;
 
-	gdk_pointer_ungrab (event->time);
+	gdk_device_ungrab (event->device, event->time);
 	return TRUE;
 }
 

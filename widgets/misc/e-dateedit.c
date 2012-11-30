@@ -62,6 +62,9 @@ struct _EDateEditPrivate {
 	GtkWidget *none_button;		/* This will only be visible if a
 					 * 'None' date/time is permitted. */
 
+	GdkDevice *grabbed_keyboard;
+	GdkDevice *grabbed_pointer;
+
 	gboolean show_date;
 	gboolean show_time;
 	gboolean use_24_hour_format;
@@ -140,14 +143,15 @@ static gboolean e_date_edit_mnemonic_activate	(GtkWidget	*widget,
 static void e_date_edit_grab_focus		(GtkWidget	*widget);
 
 static gint on_date_entry_key_press		(GtkWidget	*widget,
-						 GdkEventKey	*event,
+						 GdkEvent	*key_event,
 						 EDateEdit	*dedit);
 static gint on_date_entry_key_release		(GtkWidget	*widget,
-						 GdkEventKey	*event,
+						 GdkEvent	*key_event,
 						 EDateEdit	*dedit);
 static void on_date_button_clicked		(GtkWidget	*widget,
 						 EDateEdit	*dedit);
-static void e_date_edit_show_date_popup		(EDateEdit	*dedit);
+static void e_date_edit_show_date_popup		(EDateEdit	*dedit,
+						 GdkEvent	*event);
 static void position_date_popup			(EDateEdit	*dedit);
 static void on_date_popup_none_button_clicked	(GtkWidget	*button,
 						 EDateEdit	*dedit);
@@ -177,10 +181,10 @@ static gboolean e_date_edit_parse_time		(EDateEdit	*dedit,
 static void on_date_edit_time_selected		(GtkComboBox	*combo,
 						 EDateEdit	*dedit);
 static gint on_time_entry_key_press		(GtkWidget	*widget,
-						 GdkEventKey	*event,
+						 GdkEvent	*key_event,
 						 EDateEdit	*dedit);
 static gint on_time_entry_key_release		(GtkWidget	*widget,
-						 GdkEventKey	*event,
+						 GdkEvent	*key_event,
 						 EDateEdit	*dedit);
 static gint on_date_entry_focus_out		(GtkEntry	*entry,
 						 GdkEventFocus  *event,
@@ -337,6 +341,22 @@ date_edit_dispose (GObject *object)
 	if (dedit->priv->cal_popup != NULL) {
 		gtk_widget_destroy (dedit->priv->cal_popup);
 		dedit->priv->cal_popup = NULL;
+	}
+
+	if (dedit->priv->grabbed_keyboard != NULL) {
+		gdk_device_ungrab (
+			dedit->priv->grabbed_keyboard,
+			GDK_CURRENT_TIME);
+		g_object_unref (dedit->priv->grabbed_keyboard);
+		dedit->priv->grabbed_keyboard = NULL;
+	}
+
+	if (dedit->priv->grabbed_pointer != NULL) {
+		gdk_device_ungrab (
+			dedit->priv->grabbed_pointer,
+			GDK_CURRENT_TIME);
+		g_object_unref (dedit->priv->grabbed_pointer);
+		dedit->priv->grabbed_pointer = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -1354,19 +1374,31 @@ static void
 on_date_button_clicked (GtkWidget *widget,
                         EDateEdit *dedit)
 {
-	e_date_edit_show_date_popup (dedit);
+	GdkEvent *event;
+
+	/* Obtain the GdkEvent that triggered
+	 * the date button's "clicked" signal. */
+	event = gtk_get_current_event ();
+	e_date_edit_show_date_popup (dedit, event);
 }
 
 static void
-e_date_edit_show_date_popup (EDateEdit *dedit)
+e_date_edit_show_date_popup (EDateEdit *dedit,
+                             GdkEvent *event)
 {
 	EDateEditPrivate *priv;
 	ECalendar *calendar;
+	GdkDevice *event_device;
+	GdkDevice *assoc_device;
+	GdkDevice *keyboard_device;
+	GdkDevice *pointer_device;
 	GdkWindow *window;
+	GdkGrabStatus grab_status;
 	struct tm mtm;
 	const gchar *date_text;
 	GDate selected_day;
 	gboolean clear_selection = FALSE;
+	guint event_time;
 
 	priv = dedit->priv;
 	calendar = E_CALENDAR (priv->calendar);
@@ -1398,14 +1430,63 @@ e_date_edit_show_date_popup (EDateEdit *dedit)
 	gtk_grab_add (priv->cal_popup);
 
 	window = gtk_widget_get_window (priv->cal_popup);
-	gdk_pointer_grab (
-		window, TRUE,
-		GDK_BUTTON_PRESS_MASK |
-		GDK_BUTTON_RELEASE_MASK |
-		GDK_POINTER_MOTION_MASK,
-		NULL, NULL, GDK_CURRENT_TIME);
-	gdk_keyboard_grab (window, TRUE, GDK_CURRENT_TIME);
-	gdk_window_focus (window, GDK_CURRENT_TIME);
+
+	g_return_if_fail (priv->grabbed_keyboard == NULL);
+	g_return_if_fail (priv->grabbed_pointer == NULL);
+
+	event_device = gdk_event_get_device (event);
+	assoc_device = gdk_device_get_associated_device (event_device);
+
+	event_time = gdk_event_get_time (event);
+
+	if (gdk_device_get_source (event_device) == GDK_SOURCE_KEYBOARD) {
+		keyboard_device = event_device;
+		pointer_device = assoc_device;
+	} else {
+		keyboard_device = assoc_device;
+		pointer_device = event_device;
+	}
+
+	if (keyboard_device != NULL) {
+		grab_status = gdk_device_grab (
+			keyboard_device,
+			window,
+			GDK_OWNERSHIP_WINDOW,
+			TRUE,
+			GDK_KEY_PRESS_MASK |
+			GDK_KEY_RELEASE_MASK,
+			NULL,
+			event_time);
+		if (grab_status == GDK_GRAB_SUCCESS) {
+			priv->grabbed_keyboard =
+				g_object_ref (keyboard_device);
+		}
+	}
+
+	if (pointer_device != NULL) {
+		grab_status = gdk_device_grab (
+			pointer_device,
+			window,
+			GDK_OWNERSHIP_WINDOW,
+			TRUE,
+			GDK_BUTTON_PRESS_MASK |
+			GDK_BUTTON_RELEASE_MASK |
+			GDK_POINTER_MOTION_MASK,
+			NULL,
+			event_time);
+		if (grab_status == GDK_GRAB_SUCCESS) {
+			priv->grabbed_pointer =
+				g_object_ref (pointer_device);
+		} else if (priv->grabbed_keyboard != NULL) {
+			gdk_device_ungrab (
+				priv->grabbed_keyboard,
+				event_time);
+			g_object_unref (priv->grabbed_keyboard);
+			priv->grabbed_keyboard = NULL;
+		}
+	}
+
+	gdk_window_focus (window, event_time);
 }
 
 /* This positions the date popup below and to the left of the arrow button,
@@ -1516,19 +1597,13 @@ on_date_popup_key_press (GtkWidget *widget,
                          GdkEventKey *event,
                          EDateEdit *dedit)
 {
-	GdkWindow *window;
-
-	window = gtk_widget_get_window (dedit->priv->cal_popup);
-
-	if (event->keyval != GDK_KEY_Escape) {
-		gdk_keyboard_grab (window, TRUE, GDK_CURRENT_TIME);
-		return FALSE;
+	if (event->keyval == GDK_KEY_Escape) {
+		g_signal_stop_emission_by_name (widget, "key_press_event");
+		hide_date_popup (dedit);
+		return TRUE;
 	}
 
-	g_signal_stop_emission_by_name (widget, "key_press_event");
-	hide_date_popup (dedit);
-
-	return TRUE;
+	return FALSE;
 }
 
 /* A mouse button has been pressed while the date popup is showing.
@@ -1583,8 +1658,22 @@ hide_date_popup (EDateEdit *dedit)
 {
 	gtk_widget_hide (dedit->priv->cal_popup);
 	gtk_grab_remove (dedit->priv->cal_popup);
-	gdk_pointer_ungrab (GDK_CURRENT_TIME);
-	gdk_keyboard_ungrab (GDK_CURRENT_TIME);
+
+	if (dedit->priv->grabbed_keyboard != NULL) {
+		gdk_device_ungrab (
+			dedit->priv->grabbed_keyboard,
+			GDK_CURRENT_TIME);
+		g_object_unref (dedit->priv->grabbed_keyboard);
+		dedit->priv->grabbed_keyboard = NULL;
+	}
+
+	if (dedit->priv->grabbed_pointer != NULL) {
+		gdk_device_ungrab (
+			dedit->priv->grabbed_pointer,
+			GDK_CURRENT_TIME);
+		g_object_unref (dedit->priv->grabbed_pointer);
+		dedit->priv->grabbed_pointer = NULL;
+	}
 }
 
 /* Clears the time popup and rebuilds it using the lower_hour, upper_hour
@@ -1737,21 +1826,26 @@ on_date_edit_time_selected (GtkComboBox *combo,
 
 static gint
 on_date_entry_key_press (GtkWidget *widget,
-                         GdkEventKey *event,
+                         GdkEvent *key_event,
                          EDateEdit *dedit)
 {
-	if (event->state & GDK_MOD1_MASK
-	    && (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down
-		|| event->keyval == GDK_KEY_Return)) {
-		g_signal_stop_emission_by_name (
-			widget, "key_press_event");
-		e_date_edit_show_date_popup (dedit);
+	GdkModifierType event_state = 0;
+	guint event_keyval = 0;
+
+	gdk_event_get_keyval (key_event, &event_keyval);
+	gdk_event_get_state (key_event, &event_state);
+
+	if (event_state & GDK_MOD1_MASK
+	    && (event_keyval == GDK_KEY_Up || event_keyval == GDK_KEY_Down
+		|| event_keyval == GDK_KEY_Return)) {
+		g_signal_stop_emission_by_name (widget, "key_press_event");
+		e_date_edit_show_date_popup (dedit, key_event);
 		return TRUE;
 	}
 
 	/* If the user hits the return key emit a "date_changed" signal if
 	 * needed. But let the signal carry on. */
-	if (event->keyval == GDK_KEY_Return) {
+	if (event_keyval == GDK_KEY_Return) {
 		e_date_edit_check_date_changed (dedit);
 		return FALSE;
 	}
@@ -1761,20 +1855,25 @@ on_date_entry_key_press (GtkWidget *widget,
 
 static gint
 on_time_entry_key_press (GtkWidget *widget,
-                         GdkEventKey *event,
+                         GdkEvent *key_event,
                          EDateEdit *dedit)
 {
 	GtkWidget *child;
+	GdkModifierType event_state = 0;
+	guint event_keyval = 0;
+
+	gdk_event_get_keyval (key_event, &event_keyval);
+	gdk_event_get_state (key_event, &event_state);
 
 	child = gtk_bin_get_child (GTK_BIN (dedit->priv->time_combo));
 
 	/* I'd like to use Alt+Up/Down for popping up the list, like Win32,
 	 * but the combo steals any Up/Down keys, so we use Alt + Return. */
 #if 0
-	if (event->state & GDK_MOD1_MASK
-	    && (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down)) {
+	if (event_state & GDK_MOD1_MASK
+	    && (event_keyval == GDK_KEY_Up || event_keyval == GDK_KEY_Down)) {
 #else
-	if (event->state & GDK_MOD1_MASK && event->keyval == GDK_KEY_Return) {
+	if (event_state & GDK_MOD1_MASK && event_keyval == GDK_KEY_Return) {
 #endif
 		g_signal_stop_emission_by_name (widget, "key_press_event");
 		g_signal_emit_by_name (child, "activate", 0);
@@ -1783,10 +1882,8 @@ on_time_entry_key_press (GtkWidget *widget,
 
 	/* Stop the return key from emitting the activate signal, and check
 	 * if we need to emit a "time_changed" signal. */
-	if (event->keyval == GDK_KEY_Return) {
-		g_signal_stop_emission_by_name (
-			widget,
-						"key_press_event");
+	if (event_keyval == GDK_KEY_Return) {
+		g_signal_stop_emission_by_name (widget, "key_press_event");
 		e_date_edit_check_time_changed (dedit);
 		return TRUE;
 	}
@@ -1796,7 +1893,7 @@ on_time_entry_key_press (GtkWidget *widget,
 
 static gint
 on_date_entry_key_release (GtkWidget *widget,
-                           GdkEventKey *event,
+                           GdkEvent *key_event,
                            EDateEdit *dedit)
 {
 	e_date_edit_check_date_changed (dedit);
@@ -1805,13 +1902,15 @@ on_date_entry_key_release (GtkWidget *widget,
 
 static gint
 on_time_entry_key_release (GtkWidget *widget,
-                           GdkEventKey *event,
+                           GdkEvent *key_event,
                            EDateEdit *dedit)
 {
-	if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down) {
-		g_signal_stop_emission_by_name (
-			widget,
-						"key_release_event");
+	guint event_keyval = 0;
+
+	gdk_event_get_keyval (key_event, &event_keyval);
+
+	if (event_keyval == GDK_KEY_Up || event_keyval == GDK_KEY_Down) {
+		g_signal_stop_emission_by_name (widget, "key_release_event");
 		e_date_edit_check_time_changed (dedit);
 		return TRUE;
 	}

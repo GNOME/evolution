@@ -63,6 +63,9 @@ struct _ECellCombo {
 	GtkWidget *popup_window;
 	GtkWidget *popup_scrolled_window;
 	GtkWidget *popup_tree_view;
+
+	GdkDevice *grabbed_keyboard;
+	GdkDevice *grabbed_pointer;
 };
 
 struct _ECellComboClass {

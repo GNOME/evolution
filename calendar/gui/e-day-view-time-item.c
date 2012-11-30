@@ -908,6 +908,9 @@ e_day_view_time_item_on_button_press (EDayViewTimeItem *time_item,
 	GdkWindow *window;
 	EDayView *day_view;
 	GnomeCanvas *canvas;
+	GdkGrabStatus grab_status;
+	GdkDevice *event_device;
+	guint32 event_time;
 	gint row;
 
 	day_view = e_day_view_time_item_get_day_view (time_item);
@@ -927,10 +930,20 @@ e_day_view_time_item_on_button_press (EDayViewTimeItem *time_item,
 
 	window = gtk_layout_get_bin_window (GTK_LAYOUT (canvas));
 
-	if (gdk_pointer_grab (window, FALSE,
-			      GDK_POINTER_MOTION_MASK
-			      | GDK_BUTTON_RELEASE_MASK,
-			      NULL, NULL, event->button.time) == 0) {
+	event_device = gdk_event_get_device (event);
+	event_time = gdk_event_get_time (event);
+
+	grab_status = gdk_device_grab (
+		event_device,
+		window,
+		GDK_OWNERSHIP_NONE,
+		FALSE,
+		GDK_POINTER_MOTION_MASK |
+		GDK_BUTTON_RELEASE_MASK,
+		NULL,
+		event_time);
+
+	if (grab_status == GDK_GRAB_SUCCESS) {
 		e_day_view_start_selection (day_view, -1, row);
 		time_item->priv->dragging_selection = TRUE;
 	}
@@ -946,7 +959,13 @@ e_day_view_time_item_on_button_release (EDayViewTimeItem *time_item,
 	g_return_if_fail (day_view != NULL);
 
 	if (time_item->priv->dragging_selection) {
-		gdk_pointer_ungrab (event->button.time);
+		GdkDevice *event_device;
+		guint32 event_time;
+
+		event_device = gdk_event_get_device (event);
+		event_time = gdk_event_get_time (event);
+		gdk_device_ungrab (event_device, event_time);
+
 		e_day_view_finish_selection (day_view);
 		e_day_view_stop_auto_scroll (day_view);
 	}

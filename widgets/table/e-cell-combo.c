@@ -101,7 +101,7 @@ static gint	e_cell_combo_button_release	(GtkWidget *popup_window,
 						 GdkEvent *button_event,
 						 ECellCombo *ecc);
 static gint	e_cell_combo_key_press		(GtkWidget *popup_window,
-						 GdkEventKey *event,
+						 GdkEvent *key_event,
 						 ECellCombo *ecc);
 static void	e_cell_combo_update_cell	(ECellCombo *ecc);
 static void	e_cell_combo_restart_edit	(ECellCombo *ecc);
@@ -221,9 +221,22 @@ e_cell_combo_dispose (GObject *object)
 {
 	ECellCombo *ecc = E_CELL_COMBO (object);
 
-	if (ecc->popup_window)
+	if (ecc->popup_window != NULL) {
 		gtk_widget_destroy (ecc->popup_window);
-	ecc->popup_window = NULL;
+		ecc->popup_window = NULL;
+	}
+
+	if (ecc->grabbed_keyboard != NULL) {
+		gdk_device_ungrab (ecc->grabbed_keyboard, GDK_CURRENT_TIME);
+		g_object_unref (ecc->grabbed_keyboard);
+		ecc->grabbed_keyboard = NULL;
+	}
+
+	if (ecc->grabbed_pointer != NULL) {
+		gdk_device_ungrab (ecc->grabbed_pointer, GDK_CURRENT_TIME);
+		g_object_unref (ecc->grabbed_pointer);
+		ecc->grabbed_pointer = NULL;
+	}
 
 	G_OBJECT_CLASS (e_cell_combo_parent_class)->dispose (object);
 }
@@ -260,9 +273,15 @@ e_cell_combo_do_popup (ECellPopup *ecp,
 {
 	ECellCombo *ecc = E_CELL_COMBO (ecp);
 	GtkTreeSelection *selection;
+	GdkGrabStatus grab_status;
 	GdkWindow *window;
-	guint32 time;
-	gint error_code;
+	GdkDevice *keyboard;
+	GdkDevice *pointer;
+	GdkDevice *event_device;
+	guint32 event_time;
+
+	g_return_val_if_fail (ecc->grabbed_keyboard == NULL, FALSE);
+	g_return_val_if_fail (ecc->grabbed_pointer == NULL, FALSE);
 
 	selection = gtk_tree_view_get_selection (
 		GTK_TREE_VIEW (ecc->popup_tree_view));
@@ -276,27 +295,65 @@ e_cell_combo_do_popup (ECellPopup *ecp,
 	g_signal_handlers_unblock_by_func (
 		selection, e_cell_combo_selection_changed, ecc);
 
-	if (event->type == GDK_BUTTON_PRESS)
-		time = event->button.time;
-	else
-		time = event->key.time;
-
 	window = gtk_widget_get_window (ecc->popup_tree_view);
 
-	error_code = gdk_pointer_grab (
-		window, TRUE,
-		GDK_ENTER_NOTIFY_MASK |
-		GDK_BUTTON_PRESS_MASK |
-		GDK_BUTTON_RELEASE_MASK |
-		GDK_POINTER_MOTION_HINT_MASK |
-		GDK_BUTTON1_MOTION_MASK,
-		NULL, NULL, time);
+	event_device = gdk_event_get_device (event);
+	event_time = gdk_event_get_time (event);
 
-	if (error_code != 0)
-		g_warning ("Failed to get pointer grab (%i)", error_code);
+	if (gdk_device_get_source (event_device) == GDK_SOURCE_KEYBOARD) {
+		keyboard = event_device;
+		pointer = gdk_device_get_associated_device (event_device);
+	} else {
+		keyboard = gdk_device_get_associated_device (event_device);
+		pointer = event_device;
+	}
+
+	if (pointer != NULL) {
+		grab_status = gdk_device_grab (
+			pointer,
+			window,
+			GDK_OWNERSHIP_NONE,
+			TRUE,
+			GDK_ENTER_NOTIFY_MASK |
+			GDK_BUTTON_PRESS_MASK |
+			GDK_BUTTON_RELEASE_MASK |
+			GDK_POINTER_MOTION_HINT_MASK |
+			GDK_BUTTON1_MOTION_MASK,
+			NULL,
+			event_time);
+
+		if (grab_status != GDK_GRAB_SUCCESS)
+			return FALSE;
+
+		ecc->grabbed_pointer = g_object_ref (pointer);
+	}
 
 	gtk_grab_add (ecc->popup_window);
-	gdk_keyboard_grab (window, TRUE, time);
+
+	if (keyboard != NULL) {
+		grab_status = gdk_device_grab (
+			keyboard,
+			window,
+			GDK_OWNERSHIP_NONE,
+			TRUE,
+			GDK_KEY_PRESS_MASK |
+			GDK_KEY_RELEASE_MASK,
+			NULL,
+			event_time);
+
+		if (grab_status != GDK_GRAB_SUCCESS) {
+			if (ecc->grabbed_pointer != NULL) {
+				gdk_device_ungrab (
+					ecc->grabbed_pointer,
+					event_time);
+				g_object_unref (ecc->grabbed_pointer);
+				ecc->grabbed_pointer = NULL;
+			}
+			return FALSE;
+		}
+
+		ecc->grabbed_keyboard = g_object_ref (keyboard);
+	}
 
 	return TRUE;
 }
@@ -597,8 +654,19 @@ e_cell_combo_button_press (GtkWidget *popup_window,
 	}
 
 	gtk_grab_remove (ecc->popup_window);
-	gdk_pointer_ungrab (event_time);
-	gdk_keyboard_ungrab (event_time);
+
+	if (ecc->grabbed_keyboard != NULL) {
+		gdk_device_ungrab (ecc->grabbed_keyboard, event_time);
+		g_object_unref (ecc->grabbed_keyboard);
+		ecc->grabbed_keyboard = NULL;
+	}
+
+	if (ecc->grabbed_pointer != NULL) {
+		gdk_device_ungrab (ecc->grabbed_pointer, event_time);
+		g_object_unref (ecc->grabbed_pointer);
+		ecc->grabbed_pointer = NULL;
+	}
+
 	gtk_widget_hide (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
@@ -639,9 +707,21 @@ e_cell_combo_button_release (GtkWidget *popup_window,
 
 	/* The button was released inside the list, so we hide the popup and
 	 * update the cell to reflect the new selection. */
+
 	gtk_grab_remove (ecc->popup_window);
-	gdk_pointer_ungrab (event_time);
-	gdk_keyboard_ungrab (event_time);
+
+	if (ecc->grabbed_keyboard != NULL) {
+		gdk_device_ungrab (ecc->grabbed_keyboard, event_time);
+		g_object_unref (ecc->grabbed_keyboard);
+		ecc->grabbed_keyboard = NULL;
+	}
+
+	if (ecc->grabbed_pointer != NULL) {
+		gdk_device_ungrab (ecc->grabbed_pointer, event_time);
+		g_object_unref (ecc->grabbed_pointer);
+		ecc->grabbed_pointer = NULL;
+	}
+
 	gtk_widget_hide (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
@@ -657,30 +737,47 @@ e_cell_combo_button_release (GtkWidget *popup_window,
  * pressed we hide the popup, and do not change the cell contents. */
 static gint
 e_cell_combo_key_press (GtkWidget *popup_window,
-                        GdkEventKey *event,
+                        GdkEvent *key_event,
                         ECellCombo *ecc)
 {
+	guint event_keyval = 0;
+	guint32 event_time;
+
+	gdk_event_get_keyval (key_event, &event_keyval);
+	event_time = gdk_event_get_time (key_event);
+
 	/* If the Escape key is pressed we hide the popup. */
-	if (event->keyval != GDK_KEY_Escape
-	    && event->keyval != GDK_KEY_Return
-	    && event->keyval != GDK_KEY_KP_Enter
-	    && event->keyval != GDK_KEY_ISO_Enter
-	    && event->keyval != GDK_KEY_3270_Enter)
+	if (event_keyval != GDK_KEY_Escape
+	    && event_keyval != GDK_KEY_Return
+	    && event_keyval != GDK_KEY_KP_Enter
+	    && event_keyval != GDK_KEY_ISO_Enter
+	    && event_keyval != GDK_KEY_3270_Enter)
 		return FALSE;
 
-	if (event->keyval == GDK_KEY_Escape &&
+	if (event_keyval == GDK_KEY_Escape &&
 	   (!ecc->popup_window || !gtk_widget_get_visible (ecc->popup_window)))
 		return FALSE;
 
 	gtk_grab_remove (ecc->popup_window);
-	gdk_pointer_ungrab (event->time);
-	gdk_keyboard_ungrab (event->time);
+
+	if (ecc->grabbed_keyboard != NULL) {
+		gdk_device_ungrab (ecc->grabbed_keyboard, event_time);
+		g_object_unref (ecc->grabbed_keyboard);
+		ecc->grabbed_keyboard = NULL;
+	}
+
+	if (ecc->grabbed_pointer != NULL) {
+		gdk_device_ungrab (ecc->grabbed_pointer, event_time);
+		g_object_unref (ecc->grabbed_pointer);
+		ecc->grabbed_pointer = NULL;
+	}
+
 	gtk_widget_hide (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
 	d (g_print ("%s: popup_shown = FALSE\n", __FUNCTION__));
 
-	if (event->keyval != GDK_KEY_Escape)
+	if (event_keyval != GDK_KEY_Escape)
 		e_cell_combo_update_cell (ecc);
 
 	e_cell_combo_restart_edit (ecc);

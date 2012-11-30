@@ -1394,6 +1394,14 @@ e_day_view_dispose (GObject *object)
 		}
 	}
 
+	if (day_view->grabbed_pointer != NULL) {
+		gdk_device_ungrab (
+			day_view->grabbed_pointer,
+			GDK_CURRENT_TIME);
+		g_object_unref (day_view->grabbed_pointer);
+		day_view->grabbed_pointer = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_day_view_parent_class)->dispose (object);
 }
@@ -3184,6 +3192,9 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 			event_time);
 
 		if (grab_status == GDK_GRAB_SUCCESS) {
+			g_warn_if_fail (day_view->grabbed_pointer == NULL);
+			day_view->grabbed_pointer = g_object_ref (event_device);
+
 			if (event_time - day_view->bc_event_time > 250)
 				e_day_view_get_selected_time_range (
 					E_CALENDAR_VIEW (day_view),
@@ -3345,6 +3356,9 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 			event_time);
 
 		if (grab_status == GDK_GRAB_SUCCESS) {
+			g_warn_if_fail (day_view->grabbed_pointer == NULL);
+			day_view->grabbed_pointer = g_object_ref (event_device);
+
 			if (event_time - day_view->bc_event_time > 250)
 				e_day_view_get_selected_time_range (
 					E_CALENDAR_VIEW (day_view),
@@ -3618,6 +3632,9 @@ e_day_view_on_long_event_click (EDayView *day_view,
 			event_time);
 
 		if (grab_status == GDK_GRAB_SUCCESS) {
+			g_warn_if_fail (day_view->grabbed_pointer == NULL);
+			day_view->grabbed_pointer = g_object_ref (event_device);
+
 			day_view->resize_event_day = E_DAY_VIEW_LONG_EVENT;
 			day_view->resize_event_num = event_num;
 			day_view->resize_drag_pos = pos;
@@ -3717,6 +3734,9 @@ e_day_view_on_event_click (EDayView *day_view,
 			event_time);
 
 		if (grab_status == GDK_GRAB_SUCCESS) {
+			g_warn_if_fail (day_view->grabbed_pointer == NULL);
+			day_view->grabbed_pointer = g_object_ref (event_device);
+
 			day_view->resize_event_day = day;
 			day_view->resize_event_num = event_num;
 			day_view->resize_drag_pos = pos;
@@ -3907,11 +3927,15 @@ e_day_view_on_top_canvas_button_release (GtkWidget *widget,
 	event_device = gdk_event_get_device (button_event);
 	event_time = gdk_event_get_time (button_event);
 
+	if (day_view->grabbed_pointer == event_device) {
+		gdk_device_ungrab (day_view->grabbed_pointer, event_time);
+		g_object_unref (day_view->grabbed_pointer);
+		day_view->grabbed_pointer = NULL;
+	}
+
 	if (day_view->selection_is_being_dragged) {
-		gdk_device_ungrab (event_device, event_time);
 		e_day_view_finish_selection (day_view);
 	} else if (day_view->resize_drag_pos != E_CALENDAR_VIEW_POS_NONE) {
-		gdk_device_ungrab (event_device, event_time);
 		e_day_view_finish_long_event_resize (day_view);
 	} else if (day_view->pressed_event_day != -1) {
 		e_day_view_start_editing_event (
@@ -3937,12 +3961,16 @@ e_day_view_on_main_canvas_button_release (GtkWidget *widget,
 	event_device = gdk_event_get_device (button_event);
 	event_time = gdk_event_get_time (button_event);
 
+	if (day_view->grabbed_pointer == event_device) {
+		gdk_device_ungrab (day_view->grabbed_pointer, event_time);
+		g_object_unref (day_view->grabbed_pointer);
+		day_view->grabbed_pointer = NULL;
+	}
+
 	if (day_view->selection_is_being_dragged) {
-		gdk_device_ungrab (event_device, event_time);
 		e_day_view_finish_selection (day_view);
 		e_day_view_stop_auto_scroll (day_view);
 	} else if (day_view->resize_drag_pos != E_CALENDAR_VIEW_POS_NONE) {
-		gdk_device_ungrab (event_device, event_time);
 		e_day_view_finish_resize (day_view);
 		e_day_view_stop_auto_scroll (day_view);
 	} else if (day_view->pressed_event_day != -1) {
@@ -5403,7 +5431,13 @@ e_day_view_do_key_press (GtkWidget *widget,
 	/* The Escape key aborts a resize operation. */
 	if (day_view->resize_drag_pos != E_CALENDAR_VIEW_POS_NONE) {
 		if (keyval == GDK_KEY_Escape) {
-			gdk_pointer_ungrab (event->time);
+			if (day_view->grabbed_pointer != NULL) {
+				gdk_device_ungrab (
+					day_view->grabbed_pointer,
+					event->time);
+				g_object_unref (day_view->grabbed_pointer);
+				day_view->grabbed_pointer = NULL;
+			}
 			e_day_view_abort_resize (day_view);
 		}
 		return FALSE;
