@@ -4742,7 +4742,7 @@ msgstr ""
 #, c-format
 #| msgid "Unable to book a resource, error: "
 msgid "Unable to book a resource, error: %s"
-msgstr "ಒಂದು ಸಂಪನ್ಮೂಲವನ್ನು ಕಾದಿರಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ದೋಷ: "
+msgstr "ಒಂದು ಸಂಪನ್ಮೂಲವನ್ನು ಕಾದಿರಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ದೋಷ: %s "
 
 #: ../calendar/gui/itip-utils.c:1306
 msgid "You must be an attendee of the event."
