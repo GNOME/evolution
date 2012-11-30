@@ -579,7 +579,6 @@ e_map_realize (GtkWidget *widget)
 	GtkAllocation allocation;
 	GdkWindowAttr attr;
 	GdkWindow *window;
-	GtkStyle *style;
 	gint attr_mask;
 
 	g_return_if_fail (widget != NULL);
@@ -606,10 +605,6 @@ e_map_realize (GtkWidget *widget)
 		gtk_widget_get_parent_window (widget), &attr, attr_mask);
 	gtk_widget_set_window (widget, window);
 	gdk_window_set_user_data (window, widget);
-
-	style = gtk_widget_get_style (widget);
-	style = gtk_style_attach (style, window);
-	gtk_widget_set_style (widget, style);
 
 	update_render_surface (E_MAP (widget), TRUE);
 }
