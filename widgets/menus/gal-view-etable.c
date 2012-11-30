@@ -236,9 +236,7 @@ gal_view_etable_construct (GalViewEtable *view,
 	g_return_val_if_fail (GAL_IS_VIEW_ETABLE (view), NULL);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
 
-	if (spec)
-		g_object_ref (spec);
-	view->spec = spec;
+	view->spec = g_object_ref (spec);
 
 	if (view->state)
 		g_object_unref (view->state);

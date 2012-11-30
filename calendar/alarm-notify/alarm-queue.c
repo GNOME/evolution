@@ -1139,7 +1139,8 @@ on_dialog_objs_removed_async (struct _query_msg *msg)
 		if (!id)
 			continue;
 
-		if (g_strcmp0 (id->uid, our_id->uid) == 0 &&
+		if (tray_data &&
+		    g_strcmp0 (id->uid, our_id->uid) == 0 &&
 		    g_strcmp0 (id->rid, our_id->rid) == 0) {
 			tray_data->cqa = NULL;
 			tray_data->alarm_id = NULL;

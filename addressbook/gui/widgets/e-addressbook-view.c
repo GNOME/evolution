@@ -1439,7 +1439,7 @@ e_addressbook_view_delete_selection (EAddressbookView *view,
 	}
 
 	/* Sets the cursor, at the row after the deleted row */
-	if (GAL_IS_VIEW_MINICARD (gal_view) && row != 0) {
+	if (GAL_IS_VIEW_MINICARD (gal_view) && row != 0 && selection_model) {
 		select = e_sorter_model_to_sorted (selection_model->sorter, row);
 
 	/* Sets the cursor, before the deleted row if its the last row */

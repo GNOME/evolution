@@ -2014,6 +2014,9 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 	gint day, event_num;
 	const gchar *u;
 
+	if (!uid)
+		return;
+
 	for (day = 0; day < day_view->days_shown; day++) {
 		for (event_num = day_view->events[day]->len - 1;
 		     event_num >= 0;
@@ -2025,7 +2028,7 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 				continue;
 
 			u = icalcomponent_get_uid (event->comp_data->icalcomp);
-			if (uid && !strcmp (uid, u)) {
+			if (u && !strcmp (uid, u)) {
 				if (!(*callback) (day_view, day, event_num, data))
 					return;
 			}
@@ -7888,7 +7891,7 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 		num_rows = end_row - start_row + 1;
 	}
 
-	if (day_view->drag_event_day == day && start_row == row) {
+	if (event && day_view->drag_event_day == day && start_row == row) {
 		cols_in_row = day_view->cols_per_row[day][row];
 		start_col = event->start_row_or_col;
 		num_columns = event->num_columns;

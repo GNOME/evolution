@@ -1054,7 +1054,7 @@ ec_rebuild (EConfig *emp)
 		case E_CONFIG_ITEM:
 		case E_CONFIG_ITEM_TABLE:
 			/* generated sections never retain their widgets on a rebuild */
-			if (sectionnode->item->factory == NULL)
+			if (sectionnode && sectionnode->item->factory == NULL)
 				wn->widget = NULL;
 
 			/* ITEMs are called with the section parent.

@@ -444,6 +444,7 @@ e_mail_part_build_uri (CamelFolder *folder,
 			}
 			default:
 				g_warning ("Invalid param type %s", g_type_name (type));
+				va_end (ap);
 				return NULL;
 		}
 

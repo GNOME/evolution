@@ -434,7 +434,7 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na,
                                      AlarmNotifyFunc func,
                                      gpointer func_data)
 {
-	GtkTreeIter iter;
+	GtkTreeIter iter = { 0 };
 	GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (na->treeview));
 	AlarmFuncInfo *funcinfo = NULL;
 	gchar *to_display = NULL, *start, *end, *str_time;

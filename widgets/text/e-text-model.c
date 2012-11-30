@@ -573,7 +573,7 @@ e_text_model_get_nth_object_bounds (ETextModel *model,
 	if (start)
 		*start = g_utf8_pointer_to_offset (txt, obj);
 	if (end)
-		*end = *start + len;
+		*end = (start ? *start : 0) + len;
 }
 
 gint

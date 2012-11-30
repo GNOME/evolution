@@ -373,7 +373,7 @@ reflow_columns (EReflow *reflow)
 	reflow->columns = g_renew (int, reflow->columns, column_count);
 	column_count--;
 
-	for (; column_count > column_start; column_count--) {
+	for (; list && column_count > column_start; column_count--) {
 		GSList *to_free;
 		reflow->columns[column_count] = GPOINTER_TO_INT (list->data);
 		to_free = list;

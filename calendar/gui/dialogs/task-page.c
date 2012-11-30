@@ -2108,7 +2108,7 @@ task_page_select_organizer (TaskPage *tpage,
 	gint ii;
 
 	/* Treat an empty backend address as NULL. */
-	if (backend_address == NULL && *backend_address == '\0')
+	if (backend_address != NULL && *backend_address == '\0')
 		backend_address = NULL;
 
 	default_address = priv->fallback_address;

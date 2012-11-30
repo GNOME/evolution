@@ -867,7 +867,7 @@ pst_import_folders (PstImporter *m,
 
 			d_ptr = d_ptr->next;
 		} else {
-			while (d_ptr != topitem && d_ptr->next == NULL) {
+			while (d_ptr && d_ptr != topitem && d_ptr->next == NULL) {
 				if (m->folder) {
 					g_object_unref (m->folder);
 					m->folder = NULL;

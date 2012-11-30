@@ -466,7 +466,7 @@ e_mail_parser_parse_part_as (EMailParser *parser,
 	GList *iter;
 	EMailExtensionRegistry *reg;
 	EMailParserClass *parser_class;
-	GSList *part_list;
+	GSList *part_list = NULL;
 	gchar *as_mime_type;
 
 	if (g_cancellable_is_cancelled (cancellable))

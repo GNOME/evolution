@@ -143,6 +143,8 @@ update_time (SchedulePage *spage,
 	if (!end_date->value && start_tt.is_date) {
 		end_tt = start_tt;
 		icaltime_adjust (&end_tt, 1, 0, 0, 0);
+	} else if (!end_date->value) {
+		end_tt = start_tt;
 	} else {
 		end_tt = *end_date->value;
 	}

@@ -140,7 +140,7 @@ ea_minicard_get_name (AtkObject *accessible)
 {
 #define BUFFERSIZE 500
 
-	static gchar name[BUFFERSIZE];
+	static gchar name[BUFFERSIZE + 1];
 	GString *new_str = g_string_new (NULL);
 	gchar *string;
 	EMinicard *card;
@@ -167,6 +167,7 @@ ea_minicard_get_name (AtkObject *accessible)
 	/* if there exist no enough space for remain info, return */
 	if (new_str->len >= BUFFERSIZE) {
 		strncpy (name, new_str->str, BUFFERSIZE);
+		name[BUFFERSIZE] = '\0';
 		return name;
 	}
 

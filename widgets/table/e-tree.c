@@ -1678,7 +1678,7 @@ et_real_construct (ETree *e_tree,
 
 	g_object_unref (ete);
 
-	return e_tree != NULL;
+	return TRUE;
 }
 
 /**
@@ -2319,7 +2319,9 @@ ETreePath
 e_tree_node_at_row (ETree *et,
                     gint row)
 {
-	ETreePath path;
+	ETreePath path = { 0 };
+
+	g_return_val_if_fail (et != NULL, path);
 
 	path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
 
@@ -2330,12 +2332,16 @@ gint
 e_tree_row_of_node (ETree *et,
                     ETreePath path)
 {
+	g_return_val_if_fail (et != NULL, -1);
+
 	return e_tree_table_adapter_row_of_node (et->priv->etta, path);
 }
 
 gboolean
 e_tree_root_node_is_visible (ETree *et)
 {
+	g_return_val_if_fail (et != NULL, FALSE);
+
 	return e_tree_table_adapter_root_node_is_visible (et->priv->etta);
 }
 
@@ -2363,6 +2369,8 @@ void
 e_tree_load_expanded_state (ETree *et,
                             gchar *filename)
 {
+	g_return_if_fail (et != NULL);
+
 	e_tree_table_adapter_load_expanded_state (et->priv->etta, filename);
 }
 
@@ -2393,18 +2401,24 @@ void
 e_tree_force_expanded_state (ETree *et,
                              gint state)
 {
+	g_return_if_fail (et != NULL);
+
 	e_tree_table_adapter_force_expanded_state (et->priv->etta, state);
 }
 
 gint
 e_tree_row_count (ETree *et)
 {
+	g_return_val_if_fail (et != NULL, -1);
+
 	return e_table_model_row_count (E_TABLE_MODEL (et->priv->etta));
 }
 
 GtkWidget *
 e_tree_get_tooltip (ETree *et)
 {
+	g_return_val_if_fail (et != NULL, NULL);
+
 	return E_CANVAS (et->priv->table_canvas)->tooltip_window;
 }
 

@@ -3568,7 +3568,7 @@ build_subtree_diff (MessageList *ml,
 				/* bigger run of old nodes - must be nodes to remove */
 				if (ai) {
 					at = ap;
-					while (at != ai) {
+					while (at != NULL && at != ai) {
 						t (printf ("removing old node 0\n"));
 						tmp = e_tree_model_node_get_next (etm, at);
 						remove_node_diff (ml, at, 0);
@@ -4732,7 +4732,7 @@ regen_list_exec (struct _regen_list_msg *m,
 	}
 
 	/* camel_folder_summary_prepare_fetch_all (m->folder->summary, NULL); */
-	if (!g_cancellable_is_cancelled (cancellable)) {
+	if (!g_cancellable_is_cancelled (cancellable) && uids) {
 		/* update/build a new tree */
 		if (m->dotree) {
 			ml_sort_uids_by_tree (m->ml, uids, cancellable);

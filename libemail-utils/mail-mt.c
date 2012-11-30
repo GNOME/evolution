@@ -590,6 +590,8 @@ do_call (struct _call_msg *m,
 		break;
 	}
 
+	va_end (ap);
+
 	if (g_cancellable_is_cancelled (cancellable)) {
 		if (cancel_activity)
 			cancel_activity (cancellable);
@@ -602,12 +604,18 @@ do_call (struct _call_msg *m,
 		e_flag_set (m->done);
 }
 
+static void
+do_free (struct _call_msg *msg)
+{
+	va_end (msg->ap);
+}
+
 static MailMsgInfo mail_call_info = {
 	sizeof (struct _call_msg),
 	(MailMsgDescFunc) NULL,
 	(MailMsgExecFunc) do_call,
 	(MailMsgDoneFunc) NULL,
-	(MailMsgFreeFunc) NULL
+	(MailMsgFreeFunc) do_free
 };
 
 gpointer

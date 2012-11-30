@@ -4702,6 +4702,8 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 				break;
 		}
 
+		g_return_val_if_fail (day < E_WEEK_VIEW_MAX_WEEKS * 7, FALSE);
+
 		if (focus_event->in) {
 			week_view->focused_jump_button = day;
 			pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **) jump_xpm_focused);

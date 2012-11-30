@@ -500,9 +500,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			cairo_restore (cr);
 
 			if (show_midnight_date) {
-				strcpy (buffer, midnight_day);
-				strcat (buffer, " ");
-				strcat (buffer, midnight_month);
+				g_snprintf (buffer, sizeof (buffer), "%s %s", midnight_day, midnight_month);
 			} else if (e_cal_model_get_use_24_hour_format (model)) {
 				g_snprintf (
 					buffer, sizeof (buffer), "%i:%02i",
@@ -540,7 +538,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				cairo_save (cr);
 				gdk_cairo_set_source_color (cr, &dark);
 				if (show_midnight_date)
-					strcpy (buffer, midnight_day);
+					g_snprintf (buffer, sizeof (buffer), "%s", midnight_day);
 				else
 					g_snprintf (
 						buffer, sizeof (buffer), "%i",
@@ -590,10 +588,10 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				/* In 12-hour format we display 'am' or 'pm'
 				 * instead of '00'. */
 				if (show_midnight_date)
-					strcpy (buffer, midnight_month);
+					g_snprintf (buffer, sizeof (buffer), "%s", midnight_month);
 				else if (minute == 0
 				    && !e_cal_model_get_use_24_hour_format (model)) {
-					strcpy (buffer, suffix);
+					g_snprintf (buffer, sizeof (buffer), "%s", suffix);
 				} else {
 					g_snprintf (
 						buffer, sizeof (buffer),

@@ -186,6 +186,7 @@ cell_date_edit_text_set_value (ECellText *cell,
 	ECellDateEditText *ecd = E_CELL_DATE_EDIT_TEXT (cell);
 	ETimeParseStatus status;
 	struct tm tmp_tm;
+	ECellDateEditValue dv;
 	ECellDateEditValue *value;
 	gboolean is_date = TRUE;
 
@@ -205,8 +206,6 @@ cell_date_edit_text_set_value (ECellText *cell,
 	if (status == E_TIME_PARSE_NONE) {
 		value = NULL;
 	} else {
-		ECellDateEditValue dv;
-
 		dv.tt = icaltime_null_time ();
 
 		dv.tt.year   = tmp_tm.tm_year + 1900;

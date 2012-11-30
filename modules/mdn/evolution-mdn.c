@@ -297,6 +297,8 @@ mdn_notify_sender (ESource *source,
 	 * hostname, then skip the part leading to '@' */
 	fake_msgid = camel_header_msgid_generate ();
 	hostname = strchr (fake_msgid, '@');
+	g_return_if_fail (hostname != NULL);
+
 	hostname++;
 
 	/* Create toplevel container. */

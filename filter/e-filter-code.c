@@ -41,7 +41,7 @@ filter_code_build_code (EFilterElement *element,
 {
 	GList *l;
 	EFilterInput *fi = (EFilterInput *) element;
-	gboolean is_rawcode = fi && fi->type && g_str_equal (fi->type, "rawcode");
+	gboolean is_rawcode = fi->type && g_str_equal (fi->type, "rawcode");
 
 	if (!is_rawcode)
 		g_string_append (out, "(match-all ");

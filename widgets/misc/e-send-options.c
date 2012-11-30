@@ -198,7 +198,7 @@ e_send_options_fill_widgets_with_data (ESendOptionsDialog *sod)
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->delay_delivery), FALSE);
 
-	if (!gopts->delay_until || (!difftime (gopts->delay_until, tmp) < 0))
+	if (!gopts->delay_until || difftime (gopts->delay_until, tmp) < 0)
 		e_date_edit_set_time (E_DATE_EDIT (priv->delay_until), 0);
 	else
 		e_date_edit_set_time (E_DATE_EDIT (priv->delay_until), gopts->delay_until);

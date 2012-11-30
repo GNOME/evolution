@@ -279,7 +279,7 @@ mount_ready_cb (GObject *source_object,
 	g_file_mount_enclosing_volume_finish (G_FILE (source_object), result, &error);
 
 	if (error) {
-		error_queue_add (g_strdup_printf (_("Mount of %s failed:"), ms->uri->location), error);
+		error_queue_add (g_strdup_printf (_("Mount of %s failed:"), ms ? ms->uri->location : "???"), error);
 
 		if (ms)
 			g_object_unref (ms->mount_op);

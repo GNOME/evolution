@@ -87,7 +87,7 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 		iter = e_mail_part_list_get_iter (context->parts, part->id);
 
 		end = g_strconcat (part->id, ".end", NULL);
-		for (iter = iter->next; iter; iter = g_slist_next (iter)) {
+		for (iter = g_slist_next (iter); iter; iter = g_slist_next (iter)) {
 			EMailPart * p = iter->data;
 			if (!p)
 				continue;

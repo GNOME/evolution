@@ -127,11 +127,13 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 				col_spec->priority);
 		}
 
-		col->search = search;
-		if (col_spec->sortable && !strcmp (col_spec->sortable, "false"))
-			col->sortable = FALSE;
-		else
-			col->sortable = TRUE;
+		if (col) {
+			col->search = search;
+			if (col_spec->sortable && !strcmp (col_spec->sortable, "false"))
+				col->sortable = FALSE;
+			else
+				col->sortable = TRUE;
+		}
 		g_free (title);
 	}
 	if (col && col_spec->compare_col != col_spec->model_col)

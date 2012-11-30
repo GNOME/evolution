@@ -742,15 +742,11 @@ static void
 etgc_compute_location (ETableGroup *etg,
                        gint *x,
                        gint *y,
-                       gint *row,
-                       gint *col)
+                       gint *prow,
+                       gint *pcol)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
-
-	if (row)
-		*row = -1;
-	if (col)
-		*col = -1;
+	gint row = -1, col = -1;
 
 	*x -= GROUP_INDENT;
 	*y -= TITLE_HEIGHT;
@@ -761,11 +757,16 @@ etgc_compute_location (ETableGroup *etg,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			ETableGroup *child = child_node->child;
 
-			e_table_group_compute_location (child, x, y, row, col);
-			if ((*row != -1) && (*col != -1))
-				return;
+			e_table_group_compute_location (child, x, y, &row, &col);
+			if (row != -1 && col != -1)
+				break;
 		}
 	}
+
+	if (prow)
+		*prow = row;
+	if (pcol)
+		*pcol = col;
 }
 
 static void
@@ -1395,23 +1396,25 @@ e_table_group_container_print_page (EPrintable *ep,
 		cairo_clip (cr);
 		cairo_restore (cr);
 
-		cairo_move_to (cr, 0, 0);
-		if (groupcontext->etgc->ecol->text)
-			string = g_strdup_printf (
-				"%s : %s (%d item%s)",
-				groupcontext->etgc->ecol->text,
-				child_node->string,
-				(gint) child_node->count,
-				child_node->count == 1 ? "" : "s");
-		else
-			string = g_strdup_printf (
-				"%s (%d item%s)",
-				child_node->string,
-				(gint) child_node->count,
-				child_node->count == 1 ? "" : "s");
-		pango_layout_set_text (layout, string, -1);
-		pango_cairo_show_layout (cr, layout);
-		g_free (string);
+		if (child_node) {
+			cairo_move_to (cr, 0, 0);
+			if (groupcontext->etgc->ecol->text)
+				string = g_strdup_printf (
+					"%s : %s (%d item%s)",
+					groupcontext->etgc->ecol->text,
+					child_node->string,
+					(gint) child_node->count,
+					child_node->count == 1 ? "" : "s");
+			else
+				string = g_strdup_printf (
+					"%s (%d item%s)",
+					child_node->string,
+					(gint) child_node->count,
+					child_node->count == 1 ? "" : "s");
+			pango_layout_set_text (layout, string, -1);
+			pango_cairo_show_layout (cr, layout);
+			g_free (string);
+		}
 
 		cairo_translate (cr, 2 * TEXT_AREA_HEIGHT, TEXT_AREA_HEIGHT);
 		cairo_move_to (cr, 0, 0);

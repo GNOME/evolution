@@ -530,9 +530,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 		g_strfreev (temp);
 	}
 
-	if (clue_list) {
-		g_strfreev (clue_list);
-	}
+	g_strfreev (clue_list);
 
 	/* Add the list here */
 

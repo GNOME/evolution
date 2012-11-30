@@ -992,7 +992,7 @@ fill_component (RecurrencePage *rpage,
 	if (gtk_widget_get_visible (priv->ending_combo) && gtk_widget_get_sensitive (priv->ending_combo) &&
 	    e_dialog_combo_box_get (priv->ending_combo, ending_types_map) == ENDING_UNTIL) {
 		/* check whether the "until" date is in the future */
-		struct icaltimetype tt;
+		struct icaltimetype tt = icaltime_null_time ();
 		gboolean ok = TRUE;
 
 		if (e_date_edit_get_date (E_DATE_EDIT (priv->ending_date_edit), &tt.year, &tt.month, &tt.day)) {

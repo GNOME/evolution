@@ -235,7 +235,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	CamelStore *parent_store;
 	CamelUIDCache *cache = NULL;
 	CamelURL *url;
-	gboolean keep;
+	gboolean keep = TRUE;
 	gboolean delete_fetched;
 	gboolean is_local_delivery = FALSE;
 	const gchar *uid = NULL;

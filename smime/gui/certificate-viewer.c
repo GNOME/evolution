@@ -268,8 +268,9 @@ fill_in_details (CertificateViewerData *cvm_data,
                  ECert *cert)
 {
 	GList *l;
-	GtkTreeIter *root = NULL;
+	GtkTreeIter root;
 	GtkTreeSelection *selection;
+	gboolean root_set = FALSE;
 
 	/* hook up all the hierarchy tree foo */
 	cvm_data->hierarchy_store = gtk_tree_store_new (2, G_TYPE_STRING, G_TYPE_OBJECT);
@@ -324,14 +325,15 @@ fill_in_details (CertificateViewerData *cvm_data,
 		if (!str)
 			str = e_cert_get_subject_name (c);
 
-		gtk_tree_store_insert (cvm_data->hierarchy_store, &new_iter, root, -1);
+		gtk_tree_store_insert (cvm_data->hierarchy_store, &new_iter, root_set ? &root : NULL, -1);
 		gtk_tree_store_set (
 			cvm_data->hierarchy_store, &new_iter,
 			0, str,
 			1, c,
 			-1);
 
-		root = &new_iter;
+		root = new_iter;
+		root_set = TRUE;
 	}
 
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (cvm_data->hierarchy_tree));

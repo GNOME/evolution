@@ -672,31 +672,32 @@ format_date (struct tm *tm,
              gchar *buffer,
              gint bufflen)
 {
-	gchar fmt[64];
+	GString *fmt = g_string_new ("");
 
-	fmt[0] = 0;
 	if (flags & DATE_DAYNAME) {
-		strcat (fmt, "%A");
+		g_string_append (fmt, "%A");
 	}
 	if (flags & DATE_DAY) {
 		if (flags & DATE_DAYNAME)
-			strcat (fmt, " ");
-		strcat (fmt, gettext (days[tm->tm_mday - 1]));
+			g_string_append (fmt, " ");
+		g_string_append (fmt, gettext (days[tm->tm_mday - 1]));
 	}
 	if (flags & DATE_MONTH) {
 		if (flags & (DATE_DAY | DATE_DAYNAME))
-			strcat (fmt, " ");
-		strcat (fmt, "%B");
+			g_string_append (fmt, " ");
+		g_string_append (fmt, "%B");
 		if ((flags & (DATE_DAY | DATE_YEAR)) == (DATE_DAY | DATE_YEAR))
-			strcat (fmt, ",");
+			g_string_append (fmt, ",");
 	}
 	if (flags & DATE_YEAR) {
 		if (flags & (DATE_DAY | DATE_DAYNAME | DATE_MONTH))
-			strcat (fmt, " ");
-		strcat (fmt, "%Y");
+			g_string_append (fmt, " ");
+		g_string_append (fmt, "%Y");
 	}
-	e_utf8_strftime (buffer, bufflen, fmt, tm);
+	e_utf8_strftime (buffer, bufflen, fmt->str, tm);
 	buffer[bufflen - 1] = '\0';
+
+	g_string_free (fmt, TRUE);
 
 	return buffer;
 }

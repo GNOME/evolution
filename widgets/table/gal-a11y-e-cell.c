@@ -350,20 +350,17 @@ gal_a11y_e_cell_remove_action_by_name (GalA11yECell *cell,
                                        const gchar *action_name)
 {
 	GList *list_node;
-	gboolean action_found= FALSE;
 
 	g_return_val_if_fail (GAL_A11Y_IS_E_CELL (cell), FALSE);
-	for (list_node = cell->action_list; list_node && !action_found;
-			  list_node = list_node->next) {
-		if (!g_ascii_strcasecmp (
-				((ActionInfo *)(list_node->data))->name,
-				action_name)) {
-			action_found = TRUE;
+
+	for (list_node = cell->action_list; list_node; list_node = list_node->next) {
+		if (!g_ascii_strcasecmp (((ActionInfo *)(list_node->data))->name, action_name)) {
 			break;
 		}
 	}
 
-	g_return_val_if_fail (action_found, FALSE);
+	g_return_val_if_fail (list_node != NULL, FALSE);
+
 	_gal_a11y_e_cell_destroy_action_info (list_node->data, NULL);
 	cell->action_list = g_list_remove_link (cell->action_list, list_node);
 

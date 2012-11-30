@@ -679,7 +679,7 @@ use_common_book_client (EBookClient *book_client,
 	EContact *contact = info->contact;
 	EContactName *contact_name;
 	GList *contact_email;
-	gchar *query_parts[MAX_QUERY_PARTS];
+	gchar *query_parts[MAX_QUERY_PARTS + 1];
 	gint p = 0;
 	gchar *contact_file_as, *qj;
 	EBookQuery *query = NULL;

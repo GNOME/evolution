@@ -889,7 +889,7 @@ ect_event (ECellView *ecell_view,
 		return_val = TRUE;
 		/* Fallthrough */
 	case GDK_KEY_RELEASE:
-		preedit_len = edit->preedit_length;
+		preedit_len = edit_display ? edit->preedit_length : 0;
 		if (edit_display && edit->im_context &&
 				gtk_im_context_filter_keypress (\
 					edit->im_context,
@@ -1798,7 +1798,7 @@ e_cell_text_commit_cb (GtkIMContext *context,
                        ECellTextView *tv)
 {
 	CellEdit *edit = tv->edit;
-	ETextEventProcessorCommand command;
+	ETextEventProcessorCommand command = { 0 };
 
 	if (g_utf8_validate (str, strlen (str), NULL)) {
 		command.action = E_TEP_INSERT;
@@ -2541,7 +2541,7 @@ paste_received (GtkClipboard *clipboard,
 	edit = (CellEdit *) data;
 
 	if (text && g_utf8_validate (text, strlen (text), NULL)) {
-		ETextEventProcessorCommand command;
+		ETextEventProcessorCommand command = { 0 };
 		command.action = E_TEP_INSERT;
 		command.position = E_TEP_SELECTION;
 		command.string = (gchar *) text;
@@ -2603,7 +2603,7 @@ e_cell_text_set_selection (ECellView *cell_view,
 {
 	ECellTextView *ectv;
 	CellEdit *edit;
-	ETextEventProcessorCommand command1, command2;
+	ETextEventProcessorCommand command1 = { 0 }, command2 = { 0 };
 
 	g_return_val_if_fail (cell_view != NULL, FALSE);
 
@@ -2688,7 +2688,7 @@ e_cell_text_copy_clipboard (ECellView *cell_view,
 {
 	ECellTextView *ectv;
 	CellEdit *edit;
-	ETextEventProcessorCommand command;
+	ETextEventProcessorCommand command = { 0 };
 
 	g_return_if_fail (cell_view != NULL);
 
@@ -2722,7 +2722,7 @@ e_cell_text_paste_clipboard (ECellView *cell_view,
 {
 	ECellTextView *ectv;
 	CellEdit *edit;
-	ETextEventProcessorCommand command;
+	ETextEventProcessorCommand command = { 0 };
 
 	g_return_if_fail (cell_view != NULL);
 
@@ -2756,7 +2756,7 @@ e_cell_text_delete_selection (ECellView *cell_view,
 {
 	ECellTextView *ectv;
 	CellEdit *edit;
-	ETextEventProcessorCommand command;
+	ETextEventProcessorCommand command = { 0 };
 
 	g_return_if_fail (cell_view != NULL);
 

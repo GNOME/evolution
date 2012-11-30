@@ -169,6 +169,9 @@ mail_formatter_run (EMailFormatter *formatter,
 
 					iter = iter->next;
 				} while (iter);
+
+				if (!iter)
+					break;
 			}
 		}
 	}
@@ -845,8 +848,9 @@ e_mail_formatter_format (EMailFormatter *formatter,
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	if (!parts && callback) {
-		callback (G_OBJECT (formatter), G_ASYNC_RESULT (simple), user_data);
+	if (!parts) {
+		if (callback)
+			callback (G_OBJECT (formatter), G_ASYNC_RESULT (simple), user_data);
 		g_object_unref (simple);
 		return;
 	}

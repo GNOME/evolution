@@ -779,6 +779,9 @@ update_time (EventPage *epage,
 		end_tt = &implied_tt;
 		*end_tt = *start_tt;
 		icaltime_adjust (end_tt, 1, 0, 0, 0);
+	} else if (!end_tt) {
+		end_tt = &implied_tt;
+		*end_tt = *start_tt;
 	}
 
 	if (start_tt->is_date && end_tt->is_date) {

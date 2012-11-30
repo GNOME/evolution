@@ -1912,7 +1912,7 @@ tree_drag_data_get (GtkWidget *widget,
 	CamelFolder *folder;
 	CamelStore *store;
 	GtkTreeIter iter;
-	gchar *folder_name;
+	gchar *folder_name = NULL;
 	gchar *folder_uri;
 
 	if (!priv->drag_row || !(src_path =

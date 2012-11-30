@@ -945,7 +945,7 @@ comp_subject (ESourceRegistry *registry,
 			g_free (sender);
 		}
 
-		if (alist != NULL) {
+		if (a != NULL) {
 
 			switch (a->status) {
 			case ICAL_PARTSTAT_ACCEPTED:
