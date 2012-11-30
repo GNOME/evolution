@@ -1025,7 +1025,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			gdk_cairo_set_source_color (cr, color);
 			cairo_set_line_width (cr, 0.7);
 			/* rect_x2 is used uninitialized here */
-			cairo_move_to (cr, rect_x2, y2);
+			cairo_move_to (cr, rect_x2, y1);
 			cairo_line_to (cr, rect_x2, y2);
 			cairo_stroke (cr);
 			cairo_restore (cr);
