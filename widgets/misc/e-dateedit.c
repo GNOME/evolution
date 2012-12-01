@@ -537,6 +537,10 @@ create_children (EDateEdit *dedit)
 	AtkObject *a11y;
 	GtkListStore *time_store;
 	GList *cells;
+	GtkCssProvider *css_provider;
+	GtkStyleContext *style_context;
+	const gchar *css;
+	GError *error = NULL;
 
 	priv = dedit->priv;
 
@@ -581,18 +585,26 @@ create_children (EDateEdit *dedit)
 	priv->space = gtk_drawing_area_new ();
 	gtk_box_pack_start (GTK_BOX (dedit), priv->space, FALSE, FALSE, 2);
 
-	gtk_rc_parse_string (
-		"style \"e-dateedit-timecombo-style\" {\n"
-		"  GtkComboBox::appears-as-list = 1\n"
-		"}\n"
-		"\n"
-		"widget \"*.e-dateedit-timecombo\" style \"e-dateedit-timecombo-style\"");
-
 	time_store = gtk_list_store_new (1, G_TYPE_STRING);
 	priv->time_combo = gtk_combo_box_new_with_model_and_entry (
 		GTK_TREE_MODEL (time_store));
 	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX (priv->time_combo), 0);
 	g_object_unref (time_store);
+
+	css_provider = gtk_css_provider_new ();
+	css = "GtkComboBox { -GtkComboBox-appears-as-list: 1; }";
+	gtk_css_provider_load_from_data (css_provider, css, -1, &error);
+	style_context = gtk_widget_get_style_context (priv->time_combo);
+	if (error == NULL) {
+		gtk_style_context_add_provider (
+			style_context,
+			GTK_STYLE_PROVIDER (css_provider),
+			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	} else {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	}
+	g_object_unref (css_provider);
 
 	child = gtk_bin_get_child (GTK_BIN (priv->time_combo));
 
@@ -609,7 +621,6 @@ create_children (EDateEdit *dedit)
 
 	gtk_box_pack_start (GTK_BOX (dedit), priv->time_combo, FALSE, TRUE, 0);
 	gtk_widget_set_size_request (priv->time_combo, 110, -1);
-	gtk_widget_set_name (priv->time_combo, "e-dateedit-timecombo");
 	rebuild_time_popup (dedit);
 	a11y = gtk_widget_get_accessible (priv->time_combo);
 	atk_object_set_description (a11y, _("Drop-down combination box to select time"));

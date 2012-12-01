@@ -172,8 +172,12 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 	GtkListStore *list_store;
 	GtkTreeIter iter;
 	GtkCellRenderer *cell;
+	GtkCssProvider *css_provider;
+	GtkStyleContext *style_context;
 	GHashTable *index;
+	const gchar *css;
 	gint i;
+	GError *error = NULL;
 
 	priv = etd->priv;
 
@@ -222,14 +226,20 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 
 	gtk_combo_box_set_model (combo, (GtkTreeModel *) list_store);
 
-	gtk_rc_parse_string (
-		"style \"e-timezone-combo-style\" {\n"
-		"  GtkComboBox::appears-as-list = 1\n"
-		"}\n"
-		"\n"
-		"widget \"*.e-timezone-dialog-combo\" style \"e-timezone-combo-style\"");
-
-	gtk_widget_set_name (priv->timezone_combo, "e-timezone-dialog-combo");
+	css_provider = gtk_css_provider_new ();
+	css = "GtkComboBox { -GtkComboBox-appears-as-list: 1; }";
+	gtk_css_provider_load_from_data (css_provider, css, -1, &error);
+	style_context = gtk_widget_get_style_context (priv->timezone_combo);
+	if (error == NULL) {
+		gtk_style_context_add_provider (
+			style_context,
+			GTK_STYLE_PROVIDER (css_provider),
+			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	} else {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	}
+	g_object_unref (css_provider);
 
 	g_list_free (list_items);
 }
