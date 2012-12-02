@@ -132,7 +132,8 @@ get_has_style (EEditorSelection *selection,
 		element_tag = webkit_dom_element_get_tag_name (element);
 
 		if (g_ascii_strncasecmp (style_tag, "citation", 8) == 0) {
-			result = ((tag_len == 10 /* strlen ("blockquote") */) &&
+			accept_citation = TRUE;
+			result = ((strlen (element_tag) == 10 /* strlen ("blockquote") */) &&
 				(g_ascii_strncasecmp (element_tag, "blockquote", 10) == 0));
 		} else {
 			result = ((tag_len == strlen (element_tag)) &&
