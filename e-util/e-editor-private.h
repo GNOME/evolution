@@ -1,4 +1,7 @@
-/* e-editor-private.h
+/*
+ * e-editor-private.h
+ *
+ * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public

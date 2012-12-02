@@ -1,6 +1,8 @@
 /*
  * e-editor-selection.h
  *
+ * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -23,8 +25,7 @@
 #ifndef E_EDITOR_SELECTION_H
 #define E_EDITOR_SELECTION_H
 
-#include <glib-object.h>
-#include <webkit/webkit.h>
+#include <gtk/gtk.h>
 
 /* Standard GObject macros */
 #define E_TYPE_EDITOR_SELECTION \
@@ -47,6 +48,7 @@
 
 G_BEGIN_DECLS
 
+typedef struct _EEditorWidget EEditorWidget;
 typedef struct _EEditorSelection EEditorSelection;
 typedef struct _EEditorSelectionClass EEditorSelectionClass;
 typedef struct _EEditorSelectionPrivate EEditorSelectionPrivate;
@@ -96,8 +98,6 @@ struct _EEditorSelectionClass {
 };
 
 GType			e_editor_selection_get_type 	(void);
-
-EEditorSelection *	e_editor_selection_new		(WebKitWebView *parent_view);
 
 gboolean		e_editor_selection_has_text	(EEditorSelection *selection);
 

@@ -1,4 +1,7 @@
-/* e-editor-spell-dialog.c
+/*
+ * e-editor-spell-dialog.c
+ *
+ * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -232,7 +235,7 @@ static gboolean
 editor_spell_check_dialog_prev (EEditorSpellCheckDialog *dialog)
 {
 	WebKitDOMNode *start = NULL, *end = NULL;
-	gulong start_offset, end_offset;	
+	gulong start_offset, end_offset;
 
 	if (dialog->priv->word == NULL) {
 		webkit_dom_dom_selection_modify (

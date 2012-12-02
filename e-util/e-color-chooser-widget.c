@@ -1,5 +1,7 @@
- 
+
 /* e-color-chooser-widget.c
+ *
+ * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -28,6 +30,13 @@ G_DEFINE_TYPE (
 	EColorChooserWidget,
 	e_color_chooser_widget,
 	GTK_TYPE_COLOR_CHOOSER_WIDGET);
+
+/**
+ * EColorChooserWidget:
+ *
+ * This widget wrapps around #GtkColorChooserWidget and allows the widget to be
+ * used as a delegate for #GtkComboBox for instance.
+ */
 
 struct _EColorChooserWidgetPrivate {
 	gboolean showing_editor;

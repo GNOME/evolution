@@ -1,5 +1,7 @@
 /* e-color-chooser-widget.h
  *
+ * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
@@ -68,4 +70,4 @@ GtkWidget *	e_color_chooser_widget_new	(void);
 G_END_DECLS
 
 #endif /* E_COLOR_CHOOSER_WIDGET_H */
- 
+

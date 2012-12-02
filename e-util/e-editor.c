@@ -1,4 +1,7 @@
-/* e-editor.c
+/*
+ * e-editor.c
+ *
+ * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU Lesser General Public
@@ -31,6 +34,13 @@ G_DEFINE_TYPE (
 	EEditor,
 	e_editor,
 	GTK_TYPE_BOX);
+
+/**
+ * EEditor:
+ *
+ * #EEditor provides GUI for manipulating with properties of #EEditorWidget and
+ * it's #EEditorSelection - i.e. toolbars and actions.
+ */
 
 enum {
 	PROP_0,
@@ -792,6 +802,13 @@ e_editor_init (EEditor *editor)
 	editor_actions_init (editor);
 }
 
+/**
+ * e_editor_new:
+ *
+ * Constructs a new #EEditor.
+ *
+ * Returns: A newly created widget. [transfer-full]
+ */
 GtkWidget *
 e_editor_new (void)
 {
@@ -800,6 +817,12 @@ e_editor_new (void)
 		NULL);
 }
 
+/**
+ * e_editor_get_editor_widget:
+ * @editor: an #EEditor
+ *
+ * Returns instance of #EEditorWidget used in the @editor.
+ */
 EEditorWidget *
 e_editor_get_editor_widget (EEditor *editor)
 {
@@ -808,6 +831,12 @@ e_editor_get_editor_widget (EEditor *editor)
 	return editor->priv->editor_widget;
 }
 
+/**
+ * e_editor_get_ui_manager:
+ * @editor: an #EEditor
+ *
+ * Returns #GtkUIManager that manages all the actions in the @editor.
+ */
 GtkUIManager *
 e_editor_get_ui_manager (EEditor *editor)
 {
@@ -816,6 +845,13 @@ e_editor_get_ui_manager (EEditor *editor)
 	return editor->priv->manager;
 }
 
+/**
+ * e_editor_get_action:
+ * @editor: an #EEditor
+ * @action_name: name of action to lookup and return
+ *
+ * Returns: A #GtkAction matching @action_name or @NULL if no such action exists.
+ */
 GtkAction *
 e_editor_get_action (EEditor *editor,
 		     const gchar *action_name)
@@ -843,6 +879,14 @@ e_editor_get_action (EEditor *editor,
 	return action;
 }
 
+/**
+ * e_editor_get_action_group:
+ * @editor: an #EEditor
+ * @group_name: name of action group to lookup and return
+ *
+ * Returns: A #GtkActionGroup matching @group_name or @NULL if not such action
+ * group exists.
+ */
 GtkActionGroup *
 e_editor_get_action_group (EEditor *editor,
 			   const gchar *group_name)
@@ -888,6 +932,12 @@ e_editor_get_managed_widget (EEditor *editor,
 	return widget;
 }
 
+/**
+ * e_editor_get_filename:
+ * @editor: an #EEditor
+ *
+ * Returns path and name of file to which content of the editor should be saved.
+ */
 const gchar *
 e_editor_get_filename (EEditor *editor)
 {
@@ -896,6 +946,13 @@ e_editor_get_filename (EEditor *editor)
 	return editor->priv->filename;
 }
 
+/**
+ * e_editor_set_filename:
+ * @editor: an #EEditor
+ * @filename: Target file
+ *
+ * Sets file to which content of the editor should be saved (see #e_editor_save())
+ */
 void
 e_editor_set_filename (EEditor *editor,
 		       const gchar *filename)
@@ -911,6 +968,18 @@ e_editor_set_filename (EEditor *editor,
 	g_object_notify (G_OBJECT (editor), "filename");
 }
 
+/**
+ * e_editor_save:
+ * @editor: an #EEditor
+ * @filename: file into which to save the content
+ * @as_html: whether the content should be saved as HTML or plain text
+ * @error:[out] a #GError
+ *
+ * Saves current content of the #EEditorWidget into given file. When @as_html
+ * is @FALSE, the content is first converted into plain text.
+ *
+ * Returns: @TRUE when content is succesfully saved, @FALSE otherwise.
+ */
 gboolean
 e_editor_save (EEditor *editor,
 	       const gchar *filename,
@@ -953,6 +1022,15 @@ e_editor_save (EEditor *editor,
 	return TRUE;
 }
 
+/**
+ * e_editor_emit_spell_languages_changed:
+ * @editor: an #EEditor
+ *
+ * Emits "spell-languages-checked" signal on the @editor.
+ *
+ * This function is for internal use by the editor components and should not
+ * be called from outside the editor.
+ */
 void
 e_editor_emit_spell_languages_changed (EEditor *editor)
 {

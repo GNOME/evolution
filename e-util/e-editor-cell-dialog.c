@@ -1,6 +1,8 @@
 /*
  * e-editor-cell-dialog.c
  *
+ * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -15,7 +17,7 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  */
- 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -598,7 +600,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 
 	g_signal_connect_swapped (
 		widget, "toggled",
-		G_CALLBACK (editor_cell_dialog_set_scope), dialog);	
+		G_CALLBACK (editor_cell_dialog_set_scope), dialog);
 
 	/* Scope: row */
 	widget = gtk_image_new_from_icon_name ("stock_select-row", GTK_ICON_SIZE_BUTTON);
@@ -611,7 +613,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 
 	g_signal_connect_swapped (
 		widget, "toggled",
-		G_CALLBACK (editor_cell_dialog_set_scope), dialog);	
+		G_CALLBACK (editor_cell_dialog_set_scope), dialog);
 
 	/* Scope: table */
 	widget = gtk_image_new_from_icon_name ("stock_select-table", GTK_ICON_SIZE_BUTTON);
@@ -624,7 +626,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 
 	g_signal_connect_swapped (
 		widget, "toggled",
-		G_CALLBACK (editor_cell_dialog_set_scope), dialog);	
+		G_CALLBACK (editor_cell_dialog_set_scope), dialog);
 
 	/* Scope: column */
 	widget = gtk_image_new_from_icon_name ("stock_select-column", GTK_ICON_SIZE_BUTTON);

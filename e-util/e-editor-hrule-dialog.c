@@ -1,6 +1,8 @@
 /*
  * e-editor-hrule-dialog.h
  *
+ * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -22,6 +24,7 @@
 
 #include "e-editor-hrule-dialog.h"
 #include "e-editor-utils.h"
+#include "e-editor-widget.h"
 
 #include <glib/gi18n-lib.h>
 #include <webkit/webkitdom.h>
@@ -231,8 +234,8 @@ editor_hrule_dialog_show (GtkWidget *widget)
 	}
 
 	if (!rule) {
-		webkit_dom_document_exec_command (
-			document, "insertHorizontalRule", FALSE, "");
+		e_editor_widget_exec_command (
+			editor_widget, E_EDITOR_WIDGET_COMMAND_INSERT_HORIZONTAL_RULE, NULL);
 
 		rule = e_editor_dom_node_find_child_element (
 			webkit_dom_range_get_start_container (range, NULL), "HR");

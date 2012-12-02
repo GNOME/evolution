@@ -1,6 +1,8 @@
 /*
  * e-editor-utils.c
  *
+ * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -23,6 +25,18 @@
 #include "e-editor-utils.h"
 #include <string.h>
 
+/**
+ * e_editor_dom_node_find_parent_element:
+ * @node: Start node
+ * @tagname: Tag name of element to search
+ *
+ * Recursively searches for first occurance of element with given @tagname
+ * that is parent of given @node.
+ *
+ * Returns: A #WebKitDOMElement with @tagname representing parent of @node or
+ * @NULL when @node has no parent with given @tagname. When @node matches @tagname,
+ * then the @node is returned.
+ */
 WebKitDOMElement *
 e_editor_dom_node_find_parent_element (WebKitDOMNode *node,
 				       const gchar *tagname)
@@ -53,6 +67,18 @@ e_editor_dom_node_find_parent_element (WebKitDOMNode *node,
 	return NULL;
 }
 
+/**
+ * e_editor_dom_node_find_child_element:
+ * @node: Start node
+ * @tagname: Tag name of element to search.
+ *
+ * Recursively searches for first occurence of element with given @tagname that
+ * is a child of @node.
+ *
+ * Returns: A #WebKitDOMElement with @tagname representing a child of @node or
+ * @NULL when @node has no child with given @tagname. When @node matches @tagname,
+ * then the @node is returned.
+ */
 WebKitDOMElement *
 e_editor_dom_node_find_child_element (WebKitDOMNode *node,
 				      const gchar *tagname)
