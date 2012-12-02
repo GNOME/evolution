@@ -1,6 +1,8 @@
 /*
  * e-editor-selection.c
  *
+ * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -21,6 +23,7 @@
 #endif
 
 #include "e-editor-selection.h"
+#include "e-editor-widget.h"
 #include "e-editor.h"
 #include "e-editor-utils.h"
 
@@ -39,6 +42,20 @@
 #define WORD_WRAP_LENGTH 71
 
 
+G_DEFINE_TYPE (
+	EEditorSelection,
+	e_editor_selection,
+	G_TYPE_OBJECT
+);
+
+/**
+ * EEditorSelection:
+ *
+ * The #EEditorSelection object represents current position of the cursor
+ * with the editor or current text selection within the editor. To obtain
+ * valid #EEditorSelection, call #e_editor_widget_get_selection().
+ */
+
 struct _EEditorSelectionPrivate {
 
 	WebKitWebView *webview;
@@ -51,15 +68,9 @@ struct _EEditorSelectionPrivate {
 	gulong selection_offset;
 };
 
-G_DEFINE_TYPE (
-	EEditorSelection,
-	e_editor_selection,
-	G_TYPE_OBJECT
-);
-
 enum {
 	PROP_0,
-	PROP_WEBVIEW,
+	PROP_EDITOR_WIDGET,
 	PROP_ALIGNMENT,
 	PROP_BACKGROUND_COLOR,
 	PROP_BOLD,
@@ -214,12 +225,12 @@ webview_selection_changed (WebKitWebView *webview,
 }
 
 static void
-editor_selection_set_webview (EEditorSelection *selection,
-			      WebKitWebView *webview)
+editor_selection_set_editor_widget (EEditorSelection *selection,
+				    EEditorWidget *editor_widget)
 {
-	selection->priv->webview = g_object_ref (webview);
+	selection->priv->webview = g_object_ref (E_EDITOR_WIDGET (editor_widget));
 	g_signal_connect (
-		webview, "selection-changed",
+		editor_widget, "selection-changed",
 		G_CALLBACK (webview_selection_changed), selection);
 }
 
@@ -322,8 +333,8 @@ e_editor_selection_set_property (GObject *object,
 	EEditorSelection *selection = E_EDITOR_SELECTION (object);
 
 	switch (property_id) {
-		case PROP_WEBVIEW:
-			editor_selection_set_webview (
+		case PROP_EDITOR_WIDGET:
+			editor_selection_set_editor_widget (
 				selection, g_value_get_object (value));
 			return;
 
@@ -421,14 +432,21 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_WEBVIEW,
+		PROP_EDITOR_WIDGET,
 		g_param_spec_object (
-			"webview",
+			"editor-widget",
 			NULL,
 			NULL,
-		        WEBKIT_TYPE_WEB_VIEW,
-		        G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+			E_TYPE_EDITOR_WIDGET,
+			G_PARAM_WRITABLE |
+			G_PARAM_CONSTRUCT_ONLY));
 
+	/**
+	 * EEditorSelection:alignment
+	 *
+	 * Holds alignment of current paragraph.
+	 */
+	/* FIXME: Convert the enum to a proper type */
 	g_object_class_install_property (
 		object_class,
 		PROP_ALIGNMENT,
@@ -441,6 +459,12 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 			E_EDITOR_SELECTION_ALIGNMENT_LEFT,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EEditorSelection:background-color
+	 *
+	 * Holds background color of current selection or at current cursor
+	 * position.
+	 */
 	g_object_class_install_property (
 		object_class,
 		PROP_BACKGROUND_COLOR,
@@ -451,6 +475,12 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 		        NULL,
 		        G_PARAM_READWRITE));
 
+	/**
+	 * EEditorSelection:bold
+	 *
+	 * Holds whether current selection or text at current cursor position
+	 * is bold.
+	 */
 	g_object_class_install_property (
 		object_class,
 		PROP_BOLD,
@@ -461,6 +491,11 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 			FALSE,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EEditorSelection:font-name
+	 *
+	 * Holds name of font in current selection or at current cursor position.
+	 */
 	g_object_class_install_property (
 		object_class,
 		PROP_FONT_NAME,
@@ -471,6 +506,11 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 		        NULL,
 		        G_PARAM_READWRITE));
 
+	/**
+	 * EEditorSelection:font-size
+	 *
+	 * Holds point size of current selection or at current cursor position.
+	 */
 	g_object_class_install_property (
 		object_class,
 		PROP_FONT_SIZE,
@@ -483,6 +523,11 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 			3,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EEditorSelection:font-color
+	 *
+	 * Holds font color of current selection or at current cursor position
+	 */
 	g_object_class_install_property (
 		object_class,
 		PROP_FONT_COLOR,
@@ -493,6 +538,13 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EEditorSelection:block-format
+	 *
+	 * Holds block format of current paragraph. See #EEditorSelectionBlockFormat
+	 * for valid values.
+	 */
+	/* FIXME: Convert the EEditorSelectionBlockFormat enum to a propert type */
 	g_object_class_install_property (
 		object_class,
 		PROP_BLOCK_FORMAT,
@@ -505,6 +557,12 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 			0,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EEditorSelection:indented
+	 *
+	 * Holds whether current paragraph is indented. This does not include
+	 * citations.
+	 */
 	g_object_class_install_property (
 		object_class,
 		PROP_INDENTED,
@@ -515,6 +573,12 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 			FALSE,
 			G_PARAM_READABLE));
 
+	/**
+	 * EEditorSelection:italic
+	 *
+	 * Holds whether current selection or letter at current cursor position
+	 * is italic.
+	 */
 	g_object_class_install_property (
 		object_class,
 		PROP_ITALIC,
@@ -525,6 +589,12 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 			FALSE,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EEditorSelection:monospaced
+	 *
+	 * Holds whether current selection or letter at current cursor position
+	 * is monospaced.
+	 */
 	g_object_class_install_property (
 		object_class,
 		PROP_MONOSPACED,
@@ -535,6 +605,12 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 			FALSE,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EEditorSelection:strike-through
+	 *
+	 * Holds whether current selection or letter at current cursor position
+	 * is strike-through.
+	 */
 	g_object_class_install_property (
 		object_class,
 		PROP_STRIKE_THROUGH,
@@ -545,6 +621,12 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 			FALSE,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EEditorSelection:superscript
+	 *
+	 * Holds whether current selection or letter at current cursor position
+	 * is in superscript.
+	 */
 	g_object_class_install_property (
 		object_class,
 		PROP_SUPERSCRIPT,
@@ -555,6 +637,27 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 			FALSE,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EEditorSelection:subscript
+	 *
+	 * Holds whether current selection or letter at current cursor position
+	 * is in subscript.
+	 */
+	g_object_class_install_property (
+		object_class,
+		PROP_SUBSCRIPT,
+		g_param_spec_boolean (
+			"subscript",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	/**
+	 * EEditorSelection:text
+	 *
+	 * Holds always up-to-date text of current selection.
+	 */
 	g_object_class_install_property (
 		object_class,
 		PROP_TEXT,
@@ -565,6 +668,12 @@ e_editor_selection_class_init (EEditorSelectionClass *klass)
 		       NULL,
 		       G_PARAM_READABLE));
 
+	/**
+	 * EEditorSelection:underline
+	 *
+	 * Holds whether current selection or letter at current cursor position
+	 * is underlined.
+	 */
 	g_object_class_install_property (
 		object_class,
 		PROP_UNDERLINE,
@@ -583,16 +692,14 @@ e_editor_selection_init (EEditorSelection *selection)
 	selection->priv = E_EDITOR_SELECTION_GET_PRIVATE (selection);
 }
 
-EEditorSelection *
-e_editor_selection_new (WebKitWebView *parent_view)
-{
-	g_return_val_if_fail (WEBKIT_IS_WEB_VIEW (parent_view), NULL);
-
-	return g_object_new (
-			E_TYPE_EDITOR_SELECTION,
-			"webview", parent_view, NULL);
-}
-
+/**
+ * e_editor_selection_has_text:
+ * @selection: an #EEditorSelection
+ *
+ * Returns whether current selection contains any text.
+ *
+ * Returns: @TRUE when current selection contains text, @FALSE otherwise.
+ */
 gboolean
 e_editor_selection_has_text (EEditorSelection *selection)
 {
@@ -634,6 +741,15 @@ e_editor_selection_has_text (EEditorSelection *selection)
 	return FALSE;
 }
 
+/**
+ * e_editor_selection_get_caret_word:
+ * @selection: an #EEditorSelection
+ *
+ * Returns word under cursor.
+ *
+ * Returns: A newly allocated string with current caret word or @NULL when there
+ * is no text under cursor or when selection is active. [transfer-full].
+ */
 gchar *
 e_editor_selection_get_caret_word (EEditorSelection *selection)
 {
@@ -650,6 +766,13 @@ e_editor_selection_get_caret_word (EEditorSelection *selection)
 	return webkit_dom_range_to_string (range, NULL);
 }
 
+/**
+ * e_editor_selection_replace_caret_word:
+ * @selection: an #EEditorSelection
+ * @replacement: a string to replace current caret word with
+ *
+ * Replaces current word under cursor with @replacement.
+ */
 void
 e_editor_selection_replace_caret_word (EEditorSelection *selection,
 				       const gchar *replacement)
@@ -673,6 +796,15 @@ e_editor_selection_replace_caret_word (EEditorSelection *selection,
 	e_editor_selection_insert_html (selection, replacement);
 }
 
+/**
+ * e_editor_selection_get_string:
+ * @selection: an #EEditorSelection
+ *
+ * Returns currently selected string.
+ *
+ * Returns: A pointer to content of current selection. The string is owned by
+ * #EEditorSelection and should not be free'd.
+ */
 const gchar *
 e_editor_selection_get_string(EEditorSelection *selection)
 {
@@ -684,6 +816,13 @@ e_editor_selection_get_string(EEditorSelection *selection)
 	return selection->priv->text;
 }
 
+/**
+ * e_editor_selection_replace:
+ * @selection: an #EEditorSelection
+ * @new_string: a string to replace current selection with
+ *
+ * Replaces currently selected text with @new_string.
+ */
 void
 e_editor_selection_replace (EEditorSelection *selection,
 			    const gchar *new_string)
@@ -700,6 +839,14 @@ e_editor_selection_replace (EEditorSelection *selection,
 		selection->priv->range, WEBKIT_DOM_NODE (frag), NULL);
 }
 
+/**
+ * e_editor_selection_get_alignment:
+ * @selection: #an EEditorSelection
+ *
+ * Returns alignment of current paragraph
+ *
+ * Returns: #EEditorSelectionAlignment
+ */
 EEditorSelectionAlignment
 e_editor_selection_get_alignment (EEditorSelection *selection)
 {
@@ -750,12 +897,18 @@ e_editor_selection_get_alignment (EEditorSelection *selection)
 	return alignment;
 }
 
+/**
+ * e_editor_selection_set_alignment:
+ * @selection: an #EEditorSelection
+ * @alignment: an #EEditorSelectionAlignment value to apply
+ *
+ * Sets alignment of current paragraph to give @alignment.
+ */
 void
 e_editor_selection_set_alignment (EEditorSelection *selection,
 				  EEditorSelectionAlignment alignment)
 {
-	WebKitDOMDocument *document;
-	const gchar *command;
+	EEditorWidgetCommand command;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
@@ -765,27 +918,35 @@ e_editor_selection_set_alignment (EEditorSelection *selection,
 
 	switch (alignment) {
 		case E_EDITOR_SELECTION_ALIGNMENT_CENTER:
-			command = "justifyCenter";
+			command = E_EDITOR_WIDGET_COMMAND_JUSTIFY_CENTER;
 			break;
 
 		case E_EDITOR_SELECTION_ALIGNMENT_LEFT:
-			command = "justifyLeft";
+			command = E_EDITOR_WIDGET_COMMAND_JUSTIFY_LEFT;
 			break;
 
 		case E_EDITOR_SELECTION_ALIGNMENT_RIGHT:
-			command = "justifyRight";
+			command = E_EDITOR_WIDGET_COMMAND_JUSTIFY_RIGHT;
 			break;
 	}
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, command, FALSE, "");
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview), command, NULL);
 
 	g_object_notify (G_OBJECT (selection), "alignment");
 }
 
-
+/**
+ * e_editor_selection_get_background_color:
+ * @selection: an #EEditorSelection
+ *
+ * Returns background color of currently selected text or letter at current
+ * cursor position.
+ *
+ * Returns: A string with code of current background color.
+ */
 const gchar *
-e_editor_selection_get_background_color	(EEditorSelection *selection)
+e_editor_selection_get_background_color (EEditorSelection *selection)
 {
 	WebKitDOMNode *ancestor;
 	WebKitDOMCSSStyleDeclaration *css;
@@ -803,22 +964,36 @@ e_editor_selection_get_background_color	(EEditorSelection *selection)
 	return selection->priv->background_color;
 }
 
+/**
+ * e_editor_selection_set_background_color:
+ * @selection: an #EEditorSelection
+ * @color: code of new background color to set
+ *
+ * Changes background color of current selection or letter at current cursor
+ * position to @color.
+ */
 void
 e_editor_selection_set_background_color (EEditorSelection *selection,
 					const gchar *color)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 	g_return_if_fail (color && *color);
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (
-		document, "backColor", FALSE, color);
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_BACKGROUND_COLOR, color);
 
 	g_object_notify (G_OBJECT (selection), "background-color");
 }
 
+/**
+ * e_editor_selection_get_block_format:
+ * @selection: an #EEditorSelection
+ *
+ * Returns block format of current paragraph.
+ *
+ * Returns: #EEditorSelectionBlockFormat
+ */
 EEditorSelectionBlockFormat
 e_editor_selection_get_block_format (EEditorSelection *selection)
 {
@@ -883,13 +1058,19 @@ e_editor_selection_get_block_format (EEditorSelection *selection)
 	return result;
 }
 
+/**
+ * e_editor_selection_set_block_format:
+ * @selection: an #EEditorSelection
+ * @format: an #EEditorSelectionBlockFormat value
+ *
+ * Changes block format of current paragraph to @format.
+ */
 void
 e_editor_selection_set_block_format (EEditorSelection *selection,
 				     EEditorSelectionBlockFormat format)
 {
 	EEditorSelectionBlockFormat current_format;
-	WebKitDOMDocument *document;
-	const gchar *command;
+	EEditorWidgetCommand command;
 	const gchar *value;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
@@ -899,80 +1080,80 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 		return;
 	}
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-
 	switch (format) {
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE:
-			command = "formatBlock";
+			command = E_EDITOR_WIDGET_COMMAND_FORMAT_BLOCK;
 			value = "BLOCKQUOTE";
 			break;
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_H1:
-			command = "formatBlock";
+			command = E_EDITOR_WIDGET_COMMAND_FORMAT_BLOCK;
 			value = "H1";
 			break;
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_H2:
-			command = "formatBlock";
+			command = E_EDITOR_WIDGET_COMMAND_FORMAT_BLOCK;
 			value = "H2";
 			break;
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_H3:
-			command = "formatBlock";
+			command = E_EDITOR_WIDGET_COMMAND_FORMAT_BLOCK;
 			value = "H3";
 			break;
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_H4:
-			command = "formatBlock";
+			command = E_EDITOR_WIDGET_COMMAND_FORMAT_BLOCK;
 			value = "H4";
 			break;
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_H5:
-			command = "formatBlock";
+			command = E_EDITOR_WIDGET_COMMAND_FORMAT_BLOCK;
 			value = "H5";
 			break;
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_H6:
-			command = "formatBlock";
+			command = E_EDITOR_WIDGET_COMMAND_FORMAT_BLOCK;
 			value = "H6";
 			break;
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH:
-			command = "formatBlock";
+			command = E_EDITOR_WIDGET_COMMAND_FORMAT_BLOCK;
 			value = "P";
 			break;
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_PRE:
-			command = "formatBlock";
+			command = E_EDITOR_WIDGET_COMMAND_FORMAT_BLOCK;
 			value = "PRE";
 			break;
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS:
-			command = "formatBlock";
+			command = E_EDITOR_WIDGET_COMMAND_FORMAT_BLOCK;
 			value = "ADDRESS";
 			break;
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST:
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA:
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN:
-			command = "insertOrderedList";
-			value = "";
+			command = E_EDITOR_WIDGET_COMMAND_INSERT_ORDERED_LIST;
+			value = NULL;
 			break;
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST:
-			command = "insertUnorderedList";
-			value = "";
+			command = E_EDITOR_WIDGET_COMMAND_INSERT_UNORDERED_LIST;
+			value = NULL;
 			break;
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_NONE:
 		default:
-			command = "removeFormat";
-			value = "";
+			command = E_EDITOR_WIDGET_COMMAND_REMOVE_FORMAT;
+			value = NULL;
 			break;
 	}
 
 
 	/* First remove (un)ordered list before changing formatting */
 	if (current_format == E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST) {
-		webkit_dom_document_exec_command (
-			document, "insertUnorderedList", FALSE, "");
+		e_editor_widget_exec_command (
+			E_EDITOR_WIDGET (selection->priv->webview),
+			E_EDITOR_WIDGET_COMMAND_INSERT_UNORDERED_LIST, NULL);
 		/*		    ^-- not a typo, "insert" toggles the formatting
 		 * 			if already present */
 	} else if (current_format >= E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST) {
-		webkit_dom_document_exec_command (
-			document, "insertOrderedList", FALSE ,"");
+		e_editor_widget_exec_command (
+			E_EDITOR_WIDGET (selection->priv->webview),
+			E_EDITOR_WIDGET_COMMAND_INSERT_ORDERED_LIST, NULL);
 	}
 
-	webkit_dom_document_exec_command (
-		document, command, FALSE, value);
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview), command, value);
 
 	/* Fine tuning - set the specific marker type for ordered lists */
 	if ((format == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA) ||
@@ -1000,7 +1181,14 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 	g_object_notify (G_OBJECT (selection), "block-format");
 }
 
-
+/**
+ * e_editor_selection_get_font_color:
+ * @selection: an #EEditorSelection
+ * @rgba:[out] a #GdkRGBA object to be set to current font color
+ *
+ * Sets @rgba to contain color of current text selection or letter at current
+ * cursor position.
+ */
 void
 e_editor_selection_get_font_color (EEditorSelection *selection,
 				   GdkRGBA *rgba)
@@ -1018,11 +1206,18 @@ e_editor_selection_get_font_color (EEditorSelection *selection,
 	g_free (color);
 }
 
+/**
+ * e_editor_selection_set_font_color:
+ * @selection: an #EEditorSelection
+ * @rgba: a #GdkRGBA
+ *
+ * Sets font color of current selection or letter at current cursor position to
+ * color defined in @rgba.
+ */
 void
 e_editor_selection_set_font_color (EEditorSelection *selection,
 				   const GdkRGBA *rgba)
 {
-	WebKitDOMDocument *document;
 	gchar *color;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
@@ -1033,14 +1228,24 @@ e_editor_selection_set_font_color (EEditorSelection *selection,
 
 	color = g_strdup_printf ("#%06x", e_rgba_to_value ((GdkRGBA *) rgba));
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "foreColor", FALSE, color);
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_FORE_COLOR, color);
 
 	g_free (color);
 
 	g_object_notify (G_OBJECT (selection), "font-color");
 }
 
+/**
+ * e_editor_selection_get_font_name:
+ * @selection: an #EEditorSelection
+ *
+ * Returns name of font used in current selection or at letter at current cursor
+ * position.
+ *
+ * Returns: A string with font name. [transfer-none]
+ */
 const gchar *
 e_editor_selection_get_font_name (EEditorSelection *selection)
 {
@@ -1061,21 +1266,35 @@ e_editor_selection_get_font_name (EEditorSelection *selection)
 	return selection->priv->font_family;
 }
 
+/**
+ * e_editor_selection_set_font_name:
+ * @selection: an #EEditorSelection
+ * @font_name: a font name to apply
+ *
+ * Sets font name of current selection or of letter at current cursor position
+ * to @font_name.
+ */
 void
 e_editor_selection_set_font_name (EEditorSelection *selection,
 				  const gchar *font_name)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "fontName", FALSE, "");
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_FONT_NAME, font_name);
+
 
 	g_object_notify (G_OBJECT (selection), "font-name");
 }
 
-guint
+/**
+ * e_editor_Selection_get_font_size:
+ * @selection: an #EEditorSelection
+ *
+ * Returns point size of current selection or of letter at current cursor position.
+ */
+ guint
 e_editor_selection_get_font_size (EEditorSelection *selection)
 {
 	gchar *size;
@@ -1100,24 +1319,40 @@ e_editor_selection_get_font_size (EEditorSelection *selection)
 	return size_int;
 }
 
+/**
+ * e_editor_selection_set_font_size:
+ * @selection: an #EEditorSelection
+ * @font_size: point size to apply
+ *
+ * Sets font size of current selection or of letter at current cursor position
+ * to @font_size.
+ */
 void
 e_editor_selection_set_font_size (EEditorSelection *selection,
 				  guint font_size)
 {
-	WebKitDOMDocument *document;
 	gchar *size_str;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
 	size_str = g_strdup_printf("%d", font_size);
-	webkit_dom_document_exec_command (document, "fontSize", FALSE, size_str);
+
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_FONT_SIZE, size_str);
 	g_free (size_str);
 
 	g_object_notify (G_OBJECT (selection), "font-size");
 }
 
-/* Not a property! */
+/**
+ * e_editor_selection_is_citation:
+ * @selection: an #EEditorSelection
+ *
+ * Returns whether current paragraph is a citation.
+ *
+ * Returns: @TRUE when current paragraph is a citation, @FALSE otherwise.
+ */
 gboolean
 e_editor_selection_is_citation (EEditorSelection* selection)
 {
@@ -1127,6 +1362,15 @@ e_editor_selection_is_citation (EEditorSelection* selection)
 	return get_has_style (selection, "citation");
 }
 
+/**
+ * e_editor_selection_is_indented:
+ * @selection: an #EEditorSelection
+ *
+ * Returns whether current paragraph is indented. This does not include citations.
+ * To check, whether paragraph is a citation, use #e_editor_selection_is_citation().
+ *
+ * Returns: @TRUE when current paragraph is indented, @FALSE otherwise.
+ */
 gboolean
 e_editor_selection_is_indented (EEditorSelection *selection)
 {
@@ -1135,32 +1379,53 @@ e_editor_selection_is_indented (EEditorSelection *selection)
 	return get_has_style (selection, "blockquote");
 }
 
+/**
+ * e_editor_selection_indent:
+ * @selection: an #EEditorSelection
+ *
+ * Indents current paragraph by one level.
+ */
 void
 e_editor_selection_indent (EEditorSelection *selection)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "indent", FALSE, "");
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_INDENT, NULL);
+
 
 	g_object_notify (G_OBJECT (selection), "indented");
 }
 
+/**
+ * e_editor_selection_unindent:
+ * @selection: an #EEditorSelection
+ *
+ * Unindents current paragraph by one level.
+ */
 void
 e_editor_selection_unindent (EEditorSelection *selection)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "outdent", FALSE, "");
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_OUTDENT, NULL);
+
 
 	g_object_notify (G_OBJECT (selection), "indented");
 }
 
+/**
+ * e_editor_selection_is_bold:
+ * @selection: an #EEditorSelection
+ *
+ * Returns whether current selection or letter at current cursor position
+ * is bold.
+ *
+ * Returns @TRUE when selection is bold, @FALSE otherwise.
+ */
 gboolean
 e_editor_selection_is_bold (EEditorSelection *selection)
 {
@@ -1169,12 +1434,18 @@ e_editor_selection_is_bold (EEditorSelection *selection)
 	return get_has_style (selection, "b");
 }
 
+/**
+ * e_editor_selection_set_bold:
+ * @selection: an #EEditorSelection
+ * @bold: @TRUE to enable bold, @FALSE to disable
+ *
+ * Toggles bold formatting of current selection or letter at current cursor
+ * position, depending on whether @bold is @TRUE or @FALSE.
+ */
 void
 e_editor_selection_set_bold (EEditorSelection *selection,
 			     gboolean bold)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
 	if ((e_editor_selection_is_bold (selection) ? TRUE : FALSE)
@@ -1182,12 +1453,23 @@ e_editor_selection_set_bold (EEditorSelection *selection,
 		return;
 	}
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "bold", FALSE, "");
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_BOLD, NULL);
+
 
 	g_object_notify (G_OBJECT (selection), "bold");
 }
 
+/**
+ * e_editor_selection_is_italic:
+ * @selection: an #EEditorSelection
+ *
+ * Returns whether current selection or letter at current cursor position
+ * is italic.
+ *
+ * Returns @TRUE when selection is italic, @FALSE otherwise.
+ */
 gboolean
 e_editor_selection_is_italic (EEditorSelection *selection)
 {
@@ -1196,12 +1478,18 @@ e_editor_selection_is_italic (EEditorSelection *selection)
 	return get_has_style (selection, "i");
 }
 
+/**
+ * e_editor_selection_set_italic:
+ * @selection: an #EEditorSelection
+ * @italic: @TRUE to enable italic, @FALSE to disable
+ *
+ * Toggles italic formatting of current selection or letter at current cursor
+ * position, depending on whether @italic is @TRUE or @FALSE.
+ */
 void
 e_editor_selection_set_italic (EEditorSelection *selection,
 			       gboolean italic)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
 	if ((e_editor_selection_is_italic (selection) ? TRUE : FALSE)
@@ -1209,12 +1497,22 @@ e_editor_selection_set_italic (EEditorSelection *selection,
 		return;
 	}
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "italic", FALSE, "");
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_ITALIC, NULL);
 
 	g_object_notify (G_OBJECT (selection), "italic");
 }
 
+/**
+ * e_editor_selection_is_monospaced:
+ * @selection: an #EEditorSelection
+ *
+ * Returns whether current selection or letter at current cursor position
+ * is monospaced.
+ *
+ * Returns @TRUE when selection is monospaced, @FALSE otherwise.
+ */
 gboolean
 e_editor_selection_is_monospaced (EEditorSelection *selection)
 {
@@ -1223,6 +1521,14 @@ e_editor_selection_is_monospaced (EEditorSelection *selection)
 	return get_has_style (selection, "tt");
 }
 
+/**
+ * e_editor_selection_set_monospaced:
+ * @selection: an #EEditorSelection
+ * @monospaced: @TRUE to enable monospaced, @FALSE to disable
+ *
+ * Toggles monospaced formatting of current selection or letter at current cursor
+ * position, depending on whether @monospaced is @TRUE or @FALSE.
+ */
 void
 e_editor_selection_set_monospaced (EEditorSelection *selection,
 				   gboolean monospaced)
@@ -1262,13 +1568,23 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 		 *     In theory it's possible to write a code that would remove
 		 *     the <TT> from selection using advanced DOM manipulation,
 		 *     but right now I don't really feel like writing it all... */
-		webkit_dom_document_exec_command (
-			document, "removeFormat", FALSE, "");
+		e_editor_widget_exec_command (
+			E_EDITOR_WIDGET (selection->priv->webview),
+			E_EDITOR_WIDGET_COMMAND_REMOVE_FORMAT, NULL);
 	}
 
 	g_object_notify (G_OBJECT (selection), "monospaced");
 }
 
+/**
+ * e_editor_selection_is_strike_through:
+ * @selection: an #EEditorSelection
+ *
+ * Returns whether current selection or letter at current cursor position
+ * is striked through.
+ *
+ * Returns @TRUE when selection is striked through, @FALSE otherwise.
+ */
 gboolean
 e_editor_selection_is_strike_through (EEditorSelection *selection)
 {
@@ -1277,12 +1593,18 @@ e_editor_selection_is_strike_through (EEditorSelection *selection)
 	return get_has_style (selection, "strike");
 }
 
+/**
+ * e_editor_selection_set_strike_through:
+ * @selection: an #EEditorSelection
+ * @strike_through: @TRUE to enable strike through, @FALSE to disable
+ *
+ * Toggles strike through formatting of current selection or letter at current
+ * cursor position, depending on whether @strike_through is @TRUE or @FALSE.
+ */
 void
 e_editor_selection_set_strike_through (EEditorSelection *selection,
 				       gboolean strike_through)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
 	if ((e_editor_selection_is_strike_through (selection) ? TRUE : FALSE)
@@ -1290,12 +1612,22 @@ e_editor_selection_set_strike_through (EEditorSelection *selection,
 		return;
 	}
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "strikeThrough", FALSE, "");
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_STRIKETHROUGH, NULL);
 
 	g_object_notify (G_OBJECT (selection), "strike-through");
 }
 
+/**
+ * e_editor_selection_is_subscript:
+ * @selection: an #EEditorSelection
+ *
+ * Returns whether current selection or letter at current cursor position
+ * is in subscript.
+ *
+ * Returns @TRUE when selection is in subscript, @FALSE otherwise.
+ */
 gboolean
 e_editor_selection_is_subscript (EEditorSelection *selection)
 {
@@ -1324,12 +1656,18 @@ e_editor_selection_is_subscript (EEditorSelection *selection)
 	return (node != NULL);
 }
 
+/**
+ * e_editor_selection_set_subscript:
+ * @selection: an #EEditorSelection
+ * @subscrupt: @TRUE to enable subscript, @FALSE to disable
+ *
+ * Toggles subscript of current selection or letter at current cursor position,
+ * depending on whether @subscript is @TRUE or @FALSE.
+ */
 void
 e_editor_selection_set_subscript (EEditorSelection *selection,
 				  gboolean subscript)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
 	if ((e_editor_selection_is_subscript (selection) ? TRUE : FALSE)
@@ -1337,12 +1675,22 @@ e_editor_selection_set_subscript (EEditorSelection *selection,
 		return;
 	}
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "subscript", FALSE, "");
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_SUBSCRIPT, NULL);
 
 	g_object_notify (G_OBJECT (selection), "subscript");
 }
 
+/**
+ * e_editor_selection_is_superscript:
+ * @selection: an #EEditorSelection
+ *
+ * Returns whether current selection or letter at current cursor position
+ * is in superscript.
+ *
+ * Returns @TRUE when selection is in superscript, @FALSE otherwise.
+ */
 gboolean
 e_editor_selection_is_superscript (EEditorSelection *selection)
 {
@@ -1371,12 +1719,18 @@ e_editor_selection_is_superscript (EEditorSelection *selection)
 	return (node != NULL);
 }
 
+/**
+ * e_editor_selection_set_superscript:
+ * @selection: an #EEditorSelection
+ * @superscript: @TRUE to enable superscript, @FALSE to disable
+ *
+ * Toggles superscript of current selection or letter at current cursor position,
+ * depending on whether @superscript is @TRUE or @FALSE.
+ */
 void
 e_editor_selection_set_superscript (EEditorSelection *selection,
 				    gboolean superscript)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
 	if ((e_editor_selection_is_superscript (selection) ? TRUE : FALSE)
@@ -1384,12 +1738,22 @@ e_editor_selection_set_superscript (EEditorSelection *selection,
 		return;
 	}
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "superscript", FALSE, "");
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_SUPERSCRIPT, NULL);
 
 	g_object_notify (G_OBJECT (selection), "superscript");
 }
 
+/**
+ * e_editor_selection_is_underline:
+ * @selection: an #EEditorSelection
+ *
+ * Returns whether current selection or letter at current cursor position
+ * is underlined.
+ *
+ * Returns @TRUE when selection is underlined, @FALSE otherwise.
+ */
 gboolean
 e_editor_selection_is_underline (EEditorSelection *selection)
 {
@@ -1398,12 +1762,18 @@ e_editor_selection_is_underline (EEditorSelection *selection)
 	return get_has_style (selection, "u");
 }
 
+/**
+ * e_editor_selection_set_underline:
+ * @selection: an #EEditorSelection
+ * @underline: @TRUE to enable underline, @FALSE to disable
+ *
+ * Toggles underline formatting of current selection or letter at current
+ * cursor position, depending on whether @underline is @TRUE or @FALSE.
+ */
 void
 e_editor_selection_set_underline (EEditorSelection *selection,
 				  gboolean underline)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
 	if ((e_editor_selection_is_underline (selection) ? TRUE : FALSE)
@@ -1411,78 +1781,107 @@ e_editor_selection_set_underline (EEditorSelection *selection,
 		return;
 	}
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "underline", FALSE, "");
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_UNDERLINE, NULL);
 
 	g_object_notify (G_OBJECT (selection), "underline");
 }
 
+/**
+ * e_editor_selection_unlink:
+ * @selection: an #EEditorSelection
+ *
+ * Removes any links (&lt;A&gt; elements) from current selection or at current
+ * cursor position.
+ */
 void
 e_editor_selection_unlink (EEditorSelection *selection)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "unlink", FALSE, "");
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_UNLINK, NULL);
 }
 
+/**
+ * e_editor_selection_create_link:
+ * @selection: an #EEditorSelection
+ * @uri: destination of the new link
+ *
+ * Converts current selection into a link pointing to @url.
+ */
 void
 e_editor_selection_create_link (EEditorSelection *selection,
 				const gchar *uri)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 	g_return_if_fail (uri && *uri);
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "createLink", FALSE, uri);
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_CREATE_LINK, uri);
 }
 
-
+/**
+ * e_editor_selection_insert_text:
+ * @selection: an #EEditorSelection
+ * @plain_text: text to insert
+ *
+ * Inserts @plain_text at current cursor position. When a text range is selected,
+ * it will be replaced by @plain_text.
+ */
 void
 e_editor_selection_insert_text (EEditorSelection *selection,
 				const gchar *plain_text)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 	g_return_if_fail (plain_text != NULL);
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-
-	webkit_dom_document_exec_command (
-		document, "insertText", FALSE, plain_text);
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_INSERT_TEXT, plain_text);
 }
 
+/**
+ * e_editor_selection_insert_html:
+ * @selection: an #EEditorSelection
+ * @html_text: an HTML code to insert
+ *
+ * Insert @html_text into document at current cursor position. When a text range
+ * is selected, it will be replaced by @html_text.
+ */
 void
 e_editor_selection_insert_html (EEditorSelection *selection,
 				const gchar *html_text)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 	g_return_if_fail (html_text != NULL);
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (
-			document, "insertHTML", FALSE, html_text);
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_INSERT_HTML, html_text);
 }
 
+/**
+ * e_editor_selection_insert_image:
+ * @selection: an #EEditorSelection
+ * @image_uri: an URI of the source image
+ *
+ * Inserts image at current cursor position using @image_uri as source. When a
+ * text range is selected, it will be replaced by the image.
+ */
 void
 e_editor_selection_insert_image (EEditorSelection *selection,
 				 const gchar *image_uri)
 {
-	WebKitDOMDocument *document;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 	g_return_if_fail (image_uri != NULL);
 
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (
-			document, "insertImage", FALSE, image_uri);
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_INSERT_IMAGE, image_uri);
 }
 
 static gint
@@ -1529,6 +1928,12 @@ find_where_to_break_line (WebKitDOMNode *node,
 	return max_len;
 }
 
+/**
+ * e_editor_selection_wrap_lines:
+ * @selection: an #EEditorSelection
+ *
+ * Wraps all lines in current selection to be 71 characters long.
+ */
 void
 e_editor_selection_wrap_lines (EEditorSelection *selection)
 {
@@ -1652,6 +2057,27 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 	g_free (html);
 }
 
+/**
+ * e_editor_selection_save:
+ * @selection: an #EEditorSelection
+ *
+ * Saves current cursor position or current selection range. The selection can
+ * be later restored by calling #e_editor_selection_restore().
+ *
+ * Note that calling #e_editor_selection_save() overwrites previously saved
+ * position.
+ *
+ * Note that this method inserts special markings into the HTML code that are
+ * used to later restore the selection. It can happen that by deleting some segments
+ * of the document some of the markings are deleted too. In that case restoring
+ * the selection by #e_editor_selection_restore() can fail. Also by moving text
+ * segments (Cut & Paste) can result in moving the markings elsewhere, thus
+ * #e_editor_selection_restore() will restore the selection incorrectly.
+ *
+ * It is recommended to use this method only when you are not planning to make
+ * bigger changes to content or structure of the document (formatting changes
+ * are usually OK).
+ */
 void
 e_editor_selection_save (EEditorSelection* selection)
 {
@@ -1717,7 +2143,16 @@ e_editor_selection_save (EEditorSelection* selection)
 		WEBKIT_DOM_NODE (marker), split, NULL);
 }
 
-
+/**
+ * e_editor_selection_restore:
+ * @selection: an #EEditorSelection
+ *
+ * Restores cursor position or selection range that was saved by
+ * #e_editor_selection_save().
+ *
+ * Note that calling this function without calling #e_editor_selection_save()
+ * before is a programming error and the behavior is undefined.
+ */
 void
 e_editor_selection_restore (EEditorSelection* selection)
 {

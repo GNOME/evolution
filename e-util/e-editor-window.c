@@ -1,6 +1,8 @@
 /*
  * e-editor-window.h
  *
+ * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -26,6 +28,15 @@ G_DEFINE_TYPE (
 	EEditorWindow,
 	e_editor_window,
 	GTK_TYPE_WINDOW)
+
+/**
+ * EEditorWindow:
+ *
+ * A #GtkWindow that contains main toolbars and an #EEditor. To create a
+ * custom editor window, one can subclass this class and pack additional widgets
+ * above and below the editor using #e_editor_window_pack_above() and
+ * #e_editor_window_pack_below().
+ */
 
 struct _EEditorWindowPrivate {
 	EEditor *editor;
@@ -123,6 +134,14 @@ e_editor_window_init (EEditorWindow *window)
 	priv->editor_row = 2;
 }
 
+/**
+ * e_editor_window_new:
+ * @type: #GtkWindowType
+ *
+ * Creates a new editor window.
+ *
+ * Returns: A newly created editor window. [transfer-full]
+ */
 GtkWidget *
 e_editor_window_new (GtkWindowType type)
 {
@@ -132,6 +151,12 @@ e_editor_window_new (GtkWindowType type)
 		NULL);
 }
 
+/**
+ * e_editor_window_get_editor:
+ * @window: an #EEditorWindow
+ *
+ * Returns the #EEditor widget used in this @window.
+ */
 EEditor *
 e_editor_window_get_editor (EEditorWindow *window)
 {
@@ -140,6 +165,15 @@ e_editor_window_get_editor (EEditorWindow *window)
 	return window->priv->editor;
 }
 
+/**
+ * e_editor_window_pack_above:
+ * @window: an #EEditorWindow
+ * @child: a #GtkWidget
+ *
+ * Inserts @child in between the mail toolbars and the editor widget. If there
+ * are multiple children, the new @child is placed at the end (immediatelly
+ * adjacent to the editor widget)
+ */
 void
 e_editor_window_pack_above (EEditorWindow *window,
 			    GtkWidget *child)
@@ -157,9 +191,17 @@ e_editor_window_pack_above (EEditorWindow *window,
 		GTK_POS_TOP, 1, 1);
 }
 
+/**
+ * e_editor_window_pack_below:
+ * @window: an #EEditorWindow
+ * @child: a #GtkWidget
+ *
+ * Inserts @child below the editor widget. If there are multiple children, the
+ * new @child is placed at the end.
+ */
 void
 e_editor_window_pack_below (EEditorWindow *window,
-			  GtkWidget *child)
+			    GtkWidget *child)
 {
 	g_return_if_fail (E_IS_EDITOR_WINDOW (window));
 	g_return_if_fail (GTK_IS_WIDGET (child));

@@ -1,6 +1,8 @@
 /*
  * e-editor-page-dialog.h
  *
+ * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -417,7 +419,7 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	dialog->priv->text_color_picker = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Text:"));
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);	
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->text_color_picker);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);

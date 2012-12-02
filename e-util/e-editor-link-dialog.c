@@ -1,6 +1,8 @@
 /*
  * e-editor-link-dialog.h
  *
+ * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -23,6 +25,7 @@
 #include "e-editor-link-dialog.h"
 #include "e-editor-selection.h"
 #include "e-editor-utils.h"
+#include "e-editor-widget.h"
 
 #include <glib/gi18n-lib.h>
 
@@ -166,8 +169,8 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 				gtk_entry_get_text (
 					GTK_ENTRY (dialog->priv->label_edit)));
 
-			webkit_dom_document_exec_command (
-				document, "insertHTML", FALSE, html);
+			e_editor_widget_exec_command (
+				widget, E_EDITOR_WIDGET_COMMAND_INSERT_HTML, html);
 
 			g_free (html);
 
@@ -334,7 +337,7 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 		G_CALLBACK (editor_link_dialog_description_changed), dialog);
 	g_signal_connect_swapped (
 		widget, "key-press-event",
-		G_CALLBACK (editor_link_dialog_entry_key_pressed), dialog);	
+		G_CALLBACK (editor_link_dialog_entry_key_pressed), dialog);
 	dialog->priv->label_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Description:"));
