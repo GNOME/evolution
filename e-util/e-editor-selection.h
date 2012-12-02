@@ -105,7 +105,6 @@ gchar *			e_editor_selection_get_caret_word
 void			e_editor_selection_replace_caret_word
 							(EEditorSelection *selection,
 							 const gchar *replacement);
-
 void			e_editor_selection_set_alignment
 							(EEditorSelection *selection,
 							 EEditorSelectionAlignment alignment);
@@ -118,10 +117,6 @@ void			e_editor_selection_set_background_color
 							 const gchar *color);
 const gchar*		e_editor_selection_get_background_color
 		 					(EEditorSelection *selection);
-
-void			e_editor_selection_set_bold	(EEditorSelection *selection,
-							 gboolean bold);
-gboolean		e_editor_selection_get_bold	(EEditorSelection *selection);
 
 void			e_editor_selection_set_font_name
 							(EEditorSelection *selection,
@@ -149,42 +144,47 @@ EEditorSelectionBlockFormat
 			e_editor_selection_get_block_format
 							(EEditorSelection *selection);
 
-gboolean		e_editor_selection_get_indented	(EEditorSelection *selection);
+gboolean		e_editor_selection_is_citation	(EEditorSelection *selection);
+gboolean		e_editor_selection_is_indented	(EEditorSelection *selection);
 void			e_editor_selection_indent	(EEditorSelection *selection);
 void			e_editor_selection_unindent	(EEditorSelection *selection);
 
+void			e_editor_selection_set_bold	(EEditorSelection *selection,
+							 gboolean bold);
+gboolean		e_editor_selection_is_bold	(EEditorSelection *selection);
+
 void			e_editor_selection_set_italic	(EEditorSelection *selection,
 							 gboolean italic);
-gboolean		e_editor_selection_get_italic	(EEditorSelection *selection);
+gboolean		e_editor_selection_is_italic	(EEditorSelection *selection);
 
 void			e_editor_selection_set_monospaced
 							(EEditorSelection *selection,
 							 gboolean monospaced);
-gboolean		e_editor_selection_get_monospaced
+gboolean		e_editor_selection_is_monospaced
 							(EEditorSelection *selection);
 
 void			e_editor_selection_set_strike_through
 							(EEditorSelection *selection,
 							 gboolean strike_through);
-gboolean		e_editor_selection_get_strike_through
+gboolean		e_editor_selection_is_strike_through
 							(EEditorSelection *selection);
 
 void			e_editor_selection_set_superscript
 							(EEditorSelection *selection,
 							 gboolean superscript);
-gboolean		e_editor_selection_get_superscript
+gboolean		e_editor_selection_is_superscript
 							(EEditorSelection *selection);
 
 void			e_editor_selection_set_subscript
 							(EEditorSelection *selection,
 							 gboolean subscript);
-gboolean		e_editor_selection_get_subscript
+gboolean		e_editor_selection_is_subscript
 							(EEditorSelection *selection);
 
 void			e_editor_selection_set_underline
 							(EEditorSelection *selection,
 							 gboolean underline);
-gboolean		e_editor_selection_get_underline
+gboolean		e_editor_selection_is_underline
 							(EEditorSelection *selection);
 
 void			e_editor_selection_unlink	(EEditorSelection *selection);
