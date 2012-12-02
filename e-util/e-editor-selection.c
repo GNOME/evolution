@@ -127,21 +127,26 @@ get_has_style (EEditorSelection *selection,
 	result = FALSE;
 	while (!result && element) {
 		gchar *element_tag;
+		gboolean accept_citation = FALSE;
 
 		element_tag = webkit_dom_element_get_tag_name (element);
 
-		result = ((tag_len == strlen (element_tag)) &&
+		if (g_ascii_strncasecmp (style_tag, "citation", 8) == 0) {
+			result = ((tag_len == 10 /* strlen ("blockquote") */) &&
+				(g_ascii_strncasecmp (element_tag, "blockquote", 10) == 0));
+		} else {
+			result = ((tag_len == strlen (element_tag)) &&
 				(g_ascii_strncasecmp (element_tag, style_tag, tag_len) == 0));
+		}
 
 		/* Special case: <blockquote type=cite> marks quotation, while
 		 * just <blockquote> is used for indentation. If the <blockquote>
-		 * has type=cite, then ignore it */
+		 * has type=cite, then ignore it unless style_tag is "citation" */
 		if (result && g_ascii_strncasecmp (element_tag, "blockquote", 10) == 0) {
 			if (webkit_dom_element_has_attribute (element, "type")) {
 				gchar *type;
-				type = webkit_dom_element_get_attribute (
-						element, "type");
-				if (g_ascii_strncasecmp (type, "cite", 4) == 0) {
+				type = webkit_dom_element_get_attribute (element, "type");
+				if (!accept_citation && (g_ascii_strncasecmp (type, "cite", 4) == 0)) {
 					result = FALSE;
 				}
 				g_free (type);
@@ -240,7 +245,7 @@ e_editor_selection_get_property (GObject *object,
 
 		case PROP_BOLD:
 			g_value_set_boolean (value,
-				e_editor_selection_get_bold (selection));
+				e_editor_selection_is_bold (selection));
 			return;
 
 		case PROP_FONT_NAME:
@@ -265,32 +270,32 @@ e_editor_selection_get_property (GObject *object,
 
 		case PROP_INDENTED:
 			g_value_set_boolean (value,
-				e_editor_selection_get_indented (selection));
+				e_editor_selection_is_indented (selection));
 			return;
 
 		case PROP_ITALIC:
 			g_value_set_boolean (value,
-				e_editor_selection_get_italic (selection));
+				e_editor_selection_is_italic (selection));
 			return;
 
 		case PROP_MONOSPACED:
 			g_value_set_boolean (value,
-				e_editor_selection_get_monospaced (selection));
+				e_editor_selection_is_monospaced (selection));
 			return;
 
 		case PROP_STRIKE_THROUGH:
 			g_value_set_boolean (value,
-				e_editor_selection_get_strike_through (selection));
+				e_editor_selection_is_strike_through (selection));
 			return;
 
 		case PROP_SUBSCRIPT:
 			g_value_set_boolean (value,
-				e_editor_selection_get_subscript (selection));
+				e_editor_selection_is_subscript (selection));
 			return;
 
 		case PROP_SUPERSCRIPT:
 			g_value_set_boolean (value,
-				e_editor_selection_get_superscript (selection));
+				e_editor_selection_is_superscript (selection));
 			return;
 
 		case PROP_TEXT:
@@ -300,7 +305,7 @@ e_editor_selection_get_property (GObject *object,
 
 		case PROP_UNDERLINE:
 			g_value_set_boolean (value,
-				e_editor_selection_get_underline (selection));
+				e_editor_selection_is_underline (selection));
 			return;
 	}
 
@@ -1012,32 +1017,6 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 	g_object_notify (G_OBJECT (selection), "block-format");
 }
 
-gboolean
-e_editor_selection_get_bold (EEditorSelection *selection)
-{
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
-
-	return get_has_style (selection, "b");
-}
-
-void
-e_editor_selection_set_bold (EEditorSelection *selection,
-			     gboolean bold)
-{
-	WebKitDOMDocument *document;
-
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
-
-	if ((e_editor_selection_get_bold (selection) ? TRUE : FALSE)
-				== (bold ? TRUE : FALSE)) {
-		return;
-	}
-
-	document = webkit_web_view_get_dom_document (selection->priv->webview);
-	webkit_dom_document_exec_command (document, "bold", FALSE, "");
-
-	g_object_notify (G_OBJECT (selection), "bold");
-}
 
 void
 e_editor_selection_get_font_color (EEditorSelection *selection,
@@ -1155,8 +1134,18 @@ e_editor_selection_set_font_size (EEditorSelection *selection,
 	g_object_notify (G_OBJECT (selection), "font-size");
 }
 
+/* Not a property! */
 gboolean
-e_editor_selection_get_indented (EEditorSelection *selection)
+e_editor_selection_is_citation (EEditorSelection* selection)
+{
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	/* citation == <blockquote type='cite'> - special case handled in get_has_style() */
+	return get_has_style (selection, "citation");
+}
+
+gboolean
+e_editor_selection_is_indented (EEditorSelection *selection)
 {
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
@@ -1190,7 +1179,34 @@ e_editor_selection_unindent (EEditorSelection *selection)
 }
 
 gboolean
-e_editor_selection_get_italic (EEditorSelection *selection)
+e_editor_selection_is_bold (EEditorSelection *selection)
+{
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	return get_has_style (selection, "b");
+}
+
+void
+e_editor_selection_set_bold (EEditorSelection *selection,
+			     gboolean bold)
+{
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	if ((e_editor_selection_is_bold (selection) ? TRUE : FALSE)
+				== (bold ? TRUE : FALSE)) {
+		return;
+	}
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	webkit_dom_document_exec_command (document, "bold", FALSE, "");
+
+	g_object_notify (G_OBJECT (selection), "bold");
+}
+
+gboolean
+e_editor_selection_is_italic (EEditorSelection *selection)
 {
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
@@ -1205,7 +1221,7 @@ e_editor_selection_set_italic (EEditorSelection *selection,
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	if ((e_editor_selection_get_italic (selection) ? TRUE : FALSE)
+	if ((e_editor_selection_is_italic (selection) ? TRUE : FALSE)
 				== (italic ? TRUE : FALSE)) {
 		return;
 	}
@@ -1217,7 +1233,7 @@ e_editor_selection_set_italic (EEditorSelection *selection,
 }
 
 gboolean
-e_editor_selection_get_monospaced (EEditorSelection *selection)
+e_editor_selection_is_monospaced (EEditorSelection *selection)
 {
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
@@ -1234,7 +1250,7 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	is_monospaced = e_editor_selection_get_monospaced (selection) ? TRUE : FALSE;
+	is_monospaced = e_editor_selection_is_monospaced (selection) ? TRUE : FALSE;
 	if ((is_monospaced ? TRUE : FALSE) == (monospaced ? TRUE : FALSE)) {
 		return;
 	}
@@ -1271,7 +1287,7 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 }
 
 gboolean
-e_editor_selection_get_strike_through (EEditorSelection *selection)
+e_editor_selection_is_strike_through (EEditorSelection *selection)
 {
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
@@ -1286,7 +1302,7 @@ e_editor_selection_set_strike_through (EEditorSelection *selection,
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	if ((e_editor_selection_get_strike_through (selection) ? TRUE : FALSE)
+	if ((e_editor_selection_is_strike_through (selection) ? TRUE : FALSE)
 				== (strike_through? TRUE : FALSE)) {
 		return;
 	}
@@ -1298,7 +1314,7 @@ e_editor_selection_set_strike_through (EEditorSelection *selection,
 }
 
 gboolean
-e_editor_selection_get_subscript (EEditorSelection *selection)
+e_editor_selection_is_subscript (EEditorSelection *selection)
 {
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
@@ -1333,7 +1349,7 @@ e_editor_selection_set_subscript (EEditorSelection *selection,
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	if ((e_editor_selection_get_subscript (selection) ? TRUE : FALSE)
+	if ((e_editor_selection_is_subscript (selection) ? TRUE : FALSE)
 				== (subscript? TRUE : FALSE)) {
 		return;
 	}
@@ -1345,7 +1361,7 @@ e_editor_selection_set_subscript (EEditorSelection *selection,
 }
 
 gboolean
-e_editor_selection_get_superscript (EEditorSelection *selection)
+e_editor_selection_is_superscript (EEditorSelection *selection)
 {
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
@@ -1380,7 +1396,7 @@ e_editor_selection_set_superscript (EEditorSelection *selection,
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	if ((e_editor_selection_get_superscript (selection) ? TRUE : FALSE)
+	if ((e_editor_selection_is_superscript (selection) ? TRUE : FALSE)
 				== (superscript? TRUE : FALSE)) {
 		return;
 	}
@@ -1392,7 +1408,7 @@ e_editor_selection_set_superscript (EEditorSelection *selection,
 }
 
 gboolean
-e_editor_selection_get_underline (EEditorSelection *selection)
+e_editor_selection_is_underline (EEditorSelection *selection)
 {
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
 
@@ -1407,7 +1423,7 @@ e_editor_selection_set_underline (EEditorSelection *selection,
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	if ((e_editor_selection_get_underline (selection) ? TRUE : FALSE)
+	if ((e_editor_selection_is_underline (selection) ? TRUE : FALSE)
 				== (underline? TRUE : FALSE)) {
 		return;
 	}

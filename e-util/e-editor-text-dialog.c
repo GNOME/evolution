@@ -159,16 +159,16 @@ editor_text_dialog_show (GtkWidget *gtk_widget)
 
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->bold_check),
-		e_editor_selection_get_bold (selection));
+		e_editor_selection_is_bold (selection));
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->italic_check),
-		e_editor_selection_get_italic (selection));
+		e_editor_selection_is_italic (selection));
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->underline_check),
-		e_editor_selection_get_underline (selection));
+		e_editor_selection_is_underline (selection));
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->strikethrough_check),
-		e_editor_selection_get_strike_through (selection));
+		e_editor_selection_is_strike_through (selection));
 
 	gtk_combo_box_set_active (
 		GTK_COMBO_BOX (dialog->priv->size_check),
