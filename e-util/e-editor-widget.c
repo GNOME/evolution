@@ -459,11 +459,26 @@ static gboolean
 editor_widget_key_press_event (GtkWidget *gtk_widget,
 			       GdkEventKey *event)
 {
+	EEditorWidget *editor = E_EDITOR_WIDGET (gtk_widget);
+
 	if ((event->keyval == GDK_KEY_Control_L) ||
 	    (event->keyval == GDK_KEY_Control_R)) {
 
-		editor_widget_set_links_active (
-			E_EDITOR_WIDGET (gtk_widget), TRUE);
+		editor_widget_set_links_active (editor, TRUE);
+	}
+
+	if ((event->keyval == GDK_KEY_Return) ||
+	    (event->keyval == GDK_KEY_KP_Enter)) {
+
+		/* When user presses ENTER in a citation block, WebKit does not
+		 * break the citation automatically, so we need to use the special
+		 * command to do it. */
+		EEditorSelection *selection = e_editor_widget_get_selection (E_EDITOR_WIDGET (gtk_widget));
+		if (e_editor_selection_is_citation (selection)) {
+			WebKitDOMDocument *document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor));
+			webkit_dom_document_exec_command (document,  "InsertNewlineInQuotedContent", FALSE, "");
+			return TRUE;
+		}
 	}
 
 	/* Propagate the event to WebKit */
