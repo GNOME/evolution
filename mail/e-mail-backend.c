@@ -454,6 +454,9 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 			e_source_mail_composition_get_drafts_folder (
 			E_SOURCE_MAIL_COMPOSITION (extension));
 
+		if (!drafts_folder_uri)
+			continue;
+
 		if (class->equal_folder_name (drafts_folder_uri, uri)) {
 			GError *error = NULL;
 
