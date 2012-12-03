@@ -554,6 +554,85 @@
    <input type="string" name="word"/>
  </part>
 
+ <part name="anyheader">
+   <title>Any header</title>
+   <input type="optionlist" name="header-type">
+    <option value="contains">
+     <title>contains</title>
+     <code>
+       (match-all (header-contains "" ${word}))
+     </code>
+    </option>
+    <option value="not contains">
+     <title>does not contain</title>
+     <code>
+       (match-all (not (header-contains "" ${word})))
+     </code>
+    </option>
+    <option value="has-words">
+     <title>has words</title>
+     <code>
+	(match-all (header-has-words "" ${word}))
+     </code>
+    </option>
+    <option value="not has-words">
+     <title>does not have words</title>
+     <code>
+	(match-all (not (header-has-words "" ${word})))
+     </code>
+    </option>
+    <option value="is">
+     <title>is</title>
+     <code>
+       (match-all (header-matches "" ${word}))
+     </code>
+    </option>
+    <option value="is not">
+     <title>is not</title>
+     <code>
+       (match-all (not (header-matches "" ${word})))
+     </code>
+    </option>
+    <option value="starts with">
+     <title>starts with</title>
+     <code>
+       (match-all (header-starts-with "" ${word}))
+     </code>
+    </option>
+    <option value="not starts with">
+     <title>does not start with</title>
+     <code>
+       (match-all (not (header-starts-with "" ${word})))
+     </code>
+    </option>
+    <option value="ends with">
+     <title>ends with</title>
+     <code>
+       (match-all (header-ends-with "" ${word}))
+     </code>
+    </option>
+    <option value="not ends with">
+     <title>does not end with</title>
+     <code>
+       (match-all (not (header-ends-with "" ${word})))
+     </code>
+    </option>
+    <option value="matches soundex">
+     <title>sounds like</title>
+     <code>
+        (match-all (header-soundex "" ${word}))
+     </code>
+    </option>
+    <option value="not match soundex">
+     <title>does not sound like</title>
+     <code>
+        (match-all (not (header-soundex "" ${word})))
+     </code>
+    </option>
+   </input>
+   <input type="string" name="word"/>
+ </part>
+
  <part name="body">
    <title>Message Body</title>
    <input type="optionlist" name="body-type">

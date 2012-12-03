@@ -1,5 +1,6 @@
 /* Automatically generated. Do not edit. */
 gchar *s = N_("Adjust Score");
+gchar *s = N_("Any header");
 gchar *s = N_("Assign Color");
 gchar *s = N_("Assign Score");
 gchar *s = N_("Attachments");
