@@ -1046,17 +1046,32 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 			E_MAIL_SESSION (m->info->session),
 			m->folders->pdata[i], 0,
 			cancellable, &local_error);
-		if (folder) {
-			if (camel_folder_synchronize_sync (folder, FALSE, cancellable, &local_error))
-				camel_folder_refresh_info_sync (folder, cancellable, &local_error);
-			g_object_unref (folder);
-		}
+		if (folder && camel_folder_synchronize_sync (folder, FALSE, cancellable, &local_error))
+			camel_folder_refresh_info_sync (folder, cancellable, &local_error);
 
 		if (local_error != NULL) {
-			if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-				g_warning ("Failed to refresh folder: %s: %s", (const gchar *) m->folders->pdata[i], local_error->message);
+			if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+				const gchar *account_name = NULL, *full_name;
+
+				if (folder) {
+					CamelStore *store = camel_folder_get_parent_store (folder);
+
+					account_name = camel_service_get_display_name (CAMEL_SERVICE (store));
+					full_name = camel_folder_get_full_name (folder);
+				} else
+					full_name = (const gchar *) m->folders->pdata[i];
+
+				g_warning ("Failed to refresh folder '%s%s%s': %s",
+					account_name ? account_name : "",
+					account_name ? ": " : "",
+					full_name, local_error->message);
+			}
+
 			g_clear_error (&local_error);
 		}
+
+		if (folder)
+			g_object_unref (folder);
 
 		if (g_cancellable_is_cancelled (m->info->cancellable) ||
 		    g_cancellable_is_cancelled (cancellable))
