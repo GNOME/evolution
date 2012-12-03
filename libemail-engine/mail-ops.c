@@ -104,6 +104,7 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m,
 	CamelFolder *folder;
 	GPtrArray *uids, *folder_uids = NULL;
 	gboolean success = TRUE;
+	GError *local_error = NULL;
 
 	folder = m->source_folder;
 
@@ -124,16 +125,16 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m,
 
 	success = camel_filter_driver_filter_folder (
 		m->driver, folder, m->cache, uids, m->delete,
-		cancellable, error) == 0;
-	camel_filter_driver_flush (m->driver, error);
+		cancellable, &local_error) == 0;
+	camel_filter_driver_flush (m->driver, &local_error);
 
 	if (folder_uids)
 		camel_folder_free_uids (folder, folder_uids);
 
 	/* sync our source folder */
-	if (!m->cache)
+	if (!m->cache && !local_error)
 		camel_folder_synchronize_sync (
-			folder, FALSE, cancellable, error);
+			folder, FALSE, cancellable, &local_error);
 	camel_folder_thaw (folder);
 
 	if (m->destination)
@@ -143,6 +144,17 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m,
 	 * it in the main thread see also fetch_mail_fetch () below */
 	g_object_unref (m->driver);
 	m->driver = NULL;
+
+	if (g_error_matches (local_error, CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_URL_INVALID) ||
+	    g_error_matches (local_error, CAMEL_FOLDER_ERROR, CAMEL_FOLDER_ERROR_INVALID)) {
+		g_set_error (error, local_error->domain, local_error->code,
+			_("Failed to filter selected messages. One reason can be that folder "
+			  "location set in one or more filters is invalid. Please check your "
+			  "filters in Edit->Message Filters.\n"
+			  "Original error was: %s"), local_error->message);
+		g_clear_error (&local_error);
+	} else if (local_error)
+		g_propagate_error (error, local_error);
 
 	return success;
 }
