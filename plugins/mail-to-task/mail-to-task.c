@@ -857,13 +857,13 @@ do_mail_to_event (AsyncData *data)
 		else {
 			switch (e_cal_client_get_source_type (client)) {
 			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-				report_error_idle (_("Selected source is read only, thus cannot create event there. Select other source, please."), NULL);
+				report_error_idle (_("Selected calendar is read only, thus cannot create event there. Select other calendar, please."), NULL);
 				break;
 			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-				report_error_idle (_("Selected source is read only, thus cannot create task there. Select other source, please."), NULL);
+				report_error_idle (_("Selected task list is read only, thus cannot create task there. Select other task list, please."), NULL);
 				break;
 			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-				report_error_idle (_("Selected source is read only, thus cannot create memo there. Select other source, please."), NULL);
+				report_error_idle (_("Selected memo list is read only, thus cannot create memo there. Select other memo list, please."), NULL);
 				break;
 			default:
 				g_assert_not_reached ();

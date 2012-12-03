@@ -243,27 +243,27 @@ Many email systems add an Apparently-To header to messages that only have BCC re
 
   <error id="no-move-folder-nostore" type="error">
     <_primary>Cannot move folder "{0}" to "{1}".</_primary>
-    <_secondary xml:space="preserve">Cannot open source "{2}".</_secondary>
+    <_secondary xml:space="preserve">Cannot open source folder. Error: {2}</_secondary>
   </error>
 
   <error id="no-move-folder-to-nostore" type="error">
     <_primary>Cannot move folder "{0}" to "{1}".</_primary>
-    <_secondary xml:space="preserve">Cannot open target "{2}".</_secondary>
+    <_secondary xml:space="preserve">Cannot open target folder. Error: {2}</_secondary>
   </error>
 
   <error id="no-copy-folder-nostore" type="error">
     <_primary>Cannot copy folder "{0}" to "{1}".</_primary>
-    <_secondary xml:space="preserve">Cannot open source "{2}".</_secondary>
+    <_secondary xml:space="preserve">Cannot open source folder. Error: {2}</_secondary>
   </error>
 
   <error id="no-copy-folder-to-nostore" type="error">
     <_primary>Cannot copy folder "{0}" to "{1}".</_primary>
-    <_secondary xml:space="preserve">Cannot open target "{2}".</_secondary>
+    <_secondary xml:space="preserve">Cannot open target folder. Error: {2}</_secondary>
   </error>
 
   <error id="no-create-folder-nostore" type="error">
     <_primary>Cannot create folder "{0}".</_primary>
-    <_secondary xml:space="preserve">Cannot open source "{1}".</_secondary>
+    <_secondary xml:space="preserve">Cannot open folder. Error: {1}</_secondary>
   </error>
 
   <error id="account-incomplete" type="error">
@@ -330,7 +330,7 @@ go to the Search Folder editor to add it explicitly, if required.</_secondary>
   </error>
 
   <error id="vfolder-no-source" type="error">
-    <_primary>No sources selected.</_primary>
+    <_primary>No folder selected.</_primary>
     <_secondary xml:space="preserve">You must specify at least one folder as a source.
 Either by selecting the folders individually, and/or by selecting all local folders, all remote folders, or both.</_secondary>
   </error>
