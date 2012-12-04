@@ -64,6 +64,8 @@ typedef struct _AsyncContext AsyncContext;
 struct _AsyncContext {
 	EActivity *activity;
 	CamelFolder *folder;
+	CamelMimeMessage *message;
+	EMailPartList *part_list;
 	EMailReader *reader;
 	CamelInternetAddress *address;
 	gchar *folder_name;
@@ -84,6 +86,12 @@ async_context_free (AsyncContext *context)
 
 	if (context->folder != NULL)
 		g_object_unref (context->folder);
+
+	if (context->message != NULL)
+		g_object_unref (context->message);
+
+	if (context->part_list != NULL)
+		g_object_unref (context->part_list);
 
 	if (context->reader != NULL)
 		g_object_unref (context->reader);
@@ -1995,15 +2003,6 @@ e_mail_reader_header_free (EMailReaderHeader *header)
 	g_free (header);
 }
 
-struct mail_reader_parse_message_run_data_ {
-	CamelFolder *folder;
-	CamelMimeMessage *message;
-	gchar *message_uid;
-	EActivity *activity;
-
-	EMailPartList *part_list;
-};
-
 static void
 mail_reader_parse_message_run (GSimpleAsyncResult *simple,
                                GObject *object,
@@ -2012,18 +2011,19 @@ mail_reader_parse_message_run (GSimpleAsyncResult *simple,
 	EMailReader *reader = E_MAIL_READER (object);
 	CamelObjectBag *registry;
 	EMailPartList *part_list;
+	AsyncContext *async_context;
 	gchar *mail_uri;
-	struct mail_reader_parse_message_run_data_ *data;
 
-	data = g_object_get_data (G_OBJECT (simple), "evo-data");
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	registry = e_mail_part_list_get_registry ();
 
 	mail_uri = e_mail_part_build_uri (
-			data->folder, data->message_uid, NULL, NULL);
+		async_context->folder,
+		async_context->message_uid, NULL, NULL);
 
 	part_list = camel_object_bag_reserve (registry, mail_uri);
-	if (!part_list) {
+	if (part_list == NULL) {
 		EMailBackend *mail_backend;
 		EMailSession *mail_session;
 		EMailParser *parser;
@@ -2034,23 +2034,23 @@ mail_reader_parse_message_run (GSimpleAsyncResult *simple,
 		parser = e_mail_parser_new (CAMEL_SESSION (mail_session));
 
 		part_list = e_mail_parser_parse_sync (
-				parser, data->folder, data->message_uid,
-				data->message,
-				e_activity_get_cancellable (data->activity));
+			parser,
+			async_context->folder,
+			async_context->message_uid,
+			async_context->message,
+			cancellable);
 
 		g_object_unref (parser);
 
-		if (!part_list) {
+		if (part_list == NULL)
 			camel_object_bag_abort (registry, mail_uri);
-		} else {
-			camel_object_bag_add (
-				registry, mail_uri, part_list);
-		}
+		else
+			camel_object_bag_add (registry, mail_uri, part_list);
 	}
 
 	g_free (mail_uri);
 
-	data->part_list = part_list;
+	async_context->part_list = part_list;
 }
 
 void
@@ -2059,33 +2059,40 @@ e_mail_reader_parse_message (EMailReader *reader,
                              const gchar *message_uid,
                              CamelMimeMessage *message,
                              GCancellable *cancellable,
-                             GAsyncReadyCallback ready_callback,
+                             GAsyncReadyCallback callback,
                              gpointer user_data)
 {
 	GSimpleAsyncResult *simple;
-	struct mail_reader_parse_message_run_data_ *data;
+	AsyncContext *async_context;
+	EActivity *activity;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
-	g_return_if_fail (ready_callback != NULL);
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (message_uid != NULL);
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	data = g_new0 (struct mail_reader_parse_message_run_data_, 1);
-	data->activity = e_mail_reader_new_activity (reader);
-	e_activity_set_text (data->activity, _("Parsing message"));
-	if (cancellable)
-		e_activity_set_cancellable (data->activity, cancellable);
-	data->folder = g_object_ref (folder);
-	data->message = g_object_ref (message);
-	data->message_uid = g_strdup (message_uid);
+	activity = e_mail_reader_new_activity (reader);
+	e_activity_set_cancellable (activity, cancellable);
+	e_activity_set_text (activity, _("Parsing message"));
+
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->activity = activity;  /* takes ownership */
+	async_context->folder = g_object_ref (folder);
+	async_context->message_uid = g_strdup (message_uid);
+	async_context->message = g_object_ref (message);
 
 	simple = g_simple_async_result_new (
-		G_OBJECT (reader), ready_callback, user_data,
+		G_OBJECT (reader), callback, user_data,
 		e_mail_reader_parse_message);
-	g_object_set_data (G_OBJECT (simple), "evo-data", data);
+
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, async_context, (GDestroyNotify) async_context_free);
 
 	g_simple_async_result_run_in_thread (
 		simple, mail_reader_parse_message_run,
-		G_PRIORITY_DEFAULT,
-		e_activity_get_cancellable (data->activity));
+		G_PRIORITY_DEFAULT, cancellable);
 
 	g_object_unref (simple);
 }
@@ -2094,21 +2101,19 @@ EMailPartList *
 e_mail_reader_parse_message_finish (EMailReader *reader,
                                     GAsyncResult *result)
 {
-	struct mail_reader_parse_message_run_data_ *data;
-	EMailPartList *part_list;
+	GSimpleAsyncResult *simple;
+	AsyncContext *async_context;
 
-	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), NULL);
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (reader),
+		e_mail_reader_parse_message), NULL);
 
-	data = g_object_get_data (G_OBJECT (result), "evo-data");
-	g_return_val_if_fail (data, NULL);
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
 
-	part_list = data->part_list;
+	if (async_context->part_list != NULL)
+		g_object_ref (async_context->part_list);
 
-	g_clear_object (&data->folder);
-	g_clear_object (&data->message);
-	g_clear_object (&data->activity);
-	g_free (data->message_uid);
-	g_free (data);
-
-	return part_list;
+	return async_context->part_list;
 }
