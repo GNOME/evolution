@@ -1526,29 +1526,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 	priv = cal_view->priv;
 
 	default_client = e_cal_model_get_default_client (priv->model);
-
-	if (!default_client || !e_client_is_opened (E_CLIENT (default_client))) {
-		g_warning ("Default client not loaded \n");
-		return;
-	}
-
-	if (e_client_is_readonly (E_CLIENT (default_client))) {
-		GtkWidget *widget;
-		ESource *source;
-
-		source = e_client_get_source (E_CLIENT (default_client));
-
-		widget = e_alert_dialog_new_for_args (
-			parent, "calendar:prompt-read-only-cal",
-			e_source_get_display_name (source),
-			NULL);
-
-		g_signal_connect (
-			widget, "response",
-			G_CALLBACK (gtk_widget_destroy), widget);
-		gtk_widget_show (widget);
-		return;
-	}
+	g_return_if_fail (default_client != NULL);
 
 	dt.value = &itt;
 	if (all_day)

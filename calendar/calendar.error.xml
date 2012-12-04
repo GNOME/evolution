@@ -267,12 +267,6 @@
     <_secondary>The calendar is not marked for offline usage.</_secondary>
   </error>
 
-  <error id="prompt-read-only-cal" type="error" default="GTK_RESPONSE_YES">
-    <_primary>Cannot create a new event</_primary>
-    <!-- Translators: {0} is the name of the calendar source -->
-    <_secondary>'{0}' is a read-only calendar and cannot be modified. Please select a different calendar from the side bar in the Calendar view.</_secondary>
-  </error>
-
   <error id="prompt-read-only-cal-editor" type="error" default="GTK_RESPONSE_YES">
     <_primary>Cannot save event</_primary>
     <!-- Translators: {0} is the name of the calendar source -->
