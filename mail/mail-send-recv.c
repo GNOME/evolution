@@ -144,7 +144,7 @@ static void
 free_folder_info (struct _folder_info *info)
 {
 	/*camel_folder_thaw (info->folder);	*/
-	mail_sync_folder (info->folder, NULL, NULL);
+	mail_sync_folder (info->folder, FALSE, NULL, NULL);
 	g_object_unref (info->folder);
 	g_free (info->uri);
 	g_free (info);
@@ -215,7 +215,7 @@ free_send_data (void)
 	g_return_if_fail (g_hash_table_size (data->active) == 0);
 
 	if (data->inbox) {
-		mail_sync_folder (data->inbox, NULL, NULL);
+		mail_sync_folder (data->inbox, FALSE, NULL, NULL);
 		/*camel_folder_thaw (data->inbox);		*/
 		g_object_unref (data->inbox);
 	}

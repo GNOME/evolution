@@ -1247,6 +1247,7 @@ struct _sync_folder_msg {
 	MailMsg base;
 
 	CamelFolder *folder;
+	gboolean test_for_expunge;
 	void (*done) (CamelFolder *folder, gpointer data);
 	gpointer data;
 };
@@ -1264,8 +1265,60 @@ sync_folder_exec (struct _sync_folder_msg *m,
                   GCancellable *cancellable,
                   GError **error)
 {
-	camel_folder_synchronize_sync (
-		m->folder, FALSE, cancellable, error);
+	gboolean expunge = FALSE;
+
+	if (m->test_for_expunge) {
+		GSettings *settings;
+		gboolean delete_junk;
+
+		settings = g_settings_new ("org.gnome.evolution.mail");
+
+		expunge = g_settings_get_boolean (settings, "trash-empty-on-exit") &&
+			  g_settings_get_int (settings, "trash-empty-on-exit-days") == -1;
+		delete_junk = g_settings_get_boolean (settings, "junk-empty-on-exit") &&
+			      g_settings_get_int (settings, "junk-empty-on-exit-days") == -1;
+
+		g_object_unref (settings);
+
+		/* delete junk first, if requested */
+		if (delete_junk) {
+			CamelStore *store;
+			CamelFolder *folder;
+
+			store = camel_folder_get_parent_store (m->folder);
+			folder = camel_store_get_junk_folder_sync (store, cancellable, error);
+			if (folder != NULL) {
+				GPtrArray *uids;
+				guint32 flags;
+				guint32 mask;
+				guint ii;
+
+				uids = camel_folder_get_uids (folder);
+				flags = mask = CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN;
+
+				camel_folder_freeze (folder);
+
+				for (ii = 0; ii < uids->len && !g_cancellable_is_cancelled (cancellable); ii++) {
+					const gchar *uid = uids->pdata[ii];
+					camel_folder_set_message_flags (folder, uid, flags, mask);
+				}
+
+				camel_folder_thaw (folder);
+				camel_folder_free_uids (folder, uids);
+
+				g_object_unref (folder);
+
+				if (g_cancellable_set_error_if_cancelled (cancellable, error))
+					return;
+			}
+
+			/* error should be set already, from the get_junk_folder_sync() call */
+			if (g_cancellable_is_cancelled (cancellable))
+				return;
+		}
+	}
+
+	camel_folder_synchronize_sync (m->folder, expunge, cancellable, error);
 }
 
 static void
@@ -1292,6 +1345,7 @@ static MailMsgInfo sync_folder_info = {
 
 void
 mail_sync_folder (CamelFolder *folder,
+		  gboolean test_for_expunge,
                   void (*done) (CamelFolder *folder,
                                 gpointer data),
                   gpointer data)
@@ -1300,6 +1354,7 @@ mail_sync_folder (CamelFolder *folder,
 
 	m = mail_msg_new (&sync_folder_info);
 	m->folder = g_object_ref (folder);
+	m->test_for_expunge = test_for_expunge;
 	m->data = data;
 	m->done = done;
 

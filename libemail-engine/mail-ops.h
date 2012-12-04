@@ -40,6 +40,7 @@ void		mail_transfer_messages		(EMailSession *session,
 						 gpointer data);
 
 void mail_sync_folder (CamelFolder *folder,
+		       gboolean test_for_expunge,
 		       void (*done) (CamelFolder *folder, gpointer data), gpointer data);
 
 void mail_sync_store (CamelStore *store, gint expunge,

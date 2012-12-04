@@ -3076,7 +3076,7 @@ mail_reader_set_folder (EMailReader *reader,
 		(CAMEL_IS_VEE_FOLDER (previous_folder) ||
 		e_shell_get_online (shell));
 	if (sync_folder)
-		mail_sync_folder (previous_folder, NULL, NULL);
+		mail_sync_folder (previous_folder, TRUE, NULL, NULL);
 
 	/* Skip the rest if we're already viewing the folder. */
 	if (folder == previous_folder)
@@ -3094,7 +3094,7 @@ mail_reader_set_folder (EMailReader *reader,
 	/* this is to make sure any post-poned changes in Search Folders
 	 * will be propagated on folder selection */
 	if (folder && CAMEL_IS_VEE_FOLDER (folder))
-		mail_sync_folder (folder, NULL, NULL);
+		mail_sync_folder (folder, FALSE, NULL, NULL);
 
 	message_list_set_folder (
 		MESSAGE_LIST (message_list), folder, outgoing);

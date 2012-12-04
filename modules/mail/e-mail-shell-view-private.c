@@ -532,7 +532,7 @@ mail_shell_view_prepare_for_quit_cb (EMailShellView *mail_shell_view,
 		return;
 
 	mail_sync_folder (
-		folder,
+		folder, TRUE,
 		mail_shell_view_prepare_for_quit_done_cb,
 		g_object_ref (activity));
 }

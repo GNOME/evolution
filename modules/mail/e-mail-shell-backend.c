@@ -663,7 +663,7 @@ mail_shell_backend_delete_junk_policy_decision (EMailBackend *backend)
 		empty_date = g_settings_get_int (settings, "junk-empty-date");
 	}
 
-	delete_junk &= (empty_days == 0) || (empty_date + empty_days <= now);
+	delete_junk = delete_junk && ((empty_days == 0) || (empty_days > 0 && empty_date + empty_days <= now));
 
 	if (delete_junk) {
 		g_settings_set_int (settings, "junk-empty-date", now);
@@ -704,7 +704,7 @@ mail_shell_backend_empty_trash_policy_decision (EMailBackend *backend)
 		empty_date = g_settings_get_int (settings, "trash-empty-date");
 	}
 
-	empty_trash &= (empty_days == 0) || (empty_date + empty_days <= now);
+	empty_trash = empty_trash && ((empty_days == 0) || (empty_days > 0 && empty_date + empty_days <= now));
 
 	if (empty_trash) {
 		g_settings_set_int (settings, "trash-empty-date", now);

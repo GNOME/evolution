@@ -83,10 +83,11 @@ static const struct {
 	const gchar *label;
 	gint days;
 } empty_trash_frequency[] = {
-	{ N_("Every time"), 0 },
-	{ N_("Once per day"), 1 },
-	{ N_("Once per week"), 7 },
-	{ N_("Once per month"), 30 },
+	{ N_("On exit, every time"), 0 },
+	{ N_("On exit, once per day"), 1 },
+	{ N_("On exit, once per week"), 7 },
+	{ N_("On exit, once per month"), 30 },
+	{ N_("Immediately, on folder leave"), -1 }
 };
 
 G_DEFINE_TYPE (
@@ -623,7 +624,8 @@ emmp_empty_trash_init (EMMailerPrefs *prefs,
 	gtk_list_store_clear (store);
 
 	for (ii = 0; ii < G_N_ELEMENTS (empty_trash_frequency); ii++) {
-		if (days >= empty_trash_frequency[ii].days)
+		if (days == empty_trash_frequency[ii].days ||
+		    (empty_trash_frequency[ii].days != -1 && days > empty_trash_frequency[ii].days))
 			hist = ii;
 
 		gtk_list_store_append (store, &iter);
@@ -672,7 +674,8 @@ emmp_empty_junk_init (EMMailerPrefs *prefs,
 	gtk_list_store_clear (store);
 
 	for (ii = 0; ii < G_N_ELEMENTS (empty_trash_frequency); ii++) {
-		if (days >= empty_trash_frequency[ii].days)
+		if (days == empty_trash_frequency[ii].days ||
+		    (empty_trash_frequency[ii].days != -1 && days >= empty_trash_frequency[ii].days))
 			hist = ii;
 
 		gtk_list_store_append (store, &iter);
