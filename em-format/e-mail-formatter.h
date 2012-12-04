@@ -114,22 +114,20 @@ struct _EMailFormatterClass {
 	/* Colors should apply globally */
 	GdkColor colors[E_MAIL_FORMATTER_NUM_COLOR_TYPES];
 
-	void			(*run)			(EMailFormatter *formatter,
-							 EMailFormatterContext *context,
-							 CamelStream *stream,
-							 GCancellable *cancellable);
+	/* sizeof(EMailFormatterContext) or some derivative struct */
+	gsize context_size;
 
-	EMailFormatterContext *	(*create_context)	(EMailFormatter *formatter);
+	void		(*run)			(EMailFormatter *formatter,
+						 EMailFormatterContext *context,
+						 CamelStream *stream,
+						 GCancellable *cancellable);
 
-	void			(*free_context)		(EMailFormatter *formatter,
-							 EMailFormatterContext *context);
-
-	void			(*set_style)		(EMailFormatter *formatter,
-							 GtkStyle *style,
-							 GtkStateType state);
+	void		(*set_style)		(EMailFormatter *formatter,
+						 GtkStyle *style,
+						 GtkStateType state);
 
 	/* Signals */
-	void			(*need_redraw)		(EMailFormatter *formatter);
+	void		(*need_redraw)		(EMailFormatter *formatter);
 };
 
 GType		e_mail_formatter_get_type	(void);

@@ -41,19 +41,6 @@ struct _EMailFormatterQuotePrivate {
 
 static gpointer e_mail_formatter_quote_parent_class = 0;
 
-static EMailFormatterContext *
-mail_formatter_quote_create_context (EMailFormatter *formatter)
-{
-	return g_malloc0 (sizeof (EMailFormatterQuoteContext));
-}
-
-static void
-mail_formatter_quote_free_context (EMailFormatter *formatter,
-                                   EMailFormatterContext *context)
-{
-	g_free ((EMailFormatterQuoteContext *) context);
-}
-
 static void
 mail_formatter_quote_run (EMailFormatter *formatter,
                           EMailFormatterContext *context,
@@ -189,9 +176,8 @@ e_mail_formatter_quote_class_init (EMailFormatterQuoteClass *class)
 	g_type_class_add_private (class, sizeof (EMailFormatterQuotePrivate));
 
 	formatter_class = E_MAIL_FORMATTER_CLASS (class);
+	formatter_class->context_size = sizeof (EMailFormatterQuoteContext);
 	formatter_class->run = mail_formatter_quote_run;
-	formatter_class->create_context = mail_formatter_quote_create_context;
-	formatter_class->free_context = mail_formatter_quote_free_context;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_mail_formatter_quote_finalize;

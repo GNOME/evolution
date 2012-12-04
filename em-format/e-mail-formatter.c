@@ -82,37 +82,20 @@ static gint signals[LAST_SIGNAL];
 static EMailFormatterContext *
 mail_formatter_create_context (EMailFormatter *formatter)
 {
-	EMailFormatterClass *formatter_class;
+	EMailFormatterClass *class;
 
-	formatter_class = E_MAIL_FORMATTER_GET_CLASS (formatter);
+	class = E_MAIL_FORMATTER_GET_CLASS (formatter);
 
-	if (formatter_class->create_context) {
-		if (!formatter_class->free_context) {
-			g_warning (
-				"%s implements create_context() but "
-				"does not implement free_context()!",
-				G_OBJECT_TYPE_NAME (formatter));
-		}
+	g_warn_if_fail (class->context_size >= sizeof (EMailFormatterContext));
 
-		return formatter_class->create_context (formatter);
-	}
-
-	return g_new0 (EMailFormatterContext, 1);
+	return g_malloc0 (class->context_size);
 }
 
 static void
 mail_formatter_free_context (EMailFormatter *formatter,
                              EMailFormatterContext *context)
 {
-	EMailFormatterClass *formatter_class;
-
-	formatter_class = E_MAIL_FORMATTER_GET_CLASS (formatter);
-
-	if (formatter_class->free_context) {
-		formatter_class->free_context (formatter, context);
-	} else {
-		g_free (context);
-	}
+	g_free (context);
 }
 
 static void
@@ -540,11 +523,8 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 	object_class->finalize = e_mail_formatter_finalize;
 	object_class->constructed = e_mail_formatter_constructed;
 
+	class->context_size = sizeof (EMailFormatterContext);
 	class->run = mail_formatter_run;
-
-	/* EMailFormatter calls these directly */
-	class->create_context = NULL;
-	class->free_context = NULL;
 	class->set_style = mail_formatter_set_style;
 
 	color = &class->colors[E_MAIL_FORMATTER_COLOR_BODY];
