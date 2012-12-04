@@ -93,11 +93,9 @@ void		e_mail_reader_parse_message
 						 const gchar *message_uid,
 						 CamelMimeMessage *message,
 						 GCancellable *cancellable,
-						 GAsyncReadyCallback ready_callback,
+						 GAsyncReadyCallback callback,
 						 gpointer user_data);
-
-EMailPartList *
-		e_mail_reader_parse_message_finish
+EMailPartList *	e_mail_reader_parse_message_finish
 						(EMailReader *reader,
 						 GAsyncResult *result);
 
