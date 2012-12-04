@@ -79,106 +79,6 @@ enum {
 
 static gint signals[LAST_SIGNAL];
 
-static void
-mail_formatter_run (EMailFormatter *formatter,
-                    EMailFormatterContext *context,
-                    CamelStream *stream,
-                    GCancellable *cancellable)
-{
-	GSList *iter;
-	gchar *hdr;
-
-	hdr = e_mail_formatter_get_html_header (formatter);
-	camel_stream_write_string (stream, hdr, cancellable, NULL);
-	g_free (hdr);
-
-	for (iter = context->parts; iter; iter = iter->next) {
-
-		EMailPart *part;
-		gboolean ok;
-
-		if (g_cancellable_is_cancelled (cancellable))
-			break;
-
-		part = iter->data;
-		if (!part)
-			continue;
-
-		if (part->is_hidden && !part->is_error) {
-			if (g_str_has_suffix (part->id, ".rfc822")) {
-				iter = e_mail_formatter_find_rfc822_end_iter (iter);
-			}
-
-			if (!iter)
-				break;
-
-			continue;
-		}
-
-		/* Force formatting as source if needed */
-		if (context->mode != E_MAIL_FORMATTER_MODE_SOURCE) {
-
-			if (!part->mime_type)
-				continue;
-
-			ok = e_mail_formatter_format_as (
-				formatter, context, part, stream,
-				part->mime_type, cancellable);
-
-			/* If the written part was message/rfc822 then
-			 * jump to the end of the message, because content
-			 * of the whole message has been formatted by
-			 * message_rfc822 formatter */
-			if (ok && g_str_has_suffix (part->id, ".rfc822")) {
-				iter = e_mail_formatter_find_rfc822_end_iter (iter);
-
-				if (!iter)
-					break;
-
-				continue;
-			}
-
-		} else {
-			ok = FALSE;
-		}
-
-		if (!ok) {
-			/* We don't want to source these */
-			if (g_str_has_suffix (part->id, ".headers") ||
-			    g_str_has_suffix (part->id, "attachment-bar"))
-				continue;
-
-			e_mail_formatter_format_as (
-				formatter, context, part, stream,
-				"application/vnd.evolution.source", cancellable);
-
-			/* .message is the entire message. There's nothing more
-			 * to be written. */
-			if (g_strcmp0 (part->id, ".message") == 0)
-				break;
-
-			/* If we just wrote source of a rfc822 message, then jump
-			 * behind the message (otherwise source of all parts
-			 * would be rendered twice) */
-			if (g_str_has_suffix (part->id, ".rfc822")) {
-
-				do {
-					part = iter->data;
-					if (part && g_str_has_suffix (part->id, ".rfc822.end"))
-						break;
-
-					iter = iter->next;
-				} while (iter);
-
-				if (!iter)
-					break;
-			}
-		}
-	}
-
-	camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
-}
-
 static EMailFormatterContext *
 mail_formatter_create_context (EMailFormatter *formatter)
 {
@@ -213,39 +113,6 @@ mail_formatter_free_context (EMailFormatter *formatter,
 	} else {
 		g_free (context);
 	}
-}
-
-static void
-mail_formatter_set_style (EMailFormatter *formatter,
-                          GtkStyle *style,
-                          GtkStateType state)
-{
-	GdkColor *color;
-	EMailFormatterColorType type;
-
-	g_object_freeze_notify (G_OBJECT (formatter));
-
-	color = &style->bg[state];
-	type = E_MAIL_FORMATTER_COLOR_BODY;
-	e_mail_formatter_set_color (formatter, type, color);
-
-	color = &style->base[GTK_STATE_NORMAL];
-	type = E_MAIL_FORMATTER_COLOR_CONTENT;
-	e_mail_formatter_set_color  (formatter, type, color);
-
-	color = &style->dark[state];
-	type = E_MAIL_FORMATTER_COLOR_FRAME;
-	e_mail_formatter_set_color  (formatter, type, color);
-
-	color = &style->fg[state];
-	type = E_MAIL_FORMATTER_COLOR_HEADER;
-	e_mail_formatter_set_color  (formatter, type, color);
-
-	color = &style->text[state];
-	type = E_MAIL_FORMATTER_COLOR_TEXT;
-	e_mail_formatter_set_color  (formatter, type, color);
-
-	g_object_thaw_notify (G_OBJECT (formatter));
 }
 
 static void
@@ -465,15 +332,6 @@ e_mail_formatter_get_property (GObject *object,
 }
 
 static void
-e_mail_formatter_init (EMailFormatter *formatter)
-{
-	formatter->priv = E_MAIL_FORMATTER_GET_PRIVATE (formatter);
-
-	formatter->priv->header_list = g_queue_new ();
-	e_mail_formatter_set_default_headers (formatter);
-}
-
-static void
 e_mail_formatter_finalize (GObject *object)
 {
 	EMailFormatterPrivate *priv;
@@ -498,6 +356,147 @@ e_mail_formatter_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() */
 	G_OBJECT_CLASS (e_mail_formatter_parent_class)->finalize (object);
+}
+
+static void
+e_mail_formatter_constructed (GObject *object)
+{
+	G_OBJECT_CLASS (e_mail_formatter_parent_class)->constructed (object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+}
+
+static void
+mail_formatter_run (EMailFormatter *formatter,
+                    EMailFormatterContext *context,
+                    CamelStream *stream,
+                    GCancellable *cancellable)
+{
+	GSList *iter;
+	gchar *hdr;
+
+	hdr = e_mail_formatter_get_html_header (formatter);
+	camel_stream_write_string (stream, hdr, cancellable, NULL);
+	g_free (hdr);
+
+	for (iter = context->parts; iter; iter = iter->next) {
+
+		EMailPart *part;
+		gboolean ok;
+
+		if (g_cancellable_is_cancelled (cancellable))
+			break;
+
+		part = iter->data;
+		if (!part)
+			continue;
+
+		if (part->is_hidden && !part->is_error) {
+			if (g_str_has_suffix (part->id, ".rfc822")) {
+				iter = e_mail_formatter_find_rfc822_end_iter (iter);
+			}
+
+			if (!iter)
+				break;
+
+			continue;
+		}
+
+		/* Force formatting as source if needed */
+		if (context->mode != E_MAIL_FORMATTER_MODE_SOURCE) {
+
+			if (!part->mime_type)
+				continue;
+
+			ok = e_mail_formatter_format_as (
+				formatter, context, part, stream,
+				part->mime_type, cancellable);
+
+			/* If the written part was message/rfc822 then
+			 * jump to the end of the message, because content
+			 * of the whole message has been formatted by
+			 * message_rfc822 formatter */
+			if (ok && g_str_has_suffix (part->id, ".rfc822")) {
+				iter = e_mail_formatter_find_rfc822_end_iter (iter);
+
+				if (!iter)
+					break;
+
+				continue;
+			}
+
+		} else {
+			ok = FALSE;
+		}
+
+		if (!ok) {
+			/* We don't want to source these */
+			if (g_str_has_suffix (part->id, ".headers") ||
+			    g_str_has_suffix (part->id, "attachment-bar"))
+				continue;
+
+			e_mail_formatter_format_as (
+				formatter, context, part, stream,
+				"application/vnd.evolution.source", cancellable);
+
+			/* .message is the entire message. There's nothing more
+			 * to be written. */
+			if (g_strcmp0 (part->id, ".message") == 0)
+				break;
+
+			/* If we just wrote source of a rfc822 message, then jump
+			 * behind the message (otherwise source of all parts
+			 * would be rendered twice) */
+			if (g_str_has_suffix (part->id, ".rfc822")) {
+
+				do {
+					part = iter->data;
+					if (part && g_str_has_suffix (part->id, ".rfc822.end"))
+						break;
+
+					iter = iter->next;
+				} while (iter);
+
+				if (!iter)
+					break;
+			}
+		}
+	}
+
+	camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
+}
+
+static void
+mail_formatter_set_style (EMailFormatter *formatter,
+                          GtkStyle *style,
+                          GtkStateType state)
+{
+	GdkColor *color;
+	EMailFormatterColorType type;
+
+	g_object_freeze_notify (G_OBJECT (formatter));
+
+	color = &style->bg[state];
+	type = E_MAIL_FORMATTER_COLOR_BODY;
+	e_mail_formatter_set_color (formatter, type, color);
+
+	color = &style->base[GTK_STATE_NORMAL];
+	type = E_MAIL_FORMATTER_COLOR_CONTENT;
+	e_mail_formatter_set_color  (formatter, type, color);
+
+	color = &style->dark[state];
+	type = E_MAIL_FORMATTER_COLOR_FRAME;
+	e_mail_formatter_set_color  (formatter, type, color);
+
+	color = &style->fg[state];
+	type = E_MAIL_FORMATTER_COLOR_HEADER;
+	e_mail_formatter_set_color  (formatter, type, color);
+
+	color = &style->text[state];
+	type = E_MAIL_FORMATTER_COLOR_TEXT;
+	e_mail_formatter_set_color  (formatter, type, color);
+
+	g_object_thaw_notify (G_OBJECT (formatter));
 }
 
 static void
@@ -527,14 +526,6 @@ e_mail_formatter_base_finalize (EMailFormatterClass *class)
 }
 
 static void
-e_mail_formatter_constructed (GObject *object)
-{
-	G_OBJECT_CLASS (e_mail_formatter_parent_class)->constructed (object);
-
-	e_extensible_load_extensions (E_EXTENSIBLE (object));
-}
-
-static void
 e_mail_formatter_class_init (EMailFormatterClass *class)
 {
 	GObjectClass *object_class;
@@ -542,6 +533,12 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 
 	e_mail_formatter_parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailFormatterPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = e_mail_formatter_set_property;
+	object_class->get_property = e_mail_formatter_get_property;
+	object_class->finalize = e_mail_formatter_finalize;
+	object_class->constructed = e_mail_formatter_constructed;
 
 	class->run = mail_formatter_run;
 
@@ -564,12 +561,6 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 
 	color = &class->colors[E_MAIL_FORMATTER_COLOR_TEXT];
 	gdk_color_parse ("#000000", color);
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = e_mail_formatter_constructed;
-	object_class->get_property = e_mail_formatter_get_property;
-	object_class->set_property = e_mail_formatter_set_property;
-	object_class->finalize = e_mail_formatter_finalize;
 
 	g_object_class_install_property (
 		object_class,
@@ -726,6 +717,15 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 				NULL,
 				g_cclosure_marshal_VOID__VOID,
 				G_TYPE_NONE,  0, NULL);
+}
+
+static void
+e_mail_formatter_init (EMailFormatter *formatter)
+{
+	formatter->priv = E_MAIL_FORMATTER_GET_PRIVATE (formatter);
+
+	formatter->priv->header_list = g_queue_new ();
+	e_mail_formatter_set_default_headers (formatter);
 }
 
 static void
