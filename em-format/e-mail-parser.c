@@ -82,36 +82,28 @@ mail_parser_run (EMailParser *parser,
 	part_id = g_string_new (".message");
 	parts = NULL;
 
-	if (!parsers) {
-		parts = e_mail_parser_wrap_as_attachment (
-				parser, CAMEL_MIME_PART (message),
-				NULL, part_id, cancellable);
-	} else {
-		for (iter = parsers->head; iter; iter = iter->next) {
+	for (iter = parsers->head; iter; iter = iter->next) {
 
-			EMailParserExtension *extension;
+		EMailParserExtension *extension;
 
-			if (g_cancellable_is_cancelled (cancellable))
-				break;
+		if (g_cancellable_is_cancelled (cancellable))
+			break;
 
-			extension = iter->data;
-			if (!extension)
-				continue;
+		extension = iter->data;
+		if (!extension)
+			continue;
 
-			parts = e_mail_parser_extension_parse (
-					extension, parser, CAMEL_MIME_PART (message),
-					part_id, cancellable);
+		parts = e_mail_parser_extension_parse (
+			extension, parser, CAMEL_MIME_PART (message),
+			part_id, cancellable);
 
-			if (parts != NULL)
-				break;
-		}
-
-		parts = g_slist_prepend (
-				parts,
-				e_mail_part_new (
-					CAMEL_MIME_PART (message),
-					".message"));
+		if (parts != NULL)
+			break;
 	}
+
+	parts = g_slist_prepend (
+		parts,
+		e_mail_part_new (CAMEL_MIME_PART (message), ".message"));
 
 	g_string_free (part_id, TRUE);
 
