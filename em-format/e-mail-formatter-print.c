@@ -39,7 +39,7 @@ write_attachments_list (EMailFormatter *formatter,
                         GCancellable *cancellable)
 {
 	GString *str;
-	GSList *iter;
+	GSList *link;
 
 	if (!attachments)
 		return;
@@ -53,8 +53,8 @@ write_attachments_list (EMailFormatter *formatter,
 		"<tr><th>%s</th><th>%s</th></tr>\n",
 		_("Attachments"), _("Name"), _("Size"));
 
-	for (iter = attachments; iter; iter = iter->next) {
-		EMailPartAttachment *part = iter->data;
+	for (link = attachments; link != NULL; link = g_slist_next (link)) {
+		EMailPartAttachment *part = link->data;
 		EAttachment *attachment;
 		GFileInfo *fi;
 		gchar *name, *size;
@@ -99,7 +99,7 @@ mail_formatter_print_run (EMailFormatter *formatter,
                           CamelStream *stream,
                           GCancellable *cancellable)
 {
-	GSList *iter;
+	GSList *list, *link;
 	GSList *attachments;
 
 	context->mode = E_MAIL_FORMATTER_MODE_PRINTING;
@@ -116,21 +116,21 @@ mail_formatter_print_run (EMailFormatter *formatter,
 		cancellable, NULL);
 
 	attachments = NULL;
-	for (iter = context->parts; iter; iter = g_slist_next (iter)) {
+	list = context->part_list->list;
 
-		EMailPart *part;
+	for (link = list; link != NULL ; link = g_slist_next (link)) {
+		EMailPart *part = link->data;
 		gboolean ok;
 
 		if (g_cancellable_is_cancelled (cancellable))
 			break;
 
-		part = iter->data;
-		if (!part)
+		if (part == NULL)
 			continue;
 
 		if (part->is_hidden && !part->is_error) {
 			if (g_str_has_suffix (part->id, ".rfc822")) {
-				iter = e_mail_formatter_find_rfc822_end_iter (iter);
+				link = e_mail_formatter_find_rfc822_end_iter (link);
 			}
 
 			continue;
@@ -155,7 +155,7 @@ mail_formatter_print_run (EMailFormatter *formatter,
 		 * of the whole message has been formatted by
 		 * message_rfc822 formatter */
 		if (ok && g_str_has_suffix (part->id, ".rfc822")) {
-			iter = e_mail_formatter_find_rfc822_end_iter (iter);
+			link = e_mail_formatter_find_rfc822_end_iter (link);
 
 			continue;
 		}

@@ -84,7 +84,8 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 		/* Print content of the message normally */
 		context->mode = E_MAIL_FORMATTER_MODE_NORMAL;
 
-		iter = e_mail_part_list_get_iter (context->parts, part->id);
+		iter = e_mail_part_list_get_iter (
+			context->part_list->list, part->id);
 
 		end = g_strconcat (part->id, ".end", NULL);
 		for (iter = g_slist_next (iter); iter; iter = g_slist_next (iter)) {
@@ -136,7 +137,8 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 		gchar *end;
 
 		/* Part is EMailPartAttachment */
-		iter = e_mail_part_list_get_iter (context->parts, part->id);
+		iter = e_mail_part_list_get_iter (
+			context->part_list->list, part->id);
 		iter = g_slist_next (iter);
 
 		if (!iter || !iter->next || !iter->data)
@@ -189,20 +191,26 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 		g_free (end);
 
 	} else {
+		CamelFolder *folder;
+		const gchar *message_uid;
 		gchar *str;
 		gchar *uri;
 
 		EMailPart *p;
 		GSList *iter;
 
-		iter = e_mail_part_list_get_iter (context->parts, part->id);
+		iter = e_mail_part_list_get_iter (
+			context->part_list->list, part->id);
 		if (!iter || !iter->next)
 			return FALSE;
 
 		p = iter->data;
 
+		folder = context->part_list->folder;
+		message_uid = context->part_list->message_uid;
+
 		uri = e_mail_part_build_uri (
-			context->folder, context->message_uid,
+			folder, message_uid,
 			"part_id", G_TYPE_STRING, p->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			"headers_collapsable", G_TYPE_INT, 0,

@@ -89,11 +89,7 @@ struct _EMailFormatterHeader {
 };
 
 struct _EMailFormatterContext {
-	CamelMimeMessage *message;
-	CamelFolder *folder;
-	gchar *message_uid;
-	GSList *parts;
-
+	EMailPartList *part_list;
 	EMailFormatterMode mode;
 	guint32 flags;
 

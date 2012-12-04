@@ -319,13 +319,18 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		g_free ((gchar *) argv[3]);
 		pango_font_description_free (fd);
 	} else {
+		CamelFolder *folder;
+		const gchar *message_uid;
 		gchar *uri, *str;
 		gchar *syntax;
+
+		folder = context->part_list->folder;
+		message_uid = context->part_list->message_uid;
 
 		syntax = get_syntax (part, NULL);
 
 		uri = e_mail_part_build_uri (
-			context->folder, context->message_uid,
+			folder, message_uid,
 			"part_id", G_TYPE_STRING, part->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			"__formatas", G_TYPE_STRING, syntax,

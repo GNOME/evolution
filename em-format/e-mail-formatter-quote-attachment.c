@@ -80,7 +80,7 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 		return FALSE;
 
 	iter = e_mail_part_list_get_iter (
-		context->parts, empa->attachment_view_part_id);
+		context->part_list->list, empa->attachment_view_part_id);
 	if (!iter || !iter->data)
 		return FALSE;
 

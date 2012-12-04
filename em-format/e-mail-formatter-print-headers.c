@@ -108,8 +108,14 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 				header->flags | E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS,
 				"UTF-8");
 		} else {
-			raw_header.value = g_strdup (camel_medium_get_header (
-				CAMEL_MEDIUM (context->message), header->name));
+			CamelMimeMessage *message;
+			const gchar *header_value;
+
+			message = context->part_list->message;
+
+			header_value = camel_medium_get_header (
+				CAMEL_MEDIUM (message), header->name);
+			raw_header.value = g_strdup (header_value);
 
 			if (raw_header.value && *raw_header.value) {
 				e_mail_formatter_format_header (formatter, str,
@@ -130,7 +136,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	raw_header.name = _("Security");
 	tmp = g_string_new ("");
 	/* Find first secured part. */
-	for (parts_iter = context->parts; parts_iter; parts_iter = parts_iter->next) {
+	for (parts_iter = context->part_list->list; parts_iter; parts_iter = parts_iter->next) {
 
 		EMailPart *mail_part = parts_iter->data;
 		if (mail_part == NULL)
@@ -179,7 +185,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	/* Count attachments and display the number as a header */
 	attachments_count = 0;
 
-	for (parts_iter = context->parts; parts_iter; parts_iter = parts_iter->next) {
+	for (parts_iter = context->part_list->list; parts_iter; parts_iter = parts_iter->next) {
 
 		EMailPart *mail_part = parts_iter->data;
 		if (!mail_part)

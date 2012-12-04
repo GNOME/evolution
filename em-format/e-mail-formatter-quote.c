@@ -50,7 +50,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	EMailFormatterQuote *qf;
 	EMailFormatterQuoteContext *qf_context;
 	GSettings *settings;
-	GSList *iter;
+	GSList *list, *link;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
@@ -87,8 +87,10 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 			"<blockquote type=cite>\n", cancellable, NULL);
 	}
 
-	for (iter = context->parts; iter; iter = g_slist_next (iter)) {
-		EMailPart *part = iter->data;
+	list = context->part_list->list;
+
+	for (link = list; link != NULL; link = g_slist_next (link)) {
+		EMailPart *part = link->data;
 
 		if (!part)
 			continue;
@@ -101,23 +103,21 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 		if (g_str_has_suffix (part->id, ".rfc822")) {
 			gchar *end = g_strconcat (part->id, ".end", NULL);
 
-			while (iter) {
-				EMailPart *p = iter->data;
-				if (!p) {
-					iter = g_slist_next (iter);
-					if (!iter) {
+			while (link != NULL) {
+				EMailPart *p = link->data;
+				if (p == NULL) {
+					link = g_slist_next (link);
+					if (link == NULL)
 						break;
-					}
 					continue;
 				}
 
 				if (g_strcmp0 (p->id, end) == 0)
 					break;
 
-				iter = g_slist_next (iter);
-				if (!iter) {
+				link = g_slist_next (link);
+				if (link == NULL)
 					break;
-				}
 			}
 			g_free (end);
 

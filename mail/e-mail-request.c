@@ -102,10 +102,7 @@ handle_mail_request (GSimpleAsyncResult *res,
 	if (val)
 		context.mode = atoi (val);
 
-	context.message = part_list->message;
-	context.message_uid = part_list->message_uid;
-	context.folder = part_list->folder;
-	context.parts = part_list->list;
+	context.part_list = g_object_ref (part_list);
 	context.uri = request->priv->full_uri;
 
 	if (context.mode == E_MAIL_FORMATTER_MODE_PRINTING)
@@ -146,6 +143,9 @@ handle_mail_request (GSimpleAsyncResult *res,
 			context.flags, context.mode, cancellable);
 	}
 
+	g_object_unref (context.part_list);
+	context.part_list = NULL;
+
 	/* Convert the GString to GInputStream and send it back to WebKit */
 	ba = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (request->priv->output_stream));
 	if (!ba->data) {
@@ -166,7 +166,7 @@ handle_mail_request (GSimpleAsyncResult *res,
 	g_object_unref (formatter);
 
 	stream = g_memory_input_stream_new_from_data (
-			(gchar *) ba->data, ba->len, NULL);
+		(gchar *) ba->data, ba->len, NULL);
 	g_simple_async_result_set_op_res_gpointer (res, stream, NULL);
 }
 

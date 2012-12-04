@@ -89,6 +89,8 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 			vcard_part->formatter, contact, stream, cancellable);
 
 	} else {
+		CamelFolder *folder;
+		const gchar *message_uid;
 		gchar *str, *uri;
 		gint length;
 		const gchar *label = NULL;
@@ -100,14 +102,17 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 		if (length < 1)
 			return FALSE;
 
-		if (!vcard_part->message_uid && context->message_uid)
-			vcard_part->message_uid = g_strdup (context->message_uid);
+		folder = context->part_list->folder;
+		message_uid = context->part_list->message_uid;
 
-		if (!vcard_part->folder && context->folder)
-			vcard_part->folder = g_object_ref (context->folder);
+		if (vcard_part->message_uid == NULL && message_uid != NULL)
+			vcard_part->message_uid = g_strdup (message_uid);
+
+		if (vcard_part->folder == NULL && folder != NULL)
+			vcard_part->folder = g_object_ref (folder);
 
 		uri = e_mail_part_build_uri (
-			context->folder, context->message_uid,
+			folder, message_uid,
 			"part_id", G_TYPE_STRING, part->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			NULL);

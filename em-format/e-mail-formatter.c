@@ -80,21 +80,32 @@ enum {
 static gint signals[LAST_SIGNAL];
 
 static EMailFormatterContext *
-mail_formatter_create_context (EMailFormatter *formatter)
+mail_formatter_create_context (EMailFormatter *formatter,
+                               EMailPartList *part_list,
+                               EMailFormatterMode mode,
+                               guint32 flags)
 {
 	EMailFormatterClass *class;
+	EMailFormatterContext *context;
 
 	class = E_MAIL_FORMATTER_GET_CLASS (formatter);
 
 	g_warn_if_fail (class->context_size >= sizeof (EMailFormatterContext));
 
-	return g_malloc0 (class->context_size);
+	context = g_malloc0 (class->context_size);
+	context->part_list = g_object_ref (part_list);
+	context->mode = mode;
+	context->flags = flags;
+
+	return context;
 }
 
 static void
-mail_formatter_free_context (EMailFormatter *formatter,
-                             EMailFormatterContext *context)
+mail_formatter_free_context (EMailFormatterContext *context)
 {
+	if (context->part_list != NULL)
+		g_object_unref (context->part_list);
+
 	g_free (context);
 }
 
@@ -355,31 +366,32 @@ mail_formatter_run (EMailFormatter *formatter,
                     CamelStream *stream,
                     GCancellable *cancellable)
 {
-	GSList *iter;
+	GSList *list, *link;
 	gchar *hdr;
 
 	hdr = e_mail_formatter_get_html_header (formatter);
 	camel_stream_write_string (stream, hdr, cancellable, NULL);
 	g_free (hdr);
 
-	for (iter = context->parts; iter; iter = iter->next) {
+	list = context->part_list->list;
 
-		EMailPart *part;
+	for (link = list; link != NULL; link = g_slist_next (link)) {
+
+		EMailPart *part = link->data;
 		gboolean ok;
 
 		if (g_cancellable_is_cancelled (cancellable))
 			break;
 
-		part = iter->data;
-		if (!part)
+		if (part == NULL)
 			continue;
 
 		if (part->is_hidden && !part->is_error) {
 			if (g_str_has_suffix (part->id, ".rfc822")) {
-				iter = e_mail_formatter_find_rfc822_end_iter (iter);
+				link = e_mail_formatter_find_rfc822_end_iter (link);
 			}
 
-			if (!iter)
+			if (link == NULL)
 				break;
 
 			continue;
@@ -400,9 +412,9 @@ mail_formatter_run (EMailFormatter *formatter,
 			 * of the whole message has been formatted by
 			 * message_rfc822 formatter */
 			if (ok && g_str_has_suffix (part->id, ".rfc822")) {
-				iter = e_mail_formatter_find_rfc822_end_iter (iter);
+				link = e_mail_formatter_find_rfc822_end_iter (link);
 
-				if (!iter)
+				if (link == NULL)
 					break;
 
 				continue;
@@ -433,14 +445,14 @@ mail_formatter_run (EMailFormatter *formatter,
 			if (g_str_has_suffix (part->id, ".rfc822")) {
 
 				do {
-					part = iter->data;
+					part = link->data;
 					if (part && g_str_has_suffix (part->id, ".rfc822.end"))
 						break;
 
-					iter = iter->next;
-				} while (iter);
+					link = g_slist_next (link);
+				} while (link != NULL);
 
-				if (!iter)
+				if (link == NULL)
 					break;
 			}
 		}
@@ -771,18 +783,13 @@ e_mail_formatter_format_sync (EMailFormatter *formatter,
 	formatter_class = E_MAIL_FORMATTER_GET_CLASS (formatter);
 	g_return_if_fail (formatter_class->run != NULL);
 
-	context = mail_formatter_create_context (formatter);
-	context->message = parts->message;
-	context->folder = parts->folder;
-	context->message_uid = parts->message_uid;
-	context->parts = parts->list;
-	context->flags = flags;
-	context->mode = mode;
+	context = mail_formatter_create_context (
+		formatter, parts, mode, flags);
 
 	formatter_class->run (
 		formatter, context, stream, cancellable);
 
-	mail_formatter_free_context (formatter, context);
+	mail_formatter_free_context (context);
 }
 
 static void
@@ -835,14 +842,8 @@ e_mail_formatter_format (EMailFormatter *formatter,
 		return;
 	}
 
-	context = mail_formatter_create_context (formatter);
-	context->message = g_object_ref (parts->message);
-	context->folder = g_object_ref (parts->folder);
-	context->message_uid = g_strdup (parts->message_uid);
-	context->parts = g_slist_copy (parts->list);
-	g_slist_foreach (context->parts, (GFunc) e_mail_part_ref, NULL);
-	context->flags = flags;
-	context->mode = mode;
+	context = mail_formatter_create_context (
+		formatter, parts, mode, flags);
 
 	g_object_set_data (G_OBJECT (simple), "context", context);
 	g_object_set_data (G_OBJECT (simple), "stream", stream);
@@ -866,12 +867,7 @@ e_mail_formatter_format_finished (EMailFormatter *formatter,
 
 	context = g_object_get_data (G_OBJECT (result), "context");
 
-	g_free (context->message_uid);
-	g_object_unref (context->message);
-	g_object_unref (context->folder);
-	g_slist_foreach (context->parts, (GFunc) e_mail_part_unref, NULL);
-	g_slist_free (context->parts);
-	mail_formatter_free_context (formatter, context);
+	mail_formatter_free_context (context);
 
 	return g_object_get_data (G_OBJECT (result), "stream");
 }

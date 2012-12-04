@@ -157,7 +157,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			}
 		}
 
-		store = find_attachment_store (context->parts, part->id);
+		store = find_attachment_store (context->part_list->list, part->id);
 		if (store) {
 			GList *attachments = e_attachment_store_get_attachments (store);
 			if (!g_list_find (attachments, empa->attachment)) {
@@ -281,8 +281,8 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			GSList *att_parts;
 
 			att_parts = e_mail_part_list_get_iter (
-						context->parts,
-						empa->attachment_view_part_id);
+				context->part_list->list,
+				empa->attachment_view_part_id);
 
 			if (att_parts && att_parts->data) {
 				ok = e_mail_formatter_format_as (

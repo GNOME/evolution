@@ -146,10 +146,15 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 		return TRUE;
 
 	} else {
+		CamelFolder *folder;
+		const gchar *message_uid;
 		gchar *uri, *str;
 
+		folder = context->part_list->folder;
+		message_uid = context->part_list->message_uid;
+
 		uri = e_mail_part_build_uri (
-			context->folder, context->message_uid,
+			folder, message_uid,
 			"part_id", G_TYPE_STRING, part->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			NULL);

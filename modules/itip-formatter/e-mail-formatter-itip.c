@@ -90,25 +90,31 @@ emfe_itip_format (EMailFormatterExtension *extension,
 		itip_view_write (formatter, buffer);
 
 	} else {
+		CamelFolder *folder;
+		CamelMimeMessage *message;
+		const gchar *message_uid;
 		gchar *uri;
+
+		folder = context->part_list->folder;
+		message = context->part_list->message;
+		message_uid = context->part_list->message_uid;
 
 		/* mark message as containing calendar, thus it will show the
 		 * icon in message list now on */
-		if (context->message_uid && context->folder &&
+		if (message_uid != NULL && folder != NULL &&
 			!camel_folder_get_message_user_flag (
-				context->folder, context->message_uid, "$has_cal")) {
+				folder, message_uid, "$has_cal")) {
 
 			camel_folder_set_message_user_flag (
-				context->folder, context->message_uid,
-				"$has_cal", TRUE);
+				folder, message_uid, "$has_cal", TRUE);
 		}
 
-		itip_part->folder = g_object_ref (context->folder);
-		itip_part->uid = g_strdup (context->message_uid);
-		itip_part->msg = g_object_ref (context->message);
+		itip_part->folder = g_object_ref (folder);
+		itip_part->uid = g_strdup (message_uid);
+		itip_part->msg = g_object_ref (message);
 
 		uri = e_mail_part_build_uri (
-			context->folder, context->message_uid,
+			folder, message_uid,
 			"part_id", G_TYPE_STRING, part->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			NULL);

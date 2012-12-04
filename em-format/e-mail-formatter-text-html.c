@@ -238,10 +238,7 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 		 * that WebKit can handle it */
 		if (!valid) {
 			EMailFormatterContext c = {
-				.folder = context->folder,
-				.message = context->message,
-				.message_uid = context->message_uid,
-				.parts = context->parts,
+				.part_list = context->part_list,
 				.flags = context->flags,
 				.mode = E_MAIL_FORMATTER_MODE_RAW,
 			};
@@ -311,10 +308,15 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 
 		g_string_free (string, TRUE);
 	} else {
+		CamelFolder *folder;
+		const gchar *message_uid;
 		gchar *uri, *str;
 
+		folder = context->part_list->folder;
+		message_uid = context->part_list->message_uid;
+
 		uri = e_mail_part_build_uri (
-			context->folder, context->message_uid,
+			folder, message_uid,
 			"part_id", G_TYPE_STRING, part->id,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
 			NULL);

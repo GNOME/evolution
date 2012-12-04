@@ -81,7 +81,7 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 	camel_stream_write_string (stream, header, cancellable, NULL);
 	g_free (header);
 
-	iter = e_mail_part_list_get_iter (context->parts, part->id);
+	iter = e_mail_part_list_get_iter (context->part_list->list, part->id);
 	if (!iter) {
 		return FALSE;
 	}
