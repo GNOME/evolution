@@ -34,7 +34,11 @@
 
 #include <string.h>
 
-static gpointer parent_class = 0;
+#define E_MAIL_PARSER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_PARSER, EMailParserPrivate))
+
+#define d(x)
 
 struct _EMailParserPrivate {
 	GMutex *mutex;
@@ -44,24 +48,20 @@ struct _EMailParserPrivate {
 	CamelSession *session;
 };
 
-#define E_MAIL_PARSER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_PARSER, EMailParserPrivate))
-
-#define d(x)
-
 enum {
 	PROP_0,
 	PROP_SESSION
 };
 
-static GSList *
+static gpointer parent_class;
+
+static void
 mail_parser_run (EMailParser *parser,
-                 CamelMimeMessage *message,
+                 EMailPartList *part_list,
                  GCancellable *cancellable)
 {
-	GSList *parts;
 	EMailExtensionRegistry *reg;
+	EMailPart *part;
 	GQueue *parsers;
 	GList *iter;
 	GString *part_id;
@@ -69,18 +69,17 @@ mail_parser_run (EMailParser *parser,
 	reg = e_mail_parser_get_extension_registry (parser);
 
 	parsers = e_mail_extension_registry_get_for_mime_type (
-			reg, "application/vnd.evolution.message");
+		reg, "application/vnd.evolution.message");
 
-	if (!parsers)
+	if (parsers == NULL)
 		parsers = e_mail_extension_registry_get_for_mime_type (
 			reg, "message/*");
 
-	/* parsers == NULL means, that the internal Evolution parser extensions
-	 * were not loaded. Something is terribly wrong. */
-	g_return_val_if_fail (parsers != NULL, NULL);
+	/* parsers == NULL means, that the internal Evolution parser
+	 * extensions were not loaded. Something is terribly wrong. */
+	g_return_if_fail (parsers != NULL);
 
 	part_id = g_string_new (".message");
-	parts = NULL;
 
 	for (iter = parsers->head; iter; iter = iter->next) {
 
@@ -93,36 +92,30 @@ mail_parser_run (EMailParser *parser,
 		if (!extension)
 			continue;
 
-		parts = e_mail_parser_extension_parse (
-			extension, parser, CAMEL_MIME_PART (message),
+		part_list->list = e_mail_parser_extension_parse (
+			extension, parser,
+			CAMEL_MIME_PART (part_list->message),
 			part_id, cancellable);
 
-		if (parts != NULL)
+		if (part_list->list != NULL)
 			break;
 	}
 
-	parts = g_slist_prepend (
-		parts,
-		e_mail_part_new (CAMEL_MIME_PART (message), ".message"));
+	part = e_mail_part_new (
+		CAMEL_MIME_PART (part_list->message), ".message");
+	part_list->list = g_slist_prepend (part_list->list, part);
 
 	g_string_free (part_id, TRUE);
-
-	return parts;
 }
 
 static void
 mail_parser_set_session (EMailParser *parser,
                          CamelSession *session)
 {
-	g_return_if_fail (E_IS_MAIL_PARSER (parser));
 	g_return_if_fail (CAMEL_IS_SESSION (session));
+	g_return_if_fail (parser->priv->session == NULL);
 
-	g_object_ref (session);
-
-	if (parser->priv->session)
-		g_object_unref (parser->priv->session);
-
-	parser->priv->session = session;
+	parser->priv->session = g_object_ref (session);
 }
 
 static void
@@ -131,12 +124,10 @@ e_mail_parser_set_property (GObject *object,
                           const GValue *value,
                           GParamSpec *pspec)
 {
-	EMailParser *parser = E_MAIL_PARSER (object);
-
 	switch (property_id) {
 		case PROP_SESSION:
 			mail_parser_set_session (
-				parser,
+				E_MAIL_PARSER (object),
 				g_value_get_object (value));
 			return;
 	}
@@ -150,13 +141,12 @@ e_mail_parser_get_property (GObject *object,
                           GValue *value,
                           GParamSpec *pspec)
 {
-	EMailParser *parser = E_MAIL_PARSER (object);
-
 	switch (property_id) {
 		case PROP_SESSION:
 			g_value_set_object (
 				value,
-				e_mail_parser_get_session (parser));
+				e_mail_parser_get_session (
+				E_MAIL_PARSER (object)));
 			return;
 	}
 
@@ -168,21 +158,15 @@ e_mail_parser_finalize (GObject *object)
 {
 	EMailParserPrivate *priv;
 
-	priv = E_MAIL_PARSER (object)->priv;
+	priv = E_MAIL_PARSER_GET_PRIVATE (object);
 
 	if (priv->mutex) {
 		g_mutex_free (priv->mutex);
 		priv->mutex = NULL;
 	}
 
+	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-static void
-e_mail_parser_init (EMailParser *parser)
-{
-	parser->priv = E_MAIL_PARSER_GET_PRIVATE (parser);
-
-	parser->priv->mutex = g_mutex_new ();
 }
 
 static void
@@ -228,6 +212,14 @@ e_mail_parser_class_init (EMailParserClass *class)
 			G_PARAM_CONSTRUCT_ONLY));
 }
 
+static void
+e_mail_parser_init (EMailParser *parser)
+{
+	parser->priv = E_MAIL_PARSER_GET_PRIVATE (parser);
+
+	parser->priv->mutex = g_mutex_new ();
+}
+
 GType
 e_mail_parser_get_type (void)
 {
@@ -258,6 +250,8 @@ e_mail_parser_get_type (void)
 EMailParser *
 e_mail_parser_new (CamelSession *session)
 {
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+
 	return g_object_new (
 		E_TYPE_MAIL_PARSER,
 		"session", session, NULL);
@@ -286,22 +280,20 @@ e_mail_parser_parse_sync (EMailParser *parser,
                           CamelMimeMessage *message,
                           GCancellable *cancellable)
 {
-	EMailPartList *parts_list;
+	EMailPartList *part_list;
 
 	g_return_val_if_fail (E_IS_MAIL_PARSER (parser), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
-	parts_list = e_mail_part_list_new ();
+	part_list = e_mail_part_list_new ();
 
-	if (folder)
-		parts_list->folder = g_object_ref (folder);
+	if (folder != NULL)
+		part_list->folder = g_object_ref (folder);
 
-	if (message_uid)
-		parts_list->message_uid = g_strdup (message_uid);
+	part_list->message_uid = g_strdup (message_uid);
+	part_list->message = g_object_ref (message);
 
-	parts_list->message = g_object_ref (message);
-
-	parts_list->list = mail_parser_run (parser, message, cancellable);
+	mail_parser_run (parser, part_list, cancellable);
 
 	if (camel_debug_start ("emformat:parser")) {
 		GSList *iter;
@@ -310,11 +302,12 @@ e_mail_parser_parse_sync (EMailParser *parser,
 			"%s finished with EMailPartList:\n",
 			G_OBJECT_TYPE_NAME (parser));
 
-		for (iter = parts_list->list; iter; iter = iter->next) {
+		for (iter = part_list->list; iter; iter = iter->next) {
 			EMailPart *part = iter->data;
 			if (!part) continue;
 			printf (
-				"	id: %s | cid: %s | mime_type: %s | is_hidden: %d | is_attachment: %d\n",
+				"	id: %s | cid: %s | mime_type: %s | "
+				"is_hidden: %d | is_attachment: %d\n",
 				part->id, part->cid, part->mime_type,
 				part->is_hidden ? 1 : 0,
 				part->is_attachment ? 1 : 0);
@@ -323,22 +316,21 @@ e_mail_parser_parse_sync (EMailParser *parser,
 		camel_debug_end ();
 	}
 
-	return parts_list;
+	return part_list;
 }
 
 static void
-mail_parser_prepare_async (GSimpleAsyncResult *res,
-                           GObject *object,
-                           GCancellable *cancellable)
+mail_parser_parse_thread (GSimpleAsyncResult *simple,
+                          GObject *source_object,
+                          GCancellable *cancellable)
 {
-	CamelMimeMessage *message;
-	GSList *list;
+	EMailPartList *part_list;
 
-	message = g_object_get_data (G_OBJECT (res), "message");
+	part_list = g_simple_async_result_get_op_res_gpointer (simple);
 
-	list = mail_parser_run (E_MAIL_PARSER (object), message, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (res, list, NULL);
+	mail_parser_run (
+		E_MAIL_PARSER (source_object),
+		part_list, cancellable);
 }
 
 /**
@@ -349,7 +341,7 @@ mail_parser_prepare_async (GSimpleAsyncResult *res,
  * @cancellable: (allow-none) a #GCancellable
  * @user_data: (allow-none) user data passed to the callback
  *
- * Asynchronous version of #e_mail_parser_parse_sync().
+ * Asynchronous version of e_mail_parser_parse_sync().
  */
 void
 e_mail_parser_parse (EMailParser *parser,
@@ -360,24 +352,32 @@ e_mail_parser_parse (EMailParser *parser,
                      GCancellable *cancellable,
                      gpointer user_data)
 {
-	GSimpleAsyncResult *result;
+	GSimpleAsyncResult *simple;
+	EMailPartList *part_list;
 
 	g_return_if_fail (E_IS_MAIL_PARSER (parser));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	result = g_simple_async_result_new (
+	part_list = e_mail_part_list_new ();
+	part_list->message = g_object_ref (message);
+	part_list->message_uid = g_strdup (message_uid);
+	if (folder != NULL)
+		part_list->folder = g_object_ref (folder);
+
+	simple = g_simple_async_result_new (
 		G_OBJECT (parser), callback,
 		user_data, e_mail_parser_parse);
 
-	g_object_set_data (G_OBJECT (result), "message", g_object_ref (message));
+	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	if (folder)
-		g_object_set_data (G_OBJECT (result), "folder", g_object_ref (folder));
-	if (message_uid)
-		g_object_set_data (G_OBJECT (result), "message_uid", g_strdup (message_uid));
+	g_simple_async_result_set_op_res_gpointer (
+		simple, part_list, (GDestroyNotify) g_object_unref);
 
 	g_simple_async_result_run_in_thread (
-		result, mail_parser_prepare_async, G_PRIORITY_DEFAULT, cancellable);
+		simple, mail_parser_parse_thread,
+		G_PRIORITY_DEFAULT, cancellable);
+
+	g_object_unref (simple);
 }
 
 EMailPartList *
@@ -385,30 +385,29 @@ e_mail_parser_parse_finish (EMailParser *parser,
                             GAsyncResult *result,
                             GError **error)
 {
-	EMailPartList *parts_list;
+	GSimpleAsyncResult *simple;
+	EMailPartList *part_list;
 
-	parts_list = e_mail_part_list_new ();
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (parser), e_mail_parser_parse), NULL);
 
-	/* The data were ref'ed or copied in e_mail_parser_parse_async */
-	parts_list->message = g_object_get_data (G_OBJECT (result), "message");
-	parts_list->folder = g_object_get_data (G_OBJECT (result), "folder");
-	parts_list->message_uid = g_object_get_data (G_OBJECT (result), "message_uid");
-
-	parts_list->list = g_simple_async_result_get_op_res_gpointer (
-					G_SIMPLE_ASYNC_RESULT (result));
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	part_list = g_simple_async_result_get_op_res_gpointer (simple);
 
 	if (camel_debug_start ("emformat:parser")) {
 		GSList *iter;
 
 		printf (
 			"%s finished with EMailPartList:\n",
-				G_OBJECT_TYPE_NAME (parser));
+			G_OBJECT_TYPE_NAME (parser));
 
-		for (iter = parts_list->list; iter; iter = iter->next) {
+		for (iter = part_list->list; iter; iter = iter->next) {
 			EMailPart *part = iter->data;
 			if (!part) continue;
 			printf (
-				"	id: %s | cid: %s | mime_type: %s | is_hidden: %d | is_attachment: %d\n",
+				"	id: %s | cid: %s | mime_type: %s | "
+				"is_hidden: %d | is_attachment: %d\n",
 				part->id, part->cid, part->mime_type,
 				part->is_hidden ? 1 : 0,
 				part->is_attachment ? 1 : 0);
@@ -417,7 +416,7 @@ e_mail_parser_parse_finish (EMailParser *parser,
 		camel_debug_end ();
 	}
 
-	return parts_list;
+	return g_object_ref (part_list);
 }
 
 GSList *
@@ -441,7 +440,7 @@ e_mail_parser_parse_part (EMailParser *parser,
 	}
 
 	list = e_mail_parser_parse_part_as (
-			parser, part, part_id, mime_type, cancellable);
+		parser, part, part_id, mime_type, cancellable);
 
 	if (ct) {
 		g_free (mime_type);
@@ -485,7 +484,7 @@ e_mail_parser_parse_part_as (EMailParser *parser,
 
 	if (!parsers) {
 		return e_mail_parser_wrap_as_attachment (
-				parser, part, NULL, part_id, cancellable);
+			parser, part, NULL, part_id, cancellable);
 	}
 
 	for (iter = parsers->head; iter; iter = iter->next) {
@@ -496,7 +495,7 @@ e_mail_parser_parse_part_as (EMailParser *parser,
 			continue;
 
 		part_list = e_mail_parser_extension_parse (
-				extension, parser, part, part_id, cancellable);
+			extension, parser, part, part_id, cancellable);
 
 		if (part_list)
 			break;
@@ -599,7 +598,7 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 
 		reg = e_mail_parser_get_extension_registry (parser);
 		extensions = e_mail_extension_registry_get_for_mime_type (
-				reg, mime_type);
+			reg, mime_type);
 
 		if (camel_content_type_is (ct, "text", "*") ||
 		    camel_content_type_is (ct, "message", "*"))
@@ -616,7 +615,7 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 
 		reg = e_mail_parser_get_extension_registry (parser);
 		extensions = e_mail_extension_registry_get_for_mime_type (
-				reg, snoop_mime_type);
+			reg, snoop_mime_type);
 
 		if (!extensions) {
 			extensions = e_mail_extension_registry_get_fallback (
@@ -628,12 +627,12 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 	g_string_append (part_id, ".attachment");
 
 	empa = (EMailPartAttachment *) e_mail_part_subclass_new (
-			part, part_id->str, sizeof (EMailPartAttachment),
-			(GFreeFunc) e_mail_part_attachment_free);
+		part, part_id->str, sizeof (EMailPartAttachment),
+		(GFreeFunc) e_mail_part_attachment_free);
 	empa->parent.mime_type = g_strdup ("application/vnd.evolution.attachment");
 	empa->parent.is_attachment = TRUE;
 	empa->shown = extensions && (!g_queue_is_empty (extensions) &&
-			e_mail_part_is_inline (part, extensions));
+		e_mail_part_is_inline (part, extensions));
 	empa->snoop_mime_type = snoop_mime_type;
 	empa->attachment = e_attachment_new ();
 	empa->attachment_view_part_id = parts ? g_strdup (E_MAIL_PART (parts->data)->id) : NULL;
