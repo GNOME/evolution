@@ -258,6 +258,7 @@ mail_backend_delete_junk (CamelService *service,
 	camel_folder_thaw (folder);
 
 	camel_folder_free_uids (folder, uids);
+	g_object_unref (folder);
 }
 
 /* Helper for mail_backend_prepare_for_quit_cb() */
@@ -277,17 +278,76 @@ mail_backend_ready_to_quit (EActivity *activity)
 	g_object_unref (activity);
 }
 
+static gboolean
+mail_backend_check_enabled (ESourceRegistry *registry,
+			    ESource *source)
+{
+	gboolean enabled;
+	gchar *parent_uid;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
+
+	enabled = e_source_get_enabled (source);
+	parent_uid = e_source_dup_parent (source);
+
+	while (enabled && parent_uid != NULL) {
+		ESource *parent;
+
+		parent = e_source_registry_ref_source (registry, parent_uid);
+
+		g_free (parent_uid);
+		parent_uid = NULL;
+
+		if (parent != NULL) {
+			enabled = e_source_get_enabled (parent);
+			parent_uid = e_source_dup_parent (parent);
+			g_object_unref (parent);
+		}
+	}
+
+	g_free (parent_uid);
+
+	return enabled;
+}
+
+static gboolean
+mail_backend_service_is_enabled (ESourceRegistry *registry,
+				 CamelService *service)
+{
+	const gchar *uid;
+	ESource *source;
+	gboolean enabled;
+
+	g_return_val_if_fail (registry != NULL, FALSE);
+	g_return_val_if_fail (service != NULL, FALSE);
+
+	uid = camel_service_get_uid (service);
+	g_return_val_if_fail (uid != NULL, FALSE);
+
+	source = e_source_registry_ref_source (registry, uid);
+	if (!source)
+		return FALSE;
+
+	enabled = mail_backend_check_enabled (registry, source);
+	g_object_unref (source);
+
+	return enabled;
+}
+
 static void
 mail_backend_prepare_for_quit_cb (EShell *shell,
                                   EActivity *activity,
                                   EMailBackend *backend)
 {
 	EMailSession *session;
+	ESourceRegistry *registry;
 	GList *list, *link;
 	gboolean delete_junk;
 	gboolean empty_trash;
 
 	session = e_mail_backend_get_session (backend);
+	registry = e_shell_get_registry (shell);
 
 	delete_junk = e_mail_backend_delete_junk_policy_decision (backend);
 	empty_trash = e_mail_backend_empty_trash_policy_decision (backend);
@@ -307,7 +367,8 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 
 			service = CAMEL_SERVICE (link->data);
 
-			if (!CAMEL_IS_STORE (service))
+			if (!CAMEL_IS_STORE (service) ||
+			    !mail_backend_service_is_enabled (registry, service))
 				continue;
 
 			mail_backend_delete_junk (service, backend);
@@ -319,7 +380,8 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 
 		service = CAMEL_SERVICE (link->data);
 
-		if (!CAMEL_IS_STORE (service))
+		if (!CAMEL_IS_STORE (service) ||
+		    !mail_backend_service_is_enabled (registry, service))
 			continue;
 
 		/* FIXME Not passing a GCancellable. */
