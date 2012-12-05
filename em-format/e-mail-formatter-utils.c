@@ -419,15 +419,15 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 	g_free (str_field);
 }
 
-GSList *
-e_mail_formatter_find_rfc822_end_iter (GSList *iter)
+GList *
+e_mail_formatter_find_rfc822_end_iter (GList *iter)
 {
 	EMailPart *part;
 	gchar *end;
 
 	part = iter->data;
 	end = g_strconcat (part->id, ".end", NULL);
-	for (; iter != NULL; iter = g_slist_next (iter)) {
+	for (; iter != NULL; iter = g_list_next (iter)) {
 		part = iter->data;
 		if (!part)
 			continue;

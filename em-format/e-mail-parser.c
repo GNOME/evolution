@@ -61,10 +61,14 @@ mail_parser_run (EMailParser *parser,
                  GCancellable *cancellable)
 {
 	EMailExtensionRegistry *reg;
+	CamelMimeMessage *message;
 	EMailPart *part;
 	GQueue *parsers;
 	GList *iter;
 	GString *part_id;
+	GSList *list_of_parts;
+
+	message = e_mail_part_list_get_message (part_list);
 
 	reg = e_mail_parser_get_extension_registry (parser);
 
@@ -81,8 +85,11 @@ mail_parser_run (EMailParser *parser,
 
 	part_id = g_string_new (".message");
 
-	for (iter = parsers->head; iter; iter = iter->next) {
+	part = e_mail_part_new (CAMEL_MIME_PART (message), ".message");
+	e_mail_part_list_add_part (part_list, part);
+	e_mail_part_unref (part);
 
+	for (iter = parsers->head; iter; iter = iter->next) {
 		EMailParserExtension *extension;
 
 		if (g_cancellable_is_cancelled (cancellable))
@@ -92,18 +99,25 @@ mail_parser_run (EMailParser *parser,
 		if (!extension)
 			continue;
 
-		part_list->list = e_mail_parser_extension_parse (
+		list_of_parts = e_mail_parser_extension_parse (
 			extension, parser,
-			CAMEL_MIME_PART (part_list->message),
+			CAMEL_MIME_PART (message),
 			part_id, cancellable);
 
-		if (part_list->list != NULL)
+		if (list_of_parts != NULL)
 			break;
 	}
 
-	part = e_mail_part_new (
-		CAMEL_MIME_PART (part_list->message), ".message");
-	part_list->list = g_slist_prepend (part_list->list, part);
+	while (list_of_parts != NULL) {
+		part = list_of_parts->data;
+		if (part != NULL) {
+			e_mail_part_list_add_part (part_list, part);
+			e_mail_part_unref (part);
+		}
+
+		list_of_parts = g_slist_delete_link (
+			list_of_parts, list_of_parts);
+	}
 
 	g_string_free (part_id, TRUE);
 }
@@ -282,32 +296,30 @@ e_mail_parser_parse_sync (EMailParser *parser,
 	g_return_val_if_fail (E_IS_MAIL_PARSER (parser), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
-	part_list = e_mail_part_list_new ();
-
-	if (folder != NULL)
-		part_list->folder = g_object_ref (folder);
-
-	part_list->message_uid = g_strdup (message_uid);
-	part_list->message = g_object_ref (message);
+	part_list = e_mail_part_list_new (message, message_uid, folder);
 
 	mail_parser_run (parser, part_list, cancellable);
 
 	if (camel_debug_start ("emformat:parser")) {
-		GSList *iter;
+		GQueue queue = G_QUEUE_INIT;
 
 		printf (
 			"%s finished with EMailPartList:\n",
 			G_OBJECT_TYPE_NAME (parser));
 
-		for (iter = part_list->list; iter; iter = iter->next) {
-			EMailPart *part = iter->data;
-			if (!part) continue;
+		e_mail_part_list_queue_parts (part_list, NULL, &queue);
+
+		while (!g_queue_is_empty (&queue)) {
+			EMailPart *part = g_queue_pop_head (&queue);
+
 			printf (
 				"	id: %s | cid: %s | mime_type: %s | "
 				"is_hidden: %d | is_attachment: %d\n",
 				part->id, part->cid, part->mime_type,
 				part->is_hidden ? 1 : 0,
 				part->is_attachment ? 1 : 0);
+
+			e_mail_part_unref (part);
 		}
 
 		camel_debug_end ();
@@ -355,11 +367,7 @@ e_mail_parser_parse (EMailParser *parser,
 	g_return_if_fail (E_IS_MAIL_PARSER (parser));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	part_list = e_mail_part_list_new ();
-	part_list->message = g_object_ref (message);
-	part_list->message_uid = g_strdup (message_uid);
-	if (folder != NULL)
-		part_list->folder = g_object_ref (folder);
+	part_list = e_mail_part_list_new (message, message_uid, folder);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (parser), callback,
@@ -393,21 +401,25 @@ e_mail_parser_parse_finish (EMailParser *parser,
 	part_list = g_simple_async_result_get_op_res_gpointer (simple);
 
 	if (camel_debug_start ("emformat:parser")) {
-		GSList *iter;
+		GQueue queue = G_QUEUE_INIT;
 
 		printf (
 			"%s finished with EMailPartList:\n",
 			G_OBJECT_TYPE_NAME (parser));
 
-		for (iter = part_list->list; iter; iter = iter->next) {
-			EMailPart *part = iter->data;
-			if (!part) continue;
+		e_mail_part_list_queue_parts (part_list, NULL, &queue);
+
+		while (!g_queue_is_empty (&queue)) {
+			EMailPart *part = g_queue_pop_head (&queue);
+
 			printf (
 				"	id: %s | cid: %s | mime_type: %s | "
 				"is_hidden: %d | is_attachment: %d\n",
 				part->id, part->cid, part->mime_type,
 				part->is_hidden ? 1 : 0,
 				part->is_attachment ? 1 : 0);
+
+			e_mail_part_unref (part);
 		}
 
 		camel_debug_end ();

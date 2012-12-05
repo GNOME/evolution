@@ -50,7 +50,8 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	EMailFormatterQuote *qf;
 	EMailFormatterQuoteContext *qf_context;
 	GSettings *settings;
-	GSList *list, *link;
+	GQueue queue = G_QUEUE_INIT;
+	GList *head, *link;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
@@ -87,13 +88,12 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 			"<blockquote type=cite>\n", cancellable, NULL);
 	}
 
-	list = context->part_list->list;
+	e_mail_part_list_queue_parts (context->part_list, NULL, &queue);
 
-	for (link = list; link != NULL; link = g_slist_next (link)) {
+	head = g_queue_peek_head_link (&queue);
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = link->data;
-
-		if (!part)
-			continue;
 
 		if (g_str_has_suffix (part->id, ".headers") &&
 		   !(qf_context->qf_flags & E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS)) {
@@ -105,17 +105,11 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 
 			while (link != NULL) {
 				EMailPart *p = link->data;
-				if (p == NULL) {
-					link = g_slist_next (link);
-					if (link == NULL)
-						break;
-					continue;
-				}
 
 				if (g_strcmp0 (p->id, end) == 0)
 					break;
 
-				link = g_slist_next (link);
+				link = g_list_next (link);
 				if (link == NULL)
 					break;
 			}
@@ -131,6 +125,9 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 			formatter, context, part, stream,
 			part->mime_type, cancellable);
 	}
+
+	while (!g_queue_is_empty (&queue))
+		e_mail_part_unref (g_queue_pop_head (&queue));
 
 	if (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_CITE) {
 		camel_stream_write_string (

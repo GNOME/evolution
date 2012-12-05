@@ -99,7 +99,8 @@ mail_formatter_print_run (EMailFormatter *formatter,
                           CamelStream *stream,
                           GCancellable *cancellable)
 {
-	GSList *list, *link;
+	GQueue queue = G_QUEUE_INIT;
+	GList *head, *link;
 	GSList *attachments;
 
 	context->mode = E_MAIL_FORMATTER_MODE_PRINTING;
@@ -116,17 +117,17 @@ mail_formatter_print_run (EMailFormatter *formatter,
 		cancellable, NULL);
 
 	attachments = NULL;
-	list = context->part_list->list;
 
-	for (link = list; link != NULL ; link = g_slist_next (link)) {
+	e_mail_part_list_queue_parts (context->part_list, NULL, &queue);
+
+	head = g_queue_peek_head_link (&queue);
+
+	for (link = head; link != NULL ; link = g_list_next (link)) {
 		EMailPart *part = link->data;
 		gboolean ok;
 
 		if (g_cancellable_is_cancelled (cancellable))
 			break;
-
-		if (part == NULL)
-			continue;
 
 		if (part->is_hidden && !part->is_error) {
 			if (g_str_has_suffix (part->id, ".rfc822")) {
@@ -160,6 +161,9 @@ mail_formatter_print_run (EMailFormatter *formatter,
 			continue;
 		}
 	}
+
+	while (!g_queue_is_empty (&queue))
+		e_mail_part_unref (g_queue_pop_head (&queue));
 
 	write_attachments_list (formatter, context, attachments, stream, cancellable);
 

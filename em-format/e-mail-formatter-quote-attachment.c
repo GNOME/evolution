@@ -71,20 +71,17 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 	gchar *text, *html;
 	guint32 text_format_flags;
 	EMailPartAttachment *empa;
-	EMailPart *att_part;
-	GSList *iter;
+	EMailPart *attachment_view_part;
 
 	empa = E_MAIL_PART_ATTACHMENT (part);
 
 	if (!empa->attachment_view_part_id)
 		return FALSE;
 
-	iter = e_mail_part_list_get_iter (
-		context->part_list->list, empa->attachment_view_part_id);
-	if (!iter || !iter->data)
+	attachment_view_part = e_mail_part_list_ref_part (
+		context->part_list, empa->attachment_view_part_id);
+	if (attachment_view_part == NULL)
 		return FALSE;
-
-	att_part = iter->data;
 
 	camel_stream_write_string (stream, "<br><br>", cancellable, NULL);
 
@@ -110,13 +107,16 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 		"<blockquote type=cite>\n", cancellable, NULL);
 
 	e_mail_formatter_format_as (
-		formatter, context, att_part, stream, NULL, cancellable);
+		formatter, context, attachment_view_part,
+		stream, NULL, cancellable);
 
 	camel_stream_write_string (
 		stream,
 		"</blockquote><!--+GtkHTML:"
 		"<DATA class=\"ClueFlow\" clear=\"orig\">-->",
 		cancellable, NULL);
+
+	e_mail_part_unref (attachment_view_part);
 
 	return TRUE;
 }

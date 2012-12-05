@@ -201,11 +201,17 @@ emp_start_printing (GObject *object,
 static void
 emp_run_print_operation (EMailPrinter *emp)
 {
+	EMailPartList *part_list;
+	CamelFolder *folder;
+	const gchar *message_uid;
 	gchar *mail_uri;
 
+	part_list = emp->priv->parts_list;
+	folder = e_mail_part_list_get_folder (part_list);
+	message_uid = e_mail_part_list_get_message_uid (part_list);
+
 	mail_uri = e_mail_part_build_uri (
-		emp->priv->parts_list->folder,
-		emp->priv->parts_list->message_uid,
+		folder, message_uid,
 		"__evo-load-image", G_TYPE_BOOLEAN, TRUE,
 		"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_PRINTING,
 		NULL);
@@ -623,6 +629,7 @@ emp_set_parts_list (EMailPrinter *emp,
                     EMailPartList *parts_list)
 {
 	CamelMediumHeader *header;
+	CamelMimeMessage *message;
 	GArray *headers;
 	gint i;
 	GtkTreeIter last_known = { 0 };
@@ -637,7 +644,8 @@ emp_set_parts_list (EMailPrinter *emp,
 		5,
 		G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_INT);
 
-	headers = camel_medium_get_headers (CAMEL_MEDIUM (parts_list->message));
+	message = e_mail_part_list_get_message (parts_list);
+	headers = camel_medium_get_headers (CAMEL_MEDIUM (message));
 	if (!headers)
 		return;
 
@@ -676,7 +684,7 @@ emp_set_parts_list (EMailPrinter *emp,
 			COLUMN_HEADER_STRUCT, emfh, -1);
 	}
 
-	camel_medium_free_headers (CAMEL_MEDIUM (parts_list->message), headers);
+	camel_medium_free_headers (CAMEL_MEDIUM (message), headers);
 }
 
 static void

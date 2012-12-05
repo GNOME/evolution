@@ -20,36 +20,167 @@
 
 #include "e-mail-part-list.h"
 
+#define E_MAIL_PART_LIST_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_PART_LIST, EMailPartListPrivate))
+
+struct _EMailPartListPrivate {
+	CamelFolder *folder;
+	CamelMimeMessage *message;
+	gchar *message_uid;
+
+	GQueue queue;
+	GMutex queue_lock;
+};
+
+enum {
+	PROP_0,
+	PROP_FOLDER,
+	PROP_MESSAGE,
+	PROP_MESSAGE_UID
+};
+
 G_DEFINE_TYPE (EMailPartList, e_mail_part_list, G_TYPE_OBJECT)
 
 static CamelObjectBag *registry = NULL;
 G_LOCK_DEFINE_STATIC (registry);
 
 static void
-unref_mail_part (gpointer user_data)
+mail_part_list_set_folder (EMailPartList *part_list,
+                           CamelFolder *folder)
 {
-	if (user_data)
-		e_mail_part_unref (user_data);
+	g_return_if_fail (part_list->priv->folder == NULL);
+
+	/* The folder property is optional. */
+	if (folder != NULL) {
+		g_return_if_fail (CAMEL_IS_FOLDER (folder));
+		part_list->priv->folder = g_object_ref (folder);
+	}
 }
 
 static void
-e_mail_part_list_finalize (GObject *object)
+mail_part_list_set_message (EMailPartList *part_list,
+                            CamelMimeMessage *message)
 {
-	EMailPartList *part_list = E_MAIL_PART_LIST (object);
+	g_return_if_fail (part_list->priv->message == NULL);
 
-	g_clear_object (&part_list->folder);
-	g_clear_object (&part_list->message);
+	/* The message property is optional. */
+	if (message != NULL) {
+		g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+		part_list->priv->message = g_object_ref (message);
+	}
+}
 
-	if (part_list->list) {
-		g_slist_free_full (part_list->list, unref_mail_part);
-		part_list->list = NULL;
+static void
+mail_part_list_set_message_uid (EMailPartList *part_list,
+                                const gchar *message_uid)
+{
+	g_return_if_fail (part_list->priv->message_uid == NULL);
+
+	/* The message_uid property is optional. */
+	part_list->priv->message_uid = g_strdup (message_uid);
+}
+
+static void
+mail_part_list_set_property (GObject *object,
+                             guint property_id,
+                             const GValue *value,
+                             GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_FOLDER:
+			mail_part_list_set_folder (
+				E_MAIL_PART_LIST (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_MESSAGE:
+			mail_part_list_set_message (
+				E_MAIL_PART_LIST (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_MESSAGE_UID:
+			mail_part_list_set_message_uid (
+				E_MAIL_PART_LIST (object),
+				g_value_get_string (value));
+			return;
 	}
 
-	if (part_list->message_uid) {
-		g_free (part_list->message_uid);
-		part_list->message_uid = NULL;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_part_list_get_property (GObject *object,
+                             guint property_id,
+                             GValue *value,
+                             GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_FOLDER:
+			g_value_set_object (
+				value,
+				e_mail_part_list_get_folder (
+				E_MAIL_PART_LIST (object)));
+			return;
+
+		case PROP_MESSAGE:
+			g_value_set_object (
+				value,
+				e_mail_part_list_get_message (
+				E_MAIL_PART_LIST (object)));
+			return;
+
+		case PROP_MESSAGE_UID:
+			g_value_set_string (
+				value,
+				e_mail_part_list_get_message_uid (
+				E_MAIL_PART_LIST (object)));
+			return;
 	}
 
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_part_list_dispose (GObject *object)
+{
+	EMailPartListPrivate *priv;
+
+	priv = E_MAIL_PART_LIST_GET_PRIVATE (object);
+
+	if (priv->folder != NULL) {
+		g_object_unref (priv->folder);
+		priv->folder = NULL;
+	}
+
+	if (priv->message != NULL) {
+		g_object_unref (priv->message);
+		priv->message = NULL;
+	}
+
+	g_mutex_lock (&priv->queue_lock);
+	while (!g_queue_is_empty (&priv->queue))
+		e_mail_part_unref (g_queue_pop_head (&priv->queue));
+	g_mutex_unlock (&priv->queue_lock);
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_part_list_parent_class)->dispose (object);
+}
+
+static void
+mail_part_list_finalize (GObject *object)
+{
+	EMailPartListPrivate *priv;
+
+	priv = E_MAIL_PART_LIST_GET_PRIVATE (object);
+
+	g_free (priv->message_uid);
+
+	g_warn_if_fail (g_queue_is_empty (&priv->queue));
+	g_mutex_clear (&priv->queue_lock);
+
+	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_part_list_parent_class)->finalize (object);
 }
 
@@ -58,78 +189,206 @@ e_mail_part_list_class_init (EMailPartListClass *class)
 {
 	GObjectClass *object_class;
 
+	g_type_class_add_private (class, sizeof (EMailPartListPrivate));
+
 	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = e_mail_part_list_finalize;
+	object_class->set_property = mail_part_list_set_property;
+	object_class->get_property = mail_part_list_get_property;
+	object_class->dispose = mail_part_list_dispose;
+	object_class->finalize = mail_part_list_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FOLDER,
+		g_param_spec_object (
+			"folder",
+			"Folder",
+			NULL,
+			CAMEL_TYPE_FOLDER,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MESSAGE,
+		g_param_spec_object (
+			"message",
+			"Message",
+			NULL,
+			CAMEL_TYPE_MIME_MESSAGE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MESSAGE_UID,
+		g_param_spec_string (
+			"message-uid",
+			"Message UID",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
 e_mail_part_list_init (EMailPartList *part_list)
 {
+	part_list->priv = E_MAIL_PART_LIST_GET_PRIVATE (part_list);
 
+	g_mutex_init (&part_list->priv->queue_lock);
 }
 
 EMailPartList *
-e_mail_part_list_new ()
+e_mail_part_list_new (CamelMimeMessage *message,
+                      const gchar *message_uid,
+                      CamelFolder *folder)
 {
-	return g_object_new (E_TYPE_MAIL_PART_LIST, NULL);
+	if (message != NULL)
+		g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+
+	if (folder != NULL)
+		g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+
+	return g_object_new (
+		E_TYPE_MAIL_PART_LIST,
+		"message", message,
+		"message-uid", message_uid,
+		"folder", folder, NULL);
+}
+
+CamelFolder *
+e_mail_part_list_get_folder (EMailPartList *part_list)
+{
+	g_return_val_if_fail (E_IS_MAIL_PART_LIST (part_list), NULL);
+
+	return part_list->priv->folder;
+}
+
+CamelMimeMessage *
+e_mail_part_list_get_message (EMailPartList *part_list)
+{
+	g_return_val_if_fail (E_IS_MAIL_PART_LIST (part_list), NULL);
+
+	return part_list->priv->message;
+}
+
+const gchar *
+e_mail_part_list_get_message_uid (EMailPartList *part_list)
+{
+	g_return_val_if_fail (E_IS_MAIL_PART_LIST (part_list), NULL);
+
+	return part_list->priv->message_uid;
+}
+
+void
+e_mail_part_list_add_part (EMailPartList *part_list,
+                           EMailPart *part)
+{
+	g_return_if_fail (E_IS_MAIL_PART_LIST (part_list));
+	g_return_if_fail (part != NULL);
+
+	g_mutex_lock (&part_list->priv->queue_lock);
+
+	g_queue_push_tail (
+		&part_list->priv->queue,
+		e_mail_part_ref (part));
+
+	g_mutex_unlock (&part_list->priv->queue_lock);
 }
 
 EMailPart *
-e_mail_part_list_find_part (EMailPartList *part_list,
-                            const gchar *id)
+e_mail_part_list_ref_part (EMailPartList *part_list,
+                           const gchar *part_id)
 {
-	GSList *iter;
+	EMailPart *match = NULL;
+	GList *head, *link;
 	gboolean by_cid;
 
 	g_return_val_if_fail (E_IS_MAIL_PART_LIST (part_list), NULL);
-	g_return_val_if_fail (id && *id, NULL);
+	g_return_val_if_fail (part_id != NULL, NULL);
 
-	by_cid = (g_str_has_prefix (id, "cid:") || g_str_has_prefix (id, "CID:"));
+	by_cid = (g_ascii_strncasecmp (part_id, "cid:", 4) == 0);
 
-	for (iter = part_list->list; iter; iter = iter->next) {
+	g_mutex_lock (&part_list->priv->queue_lock);
 
-		EMailPart *part = iter->data;
-		if (!part)
-			continue;
+	head = g_queue_peek_head_link (&part_list->priv->queue);
 
-		if ((by_cid && (g_strcmp0 (part->cid, id) == 0)) ||
-		    (!by_cid && (g_strcmp0 (part->id, id) == 0)))
-			return part;
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPart *part = link->data;
+
+		if (by_cid && (g_strcmp0 (part->cid, part_id) == 0)) {
+			match = e_mail_part_ref (part);
+			break;
+		}
+
+		if (!by_cid && (g_strcmp0 (part->id, part_id) == 0)) {
+			match = e_mail_part_ref (part);
+			break;
+		}
 	}
 
-	return NULL;
+	g_mutex_unlock (&part_list->priv->queue_lock);
+
+	return match;
 }
 
 /**
- * e_mail_part_list_get_iter:
- * @part_list: a #GSList of #EMailPart
- * @id: id of #EMailPart to lookup
+ * e_mail_part_list_queue_parts:
+ * @part_list: an #EMailPartList
+ * @part_id: the #EMailPart ID to begin queueing from, or %NULL
+ * @result_queue: a #GQueue in which to deposit #EMailPart instances
  *
- * Returns iter of an #EMailPart within the @part_list.
+ * Populates @result_queue with a sequence of #EMailPart instances beginning
+ * with the part having @part_id.  If @part_id is %NULL, the entire sequence
+ * of #EMailPart instances is queued.
  *
- * Return Value: a #GSList sublist. The list is owned by #EMailPartList and
- * must not be freed or altered.
- */
-GSList *
-e_mail_part_list_get_iter (GSList *list,
-                           const gchar *id)
+ * Each #EMailPart is referenced for thread-safety and should be unreferenced
+ * with e_mail_part_unref().
+ *
+ * Returns: the number of parts added to @result_queue
+ **/
+guint
+e_mail_part_list_queue_parts (EMailPartList *part_list,
+                              const gchar *part_id,
+                              GQueue *result_queue)
 {
-	GSList *iter;
+	GList *link;
+	guint parts_queued = 0;
 
-	g_return_val_if_fail (list != NULL, NULL);
-	g_return_val_if_fail (id && *id, NULL);
+	g_return_val_if_fail (E_IS_MAIL_PART_LIST (part_list), FALSE);
+	g_return_val_if_fail (result_queue != NULL, FALSE);
 
-	for (iter = list; iter; iter = iter->next) {
+	g_mutex_lock (&part_list->priv->queue_lock);
 
-		EMailPart *part = iter->data;
-		if (!part)
-			continue;
+	link = g_queue_peek_head_link (&part_list->priv->queue);
 
-		if (g_strcmp0 (part->id, id) == 0)
-			return iter;
+	if (part_id != NULL) {
+		for (; link != NULL; link = g_list_next (link)) {
+			EMailPart *part = link->data;
+
+			if (g_strcmp0 (part->id, part_id) == 0)
+				break;
+		}
 	}
 
-	return NULL;
+	/* We skip the loop entirely if link is NULL. */
+	for (; link != NULL; link = g_list_next (link)) {
+		EMailPart *part = link->data;
+
+		if (part == NULL)
+			continue;
+
+		g_queue_push_tail (result_queue, e_mail_part_ref (part));
+		parts_queued++;
+	}
+
+	g_mutex_unlock (&part_list->priv->queue_lock);
+
+	return parts_queued;
 }
 
 /**

@@ -70,7 +70,8 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
                              CamelStream *stream,
                              GCancellable *cancellable)
 {
-	GSList *iter;
+	GQueue queue = G_QUEUE_INIT;
+	GList *head, *link;
 	gchar *header, *end;
 	EMailFormatterQuoteContext *qc = (EMailFormatterQuoteContext *) context;
 
@@ -81,16 +82,20 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 	camel_stream_write_string (stream, header, cancellable, NULL);
 	g_free (header);
 
-	iter = e_mail_part_list_get_iter (context->part_list->list, part->id);
-	if (!iter) {
+	e_mail_part_list_queue_parts (context->part_list, part->id, &queue);
+
+	if (g_queue_is_empty (&queue))
 		return FALSE;
-	}
+
+	/* Discard the first EMailPart. */
+	e_mail_part_unref (g_queue_pop_head (&queue));
+
+	head = g_queue_peek_head (&queue);
 
 	end = g_strconcat (part->id, ".end", NULL);
-	for (iter = g_slist_next (iter); iter; iter = g_slist_next (iter)) {
-		EMailPart * p = iter->data;
-		if (!p)
-			continue;
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPart *p = link->data;
 
 		/* Skip attachment bar */
 		if (g_str_has_suffix (p->id, ".attachment-bar"))
@@ -111,28 +116,18 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 		if (g_str_has_suffix (p->id, ".rfc822")) {
 			gchar *sub_end = g_strconcat (p->id, ".end", NULL);
 
-			while (iter) {
-				p = iter->data;
-				if (!p) {
-					iter = g_slist_next (iter);
-					if (!iter) {
-						break;
-					}
-					continue;
-				}
+			while (link != NULL) {
+				p = link->data;
 
-				if (g_strcmp0 (p->id, sub_end) == 0) {
+				if (g_strcmp0 (p->id, sub_end) == 0)
 					break;
-				}
 
-				iter = g_slist_next (iter);
-				if (!iter) {
-					break;
-				}
+				link = g_list_next (link);
 			}
 			g_free (sub_end);
 			continue;
 		}
+
 		if ((g_strcmp0 (p->id, end) == 0))
 			break;
 
@@ -142,10 +137,12 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 		e_mail_formatter_format_as (
 			formatter, context, p,
 			stream, NULL, cancellable);
-
 	}
 
 	g_free (end);
+
+	while (!g_queue_is_empty (&queue))
+		e_mail_part_unref (g_queue_pop_head (&queue));
 
 	camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
 

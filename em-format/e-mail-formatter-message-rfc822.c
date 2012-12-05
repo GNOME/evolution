@@ -74,7 +74,8 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 		return FALSE;
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
-		GSList *iter;
+		GQueue queue = G_QUEUE_INIT;
+		GList *head, *link;
 		gchar *header, *end;
 
 		header = e_mail_formatter_get_html_header (formatter);
@@ -84,35 +85,36 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 		/* Print content of the message normally */
 		context->mode = E_MAIL_FORMATTER_MODE_NORMAL;
 
-		iter = e_mail_part_list_get_iter (
-			context->part_list->list, part->id);
+		e_mail_part_list_queue_parts (
+			context->part_list, part->id, &queue);
+
+		/* Discard the first EMailPart. */
+		if (!g_queue_is_empty (&queue))
+			e_mail_part_unref (g_queue_pop_head (&queue));
+
+		head = g_queue_peek_head_link (&queue);
 
 		end = g_strconcat (part->id, ".end", NULL);
-		for (iter = g_slist_next (iter); iter; iter = g_slist_next (iter)) {
-			EMailPart * p = iter->data;
-			if (!p)
-				continue;
+
+		for (link = head; link != NULL; link = g_list_next (link)) {
+			EMailPart *p = link->data;
 
 			/* Check for nested rfc822 messages */
 			if (g_str_has_suffix (p->id, ".rfc822")) {
 				gchar *sub_end = g_strconcat (p->id, ".end", NULL);
 
-				while (iter) {
-					p = iter->data;
-					if (!p) {
-						iter = iter->next;
-						continue;
-					}
+				while (link != NULL) {
+					p = link->data;
 
-					if (g_strcmp0 (p->id, sub_end) == 0) {
+					if (g_strcmp0 (p->id, sub_end) == 0)
 						break;
-					}
 
-					iter = iter->next;
+					link = g_list_next (link);
 				}
 				g_free (sub_end);
 				continue;
 			}
+
 			if ((g_strcmp0 (p->id, end) == 0))
 				break;
 
@@ -122,35 +124,41 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 			e_mail_formatter_format_as (
 				formatter, context, p,
 				stream, NULL, cancellable);
-
 		}
 
 		g_free (end);
+
+		while (!g_queue_is_empty (&queue))
+			e_mail_part_unref (g_queue_pop_head (&queue));
 
 		context->mode = E_MAIL_FORMATTER_MODE_RAW;
 
 		camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
 
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
-
-		GSList *iter;
+		GQueue queue = G_QUEUE_INIT;
+		GList *head, *link;
 		gchar *end;
 
 		/* Part is EMailPartAttachment */
-		iter = e_mail_part_list_get_iter (
-			context->part_list->list, part->id);
-		iter = g_slist_next (iter);
+		e_mail_part_list_queue_parts (
+			context->part_list, part->id, &queue);
 
-		if (!iter || !iter->next || !iter->data)
+		/* Discard the first EMailPart. */
+		if (!g_queue_is_empty (&queue))
+			e_mail_part_unref (g_queue_pop_head (&queue));
+
+		if (g_queue_is_empty (&queue))
 			return FALSE;
 
-		part = iter->data;
+		part = g_queue_pop_head (&queue);
 		end = g_strconcat (part->id, ".end", NULL);
+		e_mail_part_unref (part);
 
-		for (iter = iter->next; iter; iter = g_slist_next (iter)) {
-			EMailPart * p = iter->data;
-			if (!p)
-				continue;
+		head = g_queue_peek_head_link (&queue);
+
+		for (link = head; link != NULL; link = g_list_next (link)) {
+			EMailPart *p = link->data;
 
 			/* Skip attachment bar */
 			if (g_str_has_suffix (part->id, ".attachment-bar"))
@@ -160,18 +168,13 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 			if (g_str_has_suffix (p->id, ".rfc822")) {
 				gchar *sub_end = g_strconcat (p->id, ".end", NULL);
 
-				while (iter) {
-					p = iter->data;
-					if (!p) {
-						iter = iter->next;
-						continue;
-					}
+				while (link != NULL) {
+					p = link->data;
 
-					if (g_strcmp0 (p->id, sub_end) == 0) {
+					if (g_strcmp0 (p->id, sub_end) == 0)
 						break;
-					}
 
-					iter = iter->next;
+					link = g_list_next (link);
 				}
 				g_free (sub_end);
 				continue;
@@ -190,24 +193,22 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 
 		g_free (end);
 
+		while (!g_queue_is_empty (&queue))
+			e_mail_part_unref (g_queue_pop_head (&queue));
+
 	} else {
+		EMailPart *p;
 		CamelFolder *folder;
 		const gchar *message_uid;
 		gchar *str;
 		gchar *uri;
 
-		EMailPart *p;
-		GSList *iter;
-
-		iter = e_mail_part_list_get_iter (
-			context->part_list->list, part->id);
-		if (!iter || !iter->next)
+		p = e_mail_part_list_ref_part (context->part_list, part->id);
+		if (p == NULL)
 			return FALSE;
 
-		p = iter->data;
-
-		folder = context->part_list->folder;
-		message_uid = context->part_list->message_uid;
+		folder = e_mail_part_list_get_folder (context->part_list);
+		message_uid = e_mail_part_list_get_message_uid (context->part_list);
 
 		uri = e_mail_part_build_uri (
 			folder, message_uid,
@@ -235,6 +236,8 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 
 		g_free (str);
 		g_free (uri);
+
+		e_mail_part_unref (p);
 	}
 
 	return TRUE;

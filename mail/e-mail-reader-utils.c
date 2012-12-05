@@ -1268,15 +1268,17 @@ mail_reader_reply_message_parsed (GObject *object,
 	EMailBackend *backend;
 	EMailReader *reader = E_MAIL_READER (object);
 	EMailPartList *part_list;
+	CamelMimeMessage *message;
 	AsyncContext *context = user_data;
 
 	part_list = e_mail_reader_parse_message_finish (reader, result);
+	message = e_mail_part_list_get_message (part_list);
 
 	backend = e_mail_reader_get_backend (context->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
 	em_utils_reply_to_message (
-		shell, part_list->message,
+		shell, message,
 		context->folder, context->message_uid,
 		context->reply_type, context->reply_style,
 		part_list, context->address);
@@ -1403,12 +1405,14 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	if (!part_list) {
 		goto whole_message;
 	} else {
-		GSList *piter;
+		GQueue queue = G_QUEUE_INIT;
 
-		for (piter = part_list->list; piter; piter = piter->next) {
-			EMailPart *part = piter->data;
+		e_mail_part_list_queue_parts (part_list, NULL, &queue);
 
-			if (part && part->validities) {
+		while (!g_queue_is_empty (&queue)) {
+			EMailPart *part = g_queue_pop_head (&queue);
+
+			if (part->validities) {
 				GSList *viter;
 
 				for (viter = part->validities; viter; viter = viter->next) {
@@ -1422,11 +1426,13 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 					}
 				}
 			}
+
+			e_mail_part_unref (part);
 		}
 	}
 
 	if (src_message == NULL) {
-		src_message = part_list->message;
+		src_message = e_mail_part_list_get_message (part_list);
 		if (src_message != NULL)
 			g_object_ref (src_message);
 

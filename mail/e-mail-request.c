@@ -116,7 +116,7 @@ handle_mail_request (GSimpleAsyncResult *res,
 		const gchar *mime_type;
 		/* original part_id is owned by the GHashTable */
 		part_id = soup_uri_decode (part_id);
-		part = e_mail_part_list_find_part (part_list, part_id);
+		part = e_mail_part_list_ref_part (part_list, part_id);
 
 		val = g_hash_table_lookup (request->priv->uri_query, "mime_type");
 		if (val) {
@@ -129,10 +129,11 @@ handle_mail_request (GSimpleAsyncResult *res,
 			mime_type = "application/vnd.evolution.source";
 		}
 
-		if (part) {
+		if (part != NULL) {
 			e_mail_formatter_format_as (
 				formatter, &context, part, request->priv->output_stream,
 				mime_type ? mime_type : part->mime_type, cancellable);
+			e_mail_part_unref (part);
 		} else {
 			g_warning ("Failed to lookup requested part '%s' - this should not happen!", part_id);
 		}

@@ -1229,12 +1229,12 @@ em_utils_get_proxy (void)
 }
 
 static gboolean
-is_only_text_part_in_this_level (GSList *parts,
+is_only_text_part_in_this_level (GList *parts,
                                  EMailPart *text_html_part)
 {
 	const gchar *dot;
 	gint level_len;
-	GSList *iter;
+	GList *iter;
 
 	g_return_val_if_fail (parts != NULL, FALSE);
 	g_return_val_if_fail (text_html_part != NULL, FALSE);
@@ -1297,7 +1297,8 @@ em_utils_message_to_html (CamelSession *session,
 	GtkWindow *window;
 	EMailPart *hidden_text_html_part = NULL;
 	guint32 is_validity_found = 0;
-	GSList *iter;
+	GQueue queue = G_QUEUE_INIT;
+	GList *head, *link;
 
 	shell = e_shell_get_default ();
 	window = e_shell_get_active_window (shell);
@@ -1333,18 +1334,18 @@ em_utils_message_to_html (CamelSession *session,
 	}
 
 	/* Return all found validities and possibly show hidden prefer-plain part */
-	for (iter = parts_list->list; iter; iter = iter->next) {
+	e_mail_part_list_queue_parts (parts_list, NULL, &queue);
+	head = g_queue_peek_head_link (&queue);
 
-		EMailPart *part = iter->data;
-		if (!part)
-			continue;
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPart *part = link->data;
 
 		/* prefer-plain can hide HTML parts, even when it's the only
 		 * text part in the email, thus show it (and hide again later) */
 		if (part->is_hidden && !hidden_text_html_part &&
 		    part->mime_type && !part->is_attachment &&
 		    g_ascii_strcasecmp (part->mime_type, "text/html") == 0 &&
-		    is_only_text_part_in_this_level (parts_list->list, part)) {
+		    is_only_text_part_in_this_level (head, part)) {
 			part->is_hidden = FALSE;
 			hidden_text_html_part = part;
 		}
@@ -1360,6 +1361,9 @@ em_utils_message_to_html (CamelSession *session,
 			}
 		}
 	}
+
+	while (!g_queue_is_empty (&queue))
+		e_mail_part_unref (g_queue_pop_head (&queue));
 
 	if (validity_found)
 		*validity_found = is_validity_found;

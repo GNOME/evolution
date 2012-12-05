@@ -1061,8 +1061,10 @@ message_parsed_cb (GObject *source_object,
 	EMailPartList *parts_list;
 	GObject *preview = user_data;
 	EMailDisplay *display;
+	CamelFolder *folder;
 	SoupSession *soup_session;
 	GHashTable *mails;
+	const gchar *message_uid;
 	gchar *mail_uri;
 
 	display = g_object_get_data (preview, "mbox-imp-display");
@@ -1078,8 +1080,10 @@ message_parsed_cb (GObject *source_object,
 		g_object_set_data (
 			G_OBJECT (soup_session), "mails", mails);
 	}
-	mail_uri = e_mail_part_build_uri (
-		parts_list->folder, parts_list->message_uid, NULL, NULL);
+
+	folder = e_mail_part_list_get_folder (parts_list);
+	message_uid = e_mail_part_list_get_message_uid (parts_list);
+	mail_uri = e_mail_part_build_uri (folder, message_uid, NULL, NULL);
 
 	g_hash_table_insert (mails, mail_uri, parts_list);
 

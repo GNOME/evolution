@@ -366,25 +366,24 @@ mail_formatter_run (EMailFormatter *formatter,
                     CamelStream *stream,
                     GCancellable *cancellable)
 {
-	GSList *list, *link;
+	GQueue queue = G_QUEUE_INIT;
+	GList *head, *link;
 	gchar *hdr;
 
 	hdr = e_mail_formatter_get_html_header (formatter);
 	camel_stream_write_string (stream, hdr, cancellable, NULL);
 	g_free (hdr);
 
-	list = context->part_list->list;
+	e_mail_part_list_queue_parts (context->part_list, NULL, &queue);
 
-	for (link = list; link != NULL; link = g_slist_next (link)) {
+	head = g_queue_peek_head_link (&queue);
 
+	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = link->data;
 		gboolean ok;
 
 		if (g_cancellable_is_cancelled (cancellable))
 			break;
-
-		if (part == NULL)
-			continue;
 
 		if (part->is_hidden && !part->is_error) {
 			if (g_str_has_suffix (part->id, ".rfc822")) {
@@ -446,10 +445,10 @@ mail_formatter_run (EMailFormatter *formatter,
 
 				do {
 					part = link->data;
-					if (part && g_str_has_suffix (part->id, ".rfc822.end"))
+					if (g_str_has_suffix (part->id, ".rfc822.end"))
 						break;
 
-					link = g_slist_next (link);
+					link = g_list_next (link);
 				} while (link != NULL);
 
 				if (link == NULL)
@@ -457,6 +456,9 @@ mail_formatter_run (EMailFormatter *formatter,
 			}
 		}
 	}
+
+	while (!g_queue_is_empty (&queue))
+		e_mail_part_unref (g_queue_pop_head (&queue));
 
 	camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
 }

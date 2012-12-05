@@ -74,11 +74,11 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	GString *str, *tmp;
 	gchar *subject;
 	const gchar *buf;
-	GSList *parts_iter;
-	GList *iter;
 	gint attachments_count;
 	gchar *part_id_prefix;
 	const GQueue *headers;
+	GQueue queue = G_QUEUE_INIT;
+	GList *head, *link;
 
 	buf = camel_medium_get_header (CAMEL_MEDIUM (part->part), "subject");
 	subject = camel_header_decode_string (buf, "UTF-8");
@@ -92,9 +92,8 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 		"cellpadding=\"0\" class=\"printing-header\">\n");
 
 	headers = e_mail_formatter_get_headers (formatter);
-	for (iter = headers->head; iter; iter = iter->next) {
-
-		EMailFormatterHeader *header = iter->data;
+	for (link = headers->head; link != NULL; link = g_list_next (link)) {
+		EMailFormatterHeader *header = link->data;
 		raw_header.name = header->name;
 
 		/* Skip 'Subject' header, it's already displayed. */
@@ -111,7 +110,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 			CamelMimeMessage *message;
 			const gchar *header_value;
 
-			message = context->part_list->message;
+			message = e_mail_part_list_get_message (context->part_list);
 
 			header_value = camel_medium_get_header (
 				CAMEL_MEDIUM (message), header->name);
@@ -135,12 +134,14 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	/* Add encryption/signature header */
 	raw_header.name = _("Security");
 	tmp = g_string_new ("");
-	/* Find first secured part. */
-	for (parts_iter = context->part_list->list; parts_iter; parts_iter = parts_iter->next) {
 
-		EMailPart *mail_part = parts_iter->data;
-		if (mail_part == NULL)
-			continue;
+	e_mail_part_list_queue_parts (context->part_list, NULL, &queue);
+
+	head = g_queue_peek_head_link (&queue);
+
+	/* Find first secured part. */
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPart *mail_part = link->data;
 
 		if (!mail_part->validities)
 			continue;
@@ -185,11 +186,8 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	/* Count attachments and display the number as a header */
 	attachments_count = 0;
 
-	for (parts_iter = context->part_list->list; parts_iter; parts_iter = parts_iter->next) {
-
-		EMailPart *mail_part = parts_iter->data;
-		if (!mail_part)
-			continue;
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPart *mail_part = link->data;
 
 		if (!g_str_has_prefix (mail_part->id, part_id_prefix))
 			continue;
@@ -209,6 +207,9 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 			E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS, "UTF-8");
 		g_free (raw_header.value);
 	}
+
+	while (!g_queue_is_empty (&queue))
+		e_mail_part_unref (g_queue_pop_head (&queue));
 
 	g_string_append (str, "</table>");
 

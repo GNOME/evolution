@@ -228,10 +228,11 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	SoupURI *soup_uri;
 	GHashTable *query;
 	EMailPartList *part_list;
-	GSList *iter;
 	gboolean is_text_plain;
 	const gchar *action_name;
 	EMailDisplayPopupPreferPlain *pp_extension;
+	GQueue queue = G_QUEUE_INIT;
+	GList *head, *link;
 
 	display = E_MAIL_DISPLAY (e_extension_get_extensible (
 			E_EXTENSION (extension)));
@@ -307,10 +308,11 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 
 	action_name = NULL;
 	part_list = e_mail_display_get_parts_list (display);
-	for (iter = part_list->list; iter; iter = g_slist_next (iter)) {
-		EMailPart *p = iter->data;
-		if (!p)
-			continue;
+	e_mail_part_list_queue_parts (part_list, NULL, &queue);
+	head = g_queue_peek_head_link (&queue);
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPart *p = link->data;
 
 		if (g_str_has_prefix (p->id, prefix) &&
 		    (strstr (p->id, "text_html") || strstr (p->id, "plain_text"))) {
@@ -334,6 +336,9 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 			}
 		}
 	}
+
+	while (!g_queue_is_empty (&queue))
+		e_mail_part_unref (g_queue_pop_head (&queue));
 
 	if (action_name) {
 		action = gtk_action_group_get_action (

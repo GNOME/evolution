@@ -69,26 +69,28 @@ static const gchar *formatter_mime_types[] = { "application/vnd.evolution.attach
 					       NULL };
 
 static EAttachmentStore *
-find_attachment_store (GSList *parts,
+find_attachment_store (EMailPartList *part_list,
                        const gchar *start_id)
 {
+	EAttachmentStore *store = NULL;
+	GQueue queue = G_QUEUE_INIT;
+	GList *head, *link;
 	gchar *tmp, *pos;
 	EMailPart *part;
 	gchar *id;
+
+	e_mail_part_list_queue_parts (part_list, NULL, &queue);
+
+	head = g_queue_peek_head_link (&queue);
 
 	id = g_strconcat (start_id, ".attachment-bar", NULL);
 	tmp = g_strdup (id);
 	part = NULL;
 	do {
-		GSList *iter;
-
 		d (printf ("Looking up attachment bar as %s\n", id));
 
-		for (iter = parts; iter; iter = iter->next) {
-			EMailPart *p = iter->data;
-
-			if (!p)
-				continue;
+		for (link = head; link != NULL; link = g_list_next (link)) {
+			EMailPart *p = link->data;
 
 			if (g_strcmp0 (p->id, id) == 0) {
 				part = p;
@@ -110,11 +112,13 @@ find_attachment_store (GSList *parts,
 	g_free (id);
 	g_free (tmp);
 
-	if (part) {
-		return ((EMailPartAttachmentBar *) part)->store;
-	}
+	if (part != NULL)
+		store = ((EMailPartAttachmentBar *) part)->store;
 
-	return NULL;
+	while (!g_queue_is_empty (&queue))
+		e_mail_part_unref (g_queue_pop_head (&queue));
+
+	return store;
 }
 
 static gboolean
@@ -157,7 +161,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			}
 		}
 
-		store = find_attachment_store (context->part_list->list, part->id);
+		store = find_attachment_store (context->part_list, part->id);
 		if (store) {
 			GList *attachments = e_attachment_store_get_attachments (store);
 			if (!g_list_find (attachments, empa->attachment)) {
@@ -277,17 +281,19 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		content_stream = camel_stream_mem_new ();
 		ok = FALSE;
 		if (empa->attachment_view_part_id != NULL) {
+			EMailPart *attachment_view_part;
 
-			GSList *att_parts;
-
-			att_parts = e_mail_part_list_get_iter (
-				context->part_list->list,
+			attachment_view_part = e_mail_part_list_ref_part (
+				context->part_list,
 				empa->attachment_view_part_id);
 
-			if (att_parts && att_parts->data) {
+			if (attachment_view_part != NULL) {
 				ok = e_mail_formatter_format_as (
-					formatter, context, att_parts->data,
-					content_stream, NULL, cancellable);
+					formatter, context,
+					attachment_view_part,
+					content_stream, NULL,
+					cancellable);
+				e_mail_part_unref (attachment_view_part);
 			}
 
 		} else {
@@ -353,7 +359,7 @@ emfe_attachment_get_widget (EMailFormatterExtension *extension,
 	g_return_val_if_fail (E_MAIL_PART_IS (part, EMailPartAttachment), NULL);
 	empa = (EMailPartAttachment *) part;
 
-	store = find_attachment_store (context->list, part->id);
+	store = find_attachment_store (context, part->id);
 	widget = e_attachment_button_new ();
 	g_object_set_data (G_OBJECT (widget), "uri", part->id);
 	e_attachment_button_set_attachment (

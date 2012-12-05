@@ -246,12 +246,14 @@ mail_display_process_mailto (EWebView *web_view,
 	if (g_ascii_strncasecmp (mailto_uri, "mailto:", 7) == 0) {
 		EShell *shell;
 		EMailPartList *part_list;
+		CamelFolder *folder;
 
 		part_list = E_MAIL_DISPLAY (web_view)->priv->part_list;
+		folder = e_mail_part_list_get_folder (part_list);
 
 		shell = e_shell_get_default ();
 		em_utils_compose_new_message_with_mailto (
-			shell, mailto_uri, part_list->folder);
+			shell, mailto_uri, folder);
 
 		return TRUE;
 	}
@@ -347,11 +349,16 @@ mail_display_resource_requested (WebKitWebView *web_view,
 
 	/* Redirect cid:part_id to mail://mail_id/cid:part_id */
 	if (g_str_has_prefix (uri, "cid:")) {
+		CamelFolder *folder;
+		const gchar *message_uid;
 		gchar *new_uri;
+
+		folder = e_mail_part_list_get_folder (part_list);
+		message_uid = e_mail_part_list_get_message_uid (part_list);
 
 		/* Always write raw content of CID object. */
 		new_uri = e_mail_part_build_uri (
-			part_list->folder, part_list->message_uid,
+			folder, message_uid,
 			"part_id", G_TYPE_STRING, uri,
 			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW, NULL);
 
@@ -376,6 +383,8 @@ mail_display_resource_requested (WebKitWebView *web_view,
 	 * See EMailRequest for further details about this. */
 	} else if (g_str_has_prefix (uri, "http:") || g_str_has_prefix (uri, "https:") ||
 	    g_str_has_prefix (uri, "evo-http:") || g_str_has_prefix (uri, "evo-https:")) {
+		CamelFolder *folder;
+		const gchar *message_uid;
 		gchar *new_uri, *mail_uri, *enc;
 		SoupURI *soup_uri;
 		GHashTable *query;
@@ -396,10 +405,12 @@ mail_display_resource_requested (WebKitWebView *web_view,
 			return;
 		}
 
+		folder = e_mail_part_list_get_folder (part_list);
+		message_uid = e_mail_part_list_get_message_uid (part_list);
+
 		new_uri = g_strconcat ("evo-", uri, NULL);
 		mail_uri = e_mail_part_build_uri (
-			part_list->folder,
-			part_list->message_uid, NULL, NULL);
+			folder, message_uid, NULL, NULL);
 
 		soup_uri = soup_uri_new (new_uri);
 		if (soup_uri->query)
@@ -766,8 +777,8 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 	EMailFormatterExtension *extension;
 	GQueue *extensions;
 	GList *iter;
-	EMailPart *part;
-	GtkWidget *widget;
+	EMailPart *part = NULL;
+	GtkWidget *widget = NULL;
 	gchar *part_id, *type, *object_uri;
 
 	part_id = g_hash_table_lookup (param, "data");
@@ -787,14 +798,14 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 	}
 
 	/* Find the EMailPart representing the requested widget. */
-	part = e_mail_part_list_find_part (display->priv->part_list, part_id);
+	part = e_mail_part_list_ref_part (display->priv->part_list, part_id);
 	if (part == NULL)
 		return NULL;
 
 	reg = e_mail_formatter_get_extension_registry (display->priv->formatter);
 	extensions = e_mail_extension_registry_get_for_mime_type (reg, type);
 	if (extensions == NULL)
-		return NULL;
+		goto exit;
 
 	extension = NULL;
 	for (iter = g_queue_peek_head_link (extensions); iter; iter = iter->next) {
@@ -808,7 +819,7 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 	}
 
 	if (extension == NULL)
-		return NULL;
+		goto exit;
 
 	/* Get the widget from formatter */
 	widget = e_mail_formatter_extension_get_widget (
@@ -820,7 +831,7 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 	/* Should not happen! WebKit will display an ugly 'Plug-in not
 	 * available' placeholder instead of hiding the <object> element. */
 	if (widget == NULL)
-		return NULL;
+		goto exit;
 
 	/* Attachment button has URI different then the actual PURI because
 	 * that URI identifies the attachment itself */
@@ -965,6 +976,10 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 	g_hash_table_insert (
 		display->priv->widgets,
 		g_strdup (object_uri), g_object_ref (widget));
+
+exit:
+	if (part != NULL)
+		e_mail_part_unref (part);
 
 	return widget;
 }
@@ -1153,7 +1168,8 @@ mail_parts_bind_dom (GObject *object,
 	WebKitWebView *web_view;
 	WebKitDOMDocument *document;
 	EMailDisplay *display;
-	GSList *iter;
+	GQueue queue = G_QUEUE_INIT;
+	GList *head, *link;
 	const gchar *frame_name;
 
 	frame = WEBKIT_WEB_FRAME (object);
@@ -1171,25 +1187,14 @@ mail_parts_bind_dom (GObject *object,
 	if (frame_name == NULL || *frame_name == '\0')
 		frame_name = ".message.headers";
 
-	for (iter = display->priv->part_list->list; iter; iter = iter->next) {
-
-		EMailPart *part = iter->data;
-
-		if (part == NULL)
-			continue;
-
-		if (g_strcmp0 (part->id, frame_name) == 0)
-			break;
-	}
-
 	document = webkit_web_view_get_dom_document (web_view);
-	while (iter != NULL) {
-		EMailPart *part = iter->data;
 
-		if (part == NULL) {
-			iter = iter->next;
-			continue;
-		}
+	e_mail_part_list_queue_parts (
+		display->priv->part_list, frame_name, &queue);
+	head = g_queue_peek_head_link (&queue);
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPart *part = link->data;
 
 		/* Iterate only the parts rendered in
 		 * the frame and all it's subparts. */
@@ -1205,9 +1210,10 @@ mail_parts_bind_dom (GObject *object,
 				part->bind_func (part, element);
 			}
 		}
-
-		iter = iter->next;
 	}
+
+	while (!g_queue_is_empty (&queue))
+		e_mail_part_unref (g_queue_pop_head (&queue));
 }
 
 static void
@@ -1787,6 +1793,8 @@ e_mail_display_load (EMailDisplay *display,
                      const gchar *msg_uri)
 {
 	EMailPartList *part_list;
+	CamelFolder *folder;
+	const gchar *message_uid;
 	gchar *uri;
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
@@ -1799,8 +1807,11 @@ e_mail_display_load (EMailDisplay *display,
 		return;
 	}
 
+	folder = e_mail_part_list_get_folder (part_list);
+	message_uid = e_mail_part_list_get_message_uid (part_list);
+
 	uri = e_mail_part_build_uri (
-		part_list->folder, part_list->message_uid,
+		folder, message_uid,
 		"mode", G_TYPE_INT, display->priv->mode,
 		"headers_collapsable", G_TYPE_BOOLEAN,
 		display->priv->headers_collapsable,

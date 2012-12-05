@@ -150,8 +150,8 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 		const gchar *message_uid;
 		gchar *uri, *str;
 
-		folder = context->part_list->folder;
-		message_uid = context->part_list->message_uid;
+		folder = e_mail_part_list_get_folder (context->part_list);
+		message_uid = e_mail_part_list_get_message_uid (context->part_list);
 
 		uri = e_mail_part_build_uri (
 			folder, message_uid,

@@ -194,6 +194,7 @@ emcu_part_to_html (CamelSession *session,
 	GString *part_id;
 	EShell *shell;
 	GtkWindow *window;
+	GSList *list;
 
 	shell = e_shell_get_default ();
 	window = e_shell_get_active_window (shell);
@@ -202,22 +203,31 @@ emcu_part_to_html (CamelSession *session,
 	mem = (CamelStreamMem *) camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (mem, buf);
 
-	part_list = e_mail_part_list_new ();
+	part_list = e_mail_part_list_new (NULL, NULL, NULL);
 
 	part_id = g_string_sized_new (0);
 	parser = e_mail_parser_new (session);
-	part_list->list = e_mail_parser_parse_part (parser, part, part_id, cancellable);
+	list = e_mail_parser_parse_part (parser, part, part_id, cancellable);
+	while (list != NULL) {
+		if (list->data != NULL) {
+			e_mail_part_list_add_part (part_list, list->data);
+			e_mail_part_unref (list->data);
+		}
+		list = g_slist_delete_link (list, list);
+	}
 	g_string_free (part_id, TRUE);
 	g_object_unref (parser);
 
-	formatter = e_mail_formatter_quote_new (NULL, E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG);
-	e_mail_formatter_set_style (formatter,
-			gtk_widget_get_style (GTK_WIDGET (window)),
-			gtk_widget_get_state (GTK_WIDGET (window)));
+	formatter = e_mail_formatter_quote_new (
+		NULL, E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG);
+	e_mail_formatter_set_style (
+		formatter,
+		gtk_widget_get_style (GTK_WIDGET (window)),
+		gtk_widget_get_state (GTK_WIDGET (window)));
 
 	e_mail_formatter_format_sync (
 		formatter, part_list, (CamelStream *) mem,
-			0, E_MAIL_FORMATTER_MODE_PRINTING, cancellable);
+		0, E_MAIL_FORMATTER_MODE_PRINTING, cancellable);
 	g_object_unref (formatter);
 	g_object_unref (part_list);
 

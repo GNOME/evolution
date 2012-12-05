@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef E_MAIL_PART_LIST_H_
-#define E_MAIL_PART_LIST_H_
+#ifndef E_MAIL_PART_LIST_H
+#define E_MAIL_PART_LIST_H
 
 #include <camel/camel.h>
 #include <em-format/e-mail-part.h>
@@ -45,35 +45,37 @@ G_BEGIN_DECLS
 
 typedef struct _EMailPartList EMailPartList;
 typedef struct _EMailPartListClass EMailPartListClass;
+typedef struct _EMailPartListPrivate EMailPartListPrivate;
 
 struct _EMailPartList {
 	GObject parent;
-
-	CamelMimeMessage *message;
-	CamelFolder *folder;
-	gchar *message_uid;
-
-	/* GSList of EMailPart's */
-	GSList *list;
+	EMailPartListPrivate *priv;
 };
 
 struct _EMailPartListClass {
 	GObjectClass parent_class;
 };
 
-EMailPartList *	e_mail_part_list_new		(void);
-
-GType		e_mail_part_list_get_type	(void);
-
-EMailPart *	e_mail_part_list_find_part	(EMailPartList *part_list,
-						 const gchar *id);
-
-GSList *	e_mail_part_list_get_iter	(GSList *list,
-						 const gchar *id);
+GType		e_mail_part_list_get_type	(void) G_GNUC_CONST;
+EMailPartList *	e_mail_part_list_new		(CamelMimeMessage *message,
+						 const gchar *message_uid,
+						 CamelFolder *folder);
+CamelFolder *	e_mail_part_list_get_folder	(EMailPartList *part_list);
+CamelMimeMessage *
+		e_mail_part_list_get_message	(EMailPartList *part_list);
+const gchar *	e_mail_part_list_get_message_uid
+						(EMailPartList *part_list);
+void		e_mail_part_list_add_part	(EMailPartList *part_list,
+						 EMailPart *part);
+EMailPart *	e_mail_part_list_ref_part	(EMailPartList *part_list,
+						 const gchar *part_id);
+guint		e_mail_part_list_queue_parts	(EMailPartList *part_list,
+						 const gchar *part_id,
+						 GQueue *result_queue);
 
 CamelObjectBag *
 		e_mail_part_list_get_registry	(void);
 
 G_END_DECLS
 
-#endif /* E_MAIL_PART_LIST_H_ */ 
+#endif /* E_MAIL_PART_LIST_H */ 

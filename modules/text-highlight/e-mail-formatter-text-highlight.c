@@ -324,8 +324,8 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		gchar *uri, *str;
 		gchar *syntax;
 
-		folder = context->part_list->folder;
-		message_uid = context->part_list->message_uid;
+		folder = e_mail_part_list_get_folder (context->part_list);
+		message_uid = e_mail_part_list_get_message_uid (context->part_list);
 
 		syntax = get_syntax (part, NULL);
 

@@ -102,8 +102,8 @@ emfe_vcard_inline_format (EMailFormatterExtension *extension,
 		if (length < 1)
 			return FALSE;
 
-		folder = context->part_list->folder;
-		message_uid = context->part_list->message_uid;
+		folder = e_mail_part_list_get_folder (context->part_list);
+		message_uid = e_mail_part_list_get_message_uid (context->part_list);
 
 		if (vcard_part->message_uid == NULL && message_uid != NULL)
 			vcard_part->message_uid = g_strdup (message_uid);

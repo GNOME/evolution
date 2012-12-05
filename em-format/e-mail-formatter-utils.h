@@ -48,8 +48,8 @@ gchar *		e_mail_formatter_format_address (EMailFormatter *formatter,
 void		e_mail_formatter_canon_header_name
 						(gchar *name);
 
-GSList *	e_mail_formatter_find_rfc822_end_iter
-						(GSList *rfc822_start_iter);
+GList *		e_mail_formatter_find_rfc822_end_iter
+						(GList *rfc822_start_iter);
 
 gchar *		e_mail_formatter_parse_html_mnemonics
 						(const gchar *label,

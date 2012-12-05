@@ -291,12 +291,14 @@ handle_http_request (GSimpleAsyncResult *res,
 			EShell *shell;
 			ESourceRegistry *registry;
 			CamelInternetAddress *addr;
+			CamelMimeMessage *message;
 
 			shell = e_shell_get_default ();
 			registry = e_shell_get_registry (shell);
-			addr = camel_mime_message_get_from (part_list->message);
+			message = e_mail_part_list_get_message (part_list);
+			addr = camel_mime_message_get_from (message);
 			force_load_images = em_utils_in_addressbook (
-					registry, addr, FALSE, cancellable);
+				registry, addr, FALSE, cancellable);
 
 			g_object_unref (part_list);
 		}

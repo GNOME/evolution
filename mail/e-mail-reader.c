@@ -281,6 +281,7 @@ action_mail_image_save_cb (GtkAction *action,
 	EMailPartList *parts;
 	const gchar *image_src;
 	CamelMimePart *part;
+	CamelMimeMessage *message;
 	EAttachment *attachment;
 	GFile *file;
 
@@ -296,11 +297,13 @@ action_mail_image_save_cb (GtkAction *action,
 
 	parts = e_mail_display_get_parts_list (display);
 	g_return_if_fail (parts != NULL);
-	g_return_if_fail (parts->message != NULL);
+
+	message = e_mail_part_list_get_message (parts);
+	g_return_if_fail (message != NULL);
 
 	if (g_str_has_prefix (image_src, "cid:")) {
 		part = camel_mime_message_get_part_by_content_id (
-			parts->message, image_src + 4);
+			message, image_src + 4);
 		g_return_if_fail (part != NULL);
 
 		g_object_ref (part);
@@ -2697,7 +2700,7 @@ mail_reader_message_seen_cb (EMailReaderClosure *closure)
 	uid_is_current &= (g_strcmp0 (current_uid, message_uid) == 0);
 
 	if (parts)
-		message = parts->message;
+		message = e_mail_part_list_get_message (parts);
 	else
 		message = NULL;
 
@@ -2869,7 +2872,10 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 	parts = e_mail_display_get_parts_list (display);
 
 	cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
-	format_uid = parts ? parts->message_uid : NULL;
+	if (parts != NULL)
+		format_uid = e_mail_part_list_get_message_uid (parts);
+	else
+		format_uid = NULL;
 
 	if (MESSAGE_LIST (message_list)->last_sel_single) {
 		GtkWidget *widget;
