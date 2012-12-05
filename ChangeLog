@@ -1,5 +1,7 @@
-2010-03-31  The Evolution Team  <evolution-hackers@gnome.org>
+2012-12-05  The Evolution Team  <evolution-hackers@gnome.org>
 
-	* *: The ChangeLog is auto-generated when releasing.  If you
-	are seeing this, use 'git log' for a detailed list of changes.
-
+	The ChangeLog is no longer auto-generated when releasing.
+	Get a clone of git repository and list changes with 'git log' there,
+	   $ git clone git://git.gnome.org/evolution
+	or browse changes online at
+	   http://git.gnome.org/browse/evolution/log/?h=master
