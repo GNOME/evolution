@@ -50,16 +50,25 @@ G_BEGIN_DECLS
 typedef struct _EMailParserExtension EMailParserExtension;
 typedef struct _EMailParserExtensionInterface EMailParserExtensionInterface;
 
+/**
+ * EMailParserExtensionFlags:
+ * @E_MAIL_PARSER_EXTENSION_INLINE:
+ *    Don't parse as attachment.
+ * @E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION:
+ *    Always expand.
+ * @E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE:
+ *    Always check what's inside.
+ **/
 typedef enum {
-	E_MAIL_PARSER_EXTENSION_INLINE			= 1 << 0, /* Don't parse as attachment */
-	E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION	= 1 << 1, /* Always expand */
-	E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE		= 1 << 2  /* Always check what's inside */
+	E_MAIL_PARSER_EXTENSION_INLINE			= 1 << 0,
+	E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION	= 1 << 1,
+	E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE		= 1 << 2
 } EMailParserExtensionFlags;
 
 struct _EMailParserExtensionInterface {
 	EMailExtensionInterface	parent_interface;
 
-	GSList *		(*parse)	(EMailParserExtension *extension,
+	GSList *	(*parse)	(EMailParserExtension *extension,
 					 EMailParser *parser,
 					 CamelMimePart *mime_part,
 					 GString *part_id,
@@ -70,14 +79,12 @@ struct _EMailParserExtensionInterface {
 };
 
 GType		e_mail_parser_extension_get_type
-						(void);
-
-GSList *		e_mail_parser_extension_parse	(EMailParserExtension *extension,
+						(void) G_GNUC_CONST;
+GSList *	e_mail_parser_extension_parse	(EMailParserExtension *extension,
 						 EMailParser *parser,
 						 CamelMimePart *mime_part,
 						 GString *part_id,
 						 GCancellable *cancellable);
-
 guint32		e_mail_parser_extension_get_flags
 						(EMailParserExtension *extension);
 

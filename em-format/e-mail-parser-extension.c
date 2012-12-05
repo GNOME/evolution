@@ -25,6 +25,12 @@ G_DEFINE_INTERFACE (
 	e_mail_parser_extension,
 	E_TYPE_MAIL_EXTENSION)
 
+static guint32
+mail_parser_extension_get_flags (EMailParserExtension *extension)
+{
+	return 0;
+}
+
 /**
  * EMailParserExtension:
  *
@@ -33,9 +39,9 @@ G_DEFINE_INTERFACE (
  */
 
 static void
-e_mail_parser_extension_default_init (EMailParserExtensionInterface *iface)
+e_mail_parser_extension_default_init (EMailParserExtensionInterface *interface)
 {
-
+	interface->get_flags = mail_parser_extension_get_flags;
 }
 
 /**
@@ -94,8 +100,7 @@ e_mail_parser_extension_get_flags (EMailParserExtension *extension)
 	g_return_val_if_fail (E_IS_MAIL_PARSER_EXTENSION (extension), 0);
 
 	interface = E_MAIL_PARSER_EXTENSION_GET_INTERFACE (extension);
-	if (interface->get_flags == NULL)
-		return 0;
+	g_return_val_if_fail (interface->get_flags != NULL, 0);
 
 	return interface->get_flags (extension);
 }
