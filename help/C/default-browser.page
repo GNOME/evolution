@@ -26,7 +26,7 @@
 <section id="urls-in-emails">
 <title>Change which web browser websites are opened in</title>
 
-<p>Please see <link href="help:gnome-help#net-default-browser">the GNOME Desktop Help</link>.</p>
+<p>Please see <link href="help:gnome-help/net-default-browser">the GNOME Desktop Help</link>.</p>
 
 <p>If the preferred browser is set as default application but still does not work correctly please contact your distribution via their forum or bug tracker.</p>
 
@@ -43,7 +43,7 @@
 <section id="urls-in-emails">
 <title>Change which mail application is used to write emails</title>
 
-<p>Please see <link href="help:gnome-help#net-default-email">the GNOME Desktop Help</link>.</p>
+<p>Please see <link href="help:gnome-help/net-default-email">the GNOME Desktop Help</link>.</p>
 
 </section>
 
