@@ -528,8 +528,6 @@ color_combo_dispose (GObject *object)
 		priv->default_color = NULL;
 	}
 
-	g_clear_object (&priv->chooser_widget);
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_color_combo_parent_class)->dispose (object);
 }

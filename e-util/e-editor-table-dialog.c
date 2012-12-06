@@ -673,7 +673,6 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 
 	/* Width */
 	widget = gtk_check_button_new_with_mnemonic (_("_Width:"));
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "toggled",
