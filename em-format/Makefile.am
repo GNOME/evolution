@@ -4,7 +4,6 @@ privsolib_LTLIBRARIES = libemformat.la
 
 emformatinclude_HEADERS =				\
 	e-mail-extension-registry.h			\
-	e-mail-extension.h				\
 	e-mail-formatter-extension.h			\
 	e-mail-formatter.h				\
 	e-mail-formatter-print.h			\
@@ -40,7 +39,6 @@ endif
 libemformat_la_SOURCES =				\
 	$(emformatinclude_HEADERS)			\
 	e-mail-extension-registry.c			\
-	e-mail-extension.c				\
 	e-mail-inline-filter.c				\
 	e-mail-format-extensions.c			\
 	e-mail-format-extensions.h			\

@@ -45,16 +45,12 @@ typedef struct _EMailFormatterTextEnrichedClass {
 } EMailFormatterTextEnrichedClass;
 
 static void e_mail_formatter_formatter_extension_interace_init (EMailFormatterExtensionInterface *iface);
-static void e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface);
 
 G_DEFINE_TYPE_EXTENDED (
 	EMailFormatterTextEnriched,
 	e_mail_formatter_text_enriched,
 	G_TYPE_OBJECT,
 	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_EXTENSION,
-		e_mail_formatter_mail_extension_interface_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interace_init));
@@ -132,19 +128,13 @@ e_mail_formatter_text_enriched_class_init (EMailFormatterTextEnrichedClass *clas
 static void
 e_mail_formatter_formatter_extension_interace_init (EMailFormatterExtensionInterface *iface)
 {
+	iface->mime_types = formatter_mime_types;
 	iface->format = emfe_text_enriched_format;
 	iface->get_display_name = emfe_text_enriched_get_display_name;
 	iface->get_description = emfe_text_enriched_get_description;
 }
 
 static void
-e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
-{
-	iface->mime_types = formatter_mime_types;
-}
-
-static void
 e_mail_formatter_text_enriched_init (EMailFormatterTextEnriched *formatter)
 {
-
 }

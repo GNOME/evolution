@@ -41,16 +41,12 @@ typedef struct _EMailParserMessageDeliveryStatusClass {
 } EMailParserMessageDeliveryStatusClass;
 
 static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-static void e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface);
 
 G_DEFINE_TYPE_EXTENDED (
 	EMailParserMessageDeliveryStatus,
 	e_mail_parser_message_delivery_status,
 	G_TYPE_OBJECT,
 	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_EXTENSION,
-		e_mail_parser_mail_extension_interface_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
@@ -100,13 +96,8 @@ e_mail_parser_message_delivery_status_class_init (EMailParserMessageDeliveryStat
 static void
 e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
 {
-	iface->parse = empe_msg_deliverystatus_parse;
-}
-
-static void
-e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
-{
 	iface->mime_types = parser_mime_types;
+	iface->parse = empe_msg_deliverystatus_parse;
 }
 
 static void

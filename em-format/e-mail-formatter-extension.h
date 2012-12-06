@@ -19,7 +19,6 @@
 #ifndef E_MAIL_FORMATTER_EXTENSION_H
 #define E_MAIL_FORMATTER_EXTENSION_H
 
-#include <em-format/e-mail-extension.h>
 #include <em-format/e-mail-part.h>
 #include <em-format/e-mail-formatter.h>
 #include <camel/camel.h>
@@ -53,7 +52,12 @@ typedef struct _EMailFormatterExtension EMailFormatterExtension;
 typedef struct _EMailFormatterExtensionInterface EMailFormatterExtensionInterface;
 
 struct _EMailFormatterExtensionInterface {
-	EMailExtensionInterface	parent_interface;
+	GTypeInterface parent_interface;
+
+	/* This is a NULL-terminated array of supported MIME types.
+	 * The MIME types can be exact (e.g. "text/plain") or use a
+	 * wildcard (e.g. "text/ *"). */
+	const gchar **mime_types;
 
 	gboolean	(*format)	(EMailFormatterExtension *extension,
 					 EMailFormatter *formatter,

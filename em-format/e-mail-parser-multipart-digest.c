@@ -39,16 +39,12 @@ typedef struct _EMailParserMultipartDigestClass {
 } EMailParserMultipartDigestClass;
 
 static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-static void e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface);
 
 G_DEFINE_TYPE_EXTENDED (
 	EMailParserMultipartDigest,
 	e_mail_parser_multipart_digest,
 	G_TYPE_OBJECT,
 	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_EXTENSION,
-		e_mail_parser_mail_extension_interface_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
@@ -146,14 +142,9 @@ e_mail_parser_multipart_digest_class_init (EMailParserMultipartDigestClass *clas
 static void
 e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
 {
+	iface->mime_types = parser_mime_types;
 	iface->parse = empe_mp_digest_parse;
 	iface->get_flags = empe_mp_digest_get_flags;
-}
-
-static void
-e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
-{
-	iface->mime_types = parser_mime_types;
 }
 
 static void

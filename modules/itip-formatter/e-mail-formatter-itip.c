@@ -34,29 +34,29 @@
 
 #define d(x)
 
-typedef struct _EMailFormatterItip {
-	EExtension parent;
-} EMailFormatterItip;
+typedef GObject EMailFormatterItip;
+typedef GObjectClass EMailFormatterItipClass;
 
-typedef struct _EMailFormatterItipClass {
-	EExtensionClass parent_class;
-} EMailFormatterItipClass;
+typedef EExtension EMailFormatterItipLoader;
+typedef EExtensionClass EMailFormatterItipLoaderClass;
 
 GType e_mail_formatter_itip_get_type (void);
+GType e_mail_formatter_itip_loader_get_type (void);
 static void e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface);
-static void e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	EMailFormatterItip,
 	e_mail_formatter_itip,
-	E_TYPE_EXTENSION,
+	G_TYPE_OBJECT,
 	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_EXTENSION,
-		e_mail_formatter_mail_extension_interface_init)
 	G_IMPLEMENT_INTERFACE_DYNAMIC (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
+
+G_DEFINE_DYNAMIC_TYPE (
+	EMailFormatterItipLoader,
+	e_mail_formatter_itip_loader,
+	E_TYPE_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
 	"text/calendar",
@@ -154,55 +154,22 @@ emfe_itip_get_description (EMailFormatterExtension *extension)
 }
 
 static void
-e_mail_formatter_itip_constructed (GObject *object)
-{
-	EExtensible *extensible;
-	EMailExtensionRegistry *reg;
-
-	extensible = e_extension_get_extensible (E_EXTENSION (object));
-	reg = E_MAIL_EXTENSION_REGISTRY (extensible);
-
-	e_mail_extension_registry_add_extension (reg, E_MAIL_EXTENSION (object));
-}
-
-static void
-e_mail_formatter_itip_finalize (GObject *object)
-{
-	EExtensible *extensible;
-	EMailExtensionRegistry *reg;
-
-	extensible = e_extension_get_extensible (E_EXTENSION (object));
-	reg = E_MAIL_EXTENSION_REGISTRY (extensible);
-
-	e_mail_extension_registry_remove_extension (reg, E_MAIL_EXTENSION (object));
-}
-
-static void
 e_mail_formatter_itip_class_init (EMailFormatterItipClass *class)
 {
-	GObjectClass *object_class;
-	EExtensionClass *extension_class;
+}
 
-	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = e_mail_formatter_itip_constructed;
-	object_class->finalize = e_mail_formatter_itip_finalize;
-
-	extension_class = E_EXTENSION_CLASS (class);
-	extension_class->extensible_type = E_TYPE_MAIL_FORMATTER_EXTENSION_REGISTRY;
+static void
+e_mail_formatter_itip_class_finalize (EMailFormatterItipClass *class)
+{
 }
 
 static void
 e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
 {
+	iface->mime_types = formatter_mime_types;
 	iface->format = emfe_itip_format;
 	iface->get_display_name = emfe_itip_get_display_name;
 	iface->get_description = emfe_itip_get_description;
-}
-
-static void
-e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
-{
-	iface->mime_types = formatter_mime_types;
 }
 
 static void
@@ -210,14 +177,43 @@ e_mail_formatter_itip_init (EMailFormatterItip *formatter)
 {
 }
 
+static void
+mail_formatter_itip_loader_constructed (GObject *object)
+{
+	EExtensible *extensible;
+
+	extensible = e_extension_get_extensible (E_EXTENSION (object));
+
+	e_mail_extension_registry_add_extension (
+		E_MAIL_EXTENSION_REGISTRY (extensible),
+		formatter_mime_types,
+		e_mail_formatter_itip_get_type ());
+}
+
+static void
+e_mail_formatter_itip_loader_class_init (EExtensionClass *class)
+{
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = mail_formatter_itip_loader_constructed;
+
+	class->extensible_type = E_TYPE_MAIL_FORMATTER_EXTENSION_REGISTRY;
+}
+
+static void
+e_mail_formatter_itip_loader_class_finalize (EExtensionClass *class)
+{
+}
+
+static void
+e_mail_formatter_itip_loader_init (EExtension *extension)
+{
+}
+
 void
 e_mail_formatter_itip_type_register (GTypeModule *type_module)
 {
 	e_mail_formatter_itip_register_type (type_module);
-}
-
-static void
-e_mail_formatter_itip_class_finalize (EMailFormatterItipClass *class)
-{
-
+	e_mail_formatter_itip_loader_register_type (type_module);
 }

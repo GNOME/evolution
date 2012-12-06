@@ -50,17 +50,12 @@ static const gchar *formatter_mime_types[] = {
 
 static void e_mail_formatter_print_formatter_extension_interface_init
 					(EMailFormatterExtensionInterface *iface);
-static void e_mail_formatter_print_mail_extension_interface_init
-					(EMailExtensionInterface *iface);
 
 G_DEFINE_TYPE_EXTENDED (
 	EMailFormatterPrintHeaders,
 	e_mail_formatter_print_headers,
 	G_TYPE_OBJECT,
 	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_EXTENSION,
-		e_mail_formatter_print_mail_extension_interface_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_print_formatter_extension_interface_init))
@@ -243,15 +238,10 @@ e_mail_formatter_print_headers_class_init (EMailFormatterPrintHeadersClass *clas
 static void
 e_mail_formatter_print_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
 {
+	iface->mime_types = formatter_mime_types;
 	iface->format = emfpe_headers_format;
 	iface->get_display_name = emfpe_headers_get_display_name;
 	iface->get_description = emfpe_headers_get_description;
-}
-
-static void
-e_mail_formatter_print_mail_extension_interface_init (EMailExtensionInterface *iface)
-{
-	iface->mime_types = formatter_mime_types;
 }
 
 static void

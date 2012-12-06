@@ -43,16 +43,12 @@ typedef struct _EMailParserAppplicationSMIMEClass {
 } EMailParserApplicationSMIMEClass;
 
 static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-static void e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface);
 
 G_DEFINE_TYPE_EXTENDED (
 	EMailParserApplicationSMIME,
 	e_mail_parser_application_smime,
 	G_TYPE_OBJECT,
 	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_EXTENSION,
-		e_mail_parser_mail_extension_interface_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
@@ -179,14 +175,9 @@ e_mail_parser_application_smime_class_init (EMailParserApplicationSMIMEClass *cl
 static void
 e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *interface)
 {
+	interface->mime_types = parser_mime_types;
 	interface->parse = empe_app_smime_parse;
 	interface->get_flags = empe_app_smime_get_flags;
-}
-
-static void
-e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *interface)
-{
-	interface->mime_types = parser_mime_types;
 }
 
 static void

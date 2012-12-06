@@ -43,16 +43,12 @@ typedef struct _EMailParserApplicationMBoxClass {
 } EMailParserApplicationMBoxClass;
 
 static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-static void e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface);
 
 G_DEFINE_TYPE_EXTENDED (
 	EMailParserApplicationMBox,
 	e_mail_parser_application_mbox,
 	G_TYPE_OBJECT,
 	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_EXTENSION,
-		e_mail_parser_mail_extension_interface_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
@@ -190,14 +186,9 @@ e_mail_parser_application_mbox_class_init (EMailParserApplicationMBoxClass *clas
 static void
 e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *interface)
 {
+	interface->mime_types = parser_mime_types;
 	interface->parse = empe_app_mbox_parse;
 	interface->get_flags = empe_app_mbox_get_flags;
-}
-
-static void
-e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *interface)
-{
-	interface->mime_types = parser_mime_types;
 }
 
 static void

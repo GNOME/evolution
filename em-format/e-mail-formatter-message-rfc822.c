@@ -50,16 +50,12 @@ typedef struct _EMailFormatterMessageRFC822Class {
 } EMailFormatterMessageRFC822Class;
 
 static void e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface);
-static void e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface);
 
 G_DEFINE_TYPE_EXTENDED (
 	EMailFormatterMessageRFC822,
 	e_mail_formatter_message_rfc822,
 	G_TYPE_OBJECT,
 	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_EXTENSION,
-		e_mail_formatter_mail_extension_interface_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
@@ -265,15 +261,10 @@ e_mail_formatter_message_rfc822_class_init (EMailFormatterMessageRFC822Class *cl
 static void
 e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
 {
+	iface->mime_types = formatter_mime_types;
 	iface->format = emfe_message_rfc822_format;
 	iface->get_display_name = emfe_message_rfc822_get_display_name;
 	iface->get_description = emfe_message_rfc822_get_description;
-}
-
-static void
-e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
-{
-	iface->mime_types = formatter_mime_types;
 }
 
 static void

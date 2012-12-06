@@ -19,7 +19,7 @@
 #ifndef E_MAIL_EXTENSION_REGISTRY_H_
 #define E_MAIL_EXTENSION_REGISTRY_H_
 
-#include <em-format/e-mail-extension.h>
+#include <glib-object.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_EXTENSION_REGISTRY \
@@ -55,21 +55,18 @@ struct _EMailExtensionRegistry {
 	EMailExtensionRegistryPrivate *priv;
 };
 
-GType		e_mail_extension_registry_get_type	(void);
-
-void		e_mail_extension_registry_add_extension	(EMailExtensionRegistry *reg,
-							 EMailExtension *extension);
-
-void		e_mail_extension_registry_remove_extension
-							(EMailExtensionRegistry *reg,
-							 EMailExtension *extension);
-
+GType		e_mail_extension_registry_get_type
+						(void) G_GNUC_CONST;
+void		e_mail_extension_registry_add_extension
+						(EMailExtensionRegistry *reg,
+						 const gchar **mime_types,
+						 GType extension_type);
 GQueue *	e_mail_extension_registry_get_for_mime_type
-							(EMailExtensionRegistry *reg,
-							 const gchar *mime_type);
-
-GQueue *	e_mail_extension_registry_get_fallback	(EMailExtensionRegistry *reg,
-							 const gchar *mime_type);
+						(EMailExtensionRegistry *reg,
+						 const gchar *mime_type);
+GQueue *	e_mail_extension_registry_get_fallback
+						(EMailExtensionRegistry *reg,
+						 const gchar *mime_type);
 
 G_END_DECLS
 
@@ -109,7 +106,8 @@ struct _EMailParserExtensionRegistry {
 	EMailParserExtensionRegistryPrivate *priv;
 };
 
-GType		e_mail_parser_extension_registry_get_type	(void);
+GType		e_mail_parser_extension_registry_get_type
+						(void) G_GNUC_CONST;
 
 G_END_DECLS
 
@@ -149,7 +147,8 @@ struct _EMailFormatterExtensionRegistry {
 	EMailFormatterExtensionRegistryPrivate *priv;
 };
 
-GType		e_mail_formatter_extension_registry_get_type	(void);
+GType		e_mail_formatter_extension_registry_get_type
+						(void) G_GNUC_CONST;
 
 G_END_DECLS
 

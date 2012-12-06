@@ -38,32 +38,29 @@
 #include <X11/Xlib.h>
 #include <camel/camel.h>
 
-typedef struct _EMailFormatterTextHighlight EMailFormatterTextHighlight;
-typedef struct _EMailFormatterTextHighlightClass EMailFormatterTextHighlightClass;
+typedef GObject EMailFormatterTextHighlight;
+typedef GObjectClass EMailFormatterTextHighlightClass;
 
-struct _EMailFormatterTextHighlight {
-	EExtension parent;
-};
-
-struct _EMailFormatterTextHighlightClass {
-	EExtensionClass parent_class;
-};
+typedef EExtension EMailFormatterTextHighlightLoader;
+typedef EExtensionClass EMailFormatterTextHighlightLoaderClass;
 
 GType e_mail_formatter_text_highlight_get_type (void);
+GType e_mail_formatter_text_highlight_loader_get_type (void);
 static void e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface);
-static void e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	EMailFormatterTextHighlight,
 	e_mail_formatter_text_highlight,
-	E_TYPE_EXTENSION,
+	G_TYPE_OBJECT,
 	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_EXTENSION,
-		e_mail_formatter_mail_extension_interface_init)
 	G_IMPLEMENT_INTERFACE_DYNAMIC (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
+
+G_DEFINE_DYNAMIC_TYPE (
+	EMailFormatterTextHighlightLoader,
+	e_mail_formatter_text_highlight_loader,
+	E_TYPE_EXTENSION)
 
 static gchar *
 get_default_font (void)
@@ -377,15 +374,22 @@ emfe_text_highlight_get_description (EMailFormatterExtension *extension)
 }
 
 static void
-emfe_text_highlight_constructed (GObject *object)
+e_mail_formatter_text_highlight_class_init (EMailFormatterTextHighlightClass *class)
 {
-	EExtensible *extensible;
-	EMailExtensionRegistry *reg;
+}
 
-	extensible = e_extension_get_extensible (E_EXTENSION (object));
-	reg = E_MAIL_EXTENSION_REGISTRY (extensible);
+static void
+e_mail_formatter_text_highlight_class_finalize (EMailFormatterTextHighlightClass *class)
+{
+}
 
-	e_mail_extension_registry_add_extension (reg, E_MAIL_EXTENSION (object));
+static void
+e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
+{
+	iface->mime_types = get_mime_types ();
+	iface->format = emfe_text_highlight_format;
+	iface->get_display_name = emfe_text_highlight_get_display_name;
+	iface->get_description = emfe_text_highlight_get_description;
 }
 
 static void
@@ -394,20 +398,36 @@ e_mail_formatter_text_highlight_init (EMailFormatterTextHighlight *object)
 }
 
 static void
-e_mail_formatter_text_highlight_class_init (EMailFormatterTextHighlightClass *class)
+mail_formatter_text_highlight_loader_constructed (GObject *object)
 {
-	GObjectClass *object_class;
-	EExtensionClass *extension_class;
+	EExtensible *extensible;
 
-	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = emfe_text_highlight_constructed;
+	extensible = e_extension_get_extensible (E_EXTENSION (object));
 
-	extension_class = E_EXTENSION_CLASS (class);
-	extension_class->extensible_type = E_TYPE_MAIL_FORMATTER_EXTENSION_REGISTRY;
+	e_mail_extension_registry_add_extension (
+		E_MAIL_EXTENSION_REGISTRY (extensible),
+		get_mime_types (),
+		e_mail_formatter_text_highlight_get_type ());
 }
 
 static void
-e_mail_formatter_text_highlight_class_finalize (EMailFormatterTextHighlightClass *class)
+e_mail_formatter_text_highlight_loader_class_init (EExtensionClass *class)
+{
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = mail_formatter_text_highlight_loader_constructed;
+
+	class->extensible_type = E_TYPE_MAIL_FORMATTER_EXTENSION_REGISTRY;
+}
+
+static void
+e_mail_formatter_text_highlight_loader_class_finalize (EExtensionClass *class)
+{
+}
+
+static void
+e_mail_formatter_text_highlight_loader_init (EExtension *extension)
 {
 }
 
@@ -415,18 +435,6 @@ void
 e_mail_formatter_text_highlight_type_register (GTypeModule *type_module)
 {
 	e_mail_formatter_text_highlight_register_type (type_module);
+	e_mail_formatter_text_highlight_loader_register_type (type_module);
 }
 
-static void
-e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
-{
-	iface->format = emfe_text_highlight_format;
-	iface->get_display_name = emfe_text_highlight_get_display_name;
-	iface->get_description = emfe_text_highlight_get_description;
-}
-
-static void
-e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
-{
-	iface->mime_types = get_mime_types ();
-}

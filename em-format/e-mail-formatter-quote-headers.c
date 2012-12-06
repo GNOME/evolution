@@ -45,17 +45,12 @@ typedef struct _EMailFormatterQuoteHeadersClass {
 
 static void e_mail_formatter_quote_formatter_extension_interface_init
 					(EMailFormatterExtensionInterface *iface);
-static void e_mail_formatter_quote_mail_extension_interface_init
-					(EMailExtensionInterface *iface);
 
 G_DEFINE_TYPE_EXTENDED (
 	EMailFormatterQuoteHeaders,
 	e_mail_formatter_quote_headers,
 	G_TYPE_OBJECT,
 	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_EXTENSION,
-		e_mail_formatter_quote_mail_extension_interface_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_quote_formatter_extension_interface_init))
@@ -269,15 +264,10 @@ e_mail_formatter_quote_headers_class_init (EMailFormatterQuoteHeadersClass *clas
 static void
 e_mail_formatter_quote_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
 {
+	iface->mime_types = formatter_mime_types;
 	iface->format = emqfe_headers_format;
 	iface->get_display_name = emqfe_headers_get_display_name;
 	iface->get_description = emqfe_headers_get_description;
-}
-
-static void
-e_mail_formatter_quote_mail_extension_interface_init (EMailExtensionInterface *iface)
-{
-	iface->mime_types = formatter_mime_types;
 }
 
 static void

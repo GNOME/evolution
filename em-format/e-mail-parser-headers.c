@@ -42,16 +42,12 @@ typedef struct _EMailParserHeadersClass {
 } EMailParserHeadersClass;
 
 static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
-static void e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface);
 
 G_DEFINE_TYPE_EXTENDED (
 	EMailParserHeaders,
 	e_mail_parser_headers,
 	G_TYPE_OBJECT,
 	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_EXTENSION,
-		e_mail_parser_mail_extension_interface_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
@@ -123,13 +119,8 @@ e_mail_parser_headers_class_init (EMailParserHeadersClass *class)
 static void
 e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
 {
-	iface->parse = empe_headers_parse;
-}
-
-static void
-e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
-{
 	iface->mime_types = parser_mime_types;
+	iface->parse = empe_headers_parse;
 }
 
 static void

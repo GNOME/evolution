@@ -19,7 +19,6 @@
 #include <glib-object.h>
 
 #include "e-mail-extension-registry.h"
-#include "e-mail-extension.h"
 #include "e-mail-format-extensions.h"
 #include <libebackend/libebackend.h>
 #include <camel/camel.h>
@@ -96,95 +95,47 @@ e_mail_extension_registry_init (EMailExtensionRegistry *reg)
 
 /**
  * e_mail_extension_registry_add_extension:
- * @reg: An #EMailExtensionRegistry
- * @extension: An #EMailExtension
+ * @reg: an #EMailExtensionRegistry
+ * @mime_types: a %NULL-terminated array of MIME types
+ * @extension_type: the #GType of the extension being added
  *
- * Registrys the @extension as a handler for all mime-types that it is able
- * to handle.
+ * Creates an instance of @extension_type and registers the instance for
+ * all provided MIME types.
  */
 void
 e_mail_extension_registry_add_extension (EMailExtensionRegistry *reg,
-                                         EMailExtension *extension)
+                                         const gchar **mime_types,
+                                         GType extension_type)
 {
-	EMailExtensionInterface *interface;
+	GObject *extension;
 	gint ii;
 
 	g_return_if_fail (E_IS_MAIL_EXTENSION_REGISTRY (reg));
-	g_return_if_fail (E_IS_MAIL_EXTENSION (extension));
+	g_return_if_fail (mime_types != NULL);
+	g_return_if_fail (extension_type != G_TYPE_INVALID);
 
-	/* One reference per extension is enough */
-	g_object_ref (extension);
+	extension = g_object_new (extension_type, NULL);
 
-	interface = E_MAIL_EXTENSION_GET_INTERFACE (extension);
-	if (interface->mime_types == NULL) {
-		g_critical (
-			"%s does not define any MIME types",
-			G_OBJECT_TYPE_NAME (extension));
-		return;
-	}
-
-	for (ii = 0; interface->mime_types[ii] != NULL; ii++) {
+	for (ii = 0; mime_types[ii] != NULL; ii++) {
 		GQueue *queue;
 
 		queue = g_hash_table_lookup (
-			reg->priv->table, interface->mime_types[ii]);
+			reg->priv->table, mime_types[ii]);
 		if (queue == NULL) {
 			queue = g_queue_new ();
-			g_queue_push_head (queue, extension);
 			g_hash_table_insert (
 				reg->priv->table,
-				(gpointer) interface->mime_types[ii],
+				(gpointer) mime_types[ii],
 				queue);
-		} else {
-			g_queue_push_head (queue, extension);
 		}
+
+		g_queue_push_head (queue, g_object_ref (extension));
 
 		if (camel_debug ("emformat:registry")) {
 			printf (
 				"Added extension '%s' for type '%s'\n",
-				G_OBJECT_TYPE_NAME (extension),
-				interface->mime_types[ii]);
-		}
-	}
-}
-
-/**
- * e_mail_extension_registry_remove_extension:
- * @reg: An #EMailExtensionRegistry
- * @extension: An #EMailExtension
- *
- * Removes @extension from the registry.
- */
-void
-e_mail_extension_registry_remove_extension (EMailExtensionRegistry *reg,
-                                            EMailExtension *extension)
-{
-	EMailExtensionInterface *interface;
-	gint ii;
-
-	g_return_if_fail (E_IS_MAIL_EXTENSION_REGISTRY (reg));
-	g_return_if_fail (E_IS_MAIL_EXTENSION (extension));
-
-	interface = E_MAIL_EXTENSION_GET_INTERFACE (extension);
-	if (interface->mime_types == NULL)
-		return;
-
-	for (ii = 0; interface->mime_types[ii] != NULL; ii++) {
-		GQueue *queue;
-
-		queue = g_hash_table_lookup (
-			reg->priv->table,
-			interface->mime_types[ii]);
-		if (queue == NULL)
-			continue;
-
-		g_queue_remove (queue, extension);
-
-		if (camel_debug ("emformat:registry")) {
-			printf (
-				"Removed extension '%s' from type '%s'\n",
-				G_OBJECT_TYPE_NAME (extension),
-				interface->mime_types[ii]);
+				g_type_name (extension_type),
+				mime_types[ii]);
 		}
 	}
 

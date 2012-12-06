@@ -23,7 +23,7 @@
 G_DEFINE_INTERFACE (
 	EMailParserExtension,
 	e_mail_parser_extension,
-	E_TYPE_MAIL_EXTENSION)
+	G_TYPE_OBJECT)
 
 static guint32
 mail_parser_extension_get_flags (EMailParserExtension *extension)

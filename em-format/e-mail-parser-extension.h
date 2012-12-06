@@ -19,7 +19,6 @@
 #ifndef E_MAIL_PARSER_EXTENSION_H
 #define E_MAIL_PARSER_EXTENSION_H
 
-#include <em-format/e-mail-extension.h>
 #include <em-format/e-mail-parser.h>
 #include <camel/camel.h>
 
@@ -66,7 +65,12 @@ typedef enum {
 } EMailParserExtensionFlags;
 
 struct _EMailParserExtensionInterface {
-	EMailExtensionInterface	parent_interface;
+	GTypeInterface parent_interface;
+
+	/* This is a NULL-terminated array of supported MIME types.
+	 * The MIME types can be exact (e.g. "text/plain") or use a
+	 * wildcard (e.g. "text/ *"). */
+	const gchar **mime_types;
 
 	gboolean	(*parse)	(EMailParserExtension *extension,
 					 EMailParser *parser,

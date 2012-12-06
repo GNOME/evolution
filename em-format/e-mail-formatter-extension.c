@@ -21,7 +21,7 @@
 G_DEFINE_INTERFACE (
 	EMailFormatterExtension,
 	e_mail_formatter_extension,
-	E_TYPE_MAIL_EXTENSION)
+	G_TYPE_OBJECT)
 
 /**
  * EMailFormatterExtension:

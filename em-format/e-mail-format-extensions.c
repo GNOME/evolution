@@ -86,16 +86,44 @@ static void
 load (EMailExtensionRegistry *ereg,
       TypeFunc *func_array)
 {
-	gint i = 0;
+	gint ii;
 
-	for (i = 0; func_array[i] != NULL; i++) {
-		GType type;
-		EMailExtension *extension;
+	for (ii = 0; func_array[ii] != NULL; ii++) {
+		GType extension_type;
+		GType interface_type;
+		gpointer extension_class;
+		const gchar **mime_types = NULL;
 
-		type = func_array[i]();
-		extension = g_object_new (type, NULL);
+		extension_type = func_array[ii]();
+		extension_class = g_type_class_ref (extension_type);
 
-		e_mail_extension_registry_add_extension (ereg, extension);
+		interface_type = E_TYPE_MAIL_FORMATTER_EXTENSION;
+		if (g_type_is_a (extension_type, interface_type)) {
+			EMailFormatterExtensionInterface *interface;
+
+			interface = g_type_interface_peek (
+				extension_class, interface_type);
+			mime_types = interface->mime_types;
+		}
+
+		interface_type = E_TYPE_MAIL_PARSER_EXTENSION;
+		if (g_type_is_a (extension_type, interface_type)) {
+			EMailParserExtensionInterface *interface;
+
+			interface = g_type_interface_peek (
+				extension_class, interface_type);
+			mime_types = interface->mime_types;
+		}
+
+		if (mime_types != NULL)
+			e_mail_extension_registry_add_extension (
+				ereg, mime_types, extension_type);
+		else
+			g_critical (
+				"%s does not define any MIME types",
+				g_type_name (extension_type));
+
+		g_type_class_unref (extension_class);
 	}
 }
 

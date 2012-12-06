@@ -38,29 +38,29 @@
 
 #define d(x)
 
-typedef struct _EMailParserInlineAudio {
-	EExtension parent;
-} EMailParserAudioInline;
+typedef GObject EMailParserAudioInline;
+typedef GObjectClass EMailParserAudioInlineClass;
 
-typedef struct _EMailParserAudioInlineClass {
-	EExtensionClass parent_class;
-} EMailParserAudioInlineClass;
+typedef EExtension EMailParserAudioInlineLoader;
+typedef EExtensionClass EMailParserAudioInlineLoaderClass;
 
 GType e_mail_parser_audio_inline_get_type (void);
-static void e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface);
+GType e_mail_parser_audio_inline_loader_get_type (void);
 static void e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	EMailParserAudioInline,
 	e_mail_parser_audio_inline,
-	E_TYPE_EXTENSION,
+	G_TYPE_OBJECT,
 	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_EXTENSION,
-		e_mail_parser_mail_extension_interface_init)
 	G_IMPLEMENT_INTERFACE_DYNAMIC (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
+
+G_DEFINE_DYNAMIC_TYPE (
+	EMailParserAudioInlineLoader,
+	e_mail_parser_audio_inline_loader,
+	E_TYPE_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
 	"audio/ac3",
@@ -156,48 +156,17 @@ empe_audio_inline_get_flags (EMailParserExtension *extension)
 	return E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION;
 }
 
-void
-e_mail_parser_audio_inline_type_register (GTypeModule *type_module)
-{
-	e_mail_parser_audio_inline_register_type (type_module);
-}
-
-static void
-e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
-{
-	iface->mime_types = parser_mime_types;
-}
-
 static void
 e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *iface)
 {
+	iface->mime_types = parser_mime_types;
 	iface->parse = empe_audio_inline_parse;
 	iface->get_flags = empe_audio_inline_get_flags;
 }
 
 static void
-e_mail_parser_audio_inline_constructed (GObject *object)
-{
-	EExtensible *extensible;
-	EMailExtensionRegistry *reg;
-
-	extensible = e_extension_get_extensible (E_EXTENSION (object));
-	reg = E_MAIL_EXTENSION_REGISTRY (extensible);
-
-	e_mail_extension_registry_add_extension (reg, E_MAIL_EXTENSION (object));
-}
-
-static void
 e_mail_parser_audio_inline_class_init (EMailParserAudioInlineClass *class)
 {
-	GObjectClass *object_class;
-	EExtensionClass *extension_class;
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = e_mail_parser_audio_inline_constructed;
-
-	extension_class = E_EXTENSION_CLASS (class);
-	extension_class->extensible_type = E_TYPE_MAIL_PARSER_EXTENSION_REGISTRY;
 }
 
 static void
@@ -210,3 +179,45 @@ static void
 e_mail_parser_audio_inline_init (EMailParserAudioInline *self)
 {
 }
+
+static void
+mail_parser_audio_inline_loader_constructed (GObject *object)
+{
+	EExtensible *extensible;
+
+	extensible = e_extension_get_extensible (E_EXTENSION (object));
+
+	e_mail_extension_registry_add_extension (
+		E_MAIL_EXTENSION_REGISTRY (extensible),
+		parser_mime_types,
+		e_mail_parser_audio_inline_get_type ());
+}
+
+static void
+e_mail_parser_audio_inline_loader_class_init (EExtensionClass *class)
+{
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = mail_parser_audio_inline_loader_constructed;
+
+	class->extensible_type = E_TYPE_MAIL_PARSER_EXTENSION_REGISTRY;
+}
+
+static void
+e_mail_parser_audio_inline_loader_class_finalize (EExtensionClass *class)
+{
+}
+
+static void
+e_mail_parser_audio_inline_loader_init (EExtension *extension)
+{
+}
+
+void
+e_mail_parser_audio_inline_type_register (GTypeModule *type_module)
+{
+	e_mail_parser_audio_inline_register_type (type_module);
+	e_mail_parser_audio_inline_loader_register_type (type_module);
+}
+
