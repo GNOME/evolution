@@ -54,13 +54,13 @@ typedef struct _EEditorClass EEditorClass;
 typedef struct _EEditorPrivate EEditorPrivate;
 
 struct _EEditor {
-	GtkBox parent;
+	GtkGrid parent;
 
 	EEditorPrivate *priv;
 };
 
 struct _EEditorClass {
-	GtkBoxClass parent_class;
+	GtkGridClass parent_class;
 
 	void		(*update_actions)	(EEditor *editor,
 						 GdkEventButton *event);
@@ -89,6 +89,9 @@ GtkWidget *	e_editor_get_managed_widget
 const gchar *	e_editor_get_filename		(EEditor *editor);
 void		e_editor_set_filename		(EEditor *editor,
 						 const gchar *filename);
+
+void		e_editor_pack_above		(EEditor *editor,
+						 GtkWidget *child);
 
 void		e_editor_emit_spell_languages_changed
 						(EEditor *editor);

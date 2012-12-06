@@ -210,3 +210,22 @@ e_editor_window_pack_below (EEditorWindow *window,
 		window->priv->main_layout, child,
 		NULL, GTK_POS_BOTTOM, 1, 1);
 }
+
+/**
+ * e_editor_window_pack_inside:
+ * @window: an #EEditorWindow
+ * @child: a #GtkWidget
+ *
+ * Inserts @child between the editor's toolbars and the editor itself.
+ * If there are multiple children, the new @child is places at the end
+ * (immediatelly adjacent to the editor itself).
+ */
+void
+e_editor_window_pack_inside (EEditorWindow* window,
+			     GtkWidget* child)
+{
+	g_return_if_fail (E_IS_EDITOR_WINDOW (window));
+	g_return_if_fail (GTK_IS_WIDGET (child));
+
+	e_editor_pack_above (e_editor_window_get_editor (window), child);
+}

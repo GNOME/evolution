@@ -92,6 +92,8 @@ struct _EEditorPrivate {
 
 	WebKitDOMNode *image;
 	WebKitDOMNode *table_cell;
+
+	int editor_layout_row;
 };
 
 void		editor_actions_init		(EEditor *editor);
