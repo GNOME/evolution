@@ -180,12 +180,13 @@ bind_itip_view (EMailPart *part,
 
 /*******************************************************************************/
 
-static GSList *
+static gboolean
 empe_itip_parse (EMailParserExtension *extension,
                  EMailParser *parser,
                  CamelMimePart *part,
                  GString *part_id,
-                 GCancellable *cancellable)
+                 GCancellable *cancellable,
+                 GQueue *out_mail_parts)
 {
 	EShell *shell;
 	GSettings *settings;
@@ -195,7 +196,7 @@ empe_itip_parse (EMailParserExtension *extension,
 	GByteArray *byte_array;
 	gint len;
 	const CamelContentDisposition *disposition;
-	GSList *parts;
+	GQueue work_queue = G_QUEUE_INIT;
 
 	len = part_id->len;
 	g_string_append_printf (part_id, ".itip");
@@ -234,18 +235,20 @@ empe_itip_parse (EMailParserExtension *extension,
 
 	g_object_unref (stream);
 
-	parts = g_slist_append (NULL, itip_part);
+	g_queue_push_tail (&work_queue, itip_part);
 
 	disposition = camel_mime_part_get_content_disposition (part);
 	if (disposition &&
 	    (g_strcmp0 (disposition->disposition, "attachment") == 0)) {
-		parts = e_mail_parser_wrap_as_attachment (
-			parser, part, parts, part_id, cancellable);
+		e_mail_parser_wrap_as_attachment (
+			parser, part, part_id, &work_queue);
 	}
+
+	e_queue_transfer (&work_queue, out_mail_parts);
 
 	g_string_truncate (part_id, len);
 
-	return parts;
+	return TRUE;
 }
 
 static guint32

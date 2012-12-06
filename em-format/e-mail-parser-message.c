@@ -59,31 +59,28 @@ G_DEFINE_TYPE_EXTENDED (
 
 static const gchar *parser_mime_types[] = { "application/vnd.evolution.message", NULL };
 
-static GSList *
+static gboolean
 empe_message_parse (EMailParserExtension *extension,
                     EMailParser *parser,
                     CamelMimePart *part,
                     GString *part_id,
-                    GCancellable *cancellable)
+                    GCancellable *cancellable,
+                    GQueue *out_mail_parts)
 {
-	GSList *parts;
 	CamelContentType *ct;
 	gchar *mime_type;
 
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
-
 	/* Headers */
-	parts = g_slist_concat (NULL, e_mail_parser_parse_part_as (
-					parser, part, part_id,
-					"application/vnd.evolution.headers",
-					cancellable));
+	e_mail_parser_parse_part_as (
+		parser, part, part_id,
+		"application/vnd.evolution.headers",
+		cancellable, out_mail_parts);
 
 	/* Attachment Bar */
-	parts = g_slist_concat (parts, e_mail_parser_parse_part_as (
-					parser, part, part_id,
-					"application/vnd.evolution.widget.attachment-bar",
-					cancellable));
+	e_mail_parser_parse_part_as (
+		parser, part, part_id,
+		"application/vnd.evolution.widget.attachment-bar",
+		cancellable, out_mail_parts);
 
 	ct = camel_mime_part_get_content_type (part);
 	mime_type = camel_content_type_simple (ct);
@@ -103,13 +100,13 @@ empe_message_parse (EMailParserExtension *extension,
 	}
 
 	/* Actual message body */
-	parts = g_slist_concat (parts, e_mail_parser_parse_part_as (
-					parser, part, part_id, mime_type,
-					cancellable));
+	e_mail_parser_parse_part_as (
+		parser, part, part_id, mime_type,
+		cancellable, out_mail_parts);
 
 	g_free (mime_type);
 
-	return parts;
+	return TRUE;
 }
 
 static const gchar **

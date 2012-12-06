@@ -328,39 +328,46 @@ decode_vcard (EMailPartVCardInline *vcard_part,
 	g_object_unref (stream);
 }
 
-static GSList *
+static gboolean
 empe_vcard_inline_parse (EMailParserExtension *extension,
                          EMailParser *parser,
                          CamelMimePart *part,
                          GString *part_id,
-                         GCancellable *cancellable)
+                         GCancellable *cancellable,
+                         GQueue *out_mail_parts)
 {
 	EMailPartVCardInline *vcard_part;
+	GQueue work_queue = G_QUEUE_INIT;
 	gint len;
 
 	len = part_id->len;
 	g_string_append (part_id, ".org-gnome-vcard-inline-display");
 
 	vcard_part = (EMailPartVCardInline *) e_mail_part_subclass_new (
-			part, part_id->str, sizeof (EMailPartVCardInline),
-			(GFreeFunc) mail_part_vcard_inline_free);
+		part, part_id->str, sizeof (EMailPartVCardInline),
+		(GFreeFunc) mail_part_vcard_inline_free);
 	vcard_part->parent.mime_type = camel_content_type_simple (
-					camel_mime_part_get_content_type (part));
+		camel_mime_part_get_content_type (part));
 	vcard_part->parent.bind_func = (EMailPartDOMBindFunc) bind_dom;
 	vcard_part->parent.is_attachment = TRUE;
 	vcard_part->formatter = g_object_new (
-					EAB_TYPE_CONTACT_FORMATTER,
-				       "display-mode", EAB_CONTACT_DISPLAY_RENDER_COMPACT,
-				       "render-maps", FALSE, NULL);
+		EAB_TYPE_CONTACT_FORMATTER,
+		"display-mode", EAB_CONTACT_DISPLAY_RENDER_COMPACT,
+		"render-maps", FALSE, NULL);
 	g_object_ref (part);
 
 	decode_vcard (vcard_part, part);
 
 	g_string_truncate (part_id, len);
 
-	return e_mail_parser_wrap_as_attachment (
-			parser, part, g_slist_append (NULL, vcard_part),
-			part_id, cancellable);
+	g_queue_push_tail (&work_queue, vcard_part);
+
+	e_mail_parser_wrap_as_attachment (
+		parser, part, part_id, &work_queue);
+
+	e_queue_transfer (&work_queue, out_mail_parts);
+
+	return TRUE;
 }
 
 static guint32

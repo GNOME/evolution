@@ -71,21 +71,20 @@ static const gchar *parser_mime_types[] = { "image/gif",
 					    "image/pjpeg",
 					    NULL };
 
-static GSList *
+static gboolean
 empe_image_parse (EMailParserExtension *extension,
                   EMailParser *parser,
                   CamelMimePart *part,
                   GString *part_id,
-                  GCancellable *cancellable)
+                  GCancellable *cancellable,
+                  GQueue *out_mail_parts)
 {
+	GQueue work_queue = G_QUEUE_INIT;
 	EMailPart *mail_part;
 	const gchar *tmp;
 	gchar *cid;
 	gint len;
 	CamelContentType *ct;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	tmp = camel_mime_part_get_content_id (part);
 	if (tmp) {
@@ -107,13 +106,15 @@ empe_image_parse (EMailParserExtension *extension,
 
 	g_string_truncate (part_id, len);
 
-	if (!cid) {
-		return e_mail_parser_wrap_as_attachment (
-			parser, part, g_slist_append (NULL, mail_part),
-			part_id, cancellable);
-	}
+	g_queue_push_tail (&work_queue, mail_part);
 
-	return g_slist_append (NULL, mail_part);
+	if (cid == NULL)
+		e_mail_parser_wrap_as_attachment (
+			parser, part, part_id, &work_queue);
+
+	e_queue_transfer (&work_queue, out_mail_parts);
+
+	return TRUE;
 }
 
 static const gchar **

@@ -57,20 +57,19 @@ static const gchar *parser_mime_types[] = { "text/richtext",
 					    "text/enriched",
 					    NULL };
 
-static GSList *
+static gboolean
 empe_text_enriched_parse (EMailParserExtension *extension,
                           EMailParser *parser,
                           CamelMimePart *part,
                           GString *part_id,
-                          GCancellable *cancellable)
+                          GCancellable *cancellable,
+                          GQueue *out_mail_parts)
 {
+	GQueue work_queue = G_QUEUE_INIT;
 	EMailPart *mail_part;
 	const gchar *tmp;
 	gint len;
 	CamelContentType *ct;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	len = part_id->len;
 	g_string_append (part_id, ".text_enriched");
@@ -88,13 +87,15 @@ empe_text_enriched_parse (EMailParserExtension *extension,
 
 	g_string_truncate (part_id, len);
 
-	if (e_mail_part_is_attachment (part)) {
-		return e_mail_parser_wrap_as_attachment (
-				parser, part, g_slist_append (NULL, mail_part),
-				part_id, cancellable);
-	}
+	g_queue_push_tail (&work_queue, mail_part);
 
-	return g_slist_append (NULL, mail_part);
+	if (e_mail_part_is_attachment (part))
+		e_mail_parser_wrap_as_attachment (
+			parser, part, part_id, &work_queue);
+
+	e_queue_transfer (&work_queue, out_mail_parts);
+
+	return TRUE;
 }
 
 static const gchar **

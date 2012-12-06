@@ -80,32 +80,30 @@ part_is_empty (CamelMimePart *part)
 	return TRUE;
 }
 
-static GSList *
+static gboolean
 process_part (EMailParser *parser,
               GString *part_id,
               gint part_number,
               CamelMimePart *part,
               gboolean is_attachment,
-              GCancellable *cancellable)
+              GCancellable *cancellable,
+              GQueue *out_mail_parts)
 {
 	CamelContentType *type;
 	EMailPart *empart;
 	gint s_len = part_id->len;
-	GSList *parts;
 
-	if (part_is_empty (part)) {
-		return g_slist_alloc ();
-	}
+	if (part_is_empty (part))
+		return TRUE;
 
 	type = camel_mime_part_get_content_type (part);
 	if (!camel_content_type_is (type, "text", "*")) {
-
-		parts = e_mail_parser_parse_part (
-				parser, CAMEL_MIME_PART (part),
-				part_id, cancellable);
-		return parts;
+		e_mail_parser_parse_part (
+			parser, CAMEL_MIME_PART (part), part_id,
+			cancellable, out_mail_parts);
 
 	} else if (!camel_content_type_is (type, "text", "calendar")) {
+		GQueue work_queue = G_QUEUE_INIT;
 
 		g_string_append_printf (part_id, ".plain_text.%d", part_number);
 
@@ -114,37 +112,35 @@ process_part (EMailParser *parser,
 
 		g_string_truncate (part_id, s_len);
 
-		if (is_attachment) {
+		g_queue_push_tail (&work_queue, empart);
 
-			return e_mail_parser_wrap_as_attachment (
-					parser, part,
-					g_slist_append (NULL, empart),
-					part_id, cancellable);
+		if (is_attachment)
+			e_mail_parser_wrap_as_attachment (
+				parser, part, part_id, &work_queue);
 
-		}
+		e_queue_transfer (&work_queue, out_mail_parts);
 
-		return g_slist_append (NULL, empart);
+	} else {
+		g_string_append_printf (part_id, ".inline.%d", part_number);
+
+		e_mail_parser_parse_part (
+			parser, CAMEL_MIME_PART (part), part_id,
+			cancellable, out_mail_parts);
+
+		g_string_truncate (part_id, s_len);
 	}
 
-	g_string_append_printf (part_id, ".inline.%d", part_number);
-
-	parts = e_mail_parser_parse_part (
-			parser, CAMEL_MIME_PART (part),
-			part_id, cancellable);
-
-	g_string_truncate (part_id, s_len);
-
-	return parts;
+	return TRUE;
 }
 
-static GSList *
+static gboolean
 empe_text_plain_parse (EMailParserExtension *extension,
                        EMailParser *parser,
                        CamelMimePart *part,
                        GString *part_id,
-                       GCancellable *cancellable)
+                       GCancellable *cancellable,
+                       GQueue *out_mail_parts)
 {
-	GSList *parts;
 	CamelStream *filtered_stream, *null;
 	CamelMultipart *mp;
 	CamelDataWrapper *dw;
@@ -154,13 +150,11 @@ empe_text_plain_parse (EMailParserExtension *extension,
 	gboolean charset_added = FALSE;
 	const gchar *snoop_type = NULL;
 	gboolean is_attachment;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
+	gint n_parts_added = 0;
 
 	dw = camel_medium_get_content ((CamelMedium *) part);
 	if (!dw)
-		return NULL;
+		return FALSE;
 
 	/* This scans the text part for inline-encoded data, creates
 	 * a multipart of all the parts inside it. */
@@ -206,7 +200,7 @@ empe_text_plain_parse (EMailParserExtension *extension,
 		return process_part (
 			parser, part_id, 0,
 			part, e_mail_part_is_attachment (part),
-			cancellable);
+			cancellable, out_mail_parts);
 	}
 
 	mp = e_mail_inline_filter_get_multipart (inline_filter);
@@ -220,7 +214,6 @@ empe_text_plain_parse (EMailParserExtension *extension,
 
 	/* We handle our made-up multipart here, so we don't recursively call ourselves */
 	count = camel_multipart_get_number (mp);
-	parts = NULL;
 
 	is_attachment = ((count == 1) && (e_mail_part_is_attachment (part)));
 
@@ -230,17 +223,15 @@ empe_text_plain_parse (EMailParserExtension *extension,
 		if (!newpart)
 			continue;
 
-		parts = g_slist_concat (
-			parts,
-			process_part (
-				parser, part_id, i,
-				newpart, is_attachment,
-				cancellable));
+		n_parts_added += process_part (
+			parser, part_id, i,
+			newpart, is_attachment,
+			cancellable, out_mail_parts);
 	}
 
 	g_object_unref (mp);
 
-	return parts;
+	return n_parts_added;
 }
 
 static const gchar **

@@ -60,23 +60,20 @@ G_DEFINE_TYPE_EXTENDED (
 static const gchar * parser_mime_types[] = { "application/mbox",
 					    NULL };
 
-static GSList *
+static gboolean
 empe_app_mbox_parse (EMailParserExtension *extension,
                      EMailParser *parser,
                      CamelMimePart *part,
                      GString *part_id,
-                     GCancellable *cancellable)
+                     GCancellable *cancellable,
+                     GQueue *out_mail_parts)
 {
 	CamelMimeParser *mime_parser;
 	CamelStream *mem_stream;
 	camel_mime_parser_state_t state;
 	gint old_len;
 	gint messages;
-	GSList *parts;
 	GError *error = NULL;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	/* Extract messages from the application/mbox part and
 	 * render them as a flat list of messages. */
@@ -103,14 +100,14 @@ empe_app_mbox_parse (EMailParserExtension *extension,
 
 	camel_mime_parser_init_with_stream (mime_parser, mem_stream, &error);
 	if (error != NULL) {
-		parts = e_mail_parser_error (
-			parser, cancellable,
+		e_mail_parser_error (
+			parser, out_mail_parts,
 			_("Error parsing MBOX part: %s"),
 			error->message);
 		g_object_unref (mem_stream);
 		g_object_unref (mime_parser);
 		g_error_free (error);
-		return parts;
+		return TRUE;
 	}
 
 	g_object_unref (mem_stream);
@@ -121,11 +118,10 @@ empe_app_mbox_parse (EMailParserExtension *extension,
 	messages = 0;
 	state = camel_mime_parser_step (mime_parser, NULL, NULL);
 
-	parts = NULL;
 	while (state == CAMEL_MIME_PARSER_STATE_FROM) {
+		GQueue work_queue = G_QUEUE_INIT;
 		CamelMimeMessage *message;
 		CamelMimePart *opart;
-		GSList *new_parts;
 
 		message = camel_mime_message_new ();
 		opart = CAMEL_MIME_PART (message);
@@ -142,23 +138,22 @@ empe_app_mbox_parse (EMailParserExtension *extension,
 		camel_medium_set_content (CAMEL_MEDIUM (opart), CAMEL_DATA_WRAPPER (message));
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (opart), "message/rfc822");
 
-		new_parts = e_mail_parser_parse_part_as (
-				parser, opart,
-				part_id, "message/rfc822", cancellable);
+		e_mail_parser_parse_part_as (
+			parser, opart, part_id, "message/rfc822",
+			cancellable, &work_queue);
 
 		/* Wrap every message as attachment */
-		new_parts = e_mail_parser_wrap_as_attachment (
-				parser, opart,
-				new_parts, part_id, cancellable);
+		e_mail_parser_wrap_as_attachment (
+			parser, opart, part_id, &work_queue);
 
 		/* Inline all messages in mbox */
-		if (new_parts && new_parts->data) {
-			EMailPart *p = new_parts->data;
+		if (!g_queue_is_empty (&work_queue)) {
+			EMailPart *p = g_queue_peek_head (&work_queue);
 
 			p->force_inline = TRUE;
 		}
 
-		parts = g_slist_concat (parts, new_parts);
+		e_queue_transfer (&work_queue, out_mail_parts);
 
 		g_string_truncate (part_id, old_len);
 
@@ -175,7 +170,7 @@ empe_app_mbox_parse (EMailParserExtension *extension,
 
 	g_object_unref (mime_parser);
 
-	return parts;
+	return TRUE;
 }
 
 static guint32

@@ -194,7 +194,7 @@ emcu_part_to_html (CamelSession *session,
 	GString *part_id;
 	EShell *shell;
 	GtkWindow *window;
-	GSList *list;
+	GQueue queue = G_QUEUE_INIT;
 
 	shell = e_shell_get_default ();
 	window = e_shell_get_active_window (shell);
@@ -207,13 +207,12 @@ emcu_part_to_html (CamelSession *session,
 
 	part_id = g_string_sized_new (0);
 	parser = e_mail_parser_new (session);
-	list = e_mail_parser_parse_part (parser, part, part_id, cancellable);
-	while (list != NULL) {
-		if (list->data != NULL) {
-			e_mail_part_list_add_part (part_list, list->data);
-			e_mail_part_unref (list->data);
-		}
-		list = g_slist_delete_link (list, list);
+	e_mail_parser_parse_part (
+		parser, part, part_id, cancellable, &queue);
+	while (!g_queue_is_empty (&queue)) {
+		EMailPart *mail_part = g_queue_pop_head (&queue);
+		e_mail_part_list_add_part (part_list, mail_part);
+		e_mail_part_unref (mail_part);
 	}
 	g_string_free (part_id, TRUE);
 	g_object_unref (parser);

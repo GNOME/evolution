@@ -28,6 +28,7 @@
 
 #include <glib/gi18n-lib.h>
 #include <camel/camel.h>
+#include <libedataserver/libedataserver.h>
 
 typedef struct _EMailParserMultipartSigned {
 	GObject parent;
@@ -56,33 +57,30 @@ static const gchar * parser_mime_types[] = { "multipart/signed",
 					    "application/pgp-signature",
 					    NULL };
 
-static GSList *
+static gboolean
 empe_mp_signed_parse (EMailParserExtension *extension,
                       EMailParser *parser,
                       CamelMimePart *part,
                       GString *part_id,
-                      GCancellable *cancellable)
+                      GCancellable *cancellable,
+                      GQueue *out_mail_parts)
 {
 	CamelMimePart *cpart;
 	CamelMultipartSigned *mps;
 	CamelCipherContext *cipher = NULL;
 	CamelSession *session;
 	guint32 validity_type;
-	GSList *parts;
 	CamelCipherValidity *valid;
 	GError *local_error = NULL;
 	gint i, nparts, len;
 	gboolean secured;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	/* If the part is application/pgp-signature sub-part then skip it. */
 	if (!CAMEL_IS_MULTIPART (part)) {
 		CamelContentType *ct;
 		ct = camel_mime_part_get_content_type (CAMEL_MIME_PART (part));
 		if (camel_content_type_is (ct, "application", "pgp-signature")) {
-			return g_slist_alloc ();
+			return TRUE;
 		}
 	}
 
@@ -92,18 +90,16 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 		cpart = camel_multipart_get_part (
 			(CamelMultipart *) mps,
 		CAMEL_MULTIPART_SIGNED_CONTENT)) == NULL) {
-		parts = e_mail_parser_error (
-			parser, cancellable,
+		e_mail_parser_error (
+			parser, out_mail_parts,
 			_("Could not parse MIME message. "
 			"Displaying as source."));
+		e_mail_parser_parse_part_as (
+			parser, part, part_id,
+			"application/vnd.evolution.source",
+			cancellable, out_mail_parts);
 
-		parts = g_slist_concat (
-			parts,
-			e_mail_parser_parse_part_as (
-				parser, part, part_id,
-				"application/vnd.evolution.source",
-				cancellable));
-		return parts;
+		return TRUE;
 	}
 
 	session = e_mail_parser_get_session (parser);
@@ -127,95 +123,89 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 	}
 
 	if (cipher == NULL) {
-		parts = e_mail_parser_error (
-			parser, cancellable,
+		e_mail_parser_error (
+			parser, out_mail_parts,
 			_("Unsupported signature format"));
+		e_mail_parser_parse_part_as (
+			parser, part, part_id, "multipart/mixed",
+			cancellable, out_mail_parts);
 
-		parts = g_slist_concat (
-			parts,
-			e_mail_parser_parse_part_as (
-				parser, part, part_id,
-				"multipart/mixed", cancellable));
-
-		return parts;
+		return TRUE;
 	}
 
 	valid = camel_cipher_context_verify_sync (
 		cipher, part, cancellable, &local_error);
 
 	if (local_error != NULL) {
-		parts = e_mail_parser_error (
-			parser, cancellable,
+		e_mail_parser_error (
+			parser, out_mail_parts,
 			_("Error verifying signature: %s"),
 			local_error->message);
-
-		g_error_free (local_error);
-
-		parts = g_slist_concat (
-			parts,
-			e_mail_parser_parse_part_as (
-				parser, part, part_id,
-				"multipart/mixed", cancellable));
+		e_mail_parser_parse_part_as (
+			parser, part, part_id, "multipart/mixed",
+			cancellable, out_mail_parts);
 
 		g_object_unref (cipher);
-		return parts;
+		g_error_free (local_error);
+
+		return TRUE;
 	}
 
 	nparts = camel_multipart_get_number (CAMEL_MULTIPART (mps));
 	secured = FALSE;
 	len = part_id->len;
-	parts = NULL;
 	for (i = 0; i < nparts; i++) {
+		GQueue work_queue = G_QUEUE_INIT;
+		GList *head, *link;
 		CamelMimePart *subpart;
-		GSList *mail_parts, *iter;
+
 		subpart = camel_multipart_get_part (CAMEL_MULTIPART (mps), i);
 
 		g_string_append_printf (part_id, ".signed.%d", i);
 
-		mail_parts = e_mail_parser_parse_part (
-			parser, subpart, part_id, cancellable);
+		e_mail_parser_parse_part (
+			parser, subpart, part_id, cancellable, &work_queue);
 
 		g_string_truncate (part_id, len);
 
 		if (!secured)
 			secured = e_mail_part_is_secured (subpart);
 
-		for (iter = mail_parts; iter; iter = iter->next) {
-			EMailPart *mail_part;
+		head = g_queue_peek_head_link (&work_queue);
 
-			mail_part = iter->data;
-			if (!mail_part)
-				continue;
+		for (link = head; link != NULL; link = g_list_next (link)) {
+			EMailPart *mail_part = link->data;
 
 			e_mail_part_update_validity (
 				mail_part, valid,
 				validity_type | E_MAIL_PART_VALIDITY_SIGNED);
 		}
 
-		parts = g_slist_concat (parts, mail_parts);
+		e_queue_transfer (&work_queue, out_mail_parts);
 	}
 
 	/* Add a widget with details about the encryption, but only when
-		* the encrypted isn't itself secured, in that case it has created
-		* the button itself */
+	 * the encrypted isn't itself secured, in that case it has created
+	 * the button itself. */
 	if (!secured) {
-		GSList *button;
+		GQueue work_queue = G_QUEUE_INIT;
 		EMailPart *mail_part;
+
 		g_string_append (part_id, ".signed.button");
 
-		button = e_mail_parser_parse_part_as (
+		e_mail_parser_parse_part_as (
 			parser, part, part_id,
 			"application/vnd.evolution.widget.secure-button",
-			cancellable);
-		if (button && button->data) {
-			mail_part = button->data;
+			cancellable, &work_queue);
 
+		mail_part = g_queue_peek_head (&work_queue);
+
+		if (mail_part != NULL)
 			e_mail_part_update_validity (
 				mail_part, valid,
 				validity_type | E_MAIL_PART_VALIDITY_SIGNED);
-		}
 
-		parts = g_slist_concat (parts, button);
+		e_queue_transfer (&work_queue, out_mail_parts);
 
 		g_string_truncate (part_id, len);
 	}
@@ -224,7 +214,7 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 
 	g_object_unref (cipher);
 
-	return parts;
+	return TRUE;
 }
 
 static const gchar **

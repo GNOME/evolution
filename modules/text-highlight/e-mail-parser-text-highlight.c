@@ -58,21 +58,20 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static GSList *
+static gboolean
 empe_text_highlight_parse (EMailParserExtension *extension,
                            EMailParser *parser,
                            CamelMimePart *part,
                            GString *part_id,
-                           GCancellable *cancellable)
+                           GCancellable *cancellable,
+                           GQueue *out_mail_parts)
 {
-	GSList *parts;
-	gint len;
 	CamelContentType *ct;
+	gint len;
 
 	/* Prevent recursion */
-	if (strstr (part_id->str, ".text-highlight") != NULL) {
-		return NULL;
-	}
+	if (strstr (part_id->str, ".text-highlight") != NULL)
+		return FALSE;
 
 	/* Don't parse text/html if it's not an attachment */
 	ct = camel_mime_part_get_content_type (part);
@@ -80,9 +79,8 @@ empe_text_highlight_parse (EMailParserExtension *extension,
 		const CamelContentDisposition *disp;
 
 		disp = camel_mime_part_get_content_disposition (part);
-		if (!disp || (g_strcmp0 (disp->disposition, "attachment") != 0)) {
-			return NULL;
-		}
+		if (!disp || (g_strcmp0 (disp->disposition, "attachment") != 0))
+			return FALSE;
 	}
 
 	len = part_id->len;
@@ -90,12 +88,14 @@ empe_text_highlight_parse (EMailParserExtension *extension,
 
 	/* All source codes and scripts are in general plain texts,
 	 * so let text/plain parser handle it. */
-	parts = e_mail_parser_parse_part_as (
-			parser, part, part_id, "text/plain", cancellable);
+
+	e_mail_parser_parse_part_as (
+		parser, part, part_id, "text/plain",
+		cancellable, out_mail_parts);
 
 	g_string_truncate (part_id, len);
 
-	return parts;
+	return TRUE;
 }
 
 static const gchar **

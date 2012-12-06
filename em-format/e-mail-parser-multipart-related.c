@@ -57,79 +57,75 @@ G_DEFINE_TYPE_EXTENDED (
 static const gchar * parser_mime_types[] = { "multipart/related",
 					    NULL };
 
-static GSList *
+static gboolean
 empe_mp_related_parse (EMailParserExtension *extension,
                        EMailParser *parser,
                        CamelMimePart *part,
                        GString *part_id,
-                       GCancellable *cancellable)
+                       GCancellable *cancellable,
+                       GQueue *out_mail_parts)
 {
 	CamelMultipart *mp;
 	CamelMimePart *body_part, *display_part = NULL;
 	gint i, nparts, partidlen, displayid = 0;
-	GSList *parts;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	mp = (CamelMultipart *) camel_medium_get_content ((CamelMedium *) part);
 
-	if (!CAMEL_IS_MULTIPART (mp)) {
+	if (!CAMEL_IS_MULTIPART (mp))
 		return e_mail_parser_parse_part_as (
-				parser, part, part_id,
-				"application/vnd.evolution.source", cancellable);
-	}
+			parser, part, part_id,
+			"application/vnd.evolution.source",
+			cancellable, out_mail_parts);
 
 	display_part = e_mail_part_get_related_display_part (part, &displayid);
 
-	if (display_part == NULL) {
+	if (display_part == NULL)
 		return e_mail_parser_parse_part_as (
-				parser, part, part_id, "multipart/mixed",
-				cancellable);
-	}
+			parser, part, part_id, "multipart/mixed",
+			cancellable, out_mail_parts);
 
 	/* The to-be-displayed part goes first */
 	partidlen = part_id->len;
 	g_string_append_printf (part_id, ".related.%d", displayid);
 
-	parts = e_mail_parser_parse_part (
-			parser, display_part, part_id, cancellable);
+	e_mail_parser_parse_part (
+		parser, display_part, part_id, cancellable, out_mail_parts);
 
 	g_string_truncate (part_id, partidlen);
 
 	/* Process the related parts */
 	nparts = camel_multipart_get_number (mp);
 	for (i = 0; i < nparts; i++) {
-		GSList *list, *iter;
+		GQueue work_queue = G_QUEUE_INIT;
+		GList *head, *link;
+
 		body_part = camel_multipart_get_part (mp, i);
-		list = NULL;
 
 		if (body_part == display_part)
 			continue;
 
 		g_string_append_printf (part_id, ".related.%d", i);
 
-		list = e_mail_parser_parse_part (
-				parser, body_part, part_id, cancellable);
+		e_mail_parser_parse_part (
+			parser, body_part, part_id,
+			cancellable, &work_queue);
 
 		g_string_truncate (part_id, partidlen);
 
-		for (iter = list; iter; iter = iter->next) {
-			EMailPart *mail_part;
+		head = g_queue_peek_head_link (&work_queue);
 
-			mail_part = iter->data;
-			if (!mail_part)
-				continue;
+		for (link = head; link != NULL; link = g_list_next (link)) {
+			EMailPart *mail_part = link->data;
 
 			/* Don't render the part on it's own! */
 			if (mail_part->cid != NULL)
 				mail_part->is_hidden = TRUE;
 		}
 
-		parts = g_slist_concat (parts, list);
+		e_queue_transfer (&work_queue, out_mail_parts);
 	}
 
-	return parts;
+	return TRUE;
 }
 
 static const gchar **

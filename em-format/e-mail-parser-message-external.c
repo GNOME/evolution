@@ -58,12 +58,13 @@ G_DEFINE_TYPE_EXTENDED (
 static const gchar * parser_mime_types[] = { "message/external-body",
 					    NULL };
 
-static GSList *
+static gboolean
 empe_msg_external_parse (EMailParserExtension *extension,
                          EMailParser *parser,
                          CamelMimePart *part,
                          GString *part_id,
-                         GCancellable *cancellable)
+                         GCancellable *cancellable,
+                         GQueue *out_mail_parts)
 {
 	EMailPart *mail_part;
 	CamelMimePart *newpart;
@@ -73,9 +74,6 @@ empe_msg_external_parse (EMailParserExtension *extension,
 	gchar *content;
 	gint len;
 	gchar *mime_type;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	newpart = camel_mime_part_new ();
 
@@ -177,7 +175,9 @@ addPart:
 	mail_part->mime_type = mime_type;
 	g_string_truncate (part_id, len);
 
-	return g_slist_append (NULL, mail_part);
+	g_queue_push_tail (out_mail_parts, mail_part);
+
+	return TRUE;
 }
 
 static const gchar **

@@ -62,11 +62,11 @@ mail_parser_run (EMailParser *parser,
 {
 	EMailExtensionRegistry *reg;
 	CamelMimeMessage *message;
-	EMailPart *part;
+	EMailPart *mail_part;
 	GQueue *parsers;
+	GQueue mail_part_queue = G_QUEUE_INIT;
 	GList *iter;
 	GString *part_id;
-	GSList *list_of_parts;
 
 	message = e_mail_part_list_get_message (part_list);
 
@@ -79,18 +79,19 @@ mail_parser_run (EMailParser *parser,
 		parsers = e_mail_extension_registry_get_for_mime_type (
 			reg, "message/*");
 
-	/* parsers == NULL means, that the internal Evolution parser
-	 * extensions were not loaded. Something is terribly wrong. */
+	/* No parsers means the internal Evolution parser
+	 * extensions were not loaded. Something is terribly wrong! */
 	g_return_if_fail (parsers != NULL);
 
 	part_id = g_string_new (".message");
 
-	part = e_mail_part_new (CAMEL_MIME_PART (message), ".message");
-	e_mail_part_list_add_part (part_list, part);
-	e_mail_part_unref (part);
+	mail_part = e_mail_part_new (CAMEL_MIME_PART (message), ".message");
+	e_mail_part_list_add_part (part_list, mail_part);
+	e_mail_part_unref (mail_part);
 
 	for (iter = parsers->head; iter; iter = iter->next) {
 		EMailParserExtension *extension;
+		gboolean message_handled;
 
 		if (g_cancellable_is_cancelled (cancellable))
 			break;
@@ -99,24 +100,19 @@ mail_parser_run (EMailParser *parser,
 		if (!extension)
 			continue;
 
-		list_of_parts = e_mail_parser_extension_parse (
+		message_handled = e_mail_parser_extension_parse (
 			extension, parser,
 			CAMEL_MIME_PART (message),
-			part_id, cancellable);
+			part_id, cancellable, &mail_part_queue);
 
-		if (list_of_parts != NULL)
+		if (message_handled)
 			break;
 	}
 
-	while (list_of_parts != NULL) {
-		part = list_of_parts->data;
-		if (part != NULL) {
-			e_mail_part_list_add_part (part_list, part);
-			e_mail_part_unref (part);
-		}
-
-		list_of_parts = g_slist_delete_link (
-			list_of_parts, list_of_parts);
+	while (!g_queue_is_empty (&mail_part_queue)) {
+		mail_part = g_queue_pop_head (&mail_part_queue);
+		e_mail_part_list_add_part (part_list, mail_part);
+		e_mail_part_unref (mail_part);
 	}
 
 	g_string_free (part_id, TRUE);
@@ -428,15 +424,16 @@ e_mail_parser_parse_finish (EMailParser *parser,
 	return g_object_ref (part_list);
 }
 
-GSList *
+gboolean
 e_mail_parser_parse_part (EMailParser *parser,
                           CamelMimePart *part,
                           GString *part_id,
-                          GCancellable *cancellable)
+                          GCancellable *cancellable,
+                          GQueue *out_mail_parts)
 {
 	CamelContentType *ct;
 	gchar *mime_type;
-	GSList *list;
+	gint n_parts_queued = 0;
 
 	ct = camel_mime_part_get_content_type (part);
 	if (!ct) {
@@ -448,32 +445,31 @@ e_mail_parser_parse_part (EMailParser *parser,
 		g_free (tmp);
 	}
 
-	list = e_mail_parser_parse_part_as (
-		parser, part, part_id, mime_type, cancellable);
+	n_parts_queued = e_mail_parser_parse_part_as (
+		parser, part, part_id, mime_type,
+		cancellable, out_mail_parts);
 
 	if (ct) {
 		g_free (mime_type);
 	}
 
-	return list;
+	return n_parts_queued;
 }
 
-GSList *
+gboolean
 e_mail_parser_parse_part_as (EMailParser *parser,
                              CamelMimePart *part,
                              GString *part_id,
                              const gchar *mime_type,
-                             GCancellable *cancellable)
+                             GCancellable *cancellable,
+                             GQueue *out_mail_parts)
 {
 	GQueue *parsers;
 	GList *iter;
 	EMailExtensionRegistry *reg;
 	EMailParserClass *parser_class;
-	GSList *part_list = NULL;
 	gchar *as_mime_type;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
+	gboolean mime_part_handled = FALSE;
 
 	if (mime_type)
 		as_mime_type = g_ascii_strdown (mime_type, -1);
@@ -491,9 +487,10 @@ e_mail_parser_parse_part_as (EMailParser *parser,
 	if (as_mime_type)
 		g_free (as_mime_type);
 
-	if (!parsers) {
-		return e_mail_parser_wrap_as_attachment (
-			parser, part, NULL, part_id, cancellable);
+	if (parsers == NULL) {
+		e_mail_parser_wrap_as_attachment (
+			parser, part, part_id, out_mail_parts);
+		return TRUE;
 	}
 
 	for (iter = parsers->head; iter; iter = iter->next) {
@@ -503,19 +500,20 @@ e_mail_parser_parse_part_as (EMailParser *parser,
 		if (!extension)
 			continue;
 
-		part_list = e_mail_parser_extension_parse (
-			extension, parser, part, part_id, cancellable);
+		mime_part_handled = e_mail_parser_extension_parse (
+			extension, parser, part, part_id,
+			cancellable, out_mail_parts);
 
-		if (part_list)
+		if (mime_part_handled)
 			break;
 	}
 
-	return part_list;
+	return mime_part_handled;
 }
 
-GSList *
+void
 e_mail_parser_error (EMailParser *parser,
-                     GCancellable *cancellable,
+                     GQueue *out_mail_parts,
                      const gchar *format,
                      ...)
 {
@@ -525,8 +523,9 @@ e_mail_parser_error (EMailParser *parser,
 	gchar *uri;
 	va_list ap;
 
-	g_return_val_if_fail (E_IS_MAIL_PARSER (parser), NULL);
-	g_return_val_if_fail (format != NULL, NULL);
+	g_return_if_fail (E_IS_MAIL_PARSER (parser));
+	g_return_if_fail (out_mail_parts != NULL);
+	g_return_if_fail (format != NULL);
 
 	va_start (ap, format);
 	errmsg = g_strdup_vprintf (format, ap);
@@ -551,7 +550,7 @@ e_mail_parser_error (EMailParser *parser,
 	g_free (uri);
 	g_object_unref (part);
 
-	return g_slist_append (NULL, mail_part);
+	g_queue_push_tail (out_mail_parts, mail_part);
 }
 
 static void
@@ -581,14 +580,14 @@ load_attachment_idle (EAttachment *attachment)
 	return FALSE;
 }
 
-GSList *
+void
 e_mail_parser_wrap_as_attachment (EMailParser *parser,
                                   CamelMimePart *part,
-                                  GSList *parts,
                                   GString *part_id,
-                                  GCancellable *cancellable)
+                                  GQueue *parts_queue)
 {
 	EMailPartAttachment *empa;
+	EMailPart *first_part;
 	const gchar *snoop_mime_type, *cid;
 	GQueue *extensions;
 	CamelContentType *ct;
@@ -644,7 +643,12 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 		e_mail_part_is_inline (part, extensions));
 	empa->snoop_mime_type = snoop_mime_type;
 	empa->attachment = e_attachment_new ();
-	empa->attachment_view_part_id = parts ? g_strdup (E_MAIL_PART (parts->data)->id) : NULL;
+
+	first_part = g_queue_peek_head (parts_queue);
+	if (first_part != NULL) {
+		empa->attachment_view_part_id = g_strdup (first_part->id);
+		first_part->is_hidden = TRUE;
+	}
 
 	cid = camel_mime_part_get_content_id (part);
 	if (cid)
@@ -692,13 +696,10 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 		g_object_unref (fileinfo);
 	}
 
-	if (parts && parts->data) {
-		E_MAIL_PART (parts->data)->is_hidden = TRUE;
-	}
-
 	g_string_truncate (part_id, part_id_len);
 
-	return g_slist_prepend (parts, empa);
+	/* Push to head, not tail. */
+	g_queue_push_head (parts_queue, empa);
 }
 
 CamelSession *

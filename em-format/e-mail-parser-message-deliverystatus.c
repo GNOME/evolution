@@ -60,18 +60,17 @@ static const gchar * parser_mime_types[] = { "message/delivery-status",
 					    "message/disposition-notification",
 					    NULL };
 
-static GSList *
+static gboolean
 empe_msg_deliverystatus_parse (EMailParserExtension *extension,
                                EMailParser *parser,
                                CamelMimePart *part,
                                GString *part_id,
-                               GCancellable *cancellable)
+                               GCancellable *cancellable,
+                               GQueue *out_mail_parts)
 {
+	GQueue work_queue = G_QUEUE_INIT;
 	EMailPart *mail_part;
 	gsize len;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	len = part_id->len;
 	g_string_append (part_id, ".delivery-status");
@@ -80,11 +79,15 @@ empe_msg_deliverystatus_parse (EMailParserExtension *extension,
 
 	g_string_truncate (part_id, len);
 
+	g_queue_push_tail (&work_queue, mail_part);
+
 	/* The only reason for having a separate parser for
 	 * message/delivery-status is to display the part as an attachment */
-	return e_mail_parser_wrap_as_attachment (
-			parser, part, g_slist_append (NULL, mail_part),
-			part_id, cancellable);
+	e_mail_parser_wrap_as_attachment (parser, part, part_id, &work_queue);
+
+	e_queue_transfer (&work_queue, out_mail_parts);
+
+	return TRUE;
 }
 
 static const gchar **

@@ -101,15 +101,18 @@ mail_part_audio_inline_free (EMailPart *mail_part)
 	}
 }
 
-static GSList *
+static gint
 empe_audio_inline_parse (EMailParserExtension *extension,
                          EMailParser *parser,
                          CamelMimePart *part,
                          GString *part_id,
-                         GCancellable *cancellable)
+                         GCancellable *cancellable,
+                         GQueue *out_mail_queue)
 {
 	EMailPartAudioInline *mail_part;
+	GQueue work_queue = G_QUEUE_INIT;
 	gint len;
+	gint n_parts_added = 0;
 
 	len = part_id->len;
 	g_string_append (part_id, ".org-gnome-audio-inline-button-panel");
@@ -117,16 +120,22 @@ empe_audio_inline_parse (EMailParserExtension *extension,
 	d (printf ("audio inline formatter: format classid %s\n", part_id->str));
 
 	mail_part = (EMailPartAudioInline *) e_mail_part_subclass_new (
-			part, part_id->str, sizeof (EMailPartAudioInline),
-			(GFreeFunc) mail_part_audio_inline_free);
+		part, part_id->str, sizeof (EMailPartAudioInline),
+		(GFreeFunc) mail_part_audio_inline_free);
 	mail_part->parent.mime_type = camel_content_type_simple (
-			camel_mime_part_get_content_type (part));
+		camel_mime_part_get_content_type (part));
 	mail_part->parent.is_attachment = TRUE;
 	g_string_truncate (part_id, len);
 
-	return e_mail_parser_wrap_as_attachment (
-			parser, part, g_slist_append (NULL, mail_part),
-			part_id, cancellable);
+	g_queue_push_tail (&work_queue, mail_part);
+	n_parts_added++;
+
+	e_mail_parser_wrap_as_attachment (
+		parser, part, part_id, &work_queue);
+
+	e_queue_transfer (&work_queue, out_mail_queue);
+
+	return TRUE;
 }
 
 static guint32

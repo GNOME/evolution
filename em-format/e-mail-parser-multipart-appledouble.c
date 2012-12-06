@@ -52,26 +52,23 @@ G_DEFINE_TYPE_EXTENDED (
 
 static const gchar * parser_mime_types[] = { "multipart/appledouble", NULL };
 
-static GSList *
+static gboolean
 empe_mp_appledouble_parse (EMailParserExtension *extension,
                            EMailParser *parser,
                            CamelMimePart *part,
                            GString *part_id,
-                           GCancellable *cancellable)
+                           GCancellable *cancellable,
+                           GQueue *out_mail_parts)
 {
 	CamelMultipart *mp;
-	GSList *parts;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	mp = (CamelMultipart *) camel_medium_get_content ((CamelMedium *) part);
 
 	if (!CAMEL_IS_MULTIPART (mp)) {
-		parts = e_mail_parser_parse_part_as (
-				parser, part, part_id,
-				"application/vnd.evolution.source",
-				cancellable);
+		e_mail_parser_parse_part_as (
+			parser, part, part_id,
+			"application/vnd.evolution.source",
+			cancellable, out_mail_parts);
 	} else {
 		CamelMimePart *mime_part;
 		mime_part = camel_multipart_get_part (mp, 1);
@@ -82,21 +79,21 @@ empe_mp_appledouble_parse (EMailParserExtension *extension,
 			len = part_id->len;
 			g_string_append_printf (part_id, ".appledouble.1");
 
-			parts = e_mail_parser_parse_part (
-					parser, mime_part, part_id, cancellable);
+			e_mail_parser_parse_part (
+				parser, mime_part, part_id,
+				cancellable, out_mail_parts);
 
 			g_string_truncate (part_id, len);
 
 		} else {
-
-			parts = e_mail_parser_parse_part_as (
-					parser, part, part_id,
-					"application/vnd.evolution.source",
-					cancellable);
+			e_mail_parser_parse_part_as (
+				parser, part, part_id,
+				"application/vnd.evolution.source",
+				cancellable, out_mail_parts);
 		}
 	}
 
-	return parts;
+	return TRUE;
 }
 
 static const gchar **

@@ -65,28 +65,25 @@ static const gchar * parser_mime_types[] = { "application/xpkcs7mime",
 					    "application/x-pkcs7-signature",
 					    NULL };
 
-static GSList *
+static gboolean
 empe_app_smime_parse (EMailParserExtension *extension,
                        EMailParser *parser,
                        CamelMimePart *part,
                        GString *part_id,
-                       GCancellable *cancellable)
+                       GCancellable *cancellable,
+                       GQueue *out_mail_parts)
 {
 	CamelCipherContext *context;
 	CamelMimePart *opart;
 	CamelCipherValidity *valid;
 	GError *local_error = NULL;
-	GSList *parts, *iter;
 	CamelContentType *ct;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	ct = camel_mime_part_get_content_type (part);
 	if (camel_content_type_is (ct, "application", "pkcs7-signature") ||
 	    camel_content_type_is (ct, "application", "xpkcs7-signature") ||
 	    camel_content_type_is (ct, "application", "x-pkcs7-signature")) {
-		return g_slist_alloc ();
+		return TRUE;
 	}
 
 	context = camel_smime_context_new (e_mail_parser_get_session (parser));
@@ -99,58 +96,60 @@ empe_app_smime_parse (EMailParserExtension *extension,
 	e_mail_part_preserve_charset_in_content_type (part, opart);
 
 	if (local_error != NULL) {
-		parts = e_mail_parser_error (
-			parser, cancellable,
+		e_mail_parser_error (
+			parser, out_mail_parts,
 			_("Could not parse S/MIME message: %s"),
 			local_error->message);
 		g_error_free (local_error);
 
 	} else {
+		GQueue work_queue = G_QUEUE_INIT;
+		GList *head, *link;
 		gint len = part_id->len;
 
 		g_string_append (part_id, ".encrypted");
 
-		parts = e_mail_parser_parse_part (
-			parser, opart, part_id, cancellable);
+		e_mail_parser_parse_part (
+			parser, opart, part_id, cancellable, &work_queue);
 
 		g_string_truncate (part_id, len);
 
-		/* Update validity flags of all the involved subp-arts */
-		for (iter = parts; iter; iter = iter->next) {
+		head = g_queue_peek_head_link (&work_queue);
 
-			EMailPart *mail_part = iter->data;
-			if (!mail_part)
-				continue;
+		/* Update validity flags of all the involved subp-arts */
+		for (link = head; link != NULL; link = g_list_next (link)) {
+			EMailPart *mail_part = link->data;
 
 			e_mail_part_update_validity (
 				mail_part, valid,
 				E_MAIL_PART_VALIDITY_ENCRYPTED |
 				E_MAIL_PART_VALIDITY_SMIME);
-
 		}
 
-		/* Add a widget with details about the encryption, but only when
-		 * the encrypted isn't itself secured, in that case it has created
-		 * the button itself */
+		e_queue_transfer (&work_queue, out_mail_parts);
+
+		/* Add a widget with details about the encryption, but only
+		 * when the encrypted isn't itself secured, in that case it
+		 * has created the button itself. */
 		if (!e_mail_part_is_secured (opart)) {
-			GSList *button;
 			EMailPart *mail_part;
+
 			g_string_append (part_id, ".encrypted.button");
 
-			button = e_mail_parser_parse_part_as (
-					parser, part, part_id,
-					"application/vnd.evolution.widget.secure-button",
-					cancellable);
-			if (button && button->data) {
-				mail_part = button->data;
+			e_mail_parser_parse_part_as (
+				parser, part, part_id,
+				"application/vnd.evolution.widget.secure-button",
+				cancellable, &work_queue);
 
+			mail_part = g_queue_peek_head (&work_queue);
+
+			if (mail_part != NULL)
 				e_mail_part_update_validity (
 					mail_part, valid,
 					E_MAIL_PART_VALIDITY_ENCRYPTED |
 					E_MAIL_PART_VALIDITY_SMIME);
-			}
 
-			parts = g_slist_concat (parts, button);
+			e_queue_transfer (&work_queue, out_mail_parts);
 
 			g_string_truncate (part_id, len);
 		}
@@ -161,7 +160,7 @@ empe_app_smime_parse (EMailParserExtension *extension,
 	g_object_unref (opart);
 	g_object_unref (context);
 
-	return parts;
+	return TRUE;
 }
 
 static guint32

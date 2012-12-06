@@ -68,11 +68,12 @@ typedef enum {
 struct _EMailParserExtensionInterface {
 	EMailExtensionInterface	parent_interface;
 
-	GSList *	(*parse)	(EMailParserExtension *extension,
+	gboolean	(*parse)	(EMailParserExtension *extension,
 					 EMailParser *parser,
 					 CamelMimePart *mime_part,
 					 GString *part_id,
-					 GCancellable *cancellable);
+					 GCancellable *cancellable,
+					 GQueue *out_mail_parts);
 
 	guint32		(*get_flags)	(EMailParserExtension *extension);
 
@@ -80,11 +81,12 @@ struct _EMailParserExtensionInterface {
 
 GType		e_mail_parser_extension_get_type
 						(void) G_GNUC_CONST;
-GSList *	e_mail_parser_extension_parse	(EMailParserExtension *extension,
+gboolean	e_mail_parser_extension_parse	(EMailParserExtension *extension,
 						 EMailParser *parser,
 						 CamelMimePart *mime_part,
 						 GString *part_id,
-						 GCancellable *cancellable);
+						 GCancellable *cancellable,
+						 GQueue *out_mail_parts);
 guint32		e_mail_parser_extension_get_flags
 						(EMailParserExtension *extension);
 

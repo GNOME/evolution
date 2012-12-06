@@ -58,12 +58,13 @@ G_DEFINE_TYPE_EXTENDED (
 static const gchar * parser_mime_types[] = { "application/x-inlinepgp-encrypted",
 					    NULL };
 
-static GSList *
+static gboolean
 empe_inlinepgp_encrypted_parse (EMailParserExtension *extension,
                                 EMailParser *parser,
                                 CamelMimePart *part,
                                 GString *part_id,
-                                GCancellable *cancellable)
+                                GCancellable *cancellable,
+                                GQueue *out_mail_parts)
 {
 	CamelCipherContext *cipher;
 	CamelCipherValidity *valid;
@@ -71,11 +72,9 @@ empe_inlinepgp_encrypted_parse (EMailParserExtension *extension,
 	CamelDataWrapper *dw;
 	gchar *mime_type;
 	gint len;
+	GQueue work_queue = G_QUEUE_INIT;
+	GList *head, *link;
 	GError *local_error = NULL;
-	GSList *parts, *iter;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	cipher = camel_gpg_context_new (e_mail_parser_get_session (parser));
 
@@ -86,22 +85,21 @@ empe_inlinepgp_encrypted_parse (EMailParserExtension *extension,
 		cipher, part, opart, cancellable, &local_error);
 
 	if (local_error != NULL) {
-		parts = e_mail_parser_error (
-			parser, cancellable,
+		e_mail_parser_error (
+			parser, out_mail_parts,
 			_("Could not parse PGP message: %s"),
 			local_error->message);
 		g_error_free (local_error);
 
-		parts = g_slist_concat (
-			parts,
-			e_mail_parser_parse_part_as (parser,
-				part, part_id,
-				"application/vnd.evolution.source",
-				cancellable));
+		e_mail_parser_parse_part_as (parser,
+			part, part_id,
+			"application/vnd.evolution.source",
+			cancellable, out_mail_parts);
 
 		g_object_unref (cipher);
 		g_object_unref (opart);
-		return parts;
+
+		return TRUE;
 	}
 
 	dw = camel_medium_get_content ((CamelMedium *) opart);
@@ -122,18 +120,17 @@ empe_inlinepgp_encrypted_parse (EMailParserExtension *extension,
 	len = part_id->len;
 	g_string_append (part_id, ".inlinepgp_encrypted");
 
-	parts = e_mail_parser_parse_part_as (
-			parser, opart, part_id,
-			camel_data_wrapper_get_mime_type (dw), cancellable);
+	e_mail_parser_parse_part_as (
+		parser, opart, part_id,
+		camel_data_wrapper_get_mime_type (dw),
+		cancellable, &work_queue);
 
 	g_string_truncate (part_id, len);
 
-	for (iter = parts; iter; iter = iter->next) {
-		EMailPart *mail_part;
+	head = g_queue_peek_head_link (&work_queue);
 
-		mail_part = iter->data;
-		if (!mail_part)
-			continue;
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPart *mail_part = link->data;
 
 		e_mail_part_update_validity (
 			mail_part, valid,
@@ -141,28 +138,29 @@ empe_inlinepgp_encrypted_parse (EMailParserExtension *extension,
 			E_MAIL_PART_VALIDITY_PGP);
 	}
 
+	e_queue_transfer (&work_queue, out_mail_parts);
+
 	/* Add a widget with details about the encryption, but only when
 	 * the encrypted isn't itself secured, in that case it has created
 	 * the button itself */
 	if (!e_mail_part_is_secured (opart)) {
-		GSList *button;
 		EMailPart *mail_part;
+
 		g_string_append (part_id, ".inlinepgp_encrypted.button");
 
-		button = e_mail_parser_parse_part_as (
-				parser, part, part_id,
-				"application/vnd.evolution.widget.secure-button",
-				cancellable);
-		if (button && button->data) {
-			mail_part = button->data;
+		e_mail_parser_parse_part_as (
+			parser, part, part_id,
+			"application/vnd.evolution.widget.secure-button",
+			cancellable, &work_queue);
 
+		mail_part = g_queue_peek_head (&work_queue);
+		if (mail_part != NULL)
 			e_mail_part_update_validity (
 				mail_part, valid,
 				E_MAIL_PART_VALIDITY_ENCRYPTED |
 				E_MAIL_PART_VALIDITY_PGP);
-		}
 
-		parts = g_slist_concat (parts, button);
+		e_queue_transfer (&work_queue, out_mail_parts);
 
 		g_string_truncate (part_id, len);
 	}
@@ -172,7 +170,7 @@ empe_inlinepgp_encrypted_parse (EMailParserExtension *extension,
 	g_object_unref (opart);
 	g_object_unref (cipher);
 
-	return parts;
+	return TRUE;
 }
 
 static const gchar **

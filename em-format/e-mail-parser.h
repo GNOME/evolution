@@ -80,28 +80,29 @@ EMailPartList *	e_mail_parser_parse_finish	(EMailParser *parser,
 						 GAsyncResult *result,
 						 GError **error);
 
-GSList *	e_mail_parser_parse_part	(EMailParser *parser,
+gboolean	e_mail_parser_parse_part	(EMailParser *parser,
 						 CamelMimePart *part,
 						 GString *part_id,
-						 GCancellable *cancellable);
+						 GCancellable *cancellable,
+						 GQueue *out_mail_parts);
 
-GSList *	e_mail_parser_parse_part_as	(EMailParser *parser,
+gboolean	e_mail_parser_parse_part_as	(EMailParser *parser,
 						 CamelMimePart *part,
 						 GString *part_id,
 						 const gchar *mime_type,
-						 GCancellable *cancellable);
-
-GSList *	e_mail_parser_error		(EMailParser *parser,
 						 GCancellable *cancellable,
+						 GQueue *out_mail_parts);
+
+void		e_mail_parser_error		(EMailParser *parser,
+						 GQueue *out_mail_parts,
 						 const gchar *format,
 						 ...) G_GNUC_PRINTF (3, 4);
 
-GSList *	e_mail_parser_wrap_as_attachment
+void		e_mail_parser_wrap_as_attachment
 						(EMailParser *parser,
 						 CamelMimePart *part,
-						 GSList *parts,
 						 GString *part_id,
-						 GCancellable *cancellable);
+						 GQueue *parts_queue);
 
 CamelSession *	e_mail_parser_get_session	(EMailParser *parser);
 

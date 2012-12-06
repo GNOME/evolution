@@ -114,12 +114,13 @@ sanitize_filename (const gchar *filename)
 	}
 }
 
-static GSList *
+static gboolean
 empe_tnef_attachment_parse (EMailParserExtension *extension,
                             EMailParser *parser,
                             CamelMimePart *part,
                             GString *part_id,
-                            GCancellable *cancellable)
+                            GCancellable *cancellable,
+                            GQueue *out_mail_parts)
 {
 	gchar *tmpdir, *name;
 	CamelStream *out;
@@ -130,30 +131,30 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 	CamelDataWrapper *content;
 	gint len;
 	TNEFStruct tnef;
-	GSList *parts;
+	GQueue work_queue = G_QUEUE_INIT;
 
 	tmpdir = e_mkdtemp ("tnef-attachment-XXXXXX");
 	if (tmpdir == NULL)
-		return NULL;
+		return FALSE;
 
 	name = g_build_filename (tmpdir, ".evo-attachment.tnef", NULL);
 
 	out = camel_stream_fs_new_with_name (name, O_RDWR | O_CREAT, 0666, NULL);
 	if (out == NULL) {
 	    g_free (name);
-	    return NULL;
+	    return FALSE;
 	}
 	content = camel_medium_get_content ((CamelMedium *) part);
 	if (content == NULL) {
 		g_free (name);
 		g_object_unref (out);
-		return NULL;
+		return FALSE;
 	}
 	if (camel_data_wrapper_decode_to_stream_sync (content, out, NULL, NULL) == -1
 	    || camel_stream_close (out, NULL, NULL) == -1) {
 		g_object_unref (out);
 		g_free (name);
-		return NULL;
+		return FALSE;
 	}
 	g_object_unref (out);
 
@@ -172,7 +173,7 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 	if (dir == NULL) {
 	    g_object_unref (out);
 	    g_free (name);
-	    return NULL;
+	    return FALSE;
 	}
 
 	mainpart = camel_mime_part_new ();
@@ -226,7 +227,6 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 	len = part_id->len;
 	g_string_append_printf (part_id, ".tnef");
 
-	parts = NULL;
 	if (camel_multipart_get_number (mp) > 0) {
 
 		CamelMimePart *part = camel_mime_part_new ();
@@ -235,18 +235,20 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 			(CamelMedium *) part,
 			CAMEL_DATA_WRAPPER (mp));
 
-		parts = e_mail_parser_parse_part_as (
-			parser, part, part_id,
-			"multipart/mixed", cancellable);
+		e_mail_parser_parse_part_as (
+			parser, part, part_id, "multipart/mixed",
+			cancellable, &work_queue);
 
 		g_object_unref (part);
 	}
 
 	g_string_truncate (part_id, len);
 
-	if (parts)
-		parts = e_mail_parser_wrap_as_attachment (
-			parser, part, parts, part_id, cancellable);
+	if (!g_queue_is_empty (&work_queue))
+		e_mail_parser_wrap_as_attachment (
+			parser, part, part_id, &work_queue);
+
+	e_queue_transfer (&work_queue, out_mail_parts);
 
 	g_object_unref (mp);
 	g_object_unref (mainpart);
@@ -254,7 +256,7 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 	g_free (name);
 	g_free (tmpdir);
 
-	return parts;
+	return TRUE;
 }
 
 static const gchar **

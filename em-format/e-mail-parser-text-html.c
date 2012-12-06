@@ -57,21 +57,20 @@ G_DEFINE_TYPE_EXTENDED (
 
 static const gchar *parser_mime_types[] = { "text/html", NULL };
 
-static GSList *
+static gboolean
 empe_text_html_parse (EMailParserExtension *extension,
                       EMailParser *parser,
                       CamelMimePart *part,
                       GString *part_id,
-                      GCancellable *cancellable)
+                      GCancellable *cancellable,
+                      GQueue *out_mail_parts)
 {
-	EMailPart *empart;
+	GQueue work_queue = G_QUEUE_INIT;
+	EMailPart *mail_part;
 	const gchar *location;
 	gchar *cid = NULL;
 	const gchar *base;
 	gint len;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	cid = NULL;
 	base = camel_medium_get_header (CAMEL_MEDIUM (part), "content-base");
@@ -93,18 +92,20 @@ empe_text_html_parse (EMailParserExtension *extension,
 	len = part_id->len;
 	g_string_append (part_id, ".text_html");
 
-	empart = e_mail_part_new (part, part_id->str);
-	empart->mime_type = g_strdup ("text/html");
-	empart->cid = cid;
+	mail_part = e_mail_part_new (part, part_id->str);
+	mail_part->mime_type = g_strdup ("text/html");
+	mail_part->cid = cid;
 	g_string_truncate (part_id, len);
 
-	if (e_mail_part_is_attachment (part)) {
-		return e_mail_parser_wrap_as_attachment (
-				parser, part, g_slist_append (NULL, empart),
-				part_id, cancellable);
-	}
+	g_queue_push_head (&work_queue, mail_part);
 
-	return g_slist_append (NULL, empart);
+	if (e_mail_part_is_attachment (part))
+		e_mail_parser_wrap_as_attachment (
+			parser, part, part_id, &work_queue);
+
+	e_queue_transfer (&work_queue, out_mail_parts);
+
+	return TRUE;
 }
 
 static const gchar **

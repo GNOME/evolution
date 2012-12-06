@@ -67,12 +67,13 @@ G_DEFINE_TYPE_EXTENDED (
 
 static const gchar *parser_mime_types[] = { "application/vnd.evolution.widget.attachment-bar", NULL };
 
-static GSList *
+static gboolean
 empe_attachment_bar_parse (EMailParserExtension *extension,
                            EMailParser *parser,
                            CamelMimePart *part,
                            GString *part_id,
-                           GCancellable *cancellable)
+                           GCancellable *cancellable,
+                           GQueue *out_mail_parts)
 {
 	EMailPartAttachmentBar *empab;
 	gint len;
@@ -80,13 +81,15 @@ empe_attachment_bar_parse (EMailParserExtension *extension,
 	len = part_id->len;
 	g_string_append (part_id, ".attachment-bar");
 	empab = (EMailPartAttachmentBar *) e_mail_part_subclass_new (
-			part, part_id->str, sizeof (EMailPartAttachmentBar),
-			(GFreeFunc) mail_part_attachment_bar_free);
+		part, part_id->str, sizeof (EMailPartAttachmentBar),
+		(GFreeFunc) mail_part_attachment_bar_free);
 	empab->parent.mime_type = g_strdup ("application/vnd.evolution.widget.attachment-bar");
 	empab->store = E_ATTACHMENT_STORE (e_attachment_store_new ());
 	g_string_truncate (part_id, len);
 
-	return g_slist_append (NULL, empab);
+	g_queue_push_tail (out_mail_parts, empab);
+
+	return TRUE;
 }
 
 static const gchar **

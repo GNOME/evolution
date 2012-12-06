@@ -54,12 +54,13 @@ G_DEFINE_TYPE_EXTENDED (
 
 static const gchar *parser_mime_types[] = { "application/vnd.evolution.widget.secure-button", NULL };
 
-static GSList *
+static gboolean
 empe_secure_button_parse (EMailParserExtension *extension,
                           EMailParser *parser,
                           CamelMimePart *part,
                           GString *part_id,
-                          GCancellable *cancellable)
+                          GCancellable *cancellable,
+                          GQueue *out_mail_parts)
 {
 	EMailPart *mail_part;
 	gint len;
@@ -70,7 +71,9 @@ empe_secure_button_parse (EMailParserExtension *extension,
 	mail_part->mime_type = g_strdup ("application/vnd.evolution.widget.secure-button");
 	g_string_truncate (part_id, len);
 
-	return g_slist_append (NULL, mail_part);
+	g_queue_push_tail (out_mail_parts, mail_part);
+
+	return TRUE;
 }
 
 static const gchar **

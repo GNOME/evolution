@@ -99,18 +99,19 @@ enum {
 	PROP_SHOW_SUPPRESSED
 };
 
-static GSList *
+static void
 make_part_attachment (EMailParser *parser,
                       CamelMimePart *part,
                       GString *part_id,
                       gboolean force_html,
-                      GCancellable *cancellable)
+                      GCancellable *cancellable,
+                      GQueue *out_mail_parts)
 {
-	GSList *parts;
-
 	if (camel_content_type_is (camel_mime_part_get_content_type (part), "text", "html")) {
+		GQueue work_queue = G_QUEUE_INIT;
 		EMailPart *mail_part;
 		gint len;
+
 		/* always show HTML as attachments and not inline */
 		camel_mime_part_set_disposition (part, "attachment");
 
@@ -126,9 +127,12 @@ make_part_attachment (EMailParser *parser,
 		mail_part->mime_type = g_strdup ("text/html");
 		g_string_truncate (part_id, len);
 
-		parts = e_mail_parser_wrap_as_attachment (
-				parser, part, g_slist_append (NULL, mail_part),
-				part_id, cancellable);
+		g_queue_push_tail (&work_queue, mail_part);
+
+		e_mail_parser_wrap_as_attachment (
+			parser, part, part_id, &work_queue);
+
+		e_queue_transfer (&work_queue, out_mail_parts);
 
 	} else if (force_html && CAMEL_IS_MIME_MESSAGE (part)) {
 		/* message was asked to be formatted as text/html;
@@ -137,52 +141,51 @@ make_part_attachment (EMailParser *parser,
 		CamelDataWrapper *content;
 
 		content = camel_medium_get_content (CAMEL_MEDIUM (part));
-		g_return_val_if_fail (content != NULL, NULL);
+		g_return_if_fail (content != NULL);
 
 		new_part = camel_mime_part_new ();
 		camel_medium_set_content (CAMEL_MEDIUM (new_part), content);
 
-		parts = e_mail_parser_parse_part (
-				parser, new_part, part_id, cancellable);
+		e_mail_parser_parse_part (
+			parser, new_part, part_id,
+			cancellable, out_mail_parts);
 
 		g_object_unref (new_part);
 	} else {
-		parts = e_mail_parser_parse_part (
-				parser, part, part_id, cancellable);
+		e_mail_parser_parse_part (
+			parser, part, part_id, cancellable, out_mail_parts);
 	}
-
-	return parts;
 }
 
 static void
-hide_parts (GSList *parts)
+hide_parts (GQueue *work_queue)
 {
-	GSList *iter;
+	GList *head, *link;
 
-	for (iter = parts; iter; iter = g_slist_next (iter)) {
-		EMailPart *p = iter->data;
+	head = g_queue_peek_head_link (work_queue);
 
-		if (!p)
-			continue;
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPart *mail_part = link->data;
 
-		p->is_hidden = TRUE;
+		mail_part->is_hidden = TRUE;
 	}
 }
 
-static GSList *
+static gboolean
 empe_prefer_plain_parse (EMailParserExtension *extension,
                          EMailParser *parser,
                          CamelMimePart *part,
                          GString *part_id,
-                         GCancellable *cancellable)
+                         GCancellable *cancellable,
+                         GQueue *out_mail_parts)
 {
 	EMailParserPreferPlain *emp_pp;
 	CamelMultipart *mp;
 	gint i, nparts, partidlen;
-	GSList *parts;
 	CamelContentType *ct;
 	gboolean has_calendar = FALSE;
-	GSList *plain_text_parts = NULL;
+	GQueue plain_text_parts = G_QUEUE_INIT;
+	GQueue work_queue = G_QUEUE_INIT;
 
 	emp_pp = (EMailParserPreferPlain *) extension;
 
@@ -194,36 +197,35 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 		/* Prevent recursion, fall back to next (real text/html) parser */
 		if (strstr (part_id->str, ".alternative-prefer-plain.") != NULL)
-			return NULL;
+			return FALSE;
 
 		/* Not enforcing text/plain, so use real parser */
 		if (emp_pp->mode != ONLY_PLAIN)
-			return NULL;
+			return FALSE;
 
 		/* Enforcing text/plain, but got only HTML part, so add it
 		 * as attachment, to not show empty message preview, which
 		 * is confusing. */
-		return make_part_attachment (
-			parser, part, part_id,
-			FALSE, cancellable);
+		make_part_attachment (
+			parser, part, part_id, FALSE,
+			cancellable, out_mail_parts);
+
+		return TRUE;
 	}
 
-	parts = NULL;
 	partidlen = part_id->len;
 
 	mp = (CamelMultipart *) camel_medium_get_content (CAMEL_MEDIUM (part));
 
-	if (!CAMEL_IS_MULTIPART (mp)) {
+	if (!CAMEL_IS_MULTIPART (mp))
 		return e_mail_parser_parse_part_as (
 			parser, part, part_id,
-			"application/vnd.evolution.source", cancellable);
-	}
+			"application/vnd.evolution.source",
+			cancellable, out_mail_parts);
 
 	nparts = camel_multipart_get_number (mp);
 	for (i = 0; i < nparts; i++) {
-
 		CamelMimePart *sp;
-		GSList *sparts = NULL;
 
 		sp = camel_multipart_get_part (mp, i);
 		ct = camel_mime_part_get_content_type (sp);
@@ -232,61 +234,52 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 		g_string_append_printf (part_id, ".alternative-prefer-plain.%d", i);
 
 		if (camel_content_type_is (ct, "text", "html")) {
-
 			if (emp_pp->mode != PREFER_HTML) {
 				if (emp_pp->show_suppressed) {
-					sparts = make_part_attachment (
-						parser, sp, part_id,
-						FALSE, cancellable);
+					make_part_attachment (
+						parser, sp, part_id, FALSE,
+						cancellable, &work_queue);
 				}
 			} else {
-				sparts = e_mail_parser_parse_part (
-					parser, sp, part_id, cancellable);
+				e_mail_parser_parse_part (
+					parser, sp, part_id,
+					cancellable, &work_queue);
 			}
 
-			parts = g_slist_concat (parts, sparts);
-			continue;
-		}
-
-		if (camel_content_type_is (ct, "text", "plain")) {
-
-			sparts = e_mail_parser_parse_part (
-					parser, sp, part_id, cancellable);
-
-			plain_text_parts = g_slist_concat (plain_text_parts, sparts);
-			continue;
-		}
+		} else if (camel_content_type_is (ct, "text", "plain")) {
+			e_mail_parser_parse_part (
+				parser, sp, part_id,
+				cancellable, &plain_text_parts);
 
 		/* Always show calendar part! */
-		if (camel_content_type_is (ct, "text", "calendar") ||
+		} else if (camel_content_type_is (ct, "text", "calendar") ||
 		    camel_content_type_is (ct, "text", "x-calendar")) {
 
-			/* Hide everything else, displaying native calendar part only */
-			hide_parts (parts);
+			/* Hide everything else, displaying
+			 * native calendar part only. */
+			hide_parts (&work_queue);
 
-			sparts = e_mail_parser_parse_part (
-					parser, sp, part_id, cancellable);
+			e_mail_parser_parse_part (
+				parser, sp, part_id, cancellable, &work_queue);
 
-			parts = g_slist_concat (parts, sparts);
 			has_calendar = TRUE;
-			continue;
-		}
 
 		/* Multiparts can represent a text/html with inline images or so */
-		if (camel_content_type_is (ct, "multipart", "*")) {
-			GSList *iter;
+		} else if (camel_content_type_is (ct, "multipart", "*")) {
+			GQueue inner_queue = G_QUEUE_INIT;
+			GList *head, *link;
 			gboolean has_html = FALSE;
 
-			sparts = e_mail_parser_parse_part (
-					parser, sp, part_id, cancellable);
+			e_mail_parser_parse_part (
+				parser, sp, part_id, cancellable, &inner_queue);
+
+			head = g_queue_peek_head_link (&inner_queue);
 
 			/* Check whether the multipart contains a text/html part */
-			for (iter = sparts; iter; iter = g_slist_next (iter)) {
-				EMailPart *p = iter->data;
-				if (!p)
-					continue;
+			for (link = head; link != NULL; link = g_list_next (link)) {
+				EMailPart *mail_part = link->data;
 
-				if (strstr (p->id, ".text_html") != NULL) {
+				if (strstr (mail_part->id, ".text_html") != NULL) {
 					has_html = TRUE;
 					break;
 				}
@@ -294,41 +287,41 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 			if (has_html && (emp_pp->mode != PREFER_HTML)) {
 				if (emp_pp->show_suppressed) {
-					sparts =  e_mail_parser_wrap_as_attachment (
-							parser, sp, sparts, part_id,
-							cancellable);
+					e_mail_parser_wrap_as_attachment (
+						parser, sp, part_id,
+						&inner_queue);
 				} else {
-					hide_parts (sparts);
+					hide_parts (&inner_queue);
 				}
 			}
 
-			parts = g_slist_concat (parts, sparts);
-			continue;
-		}
+			e_queue_transfer (&inner_queue, &work_queue);
 
 		/* Parse everything else as an attachment */
-		sparts = e_mail_parser_parse_part (
-				parser, sp, part_id, cancellable);
-		parts = g_slist_concat (
-				parts,
-				e_mail_parser_wrap_as_attachment (
-					parser, sp, sparts, part_id,
-					cancellable));
+		} else {
+			GQueue inner_queue = G_QUEUE_INIT;
+
+			e_mail_parser_parse_part (
+				parser, sp, part_id,
+				cancellable, &inner_queue);
+			e_mail_parser_wrap_as_attachment (
+				parser, sp, part_id, &inner_queue);
+
+			e_queue_transfer (&inner_queue, &work_queue);
+		}
 	}
 
 	/* Don't hide the plain text if there's nothing else to display */
-	if (has_calendar || (nparts > 1 && emp_pp->mode == PREFER_HTML)) {
-		hide_parts (plain_text_parts);
-	}
+	if (has_calendar || (nparts > 1 && emp_pp->mode == PREFER_HTML))
+		hide_parts (&plain_text_parts);
 
-	if (plain_text_parts) {
-		/* plain_text parts should be always first */
-		parts = g_slist_concat (plain_text_parts, parts);
-	}
+	/* plain_text parts should be always first */
+	e_queue_transfer (&plain_text_parts, out_mail_parts);
+	e_queue_transfer (&work_queue, out_mail_parts);
 
 	g_string_truncate (part_id, partidlen);
 
-	return parts;
+	return TRUE;
 }
 
 static const gchar **

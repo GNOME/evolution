@@ -65,32 +65,28 @@ related_display_part_is_attachment (CamelMimePart *part)
 	return display_part && e_mail_part_is_attachment (display_part);
 }
 
-static GSList *
+static gboolean
 empe_mp_alternative_parse (EMailParserExtension *extension,
                            EMailParser *parser,
                            CamelMimePart *part,
                            GString *part_id,
-                           GCancellable *cancellable)
+                           GCancellable *cancellable,
+                           GQueue *out_mail_parts)
 {
 	CamelMultipart *mp;
 	gint i, nparts, bestid = 0;
 	CamelMimePart *best = NULL;
-	GSList *parts;
 	EMailExtensionRegistry *reg;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	reg = e_mail_parser_get_extension_registry (parser);
 
 	mp = (CamelMultipart *) camel_medium_get_content ((CamelMedium *) part);
 
-	if (!CAMEL_IS_MULTIPART (mp)) {
+	if (!CAMEL_IS_MULTIPART (mp))
 		return e_mail_parser_parse_part_as (
-				parser, part, part_id,
-				"application/vnd.evolution.source",
-				cancellable);
-	}
+			parser, part, part_id,
+			"application/vnd.evolution.source",
+			cancellable, out_mail_parts);
 
 	/* as per rfc, find the last part we know how to display */
 	nparts = camel_multipart_get_number (mp);
@@ -103,7 +99,7 @@ empe_mp_alternative_parse (EMailParserExtension *extension,
 		gsize content_size;
 
 		if (g_cancellable_is_cancelled (cancellable))
-			return NULL;
+			return TRUE;
 
 		/* is it correct to use the passed in *part here? */
 		mpart = camel_multipart_get_part (mp, i);
@@ -148,16 +144,18 @@ empe_mp_alternative_parse (EMailParserExtension *extension,
 
 		g_string_append_printf (part_id, ".alternative.%d", bestid);
 
-		parts = e_mail_parser_parse_part (
-			parser, best, part_id, cancellable);
+		e_mail_parser_parse_part (
+			parser, best, part_id,
+			cancellable, out_mail_parts);
 
 		g_string_truncate (part_id, len);
 	} else {
-		parts = e_mail_parser_parse_part_as (
-			parser, part, part_id, "multipart/mixed", cancellable);
+		e_mail_parser_parse_part_as (
+			parser, part, part_id, "multipart/mixed",
+			cancellable, out_mail_parts);
 	}
 
-	return parts;
+	return TRUE;
 }
 
 static const gchar **

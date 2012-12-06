@@ -62,14 +62,14 @@ static const gchar * parser_mime_types[] = { "message/rfc822",
 					    "message/news",
 					    NULL };
 
-static GSList *
+static gboolean
 empe_msg_rfc822_parse (EMailParserExtension *extension,
                        EMailParser *eparser,
                        CamelMimePart *part,
                        GString *part_id,
-                       GCancellable *cancellable)
+                       GCancellable *cancellable,
+                       GQueue *out_mail_parts)
 {
-	GSList *parts = NULL;
 	EMailPart *mail_part;
 	gint len;
 	CamelMimePart *message;
@@ -81,13 +81,14 @@ empe_msg_rfc822_parse (EMailParserExtension *extension,
 	len = part_id->len;
 	g_string_append (part_id, ".rfc822");
 
-        /* Create an empty PURI that will represent start of the RFC message */
+	/* Create an empty PURI that will represent start of the RFC message */
 	mail_part = e_mail_part_new (part, part_id->str);
 	mail_part->mime_type = g_strdup ("message/rfc822");
-	parts = g_slist_append (NULL, mail_part);
+	g_queue_push_tail (out_mail_parts, mail_part);
 
-	/* Sometime the _actual_ message is encapsulated in another CamelMimePart,
-	 * sometimes the CamelMimePart actually represents the RFC822 message */
+	/* Sometime the actual message is encapsulated in another
+	 * CamelMimePart, sometimes the CamelMimePart itself represents
+	 * the RFC822 message. */
 	ct = camel_mime_part_get_content_type (part);
 	if (camel_content_type_is (ct, "message", "rfc822")) {
 		new_stream = camel_stream_mem_new ();
@@ -110,28 +111,29 @@ empe_msg_rfc822_parse (EMailParserExtension *extension,
 		message = g_object_ref (part);
 	}
 
-	parts = g_slist_concat (parts, e_mail_parser_parse_part_as (
-						eparser, message, part_id,
-						"application/vnd.evolution.message",
-						cancellable));
+	e_mail_parser_parse_part_as (
+		eparser, message, part_id,
+		"application/vnd.evolution.message",
+		cancellable, out_mail_parts);
 
 	g_object_unref (message);
 
-        /* Add another generic EMailPart that represents end of the RFC message.
-         * The em_format_write() function will skip all parts between the ".rfc822"
-         * part and ".rfc822.end" part as they will be rendered in an <iframe> */
+	/* Add another generic EMailPart that represents end of the RFC
+	 * message.  The em_format_write() function will skip all parts
+	 * between the ".rfc822" part and ".rfc822.end" part as they will
+	 * be rendered in an <iframe>. */
 	g_string_append (part_id, ".end");
 	mail_part = e_mail_part_new (message, part_id->str);
 	mail_part->is_hidden = TRUE;
-	parts = g_slist_append (parts, mail_part);
+	g_queue_push_tail (out_mail_parts, mail_part);
+
 	g_string_truncate (part_id, len);
 
-	if (e_mail_part_is_attachment (message)) {
-		return e_mail_parser_wrap_as_attachment (
-			eparser, message, parts, part_id, cancellable);
-	}
+	if (e_mail_part_is_attachment (message))
+		e_mail_parser_wrap_as_attachment (
+			eparser, message, part_id, out_mail_parts);
 
-	return parts;
+	return TRUE;
 }
 
 static guint32

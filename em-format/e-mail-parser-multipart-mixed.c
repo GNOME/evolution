@@ -59,79 +59,73 @@ static const gchar * parser_mime_types[] = { "multipart/mixed",
 					    "multipart/*",
 					    NULL };
 
-static GSList *
+static gboolean
 empe_mp_mixed_parse (EMailParserExtension *extension,
                      EMailParser *parser,
                      CamelMimePart *part,
                      GString *part_id,
-                     GCancellable *cancellable)
+                     GCancellable *cancellable,
+                     GQueue *out_mail_parts)
 {
 	CamelMultipart *mp;
 	gint i, nparts, len;
-	GSList *parts;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	mp = (CamelMultipart *) camel_medium_get_content ((CamelMedium *) part);
 
-	if (!CAMEL_IS_MULTIPART (mp)) {
-		parts = e_mail_parser_parse_part_as (
-				parser, part, part_id,
-				"application/vnd.evolution.source", cancellable);
-		return parts;
-	}
+	if (!CAMEL_IS_MULTIPART (mp))
+		return e_mail_parser_parse_part_as (
+			parser, part, part_id,
+			"application/vnd.evolution.source",
+			cancellable, out_mail_parts);
 
 	len = part_id->len;
-	parts = NULL;
 	nparts = camel_multipart_get_number (mp);
 	for (i = 0; i < nparts; i++) {
+		GQueue work_queue = G_QUEUE_INIT;
+		EMailPart *mail_part;
 		CamelMimePart *subpart;
 		CamelContentType *ct;
-		GSList *new_parts;
 
 		subpart = camel_multipart_get_part (mp, i);
 
 		g_string_append_printf (part_id, ".mixed.%d", i);
 
-		new_parts = e_mail_parser_parse_part (
-				parser, subpart, part_id, cancellable);
+		e_mail_parser_parse_part (
+			parser, subpart, part_id, cancellable, &work_queue);
+
+		mail_part = g_queue_peek_head (&work_queue);
 
 		ct = camel_mime_part_get_content_type (subpart);
 
-		/* Display parts with CID as attachments (unless they already are
-		 * attachments) */
-		if (new_parts && new_parts->data &&
-			(E_MAIL_PART (new_parts->data)->cid != NULL) &&
-			!E_MAIL_PART (new_parts->data)->is_attachment) {
+		/* Display parts with CID as attachments
+		 * (unless they already are attachments). */
+		if (mail_part != NULL &&
+			mail_part->cid != NULL &&
+			!mail_part->is_attachment) {
 
-			parts = g_slist_concat (
-				parts,
-				e_mail_parser_wrap_as_attachment (
-					parser, subpart, new_parts,
-					part_id, cancellable));
+			e_mail_parser_wrap_as_attachment (
+				parser, subpart, part_id, &work_queue);
 
 			/* Force messages to be expandable */
-		} else if (!new_parts ||
+		} else if (mail_part == NULL ||
 		    (camel_content_type_is (ct, "message", "rfc822") &&
-		     new_parts && new_parts->data &&
-		     !E_MAIL_PART (new_parts->data)->is_attachment)) {
+		     mail_part != NULL && !mail_part->is_attachment)) {
 
-			parts = g_slist_concat (
-				parts,
-				e_mail_parser_wrap_as_attachment (
-					parser, subpart, new_parts,
-					part_id, cancellable));
-			if (parts && parts->data)
-				E_MAIL_PART (parts->data)->force_inline = TRUE;
-		} else {
-			parts = g_slist_concat (parts, new_parts);
+			e_mail_parser_wrap_as_attachment (
+				parser, subpart, part_id, &work_queue);
+
+			mail_part = g_queue_peek_head (&work_queue);
+
+			if (mail_part != NULL)
+				mail_part->force_inline = TRUE;
 		}
+
+		e_queue_transfer (&work_queue, out_mail_parts);
 
 		g_string_truncate (part_id, len);
 	}
 
-	return parts;
+	return TRUE;
 }
 
 static guint32

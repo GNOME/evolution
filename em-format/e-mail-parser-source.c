@@ -54,18 +54,16 @@ G_DEFINE_TYPE_EXTENDED (
 
 static const gchar *parser_mime_types[] = { "application/vnd.evolution.source", NULL };
 
-static GSList *
+static gboolean
 empe_source_parse (EMailParserExtension *extension,
                    EMailParser *parser,
                    CamelMimePart *part,
                    GString *part_id,
-                   GCancellable *cancellable)
+                   GCancellable *cancellable,
+                   GQueue *out_mail_parts)
 {
 	EMailPart *mail_part;
 	gint len;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return NULL;
 
 	len = part_id->len;
 	g_string_append (part_id, ".source");
@@ -74,7 +72,9 @@ empe_source_parse (EMailParserExtension *extension,
 	mail_part->mime_type = g_strdup ("application/vnd.evolution.source");
 	g_string_truncate (part_id, len);
 
-	return g_slist_append (NULL, mail_part);
+	g_queue_push_tail (out_mail_parts, mail_part);
+
+	return TRUE;
 }
 
 static const gchar **
