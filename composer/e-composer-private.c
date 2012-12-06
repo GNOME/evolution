@@ -238,15 +238,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	container = e_attachment_paned_get_content_area (
-		E_ATTACHMENT_PANED (priv->attachment_paned));
-
-	widget = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
@@ -254,9 +245,9 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_widget_set_size_request (widget, -1, GALLERY_INITIAL_HEIGHT);
-	gtk_paned_pack1 (GTK_PANED (container), widget, FALSE, FALSE);
 	priv->gallery_scrolled_window = g_object_ref (widget);
-	gtk_widget_show (widget);
+	container = priv->gallery_scrolled_window;
+	e_editor_window_pack_inside (E_EDITOR_WINDOW (composer), container);
 
 	/* Construct the picture gallery. */
 

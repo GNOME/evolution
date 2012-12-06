@@ -33,7 +33,7 @@
 G_DEFINE_TYPE (
 	EEditor,
 	e_editor,
-	GTK_TYPE_BOX);
+	GTK_TYPE_GRID);
 
 /**
  * EEditor:
@@ -586,14 +586,16 @@ editor_constructed (GObject *object)
 
 	/* Construct main window widgets. */
 	widget = e_editor_get_managed_widget (editor, "/edit-toolbar");
+	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
-	gtk_box_pack_start (GTK_BOX (editor), widget, FALSE, FALSE, 0);
+	gtk_grid_attach (GTK_GRID (editor), widget, 0, 0, 1, 1);
 	priv->edit_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = e_editor_get_managed_widget (editor, "/html-toolbar");
+	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
-	gtk_box_pack_start (GTK_BOX (editor), widget, FALSE, FALSE, 0);
+	gtk_grid_attach (GTK_GRID (editor), widget, 0, 1, 1, 1);
 	priv->html_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -603,7 +605,9 @@ editor_constructed (GObject *object)
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_box_pack_start (GTK_BOX (editor), widget, TRUE, TRUE, 0);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_widget_set_vexpand (widget, TRUE);
+	gtk_grid_attach (GTK_GRID (editor), widget, 0, 2, 1, 1);
 	priv->scrolled_window = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -800,6 +804,7 @@ e_editor_init (EEditor *editor)
 	g_free (filename);
 
 	editor_actions_init (editor);
+	priv->editor_layout_row = 2;
 }
 
 /**
@@ -812,9 +817,7 @@ e_editor_init (EEditor *editor)
 GtkWidget *
 e_editor_new (void)
 {
-	return g_object_new (E_TYPE_EDITOR,
-		"orientation", GTK_ORIENTATION_VERTICAL,
-		NULL);
+	return g_object_new (E_TYPE_EDITOR, NULL);
 }
 
 /**
@@ -966,6 +969,25 @@ e_editor_set_filename (EEditor *editor,
 	editor->priv->filename = g_strdup (filename);
 
 	g_object_notify (G_OBJECT (editor), "filename");
+}
+
+/**
+ * e_editor_pack_above:
+ * @editor: an #EEditor
+ * @child: a #GtkWidget
+ *
+ * Inserts @child right between the toolbars and the editor widget itself.
+ */
+void
+e_editor_pack_above (EEditor* editor,
+		     GtkWidget* child)
+{
+	g_return_if_fail (E_IS_EDITOR (editor));
+	g_return_if_fail (GTK_IS_WIDGET (child));
+
+	gtk_grid_insert_row (GTK_GRID (editor), editor->priv->editor_layout_row);
+	gtk_grid_attach (GTK_GRID (editor), child, 0, editor->priv->editor_layout_row, 1, 1);
+	editor->priv->editor_layout_row++;
 }
 
 /**

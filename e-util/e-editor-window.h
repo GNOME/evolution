@@ -72,6 +72,9 @@ EEditor *	e_editor_window_get_editor	(EEditorWindow *window);
 void		e_editor_window_pack_above	(EEditorWindow *window,
 						 GtkWidget *child);
 
+void		e_editor_window_pack_inside	(EEditorWindow *window,
+						 GtkWidget *child);
+
 void		e_editor_window_pack_below	(EEditorWindow *window,
 						 GtkWidget *child);
 
