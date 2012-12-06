@@ -87,6 +87,11 @@ typedef enum {
 	E_EDITOR_SELECTION_ALIGNMENT_RIGHT
 } EEditorSelectionAlignment;
 
+typedef enum {
+	E_EDITOR_SELECTION_GRANULARITY_CHARACTER,
+	E_EDITOR_SELECTION_GRANULARITY_WORD
+} EEditorSelectionGranularity;
+
 struct _EEditorSelection {
 	GObject parent;
 
@@ -208,6 +213,13 @@ void			e_editor_selection_wrap_lines	(EEditorSelection *selection);
 
 void			e_editor_selection_save		(EEditorSelection *selection);
 void			e_editor_selection_restore	(EEditorSelection *selection);
+
+void			e_editor_selection_move		(EEditorSelection *selection,
+							 gboolean forward,
+							 EEditorSelectionGranularity granularity);
+void			e_editor_selection_extend	(EEditorSelection *selection,
+							 gboolean forward,
+							 EEditorSelectionGranularity granularity);
 
 G_END_DECLS
 
