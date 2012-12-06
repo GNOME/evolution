@@ -129,6 +129,9 @@ editor_replace_dialog_replace_all_cb (EEditorReplaceDialog *dialog)
 	while (jump (dialog)) {
 		e_editor_selection_replace (selection, replacement);
 		i++;
+		
+		/* Jump behind the word */
+		e_editor_selection_move (selection, TRUE, E_EDITOR_SELECTION_GRANULARITY_WORD);
 	}
 
 	result = g_strdup_printf (_("%d occurences replaced"), i);

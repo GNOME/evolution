@@ -827,16 +827,12 @@ void
 e_editor_selection_replace (EEditorSelection *selection,
 			    const gchar *new_string)
 {
-	WebKitDOMDocumentFragment *frag;
-
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	frag = webkit_dom_range_create_contextual_fragment (
-			selection->priv->range, new_string, NULL);
-
-	webkit_dom_range_delete_contents (selection->priv->range, NULL);
-	webkit_dom_range_insert_node (
-		selection->priv->range, WEBKIT_DOM_NODE (frag), NULL);
+	e_editor_widget_exec_command (
+		E_EDITOR_WIDGET (selection->priv->webview),
+		E_EDITOR_WIDGET_COMMAND_INSERT_TEXT,
+		new_string);
 }
 
 /**
@@ -2180,4 +2176,69 @@ e_editor_selection_restore (EEditorSelection* selection)
 	webkit_dom_node_remove_child (
 	      webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (marker)),
 	      WEBKIT_DOM_NODE (marker), NULL);
+}
+
+
+static void
+editor_selection_modify (EEditorSelection *selection,
+			 const gchar *alter,
+			 gboolean forward,
+			 EEditorSelectionGranularity granularity)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *dom_selection;
+	const gchar *granularity_str;
+
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+
+	document = webkit_web_view_get_dom_document (selection->priv->webview);
+	window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (window);
+
+	switch (granularity) {
+		case E_EDITOR_SELECTION_GRANULARITY_CHARACTER:
+			granularity_str = "character";
+			break;
+		case E_EDITOR_SELECTION_GRANULARITY_WORD:
+			granularity_str = "word";
+			break;
+	}
+
+	webkit_dom_dom_selection_modify (
+		dom_selection, alter,
+		(forward ? "forward" : "backward"),
+		granularity_str);
+}
+
+/**
+ * e_editor_selection_extend:
+ * @selection: an #EEditorSelection
+ * @forward: whether to extend selection forward or backward
+ * @granularity: granularity of the extension
+ *
+ * Extends current selection in given direction by given granularity.
+ */
+void
+e_editor_selection_extend (EEditorSelection* selection,
+			   gboolean forward,
+			   EEditorSelectionGranularity granularity)
+{
+	editor_selection_modify (selection, "extend", forward, granularity);
+}
+
+/**
+ * e_editor_selection_move:
+ * @selection: an #EEditorSelection
+ * @forward: whether to move the selection forward or backward
+ * @granularity: granularity of the movement
+ *
+ * Moves current selection in given direction by given granularity
+ */
+void
+e_editor_selection_move (EEditorSelection* selection,
+			 gboolean forward,
+			 EEditorSelectionGranularity granularity)
+{
+	editor_selection_modify (selection, "move", forward, granularity);
 }
