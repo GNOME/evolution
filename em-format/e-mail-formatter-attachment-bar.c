@@ -51,7 +51,10 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
 
-static const gchar *formatter_mime_types[] = { "application/vnd.evolution.widget.attachment-bar", NULL };
+static const gchar *formatter_mime_types[] = {
+	"application/vnd.evolution.widget.attachment-bar",
+	NULL
+};
 
 static gboolean
 emfe_attachment_bar_format (EMailFormatterExtension *extension,
@@ -122,12 +125,6 @@ emfe_attachment_bar_get_description (EMailFormatterExtension *extension)
 	return NULL;
 }
 
-static const gchar **
-emfe_attachment_bar_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_attachment_bar_class_init (EMailFormatterAttachmentBarClass *class)
 {
@@ -145,7 +142,7 @@ e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInte
 static void
 e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfe_attachment_bar_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

@@ -35,10 +35,6 @@
 
 #include <string.h>
 
-static const gchar * formatter_mime_types[] = { "message/rfc822",
-					       "application/vnd.evolution.rfc822.end",
-					       NULL };
-
 typedef struct _EMailFormatterQuoteMessageRFC822 {
 	GObject parent;
 } EMailFormatterQuoteMessageRFC822;
@@ -61,6 +57,12 @@ G_DEFINE_TYPE_EXTENDED (
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_quote_formatter_extension_interface_init));
+
+static const gchar *formatter_mime_types[] = {
+	"message/rfc822",
+	"application/vnd.evolution.rfc822.end",
+	NULL
+};
 
 static gboolean
 emfqe_message_rfc822_format (EMailFormatterExtension *extension,
@@ -161,12 +163,6 @@ emfqe_message_rfc822_get_description (EMailFormatterExtension *extension)
 	return NULL;
 }
 
-static const gchar **
-emfqe_message_rfc822_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_quote_message_rfc822_class_init (EMailFormatterQuoteMessageRFC822Class *class)
 {
@@ -183,7 +179,7 @@ e_mail_formatter_quote_formatter_extension_interface_init (EMailFormatterExtensi
 static void
 e_mail_formatter_quote_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfqe_message_rfc822_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

@@ -33,8 +33,6 @@
 
 #include <string.h>
 
-static const gchar *formatter_mime_types[] = { "text/html", NULL };
-
 typedef struct _EMailFormatterQuoteTextHTML {
 	GObject parent;
 } EMailFormatterQuoteTextHTML;
@@ -59,6 +57,11 @@ G_DEFINE_TYPE_EXTENDED (
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_quote_formatter_extension_interface_init));
+
+static const gchar *formatter_mime_types[] = {
+	"text/html",
+	NULL
+};
 
 static gboolean
 emqfe_text_html_format (EMailFormatterExtension *extension,
@@ -110,12 +113,6 @@ emqfe_text_html_get_description (EMailFormatterExtension *extension)
 	return _("Format part as HTML");
 }
 
-static const gchar **
-emqfe_text_html_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_quote_text_html_class_init (EMailFormatterQuoteTextHTMLClass *class)
 {
@@ -132,7 +129,7 @@ e_mail_formatter_quote_formatter_extension_interface_init (EMailFormatterExtensi
 static void
 e_mail_formatter_quote_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emqfe_text_html_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

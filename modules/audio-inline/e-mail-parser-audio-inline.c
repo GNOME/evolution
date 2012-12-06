@@ -62,17 +62,29 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar * parser_mime_types[] = { "audio/ac3", "audio/x-ac3",
-					    "audio/basic", "audio/mpeg",
-					    "audio/x-mpeg", "audio/mpeg3",
-					    "audio/x-mpeg3", "audio/mp3",
-					    "audio/x-mp3", "audio/mp4",
-					    "audio/flac", "audio/x-flac",
-					    "audio/mod", "audio/x-mod",
-					    "audio/x-wav", "audio/microsoft-wav",
-					    "audio/x-wma", "audio/x-ms-wma",
-					    "application/ogg", "application/x-ogg",
-					    NULL };
+static const gchar *parser_mime_types[] = {
+	"audio/ac3",
+	"audio/x-ac3",
+	"audio/basic",
+	"audio/mpeg",
+	"audio/x-mpeg",
+	"audio/mpeg3",
+	"audio/x-mpeg3",
+	"audio/mp3",
+	"audio/x-mp3",
+	"audio/mp4",
+	"audio/flac",
+	"audio/x-flac",
+	"audio/mod",
+	"audio/x-mod",
+	"audio/x-wav",
+	"audio/microsoft-wav",
+	"audio/x-wma",
+	"audio/x-ms-wma",
+	"application/ogg",
+	"application/x-ogg",
+	NULL
+};
 
 static void
 mail_part_audio_inline_free (EMailPart *mail_part)
@@ -144,12 +156,6 @@ empe_audio_inline_get_flags (EMailParserExtension *extension)
 	return E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION;
 }
 
-static const gchar **
-empe_mime_types (EMailExtension *extension)
-{
-	return parser_mime_types;
-}
-
 void
 e_mail_parser_audio_inline_type_register (GTypeModule *type_module)
 {
@@ -159,7 +165,7 @@ e_mail_parser_audio_inline_type_register (GTypeModule *type_module)
 static void
 e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = empe_mime_types;
+	iface->mime_types = parser_mime_types;
 }
 
 static void

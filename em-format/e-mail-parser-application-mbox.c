@@ -57,8 +57,10 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar * parser_mime_types[] = { "application/mbox",
-					    NULL };
+static const gchar *parser_mime_types[] = {
+	"application/mbox",
+	NULL
+};
 
 static gboolean
 empe_app_mbox_parse (EMailParserExtension *extension,
@@ -180,12 +182,6 @@ empe_app_mbox_get_flags (EMailParserExtension *extension)
 		E_MAIL_PARSER_EXTENSION_COMPOUND_TYPE;
 }
 
-static const gchar **
-empe_app_mbox_mime_types (EMailExtension *extension)
-{
-	return parser_mime_types;
-}
-
 static void
 e_mail_parser_application_mbox_class_init (EMailParserApplicationMBoxClass *class)
 {
@@ -201,7 +197,7 @@ e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *in
 static void
 e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *interface)
 {
-	interface->mime_types = empe_app_mbox_mime_types;
+	interface->mime_types = parser_mime_types;
 }
 
 static void

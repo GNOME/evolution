@@ -77,9 +77,11 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar * parser_mime_types[] = { "application/vnd.ms-tnef",
-					    "application/ms-tnefl",
-					    NULL };
+static const gchar *parser_mime_types[] = {
+	"application/vnd.ms-tnef",
+	"application/ms-tnefl",
+	NULL
+};
 
 gint verbose = 0;
 gint saveRTF = 0;
@@ -259,12 +261,6 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 	return TRUE;
 }
 
-static const gchar **
-empe_mime_types (EMailExtension *extension)
-{
-	return parser_mime_types;
-}
-
 void
 e_mail_parser_tnef_attachment_type_register (GTypeModule *type_module)
 {
@@ -274,7 +270,7 @@ e_mail_parser_tnef_attachment_type_register (GTypeModule *type_module)
 static void
 e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = empe_mime_types;
+	iface->mime_types = parser_mime_types;
 }
 
 static void

@@ -57,8 +57,10 @@ G_DEFINE_TYPE_EXTENDED (
 		e_mail_formatter_quote_formatter_extension_interface_init)
 )
 
-static const gchar *formatter_mime_types[] = { "application/vnd.evolution.attachment",
-					       NULL };
+static const gchar *formatter_mime_types[] = {
+	"application/vnd.evolution.attachment",
+	NULL
+};
 
 static gboolean
 emfqe_attachment_format (EMailFormatterExtension *extension,
@@ -133,12 +135,6 @@ emfqe_attachment_get_description (EMailFormatterExtension *extension)
 	return NULL;
 }
 
-static const gchar **
-emfqe_attachment_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_quote_attachment_class_init (EMailFormatterQuoteAttachmentClass *class)
 {
@@ -155,7 +151,7 @@ e_mail_formatter_quote_formatter_extension_interface_init (EMailFormatterExtensi
 static void
 e_mail_formatter_quote_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfqe_attachment_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

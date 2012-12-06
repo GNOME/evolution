@@ -30,9 +30,11 @@
 #include <glib/gi18n-lib.h>
 #include <camel/camel.h>
 
-static const gchar *formatter_mime_types[] = { "text/enriched",
-					       "text/richtext",
-					       NULL };
+static const gchar *formatter_mime_types[] = {
+	"text/enriched",
+	"text/richtext",
+	NULL
+};
 
 typedef struct _EMailFormatterTextEnriched {
 	GObject parent;
@@ -122,12 +124,6 @@ emfe_text_enriched_get_description (EMailFormatterExtension *extension)
 	return _("Display part as enriched text");
 }
 
-static const gchar **
-emfe_text_enriched_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_text_enriched_class_init (EMailFormatterTextEnrichedClass *class)
 {
@@ -144,7 +140,7 @@ e_mail_formatter_formatter_extension_interace_init (EMailFormatterExtensionInter
 static void
 e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfe_text_enriched_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

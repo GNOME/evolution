@@ -39,29 +39,3 @@ e_mail_extension_default_init (EMailExtensionInterface *iface)
  * of extensions.
  */
 
-/**
- * e_mail_extension_get_mime_types:
- * @extension: an #EMailExtension
- *
- * A virtual function reimplemented in all mail extensions that returns a
- * @NULL-terminated array of mime types that the particular extension is able
- * to process.
- *
- * The mime-types can be either full (like text/plain), or with common subtype,
- * e.g. text/ *. User should try to find the best mathing mime-type handler and
- * use the latter type only as a fallback.
- *
- * Return value: a @NULL-terminated array or @NULL
- */
-const gchar **
-e_mail_extension_get_mime_types (EMailExtension *extension)
-{
-	EMailExtensionInterface *interface;
-
-	g_return_val_if_fail (E_IS_MAIL_EXTENSION (extension), NULL);
-
-	interface = E_MAIL_EXTENSION_GET_INTERFACE (extension);
-	g_return_val_if_fail (interface->mime_types != NULL, NULL);
-
-	return interface->mime_types (extension);
-}

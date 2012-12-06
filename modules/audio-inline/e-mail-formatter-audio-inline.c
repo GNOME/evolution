@@ -62,18 +62,30 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
 
-static const gchar * formatter_mime_types[] = { "application/vnd.evolution.widget.audio-inline",
-					       "audio/ac3", "audio/x-ac3",
-					       "audio/basic", "audio/mpeg",
-					       "audio/x-mpeg", "audio/mpeg3",
-					       "audio/x-mpeg3", "audio/mp3",
-					       "audio/x-mp3", "audio/mp4",
-					       "audio/flac", "audio/x-flac",
-					       "audio/mod", "audio/x-mod",
-					       "audio/x-wav", "audio/microsoft-wav",
-					       "audio/x-wma", "audio/x-ms-wma",
-					       "application/ogg", "application/x-ogg",
-					       NULL };
+static const gchar *formatter_mime_types[] = {
+	"application/vnd.evolution.widget.audio-inline",
+	"audio/ac3",
+	"audio/x-ac3",
+	"audio/basic",
+	"audio/mpeg",
+	"audio/x-mpeg",
+	"audio/mpeg3",
+	"audio/x-mpeg3",
+	"audio/mp3",
+	"audio/x-mp3",
+	"audio/mp4",
+	"audio/flac",
+	"audio/x-flac",
+	"audio/mod",
+	"audio/x-mod",
+	"audio/x-wav",
+	"audio/microsoft-wav",
+	"audio/x-wma",
+	"audio/x-ms-wma",
+	"application/ogg",
+	"application/x-ogg",
+	NULL
+};
 
 static void
 pause_clicked (GtkWidget *button,
@@ -316,12 +328,6 @@ emfe_audio_inline_get_description (EMailFormatterExtension *extension)
 	return _("Play the attachment in embedded audio player");
 }
 
-static const gchar **
-emfe_audio_inline_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_audio_inline_constructed (GObject *object)
 {
@@ -359,7 +365,7 @@ e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInte
 static void
 e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfe_audio_inline_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

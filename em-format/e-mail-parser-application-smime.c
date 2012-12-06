@@ -57,13 +57,15 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar * parser_mime_types[] = { "application/xpkcs7mime",
-					    "application/x-pkcs7-mime",
-					    "application/pkcs7-mime",
-					    "application/pkcs7-signature",
-					    "application/xpkcs7-signature",
-					    "application/x-pkcs7-signature",
-					    NULL };
+static const gchar *parser_mime_types[] = {
+	"application/xpkcs7mime",
+	"application/x-pkcs7-mime",
+	"application/pkcs7-mime",
+	"application/pkcs7-signature",
+	"application/xpkcs7-signature",
+	"application/x-pkcs7-signature",
+	NULL
+};
 
 static gboolean
 empe_app_smime_parse (EMailParserExtension *extension,
@@ -169,12 +171,6 @@ empe_app_smime_get_flags (EMailParserExtension *extension)
 	return E_MAIL_PARSER_EXTENSION_INLINE;
 }
 
-static const gchar **
-empe_application_smime_mime_types (EMailExtension *extension)
-{
-	return parser_mime_types;
-}
-
 static void
 e_mail_parser_application_smime_class_init (EMailParserApplicationSMIMEClass *class)
 {
@@ -190,7 +186,7 @@ e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *in
 static void
 e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *interface)
 {
-	interface->mime_types = empe_application_smime_mime_types;
+	interface->mime_types = parser_mime_types;
 }
 
 static void

@@ -50,7 +50,10 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar * parser_mime_types[] = { "multipart/appledouble", NULL };
+static const gchar *parser_mime_types[] = {
+	"multipart/appledouble",
+	NULL
+};
 
 static gboolean
 empe_mp_appledouble_parse (EMailParserExtension *extension,
@@ -96,12 +99,6 @@ empe_mp_appledouble_parse (EMailParserExtension *extension,
 	return TRUE;
 }
 
-static const gchar **
-empe_mp_appledouble_mime_types (EMailExtension *extension)
-{
-	return parser_mime_types;
-}
-
 static void
 e_mail_parser_multipart_apple_double_class_init (EMailParserMultipartAppleDoubleClass *class)
 {
@@ -116,7 +113,7 @@ e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *if
 static void
 e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = empe_mp_appledouble_mime_types;
+	iface->mime_types = parser_mime_types;
 }
 
 static void

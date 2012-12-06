@@ -58,9 +58,11 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
 
-static const gchar * formatter_mime_types[] = { "text/calendar",
-						"application/ics",
-						NULL };
+static const gchar *formatter_mime_types[] = {
+	"text/calendar",
+	"application/ics",
+	NULL
+};
 
 static gboolean
 emfe_itip_format (EMailFormatterExtension *extension,
@@ -151,12 +153,6 @@ emfe_itip_get_description (EMailFormatterExtension *extension)
 	return _("Display part as an invitation");
 }
 
-static const gchar **
-emfe_itip_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_itip_constructed (GObject *object)
 {
@@ -206,7 +202,7 @@ e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInte
 static void
 e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfe_itip_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

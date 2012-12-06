@@ -45,7 +45,10 @@ typedef struct _EMailFormatterHeadersClass {
 	GObjectClass parent_class;
 } EMailFormatterHeadersClass;
 
-static const gchar *formatter_mime_types[] = { "application/vnd.evolution.headers", NULL };
+static const gchar *formatter_mime_types[] = {
+	"application/vnd.evolution.headers",
+	NULL
+};
 
 static void e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface);
 static void e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface);
@@ -583,12 +586,6 @@ emfe_headers_get_description (EMailFormatterExtension *extension)
 	return NULL;
 }
 
-static const gchar **
-emfe_headers_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_headers_class_init (EMailFormatterHeadersClass *class)
 {
@@ -605,7 +602,7 @@ e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInte
 static void
 e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfe_headers_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

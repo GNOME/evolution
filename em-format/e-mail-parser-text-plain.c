@@ -55,7 +55,11 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar *parser_mime_types[] = { "text/plain", "text/*", NULL };
+static const gchar *parser_mime_types[] = {
+	"text/plain",
+	"text/*",
+	NULL
+};
 
 static gboolean
 part_is_empty (CamelMimePart *part)
@@ -234,12 +238,6 @@ empe_text_plain_parse (EMailParserExtension *extension,
 	return n_parts_added;
 }
 
-static const gchar **
-empe_text_plain_mime_types (EMailExtension *extension)
-{
-	return parser_mime_types;
-}
-
 static void
 e_mail_parser_text_plain_class_init (EMailParserTextPlainClass *class)
 {
@@ -254,7 +252,7 @@ e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *if
 static void
 e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = empe_text_plain_mime_types;
+	iface->mime_types = parser_mime_types;
 }
 
 static void

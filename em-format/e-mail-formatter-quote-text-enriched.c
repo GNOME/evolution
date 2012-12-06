@@ -30,10 +30,6 @@
 #include <glib/gi18n-lib.h>
 #include <camel/camel.h>
 
-static const gchar *formatter_mime_types[] = { "text/enriched",
-					       "text/richtext",
-					       NULL };
-
 typedef struct _EMailFormatterQuoteTextEnriched {
 	GObject parent;
 } EMailFormatterQuoteTextEnriched;
@@ -58,6 +54,12 @@ G_DEFINE_TYPE_EXTENDED (
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_quote_formatter_extension_interace_init));
+
+static const gchar *formatter_mime_types[] = {
+	"text/enriched",
+	"text/richtext",
+	NULL
+};
 
 static gboolean
 emqfe_text_enriched_format (EMailFormatterExtension *extension,
@@ -108,12 +110,6 @@ emqfe_text_enriched_get_description (EMailFormatterExtension *extension)
 	return _("Display part as enriched text");
 }
 
-static const gchar **
-emqfe_text_enriched_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_quote_text_enriched_class_init (EMailFormatterQuoteTextEnrichedClass *class)
 {
@@ -130,7 +126,7 @@ e_mail_formatter_quote_formatter_extension_interace_init (EMailFormatterExtensio
 static void
 e_mail_formatter_quote_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emqfe_text_enriched_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

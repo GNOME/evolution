@@ -52,7 +52,10 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
 
-static const gchar *formatter_mime_types[] = { "application/vnd.evolution.error", NULL };
+static const gchar *formatter_mime_types[] = {
+	"application/vnd.evolution.error",
+	NULL
+};
 
 static gboolean
 emfe_error_format (EMailFormatterExtension *extension,
@@ -128,12 +131,6 @@ emfe_error_get_description (EMailFormatterExtension *extension)
 	return NULL;
 }
 
-static const gchar **
-emfe_error_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_error_class_init (EMailFormatterErrorClass *class)
 {
@@ -150,7 +147,7 @@ e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInte
 static void
 e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfe_error_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

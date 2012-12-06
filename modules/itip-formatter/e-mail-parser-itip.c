@@ -68,9 +68,11 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar * parser_mime_types[] = { "text/calendar",
-					     "application/ics",
-					     NULL };
+static const gchar *parser_mime_types[] = {
+	"text/calendar",
+	"application/ics",
+	NULL
+};
 
 static void
 mail_part_itip_free (EMailPart *mail_part)
@@ -257,12 +259,6 @@ empe_itip_get_flags (EMailParserExtension *extension)
 	return E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION;
 }
 
-static const gchar **
-empe_mime_types (EMailExtension *extension)
-{
-	return parser_mime_types;
-}
-
 void
 e_mail_parser_itip_type_register (GTypeModule *type_module)
 {
@@ -272,7 +268,7 @@ e_mail_parser_itip_type_register (GTypeModule *type_module)
 static void
 e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = empe_mime_types;
+	iface->mime_types = parser_mime_types;
 }
 
 static void

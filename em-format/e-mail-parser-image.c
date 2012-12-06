@@ -53,23 +53,25 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar *parser_mime_types[] = { "image/gif",
-					    "image/jpeg",
-					    "image/png",
-					    "image/x-png",
-					    "image/x-bmp",
-					    "image/bmp",
-					    "image/svg",
-					    "image/x-cmu-raster",
-					    "image/x-ico",
-					    "image/x-portable-anymap",
-					    "image/x-portable-bitmap",
-					    "image/x-portable-graymap",
-					    "image/x-portable-pixmap",
-					    "image/x-xpixmap",
-					    "image/jpg",
-					    "image/pjpeg",
-					    NULL };
+static const gchar *parser_mime_types[] = {
+	"image/gif",
+	"image/jpeg",
+	"image/png",
+	"image/x-png",
+	"image/x-bmp",
+	"image/bmp",
+	"image/svg",
+	"image/x-cmu-raster",
+	"image/x-ico",
+	"image/x-portable-anymap",
+	"image/x-portable-bitmap",
+	"image/x-portable-graymap",
+	"image/x-portable-pixmap",
+	"image/x-xpixmap",
+	"image/jpg",
+	"image/pjpeg",
+	NULL
+};
 
 static gboolean
 empe_image_parse (EMailParserExtension *extension,
@@ -117,12 +119,6 @@ empe_image_parse (EMailParserExtension *extension,
 	return TRUE;
 }
 
-static const gchar **
-empe_image_mime_types (EMailExtension *extension)
-{
-	return parser_mime_types;
-}
-
 static void
 e_mail_parser_image_class_init (EMailParserImageClass *class)
 {
@@ -137,7 +133,7 @@ e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *if
 static void
 e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = empe_image_mime_types;
+	iface->mime_types = parser_mime_types;
 }
 
 static void

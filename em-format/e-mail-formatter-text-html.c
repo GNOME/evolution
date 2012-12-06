@@ -34,7 +34,10 @@
 #include <ctype.h>
 #include <string.h>
 
-static const gchar *formatter_mime_types[] = { "text/html", NULL };
+static const gchar *formatter_mime_types[] = {
+	"text/html",
+	NULL
+};
 
 typedef struct _EMailFormatterTextHTML {
 	GObject parent;
@@ -360,12 +363,6 @@ emfe_text_html_get_description (EMailFormatterExtension *extension)
 	return _("Format part as HTML");
 }
 
-static const gchar **
-emfe_text_html_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_text_html_class_init (EMailFormatterTextHTMLClass *class)
 {
@@ -382,7 +379,7 @@ e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInte
 static void
 e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfe_text_html_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

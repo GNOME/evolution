@@ -48,12 +48,13 @@ typedef struct _EMailExtensionInterface EMailExtensionInterface;
 struct _EMailExtensionInterface {
 	GTypeInterface parent_interface;
 
-	const gchar **		(*mime_types)		(EMailExtension *extension);
+	/* This is a NULL-terminated array of supported MIME types.
+	 * The MIME types can be exact (e.g. "text/plain") or use a
+	 * wildcard (e.g. "text/ *"). */
+	const gchar **mime_types;
 };
 
-GType		e_mail_extension_get_type		(void);
-
-const gchar **	e_mail_extension_get_mime_types		(EMailExtension *extension);
+GType		e_mail_extension_get_type		(void) G_GNUC_CONST;
 
 G_END_DECLS
 

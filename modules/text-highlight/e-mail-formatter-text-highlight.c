@@ -376,12 +376,6 @@ emfe_text_highlight_get_description (EMailFormatterExtension *extension)
 	return _("Syntax highlighting of mail parts");
 }
 
-static const gchar **
-emfe_text_highlight_mime_types (EMailExtension *extension)
-{
-	return get_mime_types ();
-}
-
 static void
 emfe_text_highlight_constructed (GObject *object)
 {
@@ -434,5 +428,5 @@ e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInte
 static void
 e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfe_text_highlight_mime_types;
+	iface->mime_types = get_mime_types ();
 }

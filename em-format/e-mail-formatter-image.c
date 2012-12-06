@@ -33,18 +33,26 @@
 #include <glib/gi18n-lib.h>
 #include <camel/camel.h>
 
-static const gchar *formatter_mime_types[] = { "image/gif", "image/jpeg",
-					       "image/png", "image/x-png",
-					       "image/x-bmp", "image/bmp",
-					       "image/svg", "image/x-cmu-raster",
-					       "image/x-ico",
-					       "image/x-portable-anymap",
-					       "image/x-portable-bitmap",
-					       "image/x-portable-graymap",
-					       "image/x-portable-pixmap",
-					       "image/x-xpixmap",
-					       "image/jpg", "image/pjpeg",
-					       "image/*", NULL };
+static const gchar *formatter_mime_types[] = {
+	"image/gif",
+	"image/jpeg",
+	"image/png",
+	"image/x-png",
+	"image/x-bmp",
+	"image/bmp",
+	"image/svg",
+	"image/x-cmu-raster",
+	"image/x-ico",
+	"image/x-portable-anymap",
+	"image/x-portable-bitmap",
+	"image/x-portable-graymap",
+	"image/x-portable-pixmap",
+	"image/x-xpixmap",
+	"image/jpg",
+	"image/pjpeg",
+	"image/*",
+	NULL
+};
 
 typedef struct _EMailFormatterImage {
 	GObject parent;
@@ -158,12 +166,6 @@ emfe_image_get_description (EMailFormatterExtension *extension)
 	return _("Display part as an image");
 }
 
-static const gchar **
-emfe_image_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_image_class_init (EMailFormatterImageClass *class)
 {
@@ -180,7 +182,7 @@ e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInte
 static void
 e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfe_image_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

@@ -54,7 +54,10 @@ G_DEFINE_TYPE_EXTENDED (
 		e_mail_formatter_formatter_extension_interface_init)
 )
 
-static const gchar *formatter_mime_types[] = { "application/vnd.evolution.source", NULL };
+static const gchar *formatter_mime_types[] = {
+	"application/vnd.evolution.source",
+	NULL
+};
 
 static gboolean
 emfe_source_format (EMailFormatterExtension *extension,
@@ -146,12 +149,6 @@ emfe_source_get_description (EMailFormatterExtension *extension)
 	return _("Display source of a MIME part");
 }
 
-static const gchar **
-emfe_source_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_source_class_init (EMailFormatterSourceClass *class)
 {
@@ -168,7 +165,7 @@ e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInte
 static void
 e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfe_source_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

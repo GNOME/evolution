@@ -31,11 +31,13 @@
 #include <glib/gi18n-lib.h>
 #include <camel/camel.h>
 
-static const gchar *formatter_mime_types[] = { "text/plain",
-					       "text/*",
-					       "message/*",
-					       "application/vnd.evolution.plaintext",
-					       NULL };
+static const gchar *formatter_mime_types[] = {
+	"text/plain",
+	"text/*",
+	"message/*",
+	"application/vnd.evolution.plaintext",
+	NULL
+};
 
 typedef struct _EMailFormatterTextPlain {
 	GObject parent;
@@ -196,12 +198,6 @@ emfe_text_plain_get_description (EMailFormatterExtension *extension)
 	return _("Format part as plain text");
 }
 
-static const gchar **
-emfe_text_plain_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_text_plain_class_init (EMailFormatterTextPlainClass *class)
 {
@@ -218,7 +214,7 @@ e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInte
 static void
 e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfe_text_plain_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void

@@ -55,8 +55,10 @@ G_DEFINE_TYPE_EXTENDED (
 		E_TYPE_MAIL_PARSER_EXTENSION,
 		e_mail_parser_parser_extension_interface_init));
 
-static const gchar * parser_mime_types[] = { "application/x-inlinepgp-signed",
-					    NULL };
+static const gchar *parser_mime_types[] = {
+	"application/x-inlinepgp-signed",
+	NULL
+};
 
 static gboolean
 empe_inlinepgp_signed_parse (EMailParserExtension *extension,
@@ -197,12 +199,6 @@ empe_inlinepgp_signed_parse (EMailParserExtension *extension,
 	return TRUE;
 }
 
-static const gchar **
-empe_inlinepgp_signed_mime_types (EMailExtension *extension)
-{
-	return parser_mime_types;
-}
-
 static void
 e_mail_parser_inline_pgp_signed_class_init (EMailParserInlinePGPSignedClass *class)
 {
@@ -217,7 +213,7 @@ e_mail_parser_parser_extension_interface_init (EMailParserExtensionInterface *if
 static void
 e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = empe_inlinepgp_signed_mime_types;
+	iface->mime_types = parser_mime_types;
 }
 
 static void

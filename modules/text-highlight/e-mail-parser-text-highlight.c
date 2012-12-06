@@ -98,12 +98,6 @@ empe_text_highlight_parse (EMailParserExtension *extension,
 	return TRUE;
 }
 
-static const gchar **
-empe_mime_types (EMailExtension *extension)
-{
-	return get_mime_types ();
-}
-
 void
 e_mail_parser_text_highlight_type_register (GTypeModule *type_module)
 {
@@ -113,7 +107,7 @@ e_mail_parser_text_highlight_type_register (GTypeModule *type_module)
 static void
 e_mail_parser_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = empe_mime_types;
+	iface->mime_types = get_mime_types ();
 }
 
 static void

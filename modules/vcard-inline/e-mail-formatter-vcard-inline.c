@@ -60,8 +60,12 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_FORMATTER_EXTENSION,
 		e_mail_formatter_formatter_extension_interface_init));
 
-static const gchar * formatter_mime_types[] = { "text/vcard", "text/x-vcard",
-					       "text/directory", NULL };
+static const gchar *formatter_mime_types[] = {
+	"text/vcard",
+	"text/x-vcard",
+	"text/directory",
+	NULL
+};
 
 static gboolean
 emfe_vcard_inline_format (EMailFormatterExtension *extension,
@@ -207,12 +211,6 @@ emfe_vcard_inline_get_description (EMailFormatterExtension *extension)
 	return _("Display the part as an addressbook contact");
 }
 
-static const gchar **
-emfe_vcard_inline_mime_types (EMailExtension *extension)
-{
-	return formatter_mime_types;
-}
-
 static void
 e_mail_formatter_vcard_inline_constructed (GObject *object)
 {
@@ -249,7 +247,7 @@ e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInte
 static void
 e_mail_formatter_mail_extension_interface_init (EMailExtensionInterface *iface)
 {
-	iface->mime_types = emfe_vcard_inline_mime_types;
+	iface->mime_types = formatter_mime_types;
 }
 
 static void
