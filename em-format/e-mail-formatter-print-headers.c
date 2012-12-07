@@ -24,8 +24,7 @@
 
 #include <glib/gi18n-lib.h>
 
-#include <em-format/e-mail-formatter-extension.h>
-#include <em-format/e-mail-formatter.h>
+#include <em-format/e-mail-formatter-print.h>
 #include <em-format/e-mail-formatter-utils.h>
 #include <em-format/e-mail-inline-filter.h>
 #include <libemail-engine/e-mail-utils.h>
@@ -41,7 +40,7 @@ typedef EMailFormatterExtensionClass EMailFormatterPrintHeadersClass;
 G_DEFINE_TYPE (
 	EMailFormatterPrintHeaders,
 	e_mail_formatter_print_headers,
-	E_TYPE_MAIL_FORMATTER_EXTENSION)
+	E_TYPE_MAIL_FORMATTER_PRINT_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
 	"application/vnd.evolution.headers",

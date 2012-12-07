@@ -282,3 +282,20 @@ e_mail_formatter_print_get_type (void)
 	return type;
 }
 
+/* ------------------------------------------------------------------------- */
+
+G_DEFINE_ABSTRACT_TYPE (
+	EMailFormatterPrintExtension,
+	e_mail_formatter_print_extension,
+	E_TYPE_MAIL_FORMATTER_EXTENSION)
+
+static void
+e_mail_formatter_print_extension_class_init (EMailFormatterPrintExtensionClass *class)
+{
+}
+
+static void
+e_mail_formatter_print_extension_init (EMailFormatterPrintExtension *extension)
+{
+}
+

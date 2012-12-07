@@ -16,10 +16,11 @@
  *
  */
 
-#ifndef E_MAIL_FORMATTER_PRINT_H_
-#define E_MAIL_FORMATTER_PRINT_H_
+#ifndef E_MAIL_FORMATTER_PRINT_H
+#define E_MAIL_FORMATTER_PRINT_H
 
 #include <em-format/e-mail-formatter.h>
+#include <em-format/e-mail-formatter-extension.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_FORMATTER_PRINT \
@@ -54,10 +55,32 @@ struct _EMailFormatterPrintClass {
 	EMailFormatterClass parent_class;
 };
 
-GType		e_mail_formatter_print_get_type	(void);
-
-EMailFormatter *	e_mail_formatter_print_new	(void);
+GType		e_mail_formatter_print_get_type	(void) G_GNUC_CONST;
+EMailFormatter *
+		e_mail_formatter_print_new	(void);
 
 G_END_DECLS
 
-#endif /* E_MAIL_FORMATTER_PRINT_H_ */
+/* ------------------------------------------------------------------------- */
+
+/* Standard GObject macros */
+#define E_TYPE_MAIL_FORMATTER_PRINT_EXTENSION \
+	(e_mail_formatter_print_extension_get_type ())
+
+G_BEGIN_DECLS
+
+/**
+ * EMailFormatterPrintExtension:
+ *
+ * This is an abstract base type for formatter extensions which are
+ * intended only for use by #EMailFormatterPrint.
+ **/
+typedef EMailFormatterExtension EMailFormatterPrintExtension;
+typedef EMailFormatterExtensionClass EMailFormatterPrintExtensionClass;
+
+GType		e_mail_formatter_print_extension_get_type
+						(void) G_GNUC_CONST;
+
+G_END_DECLS
+
+#endif /* E_MAIL_FORMATTER_PRINT_H */
