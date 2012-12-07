@@ -139,28 +139,6 @@ e_mail_formatter_extension_get_widget (EMailFormatterExtension *extension,
 }
 
 /**
- * e_mail_formatter_extension_get_display_name:
- * @extension: an #EMailFormatterExtension
- *
- * A virtual function reimplemented in all formatter extensions. It returns a
- * short name of the extension that can be displayed in user class.
- *
- * Returns: A (localized) string with name of the extension
- */
-const gchar *
-e_mail_formatter_extension_get_display_name (EMailFormatterExtension *extension)
-{
-	EMailFormatterExtensionClass *class;
-
-	g_return_val_if_fail (E_IS_MAIL_FORMATTER_EXTENSION (extension), NULL);
-
-	class = E_MAIL_FORMATTER_EXTENSION_GET_CLASS (extension);
-	g_return_val_if_fail (class->get_display_name != NULL, NULL);
-
-	return class->get_display_name (extension);
-}
-
-/**
  * e_mail_formatter_extension_get_description:
  * @extension: an #EMailFormatterExtension
  *

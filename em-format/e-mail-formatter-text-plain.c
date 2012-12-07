@@ -172,12 +172,6 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 }
 
 static const gchar *
-emfe_text_plain_get_display_name (EMailFormatterExtension *extension)
-{
-	return _("Plain Text");
-}
-
-static const gchar *
 emfe_text_plain_get_description (EMailFormatterExtension *extension)
 {
 	return _("Format part as plain text");
@@ -186,9 +180,9 @@ emfe_text_plain_get_description (EMailFormatterExtension *extension)
 static void
 e_mail_formatter_text_plain_class_init (EMailFormatterExtensionClass *class)
 {
+	class->display_name = _("Plain Text");
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_text_plain_format;
-	class->get_display_name = emfe_text_plain_get_display_name;
 	class->get_description = emfe_text_plain_get_description;
 }
 

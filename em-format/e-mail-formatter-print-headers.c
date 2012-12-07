@@ -207,12 +207,6 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 }
 
 static const gchar *
-emfpe_headers_get_display_name (EMailFormatterExtension *extension)
-{
-	return NULL;
-}
-
-static const gchar *
 emfpe_headers_get_description (EMailFormatterExtension *extension)
 {
 	return NULL;
@@ -223,7 +217,6 @@ e_mail_formatter_print_headers_class_init (EMailFormatterExtensionClass *class)
 {
 	class->mime_types = formatter_mime_types;
 	class->format = emfpe_headers_format;
-	class->get_display_name = emfpe_headers_get_display_name;
 	class->get_description = emfpe_headers_get_description;
 }
 

@@ -105,12 +105,6 @@ emfe_error_format (EMailFormatterExtension *extension,
 }
 
 static const gchar *
-emfe_error_get_display_name (EMailFormatterExtension *extension)
-{
-	return NULL;
-}
-
-static const gchar *
 emfe_error_get_description (EMailFormatterExtension *extension)
 {
 	return NULL;
@@ -121,7 +115,6 @@ e_mail_formatter_error_class_init (EMailFormatterExtensionClass *class)
 {
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_error_format;
-	class->get_display_name = emfe_error_get_display_name;
 	class->get_description = emfe_error_get_description;
 }
 

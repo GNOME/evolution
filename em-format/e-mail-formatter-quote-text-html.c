@@ -85,12 +85,6 @@ emqfe_text_html_format (EMailFormatterExtension *extension,
 }
 
 static const gchar *
-emqfe_text_html_get_display_name (EMailFormatterExtension *extension)
-{
-	return _("HTML");
-}
-
-static const gchar *
 emqfe_text_html_get_description (EMailFormatterExtension *extension)
 {
 	return _("Format part as HTML");
@@ -99,9 +93,9 @@ emqfe_text_html_get_description (EMailFormatterExtension *extension)
 static void
 e_mail_formatter_quote_text_html_class_init (EMailFormatterExtensionClass *class)
 {
+	class->display_name = _("HTML");
 	class->mime_types = formatter_mime_types;
 	class->format = emqfe_text_html_format;
-	class->get_display_name = emqfe_text_html_get_display_name;
 	class->get_description = emqfe_text_html_get_description;
 }
 

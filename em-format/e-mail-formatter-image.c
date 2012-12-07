@@ -140,12 +140,6 @@ emfe_image_format (EMailFormatterExtension *extension,
 }
 
 static const gchar *
-emfe_image_get_display_name (EMailFormatterExtension *extension)
-{
-	return _("Regular Image");
-}
-
-static const gchar *
 emfe_image_get_description (EMailFormatterExtension *extension)
 {
 	return _("Display part as an image");
@@ -154,9 +148,9 @@ emfe_image_get_description (EMailFormatterExtension *extension)
 static void
 e_mail_formatter_image_class_init (EMailFormatterExtensionClass *class)
 {
+	class->display_name = _("Regular Image");
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_image_format;
-	class->get_display_name = emfe_image_get_display_name;
 	class->get_description = emfe_image_get_description;
 }
 

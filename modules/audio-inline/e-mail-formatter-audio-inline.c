@@ -312,12 +312,6 @@ emfe_audio_inline_get_widget (EMailFormatterExtension *extension,
 }
 
 static const gchar *
-emfe_audio_inline_get_display_name (EMailFormatterExtension *extension)
-{
-	return _("Audio Player");
-}
-
-static const gchar *
 emfe_audio_inline_get_description (EMailFormatterExtension *extension)
 {
 	return _("Play the attachment in embedded audio player");
@@ -326,10 +320,10 @@ emfe_audio_inline_get_description (EMailFormatterExtension *extension)
 static void
 e_mail_formatter_audio_inline_class_init (EMailFormatterExtensionClass *class)
 {
+	class->display_name = _("Audio Player");
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_audio_inline_format;
 	class->get_widget = emfe_audio_inline_get_widget;
-	class->get_display_name = emfe_audio_inline_get_display_name;
 	class->get_description = emfe_audio_inline_get_description;
 }
 

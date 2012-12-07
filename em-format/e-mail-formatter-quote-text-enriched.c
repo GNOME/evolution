@@ -82,12 +82,6 @@ emqfe_text_enriched_format (EMailFormatterExtension *extension,
 }
 
 static const gchar *
-emqfe_text_enriched_get_display_name (EMailFormatterExtension *extension)
-{
-	return _("Richtext");
-}
-
-static const gchar *
 emqfe_text_enriched_get_description (EMailFormatterExtension *extension)
 {
 	return _("Display part as enriched text");
@@ -96,9 +90,9 @@ emqfe_text_enriched_get_description (EMailFormatterExtension *extension)
 static void
 e_mail_formatter_quote_text_enriched_class_init (EMailFormatterExtensionClass *class)
 {
+	class->display_name = _("Richtext");
 	class->mime_types = formatter_mime_types;
 	class->format = emqfe_text_enriched_format;
-	class->get_display_name = emqfe_text_enriched_get_display_name;
 	class->get_description = emqfe_text_enriched_get_description;
 }
 

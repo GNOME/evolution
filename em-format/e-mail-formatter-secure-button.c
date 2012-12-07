@@ -460,12 +460,6 @@ emfe_secure_button_get_widget (EMailFormatterExtension *extension,
 }
 
 static const gchar *
-emfe_secure_button_get_display_name (EMailFormatterExtension *extension)
-{
-	return NULL;
-}
-
-static const gchar *
 emfe_secure_button_get_description (EMailFormatterExtension *extension)
 {
 	return NULL;
@@ -477,7 +471,6 @@ e_mail_formatter_secure_button_class_init (EMailFormatterExtensionClass *class)
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_secure_button_format;
 	class->get_widget = emfe_secure_button_get_widget;
-	class->get_display_name = emfe_secure_button_get_display_name;
 	class->get_description = emfe_secure_button_get_description;
 }
 

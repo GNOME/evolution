@@ -66,6 +66,9 @@ struct _EMailFormatterExtension {
 struct _EMailFormatterExtensionClass {
 	GObjectClass parent_class;
 
+	/* This is a short name for the extension (optional). */
+	const gchar *display_name;
+
 	/* This is a NULL-terminated array of supported MIME types.
 	 * The MIME types can be exact (e.g. "text/plain") or use a
 	 * wildcard (e.g. "text/ *"). */
@@ -81,8 +84,6 @@ struct _EMailFormatterExtensionClass {
 					 EMailPartList *context,
 					 EMailPart *part,
 					 GHashTable *params);
-	const gchar *	(*get_display_name)
-					(EMailFormatterExtension *extension);
 	const gchar *	(*get_description)
 					(EMailFormatterExtension *extension);
 
@@ -104,8 +105,6 @@ GtkWidget *	e_mail_formatter_extension_get_widget
 						 EMailPartList *context,
 						 EMailPart *part,
 						 GHashTable *params);
-const gchar *	e_mail_formatter_extension_get_display_name
-						(EMailFormatterExtension *extension);
 const gchar *	e_mail_formatter_extension_get_description
 						(EMailFormatterExtension *extension);
 

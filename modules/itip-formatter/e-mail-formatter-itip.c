@@ -137,12 +137,6 @@ emfe_itip_format (EMailFormatterExtension *extension,
 }
 
 static const gchar *
-emfe_itip_get_display_name (EMailFormatterExtension *extension)
-{
-	return _("ITIP");
-}
-
-static const gchar *
 emfe_itip_get_description (EMailFormatterExtension *extension)
 {
 	return _("Display part as an invitation");
@@ -151,9 +145,9 @@ emfe_itip_get_description (EMailFormatterExtension *extension)
 static void
 e_mail_formatter_itip_class_init (EMailFormatterExtensionClass *class)
 {
+	class->display_name = _("ITIP");
 	class->mime_types = formatter_mime_types;
 	class->format = emfe_itip_format;
-	class->get_display_name = emfe_itip_get_display_name;
 	class->get_description = emfe_itip_get_description;
 }
 
