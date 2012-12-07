@@ -29,24 +29,13 @@
 
 #include <camel/camel.h>
 
-typedef struct _EMailFormatterError {
-	GObject parent;
-} EMailFormatterError;
+typedef EMailFormatterExtension EMailFormatterError;
+typedef EMailFormatterExtensionClass EMailFormatterErrorClass;
 
-typedef struct _EMailFormatterErrorClass {
-	GObjectClass parent_class;
-} EMailFormatterErrorClass;
-
-static void e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
+G_DEFINE_TYPE (
 	EMailFormatterError,
 	e_mail_formatter_error,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_FORMATTER_EXTENSION,
-		e_mail_formatter_formatter_extension_interface_init));
+	E_TYPE_MAIL_FORMATTER_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
 	"application/vnd.evolution.error",
@@ -128,21 +117,15 @@ emfe_error_get_description (EMailFormatterExtension *extension)
 }
 
 static void
-e_mail_formatter_error_class_init (EMailFormatterErrorClass *class)
+e_mail_formatter_error_class_init (EMailFormatterExtensionClass *class)
 {
+	class->mime_types = formatter_mime_types;
+	class->format = emfe_error_format;
+	class->get_display_name = emfe_error_get_display_name;
+	class->get_description = emfe_error_get_description;
 }
 
 static void
-e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
+e_mail_formatter_error_init (EMailFormatterExtension *extension)
 {
-	iface->mime_types = formatter_mime_types;
-	iface->format = emfe_error_format;
-	iface->get_display_name = emfe_error_get_display_name;
-	iface->get_description = emfe_error_get_description;
-}
-
-static void
-e_mail_formatter_error_init (EMailFormatterError *formatter)
-{
-
 }

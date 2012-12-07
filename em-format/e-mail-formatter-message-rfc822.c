@@ -35,30 +35,19 @@
 
 #include <string.h>
 
+typedef EMailFormatterExtension EMailFormatterMessageRFC822;
+typedef EMailFormatterExtensionClass EMailFormatterMessageRFC822Class;
+
+G_DEFINE_TYPE (
+	EMailFormatterMessageRFC822,
+	e_mail_formatter_message_rfc822,
+	E_TYPE_MAIL_FORMATTER_EXTENSION)
+
 static const gchar *formatter_mime_types[] = {
 	"message/rfc822",
 	"application/vnd.evolution.rfc822.end",
 	NULL
 };
-
-typedef struct _EMailFormatterMessageRFC822 {
-	GObject parent;
-} EMailFormatterMessageRFC822;
-
-typedef struct _EMailFormatterMessageRFC822Class {
-	GObjectClass parent_class;
-} EMailFormatterMessageRFC822Class;
-
-static void e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
-	EMailFormatterMessageRFC822,
-	e_mail_formatter_message_rfc822,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_FORMATTER_EXTENSION,
-		e_mail_formatter_formatter_extension_interface_init));
 
 static gboolean
 emfe_message_rfc822_format (EMailFormatterExtension *extension,
@@ -254,21 +243,15 @@ emfe_message_rfc822_get_description (EMailFormatterExtension *extension)
 }
 
 static void
-e_mail_formatter_message_rfc822_class_init (EMailFormatterMessageRFC822Class *class)
+e_mail_formatter_message_rfc822_class_init (EMailFormatterExtensionClass *class)
 {
+	class->mime_types = formatter_mime_types;
+	class->format = emfe_message_rfc822_format;
+	class->get_display_name = emfe_message_rfc822_get_display_name;
+	class->get_description = emfe_message_rfc822_get_description;
 }
 
 static void
-e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
+e_mail_formatter_message_rfc822_init (EMailFormatterExtension *extension)
 {
-	iface->mime_types = formatter_mime_types;
-	iface->format = emfe_message_rfc822_format;
-	iface->get_display_name = emfe_message_rfc822_get_display_name;
-	iface->get_description = emfe_message_rfc822_get_description;
-}
-
-static void
-e_mail_formatter_message_rfc822_init (EMailFormatterMessageRFC822 *formatter)
-{
-
 }

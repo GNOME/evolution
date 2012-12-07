@@ -34,24 +34,19 @@
 
 #define d(x)
 
-typedef GObject EMailFormatterItip;
-typedef GObjectClass EMailFormatterItipClass;
+typedef EMailFormatterExtension EMailFormatterItip;
+typedef EMailFormatterExtensionClass EMailFormatterItipClass;
 
 typedef EExtension EMailFormatterItipLoader;
 typedef EExtensionClass EMailFormatterItipLoaderClass;
 
 GType e_mail_formatter_itip_get_type (void);
 GType e_mail_formatter_itip_loader_get_type (void);
-static void e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
+G_DEFINE_DYNAMIC_TYPE (
 	EMailFormatterItip,
 	e_mail_formatter_itip,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_FORMATTER_EXTENSION,
-		e_mail_formatter_formatter_extension_interface_init));
+	E_TYPE_MAIL_FORMATTER_EXTENSION)
 
 G_DEFINE_DYNAMIC_TYPE (
 	EMailFormatterItipLoader,
@@ -154,26 +149,21 @@ emfe_itip_get_description (EMailFormatterExtension *extension)
 }
 
 static void
-e_mail_formatter_itip_class_init (EMailFormatterItipClass *class)
+e_mail_formatter_itip_class_init (EMailFormatterExtensionClass *class)
+{
+	class->mime_types = formatter_mime_types;
+	class->format = emfe_itip_format;
+	class->get_display_name = emfe_itip_get_display_name;
+	class->get_description = emfe_itip_get_description;
+}
+
+static void
+e_mail_formatter_itip_class_finalize (EMailFormatterExtensionClass *class)
 {
 }
 
 static void
-e_mail_formatter_itip_class_finalize (EMailFormatterItipClass *class)
-{
-}
-
-static void
-e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
-{
-	iface->mime_types = formatter_mime_types;
-	iface->format = emfe_itip_format;
-	iface->get_display_name = emfe_itip_get_display_name;
-	iface->get_description = emfe_itip_get_description;
-}
-
-static void
-e_mail_formatter_itip_init (EMailFormatterItip *formatter)
+e_mail_formatter_itip_init (EMailFormatterExtension *extension)
 {
 }
 

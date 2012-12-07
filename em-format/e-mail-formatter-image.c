@@ -33,6 +33,14 @@
 #include <glib/gi18n-lib.h>
 #include <camel/camel.h>
 
+typedef EMailFormatterExtension EMailFormatterImage;
+typedef EMailFormatterExtensionClass EMailFormatterImageClass;
+
+G_DEFINE_TYPE (
+	EMailFormatterImage,
+	e_mail_formatter_image,
+	E_TYPE_MAIL_FORMATTER_EXTENSION)
+
 static const gchar *formatter_mime_types[] = {
 	"image/gif",
 	"image/jpeg",
@@ -53,25 +61,6 @@ static const gchar *formatter_mime_types[] = {
 	"image/*",
 	NULL
 };
-
-typedef struct _EMailFormatterImage {
-	GObject parent;
-} EMailFormatterImage;
-
-typedef struct _EMailFormatterImageClass {
-	GObjectClass parent_class;
-} EMailFormatterImageClass;
-
-static void e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
-	EMailFormatterImage,
-	e_mail_formatter_image,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_FORMATTER_EXTENSION,
-		e_mail_formatter_formatter_extension_interface_init));
 
 static gboolean
 emfe_image_format (EMailFormatterExtension *extension,
@@ -163,21 +152,15 @@ emfe_image_get_description (EMailFormatterExtension *extension)
 }
 
 static void
-e_mail_formatter_image_class_init (EMailFormatterImageClass *class)
+e_mail_formatter_image_class_init (EMailFormatterExtensionClass *class)
 {
+	class->mime_types = formatter_mime_types;
+	class->format = emfe_image_format;
+	class->get_display_name = emfe_image_get_display_name;
+	class->get_description = emfe_image_get_description;
 }
 
 static void
-e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
+e_mail_formatter_image_init (EMailFormatterExtension *extension)
 {
-	iface->mime_types = formatter_mime_types;
-	iface->format = emfe_image_format;
-	iface->get_display_name = emfe_image_get_display_name;
-	iface->get_description = emfe_image_get_description;
-}
-
-static void
-e_mail_formatter_image_init (EMailFormatterImage *formatter)
-{
-
 }

@@ -30,29 +30,41 @@
 #define E_MAIL_FORMATTER_EXTENSION(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_MAIL_FORMATTER_EXTENSION, EMailFormatterExtension))
-#define E_MAIL_FORMATTER_EXTENSION_INTERFACE(cls) \
+#define E_MAIL_FORMATTER_EXTENSION_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_MAIL_FORMATTER_EXTENSION, EMailFormatterExtensionInterface))
+	((cls), E_TYPE_MAIL_FORMATTER_EXTENSION, EMailFormatterExtensionClass))
 #define E_IS_MAIL_FORMATTER_EXTENSION(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
 	((obj), E_TYPE_MAIL_FORMATTER_EXTENSION))
-#define E_IS_MAIL_FORMATTER_EXTENSION_INTERFACE(cls) \
+#define E_IS_MAIL_FORMATTER_EXTENSION_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
 	((cls), E_TYPE_MAIL_FORMATTER_EXTENSION))
-#define E_MAIL_FORMATTER_EXTENSION_GET_INTERFACE(obj) \
-	(G_TYPE_INSTANCE_GET_INTERFACE \
-	((obj), E_TYPE_MAIL_FORMATTER_EXTENSION, EMailFormatterExtensionInterface))
+#define E_MAIL_FORMATTER_EXTENSION_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MAIL_FORMATTER_EXTENSION, EMailFormatterExtensionClass))
 
 #define EMF_EXTENSION_GET_FORMATTER(e) \
 	E_MAIL_FORMATTER (e_extension_get_extensible (E_EXTENSION (e)))
 
 G_BEGIN_DECLS
 
+/**
+ * EMailFormatterExtension:
+ *
+ * The #EMailFormatterExtension is an abstract class for all extensions for
+ * #EMailFormatter.
+ */
 typedef struct _EMailFormatterExtension EMailFormatterExtension;
-typedef struct _EMailFormatterExtensionInterface EMailFormatterExtensionInterface;
+typedef struct _EMailFormatterExtensionClass EMailFormatterExtensionClass;
+typedef struct _EMailFormatterExtensionPrivate EMailFormatterExtensionPrivate;
 
-struct _EMailFormatterExtensionInterface {
-	GTypeInterface parent_interface;
+struct _EMailFormatterExtension {
+	GObject parent;
+	EMailFormatterExtensionPrivate *priv;
+};
+
+struct _EMailFormatterExtensionClass {
+	GObjectClass parent_class;
 
 	/* This is a NULL-terminated array of supported MIME types.
 	 * The MIME types can be exact (e.g. "text/plain") or use a
@@ -65,23 +77,19 @@ struct _EMailFormatterExtensionInterface {
 					 EMailPart *part,
 					 CamelStream *stream,
 					 GCancellable *cancellable);
-
 	GtkWidget *	(*get_widget)	(EMailFormatterExtension *extension,
 					 EMailPartList *context,
 					 EMailPart *part,
 					 GHashTable *params);
-
 	const gchar *	(*get_display_name)
 					(EMailFormatterExtension *extension);
-
 	const gchar *	(*get_description)
 					(EMailFormatterExtension *extension);
 
 };
 
 GType		e_mail_formatter_extension_get_type
-						(void);
-
+						(void) G_GNUC_CONST;
 gboolean	e_mail_formatter_extension_format
 						(EMailFormatterExtension *extension,
 						 EMailFormatter *formatter,
@@ -89,19 +97,15 @@ gboolean	e_mail_formatter_extension_format
 						 EMailPart *part,
 						 CamelStream *stream,
 						 GCancellable *cancellable);
-
 gboolean	e_mail_formatter_extension_has_widget
 						(EMailFormatterExtension *extension);
-
 GtkWidget *	e_mail_formatter_extension_get_widget
 						(EMailFormatterExtension *extension,
 						 EMailPartList *context,
 						 EMailPart *part,
 						 GHashTable *params);
-
 const gchar *	e_mail_formatter_extension_get_display_name
 						(EMailFormatterExtension *extension);
-
 const gchar *	e_mail_formatter_extension_get_description
 						(EMailFormatterExtension *extension);
 

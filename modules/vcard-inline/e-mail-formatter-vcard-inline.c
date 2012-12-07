@@ -36,24 +36,19 @@
 
 #define d(x)
 
-typedef GObject EMailFormatterVCardInline;
-typedef GObjectClass EMailFormatterVCardInlineClass;
+typedef EMailFormatterExtension EMailFormatterVCardInline;
+typedef EMailFormatterExtensionClass EMailFormatterVCardInlineClass;
 
 typedef EExtension EMailFormatterVCardInlineLoader;
 typedef EExtensionClass EMailFormatterVCardInlineLoaderClass;
 
 GType e_mail_formatter_vcard_inline_get_type (void);
 GType e_mail_formatter_vcard_inline_loader_get_type (void);
-static void e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
+G_DEFINE_DYNAMIC_TYPE (
 	EMailFormatterVCardInline,
 	e_mail_formatter_vcard_inline,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_FORMATTER_EXTENSION,
-		e_mail_formatter_formatter_extension_interface_init));
+	E_TYPE_MAIL_FORMATTER_EXTENSION)
 
 G_DEFINE_DYNAMIC_TYPE (
 	EMailFormatterVCardInlineLoader,
@@ -212,26 +207,21 @@ emfe_vcard_inline_get_description (EMailFormatterExtension *extension)
 }
 
 static void
-e_mail_formatter_vcard_inline_class_init (EMailFormatterVCardInlineClass *class)
+e_mail_formatter_vcard_inline_class_init (EMailFormatterExtensionClass *class)
+{
+	class->mime_types = formatter_mime_types;
+	class->format = emfe_vcard_inline_format;
+	class->get_display_name = emfe_vcard_inline_get_display_name;
+	class->get_description = emfe_vcard_inline_get_description;
+}
+
+static void
+e_mail_formatter_vcard_inline_class_finalize (EMailFormatterExtensionClass *class)
 {
 }
 
 static void
-e_mail_formatter_vcard_inline_class_finalize (EMailFormatterVCardInlineClass *class)
-{
-}
-
-static void
-e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
-{
-	iface->mime_types = formatter_mime_types;
-	iface->format = emfe_vcard_inline_format;
-	iface->get_display_name = emfe_vcard_inline_get_display_name;
-	iface->get_description = emfe_vcard_inline_get_description;
-}
-
-static void
-e_mail_formatter_vcard_inline_init (EMailFormatterVCardInline *formatter)
+e_mail_formatter_vcard_inline_init (EMailFormatterExtension *extension)
 {
 }
 

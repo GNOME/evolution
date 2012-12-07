@@ -30,30 +30,19 @@
 #include <glib/gi18n-lib.h>
 #include <camel/camel.h>
 
+typedef EMailFormatterExtension EMailFormatterTextEnriched;
+typedef EMailFormatterExtensionClass EMailFormatterTextEnrichedClass;
+
+G_DEFINE_TYPE (
+	EMailFormatterTextEnriched,
+	e_mail_formatter_text_enriched,
+	E_TYPE_MAIL_FORMATTER_EXTENSION)
+
 static const gchar *formatter_mime_types[] = {
 	"text/enriched",
 	"text/richtext",
 	NULL
 };
-
-typedef struct _EMailFormatterTextEnriched {
-	GObject parent;
-} EMailFormatterTextEnriched;
-
-typedef struct _EMailFormatterTextEnrichedClass {
-	GObjectClass parent_class;
-} EMailFormatterTextEnrichedClass;
-
-static void e_mail_formatter_formatter_extension_interace_init (EMailFormatterExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
-	EMailFormatterTextEnriched,
-	e_mail_formatter_text_enriched,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_FORMATTER_EXTENSION,
-		e_mail_formatter_formatter_extension_interace_init));
 
 static gboolean
 emfe_text_enriched_format (EMailFormatterExtension *extension,
@@ -121,20 +110,15 @@ emfe_text_enriched_get_description (EMailFormatterExtension *extension)
 }
 
 static void
-e_mail_formatter_text_enriched_class_init (EMailFormatterTextEnrichedClass *class)
+e_mail_formatter_text_enriched_class_init (EMailFormatterExtensionClass *class)
 {
+	class->mime_types = formatter_mime_types;
+	class->format = emfe_text_enriched_format;
+	class->get_display_name = emfe_text_enriched_get_display_name;
+	class->get_description = emfe_text_enriched_get_description;
 }
 
 static void
-e_mail_formatter_formatter_extension_interace_init (EMailFormatterExtensionInterface *iface)
-{
-	iface->mime_types = formatter_mime_types;
-	iface->format = emfe_text_enriched_format;
-	iface->get_display_name = emfe_text_enriched_get_display_name;
-	iface->get_description = emfe_text_enriched_get_description;
-}
-
-static void
-e_mail_formatter_text_enriched_init (EMailFormatterTextEnriched *formatter)
+e_mail_formatter_text_enriched_init (EMailFormatterExtension *extension)
 {
 }

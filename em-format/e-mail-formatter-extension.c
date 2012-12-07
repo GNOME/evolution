@@ -18,22 +18,19 @@
 
 #include "e-mail-formatter-extension.h"
 
-G_DEFINE_INTERFACE (
+G_DEFINE_ABSTRACT_TYPE (
 	EMailFormatterExtension,
 	e_mail_formatter_extension,
 	G_TYPE_OBJECT)
 
-/**
- * EMailFormatterExtension:
- *
- * The #EMailFormatterExtension is an abstract interface for all extensions for
- * #EmailFormatter.
- */
+static void
+e_mail_formatter_extension_class_init (EMailFormatterExtensionClass *class)
+{
+}
 
 static void
-e_mail_formatter_extension_default_init (EMailFormatterExtensionInterface *iface)
+e_mail_formatter_extension_init (EMailFormatterExtension *extension)
 {
-
 }
 
 /**
@@ -45,18 +42,18 @@ e_mail_formatter_extension_default_init (EMailFormatterExtensionInterface *iface
  * @stream: a #CamelStream to which the output should be written
  * @cancellable: (allow-none) a #GCancellable
  *
- * A virtual function reimplemented in all mail formatter extensions. The function
- * formats @part, generated HTML (or other format that can be displayed to user)
- * and writes it to the @stream.
+ * A virtual function reimplemented in all mail formatter extensions. The
+ * function formats @part, generated HTML (or other format that can be
+ * displayed to user) and writes it to the @stream.
  *
  * When the function is unable to format the @part (either because it's broken
- * or because it is a different mimetype then the extension is specialized for), the
- * function will return @FALSE indicating the #EMailFormatter, that it should pick
- * another extension.
+ * or because it is a different mimetype then the extension is specialized
+ * for), the function will return @FALSE indicating the #EMailFormatter, that
+ * it should pick another extension.
  *
  * Implementation of this function must be thread-safe.
  *
- * Return value: Returns @TRUE when the @part was successfully formatted and
+ * Returns: Returns @TRUE when the @part was successfully formatted and
  * data were written to the @stream, @FALSE otherwise.
  */
 gboolean
@@ -67,7 +64,7 @@ e_mail_formatter_extension_format (EMailFormatterExtension *extension,
                                    CamelStream *stream,
                                    GCancellable *cancellable)
 {
-	EMailFormatterExtensionInterface *interface;
+	EMailFormatterExtensionClass *class;
 
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER_EXTENSION (extension), FALSE);
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), FALSE);
@@ -75,10 +72,10 @@ e_mail_formatter_extension_format (EMailFormatterExtension *extension,
 	g_return_val_if_fail (part != NULL, FALSE);
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), FALSE);
 
-	interface = E_MAIL_FORMATTER_EXTENSION_GET_INTERFACE (extension);
-	g_return_val_if_fail (interface->format != NULL, FALSE);
+	class = E_MAIL_FORMATTER_EXTENSION_GET_CLASS (extension);
+	g_return_val_if_fail (class->format != NULL, FALSE);
 
-	return interface->format (extension, formatter, context, part, stream, cancellable);
+	return class->format (extension, formatter, context, part, stream, cancellable);
 }
 
 /**
@@ -87,19 +84,19 @@ e_mail_formatter_extension_format (EMailFormatterExtension *extension,
  *
  * Returns whether the extension can provide a GtkWidget.
  *
- * Return value: Returns %TRUE when @extension reimplements get_widget(), %FALSE
+ * Returns: Returns %TRUE when @extension reimplements get_widget(), %FALSE
  * otherwise.
  */
 gboolean
 e_mail_formatter_extension_has_widget (EMailFormatterExtension *extension)
 {
-	EMailFormatterExtensionInterface *interface;
+	EMailFormatterExtensionClass *class;
 
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER_EXTENSION (extension), FALSE);
 
-	interface = E_MAIL_FORMATTER_EXTENSION_GET_INTERFACE (extension);
+	class = E_MAIL_FORMATTER_EXTENSION_GET_CLASS (extension);
 
-	return (interface->get_widget != NULL);
+	return (class->get_widget != NULL);
 }
 
 /**
@@ -108,17 +105,17 @@ e_mail_formatter_extension_has_widget (EMailFormatterExtension *extension)
  * @part: an #EMailPart
  * @params: a #GHashTable
  *
- * A virtual function reimplemented in some mail formatter extensions. The function
- * should construct a #GtkWidget for given @part. The @params hash table can contain
- * additional parameters listed in the &lt;object&gt; HTML element that has requested
- * the widget.
+ * A virtual function reimplemented in some mail formatter extensions. The
+ * function should construct a #GtkWidget for given @part. The @params hash
+ * table can contain additional parameters listed in the &lt;object&gt; HTML
+ * element that has requested the widget.
  *
  * When @bind_dom_func is not %NULL, the callee will set a callback function
  * which should be called when the webpage is completely rendered to setup
  * bindings between DOM events and the widget.
  *
- * Return value: Returns a #GtkWidget or %NULL, when error occurs or given @extension
- * does not reimplement this method.
+ * Returns: Returns a #GtkWidget or %NULL, when error occurs or given
+ * @extension does not reimplement this method.
  */
 GtkWidget *
 e_mail_formatter_extension_get_widget (EMailFormatterExtension *extension,
@@ -126,20 +123,17 @@ e_mail_formatter_extension_get_widget (EMailFormatterExtension *extension,
                                        EMailPart *part,
                                        GHashTable *params)
 {
-	EMailFormatterExtensionInterface *interface;
-	GtkWidget *widget;
+	EMailFormatterExtensionClass *class;
+	GtkWidget *widget = NULL;
 
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER_EXTENSION (extension), NULL);
 	g_return_val_if_fail (part != NULL, NULL);
 	g_return_val_if_fail (params != NULL, NULL);
 
-	interface = E_MAIL_FORMATTER_EXTENSION_GET_INTERFACE (extension);
+	class = E_MAIL_FORMATTER_EXTENSION_GET_CLASS (extension);
 
-	widget = NULL;
-	if (interface->get_widget) {
-		widget = interface->get_widget (
-				extension, context, part, params);
-	}
+	if (class->get_widget != NULL)
+		widget = class->get_widget (extension, context, part, params);
 
 	return widget;
 }
@@ -149,21 +143,21 @@ e_mail_formatter_extension_get_widget (EMailFormatterExtension *extension,
  * @extension: an #EMailFormatterExtension
  *
  * A virtual function reimplemented in all formatter extensions. It returns a
- * short name of the extension that can be displayed in user interface.
+ * short name of the extension that can be displayed in user class.
  *
- * Return value: A (localized) string with name of the extension
+ * Returns: A (localized) string with name of the extension
  */
 const gchar *
 e_mail_formatter_extension_get_display_name (EMailFormatterExtension *extension)
 {
-	EMailFormatterExtensionInterface *interface;
+	EMailFormatterExtensionClass *class;
 
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER_EXTENSION (extension), NULL);
 
-	interface = E_MAIL_FORMATTER_EXTENSION_GET_INTERFACE (extension);
-	g_return_val_if_fail (interface->get_display_name != NULL, NULL);
+	class = E_MAIL_FORMATTER_EXTENSION_GET_CLASS (extension);
+	g_return_val_if_fail (class->get_display_name != NULL, NULL);
 
-	return interface->get_display_name (extension);
+	return class->get_display_name (extension);
 }
 
 /**
@@ -173,17 +167,17 @@ e_mail_formatter_extension_get_display_name (EMailFormatterExtension *extension)
  * A virtual function reimplemented in all formatter extensions. It returns a
  * longer description of capabilities of the extension.
  *
- * Return value: A (localized) string with description of the extension.
+ * Returns: A (localized) string with description of the extension.
  */
 const gchar *
 e_mail_formatter_extension_get_description (EMailFormatterExtension *extension)
 {
-	EMailFormatterExtensionInterface *interface;
+	EMailFormatterExtensionClass *class;
 
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER_EXTENSION (extension), NULL);
 
-	interface = E_MAIL_FORMATTER_EXTENSION_GET_INTERFACE (extension);
-	g_return_val_if_fail (interface->get_description != NULL, NULL);
+	class = E_MAIL_FORMATTER_EXTENSION_GET_CLASS (extension);
+	g_return_val_if_fail (class->get_description != NULL, NULL);
 
-	return interface->get_description (extension);
+	return class->get_description (extension);
 }

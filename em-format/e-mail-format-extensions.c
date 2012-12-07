@@ -98,13 +98,9 @@ load (EMailExtensionRegistry *ereg,
 		extension_class = g_type_class_ref (extension_type);
 
 		interface_type = E_TYPE_MAIL_FORMATTER_EXTENSION;
-		if (g_type_is_a (extension_type, interface_type)) {
-			EMailFormatterExtensionInterface *interface;
-
-			interface = g_type_interface_peek (
-				extension_class, interface_type);
-			mime_types = interface->mime_types;
-		}
+		if (g_type_is_a (extension_type, interface_type))
+			mime_types = ((EMailFormatterExtensionClass *)
+				extension_class)->mime_types;
 
 		interface_type = E_TYPE_MAIL_PARSER_EXTENSION;
 		if (g_type_is_a (extension_type, interface_type)) {

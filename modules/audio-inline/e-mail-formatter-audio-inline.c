@@ -38,24 +38,19 @@
 
 #define d(x)
 
-typedef GObject EMailFormatterAudioInline;
-typedef GObjectClass EMailFormatterAudioInlineClass;
+typedef EMailFormatterExtension EMailFormatterAudioInline;
+typedef EMailFormatterExtensionClass EMailFormatterAudioInlineClass;
 
 typedef EExtension EMailFormatterAudioInlineLoader;
 typedef EExtensionClass EMailFormatterAudioInlineLoaderClass;
 
 GType e_mail_formatter_audio_inline_get_type (void);
 GType e_mail_formatter_audio_inline_loader_get_type (void);
-static void e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
+G_DEFINE_DYNAMIC_TYPE (
 	EMailFormatterAudioInline,
 	e_mail_formatter_audio_inline,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_FORMATTER_EXTENSION,
-		e_mail_formatter_formatter_extension_interface_init));
+	E_TYPE_MAIL_FORMATTER_EXTENSION)
 
 G_DEFINE_DYNAMIC_TYPE (
 	EMailFormatterAudioInlineLoader,
@@ -329,27 +324,22 @@ emfe_audio_inline_get_description (EMailFormatterExtension *extension)
 }
 
 static void
-e_mail_formatter_audio_inline_class_init (EMailFormatterAudioInlineClass *class)
+e_mail_formatter_audio_inline_class_init (EMailFormatterExtensionClass *class)
+{
+	class->mime_types = formatter_mime_types;
+	class->format = emfe_audio_inline_format;
+	class->get_widget = emfe_audio_inline_get_widget;
+	class->get_display_name = emfe_audio_inline_get_display_name;
+	class->get_description = emfe_audio_inline_get_description;
+}
+
+static void
+e_mail_formatter_audio_inline_class_finalize (EMailFormatterExtensionClass *class)
 {
 }
 
 static void
-e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
-{
-	iface->mime_types = formatter_mime_types;
-	iface->format = emfe_audio_inline_format;
-	iface->get_widget = emfe_audio_inline_get_widget;
-	iface->get_display_name = emfe_audio_inline_get_display_name;
-	iface->get_description = emfe_audio_inline_get_description;
-}
-
-static void
-e_mail_formatter_audio_inline_init (EMailFormatterAudioInline *formatter)
-{
-}
-
-static void
-e_mail_formatter_audio_inline_class_finalize (EMailFormatterAudioInlineClass *class)
+e_mail_formatter_audio_inline_init (EMailFormatterExtension *extension)
 {
 }
 

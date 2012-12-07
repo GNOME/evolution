@@ -35,30 +35,18 @@
 
 #include <string.h>
 
-typedef struct _EMailFormatterPrintHeaders {
-	GObject parent;
-} EMailFormatterPrintHeaders;
+typedef EMailFormatterExtension EMailFormatterPrintHeaders;
+typedef EMailFormatterExtensionClass EMailFormatterPrintHeadersClass;
 
-typedef struct _EMailFormatterPrintHeadersClass {
-	GObjectClass parent_class;
-} EMailFormatterPrintHeadersClass;
+G_DEFINE_TYPE (
+	EMailFormatterPrintHeaders,
+	e_mail_formatter_print_headers,
+	E_TYPE_MAIL_FORMATTER_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
 	"application/vnd.evolution.headers",
 	NULL
 };
-
-static void e_mail_formatter_print_formatter_extension_interface_init
-					(EMailFormatterExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
-	EMailFormatterPrintHeaders,
-	e_mail_formatter_print_headers,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_FORMATTER_EXTENSION,
-		e_mail_formatter_print_formatter_extension_interface_init))
 
 static gboolean
 emfpe_headers_format (EMailFormatterExtension *extension,
@@ -231,21 +219,15 @@ emfpe_headers_get_description (EMailFormatterExtension *extension)
 }
 
 static void
-e_mail_formatter_print_headers_class_init (EMailFormatterPrintHeadersClass *class)
+e_mail_formatter_print_headers_class_init (EMailFormatterExtensionClass *class)
 {
+	class->mime_types = formatter_mime_types;
+	class->format = emfpe_headers_format;
+	class->get_display_name = emfpe_headers_get_display_name;
+	class->get_description = emfpe_headers_get_description;
 }
 
 static void
-e_mail_formatter_print_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
+e_mail_formatter_print_headers_init (EMailFormatterExtension *extension)
 {
-	iface->mime_types = formatter_mime_types;
-	iface->format = emfpe_headers_format;
-	iface->get_display_name = emfpe_headers_get_display_name;
-	iface->get_description = emfpe_headers_get_description;
-}
-
-static void
-e_mail_formatter_print_headers_init (EMailFormatterPrintHeaders *formatter)
-{
-
 }

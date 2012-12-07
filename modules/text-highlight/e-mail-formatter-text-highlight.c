@@ -38,24 +38,19 @@
 #include <X11/Xlib.h>
 #include <camel/camel.h>
 
-typedef GObject EMailFormatterTextHighlight;
-typedef GObjectClass EMailFormatterTextHighlightClass;
+typedef EMailFormatterExtension EMailFormatterTextHighlight;
+typedef EMailFormatterExtensionClass EMailFormatterTextHighlightClass;
 
 typedef EExtension EMailFormatterTextHighlightLoader;
 typedef EExtensionClass EMailFormatterTextHighlightLoaderClass;
 
 GType e_mail_formatter_text_highlight_get_type (void);
 GType e_mail_formatter_text_highlight_loader_get_type (void);
-static void e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
+G_DEFINE_DYNAMIC_TYPE (
 	EMailFormatterTextHighlight,
 	e_mail_formatter_text_highlight,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_FORMATTER_EXTENSION,
-		e_mail_formatter_formatter_extension_interface_init));
+	E_TYPE_MAIL_FORMATTER_EXTENSION)
 
 G_DEFINE_DYNAMIC_TYPE (
 	EMailFormatterTextHighlightLoader,
@@ -374,26 +369,21 @@ emfe_text_highlight_get_description (EMailFormatterExtension *extension)
 }
 
 static void
-e_mail_formatter_text_highlight_class_init (EMailFormatterTextHighlightClass *class)
+e_mail_formatter_text_highlight_class_init (EMailFormatterExtensionClass *class)
+{
+	class->mime_types = get_mime_types ();
+	class->format = emfe_text_highlight_format;
+	class->get_display_name = emfe_text_highlight_get_display_name;
+	class->get_description = emfe_text_highlight_get_description;
+}
+
+static void
+e_mail_formatter_text_highlight_class_finalize (EMailFormatterExtensionClass *class)
 {
 }
 
 static void
-e_mail_formatter_text_highlight_class_finalize (EMailFormatterTextHighlightClass *class)
-{
-}
-
-static void
-e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
-{
-	iface->mime_types = get_mime_types ();
-	iface->format = emfe_text_highlight_format;
-	iface->get_display_name = emfe_text_highlight_get_display_name;
-	iface->get_description = emfe_text_highlight_get_description;
-}
-
-static void
-e_mail_formatter_text_highlight_init (EMailFormatterTextHighlight *object)
+e_mail_formatter_text_highlight_init (EMailFormatterExtension *extension)
 {
 }
 

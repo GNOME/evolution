@@ -30,25 +30,13 @@
 #include <glib/gi18n-lib.h>
 #include <camel/camel.h>
 
-typedef struct _EMailFormatterSource {
-	GObject parent;
-} EMailFormatterSource;
+typedef EMailFormatterExtension EMailFormatterSource;
+typedef EMailFormatterExtensionClass EMailFormatterSourceClass;
 
-typedef struct _EMailFormatterSourceClass {
-	GObjectClass parent_class;
-} EMailFormatterSourceClass;
-
-static void e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface);
-
-G_DEFINE_TYPE_EXTENDED (
+G_DEFINE_TYPE (
 	EMailFormatterSource,
 	e_mail_formatter_source,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_FORMATTER_EXTENSION,
-		e_mail_formatter_formatter_extension_interface_init)
-)
+	E_TYPE_MAIL_FORMATTER_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
 	"application/vnd.evolution.source",
@@ -146,21 +134,15 @@ emfe_source_get_description (EMailFormatterExtension *extension)
 }
 
 static void
-e_mail_formatter_source_class_init (EMailFormatterSourceClass *class)
+e_mail_formatter_source_class_init (EMailFormatterExtensionClass *class)
 {
+	class->mime_types = formatter_mime_types;
+	class->format = emfe_source_format;
+	class->get_display_name = emfe_source_get_display_name;
+	class->get_description = emfe_source_get_description;
 }
 
 static void
-e_mail_formatter_formatter_extension_interface_init (EMailFormatterExtensionInterface *iface)
+e_mail_formatter_source_init (EMailFormatterExtension *extension)
 {
-	iface->mime_types = formatter_mime_types;
-	iface->format = emfe_source_format;
-	iface->get_display_name = emfe_source_get_display_name;
-	iface->get_description = emfe_source_get_description;
-}
-
-static void
-e_mail_formatter_source_init (EMailFormatterSource *formatter)
-{
-
 }
