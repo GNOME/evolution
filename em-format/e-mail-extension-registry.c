@@ -53,14 +53,19 @@ G_DEFINE_ABSTRACT_TYPE (
  */
 
 static void
+destroy_queue (GQueue *queue)
+{
+	g_queue_free_full (queue, g_object_unref);
+}
+
+static void
 mail_extension_registry_finalize (GObject *object)
 {
-	EMailExtensionRegistry *reg = E_MAIL_EXTENSION_REGISTRY (object);
+	EMailExtensionRegistryPrivate *priv;
 
-	if (reg->priv->table) {
-		g_hash_table_destroy (reg->priv->table);
-		reg->priv->table = NULL;
-	}
+	priv = E_MAIL_EXTENSION_REGISTRY_GET_PRIVATE (object);
+
+	g_hash_table_destroy (priv->table);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_extension_registry_parent_class)->
@@ -72,30 +77,28 @@ e_mail_extension_registry_class_init (EMailExtensionRegistryClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailExtensionRegistryPrivate));
+	g_type_class_add_private (
+		class, sizeof (EMailExtensionRegistryPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = mail_extension_registry_finalize;
 }
 
-static void
-destroy_queue (GQueue *queue)
-{
-	g_queue_free_full (queue, g_object_unref);
-}
-
 void
-e_mail_extension_registry_init (EMailExtensionRegistry *reg)
+e_mail_extension_registry_init (EMailExtensionRegistry *registry)
 {
-	reg->priv = E_MAIL_EXTENSION_REGISTRY_GET_PRIVATE (reg);
+	registry->priv = E_MAIL_EXTENSION_REGISTRY_GET_PRIVATE (registry);
 
-	reg->priv->table = g_hash_table_new_full (
-		g_str_hash, g_str_equal, NULL, (GDestroyNotify) destroy_queue);
+	registry->priv->table = g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) destroy_queue);
 }
 
 /**
  * e_mail_extension_registry_add_extension:
- * @reg: an #EMailExtensionRegistry
+ * @registry: an #EMailExtensionRegistry
  * @mime_types: a %NULL-terminated array of MIME types
  * @extension_type: the #GType of the extension being added
  *
@@ -103,14 +106,14 @@ e_mail_extension_registry_init (EMailExtensionRegistry *reg)
  * all provided MIME types.
  */
 void
-e_mail_extension_registry_add_extension (EMailExtensionRegistry *reg,
+e_mail_extension_registry_add_extension (EMailExtensionRegistry *registry,
                                          const gchar **mime_types,
                                          GType extension_type)
 {
 	GObject *extension;
 	gint ii;
 
-	g_return_if_fail (E_IS_MAIL_EXTENSION_REGISTRY (reg));
+	g_return_if_fail (E_IS_MAIL_EXTENSION_REGISTRY (registry));
 	g_return_if_fail (mime_types != NULL);
 	g_return_if_fail (extension_type != G_TYPE_INVALID);
 
@@ -120,11 +123,11 @@ e_mail_extension_registry_add_extension (EMailExtensionRegistry *reg,
 		GQueue *queue;
 
 		queue = g_hash_table_lookup (
-			reg->priv->table, mime_types[ii]);
+			registry->priv->table, mime_types[ii]);
 		if (queue == NULL) {
 			queue = g_queue_new ();
 			g_hash_table_insert (
-				reg->priv->table,
+				registry->priv->table,
 				(gpointer) mime_types[ii],
 				queue);
 		}
@@ -144,7 +147,7 @@ e_mail_extension_registry_add_extension (EMailExtensionRegistry *reg,
 
 /**
  * e_mail_extension_registry_get_for_mime_type:
- * @reg: An #EMailExtensionRegistry
+ * @regstry: An #EMailExtensionRegistry
  * @mime_type: A string with mime-type to look up
  *
  * Tries to lookup list of #EMailExtension<!-//>s that has registryed themselves
@@ -154,18 +157,18 @@ e_mail_extension_registry_add_extension (EMailExtensionRegistry *reg,
  * are no extension registryed for given @mime_type.
  */
 GQueue *
-e_mail_extension_registry_get_for_mime_type (EMailExtensionRegistry *reg,
+e_mail_extension_registry_get_for_mime_type (EMailExtensionRegistry *registry,
                                              const gchar *mime_type)
 {
-	g_return_val_if_fail (E_IS_MAIL_EXTENSION_REGISTRY (reg), NULL);
+	g_return_val_if_fail (E_IS_MAIL_EXTENSION_REGISTRY (registry), NULL);
 	g_return_val_if_fail (mime_type && *mime_type, NULL);
 
-	return g_hash_table_lookup (reg->priv->table, mime_type);
+	return g_hash_table_lookup (registry->priv->table, mime_type);
 }
 
 /**
  * e_mail_extension_registry_get_fallback:
- * @reg: An #EMailExtensionRegistry
+ * @registry: An #EMailExtensionRegistry
  * @mime_type: A string with mime-type whose fallback to look up
  *
  * Tries to lookup fallback parsers for given mime type. For instance, for
@@ -175,14 +178,14 @@ e_mail_extension_registry_get_for_mime_type (EMailExtensionRegistry *reg,
  * are no extensions registryed for the fallback type.
  */
 GQueue *
-e_mail_extension_registry_get_fallback (EMailExtensionRegistry *reg,
+e_mail_extension_registry_get_fallback (EMailExtensionRegistry *registry,
                                         const gchar *mime_type)
 {
 	gchar *s, *type;
 	gsize len;
 	GQueue *parsers;
 
-	g_return_val_if_fail (E_IS_MAIL_EXTENSION_REGISTRY (reg), NULL);
+	g_return_val_if_fail (E_IS_MAIL_EXTENSION_REGISTRY (registry), NULL);
 	g_return_val_if_fail (mime_type && *mime_type, NULL);
 
 	s = strchr (mime_type, '/');
@@ -196,7 +199,7 @@ e_mail_extension_registry_get_fallback (EMailExtensionRegistry *reg,
 	type = g_ascii_strdown (s, len);
 	s = g_strdup_printf ("%s/*", type);
 
-	parsers = g_hash_table_lookup (reg->priv->table, s);
+	parsers = g_hash_table_lookup (registry->priv->table, s);
 
 	g_free (type);
 	g_free (s);
@@ -206,20 +209,11 @@ e_mail_extension_registry_get_fallback (EMailExtensionRegistry *reg,
 
 /******************************************************************************/
 
-static void e_mail_parser_extension_registry_extensible_interface_init (EExtensibleInterface *iface);
-
 G_DEFINE_TYPE_WITH_CODE (
 	EMailParserExtensionRegistry,
 	e_mail_parser_extension_registry,
 	E_TYPE_MAIL_EXTENSION_REGISTRY,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE,
-		e_mail_parser_extension_registry_extensible_interface_init));
-
-static void
-e_mail_parser_extension_registry_init (EMailParserExtensionRegistry *parser_ereg)
-{
-}
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 e_mail_parser_extension_registry_class_init (EMailParserExtensionRegistryClass *class)
@@ -227,28 +221,17 @@ e_mail_parser_extension_registry_class_init (EMailParserExtensionRegistryClass *
 }
 
 static void
-e_mail_parser_extension_registry_extensible_interface_init (EExtensibleInterface *interface)
+e_mail_parser_extension_registry_init (EMailParserExtensionRegistry *registry)
 {
-
 }
 
 /******************************************************************************/
-
-static void e_mail_formatter_extension_registry_extensible_interface_init (EExtensibleInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailFormatterExtensionRegistry,
 	e_mail_formatter_extension_registry,
 	E_TYPE_MAIL_EXTENSION_REGISTRY,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE,
-		e_mail_formatter_extension_registry_extensible_interface_init));
-
-static void
-e_mail_formatter_extension_registry_init (EMailFormatterExtensionRegistry *formatter_ereg)
-{
-
-}
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 e_mail_formatter_extension_registry_class_init (EMailFormatterExtensionRegistryClass *class)
@@ -256,7 +239,7 @@ e_mail_formatter_extension_registry_class_init (EMailFormatterExtensionRegistryC
 }
 
 static void
-e_mail_formatter_extension_registry_extensible_interface_init (EExtensibleInterface *interface)
+e_mail_formatter_extension_registry_init (EMailFormatterExtensionRegistry *registry)
 {
-
 }
+
