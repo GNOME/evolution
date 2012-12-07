@@ -20,7 +20,6 @@
 
 #include <camel/camel.h>
 
-#include "e-mail-format-extensions.h"
 #include "e-mail-part-attachment.h"
 #include "e-mail-formatter-extension.h"
 #include "e-mail-formatter-utils.h"
@@ -28,6 +27,11 @@
 
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
+
+/* internal formatter extensions */
+GType e_mail_formatter_print_headers_get_type (void);
+
+void e_mail_formatter_print_internal_extensions_load (EMailExtensionRegistry *ereg);
 
 static gpointer e_mail_formatter_print_parent_class = 0;
 
@@ -232,6 +236,9 @@ e_mail_formatter_print_class_init (EMailFormatterPrintClass *class)
 static void
 e_mail_formatter_print_base_init (EMailFormatterPrintClass *class)
 {
+	/* Register internal extensions. */
+	g_type_ensure (e_mail_formatter_print_headers_get_type ());
+
 	e_mail_formatter_print_internal_extensions_load (
 		E_MAIL_EXTENSION_REGISTRY (
 			E_MAIL_FORMATTER_CLASS (class)->extension_registry));
