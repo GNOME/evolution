@@ -83,7 +83,7 @@ typedef struct _EMailFormatterHeader EMailFormatterHeader;
 typedef struct _EMailFormatterContext EMailFormatterContext;
 
 struct _EMailFormatterHeader {
-	guint32 flags;		/* E_MAIL_FORMATTER_HEADER_FLAG_ * */
+	EMailFormatterHeaderFlags flags;
 	gchar *name;
 	gchar *value;
 };
@@ -239,7 +239,7 @@ void		e_mail_formatter_set_default_headers
 void		e_mail_formatter_add_header	(EMailFormatter *formatter,
 						 const gchar *name,
 						 const gchar *value,
-						 guint32 flags);
+						 EMailFormatterHeaderFlags flags);
 
 void		e_mail_formatter_add_header_struct
 						(EMailFormatter *formatter,

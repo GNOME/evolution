@@ -1435,7 +1435,7 @@ e_mail_formatter_set_default_headers (EMailFormatter *formatter)
  * @formatter:
  * @name: The name of the header, as it will appear during output.
  * @value: Value of the header. Can be %NULL.
- * @flags: EM_FORMAT_HEAD_* defines to control display attributes.
+ * @flags: a set of #EMailFormatterHeaderFlags to control display attributes.
  *
  * Add a specific header to show.  If any headers are set, they will
  * be displayed in the order set by this function.  Certain known
@@ -1446,7 +1446,7 @@ void
 e_mail_formatter_add_header (EMailFormatter *formatter,
                              const gchar *name,
                              const gchar *value,
-                             guint32 flags)
+                             EMailFormatterHeaderFlags flags)
 {
 	EMailFormatterHeader *h;
 
