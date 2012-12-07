@@ -20,7 +20,7 @@
 
 #include <camel/camel.h>
 
-#include "e-mail-formatter-extension.h"
+#include "e-mail-formatter-quote.h"
 #include "e-mail-part.h"
 #include "e-mail-part-attachment.h"
 #include "e-mail-part-utils.h"
@@ -236,3 +236,21 @@ e_mail_formatter_quote_new (const gchar *credits,
 
 	return (EMailFormatter *) formatter;
 }
+
+/* ------------------------------------------------------------------------- */
+
+G_DEFINE_ABSTRACT_TYPE (
+	EMailFormatterQuoteExtension,
+	e_mail_formatter_quote_extension,
+	E_TYPE_MAIL_FORMATTER_EXTENSION)
+
+static void
+e_mail_formatter_quote_extension_class_init (EMailFormatterQuoteExtensionClass *class)
+{
+}
+
+static void
+e_mail_formatter_quote_extension_init (EMailFormatterQuoteExtension *extension)
+{
+}
+

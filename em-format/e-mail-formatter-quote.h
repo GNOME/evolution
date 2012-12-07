@@ -16,10 +16,11 @@
  *
  */
 
-#ifndef E_MAIL_FORMATTER_QUOTE_H_
-#define E_MAIL_FORMATTER_QUOTE_H_
+#ifndef E_MAIL_FORMATTER_QUOTE_H
+#define E_MAIL_FORMATTER_QUOTE_H
 
 #include <em-format/e-mail-formatter.h>
+#include <em-format/e-mail-formatter-extension.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_FORMATTER_QUOTE \
@@ -69,11 +70,33 @@ struct _EMailFormatterQuoteClass {
 	EMailFormatterClass parent_class;
 };
 
-GType		e_mail_formatter_quote_get_type	(void);
-
-EMailFormatter *	e_mail_formatter_quote_new	(const gchar *credits,
+GType		e_mail_formatter_quote_get_type	(void) G_GNUC_CONST;
+EMailFormatter *
+		e_mail_formatter_quote_new	(const gchar *credits,
 						 EMailFormatterQuoteFlags flags);
 
 G_END_DECLS
 
-#endif /* E_MAIL_FORMATTER_QUOTE_H_ */
+/* ------------------------------------------------------------------------- */
+
+/* Standard GObject macros */
+#define E_TYPE_MAIL_FORMATTER_QUOTE_EXTENSION \
+	(e_mail_formatter_quote_extension_get_type ())
+
+G_BEGIN_DECLS
+
+/**
+ * EMailFormatterQuoteExtension:
+ *
+ * This is an abstract base type for formatter extensions which are
+ * intended only for use by #EMailFormatterQuote.
+ **/
+typedef EMailFormatterExtension EMailFormatterQuoteExtension;
+typedef EMailFormatterExtensionClass EMailFormatterQuoteExtensionClass;
+
+GType		e_mail_formatter_quote_extension_get_type
+						(void) G_GNUC_CONST;
+
+G_END_DECLS
+
+#endif /* E_MAIL_FORMATTER_QUOTE_H */

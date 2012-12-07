@@ -22,8 +22,7 @@
 
 #include "e-mail-format-extensions.h"
 
-#include <em-format/e-mail-formatter-extension.h>
-#include <em-format/e-mail-formatter.h>
+#include <em-format/e-mail-formatter-quote.h>
 #include <em-format/e-mail-inline-filter.h>
 #include <e-util/e-util.h>
 
@@ -36,7 +35,7 @@ typedef EMailFormatterExtensionClass EMailFormatterQuoteTextEnrichedClass;
 G_DEFINE_TYPE (
 	EMailFormatterQuoteTextEnriched,
 	e_mail_formatter_quote_text_enriched,
-	E_TYPE_MAIL_FORMATTER_EXTENSION)
+	E_TYPE_MAIL_FORMATTER_QUOTE_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
 	"text/enriched",

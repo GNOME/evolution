@@ -25,7 +25,6 @@
 #include <glib/gi18n-lib.h>
 #include <glib-object.h>
 
-#include <em-format/e-mail-formatter-extension.h>
 #include <em-format/e-mail-formatter-quote.h>
 #include <em-format/e-mail-part-list.h>
 #include <em-format/e-mail-part-utils.h>
@@ -41,7 +40,7 @@ typedef EMailFormatterExtensionClass EMailFormatterQuoteMessageRFC822Class;
 G_DEFINE_TYPE (
 	EMailFormatterQuoteMessageRFC822,
 	e_mail_formatter_quote_message_rfc822,
-	E_TYPE_MAIL_FORMATTER_EXTENSION)
+	E_TYPE_MAIL_FORMATTER_QUOTE_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
 	"message/rfc822",

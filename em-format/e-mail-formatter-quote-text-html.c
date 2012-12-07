@@ -22,7 +22,6 @@
 
 #include "e-mail-format-extensions.h"
 
-#include <em-format/e-mail-formatter-extension.h>
 #include <em-format/e-mail-formatter-quote.h>
 #include <em-format/e-mail-stripsig-filter.h>
 #include <em-format/e-mail-part-utils.h>
@@ -39,7 +38,7 @@ typedef EMailFormatterExtensionClass EMailFormatterQuoteTextHTMLClass;
 G_DEFINE_TYPE (
 	EMailFormatterQuoteTextHTML,
 	e_mail_formatter_quote_text_html,
-	E_TYPE_MAIL_FORMATTER_EXTENSION)
+	E_TYPE_MAIL_FORMATTER_QUOTE_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
 	"text/html",

@@ -23,8 +23,7 @@
 #include "e-mail-format-extensions.h"
 #include "e-mail-part-attachment.h"
 
-#include <em-format/e-mail-formatter-extension.h>
-#include <em-format/e-mail-formatter.h>
+#include <em-format/e-mail-formatter-quote.h>
 #include <em-format/e-mail-part-utils.h>
 #include <e-util/e-util.h>
 
@@ -39,7 +38,7 @@ typedef EMailFormatterExtensionClass EMailFormatterQuoteAttachmentClass;
 G_DEFINE_TYPE (
 	EMailFormatterQuoteAttachment,
 	e_mail_formatter_quote_attachment,
-	E_TYPE_MAIL_FORMATTER_EXTENSION)
+	E_TYPE_MAIL_FORMATTER_QUOTE_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
 	"application/vnd.evolution.attachment",
